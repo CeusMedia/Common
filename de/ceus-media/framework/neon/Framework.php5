@@ -1,0 +1,112 @@
+<?php
+import( 'de.ceus-media.Reference' );
+import( 'de.ceus-media.StopWatch' );
+import( 'de.ceus-media.protocol.http.HTTP_RequestReceiver' );
+import( 'de.ceus-media.framework.neon.Messenger' );
+/**
+ *	Main Class of Framework.
+ *	@package		framework
+ *	@subpackage		neon
+ *	@uses			Reference
+ *	@uses			StopWatch
+ *	@uses			HTTP_RequestReceiver
+ *	@uses			Messenger
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@since			01.12.2005
+ *	@version		0.1
+ */
+/**
+ *	Main Class of Framework.
+ *	@package		framework
+ *	@subpackage		neon
+ *	@uses			Reference
+ *	@uses			StopWatch
+ *	@uses			HTTP_RequestReceiver
+ *	@uses			Messenger
+ *	@uses			InterfaceViews
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@since			01.12.2005
+ *	@version		0.1
+ */
+class Framework
+{
+	/**	@var	Reference	$ref			Reference */
+	var $ref;
+
+	/**
+	 *	Constructor.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function __construct()
+	{
+		$this->ref	= new Reference;
+		$this->ref->add( "stopwatch",	new StopWatch );		
+		$this->ref->add( "messenger",	new Messenger );
+		$this->ref->add( "request",	new HTTP_RequestReceiver );
+		$this->init();
+	}
+	
+	/**
+	 *	Creates references Objects and loads Configuration, to be overwritten.
+	 *	@access		protected
+	 *	@return		void
+	 */
+	protected function init()
+	{
+	}
+
+	/**
+	 *	Runs called Actions, to be overwritten.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function runActions()
+	{
+	}
+	
+	/**
+	 *	Creates Views by called Link and Rights of current User and returns HTML, to be overwritten.
+	 *	@access		public
+	 *	@return		string
+	 */
+	public function buildViews()
+	{
+	}
+
+	//  --  PRIVATE METHODS  --  //
+	/**
+	 *	Transforms requested Link into linked Class Names usind Separators.
+	 *	@access		protected
+	 *	@param		string		$link				Link to transform to Class Name File
+	 *	@param		string		$separator_link		Separator in Link
+	 *	@param		string		$separator_class	Separator for Classes
+	 *	@return		string
+	 */
+	protected function _transformLink( $link, $separator_folder = "__", $separator_class = "/", $separator_case = "_" )
+	{
+		$words	= explode( $separator_folder, $link );
+		$count	= count( $words );
+		for( $i=0; $i<$count; $i++ )
+		{
+			if( $separator_class && $i == ( $count - 1 ) )
+				$class	= ucfirst( strtolower( $words[$i] ) );
+			else
+				$class	= ucfirst( strtolower( $words[$i] ) );
+			$words[$i] = $class;
+		}
+		$link		= implode( $separator_class, $words );
+
+		$words	= explode( $separator_case, $link );
+		$count	= count( $words );
+		for( $i=0; $i<$count; $i++ )
+		{
+			$class	= ucfirst( ucfirst( $words[$i] ) );
+			$words[$i] = $class;
+		}
+		$link		= implode( "", $words );
+
+		return $link;
+	}
+}
+?>
