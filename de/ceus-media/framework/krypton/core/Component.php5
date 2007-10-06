@@ -289,11 +289,13 @@ abstract class Framework_Krypton_Core_Component
 		$validator	= $this->words['validator'];
 		foreach( $e->getErrors() as $error )
 		{
-			if( $error instanceof Framework_Krypton_Logic_ValidationError )
+			if( $error instanceOf Framework_Krypton_Logic_ValidationError )
 			{
 				$msg	= $validator[$error->type][$error->key];
 				$msg	= preg_replace( "@%label%@", $labels[$error->field], $msg );
 				$msg	= preg_replace( "@%edge%@", $error->edge, $msg );
+				$msg	= preg_replace( "@%field%@", $error->field, $msg );
+				$msg	= preg_replace( "@%prefix%@", $error->prefix, $msg );
 				$this->messenger->noteError( $msg );
 			}
 		}
@@ -383,11 +385,11 @@ abstract class Framework_Krypton_Core_Component
 		{
 			$labels	= implode( ", ", $e->getNotUsedLabels() );
 			$labels	= htmlentities( $labels );
-			$this->messenger->noteFailure( $e->getMessage()."<br/><small>".$labels."</small>" );
+			throw new Framework_Krypton_Exception_IO( $e->getMessage()."<br/><small>".$labels."</small>" );
 		}
-		catch( Framework_Krypton_Exception_IO $e )
+		catch( Exception $e )
 		{
-			$this->messenger->noteFailure( $e->getMessage() );
+			throw new Framework_Krypton_Exception_IO( $e->getMessage()."<br/><small>".$labels."</small>" );
 		}
 		return;
 	}

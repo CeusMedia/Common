@@ -2,7 +2,7 @@
 import( 'de.ceus-media.framework.krypton.core.Component' );
 import( 'de.ceus-media.ui.html.Paging' );
 /**
- *	Abstract Basic View.
+ *	Basic View Component.
  *	@package		mv2.core
  *	@uses			Framework_Krypton_Core_Registry
  *	@uses			View_Component_Paging
@@ -11,7 +11,7 @@ import( 'de.ceus-media.ui.html.Paging' );
  *	@version		0.5
  */
 /**
- *	Abstract Basic View.
+ *	Basic View Component.
  *	@package		mv2.core
  *	@uses			Framework_Krypton_Core_Registry
  *	@uses			View_Component_Paging
@@ -19,7 +19,7 @@ import( 'de.ceus-media.ui.html.Paging' );
  *	@since			01.12.2005
  *	@version		0.5
  */
-abstract class Framework_Krypton_Core_View extends Framework_Krypton_Core_Component
+class Framework_Krypton_Core_View extends Framework_Krypton_Core_Component
 {
 	/**
 	 *	Constructor, references Output Objects.

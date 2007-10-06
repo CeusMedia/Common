@@ -56,9 +56,9 @@ class Framework_Krypton_Core_Registry
 	 */
 	public function & get( $key )
 	{
-		if( isset( $this->values[$key] ) )
-			return $this->values[$key];
-		return null;
+		if( !isset( $this->values[$key] ) )
+			throw new Framework_Krypton_Exception_IO( 'No Object registered with Key "'.$key.'"' );
+		return $this->values[$key];
 	}
 	
 	/**

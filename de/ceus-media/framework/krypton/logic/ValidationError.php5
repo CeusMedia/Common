@@ -34,15 +34,17 @@ class Framework_Krypton_Logic_ValidationError
 	 *	@param		string		$key		Message Key
 	 *	@param		string		$value		Situation to be filled in
 	 *	@param		string		$edge		Edge for semantic validation
+	 *	@param		string		$edge		Field Prefix
 	 *	@return		void
 	 */
-	public function __construct( $type, $field, $key, $value, $edge = false )
+	public function __construct( $type, $field, $key, $value, $edge = false, $prefix = "" )
 	{
 		$this->type		= $type;
 		$this->key		= $key;
 		$this->field	= $field;
 		$this->value	= $value;
 		$this->edge		= $edge;
+		$this->prefix	= $prefix;
 	}
 }
 ?>

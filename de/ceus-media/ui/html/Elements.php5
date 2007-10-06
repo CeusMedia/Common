@@ -484,7 +484,7 @@ class Elements
 		}
 		else
 		{
-			$ins_id		= ""; //$label_name ? " id=\"lbl_".$label_name."\"" : "";
+			$ins_id		= $label_name ? " id=\"lbl_".$label_name."\"" : "";
 			$ins_class	= $class ? " class=\"".$class."\"" : "";
 			$label		= $label_name ? "<label for='".$label_name."'>".$label_text."</label>" : $label_text;
 			$code = "<td".$ins_id.$ins_class.">".$label."</td>";		

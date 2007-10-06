@@ -40,7 +40,7 @@ class TableWriter extends TableReader
 	 *	@param		int			$debug			deBug Level (16:die after, 8:die before, 4:remark, 2:echo, 1:count[default])
 	 *	@return		bool
 	 */
-	public function addData ($data = array(), $stripTags = false, $debug = 1 )
+	public function addData( $data = array(), $stripTags = true, $debug = 1 )
 	{
 		if( sizeof( $this->fields ) )
 		{

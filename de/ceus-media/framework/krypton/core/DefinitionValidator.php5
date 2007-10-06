@@ -46,22 +46,23 @@ class Framework_Krypton_Core_DefinitionValidator
 	 *	@param		string		$field		Field
 	 *	@param		string		$data		Field Definition
 	 *	@param		string		$value		Value to validate
+	 *	@param		string		$prefix		Field Prefix
 	 *	@return		array
 	 */
-	public function validateSyntax( $field, $data, $value )
+	public function validateSyntax( $field, $data, $value, $prefix = "" )
 	{
 		$errors	= array();
 		if( strlen( $value ) )
 		{
 			if( isset( $data['syntax']['class'] ) && !$this->cv->validate2( $value, 'class', $data['syntax']['class'] ) )
-				$errors[]	= new Framework_Krypton_Logic_ValidationError( 'syntax', $field, 'class', $value );
+				$errors[]	= new Framework_Krypton_Logic_ValidationError( 'syntax', $field, 'class', $value, '', $prefix );
 			if( isset( $data['syntax']['minlength'] ) && $data['syntax']['minlength'] && !$this->cv->validate2( $value, 'minlength', $data['syntax']['minlength'] ) )
-				$errors[]	= new Framework_Krypton_Logic_ValidationError( 'syntax', $field, 'minlength', $value, $data['syntax']['minlength'] );
+				$errors[]	= new Framework_Krypton_Logic_ValidationError( 'syntax', $field, 'minlength', $value, $data['syntax']['minlength'], $prefix );
 			if( isset( $data['syntax']['maxlength'] ) && $data['syntax']['maxlength'] && !$this->cv->validate2( $value, 'maxlength', $data['syntax']['maxlength'] ) )
-				$errors[]	= new Framework_Krypton_Logic_ValidationError( 'syntax', $field, 'maxlength', $value, $data['syntax']['maxlength'] );
+				$errors[]	= new Framework_Krypton_Logic_ValidationError( 'syntax', $field, 'maxlength', $value, $data['syntax']['maxlength'], $prefix );
 		}
 		else if( isset( $data['syntax']['mandatory'] ) && $data['syntax']['mandatory'] )
-			$errors[]	= new Framework_Krypton_Logic_ValidationError( 'syntax', $field, 'mandatory', $value );
+			$errors[]	= new Framework_Krypton_Logic_ValidationError( 'syntax', $field, 'mandatory', $value, '', $prefix );
 		return $errors;
 	}
 	

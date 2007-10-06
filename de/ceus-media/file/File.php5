@@ -218,23 +218,23 @@ class File
 	}
 
 	/**
-	 *	Writes a string to the file.
+	 *	Writes a string to the file and returns number of written Bytes.
 	 *	@access		public
 	 *	@param		string		string		string to write to file
-	 *	@return		bool
+	 *	@return		int
 	 */
 	public function writeString( $string )
 	{
 		if( function_exists( 'file_put_contents' ) )
-			return (bool) file_put_contents( $this->fileName, $string );
+			return file_put_contents( $this->fileName, $string );
 		$fp = fopen( $this->fileName, "w" );
 		if ($fp)
 		{
 			@fwrite( $fp, $string );
 			@fclose( $fp );
-			return true;
+			return strlen( $string );
 		}
-		return false;
+		return -1;
 	}
 
 	/**

@@ -103,7 +103,7 @@ class Framework_Krypton_Core_Logic
 			{
 				foreach( $value as $entry )
 				{
-					$errors	= $validator->validateSyntax( $field, $def, $entry );
+					$errors	= $validator->validateSyntax( $field, $def, $entry, $prefix );
 					if( !count( $errors ) )
 						$errors	= $validator->validateSemantics( $field, $def, $entry );
 					foreach( $errors as $error )
@@ -112,7 +112,7 @@ class Framework_Krypton_Core_Logic
 			}
 			else
 			{
-				$errors	= $validator->validateSyntax( $field, $def, $value );
+				$errors	= $validator->validateSyntax( $field, $def, $value, $prefix );
 				if( strlen( $value ) && !count( $errors ) )
 					$errors	= $validator->validateSemantics( $field, $def, $value );
 				foreach( $errors as $error )

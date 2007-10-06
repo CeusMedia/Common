@@ -34,6 +34,7 @@ import( 'de.ceus-media.ui.html.WikiParser' );
  *	@uses			WikiParser
  *	@since			01.12.2005
  *	@version		0.3
+ *	@todo			Code Documentation
  */
 class View
 {
@@ -351,8 +352,12 @@ class View
 		$language->loadLanguage( $section, $filename = false, $verbose );
 	}
 
-
-
+	/**
+	 *	Indicates whether a Cache File is existing.
+	 *	@access		public
+	 *	@param		string		$filename		File Name of Cache File
+	 *	@return		bool			
+	 */
 	public function hasCache( $filename )
 	{
 		$config	= $this->ref->get( 'config' );
@@ -360,25 +365,42 @@ class View
 		return file_exists( $url );
 	}
 	
+	/**
+	 *	Loads Content from a Cache File.
+	 *	@access		public
+	 *	@param		string		$filename		File Name of Cache File
+	 *	@param		string		$log			File Name of Cache Log
+	 *	@return		int
+	 */
 	public function loadCache( $filename, $log = "cache.log" )
 	{
-		$config	= $this->ref->get( 'config' );
-		$url	= $config['paths']['cache'].$filename;
-		$file	= new File( $url );
+		$config		= $this->ref->get( 'config' );
+		$url		= $config['paths']['cache'].$filename;
+		$file		= new File( $url );
 		$content	= $file->readString();
 		if( $log )
 			error_log( "Loaded from Cache File '".$filename."' ".strlen( $content )." Bytes.\n", 3, $config['paths']['logs'].$log );
 		return $content;
 	}
 	
+	
+	/**
+	 *	Saves Content to Cache File and returns Number of written Bytes.
+	 *	@access		public
+	 *	@param		string		$filename		File Name of Cache File
+	 *	@param		string		$content		Content to save to Cache File
+	 *	@param		string		$log			File Name of Cache Log
+	 *	@return		int			Number of written Bytes
+	 */
 	public function saveCache( $filename, $content, $log = "cache.log" )
 	{
 		$config	= $this->ref->get( 'config' );
 		$url	= $config['paths']['cache'].$filename;
 		$file	= new File( $url, 0750 );
-		$file->writeString( $content );
+		$result	= $file->writeString( $content );
 		if( $log )
 			error_log( "Saved Cache File '".$filename."' with ".strlen( $content )." Bytes.\n", 3, $config['paths']['logs'].$log );
+		return $result;
 	}
 
 	/**
