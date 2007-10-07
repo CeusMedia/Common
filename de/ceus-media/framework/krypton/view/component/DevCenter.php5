@@ -2,9 +2,9 @@
 import( 'de.ceus-media.framework.krypton.core.View' );
 class Framework_Krypton_View_Component_DevCenter extends Framework_Krypton_Core_View
 {
-	private $tabs	= array();
-	private $divs	= array();
-	private $topics	= array(
+	protected $tabs		= array();
+	protected $divs		= array();
+	protected $topics	= array(
 		'show_request'		=> 'showRequest',
 		'show_session'		=> 'showSession',
 		'show_cookie'		=> 'showCookie',
@@ -31,7 +31,7 @@ class Framework_Krypton_View_Component_DevCenter extends Framework_Krypton_Core_
 		}
 	}
 
-	private function buildTabs( $config )
+	protected function buildTabs( $config )
 	{
 		if( count( $this->tabs ) )
 		{
@@ -49,7 +49,7 @@ class Framework_Krypton_View_Component_DevCenter extends Framework_Krypton_Core_
 		}
 	}
 
-	private function buildTopics( $config, $content )
+	protected function buildTopics( $config, $content )
 	{
 		if( $content )
 			$this->showRemarks( $content );
@@ -64,7 +64,7 @@ class Framework_Krypton_View_Component_DevCenter extends Framework_Krypton_Core_
 		$this->topics	= $topics;
 	}
 	
-	private function showClasses()
+	protected function showClasses()
 	{
 		if( isset( $GLOBALS['imported'] ) )
 		{
@@ -82,7 +82,7 @@ class Framework_Krypton_View_Component_DevCenter extends Framework_Krypton_Core_
 		}
 	}
 
-	private function showConfig()
+	protected function showConfig()
 	{
 		$config	= $this->registry->get( 'config' );
 		if( count( $config ) )
@@ -94,7 +94,7 @@ class Framework_Krypton_View_Component_DevCenter extends Framework_Krypton_Core_
 		}
 	}
 
-	private function showCookie()
+	protected function showCookie()
 	{
 		if( count( $_COOKIE ) )
 		{
@@ -105,7 +105,7 @@ class Framework_Krypton_View_Component_DevCenter extends Framework_Krypton_Core_
 		}
 	}
 
-	private function showLanguages()
+	protected function showLanguages()
 	{
 		$language	= $this->registry->get( 'language' );
 		$files	= $language->getLoadedFiles();
@@ -121,7 +121,7 @@ class Framework_Krypton_View_Component_DevCenter extends Framework_Krypton_Core_
 		}
 	}
 
-	private function showQueries()
+	protected function showQueries()
 	{
 		$logFile	= "logs/database/queries_".getEnv( 'REMOTE_ADDR' ).".log";
 		if( file_exists( $logFile ) )
@@ -133,7 +133,7 @@ class Framework_Krypton_View_Component_DevCenter extends Framework_Krypton_Core_
 		}		
 	}
 
-	private function showRemarks( $content )
+	protected function showRemarks( $content )
 	{
 		$content	= trim( $content );
 		$content	= preg_replace( "@^<br ?/>@", "", $content );
@@ -144,7 +144,7 @@ class Framework_Krypton_View_Component_DevCenter extends Framework_Krypton_Core_
 		$this->divs['devTabRemarks']	= $content;
 	}
 
-	private function showRequest()
+	protected function showRequest()
 	{
 		$request	= $this->registry->get( 'request' );
 		$all	= $request->getAll(); 
@@ -159,7 +159,7 @@ class Framework_Krypton_View_Component_DevCenter extends Framework_Krypton_Core_
 		}
 	}
 
-	private function showSession()
+	protected function showSession()
 	{
 		$session	= $this->registry->get( 'session' );
 		$all		= $session->getAll(); 
@@ -172,13 +172,13 @@ class Framework_Krypton_View_Component_DevCenter extends Framework_Krypton_Core_
 		}
 	}
 
-	private function showSources()
+	protected function showSources()
 	{
 		$this->tabs['devTabSources']	= "Sources ";
 		$this->divs['devTabSources']	= $this->loadTemplate( 'dev_sources', array() );
 	}
 
-	private function showWords()
+	protected function showWords()
 	{
 		$language	= $this->registry->get( 'language' );
 		$words	= $language->getWords();

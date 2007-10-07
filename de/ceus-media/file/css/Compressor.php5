@@ -70,9 +70,9 @@ class File_Css_Compressor
 		
 		$pathName	= dirname( $fileUri );
 		$styleFile	= basename( $fileUri );
-		$styleName	= preg_replace( "@\.css@", "", $styleFile );
+		$styleName	= preg_replace( "@\.css$@", "", $styleFile );
 		$fileName	= $this->prefix.$styleName.$this->suffix.".css";
-		$fileUri	= $pathName.$fileName;
+		$fileUri	= $pathName."/".$fileName;
 		
 		$length		= file_put_contents( $fileUri, $content );
 		return $length;
