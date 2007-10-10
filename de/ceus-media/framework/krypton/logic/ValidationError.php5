@@ -25,6 +25,8 @@ class Framework_Krypton_Logic_ValidationError
 	public $type;
 	/**	@var	string		$value		Value of Field */
 	public $value;
+	/**	@var	string		$prefix		Prefix of Field Name */
+	public $prefix;
 
 	/**
 	 *	Constructor.

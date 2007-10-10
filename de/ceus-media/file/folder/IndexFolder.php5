@@ -84,7 +84,7 @@ class IndexFolder extends Folder
 		{
 //			if( is_file( $file ) )		$type = "File";
 //			else if( is_link( $file ) )	$type = "Link";
-			$array[] = new File( $file );
+			$array[] = new File( realpath( $file ) );
 		}
 		return $array;
 	}
