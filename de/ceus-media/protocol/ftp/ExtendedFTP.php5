@@ -23,8 +23,8 @@ class ExtendedFTP extends BasicFTP
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		string	$host		Host Name
-	 *	@param		int		$port		Service Port
+	 *	@param		string		$host		Host Name
+	 *	@param		int			$port		Service Port
 	 *	@return		void
 	 */
 	public function __construct( $host, $port = 21 )
@@ -35,8 +35,8 @@ class ExtendedFTP extends BasicFTP
 	/**
 	 *	Copies a File on FTP Server.
 	 *	@access		public
-	 *	@param		string	$from		Name of Source File
-	 *	@param		string	$to			Name of Target File
+	 *	@param		string		$from		Name of Source File
+	 *	@param		string		$to			Name of Target File
 	 *	@return		bool
 	 */
 	function copyFile( $from, $to )
@@ -64,8 +64,8 @@ class ExtendedFTP extends BasicFTP
 	/**
 	 *	Copies a Folder on FTP Server [recursive].
 	 *	@access		public
-	 *	@param		string	$from			Name of Source File
-	 *	@param		string	$to				Name of Target File
+	 *	@param		string		$from			Name of Source File
+	 *	@param		string		$to				Name of Target File
 	 *	@param		bool		$recursive		Copy Folder Content recursive (default: true)
 	 *	@return		bool
 	 */
@@ -93,7 +93,7 @@ class ExtendedFTP extends BasicFTP
 	/**
 	 *	Returns Array of Files in Path [and nested Folders].
 	 *	@access		public
-	 *	@param		string	$path			Path
+	 *	@param		string		$path			Path
 	 *	@param		bool		$recursive		Scan Folders recursive (default: false)
 	 *	@return		array
 	 */
@@ -119,7 +119,7 @@ class ExtendedFTP extends BasicFTP
 	/**
 	 *	Returns Array of Folders in Path [and nested Folders].
 	 *	@access		public
-	 *	@param		string	$path			Path
+	 *	@param		string		$path			Path
 	 *	@param		bool		$recursive		Scan Folders recursive (default: false)
 	 *	@return		array
 	 */
@@ -145,7 +145,7 @@ class ExtendedFTP extends BasicFTP
 	/**
 	 *	Returns a List of all Folders an Files of a Path on FTP Server.
 	 *	@access		public
-	 *	@param		string	$path			Path
+	 *	@param		string		$path			Path
 	 *	@param		bool		$recursive		Scan Folders recursive (default: false)
 	 *	@return		array
 	 */
@@ -153,10 +153,11 @@ class ExtendedFTP extends BasicFTP
 	{
 		if( $this->_checkConnection() )
 		{
+			$parsed	= array();
 			if( !$path )
 				$path	= $this->getPath();
 			$list	= ftp_rawlist( $this->_conn, $path );
-			foreach ($list as $current)
+			foreach( $list as $current )
 			{
 				$data	= $this->_parseListEntry( $current );
 				if( count( $data ) )
@@ -181,8 +182,8 @@ class ExtendedFTP extends BasicFTP
 	/**
 	 *	Copies a File on FTP Server.
 	 *	@access		public
-	 *	@param		string	$from		Name of Source File
-	 *	@param		string	$to			Name of Target File
+	 *	@param		string		$from		Name of Source File
+	 *	@param		string		$to			Name of Target File
 	 *	@return		bool
 	 */
 	function moveFile( $from, $to )
@@ -200,8 +201,8 @@ class ExtendedFTP extends BasicFTP
 	/**
 	 *	Copies a Folder on FTP Server [recursive].
 	 *	@access		public
-	 *	@param		string	$from			Name of Source File
-	 *	@param		string	$to				Name of Target File
+	 *	@param		string		$from			Name of Source File
+	 *	@param		string		$to				Name of Target File
 	 *	@param		bool		$recursive		Copy Folder Content recursive (default: true)
 	 *	@return		bool
 	 */
@@ -220,7 +221,7 @@ class ExtendedFTP extends BasicFTP
 	/**
 	 *	Removes a Folder.
 	 *	@access		public
-	 *	@param		string	$foldername		Name of Folder to be removed
+	 *	@param		string		$foldername		Name of Folder to be removed
 	 *	@param		bool		$recursive		Remove recursive (default: false)
 	 *	@return		bool
 	 */
@@ -254,7 +255,7 @@ class ExtendedFTP extends BasicFTP
 	/**
 	 *	Searchs for File in Path [and nested Folders] [with regular Expression].
 	 *	@access		public
-	 *	@param		string	$filename			Name of File to find
+	 *	@param		string		$filename			Name of File to find
 	 *	@param		bool		$recursive		Scan Folders recursive (default: false)
 	 *	@param		bool		$regular			Search with regular Expression (default: false)
 	 *	@return		array
@@ -286,7 +287,7 @@ class ExtendedFTP extends BasicFTP
 	/**
 	 *	Searchs for Folder in Path [and nested Folders] [with regular Expression].
 	 *	@access		public
-	 *	@param		string	$foldername		Name of Folder to find
+	 *	@param		string		$foldername		Name of Folder to find
 	 *	@param		bool		$recursive		Scan Folders recursive (default: false)
 	 *	@param		bool		$regular			Search with regular Expression (default: false)
 	 *	@return		array
