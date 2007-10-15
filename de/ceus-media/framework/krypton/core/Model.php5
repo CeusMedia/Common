@@ -83,16 +83,17 @@ class Framework_Krypton_Core_Model extends Framework_Krypton_Core_Database_Table
 	 *	@param		int			$id				Primary Key
 	 *	@return		bool
 	 */
-	public function exists( $id = 0 )
+	public function exists( $id = NULL )
 	{
-		if( $id )
+		if( $id === NULL )
+			return (bool)count( $this->get( true ) );
+		if( (int) $id > 0 )
 		{
 			$clone	= clone( $this );
 			$clone->defocus();
 			$clone->focusPrimary( $id );
 			return (bool)count( $clone->get( true ) );
 		}
-		return (bool)count( $this->get( true ) );
 	}
 }
 ?>

@@ -177,7 +177,29 @@ abstract class Framework_Krypton_Core_Component
 
 
 	//  --  FILE URI GETTERS  --  //
-	protected function getContentUri( $fileKey, $verbose = false )
+	/**
+	 *	Returns Cache File URI.
+	 *	@access		public
+	 *	@param		string		$fileKey		File Name of Cache File
+	 *	@param		bool		$verbose		Flag: show Debug Information
+	 *	@return		string
+	 */
+	public function getCacheUri( $fileKey, $verbose = false )
+	{
+		$config		= $this->registry->get( "config" );
+		$basePath	= $config['paths']['cache'];
+		$fileName	= $basePath.$fileKey;
+		return $fileName;
+	}
+
+	/**
+	 *	Returns Content File URI.
+	 *	@access		public
+	 *	@param		string		$fileKey		File Name of Content File
+	 *	@param		bool		$verbose		Flag: show Debug Information
+	 *	@return		string
+	 */
+	public function getContentUri( $fileKey, $verbose = false )
 	{
 		$config		= $this->registry->get( "config" );
 		$session	= $this->registry->get( "session" );
@@ -196,7 +218,14 @@ abstract class Framework_Krypton_Core_Component
 		return $fileName;
 	}
 
-	protected function getTemplateUri( $fileKey, $verbose = false )
+	/**
+	 *	Returns Template File URI.
+	 *	@access		public
+	 *	@param		string		$fileKey		File Name of Template File
+	 *	@param		bool		$verbose		Flag: show Debug Information
+	 *	@return		string
+	 */
+	public function getTemplateUri( $fileKey, $verbose = false )
 	{
 		$config		= $this->registry->get( "config" );
 
@@ -258,11 +287,11 @@ abstract class Framework_Krypton_Core_Component
 	}
 
 	/**
-	 *	Interprets Logic Errors and builds Error Message.
+	 *	Interprets Logic Exception and builds Error Message.
 	 *	@access		protected
-	 *	@param		array		$errors			Array of Errorsets of Errors Objects built be Logic.
-	 *	@param		string		$filename		File Name of Language File
-	 *	@param		string		$section		Section Name in Language Space
+	 *	@param		Framework_Krypton_Exception_Logic	$e				Exception to handle.
+	 *	@param		string								$filename		File Name of Language File
+	 *	@param		string								$section		Section Name in Language Space
 	 *	@return		void
 	 */
 	protected function handleLogicException( Framework_Krypton_Exception_Logic $e, $filename, $section = "msg" )
@@ -276,11 +305,11 @@ abstract class Framework_Krypton_Core_Component
 	}
 
 	/**
-	 *	Interprets Validation Errors and sets built Error Messages.
+	 *	Interprets Errors of Validation Exception and sets built Error Messages.
 	 *	@access		protected
-	 *	@param		array		$errors			Array of Errorsets of Errors Objects built be Logic.
-	 *	@param		string		$filename		File Name of Language File
-	 *	@param		string		$section		Section Name in Language Space
+	 *	@param		Framework_Krypton_Exception_Logic	$e				Exception to handle.
+	 *	@param		string								$filename		File Name of Language File
+	 *	@param		string								$section		Section Name in Language Space
 	 *	@return		void
 	 */
 	protected function handleValidationException( Framework_Krypton_Exception_Validation $e, $filename, $section )
@@ -301,6 +330,12 @@ abstract class Framework_Krypton_Core_Component
 		}
 	}
 	
+	/**
+	 *	Interprets SQL Exception and sets built Error Messages.
+	 *	@access		protected
+	 *	@param		Framework_Krypton_Exception_SQL		$e				Exception to handle.
+	 *	@return		void
+	 */
 	protected function handleSqlException( Framework_Krypton_Exception_SQL $e )
 	{
 		$message	= $e->getMessage();
@@ -311,6 +346,12 @@ abstract class Framework_Krypton_Core_Component
 		$this->messenger->noteFailure( $message );
 	}
 	
+	/**
+	 *	Interprets Template Exception and sets built Error Messages.
+	 *	@access		protected
+	 *	@param		Framework_Krypton_Exception_Template	$e				Exception to handle.
+	 *	@return		void
+	 */
 	protected function handleTemplateException( Framework_Krypton_Exception_Template $e )
 	{
 		$labels	= implode( ",", $e->getNotUsedLabels() );
@@ -320,7 +361,22 @@ abstract class Framework_Krypton_Core_Component
 
 	//  --  FILE MANAGEMENT  --  //
 	/**
+	 *	Indicates whether a Cache File is existing.
 	 *	@access		public
+	 *	@param		string		$fileKey		File Name of Cache File
+	 *	@return		bool
+	 */
+	public function hasCache( $fileKey )
+	{
+		$fileName	= $this->getCacheUri( $fileKey );
+		return file_exists( $fileName );
+	}
+	
+	/**
+	 *	Indicates whether a Content File is existing.
+	 *	@access		public
+	 *	@param		string		$fileKey		File Name of Content File
+	 *	@return		bool
 	 */
 	public function hasContent( $fileKey )
 	{

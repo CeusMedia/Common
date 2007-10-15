@@ -82,7 +82,7 @@ class MySQL extends BaseConnection
 			if( $this->_dbc = mysql_connect( $host, $user, $pass ) )
 				if( $database )
 					if( $this->selectDB( $database ) )
-						return true;
+						return $this->_connected = true;
 		}
 		else if( $type == "pconnect" )
 		{
@@ -90,7 +90,7 @@ class MySQL extends BaseConnection
 			{
 				if( $database )
 					if( $this->selectDB( $database ) )
-						return true;
+						return $this->_connected = true;
 			}
 		}
 		return false;

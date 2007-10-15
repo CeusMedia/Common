@@ -200,6 +200,8 @@ class Messenger extends OptionObject
 	 */
 	function _setIn( $message, $arg1 = null, $arg2 = null )
 	{
+		if( !(is_string( $message ) && trim( $message ) ) )
+			return "";
 		if( NULL !== $arg2 )
 			$message	= preg_replace( "@(.*)\{\S+\}(.*)\{\S+\}(.*)@si", "$1".$arg1."$2".$arg2."$3", $message );
 		else if( NULL !== $arg1 )
@@ -216,8 +218,10 @@ class Messenger extends OptionObject
 	 *	@param		string		$message		Message to display
 	 *	@return		void
 	 */
-	function _noteMessage( $type, $message)
+	function _noteMessage( $type, $message )
 	{
+		if( !$message )
+			return;
 		$session		=& $this->ref->get( 'session' );
 		$messages	= (array) $session->get( $this->getOption( 'key_messages' ) );
 		$messages[]	= array( "message" => $message, "type" => $type, "timestamp" => time() );

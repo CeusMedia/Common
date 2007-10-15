@@ -208,7 +208,7 @@ class Framework_Krypton_Core_Logic
 	 *	@param		string		$prefix		Prefix to be removed
 	 *	@return		array
 	 */
-	static public function removePrefixFromFields( $data, $prefix, $clean = false )
+	public static function removePrefixFromFields( $data, $prefix, $clean = false )
 	{
 		if( $prefix )
 		{

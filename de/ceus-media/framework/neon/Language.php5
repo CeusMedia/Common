@@ -60,7 +60,7 @@ class Language extends OptionObject
 				
 		$this->setOption( 'encoding', $encoding );
 		$this->setOption( 'path_files', $config['paths']['languages'].$language."/" );
-		$this->setOption( 'path_cache', $config['paths']['cache'].basename( $config['paths']['languages'] )."/".$language."/" );
+		$this->setOption( 'path_cache', $config['paths']['cache'].preg_replace("@^".$config['paths']['content']."@", "", $config['paths']['languages'] ).$language."/" );
 		$this->setOption( 'loaded_file', array() );
 		$this->ref->add( 'words', $this->words );
 		$this->loadHovers();

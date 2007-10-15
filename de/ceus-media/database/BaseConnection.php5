@@ -46,6 +46,11 @@ class BaseConnection
 	{
 		return sprintf( "%1.4f", $this->getMicroTime( true ) - $start );
 	}
+	
+	function isConnected()
+	{
+		return (bool) $this->_connected;
+	}
 
 	function setLogFile( $filename )
 	{

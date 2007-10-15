@@ -13,7 +13,7 @@ function ___getFileFromClass( $classname )
 {
 	$filename = str_replace(IMPORT_SEPARATOR, FOLDER_SEPARATOR, $classname) . ".php5";
 	while( preg_match( "@^-@", $filename ) )
-		$filename	= preg_replace( "@^(-)*-@", "\\1../", $filename ); 
+		$filename	= preg_replace( "@^(-*)-@", "\\1../", $filename ); 
 	return $filename;	
 }
 
