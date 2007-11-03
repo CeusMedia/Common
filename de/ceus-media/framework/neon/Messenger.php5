@@ -183,6 +183,8 @@ class Messenger extends OptionObject
 	 */
 	function gotError()
 	{
+		$session		=& $this->ref->get( 'session' );
+		$messages	= (array) $session->get( $this->getOption( 'key_messages' ) );
 		foreach( $messages as $message )
 			if( $message['type'] < 2 )
 				return true;

@@ -89,7 +89,7 @@ class Framework_Krypton_View_Component_DevCenter extends Framework_Krypton_Core_
 		{
 			ob_start();
 			print_m( $config );
-			$this->tabs['devTabConfig']	= "Config</small>";
+			$this->tabs['devTabConfig']	= "Config";
 			$this->divs['devTabConfig']	= ob_get_clean();
 		}
 	}
@@ -187,7 +187,7 @@ class Framework_Krypton_View_Component_DevCenter extends Framework_Krypton_Core_
 			ob_start();
 			print_m( $words );
 			$list	= ob_get_clean();
-			$this->tabs['devTabWords']	= "Words</small>";
+			$this->tabs['devTabWords']	= "Words";
 			$this->divs['devTabWords']	= $list;
 		}
 	}

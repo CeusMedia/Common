@@ -93,7 +93,7 @@ class View
 		$words		= $this->words['main']['paging'];
 
 		$p	= new Paging;
-		$p->setOption( 'uri',		"index.php" );
+		$p->setOption( 'uri',		"" );
 		$p->setOption( 'param',		array( 'link'	=> $link ) );
 		$p->setOption( 'indent',	"" );
 
@@ -269,6 +269,8 @@ class View
 //		$theme		= $config['layout']['template_theme'] ? $config['layout']['template_theme']."/" : "";
 		$theme		= "";
 		$filename		= $uri.$theme.$basename;
+
+		$content	= "";
 		
 		if( $ext == "wiki" )
 		{
@@ -284,10 +286,10 @@ class View
 				$cache		= new File( $cachefile, 0755 );
 				$content	= $this->wiki->parse( $file->readString() );
 				$cache->writeString( $content );
+				$content = "<div class='wiki'>".$content."</div>";
 			}
 			else
 				$this->messenger->noteFailure( "Content File '".$filename."' is not existing." );
-			$content = "<div class='wiki'>".$content."</div>";
 		}
 		else if( $ext == "html" )
 		{

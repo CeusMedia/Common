@@ -173,12 +173,12 @@ class RSS_DOM_Builder extends OptionObject
 	 */
 	function _getDate( $time )
 	{
-		return date("D, j M Y H:i:s ".$this->getOption( 'timezone' ), $time );
+		return date("r", $time );
 	}
 	
 	function _getDcDate( $time )
 	{
-		return date("Y-m-d", $time )."T".date( "H:i:s ", $time ).$this->getOption( 'timezone' );
+		return date( "c", $time ).$this->getOption( 'timezone' );
 	}
 }
 ?>

@@ -22,7 +22,7 @@ class Elements
 {
 //	public function __construct( ) {}
 
-	static public function Preview( $html, $url, $title, $zoom = false )
+	public static function Preview( $html, $url, $title, $zoom = false )
 	{
 		$id	= uniqid( "" );
 		$class	= $zoom ? "preview_zoom" : "preview";
@@ -42,7 +42,7 @@ class Elements
 
 	//  --  DEVELOPMENT  --  //
 
-	static public function RadioGroup( $name, $options, $class = "", $disabled = false )
+	public static function RadioGroup( $name, $options, $class = "", $disabled = false )
 	{
 		$radios	= array();
 		foreach( $options as $value => $label )
@@ -64,7 +64,7 @@ class Elements
 	 *	@param		string		$	$type		Type of Document (html|xhtml)
 	 *	@param		string		$	$
 	 */ 
-	static public function Document( $type, $namespace )
+	public static function Document( $type, $namespace )
 	{
 	
 	}
@@ -80,7 +80,7 @@ class Elements
 	 *	@return		string
 	 *	@todo		Gui_Elements::CheckLabel: Icons einbaun
 	 */
-/*	static public function CheckLabel( $checkbox, $text, $class, $label, $icons = false)
+/*	public static function CheckLabel( $checkbox, $text, $class, $label, $icons = false)
 	{
 		$ins_label = $label?" id='fld_".$label."'":""; 
 		$ins_class	= $class ? " class=\"".$class."\"" : "";
@@ -97,7 +97,7 @@ class Elements
 	/**
 	 *	@todo	Signature Documentation
 	 */
-	static public function FoldingArea( $name, $content, $state = false, $class = false )
+	public static function FoldingArea( $name, $content, $state = false, $class = false )
 	{
 		$ins_state	= " style=\"display: ".( $state ? "block" : "none" )."\"";
 		$ins_class	= $class ? " class=\"".$class."\"" : "";
@@ -108,7 +108,7 @@ class Elements
 	/**
 	 *	@todo	Signature Documentation
 	 */
-	static public function FoldingButton( $name, $value, $text, $class )
+	public static function FoldingButton( $name, $value, $text, $class )
 	{
 		$onClick = "switchFoldingButton('".$name."', '".( $class ? $class."_" : "" )."'); switchFoldingArea('".$name."'); return false;";
 		$ins_class = ( $class ? $class."_" : "" ).( $value ? "set" : "unset" );
@@ -124,7 +124,7 @@ class Elements
 	/**
 	 *	@todo:	Signature Documenation
 	 */
-	static public function CheckButton( $name, $value, $text, $class = "" )
+	public static function CheckButton( $name, $value, $text, $class = "" )
 	{
 		$ins_class = ( $class ? $class."_" : "" ).( $value ? "set" : "unset" );
 		$code = "
@@ -136,7 +136,7 @@ class Elements
 	/**
 	 *	@todo:	Signature Documenation
 	 */
-	static public function CheckTable( $id, $class = 'panel', $width = "100%", $border = 0, $spacing = 0 )
+	public static function CheckTable( $id, $class = 'panel', $width = "100%", $border = 0, $spacing = 0 )
 	{
 		$ins_id		= " id=\"chktbl_".$id."\"";
 		$ins_class	= $class ? " class=\"".$class."\"" : "";
@@ -150,7 +150,7 @@ class Elements
 	/**
 	 *	@todo:	Signature Documenation
 	 */
-	static public function CheckTableEnd( $id )
+	public static function CheckTableEnd( $id )
 	{
 		$code	= "</table><script>ct.recallStatus('".$id."');</script>";
 		return $code;
@@ -159,7 +159,7 @@ class Elements
 	/**
 	 *	@todo:	Signature Documenation
 	 */
-	static public function Anchor( $name )
+	public static function Anchor( $name )
 	{
 		$code	= "<a name='".$name."'></a>";
 		return $code;
@@ -176,7 +176,7 @@ class Elements
 	 *	@param		string		$text		Text within HelpHover
 	 *	@param		string		$class		CSS Class of HelpHover
 	 */
-	static public function HelpHover( $html, $text, $class = 'helptext' )
+	public static function HelpHover( $html, $text, $class = 'helptext' )
 	{
 		$id	= uniqid( "hhItem" );
 		$code	= "<span class=\"hover\" id=\"".$id."\">".$html."</span><div class=\"".$class."\" id=\"".$id."Help\">".$text."</div>";
@@ -190,7 +190,7 @@ class Elements
 	 *	@param		string		$text		Text within ToolTip
 	 *	@param		string		$class		CSS Class of ToolTip
 	 */
-	static public function ToolTip( $html, $text, $class = 'container' )
+	public static function ToolTip( $html, $text, $class = 'container' )
 	{
 		$id		= uniqid( "ttItem" );
 		$text	= str_replace( "  ", "<br/>", $text );
@@ -215,7 +215,7 @@ class Elements
 	 *	@param		string		$class			CSS-Klasse des Acronyms
 	 *	@return		string
 	 */
-	static public function Acronym( $text, $description, $class = "" )
+	public static function Acronym( $text, $description, $class = "" )
 	{
 		$ins_title		= " title=\"".$description."\"";
 		$ins_class	= $class ? " class=\"".$class."\"" : "";
@@ -233,7 +233,7 @@ class Elements
 	 *	@patam		string		$disabled			Ausgrauen des Buttons
 	 *	@return		string
 	 */
-	static public function Button( $name, $value, $class = 'but', $confirm = false, $disabled = false )
+	public static function Button( $name, $value, $class = 'but', $confirm = false, $disabled = false )
 	{
 		$ins_class	= $class ? " class=\"".$class."\"" : "";
 		$ins_type	= " type=\"submit\"";
@@ -255,7 +255,7 @@ class Elements
 	 *	@param		int			$disabled 		Ausgrauen der CheckBox
 	 *	@return		string
 	 */
-	static public function CheckBox( $name, $value, $checked = false, $class = false, $disabled = false)
+	public static function CheckBox( $name, $value, $checked = false, $class = false, $disabled = false)
 	{
 		$ins_type	= " type=\"checkbox\"";
 		$ins_id		= " id=\"".$name."\"";
@@ -280,7 +280,7 @@ class Elements
 	 *	@access		public
 	 *	@return		string
 	 */
-	static public function ColumnGroup()
+	public static function ColumnGroup()
 	{
 		$code	= "";
 		$cols	= array();
@@ -309,7 +309,7 @@ class Elements
 	 *	@param		string		$colspan			Anzahl der überstreckten Spalten
 	 *	@return		string
 	 */
-	static public function Field( $field_id, $field_element, $class = "field", $suffix = "", $colspan = 1 )
+	public static function Field( $field_id, $field_element, $class = "field", $suffix = "", $colspan = 1 )
 	{
 		$ins_id		= "";//$field_id ? " id=\"fld_".$field_id."\"" : "";
 		$ins_class	= $class ? " class=\"".$class."\"" : "";
@@ -335,7 +335,7 @@ class Elements
 	 *	@param		int			$maxlength		maximale Länge
 	 *	@return		string
 	 */
-	static public function File( $name, $value = '', $class = "in", $disabled = false, $readonly = false, $tabindex = false, $maxlength = false )
+	public static function File( $name, $value = '', $class = "in", $disabled = false, $readonly = false, $tabindex = false, $maxlength = false )
 	{
 		$ins_id			= " id=\"".$name."\"";
 		$ins_class		= $class ? " class=\"".$class."\"" : "";
@@ -368,7 +368,7 @@ class Elements
 	 *	@param		string		$on_submit		JavaScript vor dem Versenden des Formulars
 	 *	@return		string
 	 */
-	static public function Form( $id = "", $action = '', $target = false, $enctype = false, $on_submit = "" )
+	public static function Form( $id = "", $action = '', $target = false, $enctype = false, $on_submit = "" )
 	{
 		$ins_id		= " id=\"form_".$id."\"";
 		$ins_method	= " method=\"post\"";
@@ -388,7 +388,7 @@ class Elements
 	 *	@param		string		$class			CSS-Klasse des Eingabefeldes
 	 *	@return		string
 	 */
-	static public function Image( $url, $title, $class = "", $width = false, $height = false )
+	public static function Image( $url, $title, $class = "", $width = false, $height = false )
 	{
 		$ins_class	= $class ? " class=\"".$class."\"" : "";
 		$ins_width	= $width ? " width=\"".$width."\"" : "";
@@ -413,7 +413,7 @@ class Elements
 	 *	@param		string		$validator		Validator-Klasse für JavaScript UI.validateInput.js
 	 *	@return		string
 	 */
-	static public function Input( $name, $value = '', $class = "in", $disabled = false, $readonly = false, $tabindex = false, $maxlength = false, $validator = "" )
+	public static function Input( $name, $value = '', $class = "in", $disabled = false, $readonly = false, $tabindex = false, $maxlength = false, $validator = "" )
 	{
 		$ins_id			= " id=\"".$name."\"";
 		$ins_class		= $class ? " class=\"".$class."\"" : "";
@@ -442,7 +442,7 @@ class Elements
 	 *	@param		string		$class			CSS-Klasse
 	 *	@return 		string
 	 */
-	static public function HiddenField( $name, $value )
+	public static function HiddenField( $name, $value )
 	{
 		$code = "<input type=\"hidden\" name=\"".$name."\" value=\"".$value."\"/>";
 		return $code;
@@ -458,7 +458,7 @@ class Elements
 	 *	@param		string		$width			Weitenangabe
 	 *	@return		string
 	 */
-	static public function Label( $label_name, $label_text, $class = 'label', $icons = array(), $width = "" )
+	public static function Label( $label_name, $label_text, $class = 'label', $icons = array(), $width = "" )
 	{
 		if( !is_array( $icons ) )
 		{
@@ -504,7 +504,7 @@ class Elements
 	 *	@param		string		$key			Access Key (eindeutiger Buchstabe)
 	 *	@return		string
 	 */
-	static public function Link( $url = "", $name, $class = false, $target = false, $confirm = false, $tabindex = false, $key = false )
+	public static function Link( $url = "", $name, $class = false, $target = false, $confirm = false, $tabindex = false, $key = false )
 	{
 		$ins_class	= $class ? " class=\"".$class."\"" : "";
 		$ins_confirm	= $confirm ? " onClick=\"return confirm('".$confirm."')\"" : "";
@@ -528,7 +528,7 @@ class Elements
 	 *	@patam		string		$disabled		Ausgrauen des Buttons
 	 *	@return		string
 	 */
-	static public function LinkButton( $title, $url, $class = 'but', $confirm = false, $disabled = false)
+	public static function LinkButton( $title, $url, $class = 'but', $confirm = false, $disabled = false)
 	{
 		$ins_class	= $class ? " class=\"".$class."\"" : "";
 		$ins_type	= " type=\"button\"";
@@ -552,7 +552,7 @@ class Elements
 	 *	@param		array		$attributes		Array of HTML Attributes
 	 *	@return		string
 	 */
-	static public static function ListItem( $content, $level = 0, $attributes = array() )
+	public static static function ListItem( $content, $level = 0, $attributes = array() )
 	{
 		$list	= array();
 		$indent	= str_repeat( "  ", 2 * abs( (int)$level ) );
@@ -573,7 +573,7 @@ class Elements
 	 *	@param		string		$color			Hintergrundfarge der Option
 	 *	@return		string
 	 */
-	static public function Option( $key, $value, $selected = false, $disabled = false, $color = "" )
+	public static function Option( $key, $value, $selected = false, $disabled = false, $color = "" )
 	{
 		$ins_disabled = $disabled ? " disabled" : "";
 		$code = "";
@@ -597,7 +597,7 @@ class Elements
 	 *	@param		string		$code			HTML-Code zum Anhängen
 	 *	@return		string
 	 */
-	static public function OptionGroup( $group, $options, $selected = false, $code = "" )
+	public static function OptionGroup( $group, $options, $selected = false, $code = "" )
 	{
 		$code = "";
 		if( $group )
@@ -616,7 +616,7 @@ class Elements
 	 *	@param		string		$selected			selektiertes Element
 	 *	@return		string
 	 */
-	static public function Options( $options, $selected = false )
+	public static function Options( $options, $selected = false )
 	{
 		$code = "";
 		if( isset( $options[0] ) && is_array( $options[0] ) )
@@ -670,7 +670,7 @@ class Elements
 	 *	@param		int			$maxlength		maximale Länge
 	 *	@return		string
 	 */
-	static public function Password( $name, $value = '', $class = "in", $disabled = false, $readonly = false, $tabindex = false, $maxlength = false )
+	public static function Password( $name, $value = '', $class = "in", $disabled = false, $readonly = false, $tabindex = false, $maxlength = false )
 	{
 		$ins_id			= " id=\"".$name."\"";
 		$ins_class		= $class ? " class=\"".$class."\"" : "";
@@ -702,7 +702,7 @@ class Elements
 	 *	@param		bool			$disabled 		Deaktivieren des RadioButtons
 	 *	@return		string
 	 */ 
-	static public function Radio( $name, $value, $checked = false, $class = 'radio', $disabled = false )
+	public static function Radio( $name, $value, $checked = false, $class = 'radio', $disabled = false )
 	{
 		$ins_id		= " id=\"".$name."_".$value."\"";
 		$ins_type	= " type=\"radio\"";
@@ -726,7 +726,7 @@ class Elements
 	 *	@param		string		$disabled			Deaktivieren des RadioButtons
 	 *	@return		string
 	 */
-	static public function RadioLabel( $name, $label, $value, $checked = false, $class = 'radio', $disabled = false )
+	public static function RadioLabel( $name, $label, $value, $checked = false, $class = 'radio', $disabled = false )
 	{
 		$radio	= Elements::Radio( $name, $value, $checked, $class, $disabled );
 		$field	= Elements::Field( '', $radio );
@@ -745,7 +745,7 @@ class Elements
 	 *	@return		string
 	 *	@todo		BETA PROOVE !!!
 	 */
-	static public function ResetButton( $title, $class = 'but', $action = false )
+	public static function ResetButton( $title, $class = 'but', $action = false )
 	{
 		$action		= $action ? $action : "this.form.reset()";
 		$ins_class	= $class ? " class=\"".$class."\"" : "";
@@ -767,7 +767,7 @@ class Elements
 	 *	@param		string		$change			JavaScript to execute on Change
 	 *	@return		string
 	 */
-	static public function Select( $name, $options, $class = 'sel', $disabled = false, $submit = false, $focus = false, $change = "" )
+	public static function Select( $name, $options, $class = 'sel', $disabled = false, $submit = false, $focus = false, $change = "" )
 	{
 		$ins_disabled	= "";
 		$ins_change	= "";
@@ -809,7 +809,7 @@ class Elements
 	 *	@param		string		$class			CSS-Klasse
 	 *	@return		string
 	 */
-	static public function Separator( $colspan = 3, $rowspan = 1, $class = "inline" )
+	public static function Separator( $colspan = 3, $rowspan = 1, $class = "inline" )
 	{
 		$ins_class	= $class ? " class=\"".$class."\"" : "";
 		$ins_colspan	= $colspan ? " colspan=\"".$colspan."\"" : "";
@@ -829,7 +829,7 @@ class Elements
 	 *	@param		int			$spacing			Zellenabstand
 	 *	@return		string
 	 */
-	static public function Table( $content, $class = "filledframe", $width = "100%", $border = 0, $padding = 0, $spacing = 0 )
+	public static function Table( $content, $class = "filledframe", $width = "100%", $border = 0, $padding = 0, $spacing = 0 )
 	{
 		$ins_class	= $class ? " class=\"".$class."\"" : "";
 		$ins_width	= $width ? " width=\"".$width."\"" : "";
@@ -848,7 +848,7 @@ class Elements
 	 *	@param		string		$checktable_id	ID der CheckTable
 	 *	@return		string
 	 */
-	static public function TableCaption( $caption, $class = '', $checktable_id = "" )
+	public static function TableCaption( $caption, $class = '', $checktable_id = "" )
 	{
 		$ins_class	= $class ? " class=\"".$class."\"" : "";
 		$ins_check	= $checktable_id ? " onClick=\"ct.switchTable('".$checktable_id."');\"" : "";
@@ -864,7 +864,7 @@ class Elements
 	 *	@param		string		$class 			CSS Style Klasse
 	 *	@return		string
 	 */
-	static public function TableHeading( $heading, $colspan = 3, $class = 'tabhead' )
+	public static function TableHeading( $heading, $colspan = 3, $class = 'tabhead' )
 	{
 		$code = "";
 		if( $heading )
@@ -883,7 +883,7 @@ class Elements
 	 *	@param		string		$class 		CSS Style Klasse
 	 *	@return		string
 	 */
-	static public function TableHeads( $heads, $class = '', $colspan = 0 )
+	public static function TableHeads( $heads, $class = '', $colspan = 0 )
 	{
 		$cols	= array();
 		$class	= $class ? " class=\"".$class."\"" : "";
@@ -904,7 +904,7 @@ class Elements
 	 *	@param		string		$validator		Validator-Klasse für JavaScript UI.validateInput.js
 	 *	@return		string
 	 */
-	static public function Textarea( $name, $value, $class, $disabled = false, $validator = false )
+	public static function Textarea( $name, $value, $class, $disabled = false, $validator = false )
 	{
 		$ins_id		= " id=\"".$name."\"";
 		$ins_disabled	= "";
@@ -930,7 +930,7 @@ class Elements
 	 *	@param		array		$attributes		Array of HTML Attributes
 	 *	@return		string
 	 */
-	static public function unorderedList( $items, $level = 0, $attributes = array() )
+	public static function unorderedList( $items, $level = 0, $attributes = array() )
 	{
 		$content	= implode( "\n", $items );
 		$list	= array();
