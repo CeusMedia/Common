@@ -34,7 +34,13 @@ class Framework_Krypton_Core_Logic
 	/**	@var	array		$errors			Field Defintion */
 	protected $definition;
 	
-	static public function getCategoryLogic( $category )
+	/**
+	 *	Builds Instance of Logic Class for a Article Category.
+	 *	@access		public
+	 *	@param		strin		$category		Article Category String
+	 *	@return		object
+	 */
+	public static function getCategoryLogic( $category )
 	{
 		$category	= ucFirst( $category );
 		import( "classes.logic.".$category );
