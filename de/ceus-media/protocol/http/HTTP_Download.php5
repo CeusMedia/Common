@@ -25,6 +25,7 @@ class HTTP_Download
 	 */
 	public static function sendFile( $url )
 	{
+		self::clearOutputBuffers();
 		self::setMimeType();	
 		header( "Last-Modified: ".date( 'r',filemtime( $url ) ) );
 		header( "Content-Length: ".filesize( $url ) );
@@ -47,6 +48,7 @@ class HTTP_Download
 	 */
 	public function sendString( $string, $filename )
 	{
+		self::clearOutputBuffers();
 		self::setMimeType();	
 		header( "Last-Modified: ".date( 'r',time() ) );
 		header( "Content-Length: ".strlen( $string ) );
@@ -69,6 +71,17 @@ class HTTP_Download
 			$UserBrowser = "IE";
 		$mime_type = ( $UserBrowser == 'IE' || $UserBrowser == 'Opera' ) ? 'application/octetstream' : 'application/octet-stream';
 		header( "Content-Type: ". $mime_type);
+	}
+	
+	/**
+	 *	Closes active Output Buffers.
+	 *	@access		private
+	 *	@return		void
+	 */
+	private static function clearOutputBuffers()
+	{
+		while( ob_get_level() )
+			ob_end_clean();
 	}
 }
 ?>
