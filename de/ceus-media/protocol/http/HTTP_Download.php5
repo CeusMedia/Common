@@ -20,13 +20,13 @@ class HTTP_Download
 	/**
 	 *	Sends String for Download.
 	 *	@access		public
-	 *	@param		string		$url		File to send
+	 *	@param		string		$url			File to send
 	 *	@return		void
 	 */
-	function sendFile( $url )
+	public static function sendFile( $url )
 	{
-		$this->_setMimeType();	
-		header( "Last-Modified: ".date( 'r',filemtime($url ) ) );
+		self::setMimeType();	
+		header( "Last-Modified: ".date( 'r',filemtime( $url ) ) );
 		header( "Content-Length: ".filesize( $url ) );
 		header( "Cache-Control: must-revalidate, post-check=0, pre-check=0" );
 		header( "Content-Disposition: attachment; filename=".basename( $url ) );
@@ -41,13 +41,13 @@ class HTTP_Download
 	/**
 	 *	Sends String for Download.
 	 *	@access		public
-	 *	@param		string		$string		String to send
+	 *	@param		string		$string			String to send
 	 *	@param		string		$filename		Filename of Download
 	 *	@return		void
 	 */
-	function sendString( $string, $filename )
+	public function sendString( $string, $filename )
 	{
-		$this->_setMimeType();	
+		self::setMimeType();	
 		header( "Last-Modified: ".date( 'r',time() ) );
 		header( "Content-Length: ".strlen( $string ) );
 		header( "Cache-Control: must-revalidate, post-check=0, pre-check=0" );
@@ -60,7 +60,7 @@ class HTTP_Download
 	 *	@access		private
 	 *	@return		void
 	 */
-	function _setMimeType()
+	private static function setMimeType()
 	{
 		$UserBrowser = '';
 		if( ereg( 'Opera(/| )([0-9].[0-9]{1,2})', $_SERVER['HTTP_USER_AGENT'] ) )

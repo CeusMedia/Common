@@ -241,7 +241,7 @@ class Elements
 		$ins_value	= " value=\"".$value."\"";
 		$ins_disabled	= $disabled ? " disabled=\"disabled\"" : "";
 		$ins_confirm	= $confirm ? " onClick=\"return confirm('".$confirm."')\"" : "";
-		$code		= "<button".$ins_class.$ins_type.$ins_name.$ins_value.$ins_confirm.$ins_disabled.">".$value."</button>";
+		$code		= "<button".$ins_class.$ins_type.$ins_name.$ins_value.$ins_confirm.$ins_disabled."><span>".$value."</span></button>";
 		return $code;
 	}
 

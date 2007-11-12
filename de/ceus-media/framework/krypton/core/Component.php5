@@ -447,7 +447,6 @@ abstract class Framework_Krypton_Core_Component
 		{
 			throw new Framework_Krypton_Exception_IO( $e->getMessage()."<br/><small>".$labels."</small>" );
 		}
-		return;
 	}
 
 	/**
