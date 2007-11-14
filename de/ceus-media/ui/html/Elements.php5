@@ -540,7 +540,7 @@ class Elements
 			$action	= "if( confirm('".$confirm."') ){".$action."};";
 		$ins_action	= " onclick=\"".$action."return false;\"";
 /*		$code		= "<input".$ins_class.$ins_type.$ins_value.$ins_action.$ins_disabled." onfocus=\"this.blur();\"/>";*/
-		$code		= "<button".$ins_id.$ins_class.$ins_type.$ins_action.$ins_disabled.">".$title."</button>";
+		$code		= "<button".$ins_id.$ins_class.$ins_type.$ins_action.$ins_disabled."><span>".$title."</span></button>";
 		return $code;
 	}
 
