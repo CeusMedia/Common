@@ -83,10 +83,10 @@ class Framework_Krypton_Core_Database_PDO_Connection
 		$this->queries[] = $query;
 		try
 		{
+			$this->numExecutes++;
+			$this->numStatements++;
 			if( $verbose )
 			{
-				$this->numExecutes++;
-				$this->numStatements++;
 				if( $verbose == 2 )
 					echo $query;
 				if( $verbose == 4 )
