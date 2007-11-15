@@ -1,7 +1,7 @@
 <?php
 import( 'de.ceus-media.framework.krypton.interface.core.Request' );
 /**
- *	Handler for HTTP Requests.
+ *	Singleton Handler for HTTP Requests.
  *	@package		mv2.core.http
  *	@implements		Framework_Krypton_Core_Interface_Request
  *	@implements		ArrayAccess
@@ -10,7 +10,7 @@ import( 'de.ceus-media.framework.krypton.interface.core.Request' );
  *	@version		0.2
  */
 /**
- *	Handler for HTTP Requests.
+ *	Singleton Handler for HTTP Requests.
  *	@package		mv2.core.http
  *	@implements		Framework_Krypton_Core_Interface_Request
  *	@implements		ArrayAccess
@@ -20,19 +20,42 @@ import( 'de.ceus-media.framework.krypton.interface.core.Request' );
  */
 class Framework_Krypton_Core_HTTP_Request implements Framework_Krypton_Interface_Core_Request, ArrayAccess
 {
-	/** @var	array		$parameters		Associative Array of Request Parameters */
+	/**	@var	Framework_Krypton_Core_HTTP_Request	$instance		Instance of Registry */
+	protected static $instance	= null;
+	/** @var	array								$parameters		Associative Array of Request Parameters */
 	private $values;
 
 	/**
 	 *	Constructur.
-	 *	@access		public
+	 *	@access		protected
 	 *	@return		void
 	 */
-	public function __construct()
+	protected function __construct()
 	{
 		$this->values	= $_REQUEST;
 	}
 	
+	/**
+	 *	Denies to clone Registry.
+	 *	@access		private
+	 *	@return		void
+	 */
+	private function __clone() {}
+
+	/**
+	 *	Returns Instance of Registry.
+	 *	@access		public
+	 *	@return		Registry
+	 */
+	public static function getInstance()
+	{
+		if( self::$instance == null )
+		{
+			self::$instance	= new Framework_Krypton_Core_HTTP_Request();
+		}
+		return self::$instance;		
+	}
+
 	/**
 	 *	Returns Values by its Key.
 	 *	@access		public

@@ -15,21 +15,21 @@
  */
 class Framework_Krypton_Core_Registry
 {
-	/**	@var	Registry	$instance		Instance of Registry */
+	/**	@var	Framework_Krypton_Core_Registry	$instance		Instance of Registry */
 	protected static $instance	= null;
-	/**	@var	array		$values			Array of stored Objects */
+	/**	@var	array							$values			Array of stored Objects */
 	protected $values	= array();
 
 	/**
 	 *	Constructor.
-	 *	@access		public
+	 *	@access		protected
 	 *	@return		void
 	 */
 	protected function __construct() {}
 
 	/**
 	 *	Denies to clone Registry.
-	 *	@access		public
+	 *	@access		private
 	 *	@return		void
 	 */
 	private function __clone() {}

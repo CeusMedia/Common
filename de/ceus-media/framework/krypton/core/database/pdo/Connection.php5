@@ -35,14 +35,14 @@ class Framework_Krypton_Core_Database_PDO_Connection
 		$this->numExecutes = 0;
 		$this->numStatements = 0;
 		$this->cwd	= getCwd();
+		$this->queryLogFile	= "logs/database/queries_".getEnv( 'REMOTE_ADDR' )."_".time().".log";
 	}
 
 	public function __destruct()
 	{
 		$this->PDO	= null;
-		if( $this->queries )
-			file_put_contents( $this->cwd."/logs/database/queries_".getEnv( 'REMOTE_ADDR' ).".log", implode( "\n".str_repeat( "-", 80 )."\n", $this->queries ) );
 	}
+
 	public function __call( $func, $args )
 	{
 		return call_user_func_array( array( &$this->PDO, $func ), $args );
@@ -50,7 +50,7 @@ class Framework_Krypton_Core_Database_PDO_Connection
 
 	public function exec( $query, $verbose = 1 )
 	{
-		$this->queries[] = $query;
+		$this->logQuery( $query );
 		try
 		{
 			$this->numExecutes++;
@@ -80,7 +80,7 @@ class Framework_Krypton_Core_Database_PDO_Connection
 
 	public function query( $query, $verbose = 1, $fetchMode = 1 )
 	{
-		$this->queries[] = $query;
+		$this->logQuery( $query );
 		try
 		{
 			$this->numExecutes++;
@@ -102,6 +102,11 @@ class Framework_Krypton_Core_Database_PDO_Connection
 			$this->logError( $e );
 			return false;
 		}
+	}
+
+	private function logQuery( $query )
+	{
+		error_log( $query."\n".str_repeat( "-", 80 )."\n", 3, $this->queryLogFile );
 	}
 
 	public function setLogFile( $filename )

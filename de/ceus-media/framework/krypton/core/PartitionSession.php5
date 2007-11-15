@@ -1,7 +1,7 @@
 <?php
 import( 'de.ceus-media.framework.krypton.core.Session' );
 /**
- *	Session Management for Partitions.
+ *	Singleton Session Management for Partitions.
  *	@package		mv2.core
  *	@extends		Framework_Krypton_Core_Session
  *	@extends		Session
@@ -10,7 +10,7 @@ import( 'de.ceus-media.framework.krypton.core.Session' );
  *	@version		0.2
  */
 /**
- *	Session Management for Partitions.
+ *	Singleton Session Management for Partitions.
  *	@package		mv2.core
  *	@extends		Framework_Krypton_Core_Session
  *	@extends		Session
@@ -20,20 +20,22 @@ import( 'de.ceus-media.framework.krypton.core.Session' );
  */
 class Framework_Krypton_Core_PartitionSession extends Framework_Krypton_Core_Session
 {
-	/**	@var	string	$partition			Name of focused Partion in Session */
+	/**	@var	Framework_Krypton_Core_PartitionSession	$instance		Instance of Registry */
+	protected static $instance	= null;
+	/**	@var	string									$partition		Name of focused Partion in Session */
 	protected $partition;
 
 	/**
 	 *	Constructor.
-	 *	@access		public
-	 *	@param		string		$partition	Name of Partition within Session
-	 *	@param		string		$name		Name of Session
+	 *	@access		protected
+	 *	@param		string		$partionName		Name of Partition within Session
+	 *	@param		string		$sessionName		Name of Session
 	 *	@return		void
 	 */
-	function __construct( $partition, $name = null )
+	protected function __construct( $partionName, $sessionName = null )
 	{
-		if( $name )
-			session_name( $name );
+		if( $sessionName )
+			session_name( $sessionName );
 		session_start ();
 		$ip = getEnv( 'REMOTE_ADDR' );
 		if( !isset( $_SESSION['ip'] ) )
@@ -45,17 +47,21 @@ class Framework_Krypton_Core_PartitionSession extends Framework_Krypton_Core_Ses
 				unset( $_SESSION[$key] );
 			$_SESSION['ip'] = $ip;
 		}
-		$this->values =& $_SESSION['partitions'][$partition];
+		$this->values =& $_SESSION['partitions'][$partionName];
 	}
 
 	/**
-	 *	Destructor.
+	 *	Returns Instance of Registry.
 	 *	@access		public
-	 *	@return		void
+	 *	@return		Registry
 	 */
-	public function __destruct()
+	public static function getInstance( $partionName, $sessionName = null )
 	{
-		session_write_close();
+		if( self::$instance == null )
+		{
+			self::$instance	= new Framework_Krypton_Core_PartitionSession( $partionName, $sessionName );
+		}
+		return self::$instance;		
 	}
 
 	/**

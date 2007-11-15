@@ -1,7 +1,7 @@
 <?php
 import( 'de.ceus-media.framework.krypton.interface.core.Session' );
 /**
- *	Session Management.
+ *	Singleton Session Management.
  *	@package		mv2.core
  *	@implements		Framework_Krypton_Interface_Core_Session
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
@@ -9,7 +9,7 @@ import( 'de.ceus-media.framework.krypton.interface.core.Session' );
  *	@version		0.2
  */
 /**
- *	Session Management.
+ *	Singleton Session Management.
  *	@package		mv2.core
  *	@implements		Framework_Krypton_Interface_Core_Session
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
@@ -18,21 +18,43 @@ import( 'de.ceus-media.framework.krypton.interface.core.Session' );
  */
 class Framework_Krypton_Core_Session implements Framework_Krypton_Interface_Core_Session
 {
+	/**	@var	Framework_Krypton_Core_Session	$instance		Instance of Registry */
+	protected static $instance	= null;
 	/**	@var	array	$values			Associative Array of stored Pairs within Session */
 	protected $values	= array();
 
 	/**
 	 *	Constructor.
-	 *	@access		public
-	 *	@param		string		$name		Name of Session
+	 *	@access		protected
 	 *	@return		void
 	 */
-	public function __construct( $name = null )
+	protected function __construct( $sessionName = null )
 	{
-		if( $session_name )
-			session_name( $name );
+		if( $sessionName )
+			session_name( $sessionName );
 		session_start();
 		$this->values =& $_SESSION;
+	}
+
+	/**
+	 *	Denies to clone Registry.
+	 *	@access		private
+	 *	@return		void
+	 */
+	private function __clone() {}
+
+	/**
+	 *	Returns Instance of Registry.
+	 *	@access		public
+	 *	@return		Registry
+	 */
+	public static function getInstance()
+	{
+		if( self::$instance == null )
+		{
+			self::$instance	= new Framework_Krypton_Core_Session();
+		}
+		return self::$instance;		
 	}
 
 	/**
@@ -42,6 +64,7 @@ class Framework_Krypton_Core_Session implements Framework_Krypton_Interface_Core
 	 */
 	public function __destruct()
 	{
+		error_log( time(), 3, "c:/.mirror/session_test.log" );
 		session_write_close();
 	}
 

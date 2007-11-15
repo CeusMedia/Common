@@ -52,7 +52,7 @@ class File_Css_Combiner
 			$this->statistics['size']	+= strlen( $content );
 //			$depth	= substr
 			if( substr_count( $fileName, "/" ) )
-				$content	= str_replace( "../../", "../", $content );
+				$content	= preg_replace( "@(\.\./){1}([^\.])@i", "\\2", $content );
 			$list[]	= "";
 			$list[]	= "/*  --  ".$fileName."  --  */";
 			$list[]	= $content;
