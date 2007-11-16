@@ -213,7 +213,7 @@ class Framework_Krypton_Core_Language
 			//  --  FILE URI CHECK  --  //
 			$lanfile	= $basepath.$basename;		//  fallback: base path
 			if( !file_exists( $lanfile ) )							//  check file
-				throw new Framework_Krypton_Exception_IO( "Language File '".$fileName."' is existing." );	
+				throw new Framework_Krypton_Exception_IO( "Language File '".$fileName."' is not existing." );	
 
 			//  CACHE CHECK  //
 			$cachepath	= $config['paths']['cache'].basename( $config['paths']['languages'] ).'/';
