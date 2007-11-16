@@ -64,7 +64,6 @@ class Framework_Krypton_Core_Session implements Framework_Krypton_Interface_Core
 	 */
 	public function __destruct()
 	{
-		error_log( time(), 3, "c:/.mirror/session_test.log" );
 		session_write_close();
 	}
 
