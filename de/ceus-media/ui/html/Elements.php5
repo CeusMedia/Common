@@ -311,7 +311,7 @@ class Elements
 	 */
 	public static function Field( $field_id, $field_element, $class = "field", $suffix = "", $colspan = 1 )
 	{
-		$ins_id		= "";//$field_id ? " id=\"fld_".$field_id."\"" : "";
+		$ins_id		= $field_id ? " id=\"fld_".$field_id."\"" : "";
 		$ins_class	= $class ? " class=\"".$class."\"" : "";
 		$ins_colspan	= ( $colspan > 1 ) ? " colspan=\"".$colspan."\"" : "";
 		if( $suffix )
@@ -533,7 +533,7 @@ class Elements
 		$ins_class	= $class ? " class=\"".$class."\"" : "";
 		$ins_type	= " type=\"button\"";
 		$ins_value	= " value=\"".$title."\"";
-		$ins_id		= " id=\"".md5( $title )."\"";
+		$ins_id		= " id=\"button_".md5( $title )."\"";
 		$ins_disabled	= $disabled ? " disabled=\"disabled\"" : "";
 		$action		= "document.location.href='".$url."';";
 		if( $confirm )
