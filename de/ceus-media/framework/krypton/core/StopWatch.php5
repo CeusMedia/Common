@@ -2,13 +2,13 @@
 /**
  *	Stopwatch Implementation.
  *	@package		mv2.core
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian WÃ¼rker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.5
  */
 /**
  *	Stopwatch Implementation.
  *	@package		mv2.core
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian WÃ¼rker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.5
  */
 class Framework_Krypton_Core_StopWatch
@@ -41,7 +41,7 @@ class Framework_Krypton_Core_StopWatch
 	/**
 	 *	Stops the Watch and return the time difference between start and stop.
 	 *	@access		public
-	 *	@param		int		$base		Time Base ( 0 - sec | 3 - msec | 6 - µsec)
+	 *	@param		int		$base		Time Base ( 0 - sec | 3 - msec | 6 - Âµsec)
 	 *	@param		int		$round		Numbers after dot
 	 *	@return		string
 	 */
@@ -55,7 +55,7 @@ class Framework_Krypton_Core_StopWatch
 	/**
 	 *	Calculates the time difference between start and stop in microseconds.
 	 *	@access		public
-	 *	@param		int		$base		Time Base ( 0 - sec | 3 - msec | 6 - µsec)
+	 *	@param		int		$base		Time Base ( 0 - sec | 3 - msec | 6 - Âµsec)
 	 *	@param		int		$round		Numbers after dot
 	 *	@return		string
 	 **/

@@ -2,14 +2,14 @@
 /**
  *	Enhanced Statement for PDO Connections.
  *	@package		mv2.core.database.pdo
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian WÃ¼rker <Christian.Wuerker@CeuS-Media.de>
  *	@since			09.03.2007
  *	@version		0.1
  */
 /**
  *	Enhanced Statement for PDO Connections.
  *	@package		mv2.core.database.pdo
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian WÃ¼rker <Christian.Wuerker@CeuS-Media.de>
  *	@since			09.03.2007
  *	@version		0.1
  *	@todo			Code Documentation

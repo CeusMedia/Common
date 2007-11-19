@@ -5,7 +5,7 @@ import( 'de.ceus-media.framework.krypton.core.Component' );
  *	@package		mv2.core
  *	@uses			Framework_Krypton_Core_Registry
  *	@uses			TimeConverter
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian WÃ¼rker <Christian.Wuerker@CeuS-Media.de>
  *	@since			21.02.2007
  *	@version		0.2
  */
@@ -14,7 +14,7 @@ import( 'de.ceus-media.framework.krypton.core.Component' );
  *	@package		mv2.core
  *	@uses			Framework_Krypton_Core_Registry
  *	@uses			TimeConverter
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian WÃ¼rker <Christian.Wuerker@CeuS-Media.de>
  *	@since			21.02.2007
  *	@version		0.2
  */

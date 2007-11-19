@@ -6,7 +6,7 @@ import( 'de.ceus-media.framework.krypton.logic.ValidationError' );
  *	Generic Definition View with Language Support.
  *	@package		mv2.core
  *	@extends		Framework_Krypton_Core_View
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian WÃ¼rker <Christian.Wuerker@CeuS-Media.de>
  *	@since			18.06.2006
  *	@version			0.1
  */
@@ -14,7 +14,7 @@ import( 'de.ceus-media.framework.krypton.logic.ValidationError' );
  *	Generic Definition View with References.
  *	@package		mv2.core
  *	@extends		Framework_Krypton_Core_View
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian WÃ¼rker <Christian.Wuerker@CeuS-Media.de>
  *	@since			18.06.2006
  *	@version			0.1
  */
@@ -28,7 +28,7 @@ class Framework_Krypton_Core_DefinitionView extends Framework_Krypton_Core_View
 	 *	Constructor, references Output Objects.
 	 *	@access		public
 	 *	@return		void
-	 *	@author		Christian Würker <Christian.Wuerker@CeuS-Media.de>
+	 *	@author		Christian WÃ¼rker <Christian.Wuerker@CeuS-Media.de>
 	 *	@since		18.06.2006
 	 *	@version	0.1
 	 */
@@ -43,7 +43,7 @@ class Framework_Krypton_Core_DefinitionView extends Framework_Krypton_Core_View
 	 *	@access		public
 	 *	@param		string		$field			Name of Field
 	 *	@return		array
-	 *	@author		Christian Würker <Christian.Wuerker@CeuS-Media.de>
+	 *	@author		Christian WÃ¼rker <Christian.Wuerker@CeuS-Media.de>
 	 *	@since		18.06.2006
 	 *	@version		0.1
 	 *	@todo		TO BE CHANGED in next Version (check Usage with LogFile)
@@ -65,7 +65,7 @@ class Framework_Krypton_Core_DefinitionView extends Framework_Krypton_Core_View
 	 *	@param		string		$lan_file			Name of Language File (e.g. 'example')
 	 *	@param		string		$lan_section		Section in Language File (e.g. 'add')
 	 *	@return		array
-	 *	@author		Christian Würker <Christian.Wuerker@CeuS-Media.de>
+	 *	@author		Christian WÃ¼rker <Christian.Wuerker@CeuS-Media.de>
 	 *	@since		18.06.2006
 	 *	@version		0.1
 	 */
@@ -324,7 +324,7 @@ class Framework_Krypton_Core_DefinitionView extends Framework_Krypton_Core_View
 	 *	@param		array		$values				Array of Input Values of defined Fields
 	 *	@param		array		$sources			Array of Sources for defined Fields (e.g. Options for Selects)
 	 *	@return		array
-	 *	@author		Christian Würker <Christian.Wuerker@CeuS-Media.de>
+	 *	@author		Christian WÃ¼rker <Christian.Wuerker@CeuS-Media.de>
 	 *	@since		18.06.2006
 	 *	@version		0.1
 	 *	@todo		TO BE DELETED in next Version
@@ -345,7 +345,7 @@ class Framework_Krypton_Core_DefinitionView extends Framework_Krypton_Core_View
 	 *	@access		protected
 	 *	@param		string		$file				Name of XML Definition File (e.g. %PREFIX%#FILE#.xml)
 	 *	@return		void
-	 *	@author		Christian Würker <Christian.Wuerker@CeuS-Media.de>
+	 *	@author		Christian WÃ¼rker <Christian.Wuerker@CeuS-Media.de>
 	 *	@since		18.06.2006
 	 *	@version		0.1
 	 */
@@ -368,7 +368,7 @@ class Framework_Krypton_Core_DefinitionView extends Framework_Krypton_Core_View
 /**
  *	Template.
  *	@package		MV2_Prototype.car
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian WÃ¼rker <Christian.Wuerker@CeuS-Media.de>
  *	@since			21.02.2007
  *	@version		0.1
  */

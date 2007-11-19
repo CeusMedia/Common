@@ -8,7 +8,7 @@ import( 'de.ceus-media.validation.SemanticValidator' );
  *	@uses			CountValidator
  *	@uses			SemanticValidator
  *	@uses			Framework_Krypton_Logic_ValidationError
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian WÃ¼rker <Christian.Wuerker@CeuS-Media.de>
  *	@since			28.08.2006
  *	@version		0.3
  */
@@ -18,7 +18,7 @@ import( 'de.ceus-media.validation.SemanticValidator' );
  *	@uses			CountValidator
  *	@uses			SemanticValidator
  *	@uses			Framework_Krypton_Logic_ValidationError
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian WÃ¼rker <Christian.Wuerker@CeuS-Media.de>
  *	@since			28.08.2006
  *	@version		0.3
  */

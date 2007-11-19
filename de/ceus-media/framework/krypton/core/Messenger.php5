@@ -6,7 +6,7 @@ import( 'de.ceus-media.adt.TimeConverter' );
  *	@package		mv2.core
  *	@uses			Core_Registry
  *	@uses			TimeConverter
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian WÃ¼rker <Christian.Wuerker@CeuS-Media.de>
  *	@since			01.12.2005
  *	@version		0.3
  */
@@ -15,7 +15,7 @@ import( 'de.ceus-media.adt.TimeConverter' );
  *	@package		mv2.core
  *	@uses			Core_Registry
  *	@uses			TimeConverter
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian WÃ¼rker <Christian.Wuerker@CeuS-Media.de>
  *	@since			01.12.2005
  *	@version		0.3
  */

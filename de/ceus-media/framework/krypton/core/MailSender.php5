@@ -2,14 +2,14 @@
 /**
  *	Sends Mails.
  *	@package		mv2.logic
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian WÃ¼rker <Christian.Wuerker@CeuS-Media.de>
  *	@since			19.02.2007
  *	@version		0.1
  */
 /**
  *	Sends Mails.
  *	@package		mv2.logic
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian WÃ¼rker <Christian.Wuerker@CeuS-Media.de>
  *	@since			19.02.2007
  *	@version		0.1
  */

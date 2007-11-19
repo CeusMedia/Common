@@ -6,7 +6,7 @@ import( 'de.ceus-media.framework.krypton.exception.SQL' );
  *	@package		mv2.core.database.pdo
  *	@uses			Core_Database_PDO_Statement
  *	@uses			Exception_SQL
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian WÃ¼rker <Christian.Wuerker@CeuS-Media.de>
  *	@since			09.03.2007
  *	@version		0.1
  */
@@ -15,7 +15,7 @@ import( 'de.ceus-media.framework.krypton.exception.SQL' );
  *	@package		mv2.core.database.pdo
  *	@uses			Core_Database_PDO_Statement
  *	@uses			Exception_SQL
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian WÃ¼rker <Christian.Wuerker@CeuS-Media.de>
  *	@since			09.03.2007
  *	@version		0.1
  *	@todo			Code Documentation

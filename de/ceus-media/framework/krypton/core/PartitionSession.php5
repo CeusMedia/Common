@@ -5,7 +5,7 @@ import( 'de.ceus-media.framework.krypton.core.Session' );
  *	@package		mv2.core
  *	@extends		Framework_Krypton_Core_Session
  *	@extends		Session
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian WÃ¼rker <Christian.Wuerker@CeuS-Media.de>
  *	@since			05.03.2007
  *	@version		0.2
  */
@@ -14,7 +14,7 @@ import( 'de.ceus-media.framework.krypton.core.Session' );
  *	@package		mv2.core
  *	@extends		Framework_Krypton_Core_Session
  *	@extends		Session
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian WÃ¼rker <Christian.Wuerker@CeuS-Media.de>
  *	@since			05.03.2007
  *	@version		0.2
  */

@@ -5,7 +5,7 @@ import( 'de.ceus-media.framework.krypton.interface.view.Panel' );
  *	Base Class for Panels.
  *	@extends		Framework_Krypton_Core_DefinitionView
  *	@implements		Framework_Krypton_Interface_View_Panel
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian WÃ¼rker <Christian.Wuerker@CeuS-Media.de>
  *	@since			20.03.2007
  *	@version		0.1
  */
@@ -13,7 +13,7 @@ import( 'de.ceus-media.framework.krypton.interface.view.Panel' );
  *	Base Class for Panels.
  *	@extends		Framework_Krypton_Core_DefinitionView
  *	@implements		Framework_Krypton_Interface_View_Panel
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian WÃ¼rker <Christian.Wuerker@CeuS-Media.de>
  *	@since			20.03.2007
  *	@version		0.1
  */

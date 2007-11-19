@@ -11,7 +11,7 @@ import( 'de.ceus-media.adt.TimeConverter' );
  *	@uses			View_Component_Elements
  *	@uses			TimeConverter
  *	@uses			WikiParser
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian WÃ¼rker <Christian.Wuerker@CeuS-Media.de>
  *	@since			01.12.2005
  *	@version		0.5
  */
@@ -23,7 +23,7 @@ import( 'de.ceus-media.adt.TimeConverter' );
  *	@uses			View_Component_Elements
  *	@uses			TimeConverter
  *	@uses			WikiParser
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian WÃ¼rker <Christian.Wuerker@CeuS-Media.de>
  *	@since			01.12.2005
  *	@version		0.5
  */

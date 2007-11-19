@@ -26,7 +26,7 @@ import( 'classes.view.Content' );
  *	@uses			Framework_Krypton_View_Interface
  *	@uses			Framework_Krypton_View_Content
  *	@uses			Framework_Krypton_View_Component_Template
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian WÃ¼rker <Christian.Wuerker@CeuS-Media.de>
  *	@since			11.12.2006
  *	@version		0.3
  */
@@ -45,7 +45,7 @@ import( 'classes.view.Content' );
  *	@uses			Framework_Krypton_View_Interface
  *	@uses			Framework_Krypton_View_Content
  *	@uses			Framework_Krypton_View_Component_Template
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian WÃ¼rker <Christian.Wuerker@CeuS-Media.de>
  *	@since			11.12.2006
  *	@version		0.3
  */

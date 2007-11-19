@@ -4,7 +4,7 @@ import( 'de.ceus-media.framework.krypton.core.database.StatementBuilder' );
  *	Logic for Data Lists from Database.
  *	@package		mv2.logic
  *	@uses			Framework_Krypton_Core_Database_StatementBuilder
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian WÃ¼rker <Christian.Wuerker@CeuS-Media.de>
  *	@since			23.02.2007
  *	@version		0.1
  */
@@ -12,7 +12,7 @@ import( 'de.ceus-media.framework.krypton.core.database.StatementBuilder' );
  *	Logic for Data Lists from Database.
  *	@package		mv2.logic
  *	@uses			Framework_Krypton_Core_Database_StatementBuilder
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian WÃ¼rker <Christian.Wuerker@CeuS-Media.de>
  *	@since			23.02.2007
  *	@version		0.1
  */

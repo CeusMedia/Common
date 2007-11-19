@@ -4,7 +4,7 @@ import( 'de.ceus-media.file.File' );
  *	Definition of Input Field within Channels, Screens and Forms.
  *	@package		mv2.core
  *	@uses			File
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian WÃ¼rker <Christian.Wuerker@CeuS-Media.de>
  *	@since			01.05.2006
  *	@version		0.2
  */
@@ -12,7 +12,7 @@ import( 'de.ceus-media.file.File' );
  *	Definition of Input Field within Channels, Screens and Forms.
  *	@package		mv2.core
  *	@uses			File
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian WÃ¼rker <Christian.Wuerker@CeuS-Media.de>
  *	@since			01.05.2006
  *	@version		0.2
  */

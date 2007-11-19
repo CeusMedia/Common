@@ -10,7 +10,7 @@ import( 'de.ceus-media.framework.krypton.exception.Validation' );
  *	@uses			Core_DefinitionValidator
  *	@uses			Exception_Validation
  *	@uses			Exception_IO
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian WÃ¼rker <Christian.Wuerker@CeuS-Media.de>
  *	@since			21.02.2007
  *	@version		0.2
  */
@@ -21,7 +21,7 @@ import( 'de.ceus-media.framework.krypton.exception.Validation' );
  *	@uses			Core_DefinitionValidator
  *	@uses			Exception_Validation
  *	@uses			Exception_IO
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian WÃ¼rker <Christian.Wuerker@CeuS-Media.de>
  *	@since			21.02.2007
  *	@version		0.2
  */
@@ -33,7 +33,7 @@ class Framework_Krypton_Core_Logic
 	protected $registry;
 	/**	@var	array		$errors			Field Defintion */
 	protected $definition;
-	
+
 	/**
 	 *	Builds Instance of Logic Class for a Article Category.
 	 *	@access		public
@@ -59,7 +59,7 @@ class Framework_Krypton_Core_Logic
 		if( $this->registry->has( 'definition' ) )
 			$this->definition	= $this->registry->get( 'definition' );
 	}
-	
+
 	/**
 	 *	Returns Table Fields of Model
 	 *	@access		public
@@ -67,7 +67,7 @@ class Framework_Krypton_Core_Logic
 	 *	@throws		Exception_IO
 	 *	@return		array
 	 */
-	
+
 	public function getFieldFromModel( $model_name )
 	{
 		if( class_exists( $model_name, true ) )
@@ -77,7 +77,7 @@ class Framework_Krypton_Core_Logic
 		}
 		throw new Framework_Krypton_Exception_IO( "Class '".$model_name."' is not existing." );
 	}
-	
+
 	/**
 	 *	Runs Validation of Field Definitions against Input, creates Error Objects and returns Success.
 	 *	@access		protected
@@ -100,7 +100,7 @@ class Framework_Krypton_Core_Logic
 			$def	= $this->definition->getField( $field );
 			$key	= $this->removePrefixFromFieldName( $def['input']['name'], $prefix );
 			$value	= isset( $data[$key] ) ? $data[$key] : null;
-			
+
 //			print_m( $def );
 //			print_m( $data );
 //			remark( "key:".$key );
@@ -130,7 +130,6 @@ class Framework_Krypton_Core_Logic
 			$errors	= $this->errors;
 			$this->errors	= array();
 			throw new Framework_Krypton_Exception_Validation( "error_not_valid", $errors );
-			return false;
 		}
 		return true;
 	}
@@ -144,7 +143,7 @@ class Framework_Krypton_Core_Logic
 	{
 		return $this->errors;
 	}
-	
+
 	/**
 	 *	Notes an Error.
 	 *	@access		public
@@ -153,7 +152,7 @@ class Framework_Krypton_Core_Logic
 	 */
 	protected function noteError( $error )
 	{
-		$this->errors[]	= $error;	
+		$this->errors[]	= $error;
 	}
 
 	/**
@@ -173,9 +172,9 @@ class Framework_Krypton_Core_Logic
 	 */
 	public function hasErrors()
 	{
-		return (bool)count( $this->errors );	
+		return (bool)count( $this->errors );
 	}
-	
+
 	/**
 	 *	Loads Field Definitions.
 	 *	@access		private
@@ -206,7 +205,7 @@ class Framework_Krypton_Core_Logic
 		}
 		return $name;
 	}
-	
+
 	/**
 	 *	Removes Prefix from Fields within an associative Array.
 	 *	@access		public

@@ -12,7 +12,7 @@ import( 'de.ceus-media.file.block.BlockFileReader' );
  *	@uses			IniReader
  *	@uses			HTTP_LanguageSniffer
  *	@uses			LanguageValidator
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian WÃ¼rker <Christian.Wuerker@CeuS-Media.de>
  *	@since			05.12.2006
  *	@version		0.2
  */
@@ -24,7 +24,7 @@ import( 'de.ceus-media.file.block.BlockFileReader' );
  *	@uses			IniReader
  *	@uses			HTTP_LanguageSniffer
  *	@uses			LanguageValidator
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian WÃ¼rker <Christian.Wuerker@CeuS-Media.de>
  *	@since			05.12.2006
  *	@version		0.2
  */

@@ -5,7 +5,7 @@ import( 'de.ceus-media.framework.krypton.core.Template' );
  *	@package		mv2.view.component
  *	@extends		Core_Template
  *	@uses			Core_Registry
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian WÃ¼rker <Christian.Wuerker@CeuS-Media.de>
  *	@since			02.03.2007
  *	@version		0.2
  */
@@ -14,7 +14,7 @@ import( 'de.ceus-media.framework.krypton.core.Template' );
  *	@package		mv2.view.component
  *	@extends		Core_Template
  *	@uses			Core_Registry
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian WÃ¼rker <Christian.Wuerker@CeuS-Media.de>
  *	@since			02.03.2007
  *	@version		0.2
  */

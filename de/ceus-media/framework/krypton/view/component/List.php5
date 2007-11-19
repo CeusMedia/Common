@@ -6,7 +6,7 @@ import( 'de.ceus-media.framework.krypton.logic.List' );
  *	@package		mv2.view.component
  *	@uses			Logic_List
  *	@uses			Core_View
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian WÃ¼rker <Christian.Wuerker@CeuS-Media.de>
  *	@since			23.02.2007
  *	@version		0.1
  */
@@ -15,7 +15,7 @@ import( 'de.ceus-media.framework.krypton.logic.List' );
  *	@package		mv2.view.component
  *	@uses			Logic_List
  *	@uses			Core_View
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian WÃ¼rker <Christian.Wuerker@CeuS-Media.de>
  *	@since			23.02.2007
  *	@version		0.1
  */

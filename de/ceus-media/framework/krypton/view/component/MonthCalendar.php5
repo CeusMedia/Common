@@ -3,7 +3,7 @@
  *	Builds HTML for Month Calendar.
  *	@package		mv2.view.component
  *	@extends		Core_View
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian WÃ¼rker <Christian.Wuerker@CeuS-Media.de>
  *	@since			11.03.2007
  *	@version		0.1
  */
@@ -11,7 +11,7 @@
  *	Builds HTML for Month Calendar.
  *	@package		mv2.view.component
  *	@extends		Core_View
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian WÃ¼rker <Christian.Wuerker@CeuS-Media.de>
  *	@since			11.03.2007
  *	@version		0.1
  */
@@ -21,7 +21,7 @@ class View_Component_MonthCalendar extends Core_View
 	var $months	= array(
 		'01'	=> "Januar",
 		'02'	=> "Februar",
-		'03'	=> "März",
+		'03'	=> "MÃ¤rz",
 		'04'	=> "April",
 		'05'	=> "Mail",
 		'06'	=> "Juni",

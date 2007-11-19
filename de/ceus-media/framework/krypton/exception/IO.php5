@@ -3,7 +3,7 @@
  *	Exception for Input/Output Errors.
  *	@package		mv2.exception
  *	@extends		Exception
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian WÃ¼rker <Christian.Wuerker@CeuS-Media.de>
  *	@since			01.03.2007
  *	@version		0.1
  */
@@ -11,7 +11,7 @@
  *	Exception for Input/Output Errors.
  *	@package		mv2.exception
  *	@extends		Exception
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian WÃ¼rker <Christian.Wuerker@CeuS-Media.de>
  *	@since			01.03.2007
  *	@version		0.1
  */

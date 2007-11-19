@@ -2,13 +2,13 @@
 /**
  *	Table with Column Definition and Keys.
  *	@package		mv2.core.database
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian WÃ¼rker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.5
  */
 /**
  *	Table with column definition and keys.
  *	@package		mv2.core.database
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian WÃ¼rker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.5
  */
 class Framework_Krypton_Core_Database_TableReader
@@ -472,7 +472,7 @@ class Framework_Krypton_Core_Database_TableReader
 	 *	@access		public
 	 *	@param		string		$table_name		Database Connection
 	 *	@return		void
-	 *	@author		Christian Würker <Christian.Wuerker@CeuS-Media.de>
+	 *	@author		Christian WÃ¼rker <Christian.Wuerker@CeuS-Media.de>
 	 *	@version	0.4
 	 */
 	public function setTableName( $table_name )

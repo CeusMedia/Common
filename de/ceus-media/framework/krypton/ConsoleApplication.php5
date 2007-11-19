@@ -33,7 +33,7 @@ require_once( "classes/core/CategoryFactory.php5" );
  *	@uses			View_Auth
  *	@uses			View_Interface
  *	@uses			View_Component_Template
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian WÃ¼rker <Christian.Wuerker@CeuS-Media.de>
  *	@since			11.12.2006
  *	@version		0.3
  */
@@ -55,7 +55,7 @@ require_once( "classes/core/CategoryFactory.php5" );
  *	@uses			View_Auth
  *	@uses			View_Interface
  *	@uses			View_Component_Template
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian WÃ¼rker <Christian.Wuerker@CeuS-Media.de>
  *	@since			11.12.2006
  *	@version		0.3
  */

@@ -2,14 +2,14 @@
 /**
  *	Resizing Images.
  *	@package		mv2.view.component
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian WÃ¼rker <Christian.Wuerker@CeuS-Media.de>
  *	@since			16.12.2005
  *	@version		0.1
  */
 /**
  *	Resizing Images.
  *	@package		mv2.view.component
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian WÃ¼rker <Christian.Wuerker@CeuS-Media.de>
  *	@since			16.12.2005
  *	@version		0.1
  */
@@ -31,7 +31,7 @@ class View_Component_ThumbnailCreator
 	 *	@param		string		$target 		File Name of Target Image
 	 *	@param		int			$quality 		Quality of Target Image
 	 *	@return		void
-	 *	@author		Christian Würker <Christian.Wuerker@CeuS-Media.de>
+	 *	@author		Christian WÃ¼rker <Christian.Wuerker@CeuS-Media.de>
 	 *	@version	0.1
 	 */
 	public function __construct( $source, $target, $quality = 100 )
@@ -46,7 +46,7 @@ class View_Component_ThumbnailCreator
 	 *	@access		public
 	 *	@param		int			$quality 		Quality of resulting Image
 	 *	@return		void
-	 *	@author		Christian Würker <Christian.Wuerker@CeuS-Media.de>
+	 *	@author		Christian WÃ¼rker <Christian.Wuerker@CeuS-Media.de>
 	 *	@version	0.1
 	 */
 	public function setQuality( $quality )
@@ -59,7 +59,7 @@ class View_Component_ThumbnailCreator
 	 *	@access		public
 	 *	@param		string		$source 		File Name of Source Image
 	 *	@return		void
-	 *	@author		Christian Würker <Christian.Wuerker@CeuS-Media.de>
+	 *	@author		Christian WÃ¼rker <Christian.Wuerker@CeuS-Media.de>
 	 *	@version	0.1
 	 */
 	public function setSource( $source )
@@ -84,7 +84,7 @@ class View_Component_ThumbnailCreator
 	 *	@access		public
 	 *	@param		string		$target 		File Name of resulting Target Image
 	 *	@return		void
-	 *	@author		Christian Würker <Christian.Wuerker@CeuS-Media.de>
+	 *	@author		Christian WÃ¼rker <Christian.Wuerker@CeuS-Media.de>
 	 *	@version	0.1
 	 */
 	public function setTarget( $target )
@@ -98,7 +98,7 @@ class View_Component_ThumbnailCreator
 	 *	@param		int			$width 			Width of Target Image
 	 *	@param		int			$height 		Height of Target Image
 	 *	@return		bool
-	 *	@author		Christian Würker <Christian.Wuerker@CeuS-Media.de>
+	 *	@author		Christian WÃ¼rker <Christian.Wuerker@CeuS-Media.de>
 	 *	@version	0.1
 	 */
 	public function thumbize( $width, $height )
@@ -139,7 +139,7 @@ class View_Component_ThumbnailCreator
 	 *	@param		int			$width 			Largest Width of Target Image
 	 *	@param		int			$height 		Largest Height of Target Image
 	 *	@return		bool
-	 *	@author		Christian Würker <Christian.Wuerker@CeuS-Media.de>
+	 *	@author		Christian WÃ¼rker <Christian.Wuerker@CeuS-Media.de>
 	 *	@version	0.1
 	 */
 	public function thumbizeByLimit( $width, $height )

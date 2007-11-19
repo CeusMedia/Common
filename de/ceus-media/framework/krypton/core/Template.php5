@@ -7,7 +7,7 @@ import( 'de.ceus-media.framework.krypton.exception.Template' );
  *	@uses			Framework_Krypton_Exception_IO
  *	@uses			Framework_Krypton_Exception_Template
  *	@author			David Seebacher <dseebacher@gmail.com>
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian WÃ¼rker <Christian.Wuerker@CeuS-Media.de>
  *	@since			03.03.2007
  *	@version		0.3
  */
@@ -17,7 +17,7 @@ import( 'de.ceus-media.framework.krypton.exception.Template' );
  *	@uses			Framework_Krypton_Exception_IO
  *	@uses			Framework_Krypton_Exception_Template
  *	@author			David Seebacher <dseebacher@gmail.com>
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian WÃ¼rker <Christian.Wuerker@CeuS-Media.de>
  *	@since			03.03.2007
  *	@version		0.3
  * 

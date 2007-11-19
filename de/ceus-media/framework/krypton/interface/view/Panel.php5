@@ -2,14 +2,14 @@
 /**
  *	Interface for Panels.
  *	@package		mv2.interface.view
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian WÃ¼rker <Christian.Wuerker@CeuS-Media.de>
  *	@since			30.04.2007
  *	@version		0.1
  */
 /**
  *	Interface for Panels.
  *	@package		mv2.interface.view
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian WÃ¼rker <Christian.Wuerker@CeuS-Media.de>
  *	@since			30.04.2007
  *	@version		0.1
  */

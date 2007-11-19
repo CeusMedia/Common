@@ -4,14 +4,14 @@ import( "de.ceus-media.file.log.LogFile" );
  *	Generic Connection.
  *	@package		mv2.core.database
  *	@uses			LogFile
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian WÃ¼rker <Christian.Wuerker@CeuS-Media.de>
  *	@version 		0.5
  */
 /**
  *	Generic Connection.
  *	@package		mv2.core.database
  *	@uses			LogFile
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian WÃ¼rker <Christian.Wuerker@CeuS-Media.de>
  *	@version 		0.5
  */
 class Framework_Krypton_Core_Database_Connection

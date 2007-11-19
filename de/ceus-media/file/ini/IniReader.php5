@@ -44,7 +44,7 @@ class IniReader extends File
 	protected $sectionPattern;
 	/**	@var		string		$lineCommentPattern		Pattern( regex) of Line Comments */
 	protected $lineCommentPattern;
-	
+
 	/**
 	 *	Constructor.
 	 *	@access		public
@@ -87,7 +87,7 @@ class IniReader extends File
 				foreach( $lines as $line )
 				{
 					$line	= trim( $line );
-					$this->lines[] = $line;  
+					$this->lines[] = $line;
 					if( $this->usesSections() && eregi( $this->sectionPattern, $line ) )
 					{
 						$currentSection	= substr( trim( $line ), 1, -1 );
@@ -151,7 +151,7 @@ class IniReader extends File
 				return $this->properties[$key];
 		}
 	}
-	
+
 	/**
 	 *	Indicates wheter a Property is existing.
 	 *	@access		public
@@ -166,8 +166,8 @@ class IniReader extends File
 		else
 			return isset( $this->properties[$key] );
 	}
-	
-	
+
+
 	/**
 	 *	Indicates wheter a Property is active.
 	 *	@access		public
@@ -188,7 +188,7 @@ class IniReader extends File
 			return !in_array( $key, $this->disabled );
 		}
 	}
-	
+
 	/**
 	 *	Returns an associative array with all or active only Properties.
 	 *	@access		public
@@ -203,7 +203,7 @@ class IniReader extends File
 			foreach( $this->sections as $sectionName )
 				foreach( $this->properties[$sectionName]  as $key => $value )
 					if( $activeOnly && $this->isActiveProperty( $key, $sectionName ) || !$activeOnly )
-						$properties[$sectionName][] = $key; 
+						$properties[$sectionName][] = $key;
 		}
 		else
 		{
@@ -214,11 +214,11 @@ class IniReader extends File
 		return $properties;
 	}
 
-
 	/**
 	 *	Returns an associative array with all or active only Properties.
 	 *	@access		public
-	 *	@param		bool			$activeOnly	Switch to return only active Properties
+	 *	@param		bool		$activeOnly		Switch to return only active Properties
+	 *	@param		string		$section		Only Section with given Section Name
 	 *	@return		array
 	 */
 	function getProperties( $activeOnly = false, $section = false)
@@ -233,9 +233,11 @@ class IniReader extends File
 					$properties[$sectionName]	= array();
 					foreach( $this->properties[$sectionName]  as $key => $value )
 						if( $activeOnly && $this->isActiveProperty( $key, $sectionName ) || !$activeOnly )
-							$properties[$sectionName][$key] = $value; 
+							$properties[$sectionName][$key] = $value;
 				}
 			}
+			if( $section )
+				$properties	= $properties[$section];
 		}
 		else
 		{
@@ -259,7 +261,7 @@ class IniReader extends File
 	{
 		if( $this->usesSections() && isset( $this->comments[$section][$key] ) )
 			return $this->comments[$section][$key];
-		else if( isset( $this->comments[$key] ) ) 
+		else if( isset( $this->comments[$key] ) )
 			return $this->comments[$key];
 		else
 			return "";
@@ -326,7 +328,7 @@ class IniReader extends File
 				{
 					if( ( $activeOnly && $this->isActiveProperty( $key, $section ) ) || !$activeOnly )
 					{
-						$b = Array( 
+						$b = Array(
 							"key"		=>	$key,
 							"value"		=>	$value,
 							"comment"	=>	$this->getComment( $key, $section ),
@@ -343,7 +345,7 @@ class IniReader extends File
 			{
 				if( ( $activeOnly && $this->isActiveProperty( $key ) ) || !$activeOnly )
 				{
-					$b = Array( 
+					$b = Array(
 						"key"		=>	$key,
 						"value"		=>	$value,
 						"comment"	=>	$this->getComment( $key ),
@@ -355,7 +357,7 @@ class IniReader extends File
 		}
 		return $a;
 	}
-	
+
 	/**
 	 *	Indicates wheter Sections are used and sets this Switch.
 	 *	@access		public

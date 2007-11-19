@@ -2,14 +2,14 @@
 /**
  *	Validation Error.
  *	@package		mv2.logic
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian WÃ¼rker <Christian.Wuerker@CeuS-Media.de>
  *	@since			22.02.2007
  *	@version		0.1
  */
 /**
  *	Validation Error.
  *	@package		mv2.logic
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian WÃ¼rker <Christian.Wuerker@CeuS-Media.de>
  *	@since			22.02.2007
  *	@version		0.1
  */
