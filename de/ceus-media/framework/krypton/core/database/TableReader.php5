@@ -362,11 +362,11 @@ class Framework_Krypton_Core_Database_TableReader
 			else
 			{
 				if( strtolower( $value ) == 'is null' || strtolower( $value ) == 'is not null')
-					$conditions[] = $key.' '.$value;
+					$conditions[] = $key.' '.addslashes( $value );
 				else if( $value === null )
 					$conditions[] = $key.' is NULL';
 				else
-					$conditions[] = $key."='".$value."'";
+					$conditions[] = $key."='".addslashes( $value )."'";
 			}
 		$conditions = implode( " AND ", $conditions );						//  combine Conditions with AND
 		return $conditions;
