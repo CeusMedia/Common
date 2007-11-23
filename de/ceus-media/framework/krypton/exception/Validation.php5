@@ -19,6 +19,8 @@ class Framework_Krypton_Exception_Validation extends Exception
 {
 	/**	@var	array		$errors		List of Validation Errors */
 	protected $errors	= array();
+	/**	@var	string		$form		Name Form in Validation File */
+	protected $form		= "";
 	
 	/**
 	 *	Constructor.
@@ -27,10 +29,11 @@ class Framework_Krypton_Exception_Validation extends Exception
 	 *	@param		string		$errors			List of Validation Errors
 	 *	@return		void
 	 */
-	public function __construct( $message = null, $errors = array() )
+	public function __construct( $message = null, $errors = array(), $form = "" )
 	{
 		parent::__construct( $message );
 		$this->errors	= $errors;
+		$this->form		= $form;
 	}
 	
 	/**
@@ -41,6 +44,16 @@ class Framework_Krypton_Exception_Validation extends Exception
 	public function getErrors()
 	{
 		return $this->errors;
+	}
+	
+	/**
+	 *	Returns Name of Form in Validation File.
+	 *	@access		public
+	 *	@return		string
+	 */
+	public function getForm()
+	{
+		return $this->form;
 	}
 }
 ?>

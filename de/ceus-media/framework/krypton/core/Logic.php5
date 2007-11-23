@@ -35,6 +35,18 @@ class Framework_Krypton_Core_Logic
 	protected $definition;
 
 	/**
+	 *	Constructor, loads Definition Validator and Field Definition.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function __construct()
+	{
+		$this->registry		= Framework_Krypton_Core_Registry::getInstance();
+		if( $this->registry->has( 'definition' ) )
+			$this->definition	= $this->registry->get( 'definition' );
+	}
+
+	/**
 	 *	Builds Instance of Logic Class for a Article Category.
 	 *	@access		public
 	 *	@param		strin		$category		Article Category String
@@ -46,18 +58,6 @@ class Framework_Krypton_Core_Logic
 		import( "classes.logic.".$category );
 		$logic		= eval( "return new Logic_".$category."();" );
 		return $logic;
-	}
-
-	/**
-	 *	Constructor, loads Definition Validator and Field Definition.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function __construct()
-	{
-		$this->registry		= Framework_Krypton_Core_Registry::getInstance();
-		if( $this->registry->has( 'definition' ) )
-			$this->definition	= $this->registry->get( 'definition' );
 	}
 
 	/**
@@ -129,7 +129,7 @@ class Framework_Krypton_Core_Logic
 		{
 			$errors	= $this->errors;
 			$this->errors	= array();
-			throw new Framework_Krypton_Exception_Validation( "error_not_valid", $errors );
+			throw new Framework_Krypton_Exception_Validation( "error_not_valid", $errors, $form );
 		}
 		return true;
 	}

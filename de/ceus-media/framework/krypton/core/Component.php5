@@ -113,7 +113,7 @@ abstract class Framework_Krypton_Core_Component
 	 *	Cleanse String by removing all HTML Tags or Scripts, Style, Comments or Event Attributes.
 	 *	@todo		implement Events
 	 */
-	static function cleanseString( $string, $flag = 16, $verbose = false )
+	function cleanseString( $string, $flag = 16, $verbose = false )
 	{
 		if( !is_int( $flag ) )
 			$flag	= 16;
@@ -148,7 +148,7 @@ abstract class Framework_Krypton_Core_Component
 	 *	@param		string		$mask		Mask to append to shortened string
 	 *	@return		string
 	 */
-	static protected function str_shorten( $string, $length = 20, $mask = "..." )
+	protected static function str_shorten( $string, $length = 20, $mask = "..." )
 	{
 		if( $length )
 		{
@@ -167,7 +167,7 @@ abstract class Framework_Krypton_Core_Component
 	 *	@param		string		$separator		Separator
 	 *	@return		string
 	 */
-	static protected function formatPrice( $price, $separator = "." )
+	protected static function formatPrice( $price, $separator = "." )
 	{
 		$price	= (float)$price;
 		ob_start();
@@ -240,7 +240,9 @@ abstract class Framework_Krypton_Core_Component
 	/**
 	 *	Handles different Exceptions by calling special Exception Handlers.
 	 *	@access		public
-	 *	@param	 	Exception	$e		Exception to handle
+	 *	@param	 	Exception	$e			Exception to handle
+	 *	@param	 	string		$lanfile	Language File with Error Messages and Form Fields
+	 *	@param	 	mixed		$section	Section Name as String or associative Array in combination with Form Names.
 	 *	@return		void
 	 */
 	public function handleException( $e, $lanfile, $section )
@@ -314,6 +316,14 @@ abstract class Framework_Krypton_Core_Component
 	 */
 	protected function handleValidationException( Framework_Krypton_Exception_Validation $e, $filename, $section )
 	{
+		if( is_array( $section ) )
+		{
+			$form	= $e->getForm();
+			if( $form && in_array( $form, array_keys( $section ) ) )
+				$section	= $section[$form];
+			else
+				$section	= array_shift( $section );
+		}
 		$labels		= $this->words[$filename][$section];
 		$validator	= $this->words['validator'];
 		foreach( $e->getErrors() as $error )
