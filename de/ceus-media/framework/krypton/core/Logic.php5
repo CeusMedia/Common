@@ -3,13 +3,15 @@ import( 'de.ceus-media.framework.krypton.core.Registry' );
 import( 'de.ceus-media.framework.krypton.core.DefinitionValidator' );
 import( 'de.ceus-media.framework.krypton.exception.IO' );
 import( 'de.ceus-media.framework.krypton.exception.Validation' );
+import( 'de.ceus-media.framework.krypton.exception.Logic' );
 /**
  *	Logic Base Class with Validation
  *	@package		mv2.core
- *	@uses			Core_Registry
- *	@uses			Core_DefinitionValidator
- *	@uses			Exception_Validation
- *	@uses			Exception_IO
+ *	@uses			Framework_Krypton_Core_Registry
+ *	@uses			Framework_Krypton_Core_DefinitionValidator
+ *	@uses			Framework_Krypton_Exception_Validation
+ *	@uses			Framework_Krypton_Exception_IO
+ *	@uses			Framework_Krypton_Exception_Logic
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			21.02.2007
  *	@version		0.2
@@ -17,10 +19,11 @@ import( 'de.ceus-media.framework.krypton.exception.Validation' );
 /**
  *	Logic Base Class with Validation
  *	@package		mv2.core
- *	@uses			Core_Registry
- *	@uses			Core_DefinitionValidator
- *	@uses			Exception_Validation
- *	@uses			Exception_IO
+ *	@uses			Framework_Krypton_Core_Registry
+ *	@uses			Framework_Krypton_Core_DefinitionValidator
+ *	@uses			Framework_Krypton_Exception_Validation
+ *	@uses			Framework_Krypton_Exception_IO
+ *	@uses			Framework_Krypton_Exception_Logic
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			21.02.2007
  *	@version		0.2

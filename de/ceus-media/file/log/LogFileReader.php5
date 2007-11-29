@@ -44,7 +44,7 @@ class LogFileReader extends LogFile
 				$array[] = trim( $line );
 			return $array;
 		}
-		return false;
+		return array();
 	}
 }
 ?>

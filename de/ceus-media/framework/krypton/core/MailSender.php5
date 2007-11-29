@@ -44,7 +44,7 @@ class Framework_Krypton_Core_MailSender
 		else
 			unset( $this->headers[$name] );
 	}
-	
+
 	/**
 	 *	Formats Header Name.
 	 *	@access		public
@@ -143,21 +143,21 @@ class Framework_Krypton_Core_MailSender
 			throw new Exception( "Mail could not been sent." );
 		return true;
 	}
-	
+
 	/**
 	 *	Public Method for PHPUnit-Tests of protected or private Methods.
 	 *	@access		public
 	 *	@param		string		$method			Name of Method
-	 *	@param		mixed		$argument1		Argument 1 of Method (optional)	
-	 *	@param		mixed		$argument1		Argument 2 of Method (optional)	
-	 *	@param		mixed		$argument1		Argument 3 of Method (optional)	
+	 *	@param		mixed		$argument1		Argument 1 of Method (optional)
+	 *	@param		mixed		$argument1		Argument 2 of Method (optional)
+	 *	@param		mixed		$argument1		Argument 3 of Method (optional)
 	 *	@return		mixed
 	 */
 	public function testMethod( $method, $argument1 = null, $argument2 = null, $argument3 = null )
 	{
 		return $this->$method( $argument1, $argument2, $argument3 );
 	}
-	
+
 	/**
 	 *	Public Method for PHPUnit-Tests to get protected or private Members Variables.
 	 *	@access		public
@@ -168,5 +168,5 @@ class Framework_Krypton_Core_MailSender
 	{
 		return $this->$member;
 	}
-}  
+}
 ?>
