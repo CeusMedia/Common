@@ -50,20 +50,6 @@ class Framework_Krypton_Core_Logic
 	}
 
 	/**
-	 *	Builds Instance of Logic Class for a Article Category.
-	 *	@access		public
-	 *	@param		strin		$category		Article Category String
-	 *	@return		object
-	 */
-	public static function getCategoryLogic( $category )
-	{
-		$category	= ucFirst( $category );
-		import( "classes.logic.".$category );
-		$logic		= eval( "return new Logic_".$category."();" );
-		return $logic;
-	}
-
-	/**
 	 *	Returns Table Fields of Model
 	 *	@access		public
 	 *	@param		string		$model_name		Class Name of Model
@@ -216,26 +202,20 @@ class Framework_Krypton_Core_Logic
 	 *	@param		string		$prefix		Prefix to be removed
 	 *	@return		array
 	 */
-	public static function removePrefixFromFields( $data, $prefix, $clean = false )
+	public static function removePrefixFromFields( $data, $prefix, $clean = true )
 	{
-		if( $prefix )
+		if( !$prefix )
+			return $data;
+		$list	= array();
+		foreach( $data as $key => $value )
 		{
-			foreach( $data as $key => $value )
-			{
-				$newkey	= self::removePrefixFromFieldName( $key, $prefix );
-				unset( $data[$key] );
-				if( $clean )
-				{
-					if( $newkey != $key )
-					{
-						$data[$newkey]	= $value;
-					}
-					continue;
-				}
-				$data[$newkey]	= $value;
-			}
+			$newkey	= self::removePrefixFromFieldName( $key, $prefix );
+			if( $newkey != $key )
+				$list[$newkey]	= $value;
+			else if( !$clean )
+				$list[$key] = $value;
 		}
-		return $data;
+		return $list;
 	}
 }
 ?>

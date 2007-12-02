@@ -190,7 +190,7 @@ class Framework_Krypton_Core_Language
 	 *	@param		bool		$verbose		Flag: Note missing Language Files.
 	 *	@return		bool
 	 */
-	public function loadLanguage( $fileName, $section = false, $verbose = true )
+	public function loadLanguage( $fileName, $section = false, $verbose = false )
 	{
 		if( $verbose )
 	 	   remark( "<b>Load Language: </b> File: ".$fileName." -> Section: ".$section );

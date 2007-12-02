@@ -51,14 +51,15 @@ class Framework_Krypton_Core_Database_PDO_Statement implements IteratorAggregate
 		$args = func_get_args();
 		return call_user_func_array( array( &$this->PDOS, 'query' ), $args );
 	}
-	
+
 	public function __get( $property )
 	{
 		return $this->PDOS->$property;
 	}
+
 	public function getIterator()
 	{
 		return $this->PDOS;
 	}
-}  
+}
 ?>
