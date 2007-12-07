@@ -237,7 +237,11 @@ class IniReader extends File
 				}
 			}
 			if( $section )
-				$properties	= $properties[$section];
+			{
+				if( isset( $properties[$section] ) )
+					$properties	= $properties[$section];
+				else
+					return array();
 		}
 		else
 		{
