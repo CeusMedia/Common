@@ -1,61 +1,50 @@
 <?php
-import ("de.ceus-media.adt.set.Set");
+import( 'de.ceus-media.adt.set.Set' );
 /**
  *	Base Operations for Sets.
  *	Call all function with two or more Set Objects as parameters.
- *	@package	adt
- *	@subpackage	set
- *	@uses		Set
- *	@author		Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version		0.4
+ *	@package		adt.set
+ *	@uses			Set
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@version		0.5
  */
 /**
  *	Base Operations for Sets.
  *	Call all function with two or more Set Objects as parameters.
- *	@package	adt
- *	@subpackage	set
- *	@uses		Set
- *	@author		Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version		0.4
+ *	@package		adt.set
+ *	@uses			Set
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@version		0.5
  */
 class SetOperation
 {
-	/**
-	 *	Constructor.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function __construct ()
-	{
-	}
-	
 	/**
 	 *	Calculates Intersection of two or more Sets.
 	 *	@access		public
 	 *	@return		void
 	 */
-	function intersect ()
+	function intersect()
 	{
 		$args = func_get_args();
-		if (is_array ($args[0]) && !$args[1])
+		if( is_array( $args[0] ) && !$args[1] )
 			$args = $args[0];
-		if (count($args) < 2)
-			trigger_error( "Intersection of Sets needs at least two Sets", E_USER_ERROR );
-		$carrier = new Set ();
-		$args = func_get_args();
-		$left = array_shift ($args);
-		if ($left && is_object ($left))
+		if( count( $args ) < 2 )
+			throw new IOException( "Intersection of Sets needs at least two Sets" );
+		$carrier	= new Set();
+		$args		= func_get_args();
+		$left		= array_shift( $args );
+		if( $left && is_object( $left ) )
 		{
-			foreach ($args as $right)
+			foreach( $args as $right )
 			{
-				if ($right && is_object ($right))
+				if( $right && is_object( $right ) )
 				{
-					$right->rewind ();
-					while ($right->hasNext ())
+					$right->rewind();
+					while( $right->hasNext() )
 					{
-						$next = $right->getNext ();
-						if ($left->inSet ($next))
-							$carrier->add ($next);
+						$next = $right->getNext();
+						if( $left->inSet( $next ) )
+							$carrier->add( $next );
 					}				
 				}
 			}
@@ -67,14 +56,14 @@ class SetOperation
 	 *	Calculates symmetric Difference of two or more Sets.
 	 *	@return		Set
 	 */
-	function differentiateSymmetric ()
+	function differentiateSymmetric()
 	{
 		$args = func_get_args();
-		if (is_array ($args[0]) && !$args[1])
+		if( is_array ( $args[0] ) && !$args[1] )
 			$args = $args[0];
-		$left		= $this->differentiate ($args);
-		$right	= $this->differentiate (array_reverse($args));
-		$diff		= $this->unite ($left, $right);
+		$left	= $this->differentiate( $args );
+		$right	= $this->differentiate( array_reverse( $args ) );
+		$diff	= $this->unite( $left, $right );
 		return $diff;
 	}
 
@@ -82,26 +71,27 @@ class SetOperation
 	 *	Calculates Difference of two or more Sets.
 	 *	@return		Set
 	 */
-	function differentiate ()
+	function differentiate()
 	{
 		$args = func_get_args();
-		if (is_array ($args[0]) && !$args[1])
+		if( is_array( $args[0] ) && !$args[1] )
 			$args = $args[0];
-		if (count($args) < 2)
-			trigger_error( "Difference of Sets needs at least two Sets", E_USER_ERROR );
-		$left = array_shift ($args);
-		if ($left && is_object ($left))
+		if( count( $args ) < 2 )
+			throw new IOException( "Difference of Sets needs at least two Sets" );
+		$left = array_shift( $args );
+		if( $left && is_object( $left ) )
 		{
-			foreach ($args as $right)
+			foreach( $args as $right )
 			{
-				$carrier = new Set ();
-				if ($right && is_object ($right))
+				$carrier = new Set();
+				if( $right && is_object( $right ) )
 				{
-					$left->rewind ();	
-					while ($left->hasNext ())
+					$left->rewind();	
+					while( $left->hasNext() )
 					{
-						$next = $left->getNext ();
-						if (!$right->inSet ($next)) $carrier->add ($next);
+						$next = $left->getNext();
+						if( !$right->inSet( $next ) )
+							$carrier->add( $next );
 					}
 				}
 				$left = $carrier;
@@ -115,24 +105,24 @@ class SetOperation
 	 *	@access		public
 	 *	@return		void
  	 */
-	function unite ()
+	function unite()
 	{
 		$args = func_get_args();
-		if (is_array ($args[0]) && !$args[1])
+		if( is_array( $args[0] ) && !$args[1] )
 			$args = $args[0];
-		if (count($args) < 2)
-			trigger_error( "Union of Sets needs at least two Sets", E_USER_ERROR );
+		if( count( $args ) < 2 )
+			throw new IOException( "Union of Sets needs at least two Sets" );
 		$args = func_get_args();
-		$left = array_shift ($args);
-		if ($left && is_object ($left))
+		$left = array_shift( $args );
+		if( $left && is_object( $left ) )
 		{
-			foreach ($args as $right)
+			foreach( $args as $right )
 			{
-				if ($right && is_object ($right))
+				if( $right && is_object( $right ) )
 				{
-					$right->rewind ();	
-					while ($right->hasNext ())
-						$left->add ($right->getNext ());
+					$right->rewind();	
+					while( $right->hasNext() )
+						$left->add( $right->getNext() );
 				}
 			}
 		}
@@ -144,26 +134,26 @@ class SetOperation
 	 *	@access		public
 	 *	@return		void
  	 */
-	function produceCross ()
+	function produceCross()
 	{
-		if (func_num_args() < 2)
-			trigger_error( "Cross Product of Sets needs at least two Sets", E_USER_ERROR );
+		if( func_num_args() < 2 )
+			throw new IOException( "Cross Product of Sets needs at least two Sets" );
 		$args = func_get_args();   
-		$left = array_shift ($args);
-		if ($left && is_object ($left))
+		$left = array_shift( $args );
+		if( $left && is_object( $left ) )
 		{
-			foreach ($args as $right)
+			foreach( $args as $right )
 			{
-				if ($right && is_object ($right))
+				if( $right && is_object( $right ) )
 				{
-					$carrier = new Set ();
+					$carrier = new Set();
 					$left->rewind();
-					while ($left->hasNext ())
+					while( $left->hasNext() )
 					{
-						$x = $left->getNext ();
+						$x = $left->getNext();
 						$right->rewind();
-						while ($right->hasNext ())
-							$carrier->add ($x.$right->getNext ());
+						while( $right->hasNext() )
+							$carrier->add( $x.$right->getNext() );
 					}
 					$left = $carrier;
 				}

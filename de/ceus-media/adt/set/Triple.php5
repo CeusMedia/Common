@@ -28,11 +28,11 @@ class Triple
 	 *	@param		mixed		$element		Third Element
 	 *	@return		void
 	 */
-	public function __construct ($first, $second, $third)
+	public function __construct( $first, $second, $third )
 	{
-		$this->setFirst	($first);
-		$this->setSecond	($second);
-		$this->setThird	($third);
+		$this->setFirst( $first ) ;
+		$this->setSecond( $second );
+		$this->setThird( $third );
 	}
 
 	/**
@@ -114,9 +114,9 @@ class Triple
 	 *	@access		public
 	 *	@return		string
 	 */
-	public function toString()
+	public function toString( $startsWith = "{", $endsWith = "}", $delimiter = ", " )
 	{
-		$code = "{".$this->first.", ".$this->second.", ".$this->third."}";
+		$code = $startsWith.$this->first.$delimiter.$this->second.$delimiter.$this->third.$endsWith;
 		return $code;
 	}
 }

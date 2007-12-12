@@ -2,21 +2,23 @@
 /**
  *	Set Implementation.
  *	@package		adt.set
+ *	@implements		Countable
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.5
  */
 /**
  *	Set Implementation.
  *	@package		adt.set
+ *	@implements		Countable
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.5
  */
-class Set
+class Set implements Countable
 {
 	/**	@var		array		$list		Array of Set Elements */
-	var $list 		= array();
+	protected $list 		= array();
 	/**	@var		int			$pointer	Current position to read */
-	var $pointer	= -1;
+	protected $pointer	= -1;
 
 	/**
 	 *	Constructor.
@@ -68,6 +70,16 @@ class Set
 			$this->list = array();
 			$this->rewind();
 		}
+	}
+
+	/**
+	 *	Returns amount of Elements in Set.
+	 *	@access		public
+	 *	@return		int
+	 */
+	public function count()
+	{
+		return sizeof( $this->list );
 	}
 
 	/**

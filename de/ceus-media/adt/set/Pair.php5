@@ -67,9 +67,9 @@ class Pair
 	 *	@access		public
 	 *	@return		string
 	 */
-	public function __toString ()
+	public function toString( $startsWith = "(", $endsWith = ")", $delimiter = ", " )
 	{
-		$string = "(".$this->key.", ".$this->value.")";
+		$string = $startsWith.$this->key.$delimiter.$this->value.$endsWith;
 		return $string;
 	}
 }

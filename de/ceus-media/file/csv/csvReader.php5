@@ -88,7 +88,7 @@ class csvReader extends File
 		$lines	= $this->readArray();
 		foreach( $lines as $line )
 		{
-			$values	= explode( $this->_separator, trrim( $line ) );
+			$values	= explode( $this->_separator, trim( $line ) );
 			$data[]	= $values;
 		}
 		return $data;

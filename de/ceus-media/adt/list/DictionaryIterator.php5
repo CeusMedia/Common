@@ -2,6 +2,10 @@
 /**
  *	Dictionary is a simple Pair Structure similar to an associative Array but implementing some Interfaces.
  *	@package		adt.list
+ *	@implements		ArrayAccess
+ *	@implements		Countable
+ *	@implements		Iterator
+ *	@implements		IteratorAggregate
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			27.03.2006
  *	@version		0.2
@@ -9,6 +13,10 @@
 /**
  *	Dictionary is a simple Pair Structure similar to an associative Array but implementing some Interfaces.
  *	@package		adt.list
+ *	@implements		ArrayAccess
+ *	@implements		Countable
+ *	@implements		Iterator
+ *	@implements		IteratorAggregate
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			27.03.2006
  *	@version		0.2
@@ -33,7 +41,7 @@ class Dictionary implements	IteratorAggregate, ArrayAccess, Countable, Iterator
 		settype( $value, $type );
 		return $value;
 	}
-	
+
 	/**
 	 *	Returns Size of Dictionary.
 	 *	@access		public
@@ -43,7 +51,7 @@ class Dictionary implements	IteratorAggregate, ArrayAccess, Countable, Iterator
 	{
 		return count( $this->pairs );
 	}
-	
+
 	/**
 	 *	Returns current Value.
 	 *	@access		public
@@ -53,7 +61,7 @@ class Dictionary implements	IteratorAggregate, ArrayAccess, Countable, Iterator
 	{
 		return $this->pairs[$this->key()];		
 	}
-	
+
 	/**
 	 *	Return a Value of Dictionary by its Key.
 	 *	@access		public
@@ -66,7 +74,7 @@ class Dictionary implements	IteratorAggregate, ArrayAccess, Countable, Iterator
 			return $this->pairs[$key];
 		return NULL;
 	}
-	
+
 	/**
 	 *	Returns all Pairs of Dictionary as an Array.
 	 *	@access		public
@@ -76,7 +84,7 @@ class Dictionary implements	IteratorAggregate, ArrayAccess, Countable, Iterator
 	{
 		return $this->pairs;
 	}
-	
+
 	/**
 	 *	Returns Array Iterator.
 	 *	@access		public
@@ -86,7 +94,7 @@ class Dictionary implements	IteratorAggregate, ArrayAccess, Countable, Iterator
 	{
 		return new ArrayIterator( $this->pairs );
 	}
-	
+
 	/**
 	 *	Returns corresponding Key of a Value if Value is in Dictionary, otherwise NULL.
 	 *	@access		public
@@ -110,7 +118,7 @@ class Dictionary implements	IteratorAggregate, ArrayAccess, Countable, Iterator
 	{
 		return isset( $this->pairs[$key] );
 	}
-	
+
 	/**
 	 *	Returns current Key.
 	 *	@access		public
@@ -121,7 +129,7 @@ class Dictionary implements	IteratorAggregate, ArrayAccess, Countable, Iterator
 		$keys	= array_keys( $this->pairs	);
 		return $keys[$this->position];
 	}
-	
+
 	/**
 	 *	Selects next Pair.
 	 *	@access		public
@@ -131,7 +139,7 @@ class Dictionary implements	IteratorAggregate, ArrayAccess, Countable, Iterator
 	{
 		$this->position++;
 	}
-	
+
 	/**
 	 *	Indicates whether a Key is existing.
 	 *	@access		public
@@ -142,7 +150,7 @@ class Dictionary implements	IteratorAggregate, ArrayAccess, Countable, Iterator
 	{
 		return $this->has( $key );
 	}
-	
+
 	/**
 	 *	Return a Value of Dictionary by its Key.
 	 *	@access		public
@@ -153,7 +161,7 @@ class Dictionary implements	IteratorAggregate, ArrayAccess, Countable, Iterator
 	{
 		return $this->get( $key );
 	}
-	
+
 	/**
 	 *	Sets Value of Key in Dictionary.
 	 *	@access		public
@@ -165,7 +173,7 @@ class Dictionary implements	IteratorAggregate, ArrayAccess, Countable, Iterator
 	{
 		return $this->set( $key, $value );
 	}
-	
+
 	/**
 	 *	Removes a Value from Dictionary by its Key.
 	 *	@access		public
@@ -176,7 +184,7 @@ class Dictionary implements	IteratorAggregate, ArrayAccess, Countable, Iterator
 	{
 		return $this->remove( $key );
 	}
-	
+
 	/**
 	 *	Removes a Value from Dictionary by its Key.
 	 *	@access		public
@@ -188,7 +196,7 @@ class Dictionary implements	IteratorAggregate, ArrayAccess, Countable, Iterator
 		if( isset( $this->pairs[$key] ) )
 			unset( $this->pairs[$key] );
 	}
-	
+
 	/**
 	 *	Resets Pair Pointer.
 	 *	@access		public
@@ -198,7 +206,7 @@ class Dictionary implements	IteratorAggregate, ArrayAccess, Countable, Iterator
 	{
 		$this->position	= 0;
 	}
-	
+
 	/**
 	 *	Sets Value of Key in Dictionary.
 	 *	@access		public
@@ -210,7 +218,7 @@ class Dictionary implements	IteratorAggregate, ArrayAccess, Countable, Iterator
 	{
 		$this->pairs[$key]		= $value;
 	}
-	
+
 	/**
 	 *	Indicates whether Pair Pointer is valid.
 	 *	@access		public
@@ -220,7 +228,7 @@ class Dictionary implements	IteratorAggregate, ArrayAccess, Countable, Iterator
 	{
 		return $this->position < $this->count();
 	}
-	
+
 	public function __toString()
 	{
 		$list	= array();

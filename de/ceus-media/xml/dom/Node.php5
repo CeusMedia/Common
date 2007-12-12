@@ -1,5 +1,4 @@
 <?php
-import ("de.ceus-media.xml.dom.Leaf");
 /**
  *	XML Node DOM Implementation.
  *	@package		xml.dom
@@ -12,10 +11,31 @@ import ("de.ceus-media.xml.dom.Leaf");
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.5
  */
-class XML_DOM_Node extends XML_DOM_Leaf
+class XML_DOM_Node
 {
+	/**	@var	string	$nodeName		Name of XML Leaf Node */
+	protected $nodeName;
+	/**	@var	array	$attributes		Map of XML Leaf Node attributes */
+	protected $attributes		= array ();
 	/**	@var	array	$children		List of Child Nodes  */
 	protected $children	= array();
+	
+	/**	@var	string	$content		Content of XML Leaf Node */
+	protected $content;
+
+	/**
+	 *	Constructor.
+	 *	@access		public
+	 *	@param		string		nodeName	Name of XML Leaf Node
+	 *	@param		string		content		Content of XML Leaf Node
+	 *	@return		void
+	 */
+	public function __construct( $nodeName, $content = NULL )
+	{
+		$this->setNodeName( $nodeName );
+		if( $content !== NULL )
+			$this->setContent( $content );
+	}
 	
 	/**
 	 *	Adds a Child Node, returns the Node just added.
@@ -30,6 +50,44 @@ class XML_DOM_Node extends XML_DOM_Leaf
 	}
 
 	/**
+	 *	Returns an attribute if it is set.
+	 *	@access		public
+	 *	@param		string		$key			Key of attribute
+	 *	@return		string
+	 */
+	public function getAttribute( $key )
+	{
+		if( $this->hasAttribute( $key ) )
+			return $this->attributes[$key];
+		return NULL;
+	}
+
+	/**
+	 *	Returns all attributes as associative array.
+	 *	@access		public
+	 *	@param		string		$key			Key of attribute
+	 *	@return		string
+	 */
+	public function getAttributes()
+	{
+		return $this->attributes;
+	}
+	
+	/**
+	 *	Returns a Child Nodes by its name.
+	 *	@access		public
+	 *	@param		string		$nodeName		Name of Child Node
+	 *	@return		XML_DOM_Node
+	 */
+	public function getChild( $nodeName )
+	{
+		for( $i=0; $i<count( $this->children ); $i++ )
+			if( $this->children[$i]->getNodeName() == $nodeName )
+				return $this->children[$i];
+		return NULL;
+	}
+	
+	/**
 	 *	Returns all Child Nodes.
 	 *	@access		public
 	 *	@return		array
@@ -40,18 +98,46 @@ class XML_DOM_Node extends XML_DOM_Leaf
 	}
 	
 	/**
-	 *	Returns a Child Nodes by its name.
+	 *	Returns Content if it is set.
 	 *	@access		public
-	 *	@param		string		$name		Name of Child Node
-	 *	@return		XML_DOM_Node
+	 *	@return		string
 	 */
-	public function getChild( $name )
+	public function getContent()
 	{
-		for( $i=0; $i<count( $this->children ); $i++ )
-			if( $this->children[$i]->getNodeName() == $name )
-				return $this->children[$i];
+		return $this->content;
+	}
+
+	/**
+	 *	Returns nodeName.
+	 *	@access		public
+	 *	@return		string
+	 */
+	public function getNodeName()
+	{
+		return $this->nodeName;
 	}
 	
+	/**
+	 *	Indicates whether XML Node has attributes.
+	 *	@access		public
+	 *	@return		bool
+	 */
+	public function hasAttributes()
+	{
+		return (bool) count( $this->attributes );
+	}
+	
+	/**
+	 *	Indicates whether XML Node has an attributes by its name.
+	 *	@access		public
+	 *	@param		string		$key			Name of attribute to check
+	 *	@return		bool
+	 */
+	public function hasAttribute( $key )
+	{
+		return array_key_exists( $key, $this->attributes );
+	}
+
 	/**
 	 *	Indicates whether XML Node has an attributes by its name.
 	 *	@access		public
@@ -59,21 +145,122 @@ class XML_DOM_Node extends XML_DOM_Leaf
 	 */
 	public function hasChildren()
 	{
-		return (bool) count( $this->children ) > 0;
+		return (bool) count( $this->children );
+	}
+
+	/**
+	 *	Indicated whether XML Node has content.
+	 *	@access		public
+	 *	@return		bool
+	 */
+	public function hasContent()
+	{
+		return (bool) strlen( trim( $this->content ) );
+	}
+
+	/**
+	 *	Removes an attribute by its name.
+	 *	@access		public
+	 *	@param		string		$key			Key of attribute to be removed
+	 *	@return		bool
+	 */
+	public function removeAttribute( $key )
+	{
+		if( $this->hasAttribute( $key ) )
+		{
+			unset( $this->attributes[$key] );
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 *	Remove first found  Child Nodes with given name.
+	 *	@access		public
+	 *	@param		string		$nodeName		Name of Child Node to be removed
+	 *	@return		bool
+	 */
+	public function removeChild( $nodeName )
+	{
+		$found		= false;
+		$children	= array();
+		foreach( $this->children as $child )
+		{
+			if( !$found && $child->getNodeName() == $nodeName )
+			{
+				$found	= true;
+				continue;
+			}
+			$children[] = $child;
+		}
+		if( $children == $this->children )
+			return 0;
+		$this->children = $children;
+		return true;		
+	}
+
+	/**
+	 *	Removes content of XML Node.
+	 *	@access		public
+	 *	@return		bool
+	 */
+	public function removeContent()
+	{
+		if( $this->hasContent() )
+		{
+			$this->setContent( "" );
+			return true;
+		}
+		return false;
 	}
 	
 	/**
-	 *	Removes all Child Nodes with given name.
+	 *	Sets an attribute.
 	 *	@access		public
-	 *	@param		string		$name		Name of Child Node to be removed
-	 *	@return		void
+	 *	@param		string		$key			Key of attribute
+	 *	@param		string		$value			Value of attribute
+	 *	@return		bool
 	 */
-	public function removeChild( $name )
+	public function setAttribute( $key, $value )
 	{
-		foreach( $this->children as $child )
-			if( $child->getNodeName() != $nodeName )
-				$children[] = $child;
-		$this->children = $children;
+		if( $this->getAttribute( $key ) !== $value )
+		{
+			$this->attributes[$key] = $value;
+			return true;
+		}
+		return false;
+	}
+	
+	/**
+	 *	Sets content of XML Node.
+	 *	@access		public
+	 *	@param		string		$content		Content of XML Node
+	 *	@return		bool
+	 */
+	public function setContent( $content )
+	{
+		if( $this->content != $content )
+		{
+			$this->content = $content;
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 *	Sets Name of XML Leaf Node.
+	 *	@access		public
+	 *	@param		string		$name			Name of XML Node
+	 *	@return		bool
+	 */
+	public function setNodeName( $name )
+	{
+		if( $this->nodeName != $name )
+		{
+			$this->nodeName = $name;
+			return true;
+		}
+		return false;
 	}
 }
 ?>
