@@ -22,7 +22,7 @@ class Net_HTTP_PageRank
 	 *	@param		string		$url		URL to check (e.G. www.domain.com)
 	 *	@return		string
 	 */
-	publuc function getPR( $url )
+	public function getPR( $url )
 	{
 		$ch = "6".$this->GoogleCH( $this->strord( "info:" . $url ) );
 		$fp = fsockopen( "toolbarqueries.google.com", 80, $errno, $errstr, 30 );

@@ -16,7 +16,7 @@ import( 'de.ceus-media.adt.OptionObject' );
  *	@since		31.07.2005
  *	@version		0.1
  */
-class ErrorHandler extends OptionObject
+class ErrorHandler extends ADT_OptionObject
 {
 	/**	@var	array		$_templates		Message Templates for different Channels */
 	var $_templates = array(

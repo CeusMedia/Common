@@ -1,5 +1,5 @@
 <?php
-import( 'net.sourceforge.snoopy.Snoopy' );
+import( 'de.ceus-media.net.cURL' );
 /**
  *	Alexa Rank Request.
  *	@package		protocol
@@ -28,31 +28,31 @@ class Net_HTTP_AlexaRank
 	 *	@param		int			$cache_time		Duration of Cache File in seconds (0 - Cache disabled)
 	 *	@return		string
 	 */
-	function getRank( $host, $cache_time = 86400 )
+	function getRank( $host, $cacheTime = 86400 )
 	{
-		$cachefile = "cache_".$host.".html";
-		if( $cache_time && file_exists( $cachefile ) && filemtime( $cachefile ) >= time() - $cache_time )
+		$cacheFile = "cache_".$host.".html";
+		if( $cacheTime && file_exists( $cacheFile ) && filemtime( $cacheFile ) >= time() - $cacheTime )
 		{
-			$content = file_get_contents( $cachefile );
+			$result = file_get_contents( $cacheFile );
 		}
 		else
 		{
-			$s	= new Snoopy;
-			$s->fetch( "http://alexa.com/search?q=".$host );
-			if( $s->status == 200 )
+			$curl	= new Net_cURL( "http://alexa.com/search?q=".$host );
+			$result	= $curl->exec();
+			$status	= $curl->getStatus();
+			if( $status['http_code'] == 200 )
 			{
-				if( $cache_time )
+				if( $cacheTime )
 				{
-					$cache	= fopen( $cachefile, "w" );
-					fputs( $cache, $s->results );
+					$cache	= fopen( $cacheFile, "w" );
+					fputs( $cache, $result );
 					fclose( $cache );
 				}
-				$content	= $s->results;
 			}
 			else
 				return -1;
 		}
-		return $this->decodeRank( $content );
+		return $this->decodeRank( $result );
 	}
 	
 	/**
@@ -63,14 +63,16 @@ class Net_HTTP_AlexaRank
 	 */
 	protected function decodeRank( $html )
 	{
-		$html	= substr( $html, strpos( $html, "<div class=\"site_stats\">" )+24 );
+		$html	= substr( $html, strpos( $html, 'Rank:' )+6 );
 		$html	= substr( $html, 0, strpos( $html, "</div>" ) );
 		$html	= substr( $html, strpos( $html, ">" )+1 );
 		$html	= substr( $html, 0, strpos( $html, "</a>" ) );
 		$html	= preg_replace( "@(<!--.*-->)@u", "", $html );
-		$html	= preg_replace( "@Rank:@", "", $html );
 		$html	= trim( $html );
+		xmp( $html );
 		$rank	= trim( preg_replace( "@<[^>]+>@", "", $html ) );
+		remark( $rank );
+		die;
 		return $rank;
 	}
 }

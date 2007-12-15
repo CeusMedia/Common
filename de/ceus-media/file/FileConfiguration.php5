@@ -3,8 +3,8 @@ import( 'de.ceus-media.adt.OptionObject' );
 import( 'de.ceus-media.file.folder.IndexFolder' );
 import( 'de.ceus-media.file.PhpConfiguration' );
 import( 'de.ceus-media.file.ini.IniConfiguration' );
-import( 'de.ceus-media.xml.dom.XML_Configuration' );
-import( 'de.ceus-media.xml.wddx.WDDX_Configuration' );
+import( 'de.ceus-media.xml.dom.Configuration' );
+import( 'de.ceus-media.xml.wddx.Configuration' );
 /**
  *	Configuration Reader for several formats (xml, wddx, ini, php).
  *	@package		file
@@ -12,8 +12,8 @@ import( 'de.ceus-media.xml.wddx.WDDX_Configuration' );
  *	@uses			IndexFolder
  *	@uses			PhpConfiguration
  *	@uses			IniConfiguration
- *	@uses			XML_Configuration
- *	@uses			WDDX_Configuration
+ *	@uses			XML_DOM_Configuration
+ *	@uses			XML_WDDX_Configuration
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			18.07.02005
  *	@version		0.4
@@ -37,9 +37,9 @@ class FileConfiguration extends ADT_OptionObject
 	var $_data	= array();
 	/**	@var	array	_readers		Readers for serveral formats */	
 	var $_readers	= array(
-		"xml"	=> "XML_Configuration",
-		"wddx"	=> "WDDX_Configuration",
-		"ini"		=> "IniConfiguration",
+		"xml"	=> "XML_DOM_Configuration",
+		"wddx"	=> "XML_WDDX_Configuration",
+		"ini"	=> "IniConfiguration",
 		"php"	=> "PhpConfiguration",
 	);
 
