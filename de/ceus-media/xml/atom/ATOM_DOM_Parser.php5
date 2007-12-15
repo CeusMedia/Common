@@ -1,27 +1,27 @@
 <?php
 import( 'de.ceus-media.adt.OptionObject' );
-import( 'de.ceus-media.xml.dom.XML_DOM_Parser' );
+import( 'de.ceus-media.xml.dom.Parser' );
 /**
  *	Reader for ATOM Feeds.
- *	@package	xml
- *	@subpackage	atom
- *	@extends	OptionObject
- *	@uses		XML_DOM_Parser
- *	@author		Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@since		24.01.2006
+ *	@package		xml
+ *	@subpackage		atom
+ *	@extends		ADT_OptionObject
+ *	@uses			XML_DOM_Parser
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@since			24.01.2006
  *	@version		0.1
  */
 /**
  *	Reader for ATOM Feeds.
- *	@package	xml
- *	@subpackage	atom
- *	@extends	OptionObject
- *	@uses		XML_DOM_Parser
- *	@author		Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@since		24.01.2006
+ *	@package		xml
+ *	@subpackage		atom
+ *	@extends		ADT_OptionObject
+ *	@uses			XML_DOM_Parser
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@since			24.01.2006
  *	@version		0.1
  */
-class ATOM_DOM_Parser extends OptionObject
+class ATOM_DOM_Parser extends ADT_OptionObject
 {
 	/**	@var	array			_entries		ATOM Feed entries */
 	var $_entries = array();

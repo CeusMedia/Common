@@ -1,7 +1,7 @@
 <?php
 import( 'de.ceus-media.framework.krypton.core.Registry' );
 import( 'de.ceus-media.file.ini.IniReader' );
-import( 'de.ceus-media.protocol.http.HTTP_LanguageSniffer' );
+import( 'de.ceus-media.net.http.LanguageSniffer' );
 import( 'de.ceus-media.validation.LanguageValidator' );
 import( 'de.ceus-media.file.block.BlockFileReader' );
 /**
@@ -10,7 +10,7 @@ import( 'de.ceus-media.file.block.BlockFileReader' );
  *	@package		mv2.core
  *	@uses			Framework_Krypton_Core_Registry
  *	@uses			IniReader
- *	@uses			HTTP_LanguageSniffer
+ *	@uses			Net_HTTP_LanguageSniffer
  *	@uses			LanguageValidator
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			05.12.2006
@@ -22,7 +22,7 @@ import( 'de.ceus-media.file.block.BlockFileReader' );
  *	@package		mv2.core
  *	@uses			Framework_Krypton_Core_Registry
  *	@uses			IniReader
- *	@uses			HTTP_LanguageSniffer
+ *	@uses			Net_HTTP_LanguageSniffer
  *	@uses			LanguageValidator
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			05.12.2006
@@ -147,7 +147,7 @@ class Framework_Krypton_Core_Language
 		//  --  LANGUAGE SNIFF  --  //
 		if( !( $language = $session->get( 'language' ) ) )
 		{
-			$sniffer	= new HTTP_LanguageSniffer;
+			$sniffer	= new Net_HTTP_LanguageSniffer;
 			$language	= $sniffer->getLanguage( $this->allowed, $this->default );
 		}
 		$this->setLanguage( $language );

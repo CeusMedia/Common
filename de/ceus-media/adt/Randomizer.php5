@@ -3,7 +3,7 @@ import( 'de.ceus-media.adt.OptionObject' );
 /**
  *	Randomizer supporting different sign types.
  *	@package		math
- *	@extends		OptionObject
+ *	@extends		ADT_OptionObject
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			18.01.2006
  *	@version		0.1
@@ -11,12 +11,12 @@ import( 'de.ceus-media.adt.OptionObject' );
 /**
  *	Randomizer supporting different sign types.
  *	@package		math
- *	@extends		OptionObject
+ *	@extends		ADT_OptionObject
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			18.01.2006
  *	@version		0.1
  */
-class Randomizer extends OptionObject
+class Randomizer extends ADT_OptionObject
 {
 	/**
 	 *	Constructor.

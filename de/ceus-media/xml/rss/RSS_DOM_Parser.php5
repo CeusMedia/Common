@@ -1,27 +1,27 @@
 <?php
 import( 'de.ceus-media.adt.OptionObject' );
-import( 'de.ceus-media.xml.dom.XML_DOM_Parser' );
+import( 'de.ceus-media.xml.dom.Parser' );
 /**
  *	Reader for RSS Feeds. RSS versions 0.91, 0.92, 1.0 and 2.0 are supported.
- *	@package	xml
- *	@subpackage	rss
- *	@extends	OptionObject
- *	@uses		XML_DOM_Parser
- *	@author		Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@since		19.07.2005
+ *	@package		xml
+ *	@subpackage		rss
+ *	@extends		ADT_OptionObject
+ *	@uses			XML_DOM_Parser
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@since			19.07.2005
  *	@version		0.4
  */
 /**
  *	Reader for RSS Feeds. RSS versions 0.91, 0.92, 1.0 and 2.0 are supported.
- *	@package	xml
- *	@subpackage	rss
- *	@extends	OptionObject
- *	@uses		XML_DOM_Parser
- *	@author		Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@since		19.07.2005
+ *	@package		xml
+ *	@subpackage		rss
+ *	@extends		ADT_OptionObject
+ *	@uses			XML_DOM_Parser
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@since			19.07.2005
  *	@version		0.4
  */
-class RSS_DOM_Parser extends OptionObject
+class RSS_DOM_Parser extends ADT_OptionObject
 {
 	/**	@var	array			_items		RSS Feed items */
 	var $_items = array();

@@ -1,7 +1,7 @@
 <?php
 import( 'de.ceus-media.Reference' );
 import( 'de.ceus-media.StopWatch' );
-import( 'de.ceus-media.protocol.http.HTTP_RequestReceiver' );
+import( 'de.ceus-media.net.http.request.Receiver' );
 import( 'de.ceus-media.framework.helium.Messenger' );
 /**
  *	Main Class of Framework.
@@ -9,7 +9,7 @@ import( 'de.ceus-media.framework.helium.Messenger' );
  *	@subpackage		helium
  *	@uses			Reference
  *	@uses			StopWatch
- *	@uses			HTTP_RequestReceiver
+ *	@uses			Net_HTTP_Request_Receiver
  *	@uses			Messenger
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			01.12.2005
@@ -21,7 +21,7 @@ import( 'de.ceus-media.framework.helium.Messenger' );
  *	@subpackage		helium
  *	@uses			Reference
  *	@uses			StopWatch
- *	@uses			HTTP_RequestReceiver
+ *	@uses			Net_HTTP_Request_Receiver
  *	@uses			Messenger
  *	@uses			InterfaceViews
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
@@ -43,7 +43,7 @@ class Framework
 		$this->ref	= new Reference;
 		$this->ref->add( "stopwatch",	new StopWatch );		
 		$this->ref->add( "messenger",	new Messenger );
-		$this->ref->add( "request",		new HTTP_RequestReceiver );
+		$this->ref->add( "request",		new Net_HTTP_Request_Receiver );
 		$this->init();
 	}
 	

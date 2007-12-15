@@ -1,12 +1,12 @@
 <?php
 import( 'de.ceus-media.adt.OptionObject' );
-import( 'de.ceus-media.xml.dom.XML_DOM_Node' );
-import( 'de.ceus-media.xml.dom.XML_DOM_Builder' );
+import( 'de.ceus-media.xml.dom.Node' );
+import( 'de.ceus-media.xml.dom.Builder' );
 /**
  *	Builder for RSS Feeds.
  *	@package		xml
  *	@subpackage		rss
- *	@extends		OptionObject
+ *	@extends		ADT_OptionObject
  *	@uses			XML_DOM_Node
  *	@uses			XML_DOM_Builder
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
@@ -17,14 +17,14 @@ import( 'de.ceus-media.xml.dom.XML_DOM_Builder' );
  *	Builder for RSS Feeds.
  *	@package		xml
  *	@subpackage		rss
- *	@extends		OptionObject
+ *	@extends		ADT_OptionObject
  *	@uses			XML_DOM_Node
  *	@uses			XML_DOM_Builder
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			18.07.02005
  *	@version		0.4
  */
-class RSS_DOM_Builder extends OptionObject
+class RSS_DOM_Builder extends ADT_OptionObject
 {
 	/**	@var	XML_DOM_Builder	_builder			Instance of XML_DOM_Builder */
 	var $_builder;

@@ -1,12 +1,12 @@
 <?php
 import( 'de.ceus-media.adt.OptionObject' );
-import( 'de.ceus-media.xml.dom.XML_DOM_XPathQuery' );
+import( 'de.ceus-media.xml.dom.XPathQuery' );
 /**
  *	Parser for ATOM XML Files.
  *	@see			http://blogs.law.harvard.edu/tech/rss
  *	@package		xml
  *	@subpackage		rss
- *	@extends		OptionObject
+ *	@extends		ADT_OptionObject
  *	@uses			XML_DOM_XPathQuery
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			30.01.2006
@@ -17,14 +17,14 @@ import( 'de.ceus-media.xml.dom.XML_DOM_XPathQuery' );
  *	@see			http://blogs.law.harvard.edu/tech/rss
  *	@package		xml
  *	@subpackage		rss
- *	@extends		OptionObject
+ *	@extends		ADT_OptionObject
  *	@uses			XML_DOM_XPathQuery
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			30.01.2006
  *	@version			0.1
  *	@todo			Code Documentation
  */
-class ATOM_Parser extends OptionObject
+class ATOM_Parser extends ADT_OptionObject
 {
 	var $_channel_keys	= array(
 		"id/text()"					=> "content",

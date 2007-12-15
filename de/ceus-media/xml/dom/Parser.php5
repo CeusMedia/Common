@@ -6,7 +6,7 @@ import( 'de.ceus-media.ui.DevOutput' );
 /**
  *	Parses a XML Document to a Tree of XML_DOM_Nodes.
  *	@package		xml.dom
- *	@extends		OptionObject
+ *	@extends		ADT_OptionObject
  *	@uses			XML_DOM_Node
  *	@uses			XML_DOM_SyntaxValidator
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
@@ -15,18 +15,18 @@ import( 'de.ceus-media.ui.DevOutput' );
 /**
  *	Parses a XML Document to a Tree of XML_DOM_Nodes.
  *	@package		xml.dom
- *	@extends		OptionObject
+ *	@extends		ADT_OptionObject
  *	@uses			XML_DOM_Node
  *	@uses			XML_DOM_SyntaxValidator
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.6
  */
-class XML_DOM_Parser extends OptionObject
+class XML_DOM_Parser extends ADT_OptionObject
 {
 	/**	@var	DOMDocument		$document		DOM Document */
-	var $document;
+	protected $document			= NULL;
 	/**	@var	array			$attributes		List of DOM Document Options */
-	var $attributes	= array(
+	protected $attributes	= array(
 			"version",
 			"encoding",
 			"standalone",
@@ -34,6 +34,15 @@ class XML_DOM_Parser extends OptionObject
 			"compression",
 			"charset"
 			);
+	/**
+	 *	Returns DOM Document.
+	 *	@access		public
+	 *	@return		DOMDocument
+	 */
+	public function getDocument()
+	{
+		return $this->document;
+	}
 
 	/**
 	 *	Loads XML String into DOM Document Object before parsing.
@@ -63,6 +72,9 @@ class XML_DOM_Parser extends OptionObject
 	{
 		$this->loadXml( $xml );
 		$root	= $this->document->firstChild;
+		while( $root->nodeType == XML_COMMENT_NODE )
+			$root	= $root->nextSibling;
+		
 		$tree	=& new XML_DOM_Node( $root->nodeName );
 		if( $root->hasAttributes())
 		{
@@ -70,7 +82,7 @@ class XML_DOM_Parser extends OptionObject
 			foreach( $Array as $DomAttribute )
 				$tree->setAttribute( $DomAttribute->nodeName, $DomAttribute->nodeValue );
 		}
-		$this->parseRecursive( $root, $tree, $oid, $debug );
+		$this->parseRecursive( $root, $tree );
 		return $tree;
 	}	
 

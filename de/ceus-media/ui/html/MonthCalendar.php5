@@ -5,23 +5,23 @@ import( 'de.ceus-media.ui.html.Elements' );
  *	Calendar with Month View.
  *	@package		ui
  *	@subpackage		html
- *	@extends		OptionObject
+ *	@extends		ADT_OptionObject
  *	@uses			Elements
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			14.03.2006
- *	@version			0.1
+ *	@version		0.1
  */
 /**
  *	Calendar with Month View.
  *	@package		ui
  *	@subpackage		html
- *	@extends		OptionObject
+ *	@extends		ADT_OptionObject
  *	@uses			Elements
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			14.03.2006
- *	@version			0.1
+ *	@version		0.1
  */
-class MonthCalendar extends OptionObject
+class MonthCalendar extends ADT_OptionObject
 {
 	/**	@var	array	months		Array of Month Names */
 	protected $months	= array(

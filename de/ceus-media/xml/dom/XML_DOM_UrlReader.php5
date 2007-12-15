@@ -1,5 +1,5 @@
 <?php
-import ("de.ceus-media.xml.dom.XML_DOM_Parser");
+import ("de.ceus-media.xml.dom.Parser");
 /**
  *	Reads a XML String from a URL.
  *	@package	xml

@@ -1,6 +1,6 @@
 <?php
 import( 'de.ceus-media.xml.rss.RSS_DOM_Parser' );
-import( 'de.ceus-media.xml.dom.XML_DOM_UrlReader' );
+import( 'de.ceus-media.xml.dom.UrlReader' );
 /**
  *	Reader for RSS Feeds. RSS versions 0.91, 0.92, 1.0 and 2.0 are supported.
  *	@package	xml

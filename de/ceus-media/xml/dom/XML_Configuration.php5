@@ -1,13 +1,13 @@
 <?php
 import( 'de.ceus-media.adt.OptionObject' );
 import( 'de.ceus-media.file.File' );
-import( 'de.ceus-media.xml.dom.XML_DOM_FileReader' );
-import( 'de.ceus-media.xml.dom.XML_DOM_FileWriter' );
+import( 'de.ceus-media.xml.dom.FileReader' );
+import( 'de.ceus-media.xml.dom.FileWriter' );
 /**
  *	Reads and writes Configurations via XML.
  *	@package		xml
  *	@subpackage		dom
- *	@extends		Object
+ *	@extends		ADT_OptionObject
  *	@uses			File
  *	@uses			XML_DOM_Reader
  *	@uses			XML_DOM_Writer
@@ -19,7 +19,7 @@ import( 'de.ceus-media.xml.dom.XML_DOM_FileWriter' );
  *	Reads and writes Configurations via XML.
  *	@package		xml
  *	@subpackage		dom
- *	@extends		Object
+ *	@extends		ADT_OptionObject
  *	@uses			File
  *	@uses			XML_DOM_Reader
  *	@uses			XML_DOM_Writer
@@ -27,7 +27,7 @@ import( 'de.ceus-media.xml.dom.XML_DOM_FileWriter' );
  *	@since			18.07.2005
  *	@version		0.4
  */
-class XML_Configuration extends OptionObject
+class XML_Configuration extends ADT_OptionObject
 {
 	/**	@var	array		_config		Array of configurations */
 	var $_config	= array();

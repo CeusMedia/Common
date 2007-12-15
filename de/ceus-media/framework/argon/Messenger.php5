@@ -6,7 +6,7 @@ import( 'de.ceus-media.adt.TimeConverter' );
  *	Message Output Handler within a Session.
  *	@package		framework
  *	@subpackage		helium
- *	@extends		OptionObject
+ *	@extends		ADT_OptionObject
  *	@uses			Reference
  *	@uses			TimeConverter
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
@@ -17,14 +17,14 @@ import( 'de.ceus-media.adt.TimeConverter' );
  *	Message Output Handler within a Session.
  *	@package		framework
  *	@subpackage		helium
- *	@extends		OptionObject
+ *	@extends		ADT_OptionObject
  *	@uses			Reference
  *	@uses			TimeConverter
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			01.12.2005
  *	@version		0.2
  */
-class Messenger extends OptionObject
+class Messenger extends ADT_OptionObject
 {
 	/**	@var	Reference	$ref				Reference */
 	var $ref;

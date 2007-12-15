@@ -3,23 +3,23 @@ import( 'de.ceus-media.adt.OptionObject' );
 import( 'de.ceus-media.ui.html.Elements' );
 /**
  *	Paging System for Lists.
- *	@package	ui
- *	@extends	OptionObject
- *	@uses		Elements
- *	@author		Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@since		01.12.2005
+ *	@package		ui
+ *	@extends		ADT_OptionObject
+ *	@uses			Elements
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@since			01.12.2005
  *	@version		0.1
  */
 /**
  *	Paging System for Lists.
- *	@package	ui
- *	@extends	OptionObject
- *	@uses		Elements
- *	@author		Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@since		01.12.2005
+ *	@package		ui
+ *	@extends		ADT_OptionObject
+ *	@uses			Elements
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@since			01.12.2005
  *	@version		0.1
  */
-class Paging extends OptionObject
+class Paging extends ADT_OptionObject
 {
 	/**	@var		Elements		$html		Instance of HTML Elements Class */
 	var $html;

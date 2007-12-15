@@ -4,8 +4,8 @@ import( 'de.ceus-media.adt.OptionObject' );
  *	The DokuWiki parser.
  *	@package		ui
  *	@subpackage		html
- *	@extends		OptionObject
- *	@license			GPL 2 (http://www.gnu.org/licenses/gpl.html)
+ *	@extends		ADT_OptionObject
+ *	@license		GPL 2 (http://www.gnu.org/licenses/gpl.html)
  *	@author			Andreas Gohr <andi@splitbrain.org>
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			20.03.2006
@@ -15,14 +15,14 @@ import( 'de.ceus-media.adt.OptionObject' );
  *	The DokuWiki parser.
  *	@package		ui
  *	@subpackage		html
- *	@extends		OptionObject
- *	@license			GPL 2 (http://www.gnu.org/licenses/gpl.html)
+ *	@extends		ADT_OptionObject
+ *	@license		GPL 2 (http://www.gnu.org/licenses/gpl.html)
  *	@author			Andreas Gohr <andi@splitbrain.org>
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			20.03.2006
  *	@version		0.1
  */
-class WikiParser extends OptionObject
+class WikiParser extends ADT_OptionObject
 {
 	/**	@var	array		$_text_formats	Array of regular Expressions and Replacements for Text Formats */
 	private	$_text_formats	= array(

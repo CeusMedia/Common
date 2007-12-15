@@ -85,16 +85,13 @@ class File_Writer
 	 */
 	public function writeString( $string )
 	{
-		if( function_exists( 'file_put_contents' ) )
-			return (bool) file_put_contents( $this->fileName, $string );
-		$fp = fopen( $this->fileName, "w" );
-		if ($fp)
-		{
-			@fwrite( $fp, $string );
-			@fclose( $fp );
-			return true;
-		}
-		return false;
+		if( !file_exists( $this->fileName ) )
+			if( !$this->create() )
+				throw new Exception( "File '".$this->fileName."' could not be created." );
+		if( !$this->isWritable( $this->fileName ) )			
+			throw new Exception( "File '".$this->fileName."' is not writable." );
+		$count	= file_put_contents( $this->fileName, $string );
+		return $count !== FALSE;
 	}
 
 	/**
@@ -106,20 +103,8 @@ class File_Writer
 	 */
 	public function writeArray( $array, $break = "\n" )
 	{
-		if( !$this->exists( $this->fileName ) )
-			if( !$this->create() )
-				throw new Exception( "File '".$this->fileName."' could not be created." );
-		if( !$this->isWritable( $this->fileName ) )			
-			throw new Exception( "File '".$this->fileName."' is not writable." );
-		$fp = @fopen( $this->fileName, "w");
-		if( $fp )
-		{
-			foreach( $array as $string )
-				@fwrite( $fp, rtrim( $string ).$break );
-			@fclose( $fp );
-			return true;
-		}
-		return false;
+		$string	= implode( $break, $array );
+		return $this->writeString( $string );
 	}
 }
 ?>

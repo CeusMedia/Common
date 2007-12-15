@@ -5,7 +5,7 @@ import( 'de.ceus-media.xml.dom.Builder' );
 /**
  *	Builder for RSS Feeds.
  *	@package		xml.rss
- *	@extends		OptionObject
+ *	@extends		ADT_OptionObject
  *	@uses			XML_DOM_Node
  *	@uses			XML_DOM_Builder
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
@@ -15,14 +15,14 @@ import( 'de.ceus-media.xml.dom.Builder' );
 /**
  *	Builder for RSS Feeds.
  *	@package		xml.rss
- *	@extends		OptionObject
+ *	@extends		ADT_OptionObject
  *	@uses			XML_DOM_Node
  *	@uses			XML_DOM_Builder
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			18.07.02005
  *	@version		0.4
  */
-class XML_RSS_Builder extends OptionObject
+class XML_RSS_Builder extends ADT_OptionObject
 {
 	/**	@var	XML_DOM_Builder	$builder			Instance of XML_DOM_Builder */
 	protected $builder;

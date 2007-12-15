@@ -3,7 +3,7 @@ import( 'de.ceus-media.adt.OptionObject' );
 /**
  *	Error Handling to replace default php error handling.
  *	@package	ui
- *	@extends	OptionObject
+ *	@extends	ADT_OptionObject
  *	@author		Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since		31.07.2005
  *	@version		0.1
@@ -11,7 +11,7 @@ import( 'de.ceus-media.adt.OptionObject' );
 /**
  *	Error Handling to replace default php error handling.
  *	@package	ui
- *	@extends	OptionObject
+ *	@extends	ADT_OptionObject
  *	@author		Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since		31.07.2005
  *	@version		0.1

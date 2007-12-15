@@ -45,7 +45,7 @@ class View
 	var $config;
 	/**	@var		PartitionSession		$session			Partition Session */
 	var $session;
-	/**	@var		HTTP_RequestReceiver	$request			Receiver of Request Parameters */
+	/**	@var		Net_HTTP_Request_Receiver	$request			Receiver of Request Parameters */
 	var $request;
 	/**	@var		Language			$language		Language Support */
 	var $language;

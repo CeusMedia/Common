@@ -1,6 +1,6 @@
 <?php
 import( 'de.ceus-media.file.File' );
-import( 'de.ceus-media.xml.dom.XML_DOM_SyntaxValidator' );
+import( 'de.ceus-media.xml.dom.SyntaxValidator' );
 /**
  *	Identifies Type and Version of RSS and ATOM Feeds.
  *	@package		xml

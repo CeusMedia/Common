@@ -1,10 +1,10 @@
 <?php
-import( "de.ceus-media.protocol.cURL" );
+import( "de.ceus-media.net.cURL" );
 /**
  *	Requests RSS Feed against validator.
  *	@package		xml
  *	@subpackage		dom
- * 	@uses			cURL
+ * 	@uses			Net_cURL
  *	@author			Christian Würker <Christian.Wuerker@Ceus-Media.de>
  *	@version		0.4
  */
@@ -12,7 +12,7 @@ import( "de.ceus-media.protocol.cURL" );
  *	Requests RSS Feed against validator.
  *	@package		xml
  *	@subpackage		dom
- * 	@uses			cURL
+ * 	@uses			Net_cURL
  *	@author			Christian Würker <Christian.Wuerker@Ceus-Media.de>
  *	@version		0.4
  */
@@ -47,7 +47,7 @@ class RSS_Validator
 	function validateRSS( $url )
 	{
 		$validator_url = str_replace( "[url]", urlencode( $url ), $this->_validator_url );
-		$c = new cURL ($validator_url);
+		$c = new Net_cURL ($validator_url);
 		$c->setopt(CURLOPT_FOLLOWLOCATION, true) ;
 		$c->setopt(CURLOPT_HEADER, false) ;
 		$c->setopt(CURLOPT_SSL_VERIFYPEER, 0);

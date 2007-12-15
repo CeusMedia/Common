@@ -15,6 +15,7 @@ import( 'de.ceus-media.xml.dom.Parser' );
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			26.12.2005
  *	@version		0.5
+ *	@todo			Not working in PHP5.
  */
 class XML_DOM_ObjectDeserializer
 {
@@ -49,9 +50,17 @@ class XML_DOM_ObjectDeserializer
 			$name		= $child->getAttribute( 'name' );
 			$vartype	= $child->getNodeName();
 			if( $first_level )
-				$pointer	=& $element->$name;
+			{
+				if( !isset( $element->$name ) )
+					$element->$name	= NULL;
+				$pointer	= $element->$name;
+			}
 			else
-				$pointer	=& $element[$name];
+			{
+				if( !isset( $element[$name] ) )
+					$element[$name]	= NULL;
+				$pointer	= $element[$name];
+			}
 			
 			switch( $vartype )
 			{

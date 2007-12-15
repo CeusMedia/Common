@@ -1,7 +1,7 @@
 <?php
 import ("de.ceus-media.file.File");
-import ("de.ceus-media.xml.dom.XML_DOM_Node");
-import ("de.ceus-media.xml.dom.XML_DOM_FileReader");
+import ("de.ceus-media.xml.dom.Node");
+import ("de.ceus-media.xml.dom.FileReader");
 import ("de.ceus-media.xml.XML_Format");
 /**
  *	@package	xml

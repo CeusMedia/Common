@@ -4,7 +4,7 @@ import( 'de.ceus-media.file.File' );
 /**
  *	Reads and writes Configurations via XML.
  *	@package		file
- *	@extends		OptionObject
+ *	@extends		ADT_OptionObject
  *	@uses			File
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			18.07.02005
@@ -13,13 +13,13 @@ import( 'de.ceus-media.file.File' );
 /**
  *	Reads and writes Configurations via XML.
  *	@package		file
- *	@extends		OptionObject
+ *	@extends		ADT_OptionObject
  *	@uses			File
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			18.07.02005
  *	@version		0.4
  */
-class PhpConfiguration extends OptionObject
+class PhpConfiguration extends ADT_OptionObject
 {
 	/**	@var	array		_config		Array of configurations */
 	var $_config	= array();

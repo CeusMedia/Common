@@ -1,8 +1,8 @@
 <?php
 import( 'de.ceus-media.database.DatabaseConnection' );
 import( 'de.ceus-media.file.ini.IniReader' );
-import( 'de.ceus-media.protocol.http.PartitionSession' );
-import( 'de.ceus-media.protocol.http.HTTP_RequestReceiver' );
+import( 'de.ceus-media.net.http.PartitionSession' );
+import( 'de.ceus-media.net.http.request.Receiver' );
 import( 'de.ceus-media.StopWatch' );
 import( 'de.ceus-media.adt.FieldDefinition' );
 import( 'de.ceus-media.framework.hydrogen.Messenger' );
@@ -16,8 +16,8 @@ import( 'de.ceus-media.framework.hydrogen.Language' );
  *	@subpackage		hydrogen
  *	@uses			DatabaseConnection
  *	@uses			IniReader
- *	@uses			PartitionSession
- *	@uses			HTTP_RequestReceiver
+ *	@uses			Net_HTTP_PartitionSession
+ *	@uses			Net_HTTP_Request_Receiver
  *	@uses			StopWatch
  *	@uses			FieldDefinition
  *	@uses			Messenger
@@ -35,8 +35,8 @@ import( 'de.ceus-media.framework.hydrogen.Language' );
  *	@subpackage		hydrogen
  *	@uses			DatabaseConnection
  *	@uses			IniReader
- *	@uses			PartitionSession
- *	@uses			HTTP_RequestReceiver
+ *	@uses			Net_HTTP_PartitionSession
+ *	@uses			Net_HTTP_Request_Receiver
  *	@uses			StopWatch
  *	@uses			FieldDefinition
  *	@uses			Messenger
@@ -197,8 +197,7 @@ class Framework
 		error_reporting( $this->config['config']['error_reporting'] );
 
 		//  --  SESSION HANDLING  --  //
-		$this->session	= new PartitionSession( );
-		$this->session->openSession( $this->config['application']['name'], $this->config['config']['session_name'] );
+		$this->session	= new Net_HTTP_PartitionSession( $this->config['application']['name'], $this->config['config']['session_name'] );
 
 		//  --  UI MESSENGER  --  //
 		$this->messenger	=& new Messenger( $this->session );
@@ -214,7 +213,7 @@ class Framework
 		$this->language->load( 'main' );
 
 		//  --  REQUEST HANDLER  --  //
-		$this->request	= new HTTP_RequestReceiver();
+		$this->request	= new Net_HTTP_Request_Receiver();
 		if( $this->request->get( 'param' ) && !$this->request->get( 'controller' ) )
 		{
 			$parts	= explode( ".", $this->request->get( 'param' ) );

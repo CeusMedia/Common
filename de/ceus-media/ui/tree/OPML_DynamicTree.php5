@@ -3,23 +3,21 @@ import( 'de.ceus-media.ui.tree.XML_DynamicTree' );
 import( 'de.ceus-media.xml.opml.OPML_DOM_FileReader' );
 /**
  *	Builder for Tree with Icons out of a OPML File.
- *	@package		ui
- *	@subpackage		tree
+ *	@package		ui.tree
  *	@extends		XML_DynamicTree
  *	@uses			OPML_DOM_FileReader
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			08.02.2006
- *	@version		0.1
+ *	@version		0.5
  */
 /**
  *	Builder for Tree with Icons out of a OPML File.
- *	@package		ui
- *	@subpackage		tree
- *	@extends		XML_Tree
+ *	@package		ui.tree
+ *	@extends		XML_DynamicTree
  *	@uses			OPML_DOM_FileReader
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			08.02.2006
- *	@version		0.1
+ *	@version		0.5
  */
 class OPML_DynamicTree extends XML_DynamicTree
 {
@@ -37,12 +35,10 @@ class OPML_DynamicTree extends XML_DynamicTree
 		$this->defaults['open_first']		= false;
 		$this->defaults['node_open']		= "nodeopen";
 		$this->defaults['node_shut']		= "nodeshut";
-		$this->_cookie	= new PartitionCookie( $partition );
-
 		parent::__construct();
 		$opml_reader	= new OPML_DOM_FileReader( $xml_file );
 		$opml_reader->parse();
-		$this->_tree	= $opml_reader->getOutlineTree();
+		$this->tree	= $opml_reader->getOutlineTree();
 		
 		foreach( $this->defaults as $key => $value )
 			$this->setOption( $key, $value );

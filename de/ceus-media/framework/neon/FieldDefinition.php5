@@ -4,7 +4,7 @@ import( 'de.ceus-media.file.File' );
 /**
  *	Definition of Input Field within Channels, Screens and Forms.
  *	@package		adt
- *	@extends		OptionObject
+ *	@extends		ADT_OptionObject
  *	@uses			File
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			01.05.2006
@@ -13,13 +13,13 @@ import( 'de.ceus-media.file.File' );
 /**
  *	Definition of Input Field within Channels, Screens and Forms.
  *	@package		adt
- *	@extends		OptionObject
+ *	@extends		ADT_OptionObject
  *	@uses			File
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			01.05.2006
  *	@version		0.1
  */
-class FieldDefinition extends OptionObject
+class FieldDefinition extends ADT_OptionObject
 {
 	private $_definition	= array();
 	

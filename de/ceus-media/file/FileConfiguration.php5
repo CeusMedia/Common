@@ -8,7 +8,7 @@ import( 'de.ceus-media.xml.wddx.WDDX_Configuration' );
 /**
  *	Configuration Reader for several formats (xml, wddx, ini, php).
  *	@package		file
- *	@extends		OptionObject
+ *	@extends		ADT_OptionObject
  *	@uses			IndexFolder
  *	@uses			PhpConfiguration
  *	@uses			IniConfiguration
@@ -21,7 +21,7 @@ import( 'de.ceus-media.xml.wddx.WDDX_Configuration' );
 /**
  *	Configuration Reader for several formats (xml, wddx, ini, php).
  *	@package		file
- *	@extends		OptionObject
+ *	@extends		ADT_OptionObject
  *	@uses			IndexFolder
  *	@uses			PhpConfiguration
  *	@uses			IniConfiguration
@@ -31,7 +31,7 @@ import( 'de.ceus-media.xml.wddx.WDDX_Configuration' );
  *	@since			18.07.02005
  *	@version		0.4
  */
-class FileConfiguration extends OptionObject
+class FileConfiguration extends ADT_OptionObject
 {
 	/**	@var	array	_data		... */	
 	var $_data	= array();

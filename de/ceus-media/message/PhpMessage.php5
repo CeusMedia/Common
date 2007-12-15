@@ -3,7 +3,7 @@ import( 'de.ceus-media.adt.OptionObject' );
 /**
  *	Basic Message for serveral Channels.
  *	@package		message
- *	@extends		OptionObject
+ *	@extends		ADT_OptionObject
  *	@author			Christian Würker <Christian.Wuerker@Ceus-Media.de>
  *	@since			18.07.2005
  *	@version		0.1
@@ -11,13 +11,13 @@ import( 'de.ceus-media.adt.OptionObject' );
 /**
  *	Basic Message for serveral Channels.
  *	@package		message
- *	@extends		OptionObject
+ *	@extends		ADT_OptionObject
  *	@author			Christian Würker <Christian.Wuerker@Ceus-Media.de>
  *	@since			18.07.2005
  *	@version		0.1
  *	@todo			Code Documentation
  */
-class PhpMessage extends OptionObject
+class PhpMessage extends ADT_OptionObject
 {
 	/**	@var		array		$prefix		Array of message prefixes */
 	var $prefix	= array(

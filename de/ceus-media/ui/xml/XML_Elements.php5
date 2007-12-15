@@ -1,6 +1,6 @@
 <?php
-import( 'de.ceus-media.xml.dom.XML_DOM_Node' );
-import ("de.ceus-media.xml.dom.XML_DOM_Builder");
+import( 'de.ceus-media.xml.dom.Node' );
+import ("de.ceus-media.xml.dom.Builder");
 /**
  *	[DEV] Elements for XML UI Output Generation.
  *	@package	ui

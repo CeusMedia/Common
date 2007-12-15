@@ -1,6 +1,6 @@
 <?php
 import( 'de.ceus-media.adt.OptionObject' );
-import( 'de.ceus-media.protocol.http.HTTP_LanguageSniffer' );
+import( 'de.ceus-media.net.http.LanguageSniffer' );
 import( 'de.ceus-media.validation.LanguageValidator' );
 import( 'de.ceus-media.file.block.BlockFileReader' );
 
@@ -9,8 +9,8 @@ import( 'de.ceus-media.file.block.BlockFileReader' );
  *	Loads Language Files direct or from Cache if enabled.
  *	@package		framework
  *	@subpackage		neon
- *	@extends		OptionObject
- *	@uses			HTTP_LanguageSniffer
+ *	@extends		ADT_OptionObject
+ *	@uses			Net_HTTP_LanguageSniffer
  *	@uses			LanguageValidator
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			05.12.2006
@@ -21,14 +21,14 @@ import( 'de.ceus-media.file.block.BlockFileReader' );
  *	Loads Language Files direct or from Cache if enabled.
  *	@package		framework
  *	@subpackage		neon
- *	@extends		OptionObject
- *	@uses			HTTP_LanguageSniffer
+ *	@extends		ADT_OptionObject
+ *	@uses			Net_HTTP_LanguageSniffer
  *	@uses			LanguageValidator
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			05.12.2006
  *	@version		0.1
  */
-class Language extends OptionObject
+class Language extends ADT_OptionObject
 {
 	var $_loaded	= array();
 	
@@ -50,7 +50,7 @@ class Language extends OptionObject
 		}
 		if( !( $language = $session->get( 'language' ) ) )
 		{
-			$sniffer	= new HTTP_LanguageSniffer;
+			$sniffer	= new Net_HTTP_LanguageSniffer;
 			$language	= $sniffer->getLanguage( $allowed, $default );
 			$session->set( 'language', $language );
 		}

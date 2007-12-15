@@ -150,9 +150,9 @@ class File_Reader
  	public function readString()
 	{
 		if( !$this->exists( $this->fileName ) )
-			throw new IOException( "File '".$this->fileName."' is not existing." );
+			throw new Exception( "File '".$this->fileName."' is not existing." );
 		if( !$this->isReadable( $this->fileName ) )
-			throw new IOException( "File '".$this->fileName."' is not readable." );
+			throw new Exception( "File '".$this->fileName."' is not readable." );
 		return file_get_contents( $this->fileName );
 	}
 
@@ -164,9 +164,9 @@ class File_Reader
  	public function readArray()
 	{
 		if( !$this->exists( $this->fileName ) )
-			throw new IOException( "File '".$this->fileName."' is not existing." );
+			throw new Exception( "File '".$this->fileName."' is not existing." );
 		if( !$this->isReadable( $this->fileName ) )
-			throw new IOException( "File '".$this->fileName."' is not readable." );
+			throw new Exception( "File '".$this->fileName."' is not readable." );
 		return file( $this->fileName );
 	}
 }

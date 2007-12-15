@@ -1,9 +1,10 @@
 <?php
+import( 'de.ceus-media.adt.OptionObject' );
 /**
  *	Generator for Evolution Graph Images.
  *	@package		ui
  *	@subpackage		image
- *	@extends		OptionObject
+ *	@extends		ADT_OptionObject
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			13.09.2006
  *	@version		0.1
@@ -12,15 +13,14 @@
  *	Generator for Evolution Graph Images.
  *	@package		ui
  *	@subpackage		image
- *	@extends		OptionObject
+ *	@extends		ADT_OptionObject
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			13.09.2006
  *	@version		0.1
  *	@todo			Finish Implementation
  *	@todo			Code Documentation
  */
-import( 'de.ceus-media.adt.OptionObject' );
-class EvolutionGraph extends OptionObject
+class EvolutionGraph extends ADT_OptionObject
 {
 
 	var $_defaults	= array(

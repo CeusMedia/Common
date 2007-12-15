@@ -1,15 +1,15 @@
 <?php
 import( 'de.ceus-media.adt.OptionObject' );
 import( 'de.ceus-media.file.File' );
-import( 'de.ceus-media.protocol.cURL' );
-import( 'de.ceus-media.xml.dom.XML_DOM_SyntaxValidator' );
+import( 'de.ceus-media.net.cURL' );
+import( 'de.ceus-media.xml.dom.SyntaxValidator' );
 /**
  *	Evaluator for XPath Queries.
  *	@package		xml
  *	@subpackage		dom
- *	@extends		OptionObject
+ *	@extends		ADT_OptionObject
  *	@uses			File
- *	@uses			cURL
+ *	@uses			Net_cURL
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			24.01.2006
  *	@version		0.2
@@ -18,15 +18,15 @@ import( 'de.ceus-media.xml.dom.XML_DOM_SyntaxValidator' );
  *	Evaluator for XPath Queries.
  *	@package		xml
  *	@subpackage		dom
- *	@extends		OptionObject
+ *	@extends		ADT_OptionObject
  *	@uses			File
- *	@uses			cURL
+ *	@uses			Net_cURL
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			24.01.2006
  *	@version		0.2
  *	@todo			Code Documentation
  */
-class XML_DOM_XPathQuery extends OptionObject
+class XML_DOM_XPathQuery extends ADT_OptionObject
 {
 	/**	@var	string	_xpath		XPath Object */
 	var $_xpath;
@@ -53,7 +53,7 @@ class XML_DOM_XPathQuery extends OptionObject
 	 */
 	function loadURL( $url )
 	{
-		$cURL	= new cURL( $url );
+		$cURL	= new Net_cURL( $url );
 		foreach( $this->getOptions() as $key => $value )
 		{
 			$contant	= "CURLOPT_".strtoupper( $key );

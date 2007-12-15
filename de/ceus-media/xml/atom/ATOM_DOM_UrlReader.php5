@@ -1,6 +1,6 @@
 <?php
 import( 'de.ceus-media.xml.atom.ATOM_DOM_Parser' );
-import( 'de.ceus-media.xml.dom.XML_DOM_UrlReader' );
+import( 'de.ceus-media.xml.dom.UrlReader' );
 /**
  *	Reader for ATOM Feeds.
  *	@package	xml

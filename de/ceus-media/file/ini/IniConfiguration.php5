@@ -7,7 +7,7 @@ import( 'de.ceus-media.file.ini.IniCreator' );
  *	Reads and writes Configurations via INI.
  *	@package		file
  *	@subpackage		ini
- *	@extends		OptionObject
+ *	@extends		ADT_OptionObject
  *	@uses			File
  *	@uses			IniReader
  *	@uses			IniCreator
@@ -19,7 +19,7 @@ import( 'de.ceus-media.file.ini.IniCreator' );
  *	Reads and writes Configurations via INI.
  *	@package		file
  *	@subpackage		ini
- *	@extends		OptionObject
+ *	@extends		ADT_OptionObject
  *	@uses			File
  *	@uses			IniReader
  *	@uses			IniCreator
@@ -27,7 +27,7 @@ import( 'de.ceus-media.file.ini.IniCreator' );
  *	@since			18.07.02005
  *	@version		0.4
  */
-class IniConfiguration extends OptionObject
+class IniConfiguration extends ADT_OptionObject
 {
 	/**	@var	array		_config		Array of configurations */
 	var $_config	= array();

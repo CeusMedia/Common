@@ -1,6 +1,6 @@
 <?php
 import( 'de.ceus-media.file.File' );
-import( 'de.ceus-media.xml.dom.XML_DOM_Storage' );
+import( 'de.ceus-media.xml.dom.Storage' );
 /**
  *	Storage with unlimited depth to store pairs of data in XML Files using a Cache.
  *	@package		xml

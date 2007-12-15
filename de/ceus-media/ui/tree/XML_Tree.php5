@@ -1,27 +1,25 @@
 <?php
 import( 'de.ceus-media.adt.OptionObject' );
-import( 'de.ceus-media.xml.dom.XML_DOM_FileReader' );
+import( 'de.ceus-media.xml.dom.FileReader' );
 /**
  *	Builder for Tree with Icons out of a XML File.
- *	@package		ui
- *	@subpackage		tree
- *	@extends		OptionObject
+ *	@package		ui.tree
+ *	@extends		ADT_OptionObject
  *	@uses			XML_DOM_FileReader
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			22.12.2005
- *	@version		0.1
+ *	@version		0.5
  */
 /**
  *	Builder for Tree with Icons out of a XML File.
- *	@package		ui
- *	@subpackage		tree
- *	@extends		OptionObject
+ *	@package		ui.tree
+ *	@extends		ADT_OptionObject
  *	@uses			XML_DOM_FileReader
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			22.12.2005
- *	@version		0.1
+ *	@version		0.5
  */
-class XML_Tree extends OptionObject
+class XML_Tree extends ADT_OptionObject
 {
 	/**	@var		array		$defaults		Default Options */
 	var $defaults	= array(
@@ -53,8 +51,8 @@ class XML_Tree extends OptionObject
 	public function __construct( $xml_file )
 	{
 		parent::__construct();
-		$xml_reader	= new XML_DOM_FileReader( $xml_file );
-		$this->_tree	= $xml_reader->parse();
+		$xml_reader	= new XML_DOM_FileReader();
+		$this->tree	= $xml_reader->read( $xml_file );
 		$this->setDefaults();
 	}
 	
@@ -63,7 +61,7 @@ class XML_Tree extends OptionObject
 	 *	@access		public
 	 *	@return		void
 	 */
-	function setDefaults()
+	public function setDefaults()
 	{
 		foreach( $this->defaults as $key => $value )
 			$this->setOption( $key, $value );
@@ -74,49 +72,23 @@ class XML_Tree extends OptionObject
 	 *	@access		public
 	 *	@return		string
 	 */
-	function buildTree()
+	public function buildTree()
 	{
-		$this->_setShortCuts();
+		$this->setShortCuts();
 		$counter	= 0;
-		$tree	= $this->_buildTreeRecursive( $this->_tree, 0, $counter );
+		$tree	= $this->buildTreeRecursive( $this->tree, 0, $counter );
 		$code	= "<ul>".$tree."</ul>";
 		return $code;
 	}
 
-/*	function setShortCuts()
-	{
-		//  XML Node Attribute Keys
-		$this->__attr_label		= $this->getOption( 'attr_label' );
-		$this->__attr_icon		= $this->getOption( 'attr_icon' );
-		$this->__attr_title		= $this->getOption( 'attr_title' );
-		$this->__attr_link		= $this->getOption( 'attr_link' );
-		$this->__attr_param	= $this->getOption( 'attr_param' );
-		$this->__attr_id		= $this->getOption( 'attr_id' );
-
-		//  Link Information
-		$this->__url			= $this->getOption( 'url' );
-		$this->__carrier		= $this->getOption( 'carrier' );
-		$this->__current		= $this->getOption( 'current' );
-		$this->__target		= $this->getOption( 'target' );
-
-		//  Image Information
-		$this->__image_path	= $this->getOption( 'image_path' );
-		$this->__class_entry	= $this->getOption( 'class_entry' );
-		$this->__class_icon	= $this->getOption( 'class_icon' );
-		$this->__class_label	= $this->getOption( 'class_label' );
-	
-	
-	}
-*/
-	//  --  PRIVATE METHODS  --  //
 	/**
 	 *	Builds Icon of Node.
-	 *	@access		private
+	 *	@access		protected
 	 *	@param		XML_DOM_Node	$node		Current Node of XML File
 	 *	@param		int				$node_id		ID of Child Node for dynamic extension
 	 *	@return		string
 	 */
-	function _buildNodeIcon( $node, $node_id = false )
+	protected function buildNodeIcon( $node, $node_id = false )
 	{
 		$code	= "";
 		if( $this->__image_path && $source = $node->getAttribute( $this->__attr_icon ) )
@@ -130,28 +102,19 @@ class XML_Tree extends OptionObject
 
 	/**
 	 *	Builds linked Label of Node.
-	 *	@access		private
+	 *	@access		protected
 	 *	@param		XML_DOM_Node	$node	Current Node of XML File
 	 *	@return		string
 	 */
-	function _buildNodeLabel( $node )
+	protected function buildNodeLabel( $node )
 	{
 		$label 	= utf8_decode( $node->getAttribute( $this->__attr_label ) );
-/*xmp( $label );
-print_m( $node );
-remark( $this->__attr_link );
-remark( $node->getAttribute( $this->__attr_link ) );
-
-die;
-*/		if( $link		= $node->getAttribute( $this->__attr_link ) )
+		if( $link		= $node->getAttribute( $this->__attr_link ) )
 		{
-
-
 			$target	= $this->__target ? " target='".$this->__target."'" : "";
 			$param	= $node->getAttribute( $this->__attr_param );
 			$label	= "<a href='".$this->__url.$this->__carrier.$link.$param."'".$target.">".$label."</a>";
 		}
-//		echo "<br/>Label: ".$label." - Link: ".$link;
 		$code	= "<span class='".$this->__class_label."'>".$label."</span>";	
 		return $code;
 	}
@@ -162,29 +125,29 @@ die;
 	 *	@param		int				$level		Current Node Level
 	 *	@return		string
 	 */
-	function _buildIndent( $level )
+	protected function buildIndent( $level )
 	{
 		return  "\n".str_repeat( "  ", $level );
 	}
 	
 	/**
 	 *	Indicates access zu Link, to be overwritten.
-	 *	@access		private
+	 *	@access		protected
 	 *	@return		bool
 	 */
-	function proveAccess()
+	protected function proveAccess()
 	{
 		return true;
 	}
 
 	/**
 	 *	Builds HTML Navigation recursive.
-	 *	@access		private
+	 *	@access		protected
 	 *	@param		XML_DOM_Node	$node	Current Node of XML File
 	 *	@param		int				$level		Current Node Level
 	 *	@return		string
 	 */
-	function _buildTreeRecursive( $node, $level )
+	protected function buildTreeRecursive( $node, $level )
 	{
 		$code	= "";
 		foreach( $node->getChildren() as $child )
@@ -200,9 +163,9 @@ die;
 					$classes[]	= $class_entry;
 				$class	= count( $classes ) ? " class='".implode( " ", $classes )."'" : "";
 
-				$code	.= $this->_buildIndent( $level )."<li".$class.">".$this->_buildNodeIcon( $child ).$this->_buildNodeLabel( $child )."</li>";
+				$code	.= $this->buildIndent( $level )."<li".$class.">".$this->buildNodeIcon( $child ).$this->buildNodeLabel( $child )."</li>";
 				if( $child->hasChildren() )
-					$code	.= $this->_buildIndent( $level )."<ul name='node'>".$this->_buildTreeRecursive( $child, $level+1 )."</ul>";
+					$code	.= $this->buildIndent( $level )."<ul name='node'>".$this->buildTreeRecursive( $child, $level+1 )."</ul>";
 			}
 		}
 		return $code;
@@ -210,10 +173,10 @@ die;
 	
 	/**
 	 *	Sets short Members from Options.
-	 *	@access		private
+	 *	@access		protected
 	 *	@return		void
 	 */
-	function _setShortCuts()
+	protected function setShortCuts()
 	{
 		foreach( array_keys( $this->defaults ) as $key )
 			$this->{"__".$key}	= $this->getOption( $key );

@@ -5,7 +5,7 @@ import( 'de.ceus-media.adt.Randomizer' );
  *	Simplie Captcha Generator.
  *	@package		ui
  *	@subpackage		image
- *	@extends		OptionObject
+ *	@extends		ADT_OptionObject
  *	@uses			Randomizer
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			01.05.2005
@@ -15,13 +15,13 @@ import( 'de.ceus-media.adt.Randomizer' );
  *	Simplie Captcha Generator.
  *	@package		ui
  *	@subpackage		image
- *	@extends		OptionObject
+ *	@extends		ADT_OptionObject
  *	@uses			Randomizer
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			01.05.2005
  *	@version		0.1
  */
-class Captcha extends OptionObject
+class Captcha extends ADT_OptionObject
 {
 	/**
 	 *	Constructor.

@@ -5,7 +5,7 @@ import( 'de.ceus-media.adt.TimeConverter' );
  *	Message Output Handler of Framework Hydrogen.
  *	@package		framework
  *	@subpackage		hydrogen
- *	@extends		OptionObject
+ *	@extends		ADT_OptionObject
  *	@uses			TimeConverter
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			01.09.2006
@@ -15,13 +15,13 @@ import( 'de.ceus-media.adt.TimeConverter' );
  *	Message Output Handler of Framework Hydrogen.
  *	@package		framework
  *	@subpackage		hydrogen
- *	@extends		OptionObject
+ *	@extends		ADT_OptionObject
  *	@uses			TimeConverter
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			01.09.2006
  *	@version		0.1
  */
-class Messenger extends OptionObject
+class Messenger extends ADT_OptionObject
 {
 	/**	@var		array		classes			CSS Classes of Message Types */
 	var $classes	= array(

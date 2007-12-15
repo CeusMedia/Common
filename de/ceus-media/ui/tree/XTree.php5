@@ -4,7 +4,7 @@ import( "de.ceus-media.adt.OptionObject" );
  *	Build HTML from XML Tree.
  *	@package		ui
  *	@subpackage		tree
- *	@extends		OptionObject
+ *	@extends		ADT_OptionObject
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.1
  */
@@ -12,11 +12,11 @@ import( "de.ceus-media.adt.OptionObject" );
  *	Build HTML from XML Tree.
  *	@package		ui
  *	@subpackage		tree
- *	@extends		OptionObject
+ *	@extends		ADT_OptionObject
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.1
  */
-class XTree extends OptionObject
+class XTree extends ADT_OptionObject
 {
 	/**
 	 *	Constructor.
