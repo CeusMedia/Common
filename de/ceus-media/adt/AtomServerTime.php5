@@ -1,13 +1,13 @@
 <?php
 import ("de.ceus-media.adt.AtomTime");
-import ("de.ceus-media.file.ini.IniReader");
-import ("de.ceus-media.file.ini.IniWriter");
+import ("de.ceus-media.file.ini.Reader");
+import ("de.ceus-media.file.ini.Writer");
 /**
  *	Calculates real Time by Server time and synchronised Atom time.
  *	@package	adt
  *	@extends	AtomTime
- *	@uses		IniReader
- *	@uses		IniWriter
+ *	@uses		File_INI_Reader
+ *	@uses		File_INI_Writer
  *	@author		Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since		13.07.2005
  *	@version		0.4
@@ -16,8 +16,8 @@ import ("de.ceus-media.file.ini.IniWriter");
  *	Calculates real Time by Server time and synchronised Atom time.
  *	@package	adt
  *	@extends	AtomTime
- *	@uses		IniReader
- *	@uses		IniWriter
+ *	@uses		File_INI_Reader
+ *	@uses		File_INI_Writer
  *	@author		Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since		13.07.2005
  *	@version		0.4
@@ -59,7 +59,7 @@ class AtomServerTime extends AtomTime
 	{
 		if (!file_exists ($this->_sync_file))
 			$this->synchronize ();
-		$ir = new IniReader ($this->_sync_file, false);
+		$ir = new File_INI_Reader ($this->_sync_file, false);
 		$data = $ir->getProperties (true);
 		$this->_sync_time	= $data['time'];
 		$this->_sync_diff	= $data['diff'];
@@ -77,7 +77,7 @@ class AtomServerTime extends AtomTime
 		$server	= time ();
 		$diff		= $server - $atom;
 		$f		= new File ($this->_sync_file, 0777);
-		$iw		= new IniWriter ($this->_sync_file);
+		$iw		= new File_INI_Writer ($this->_sync_file);
 		$iw->setProperty ("time", time ());
 		$iw->setProperty ("diff", $diff);
 		$this->_readSyncFile ();

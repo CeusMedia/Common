@@ -91,7 +91,7 @@ class Language extends ADT_OptionObject
 		}
 		else if( file_exists( $uri ) )
 		{
-			$ir	= new IniReader( $uri, true );
+			$ir	= new File_INI_Reader( $uri, true );
 			$this->words[$section]	= $ir->toArray( true );
 			foreach( $this->words[$section] as $area => $pairs )
 				foreach( array_keys( $pairs ) as $key )

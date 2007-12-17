@@ -4,7 +4,7 @@ import( 'de.ceus-media.Reference' );
 import( 'de.ceus-media.ui.html.Elements' );
 import( 'de.ceus-media.ui.html.Paging' );
 import( 'de.ceus-media.adt.TimeConverter' );
-import( 'de.ceus-media.file.ini.IniReader' );
+import( 'de.ceus-media.file.ini.Reader' );
 import( 'de.ceus-media.ui.html.WikiParser' );
 /**
  *	Generic View with Language Support.
@@ -13,7 +13,7 @@ import( 'de.ceus-media.ui.html.WikiParser' );
  *	@uses			Elements
  *	@uses			Paging
  *	@uses			TimeConverter
- *	@uses			IniReader
+ *	@uses			File_INI_Reader
  *	@uses			WikiParser
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			01.12.2005
@@ -26,7 +26,7 @@ import( 'de.ceus-media.ui.html.WikiParser' );
  *	@uses			Elements
  *	@uses			Paging
  *	@uses			TimeConverter
- *	@uses			IniReader
+ *	@uses			File_INI_Reader
  *	@uses			WikiParser
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			01.12.2005
@@ -294,7 +294,7 @@ class Framework_Helium_View
 		$uri	= "languages/".$session->get( 'language' )."/".$filename.".lan";
 		if( file_exists( $uri ) )
 		{
-			$ir	= new IniReader( $uri, true );
+			$ir	= new File_INI_Reader( $uri, true );
 			$this->lan[$section]	= $ir->toArray( true );
 			return true;
 		}

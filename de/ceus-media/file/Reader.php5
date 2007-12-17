@@ -22,7 +22,7 @@ class File_Reader
 	 *	@param		string		$fileName		URI of File
 	 *	@return		void
 	 */
-	public function __construct( $fileName, $creationMode = false, $creationUser = false, $creationGroup = false )
+	public function __construct( $fileName )
 	{
 		$this->fileName = $fileName;
 	}

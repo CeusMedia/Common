@@ -1,12 +1,12 @@
 <?php
 import( 'de.ceus-media.Reference' );
-import( 'de.ceus-media.file.ini.IniReader' );
+import( 'de.ceus-media.file.ini.Reader' );
 import( 'de.ceus-media.adt.TimeConverter' );
 /**
  *	Generic Action Handler.
  *	@package		framework.neon
  *	@uses			Reference
- *	@uses			IniReader
+ *	@uses			File_INI_Reader
  *	@uses			TimeConverter
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			01.12.2005
@@ -16,7 +16,7 @@ import( 'de.ceus-media.adt.TimeConverter' );
  *	Generic Action Handler.
  *	@package		framework.neon
  *	@uses			Reference
- *	@uses			IniReader
+ *	@uses			File_INI_Reader
  *	@uses			TimeConverter
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			01.12.2005

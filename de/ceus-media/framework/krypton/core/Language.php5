@@ -1,6 +1,6 @@
 <?php
 import( 'de.ceus-media.framework.krypton.core.Registry' );
-import( 'de.ceus-media.file.ini.IniReader' );
+import( 'de.ceus-media.file.ini.Reader' );
 import( 'de.ceus-media.net.http.LanguageSniffer' );
 import( 'de.ceus-media.validation.LanguageValidator' );
 import( 'de.ceus-media.file.block.BlockFileReader' );
@@ -9,7 +9,7 @@ import( 'de.ceus-media.file.block.BlockFileReader' );
  *	Loads Language Files direct or from Cache if enabled.
  *	@package		mv2.core
  *	@uses			Framework_Krypton_Core_Registry
- *	@uses			IniReader
+ *	@uses			File_INI_Reader
  *	@uses			Net_HTTP_LanguageSniffer
  *	@uses			LanguageValidator
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
@@ -21,7 +21,7 @@ import( 'de.ceus-media.file.block.BlockFileReader' );
  *	Loads Language Files direct or from Cache if enabled.
  *	@package		mv2.core
  *	@uses			Framework_Krypton_Core_Registry
- *	@uses			IniReader
+ *	@uses			File_INI_Reader
  *	@uses			Net_HTTP_LanguageSniffer
  *	@uses			LanguageValidator
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
@@ -225,7 +225,7 @@ class Framework_Krypton_Core_Language
 			}
 			else if( file_exists( $lanfile ) )
 			{
-				$ir	= new IniReader( $lanfile, true );
+				$ir	= new File_INI_Reader( $lanfile, true );
 				$this->words[$section]	= $ir->toArray( true );
 				foreach( $this->words[$section] as $area => $pairs )
 					foreach( array_keys( $pairs ) as $key )

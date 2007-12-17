@@ -1,13 +1,13 @@
 <?php
 /**
  *	YAML Reader 'Spyc -- A Simple PHP YAML Class'
- *	@version		0.3
+ *	@package		file.yaml
  *	@author			Chris Wanstrath <chris@ozmm.org>
  *	@author			Vlad Andersen <vlad@oneiros.ru>
  *	@link			http://spyc.sourceforge.net/
  *	@copyright		Copyright 2005-2006 Chris Wanstrath
  *	@license		http://www.opensource.org/licenses/mit-license.php MIT License
- *	@package		Spyc
+ *	@version		0.5
  */
 /**
  *	The Simple PHP YAML Class.
@@ -23,7 +23,7 @@
  *	</code>
  *	@package		Spyc
  */
-class YamlReader
+class File_Yaml_Reader
 {
 	/**#@+
 	 * @access private
@@ -60,7 +60,7 @@ class YamlReader
 	 * simple.
 	 *  Usage:
 	 *  <code>
-	 *   $array = YamlReader::loadYAML('lucky.yaml');
+	 *   $array = File_Yaml_Reader::loadYAML('lucky.yaml');
 	 *   print_r($array);
 	 *  </code>
 	 * @access public
@@ -574,7 +574,7 @@ class YamlReader
 		// Unfolding inner array tree as defined in $this->_arrpath.
 		//$_arr = $this->result; $_tree[0] = $_arr; $i = 1;
 
-		$tempPath = YamlReader::flatten( $this->path );
+		$tempPath = File_Yaml_Reader::flatten( $this->path );
 		eval( '$_arr = $this->result' . $tempPath . ';' );
 
 		if( $this->_containsGroupAlias )
@@ -586,7 +586,7 @@ class YamlReader
 					break;
 				}
 				$groupPath = $this->SavedGroups[$this->_containsGroupAlias];
-				eval( '$value = $this->result' . YamlReader::flatten( $groupPath ) . ';');
+				eval( '$value = $this->result' . File_Yaml_Reader::flatten( $groupPath ) . ';');
 			}
 			while( false);
 			$this->_containsGroupAlias = false;

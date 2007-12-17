@@ -1,13 +1,13 @@
 <?php
 import( 'de.ceus-media.Reference' );
-import( 'de.ceus-media.file.ini.IniReader' );
+import( 'de.ceus-media.file.ini.Reader' );
 import( 'de.ceus-media.validation.DefinitionValidator' );
 import( 'de.ceus-media.adt.TimeConverter' );
 /**
  *	Generic Action Handler.
  *	@package		framework.helium
  *	@uses			Reference
- *	@uses			IniReader
+ *	@uses			File_INI_Reader
  *	@uses			DefinitionValidator
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			01.12.2005
@@ -17,7 +17,7 @@ import( 'de.ceus-media.adt.TimeConverter' );
  *	Generic Action Handler.
  *	@package		framework.helium
  *	@uses			Reference
- *	@uses			IniReader
+ *	@uses			File_INI_Reader
  *	@uses			DefinitionValidator
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			01.12.2005
@@ -96,7 +96,7 @@ class Framework_Helium_Action
 		$uri	= "languages/".$session->get( 'language' )."/".$filename.".lan";
 		if( file_exists( $uri ) )
 		{
-			$ir	= new IniReader( $uri, true );
+			$ir	= new File_INI_Reader( $uri, true );
 			$this->lan[$section]	= $ir->toArray( true );
 			return true;
 		}

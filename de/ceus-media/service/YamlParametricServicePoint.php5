@@ -8,7 +8,8 @@ import( 'de.ceus-media.service.ParameterValidator' );
  *	@package		service
  *	@extends		YamlServicePoint
  *	@implements		ServicePoint
- *	@uses			YamlReader
+ *	@implements		ParametricServicePoint
+ *	@uses			ParameterValidator
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			18.06.2007
  *	@version		0.2
@@ -18,7 +19,8 @@ import( 'de.ceus-media.service.ParameterValidator' );
  *	@package		service
  *	@extends		YamlServicePoint
  *	@implements		ServicePoint
- *	@uses			YamlReader
+ *	@implements		ParametricServicePoint
+ *	@uses			ParameterValidator
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			18.06.2007
  *	@version		0.2

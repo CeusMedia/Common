@@ -1,6 +1,6 @@
 <?php
 import( 'de.ceus-media.database.DatabaseConnection' );
-import( 'de.ceus-media.file.ini.IniReader' );
+import( 'de.ceus-media.file.ini.Reader' );
 import( 'de.ceus-media.net.http.PartitionSession' );
 import( 'de.ceus-media.net.http.request.Receiver' );
 import( 'de.ceus-media.StopWatch' );
@@ -15,7 +15,7 @@ import( 'de.ceus-media.framework.hydrogen.Language' );
  *	@package		framework
  *	@subpackage		hydrogen
  *	@uses			DatabaseConnection
- *	@uses			IniReader
+ *	@uses			File_INI_Reader
  *	@uses			Net_HTTP_PartitionSession
  *	@uses			Net_HTTP_Request_Receiver
  *	@uses			StopWatch
@@ -34,7 +34,7 @@ import( 'de.ceus-media.framework.hydrogen.Language' );
  *	@package		framework
  *	@subpackage		hydrogen
  *	@uses			DatabaseConnection
- *	@uses			IniReader
+ *	@uses			File_INI_Reader
  *	@uses			Net_HTTP_PartitionSession
  *	@uses			Net_HTTP_Request_Receiver
  *	@uses			StopWatch
@@ -192,7 +192,7 @@ class Framework
 		$this->_sw	= new StopWatch();
 		
 		//  --  CONFIGURATION  --  //
-		$ir_conf		= new IniReader( "config/config.ini", true );
+		$ir_conf		= new File_INI_Reader( "config/config.ini", true );
 		$this->config	= $ir_conf->toArray();
 		error_reporting( $this->config['config']['error_reporting'] );
 

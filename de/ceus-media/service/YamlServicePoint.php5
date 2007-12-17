@@ -1,11 +1,11 @@
 <?php
 import( 'de.ceus-media.service.ServicePoint' );
-import( 'de.ceus-media.file.yaml.YamlReader' );
+import( 'de.ceus-media.file.YamlReader' );
 /**
  *	Service Point with YAML Definition File.
  *	@package		service
  *	@implements		ServicePoint
- *	@uses			YamlReader
+ *	@uses			File_Yaml_Reader
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			18.06.2007
  *	@version		0.2
@@ -14,7 +14,7 @@ import( 'de.ceus-media.file.yaml.YamlReader' );
  *	Service Point with YAML Definition File.
  *	@package		service
  *	@implements		ServicePoint
- *	@uses			YamlReader
+ *	@uses			File_Yaml_Reader
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			18.06.2007
  *	@version		0.2
@@ -37,7 +37,7 @@ class YamlServicePoint implements ServicePoint
 			throw new Exception( "Definition File '".$fileName."' is not existing." );
 		if( $cacheFile && file_exists( $cacheFile ) && filemtime( $fileName ) <= filemtime( $cacheFile ) )
 			return $this->services	= unserialize( file_get_contents( $cacheFile ) );
-		$this->services	= YamlReader::loadYAML( $fileName );
+		$this->services	= File_Yaml_Reader::loadYAML( $fileName );
 		if( $cacheFile )
 			file_put_contents( $cacheFile, serialize( $this->services ) );
 	}

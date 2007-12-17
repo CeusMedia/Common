@@ -1,18 +1,20 @@
 <?php
 /**
  *	Searchs for a File by given File Name in Folder recursive.
+ *	@package	file
  *	@author		Christian Würker <Christian.Wuerker@Ceus-Media.de>
  *	@since		09.06.2007
  *	@version	0.1
  */
 /**
  *	Searchs for a File by given File Name in Folder recursive.
+ *	@package	file
  *	@author		Christian Würker <Christian.Wuerker@Ceus-Media.de>
  *	@since		09.06.2007
  *	@version	0.1
  *	@todo		Fix Error while comparing File Name to Current File with Path
  */
-class FileFinder extends FilterIterator
+class File_Finder extends FilterIterator
 {
 	/**	@var	string		$fileName		Name of File to be found */
 	private $fileName;

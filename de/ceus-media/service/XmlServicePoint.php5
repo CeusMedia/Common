@@ -1,11 +1,10 @@
 <?php
 import( 'de.ceus-media.service.ServicePoint' );
-import( 'de.ceus-media.file.yaml.YamlReader' );
+import( 'de.ceus-media.file.YamlReader' );
 /**
  *	Service Point with YAML Definition File.
  *	@package		service
  *	@implements		ServicePoint
- *	@uses			YamlReader
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			18.06.2007
  *	@version		0.2
@@ -14,10 +13,10 @@ import( 'de.ceus-media.file.yaml.YamlReader' );
  *	Service Point with YAML Definition File.
  *	@package		service
  *	@implements		ServicePoint
- *	@uses			YamlReader
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			18.06.2007
  *	@version		0.2
+ *	@todo			Finish Implementation
  */
 class XmlServicePoint implements ServicePoint
 {

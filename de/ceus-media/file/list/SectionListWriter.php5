@@ -1,10 +1,10 @@
 <?php
-import ("de.ceus-media.file.File");
+import ("de.ceus-media.file.Writer");
 /**
  *	Writer for Section List.
  *	@package		file
  *	@subpackage		list
- *	@uses			File
+ *	@uses			File_Writer
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.4
  */
@@ -12,24 +12,24 @@ import ("de.ceus-media.file.File");
  *	Writer for Section List.
  *	@package		file
  *	@subpackage		list
- *	@uses			File
+ *	@uses			File_Writer
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.4
  */
 class SectionListWriter
 {
-	/**	@var	string		filename		URI of Section List */
-	var $_filename;
+	/**	@var		string		$fileName		URI of Section List */
+	protected $fileName;
 	
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		string		filename		URI of Section List
+	 *	@param		string		$fileName		URI of Section List
 	 *	@return		void
 	 */
-	public function __construct( $filename )
+	public function __construct( $fileName )
 	{
-		$this->_filename = $filename;
+		$this->fileName = $fileName;
 	}
 
 	/**
@@ -38,19 +38,19 @@ class SectionListWriter
 	 *	@param		SectionList	section_list	Section List to write
 	 *	@return		void
 	 */
-	function write ($section_list)
+	public function write( $section_list )
 	{
 		$lines = array();
-		foreach ($section_list->toArray() as $section => $data)
+		foreach( $section_list->toArray() as $section => $data )
 		{
-			if (count($lines))
+			if( count( $lines ) )
 				$lines[] = "";
 			$lines[] = "[".$section."]";
-			foreach ($data as $entry)
+			foreach( $data as $entry )
 				$lines[] = $entry;
 		}
-		$f = new File ($this->_filename, 0755);
-		$f->writeArray ($lines);
+		$f = new File_Writer( $this->fileName, 0755 );
+		$f->writeArray( $lines );
 	}
 }
 ?>
