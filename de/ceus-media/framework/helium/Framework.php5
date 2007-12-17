@@ -39,7 +39,7 @@ class Framework_Helium_Base
 	{
 		$this->ref	= new Reference;
 		$this->ref->add( "stopwatch",	new StopWatch );		
-		$this->ref->add( "messenger",	new Messenger );
+		$this->ref->add( "messenger",	new Framework_Helium_Messenger );
 		$this->ref->add( "request",		new Net_HTTP_Request_Receiver );
 		$this->init();
 	}

@@ -1,6 +1,6 @@
 <?php
 import( 'de.ceus-media.service.ServicePoint' );
-import( 'de.ceus-media.file.YamlReader' );
+import( 'de.ceus-media.file.yaml.Reader' );
 /**
  *	Service Point with YAML Definition File.
  *	@package		service

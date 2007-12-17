@@ -6,7 +6,7 @@ import( 'de.ceus-media.adt.OptionObject' );
  *	@extends		ADT_OptionObject
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			11.01.2006
- *	@version		0.1
+ *	@version		0.5
  */
 /**
  *	Argument Parser for Console Applications.
@@ -14,25 +14,15 @@ import( 'de.ceus-media.adt.OptionObject' );
  *	@extends		ADT_OptionObject
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			11.01.2006
- *	@version		0.1
+ *	@version		0.5
  */
-class ConsoleArgumentParser extends ADT_OptionObject
+class Console_ArgumentParser extends ADT_OptionObject
 {
 	/**	@var	array		shortcuts		Associative Array of Shortcuts */
 	private $shortcuts	= array();
 	
 	//  --  PUBLIC METHODS  --  //
 
-	/**
-	 *	Constructor.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function __construct()
-	{
-		parent::__construct();
-	}
-	
 	/**
 	 *	Parses Arguments of called Script.
 	 *	@access		public

@@ -13,17 +13,53 @@
  *	@since			11.08.2005
  *	@version		0.4
  */
-class ConsoleInput
+class Console_Shell
 {
+	/**	@var	array	$skip	Commands to skip */
+	protected $skip	= array(
+		"class",
+		"declare",
+		"die",
+		"echo",
+		"exit", 
+		"for", 
+		"foreach", 
+		"function", 
+		"global", 
+		"if", 
+		"include", 
+		"include_once",
+		"print",
+		"require", 
+		"require_once", 
+		"return", 
+		"static", 
+		"switch", 
+		"while"
+		);
+	/**	@var	array	$okeq	Valide equation operators */
+	protected $okeq = array(
+		"===", 
+		"!==", 
+		"==", 
+		"!=", 
+		"<=", 
+		">="
+		);
+
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@return 		void
+	 *	@return 	void
 	 */
-	public function __construct( $type = string )
+	public function __construct()
 	{
 		if( getEnv( 'HTTP_HOST' ) )
 			die( "usage in console only." );
+		ob_implicit_flush( true );
+		ini_set( "html_errors", 0 );
+		error_reporting( 7 );
+		set_time_limit( 0 ); 
 		if( !defined( 'STDIN' ) )
 		{
 			define( 'STDIN',	fopen( "php://stdin","r" ) );
@@ -38,9 +74,9 @@ class ConsoleInput
 	/**
 	 *	Reads input line from console.
 	 *	@access		public
-	 *	@return 		void
+	 *	@return 	void
 	 */
-	function readLine( $length = 255)
+	public function readLine( $length = 255)
 	{
 		$line = fgets ( STDIN, $length );
 		return trim ($line);
@@ -48,10 +84,10 @@ class ConsoleInput
 
 	/**
 	 *	Reads input lines from console and prints out the answer.
-	 *	@access		public
-	 *	@return 		void
+	 *	@access		protected
+	 *	@return 	void
 	 */
-	function run()
+	protected function run()
 	{
 		fputs( STDOUT, ":> " );
 		while( $line = $this->readLine() )
@@ -60,7 +96,7 @@ class ConsoleInput
 			$line = preg_replace( "/;$/", "", $line );
 			if( strlen( $line ) )
 			{
-				if( $this->_isImmediate( $line ) )
+				if( $this->isImmediate( $line ) )
 					$line = "return( ".$line." )";
 				ob_start();
 				$ret = eval( "unset(\$line); $line;" );
@@ -87,10 +123,10 @@ class ConsoleInput
 
 	/**
 	 *	Indicates whether a line is immediate executable like equations.
-	 *	@access		private
-	 *	@return 		void
+	 *	@access		protected
+	 *	@return 	void
 	 */
-	function _isImmediate( $line )
+	protected function isImmediate( $line )
 	{
 		$code = "";
 		$sq = $dq = false;
@@ -109,12 +145,12 @@ class ConsoleInput
 			else
 				$code .= $c;
 		}
-		$code = str_replace( $this->_okeq, "", $code );
+		$code = str_replace( $this->okeq, "", $code );
 		if( strcspn( $code, ";{=" ) != strlen( $code ) )
 			return false;
 		$kw = split( "[^A-Za-z0-9_]", $code );
 		foreach( $kw as $i )
-			if( in_array( $i, $this->_skip ) )
+			if( in_array( $i, $this->skip ) )
 				return false;
 		return true;
 	}

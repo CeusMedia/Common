@@ -1,25 +1,23 @@
 <?php
-import( 'de.ceus-media.console.ConsoleArgumentParser' );
+import( 'de.ceus-media.console.ArgumentParser' );
 /**
  *	Generic Console Application.
  *	@package		console
- *	@extends		ConsoleArgumentParser
+ *	@extends		Console_ArgumentParser
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			11.01.2006
- *	@version		0.1
+ *	@version		0.5
  */
 /**
  *	Generic Console Application.
  *	@package		console
- *	@extends		ConsoleArgumentParser
+ *	@extends		Console_ArgumentParser
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			11.01.2006
- *	@version		0.1
+ *	@version		0.5
  */
-class ConsoleApplication extends ConsoleArgumentParser
+class Console_Application extends Console_ArgumentParser
 {
-	//  --  PUBLIC METHODS  --  //
-
 	/**
 	 *	Constructor.
 	 *	@access		public
@@ -84,7 +82,7 @@ class ConsoleApplication extends ConsoleArgumentParser
 	protected function showUsage()
 	{
 		echo "\n";
-		echo "ConsoleApplication v0.1\n";
+		echo "ConsoleApplication v0.5\n";
 		echo "Usage: php -f ConsoleApplication_test.php a [b] /?\n";
 		echo "Options:\n";
 		echo "  a\tMandatory Option\n";

@@ -49,7 +49,7 @@ class Framework_Helium_View
 	 *	@access		public
 	 *	@return		void
 	 */
-	function View()
+	function __construct()
 	{
 		$this->ref			= new Reference();
 		$this->tc			= new TimeConverter;
