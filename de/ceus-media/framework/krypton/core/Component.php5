@@ -68,7 +68,7 @@ abstract class Framework_Krypton_Core_Component
 {
 	/**	@var		Framework_Krypton_Core_Registry		$registry		Registry of Objects */
 	var $registry	= null;
-	/**	@var		Elements		$html			HTML Elements */
+	/**	@var		UI_HTML_Elements		$html			HTML Elements */
 	var $html		= null;
 	/**	@var		Language		$language		Language Support */
 	var $language	= null;
@@ -96,7 +96,7 @@ abstract class Framework_Krypton_Core_Component
 	public function __construct( $useWikiParser = false )
 	{
 		$this->registry		= Framework_Krypton_Core_Registry::getInstance();
-		$this->html			= new Elements;
+		$this->html			= new UI_HTML_Elements;
 		$this->tc			= new TimeConverter;
 		if( $useWikiParser )
 		{

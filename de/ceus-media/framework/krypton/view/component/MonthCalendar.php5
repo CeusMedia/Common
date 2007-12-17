@@ -52,7 +52,7 @@ class View_Component_MonthCalendar extends Core_View
 	public function __construct()
 	{
 		parent::__construct();
-		$this->html	= new Elements;
+		$this->html	= new UI_HTML_Elements;
 		$this->year	= date( "Y" );
 	}
 	

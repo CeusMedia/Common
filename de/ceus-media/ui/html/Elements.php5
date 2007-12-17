@@ -18,10 +18,8 @@
  *	@version		0.1
  *	@todo			Code Documentation
  */
-class Elements
+class UI_HTML_Elements
 {
-//	public function __construct( ) {}
-
 	public static function Preview( $html, $url, $title, $zoom = false )
 	{
 		$id	= uniqid( "" );
@@ -52,7 +50,7 @@ class Elements
 			$selected = false;
 			if( array_key_exists( '_selected', $options ) )
 				$selected	= $value == $options['_selected'];
-			$radio		= Elements::Radio( $name, $value, $selected, $class, $disabled );
+			$radio		= UI_HTML_Elements::Radio( $name, $value, $selected, $class, $disabled );
 			$content	= "<span class='radiolabel'><span class='radio'>".$radio."</span><span class='label'><label for='".$name."_".$value."'>".$label."</label></span></span>";
 			$radios[]	= $content;
 		}
@@ -376,7 +374,7 @@ class Elements
 		$ins_enctype	= $enctype ? " enctype=\"".$enctype."\"" : "";
 		$ins_submit	= $on_submit ? " onSubmit=\"".$on_submit."\"" : "";
 		$code = "<form".$ins_id.$ins_method.$ins_action.$ins_enctype.$ins_submit.">";
-//		$code .= Elements::HiddenField( "timestamp", time() );
+//		$code .= UI_HTML_Elements::HiddenField( "timestamp", time() );
 		return $code;
 	}
 
@@ -602,7 +600,7 @@ class Elements
 		$code = "";
 		if( $group )
 			$code .= "<optgroup label='".$group."'>";
-		$code .= Elements::Options( $options, $selected, false );
+		$code .= UI_HTML_Elements::Options( $options, $selected, false );
 		if( $group )
 			$code .= "</optgroup>";
 		return $code;
@@ -623,16 +621,16 @@ class Elements
 		{
 			foreach( $options as $option_group )
 				if( is_array( $option_group ) )
-					$code .= Elements::OptionGroup( $option_group['_groupname'], $option_group, $options['_selected'] );
+					$code .= UI_HTML_Elements::OptionGroup( $option_group['_groupname'], $option_group, $options['_selected'] );
 		}
 		else
 		{
 			foreach( $options as $key => $value )
 			{
 				if( is_array( $selected ) )
-					$code .= Elements::Option( $key, $value, in_array( (string)$key, $selected ) );
+					$code .= UI_HTML_Elements::Option( $key, $value, in_array( (string)$key, $selected ) );
 				else
-					$code .= Elements::Option( $key, $value, ( (string)$selected == (string)$key) );
+					$code .= UI_HTML_Elements::Option( $key, $value, ( (string)$selected == (string)$key) );
 			}
 		}
 		return $code;
@@ -728,11 +726,11 @@ class Elements
 	 */
 	public static function RadioLabel( $name, $label, $value, $checked = false, $class = 'radio', $disabled = false )
 	{
-		$radio	= Elements::Radio( $name, $value, $checked, $class, $disabled );
-		$field	= Elements::Field( '', $radio );
-		$label	= Elements::Label( '', $label, $class );
+		$radio	= UI_HTML_Elements::Radio( $name, $value, $checked, $class, $disabled );
+		$field	= UI_HTML_Elements::Field( '', $radio );
+		$label	= UI_HTML_Elements::Label( '', $label, $class );
 		$content	= "<tr>".$field.$label."</tr>";
-		$code	= Elements::Table( $content, false, false );
+		$code	= UI_HTML_Elements::Table( $content, false, false );
 		return $code;
 	}
 
@@ -777,9 +775,9 @@ class Elements
 		if( is_array ($options ) )
 		{
 			if( isset( $options['_selected'] ) )
-				$options = Elements::Options( $options, $options['_selected'] );
+				$options = UI_HTML_Elements::Options( $options, $options['_selected'] );
 			else
-				$options = Elements::Options( $options );
+				$options = UI_HTML_Elements::Options( $options );
 		}
 		if( $focus || $submit || $change )
 		{

@@ -6,7 +6,7 @@ import( 'de.ceus-media.ui.html.Elements' );
  *	@package		ui
  *	@subpackage		html
  *	@extends		ADT_OptionObject
- *	@uses			Elements
+ *	@uses			UI_HTML_Elements
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			14.03.2006
  *	@version		0.1
@@ -16,7 +16,7 @@ import( 'de.ceus-media.ui.html.Elements' );
  *	@package		ui
  *	@subpackage		html
  *	@extends		ADT_OptionObject
- *	@uses			Elements
+ *	@uses			UI_HTML_Elements
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			14.03.2006
  *	@version		0.1
@@ -70,7 +70,7 @@ class MonthCalendar extends ADT_OptionObject
 		
 		$this->setOption( 'url', "?" );
 
-		$this->html	= new Elements();
+		$this->html	= new UI_HTML_Elements;
 	}
 	
 	/**

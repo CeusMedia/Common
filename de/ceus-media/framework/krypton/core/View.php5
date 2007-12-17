@@ -5,7 +5,7 @@ import( 'de.ceus-media.ui.html.Paging' );
  *	Basic View Component.
  *	@package		mv2.core
  *	@uses			Framework_Krypton_Core_Registry
- *	@uses			View_Component_Paging
+ *	@uses			UI_HTML_Paging
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			01.12.2005
  *	@version		0.5
@@ -14,7 +14,7 @@ import( 'de.ceus-media.ui.html.Paging' );
  *	Basic View Component.
  *	@package		mv2.core
  *	@uses			Framework_Krypton_Core_Registry
- *	@uses			View_Component_Paging
+ *	@uses			UI_HTML_Paging
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			01.12.2005
  *	@version		0.5
@@ -61,7 +61,7 @@ class Framework_Krypton_Core_View extends Framework_Krypton_Core_Component
 		$link		= $request->get( 'link');
 		$words		= $this->words['main']['paging'];
 		
-		$paging			= new Paging;
+		$paging			= new UI_HTML_Paging;
 		$paging->setOption( 'uri', "index.php5" );
 		$paging->setOption( 'param', array( 'link'	=> $link ) );
 		$paging->setOption( 'indent', "" );

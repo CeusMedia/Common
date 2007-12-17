@@ -10,8 +10,8 @@ import( 'de.ceus-media.ui.html.WikiParser' );
  *	Generic View with Language Support.
  *	@package		framework.helium
  *	@uses			Reference
- *	@uses			Elements
- *	@uses			Paging
+ *	@uses			UI_HTML_Elements
+ *	@uses			UI_HTML_Paging
  *	@uses			TimeConverter
  *	@uses			File_INI_Reader
  *	@uses			WikiParser
@@ -23,8 +23,8 @@ import( 'de.ceus-media.ui.html.WikiParser' );
  *	Generic View with Language Support.
  *	@package		framework.helium
  *	@uses			Reference
- *	@uses			Elements
- *	@uses			Paging
+ *	@uses			UI_HTML_Elements
+ *	@uses			UI_HTML_Paging
  *	@uses			TimeConverter
  *	@uses			File_INI_Reader
  *	@uses			WikiParser
@@ -53,7 +53,7 @@ class Framework_Helium_View
 	{
 		$this->ref			= new Reference();
 		$this->tc			= new TimeConverter;
-		$this->html			= new Elements;
+		$this->html			= new UI_HTML_Elements;
 		$this->wiki			= new WikiParser;
 		$this->lan			=& $this->ref->get( 'language' );
 		$this->messenger	=& $this->ref->get( 'messenger' );
@@ -73,7 +73,7 @@ class Framework_Helium_View
 		$request	=& $this->ref->get( "request" );
 		$link		= $request->get( 'link');
 
-		$p	= new Paging;
+		$p	= new UI_HTML_Paging;
 		$p->setOption( 'uri',	"index.php" );
 		$p->setOption( 'param',	array( 'link'	=> $link ) );
 		$p->setOption( 'indent',	"" );

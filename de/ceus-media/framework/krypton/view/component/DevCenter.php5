@@ -37,12 +37,12 @@ class Framework_Krypton_View_Component_DevCenter extends Framework_Krypton_Core_
 		{
 			foreach( $this->tabs as $id => $label )
 			{
-				$listTabs[]	= Elements::ListItem( Elements::Link( "#".$id, "<span>".$label."</span>" ) );
+				$listTabs[]	= UI_HTML_Elements::ListItem( UI_HTML_Elements::Link( "#".$id, "<span>".$label."</span>" ) );
 				$listDivs[]	= '<div id="'.$id.'">'.$this->divs[$id].'</div>';
 			}
 			$ui		= array(
 				'path_js'	=> $config['paths']['javascripts'],
-				'tabs'		=> Elements::unorderedList( $listTabs ),
+				'tabs'		=> UI_HTML_Elements::unorderedList( $listTabs ),
 				'divs'		=> implode( "\n", $listDivs ),
 			);
 			return $this->loadTemplate( 'dev', $ui );

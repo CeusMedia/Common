@@ -5,7 +5,7 @@ import( 'de.ceus-media.adt.TimeConverter' );
  *	Abstract View Class of Framework Hydrogen.
  *	@package		framework
  *	@subpackage		hydrogen
- *	@uses			Elements
+ *	@uses			UI_HTML_Elements
  *	@uses			TimeConverter
  *	@author			Christian Würker <Christian.Wuerker@Ceus-Media.de>
  *	@since			01.09.2006
@@ -15,7 +15,7 @@ import( 'de.ceus-media.adt.TimeConverter' );
  *	Abstract View Class of Framework Hydrogen.
  *	@package		framework
  *	@subpackage		hydrogen
- *	@uses			Elements
+ *	@uses			UI_HTML_Elements
  *	@uses			TimeConverter
  *	@author			Christian Würker <Christian.Wuerker@Ceus-Media.de>
  *	@since			01.09.2006
@@ -65,7 +65,7 @@ class View
 	public function __construct( $application )
 	{
 		$this->_setEnv( $application );
-		$this->html	= new Elements();
+		$this->html	= new UI_HTML_Elements;
 		$this->time	= new TimeConverter();
 	}
 	

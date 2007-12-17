@@ -3,23 +3,25 @@ import( 'de.ceus-media.file.File' );
 /**
  *	Reading comma separated values with or without column headers.
  *	@package		file.csv
- *	@extends		File
+ *	@extends		File_Reader
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.5
  */
 /**
  *	Reading comma separated values with or without column headers.
  *	@package		file.csv
- *	@extends		File
+ *	@extends		File_Reader
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.5
  */
-class File_CSV_Reader extends File
+class File_CSV_Reader
 {
-	/**	@var	bool	$headers		Flag: use ColumnHeaders in first line */
-	protected $headers = false;
-	/**	@var	string	$separator		Separator Sign */
-	protected $separator = ";";
+	/**	@var		string		$fileName		Flag: use ColumnHeaders in first line */
+	protected $fileName;
+	/**	@var		bool		$headers		Flag: use ColumnHeaders in first line */
+	protected $headers			= false;
+	/**	@var		string		$separator		Separator Sign */
+	protected $separator		= ";";
 	
 	/**
 	 *	Constructor.
@@ -31,7 +33,7 @@ class File_CSV_Reader extends File
 	 */
 	public function __construct( $fileName, $headers = false, $separator = "," )
 	{
-		parent::__construct( $fileName );
+		$this->fileName	= $fileName;
 		$this->headers	= $headers;
 		$this->setSeparator( $separator );
 	}
@@ -46,7 +48,8 @@ class File_CSV_Reader extends File
 		$keys	= array();
 		if( $this->headers )
 		{
-			$lines	= $this->readArray();
+			$file	= new File_Reader( $this->fileName );
+			$lines	= $file->readArray();
 			$line	= array_shift( $lines );
 			$keys	= explode( $this->separator, trim( $line ) );
 		}
@@ -60,7 +63,8 @@ class File_CSV_Reader extends File
 	 */
 	function getRowCount()
 	{
-		$lines	= $this->readArray();
+		$file	= new File_Reader( $this->fileName );
+		$lines	= $file->readArray();
 		$count	= count( $lines );
 		if( $this->headers )
 			$count--;
@@ -96,7 +100,8 @@ class File_CSV_Reader extends File
 	function toArray()
 	{
 		$data	= array();
-		$lines	= $this->readArray();
+		$file	= new File_Reader( $this->fileName );
+		$lines	= $file->readArray();
 		if( $this->headers )
 			array_shift( $lines );
 		foreach( $lines as $line )
@@ -118,7 +123,8 @@ class File_CSV_Reader extends File
 		if( $this->headers )
 		{
 			$c = 0;
-			$lines	= $this->readArray();
+			$file	= new File_Reader( $this->fileName );
+			$lines	= $file->readArray();
 			$line	= array_shift( $lines );
 			$keys	= explode( $this->separator, trim( $line ) );
 			foreach( $lines as $line )

@@ -11,8 +11,8 @@ import( 'de.ceus-media.ui.html.WikiParser' );
  *	@subpackage		neon
  *	@extends		Object
  *	@uses			Reference
- *	@uses			Elements
- *	@uses			Paging
+ *	@uses			UI_HTML_Elements
+ *	@uses			UI_HTML_Paging
  *	@uses			TimeConverter
  *	@uses			File_INI_Reader
  *	@uses			WikiParser
@@ -26,8 +26,8 @@ import( 'de.ceus-media.ui.html.WikiParser' );
  *	@subpackage		neon
  *	@extends		Object
  *	@uses			Reference
- *	@uses			Elements
- *	@uses			Paging
+ *	@uses			UI_HTML_Elements
+ *	@uses			UI_HTML_Paging
  *	@uses			TimeConverter
  *	@uses			File_INI_Reader
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
@@ -47,19 +47,18 @@ class Framework_Neon_View
 			'wiki'	=> 'wiki',
 			'txt'	=> 'text',
 			);
-	/**	@var	TimeConverter	$tc			Time Converter */
+	/**	@var	TimeConverter				$tc			Time Converter */
 	public $tc;
-	/**	@var	Elements		$html		HTML Elements */
+	/**	@var	UI_HTML_Elements			$html		HTML Elements */
 	var $html;
-	/**	@var	WikiParser		$wiki		Wiki Parser */
+	/**	@var	WikiParser					$wiki		Wiki Parser */
 	var $wiki;
-	/**	@var	Language		$language	Language Support */
+	/**	@var	Framework_Neon_Language		$language	Language Support */
 	var $language;
-	/**	@var	array			$words		Array of all Words */
+	/**	@var	array						$words		Array of all Words */
 	var $words;
-	/**	@var	Messenger		$messenger	Messenger */
+	/**	@var	Framework_Neon_Messenger	$messenger	Messenger */
 	var $messenger;
-
 
 	/**
 	 *	Constructor, references Output Objects.
@@ -70,7 +69,7 @@ class Framework_Neon_View
 	{
 		$this->ref			= new Reference();
 		$this->tc			= new TimeConverter;
-		$this->html			= new Elements;
+		$this->html			= new UI_HTML_Elements;
 		$this->wiki			= new WikiParser;
 		$this->language		= $this->ref->get( 'language' );
 		$this->words		=& $this->language->words;
@@ -92,7 +91,7 @@ class Framework_Neon_View
 		$link		= $request->get( 'link');
 		$words		= $this->words['main']['paging'];
 
-		$p	= new Paging;
+		$p	= new UI_HTML_Paging;
 		$p->setOption( 'uri',		"" );
 		$p->setOption( 'param',		array( 'link'	=> $link ) );
 		$p->setOption( 'indent',	"" );

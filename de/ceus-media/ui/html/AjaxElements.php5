@@ -5,7 +5,7 @@ import( 'de.ceus-media.ui.html.Elements' );
  *	@desc			diverse Methoden zur einheitlichen und dynamischen Erstelltung von Formularen und Tabellen.
  *	@package		ui
  *	@subpackage		html
- *	@extends		Elements
+ *	@extends		UI_HTML_Elements
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.1
  */
@@ -14,13 +14,13 @@ import( 'de.ceus-media.ui.html.Elements' );
  *	@desc			diverse Methoden zur einheitlichen und dynamischen Erstelltung von Formularen und Tabellen.
  *	@package		ui
  *	@subpackage		html
- *	@extends		Elements
+ *	@extends		UI_HTML_Elements
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.1
  *	@todo			Finish Implementation
  *	@todo			Code Documentation
  */
-class AjaxElements extends Elements
+class AjaxElements extends UI_HTML_Elements
 {
 //	public function __construct( ) {}
 
@@ -76,7 +76,7 @@ class AjaxElements extends Elements
 	function Link( $url = "", $name, $class = false, $target = false, $confirm = false, $tabindex = false )
 	{
 		if( $target || substr_count( $url, "://" ) )
-			return Elements::Link( $url, $name, $class, $target, $confirm, $tabindex );
+			return UI_HTML_Elements::Link( $url, $name, $class, $target, $confirm, $tabindex );
 		else
 		{
 			$ins_class	= $class ? " class=\"".$class."\"" : "";
