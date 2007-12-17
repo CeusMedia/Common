@@ -1,7 +1,7 @@
 <?php
 import( 'de.ceus-media.database.BaseConnection' );
-import( 'de.ceus-media.database.mysql.MySQLResult' );
-import( 'de.ceus-media.database.mysql.MySQLRow' );
+import( 'de.ceus-media.database.mysql.Result' );
+import( 'de.ceus-media.database.mysql.Row' );
 import( 'de.ceus-media.functions.getBits' );
 /**
  *	MySQL Connection
@@ -10,12 +10,11 @@ import( 'de.ceus-media.functions.getBits' );
  *	Most important functions of AdoDB API are realised.
  *
  *	@package		database
- *	@extends		BaseConnection
- *	@uses			MySQLResult
- *	@uses			MySQLRow
+ *	@extends		Database_BaseConnection
+ *	@uses			Database_MySQL_Result
+ *	@uses			Database_MySQL_Row
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version 		0.4
- *	@todo			Dokumentation beenden
+ *	@version 		0.5
  */
 /**
  *	MySQL Connection
@@ -24,20 +23,20 @@ import( 'de.ceus-media.functions.getBits' );
  *	Most important functions of AdoDB API are realised.
  *
  *	@package		database
- *	@extends		BaseConnection
- *	@uses			MySQLResult
- *	@uses			MySQLRow
+ *	@extends		Database_BaseConnection
+ *	@uses			Database_MySQL_Result
+ *	@uses			Database_MySQL_Row
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version 		0.4
- *	@todo			Dokumentation beenden
+ *	@version 		0.5
+ *	@todo			Code Documentation
  */
-class MySQL extends BaseConnection
+class Database_MySQL_Connection extends Database_BaseConnection
 {
-	var $_dbc;
-	var $_database;
-	var $_insert_id;
-	var $countTime;
-	var $countQueries;
+	protected $dbc;
+	protected $database;
+	protected $insertId;
+	public $countTime;
+	public $countQueries;
 
 	/**
 	 *	Constructor.
@@ -48,69 +47,84 @@ class MySQL extends BaseConnection
 	public function __construct( $logfile	= false )
 	{
 		parent::__construct( $logfile );
-		$this->_insert_id = false;
+		$this->insertId = false;
 	}
 
-	function close()
+	/**
+	 *	Closes Database Connection.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function close()
 	{
-		mysql_close( $this->_dbc );
+		mysql_close( $this->dbc );
 	}
 	
-	function getError()
+	/**
+	 *	Returns last Error.
+	 *	@access		public
+	 *	@return		string
+	 */
+	public function getError()
 	{
-		return mysql_error( $this->_dbc );
+		return mysql_error( $this->dbc );
 	
 	}
 
-	function getErrNo()
+	/**
+	 *	Closes Database Connection.
+	 *	@access		public
+	 *	@return		int
+	 */
+	public function getErrNo()
 	{
-		return mysql_errno( $this->_dbc );
-	
+		return mysql_errno( $this->dbc );
 	}
 
-	function connect( $host, $user, $pass, $database = false, $verbose = false )
+	public function connect( $host, $user, $pass, $database = false, $verbose = false )
 	{
 		if( $verbose )
 			return $this->connectDatabase( "connect", $host, $user, $pass, $database );
 		return @$this->connectDatabase( "connect", $host, $user, $pass, $database );
 	}
 
-	function connectDatabase( $type, $host, $user, $pass, $database = false )
+	public function connectDatabase( $type, $host, $user, $pass, $database = false )
 	{
 		if( $type == "connect" )
 		{
-			if( $this->_dbc = mysql_connect( $host, $user, $pass ) )
+			if( $this->dbc = mysql_connect( $host, $user, $pass ) )
 				if( $database )
 					if( $this->selectDB( $database ) )
-						return $this->_connected = true;
+						return $this->connected = true;
 		}
 		else if( $type == "pconnect" )
 		{
-			if( $this->_dbc = mysql_pconnect( $host, $user, $pass ) )
+			if( $this->dbc = mysql_pconnect( $host, $user, $pass ) )
 			{
 				if( $database )
 					if( $this->selectDB( $database ) )
-						return $this->_connected = true;
+						return $this->connected = true;
 			}
 		}
 		return false;
 	}
 
-	function selectDB( $database )
+	public function selectDB( $database )
 	{
 		if( $this->Execute( "use ".$database ) )
 		{
-			$this->_database = $database;
+			$this->database = $database;
 			return true;
 		}
 		return false;
 	}
 
 	/**
-	*	@param	string	query			SQL Statement to be executed against Database Connection.
+	 *	Executes SQL Query.
+	 *	@param	string	query			SQL Statement to be executed against Database Connection.
 	 *	@param	int		debug			deBug Level (16:die after, 8:die before, 4:remark, 2:echo, 1:count[default])
 	 */
-	function execute( $query, $debug = 1 )
+	public function execute( $query, $debug = 1 )
 	{
 		$result = false;
 		if( $query )
@@ -132,20 +146,20 @@ class MySQL extends BaseConnection
 			}
 			if (eregi( "^( |\n|\r|\t)*(INSERT)", $query ) )
 			{
-				if( mysql_query( $query, $this->_dbc ) )
+				if( mysql_query( $query, $this->dbc ) )
 				{
-					$this->_insert_id = (int) mysql_insert_id( $this->_dbc );
-					$result	= $this->_insert_id;
+					$this->insertId = (int) mysqlinsertId( $this->dbc );
+					$result	= $this->insertId;
 				}
 			}
 			else if( eregi( "^( |\n|\r|\t)*(SELECT|SHOW)", $query ) )
 			{
-				$result = new MySQLResult();
-				if( $q = mysql_query( $query, $this->_dbc ) )
+				$result = new Database_MySQL_Result();
+				if( $q = mysql_query( $query, $this->dbc ) )
 				{
 					while( $d = mysql_fetch_array( $q ) )
 					{
-						$row = new MySQLRow();
+						$row = new Database_MySQL_Row();
 						foreach( $d as $key => $value )
 							$row->$key = $value;
 						$result->objects[] = $row;
@@ -154,7 +168,7 @@ class MySQL extends BaseConnection
 			}
 			else
 			{
-				$result = mysql_query( $query, $this->_dbc );
+				$result = mysql_query( $query, $this->dbc );
 			}
 			if( mysql_errno() )
 				$this->handleError( mysql_errno(), mysql_error(), $query );
@@ -169,46 +183,36 @@ class MySQL extends BaseConnection
 		}
 	}
 
-	function Insert_ID()
+	public function getInsertId()
 	{
-		return $this->_insert_id;
-	}
-
-	function InsertId()
-	{
-		return $this->_insert_id;
+		return $this->insertId;
 	}
 	
-	function MetaDatabases()
+	public function getDatabases()
 	{
-		$db_list = mysql_list_dbs( $this->_dbc );
+		$db_list = mysql_list_dbs( $this->dbc );
 		$databases	= array();
 		while( $row = mysql_fetch_object( $db_list ) )
 			$databases[]	= $row->Database . "\n";
 		return $databases;
 	}
 
-	function MetaTables()
+	public function getTables()
 	{
-		$tab_list = mysql_list_tables( $this->_database, $this->_dbc );
+		$tab_list = mysql_list_tables( $this->database, $this->dbc );
 		while( $table	= mysql_fetch_row( $tab_list ) )
 			$tables[]	= $table['0'];
 		return $tables;
 	}
 
-	function PConnect( $host, $user, $pass, $database )
+	public function connectPersistant( $host, $user, $pass, $database )
 	{
 		return $this->connectDatabase( "pconnect", $host, $user, $pass, $database );
 	}
 
-	function affectedRows()
+	public function getAffectedRows()
 	{
 		return mysql_affected_rows();
-	}
-
-	function Affected_Rows()
-	{
-		return $this->affectedRows();
 	}
 }
 ?>

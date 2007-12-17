@@ -3,7 +3,7 @@ import( 'de.ceus-media.adt.OptionObject' );
 import( 'de.ceus-media.file.File' );
 /**
  *	Definition of Input Field within Channels, Screens and Forms.
- *	@package		adt
+ *	@package		framework.neon
  *	@extends		ADT_OptionObject
  *	@uses			File
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
@@ -12,14 +12,14 @@ import( 'de.ceus-media.file.File' );
  */
 /**
  *	Definition of Input Field within Channels, Screens and Forms.
- *	@package		adt
+ *	@package		framework.neon
  *	@extends		ADT_OptionObject
  *	@uses			File
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			01.05.2006
  *	@version		0.1
  */
-class FieldDefinition extends ADT_OptionObject
+class Framework_Neon_FieldDefinition extends ADT_OptionObject
 {
 	private $_definition	= array();
 	

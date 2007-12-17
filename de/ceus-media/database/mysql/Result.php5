@@ -1,48 +1,44 @@
 <?php
 /**
- *	MySQLResult
- *
- *	@package		database
+ *	MySQL Result.
+ *	@package		database.mysql
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version 		0.4
+ *	@version 		0.5
  */
 /**
- *	MySQLResult
- *
- *	@package		database
+ *	MySQL Result.
+ *	@package		database.mysql
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version 		0.4
+ *	@version 		0.5
  */
-class MySQLResult
+class Database_MySQL_Result
 {
 	/**	@var	int		current		pointer for fetched rows */
+	protected $current;
 	/**	@var	array	object		list of all fetched rows */
-	var $current;
-	var $objects;
+	public $objects;
 
 	/**
 	 *	Constructor.
-	 *
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function __construct ()
+	public function __construct()
 	{
 		$this->current = 0;
-		$this->objects = array ();
+		$this->objects = array();
 	}
 
 	/**
 	 *	Returns next found row in this result.
-	 *
 	 *	@access		public
 	 *	@return		Object
 	 */
-	function FetchArray ()
+	public function fetchArray()
 	{
-		if( isset( $this->objects [$this->current] ) )
+		if( isset( $this->objects[$this->current] ) )
 		{
-			$obj = $this->objects [$this->current];
+			$obj = $this->objects[$this->current];
 			return $obj->getPairs();
 		}
 		else return false;
@@ -50,16 +46,15 @@ class MySQLResult
 
 	/**
 	 *	Returns next found row in this result.
-	 *
 	 *	@access		public
 	 *	@return		Object
 	 */
-	function FetchNextArray ()
+	public function fetchNextArray()
 	{
-		if ($this->current < $this->RecordCount ())
+		if( $this->current < $this->RecordCount() )
 		{
 			$this->current ++;
-			$obj = $this->objects [$this->current-1];
+			$obj = $this->objects[$this->current-1];
 			return $obj->getPairs();
 		}
 		else return false;
@@ -67,32 +62,30 @@ class MySQLResult
 
 	/**
 	 *	Returns next found row in this result.
-	 *
 	 *	@access		public
 	 *	@return		Object
 	 */
-	function FetchNextObject ()
+	public function fetchNextObject()
 	{
-		if ($this->current < $this->RecordCount ())
+		if( $this->current < $this->RecordCount() )
 		{
 			$this->current ++;
-			return $this->objects [$this->current-1];
+			return $this->objects[$this->current-1];
 		}
 		else return false;
 	}
 
 	/**
 	 *	Returns next found row in this result.
-	 *
 	 *	@access		public
 	 *	@return		Object
 	 */
-	function FetchNextRow ()
+	public function fetchNextRow()
 	{
-		if ($this->current < $this->RecordCount ())
+		if( $this->current < $this->RecordCount() )
 		{
 			$this->current ++;
-			$obj = $this->objects [$this->current-1];
+			$obj = $this->objects[$this->current-1];
 			return $obj->getValues();
 		}
 		else return false;
@@ -100,11 +93,10 @@ class MySQLResult
 
 	/**
 	 *	Returns found row in this result.
-	 *
 	 *	@access		public
 	 *	@return		Object
 	 */
-	function FetchObject ()
+	public function fetchObject()
 	{
 		if( isset( $this->objects [$this->current] ) )
 			return $this->objects [$this->current];
@@ -113,15 +105,14 @@ class MySQLResult
 
 	/**
 	 *	Returns next found row in this result.
-	 *
 	 *	@access		public
 	 *	@return		Object
 	 */
-	function FetchRow ()
+	public function fetchRow()
 	{
-		if( isset( $this->objects [$this->current] ) )
+		if( isset( $this->objects[$this->current] ) )
 		{
-			$obj = $this->objects [$this->current];
+			$obj = $this->objects[$this->current];
 			return $obj->getValues();
 		}
 		else return false;
@@ -129,13 +120,12 @@ class MySQLResult
 
 	/**
 	 *	Returns the number found rows in this result.
-	 *
 	 *	@access		public
 	 *	@return		int
 	 */
-	function RecordCount ()
+	public function recordCount()
 	{
-		return sizeof ($this->objects);
+		return count( $this->objects );
 	}
 }
 ?>

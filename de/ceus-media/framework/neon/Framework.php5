@@ -5,30 +5,28 @@ import( 'de.ceus-media.net.http.request.Receiver' );
 import( 'de.ceus-media.framework.neon.Messenger' );
 /**
  *	Main Class of Framework.
- *	@package		framework
- *	@subpackage		neon
+ *	@package		framework.neon
  *	@uses			Reference
  *	@uses			StopWatch
  *	@uses			Net_HTTP_Request_Receiver
- *	@uses			Messenger
+ *	@uses			Framework_Neon_Messenger
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			01.12.2005
  *	@version		0.1
  */
 /**
  *	Main Class of Framework.
- *	@package		framework
- *	@subpackage		neon
+ *	@package		framework.neon
  *	@uses			Reference
  *	@uses			StopWatch
  *	@uses			Net_HTTP_Request_Receiver
- *	@uses			Messenger
+ *	@uses			Framework_Neon_Messenger
  *	@uses			InterfaceViews
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			01.12.2005
  *	@version		0.1
  */
-class Framework
+class Framework_Neon_Base
 {
 	/**	@var	Reference	$ref			Reference */
 	var $ref;
@@ -42,8 +40,8 @@ class Framework
 	{
 		$this->ref	= new Reference;
 		$this->ref->add( "stopwatch",	new StopWatch );		
-		$this->ref->add( "messenger",	new Messenger );
-		$this->ref->add( "request",	new Net_HTTP_Request_Receiver );
+		$this->ref->add( "messenger",	new Framework_Neon_Messenger );
+		$this->ref->add( "request",		new Net_HTTP_Request_Receiver );
 		$this->init();
 	}
 	

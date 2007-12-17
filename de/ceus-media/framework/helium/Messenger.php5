@@ -4,8 +4,7 @@ import( 'de.ceus-media.Reference' );
 import( 'de.ceus-media.adt.TimeConverter' );
 /**
  *	Message Output Handler within a Session.
- *	@package		framework
- *	@subpackage		helium
+ *	@package		framework.helium
  *	@extends		ADT_OptionObject
  *	@uses			Reference
  *	@uses			TimeConverter
@@ -15,8 +14,7 @@ import( 'de.ceus-media.adt.TimeConverter' );
  */
 /**
  *	Message Output Handler within a Session.
- *	@package		framework
- *	@subpackage		helium
+ *	@package		framework.helium
  *	@extends		ADT_OptionObject
  *	@uses			Reference
  *	@uses			TimeConverter
@@ -24,7 +22,7 @@ import( 'de.ceus-media.adt.TimeConverter' );
  *	@since			01.12.2005
  *	@version		0.2
  */
-class Messenger extends ADT_OptionObject
+class Framework_Helium_Messenger extends ADT_OptionObject
 {
 	/**	@var	Reference	$ref			Reference */
 	var $ref;

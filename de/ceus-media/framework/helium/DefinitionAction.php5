@@ -1,11 +1,9 @@
 <?php
 import( 'de.ceus-media.framework.helium.Action' );
-import( 'de.ceus-media.file.log.LogFile' );
 /**
  *	Generic Definition Action Handler.
- *	@package		framework
- *	@subpackage		helium
- *	@extends		Action
+ *	@package		framework.helium
+ *	@extends		Framework_Helium_Action
  *	@uses			DefinitionValidator
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			18.06.2006
@@ -13,16 +11,14 @@ import( 'de.ceus-media.file.log.LogFile' );
  */
 /**
  *	Generic Definition Action Handler.
- *	@package		framework
- *	@subpackage		helium
- *	@extends		Action
+ *	@package		framework.helium
+ *	@extends		Framework_Helium_Action
  *	@uses			DefinitionValidator
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			18.06.2006
  *	@version		0.1
- *	@todo			TO BE CLEARED in next Version (see below)
  */
-class DefinitionAction extends Action
+class Framework_Helium_DefinitionAction extends Framework_Helium_Action
 {
 	/**	@var	string		$prefix		Prefix of XML Definition Files */
 	var $prefix	= "";
@@ -78,23 +74,6 @@ class DefinitionAction extends Action
 			foreach( $errors as $error )
 				$this->messenger->noteError( $error );
 		return !count( $errors );
-	}
-	
-	/**
-	 *	Runs Validation of Field Definitions againt Request Input and creates Error Messages and returns Success.
-	 *	@access		public
-	 *	@param		string		$file				Name of XML Definition File (e.g. %PREFIX%#FILE#.xml)
-	 *	@param		string		$form			Name of Form within XML Definition File (e.g. 'addExample' )
-	 *	@param		string		$lan_file			Name of Language File (e.g. 'example')
-	 *	@param		string		$lan_section		Section in Language File (e.g. 'add')
-	 *	@return		bool
-	 *	@todo		TO BE DELETED in next Version
-	 */
-	function validateFormular( $file , $form, $lan_file, $lan_section )
-	{
-		$log	= new LogFile( "!depracated.log" );
-		$log->addEntry( "ACTION file: ".$file." | form: ".$form." | lan: ".$lan_file." | section: ".$lan_section );
-		return $this->validateForm( $file , $form, $lan_file, $lan_section );
 	}
 
 	//  --  PRIVATE METHODS  --  //

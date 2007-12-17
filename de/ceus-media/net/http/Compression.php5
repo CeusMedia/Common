@@ -1,18 +1,18 @@
 <?php
-import( 'de.ceus-media.file.log.LogFile' );
+import( 'de.ceus-media.file.log.Writer' );
 /**
  *	Compresses and sends HTTP Output.
  *	@package		protocol
  *	@subpackage		http
  *	@extends		Object
- *	@uses			LogFile
+ *	@uses			File_Log_Writer
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.1
  */
 /**
  *	Compresses and sends HTTP Output.
  *	@package		net.http
- *	@uses			LogFile
+ *	@uses			File_Log_Writer
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.5
  */
@@ -89,11 +89,11 @@ class Net_HTTP_Compression
 	 */
 	protected function logRatio( $logFile, $before, $after )
 	{
-		$log		= new LogFile( $logFile );
+		$log		= new File_Log_Writer( $logFile );
 		$ratio	= round( ( $after / $before * 100 ), 2 );
 		$before	= round( $before/1024, 3 )." kB";
 		$after	= round( $after/1024, 3 )." kB";
-		$log->addEntry( $this->name." (".$before.")->[".$after."] = ".$ratio." %" );
+		$log->note( $this->name." (".$before.")->[".$after."] = ".$ratio." %" );
 	}
 }
 ?>

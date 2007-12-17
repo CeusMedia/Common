@@ -1,11 +1,11 @@
 <?php
 import( 'de.ceus-media.framework.neon.View' );
-import( 'de.ceus-media.file.log.LogFile' );
+import( 'de.ceus-media.file.log.Writer' );
 /**
  *	Generic Definition View with Language Support.
  *	@package		framework
  *	@subpackage		argon
- *	@extends		View
+ *	@extends		Framework_Neon_View
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			18.06.2006
  *	@version		0.1
@@ -14,12 +14,12 @@ import( 'de.ceus-media.file.log.LogFile' );
  *	Generic Definition View with References.
  *	@package		framework
  *	@subpackage		argon
- *	@extends		View
+ *	@extends		Framework_Neon_View
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			18.06.2006
  *	@version		0.1
  */
-class DefinitionView extends View
+class DefinitionView extends Framework_Neon_View
 {
 	/**	@var	string		$prefix		Prefix of XML Definition Files */
 	var $prefix	= "";
@@ -49,8 +49,8 @@ class DefinitionView extends View
 		$label	= $this->html->Label( $data['input']['name'], $labels[$field] );
 		return $label;
 		$array['label_'.$field]	= $label;
-		$log	= new LogFile( 'unexpected_usage.log' );
-		$log->addEntry( "VIEW field: ".$field );
+		$log	= new File_Log_Writer( 'unexpected_usage.log' );
+		$log->note( "VIEW field: ".$field );
 		return $array;
 	}
 	

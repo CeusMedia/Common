@@ -5,30 +5,27 @@ import( 'de.ceus-media.net.http.request.Receiver' );
 import( 'de.ceus-media.framework.helium.Messenger' );
 /**
  *	Main Class of Framework.
- *	@package		framework
- *	@subpackage		helium
+ *	@package		framework.helium
  *	@uses			Reference
  *	@uses			StopWatch
  *	@uses			Net_HTTP_Request_Receiver
- *	@uses			Messenger
+ *	@uses			Framework_Helium_Messenger
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			01.12.2005
  *	@version		0.1
  */
 /**
  *	Main Class of Framework.
- *	@package		framework
- *	@subpackage		helium
+ *	@package		framework.helium
  *	@uses			Reference
  *	@uses			StopWatch
  *	@uses			Net_HTTP_Request_Receiver
- *	@uses			Messenger
- *	@uses			InterfaceViews
+ *	@uses			Framework_Helium_Messenger
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			01.12.2005
  *	@version		0.1
  */
-class Framework
+class Framework_Helium_Base
 {
 	/**	@var	Reference	$ref			Reference */
 	var $ref;

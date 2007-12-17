@@ -4,9 +4,8 @@ import( 'de.ceus-media.file.log.LogFile' );
 import( 'de.ceus-media.validation.DefinitionValidator' );
 /**
  *	Generic Definition Action Handler.
- *	@package		framework
- *	@subpackage		neon
- *	@extends		Action
+ *	@package		framework.neon
+ *	@extends		Framework_Neon_Action
  *	@uses			DefinitionValidator
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			18.06.2006
@@ -14,16 +13,14 @@ import( 'de.ceus-media.validation.DefinitionValidator' );
  */
 /**
  *	Generic Definition Action Handler.
- *	@package		framework
- *	@subpackage		neon
- *	@extends		Action
+ *	@package		framework.neon
+ *	@extends		Framework_Neon_Action
  *	@uses			DefinitionValidator
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			18.06.2006
  *	@version		0.1
- *	@todo			TO BE CLEARED in next Version (see below)
  */
-class DefinitionAction extends Action
+class Framework_Neon_DefinitionAction extends Framework_Neon_Action
 {
 	/**	@var	string		$prefix		Prefix of XML Definition Files */
 	var $prefix	= "";

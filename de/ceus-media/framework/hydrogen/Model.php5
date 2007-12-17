@@ -2,21 +2,19 @@
 import( 'de.ceus-media.database.TableWriter' );
 /**
  *	Abstract Model Class of Framework Hydrogen.
- *	@package		framework
- *	@subpackage		hydrogen
- *	@uses			TableWriter
+ *	@package		framework.hydrogen
+ *	@uses			Database_TableWriter
  *	@author			Christian Würker <Christian.Wuerker@Ceus-Media.de>
  *	@since			01.09.2006
- *	@version		0.1
+ *	@version		0.4
  */
 /**
  *	Abstract Model Class of Framework Hydrogen.
- *	@package		framework
- *	@subpackage		hydrogen
- *	@uses			TableWriter
+ *	@package		framework.hydrogen
+ *	@uses			Database_TableWriter
  *	@author			Christian Würker <Christian.Wuerker@Ceus-Media.de>
  *	@since			01.09.2006
- *	@version		0.1
+ *	@version		0.4
  */
 class Model
 {
@@ -47,7 +45,7 @@ class Model
 	public function __construct( $application, $id = false )
 	{
 		$this->_setEnv( $application );
-		$this->table	= new TableWriter( $this->_dbc, $this->_table, $this->fields, $this->primary_key, $id );
+		$this->table	= new Database_TableWriter( $this->_dbc, $this->_table, $this->fields, $this->primary_key, $id );
 		$this->table->setForeignKeys( $this->foreign_keys );
 	}
 	
@@ -75,7 +73,7 @@ class Model
 	{
 		$this->table->focusPrimary( $id );
 		$result	= false;
-		if( count( $this->table->getData( false ) ) )
+		if( count( $this->table->getData() ) )
 		{
 			$this->table->modifyData( $data );
 			$result	= true;
@@ -94,7 +92,7 @@ class Model
 	{
 		$this->table->focusPrimary( $id );
 		$result	= false;
-		if( count( $this->table->getData( false ) ) )
+		if( count( $this->table->getData() ) )
 		{
 			$this->table->deleteData();
 			$result	= true;
@@ -113,7 +111,7 @@ class Model
 	function get( $id, $field = "" )
 	{
 		$this->table->focusPrimary( $id );
-		$data	= $this->table->getData( false, true );
+		$data	= $this->table->getData( true );
 		$this->table->defocus();
 		if( $field )
 			return $data[$field];
@@ -131,7 +129,6 @@ class Model
 	function getAll( $conditions = array(), $orders = array(), $limits = array() )
 	{
 		$data	= $this->table->getAllData( array(), $conditions, $orders, $limits );
-		$data	= $data[$this->table->getTableName()];
 		return $data;
 	}
 
@@ -182,7 +179,7 @@ class Model
 	function getByForeignKey( $key, $value, $field = "" )
 	{
 		$this->table->focusForeign( $key, $value );
-		$data	= $this->table->getData( false, true );
+		$data	= $this->table->getData( true );
 		$this->table->defocus();
 		if( $field )
 			return $data[$field];
@@ -200,7 +197,7 @@ class Model
 	{
 		foreach( $keys as $key => $value )
 			$this->table->focusForeign( $key, $value );
-		$data	= $this->table->getData( false, true );
+		$data	= $this->table->getData( true );
 		$this->table->defocus();
 		if( $field )
 			return $data[$field];

@@ -36,7 +36,7 @@ import( 'de.ceus-media.ui.html.WikiParser' );
  *	@version		0.3
  *	@todo			Code Documentation
  */
-class View
+class Framework_Neon_View
 {
 	/**	@var	Reference	$ref			Reference */
 	protected $ref;

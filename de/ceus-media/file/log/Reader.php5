@@ -2,46 +2,37 @@
 /**
  *	Reader for Log File.
  *	@package		file.log
- *	@extends		LogFile
+ *	@uses			File_Reader
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			28.11.2007
- *	@version		0.1
+ *	@version		0.5
  */
 /**
  *	Reader for Log File.
  *	@package		file.log
- *	@extends		LogFile
+ *	@uses			File_Reader
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			28.11.2007
- *	@version		0.1
+ *	@version		0.5
  */
 class File_Log_Reader
 {
 	/**
-	 *	Constructor.
-	 *	@access		public
-	 *	@param		string		$uri		URI of Log File
-	 *	@return		void
-	 */
-	public function __construct( $uri )
-	{
-		$this->uri = $uri;
-	}
-
-
-	/**
 	 *	Reads Log File and returns Lines.
 	 *	@access		public
+	 *	@param		string		$uri		URI of Log File
+	 *	@param		int			$offset		Offset from Start or End
+	 *	@param		int			$limit		Amount of Entries to return
 	 *	@return		array
 	 */
-	public function read()
+	public static function read( $uri, $offset = 0, $limit = 0)
 	{
-		$lines = array();
-		if( !file_exists( $this->uri ) )
-			throw new Exception( "Log File '".$this->uri."' is not existing." );
-		if( $fcont = file( $this->uri ) )
-			foreach( $fcont as $line )
-				$lines[] = trim( $line );
+		$file	= new File_Reader( $uri );
+		$lines	= $file->readArray();
+		if( $offset && $limit )
+			$lines	= array_slice( $lines, $offset, $limit );
+		else if( $offset )
+			$lines	= array_slice( $lines, $offset );
 		return $lines;
 	}
 }

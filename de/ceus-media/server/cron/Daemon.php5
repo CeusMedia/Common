@@ -65,7 +65,7 @@ class Server_Cron_Daemon
 						if( $content )
 						{
 							$content	= preg_replace( "@((\\r)?\\n)+$@", "", $content );
-							$this->logFile->addEntry( $content );
+							$this->logFile->note( $content );
 						}
 					}
 				}

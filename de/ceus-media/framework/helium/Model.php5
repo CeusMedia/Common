@@ -3,38 +3,36 @@ import( 'de.ceus-media.database.TableWriter' );
 import( 'de.ceus-media.Reference' );
 /**
  *	Generic Model for Database Structures.
- *	@package		framework
- *	@subpackage		helium
- *	@extends		TableWriter
+ *	@package		framework.helium
+ *	@extends		Database_TableWriter
  *	@uses			Reference
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			01.11.2005
- *	@version		0.1
+ *	@version		0.5
  */
-/*
+/**
  *	Generic Model for Database Structures.
- *	@package		framework
- *	@subpackage		helium
- *	@extends		TableWriter
+ *	@package		framework.helium
+ *	@extends		Database_TableWriter
  *	@uses			Reference
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			01.11.2005
- *	@version		0.1
+ *	@version		0.5
  */
-class Model extends TableWriter
+class Framework_Helium_Model extends Database_TableWriter
 {
-	/**	@var	string		$prefix			Prefix of Table  */
-	var $prefix;
-	/**	@var	Reference	$ref			Reference to Objects */
-	var $ref;
+	/**	@var		string		$prefix			Prefix of Table  */
+	protected $prefix;
+	/**	@var		Reference	$ref			Reference to Objects */
+	protected $ref;
 	
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		string	$table			Name of Table
-	 *	@param		array	$fields			Fields of Table
-	 *	@param		string	$primaryKey		Primary Key of Table
-	 *	@param		int		$focus			Current focussed primary Key
+	 *	@param		string		$table			Name of Table
+	 *	@param		array		$fields			Fields of Table
+	 *	@param		string		$primaryKey		Primary Key of Table
+	 *	@param		int			$focus			Current focussed primary Key
 	 *	@return		void
 	 */
 	public function __construct( $tableName, $fields, $primaryKey, $focus = false )
@@ -51,7 +49,7 @@ class Model extends TableWriter
 	 *	@access		public
 	 *	@return		string
 	 */
-	function getPrefix()
+	public function getPrefix()
 	{
 		return $this->prefix;
 	}
@@ -62,7 +60,7 @@ class Model extends TableWriter
 	 *	@param		bool		$prefixed			Flag: an Prefix of Table
 	 *	@return		string
 	 */
-	function getTableName( $prefixed = true )
+	public function getTableName( $prefixed = true )
 	{
 		if( $prefixed )
 			return $this->getPrefix().$this->tableName;
@@ -70,18 +68,36 @@ class Model extends TableWriter
 			return $this->tableName;
 	}
 	
-	function add( $data, $prefix = "add_", $stripTags = false, $debug = 1  )
+	/**
+	 *	Adds Data to Table.
+	 *	@access		public
+	 *	@param		array		$data		Data to add
+	 *	@param		string		$prefix		Prefix of Request Data
+	 *	@param		bool		$stripTags	Flag: strip HTML Tags
+	 *	@param		int			$debug		Debug Mode
+	 *	@return 	void
+	 */
+	public function add( $data, $prefix = "add_", $stripTags = false, $debug = 1  )
 	{
 		if( $prefix )
 			array_walk( $data, array( &$this, "removeRequestPrefix" ), $prefix );
 		$this->addData( $data, $stripTags, $debug );	
 	}
 	
-	function modify( $data, $prefix = "edit_", $stripTags = false, $debug = 1 )
+	/**
+	 *	Modifies Data in Table.
+	 *	@access		public
+	 *	@param		array		$data		Data to modify
+	 *	@param		string		$prefix		Prefix of Request Data
+	 *	@param		bool		$stripTags	Flag: strip HTML Tags
+	 *	@param		int			$debug		Debug Mode
+	 *	@return 	void
+	 */
+	public function modify( $data, $prefix = "edit_", $stripTags = false, $debug = 1 )
 	{
 		if( $prefix )
 			array_walk( $data, array( &$this, "removeRequestPrefix" ), $prefix );
-		$this->addData( $data, $stripTags, $debug );	
+		$this->modifyData( $data, $stripTags, $debug );	
 	}
 	
 	/**

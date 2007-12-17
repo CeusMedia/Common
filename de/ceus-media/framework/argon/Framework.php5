@@ -2,7 +2,7 @@
 import( 'de.ceus-media.Reference' );
 import( 'de.ceus-media.StopWatch' );
 import( 'de.ceus-media.net.http.request.Receiver' );
-import( 'de.ceus-media.framework.neon.Messenger' );
+import( 'de.ceus-media.framework.argon.Messenger' );
 /**
  *	Main Class of Framework.
  *	@package		framework
@@ -10,7 +10,7 @@ import( 'de.ceus-media.framework.neon.Messenger' );
  *	@uses			Reference
  *	@uses			StopWatch
  *	@uses			Net_HTTP_Request_Receiver
- *	@uses			Messenger
+ *	@uses			Framework_Argon_Messenger
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			01.12.2005
  *	@version		0.1
@@ -22,7 +22,7 @@ import( 'de.ceus-media.framework.neon.Messenger' );
  *	@uses			Reference
  *	@uses			StopWatch
  *	@uses			Net_HTTP_Request_Receiver
- *	@uses			Messenger
+ *	@uses			Framework_Argon_Messenger
  *	@uses			InterfaceViews
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			01.12.2005
@@ -42,8 +42,8 @@ class Framework
 	{
 		$this->ref	= new Reference;
 		$this->ref->add( "stopwatch",	new StopWatch );		
-		$this->ref->add( "messenger",	new Messenger );
-		$this->ref->add( "request",	new Net_HTTP_Request_Receiver );
+		$this->ref->add( "messenger",	new Framework_Argon_Messenger );
+		$this->ref->add( "request",		new Net_HTTP_Request_Receiver );
 		$this->_init();
 	}
 	

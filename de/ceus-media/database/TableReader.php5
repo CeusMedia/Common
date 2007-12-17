@@ -11,24 +11,24 @@
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.5
  *	@todo			finish Code Documentation (@param at methods)
- *	@todo			finish Code Documentation (last methods)
- *	@todo			remove caching
  */
-class TableReader
+class Database_TableReader
 {
 	/**	@var	Object			$dbc			Database Connection */
 	protected $dbc;
-	/**	@var	array			$fields		List of Table Fields / columns */
+	/**	@var	array			$fields			List of Table Fields / columns */
 	protected $fields			= array();
 	/**	@var	int				$focus			focused Primary Key */
-	protected $focus				= false;
+	protected $focus			= false;
+	/**	@var	string			$focusKey		Name of Primary Key */
 	protected $focusKey;
 	/**	@var	array			$foreignKeys	List of Foreign Keys of Table */
 	protected $foreignKeys		= array();
+	/**	@var	array			$foreignFocuses	List of focussed Keys */
 	protected $foreignFocuses	= array();
-	/**	@var	string			$primaryKey	Primary Key of this Table */
+	/**	@var	string			$primaryKey		Primary Key of this Table */
 	protected $primaryKey;
-	/**	@var	string			$tableName	Name of this Table */
+	/**	@var	string			$tableName		Name of this Table */
 	protected $tableName;
 
 	/**
@@ -118,7 +118,6 @@ class TableReader
 		}
 		return -1;
 	}
-		
 
 	/**
 	 *	Returns all entries of this Table in an array.
@@ -141,7 +140,7 @@ class TableReader
 			$orders		= $this->getOrderQuery( $orders );
 			$limit		= $this->getLimitQuery( $limit );
 		
-			$all	= array();
+			$list	= array();
 			$query = "SELECT ".implode( ", ", $keys )." FROM ".$this->getTableName().$conditions.$orders.$limit;
 			if( $verbose )
 				echo "<br/>".$query;
@@ -152,10 +151,44 @@ class TableReader
 				foreach( $this->fields as $field )
 					if( in_array( "*", $keys ) || in_array( $field, $keys ) )
 						$data[$field] = $d->$field;
-				$all[] = $data;
+				$list[] = $data;
 			}
 		}
-		return array( $this->getTableName() => $all );
+		return $list;
+	}
+
+	/**
+	 *	Builds SQL of given and set Conditions.
+	 *	@access		protected
+	 *	@param		array		$conditions		Array of Query Conditions
+	 *	@param		bool		$usePrimary		Flag: use focused Primary Key
+	 *	@param		bool		$useForeign		Flag: use focused Foreign Keys
+	 *	@return		string
+	 */
+	protected function getConditionQuery( $conditions, $usePrimary = true, $useForeign = true )
+	{
+		$new = array();
+		foreach( $this->fields as $field )									//  iterate all Fields
+			if( isset( $conditions[$field] ) )								//  if Condition given
+				$new[$field] = $conditions[$field];							//  note Condition Pair
+		if( $useForeign && count( $this->foreignFocuses ) )					//  if using Foreign Keys
+			foreach( $this->foreignFocuses as $key => $value )				//  iterate focused Foreign Keys & is focused Foreign
+				$new[$key] = $value; 										//  note foreign Key Pair
+
+		if( $usePrimary && $this->isFocused() == "primary" )				//  if using foreign Keys & is focused primary
+			$new[$this->focusKey] = $this->focus;							//  note primary Key Pair
+
+		$conditions = array();
+		foreach( $new as $key => $value )									//  iterate all noted Pairs
+//			$conditions[] =  $key.'="'.$value.'"';							//  create SQL WHERE Condition
+			if( preg_match( "/%/", $value ) )
+				$conditions[] = $key." LIKE '".$value."'";
+			else if( preg_match( "/^<|=|>|!=/", $value ) )
+				$conditions[] = $key.$value;
+			else
+				$conditions[] = $key."='".$value."'";
+		$conditions = implode( " AND ", $conditions );						//  combine Conditions with AND
+		return $conditions;
 	}
 
 	/**
@@ -164,7 +197,7 @@ class TableReader
 	 *	@param		array	$data		array of data to store
 	 *	@return		bool
 	 */
-	public function getData( $wrap = true, $first = false, $orders = array(), $limit = array(), $verbose = false )
+	public function getData( $first = false, $orders = array(), $limit = array(), $verbose = false )
 	{
 		$data = array();
 		if( $this->isFocused() && sizeof( $this->fields ) )
@@ -190,8 +223,6 @@ class TableReader
 		}
 		if( count( $data ) && $first )
 			$data	= $data[0];
-		if( $wrap )
-			$data	= array( $this->getTableName() => $data );
 		return $data;
 	}
 
@@ -239,6 +270,41 @@ class TableReader
 		return $this->foreignKeys;
 	}
 
+	/**
+	 *	Builds Query Limit.
+	 *	@access		protected
+	 *	@param		array		$limit			Array of Offet and Limit
+	 *	@return		string
+	 */
+	protected function getLimitQuery( $limit = array() )
+	{
+		if( is_array( $limit ) && count( $limit ) == 2 ) 
+			$limit = " LIMIT ".$limit[0].", ".$limit[1];
+		else
+			$limit = "";
+		return $limit;
+	}
+
+	/**
+	 *	Builds Query Order.
+	 *	@access		protected
+	 *	@param		array		$orders			Array of Orders, like array('field1'=>"ASC",'field'=>"DESC") 
+	 *	@return		string
+	 */
+	protected function getOrderQuery( $orders = array() )
+	{
+		if( is_array( $orders ) && count( $orders ) )
+		{
+			$order = array();
+			foreach( $orders as $key => $value )
+				$order[] = $key." ".$value;
+			$orders = " ORDER BY ".implode( ", ", $order );
+		}
+		else
+			$orders = "";
+		return $orders;
+	}
+	
 	/**
 	 *	Returns the name of the primary key.
 	 *	@access		public
@@ -341,72 +407,6 @@ class TableReader
 	public function setTableName( $tableName )
 	{
 		$this->tableName = $tableName;
-	}
-
-	//  --  PROTECTED METHODS  --  //
-	/**
-	 *	...
-	 *	@access		protected
-	 *	@param		array		$limit			Array of Offet and Limit
-	 *	@return		string
-	 */
-	protected function getLimitQuery( $limit = array() )
-	{
-		if( is_array( $limit ) && count( $limit ) == 2 ) 
-			$limit = " LIMIT ".$limit[0].", ".$limit[1];
-		else
-			$limit = "";
-		return $limit;
-	}
-	
-	/**
-	 *	...
-	 *	@access		protected
-	 *	@return		string
-	 */
-	protected function getOrderQuery( $orders = array() )
-	{
-		if( is_array( $orders ) && count( $orders ) )
-		{
-			$order = array();
-			foreach( $orders as $key => $value )
-				$order[] = $key." ".$value;
-			$orders = " ORDER BY ".implode( ", ", $order );
-		}
-		else
-			$orders = "";
-		return $orders;
-	}
-	
-	/**
-	 *	Builds SQL of given and set Conditions.
-	 *	@access		protected
-	 *	@return		string
-	 */
-	protected function getConditionQuery( $conditions, $usePrimary = true, $useForeign = true )
-	{
-		$new = array();
-		foreach( $this->fields as $field )									//  iterate all Fields
-			if( isset( $conditions[$field] ) )								//  if Condition given
-				$new[$field] = $conditions[$field];							//  note Condition Pair
-		if( $useForeign && count( $this->foreignFocuses ) )					//  if using Foreign Keys
-			foreach( $this->foreignFocuses as $key => $value )				//  iterate focused Foreign Keys & is focused Foreign
-				$new[$key] = $value; 										//  note foreign Key Pair
-
-		if( $usePrimary && $this->isFocused() == "primary" )				//  if using foreign Keys & is focused primary
-			$new[$this->focusKey] = $this->focus;							//  note primary Key Pair
-
-		$conditions = array();
-		foreach( $new as $key => $value )									//  iterate all noted Pairs
-//			$conditions[] =  $key.'="'.$value.'"';							//  create SQL WHERE Condition
-			if( preg_match( "/%/", $value ) )
-				$conditions[] = $key." LIKE '".$value."'";
-			else if( preg_match( "/^<|=|>|!=/", $value ) )
-				$conditions[] = $key.$value;
-			else
-				$conditions[] = $key."='".$value."'";
-		$conditions = implode( " AND ", $conditions );						//  combine Conditions with AND
-		return $conditions;
 	}
 }
 ?>

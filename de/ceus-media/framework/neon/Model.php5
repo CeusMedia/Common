@@ -3,25 +3,23 @@ import( 'de.ceus-media.database.TableWriter' );
 import( 'de.ceus-media.Reference' );
 /**
  *	Generic Model for Database Structures.
- *	@package		framework
- *	@subpackage		helium
- *	@extends		TableWriter
+ *	@package		framework.neon
+ *	@extends		Database_TableWriter
  *	@uses			Reference
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			01.11.2005
- *	@version		0.1
+ *	@version		0.5
  */
 /*
  *	Generic Model for Database Structures.
- *	@package		framework
- *	@subpackage		helium
- *	@extends		TableWriter
+ *	@package		framework.neon
+ *	@extends		Database_TableWriter
  *	@uses			Reference
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			01.11.2005
- *	@version		0.1
+ *	@version		0.5
  */
-class Model extends TableWriter
+class Framework_Neon_Model extends Database_TableWriter
 {
 	/**	@var	string		$prefix			Prefix of Table  */
 	protected $prefix;
@@ -70,6 +68,15 @@ class Model extends TableWriter
 			return $this->tableName;
 	}
 	
+	/**
+	 *	Adds Data to Table.
+	 *	@access		public
+	 *	@param		array		$data		Data to add
+	 *	@param		string		$prefix		Prefix of Request Data
+	 *	@param		bool		$stripTags	Flag: strip HTML Tags
+	 *	@param		int			$debug		Debug Mode
+	 *	@return 	void
+	 */
 	public function add( $data, $prefix = "add_", $stripTags = false, $debug = 1  )
 	{
 		if( $prefix )
@@ -77,22 +84,37 @@ class Model extends TableWriter
 		$this->addData( $data, $stripTags, $debug );	
 	}
 	
+	/**
+	 *	Modifies Data in Table.
+	 *	@access		public
+	 *	@param		array		$data		Data to modify
+	 *	@param		string		$prefix		Prefix of Request Data
+	 *	@param		bool		$stripTags	Flag: strip HTML Tags
+	 *	@param		int			$debug		Debug Mode
+	 *	@return 	void
+	 */
 	public function modify( $data, $prefix = "edit_", $stripTags = false, $debug = 1 )
 	{
 		if( $prefix )
 			array_walk( $data, array( $this, "removeRequestPrefix" ), $prefix );
-		$this->addData( $data, $stripTags, $debug );	
+		$this->modifyData( $data, $stripTags, $debug );	
 	}
 	
+	/**
+	 *	Indicates whether an Entry is existing.
+	 *	@access		public
+	 *	@param		int			$id			Primary Id of Entry
+	 *	@return 	bool
+	 */
 	public function exists( $id = 0 )
 	{
 		if( $id )
 		{
 			$object	= clone( $this );
 			$object->focusPrimary( $id );
-			return (bool)count( $object->getData( false, true ) );
+			return (bool)count( $object->getData( true ) );
 		}
-		return (bool)count( $this->getData( false, true ) );
+		return (bool)count( $this->getData( true ) );
 	}
 	
 	/**

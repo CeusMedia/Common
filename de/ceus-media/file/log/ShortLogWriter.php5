@@ -45,7 +45,7 @@ class ShortLogWriter
 	 *	@param		string		$line		Entry to add to Log File
 	 *	@return		bool
 	 */
-	public function addEntry( $line = false)
+	public function note( $line = false)
 	{
 		if( is_array( $line ) )
 			$line	= implode( "|", $line );

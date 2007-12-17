@@ -21,16 +21,16 @@ class ClassImport
 	 *	@param		string		$classPath		Java-formated URI of Class
 	 *	@return		void
 	 */	 
-	public function import( $classPath )
+	public static function import( $classPath )
 	{
 		if( substr( $classPath, -1 ) == "*" )
 		{
 			$classpath = substr( $classPath, 0, -1 );
-			$this->importPackage( $classPath );
+			self::importPackage( $classPath );
 		}
 		else
 		{
-			$this->importClass( $classPath );
+			self::importClass( $classPath );
 		}
 	}
 	
@@ -40,7 +40,7 @@ class ClassImport
 	 *	@param		string		$classPath		Java-formated URI of Folder with Classes
 	 *	@return		void
 	 */	 
-	protected function importPackage( $classPath, $report = false )
+	protected static function importPackage( $classPath, $report = false )
 	{
 		$classPath = str_replace( IMPORT_SEPARATOR, FOLDER_SEPARATOR, $classPath );
 		import( "de.ceus-media.file.folder.TreeFolder" );
@@ -55,7 +55,7 @@ class ClassImport
 				{
 					$file = substr( $classPath.$file, 0, -4 );
 					$file = str_replace( FOLDER_SEPARATOR, IMPORT_SEPARATOR, $file );
-					$this->importClass( $file );
+					self::importClass( $file );
 				}
 			}
 		}
@@ -67,13 +67,13 @@ class ClassImport
 	 *	@param		string		$className		Java-formated URI of Class
 	 *	@return		void
 	 */	 
-	protected function importClass( $className )
+	protected static function importClass( $className )
 	{
 		$fileName	= ___getFileFromClass( $className);
 		if( !in_array( $fileName, $GLOBALS['imported'] ) )
 		{
-			if( !include_once( $fileName ) )
-				throw new Exception( "Class '".$fileName."' could not be loaded." );
+			if( !@include_once( $fileName ) )
+				throw new Exception( 'Class "'.$fileName.'" could not be loaded.' );
 			$GLOBALS['imported'][] = $fileName;
 		}
 	}

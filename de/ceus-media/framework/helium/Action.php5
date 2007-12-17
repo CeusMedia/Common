@@ -5,8 +5,7 @@ import( 'de.ceus-media.validation.DefinitionValidator' );
 import( 'de.ceus-media.adt.TimeConverter' );
 /**
  *	Generic Action Handler.
- *	@package		framework
- *	@subpackage		helium
+ *	@package		framework.helium
  *	@uses			Reference
  *	@uses			IniReader
  *	@uses			DefinitionValidator
@@ -16,16 +15,15 @@ import( 'de.ceus-media.adt.TimeConverter' );
  */
 /**
  *	Generic Action Handler.
- *	@package		framework
- *	@subpackage		helium
+ *	@package		framework.helium
  *	@uses			Reference
  *	@uses			IniReader
-*	@uses			DefinitionValidator
+ *	@uses			DefinitionValidator
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			01.12.2005
  *	@version		0.1
  */
-class Action
+class Framework_Helium_Action
 {
 	/**	@var	array		$_actions			Array of Action events and methods */
 	var $_actions	= array();
@@ -127,8 +125,6 @@ class Action
 	 */
 	function restart( $request )
 	{
-		$session	= $this->ref->get( 'session' );
-		$session->close();
 		header( "Location: ".$request );
 		die;
 	}

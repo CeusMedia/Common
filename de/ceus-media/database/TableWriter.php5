@@ -3,7 +3,7 @@ import( 'de.ceus-media.database.TableReader' );
 /**
  *	TableWriter.
  *	@package		database
- *	@extends		TableReader
+ *	@extends		Database_TableReader
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.5
  */
@@ -11,11 +11,11 @@ import( 'de.ceus-media.database.TableReader' );
  *	TableWriter.
  *	@package		database
  *	@extends		TableReader
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Database_Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.5
  *	@todo			finish Code Documentation (@param at methods)
  */
-class TableWriter extends TableReader
+class Database_TableWriter extends Database_TableReader
 {
 	/**
 	 *	Constructor.
@@ -78,7 +78,7 @@ class TableWriter extends TableReader
 			$vals	= implode( ", ", array_values( $vals ) );
 			$query	= "INSERT INTO ".$this->getTableName()." (".$keys.") VALUES (".$vals.")";
 			$this->dbc->Execute( $query, $debug );
-			$id	= $this->dbc->Insert_ID();
+			$id	= $this->dbc->getInsertId();
 			$this->focusPrimary( $id );
 			return $id;
 		}

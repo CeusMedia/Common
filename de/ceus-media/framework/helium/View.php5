@@ -8,9 +8,7 @@ import( 'de.ceus-media.file.ini.IniReader' );
 import( 'de.ceus-media.ui.html.WikiParser' );
 /**
  *	Generic View with Language Support.
- *	@package		framework
- *	@subpackage		helium
- *	@extends		Object
+ *	@package		framework.helium
  *	@uses			Reference
  *	@uses			Elements
  *	@uses			Paging
@@ -23,9 +21,7 @@ import( 'de.ceus-media.ui.html.WikiParser' );
  */
 /**
  *	Generic View with Language Support.
- *	@package		framework
- *	@subpackage		helium
- *	@extends		Object
+ *	@package		framework.helium
  *	@uses			Reference
  *	@uses			Elements
  *	@uses			Paging
@@ -36,7 +32,7 @@ import( 'de.ceus-media.ui.html.WikiParser' );
  *	@since			01.12.2005
  *	@version		0.3
  */
-class View
+class Framework_Helium_View
 {
 	/**	@var	Reference	$ref			Reference */
 	var $ref;

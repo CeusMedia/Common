@@ -3,30 +3,28 @@ import( 'de.ceus-media.database.TableWriter' );
 import( 'de.ceus-media.Reference' );
 /**
  *	Generic Model for Database Structures.
- *	@package		framework
- *	@subpackage		helium
- *	@extends		TableWriter
+ *	@package		framework.argon
+ *	@extends		Database_TableWriter
  *	@uses			Reference
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			01.11.2005
- *	@version		0.1
+ *	@version		0.5
  */
 /*
  *	Generic Model for Database Structures.
- *	@package		framework
- *	@subpackage		helium
- *	@extends		TableWriter
+ *	@package		framework.argon
+ *	@extends		Database_TableWriter
  *	@uses			Reference
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			01.11.2005
- *	@version		0.1
+ *	@version		0.5
  */
-class Model extends TableWriter
+class Framework_Argon_Model extends Database_TableWriter
 {
 	/**	@var	string		$prefix			Prefix of Table  */
-	var $prefix;
+	protected $prefix;
 	/**	@var	Reference	$ref			Reference to Objects */
-	var $ref;
+	protected $ref;
 	
 	/**
 	 *	Constructor.
@@ -51,7 +49,7 @@ class Model extends TableWriter
 	 *	@access		public
 	 *	@return		string
 	 */
-	function getPrefix()
+	public function getPrefix()
 	{
 		return $this->prefix;
 	}
@@ -62,7 +60,7 @@ class Model extends TableWriter
 	 *	@param		bool		$prefixed			Flag: an Prefix of Table
 	 *	@return		string
 	 */
-	function getTableName( $prefixed = true )
+	public function getTableName( $prefixed = true )
 	{
 		if( $prefixed )
 			return $this->getPrefix().$this->_table_name;
@@ -70,39 +68,63 @@ class Model extends TableWriter
 			return $this->_table_name;
 	}
 	
-	function add( $data, $prefix = "add_", $strip_tags = false, $debug = 1  )
+	/**
+	 *	Adds Data to Table.
+	 *	@access		public
+	 *	@param		array		$data		Data to add
+	 *	@param		string		$prefix		Prefix of Request Data
+	 *	@param		bool		$stripTags	Flag: strip HTML Tags
+	 *	@param		int			$debug		Debug Mode
+	 *	@return 	void
+	 */
+	public function add( $data, $prefix = "add_", $strip_tags = false, $debug = 1  )
 	{
 		if( $prefix )
 			array_walk( $data, array( &$this, "__removeRequestPrefix" ), $prefix );
 		$this->addData( $data, $strip_tags, $debug );	
 	}
 	
-	function modify( $data, $prefix = "edit_", $strip_tags = false, $debug = 1 )
+	/**
+	 *	Modifies Data in Table.
+	 *	@access		public
+	 *	@param		array		$data		Data to modify
+	 *	@param		string		$prefix		Prefix of Request Data
+	 *	@param		bool		$stripTags	Flag: strip HTML Tags
+	 *	@param		int			$debug		Debug Mode
+	 *	@return 	void
+	 */
+	public function modify( $data, $prefix = "edit_", $strip_tags = false, $debug = 1 )
 	{
 		if( $prefix )
 			array_walk( $data, array( &$this, "_removeRequestPrefix" ), $prefix );
 		$this->addData( $data, $strip_tags, $debug );	
 	}
 	
-	function exists( $id = 0 )
+	/**
+	 *	Indicates whether an Entry is existing.
+	 *	@access		public
+	 *	@param		int			$id			Primary Id of Entry
+	 *	@return 	bool
+	 */
+	public function exists( $id = 0 )
 	{
 		if( $id )
 		{
 			$object	= eval( "return new ".get_class( $this ).";" );
 			$object->focusPrimary( $id );
-			return (bool)count( $object->getData( false, true ) );
+			return (bool)count( $object->getData( true ) );
 		}
-		return (bool)count( $this->getData( false, true ) );
+		return (bool)count( $this->getData( true ) );
 	}
 	
 	/**
 	 *	Callback for Prefix Removal.
-	 *	@access		private
+	 *	@access		protected
 	 *	@param		string		$string		String to be cleared of Prefix
 	 *	@param		string		$prefix		Prefix to be removed, must not include '°'
 	 *	@return		string
 	 */
-	function __removeRequestPrefix( $string, $prefix )
+	protected function __removeRequestPrefix( $string, $prefix )
 	{
 		return preg_replace( "°^".$prefix."°", "", $string );
 	}

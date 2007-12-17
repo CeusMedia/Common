@@ -7,31 +7,29 @@ import( 'de.ceus-media.file.block.BlockFileReader' );
 /**
  *	Language Support with sniffing of Browser Language and Language Validation.
  *	Loads Language Files direct or from Cache if enabled.
- *	@package		framework
- *	@subpackage		neon
+ *	@package		framework.neon
  *	@extends		ADT_OptionObject
  *	@uses			Net_HTTP_LanguageSniffer
  *	@uses			LanguageValidator
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			05.12.2006
- *	@version		0.1
+ *	@version		0.5
  */
 /**
  *	Language Support with sniffing of Browser Language and Language Validation.
  *	Loads Language Files direct or from Cache if enabled.
- *	@package		framework
- *	@subpackage		neon
+ *	@package		framework.neon
  *	@extends		ADT_OptionObject
  *	@uses			Net_HTTP_LanguageSniffer
  *	@uses			LanguageValidator
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			05.12.2006
- *	@version		0.1
+ *	@version		0.5
  */
-class Language extends ADT_OptionObject
+class Framework_Neon_Language extends ADT_OptionObject
 {
-	var $_loaded	= array();
-	var $words		= array();
+	protected $loaded	= array();
+	public $words		= array();
 	
 	public function __construct( $encoding = false )
 	{

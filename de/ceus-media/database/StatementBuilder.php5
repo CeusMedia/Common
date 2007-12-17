@@ -15,7 +15,7 @@
  *	@since			26.11.04
  *	@version		0.5
  */
-class StatementBuilder
+class Database_StatementBuilder
 {
 	/**	@var	array		$keys 			Array of Keys */	
 	protected $keys			= array();

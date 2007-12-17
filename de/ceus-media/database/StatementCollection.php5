@@ -15,7 +15,7 @@
  *	@since			26.11.04
  *	@version		0.5
  */
-class StatementCollection
+class Database_StatementCollection
 {
 	/**	@var	StatementBuilder	$builder		Reference to a Statement Builder Object */		
 	protected $builder;

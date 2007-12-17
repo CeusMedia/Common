@@ -6,7 +6,7 @@ import( 'de.ceus-media.validation.DefinitionValidator' );
  *	Generic Definition Action Handler.
  *	@package		framework
  *	@subpackage		argon
- *	@extends		Action
+ *	@extends		Framework_Neon_Action
  *	@uses			DefinitionValidator
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			18.06.2006
@@ -16,13 +16,13 @@ import( 'de.ceus-media.validation.DefinitionValidator' );
  *	Generic Definition Action Handler.
  *	@package		framework
  *	@subpackage		argon
- *	@extends		Action
+ *	@extends		Framework_Neon_Action
  *	@uses			DefinitionValidator
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			18.06.2006
  *	@version		0.1
  */
-class DefinitionAction extends Action
+class DefinitionAction extends Framework_Neon_Action
 {
 	/**	@var	string		$prefix		Prefix of XML Definition Files */
 	var $prefix	= "";

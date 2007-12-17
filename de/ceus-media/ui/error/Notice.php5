@@ -67,7 +67,7 @@ class Notice
 		if (!$log && $this->_log) $log = $this->_log;
 		if ($log && is_object ($log))
 		{
-			if (strtolower ($log->getClass ()) == strtolower ("LogFile")) $log->addEntry ($message);
+			if (strtolower ($log->getClass ()) == strtolower ("File_Log_Writer")) $log->note ($message);
 			else echo ($this->_prefix.$message.$this->_suffix);
 		}
 		else echo ($this->_prefix.$message.$this->_suffix);

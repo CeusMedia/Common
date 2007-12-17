@@ -1,26 +1,23 @@
 <?php
 import( 'de.ceus-media.framework.helium.View' );
-import( 'de.ceus-media.file.log.LogFile' );
+import( 'de.ceus-media.file.log.Writer' );
 /**
  *	Generic Definition View with Language Support.
- *	@package		framework
- *	@subpackage		helium
- *	@extends		View
+ *	@package		framework.helium
+ *	@extends		Framework_Helium_View
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			18.06.2006
  *	@version		0.1
  */
 /**
  *	Generic Definition View with References.
- *	@package		framework
- *	@subpackage		helium
- *	@extends		View
+ *	@package		framework.helium
+ *	@extends		Framework_Helium_View
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			18.06.2006
  *	@version		0.1
- *	@todo			TO BE CLEARED in next Version (see below)
  */
-class DefinitionView extends View
+class Framework_Helium_DefinitionView extends Framework_Helium_View
 {
 	/**	@var	string		$prefix		Prefix of XML Definition Files */
 	var $prefix	= "";
@@ -50,8 +47,8 @@ class DefinitionView extends View
 		$label	= $this->html->Label( $data['input']['name'], $labels[$field] );
 		return $label;
 		$array['label_'.$field]	= $label;
-		$log	= new LogFile( 'unexpected_usage.log' );
-		$log->addEntry( "VIEW field: ".$field );
+		$log	= new File_Log_Writer( 'unexpected_usage.log' );
+		$log->note( "VIEW field: ".$field );
 		return $array;
 	}
 	
@@ -219,26 +216,6 @@ class DefinitionView extends View
 				+ $this->buildFields( $file, $form, $lan_file, $lan_section, $inputs );
 		return (array)$array;
 	}
-
-	/**
-	 *	Builds Labels and Input Fields of Form widthin Definition.
-	 *	@access		public
-	 *	@param		string		$file				Name of XML Definition File (e.g. %PREFIX%#FILE#.xml)
-	 *	@param		string		$form			Name of Form within XML Definition File (e.g. 'addExample' )
-	 *	@param		string		$lan_file			Name of Language File (e.g. 'example')
-	 *	@param		string		$lan_section		Section in Language File (e.g. 'add')
-	 *	@param		array		$values			Array of Input Values of defined Fields
-	 *	@param		array		$sources			Array of Sources for defined Fields (e.g. Options for Selects)
-	 *	@return		array
-	 *	@todo		TO BE DELETED in next Version
-	 */
-	function buildFormular( $file , $form, $lan_file, $lan_section, $values = array(), $sources = array() )
-	{
-		$log	= new LogFile( "!depracated.log" );
-		$log->addEntry( "VIEW file: ".$file." | form: ".$form." | lan: ".$lan_file." | section: ".$lan_section );
-		return $this->buildForm( $file , $form, $lan_file, $lan_section, $values, $sources );
-	}
-
 
 	//  --  PRIVATE METHODS  --  //
 	/**

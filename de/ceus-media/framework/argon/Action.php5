@@ -4,8 +4,7 @@ import( 'de.ceus-media.file.ini.IniReader' );
 import( 'de.ceus-media.adt.TimeConverter' );
 /**
  *	Generic Action Handler.
- *	@package		framework
- *	@subpackage		argon
+ *	@package		framework.argon
  *	@uses			Reference
  *	@uses			IniReader
  *	@uses			TimeConverter
@@ -15,8 +14,7 @@ import( 'de.ceus-media.adt.TimeConverter' );
  */
 /**
  *	Generic Action Handler.
- *	@package		framework
- *	@subpackage		argon
+ *	@package		framework.argon
  *	@uses			Reference
  *	@uses			IniReader
  *	@uses			TimeConverter
@@ -24,7 +22,7 @@ import( 'de.ceus-media.adt.TimeConverter' );
  *	@since			01.12.2005
  *	@version		0.1
  */
-class Action
+class Framework_Argon_Action
 {
 	/**	@var	Reference		$ref			Reference */
 	var $ref;

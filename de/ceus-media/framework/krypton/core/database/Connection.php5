@@ -1,16 +1,16 @@
 <?php
-import( "de.ceus-media.file.log.LogFile" );
+import( "de.ceus-media.file.log.Writer" );
 /**
  *	Generic Connection.
  *	@package		mv2.core.database
- *	@uses			LogFile
+ *	@uses			File_Log_Writer
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version 		0.5
  */
 /**
  *	Generic Connection.
  *	@package		mv2.core.database
- *	@uses			LogFile
+ *	@uses			File_Log_Writer
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version 		0.5
  */
@@ -49,8 +49,8 @@ class Framework_Krypton_Core_Database_Connection
 	{
 		if( $this->error_report )
 		{
-			$log = new LogFile( $this->logfile );
-			$log->addEntry( "[".$error_code.": ".$error_msg." in EXECUTE (\"".$query."\")]" );
+			$log = new File_Log_Writer( $this->logfile );
+			$log->note( "[".$error_code.": ".$error_msg." in EXECUTE (\"".$query."\")]" );
 			if( $this->error_report == 2 )
 				trigger_error( $error_code.": ".$error_msg." in EXECUTE (\"".$query."\")", E_USER_WARNING );
 			else if( $this->error_report == 3 )

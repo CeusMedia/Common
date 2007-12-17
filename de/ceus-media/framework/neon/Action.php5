@@ -4,8 +4,7 @@ import( 'de.ceus-media.file.ini.IniReader' );
 import( 'de.ceus-media.adt.TimeConverter' );
 /**
  *	Generic Action Handler.
- *	@package		framework
- *	@subpackage		neon
+ *	@package		framework.neon
  *	@uses			Reference
  *	@uses			IniReader
  *	@uses			TimeConverter
@@ -15,8 +14,7 @@ import( 'de.ceus-media.adt.TimeConverter' );
  */
 /**
  *	Generic Action Handler.
- *	@package		framework
- *	@subpackage		neon
+ *	@package		framework.neon
  *	@uses			Reference
  *	@uses			IniReader
  *	@uses			TimeConverter
@@ -24,7 +22,7 @@ import( 'de.ceus-media.adt.TimeConverter' );
  *	@since			01.12.2005
  *	@version		0.1
  */
-class Action
+class Framework_Neon_Action
 {
 	/**	@var	array		$_actions		Array of Action events and methods */
 	var $_actions	= array();
@@ -161,8 +159,6 @@ class Action
 	 */
 	function restart( $request )
 	{
-		$session	= $this->ref->get( 'session' );
-		$session->close();
 		header( "Location: ".$request );
 		die;
 	}

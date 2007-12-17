@@ -1,7 +1,7 @@
 <?php
 import ("de.ceus-media.database.mssql.MSsqlResult");
 import ("de.ceus-media.database.mssql.MSsqlRow");
-import ("de.ceus-media.file.log.LogFile");
+import ("de.ceus-media.file.log.Writer");
 /**
  *	MSsql Connection
  *
@@ -12,7 +12,7 @@ import ("de.ceus-media.file.log.LogFile");
  *	@extends		Object
  *	@uses			MySQLResult
  *	@uses			MySQLRow
- *	@uses			LogFile
+ *	@uses			File_Log_Writer
  *	@author		Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version 		0.4
  */
@@ -26,7 +26,7 @@ import ("de.ceus-media.file.log.LogFile");
  *	@extends		Object
  *	@uses			MySQLResult
  *	@uses			MySQLRow
- *	@uses			LogFile
+ *	@uses			File_Log_Writer
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version 		0.4
  *	@todo			Dokumentation beenden
@@ -127,8 +127,8 @@ class MSsql
 	//	$mandant	=& $this->ref->getRef ("mandant");
 	//	$debug		=& $this->ref->getRef ("debug");
 
-		$log = new LogFile ("db_error.log");
-		$log->addEntry ("(".date("Y-m-d H:i:s").") mysql error: [".$error_code.": ".$error_msg." in EXECUTE (\"".$query."\")");
+		$log = new File_Log_Writer ("db_error.log");
+		$log->note ("(".date("Y-m-d H:i:s").") mysql error: [".$error_code.": ".$error_msg." in EXECUTE (\"".$query."\")");
 	//	$debug->abort ("Eine Datenbankabfrage war fehlerhaft.", $query, $error_msg);
 	}
 
