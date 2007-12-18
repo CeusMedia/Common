@@ -2,19 +2,19 @@
 import( 'de.ceus-media.file.File' );
 /**
  *	Definition of Input Field within Channels, Screens and Forms.
- *	@package		mv2.core
+ *	@package		framework.krypton.core
  *	@uses			File
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			01.05.2006
- *	@version		0.2
+ *	@version		0.6
  */
 /**
  *	Definition of Input Field within Channels, Screens and Forms.
- *	@package		mv2.core
+ *	@package		framework.krypton.core
  *	@uses			File
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			01.05.2006
- *	@version		0.2
+ *	@version		0.6
  */
 class Framework_Krypton_Core_FormDefinitionReader
 {
@@ -233,7 +233,7 @@ class Framework_Krypton_Core_FormDefinitionReader
 							}
 							else if( $name	 == "output" )
 							{
-								$keys	= array( "source", "type", "style", "label", "hidden", "colspan" );
+								$keys	= array( "source", "type", "format", "structure", "style", "label", "hidden", "colspan" );
 								foreach( $keys as $key )
 									$_field[$name][$key]	= $node->getAttribute( $key );
 								$_field[$name]['default']		= $node->textContent;
