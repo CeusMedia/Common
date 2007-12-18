@@ -1,39 +1,24 @@
 <?php
-import( 'de.ceus-media.ui.html.ServiceIndex' );
-import( 'de.ceus-media.service.ServiceHandler' );
+import( 'de.ceus-media.ui.html.service.Index' );
+import( 'de.ceus-media.service.Handler' );
 /**
  *	Service Handler which indexes with HTML Output.
- *	@package		service
- *	@extends		ServiceIndex
- *	@implements		ServiceHandler
+ *	@package		ui.html.service
+ *	@extends		UI_HTML_Service_Index
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			18.06.2007
- *	@version		0.1
+ *	@version		0.5
  */
 /**
  *	Service Handler which indexes with HTML Output.
- *	@package		service
- *	@extends		ServiceIndex
- *	@implements		ServiceHandler
+ *	@package		ui.html.service
+ *	@extends		UI_HTML_Service_Index
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			18.06.2007
- *	@version		0.1
- *	@todo			Code Documentation
+ *	@version		0.5
  */
-class ParametricServiceIndex extends ServiceIndex implements ServiceHandler
+class UI_HTML_Service_ParametricIndex extends UI_HTML_Service_Index
 {
-	/**
-	 *	Constructor.
-	 *	@access		public
-	 *	@param		ServicePoint	$servicePoint		Services Class
-	 *	@param		array			$formats			Available ResponseFormats
-	 *	@return		void
-	 */
-	public function __construct( ServicePoint $servicePoint, $availableFormats )
-	{
-		parent::__construct( $servicePoint, $availableFormats );
-	}
-	
 	/**
 	 *	Return Service List.
 	 *	@access		public
@@ -131,8 +116,8 @@ class ParametricServiceIndex extends ServiceIndex implements ServiceHandler
 	/**
 	 *	Sets HTTP Basic Authentification.
 	 *	@access		public
-	 *	@param		string		Username for HTTP Basic Authentification
-	 *	@param		string		Password for HTTP Basic Authentification
+	 *	@param		string		$usename		Username for HTTP Basic Authentification
+	 *	@param		string		$password		Password for HTTP Basic Authentification
 	 *	@return		void
 	 */
 	public function setBasicAuth( $username, $password )
@@ -155,7 +140,7 @@ class ParametricServiceIndex extends ServiceIndex implements ServiceHandler
 	/**
 	 *	Sets CSS Class of Template in Template.
 	 *	@access		public
-	 *	@param		string		CSS Class of Template in Template
+	 *	@param		string		$class			CSS Class of Template in Template
 	 *	@return		void
 	 */
 	public function setTableClass( $class )
@@ -166,7 +151,7 @@ class ParametricServiceIndex extends ServiceIndex implements ServiceHandler
 	/**
 	 *	File Name of Template for Index.
 	 *	@access		public
-	 *	@param		string		File Name of Template
+	 *	@param		string		$template		File Name of Template
 	 *	@return		void
 	 */
 	public function setTemplate( $template )

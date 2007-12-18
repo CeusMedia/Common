@@ -90,11 +90,18 @@ class XML_DOM_Node
 	/**
 	 *	Returns all Child Nodes.
 	 *	@access		public
+	 *	@param		string		$nodeName		Name of Child Node
 	 *	@return		array
 	 */
-	public function getChildren()
+	public function getChildren( $nodeName = "" )
 	{
-		return $this->children;
+		if( !$nodeName )
+			return $this->children;
+		$list	= array();
+		for( $i=0; $i<count( $this->children ); $i++ )
+			if( $this->children[$i]->getNodeName() == $nodeName )
+				$list[]	= $this->children[$i];
+		return $list;
 	}
 	
 	/**
@@ -136,6 +143,16 @@ class XML_DOM_Node
 	public function hasAttribute( $key )
 	{
 		return array_key_exists( $key, $this->attributes );
+	}
+
+	/**
+	 *	Indicates whether XML Node has an attributes by its name.
+	 *	@access		public
+	 *	@return		bool
+	 */
+	public function hasChild( $nodeName )
+	{
+		return (bool) count( $this->getChildren( $nodeName ) );
 	}
 
 	/**

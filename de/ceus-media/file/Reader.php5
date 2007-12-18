@@ -141,6 +141,15 @@ class File_Reader
 	{
 		return is_writable( $this->fileName );
 	}
+	
+	public static function load( $fileName )
+	{
+		if( !file_exists( $fileName ) )
+			throw new Exception( "File '".$fileName."' is not existing." );
+		if( !is_readable( $fileName ) )
+			throw new Exception( "File '".$fileName."' is not readable." );
+		return file_get_contents( $fileName );
+	}
 
 	/**
 	 *	Reads file and returns it as string.

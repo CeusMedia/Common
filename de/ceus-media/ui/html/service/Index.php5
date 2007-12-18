@@ -1,22 +1,22 @@
 <?php
-import( 'de.ceus-media.service.ServiceHandler' );
+import( 'de.ceus-media.service.Handler' );
 /**
  *	Service Handler which indexes with HTML Output.
- *	@package		service
- *	@implements		ServiceHandler
+ *	@package		ui.html.service
+ *	@extends		Service_Handler
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			18.06.2007
  *	@version		0.2
  */
 /**
  *	Service Handler which indexes with HTML Output.
- *	@package		service
- *	@implements		ServiceHandler
+ *	@package		ui.html.service
+ *	@extends		Service_Handler
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			18.06.2007
  *	@version		0.2
  */
-class ServiceIndex implements ServiceHandler
+class UI_HTML_Service_Index extends Service_Handler
 {
 	/**	@param		array				List of available Response Formats */
 	protected $formats		= array();
@@ -34,7 +34,7 @@ class ServiceIndex implements ServiceHandler
 	 *	@param		array			$availableFormats	Available Response Formats
 	 *	@return		void
 	 */
-	public function __construct( ServicePoint $servicePoint, $availableFormats )
+	public function __construct( Service_Point $servicePoint, $availableFormats )
 	{
 		$this->servicePoint		= $servicePoint;
 		$this->availableFormats	= $availableFormats;

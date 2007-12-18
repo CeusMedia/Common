@@ -1,5 +1,5 @@
 <?php
-import( 'de.ceus-media.service.YamlParametricServicePoint' );
+import( 'de.ceus-media.service.YamlParametricPoint' );
 import( 'de.ceus-media.framework.krypton.core.http.Request' );
 import( 'de.ceus-media.framework.krypton.core.http.Response' );
 import( 'de.ceus-media.framework.krypton.core.Registry' );
@@ -12,7 +12,7 @@ import( 'de.ceus-media.framework.krypton.view.component.Template' );
 import( 'de.ceus-media.framework.krypton.core.FormDefinitionReader' );
 /**
  *	...
- *	@extends		YamlParametricServicePoint
+ *	@extends		Service_YamlParametricPoint
  *	@uses			Framework_Krypton_Core_HTTP_Request
  *	@uses			Framework_Krypton_Core_HTTP_Response
  *	@uses			Framework_Krypton_Core_Registry
@@ -26,7 +26,7 @@ import( 'de.ceus-media.framework.krypton.core.FormDefinitionReader' );
  */
 /**
  *	...
- *	@extends		YamlParameterServicePoint
+ *	@extends		Service_YamlParametricPoint
  *	@uses			Framework_Krypton_Core_HTTP_Request
  *	@uses			Framework_Krypton_Core_HTTP_Response
  *	@uses			Framework_Krypton_Core_Registry
@@ -38,7 +38,7 @@ import( 'de.ceus-media.framework.krypton.core.FormDefinitionReader' );
  *	@uses			Framework_Krypton_Core_FormDefinitionReader
  *	@uses			Framework_Krypton_View_Component_Template
  */
-class WebServices extends YamlParametricServicePoint
+class WebServices extends Service_YamlParametricPoint
 {
 	public function __construct( $fileName, $cacheFile = false )
 	{

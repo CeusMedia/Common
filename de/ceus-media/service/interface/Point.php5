@@ -4,25 +4,17 @@
  *	@package		service
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			18.06.2007
- *	@version		0.2
+ *	@version		0.5
  */
 /**
  *	Interface for Services.
  *	@package		service
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			18.06.2007
- *	@version		0.2
+ *	@version		0.5
  */
-interface ServicePoint
+interface Service_Interface_Point
 {
-	/**
-	 *	Constructor Method.
-	 *	@access		public
-	 *	@param		string			Service Definition File Name
-	 *	@return		void
-	 */
-	public function __construct( $fileName );
-
 	/**
 	 *	Constructor Method.
 	 *	@access		public

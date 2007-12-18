@@ -76,6 +76,21 @@ class File_Writer
 	{
 		return @unlink( $this->fileName );
 	}
+	
+	/**
+	 *	Saves Content in File statically.
+	 *	@access		public
+	 *	@param		string		$fileName 		URI of File
+	 *	@param		string		$content		Content to save in File
+	 *	@return		bool
+	 */
+	public static function save( $fileName, $content )
+	{
+		if( file_put_contents( $fileName, "" ) === false )	
+			throw new Exception( "File '".$fileName."' could not be created." );
+		$count	= file_put_contents( $fileName, $content );
+		return $count !== FALSE;
+	}
 
 	/**
 	 *	Writes a string to the file.

@@ -1,14 +1,14 @@
 <?php
-import( 'de.ceus-media.service.ServicePoint' );
-import( 'de.ceus-media.service.YamlServicePoint' );
-import( 'de.ceus-media.service.ParametricServicePoint' );
+import( 'de.ceus-media.service.YamlPoint' );
+import( 'de.ceus-media.service.interface.Point' );
+import( 'de.ceus-media.service.interface.ParametricPoint' );
 import( 'de.ceus-media.service.ParameterValidator' );
 /**
  *	Service Point for parametric Services with YAML Definition File.
  *	@package		service
- *	@extends		YamlServicePoint
- *	@implements		ServicePoint
- *	@implements		ParametricServicePoint
+ *	@extends		Service_YamlPoint
+ *	@implements		Service_Interface_Point
+ *	@implements		Service_Interface_ParametricPoint
  *	@uses			ParameterValidator
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			18.06.2007
@@ -17,15 +17,15 @@ import( 'de.ceus-media.service.ParameterValidator' );
 /**
  *	Service Point for parametric Services with YAML Definition File.
  *	@package		service
- *	@extends		YamlServicePoint
- *	@implements		ServicePoint
- *	@implements		ParametricServicePoint
+ *	@extends		Service_YamlPoint
+ *	@implements		Service_Interface_Point
+ *	@implements		Service_Interface_ParametricPoint
  *	@uses			ParameterValidator
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			18.06.2007
  *	@version		0.2
  */
-class YamlParametricServicePoint extends YamlServicePoint implements ServicePoint, ParametricServicePoint
+class Service_YamlParametricPoint extends Service_YamlPoint implements Service_Interface_Point, Service_Interface_ParametricPoint
 {
 	/**
 	 *	Constructor Method.
@@ -38,19 +38,6 @@ class YamlParametricServicePoint extends YamlServicePoint implements ServicePoin
 	{
 		parent::__construct( $fileName, $cacheFile );
 		$this->validator	= new ParameterValidator( $this->services );
-	}
-
-	/**
-	 *	Constructor Method.
-	 *	@access		public
-	 *	@param		string			$serviceName		Name of Service to call 
-	 *	@param		string			$responseFormat		Format of Service Response
-	 *	@param		array|Object	Array or Object of Request Data
-	 *	@return		string			Response String of Service	
-	 */
-	public function callService( $serviceName, $responseFormat = NULL, $requestData = NULL )
-	{
-		return parent::callService( $serviceName, $responseFormat, $requestData );
 	}
 	
 	/**
@@ -95,40 +82,6 @@ class YamlParametricServicePoint extends YamlServicePoint implements ServicePoin
 	}
 	
 	/**
-	 *	Returns Class of Service.
-	 *	@access		public
-	 *	@param		string			$serviceName		Name of Service to call 
-	 *	@return		string			Class of Service
-	 */
-	public function getServiceClass( $serviceName )
-	{
-		return parent::getServiceClass( $serviceName );
-	}
-	
-	/**
-	 *	Returns Description of Service.
-	 *	@access		public
-	 *	@param		string			$serviceName		Name of Service to call 
-	 *	@return		string			Description of Service
-	 */
-	public function getServiceDescription( $serviceName )
-	{
-		return parent::getServiceDescription( $serviceName );
-	}
-
-
-	/**
-	 *	Returns available Formats of Service.
-	 *	@access		public
-	 *	@param		string			$serviceName		Name of Service to call 
-	 *	@return		array			Response Formats of Service
-	 */
-	public function getServiceFormats( $serviceName )
-	{
-		return parent::getServiceFormats( $serviceName );
-	}
-	
-	/**
 	 *	Returns available Formats of Service.
 	 *	@access		public
 	 *	@param		string			$serviceName		Name of Service to call 
@@ -139,36 +92,6 @@ class YamlParametricServicePoint extends YamlServicePoint implements ServicePoin
 		if( isset( $this->services['services'][$serviceName]['parameters'] ) )
 			return $this->services['services'][$serviceName]['parameters'];
 		return array();
-	}
-
-	/**
-	 *	Returns Services of Service Point.
-	 *	@access		public
-	 *	@return		array			Services in Service Point
-	 */
-	public function getServices()
-	{
-		return parent::getServices();
-	}
-	
-	/**
-	 *	Returns Syntax of Service Point.
-	 *	@access		public
-	 *	@return		string			Syntax of Service Point
-	 */
-	public function getServicesSyntax()
-	{
-		return parent::getServicesSyntax();
-	}
-	
-	/**
-	 *	Returns Title of Service Point.
-	 *	@access		public
-	 *	@return		string			Title of Service Point
-	 */
-	public function getServicesTitle()
-	{
-		return parent::getServicesTitle();
 	}
 }
 ?>

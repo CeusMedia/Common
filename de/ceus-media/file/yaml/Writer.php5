@@ -1,25 +1,25 @@
 <?php
-import( 'de.ceus-media.file.Reader' );
+import( 'de.ceus-media.file.Writer' );
 import( 'net.sourceforge.spyc.Spyc' );
 /**
- *	YAML Reader based on Spyc.
+ *	YAML Writer based on Spyc.
  *	@package		file.yaml
- *	@uses			File_Reader
+ *	@uses			File_Writer
  *	@uses			Spyc
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			18.06.2007
  *	@version		0.5
  */
 /**
- *	YAML Reader based on Spyc.
+ *	YAML Writer based on Spyc.
  *	@package		file.yaml
- *	@uses			File_Reader
+ *	@uses			File_Writer
  *	@uses			Spyc
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			18.06.2007
  *	@version		0.5
  */
-class File_YAML_Reader
+class File_YAML_Writer
 {
 	/**
 	 *	Constructor.
@@ -33,26 +33,26 @@ class File_YAML_Reader
 	}
 
 	/**
-	 *	Reads YAML File.
+	 *	Writes Data into YAML File.
 	 *	@access		public
-	 *	@return		array
+	 *	@return		bool
 	 */
-	public function read()
+	public function write( $data )
 	{
-		return self::load( $this->fileName );
+		return self::save( $this->fileName, $data );
 	}
 
 	/**
-	 *	Loads YAML File statically.
+	 *	Writes Data into YAML File statically.
 	 *	@access		public
 	 *	@param		string		$fileName		File Name of YAML File.
-	 *	@return		array
+	 *	@param		array		$data		Array to write into YAML File
+	 *	@return		bool
 	 */
-	public static function load( $fileName )
+	public static function save( $fileName, $data )
 	{
-		$yaml	= File_Reader::load( $fileName );
-		$array	= Spyc::YAMLLoad( $yaml );
-		return $array;
+		$yaml	= Spyc::YAMLDump( $data );
+		return File_Writer::save( $fileName, $yaml );
 	}
 }
 ?>

@@ -1,26 +1,22 @@
 <?php
 import( 'de.ceus-media.ui.html.Elements' );
 /**
- *	Erzeugt HTML-Bausteine fuer Tabellen und Formulare.
- *	@desc			diverse Methoden zur einheitlichen und dynamischen Erstelltung von Formularen und Tabellen.
- *	@package		ui
- *	@subpackage		html
+ *	Builds HTML Components for AJAX Applications.
+ *	@package		ui.html
  *	@extends		UI_HTML_Elements
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.1
  */
 /**
- *	Erzeugt HTML-Bausteine fuer Tabellen und Formulare.
- *	@desc			diverse Methoden zur einheitlichen und dynamischen Erstelltung von Formularen und Tabellen.
- *	@package		ui
- *	@subpackage		html
+ *	Builds HTML Components for AJAX Applications.
+ *	@package		ui.html
  *	@extends		UI_HTML_Elements
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.1
  *	@todo			Finish Implementation
  *	@todo			Code Documentation
  */
-class AjaxElements extends UI_HTML_Elements
+class UI_HTML_AjaxElements extends UI_HTML_Elements
 {
 //	public function __construct( ) {}
 

@@ -19,20 +19,47 @@ import( 'de.ceus-media.xml.dom.Builder' );
  */
 class XML_DOM_FileWriter
 {
+	/**	@var		string			$fileName		URI of XML File */
+	protected $fileName;
+	
 	/**
-	 *	Writes XML Tree to XML File.
+	 *	Constructor.
+	 *	@access		public
+	 *	@param		string			$fileName		URI of XML File
+	 *	@return		void
+	 */
+	public function __construct( $fileName )
+	{
+		$this->fileName	= $fileName;
+	}
+	
+	
+	/**
+	 *	Writes XML Tree into XML File.
 	 *	@access		public
 	 *	@param		string			$fileName		URI of XML File
 	 *	@param		XML_DOM_Node	$tree			XML Tree
 	 *	@param		string			$encoding		Encoding Type
 	 *	@return		bool
 	 */
-	public function write( $fileName, $tree, $encoding = "utf-8" )
+	public function write( $tree, $encoding = "utf-8" )
+	{
+		return self::save( $this->fileName, $tree, $encoding );
+	}
+
+	/**
+	 *	Writes XML Tree into XML File.
+	 *	@access		public
+	 *	@param		string			$fileName		URI of XML File
+	 *	@param		XML_DOM_Node	$tree			XML Tree
+	 *	@param		string			$encoding		Encoding Type
+	 *	@return		bool
+	 */
+	public static function save( $fileName, $tree, $encoding = "utf-8" )
 	{
 		$builder	= new XML_DOM_Builder();
 		$xml		= $builder->build( $tree, $encoding );
-		$file		= new File( $fileName, 0777 );
-		return $file->writeString( $xml );
+		return File_Writer::save( $fileName, $xml );
 	}
 }
 ?>

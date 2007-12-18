@@ -1,22 +1,15 @@
 <?php
 /**
- *	Erzeugt HTML-Bausteine fuer Tabellen und Formulare.
- *	@desc			diverse Methoden zur einheitlichen und dynamischen Erstelltung von Formularen und Tabellen.
- *	@package		ui
- *	@subpackage		html
- *	@extends		Object
+ *	Builds HTML Components.
+ *	@package		ui.html
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version		0.1
+ *	@version		0.5
  */
 /**
- *	Erzeugt HTML-Bausteine fuer Tabellen und Formulare.
- *	@desc			diverse Methoden zur einheitlichen und dynamischen Erstelltung von Formularen und Tabellen.
- *	@package		ui
- *	@subpackage		html
- *	@extends		Object
+ *	Builds HTML Components.
+ *	@package		ui.html
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version		0.1
- *	@todo			Code Documentation
+ *	@version		0.5
  */
 class UI_HTML_Elements
 {
