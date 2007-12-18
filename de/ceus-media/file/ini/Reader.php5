@@ -77,7 +77,7 @@ class File_INI_Reader extends File_Reader
 		$this->lines		= array();
 		$this->properties	= array();
 		$this->sections		= array();
-		$f = new File( $this->fileName );
+		$f = new File_Reader( $this->fileName );
 		if( $f->exists() )
 		{
 			if( $f->isReadable() )
