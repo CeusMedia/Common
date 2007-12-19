@@ -6,7 +6,7 @@ import( 'de.ceus-media.adt.list.Dictionary' );
  *	@extends		Dictionary
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			27.03.2006
- *	@version		0.5
+ *	@version		0.6
  */
 /**
  *	Collects and Manages Request Data.
@@ -14,7 +14,7 @@ import( 'de.ceus-media.adt.list.Dictionary' );
  *	@extends		Dictionary
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			27.03.2006
- *	@version		0.5
+ *	@version		0.6
  */
 class Net_HTTP_Request_Receiver extends Dictionary
 {

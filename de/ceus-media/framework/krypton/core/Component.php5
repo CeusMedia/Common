@@ -5,7 +5,7 @@ import( 'de.ceus-media.ui.html.Elements' );
 import( 'de.ceus-media.adt.TimeConverter' );
 /**
  *	Abstract Basic Component for Actions and Views.
- *	@package		mv2.core
+ *	@package		framework.krypton.core
  *	@uses			Framework_Krypton_Core_Registry
  *	@uses			Framework_Krypton_Core_Template
  *	@uses			View_Component_Elements
@@ -13,11 +13,11 @@ import( 'de.ceus-media.adt.TimeConverter' );
  *	@uses			WikiParser
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			01.12.2005
- *	@version		0.5
+ *	@version		0.6
  */
 /**
  *	Generic View with Language Support.
- *	@package		mv2.core
+ *	@package		framework.krypton.core
  *	@uses			Framework_Krypton_Core_Registry
  *	@uses			Framework_Krypton_Core_Template
  *	@uses			View_Component_Elements
@@ -25,7 +25,7 @@ import( 'de.ceus-media.adt.TimeConverter' );
  *	@uses			WikiParser
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			01.12.2005
- *	@version		0.5
+ *	@version		0.6
  */
 /**
 	T	S	J	C	E
@@ -113,7 +113,7 @@ abstract class Framework_Krypton_Core_Component
 	 *	Cleanse String by removing all HTML Tags or Scripts, Style, Comments or Event Attributes.
 	 *	@todo		implement Events
 	 */
-	function cleanseString( $string, $flag = 16, $verbose = false )
+	public function cleanseString( $string, $flag = 16, $verbose = false )
 	{
 		if( !is_int( $flag ) )
 			$flag	= 16;

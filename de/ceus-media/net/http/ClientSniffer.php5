@@ -17,7 +17,7 @@ import( 'de.ceus-media.net.http.OperatingSystemSniffer' );
  *	@uses			Net_HTTP_OperatingSystemSniffer
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			12.08.2005
- *	@version		0.5
+ *	@version		0.6
  */
 /**
  *	Combination of different Sniffers for HTTP Request to determine all information about the Client.
@@ -31,7 +31,7 @@ import( 'de.ceus-media.net.http.OperatingSystemSniffer' );
  *	@uses			Net_HTTP_OperatingSystemSniffer
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			12.08.2005
- *	@version		0.5
+ *	@version		0.6
  */
 class Net_HTTP_ClientSniffer
 {

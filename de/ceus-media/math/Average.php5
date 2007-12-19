@@ -4,15 +4,18 @@
  *	@package		math
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			15.09.2006
- *	@version		0.1
+ *	@version		0.6
+ */
+/**
+ *	Calculates artithmetic and geometric Average.
+ *	@package		math
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@since			15.09.2006
+ *	@version		0.6
  *	@todo			finish Implementation
  */
-class Average
+class Math_Average
 {
-	public function __construct()
-	{
-	}
-	
 	/**
 	 *	Calculates artithmetic Average.
 	 *	@access		public
@@ -20,7 +23,7 @@ class Average
 	 *	@param		int			$accuracy		Accuracy of Result 
 	 *	@return		float
 	 */
-	function arithmetic( $values, $accuracy = -1 )
+	public static function arithmetic( $values, $accuracy = -1 )
 	{
 		$sum	= 0;
 		foreach( $values as $value )
@@ -38,7 +41,7 @@ class Average
 	 *	@param		int			$accuracy		Accuracy of Result 
 	 *	@return		float
 	 */
-	function geometric( $values, $accuracy	= -1 )
+	public static function geometric( $values, $accuracy	= -1 )
 	{
 		$product	= 1;
 		foreach( $values as $value )

@@ -8,7 +8,7 @@ import( 'de.ceus-media.xml.dom.Builder' );
  *	@uses			XML_DOM_Builder
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			01.02.2006
- *	@version		0.5
+ *	@version		0.6
  */
 /**
  *	Builder for OPML Files.
@@ -17,7 +17,7 @@ import( 'de.ceus-media.xml.dom.Builder' );
  *	@uses			XML_DOM_Builder
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			01.02.2006
- *	@version		0.5
+ *	@version		0.6
  */
 class XML_OPML_Builder extends XML_DOM_Node
 {

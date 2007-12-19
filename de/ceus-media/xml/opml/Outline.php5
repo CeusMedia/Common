@@ -6,7 +6,7 @@ import( 'de.ceus-media.xml.dom.Node' );
  *	@extends		XML_DOM_Node
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			01.02.2006
- *	@version		0.5
+ *	@version		0.6
  */
 /**
  *	XML Node for OPML Outlines.
@@ -14,7 +14,7 @@ import( 'de.ceus-media.xml.dom.Node' );
  *	@extends		XML_DOM_Node
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			01.02.2006
- *	@version		0.5
+ *	@version		0.6
  */
 class XML_OPML_Outline extends XML_DOM_Node
 {

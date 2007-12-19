@@ -18,7 +18,7 @@
 class Net_HTTP_Cookie
 {
 	/**	@var	array	$cookie_data		reference to Cookie data */
-	var $data;
+	protected $data;
 
 	/**
 	 *	Constructor.

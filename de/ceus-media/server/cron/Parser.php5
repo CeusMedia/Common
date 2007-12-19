@@ -7,7 +7,7 @@ import( 'de.ceus-media.server.cron.Job' );
  *	@uses			File_Reader
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			20.01.2006
- *	@version		0.5
+ *	@version		0.6
  */
 /**
  *	Cron Parser.
@@ -16,7 +16,7 @@ import( 'de.ceus-media.server.cron.Job' );
  *	@uses			File_Reader
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			20.01.2006
- *	@version		0.5
+ *	@version		0.6
  */
 class Server_Cron_Parser
 {

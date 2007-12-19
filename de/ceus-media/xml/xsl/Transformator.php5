@@ -8,7 +8,7 @@ import( 'de.ceus-media.file.Writer' );
  *	@uses			File_Writer
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			30.07.2005
- *	@version		0.5
+ *	@version		0.6
  */
 /**
  *	Transformator for XML and XSLT.
@@ -17,7 +17,7 @@ import( 'de.ceus-media.file.Writer' );
  *	@uses			File_Writer
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			30.07.2005
- *	@version		0.5
+ *	@version		0.6
  */
 class XML_XSL_Transformator
 {

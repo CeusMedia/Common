@@ -1,22 +1,22 @@
 <?php
-import ("de.ceus-media.math.NaturalNumbers");
+import( 'de.ceus-media.math.NaturalNumbers' );
 /**
- *	@package	math
- *	@uses		NaturalNumbers
- *	@author		Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version		0.4
+ *	@package		math
+ *	@uses			Math_NaturalNumbers
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@version		0.6
  */
 /**
- *	@package	math
- *	@uses		NaturalNumbers
- *	@author		Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version		0.4
- *	@todo		Code Documentation
+ *	@package		math
+ *	@uses			Math_NaturalNumbers
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@version		0.6
+ *	@todo			Code Documentation
  */
-class RationNumbers
+class Math_RationNumbers
 {
 
-	function inv ($float)
+	public static function inv( $float )
 	{
 		return -1 * $float;
 	}
@@ -24,38 +24,38 @@ class RationNumbers
 	/**
 	 * reciprocal
 	 */
-	function rec ($float)
+	public static function rec( $float )
 	{
-		if ($float == 0)
-			trigger_error( "rec($float): first argument must not be 0", E_USER_ERROR );
+		if( $float == 0 )
+			throw new InvalidArgumentException( "rec($float): first argument must not be 0" );
 		return 1 / $float;
 	}
 	
-	function leastDivisor ($float, $deepth = 0)
+	public static function leastDivisor( $float, $deepth = 0 )
 	{
-		if ($deepth > 10)
+		if( $deepth > 10 )
 			trigger_error( "no divisor found.", E_USER_ERROR );
-		if (NaturalNumbers::isNatural ($float))
+		if( Math_NaturalNumbers::isNatural( $float ) )
 			return 1;
 		else
 		{
-			$parts = explode(".", (string)$float);
+			$parts = explode( ".", (string) $float );
 			$minor = (float) "0".".".$parts[1];
-			$factor = RationNumbers::rec ($minor);
-			echo "<br>[".$deepth."] minor: ".$minor." | factor: ".$factor;
-			return $factor * RationNumbers::leastDivisor($factor, NaturalNumbers::succ($deepth));
+			$factor = self::rec ($minor);
+#			echo "<br>[".$deepth."] minor: ".$minor." | factor: ".$factor;
+			return $factor * self::leastDivisor($factor, Math_NaturalNumbers::succ($deepth));
 		}
 	}
 
-	function getNatural ($float)
+	public static function getNatural( $float )
 	{
-		if ($float < 0)
-			return (int) ceil ($float);
+		if( $float < 0 )
+			return (int) ceil( $float );
 		else
-			return (int) floor ($float);
+			return (int) floor( $float );
 	}
 
-	function toFraction( $float, $deepth = 20 )
+	public static function toFraction( $float, $deepth = 20 )
 	{
 		$shift	= 0;
 		$values	= array();
@@ -98,7 +98,7 @@ class RationNumbers
 			$max *= 10;
 			$shift++;
 		}
-		if( $gcd = NaturalNumbers::gcd( $sum, $max ) )
+		if( $gcd = Math_NaturalNumbers::gcd( $sum, $max ) )
 		{
 			remark( "sum: ".$sum." max: ".$max. " -> gcd: ".$gcd );
 			$sum	/= $gcd;

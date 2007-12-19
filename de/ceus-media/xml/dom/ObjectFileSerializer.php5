@@ -8,7 +8,7 @@ import( 'de.ceus-media.file.Writer' );
  *	@uses			File_Writer
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			26.12.2005
- *	@version		0.5
+ *	@version		0.6
  */
 /**
  *	Serializer for Data Object into a XML File.
@@ -17,7 +17,7 @@ import( 'de.ceus-media.file.Writer' );
  *	@uses			File_Writer
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			26.12.2005
- *	@version		0.5
+ *	@version		0.6
  */
 class XML_DOM_ObjectFileSerializer extends XML_DOM_ObjectSerializer
 {
@@ -27,7 +27,7 @@ class XML_DOM_ObjectFileSerializer extends XML_DOM_ObjectSerializer
 	 *	@param		string		$fileName		XML File to write to
 	 *	@return		void
 	 */
-	function serialize( $object, $fileName )
+	public static function serialize( $object, $fileName )
 	{
 		$serial	= parent::serialize( $object );
 		$file	= new File_Writer( $fileName );

@@ -3,13 +3,13 @@
  *	Header for HTTP Requests.
  *	@package		net.http.request
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version		0.5
+ *	@version		0.6
  */
 /**
  *	Header for HTTP Requests.
  *	@package		net.http.request
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version		0.5
+ *	@version		0.6
  */
 class Net_HTTP_Request_Header
 {

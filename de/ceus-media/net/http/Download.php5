@@ -4,14 +4,14 @@
  *	@package		net.http
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			03.02.2006
- *	@version		0.5
+ *	@version		0.6
  */
 /**
  *	Download Provider for Files and Strings.
  *	@package		net.http
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			03.02.2006
- *	@version		0.5
+ *	@version		0.6
  */
 class Net_HTTP_Download
 {

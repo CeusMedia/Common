@@ -5,14 +5,14 @@ import( 'de.ceus-media.file.File' );
  *	@package		file.csv
  *	@extends		File_Reader
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version		0.5
+ *	@version		0.6
  */
 /**
  *	Reading comma separated values with or without column headers.
  *	@package		file.csv
  *	@extends		File_Reader
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version		0.5
+ *	@version		0.6
  */
 class File_CSV_Reader
 {

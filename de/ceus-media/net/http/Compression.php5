@@ -2,19 +2,17 @@
 import( 'de.ceus-media.file.log.Writer' );
 /**
  *	Compresses and sends HTTP Output.
- *	@package		protocol
- *	@subpackage		http
- *	@extends		Object
+ *	@package		protocol.http
  *	@uses			File_Log_Writer
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version		0.1
+ *	@version		0.6
  */
 /**
  *	Compresses and sends HTTP Output.
  *	@package		net.http
  *	@uses			File_Log_Writer
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version		0.5
+ *	@version		0.6
  */
 class Net_HTTP_Compression
 {

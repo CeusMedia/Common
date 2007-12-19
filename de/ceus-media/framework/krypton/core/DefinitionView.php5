@@ -4,25 +4,25 @@ import( 'de.ceus-media.file.log.LogFile' );
 import( 'de.ceus-media.framework.krypton.logic.ValidationError' );
 /**
  *	Generic Definition View with Language Support.
- *	@package		mv2.core
+ *	@package		framework.krypton.core
  *	@extends		Framework_Krypton_Core_View
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			18.06.2006
- *	@version			0.1
+ *	@version		0.6
  */
 /**
  *	Generic Definition View with References.
- *	@package		mv2.core
+ *	@package		framework.krypton.core
  *	@extends		Framework_Krypton_Core_View
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			18.06.2006
- *	@version			0.1
+ *	@version		0.6
  */
 class Framework_Krypton_Core_DefinitionView extends Framework_Krypton_Core_View
 {
 	/**	@var	string		$prefix		Prefix of XML Definition Files */
-	var $prefix	= "";
-	var $definition	= null;
+	protected $prefix		= "";
+	protected $definition	= null;
 	
 	/**
 	 *	Constructor, references Output Objects.

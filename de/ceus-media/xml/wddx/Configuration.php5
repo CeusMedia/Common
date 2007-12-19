@@ -12,7 +12,7 @@ import( 'de.ceus-media.xml.wddx.WDDX_FileWriter' );
  *	@uses			File_Writer
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			18.07.02005
- *	@version		0.5
+ *	@version		0.6
  */
 /**
  *	Reads and writes Configurations via WDDX.
@@ -23,7 +23,7 @@ import( 'de.ceus-media.xml.wddx.WDDX_FileWriter' );
  *	@uses			File_Writer
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			18.07.02005
- *	@version		0.5
+ *	@version		0.6
  */
 class XML_WDDX_Configuration
 {

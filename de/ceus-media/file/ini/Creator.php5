@@ -5,14 +5,14 @@ import( 'de.ceus-media.file.File' );
  *	@package		file.ini
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			18.07.2005
- *	@version		0.5
+ *	@version		0.6
  */
 /**
  *	Builder for File in .ini-Format.
  *	@package		file.ini
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			18.07.2005
- *	@version		0.5
+ *	@version		0.6
  */
 class File_INI_Creator
 {

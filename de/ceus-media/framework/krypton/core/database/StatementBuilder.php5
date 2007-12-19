@@ -1,19 +1,19 @@
 <?php
 /**
  *	Build SQL Statement from given Statement Component.
- *	@package		mv2.core.database 
+ *	@package		framework.krypton.core.database 
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@author			Michael Martin <Michael.Martin@CeuS-Media.de>
  *	@since			26.11.04
- *	@version		0.5
+ *	@version		0.6
  */
 /**
  *	Build SQL Statement from given Statement Component.
- *	@package		mv2.core.database 
+ *	@package		framework.krypton.core.database 
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@author			Michael Martin <Michael.Martin@CeuS-Media.de>
  *	@since			26.11.04
- *	@version		0.5
+ *	@version		0.6
  */
 class Framework_Krypton_Core_Database_StatementBuilder
 {

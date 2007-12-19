@@ -3,13 +3,13 @@
  *	MySQL Result.
  *	@package		database.mysql
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version 		0.5
+ *	@version 		0.6
  */
 /**
  *	MySQL Result.
  *	@package		database.mysql
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version 		0.5
+ *	@version 		0.6
  */
 class Database_MySQL_Result
 {

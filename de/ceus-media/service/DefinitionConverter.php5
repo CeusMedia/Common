@@ -13,7 +13,7 @@ import( 'de.ceus-media.file.Writer' );
  *	@uses			File_Reader
  *	@uses			File_Writer
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version		0.5
+ *	@version		0.6
  */
 /**
  *	Converts Service Definitions between XML and YAML.
@@ -24,7 +24,7 @@ import( 'de.ceus-media.file.Writer' );
  *	@uses			File_Reader
  *	@uses			File_Writer
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version		0.5
+ *	@version		0.6
  */
 class Service_DefinitionConverter
 {

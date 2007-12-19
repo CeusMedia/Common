@@ -8,7 +8,7 @@ import( 'de.ceus-media.file.Reader' );
  *	@uses			File_Reader
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			26.12.2005
- *	@version		0.5
+ *	@version		0.6
  */
 /**
  *	Deserializer for a XML File into a Data Object.
@@ -17,7 +17,7 @@ import( 'de.ceus-media.file.Reader' );
  *	@uses			File_Reader
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			26.12.2005
- *	@version		0.5
+ *	@version		0.6
  */
 class XML_DOM_ObjectFileDeserializer extends XML_DOM_ObjectDeserializer
 {
@@ -26,7 +26,7 @@ class XML_DOM_ObjectFileDeserializer extends XML_DOM_ObjectDeserializer
 	 *	@param		string		$fileName		XML File of a serialized Object
 	 *	@return		Object
 	 */
-	function deserialize( $fileName )
+	public static function deserialize( $fileName )
 	{
 		$reader	= new File_Reader( $fileName );
 		$xml	= $reader->readString( $fileName );

@@ -8,7 +8,7 @@ import( 'de.ceus-media.ui.html.Elements' );
  *	@uses			UI_HTML_Elements
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			01.12.2005
- *	@version		0.5
+ *	@version		0.6
  */
 /**
  *	Paging System for Lists.
@@ -17,7 +17,7 @@ import( 'de.ceus-media.ui.html.Elements' );
  *	@uses			UI_HTML_Elements
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			01.12.2005
- *	@version		0.5
+ *	@version		0.6
  */
 class UI_HTML_Paging extends ADT_OptionObject
 {

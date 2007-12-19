@@ -9,7 +9,7 @@ import( 'de.ceus-media.xml.dom.Parser' );
  *	@uses			XML_DOM_Node
  *	@uses			XML_DOM_Parser
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version		0.5
+ *	@version		0.6
  */
 /**
  *	Builder and Parser for XML Service Definitions.
@@ -18,7 +18,7 @@ import( 'de.ceus-media.xml.dom.Parser' );
  *	@uses			XML_DOM_Node
  *	@uses			XML_DOM_Parser
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version		0.5
+ *	@version		0.6
  */
 class Service_XmlDefinition
 {

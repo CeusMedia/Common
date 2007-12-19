@@ -1,22 +1,22 @@
 <?php
 import( 'de.ceus-media.adt.OptionObject' );
-import( 'de.ceus-media.adt.Randomizer' );
+import( 'de.ceus-media.alg.Randomizer' );
 /**
- *	Simplie Captcha Generator.
+ *	Simple Captcha Generator.
  *	@package		ui
  *	@subpackage		image
  *	@extends		ADT_OptionObject
- *	@uses			Randomizer
+ *	@uses			Alg_Randomizer
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			01.05.2005
  *	@version		0.1
  */
 /**
- *	Simplie Captcha Generator.
+ *	Simple Captcha Generator.
  *	@package		ui
  *	@subpackage		image
  *	@extends		ADT_OptionObject
- *	@uses			Randomizer
+ *	@uses			Alg_Randomizer
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			01.05.2005
  *	@version		0.1
@@ -54,7 +54,7 @@ class Captcha extends ADT_OptionObject
 	 */
 	function generateWord()
 	{
-		$rand	= new Randomizer();
+		$rand	= new Alg_Randomizer();
 		$rand->setOption( 'useSmalls',	$this->getOption( 'useSmalls' ) );
 		$rand->setOption( 'useLarges',	$this->getOption( 'useLarges' ) );
 		$rand->setOption( 'useDigits',	$this->getOption( 'useDigits' ) );

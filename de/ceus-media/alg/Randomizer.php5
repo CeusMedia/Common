@@ -2,21 +2,21 @@
 import( 'de.ceus-media.adt.OptionObject' );
 /**
  *	Randomizer supporting different sign types.
- *	@package		math
+ *	@package		alg
  *	@extends		ADT_OptionObject
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			18.01.2006
- *	@version		0.1
+ *	@version		0.6
  */
 /**
  *	Randomizer supporting different sign types.
- *	@package		math
+ *	@package		alg
  *	@extends		ADT_OptionObject
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			18.01.2006
- *	@version		0.1
+ *	@version		0.6
  */
-class Randomizer extends ADT_OptionObject
+class Alg_Randomizer extends ADT_OptionObject
 {
 	/**
 	 *	Constructor.
@@ -38,10 +38,10 @@ class Randomizer extends ADT_OptionObject
 		$this->setOption( 'larges',	"ABCDEFGHIJKLMNOPQRSTUVWXYZ" );
 		$this->setOption( 'signs',	".:~_-+*#&§%!()={[]}/" );
 
-		$this->setOption( 'useDigits',		true );
+		$this->setOption( 'useDigits',	true );
 		$this->setOption( 'useSmalls',	true );
 		$this->setOption( 'useLarges',	true );
-		$this->setOption( 'useSigns',		true );
+		$this->setOption( 'useSigns',	true );
 		$this->setOption( 'length',		0 );
 		$this->setOption( 'unique',		true );
 	}

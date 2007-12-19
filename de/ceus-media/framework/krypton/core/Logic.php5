@@ -6,7 +6,7 @@ import( 'de.ceus-media.framework.krypton.exception.Validation' );
 import( 'de.ceus-media.framework.krypton.exception.Logic' );
 /**
  *	Logic Base Class with Validation
- *	@package		mv2.core
+ *	@package		framework.krypton.core
  *	@uses			Framework_Krypton_Core_Registry
  *	@uses			Framework_Krypton_Core_DefinitionValidator
  *	@uses			Framework_Krypton_Exception_Validation
@@ -14,11 +14,11 @@ import( 'de.ceus-media.framework.krypton.exception.Logic' );
  *	@uses			Framework_Krypton_Exception_Logic
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			21.02.2007
- *	@version		0.2
+ *	@version		0.6
  */
 /**
  *	Logic Base Class with Validation
- *	@package		mv2.core
+ *	@package		framework.krypton.core
  *	@uses			Framework_Krypton_Core_Registry
  *	@uses			Framework_Krypton_Core_DefinitionValidator
  *	@uses			Framework_Krypton_Exception_Validation
@@ -26,7 +26,7 @@ import( 'de.ceus-media.framework.krypton.exception.Logic' );
  *	@uses			Framework_Krypton_Exception_Logic
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			21.02.2007
- *	@version		0.2
+ *	@version		0.6
  */
 class Framework_Krypton_Core_Logic
 {

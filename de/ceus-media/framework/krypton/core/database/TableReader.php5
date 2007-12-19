@@ -1,15 +1,15 @@
 <?php
 /**
  *	Table with Column Definition and Keys.
- *	@package		mv2.core.database
+ *	@package		framework.krypton.core.database
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version		0.5
+ *	@version		0.6
  */
 /**
  *	Table with column definition and keys.
- *	@package		mv2.core.database
+ *	@package		framework.krypton.core.database
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version		0.5
+ *	@version		0.6
  */
 class Framework_Krypton_Core_Database_TableReader
 {

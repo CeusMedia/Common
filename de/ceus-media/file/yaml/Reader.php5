@@ -8,7 +8,7 @@ import( 'net.sourceforge.spyc.Spyc' );
  *	@uses			Spyc
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			18.06.2007
- *	@version		0.5
+ *	@version		0.6
  */
 /**
  *	YAML Reader based on Spyc.
@@ -17,7 +17,7 @@ import( 'net.sourceforge.spyc.Spyc' );
  *	@uses			Spyc
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			18.06.2007
- *	@version		0.5
+ *	@version		0.6
  */
 class File_YAML_Reader
 {

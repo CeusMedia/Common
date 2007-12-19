@@ -1,17 +1,17 @@
 <?php
 /**
  *	Sends Mails.
- *	@package		mv2.logic
+ *	@package		framework.krypton.core
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			19.02.2007
- *	@version		0.1
+ *	@version		0.6
  */
 /**
  *	Sends Mails.
- *	@package		mv2.logic
+ *	@package		framework.krypton.core
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			19.02.2007
- *	@version		0.1
+ *	@version		0.6
  */
 class Framework_Krypton_Core_MailSender
 {

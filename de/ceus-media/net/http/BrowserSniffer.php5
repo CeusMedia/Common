@@ -4,14 +4,14 @@
  *	@package		net.http
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			12.08.2005
- *	@version		0.5
+ *	@version		0.6
  */
 /**
  *	Sniffer for browsing HTTP Clients via User Agents.
  *	@package		net.http
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			12.08.2005
- *	@version		0.5
+ *	@version		0.6
  */
 class Net_HTTP_BrowserSniffer
 {

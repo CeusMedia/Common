@@ -4,17 +4,22 @@
  *	@package		math
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			22.06.2005
- *	@version		0.1
+ *	@version		0.6
  */
 /**
  *	Complex Number with base operations.
  *	@package		math
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			22.06.2005
- *	@version		0.1
+ *	@version		0.6
  */
-class ComplexNumber
+class Math_ComplexNumber
 {
+	/**	@var		int		$real		Real part of the complex number */
+	protected $real;
+	/**	@var		int		$image		Imaginary part of the complex number */
+	protected $image;
+
 	/**
 	 *	Constructor.
 	 *	@access		public
@@ -24,8 +29,8 @@ class ComplexNumber
 	 */
 	public function __construct( $real, $image )
 	{
-		$this->_real	= $real;
-		$this->_image	= $image;
+		$this->real	= $real;
+		$this->image	= $image;
 	}
 	
 	/**
@@ -33,9 +38,9 @@ class ComplexNumber
 	 *	@access		public
 	 *	@return		mixed
 	 */
-	function getRealPart()
+	public function getRealPart()
 	{
-		return $this->_real;
+		return $this->real;
 	}
 	
 	/**
@@ -43,9 +48,9 @@ class ComplexNumber
 	 *	@access		public
 	 *	@return		mixed
 	 */
-	function getImagePart()
+	public function getImagePart()
 	{
-		return $this->_image;
+		return $this->image;
 	}
 	
 	/**
@@ -54,7 +59,7 @@ class ComplexNumber
 	 *	@param		ComplexNumber	$complex		Complex number to be added
 	 *	@return		ComplexNumber
 	 */
-	function add( $complex )
+	public function add( $complex )
 	{
 		$a	= $this->getRealPart();
 		$b	= $this->getImagePart();
@@ -62,8 +67,8 @@ class ComplexNumber
 		$d	= $complex->getImagePart();
 		$real	= $a + $c;
 		$image	= $b + $d;
-		$result = new ComplexNumber ($real, $image);
-		return new ComplexNumber ($real, $image);
+		$result = new ComplexNumber( $real, $image );
+		return new ComplexNumber( $real, $image );
 	}
 	
 	/**
@@ -72,7 +77,7 @@ class ComplexNumber
 	 *	@param		ComplexNumber	$complex		Complex number to be subtracted
 	 *	@return		ComplexNumber
 	 */
-	function sub ($complex)
+	public function sub( $complex )
 	{
 		$a	= $this->getRealPart();
 		$b	= $this->getImagePart();
@@ -80,8 +85,8 @@ class ComplexNumber
 		$d	= $complex->getImagePart();
 		$real	= $a - $c;
 		$image	= $b - $d;
-		$result = new ComplexNumber ($real, $image);
-		return new ComplexNumber ($real, $image);
+		$result = new ComplexNumber( $real, $image );
+		return new ComplexNumber( $real, $image );
 	}
 	
 	/**
@@ -90,7 +95,7 @@ class ComplexNumber
 	 *	@param		ComplexNumber	$complex		Complex number to be multiplied
 	 *	@return		ComplexNumber
 	 */
-	function mult ($complex)
+	public function mult( $complex )
 	{
 		$a	= $this->getRealPart();
 		$b	= $this->getImagePart();
@@ -98,7 +103,7 @@ class ComplexNumber
 		$d	= $complex->getImagePart();
 		$real	= $a * $c - $b * $d;
 		$image	= $a * $d + $b * $c;
-		return new ComplexNumber ($real, $image);
+		return new ComplexNumber( $real, $image );
 	}
 	
 	/**
@@ -107,16 +112,16 @@ class ComplexNumber
 	 *	@param		ComplexNumber	$complex		Complex number to be divised by
 	 *	@return		ComplexNumber
 	 */
-	function div ($complex)
+	public function div( $complex )
 	{
 		$a	= $this->getRealPart();
 		$b	= $this->getImagePart();
 		$c	= $complex->getRealPart();
 		$d	= $complex->getImagePart();
-		$real	= ($a * $c + $b * $d) / ($c * $c + $d * $d);
-		$image	= ($b * $c - $a * $d) / ($c * $c + $d * $d);
-		$result = new ComplexNumber ($real, $image);
-		return new ComplexNumber ($real, $image);
+		$real	= ( $a * $c + $b * $d ) / ( $c * $c + $d * $d );
+		$image	= ( $b * $c - $a * $d ) / ( $c * $c + $d * $d );
+		$result = new ComplexNumber( $real, $image );
+		return new ComplexNumber( $real, $image );
 	}
 
 	/**
@@ -124,10 +129,10 @@ class ComplexNumber
 	 *	@access		public
 	 *	@return		mixed
 	 */
-	function toString ()
+	public function toString()
 	{
 		$code = $this->getRealPart();
-		if ($this->_image >= 0)
+		if( $this->image >= 0 )
 			$code .= "+".$this->getImagePart()."i";
 		else
 			$code .= "".$this->getImagePart()."i";

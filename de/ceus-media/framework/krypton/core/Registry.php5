@@ -2,19 +2,19 @@
 import( 'de.ceus-media.framework.krypton.exception.IO' );
 /**
  *	Registry Singleton to store Objects
- *	@package		mv2.core
+ *	@package		framework.krypton.core
  *	@uses			Framework_Krypton_Exception_IO
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			20.02.2007
- *	@version		0.1
+ *	@version		0.6
  */
 /**
  *	Registry Singleton to store Objects
- *	@package		mv2.core
+ *	@package		framework.krypton.core
  *	@uses			Framework_Krypton_Exception_IO
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			20.02.2007
- *	@version		0.1
+ *	@version		0.6
  */
 class Framework_Krypton_Core_Registry
 {

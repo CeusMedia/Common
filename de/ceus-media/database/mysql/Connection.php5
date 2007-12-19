@@ -14,7 +14,7 @@ import( 'de.ceus-media.functions.getBits' );
  *	@uses			Database_MySQL_Result
  *	@uses			Database_MySQL_Row
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version 		0.5
+ *	@version 		0.6
  */
 /**
  *	MySQL Connection
@@ -27,7 +27,7 @@ import( 'de.ceus-media.functions.getBits' );
  *	@uses			Database_MySQL_Result
  *	@uses			Database_MySQL_Row
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version 		0.5
+ *	@version 		0.6
  *	@todo			Code Documentation
  */
 class Database_MySQL_Connection extends Database_BaseConnection

@@ -13,7 +13,7 @@ import( 'de.ceus-media.file.block.BlockFileReader' );
  *	@uses			LanguageValidator
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			05.12.2006
- *	@version		0.5
+ *	@version		0.6
  */
 /**
  *	Language Support with sniffing of Browser Language and Language Validation.
@@ -24,7 +24,7 @@ import( 'de.ceus-media.file.block.BlockFileReader' );
  *	@uses			LanguageValidator
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			05.12.2006
- *	@version		0.5
+ *	@version		0.6
  */
 class Framework_Neon_Language extends ADT_OptionObject
 {

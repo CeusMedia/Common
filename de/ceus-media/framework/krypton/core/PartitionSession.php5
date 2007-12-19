@@ -2,21 +2,21 @@
 import( 'de.ceus-media.framework.krypton.core.Session' );
 /**
  *	Singleton Session Management for Partitions.
- *	@package		mv2.core
+ *	@package		framework.krypton.core
  *	@extends		Framework_Krypton_Core_Session
  *	@extends		Session
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			05.03.2007
- *	@version		0.2
+ *	@version		0.6
  */
 /**
  *	Singleton Session Management for Partitions.
- *	@package		mv2.core
+ *	@package		framework.krypton.core
  *	@extends		Framework_Krypton_Core_Session
  *	@extends		Session
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			05.03.2007
- *	@version		0.2
+ *	@version		0.6
  */
 class Framework_Krypton_Core_PartitionSession extends Framework_Krypton_Core_Session
 {
@@ -69,7 +69,7 @@ class Framework_Krypton_Core_PartitionSession extends Framework_Krypton_Core_Ses
 	 *	@access		public
 	 *	@return		void
 	 */
-	function clear()
+	public function clear()
 	{
 		foreach( $this->values as $key => $value )
 			unset( $this->values[$key] );
@@ -82,7 +82,7 @@ class Framework_Krypton_Core_PartitionSession extends Framework_Krypton_Core_Ses
 	 *	@param		string		$key		Key of set Value
 	 *	@return		mixed
 	 */
-	function get( $key )
+	public function get( $key )
 	{
 		if( $this->has( $key ) )
 			return $this->values[$key];
@@ -94,7 +94,7 @@ class Framework_Krypton_Core_PartitionSession extends Framework_Krypton_Core_Ses
 	 *	@access		public
 	 *	@return		array
 	 */
-/*	function getAll()
+/*	public function getAll()
 	{
 		return $this->values;
 	}*/
@@ -105,7 +105,7 @@ class Framework_Krypton_Core_PartitionSession extends Framework_Krypton_Core_Ses
 	 *	@param		string		$key		Key to be checked
 	 *	@return		bool
 	 */
-	function has( $key )
+	public function has( $key )
 	{
 		return isset( $this->values[$key] );
 	}
@@ -116,7 +116,7 @@ class Framework_Krypton_Core_PartitionSession extends Framework_Krypton_Core_Ses
 	 *	@param		string		$key		Key of set Value to be removed
 	 *	@return		void
 	 */
-	function remove( $key )
+	public function remove( $key )
 	{
 		if( $this->has( $key ) )
 		{
@@ -133,7 +133,7 @@ class Framework_Krypton_Core_PartitionSession extends Framework_Krypton_Core_Ses
 	 *	@param		string		$value		Value to be stored
 	 *	@return		bool
 	 */
-	function set( $key, $value )
+	public function set( $key, $value )
 	{
 		$this->values[$key] = $value;
 		return true;

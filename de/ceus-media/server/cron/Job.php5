@@ -6,7 +6,7 @@ import( 'de.ceus-media.adt.OptionObject' );
  *	@extends		ADT_OptionObject
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			20.01.2006
- *	@version		0.5
+ *	@version		0.6
  */
 /**
  *	CronParser.
@@ -14,7 +14,7 @@ import( 'de.ceus-media.adt.OptionObject' );
  *	@extends		ADT_OptionObject
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			20.01.2006
- *	@version		0.5
+ *	@version		0.6
  */
 class Server_Cron_Job extends ADT_OptionObject
 {

@@ -7,7 +7,7 @@ import( 'de.ceus-media.xml.dom.Builder' );
  *	@uses			XML_DOM_Builder
  *	@uses			File_Writer
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version		0.5
+ *	@version		0.6
  */
 /**
  *	Writes XML Files from Trees build with XML_DOM_Nodes.
@@ -15,7 +15,7 @@ import( 'de.ceus-media.xml.dom.Builder' );
  *	@uses			XML_DOM_Builder
  *	@uses			File_Writer
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version		0.5
+ *	@version		0.6
  */
 class XML_DOM_FileWriter
 {

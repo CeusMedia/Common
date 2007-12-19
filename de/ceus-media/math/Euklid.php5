@@ -9,25 +9,25 @@
  *
  *	@package		math
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version		0.4
+ *	@version		0.6
  */
 /**
  *	@package		math
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version		0.4
+ *	@version		0.6
  *	@todo			Code Documentation
  */
-class Euklid
+class Math_Euklid
 {
 	/**
 	 *	ggT( m, n)
 	 *	@param	int	$m	natuerliche Zahlen > 0
 	 *	@param	int	$n	natuerliche Zahlen > 0
 	 */
-	function ggT( $m, $n )
+	public static function ggT( $m, $n )
 	{
 		if( $n != 0 )
-			return Euklid::ggT( $n, $m % $n );
+			return self::ggT( $n, $m % $n );
 		else
 			return $m;
 	}
@@ -37,24 +37,24 @@ class Euklid
 	 *	@param	int	$m	natuerliche Zahlen > 0
 	 *	@param	int	$n	natuerliche Zahlen > 0
 	 */
-	function kgV( $m, $n )
+	public static function kgV( $m, $n )
 	{
-		return $m * $n / Euklid::ggT( $m, $n );
+		return $m * $n / self::ggT( $m, $n );
 	}
 	
-	function ggTe( $a, $b )
+	public static function ggTe( $a, $b )
 	{
-		$array	= Euklid::ggTe_rec( $a, $b );
+		$array	= self::ggTe_rec( $a, $b );
 		return $array[0];
 	}
 	
-	function ggTe_rec( $a, $b )
+	public static function ggTe_rec( $a, $b )
 	{
 		if( $b == 0 )
 			$array	= array( $a, 1, 0 );
 		else
 		{
-			$tmp	= Euklid::ggTe_rec( $b, $a % $b );
+			$tmp	= self::ggTe_rec( $b, $a % $b );
 			$array	= array( $tmp[0], $tmp[2], $tmp[1] - round( $a / $b ) * $tmp[2] );
 		}
 		return $array;

@@ -51,8 +51,7 @@ class XML_Tree extends ADT_OptionObject
 	public function __construct( $xml_file )
 	{
 		parent::__construct();
-		$xml_reader	= new XML_DOM_FileReader();
-		$this->tree	= $xml_reader->read( $xml_file );
+		$this->tree	= XML_DOM_FileReader::load( $xml_file );
 		$this->setDefaults();
 	}
 	

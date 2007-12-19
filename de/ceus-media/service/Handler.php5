@@ -4,14 +4,14 @@
  *	@package		service
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			18.06.2007
- *	@version		0.5
+ *	@version		0.6
  */
 /**
  *	Interface for Service Handlers.
  *	@package		service
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			18.06.2007
- *	@version		0.5
+ *	@version		0.6
  */
 abstract class Service_Handler
 {

@@ -7,7 +7,7 @@ import( 'de.ceus-media.file.Writer' );
  *	@uses			XML_WDDX_Builder
  *	@uses			File_Writer
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version		0.5
+ *	@version		0.6
  */
 /**
  *	Writes a WDDX File.
@@ -15,7 +15,7 @@ import( 'de.ceus-media.file.Writer' );
  *	@uses			XML_WDDX_Builder
  *	@uses			File_Writer
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version		0.5
+ *	@version		0.6
  */
 class XML_WDDX_FileWriter
 {

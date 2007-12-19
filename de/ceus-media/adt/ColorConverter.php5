@@ -1,20 +1,20 @@
 <?php
 /**
  *	Converter for different Formats of Colors.
- *	@package	adt
- *	@author		Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@since		23.09.2005
- *	@version		0.1
+ *	@package		adt
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@since			23.09.2005
+ *	@version		0.6
  */
 /**
  *	Converter for Colors.
- *	@package	adt
- *	@author		Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@since		23.09.2005
- *	@version		0.1
- *	@todo		Code Documentation
+ *	@package		adt
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@since			23.09.2005
+ *	@version		0.6
+ *	@todo			Code Documentation
  */
-class ColorConverter
+class ADT_ColorConverter
 {
 	/**
 	 *	Converts CMY to CMYK.
@@ -22,7 +22,7 @@ class ColorConverter
 	 *	@param		array	cmy		CMY-Color as array
 	 *	@return		array
 	 */
-	function cmy2cmyk( $cmy )
+	public function cmy2cmyk( $cmy )
 	{
 		list( $c, $m, $y ) = $cmy;
 		$k	= min( $c, $m, $y );
@@ -38,7 +38,7 @@ class ColorConverter
 	 *	@param		array	cmyk	CMYK-Color as array
 	 *	@return		array
 	 */
-	function cmyk2cmy( $cmyk )
+	public function cmyk2cmy( $cmyk )
 	{
 		list( $c, $m, $y, $k ) = $cmyk;
 		$c	= min( 1, $c * ( 1 - $k ) + $k );
@@ -53,7 +53,7 @@ class ColorConverter
 	 *	@param		array	cmy		CMY-Color as array
 	 *	@return		array
 	 */
-	function cmy2rgb( $cmy )
+	public function cmy2rgb( $cmy )
 	{
 		list( $c, $m, $y ) = $cmy;
 		$r	= 255 * ( 1 - $c );
@@ -68,7 +68,7 @@ class ColorConverter
 	 *	@param		array	cmyk	CMKY-Color as array
 	 *	@return		array
 	 */
-	function cmyk2rgb( $cmyk )
+	public function cmyk2rgb( $cmyk )
 	{
 		return ColorConverter::cmy2rgb( ColorConverter::cmyk2cmy( $cmyk ) );
 	}
@@ -79,7 +79,7 @@ class ColorConverter
 	 *	@param		array	hsv		HSV-Color as array
 	 *	@return		string
 	 */
-	function hsv2html( $hsv )
+	public function hsv2html( $hsv )
 	{
 		return ColorConverter::rgb2html( ColorConverter::hsv2rgb( $hsv ) );
 	}		
@@ -90,7 +90,7 @@ class ColorConverter
 	 *	@param		array	hsv		HSV-Color as array
 	 *	@return		array
 	 */
-	function hsv2rgb( $hsv )
+	public function hsv2rgb( $hsv )
 	{
 		list( $h, $s, $v ) = $hsv;
 		$rgb = array();
@@ -161,7 +161,7 @@ class ColorConverter
 	 *	@param		string	html		HTML-Color as string
 	 *	@return		array
 	 */
-	function html2rgb( $string )
+	public function html2rgb( $string )
 	{
 		sscanf( $string, "%2X%2X%2X", $r, $g, $b );
 		return array( $r, $g, $b );
@@ -173,7 +173,7 @@ class ColorConverter
 	 *	@param		string	html		HTML-Color as string
 	 *	@return		array
 	 */
-	function html2hsv( $string )
+	public function html2hsv( $string )
 	{
 		sscanf( $string, "%2X%2X%2X", $r, $g, $b );
 		return ColorConversion::rgb2hsv( array( $r, $g, $b ) );
@@ -185,7 +185,7 @@ class ColorConverter
 	 *	@param		array	rgb		RGB-Color as array
 	 *	@return		array
 	 */
-	function rgb2cmy( $rgb )
+	public function rgb2cmy( $rgb )
 	{
 		list( $r, $g, $b ) = $rgb;
 		$c	= 1 - ( $r / 255 );
@@ -200,7 +200,7 @@ class ColorConverter
 	 *	@param		array	rgb		RGB-Color as array
 	 *	@return		array
 	 */
-	function rgb2cmyk( $rgb )
+	public function rgb2cmyk( $rgb )
 	{
 		return ColorConverter::cmy2cmyk( ColorConverter::rgb2cmy( $rgb ) );
 	}
@@ -211,7 +211,7 @@ class ColorConverter
 	 *	@param		array	rgb		RGB-Color as array
 	 *	@return		array
 	 */
-	function rgb2hsv($c)
+	public function rgb2hsv($c)
 	{
 		list($r,$g,$b)=$c;
 		$v=max($r,$g,$b);
@@ -238,7 +238,7 @@ class ColorConverter
 	 *	@param		array	rgb		RGB-Color as array
 	 *	@return		string
 	 */
-	function rgb2html( $rgb )
+	public function rgb2html( $rgb )
 	{
 		list( $r, $g, $b ) = $rgb;
 		$html	= sprintf( "%2X%2X%2X", $r, $g, $b );
@@ -252,7 +252,7 @@ class ColorConverter
 	 *	@param		array	rgb		RGB-Color as array
 	 *	@return		array
 	 */
-	function rgb2xyz( $rgb )
+	public function rgb2xyz( $rgb )
 	{
 		list( $r, $g, $b ) = $rgb;
 		$r	= $r / 255;
@@ -270,7 +270,7 @@ class ColorConverter
 	 *	@param		array	xyz		XYZ-Color as array
 	 *	@return		array
 	 */
-	function xyz2rgb( $xyz )
+	public function xyz2rgb( $xyz )
 	{
 		list( $x, $y, $z ) = $xyz;
 		$r	= 3.063219 * $x - 1.393326 * $y - 0.475801 * $z;
@@ -291,7 +291,7 @@ class ColorConverter
 #	 *	@since		23.09.2005
 #	 *	@version		0.1
 #	 */
-#	function xyz2luv( $xyz )
+#	public function xyz2luv( $xyz )
 #	{
 #		trigger_error( "Not implemented yet", E_USER_ERROR );
 #		list( $x, $y, $z ) = $xyz;
@@ -307,7 +307,7 @@ class ColorConverter
 #	 *	@since		23.09.2005
 #	 *	@version		0.1
 #	 */
-#	function luv2xyz( $luv )
+#	public function luv2xyz( $luv )
 #	{
 #		trigger_error( "Not implemented yet", E_USER_ERROR );
 #		list( $l, $u, $v ) = $luv;
@@ -323,7 +323,7 @@ class ColorConverter
 #	 *	@since		23.09.2005
 #	 *	@version		0.1
 #	 */
-#	function xyz2lab( $xyz )
+#	public function xyz2lab( $xyz )
 #	{
 #		trigger_error( "Not implemented yet", E_USER_ERROR );
 #		list( $x, $y, $z ) = $xyz;
@@ -339,7 +339,7 @@ class ColorConverter
 #	 *	@since		23.09.2005
 #	 *	@version		0.1
 #	 */
-#	function lab2xyz( $lab )
+#	public function lab2xyz( $lab )
 #	{
 #		trigger_error( "Not implemented yet", E_USER_ERROR );
 #		list( $l, $a, $b ) = $lab;
@@ -355,7 +355,7 @@ class ColorConverter
 #	 *	@since		23.09.2005
 #	 *	@version		0.1
 #	 */
-#	function lab2luv( $lab )
+#	public function lab2luv( $lab )
 #	{
 #		trigger_error( "Not implemented yet", E_USER_ERROR );
 #		list( $l, $a, $b ) = $lab;
@@ -371,7 +371,7 @@ class ColorConverter
 #	 *	@since		23.09.2005
 #	 *	@version		0.1
 #	 */
-#	function luv2lab( $luv )
+#	public function luv2lab( $luv )
 #	{
 #		trigger_error( "Not implemented yet", E_USER_ERROR );
 #		list( $l, $u, $v ) = $luv;

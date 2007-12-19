@@ -5,7 +5,7 @@
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@author			Michael Martin <Michael.Martin@CeuS-Media.de>
  *	@since			26.11.04
- *	@version		0.5
+ *	@version		0.6
  */
 /**
  *	Build SQL Statement from given Statement Component.
@@ -13,7 +13,7 @@
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@author			Michael Martin <Michael.Martin@CeuS-Media.de>
  *	@since			26.11.04
- *	@version		0.5
+ *	@version		0.6
  */
 class Database_StatementBuilder
 {

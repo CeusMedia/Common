@@ -6,7 +6,7 @@ import( 'de.ceus-media.console.ArgumentParser' );
  *	@extends		Console_ArgumentParser
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			11.01.2006
- *	@version		0.5
+ *	@version		0.6
  */
 /**
  *	Generic Console Application.
@@ -14,7 +14,7 @@ import( 'de.ceus-media.console.ArgumentParser' );
  *	@extends		Console_ArgumentParser
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			11.01.2006
- *	@version		0.5
+ *	@version		0.6
  */
 class Console_Application extends Console_ArgumentParser
 {

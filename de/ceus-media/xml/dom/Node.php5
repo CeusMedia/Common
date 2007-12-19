@@ -3,13 +3,13 @@
  *	XML Node DOM Implementation.
  *	@package		xml.dom
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version		0.5
+ *	@version		0.6
  */
 /**
  *	XML Node DOM Implementation.
  *	@package		xml.dom
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version		0.5
+ *	@version		0.6
  */
 class XML_DOM_Node
 {

@@ -6,7 +6,7 @@ import( 'de.ceus-media.net.http.Session' );
  *	@extends		Net_HTTP_Session
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			26.07.2005
- *	@version		0.5
+ *	@version		0.6
  */
 /**
  *	Session Management.
@@ -14,7 +14,7 @@ import( 'de.ceus-media.net.http.Session' );
  *	@extends		Net_HTTP_Session
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			26.07.2005
- *	@version		0.5
+ *	@version		0.6
  */
 class Net_HTTP_PartitionSession extends Net_HTTP_Session
 {

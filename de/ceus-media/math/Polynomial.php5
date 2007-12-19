@@ -15,13 +15,13 @@ import( 'de.ceus-media.math.Formula' );
  */
 class Polynomial
 {
-	/**	@var	array		$_coefficients		Array of coefficients starting with highest potency */
+	/**	@var		array		$_coefficients		Array of coefficients starting with highest potency */
 	var $_coefficients = array();
 
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		array	$coefficients		Array of coefficients starting with highest potenc
+	 *	@param		array		$coefficients		Array of coefficients starting with highest potenc
 	 *	@return		void
 	 */
 	public function __construct( $coefficients = array() )
@@ -33,7 +33,7 @@ class Polynomial
 	/**
 	 *	Sets the coefficients.
 	 *	@access		public
-	 *	@param		array	$coefficients		Array of coefficients starting with highest potency
+	 *	@param		array		$coefficients		Array of coefficients starting with highest potency
 	 *	@return		void
 	 */
 	function setCoefficients( $coefficients )
@@ -44,7 +44,7 @@ class Polynomial
 	/**
 	 *	Calculates value with a given x with Horner-Scheme and returns the value.
 	 *	@access		public
-	 *	@param		mixed	$x				X-Value
+	 *	@param		mixed		$x				X-Value
 	 *	@return		mixed
 	 */
 	function getValue( $x )

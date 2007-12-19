@@ -4,13 +4,13 @@ import( 'de.ceus-media.file.Configuration' );
  *	Sniffer for iMode Clients.
  *	@package		net.http
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version		0.5
+ *	@version		0.6
  */
 /**
  *	Sniffer for iMode Clients.
  *	@package		net.http
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version		0.5
+ *	@version		0.6
  */
 define('IMODE_COLOUR_BW',			0);
 define('IMODE_COLOUR_GREYSCALE',	1);

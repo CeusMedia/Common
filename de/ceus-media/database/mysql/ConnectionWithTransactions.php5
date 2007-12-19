@@ -6,7 +6,7 @@ import( 'de.ceus-media.database.mysql.Connection' );
  *	@extends		Database_MySQL_Connection
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			26.07.2005
- *	@version		0.5
+ *	@version		0.6
  */
 /**
  *	Database_MySQL_Connection Connection with Transaction Support.
@@ -14,7 +14,7 @@ import( 'de.ceus-media.database.mysql.Connection' );
  *	@extends		Database_MySQL_Connection
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			26.07.2005
- *	@version		0.5
+ *	@version		0.6
  */
 class Database_MySQL_ConnectionWithTransactions extends Database_MySQL_Connection
 {

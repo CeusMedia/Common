@@ -13,11 +13,11 @@ $path_phpdoc	= "c:\\.mirror\\packages\\";
 chdir( $path_phpdoc );
 
 $title	= " -ti cmClasses";
-$source	= " -d c:/.mirror/classes/de/ceus-media/";
+$source	= " -d c:/.mirror/cmClasses/de/ceus-media/";
 $target	= " -t c:/.mirror/docs/cmClasses/api/";
 $output	= " -o HTML:Smarty:PHP";
 $ignore	= " -i doc.php,mirror.lnk";
 $quiet	= "";
-passthru( "php phpdocumentor/phpdoc".$source.$target.$title.$output.$ignore.$quiet );
+passthru( "php phpdocumentor-1.3.2/phpdoc".$source.$target.$title.$output.$ignore.$quiet );
 chdir( $path_current );
 ?>

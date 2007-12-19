@@ -2,17 +2,17 @@
 import( "de.ceus-media.file.log.Writer" );
 /**
  *	Generic Connection.
- *	@package		mv2.core.database
+ *	@package		framework.krypton.core.database
  *	@uses			File_Log_Writer
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version 		0.5
+ *	@version 		0.6
  */
 /**
  *	Generic Connection.
- *	@package		mv2.core.database
+ *	@package		framework.krypton.core.database
  *	@uses			File_Log_Writer
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version 		0.5
+ *	@version 		0.6
  */
 class Framework_Krypton_Core_Database_Connection
 {

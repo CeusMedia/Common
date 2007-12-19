@@ -4,14 +4,14 @@
  *	@package		net.ftp
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			09.03.2006
- *	@version		0.5
+ *	@version		0.6
  */
 /**
  *	Basic FTP Connection.
  *	@package		net.ftp
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			09.03.2006
- *	@version		0.5
+ *	@version		0.6
  */
 class Net_FTP_Basic
 {

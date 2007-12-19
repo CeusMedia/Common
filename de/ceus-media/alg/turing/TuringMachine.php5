@@ -1,21 +1,19 @@
 <?php
 /**
  *	Turing Machine with 1 Band.
- *	@package		alg
- *	@subpackage		turing
+ *	@package		alg.turing
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			30.4.2005
- *	@version		0.5
+ *	@version		0.6
  */
 /**
  *	Turing Machine with 1 Band.
- *	@package		alg
- *	@subpackage		turing
+ *	@package		alg.turing
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			30.4.2005
- *	@version		0.5
+ *	@version		0.6
  */
-class TuringMachine
+class Alg_Turing_Machine
 {
 	/**	@var	array		$states			States of Machine */
 	protected $states;

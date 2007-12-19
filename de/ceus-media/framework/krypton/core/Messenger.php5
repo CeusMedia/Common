@@ -3,21 +3,21 @@ import( 'de.ceus-media.framework.krypton.core.Registry' );
 import( 'de.ceus-media.adt.TimeConverter' );
 /**
  *	Message Output Handler within a Session.
- *	@package		mv2.core
+ *	@package		framework.krypton.core
  *	@uses			Core_Registry
  *	@uses			TimeConverter
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			01.12.2005
- *	@version		0.3
+ *	@version		0.6
  */
 /**
  *	Message Output Handler within a Session.
- *	@package		mv2.core
+ *	@package		framework.krypton.core
  *	@uses			Core_Registry
  *	@uses			TimeConverter
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			01.12.2005
- *	@version		0.3
+ *	@version		0.6
  */
 class Framework_Krypton_Core_Messenger
 {
@@ -208,7 +208,6 @@ class Framework_Krypton_Core_Messenger
 		return false;
 	}
 
-	//  --  PRIVATE METHODS
 	/**
 	 *	Inserts arguments into a Message.
 	 *	@access		protected

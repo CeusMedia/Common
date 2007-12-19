@@ -3,21 +3,21 @@ import( 'de.ceus-media.framework.krypton.core.Component' );
 import( 'de.ceus-media.ui.html.Paging' );
 /**
  *	Basic View Component.
- *	@package		mv2.core
+ *	@package		framework.krypton.core
  *	@uses			Framework_Krypton_Core_Registry
  *	@uses			UI_HTML_Paging
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			01.12.2005
- *	@version		0.5
+ *	@version		0.6
  */
 /**
  *	Basic View Component.
- *	@package		mv2.core
+ *	@package		framework.krypton.core
  *	@uses			Framework_Krypton_Core_Registry
  *	@uses			UI_HTML_Paging
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			01.12.2005
- *	@version		0.5
+ *	@version		0.6
  */
 class Framework_Krypton_Core_View extends Framework_Krypton_Core_Component
 {

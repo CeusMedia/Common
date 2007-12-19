@@ -7,7 +7,7 @@ import( 'de.ceus-media.file.File' );
  *	@extends		File_List_Reader
  *	@uses			File_Writer
  *	@author			Chistian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version		0.5
+ *	@version		0.6
  */
 /**
  *	A Class for reading and writing List Files.
@@ -15,7 +15,7 @@ import( 'de.ceus-media.file.File' );
  *	@extends		File_List_Reader
  *	@uses			File_Writer
  *	@author			Chistian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version		0.5
+ *	@version		0.6
  */
 class File_List_Writer extends File_List_Reader
 {

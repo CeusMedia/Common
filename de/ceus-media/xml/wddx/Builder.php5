@@ -3,13 +3,13 @@
  *	Creates a WDDX Packet.
  *	@package		xml.wddx
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version		0.5
+ *	@version		0.6
  */
 /**
  *	Creates a WDDX Packet.
  *	@package		xml.wddx
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version		0.5
+ *	@version		0.6
  */
 class XML_WDDX_Builder
 {

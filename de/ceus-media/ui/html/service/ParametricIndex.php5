@@ -7,7 +7,7 @@ import( 'de.ceus-media.service.Handler' );
  *	@extends		UI_HTML_Service_Index
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			18.06.2007
- *	@version		0.5
+ *	@version		0.6
  */
 /**
  *	Service Handler which indexes with HTML Output.
@@ -15,7 +15,7 @@ import( 'de.ceus-media.service.Handler' );
  *	@extends		UI_HTML_Service_Index
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			18.06.2007
- *	@version		0.5
+ *	@version		0.6
  */
 class UI_HTML_Service_ParametricIndex extends UI_HTML_Service_Index
 {

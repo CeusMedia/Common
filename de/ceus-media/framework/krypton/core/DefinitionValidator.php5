@@ -4,23 +4,23 @@ import( 'de.ceus-media.validation.CountValidator' );
 import( 'de.ceus-media.validation.SemanticValidator' );
 /**
  *	Validator for defined Fields.
- *	@package		mv2.core
+ *	@package		framework.krypton.core
  *	@uses			CountValidator
  *	@uses			SemanticValidator
  *	@uses			Framework_Krypton_Logic_ValidationError
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			28.08.2006
- *	@version		0.3
+ *	@version		0.6
  */
 /**
  *	Validator for defined Fields.
- *	@package		mv2.core
+ *	@package		framework.krypton.core
  *	@uses			CountValidator
  *	@uses			SemanticValidator
  *	@uses			Framework_Krypton_Logic_ValidationError
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			28.08.2006
- *	@version		0.3
+ *	@version		0.6
  */
 class Framework_Krypton_Core_DefinitionValidator
 {

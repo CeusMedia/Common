@@ -7,7 +7,7 @@ import( 'de.ceus-media.file.ini.Reader' );
  *	@extends		File_INI_Reader
  *	@uses			File
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version		0.5
+ *	@version		0.6
  */
 /**
  *	Property File Writer.
@@ -15,7 +15,7 @@ import( 'de.ceus-media.file.ini.Reader' );
  *	@extends		File_INI_Reader
  *	@uses			File
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version		0.5
+ *	@version		0.6
  *	@todo			Code Documentation
  */
 class File_INI_Writer extends File_INI_Reader

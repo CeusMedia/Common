@@ -7,7 +7,7 @@ import( 'de.ceus-media.file.Reader' );
  *	@uses			XML_WDDX_Parser
  *	@uses			File_Reader
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version		0.5
+ *	@version		0.6
  */
 /**
  *	Reads a WDDX File.
@@ -15,7 +15,7 @@ import( 'de.ceus-media.file.Reader' );
  *	@uses			XML_WDDX_Parser
  *	@uses			File_Reader
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version		0.5
+ *	@version		0.6
  */
 class XML_WDDX_FileReader
 {

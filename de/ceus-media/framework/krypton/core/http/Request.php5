@@ -2,21 +2,21 @@
 import( 'de.ceus-media.framework.krypton.interface.core.Request' );
 /**
  *	Singleton Handler for HTTP Requests.
- *	@package		mv2.core.http
+ *	@package		framework.krypton.core.http
  *	@implements		Framework_Krypton_Core_Interface_Request
  *	@implements		ArrayAccess
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			20.02.2007
- *	@version		0.2
+ *	@version		0.6
  */
 /**
  *	Singleton Handler for HTTP Requests.
- *	@package		mv2.core.http
+ *	@package		framework.krypton.core.http
  *	@implements		Framework_Krypton_Core_Interface_Request
  *	@implements		ArrayAccess
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			20.02.2007
- *	@version		0.2
+ *	@version		0.6
  */
 class Framework_Krypton_Core_HTTP_Request implements Framework_Krypton_Interface_Core_Request, ArrayAccess
 {

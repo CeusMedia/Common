@@ -17,6 +17,7 @@ import( 'de.ceus-media.net.cURL' );
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			22.01.2007
  *	@version		0.5
+ *	@todo			broken due to Changes on Alexa.com
  */
 class Net_HTTP_AlexaRank
 {

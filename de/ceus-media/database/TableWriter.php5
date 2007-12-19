@@ -5,14 +5,14 @@ import( 'de.ceus-media.database.TableReader' );
  *	@package		database
  *	@extends		Database_TableReader
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version		0.5
+ *	@version		0.6
  */
 /**
  *	TableWriter.
  *	@package		database
  *	@extends		TableReader
  *	@author			Database_Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version		0.5
+ *	@version		0.6
  *	@todo			finish Code Documentation (@param at methods)
  */
 class Database_TableWriter extends Database_TableReader

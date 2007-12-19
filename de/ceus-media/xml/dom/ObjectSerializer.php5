@@ -8,7 +8,7 @@ import( 'de.ceus-media.xml.dom.Builder' );
  *	@uses			XML_DOM_Builder
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			26.12.2005
- *	@version		0.5
+ *	@version		0.6
  */
 /**
  *	Serializer for Data Object into XML.
@@ -17,7 +17,7 @@ import( 'de.ceus-media.xml.dom.Builder' );
  *	@uses			XML_DOM_Builder
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			26.12.2005
- *	@version		0.5
+ *	@version		0.6
  */
 class XML_DOM_ObjectSerializer
 {

@@ -8,7 +8,7 @@ import( 'de.ceus-media.xml.dom.Parser' );
  *	@uses			XML_DOM_Parser
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			01.02.2006
- *	@version		0.5
+ *	@version		0.6
  */
 /**
  *	Parser for OPML Files.
@@ -17,7 +17,7 @@ import( 'de.ceus-media.xml.dom.Parser' );
  *	@uses			XML_DOM_Parser
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			01.02.2006
- *	@version		0.5
+ *	@version		0.6
  */
 class XML_OPML_Parser
 {

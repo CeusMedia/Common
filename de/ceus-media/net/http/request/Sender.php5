@@ -5,14 +5,14 @@ import( 'de.ceus-media.net.http.request.Header' );
  *	@package		net.http.request
  *	@uses			Net_HTTP_Request_Header
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version		0.5
+ *	@version		0.6
  */
 /**
  *	Request for HTTP Protocol.
  *	@package		net.http.request
  *	@uses			Net_HTTP_Request_Header
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version		0.5
+ *	@version		0.6
  */
 class Net_HTTP_Request_Sender
 {

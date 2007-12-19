@@ -3,13 +3,13 @@
  *	Builder for XML Strings with DOM.
  *	@package		xml.dom
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version		0.5
+ *	@version		0.6
  */
 /**
  *	Builder for XML Strings with DOM.
  *	@package		xml.dom
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version		0.5
+ *	@version		0.6
  */
 class XML_DOM_Builder
 {

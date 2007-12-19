@@ -7,7 +7,7 @@ import ("de.ceus-media.xml.dom.Parser");
  *	@uses			XML_DOM_Parser
  *	@uses			File_Reader
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version		0.5
+ *	@version		0.6
  */
 /**
  *	Loads an parses a XML File to a Tree of XML_DOM_Nodes.
@@ -15,7 +15,7 @@ import ("de.ceus-media.xml.dom.Parser");
  *	@uses			XML_DOM_Parser
  *	@uses			File_Reader
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version		0.5
+ *	@version		0.6
  */
 class XML_DOM_FileReader
 {

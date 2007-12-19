@@ -6,7 +6,7 @@ import( 'de.ceus-media.file.Reader' );
  *	@uses			File_Reader
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			01.01.2001
- *	@version		0.5
+ *	@version		0.6
  */
 /**
  *	Property File Reader.
@@ -14,7 +14,7 @@ import( 'de.ceus-media.file.Reader' );
  *	@uses			File_Reader
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			01.01.2001
- *	@version		0.5
+ *	@version		0.6
  */
 class File_INI_Reader extends File_Reader
 {

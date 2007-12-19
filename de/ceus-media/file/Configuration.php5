@@ -16,7 +16,7 @@ import( 'de.ceus-media.xml.wddx.Configuration' );
  *	@uses			XML_WDDX_Configuration
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			18.07.02005
- *	@version		0.5
+ *	@version		0.6
  */
 /**
  *	Configuration Reader for several formats (xml, wddx, ini, php).
@@ -29,7 +29,7 @@ import( 'de.ceus-media.xml.wddx.Configuration' );
  *	@uses			WDDX_Configuration
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			18.07.02005
- *	@version		0.5
+ *	@version		0.6
  */
 class File_Configuration extends ADT_OptionObject
 {

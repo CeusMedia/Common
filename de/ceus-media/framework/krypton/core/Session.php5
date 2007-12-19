@@ -2,19 +2,19 @@
 import( 'de.ceus-media.framework.krypton.interface.core.Session' );
 /**
  *	Singleton Session Management.
- *	@package		mv2.core
+ *	@package		framework.krypton.core
  *	@implements		Framework_Krypton_Interface_Core_Session
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			21.02.2007
- *	@version		0.2
+ *	@version		0.6
  */
 /**
  *	Singleton Session Management.
- *	@package		mv2.core
+ *	@package		framework.krypton.core
  *	@implements		Framework_Krypton_Interface_Core_Session
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			21.02.2007
- *	@version		0.2
+ *	@version		0.6
  */
 class Framework_Krypton_Core_Session implements Framework_Krypton_Interface_Core_Session
 {

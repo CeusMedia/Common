@@ -8,7 +8,7 @@ import( 'de.ceus-media.Reference' );
  *	@uses			Reference
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			01.11.2005
- *	@version		0.5
+ *	@version		0.6
  */
 /*
  *	Generic Model for Database Structures.
@@ -17,7 +17,7 @@ import( 'de.ceus-media.Reference' );
  *	@uses			Reference
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			01.11.2005
- *	@version		0.5
+ *	@version		0.6
  */
 class Framework_Argon_Model extends Database_TableWriter
 {

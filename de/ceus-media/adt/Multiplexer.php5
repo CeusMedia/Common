@@ -10,19 +10,18 @@
 /**
  *	Multiplexer.
  *	@package		adt
- *	@extends		Object
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			23.08.2005
  *	@version		0.1
  */
-class Multiplexer
+class ADT_Multiplexer
 {
-	/**	@var	int		_type		Type (1,2,4) */
-	var $_type;
-	/**	@var	int		_type		Type (1,2,4) */
-	var $_controls	= array();
-	/**	@var	int		_type		Type (1,2,4) */
-	var $_inputs	= array();
+	/**	@var		int			$type		Type (1,2,4) */
+	protected $type;
+	/**	@var		array		$controls	Controls */
+	protected $controls	= array();
+	/**	@var		int			$inputs		Inputs */
+	protected $inputs		= array();
 
 	/**
 	 *	Contructor.
@@ -32,7 +31,7 @@ class Multiplexer
 	 */
 	public function __construct( $type = 1 )
 	{
-		$this->_type = $type;
+		$this->type = $type;
 		$this->setControls();
 		$this->setInputs();
 	}
@@ -42,13 +41,13 @@ class Multiplexer
 	 *	@access		public
 	 *	@return		void
 	 */
-	function setControls()
+	public function setControls()
 	{
-		$this->_controls	= array();
+		$this->controls	= array();
 		$args	= func_get_args();
-		for( $i = 0; $i < $this->_type; $i ++ )
+		for( $i = 0; $i < $this->type; $i ++ )
 			if( isset( $args[$i] ) )
-				$this->_controls[$i]	= $args[$i];
+				$this->controls[$i]	= $args[$i];
 	}
 
 	/**
@@ -56,14 +55,14 @@ class Multiplexer
 	 *	@access		public
 	 *	@return		void
 	 */
-	function setInputs()
+	public function setInputs()
 	{
-		$this->_inputs	= array();
-		$len		= pow( 2, $this->_type );
+		$this->inputs	= array();
+		$len	= pow( 2, $this->type );
 		$args	= func_get_args();
 		for( $i = 0; $i < $len; $i ++ )
 			if( isset( $args[$i] ) )
-				$this->_inputs[$i] = $args[$i];
+				$this->inputs[$i] = $args[$i];
 	}
 	
 	/**
@@ -71,9 +70,9 @@ class Multiplexer
 	 *	@access		public
 	 *	@return		array
 	 */
-	function getControls()
+	public function getControls()
 	{
-		return $this->_controls;
+		return $this->controls;
 	}
 	
 	/**
@@ -81,9 +80,9 @@ class Multiplexer
 	 *	@access		public
 	 *	@return		array
 	 */
-	function getInputs()
+	public function getInputs()
 	{
-		return $this->_inputs;
+		return $this->inputs;
 	}
 	
 	/**
@@ -91,9 +90,9 @@ class Multiplexer
 	 *	@access		public
 	 *	@return		int
 	 */
-	function getType()
+	public function getType()
 	{
-		return $this->_type;
+		return $this->type;
 	}
 	
 	/**
@@ -101,37 +100,37 @@ class Multiplexer
 	 *	@access		public
 	 *	@return		mixed
 	 */
-	function proceed()
+	public function proceed()
 	{
 		if( $this->getType() == 1 )
 		{
-			$output = $this->_controls[0] ? $this->_inputs[1] : $this->_inputs[0];
+			$output = $this->controls[0] ? $this->inputs[1] : $this->inputs[0];
 		}
 		else if( $this->getType() == 2 )
 		{
-			$mux = new Multiplexer();
-			$mux->setControls( $this->_controls[0] );
-			$mux->setInputs( $this->_inputs[0], $this->_inputs[1] );
+			$mux = new ADT_Multiplexer();
+			$mux->setControls( $this->controls[0] );
+			$mux->setInputs( $this->inputs[0], $this->inputs[1] );
 			$input0 = $mux->proceed();
-			$mux->setInputs( $this->_inputs[2], $this->_inputs[3] );
+			$mux->setInputs( $this->inputs[2], $this->inputs[3] );
 			$input1 = $mux->proceed();
-			$mux->setControls( $this->_controls[1] );
+			$mux->setControls( $this->controls[1] );
 			$mux->setInputs( $input0, $input1 );
 			$output = $mux->proceed();
 		}
 		else if( $this->getType() == 4)
 		{
-			$mux2 = new Multiplexer( 2 );
-			$mux2->setControls( $this->_controls[0], $this->_controls[1] );
-			$mux2->setInputs( $this->_inputs[0], $this->_inputs[1], $this->_inputs[2], $this->_inputs[3] );
+			$mux2 = new ADT_Multiplexer( 2 );
+			$mux2->setControls( $this->controls[0], $this->controls[1] );
+			$mux2->setInputs( $this->inputs[0], $this->inputs[1], $this->inputs[2], $this->inputs[3] );
 			$input0 = $mux2->proceed();
-			$mux2->setInputs( $this->_inputs[4], $this->_inputs[5], $this->_inputs[6], $this->_inputs[7] );
+			$mux2->setInputs( $this->inputs[4], $this->inputs[5], $this->inputs[6], $this->inputs[7] );
 			$input1 = $mux2->proceed();
-			$mux2->setInputs( $this->_inputs[8], $this->_inputs[9], $this->_inputs[10], $this->_inputs[11] );
+			$mux2->setInputs( $this->inputs[8], $this->inputs[9], $this->inputs[10], $this->inputs[11] );
 			$input2 = $mux2->proceed();
-			$mux2->setInputs( $this->_inputs[12], $this->_inputs[13], $this->_inputs[14], $this->_inputs[15] );
+			$mux2->setInputs( $this->inputs[12], $this->inputs[13], $this->inputs[14], $this->inputs[15] );
 			$input3 = $mux2->proceed();
-			$mux2->setControls( $this->_controls[2], $this->_controls[3] );
+			$mux2->setControls( $this->controls[2], $this->controls[3] );
 			$mux2->setInputs( $input0, $input1, $input2, $input3 );
 			$output = $mux2->proceed();
 		}

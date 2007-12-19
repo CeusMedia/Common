@@ -7,26 +7,27 @@ import( 'de.ceus-media.file.block.BlockFileReader' );
 /**
  *	Language Support with sniffing of Browser Language and Language Validation.
  *	Loads Language Files direct or from Cache if enabled.
- *	@package		mv2.core
+ *	@package		framework.krypton.core
  *	@uses			Framework_Krypton_Core_Registry
  *	@uses			File_INI_Reader
  *	@uses			Net_HTTP_LanguageSniffer
  *	@uses			LanguageValidator
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			05.12.2006
- *	@version		0.2
+ *	@version		0.6
  */
 /**
  *	Language Support with sniffing of Browser Language and Language Validation.
  *	Loads Language Files direct or from Cache if enabled.
- *	@package		mv2.core
+ *	@package		framework.krypton.core
  *	@uses			Framework_Krypton_Core_Registry
  *	@uses			File_INI_Reader
  *	@uses			Net_HTTP_LanguageSniffer
  *	@uses			LanguageValidator
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			05.12.2006
- *	@version		0.2
+ *	@version		0.6
+ *	@todo			Code Doc
  */
 class Framework_Krypton_Core_Language
 {

@@ -2,17 +2,17 @@
 import( 'de.ceus-media.framework.krypton.core.database.TableReader' );
 /**
  *	Write Access for Database Tables.
- *	@package		mv2.core.database
+ *	@package		framework.krypton.core.database
  *	@extends		Framework_Krypton_Core_Database_TableReader
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version		0.5
+ *	@version		0.6
  */
 /**
  *	Write Access for Database Tables.
- *	@package		mv2.core.database
+ *	@package		framework.krypton.core.database
  *	@extends		Framework_Krypton_Core_Database_TableReader
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version		0.5
+ *	@version		0.6
  */
 class Framework_Krypton_Core_Database_TableWriter extends Framework_Krypton_Core_Database_TableReader
 {

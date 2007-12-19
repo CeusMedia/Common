@@ -3,21 +3,21 @@ import( 'de.ceus-media.framework.krypton.core.database.TableWriter' );
 import( 'de.ceus-media.framework.krypton.core.Registry' );
 /**
  *	Abstract Model for Database Structures.
- *	@package		mv2.core
+ *	@package		framework.krypton.core
  *	@extends		Core_Database_TableWriter
  *	@uses			Core_Registry
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			19.02.2007
- *	@version		0.2
+ *	@version		0.6
  */
 /**
  *	Abstract Model for Database Structures.
- *	@package		mv2.core
+ *	@package		framework.krypton.core
  *	@extends		Core_Database_TableWriter
  *	@uses			Core_Registry
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			19.02.2007
- *	@version		0.2
+ *	@version		0.6
  */
 class Framework_Krypton_Core_Model extends Framework_Krypton_Core_Database_TableWriter
 {

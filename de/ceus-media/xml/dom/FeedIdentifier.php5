@@ -9,7 +9,7 @@ import( 'de.ceus-media.xml.dom.Parser' );
  *	@uses			XML_DOM_Parser
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			24.01.2006
- *	@version		0.5
+ *	@version		0.6
  */
 /**
  *	Identifies Type and Version of RSS and ATOM Feeds.
@@ -19,7 +19,7 @@ import( 'de.ceus-media.xml.dom.Parser' );
  *	@uses			XML_DOM_Parser
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			24.01.2006
- *	@version		0.5
+ *	@version		0.6
  */
 class XML_DOM_FeedIdentifier
 {

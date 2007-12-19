@@ -5,14 +5,14 @@ import( "de.ceus-media.file.log.Writer" );
  *	@package		database
  *	@uses			File_Log_Writer
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version 		0.5
+ *	@version 		0.6
  */
 /**
  *	Abstract Database Connection.
  *	@package		database
  *	@uses			File_Log_Writer
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version 		0.5
+ *	@version 		0.6
  */
 abstract class Database_BaseConnection
 {

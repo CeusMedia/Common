@@ -2,21 +2,19 @@
 import( 'de.ceus-media.net.ftp.Basic' );
 /**
  *	Extended FTP Connection.
- *	@package		net
- *	@subpackage		ftp
+ *	@package		net.ftp
  *	@extends		Net_FTP_Basic
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			09.03.2006
- *	@version		0.5
+ *	@version		0.6
  */
 /**
  *	Extended FTP Connection.
- *	@package		net
- *	@subpackage		ftp
+ *	@package		net.ftp
  *	@extends		Net_FTP_Basic
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			09.03.2006
- *	@version		0.5
+ *	@version		0.6
  */
 class Net_FTP_Extended extends Net_FTP_Basic
 {

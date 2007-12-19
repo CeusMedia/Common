@@ -6,7 +6,7 @@
  *	@return			void
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			16.06.2005
- *	@version		0.5
+ *	@version		0.6
  */
 function import( $classPath )
 {

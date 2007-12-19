@@ -3,13 +3,13 @@
  *	Table with Column Definition and Keys.
  *	@package		database
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version		0.5
+ *	@version		0.6
  */
 /**
  *	Table with column definition and keys.
  *	@package		database
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version		0.5
+ *	@version		0.6
  *	@todo			finish Code Documentation (@param at methods)
  */
 class Database_TableReader

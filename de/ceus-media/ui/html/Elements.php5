@@ -3,13 +3,13 @@
  *	Builds HTML Components.
  *	@package		ui.html
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version		0.5
+ *	@version		0.6
  */
 /**
  *	Builds HTML Components.
  *	@package		ui.html
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version		0.5
+ *	@version		0.6
  */
 class UI_HTML_Elements
 {

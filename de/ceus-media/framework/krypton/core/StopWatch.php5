@@ -1,22 +1,22 @@
 <?php
 /**
  *	Stopwatch Implementation.
- *	@package		mv2.core
+ *	@package		framework.krypton.core
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version		0.5
+ *	@version		0.6
  */
 /**
  *	Stopwatch Implementation.
- *	@package		mv2.core
+ *	@package		framework.krypton.core
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version		0.5
+ *	@version		0.6
  */
 class Framework_Krypton_Core_StopWatch
 {
-	/**	@var	string		$microtime_start		microtime at the start */
-	private $microtime_start;
-	/**	@var	string		$microtime_stop			microtime at the end */
-	private $microtime_stop;
+	/**	@var		string		$microtimeStart		microtime at the start */
+	private $microtimeStart;
+	/**	@var		string		$microtimeStop			microtime at the end */
+	private $microtimeStop;
 
 	/**
 	 *	Constructor.
@@ -35,19 +35,19 @@ class Framework_Krypton_Core_StopWatch
 	 */
 	public function start()
 	{
-		$this->_microtime_start = microtime();
+		$this->microtimeStart = microtime();
 	}
 
 	/**
 	 *	Stops the Watch and return the time difference between start and stop.
 	 *	@access		public
-	 *	@param		int		$base		Time Base ( 0 - sec | 3 - msec | 6 - µsec)
-	 *	@param		int		$round		Numbers after dot
+	 *	@param		int			$base		Time Base ( 0 - sec | 3 - msec | 6 - µsec)
+	 *	@param		int			$round		Numbers after dot
 	 *	@return		string
 	 */
 	public function stop( $base = 3, $round = 3 )
 	{
-		$this->_microtime_stop 	= microtime();
+		$this->microtimeStop 	= microtime();
 		return $this->result( $base, $round );
 	}
 
@@ -55,14 +55,14 @@ class Framework_Krypton_Core_StopWatch
 	/**
 	 *	Calculates the time difference between start and stop in microseconds.
 	 *	@access		public
-	 *	@param		int		$base		Time Base ( 0 - sec | 3 - msec | 6 - µsec)
-	 *	@param		int		$round		Numbers after dot
+	 *	@param		int			$base		Time Base ( 0 - sec | 3 - msec | 6 - µsec)
+	 *	@param		int			$round		Numbers after dot
 	 *	@return		string
 	 **/
 	public function result( $base = 3, $round = 3 )
 	{
-		$start	= explode( ' ', $this->_microtime_start );
-		$end	= explode( ' ', $this->_microtime_stop );
+		$start	= explode( ' ', $this->microtimeStart );
+		$end	= explode( ' ', $this->microtimeStop );
 		$sec		= $end[1] - $start[1];
 		$msec	= $end[0] - $start[0];
 		$time	= (float)$sec + $msec;

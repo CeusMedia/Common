@@ -5,7 +5,7 @@
  *	@uses			File_Reader
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			28.11.2007
- *	@version		0.5
+ *	@version		0.6
  */
 /**
  *	Reader for Log File.
@@ -13,7 +13,7 @@
  *	@uses			File_Reader
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			28.11.2007
- *	@version		0.5
+ *	@version		0.6
  */
 class File_Log_Reader
 {

@@ -8,7 +8,7 @@ import( 'de.ceus-media.file.File' );
  *	@uses			StringList
  *	@uses			File_Reader
  *	@author			Chistian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version		0.5
+ *	@version		0.6
  */
 /**
  *	A Class for reading List Files.
@@ -16,7 +16,7 @@ import( 'de.ceus-media.file.File' );
  *	@uses			StringList
  *	@uses			File_Reader
  *	@author			Chistian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version		0.5
+ *	@version		0.6
  */
 class File_List_Reader
 {

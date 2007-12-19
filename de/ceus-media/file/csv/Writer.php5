@@ -5,14 +5,14 @@ import ("de.ceus-media.file.csv.csvReader");
  *	@package		file.csv
  *	@uses			File_Writer
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version		0.5
+ *	@version		0.6
  */
 /**
  *	Writing comma separatad values (CSV) data with or without column headers to File. 
  *	@package		file.csv
  *	@uses			File_Writer
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version		0.5
+ *	@version		0.6
  */
 class File_CSV_Writer
 {

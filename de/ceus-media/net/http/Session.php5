@@ -4,14 +4,14 @@
  *	@package		net.http
  *	@implements		ArrayAccess
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version		0.5
+ *	@version		0.6
  */
 /**
  *	Session Management.
  *	@package		net.http
  *	@implements		ArrayAccess
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version		0.5
+ *	@version		0.6
  */
 class Net_HTTP_Session implements ArrayAccess, Countable
 {

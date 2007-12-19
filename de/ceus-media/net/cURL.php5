@@ -4,14 +4,14 @@
  *	@package		net
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			16.06.2005
- *	@version		0.5
+ *	@version		0.6
  */
 /**
  *	cURL Wrapper
  *	@package		net
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			16.06.2005
- *	@version		0.5
+ *	@version		0.6
  */
 class Net_cURL
 {

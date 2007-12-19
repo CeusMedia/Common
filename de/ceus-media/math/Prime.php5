@@ -1,19 +1,19 @@
 <?php
 /**
  *	Prime Numbers
- *	@package	math
- *	@author		Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@since		30.4.2005
- *	@version		0.4
+ *	@package		math
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@since			30.4.2005
+ *	@version		0.6
  */
 /**
  *	Prime Numbers
- *	@package	math
- *	@author		Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@since		30.4.2005
- *	@version		0.4
+ *	@package		math
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@since			30.4.2005
+ *	@version		0.6
  */
-class Prime
+class Math_Prime
 {
 	/**
 	 *	Returns all Primes from 2 to a given Number
@@ -21,7 +21,7 @@ class Prime
 	 *	@param		int		$max	Greatest Number to get Primes for
 	 *	@return		array
 	 */
-	function getPrimes( $max )
+	public static function getPrimes( $max )
 	{
 		$primes = $numbers = array ();
 		for( $i=2; $i<=$max; $i++ )
@@ -48,7 +48,7 @@ class Prime
 	 *	@param		int		$number		Number to be checked
 	 *	@return		bool
 	 */
-	function isPrime( $number )
+	public static function isPrime( $number )
 	{
 		if( $number < 2 )
 			return false;
@@ -66,10 +66,10 @@ class Prime
 	 *	@param		array	$list
 	 *	@return		array
 	 */
-	function getPrimeFactors( $number, $list = array () )
+	public static function getPrimeFactors( $number, $list = array () )
 	{
-		$primes = $this->getPrimes( $number );
-		if( $this->isPrime( $number ) )
+		$primes = self::getPrimes( $number );
+		if( self::isPrime( $number ) )
 		{
 			$list[] = $number;
 			return $list;
@@ -84,7 +84,7 @@ class Prime
 					$tmp = $list;
 					$tmp[] = $prime;
 					$rest = $number / $prime;
-					$result = $this->getPrimeFactors( $rest, $tmp );
+					$result = self::getPrimeFactors( $rest, $tmp );
 					if( count( $result ) )
 						return $result;
 				}

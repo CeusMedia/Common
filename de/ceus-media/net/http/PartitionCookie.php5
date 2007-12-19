@@ -5,14 +5,14 @@ import( 'de.ceus-media.net.http.Cookie' );
  *	@package		net.http
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			11.08.2005
- *	@version		0.5
+ *	@version		0.6
  */
 /**
  *	Partitioned Cookie Management.
  *	@package		net.http
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			11.08.2005
- *	@version		0.5
+ *	@version		0.6
  */
 class Net_HTTP_PartitionCookie extends Net_HTTP_Cookie
 {

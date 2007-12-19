@@ -5,14 +5,14 @@ import ("de.ceus-media.adt.TimeConverter");
  *	@package		file.log
  *	@uses			TimeConverter
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version		0.5
+ *	@version		0.6
  */
 /**
  *	Writer for Log File.
  *	@package		file.log
  *	@uses			TimeConverter
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version		0.5
+ *	@version		0.6
  */
 class File_Log_Writer
 {
