@@ -76,19 +76,23 @@ class Framework_Krypton_Core_Logic
 	 *	@param		string		$prefix			Prefix used within Fields of Input Data
 	 *	@return		bool
 	 */
-	protected function validateForm( $file, $form, $data, $prefix = "")
+	protected function validateForm( $file, $form, &$data, $prefix = "")
 	{
 		$errors	= array();
 		$validator	= new Framework_Krypton_Core_DefinitionValidator;
 
 		$this->loadDefinition( $file , $form );
 		$fields	= $this->definition->getFields();
-
 		foreach( $fields as $field )
 		{
 			$def	= $this->definition->getField( $field );
 			$key	= $this->removePrefixFromFieldName( $def['input']['name'], $prefix );
-			$value	= isset( $data[$key] ) ? $data[$key] : null;
+			$value	= isset( $data[$key] ) ? $data[$key] : NULL;
+
+			//  --  SET NEGATIVE CHECKBOXES  --  //
+			if( preg_match( "@check@", $def['input']['type'] ) )
+				if( $value === NULL )
+					$data[$field]	= $value	= (int) $def['input']['default'];
 
 //			print_m( $def );
 //			print_m( $data );
@@ -113,6 +117,7 @@ class Framework_Krypton_Core_Logic
 				foreach( $errors as $error )
 					$this->noteError( $error );
 			}
+			
 		}
 		if( $this->hasErrors() )
 		{

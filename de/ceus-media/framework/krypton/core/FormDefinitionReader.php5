@@ -229,14 +229,14 @@ class Framework_Krypton_Core_FormDefinitionReader
 								$keys	= array( "name", "type", "style", "validator", "source", "options", "submit", "disabled", "hidden", "tabindex", "colspan", "label" );
 								foreach( $keys as $key )
 									$_field[$name][$key]	= $node->getAttribute( $key );
-								$_field[$name]['default']		= $node->textContent;
+								$_field[$name]['default']	= $node->textContent;
 							}
 							else if( $name	 == "output" )
 							{
 								$keys	= array( "source", "type", "format", "structure", "style", "label", "hidden", "colspan" );
 								foreach( $keys as $key )
 									$_field[$name][$key]	= $node->getAttribute( $key );
-								$_field[$name]['default']		= $node->textContent;
+								$_field[$name]['default']	= $node->textContent;
 							}
 							else if( $name	 == "calendar" )
 							{
