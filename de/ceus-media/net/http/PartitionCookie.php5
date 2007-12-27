@@ -29,7 +29,9 @@ class Net_HTTP_PartitionCookie extends Net_HTTP_Cookie
 	public function __construct ( $partition )
 	{
 		$this->partition = $partition;
-		$pairs = explode( "@", $_COOKIE[$partition] );
+		$pairs	= array();
+		if( isset( $_COOKIE[$partition] ) )
+			$pairs = explode( "@", $_COOKIE[$partition] );
 		foreach( $pairs as $pair )
 		{
 			if( trim( $pair ) )

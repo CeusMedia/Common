@@ -1,5 +1,4 @@
 <?php
-import( 'de.ceus-media.Object' );
 /**
  *	Base File implementation to inherit.
  *	@package		file

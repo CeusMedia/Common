@@ -1,5 +1,21 @@
 <?php
 import( 'de.ceus-media.framework.krypton.core.View' );
+/**
+ *	View Component for Development Information.
+ *	@package		framework.krypton.view.component
+ *	@extends		Framework_Krypton_Core_View
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@since			01.04.2007
+ *	@version		0.6
+ */
+/**
+ *	View Component for Development Information.
+ *	@package		framework.krypton.view.component
+ *	@extends		Framework_Krypton_Core_View
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@since			01.04.2007
+ *	@version		0.6
+ */
 class Framework_Krypton_View_Component_DevCenter extends Framework_Krypton_Core_View
 {
 	protected $tabs		= array();
@@ -15,6 +31,18 @@ class Framework_Krypton_View_Component_DevCenter extends Framework_Krypton_Core_
 		'show_words'		=> 'showWords',
 		'show_sources'		=> 'showSources',
 	);
+	
+	/**
+	 *	Adds another Topic or overwrites set Topic.
+	 *	@access		public
+	 *	@param		string		$key		Topic Key in Configuration File 'config.ini[debug]'
+	 *	@param		string		$method		Method in DevCenter to build Topic Tab.
+	 *	@return		void
+	 */
+	public function setTopic( $key, $method )
+	{
+		$this->topics[$key]	= $method;
+	}
 
 	public function buildContent( $content )
 	{
@@ -59,6 +87,21 @@ class Framework_Krypton_View_Component_DevCenter extends Framework_Krypton_Core_
 					$this->$method();
 	}
 	
+	/**
+	 *	Returns Array of set Topics for Tabs.
+	 *	@access		pubic
+	 *	@return		array
+	 */
+	public function getTopics()
+	{
+		return $this->topics;
+	}
+	
+	/**
+	 *	Sets Topics for Tabs.
+	 *	@access		pubic
+	 *	@return		array
+	 */
 	public function setTopics( $topics )
 	{
 		$this->topics	= $topics;
@@ -94,12 +137,42 @@ class Framework_Krypton_View_Component_DevCenter extends Framework_Krypton_Core_
 		}
 	}
 
-	protected function showCookie()
+	/**
+	 *	Shows Cookie Information with PartitionCookie/Cake Support.
+	 *	@access		protected
+	 *	@param		bool		$supportPartitionCookie		Flag: support PartitionCookie/Cake
+	 *	@return		void
+	 */
+	protected function showCookie( $supportPartitionCookie = true )
 	{
 		if( count( $_COOKIE ) )
 		{
+			if( !$supportPartitionCookie )
+				$cookies	= $_COOKIE;
+			else
+			{
+				$cookies	= array();
+				foreach( $_COOKIE as $key => $value )
+				{
+					if( !preg_match( "/@[^:]+:.+/", $value ) )
+					{
+						$cookies[$key]	= $value;
+						continue;
+					}
+					$subcookies	= explode( "@", $value );
+					foreach( $subcookies as $subcookie )
+					{
+						if( !preg_match( "/.+:.+/", $subcookie ) )
+							continue;
+						list( $subcookieKey, $subcookieValue ) = explode( ":", $subcookie );
+						if( !isset( $cookies[$key] ) )
+							$cookies[$key]	= array();
+						$cookies[$key][$subcookieKey] = $subcookieValue;
+					}
+				}
+			}
 			ob_start();
-			print_m( $_COOKIE );
+			print_m( $cookies );
 			$this->tabs['devTabCookie']	= "Cookie <small>(".count( $_COOKIE ).")</small>";
 			$this->divs['devTabCookie']	= ob_get_clean();
 		}

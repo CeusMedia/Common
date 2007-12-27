@@ -1,0 +1,297 @@
+<?php
+import( 'de.ceus-media.framework.krypton.core.Registry' );
+/**
+ *	Controler for Pages requested by Links.
+ *	@package		framework.krypton.core
+ *	@uses			Framework_Krypton_Core_Registry
+ *	@uses			Framework_Krypton_Core_PageDefinitionReader
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@since			03.03.2007
+ *	@version		0.6
+ */
+/**
+ *	Controler for Pages requested by Links.
+ *	@package		framework.krypton.core
+ *	@uses			Framework_Krypton_Core_Registry
+ *	@uses			Framework_Krypton_Core_PageDefinitionReader
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@since			03.03.2007
+ *	@version		0.6
+ */
+class Framework_Krypton_Core_PageControler
+{
+	/**	@var	array		$default		Default Page */
+	private $default		= null;
+	/** @var	DOMDocument	$document		Pages XML as DOM Document */
+	private $document		= null;
+	/**	@var	string		$fileName		File Name of Pages XML */
+	public	$fileName;
+	/**	@var	array		$pages			Array of Pages from Page XML File */
+	protected $pages			= array();
+	/**	@var	array		$cachedScopes	Cached Page to Scope Relations */
+	private $cachedScopes	= array();
+
+	/**
+	 *	Constructor.
+	 *	@access		public
+	 *	@param		string		$fileName		File Name of Page XML File
+	 *	@return		void
+	 */
+	public function __construct( $fileName )
+	{
+		$this->fileName	= $fileName;
+		$this->readPages();
+	}
+
+	/**
+	 *	Indicates whether a Page is existing for a Link.
+	 *	@access		public
+	 *	@param		string		$pageId			Page ID to check
+	 *	@param		string		$scope			Scope of Page Set
+	 *	@return		bool
+	 */
+	public function checkPage( $pageId, $scope = "" )
+	{
+		if( $scope )
+		{
+			if( !isset( $this->pages[$scope] ) )
+				return FALSE;
+			if( !array_key_exists( strtolower( $pageId ), $this->pages[$scope] ) )
+				return FALSE;
+			$this->cachedScopes[$pageId] = $scope;
+			return TRUE;
+		}
+		
+		foreach( array_keys( $this->pages ) as $scope )
+			if( $this->checkPage( $pageId, $scope ) )
+				return TRUE;
+		return FALSE;
+	}
+
+	/**
+	 *	Removes Cache File of Pages.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function clearCache()
+	{
+		$this->cachedScopes	= array();
+	}
+
+	/**
+	 *	Creates nested Folder recursive.
+	 *	@access		protected
+	 *	@param		string		$path		Folder to create
+	 *	@return		void
+	 */
+	protected function createFolder( $path )
+	{
+		if( !file_exists( $path ) )
+		{
+			$parts	= explode( "/", $path );
+			$folder	= array_pop( $parts );
+			$path	= implode( "/", $parts );
+			$this->createFolder( $path );
+			mkDir( $path."/".$folder );
+		}
+	}
+
+	/**
+	 *	Returns (factorised) Class Name of Link.
+	 *	@access		public
+	 *	@param		string		$pageId			Page ID
+	 *	@return		string
+	 */
+	public function getClassname( $pageId )
+	{
+		if( $this->checkPage( $pageId ) )
+		{
+			$registry	= Framework_Krypton_Core_Registry::getInstance();
+			$pageId		= strtolower( $pageId );
+			$scope		= $this->getPageScope( $pageId );
+			$page		= $this->pages[$scope][$pageId];
+			if( isset( $page['factory'] ) && $page['factory'] )
+			{
+				$factory	= $page['factory'];
+				try
+				{
+					$factory	= $registry->get( $factory );
+				}
+				catch( Exception $e )
+				{
+					throw new Framework_Krypton_Exception_Logic( "No Category Factory '".$factory."' available." );
+				}
+				return $factory->getClassname( $page['file'] );
+			}
+			return $page['file'];
+		}
+		return null;
+	}
+
+	/**
+	 *	Collects and returns all default Pages.
+	 *	@access		public
+	 *	@return		array
+	 */
+	public function getDefaultPages()
+	{
+		$list	= array();
+		foreach( $this->pages as $scope => $pages )
+			foreach( $pages as $pageId => $page )
+				if( isset( $page['default'] ) && $page['default'] )
+					$list[]	= $pageId;
+		return $list;
+	}
+
+	/**
+	 *	Returns Page XML as DOM Document.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function getDocument()
+	{
+		if( !$this->document )
+		{
+			$this->document	= new DOMDocument();
+			$this->document->preserveWhiteSpace	= true;
+			$this->document->validateOnParse = true;
+			$this->document->load( $this->fileName );
+		}
+		return $this->document;
+	}
+
+	/**
+	 *	Returns allowed Roles for Page.
+	 *	@access		public
+	 *	@param		string		$pageId			Page ID
+	 *	@return		array
+	 */
+	public function getPageRoles( $pageId )
+	{
+		$scope	= $this->getPageScope( $pageId );
+		if( !$this->checkPage( $pageId, $scope ) )
+			throw new InvalidArgumentException( 'Page "'.$pageId.'" is not defined in Scope "'.$scope.'"' );
+		return $this->pages[$scope][$pageId]['roles'];
+	}
+
+	/**
+	 *	Returns Array of Pages from Page XML Document.
+	 *	@access		public
+	 *	@return		array
+	 */
+	public function getPages( $scope = "" )
+	{
+		if( !$scope )
+			return $this->pages;
+		if( !isset( $this->pages[$scope] ) )
+			throw new InvalidArgumentException( 'Scope "'.$scope.'" is not defined.' );
+		return $this->pages[$scope];
+	}
+
+	/**
+	 *	Returns Scope of Page.
+	 *	@access		public
+	 *	@param		string		Page ID
+	 *	@return		string
+	 */
+	public function getPageScope( $pageId )
+	{
+		if( isset( $this->cachedScopes[$pageId] ) )
+			return $this->cachedScopes[$pageId];
+		foreach( $this->pages as $scope => $page )
+			if( $this->checkPage( $pageId, $scope ) )
+				return $this->cachedScopes[$pageId] = $scope;
+		throw new InvalidArgumentException( 'Page "'.$pageId.'" is not defined.' );
+	}
+
+	/**
+	 *	Returns Source File of Page.
+	 *	@access		public
+	 *	@param		string		$pageId			Page ID
+	 *	@return		string
+	 */
+	public function getSource( $pageId )
+	{
+		if( $this->checkPage( $pageId ) )
+		{
+			$scope	= $this->getPageScope( $pageId );
+			$pageId	= strtolower( $pageId );
+			$page	= $this->pages[$scope][$pageId];
+			return $page['file'];
+		}
+		return null;
+	}
+	
+	/**
+	 *	Indicates whether a Page is a disabled.
+	 *	@access		public
+	 *	@param		string		$pageId			Page ID
+	 *	@return		bool
+	 */
+	public function isDisabled( $pageId )
+	{
+		if( $this->checkPage( $pageId ) )
+		{
+			$scope	= $this->getPageScope( $pageId );
+			$page	= $this->pages[$scope][$pageId];
+			return isset( $page['disabled'] ) && $page['disabled'];
+		}
+		return FALSE;
+	}
+
+	/**
+	 *	Indicates whether a Page is a dynamic Page.
+	 *	@access		public
+	 *	@param		string		$pageId			Page ID
+	 *	@param		string		$scope			Scope of Page
+	 *	@return		bool
+	 */
+	public function isDynamic( $pageId )
+	{
+		if( $this->checkPage( $pageId ) )
+		{
+			$pageId	= strtolower( $pageId );
+			$scope	= $this->getPageScope( $pageId );
+			$page	= $this->pages[$scope][$pageId];
+			return isset( $page['type'] ) && $page['type'] == "dynamic";
+		}
+		return FALSE;
+	}
+	
+	/**
+	 *	Indicates whether a Page is a hidden.
+	 *	@access		public
+	 *	@param		string		$pageId			Page ID
+	 *	@return		bool
+	 */
+	public function isHidden( $pageId )
+	{
+		$scope	= $this->getPageScope( $pageId );
+		$page	= $this->pages[$scope][$pageId];
+		return isset( $page['hidden'] ) && $page['hidden'];
+	}
+
+	/**
+	 *	Reads Page XML File and write Cache File.
+	 *	@access		private
+	 *	@return		void
+	 */
+	protected function readPages()
+	{
+		$config		= Framework_Krypton_Core_Registry::getStatic( 'config' );
+		$cacheFile	= $config['paths']['cache'].basename( $this->fileName ).".cache";
+		if( file_exists( $cacheFile ) && filemtime( $cacheFile ) >= filemtime( $this->fileName ) )
+		{
+			$this->pages	= unserialize( file_get_contents( $cacheFile ) );
+		}
+		else
+		{
+			import( 'de.ceus-media.framework.krypton.core.PageDefinitionReader' );
+			$reader			= new Framework_Krypton_Core_PageDefinitionReader( $this->getDocument() );
+			$this->pages	= $reader->getPages();
+			$this->createFolder( dirname( $cacheFile ) );
+			file_put_contents( $cacheFile, serialize( $this->pages ) );
+		}
+	}
+}
+?>

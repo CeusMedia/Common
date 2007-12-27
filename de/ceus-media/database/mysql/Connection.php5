@@ -148,7 +148,7 @@ class Database_MySQL_Connection extends Database_BaseConnection
 			{
 				if( mysql_query( $query, $this->dbc ) )
 				{
-					$this->insertId = (int) mysqlinsertId( $this->dbc );
+					$this->insertId = (int) mysql_insert_Id( $this->dbc );
 					$result	= $this->insertId;
 				}
 			}

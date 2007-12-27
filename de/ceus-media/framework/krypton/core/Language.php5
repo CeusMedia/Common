@@ -1,14 +1,13 @@
 <?php
 import( 'de.ceus-media.framework.krypton.core.Registry' );
 import( 'de.ceus-media.file.ini.Reader' );
-import( 'de.ceus-media.net.http.LanguageSniffer' );
-import( 'de.ceus-media.validation.LanguageValidator' );
-import( 'de.ceus-media.file.block.BlockFileReader' );
 /**
  *	Language Support with sniffing of Browser Language and Language Validation.
  *	Loads Language Files direct or from Cache if enabled.
  *	@package		framework.krypton.core
  *	@uses			Framework_Krypton_Core_Registry
+ *	@uses			File_Reader
+ *	@uses			File_Writer
  *	@uses			File_INI_Reader
  *	@uses			Net_HTTP_LanguageSniffer
  *	@uses			LanguageValidator
@@ -21,6 +20,8 @@ import( 'de.ceus-media.file.block.BlockFileReader' );
  *	Loads Language Files direct or from Cache if enabled.
  *	@package		framework.krypton.core
  *	@uses			Framework_Krypton_Core_Registry
+ *	@uses			File_Reader
+ *	@uses			File_Writer
  *	@uses			File_INI_Reader
  *	@uses			Net_HTTP_LanguageSniffer
  *	@uses			LanguageValidator
@@ -141,6 +142,7 @@ class Framework_Krypton_Core_Language
 		//  --  LANGUAGE SELECT  --  //
 		if( $language 	= $request->get( 'switchLanguageTo' ) )
 		{
+			import( 'de.ceus-media.validation.LanguageValidator' );
 			$lv	= new LanguageValidator( $this->allowed, $this->default );
 			$language	= $lv->getLanguage( $language );
 			$this->setLanguage( $language );
@@ -148,6 +150,7 @@ class Framework_Krypton_Core_Language
 		//  --  LANGUAGE SNIFF  --  //
 		if( !( $language = $session->get( 'language' ) ) )
 		{
+			import( 'de.ceus-media.net.http.LanguageSniffer' );
 			$sniffer	= new Net_HTTP_LanguageSniffer;
 			$language	= $sniffer->getLanguage( $this->allowed, $this->default );
 		}
@@ -162,7 +165,8 @@ class Framework_Krypton_Core_Language
 	 */
 	private function loadCache( $url )
 	{
-		$file	= new File( $url );
+		import( 'de.ceus-media.file.Reader' );
+		$file	= new File_Reader( $url );
 		return $file->readString();
 			return implode( "", file( $url ) );
 	}
@@ -172,9 +176,10 @@ class Framework_Krypton_Core_Language
 	 *	@access		private
 	 *	@return		void
 	 */
-	protected function loadHovers()
+/*	protected function loadHovers()
 	{
 		$session	= $this->registry->get( 'session' );
+		import( 'de.ceus-media.file.block.BlockFileReader' );
 		$uri	= $this->pathFiles.$session->get( 'language' )."/hovers.blocks";
 		if( file_exists( $uri ) )
 		{
@@ -182,7 +187,7 @@ class Framework_Krypton_Core_Language
 			$this->hovers	= $bfr->getBlocks();
 		}
 	}
-	
+*/	
 	/**
 	 *	Loads Language File.
 	 *	@access		public
@@ -251,9 +256,10 @@ class Framework_Krypton_Core_Language
 	 */
 	private function saveCache( $url, $content )
 	{
+		import( 'de.ceus-media.file.Writer' );
 		$config	= $this->registry->get( 'config' );
 		$this->createFolder( dirname( $url ) );		
-		$file	= new File( $url, 0750 );
+		$file	= new File_Writer( $url, 0750 );
 		$file->writeString( $content );
 	}
 	
@@ -275,7 +281,7 @@ class Framework_Krypton_Core_Language
 		$this->pathCache	= $config['paths']['cache'].basename( $config['paths']['languages'] ).$language."/";
 		$this->loadedFiles	= array();
 		$this->registry->set( 'words', $this->words, true );
-		$this->loadHovers();
+//		$this->loadHovers();
 	}
 }
 ?>

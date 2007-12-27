@@ -1,6 +1,5 @@
 <?php
 import( 'de.ceus-media.framework.krypton.core.Component' );
-import( 'de.ceus-media.ui.html.Paging' );
 /**
  *	Basic View Component.
  *	@package		framework.krypton.core
@@ -57,6 +56,7 @@ class Framework_Krypton_Core_View extends Framework_Krypton_Core_Component
 	 */
 	public function buildPaging( $count_all, $limit, $offset, $options = array())
 	{
+		import( 'de.ceus-media.ui.html.Paging' );
 		$request	= Framework_Krypton_Core_Registry::getStatic( "request" );
 		$link		= $request->get( 'link');
 		$words		= $this->words['main']['paging'];

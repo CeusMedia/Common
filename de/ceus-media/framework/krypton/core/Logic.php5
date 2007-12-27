@@ -1,6 +1,5 @@
 <?php
 import( 'de.ceus-media.framework.krypton.core.Registry' );
-import( 'de.ceus-media.framework.krypton.core.DefinitionValidator' );
 import( 'de.ceus-media.framework.krypton.exception.IO' );
 import( 'de.ceus-media.framework.krypton.exception.Validation' );
 import( 'de.ceus-media.framework.krypton.exception.Logic' );
@@ -78,8 +77,10 @@ class Framework_Krypton_Core_Logic
 	 */
 	protected function validateForm( $file, $form, &$data, $prefix = "")
 	{
-		$errors	= array();
+	remark( "VALIDATE ".$file." : ".$form );
+		import( 'de.ceus-media.framework.krypton.core.DefinitionValidator' );
 		$validator	= new Framework_Krypton_Core_DefinitionValidator;
+		$errors		= array();
 
 		$this->loadDefinition( $file , $form );
 		$fields	= $this->definition->getFields();

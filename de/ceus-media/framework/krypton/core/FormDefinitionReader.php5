@@ -1,9 +1,9 @@
 <?php
-import( 'de.ceus-media.file.File' );
 /**
  *	Definition of Input Field within Channels, Screens and Forms.
  *	@package		framework.krypton.core
- *	@uses			File
+ *	@uses			File_Reader
+ *	@uses			File_Writer
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			01.05.2006
  *	@version		0.6
@@ -11,7 +11,8 @@ import( 'de.ceus-media.file.File' );
 /**
  *	Definition of Input Field within Channels, Screens and Forms.
  *	@package		framework.krypton.core
- *	@uses			File
+ *	@uses			File_Reader
+ *	@uses			File_Writer
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			01.05.2006
  *	@version		0.6
@@ -160,7 +161,8 @@ class Framework_Krypton_Core_FormDefinitionReader
 			$cacheFile	= $this->getCacheFilename( $fileName );
 			if( file_exists( $cacheFile ) && filemtime( $xmlFile ) <= filemtime( $cacheFile ) )
 			{
-				$file	= new File( $cacheFile );
+				import( 'de.ceus-media.file.Reader' );
+				$file	= new File_Reader( $cacheFile );
 				$this->definitions	= unserialize( $file->readString() );
 				return true;
 			}
@@ -309,9 +311,10 @@ class Framework_Krypton_Core_FormDefinitionReader
 	 */
 	protected function writeCacheFile( $fileName )
 	{
+		import( 'de.ceus-media.file.Writer' );
 		$cacheFile	= $this->getCacheFilename( $fileName );
 		$this->createFolder( dirname( $cacheFile ) );
-		$file	= new File( $cacheFile, 0755 );
+		$file	= new File_Writer( $cacheFile, 0755 );
 		$file->writeString( serialize( $this->definitions ) );
 	}
 }

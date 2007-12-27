@@ -1,6 +1,7 @@
 <?php
 import( 'de.ceus-media.framework.krypton.core.Registry' );
 import( 'de.ceus-media.framework.krypton.core.Template' );
+import( 'de.ceus-media.file.Reader' );
 import( 'de.ceus-media.ui.html.Elements' );
 import( 'de.ceus-media.adt.TimeConverter' );
 /**
@@ -9,6 +10,8 @@ import( 'de.ceus-media.adt.TimeConverter' );
  *	@uses			Framework_Krypton_Core_Registry
  *	@uses			Framework_Krypton_Core_Template
  *	@uses			View_Component_Elements
+ *	@uses			File_Reader
+ *	@uses			File_Writer
  *	@uses			TimeConverter
  *	@uses			WikiParser
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
@@ -21,6 +24,8 @@ import( 'de.ceus-media.adt.TimeConverter' );
  *	@uses			Framework_Krypton_Core_Registry
  *	@uses			Framework_Krypton_Core_Template
  *	@uses			View_Component_Elements
+ *	@uses			File_Reader
+ *	@uses			File_Writer
  *	@uses			TimeConverter
  *	@uses			WikiParser
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
@@ -412,7 +417,7 @@ abstract class Framework_Krypton_Core_Component
 		}
 
 		//  --  FILE INTERPRETATION  --  //
-		$file	= new File( $fileName );
+		$file	= new File_Reader( $fileName );
 		$content	= $file->readString();
 		foreach( $data as $key => $value )
 			$content	= str_replace( "[#".$key."#]", $value, $content );
@@ -479,7 +484,7 @@ abstract class Framework_Krypton_Core_Component
 	{
 		$config	= $this->registry->get( 'config' );
 		$url	= $config['paths']['cache'].$fileName;
-		$file	= new File( $url );
+		$file	= new File_Reader( $url );
 		return $file->readString();
 	//	!( file_exists( $uri ) && filemtime( $uri ) + 3600 > time() )
 		return implode( "", file( $url ) );
@@ -494,9 +499,10 @@ abstract class Framework_Krypton_Core_Component
 	 */
 	protected function saveCache( $fileName, $content )
 	{
+		import( 'de.ceus-media.file.Writer' );
 		$config	= $this->registry->get( 'config' );
 		$url	= $config['paths']['cache'].$fileName;
-		$file	= new File( $url, 0750 );
+		$file	= new File_Writer( $url, 0750 );
 		$file->writeString( $content );
 	}
 }
