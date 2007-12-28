@@ -77,7 +77,6 @@ class Framework_Krypton_Core_Logic
 	 */
 	protected function validateForm( $file, $form, &$data, $prefix = "")
 	{
-	remark( "VALIDATE ".$file." : ".$form );
 		import( 'de.ceus-media.framework.krypton.core.DefinitionValidator' );
 		$validator	= new Framework_Krypton_Core_DefinitionValidator;
 		$errors		= array();
