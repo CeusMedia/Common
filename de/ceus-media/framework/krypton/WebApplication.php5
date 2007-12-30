@@ -130,7 +130,7 @@ class Prototype
 		$request	= $this->registry->get( "request" );
 		$session	= $this->registry->get( "session" );
 		$language	= $this->registry->get( "language" );
-		$controler	= $this->registry->get( "controler" );
+		$controller	= $this->registry->get( "controller" );
 
 		$link		= $this->evaluateLink();
 		$request->set( 'link', $link );
@@ -143,11 +143,11 @@ class Prototype
 		remark( "<b>Referer: </b>".$session->get( 'referer' ) );
 
 		//  --  ACTION CALL  --  //
-		if( $controler->checkPage( $link ) )
+		if( $controller->checkPage( $link ) )
 		{
-			if( $controler->isDynamic( $link ) )
+			if( $controller->isDynamic( $link ) )
 			{
-				$classname	= "Action_".$controler->getClassname( $link );
+				$classname	= "Action_".$controller->getClassname( $link );
 				$filename	= $this->buildFilenameFromClass( $classname );
 				
 				remark( "<b>Action Class: </b>".$classname." (from File ".$filename.")" );
@@ -175,7 +175,7 @@ class Prototype
 		$messenger	= $this->registry->get( "messenger" );
 		$language	= $this->registry->get( "language" );
 		$words		= $this->registry->get( "words" );
-		$controler	= $this->registry->get( "controler" );
+		$controller	= $this->registry->get( "controller" );
 		$platform	= $this->registry->get( 'platform' );
 		$st			= $this->registry->get( "stopwatch" );
 		$auth		= $this->registry->get( "auth" );
@@ -187,11 +187,11 @@ class Prototype
 
 		if( !$content )
 		{
-			if( $controler->checkPage( $link ) )
+			if( $controller->checkPage( $link ) )
 			{
-				if( $controler->isDynamic( $link ) )
+				if( $controller->isDynamic( $link ) )
 				{
-					$classname	= "View_".$controler->getClassname( $link );
+					$classname	= "View_".$controller->getClassname( $link );
 					$filename	= $this->buildFilenameFromClass( $classname );
 					remark( "<b>View Class: </b>".$classname." (from File ".$filename.")" );
 					if( file_exists( $filename ) )
@@ -207,7 +207,7 @@ class Prototype
 				}
 				else
 				{
-					$source		= $controler->getSource( $link );
+					$source		= $controller->getSource( $link );
 					remark( "<b>HTML File: </b>".$source );
 					$view		= new View_Content;
 					$content	= $view->loadContent( $source );

@@ -1,7 +1,7 @@
 <?php
 import( 'de.ceus-media.framework.krypton.core.Registry' );
 /**
- *	Controler for Pages requested by Links.
+ *	Controller for Pages requested by Links.
  *	@package		framework.krypton.core
  *	@uses			Framework_Krypton_Core_Registry
  *	@uses			Framework_Krypton_Core_PageDefinitionReader
@@ -10,7 +10,7 @@ import( 'de.ceus-media.framework.krypton.core.Registry' );
  *	@version		0.6
  */
 /**
- *	Controler for Pages requested by Links.
+ *	Controller for Pages requested by Links.
  *	@package		framework.krypton.core
  *	@uses			Framework_Krypton_Core_Registry
  *	@uses			Framework_Krypton_Core_PageDefinitionReader
@@ -18,7 +18,7 @@ import( 'de.ceus-media.framework.krypton.core.Registry' );
  *	@since			03.03.2007
  *	@version		0.6
  */
-class Framework_Krypton_Core_PageControler
+class Framework_Krypton_Core_PageController
 {
 	/**	@var	array		$default		Default Page */
 	private $default		= null;
