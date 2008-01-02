@@ -182,7 +182,9 @@ class Framework_Krypton_Core_DefinitionView extends Framework_Krypton_Core_View
 					$input	= $this->html->Select( $data['input']['name'], "", $data['input']['style'], false, $submit );
 			}
 			else if( $data['input']['type'] == "textarea" )
-				$input = $this->html->TextArea( $data['input']['name'], $values[$field], $data['input']['style'], false, $data['input']['validator'] );
+			{
+				$input = $this->html->TextArea( $data['input']['name'], $values[$field], $data['input']['style'], $data['input']['disabled'], $data['input']['validator'] );
+			}
 			else if( $data['input']['type'] == "input" )
 			{
 				$maxlength	= isset( $data['syntax']['maxlength'] ) ? $data['syntax']['maxlength'] : 0;
