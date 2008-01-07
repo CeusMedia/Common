@@ -149,7 +149,6 @@ class Database_TableWriter extends Database_TableReader
 			if( sizeof( $this->fields ) )
 			{
 				$has	= $this->getData();
-				$has	= $has[$this->getTableName()];
 				if( sizeof( $has ) )
 				{
 					$updates	= array();

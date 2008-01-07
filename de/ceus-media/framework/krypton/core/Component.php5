@@ -466,12 +466,12 @@ abstract class Framework_Krypton_Core_Component
 
 	/**
 	 *	Loads a Language File into Language Space, needs Session.
-	 *	@access		protected
+	 *	@access		public
 	 *	@param		string		$fileName			File Name of Language File
 	 *	@param		string		$section			Section Name in Language Space
 	 *	@return		void
 	 */
-	protected function loadLanguage( $fileName, $section = false, $verbose = true )
+	public function loadLanguage( $fileName, $section = false, $verbose = true )
 	{
 		$language	= $this->registry->get( 'language' );
 		$language->loadLanguage( $fileName, $section, $verbose );
