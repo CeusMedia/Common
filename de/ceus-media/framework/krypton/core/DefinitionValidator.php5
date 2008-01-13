@@ -74,7 +74,7 @@ class Framework_Krypton_Core_DefinitionValidator
 	 *	@param		string		$value		Value to validate
 	 *	@return		array
 	 */
-	public function validateSemantics( $field, $data, $value )
+	public function validateSemantics( $field, $data, $value, $prefix )
 	{
 		$errors	= array();
 		if( isset( $data['semantic'] ) )
@@ -89,7 +89,7 @@ class Framework_Krypton_Core_DefinitionValidator
 				{
 					$method = "return \$this->sv->".$semantic['predicate']."( ".$param." );";
 					if( !eval( $method ) )
-						$errors[]	= new Framework_Krypton_Logic_ValidationError( 'semantic', $field, $semantic['predicate'], $value, $semantic['edge'] );
+						$errors[]	= new Framework_Krypton_Logic_ValidationError( 'semantic', $field, $semantic['predicate'], $value, $semantic['edge'], $prefix );
 				}
 				else
 					throw new Exception( "Validator Predicate '".$semantic['predicate']."' does not exist." );

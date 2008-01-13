@@ -62,8 +62,8 @@ class Framework_Krypton_Core_Database_TableWriter extends Framework_Krypton_Core
 		$vals	= array();
 		foreach( $this->fields as $field )
 		{
-			if( $field == $this->primary_key )
-				continue;
+//			if( $field == $this->primary_key )
+//				continue;
 			if( !isset( $data[$field] ) )
 				continue;
 			$value = $data[$field];
@@ -82,6 +82,7 @@ class Framework_Krypton_Core_Database_TableWriter extends Framework_Krypton_Core
 		$keys	= implode( ", ", array_values( $keys ) );
 		$vals	= implode( ", ", array_values( $vals ) );
 		$query	= "INSERT INTO ".$this->getTableName()." (".$keys.") VALUES (".$vals.")";
+		remark( $query );
 		$this->dbc->query( $query, $debug );
 		$id	= $this->dbc->lastInsertId();
 	//	$this->focusPrimary( $id );
