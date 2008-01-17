@@ -48,8 +48,8 @@ class Database_TableWriter extends Database_TableReader
 			$vals	= array();
 			foreach( $this->fields as $field )
 			{
-				if( $field != $this->primaryKey )
-				{
+//				if( $field != $this->primaryKey )
+//				{
 					if( isset( $data[$field] ) )
 						$value = $data[$field];
 					else if( isset( $_POST["set_".$field] ) )
@@ -67,7 +67,7 @@ class Database_TableWriter extends Database_TableReader
 							$value = addslashes( $value );
 						$vals[$field] = '"'.$value.'"';
 					}
-				}
+//				}
 			}
 			if( $this->isFocused() && in_array( $this->focusKey, $this->getForeignKeys() ) && !in_array( $this->focusKey, $keys ) )
 			{

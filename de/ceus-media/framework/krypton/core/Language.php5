@@ -94,8 +94,10 @@ class Framework_Krypton_Core_Language
 	public function getLanguage()
 	{
 		$session	= $this->registry->get( 'session' );
-		$language	= $session->get( 'language' );
-		return $language;
+		if( $session->get( 'language' ) )
+			return $session->get( 'language' );
+		else
+			return $this->getDefaultLanguage();
 	}
 	
 	public function getLoadedFiles()

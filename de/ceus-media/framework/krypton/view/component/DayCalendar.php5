@@ -49,6 +49,23 @@ class View_Component_DayCalendar extends Core_View
 		$ui['id_input']		= $id_input;
 		$ui['id_opener']	= $id_opener;
 
+
+		$ui['range_start']	= (int)date( "Y" ) - 2;
+		$ui['range_stop']	= (int)date( "Y" ) + 2;
+/*		if( $this->range && $this->type )
+		{
+			if( $this->type	== -1 )
+			{
+				$ui['range_start']	= (int)date( "Y" ) - $range;
+				$ui['range_stop']	= date( "Y" );
+			}
+			if( $this->type	== 1 )
+			{
+				$ui['range_start']	= date( "Y" );
+				$ui['range_stop']	= (int)date( "Y" ) + $range;
+			}
+		}
+*/
 		return $this->loadTemplate( 'daycalendar', $ui );
 		
 //		$template	= new View_Component_Template( 'daycalendar', $ui );
