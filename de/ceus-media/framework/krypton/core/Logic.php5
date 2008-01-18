@@ -95,7 +95,7 @@ class Framework_Krypton_Core_Logic
 					$data[$field]	= $value	= (int) $def['input']['default'];
 
 //			print_m( $def );
-			print_m( $data );
+//			print_m( $data );
 //			remark( "key:".$key );
 //			remark( "value:".$value );
 			if( is_array( $value ) )
