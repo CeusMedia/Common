@@ -63,11 +63,11 @@ class Framework_Krypton_Core_Database_PDO_Connection
 		}
 	}
 	
-	protected function logError( $error )
+	protected function logError( Exception $e )
 	{
 		$info	= $this->errorInfo();
 		error_log( time().":".$e->getMessage()."(".$info[2].")\n", 3, $this->logfile );
-		throw new Framework_Krypton_Exception_SQL( "SQL Error - Database Action broken up.", $info[2] );
+		throw new Framework_Krypton_Exception_SQL( "SQL Error - Database Action broken up (".$e->getMessage().").", $info[2] );
 	}
 	
 	public function prepare()
