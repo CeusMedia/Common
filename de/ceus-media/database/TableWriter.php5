@@ -160,7 +160,7 @@ class Database_TableWriter extends Database_TableReader
 							$value	= $data["set_".$field];
 						else if( isset( $_POST["set_".$field] ) )
 							$value	= $_POST["set_".$field];
-						else unset($value);
+						else unset( $value );
 					//	echo "field: $field -> $value<br>";
 						if( isset( $value ) )
 						{

@@ -4,7 +4,7 @@ import( 'de.ceus-media.StopWatch' );
 import( 'de.ceus-media.net.http.request.Receiver' );
 import( 'de.ceus-media.framework.helium.Messenger' );
 /**
- *	Main Class of Framework.
+ *	Basic Framework Instance.
  *	@package		framework.helium
  *	@uses			Reference
  *	@uses			StopWatch
@@ -15,7 +15,7 @@ import( 'de.ceus-media.framework.helium.Messenger' );
  *	@version		0.1
  */
 /**
- *	Main Class of Framework.
+ *	Basic Framework Instance.
  *	@package		framework.helium
  *	@uses			Reference
  *	@uses			StopWatch
