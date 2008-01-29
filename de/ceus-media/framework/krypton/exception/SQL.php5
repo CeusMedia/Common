@@ -2,35 +2,45 @@
 /**
  *	Exception for SQL Errors.
  *	@package		mv2.exception
- *	@extends		Exception
- *	@author			Christian WÃ¼rker <Christian.Wuerker@CeuS-Media.de>
+ *	@extends		RuntimeException
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			01.03.2007
  *	@version		0.1
  */
 /**
  *	Exception for SQL Errors.
  *	@package		mv2.exception
- *	@extends		Exception
- *	@author			Christian WÃ¼rker <Christian.Wuerker@CeuS-Media.de>
+ *	@extends		RuntimeException
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			01.03.2007
  *	@version		0.1
  */
-class Framework_Krypton_Exception_SQL extends Exception
+class Framework_Krypton_Exception_SQL extends RuntimeException
 {
-	/**	@var	string		$error		Error Message from SQL */
-	public $error;
+	/**	@var		string		$error				Error Message from SQL */
+	public $sqlCode;
+	/**	@var		string		$error				Error Message from SQL */
+	public $sqlMessage;
+	/**	@var		string		$error				Error Message from SQL */
+	public $pdoCode;
+	/**	@var		string		$exceptionMessage	Message of Exception with Placeholder */
+	public static $exceptionMessage	= 'SQL Error';
 
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		string		$message		Error Message
-	 *	@param		string		$error			SQL Error Message
+	 *	@param		int			$sqlCode		SQL Error Code
+	 *	@param		string		$sqlMessage		SQL Error Message
+	 *	@param		int			$pdoCode		PDO Error Code
 	 *	@return		void
 	 */
-	public function __construct( $message, $error )
+	public function __construct( $sqlCode, $sqlMessage, $pdoCode = 0 )
 	{
-		parent::__construct( $message );
-		$this->error	= $error;
+		$this->sqlCode		= $sqlCode;
+		$this->sqlMessage	= $sqlMessage;
+		$this->pdoCode		= $pdoCode;
+		parent::__construct( self::$exceptionMessage );
+		
 	}
 	
 	/**
@@ -38,9 +48,29 @@ class Framework_Krypton_Exception_SQL extends Exception
 	 *	@access		public
 	 *	@return		string
 	 */
-	public function getError()
+	public function getErrorCode()
 	{
-		return $this->error;
+		return $this->sqlCode;
+	}
+
+	/**
+	 *	Returns SQL Error Message.
+	 *	@access		public
+	 *	@return		string
+	 */
+	public function getErrorMessage()
+	{
+		return $this->sqlMessage;
+	}
+
+	/**
+	 *	Returns SQL Error Message.
+	 *	@access		public
+	 *	@return		string
+	 */
+	public function getPdoErrorCode()
+	{
+		return $this->pdoCode;
 	}
 /*	
 	public function __sleep()

@@ -39,7 +39,7 @@ class Framework_Krypton_Core_Database_TableWriter extends Framework_Krypton_Core
 	 */
 	public function deleteByConditions( $where = array(), $debug = 1 )
 	{
-		$this->check( 'focus' );
+#		$this->check( 'focus' );
 		$conditions	= $this->getConditionQuery( $where );
 		$query	= "DELETE FROM ".$this->getTableName()." WHERE ".$conditions;
 		$result	= $this->dbc->exec( $query, $debug );

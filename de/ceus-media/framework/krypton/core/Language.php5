@@ -104,6 +104,13 @@ class Framework_Krypton_Core_Language
 	{
 		return $this->loadedFiles;	
 	}
+	
+	public function getWord( $fileName, $section, $key )
+	{
+		if( isset( $this->words[$fileName][$section][$key] ) )
+			return $this->words[$fileName][$section][$key];
+		throw new Exception( 'Word "'.$key.'" is not available in File "'.$fileName.'" in Section "'.$section.'".' );
+	}
 
 	/**
 	 *	Returns Array of Words, either of Section of File, of File or all.
@@ -120,13 +127,12 @@ class Framework_Krypton_Core_Language
 			{
 				if( isset( $this->words[$fileName][$section] ) )
 					return $this->words[$fileName][$section];
-				else
-					throw new Exception( "Section '".$section."' is not available in Language File '".$fileName."'" );
+				throw new Exception( 'Section "'.$section.'" is not available in Language File "'.$fileName.'"' );
 			}
 			if( isset( $this->words[$fileName] ) )
 				return $this->words[$fileName];
 			else
-				throw new Exception( "Language File '".$fileName."' is not available." );
+				throw new Exception( 'Language File "'.$fileName.'" is not available.' );
 		}
 		return $this->words;
 	}
@@ -212,7 +218,7 @@ class Framework_Krypton_Core_Language
 		if( !in_array( $fileName, array_keys( $this->loadedFiles ) ) )
 		{
 			if( in_array( $section, array_values( $this->words ) ) )
-				throw new Exception( "Language File with Key '".$section."' is already loaded." );
+				throw new Exception( 'Language File with Key "'.$section.'" is already loaded.' );
 
 			//  --  BASICS  --  //
 			$basepath	= $config['paths']['languages'].$language."/";
@@ -221,7 +227,7 @@ class Framework_Krypton_Core_Language
 			//  --  FILE URI CHECK  --  //
 			$lanfile	= $basepath.$basename;		//  fallback: base path
 			if( !file_exists( $lanfile ) )							//  check file
-				throw new Framework_Krypton_Exception_IO( "Language File '".$fileName."' is not existing." );	
+				throw new Framework_Krypton_Exception_IO( 'Language File "'.$fileName.'" is not existing.' );	
 
 			//  CACHE CHECK  //
 			$cachepath	= $config['paths']['cache'].basename( $config['paths']['languages'] ).'/';
@@ -244,7 +250,7 @@ class Framework_Krypton_Core_Language
 				return true;
 			}
 			else if( $verbose )
-				$messenger->noteFailure( "Language File '".$fileName."' is not existing in '".$uri."'" );
+				$messenger->noteFailure( 'Language File "'.$fileName.'" is not existing in "'.$uri.'"' );
 			return false;
 		}
 	}
@@ -276,7 +282,7 @@ class Framework_Krypton_Core_Language
 		$config		= $this->registry->get( 'config' );
 		$session	= $this->registry->get( 'session' );
 		if( !in_array( $language, $this->allowed ) )
-			throw new Exception( "Language '".$language."' is not allowed." );
+			throw new Exception( 'Language "'.$language.'" is not allowed.' );
 		$session->set( 'language', $language );
 
 		$this->pathFiles	= $config['paths']['languages'];

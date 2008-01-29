@@ -2,6 +2,7 @@
 /**
  *	Exception for Templates.
  *	@package		mv2.exception
+ *	@extends		RuntimeException
  *	@author			David Seebacher <dseebacher@gmail.com>
  *	@since			03.03.2007
  *	@version		0.1
@@ -13,12 +14,16 @@ define('TEMPLATE_EXCEPTION_LABELS_NOT_USED', 100);
 /**
  *	Exception for Templates.
  *	@package		mv2.exception
+ *	@extends		RuntimeException
  *	@author			David Seebacher <dseebacher@gmail.com>
  *	@since			03.03.2007
  *	@version		0.1
  */
-class Framework_Krypton_Exception_Template extends Exception
+class Framework_Krypton_Exception_Template extends RuntimeException
 {
+	/**	@var		string		$exceptionMessage		Message of Exception with Placeholder */
+	public static $exceptionMessage	= 'Not all non-optional labels are defined in Template "%s"';
+
 	/**	@var		array		$labels		Holds all not used and non optional labels */
 	private $labels;
 	
@@ -35,8 +40,9 @@ class Framework_Krypton_Exception_Template extends Exception
 		switch( $code )
 		{
 			case TEMPLATE_EXCEPTION_LABELS_NOT_USED:
-				$this->labels = $data;
-				parent::__construct( "Not all non-optional labels are defined in Template '".$filename."'.", TEMPLATE_EXCEPTION_LABELS_NOT_USED );
+				$this->labels	= $data;
+				$message		= sprintf( self::$exceptionMessage, $filename );
+				parent::__construct( $message, TEMPLATE_EXCEPTION_LABELS_NOT_USED );
 				break;
 		}
 	}

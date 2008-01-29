@@ -266,6 +266,9 @@ abstract class Framework_Krypton_Core_Component
 			case 'Framework_Krypton_Exception_Template':
 				$this->handleTemplateException( $e );
 				break;
+			case 'LogicException':
+				$this->handleLogicException( $e, $lanfile );
+				break;
 			case 'Exception':
 				throw new Exception( $e->getMessage() );
 
@@ -354,10 +357,7 @@ abstract class Framework_Krypton_Core_Component
 	protected function handleSqlException( Framework_Krypton_Exception_SQL $e )
 	{
 		$message	= $e->getMessage();
-		if( is_string( $e->error ) )
-			$message	.= "<br/>".$e->error;
-		else if( is_array( $e->error ) )
-			$message	.= "<br/>".$e->error[2];
+		$message	.= "<br/>".$e->sqlMessage;
 		$this->messenger->noteFailure( $message );
 	}
 	
@@ -369,7 +369,10 @@ abstract class Framework_Krypton_Core_Component
 	 */
 	protected function handleTemplateException( Framework_Krypton_Exception_Template $e )
 	{
-		$labels	= implode( ",", $e->getNotUsedLabels() );
+		$list	= array();
+		foreach( $e->getNotUsedLabels() as $label )
+			$list[]	= preg_replace( "@<%(.*)%>@", "\\1", $label );
+		$labels	= implode( ",", $list );
 		$labels	= htmlentities( $labels );
 		$this->messenger->noteFailure( $e->getMessage()."<br/><small>".$labels."</small>" );
 	}
@@ -452,15 +455,9 @@ abstract class Framework_Krypton_Core_Component
 			$template	= new Framework_Krypton_Core_Template( $fileName, $data );
 			return $template->create();
 		}
-		catch( Framework_Krypton_Exception_Template $e )
-		{
-			$labels	= implode( ", ", $e->getNotUsedLabels() );
-			$labels	= htmlentities( $labels );
-			throw new Framework_Krypton_Exception_IO( $e->getMessage()."<br/><small>".$labels."</small>" );
-		}
 		catch( Exception $e )
 		{
-			throw new Framework_Krypton_Exception_IO( $e->getMessage()."<br/><small>".$labels."</small>" );
+			$this->handleException( $e, 'main', 'exceptions' );
 		}
 	}
 
