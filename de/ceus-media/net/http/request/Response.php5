@@ -1,19 +1,19 @@
 <?php
 /**
  *	Handler for HTTP Responses.
- *	@package		net.http
+ *	@package		net.http.request
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			20.02.2007
  *	@version		0.6
  */
 /**
  *	Handler for HTTP Responses.
- *	@package		net.http
+ *	@package		net.http.request
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			20.02.2007
  *	@version		0.6
  */
-class Net_HTTP_Response
+class Net_HTTP_Request_Response
 {
 	/** @var	string		$status			Status of Response */
 	private $status		= "200 OK";

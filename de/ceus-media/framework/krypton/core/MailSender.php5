@@ -12,6 +12,7 @@
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			19.02.2007
  *	@version		0.6
+ *	@deprecated		use Net_Mail_Sender instead
  */
 class Framework_Krypton_Core_MailSender
 {

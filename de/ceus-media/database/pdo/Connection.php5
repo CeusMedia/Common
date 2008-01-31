@@ -1,10 +1,10 @@
 <?php
-import( 'de.ceus-media.framework.krypton.core.database.pdo.Statement' );
-import( 'de.ceus-media.framework.krypton.exception.SQL' );
+import( 'de.ceus-media.database.pdo.Statement' );
+import( 'de.ceus-media.exception.SQL' );
 /**
  *	Enhanced PDO Connection.
- *	@package		mv2.core.database.pdo
- *	@uses			Core_Database_PDO_Statement
+ *	@package		database.pdo
+ *	@uses			Database_PDO_Statement
  *	@uses			Exception_SQL
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			09.03.2007
@@ -12,16 +12,15 @@ import( 'de.ceus-media.framework.krypton.exception.SQL' );
  */
 /**
  *	Enhanced PDO Connection.
- *	@package		mv2.core.database.pdo
- *	@uses			Core_Database_PDO_Statement
+ *	@package		database.pdo
+ *	@uses			Database_PDO_Statement
  *	@uses			Exception_SQL
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			09.03.2007
  *	@version		0.1
  *	@todo			Code Documentation
- *	@deprecated		replaced by Database_PDO_Connection
  */
-class Framework_Krypton_Core_Database_PDO_Connection
+class Database_PDO_Connection
 {
 	private $cwd;
 	protected $PDO;
@@ -36,7 +35,7 @@ class Framework_Krypton_Core_Database_PDO_Connection
 		$this->numExecutes = 0;
 		$this->numStatements = 0;
 		$this->cwd	= getCwd();
-		$this->queryLogFile	= "logs/database/queries_".getEnv( 'REMOTE_ADDR' )."_".time().".log";
+		$this->queryLogFile	= "logs/queries.log";
 	}
 
 	public function __destruct()
@@ -68,7 +67,7 @@ class Framework_Krypton_Core_Database_PDO_Connection
 	{
 		$info	= $this->errorInfo();
 		error_log( time().":".$e->getMessage()."\n", 3, $this->logfile );
-		throw new Framework_Krypton_Exception_SQL( $info[1], $info[2], $info[0] );
+		throw new Exception_SQL( $info[1], $info[2], $info[0] );
 	}
 	
 	public function prepare()
@@ -76,7 +75,7 @@ class Framework_Krypton_Core_Database_PDO_Connection
 		$this->numStatements++;
 		$args = func_get_args();
 		$PDOS = call_user_func_array( array( &$this->PDO, 'prepare' ), $args );
-		return new Framework_Krypton_Core_Database_PDO_Statement( $this, $PDOS );
+		return new Database_PDO_Statement( $this, $PDOS );
 	}
 
 	public function query( $query, $verbose = 1, $fetchMode = 1 )
@@ -96,7 +95,7 @@ class Framework_Krypton_Core_Database_PDO_Connection
 					die( $query );
 			}
 			$PDOS = call_user_func_array( array( &$this->PDO, 'query' ), array( $query ) );
-			return new Framework_Krypton_Core_Database_PDO_Statement( $this, $PDOS );
+			return new Database_PDO_Statement( $this, $PDOS );
 		}
 		catch( PDOException $e )
 		{

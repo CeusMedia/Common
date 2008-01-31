@@ -1,13 +1,13 @@
 <?php
 /**
  *	Builds HTML of Bar Indicator.
- *	@package		...
+ *	@package		ui.html
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.5
  */
 /**
  *	Builds HTML of Bar Indicator.
- *	@package		...
+ *	@package		ui.html
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.5
  */
@@ -48,6 +48,90 @@ class UI_HTML_Indicator
 	   '.floor( $ratio * 100 ).' %
 	 </div>
 	</div>';
+	}
+
+	/**
+	 *	Returns CSS Class of Indicator DIV.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function getIndicatorClass()
+	{
+		return $this->classIndicator;
+	}
+
+	/**
+	 *	Returns CSS Class of inner DIV.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function getInnerClass()
+	{
+		return $this->classInner;
+	}
+
+	/**
+	 *	Returns CSS Class of outer DIV.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function getOuterClass()
+	{
+		return $this->classOuter;
+	}
+
+	/**
+	 *	Returns CSS Class of Percentage DIV.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function getPercentageClass()
+	{
+		return $this->classPercentage;
+	}
+
+	/**
+	 *	Sets CSS Class of Indicator DIV.
+	 *	@access		public
+	 *	@param		string		$class		CSS Class Name
+	 *	@return		void
+	 */
+	public function setIndicatorClass( $class )
+	{
+		$this->classIndicator	= $class;
+	}
+
+	/**
+	 *	Sets CSS Class of inner DIV.
+	 *	@access		public
+	 *	@param		string		$class		CSS Class Name
+	 *	@return		void
+	 */
+	public function setInnerClass( $class )
+	{
+		$this->classInner	= $class;
+	}
+
+	/**
+	 *	Sets CSS Class of outer DIV.
+	 *	@access		public
+	 *	@param		string		$class		CSS Class Name
+	 *	@return		void
+	 */
+	public function setOuterClass( $class )
+	{
+		$this->classOuter	= $class;
+	}
+
+	/**
+	 *	Sets CSS Class of Percentage DIV.
+	 *	@access		public
+	 *	@param		string		$class		CSS Class Name
+	 *	@return		void
+	 */
+	public function setPercentageClass( $class )
+	{
+		$this->classPercentage	= $class;
 	}
 }
 ?>

@@ -25,7 +25,7 @@ class Database_StatementBuilder
 	protected $conditions	= array();
 	/**	@var	array		$groupings		Array of Conditions */	
 	protected $groupings	= array();
-	/**	@var	array		$sorts			Array of Sort Conditions */	
+	/**	@var	array		$orders			Array of Order Conditions */	
 	protected $sorts		= array();
 	/**	@var	array		$limits 		Array of Limit Conditions */	
 	protected $limits		= array();
@@ -50,56 +50,6 @@ class Database_StatementBuilder
 		$this->addGroupings( $groupings );
 	}
 
-	/**
-	 *	Adds a key to search for.
-	 *	@access		public
-	 *	@param		string		$key			Key to search for
-	 *	@return		void
-	 */
-	public function addKey( $key )
-	{
-		if( !in_array( $key, $this->keys ) )
-			$this->keys[] = $key;
-	}
-	
-	/**
-	 *	Adds keys to search for.
-	 *	@access		public
-	 *	@param		array		$keys			Keys to search for
-	 *	@return		void
-	 */
-	public function addKeys( $keys )
-	{
-		$key	= (array) $keys;
-		foreach( $keys as $key )
-			$this->addKey( $key );
-	}
-	
-	/**
-	 *	Adds a table to search in.
-	 *	@access		public
-	 *	@param		string		$tablename		Table to search in
-	 *	@return		void
-	 */
-	public function addTable( $tablename )
-	{
-		if( !in_array( $this->prefix.$tablename, $this->tables ) )
-			$this->tables[] = $this->prefix.$tablename;	
-	}
-
-	/**
-	 *	Adds tables to search in.
-	 *	@access		public
-	 *	@param		array		$tables			Tables to search in
-	 *	@return		void
-	 */
-	public function addTables( $tables )
-	{
-		$tables	= (array) $tables;
-		foreach( $tables as $tablename )
-			$this->addTable( $tablename );
-	}
-	
 	/**
 	 *	Adds a search condition.
 	 *	@access		public
@@ -149,18 +99,30 @@ class Database_StatementBuilder
 		foreach( $groupings as $grouping )
 			$this->addGrouping( $grouping );
 	}
+	 
+	/**
+	 *	Adds a key to search for.
+	 *	@access		public
+	 *	@param		string		$key			Key to search for
+	 *	@return		void
+	 */
+	public function addKey( $key )
+	{
+		if( !in_array( $key, $this->keys ) )
+			$this->keys[] = $key;
+	}
 	
 	/**
-	 *	Adds limit conditions.
+	 *	Adds keys to search for.
 	 *	@access		public
-	 *	@param		string		$rows			Rows to limit
-	 *	@param		string		$offset			Offset
+	 *	@param		array		$keys			Keys to search for
 	 *	@return		void
- 	 */	
-	public function addLimits( $rows, $offset = 0 )
+	 */
+	public function addKeys( $keys )
 	{
-		$this->limits['rows']		= (int) $rows;
-		$this->limits['offset']	= (int) $offset;
+		$key	= (array) $keys;
+		foreach( $keys as $key )
+			$this->addKey( $key );
 	}
 	
 	/**
@@ -170,23 +132,53 @@ class Database_StatementBuilder
 	 *	@param		string		$sort			Direction of order
 	 *	@return		void
  	 */	
-	public function addSort( $column, $direction )
+	public function addOrder( $column, $direction )
 	{
-		$this->sorts[$column] = $direction;
+		$this->orders[$column] = $direction;
 	}
 	
 	/**
 	 *	Adds sort conditions.
 	 *	@access		public
-	 *	@param		array		$sorts			Sort conditions
+	 *	@param		array		$orders			Sort conditions
 	 *	@return		void
 	 */
-	public function addSorts( $sorts )
+	public function addOrders( $orders )
 	{
-		foreach( $sorts as $column => $direction )
+		foreach( $orders as $column => $direction )
 			$this->addSort( $column, $direction );
 	}
+		
+	/**
+	 *	Adds a table to search in.
+	 *	@access		public
+	 *	@param		string		$table			Table to search in
+	 *	@return		void
+	 */
+	public function addTable( $table )
+	{
+		if( !in_array( $this->prefix.$table, $this->tables ) )
+			$this->tables[] = $this->prefix.$table;	
+	}
 
+	/**
+	 *	Adds tables to search in.
+	 *	@access		public
+	 *	@param		array		$tables			Tables to search in
+	 *	@return		void
+	 */
+	public function addTables( $tables )
+	{
+		$tables	= (array) $tables;
+		foreach( $tables as $table )
+			$this->addTable( $table );
+	}
+
+	/**
+	 *	Alias for buildSelectStatement.
+	 *	@access		public
+	 *	@return 	string
+	 */
 	public function buildStatement()
 	{
 		return $this->buildSelectStatement();
@@ -209,14 +201,14 @@ class Database_StatementBuilder
 		if( $this->conditions )
 			$conditions	= "\nWHERE\n\t".implode( " AND\n\t", $this->conditions );
 		if( $this->groupings )
-			$groupings	= "\n".implode( "\n", $this->groupings );
-		$sorts		= "";
-		if( count( $this->sorts ) )
+			$groupings	= "\nGROUP BY\n\t".implode( "\n", $this->groupings );
+		$orders		= "";
+		if( count( $this->orders ) )
 		{
-			$sorts	= array();
-			foreach( $this->sorts as $column => $direction )
-				$sorts[] = $column." ".$direction;			
-			$sorts		= "\nORDER BY\n\t".implode( ",\n\t", $sorts );
+			$orders	= array();
+			foreach( $this->orders as $column => $direction )
+				$orders[] = $column." ".$direction;			
+			$orders		= "\nORDER BY\n\t".implode( ",\n\t", $orders );
 		}
 		if( count( $this->limits ) && isset( $this->limits['rows'] ) )
 		{
@@ -225,7 +217,7 @@ class Database_StatementBuilder
 				$limits .= "\nOFFSET ".$this->limits['offset'];
 		}
 		
-		$statement = $keys.$tables.$conditions.$groupings.$sorts.$limits;
+		$statement = $keys.$tables.$conditions.$groupings.$orders.$limits;
 		return $statement;
 	}
 
@@ -243,7 +235,7 @@ class Database_StatementBuilder
 		if( $this->conditions )
 			$conditions	= "\nWHERE\n\t".implode( " AND\n\t", $this->conditions );
 		if( $this->groupings )
-			$groupings	= "\n".implode( "\n", $this->groupings );
+			$groupings	= "\nGROUP BY\n\t".implode( "\n", $this->groupings );
 		$statement = "SELECT COUNT(".$this->keys[0].") as rowcount ".$tables.$conditions.$groupings;
 		return $statement;
 	}
@@ -256,6 +248,19 @@ class Database_StatementBuilder
 	public function getPrefix()
 	{
 		return $this->prefix;
+	}
+
+	/**
+	 *	Adds limit conditions.
+	 *	@access		public
+	 *	@param		string		$rows			Rows to limit
+	 *	@param		string		$offset			Offset
+	 *	@return		void
+ 	 */	
+	public function setLimit( $rows, $offset = 0 )
+	{
+		$this->limits['rows']		= (int) $rows;
+		$this->limits['offset']	= (int) $offset;
 	}
 }
 ?>

@@ -1,5 +1,5 @@
 <?php
-import( 'classes.core.http.Request' );
+import( 'de.ceus-media.net.http.request.Receiver' );
 import( 'classes.core.http.Response' );
 import( 'classes.core.Registry' );
 import( 'classes.core.StopWatch' );
@@ -64,7 +64,7 @@ class Prototype
 	{
 		ob_start();
 
-		$request = new Framework_Krypton_Core_HTTP_Request;
+		$request = new Net_HTTP_Request_Receiver;
 		$this->registry	= Framework_Krypton_Core_Registry::getInstance();
 		$this->registry->set( "stopwatch",	new Framework_Krypton_Core_StopWatch );		
 		$this->registry->set( "messenger",	new Framework_Krypton_Core_Messenger );

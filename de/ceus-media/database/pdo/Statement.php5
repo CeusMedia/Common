@@ -1,21 +1,20 @@
 <?php
 /**
  *	Enhanced Statement for PDO Connections.
- *	@package		mv2.core.database.pdo
+ *	@package		database.pdo
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			09.03.2007
  *	@version		0.1
  */
 /**
  *	Enhanced Statement for PDO Connections.
- *	@package		mv2.core.database.pdo
+ *	@package		database.pdo
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			09.03.2007
  *	@version		0.1
  *	@todo			Code Documentation
- *	@deprecated		replaced by Database_PDO_Statement
  */
-class Framework_Krypton_Core_Database_PDO_Statement implements IteratorAggregate
+class Database_PDO_Statement implements IteratorAggregate
 {
 	protected $PDOS;
 	protected $PDOp;
