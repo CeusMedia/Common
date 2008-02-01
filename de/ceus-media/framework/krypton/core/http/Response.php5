@@ -15,6 +15,8 @@ import( 'de.ceus-media.framework.krypton.interface.core.Response' );
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			20.02.2007
  *	@version		0.2
+ *	@deprecated		use Net_HTTP_Request instead
+ *	@todo			to be deleted
  */
 class Framework_Krypton_Core_HTTP_Response implements Framework_Krypton_Interface_Core_Response
 {

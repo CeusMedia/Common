@@ -26,8 +26,9 @@ class Database_PDO_Connection
 	protected $PDO;
 	public $numExecutes;
 	public $numStatements;
-	protected $logfile	= "db_error.log";
-	private $queries	= array();
+	protected $logFile		= "logs/db_error.log";
+	private $queries		= array();
+	public $queryLogFile	= "logs/queries.log";
 	
 	public function __construct( $dsn, $user = NULL, $pass = NULL, $driver_options = NULL )
 	{
@@ -35,7 +36,6 @@ class Database_PDO_Connection
 		$this->numExecutes = 0;
 		$this->numStatements = 0;
 		$this->cwd	= getCwd();
-		$this->queryLogFile	= "logs/queries.log";
 	}
 
 	public function __destruct()
@@ -66,7 +66,7 @@ class Database_PDO_Connection
 	protected function logError( Exception $e )
 	{
 		$info	= $this->errorInfo();
-		error_log( time().":".$e->getMessage()."\n", 3, $this->logfile );
+		error_log( time().":".$e->getMessage()."\n", 3, $this->logFile );
 		throw new Exception_SQL( $info[1], $info[2], $info[0] );
 	}
 	
@@ -78,7 +78,7 @@ class Database_PDO_Connection
 		return new Database_PDO_Statement( $this, $PDOS );
 	}
 
-	public function query( $query, $verbose = 1, $fetchMode = 1 )
+	public function query( $query, $verbose = 1, $fetchMode = PDO::FETCH_ASSOC )
 	{
 		$this->logQuery( $query );
 		try
@@ -94,7 +94,7 @@ class Database_PDO_Connection
 				if( $verbose == 5 )
 					die( $query );
 			}
-			$PDOS = call_user_func_array( array( &$this->PDO, 'query' ), array( $query ) );
+			$PDOS = call_user_func_array( array( &$this->PDO, 'query' ), array( $query, $fetchMode ) );
 			return new Database_PDO_Statement( $this, $PDOS );
 		}
 		catch( PDOException $e )
@@ -106,12 +106,18 @@ class Database_PDO_Connection
 
 	private function logQuery( $query )
 	{
-		error_log( $query."\n".str_repeat( "-", 80 )."\n", 3, $this->queryLogFile );
+		if( $this->queryLogFile )
+			error_log( $query."\n".str_repeat( "-", 80 )."\n", 3, $this->queryLogFile );
 	}
 
-	public function setLogFile( $filename )
+	public function setLogFile( $fileName )
 	{
-		$this->logfile	= $filename;
+		$this->logFile	= $fileName;
+	}
+
+	public function setQueryLogFile( $fileName )
+	{
+		$this->queryLogFile	= $fileName;
 	}
 }
 ?>

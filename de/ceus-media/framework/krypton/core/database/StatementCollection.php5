@@ -14,6 +14,8 @@
  *	@author			Michael Martin <Michael.Martin@CeuS-Media.de>
  *	@since			26.11.04
  *	@version		0.6
+ *	@deprecated		use Database_StatementCollection instead
+ *	@todo			to be deleted
  */
 class Framework_Krypton_Core_Database_StatementCollection
 {

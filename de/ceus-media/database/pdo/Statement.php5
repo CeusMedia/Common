@@ -14,7 +14,7 @@
  *	@version		0.1
  *	@todo			Code Documentation
  */
-class Database_PDO_Statement implements IteratorAggregate
+class Database_PDO_Statement implements IteratorAggregate, Iterator
 {
 	protected $PDOS;
 	protected $PDOp;
@@ -22,6 +22,31 @@ class Database_PDO_Statement implements IteratorAggregate
 	{
 		$this->PDOp = $PDOp;
 		$this->PDOS = $PDOS;
+	}
+	
+	function rewind()
+	{
+		$this->PDOS->rewind();
+	}
+
+	function current()
+	{
+		$this->PDOS->current();
+	}
+
+	function next()
+	{
+		$this->PDOS->next();
+	}
+
+	function key()
+	{
+		$this->PDOS->key();
+	}
+
+	function valid()
+	{
+		$this->PDOS->valid();
 	}
 
 	public function __call($func, $args)

@@ -26,7 +26,7 @@ class Database_StatementBuilder
 	/**	@var	array		$groupings		Array of Conditions */	
 	protected $groupings	= array();
 	/**	@var	array		$orders			Array of Order Conditions */	
-	protected $sorts		= array();
+	protected $orders		= array();
 	/**	@var	array		$limits 		Array of Limit Conditions */	
 	protected $limits		= array();
 	/**	@var	string		$prefix			Prefix of Tables */	

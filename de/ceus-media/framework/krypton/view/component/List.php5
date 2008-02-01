@@ -160,7 +160,7 @@ class Framework_Krypton_View_Component_List
 			}
 			$ui['list']	= implode( "\n", $items );
 			$ui['actions']	= $this->buildActions();
-			$ui['caption']	= $this->view->html->TableCaption( $this->caption, 'list' );
+			$ui['caption']	= $this->view->html->TableCaption( sprintf( $this->caption, $count ), 'list' );
 			$ui['heads']	= $this->view->html->TableHeads( $this->heads );
 			$ui['colgroup']	= $this->view->html->ColumnGroup( $this->colgroup );
 			$list	= $this->view->loadTemplate( $this->templates[0], $ui );

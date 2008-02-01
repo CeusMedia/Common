@@ -4,7 +4,7 @@ import( 'de.ceus-media.framework.krypton.core.database.StatementBuilder' );
  *	Logic for Data Lists from Database.
  *	@package		mv2.logic
  *	@uses			Framework_Krypton_Core_Database_StatementBuilder
- *	@author			Christian WÃ¼rker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			23.02.2007
  *	@version		0.1
  */
@@ -12,7 +12,7 @@ import( 'de.ceus-media.framework.krypton.core.database.StatementBuilder' );
  *	Logic for Data Lists from Database.
  *	@package		mv2.logic
  *	@uses			Framework_Krypton_Core_Database_StatementBuilder
- *	@author			Christian WÃ¼rker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			23.02.2007
  *	@version		0.1
  */
@@ -34,7 +34,7 @@ class Framework_Krypton_Logic_List
 	{
 		$this->builder		= new Framework_Krypton_Core_Database_StatementBuilder( $tablePrefix );
 		if( !class_exists( $collection ) )
-			throw new Exception( "Collection Class '".$collection."' was not been loaded." );
+			throw new RuntimeException( 'Collection Class "'.$collection.'" was not been loaded.' );
 		$this->collection	= new $collection( $this->builder );
 	}
 
@@ -71,7 +71,7 @@ class Framework_Krypton_Logic_List
 			}
 			return $count;
 		}
-		catch( Exception_SQL $e )
+		catch( Framework_Krypton_Exception_SQL $e )
 		{
 			die( $e->getMessage().": ".$e->getError() );
 		}

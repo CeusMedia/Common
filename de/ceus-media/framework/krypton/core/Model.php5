@@ -1,5 +1,5 @@
 <?php
-import( 'de.ceus-media.framework.krypton.core.database.TableWriter' );
+import( 'de.ceus-media.framework.krypton.core.database.pdo.TableWriter' );
 import( 'de.ceus-media.framework.krypton.core.Registry' );
 /**
  *	Abstract Model for Database Structures.
@@ -19,7 +19,7 @@ import( 'de.ceus-media.framework.krypton.core.Registry' );
  *	@since			19.02.2007
  *	@version		0.6
  */
-class Framework_Krypton_Core_Model extends Framework_Krypton_Core_Database_TableWriter
+class Framework_Krypton_Core_Model extends Framework_Krypton_Core_Database_PDO_TableWriter
 {
 	/**	@var	string			$prefix			Prefix of Table  */
 	private $prefix;
@@ -30,21 +30,18 @@ class Framework_Krypton_Core_Model extends Framework_Krypton_Core_Database_Table
 	 *	Constructor.
 	 *	@access		public
 	 *	@param		string		$table			Name of Table
-	 *	@param		array		$fields			Fields of Table
-	 *	@param		string		$primary_key	Primary Key of Table
+	 *	@param		array		$columns		Columnss of Table
+	 *	@param		string		$primaryKey		Primary Key of Table
 	 *	@param		int			$focus			Current focussed primary Key
 	 *	@return		void
 	 */
-	public function __construct( $table, $fields, $primary_key, $focus = false )
+	public function __construct( $table, $columns, $primaryKey, $focus = false )
 	{
-		if( !$table )
-			throw new Exception( "TEST" );
-		
 		$this->registry	= Framework_Krypton_Core_Registry::getInstance();
 		$dbc			= $this->registry->get( 'dbc' );
 		$config			=& $this->registry->get( 'config' );
 		$this->prefix	= $config['config']['table_prefix'];
-		parent::__construct( $dbc, $table, $fields, $primary_key, $focus );
+		parent::__construct( $dbc, $table, $columns, $primaryKey, $focus );
 	}
 	
 	/**
@@ -72,9 +69,9 @@ class Framework_Krypton_Core_Model extends Framework_Krypton_Core_Database_Table
 	public function getTableName( $prefixed = true )
 	{
 		if( $prefixed )
-			return $this->getPrefix().$this->tablename;
+			return $this->getPrefix().parent::getTableName();
 		else
-			return $this->tablename;
+			return parent::getTableName();
 	}
 		
 	/**

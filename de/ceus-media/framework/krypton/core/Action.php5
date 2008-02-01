@@ -24,16 +24,6 @@ abstract class Framework_Krypton_Core_Action extends Framework_Krypton_Core_Comp
 	protected $actions	= array();
 
 	/**
-	 *	Constructor.
-	 *	@access		public
-	 *	@return		void
-	 */
-	function __construct( $useWikiParser = false )
-	{
-		parent::__construct( $useWikiParser );
-	}
-
-	/**
 	 *	Method for manually called Actions in inheriting Action Classes.
 	 *	@access		public
 	 *	@return		void
@@ -79,10 +69,9 @@ abstract class Framework_Krypton_Core_Action extends Framework_Krypton_Core_Comp
 		{
 			if( $request->has( $event ) )
 			{
-				if( method_exists( $this, $action ) )
-					$this->$action( $request->get( $event ) );
-				else
-					$this->messenger->noteFailure( "Action '".get_class( $this )."::".$action."()' is not existing." );
+				if( !method_exists( $this, $action ) )
+					throw new BadMethodCallException( 'Action "'.get_class( $this ).'::'.$action.'()" is not existing.' );
+				$this->$action( $request->get( $event ) );
 			}
 		}
 	}
