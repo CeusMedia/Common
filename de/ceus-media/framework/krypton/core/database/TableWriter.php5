@@ -161,5 +161,14 @@ class Framework_Krypton_Core_Database_TableWriter extends Framework_Krypton_Core
 			return $result;
 		}
 	}
+
+	/**
+	 *	Deletes all data in Table.
+	 */
+	public function truncate()
+	{
+		$query	= "TRUNCATE ".$this->getTableName();
+		return $this->dbc->exec( $query );
+	}
 }
 ?>
