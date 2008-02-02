@@ -74,7 +74,7 @@ class Framework_Krypton_Core_PageDefinitionEditor
 		$pageNode	= $this->document->getElementById( $pageId );
 		if( !$pageNode )
 			throw new Framework_Krypton_Exception_IO( 'page_not_existing' );
-		$accessNode	= $pageNode->getElementsByTagName( 'access' )->item( 0 );
+		$accessNode	= $pageNode->getElementsByTagName( 'roles' )->item( 0 );
 		$newNode	= $this->document->createElement( $role );
 		$accessNode->appendChild( $newNode );
 		return $this->saveDocument();
@@ -93,7 +93,7 @@ class Framework_Krypton_Core_PageDefinitionEditor
 		$pageNode	= $this->document->getElementById( $pageId );
 		if( !$pageNode )
 			throw new Framework_Krypton_Exception_IO( 'page_not_existing' );
-		$accessNode	= $pageNode->getElementsByTagName( 'access' )->item( 0 );
+		$accessNode	= $pageNode->getElementsByTagName( 'roles' )->item( 0 );
 		$oldNode	= $accessNode->getElementsByTagName( $role )->item( 0 );
 		if( !$oldNode )
 			throw new Framework_Krypton_Exception_IO( 'page_role_not_existing' );
