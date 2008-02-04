@@ -118,7 +118,6 @@ class Framework_Krypton_Core_Database_TableWriter extends Framework_Krypton_Core
 			{
 				$updates	= implode( ", ", $updates );
 				$query	= "UPDATE ".$this->getTableName()." SET $updates WHERE ".$this->getConditionQuery( array() );
-				remark( $query );
 				$result	= $this->dbc->exec( $query );
 				return $result;
 			}
