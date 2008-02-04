@@ -135,7 +135,7 @@ class Framework_Krypton_Core_Database_TableReader
 			$data	= array();
 			foreach( $this->fields as $field )
 				if( in_array( "*", $keys ) || in_array( $field, $keys ) )
-					$data[$field] = $d->$field;
+					$data[$field] = stripslashes( $d->$field );
 			$all[] = $data;
 		}
 		return $all;
@@ -158,7 +158,7 @@ class Framework_Krypton_Core_Database_TableReader
 			$data	= array();
 			foreach( $this->fields as $field )
 				if( in_array( "*", $keys ) || in_array( $field, $keys ) )
-					$data[$field] = $d->$field;
+					$data[$field] = stripslashes( $d->$field );
 			$all[] = $data;
 		}
 		return $all;
@@ -184,7 +184,7 @@ class Framework_Krypton_Core_Database_TableReader
 			$data	= array();
 			foreach( $this->fields as $field )
 				if( in_array( "*", $keys ) || in_array( $field, $keys ) )
-					$data[$field] = $d->$field;
+					$data[$field] = stripslashes( $d->$field );
 			$all[] = $data;
 		}
 		return $all;
@@ -245,7 +245,7 @@ class Framework_Krypton_Core_Database_TableReader
 			{
 				$line = array();
 				foreach( $this->fields as $field )
-					$line[$field] = $d->$field;
+					$line[$field] = stripslashes( $d->$field );
 				$data[] = $line;
 			}
 		}
@@ -309,6 +309,20 @@ class Framework_Krypton_Core_Database_TableReader
 	}
 
 	/**
+	 *	Secures Conditions Value by adding Slashes or quoting.
+	 *	@access		protected
+	 *	@param		string		$value		String to be secured
+	 *	@return		string
+	 */
+	protected function secureValue( $value )
+	{
+#		if( !ini_get( 'magic_quotes_gpc' ) )
+#			$value = addslashes( $value );
+		$value	= $this->dbc->quote( $value );
+		return $value;
+	}
+				
+	/**
 	 *	Returns the Name of the Table.
 	 *	@access		public
 	 *	@return		string
@@ -362,11 +376,11 @@ class Framework_Krypton_Core_Database_TableReader
 			else
 			{
 				if( strtolower( $value ) == 'is null' || strtolower( $value ) == 'is not null')
-					$conditions[] = $key.' '.addslashes( $value );
+					$conditions[] = $key.' '.$value;
 				else if( $value === null )
 					$conditions[] = $key.' is NULL';
 				else
-					$conditions[] = $key."='".addslashes( $value )."'";
+					$conditions[] = $key."=".$this->secureValue( $value );
 			}
 		$conditions = implode( " AND ", $conditions );						//  combine Conditions with AND
 		return $conditions;

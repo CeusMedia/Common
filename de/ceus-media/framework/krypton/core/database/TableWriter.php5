@@ -111,15 +111,14 @@ class Framework_Krypton_Core_Database_TableWriter extends Framework_Krypton_Core
 				$value	= $data[$field];
 				if( $strip_tags )
 					$value	= strip_tags( $value );
-				if( !ini_get( 'magic_quotes_gpc' ) )
-					$value	= addslashes( $value );
-				$value	= str_replace( '"', "'", $value );
-				$updates[] = $field.'="'.$value.'"';
+				$value	= $this->secureValue( $value );
+				$updates[] = $field."=".$value;
 			}
 			if( sizeof( $updates ) )
 			{
 				$updates	= implode( ", ", $updates );
 				$query	= "UPDATE ".$this->getTableName()." SET $updates WHERE ".$this->getConditionQuery( array() );
+				remark( $query );
 				$result	= $this->dbc->exec( $query );
 				return $result;
 			}
