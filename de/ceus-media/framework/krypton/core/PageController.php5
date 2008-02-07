@@ -124,7 +124,9 @@ class Framework_Krypton_Core_PageController
 				}
 				return $factory->getClassName( $page['file'], $prefix );
 			}
-			return $page['file'];
+			if( $prefix )
+				$prefix	= ucFirst( $prefix )."_";
+			return $prefix.$page['file'];
 		}
 		return null;
 	}
