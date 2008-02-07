@@ -151,7 +151,7 @@ class Framework_Krypton_Core_Template
 	{
 		$this->addElement( $tag, new self( $filename, $element ), $overwrite );
 	}
-	
+
 	/**
 	 *	Creates an output string from the templatefile where all labels will be replaced with apropriate elements.
 	 *	If a non optional label wasn't specified, the method will throw a TemplateException
@@ -178,7 +178,7 @@ class Framework_Krypton_Core_Template
 			}
 			$out	= preg_replace( '/<%(\?)?' . $label . '%>/', $tmp, $out );
 		}
-		$out	= preg_replace('/<%\?(.+)?%>/', '', $out );
+		$out	= preg_replace('/<%\?([^%]+)?%>/u', '', $out );
 //		$out	= preg_replace('/<%\?[^%>]+%>/u', '', $out );
 //		$out	= preg_replace('/\n\s+\n/', "\n", $out);
 		if( preg_match_all( '/<%.+?%>/', $out, $tags ) === 0 )

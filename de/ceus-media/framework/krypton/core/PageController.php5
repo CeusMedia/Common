@@ -100,9 +100,10 @@ class Framework_Krypton_Core_PageController
 	 *	Returns (factorised) Class Name of Link.
 	 *	@access		public
 	 *	@param		string		$pageId			Page ID
+	 *	@param		string		$prefix			Class Prefix (view,action,...)
 	 *	@return		string
 	 */
-	public function getClassname( $pageId )
+	public function getClassName( $pageId, $prefix = "" )
 	{
 		if( $this->checkPage( $pageId ) )
 		{
@@ -119,9 +120,9 @@ class Framework_Krypton_Core_PageController
 				}
 				catch( Exception $e )
 				{
-					throw new Framework_Krypton_Exception_Logic( "No Category Factory '".$factory."' available." );
+					throw new Framework_Krypton_Exception_Logic( 'No Category Factory "'.$factory.'" available.' );
 				}
-				return $factory->getClassname( $page['file'] );
+				return $factory->getClassName( $page['file'], $prefix );
 			}
 			return $page['file'];
 		}
