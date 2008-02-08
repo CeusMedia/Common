@@ -103,7 +103,7 @@ class Framework_Krypton_Core_PageController
 	 *	@param		string		$prefix			Class Prefix (view,action,...)
 	 *	@return		string
 	 */
-	public function getClassName( $pageId, $prefix = "" )
+	public function getClassName( $pageId, $prefix = "", $category = "" )
 	{
 		if( $this->checkPage( $pageId ) )
 		{
@@ -122,7 +122,7 @@ class Framework_Krypton_Core_PageController
 				{
 					throw new Framework_Krypton_Exception_Logic( 'No Category Factory "'.$factory.'" available.' );
 				}
-				return $factory->getClassName( $page['file'], $prefix );
+				return $factory->getClassName( $page['file'], $prefix, $category );
 			}
 			if( $prefix )
 				$prefix	= ucFirst( $prefix )."_";
