@@ -29,12 +29,8 @@ import( 'de.ceus-media.framework.krypton.exception.Logic' );
  */
 class Framework_Krypton_Core_Logic
 {
-	/**	@var	array		$errors			Errors of last Validation */
-	protected $errors	= array();
 	/**	@var	Registry	$registry		Registry for Objects */
 	protected $registry;
-	/**	@var	array		$errors			Field Defintion */
-	protected $definition;
 
 	/**
 	 *	Constructor, loads Definition Validator and Field Definition.
@@ -44,26 +40,24 @@ class Framework_Krypton_Core_Logic
 	public function __construct()
 	{
 		$this->registry		= Framework_Krypton_Core_Registry::getInstance();
-		if( $this->registry->has( 'definition' ) )
-			$this->definition	= $this->registry->get( 'definition' );
 	}
 
 	/**
 	 *	Returns Table Fields of Model
 	 *	@access		public
-	 *	@param		string		$model_name		Class Name of Model
+	 *	@param		string		$modelName		Class Name of Model
 	 *	@throws		Exception_IO
 	 *	@return		array
 	 */
 
-	public function getFieldFromModel( $model_name )
+	public static function getFieldFromModel( $modelName )
 	{
-		if( class_exists( $model_name, true ) )
+		if( class_exists( $modelName, true ) )
 		{
-			$model	= new $model_name;
+			$model	= new $modelName;
 			return $model->getFields();
 		}
-		throw new Framework_Krypton_Exception_IO( "Class '".$model_name."' is not existing." );
+		throw new Framework_Krypton_Exception_IO( 'Class "'.$modelName.'" is not existing.' );
 	}
 
 	/**
@@ -75,18 +69,19 @@ class Framework_Krypton_Core_Logic
 	 *	@param		string		$prefix			Prefix used within Fields of Input Data
 	 *	@return		bool
 	 */
-	protected function validateForm( $file, $form, &$data, $prefix = "")
+	protected static function validateForm( $file, $form, &$data, $prefix = "")
 	{
 		import( 'de.ceus-media.framework.krypton.core.DefinitionValidator' );
 		$validator	= new Framework_Krypton_Core_DefinitionValidator;
 		$errors		= array();
+		$errorList	= array();
 
-		$this->loadDefinition( $file , $form );
-		$fields	= $this->definition->getFields();
+		$definition	= self::loadDefinition( $file , $form );
+		$fields		= $definition->getFields();
 		foreach( $fields as $field )
 		{
-			$def	= $this->definition->getField( $field );
-			$key	= $this->removePrefixFromFieldName( $def['input']['name'], $prefix );
+			$def	= $definition->getField( $field );
+			$key	= self::removePrefixFromFieldName( $def['input']['name'], $prefix );
 			$value	= isset( $data[$key] ) ? $data[$key] : NULL;
 
 			//  --  SET NEGATIVE CHECKBOXES  --  //
@@ -94,10 +89,6 @@ class Framework_Krypton_Core_Logic
 				if( $value === NULL )
 					$data[$field]	= $value	= (int) $def['input']['default'];
 
-//			print_m( $def );
-//			print_m( $data );
-//			remark( "key:".$key );
-//			remark( "value:".$value );
 			if( is_array( $value ) )
 			{
 				foreach( $value as $entry )
@@ -106,7 +97,7 @@ class Framework_Krypton_Core_Logic
 					if( !count( $errors ) )
 						$errors	= $validator->validateSemantics( $field, $def, $entry, $prefix );
 					foreach( $errors as $error )
-						$this->noteError( $error );
+						$errorList[]	= $error;
 				}
 			}
 			else
@@ -115,58 +106,13 @@ class Framework_Krypton_Core_Logic
 				if( strlen( $value ) && !count( $errors ) )
 					$errors	= $validator->validateSemantics( $field, $def, $value, $prefix );
 				foreach( $errors as $error )
-					$this->noteError( $error );
+					$errorList[]	= $error;
 			}
 			
 		}
-		if( $this->hasErrors() )
-		{
-			$errors	= $this->errors;
-			$this->errors	= array();
-			throw new Framework_Krypton_Exception_Validation( "error_not_valid", $errors, $form );
-		}
+		if( $errorList )
+			throw new Framework_Krypton_Exception_Validation( "error_not_valid", $errorList, $form );
 		return true;
-	}
-
-	/**
-	 *	Returns Errors of last Validation.
-	 *	@access		public
-	 *	@return		bool
-	 */
-	public function getErrors()
-	{
-		return $this->errors;
-	}
-
-	/**
-	 *	Notes an Error.
-	 *	@access		public
-	 *	@param		Logic_Error	$error		Error to note
-	 *	@return		void
-	 */
-	protected function noteError( $error )
-	{
-		$this->errors[]	= $error;
-	}
-
-	/**
-	 *	Resets Errors.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function resetErrors()
-	{
-		$this->errors	= array();
-	}
-
-	/**
-	 *	Indicated whether last Validation had Errors.
-	 *	@access		public
-	 *	@return		bool
-	 */
-	public function hasErrors()
-	{
-		return (bool)count( $this->errors );
 	}
 
 	/**
@@ -175,10 +121,15 @@ class Framework_Krypton_Core_Logic
 	 *	@param		string		$fileKey		File Key of XML Definition File (e.g. #FOLDER.FILE#.xml)
 	 *	@return		void
 	 */
-	private function loadDefinition( $fileKey, $form )
+	private static function loadDefinition( $fileKey, $form )
 	{
-		$this->definition->setForm( $form );
-		$this->definition->loadDefinition( $fileKey );
+		$registry		= Framework_Krypton_Core_Registry::getInstance();
+		if( $registry->has( 'definition' ) )
+			$definition	= $registry->get( 'definition' );
+		
+		$definition->setForm( $form );
+		$definition->loadDefinition( $fileKey );
+		return $definition;
 	}
 
 	/**
@@ -191,12 +142,8 @@ class Framework_Krypton_Core_Logic
 	public static function removePrefixFromFieldName( $name, $prefix )
 	{
 		if( $prefix )
-		{
 			if( preg_match( "@^".$prefix."@", $name ) )
-			{
 				$name	= preg_replace( "@^".$prefix."@", "", $name );
-			}
-		}
 		return $name;
 	}
 
