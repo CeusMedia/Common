@@ -137,7 +137,7 @@ class Framework_Helium_DefinitionView extends Framework_Helium_View
 				$input = $this->html->Input( $data['input']['name'], $values[$field], $style, false, false, false, $maxlength, $validator );
 			}
 			else if( $data['input']['type'] == "password" )
-				$input = $this->html->Password( $data['input']['name'], $values[$field], $data['input']['style'] );
+				$input = $this->html->Password( $data['input']['name'], $data['input']['style'] );
 			else if( $data['input']['type'] == "checkbox" )
 				$input = $this->html->CheckBox( $data['input']['name'], 1, $values[$field], $data['input']['style'] );
 			else if( $data['input']['type'] == "file" )

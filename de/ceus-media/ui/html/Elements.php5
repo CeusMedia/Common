@@ -653,21 +653,19 @@ class UI_HTML_Elements
 	 *	Erzeugt HTML-Code eines Passwort-Eingabefeldes.
 	 *	@access		public
 	 *	@param		string		$name			Name des Eingabefeldes
-	 *	@param		string		$value			Wert des Eingabefeldes
 	 *	@param		string		$class			CSS-Klasse des Eingabefeldes (in|inbit|inshort|inlong)
-	 *	@param		string		$disabled			Deaktiveren des Eingabefeldes
-	 *	@param		bool			$readonly		Eingabefeld ist nur lesbar
+	 *	@param		string		$disabled		Deaktiveren des Eingabefeldes
+	 *	@param		bool		$readonly		Eingabefeld ist nur lesbar
 	 *	@param		int			$tabindex		Tabulatur-Index
 	 *	@param		int			$maxlength		maximale Länge
 	 *	@return		string
 	 */
-	public static function Password( $name, $value = '', $class = "in", $disabled = false, $readonly = false, $tabindex = false, $maxlength = false )
+	public static function Password( $name, $class = "in", $disabled = false, $readonly = false, $tabindex = false, $maxlength = false )
 	{
 		$ins_id			= " id=\"".$name."\"";
 		$ins_class		= $class ? " class=\"".$class."\"" : "";
 		$ins_type		= " type=\"password\"";
 		$ins_name		= " name=\"".$name."\"";
-		$ins_value		= " value=\"".$value."\"";
 		$ins_readonly		= $readonly ? " readonly" : "";	
 		$ins_tabindex		= $tabindex ? " tabindex=\"".$tabindex."\"" : "";
 		$ins_maxlength	= $maxlength ? " maxlength=\"".$maxlength."\"" : "";
@@ -679,7 +677,7 @@ class UI_HTML_Elements
 			else
 				$ins_disabled = " disabled";
 		}
-		$code = "<input".$ins_id.$ins_class.$ins_type.$ins_name.$ins_value.$ins_disabled.$ins_readonly.$ins_tabindex.$ins_maxlength."/>";
+		$code = "<input".$ins_id.$ins_class.$ins_type.$ins_name.$ins_disabled.$ins_readonly.$ins_tabindex.$ins_maxlength."/>";
 		return $code;
 	}
 
