@@ -32,7 +32,9 @@ class Framework_Krypton_Core_CategoryFactory
 	 */
 	public function getClassName( $className, $prefix = "", $category = "" )
 	{
-		$type	= $category ? $category : $this->getType();
+		$type		= $category ? $category : $this->getType();
+		$type		= ucFirst( $type );
+		$className	= ucFirst( $className );
 		$className	= $type."_".$className;
 		if( $prefix )
 			$className	= ucFirst( $prefix )."_".$className;
@@ -50,7 +52,12 @@ class Framework_Krypton_Core_CategoryFactory
 		if( $this->type )
 			return $this->type;
 		return $this->default;
-	}	
+	}
+	
+	public function getTypes()
+	{
+		return $this->types;
+	}
 	
 	/**
 	 *	Sets default Type.
