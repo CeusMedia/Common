@@ -1,13 +1,13 @@
 <?php
 import( 'de.ceus-media.Reference' );
 import( 'de.ceus-media.file.ini.Reader' );
-import( 'de.ceus-media.adt.TimeConverter' );
+import( 'de.ceus-media.alg.TimeConverter' );
 /**
  *	Generic Action Handler.
  *	@package		framework.neon
  *	@uses			Reference
  *	@uses			File_INI_Reader
- *	@uses			TimeConverter
+ *	@uses			Alg_TimeConverter
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			01.12.2005
  *	@version		0.1
@@ -17,7 +17,7 @@ import( 'de.ceus-media.adt.TimeConverter' );
  *	@package		framework.neon
  *	@uses			Reference
  *	@uses			File_INI_Reader
- *	@uses			TimeConverter
+ *	@uses			Alg_TimeConverter
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			01.12.2005
  *	@version		0.1
@@ -37,7 +37,7 @@ class Framework_Neon_Action
 	public function __construct()
 	{
 		$this->ref			= new Reference();
-		$this->tc			= new TimeConverter;
+		$this->tc			= new Alg_TimeConverter;
 		$this->messenger	=& $this->ref->get( 'messenger' );
 		$this->words		=& $this->ref->get( 'words' );
 	}

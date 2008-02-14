@@ -13,7 +13,7 @@
  *	@since			27.03.2006
  *	@version		0.2
  */
-class Dictionary implements ArrayAccess, Countable, Iterator
+class ADT_List_Dictionary implements ArrayAccess, Countable, Iterator
 {
 	/**	@var		array		$pairs		Associative Array of Pairs */
 	protected $pairs	= array();

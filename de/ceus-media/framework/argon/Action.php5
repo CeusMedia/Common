@@ -1,13 +1,13 @@
 <?php
 import( 'de.ceus-media.Reference' );
 import( 'de.ceus-media.file.ini.Reader' );
-import( 'de.ceus-media.adt.TimeConverter' );
+import( 'de.ceus-media.alg.TimeConverter' );
 /**
  *	Generic Action Handler.
  *	@package		framework.argon
  *	@uses			Reference
  *	@uses			File_INI_Reader
- *	@uses			TimeConverter
+ *	@uses			Alg_TimeConverter
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			01.12.2005
  *	@version		0.1
@@ -17,20 +17,20 @@ import( 'de.ceus-media.adt.TimeConverter' );
  *	@package		framework.argon
  *	@uses			Reference
  *	@uses			File_INI_Reader
- *	@uses			TimeConverter
+ *	@uses			Alg_TimeConverter
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			01.12.2005
  *	@version		0.1
  */
 class Framework_Argon_Action
 {
-	/**	@var	Reference		$ref			Reference */
+	/**	@var	Reference			$ref			Reference */
 	var $ref;
-	/**	@var	TimeConverter	$tc				Time Converter */
+	/**	@var	Alg_TimeConverter	$tc				Time Converter */
 	var $tc;
-	/**	@var	Messenger		$messenger		Messenger */
+	/**	@var	Messenger			$messenger		Messenger */
 	var $messenger;
-	/**	@var	array			$words			Array of all Words */
+	/**	@var	array				$words			Array of all Words */
 	var $words;
 
 	/**
@@ -41,8 +41,8 @@ class Framework_Argon_Action
 	function __construct()
 	{
 		$this->ref			= new Reference();
-		$this->tc			= new TimeConverter;
-		$this->messenger	=& $this->ref->get( 'messenger' );
+		$this->tc			= new Alg_TimeConverter;
+		$this->messenger	= $this->ref->get( 'messenger' );
 		$this->words		=& $this->ref->get( 'words' );
 	}
 

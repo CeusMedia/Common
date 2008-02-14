@@ -1,12 +1,12 @@
 <?php
 import( 'de.ceus-media.ui.html.Elements' );
-import( 'de.ceus-media.adt.TimeConverter' );
+import( 'de.ceus-media.alg.TimeConverter' );
 /**
  *	Abstract View Class of Framework Hydrogen.
  *	@package		framework
  *	@subpackage		hydrogen
  *	@uses			UI_HTML_Elements
- *	@uses			TimeConverter
+ *	@uses			Alg_TimeConverter
  *	@author			Christian Würker <Christian.Wuerker@Ceus-Media.de>
  *	@since			01.09.2006
  *	@version		0.1
@@ -16,7 +16,7 @@ import( 'de.ceus-media.adt.TimeConverter' );
  *	@package		framework
  *	@subpackage		hydrogen
  *	@uses			UI_HTML_Elements
- *	@uses			TimeConverter
+ *	@uses			Alg_TimeConverter
  *	@author			Christian Würker <Christian.Wuerker@Ceus-Media.de>
  *	@since			01.09.2006
  *	@version		0.1
@@ -66,7 +66,7 @@ class View
 	{
 		$this->_setEnv( $application );
 		$this->html	= new UI_HTML_Elements;
-		$this->time	= new TimeConverter();
+		$this->time	= new Alg_TimeConverter();
 	}
 	
 	//  --  SETTERS & GETTERS  --  //

@@ -1,10 +1,8 @@
 <?php
 import( 'de.ceus-media.file.log.ShortLogReader' );
-import( 'de.ceus-media.adt.TimeConverter' );
 /**
  *	Reader and Parser for Tracker Log File.
  *	@package		file.log
- *	@uses			TimeConverter
  *	@extends		ShortLogReader
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			27.12.2006
@@ -13,7 +11,6 @@ import( 'de.ceus-media.adt.TimeConverter' );
 /**
  *	Reader and Parser for Tracker Log File.
  *	@package		file.log
- *	@uses			TimeConverter
  *	@extends		ShortLogReader
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			27.12.2006

@@ -16,7 +16,7 @@ import( 'de.ceus-media.adt.list.Dictionary' );
  *	@since			27.03.2006
  *	@version		0.6
  */
-class Net_HTTP_Request_Receiver extends Dictionary
+class Net_HTTP_Request_Receiver extends ADT_List_Dictionary
 {
 	/**	@var		string		$ip				IP of Request */
 	protected $ip;

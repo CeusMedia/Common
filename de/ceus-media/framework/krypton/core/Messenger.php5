@@ -1,11 +1,11 @@
 <?php
 import( 'de.ceus-media.framework.krypton.core.Registry' );
-import( 'de.ceus-media.adt.TimeConverter' );
+import( 'de.ceus-media.alg.TimeConverter' );
 /**
  *	Message Output Handler within a Session.
  *	@package		framework.krypton.core
  *	@uses			Core_Registry
- *	@uses			TimeConverter
+ *	@uses			Alg_TimeConverter
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			01.12.2005
  *	@version		0.6
@@ -14,7 +14,7 @@ import( 'de.ceus-media.adt.TimeConverter' );
  *	Message Output Handler within a Session.
  *	@package		framework.krypton.core
  *	@uses			Core_Registry
- *	@uses			TimeConverter
+ *	@uses			Alg_TimeConverter
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			01.12.2005
  *	@version		0.6
@@ -90,7 +90,7 @@ class Framework_Krypton_Core_Messenger
 	{
 		$config		= Framework_Krypton_Core_Registry::getStatic( 'config' );
 		$session	= Framework_Krypton_Core_Registry::getStatic( 'session' );
-		$tc			= new TimeConverter;
+		$tc			= new Alg_TimeConverter;
 		$messages	= (array) $session->get( $this->key_messages );
 		$fields		= (array) $session->get( $this->key_fields );
 		$list		= "";

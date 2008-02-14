@@ -1,14 +1,14 @@
 <?php
 import( 'de.ceus-media.adt.OptionObject' );
 import( 'de.ceus-media.Reference' );
-import( 'de.ceus-media.adt.TimeConverter' );
+import( 'de.ceus-media.alg.TimeConverter' );
 /**
  *	Message Output Handler within a Session.
  *	@package		framework
  *	@subpackage		helium
  *	@extends		ADT_OptionObject
  *	@uses			Reference
- *	@uses			TimeConverter
+ *	@uses			Alg_TimeConverter
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			01.12.2005
  *	@version		0.2
@@ -19,7 +19,7 @@ import( 'de.ceus-media.adt.TimeConverter' );
  *	@subpackage		helium
  *	@extends		ADT_OptionObject
  *	@uses			Reference
- *	@uses			TimeConverter
+ *	@uses			Alg_TimeConverter
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			01.12.2005
  *	@version		0.2
@@ -87,11 +87,11 @@ class Messenger extends ADT_OptionObject
 	 */
 	function buildMessages( $format_time = false, $auto_clear = true )
 	{
-		$config	= $this->ref->get( 'config' );
-		$session	=& $this->ref->get( 'session' );
-		$tc		= new TimeConverter;
+		$config		= $this->ref->get( 'config' );
+		$session	= $this->ref->get( 'session' );
+		$tc			= new Alg_TimeConverter;
 		$messages	= (array) $session->get( $this->getOption( 'key_messages' ) );
-		$list	= "";
+		$list		= "";
 		if( count( $messages ) )
 		{
 			$list	= array();

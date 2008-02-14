@@ -1,5 +1,5 @@
 <?php
-import ("de.ceus-media.adt.TimeConverter"); 
+import ("de.ceus-media.alg.TimeConverter"); 
 /**
  *	Writer for Log File.
  *	@package		file.log
@@ -37,10 +37,11 @@ class File_Log_Writer
 	 *	@param		string		$line		Entry to add to Log File
 	 *	@return		void
 	 */
-	public function note( $line )
+	public function note( $line, $format = "datetime" )
 	{
-		$converter 	= new TimeConverter();
-		$message	= time()." [".$converter->convertToHuman( time(), "datetime" )."] ".$line."\n";
+		$converter 	= new Alg_TimeConverter();
+		$time		= $format ? " [".$converter->convertToHuman( time(), $format )."]" : "";
+		$message	= time().$time." ".$line."\n";
 		error_log( $message, 3, $this->uri );
 	}
 }

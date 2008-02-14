@@ -2,7 +2,7 @@
 import( 'de.ceus-media.Reference' );
 import( 'de.ceus-media.ui.html.Elements' );
 import( 'de.ceus-media.ui.html.Paging' );
-import( 'de.ceus-media.adt.TimeConverter' );
+import( 'de.ceus-media.alg.TimeConverter' );
 import( 'de.ceus-media.file.ini.Reader' );
 import( 'de.ceus-media.ui.html.WikiParser' );
 /**
@@ -11,7 +11,7 @@ import( 'de.ceus-media.ui.html.WikiParser' );
  *	@uses			Reference
  *	@uses			UI_HTML_Elements
  *	@uses			UI_HTML_Paging
- *	@uses			TimeConverter
+ *	@uses			Alg_TimeConverter
  *	@uses			File_INI_Reader
  *	@uses			WikiParser
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
@@ -24,7 +24,7 @@ import( 'de.ceus-media.ui.html.WikiParser' );
  *	@uses			Reference
  *	@uses			UI_HTML_Elements
  *	@uses			UI_HTML_Paging
- *	@uses			TimeConverter
+ *	@uses			Alg_TimeConverter
  *	@uses			File_INI_Reader
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@uses			WikiParser
@@ -42,7 +42,7 @@ class Framework_Argon_View
 			'wiki'	=> 'wiki',
 			'txt'	=> 'text',
 			);
-	/**	@var	TimeConverter				$tc			Time Converter */
+	/**	@var	Alg_TimeConverter			$tc			Time Converter */
 	var $tc;
 	/**	@var	UI_HTML_Elements			$html		HTML Elements */
 	var $html;
@@ -64,7 +64,7 @@ class Framework_Argon_View
 	function __construct()
 	{
 		$this->ref			= new Reference();
-		$this->tc			= new TimeConverter;
+		$this->tc			= new Alg_TimeConverter;
 		$this->html			= new UI_HTML_Elements;
 		$this->wiki			= new WikiParser;
 		$this->language		= $this->ref->get( 'language' );

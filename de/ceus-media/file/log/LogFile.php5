@@ -1,10 +1,10 @@
 <?php
-import ("de.ceus-media.adt.TimeConverter"); 
+import ("de.ceus-media.alg.TimeConverter"); 
 /**
  *	Writer for Log File.
  *	@package		file
  *	@subpackage		log
- *	@uses			TimeConverter
+ *	@uses			Alg_TimeConverter
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.5
  */
@@ -12,7 +12,7 @@ import ("de.ceus-media.adt.TimeConverter");
  *	Writer for Log File.
  *	@package		file
  *	@subpackage		log
- *	@uses			TimeConverter
+ *	@uses			Alg_TimeConverter
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.5
  */
@@ -41,7 +41,7 @@ class LogFile
 	 */
 	public function addEntry( $line )
 	{
-		$tc = new TimeConverter();
+		$tc = new Alg_TimeConverter();
 		$entry = time()." [".$tc->convertToHuman( time(), "datetime" )."] ".$line."\n";
 
 		$fp = @fopen( $this->uri, "ab" );

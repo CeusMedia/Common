@@ -2,11 +2,12 @@
 import( 'de.ceus-media.Reference' );
 import( 'de.ceus-media.file.ini.Reader' );
 import( 'de.ceus-media.validation.DefinitionValidator' );
-import( 'de.ceus-media.adt.TimeConverter' );
+import( 'de.ceus-media.alg.TimeConverter' );
 /**
  *	Generic Action Handler.
  *	@package		framework.helium
  *	@uses			Reference
+ *	@uses			Alg_TimeConverter
  *	@uses			File_INI_Reader
  *	@uses			DefinitionValidator
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
@@ -17,6 +18,7 @@ import( 'de.ceus-media.adt.TimeConverter' );
  *	Generic Action Handler.
  *	@package		framework.helium
  *	@uses			Reference
+ *	@uses			Alg_TimeConverter
  *	@uses			File_INI_Reader
  *	@uses			DefinitionValidator
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
@@ -37,10 +39,10 @@ class Framework_Helium_Action
 	 */
 	public function __construct()
 	{
-		$this->ref		= new Reference();
-		$this->tc		= new TimeConverter;
-		$this->messenger	=& $this->ref->get( 'messenger' );
-		$this->lan		=& $this->ref->get( 'language' );
+		$this->ref			= new Reference();
+		$this->tc			= new Alg_TimeConverter;
+		$this->messenger	= $this->ref->get( 'messenger' );
+		$this->lan			=& $this->ref->get( 'language' );
 	}
 
 	/**

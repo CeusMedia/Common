@@ -3,7 +3,7 @@ import( 'de.ceus-media.framework.krypton.core.Registry' );
 import( 'de.ceus-media.framework.krypton.core.Template' );
 import( 'de.ceus-media.file.Reader' );
 import( 'de.ceus-media.ui.html.Elements' );
-import( 'de.ceus-media.adt.TimeConverter' );
+import( 'de.ceus-media.alg.TimeConverter' );
 /**
  *	Abstract Basic Component for Actions and Views.
  *	@package		framework.krypton.core
@@ -12,7 +12,7 @@ import( 'de.ceus-media.adt.TimeConverter' );
  *	@uses			View_Component_Elements
  *	@uses			File_Reader
  *	@uses			File_Writer
- *	@uses			TimeConverter
+ *	@uses			Alg_TimeConverter
  *	@uses			WikiParser
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			01.12.2005
@@ -26,7 +26,7 @@ import( 'de.ceus-media.adt.TimeConverter' );
  *	@uses			View_Component_Elements
  *	@uses			File_Reader
  *	@uses			File_Writer
- *	@uses			TimeConverter
+ *	@uses			Alg_TimeConverter
  *	@uses			WikiParser
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			01.12.2005
@@ -73,19 +73,19 @@ abstract class Framework_Krypton_Core_Component
 {
 	/**	@var		Framework_Krypton_Core_Registry		$registry		Registry of Objects */
 	var $registry	= null;
-	/**	@var		UI_HTML_Elements		$html			HTML Elements */
+	/**	@var		UI_HTML_Elements	$html			HTML Elements */
 	var $html		= null;
-	/**	@var		Language		$language		Language Support */
+	/**	@var		Language			$language		Language Support */
 	var $language	= null;
-	/**	@var		Messenger		$messenger		Messenger Object */
+	/**	@var		Messenger			$messenger		Messenger Object */
 	var $messenger	= null;
-	/**	@var		TimeConverter	$tc				Time Converter Object */
+	/**	@var		Alg_TimeConverter	$tc				Time Converter Object */
 	var $tc			= null;
-	/**	@var		array			$words			Array of defined Words */
+	/**	@var		array				$words			Array of defined Words */
 	var $words		= array();
-	/**	@var		WikiParser		$wiki			Wiki Partser Object */
+	/**	@var		WikiParser			$wiki			Wiki Partser Object */
 	var $wiki		= null;
-	/**	@var		array			$_paths			Array of possible Path Keys in Config for Content Loading */
+	/**	@var		array				$_paths			Array of possible Path Keys in Config for Content Loading */
 	var $_paths	= array(
 			'html'	=> 'html',
 /*			'wiki'	=> 'wiki',*/
@@ -102,7 +102,7 @@ abstract class Framework_Krypton_Core_Component
 	{
 		$this->registry		= Framework_Krypton_Core_Registry::getInstance();
 		$this->html			= new UI_HTML_Elements;
-		$this->tc			= new TimeConverter;
+		$this->tc			= new Alg_TimeConverter;
 		if( $useWikiParser )
 		{
 			import( 'de.ceus-media.ui.html.WikiParser' );

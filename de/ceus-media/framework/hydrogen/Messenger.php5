@@ -1,12 +1,12 @@
 <?php
 import( 'de.ceus-media.adt.OptionObject' );
-import( 'de.ceus-media.adt.TimeConverter' );
+import( 'de.ceus-media.alg.TimeConverter' );
 /**
  *	Message Output Handler of Framework Hydrogen.
  *	@package		framework
  *	@subpackage		hydrogen
  *	@extends		ADT_OptionObject
- *	@uses			TimeConverter
+ *	@uses			Alg_TimeConverter
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			01.09.2006
  *	@version		0.1
@@ -16,7 +16,7 @@ import( 'de.ceus-media.adt.TimeConverter' );
  *	@package		framework
  *	@subpackage		hydrogen
  *	@extends		ADT_OptionObject
- *	@uses			TimeConverter
+ *	@uses			Alg_TimeConverter
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			01.09.2006
  *	@version		0.1
@@ -81,7 +81,7 @@ class Messenger extends ADT_OptionObject
 	 */
 	function buildMessages( $format_time = false, $auto_clear = true )
 	{
-		$tc		= new TimeConverter;
+		$tc		= new Alg_TimeConverter;
 		$messages	= (array) $this->_session->get( $this->getOption( 'key_messages' ) );
 		$list	= "";
 		if( count( $messages ) )
