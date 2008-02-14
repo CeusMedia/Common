@@ -1,5 +1,5 @@
 <?php
-import( 'de.ceus-media.Reference' );
+import( 'de.ceus-media.adt.Reference' );
 import( 'de.ceus-media.ui.html.Elements' );
 import( 'de.ceus-media.ui.html.Paging' );
 import( 'de.ceus-media.alg.TimeConverter' );
@@ -8,7 +8,7 @@ import( 'de.ceus-media.ui.html.WikiParser' );
 /**
  *	Generic View with Language Support.
  *	@package		framework.argon
- *	@uses			Reference
+ *	@uses			ADT_Reference
  *	@uses			UI_HTML_Elements
  *	@uses			UI_HTML_Paging
  *	@uses			Alg_TimeConverter
@@ -21,7 +21,7 @@ import( 'de.ceus-media.ui.html.WikiParser' );
 /**
  *	Generic View with Language Support.
  *	@package		framework.argon
- *	@uses			Reference
+ *	@uses			ADT_Reference
  *	@uses			UI_HTML_Elements
  *	@uses			UI_HTML_Paging
  *	@uses			Alg_TimeConverter
@@ -33,15 +33,14 @@ import( 'de.ceus-media.ui.html.WikiParser' );
  */
 class Framework_Argon_View
 {
-	/**	@var	Reference	$ref			Reference */
-	var $ref;
-
-	/**	@var	array		$_paths			Array of possible Path Keys in Config for Content Loading */
+	/**	@var	array						$_paths		Array of possible Path Keys in Config for Content Loading */
 	var $_paths	= array(
 			'html'	=> 'html',
 			'wiki'	=> 'wiki',
 			'txt'	=> 'text',
 			);
+	/**	@var	ADT_Reference				$ref		Reference */
+	var $ref;
 	/**	@var	Alg_TimeConverter			$tc			Time Converter */
 	var $tc;
 	/**	@var	UI_HTML_Elements			$html		HTML Elements */
@@ -63,7 +62,7 @@ class Framework_Argon_View
 	 */
 	function __construct()
 	{
-		$this->ref			= new Reference();
+		$this->ref			= new ADT_Reference();
 		$this->tc			= new Alg_TimeConverter;
 		$this->html			= new UI_HTML_Elements;
 		$this->wiki			= new WikiParser;

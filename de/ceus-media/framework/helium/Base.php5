@@ -1,12 +1,12 @@
 <?php
-import( 'de.ceus-media.Reference' );
+import( 'de.ceus-media.adt.Reference' );
 import( 'de.ceus-media.StopWatch' );
 import( 'de.ceus-media.net.http.request.Receiver' );
 import( 'de.ceus-media.framework.helium.Messenger' );
 /**
  *	Basic Framework Instance.
  *	@package		framework.helium
- *	@uses			Reference
+ *	@uses			ADT_Reference
  *	@uses			StopWatch
  *	@uses			Net_HTTP_Request_Receiver
  *	@uses			Framework_Helium_Messenger
@@ -17,7 +17,7 @@ import( 'de.ceus-media.framework.helium.Messenger' );
 /**
  *	Basic Framework Instance.
  *	@package		framework.helium
- *	@uses			Reference
+ *	@uses			ADT_Reference
  *	@uses			StopWatch
  *	@uses			Net_HTTP_Request_Receiver
  *	@uses			Framework_Helium_Messenger
@@ -27,7 +27,7 @@ import( 'de.ceus-media.framework.helium.Messenger' );
  */
 class Framework_Helium_Base
 {
-	/**	@var	Reference	$ref			Reference */
+	/**	@var	ADT_Reference	$ref		Object Reference */
 	var $ref;
 
 	/**
@@ -37,7 +37,7 @@ class Framework_Helium_Base
 	 */
 	public function __construct()
 	{
-		$this->ref	= new Reference;
+		$this->ref	= new ADT_Reference;
 		$this->ref->add( "stopwatch",	new StopWatch );		
 		$this->ref->add( "messenger",	new Framework_Helium_Messenger );
 		$this->ref->add( "request",		new Net_HTTP_Request_Receiver );

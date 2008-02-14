@@ -1,12 +1,12 @@
 <?php
 import( 'de.ceus-media.adt.OptionObject' );
-import( 'de.ceus-media.Reference' );
+import( 'de.ceus-media.adt.Reference' );
 import( 'de.ceus-media.alg.TimeConverter' );
 /**
  *	Message Output Handler within a Session.
  *	@package		framework.helium
  *	@extends		ADT_OptionObject
- *	@uses			Reference
+ *	@uses			ADT_Reference
  *	@uses			Alg_TimeConverter
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			01.12.2005
@@ -16,7 +16,7 @@ import( 'de.ceus-media.alg.TimeConverter' );
  *	Message Output Handler within a Session.
  *	@package		framework.helium
  *	@extends		ADT_OptionObject
- *	@uses			Reference
+ *	@uses			ADT_Reference
  *	@uses			Alg_TimeConverter
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			01.12.2005
@@ -24,9 +24,9 @@ import( 'de.ceus-media.alg.TimeConverter' );
  */
 class Framework_Helium_Messenger extends ADT_OptionObject
 {
-	/**	@var	Reference	$ref			Reference */
+	/**	@var	ADT_Reference	$ref				Object Reference */
 	var $ref;
-	/**	@var	Reference	$classes			CSS Classes of Message Types */
+	/**	@var	Reference		$classes			CSS Classes of Message Types */
 	var $classes	= array(
 		'0'	=> 'failure',
 		'1'	=> 'error',
@@ -46,7 +46,7 @@ class Framework_Helium_Messenger extends ADT_OptionObject
 		$this->setOption( 'key_headings', "messenger_headings" );
 		$this->setOption( 'key_messages', $key_messages );
 		$this->setOption( 'heading_separator', " / " );
-		$this->ref		= new Reference;
+		$this->ref		= new ADT_Reference;
 	}
 
 	/**
@@ -57,11 +57,11 @@ class Framework_Helium_Messenger extends ADT_OptionObject
 	 */
 	function addHeading( $heading )
 	{
-		$session		=& $this->ref->get( 'session' );
-		$headings	= $session->get( $this->getOption( 'key_headings' ) );
+		$session		= $this->ref->get( 'session' );
+		$headings		= $session->get( $this->getOption( 'key_headings' ) );
 		if( !is_array( $headings ) )
 			$headings	= array();
-		$headings[]	= $heading;
+		$headings[]		= $heading;
 		$session->set( $this->getOption( 'key_headings' ), $headings );
 	}
 	
@@ -72,9 +72,9 @@ class Framework_Helium_Messenger extends ADT_OptionObject
 	 */
 	function buildHeadings()
 	{
-		$session		=& $this->ref->get( 'session' );
+		$session	= $this->ref->get( 'session' );
 		$headings	= $session->get( $this->getOption( 'key_headings' ) );
-		$heading		= implode( $this->getOption( 'heading_separator' ), $headings );
+		$heading	= implode( $this->getOption( 'heading_separator' ), $headings );
 		return $heading;
 	}
 
@@ -113,7 +113,7 @@ class Framework_Helium_Messenger extends ADT_OptionObject
 	 */
 	function clear()
 	{
-		$session	=& $this->ref->get( 'session' );
+		$session	= $this->ref->get( 'session' );
 		$session->set( $this->getOption( 'key_headings' ), array() );
 		$session->set( $this->getOption( 'key_messages' ), array() );
 	}
@@ -216,7 +216,7 @@ class Framework_Helium_Messenger extends ADT_OptionObject
 	 */
 	function _noteMessage( $type, $message)
 	{
-		$session		=& $this->ref->get( 'session' );
+		$session	= $this->ref->get( 'session' );
 		$messages	= (array) $session->get( $this->getOption( 'key_messages' ) );
 		$messages[]	= array( "message" => $message, "type" => $type, "timestamp" => time() );
 		$session->set( $this->getOption( 'key_messages' ), $messages );

@@ -1,11 +1,11 @@
 <?php
 import( 'de.ceus-media.database.TableWriter' );
-import( 'de.ceus-media.Reference' );
+import( 'de.ceus-media.adt.Reference' );
 /**
  *	Generic Model for Database Structures.
  *	@package		framework.argon
  *	@extends		Database_TableWriter
- *	@uses			Reference
+ *	@uses			ADT_Reference
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			01.11.2005
  *	@version		0.6
@@ -14,30 +14,30 @@ import( 'de.ceus-media.Reference' );
  *	Generic Model for Database Structures.
  *	@package		framework.argon
  *	@extends		Database_TableWriter
- *	@uses			Reference
+ *	@uses			ADT_Reference
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			01.11.2005
  *	@version		0.6
  */
 class Framework_Argon_Model extends Database_TableWriter
 {
-	/**	@var	string		$prefix			Prefix of Table  */
+	/**	@var	string			$prefix		Prefix of Table  */
 	protected $prefix;
-	/**	@var	Reference	$ref			Reference to Objects */
+	/**	@var	ADT_Reference	$ref		Reference to Objects */
 	protected $ref;
 	
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		string	$table			Name of Table
-	 *	@param		array	$fields			Fields of Table
-	 *	@param		string	$primary_key		Primary Key of Table
-	 *	@param		int		$focus			Current focussed primary Key
+	 *	@param		string		$table			Name of Table
+	 *	@param		array		$fields			Fields of Table
+	 *	@param		string		$primary_key		Primary Key of Table
+	 *	@param		int			$focus			Current focussed primary Key
 	 *	@return		void
 	 */
 	public function __construct( $table, $fields, $primary_key, $focus = false )
 	{
-		$this->ref		= new Reference;
+		$this->ref		= new ADT_Reference;
 		$dbc	=& $this->ref->get( 'dbc' );
 		$config	=& $this->ref->get( 'config' );
 		$this->prefix	= $config['config']['tableprefix'];

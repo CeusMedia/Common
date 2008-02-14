@@ -1,5 +1,5 @@
 <?php
-import( 'de.ceus-media.Reference' );
+import( 'de.ceus-media.adt.Reference' );
 import( 'de.ceus-media.ui.html.Elements' );
 import( 'de.ceus-media.ui.html.Paging' );
 import( 'de.ceus-media.alg.TimeConverter' );
@@ -10,7 +10,7 @@ import( 'de.ceus-media.ui.html.WikiParser' );
  *	@package		framework
  *	@subpackage		neon
  *	@extends		Object
- *	@uses			Reference
+ *	@uses			ADT_Reference
  *	@uses			UI_HTML_Elements
  *	@uses			UI_HTML_Paging
  *	@uses			Alg_TimeConverter
@@ -25,7 +25,7 @@ import( 'de.ceus-media.ui.html.WikiParser' );
  *	@package		framework
  *	@subpackage		neon
  *	@extends		Object
- *	@uses			Reference
+ *	@uses			ADT_Reference
  *	@uses			UI_HTML_Elements
  *	@uses			UI_HTML_Paging
  *	@uses			Alg_TimeConverter
@@ -38,7 +38,7 @@ import( 'de.ceus-media.ui.html.WikiParser' );
  */
 class Framework_Neon_View
 {
-	/**	@var	Reference	$ref			Reference */
+	/**	@var	ADT_Reference				$ref			Object Registry */
 	protected $ref;
 
 	/**	@var	array		$_paths			Array of possible Path Keys in Config for Content Loading */
@@ -47,17 +47,17 @@ class Framework_Neon_View
 			'wiki'	=> 'wiki',
 			'txt'	=> 'text',
 			);
-	/**	@var	Alg_TimeConverter			$tc			Time Converter */
+	/**	@var	Alg_TimeConverter			$tc				Time Converter */
 	public $tc;
-	/**	@var	UI_HTML_Elements			$html		HTML Elements */
+	/**	@var	UI_HTML_Elements			$html			HTML Elements */
 	var $html;
-	/**	@var	WikiParser					$wiki		Wiki Parser */
+	/**	@var	WikiParser					$wiki			Wiki Parser */
 	var $wiki;
-	/**	@var	Framework_Neon_Language		$language	Language Support */
+	/**	@var	Framework_Neon_Language		$language		Language Support */
 	var $language;
-	/**	@var	array						$words		Array of all Words */
+	/**	@var	array						$words			Array of all Words */
 	var $words;
-	/**	@var	Framework_Neon_Messenger	$messenger	Messenger */
+	/**	@var	Framework_Neon_Messenger	$messenger		Messenger */
 	var $messenger;
 
 	/**
@@ -67,7 +67,7 @@ class Framework_Neon_View
 	 */
 	public function __construct()
 	{
-		$this->ref			= new Reference();
+		$this->ref			= new ADT_Reference();
 		$this->tc			= new Alg_TimeConverter;
 		$this->html			= new UI_HTML_Elements;
 		$this->wiki			= new WikiParser;

@@ -3,23 +3,23 @@ import( 'de.ceus-media.validation.CountValidator' );
 import( 'de.ceus-media.validation.SemanticValidator' );
 /**
  *	Validates against Formular Definition.
- *	@package	validation
- *	@uses		countingValidator
- *	@uses		SemanticValidator
- *	@author		Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@since		03.08.2005
+ *	@package		validation
+ *	@uses			countingValidator
+ *	@uses			SemanticValidator
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@since			03.08.2005
  *	@version		0.4
  */
 /**
  *	Validates against Formular Definition.
- *	@package	validation
- *	@uses		countingValidator
- *	@uses		SemanticValidator
- *	@author		Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@since		03.08.2005
+ *	@package		validation
+ *	@uses			countingValidator
+ *	@uses			SemanticValidator
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@since			03.08.2005
  *	@version		0.4
- *	@todo		Code Documentation
- *	@deprecated	? Check Definition Validator
+ *	@todo			Code Documentation
+ *	@deprecated		? Check Definition Validator
  */
 class FormularValidator
 {
@@ -48,7 +48,7 @@ class FormularValidator
 	
 	public function __construct()
 	{
-		$this->ref	=& new Reference ();
+		$this->ref	=& new ADT_Reference ();
 	}
 
 	function validate( $validators, $vars, $labels = array(), $prefix = '')

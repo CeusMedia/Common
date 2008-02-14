@@ -1,5 +1,5 @@
 <?php
-import( 'de.ceus-media.Reference' );
+import( 'de.ceus-media.adt.Reference' );
 import( 'de.ceus-media.StopWatch' );
 import( 'de.ceus-media.net.http.request.Receiver' );
 import( 'de.ceus-media.framework.argon.Messenger' );
@@ -7,7 +7,7 @@ import( 'de.ceus-media.framework.argon.Messenger' );
  *	Main Class of Framework.
  *	@package		framework
  *	@subpackage		argon
- *	@uses			Reference
+ *	@uses			ADT_Reference
  *	@uses			StopWatch
  *	@uses			Net_HTTP_Request_Receiver
  *	@uses			Framework_Argon_Messenger
@@ -19,7 +19,7 @@ import( 'de.ceus-media.framework.argon.Messenger' );
  *	Main Class of Framework.
  *	@package		framework
  *	@subpackage		argon
- *	@uses			Reference
+ *	@uses			ADT_Reference
  *	@uses			StopWatch
  *	@uses			Net_HTTP_Request_Receiver
  *	@uses			Framework_Argon_Messenger
@@ -30,7 +30,7 @@ import( 'de.ceus-media.framework.argon.Messenger' );
  */
 class Framework
 {
-	/**	@var	Reference	$ref			Reference */
+	/**	@var	ADT_Reference	$ref			Reference */
 	var $ref;
 
 	/**
@@ -40,7 +40,7 @@ class Framework
 	 */
 	public function __construct()
 	{
-		$this->ref	= new Reference;
+		$this->ref	= new ADT_Reference;
 		$this->ref->add( "stopwatch",	new StopWatch );		
 		$this->ref->add( "messenger",	new Framework_Argon_Messenger );
 		$this->ref->add( "request",		new Net_HTTP_Request_Receiver );

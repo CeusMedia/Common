@@ -1,6 +1,6 @@
 <?php
 import( 'de.ceus-media.Object' );
-import( 'de.ceus-media.Reference' );
+import( 'de.ceus-media.adt.Reference' );
 import( 'de.ceus-media.ui.html.Elements' );
 import( 'de.ceus-media.ui.html.Paging' );
 import( 'de.ceus-media.alg.TimeConverter' );
@@ -9,7 +9,7 @@ import( 'de.ceus-media.ui.html.WikiParser' );
 /**
  *	Generic View with Language Support.
  *	@package		framework.helium
- *	@uses			Reference
+ *	@uses			ADT_Reference
  *	@uses			UI_HTML_Elements
  *	@uses			UI_HTML_Paging
  *	@uses			Alg_TimeConverter
@@ -22,7 +22,7 @@ import( 'de.ceus-media.ui.html.WikiParser' );
 /**
  *	Generic View with Language Support.
  *	@package		framework.helium
- *	@uses			Reference
+ *	@uses			ADT_Reference
  *	@uses			UI_HTML_Elements
  *	@uses			UI_HTML_Paging
  *	@uses			Alg_TimeConverter
@@ -34,10 +34,10 @@ import( 'de.ceus-media.ui.html.WikiParser' );
  */
 class Framework_Helium_View
 {
-	/**	@var	Reference	$ref			Reference */
+	/**	@var	ADT_Reference	$ref		Object Reference */
 	var $ref;
 
-	/**	@var	array		$_paths			Array of possible Path Keys in Config for Content Loading */
+	/**	@var	array			$_paths		Array of possible Path Keys in Config for Content Loading */
 	var $_paths	= array(
 			'html'	=> 'html',
 			'wiki'	=> 'wiki',
@@ -51,12 +51,12 @@ class Framework_Helium_View
 	 */
 	function __construct()
 	{
-		$this->ref			= new Reference();
+		$this->ref			= new ADT_Reference();
 		$this->tc			= new Alg_TimeConverter;
 		$this->html			= new UI_HTML_Elements;
 		$this->wiki			= new WikiParser;
-		$this->lan			=& $this->ref->get( 'language' );
-		$this->messenger	=& $this->ref->get( 'messenger' );
+		$this->lan			= $this->ref->get( 'language' );
+		$this->messenger	= $this->ref->get( 'messenger' );
 	}
 
 	/**
@@ -70,7 +70,7 @@ class Framework_Helium_View
 	 */
 	function buildPaging( $count_all, $limit, $offset, $options = array())
 	{
-		$request	=& $this->ref->get( "request" );
+		$request	= $this->ref->get( "request" );
 		$link		= $request->get( 'link');
 
 		$p	= new UI_HTML_Paging;
@@ -215,8 +215,8 @@ class Framework_Helium_View
 	 */
 	function loadContent( $_file, $data = array(), $separator_link = ".", $separator_file = "/" )
 	{
-		$config		=& $this->ref->get( "config" );
-		$session		=& $this->ref->get( "session" );
+		$config		= $this->ref->get( "config" );
+		$session	= $this->ref->get( "session" );
 
 		$parts		= explode( ".", $_file );
 		$ext			= array_pop( $parts );
@@ -261,7 +261,7 @@ class Framework_Helium_View
 	 */
 	function loadTemplate( $_template, $data = array(), $separator_link = ".", $separator_file = "/" )
 	{
-		$config	=& $this->ref->get( "config" );
+		$config	= $this->ref->get( "config" );
 		$_file	= str_replace( $separator_link, $separator_file, $_template );
 
 		$_template_theme	= "";		
@@ -283,7 +283,7 @@ class Framework_Helium_View
 	 *	Loads a Language File into Language Space, needs Session.
 	 *	@access		public
 	 *	@param		string		$section		Section Name in Language Space
-	 *	@param		string		$filename		File Name of Language File
+	 *	@param		tring		$filename		File Name of Language File
 	 *	@return		void
 	 */
 	function loadLanguage( $section, $filename = false, $verbose = true )

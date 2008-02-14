@@ -35,7 +35,7 @@ class Framework_Neon_Language extends ADT_OptionObject
 	{
 		parent::__construct();
 
-		$this->ref	= new Reference;
+		$this->ref	= new ADT_Reference;
 		$request	= $this->ref->get( 'request' );
 		$session	= $this->ref->get( 'session' );
 		$config		= $this->ref->get( 'config' );

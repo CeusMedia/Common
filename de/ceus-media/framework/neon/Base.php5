@@ -1,12 +1,12 @@
 <?php
-import( 'de.ceus-media.Reference' );
+import( 'de.ceus-media.adt.Reference' );
 import( 'de.ceus-media.StopWatch' );
 import( 'de.ceus-media.net.http.request.Receiver' );
 import( 'de.ceus-media.framework.neon.Messenger' );
 /**
  *	Basic Framework Instance.
  *	@package		framework.neon
- *	@uses			Reference
+ *	@uses			ADT_Reference
  *	@uses			StopWatch
  *	@uses			Net_HTTP_Request_Receiver
  *	@uses			Framework_Neon_Messenger
@@ -17,7 +17,7 @@ import( 'de.ceus-media.framework.neon.Messenger' );
 /**
  *	Basic Framework Instance.
  *	@package		framework.neon
- *	@uses			Reference
+ *	@uses			ADT_Reference
  *	@uses			StopWatch
  *	@uses			Net_HTTP_Request_Receiver
  *	@uses			Framework_Neon_Messenger
@@ -28,7 +28,7 @@ import( 'de.ceus-media.framework.neon.Messenger' );
  */
 class Framework_Neon_Base
 {
-	/**	@var	Reference	$ref			Reference */
+	/**	@var	ADT_Reference	$ref			Object Reference */
 	var $ref;
 
 	/**
@@ -38,7 +38,7 @@ class Framework_Neon_Base
 	 */
 	public function __construct()
 	{
-		$this->ref	= new Reference;
+		$this->ref	= new ADT_Reference;
 		$this->ref->add( "stopwatch",	new StopWatch );		
 		$this->ref->add( "messenger",	new Framework_Neon_Messenger );
 		$this->ref->add( "request",		new Net_HTTP_Request_Receiver );

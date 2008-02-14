@@ -1,11 +1,11 @@
 <?php
 import( 'de.ceus-media.database.TableWriter' );
-import( 'de.ceus-media.Reference' );
+import( 'de.ceus-media.adt.Reference' );
 /**
  *	Generic Model for Database Structures.
  *	@package		framework.helium
  *	@extends		Database_TableWriter
- *	@uses			Reference
+ *	@uses			ADT_Reference
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			01.11.2005
  *	@version		0.6
@@ -14,16 +14,16 @@ import( 'de.ceus-media.Reference' );
  *	Generic Model for Database Structures.
  *	@package		framework.helium
  *	@extends		Database_TableWriter
- *	@uses			Reference
+ *	@uses			ADT_Reference
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			01.11.2005
  *	@version		0.6
  */
 class Framework_Helium_Model extends Database_TableWriter
 {
-	/**	@var		string		$prefix			Prefix of Table  */
+	/**	@var	string			$prefix			Prefix of Table  */
 	protected $prefix;
-	/**	@var		Reference	$ref			Reference to Objects */
+	/**	@var	ADT_Reference	$ref			Reference to Objects */
 	protected $ref;
 	
 	/**
@@ -37,9 +37,9 @@ class Framework_Helium_Model extends Database_TableWriter
 	 */
 	public function __construct( $tableName, $fields, $primaryKey, $focus = false )
 	{
-		$this->ref		= new Reference;
-		$dbc	=& $this->ref->get( 'dbc' );
-		$config	=& $this->ref->get( 'config' );
+		$this->ref		= new ADT_Reference;
+		$dbc			= $this->ref->get( 'dbc' );
+		$config			= $this->ref->get( 'config' );
 		$this->prefix	= $config['config']['table_prefix'];
 		parent::__construct( $dbc, $tableName, $fields, $primaryKey, $focus );
 	}

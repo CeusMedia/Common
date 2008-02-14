@@ -1,13 +1,13 @@
 <?php
 import( 'de.ceus-media.adt.OptionObject' );
-import( 'de.ceus-media.Reference' );
+import( 'de.ceus-media.adt.Reference' );
 import( 'de.ceus-media.alg.TimeConverter' );
 /**
  *	Message Output Handler within a Session.
  *	@package		framework
  *	@subpackage		helium
  *	@extends		ADT_OptionObject
- *	@uses			Reference
+ *	@uses			ADT_Reference
  *	@uses			Alg_TimeConverter
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			01.12.2005
@@ -18,7 +18,7 @@ import( 'de.ceus-media.alg.TimeConverter' );
  *	@package		framework
  *	@subpackage		helium
  *	@extends		ADT_OptionObject
- *	@uses			Reference
+ *	@uses			ADT_Reference
  *	@uses			Alg_TimeConverter
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			01.12.2005
@@ -26,9 +26,9 @@ import( 'de.ceus-media.alg.TimeConverter' );
  */
 class Messenger extends ADT_OptionObject
 {
-	/**	@var	Reference	$ref				Reference */
+	/**	@var	ADT_Reference	$ref				Reference */
 	var $ref;
-	/**	@var	Reference	$classes			CSS Classes of Message Types */
+	/**	@var	array			$classes			CSS Classes of Message Types */
 	var $classes	= array(
 		'0'	=> 'failure',
 		'1'	=> 'error',
@@ -48,7 +48,7 @@ class Messenger extends ADT_OptionObject
 		$this->setOption( 'key_headings', "messenger_headings" );
 		$this->setOption( 'key_messages', $key_messages );
 		$this->setOption( 'heading_separator', " / " );
-		$this->ref		= new Reference;
+		$this->ref		= new ADT_Reference;
 	}
 
 	/**
