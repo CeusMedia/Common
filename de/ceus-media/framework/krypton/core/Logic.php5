@@ -102,7 +102,6 @@ class Framework_Krypton_Core_Logic
 			else
 				$errors	= array_merge( $errors, $validator->validate( $field, $def, $value, $prefix ) );
 		}
-		print_m( $errors );
 		if( $errors )
 			throw new Framework_Krypton_Exception_Validation( "error_not_valid", $errors, $form );
 		return true;

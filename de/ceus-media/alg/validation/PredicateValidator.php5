@@ -54,7 +54,6 @@ class Alg_Validation_PredicateValidator
 	 */
 	public function validate( $value, $predicate, $argument )
 	{
-		remark( $predicate );
 		if( !method_exists( $this->validator, $predicate ) )
 			throw new BadMethodCallException( 'Predicate "'.$predicate.'" is not defined.' );
 		return $this->validator->$predicate( $value, $argument );
