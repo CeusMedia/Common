@@ -1,9 +1,7 @@
 <?php
-import( 'de.ceus-media.framework.krypton.exception.IO' );
 /**
  *	Registry Singleton to store Objects
  *	@package		framework.krypton.core
- *	@uses			Framework_Krypton_Exception_IO
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			20.02.2007
  *	@version		0.6
@@ -11,7 +9,6 @@ import( 'de.ceus-media.framework.krypton.exception.IO' );
 /**
  *	Registry Singleton to store Objects
  *	@package		framework.krypton.core
- *	@uses			Framework_Krypton_Exception_IO
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			20.02.2007
  *	@version		0.6
@@ -60,7 +57,7 @@ class Framework_Krypton_Core_Registry
 	public function & get( $key )
 	{
 		if( !isset( $this->values[$key] ) )
-			throw new Framework_Krypton_Exception_IO( 'No Object registered with Key "'.$key.'"' );
+			throw new InvalidArgumentException( 'No Object registered with Key "'.$key.'"' );
 		return $this->values[$key];
 	}
 	
@@ -98,7 +95,7 @@ class Framework_Krypton_Core_Registry
 	public function set( $key, &$value, $overwrite = false )
 	{
 		if( isset( $this->values[$key] ) && !$overwrite )
-			throw new Exception( 'Element "'.$key.'" is already registered.' );
+			throw new RuntimeException( 'Element "'.$key.'" is already registered.' );
 		$this->values[$key]	=& $value;
 	}
 }  

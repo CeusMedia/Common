@@ -25,19 +25,12 @@ class XML_DOM_Builder
 	 */
 	public function build( $tree, $encoding = "utf-8" )
 	{
-		$this->document = new DOMDocument( "1.0" );
+		$this->document = new DOMDocument( "1.0", $encoding );
 		$this->document->formatOutput = true;
 		$root = $this->document->createElement( $tree->getNodename() );
 		$root = $this->document->appendChild( $root );
 		$this->buildRecursive( $root, $tree, $encoding );
 		$xml	= $this->document->saveXML();
-		if( $encoding )
-		{
-			$xml	= explode( "\n", $xml );
-			array_shift( $xml );
-			array_unshift( $xml, '<?xml version="1.0" encoding="'.$encoding.'"?>' );
-			$xml	= implode( "\n", $xml );
-		}
 		return $xml;
 	}
 

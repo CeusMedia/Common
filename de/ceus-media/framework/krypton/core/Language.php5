@@ -66,6 +66,7 @@ class Framework_Krypton_Core_Language
 
 		$this->default	= $config['languages']['default'];
 		$this->allowed	= explode( ",", $config['languages']['allowed'] );
+		$this->registry->set( 'words', $this->words, true );
 	}
 	
 	/**

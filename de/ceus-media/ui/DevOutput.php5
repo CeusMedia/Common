@@ -11,7 +11,7 @@
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.1
  */
-class DevOutput
+class UI_DevOutput
 {
 	/**	@var		string		$_line_break	Sign for Line Break */
 	var $_line_break	= "<br/>";
@@ -151,7 +151,7 @@ class DevOutput
 		else if( $mixed === NULL )
 			$this->_print_n( $mixed, $offset, $key );
 		else
-			echo "No implementation in DevOutput to put out a var of type ".$this->_note_in.gettype( $mixed ).$this->_note_out.$this->_line_break;
+			echo "No implementation in UI_DevOutput to put out a var of type ".$this->_note_in.gettype( $mixed ).$this->_note_out.$this->_line_break;
 	}
 
 	/**
@@ -313,7 +313,7 @@ class DevOutput
 }
 
 /**
- *	Global Call Method for DevOutput::print_o
+ *	Global Call Method for UI_DevOutput::print_o
  *	@access		public
  *	@param		mixed		$object		Object variable to print out
  *	@return		void
@@ -323,13 +323,13 @@ class DevOutput
  */
 /*function print_o( $object )
 {
-	$o = new DevOutput();
+	$o = new UI_DevOutput();
 	$o->_print_o( $object );
 }
 */
 
 /**
- *	Global Call Method for DevOutput::print_a
+ *	Global Call Method for UI_DevOutput::print_a
  *	@access		public
  *	@param		array		$array		Array variable to print out
  *	@return		void
@@ -339,13 +339,13 @@ class DevOutput
  */
 /*function print_a( $array )
 {
-	$o = new DevOutput();
+	$o = new UI_DevOutput();
 	$o->_print_a( $array );
 }
 */
 
 /**
- *	Global Call Method for DevOutput::print_m
+ *	Global Call Method for UI_DevOutput::print_m
  *	@access		public
  *	@param		mixed		$mixed		variable to print out
  *	@return		void
@@ -354,7 +354,7 @@ class DevOutput
  */
 function print_m( $mixed )
 {
-	$o = new DevOutput();
+	$o = new UI_DevOutput();
 	echo $o->_line_break;
 	$o->_print_m( $mixed );
 }
@@ -386,7 +386,7 @@ function code( $string )
 }
 
 /**
- *	Prints out a variable with DevOutput::print_m
+ *	Prints out a variable with UI_DevOutput::print_m
  *	@access		public
  *	@param		mixed		$mixed		variable to print out
  *	@return		void
@@ -399,7 +399,7 @@ function show( $mixed )
 }
 
 /**
- *	Prints out all global registered variables with DevOutput::print_m
+ *	Prints out all global registered variables with UI_DevOutput::print_m
  *	@access		public
  *	@return		void
  *	@author		Christian Würker <Christian.Wuerker@CeuS-Media.de>
@@ -432,14 +432,14 @@ function dump( $variable )
  *	@access		public
  *	@param		string		$text		String to print out
  *	@param		array		$parameters	Associative Array of Parameters to append
- *	@param		bool			$break		Flag: break Line before Print
+ *	@param		bool		$break		Flag: break Line before Print
  *	@return		void
  *	@author		Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.1
  */
 function remark( $text = "", $parameters = array(), $break = true )
 {
-	$o = new DevOutput();
+	$o = new UI_DevOutput();
 	if( $break )
 		echo $o->_line_break;
 	$o->_remark( $text, $parameters );
@@ -447,7 +447,7 @@ function remark( $text = "", $parameters = array(), $break = true )
 
 function showDOM( $node )
 {
-	$o = new DevOutput();
+	$o = new UI_DevOutput();
 	$o->showDOM( $node );
 }
 ?>

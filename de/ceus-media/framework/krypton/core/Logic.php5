@@ -1,5 +1,7 @@
 <?php
 import( 'de.ceus-media.framework.krypton.core.Registry' );
+import( 'de.ceus-media.framework.krypton.core.DefinitionValidator' );
+import( 'de.ceus-media.alg.validation.Predicates' );
 import( 'de.ceus-media.framework.krypton.exception.IO' );
 import( 'de.ceus-media.framework.krypton.exception.Validation' );
 import( 'de.ceus-media.framework.krypton.exception.Logic' );
@@ -8,6 +10,8 @@ import( 'de.ceus-media.framework.krypton.exception.Logic' );
  *	@package		framework.krypton.core
  *	@uses			Framework_Krypton_Core_Registry
  *	@uses			Framework_Krypton_Core_DefinitionValidator
+ *	@uses			Framework_Krypton_Core_DefinitionValidator
+ *	@uses			Alg_Validation_Predicates
  *	@uses			Framework_Krypton_Exception_Validation
  *	@uses			Framework_Krypton_Exception_IO
  *	@uses			Framework_Krypton_Exception_Logic
@@ -20,6 +24,8 @@ import( 'de.ceus-media.framework.krypton.exception.Logic' );
  *	@package		framework.krypton.core
  *	@uses			Framework_Krypton_Core_Registry
  *	@uses			Framework_Krypton_Core_DefinitionValidator
+ *	@uses			Framework_Krypton_Core_DefinitionValidator
+ *	@uses			Alg_Validation_Predicates
  *	@uses			Framework_Krypton_Exception_Validation
  *	@uses			Framework_Krypton_Exception_IO
  *	@uses			Framework_Krypton_Exception_Logic
@@ -35,11 +41,12 @@ class Framework_Krypton_Core_Logic
 	/**
 	 *	Constructor, loads Definition Validator and Field Definition.
 	 *	@access		public
+	 *	@param		string		$predicateClass		Class holding Validation Predicates
 	 *	@return		void
 	 */
 	public function __construct()
 	{
-		$this->registry		= Framework_Krypton_Core_Registry::getInstance();
+		$this->registry			= Framework_Krypton_Core_Registry::getInstance();
 	}
 
 	/**
@@ -67,14 +74,14 @@ class Framework_Krypton_Core_Logic
 	 *	@param		string		$form			Name of Form within XML Definition File (e.g. 'addExample' )
 	 *	@param		array		$data			Array of Input Data
 	 *	@param		string		$prefix			Prefix used within Fields of Input Data
+	 *	@param		string		$predicateClass	Class holding Validation Predicates
+	 *	@throws		Framework_Krypton_Exception_Validation
 	 *	@return		bool
 	 */
-	protected static function validateForm( $file, $form, &$data, $prefix = "")
+	protected static function validateForm( $file, $form, &$data, $prefix = "", $predicateClass = "Alg_Validation_Predicates" )
 	{
-		import( 'de.ceus-media.framework.krypton.core.DefinitionValidator' );
-		$validator	= new Framework_Krypton_Core_DefinitionValidator;
+		$validator	= new Framework_Krypton_Core_DefinitionValidator( $predicateClass );
 		$errors		= array();
-		$errorList	= array();
 
 		$definition	= self::loadDefinition( $file , $form );
 		$fields		= $definition->getFields();
@@ -90,28 +97,14 @@ class Framework_Krypton_Core_Logic
 					$data[$field]	= $value	= (int) $def['input']['default'];
 
 			if( is_array( $value ) )
-			{
 				foreach( $value as $entry )
-				{
-					$errors	= $validator->validateSyntax( $field, $def, $entry, $prefix );
-					if( !count( $errors ) )
-						$errors	= $validator->validateSemantics( $field, $def, $entry, $prefix );
-					foreach( $errors as $error )
-						$errorList[]	= $error;
-				}
-			}
+					$errors	= array_merge( $errors, $validator->validate( $field, $def, $entry, $prefix ) );
 			else
-			{
-				$errors	= $validator->validateSyntax( $field, $def, $value, $prefix );
-				if( strlen( $value ) && !count( $errors ) )
-					$errors	= $validator->validateSemantics( $field, $def, $value, $prefix );
-				foreach( $errors as $error )
-					$errorList[]	= $error;
-			}
-			
+				$errors	= array_merge( $errors, $validator->validate( $field, $def, $value, $prefix ) );
 		}
-		if( $errorList )
-			throw new Framework_Krypton_Exception_Validation( "error_not_valid", $errorList, $form );
+		print_m( $errors );
+		if( $errors )
+			throw new Framework_Krypton_Exception_Validation( "error_not_valid", $errors, $form );
 		return true;
 	}
 

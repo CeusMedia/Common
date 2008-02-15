@@ -333,12 +333,12 @@ abstract class Framework_Krypton_Core_Component
 				$section	= array_shift( $section );
 		}
 		$labels		= $this->words[$filename][$section];
-		$validator	= $this->words['validator'];
+		$messages	= $this->words['validator']['messages'];
 		foreach( $e->getErrors() as $error )
 		{
 			if( $error instanceOf Framework_Krypton_Logic_ValidationError )
 			{
-				$msg	= $validator[$error->type][$error->key];
+				$msg	= $messages[$error->key];
 				$msg	= preg_replace( "@%label%@", $labels[$error->field], $msg );
 				$msg	= preg_replace( "@%edge%@", $error->edge, $msg );
 				$msg	= preg_replace( "@%field%@", $error->field, $msg );

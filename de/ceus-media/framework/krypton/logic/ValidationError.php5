@@ -21,8 +21,6 @@ class Framework_Krypton_Logic_ValidationError
 	public $field;
 	/**	@var	string		$key		Message Key */
 	public $key;
-	/**	@var	string		$type		Validation Type were Error occured (syntax|sematic) */
-	public $type;
 	/**	@var	string		$value		Value of Field */
 	public $value;
 	/**	@var	string		$prefix		Prefix of Field Name */
@@ -39,9 +37,8 @@ class Framework_Krypton_Logic_ValidationError
 	 *	@param		string		$edge		Field Prefix
 	 *	@return		void
 	 */
-	public function __construct( $type, $field, $key, $value, $edge = false, $prefix = "" )
+	public function __construct( $field, $key, $value, $edge = false, $prefix = "" )
 	{
-		$this->type		= $type;
 		$this->key		= $key;
 		$this->field	= $field;
 		$this->value	= $value;

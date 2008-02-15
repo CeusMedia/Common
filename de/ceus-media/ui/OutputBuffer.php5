@@ -4,19 +4,19 @@
  *	@package		ui
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			24.09.2005
- *	@version		0.1
+ *	@version		0.6
  */
 /**
  *	Buffer for Standard Output Channel.
  *	@package		ui
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			24.09.2005
- *	@version		0.1
+ *	@version		0.6
  */
-class OutputBuffer
+class UI_OutputBuffer
 {
-	/**	@var		bool		$_open		Flag: Buffer opened */
-	var $_open = false;
+	/**	@var		bool		$isOpen		Flag: Buffer opened */
+	protected $isOpen = false;
 	
 	/**
 	 *	Constructor.
@@ -35,20 +35,20 @@ class OutputBuffer
 	 *	@access		public
 	 *	@return		void
 	 */
-	function clean()
+	public function clear()
 	{
 		ob_clean();
 	}
 	
 	/**
-	 *	Clears Output Buffer.
+	 *	Closes Output Buffer.
 	 *	@access		public
 	 *	@return		void
 	 */
-	function close()
+	public function close()
 	{
 		ob_end_clean();
-		$this->_open = false;
+		$this->isOpen = false;
 	}
 
 	/**
@@ -56,7 +56,7 @@ class OutputBuffer
 	 *	@access		public
 	 *	@return		void
 	 */
-	function flush()
+	public function flush()
 	{
 		ob_flush();
 	}
@@ -64,19 +64,14 @@ class OutputBuffer
 	/**
 	 *	Returns Content of Output Buffer.
 	 *	@access		public
-	 *	@param		bool		$clean		Flag: clear Output Buffer afterwards		
+	 *	@param		bool		$clear		Flag: clear Output Buffer afterwards		
 	 *	@return		string
 	 */
-	function get( $clean = false )
+	public function get( $clear = false )
 	{
-		$content = "";
-		if( $this->isOpen() )
-		{
-			$content = ob_get_contents();	
-			if( $clean )
-				$this->clean();
-		}
-		return $content;
+		if( !$this->isOpen() )
+			throw new RuntimeException( 'Output Buffer is not open.' );
+		return $clear ? ob_get_clean() : ob_get_contents();
 	}
 
 	/**
@@ -84,9 +79,9 @@ class OutputBuffer
 	 *	@access		public
 	 *	@return		void
 	 */
-	function isOpen()
+	public function isOpen()
 	{
-		return (bool) $this->_open;
+		return (bool) $this->isOpen;
 	}
 	
 	/**
@@ -94,10 +89,12 @@ class OutputBuffer
 	 *	@access		public
 	 *	@return		void
 	 */
-	function open()
+	public function open()
 	{
+		if( $this->isOpen() )
+			throw new RuntimeException( 'Output Buffer is already open.' );
 		ob_start();
-		$this->_open = true;
+		$this->isOpen = true;
 	}
 }
 ?>

@@ -36,7 +36,8 @@ class Alg_Randomizer extends ADT_OptionObject
 		$this->setOption( 'digits',	"0123456789" );
 		$this->setOption( 'smalls',	"abcdefghijklmnopqrstuvwxyz" );
 		$this->setOption( 'larges',	"ABCDEFGHIJKLMNOPQRSTUVWXYZ" );
-		$this->setOption( 'signs',	".:~_-+*#&§%!()={[]}/" );
+		$this->setOption( 'signs',	".:_-+*=/!§%&(){}[]#~" );
+		$this->setOption( 'signs',	".:_-+*=/\!§$%&(){}[]#@?~" );					//  adding also [\$@?]
 
 		$this->setOption( 'useDigits',	true );
 		$this->setOption( 'useSmalls',	true );
@@ -66,8 +67,10 @@ class Alg_Randomizer extends ADT_OptionObject
 		foreach( $this->options as $key => $value )
 			if( $this->getOption( $key ) )
 				$pool	.= $this->getOption( $value );
+		if( !strlen( $pool ) )
+			throw new Exception( 'No usable signs defined.' );
 		if( $this->getOption( 'unique' ) && $length > strlen( $pool ) )
-			trigger_error( "Randomizer: Length is greater than amount of used signs ", E_USER_ERROR );
+			throw new Exception( 'Length is greater than amount of used signs - unable to perform "unique" mode.' );
 
 		$random	= array();
 		$input	= array();
