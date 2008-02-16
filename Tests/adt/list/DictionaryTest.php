@@ -1,19 +1,19 @@
 <?php
 /**
- *	TestUnit of Dictionay
+ *	TestUnit of Dictionary
  *	@package		Tests.adt.list
  *	@extends		PHPUnit_Framework_TestCase
- *	@uses			Dictionay
+ *	@uses			ADT_List_Dictionay
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.1
  */
 require_once 'PHPUnit/Framework/TestCase.php'; 
 import( 'de.ceus-media.adt.list.Dictionary' );
 /**
- *	TestUnit of Dictionay
+ *	TestUnit of Dictionary
  *	@package		Tests.adt.list
  *	@extends		PHPUnit_Framework_TestCase
- *	@uses			Dictionay
+ *	@uses			ADT_List_Dictionay
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.1
  */

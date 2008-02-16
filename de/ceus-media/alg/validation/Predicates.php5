@@ -74,19 +74,6 @@ class Alg_Validation_Predicates
 	}
 
 	/**
-	 *	Indicates whether a String is time formated and is before another point in time.
-	 *	@access		public
-	 *	@param		string		$string		String to be checked
-	 *	@param		string		$point		Point of Time to be before
-	 *	@return		bool
-	 */
-	public static function isBefore( $string, $point )
-	{
-		$time	= strtotime( $string );
-		return $time < $point;
-	}
-
-	/**
 	 *	Indicates whether a String contains all allowed characters.
 	 *	@access		public
 	 *	@param		string		$string		String to be checked
@@ -95,7 +82,7 @@ class Alg_Validation_Predicates
 	 */
 	public static function isAll( $string )
 	{
-		return self::isPreg( $string, "/.*/" );
+		return self::isPreg( $string, "/^.*&$/" );
 	}
 
 	/**
@@ -106,7 +93,18 @@ class Alg_Validation_Predicates
 	 */
 	public static function isAlpha( $string )
 	{
-		return self::isPreg( $string, "/[a-z0-9]+/i" );
+		return self::isPreg( $string, "/^[a-z0-9]+$/i" );
+	}
+
+	/**
+	 *	Indicates whether a String contains only letters and digits.
+	 *	@access		public
+	 *	@param		string		$string		String to be checked
+	 *	@return		bool
+	 */
+	public static function isAlphahyphen( $string )
+	{
+		return self::isPreg( $string, "/^[a-z-]+$/i" );
 	}
 
 	/**
@@ -118,23 +116,18 @@ class Alg_Validation_Predicates
 	 */
 	public static function isAlphasymbol( $string )
 	{
-		return self::isPreg( $string, "/.*/" );
+		return self::isPreg( $string, "/^.*$/" );
 	}
 
 	/**
-	 *	Indicates whether a String contains only letters and digits.
+	 *	Indicates whether a String contains only letters and spaces.
 	 *	@access		public
 	 *	@param		string		$string		String to be checked
 	 *	@return		bool
 	 */
-	public static function isAlphahyphen( $string )
-	{
-		return self::isPreg( $string, "/[a-z-]+/i" );
-	}
-
 	public static function isAlphaspace( $string )
 	{
-		return self::isPreg( $string, "/[a-z ]+/i" );
+		return self::isPreg( $string, "/^[a-z ]+$/i" );
 	}
 
 	/**
@@ -150,6 +143,19 @@ class Alg_Validation_Predicates
 	}
 
 	/**
+	 *	Indicates whether a String is time formated and is before another point in time.
+	 *	@access		public
+	 *	@param		string		$string		String to be checked
+	 *	@param		string		$point		Point of Time to be before
+	 *	@return		bool
+	 */
+	public static function isBefore( $string, $point )
+	{
+		$time	= strtotime( $string );
+		return $time < $point;
+	}
+
+	/**
 	 *	Indicates whether a String contains only numeric characters while dot is possible.
 	 *	@access		public
 	 *	@param		string		$string		String to be checked
@@ -157,7 +163,7 @@ class Alg_Validation_Predicates
 	 */
 	public static function isDotnumeric( $string )
 	{
-		return self::isPreg( $string, "/(\d+|\d*\.\d+)/" );
+		return self::isPreg( $string, "/^(\d+|\d*\.\d+)$/" );
 	}
 
 	/**
@@ -205,7 +211,7 @@ class Alg_Validation_Predicates
 	 */
 	public static function isFloat( $string )
 	{
-		return self::isPreg( $string, "/(\d+|\d*(\.|,)\d+)/" );
+		return self::isPreg( $string, "/^(\d+|\d*(\.|,)\d+)$/" );
 	}
 
 	/**
@@ -240,7 +246,7 @@ class Alg_Validation_Predicates
 	 */
 	public static function isId( $string )
 	{
-		return self::isPreg( $string, "/[a-z][a-z0-9_-:#/@.]+/i" );
+		return self::isPreg( $string, "/^[a-z][a-z0-9_-:#/@.]+$/i" );
 	}
 
 	/**
@@ -264,7 +270,7 @@ class Alg_Validation_Predicates
 	 */
 	public static function isLetter( $string )
 	{
-		return self::isPreg( $string, "/[a-z]+/i" );
+		return self::isPreg( $string, "/^[a-z]+$/i" );
 	}
 
 	/**
@@ -273,9 +279,20 @@ class Alg_Validation_Predicates
 	 *	@param		string		$string		String to be checked
 	 *	@return		bool
 	 */
+	public static function isDigit( $string )
+	{
+		return self::isPreg( $string, "/^[0-9]+$/" );
+	}
+
+	/**
+	 *	Indicates whether a String contains only numeric characters (also ²³).
+	 *	@access		public
+	 *	@param		string		$string		String to be checked
+	 *	@return		bool
+	 */
 	public static function isNumeric( $string )
 	{
-		return self::isPreg( $string, "/\d+/" );
+		return self::isPreg( $string, "/^\d+$/" );
 	}
 
 	/**
@@ -299,7 +316,7 @@ class Alg_Validation_Predicates
 	 */
 	public static function isPreg( $string, $pattern )
 	{
-		return preg_match( $pattern, $string );
+		return (bool) preg_match( $pattern, $string );
 	}
 
 	/**
@@ -311,7 +328,7 @@ class Alg_Validation_Predicates
 	public static function isUrl( $string )
 	{
 		if( $string )
-			return self::isPreg( $string, "@^([a-z]+)://([a-z0-9-_\.]+)/?([\w$-\.+!*'\(\)\@:?#=&/;_]+)$@i" );
+			return self::isPreg( $string, "@^([a-z]{3,})://([a-z0-9-_\.]+)/?([\w$-\.+!*'\(\)\@:?#=&/;_]+)$@i" );
 		return true;
 	}
 }

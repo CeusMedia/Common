@@ -297,7 +297,7 @@ class Tests_XML_DOM_NodeTest extends PHPUnit_Framework_TestCase
 	public function testRemoveChild()
 	{
 		//  remove Children
-		$assertion	= 1;
+		$assertion	= true;
 		$creation	= $this->node->removeChild( $this->leaf->getNodeName() );
 		$this->assertEquals( $assertion, $creation );
 
