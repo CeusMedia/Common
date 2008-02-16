@@ -4,16 +4,16 @@
  *	@package		adt.tree
  *	@extends		Object
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version		0.1
+ *	@version		0.6
  */
 /**
  *	Base Tree implementation.
  *	@package		adt.tree
  *	@extends		Object
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version		0.1
+ *	@version		0.6
  */
-class Tree
+class ADT_Tree_Node
 {
 	/**	@var	array		$children		Array of Children */
 	protected $children = array ();

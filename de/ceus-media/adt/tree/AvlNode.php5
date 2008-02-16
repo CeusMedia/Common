@@ -1,20 +1,20 @@
 <?php
-import ("de.ceus-media.adt.tree.BalanceBinaryTree");
+import ("de.ceus-media.adt.tree.BalanceBinaryNode");
 /**
  *	AVL Tree.
  *	@package		adt.tree
- *	@extends		BalanceBinaryTree
+ *	@extends		ADT_Tree_BalanceBinaryNode
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version		0.4
+ *	@version		0.6
  */
 /**
  *	AVL Tree.
  *	@package		adt.tree
- *	@extends		BalanceBinaryTree
+ *	@extends		ADT_Tree_BalanceBinaryNode
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version		0.4
+ *	@version		0.6
  */
-class AvlTree extends BalanceBinaryTree
+class ADT_Tree_AvlNode extends ADT_Tree_BalanceBinaryNode
 {
 	/**
 	 *	Constructor

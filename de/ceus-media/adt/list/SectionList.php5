@@ -1,21 +1,17 @@
 <?php
 /**
  *	Implementation of a Section List using an Array.
- *	@package		adt
- *	@subpackage		list
- *	@extends		Object
+ *	@package		adt.list
  *	@author			Chistian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version		0.1
+ *	@version		0.6
  */
 /**
- *	Implementation of a Section  List using an Array.
- *	@package		adt
- *	@subpackage		list
- *	@extends		Object
+ *	Implementation of a Section List using an Array.
+ *	@package		adt.list
  *	@author			Chistian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version		0.1
+ *	@version		0.6
  */
-class SectionList
+class ADT_List_SectionList
 {
 	/**	@var		array	$sections	List of Sections */
 	protected $sections = array();

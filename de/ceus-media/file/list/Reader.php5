@@ -1,11 +1,9 @@
 <?php
 import( 'de.ceus-media.Object' );
-import( 'de.ceus-media.adt.list.StringList' );
-import( 'de.ceus-media.file.File' );
+import( 'de.ceus-media.file.Reader' );
 /**
  *	A Class for reading List Files.
  *	@package		file.list
- *	@uses			StringList
  *	@uses			File_Reader
  *	@author			Chistian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.6
@@ -13,7 +11,6 @@ import( 'de.ceus-media.file.File' );
 /**
  *	A Class for reading List Files.
  *	@package		file.list
- *	@uses			StringList
  *	@uses			File_Reader
  *	@author			Chistian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.6
@@ -23,7 +20,7 @@ class File_List_Reader
 	/**	@var		StringList	$list			StringList */	
 	protected $list;
 	/**	@var		string		$commentPattern	RegEx Pattern of Comments */	
-	protected $commentPattern;
+	protected static $commentPattern	= "^[#:;/*-]{1}";
 	
 	/**
 	 *	Constructor.
@@ -33,9 +30,8 @@ class File_List_Reader
 	 */
 	public function __construct( $fileName )
 	{
-		$this->list = new StringList();
-		$this->commentPattern = "^[#:;/*-]{1}";
-		$this->read( $fileName );
+		$this->list = array();
+		$this->list	= self::read( $fileName );
 	}
 	
 	/**
@@ -46,7 +42,7 @@ class File_List_Reader
 	 */
 	public function getIndex( $content )
 	{
-		return $this->list->getIndex( $content );	
+		return array_search( $this->list, $content );	
 	}
 	
 	/**
@@ -56,7 +52,7 @@ class File_List_Reader
 	 */
 	public function getList()
 	{
-		return $this->toArray();
+		return $this->list;
 	}
 	
 	/**
@@ -66,7 +62,7 @@ class File_List_Reader
 	 */
 	public function getSize()
 	{
-		return $this->list->getSize();
+		return count( $this->list );
 	}
 
 	/**
@@ -76,28 +72,26 @@ class File_List_Reader
 	 */
 	public function toArray()
 	{
-		return $this->list->toArray();
+		return $this->list;
 	}
 
 	/**
 	 *	Reads the List.
-	 *	@access		protected
+	 *	@access		public
 	 *	@param		string	fileName		URI of list
 	 *	@return		void
 	 */
-	protected function read( $fileName )
+	public static function read( $fileName )
 	{
-		if( file_exists( $fileName ) )
-		{
-			$file	= new File_Reader( $fileName );
-			$lines	= $file->readArray();
-			foreach( $lines as $line )
-				if( $line = trim( $line ) )
-					if( !ereg( $this->commentPattern, $line ) )
-						$this->list->add( $line );
-		}
-		else
-			trigger_error( "File '".$fileName."' is not existing", E_USER_WARNING );
+		if( !file_exists( $fileName ) )
+			throw new Exception( 'File "'.$fileName.'" is not existing.' );
+		$reader	= new File_Reader( $fileName );
+		$lines	= $reader->readArray();
+		foreach( $lines as $line )
+			if( $line = trim( $line ) )
+				if( !ereg( self::$commentPattern, $line ) )
+					$list[]	= $line;
+		return $list;
 	}
 }
 ?>

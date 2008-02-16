@@ -48,8 +48,8 @@ class XML_DOM_Storage extends ADT_OptionObject
 
 		if( !file_exists( $this->fileName ) )
 			$this->write();
-		$reader	= new XML_DOM_FileReader();
-		$tree	= $reader->read( $this->fileName );
+		$reader	= new XML_DOM_FileReader( $this->fileName );
+		$tree	= $reader->read();
 		$this->readRecursive( $tree, $this->storage );
 	}
 	
@@ -201,10 +201,10 @@ class XML_DOM_Storage extends ADT_OptionObject
 	 */
 	public function write()
 	{
-		$writer	= new XML_DOM_FileWriter();
+		$writer	= new XML_DOM_FileWriter( $this->fileName );
 		$root	= new XML_DOM_Node( $this->getOption( 'tag_root' ) );
 		$this->writeRecursive( $root, $this->storage );
-		return $writer->write(  $this->fileName, $root );
+		return $writer->write( $root );
 	}
 	
 	/**

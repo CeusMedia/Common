@@ -4,22 +4,22 @@
  *	@package		adt.tree
  *	@extends		Object
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version		0.5
+ *	@version		0.6
  */
 /**
  *	Binary Tree.
  *	@package		adt.tree
  *	@extends		Object
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version		0.5
+ *	@version		0.6
  */
-class BinaryTree
+class ADT_Tree_BinaryNode
 {
 	/**	@var 	mixed		$value		Value of the Root Element of this Tree */
 	protected $value		= null;
-	/**	@var	BinaryTree	$left		Left Child Tree */
+	/**	@var	ADT_Tree_BinaryNode		$left		Left Child Tree */
 	protected $left			= null;
-	/**	@var	BinaryTree	$right		Right Child Tree */
+	/**	@var	ADT_Tree_BinaryNode		$right		Right Child Tree */
 	protected $right		= null;
 
 	/**
@@ -51,14 +51,14 @@ class BinaryTree
 			if( $this->left )
 				$this->left->add( $value );
 			else
-				$this->left =& new BinaryTree( $value );
+				$this->left =& new ADT_Tree_BinaryNode( $value );
 		}
 		else if( $value > $this->value )
 		{
 			if( $this->right )
 				$this->right->add( $value );
 			else
-				$this->right =& new BinaryTree( $value );
+				$this->right =& new ADT_Tree_BinaryNode( $value );
 		}
 	}
 	

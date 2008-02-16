@@ -1,22 +1,20 @@
 <?php
-import ("de.ceus-media.adt.tree.BinaryTree");
+import( 'de.ceus-media.adt.tree.BinaryNode' );
 /**
  *	Balanced Binary Tree.
- *	@package	adt
- *	@subpackage	tree
- *	@extends	BinaryTree
- *	@author		Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@package		adt.tree
+ *	@extends		BinaryTree
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.1
  */
 /**
  *	Balanced Binary Tree.
- *	@package	adt
- *	@subpackage	tree
- *	@extends	BinaryTree
- *	@author		Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@package		adt.tree
+ *	@extends		BinaryTree
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.1
  */
-class BalanceBinaryTree extends BinaryTree
+class ADT_Tree_BalanceBinaryNode extends ADT_Tree_BinaryNode
 {
 	/**	@var		int			balance		Balance Tolerance */
 	protected $balance;
@@ -63,14 +61,14 @@ class BalanceBinaryTree extends BinaryTree
 			if( $this->left )
 				$this->left->add( $value );
 			else
-				$this->left =& new BalanceBinaryTree( $this->balance, $value );
+				$this->left =& new ADT_Tree_BalanceBinaryNode( $this->balance, $value );
 		}
 		else if( $value > $tree->value )
 		{
 			if( $this->right )
 				$this->right->add( $value );
 			else
-				$this->right =& new BalanceBinaryTree( $this->balance, $value );
+				$this->right =& new ADT_Tree_BalanceBinaryNode( $this->balance, $value );
 		}
 		if ($this->balance)
 		{

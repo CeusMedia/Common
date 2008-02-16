@@ -44,17 +44,6 @@ class ADT_Reference
 	}
 	
 	/**
-	 *	Alias for remove.
-	 *	@access		public
-	 *	@param		string		$name			Name of object to deleted
-	 *	@return		void
-	 */
-	public function delete( $name )
-	{
-		$this->remove( $name );
-	}
-	
-	/**
 	 *	Returns a Reference to an Object from workspace.
 	 *	@access		public
 	 *	@param		string		$name			Name of object to get

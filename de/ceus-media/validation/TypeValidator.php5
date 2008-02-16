@@ -1,7 +1,7 @@
 <?php
 /**
  *	Validation of single Characters.
- *	@package		validation
+ *	@package		alg.validation
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@author			Michael Martin <michael.martin@ceus-media.de>
  *	@version		0.4
@@ -37,6 +37,10 @@ class TypeValidator
 	var $regex_at			= '^[@]{1}$';
 	/**	@var	string	$regex_space			Regular expression of validation class 'space' */
 	var $regex_space		= '^[ ]{1}$';
+
+
+
+
 	/**	@var	string	$regex_ddate			Regular expression of validation class 'daydate' */
 	var $regex_ddate		= '^((([0-2][0-9]{1})|([3]{1}[0-1]{1})).(([0]{0,1}[1-9]{1})|(1[0-2]{1})).([0-9]{4}))*$';
 	/**	@var	string	$regex_mdate			Regular expression of validation class 'monthdate' */

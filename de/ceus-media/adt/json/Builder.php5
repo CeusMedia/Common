@@ -8,12 +8,12 @@
  */
 /**
  *	JSON Implementation for building JSON Code.
- *	@package		adt.json
+ *	@package		adt.4
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			14.05.2006
  *	@version		0.2
  */
-class JSON_Builder
+class ADT_JSON_Builder
 {
 	/**
 	 *	Encodes Data into a representative String.
@@ -21,9 +21,9 @@ class JSON_Builder
 	 *	@param		mixed		$data			Data to be encoded
 	 *	@return		string
 	 */
-	public function encode( $data )
+	public static function encode( $data )
 	{
-		return $this->get( NULL, $data );
+		return self::get( NULL, $data );
 	}
 	
 	/**
@@ -36,20 +36,20 @@ class JSON_Builder
 	 */
 	public function get( $key, $value, $parent = null )
 	{
-		$type	= $this->getType( $key, $value );
+		$type	= self::getType( $key, $value );
 		switch( $type )
 		{
 			case 'object':
-				$value	= '{'.$this->loop( $value, $type ).'}';
+				$value	= '{'.self::loop( $value, $type ).'}';
 				break;
 			case 'array':
-				$value	= '['.$this->loop( $value, $type ).']';
+				$value	= '['.self::loop( $value, $type ).']';
 				break;
 			case 'number':
 				$value	= $value;
 				break;
 			case 'string':
-				$value	= '"'.$this->escape( $value ).'"';
+				$value	= '"'.self::escape( $value ).'"';
 				break;
 			case 'boolean':
 				$value	= $value ? 'true' : 'false';
@@ -71,12 +71,12 @@ class JSON_Builder
 	 *	@param		mixed		$value			Value of Pair
 	 *	@return		string
 	 */
-	private function getType( $key, $value )
+	private static function getType( $key, $value )
 	{
 		if( is_object( $value ))
 			$type	= 'object';
 		elseif( is_array( $value ) )
-			$type	= $this->isAssoc( $value ) ? 'object' : 'array';
+			$type	= self::isAssoc( $value ) ? 'object' : 'array';
 		elseif( is_int( $value ) || is_float( $value ) )
 			$type	= 'number';
 		elseif( is_string( $value ) )
@@ -97,11 +97,11 @@ class JSON_Builder
 	 *	@param		string		$type			Data Type
 	 *	@return		string
 	 */
-	private function loop( $array, $type )
+	private static function loop( $array, $type )
 	{
 		$output	= NULL;
 		foreach( $array as $key => $value )
-			$output	.= $this->get( $key, $value, $type ).',';
+			$output	.= self::get( $key, $value, $type ).',';
 		$output	= trim( $output, ',' );
 		return $output;
 	}
@@ -112,7 +112,7 @@ class JSON_Builder
 	 *	@param		string		$string			String to be escaped
 	 *	@return		string
 	 */
-	private function escape( $string )
+	private static function escape( $string )
 	{
 		$replace	= array(
 			'\\'	=> '\\\\',
@@ -135,7 +135,7 @@ class JSON_Builder
 	 *	@param		array		$array			Array to be checked
 	 *	@return		bool
 	 */
-	private function isAssoc( $array )
+	private static function isAssoc( $array )
 	{
 		krsort( $array, SORT_STRING );
 		return !is_numeric( key( $array ) );

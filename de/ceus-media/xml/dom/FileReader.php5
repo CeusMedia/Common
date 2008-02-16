@@ -39,7 +39,7 @@ class XML_DOM_FileReader
 	 *	@param		string		$fileName		URI of XML File
 	 *	@return		XML_DOM_Node
 	 */
-	public function load( $fileName )
+	public static function load( $fileName )
 	{
 		$parser	= new XML_DOM_Parser();
 		$xml	= File_Reader::load( $fileName );
