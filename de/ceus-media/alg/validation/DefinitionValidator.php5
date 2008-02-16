@@ -107,7 +107,7 @@ class Alg_Validation_DefinitionValidator
 					$errors[]	= $this->handleError( $field, 'maxlength', $value, $definition['syntax']['maxlength'], $prefix );
 			}
 		}
-		else if( isset( $definition['syntax']['mandatory']  && $definition['syntax']['mandatory'] )
+		else if( isset( $definition['syntax']['mandatory'] ) && $definition['syntax']['mandatory'] )
 			$errors[]	= $this->handleError( $field, 'mandatory', $value, false, $prefix );
 	
 		if( isset( $definition['semantic'] ) )
