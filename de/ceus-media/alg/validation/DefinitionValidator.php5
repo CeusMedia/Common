@@ -114,12 +114,9 @@ class Alg_Validation_DefinitionValidator
 		{
 			foreach( $definition['semantic'] as $semantic )
 			{
-				$param	= array( "'".$value."'" );
-				if( strlen( $semantic['edge'] ) )
-					$param[]	= "'".$semantic['edge']."'";
-				$param	= implode( ",", $param );
+				$param	= isset( $semantic['edge'] ) && strlen( $semantic['edge'] ) ? $semantic['edge'] : NULL;
 				if( !$this->validator->validate( $value, $semantic['predicate'], $param ) )
-					$errors[]	= $this->handleError( $field, $semantic['predicate'], $value, $semantic['edge'], $prefix );
+					$errors[]	= $this->handleError( $field, $semantic['predicate'], $value, $param, $prefix );
 			}
 		}
 		return $errors;
