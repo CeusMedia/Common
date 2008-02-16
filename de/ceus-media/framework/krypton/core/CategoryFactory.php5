@@ -42,6 +42,24 @@ class Framework_Krypton_Core_CategoryFactory
 	}
 	
 	/**
+	 *	Returns typed Class File Name.
+	 *	@access		public
+	 *	@param		string		$className		Class Name to type
+	 *	@param		string		$prefix			Class Prefix (view,action,...)
+	 *	@param		string		$category		Category to force
+	 *	@return		string
+	 */
+	public function getCassFileName( $className, $prefix = "", $category = "" )
+	{
+		$type		= $category ? $category : $this->getType();
+		$className	= ucFirst( $className );
+		$className	= $type.".".$className;
+		if( $prefix )
+			$className	= $prefix.".".$className;
+		return $className;
+	}
+	
+	/**
 	 *	Returns selected Typed or default Type if not Type is selected.
 	 *	@access		public
 	 *	@return		string
