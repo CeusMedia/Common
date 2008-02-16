@@ -60,6 +60,23 @@ class Framework_Krypton_Core_CategoryFactory
 	}
 	
 	/**
+	 *	Imports and returns Object.
+	 *	@access		public
+	 *	@param		string		$className		Class Name to type
+	 *	@param		string		$prefix			Class Prefix (view,action,...)
+	 *	@param		string		$category		Category to force
+	 *	@return		object
+	 */
+	public function getObject( $className, $prefix = "", $category = "" )
+	{
+		$type		= $category ? $category : $this->getType();
+		$fileName	= "classes.".$this->getCassFileName( $className, $prefix, $category );
+		$className	= $this->getClassName( $className, $prefix, $category );
+		import( $fileName );
+		return new $className();
+	}
+	
+	/**
 	 *	Returns selected Typed or default Type if not Type is selected.
 	 *	@access		public
 	 *	@return		string

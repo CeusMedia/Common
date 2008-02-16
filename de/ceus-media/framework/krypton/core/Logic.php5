@@ -68,6 +68,37 @@ class Framework_Krypton_Core_Logic
 	}
 
 	/**
+	 *	Logic Factory for Categories.
+	 *	@access		public
+	 *	@param		string			$category			Category to get Logic for
+	 *	@return		object
+	 */
+	public static function getCategoryLogic( $category )
+	{
+		$category	= ucFirst( $category );
+		import( "classes.logic.".$category );
+		$logic		= eval( "return new Logic_".$category."();" );
+		return $logic;
+	}
+
+	/**
+	 *	Collection Factory for Categories.
+	 *	@access		public
+	 *	@param		Database_StatementBuilder	$builder		Statement Builder
+	 *	@param		string						$category		Category to get Logic for
+	 *	@return		object
+	 */
+	public static function getCategoryCollection( $category, $builder )
+	{
+		$category	= ucFirst( $category );
+		$fileName	= "classes.collection.".$category;
+		$className	= "Collection_".$category;
+		import( $fileName );
+		$collection	= new $className( $builder );
+		return $collection;
+	}
+
+	/**
 	 *	Runs Validation of Field Definitions against Input, creates Error Objects and returns Success.
 	 *	@access		protected
 	 *	@param		string		$file			Name of XML Definition File (e.g. %PREFIX%#FILE#.xml)
@@ -83,7 +114,7 @@ class Framework_Krypton_Core_Logic
 		$validator	= new Framework_Krypton_Core_DefinitionValidator( $predicateClass );
 		$errors		= array();
 
-		$definition	= self::loadDefinition( $file , $form );
+		$definition	= self::loadDefinition( $file, $form );
 		$fields		= $definition->getFields();
 		foreach( $fields as $field )
 		{

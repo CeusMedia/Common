@@ -4,7 +4,6 @@ import( 'de.ceus-media.framework.krypton.exception.Template' );
 /**
  *	Template Class.
  *	@package		framework.krypton.core
- *	@uses			Framework_Krypton_Exception_IO
  *	@uses			Framework_Krypton_Exception_Template
  *	@author			David Seebacher <dseebacher@gmail.com>
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
@@ -14,7 +13,6 @@ import( 'de.ceus-media.framework.krypton.exception.Template' );
 /**
  *	Template Class.
  *	@package		framework.krypton.core
- *	@uses			Framework_Krypton_Exception_IO
  *	@uses			Framework_Krypton_Exception_Template
  *	@author			David Seebacher <dseebacher@gmail.com>
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
@@ -45,20 +43,21 @@ class Framework_Krypton_Core_Template
 	/**	@var		array		the first dimension holds all added labels, the second dimension holds elements for each label */
 	protected $elements;
 	/**	@var		string		content of a specified templatefile */
-	protected $filename;
+	protected $fileName;
 	/**	@var		string		content of a specified templatefile */
 	protected $template;
 	
 	/**
 	 *	Constructor
 	 *	@access		public
-	 *	@param		string		template file
-	 *	@param		array		array containing elements {@link add()}
+	 *	@param		string		$fileName		File Name of Template File
+	 *	@param		array		$elements		List of Elements {@link add()}
+	 *	@return		
 	 */
-	public function __construct( $filename, $elements = null )
+	public function __construct( $fileName, $elements = NULL )
 	{
 		$this->elements = array();
-		$this->setTemplate( $filename );
+		$this->setTemplate( $fileName );
 		$this->add( $elements ); 
 	}
 	
@@ -88,9 +87,7 @@ class Framework_Krypton_Core_Template
 					if( $key_valid && $value_valid )
 					{
 						if( $overwrite == true )
-						{
 							$this->elements[$key] = null;
-						}
 						$this->elements[$key][] = $value;
 					}
 				}
@@ -147,20 +144,21 @@ class Framework_Krypton_Core_Template
 	 *	@param		bool		if set to true, it will overwrite an existing element with the same label
 	 *	@return		void
 	 */
-	public function addTemplate( $tag, $filename, $element = null, $overwrite = false )
+	public function addTemplate( $tag, $fileName, $element = null, $overwrite = false )
 	{
-		$this->addElement( $tag, new self( $filename, $element ), $overwrite );
+		$this->addElement( $tag, new self( $fileName, $element ), $overwrite );
 	}
 
 	/**
 	 *	Creates an output string from the templatefile where all labels will be replaced with apropriate elements.
 	 *	If a non optional label wasn't specified, the method will throw a TemplateException
+	 *	@access		public
 	 *	@return		string
 	 */
 	public function create()
 	{
 		$out	= $this->template;
-		$out	= preg_replace('/<%--.+?--%>/s', '', $out );
+ 		$out	= preg_replace( '/<%--.*--%>/sU', '', $out );	
 		foreach( $this->elements as $label => $labelElements )
 		{
 			$tmp = '';
@@ -168,26 +166,22 @@ class Framework_Krypton_Core_Template
 			{
 	 			if( is_object( $element ) )
 	 			{
-	 				if( !is_a( $element, 'Framework_Krypton_Core_Template' ) )
-	 				{
+	 				if( !is_a( $element, self ) )
 	 					continue;
-	 				}
 					$element = $element->create( $verbose );
 	 			}
 				$tmp	.= $element;
 			}
 			$out	= preg_replace( '/<%(\?)?' . $label . '%>/', $tmp, $out );
-		}
-		$out	= preg_replace('/<%\?([^%]+)?%>/u', '', $out );
-//		$out	= preg_replace('/<%\?[^%>]+%>/u', '', $out );
-//		$out	= preg_replace('/\n\s+\n/', "\n", $out);
+ 		}
+        $out = preg_replace( '/<%\?.*%>/U', '', $out );    
+        $out = preg_replace( '/\n\s+\n/', "\n", $out );
+		$tags = array();
 		if( preg_match_all( '/<%.+?%>/', $out, $tags ) === 0 )
-		{
-			return $out;
-		}
+		    return $out; 				
+
 		$tags		= array_shift( $tags );
-//		$filename	= basename( $this->filename );
-		throw new Framework_Krypton_Exception_Template( TEMPLATE_EXCEPTION_LABELS_NOT_USED, $this->filename, $tags );
+		throw new Framework_Krypton_Exception_Template( TEMPLATE_EXCEPTION_LABELS_NOT_USED, $this->fileName, $tags );
 	}
 
 	/**
@@ -201,6 +195,70 @@ class Framework_Krypton_Core_Template
 	}
 
 	/**
+	 *	Returns all marked elements from a comment.
+	 *	@param		string		$comment		Comment Tag
+	 *	@param		bool		$unique			Flag: unique Keys only
+	 *	@return		array						containing Elements or empty
+	 */
+	public function getElementsFromComment( $comment, $unique = TRUE )
+	{
+		$content = $this->getTaggedComment( $comment );
+		if( !isset( $content ) )
+			return null;
+
+		$list	= array();
+		$content = explode( "\n", $content );
+		foreach( $content as $row )
+		{
+			if( preg_match( '/\s*@(\S+)?\s+(.*)/', $row, $out ) )
+			{
+				if( $unique )
+					$list[$out[1]] = $out[2];
+				else
+					$list[$out[1]][] = $out[2];
+			}
+		}
+		return $list;
+	}
+	
+	/**
+	 *	Returns all defined labels.
+	 *	@param		int			$type		Label Type: 0=all, 1=mandatory, 2=optional
+	 *	@param		bool		$xml		Flag: with or without delimiter
+	 *	@return		array					Array of Labels
+	 */
+	public function getLabels( $type = 0, $xml = TRUE )
+	{
+ 		$content = preg_replace( '/<%--.*--%>/sU', '', $this->template );	
+		switch( $type )
+		{
+			case 2:
+				preg_match_all( '/<%(\?.*)%>/U', $content, $tags );
+				break;
+			case 1:
+				preg_match_all( '/<%([^-?].*)%>/U', $content, $tags );
+				break;
+			default:
+				preg_match_all( '/<%([^-].*)%>/U', $content, $tags );
+		}
+		return $xml ? $tags[0] : $tags[1];
+	}
+
+	/**
+	 *	Returns a tagged comment.
+	 *	@param		string		$tag		Comment Tag
+	 *	@param		bool		$xml		Flag: with or without Delimiter
+	 *	@return		string					Comment or NULL
+	 *	@todo		quote specialchars in tagname
+	 */
+	public function getTaggedComment( $tag, $xml = TRUE )
+	{
+		if( preg_match( '/<%--'.$tag.'(.*)--%>/sU', $this->template, $tag ) )
+			return $xml ? $tag[0] : $tag[1];
+		return NULL;
+	}
+
+	/**
 	 *	Returns loaded Template.
 	 *	@return		string		template content
 	 */
@@ -211,17 +269,16 @@ class Framework_Krypton_Core_Template
 
 	/**
 	 *	Loads a new template file if it exists. Otherwise it will throw an IOException.
-	 *	@param		string		filename
+	 *	@param		string		$fileName 	File Name of Template
 	 *	@return		void
 	 */
-	public function setTemplate( $filename )
+	public function setTemplate( $fileName )
 	{
-		if( !file_exists( $filename ) )
-		{
-			throw new Framework_Krypton_Exception_IO( "Template File '".$filename."' not found." );
-		}
-		$this->filename	= $filename;
-		$this->template = file_get_contents( $filename );
+		if( !file_exists( $fileName ) )
+			throw new InvalidArgumentException( 'Template File "'.$fileName.'" not found.' );
+
+		$this->fileName	= $fileName;
+		$this->template = file_get_contents( $fileName );
 	}
 }
 ?>

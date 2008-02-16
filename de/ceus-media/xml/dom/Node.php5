@@ -192,7 +192,7 @@ class XML_DOM_Node
 	}
 
 	/**
-	 *	Remove first found  Child Nodes with given name.
+	 *	Remove first found Child Nodes with given name.
 	 *	@access		public
 	 *	@param		string		$nodeName		Name of Child Node to be removed
 	 *	@return		bool
@@ -211,7 +211,7 @@ class XML_DOM_Node
 			$children[] = $child;
 		}
 		if( $children == $this->children )
-			return 0;
+			return false;
 		$this->children = $children;
 		return true;		
 	}

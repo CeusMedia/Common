@@ -446,19 +446,19 @@ abstract class Framework_Krypton_Core_Component
 	 */
 	public function loadTemplate( $fileKey, $data = array(), $verbose = false )
 	{
-		try
-		{
+#		try
+#		{
 			$fileName	= $this->getTemplateUri( $fileKey, $verbose );
 			if( !file_exists( $fileName ) )
 				throw new Framework_Krypton_Exception_IO( "Template '".$fileKey."' is not existing in '".$fileName."'." );
 
 			$template	= new Framework_Krypton_Core_Template( $fileName, $data );
 			return $template->create();
-		}
-		catch( Exception $e )
-		{
+#		}
+#		catch( Exception $e )
+#		{
 			$this->handleException( $e, 'main', 'exceptions' );
-		}
+#		}
 	}
 
 	/**
