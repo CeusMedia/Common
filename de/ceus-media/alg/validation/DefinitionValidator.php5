@@ -106,19 +106,19 @@ class Alg_Validation_DefinitionValidator
 				if( !$this->validator->validate( $value, 'hasMaxLength', $definition['syntax']['maxlength'] ) )
 					$errors[]	= $this->handleError( $field, 'maxlength', $value, $definition['syntax']['maxlength'], $prefix );
 			}
+			if( isset( $definition['semantic'] ) )
+			{
+				foreach( $definition['semantic'] as $semantic )
+				{
+					$param	= isset( $semantic['edge'] ) && strlen( $semantic['edge'] ) ? $semantic['edge'] : NULL;
+					if( !$this->validator->validate( $value, $semantic['predicate'], $param ) )
+						$errors[]	= $this->handleError( $field, $semantic['predicate'], $value, $param, $prefix );
+				}
+			}
 		}
 		else if( isset( $definition['syntax']['mandatory'] ) && $definition['syntax']['mandatory'] )
 			$errors[]	= $this->handleError( $field, 'mandatory', $value, false, $prefix );
 	
-		if( isset( $definition['semantic'] ) )
-		{
-			foreach( $definition['semantic'] as $semantic )
-			{
-				$param	= isset( $semantic['edge'] ) && strlen( $semantic['edge'] ) ? $semantic['edge'] : NULL;
-				if( !$this->validator->validate( $value, $semantic['predicate'], $param ) )
-					$errors[]	= $this->handleError( $field, $semantic['predicate'], $value, $param, $prefix );
-			}
-		}
 		return $errors;
 	}
 	
