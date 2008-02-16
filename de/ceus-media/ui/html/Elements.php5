@@ -524,7 +524,7 @@ class UI_HTML_Elements
 		$ins_class	= $class ? " class=\"".$class."\"" : "";
 		$ins_type	= " type=\"button\"";
 		$ins_value	= " value=\"".$title."\"";
-		$ins_id		= " id=\"button_".md5( $title )."\"";
+		$ins_id		= " id=\"button_".md5( $url )."\"";
 		$ins_disabled	= $disabled ? " disabled=\"disabled\"" : "";
 		$action		= "document.location.href='".$url."';";
 		if( $confirm )
