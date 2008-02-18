@@ -158,7 +158,7 @@ class Framework_Krypton_Core_Template
 	public function create()
 	{
 		$out	= $this->template;
- 		$out	= preg_replace( '/<%--[^<%]*--%>/sU', '', $out );	
+ 		$out	= preg_replace( '/<%--.*--%>/sU', '', $out );	
 		foreach( $this->elements as $label => $labelElements )
 		{
 			$tmp = '';

@@ -15,45 +15,50 @@
  */
 class Net_HTTP_CharsetSniffer
 {
+	/**	@var		$pattern	Reg Ex Pattern */
+	protected static $pattern	= '/^([0-9a-z-]+)(?:;\s*q=(0(?:\.[0-9]{1,3})?|1(?:\.0{1,3})?))?$/i';
+
 	/**
-	 *	Returns prefered allowed and accepted Character Set.
+	 *	Returns prefered allowed and accepted Character Set from HTTP_ACCEPT_CHARSET.
 	 *	@access		public
 	 *	@param		array	$allowed		Array of Character Sets supported and allowed by the Application
 	 *	@param		string	$default		Default Character Sets supported and allowed by the Application
 	 *	@return		string
 	 */
-	function getCharset( $allowed, $default = false )
+	public static function getCharset( $allowed, $default = false )
+	{
+		$accepted	= getEnv( 'HTTP_ACCEPT_CHARSET' );
+		return self::getCharsetFromString( $accepted, $allowed, $default );
+	}
+	
+	/**
+	 *	Returns prefered allowed and accepted Character Set from String.
+	 *	@access		public
+	 *	@param		array	$allowed		Array of Character Sets supported and allowed by the Application
+	 *	@param		string	$default		Default Character Sets supported and allowed by the Application
+	 *	@return		string
+	 */
+	public static function getCharsetFromString( $string, $allowed, $default = false )
 	{
 		if( !$default)
 			$default = $allowed[0];
-		$pattern		= '/^([0-9a-z-]+)(?:;\s*q=(0(?:\.[0-9]{1,3})?|1(?:\.0{1,3})?))?$/i';
-		$accepted	= getEnv( 'HTTP_ACCEPT_CHARSET' );
-		if( !$accepted )
+		if( !$string )
 			return $default;
-		$accepted	= preg_split( '/,\s*/', $accepted );
-		$curr_charset	= $default;
-		$curr_qual	= 0;
-		foreach( $accepted as $accept)
+		$accepted	= preg_split( '/,\s*/', $string );
+		$currentCharset	= $default;
+		$currentQuality	= 0;
+		foreach( $accepted as $accept )
 		{
-			if( !preg_match ( $pattern, $accept, $matches) )
+			if( !preg_match ( self::$pattern, $accept, $matches ) )
 				continue;
-			$charset_code	= explode ( '-', $matches[1] );
-			$charset_quality	=  isset( $matches[2] ) ? (float)$matches[2] : 1.0;
-			while (count ($charset_code))
+			$charsetQuality	= isset( $matches[2] ) ? (float) $matches[2] : 1.0;
+			if( $charsetQuality > $currentQuality )
 			{
-				if( in_array( strtolower( $charset_code ), $allowed ) )
-				{
-					if( $charset_quality > $curr_qual )
-					{
-						$curr_charset	= strtolower( $charset_code );
-						$curr_qual	= $lcharset_quality;
-						break;
-					}
-				}
-				array_pop ($charset_code);
+				$currentCharset	= strtolower( $matches[1] );
+				$currentQuality	= $charsetQuality;
 			}
 		}
-		return $curr_charset;
+		return $currentCharset;
 	}
 }
 ?>

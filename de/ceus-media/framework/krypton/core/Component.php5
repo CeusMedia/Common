@@ -339,6 +339,9 @@ abstract class Framework_Krypton_Core_Component
 			if( $error instanceOf Framework_Krypton_Logic_ValidationError )
 			{
 				$msg	= $messages[$error->key];
+				if( $error->key == "isClass" )
+					if( isset( $messages["is".ucfirst( $error->edge )] ) )
+						$msg	= $messages["is".ucfirst( $error->edge )];
 				$msg	= preg_replace( "@%label%@", $labels[$error->field], $msg );
 				$msg	= preg_replace( "@%edge%@", $error->edge, $msg );
 				$msg	= preg_replace( "@%field%@", $error->field, $msg );

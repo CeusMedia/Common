@@ -38,10 +38,16 @@ class Net_HTTP_Request_Header
 	 */
 	public function toString()
 	{
-		if( $this->key )
-			return $this->key.": ".$this->value."\r\n";
-		else
-			return "\r\n";
+		if( !trim( $this->key ) )
+			return "";
+		
+		$list	= array();
+		$parts	= explode( "-", $this->key );
+		foreach( $parts as $part )
+			$list[]	= ucFirst( strtolower( $part ) );
+		$key	= implode( "-", $list );
+		$string	= $key.": ".$this->value."\n\r";
+		return $string;
 	}
 }
 ?>

@@ -2,6 +2,7 @@
 /**
  *	Class holding Predicates for String Validation.
  *	@package		alg.validation
+ *	@uses			Alg_Crypt_PasswordStrength
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			14.02.2007
  *	@version		0.6
@@ -9,6 +10,7 @@
 /**
  *	Class holding Predicates for String Validation.
  *	@package		alg.validation
+ *	@uses			Alg_Crypt_PasswordStrength
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			14.02.2007
  *	@version		0.6
@@ -38,13 +40,26 @@ class Alg_Validation_Predicates
 	}
 	
 	/**
-	 *	Indicates whether a String is long enough.
+	 *	Indicates whether a Password String has a Stength.
+	 *	@access		public
+	 *	@param		string		$string		String to be checked
+	 *	@param		int			$strength	Strength to a have at least
+	 *	@return		bool
+	 */
+	public static function hasPasswordStrength( $string, $strength )
+	{
+		import( 'de.ceus-media.alg.crypt.PasswordStrength' );
+		return Alg_Crypt_PasswordStrength::getStrength( $string ) >= $strength;
+	}
+	
+	/**
+	 *	Indicates whether a Password String has a Score.
 	 *	@access		public
 	 *	@param		string		$string		String to be checked
 	 *	@param		int			$score		Score to a have at least
 	 *	@return		bool
 	 */
-	public static function hasPasswordStrength( $string, $score )
+	public static function hasPasswordScore( $string, $score )
 	{
 		return Alg_Crypt_PasswordStrength::getScore( $string ) >= $score;
 	}
@@ -70,6 +85,8 @@ class Alg_Validation_Predicates
 	public static function isAfter( $string, $point )
 	{
 		$time	= strtotime( $string );
+		if( $time == -1 )
+			return false;
 		return $time > $point;
 	}
 
@@ -104,7 +121,18 @@ class Alg_Validation_Predicates
 	 */
 	public static function isAlphahyphen( $string )
 	{
-		return self::isPreg( $string, "/^[a-z-]+$/i" );
+		return self::isPreg( $string, "/^[a-z0-9-]+$/i" );
+	}
+
+	/**
+	 *	Indicates whether a String contains only letters and spaces.
+	 *	@access		public
+	 *	@param		string		$string		String to be checked
+	 *	@return		bool
+	 */
+	public static function isAlphaspace( $string )
+	{
+		return self::isPreg( $string, "/^[a-z0-9 ]+$/i" );
 	}
 
 	/**
@@ -120,24 +148,25 @@ class Alg_Validation_Predicates
 	}
 
 	/**
-	 *	Indicates whether a String contains only letters and spaces.
+	 *	Indicates whether a String is at most a limit.
 	 *	@access		public
 	 *	@param		string		$string		String to be checked
+	 *	@param		string		$limit		Parameter to be measured with
 	 *	@return		bool
 	 */
-	public static function isAlphaspace( $string )
+	public static function isMaximum( $string, $limit )
 	{
-		return self::isPreg( $string, "/^[a-z ]+$/i" );
+		return (int) $string <= (int) $limit;
 	}
 
 	/**
-	 *	Indicates whether a String is larger than a limit.
+	 *	Indicates whether a String is at least a limit.
 	 *	@access		public
 	 *	@param		string		$string		String to be checked
-	 *	@param		string		$limit		Parameter to be messed with
+	 *	@param		string		$limit		Parameter to be measured with
 	 *	@return		bool
 	 */
-	public static function isAtleast( $string, $limit )
+	public static function isMinimum( $string, $limit )
 	{
 		return (int) $string >= (int) $limit;
 	}
@@ -152,7 +181,20 @@ class Alg_Validation_Predicates
 	public static function isBefore( $string, $point )
 	{
 		$time	= strtotime( $string );
+		if( $time == -1 )
+			return false;
 		return $time < $point;
+	}
+
+	/**
+	 *	Indicates whether a String contains only numeric characters.
+	 *	@access		public
+	 *	@param		string		$string		String to be checked
+	 *	@return		bool
+	 */
+	public static function isDigit( $string )
+	{
+		return self::isPreg( $string, "/^[0-9]+$/" );
 	}
 
 	/**
@@ -211,7 +253,7 @@ class Alg_Validation_Predicates
 	 */
 	public static function isFloat( $string )
 	{
-		return self::isPreg( $string, "/^(\d+|\d*(\.|,)\d+)$/" );
+		return self::isPreg( $string, "/^(\d+(\.|,)\d+)$/" );
 	}
 
 	/**
@@ -223,6 +265,8 @@ class Alg_Validation_Predicates
 	public static function isFuture( $string )
 	{
 		$time	= strtotime( $string );
+		if( $time == -1 )
+			return false;
 		return $time > time();
 	}
 
@@ -230,7 +274,7 @@ class Alg_Validation_Predicates
 	 *	Indicates whether a String is larger than a limit.
 	 *	@access		public
 	 *	@param		string		$string		String to be checked
-	 *	@param		string		$limit		Parameter to be messed with
+	 *	@param		string		$limit		Parameter to be measured with
 	 *	@return		bool
 	 */
 	public static function isGreater( $string, $limit )
@@ -246,14 +290,14 @@ class Alg_Validation_Predicates
 	 */
 	public static function isId( $string )
 	{
-		return self::isPreg( $string, "/^[a-z][a-z0-9_-:#/@.]+$/i" );
+		return self::isPreg( $string, "'^[a-z][a-z0-9:#/@._-]+$'i" );
 	}
 
 	/**
 	 *	Indicates whether a String is smaller than a limit.
 	 *	@access		public
 	 *	@param		string		$string		String to be checked
-	 *	@param		string		$limit		Parameter to be messed with
+	 *	@param		string		$limit		Parameter to be measured with
 	 *	@return		bool
 	 */
 	public static function isLess( $string, $limit )
@@ -271,17 +315,6 @@ class Alg_Validation_Predicates
 	public static function isLetter( $string )
 	{
 		return self::isPreg( $string, "/^[a-z]+$/i" );
-	}
-
-	/**
-	 *	Indicates whether a String contains only numeric characters.
-	 *	@access		public
-	 *	@param		string		$string		String to be checked
-	 *	@return		bool
-	 */
-	public static function isDigit( $string )
-	{
-		return self::isPreg( $string, "/^[0-9]+$/" );
 	}
 
 	/**
@@ -304,6 +337,8 @@ class Alg_Validation_Predicates
 	public static function isPast( $string )
 	{
 		$time	= strtotime( $string );
+		if( $time == -1 )
+			return false;
 		return $time < time();
 	}
 

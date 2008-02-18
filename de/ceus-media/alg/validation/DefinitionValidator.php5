@@ -22,23 +22,42 @@ class Alg_Validation_DefinitionValidator
 	protected $labels	= array();
 	/**	@var		array		$messages		Error Messages */
 	protected $messages	= array(
-		'class'		=> "The Value of Field '%label%' is not correct.",
-		'mandatory'	=> "Field '%label%' is mandatory.",
-		'minlength'	=> "Minimal Length of Field '%label%' is %edge%.",
-		'maxlength'	=> "Maximal Length of Field '%label%' is %edge%.",
-		'hasValue'	=> "Field '%label%' muss have a value.",
-		'isGreater'	=> "Field '%label%' must be greater than %edge%.",
-		'isLess'	=> "Field '%label%' must be less than %edge%.",
-		'isAfter'	=> "Field '%label%' must be after %edge%.",
-		'isBefore'	=> "Field '%label%' must be before %edge%.",
-		'isPast'	=> "Field '%label%' must be in past.",
-		'isFuture'	=> "Field '%label%' must be in future.",
-		'isURL'		=> "Field '%label%' must be a vaild URL.",
-		'isEmail'	=> "Field '%label%' must be a valid eMail address.",
-		'isPreg'	=> "Field '%label%' is not valid.",
-		'isEreg'	=> "Field '%label%' is not valid.",
-		'isEregi'	=> "Field '%label%' is not valid.",
-		'isEregi'	=> "Das Feld '%label%' ist nicht korrekt.",
+		'isClass'				=> "The Value of Field '%label%' is not correct.",
+		'isMandatory'			=> "Field '%label%' is mandatory.",
+
+		'hasMinLength'			=> "Field '%label%' must be at least %edge% characters long.",
+		'hasMaxLength'			=> "Field '%label%' must be at most %edge% characters long.",
+		'hasValue'				=> "Field '%label%' must have a value.",
+		'hasPasswordStrength'	=> "Field '%label%' must have a stronger password.",
+
+		'isGreater'				=> "Field '%label%' must be greater than %edge%.",
+		'isLess'				=> "Field '%label%' must be less than %edge%.",
+		'isMinimum'				=> "Field '%label%' must be at least %edge%.",
+		'isMaximum'				=> "Field '%label%' must be at most %edge%.",
+
+		'isAfter'				=> "Field '%label%' must be after %edge%.",
+		'isBefore'				=> "Field '%label%' must be before %edge%.",
+		'isPast'				=> "Field '%label%' must be in past.",
+		'isFuture'				=> "Field '%label%' must be in future.",
+
+		'isEmail'				=> "Field '%label%' must be a valid eMail address.",
+		'isId'					=> "Field '%prefix%%label%' must be a valid ID.",
+		'isURL'					=> "Field '%label%' must be a vaild URL.",
+
+		'isPreg'				=> "Field '%label%' is not valid.",
+		'isEreg'				=> "Field '%label%' is not valid.",
+		'isEregi'				=> "Field '%label%' is not valid.",
+		
+		'isAlpha'				=> "Field '%label%' must only contain letters and digits.",
+		'isAlphaspace'			=> "Field '%label%' must only contain letters, digits and white spaces.",
+		'isAlphasymbol'			=> "Field '%label%' must only contain letters, digits and symbols.",
+		'isAlphahyphen'			=> "Field '%label%' must only contain letters, digits and hyphen.",
+		'isDotnumeric'			=> "Field '%label%' must be a number (with one dot allowed only).",
+		'isDigit'				=> "Field '%label%' must only contain digits.",
+		'isFloat'				=> "Field '%label%' must be a floating number.",
+		'isLetter'				=> "Field '%label%' must only contain letters.",
+		'isNumeric'				=> "Field '%label%' must only contain digits.",
+
 	);
 	/**	@var		Object		Predicate Class Instance */
 	protected $validator;
@@ -94,17 +113,17 @@ class Alg_Validation_DefinitionValidator
 			if( isset( $definition['syntax']['class'] ) && $definition['syntax']['class'] )
 			{
 				if( !$this->validator->isClass( $value, $definition['syntax']['class'] ) )
-					$errors[]	= $this->handleError( $field, 'class', $value, false, $prefix );
+					$errors[]	= $this->handleError( $field, 'isClass', $value, $definition['syntax']['class'], $prefix );
 			}
 			if( isset( $definition['syntax']['minlength'] ) && $definition['syntax']['minlength'] )
 			{
 				if( !$this->validator->validate( $value, 'hasMinLength', $definition['syntax']['minlength'] ) )
-					$errors[]	= $this->handleError( $field, 'minlength', $value, $definition['syntax']['minlength'], $prefix );
+					$errors[]	= $this->handleError( $field, 'hasMinLength', $value, $definition['syntax']['minlength'], $prefix );
 			}
 			if( isset( $definition['syntax']['maxlength'] ) && $definition['syntax']['maxlength'] )
 			{
 				if( !$this->validator->validate( $value, 'hasMaxLength', $definition['syntax']['maxlength'] ) )
-					$errors[]	= $this->handleError( $field, 'maxlength', $value, $definition['syntax']['maxlength'], $prefix );
+					$errors[]	= $this->handleError( $field, 'hasMaxLength', $value, $definition['syntax']['maxlength'], $prefix );
 			}
 			if( isset( $definition['semantic'] ) )
 			{
@@ -117,7 +136,7 @@ class Alg_Validation_DefinitionValidator
 			}
 		}
 		else if( isset( $definition['syntax']['mandatory'] ) && $definition['syntax']['mandatory'] )
-			$errors[]	= $this->handleError( $field, 'mandatory', $value, false, $prefix );
+			$errors[]	= $this->handleError( $field, 'isMandatory', $value, false, $prefix );
 	
 		return $errors;
 	}
@@ -148,6 +167,9 @@ class Alg_Validation_DefinitionValidator
 	protected function handleError( $field, $key, $value, $edge = false, $prefix = "" )
 	{
 		$msg	= $this->messages[$key];
+		if( $key == "isClass" )
+			if( isset( $this->messages["is".ucfirst( $edge )] ) )
+				$msg	= $this->messages["is".ucfirst( $edge )];
 		$msg	= str_replace( "%validator%", $key, $msg );
 		$msg	= str_replace( "%label%", $this->getLabel( $field ), $msg );
 		$msg	= str_replace( "%field%", $field, $msg );

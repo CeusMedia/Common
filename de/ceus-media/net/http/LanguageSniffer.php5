@@ -15,45 +15,59 @@
  */
 class Net_HTTP_LanguageSniffer
 {
+	/**	@var		$pattern	Reg Ex Pattern */
+	protected static $pattern	= '/^([a-z]{1,8}(?:-[a-z]{1,8})*)(?:;\s*q=(0(?:\.[0-9]{1,3})?|1(?:\.0{1,3})?))?$/i';
+
 	/**
-	 *	Returns prefered allowed and accepted Language.
+	 *	Returns prefered allowed and accepted Language from HTTP_ACCEPT_LANGUAGE.
 	 *	@access		public
 	 *	@param		array	$allowed		Array of Languages supported and allowed by the Application
 	 *	@param		string	$default		Default Languages supported and allowed by the Application
 	 *	@return		string
 	 */
-	public function getLanguage( $allowed, $default = false )
+	public static function getLanguage( $allowed, $default = false )
+	{
+		$accept	= getEnv( 'HTTP_ACCEPT_LANGUAGE' );
+		return self::getLanguageFromString( $accept, $allowed, $default );
+	}
+
+	/**
+	 *	Returns prefered allowed and accepted Language from String.
+	 *	@access		public
+	 *	@param		array	$allowed		Array of Languages supported and allowed by the Application
+	 *	@param		string	$default		Default Languages supported and allowed by the Application
+	 *	@return		string
+	 */
+	public static function getLanguageFromString( $string, $allowed, $default = false )
 	{
 		if( !$default)
 			$default = $allowed[0];
-		$pattern		= '/^([a-z]{1,8}(?:-[a-z]{1,8})*)(?:;\s*q=(0(?:\.[0-9]{1,3})?|1(?:\.0{1,3})?))?$/i';
-		$accepted	= getEnv( 'HTTP_ACCEPT_LANGUAGE' );
-		if( !$accepted )
+		if( !$string )
 			return $default;
-		$accepted	= preg_split( '/,\s*/', $accepted );
-		$curr_lang	= $default;
-		$curr_qual	= 0;
+		$accepted	= preg_split( '/,\s*/', $string );
+		$currentLanguage	= $default;
+		$currentQuality		= 0;
 		foreach( $accepted as $accept )
 		{
-			if( !preg_match ( $pattern, $accept, $matches ) )
+			if( !preg_match( self::$pattern, $accept, $matches ) )
 				continue;
-			$lang_code = explode ( '-', $matches[1] );
-			$lang_quality =  isset( $matches[2] ) ? (float) $matches[2] : 1.0;
-			while( count( $lang_code ) )
+			$languageCode = explode ( '-', $matches[1] );
+			$languageQuality =  isset( $matches[2] ) ? (float) $matches[2] : 1.0;
+			while( count( $languageCode ) )
 			{
-				if( in_array( strtolower( join( '-', $lang_code ) ), $allowed ) )
+				if( in_array( strtolower( join( '-', $languageCode ) ), $allowed ) )
 				{
-					if( $lang_quality > $curr_qual )
+					if( $languageQuality > $currentQuality )
 					{
-						$curr_lang	= strtolower( join( '-', $lang_code ) );
-						$curr_qual	= $lang_quality;
+						$currentLanguage	= strtolower( join( '-', $languageCode ) );
+						$currentQuality		= $languageQuality;
 						break;
 					}
 				}
-				array_pop ($lang_code);
+				array_pop( $languageCode );
 			}
 		}
-		return $curr_lang;
+		return $currentLanguage;
 	}
 }
 ?>

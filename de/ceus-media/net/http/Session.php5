@@ -47,8 +47,9 @@ class Net_HTTP_Session implements ArrayAccess, Countable
 	 */
 	public function clear()
 	{
-		foreach( $this->getAll() as $key => $value )
-			$this->remove( $key );
+		$this->data	= array();
+		foreach( $this->data as $key => $value )
+			unset( $this->data[$key] );
 	}
 	
 	/**

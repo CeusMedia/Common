@@ -68,9 +68,9 @@ class Tests_Framework_Krypton_Core_TemplateTest extends PHPUnit_Framework_TestCa
 		$this->template->setTemplate( $this->path.'template_testcase2.html' );
 		$assertion	= file_get_contents( $this->path.'result_testcase2.html' );
 		$creation	= $this->template->create();
-/*		var_dump( $creation );
-		var_dump( $assertion );*/
-		$this->assertEquals( $assertion, $creation );
+/*		var_dump( $assertion );
+		var_dump( $creation );
+*/		$this->assertEquals( $assertion, $creation );
 	}
 
 	public function testCreate4()

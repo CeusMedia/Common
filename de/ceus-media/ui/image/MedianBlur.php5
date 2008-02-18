@@ -1,30 +1,28 @@
 <?php
 /**
  *	Median Blur.
- *	@package		ui
- *	@subpackage		image
+ *	@package		ui.image
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			16.12.2005
  *	@version		0.1
  */
 /**
  *	Median Blur.
- *	@package		ui
- *	@subpackage		image
+ *	@package		ui.image
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			16.12.2005
  *	@version		0.1
  */
-class MedianBlur
+class UI_Image_MedianBlur
 {
-	/*	@var	array	$_size		Sizes of Source Image */
-	var $_size	= array();
-	/*	@var	string	$_source		Source File Name of Source Image */
-	var $_source;
-	/*	@var	string	$_target		Target File Name of Target Image */
-	var $_target;
-	/*	@var	int		$_quality		Quality of Target Image */
-	var $_quality;
+	/*	@var	int		$quality		Quality of Target Image */
+	protected $quality;
+	/*	@var	array	$size		Sizes of Source Image */
+	protected $size	= array();
+	/*	@var	string	$source		Source File Name of Source Image */
+	protected $source;
+	/*	@var	string	$target		Target File Name of Target Image */
+	protected $target;
 	
 	/**
 	 *	Constructur.
@@ -42,23 +40,31 @@ class MedianBlur
 	}
 
 	/**
+	 *	Sets the Quality of resulting Image.
+	 *	@access		public
+	 *	@param		int		$quality 		Quality of resulting Image
+	 *	@return		void
+	 */
+	public function setQuality( $quality )
+	{
+		$this->quality	= $quality;
+	}
+
+	/**
 	 *	Sets the File Name of Source Image.
 	 *	@access		public
 	 *	@param		string	$source 		File Name of Source Image
 	 *	@return		void
 	 */
-	function setSource( $source )
+	public function setSource( $source )
 	{
-		if( $size = getimagesize( $source ) )
-		{
-			$this->_size		= $size;
-			$this->_source	= $source;
-		}
-		else
-		{
-			$this->_size	= array();
-			trigger_error( "Source File is not an supported Image", E_USER_WARNING );
-		}
+		if( !file_exists( $source ) )
+			throw new InvalidArgumentException( 'Image File "'.$source.'" is not existing.' );
+		$size = @getimagesize( $source );
+		if( !$size )
+			throw new Exception( 'Source File "'.$source.'" is not a supported Image.' );
+		$this->size		= $size;
+		$this->source	= $source;
 	}
 
 	/**
@@ -67,88 +73,78 @@ class MedianBlur
 	 *	@param		string	$target 		File Name of resulting Target Image
 	 *	@return		void
 	 */
-	function setTarget( $target )
+	public function setTarget( $target )
 	{
-		$this->_target	= $target;
+		$this->target	= $target;
 	}
 	
-	/**
-	 *	Sets the Quality of resulting Image.
-	 *	@access		public
-	 *	@param		int		$quality 		Quality of resulting Image
-	 *	@return		void
-	 */
-	function setQuality( $quality )
-	{
-		$this->_quality	= $quality;
-	}
-
 	/**
 	 *	Blurs Image.
 	 *	@access		public
 	 *	@return		bool
 	 */
-	function blur()
+	public function blur()
 	{
-		if( count( $this->_size ) )
+		if( !count( $this->size ) )
+			throw new RuntimeException( 'No Source Image set.' );
+
+		$target	= imagecreatetruecolor( $this->size[0], $this->size[1] );
+		if( function_exists( 'imageantialias' ) )
+			imageantialias( $target, TRUE );
+		switch( $this->size[2] )
 		{
-			$target	= imagecreatetruecolor( $this->_size[0], $this->_size[1] );
-			switch( $this->_size[2] )
-			{
-				case 1:      //GIF
-					$source	= imagecreatefromgif( $this->_source );
-					$this->_blur( $source, $target );
-					imagegif( $target, $this->_target );
-					return true;
-				case 2:      //JPEG
-					$source	= imagecreatefromjpeg( $this->_source );
-					$this->_blur( $source, $target );
-					imagejpeg( $target, $this->_target, $this->_quality );
-					return true;
-				case 3:      //PNG
-					$source	= imagecreatefrompng( $this->_source );
-					$this->_blur( $source, $target );
-					imagepng( $target, $this->_target );
-					return true;
-				default:
-					trigger_error( "Image Type is unsupported.", E_USER_WARNING );
-					return false;
-			}
+			case 1:      //GIF
+				$source	= imagecreatefromgif( $this->source );
+				$this->blurImage( $source, $target );
+				imagegif( $target, $this->target );
+				break;
+			case 2:      //JPEG
+				$source	= imagecreatefromjpeg( $this->source );
+				$this->blurImage( $source, $target );
+				imagejpeg( $target, $this->target, $this->quality );
+				break;
+			case 3:      //PNG
+				$source	= imagecreatefrompng( $this->source );
+				$this->blurImage( $source, $target );
+				imagepng( $target, $this->target );
+				break;
+			default:
+				throw new Exception( 'Image Type is no supported.' );
 		}
-		return false;
+		return true;
 	}
 	
 	/**
 	 *	Blurs Source Image with 3x3 Matrix to Target Image.
-	 *	@access		private
+	 *	@access		protected
 	 *	@return		bool
 	 */
-	function _blur( $source, &$target )
+	protected function blurImage( $source, &$target )
 	{
 		$this->_cache	= array();
-		for( $x=0; $x<$this->_size[0]; $x++ )
+		for( $x=0; $x<$this->size[0]; $x++ )
 		{
-			for( $y=0; $y<$this->_size[1]; $y++ )
+			for( $y=0; $y<$this->size[1]; $y++ )
 			{
-				if( $x > 0 && $y > 0 && $x < $this->_size[0]-1 && $y < $this->_size[1]-1 )
+				if( $x > 0 && $y > 0 && $x < $this->size[0]-1 && $y < $this->size[1]-1 )
 				{
 					$color	= array();
-					$x0y0	= $this->_getColor( $source, $x-1, $y-1 );
-					$x0y1	= $this->_getColor( $source, $x-1, $y );
-					$x0y2	= $this->_getColor( $source, $x-1, $y+1 );
-					$x1y0	= $this->_getColor( $source, $x, $y-1 );
-					$x1y1	= $this->_getColor( $source, $x, $y );
-					$x1y2	= $this->_getColor( $source, $x, $y+1 );
-					$x2y0	= $this->_getColor( $source, $x+1, $y-1 );
-					$x2y1	= $this->_getColor( $source, $x+1, $y );
-					$x2y2	= $this->_getColor( $source, $x+1, $y+1 );
+					$x0y0	= $this->getColor( $source, $x-1, $y-1 );
+					$x0y1	= $this->getColor( $source, $x-1, $y );
+					$x0y2	= $this->getColor( $source, $x-1, $y+1 );
+					$x1y0	= $this->getColor( $source, $x, $y-1 );
+					$x1y1	= $this->getColor( $source, $x, $y );
+					$x1y2	= $this->getColor( $source, $x, $y+1 );
+					$x2y0	= $this->getColor( $source, $x+1, $y-1 );
+					$x2y1	= $this->getColor( $source, $x+1, $y );
+					$x2y2	= $this->getColor( $source, $x+1, $y+1 );
 
-					$color['red']	= $this->_medianblur( $x0y0['red'], $x0y1['red'], $x0y2['red'], $x1y0['red'], $x1y1['red'], $x1y2['red'], $x2y0['red'], $x2y1['red'], $x2y2['red'] );
-					$color['green']	= $this->_medianblur( $x0y0['green'], $x0y1['green'], $x0y2['green'], $x1y0['green'], $x1y1['green'], $x1y2['green'], $x2y0['green'], $x2y1['green'], $x2y2['green'] );
-					$color['blue']	= $this->_medianblur( $x0y0['blue'], $x0y1['blue'], $x0y2['blue'], $x1y0['blue'], $x1y1['blue'], $x1y2['blue'], $x2y0['blue'], $x2y1['blue'], $x2y2['blue'] );
+					$color['red']	= $this->blurPixel( $x0y0['red'], $x0y1['red'], $x0y2['red'], $x1y0['red'], $x1y1['red'], $x1y2['red'], $x2y0['red'], $x2y1['red'], $x2y2['red'] );
+					$color['green']	= $this->blurPixel( $x0y0['green'], $x0y1['green'], $x0y2['green'], $x1y0['green'], $x1y1['green'], $x1y2['green'], $x2y0['green'], $x2y1['green'], $x2y2['green'] );
+					$color['blue']	= $this->blurPixel( $x0y0['blue'], $x0y1['blue'], $x0y2['blue'], $x1y0['blue'], $x1y1['blue'], $x1y2['blue'], $x2y0['blue'], $x2y1['blue'], $x2y2['blue'] );
 				}
 				else
-					$color	= $this->_getColor( $source, $x, $y );
+					$color	= $this->getColor( $source, $x, $y );
 				$color	= imagecolorallocate( $target, $color['red'], $color['green'], $color['blue'] );
 				imagesetpixel( $target, $x, $y, $color );
 			}
@@ -157,7 +153,7 @@ class MedianBlur
 	
 	/**
 	 *	Blurs Source Image with 3x3 Matrix to Target Image.
-	 *	@access		private
+	 *	@access		protected
 	 *	@param		int		$x0y0		Color of Pixel x0y0
 	 *	@param		int		$x0y1		Color of Pixel x0y0
 	 *	@param		int		$x0y2		Color of Pixel x0y0
@@ -169,7 +165,7 @@ class MedianBlur
 	 *	@param		int		$x2y2		Color of Pixel x0y0
 	 *	@return		bool
 	 */
-	function _medianblur( $x0y0, $x0y1, $x0y2, $x1y0, $x1y1, $x1y2, $x2y0, $x2y1, $x2y2 ) 
+	protected function blurPixel( $x0y0, $x0y1, $x0y2, $x1y0, $x1y1, $x1y2, $x2y0, $x2y1, $x2y2 ) 
 	{
 		$value	= 1/6 * ( 0*$x0y0 + $x0y1 + 0*$x0y2 + $x1y0 + 2*$x1y1 + $x1y2 + 0*$x2y0 + $x2y1 + 0*$x2y2 );
 		return $value;
@@ -177,13 +173,13 @@ class MedianBlur
 
 	/**
 	 *	Returns Color of Pixel in Source Image.
-	 *	@access		private
+	 *	@access		protected
 	 *	@param		Resource		$source		Source Image
 	 *	@param		int			$x			X-Axis
 	 *	@param		int			$y			Y-Axis
 	 *	@return		int
 	 */
-	function _getColor( $source, $x, $y )
+	protected function getColor( $source, $x, $y )
 	{
 		if( isset( $this->_cache[$x][$y] ) )
 			return $this->_cache[$x][$y];

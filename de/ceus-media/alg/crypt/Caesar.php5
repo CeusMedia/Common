@@ -1,86 +1,75 @@
 <?php
 /**
- *	Caesar Encryption
- *	
- *	@package	alg
- *	@subpackage	crypt
- *	@author		Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@since		30.4.2005
- *	@version		0.4
+ *	Caesar Encryption.
+ *	@package		alg.crypt
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@since			30.4.2005
+ *	@version		0.6
  */
 /**
- *	Caesar Encryption
- *
- *	@package	alg
- *	@subpackage	crypt
- *	@author		Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@since		30.4.2005
- *	@version		0.4
+ *	Caesar Encryption.
+ *	@package		alg.crypt
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@since			30.4.2005
+ *	@version		0.6
  */
-class Caesar
+class Alg_Crypt_Caesar
 {
-	/**	@var	int		_key	Key */
-	var $_key;
-	
-	/**
-	 *	Constructor.
-	 *	@access		public
-	 *	@param		int		key		Key
-	 */
-	public function __construct ($key)
-	{
-		$this->_key = $key;
-	}
-
 	/**
 	 *	Realizes Encryption/Decryption of a text with the normal/inversed Key.
 	 *	@access		public
-	 *	@param		string	text		Text to be encrypted
-	 *	@param		string	key		normal or inversed Key 
+	 *	@param		string		$string		String to be encrypted
+	 *	@param		int			$key		Rotation Key
 	 *	@return		string
 	 */
-	function _crypt ($text, $key)
+	protected static function crypt( $string, $key )
 	{
-		for ($i=0; $i<strlen ($text); $i++)
+		for( $i=0; $i<strlen( $string ); $i++ )
 		{
-			$char = ord ($text[$i]);
-			if ($char > 64 && $char < 91)
+			$char = ord( $string[$i] );
+			if( $char > 64 && $char < 91 )
 			{
 				$char += $key;
-				if ($char > 90) $char -= 26;
-				else	if ($char < 65) $char += 26;
+				if( $char > 90 )
+					$char -= 26;
+				else if( $char < 65 )
+					$char += 26;
 			}
-			else if ($char > 96 && $char < 123)
+			else if( $char > 96 && $char < 123 )
 			{
 				$char += $key;
-				if ($char > 122) $char -= 26;
-				else if ($char < 97) $char += 26;
+				if ($char > 122)
+					$char -= 26;
+				else if( $char < 97 )
+					$char += 26;
 			}
-			$text[$i] = chr($char);
+			$string[$i] = chr( $char );
 		}
-		return $text;
+		return $string;
 	}
 
 	/**
-	 *	Decrypts a text.
+	 *	Decrypts a String.
 	 *	@access		public
-	 *	@param		string	text		Text to be encrypted
+	 *	@param		string		$string		String to be encrypted
+	 *	@param		int			$key		Rotation Key
 	 *	@return		string
 	 */
-	function decrypt ($text)
+	public static function decrypt( $string, $key )
 	{
-		return $this->_crypt ($text, -1 * $this->_key);
+		return self::crypt( $string, -1 * $key );
 	}
 
 	/**
-	 *	Encrypts a text.
+	 *	Encrypts a String.
 	 *	@access		public
-	 *	@param		string	text		Text to be encrypted
+	 *	@param		string		$string		String to be encrypted
+	 *	@param		int			$key		Rotation Key
 	 *	@return		string
 	 */
-	function encrypt ($text)
+	public static function encrypt( $string, $key )
 	{
-		return $this->_crypt ($text, $this->_key);
+		return self::crypt( $string, $key );
 	}
 }
 ?>

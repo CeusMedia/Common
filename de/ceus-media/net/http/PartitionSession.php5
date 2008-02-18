@@ -44,7 +44,10 @@ class Net_HTTP_PartitionSession extends Net_HTTP_Session
 				unset( $this->session[$key] );
 			$this->session['ip'] = $ip;
 		}
-		$this->data =& $this->session['partitions'][$partitionName];
+		unset( $this->data );
+		if( !isset( $_SESSION['partitions'][$partitionName] ) )
+			$_SESSION['partitions'][$partitionName]	= array();
+		$this->data =& $_SESSION['partitions'][$partitionName];
 	}
 
 	/**

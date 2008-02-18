@@ -52,7 +52,7 @@ class Alg_Validation_PredicateValidator
 	 *	@param		string		$argument	Argument for Predicate
 	 *	@return		bool
 	 */
-	public function validate( $value, $predicate, $argument )
+	public function validate( $value, $predicate, $argument = NULL )
 	{
 		if( !method_exists( $this->validator, $predicate ) )
 			throw new BadMethodCallException( 'Predicate "'.$predicate.'" is not defined.' );

@@ -9,6 +9,8 @@ require_once 'Tests/alg/AllTests.php';
 require_once 'Tests/file/AllTests.php';
 require_once 'Tests/xml/AllTests.php';
 require_once 'Tests/framework/AllTests.php';
+require_once 'Tests/net/AllTests.php';
+require_once 'Tests/ui/AllTests.php';
 class Tests_AllTests
 {
 	public static function main()
@@ -19,11 +21,13 @@ class Tests_AllTests
 	public static function suite()
 	{
 		$suite = new PHPUnit_Framework_TestSuite( 'ClassContainer' );
-		$suite->addTest(Tests_ADT_AllTests::suite());
-		$suite->addTest(Tests_Alg_AllTests::suite());
-		$suite->addTest(Tests_File_AllTests::suite());
-		$suite->addTest(Tests_XML_AllTests::suite());
-		$suite->addTest(Tests_Framework_AllTests::suite());
+		$suite->addTest( Tests_ADT_AllTests::suite() );
+		$suite->addTest( Tests_Alg_AllTests::suite() );
+		$suite->addTest( Tests_File_AllTests::suite() );
+		$suite->addTest( Tests_XML_AllTests::suite() );
+		$suite->addTest( Tests_Framework_AllTests::suite() );
+		$suite->addTest( Tests_Net_AllTests::suite() );
+		$suite->addTest( Tests_UI_AllTests::suite() );
 		return $suite;
 	}
 }
