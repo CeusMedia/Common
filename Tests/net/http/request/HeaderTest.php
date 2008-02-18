@@ -31,12 +31,12 @@ class Tests_Net_HTTP_Request_HeaderTest extends PHPUnit_Framework_TestCase
 	public function testToString()
 	{
 		$header	= new Net_HTTP_Request_Header( "key", "value" );
-		$assertion	= "Key: value\n\r";
+		$assertion	= "Key: value\r\n";
 		$creation	= $header->toString();
 		$this->assertEquals( $assertion, $creation );
 
 		$header	= new Net_HTTP_Request_Header( "key-with-more-words", "value" );
-		$assertion	= "Key-With-More-Words: value\n\r";
+		$assertion	= "Key-With-More-Words: value\r\n";
 		$creation	= $header->toString();
 		$this->assertEquals( $assertion, $creation );
 	}

@@ -46,7 +46,7 @@ class Net_HTTP_Request_Header
 		foreach( $parts as $part )
 			$list[]	= ucFirst( strtolower( $part ) );
 		$key	= implode( "-", $list );
-		$string	= $key.": ".$this->value."\n\r";
+		$string	= $key.": ".$this->value."\r\n";
 		return $string;
 	}
 }
