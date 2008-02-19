@@ -2,15 +2,15 @@
 if( !defined('PHPUnit_MAIN_METHOD' ) )
 	define( 'PHPUnit_MAIN_METHOD', 'Tests_AllTests::main' );
  
-require_once 'PHPUnit/Framework/TestSuite.php';
-require_once 'PHPUnit/TextUI/TestRunner.php';
-require_once 'Tests/adt/AllTests.php';
-require_once 'Tests/alg/AllTests.php';
-require_once 'Tests/file/AllTests.php';
-require_once 'Tests/xml/AllTests.php';
-require_once 'Tests/framework/AllTests.php';
-require_once 'Tests/net/AllTests.php';
-require_once 'Tests/ui/AllTests.php';
+require_once( 'PHPUnit/Framework/TestSuite.php' );
+require_once( 'PHPUnit/TextUI/TestRunner.php' );
+require_once( 'Tests/adt/AllTests.php' );
+require_once( 'Tests/alg/AllTests.php' );
+require_once( 'Tests/file/AllTests.php' );
+require_once( 'Tests/xml/AllTests.php' );
+require_once( 'Tests/framework/AllTests.php' );
+require_once( 'Tests/net/AllTests.php' );
+require_once( 'Tests/ui/AllTests.php' );
 class Tests_AllTests
 {
 	public static function main()
@@ -33,5 +33,5 @@ class Tests_AllTests
 }
 
 if( PHPUnit_MAIN_METHOD == 'Tests_AllTests::main' )
-	Tests_Prototype_AllTests::main();
+	Tests_AllTests::main();
 ?>

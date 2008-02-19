@@ -53,10 +53,60 @@ class Tests_Alg_Validation_DefinitionValidatorTest extends PHPUnit_Framework_Tes
 		'test1'	=> 'Test Field 1'
 	);
 
-	public function __construct()
+	public function setUp()
 	{
-		$this->validator	= new Alg_Validation_DefinitionValidator;
+		$this->validator	= new Alg_Validation_DefinitionValidator();
 		$this->validator->setLabels( $this->labels );
+	}
+
+	public function testConstruct()
+	{
+		$validator	= new Alg_Validation_DefinitionValidator();
+		ob_start();
+		var_dump( $validator );
+		$dump	= ob_get_clean();
+		
+		$assertion	= 1;
+		$creation	= substr_count( $dump, "Alg_Validation_PredicateValidator" );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= 1;
+		$creation	= substr_count( $dump, "Alg_Validation_Predicates" );
+		$this->assertEquals( $assertion, $creation );
+	}
+
+	public function testSetLabels()
+	{
+		$labels		= array(
+			'test1'	=> "Label 1",
+		);
+		$this->validator->setLabels( $labels );
+		$assertion	= array(
+			"Field 'Label 1' is mandatory.",
+		);
+		$creation	= $this->validator->validate( "test1", $this->definition['test1'], "" );
+		$this->assertEquals( $assertion, $creation );
+
+
+		$this->validator->setLabels( array() );
+		$assertion	= array(
+			"Field 'test1' is mandatory.",
+		);
+		$creation	= $this->validator->validate( "test1", $this->definition['test1'], "" );
+		$this->assertEquals( $assertion, $creation );
+	}
+
+	public function testSetMessages()
+	{
+		$messages	= array(
+			'isMandatory'	=> "%label% needs to be set.",
+		);
+		$this->validator->setMessages( $messages );
+		$assertion	= array(
+			"Test Field 1 needs to be set.",
+		);
+		$creation	= $this->validator->validate( "test1", $this->definition['test1'], "" );
+		$this->assertEquals( $assertion, $creation );
 	}
 	
 	public function testValidatePass1()

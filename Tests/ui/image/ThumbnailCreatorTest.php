@@ -22,23 +22,42 @@ import( 'de.ceus-media.ui.image.ThumbnailCreator' );
  */
 class Tests_UI_Image_ThumbnailCreatorTest extends PHPUnit_Framework_TestCase
 {
+	protected $assertFile	= "Tests/ui/image/assertThumbnail.png";
+	protected $sourceFile	= "Tests/ui/image/sourceThumbnail.png";
+	protected $targetFile	= "Tests/ui/image/targetThumbnail.png";
+	
+
 	public function testThumbize()
 	{
-		$assertFile	= "Tests/ui/image/assertThumbnail.png";
-		$sourceFile	= "Tests/ui/image/sourceThumbnail.png";
-		$targetFile	= "Tests/ui/image/targetThumbnail.png";
-		if( file_exists( $targetFile ) )
-			unlink( $targetFile );
+		if( file_exists( $this->targetFile ) )
+			unlink( $this->targetFile );
 		
-		$creator	= new UI_Image_ThumbnailCreator( $sourceFile, $targetFile );
+		$creator	= new UI_Image_ThumbnailCreator( $this->sourceFile, $this->targetFile );
 		$creator->thumbize( 16, 16 );
 
 		$assertion	= true;
-		$creation	= file_exists( $targetFile );
+		$creation	= file_exists( $this->targetFile );
 		$this->assertEquals( $assertion, $creation );
 
-		$assertion	= file_get_contents( $assertFile );
-		$creation	= file_get_contents( $targetFile );
+		$assertion	= file_get_contents( $this->assertFile );
+		$creation	= file_get_contents( $this->targetFile );
+		$this->assertEquals( $assertion, $creation );
+	}
+
+	public function testThumbizeByLimit()
+	{
+		if( file_exists( $this->targetFile ) )
+			unlink( $this->targetFile );
+		
+		$creator	= new UI_Image_ThumbnailCreator( $this->sourceFile, $this->targetFile );
+		$creator->thumbizeByLimit( 100, 16 );
+
+		$assertion	= true;
+		$creation	= file_exists( $this->targetFile );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= file_get_contents( $this->assertFile );
+		$creation	= file_get_contents( $this->targetFile );
 		$this->assertEquals( $assertion, $creation );
 	}
 

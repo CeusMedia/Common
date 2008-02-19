@@ -216,9 +216,7 @@ class Alg_Validation_Predicates
 	 */
 	public static function isEmail( $string )
 	{
-		if( $string )
-			return self::isPreg( $string, "#^([a-z0-9äöü_.-]+)@([a-z0-9äöü_.-]+)\.([a-z]{2,4})$#i" );
-		return true;
+		return self::isPreg( $string, "#^([a-z0-9äöü_.-]+)@([a-z0-9äöü_.-]+)\.([a-z]{2,4})$#i" );
 	}
 	
 	/**
@@ -362,9 +360,7 @@ class Alg_Validation_Predicates
 	 */
 	public static function isUrl( $string )
 	{
-		if( $string )
-			return self::isPreg( $string, "@^([a-z]{3,})://([a-z0-9-_\.]+)/?([\w$-\.+!*'\(\)\@:?#=&/;_]+)$@i" );
-		return true;
+		return self::isPreg( $string, "@^([a-z]{3,})://([a-z0-9-_\.]+)/?([\w$-\.+!*'\(\)\@:?#=&/;_]+)$@i" );
 	}
 }
 ?>

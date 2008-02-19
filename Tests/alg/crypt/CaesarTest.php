@@ -28,6 +28,10 @@ class Tests_Alg_Crypt_CaesarTest extends PHPUnit_Framework_TestCase
 		$creation	= Alg_Crypt_Caesar::encrypt( 'abcdef', 13 );
 		$this->assertEquals( $assertion, $creation );
 
+		$assertion	= "NOPQRS";
+		$creation	= Alg_Crypt_Caesar::encrypt( 'ABCDEF', 13 );
+		$this->assertEquals( $assertion, $creation );
+
 		$assertion	= "123456";
 		$creation	= Alg_Crypt_Caesar::encrypt( '123456', 13 );
 		$this->assertEquals( $assertion, $creation );

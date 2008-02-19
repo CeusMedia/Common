@@ -307,63 +307,63 @@ class Tests_Alg_Validation_PredicatesTest extends PHPUnit_Framework_TestCase
 	{
 		$point	= time();
 		$assertion	= true;
-		$creation	= Alg_Validation_Predicates::isPast( "01.01.2001", $point );
+		$creation	= Alg_Validation_Predicates::isBefore( "01.01.2001", $point );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= true;
-		$creation	= Alg_Validation_Predicates::isPast( "01.01.2001 01:02:03", $point );
+		$creation	= Alg_Validation_Predicates::isBefore( "01.01.2001 01:02:03", $point );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= true;
-		$creation	= Alg_Validation_Predicates::isPast( "2001-01-01", $point );
+		$creation	= Alg_Validation_Predicates::isBefore( "2001-01-01", $point );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= true;
-		$creation	= Alg_Validation_Predicates::isPast( "2001-01-01 01:02:03", $point );
+		$creation	= Alg_Validation_Predicates::isBefore( "2001-01-01 01:02:03", $point );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= true;
-		$creation	= Alg_Validation_Predicates::isPast( "01/01/2001", $point );
+		$creation	= Alg_Validation_Predicates::isBefore( "01/01/2001", $point );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= true;
-		$creation	= Alg_Validation_Predicates::isPast( "01/01/2001 01:02:03", $point );
+		$creation	= Alg_Validation_Predicates::isBefore( "01/01/2001 01:02:03", $point );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= false;
-		$creation	= Alg_Validation_Predicates::isPast( "01.01.2037", $point );
+		$creation	= Alg_Validation_Predicates::isBefore( "01.01.2037", $point );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= false;
-		$creation	= Alg_Validation_Predicates::isPast( "2037-01-01", $point );
+		$creation	= Alg_Validation_Predicates::isBefore( "2037-01-01", $point );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= false;
-		$creation	= Alg_Validation_Predicates::isPast( "01/01/2037", $point );
+		$creation	= Alg_Validation_Predicates::isBefore( "01/01/2037", $point );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= true;
-		$creation	= Alg_Validation_Predicates::isPast( date( "d.m.Y" ), $point );
+		$creation	= Alg_Validation_Predicates::isBefore( date( "d.m.Y" ), $point );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= false;
-		$creation	= Alg_Validation_Predicates::isPast( date( "d.m.Y" )." 23:59:59", $point );
+		$creation	= Alg_Validation_Predicates::isBefore( date( "d.m.Y" )." 23:59:59", $point );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= true;
-		$creation	= Alg_Validation_Predicates::isPast( date( "Y-m-d" ), $point );
+		$creation	= Alg_Validation_Predicates::isBefore( date( "Y-m-d" ), $point );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= false;
-		$creation	= Alg_Validation_Predicates::isPast( date( "Y-m-d" )." 23:59:59", $point );
+		$creation	= Alg_Validation_Predicates::isBefore( date( "Y-m-d" )." 23:59:59", $point );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= true;
-		$creation	= Alg_Validation_Predicates::isPast( date( "m/d/Y" ), $point );
+		$creation	= Alg_Validation_Predicates::isBefore( date( "m/d/Y" ), $point );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= false;
-		$creation	= Alg_Validation_Predicates::isPast( date( "m/d/Y" )." 23:59:59", $point );
+		$creation	= Alg_Validation_Predicates::isBefore( date( "m/d/Y" )." 23:59:59", $point );
 		$this->assertEquals( $assertion, $creation );
 	}
 

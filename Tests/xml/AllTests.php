@@ -6,6 +6,7 @@ require_once 'PHPUnit/Framework/TestSuite.php';
 require_once 'PHPUnit/TextUI/TestRunner.php';
 require_once 'Tests/xml/dom/AllTests.php';
 require_once 'Tests/xml/xsl/AllTests.php';
+require_once 'Tests/xml/rss/AllTests.php';
 class Tests_XML_AllTests
 {
 	public static function main()
@@ -18,6 +19,7 @@ class Tests_XML_AllTests
 		$suite = new PHPUnit_Framework_TestSuite( 'ClassContainer/XML' );
 		$suite->addTest(Tests_XML_DOM_AllTests::suite());
 		$suite->addTest(Tests_XML_XSL_AllTests::suite());
+		$suite->addTest(Tests_XML_RSS_AllTests::suite());
 		return $suite;
 	}
 }

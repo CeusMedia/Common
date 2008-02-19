@@ -135,7 +135,12 @@ class XML_RSS_Builder extends ADT_OptionObject
 			$node	=& new XML_DOM_Node( 'item' );
 			foreach( $this->itemElements as $element => $required )
 				if( $required || isset( $item[$element] ) )
+				{
+					$item[$element]	= isset( $item[$element] ) ? $item[$element] : "";
+					if( $element == "description" && $item[$element] )
+						$item[$element]	= $item[$element];
 					$node->addChild( new XML_DOM_Node( $element, $item[$element] ) );
+				}
 			$channel->addChild( $node );
 		}
 		$tree->addChild( $channel );
