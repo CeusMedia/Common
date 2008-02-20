@@ -59,6 +59,8 @@ class XML_RSS_Builder extends ADT_OptionObject
 		"guid"				=> false,
 		"source"			=> false,
 		);
+	/**	@var	array			$namespaces			Array or RSS Namespaces */
+	protected $namespaces	= array();
 	
 	/**
 	 *	Constructor.
@@ -91,6 +93,21 @@ class XML_RSS_Builder extends ADT_OptionObject
 		}
 		$this->items[] = $item;
 	}
+	
+	/** 
+	 *	Registers a Namespace for a Prefix.
+	 *	@access		public
+	 *	@param		string		$prefix			Prefix of Namespace
+	 *	@param		string		$namespace		Namespace of Prefix
+	 *	@return		bool
+	 *	@see		http://tw.php.net/manual/de/function.dom-domxpath-registernamespace.php
+	 */
+	public function registerNamespace( $prefix, $namespace )
+	{
+		if( isset( $this->namespaces[$prefix] ) )
+			throw new Exception( 'Namespace with Prefix "'.$prefix.'" is already registered for "'.$this->namespaces[$prefix].'".' );
+		$this->namespaces[$prefix]	= $namespace;
+	}
 
 	/**
 	 *	Returns built RSS Feed.
@@ -108,8 +125,11 @@ class XML_RSS_Builder extends ADT_OptionObject
 
 		$tree = new XML_DOM_Node( 'rss' );
 		$tree->setAttribute( 'version', '2.0' );
-		$channel	=& new XML_DOM_Node( 'channel' );
+		foreach( $this->namespaces as $prefix => $namespace )
+			$tree->setAttribute( "xmlns:".$prefix, $namespace );
 
+		$channel	=& new XML_DOM_Node( 'channel' );
+		
 		//  --  CHANNEL  ELEMENTS  --  //
 		foreach( $this->channelElements as $element => $required )
 			if( $required || $this->getOption( $element ) )
