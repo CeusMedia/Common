@@ -13,7 +13,9 @@ require_once 'Tests/xml/dom/FileWriterTest.php';
 require_once 'Tests/xml/dom/ObjectSerializerTest.php';
 require_once 'Tests/xml/dom/ObjectDeserializerTest.php';
 require_once 'Tests/xml/dom/StorageTest.php';
-require_once 'Tests/xml/dom/XPathQueryTest.php';
+#require_once 'Tests/xml/dom/XPathQueryTest.php';
+require_once 'Tests/xml/dom/GoogleSitemapBuilderTest.php';
+require_once 'Tests/xml/dom/GoogleSitemapWriterTest.php';
 class Tests_XML_DOM_AllTests
 {
 	public static function main()
@@ -32,7 +34,9 @@ class Tests_XML_DOM_AllTests
 		$suite->addTestSuite('Tests_XML_DOM_ObjectSerializerTest'); 
 #		$suite->addTestSuite('Tests_XML_DOM_ObjectDeserializerTest'); 
 		$suite->addTestSuite('Tests_XML_DOM_StorageTest'); 
-		$suite->addTestSuite('Tests_XML_DOM_XpathQueryTest'); 
+#		$suite->addTestSuite('Tests_XML_DOM_XpathQueryTest'); 
+		$suite->addTestSuite('Tests_XML_DOM_GoogleSitemapBuilderTest'); 
+		$suite->addTestSuite('Tests_XML_DOM_GoogleSitemapWriterTest'); 
 		return $suite;
 	}
 }

@@ -34,18 +34,30 @@ class XML_DOM_GoogleSitemapBuilder
 	{
 		$this->list[]	= $link;
 	}
-
+	
 	/**
-	 *	Builds and write XML of Sitemap.
+	 *	Builds and return XML of Sitemap.
 	 *	@access		public
 	 *	@param		string		$baseUrl	Basic URL to add to every Link
 	 *	@return		bool
 	 */
-	public function buildSitemap( $baseUrl = "" )
+	public function build( $baseUrl )
+	{
+		return $this->buildSitemap( $this->list, $baseUrl );
+	}
+
+	/**
+	 *	Builds and return XML of Sitemap.
+	 *	@access		public
+	 *	@param		string		$links		List of Sitemap Link
+	 *	@param		string		$baseUrl	Basic URL to add to every Link
+	 *	@return		bool
+	 */
+	public static function buildSitemap( $links, $baseUrl = "" )
 	{
 		$root	= new XML_DOM_Node( "urlset" );
 		$root->setAttribute( 'xmlns', "http://www.google.com/schemas/sitemap/0.84" );
-		foreach( $this->list as $link )
+		foreach( $links as $link )
 		{
 			$child	=& new XML_DOM_Node( "url" );
 			$loc	=& new XML_DOM_Node( "loc", $baseUrl.$link );
@@ -56,4 +68,4 @@ class XML_DOM_GoogleSitemapBuilder
 		return $builder->build( $root );
 	}
 }
-?> 
+?>

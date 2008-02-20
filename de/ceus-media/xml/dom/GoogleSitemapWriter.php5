@@ -38,18 +38,28 @@ class XML_DOM_GoogleSitemapWriter
 	/**
 	 *	Builds and write XML of Sitemap.
 	 *	@access		public
-	 *	@param		string		$baseUrl	Basic URL to add to every Link
 	 *	@param		string		$fileName	File Name of XML Sitemap File
+	 *	@param		string		$baseUrl	Basic URL to add to every Link
 	 *	@return		bool
 	 */
-	public function writeSitemap( $baseUrl = "", $fileName = "sitemap.xml" )
+	public function write( $fileName = "sitemap.xml", $baseUrl = "" )
 	{
-		$builder	= new XML_DOM_GoogleSitemapBuilder();
-		foreach( $this->list as $link )
-			$builder->addLink( $link );
-		$xml	= $builder->buildSitemap( $baseUrl );
+		return $this->writeSitemap( $this->list, $fileName, $baseUrl );
+	}
+
+	/**
+	 *	Builds and write XML of Sitemap.
+	 *	@access		public
+	 *	@param		string		$links		List of Sitemap Link
+	 *	@param		string		$fileName	File Name of XML Sitemap File
+	 *	@param		string		$baseUrl	Basic URL to add to every Link
+	 *	@return		bool
+	 */
+	public static function writeSitemap( $links, $fileName = "sitemap.xml", $baseUrl = "" )
+	{
+		$xml	= XML_DOM_GoogleSitemapBuilder::buildSitemap( $links, $baseUrl );
 		$file	= new File_Writer( $fileName );
 		return $file->writeString( $xml );
 	}
 }
-?> 
+?>

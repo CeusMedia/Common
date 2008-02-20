@@ -1,11 +1,9 @@
 <?php
-import( 'de.ceus-media.adt.OptionObject' );
 import( 'de.ceus-media.xml.dom.Node' );
 import( 'de.ceus-media.xml.dom.Builder' );
 /**
  *	Builder for RSS Feeds.
  *	@package		xml.rss
- *	@extends		ADT_OptionObject
  *	@uses			XML_DOM_Node
  *	@uses			XML_DOM_Builder
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
@@ -15,20 +13,21 @@ import( 'de.ceus-media.xml.dom.Builder' );
 /**
  *	Builder for RSS Feeds.
  *	@package		xml.rss
- *	@extends		ADT_OptionObject
  *	@uses			XML_DOM_Node
  *	@uses			XML_DOM_Builder
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			18.07.02005
  *	@version		0.4
  */
-class XML_RSS_Builder extends ADT_OptionObject
+class XML_RSS_Builder
 {
 	/**	@var	XML_DOM_Builder	$builder			Instance of XML_DOM_Builder */
 	protected $builder;
-	/**	@var	array			$items				Array of items */
-	protected $items	= array();
-	/**	@var	array			$channelElements	Array of elements for channel */
+	/**	@var	array			$channel			Array of Channel Data */
+	protected $channel			= array();
+	/**	@var	array			$items				Array of Items */
+	protected $items			= array();
+	/**	@var	array			$channelElements	Array of Elements of Channel */
 	protected $channelElements	= array(
 		"title"				=> true,
 		"description"		=> true,
@@ -45,8 +44,8 @@ class XML_RSS_Builder extends ADT_OptionObject
 		"cloud"				=> false,
 		"ttl"				=> false,
 		"rating"			=> false,
-		);
-	/**	@var	array			$itemElements		Array of elements for items */
+	);
+	/**	@var	array			$itemElements		Array of Elements of Items */
 	protected $itemElements	= array(
 		"title"				=> true,
 		"description"		=> false,
@@ -58,7 +57,7 @@ class XML_RSS_Builder extends ADT_OptionObject
 		"enclosure"			=> false,
 		"guid"				=> false,
 		"source"			=> false,
-		);
+	);
 	/**	@var	array			$namespaces			Array or RSS Namespaces */
 	protected $namespaces	= array();
 	
@@ -69,9 +68,8 @@ class XML_RSS_Builder extends ADT_OptionObject
 	 */
 	public function __construct()
 	{
-		parent::__construct();
 		$this->builder	= new XML_DOM_Builder();
-		$this->setOption( 'timezone', '+0000' );
+		$this->channel['timezone']	= '+0000';
 		$this->items	= array();
 	}
 
@@ -80,6 +78,7 @@ class XML_RSS_Builder extends ADT_OptionObject
 	 *	@access		public
 	 *	@param		array		$item			Item information to add
 	 *	@return		void
+	 *	@see		http://cyber.law.harvard.edu/rss/rss.html#hrelementsOfLtitemgt
 	 */
 	public function addItem( $item )
 	{
@@ -89,24 +88,8 @@ class XML_RSS_Builder extends ADT_OptionObject
 				$item['pubDate'] = $this->getDate( $item['date'] );
 			else
 				$item['pubDate'] = $this->getDate( time() );
-		
 		}
 		$this->items[] = $item;
-	}
-	
-	/** 
-	 *	Registers a Namespace for a Prefix.
-	 *	@access		public
-	 *	@param		string		$prefix			Prefix of Namespace
-	 *	@param		string		$namespace		Namespace of Prefix
-	 *	@return		bool
-	 *	@see		http://tw.php.net/manual/de/function.dom-domxpath-registernamespace.php
-	 */
-	public function registerNamespace( $prefix, $namespace )
-	{
-		if( isset( $this->namespaces[$prefix] ) )
-			throw new Exception( 'Namespace with Prefix "'.$prefix.'" is already registered for "'.$this->namespaces[$prefix].'".' );
-		$this->namespaces[$prefix]	= $namespace;
 	}
 
 	/**
@@ -118,8 +101,8 @@ class XML_RSS_Builder extends ADT_OptionObject
 	public function build( $encoding = "utf-8" )
 	{
 		foreach( $this->channelElements as $element => $required )
-			if( $required && !$this->getOption( $element ) )
-				trigger_error( "RSS chennel element '".$element."' is required.", E_USER_WARNING );
+			if( $required && !isset( $this->channel[$element] ) )
+				throw new Exception( 'RSS Channel Element "'.$element.'" is required.' );
 //		if( count( $this->items ) < 1 )
 //			trigger_error( "RSS items are required.", E_USER_WARNING );
 
@@ -132,20 +115,20 @@ class XML_RSS_Builder extends ADT_OptionObject
 		
 		//  --  CHANNEL  ELEMENTS  --  //
 		foreach( $this->channelElements as $element => $required )
-			if( $required || $this->getOption( $element ) )
-				$channel->addChild( new XML_DOM_Node( $element, $this->getOption( $element ) ) );
+			if( $required || isset( $this->channel[$element] ) )
+				$channel->addChild( new XML_DOM_Node( $element, $this->channel[$element] ) );
 
-		if( $this->getOption( 'date' ) && !$this->getOption( 'pubDate' ) )
-			$channel->addChild( new XML_DOM_Node( 'pubDate', $this->getDate( $this->getOption( 'date' ) ) ) );
+		if( isset( $this->channel['date'] ) && !isset( $this->channel['pubDate'] ) )
+			$channel->addChild( new XML_DOM_Node( 'pubDate', $this->getDate( $this->channel['date'] ) ) );
 
-		if( $this->getOption( 'imageUrl' ) )
+		if( isset( $this->channel['imageUrl'] ) )
 		{
 			$image	=& new XML_DOM_Node( 'image' );
-			$image->addChild( new XML_DOM_Node( 'url', $this->getOption( 'imageUrl' ) ) );
-			if( $this->getOption( 'imageTitle' ) )
-				$image->addChild( new XML_DOM_Node( 'title', $this->getOption( 'imageTitle' ) ) );
-			if( $this->getOption( 'imageLink' ) )
-				$image->addChild( new XML_DOM_Node( 'link', $this->getOption( 'imageLink' ) ) );
+			$image->addChild( new XML_DOM_Node( 'url', $this->channel['imageUrl'] ) );
+			if( isset( $this->channel['imageTitle'] ) )
+				$image->addChild( new XML_DOM_Node( 'title', $this->channel['imageTitle'] ) );
+			if( isset( $this->channel['imageLink'] ) )
+				$image->addChild( new XML_DOM_Node( 'link', $this->channel['imageLink'] ) );
 			$channel->addChild( $image );
 		}			
 
@@ -187,7 +170,61 @@ class XML_RSS_Builder extends ADT_OptionObject
 	 */
 	protected function getDcDate( $time )
 	{
-		return date( "c", $time ).$this->getOption( 'timezone' );
+		return date( "c", $time ).$this->channel['timezone'];
+	}
+	
+	/** 
+	 *	Registers a Namespace for a Prefix.
+	 *	@access		public
+	 *	@param		string		$prefix			Prefix of Namespace
+	 *	@param		string		$namespace		Namespace of Prefix
+	 *	@return		bool
+	 *	@see		http://php.net/manual/en/function.dom-domxpath-registernamespace.php
+	 */
+	public function registerNamespace( $prefix, $namespace )
+	{
+		if( isset( $this->namespaces[$prefix] ) )
+			throw new Exception( 'Namespace with Prefix "'.$prefix.'" is already registered for "'.$this->namespaces[$prefix].'".' );
+		$this->namespaces[$prefix]	= $namespace;
+	}
+	
+	/**
+	 *	Sets an Information Pair of Channel.
+	 *	@access		public
+	 *	@param		string		$key		Key of Channel Information Pair
+	 *	@param		string		$value		Value of Channel Information Pair
+	 *	@return		void
+	 *	@see		http://cyber.law.harvard.edu/rss/rss.html#requiredChannelElements
+	 */
+	public function setChannelPair( $key, $value )
+	{
+		$this->channel[$key]	= $value;
+	}
+	
+	/**
+	 *	Sets Information of Channel.
+	 *	@access		public
+	 *	@param		array		$array		Array of Channel Information Pairs
+	 *	@return		void
+	 *	@see		http://cyber.law.harvard.edu/rss/rss.html#requiredChannelElements
+	 */
+	public function setChannelData( $array )
+	{
+		$this->channel	= $array;
+	}
+
+	/**
+	 *	Sets Item List.
+	 *	@access		public
+	 *	@param		array		$array		List of Item
+	 *	@return		void
+	 *	@see		http://cyber.law.harvard.edu/rss/rss.html#hrelementsOfLtitemgt
+	 */
+	public function setItemList( $itemList )
+	{
+		$this->items	= array();
+		foreach( $itemList as $item )
+			$this->addItem( $item );
 	}
 }
 ?>

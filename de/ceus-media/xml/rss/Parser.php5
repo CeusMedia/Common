@@ -1,7 +1,7 @@
 <?php
 import( 'de.ceus-media.xml.dom.XPathQuery' );
 /**
- *	Parser for RSS2 XML Files.
+ *	Parser for RSS 2 Feed using XPath.
  *	@package		xml.rss
  *	@uses			XML_DOM_XPathQuery
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
@@ -10,7 +10,7 @@ import( 'de.ceus-media.xml.dom.XPathQuery' );
  *	@see			http://blogs.law.harvard.edu/tech/rss
  */
 /**
- *	Parser for RSS2 XML Files.
+ *	Parser for RSS 2 Feed using XPath.
  *	@package		xml.rss
  *	@uses			XML_DOM_XPathQuery
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
@@ -20,7 +20,7 @@ import( 'de.ceus-media.xml.dom.XPathQuery' );
  */
 class XML_RSS_Parser
 {
-	public $channelKeys	= array(
+	public static $channelKeys	= array(
 		"title",
 		"language",
 		"link",
@@ -48,8 +48,8 @@ class XML_RSS_Parser
 		"textInput/link",
 		"skipHours/hour",
 		"skipDays/day",
-		);
-	public $itemKeys	= array(
+	);
+	public static $itemKeys	= array(
 		"title",
 		"link",
 		"description",
@@ -60,52 +60,40 @@ class XML_RSS_Parser
 		"guid",
 		"pubDate",
 //		"source",
-		);
+	);
 		
-	protected $channelData	= array();
-	protected $itemList		= array();
-
-	public function __construct( $xml = false )
+	public static function parse( $xml )
 	{
-		$this->xPath	= new XML_DOM_XPathQuery();
-		if( $xml )
-			$this->loadXml( $xml );
-	}
-	
-	public function loadXml( $xml )
-	{
-		$this->items	= array();
-		$this->xPath->loadXml( $xml );
-	}
-	
-	public function parse()
-	{
-		foreach( $this->channelKeys as $channelKey )
+		$channelData	= array();
+		$itemList		= array();
+		
+		$xPath	= new XML_DOM_XPathQuery();
+		$xPath->loadXml( $xml );
+		
+		foreach( self::$channelKeys as $channelKey )
 		{
-			$nodeList	= $this->xPath->query( "//rss/channel/".$channelKey."/text()" );
-			$this->channelData[$channelKey]	= $nodeList->item( 0 )->nodeValue;
+			$nodes	= $xPath->query( "//rss/channel/".$channelKey."/text()" );
+			$parts	= explode( "/", $channelKey );
+			if( isset( $parts[1] ) )
+				$channelKey	= $parts[0].ucFirst( $parts[1] );
+			$channelData[$channelKey]	= $nodes->item( 0 )->nodeValue;
 		}
-		$itemList	= $this->xPath->query( "//rss/channel/item" );
-		foreach( $itemList as $item )
+		$nodeList	= $xPath->query( "//rss/channel/item" );
+		foreach( $nodeList as $item )
 		{
 			$array	= array();
-			foreach( $this->itemKeys as $itemKey )
+			foreach( self::$itemKeys as $itemKey )
 			{
-				$nodeList	= $this->xPath->query( $itemKey."/text()", $item );
-				$array[$itemKey]	= $nodeList->item( 0 )->nodeValue;
+				$nodes	= $xPath->query( $itemKey."/text()", $item );
+				$array[$itemKey]	= $nodes->item( 0 )->nodeValue;
 			}
-			$this->itemList[]	= $array;
+			$itemList[]	= $array;
 		}
-	}
-
-	public function getItemList()
-	{
-		return $this->itemList;
-	}
-
-	public function getChannelData()
-	{
-		return $this->channelData;
+		$data	= array(
+			'channelData'	=> $channelData,
+			'itemList'		=> $itemList
+		);
+		return $data;
 	}
 }
 ?>
