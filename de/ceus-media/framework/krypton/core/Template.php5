@@ -172,12 +172,12 @@ class Framework_Krypton_Core_Template
 	 			}
 				$tmp	.= $element;
 			}
-			$out	= preg_replace( '/<%(\?)?' . $label . '%>/u', $tmp, $out );
+			$out	= preg_replace( '/<%(\?)?' . $label . '%>/', $tmp, $out );
  		}
-		$out = preg_replace( '/<%\?.*%>/u', '', $out );    
+		$out = preg_replace( '/<%\?.*%>/U', '', $out );    
         $out = preg_replace( '/\n\s+\n/', "\n", $out );
 		$tags = array();
-		if( preg_match_all( '/<%.*%>/u', $out, $tags ) === 0 )
+		if( preg_match_all( '/<%.*%>/U', $out, $tags ) === 0 )
 		    return $out; 				
 
 		$tags		= array_shift( $tags );
