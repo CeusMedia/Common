@@ -31,25 +31,23 @@ class Framework_Krypton_Core_Messenger
 		'3'	=> 'success',
 		);
 
-	/**	@var	string		$key_headings		Key of Headings within Session */
-	protected $key_headings	= "";
-	/**	@var	array		$classes			Key of Messages within Session */
-	protected $key_messages	= "";
-	/**	@var	array		$classes			Separator of Headings */
-	protected $heading_separator	= "";
+	/**	@var		string		$headingSeparator	Separator of Headings */
+	public $headingSeparator	= " / ";
+	/**	@var		string		$keyHeadings		Key of Headings within Session */
+	public $keyHeadings		= "messenger_headings";
+	/**	@var		string		$keyMessages		Key of Messages within Session */
+	public $keyMessages		= "";
 
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		string		$key_messages		Key of Messages within Session
+	 *	@param		string		$keyMessages		Key of Messages within Session
 	 *	@return		void
 	 */
-	public function __construct( $key_messages = "messenger_messages" )
+	public function __construct( $keyMessages = "messenger_messages" )
 	{
-		$this->key_headings			= "messenger_headings";
-		$this->key_messages			= $key_messages;
-		$this->key_fields			= "messenger_fields";
-		$this->heading_separator	= " / ";
+		if( $keyMessages )
+			$this->keyMessages			= $keyMessages;
 	}
 
 	/**
@@ -61,11 +59,11 @@ class Framework_Krypton_Core_Messenger
 	public function addHeading( $heading )
 	{
 		$session	= Framework_Krypton_Core_Registry::getStatic( 'session' );
-		$headings	= $session->get( $this->key_headings );
+		$headings	= $session->get( $this->keyHeadings );
 		if( !is_array( $headings ) )
 			$headings	= array();
 		$headings[]	= $heading;
-		$session->set( $this->key_headings, $headings );
+		$session->set( $this->keyHeadings, $headings );
 	}
 	
 	/**
@@ -76,8 +74,8 @@ class Framework_Krypton_Core_Messenger
 	public function buildHeadings()
 	{
 		$session	= Framework_Krypton_Core_Registry::getStatic( 'session' );
-		$headings	= $session->get( $this->key_headings );
-		$heading	= implode( $this->heading_separator, $headings );
+		$headings	= $session->get( $this->keyHeadings );
+		$heading	= implode( $this->headingSeparator, $headings );
 		return $heading;
 	}
 
@@ -86,25 +84,25 @@ class Framework_Krypton_Core_Messenger
 	 *	@access		public
 	 *	@return		string
 	 */
-	public function buildMessages( $format_time = false, $auto_clear = true )
+	public function buildMessages( $formatTime = false, $autoClear = true )
 	{
 		$config		= Framework_Krypton_Core_Registry::getStatic( 'config' );
 		$session	= Framework_Krypton_Core_Registry::getStatic( 'session' );
 		$tc			= new Alg_TimeConverter;
-		$messages	= (array) $session->get( $this->key_messages );
-		$fields		= (array) $session->get( $this->key_fields );
+		$messages	= (array) $session->get( $this->keyMessages );
+
 		$list		= "";
 		if( count( $messages ) )
 		{
 			$list	= array();
 			foreach( $messages as $message )
 			{
-				$time	= $message['timestamp'] ? "[".$tc->convertToHuman( $message['timestamp'], $config['layout']['format_timestamp'] )."] " : "";
+				$time	= $message['timestamp'] ? "[".$tc->convertToHuman( $message['timestamp'], $config['layout']['formatTimestamp'] )."] " : "";
 				$class	= $this->classes[$message['type']];
 				$list[] = "<div class='".$class."'><span class='info'>".$time."</span><span class='message'>".$message['message']."</span></div>";
 			}
 			$list	= "<div class='messageList'>".implode( "\n", $list )."</div>";
-			if( $auto_clear )
+			if( $autoClear )
 				$this->clear();
 		}
 		return $list;
@@ -118,8 +116,8 @@ class Framework_Krypton_Core_Messenger
 	public function clear()
 	{
 		$session	= Framework_Krypton_Core_Registry::getStatic( 'session' );
-		$session->set( $this->key_headings, array() );
-		$session->set( $this->key_messages, array() );
+		$session->set( $this->keyHeadings, array() );
+		$session->set( $this->keyMessages, array() );
 	}
 	
 	/**
@@ -160,9 +158,9 @@ class Framework_Krypton_Core_Messenger
 	protected function noteMessage( $type, $message)
 	{
 		$session	= Framework_Krypton_Core_Registry::getStatic( 'session' );
-		$messages	= (array) $session->get( $this->key_messages );
+		$messages	= (array) $session->get( $this->keyMessages );
 		$messages[]	= array( "message" => $message, "type" => $type, "timestamp" => time() );
-		$session->set( $this->key_messages, $messages );
+		$session->set( $this->keyMessages, $messages );
 	}
 	
 	/**
@@ -201,7 +199,7 @@ class Framework_Krypton_Core_Messenger
 	public function gotError()
 	{
 		$session	= Framework_Krypton_Core_Registry::getStatic( 'session' );
-		$messages	= (array) $session->get( $this->key_messages );
+		$messages	= (array) $session->get( $this->keyMessages );
 		foreach( $messages as $message )
 			if( $message['type'] < 2 )
 				return true;

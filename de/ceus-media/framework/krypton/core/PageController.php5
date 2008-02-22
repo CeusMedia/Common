@@ -173,7 +173,7 @@ class Framework_Krypton_Core_PageController
 	{
 		$scope	= $this->getPageScope( $pageId );
 		if( !$this->checkPage( $pageId, $scope ) )
-			throw new InvalidArgumentException( 'Page "'.$pageId.'" is not defined in Scope "'.$scope.'"' );
+			throw new InvalidArgumentException( 'Page "'.$pageId.'" is not defined in Scope "'.$scope.'".' );
 		return $this->pages[$scope][$pageId]['roles'];
 	}
 
@@ -215,14 +215,13 @@ class Framework_Krypton_Core_PageController
 	 */
 	public function getSource( $pageId )
 	{
-		if( $this->checkPage( $pageId ) )
-		{
-			$scope	= $this->getPageScope( $pageId );
-			$pageId	= strtolower( $pageId );
-			$page	= $this->pages[$scope][$pageId];
-			return $page['file'];
-		}
-		return null;
+		if( !$this->checkPage( $pageId ) )
+			throw new InvalidArgumentException( 'Page "'.$pageId.'" is not defined.' );
+			
+		$scope	= $this->getPageScope( $pageId );
+		$pageId	= strtolower( $pageId );
+		$page	= $this->pages[$scope][$pageId];
+		return $page['file'];
 	}
 	
 	/**
@@ -233,13 +232,11 @@ class Framework_Krypton_Core_PageController
 	 */
 	public function isDisabled( $pageId )
 	{
-		if( $this->checkPage( $pageId ) )
-		{
-			$scope	= $this->getPageScope( $pageId );
-			$page	= $this->pages[$scope][$pageId];
-			return isset( $page['disabled'] ) && $page['disabled'];
-		}
-		return FALSE;
+		if( !$this->checkPage( $pageId ) )
+			return FALSE;
+		$scope	= $this->getPageScope( $pageId );
+		$page	= $this->pages[$scope][$pageId];
+		return isset( $page['disabled'] ) && $page['disabled'];
 	}
 
 	/**
@@ -269,6 +266,8 @@ class Framework_Krypton_Core_PageController
 	 */
 	public function isHidden( $pageId )
 	{
+		if( !$this->checkPage( $pageId ) )
+			return FALSE;
 		$scope	= $this->getPageScope( $pageId );
 		$page	= $this->pages[$scope][$pageId];
 		return isset( $page['hidden'] ) && $page['hidden'];

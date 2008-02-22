@@ -82,14 +82,15 @@ class XML_RSS_Writer
 	 *	@param		string		$fileName	File Name of XML RSS File
 	 *	@param		array		$array		Array of Channel Information Pairs
 	 *	@param		array		$array		List of Item
+	 *	@param		string		$encoding	Encoding Type
 	 *	@return		array
 	 */
-	public static function save( $fileName, $channelData, $itemList )
+	public static function save( $fileName, $channelData, $itemList, $encoding = "utf-8" )
 	{
 		$builder	= new XML_RSS_Builder();
 		$builder->setChannelData( $channelData );
 		$builder->setItemList( $itemList );
-		$xml	= $builder->build();
+		$xml	= $builder->build( $encoding = "utf-8" );
 		return File_Writer::save( $fileName, $xml );
 	}
 
@@ -97,11 +98,12 @@ class XML_RSS_Writer
 	 *	Writes RSS to a File.
 	 *	@access		public
 	 *	@param		string		$fileName	File Name of XML RSS File
+	 *	@param		string		$encoding	Encoding Type
 	 *	@return		array
 	 */
-	public function write( $fileName )
+	public function write( $fileName, $encoding = "utf-8" )
 	{
-		return $this->save( $fileName, $this->channelData, $this->itemList );
+		return $this->save( $fileName, $this->channelData, $this->itemList, $encoding );
 	}
 }
 ?>

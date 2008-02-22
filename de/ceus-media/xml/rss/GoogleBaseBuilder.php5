@@ -19,6 +19,7 @@ import( 'de.ceus-media.xml.rss.Builder' );
 class XML_RSS_GoogleBaseBuilder extends XML_RSS_Builder
 {
 	protected $itemElements	= array(
+		'titel'						=> false,
 		'beschreibung'				=> false,
 		'g:preis'					=> false,
 		'g:isbn'					=> false,
@@ -34,13 +35,13 @@ class XML_RSS_GoogleBaseBuilder extends XML_RSS_Builder
 		'g:währung'					=> false,
 		'g:veröffentlichungs_datum'	=> false,
 	);
+	/**	@var		string		$namespaceUri		URI of Google Base Namespace */
 	public static $namespaceUri	= "http://base.google.com/ns/1.0";
 
 	public function __construct()
 	{
 		parent::__construct();
 		$this->registerNamespace( 'g', self::$namespaceUri );
-
 	}
 }
 ?>

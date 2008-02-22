@@ -129,8 +129,26 @@ class XML_RSS_Builder
 				$image->addChild( new XML_DOM_Node( 'title', $this->channel['imageTitle'] ) );
 			if( isset( $this->channel['imageLink'] ) )
 				$image->addChild( new XML_DOM_Node( 'link', $this->channel['imageLink'] ) );
+
+			if( isset( $this->channel['imageWith'] ) )
+				$image->addChild( new XML_DOM_Node( 'width', $this->channel['imageWith'] ) );
+			if( isset( $this->channel['imageHeight'] ) )
+				$image->addChild( new XML_DOM_Node( 'height', $this->channel['imageHeight'] ) );
+			if( isset( $this->channel['imageDescription'] ) )
+				$image->addChild( new XML_DOM_Node( 'description', $this->channel['imageDescription'] ) );
 			$channel->addChild( $image );
 		}			
+		if( isset( $this->channel['textInputTitle'] ) )
+		{
+			$image	=& new XML_DOM_Node( 'textInput' );
+			$image->addChild( new XML_DOM_Node( 'title', $this->channel['textInputTitle'] ) );
+			if( isset( $this->channel['textInputDescription'] ) )
+				$image->addChild( new XML_DOM_Node( 'description', $this->channel['textInputDescription'] ) );
+			if( isset( $this->channel['textInputName'] ) )
+				$image->addChild( new XML_DOM_Node( 'name', $this->channel['textInputName'] ) );
+			if( isset( $this->channel['textInputLink'] ) )
+				$image->addChild( new XML_DOM_Node( 'link', $this->channel['textInputLink'] ) );
+		}
 
 		//  --  ITEMS  --  //
 		foreach( $this->items as $item )
@@ -198,7 +216,16 @@ class XML_RSS_Builder
 	 */
 	public function setChannelPair( $key, $value )
 	{
-		$this->channel[$key]	= $value;
+		if( is_array( $value ) )
+		{
+			foreach( $value as $subKey => $subValue )
+			{
+				$subKey	= $key.ucFirst( $subKey ); 
+				$this->setChannelPair( $subKey, $subValue );
+			}
+		}
+		else
+			$this->channel[$key]	= $value;
 	}
 	
 	/**

@@ -18,6 +18,42 @@
 class Alg_Validation_Predicates
 {
 	/**
+	 *	Complements Month Date Format for Time Predicates with Month Start or Month End for Formats.
+	 *	Allowed Formats are: m.y, m.Y, m/y, m/Y, y-m, Y-m 
+	 *	@access		protected
+	 *	@param		string		$string		String to be complemented
+	 *	@param		int			$mode		Complement Mode (0:Month Start, 1:Month End)
+	 *	@return		
+	 */
+	protected function complementMonthDate( $string, $mode = 0 )
+	{
+		$string	= trim( $string );
+		if( preg_match( "@^[0-9]{1,2}\.([0-9]{2}){1,2}$@", $string ) )
+		{
+			$string	= "01.".$string;
+		}
+		else if( preg_match( "@^([0-9]{2}){1,2}-[0-9]{1,2}$@", $string ) )
+		{
+			$string	.= "-01";
+		}
+		else if( preg_match( "@^[0-9]{1,2}/([0-9]{2}){1,2}$@", $string ) )
+		{
+			$pos	= strpos( $string, "/" );
+			$string	= substr( $string, 0, $pos )."/01".substr( $string, $pos );
+		}
+		else
+			return $string;
+		$time	= strtotime( $string );
+		if( $time == false )
+			throw new InvalidArgumentException( 'Given Date "'.$string.'" could not been complemented.' );
+		
+		$complement	= $mode ? date( "t", $time ) : "01";
+		$string		= date( "c", $time );
+		$string		= str_replace( "-01T", "-".$complement."T", $string );
+		return $string;
+	}
+
+	/**
 	 *	Indicates whether a String is short enough.
 	 *	@access		public
 	 *	@param		string		$string		String to be checked
@@ -84,9 +120,10 @@ class Alg_Validation_Predicates
 	 */
 	public static function isAfter( $string, $point )
 	{
+		$string	= self::complementMonthDate( $string );
 		$time	= strtotime( $string );
-		if( $time == -1 )
-			return false;
+		if( $time === false )
+			throw new InvalidArgumentException( 'Given Date "'.$string.'" could not been parsed.' );
 		return $time > $point;
 	}
 
@@ -148,30 +185,6 @@ class Alg_Validation_Predicates
 	}
 
 	/**
-	 *	Indicates whether a String is at most a limit.
-	 *	@access		public
-	 *	@param		string		$string		String to be checked
-	 *	@param		string		$limit		Parameter to be measured with
-	 *	@return		bool
-	 */
-	public static function isMaximum( $string, $limit )
-	{
-		return (int) $string <= (int) $limit;
-	}
-
-	/**
-	 *	Indicates whether a String is at least a limit.
-	 *	@access		public
-	 *	@param		string		$string		String to be checked
-	 *	@param		string		$limit		Parameter to be measured with
-	 *	@return		bool
-	 */
-	public static function isMinimum( $string, $limit )
-	{
-		return (int) $string >= (int) $limit;
-	}
-
-	/**
 	 *	Indicates whether a String is time formated and is before another point in time.
 	 *	@access		public
 	 *	@param		string		$string		String to be checked
@@ -180,9 +193,10 @@ class Alg_Validation_Predicates
 	 */
 	public static function isBefore( $string, $point )
 	{
+		$string	= self::complementMonthDate( $string, 1 );
 		$time	= strtotime( $string );
-		if( $time == -1 )
-			return false;
+		if( $time === false )
+			throw new InvalidArgumentException( 'Given Date "'.$string.'" could not been parsed.' );
 		return $time < $point;
 	}
 
@@ -262,9 +276,10 @@ class Alg_Validation_Predicates
 	 */
 	public static function isFuture( $string )
 	{
+		$string	= self::complementMonthDate( $string );
 		$time	= strtotime( $string );
-		if( $time == -1 )
-			return false;
+		if( $time === false )
+			throw new InvalidArgumentException( 'Given Date "'.$string.'" could not been parsed.' );
 		return $time > time();
 	}
 
@@ -316,6 +331,30 @@ class Alg_Validation_Predicates
 	}
 
 	/**
+	 *	Indicates whether a String is at most a limit.
+	 *	@access		public
+	 *	@param		string		$string		String to be checked
+	 *	@param		string		$limit		Parameter to be measured with
+	 *	@return		bool
+	 */
+	public static function isMaximum( $string, $limit )
+	{
+		return (int) $string <= (int) $limit;
+	}
+
+	/**
+	 *	Indicates whether a String is at least a limit.
+	 *	@access		public
+	 *	@param		string		$string		String to be checked
+	 *	@param		string		$limit		Parameter to be measured with
+	 *	@return		bool
+	 */
+	public static function isMinimum( $string, $limit )
+	{
+		return (int) $string >= (int) $limit;
+	}
+
+	/**
 	 *	Indicates whether a String contains only numeric characters (also ²³).
 	 *	@access		public
 	 *	@param		string		$string		String to be checked
@@ -334,9 +373,10 @@ class Alg_Validation_Predicates
 	 */
 	public static function isPast( $string )
 	{
+		$string	= self::complementMonthDate( $string, 1 );
 		$time	= strtotime( $string );
-		if( $time == -1 )
-			return false;
+		if( $time === false )
+			throw new InvalidArgumentException( 'Given Date "'.$string.'" could not been parsed.' );
 		return $time < time();
 	}
 

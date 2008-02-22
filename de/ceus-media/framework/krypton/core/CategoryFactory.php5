@@ -32,14 +32,13 @@ class Framework_Krypton_Core_CategoryFactory
 	 */
 	public function getClassName( $className, $prefix = "", $category = "" )
 	{
-		$type		= $category ? $category : $this->getType();
-		$type		= ucFirst( $type );
-		$className	= ucFirst( $className );
-		$className	= $type."_".$className;
-		if( $prefix )
-			$className	= ucFirst( $prefix )."_".$className;
-		return $className;
+		$type	= $category ? $category : $this->getType();
+		$name	= $prefix." ".$type." ".$className;
+		$name	= ucWords( trim( $name ) );
+		$name	= str_replace( " ", "_", $name );
+		return $name;
 	}
+
 	
 	/**
 	 *	Returns typed Class File Name.
@@ -49,13 +48,13 @@ class Framework_Krypton_Core_CategoryFactory
 	 *	@param		string		$category		Category to force
 	 *	@return		string
 	 */
-	public function getCassFileName( $className, $prefix = "", $category = "" )
+	public function getClassFileName( $className, $prefix = "", $category = "" )
 	{
 		$type		= $category ? $category : $this->getType();
 		$className	= ucFirst( $className );
-		$className	= $type.".".$className;
+		$className	= lcFirst( $type ).".".$className;
 		if( $prefix )
-			$className	= $prefix.".".$className;
+			$className	= lcFirst( $prefix ).".".$className;
 		return $className;
 	}
 	
@@ -70,9 +69,10 @@ class Framework_Krypton_Core_CategoryFactory
 	public function getObject( $className, $prefix = "", $category = "" )
 	{
 		$type		= $category ? $category : $this->getType();
-		$fileName	= "classes.".$this->getCassFileName( $className, $prefix, $category );
+		$fileName	= "classes.".$this->getClassFileName( $className, $prefix, $category );
 		$className	= $this->getClassName( $className, $prefix, $category );
-		import( $fileName );
+		if( !class_exists( $className ) )
+			import( $fileName );
 		return new $className();
 	}
 	
@@ -86,9 +86,19 @@ class Framework_Krypton_Core_CategoryFactory
 	{
 		if( $this->type )
 			return $this->type;
-		return $this->default;
+		if( $this->default )
+			return $this->default;
+		if( $this->types )
+			return $this->types[0];
+		throw new Exception( 'No Types set.' );
 	}
-	
+
+
+	/**
+	 *	Returns List of set Types.
+	 *	@access		public
+	 *	@return		array
+	 */
 	public function getTypes()
 	{
 		return $this->types;
@@ -104,7 +114,7 @@ class Framework_Krypton_Core_CategoryFactory
 	{
 		$type	= trim( $type );
 		if( !in_array( $type, $this->types ) )
-			throw new Exception( "Type '".$type."' is not in Factory." );
+			throw new InvalidArgumentException( "Type '".$type."' is not available." );
 		$this->default	= $type;
 	}
 	
@@ -120,11 +130,7 @@ class Framework_Krypton_Core_CategoryFactory
 		if( $type )
 		{
 			if( !in_array( $type, $this->types ) )
-			{
-				$types		= implode( ", ", $this->types );
-				$message	= "Invalid Factory Type '".$type."' (available:".$types.".";
-				throw new Exception( $message );
-			}
+				throw new InvalidArgumentException( 'Type "'.$type.'" is not available.' );
 			$this->type	= $type;
 		}
 	}
@@ -140,6 +146,14 @@ class Framework_Krypton_Core_CategoryFactory
 		$this->types	= array();
 		foreach( $types as $type )
 			$this->types[]	= trim( $type );
+	}
+}
+if( !function_exists( 'lcfirst' ) )
+{
+	function lcfirst( $string )
+	{
+		$string[0] = strtolower( $string[0] );
+		return $string;
 	}
 }
 ?>

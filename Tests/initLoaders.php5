@@ -15,4 +15,5 @@ function import( $class )
 		die( "Class '".$filename."' is not existing." );
     include_once( $filename );
 }
+import( 'de.ceus-media.ui.DevOutput' );
 ?>

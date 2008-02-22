@@ -7,6 +7,7 @@ require_once 'PHPUnit/TextUI/TestRunner.php';
 require_once 'Tests/file/arc/AllTests.php';
 require_once 'Tests/file/list/AllTests.php';
 require_once 'Tests/file/yaml/AllTests.php';
+require_once 'Tests/file/ini/AllTests.php';
 class Tests_File_AllTests
 {
 	public static function main()
@@ -16,10 +17,11 @@ class Tests_File_AllTests
 
 	public static function suite()
 	{
-		$suite = new PHPUnit_Framework_TestSuite( 'ClassContainer/ADT' );
-		$suite->addTest(Tests_File_Arc_AllTests::suite());
-		$suite->addTest(Tests_File_List_AllTests::suite());
-		$suite->addTest(Tests_File_Yaml_AllTests::suite());
+		$suite = new PHPUnit_Framework_TestSuite( 'ClassContainer/File' );
+		$suite->addTest( Tests_File_Arc_AllTests::suite() );
+		$suite->addTest( Tests_File_List_AllTests::suite() );
+		$suite->addTest( Tests_File_Yaml_AllTests::suite() );
+		$suite->addTest( Tests_File_INI_AllTests::suite() );
 		return $suite;
 	}
 }

@@ -69,7 +69,11 @@ class XML_RSS_Parser
 		
 		$xPath	= new XML_DOM_XPathQuery();
 		$xPath->loadXml( $xml );
-		
+
+		$document	= $xPath->getDocument();
+		$encoding	= $document->encoding;
+		$version	= $document->documentElement->getAttribute( 'version' );
+
 		foreach( self::$channelKeys as $channelKey )
 		{
 			$nodes	= $xPath->query( "//rss/channel/".$channelKey."/text()" );
@@ -90,6 +94,8 @@ class XML_RSS_Parser
 			$itemList[]	= $array;
 		}
 		$data	= array(
+			'encoding'		=> $encoding,
+			'version'		=> $version,
 			'channelData'	=> $channelData,
 			'itemList'		=> $itemList
 		);
