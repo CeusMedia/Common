@@ -105,30 +105,29 @@ class Framework_Krypton_Core_PageController
 	 */
 	public function getClassName( $pageId, $prefix = "", $category = "" )
 	{
-		if( $this->checkPage( $pageId ) )
+		if( !$this->checkPage( $pageId ) )
+			throw new InvalidArgumentException( 'Page "'.$pageId.'" is not defined.' );
+
+		$registry	= Framework_Krypton_Core_Registry::getInstance();
+		$pageId		= strtolower( $pageId );
+		$scope		= $this->getPageScope( $pageId );
+		$page		= $this->pages[$scope][$pageId];
+		if( isset( $page['factory'] ) && $page['factory'] )
 		{
-			$registry	= Framework_Krypton_Core_Registry::getInstance();
-			$pageId		= strtolower( $pageId );
-			$scope		= $this->getPageScope( $pageId );
-			$page		= $this->pages[$scope][$pageId];
-			if( isset( $page['factory'] ) && $page['factory'] )
+			$factory	= $page['factory'];
+			try
 			{
-				$factory	= $page['factory'];
-				try
-				{
-					$factory	= $registry->get( $factory );
-				}
-				catch( Exception $e )
-				{
-					throw new Framework_Krypton_Exception_Logic( 'No Category Factory "'.$factory.'" available.' );
-				}
-				return $factory->getClassName( $page['file'], $prefix, $category );
+				$factory	= $registry->get( $factory );
 			}
-			if( $prefix )
-				$prefix	= ucFirst( $prefix )."_";
-			return $prefix.$page['file'];
+			catch( Exception $e )
+			{
+				throw new Framework_Krypton_Exception_Logic( 'No Category Factory "'.$factory.'" available.' );
+			}
+			return $factory->getClassName( $page['file'], $prefix, $category );
 		}
-		return null;
+		if( $prefix )
+			$prefix	= ucFirst( $prefix )."_";
+		return $prefix.$page['file'];
 	}
 
 	/**

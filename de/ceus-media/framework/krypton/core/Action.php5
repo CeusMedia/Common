@@ -94,40 +94,10 @@ abstract class Framework_Krypton_Core_Action extends Framework_Krypton_Core_Comp
 	 */
 	protected function restart( $request )
 	{
-		$this->messenger->noteNotice( "Redirecting to: ".$request );
 		$session	= Framework_Krypton_Core_Registry::getStatic( 'session' );
 		$session->__destruct();
 		header( "Location: ".$request );
 		exit;
-	}
-
-	/**
-	 *	Restart application with a Request URL.
-	 *	@access		protected
-	 *	@param		bool		$result				Result of Logic Action
-	 *	@param		Core_Logic	$logic				Business Logic Object
-	 *	@param		string		$language_file		Language File Key
-	 *	@param		string		$label_section		Field Label Section for Validation Messages
-	 *	@param		string		$success			Key of Success Message
-	 *	@param		string		$error				Key of Error Message
-	 *	@return		void
-	 */
-	protected function showResultMessages( $result, $logic, $language_file, $label_section, $success, $error = "" )
-	{
-		$words		=& $this->words[$language_file]['msg'];
-		if( $logic->hasErrors() )
-		{
-			$this->interpretValidationErrors( $logic->getErrors(), $language_file, $label_section );		
-			$this->interpretErrors( $logic->getErrors(), $language_file, 'msg' );
-		}
-		else if( $result )
-		{
-			$this->messenger->noteSuccess( $words[$success] );
-		}
-		else
-		{
-			$this->messenger->noteError( $words[$error] );
-		}
 	}
 }
 ?>

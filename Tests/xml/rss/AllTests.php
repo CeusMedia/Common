@@ -6,8 +6,9 @@ require_once( 'PHPUnit/Framework/TestSuite.php' );
 require_once( 'PHPUnit/TextUI/TestRunner.php' );
 require_once( 'Tests/initLoaders.php5' );
 require_once( 'Tests/xml/rss/ReaderTest.php' );
-#require_once( 'Tests/xml/rss/ParserTest.php' );
+require_once( 'Tests/xml/rss/ParserTest.php' );
 require_once( 'Tests/xml/rss/BuilderTest.php' );
+require_once( 'Tests/xml/rss/WriterTest.php' );
 class Tests_XML_RSS_AllTests
 {
 	public static function main()
@@ -19,8 +20,9 @@ class Tests_XML_RSS_AllTests
 	{
 		$suite = new PHPUnit_Framework_TestSuite( 'ClassContainer/XML/RSS' );
 		$suite->addTestSuite( 'Tests_XML_RSS_ReaderTest' ); 
-#		$suite->addTestSuite( 'Tests_XML_RSS_ParserTest' ); 
+		$suite->addTestSuite( 'Tests_XML_RSS_ParserTest' ); 
 		$suite->addTestSuite( 'Tests_XML_RSS_BuilderTest' ); 
+		$suite->addTestSuite( 'Tests_XML_RSS_WriterTest' ); 
 		return $suite;
 	}
 }

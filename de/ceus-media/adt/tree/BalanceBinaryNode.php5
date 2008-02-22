@@ -28,21 +28,9 @@ class ADT_Tree_BalanceBinaryNode extends ADT_Tree_BinaryNode
 	 */
 	public function __construct( $balance, $value = false )
 	{
-		$this->setBalance ( $balance );
+		$this->balance	= $balance;
 		parent::__construct( $value );
 	}
-
-	/**
-	 *	Sets Balance Tolerance.
-	 *	@access		public
-	 *	@param		int			balance		Balance Tolerance
-	 *	@return		void
-	 */
-	public function setBalance( $balance )
-	{
-		$this->balance = $balance;
-	}
-
 
 	/**
 	 *	Adds a new Node To Tree.
@@ -74,7 +62,7 @@ class ADT_Tree_BalanceBinaryNode extends ADT_Tree_BinaryNode
 		{
 			$bf = $this->getBalance();
 			if( $bf <= -1 * $this->balance || $bf >= $this->balance )
-				$this->balanceTree( $bf );
+				$this->balanceTree();
 		}
 	}
 
@@ -94,12 +82,12 @@ class ADT_Tree_BalanceBinaryNode extends ADT_Tree_BinaryNode
 	/**
 	 *	Balances unbalanced Tree with Rotations.
 	 *	@access		public
-	 *	@param		mixed		value		Value of new Node
 	 *	@return		void
 	 */
-	public function balanceTree( $bf )
+	protected function balanceTree()
 	{
-		if ($bf >= $this->balance) 												// LR or LL rotation
+		$bf	= $this->getBalance();
+		if( $bf >= $this->balance ) 												// LR or LL rotation
 		{
 			$ll_height	= $this->left->left ? $this->left->left->getHeight() : 0;
 			$lr_height	= $this->left->right? $this->left->right->getHeight(): 0;
@@ -154,10 +142,10 @@ class ADT_Tree_BalanceBinaryNode extends ADT_Tree_BinaryNode
 	/**
 	 *	Returns Tree as HTML Table.
 	 *	@access		public
-	 *	@param		bool		[showbalance_factor]		Flag: show Balance Factor
+	 *	@param		bool		[showBalanceFactor]		Flag: show Balance Factor
 	 *	@return		void
 	 */
-	public function toTable( $showbalance_factor = false )
+	public function toTable( $showBalanceFactor = false )
 	{
 		if( $this->left )
 			$la	= $this->left->getHeight();
@@ -165,7 +153,7 @@ class ADT_Tree_BalanceBinaryNode extends ADT_Tree_BinaryNode
 			$lb	= $this->right->getHeight();
 		$depth	= $this->getHeight ();
 		$color	= 240 - ( 3 * $depth );
-		if( $showbalance_factor )
+		if( $showBalanceFactor )
 		{
 			$k = $la - $lb;
 			if( $k <= -1*$this->balance || $k >= $this->balance )
@@ -177,12 +165,12 @@ class ADT_Tree_BalanceBinaryNode extends ADT_Tree_BinaryNode
 		{
 			$code .= "<tr><td align=center valign=top>";
 			if( $this->left )
-				$code .= $this->left->toTable();
+				$code .= $this->left->toTable( $showBalanceFactor);
 			else
 				$code .= "&nbsp;";
 			$code .= "</td><td align=center valign=top>";
 			if( $this->right )
-				$code .= $this->right->toTable();
+				$code .= $this->right->toTable( $showBalanceFactor );
 			else
 				$code .= "&nbsp;";
 			$code .= "</td></tr>\n";

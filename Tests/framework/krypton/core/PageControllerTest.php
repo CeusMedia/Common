@@ -9,6 +9,7 @@
  */
 require_once 'PHPUnit/Framework/TestCase.php'; 
 require_once 'Tests/initLoaders.php5' ;
+import( 'de.ceus-media.framework.krypton.core.CategoryFactory' );
 import( 'de.ceus-media.framework.krypton.core.PageController' );
 /**
  *	TestUnit of PageController
@@ -22,9 +23,15 @@ class Tests_Framework_Krypton_Core_PageControllerTest extends PHPUnit_Framework_
 {
 	public function __construct()
 	{
-		$config	= array();
+		$config		= array();
+		$factory	= new Framework_Krypton_Core_CategoryFactory();
+		$factory->setTypes( array( "alpha", "beta", "gamma" ) );
+		$factory->setDefault( "gamma" );
+		$factory->setType( "beta" );
+		
 		$this->registry		= Framework_Krypton_Core_Registry::getInstance();
 		$this->registry->set( 'config', $config, true );
+		$this->registry->set( 'factory', $factory, true );
 		$this->controller	= new Framework_Krypton_Core_PageController( "Tests/framework/krypton/core/pages.xml" );
 	}
 
@@ -153,37 +160,114 @@ class Tests_Framework_Krypton_Core_PageControllerTest extends PHPUnit_Framework_
 
 	public function testConstruct()
 	{
-		throw new PHPUnit_Framework_IncompleteTestError( 'Dieser Test ist noch nicht fertig ausprogrammiert.' );
+		
+		$registry	= Framework_Krypton_Core_Registry::getInstance();
+		$registry->set( 'config', $config = array(), true );
+		$controller	= new Framework_Krypton_Core_PageController( "Tests/framework/krypton/core/pages.xml" );
+
+		$pages		= $controller->getPages();
+
+		$assertion	= true;
+		$creation	= is_array( $pages );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= "static";
+		$creation	= $pages['foot']['help']['type'];
+		$this->assertEquals( $assertion, $creation );
 	}
+
 	public function testCheckPage()
 	{
-		throw new PHPUnit_Framework_IncompleteTestError( 'Dieser Test ist noch nicht fertig ausprogrammiert.' );
+		$assertion	= true;
+		$creation	= $this->controller->checkPage( 'help' );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= true;
+		$creation	= $this->controller->checkPage( 'help', 'foot' );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= false;
+		$creation	= $this->controller->checkPage( 'not_existing' );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= false;
+		$creation	= $this->controller->checkPage( 'not_existing', 'foot' );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= false;
+		$creation	= $this->controller->checkPage( 'help', 'main' );
+		$this->assertEquals( $assertion, $creation );
 	}
+
 	public function testClearCache()
 	{
 		throw new PHPUnit_Framework_IncompleteTestError( 'Dieser Test ist noch nicht fertig ausprogrammiert.' );
 	}
 	public function testgetClassName()
 	{
-		throw new PHPUnit_Framework_IncompleteTestError( 'Dieser Test ist noch nicht fertig ausprogrammiert.' );
+		$assertion	= "Beta_CatalogSearch";
+		$creation	= $this->controller->getClassName( 'search' );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= "Prefix_Beta_CatalogSearch";
+		$creation	= $this->controller->getClassName( 'search', "prefix" );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= "Prefix_Gamma_CatalogSearch";
+		$creation	= $this->controller->getClassName( 'search', "prefix", "gamma" );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= "information/help.html";
+		$creation	= $this->controller->getClassName( 'help' );
+		$this->assertEquals( $assertion, $creation );
+
+		try
+		{
+			$creation	= $this->controller->getClassName( 'not_existing' );
+			$this->fail( 'An expected Exception has not been thrown.' );
+		}
+		catch( Exception $e ){}
 	}
+
 	public function testGetPages()
 	{
-		throw new PHPUnit_Framework_IncompleteTestError( 'Dieser Test ist noch nicht fertig ausprogrammiert.' );
+		$assertion	= true;
+		$creation	= array_key_exists( 'help', $this->controller->getPages( 'foot' ) );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= true;
+		$creation	= array_key_exists( 'foot', $this->controller->getPages() );
+		$this->assertEquals( $assertion, $creation );
+
+		try
+		{
+			$creation	= array_key_exists( 'foot', $this->controller->getPages( 'not_existing' ) );
+			$this->fail( 'An expected Exception has not been thrown.' );
+		}
+		catch( Exception $e ){}
 	}
+
 	public function testGetPageScope()
 	{
-		throw new PHPUnit_Framework_IncompleteTestError( 'Dieser Test ist noch nicht fertig ausprogrammiert.' );
+		$assertion	= 'foot';
+		$creation	= $this->controller->getPageScope( 'help' );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= 'main';
+		$creation	= $this->controller->getPageScope( 'search' );
+		$this->assertEquals( $assertion, $creation );
+
+		try
+		{
+			$creation	= $this->controller->getPageScope( 'not_existing' );
+			$this->fail( 'An expected Exception has not been thrown.' );
+		}
+		catch( Exception $e ){}
 	}
 
-
 /*
-	public function __construct( $fileName )
-	public function checkPage( $pageId, $scope = "" )
 	public function clearCache()
 	public function getClassName( $pageId, $prefix = "", $category = "" )
-	public function getPages( $scope = "" )
-	public function getPageScope( $pageId )
 */
 }
 ?>

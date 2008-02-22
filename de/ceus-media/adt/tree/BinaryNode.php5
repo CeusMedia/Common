@@ -16,11 +16,11 @@
 class ADT_Tree_BinaryNode
 {
 	/**	@var 	mixed		$value		Value of the Root Element of this Tree */
-	protected $value		= null;
+	protected $value		= NULL;
 	/**	@var	ADT_Tree_BinaryNode		$left		Left Child Tree */
-	protected $left			= null;
+	protected $left			= NULL;
 	/**	@var	ADT_Tree_BinaryNode		$right		Right Child Tree */
-	protected $right		= null;
+	protected $right		= NULL;
 
 	/**
 	 *	Constructor.
@@ -93,10 +93,12 @@ class ADT_Tree_BinaryNode
 	/**
 	 *	Returns Left Child Tree.
 	 *	@access		public
-	 *	@return		mixed
+	 *	@return		ADT_Tree_BinaryNode
 	 */
 	public function getLeft()
 	{
+		if( $this->left === NULL )
+			throw new Exception( 'No left Node available.' );
 		return $this->left;
 	}
 	
@@ -107,6 +109,8 @@ class ADT_Tree_BinaryNode
 	 */
 	public function getRight()
 	{
+		if( $this->right === NULL )
+			throw new Exception( 'No right Node available.' );
 		return $this->right;
 	}
 	
@@ -175,44 +179,45 @@ class ADT_Tree_BinaryNode
 	}
 
 	/**
-	 *	Runs through the Tree in any Directions and returns the Tree as Array.
+	 *	Runs through the Tree in any Directions and returns the Tree as List.
 	 *	@access		public
 	 *	@param		string		$dir		Direction to run through the Tree (lwr|rwl|wlr|wrl)
 	 *	@return		array
 	 */
-	public function toArray( $dir = false )
+	public function toList( $dir = false )
 	{
-		if( !$dir || $dir = "lwr" )
+		$array	= array();
+		if( !$dir || $dir == "lwr" )
 		{
 			if( $this->left )
-				$array = array_merge( $array, $this->left->toArray( $dir ) );
+				$array = array_merge( $array, $this->left->toList( $dir ) );
 			$array = array_merge( $array, array( $this->value ) );
 			if( $this->right )
-				$array = array_merge( $array, $this->right->toArray( $dir ) );
+				$array = array_merge( $array, $this->right->toList( $dir ) );
 		}
-		else if( $dir = "rwl" )
+		else if( $dir == "rwl" )
 		{
 			if( $this->right )
-				$array = array_merge( $array, $this->right->toArray( $dir ) );
+				$array = array_merge( $array, $this->right->toList( $dir ) );
 			$array = array_merge( $array, array ($this->value));
 			if( $this->left)
-				$array = array_merge( $array, $this->left->toArray( $dir ) );
+				$array = array_merge( $array, $this->left->toList( $dir ) );
 		}
-		else if( $dir = "wlr" )
+		else if( $dir == "wlr" )
 		{
 			$array = array_merge( $array, array ($this->value));
 			if( $this->left )
-				$array = array_merge( $array, $this->left->toArray( $dir ) );
+				$array = array_merge( $array, $this->left->toList( $dir ) );
 			if( $this->right )
-				$array = array_merge( $array, $this->right->toArray( $dir ) );
+				$array = array_merge( $array, $this->right->toList( $dir ) );
 		}
-		else if( $dir = "wrl" )
+		else if( $dir == "wrl" )
 		{
 			$array = array_merge( $array, array ($this->value));
 			if( $this->right )
-				$array = array_merge( $array, $this->right->toArray( $dir ) );
+				$array = array_merge( $array, $this->right->toList( $dir ) );
 			if( $this->left )
-				$array = array_merge( $array, $this->left->toArray( $dir ) );
+				$array = array_merge( $array, $this->left->toList( $dir ) );
 		}
 		return $array;
 	}
