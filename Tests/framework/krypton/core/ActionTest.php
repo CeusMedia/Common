@@ -34,7 +34,7 @@ class TestAction extends Framework_Krypton_Core_Action
  
 class Tests_Framework_Krypton_Core_ActionTest extends PHPUnit_Framework_TestCase
 {
-	public function __construct()
+/*	public function __construct()
 	{
 	
 		$language = $this->getMock( 'Language' );
@@ -65,5 +65,5 @@ class Tests_Framework_Krypton_Core_ActionTest extends PHPUnit_Framework_TestCase
 		$creation	= $this->action->hasAction( 'testAction' );
 		$this->assertEquals( $assertion, $creation );
 	}
-}
+*/}
 ?>

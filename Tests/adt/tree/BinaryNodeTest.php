@@ -199,7 +199,7 @@ class Tests_ADT_Tree_BinaryNodeTest extends PHPUnit_Framework_TestCase
 	
 		$assertion	= file_get_contents( "Tests/adt/tree/binary.html" );
 		$creation	= $this->tree->toTable( true );
-		file_put_contents( "Tests/adt/tree/binary.html", $creation );
+#		file_put_contents( "Tests/adt/tree/binary.html", $creation );
 		$this->assertEquals( $assertion, $creation );
 	}
 }

@@ -22,11 +22,17 @@ class Tests_Net_HTTP_Request_SenderTest extends PHPUnit_Framework_TestCase
 {
 	public function testSend()
 	{
-		$sender		= new Net_HTTP_Request_Sender( "www.example.com", "/" );
+		$host		= "www.example.com";
+		$needle		= "@RFC\s+2606@i";
+		
+		$host		= "ceus-media.de";
+		$needle		= "@ceus media@i";
+
+		$sender		= new Net_HTTP_Request_Sender( $host, "/" );
 		$response	= $sender->send( array(), "test" );
 
 		$assertion	= true;
-		$creation	= (bool) preg_match( "@RFC\s+2606@i", $response );
+		$creation	= (bool) preg_match( $needle, $response );
 		$this->assertEquals( $assertion, $creation );
 	}
 }

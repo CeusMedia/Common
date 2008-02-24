@@ -216,44 +216,45 @@ class Framework_Krypton_Core_Language
 		if( !$section )
 			$section	= $fileName;
 
-		if( !in_array( $fileName, array_keys( $this->loadedFiles ) ) )
+		if( in_array( $fileName, array_keys( $this->loadedFiles ) ) )
+			return false;
+
+		if( in_array( $section, array_values( $this->words ) ) )
+			throw new Exception( 'Language File with Key "'.$section.'" is already loaded.' );
+
+		//  --  BASICS  --  //
+		$basePath	= $config['paths']['languages'].$language."/";
+		$baseName	= str_replace( ".", "/", $fileName ).".lan";
+		$lanFile	= $basePath.$baseName;		//  fallback: base path
+
+		//  --  CACHE CHECK  --  //
+		$cache	= false;
+		if( isset( $config['paths']['cache'] ) && $config['paths']['cache'] )
 		{
-			if( in_array( $section, array_values( $this->words ) ) )
-				throw new Exception( 'Language File with Key "'.$section.'" is already loaded.' );
-
-			//  --  BASICS  --  //
-			$basepath	= $config['paths']['languages'].$language."/";
-			$basename	= str_replace( ".", "/", $fileName ).".lan";
-
-			//  --  FILE URI CHECK  --  //
-			$lanfile	= $basepath.$basename;		//  fallback: base path
-			if( !file_exists( $lanfile ) )							//  check file
-				throw new Framework_Krypton_Exception_IO( 'Language File "'.$fileName.'" is not existing.' );	
-
-			//  CACHE CHECK  //
-			$cachepath	= $config['paths']['cache'].basename( $config['paths']['languages'] ).'/';
-			$cachefile	= $cachepath.$language.".".$fileName.".ser";
-			if( file_exists( $cachefile ) && filemtime( $lanfile ) <= filemtime( $cachefile ) )
+			$cachePath	= $config['paths']['cache'].basename( $config['paths']['languages'] ).'/';
+			$cacheFile	= $cachePath.$language.".".$fileName.".ser";
+			if( file_exists( $cacheFile ) && filemtime( $lanFile ) <= filemtime( $cacheFile ) )
 			{
-				$this->words[$section]	= unserialize( $this->loadCache( $cachefile ) );
-				$this->loadedFiles[$fileName]	= $section;
-			}
-			else if( file_exists( $lanfile ) )
-			{
-				$ir	= new File_INI_Reader( $lanfile, true );
-				$this->words[$section]	= $ir->toArray( true );
-				foreach( $this->words[$section] as $area => $pairs )
-					foreach( array_keys( $pairs ) as $key )
-						if( isset( $this->hovers[$basename."/".$area."/".$key] ) )
-							$this->words[$section][$area][$key."_hover"] = $this->hovers[$fileName."/".$area."/".$key];
-				$this->saveCache( $cachefile, serialize( $this->words[$section] ) );
+				$this->words[$section]	= unserialize( $this->loadCache( $cacheFile ) );
 				$this->loadedFiles[$fileName]	= $section;
 				return true;
 			}
-			else if( $verbose )
-				$messenger->noteFailure( 'Language File "'.$fileName.'" is not existing in "'.$uri.'"' );
-			return false;
+			$cache	= true;
 		}
+
+		if( !file_exists( $lanFile ) )
+			throw new Framework_Krypton_Exception_IO( 'Language File "'.$fileName.'" is not existing.' );	
+
+		$ir	= new File_INI_Reader( $lanFile, true );
+		$this->words[$section]	= $ir->toArray( true );
+		foreach( $this->words[$section] as $area => $pairs )
+			foreach( array_keys( $pairs ) as $key )
+				if( isset( $this->hovers[$baseName."/".$area."/".$key] ) )
+					$this->words[$section][$area][$key."_hover"] = $this->hovers[$fileName."/".$area."/".$key];
+		if( $cache )
+			$this->saveCache( $cacheFile, serialize( $this->words[$section] ) );
+		$this->loadedFiles[$fileName]	= $section;
+		return true;
 	}
 
 	/**

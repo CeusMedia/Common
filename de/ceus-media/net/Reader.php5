@@ -20,6 +20,8 @@ class Net_Reader
 {
 	/**	@var		string		$url		URL to read */
 	protected $url;
+	/**	@var		string		$agent		User Agent */
+	protected static $userAgent	= "cmClasses:Net_Reader/0.6";
 
 	/**
 	 *	Constructor.
@@ -32,9 +34,27 @@ class Net_Reader
 		$this->setUrl( $url );
 	}
 	
+	public function getUrl()
+	{
+		return $this->url;
+	}
+
+	public function getUserAgent()
+	{
+		return self::$userAgent;
+	}
+
+	/**
+	 *	@todo		Auth
+	 */
 	public function read()
 	{
-		return $self->readUrl( $this->url );
+		return $this->readUrl( $this->url );
+	}
+
+	public function setUserAgent( $title )
+	{
+		self::$userAgent	= $title;
 	}
 
 	public function setUrl( $url )
@@ -42,9 +62,14 @@ class Net_Reader
 		$this->url	= $url;		
 	}
 
+	/**
+	 *	@todo		Auth
+	 */
 	public static function readUrl( $url )
 	{
 		$curl		= new Net_cURL($url );
+		if( self::$userAgent )
+			$curl->setOption( CURLOPT_USERAGENT, self::$userAgent );
 		$response	= $curl->exec();
 		$code		= $curl->getStatus( 'http_code' );
 	

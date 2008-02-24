@@ -85,8 +85,8 @@ abstract class Framework_Krypton_Core_Component
 	var $words		= array();
 	/**	@var		WikiParser			$wiki			Wiki Partser Object */
 	var $wiki		= null;
-	/**	@var		array				$_paths			Array of possible Path Keys in Config for Content Loading */
-	var $_paths	= array(
+	/**	@var		array				$paths			Array of possible Path Keys in Config for Content Loading */
+	public $paths	= array(
 			'html'	=> 'html',
 /*			'wiki'	=> 'wiki',*/
 			'txt'	=> 'text',
@@ -147,14 +147,15 @@ abstract class Framework_Krypton_Core_Component
 
 	/**
 	 *	Shortens a string by a maximum length with a mask.
-	 *	@access		protected
+	 *	@access		public
 	 *	@param		string		$string		String to be shortened
 	 *	@param		int			$length		Maximum length to cut at
 	 *	@param		string		$mask		Mask to append to shortened string
 	 *	@return		string
 	 */
-	protected static function str_shorten( $string, $length = 20, $mask = "..." )
+	public static function shortenString( $string, $length = 20, $mask = "..." )
 	{
+		$length	= abs( $length );
 		if( $length )
 		{
 			$inner_length	= $length - strlen( $mask );
@@ -167,19 +168,38 @@ abstract class Framework_Krypton_Core_Component
 	
 	/**
 	 *	Returns a float formated as Currency.
-	 *	@access		protected
+	 *	@access		public
 	 *	@param		mixed		$price			Price to be formated
 	 *	@param		string		$separator		Separator
 	 *	@return		string
 	 */
-	protected static function formatPrice( $price, $separator = "." )
+	public static function formatPrice( $number, $decimals = 2, $separatorDecimals = ",", $separatorThousands = "." )
 	{
-		$price	= (float)$price;
+		return number_format( $number, $decimals, $separatorDecimals, $separatorThousands );
+/*		$price	= (float)$price;
 		ob_start();
 		printf( "%01".$separator."2f", $price );
 		return ob_get_clean();
-	}
+*/	}
 
+	public static function getPriceFromString( $string )
+	{
+		$string = trim( $string );
+		if( !preg_match( "~^(\+|-)?([0-9]+|(?:(?:[0-9]{1,3}([.,' ]))+[0-9]{3})+)(([.,])[0-9]{1,2})?$~", $string, $r ) )
+			throw new InvalidArgumentException( "This String is not a formated Price." );
+			
+		$pre	= $r['1'].$r['2'];
+		$post	= "";
+		if( !empty( $r['3'] ) )
+		{
+			$pre = $r['1'].preg_replace( "~[".$r['3']."]~", "", $r['2'] );
+		}
+		if( !empty( $r['5'] ) )
+		{
+			$post = ".".preg_replace( "~[".$r['5']."]~", "", $r['4'] );
+		}
+		return (float) number_format( $pre.$post, 2, ".", "" );		
+	}
 
 	//  --  FILE URI GETTERS  --  //
 	/**
@@ -208,19 +228,47 @@ abstract class Framework_Krypton_Core_Component
 	{
 		$config		= $this->registry->get( "config" );
 		$session	= $this->registry->get( "session" );
+		$language	= $session->get( 'language' )."/";
 
+		$info		= pathinfo( $fileKey );
+
+		//  --  CONTENT TYPE  --  //
+		$extension	= $info['extension'];
+		if( !$extension )
+			throw new InvalidArgumentException( 'A Content File Key must have an Extension.' );
+		if( !isset( $this->paths[$extension] ) )
+			throw new InvalidArgumentException( 'No Content Type for Extension "'.$extension.'" is not registered.' );
+		$pathType	= $this->paths[$extension];
+		if( !isset( $config['paths'][$pathType] ) )
+			throw new RuntimeException( 'No Path for Content Type "'.$pathType.'" set.' );
+		$typePath	= $config['paths'][$pathType];
+
+		//  --  PARTS  --  //
+		$ext		= $extension ? ".".$extension : "";
+		$parts		= explode( ".", $info['filename'] );
+		$file		= array_pop( $parts );
+		$path		= $parts ? implode( "/", $parts )."/" : "";
+		$dirName	= preg_replace( "@^\./$@", "", trim( $info['dirname'] )."/" );
+
+		$fileName	= $typePath.$basePath.$language.$dirName.$path.$file.$ext;
+		return $fileName;
+
+/*
 		$parts		= explode( ".", $fileKey );
 		$ext		= array_pop( $parts );
 		$file		= array_pop( $parts );
-		$path		= implode( "/", $parts )."/";
+		if( !$file )
+			return
+		$path		= $parts ? implode( "/", $parts )."/" : "";
 		$baseFile	= $path.$file.".".$ext;
+
+		$pathType	= $this->paths[$ext];
 		
-		$pathType	= $this->_paths[$ext];
 		$basePath	= $config['paths'][$pathType];
 		$language	= $session->get( 'language' )."/";
 		$fileName	= $basePath.$language.$baseFile;
-
 		return $fileName;
+*/
 	}
 
 	/**
@@ -427,7 +475,7 @@ abstract class Framework_Krypton_Core_Component
 		$content	= $file->readString();
 		foreach( $data as $key => $value )
 			$content	= str_replace( "[#".$key."#]", $value, $content );
-		if( preg_match( "@\.wiki$@i", $fileName ) )
+		if( $this->wiki && preg_match( "@\.wiki$@i", $fileName ) )
 		{
 			$content = "<div class='wiki'>".$this->wiki->parse( $content )."</div>";
 		}
@@ -469,41 +517,41 @@ abstract class Framework_Krypton_Core_Component
 	 *	@access		public
 	 *	@param		string		$fileName			File Name of Language File
 	 *	@param		string		$section			Section Name in Language Space
-	 *	@return		void
+	 *	@return		bool
 	 */
-	public function loadLanguage( $fileName, $section = false, $verbose = true )
+	public function loadLanguage( $fileName, $section = false, $verbose = false )
 	{
 		$language	= $this->registry->get( 'language' );
-		$language->loadLanguage( $fileName, $section, $verbose );
+		return $language->loadLanguage( $fileName, $section, $verbose );
 	}
 
 	/**
-	 *	@access		protected
+	 *	Loads File from Cache.
+	 *	@access		public
+	 *	@param		string		$fileName 			File Name of Cache File.
+	 *	@return		string
 	 */
-	protected function loadCache( $fileName )
+	public function loadCache( $fileName )
 	{
 		$config	= $this->registry->get( 'config' );
 		$url	= $config['paths']['cache'].$fileName;
-		$file	= new File_Reader( $url );
-		return $file->readString();
-	//	!( file_exists( $uri ) && filemtime( $uri ) + 3600 > time() )
-		return implode( "", file( $url ) );
+		return File_Reader::load( $url );
 	}
 	
 	/**
-	 *	Overwrites Values from Database by Request Values.
-	 *	@access		protected
-	 *	@param		array		$data		Array of Values from Database
-	 *	@param		string		$prefix		Prefix of Request Values
-	 *	@return 	array
+	 *	Saves Content to a Cache File.
+	 *	@access		public
+	 *	@param		string		$fileName 			File Name of Cache File.
+	 *	@param		string		$content			Content to save to Cache File
+	 *	@return 	int
 	 */
-	protected function saveCache( $fileName, $content )
+	public function saveCache( $fileName, $content )
 	{
 		import( 'de.ceus-media.file.Writer' );
 		$config	= $this->registry->get( 'config' );
 		$url	= $config['paths']['cache'].$fileName;
 		$file	= new File_Writer( $url, 0750 );
-		$file->writeString( $content );
+		return $file->writeString( $content );
 	}
 }
 ?>
