@@ -35,8 +35,11 @@ import( 'de.ceus-media.framework.krypton.exception.Logic' );
  */
 class Framework_Krypton_Core_Logic
 {
-	/**	@var	Registry	$registry		Registry for Objects */
+	/**	@var		Registry	$registry		Registry for Objects */
 	protected $registry;
+	
+	public static $pathLogic		= "classes.logic.";
+	public static $pathCollection	= "classes.collection.";
 
 	/**
 	 *	Constructor, loads Definition Validator and Field Definition.
@@ -50,24 +53,6 @@ class Framework_Krypton_Core_Logic
 	}
 
 	/**
-	 *	Returns Table Fields of Model
-	 *	@access		public
-	 *	@param		string		$modelName		Class Name of Model
-	 *	@throws		Exception_IO
-	 *	@return		array
-	 */
-
-	public static function getFieldFromModel( $modelName )
-	{
-		if( class_exists( $modelName, true ) )
-		{
-			$model	= new $modelName;
-			return $model->getFields();
-		}
-		throw new Framework_Krypton_Exception_IO( 'Class "'.$modelName.'" is not existing.' );
-	}
-
-	/**
 	 *	Logic Factory for Categories.
 	 *	@access		public
 	 *	@param		string			$category			Category to get Logic for
@@ -76,8 +61,10 @@ class Framework_Krypton_Core_Logic
 	public static function getCategoryLogic( $category )
 	{
 		$category	= ucFirst( $category );
-		import( "classes.logic.".$category );
-		$logic		= eval( "return new Logic_".$category."();" );
+		$fileName	= self::$pathLogic.$category;
+		$className	= "Logic_".$category;
+		import( $fileName );
+		$logic		= new $className();
 		return $logic;
 	}
 
@@ -91,7 +78,7 @@ class Framework_Krypton_Core_Logic
 	public static function getCategoryCollection( $category, $builder )
 	{
 		$category	= ucFirst( $category );
-		$fileName	= "classes.collection.".$category;
+		$fileName	= self::$pathCollection.$category;
 		$className	= "Collection_".$category;
 		import( $fileName );
 		$collection	= new $className( $builder );
@@ -99,43 +86,21 @@ class Framework_Krypton_Core_Logic
 	}
 
 	/**
-	 *	Runs Validation of Field Definitions against Input, creates Error Objects and returns Success.
-	 *	@access		protected
-	 *	@param		string		$file			Name of XML Definition File (e.g. %PREFIX%#FILE#.xml)
-	 *	@param		string		$form			Name of Form within XML Definition File (e.g. 'addExample' )
-	 *	@param		array		$data			Array of Input Data
-	 *	@param		string		$prefix			Prefix used within Fields of Input Data
-	 *	@param		string		$predicateClass	Class holding Validation Predicates
-	 *	@throws		Framework_Krypton_Exception_Validation
-	 *	@return		bool
+	 *	Returns Table Fields of Model
+	 *	@access		public
+	 *	@param		string		$modelName		Class Name of Model
+	 *	@throws		Exception_IO
+	 *	@return		array
 	 */
-	protected static function validateForm( $file, $form, &$data, $prefix = "", $predicateClass = "Alg_Validation_Predicates" )
+
+	public static function getFieldsFromModel( $modelName )
 	{
-		$validator	= new Framework_Krypton_Core_DefinitionValidator( $predicateClass );
-		$errors		= array();
-
-		$definition	= self::loadDefinition( $file, $form );
-		$fields		= $definition->getFields();
-		foreach( $fields as $field )
+		if( class_exists( $modelName, true ) )
 		{
-			$def	= $definition->getField( $field );
-			$key	= self::removePrefixFromFieldName( $def['input']['name'], $prefix );
-			$value	= isset( $data[$key] ) ? $data[$key] : NULL;
-
-			//  --  SET NEGATIVE CHECKBOXES  --  //
-			if( preg_match( "@check@", $def['input']['type'] ) )
-				if( $value === NULL )
-					$data[$field]	= $value	= (int) $def['input']['default'];
-
-			if( is_array( $value ) )
-				foreach( $value as $entry )
-					$errors	= array_merge( $errors, $validator->validate( $field, $def, $entry, $prefix ) );
-			else
-				$errors	= array_merge( $errors, $validator->validate( $field, $def, $value, $prefix ) );
+			$model	= new $modelName;
+			return $model->getFields();
 		}
-		if( $errors )
-			throw new Framework_Krypton_Exception_Validation( "error_not_valid", $errors, $form );
-		return true;
+		throw new Framework_Krypton_Exception_IO( 'Class "'.$modelName.'" is not existing.' );
 	}
 
 	/**
@@ -191,6 +156,46 @@ class Framework_Krypton_Core_Logic
 				$list[$key] = $value;
 		}
 		return $list;
+	}
+
+	/**
+	 *	Runs Validation of Field Definitions against Input, creates Error Objects and returns Success.
+	 *	@access		protected
+	 *	@param		string		$file			Name of XML Definition File (e.g. %PREFIX%#FILE#.xml)
+	 *	@param		string		$form			Name of Form within XML Definition File (e.g. 'addExample' )
+	 *	@param		array		$data			Array of Input Data
+	 *	@param		string		$prefix			Prefix used within Fields of Input Data
+	 *	@param		string		$predicateClass	Class holding Validation Predicates
+	 *	@throws		Framework_Krypton_Exception_Validation
+	 *	@return		bool
+	 */
+	protected static function validateForm( $file, $form, &$data, $prefix = "", $predicateClass = "Alg_Validation_Predicates" )
+	{
+		$validator	= new Framework_Krypton_Core_DefinitionValidator( $predicateClass );
+		$errors		= array();
+
+		$definition	= self::loadDefinition( $file, $form );
+		$fields		= $definition->getFields();
+		foreach( $fields as $field )
+		{
+			$def	= $definition->getField( $field );
+			$key	= self::removePrefixFromFieldName( $def['input']['name'], $prefix );
+			$value	= isset( $data[$key] ) ? $data[$key] : NULL;
+
+			//  --  SET NEGATIVE CHECKBOXES  --  //
+			if( preg_match( "@check@", $def['input']['type'] ) )
+				if( $value === NULL )
+					$data[$field]	= $value	= (int) $def['input']['default'];
+
+			if( is_array( $value ) )
+				foreach( $value as $entry )
+					$errors	= array_merge( $errors, $validator->validate( $field, $def, $entry, $prefix ) );
+			else
+				$errors	= array_merge( $errors, $validator->validate( $field, $def, $value, $prefix ) );
+		}
+		if( $errors )
+			throw new Framework_Krypton_Exception_Validation( "error_not_valid", $errors, $form );
+		return true;
 	}
 }
 ?>

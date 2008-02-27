@@ -20,10 +20,71 @@ import( 'de.ceus-media.framework.krypton.core.PageDefinitionReader' );
  */
 class Tests_Framework_Krypton_Core_PageDefinitionReaderTest extends PHPUnit_Framework_TestCase
 {
-	public function testIsAll()
+	protected $fileName	= "Tests/framework/krypton/core/pages.xml";
+	protected $document;
+
+	public function __construct()
 	{
-		throw new PHPUnit_Framework_IncompleteTestError( 'Dieser Test ist noch nicht fertig ausprogrammiert.' );
+		$this->document	= new DOMDocument();
+		$this->document->preserveWhiteSpace	= true;
+		$this->document->validateOnParse = true;
+		$this->document->load( $this->fileName );
+		$this->reader	= new Framework_Krypton_Core_PageDefinitionReader( $this->document );
 	}
 
+	public function testConstruct()
+	{
+		$reader	= new Framework_Krypton_Core_PageDefinitionReader( $this->document );
+		$assertion	= array(
+			'help',
+			'contact',
+			'imprint',
+		);
+		$creation	= array_keys( $reader->getPages( 'foot' ) );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= array(
+			'scope'		=> "foot",
+			'id'		=> "help",
+			'default'	=> false,
+			'hidden'	=> false,
+			'disabled'	=> true,
+			'cache'		=> false,
+			'type'		=> "static",
+			'file'		=> "information/help.html",
+			'factory'	=> "",
+			'roles'		=> array(
+				"public"
+			),
+		);
+		$creation	= array_shift( $reader->getPages( 'foot' ) );
+		$this->assertEquals( $assertion, $creation );
+	}
+
+	public function testGetPages()
+	{
+		$assertion	= array(
+			'main',
+			'foot',
+		);
+		$creation	= array_keys( $this->reader->getPages() );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= array(
+			"home",
+			"blog",
+			"register",
+
+			"login",
+			"logout",
+			"manage",
+			"list",
+			"search",
+			"shop",
+			"catalog",
+		);
+		$creation	= array_keys( $this->reader->getPages( 'main' ) );
+		$this->assertEquals( $assertion, $creation );
+	}
 }
 ?>

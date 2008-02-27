@@ -82,7 +82,7 @@ abstract class Framework_Krypton_Core_Action extends Framework_Krypton_Core_Comp
 	 */
 	public function removeAction( $event )
 	{
-		if( $this->has( $event ) )
+		if( $this->hasAction( $event ) )
 			unset( $this->actions[$event] );
 	}
 

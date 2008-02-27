@@ -12,7 +12,7 @@ function import( $class )
 		$class	= preg_replace( "@^(-)*-@", "\\1../", $class ); 
     $filename   = str_replace( ".", "/", $class ).".php5";
 	if( !file_exists( $filename ) )
-		die( "Class '".$filename."' is not existing." );
+		throw new InvalidArgumentException( 'Class "'.$filename.'" is not existing.' );
     include_once( $filename );
 }
 import( 'de.ceus-media.ui.DevOutput' );
