@@ -82,7 +82,7 @@ class Framework_Krypton_Core_Database_TableWriter extends Framework_Krypton_Core
 		$keys	= implode( ", ", array_values( $keys ) );
 		$vals	= implode( ", ", array_values( $vals ) );
 		$query	= "INSERT INTO ".$this->getTableName()." (".$keys.") VALUES (".$vals.")";
-		$this->dbc->query( $query, $debug );
+		$this->dbc->exec( $query, $debug );
 		$id	= $this->dbc->lastInsertId();
 	//	$this->focusPrimary( $id );
 		return $id;
