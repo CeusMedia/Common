@@ -172,7 +172,7 @@ class File_INI_Writer extends File_INI_Reader
 	{
 		if( $this->usesSections() )
 		{
-			if( $this->isProperty( $key, $section ) )
+			if( $this->hasProperty( $key, $section ) )
 			{
 				$this->properties [$section][$new]	= $this->properties[$section][$key];
 				if( isset( $this->disabled[$section][$key] ) )
@@ -185,7 +185,7 @@ class File_INI_Writer extends File_INI_Reader
 		}
 		else
 		{
-			if( $this->isProperty( $key ) )
+			if( $this->hasProperty( $key ) )
 			{
 				$this->properties[$new]	= $this->properties[$key];
 				if( isset( $this->disabled[$key] ) )
@@ -242,13 +242,20 @@ class File_INI_Writer extends File_INI_Reader
 	{
 		if( $this->usesSections() )
 		{
-			if( $this->isProperty( $key, $section ) )
-				$this->properties[$section][$key] = $value;
-			else $this->addProperty( $key, $value, false, true, $section );
+			try
+			{
+				if( $this->hasProperty( $key, $section ) )
+					$this->properties[$section][$key] = $value;
+				else $this->addProperty( $key, $value, false, true, $section );
+			}
+			catch( InvalidArgumentException $e )
+			{
+				$this->addProperty( $key, $value, false, true, $section );
+			}
 		}
 		else
 		{
-			if( $this->isProperty( $key ) )
+			if( $this->hasProperty( $key ) )
 				$this->properties[$key] = $value;
 			else $this->addProperty( $key, $value, false, true );
 		}

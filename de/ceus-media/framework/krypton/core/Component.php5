@@ -250,7 +250,7 @@ abstract class Framework_Krypton_Core_Component
 		$path		= $parts ? implode( "/", $parts )."/" : "";
 		$dirName	= preg_replace( "@^\./$@", "", trim( $info['dirname'] )."/" );
 
-		$fileName	= $typePath.$basePath.$language.$dirName.$path.$file.$ext;
+		$fileName	= $typePath.$language.$dirName.$path.$file.$ext;
 		return $fileName;
 
 /*

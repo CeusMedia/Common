@@ -77,9 +77,9 @@ class File_INI_Reader extends File_Reader
 		if( $this->usesSections() )
 		{
 			if( !$section )
-				throw new Exception( 'No Section given.' );
+				throw new InvalidArgumentException( 'No Section given.' );
 			if( !$this->hasSection( $section ) )
-				throw new Exception( 'Section "'.$section.'" is not existing.' );
+				throw new InvalidArgumentException( 'Section "'.$section.'" is not existing.' );
 			if( isset( $this->comments[$section][$key] ) )
 				return $this->comments[$section][$key];
 		}
@@ -114,7 +114,7 @@ class File_INI_Reader extends File_Reader
 			if( $section )
 			{
 				if( !$this->hasSection( $section ) )
-					throw new Exception( 'Section "'.$section.'" is not existing.' );
+					throw new InvalidArgumentException( 'Section "'.$section.'" is not existing.' );
 				return $this->comments[$section];
 			}
 		}
@@ -136,7 +136,7 @@ class File_INI_Reader extends File_Reader
 			if( $section )
 			{
 				if( !$this->hasSection( $section ) )
-					throw new Exception( 'Section "'.$section.'" is not existing.' );
+					throw new InvalidArgumentException( 'Section "'.$section.'" is not existing.' );
 				foreach( $this->properties[$section]  as $key => $value )
 					if( $activeOnly && $this->isActiveProperty( $key, $section ) || !$activeOnly )
 						$properties[$key] = $value;
@@ -175,16 +175,16 @@ class File_INI_Reader extends File_Reader
 		if( $this->usesSections() )
 		{
 			if( !$section )
-				throw new Exception( 'No Section given.' );
+				throw new InvalidArgumentException( 'No Section given.' );
 			if( !$this->isActiveProperty( $key, $section ) )
-				throw new Exception( 'Property "'.$key.'" is not set or inactive.' );
+				throw new InvalidArgumentException( 'Property "'.$key.'" is not set or inactive.' );
 			return $this->properties[$section][$key];
 			
 		}
 		else
 		{
 			if( !$this->isActiveProperty( $key ) )
-				throw new Exception( 'Property "'.$key.'" is not set or inactive.' );
+				throw new InvalidArgumentException( 'Property "'.$key.'" is not set or inactive.' );
 			return $this->properties[$key];
 		}
 	}
@@ -222,7 +222,7 @@ class File_INI_Reader extends File_Reader
 	public function getSections()
 	{
 		if( !$this->usesSections() )
-			throw new Exception( 'Sections are not used.' );
+			throw new RuntimeException( 'Sections are not used.' );
 		return $this->sections;
 	}
 
@@ -238,9 +238,9 @@ class File_INI_Reader extends File_Reader
 		if( $this->usesSections() )
 		{
 			if( !$section )
-				throw new Exception( 'No Section given.' );
+				throw new InvalidArgumentException( 'No Section given.' );
 			if( !$this->hasSection( $section ) )
-				throw new Exception( 'Section "'.$section.'" is not existing.' );
+				throw new InvalidArgumentException( 'Section "'.$section.'" is not existing.' );
 			return isset( $this->properties[$section][$key] );
 		}
 		else
@@ -256,7 +256,7 @@ class File_INI_Reader extends File_Reader
 	public function hasSection( $section )
 	{
 		if( !$this->usesSections() )
-			throw new Exception( 'Sections are not used.' );
+			throw new RuntimeException( 'Sections are not used.' );
 		return in_array( $section, $this->sections );
 	}
 
@@ -273,7 +273,7 @@ class File_INI_Reader extends File_Reader
 		if( $this->usesSections() )
 		{
 			if( !$section )
-				throw new Exception( 'No Section given.' );
+				throw new InvalidArgumentException( 'No Section given.' );
 			if( is_array( $this->disabled[$section] ) )
 			{
 				if( in_array( $key, $this->disabled[$section] ) )
