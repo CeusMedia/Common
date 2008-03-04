@@ -19,22 +19,22 @@
  */
 class Framework_Krypton_Core_FormDefinitionReader
 {
-	/**	@var	string		$channel		Output Channel */
-	protected $channel;
-	/**	@var	string		$screen			Channel Screen*/
-	protected $screen;
-	/**	@var	string		$form			Screen Form */
-	protected $form;
-	/**	@var	string		$cachePath		Path to Cache Files */
-	protected $cachePath;
-	/**	@var	string		$path			Path to Definition Files */
-	protected $path;
-	/**	@var	string		$prefix			Prefix of Definition Files */
-	protected $prefix;
-	/**	@var	bool		$useCache		Flag: cache Definitions in Cache Folder */
-	protected $useCache;
-	/**	@var	array		$definitions	Parsed Definitions */
+	/**	@var		array		$definitions	Parsed Definitions */
 	protected $definitions	= array();
+
+	/**	@var		string		$channel		Output Channel */
+	protected $channel;
+	/**	@var		string		$form			Form Name */
+	protected $form;
+
+	/**	@var		string		$prefix			Prefix of Definition Files */
+	protected $prefix;
+	/**	@var		string		$path			Path to Definition Files */
+	protected $path;
+	/**	@var		string		$cachePath		Path to Cache Files */
+	protected $cachePath;
+	/**	@var		bool		$useCache		Flag: cache Definitions in Cache Folder */
+	protected $useCache;
 	
 	/**
 	 *	Constructor.
@@ -94,9 +94,9 @@ class Framework_Krypton_Core_FormDefinitionReader
 	 */
 	public function getField( $name )
 	{
-		if( isset( $this->definitions[$name] ) )
-			return $this->definitions[$name];
-		return array();
+		if( !isset( $this->definitions[$name] ) )
+			throw new InvalidArgumentException( 'Form Field "'.$name.'" is not defined.' );
+		return $this->definitions[$name];
 	}
 
 	/**
@@ -107,9 +107,9 @@ class Framework_Krypton_Core_FormDefinitionReader
 	 */
 	public function getFieldSemantics( $name )
 	{
-		if( isset( $this->definitions[$name]['semantic'] ) )
-			return $this->definitions[$name]['semantic'];
-		return array();
+		if( !isset( $this->definitions[$name]['semantic'] ) )
+			throw new InvalidArgumentException( 'Form Field "'.$name.'" Semantic is not defined.' );
+		return $this->definitions[$name]['semantic'];
 	}
 
 	/**
@@ -120,6 +120,8 @@ class Framework_Krypton_Core_FormDefinitionReader
 	 */
 	public function getFieldSyntax( $name )
 	{
+		if( !isset( $this->definitions[$name]['syntax'] ) )
+			throw new InvalidArgumentException( 'Form Field "'.$name.'" Syntax is not defined.' );
 		return $this->definitions[$name]['syntax'];
 	}
 
@@ -131,6 +133,8 @@ class Framework_Krypton_Core_FormDefinitionReader
 	 */
 	public function getFieldInput( $name )
 	{
+		if( !isset( $this->definitions[$name]['input'] ) )
+			throw new InvalidArgumentException( 'Form Field "'.$name.'" Input is not defined.' );
 		return (array)$this->definitions[$name]['input'];
 	}
 
@@ -174,7 +178,7 @@ class Framework_Krypton_Core_FormDefinitionReader
 				$this->writeCacheFile( $fileName );
 		}
 		else
-			trigger_error( "Definition File '".$xmlFile."' is not existing", E_USER_ERROR );
+			throw new Exception( 'Definition File "'.$xmlFile.'" is not existing.' );
 	}
 	
 	/**
@@ -204,66 +208,69 @@ class Framework_Krypton_Core_FormDefinitionReader
 				$fields	= $form->childNodes;
 				foreach( $fields as $field )
 				{
-					if( $field->nodeType == XML_ELEMENT_NODE )
+					
+					if( $field->nodeType != XML_ELEMENT_NODE )
+						continue;
+					$_field	= array();
+					$nodes	= $field->childNodes;
+					foreach( $nodes as $node )
 					{
-						$_field	= array();
-						$nodes	= $field->childNodes;
-						foreach( $nodes as $node )
-						{
-							$name	= $node->nodeName;
+						if( $node->nodeType != XML_ELEMENT_NODE )
+							continue;
+						$name	= $node->nodeName;
+						if( !isset( $_field[$name] ) )
 							$_field[$name]	= array();
-							if( $name	 == "syntax" )
-							{
-								$keys	= array( "class", "mandatory", "minlength", "maxlength" );
-								foreach( $keys as $key )
-									$_field[$name][$key] = $node->getAttribute( $key );
-							}
-							else if( $name	 == "semantic" )
-							{
-								$semantic	= array(
-									'predicate'	=> $node->getAttribute( 'predicate' ),
-									'edge'		=> $node->getAttribute( 'edge' ),
-									);
-								$_field[$name][] = $semantic;
-							}
-							if( $name	 == "input" )
-							{
-								$keys	= array( "name", "type", "style", "validator", "source", "options", "submit", "disabled", "hidden", "tabindex", "colspan", "label" );
-								foreach( $keys as $key )
-									$_field[$name][$key]	= $node->getAttribute( $key );
-								$_field[$name]['default']	= $node->textContent;
-							}
-							else if( $name	 == "output" )
-							{
-								$keys	= array( "source", "type", "format", "structure", "style", "label", "hidden", "colspan" );
-								foreach( $keys as $key )
-									$_field[$name][$key]	= $node->getAttribute( $key );
-								$_field[$name]['default']	= $node->textContent;
-							}
-							else if( $name	 == "calendar" )
-							{
-								$keys	= array( "component", "type", "range", "direction", "format", "language" );
-								foreach( $keys as $key )
-									$_field[$name][$key]	= $node->getAttribute( $key );
-							}
-							else if( $name	 == "help" )
-							{
-								$keys	= array( "type", "file" );
-								foreach( $keys as $key )
-									$_field[$name][$key]	= $node->getAttribute( $key );
-							}
-							else if( $name	 == "hidemode" )
-							{
-								$_field[$name]['hidemode'][]	= $node->getContent();
-							}
-							else if( $name	 == "disablemode" )
-							{
-								$_field[$name]['hidemode'][]	= $node->getContent();
-							}
+						if( $name	 == "syntax" )
+						{
+							$keys	= array( "class", "mandatory", "minlength", "maxlength" );
+							foreach( $keys as $key )
+								$_field[$name][$key] = $node->getAttribute( $key );
 						}
-						$name	= $field->getAttribute( "name" );
-						$this->definitions[$name] = $_field;
+						else if( $name	 == "semantic" )
+						{
+							$semantic	= array(
+								'predicate'	=> $node->getAttribute( 'predicate' ),
+								'edge'		=> $node->getAttribute( 'edge' ),
+								);
+							$_field[$name][] = $semantic;
+						}
+						if( $name	 == "input" )
+						{
+							$keys	= array( "name", "type", "style", "validator", "source", "options", "submit", "disabled", "hidden", "tabindex", "colspan", "label" );
+							foreach( $keys as $key )
+								$_field[$name][$key]	= $node->getAttribute( $key );
+							$_field[$name]['default']	= $node->textContent;
+						}
+						else if( $name	 == "output" )
+						{
+							$keys	= array( "source", "type", "format", "structure", "style", "label", "hidden", "colspan" );
+							foreach( $keys as $key )
+								$_field[$name][$key]	= $node->getAttribute( $key );
+							$_field[$name]['default']	= $node->textContent;
+						}
+						else if( $name	 == "calendar" )
+						{
+							$keys	= array( "component", "type", "range", "direction", "format", "language" );
+							foreach( $keys as $key )
+								$_field[$name][$key]	= $node->getAttribute( $key );
+						}
+						else if( $name	 == "help" )
+						{
+							$keys	= array( "type", "file" );
+							foreach( $keys as $key )
+								$_field[$name][$key]	= $node->getAttribute( $key );
+						}
+						else if( $name	 == "hidemode" )
+						{
+							$_field[$name]['hidemode'][]	= $node->getContent();
+						}
+						else if( $name	 == "disablemode" )
+						{
+							$_field[$name]['hidemode'][]	= $node->getContent();
+						}
 					}
+					$name	= $field->getAttribute( "name" );
+					$this->definitions[$name] = $_field;
 				}
 				break;
 			}
@@ -282,7 +289,7 @@ class Framework_Krypton_Core_FormDefinitionReader
 	}
 
 	/**
-	 *	Sets Channel Screen.
+	 *	Sets File Prefix.
 	 *	@access		public
 	 *	@param		string		$prefix			Prefix of XML Files
 	 *	@return		void
@@ -293,9 +300,9 @@ class Framework_Krypton_Core_FormDefinitionReader
 	}
 
 	/**
-	 *	Sets Screen Form
+	 *	Sets Form Name.
 	 *	@access		public
-	 *	@param		string		$form			Screen Form
+	 *	@param		string		$form			Form Name
 	 *	@return		void
 	 */
 	public function setForm( $form )
@@ -306,7 +313,7 @@ class Framework_Krypton_Core_FormDefinitionReader
 	/**
 	 *	Writes Cache File.
 	 *	@access		protected
-	 *	@param		string		$fileName			File Name of XML Definition File
+	 *	@param		string		$fileName		File Name of XML Definition File
 	 *	@return		void
 	 */
 	protected function writeCacheFile( $fileName )

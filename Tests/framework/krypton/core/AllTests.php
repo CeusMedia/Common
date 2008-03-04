@@ -22,7 +22,7 @@ require_once( 'Tests/framework/krypton/core/PageControllerTest.php' );
 require_once( 'Tests/framework/krypton/core/PageDefinitionEditorTest.php' );
 require_once( 'Tests/framework/krypton/core/PageDefinitionReaderTest.php' );
 #require_once( 'Tests/framework/krypton/core/PartitionSessionTest.php' );
-#require_once( 'Tests/framework/krypton/core/RegistryTest.php' );
+require_once( 'Tests/framework/krypton/core/RegistryTest.php' );
 #require_once( 'Tests/framework/krypton/core/SessionTest.php' );
 #require_once( 'Tests/framework/krypton/core/SessionRegistryTest.php' );
 #require_once( 'Tests/framework/krypton/core/StopWatchTest.php' );
@@ -53,6 +53,7 @@ class Tests_Framework_Krypton_Core_AllTests
 		$suite->addTestSuite( 'Tests_Framework_Krypton_Core_PageControllerTest' ); 
 		$suite->addTestSuite( 'Tests_Framework_Krypton_Core_PageDefinitionEditorTest' ); 
 		$suite->addTestSuite( 'Tests_Framework_Krypton_Core_PageDefinitionReaderTest' ); 
+		$suite->addTestSuite( 'Tests_Framework_Krypton_Core_RegistryTest' ); 
 		$suite->addTestSuite( 'Tests_Framework_Krypton_Core_TemplateTest' ); 
 		$suite->addTestSuite( 'Tests_Framework_Krypton_Core_ViewTest' ); 
 		return $suite;
