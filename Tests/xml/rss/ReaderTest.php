@@ -23,7 +23,7 @@ import( 'de.ceus-media.xml.rss.Reader' );
 class Tests_XML_RSS_ReaderTest extends PHPUnit_Framework_TestCase
 {
 	
-	protected $url		= "http://cyber.law.harvard.edu/rss/examples/rss2sample.xml";
+	protected $url		= "http://www.rssboard.org/files/sample-rss-2.xml";
 	protected $file		= "Tests/xml/rss/reader.xml";
 	protected $serial	= "Tests/xml/rss/reader.serial";
 

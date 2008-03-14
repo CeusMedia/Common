@@ -22,7 +22,7 @@ class Alg_TimeConverter
 	 *	@param		int			$mode		Complement Mode (0:Month Start, 1:Month End)
 	 *	@return		
 	 */
-	public function complementMonthDate( $string, $mode = 0 )
+	public static function complementMonthDate( $string, $mode = 0 )
 	{
 		$string	= trim( $string );
 		if( preg_match( "@^[0-9]{1,2}\.([0-9]{2}){1,2}$@", $string ) )
@@ -60,7 +60,7 @@ class Alg_TimeConverter
 	 *	@param		string	$format			Format of human time (date|monthdate|datetime)
 	 *	@return		int
 	 */
-	function convertToTimestamp ($string, $format )
+	public static function convertToTimestamp ($string, $format )
 	{
 		$timestamp	= 0;
 		if( $string )
@@ -147,7 +147,7 @@ class Alg_TimeConverter
 	 *	@param		string	$format			Format of human time (date|monthdate|datetime|duration|custom format)
 	 *	@return		string
 	 */
-	function convertToHuman( $timestamp, $format )
+	public static function convertToHuman( $timestamp, $format )
 	{
 		if( $format == "date" )
 			$human = date( "d.m.Y", (int)$timestamp );
@@ -172,7 +172,7 @@ class Alg_TimeConverter
 			return $human;
 	}
 	
-	function convertTimeToHuman( $seconds, $format = false )
+	public static function convertTimeToHuman( $seconds, $format = false )
 	{
 		$_min	= 60;
 		$_hour	= 60 * $_min;

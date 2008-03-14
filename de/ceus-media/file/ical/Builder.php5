@@ -1,54 +1,52 @@
 <?php
 /**
  *	Builder for iCalendar File from XML Tree.
- *	@package	file
- *	@subpackage	ical
- *	@author		Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@since		09.03.2006
+ *	@package		file_ical
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@since			09.03.2006
  *	@version		0.1
- *	@see		RFC2445
- *	@link		http://www.w3.org/2002/12/cal/rfc2445
+ *	@see			RFC2445
+ *	@link			http://www.w3.org/2002/12/cal/rfc2445
  */
 /**
  *	Builder for iCalendar File from XML Tree.
- *	@package	file
- *	@subpackage	ical
- *	@author		Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@since		09.03.2006
+ *	@package		file_ical
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@since			09.03.2006
  *	@version		0.1
- *	@see		RFC2445
- *	@link		http://www.w3.org/2002/12/cal/rfc2445
+ *	@see			RFC2445
+ *	@link			http://www.w3.org/2002/12/cal/rfc2445
  */
-class CalBuilder
+class File_iCal_Builder
 {
-	/**	@var	string	_linebreak		Line Break String */
-	var $_linebreak;
+	/**	@var	string		$lineBreak		Line Break String */
+	protected static $lineBreak;
 	
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		string	linebreak		Line Break String
-	 *	@return 		void
+	 *	@param		string		$lineBreak		Line Break String
+	 *	@return 	void
 	 */
-	public function __construct( $linebreak = "\r\n" )
+	public function __construct( $lineBreak = "\r\n" )
 	{
-		$this->_linebreak	= $linebreak;	
+		self::$lineBreak	= $lineBreak;	
 	}
 
 	/**
 	 *	Builds Array of iCal Lines from XML Tree.
 	 *	@access		public
-	 *	@param		XML_DOM_Node	tree		XML Tree
-	 *	@return 		array
+	 *	@param		XML_DOM_Node	$tree		XML Tree
+	 *	@return 	array
 	 */
-	function build( &$tree )
+	public function build( $tree )
 	{
 		$lines	= array();
 		$children	= $tree->getChildren();
 		foreach( $children as $child )
-			foreach( $this->_buildRec( $child ) as $line )
+			foreach( self::buildRecursive( $child ) as $line )
 				$lines[]	= $line;
-		return $lines;
+		return implode( "\n", $lines );
 	}
 	
 	//  --  PRIVATE METHODS  --  //
@@ -56,25 +54,25 @@ class CalBuilder
 	 *	Builds Array of iCal Lines from XML Tree recursive.
 	 *	@access		private
 	 *	@param		XML_DOM_Node	node	XML Node
-	 *	@return 		array
+	 *	@return 	array
 	 */
-	function _buildRec( &$node  )
+	protected static function buildRecursive( $node  )
 	{
 		$lines	= array();
 		$name	= $node->getNodeName();
 		$value	= $node->getContent();
 		$param	= $node->getAttributes();
-		if( false === $value )
+		if( NULL === $value )
 		{
 			$lines[]	= "BEGIN:".strtoupper( $name );
 			$children	= $node->getChildren();
 			foreach( $children as $child )
-				foreach( $this->_buildRec( $child ) as $line )
+				foreach( self::buildRecursive( $child ) as $line )
 					$lines[]	= $line;
 			$lines[]	= "END:".strtoupper( $name );
 		}
 		else
-			$lines[]	= $this->_buildLine( $name, $param, $value );
+			$lines[]	= self::buildLine( $name, $param, $value );
 		return $lines;
 	}
 	
@@ -84,9 +82,9 @@ class CalBuilder
 	 *	@param		string		name		Line Name
 	 *	@param		array		param		Line Parameters
 	 *	@param		string		content		Line Value
-	 *	@return 		string
+	 *	@return 	string
 	 */
-	function _buildLine( $name, $param, $content )
+	protected static function buildLine( $name, $param, $content )
 	{
 		$params	= array();
 		foreach( $param as $key => $value )
@@ -101,27 +99,27 @@ class CalBuilder
 				$param	= "";
 				while( strlen( $rest ) > 75 )
 				{
-					$param	.= substr( $rest, 0, 74 ).$this->_linebreak;
+					$param	.= substr( $rest, 0, 74 ).self::$lineBreak;
 					$rest	= " ".substr( $rest, 74 );
 				}
 			}
-			$param	= $this->_linebreak.$param;
+			$param	= self::$lineBreak.$param;
 		}
 
-		$content	= " :".$content;
+		$content	= ":".$content;
 		if( strlen( $content ) > 75 )
 		{
 			$rest	= $content;
 			$content	= "";
 			while( strlen( $rest ) > 75 )
 			{
-				$content	.= substr( $rest, 0, 74 ).$this->_linebreak;
+				$content	.= substr( $rest, 0, 74 ).self::$lineBreak;
 				$rest	= " ".substr( $rest, 74 );
 			}
 		}
 
-		$line	= strtoupper( $name ).$param.$this->_linebreak.$content;
-		$line	= utf8_encode( $line );
+		$line	= strtoupper( $name ).$param.$content;
+		$line	= $line;
 		return $line;
 	}
 }

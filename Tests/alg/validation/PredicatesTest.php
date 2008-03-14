@@ -284,15 +284,16 @@ class Tests_Alg_Validation_PredicatesTest extends PHPUnit_Framework_TestCase
 		$creation	= Alg_Validation_Predicates::isAfter( date( "m/Y" ), $point );
 		$this->assertEquals( $assertion, $creation );
 	}
-
+	
 	/**
-	 *	Tests method 'isAll'.
+	 *	Tests method 'isAfter'.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testIsAll()
+	public function testIsAfterException()
 	{
-		throw new PHPUnit_Framework_IncompleteTestError( 'Dieser Test ist noch nicht fertig ausprogrammiert.' );
+		$this->setExpectedException( "InvalidArgumentException" );
+		Alg_Validation_Predicates::isAfter( "01.71.2008", time );
 	}
 
 	/**
@@ -399,16 +400,6 @@ class Tests_Alg_Validation_PredicatesTest extends PHPUnit_Framework_TestCase
 		$assertion	= false;
 		$creation	= Alg_Validation_Predicates::isAlphaspace( " # " );
 		$this->assertEquals( $assertion, $creation );
-	}
-
-	/**
-	 *	Tests method 'isAlphasymbol'.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function testIsAlphasymbol()
-	{
-		throw new PHPUnit_Framework_IncompleteTestError( 'Dieser Test ist noch nicht fertig ausprogrammiert.' );
 	}
 
 	/**
@@ -520,6 +511,75 @@ class Tests_Alg_Validation_PredicatesTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 *	Tests method 'isAfter'.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testIsBeforeException()
+	{
+		$this->setExpectedException( "InvalidArgumentException" );
+		Alg_Validation_Predicates::isBefore( "01.71.2008", time );
+	}
+
+	/**
+	 *	Tests method 'isDate'.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testIsDate()
+	{
+		//  --  POSITIVE  --  //
+		$assertion	= true;
+		$creation	= Alg_Validation_Predicates::isDate( "01.02.2003" );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= true;
+		$creation	= Alg_Validation_Predicates::isDate( "02/01/2003" );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= true;
+		$creation	= Alg_Validation_Predicates::isDate( "2003-02-01" );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= true;
+		$creation	= Alg_Validation_Predicates::isDate( "02.2003" );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= true;
+		$creation	= Alg_Validation_Predicates::isDate( "02/2003" );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= true;
+		$creation	= Alg_Validation_Predicates::isDate( "2003-02" );
+		$this->assertEquals( $assertion, $creation );
+
+		//  --  NEGATIVE  --  //
+		$assertion	= false;
+		$creation	= Alg_Validation_Predicates::isDate( "123" );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= false;
+		$creation	= Alg_Validation_Predicates::isDate( "abc" );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= false;
+		$creation	= Alg_Validation_Predicates::isDate( "32.2.2000" );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= false;
+		$creation	= Alg_Validation_Predicates::isDate( "71.2009" );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= false;
+		$creation	= Alg_Validation_Predicates::isDate( "40.71.2009" );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= false;
+		$creation	= Alg_Validation_Predicates::isDate( "2009-40-40" );
+		$this->assertEquals( $assertion, $creation );
+	}
+
+	/**
 	 *	Tests method 'isDigit'.
 	 *	@access		public
 	 *	@return		void
@@ -554,40 +614,6 @@ class Tests_Alg_Validation_PredicatesTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 *	Tests method 'isDotnumeric'.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function testIsDotnumeric()
-	{
-		//  --  POSITIVE  --  //
-		$assertion	= true;
-		$creation	= Alg_Validation_Predicates::isDotnumeric( "1" );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= true;
-		$creation	= Alg_Validation_Predicates::isDotnumeric( "1.0" );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= true;
-		$creation	= Alg_Validation_Predicates::isDotnumeric( ".1" );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= true;
-		$creation	= Alg_Validation_Predicates::isDotnumeric( "123.456" );
-		$this->assertEquals( $assertion, $creation );
-
-		//  --  NEGATIVE  --  //
-		$assertion	= false;
-		$creation	= Alg_Validation_Predicates::isDotnumeric( "." );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= false;
-		$creation	= Alg_Validation_Predicates::isDotnumeric( "1.2.3" );
-		$this->assertEquals( $assertion, $creation );
-	}
-	
-	/**
 	 *	Tests method 'isEmail'.
 	 *	@access		public
 	 *	@return		void
@@ -610,7 +636,17 @@ class Tests_Alg_Validation_PredicatesTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testIsEreg()
 	{
-		throw new PHPUnit_Framework_IncompleteTestError( 'Dieser Test ist noch nicht fertig ausprogrammiert.' );
+		$assertion	= 1;
+		$creation	= Alg_Validation_Predicates::isEreg( "1", "^[[:digit:]]+$" );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= 1;
+		$creation	= Alg_Validation_Predicates::isEreg( "a", "^[[:lower:]]+$" );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= false;
+		$creation	= Alg_Validation_Predicates::isEreg( "a", "^[[:upper:]]+$" );
+		$this->assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -620,7 +656,17 @@ class Tests_Alg_Validation_PredicatesTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testIsEregi()
 	{
-		throw new PHPUnit_Framework_IncompleteTestError( 'Dieser Test ist noch nicht fertig ausprogrammiert.' );
+		$assertion	= 1;
+		$creation	= Alg_Validation_Predicates::isEregi( "1", "^[[:digit:]]+$" );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= 1;
+		$creation	= Alg_Validation_Predicates::isEregi( "a", "^[[:lower:]]+$" );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= 1;
+		$creation	= Alg_Validation_Predicates::isEregi( "a", "^[[:upper:]]+$" );
+		$this->assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -630,8 +676,8 @@ class Tests_Alg_Validation_PredicatesTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testIsFloat()
 	{
-		throw new PHPUnit_Framework_IncompleteTestError( 'Dieser Test ist noch nicht fertig ausprogrammiert.' );
-/*		$assertion	= true;
+		//  --  POSITIVE  --  //
+		$assertion	= true;
 		$creation	= Alg_Validation_Predicates::isFloat( "1" );
 		$this->assertEquals( $assertion, $creation );
 
@@ -640,7 +686,16 @@ class Tests_Alg_Validation_PredicatesTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= true;
-		$creation	= Alg_Validation_Predicates::isFloat( "1,0" );
+		$creation	= Alg_Validation_Predicates::isFloat( "123.456" );
+		$this->assertEquals( $assertion, $creation );
+
+			//  --  NEGATIVE  --  //
+		$assertion	= false;
+		$creation	= Alg_Validation_Predicates::isFloat( "" );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= false;
+		$creation	= Alg_Validation_Predicates::isFloat( "." );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= false;
@@ -651,18 +706,18 @@ class Tests_Alg_Validation_PredicatesTest extends PHPUnit_Framework_TestCase
 		$creation	= Alg_Validation_Predicates::isFloat( ",1" );
 		$this->assertEquals( $assertion, $creation );
 
-		$assertion	= true;
-		$creation	= Alg_Validation_Predicates::isFloat( "123.456" );
-		$this->assertEquals( $assertion, $creation );
-
 		$assertion	= false;
-		$creation	= Alg_Validation_Predicates::isFloat( "." );
+		$creation	= Alg_Validation_Predicates::isFloat( "1,0" );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= false;
 		$creation	= Alg_Validation_Predicates::isFloat( "1.2,3" );
 		$this->assertEquals( $assertion, $creation );
-*/	}
+
+		$assertion	= false;
+		$creation	= Alg_Validation_Predicates::isFloat( "1.2.3" );
+		$this->assertEquals( $assertion, $creation );
+	}
 
 	/**
 	 *	Tests method 'isFuture'.
@@ -756,6 +811,17 @@ class Tests_Alg_Validation_PredicatesTest extends PHPUnit_Framework_TestCase
 		$assertion	= false;
 		$creation	= Alg_Validation_Predicates::isFuture( date( "m/d/Y" ) );
 		$this->assertEquals( $assertion, $creation );
+	}
+
+	/**
+	 *	Tests method 'isAfter'.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testIsFutureException()
+	{
+		$this->setExpectedException( "InvalidArgumentException" );
+		Alg_Validation_Predicates::isFuture( "01.71.2008", time );
 	}
 
 	/**
@@ -1103,6 +1169,17 @@ class Tests_Alg_Validation_PredicatesTest extends PHPUnit_Framework_TestCase
 		$assertion	= false;
 		$creation	= Alg_Validation_Predicates::isPast( date( "m/d/Y" )." 23:59:59" );
 		$this->assertEquals( $assertion, $creation );
+	}
+
+	/**
+	 *	Tests method 'isAfter'.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testIsPastException()
+	{
+		$this->setExpectedException( "InvalidArgumentException" );
+		Alg_Validation_Predicates::isPast( "01.71.2008", time );
 	}
 
 	/**

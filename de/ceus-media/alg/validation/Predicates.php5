@@ -1,7 +1,9 @@
 <?php
+import( 'de.ceus-media.alg.TimeConverter' );
 /**
  *	Class holding Predicates for String Validation.
  *	@package		alg.validation
+ *	@uses			Alg_TimeConverter
  *	@uses			Alg_Crypt_PasswordStrength
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			14.02.2007
@@ -10,6 +12,7 @@
 /**
  *	Class holding Predicates for String Validation.
  *	@package		alg.validation
+ *	@uses			Alg_TimeConverter
  *	@uses			Alg_Crypt_PasswordStrength
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			14.02.2007
@@ -92,18 +95,6 @@ class Alg_Validation_Predicates
 	}
 
 	/**
-	 *	Indicates whether a String contains all allowed characters.
-	 *	@access		public
-	 *	@param		string		$string		String to be checked
-	 *	@return		bool
-	 *	@todo		implement pattern
-	 */
-	public static function isAll( $string )
-	{
-		return self::isPreg( $string, "/^.*&$/" );
-	}
-
-	/**
 	 *	Indicates whether a String contains only letters.
 	 *	@access		public
 	 *	@param		string		$string		String to be checked
@@ -137,18 +128,6 @@ class Alg_Validation_Predicates
 	}
 
 	/**
-	 *	Indicates whether a String contains only letters, digits and some symbols.
-	 *	@access		public
-	 *	@param		string		$string		String to be checked
-	 *	@return		bool
-	 *	@todo		implement pattern
-	 */
-	public static function isAlphasymbol( $string )
-	{
-		return self::isPreg( $string, "/^.*$/" );
-	}
-
-	/**
 	 *	Indicates whether a String is time formated and is before another point in time.
 	 *	@access		public
 	 *	@param		string		$string		String to be checked
@@ -163,6 +142,26 @@ class Alg_Validation_Predicates
 			throw new InvalidArgumentException( 'Given Date "'.$string.'" could not been parsed.' );
 		return $time < $point;
 	}
+	
+	/**
+	 *	Indicates whether a String is a valid Date.
+	 *	@access		public
+	 *	@param		string		$string		String to be checked
+	 *	@return		bool
+	 */
+	public static function isDate( $string )
+	{
+		try
+		{
+			$string	= Alg_TimeConverter::complementMonthDate( $string );
+			$date	= strtotime( $string );
+			return (bool) $date;
+		}
+		catch( Exception $e )
+		{
+			return false;
+		}
+	}
 
 	/**
 	 *	Indicates whether a String contains only numeric characters.
@@ -173,17 +172,6 @@ class Alg_Validation_Predicates
 	public static function isDigit( $string )
 	{
 		return self::isPreg( $string, "/^[0-9]+$/" );
-	}
-
-	/**
-	 *	Indicates whether a String contains only numeric characters while dot is possible.
-	 *	@access		public
-	 *	@param		string		$string		String to be checked
-	 *	@return		bool
-	 */
-	public static function isDotnumeric( $string )
-	{
-		return self::isPreg( $string, "/^(\d+|\d*\.\d+)$/" );
 	}
 
 	/**
@@ -229,7 +217,7 @@ class Alg_Validation_Predicates
 	 */
 	public static function isFloat( $string )
 	{
-		return self::isPreg( $string, "/^(\d+(\.|,)\d+)$/" );
+		return self::isPreg( $string, "/^\d+(\.\d+)?$/" );
 	}
 
 	/**

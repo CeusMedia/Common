@@ -80,6 +80,10 @@ class Tests_Alg_Validation_PredicateValidatorTest extends PHPUnit_Framework_Test
 		$assertion	= false;
 		$creation	= $this->validator->validate( "1", "isLess", 1 );
 		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= false;
+		$creation	= $this->validator->validate( "01.71.2008", "isAfter", time() );
+		$this->assertEquals( $assertion, $creation );
 	}
 }
 ?>

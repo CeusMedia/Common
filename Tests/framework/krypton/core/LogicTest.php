@@ -97,7 +97,7 @@ class Tests_Framework_Krypton_Core_LogicTest extends PHPUnit_Framework_TestCase
 		$definition->setChannel( 'html' );
 		$registry->set( 'definition', $definition, true );
 		$data	= array(
-			'relation_id'	=> 1,
+			'relation_id'	=> 2,
 			'title'			=> 'test',
 		);
 		try
@@ -106,7 +106,7 @@ class Tests_Framework_Krypton_Core_LogicTest extends PHPUnit_Framework_TestCase
 		}
 		catch( Framework_Krypton_Exception_Validation $e )
 		{
-			$this->fail( "An unexpected Exception has been thrown" );
+			$this->fail( "An unexpected Exception has been thrown: ".$e->getMessage() );
 		}
 	}
 
@@ -160,7 +160,7 @@ class Tests_Framework_Krypton_Core_LogicTest extends PHPUnit_Framework_TestCase
 			$assertion	= true;
 			$creation	= is_a( $errors[0], "Framework_Krypton_Logic_ValidationError" );
 			$this->assertEquals( $assertion, $creation );
-			return;
+			return false;
 		}
 		$this->fail( 'An expected Exception has not been thrown.' );
 	}
