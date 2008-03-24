@@ -145,7 +145,7 @@ class XML_OPML_Parser
 					{
 						$childName	= $child->getNodeName();
 						$content	= $child->getContent();
-						switch( $childname )
+						switch( $childName )
 						{
 							case 'dateCreated':
 								$content	= $this->getDate( $content );

@@ -478,7 +478,7 @@ class UI_HTML_Elements
 			$ins_id		= $label_name ? " id=\"lbl_".$label_name."\"" : "";
 			$ins_class	= $class ? " class=\"".$class."\"" : "";
 			$label		= $label_name ? "<label for='".$label_name."'>".$label_text."</label>" : $label_text;
-			$code = "<td".$ins_id.$ins_class.">".$label."</td>";		
+			$code		= "<td".$ins_id.$ins_class.">".$label."</td>";		
 		}
 		return $code;
 	}
@@ -493,19 +493,21 @@ class UI_HTML_Elements
 	 *	@param		string		$confirm		Bestätigungstext des Links
 	 *	@param		int			$tabindex		Tabulatur-Index
 	 *	@param		string		$key			Access Key (eindeutiger Buchstabe)
+	 *	@param		bool		$relation		Relation (nofollow,licence,...)
 	 *	@return		string
 	 */
-	public static function Link( $url = "", $name, $class = false, $target = false, $confirm = false, $tabindex = false, $key = false )
+	public static function Link( $url = "", $name, $class = "", $target = "", $confirm = "", $tabindex = false, $key = "", $relation = "" )
 	{
-		$ins_class	= $class ? " class=\"".$class."\"" : "";
+		$ins_class		= $class ? " class=\"".$class."\"" : "";
 		$ins_confirm	= $confirm ? " onClick=\"return confirm('".$confirm."')\"" : "";
-		$ins_key	= $key ? " accesskey=\"".$key."\"" : "";
-		$ins_target	= $target ? " target=\"".$target."\"" : "";
+		$ins_key		= $key ? " accesskey=\"".$key."\"" : "";
+		$ins_target		= $target ? " target=\"".$target."\"" : "";
+		$ins_relation	= $relation ? " rel=\"".$relation."\"" : "";
 		$url = str_replace( '"', "'", $url );
 		$url = str_replace( "&", "&amp;", $url );
 		$ins_tabindex = $tabindex ? " tabindex=\"".$tabindex."\"" : "";
 		$code = "<a href=\"".$url."\"".$ins_class.$ins_target.$ins_tabindex.$ins_key.$ins_confirm." onFocus=\"this.blur()\">".$name."</a>";
-		$code = "<a href=\"".$url."\"".$ins_class.$ins_target.$ins_tabindex.$ins_key.$ins_confirm.">".$name."</a>";
+		$code = "<a href=\"".$url."\"".$ins_relation.$ins_class.$ins_target.$ins_tabindex.$ins_key.$ins_confirm.">".$name."</a>";
 		return $code;
 	}
 

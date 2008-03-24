@@ -33,6 +33,7 @@ class File_Css_Combiner
 	 */
 	public function combineString( $path, $content )
 	{
+		$this->statistics['size']		= 0;
 		$this->statistics['fileCount']	= 0;
 		$this->statistics['fileList']	= array();
 		$lines		= explode( "\n", $content );
@@ -49,7 +50,7 @@ class File_Css_Combiner
 
 			$content	= file_get_contents( $path.$fileName );
 			$this->statistics['fileCount']	++;
-			$this->statistics['size']	+= strlen( $content );
+			$this->statistics['size']		+= strlen( $content );
 //			$depth	= substr
 			if( substr_count( $fileName, "/" ) )
 				$content	= preg_replace( "@(\.\./){1}([^\.])@i", "\\2", $content );

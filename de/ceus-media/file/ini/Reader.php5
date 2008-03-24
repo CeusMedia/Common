@@ -307,11 +307,19 @@ class File_INI_Reader extends File_Reader
 			if( $f->isReadable() )
 			{
 				$lines = $f->readArray();
+				$commentOpen = false;
 				$this->lines = $this->comments = array();
 				foreach( $lines as $line )
 				{
 					$line	= trim( $line );
 					$this->lines[] = $line;
+
+					$commentOpen	-= preg_match( "@\*/@", $line );
+					$commentOpen	+= preg_match( "@/\*@", $line );
+
+					if( $commentOpen )
+						continue;
+					
 					if( $this->usesSections() && eregi( $this->sectionPattern, $line ) )
 					{
 						$currentSection	= substr( trim( $line ), 1, -1 );

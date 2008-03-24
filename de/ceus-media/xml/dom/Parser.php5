@@ -54,7 +54,7 @@ class XML_DOM_Parser extends ADT_OptionObject
 	{
 		$xsv	= new XML_DOM_SyntaxValidator;
 		if( !$xsv->validate( $xml ) )
-			throw new Exception( "XML Document is not valid.", $xsv->getErrors() );
+			throw new Exception( "XML Document is not valid:".$xsv->getErrors() );
 		$this->document	=& $xsv->getDocument();
 		$this->clearOptions();
 		foreach( $this->attributes as $attribute )
