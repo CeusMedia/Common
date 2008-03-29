@@ -35,7 +35,54 @@ class Framework_Krypton_Core_FormDefinitionReader
 	protected $cachePath;
 	/**	@var		bool		$useCache		Flag: cache Definitions in Cache Folder */
 	protected $useCache;
-	
+	/**	@var		array		$tagAttributes	List of Attributes of Definition Tags */
+	protected $tagAttributes	= array(
+		'syntax'	=> array(
+			"class",
+			"mandatory",
+			"minlength",
+			"maxlength"
+		),
+		'input'		=> array(
+			"name",
+			"type",
+			"style",
+			"validator",
+			"source",
+			"options",
+			"submit",
+			"disabled",
+			"hidden",
+			"tabindex",
+			"colspan",
+			"label"
+		),
+		'output'	=> array(
+			"source",
+			"options",
+			"type",
+			"format",
+			"structure",
+			"style",
+			"label",
+			"hidden",
+			"colspan"
+		),
+		'help'		=> array(
+			"type",
+			"file"
+		),
+		'calendar'	=> array(
+			"component",
+			"type",
+			"range",
+			"direction",
+			"format",
+			"language"
+		),
+	);
+
+
 	/**
 	 *	Constructor.
 	 *	@access		public
@@ -217,60 +264,42 @@ class Framework_Krypton_Core_FormDefinitionReader
 					{
 						if( $node->nodeType != XML_ELEMENT_NODE )
 							continue;
-						$name	= $node->nodeName;
-						if( !isset( $_field[$name] ) )
-							$_field[$name]	= array();
-						if( $name	 == "syntax" )
+						$tagName	= $node->nodeName;
+
+						//  --  GENERAL TREATMENT OF DEFINITION TAGS  --  //							 
+						if( !isset( $_field[$tagName] ) )
+							$_field[$tagName]	= array();
+						if( isset( $this->tagAttributes[$tagName] ) )
 						{
-							$keys	= array( "class", "mandatory", "minlength", "maxlength" );
-							foreach( $keys as $key )
-								$_field[$name][$key] = $node->getAttribute( $key );
+							foreach( $this->tagAttributes[$tagName] as $attribute )
+								$_field[$tagName][$attribute] = $node->getAttribute( $attribute );
 						}
-						else if( $name	 == "semantic" )
+
+						//  --  SPECIAL TREATMENT OF DEFINITION TAGS  --  //							 
+						switch( $tagName )
 						{
-							$semantic	= array(
-								'predicate'	=> $node->getAttribute( 'predicate' ),
-								'edge'		=> $node->getAttribute( 'edge' ),
-								);
-							$_field[$name][] = $semantic;
-						}
-						if( $name	 == "input" )
-						{
-							$keys	= array( "name", "type", "style", "validator", "source", "options", "submit", "disabled", "hidden", "tabindex", "colspan", "label" );
-							foreach( $keys as $key )
-								$_field[$name][$key]	= $node->getAttribute( $key );
-							$_field[$name]['default']	= $node->textContent;
-						}
-						else if( $name	 == "output" )
-						{
-							$keys	= array( "source", "type", "format", "structure", "style", "label", "hidden", "colspan" );
-							foreach( $keys as $key )
-								$_field[$name][$key]	= $node->getAttribute( $key );
-							$_field[$name]['default']	= $node->textContent;
-						}
-						else if( $name	 == "calendar" )
-						{
-							$keys	= array( "component", "type", "range", "direction", "format", "language" );
-							foreach( $keys as $key )
-								$_field[$name][$key]	= $node->getAttribute( $key );
-						}
-						else if( $name	 == "help" )
-						{
-							$keys	= array( "type", "file" );
-							foreach( $keys as $key )
-								$_field[$name][$key]	= $node->getAttribute( $key );
-						}
-						else if( $name	 == "hidemode" )
-						{
-							$_field[$name]['hidemode'][]	= $node->getContent();
-						}
-						else if( $name	 == "disablemode" )
-						{
-							$_field[$name]['hidemode'][]	= $node->getContent();
+							case 'syntax':		break;
+							case 'semantic':	$semantic	= array(
+													'predicate'	=> $node->getAttribute( 'predicate' ),
+													'edge'		=> $node->getAttribute( 'edge' ),
+												);
+												$_field[$tagName][] = $semantic;
+												break;
+							case 'input':		$_field[$tagName]['default']	= $node->textContent;
+												break;
+							case 'output':		$_field[$tagName]['default']	= $node->textContent;
+												break;
+							case 'calendar':	break;
+							case 'help':		break;
+							case 'hidemode':	$_field[$tagName]['hidemode'][]	= $node->getContent();
+												break;
+							case 'disablemode':	$_field[$tagName]['hidemode'][]	= $node->getContent();
+												break;
+							default:			break;
 						}
 					}
-					$name	= $field->getAttribute( "name" );
-					$this->definitions[$name] = $_field;
+					$fieldName	= $field->getAttribute( "name" );
+					$this->definitions[$fieldName] = $_field;
 				}
 				break;
 			}

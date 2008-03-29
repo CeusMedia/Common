@@ -56,12 +56,13 @@ abstract class Framework_Krypton_Core_Action extends Framework_Krypton_Core_Comp
 	}
 
 	/**
-	 *	Calls Actions by checking calls in Request.
+	 *	Calls Actions by checking calls in Request. Also collects and returns results of all Action Calls as Array.
 	 *	@access		public
-	 *	@return		void
+	 *	@return		array
 	 */
 	public function performActions()
 	{
+		$results	= array();
 		$request	= Framework_Krypton_Core_Registry::getStatic( 'request' );
 		foreach( $this->actions as $event => $action )
 		{
@@ -69,9 +70,10 @@ abstract class Framework_Krypton_Core_Action extends Framework_Krypton_Core_Comp
 			{
 				if( !method_exists( $this, $action ) )
 					throw new BadMethodCallException( 'Action "'.get_class( $this ).'::'.$action.'()" is not existing.' );
-				$this->$action( $request->get( $event ) );
+				$results[$action]	= $this->$action( $request->get( $event ) );
 			}
 		}
+		return $results;
 	}
 
 	/**

@@ -71,8 +71,8 @@ class Framework_Krypton_Core_Logic
 	/**
 	 *	Collection Factory for Categories.
 	 *	@access		public
-	 *	@param		Database_StatementBuilder	$builder		Statement Builder
 	 *	@param		string						$category		Category to get Logic for
+	 *	@param		Database_StatementBuilder	$builder		Statement Builder
 	 *	@return		object
 	 */
 	public static function getCategoryCollection( $category, $builder )
