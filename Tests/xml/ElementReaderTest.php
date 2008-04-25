@@ -1,30 +1,30 @@
 <?php
 /**
- *	TestUnit of XML Node Reader.
+ *	TestUnit of XML Element Reader.
  *	@package		Tests.xml
  *	@extends		PHPUnit_Framework_TestCase
- *	@uses			XML_NodeReader
+ *	@uses			XML_ElementReader
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			20.02.2008
  *	@version		0.1
  */
 require_once 'PHPUnit/Framework/TestCase.php'; 
 require_once( 'Tests/initLoaders.php5' );
-import( 'de.ceus-media.xml.NodeReader' );
+import( 'de.ceus-media.xml.ElementReader' );
 /**
- *	TestUnit of XML Node Reader.
+ *	TestUnit of XML Element Reader.
  *	@package		Tests.xml
  *	@extends		PHPUnit_Framework_TestCase
- *	@uses			XML_NodeReader
+ *	@uses			XML_ElementReader
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			20.02.2008
  *	@version		0.1
  */
-class Tests_XML_NodeReaderTest extends PHPUnit_Framework_TestCase
+class Tests_XML_ElementReaderTest extends PHPUnit_Framework_TestCase
 {
 	
-	protected $url		= "http://www.rssboard.org/files/sample-rss-2.xml";
-	protected $file		= "Tests/xml/node_reader.xml";
+	protected $url	= "http://www.rssboard.org/files/sample-rss-2.xml";
+	protected $file	= "Tests/xml/element_reader.xml";
 
 	/**
 	 *	Tests Method 'readUrl'.
@@ -33,14 +33,14 @@ class Tests_XML_NodeReaderTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testReadUrl()
 	{
-		$node		= XML_NodeReader::readUrl( $this->url );
+		$element	= XML_ElementReader::readUrl( $this->url );
 		
 		$assertion	= "Liftoff News";
-		$creation	= (string) $node->channel->title;
+		$creation	= (string) $element->channel->title;
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= "http://liftoff.msfc.nasa.gov/";
-		$creation	= (string )$node->channel->link;
+		$creation	= (string )$element->channel->link;
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -51,14 +51,14 @@ class Tests_XML_NodeReaderTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testReadFile()
 	{
-		$node		= XML_NodeReader::readFile( $this->file );
+		$element	= XML_ElementReader::readFile( $this->file );
 		
 		$assertion	= "Liftoff News";
-		$creation	= (string) $node->channel->title;
+		$creation	= (string) $element->channel->title;
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= "http://liftoff.msfc.nasa.gov/";
-		$creation	= (string )$node->channel->link;
+		$creation	= (string )$element->channel->link;
 		$this->assertEquals( $assertion, $creation );
 	}
 }

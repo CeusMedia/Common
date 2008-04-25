@@ -1,30 +1,30 @@
 <?php
 /**
- *	TestUnit of XML Node.
+ *	TestUnit of XML Element.
  *	@package		Tests.xml
  *	@extends		PHPUnit_Framework_TestCase
- *	@uses			XML_Node
+ *	@uses			XML_Element
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			20.02.2008
  *	@version		0.1
  */
 require_once( 'PHPUnit/Framework/TestCase.php' ); 
 require_once( 'Tests/initLoaders.php5' );
-import( 'de.ceus-media.xml.Node' );
+import( 'de.ceus-media.xml.Element' );
 /**
- *	TestUnit of XML Node.
+ *	TestUnit of XML Element.
  *	@package		Tests.xml
  *	@extends		PHPUnit_Framework_TestCase
- *	@uses			XML_Node
+ *	@uses			XML_Element
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			20.02.2008
  *	@version		0.1
  */
-class Tests_XML_NodeTest extends PHPUnit_Framework_TestCase
+class Tests_XML_ElementTest extends PHPUnit_Framework_TestCase
 {
-	protected $fileRead		= "Tests/xml/node_read.xml";
-	protected $fileWrite	= "Tests/xml/node_write.xml";
-	protected $fileSerial	= "Tests/xml/node_write_test.serial";
+	protected $fileRead		= "Tests/xml/element_read.xml";
+	protected $fileWrite	= "Tests/xml/element_write.xml";
+	protected $fileSerial	= "Tests/xml/element_write_test.serial";
 
 	public function setUp()
 	{
@@ -33,33 +33,33 @@ class Tests_XML_NodeTest extends PHPUnit_Framework_TestCase
 	
 	public function testAddChild()
 	{
-		$node	= new XML_Node( $this->xml );
-		$image	= $node->addChild( "image" );
+		$element	= new XML_Element( $this->xml );
+		$image		= $element->addChild( "image" );
 
 		$assertion	= 5;
-		$creation	= $node->countChildren();
+		$creation	= $element->countChildren();
 		$this->assertEquals( $assertion, $creation );
 
 		$image->addAttribute( "name", "Banner 5" );
 		$image->addAttribute( "file", "pic5.jpg" );
 		$assertion	= "Banner 5";
-		$creation	= $node->image[4]->getAttribute( "name" );;
+		$creation	= $element->image[4]->getAttribute( "name" );;
 	}
 	
 	public function testAddAttribute()
 	{
-		$node	= new XML_Node( $this->xml );
+		$element	= new XML_Element( $this->xml );
 		
-		$node->image[3]->addAttribute( 'testKey', "testValue" );
+		$element->image[3]->addAttribute( 'testKey', "testValue" );
 		$assertion	= "testValue";
-		$creation	= $node->image[3]->getAttribute( 'testKey' );
+		$creation	= $element->image[3]->getAttribute( 'testKey' );
 		$this->assertEquals( $assertion, $creation );
 	}
 
 	public function testAsFile()
 	{
-		$node	= new XML_Node( $this->xml );
-		$node->asFile( $this->fileWrite);
+		$element	= new XML_Element( $this->xml );
+		$element->asFile( $this->fileWrite);
 		$assertion	= $this->xml;
 		$creation	= file_get_contents( $this->fileWrite );
 		$this->assertEquals( $assertion, $creation );
@@ -67,68 +67,68 @@ class Tests_XML_NodeTest extends PHPUnit_Framework_TestCase
 
 	public function testAsXml()
 	{
-		$node	= new XML_Node( $this->xml );
+		$element	= new XML_Element( $this->xml );
 		$assertion	= $this->xml;
-		$creation	= $node->asXml();
+		$creation	= $element->asXml();
 		$this->assertEquals( $assertion, $creation );
 	}
 
 	public function testCountChildren()
 	{
-		$node	= new XML_Node( $this->xml );
+		$element	= new XML_Element( $this->xml );
 		$assertion	= 4;
-		$creation	= $node->countChildren();
+		$creation	= $element->countChildren();
 		$this->assertEquals( $assertion, $creation );
 	}
 
 	public function testCountAttributes()
 	{
-		$node	= new XML_Node( $this->xml );
+		$element	= new XML_Element( $this->xml );
 		$assertion	= 2;
-		$creation	= $node->image[2]->countAttributes();
+		$creation	= $element->image[2]->countAttributes();
 		$this->assertEquals( $assertion, $creation );
 	}
 
 	public function testGetAttribute()
 	{
-		$node	= new XML_Node( $this->xml );
+		$element	= new XML_Element( $this->xml );
 		$assertion	= "pic3.jpg";
-		$creation	= $node->image[2]->getAttribute( 'file' );
+		$creation	= $element->image[2]->getAttribute( 'file' );
 		$this->assertEquals( $assertion, $creation );
 	}
 
 	public function testGetAttributeKeys()
 	{
-		$node	= new XML_Node( $this->xml );
+		$element	= new XML_Element( $this->xml );
 		$assertion	= array(
 			'name',
 			'file',
 		);
-		$creation	= $node->image[2]->getAttributeKeys();
+		$creation	= $element->image[2]->getAttributeKeys();
 		$this->assertEquals( $assertion, $creation );
 	}
 	
 	public function testGetAttributes()
 	{
-		$node	= new XML_Node( $this->xml );
+		$element	= new XML_Element( $this->xml );
 		$assertion	= array(
 			'name'	=> "Banner 3",
 			'file'	=> "pic3.jpg",
 		);
-		$creation	= $node->image[2]->getAttributes();
+		$creation	= $element->image[2]->getAttributes();
 		$this->assertEquals( $assertion, $creation );
 	}
 	
 	public function testHasAttribute()
 	{
-		$node	= new XML_Node( $this->xml );
+		$element	= new XML_Element( $this->xml );
 		$assertion	= true;
-		$creation	= $node->image[2]->hasAttribute( 'name' );
+		$creation	= $element->image[2]->hasAttribute( 'name' );
 		$this->assertEquals( $assertion, $creation );
 
-		$node	= new XML_Node( $this->xml );
+		$element	= new XML_Element( $this->xml );
 		$assertion	= false;
-		$creation	= $node->image[2]->hasAttribute( 'id' );
+		$creation	= $element->image[2]->hasAttribute( 'id' );
 		$this->assertEquals( $assertion, $creation );
 	}
 }

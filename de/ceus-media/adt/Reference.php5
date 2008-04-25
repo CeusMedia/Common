@@ -1,13 +1,13 @@
 <?php
 /**
  *	Object Registry using a global Reference.
- *	@package		ADT
+ *	@package		adt
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.6
  */
 /**
  *	Object Registry using a global Reference.
- *	@package		ADT
+ *	@package		adt
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.6
  */

@@ -1,25 +1,26 @@
 <?php
+import( 'de.ceus-media.xml.Element' );
 /**
- *	Reader for XML Nodes.
+ *	Reader for XML Elements from File or URL.
  *	@package		xml
  *	@uses			File_Reader
  *	@uses			Net_Reader
- *	@uses			XML_Node
+ *	@uses			XML_Element
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			20.02.2008
  *	@version		0.6
  */
 /**
- *	Reader for XML Nodes.
+ *	Reader for XML Elements from File or URL.
  *	@package		xml
  *	@uses			File_Reader
  *	@uses			Net_Reader
- *	@uses			XML_Node
+ *	@uses			XML_Element
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			20.02.2008
  *	@version		0.6
  */
-class XML_NodeReader
+class XML_ElementReader
 {
 	/**
 	 *	Reads XML from File.
@@ -30,9 +31,8 @@ class XML_NodeReader
 	public static function readFile( $fileName )
 	{
 		import( 'de.ceus-media.file.Reader' );
-		import( 'de.ceus-media.xml.Node' );
 		$xml	= File_Reader::load( $fileName );
-		return new XML_Node( $xml );
+		return new XML_Element( $xml );
 	}
 	
 	/**
@@ -44,9 +44,8 @@ class XML_NodeReader
 	public static function readUrl( $url )
 	{
 		import( 'de.ceus-media.net.Reader' );
-		import( 'de.ceus-media.xml.Node' );
 		$xml	= Net_Reader::readUrl( $url );
-		return new XML_Node( $xml );
+		return new XML_Element( $xml );
 	}
 }
 ?>

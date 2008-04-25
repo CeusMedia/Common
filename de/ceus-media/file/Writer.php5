@@ -13,13 +13,13 @@
  */
 class File_Writer
 {
-	/**	@var		string		$fileName		File Name or URI of File */
+	/**	@var		string		$fileName		File Name of List, absolute or relative URI */
 	protected $fileName;
 
 	/**
 	 *	Constructor. Creates if File if not existing and Creation Mode is set.
 	 *	@access		public
-	 *	@param		string		$fileName		File Name or URI of File
+	 *	@param		string		$fileName		File Name of List, absolute or relative URI
 	 *	@param		string		$creationMode	UNIX rights for chmod()
 	 *	@param		string		$creationUser	User Name for chown()
 	 *	@param		string		$creationGroup	Group Name for chgrp()

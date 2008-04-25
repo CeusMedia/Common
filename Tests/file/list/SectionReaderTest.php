@@ -20,7 +20,7 @@ import( 'de.ceus-media.file.list.SectionReader' );
 class Tests_File_List_SectionReaderTest extends PHPUnit_Framework_TestCase
 {
 	/**	@var	string		$fileName		URL of Archive File Name */
-	private $fileName		= "Tests/file/list/section_read.list";
+	private $fileName		= "Tests/file/list/section.read.list";
 	private $sectionList	= array(
 		"section1"	=> array(
 			"line1",

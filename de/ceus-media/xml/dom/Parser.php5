@@ -101,25 +101,32 @@ class XML_DOM_Parser extends ADT_OptionObject
 			while( $child )
 			{
 				$attributes	= $child->hasAttributes()? $child->attributes : array();
-				if( $child->nodeType == 3 && strlen( trim( $content = $child->textContent ) ) )
+				switch( $child->nodeType )
 				{
-					return false;
-				}
-				else if( $child->nodeType == 3 && isset( $attributes['type'] ) && preg_match( "/.*ml/i", $attributes['type'] ) )
-				{
-					return false;
-				}
-				else if( $child->nodeType == 1 )
-				{
-					$node =& new XML_DOM_Node( $child->nodeName );
-					if( !$this->parseRecursive( $child, $node ) )
-					{
-#						$node->setContent( utf8_decode( $child->textContent ) );
-						$node->setContent( $child->textContent );
-					}
-					foreach( $attributes as $attribute)
-						$node->setAttribute( $attribute->nodeName, $attribute->nodeValue );
-					$tree->addChild( $node );
+					case XML_ELEMENT_NODE:
+						$node =& new XML_DOM_Node( $child->nodeName );
+						if( !$this->parseRecursive( $child, $node ) )
+						{
+	#						$node->setContent( utf8_decode( $child->textContent ) );
+							$node->setContent( $child->textContent );
+						}
+						foreach( $attributes as $attribute)
+							$node->setAttribute( $attribute->nodeName, $attribute->nodeValue );
+						$tree->addChild( $node );
+						break;
+					case XML_TEXT_NODE:
+						if( strlen( trim( $content = $child->textContent ) ) )
+						{
+							return false;
+						}
+						else if( isset( $attributes['type'] ) && preg_match( "/.*ml/i", $attributes['type'] ) )
+						{
+							return false;
+						}
+						break;
+					case XML_CDATA_SECTION_NODE:
+						$tree->setContent( $child->textContent );
+						break;
 				}
 				$child = $child->nextSibling;
 			}

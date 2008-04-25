@@ -17,36 +17,48 @@ import( 'de.ceus-media.file.Reader' );
  */
 class File_List_Reader
 {
-	/**	@var		StringList	$list			StringList */	
-	protected $list;
+	/**	@var		array		$list			List */	
+	protected $list						= array();
 	/**	@var		string		$commentPattern	RegEx Pattern of Comments */	
 	protected static $commentPattern	= "^[#:;/*-]{1}";
 	
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		string		$fileName		URI of list
+	 *	@param		string		$fileName		File Name of List, absolute or relative URI
 	 *	@return		void
 	 */
 	public function __construct( $fileName )
 	{
-		$this->list = array();
-		$this->list	= self::read( $fileName );
+		$this->list	= $this->read( $fileName );
+	}
+
+	/**
+	 *	Returns current List as String.
+	 *	@access		public
+	 *	@return		string
+	 */
+	public function __toString()
+	{
+		return "{".implode( ", ", $this->list )."}";
 	}
 	
 	/**
-	 *	Returns the Index of a given String in the List.
+	 *	Returns the Index of a given Item in current List.
 	 *	@access		public
-	 *	@param		string		$content		content of String
+	 *	@param		string		$item			Item to get Index for
 	 *	@return		int
 	 */
-	public function getIndex( $content )
+	public function getIndex( $item )
 	{
-		return array_search( $this->list, $content );	
+		$index	= array_search( $item, $this->list );
+		if( $index === FALSE )
+			throw new DomainException( 'Item "'.$item.'" is not in List.' );
+		return $index;
 	}
-	
+
 	/**
-	 *	Returns the List.
+	 *	Returns current List.
 	 *	@access		public
 	 *	@return		void
 	 */
@@ -56,7 +68,7 @@ class File_List_Reader
 	}
 	
 	/**
-	 *	Returns the Size of the List.
+	 *	Returns the Size of current List.
 	 *	@access		public
 	 *	@return		void
 	 */
@@ -66,23 +78,25 @@ class File_List_Reader
 	}
 
 	/**
-	 *	Returns the List as Array.
+	 *	Indicates whether an Item is in current List.
 	 *	@access		public
-	 *	@return		array
+	 *	@param		string		$item			Item to check
+	 *	@return		bool
 	 */
-	public function toArray()
+	public function hasItem( $item )
 	{
-		return $this->list;
+		return in_array( $item, $this->list );	
 	}
 
 	/**
-	 *	Reads the List.
+	 *	Reads List File.
 	 *	@access		public
 	 *	@param		string	fileName		URI of list
 	 *	@return		void
 	 */
 	public static function read( $fileName )
 	{
+		$list	= array();
 		if( !file_exists( $fileName ) )
 			throw new Exception( 'File "'.$fileName.'" is not existing.' );
 		$reader	= new File_Reader( $fileName );

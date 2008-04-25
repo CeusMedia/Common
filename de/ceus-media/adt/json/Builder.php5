@@ -8,7 +8,7 @@
  */
 /**
  *	JSON Implementation for building JSON Code.
- *	@package		adt.4
+ *	@package		adt.json
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			14.05.2006
  *	@version		0.2

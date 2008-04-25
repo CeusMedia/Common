@@ -23,7 +23,7 @@ import( 'de.ceus-media.file.list.SectionWriter' );
 class Tests_File_List_SectionWriterTest extends PHPUnit_Framework_TestCase
 {
 	/**	@var	string		$fileName		URL of Archive File Name */
-	private $fileName		= "Tests/file/list/write.list";
+	private $fileName		= "Tests/file/list/section.write.list";
 	private $sectionList	= array(
 		"section1"	=> array(
 			"line1",

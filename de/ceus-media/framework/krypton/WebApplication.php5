@@ -3,8 +3,9 @@ import( 'de.ceus-media.framework.krypton.Base' );
 import( 'de.ceus-media.net.http.request.Response' );
 import( 'classes.view.Interface' );
 /**
- *	Designer Collective Web Applications.
- *	@package		collective
+ *	Main Class for Web Applications.
+ *	This Class need to be called within an existing Web Project.
+ *	@package		framework.krypton
  *	@extends		Framework_Krypton_Base
  *	@uses			Net_HTTP_Request_Response
  *	@uses			View_Interface
@@ -13,8 +14,9 @@ import( 'classes.view.Interface' );
  *	@version		0.1
  */
 /**
- *	Designer Collective Web Applications.
- *	@package		collective
+ *	Main Class for Web Applications.
+ *	This Class need to be called within an existing Web Project.
+ *	@package		framework.krypton
  *	@extends		Framework_Krypton_Base
  *	@uses			Framework_Krypton_Core_FormDefinitionReader
  *	@uses			Framework_Krypton_Core_PageController

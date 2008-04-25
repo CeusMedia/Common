@@ -26,7 +26,7 @@ class Tests_Folder_TestCase extends PHPUnit_Framework_TestCase
 	 */
 	public function __construct()
 	{
-		$path		= dirname( __FILE__ )."/";
+		$this->_path		= $path	= dirname( __FILE__ )."/";
 		
 		@mkDir( $path."folder" );
 		@mkDir( $path."folder/.hidden" );
@@ -35,7 +35,7 @@ class Tests_Folder_TestCase extends PHPUnit_Framework_TestCase
 		@mkDir( $path."folder/sub1/sub1sub1" );
 		@mkDir( $path."folder/sub1/sub1sub2" );
 		@mkDir( $path."folder/sub2" );
-		@mkDir( $path."folder/sub2/sub2sub1	" );
+		@mkDir( $path."folder/sub2/sub2sub1" );
 		@file_put_contents( $path."folder/file1.txt", "test" );
 		@file_put_contents( $path."folder/sub1/file1_1.txt", "test" );
 		@file_put_contents( $path."folder/sub1/file1_2.txt", "test" );
@@ -44,7 +44,7 @@ class Tests_Folder_TestCase extends PHPUnit_Framework_TestCase
 		@file_put_contents( $path."folder/sub1/sub1sub2/file1_2_1.txt", "test" );
 		@file_put_contents( $path."folder/sub1/sub1sub2/file1_2_2.txt", "test" );
 		@file_put_contents( $path."folder/sub2/file2_1.txt", "test" );
-		@file_put_contents( $path."folder/sub2/sub2sub1/file2_2_1.txt", "test" );
+		@file_put_contents( $path."folder/sub2/sub2sub1/file2_1_1.txt", "test" );
 	}
 	
 	/**
@@ -54,20 +54,21 @@ class Tests_Folder_TestCase extends PHPUnit_Framework_TestCase
 	 */
 	public function __destruct()
 	{
-		$path		= dirname( __FILE__ )."/";
-		if( file_exists( $path."folder" ) )
-			$this->removeFolder( $path."folder", true);
+		if( file_exists( $this->_path."folder" ) )
+			$this->removeFolder( $this->_path."folder", true );
 	}
 
 	/**
 	 *	Removes Folders and Files recursive and returns number of removed Objects.
-	 *	@access		private
+	 *	@access		protected
 	 *	@param		string		$path			Path of Folder to remove
 	 *	@param		bool		$force			Flag: force to remove nested Files and Folders
 	 *	@return		int
 	 */
-	private static function removeFolder( $path, $force = false )
+	protected static function removeFolder( $path, $force = false )
 	{
+		$list	= array();
+		$path	= str_replace( "\\", "/", $path );
 		$dir	= dir( $path );																	//  index Folder
 		while( $entry = $dir->read() )															//  iterate Objects
 		{
@@ -78,10 +79,13 @@ class Tests_Folder_TestCase extends PHPUnit_Framework_TestCase
 			if( is_file( $path."/".$entry ) )													//  is nested File
 				@unlink( $path."/".$entry );													//  remove File
 			if( is_dir( $path."/".$entry ) )													//  is nested Folder
-				self::removeFolder( $path."/".$entry, $force );									//  call Method with nested Folder
+				$list[]	= $path."/".$entry;
 		}
 		$dir->close();
-		rmDir( $path );
+		foreach( $list as $folder )
+			self::removeFolder( $folder, $force );												//  call Method with nested Folder
+
+		@rmDir( $path );
 	}
 }
 ?>
