@@ -1,7 +1,7 @@
 <?php
 /**
  *	TestUnit of Net Reader.
- *	@package		Tests.net.http
+ *	@package		Tests.net
  *	@extends		PHPUnit_Framework_TestCase
  *	@uses			Net_Reader
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
@@ -13,7 +13,7 @@ require_once( 'Tests/initLoaders.php5' );
 import( 'de.ceus-media.net.Reader' );
 /**
  *	TestUnit of Net Reader.
- *	@package		Tests.net.http
+ *	@package		Tests.net
  *	@extends		PHPUnit_Framework_TestCase
  *	@uses			Net_Reader
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
@@ -23,24 +23,81 @@ import( 'de.ceus-media.net.Reader' );
 class Tests_Net_ReaderTest extends PHPUnit_Framework_TestCase
 {
 	/**
+	 *	Constructor.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function __construct()
+	{
+		$this->url		= "http://www.example.com";
+		$this->needle	= "@RFC\s+2606@i";
+		
+		$this->url		= "http://ceus-media.de/";
+		$this->needle	= "@ceus media@i";
+	}
+
+	/**
+	 *	Sets up Reader.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function setUp()
+	{
+		$this->reader	= new Net_Reader( $this->url );
+		$this->reader->setUserAgent( "cmClasses:UnitTest/0.1" );
+	}
+
+	/**
+	 *	Tests Method 'getStatus'.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testGetStatus()
+	{
+		$response	= $this->reader->read();
+		$assertion	= "200";
+		$creation	= $this->reader->getStatus( CURL_STATUS_HTTP_CODE );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= true;
+		$creation	= (bool) count( $this->reader->getStatus() );
+		$this->assertEquals( $assertion, $creation );
+	}
+
+	/**
+	 *	Tests Method 'getStatus'.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testGetStatusException1()
+	{
+		$this->setExpectedException( "RuntimeException" );
+		$this->reader->getStatus();
+	}
+
+	/**
+	 *	Tests Method 'getStatus'.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testGetStatusException2()
+	{
+		$this->reader->read();
+		$this->setExpectedException( "InvalidArgumentException" );
+		$this->reader->getStatus( "invalid_key" );
+	}
+
+	/**
 	 *	Tests Method 'getUrl'.
 	 *	@access		public
 	 *	@return		void
 	 */
 	public function testGetUrl()
 	{
-		$url		= "http://www.example.com";
-		$needle		= "@RFC\s+2606@i";
-		
-		$url		= "http://ceus-media.de/";
-		$needle		= "@ceus media@i";
-
-		$reader		= new Net_Reader( $url );
-		$assertion	= $url;
-		$creation	= $reader->getUrl();
+		$assertion	= $this->url;
+		$creation	= $this->reader->getUrl();
 		$this->assertEquals( $assertion, $creation );
 	}
-
 
 	/**
 	 *	Tests Method 'read'.
@@ -49,17 +106,22 @@ class Tests_Net_ReaderTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testRead()
 	{
-		$url		= "http://www.example.com";
-		$needle		= "@RFC\s+2606@i";
-		
-		$url		= "http://ceus-media.de/";
-		$needle		= "@ceus media@i";
-
-		$reader		= new Net_Reader( $url );
-		$response	= $reader->read();
+		$response	= $this->reader->read();
 		$assertion	= true;
-		$creation	= (bool) preg_match( $needle, $response );
+		$creation	= (bool) preg_match( $this->needle, $response );
 		$this->assertEquals( $assertion, $creation );
+	}
+
+	/**
+	 *	Tests Exception of Method 'read'.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testReadException()
+	{
+		$this->setExpectedException( "RuntimeException" );
+		$reader		= new Net_Reader( "" );
+		$reader->read();
 	}
 	
 	/**
@@ -69,15 +131,9 @@ class Tests_Net_ReaderTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testReadUrl()
 	{
-		$url		= "http://www.example.com";
-		$needle		= "@RFC\s+2606@i";
-		
-		$url		= "http://ceus-media.de/";
-		$needle		= "@ceus media@i";
-
-		$response	= Net_Reader::readUrl( $url );
+		$response	= Net_Reader::readUrl( $this->url );
 		$assertion	= true;
-		$creation	= (bool) preg_match( $needle, $response );
+		$creation	= (bool) preg_match( $this->needle, $response );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -88,17 +144,10 @@ class Tests_Net_ReaderTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testSetUserAgent()
 	{
-		$url		= "http://www.example.com";
-		$needle		= "@RFC\s+2606@i";
+		$this->reader->setUserAgent( "UnitTest1" );
 		
-		$url		= "http://ceus-media.de/";
-		$needle		= "@ceus media@i";
-
-		$reader		= new Net_Reader( $url );
-		$reader->setUserAgent( "UnitTest" );
-		
-		$assertion	= "UnitTest";
-		$creation	= $reader->getUserAgent();
+		$assertion	= "UnitTest1";
+		$creation	= $this->reader->getUserAgent();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -109,18 +158,22 @@ class Tests_Net_ReaderTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testSetUrl()
 	{
-		$url		= "http://www.example.com";
-		$needle		= "@RFC\s+2606@i";
-		
-		$url		= "http://ceus-media.de/";
-		$needle		= "@ceus media@i";
-
-		$reader		= new Net_Reader( $url );
-		$reader->setUrl( "test.com" );
+		$this->reader->setUrl( "test.com" );
 		
 		$assertion	= "test.com";
-		$creation	= $reader->getUrl();
+		$creation	= $this->reader->getUrl();
 		$this->assertEquals( $assertion, $creation );
+	}
+
+	/**
+	 *	Tests Exception of Method 'setUrl'.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testSetUrlException()
+	{
+		$this->setExpectedException( "RuntimeException" );
+		$this->reader->setUrl( "" );
 	}
 }
 ?>

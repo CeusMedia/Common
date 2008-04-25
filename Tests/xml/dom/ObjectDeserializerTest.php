@@ -37,9 +37,12 @@ class Tests_XML_DOM_ObjectDeserializerTest extends PHPUnit_Framework_TestCase
 	{
 		$this->deserializer	= new XML_DOM_ObjectDeserializer();
 		$this->object	= new TestObject();
-		$this->object->string	= "content";
-		$this->object->integer	= 1;
+		$this->object->null		= NULL;
 		$this->object->boolean	= true;
+		$this->object->integer	= 1;
+		$this->object->float	= (float) 1.23;
+		$this->object->double	= (double) 2.34;
+		$this->object->string	= "content";
 		$this->object->list		= array( "item1", "item2" );
 		$this->object->array	= array( "key" => "value" );
 		$this->object->child	= new TestObject();
@@ -55,7 +58,7 @@ class Tests_XML_DOM_ObjectDeserializerTest extends PHPUnit_Framework_TestCase
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testDeerialize()
+	public function testDeserialize()
 	{
 		$xml		= file_get_contents( "Tests/xml/dom/deserializer.xml" );
 		$assertion	= $this->object;

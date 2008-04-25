@@ -7,6 +7,7 @@ require_once( 'PHPUnit/TextUI/TestRunner.php' );
 require_once( 'Tests/adt/AllTests.php' );
 require_once( 'Tests/alg/AllTests.php' );
 require_once( 'Tests/file/AllTests.php' );
+require_once( 'Tests/folder/AllTests.php' );
 require_once( 'Tests/xml/AllTests.php' );
 require_once( 'Tests/framework/AllTests.php' );
 require_once( 'Tests/net/AllTests.php' );
@@ -24,6 +25,7 @@ class Tests_AllTests
 		$suite->addTest( Tests_ADT_AllTests::suite() );
 		$suite->addTest( Tests_Alg_AllTests::suite() );
 		$suite->addTest( Tests_File_AllTests::suite() );
+		$suite->addTest( Tests_Folder_AllTests::suite() );
 		$suite->addTest( Tests_XML_AllTests::suite() );
 		$suite->addTest( Tests_Framework_AllTests::suite() );
 		$suite->addTest( Tests_Net_AllTests::suite() );

@@ -8,6 +8,8 @@ require_once 'Tests/file/arc/AllTests.php';
 require_once 'Tests/file/list/AllTests.php';
 require_once 'Tests/file/yaml/AllTests.php';
 require_once 'Tests/file/ini/AllTests.php';
+require_once 'Tests/file/ReaderTest.php';
+require_once 'Tests/file/WriterTest.php';
 class Tests_File_AllTests
 {
 	public static function main()
@@ -22,6 +24,8 @@ class Tests_File_AllTests
 		$suite->addTest( Tests_File_List_AllTests::suite() );
 		$suite->addTest( Tests_File_Yaml_AllTests::suite() );
 		$suite->addTest( Tests_File_INI_AllTests::suite() );
+		$suite->addTestSuite('Tests_File_ReaderTest'); 
+		$suite->addTestSuite('Tests_File_WriterTest'); 
 		return $suite;
 	}
 }

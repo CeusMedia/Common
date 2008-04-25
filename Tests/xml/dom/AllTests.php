@@ -32,7 +32,7 @@ class Tests_XML_DOM_AllTests
 		$suite->addTestSuite('Tests_XML_DOM_FileReaderTest'); 
 		$suite->addTestSuite('Tests_XML_DOM_FileWriterTest'); 
 		$suite->addTestSuite('Tests_XML_DOM_ObjectSerializerTest'); 
-#		$suite->addTestSuite('Tests_XML_DOM_ObjectDeserializerTest'); 
+		$suite->addTestSuite('Tests_XML_DOM_ObjectDeserializerTest'); 
 		$suite->addTestSuite('Tests_XML_DOM_StorageTest'); 
 		$suite->addTestSuite('Tests_XML_DOM_XpathQueryTest'); 
 		$suite->addTestSuite('Tests_XML_DOM_GoogleSitemapBuilderTest'); 

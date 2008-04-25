@@ -4,8 +4,10 @@ if( !defined( 'PHPUnit_MAIN_METHOD' ) )
 
 require_once( 'PHPUnit/Framework/TestSuite.php' );
 require_once( 'PHPUnit/TextUI/TestRunner.php' );
-#require_once( 'Tests/net/html/service/AllTests.php' );
-#require_once( 'Tests/net/html/ElementsTest.php' );
+#require_once( 'Tests/ui/html/.../AllTests.php' );
+#require_once( 'Tests/ui/html/ElementsTest.php' );
+require_once( 'Tests/ui/html/TagTest.php' );
+require_once( 'Tests/ui/html/FormElementsTest.php' );
 class Tests_UI_HTML_AllTests
 {
 	public static function main()
@@ -18,6 +20,8 @@ class Tests_UI_HTML_AllTests
 		$suite = new PHPUnit_Framework_TestSuite( 'ClassContainer/UI/HTML' );
 #		$suite->addTest( Tests_UI_HTML_service_AllTests::suite() );
 #		$suite->addTestSuite( 'Tests_UI_HTML_ElementsTest' ); 
+		$suite->addTestSuite( 'Tests_UI_HTML_TagTest' ); 
+		$suite->addTestSuite( 'Tests_UI_HTML_FormElementsTest' ); 
 		return $suite;
 	}
 }

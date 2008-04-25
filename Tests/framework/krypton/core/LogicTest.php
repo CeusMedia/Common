@@ -238,7 +238,7 @@ class Test_Logic extends Framework_Krypton_Core_Logic
 }
 class Model_Test
 {
-	public function getFields()
+	public function getColumns()
 	{
 		return array(
 			'field1',

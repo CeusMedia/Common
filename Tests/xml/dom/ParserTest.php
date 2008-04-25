@@ -40,6 +40,26 @@ class Tests_XML_DOM_ParserTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 *	Tests Method 'getDocument'.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testGetDocument()
+	{
+		$xml		= '<?xml version="1.0"?><!-- Comment --><root/>';
+		$this->parser->parse( $xml );
+		$document	= $this->parser->getDocument();
+
+		$assertion	= true;
+		$creation	= is_object( $document );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= true;
+		$creation	= $document instanceof DOMDocument;
+		$this->assertEquals( $assertion, $creation );
+	}
+
+	/**
 	 *	Tests Method 'parse'.
 	 *	@access		public
 	 *	@return		void
@@ -76,8 +96,9 @@ class Tests_XML_DOM_ParserTest extends PHPUnit_Framework_TestCase
 		$tree->addChild( $leaf31 );
 		$tree->addChild( $leaf32 );
 		
+		$xml	= $this->builder->build( $tree );
 		$assertion	= $tree;
-		$creation	= $this->parser->parse( $this->builder->build( $tree ) );
+		$creation	= $this->parser->parse( $xml );
 		$this->assertEquals( $assertion, $creation );
 	}
 }
