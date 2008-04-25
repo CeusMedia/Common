@@ -103,7 +103,7 @@ class Framework_Krypton_Core_Template
 	 *	@param		array		$steps			Steps within Recursion
 	 *	@param		bool		$overwrite		Flag: overwrite existing Tag
 	 */
-	public function addArrayRecursive( $name, $data, $steps = array(), $overwrite = fale )
+	public function addArrayRecursive( $name, $data, $steps = array(), $overwrite = false )
 	{
 		$steps[]	= $name;
 		foreach( $data as $key => $value )

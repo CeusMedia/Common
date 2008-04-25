@@ -16,8 +16,11 @@ import( 'de.ceus-media.framework.krypton.core.View' );
  *	@since			01.04.2007
  *	@version		0.6
  */
+define( 'DEV_CENTER_PRINT_M', 0 );
+define( 'DEV_CENTER_VAR_DUMP', 1 );
 class Framework_Krypton_View_Component_DevCenter extends Framework_Krypton_Core_View
 {
+	public $printMode	= DEV_CENTER_VAR_DUMP;
 	protected $tabs		= array();
 	protected $divs		= array();
 	protected $topics	= array(
@@ -32,18 +35,6 @@ class Framework_Krypton_View_Component_DevCenter extends Framework_Krypton_Core_
 		'show_sources'		=> 'showSources',
 	);
 	
-	/**
-	 *	Adds another Topic or overwrites set Topic.
-	 *	@access		public
-	 *	@param		string		$key		Topic Key in Configuration File 'config.ini[debug]'
-	 *	@param		string		$method		Method in DevCenter to build Topic Tab.
-	 *	@return		void
-	 */
-	public function setTopic( $key, $method )
-	{
-		$this->topics[$key]	= $method;
-	}
-
 	public function buildContent( $content )
 	{
 		$config		= $this->registry->get( 'config' );
@@ -86,7 +77,37 @@ class Framework_Krypton_View_Component_DevCenter extends Framework_Krypton_Core_
 				if( method_exists( $this, $method ) )
 					$this->$method();
 	}
-	
+
+	/**
+	 *	Creates readable Dump of a Variable, either with print_m or var_dump, depending on printMode
+	 *	@access		private
+	 *	@param		mixed		$element		Variable to be dumped
+	 *	@return		string
+	 */
+	private function dumpVar( $element )
+	{
+		ob_start();																	//  open Buffer
+		if( $this->printMode )														//  Print Mode: var_dump
+		{
+			var_dump( $element );													//  print  Variable Dump
+			$dump	= ob_get_clean();												//  get buffered Dump
+			$dump	= preg_replace( "@=>\n +@", ": ", $dump );						//  remove Line Break on Relations
+			$dump	= str_replace( "{\n", "\n", $dump );							//  remove Array Opener
+			$dump	= str_replace( "}\n", "\n", $dump );							//  remove Array Closer
+			$dump	= str_replace( ' ["', " ", $dump );								//  remove Variable Key Opener
+			$dump	= str_replace( '"]:', ":", $dump );								//  remove Variable Key Closer
+			$dump	= preg_replace( '@string\([0-9]+\)@', "", $dump );				//  remove Variable Type for Strings
+			$dump	= preg_replace( '@array\([0-9]+\)@', "", $dump );				//  remove Variable Type for Arrays
+			ob_start();																//  open Buffer
+			xmp( $dump );															//  print Dump with XMP
+		}
+		else																		//  Print Mode: print_m
+		{
+			print_m( $element, ".", 2 );											//  print Dump with 2 Dots as Intend Space
+		}
+		return ob_get_clean();														//  return buffered Dump
+	}
+
 	/**
 	 *	Returns Array of set Topics for Tabs.
 	 *	@access		pubic
@@ -97,6 +118,18 @@ class Framework_Krypton_View_Component_DevCenter extends Framework_Krypton_Core_
 		return $this->topics;
 	}
 	
+	/**
+	 *	Adds another Topic or overwrites set Topic.
+	 *	@access		public
+	 *	@param		string		$key		Topic Key in Configuration File 'config.ini[debug]'
+	 *	@param		string		$method		Method in DevCenter to build Topic Tab.
+	 *	@return		void
+	 */
+	public function setTopic( $key, $method )
+	{
+		$this->topics[$key]	= $method;
+	}
+
 	/**
 	 *	Sets Topics for Tabs.
 	 *	@access		pubic
@@ -130,10 +163,8 @@ class Framework_Krypton_View_Component_DevCenter extends Framework_Krypton_Core_
 		$config	= $this->registry->get( 'config' );
 		if( count( $config ) )
 		{
-			ob_start();
-			print_m( $config );
 			$this->tabs['devTabConfig']	= "Config";
-			$this->divs['devTabConfig']	= ob_get_clean();
+			$this->divs['devTabConfig']	= $this->dumpVar( $config );
 		}
 	}
 
@@ -171,10 +202,8 @@ class Framework_Krypton_View_Component_DevCenter extends Framework_Krypton_Core_
 					}
 				}
 			}
-			ob_start();
-			print_m( $cookies );
 			$this->tabs['devTabCookie']	= "Cookie <small>(".count( $_COOKIE ).")</small>";
-			$this->divs['devTabCookie']	= ob_get_clean();
+			$this->divs['devTabCookie']	= $this->dumpVar( $cookies );
 		}
 	}
 
@@ -187,10 +216,9 @@ class Framework_Krypton_View_Component_DevCenter extends Framework_Krypton_Core_
 			$list	= array();
 			natcasesort( $files );
 			foreach( $files as $file => $key )
-				$list[]	= "<tr><td>".$file."</td><td>".$key."</td></tr>";
-			$table	= "<table><tr><th>Language File</th><th>Language Key</th></tr>".implode( "\n", $list )."</table>";
+				$list[]	= $file." (".$key.")";
 			$this->tabs['devTabLanguages']	= "Languages <small>(".count( $list ).")</small>";
-			$this->divs['devTabLanguages']	= $table;
+			$this->divs['devTabLanguages']	= "<xmp>".implode( "\n", $list )."</xmp>";
 		}
 	}
 
@@ -213,7 +241,7 @@ class Framework_Krypton_View_Component_DevCenter extends Framework_Krypton_Core_
 		$content	= preg_replace( "@<br ?/>$@", "", $content );
 		$content	= preg_replace( "@<br />@", "<br/>", $content );
 		$count	= substr_count( $content, "<br/>" ) + 1;
-		$this->tabs['devTabRemarks']	= "Remarks <small>(".$count.")";
+		$this->tabs['devTabRemarks']	= "Remarks <small>(".$count.")</small>";
 		$this->divs['devTabRemarks']	= $content;
 	}
 
@@ -223,9 +251,7 @@ class Framework_Krypton_View_Component_DevCenter extends Framework_Krypton_Core_
 		$all	= $request->getAll(); 
 		if( count( $all ) )
 		{
-			ob_start();
-			print_m( $all );
-			$content	= ob_get_clean();
+			$content	= $this->dumpVar( $all );
 			$content	= str_replace( array( "<%", "%>" ), array( "[[%", "%]]" ), $content );
 			$this->tabs['devTabRequest']	= "Request <small>(".count( $all ).")</small>";
 			$this->divs['devTabRequest']	= $content;
@@ -238,10 +264,8 @@ class Framework_Krypton_View_Component_DevCenter extends Framework_Krypton_Core_
 		$all		= $session->getAll(); 
 		if( count( $all ) )
 		{
-			ob_start();
-			print_m( $all );
 			$this->tabs['devTabSession']	= "Session <small>(".count( $all ).")</small>";
-			$this->divs['devTabSession']	= ob_get_clean();
+			$this->divs['devTabSession']	= $this->dumpVar( $all );
 		}
 	}
 
@@ -257,11 +281,8 @@ class Framework_Krypton_View_Component_DevCenter extends Framework_Krypton_Core_
 		$words	= $language->getWords();
 		if( count( $words ) )
 		{
-			ob_start();
-			print_m( $words );
-			$list	= ob_get_clean();
 			$this->tabs['devTabWords']	= "Words";
-			$this->divs['devTabWords']	= $list;
+			$this->divs['devTabWords']	= $this->dumpVar( $words );
 		}
 	}
 }

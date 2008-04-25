@@ -115,7 +115,7 @@ class Language extends ADT_OptionObject
 	function _loadCache( $url )
 	{
 		$config	= $this->ref->get( 'config' );
-		$file	= new File( $url );
+		$file	= new File_Reader( $url );
 		return $file->readString();
 			return implode( "", file( $url ) );
 	}
@@ -123,7 +123,7 @@ class Language extends ADT_OptionObject
 	function _saveCache( $url, $content )
 	{
 		$config	= $this->ref->get( 'config' );
-		$file	= new File( $url, 0750 );
+		$file	= new File_Writer( $url, 0750 );
 		$file->writeString( $content );
 	}
 }

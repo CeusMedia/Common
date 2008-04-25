@@ -98,7 +98,7 @@ abstract class Framework_Krypton_Core_Action extends Framework_Krypton_Core_Comp
 	{
 		$session	= Framework_Krypton_Core_Registry::getStatic( 'session' );
 		$session->__destruct();
-		header( "Location: ".$request );
+		header( "Location: ./".$request );
 		exit;
 	}
 }

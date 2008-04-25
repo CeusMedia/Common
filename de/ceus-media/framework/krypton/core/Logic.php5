@@ -1,20 +1,13 @@
 <?php
 import( 'de.ceus-media.framework.krypton.core.Registry' );
-import( 'de.ceus-media.framework.krypton.core.DefinitionValidator' );
-import( 'de.ceus-media.alg.validation.Predicates' );
-import( 'de.ceus-media.framework.krypton.exception.IO' );
-import( 'de.ceus-media.framework.krypton.exception.Validation' );
-import( 'de.ceus-media.framework.krypton.exception.Logic' );
 /**
  *	Logic Base Class with Validation
  *	@package		framework.krypton.core
  *	@uses			Framework_Krypton_Core_Registry
  *	@uses			Framework_Krypton_Core_DefinitionValidator
- *	@uses			Framework_Krypton_Core_DefinitionValidator
  *	@uses			Alg_Validation_Predicates
  *	@uses			Framework_Krypton_Exception_Validation
  *	@uses			Framework_Krypton_Exception_IO
- *	@uses			Framework_Krypton_Exception_Logic
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			21.02.2007
  *	@version		0.6
@@ -24,11 +17,9 @@ import( 'de.ceus-media.framework.krypton.exception.Logic' );
  *	@package		framework.krypton.core
  *	@uses			Framework_Krypton_Core_Registry
  *	@uses			Framework_Krypton_Core_DefinitionValidator
- *	@uses			Framework_Krypton_Core_DefinitionValidator
  *	@uses			Alg_Validation_Predicates
  *	@uses			Framework_Krypton_Exception_Validation
  *	@uses			Framework_Krypton_Exception_IO
- *	@uses			Framework_Krypton_Exception_Logic
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			21.02.2007
  *	@version		0.6
@@ -98,8 +89,9 @@ class Framework_Krypton_Core_Logic
 		if( class_exists( $modelName, true ) )
 		{
 			$model	= new $modelName;
-			return $model->getFields();
+			return $model->getColumns();
 		}
+		import( 'de.ceus-media.framework.krypton.exception.IO' );
 		throw new Framework_Krypton_Exception_IO( 'Class "'.$modelName.'" is not existing.' );
 	}
 
@@ -171,6 +163,8 @@ class Framework_Krypton_Core_Logic
 	 */
 	protected static function validateForm( $file, $form, &$data, $prefix = "", $predicateClass = "Alg_Validation_Predicates" )
 	{
+		import( 'de.ceus-media.framework.krypton.core.DefinitionValidator' );
+		import( 'de.ceus-media.alg.validation.Predicates' );
 		$validator	= new Framework_Krypton_Core_DefinitionValidator( $predicateClass );
 		$errors		= array();
 
@@ -194,7 +188,10 @@ class Framework_Krypton_Core_Logic
 				$errors	= array_merge( $errors, $validator->validate( $field, $def, $value, $prefix ) );
 		}
 		if( $errors )
+		{
+			import( 'de.ceus-media.framework.krypton.exception.Validation' );
 			throw new Framework_Krypton_Exception_Validation( "error_not_valid", $errors, $form );
+		}
 		return true;
 	}
 }

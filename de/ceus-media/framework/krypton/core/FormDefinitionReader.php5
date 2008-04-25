@@ -213,8 +213,7 @@ class Framework_Krypton_Core_FormDefinitionReader
 			if( file_exists( $cacheFile ) && filemtime( $xmlFile ) <= filemtime( $cacheFile ) )
 			{
 				import( 'de.ceus-media.file.Reader' );
-				$file	= new File_Reader( $cacheFile );
-				$this->definitions	= unserialize( $file->readString() );
+				$this->definitions	= unserialize( File_Reader::load( $cacheFile ) );
 				return true;
 			}
 		}

@@ -306,7 +306,7 @@ abstract class Framework_Krypton_Core_Component
 				$this->handleValidationException( $e, $lanfile, $section );
 				break;
 			case 'Framework_Krypton_Exception_Logic':
-				$this->handleLogicException( $e, $lanfile );
+				$this->handleLogicExceptionOld( $e, $lanfile );
 				break;
 			case 'Framework_Krypton_Exception_SQL':
 				$this->handleSqlException( $e );
@@ -347,12 +347,12 @@ abstract class Framework_Krypton_Core_Component
 	/**
 	 *	Interprets Logic Exception and builds Error Message.
 	 *	@access		protected
-	 *	@param		Framework_Krypton_Exception_Logic	$e				Exception to handle.
-	 *	@param		string								$filename		File Name of Language File
-	 *	@param		string								$section		Section Name in Language Space
+	 *	@param		LogicException		$e				Exception to handle.
+	 *	@param		string				$filename		File Name of Language File
+	 *	@param		string				$section		Section Name in Language Space
 	 *	@return		void
 	 */
-	protected function handleLogicException( Framework_Krypton_Exception_Logic $e, $filename, $section = "msg" )
+	protected function handleLogicExceptionOld( Exception $e, $filename, $section = "msg" )
 	{
 		$words	= $this->words[$filename][$section];
 		if( isset( $words[$e->key] ) )
@@ -360,6 +360,24 @@ abstract class Framework_Krypton_Core_Component
 		else
 			$msg	= $e->key;
 		$this->messenger->noteError( $msg, $e->subject );
+	}
+
+	/**
+	 *	Interprets Logic Exception and builds Error Message.
+	 *	@access		protected
+	 *	@param		LogicException		$e				Exception to handle.
+	 *	@param		string				$filename		File Name of Language File
+	 *	@param		string				$section		Section Name in Language Space
+	 *	@return		void
+	 */
+	protected function handleLogicException( LogicException $e, $filename, $section = "msg" )
+	{
+		$words	= $this->words[$filename][$section];
+		if( isset( $words[$e->getMessage()] ) )
+			$msg	= $words[$e->getMessage()];
+		else
+			$msg	= $e->getMessage();
+		$this->messenger->noteError( $msg, $e->getCode() );
 	}
 
 	/**

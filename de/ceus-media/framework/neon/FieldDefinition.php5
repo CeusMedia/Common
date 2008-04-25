@@ -1,11 +1,13 @@
 <?php
 import( 'de.ceus-media.adt.OptionObject' );
-import( 'de.ceus-media.file.File' );
+import( 'de.ceus-media.file.Reader' );
+import( 'de.ceus-media.file.Writer' );
 /**
  *	Definition of Input Field within Channels, Screens and Forms.
  *	@package		framework.neon
  *	@extends		ADT_OptionObject
- *	@uses			File
+ *	@uses			File_Reader
+ *	@uses			File_Writer
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			01.05.2006
  *	@version		0.1
@@ -14,7 +16,8 @@ import( 'de.ceus-media.file.File' );
  *	Definition of Input Field within Channels, Screens and Forms.
  *	@package		framework.neon
  *	@extends		ADT_OptionObject
- *	@uses			File
+ *	@uses			File_Reader
+ *	@uses			File_Writer
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			01.05.2006
  *	@version		0.1
@@ -118,7 +121,7 @@ class Framework_Neon_FieldDefinition extends ADT_OptionObject
 			$cache_file	= $this->_getCacheFilename( $filename );
 			if( file_exists( $cache_file ) && filemtime( $xml_file ) <= filemtime( $cache_file ) )
 			{
-				$file	= new File( $cache_file );
+				$file	= new File_Reader( $cache_file );
 				$this->_definition	= unserialize( $file->readString() );
 				return true;
 			}
@@ -272,7 +275,7 @@ class Framework_Neon_FieldDefinition extends ADT_OptionObject
 	function _writeCacheFile( $filename )
 	{
 		$cache_file	= $this->_getCacheFilename( $filename );
-		$file	= new File( $cache_file, 0755 );
+		$file	= new File_Writer( $cache_file, 0755 );
 		$file->writeString( serialize( $this->_definition ) );
 	}
 

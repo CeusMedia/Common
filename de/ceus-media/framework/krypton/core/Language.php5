@@ -1,6 +1,5 @@
 <?php
 import( 'de.ceus-media.framework.krypton.core.Registry' );
-import( 'de.ceus-media.file.ini.Reader' );
 /**
  *	Language Support with sniffing of Browser Language and Language Validation.
  *	Loads Language Files direct or from Cache if enabled.
@@ -60,7 +59,6 @@ class Framework_Krypton_Core_Language
 	public function __construct()
 	{
 		$this->registry	= Framework_Krypton_Core_Registry::getInstance();
-		$request	= $this->registry->get( 'request' );
 		$session	= $this->registry->get( 'session' );
 		$config		= $this->registry->get( 'config' );
 
@@ -245,6 +243,7 @@ class Framework_Krypton_Core_Language
 		if( !file_exists( $lanFile ) )
 			throw new Framework_Krypton_Exception_IO( 'Language File "'.$fileName.'" is not existing.' );	
 
+		import( 'de.ceus-media.file.ini.Reader' );
 		$ir	= new File_INI_Reader( $lanFile, true );
 		$this->words[$section]	= $ir->toArray( true );
 		foreach( $this->words[$section] as $area => $pairs )

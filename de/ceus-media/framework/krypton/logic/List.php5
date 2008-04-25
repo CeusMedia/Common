@@ -1,9 +1,9 @@
 <?php
-import( 'de.ceus-media.framework.krypton.core.database.StatementBuilder' );
+import( 'de.ceus-media.database.StatementBuilder' );
 /**
  *	Logic for Data Lists from Database.
  *	@package		mv2.logic
- *	@uses			Framework_Krypton_Core_Database_StatementBuilder
+ *	@uses			Database_StatementBuilder
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			23.02.2007
  *	@version		0.1
@@ -11,7 +11,7 @@ import( 'de.ceus-media.framework.krypton.core.database.StatementBuilder' );
 /**
  *	Logic for Data Lists from Database.
  *	@package		mv2.logic
- *	@uses			Framework_Krypton_Core_Database_StatementBuilder
+ *	@uses			Database_StatementBuilder
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			23.02.2007
  *	@version		0.1
@@ -32,7 +32,7 @@ class Framework_Krypton_Logic_List
 	 */
 	public function __construct( $collection, $tablePrefix = "" )
 	{
-		$this->builder		= new Framework_Krypton_Core_Database_StatementBuilder( $tablePrefix );
+		$this->builder		= new Database_StatementBuilder( $tablePrefix );
 		if( !class_exists( $collection ) )
 			throw new RuntimeException( 'Collection Class "'.$collection.'" was not been loaded.' );
 		$this->collection	= new $collection( $this->builder );

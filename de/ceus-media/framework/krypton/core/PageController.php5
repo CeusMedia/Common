@@ -20,16 +20,19 @@ import( 'de.ceus-media.framework.krypton.core.Registry' );
  */
 class Framework_Krypton_Core_PageController
 {
-	/**	@var	array		$default		Default Page */
-	private $default		= null;
-	/** @var	DOMDocument	$document		Pages XML as DOM Document */
-	private $document		= null;
-	/**	@var	string		$fileName		File Name of Pages XML */
+	/**	@var		array		$default		Default Page */
+	private $default			= null;
+	/** @var		DOMDocument	$document		Pages XML as DOM Document */
+	private $document			= null;
+	/**	@var		string		$fileName		File Name of Pages XML */
 	public	$fileName;
-	/**	@var	array		$pages			Array of Pages from Page XML File */
+	/**	@var		array		$pages			Array of Pages from Page XML File */
 	protected $pages			= array();
-	/**	@var	array		$cachedScopes	Cached Page to Scope Relations */
-	private $cachedScopes	= array();
+	/**	@var		array		$cachedScopes	Cached Page to Scope Relations */
+	private $cachedScopes		= array();
+	/**	@var		string		$cacheFile		File Name of Pages Cache File */	
+	private $cacheFile			= null;
+	
 
 	/**
 	 *	Constructor.
@@ -39,8 +42,31 @@ class Framework_Krypton_Core_PageController
 	 */
 	public function __construct( $fileName )
 	{
-		$this->fileName	= $fileName;
+		$config		= Framework_Krypton_Core_Registry::getStatic( 'config' );
+
+		$this->fileName		= $fileName;
+		$this->cacheFile	= $config['paths']['cache'].basename( $fileName ).".cache";
 		$this->readPages();
+	}
+
+	/**
+	 *	Adds a Role to a Page.
+	 *	@access		public
+	 *	@param		string		$role			Role Name
+	 *	@param		string		$pageId			Page ID
+	 *	@return		bool
+	 */
+	public function addRoleToPage( $role, $pageId )
+	{
+		import( 'de.ceus-media.framework.krypton.core.PageDefinitionEditor' );
+		$editor	= new Framework_Krypton_Core_PageDefinitionEditor( $this->fileName );
+		if( $editor->addRoleToPage( $role, $pageId ) )
+		{
+			$this->clearCache();
+			$this->readPages();
+			return TRUE;
+		}
+		return FALSE;
 	}
 
 	/**
@@ -71,17 +97,23 @@ class Framework_Krypton_Core_PageController
 	/**
 	 *	Removes Cache File of Pages.
 	 *	@access		public
+	 *	@param		bool		$clearScopes	Flag: clear Scope Map
+	 *	@param		bool		$clearCacheFile	Flag: remove Pages Cache File
 	 *	@return		void
 	 */
-	public function clearCache()
+	public function clearCache( $clearScopes = true, $clearCacheFile = true )
 	{
-		$this->cachedScopes	= array();
+		if( $clearScopes )
+			$this->cachedScopes	= array();
+			
+		if( $clearCacheFile && file_exists( $this->cacheFile ) )
+			unlink( $cacheFile );
 	}
 
 	/**
 	 *	Creates nested Folder recursive.
 	 *	@access		protected
-	 *	@param		string		$path		Folder to create
+	 *	@param		string		$path			Folder to create
 	 *	@return		void
 	 */
 	protected function createFolder( $path )
@@ -121,7 +153,7 @@ class Framework_Krypton_Core_PageController
 			}
 			catch( Exception $e )
 			{
-				throw new Framework_Krypton_Exception_Logic( 'No Category Factory "'.$factory.'" available.' );
+				throw new LogicException( 'No Category Factory "'.$factory.'" available.' );
 			}
 			return $factory->getClassName( $page['file'], $prefix, $category );
 		}
@@ -279,20 +311,38 @@ class Framework_Krypton_Core_PageController
 	 */
 	protected function readPages()
 	{
-		$config		= Framework_Krypton_Core_Registry::getStatic( 'config' );
-		$cacheFile	= $config['paths']['cache'].basename( $this->fileName ).".cache";
-		if( file_exists( $cacheFile ) && filemtime( $cacheFile ) >= filemtime( $this->fileName ) )
+		if( file_exists( $this->cacheFile ) && filemtime( $this->cacheFile ) >= filemtime( $this->fileName ) )
 		{
-			$this->pages	= unserialize( file_get_contents( $cacheFile ) );
+			$this->pages	= unserialize( file_get_contents( $this->cacheFile ) );
 		}
 		else
 		{
 			import( 'de.ceus-media.framework.krypton.core.PageDefinitionReader' );
 			$reader			= new Framework_Krypton_Core_PageDefinitionReader( $this->getDocument() );
 			$this->pages	= $reader->getPages();
-			$this->createFolder( dirname( $cacheFile ) );
-			file_put_contents( $cacheFile, serialize( $this->pages ) );
+			$this->createFolder( dirname( $this->cacheFile ) );
+			file_put_contents( $this->cacheFile, serialize( $this->pages ) );
 		}
+	}
+
+	/**
+	 *	Removes a Role from a Page.
+	 *	@access		public
+	 *	@param		string		$role			Role Name
+	 *	@param		string		$pageId			Page ID
+	 *	@return		bool
+	 */
+	public function removeRoleFromPage( $role, $pageId )
+	{
+		import( 'de.ceus-media.framework.krypton.core.PageDefinitionEditor' );
+		$editor	= new Framework_Krypton_Core_PageDefinitionEditor( $this->fileName );
+		if( $editor->removeRoleFromPage( $role, $pageId ) )
+		{
+			$this->clearCache();
+			$this->readPages();
+			return TRUE;
+		}
+		return FALSE;
 	}
 }
 ?>

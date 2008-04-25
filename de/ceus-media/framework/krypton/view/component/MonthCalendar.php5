@@ -15,7 +15,7 @@
  *	@since			11.03.2007
  *	@version		0.1
  */
-class View_Component_MonthCalendar extends Core_View
+class View_Component_MonthCalendar extends Framework_Krypton_Core_View
 {
 	/**	@var	array		$months			Array of Months */
 	var $months	= array(
@@ -68,24 +68,20 @@ class View_Component_MonthCalendar extends Core_View
 	public function buildCalendar( $id_input, $id_mcal, $id_opener, $js_name )
 	{
 		$opt_year	= $this->buildYears();
-		$ui['select_year']	= $this->html->Select( 'year', $opt_year, 'seltiny' );
+		$ui['select_year']	= $this->html->Select( 'year', $opt_year, 's' );
 		foreach( $this->months as $key => $value )
 		{
 			$link	= $this->html->Link( "javascript:".$js_name.".select('".$key."');", $value );
 			$list[]	= $this->html->ListItem( $link );
 		}
-		$ui['list']	        = $this->html->unorderedList( $list );
-        $config             = $this->registry->get('config');
-        $ui['account']      = $config['application']['account'];
-		$ui['format']	    = $this->format;
-		$ui['id_input']	    = $id_input;
-		$ui['id_mcal']	    = $id_mcal;
+		$ui['list']			= $this->html->unorderedList( $list );
+		$ui['format']		= $this->format;
+		$ui['id_input']		= $id_input;
+		$ui['id_mcal']		= $id_mcal;
 		$ui['id_opener']	= $id_opener;
-		$ui['js_name']	    = $js_name;
+		$ui['js_name']		= $js_name;
 
-		$template	= new View_Component_Template( 'monthcalendar', $ui );
-		$content	= $template->create();
-		return $content;
+		return $this->loadTemplate( 'monthcalendar', $ui );
 	}
 
 	/**
@@ -145,9 +141,9 @@ class View_Component_MonthCalendar extends Core_View
 	 */
 	public function setMonths( $months )
 	{
-		$key	= array_keys( $this->month );
+		$key	= array_keys( $this->months );
 		$months	= array_values( $months );
-		$this->month	= array_combine( $key, $months );
+		$this->months	= array_combine( $key, $months );
 	}
 	
 	/**

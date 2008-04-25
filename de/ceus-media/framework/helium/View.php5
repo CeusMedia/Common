@@ -231,7 +231,7 @@ class Framework_Helium_View
 		
 		if( file_exists( $filename ) )
 		{
-			$file	= new File( $filename );
+			$file	= new File_Reader( $filename );
 			$content	= $file->readString();
 			foreach( $data as $key => $value )
 				$content	= str_replace( "[#".$key."#]", $value, $content );
@@ -307,7 +307,7 @@ class Framework_Helium_View
 	{
 		$config	= $this->ref->get( 'config' );
 		$url	= $config['paths']['cache'].$filename;
-		$file	= new File( $url );
+		$file	= new File_Reader( $url );
 		return $file->readString();
 	//	!( file_exists( $uri ) && filemtime( $uri ) + 3600 > time() )
 		return implode( "", file( $url ) );
@@ -317,7 +317,7 @@ class Framework_Helium_View
 	{
 		$config	= $this->ref->get( 'config' );
 		$url	= $config['paths']['cache'].$filename;
-		$file	= new File( $url, 0750 );
+		$file	= new File_Writer( $url, 0750 );
 		$file->writeString( $content );
 	}
 }

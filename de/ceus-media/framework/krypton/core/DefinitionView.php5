@@ -1,7 +1,7 @@
 <?php
 import( 'de.ceus-media.framework.krypton.core.View' );
-import( 'de.ceus-media.file.log.LogFile' );
-import( 'de.ceus-media.framework.krypton.logic.ValidationError' );
+#import( 'de.ceus-media.file.log.LogFile' );
+#import( 'de.ceus-media.framework.krypton.logic.ValidationError' );
 /**
  *	Generic Definition View with Language Support.
  *	@package		framework.krypton.core
@@ -38,55 +38,59 @@ class Framework_Krypton_Core_DefinitionView extends Framework_Krypton_Core_View
 	/**
 	 *	Build Fields of Form Fields.
 	 *	@access		public
-	 *	@param		string		$file				Name of XML Definition File (e.g. %PREFIX%#FILE#.xml)
+	 *	@param		string		$fileName			Name of XML Definition File (e.g. %PREFIX%#FILE#.xml)
 	 *	@param		string		$formName			Name of Form within XML Definition File (e.g. 'addExample' )
 	 *	@param		string		$languageFile		Name of Language File (e.g. 'example')
 	 *	@param		string		$languageSection	Section in Language File (e.g. 'add')
 	 *	@param		array		$input				Array of built Input Fields
 	 *	@return		array
 	 */
-	public function buildFields( $file, $formName, $languageFile, $languageSection, $inputs )
+	public function buildFields( $fileName, $formName, $languageFile, $languageSection, $inputs )
 	{
 		$cal_count	= 0;
 		$request	= $this->registry->get( 'request' );
 		$labels		= $this->words[$languageFile][$languageSection];
 
 		$array	= array();
-		$this->loadDefinition( $file , $formName );
+		$this->loadDefinition( $fileName , $formName );
 		$fields	= $this->definition->getFields();
 		if( count( $fields ) )
 		{
 			foreach( $fields as $field )
 			{
 				$data	= $this->definition->getField( $field );
+				$suffix	= isset( $labels[$field."_suffix"] ) ? $labels[$field."_suffix"] : "";
 				if( isset( $data['calendar'] ) )
 				{
 					if( $data['calendar']['component'] == "MonthCalendar" )
 					{
-						require_once( "classes/view/component/MonthCalendar.php5" );
-						$cal	= new View_Component_MonthCalendar();							if( isset( $data['calendar']['range'] ) )
+						import( 'de.ceus-media.framework.krypton.view.component.MonthCalendar' );
+						$cal	= new View_Component_MonthCalendar();
+						if( isset( $data['calendar']['range'] ) )
 							$cal->setRange( $data['calendar']['range'] );
 						if( isset( $data['calendar']['type'] ) )
 							$cal->setType( $data['calendar']['type'] );
 						if( isset( $data['calendar']['direction'] ) )
 							$cal->setDirection( $data['calendar']['direction'] == "asc" );
+						if( isset( $this->words['main']['months'] ) )
+							$cal->setMonths( $this->words['main']['months'] );
 						$name	= $data['input']['name'];
 						$id1	= "mcal".$cal_count;
 						$id2	= "mcal_opener".$cal_count;
 						$cal	= $cal->buildCalendar($name, $id1, $id2, $id1 );
-						$inputs['input_'.$field]	.= $cal;
+						$suffix	= $cal."<span class='suffix'>".$suffix."</span>";
 						$cal_count++;
 					}
 					if( $data['calendar']['component'] == "DayCalendar" )
 					{
-						require_once( "classes/view/component/DayCalendar.php5" );
+						import( 'de.ceus-media.framework.krypton.view.component.DayCalendar' );
 						$cal	= new View_Component_DayCalendar();
 				//		if( isset( $data['calendar']['range'] ) )
 				//			$cal->setRange( $data['calendar']['range'] );
 						if( isset( $data['calendar']['format'] ) )
 							$cal->setFormat( $data['calendar']['format'] );
 						if( isset( $data['calendar']['type'] ) )
-							$cal->setType( $data['calendar']['type'] );
+							$cal->setType( $data['calendar']['type'] == "future" ? 1 : ( $data['calendar']['type'] == "past" ? -1 : 0 ) );
 				//		if( isset( $data['calendar']['direction'] ) )
 				//			$cal->setDirection( $data['calendar']['direction'] == "asc" );
 						
@@ -94,10 +98,9 @@ class Framework_Krypton_Core_DefinitionView extends Framework_Krypton_Core_View
 						$id_input	= $data['input']['name'];
 						$id_opener	= "dcal_".$data['input']['name'];
 						$cal	= $cal->buildCalendar( $id_input, $id_opener );
-						$inputs['input_'.$field]	.= $cal;
+						$suffix	= $cal."<span class='suffix'>".$suffix."</span>";
 					}
 				}
-				$suffix	= isset( $labels[$field."_suffix"] ) ? $labels[$field."_suffix"] : "";
 				$colspan	= $data['input']['colspan'] ? $data['input']['colspan'] : 1;
 				$class	= 'field';
 				if( $data['input']['type'] == "label" && $data['input']['style'] )
@@ -114,7 +117,7 @@ class Framework_Krypton_Core_DefinitionView extends Framework_Krypton_Core_View
 	/**
 	 *	Builds Labels and Input Fields of Form widthin Definition.
 	 *	@access		public
-	 *	@param		string		$file				Name of XML Definition File (e.g. %PREFIX%#FILE#.xml)
+	 *	@param		string		$fileName			Name of XML Definition File (e.g. %PREFIX%#FILE#.xml)
 	 *	@param		string		$formName			Name of Form within XML Definition File (e.g. 'addExample' )
 	 *	@param		string		$languageFile		Name of Language File (e.g. 'example')
 	 *	@param		string		$languageSection	Section in Language File (e.g. 'add')
@@ -122,12 +125,13 @@ class Framework_Krypton_Core_DefinitionView extends Framework_Krypton_Core_View
 	 *	@param		array		$sources			Array of Sources for defined Fields (e.g. Options for Selects)
 	 *	@return		array
 	 */
-	public function buildForm( $file, $formName, $languageFile, $languageSection, $values = array(), $sources = array() )
+	public function buildForm( $fileName, $formName, $languageFile, $languageSection, $values = array(), $sources = array() )
 	{
+		$fileName	= str_replace( ".", "/", $fileName );
 		$this->definition->setForm( $formName );
-		$inputs	= $this->buildInputs( $file, $formName, $languageFile, $languageSection, $values, $sources );
-		$array	= $this->buildLabels( $file, $formName, $languageFile, $languageSection )
-				+ $this->buildFields( $file, $formName, $languageFile, $languageSection, $inputs )
+		$inputs	= $this->buildInputs( $fileName, $formName, $languageFile, $languageSection, $values, $sources );
+		$array	= $this->buildLabels( $fileName, $formName, $languageFile, $languageSection )
+				+ $this->buildFields( $fileName, $formName, $languageFile, $languageSection, $inputs )
 				+ $inputs;
 		return (array)$array;
 	}
@@ -135,7 +139,7 @@ class Framework_Krypton_Core_DefinitionView extends Framework_Krypton_Core_View
 	/**
 	 *	Build Inputs of Form Fields.
 	 *	@access		public
-	 *	@param		string		$file				Name of XML Definition File (e.g. %PREFIX%#FILE#.xml)
+	 *	@param		string		$fileName			Name of XML Definition File (e.g. %PREFIX%#FILE#.xml)
 	 *	@param		string		$formName			Name of Form within XML Definition File (e.g. 'addExample' )
 	 *	@param		string		$languageFile		Name of Language File (e.g. 'example')
 	 *	@param		string		$languageSection	Section in Language File (e.g. 'add')
@@ -143,13 +147,13 @@ class Framework_Krypton_Core_DefinitionView extends Framework_Krypton_Core_View
 	 *	@param		array		$sources			Array of Option Arrays for Select Boxes
 	 *	@return		array
 	 */
-	public function buildInputs( $file , $formName, $languageFile, $languageSection, $values = array(), $sources = array() )
+	public function buildInputs( $fileName, $formName, $languageFile, $languageSection, $values = array(), $sources = array() )
 	{
 		$request	= $this->registry->get( 'request' );
 		$labels		= $this->words[$languageFile][$languageSection];
 
 		$array	= array();
-		$this->loadDefinition( $file , $formName );
+		$this->loadDefinition( $fileName, $formName );
 		$fields	= $this->definition->getFields();
 		foreach( $fields as $field )
 		{
@@ -290,19 +294,19 @@ class Framework_Krypton_Core_DefinitionView extends Framework_Krypton_Core_View
 	/**
 	 *	Build Labels of Form Fields.
 	 *	@access		public
-	 *	@param		string		$file				Name of XML Definition File (e.g. %PREFIX%#FILE#.xml)
+	 *	@param		string		$fileName			Name of XML Definition File (e.g. %PREFIX%#FILE#.xml)
 	 *	@param		string		$formName			Name of Form within XML Definition File (e.g. 'addExample' )
 	 *	@param		string		$languageFile		Name of Language File (e.g. 'example')
 	 *	@param		string		$languageSection	Section in Language File (e.g. 'add')
 	 *	@return		array
 	 */
-	public function buildLabels( $file, $formName, $languageFile, $languageSection )
+	public function buildLabels( $fileName, $formName, $languageFile, $languageSection )
 	{
 		$request	= $this->registry->get( 'request' );
 		$labels		= $this->words[$languageFile][$languageSection];
 
 		$array	= array();
-		$this->loadDefinition( $file, $formName );
+		$this->loadDefinition( $fileName, $formName );
 		$fields	= $this->definition->getFields();
 		if( count( $fields ) )
 		{
@@ -352,15 +356,15 @@ class Framework_Krypton_Core_DefinitionView extends Framework_Krypton_Core_View
 	/**
 	 *	Runs Validation of Field Definitions againt Request Input and creates Error Messages.
 	 *	@access		protected
-	 *	@param		string		$file				Name of XML Definition File (e.g. %PREFIX%#FILE#.xml)
+	 *	@param		string		$fileName			Name of XML Definition File (e.g. %PREFIX%#FILE#.xml)
 	 *	@param		string		$formName			Name of Form within XML Definition File (e.g. 'addExample' )
 	 *	@return		void
 	 */
-	protected function loadDefinition( $file, $formName )
+	protected function loadDefinition( $fileName, $formName )
 	{
 		$this->definition->setForm( $formName );
 		$this->definition->setPrefix( $this->prefix );
-		$this->definition->loadDefinition( $file );
+		$this->definition->loadDefinition( $fileName );
 	}
 }
 ?>

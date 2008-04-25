@@ -276,13 +276,13 @@ class Framework_Neon_View
 			$cachefile	= $config['paths']['cache'].$path."/".$session->get( 'language' )."/".$basename.".html";
 			if( file_exists( $cachefile ) && filemtime( $filename ) <= filemtime( $cachefile ) )
 			{
-				$file		= new File( $cachefile );
+				$file		= new File_Reader( $cachefile );
 				$content	= $file->readString();
 			}
 			else if( file_exists( $filename ) )
 			{
-				$file		= new File( $filename );
-				$cache		= new File( $cachefile, 0755 );
+				$file		= new File_Reader( $filename );
+				$cache		= new File_Writer( $cachefile, 0755 );
 				$content	= $this->wiki->parse( $file->readString() );
 				$cache->writeString( $content );
 				$content = "<div class='wiki'>".$content."</div>";
@@ -294,7 +294,7 @@ class Framework_Neon_View
 		{
 			if( file_exists( $filename ) )
 			{
-				$file	= new File( $filename );
+				$file		= new File_Reader( $filename );
 				$content	= $file->readString();
 			}
 			else
@@ -377,7 +377,7 @@ class Framework_Neon_View
 	{
 		$config		= $this->ref->get( 'config' );
 		$url		= $config['paths']['cache'].$filename;
-		$file		= new File( $url );
+		$file		= new File_Reader( $url );
 		$content	= $file->readString();
 		if( $log )
 			error_log( "Loaded from Cache File '".$filename."' ".strlen( $content )." Bytes.\n", 3, $config['paths']['logs'].$log );
@@ -397,7 +397,7 @@ class Framework_Neon_View
 	{
 		$config	= $this->ref->get( 'config' );
 		$url	= $config['paths']['cache'].$filename;
-		$file	= new File( $url, 0750 );
+		$file	= new File_Writer( $url, 0750 );
 		$result	= $file->writeString( $content );
 		if( $log )
 			error_log( "Saved Cache File '".$filename."' with ".strlen( $content )." Bytes.\n", 3, $config['paths']['logs'].$log );

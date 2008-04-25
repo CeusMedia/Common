@@ -97,12 +97,12 @@ class Framework_Neon_Language extends ADT_OptionObject
 					if( isset( $this->_hovers[$filename."/".$area."/".$key] ) )
 						$this->words[$section][$area][$key."_hover"] = $this->_hovers[$filename."/".$area."/".$key];
 			}
-			if( $this->getOption( 'encoding' ) == "utf-8" )			
-			{
+#			if( $this->getOption( 'encoding' ) == "utf-8" )			
+#			{
 				foreach( $this->words[$section] as $area => $pairs )
 					foreach( $pairs as $key => $value )
-						$this->words[$section][$area][$key]	= utf8_encode( $value );
-			}
+						$this->words[$section][$area][$key]	= $value;
+#			}
 			$this->_saveCache( $cache, serialize( $this->words[$section] ) );
 			return true;
 		}
@@ -121,7 +121,7 @@ class Framework_Neon_Language extends ADT_OptionObject
 	function _loadCache( $url )
 	{
 		$config	= $this->ref->get( 'config' );
-		$file	= new File( $url );
+		$file	= new File_Reader( $url );
 		return $file->readString();
 			return implode( "", file( $url ) );
 	}
@@ -129,7 +129,7 @@ class Framework_Neon_Language extends ADT_OptionObject
 	function _saveCache( $url, $content )
 	{
 		$config	= $this->ref->get( 'config' );
-		$file	= new File( $url, 0750 );
+		$file	= new File_Writer( $url, 0750 );
 		$file->writeString( $content );
 	}
 }
