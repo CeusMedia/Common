@@ -1,11 +1,13 @@
 <?php
-import( 'de.ceus-media.file.File' );
+import( 'de.ceus-media.file.Reader' );
+import ("de.ceus-media.file.Writer");
 import( 'de.ceus-media.file.folder.Folder' );
 /**
  *	Tar File allows creation and manipulation of tar archives.
  *	@package		file
  *	@subpackage		arc
- *	@uses			File
+ *	@uses			File_Reader
+ *	@uses			File_Writer
  *	@uses			Folder
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.5
@@ -14,7 +16,8 @@ import( 'de.ceus-media.file.folder.Folder' );
  *	Tar File allows creation and manipulation of tar archives.
  *	@package		file
  *	@subpackage		arc
- *	@uses			File
+ *	@uses			File_Reader
+ *	@uses			File_Writer
  *	@uses			Folder
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.5
@@ -121,7 +124,7 @@ class TarFile
 	// Read a non gzipped tar file in for processing
 	protected function readTar( $fileName )
 	{
- 		$f = new File( $fileName );
+ 		$f = new File_Reader( $fileName );
 		$this->content = $f->readString(); 		
 		$this->parseTar();																					// Parse the TAR file
 		return true;
@@ -277,7 +280,7 @@ class TarFile
 		{
 			$fileInfo = stat( $fileName );												// Get file information
 
-			$f = new File( $fileName );
+			$f = new File_Reader( $fileName );
 			$filecontents = $f->readString();											// Read in the file's contents
 
 			$this->numFiles++;															// Add file to processed data
@@ -360,7 +363,7 @@ class TarFile
 			$fileName = $this->fileName;
 		}
 		$this->generateTar();												// Encode processed files into TAR file format
-		$f = new File( $fileName );
+		$f = new File_Writer( $fileName );
 		$f->writeString( $this->content );
 		return true;
 	}
@@ -379,7 +382,7 @@ class TarFile
 		{
 			if( $folder = dirname( $file['name'] ) )
 				new Folder( $folder, true );
-			$f = new File( $file['name'], true );
+			$f = new File_Writer( $file['name'], true );
 			$f->writeString( $file['file'] );
 		}
 		if( $to )

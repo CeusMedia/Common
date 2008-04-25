@@ -1,10 +1,12 @@
 <?php
-import( 'de.ceus-media.file.File' );
+import( 'de.ceus-media.file.Reader' );
+import( 'de.ceus-media.file.Writer' );
 /**
  *	Base gzip File implementation.
  *	@package		file
  *	@subpackage		arc
- *	@extends		File
+ *	@uses			File_Reader
+ *	@uses			File_Writer
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.5
  */
@@ -12,12 +14,16 @@ import( 'de.ceus-media.file.File' );
  *	Base gzip File implementation.
  *	@package		file
  *	@subpackage		arc
- *	@extends		File
+ *	@uses			File_Reader
+ *	@uses			File_Writer
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.5
+ *	@todo			use File_Editor
  */
-class GzipFile extends File
+class GzipFile
 {
+	protected $fileName;
+	
 	/**
 	 *	Constructor.
 	 *	@access		public
@@ -28,7 +34,8 @@ class GzipFile extends File
 	{
 		if( !function_exists( "gzcompress" ) )
 			throw new Exception( "Gzip Extension is not available." );
-		parent::__construct( $fileName );
+		$this->fileName	= $fileName;
+#		parent::__construct( $fileName );
 	}
 
 	/**
@@ -38,25 +45,20 @@ class GzipFile extends File
 	 */
  	public function readString()
 	{
-		$string	= "";
-		$zp		= @gzopen( $this->fileName, "r" );
-		while( !feof( $zp ) )
-			$string	.= @gzread( $zp, 4096 );
-		gzclose( $zp );
-		return $string;
+		$content	= File_Reader::load( $this->fileName );
+		return gzuncompress( $content );
 	}
 
 	/**
 	 *	Writes a String to the File.
 	 *	@access		public
 	 *	@param		string		$string			String to write to File
-	 *	@return		bool
+	 *	@return		int
 	 */
 	public function writeString( $string )
 	{
-		$zp	= @gzopen( $this->fileName, "w9" );
-		gzwrite( $zp, $string );
-		gzclose( $zp );
+		$content	= gzcompress( $string );
+		return File_Writer::save( $this->fileName, $content );
 	}
 }
 ?>

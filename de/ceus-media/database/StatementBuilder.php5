@@ -17,20 +17,20 @@
  */
 class Database_StatementBuilder
 {
-	/**	@var	array		$keys 			Array of Keys */	
-	protected $keys			= array();
-	/**	@var	array		$tables 		Array of Tables */	
-	protected $tables		= array();
-	/**	@var	array		$conditions 	Array of Conditions */	
-	protected $conditions	= array();
-	/**	@var	array		$groupings		Array of Conditions */	
-	protected $groupings	= array();
-	/**	@var	array		$orders			Array of Order Conditions */	
-	protected $orders		= array();
-	/**	@var	array		$limits 		Array of Limit Conditions */	
-	protected $limits		= array();
-	/**	@var	string		$prefix			Prefix of Tables */	
-	protected $prefix		= "";
+	/**	@var		array		$keys 			Array of Keys */	
+	protected $keys				= array();
+	/**	@var		array		$tables 		Array of Tables */	
+	protected $tables			= array();
+	/**	@var		array		$conditions 	Array of Conditions */	
+	protected $conditions		= array();
+	/**	@var		array		$groupings		Array of Conditions */	
+	protected $groupings		= array();
+	/**	@var		array		$orders			Array of Order Conditions */	
+	protected $orders			= array();
+	/**	@var		array		$limits 		Array of Limit Conditions */	
+	protected $limits			= array();
+	/**	@var		string		$prefix			Prefix of Tables */	
+	protected $prefix			= "";
 
 	/**
 	 *	Constructor.
@@ -175,15 +175,24 @@ class Database_StatementBuilder
 	}
 
 	/**
-	 *	Alias for buildSelectStatement.
+	 *	Builds SQL Statement for counting only.
 	 *	@access		public
-	 *	@return 	string
+	 *	@return		string
 	 */
-	public function buildStatement()
+	public function buildCountStatement()
 	{
-		return $this->buildSelectStatement();
+		$tables		= array();
+		$tables		= "\nFROM\n\t".implode( ",\n\t", $this->tables );
+		$conditions	= "";
+		$groupings	= "";
+		if( $this->conditions )
+			$conditions	= "\nWHERE\n\t".implode( " AND\n\t", $this->conditions );
+		if( $this->groupings )
+			$groupings	= "\nGROUP BY\n\t".implode( "\n", $this->groupings );
+		$statement = "SELECT COUNT(".$this->keys[0].") as rowcount ".$tables.$conditions.$groupings;
+		return $statement;
 	}
-
+	
 	/**
 	 *	Builds SQL Statement.
 	 *	@access		public
@@ -222,24 +231,15 @@ class Database_StatementBuilder
 	}
 
 	/**
-	 *	Builds SQL Statement for counting only.
+	 *	Alias for buildSelectStatement.
 	 *	@access		public
-	 *	@return		string
+	 *	@return 	string
 	 */
-	public function buildCountStatement()
+	public function buildStatement()
 	{
-		$tables		= array();
-		$tables		= "\nFROM\n\t".implode( ",\n\t", $this->tables );
-		$conditions	= "";
-		$groupings	= "";
-		if( $this->conditions )
-			$conditions	= "\nWHERE\n\t".implode( " AND\n\t", $this->conditions );
-		if( $this->groupings )
-			$groupings	= "\nGROUP BY\n\t".implode( "\n", $this->groupings );
-		$statement = "SELECT COUNT(".$this->keys[0].") as rowcount ".$tables.$conditions.$groupings;
-		return $statement;
+		return $this->buildSelectStatement();
 	}
-	
+
 	/**
 	 *	Returns Table Prefix.
 	 *	@access		public

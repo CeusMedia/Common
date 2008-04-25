@@ -1,11 +1,11 @@
 <?php
-import ("de.ceus-media.file.File");
+import ("de.ceus-media.file.Reader");
 import ("de.ceus-media.file.folder.Folder");
 /**
  *	Folder to read entries.
  *	@package		file.folder
  *	@extends		Folder
- *	@uses			File
+ *	@uses			File_Reader
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.4
  */
@@ -13,7 +13,7 @@ import ("de.ceus-media.file.folder.Folder");
  *	Folder to read entries.
  *	@package		file.folder
  *	@extends		Folder
- *	@uses			File
+ *	@uses			File_Reader
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.4
  */
@@ -84,7 +84,7 @@ class IndexFolder extends Folder
 		{
 //			if( is_file( $file ) )		$type = "File";
 //			else if( is_link( $file ) )	$type = "Link";
-			$array[] = new File( realpath( $file ) );
+			$array[] = new File_Reader( realpath( $file ) );
 		}
 		return $array;
 	}

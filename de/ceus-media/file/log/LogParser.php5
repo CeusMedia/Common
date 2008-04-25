@@ -1,9 +1,10 @@
 <?php
-import( 'de.ceus-media.file.File' );
+import( 'de.ceus-media.file.Reader' );
 /**
  *	Parser for reading Log-Files written by LogFile Class.
  *	@package		file
  *	@subpackage		log
+ *	@uses			File_Reader
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			02.08.2005
  *	@version		0.4
@@ -12,11 +13,13 @@ import( 'de.ceus-media.file.File' );
  *	Parser for reading Log-Files written by LogFile Class.
  *	@package		file
  *	@subpackage		log
+ *	@uses			File_Reader
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			02.08.2005
  *	@version		0.4
  *	@todo			finish Implementation
  *	@todo			Code Documentation
+ *	@todo			deprecated?
  */
 class LogParser
 {
@@ -48,7 +51,7 @@ class LogParser
 	 */
 	public function parseFile( $filename )
 	{
-		$file		= new File( $filename );
+		$file		= new File_Reader( $filename );
 		$lines	= $file->readArray();
 		return $this->parseArray( $lines );
 	}

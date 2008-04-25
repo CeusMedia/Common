@@ -1,5 +1,6 @@
 <?php
-import ("de.ceus-media.file.File");
+import ("de.ceus-media.file.Reader");
+import( 'de.ceus-media.file.Writer' );
 /**
  *	@package		file
  *	@extends		Object
@@ -35,7 +36,7 @@ class MatrixReader
 	 */
 	function read ( $filename )
 	{
-		$file = new File( $filename );
+		$file = new File_Reader( $filename );
 		$lines = $file->readArray();
 		$head = array_shift( $lines);
 		$parts = explode( "\t", $head );
@@ -72,7 +73,7 @@ class MatrixReader
 			$lines[] = $row."\t".implode( "\t", $line );
 		}
 		$lines = array_merge( array( "\t".implode( "\t", $cols )), $lines );
-		$file = new File( $filename );
+		$file = new File_Writer( $filename );
 		$file->writeArray( $lines);
 	}
 }

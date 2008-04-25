@@ -1,6 +1,6 @@
 <?php
 import( 'de.ceus-media.file.list.Reader' );
-import( 'de.ceus-media.file.File' );
+import( 'de.ceus-media.file.Writer' );
 /**
  *	A Class for reading and writing List Files.
  *	@package		file.list

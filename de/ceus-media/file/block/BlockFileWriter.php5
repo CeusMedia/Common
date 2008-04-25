@@ -1,10 +1,10 @@
 <?php
-import( 'de.ceus-media.file.File' );
+import( 'de.ceus-media.file.Writer' );
 /**
  *	Writer for Files with Text Block Contents, named by Section.
  *	@package		file
  *	@subpackage		block
- *	@uses			File
+ *	@uses			File_Writer
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			19.12.2006
  *	@version		0.1
@@ -13,7 +13,7 @@ import( 'de.ceus-media.file.File' );
  *	Writer for Files with Text Block Contents, named by Section.
  *	@package		file
  *	@subpackage		block
- *	@uses			File
+ *	@uses			File_Writer
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			19.12.2006
  *	@version		0.1
@@ -49,7 +49,7 @@ class BlockFileWriter
 			$list[]	= $content;
 			$list[]	= "";
 		}
-		$file	= new File( $this->filename );
+		$file	= new File_Writer( $this->filename );
 		return $file->writeArray( $list );
 	}
 }

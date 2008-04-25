@@ -1,10 +1,12 @@
 <?php
-import ("de.ceus-media.file.File");
+import ("de.ceus-media.file.Reader");
+import ("de.ceus-media.file.Writer");
 import ("de.ceus-media.file.folder.Folder");
 /**
  *	Stock to store objects.
  *	@package	file
- *	@uses		File
+ *	@uses		File_Reader
+ *	@uses		File_Writer
  *	@uses		Folder
  *	@author		Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version	0.4
@@ -12,7 +14,8 @@ import ("de.ceus-media.file.folder.Folder");
 /**
  *	Stock to store objects.
  *	@package	file
- *	@uses		File
+ *	@uses		File_Reader
+ *	@uses		File_Writer
  *	@uses		Folder
  *	@author		Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version	0.4
@@ -40,8 +43,8 @@ class Stock
 	 */
 	public function __construct( $stockName, $stockPath = "", $index = "stock.idx" )
 	{
-		$this->stock = new Folder( $stockPath.$stockName."/", true );
-		$this->index = new File( $stockPath.$stockName."/".$index );
+		$this->stock = $stockPath.$stockName."/", true;
+		$this->index = $stockPath.$stockName."/".$index;
 		if( !$this->index->exists() )
 			$this->saveIndex();
 		$this->keys =& $this->unpickle( $this->index );
@@ -67,7 +70,7 @@ class Stock
 		else if( $overwrite )
 			return $this->saveObject( $key, $object );
 		else
-			trigger_error( "An Object with Key '".$key."' is already in Stock", E_USER_WARNING );
+			throw new InvalidArgumentException( 'An Object with Key "'.$key.'" is already in Stock.' );
 		return false;
 	}
 	
@@ -81,9 +84,8 @@ class Stock
 		$this->index->remove();
 		foreach( $this->keys as $key )
 		{
-			$file = new File( $this->stock->getPath()."/".$key );
-			if( $file->exists() )
-				$file->remove();
+			$fileName = $this->stock->getPath()."/".$key;
+			@unlink( $fileName );
 		}
 		return $this->stock->remove();
 	}
@@ -99,8 +101,8 @@ class Stock
 	{
 		if( $this->has( $key ) )
 		{
-			$file = new File( $this->stock->getPath()."/".$key );
-			return $this->unpickle( $file );
+			$fileName	= $this->stock->getPath()."/".$key;
+			return $this->unpickle( $fileName );
 		}
 		else
 		{
@@ -112,8 +114,6 @@ class Stock
 	 *	Returns the object key list as array.
 	 *
 	 *	@access		public
-	 *	@param		File		$file		file in the stock
-	 *	@param		object		$object		object to be stored in the stock
 	 *	@return		array
 	 */
 	public function getKeys()
@@ -135,14 +135,14 @@ class Stock
 	/**
 	 *	Writes object into stock by serializing it.
 	 *	@access		protected
-	 *	@param		File		$file		file in the stock
+	 *	@param		string		$fileName	Name of File in Stock
 	 *	@param		object		$object		object to be stored in the stock
 	 *	@return		void
 	 */
-	protected function pickle( $file, &$object )
+	protected function pickle( $fileName, &$object )
 	{
-		@unlink( $file );
-		return $file->writeString( serialize( $object ) );
+		@unlink( $fileName );
+		return File_Writer::save( serialize( $object ) );
 	}
 
 	/**
@@ -174,8 +174,8 @@ class Stock
 	public function remove( $key )
 	{
 		unset( $this->keys[array_search( $key, $this->keys )] );
-		$file = new File( $this->stock->getPath()."/".$key );
-		$file->remove();
+		$fileName	= $this->stock->getPath()."/".$key;
+		@unlink( $fileName );
 		$this->saveIndex();
 	}
 
@@ -198,19 +198,19 @@ class Stock
 	 */
 	protected function saveObject( $key, &$object )
 	{
-		$file = new File( $this->stock->getPath()."/".$key );
-		return $this->pickle( $file, $object );
+		$fileName	= $this->stock->getPath()."/".$key;
+		return $this->pickle( $fileName, $object );
 	}
 
 	/**
 	 *	Recreates object from a serialized file in the stock.
 	 *	@access		protected
-	 *	@param		File		$file		file in the stock
+	 *	@param		string		$fileName		Name of File in Stock
 	 *	@return		object
 	 */
-	protected function & unpickle ($file)
+	protected function & unpickle( $fileName )
 	{
-		return unserialize ($file->readString ());
+		return unserialize( File_Reader::load( $fileName ) );
 	}
 }
 ?>

@@ -231,6 +231,6 @@ abstract class Service_Point implements Service_Interface_Point
 	 *	@param		string		$cacheFile		Service Definition Cache File Name
 	 *	@return		void
 	 */
-	abstract protected function LoadServices( $fileName, $cacheFile = false );
+	abstract protected function loadServices( $fileName, $cacheFile = false );
 }
 ?>

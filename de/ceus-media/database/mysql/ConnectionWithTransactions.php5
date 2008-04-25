@@ -71,7 +71,7 @@ class Database_MySQL_ConnectionWithTransactions extends Database_MySQL_Connectio
 	public function rollback( $autoCommit = 1 )
 	{
 		if( $this->openTransactions == 0 )
-			return false
+			return false;
 		$query = "ROLLBACK";
 		$this->Execute( $query );
 		$this->openTransactions = 0;

@@ -1,9 +1,11 @@
 <?php
-import( 'de.ceus-media.file.File' );
+import( 'de.ceus-media.file.Reader' );
+import( 'de.ceus-media.file.Writer' );
 /**
  *	Class for encoding PHP File.
  *	@package		file
- *	@uses			File
+ *	@uses			File_Reader
+ *	@uses			File_Writer
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			11.10.2006
  *	@version 		0.1
@@ -11,7 +13,8 @@ import( 'de.ceus-media.file.File' );
 /**
  *	Class for encoding PHP File.
  *	@package		file
- *	@uses			File
+ *	@uses			File_Reader
+ *	@uses			File_Writer
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			11.10.2006
  *	@version 		0.1
@@ -69,7 +72,7 @@ class PHPEncoder
 		{
 			if( $this->isEncoded( $filename ) )
 			{
-				$file	= new File( $filename );
+				$file	= new File_Reader( $filename );
 				$php	= $file->readString();
 				$code	= $this->encode( $php );
 				$dirname	= dirname( $filename );
@@ -77,7 +80,7 @@ class PHPEncoder
 				$target	= $dirname."/".substr( $basename, strlen( $this->file_prefix) , -strlen( $this->file_suffix ) );
 				if( $filename == $target && !$overwrite )
 					trigger_error( "File cannot be overwritten, use Parameter [overwrite]", E_USER_ERROR );
-				$file	= new File( $target );
+				$file	= new File_Writer( $target );
 				$file->writeString( $code );
 				return true;
 			}
@@ -122,7 +125,7 @@ class PHPEncoder
 		{
 			if( !$this->isEncoded( $filename ) )
 			{
-				$file	= new File( $filename );
+				$file	= new File_Reader( $filename );
 				$php	= $file->readString();
 				$code	= $this->encode( $php );
 				$dirname	= dirname( $filename );
@@ -131,7 +134,7 @@ class PHPEncoder
 				if( $filename == $target && !$overwrite )
 					trigger_error( "File cannot be overwritten, use Parameter [overwrite]", E_USER_ERROR );
 //				copy( $filename, "#".$filename );
-				$file	= new File( $target );
+				$file	= new File_Writer( $target );
 				$file->writeString( $code );
 				return true;
 			}

@@ -1,5 +1,5 @@
 <?php
-import( 'de.ceus-media.file.File' );
+import( 'de.ceus-media.file.Reader' );
 /**
  *	Reading comma separated values with or without column headers.
  *	@package		file.csv

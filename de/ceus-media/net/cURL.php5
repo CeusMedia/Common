@@ -13,6 +13,27 @@
  *	@since			16.06.2005
  *	@version		0.6
  */
+define( 'CURL_STATUS_CONTENT_TYPE',				'content_type' );
+define( 'CURL_STATUS_CONTENT_LENGTH_DOWNLOAD',	'download_content_length' );
+define( 'CURL_STATUS_CONTENT_LENGTH_UPLOAD',	'upload_content_length' );
+define( 'CURL_STATUS_ERRNO',					'errno' );
+define( 'CURL_STATUS_ERROR',					'error' );
+define( 'CURL_STATUS_HTTP_CODE',				'http_code' );
+define( 'CURL_STATUS_HTTP_URL',					'url' );
+define( 'CURL_STATUS_REDIRECT_COUNT',			'redirect_count' );
+define( 'CURL_STATUS_REDIRECT_TIME',			'redirect_time' );
+define( 'CURL_STATUS_SIZE_HEADER',				'header_size' );
+define( 'CURL_STATUS_SIZE_DOWNLOAD',			'size_download' );
+define( 'CURL_STATUS_SIZE_REQUEST',				'request_size' );
+define( 'CURL_STATUS_SIZE_UPLOAD',				'size_upload' );
+define( 'CURL_STATUS_SPEED_DOWNLOAD',			'speed_download' );
+define( 'CURL_STATUS_SPEED_UPLOAD',				'speed_upload' );
+define( 'CURL_STATUS_SSL_VERIFY_RESULT',		'ssl_verify_result' );
+define( 'CURL_STATUS_TIME_CONNECT',				'connect_time' );
+define( 'CURL_STATUS_TIME_NAMELOOKUP',			'namelookup_time' );
+define( 'CURL_STATUS_TIME_PRETRANSFER',			'pretransfer_time' );
+define( 'CURL_STATUS_TIME_STARTTRANSFER',		'starttransfer_time' );
+define( 'CURL_STATUS_TIME_TOTAL',				'total_time' );
 class Net_cURL
 {
 	/**
@@ -149,6 +170,24 @@ class Net_cURL
 	}
 
 	/**
+	 *	Return the status information of the last cURL request.
+	 *	@access		public
+	 *	@param		string	$key		Key name of Information
+	 *	@returns	mixed
+	 */
+	public function getStatus( $key = NULL )
+	{
+		if( !$this->status )
+			throw new RuntimeException( "No Request has been sent, yet." );
+		if( empty( $key ) )
+			return $this->status;
+		else if( isset( $this->status[$key] ) )
+			return $this->status[$key];
+		else
+			return false;
+	}
+
+	/**
 	 *	Did the last cURL exec operation have an error?
 	 *	@access		public
 	 *	@return		mixed 
@@ -193,22 +232,6 @@ class Net_cURL
 				$this->caseless[$caselessTag] = $headerStringArray[0];
 			$this->header[$this->caseless[$caselessTag]][] = $headerStringArray[1];
 		}
-	}
-
-	/**
-	 *	Return the status information of the last cURL request.
-	 *	@access		public
-	 *	@param		string	$key		Key name of Information
-	 *	@returns	mixed
-	 */
-	public function getStatus( $key = NULL )
-	{
-		if( empty( $key ) )
-			return $this->status;
-		else 	if( isset( $this->status[$key] ) )
-			return $this->status[$key];
-		else
-			return false;
 	}
 
 	/**

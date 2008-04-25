@@ -2,7 +2,7 @@
 /**
  *	Exception for Input/Output Errors.
  *	@package		mv2.exception
- *	@extends		Exception
+ *	@extends		RuntimeException
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			01.03.2007
  *	@version		0.1
@@ -10,23 +10,37 @@
 /**
  *	Exception for Input/Output Errors.
  *	@package		mv2.exception
- *	@extends		Exception
+ *	@extends		RuntimeException
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			01.03.2007
  *	@version		0.1
  */
-class Exception_IO extends Exception
+class Exception_IO extends RuntimeException
 {
+	/**	@var		string		$sourceUri		Name of Source which was not fully accessible */
+	prvate $sourceUri			= "";
+
 	/**
 	 *	Constructor.
 	 *	@access		public
 	 *	@param		string		$message		Error Message
-	 *	@param		string		$code			Error Code
+	 *	@param		string		$sourceUri		Error Code
 	 *	@return		void
 	 */
-	public function __construct( $message = null, $code = 0 )
+	public function __construct( $message = null, $sourceUri = "" );
 	{
-		parent::__construct( $message, $code );
+		parent::__construct( $message );
+		$this->sourceUri	= $sourceUri;
+	}
+	
+	/**
+	 *	Returns Name of Source which was not fully accessible.
+	 *	@access		public
+	 *	@return		string
+	 */
+	public function getSourceUri()
+	{
+		return $this->sourceUri;	
 	}
 }
 ?>

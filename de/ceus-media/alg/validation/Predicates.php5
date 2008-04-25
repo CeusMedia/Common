@@ -259,6 +259,17 @@ class Alg_Validation_Predicates
 	}
 
 	/**
+	 *	Indicates whether a String is a valid File Name.
+	 *	@access		public
+	 *	@param		string		$string		String to be checked
+	 *	@return		bool
+	 */
+	public static function isFilename( $string )
+	{
+		return self::isPreg( $string, "'^[a-z0-9!§$%&()=²³{[]}_-;,.+#~@µ`´]+$'i" );
+	}
+
+	/**
 	 *	Indicates whether a String is smaller than a limit.
 	 *	@access		public
 	 *	@param		string		$string		String to be checked

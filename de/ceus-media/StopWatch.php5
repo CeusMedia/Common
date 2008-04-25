@@ -1,12 +1,12 @@
 <?php
 /**
  *	Stopwatch implementation.
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian WÃ¼rker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.6
  */
 /**
  *	Stopwatch implementation.
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian WÃ¼rker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.6
  */
 class StopWatch
@@ -39,7 +39,7 @@ class StopWatch
 	/**
 	 *	Stops the watch and return the time difference between start and stop.
 	 *	@access		public
-	 *	@param		int		$base		Time Base ( 0 - sec | 3 - msec | 6 - µsec)
+	 *	@param		int		$base		Time Base ( 0 - sec | 3 - msec | 6 - Âµsec)
 	 *	@param		int		$round		Numbers after dot
 	 *	@return		string
 	 */
@@ -53,10 +53,10 @@ class StopWatch
 	/**
 	 *	Calculates the time difference between start and stop in microseconds.
 	 *	@access		public
-	 *	@param		int		$base		Time Base ( 0 - sec | 3 - msec | 6 - µsec)
+	 *	@param		int		$base		Time Base ( 0 - sec | 3 - msec | 6 - Âµsec)
 	 *	@param		int		$round		Numbers after dot
 	 *	@return		string
-	 **/
+	 */
 	public function result( $base = 3, $round = 3 )
 	{
 		$start	= explode( ' ', $this->microtimeStart );
@@ -66,7 +66,6 @@ class StopWatch
 		$time	= (float)$sec + $msec;
 		$time	= $time * pow( 10, $base );
 		$time	= round( $time, $round );
-		
 		return $time;
 	}
 }

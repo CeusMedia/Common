@@ -3,7 +3,7 @@ import( 'de.ceus-media.adt.list.Dictionary' );
 /**
  *	Collects and Manages Request Data.
  *	@package		net.http.request
- *	@extends		Dictionary
+ *	@extends		ADT_List_Dictionary
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			27.03.2006
  *	@version		0.6
@@ -11,7 +11,7 @@ import( 'de.ceus-media.adt.list.Dictionary' );
 /**
  *	Collects and Manages Request Data.
  *	@package		net.http.request
- *	@extends		Dictionary
+ *	@extends		ADT_List_Dictionary
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			27.03.2006
  *	@version		0.6

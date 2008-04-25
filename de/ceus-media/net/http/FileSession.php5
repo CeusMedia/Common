@@ -1,5 +1,6 @@
 <?php
-import( 'de.ceus-media.file.File' );
+import( 'de.ceus-media.file.Reader' );
+import( 'de.ceus-media.file.Writer' );
 import( 'de.ceus-media.file.arc.GzipFile' );
 import( 'de.ceus-media.file.arc.BzipFile' );
 import( 'de.ceus-media.net.http.PartitionSession' );
@@ -8,7 +9,8 @@ import( 'de.ceus-media.net.http.PartitionSession' );
  *	@package		net
  *	@subpackage		http
  *	@extends		Net_HTTP_PartitionSession
- *	@uses			File
+ *	@uses			File_Reader
+ *	@uses			File_Writer
  *	@uses			GzipFile
  *	@uses			BzipFile
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
@@ -20,12 +22,14 @@ import( 'de.ceus-media.net.http.PartitionSession' );
  *	@package		net
  *	@subpackage		http
  *	@extends		Net_HTTP_PartitionSession
- *	@uses			File
+ *	@uses			File_Reader
+ *	@uses			File_Writer
  *	@uses			GzipFile
  *	@uses			BzipFile
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			26.07.2005
  *	@version		0.1
+ *	@todo			fix File Handling (read/write changed with File->File_Reader)
  */
 class Net_HTTP_FileSession extends Net_HTTP_PartitionSession
 {
@@ -211,7 +215,7 @@ class Net_HTTP_FileSession extends Net_HTTP_PartitionSession
 		else if( $this->_compression  == 'bzip')
 			$file = new BzipFile( $filename, 0777 );
 		else
-			$file = new File( $filename, 0777 );
+			$file = new File_Writer( $filename, 0777 );
 		return $file;
 	}
 }

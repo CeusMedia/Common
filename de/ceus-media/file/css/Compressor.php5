@@ -54,7 +54,7 @@ class File_Css_Compressor
 	 *	Reads and compresses a CSS File and returns Length of compressed File.
 	 *	@access		public
 	 *	@param		string		$fileUri		Full URI of CSS File
-	 *	@return		array
+	 *	@return		string
 	 */
 	public function compressFile( $fileUri )
 	{
@@ -75,7 +75,7 @@ class File_Css_Compressor
 		$fileUri	= $pathName."/".$fileName;
 		
 		$length		= file_put_contents( $fileUri, $content );
-		return $length;
+		return $fileUri;
 	}
 
 	/**

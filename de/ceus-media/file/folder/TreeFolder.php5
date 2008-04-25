@@ -1,11 +1,11 @@
 <?php
-import ("de.ceus-media.file.File");
+import ("de.ceus-media.file.Reader");
 import ("de.ceus-media.file.folder.Folder");
 /**
  *	TreeFolder to read a file structur recusivly.
  *	@package		file.folder
  *	@extends		Folder
- *	@uses			File
+ *	@uses			File_Reader
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.4
  */
@@ -13,7 +13,7 @@ import ("de.ceus-media.file.folder.Folder");
  *	TreeFolder to read a file structur recusivly.
  *	@package		file.folder
  *	@extends		Folder
- *	@uses			File
+ *	@uses			File_Reader
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.4
  */
@@ -139,7 +139,7 @@ class TreeFolder extends Folder
 			$loc += $folder->getTotalLOC();
 		foreach( $this->files as $filename => $file )
 		{
-			$f = new File( $this->path."/".$filename );
+			$f = new File_Reader( $this->path."/".$filename );
 			$loc += count( $f->readArray() );
 		}
 		return $loc;
@@ -181,7 +181,7 @@ class TreeFolder extends Folder
 						if( isset( $info['extension'] ) && !in_array( $info['extension'], $this->extensions ) )
 							continue;
 					}
-					$this->files[$entry] = new File( $this->path."/".$entry );
+					$this->files[$entry] = new File_Reader( $this->path."/".$entry );
 				}
 			}
 		}

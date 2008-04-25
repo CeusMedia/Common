@@ -1,8 +1,9 @@
 <?php
-import( 'de.ceus-media.file.File' );
+import( 'de.ceus-media.file.Writer' );
 /**
  *	Builder for File in .ini-Format.
  *	@package		file.ini
+ *	@uses			File_Writer
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			18.07.2005
  *	@version		0.6
@@ -10,6 +11,7 @@ import( 'de.ceus-media.file.File' );
 /**
  *	Builder for File in .ini-Format.
  *	@package		file.ini
+ *	@uses			File_Writer
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			18.07.2005
  *	@version		0.6
@@ -43,7 +45,7 @@ class File_INI_Creator
 	 *	@param		string		$section		Name of new Section
 	 *	@return		void
 	 */
-	public function addProperty( $key, $value, $comment )
+	public function addProperty( $key, $value, $comment = "" )
 	{
 		if( $this->useSections )
 			$this->addPropertyToSection( $key, $value, $comment, $this->currentSection );
@@ -130,10 +132,10 @@ class File_INI_Creator
 	/**
 	 *	Creates and writes Settings to File.
 	 *	@access		public
-	 *	@param		string		$filename		File Name of new Ini File
-	 *	@return		void
+	 *	@param		string		$fileName		File Name of new Ini File
+	 *	@return		bool
 	 */
-	public function write( $filename )
+	public function write( $fileName )
 	{
 		$lines	= array();
 		foreach ( $this->data as $section => $section_data )
@@ -146,8 +148,8 @@ class File_INI_Creator
 				$lines[]		= $this->buildLine( $key, $value, $comment);
 			}
 		}
-		$file		= new File( $filename, 0777 );
-		$file->writeArray( $lines );
+		$file		= new File_Writer( $fileName, 0777 );
+		return $file->writeArray( $lines );
 	}
 }
 ?>

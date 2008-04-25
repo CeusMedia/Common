@@ -1,9 +1,9 @@
 <?php
-import( 'de.ceus-media.file.File' );
+import( 'de.ceus-media.file.Reader' );
 /**
  *	Class to parse Class Source and print UML.
  *	@extends		Object
- *	@uses			File
+ *	@uses			File_Reader
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			22.06.2005
  *	@version		0.1
@@ -11,7 +11,7 @@ import( 'de.ceus-media.file.File' );
 /**
  *	Class to parse Class Source and print UML.
  *	@extends		Object
- *	@uses			File
+ *	@uses			File_Reader
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			22.06.2005
  *	@version		0.1
@@ -178,7 +178,7 @@ class ClassParser
 		$doc_open = false;
 		$func_data = array();
 
-		$f = new File( $this->fileName );
+		$f = new File_Reader( $this->fileName );
 		$lines = $f->readArray();
 		array_pop( $lines );
 		array_shift( $lines ); 
