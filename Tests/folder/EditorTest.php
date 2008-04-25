@@ -2,25 +2,24 @@
 /**
  *	TestUnit of Folder Editor.
  *	@package		Tests.folder
- *	@extends		PHPUnit_Framework_TestCase
+ *	@extends		Tests_Folder_TestCase
  *	@uses			Folder_Editor
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			21.04.2008
  *	@version		0.1
  */
-require_once( 'PHPUnit/Framework/TestCase.php' ); 
-require_once( 'Tests/initLoaders.php5' );
+require_once( 'Tests/folder/TestCase.php' );
 import( 'de.ceus-media.folder.Editor' );
 /**
  *	TestUnit of Folder Editor.
  *	@package		Tests.folder
- *	@extends		PHPUnit_Framework_TestCase
+ *	@extends		Tests_Folder_TestCase
  *	@uses			Folder_Editor
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			21.04.2008
  *	@version		0.1
  */
-class Tests_Folder_EditorTest extends PHPUnit_Framework_TestCase
+class Tests_Folder_EditorTest extends Tests_Folder_TestCase
 {
 	/**
 	 *	Constructor.
@@ -29,6 +28,7 @@ class Tests_Folder_EditorTest extends PHPUnit_Framework_TestCase
 	 */
 	public function __construct()
 	{
+		parent::__construct();
 		$this->path		= dirname( __FILE__ )."/";
 		$this->path		= "Tests/folder/";
 		$this->folder	= $this->path."folder";
@@ -58,56 +58,6 @@ class Tests_Folder_EditorTest extends PHPUnit_Framework_TestCase
 			$this->removeFolder( $this->path."remove", true );
 		if( file_exists( $this->path."created" ) )
 			$this->removeFolder( $this->path."created", true );
-	}
-
-
-	/**
-	 *	Removes Folders and Files recursive and returns number of removed Objects.
-	 *	@access		public
-	 *	@param		string		$path			Path of Folder to remove
-	 *	@return		int
-	 */
-/*	public static function removeFolder( $path )
-	{
-		Folder_Editor::removeFolder( $path );
-		return;
-		remark( "path: ".$path );
-		$dir	= new DirectoryIterator( $path );
-		foreach( $dir as $entry )
-		{
-			if( $entry->isDot() )
-				continue;
-			if( $entry->isDir() )
-				self::removeFolder( $entry->getPathname() );
-			else if( $entry->isFile() )
-				unlink( $entry->getPathname() );
-		}
-		rmDir( $path );
-	}
-*/
-	/**
-	 *	Removes Folders and Files recursive and returns number of removed Objects.
-	 *	@access		private
-	 *	@param		string		$path			Path of Folder to remove
-	 *	@param		bool		$force			Flag: force to remove nested Files and Folders
-	 *	@return		int
-	 */
-	private static function removeFolder( $path, $force = false )
-	{
-		$dir	= dir( $path );																	//  index Folder
-		while( $entry = $dir->read() )															//  iterate Objects
-		{
-			if( preg_match( "@^(\.){1,2}$@", $entry ) )											//  if is Dot Object
-				continue;																		//  continue
-			if( !$force )
-				throw new Exception( 'Folder '.$path.' is not empty. See Option "force".' );
-			if( is_file( $path."/".$entry ) )													//  is nested File
-				@unlink( $path."/".$entry );													//  remove File
-			if( is_dir( $path."/".$entry ) )													//  is nested Folder
-				self::removeFolder( $path."/".$entry, $force );									//  call Method with nested Folder
-		}
-		$dir->close();
-		rmDir( $path );
 	}
 
 	/**

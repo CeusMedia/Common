@@ -2,25 +2,24 @@
 /**
  *	TestUnit of Folder Indexer.
  *	@package		Tests.folder
- *	@extends		PHPUnit_Framework_TestCase
+ *	@extends		Tests_Folder_TestCase
  *	@uses			Folder_Lister
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			21.04.2008
  *	@version		0.1
  */
-require_once( 'PHPUnit/Framework/TestCase.php' ); 
-require_once( 'Tests/initLoaders.php5' );
+require_once( 'Tests/folder/TestCase.php' );
 import( 'de.ceus-media.folder.Lister' );
 /**
  *	TestUnit of Folder Indexer.
  *	@package		Tests.folder
- *	@extends		PHPUnit_Framework_TestCase
+ *	@extends		Tests_Folder_TestCase
  *	@uses			Folder_Lister
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			21.04.2008
  *	@version		0.1
  */
-class Tests_Folder_ListerTest extends PHPUnit_Framework_TestCase
+class Tests_Folder_ListerTest extends Tests_Folder_TestCase
 {
 	/**
 	 *	Constructor.
@@ -29,6 +28,7 @@ class Tests_Folder_ListerTest extends PHPUnit_Framework_TestCase
 	 */
 	public function __construct()
 	{
+		parent::__construct();
 		$this->path	= dirname( __FILE__ )."/folder";
 	}
 	
