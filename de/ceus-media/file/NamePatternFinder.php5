@@ -1,23 +1,23 @@
 <?php
 /**
- *	Searchs for a File by given RegEx Pattern (as File Name) in Folder recursive.
+ *	Searchs for Files by given RegEx Pattern (as File Name) in Folder.
  *	@package	file
  *	@author		Christian Würker <Christian.Wuerker@Ceus-Media.de>
  *	@since		09.06.2007
  *	@version	0.1
  */
 /**
- *	Searchs for a File by given RegEx Pattern (as File Name) in Folder recursive.
+ *	Searchs for Files by given RegEx Pattern (as File Name) in Folder.
  *	@package	file
  *	@author		Christian Würker <Christian.Wuerker@Ceus-Media.de>
  *	@since		09.06.2007
  *	@version	0.1
  *	@todo		Fix Error while comparing File Name to Current File with Path
  */
-class File_PatternFinder extends FilterIterator
+class File_NamePatternFinder extends FilterIterator
 {
 	/**	@var	string		$pattern		Regular Expression to match with File Name */
-	private $fileName;
+	private $pattern;
 
 	/**
 	 *	Constructor.
@@ -30,9 +30,7 @@ class File_PatternFinder extends FilterIterator
 	{
 		$this->pattern	= $pattern;
 		parent::__construct(
-			new RecursiveIteratorIterator(
-				new RecursiveDirectoryIterator( $path )
-			)
+			new DirectoryIterator( $path )
 		);
 	}
 

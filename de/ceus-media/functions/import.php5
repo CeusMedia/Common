@@ -19,7 +19,7 @@ function import( $classPath )
 		{
 			if( !include_once( $fileName ) )
 				throw new Exception( 'Class "'.$fileName.'" could not be loaded.' );
-			$GLOBALS['imported'][] = $fileName;
+			$GLOBALS['imported'][$classPath] = $fileName;
 		}
 	}
 	catch( Exception $e )

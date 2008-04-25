@@ -1,10 +1,10 @@
 <?php
-import( 'de.ceus-media.file.File' );
+import( 'de.ceus-media.file.Reader' );
 /**
  *	Parses Class and creates UML Diagram.
  *	@package		ui
  *	@extends		Object
- *	@uses			File
+ *	@uses			File_Reader
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			22.06.2005
  *	@version		0.4
@@ -13,7 +13,7 @@ import( 'de.ceus-media.file.File' );
  *	Parses Class and creates UML Diagram.
  *	@package		ui
  *	@extends		Object
- *	@uses			File
+ *	@uses			File_Reader
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			22.06.2005
  *	@version		0.4
@@ -112,7 +112,7 @@ class ClassParser
 		$doc_open	= false;
 		$func_data	= array();
 
-		$f = new File( $this->_filename );
+		$f = new File_Reader( $this->_filename );
 		$lines = $f->readArray();
 		array_pop( $lines );
 		array_shift( $lines ); 
