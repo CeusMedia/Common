@@ -13,21 +13,21 @@
  */
 class File_Writer
 {
-	/**	@var		string		$fileName		URI of file with absolute path */
+	/**	@var		string		$fileName		File Name or URI of File */
 	protected $fileName;
 
 	/**
-	 *	Constructor.
+	 *	Constructor. Creates if File if not existing and Creation Mode is set.
 	 *	@access		public
-	 *	@param		string		$fileName			URI of File
-	 *	@param		string		$creationMode		UNIX rights for chmod()
-	 *	@param		string		$creationUser		User Name for chown()
-	 *	@param		string		$creationGroup		Group Name for chgrp()
+	 *	@param		string		$fileName		File Name or URI of File
+	 *	@param		string		$creationMode	UNIX rights for chmod()
+	 *	@param		string		$creationUser	User Name for chown()
+	 *	@param		string		$creationGroup	Group Name for chgrp()
 	 *	@return		void
 	 */
-	public function __construct( $fileName, $creationMode = false, $creationUser = false, $creationGroup = false )
+	public function __construct( $fileName, $creationMode = NULL, $creationUser = NULL, $creationGroup = NULL )
 	{
-		$this->fileName = $fileName;
+		$this->fileName	= $fileName;
 		if( $creationMode && !file_exists( $fileName ) )
 			$this->create( $creationMode, $creationUser, $creationGroup );
 	}
@@ -40,21 +40,17 @@ class File_Writer
 	 *	@param		string		$group			Group Name for chgrp()
 	 *	@return		void
 	 */
-	public function create( $mode = false, $user = false, $group = false )
+	public function create( $mode = NULL, $user = NULL, $group = NULL )
 	{
-		if( false !== ( $fp = fopen( $this->fileName, "w+" ) ) )
-		{
-			fputs( $fp, "" );
-			fclose( $fp );
-			if( $mode )
-				chmod( $this->fileName, $mode );
-			if( $user )
-				chown( $this->fileName, $user );
-			if( $group )
-				chgrp( $this->fileName, $group );
-			return true;
-		}
-		return false;
+		if( false === @file_put_contents( $this->fileName, "" ) )
+			throw new RuntimeException( "File '".$this->fileName."' could not be created." );
+			
+		if( $mode )
+			chmod( $this->fileName, $mode );
+		if( $user )
+			chown( $this->fileName, $user );
+		if( $group )
+			chgrp( $this->fileName, $group );
 	}
 
 	/**
@@ -78,48 +74,61 @@ class File_Writer
 	}
 	
 	/**
-	 *	Saves Content in File statically.
+	 *	Saves Content into a File statically and returns Length.
 	 *	@access		public
 	 *	@param		string		$fileName 		URI of File
 	 *	@param		string		$content		Content to save in File
-	 *	@return		bool
+	 *	@return		int
 	 */
 	public static function save( $fileName, $content )
 	{
-		if( file_put_contents( $fileName, "" ) === false )	
-			throw new Exception( "File '".$fileName."' could not be created." );
-		$count	= file_put_contents( $fileName, $content );
-		return $count !== FALSE;
+		$writer	= new File_Writer( $fileName );
+		return $writer->writeString( $content );
 	}
 
 	/**
-	 *	Writes a string to the file.
+	 *	Saves an Array into a File statically and returns Length.
+	 *	@access		public
+	 *	@param		string		$fileName		URI of File
+	 *	@param		array		$array			Array to save
+	 *	@param		string		$lineBreak		Line Break
+	 *	@return		int
+	 */
+	public static function saveArray( $fileName, $array, $lineBreak = "\n" )
+	{
+		$writer	= new File_Writer( $fileName );
+		return $writer->writeArray( $array, $lineBreak );
+	}
+
+	/**
+	 *	Writes an Array into the File and returns Length.
+	 *	@access		public
+	 *	@param		array		$array			List of String to write to File
+	 *	@param		string		$lineBreak		Line Break
+	 *	@return		int
+	 */
+	public function writeArray( $array, $lineBreak = "\n" )
+	{
+		$string	= implode( $lineBreak, $array );
+		return $this->writeString( $string );
+	}
+
+	/**
+	 *	Writes a String into the File and returns Length.
 	 *	@access		public
 	 *	@param		string		string		string to write to file
-	 *	@return		bool
+	 *	@return		int
 	 */
 	public function writeString( $string )
 	{
 		if( !file_exists( $this->fileName ) )
-			if( !$this->create() )
-				throw new Exception( "File '".$this->fileName."' could not be created." );
+			$this->create();
 		if( !$this->isWritable( $this->fileName ) )			
-			throw new Exception( "File '".$this->fileName."' is not writable." );
+			throw new RuntimeException( "File '".$this->fileName."' is not writable." );
 		$count	= file_put_contents( $this->fileName, $string );
-		return $count !== FALSE;
-	}
-
-	/**
-	 *	Writes an array to the file.
-	 *	@access		public
-	 *	@param		array		array		array of strings to write to file
-	 *	@param		string		break		line break string
-	 *	@return		bool
-	 */
-	public function writeArray( $array, $break = "\n" )
-	{
-		$string	= implode( $break, $array );
-		return $this->writeString( $string );
+		if( $count === false )	
+			throw new RuntimeException( 'File "'.$fileName.'" could not been created.' );
+		return $count;
 	}
 }
 ?>

@@ -1,25 +1,28 @@
 <?php
+import( 'de.ceus-media.alg.UnitFormater' );
 /**
  *	Basic File Reader.
  *	@package		file
+ *	@uses			Alg_UnitFormater
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.6
  */
 /**
  *	Basic File Reader.
  *	@package		file
+ *	@uses			Alg_UnitFormater
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.6
  */
 class File_Reader
 {
-	/**	@var		string		$fileName		URI of file with absolute path */
+	/**	@var		string		$fileName		File Name or URI of File */
 	protected $fileName;
 
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		string		$fileName		URI of File
+	 *	@param		string		$fileName		File Name or URI of File
 	 *	@return		void
 	 */
 	public function __construct( $fileName )
@@ -28,33 +31,32 @@ class File_Reader
 	}
 
 	/**
-	 *	Indicates whether a file contains same data like another file.
+	 *	Indicates whether current File is equal to another File.
 	 *	@access		public
-	 *	@param		string	fileName		Name of File to compare with
+	 *	@param		string		$fileName		Name of File to compare with
 	 *	@return		bool
 	 */
 	public function equals( $fileName )
 	{
-		$file	= new File( $fileName );
-		while( $string = $this->readString() )
-			$file1 .= $string;
-		while( $string = $file->readString() )
-			$file2 .= $string;
-		return( $file1 == $file2 );
+		$toCompare	= File_Reader::load( $fileName );
+		$thisFile	= File_Reader::load( $this->fileName );
+		return( $thisFile == $toCompare );
 	}
 
 	/**
-	 *	Proving existence of the file.
+	 *	Indicates whether current URI is an existing File.
 	 *	@access		public
 	 *	@return		bool
 	 */
 	public function exists()
 	{
-		return( file_exists( $this->fileName ) && is_file( $this->fileName ) );
+		$exists	= file_exists( $this->fileName );
+		$isFile	= is_file( $this->fileName );
+		return $exists && $isFile;
 	}
 
 	/**
-	 *	Returns the basename of the file.
+	 *	Returns Basename of current File.
 	 *	@access		public
 	 *	@return		string
 	 */
@@ -64,7 +66,7 @@ class File_Reader
 	}
 
 	/**
-	 *	Returns the uri of the file.
+	 *	Returns File Name of current File.
 	 *	@access		public
 	 *	@return		string
 	 */
@@ -74,7 +76,7 @@ class File_Reader
 	}
 
 	/**
-	 *	Returns the extension of the file.
+	 *	Returns Extension of current File.
 	 *	@access		public
 	 *	@return		string
 	 */
@@ -86,7 +88,7 @@ class File_Reader
 	}
 
 	/**
-	 *	Returns the canonical pathname of the file.
+	 *	Returns canonical Path to the current File.
 	 *	@access		public
 	 *	@return		string
 	 */
@@ -103,13 +105,18 @@ class File_Reader
 	}
 
 	/**
-	 *	Returns the file size in bytes.
+	 *	Returns Size of current File.
 	 *	@access		public
+	 *	@param		int			$unit			Unit (SIZE_BYTE|SIZE_KILOBYTE|SIZE_MEGABYTE|SIZE_GIGABYTE)
+	 *	@param		int			$precision		Precision of rounded Size (only if unit is set)
 	 *	@return		int
 	 */
-	public function getSize()
+	public function getSize( $unit = SIZE_BYTE, $precision = NULL )
 	{
-		return filesize( $this->fileName );
+		$size	= filesize( $this->fileName );
+		if( $unit )
+			$size	= Alg_UnitFormater::formatNumber( $size, $unit, $precision );
+		return $size;
 	}
 	
 	/**
@@ -133,22 +140,27 @@ class File_Reader
 	}
 
 	/**
-	 *	Return true if File is writable.
+	 *	Loads a File into a String statically.
 	 *	@access		public
-	 *	@return		bool
+	 *	@param		string		$fileName		Name of File to load
+	 *	@return		string
 	 */
-	public function isWritable()
-	{
-		return is_writable( $this->fileName );
-	}
-	
 	public static function load( $fileName )
 	{
-		if( !file_exists( $fileName ) )
-			throw new Exception( 'File "'.$fileName.'" is not existing.' );
-		if( !is_readable( $fileName ) )
-			throw new Exception( 'File "'.$fileName.'" is not readable.' );
-		return file_get_contents( $fileName );
+		$reader	= new File_Reader( $fileName );
+		return $reader->readString();
+	}
+	
+	/**
+	 *	Loads a File into an Array statically.
+	 *	@access		public
+	 *	@param		string		$fileName		Name of File to load
+	 *	@return		array
+	 */
+	public static function loadArray( $fileName )
+	{
+		$reader	= new File_Reader( $fileName );
+		return $reader->readArray();
 	}
 
 	/**
@@ -159,9 +171,9 @@ class File_Reader
  	public function readString()
 	{
 		if( !$this->exists( $this->fileName ) )
-			throw new Exception( 'File "'.$this->fileName.'" is not existing.' );
+			throw new RuntimeException( 'File "'.$this->fileName.'" is not existing.' );
 		if( !$this->isReadable( $this->fileName ) )
-			throw new Exception( 'File "'.$this->fileName.'" is not readable.' );
+			throw new RuntimeException( 'File "'.$this->fileName.'" is not readable.' );
 		return file_get_contents( $this->fileName );
 	}
 
@@ -170,13 +182,10 @@ class File_Reader
 	 *	@access		public
 	 *	@return		array
 	 */
- 	public function readArray()
+ 	public function readArray( $lineBreak = "\n" )
 	{
-		if( !$this->exists( $this->fileName ) )
-			throw new Exception( 'File "'.$this->fileName.'" is not existing.' );
-		if( !$this->isReadable( $this->fileName ) )
-			throw new Exception( 'File "'.$this->fileName.'" is not readable.' );
-		return file( $this->fileName );
+		$content	= $this->readString();
+		return explode( $lineBreak, $content );
 	}
 }
 ?>
