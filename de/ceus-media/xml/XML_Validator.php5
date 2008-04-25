@@ -1,7 +1,9 @@
 <?php
+import( 'de.ceus-media.file.Reader' );
 /**
  *	Validates XML.
  *	@package		xml
+ *	@uses			File_Reader
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.4
  */
@@ -10,6 +12,7 @@
  *	@package		xml
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.4
+ *	@deprecated		old PHP4 version
  */
 class XML_Validator
 {
@@ -74,7 +77,7 @@ class XML_Validator
 	 */
 	function validateFile( $filename )
 	{
-		$file = new File( $filename );
+		$file = new File_Reader( $filename );
 		if( $xml = $file->readString() )
 			return $this->validateXML( $xml );
 	}

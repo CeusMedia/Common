@@ -1,5 +1,5 @@
 <?php
-import( 'de.ceus-media.file.File' );
+import( 'de.ceus-media.file.Reader' );
 import( 'de.ceus-media.xml.dom.Parser' );
 /**
  *	Identifies Type and Version of RSS and ATOM Feeds.
@@ -69,7 +69,7 @@ class XML_DOM_FeedIdentifier
 	 */
 	public function identifyFromFile( $fileName )
 	{
-		$file	= new File( $fileName );
+		$file	= new File_Reader( $fileName );
 		$xml	= $file->readString();
 		return $this->identify( $xml );
 	}

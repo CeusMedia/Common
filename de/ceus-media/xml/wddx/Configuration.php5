@@ -1,6 +1,7 @@
 <?php
 import( 'de.ceus-media.adt.OptionObject' );
-import( 'de.ceus-media.file.File' );
+import( 'de.ceus-media.file.Reader' );
+import( 'de.ceus-media.file.Writer' );
 import( 'de.ceus-media.xml.wddx.WDDX_FileReader' );
 import( 'de.ceus-media.xml.wddx.WDDX_FileWriter' );
 /**

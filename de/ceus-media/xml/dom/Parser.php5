@@ -78,9 +78,9 @@ class XML_DOM_Parser extends ADT_OptionObject
 		$tree	=& new XML_DOM_Node( $root->nodeName );
 		if( $root->hasAttributes())
 		{
-			$Array = $root->attributes;
-			foreach( $Array as $DomAttribute )
-				$tree->setAttribute( $DomAttribute->nodeName, $DomAttribute->nodeValue );
+			$attributeNodes	= $root->attributes;
+			foreach( $attributeNodes as $attributeNode )
+				$tree->setAttribute( $attributeNode->nodeName, $attributeNode->nodeValue );
 		}
 		$this->parseRecursive( $root, $tree );
 		return $tree;
@@ -114,7 +114,8 @@ class XML_DOM_Parser extends ADT_OptionObject
 					$node =& new XML_DOM_Node( $child->nodeName );
 					if( !$this->parseRecursive( $child, $node ) )
 					{
-						$node->setContent( utf8_decode( $child->textContent ) );
+#						$node->setContent( utf8_decode( $child->textContent ) );
+						$node->setContent( $child->textContent );
 					}
 					foreach( $attributes as $attribute)
 						$node->setAttribute( $attribute->nodeName, $attribute->nodeValue );

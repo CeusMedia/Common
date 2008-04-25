@@ -1,12 +1,14 @@
 <?php
-import( 'de.ceus-media.file.File' );
+import( 'de.ceus-media.file.Reader' );
+import( 'de.ceus-media.file.Writer' );
 import( 'de.ceus-media.xml.dom.Storage' );
 /**
  *	Storage with unlimited depth to store pairs of data in XML Files using a Cache.
  *	@package		xml
  *	@subpackage		dom
  *	@extends		OptionObject
- *	@uses			File
+ *	@uses			File_Reader
+ *	@uses			File_Writer
  *	@uses			XML_DOM_Storage
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			26.12.2005
@@ -17,7 +19,8 @@ import( 'de.ceus-media.xml.dom.Storage' );
  *	@package		xml
  *	@subpackage		dom
  *	@extends		OptionObject
- *	@uses			File
+ *	@uses			File_Reader
+ *	@uses			File_Writer
  *	@uses			XML_DOM_Storage
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			26.12.2005
@@ -76,7 +79,7 @@ class XML_DOM_CacheStorage
 		{
 			if( $this->getOption( "notify" ) )
 				trigger_error( "reading '".$this->_store->_filename."' from cache.", E_USER_NOTICE );
-			$file		= new File( $cache );
+			$file		= new File_Reader( $cache );
 			$serial	= $file->readString();
 			$this->_store->fromArray( unserialize( $serial ) );
 		}
@@ -142,7 +145,7 @@ class XML_DOM_CacheStorage
 	{
 		$cache	= $this->getOption( 'pathCache' ).basename( $this->_store->_filename ).".cache";
 		$serial	= serialize( $this->_store->toArray() );
-		$file		= new File( $cache, 0755 );
+		$file		= new File_Writer( $cache, 0755 );
 		$file->writeString( $serial );
 	}
 }

@@ -121,7 +121,7 @@ class XML_DOM_Storage extends ADT_OptionObject
 	{
 		$result	= $this->removeRecursive( $path, $this->storage );
 		if( $write && $result )
-			return $this->write();
+			return (bool) $this->write();
 		return $result;
 	}
 
@@ -165,7 +165,7 @@ class XML_DOM_Storage extends ADT_OptionObject
 			throw new InvalidArgumentException( "Value must be of type double, integer, boolean or string. ".ucfirst( $type )." given", E_USER_WARNING );
 		$result	=	$this->setRecursive( $path, $value, $this->storage );
 		if( $write && $result )
-			return $this->write();
+			return (bool) $this->write();
 		return $result;
 	}
 	

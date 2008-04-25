@@ -1,5 +1,5 @@
 <?php
-import( 'de.ceus-media.file.File' );
+import( 'de.ceus-media.file.Reader' );
 import( 'de.ceus-media.xml.atom.ATOM_DOM_Parser' );
 /**
  *	Reader for ATOM Feeds.
@@ -48,7 +48,7 @@ class ATOM_DOM_FileReader extends ATOM_DOM_Parser
 	 */
 	function loadFile( $filename, $abort = true, $verbose = true )
 	{
-		$file	= new File( $filename );
+		$file	= new File_Reader( $filename );
 		$this->_loaded	= false;
 		if( $file->exists() )
 		{

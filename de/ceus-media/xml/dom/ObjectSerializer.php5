@@ -86,6 +86,7 @@ class XML_DOM_ObjectSerializer
 					break;
 				case 'object':
 					$child	=& new XML_DOM_Node( "object" );
+					$child->setAttribute( "name", $key );
 					$child->setAttribute( "class", get_class( $value ) );
 					$vars	= get_object_vars( $value );
 					$this->serializeVarsRec( $vars, $child );

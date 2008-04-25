@@ -83,7 +83,7 @@ class XML_RSS_Writer
 	 *	@param		array		$array		Array of Channel Information Pairs
 	 *	@param		array		$array		List of Item
 	 *	@param		string		$encoding	Encoding Type
-	 *	@return		array
+	 *	@return		bool
 	 */
 	public static function save( $fileName, $channelData, $itemList, $encoding = "utf-8" )
 	{
@@ -91,7 +91,7 @@ class XML_RSS_Writer
 		$builder->setChannelData( $channelData );
 		$builder->setItemList( $itemList );
 		$xml	= $builder->build( $encoding = "utf-8" );
-		return File_Writer::save( $fileName, $xml );
+		return (bool) File_Writer::save( $fileName, $xml );
 	}
 
 	/**
@@ -99,7 +99,7 @@ class XML_RSS_Writer
 	 *	@access		public
 	 *	@param		string		$fileName	File Name of XML RSS File
 	 *	@param		string		$encoding	Encoding Type
-	 *	@return		array
+	 *	@return		bool
 	 */
 	public function write( $fileName, $encoding = "utf-8" )
 	{

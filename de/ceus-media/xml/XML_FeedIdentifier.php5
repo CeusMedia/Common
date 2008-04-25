@@ -1,11 +1,11 @@
 <?php
-import( 'de.ceus-media.file.File' );
+import( 'de.ceus-media.file.Reader' );
 import( 'de.ceus-media.xml.dom.SyntaxValidator' );
 /**
  *	Identifies Type and Version of RSS and ATOM Feeds.
  *	@package		xml
  *	@subpackage		dom
- *	@uses			File
+ *	@uses			File_Reader
  *	@uses			XML_DOM_SyntaxValidator
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			24.01.2006
@@ -15,11 +15,12 @@ import( 'de.ceus-media.xml.dom.SyntaxValidator' );
  *	Identifies Type and Version of RSS and ATOM Feeds.
  *	@package		xml
  *	@subpackage		dom
- *	@uses			File
+ *	@uses			File_Reader
  *	@uses			XML_DOM_SyntaxValidator
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			24.01.2006
  *	@version		0.1
+ *	@deprecated		old PHP4 Version
  */
 class XML_FeedIdentifier
 {
@@ -132,7 +133,7 @@ class XML_FeedIdentifier
 	 */
 	function identifyFromFile( $file )
 	{
-		$file	= new File( $filename );
+		$file	= new File_Reader( $filename );
 		$xml	= $file->readString();
 		return $this->identify( $xml );
 	}

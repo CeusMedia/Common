@@ -1,5 +1,5 @@
 <?php
-import ("de.ceus-media.file.File");
+import ("de.ceus-media.file.Writer");
 import ("de.ceus-media.xml.dom.FileReader");
 import ("de.ceus-media.xml.dom.Builder");
 /**
@@ -173,7 +173,7 @@ class XML_DOM_Editor extends XML_DOM_FileReader
 		if( $filename )
 		{
 			$xml	= $this->build( $encoding );
-			$file	= new File( $filename, 0777 );
+			$file	= new File_Writer( $filename, 0777 );
 			$file->writeString( $xml );
 		}
 	}
