@@ -1,561 +1,437 @@
 <?php
+import( 'de.ceus-media.ui.html.Tag' );
 /**
- *	Erzeugt HTML-Bausteine fuer Tabellen und Formulare.
- *	@desc			diverse Methoden zur einheitlichen und dynamischen Erstelltung von Formularen und Tabellen.
- *	@package		ui
- *	@subpackage		html
- *	@extends		Object
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version		0.1
+ *	Builder for HTML Form Components.
+ *	@package		ui.html
+ *	@uses			UI_HTML_Tag
+ *	@author			Christian WÃ¼rker <Christian.Wuerker@CeuS-Media.de>
+ *	@version		0.6
  */
 /**
- *	Erzeugt HTML-Bausteine fuer Tabellen und Formulare.
- *	@desc			diverse Methoden zur einheitlichen und dynamischen Erstelltung von Formularen und Tabellen.
- *	@package		ui
- *	@subpackage		html
- *	@extends		Object
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version		0.1
- *	@todo			Code Documentation
+ *	Builder for HTML Form Components.
+ *	@package		ui.html
+ *	@uses			UI_HTML_Tag
+ *	@author			Christian WÃ¼rker <Christian.Wuerker@CeuS-Media.de>
+ *	@version		0.6
  */
-class FormElements
+class UI_HTML_FormElements
 {
-
 	/**
-	 *	Erstellt HTML-Code einer CheckBox mit Label.
+	 *	Adds Readonly Attributes directly to Attributes Array, inserts JavaScript Alert if String given.
 	 *	@access		public
-	 *	@param		string		$checkbox		HTML-Code einer CheckBox
-	 *	@param		string		$text			Text der Beschriftung
-	 *	@param		string		$class			CSS-Class der Beschriftung
-	 *	@param		string		$label			ID der Beschriftung
-	 *	@param		string		$icons			HTML-Code der Icons vor der CheckBox
-	 *	@return		string
-	 *	@todo		Gui.FormElements::CheckLabel: Icons einbaun
+	 *	@param		array		$attributes		Reference to Attributes Array
+	 *	@param		mixed		$readOnly		Bool or String, String will be set in mit JavaScript Alert
+	 *	@return		void
 	 */
-/*	function CheckLabel( $checkbox, $text, $class, $label, $icons = false)
+	private function addReadOnlyAttributes( &$attributes, $readOnly )
 	{
-		$ins_label = $label?" id='fld_".$label."'":""; 
-		$ins_class	= $class ? " class=\"".$class."\"" : "";
-		$ins_text = $this->Label( $label, $text);
-		if( is_array( $icons))
-		{
-			foreach( $icons as $icon) $icons_ .= "<td>".$icon."</td>";
-			$icons =  $icons_;
-		}
-		$ins_box = "<table cellpadding=0 cellspacing=0><tr>".$icons."<td>".$checkbox."</td></tr></table>";
-		$code = "<td class='field' ".$ins_label."><table cellpadding=0 cellspacing=0><tr><td".$ins_class.">".$ins_box."</td>".$ins_text."</tr></table></td>";
-		return $code;
-	}*/
-
+		$attributes['readonly']	= "readonly";
+		if( is_string( $readOnly ) )
+			$attributes['onclick']	= "alert('".$readOnly."');";
+	}
 
 	/**
-	 *	@todo:	Signature Documenation
+	 *	Builds HTML for a Group of Radio Buttons, behaving like a Select.
+	 *	@access		public
+	 *	@param		string		$name			Field Name
+	 *	@param		array		$options		Array of Options
+	 *	@param		string		$class			CSS Class
+	 *	@param		mixed		$readOnly		Field is not writable, JavaScript Alert if String is given
+	 *	@return		string
 	 */
-	function CheckButton( $name, $value, $text, $class = "" )
+	public static function RadioGroup( $name, $options, $class = NULL, $readOnly = NULL )
 	{
-		$ins_class = ( $class ? $class."_" : "" ).( $value ? "set" : "unset" );
-		$code = "
-		<input id='chkbut_".$name."' type='submit' class='".$ins_class."' value='".$text."' onClick=\"switchCheckButton('".$name."', '".( $class?$class."_":"" )."');\" onFocus='this.blur()'/>
-		<input id='".$name."' type='hidden' name='".$name."' value='".$value."'/>";
-		return $code;
+		$radios	= array();
+		foreach( $options as $value => $label )
+		{
+			if( (string) $value == '_selected' )
+				continue;
+			$selected	= isset( $options['_selected'] ) ? (string) $value == (string) $options['_selected'] : NULL;
+			$radio		= self::Radio( $name, $value, $selected, $class, $readOnly );
+			$spanRadio	= UI_HTML_Tag::create( "span", $radio, array( 'class' => 'radio' ) );
+			$label		= UI_HTML_Tag::create( "label", $label, array( 'for' => $name."_".$value ) );
+			$spanLabel	= UI_HTML_Tag::create( "span", $label, array( 'class' => 'label' ) );
+			$content	= UI_HTML_Tag::create( "span", $spanRadio.$spanLabel, array( 'class' => 'radiolabel' ) );
+			$radios[]	= $content;
+		}
+		$group	= implode( "", $radios );
+		return $group;
 	}
 
 	//  --  STABLE  --  //
 	/**
-	 *	Erstellt HTML-Code eines Buttons.
+	 *	Builds HTML Code for a Button to submit a Form.
 	 *	@access		public
-	 *	@param		string		$name 			Name des Formular-Elementes
-	 *	@param		string		$value 			Beschriftung des Buttons
-	 *	@param		string		$class			CSS-Class der Beschriftung
-	 *	@param		string		$confirm 			Nachricht der Bestätigung
-	 *	@patam		string		$disabled			Ausgrauen des Buttons
+	 *	@param		string		$name 			Button Name
+	 *	@param		string		$label 			Button Label
+	 *	@param		string		$class			CSS Class
+	 *	@param		string		$confirm 		Confirmation Message
+	 *	@param		mixed		$disabled		Button is not pressable, JavaScript Alert if String is given
 	 *	@return		string
 	 */
-	function Button( $name, $value, $label, $class = 'but', $confirm = false, $disabled = false )
+	public static function Button( $name, $label, $class = NULL, $confirm = NULL, $disabled = NULL)
 	{
-		$ins_class	= $class ? " class=\"".$class."\"" : "";
-		$ins_type	= " type=\"submit\"";
-		$ins_name	= " name=\"".$name."\"";
-		$ins_value	= " value=\"".$value."\"";
-		$ins_disabled	= $disabled ? " disabled=\"disabled\"" : "";
-		$ins_confirm	= $confirm ? " onClick=\"return confirm('".$confirm."')\"" : "";
-		$code		= "<button".$ins_class.$ins_type.$ins_name.$ins_value.$ins_confirm.$ins_disabled.">".$label."</button>";
-		return $code;
-	}
-
-	/**
-	 *	Erstellt HTML-Code einer CheckBox.
-	 *	@access		public
-	 *	@param		string		$name 			Name des Formular-Elementes
-	 *	@param		string		$value 			Wert der CheckBox
-	 *	@param		bool			$checked			aktueller Zustand (0-off | 1-on)
-	 *	@param		string		$class 			CSS Style Klasse
-	 *	@param		int			$disabled 		Ausgrauen der CheckBox
-	 *	@return		string
-	 */
-	function CheckBox( $name, $value, $checked = false, $class = false, $disabled = false)
-	{
-		$ins_type	= " type=\"checkbox\"";
-		$ins_id		= " id=\"".$name."\"";
-		$ins_name	= " name=\"".$name."\"";
-		$ins_value	= " value=\"".$value."\"";
-		$ins_class	= $class ? " class=\"".$class."\"" : "";
-		$ins_checked	= $checked ? " checked='checked'" : "";
-		$ins_disabled	= "";
+		$attributes	= array(
+			'type'		=> "submit",
+			'name'		=> $name,
+			'value'		=> 1,
+			'class'		=> $class,
+			'onclick'	=> $confirm		? "return confirm('".$confirm."');" : NULL,
+		);
 		if( $disabled )
-		{
-			if( is_string( $disabled ) )
-				$ins_disabled = " disabled onclick=\"alert('".$disabled."');\"";
-			else
-				$ins_disabled = " disabled";
-		}
-		$code = "<input".$ins_id.$ins_class.$ins_type.$ins_name.$ins_value.$ins_checked.$ins_disabled."/>";
-		return $code;
+			self::addReadonlyAttributes( $attributes, $disabled);
+		return UI_HTML_Tag::create( "button", UI_HTML_Tag::create( "span", $label ), $attributes );
 	}
 
 	/**
-	 *	Erzeugt HTML-Code eines Datei-Feldes (Upload).
+	 *	Builds HTML Code for a Checkbox.
 	 *	@access		public
-	 *	@param		string		$name			Name des Eingabefeldes
-	 *	@param		string		$class			CSS-Klasse des Eingabefeldes (in|inbit|inshort|inlong)
-	 *	@param		string		$disabled			Deaktiveren des Eingabefeldes
-	 *	@param		bool			$readonly		Eingabefeld ist nur lesbar
-	 *	@param		int			$tabindex		Tabulatur-Index
-	 *	@param		int			$maxlength		maximale Länge
+	 *	@param		string		$name 			Field Name
+	 *	@param		string		$value 			Field Value if checked
+	 *	@param		bool		$checked		Field State
+	 *	@param		string		$class 			CSS Class
+	 *	@param		mixed		$readOnly		Field is not writable, JavaScript Alert if String is given
 	 *	@return		string
 	 */
-	function File( $name, $value = '', $class = "in", $disabled = false, $readonly = false, $tabindex = false, $maxlength = false )
+	public static function Checkbox( $name, $value, $checked = NULL, $class = NULL, $readOnly = NULL )
 	{
-		$ins_id			= " id=\"".$name."\"";
-		$ins_class		= $class ? " class=\"".$class."\"" : "";
-		$ins_type		= " type=\"file\"";
-		$ins_name		= " name=\"".$name."\"";
-		$ins_value		= " value=\"".$value."\"";
-		$ins_readonly		= $readonly ? " readonly" : "";	
-		$ins_tabindex		= $tabindex ? " tabindex=\"".$tabindex."\"" : "";
-		$ins_maxlength	= $maxlength ? " maxlength=\"".$maxlength."\"" : "";
-		$ins_disabled 		= "";
-		$ins_disabled = $ins_readonly = $ins_tabindex = $ins_maxlength = "";
-		if( $disabled )
-		{
-			if( is_string( $disabled ) )
-				$ins_disabled = " readonly onclick=\"alert('".$disabled."');\"";
-			else
-				$ins_disabled = " disabled";
-		}
-		$code = "<input".$ins_id.$ins_class.$ins_type.$ins_name.$ins_value.$ins_disabled.$ins_readonly.$ins_tabindex.$ins_maxlength."/>";
-		return $code;
+		$attributes	= array(
+			'id'		=> $name,
+			'type'		=> "checkbox",
+			'name'		=> $name,
+			'value'		=> $value,
+			'class'		=> $class,
+			'checked'	=> $checked		? "checked" : NULL,
+		);	
+		if( $readOnly )
+			self::addReadonlyAttributes( $attributes, $readOnly );
+		return UI_HTML_Tag::create( "input", NULL, $attributes );
 	}
 
 	/**
-	 *	Erzeugt HTML-Code eines post-Formulars.
+	 *	Builds HTML Code for a File Upload Field.
 	 *	@access		public
-	 *	@param		string		$id				ID des Formulars
-	 *	@param		string		$action			URL der Aktion
-	 *	@param		string		$target			Zielframe der Aktion
-	 *	@param		string		$enctype		Encryption-Typ, für Uploads
-	 *	@param		string		$on_submit		JavaScript vor dem Versenden des Formulars
+	 *	@param		string		$name			Field Name
+	 *	@param		string		$class			CSS Class (xl|l|m|s|xs)
+	 *	@param		mixed		$readOnly		Field is not writable, JavaScript Alert if String is given
+	 *	@param		int			$tabIndex		Tabbing Order
+	 *	@param		int			$maxLength		Maximum Length
 	 *	@return		string
 	 */
-	function Form( $id = "", $action = '', $target = false, $enctype = false, $on_submit = "" )
+	public static function File( $name, $value = "", $class = NULL, $readOnly = NULL, $tabIndex = NULL, $maxLength = NULL )
 	{
-		$ins_id		= " id=\"form_".$id."\"";
-		$ins_method	= " method=\"post\"";
-		$ins_action	= " action=\"".str_replace( "&", "&amp;", $action )."\"";
-		$ins_enctype	= $enctype ? " enctype=\"".$enctype."\"" : "";
-		$ins_submit	= $on_submit ? " onSubmit=\"".$on_submit."\"" : "";
-		$code = "<form".$ins_id.$ins_method.$ins_action.$ins_enctype.$ins_submit.">";
-//		$code .= $this->HiddenField( "timestamp", time() );
-		return $code;
-	}
-
-	/**
-	 *	Erzeugt HTML-Code eines Eingabefeldes.
-	 *	Eingabe-Validierung mit JavaScript.
-	 *	@access		public
-	 *	@param		string		$name			Name des Eingabefeldes
-	 *	@param		string		$value			Wert des Eingabefeldes
-	 *	@param		string		$class			CSS-Klasse des Eingabefeldes (in|inbit|inshort|inlong)
-	 *	@param		string		$disabled			Deaktiveren des Eingabefeldes
-	 *	@param		bool			$readonly		Eingabefeld ist nur lesbar
-	 *	@param		int			$tabindex		Tabulatur-Index
-	 *	@param		int			$maxlength		maximale Länge
-	 *	@param		string		$validator		Validator-Klasse für JavaScript UI.validateInput.js
-	 *	@return		string
-	 */
-	function Input( $name, $value = '', $class = "in", $disabled = false, $readonly = false, $tabindex = false, $maxlength = false, $validator = "" )
-	{
-		$ins_id			= " id=\"".$name."\"";
-		$ins_class		= $class ? " class=\"".$class."\"" : "";
-		$ins_type		= " type=\"text\"";
-		$ins_name		= " name=\"".$name."\"";
-		$ins_value		= " value=\"".str_replace( '"', "'", $value )."\"";
-		$ins_readonly		= $readonly ? " readonly" : "";	
-		$ins_tabindex		= $tabindex ? " tabindex=\"".$tabindex."\"" : "";
-		$ins_maxlength	= $maxlength ? " maxlength=\"".$maxlength."\"" : "";
-		$ins_disabled 		= "";
-		$ins_validator		= $validator ? " onKeyup=\"allowOnly(this, '".$validator."');\"" : "";	
-		if( $disabled )
-		{
-			if( is_string( $disabled ) )
-				$ins_disabled = " readonly onclick=\"alert('".$disabled."');\"";
-			else
-				$ins_disabled = " disabled";
-		}
-		$code = "<input".$ins_id.$ins_class.$ins_type.$ins_name.$ins_value.$ins_disabled.$ins_readonly.$ins_tabindex.$ins_maxlength.$ins_validator."/>";
-		return $code;
-	}
-
-	/**
-	 *	Erezeugt HTML-Code eines versteckten Eingabefeldes mit einem Wert.
-	 *	@access		public
-	 *	@param		string		$class			CSS-Klasse
-	 *	@return 		string
-	 */
-	function HiddenField( $name, $value )
-	{
-		$code = "<input type=\"hidden\" name=\"".$name."\" value=\"".$value."\"/>";
-		return $code;
-	}
-
-	/**
-	 *	Erzeugt HTML-Code einer Feldbeschriftung.
-	 *	@access		public
-	 *	@param		string		$label_name		interner Name des Beschrifungsfeldes
-	 *	@param		string		$label_name		Inhalt des Beschriftungsfeldes
-	 *	@param		string		$class			CSS-Klasse
-	 *	@param		string		$icons			Array mit Icons vor den Eingabefeld
-	 *	@param		string		$width			Weitenangabe
-	 *	@return		string
-	 */
-	function Label( $label_name, $label_text, $class = 'label', $icons = array() )
-	{
-		if( !is_array( $icons ) )
-		{
-			if( $icons )
-				$icons = array( $icons );
-			else
-				$icons = array();
-		}
-		if( sizeof( $icons ) && $label_name )
-		{
-			$ins_icons = "";
-			foreach( $icons as $icon )
-				if( trim( $icon ) )
-					$ins_icons .= "<span>".$icon."</span>";
-			$code = "<td".$ins_width.">
-			<table cellpadding='0' cellspacing='0' border='0' width='100%'>
-			  <tr>
-				<td class='label' id='lbl_".$label_name."'><label for='".$label_name."'>".$label_text."</label></td>
-				<td class='prefix' id='ico_".$label_name."' align='right' valign='middle'>
-				  <table cellpadding='0' cellspacing='0' border='0'><tr>".$ins_icons."</tr></table></td>
-			  </tr>
-			</table>";
-		}
-		else
-		{
-			$ins_id		= ""; //$label_name ? " id=\"lbl_".$label_name."\"" : "";
-			$ins_class	= $class ? " class=\"".$class."\"" : "";
-			$label		= $label_name ? "<label for='".$label_name."'>".$label_text."</label>" : $label_text;
-			$code = "<td".$ins_id.$ins_class.">".$label."</td>";		
-		}
-		return $code;
-	}
-
-	/**
-	 *	Erzeugt HTML-Code eines Links.
-	 *	@access		public
-	 *	@param		string		$url			URL des Links
-	 *	@param		string		$name			Name des Links
-	 *	@param		string		$class			CSS-Klasse des Links
-	 *	@param		string		$target			Zielframe des Links
-	 *	@param		string		$confirm		Bestätigungstext des Links
-	 *	@param		int			$tabindex		Tabulatur-Index
-	 *	@param		string		$key			Access Key (eindeutiger Buchstabe)
-	 *	@return		string
-	 */
-	function Link( $url = "", $name, $class = false, $target = false, $confirm = false, $tabindex = false, $key = false )
-	{
-		$ins_class	= $class ? " class=\"".$class."\"" : "";
-		$ins_confirm	= $confirm ? " onClick=\"return confirm('".$confirm."')\"" : "";
-		$ins_key	= $key ? " accesskey=\"".$key."\"" : "";
-		$ins_target	= $target ? " target=\"".$target."\"" : "";
-		$url = str_replace( '"', "'", $url );
-		$url = str_replace( "&", "&amp;", $url );
-		$ins_tabindex = $tabindex ? " tabindex=\"".$tabindex."\"" : "";
-		$code = "<a href=\"".$url."\"".$ins_class.$ins_target.$ins_tabindex.$ins_key.$ins_confirm." onFocus=\"this.blur()\">".$name."</a>";
-		$code = "<a href=\"".$url."\"".$ins_class.$ins_target.$ins_tabindex.$ins_key.$ins_confirm.">".$name."</a>";
-		return $code;
-	}
-
-	/**
-	 *	Erstellt HTML-Code eines Buttons.
-	 *	@access		public
-	 *	@param		string		$title 			Beschriftung des Buttons
-	 *	@param		string		$url			URL to request
-	 *	@param		string		$class			CSS-Class der Beschriftung
-	 *	@param		string		$confirm 		Nachricht der Bestätigung
-	 *	@patam		string		$disabled		Ausgrauen des Buttons
-	 *	@return		string
-	 */
-	function LinkButton( $title, $url, $class = 'but', $confirm = false, $disabled = false)
-	{
-		$ins_class	= $class ? " class=\"".$class."\"" : "";
-		$ins_type	= " type=\"button\"";
-		$ins_value	= " value=\"".$title."\"";
-		$ins_disabled	= $disabled ? " disabled=\"disabled\"" : "";
-		$action		= "document.location.href='".$url."';";
-		if( $confirm )
-			$action	= "if( confirm('".$confirm."') ){".$action."};";
-		$ins_action	= " onclick=\"".$action."return false;\"";
-/*		$code		= "<input".$ins_class.$ins_type.$ins_value.$ins_action.$ins_disabled." onfocus=\"this.blur();\"/>";*/
-		$code		= "<button".$ins_class.$ins_type.$ins_action.$ins_disabled.">".$title."</button>";
-		return $code;
-	}
-
-	/**
-	 *	Erzeugt HTML-Code einer Option für eine SelectBox.
-	 *	@access		public
-	 *	@param		string		$key			Schlüssel der Option
-	 *	@param		string		$value			Anzeigewert der Option
-	 *	@param		string		$selected			Auswahlstatus der Option
-	 *	@param		string		$disabled			Ausgrauen der Option
-	 *	@param		string		$color			Hintergrundfarge der Option
-	 *	@return		string
-	 */
-	function Option( $key, $value, $selected = false, $disabled = false, $color = "" )
-	{
-		$ins_disabled = $disabled ? " disabled" : "";
-		$code = "";
-//		echo "<br>".$key." => ".$value." [".($key != "_selected")."|".((string)$key != "_groupname")."]";
-		
-		if( (string)$key != "_selected" && (string)$key != "_groupname" )
-		{
-			$ins_selected = $selected ? " selected='selected'" : "";
-//			$color = $color?" selected":"";
-			$code = "<option value=\"".$key."\"".$ins_selected.$ins_disabled.">".htmlspecialchars( $value )."</option>";
-		}
-		return $code;
-	}
-
-	/**
-	 *	Erzeugt HTML-Code einer Optionen-Gruppe für eine SelectBox.
-	 *	@access		public
-	 *	@param		string		$group			Name der Optionen-Gruppe
-	 *	@param		string		$options 			Array mit Optionen
-	 *	@param		string		$selected			Auswahlstatus der Option
-	 *	@param		string		$code			HTML-Code zum Anhängen
-	 *	@return		string
-	 */
-	function OptionGroup( $group, $options, $selected = false, $code = "" )
-	{
-		$code = "";
-		if( $group )
-			$code .= "<optgroup label='".$group."'>";
-		$code .= FormElements::Options( $options, $selected, false );
-		if( $group )
-			$code .= "</optgroup>";
-		return $code;
-
-	}
-
-	/**
-	 *	Erstellt HTML-Code der Optionen für eine SelectBox aus einem Array.
-	 *	@access		public
-	 *	@param		array		$options 			Array mit Optionen
-	 *	@param		string		$selected			selektiertes Element
-	 *	@return		string
-	 */
-	function Options( $options, $selected = false )
-	{
-		$code = "";
-		if( isset( $options[0] ) && is_array( $options[0] ) )
-		{
-			foreach( $options as $option_group )
-				if( is_array( $option_group ) )
-					$code .= FormElements::OptionGroup( $option_group['_groupname'], $option_group, $options['_selected'] );
-		}
-		else
-		{
-			foreach( $options as $key => $value )
-			{
-				if( is_array( $selected ) )
-					$code .= FormElements::Option( $key, $value, in_array( (string)$key, $selected ) );
-				else
-					$code .= FormElements::Option( $key, $value, ( (string)$selected == (string)$key) );
-			}
-		}
-		return $code;
-	}
-
-	/**
-	 *	Erzeugt HTML-Code eines Passwort-Eingabefeldes.
-	 *	@access		public
-	 *	@param		string		$name			Name des Eingabefeldes
-	 *	@param		string		$value			Wert des Eingabefeldes
-	 *	@param		string		$class			CSS-Klasse des Eingabefeldes (in|inbit|inshort|inlong)
-	 *	@param		string		$disabled			Deaktiveren des Eingabefeldes
-	 *	@param		bool			$readonly		Eingabefeld ist nur lesbar
-	 *	@param		int			$tabindex		Tabulatur-Index
-	 *	@param		int			$maxlength		maximale Länge
-	 *	@return		string
-	 */
-	function Password( $name, $value = '', $class = "in", $disabled = false, $readonly = false, $tabindex = false, $maxlength = false )
-	{
-		$ins_id			= " id=\"".$name."\"";
-		$ins_class		= $class ? " class=\"".$class."\"" : "";
-		$ins_type		= " type=\"password\"";
-		$ins_name		= " name=\"".$name."\"";
-		$ins_value		= " value=\"".$value."\"";
-		$ins_readonly		= $readonly ? " readonly" : "";	
-		$ins_tabindex		= $tabindex ? " tabindex=\"".$tabindex."\"" : "";
-		$ins_maxlength	= $maxlength ? " maxlength=\"".$maxlength."\"" : "";
-		$ins_disabled 		= "";
-		if( $disabled )
-		{
-			if( is_string( $disabled ) )
-				$ins_disabled = " readonly onclick=\"alert('".$disabled."');\"";
-			else
-				$ins_disabled = " disabled";
-		}
-		$code = "<input".$ins_id.$ins_class.$ins_type.$ins_name.$ins_value.$ins_disabled.$ins_readonly.$ins_tabindex.$ins_maxlength."/>";
-		return $code;
-	}
-
-	/**
-	 *	Erstellt HTML-Code für RadioButtons.
-	 *	@access		public
-	 *	@param		string		$name 			Name des Formular-Elementes
-	 *	@param		string		$value 			Wert des RadionButtons
-	 *	@param		string		$checked 		Auswahl-Status
-	 *	@param		string		$class			CSS-Klasse des RadioButtons
-	 *	@param		bool			$disabled 		Deaktivieren des RadioButtons
-	 *	@return		string
-	 */ 
-	function Radio( $name, $value, $checked = false, $class = 'radio', $disabled = false )
-	{
-		$ins_id		= " id=\"".$name."_".$value."\"";
-		$ins_type	= " type=\"radio\"";
-		$ins_name	= " name=\"".$name."\"";
-		$ins_value	= " value=\"".$value."\"";
-		$ins_class	= $class ? " class=\"".$class."\"" : "";
-		$ins_checked	= $checked ? " checked='checked'" : "";
-		$ins_disabled	= $disabled ? " disabled='disabled'" : "";
-		$code = "<input".$ins_class.$ins_type.$ins_id.$ins_name.$ins_value.$ins_checked.$ins_disabled."/>";
-		return $code;
-	}
-
-	/**
-	 *	Erzeugt HTML-Code eines RadioLabels.
-	 *	@access		public
-	 *	@param		string		$name			Name des RadioButtons
-	 *	@param		string		$label			Inhalt des Beschriftungsfeldes
-	 *	@param		string		$value			Wert des RadioButtons
-	 *	@param		string		$checked 		Auswahl-Status
-	 *	@param		string		$class			CSS-Klasse des RadioButtons
-	 *	@param		string		$disabled			Deaktivieren des RadioButtons
-	 *	@return		string
-	 */
-	function RadioLabel( $name, $label, $value, $checked = false, $class = 'radio', $disabled = false )
-	{
-		$radio	= $this->Radio( $name, $value, $checked, $class, $disabled );
-		$field	= $this->Field( '', $radio );
-		$label	= $this->Label( '', $label, $class );
-		$content	= "<tr>".$field.$label."</tr>";
-		$code	= $this->Table( $content, false, false );
-		return $code;
-	}
-
-	/**
-	 *	Erstellt HTML-Code eines Buttons to reset current Formular.
-	 *	@access		public
-	 *	@param		string		$title	 		Beschriftung des Buttons
-	 *	@param		string		$class			CSS-Class der Beschriftung
-	 *	@param		string		$action			JavaScript-Aufruf bei Click
-	 *	@return		string
-	 *	@todo		BETA PROOVE !!!
-	 */
-	function ResetButton( $title, $class = 'but', $action = false )
-	{
-		$action		= $action ? $action : "this.form.reset()";
-		$ins_class	= $class ? " class=\"".$class."\"" : "";
-		$ins_type	= " type=\"button\"";
-		$ins_onclick	= " onClick=\"".$action."; this.blur(); return false;\"";
-		$code		= "<button".$ins_class.$ins_type.$ins_onclick.">".$title."</button>";
-		return $code;
-	}
-
-	/**
-	 *	Erzeugt HTML-Code eines Auswahlfeldes.
-	 *	@access		public
-	 *	@param		string		$name			Name des Auswahlfeldes
-	 *	@param		mixed		$options			Auswahloptionen als String oder Array
-	 *	@param		string		$class			CSS-Klasse des Auswahlfeldes
-	 *	@param		string		$disabled			Deaktiveren des Auswahlfeldes
-	 *	@param		string		$submit			Formular-ID bei Veränderung ausführen
-	 *	@param		string		$focus			Focus Element on Change
-	 *	@param		string		$change			JavaScript to execute on Change
-	 *	@return		string
-	 */
-	function Select( $name, $options, $class = 'sel', $disabled = false, $submit = false, $focus = false, $change = "" )
-	{
-		$ins_disabled	= "";
-		$ins_change	= "";
-		$ins_multiple	= "";
-		$ins_submit	= "";
-		$ins_focus	= "";
-		if( is_array ($options ) )
-		{
-			if( isset( $options['_selected'] ) )
-				$options = FormElements::Options( $options, $options['_selected'] );
-			else
-				$options = FormElements::Options( $options );
-		}
-		if( $focus || $submit || $change )
-		{
-			if( $focus )
-				$ins_focus= "document.".$focus.".focus();";
-			if( $submit )
-				$ins_submit = "document.getElementById('form_".$submit."').submit();";
-			$ins_change = " onchange=\"".$ins_focus.$ins_submit.$change."\"";
-		}
-		if( $disabled )
-			$ins_disabled = is_string( $disabled )?" readonly onClick=\"alert('".$disabled."');\"":" disabled";
-		if( substr( $name, -2 ) == "[]" )
-			$ins_multiple = " multiple";
-		$ins_class	= $class ? " class=\"".$class."\"" : "";
-		$ins_name	= " name=\"".$name."\"";
-		$ins_id		= " id=\"".$name."\"";
-		$code = "<select".$ins_id.$ins_class.$ins_name.$ins_change.$ins_disabled.$ins_multiple.">".$options."</select>";
-		return $code;
+		$attributes	= array(
+			'id'		=> $name,
+			'type'		=> "file",
+			'name'		=> $name,
+			'value'		=> $value,
+			'class'		=> $class,
+			'tabindex'	=> $tabIndex,
+			'maxlength'	=> $maxLength,
+		);
+		if( $readOnly )
+			self::addReadOnlyAttributes( $attributes, $readOnly );
+		return UI_HTML_Tag::create( "input", NULL, $attributes );
 	}
 	
 	/**
-	 *	Erzeugt HTML-Code eines Textfeldes.
+	 *	Builds HTML Code for a Form using POST.
 	 *	@access		public
-	 *	@param		string		$name			Name des Textfeldes
-	 *	@param		string		$value			Inhalt des Textfeldes
-	 *	@param		string		$class			CSS-Klasse des Textfeldes (xx|xm|xs|mx|mm|ms|sx|sm|ss)
-	 *	@param		string		$disabled			Deaktiveren des Textfeldes
-	 *	@param		string		$validator		Validator-Klasse für JavaScript UI.validateInput.js
+	 *	@param		string		$name			Form Name, also used for ID with Prefix 'form_'
+	 *	@param		string		$action			Form Action, mostly an URL
+	 *	@param		string		$target			Target Frage of Action
+	 *	@param		string		$enctype		Encryption Type, needs to be 'multipart/form-data' for File Uploads
+	 *	@param		string		$onSubmit 		JavaScript to execute before Form is submitted, Validation is possible
 	 *	@return		string
 	 */
-	function Textarea( $name, $value, $class, $disabled = false, $validator = false )
+	public static function Form( $name = NULL, $action = NULL, $target = NULL, $enctype = NULL, $onSubmit = NULL )
 	{
-		$ins_id		= " id=\"".$name."\"";
-		$ins_disabled	= "";
-		$ins_name	= " name=\"".$name."\"";
-		$ins_class	= $class ? " class=\"".$class."\"" : "";
-		$ins_validator	= $validator ? " onKeyUp=\"allowOnly( this, '".$validator."');\"" : "";
+		$attributes	= array(
+			'id'		=> $name		? "form_".$name : NULL,
+			'name'		=> $name,
+			'action'	=> $action		? str_replace( "&", "&amp;", $action ) : NULL,
+			'target'	=> $target,
+			'method'	=> "POST",
+			'enctype'	=> $enctype,
+			'onsubmit'	=> $onSubmit,
+		);
+		$form	= UI_HTML_Tag::create( "form", NULL, $attributes );
+		return str_replace( "</form>", "", $form );
+	}
+
+	/**
+	 *	Builds HTML Code for an Input Field. Validation is possible using Validator Classes from UI.validateInput.js.
+	 *	@access		public
+	 *	@param		string		$name			Field Name
+	 *	@param		string		$value			Field Value
+	 *	@param		string		$class			CSS Class (xl|l|m|s|xs)
+	 *	@param		mixed		$readOnly		Field is not writable, JavaScript Alert if String is given
+	 *	@param		int			$tabIndex		Tabbing Order
+	 *	@param		int			$maxLength		Maximum Length
+	 *	@param		string		$validator		Validator Class (using UI.validateInput.js)
+	 *	@return		string
+	 */
+	public static function Input( $name, $value = NULL, $class = NULL, $readOnly = NULL, $tabIndex = NULL, $maxLength = NULL, $validator = NULL )
+	{
+		$attributes	= array(
+			'id'		=> $name,
+			'type'		=> "text",
+			'name'		=> $name,
+			'value'		=> $value,
+			'class'		=> $class,
+			'tabindex'	=> $tabIndex,
+			'maxlength'	=> $maxLength,
+			'onkeyup'	=> $validator	? "allowOnly(this,'".$validator."');" : NULL,
+		);
+		if( $readOnly )
+			self::addReadOnlyAttributes( $attributes, $readOnly );
+		return UI_HTML_Tag::create( "input", NULL, $attributes );
+	}
+
+	/**
+	 *	Builds HTML Code for a hidden Input Field. It is not advised to work with hidden Fields.
+	 *	@access		public
+	 *	@param		string		$name			Field Name
+	 *	@param		string		$value			Field Value
+	 *	@return 	string
+	 */
+	public static function HiddenField( $name, $value )
+	{
+		$attributes	= array(
+			'id'		=> $name,
+			'type'		=> "hidden",
+			'name'		=> $name,
+			'value'		=> $value,
+		);
+		return UI_HTML_Tag::create( "input", NULL, $attributes );
+	}
+
+	/**
+	 *	Builds HTML Code for a Button behaving like a Link.
+	 *	@access		public
+	 *	@param		string		$label			Button Label, also used for ID with Prefix 'button_' and MD5 Hash
+	 *	@param		string		$url			URL to request
+	 *	@param		string		$class			CSS Class
+	 *	@param		string		$confirm 		Confirmation Message
+	 *	@param		mixed		$disabled		Button is not pressable, JavaScript Alert if String is given
+	 *	@return		string
+	 */
+	public static function LinkButton( $url, $label, $class = NULL, $confirm = NULL, $disabled = NULL )
+	{
+		$action			= "document.location.href='".$url."';";
+		$attributes	= array(
+			'id'		=> "button_".md5( $label ),
+			'type'		=> "button",
+			'class'		=> $class,
+			'disabled'	=> $disabled	? "disabled" : NULL,
+			'onclick'	=> $confirm		? "if(confirm('".$confirm."')){".$action."};" : $action,
+		);
 		if( $disabled )
+			self::addReadOnlyAttributes( $attributes, $disabled );
+		return UI_HTML_Tag::create( "button", UI_HTML_Tag::create( "span", $label ), $attributes );
+	}
+
+	/**
+	 *	Builds HTML Code for an Option for a Select.
+	 *	@access		public
+	 *	@param		string		$value			Option Value
+	 *	@param		string		$label			Option Label
+	 *	@param		bool		$selected		Option State
+	 *	@param		string		$disabled		Option is not selectable
+	 *	@param		string		$class			CSS Class
+	 *	@return		string
+	 */
+	public static function Option( $value, $label, $selected = NULL, $disabled = NULL, $class = NULL )
+	{
+		if( !( $value != "_selected" && $value != "_groupname" ) )
+			return "";
+		$attributes	= array(
+			'value'		=> $value,
+			'selected'	=> $selected	? "selected" : NULL,
+			'disabled'	=> $disabled	? "disabled" : NULL,
+			'class'		=> $class,
+		);
+		return UI_HTML_Tag::create( "option", htmlspecialchars( $label ), $attributes );
+	}
+
+	/**
+	 *	Builds HTML Code for an Option Group for a Select.
+	 *	@access		public
+	 *	@param		string		$label			Group Label
+	 *	@param		string		$options 		Array of Options
+	 *	@param		string		$selected		Value of selected Option
+	 *	@return		string
+	 */
+	public static function OptionGroup( $label, $options, $selected = NULL )
+	{
+		$attributes	= array( 'label' => $label );
+		$options	= self::Options( $options, $selected );
+		return UI_HTML_Tag::create( "optgroup", $options, $attributes );
+	}
+
+	/**
+	 *	Builds HTML Code for Options for a Select.
+	 *	@access		public
+	 *	@param		array		$options 			Array of Options
+	 *	@param		string		$selected			Value of selected Option
+	 *	@return		string
+	 */
+	public static function Options( $options, $selected = NULL )
+	{
+		$list		= array();
+		$grouped	= false;
+		foreach( $options as $key => $value)
 		{
-			if( is_string( $disabled ) )
-				$ins_disabled = " readonly onclick=\"alert('".$disabled."');\"";
-			else
-				$ins_disabled = " readonly";
+			if( (string) $key != "_selected" && is_array( $value ) )
+			{
+				foreach( $options as $groupLabel => $groupOptions )
+				{
+					if( !is_array( $groupOptions ) )
+						continue;
+					if( (string) $groupLabel == "_selected" )
+						continue;
+					$groupName	= isset( $groupOptions['_groupname'] ) ? $groupOptions['_groupname'] : $groupLabel;
+					$select		= isset( $options['_selected'] ) ? $options['_selected'] : $selected;
+					$list[]		= self::OptionGroup( $groupName, $groupOptions, $select );
+				}
+				return implode( "", $list );
+			}
 		}
-		$code = "<textarea".$ins_id.$ins_name.$ins_class.$ins_disabled.$ins_validator." rows=\"\" cols=\"\">".$value."</textarea>";
-		return $code;
+		foreach( $options as $value => $label )
+		{
+			$value		= (string) $value;
+			$isSelected	= is_array( $selected ) ? in_array( $value, $selected ) : (string) $selected == $value; 
+			$list[]		= self::Option( $value, $label, $isSelected );
+		}
+		return implode( "", $list );
+	}
+
+	/**
+	 *	Builds HTML Code for a Password Field.
+	 *	@access		public
+	 *	@param		string		$name			Field Name
+	 *	@param		string		$class			CSS Class (xl|l|m|s|xs)
+	 *	@param		mixed		$readOnly		Field is not writable, JavaScript Alert if String is given
+	 *	@param		int			$tabIndex		Tabbing Order
+	 *	@param		int			$maxLength		Maximum Length
+	 *	@return		string
+	 */
+	public static function Password( $name, $class = NULL, $readOnly = NULL, $tabIndex = NULL, $maxLength = NULL )
+	{
+		$attributes	= array(
+			'id'		=> $name,
+			'type'		=> "password",
+			'name'		=> $name,
+			'class'		=> $class,
+			'tabindex'	=> $tabIndex,
+			'maxlength'	=> $maxLength,
+		);
+		if( $readOnly )
+			self::addReadonlyAttributes( $attributes, $readOnly );
+		return UI_HTML_Tag::create( "input", NULL, $attributes );
+	}
+
+	/**
+	 *	Builds HTML Code for Radio Buttons.
+	 *	@access		public
+	 *	@param		string		$name 			Field Name
+	 *	@param		string		$value 			Field Value if checked
+	 *	@param		string		$checked 		Field State
+	 *	@param		string		$class			CSS Class
+	 *	@param		mixed		$readOnly		Field is not writable, JavaScript Alert if String is given
+	 *	@return		string
+	 */ 
+	public static function Radio( $name, $value, $checked = NULL, $class = NULL, $readOnly = NULL )
+	{
+		$attributes	= array(
+			'id'		=> $name.'_'.$value,
+			'type'		=> "radio",
+			'name'		=> $name,
+			'value'		=> $value,
+			'class'		=> $class,
+			'checked'	=> $checked		? "checked" : NULL,
+			'disabled'	=> $disabled	? "disabled" : NULL,
+		);
+		if( $readOnly )
+			self::addReadonlyAttributes( $attributes, $readOnly );
+		return UI_HTML_Tag::create( "input", NULL, $attributes );
+	}
+
+	/**
+	 *	Builds HTML Code for a Button to reset the current Form.
+	 *	@access		public
+	 *	@param		string		$label	 		Button Label
+	 *	@param		string		$class			CSS Class
+	 *	@param		string		$confirm 		Confirmation Message
+	 *	@param		mixed		$disabled		Button is not pressable, JavaScript Alert if String is given
+	 *	@return		string
+	 */
+	public static function ResetButton( $label, $class = NULL, $confirm = NULL, $disabled = NULL )
+	{
+		$attributes	= array(
+			'type'		=> "reset",
+			'class'		=> $class,
+			'onclick'	=> $confirm		? "return confirm('".$confirm."');" : NULL,
+		);
+		if( $disabled )
+			self::addReadOnlyAttributes( $attributes, $disabled );
+		return UI_HTML_Tag::create( "button", $label, $attributes );
+	}
+
+	/**
+	 *	Builds HTML Code for a Select.
+	 *	@access		public
+	 *	@param		string		$name			Field Name
+	 *	@param		mixed		$options		Array of String of Options
+	 *	@param		string		$class			CSS Class (xl|l|m|s|xs)
+	 *	@param		mixed		$readOnly		Field is not writable, JavaScript Alert if String is given
+	 *	@param		string		$submit			ID of Form to submit on Change
+	 *	@param		string		$focus			ID of Element to focus on Change
+	 *	@param		string		$change			JavaScript to execute on Change
+	 *	@return		string
+	 */
+	public static function Select( $name, $options, $class = NULL, $readOnly = NULL, $submit = NULL, $focus = NULL, $change = NULL )
+	{
+		if( is_array( $options ) )
+		{
+			$selected	= isset( $options['_selected'] ) ? $options['_selected'] : NULL;
+			$options	= self::Options( $options, $selected );
+		}
+		$focus	= $focus ? "document.getElementById('".$focus."').focus();" : "";
+		$submit	= $submit ? "document.getElementById('form_".$submit."').submit();" : "";
+		$attributes	= array(
+			'id'		=> str_replace( "[]", "", $name ),
+			'name'		=> $name,
+			'class'		=> $class,
+			'multiple'	=> substr( trim( $name ), -2 ) == "[]"	? "multiple" : NULL,
+			'onchange'	=> $focus.$submit.$change,
+		);
+		if( $readOnly )
+			self::addReadonlyAttributes( $attributes, $readOnly );
+		return UI_HTML_Tag::create( "select", $options, $attributes );
+	}
+
+	/**
+	 *	Builds HTML Code for a Textarea.
+	 *	@access		public
+	 *	@param		string		$name			Field Name
+	 *	@param		string		$content		Field Content
+	 *	@param		string		$class			CSS Class (ll|lm|ls|ml|mm|ms|sl|sm|ss)
+	 *	@param		mixed		$readOnly		Field is not writable, JavaScript Alert if String is given
+	 *	@param		string		$validator		Validator Class (using UI.validateInput.js)
+	 *	@return		string
+	 */
+	public static function Textarea( $name, $content, $class = NULL, $readOnly = NULL, $validator = NULL )
+	{
+		$attributes	= array(
+			'id'		=> $name,
+			'name'		=> $name,
+			'class'		=> $class,
+			'onkeyup'	=> $validator	? "allowOnly(this,'".$validator."');" : NULL,
+		);
+		if( $readOnly )
+			self::addReadonlyAttributes( $attributes, $readOnly );
+		return UI_HTML_Tag::create( "textarea", $content, $attributes );
 	}
 }
 ?>

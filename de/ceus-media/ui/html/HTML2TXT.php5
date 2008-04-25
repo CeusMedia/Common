@@ -1,10 +1,10 @@
 <?php
-import( 'de.ceus-media.file.File' );
+import( 'de.ceus-media.file.Reader' );
 /**
  *	Transformes HTML to Plain Text by removing Tags, Scripts, Styles, Spaces and special Characters.
  *	@package		ui
  *	@subpackage		html
- *	@uses			File
+ *	@uses			File_Reader
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			10.10.2006
  *	@version		0.1
@@ -13,7 +13,7 @@ import( 'de.ceus-media.file.File' );
  *	Transformes HTML to Plain Text by removing Tags, Scripts, Styles, Spaces and special Characters.
  *	@package		ui
  *	@subpackage		html
- *	@uses			File
+ *	@uses			File_Reader
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			10.10.2006
  *	@version		0.1
@@ -79,7 +79,7 @@ class HTML2TXT
 	{
 		if( file_exists( $filename ) )
 		{
-			$html_file		= new File( $filename );
+			$html_file		= new File_Reader( $filename );
 			$html		= $html_file->readString();
 			$this->setHTML( $html );
 			return true;

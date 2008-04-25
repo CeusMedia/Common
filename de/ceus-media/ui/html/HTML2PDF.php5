@@ -1,12 +1,12 @@
 <?php
 import( 'net.sourceforge.html2fpdf.HTML2FPDF' );
-import( 'de.ceus-media.file.File' );
+import( 'de.ceus-media.file.Reader' );
 /**
  *	Transformes HTML to PDF.
  *	@package		ui
  *	@subpackage		html
  *	@uses			HTML2FPDF
- *	@uses			File
+ *	@uses			File_Reader
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			10.10.2006
  *	@version		0.1
@@ -16,7 +16,7 @@ import( 'de.ceus-media.file.File' );
  *	@package		ui
  *	@subpackage		html
  *	@uses			HTML2FPDF
- *	@uses			File
+ *	@uses			File_Reader
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			10.10.2006
  *	@version		0.1
@@ -51,7 +51,7 @@ class HTML2PDF
 	{
 		if( file_exists( $filename ) )
 		{
-			$html_file		= new File( $filename );
+			$html_file		= new File_Reader( $filename );
 			$html		= $html_file->readString();
 			$this->setHTML( $html );
 			return true;

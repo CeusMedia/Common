@@ -42,7 +42,7 @@ class UI_HTML_Service_ParametricIndex extends UI_HTML_Service_Index
 					{
 						if( $ruleKey == "mandatory" )
 							$ruleValue = $ruleValue ? "yes" : "no";
-						$ruleList[]	= $ruleKey.": ".$ruleValue;
+						$ruleList[]	= $ruleKey.": ".htmlspecialchars( $ruleValue );
 					}
 				}
 				$rules	= implode( ", ", $ruleList );

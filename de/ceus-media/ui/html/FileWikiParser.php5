@@ -1,12 +1,14 @@
 <?php
-import( 'de.ceus-media.file.File' );
+import( 'de.ceus-media.file.Reader' );
+import( 'de.ceus-media.file.Writer' );
 import( 'de.ceus-media.ui.html.WikiParser' );
 /**
  *	File Reader for Wiki Parser.
  *	@package		ui
  *	@subpackage		html
  *	@extends		WikiParser
- *	@uses			File
+ *	@uses			File_Reader
+ *	@uses			File_Writer
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			01.04.2006
  *	@version			0.1
@@ -16,7 +18,8 @@ import( 'de.ceus-media.ui.html.WikiParser' );
  *	@package		ui
  *	@subpackage		html
  *	@extends		WikiParser
- *	@uses			File
+ *	@uses			File_Reader
+ *	@uses			File_Writer
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			01.04.2006
  *	@version			0.1
@@ -53,7 +56,7 @@ class FileWikiParser extends WikiParser
 			$cachefile	= $this->_getCacheFilenameFromPage( $id );
 			if( file_exists( $cachefile ) )
 			{
-				$file	= new File( $cachefile );
+				$file	= new File_Reader( $cachefile );
 				$text	= $file->readString();
 				if( $this->getOption( 'compress_cache' ) )
 					$text	= gzuncompress( $text );
@@ -62,10 +65,10 @@ class FileWikiParser extends WikiParser
 			else
 			{
 				$filename	= $this->getFilenameFromPage( $id );
-				$file	= new File( $filename );
+				$file	= new File_Reader( $filename );
 				$text	= $file->readString();
 				$text	= $this->parse( $text );
-				$file	= new File( $cachefile, 0755 );
+				$file	= new File_Writer( $cachefile, 0755 );
 				if( $this->getOption( 'compress_cache' ) )
 					$file->writeString( gzcompress( $text ) );
 				else
@@ -78,7 +81,7 @@ class FileWikiParser extends WikiParser
 			$filename	= $this->getFilenameFromPage( $id );
 			if( file_exists( $filename ) )
 			{
-				$file	= new File( $filename );
+				$file	= new File_Reader( $filename );
 				$text	= $file->readString();
 				return $this->parse( $text );
 			}
@@ -103,12 +106,12 @@ class FileWikiParser extends WikiParser
 		$filename	= $this->getFilenameFromPage( $id );
 		if( file_exists( $filename ) )
 		{
-			$file	= new File( $filename );
+			$file	= new File_Writer( $filename );
 			$file->writeString( $content );
 		}
 		else
 		{
-			$file	= new File( $filename, 0755 );
+			$file	= new File_Writer( $filename, 0755 );
 			$file->writeString( $content );
 		}
 		if( $this->getOption( 'use_cache' ) )
