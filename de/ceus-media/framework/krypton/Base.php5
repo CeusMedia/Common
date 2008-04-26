@@ -182,7 +182,7 @@ abstract class Framework_Krypton_Base
 		$this->registry->set( 'language', $language, true );		
 		
 		import( 'de.ceus-media.framework.krypton.exception.Template' );
-		import( 'de.ceus-media.framework.krypton.exception.Sql' );
+		import( 'de.ceus-media.framework.krypton.exception.SQL' );
 		Framework_Krypton_Exception_Template::$exceptionMessage	 = $language->getWord( 'main', 'exceptions', 'template' );
 		Framework_Krypton_Exception_Sql::$exceptionMessage	 = $language->getWord( 'main', 'exceptions', 'sql' );
 	}
