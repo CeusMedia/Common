@@ -1,5 +1,5 @@
 <?php
-import( 'de.ceus-media.database.pdo..TableWriter' );
+import( 'de.ceus-media.database.pdo.TableWriter' );
 import( 'de.ceus-media.framework.krypton.core.Registry' );
 /**
  *	Abstract Model for Database Structures.
