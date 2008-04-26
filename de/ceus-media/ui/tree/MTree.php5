@@ -111,7 +111,7 @@ class MTree
 	{
 		$code = $script = "";
 		$id = 0;
-		if ($target) $ins_target = " target='".$target."'";
+		$ins_target = $target ? " target='".$target."'" : "";
 		if (!$recursion)
 		{
 			$code .= str_repeat (" ", $recursion)."<ul class='tree'>";

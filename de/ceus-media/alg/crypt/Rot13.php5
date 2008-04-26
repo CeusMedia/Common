@@ -1,4 +1,18 @@
 <?php
+/**
+ *	Wrapper of ROT13 Functions
+ *	@package		alg.crypt
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@since			17.02.2008
+ *	@version		0.6
+ */
+/**
+ *	Wrapper of ROT13 Functions
+ *	@package		alg.crypt
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@since			17.02.2008
+ *	@version		0.6
+ */
 class Alg_Crypt_Rot13
 {
 	/**

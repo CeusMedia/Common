@@ -53,7 +53,7 @@ $code .= "
   <tr><td style='background: white;'>
 	<table width='100%' cellspacing='0' cellpadding='2'>
 	  <colgroup><col width='50px'/><col width='120px'/><col width='430px'></colgroup>
-	  ".$funcs."
+	  ".$methods."
 	</table>
   </td></tr>  
 </table>";

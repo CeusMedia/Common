@@ -1,6 +1,7 @@
 <?php
 /**
- *	Implementation of str_split for PHP 4.
+ *	...
+ *	@package		functions
  *	@access		public
  *	@param		string	string		String to be splitted
  *	@param		int		length		Length of splitted parts
