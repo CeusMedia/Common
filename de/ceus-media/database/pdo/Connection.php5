@@ -48,6 +48,38 @@ class Database_PDO_Connection
 		return call_user_func_array( array( &$this->PDO, $func ), $args );
 	}
 
+
+public function beginTransaction()
+{
+	if( !$this->openTransactions )					//  no Transaction is open
+		parent::beginTransaction();					//  begin Transaction
+	$this->openTransactions++;						//  increase Transaction Counter
+	return true;
+}
+
+public function commit()
+{
+	if( !$this->openTransactions )					//  there has been an inner RollBack or no Transaction was opened
+		return FALSE;								//  ignore Commit
+	if( $this->openTransactions == 1)				//  commit of an outer Transaction
+		parent::commit();							//  commit Transaction
+	$this->openTransactions--;						//  decrease Transaction Counter
+	return TRUE;
+}
+
+	/**
+	 *	Rolls back an Transaction.
+	 *	@access		public
+	 *	@return		bool
+	 */
+	public function rollBack()
+	{
+		if( !$this->openTransactions )					//  there has been an inner RollBack or no Transaction was opened
+			return FALSE;								//  ignore Commit
+		parent::rollBack();								//  roll back Transaction
+		$this->openTransactions = 0;					//  reset Transaction Counter
+}
+
 	public function exec( $query, $verbose = 1 )
 	{
 		$this->logQuery( $query );
@@ -84,7 +116,6 @@ class Database_PDO_Connection
 		try
 		{
 			$this->numExecutes++;
-			$this->numStatements++;
 			if( $verbose )
 			{
 				if( $verbose == 2 )

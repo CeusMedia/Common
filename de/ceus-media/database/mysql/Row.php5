@@ -1,17 +1,17 @@
 <?php
 /**
- *	MySQL Row.
+ *	mySQL Row.
  *	@package		database.mysql
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version 		0.6
  */
 /**
- *	MySQL Row.
+ *	mySQL Row.
  *	@package		database.mysql
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version 		0.6
  */
-class Database_MySQL_Row
+class Database_mySQL_Row
 {
 	/**
 	 *	Returns Amount of Columns.

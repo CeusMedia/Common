@@ -25,6 +25,9 @@ class Database_PDO_TableWriter extends Database_PDO_TableReader
 	public function delete( $debug = 1 )
 	{
 		$this->check( 'focus' );
+		$has	= $this->get( false );
+		if( !$has )
+			throw new InvalidArgumentException( 'Focused Indices are not existing.' );
 		$conditions	= $this->getConditionQuery( array() );
 		$query	= "DELETE FROM ".$this->getTableName()." WHERE ".$conditions;
 		return $this->dbc->exec( $query, $debug );
@@ -104,29 +107,26 @@ class Database_PDO_TableWriter extends Database_PDO_TableReader
 		$this->check( 'columns' );
 		$this->check( 'focus' );
 		$has	= $this->get( false );
-		if( sizeof( $has ) )
+		if( !$has )
+			throw new InvalidArgumentException( 'Focused Indices are not existing. No Data Sets found for Update.' );
+		$updates	= array();
+		foreach( $this->columns as $column )
 		{
-			$updates	= array();
-			foreach( $this->columns as $column )
-			{
-				if( !isset( $data[$column] ) )
-					continue;
-				$value	= $data[$column];
-				if( $stripTags )
-					$value	= strip_tags( $value );
-				$value	= $this->secureValue( $value );
-				$updates[] = $column."=".$value;
-			}
-			if( sizeof( $updates ) )
-			{
-				$updates	= implode( ", ", $updates );
-				$query	= "UPDATE ".$this->getTableName()." SET $updates WHERE ".$this->getConditionQuery( array() );
-				$result	= $this->dbc->exec( $query );
-				return $result;
-			}
+			if( !isset( $data[$column] ) )
+				continue;
+			$value	= $data[$column];
+			if( $stripTags )
+				$value	= strip_tags( $value );
+			$value	= $this->secureValue( $value );
+			$updates[] = $column."=".$value;
 		}
-		else
-			return $this->insert( $data );
+		if( sizeof( $updates ) )
+		{
+			$updates	= implode( ", ", $updates );
+			$query	= "UPDATE ".$this->getTableName()." SET $updates WHERE ".$this->getConditionQuery( array() );
+			$result	= $this->dbc->exec( $query );
+			return $result;
+		}
 	}
 
 	/**

@@ -121,7 +121,7 @@ class Database_PDO_TableReader
 	 *	@param		int			$debug			deBug Level (16:die after, 8:die before, 4:remark, 2:echo, 1:count[default])
 	 *	@return		array
 	 */
-	function find( $keys = array(), $conditions = array(), $orders = array(), $limit = array(), $debug = 1 )
+	public function find( $keys = array(), $conditions = array(), $orders = array(), $limit = array(), $debug = 1 )
 	{
 		$this->check( 'columns' );
 		if( !(is_array( $keys ) && count( $keys ) ) )
@@ -147,7 +147,7 @@ class Database_PDO_TableReader
 		return $list;
 	}
 	
-	function findWhereIn( $keys = array(), $column, $values, $orders = array(), $limit = array(), $debug = 1 )
+	public function findWhereIn( $keys = array(), $column, $values, $orders = array(), $limit = array(), $debug = 1 )
 	{
 		$this->check( 'columns' );
 		if( $column != $this->getPrimaryKey() && !in_array( $column, $this->getIndices() ) )
@@ -173,7 +173,7 @@ class Database_PDO_TableReader
 		return $list;
 	}
 
-	function findWhereInAnd( $keys = array(), $column, $values, $conditions, $orders = array(), $limit = array(), $debug = 1 )
+	public function findWhereInAnd( $keys = array(), $column, $values, $conditions, $orders = array(), $limit = array(), $debug = 1 )
 	{
 		$this->check( 'columns' );
 		if( $column != $this->getPrimaryKey() && !in_array( $column, $this->getIndices() ) )
@@ -389,13 +389,12 @@ class Database_PDO_TableReader
 	 */
 	protected function getOrderCondition( $orders = array() )
 	{
-		$orders = "";
 		if( is_array( $orders ) && count( $orders ) )
 		{
-			$order = array();
+			$list	= array();
 			foreach( $orders as $key => $value )
-				$order[] = $key." ".$value;
-			$orders = " ORDER BY ".implode( ", ", $order );
+				$list[] = $key." ".strtoupper( $value );
+			$orders	= " ORDER BY ".implode( ", ", $list );
 		}
 		return $orders;
 	}

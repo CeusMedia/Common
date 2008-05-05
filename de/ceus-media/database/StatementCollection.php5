@@ -86,13 +86,15 @@ class Database_StatementCollection
 	 */
 	public function Limit( $data )
 	{
+		if( !is_array( $data ) )
+			throw new InvalidArgumentException( 'Limit must be given as List of Offset and Row Limit.' );
 		$offset	= 0;
 		$rows	= 10;
 		if( isset( $data[0] ) && (int) $data[0] && $data[0] == abs( $data[0] ) )
 			$offset	= (int) $data[0];
 		if( isset( $data[1] ) && (int) $data[1] && $data[1] == abs( $data[1] ) )
 			$rows	= (int) $data[1];
-		$this->builder->setLimit ($rows, $offset);	
+		$this->builder->setLimit( $rows, $offset );	
 		return array();
 	}
 
@@ -104,6 +106,8 @@ class Database_StatementCollection
 	 */
 	public function Order( $data )
 	{
+		if( !is_array( $data ) )
+			throw new InvalidArgumentException( 'Orders must be given as List of Column and Direction.' );
 		$column		= $data[0];
 		$direction	= strtoupper( $data[1] );
 		$this->builder->addOrder( $column, $direction );	
@@ -120,7 +124,7 @@ class Database_StatementCollection
 	{
 		$offset	= abs( $offset );
 		$limit	= abs( $limit );
-		$this->builder->setLimit( $rows, $offset );	
+		$this->builder->setLimit( $limit, $offset );	
 		return array();
 	}
 }

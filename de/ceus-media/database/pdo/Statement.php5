@@ -29,7 +29,7 @@ class Database_PDO_Statement implements IteratorAggregate
 		return call_user_func_array( array( &$this->PDOS, $func ), $args );
 	}
 
-	public function bindColumn( $column, &$param, $type=NULL )
+	public function bindColumn( $column, &$param, $type = NULL )
 	{
 		if( $type === NULL )
 			$this->PDOS->bindColumn( $column, $param );
@@ -49,7 +49,7 @@ class Database_PDO_Statement implements IteratorAggregate
 	{
 		$this->PDOp->numExecutes++;
 		$args = func_get_args();
-		return call_user_func_array( array( &$this->PDOS, 'query' ), $args );
+		return call_user_func_array( array( &$this->PDOS, 'execute' ), $args );
 	}
 
 	public function __get( $property )

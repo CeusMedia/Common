@@ -13,12 +13,12 @@
  *	@author		Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version 	0.4
  */
-//class PostgreSQLRow
-class PostgreSQLRow
+class Database_pgSQL_Row
 {
 	var $_keys	= array();
 	var $_values	= array();
 	var $_pairs	= array();
+
 	function getKeys ()
 	{
 		if( count( $this->_keys ) == 0)

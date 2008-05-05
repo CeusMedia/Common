@@ -4,33 +4,33 @@ import( 'de.ceus-media.database.mysql.Result' );
 import( 'de.ceus-media.database.mysql.Row' );
 import( 'de.ceus-media.functions.getBits' );
 /**
- *	MySQL Connection
+ *	mySQL Connection
  *
  *	Is a mySQL Wrapper class for bypassing AdoDB to reach better performance.
  *	Most important functions of AdoDB API are realised.
  *
- *	@package		database
+ *	@package		database.mysql
  *	@extends		Database_BaseConnection
- *	@uses			Database_MySQL_Result
- *	@uses			Database_MySQL_Row
+ *	@uses			Database_mySQL_Result
+ *	@uses			Database_mySQL_Row
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version 		0.6
  */
 /**
- *	MySQL Connection
+ *	mySQL Connection
  *
  *	Is a mySQL Wrapper class for bypassing AdoDB to reach better performance.
  *	Most important functions of AdoDB API are realised.
  *
- *	@package		database
+ *	@package		database.mysql
  *	@extends		Database_BaseConnection
- *	@uses			Database_MySQL_Result
- *	@uses			Database_MySQL_Row
+ *	@uses			Database_mySQL_Result
+ *	@uses			Database_mySQL_Row
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version 		0.6
  *	@todo			Code Documentation
  */
-class Database_MySQL_Connection extends Database_BaseConnection
+class Database_mySQL_Connection extends Database_BaseConnection
 {
 	protected $dbc;
 	protected $database;
@@ -154,12 +154,12 @@ class Database_MySQL_Connection extends Database_BaseConnection
 			}
 			else if( eregi( "^( |\n|\r|\t)*(SELECT|SHOW)", $query ) )
 			{
-				$result = new Database_MySQL_Result();
+				$result = new Database_mySQL_Result();
 				if( $q = mysql_query( $query, $this->dbc ) )
 				{
 					while( $d = mysql_fetch_array( $q ) )
 					{
-						$row = new Database_MySQL_Row();
+						$row = new Database_mySQL_Row();
 						foreach( $d as $key => $value )
 							$row->$key = $value;
 						$result->objects[] = $row;

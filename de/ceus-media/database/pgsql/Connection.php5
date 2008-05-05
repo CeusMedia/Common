@@ -30,7 +30,7 @@ import ("de.ceus-media.database.pgsql.PostgreSQLRow");
  *	@version 		0.4
  *	@todo			Dokumentation beenden
  */
-class PostgreSQL extends BaseConnection
+class Database_pgSQL_Connection extends BaseConnection
 {
 	var $_dbc;
 	var $_database;

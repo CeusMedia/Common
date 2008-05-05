@@ -1,17 +1,17 @@
 <?php
 /**
- *	MySQL Result.
+ *	mySQL Result.
  *	@package		database.mysql
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version 		0.6
  */
 /**
- *	MySQL Result.
+ *	mySQL Result.
  *	@package		database.mysql
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version 		0.6
  */
-class Database_MySQL_Result
+class Database_mySQL_Result
 {
 	/**	@var	int		current		pointer for fetched rows */
 	protected $current;

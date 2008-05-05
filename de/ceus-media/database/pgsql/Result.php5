@@ -15,7 +15,7 @@
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version 		0.4
  */
-class PostgreSQLResult
+class Database_pgSQL_Result
 {
 	/**	@var	int		current		pointer for fetched rows */
 	/**	@var	array	object		list of all fetched rows */
@@ -28,7 +28,7 @@ class PostgreSQLResult
 	 *	@access		public
 	 *	@return		void
 	 */
-	function PostgreSQLResult ()
+	function __construct()
 	{
 		$this->current = 0;
 		$this->objects = array ();

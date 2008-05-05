@@ -4,7 +4,7 @@
  *	@package		database 
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@author			Michael Martin <Michael.Martin@CeuS-Media.de>
- *	@since			26.11.04
+ *	@since			26.11.2004
  *	@version		0.6
  */
 /**
@@ -12,7 +12,7 @@
  *	@package		database 
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@author			Michael Martin <Michael.Martin@CeuS-Media.de>
- *	@since			26.11.04
+ *	@since			26.11.2004
  *	@version		0.6
  */
 class Database_StatementBuilder
@@ -23,7 +23,7 @@ class Database_StatementBuilder
 	protected $tables			= array();
 	/**	@var		array		$conditions 	Array of Conditions */	
 	protected $conditions		= array();
-	/**	@var		array		$groupings		Array of Conditions */	
+	/**	@var		array		$groupings		Array of Groupings */	
 	protected $groupings		= array();
 	/**	@var		array		$orders			Array of Order Conditions */	
 	protected $orders			= array();
@@ -70,7 +70,8 @@ class Database_StatementBuilder
 	 */
 	public function addConditions( $conditions )
 	{
-		$conditions	= (array) $conditions;
+		if( !is_array( $conditions ) )
+			throw new InvalidArgumentException( 'An Array should be given.' );
 		foreach( $conditions as $condition )
 			$this->addCondition( $condition );
 	}
@@ -95,7 +96,8 @@ class Database_StatementBuilder
 	 */
 	public function addGroupings( $groupings )
 	{
-		$groupings	= (array) $groupings;
+		if( !is_array( $groupings ) )
+			throw new InvalidArgumentException( 'An Array should be given.' );
 		foreach( $groupings as $grouping )
 			$this->addGrouping( $grouping );
 	}
@@ -120,7 +122,8 @@ class Database_StatementBuilder
 	 */
 	public function addKeys( $keys )
 	{
-		$key	= (array) $keys;
+		if( !is_array( $keys ) )
+			throw new InvalidArgumentException( 'An Array should be given.' );
 		foreach( $keys as $key )
 			$this->addKey( $key );
 	}
@@ -145,8 +148,10 @@ class Database_StatementBuilder
 	 */
 	public function addOrders( $orders )
 	{
+		if( !is_array( $orders ) )
+			throw new InvalidArgumentException( 'An Array should be given.' );
 		foreach( $orders as $column => $direction )
-			$this->addSort( $column, $direction );
+			$this->addOrder( $column, $direction );
 	}
 		
 	/**
@@ -169,6 +174,8 @@ class Database_StatementBuilder
 	 */
 	public function addTables( $tables )
 	{
+		if( !is_array( $tables ) )
+			throw new InvalidArgumentException( 'An Array should be given.' );
 		$tables	= (array) $tables;
 		foreach( $tables as $table )
 			$this->addTable( $table );
@@ -181,6 +188,11 @@ class Database_StatementBuilder
 	 */
 	public function buildCountStatement()
 	{
+		if( !$this->keys )
+			throw new Exception( 'No Columns defined.' );
+		if( !$this->tables )
+			throw new Exception( 'No Tables defined.' );
+
 		$tables		= array();
 		$tables		= "\nFROM\n\t".implode( ",\n\t", $this->tables );
 		$conditions	= "";
@@ -188,8 +200,8 @@ class Database_StatementBuilder
 		if( $this->conditions )
 			$conditions	= "\nWHERE\n\t".implode( " AND\n\t", $this->conditions );
 		if( $this->groupings )
-			$groupings	= "\nGROUP BY\n\t".implode( "\n", $this->groupings );
-		$statement = "SELECT COUNT(".$this->keys[0].") as rowcount ".$tables.$conditions.$groupings;
+			$groupings	= "\nGROUP BY\n\t".implode( ",\n\t", $this->groupings );
+		$statement = "SELECT COUNT(".$this->keys[0].") as rowcount".$tables.$conditions.$groupings;
 		return $statement;
 	}
 	
@@ -200,6 +212,11 @@ class Database_StatementBuilder
 	 */
 	public function buildSelectStatement()
 	{
+		if( !$this->keys )
+			throw new Exception( 'No Columns defined.' );
+		if( !$this->tables )
+			throw new Exception( 'No Tables defined.' );
+
 		$tables		= array();
 		$keys		= "SELECT\n\t".implode( ",\n\t", $this->keys );
 		$tables		= "\nFROM\n\t".implode( ",\n\t", $this->tables );
@@ -210,7 +227,7 @@ class Database_StatementBuilder
 		if( $this->conditions )
 			$conditions	= "\nWHERE\n\t".implode( " AND\n\t", $this->conditions );
 		if( $this->groupings )
-			$groupings	= "\nGROUP BY\n\t".implode( "\n", $this->groupings );
+			$groupings	= "\nGROUP BY\n\t".implode( ",\n\t", $this->groupings );
 		$orders		= "";
 		if( count( $this->orders ) )
 		{
@@ -259,7 +276,7 @@ class Database_StatementBuilder
  	 */	
 	public function setLimit( $rows, $offset = 0 )
 	{
-		$this->limits['rows']		= (int) $rows;
+		$this->limits['rows']	= (int) $rows;
 		$this->limits['offset']	= (int) $offset;
 	}
 }

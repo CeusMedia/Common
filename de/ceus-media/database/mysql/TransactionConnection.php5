@@ -1,7 +1,7 @@
 <?php
 import( 'de.ceus-media.database.mysql.Connection' );
 /**
- *	Database_MySQL_Connection Connection with Transaction Support.
+ *	mySQL Connection with Transaction Support.
  *	@package		database.mysql
  *	@extends		Database_MySQL_Connection
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
@@ -9,14 +9,14 @@ import( 'de.ceus-media.database.mysql.Connection' );
  *	@version		0.6
  */
 /**
- *	Database_MySQL_Connection Connection with Transaction Support.
+ *	mySQL Connection with Transaction Support.
  *	@package		database.mysql
  *	@extends		Database_MySQL_Connection
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			26.07.2005
  *	@version		0.6
  */
-class Database_MySQL_ConnectionWithTransactions extends Database_MySQL_Connection
+class Database_MySQL_TransactionConnection extends Database_MySQL_Connection
 {
 	/**	@var	int		$openTransactions	Counter for open Transactions */	
 	var $openTransactions = 0;
