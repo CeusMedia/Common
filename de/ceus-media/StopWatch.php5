@@ -61,9 +61,9 @@ class StopWatch
 	{
 		$start	= explode( ' ', $this->microtimeStart );
 		$end	= explode( ' ', $this->microtimeStop );
-		$sec		= $end[1] - $start[1];
+		$sec	= $end[1] - $start[1];
 		$msec	= $end[0] - $start[0];
-		$time	= (float)$sec + $msec;
+		$time	= (float) $sec + $msec;
 		$time	= $time * pow( 10, $base );
 		$time	= round( $time, $round );
 		return $time;

@@ -51,13 +51,13 @@ class Folder_CodeLineCounter
 	public function readFolder( $path, $extensions = array() )
 	{
 		$files			= array();
-		$countCodes		= 0;
-		$countDocs		= 0;
-		$countFiles		= 0;
-		$countFolders	= 0;
-		$countLength	= 0;
-		$countLines		= 0;
-		$countStrips	= 0;
+		$numberCodes	= 0;
+		$numberDocs		= 0;
+		$numberFiles	= 0;
+		$numberFolders	= 0;
+		$numberLength	= 0;
+		$numberLines	= 0;
+		$numberStrips	= 0;
 
 		$st	= new StopWatch();
 		$lister	= new Folder_RecursiveLister( $path );
@@ -72,39 +72,39 @@ class Folder_CodeLineCounter
 			if( preg_match( "@/_@", str_replace( "\\", "/", $pathName ) ) )
 				continue;
 			$content			= file_get_contents( $entry->getPathname() );
-			$countLength		+= strlen( $content );
+			$numberLength		+= strlen( $content );
 			$lines				= count( explode( "\n", $content ) );
-			$countLines			+= $lines;
+			$numberLines		+= $lines;
 			$countData			= $this->countLines( $content );
 
-			$countFiles			++;
-			$countStrips		+= $countData['countStrips'];
-			$countCodes			+= $countData['countCodes'];
-			$countDocs			+= $countData['countDocs'];
+			$numberFiles		++;
+			$numberStrips		+= $countData['numberStrips'];
+			$numberCodes		+= $countData['numberCodes'];
+			$numberDocs			+= $countData['numberDocs'];
 			$files[$pathName]	= $countData;
 		}
-		$linesPerFile	= $countLines / $countFiles;
+		$linesPerFile	= $numberLines / $numberFiles;
 		$this->data	= array(
-			'count'	=> array(
-				'files'		=> $countFiles,
-				'lines'		=> $countLines,
-				'codes'		=> $countCodes,
-				'docs'		=> $countDocs,
-				'strips'	=> $countStrips,
-				'length'	=> $countLength,
+			'number'	=> array(
+				'files'		=> $numberFiles,
+				'lines'		=> $numberLines,
+				'codes'		=> $numberCodes,
+				'docs'		=> $numberDocs,
+				'strips'	=> $numberStrips,
+				'length'	=> $numberLength,
 			),
 			'ratio'			=> array(
 				'linesPerFile'		=> round( $linesPerFile, 0 ),
-				'codesPerFile'		=> round( $countCodes / $countFiles, 0 ),
-				'docsPerFile'		=> round( $countDocs / $countFiles, 0 ),
-				'stripsPerFile'		=> round( $countStrips / $countFiles, 0 ),
-				'codesPerFile%'		=> round( $countCodes / $countFiles / $linesPerFile * 100, 1 ),
-				'docsPerFile%'		=> round( $countDocs / $countFiles / $linesPerFile * 100, 1 ),
-				'stripsPerFile%'	=> round( $countStrips / $countFiles / $linesPerFile * 100, 1 ),
+				'codesPerFile'		=> round( $numberCodes / $numberFiles, 0 ),
+				'docsPerFile'		=> round( $numberDocs / $numberFiles, 0 ),
+				'stripsPerFile'		=> round( $numberStrips / $numberFiles, 0 ),
+				'codesPerFile%'		=> round( $numberCodes / $numberFiles / $linesPerFile * 100, 1 ),
+				'docsPerFile%'		=> round( $numberDocs / $numberFiles / $linesPerFile * 100, 1 ),
+				'stripsPerFile%'	=> round( $numberStrips / $numberFiles / $linesPerFile * 100, 1 ),
 			), 
-			'files'			=> $files,
-			'seconds'		=> $st->stop( 0, 1 ),
-			'path'			=> $path,
+			'files'		=> $files,
+			'seconds'	=> $st->stop( 6 ),
+			'path'		=> $path,
 		);
 	}
 	
@@ -116,9 +116,9 @@ class Folder_CodeLineCounter
 	 */
 	public static function countLines( $content )
 	{
-		$countCodes		= 0;
-		$countDocs		= 0;
-		$countStrips	= 0;
+		$numberCodes	= 0;
+		$numberDocs		= 0;
+		$numberStrips	= 0;
 		$linesCodes		= array();
 		$linesDocs		= array();
 		$linesStrips	= array();
@@ -130,35 +130,35 @@ class Folder_CodeLineCounter
 			if( preg_match( "@^(\t| )*/?\*@", $line ) )
 			{
 				$linesDocs[$counter] = $line;
-				$countDocs++;
+				$numberDocs++;
 			}
 			else if( preg_match( "@^(<\?php|<\?|\?>|\}|\{|\t| )*$@", trim( $line ) ) )
 			{
 				$linesStrips[$counter] = $line;
-				$countStrips++;
+				$numberStrips++;
 			}
 			else if( preg_match( "@^(public|protected|private|class|function|final|define|import)@", trim( $line ) ) )
 			{
 				$linesStrips[$counter] = $line;
-				$countStrips++;
+				$numberStrips++;
 			}
 			else
 			{
 				$linesCodes[$counter] = $line;
-				$countCodes++;
+				$numberCodes++;
 			}
 			$counter++;
 		}
 		$data	= array(
-			'countCodes'	=> $countCodes,
-			'countDocs'		=> $countDocs,
-			'countStrips'	=> $countStrips,
+			'numberCodes'	=> $numberCodes,
+			'numberDocs'	=> $numberDocs,
+			'numberStrips'	=> $numberStrips,
 			'linesCodes'	=> $linesCodes,
 			'linesDocs'		=> $linesDocs,
 			'linesStrips'	=> $linesStrips,
-			'ratioCodes'	=> $countCodes / $counter * 100,
-			'ratioDocs'		=> $countDocs / $counter * 100,
-			'ratioStrips'	=> $countStrips / $counter * 100,
+			'ratioCodes'	=> $numberCodes / $counter * 100,
+			'ratioDocs'		=> $numberDocs / $counter * 100,
+			'ratioStrips'	=> $numberStrips / $counter * 100,
 		);
 		return $data;
 	}

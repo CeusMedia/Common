@@ -13,18 +13,23 @@
  *	@since			08.01.2008
  *	@version		0.6
  */
-class ParameterValidator
+class Service_ParameterValidator
 {
-	protected $rules	= array();
-	
-	public function validateFieldValue( $rules, $value )
+	/**
+	 *	Validates a Parameter Value from Request by calling Validator Methods for Parameter Rules and throwing Exceptions.
+	 *	@access		public
+	 *	@param		array		$rules			Parameter Rules
+	 *	@param		string		$value			Parameter Value from Request
+	 *	@return		void
+	 */
+	public static function validateParameterValue( $rules, $value )
 	{
 		try
 		{
 			foreach( $rules as $ruleName => $ruleValue )
 			{
 				if( $ruleValue )
-					$this->callMethod( "check".ucFirst( $ruleName ), $value, $ruleValue );
+					self::callMethod( "check".ucFirst( $ruleName ), $value, $ruleValue );
 			}
 		}
 		catch( InvalidArgumentException $e )
@@ -33,34 +38,69 @@ class ParameterValidator
 		}
 	}
 	
-	protected function callMethod( $method, $value, $measure = false)
+	/**
+	 *	Calls Validator Method and throws Exception if Validation failed.
+	 *	@access		protected
+	 *	@param		string		$method			Validation Method to call
+	 *	@param		string		$value			Value to validate
+	 *	@param		string		$measure		Measure to validate against
+	 *	@return		bool
+	 */
+	protected static function callMethod( $method, $value, $measure = NULL )
 	{
-		if( !method_exists( $this, $method ) )
+		if( !method_exists( __CLASS__, $method ) )
 			throw new BadMethodCallException( "Service Parameter Validator Method '".$method."' is not existing." );
-		if( !$this->$method( $value, $measure ) )
+		if( !self::$method( $value, $measure ) )
 			throw new InvalidArgumentException( $method );
 		return true;
 	}
 	
-	protected function checkMandatory( $value )
+	/**
+	 *	...
+	 *	@access		protected
+	 *	@param		string		$value			Value to validate
+	 *	@return		bool
+	 */
+	protected static function checkMandatory( $value )
 	{
 		if( strlen( $value ) )
-			return true;
+			return TRUE;
+		return FALSE;
 	}
 
-	protected function checkMinlength( $value, $measure )
+	/**
+	 *	...
+	 *	@access		protected
+	 *	@param		string		$value			Value to validate
+	 *	@return		bool
+	 */
+	protected static function checkMinlength( $value, $measure )
 	{
 		if( strlen( $value ) >= $measure )
-			return true;
+			return TRUE;
+		return FALSE;
 	}
 
-	protected function checkMaxlength( $value, $measure )
+	/**
+	 *	...
+	 *	@access		protected
+	 *	@param		string		$value			Value to validate
+	 *	@return		bool
+	 */
+	protected static function checkMaxlength( $value, $measure )
 	{
 		if( strlen( $value ) <= $measure )
-			return true;
+			return TRUE;
+		return FALSE;
 	}
 
-	protected function checkPreg( $value, $measure )
+	/**
+	 *	...
+	 *	@access		protected
+	 *	@param		string		$value			Value to validate
+	 *	@return		bool
+	 */
+	protected static function checkPreg( $value, $measure )
 	{
 		return preg_match( $measure, $value );
 	}

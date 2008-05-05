@@ -15,12 +15,12 @@
  */
 class Net_HTTP_Request_Response
 {
-	/** @var	string		$status			Status of Response */
-	private $status		= "200 OK";
-	/** @var	array		$headers		Array of Headers */
-	private $headers	= array();
-	/** @var	string		$body			Body of Response */
-	private $body		= null;
+	/** @var		string		$status			Status of Response */
+	private $status				= "200 OK";
+	/** @var		array		$headers		Array of Headers */
+	private $headers			= array();
+	/** @var		string		$body			Body of Response */
+	private $body				= "";
 
 	/**
 	 *	Sets a Header.
@@ -35,18 +35,21 @@ class Net_HTTP_Request_Response
 	}
 	
 	/**
-	 *	Sends complete Response.
+	 *	Sends complete Response and returns Length of Response Content.
 	 *	@access		public
-	 *	@return		void
+	 *	@return		int
 	 */
 	public function send()
 	{
 		header( "HTTP/1.1 ".$this->status );
 		foreach( $this->headers as $name => $value )
 			header( $name.": ".$value );
+		$length	= strlen( $this->body );
 		print( $this->body );
+		flush();
 		$this->headers	= array();
-		$this->body		= null;
+		$this->body		= "";
+		return $length;
 	}
 	
 	/**

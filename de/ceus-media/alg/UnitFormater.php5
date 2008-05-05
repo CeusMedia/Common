@@ -61,15 +61,15 @@ class Alg_UnitFormater
 	 *	Edge is a Factor when to switch to ne next higher Unit, eG. 0.5 means 50% of 1024.
 	 *	If you enter 512 (B) it will return 0.5 KB.
 	 *	Caution! With Precision at 0 you may have Errors from rounding.
-	 *	To avoid the Units to be appended, entern FALSE or NULL for intend.
+	 *	To avoid the Units to be appended, enter FALSE or NULL for indent.
 	 *	@access		public
 	 *	@param		float		$float			Number of Bytes
 	 *	@param		int			$precision		Number of Floating Point Digits
-	 *	@param		string		$intend			Space between Number and Unit
+	 *	@param		string		$indent			Space between Number and Unit
 	 *	@param		float		$edge			Factor of next higher Unit when to break
 	 *	@return		string
 	 */
-	public static function formatBytes( $float, $precision = 1, $intend = " ", $edge = 0.5 )
+	public static function formatBytes( $float, $precision = 1, $indent = " ", $edge = 0.5 )
 	{
 		$unitKey	= 0;															//  step to first Unit
 		$divider	= 1024;															//  1024 Bytes are 1 Kilo Byte
@@ -83,8 +83,8 @@ class Alg_UnitFormater
 		}
 		if( is_int( $precision ) )													//  Precision is set
 			$float	= round( $float, $precision );									//  round Value
-		if( is_string( $intend ) )													//  Intend is set
-			$float	= $float.$intend.self::$unitBytes[$unitKey];					//  append Unit
+		if( is_string( $indent ) )													//  Indention is set
+			$float	= $float.$indent.self::$unitBytes[$unitKey];					//  append Unit
 		return $float;																//  return resultung Value
 	}
 
@@ -94,13 +94,13 @@ class Alg_UnitFormater
 	 *	@access		public
 	 *	@param		float		$float			Number of Kilo Bytes
 	 *	@param		int			$precision		Number of Floating Point Digits
-	 *	@param		string		$intend			Space between Number and Unit
+	 *	@param		string		$indent			Space between Number and Unit
 	 *	@param		float		$edge			Factor of next higher Unit when to break
 	 *	@return		string
 	 */
-	public static function formatKiloBytes( $float, $precision = 1, $intend = " ", $edge = 0.5 )
+	public static function formatKiloBytes( $float, $precision = 1, $indent = " ", $edge = 0.5 )
 	{
-		return self::formatBytes( $float * 1024, $precision, $intend, $edge );
+		return self::formatBytes( $float * 1024, $precision, $indent, $edge );
 	}
 
 	/**
@@ -109,13 +109,13 @@ class Alg_UnitFormater
 	 *	@access		public
 	 *	@param		float		$float			Number of Mega Bytes
 	 *	@param		int			$precision		Number of Floating Point Digits
-	 *	@param		string		$intend			Space between Number and Unit
+	 *	@param		string		$indent			Space between Number and Unit
 	 *	@param		float		$edge			Factor of next higher Unit when to break
 	 *	@return		string
 	 */
-	public static function formatMegaBytes( $float, $precision = 1, $intend = " ", $edge = 0.5 )
+	public static function formatMegaBytes( $float, $precision = 1, $indent = " ", $edge = 0.5 )
 	{
-		return self::formatBytes( $float * 1024 * 1024, $precision, $intend, $edge );
+		return self::formatBytes( $float * 1024 * 1024, $precision, $indent, $edge );
 	}
 	
 	/**
@@ -123,15 +123,15 @@ class Alg_UnitFormater
 	 *	Edge is a Factor when to switch to ne next higher Unit, eG. 0.5 means 50% of 1000.
 	 *	If you enter 500 (µs) it will return 0.5 ms.
 	 *	Caution! With Precision at 0 you may have Errors from rounding.
-	 *	To avoid the Units to be appended, entern FALSE or NULL for intend.
+	 *	To avoid the Units to be appended, enter FALSE or NULL for indent.
 	 *	@access		public
 	 *	@param		float		$float			Number of Micro Seconds
 	 *	@param		int			$precision		Number of Floating Point Digits
-	 *	@param		string		$intend			Space between Number and Unit
+	 *	@param		string		$indent			Space between Number and Unit
 	 *	@param		float		$edge			Factor of next higher Unit when to break
 	 *	@return		string
 	 */
-	public static function formatMicroSeconds( $float, $precision = 1, $intend = " ", $edge = 0.5 )
+	public static function formatMicroSeconds( $float, $precision = 1, $indent = " ", $edge = 0.5 )
 	{
 		$unitKey	= 0;															//  step to first Unit
 		$divider	= 1000;															//  1000 Micro Seconds are 1 Milli Second
@@ -161,8 +161,8 @@ class Alg_UnitFormater
 		}
 		if( is_int( $precision ) )													//  Precision is set
 			$float	= round( $float, $precision );									//  round Value
-		if( is_string( $intend ) )													//  Intend is set
-			$float	= $float.$intend.self::$unitSeconds[$unitKey];					//  append Unit
+		if( is_string( $indent ) )													//  Indention is set
+			$float	= $float.$indent.self::$unitSeconds[$unitKey];					//  append Unit
 		return $float;																//  return resulting Value
 	}
 
@@ -172,13 +172,13 @@ class Alg_UnitFormater
 	 *	@access		public
 	 *	@param		float		$float			Number of Milli Seconds
 	 *	@param		int			$precision		Number of Floating Point Digits
-	 *	@param		string		$intend			Space between Number and Unit
+	 *	@param		string		$indent			Space between Number and Unit
 	 *	@param		float		$edge			Factor of next higher Unit when to break
 	 *	@return		string
 	 */
-	public static function formatMilliSeconds( $float, $precision = 1, $intend = " ", $edge = 0.5 )
+	public static function formatMilliSeconds( $float, $precision = 1, $indent = " ", $edge = 0.5 )
 	{
-		return self::formatMicroSeconds( $float * 1000, $precision, $intend, $edge );
+		return self::formatMicroSeconds( $float * 1000, $precision, $indent, $edge );
 	}
 	
 	/**
@@ -187,13 +187,13 @@ class Alg_UnitFormater
 	 *	@access		public
 	 *	@param		float		$float			Number of Minutes
 	 *	@param		int			$precision		Number of Floating Point Digits
-	 *	@param		string		$intend			Space between Number and Unit
+	 *	@param		string		$indent			Space between Number and Unit
 	 *	@param		float		$edge			Factor of next higher Unit when to break
 	 *	@return		string
 	 */
-	public static function formatMinutes( $float, $precision = 1, $intend = " ", $edge = 0.5 )
+	public static function formatMinutes( $float, $precision = 1, $indent = " ", $edge = 0.5 )
 	{
-		return self::formatMicroSeconds( $float * 60000000, $precision, $intend, $edge );
+		return self::formatMicroSeconds( $float * 60000000, $precision, $indent, $edge );
 	}
 	
 	/**
@@ -202,13 +202,13 @@ class Alg_UnitFormater
 	 *	@access		public
 	 *	@param		float		$float			Number of Seconds
 	 *	@param		int			$precision		Number of Floating Point Digits
-	 *	@param		string		$intend			Space between Number and Unit
+	 *	@param		string		$indent			Space between Number and Unit
 	 *	@param		float		$edge			Factor of next higher Unit when to break
 	 *	@return		string
 	 */
-	public static function formatSeconds( $float, $precision = 1, $intend = " ", $edge = 0.5 )
+	public static function formatSeconds( $float, $precision = 1, $indent = " ", $edge = 0.5 )
 	{
-		return self::formatMicroSeconds( $float * 1000000, $precision, $intend, $edge );
+		return self::formatMicroSeconds( $float * 1000000, $precision, $indent, $edge );
 	}
 }
 ?>

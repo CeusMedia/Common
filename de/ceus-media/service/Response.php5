@@ -1,19 +1,19 @@
 <?php
 /**
- *	Basic Class of a Service.
+ *	Basic Response Class for a Service.
  *	@package		service
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			18.06.2007
  *	@version		0.1
  */
 /**
- *	Basic Class of a Service.
+ *	Basic Response Class for a Service.
  *	@package		service
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			18.06.2007
  *	@version		0.1
  */
-class Service
+class Service_Response
 {
 	/**
 	 *	Return Content as JSON.
@@ -25,28 +25,6 @@ class Service
 	{
 		return json_encode( $mixed );		
 	}
-	
-	/**
-	 *	Return Content as gzipped JSON.
-	 *	@access		protected
-	 *	@param		mixed			Content
-	 *	@return 	string
-	 */
-	protected function getGzipJson( $mixed )
-	{
-		return gzcompress( json_encode( $mixed ) );		
-	}
-	
-	/**
-	 *	Return Content as gzipped PHP Serial.
-	 *	@access		protected
-	 *	@param		mixed			Content
-	 *	@return 	string
-	 */
-	protected function getGzipPhp( $mixed )
-	{
-		return gzcompress( serialize( $mixed ) );
-	}
 
 	/**
 	 *	Return Content as PHP Serial.
@@ -57,6 +35,28 @@ class Service
 	protected function getPhp( $mixed )
 	{
 		return serialize( $mixed );
+	}
+	
+	/**
+	 *	Return Content as Base64 String.
+	 *	@access		protected
+	 *	@param		mixed			Content
+	 *	@return 	string
+	 */
+	protected function getBase64( $mixed )
+	{
+		return base64_encode( $mixed );
+	}
+	
+	/**
+	 *	Return Content as WDDX String.
+	 *	@access		protected
+	 *	@param		mixed			Content
+	 *	@return 	string
+	 */
+	protected function getWddx( $mixed )
+	{
+		return wddx_serialize_value( $mixed );
 	}
 }
 ?>

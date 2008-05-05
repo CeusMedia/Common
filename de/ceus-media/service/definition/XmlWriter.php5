@@ -2,25 +2,28 @@
 import( 'de.ceus-media.xml.dom.Builder' );
 import( 'de.ceus-media.xml.dom.Node' );
 import( 'de.ceus-media.xml.dom.Parser' );
+import( 'de.ceus-media.file.Writer' );
 /**
- *	Builder and Parser for XML Service Definitions.
- *	@package		service
+ *	Builder and Writer for XML Service Definitions.
+ *	@package		service.definition
  *	@uses			XML_DOM_Builder
  *	@uses			XML_DOM_Node
  *	@uses			XML_DOM_Parser
+ *	@uses			File_Writer
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.6
  */
 /**
- *	Builder and Parser for XML Service Definitions.
- *	@package		service
+ *	Builder and Writer for XML Service Definitions.
+ *	@package		service.definition
  *	@uses			XML_DOM_Builder
  *	@uses			XML_DOM_Node
  *	@uses			XML_DOM_Parser
+ *	@uses			File_Writer
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.6
  */
-class Service_XmlDefinition
+class Service_Definition_XmlWriter
 {
 	/**
 	 *	Builds Service Definition Array statically and returns XML Service Definition String.
@@ -76,47 +79,16 @@ class Service_XmlDefinition
 	}
 
 	/**
-	 *	Parses XML Service Definition statically and returns Service Data Array.
+	 *	Builds and writes XML Service Definition String from Service Definition Array to XML File.
 	 *	@access		public
-	 *	@param		string		$xml		XML Service Definition String
-	 *	@return		array
+	 *	@param		string		$fileName	File Name of XML File
+	 *	@param		array		$data		Service Definition Array
+	 *	@return		int
 	 */
-	public static function parse( $xml )
+	public static function save( $fileName, $data )
 	{
-		$parser	= new XML_DOM_Parser;
-		$tree	= $parser->parse( $xml );
-		$data['title']		= $tree->getChild( "title" )->getContent();
-		$data['url']		= $tree->getChild( "url" )->getContent();
-		$data['syntax']		= $tree->getChild( "syntax" )->getContent();
-		$data['services']	= array();
-		
-		foreach( $tree->getChild( "services" )->getChildren( "service" ) as $serviceNode )
-		{
-			$serviceName	= $serviceNode->getAttribute( 'name' );
-			$service	= array(
-				'class'			=> $serviceNode->getAttribute( 'class' ),
-				'description'	=> $serviceNode->getChild( "description" )->getContent(),
-				'formats'		=> array(),
-				'preferred'		=> $serviceNode->getAttribute( 'format' ),
-			);
-			foreach( $serviceNode->getChildren( "format" ) as $format )
-				$service['formats'][]	= $format->getContent();
-			$parameters	= array();
-			foreach( $serviceNode->getChildren( "parameter" ) as $parameter )
-			{
-				$parameterName	= $parameter->getContent();
-				$validators		= array();
-				foreach( $parameter->getAttributes() as $key => $value )
-					$validators[$key]	= $value;
-				$parameters[$parameterName]	= $validators;
-			}
-			if( $parameters )
-				$service['parameters']	= $parameters;
-			if( $serviceNode->hasAttribute( "status" ) )
-				$service['status']	= $serviceNode->getAttribute( "status" );
-			$data['services'][$serviceName]	= $service;
-		}
-		return $data;
+		$xml	= self::build( $data );
+		return File_Writer::save( $fileName, $xml );
 	}
 }
 ?>

@@ -26,13 +26,6 @@ interface Service_Interface_Point
 	public function callService( $serviceName, $responseFormat = NULL, $requestData = NULL );
 
 	/**
-	 *	Returns Services of Service Point.
-	 *	@access		public
-	 *	@return		array			Services in Service Point
-	 */
-	public function getServices();
-
-	/**
 	 *	Returns Class of Service.
 	 *	@access		public
 	 *	@param		string			$serviceName		Name of Service to call 
@@ -57,17 +50,32 @@ interface Service_Interface_Point
 	public function getServiceFormats( $serviceName );
 
 	/**
+	 *	Returns available Formats of Service.
+	 *	@access		public
+	 *	@param		string			Service to get Formats of
+	 *	@return		array			Formats of this Service
+	 */
+	public function getServiceParameters( $serviceName );
+
+	/**
+	 *	Returns Services of Service Point.
+	 *	@access		public
+	 *	@return		array			Services in Service Point
+	 */
+	public function getServices();
+
+	/**
 	 *	Returns Title of Service Point.
 	 *	@access		public
 	 *	@return		string			Title of Service Point
 	 */
-	public function getServicesTitle();
+	public function getTitle();
 
 	/**
 	 *	Returns Syntax of Service Point.
 	 *	@access		public
 	 *	@return		string			Syntax of Service Point
 	 */
-	public function getServicesSyntax();
+	public function getSyntax();
 }
 ?>

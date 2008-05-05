@@ -6,7 +6,7 @@
  *	@uses			StopWatch
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			02.07.2007
- *	@version		0.3
+ *	@version		0.6
  */
 /**
  *	Client for interaction with Frontend Services.
@@ -15,59 +15,64 @@
  *	@uses			StopWatch
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			02.07.2007
- *	@version		0.3
+ *	@version		0.6
  */
 class Service_Client
 {
-	/**	@var		string		$id				ID of Service Request Client */
-	private $id;
-	/**	@var		bool		$useLogFile		Flag: use Log File */
-	private $useLogFile			= false;
-	/**	@var		string		$host			Basic URL of Services Host */
-	private $host;
-	/**	@var		string		$username		Username for Basic Authentication */
-	private $username			= "";
-	/**	@var		string		$password		Password for Basic Authentication */
-	private $password			= "";
-	/**	@var		string		$userAgent		User Agent to sent to Service Point */
-	private $userAgent;
-	/**	@var		bool		$verifyPeer		Flag: verify Peer */
-	private $verifyPeer			= false;
-	/**	@var		bool		$verifyHost		Flag: verify Host */
-	private $verifyHost 		= false;
-	/**	@var		array		$requests		Collected Request Information */
-	private $requests			= array();
-	/**	@var		array		$statistics		Collected Statistic Information */
-	private $statistics			= array(
+	/**	@var		string		$id					ID of Service Request Client */
+	protected $id;
+	/**	@var		bool		$logFile			File Name of Request Log File */
+	protected $logFile			= NULL;
+	/**	@var		string		$host				Basic URL of Services Host */
+	protected $host;
+	/**	@var		string		$username			Username for Basic Authentication */
+	protected $username			= "";
+	/**	@var		string		$password			Password for Basic Authentication */
+	protected $password			= "";
+	/**	@var		string		$userAgent			User Agent to sent to Service Point */
+	protected $userAgent;
+	/**	@var		bool		$verifyHost			Flag: verify Host */
+	protected $verifyHost 		= FALSE;
+	/**	@var		bool		$verifyPeer			Flag: verify Peer */
+	protected $verifyPeer		= FALSE;
+	/**	@var		array		$requests			Collected Request Information */
+	protected $requests			= array();	
+	/**	@var		array		$statistics			Collected Statistic Information */
+	protected $statistics		= array(
 		'requests'	=> 0,
 		'traffic'	=> 0,
 		'time'		=> 0,
+	);
+	/**	@var		array		$compressionTypes	List of supported Compression Types */
+	protected $compressionTypes	= array(
+		'deflate',
+		'gzip',
 	);
 
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		string		$hostUrl		Basic Host URL of Service
-	 *	@param		bool		$useLogFile		Flag: use Service Log
+	 *	@param		string		$hostUrl			Basic Host URL of Service
+	 *	@param		bool		$logFile			File Name of Request Log File
 	 *	@return		void
 	 */
-	public function __construct( $hostUrl = "", $useLogFile = false )
+	public function __construct( $hostUrl = NULL, $logFile = NULL )
 	{
 		$this->id	= md5( uniqid( rand(), true ) );
 		if( $hostUrl )
 			$this->setHostAddress( $hostUrl );
-		if( $useLogFile )
-			$this->useLogFile = true;
+		if( $logFile )
+			$this->setLogFile( $logFile );
 	}
 
 	/**
 	 *	Decodes Response if JSON oder PHP Serial.
 	 *	@access		protected
-	 *	@param		string		JSON or PHP Serial
-	 *	@param		string		Format of Serial
+	 *	@param		string		$response			Response Content as serialized String
+	 *	@param		string		$format				Format of Serial (json|php|wddx|xml|rss|txt|...)
 	 *	@return		mixed
 	 */
-	protected function decodeResponse( $response, $format, $verbose = false )
+	protected function decodeResponse( $response, $format )
 	{
 		//  --  CHECK EXCEPTION  --  //
 		ob_start();
@@ -77,31 +82,35 @@ class Service_Client
 			throw $exception;
 
 		//  --  DECODE SERIALS  --  //
-		if( strtolower( $format ) == "json" )
+		ob_start();
+		switch( $format )
 		{
-			return json_decode( $response );
+			case 'json':
+				$response	= json_decode( $response );
+				break;
+			case 'php':
+				$response	= unserialize( $response );
+				break;
+			case 'wddx':
+				$response	= wddx_deserialize( $response );
+				break;
+			default:
+				break;
 		}
-		else if( strtolower( $format ) == "php" )
-		{
-//			xmp( $response );
-			return unserialize( $response );
-			ob_start();
-			$response	= unserialize( $response );
-			$output	= ob_end_clean();
-			if( $response === false )
-				return $output;
-		}
+		$output	= ob_get_clean();
+		if( $response === FALSE )
+			return $output;
 		return $response;
 	}
 
 	/**
 	 *	Executes Request, logs statistical Information and returns Response.
 	 *	@access		protected
-	 *	@param		Net_cURL	$request		Request Object
-	 *	@param		bool		$uncompress		Flag: uncompress with GZIP
+	 *	@param		Net_cURL	$request			Request Object
+	 *	@param		bool		$compression		Type of Compression of Content (deflate,gzip)
 	 *	@return		string
 	 */
-	protected function executeRequest( $request, $uncompress = false )
+	protected function executeRequest( $request, $compression = NULL )
 	{
 		$request->setOption( CURLOPT_SSL_VERIFYPEER, $this->verifyPeer );
 		$request->setOption( CURLOPT_SSL_VERIFYHOST, $this->verifyHost );
@@ -110,31 +119,43 @@ class Service_Client
 		if( $this->username )
 			$request->setOption( CURLOPT_USERPWD, $this->username.":".$this->password );
 		$response	= $request->exec();
-		$response	= $uncompress ? gzuncompress( $response ) : $response;
+		$code		= $request->getStatus( CURL_STATUS_HTTP_CODE );
+	
+		if( !in_array( $code, array( '200', '304' ) ) )
+			throw new RuntimeException( 'URL "'.$request->getOption( CURLOPT_URL ).'" can not be accessed (HTTP Code '.$code.').', $code );
+		
+		if( $compression )
+		{
+			if( !in_array( $compression, $this->compressionTypes ) )
+				$compression	= $this->compressionTypes[0];
+			$response	= self::uncompressResponse( $response, $compression );
+		}
 		return $response;
 	}
 
 	/**
 	 *	Requests Information from Service.
 	 *	@access		public
-	 *	@param		string		$service		Name of Service
-	 *	@param		string		$format			Response Format
-	 *	@param		array		$parameters		Array of URL Parameters
-	 *	@param		bool		$verbose		Flag: show Request URL and Response
+	 *	@param		string		$service			Name of Service
+	 *	@param		string		$format				Response Format
+	 *	@param		array		$parameters			Array of URL Parameters
+	 *	@param		bool		$verbose			Flag: show Request URL and Response
 	 *	@return		mixed
 	 */
-	public function get( $service, $format, $parameters = array(), $verbose = false )
+	public function get( $service, $format = NULL, $parameters = array(), $verbose = FALSE )
 	{
 		import( 'de.ceus-media.net.cURL' );
 		import( 'de.ceus-media.StopWatch' );
-		$baseURL	= $this->host."?service=".$service."&format=".$format;
-		$compress	= array_key_exists( 'compressResponse', $parameters ) && $parameters['compressResponse'];
+		$baseUrl	= $this->host."?service=".$service."&format=".$format;
+		$compress	= isset( $parameters['compressResponse'] ) ? strtolower( $parameters['compressResponse'] ) : "";
+		$parameters	= array_merge( $parameters, array( 'clientRequestSessionId' => $this->id ) );
 		$parameters	= "&".http_build_query( $parameters, '', '&' );
-		$serviceURL	= $baseURL.$parameters."&clientRequestSessionId=".$this->id;
+		$serviceUrl	= $baseUrl.$parameters;
 		if( $verbose )
-			remark( "GET: ".$serviceURL );
-		$request	= new Net_cURL( $serviceURL );
-		$st	= new StopWatch;
+			remark( "GET: ".$serviceUrl );
+
+		$st			= new StopWatch;
+		$request	= new Net_cURL( $serviceUrl );
 		$response	= $this->executeRequest( $request, $compress );
 		if( $this->useLogFile )
 		{
@@ -144,7 +165,7 @@ class Service_Client
 		
 		$this->requests[]	= array(
 			'method'	=> "GET",
-			'url'		=> $serviceURL,
+			'url'		=> $serviceUrl,
 			'response'	=> $response,
 			'time'		=> $st->stop(),
 			);
@@ -175,19 +196,19 @@ class Service_Client
 	/**
 	 *	Send Information to Service.
 	 *	@access		public
-	 *	@param		string		$service		Name of Service
-	 *	@param		string		$format			Response Format
-	 *	@param		array		$data			Array of Information to post
-	 *	@param		bool		$verbose		Flag: show Request URL and Response
+	 *	@param		string		$service			Name of Service
+	 *	@param		string		$format				Response Format
+	 *	@param		array		$data				Array of Information to post
+	 *	@param		bool		$verbose			Flag: show Request URL and Response
 	 *	@return		mixed
 	 */
-	public function post( $service, $format, $data = array(), $verbose = false )
+	public function post( $service, $format, $data = array(), $verbose = FALSE )
 	{
 		import( 'de.ceus-media.net.cURL' );
 		import( 'de.ceus-media.StopWatch' );
-		$baseURL	= $this->host."?service=".$service."&format=".$format;
+		$baseUrl	= $this->host."?service=".$service."&format=".$format;
 		if( $verbose )
-			remark( "POST: ".$baseURL );
+			remark( "POST: ".$baseUrl );
 
 		//  cURL POST Hack (cURL identifies leading @ in Values as File Upload  //
 		foreach( $data as $key => $value )
@@ -196,10 +217,10 @@ class Service_Client
 
 		$data['clientRequestSessionId']	= $this->id;							//  adding Client Request Session ID
 
-		$request	= new Net_cURL( $baseURL );
+		$st			= new StopWatch;
+		$request	= new Net_cURL( $baseUrl );
 		$request->setOption( CURLOPT_POST, 1);
 		$request->setOption( CURLOPT_POSTFIELDS, $data );
-		$st	= new StopWatch;
 		$response	= $this->executeRequest( $request );
 		if( $this->useLogFile )
 		{
@@ -208,7 +229,7 @@ class Service_Client
 		}
 		$this->requests[]	= array(
 			'method'	=> "POST",
-			'url'		=> $baseURL,
+			'url'		=> $baseUrl,
 			'data'		=> serialize( $data ),
 			'response'	=> $response,
 			'time'		=> $st->stop(),
@@ -222,8 +243,8 @@ class Service_Client
 	/**
 	 *	Sets HTTP Basic Authentication.
 	 *	@access		public
-	 *	@param		string		$username		Username for HTTP Basic Authentication.
-	 *	@param		string		$password		Password for HTTP Basic Authentication.
+	 *	@param		string		$username			Username for HTTP Basic Authentication.
+	 *	@param		string		$password			Password for HTTP Basic Authentication.
 	 *	@return		void
 	 */
 	public function setBasicAuth( $username, $password )
@@ -235,7 +256,7 @@ class Service_Client
 	/**
 	 *	Sets Basic Host URL of Service.
 	 *	@access		public
-	 *	@param		string		$hostUrl		Basic Host URL of Service
+	 *	@param		string		$hostUrl			Basic Host URL of Service
 	 *	@return		void
 	 */
 	public function setHostAddress( $hostUrl )
@@ -244,9 +265,20 @@ class Service_Client
 	}
 
 	/**
+	 *	Sets File Name of Request Log File.
+	 *	@access		public
+	 *	@param		string		$fileName			File Name of Request Log File
+	 *	@return		void
+	 */
+	public function setLogFile( $fileName )
+	{
+		$this->logFile	= $fileName;
+	}
+
+	/**
 	 *	Sets Option CURL_USERAGENT.
 	 *	@access		public
-	 *	@param		int			$userAgent		User Agent to set
+	 *	@param		int			$userAgent			User Agent to set
 	 *	@return		void
 	 */
 	public function setUserAgent( $userAgent )
@@ -257,7 +289,7 @@ class Service_Client
 	/**
 	 *	Sets Option CURL_SSL_VERIFYHOST.
 	 *	@access		public
-	 *	@param		bool		$verify			Flag: verify Host
+	 *	@param		bool		$verify				Flag: verify Host
 	 *	@return		void
 	 */
 	public function setVerifyHost( $verify )
@@ -268,12 +300,33 @@ class Service_Client
 	/**
 	 *	Sets Option CURL_SSL_VERIFYPEER.
 	 *	@access		public
-	 *	@param		bool		$verify			Flag: verify Peer
+	 *	@param		bool		$verify				Flag: verify Peer
 	 *	@return		void
 	 */
 	public function setVerifyPeer( $verify )
 	{
 		$this->verifyPeer	= (bool) $verify;
+	}
+
+	/**
+	 *	Decompresses compressed Response.
+	 *	@access		protected
+	 *	@param		string		$content			Response Content, compressed
+	 *	@param		string		$type				Compression Type used for compressing Response
+	 *	@return		string
+	 */
+	protected static function uncompressResponse( $content, $type )
+	{
+		switch( $type )
+		{
+			case 'deflate':
+				return gzuncompress( $content );
+				break;
+			case 'gzip':
+				return gzdecode( $content );
+			default:
+				return $content;
+		}
 	}
 }
 ?>

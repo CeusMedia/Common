@@ -28,27 +28,14 @@ class UI_HTML_Service_Index extends Service_Handler
 	protected $template;
 
 	/**
-	 *	Constructor.
-	 *	@access		public
-	 *	@param		ServicePoint	$servicePoint		Services Class
-	 *	@param		array			$availableFormats	Available Response Formats
-	 *	@return		void
-	 */
-	public function __construct( Service_Point $servicePoint, $availableFormats )
-	{
-		$this->servicePoint		= $servicePoint;
-		$this->availableFormats	= $availableFormats;
-	}
-
-	/**
 	 *	Shows Index Page of Service.
 	 *	@access		protected
 	 *	@return		string		HTML of Service Index
 	 */
 	protected function buildIndex()
 	{
-		$title		= $this->servicePoint->getServicesTitle();					//  Services Title
-		$syntax		= $this->servicePoint->getServicesSyntax();					//  Services Syntax
+		$title		= $this->servicePoint->getTitle();							//  Services Title
+		$syntax		= $this->servicePoint->getSyntax();							//  Services Syntax
 		$table		= $this->getServiceTable();									//  Services Table
 		$list		= $this->getServiceList();									//  Services List
 		$examples	= $this->getServiceExamples();								//  Services Examples
@@ -75,27 +62,58 @@ class UI_HTML_Service_Index extends Service_Handler
 	/**
 	 *	Return Service List.
 	 *	@access		public
-	 *	@return		string
+	 *	@return		string			HTML of Service List
 	 */
 	protected function getServiceList()
 	{	
 		$services	= array();
 		$list		= $this->servicePoint->getServices();
+		natcasesort( $list );
 		foreach( $list as $entry )
-			$services[]	= "<li>".$entry."</li>";
+		{
+			$parameterList	= array();
+			$parameters	= $this->servicePoint->getServiceParameters( $entry );
+			foreach( $parameters as $parameter => $rules )
+			{
+				$ruleList	= array();
+				if( $rules )
+				{
+					foreach( $rules as $ruleKey => $ruleValue )
+					{
+						if( $ruleKey == "mandatory" )
+							$ruleValue = $ruleValue ? "yes" : "no";
+						$ruleList[]	= $ruleKey.": ".htmlspecialchars( $ruleValue );
+					}
+				}
+				$rules	= implode( ", ", $ruleList );
+				if( $rules )
+					$parameter	= '<acronym title="'.$rules.'">'.$parameter.'</acronym>';
+				$parameterList[]	= $parameter;
+			}
+			$parameters	= implode( ", ", $parameterList );
+			if( $parameters )
+				$parameters	= " ".$parameters." ";
+
+			$desc	= $this->servicePoint->getServiceDescription( $entry );
+			if( $desc )
+				$entry	= '<acronym title="'.$desc.'">'.$entry.'</acronym>';
+			$services[]	= "<li>".$entry."(".$parameters.")</li>";
+		}
 		$services	= "<ul>".implode( "", $services )."</ul>";	
 		return $services;
 	}
 
+
 	/**
 	 *	Return HTML Table of Services with their available Formats.
 	 *	@access		public
-	 *	@return		string		HTML of Service Table
+	 *	@return		string			HTML of Service Table
 	 */
 	protected function getServiceTable()
 	{
 		$rows		= array();
 		$services	= $this->servicePoint->getServices();
+		natcasesort( $services );
 		$heads		= array();
 		
 		$heads	= array( "<th>Service</th>" );
@@ -109,7 +127,7 @@ class UI_HTML_Service_Index extends Service_Handler
 		$heads	= "<tr>".implode( "", $heads )."</tr>";
 		foreach( $services as $service )
 		{
-			$cells		= array();
+				$cells		= array();
 			$formats	= $this->servicePoint->getServiceFormats( $service );
 			foreach( $this->availableFormats as $format )
 			{
@@ -123,38 +141,25 @@ class UI_HTML_Service_Index extends Service_Handler
 		}
 		return "<table class='".$this->tableClass."'>".$cols.$heads.implode( "", $rows )."</table>";
 	}
+
 	
 	/**
 	 *	Handles Request to Service Point by either calling a Service or indexing all Services.
 	 *	@access		public
-	 *	@param		array|Object	$requestData			Array from Request, containing Service Name and Response Format
+	 *	@param		array			$requestData			Array from Request, containing Service Name and Response Format
 	 *	@param		bool			$serializeExceptions	Flag: serialize Exceptions instead of throwing
-	 *	@return		void
+	 *	@return		int
 	 */
 	public function handle( $requestData, $serializeExceptions = false )
 	{
-		if( isset( $requestData['service'] ) )
+		if( empty( $requestData['service'] ) )										//  no Service called
 		{
-			try
-			{
-				$serviceName	= $requestData['service'];
-				$responseFormat	= isset( $requestData['format'] ) ? $requestData['format'] : false;
-				$response		= $this->servicePoint->callService( $serviceName, $responseFormat );
-			}
-			catch( Exception $e )
-			{
-				if( $serializeExceptions )
-					die( serialize( $e ) );
-				die( $e->getMessage() );
-			}
+			$index	= $this->buildIndex();											//  build Service Index
+			die( $index );															//  respond Service Index
 		}
-		else
-		{
-			$response	= $this->buildIndex() ;
-		}
-		die( $response );
+		return parent::handle( $requestData, $serializeExceptions );
 	}
-
+	
 	/**
 	 *	Sets CSS Class of Template in Template.
 	 *	@access		public
