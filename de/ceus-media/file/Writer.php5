@@ -127,7 +127,7 @@ class File_Writer
 			throw new RuntimeException( "File '".$this->fileName."' is not writable." );
 		$count	= file_put_contents( $this->fileName, $string );
 		if( $count === false )	
-			throw new RuntimeException( 'File "'.$fileName.'" could not been created.' );
+			throw new RuntimeException( 'File "'.$fileName.'" could not been written.' );
 		return $count;
 	}
 }

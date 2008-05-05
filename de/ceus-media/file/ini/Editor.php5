@@ -3,7 +3,9 @@ import( 'de.ceus-media.file.ini.Reader' );
 import( 'de.ceus-media.file.Reader' );
 import( 'de.ceus-media.file.Writer' );
 /**
- *	Property File Writer.
+ *	Property File Editor.
+ *	This Implementation keeps the File Structure of original File completely alive.
+ *	All Line Feeds and Comments will be kept.
  *	@package		file.ini
  *	@extends		File_INI_Reader
  *	@uses			File_Reader
@@ -12,7 +14,9 @@ import( 'de.ceus-media.file.Writer' );
  *	@version		0.6
  */
 /**
- *	Property File Writer.
+ *	Property File Editor.
+ *	This Implementation keeps the File Structure of original File completely alive.
+ *	All Line Feeds and Comments will be kept.
  *	@package		file.ini
  *	@extends		File_INI_Reader
  *	@uses			File_Reader
@@ -21,7 +25,7 @@ import( 'de.ceus-media.file.Writer' );
  *	@version		0.6
  *	@todo			Code Documentation
  */
-class File_INI_Writer extends File_INI_Reader
+class File_INI_Editor extends File_INI_Reader
 {
 	/**	@var		array		$added			Added Properties */
 	protected $added			= array();
@@ -29,6 +33,78 @@ class File_INI_Writer extends File_INI_Reader
 	protected $renamed			= array();
 	/**	@var		array		$deleted		Deleted Properties */
 	protected $deleted			= array();
+
+	/**
+	 *	Activates a Property.
+	 *	@access		public
+	 *	@param		string		$key			Key of  Property
+	 *	@param		string		$value			Section of Property
+	 *	@return		bool
+	 */
+	public function activateProperty( $key, $section = NULL )
+	{
+		if( $this->usesSections() )
+		{
+			if( !$this->hasProperty( $key, $section ) )
+				throw new InvalidArgumentException( 'Key "'.$key.'" is not existing in Section "'.$section.'".' );
+			if( $this->isActiveProperty( $key, $section ) )
+				throw new LogicException( 'Key "'.$key.'" is already active.' );
+			unset( $this->disabled[$section][array_search( $key, $this->disabled[$section] )] );
+			return is_int( $this->write() );
+		}
+		else
+		{
+			if( !$this->hasProperty( $key ) )
+				throw new InvalidArgumentException( 'Key "'.$key.'" is not existing.' );
+			if( $this->isActiveProperty( $key ) )
+				throw new LogicException( 'Key "'.$key.'" is already active.' );
+			unset( $this->disabled[array_search( $key, $this->disabled )] );
+			return is_int( $this->write() );
+		}
+	}
+
+	/**
+	 *	Adds a new Property with Comment.
+	 *	@access		public
+	 *	@param		string		$key			Key of new Property
+	 *	@param		string		$value			Value of new Property
+	 *	@param		bool		$state			Activity state of new Property
+	 *	@param		string		$comment		Comment of new Property
+	 *	@return		bool
+	 *	@todo		rework params
+	 */
+	public function addProperty( $key, $value, $comment = "", $state = true, $section = NULL )
+	{
+		if( $section && !in_array( $section, $this->sections ) )
+			$this->addSection( $section );
+		$key = ( $state ? "" : $this->disableSign ).$key;
+		$this->added[] = array(
+			"key"		=> $key,
+			"value"		=> $value,
+			"comment"	=> $comment,
+			"section"	=> $section,
+			);
+		return is_int( $this->write() );
+	}
+
+	/**
+	 *	Adds a new Section.
+	 *	@access		public
+	 *	@param		string		$sectionName	Name of new Section
+	 *	@return		bool
+	 */
+	public function addSection( $sectionName )
+	{
+		if( !$this->usesSections() )
+			throw new RuntimeException( 'Sections are not used.' );
+		$lines		= File_Reader::loadArray( $this->fileName );
+		$lines[]	= "[".$sectionName."]";
+		if( !in_array( $sectionName, $this->sections ) )
+			$this->sections[] = $sectionName;
+		$result		= File_Writer::saveArray( $this->fileName, $lines );
+		$this->read();
+		return is_int( $result );
+	}
 
 	/**
 	 *	Returns a build Property line.
@@ -54,96 +130,31 @@ class File_INI_Writer extends File_INI_Reader
 	}
 
 	/**
-	 *	Activates a Property.
-	 *	@access		public
-	 *	@param		string		$key			Key of  Property
-	 *	@param		string		$value			Section of Property
-	 *	@return		bool
-	 */
-	public function activateProperty( $key, $section = false )
-	{
-		if( $this->usesSections() )
-		{
-			if( !$this->isActiveProperty( $key, $section ) )
-			{
-				unset( $this->disabled[$section][array_search( $key, $this->disabled[$section] )] );
-				return $this->write();
-			}
-		}
-		else
-		{
-			if( !$this->isActiveProperty( $key ) )
-			{
-				unset( $this->disabled[array_search( $key, $this->disabled )] );
-				return $this->write();
-			}
-		}
-	}
-
-	/**
-	 *	Adds a new Property with Comment.
-	 *	@access		public
-	 *	@param		string		$key			Key of new Property
-	 *	@param		string		$value			Value of new Property
-	 *	@param		bool		$state			Activity state of new Property
-	 *	@param		string		$comment		Comment of new Property
-	 *	@return		bool
-	 */
-	public function addProperty( $key, $value, $comment = "", $state = true, $section = false )
-	{
-		if( $section && !in_array( $section, $this->sections ) )
-			$this->addSection( $section );
-		$key =(  $state?"":$this->disableSign ).$key;
-		$this->added[] = array(
-			"key"		=> $key,
-			"value"		=> $value,
-			"comment"	=> $comment,
-			"section"	=> $section,
-			);
-		return $this->write();
-	}
-
-	/**
-	 *	Adds a new Section.
-	 *	@access		public
-	 *	@param		string		$sectionName	Name of new Section
-	 *	@return		bool
-	 */
-	public function addSection( $sectionName )
-	{
-		$lines		= File_Reader::loadArray( $this->fileName );
-		$lines[]	= "[".$sectionName."]";
-		if( !in_array( $sectionName, $this->sections ) )
-			$this->sections[] = $sectionName;
-		$result		= File_Writer::saveArray( $this->fileName, $lines );
-		$this->read();
-		return $result;
-	}
-
-	/**
 	 *	Deactivates a Property.
 	 *	@access		public
 	 *	@param		string		$key			Key of  Property
 	 *	@param		string		$value			Section of Property
 	 *	@return		bool
 	 */
-	public function deactivateProperty( $key, $section = false)
+	public function deactivateProperty( $key, $section = NULL)
 	{
 		if( $this->usesSections() )
 		{
-			if( $this->isActiveProperty( $key, $section ) )
-			{
-				$this->disabled[$section][] = $key;
-				return $this->write();
-			}
+			if( !$this->hasProperty( $key, $section ) )
+				throw new InvalidArgumentException( 'Key "'.$key.'" is not existing in Section "'.$section.'".' );
+			if( !$this->isActiveProperty( $key, $section ) )
+				throw new LogicException( 'Key "'.$key.'" is already inactive.' );
+			$this->disabled[$section][] = $key;
+			return is_int( $this->write() );
 		}
 		else
 		{
-			if( $this->isActiveProperty( $key ) )
-			{
-				$this->disabled[] = $key;
-				return $this->write();
-			}
+			if( !$this->hasProperty( $key ) )
+				throw new InvalidArgumentException( 'Key "'.$key.'" is not existing.' );
+			if( !$this->isActiveProperty( $key ) )
+				throw new LogicException( 'Key "'.$key.'" is already inactive.' );
+			$this->disabled[] = $key;
+			return is_int( $this->write() );
 		}
 	}
 
@@ -153,22 +164,21 @@ class File_INI_Writer extends File_INI_Reader
 	 *	@param		string		$key			Key of Property to be deleted
 	 *	@return		bool
 	 */
-	public function deleteProperty( $key, $section = false )
+	public function deleteProperty( $key, $section = NULL )
 	{
 		if( $this->usesSections() )
-			$this->deleted[$section][] = $key;
-		else
-			$this->deleted[] = $key;
-		return $this->write();
-	}
-
-	public function importArray( $array )
-	{
-		$this->lines = array();
-		foreach( $array as $key => $value )
 		{
-			$this->lines[] = $this->buildLine( $key, $value, false );
+			if( !$this->hasProperty( $key, $section ) )
+				throw new InvalidArgumentException( 'Key "'.$key.'" is not existing in Section "'.$section.'".' );
+			$this->deleted[$section][] = $key;
 		}
+		else
+		{
+			if( !$this->hasProperty( $key ) )
+				throw new InvalidArgumentException( 'Key "'.$key.'" is not existing.' );
+			$this->deleted[] = $key;
+		}
+		return is_int( $this->write() );
 	}
 
 	/**
@@ -179,104 +189,53 @@ class File_INI_Writer extends File_INI_Reader
 	 *	@param		string		$section		Section of Property
 	 *	@return		bool
 	 */
-	public function renameProperty( $key, $new, $section = false )
+	public function renameProperty( $key, $new, $section = NULL )
 	{
 		if( $this->usesSections() )
 		{
-			if( $this->hasProperty( $key, $section ) )
-			{
-				$this->properties [$section][$new]	= $this->properties[$section][$key];
-				if( isset( $this->disabled[$section][$key] ) )
-					$this->disabled [$section][$new]		= $this->disabled[$section][$key];
-				if( isset( $this->comments[$section][$key] ) )
-					$this->comments [$section][$new]	= $this->comments[$section][$key];
-				$this->renamed[$section][$key] = $new;
-				return $this->write();
-			}
+			if( !$this->hasProperty( $key, $section ) )
+				throw new InvalidArgumentException( 'Key "'.$key.'" is not existing in Section "'.$section.'".' );
+			$this->properties[$section][$new]	= $this->properties[$section][$key];
+			if( isset( $this->disabled[$section][$key] ) )
+				$this->disabled [$section][$new]		= $this->disabled[$section][$key];
+			if( isset( $this->comments[$section][$key] ) )
+				$this->comments [$section][$new]	= $this->comments[$section][$key];
+			$this->renamed[$section][$key] = $new;
+			return is_int( $this->write() );
 		}
 		else
 		{
-			if( $this->hasProperty( $key ) )
-			{
-				$this->properties[$new]	= $this->properties[$key];
-				if( isset( $this->disabled[$key] ) )
-					$this->disabled[$new]		= $this->disabled[$key];
-				if( isset( $this->comments[$key] ) )
-					$this->comments[$new]	= $this->comments[$key];
-				$this->renamed[$key]	= $new;
-				return $this->write();
-			}
+			if( !$this->hasProperty( $key ) )
+				throw new InvalidArgumentException( 'Key "'.$key.'" is not existing.' );
+			$this->properties[$new]	= $this->properties[$key];
+			if( isset( $this->disabled[$key] ) )
+				$this->disabled[$new]		= $this->disabled[$key];
+			if( isset( $this->comments[$key] ) )
+				$this->comments[$new]	= $this->comments[$key];
+			$this->renamed[$key]	= $new;
+			return is_int( $this->write() );
 		}
 	}
 
 	/**
 	 *	Renames as Section.
 	 *	@access		public
-	 *	@param		string		$section		Key of Section to rename
-	 *	@param		string		$new			New Key of Section
+	 *	@param		string		$oldSection		Key of Section to rename
+	 *	@param		string		$newSection		New Key of Section
 	 *	@return		bool
 	 */
-	public function renameSection( $section, $new )
+	public function renameSection( $oldSection, $newSection )
 	{
 		if( !$this->usesSections() )
-			return false;
+			throw new RuntimeException( 'Sections are not used.' );
 		$content	= File_Reader::load( $this->fileName );
-		$content	= preg_replace( "/(.*)(\[".$section."\])(.*)/si", "$1[".$new."]$3", $content );
-		$result		= File_Writer::save( $content );
+		$content	= preg_replace( "/(.*)(\[".$oldSection."\])(.*)/si", "$1[".$newSection."]$3", $content );
+		$result		= File_Writer::save( $this->fileName, $content );
 		$this->added	= array();
 		$this->deleted	= array();
 		$this->renamed	= array();
 		$this->read();
-		return $result;
-	}
-
-	/**
-	 *	Sets the Comment of a Property.
-	 *	@access		public
-	 *	@param		string		$key			Key of Property
-	 *	@param		string		$comment		Comment of Property to set
-	 *	@param		string		$section		Key of Section
-	 *	@return		bool
-	 */
-	public function setComment( $key, $comment, $section = false )
-	{
-		if( $this->usesSections() )
-			$this->comments[$section][$key] = $comment;
-		else
-			$this->comments[$key] = $comment;
-		return $this->write();
-	}
-
-	/**
-	 *	Sets the Comment of a Property.
-	 *	@access		public
-	 *	@param		string		$key			Key of Property
-	 *	@param		string		$value			Value of Property
-	 *	@param		string		$section		Key of Section
-	 *	@return		bool
-	 */
-	public function setProperty( $key, $value, $section = false )
-	{
-		if( $this->usesSections() )
-		{
-			try
-			{
-				if( $this->hasProperty( $key, $section ) )
-					$this->properties[$section][$key] = $value;
-				else $this->addProperty( $key, $value, false, true, $section );
-			}
-			catch( InvalidArgumentException $e )
-			{
-				$this->addProperty( $key, $value, false, true, $section );
-			}
-		}
-		else
-		{
-			if( $this->hasProperty( $key ) )
-				$this->properties[$key] = $value;
-			else $this->addProperty( $key, $value, false, true );
-		}
-		return $this->write();
+		return is_int( $result );
 	}
 
 	/**
@@ -288,24 +247,74 @@ class File_INI_Writer extends File_INI_Reader
 	public function removeSection( $section )
 	{
 		if( !$this->usesSections() )
-			return false;
-		$index	= array_search( $section, $this->sections );
-		if( $index !== false )
-			unset( $this->sections[$index] );
-		return $this->write();
+			throw new RuntimeException( 'Sections are not used.' );
+		if( !$this->hasSection( $section ) )
+			throw new InvalidArgumentException( 'Section "'.$section.'" is not existing.' );
+		unset( $this->sections[$index] );
+		return is_int( $this->write() );
+	}
+
+	/**
+	 *	Sets the Comment of a Property.
+	 *	@access		public
+	 *	@param		string		$key			Key of Property
+	 *	@param		string		$comment		Comment of Property to set
+	 *	@param		string		$section		Key of Section
+	 *	@return		bool
+	 */
+	public function setComment( $key, $comment, $section = NULL )
+	{
+		if( $this->usesSections() )
+		{
+			if( !$this->hasProperty( $key, $section ) )
+				throw new InvalidArgumentException( 'Key "'.$key.'" is not existing in Section "'.$section.'".' );
+			$this->comments[$section][$key] = $comment;
+		}
+		else
+		{
+			if( !$this->hasProperty( $key ) )
+				throw new InvalidArgumentException( 'Key "'.$key.'" is not existing' );
+			$this->comments[$key] = $comment;
+		}
+		return is_int( $this->write() );
+	}
+
+	/**
+	 *	Sets the Comment of a Property.
+	 *	@access		public
+	 *	@param		string		$key			Key of Property
+	 *	@param		string		$value			Value of Property
+	 *	@param		string		$section		Key of Section
+	 *	@return		bool
+	 */
+	public function setProperty( $key, $value, $section = NULL )
+	{
+		if( $this->usesSections() )
+		{
+			if( $this->hasProperty( $key, $section ) )
+				$this->properties[$section][$key] = $value;
+			else
+				$this->addProperty( $key, $value, false, true, $section );
+		}
+		else
+		{
+			if( $this->hasProperty( $key ) )
+				$this->properties[$key] = $value;
+			else
+				$this->addProperty( $key, $value, FALSE, TRUE );
+		}
+		return is_int( $this->write() );
 	}
 
 	/**
 	 *	Writes manipulated Content to File.
-	 *	@access		public
-	 *	@return		bool
+	 *	@access		protected
+	 *	@return		int
 	 */
-	public function write()
+	protected function write()
 	{
-		$file	= new File_Writer( $this->fileName, 777 );
-		if( !$file->isWritable() )
-			throw new Exception( 'File "'.$this->fileName.'" is not writable.' );
-		$newLines = array();
+		$file		= new File_Writer( $this->fileName, 0777 );
+		$newLines	= array();
 		$currentSection	= "";
 		foreach( $this->lines as $line )
 		{
@@ -328,19 +337,19 @@ class File_INI_Writer extends File_INI_Reader
 					}
 					$this->added = $newAdded;
 				}
-				$currentSection =  substr(trim($line), 1, -1);
+				$currentSection =  substr( trim( $line ), 1, -1 );
 				if( !in_array( $currentSection, $this->sections ) )
 					unset( $line );
 			}
 			else if( eregi( $this->propertyPattern, $line ) )
 			{
-				$pos = strpos( $line, "=" );
-				$key = trim(substr( $line, 0, $pos ) );
-				$pureKey = eregi_replace( $this->disablePattern, "", $key);
-				$parts = explode( "//", trim(substr($line, $pos+1 ) ) );
-				$value = trim( $parts[0] );
+				$pos		= strpos( $line, "=" );
+				$key		= trim( substr( $line, 0, $pos ) );
+				$pureKey	= eregi_replace( $this->disablePattern, "", $key );
+				$parts		= explode(  "//", trim( substr( $line, $pos+1 ) ) );
+				$value		= trim( $parts[0] );
 				if( count( $parts ) > 1 )
-					$comment = trim($parts[1] );
+					$comment = trim( $parts[1] );
 				if( $this->usesSections() )
 				{
 					if( in_array( $currentSection, $this->sections ) )
@@ -354,7 +363,6 @@ class File_INI_Writer extends File_INI_Reader
 								$key = $this->disableSign.$key;
 							$comment	= isset( $this->comments[$currentSection][$newKey] ) ? $this->comments[$currentSection][$newKey] : "";
 							$line = $this->buildLine( $key, $this->properties[$currentSection][$newKey], $comment );
-
 						}
 						else
 						{
@@ -395,10 +403,10 @@ class File_INI_Writer extends File_INI_Reader
 		}
 		foreach( $this->added as $property )
 		{
-			$newLine = $this->buildLine( $property['key'], $property['value'], $property['comment'] );
-			$newLines[] = $newLine;
+			$newLine	= $this->buildLine( $property['key'], $property['value'], $property['comment'] );
+			$newLines[]	= $newLine;
 		}
-		$result	= $file->writeArray( $newLines );
+		$result			= $file->writeArray( $newLines );
 		$this->added	= array();
 		$this->deleted	= array();
 		$this->renamed	= array();

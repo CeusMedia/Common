@@ -1,5 +1,4 @@
 <?php
-import( 'de.ceus-media.Object' );
 import( 'de.ceus-media.file.Reader' );
 /**
  *	A Class for reading List Files.

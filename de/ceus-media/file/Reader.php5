@@ -97,10 +97,7 @@ class File_Reader
 		$realpath	= realpath( $this->fileName );
 		$path	= dirname( $realpath );
 		$path	= str_replace( "\\", "/", $path );
-		if( $path == "." )
-			$path	= "";
-		else
-			$path	.= "/";
+		$path	.= "/";
 		return	$path;
 	}
 
