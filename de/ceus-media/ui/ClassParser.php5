@@ -55,7 +55,7 @@ class ClassParser
 		$this->fileName = $fileName;
 		$this->patterns = array(
 			"import"		=> "^import",
-			"class"			=> "^class",
+			"class"			=> "^(final |abstract )*class",
 			"doc_start"		=> "^/##",
 			"doc_end"		=> "#/$",
 			"doc_data"		=> "^#",

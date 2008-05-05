@@ -22,7 +22,7 @@ import( 'de.ceus-media.adt.OptionObject' );
  *	@since			20.03.2006
  *	@version		0.1
  */
-class WikiParser extends ADT_OptionObject
+class UI_HTML_WikiParser extends ADT_OptionObject
 {
 	/**	@var	array		$_text_formats	Array of regular Expressions and Replacements for Text Formats */
 	private	$_text_formats	= array(
@@ -41,7 +41,7 @@ class WikiParser extends ADT_OptionObject
 		 '/\#&lt;(.+?)&lt;\#/s'						=> '<div align="left">\1</div>',							//left-justify
 		 '/\#&gt;(.+?)&gt;\#/s'						=> '<div align="right">\1</div>',							//right-justify
 		 '#&lt;su([bp])&gt;(.*?)&lt;/su\1&gt;#is'	=> '<su\1>\2</su\1>',									//sub and superscript
-		 "/\n((&gt;)[^\n]*?\n)+/se"					=> "'\n'.WikiParser::_formatQuote('\\0').'\n'",				//do quoting 
+		 "/\n((&gt;)[^\n]*?\n)+/se"					=> "'\n'.UI_HTML_WikiParser::_formatQuote('\\0').'\n'",				//do quoting 
 	);
 	/**	@var	array		$_typo			Array of regular Expressions and Replacements for Typo Formats */
 	private	$_typo	= array(
@@ -59,8 +59,8 @@ class WikiParser extends ADT_OptionObject
 		'/&lt;=/i'										=> '&lArr;',									// <=
 		'/=&gt;/i'										=> '&rArr;',									// =>
 		'#\\\\\\\\(?=\s)#'								=> "<br />",									//forced linebreaks
-		"/(\n( {2,}|\t)[\*\-][^\n]+)(\n( {2,}|\t)[^\n]*)*/se"	=> "\"\\n\".WikiParser::_formatList('\\0')",			// lists (blocks leftover after blockformat)
-		"/\n(([\|\^][^\n]*?)+[\|\^] *\n)+/se"				=> "\"\\n\".WikiParser::_formatTable('\\0')",			// tables
+		"/(\n( {2,}|\t)[\*\-][^\n]+)(\n( {2,}|\t)[^\n]*)*/se"	=> "\"\\n\".UI_HTML_WikiParser::_formatList('\\0')",			// lists (blocks leftover after blockformat)
+		"/\n(([\|\^][^\n]*?)+[\|\^] *\n)+/se"				=> "\"\\n\".UI_HTML_WikiParser::_formatTable('\\0')",			// tables
 	);
 
 	/**
@@ -108,26 +108,26 @@ class WikiParser extends ADT_OptionObject
 
 		/* first pass */
 		//preformated texts
-		$this->_performFirstPass($table,$text,"#<nowiki>(.*?)</nowiki>#se","WikiParser::_preformat('\\1','nowiki')");
-		$this->_performFirstPass($table,$text,"#%%(.*?)%%#se","WikiParser::_preformat('\\1','nowiki')");
-		$this->_performFirstPass($table,$text,"#<code( (\w+))?>(.*?)</"."code>#se","WikiParser::_preformat('\\3','code','\\2')");
-		$this->_performFirstPass($table,$text,"#<file>(.*?)</file>#se","WikiParser::_preformat('\\1','file')");
+		$this->_performFirstPass($table,$text,"#<nowiki>(.*?)</nowiki>#se","UI_HTML_WikiParser::_preformat('\\1','nowiki')");
+		$this->_performFirstPass($table,$text,"#%%(.*?)%%#se","UI_HTML_WikiParser::_preformat('\\1','nowiki')");
+		$this->_performFirstPass($table,$text,"#<code( (\w+))?>(.*?)</"."code>#se","UI_HTML_WikiParser::_preformat('\\3','code','\\2')");
+		$this->_performFirstPass($table,$text,"#<file>(.*?)</file>#se","UI_HTML_WikiParser::_preformat('\\1','file')");
 		// html includes
-		$this->_performFirstPass($table,$text,"#<html>(.*?)</html>#se","WikiParser::_preformat('\\1','html')");
+		$this->_performFirstPass($table,$text,"#<html>(.*?)</html>#se","UI_HTML_WikiParser::_preformat('\\1','html')");
 		// codeblocks
-		$this->_performFirstPass($table,$text,"/(\n( {2,}|\t)[^\*\-\n ][^\n]+)(\n( {2,}|\t)[^\n]*)*/se","WikiParser::_preformat('\\0','block')","\n");
+		$this->_performFirstPass($table,$text,"/(\n( {2,}|\t)[^\*\-\n ][^\n]+)(\n( {2,}|\t)[^\n]*)*/se","UI_HTML_WikiParser::_preformat('\\0','block')","\n");
 		//links
-		$this->_performFirstPass($table,$text,"#\[\[([^\]]+?)\]\]#ie","WikiParser::_formatLink('\\1')");
+		$this->_performFirstPass($table,$text,"#\[\[([^\]]+?)\]\]#ie","UI_HTML_WikiParser::_formatLink('\\1')");
 		//media
-		$this->_performFirstPass($table,$text,"/\{\{([^\}]+)\}\}/se","WikiParser::_formatMedia('\\1')");
+		$this->_performFirstPass($table,$text,"/\{\{([^\}]+)\}\}/se","UI_HTML_WikiParser::_formatMedia('\\1')");
 		//match full URLs (adapted from Perl cookbook)
-		$this->_performFirstPass($table,$text,"#(\b)($urls://[$any]+?)([$punc]*[^$any])#ie","WikiParser::_formatLink('\\2')",'\1','\4');
+		$this->_performFirstPass($table,$text,"#(\b)($urls://[$any]+?)([$punc]*[^$any])#ie","UI_HTML_WikiParser::_formatLink('\\2')",'\1','\4');
 		//short www URLs 
-		$this->_performFirstPass($table,$text,"#(\b)(www\.[$host]+?\.[$host]+?[$any]+?)([$punc]*[^$any])#ie","WikiParser::_formatLink('http://\\2|\\2')",'\1','\3');
+		$this->_performFirstPass($table,$text,"#(\b)(www\.[$host]+?\.[$host]+?[$any]+?)([$punc]*[^$any])#ie","UI_HTML_WikiParser::_formatLink('http://\\2|\\2')",'\1','\3');
 		//short ftp URLs 
-		$this->_performFirstPass($table,$text,"#(\b)(ftp\.[$host]+?\.[$host]+?[$any]+?)([$punc]*[^$any])#ie","WikiParser::_formatLink('ftp://\\2')",'\1','\3');
+		$this->_performFirstPass($table,$text,"#(\b)(ftp\.[$host]+?\.[$host]+?[$any]+?)([$punc]*[^$any])#ie","UI_HTML_WikiParser::_formatLink('ftp://\\2')",'\1','\3');
 		// email@domain.tld
-		$this->_performFirstPass($table,$text,"#<([\w0-9\-_.]+?)@([\w\-]+\.([\w\-\.]+\.)*[\w]+)>#ie", "WikiParser::_formatLink('\\1@\\2')");
+		$this->_performFirstPass($table,$text,"#<([\w0-9\-_.]+?)@([\w\-]+\.([\w\-\.]+\.)*[\w]+)>#ie", "UI_HTML_WikiParser::_formatLink('\\1@\\2')");
 		//headlines
 		$this->_formatHeadlines($table,$hltable,$text);
 		$text = htmlspecialchars($text);
@@ -345,7 +345,7 @@ class WikiParser extends ADT_OptionObject
 		$items = array();
 		foreach ($lines as $line)
 		{
-			$lvl  = 0;												//get intendion level
+			$lvl  = 0;												//get indention level
 			$lvl += floor(strspn($line,' ')/2);
 			$lvl += strspn($line,"\t");
 			$line = preg_replace('/^[ \t]+/','',$line);					//remove indents

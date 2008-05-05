@@ -103,7 +103,7 @@ class Framework_Krypton_View_Component_DevCenter extends Framework_Krypton_Core_
 		}
 		else																		//  Print Mode: print_m
 		{
-			print_m( $element, ".", 2 );											//  print Dump with 2 Dots as Intend Space
+			print_m( $element, ".", 2 );											//  print Dump with 2 Dots as Indent Space
 		}
 		return ob_get_clean();														//  return buffered Dump
 	}

@@ -48,6 +48,9 @@ class Framework_Krypton_ErrorPageHandler extends Framework_Krypton_Base
 
 			$this->level	= 1;
 		}
+		catch( PDOException $e )
+		{
+		}
 		catch( Exception $e )
 		{
 			throw $e;

@@ -22,26 +22,29 @@ class XML_WDDX_Builder
 	 *	@param		string		$packetName		Name of the packet
 	 *	@return		void
 	 */
-	public function __construct( $packetName )
+	public function __construct( $packetName = NULL )
 	{
-		$this->pid = wddx_packet_start( $packetName );
+		if( $packetName === NULL )
+			$this->pid	= wddx_packet_start();
+		else
+			$this->pid	= wddx_packet_start( $packetName );
 	}
 
 	/**
-	 *	Adds a variable/Object to the packet.
+	 *	Adds a Data Object to the packet.
 	 *	@access		public
-	 *	@param		string		$name			Name of variable/Object
-	 *	@param		string		$value			Value of variable/Object
-	 *	@return		void
+	 *	@param		string		$key			Key of Data Object
+	 *	@param		string		$value			Value of Data Object
+	 *	@return		bool
 	 */
-	public function add( $name, $value )
+	public function add( $key, $value )
 	{
-		$$name = $value;
-		wddx_add_vars( $this->pid, $name );
+		$$key = $value;
+		return wddx_add_vars( $this->pid, $key );
 	}
 
 	/**
-	 *	Returns packet as WDDX.
+	 *	Builds WDDX Packet and returns it as String.
 	 *	@access		public
 	 *	@return		string
 	 */

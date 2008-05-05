@@ -104,7 +104,7 @@ abstract class Framework_Krypton_Base
 	 *	@param		string		$configPath		Path to basic Configuration Files
 	 *	@return		void
 	 */
-	protected function initConfiguration( $configPath )
+	protected function initConfiguration( $configPath = "config/" )
 	{
 		$config	= parse_ini_file( $configPath."config.ini", true );
 		if( isset( $config['config']['error_level'] ) )
@@ -123,16 +123,17 @@ abstract class Framework_Krypton_Base
 		import( 'de.ceus-media.database.pdo.Connection' );
 		$dba	= parse_ini_file( $configPath."db_access.ini", true );
 		foreach( $dba['options'] as $key => $value )
-			$options[eval( "return ".$key.";" )]	= eval( "return ".$value.";" );
-
+			$options[constant( "PDO::".$key )]	= eval( "return ".$value.";" );
+			
 		$dsn	= $dba['access']['type'].":host=".$dba['access']['hostname'].";dbname=".$dba['access']['database'];
 		$dbc	= new Database_PDO_Connection( $dsn, $dba['access']['username'], $dba['access']['password'], $options );
+#		$dbc->setErrorLogFile( $dba['access']['logfile'] );
+#		$dbc->setStatementLogFile( self::$databaseLogPath."queries.log" );
 		$dbc->setLogFile( $dba['access']['logfile'] );
-		$dbc->setQueryLogFile( "" );
 		$dbc->setQueryLogFile( self::$databaseLogPath."queries.log" );
 
 		foreach( $dba['attributes'] as $key => $value )
-			$dbc->setAttribute( eval( "return ".$key.";" ), eval( "return ".$value.";" ) );
+			$dbc->setAttribute( constant( "PDO::".$key ), eval( "return ".$value.";" ) );
 		$config	=& $this->registry->get( 'config' );
 		$config['config']['table_prefix']	= $dba['access']['prefix'];
 		$this->registry->set( "dbc", $dbc, true );
@@ -240,7 +241,7 @@ abstract class Framework_Krypton_Base
 		if( !$this->registry->has( 'config' ) )
 			throw new Exception( 'Configuration has not been set up.' );
 		$config		= $this->registry->get( 'config' );
-		$client	= new Service_Client( "", true );
+		$client	= new Service_Client( "", "logs/services.log" );
 		$client->setHostAddress( $config['services']['url'] );
 		$client->setUserAgent( "Motrada Office" );
 		if( $config['services']['username'] )

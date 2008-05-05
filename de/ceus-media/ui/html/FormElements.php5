@@ -80,7 +80,7 @@ class UI_HTML_FormElements
 		);
 		if( $disabled )
 			self::addReadonlyAttributes( $attributes, $disabled);
-		return UI_HTML_Tag::create( "button", UI_HTML_Tag::create( "span", $label ), $attributes );
+		return UI_HTML_Tag::create( "button", UI_HTML_Tag::create( "span", (string) $label ), $attributes );
 	}
 
 	/**
@@ -156,7 +156,7 @@ class UI_HTML_FormElements
 			'onsubmit'	=> $onSubmit,
 		);
 		$form	= UI_HTML_Tag::create( "form", NULL, $attributes );
-		return str_replace( "</form>", "", $form );
+		return preg_replace( "@/>$@", ">", $form );
 	}
 
 	/**
@@ -431,7 +431,7 @@ class UI_HTML_FormElements
 		);
 		if( $readOnly )
 			self::addReadonlyAttributes( $attributes, $readOnly );
-		return UI_HTML_Tag::create( "textarea", $content, $attributes );
+		return UI_HTML_Tag::create( "textarea", (string) $content, $attributes );
 	}
 }
 ?>

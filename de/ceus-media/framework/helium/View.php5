@@ -1,5 +1,4 @@
 <?php
-import( 'de.ceus-media.Object' );
 import( 'de.ceus-media.adt.Reference' );
 import( 'de.ceus-media.ui.html.Elements' );
 import( 'de.ceus-media.ui.html.Paging' );

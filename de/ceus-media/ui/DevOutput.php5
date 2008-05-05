@@ -15,8 +15,8 @@ class UI_DevOutput
 {
 	/**	@var		string		$lineBreak		Sign for Line Break */
 	public $lineBreak			= "<br/>";
-	/**	@var		string		$intendSign		Sign for Spaces */
-	public $intendSign			= "&nbsp;";
+	/**	@var		string		$indentSign		Sign for Spaces */
+	public $indentSign			= "&nbsp;";
 	/**	@var		string		$noteOpen		Sign for opening Notes */
 	public $noteOpen			= "<em>";
 	/**	@var		string		$noteClose		Sign for closing Notes */
@@ -25,8 +25,8 @@ class UI_DevOutput
 	public $highlightOpen		= "<b>";
 	/**	@var		string		$highlightClose	Sign for closing Highlights */
 	public $highlightClose		= "</b>";
-	/**	@var		int			$intendFactor	Factor of Spaces for Indents */
-	public $intendFactor		= 6;
+	/**	@var		int			$indentFactor	Factor of Spaces for Indents */
+	public $indentFactor		= 6;
 
 	/**
 	 *	Constructur.
@@ -39,12 +39,12 @@ class UI_DevOutput
 		if( getEnv( 'PROMPT' ) || getEnv( 'SHELL' ) || $channel == "console" )
 		{
 			$this->lineBreak		= "\n";
-			$this->intendSign		= " ";
+			$this->indentSign		= " ";
 			$this->noteOpen			= "'";
 			$this->noteClose		= "'";
 			$this->highlightOpen	= "";
 			$this->highlightClose	= "";
-			$this->intendFactor		= 2;
+			$this->indentFactor		= 2;
 		}
 	}
 
@@ -56,10 +56,10 @@ class UI_DevOutput
 	 *	@param		int			$factor		Space Factor
 	 *	@return		string
 	 */
-	public function intendSign( $offset, $sign = NULL, $factor = NULL )
+	public function indentSign( $offset, $sign = NULL, $factor = NULL )
 	{
-		$sign	= $sign ? $sign : $this->intendSign;
-		$factor	= $factor ? $factor : $this->intendFactor;
+		$sign	= $sign ? $sign : $this->indentSign;
+		$factor	= $factor ? $factor : $this->indentFactor;
 		return str_repeat( $sign, $offset * $factor );
 	}
 
@@ -78,7 +78,7 @@ class UI_DevOutput
 		if( is_resource( $resource ) )
 		{
 			$key	= ( $key !== NULL ) ? $key." => " : "";
-			$space	= $this->intendSign( $offset, $sign, $factor );
+			$space	= $this->indentSign( $offset, $sign, $factor );
 			echo $space."[R] ".$key.$resource.$this->lineBreak;
 		}
 		else
@@ -100,7 +100,7 @@ class UI_DevOutput
 		if( is_object( $object ) )
 		{
 			$ins_key	= ( $key !== NULL ) ? $key." -> " : "";
-			$space		= $this->intendSign( $offset, $sign, $factor );
+			$space		= $this->indentSign( $offset, $sign, $factor );
 			echo $space."[O] ".$ins_key."".$this->highlightOpen.get_class( $object ).$this->highlightClose.$this->lineBreak;
 			$vars		= get_object_vars( $object );
 			foreach( $vars as $key => $value )
@@ -131,7 +131,7 @@ class UI_DevOutput
 	{
 		if( is_array( $array ) )
 		{
-			$space = $this->intendSign( $offset, $sign, $factor );
+			$space = $this->indentSign( $offset, $sign, $factor );
 			if( $key !== NULL )
 				echo $space."[A] ".$key.$this->lineBreak;
 			foreach( $array as $key => $value )
@@ -195,7 +195,7 @@ class UI_DevOutput
 		if( is_bool( $bool ) )
 		{
 			$key = ( $key !== NULL ) ? $key." => " : "";
-			$space = $this->intendSign( $offset, $sign, $factor );
+			$space = $this->indentSign( $offset, $sign, $factor );
 			echo $space."[B] ".$key.$this->noteOpen.( $bool ? "TRUE" : "FALSE" ).$this->noteClose.$this->lineBreak;
 		}
 		else
@@ -217,7 +217,7 @@ class UI_DevOutput
 		if( is_float( $float ) )
 		{
 			$key = ( $key !== NULL ) ? $key." => " : "";
-			$space = $this->intendSign( $offset, $sign, $factor );
+			$space = $this->indentSign( $offset, $sign, $factor );
 			echo $space."[F] ".$key.$float.$this->lineBreak;
 		}
 		else
@@ -239,7 +239,7 @@ class UI_DevOutput
 		if( is_double( $double ) )
 		{
 			$key = ( $key !== NULL ) ? $key." => " : "";
-			$space = $this->intendSign( $offset, $sign, $factor );
+			$space = $this->indentSign( $offset, $sign, $factor );
 			echo $space."[D] ".$key.$double.$this->lineBreak;
 		}
 		else
@@ -261,7 +261,7 @@ class UI_DevOutput
 		if( is_int( $integer ) )
 		{
 			$key = ( $key !== NULL ) ? $key." => " : "";
-			$space = $this->intendSign( $offset, $sign, $factor );
+			$space = $this->indentSign( $offset, $sign, $factor );
 			echo $space."[I] ".$key.$integer.$this->lineBreak;
 		}
 		else
@@ -283,7 +283,7 @@ class UI_DevOutput
 		if( $null === NULL )
 		{
 			$key = ( $key !== NULL ) ? $key." => " : "";
-			$space = $this->intendSign( $offset, $sign, $factor );
+			$space = $this->indentSign( $offset, $sign, $factor );
 			echo $space."[ ] ".$key.$this->noteOpen."NULL".$this->noteClose.$this->lineBreak;
 		}
 		else
@@ -305,7 +305,7 @@ class UI_DevOutput
 		if( is_string( $string ) )
 		{
 			$key = ( $key !== NULL ) ? $key." => " : "";
-			$space = $this->intendSign( $offset, $sign, $factor );
+			$space = $this->indentSign( $offset, $sign, $factor );
 			echo $space."[S] ".$key.$string.$this->lineBreak;
 		}
 		else

@@ -9,7 +9,7 @@
  *	@since			16.06.2005
  *	@version		0.6
  */
-function import( $classPath, $supressWarnings = TRUE )
+function import( $classPath, $supressWarnings = FALSE )
 {
 	$fileName = str_replace( IMPORT_SEPARATOR, FOLDER_SEPARATOR, $classPath).".".PHP_EXTENSION;
 	while( preg_match( "@^-@", $fileName ) )

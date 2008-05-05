@@ -209,15 +209,18 @@ class Framework_Krypton_FatalExceptionHandler
 	 */
 	private function showException( $e, $mode = "both" )
 	{
+		$type	= get_class( $e );
 		$trace	= $e->getTrace();
 		$code	= $e->getCode();
 		if( $mode != "trace" )
 		{
-			print( "Error: ".$e->getMessage().$this->break );
+			print( "Exception: ".$type.$this->break );
+			print( "Message: ".$e->getMessage().$this->break );
 			print( "File: ".$e->getFile().$this->break );
 			print( "Line: ".$e->getLine().$this->break );
 			if( $code )
 				print( "Code: ".$code.$this->break );
+			if( $type )
 			if( $mode == "error" )
 				return;
 		}

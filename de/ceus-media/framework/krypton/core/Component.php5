@@ -13,7 +13,7 @@ import( 'de.ceus-media.alg.TimeConverter' );
  *	@uses			File_Reader
  *	@uses			File_Writer
  *	@uses			Alg_TimeConverter
- *	@uses			WikiParser
+ *	@uses			UI_HTML_WikiParser
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			01.12.2005
  *	@version		0.6
@@ -27,7 +27,7 @@ import( 'de.ceus-media.alg.TimeConverter' );
  *	@uses			File_Reader
  *	@uses			File_Writer
  *	@uses			Alg_TimeConverter
- *	@uses			WikiParser
+ *	@uses			UI_HTML_WikiParser
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			01.12.2005
  *	@version		0.6
@@ -83,7 +83,7 @@ abstract class Framework_Krypton_Core_Component
 	var $tc			= null;
 	/**	@var		array				$words			Array of defined Words */
 	var $words		= array();
-	/**	@var		WikiParser			$wiki			Wiki Partser Object */
+	/**	@var		UI_HTML_WikiParser	$wiki			Wiki Parser Object */
 	var $wiki		= null;
 	/**	@var		array				$paths			Array of possible Path Keys in Config for Content Loading */
 	public $paths	= array(
@@ -106,7 +106,7 @@ abstract class Framework_Krypton_Core_Component
 		if( $useWikiParser )
 		{
 			import( 'de.ceus-media.ui.html.WikiParser' );
-			$this->wiki			= new WikiParser;
+			$this->wiki			= new UI_HTML_WikiParser;
 		}
 		$this->messenger	= $this->registry->get( 'messenger' );
 		$this->language		= $this->registry->get( 'language' );

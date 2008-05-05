@@ -19,42 +19,62 @@ import( 'de.ceus-media.file.Writer' );
  */
 class XML_WDDX_FileWriter
 {
-	/**	@var		File_Writer	$file			WDDX File Writer */
-	protected $file;
+	/**	@var		string		$fileName		File Name of WDDX File */
+	protected $fileName;
 
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		string		$fileName		URI of WDDX File
+	 *	@param		string		$fileName		File Name of WDDX File
 	 *	@param		string		$packetName		Packet name
 	 *	@return		void
 	 */
-	public function __construct( $fileName, $packetName )
+	public function __construct( $fileName, $packetName = NULL )
 	{
 		$this->builder	= new XML_WDDX_Builder( $packetName );
-		$this->file		= new File_Writer( $this->fileName );
+		$this->fileName	= $fileName;
 	}
-
+	
 	/**
-	 *	Removing a WDDX File by its filename.
+	 *	Adds a Data Object to the packet.
 	 *	@access		public
+	 *	@param		string		$key			Key of Data Object
+	 *	@param		string		$value			Value of Data Object
 	 *	@return		bool
 	 */
-	public function  delete ()
+	public function add( $key, $value )
 	{
-		return $this->file->delete();
+		return $this->builder->add( $key, $value );
 	}
 
 	/**
-	 *	Writes a string to the WDDX File.
+	 *	Writes collected Data into WDDX File.
 	 *	@access		public
 	 *	@param		string		string			String to write to WDDX File
 	 *	@return		bool
 	 */
 	public function write()
 	{
-		$string	= $this->builder->build();
-		return $this->file->writeString( $string );
+		$wddx	= $this->builder->build();
+		$writer	= new File_Writer( $this->fileName );
+		return $writer->writeString( $wddx );
+	}
+
+	/**
+	 *	Writes Data into a WDDX File statically.
+	 *	@access		public
+	 *	@param		string		$fileName		File Name of WDDX File
+	 *	@param		array		$data			Array of Packet Data
+	 *	@param		string		$packetName		Packet Name
+	 *	@return		int
+	 */
+	public static function save( $fileName, $data, $packetName = NULL )
+	{
+		if( $packetName === NULL )
+			$wddx	= wddx_serialize_value( $data );
+		else
+			$wddx	= wddx_serialize_value( $data, $packetName );
+		return File_Writer::save( $fileName, $wddx );
 	}
 }
 ?>

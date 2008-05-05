@@ -10,7 +10,7 @@ import( 'de.ceus-media.file.Reader' );
  *	@version		0.6
  */
 /**
- *	Reads a WDDX File.
+ *	Reads a WDDX File. 
  *	@package		xml.wddx
  *	@uses			XML_WDDX_Parser
  *	@uses			File_Reader
@@ -19,38 +19,18 @@ import( 'de.ceus-media.file.Reader' );
  */
 class XML_WDDX_FileReader
 {
-	/**	@var		File_Reader		$file			WDDX File Reader */
-	protected $file;
+	/**	@var		string		$fileName		File Name of WDDX File */
+	protected $fileName;
 
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		string			$fileName		URI of WDDX File
+	 *	@param		string		$fileName		File Name of WDDX File
 	 *	@return		void
 	 */
 	public function __construct( $fileName )
 	{
-		$this->file	= new File_Reader( $fileName );
-	}
-
-	/**
-	 *	Indicates whether a WDDX File contains same data like another WDDX File.
-	 *	@access		public
-	 *	@return		bool
-	 */
-	public function equals( $fileName )
-	{
-		return $this->file->equals( $fileName );
-	}
-
-	/**
-	 *	Proving existence of a WDDX File by its filename.
-	 *	@access		public
-	 *	@return		bool
-	 */
-	public function exists()
-	{
-		return $this->file->exists();
+		$this->fileName	= $fileName;
 	}
 
 	/**
@@ -60,9 +40,18 @@ class XML_WDDX_FileReader
 	 */
  	public function read()
 	{
-		$packet 	= $this->file->readString();
-		$parser		= new XML_WDDX_Parser();
-		return $parser->parse( $packet );
+		return self::load( $this->fileName );
+	}
+	
+	/**
+	 *	Reads a WDDX File statically and returns deserialized Data.
+	 *	@access		public
+	 *	@return		mixed
+	 */
+	public static function load( $fileName )
+	{
+		$packet	= File_Reader::load( $fileName );
+		return XML_WDDX_Parser::parse( $packet );
 	}
 }
 ?>
