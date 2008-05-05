@@ -6,6 +6,7 @@ require_once 'PHPUnit/Framework/TestSuite.php';
 require_once 'PHPUnit/TextUI/TestRunner.php';
 require_once 'Tests/initLoaders.php5' ;
 require_once 'Tests/file/yaml/ReaderTest.php';
+require_once 'Tests/file/yaml/WriterTest.php';
 class Tests_File_Yaml_AllTests
 {
 	public static function main()
@@ -17,6 +18,7 @@ class Tests_File_Yaml_AllTests
 	{
 		$suite = new PHPUnit_Framework_TestSuite( 'ClassContainer/File/Yaml' );
 		$suite->addTestSuite('Tests_File_Yaml_ReaderTest'); 
+		$suite->addTestSuite('Tests_File_Yaml_WriterTest'); 
 		return $suite;
 	}
 }

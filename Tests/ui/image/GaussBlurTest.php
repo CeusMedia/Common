@@ -22,7 +22,47 @@ import( 'de.ceus-media.ui.image.GaussBlur' );
  */
 class Tests_UI_Image_GaussBlurTest extends PHPUnit_Framework_TestCase
 {
-	public function testBlur()
+	public function testBlurGif()
+	{
+		$assertFile	= "Tests/ui/image/assertGauss.gif";
+		$sourceFile	= "Tests/ui/image/sourceGauss.gif";
+		$targetFile	= "Tests/ui/image/targetGauss.gif";
+		if( file_exists( $targetFile ) )
+			unlink( $targetFile );
+		
+		$creator	= new UI_Image_GaussBlur( $sourceFile, $targetFile );
+		$creator->blur();
+
+		$assertion	= true;
+		$creation	= file_exists( $targetFile );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= file_get_contents( $assertFile );
+		$creation	= file_get_contents( $targetFile );
+		$this->assertEquals( $assertion, $creation );
+	}
+
+	public function testBlurJpg()
+	{
+		$assertFile	= "Tests/ui/image/assertGauss.jpg";
+		$sourceFile	= "Tests/ui/image/sourceGauss.jpg";
+		$targetFile	= "Tests/ui/image/targetGauss.jpg";
+		if( file_exists( $targetFile ) )
+			unlink( $targetFile );
+		
+		$creator	= new UI_Image_GaussBlur( $sourceFile, $targetFile );
+		$creator->blur();
+
+		$assertion	= true;
+		$creation	= file_exists( $targetFile );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= file_get_contents( $assertFile );
+		$creation	= file_get_contents( $targetFile );
+		$this->assertEquals( $assertion, $creation );
+	}
+
+	public function testBlurPng()
 	{
 		$assertFile	= "Tests/ui/image/assertGauss.png";
 		$sourceFile	= "Tests/ui/image/sourceGauss.png";

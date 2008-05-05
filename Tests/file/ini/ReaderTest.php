@@ -3,7 +3,7 @@
  *	TestUnit of INI Reader.
  *	@package		Tests.file.yaml
  *	@extends		PHPUnit_Framework_TestCase
- *	@uses			INIReader
+ *	@uses			File_INI_Reader
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.1
  */
@@ -38,10 +38,11 @@ class Tests_File_INI_ReaderTest extends PHPUnit_Framework_TestCase
 			"key3"	=> "value3",
 			"key4"	=> "value4",
 		);
-		$creation	= $this->list->toArray();
+		$reader		= new File_INI_Reader( $this->fileName );
+		$creation	= $reader->toArray();
 		$this->assertEquals( $assertion, $creation );
 
-		$reader	= new File_INI_Reader( $this->fileName, true );
+
 		$assertion	= array(
 			"section1"	=> array(
 				"key1"	=> "value1",
@@ -52,12 +53,13 @@ class Tests_File_INI_ReaderTest extends PHPUnit_Framework_TestCase
 				"key4"	=> "value4",
 			),
 		);
-		$creation	= $this->sections->toArray();
+		$reader		= new File_INI_Reader( $this->fileName, TRUE );
+		$creation	= $reader->toArray();
 		$this->assertEquals( $assertion, $creation );
 	}
 
 	/**
-	 *	Tests method 'getComment'.
+	 *	Tests Method 'getComment'.
 	 *	@access		public
 	 *	@return		void
 	 */
@@ -101,7 +103,7 @@ class Tests_File_INI_ReaderTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 *	Tests method 'getCommentedProperties'.
+	 *	Tests Method 'getCommentedProperties'.
 	 *	@access		public
 	 *	@return		void
 	 */
@@ -112,25 +114,25 @@ class Tests_File_INI_ReaderTest extends PHPUnit_Framework_TestCase
 				'key'		=> "key1",
 				'value'		=> "value1",
 				'comment'	=> "comment 1",
-				'active'	=> true,
+				'active'	=> TRUE,
 			),
 			array(
 				'key'		=> "key2",
 				'value'		=> "value2",
 				'comment'	=> "comment 2",
-				'active'	=> true,
+				'active'	=> TRUE,
 			),
 			array(
 				'key'		=> "key3",
 				'value'		=> "value3",
 				'comment'	=> "",
-				'active'	=> true,
+				'active'	=> TRUE,
 			),
 			array(
 				'key'		=> "key4",
 				'value'		=> "value4",
 				'comment'	=> "",
-				'active'	=> true,
+				'active'	=> TRUE,
 			),
 		);
 		$creation	= $this->list->getCommentedProperties();
@@ -142,13 +144,13 @@ class Tests_File_INI_ReaderTest extends PHPUnit_Framework_TestCase
 					'key'		=> "key1",
 					'value'		=> "value1",
 					'comment'	=> "comment 1",
-					'active'	=> true,
+					'active'	=> TRUE,
 				),
 				array(
 					'key'		=> "key2",
 					'value'		=> "value2",
 					'comment'	=> "comment 2",
-					'active'	=> true,
+					'active'	=> TRUE,
 				),
 			),
 			'section2'	=> array(
@@ -156,22 +158,28 @@ class Tests_File_INI_ReaderTest extends PHPUnit_Framework_TestCase
 					'key'		=> "key3",
 					'value'		=> "value3",
 					'comment'	=> "",
-					'active'	=> true,
+					'active'	=> TRUE,
 				),
 				array(
 					'key'		=> "key4",
 					'value'		=> "value4",
 					'comment'	=> "",
-					'active'	=> true,
+					'active'	=> TRUE,
+				),
+				array(
+					'key'		=> "key5",
+					'value'		=> "disabled",
+					'comment'	=> "",
+					'active'	=> FALSE,
 				),
 			),
 		);
-		$creation	= $this->sections->getCommentedProperties();
+		$creation	= $this->sections->getCommentedProperties( FALSE );
 		$this->assertEquals( $assertion, $creation );
 	}
 
 	/**
-	 *	Tests method 'getComments'.
+	 *	Tests Method 'getComments'.
 	 *	@access		public
 	 *	@return		void
 	 */
@@ -215,7 +223,7 @@ class Tests_File_INI_ReaderTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 *	Tests method 'getProperties'.
+	 *	Tests Method 'getProperties'.
 	 *	@access		public
 	 *	@return		void
 	 */
@@ -247,19 +255,27 @@ class Tests_File_INI_ReaderTest extends PHPUnit_Framework_TestCase
 			"key1"	=> "value1",
 			"key2"	=> "value2",
 		);
-		$creation	= $this->sections->getProperties( false, 'section1' );
+		$creation	= $this->sections->getProperties( FALSE, 'section1' );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= array(
+			"key3"	=> "value3",
+			"key4"	=> "value4",
+			"key5"	=> "disabled",
+		);
+		$creation	= $this->sections->getProperties( FALSE, 'section2' );
 		$this->assertEquals( $assertion, $creation );
 
 		try
 		{
-			$creation	= $this->sections->getProperties( false, 'section3' );
+			$creation	= $this->sections->getProperties( FALSE, 'section3' );
 			$this->fail( 'An expected Exception has not been thrown.' );
 		}
 		catch( Exception $e ){}
 	}
 
 	/**
-	 *	Tests method ''.
+	 *	Tests Method 'getProperty'.
 	 *	@access		public
 	 *	@return		void
 	 */
@@ -269,41 +285,60 @@ class Tests_File_INI_ReaderTest extends PHPUnit_Framework_TestCase
 		$creation	= $this->list->getProperty( 'key3' );
 		$this->assertEquals( $assertion, $creation );
 
-		try
-		{
-			$creation	= $this->list->getProperty( 'key5' );
-			$this->fail( 'An expected Exception has not been thrown.' );
-		}
-		catch( Exception $e ){}
+		$assertion	= "disabled";
+		$creation	= $this->list->getProperty( 'key5', FALSE, FALSE );
+		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= "value3";
 		$creation	= $this->sections->getProperty( 'key3', 'section2' );
 		$this->assertEquals( $assertion, $creation );
-
-		try
-		{
-			$creation	= $this->sections->getProperty( 'key3', 'section3' );
-			$this->fail( 'An expected Exception has not been thrown.' );
-		}
-		catch( Exception $e ){}
-
-		try
-		{
-			$creation	= $this->sections->getProperty( 'key5', 'section2' );
-			$this->fail( 'An expected Exception has not been thrown.' );
-		}
-		catch( Exception $e ){}
-
-		try
-		{
-			$creation	= $this->sections->getProperty( 'key4' );
-			$this->fail( 'An expected Exception has not been thrown.' );
-		}
-		catch( Exception $e ){}
+	}
+	
+	/**
+	 *	Tests Exception method 'getProperty'.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testGetPropertyException1()
+	{
+		$this->setExpectedException( 'InvalidArgumentException' );	
+		$creation	= $this->list->getProperty( 'key5' );
 	}
 
 	/**
-	 *	Tests method 'getPropertyList'.
+	 *	Tests Exception method 'getProperty'.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testGetPropertyException2()
+	{
+		$this->setExpectedException( 'InvalidArgumentException' );	
+		$creation	= $this->sections->getProperty( 'key3', 'section3' );
+	}
+
+	/**
+	 *	Tests Exception method 'getProperty'.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testGetPropertyException3()
+	{
+		$this->setExpectedException( 'InvalidArgumentException' );	
+		$creation	= $this->sections->getProperty( 'key5', 'section2' );
+	}
+	/**
+	 *	Tests Exception method 'getProperty'.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testGetPropertyException4()
+	{
+		$this->setExpectedException( 'InvalidArgumentException' );	
+		$creation	= $this->sections->getProperty( 'key4' );
+	}
+
+	/**
+	 *	Tests Method 'getPropertyList'.
 	 *	@access		public
 	 *	@return		void
 	 */
@@ -333,25 +368,29 @@ class Tests_File_INI_ReaderTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 *	Tests method 'hasProperty'.
+	 *	Tests Method 'hasProperty'.
 	 *	@access		public
 	 *	@return		void
 	 */
 	public function testHasProperty()
 	{
-		$assertion	= true;
+		$assertion	= TRUE;
 		$creation	= $this->list->hasProperty( 'key1' );
 		$this->assertEquals( $assertion, $creation );
 
-		$assertion	= false;
+		$assertion	= TRUE;
 		$creation	= $this->list->hasProperty( 'key5' );
 		$this->assertEquals( $assertion, $creation );
 
-		$assertion	= true;
+		$assertion	= FALSE;
+		$creation	= $this->list->hasProperty( 'key6' );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= TRUE;
 		$creation	= $this->sections->hasProperty( 'key1', 'section1' );
 		$this->assertEquals( $assertion, $creation );
 
-		$assertion	= false;
+		$assertion	= FALSE;
 		$creation	= $this->sections->hasProperty( 'key1', 'section2' );
 		$this->assertEquals( $assertion, $creation );
 
@@ -371,7 +410,7 @@ class Tests_File_INI_ReaderTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 *	Tests method 'getSections'.
+	 *	Tests Method 'getSections'.
 	 *	@access		public
 	 *	@return		void
 	 */
@@ -394,181 +433,100 @@ class Tests_File_INI_ReaderTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 *	Tests method 'hasSection'.
+	 *	Tests Method 'hasSection'.
 	 *	@access		public
 	 *	@return		void
 	 */
 	public function testHasSection()
 	{
-		try
-		{
-			$creation	= $this->list->hasSection();
-			$this->fail( 'An expected Exception has not been thrown.' );
-		}
-		catch( Exception $e ){}
-
-
-		$assertion	= true;
+		$assertion	= TRUE;
 		$creation	= $this->sections->hasSection( 'section1' );
 		$this->assertEquals( $assertion, $creation );
 
-		$assertion	= false;
+		$assertion	= FALSE;
 		$creation	= $this->sections->hasSection( 'section3' );
 		$this->assertEquals( $assertion, $creation );
 	}
 
 	/**
-	 *	Tests method 'isActiveProperty'.
+	 *	Tests Exception of Method 'hasSection'.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testHasSectionException()
+	{
+		$this->setExpectedException( 'RuntimeException' );
+		$creation	= $this->list->hasSection( "not_relevant" );
+	}
+
+	/**
+	 *	Tests Method 'isActiveProperty'.
 	 *	@access		public
 	 *	@return		void
 	 */
 	public function testIsActiveProperty()
 	{
-		$assertion	= true;
+		$assertion	= TRUE;
 		$creation	= $this->list->isActiveProperty( 'key1' );
 		$this->assertEquals( $assertion, $creation );
 
-		$assertion	= false;
+		$assertion	= FALSE;
 		$creation	= $this->list->isActiveProperty( 'key5' );
 		$this->assertEquals( $assertion, $creation );
 
 
-		$assertion	= true;
+		$assertion	= TRUE;
 		$creation	= $this->sections->isActiveProperty( 'key1', 'section1' );
 		$this->assertEquals( $assertion, $creation );
 
-		$assertion	= false;
+		$assertion	= FALSE;
 		$creation	= $this->sections->isActiveProperty( 'key1', 'section2' );
 		$this->assertEquals( $assertion, $creation );
-
-		try
-		{
-			$creation	= $this->sections->isActiveProperty( 'key1' );
-			$this->fail( 'An expected Exception has not been thrown.' );
-		}
-		catch( Exception $e ){}
-
-		try
-		{
-			$creation	= $this->sections->isActiveProperty( 'key1', 'section3' );
-			$this->fail( 'An expected Exception has not been thrown.' );
-		}
-		catch( Exception $e ){}
 	}
 
 	/**
-	 *	Tests method 'toArray'.
+	 *	Tests Exception of Method 'isActiveProperty'.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testIsActivePropertyException1()
+	{
+		$this->setExpectedException( 'InvalidArgumentException' );
+		$creation	= $this->sections->isActiveProperty( 'key1' );
+	}
+
+	/**
+	 *	Tests Exception of Method 'isActiveProperty'.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testIsActivePropertyException2()
+	{
+		$this->setExpectedException( 'InvalidArgumentException' );
+		$creation	= $this->sections->isActiveProperty( 'key1', 'section3' );
+	}
+
+	/**
+	 *	Tests Method 'toArray'.
 	 *	@access		public
 	 *	@return		void
 	 */
 	public function testToArray()
 	{
-		$assertion	= array(
-			"key1"	=> "value1",
-			"key2"	=> "value2",
-			"key3"	=> "value3",
-			"key4"	=> "value4",
-		);
-		$creation	= $this->list->toArray();
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= array(
-			'section1'	=> array(
-				"key1"	=> "value1",
-				"key2"	=> "value2",
-			),
-			'section2'	=> array(
-				"key3"	=> "value3",
-				"key4"	=> "value4",
-			),
-		);
-		$creation	= $this->sections->toArray();
-		$this->assertEquals( $assertion, $creation );
 	}
 
 	/**
-	 *	Tests method 'toCommentedArray'.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function testToCommentedArray()
-	{
-		$assertion	= array(
-			array(
-				'key'		=> "key1",
-				'value'		=> "value1",
-				'comment'	=> "comment 1",
-				'active'	=> true,
-			),
-			array(
-				'key'		=> "key2",
-				'value'		=> "value2",
-				'comment'	=> "comment 2",
-				'active'	=> true,
-			),
-			array(
-				'key'		=> "key3",
-				'value'		=> "value3",
-				'comment'	=> "",
-				'active'	=> true,
-			),
-			array(
-				'key'		=> "key4",
-				'value'		=> "value4",
-				'comment'	=> "",
-				'active'	=> true,
-			),
-		);
-		$creation	= $this->list->toCommentedArray();
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= array(
-			'section1'	=> array(
-				array(
-					'key'		=> "key1",
-					'value'		=> "value1",
-					'comment'	=> "comment 1",
-					'active'	=> true,
-				),
-				array(
-					'key'		=> "key2",
-					'value'		=> "value2",
-					'comment'	=> "comment 2",
-					'active'	=> true,
-				),
-			),
-			'section2'	=> array(
-				array(
-					'key'		=> "key3",
-					'value'		=> "value3",
-					'comment'	=> "",
-					'active'	=> true,
-				),
-				array(
-					'key'		=> "key4",
-					'value'		=> "value4",
-					'comment'	=> "",
-					'active'	=> true,
-				),
-			),
-		);
-		$creation	= $this->sections->toCommentedArray();
-		$this->assertEquals( $assertion, $creation );
-	}
-
-
-	/**
-	 *	Tests method 'usesSections'.
+	 *	Tests Method 'usesSections'.
 	 *	@access		public
 	 *	@return		void
 	 */
 	public function testUsesSections()
 	{
-		$assertion	= false;
+		$assertion	= FALSE;
 		$creation	= $this->list->usesSections();
 		$this->assertEquals( $assertion, $creation );
 
-		$assertion	= true;
+		$assertion	= TRUE;
 		$creation	= $this->sections->usesSections();
 		$this->assertEquals( $assertion, $creation );
 	}

@@ -21,8 +21,13 @@ import( 'de.ceus-media.file.yaml.Reader' );
 class Tests_File_Yaml_ReaderTest extends PHPUnit_Framework_TestCase
 {
 	/**	@var	string		$fileName		URL of Archive File Name */
-	private $fileName		= "Tests/file/yaml/test.yaml";
-	
+	private $fileName		= "Tests/file/yaml/reader.yaml";
+
+	/**
+	 *	Tests Method 'load'.
+	 *	@access		public
+	 *	@return		void
+	 */
 	public function testLoad()
 	{
 		$creation	= File_Yaml_Reader::load( $this->fileName );
@@ -36,6 +41,11 @@ class Tests_File_Yaml_ReaderTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals( $assertion, $creation );
 	}
 
+	/**
+	 *	Tests Method 'read'.
+	 *	@access		public
+	 *	@return		void
+	 */
 	public function testRead()
 	{
 		$reader		= new File_Yaml_Reader( $this->fileName );

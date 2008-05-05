@@ -44,6 +44,7 @@ class Tests_XML_ElementTest extends PHPUnit_Framework_TestCase
 		$image->addAttribute( "file", "pic5.jpg" );
 		$assertion	= "Banner 5";
 		$creation	= $element->image[4]->getAttribute( "name" );;
+		$this->assertEquals( $assertion, $creation );
 	}
 	
 	public function testAddAttribute()

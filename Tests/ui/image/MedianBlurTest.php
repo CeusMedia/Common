@@ -22,7 +22,47 @@ import( 'de.ceus-media.ui.image.MedianBlur' );
  */
 class Tests_UI_Image_MedianBlurTest extends PHPUnit_Framework_TestCase
 {
-	public function testBlur()
+	public function testBlurGif()
+	{
+		$assertFile	= "Tests/ui/image/assertMedian.gif";
+		$sourceFile	= "Tests/ui/image/sourceMedian.gif";
+		$targetFile	= "Tests/ui/image/targetMedian.gif";
+		if( file_exists( $targetFile ) )
+			unlink( $targetFile );
+		
+		$creator	= new UI_Image_MedianBlur( $sourceFile, $targetFile );
+		$creator->blur();
+
+		$assertion	= true;
+		$creation	= file_exists( $targetFile );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= file_get_contents( $assertFile );
+		$creation	= file_get_contents( $targetFile );
+		$this->assertEquals( $assertion, $creation );
+	}
+
+	public function testBlurJpg()
+	{
+		$assertFile	= "Tests/ui/image/assertMedian.jpg";
+		$sourceFile	= "Tests/ui/image/sourceMedian.jpg";
+		$targetFile	= "Tests/ui/image/targetMedian.jpg";
+		if( file_exists( $targetFile ) )
+			unlink( $targetFile );
+		
+		$creator	= new UI_Image_MedianBlur( $sourceFile, $targetFile );
+		$creator->blur();
+
+		$assertion	= true;
+		$creation	= file_exists( $targetFile );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= file_get_contents( $assertFile );
+		$creation	= file_get_contents( $targetFile );
+		$this->assertEquals( $assertion, $creation );
+	}
+
+	public function testBlurPng()
 	{
 		$assertFile	= "Tests/ui/image/assertMedian.png";
 		$sourceFile	= "Tests/ui/image/sourceMedian.png";

@@ -114,6 +114,11 @@ class Tests_File_ReaderTest extends PHPUnit_Framework_TestCase
 		$assertion	= str_replace( "\\", "/", dirname( realpath( $this->fileName ) ) )."/";
 		$creation	= $this->reader->getPath();
 		$this->assertEquals( $assertion, $creation );
+
+		$reader		= new File_Reader( "test" );
+		$assertion	= str_replace( "\\", "/", dirname( __FILE__ ) )."/";
+		$creation	= $this->reader->getPath();
+		$this->assertEquals( $assertion, $creation );
 	}
 
 	/**

@@ -2,14 +2,15 @@
 if( !defined( 'PHPUnit_MAIN_METHOD' ) )
 	define( 'PHPUnit_MAIN_METHOD', 'Tests_ADT_AllTests::main' );
 
-require_once 'PHPUnit/Framework/TestSuite.php';
-require_once 'PHPUnit/TextUI/TestRunner.php';
-require_once 'Tests/adt/list/AllTests.php';
-require_once 'Tests/adt/tree/AllTests.php';
-require_once 'Tests/adt/json/AllTests.php';
-require_once 'Tests/adt/OptionObjectTest.php';
-require_once 'Tests/adt/ReferenceTest.php';
-require_once 'Tests/adt/RegistryTest.php';
+require_once( 'PHPUnit/Framework/TestSuite.php' );
+require_once( 'PHPUnit/TextUI/TestRunner.php' );
+require_once( 'Tests/adt/list/AllTests.php' );
+require_once( 'Tests/adt/tree/AllTests.php' );
+require_once( 'Tests/adt/json/AllTests.php' );
+require_once( 'Tests/adt/OptionObjectTest.php' );
+require_once( 'Tests/adt/ReferenceTest.php' );
+require_once( 'Tests/adt/RegistryTest.php' );
+require_once( 'Tests/adt/ObjectTest.php' );
 class Tests_ADT_AllTests
 {
 	public static function main()
@@ -26,6 +27,7 @@ class Tests_ADT_AllTests
 		$suite->addTestSuite( "Tests_ADT_OptionObjectTest" ); 
 		$suite->addTestSuite( "Tests_ADT_ReferenceTest" ); 
 		$suite->addTestSuite( "Tests_ADT_RegistryTest" ); 
+		$suite->addTestSuite( "Tests_ADT_ObjectTest" );
 		return $suite;
 	}
 }

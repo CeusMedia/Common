@@ -8,6 +8,7 @@ require_once( 'PHPUnit/TextUI/TestRunner.php' );
 #require_once( 'Tests/ui/html/ElementsTest.php' );
 require_once( 'Tests/ui/html/TagTest.php' );
 require_once( 'Tests/ui/html/FormElementsTest.php' );
+require_once( 'Tests/ui/html/WikiParserTest.php' );
 class Tests_UI_HTML_AllTests
 {
 	public static function main()
@@ -22,6 +23,7 @@ class Tests_UI_HTML_AllTests
 #		$suite->addTestSuite( 'Tests_UI_HTML_ElementsTest' ); 
 		$suite->addTestSuite( 'Tests_UI_HTML_TagTest' ); 
 		$suite->addTestSuite( 'Tests_UI_HTML_FormElementsTest' ); 
+		$suite->addTestSuite( 'Tests_UI_HTML_WikiParserTest' ); 
 		return $suite;
 	}
 }

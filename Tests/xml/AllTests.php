@@ -7,6 +7,7 @@ require_once( 'PHPUnit/TextUI/TestRunner.php' );
 require_once( 'Tests/xml/dom/AllTests.php' );
 require_once( 'Tests/xml/xsl/AllTests.php' );
 require_once( 'Tests/xml/rss/AllTests.php' );
+require_once( 'Tests/xml/wddx/AllTests.php' );
 require_once( 'Tests/xml/ElementTest.php' );
 require_once( 'Tests/xml/ElementReaderTest.php' );
 class Tests_XML_AllTests
@@ -22,6 +23,7 @@ class Tests_XML_AllTests
 		$suite->addTest( Tests_XML_DOM_AllTests::suite() );
 		$suite->addTest( Tests_XML_XSL_AllTests::suite() );
 		$suite->addTest( Tests_XML_RSS_AllTests::suite() );
+		$suite->addTest( Tests_XML_WDDX_AllTests::suite() );
 		$suite->addTestSuite( 'Tests_Xml_ElementTest' ); 
 		$suite->addTestSuite( 'Tests_Xml_ElementReaderTest' ); 
 		return $suite;

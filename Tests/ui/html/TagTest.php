@@ -29,9 +29,9 @@ class Tests_UI_HTML_TagTest extends PHPUnit_Framework_TestCase
 	 */
 	public function setUp()
 	{
-		$name		= "testTag";
-		$value		= "testValue";
-		$attributes	= array( 'testKey1' => 'testValue1' );
+		$name		= "Tag";
+		$value		= "textContent";
+		$attributes	= array( 'Key1' => 'Value1' );
 		$this->tag	= new UI_HTML_Tag( $name, $value, $attributes );
 	}
 
@@ -42,14 +42,32 @@ class Tests_UI_HTML_TagTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testConstruct()
 	{
-		$a	= array(
-			'key1' => 'value1',
-			'key2' => NULL,
-		);
-		$t	= new UI_HTML_Tag( "key", "value", $a );
-
+		$name		= "key";
+		$value		= "value";
+		$attributes	= array( 'key1' => 'value1' );
 		$assertion	= '<key key1="value1">value</key>';
-		$creation	= (string) $t;
+		$creation	= (string) new UI_HTML_Tag( $name, $value, $attributes );
+		$this->assertEquals( $assertion, $creation );
+
+		$name		= "key";
+		$value		= "";
+		$attributes	= array( 'key1' => "" );
+		$assertion	= '<key></key>';
+		$creation	= (string) new UI_HTML_Tag( $name, $value, $attributes );
+		$this->assertEquals( $assertion, $creation );
+
+		$name		= "key";
+		$value		= NULL;
+		$attributes	= array( 'key1' => NULL );
+		$assertion	= '<key/>';
+		$creation	= (string) new UI_HTML_Tag( $name, $value, $attributes );
+		$this->assertEquals( $assertion, $creation );
+
+		$name		= "key";
+		$value		= FALSE;
+		$attributes	= array( 'key1' => FALSE );
+		$assertion	= '<key/>';
+		$creation	= (string) new UI_HTML_Tag( $name, $value, $attributes );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -60,7 +78,7 @@ class Tests_UI_HTML_TagTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testBuild()
 	{
-		$assertion	= '<testTag testKey1="testValue1">testValue</testTag>';
+		$assertion	= '<tag key1="Value1">textContent</tag>';
 		$creation	= (string) $this->tag->build();
 		$this->assertEquals( $assertion, $creation );
 	}
@@ -84,26 +102,26 @@ class Tests_UI_HTML_TagTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testSetAttribute()
 	{
-		$this->tag->setAttribute( "testKey2", "testValue2" );		
-		$assertion	= '<testTag testKey1="testValue1" testKey2="testValue2">testValue</testTag>';
+		$this->tag->setAttribute( "Key2", "Value2" );		
+		$assertion	= '<tag key1="Value1" key2="Value2">textContent</tag>';
 		$creation	= (string) $this->tag;
 		$this->assertEquals( $assertion, $creation );
 
-		$this->tag->setAttribute( "testKey2", NULL );		
-		$assertion	= '<testTag testKey1="testValue1">testValue</testTag>';
+		$this->tag->setAttribute( "Key2", NULL );		
+		$assertion	= '<tag key1="Value1">textContent</tag>';
 		$creation	= (string) $this->tag;
 		$this->assertEquals( $assertion, $creation );
 	}
 
 	/**
-	 *	Tests Method 'setValue'.
+	 *	Tests Method 'setContent'.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testSetValue()
+	public function testSetContent()
 	{
-		$this->tag->setValue( "testValue2" );		
-		$assertion	= '<testTag testKey1="testValue1">testValue2</testTag>';
+		$this->tag->setContent( "textContent2" );		
+		$assertion	= '<tag key1="Value1">textContent2</tag>';
 		$creation	= (string) $this->tag;
 		$this->assertEquals( $assertion, $creation );
 	}
@@ -115,7 +133,7 @@ class Tests_UI_HTML_TagTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testToString()
 	{
-		$assertion	= '<testTag testKey1="testValue1">testValue</testTag>';
+		$assertion	= '<tag key1="Value1">textContent</tag>';
 		$creation	= (string) $this->tag->__toString();
 		$this->assertEquals( $assertion, $creation );
 	}

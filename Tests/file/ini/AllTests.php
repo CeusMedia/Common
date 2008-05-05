@@ -6,6 +6,9 @@ require_once( 'PHPUnit/Framework/TestSuite.php' );
 require_once( 'PHPUnit/TextUI/TestRunner.php' );
 require_once( 'Tests/initLoaders.php5' );
 require_once( 'Tests/file/ini/ReaderTest.php' );
+require_once( 'Tests/file/ini/EditorTest.php' );
+require_once( 'Tests/file/ini/SectionReaderTest.php' );
+require_once( 'Tests/file/ini/SectionEditorTest.php' );
 class Tests_File_INI_AllTests
 {
 	public static function main()
@@ -17,6 +20,9 @@ class Tests_File_INI_AllTests
 	{
 		$suite = new PHPUnit_Framework_TestSuite( 'ClassContainer/File/INI' );
 		$suite->addTestSuite('Tests_File_INI_ReaderTest'); 
+		$suite->addTestSuite('Tests_File_INI_EditorTest'); 
+		$suite->addTestSuite('Tests_File_INI_SectionReaderTest'); 
+		$suite->addTestSuite('Tests_File_INI_SectionEditorTest'); 
 		return $suite;
 	}
 }
