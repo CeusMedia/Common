@@ -2,7 +2,14 @@
 /**
  *	This class represents an object in a chart, i.e. a line in a line diagram, a piece of pie in a 
  *	pie chart and so on.
- *	@package Chart
+ *	@package		UI_SVG
+ *	@author			Jonas Schneider <JonasSchneider@gmx.de>
+ */
+/**
+ *	This class represents an object in a chart, i.e. a line in a line diagram, a piece of pie in a 
+ *	pie chart and so on.
+ *	@package		UI_SVG
+ *	@author			Jonas Schneider <JonasSchneider@gmx.de>
  */
 class UI_SVG_ChartData
 {
@@ -11,14 +18,14 @@ class UI_SVG_ChartData
 	 *	@var string
 	 *	@access public
 	 */
-	var $desc;
+	public $desc;
 	
 	/**
 	 *	Value of the data object.
 	 *	@var float
 	 *	@access public
 	 */
-	var $value;
+	public $value;
 	
 	/**
 	 * 	The constructor.

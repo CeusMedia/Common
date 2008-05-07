@@ -34,7 +34,7 @@ class XML_XSL_Transformator
 	 */
 	public function loadXmlFile( $xmlFile )
 	{
-		$reader	= new File_Reader( $xmlFile );
+		$reader		= new File_Reader( $xmlFile );
 		$this->xml	= $reader->readString();
 	}
 
@@ -46,7 +46,7 @@ class XML_XSL_Transformator
 	 */
 	public function loadXslFile( $xslFile )
 	{
-		$reader	= new File_Reader( $xslFile );
+		$reader		= new File_Reader( $xslFile );
 		$this->xsl	= $reader->readString();
 	}
 	
@@ -58,7 +58,7 @@ class XML_XSL_Transformator
 	public function transform()
 	{
 		if( !( $this->xml && $this->xsl ) )
-			throw new InvalidArgumentException( "XML and XSL must be set." );
+			throw new InvalidArgumentException( 'XML and XSL must be set.' );
 		$xml	= DOMDocument::loadXML( $this->xml );
 		$xsl	= DOMDocument::loadXML( $this->xsl );
 		$proc	= new XSLTProcessor();
@@ -75,7 +75,7 @@ class XML_XSL_Transformator
 	 *	@param		string		$outFile		File Name for Output
 	 *	@return		string
 	 */
-	function transformToFile( $outFile = false )
+	public function transformToFile( $outFile = false )
 	{
 		$result	= $this->transform();
 		$writer	= new File_Writer( $outFile );

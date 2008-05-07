@@ -20,7 +20,7 @@ class SemanticValidator
 	 *	@param		string		$param		Parameter to be proved
 	 *	@return		bool
 	 */
-	function hasValue( $param )
+	public function hasValue( $param )
 	{
 		return $param != "";
 	}
@@ -32,7 +32,7 @@ class SemanticValidator
 	 *	@param		string		$limit		Parameter to be messed with
 	 *	@return		bool
 	 */
-	function isGreater( $param, $limit )
+	public function isGreater( $param, $limit )
 	{
 		return $param > $limit;
 	}
@@ -44,7 +44,7 @@ class SemanticValidator
 	 *	@param		string		$limit		Parameter to be messed with
 	 *	@return		bool
 	 */
-	function isLess( $param, $limit )
+	public function isLess( $param, $limit )
 	{
 		return $param < $limit;
 	}
@@ -55,7 +55,7 @@ class SemanticValidator
 	 *	@param		string		$param		Parameter to be proved
 	 *	@return		bool
 	 */
-	function isPast( $param )
+	public function isPast( $param )
 	{
 		if( !$param )
 			return true;
@@ -83,7 +83,7 @@ class SemanticValidator
 	 *	@param		string		$param		Parameter to be proved
 	 *	@return		bool
 	 */
-	function isFuture( $param )
+	public function isFuture( $param )
 	{
 		if( !$param )
 			return true;
@@ -113,7 +113,7 @@ class SemanticValidator
 	 *	@param		string		$point		Time point to be after
 	 *	@return		bool
 	 */
-	function isAfter( $param, $point )
+	public function isAfter( $param, $point )
 	{
 		if( !$param )
 			return true;
@@ -145,7 +145,7 @@ class SemanticValidator
 	 *	@param		string		$point		Time point to be before
 	 *	@return		bool
 	 */
-	function isBefore( $param, $point )
+	public function isBefore( $param, $point )
 	{
 		if( !$param )
 			return true;
@@ -176,7 +176,7 @@ class SemanticValidator
 	 *	@param		string		$param		Parameter to be proved
 	 *	@return		bool
 	 */
-	function isURL( $param )
+	public function isURL( $param )
 	{
 		if( $param )
 			return $this->isPreg( $param, "@^([a-z]+)://([a-z0-9-_\.]+)/?([\w$-\.+!*'\(\)\@:?#=&/;]+)$@si" );
@@ -189,29 +189,29 @@ class SemanticValidator
 	 *	@param		string		$$param		Parameter to be proved
 	 *	@return		bool
 	 */
-	function isEmail( $param )
+	public function isEmail( $param )
 	{
 		if( $param )
 			return $this->isPreg( $param, "#^([a-z0-9הצü_.-]+)@([a-z0-9הצü_.-]+)\.([a-z]{2,4})$#si" );
 		return true;
 	}
 	
-	function isPreg( $param, $pattern )
+	public function isPreg( $param, $pattern )
 	{
 		return preg_match( $pattern, $param );
 	}
 	
-	function isEreg( $param, $pattern )
+	public function isEreg( $param, $pattern )
 	{
 		return ereg( $pattern, $param );
 	}
 	
-	function isEregi( $param, $pattern )
+	public function isEregi( $param, $pattern )
 	{
 		return eregi( $pattern, $param );
 	}
 	
-	function validate( $string, $feature, $value )
+	public function validate( $string, $feature, $value )
 	{
 		$valid = true;
 		$class_method = "is".ucfirst( $feature );

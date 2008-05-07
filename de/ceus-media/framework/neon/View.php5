@@ -15,7 +15,7 @@ import( 'de.ceus-media.ui.html.WikiParser' );
  *	@uses			UI_HTML_Paging
  *	@uses			Alg_TimeConverter
  *	@uses			File_INI_Reader
- *	@uses			WikiParser
+ *	@uses			UI_HTML_WikiParser
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			01.12.2005
  *	@version		0.3
@@ -31,7 +31,7 @@ import( 'de.ceus-media.ui.html.WikiParser' );
  *	@uses			Alg_TimeConverter
  *	@uses			File_INI_Reader
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@uses			WikiParser
+ *	@uses			UI_HTML_WikiParser
  *	@since			01.12.2005
  *	@version		0.3
  *	@todo			Code Documentation
@@ -51,7 +51,7 @@ class Framework_Neon_View
 	public $tc;
 	/**	@var	UI_HTML_Elements			$html			HTML Elements */
 	var $html;
-	/**	@var	WikiParser					$wiki			Wiki Parser */
+	/**	@var	UI_HTML_WikiParser			$wiki			Wiki Parser */
 	var $wiki;
 	/**	@var	Framework_Neon_Language		$language		Language Support */
 	var $language;
@@ -65,12 +65,13 @@ class Framework_Neon_View
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function __construct()
+	public function __construct( $useWikiParser = FALSE )
 	{
 		$this->ref			= new ADT_Reference();
 		$this->tc			= new Alg_TimeConverter;
 		$this->html			= new UI_HTML_Elements;
-		$this->wiki			= new WikiParser;
+		if( $useWikiParser )
+			$this->wiki			= new UI_HTML_WikiParser;
 		$this->language		= $this->ref->get( 'language' );
 		$this->words		=& $this->language->words;
 		$this->messenger	= $this->ref->get( 'messenger' );
@@ -271,7 +272,7 @@ class Framework_Neon_View
 
 		$content	= "";
 		
-		if( $ext == "wiki" )
+		if( $ext == "wiki" && $this->wiki )
 		{
 			$cachefile	= $config['paths']['cache'].$path."/".$session->get( 'language' )."/".$basename.".html";
 			if( file_exists( $cachefile ) && filemtime( $filename ) <= filemtime( $cachefile ) )

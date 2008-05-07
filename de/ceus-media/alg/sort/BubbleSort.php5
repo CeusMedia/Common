@@ -1,41 +1,47 @@
 <?php
 /**
  *	Bubble Sort.
- *	@package	alg
- *	@subpackage	sort
- *	@author		Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version		0.4
+ *	@package		alg.sort
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@version		0.5
  */
 /**
  *	Bubble Sort.
- *	@package	alg
- *	@subpackage	sort
- *	@author		Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version		0.4
+ *	@package		alg.sort
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@version		0.5
  */
-class BubbleSort
+class Alg_Sort_BubbleSort
 {
 
 	/**
-	 *
+	 *	Sorts List with Bubble Sort.
+	 *	@access		public
+	 *	@param		array		$list		List to sort
+	 *	@return		array
 	 */
-	function sort($list)
+	public static function sort($list)
 	{
-		for ($i=sizeof($list)-1; $i>=1; $i--)
-			for ($j=0; $j<$i; $j++)
-				if ($list[$j] > $list[$j+1]) 
-					$this->_swap($list, $j, $j+1);
+		for( $i=sizeof( $list ) - 1; $i>=1; $i-- )
+			for( $j=0; $j<$i; $j++ )
+				if( $list[$j] > $list[$j+1] ) 
+					self::swap( $list, $j, $j + 1 );
 		return $list;
 	}
 
 	/**
-	 *
+	 *	Swaps two Elements in List.
+	 *	@access		protected
+	 *	@param		array		$list		Reference to List
+	 *	@param		int			$pos1		Position of first Element
+	 *	@param		int			$pos1		Position of second Element
+	 *	@return		void
 	 */
-	function _swap (&$list, $pos1, $pos2)
+	protected static function swap( &$list, $pos1, $pos2 )
 	{
-		$mem = $list[$pos1];
+		$memory	= $list[$pos1];
 		$list[$pos1] = $list[$pos2];
-		$list[$pos2] = $mem;
+		$list[$pos2] = $memory;
 	}
 }
 ?>

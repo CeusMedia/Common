@@ -21,12 +21,12 @@ class Server_Daemon extends Console_Application
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		int		$time_limit		Run Time Limitation in Seconds (for Development), default=10s, set 0 for unlimited Run Time 
+	 *	@param		int		$timeLimit		Run Time Limitation in Seconds (for Development), default=10s, set 0 for unlimited Run Time 
 	 *	@return		void
 	 */
-	public function __construct( $time_limit = 10)
+	public function __construct( $timeLimit = 10)
 	{
-		set_time_limit( $time_limit );
+		set_time_limit( $timeLimit );
 		ob_implicit_flush( 1 );
 		parent::__construct();
 	}
@@ -36,7 +36,7 @@ class Server_Daemon extends Console_Application
 	 *	@access		public
 	 *	@return		void
 	 */
-	function main()
+	public function main()
 	{
 		while( 1 )
 		{
@@ -51,7 +51,7 @@ class Server_Daemon extends Console_Application
 	 *	@access		public
 	 *	@return		void
 	 */
-	function serve()
+	public function serve()
 	{
 		echo "\n".time();
 	}
@@ -61,7 +61,7 @@ class Server_Daemon extends Console_Application
 	 *	@access		public
 	 *	@return		void
 	 */
-	function sleep()
+	public function sleep()
 	{
 		sleep(1);
 	}
@@ -71,7 +71,7 @@ class Server_Daemon extends Console_Application
 	 *	@access		public
 	 *	@return		void
 	 */
-	function quit( $return )
+	public function quit( $return )
 	{
 		return $return;
 	}

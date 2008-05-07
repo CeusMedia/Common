@@ -24,7 +24,7 @@ class Validator extends TypeValidator
 	 *	@param		string	$string		String to be proved
 	 *	@return		bool
 	 */
-	function isALPHA( $string )
+	public function isALPHA( $string )
 	{
 		$size = $this->getSize( $string );
 		for( $i=0; $i<$size; $i++ )
@@ -43,7 +43,7 @@ class Validator extends TypeValidator
 	 *	@param		string	$string		String to be proved
 	 *	@return		bool
 	 */
-	function isALPHANUMERIC( $string )
+	public function isALPHANUMERIC( $string )
 	{
 		$size = $this->getSize( $string );
 		for( $i=0; $i<$size; $i++ )
@@ -64,7 +64,7 @@ class Validator extends TypeValidator
 	 *	@param		string	$string		String to be proved
 	 *	@return		bool
 	 */
-	function isALPHANUMERICHYPHEN( $string )
+	public function isALPHANUMERICHYPHEN( $string )
 	{
 		$size = $this->getSize( $string );
 		for( $i=0; $i<$size; $i++ )
@@ -86,7 +86,7 @@ class Validator extends TypeValidator
 	 *	@param		string	$string		String to be proved
 	 *	@return		bool
 	 */
-	function isALPHANUMERICSPACE( $string )
+	public function isALPHANUMERICSPACE( $string )
 	{
 		$size = $this->getSize( $string );
 		for( $i=0; $i<$size; $i++ )
@@ -108,7 +108,7 @@ class Validator extends TypeValidator
 	 *	@param		string	$string		String to be proved
 	 *	@return		bool
 	 */
-	function isALPHANUMERICSYMBOL( $string )
+	public function isALPHANUMERICSYMBOL( $string )
 	{
 		$size = $this->getSize( $string );
 		for( $i=0; $i<$size; $i++ )
@@ -131,7 +131,7 @@ class Validator extends TypeValidator
 	 *	@param		string	$string		String to be proved
 	 *	@return		bool
 	 */
-	function isDOTNUMERIC( $string )
+	public function isDOTNUMERIC( $string )
 	{
 		$found = false;
 		$size = $this->getSize( $string );
@@ -161,7 +161,7 @@ class Validator extends TypeValidator
 	 *	@param		string	$string		String to be proved
 	 *	@return		bool
 	 */
-	function isFLOATNUMERIC( $string )
+	public function isFLOATNUMERIC( $string )
 	{
 		$found = false;
 		$size = $this->getSize( $string );
@@ -192,7 +192,7 @@ class Validator extends TypeValidator
 	 *	@param		string	$string		String to be proved
 	 *	@return		bool
 	 */
-	function isID( $string )
+	public function isID( $string )
 	{
 		$size = $this->getSize( $string );
 		for( $i=0; $i<$size; $i++ )
@@ -218,7 +218,7 @@ class Validator extends TypeValidator
 	 *	@param		string	$string		String to be proved
 	 *	@return		bool
 	 */
-	function isNUMERIC( $string )
+	public function isNUMERIC( $string )
 	{
 		$size = $this->getSize( $string );
 		for( $i=0; $i<$size; $i++ )
@@ -239,7 +239,7 @@ class Validator extends TypeValidator
 	 *	@param		string	$string		String to be proved
 	 *	@return		bool
 	 */
-	function isNUMERICSYMBOL( $string )
+	public function isNUMERICSYMBOL( $string )
 	{
 		$size = $this->getSize( $string );
 		for( $i=0; $i<$size; $i++ )
@@ -261,7 +261,7 @@ class Validator extends TypeValidator
 	 *	@param		string	$string		String to be proved
 	 *	@return		bool
 	 */
-	function isSYMBOL( $string )
+	public function isSYMBOL( $string )
 	{
 		$size = $this->getSize( $string );
 		if( $size )
@@ -289,7 +289,7 @@ class Validator extends TypeValidator
 	 *	@param		string	$string		String
 	 *	@return		int
 	 */
-	function getSize( $string )
+	public function getSize( $string )
 	{
 		return strlen( $string );
 	}

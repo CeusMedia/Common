@@ -1,64 +1,63 @@
 <?php
 /**
  *	Insertion Sort.
- *	@package	alg
- *	@subpackage	sort
- *	@author		Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version		0.4
+ *	@package		alg.sort
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@version		0.5
  */
 /**
  *	Insertion Sort.
- *	@package	alg
- *	@subpackage	sort
- *	@author		Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version		0.4
+ *	@package		alg.sort
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@version		0.5
  */
-class InsertionSort
+class Alg_Sort_InsertionSort
 {
-	var $_compares	= 0;
-	var $_moves		= 0;
-
-	public function __construct ()
-	{
-//		this->
-	}	
-	
+	protected $compares	= 0;
+	protected $moves	= 0;
 	
 	/**
-	 *
+	 *	Sorts List with Insertion Sort.
+	 *	@access		public
+	 *	@param		array		$list		List to sort
+	 *	@return		array
 	 */
-	function sort ($list)
+	public function sort( $list )
 	{
-//		echo "liste: ".implode (" | ", $list)."<br>";
-		$n = sizeof ($list);
-		for ($i=0; $i<$n; $i++)
+//		echo "list: ".implode (" | ", $list)."<br>";
+		$n	= sizeof( $list );
+		for( $i=0; $i<$n; $i++ )
 		{
-			$temp = $list[$i];
-			$j = $n-1;
-			while ($j>=0 && $this->_moves < 100)
+			$temp	= $list[$i];
+			$j		= $n - 1;
+			while( $j>=0 && $this->moves < 100 )
 			{
-				if ($list[$j]>$temp)
+				if( $list[$j] > $temp )
 				{
-					//$counter ++;
-					$this->_moves ++;
-					$list = $this->swap($list,$j+1,$j);
-//					echo "liste[$i|$j]: ".implode (" | ", $list)."<br>";
+					$this->moves ++;
+					$list = self::swap( $list, $j + 1, $j );
+//					echo "list[$i|$j]: ".implode (" | ", $list)."<br>";
 					$j--;
 				}
-				$this->_compares ++;
+				$this->compares ++;
 			}
 		}
-		return array ($list);
+		return $list;
 	}
 
 	/**
-	 *
+	 *	Swaps two Elements in List.
+	 *	@access		protected
+	 *	@param		array		$list		List
+	 *	@param		int			$pos1		Position of first Element
+	 *	@param		int			$pos1		Position of second Element
+	 *	@return		array
 	 */
-	function swap ($list, $pos1, $pos2)
+	protected static function swap( $list, $pos1, $pos2 )
 	{
-		$a = $list[$pos1];
+		$memory	= $list[$pos1];
 		$list[$pos1] = $list[$pos2];
-		$list[$pos2] = $a;
+		$list[$pos2] = $memory;
 		return $list;
 	}
 }

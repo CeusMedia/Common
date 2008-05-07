@@ -23,7 +23,7 @@ class CountValidator extends Validator
 	 *	@param		int		$max		maximum length
 	 *	@return		bool
 	 */
-	function hasLength( $string, $min = false, $max = false )
+	public function hasLength( $string, $min = false, $max = false )
 	{
 		if( $min) $min = $this->hasMin( $string, $min );
 		else $min = true;
@@ -45,7 +45,7 @@ class CountValidator extends Validator
 	 *	@param		int		$max		maximum length
 	 *	@return		bool
 	 */
-	function hasMax( $string, $max )
+	public function hasMax( $string, $max )
 	{
 		$size = $this->getSize( $string );
 		if( $size <= $max )
@@ -60,7 +60,7 @@ class CountValidator extends Validator
 	 *	@param		int		$min			minimum length
 	 *	@return		bool
 	 */
-	function hasMin( $string, $min )
+	public function hasMin( $string, $min )
 	{
 		$size = $this->getSize( $string );
 		if( $size >= $min )
@@ -77,7 +77,7 @@ class CountValidator extends Validator
 	 *	@param		int		$max		maximum length
 	 *	@return		bool
 	 */
-	function validate( $string, $class, $min, $max )
+	public function validate( $string, $class, $min, $max )
 	{
 		$class_method = "is".strtoupper( $class );
 		if( $class && method_exists( $this, $class_method ) )
@@ -94,7 +94,7 @@ class CountValidator extends Validator
 		return $is_valid;
 	}
 	
-	function validate2( $string, $feature, $value )
+	public function validate2( $string, $feature, $value )
 	{
 		$valid = true;
 		switch( $feature )

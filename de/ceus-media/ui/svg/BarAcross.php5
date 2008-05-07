@@ -1,18 +1,18 @@
 <?PHP
 /**
- *	Class file for {@link Chart_Pie}
- *	@package		Chart
- *	@author			Jonas Schneider <JonasSchneider@gmx.de>
- */
-
-/**
- *	This is a pie visualization class. 
+ *	This is a Bar Visualization Class. 
  *	You shouldn´t use this class alone, but you can.
  *	You should only use it in corporation with the {@link Chart} class.
- *	@see			Chart_Pie::get()
- *	@package		Chart
+ *	@package		UI_SVG
+ *	@author			Jonas Schneider <JonasSchneider@gmx.de>
  */
-
+/**
+ *	This is a Bar Visualization Class. 
+ *	You shouldn´t use this class alone, but you can.
+ *	You should only use it in corporation with the {@link Chart} class.
+ *	@package		UI_SVG
+ *	@author			Jonas Schneider <JonasSchneider@gmx.de>
+ */
 class UI_SVG_BarAcross
 {
 	/**
@@ -25,7 +25,7 @@ class UI_SVG_BarAcross
 	* @return string
 	* @see Chart::get()
 	*/
-	function build( $options )
+	public function build( $options )
 	{
 		$x = isset( $options["x"] ) ? $options["x"] : 50;
 		$y = isset( $options["y"] ) ? $options["y"] : 80;

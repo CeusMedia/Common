@@ -49,13 +49,14 @@ class Tests_UI_HTML_TagTest extends PHPUnit_Framework_TestCase
 		$creation	= (string) new UI_HTML_Tag( $name, $value, $attributes );
 		$this->assertEquals( $assertion, $creation );
 
+/*		XHTML 1.1
 		$name		= "key";
 		$value		= "";
 		$attributes	= array( 'key1' => "" );
 		$assertion	= '<key></key>';
 		$creation	= (string) new UI_HTML_Tag( $name, $value, $attributes );
 		$this->assertEquals( $assertion, $creation );
-
+*/
 		$name		= "key";
 		$value		= NULL;
 		$attributes	= array( 'key1' => NULL );

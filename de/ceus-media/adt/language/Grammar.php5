@@ -2,56 +2,50 @@
 import ("de.ceus-media.adt.set.SetOperation");
 /**
  *	Grammar for formal Languages
- *	@package		adt
- *	@subpackage		language
- *	@extends		Object
- *	@uses			Error
+ *	@package		adt.language
  *	@uses			SetOperation
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version		0.1
+ *	@version		0.5
  */
 /**
  *	Grammar for formal Languages
- *	@package		adt
- *	@subpackage		language
- *	@extends		Object
- *	@uses			Error
+ *	@package		adt.language
  *	@uses			SetOperation
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version		0.1
+ *	@version		0.5
  */
-class Grammar
+class ADT_Language_Grammar
 {
 	/**	@var		Set			$variables		Alphabet of variable Symbols */
-	var $_variables;
+	protected $variables;
 	/**	@var		Set			$terminals		Alphabet of terminal Symbols */
-	var $_terminals;	
+	protected $terminals;	
 	/**	@var		array		$rules			Array of Pairs with production rules */
-	var $_rules;	
+	protected $rules;	
 	/**	@var		string		$start			Start symbol */
-	var $_start;	
+	protected $start;	
 	
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		Alphabet		$variables		Alphabet of variable Symbols
-	 *	@param		Alphabet		$terminals		Alphabet of terminal Symbols
-	 *	@param		array		$variables		Array of Pairs with production rules
-	 *	@param		string		$start			Start symbol
+	 *	@param		ADT_Language_Alphabet	$variables		Alphabet of variable Symbols
+	 *	@param		ADT_Language_Alphabet	$terminals		Alphabet of terminal Symbols
+	 *	@param		array					$variables		Array of Pairs with production rules
+	 *	@param		string					$start			Start symbol
 	 *	@return		void
 	 */
-	public function __construct ($variables, $terminals, $rules, $start = false)
+	public function __construct( $variables, $terminals, $rules, $start = FALSE )
 	{
-		$this->_variables	= $variables;
-		$this->_terminals	= $terminals;
-		$this->_rules		= $rules;
-		if ($start)
-			$this->_start		= $start;
+		$this->variables	= $variables;
+		$this->terminals	= $terminals;
+		$this->rules		= $rules;
+		if( $start )
+			$this->start	= $start;
 			
-		$so = new SetOperation ();
-		$inter = $so->intersect ($variables, $terminals);
-		if (!$inter->isEmpty ())
-			trigger_error( "Intersection between Variables and Terminals must be empty.", E_USER_WARNING );
+		$so = new SetOperation();
+		$inter = $so->intersect( $variables, $terminals );
+		if( !$inter->isEmpty() )
+			throw new Exception( 'Intersection between Variables and Terminals must be empty.' );
 	}
 	
 	/**
@@ -59,9 +53,9 @@ class Grammar
 	 *	@access		public
 	 *	@return		array
 	 */
-	function getRules ()
+	public function getRules()
 	{
-		return $this->_rules;
+		return $this->rules;
 	}
 	
 	/**
@@ -69,11 +63,11 @@ class Grammar
 	 *	@access		public
 	 *	@return		int
 	 */
-	function getType ()
+	public function getType()
 	{
-		$types = array_reverse (array (0, 1, 2, 3));
-		foreach ($types as $type)
-			if ($this->isType ($type))
+		$types = array_reverse( array( 0, 1, 2, 3 ) );
+		foreach( $types as $type )
+			if( $this->isType( $type ) )
 				return $type;
 	}
 	
@@ -83,42 +77,42 @@ class Grammar
 	 *	@param		int		$type		Chomsky-Type (0-3)
 	 *	@return		bool
 	 */
-	function isType ($type)
+	public function isType( $type )
 	{
-		$return = false;
-		switch ($type)
+		$return = FALSE;
+		switch( $type )
 		{
 			case 0:												//  Phasenstrukturgrammatik (aufzählbar, semi-entscheidbar mit Turing-Maschine)
-				return true;
+				return TRUE;
 			case 1:												//  kontextsensitive Grammatik (endscheidbar
-				if ($this->isType (0))
+				if( $this->isType( 0 ) )
 				{
-					$return = true;
-					foreach ($rules = $this->getRules() as $rule)
-						if (strlen ($rule->getKey ()) > strlen($rule->getValue ()))
-							$return = false;
+					$return = TRUE;
+					foreach( $rules = $this->getRules() as $rule )
+						if( strlen( $rule->getKey() ) > strlen( $rule->getValue() ) )
+							$return = FALSE;
 				}
 				break;
 			case 2:												//  kontextfreie Grammatik
-				if ($this->isType (0) && $this->isType (1))
+				if( $this->isType( 0 ) && $this->isType( 1 ) )
 				{
-					$return = true;
-					foreach ($this->getRules() as $rule)
-						if (!$this->_variables->has ($rule->getKey ()))
-							$return = false;
+					$return = TRUE;
+					foreach( $this->getRules() as $rule )
+						if( !$this->variables->has( $rule->getKey() ) )
+							$return = FALSE;
 				}
 				break;
 			case 3:												//  reguläre Grammatik
-				if ($this->isType (0) && $this->isType (1) && $this->isType (2))
+				if( $this->isType( 0 ) && $this->isType( 1 ) && $this->isType( 2 ) )
 				{
-					$return = true;
-					$so = new SetOperation ();
-					$cross = $so->produceCross ($this->_terminals, $this->_variables);
+					$return = TRUE;
+					$so = new SetOperation();
+					$cross	= $so->produceCross( $this->terminals, $this->variables );
 					$rules	= $this->getRules();
-					foreach ($rules as $rule)
-						if (!$this->_terminals->has($rule->getValue ()))
-							if (!$cross->has ($rule->getValue ()))
-								$return = false;
+					foreach( $rules as $rule )
+						if( !$this->terminals->has( $rule->getValue() ) )
+							if( !$cross->has( $rule->getValue() ) )
+								$return = FALSE;
 				}
 				break;
 		}

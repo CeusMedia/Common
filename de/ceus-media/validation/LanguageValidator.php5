@@ -15,10 +15,10 @@
  */
 class LanguageValidator
 {
-	/**	@var	string	$_allowed		Array of allowed Languages */
-	var $_allowed;
-	/**	@var	string	$_default		Default Language */
-	var $_default;
+	/**	@var		string		$allowed		Array of allowed Languages */
+	protected $allowed;
+	/**	@var		string		$default		Default Language */
+	protected $default;
 
 	/**
 	 *	Constructor.
@@ -33,16 +33,16 @@ class LanguageValidator
 			trigger_error( "First Argument must be an Array.", E_USER_ERROR );
 		if( !count( $allowed ) )
 			trigger_error( "At least one Language must be allowed.", E_USER_ERROR );
-		$this->_allowed	= $allowed;
+		$this->allowed	= $allowed;
 		if( $default )
 		{
 			if( !in_array( $default, $allowed ) )
 				trigger_error( "Default Language must be an allowed Language.", E_USER_ERROR );
 			else
-				$this->_default	= $default;
+				$this->default	= $default;
 		}
 		else
-			$this->_default = $this->_allowed[0];
+			$this->default = $this->allowed[0];
 	}
 
 	/**
@@ -51,13 +51,13 @@ class LanguageValidator
 	 *	@param		string	$language		Language to prove
 	 *	@return		string
 	 */
-	function getLanguage( $language )
+	public function getLanguage( $language )
 	{
 		$pattern		= '/^([a-z]{1,8}(?:-[a-z]{1,8})*)(?:;\s*q=(0(?:\.[0-9]{1,3})?|1(?:\.0{1,3})?))?$/i';
 		if( !$language )
-			return $this->_default;
+			return $this->default;
 		$accepted	= preg_split( '/,\s*/', $language );
-		$curr_lang	= $this->_default;
+		$curr_lang	= $this->default;
 		$curr_qual	= 0;
 		foreach( $accepted as $accept)
 		{
@@ -67,7 +67,7 @@ class LanguageValidator
 			$lang_quality =  isset( $matches[2] ) ? (float)$matches[2] : 1.0;
 			while (count ($lang_code))
 			{
-				if( in_array( strtolower( join( '-', $lang_code ) ), $this->_allowed ) )
+				if( in_array( strtolower( join( '-', $lang_code ) ), $this->allowed ) )
 				{
 					if( $lang_quality > $curr_qual )
 					{

@@ -18,16 +18,16 @@ import( 'de.ceus-media.validation.SemanticValidator' );
 class DefinitionValidator
 {
 	/**	@var		array		$_labels			Field Labels */
-	var $_labels	= array();
+	protected $labels	= array();
 	/**	@var		array		$_syntax_keys	Keys of Syntax Validator */
-	var $_syntax_keys	= array(
+	protected $syntax_keys	= array(
 		"class",
 		"mandatory",
 		"minlength",
 		"maxlength"
 		);
 	/**	@var		array		$_messages		Error Messages */
-	var $_messages	= array(
+	protected $messages	= array(
 		'syntax'	=> array(
 			'class'		=> "The Value of Field '%label%' is not correct.",
 			'mandatory'	=> "Field '%label%' is mandatory.",
@@ -58,8 +58,8 @@ class DefinitionValidator
 	 */
 	public function __construct()
 	{
-		$this->_cv	= new CountValidator;
-		$this->_sv	= new SemanticValidator;
+		$this->cv	= new CountValidator;
+		$this->sv	= new SemanticValidator;
 	}
 
 	/**
@@ -70,7 +70,7 @@ class DefinitionValidator
 	 */
 	function setLabels( $labels )
 	{
-		$this->_labels	= $labels;
+		$this->labels	= $labels;
 	}
 	
 	/**
@@ -81,7 +81,7 @@ class DefinitionValidator
 	 */
 	function setMessages( $messages )
 	{
-		$this->_messages	= $messages;	
+		$this->messages	= $messages;	
 	}
 	
 	/**
@@ -97,15 +97,15 @@ class DefinitionValidator
 		$errors	= array();
 		if( strlen( $value ) )
 		{
-			if( isset( $data['syntax']['class'] ) && !$this->_cv->validate2( $value, 'class', $data['syntax']['class'] ) )
-				$errors[]	= $this->_handleSyntaxError( $field, 'class', $value );
-			if( isset( $data['syntax']['minlength'] ) && $data['syntax']['minlength'] && !$this->_cv->validate2( $value, 'minlength', $data['syntax']['minlength'] ) )
-				$errors[]	= $this->_handleSyntaxError( $field, 'minlength', $value, $data['syntax']['minlength'] );
-			if( isset( $data['syntax']['maxlength'] ) && $data['syntax']['maxlength'] && !$this->_cv->validate2( $value, 'maxlength', $data['syntax']['maxlength'] ) )
-				$errors[]	= $this->_handleSyntaxError( $field, 'maxlength', $value, $data['syntax']['maxlength'] );
+			if( isset( $data['syntax']['class'] ) && !$this->cv->validate2( $value, 'class', $data['syntax']['class'] ) )
+				$errors[]	= $this->handleSyntaxError( $field, 'class', $value );
+			if( isset( $data['syntax']['minlength'] ) && $data['syntax']['minlength'] && !$this->cv->validate2( $value, 'minlength', $data['syntax']['minlength'] ) )
+				$errors[]	= $this->handleSyntaxError( $field, 'minlength', $value, $data['syntax']['minlength'] );
+			if( isset( $data['syntax']['maxlength'] ) && $data['syntax']['maxlength'] && !$this->cv->validate2( $value, 'maxlength', $data['syntax']['maxlength'] ) )
+				$errors[]	= $this->handleSyntaxError( $field, 'maxlength', $value, $data['syntax']['maxlength'] );
 		}
 		else if( $data['syntax']['mandatory'] )
-			$errors[]	= $this->_handleSyntaxError( $field, 'mandatory', $value );
+			$errors[]	= $this->handleSyntaxError( $field, 'mandatory', $value );
 		return $errors;
 	}
 	
@@ -128,25 +128,24 @@ class DefinitionValidator
 				if( strlen( $semantic['edge'] ) )
 					$param[]	= "'".$semantic['edge']."'";
 				$param	= implode( ",", $param );
-				$method = "return \$this->_sv->".$semantic['predicate']."(".$param.");";
+				$method = "return \$this->sv->".$semantic['predicate']."(".$param.");";
 				if( !eval( $method ) )
-					$errors[]	= $this->_handleSemanticError( $field, $semantic['predicate'], $value, $semantic['edge'] );
+					$errors[]	= $this->handleSemanticError( $field, $semantic['predicate'], $value, $semantic['edge'] );
 			}
 		}
 		return $errors;
 	}
 	
-	//  --  PRIVATE METHODS  --  //
 	/**
 	 *	Returns Label of Field.
 	 *	@access		private
 	 *	@param		string		$field		Field
 	 *	@return		string
 	 */
-	function _getLabel( $field )
+	protected function getLabel( $field )
 	{
-		if( isset( $this->_labels[$field] ) )
-			return $this->_labels[$field];
+		if( isset( $this->labels[$field] ) )
+			return $this->labels[$field];
 		return $field;
 	}
 
@@ -159,11 +158,11 @@ class DefinitionValidator
 	 *	@param		string		[$edge]		At least accepted Value
 	 *	@return		string
 	 */
-	function _handleSyntaxError( $field, $key, $value, $edge = false )
+	protected function handleSyntaxError( $field, $key, $value, $edge = false )
 	{
-		$msg	= $this->_messages['syntax'][$key];
+		$msg	= $this->messages['syntax'][$key];
 		$msg	= str_replace( "%validator%", $key, $msg );
-		$msg	= str_replace( "%label%", $this->_getLabel( $field ), $msg );
+		$msg	= str_replace( "%label%", $this->getLabel( $field ), $msg );
 		$msg	= str_replace( "%field%", $field, $msg );
 		$msg	= str_replace( "%value%", $value, $msg );
 		$msg	= str_replace( "%edge%", $edge, $msg );
@@ -179,11 +178,11 @@ class DefinitionValidator
 	 *	@param		string		[$edge]		At least accepted Value
 	 *	@return		string
 	 */
-	function _handleSemanticError( $field, $predicate, $value, $edge = false )
+	protected function handleSemanticError( $field, $predicate, $value, $edge = false )
 	{
-		$msg	= $this->_messages['semantic'][$predicate];
+		$msg	= $this->messages['semantic'][$predicate];
 		$msg	= str_replace( "%validator%", $predicate, $msg );
-		$msg	= str_replace( "%label%", $this->_getLabel( $field ), $msg );
+		$msg	= str_replace( "%label%", $this->getLabel( $field ), $msg );
 		$msg	= str_replace( "%field%", $field, $msg );
 		$msg	= str_replace( "%value%", $value, $msg );
 		$msg	= str_replace( "%edge%", $edge, $msg );

@@ -1,22 +1,20 @@
 <?php
 import ("de.ceus-media.adt.set.Set");
 /**
- *	@package		adt
- *	@subpackage		language
+ *	@package		adt.language
  *	@extends		Set
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version		0.1
+ *	@version		0.5
  */
 /**
- *	@package		adt
- *	@subpackage		language
+ *	@package		adt.language
  *	@extends		Set
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version		0.1
+ *	@version		0.5
  *	@todo			Finish Implementation
  *	@todo			Code Documentation
  */
-class Alphabet extends Set
+class ADT_Language_Alphabet extends Set
 {
 	/**
 	 *	Contructor.
@@ -25,7 +23,7 @@ class Alphabet extends Set
 	 */
 	public function __construct ()
 	{
-		parent::__construct(func_get_args());
+		parent::__construct( func_get_args() );
 	}
 
 	/**
@@ -34,19 +32,13 @@ class Alphabet extends Set
 	 *	@param		Sign		$sign		Sign to be added
 	 *	@return		void
 	 */
-	function addSign ($sign)
+	public function addSign ($sign)
 	{
-		if ($sign && is_object ($sign) && $sign->getClass() == "sign")
-		{
-			if (!$this->hasSign ($sign))
-			{
-				$this->add ($sign);
-			}
-			else
-				trigger_error( "sign '".$sign->getSign ()."' is already in sign set", E_USER_WARNING );
-		}
-		else
-			trigger_error( "from data type of '\$sign', must be abstract data type 'Sign'", E_USER_ERROR );
+		if( !( $sign && is_object( $sign ) && $sign->getClass() == "ADT_Language_Sign" ) )
+			throw new InvalidArgumentException( 'Data Type of  Sign must be "ADT_Language_Sign".' );
+		if( $this->hasSign( $sign ) )
+			throw new InvalidArgumentException( 'Sign "'.$sign->getSign ().'" is already in Sign Set.' );
+		$this->add ($sign);
 	}
 	
 	/**
@@ -55,9 +47,9 @@ class Alphabet extends Set
 	 *	@param		Sign		$sign		Sign to be proved
 	 *	@return		bool
 	 */
-	function hasSign ($sign)
+	public function hasSign( $sign )
 	{
-		return $this->has ($sign);
+		return $this->has( $sign );
 	}
 }
 ?>

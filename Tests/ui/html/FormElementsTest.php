@@ -53,6 +53,11 @@ class Tests_UI_HTML_FormElementsTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testCheckBox()
 	{
+/*		XHTML 1.1
+		$assertion	= '<input id="testName" type="checkbox" name="testName"/>';
+		$creation	= UI_HTML_FormElements::CheckBox( "testName", "", "", "", "" );
+		$this->assertEquals( $assertion, $creation );
+*/
 		$assertion	= '<input id="testName" type="checkbox" name="testName" value="testValue" class="testClass"/>';
 		$creation	= UI_HTML_FormElements::CheckBox( "testName", "testValue", FALSE, "testClass" );
 		$this->assertEquals( $assertion, $creation );
@@ -66,7 +71,7 @@ class Tests_UI_HTML_FormElementsTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= '<input id="testName" type="checkbox" name="testName" value="testValue" class="testClass" readonly="readonly" onclick="alert(\'testDisabled\');"/>';
-		$creation	= UI_HTML_FormElements::CheckBox( "testName", "testValue", "", "testClass", "testDisabled" );
+		$creation	= UI_HTML_FormElements::CheckBox( "testName", "testValue", NULL, "testClass", "testDisabled" );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -118,7 +123,7 @@ class Tests_UI_HTML_FormElementsTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= '<input id="testName" type="file" name="testName" value="testValue" readonly="readonly" onclick="alert(\'testDisabled\');"/>';
-		$creation	= UI_HTML_FormElements::File( "testName", "testValue", "", "testDisabled" );
+		$creation	= UI_HTML_FormElements::File( "testName", "testValue", FALSE, "testDisabled" );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -284,7 +289,7 @@ class Tests_UI_HTML_FormElementsTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= '<input id="testName_testValue" type="radio" name="testName" value="testValue" class="testClass" readonly="readonly" onclick="alert(\'testDisabled\');"/>';
-		$creation	= UI_HTML_FormElements::Radio( "testName", "testValue", "", "testClass", "testDisabled" );
+		$creation	= UI_HTML_FormElements::Radio( "testName", "testValue", NULL, "testClass", "testDisabled" );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -320,7 +325,7 @@ class Tests_UI_HTML_FormElementsTest extends PHPUnit_Framework_TestCase
 		$spanRadio	= '<span class="radio">'.$fieldRadio.'</span>';
 		$spanLabel	= '<span class="label"><label for="testName_value1">label1</label></span>';
 		$assertion	= '<span class="radiolabel">'.$spanRadio.$spanLabel.'</span>';
-		$creation	= UI_HTML_FormElements::RadioGroup( "testName", $options, "", "testDisabled" );
+		$creation	= UI_HTML_FormElements::RadioGroup( "testName", $options, FALSE, "testDisabled" );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -340,7 +345,7 @@ class Tests_UI_HTML_FormElementsTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= '<button type="reset" class="testClass" onclick="alert(\'testDisabled\');" readonly="readonly">testLabel</button>';
-		$creation	= UI_HTML_FormElements::ResetButton( "testLabel", "testClass", "", "testDisabled" );
+		$creation	= UI_HTML_FormElements::ResetButton( "testLabel", "testClass", NULL, "testDisabled" );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -352,11 +357,12 @@ class Tests_UI_HTML_FormElementsTest extends PHPUnit_Framework_TestCase
 	public function testSelect()
 	{
 		$options	= array(
+			''			=> '- none -',
 			'value1'	=> 'label1',
 			'value2'	=> 'label2',
 			'_selected'	=> 'value2',
 		);
-		$assertion	= '<select id="testName" name="testName" class="testClass"><option value="value1">label1</option><option value="value2" selected="selected">label2</option></select>';
+		$assertion	= '<select id="testName" name="testName" class="testClass"><option value="">- none -</option><option value="value1">label1</option><option value="value2" selected="selected">label2</option></select>';
 		$creation	= UI_HTML_FormElements::Select( "testName", $options, "testClass" );
 		$this->assertEquals( $assertion, $creation );
 
@@ -397,7 +403,7 @@ class Tests_UI_HTML_FormElementsTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= '<textarea id="testName" name="testName" class="testClass" onkeyup="allowOnly(this,\'all\');">testContent</textarea>';
-		$creation	= UI_HTML_FormElements::TextArea( "testName", "testContent", "testClass", "", "all" );
+		$creation	= UI_HTML_FormElements::TextArea( "testName", "testContent", "testClass", NULL, "all" );
 		$this->assertEquals( $assertion, $creation );
 	}
 }

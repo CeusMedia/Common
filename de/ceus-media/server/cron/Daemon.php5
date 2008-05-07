@@ -8,7 +8,7 @@ import( 'de.ceus-media.file.log.LogFile' );
  *	@uses			LogFile
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			20.01.2006
- *	@version		0.1
+ *	@version		0.5
  */
 /**
  *	Cron Server.
@@ -18,7 +18,7 @@ import( 'de.ceus-media.file.log.LogFile' );
  *	@uses			LogFile
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			20.01.2006
- *	@version		0.1
+ *	@version		0.5
  */
 class Server_Cron_Daemon
 {
@@ -48,7 +48,7 @@ class Server_Cron_Daemon
 	 *	@param		bool		$service		Run as Service
 	 *	@return		void
 	 */
-	function serve( $service = false )
+	public function serve( $service = false )
 	{
 		$lastminute	= $service ? date( "i", time() ) : "-1";
 		do

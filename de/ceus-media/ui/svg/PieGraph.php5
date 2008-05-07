@@ -1,18 +1,18 @@
 <?PHP
 /**
- *	Class file for {@link Chart_Pie}
- *	@package		Chart
+ *	This is a pie visualization class. 
+ *	You shouldn´t use this class alone, but you can.
+ *	You should only use it in corporation with the UI_SVG_Chart class.
+ *	@package		UI_SVG
  *	@author			Jonas Schneider <JonasSchneider@gmx.de>
  */
-
 /**
  *	This is a pie visualization class. 
  *	You shouldn´t use this class alone, but you can.
- *	You should only use it in corporation with the {@link Chart} class.
- *	@see			Chart_Pie::get()
- *	@package		Chart
+ *	You should only use it in corporation with the UI_SVG_Chart class.
+ *	@package		UI_SVG
+ *	@author			Jonas Schneider <JonasSchneider@gmx.de>
  */
-
 class UI_SVG_PieGraph
 {
 	/**
@@ -21,6 +21,7 @@ class UI_SVG_PieGraph
 	 *	You can pass the following options to the this method  by using {@link Chart::get()}:<br>
 	 *	* cx & cy - The coordinates of the center point of the pie chart.<br>
 	 *	* r - The radius of the pie chart.
+	 *	@access		public
 	 *	@param		array		An array of options, see {@link Chart::get()}.
 	 *	@return		string
 	 *	@see Chart::get()

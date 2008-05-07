@@ -43,7 +43,7 @@ class File_CSV_Reader
 	 *	@access		public
 	 *	@return		array
 	 */
-	function getColumnHeaders()
+	public function getColumnHeaders()
 	{
 		$keys	= array();
 		if( $this->headers )
@@ -61,7 +61,7 @@ class File_CSV_Reader
 	 *	@access		public
 	 *	@return		int
 	 */
-	function getRowCount()
+	public function getRowCount()
 	{
 		$file	= new File_Reader( $this->fileName );
 		$lines	= $file->readArray();
@@ -76,7 +76,7 @@ class File_CSV_Reader
 	 *	@access		public
 	 *	@return		string
 	 */
-	function getSeparator()
+	public function getSeparator()
 	{
 		return $this->separator;
 	}
@@ -87,7 +87,7 @@ class File_CSV_Reader
 	 *	@param		string	separator		Separator Sign
 	 *	@return		void
 	 */
-	function setSeparator( $separator )
+	public function setSeparator( $separator )
 	{
 		$this->separator = $separator;
 	}
@@ -97,7 +97,7 @@ class File_CSV_Reader
 	 *	@access		public
 	 *	@return		array
 	 */
-	function toArray()
+	public function toArray()
 	{
 		$data	= array();
 		$file	= new File_Reader( $this->fileName );
@@ -117,7 +117,7 @@ class File_CSV_Reader
 	 *	@access		public
 	 *	@return		array
 	 */
-	function toAssocArray()
+	public function toAssocArray()
 	{
 		$data = array();
 		if( $this->headers )

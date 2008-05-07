@@ -62,7 +62,7 @@ class UI_HTML_Tag
 		$name	= strtolower( $name );
 		$list	= array();
 		foreach( $attributes as $key => $value )
-			if( $value !== NULL && $value !== FALSE && $value !== "" )
+			if( $value !== NULL && $value !== FALSE )
 #			if( !empty( $value ) )
 				$list[]	= strtolower( $key ).'="'.$value.'"';
 		$attributes	= implode( " ", $list );

@@ -177,10 +177,11 @@ class Framework_Krypton_Core_Logic
 			$value	= isset( $data[$key] ) ? $data[$key] : NULL;
 
 			//  --  SET NEGATIVE CHECKBOXES  --  //
-			if( preg_match( "@check@", $def['input']['type'] ) )
-				if( $value === NULL )
-					$data[$field]	= $value	= (int) $def['input']['default'];
-
+			if( preg_match( "@check@", $def['input']['type'] ) && $value === NULL )
+			{
+				$isInt	= (int) $def['input']['default'] == $def['input']['default'];
+				$data[$field]	= $isInt ? (int) $def['input']['default'] : (string) $def['input']['default'];
+			}
 			if( is_array( $value ) )
 				foreach( $value as $entry )
 					$errors	= array_merge( $errors, $validator->validate( $field, $def, $entry, $prefix ) );

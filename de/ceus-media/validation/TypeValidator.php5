@@ -15,38 +15,34 @@
  */
 class TypeValidator
 {
-	/**	@var	string	$regex_digit			Regular expression of validation class 'digit' */
-	var $regex_digit		= '^[0-9]{1}$';
-	/**	@var	string	$regex_letter			Regular expression of validation class 'letter' */
-	var $regex_letter		= '^[a-zäöüßâáàêéèîíìôóòûúù]{1}$';
-	/**	@var	string	$regex_comma		Regular expression of validation class 'comma' */
-	var $regex_comma		= '^[,]{1}$';
-	/**	@var	string	$regex_dot			Regular expression of validation class 'dot' */
-	var $regex_dot		= '^[.]{1}$';
-	/**	@var	string	$regex_colon			Regular expression of validation class 'colon' */
-	var $regex_colon		= '^[:]{1}$';
-	/**	@var	string	$regex_hyphen		Regular expression of validation class 'hyphen' */
-	var $regex_hyphen	= '^[-]{1}$';
-	/**	@var	string	$regex_underscore		Regular expression of validation class 'underscore' */
-	var $regex_underscore	= '^[_]{1}$';
-	/**	@var	string	$regex_slash			Regular expression of validation class 'slash' */
-	var $regex_slash		= '^[/\]{1}$';
-	/**	@var	string	$regex_plus			Regular expression of validation class 'plus' */
-	var $regex_plus		= '^[+]{1}$';
-	/**	@var	string	$regex_at			Regular expression of validation class 'at' */
-	var $regex_at			= '^[@]{1}$';
-	/**	@var	string	$regex_space			Regular expression of validation class 'space' */
-	var $regex_space		= '^[ ]{1}$';
-
-
-
-
-	/**	@var	string	$regex_ddate			Regular expression of validation class 'daydate' */
-	var $regex_ddate		= '^((([0-2][0-9]{1})|([3]{1}[0-1]{1})).(([0]{0,1}[1-9]{1})|(1[0-2]{1})).([0-9]{4}))*$';
-	/**	@var	string	$regex_mdate			Regular expression of validation class 'monthdate' */
-	var $regex_mdate		= '^((([0]?[1-9])|(1[0-2])).([0-9]{4}))*$';
-	/**	@var	string	$regex_email			Regular expression of validation class 'email' */
-	var $regex_email		= '^([a-z0-9äöü_.-]{1,})@([a-z0-9äöü_.-]{1,})[.]([a-z0-9]{2,4})$';
+	/**	@var		string		$regexDigit			Regular expression of validation class 'digit' */
+	protected $regexDigit		= '^[0-9]{1}$';
+	/**	@var		string		$regexLetter		Regular expression of validation class 'letter' */
+	protected $regexLetter		= '^[a-zäöüßâáàêéèîíìôóòûúù]{1}$';
+	/**	@var		string		$regexComma			Regular expression of validation class 'comma' */
+	protected $regexComma		= '^[,]{1}$';
+	/**	@var		string		$regexDot			Regular expression of validation class 'dot' */
+	protected $regexDot			= '^[.]{1}$';
+	/**	@var		string		$regexColon			Regular expression of validation class 'colon' */
+	protected $regexColon		= '^[:]{1}$';
+	/**	@var		string		$regexHyphen		Regular expression of validation class 'hyphen' */
+	protected $regexHyphen		= '^[-]{1}$';
+	/**	@var		string		$regexUnderscore	Regular expression of validation class 'underscore' */
+	protected $regexUnderscore	= '^[_]{1}$';
+	/**	@var		string		$regexSlash			Regular expression of validation class 'slash' */
+	protected $regexSlash		= '^[/\]{1}$';
+	/**	@var		string		$regexPlus			Regular expression of validation class 'plus' */
+	protected $regexPlus		= '^[+]{1}$';
+	/**	@var		string		$regexAt			Regular expression of validation class 'at' */
+	protected $regexAt			= '^[@]{1}$';
+	/**	@var		string		$regexSpace			Regular expression of validation class 'space' */
+	protected $regexSpace		= '^[ ]{1}$';
+	/**	@var		string		$regexDayDate		Regular expression of validation class 'daydate' */
+	protected $regexDayDate		= '^((([0-2][0-9]{1})|([3]{1}[0-1]{1})).(([0]{0,1}[1-9]{1})|(1[0-2]{1})).([0-9]{4}))*$';
+	/**	@var		string		$regexMonthDate		Regular expression of validation class 'monthdate' */
+	protected $regexMonthDate	= '^((([0]?[1-9])|(1[0-2])).([0-9]{4}))*$';
+	/**	@var		string		$regexEmail			Regular expression of validation class 'email' */
+	protected $regexEmail		= '^([a-z0-9äöü_.-]{1,})@([a-z0-9äöü_.-]{1,})[.]([a-z0-9]{2,4})$';
 
 	/**
 	 *	Indicates wheter a character is of validation class 'at'.
@@ -56,7 +52,7 @@ class TypeValidator
 	 */
 	public function isAT( $char )
 	{
-		return ereg( $this->regex_at, $char );
+		return ereg( $this->regexAt, $char );
 	}
 
 	/**
@@ -67,7 +63,7 @@ class TypeValidator
 	 */
 	public function isCOMMA( $char )
 	{
-		return ereg( $this->regex_comma, $char );
+		return ereg( $this->regexComma, $char );
 	}
 
 	/**
@@ -78,7 +74,7 @@ class TypeValidator
 	 */
 	public function isDAYDATE( $char )
 	{
-		return ereg( $this->regex_ddate, $char );
+		return ereg( $this->regexDayDate, $char );
 	}
 
 	/**
@@ -89,7 +85,7 @@ class TypeValidator
 	 */
 	public function isDIGIT( $char )
 	{
-		return ereg( $this->regex_digit, $char );
+		return ereg( $this->regexDigit, $char );
 	}
 
 	/**
@@ -100,7 +96,7 @@ class TypeValidator
 	 */
 	public function isDOT( $char )
 	{
-		return ereg( $this->regex_dot, $char );
+		return ereg( $this->regexDot, $char );
 	}
 
 	/**
@@ -111,7 +107,7 @@ class TypeValidator
 	 */
 	public function isCOLON( $char )
 	{
-		return ereg( $this->regex_colon, $char );
+		return ereg( $this->regexColon, $char );
 	}
 
 	/**
@@ -122,7 +118,7 @@ class TypeValidator
 	 */
 	public function isHYPHEN( $char )
 	{
-		return ereg( $this->regex_hyphen, $char );
+		return ereg( $this->regexHyphen, $char );
 	}
 
 	/**
@@ -133,7 +129,7 @@ class TypeValidator
 	 */
 	public function isUNDERSCORE( $char )
 	{
-		return ereg( $this->regex_underscore, $char );
+		return ereg( $this->regexUnderscore, $char );
 	}
 
 	/**
@@ -144,7 +140,7 @@ class TypeValidator
 	 */
 	public function isLETTER( $char )
 	{
-		return eregi( $this->regex_letter, $char );
+		return eregi( $this->regexLetter, $char );
 	}
 
 	/**
@@ -155,7 +151,7 @@ class TypeValidator
 	 */
 	public function isMONTHDATE( $char )
 	{
-		return ereg( $this->regex_mdate, $char );
+		return ereg( $this->regexMonthDate, $char );
 	}
 
 	/**
@@ -166,7 +162,7 @@ class TypeValidator
 	 */
 	public function isPLUS( $char )
 	{
-		return ereg( $this->regex_plus, $char );
+		return ereg( $this->regexPlus, $char );
 	}
 
 	/**
@@ -177,7 +173,7 @@ class TypeValidator
 	 */
 	public function isSPACE( $char )
 	{
-		return ereg( $this->regex_space, $char );
+		return ereg( $this->regexSpace, $char );
 	}
 
 	/**
@@ -188,7 +184,7 @@ class TypeValidator
 	 */
 	public function isSLASH( $char )
 	{
-		return ereg( $this->regex_slash, $char );
+		return ereg( $this->regexSlash, $char );
 	
 	}
 
@@ -200,7 +196,7 @@ class TypeValidator
 	 */
 	public function isEMAIL( $char )
 	{
-		return eregi( $this->regex_email, $char );
+		return eregi( $this->regexEmail, $char );
 	}
 
 	/**

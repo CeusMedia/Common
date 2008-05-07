@@ -1,34 +1,30 @@
 <?php
 /**
  *	Formal Language Implementation.
- *	@package		adt
- *	@subpackage		language
- *	@extends		Object
+ *	@package		adt.language
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version		0.1
+ *	@version		0.5
  */
 /**
  *	Formal Language Implementation.
- *	@package		adt
- *	@subpackage		language
- *	@extends		Object
+ *	@package		adt.language
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version		0.1
+ *	@version		0.5
  */
-class Language
+class ADT_Language_Language
 {
-	/**	@var	Grammar		$_grammar		Grammar of Language */
-	var $_grammar;
+	/**	@var		ADT_Language_Grammar		$grammar		Grammar of Language */
+	protected $grammar;
 
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		Grammar	$grammar		Grammar of Language
+	 *	@param		Grammar		$grammar		Grammar of Language
 	 *	@return		void
 	 */
-	function Language ($grammar)
+	public function __construct( $grammar )
 	{
-		$this->_grammar	= $grammar;
+		$this->grammar	= $grammar;
 	}
 	
 	/**
@@ -36,61 +32,59 @@ class Language
 	 *	@access		public
 	 *	@return		int
 	 */
-	function getType ()
+	public function getType()
 	{
-		return $this->_grammar->getType ();
+		return $this->grammar->getType();
 	}
 	
 	/**
 	 *	Indicates whether Language is of a Chomsky-Type.
 	 *	@access		public
-	 *	@param		int		$type			Chomsky-Type (0-3)
+	 *	@param		int			$type			Chomsky-Type (0-3)
 	 *	@return		bool
 	 */
-	function isType ($type)
+	public function isType( $type )
 	{
-		return $this->_grammar->isType ($type);
+		return $this->grammar->isType( $type );
 	}
 
 	/**
 	 *	Returns an array of rules used to evolute of a word to another word if possible.
 	 *	@access		public
-	 *	@param		string	$word_start		Start word to be evolved
-	 *	@param		string	$word_end		End word to to evolved to
-	 *	@param		int		$max_depth		Maximum depth of recursion
-	 *	@param		array	$used_rules		Array of rules used before
+	 *	@param		string	$wordStart		Start word to be evolved
+	 *	@param		string	$wordEnd		End word to to evolved to
+	 *	@param		int		$maxDepth		Maximum depth of recursion
+	 *	@param		array	$usedRules		Array of rules used before
 	 *	@param		int		$depth			Current depth of recursion
 	 *	@return		array
 	 */
-	function evolve ($word_start, $word_end, $max_depth = 4, $used_rules = array(), $depth = 0)
+	public function evolve( $wordStart, $wordEnd, $maxDepth = 4, $usedRules = array(), $depth = 0)
 	{
-		if (!$this->_grammar->isType (1))
-		{
-			trigger_error( "Grammar is not determinable and can not be evolved. Grammar must be at least Chomsky Type 1.", E_USER_WARNING );
-			return array();
-		}
+		if( !$this->grammar->isType( 1 ) )
+			throw new Exception( 'Grammar is not determinable and can not be evolved. Grammar must be at least Chomsky Type 1.' );
+
 		$depth++;
-		if ($depth > $max_depth)
+		if( $depth > $maxDepth )
 			return;
-		$rules = $this->_grammar->getRules ();
-		foreach ($rules as $rule)
+		$rules = $this->grammar->getRules();
+		foreach( $rules as $rule )
 		{
-			$rule_var		= $rule->getKey ();
-			$rule_term	= $rule->getValue ();
-//			echo "<br/>d: ".$depth." | w: ".$word_start."  |  ".$rule_var." => ".$rule_term;
-			$_rules	= $used_rules;
-			$_rules[]	= array($rule_var => $rule_term);
-			if (false === strpos ($word_start, $rule_var))
+			$ruleVar	= $rule->getKey();
+			$ruleTerm	= $rule->getValue();
+//			echo "<br/>d: ".$depth." | w: ".$wordStart."  |  ".$ruleVar." => ".$ruleTerm;
+			$ruleList	= $usedRules;
+			$ruleList[]	= array( $ruleVar => $ruleTerm );
+			if( FALSE === strpos( $wordStart, $ruleVar ) )
 				continue;
-			$first	= substr ($word_start, 0, strpos ($word_start, $rule_var));
-			$last	= substr ($word_start, strpos ($word_start, $rule_var)+strlen($rule_var));
-			$maybe = $first.$rule_term.$last;
-			if ($maybe == $word_end)
-				return $_rules;
+			$first	= substr( $wordStart, 0, strpos( $wordStart, $ruleVar ) );
+			$last	= substr( $wordStart, strpos( $wordStart, $ruleVar ) + strlen( $ruleVar ) );
+			$maybe	= $first.$ruleTerm.$last;
+			if( $maybe == $wordEnd )
+				return $ruleList;
 			else
 			{
-				$way = $this->evolve ($maybe, $word_end, $max_depth, $_rules, $depth);
-				if (count ($way))
+				$way = $this->evolve( $maybe, $wordEnd, $maxDepth, $ruleList, $depth );
+				if( count( $way ) )
 					return $way;
 			}
 		}
@@ -99,15 +93,15 @@ class Language
 	/**
 	 *	Indicates whether a word is evolvable to another word.
 	 *	@access		public
-	 *	@param		string	$word_start		Start word to be evolved
-	 *	@param		string	$word_end		End word to to evolved to
-	 *	@param		int		$max_depth		Maximum depth of recursion
+	 *	@param		string	$wordStart		Start word to be evolved
+	 *	@param		string	$wordEnd		End word to to evolved to
+	 *	@param		int		$maxDepth		Maximum depth of recursion
 	 *	@return		bool
 	 */
-	function isEvolvable ($word_start, $word_end, $max_depth = 4)
+	public function isEvolvable( $wordStart, $wordEnd, $maxDepth = 4 )
 	{
-		$way = $this->evolve($word_start, $word_end, $max_depth);
-		$count = count($way);
+		$way	= $this->evolve( $wordStart, $wordEnd, $maxDepth );
+		$count	= count( $way );
 		return $count > 0;
 	}
 

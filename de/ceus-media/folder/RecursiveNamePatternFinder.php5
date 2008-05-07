@@ -36,7 +36,7 @@ class Folder_RecursiveNamePatternFinder extends FilterIterator
 	 *	@param		bool		$stripDotFolders	Flag: strip Folder with leading Dot
 	 *	@return		void
 	 */
-	function __construct( $path, $pattern, $showFiles = TRUE, $showFolders = TRUE, $stripDotFolders = TRUE  )
+	public function __construct( $path, $pattern, $showFiles = TRUE, $showFolders = TRUE, $stripDotFolders = TRUE  )
 	{
 		if( !file_exists( $path ) )
 			throw new RuntimeException( 'Path "'.$path.'" is not existing.' );
@@ -61,7 +61,7 @@ class Folder_RecursiveNamePatternFinder extends FilterIterator
 	 *	@access		public
 	 *	@return		bool
 	 */
-	function accept()
+	public function accept()
 	{
    		if( $this->isDot() )
    			return FALSE;

@@ -21,7 +21,7 @@ import( 'de.ceus-media.server.cron.Job' );
 class Server_Cron_Parser
 {
 	/**	@var		array		$jobs			Array of parse Cron Jobs */
-	protected $jobs	= array();
+	protected $jobs				= array();
 	
 	/**
 	 *	Constructor.

@@ -35,7 +35,7 @@ class Net_Mail_PlainMail
 	public function __construct( $encoding = "UTF-8" )
 	{
 		$this->setHeader( "MIME-Version", "1.0" );
-		$this->setHeader( "Content-Type", "text/html; charset=".$encoding );
+		$this->setHeader( "Content-Type", "text/plain; charset=".$encoding );
 	}
 
 	/**

@@ -1,15 +1,19 @@
 <?PHP
 import( 'de.ceus-media.ui.html.Tag' );
 import( 'de.ceus-media.file.Writer' );
-/*
+/**
  *	The main Chart package file. It includes the core of all Chart classes.
- *	@package		Chart
+ *	@package		UI_SVG
+ *	@uses			UI_HTML_Tag
+ *	@uses			File_Writer
  *	@author			Jonas Schneider <JonasSchneider@gmx.de>
  */
 /**
  *	The main Chart class. Base class for all subtypes of charts, like Pie, Bar, Line and so on.
- *	@package		Chart
- *	@see			Chart_Data
+ *	@package		UI_SVG
+ *	@uses			UI_HTML_Tag
+ *	@uses			File_Writer
+ *	@author			Jonas Schneider <JonasSchneider@gmx.de>
  */
 class UI_SVG_Chart
 {
@@ -18,7 +22,7 @@ class UI_SVG_Chart
 	 *	@var		array
 	 *	@access		protected
 	 */
-	var $data;
+	public $data;
 	
 	/**
 	 *	Array for storing the colors to visualize the data defined in {@link $data}.
@@ -26,7 +30,7 @@ class UI_SVG_Chart
 	 *	@access		public
 	 *	@see		Chart::$data
 	 */	
-	var $colors;
+	public $colors;
 	
 	protected $content	= "";
 
@@ -35,6 +39,7 @@ class UI_SVG_Chart
 	 *	You can pass it an array of {@link Chart_Data} objects as data, 
 	 *	the name of the visualization 
 	 *	and, optional, an array contents the colors in what the Chart data is visualized.
+	 *	@access		public
 	 *	@param		array 		List of Chart_Data objects
 	 *	@param		array		Colors to display the data in.
 	 *	@return		void
@@ -54,10 +59,11 @@ class UI_SVG_Chart
 	
 	/**
 	 *	This function sets the {@link Chart::$data} array to a new value.
+	 *	@access		public
 	 *	@param		array		New Value for {@link Chart::$data}
 	 *	@return		array		Old Value of {@link Chart::$data}
 	 */
-	function setData( $data )
+	public function setData( $data )
 	{
 		$tmp = $this->data;
 		
@@ -81,6 +87,7 @@ class UI_SVG_Chart
 	 *	The following options are also implemented in this function:<br>
 	 *	* legend - If set, a legend is also generated. The value is also an array passed to the 
 	 *	{@link Chart::makeLegend()} function.
+	 *	@access		protected
 	 *	@param		string		Class to use
 	 *	@param		array		Options, passed to the chart class
 	 *	@return		string		SVG code
@@ -103,6 +110,12 @@ class UI_SVG_Chart
 		return $content;
 	}
 
+	/**
+	 *	Builds Pie Graph and appends it to SVG Document.
+	 *	@access		public
+	 *	@param		array		$options		Options of Graph
+	 *	@return		void
+	 */
 	public function buildPieGraph( $options = false )
 	{
 		import( 'de.ceus-media.ui.svg.PieGraph' );
@@ -111,6 +124,12 @@ class UI_SVG_Chart
 		$this->content	.= $this->buildComponent( $chart, $options );
 	}
 
+	/**
+	 *	Builds Bar Graph and appends it to SVG Document.
+	 *	@access		public
+	 *	@param		array		$options		Options of Graph
+	 *	@return		void
+	 */
 	public function buildBarAcross( $options = false )
 	{
 		import( 'de.ceus-media.ui.svg.BarAcross' );
@@ -123,10 +142,11 @@ class UI_SVG_Chart
 	/**
 	 * 	This function does the same as {@link get()}, with one difference:
 	 *	The returned svg code is capsulated in a <svg>....</svg> element structure, so it returns a completely SVG document.
+	 *	@access		public
 	 *	@param		string		Class to use
 	 *	@param		array		Options, passed to the chart visulaization class
 	 */
-	function makeSVG( $name = false, $options = false )
+	public function makeSVG( $name = false, $options = false )
 	{
 		return encapsulate( $this->get( $name, $options ) );
 	}
@@ -136,10 +156,11 @@ class UI_SVG_Chart
 	 *	It uses the internal {@link $data} structure.<br>
 	 *	You can pass the following options:<br>
 	 *	* x & y - X & Y coordinates of the top-left point of the legend
+	 *	@access		public
 	 *	@param		array		Options passed
 	 *	@return		string		SVG code for a legend.
 	 */
-	function makeLegend( $options = false )
+	public function makeLegend( $options = false )
 	{
 		$x		= isset( $options["x"] ) ? $options["x"] : 200;
 		$y		= isset( $options["y"] ) ? $options["y"] : 200;
@@ -177,10 +198,11 @@ class UI_SVG_Chart
 	/**
 	 *	This function simply returns a color from the internal coller palette.
 	 *	Supplied is a number.
+	 *	@access		public
 	 *	@param		integer		The id of the color
 	 *	@return		string		color name or hexadeciaml triplet
 	 */
-	function getColor( $id )
+	public function getColor( $id )
 	{
 		$color = $this->colors[$id % count( $this->colors )];
 		return $color;
@@ -189,10 +211,11 @@ class UI_SVG_Chart
 	/**
 	 *	This function simply enclosoures the received svg code with the beginning- and ending <svg> or </svg> tags.
 	 *	Also it includes an <?xml ... ?> header.
+	 *	@access		public
 	 *	@param		string		SVG code to encapsulate
 	 *	@return		string		The encapsulated SVG code
 	 */
-	function encapsulate( $svg )
+	public function encapsulate( $svg )
 	{
 		$data = '<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">';
 		$data .= $svg;
@@ -201,6 +224,12 @@ class UI_SVG_Chart
 		return $data;
 	}
 	
+	/**
+	 *	Saves SVG Graph to File.
+	 *	@access		public
+	 *	@param		string		$fileName		File to save to
+	 *	@return		int
+	 */
 	public function save( $fileName )
 	{
 		$svg	= $this->encapsulate( $this->content );
@@ -209,7 +238,7 @@ class UI_SVG_Chart
 		$doc->formatOutput = true;
 		$doc->loadXml( $svg );
 		$svg	= $doc->saveXml();
-		File_Writer::save( $fileName, $svg );
+		return File_Writer::save( $fileName, $svg );
 	}
 }
 ?>

@@ -397,14 +397,14 @@ class UI_HTML_FormElements
 			$selected	= isset( $options['_selected'] ) ? $options['_selected'] : NULL;
 			$options	= self::Options( $options, $selected );
 		}
-		$focus	= $focus ? "document.getElementById('".$focus."').focus();" : "";
-		$submit	= $submit ? "document.getElementById('form_".$submit."').submit();" : "";
+		$focus	= $focus	? "document.getElementById('".$focus."').focus();" : NULL;
+		$submit	= $submit	? "document.getElementById('form_".$submit."').submit();" : NULL;
 		$attributes	= array(
 			'id'		=> str_replace( "[]", "", $name ),
 			'name'		=> $name,
 			'class'		=> $class,
 			'multiple'	=> substr( trim( $name ), -2 ) == "[]"	? "multiple" : NULL,
-			'onchange'	=> $focus.$submit.$change,
+			'onchange'	=> $focus.$submit.$change ? $focus.$submit.$change : NULL,
 		);
 		if( $readOnly )
 			self::addReadonlyAttributes( $attributes, $readOnly );

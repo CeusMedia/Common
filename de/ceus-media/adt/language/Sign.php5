@@ -1,30 +1,28 @@
 <?php
 /**
- *	@package	adt
- *	@subpackage	language
- *	@author		Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version		0.1
+ *	@package		adt.language
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@version		0.5
  */
 /**
- *	@package	adt
- *	@subpackage	language
- *	@author		Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version		0.1
- *	@deprecated	not used by Alphabet
+ *	@package		adt.language
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@version		0.5
+ *	@deprecated		not used by Alphabet
  */
-class Sign
+class ADT_Language_Sign
 {
-	var $_value;	
+	protected $value;	
 
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		string	$value	Value of the Sign
+	 *	@param		string		$value		Value of the Sign
 	 *	@return		void
 	 */
- 	public function __construct ($value)
+ 	public function __construct( $value )
 	{
-		$this->_setSign ($value);
+		$this->setSign( $value );
 	}
 	
 	/**
@@ -32,20 +30,20 @@ class Sign
 	 *	@access		public
 	 *	@return		string
 	 */
-	function getSign ()
+	public function getSign()
 	{
-		return $this->_value;
+		return $this->value;
 	}
 	
 	/**
 	 *	Sets the value of the Sign.
-	 *	@access		private
-	 *	@param		string	$value	Value of the Sign
+	 *	@access		public
+	 *	@param		string		$value		Value of the Sign
 	 *	@return		void
 	 */
-	function _setSign ($value)
+	public function setSign( $value )
 	{
-		$this->_value = $value;
+		$this->value = $value;
 	}
 }
 ?>

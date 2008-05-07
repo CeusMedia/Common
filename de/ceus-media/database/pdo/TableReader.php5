@@ -389,14 +389,15 @@ class Database_PDO_TableReader
 	 */
 	protected function getOrderCondition( $orders = array() )
 	{
+		$order	= "";
 		if( is_array( $orders ) && count( $orders ) )
 		{
 			$list	= array();
 			foreach( $orders as $key => $value )
 				$list[] = $key." ".strtoupper( $value );
-			$orders	= " ORDER BY ".implode( ", ", $list );
+			$order	= " ORDER BY ".implode( ", ", $list );
 		}
-		return $orders;
+		return $order;
 	}
 
 	/**

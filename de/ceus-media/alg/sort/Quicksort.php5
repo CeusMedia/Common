@@ -19,74 +19,76 @@
  *	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
  *
  *	@license		LGPL
- *	@copyright	(c) 2005 by Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@package	alg
- *	@subpackage	sort
- *	@author		Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version		0.4
+ *	@copyright		(c) 2005 by Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@package		alg.sort
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@version		0.5
  */
 /**
- *	@todo		Code Documentation
+ *	Sorting numeric arrays with the Quicksort algorithm.
+ *	@package		alg.sort
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@version		0.5
  */
-class Quicksort
+class Alg_Sort_Quicksort
 {
 
 	/**
 	 *	Sorts an array of numeric values with the quicksort algorithm.
-	 *	@param		array	array	Array of numeric values passed by reference
-	 *	@param		int		first		Start index
-	 *	@param		int		last		End index
+	 *	@param		array		$array		Array of numeric values passed by reference
+	 *	@param		int			$first		Start index
+	 *	@param		int			$last		End index
 	 *	@return		bool
 	 */
-	function sort (&$array, $first = null, $last = null)
+	public static function sort( &$array, $first = NULL, $last = NULL )
 	{
-		if (!is_array($array))
-			return false;
-		if (is_null($first))
+		if( !is_array( $array ) )
+			return FALSE;
+		if( is_null( $first ) )
 			$first = 0;
-		if (is_null($last))
-			$last = count($array) - 1;
-		if ($first < $last)
+		if( is_null( $last ) )
+			$last = count( $array ) - 1;
+		if( $first < $last )
 		{
-			$middle	= $first + $last;
-			$middle	= floor(($first + $last) / 2);
-			$compare = $array[$middle];
+			$middle		= $first + $last;
+			$middle		= floor( ( $first + $last ) / 2 );
+			$compare	= $array[$middle];
 			$left		= $first;
 			$right	= $last;
-			while ($left <= $right)
+			while( $left <= $right )
 			{
-				while ($array[$left] < $compare)
+				while( $array[$left] < $compare )
 					$left++;
-				while ($array[$right] > $compare)
+				while( $array[$right] > $compare )
 					$right--;
-				if ($left <= $right)
+				if( $left <= $right )
 				{
-					Quicksort::_swap($array, $left, $right);
+					self::swap( $array, $left, $right );
 					$left++;
 					$right--;
 				}
 			}
-			Quicksort::sort($array, $first, $right);
-			Quicksort::sort($array, $left, $last);
+			self::sort( $array, $first, $right );
+			self::sort( $array, $left, $last );
 		}
 		return $array;
 	}
 
 	/**
 	 *	Swaps two values.
-	 *	@access		public
-	 *	@param		array   		Array of numeric values passed by reference
-	 *	@param		integer 		First index
-	 *	@param		integer 		Second index
+	 *	@access		protected
+	 *	@param		array   	$array		Array of numeric values passed by reference
+	 *	@param		int			$pos1		First index
+	 *	@param		int			$pos2 		Second index
 	 *	@return		void
 	 */
-	function _swap(&$array, $a, $b)
+	protected static function swap( &$array, $pos1, $pos2 )
 	{
-		if (isset($array[$a]) && isset($array[$b]))
+		if( isset( $array[$pos1] ) && isset( $array[$pos2] ) )
 		{
-			$mem = $array[$a];
-			$array[$a] = $array[$b];
-			$array[$b] = $mem;
+			$memory	= $array[$pos1];
+			$array[$pos1] = $array[$pos2];
+			$array[$pos2] = $memory;
 		}
 	}
 }

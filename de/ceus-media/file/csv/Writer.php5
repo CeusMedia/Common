@@ -41,7 +41,7 @@ class File_CSV_Writer
 	 *	@param		array		$headers		List of Column Headers
 	 *	@return		bool
 	 */
-	function write( $data, $headers = array() )
+	public function write( $data, $headers = array() )
 	{
 		$output = array ();
 		if( $headers )

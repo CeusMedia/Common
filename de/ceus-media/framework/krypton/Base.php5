@@ -148,8 +148,8 @@ abstract class Framework_Krypton_Base
 	{
 		import( 'de.ceus-media.StopWatch' );
 		import( 'de.ceus-media.framework.krypton.core.Messenger' );
-		$this->registry->set( "stopwatch",	new StopWatch );
-		$this->registry->set( "messenger",	new Framework_Krypton_Core_Messenger );
+		$this->registry->set( "stopwatch", new StopWatch, TRUE );
+		$this->registry->set( "messenger", new Framework_Krypton_Core_Messenger, TRUE );
 	}
 
 	/**

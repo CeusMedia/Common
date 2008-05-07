@@ -21,9 +21,9 @@ import( 'de.ceus-media.alg.TimeConverter' );
  */
 class Framework_Krypton_Core_Messenger
 {
-	/**	@var	Registry	$registry			Registry for Objects */
+	/**	@var	object			$registry			Registry for Objects */
 	protected $registry;
-	/**	@var	array		$classes			CSS Classes of Message Types */
+	/**	@var	array			$classes			CSS Classes of Message Types */
 	protected $classes	= array(
 		'0'	=> 'failure',
 		'1'	=> 'error',
@@ -34,9 +34,9 @@ class Framework_Krypton_Core_Messenger
 	/**	@var		string		$headingSeparator	Separator of Headings */
 	public $headingSeparator	= " / ";
 	/**	@var		string		$keyHeadings		Key of Headings within Session */
-	public $keyHeadings		= "messenger_headings";
+	public $keyHeadings			= "messenger_headings";
 	/**	@var		string		$keyMessages		Key of Messages within Session */
-	public $keyMessages		= "";
+	public $keyMessages			= "messenger_messages";
 
 	/**
 	 *	Constructor.
@@ -44,9 +44,9 @@ class Framework_Krypton_Core_Messenger
 	 *	@param		string		$keyMessages		Key of Messages within Session
 	 *	@return		void
 	 */
-	public function __construct( $keyMessages = "messenger_messages" )
+	public function __construct( $keyMessages = NULL )
 	{
-		if( $keyMessages )
+		if( !empty( $keyMessages ) )
 			$this->keyMessages			= $keyMessages;
 	}
 
@@ -84,7 +84,7 @@ class Framework_Krypton_Core_Messenger
 	 *	@access		public
 	 *	@return		string
 	 */
-	public function buildMessages( $formatTime = false, $autoClear = true )
+	public function buildMessages( $formatTime = FALSE, $autoClear = TRUE )
 	{
 		$config		= Framework_Krypton_Core_Registry::getStatic( 'config' );
 		$session	= Framework_Krypton_Core_Registry::getStatic( 'session' );
@@ -128,7 +128,7 @@ class Framework_Krypton_Core_Messenger
 	 *	@param		string		$arg2			Argument to be set into Message
 	 *	@return		void
 	 */
-	public function noteError( $message, $arg1 = false, $arg2 = false )
+	public function noteError( $message, $arg1 = NULL, $arg2 = NULL )
 	{
 		$message	= $this->setIn( $message, $arg1, $arg2 );
 		$this->noteMessage( 1, $message);
@@ -142,7 +142,7 @@ class Framework_Krypton_Core_Messenger
 	 *	@param		string		$arg2			Argument to be set into Message
 	 *	@return		void
 	 */
-	public function noteFailure( $message, $arg1 = false, $arg2 = false )
+	public function noteFailure( $message, $arg1 = NULL, $arg2 = NULL )
 	{
 		$message	= $this->setIn( $message, $arg1, $arg2 );
 		$this->noteMessage( 0, $message);
@@ -171,7 +171,7 @@ class Framework_Krypton_Core_Messenger
 	 *	@param		string		$arg2			Argument to be set into Message
 	 *	@return		void
 	 */
-	public function noteNotice( $message, $arg1 = false, $arg2 = false )
+	public function noteNotice( $message, $arg1 = NULL, $arg2 = NULL )
 	{
 		$message	= $this->setIn( $message, $arg1, $arg2 );
 		$this->noteMessage( 2, $message);
@@ -185,7 +185,7 @@ class Framework_Krypton_Core_Messenger
 	 *	@param		string		$arg2			Argument to be set into Message
 	 *	@return		void
 	 */
-	public function noteSuccess( $message, $arg1 = false, $arg2 = false )
+	public function noteSuccess( $message, $arg1 = NULL, $arg2 = NULL )
 	{
 		$message	= $this->setIn( $message, $arg1, $arg2 );
 		$this->noteMessage( 3, $message);
@@ -202,8 +202,8 @@ class Framework_Krypton_Core_Messenger
 		$messages	= (array) $session->get( $this->keyMessages );
 		foreach( $messages as $message )
 			if( $message['type'] < 2 )
-				return true;
-		return false;
+				return TRUE;
+		return FALSE;
 	}
 
 	/**
@@ -216,9 +216,9 @@ class Framework_Krypton_Core_Messenger
 	 */
 	protected function setIn( $message, $arg1, $arg2 )
 	{
-		if( $arg2 )
+		if( $arg2 !== NULL )
 			$message	= preg_replace( "@(.*)\{\S+\}(.*)\{\S+\}(.*)@si", "$1".$arg1."$2".$arg2."$3", $message );
-		else if( $arg1 )
+		else if( $arg1 !== NULL )
 			$message	= preg_replace( "@(.*)\{\S+\}(.*)@si", "$1###".$arg1."###$2", $message );
 //		$message		= preg_replace( "@\{\S+\}@i", "", $message );
 		$message		= str_replace( "###", "", $message );
