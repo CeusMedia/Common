@@ -29,34 +29,34 @@ class XML_RSS_Builder
 	protected $items			= array();
 	/**	@var	array			$channelElements	Array of Elements of Channel */
 	protected $channelElements	= array(
-		"title"				=> true,
-		"description"		=> true,
-		"link"				=> true,
-		"pubDate"			=> false,
-		"lastBuildDate"		=> false,
-		"language"			=> false,
-		"copyright"			=> false,
-		"managingEditor"	=> false,
-		"webMaster"			=> false,
-		"category"			=> false,
-		"generator"			=> false,
-		"docs"				=> false,
-		"cloud"				=> false,
-		"ttl"				=> false,
-		"rating"			=> false,
+		"title"				=> TRUE,
+		"description"		=> TRUE,
+		"link"				=> TRUE,
+		"pubDate"			=> FALSE,
+		"lastBuildDate"		=> FALSE,
+		"language"			=> FALSE,
+		"copyright"			=> FALSE,
+		"managingEditor"	=> FALSE,
+		"webMaster"			=> FALSE,
+		"category"			=> FALSE,
+		"generator"			=> FALSE,
+		"docs"				=> FALSE,
+		"cloud"				=> FALSE,
+		"ttl"				=> FALSE,
+		"rating"			=> FALSE,
 	);
 	/**	@var	array			$itemElements		Array of Elements of Items */
 	protected $itemElements	= array(
 		"title"				=> true,
-		"description"		=> false,
-		"link"				=> false,
-		"author"			=> false,
-		"category"			=> false,
-		"comments"			=> false,
-		"pubDate"			=> false,
-		"enclosure"			=> false,
-		"guid"				=> false,
-		"source"			=> false,
+		"description"		=> FALSE,
+		"link"				=> FALSE,
+		"author"			=> FALSE,
+		"category"			=> FALSE,
+		"comments"			=> FALSE,
+		"pubDate"			=> FALSE,
+		"enclosure"			=> FALSE,
+		"guid"				=> FALSE,
+		"source"			=> FALSE,
 	);
 	/**	@var	array			$namespaces			Array or RSS Namespaces */
 	protected $namespaces	= array();
@@ -82,13 +82,6 @@ class XML_RSS_Builder
 	 */
 	public function addItem( $item )
 	{
-		if( !isset( $item['pubDate'] ) )
-		{
-			if( isset( $item['date'] ) )
-				$item['pubDate'] = $this->getDate( $item['date'] );
-			else
-				$item['pubDate'] = $this->getDate( time() );
-		}
 		$this->items[] = $item;
 	}
 
@@ -108,9 +101,6 @@ class XML_RSS_Builder
 
 		$tree = new XML_DOM_Node( 'rss' );
 		$tree->setAttribute( 'version', '2.0' );
-		foreach( $this->namespaces as $prefix => $namespace )
-			$tree->setAttribute( "xmlns:".$prefix, $namespace );
-
 		$channel	=& new XML_DOM_Node( 'channel' );
 		
 		//  --  CHANNEL  ELEMENTS  --  //
@@ -148,6 +138,7 @@ class XML_RSS_Builder
 				$image->addChild( new XML_DOM_Node( 'name', $this->channel['textInputName'] ) );
 			if( isset( $this->channel['textInputLink'] ) )
 				$image->addChild( new XML_DOM_Node( 'link', $this->channel['textInputLink'] ) );
+			$channel->addChild( $image );
 		}
 
 		//  --  ITEMS  --  //
@@ -155,13 +146,15 @@ class XML_RSS_Builder
 		{
 			$node	=& new XML_DOM_Node( 'item' );
 			foreach( $this->itemElements as $element => $required )
-				if( $required || isset( $item[$element] ) )
+			{
+				$value	= isset( $item[$element] ) ? $item[$element] : NULL;
+				if( $required || $value )
 				{
-					$item[$element]	= isset( $item[$element] ) ? $item[$element] : "";
-					if( $element == "description" && $item[$element] )
-						$item[$element]	= $item[$element];
-					$node->addChild( new XML_DOM_Node( $element, $item[$element] ) );
+					if( $element == "pubDate" && $value )
+						$value	= $this->getDate( $value );
+					$node->addChild( new XML_DOM_Node( $element, $value ) );
 				}
+			}
 			$channel->addChild( $node );
 		}
 		$tree->addChild( $channel );
@@ -177,33 +170,9 @@ class XML_RSS_Builder
 	 */
 	protected function getDate( $time )
 	{
-		return date( "r", $time );
-	}
-	
-	/**
-	 *	Returns formated date of Dublin Core.
-	 *	@access		protected
-	 *	@param		int			$time			Timestamp
-	 *	@return		string
-	 */
-	protected function getDcDate( $time )
-	{
-		return date( "c", $time ).$this->channel['timezone'];
-	}
-	
-	/** 
-	 *	Registers a Namespace for a Prefix.
-	 *	@access		public
-	 *	@param		string		$prefix			Prefix of Namespace
-	 *	@param		string		$namespace		Namespace of Prefix
-	 *	@return		bool
-	 *	@see		http://php.net/manual/en/function.dom-domxpath-registernamespace.php
-	 */
-	public function registerNamespace( $prefix, $namespace )
-	{
-		if( isset( $this->namespaces[$prefix] ) )
-			throw new Exception( 'Namespace with Prefix "'.$prefix.'" is already registered for "'.$this->namespaces[$prefix].'".' );
-		$this->namespaces[$prefix]	= $namespace;
+		if( strtotime( $time ) )
+			$time	= strtotime( $time );
+		return date( "r", (int) $time );
 	}
 	
 	/**
@@ -216,41 +185,37 @@ class XML_RSS_Builder
 	 */
 	public function setChannelPair( $key, $value )
 	{
-		if( is_array( $value ) )
-		{
-			foreach( $value as $subKey => $subValue )
-			{
-				$subKey	= $key.ucFirst( $subKey ); 
-				$this->setChannelPair( $subKey, $subValue );
-			}
-		}
-		else
-			$this->channel[$key]	= $value;
+		$this->channel[$key]	= $value;
 	}
 	
 	/**
 	 *	Sets Information of Channel.
 	 *	@access		public
-	 *	@param		array		$array		Array of Channel Information Pairs
+	 *	@param		array		$pairs		Array of Channel Information Pairs
 	 *	@return		void
 	 *	@see		http://cyber.law.harvard.edu/rss/rss.html#requiredChannelElements
 	 */
-	public function setChannelData( $array )
+	public function setChannelData( $pairs )
 	{
-		$this->channel	= $array;
+		if( !is_array( $pairs ) )
+			throw new Exception( 'Channel Data List must be an Array.' );
+		foreach( $pairs as $key => $value )
+			$this->setChannelPair( $key, $value );
 	}
 
 	/**
 	 *	Sets Item List.
 	 *	@access		public
-	 *	@param		array		$array		List of Item
+	 *	@param		array		$items		List of Item
 	 *	@return		void
 	 *	@see		http://cyber.law.harvard.edu/rss/rss.html#hrelementsOfLtitemgt
 	 */
-	public function setItemList( $itemList )
+	public function setItemList( $items )
 	{
+		if( !is_array( $items ) )
+			throw new Exception( 'Item List must be an Array.' );
 		$this->items	= array();
-		foreach( $itemList as $item )
+		foreach( $items as $item )
 			$this->addItem( $item );
 	}
 }

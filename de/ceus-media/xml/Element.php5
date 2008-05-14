@@ -44,9 +44,9 @@ class XML_Element extends SimpleXMLElement
 	 *	@param		string		$key		Key of Attribute
 	 *	@return		bool
 	 */
-	public function getAttribute( $key )
+	public function getAttribute( $key, $nameSpace = "" )
 	{
-		$data	= $this->attributes();
+		$data	= $nameSpace ? $this->attributes( $nameSpace, 1 ) : $this->attributes();
 		if( !isset( $data[$key] ) )
 			throw new Exception( 'Attribute "'.$key.'" is not set.' );
 		return (string) $data[$key];
@@ -57,10 +57,11 @@ class XML_Element extends SimpleXMLElement
 	 *	@access		public
 	 *	@return		array
 	 */
-	public function getAttributeKeys()
+	public function getAttributeKeys( $nameSpace = "" )
 	{
 		$list	= array();
-		foreach( $this->attributes() as $key => $value )
+		$data	= $nameSpace ? $this->attributes( $nameSpace, 1 ) : $this->attributes();
+		foreach( $data as $key => $value )
 			$list[] = $key;
 		return $list;
 	}
@@ -71,9 +72,9 @@ class XML_Element extends SimpleXMLElement
 	 *	@param		string		$key		Key of Attribute
 	 *	@return		bool
 	 */
-	public function hasAttribute( $key )
+	public function hasAttribute( $key, $nameSpace = ""  )
 	{
-		$keys	= $this->getAttributeKeys();
+		$keys	= $this->getAttributeKeys( $nameSpace );
 		return in_array( $key, $keys );
 	}
 

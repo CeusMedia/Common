@@ -1,10 +1,18 @@
 <?php
+/**
+ *	@todo		code doc
+ *	@todo		unit test
+ */
 class ADT_JSON_Converter
 {
 	public static function convertToArray( $json )
 	{
 		if( is_string( $json ) )
+		{
 			$json	= json_decode( $json );
+			if( $json === FALSE )
+				throw new InvalidArgumentException( 'JSON String is not valid.' );
+		}
 		$array	= array();
 		self::convertToArrayRecursive( $json, $array );
 		return $array;

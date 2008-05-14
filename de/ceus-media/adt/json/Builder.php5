@@ -34,7 +34,7 @@ class ADT_JSON_Builder
 	 *	@param		string		$parent			Parent of Pair
 	 *	@return		string
 	 */
-	public function get( $key, $value, $parent = null )
+	public function get( $key, $value, $parent = NULL )
 	{
 		$type	= self::getType( $key, $value );
 		switch( $type )
@@ -77,7 +77,7 @@ class ADT_JSON_Builder
 			$type	= 'object';
 		elseif( is_array( $value ) )
 			$type	= self::isAssoc( $value ) ? 'object' : 'array';
-		elseif( is_int( $value ) || is_float( $value ) )
+		elseif( is_int( $value ) || is_float( $value ) || is_double( $value ) )
 			$type	= 'number';
 		elseif( is_string( $value ) )
 			$type	= 'string';
@@ -86,7 +86,7 @@ class ADT_JSON_Builder
 		elseif( is_null( $value ) )
 			$type	= 'null';
 		else
-			die( $key.' is of an unsupported type.' );
+			throw new InvalidArgumentException( 'Variable "'.$key.'" is not a supported Type.' );
 		return $type;
 	}
 

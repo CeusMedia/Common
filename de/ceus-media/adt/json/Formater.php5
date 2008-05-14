@@ -14,6 +14,7 @@
  *	@author				Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since				10.01.2008
  *	@version			0.2
+ *	@todo				Unit Test
  */
 class ADT_JSON_Formater
 {
