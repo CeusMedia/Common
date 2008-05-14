@@ -20,6 +20,13 @@ class ADT_List_Dictionary implements ArrayAccess, Countable, Iterator
 	/**	@var		array		$position	Iterator Position */
 	private $position	= 0;
 
+	public function __construct( $array = array() )
+	{
+		if( is_array( $array ) && count( $array ) )
+			foreach( $array as $key => $value )
+				$this->set( $key, $value );
+	}
+
 	/**
 	 *	Casts a Value by the Type of the current Value by its Key.
 	 *	@access		public
