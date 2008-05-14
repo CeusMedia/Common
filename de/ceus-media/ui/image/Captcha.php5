@@ -1,107 +1,130 @@
 <?php
-import( 'de.ceus-media.adt.OptionObject' );
 import( 'de.ceus-media.alg.Randomizer' );
+import( 'de.ceus-media.file.Writer' );
 /**
- *	Simple Captcha Generator.
+ *	Simple CAPTCHA Generator.
  *	@package		ui
  *	@subpackage		image
- *	@extends		ADT_OptionObject
  *	@uses			Alg_Randomizer
+ *	@uses			File_Writer
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			01.05.2005
- *	@version		0.1
+ *	@version		0.6
  */
 /**
- *	Simple Captcha Generator.
+ *	Simple CAPTCHA Generator.
  *	@package		ui
  *	@subpackage		image
- *	@extends		ADT_OptionObject
  *	@uses			Alg_Randomizer
+ *	@uses			File_Writer
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			01.05.2005
- *	@version		0.1
+ *	@version		0.6
  */
-class Captcha extends ADT_OptionObject
+class UI_Image_Captcha
 {
-	/**
-	 *	Constructor.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function __construct()
-	{
-		parent::__construct();
-		$this->setOption( 'useSmalls', true );
-		$this->setOption( 'useLarges', false );
-		$this->setOption( 'useSigns', false );
-		$this->setOption( 'useDigits', false );
-		$this->setOption( 'length', 4 );
-		$this->setOption( 'font', "tahoma.ttf" );
-		$this->setOption( 'fontsize', 14 );
-		$this->setOption( 'width', 100 );
-		$this->setOption( 'height', 40 );
-		$this->setOption( 'angles', 50 );
-		$this->setOption( 'moves', 10 );
-		$this->setOption( 'textcolor', array( 0, 0, 0 ) );
-		$this->setOption( 'background', array( 255, 255, 255 ) );
-		$this->setOption( 'quality', 90 );
-	}
+	/**	@var		bool		$useDigits		Flag: use Digits */
+	public $useDigits			= FALSE;
+	/**	@var		bool		$useLarges		Flag: use large Letters */
+	public $useLarges			= FALSE;
+	/**	@var		bool		$useSmalls		Flag: use small Letters */
+	public $useSmalls			= TRUE;
+	/**	@var		bool		$useSigns		Flag: use Signs */
+	public $useSigns			= FALSE;
+	/**	@var		bool		$unique			Flag: every Sign may only appear once in randomized String */
+	public $unique				= FALSE;
+	/**	@var		int			$length			Number of CAPTCHA Signs */
+	public $length				= 4;
+	/**	@var		string		$font			File Name of True Type Font to use */
+	public $font				= "tahoma.ttf";
+	/**	@var		int			$fontSize		Font Size */
+	public $fontSize			= 14;
+	/**	@var		int			$width			Width of CAPTCHA Image */
+	public $width				= 100;
+	/**	@var		int			$height			Height of CAPTCHA Image */
+	public $height				= 40;
+	/**	@var		int			$angle			Angle of maximal Rotation in ° */
+	public $angle				= 50;
+	/**	@var		int			$offsetX		Maximum Offset in X-Axis */
+	public $offsetX				= 5;
+	/**	@var		int			$offsetY		Maximum Offset in Y-Axis */
+	public $offsetY				= 10;
+	/**	@var		array		$textColor		List of RGB Values of Text */
+	public $textColor			= array( 0, 0, 0 );
+	/**	@var		array		$background		List of RGB Values of Background */
+	public $background			= array( 255, 255, 255 );
+	/**	@var		int			$quality		Quality of JPEG Image in % */
+	public $quality				= 90;
 
 	/**
-	 *	Generates Captcha Word.
+	 *	Generates CAPTCHA Word.
 	 *	@access		public
 	 *	@return		string
 	 */
-	function generateWord()
+	public function generateWord()
 	{
 		$rand	= new Alg_Randomizer();
-		$rand->setOption( 'useSmalls',	$this->getOption( 'useSmalls' ) );
-		$rand->setOption( 'useLarges',	$this->getOption( 'useLarges' ) );
-		$rand->setOption( 'useDigits',	$this->getOption( 'useDigits' ) );
-		$rand->setOption( 'useSigns',	$this->getOption( 'useSigns' ) );
-		$rand->setOption( 'length',		$this->getOption( 'length' ) );
-		return $rand->get();
+		$rand->useSmalls	= $this->useSmalls;
+		$rand->useLarges	= $this->useLarges;
+		$rand->useDigits	= $this->useDigits;
+		$rand->useSigns		= $this->useSigns;
+		$rand->unique		= $this->unique;
+		return $rand->get( $this->length );
 	}
 	
 	/**
 	 *	Generates Captcha Image for Captcha Word.
 	 *	@access		public
 	 *	@param		string		$word		Captcha Word
-	 *	@param		string		$filename		File Name to write Captcha Image to
-	 *	@param		bool			$debug		Switch: Debug-Mode
-	 *	@return		void
+	 *	@param		string		$fileName	File Name to write Captcha Image to
+	 *	@param		bool		$verbose	Flag: show internal Information
+	 *	@return		int
 	 */
-	function generateImage( $word, $filename, $debug = false )
+	public function generateImage( $word, $fileName, $verbose = FALSE )
 	{
-		$background	= $this->getOption( 'background' );
-		$textcolor	= $this->getOption( 'textcolor' );
-		$fontsize		= $this->getOption( 'fontsize' );
-		$font		= $this->getOption( 'font' );
-		$fh	= fopen( $filename, 'w' );
-		fclose( $fh );
-		$image	= imagecreate( $this->getOption( 'width' ), $this->getOption( 'height' ) );
-		$bc	= imagecolorallocate( $image, $background[0], $background[1], $background[2] );
-		$fc	= imagecolorallocate( $image, $textcolor[0], $textcolor[1], $textcolor[2] );
+		if( !( is_array( $this->textColor ) && count( $this->textColor ) == 3 ) )
+			throw new InvalidArgumentException( 'Text Color must be an Array of 3 decimal Values.' );
+		if( !( is_array( $this->background ) && count( $this->background ) == 3 ) )
+			throw new InvalidArgumentException( 'Background Color must be an Array of 3 decimal Values.' );
 
-		$signs	= array( 1, -1 );
-//		srand((float) microtime() * 10000000);			// for PHP <4.2.0
+		$image		= imagecreate( $this->width, $this->height );
+		$backColor	= imagecolorallocate( $image, $this->background[0], $this->background[1], $this->background[2] );
+		$frontColor	= imagecolorallocate( $image, $this->textColor[0], $this->textColor[1], $this->textColor[2] );
+	
 		for( $i=0; $i<strlen( $word ); $i++ )
 		{
+			//  --  ANGLE  --  //
+			$angle	= 0;
+			if( $this->angle )
+			{
+				$rand	= 2 * rand() / getrandmax() - 1;											//  randomize Float between -1 and 1
+				$angle	= round( $rand * $this->angle, 0 );											//  calculate rounded Angle
+			}
+
+			//  --  POSITION X  --  //
+			$offset	= 0;
+			if( $this->offsetX )
+			{
+				$rand	= 2 * rand() / getrandmax() - 1;											//  randomize Float between -1 and 1
+				$offset	= round( $rand * $this->offsetX, 0 );										//  calculate rounded Offset
+			}
+			$posX	= $i * 20 + $offset + 10;
+
+			//  --  POSITION Y  --  //
+			$offset	= 0;
+			if( $this->offsetY )
+			{
+				$rand	= 2 * rand() / getrandmax() - 1;											//  randomize Float between -1 and 1
+				$offset	= round( $rand * $this->offsetY, 0 );										//  calculate rounded Offset
+			}
+			$posY	= $offset + round( $this->height / 2, 0 ) + 5;
+
 			$char	= $word[$i];
-			$sign	= $signs[array_rand( $signs, 1 )];
-			$angle	= $sign * rand( 0, $this->getOption( 'angles' ) ) - $this->getOption( 'angles' ) / 2;
-			$pos_x	= $i * 20 + 10;
-			$pos_y	= $sign * rand( 0, $this->getOption( 'moves' ) ) + $this->getOption( 'height' ) / 2 + 5;
-			if( $debug )
-				remark( "<hr/>Char -> ".$char, array(
-					"Angle"	=> $angle,
-					"Sign"	=> $sign,
-					"Pos X"	=> $pos_x,
-					"Pos Y"	=> $pos_y,
-					) );
-			imagettftext( $image, $fontsize, $angle, $pos_x, $pos_y, $fc, $font, $char );
+			imagettftext( $image, $this->fontSize, $angle, $posX, $posY, $frontColor, $this->font, $char );
 		}
-		imagejpeg( $image, $filename, $this->getOption( 'quality' ) );
+		ob_start();
+		imagejpeg( $image, NULL, $this->quality );
+		return File_Writer::save( $fileName, ob_get_clean() );
 	}
 }
 ?>

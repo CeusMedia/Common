@@ -1,100 +1,152 @@
 <?php
-import( 'de.ceus-media.adt.OptionObject' );
 /**
  *	Randomizer supporting different sign types.
  *	@package		alg
- *	@extends		ADT_OptionObject
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			18.01.2006
- *	@version		0.6
+ *	@version		0.5
  */
 /**
  *	Randomizer supporting different sign types.
  *	@package		alg
- *	@extends		ADT_OptionObject
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			18.01.2006
- *	@version		0.6
+ *	@version		0.5
  */
-class Alg_Randomizer extends ADT_OptionObject
+class Alg_Randomizer
 {
+	/**	@var		string		$digits			String with Digits */
+	public $digits				= "0123456789";
+	/**	@var		string		$larges		String with large Letters */
+	public $larges				= "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	/**	@var		string		$smalls			String with small Letters */
+	public $smalls				= "abcdefghijklmnopqrstuvwxyz";
+	/**	@var		string		$signs			String with Signs */
+	public $signs				= '.:_-+*=/\!§$%&(){}[]#@?~';
+	/**	@var		int			$strength		Strength randomized String should have at least (-100 <= x <= 100) */
+	public $strength			= 0;
+	/**	@var		int			$turns			Number of Turns to try to create a strong String */
+	public $turns				= 10;
+	/**	@var		bool		$unique			Flag: every Sign may only appear once in randomized String */
+	public $unique				= TRUE;
+	/**	@var		bool		$useDigits		Flag: use Digits */
+	public $useDigits			= TRUE;
+	/**	@var		bool		$useSmalls		Flag: use small Letters */
+	public $useSmalls			= TRUE;
+	/**	@var		bool		$useLarges		Flag: use large Letters */
+	public $useLarges			= TRUE;
+	/**	@var		bool		$useSigns		Flag: use Signs */
+	public $useSigns			= TRUE;
+
 	/**
-	 *	Constructor.
-	 *	@access		public
-	 *	@return		void
+	 *	Creates and returns Sign Pool as String.
+	 *	@access		protected
+	 *	@return		string
 	 */
-	public function __construct()
+	protected function createPool()
 	{
-		parent::__construct();
-		$this->options		= array(
+		$pool	= "";
+		$sets	= array(
 			"useDigits"	=> "digits",
 			"useSmalls"	=> "smalls",
 			"useLarges"	=> "larges",
 			"useSigns"	=> "signs",
 			);
+		
+		foreach( $sets as $key => $value )
+			if( $this->$key )
+				$pool	.= $this->$value;
+		return $pool;
+	}
 
-		$this->setOption( 'digits',	"0123456789" );
-		$this->setOption( 'smalls',	"abcdefghijklmnopqrstuvwxyz" );
-		$this->setOption( 'larges',	"ABCDEFGHIJKLMNOPQRSTUVWXYZ" );
-		$this->setOption( 'signs',	".:_-+*=/!§%&(){}[]#~" );
-		$this->setOption( 'signs',	".:_-+*=/\!§$%&(){}[]#@?~" );					//  adding also [\$@?]
+	/**
+	 *	Creates and returns randomized String.
+	 *	@access		protected
+	 *	@param		int			$length		
+	 *	@param		string		$pool			Sign Pool String
+	 *	@return		string
+	 */
+	protected function createString( $length, $pool )
+	{
+		$random	= array();
+		$input	= array();
+		for( $i=0; $i<strlen( $pool ); $i++ )
+			$input[] = $pool[$i];
 
-		$this->setOption( 'useDigits',	true );
-		$this->setOption( 'useSmalls',	true );
-		$this->setOption( 'useLarges',	true );
-		$this->setOption( 'useSigns',	true );
-		$this->setOption( 'length',		0 );
-		$this->setOption( 'unique',		true );
+		if( $this->unique )
+		{
+			for( $i=0; $i<$length; $i++ )
+			{
+				$key = array_rand( $input, 1 );
+				if( in_array( $input[$key], $random ) )
+					$i--;
+				else
+					$random[] = $input[$key];
+			}
+		}
+		else
+		{
+			if( $length <= strlen( $pool ) )
+			{
+				shuffle( $input );
+				$random	= array_slice( $input, 0, $length );
+			}
+			else
+			{
+				for( $i=0; $i<$length; $i++ )
+				{
+					$key = array_rand( $input, 1 );
+					$random[] = $input[$key];
+				}
+			}
+		}
+		$random	= join( $random );
+		return $random;
 	}
 
 	/**
 	 *	Builds and returns randomized string.
 	 *	@access		public
-	 *	@param		int		$length		Length of string to build
+	 *	@param		int			$length			Length of String to build
+	 *	@param		int			$strength		Strength to have at least (-100 <= x <= 100)
 	 *	@return		string
 	 */
-	public function get( $length = 0 )
+	public function get( $length, $strength = 0, $turn = 0 )
 	{
-		if( !$length )
-		{
-			if( $this->getOption( 'length' ) )
-				$length = $this->getOption( 'length' );
-			else
-				trigger_error( "Randomizer: No Length given", E_USER_ERROR );
-		}
-		
-		$pool	= "";
-		foreach( $this->options as $key => $value )
-			if( $this->getOption( $key ) )
-				$pool	.= $this->getOption( $value );
-		if( !strlen( $pool ) )
-			throw new Exception( 'No usable signs defined.' );
-		if( $this->getOption( 'unique' ) && $length > strlen( $pool ) )
-			throw new Exception( 'Length is greater than amount of used signs - unable to perform "unique" mode.' );
+		if( !is_int( $length ) )															//  Length is not Integer
+			throw new InvalidArgumentException( 'Length must be an Integer.' );
+		if( !$length )																		//  Length is 0
+			throw new InvalidArgumentException( 'Length must greater than 0.' );
+		if( !is_int( $strength ) )															//  Stength is not Integer
+			throw new InvalidArgumentException( 'Strength must be an Integer.' );
+		if( $strength && $strength > 100 )													//  Strength is to high
+			throw new InvalidArgumentException( 'Strength must be at most 100.' );
+		if( $strength && $strength < -100 )													//  Strength is to low
+			throw new InvalidArgumentException( 'Strength must be at leastt -100.' );
 
-		$random	= array();
-		$input	= array();
-		for( $i=0; $i<strlen( $pool ); $i++ )
-			$input[] = $pool[$i];
-		for( $i=0; $i<$length; $i++ )
+		$length	= abs( $length );															//  absolute Length
+		$pool	= $this->createPool();														//  create Sign Pool
+		if( !strlen( $pool ) )																//  Pool is empty
+			throw new RuntimeException( 'No usable signs defined.' );
+		if( $this->unique && $length >= strlen( $pool ) )									//  Pool is smaller than Length
+			throw new UnderflowException( 'Length must be lower than Number of usable Signs in "unique" Mode.' );
+
+		$random	= $this->createString( $length, $pool );									//  randomize String
+		if( !$strength )																	//  no Strength needed
+			return $random;
+
+		import( 'de.ceus-media.alg.crypt.PasswordStrength' );
+		$turn	= 0;
+		do
 		{
-			srand( ( float ) microtime() * 10000000 );
-			$rand_key = array_rand( $input, 1 );
-			if( $this->getOption( 'unique' ) )
-			{
-				if( !in_array( $input[$rand_key], $random ) )
-					$random[] = $input[$rand_key];
-				else
-				{
-					$i--;
-					continue;
-				}
-			}
-			else
-				$random[] = $input[$rand_key];
+			$currentStrength	= Alg_Crypt_PasswordStrength::getStrength( $random );		//  calculate Strength of random String
+			if( $currentStrength >= $strength )												//  random String is strong enough
+				return $random;
+			$random	= $this->createString( $length, $pool );								//  randomize again
+			$turn++;																		//  count turn
 		}
-		$random	= join( $random );
-		return $random;
+		while( $turn < $this->turns );														//  break if to much turns
+		throw new RuntimeException( 'Strength Score '.$strength.' not reached after '.$turn.' Turns.' );
 	}
 }
 ?>
