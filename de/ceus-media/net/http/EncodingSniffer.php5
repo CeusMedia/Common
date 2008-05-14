@@ -22,32 +22,35 @@ class Net_HTTP_EncodingSniffer
 	 *	@param		string	$default		Default Encoding Methods supported and allowed by the Application
 	 *	@return		string
 	 */
-	public function getEncoding( $allowed, $default = false )
+	public static function getEncoding( $allowed, $default = NULL )
 	{
 		if( !$default)
 			$default = $allowed[0];
-		$pattern		= '/^([a-z]+)(?:;\s*q=(0(?:\.[0-9]{1,3})?|1(?:\.0{1,3})?))?$/i';
+		else if( !in_array( $default, $allowed ) )
+			throw new InvalidArgumentException( 'Default Encoding Method must be an allowed Encoding Method.' );
+		
+		$pattern	= '/^([a-z]+)(?:;\s*q=(0(?:\.[0-9]{1,3})?|1(?:\.0{1,3})?))?$/i';
 		$accepted	= getEnv( 'HTTP_ACCEPT_ENCODING' );
 		if( !$accepted )
 			return $default;
-		$accepted	= preg_split( '/,\s*/', $accepted );
-		$curr_code	= $default;
-		$curr_qual	= 0;
+		$accepted		= preg_split( '/,\s*/', $accepted );
+		$currentCode	= $default;
+		$currentQuality	= 0;
 		foreach( $accepted as $accept )
 		{
 			if( !preg_match ( $pattern, $accept, $matches ) )
 				continue;
-			$code_quality =  isset( $matches[2] ) ? (float) $matches[2] : 1.0;
+			$codeQuality	=  isset( $matches[2] ) ? (float) $matches[2] : 1.0;
 			if( in_array( $matches[1], $allowed ) )
 			{
-				if( $code_quality > $curr_qual )
+				if( $codeQuality > $currentQuality )
 				{
-					$curr_code	= $matches[1];
-					$curr_qual	= $code_quality;
+					$currentCode	= $matches[1];
+					$currentQuality	= $codeQuality;
 				}
 			}
 		}
-		return $curr_code;
+		return $currentCode;
 	}
 }
 ?>

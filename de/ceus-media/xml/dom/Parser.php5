@@ -111,7 +111,7 @@ class XML_DOM_Parser extends ADT_OptionObject
 							$node->setContent( $child->textContent );
 						}
 						foreach( $attributes as $attribute)
-							$node->setAttribute( $attribute->nodeName, $attribute->nodeValue );
+							$node->setAttribute( $attribute->nodeName, stripslashes( $attribute->nodeValue ) );
 						$tree->addChild( $node );
 						break;
 					case XML_TEXT_NODE:
@@ -125,7 +125,9 @@ class XML_DOM_Parser extends ADT_OptionObject
 						}
 						break;
 					case XML_CDATA_SECTION_NODE:
-						$tree->setContent( $child->textContent );
+						$tree->setContent( stripslashes( $child->textContent ) );
+						break;
+					default:
 						break;
 				}
 				$child = $child->nextSibling;

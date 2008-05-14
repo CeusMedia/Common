@@ -157,10 +157,10 @@ class Service_Client
 		$st			= new StopWatch;
 		$request	= new Net_cURL( $serviceUrl );
 		$response	= $this->executeRequest( $request, $compress );
-		if( $this->useLogFile )
+		if( $this->logFile )
 		{
 			$message	= time()." ".strlen( $response )." ".$st->stop( 6, 0 )." ".$service."\n";
-			error_log( $message, 3, "logs/services.log" );
+			error_log( $message, 3, $this->logFile );
 		}
 		
 		$this->requests[]	= array(
@@ -202,7 +202,7 @@ class Service_Client
 	 *	@param		bool		$verbose			Flag: show Request URL and Response
 	 *	@return		mixed
 	 */
-	public function post( $service, $format, $data = array(), $verbose = FALSE )
+	public function post( $service, $format = NULL, $data = array(), $verbose = FALSE )
 	{
 		import( 'de.ceus-media.net.cURL' );
 		import( 'de.ceus-media.StopWatch' );
@@ -222,10 +222,10 @@ class Service_Client
 		$request->setOption( CURLOPT_POST, 1);
 		$request->setOption( CURLOPT_POSTFIELDS, $data );
 		$response	= $this->executeRequest( $request );
-		if( $this->useLogFile )
+		if( $this->logFile )
 		{
 			$message	= time()." ".strlen( $response )." ".$st->stop( 6, 0 )." ".$service."\n";
-			error_log( $message, 3, "logs/services.log" );
+			error_log( $message, 3, $this->logFile );
 		}
 		$this->requests[]	= array(
 			'method'	=> "POST",
@@ -320,13 +320,44 @@ class Service_Client
 		switch( $type )
 		{
 			case 'deflate':
-				return gzuncompress( $content );
+				$compressed	= @gzuncompress( $content );
+				if( $compressed !== FALSE )
+					$content	= $compressed;
 				break;
 			case 'gzip':
-				return gzdecode( $content );
-			default:
-				return $content;
+				$compressed	= @gzdecode( $content );
+				if( $compressed !== FALSE )
+					$content	= $compressed;
+				break;
 		}
+		return $content;
 	}
 }
+if( !function_exists( 'gzdecode' ) )
+{
+	function gzdecode( $data )
+	{
+		$flags	= ord( substr( $data, 3, 1 ) );
+		$headerlen		= 10;
+		$extralen		= 0;
+		$filenamelen	= 0;
+		if( $flags & 4 )
+		{
+			$extralen	= unpack( 'v' ,substr( $data, 10, 2 ) );
+			$extralen	= $extralen[1];
+			$headerlen	+= 2 + $extralen;
+		}
+		if( $flags & 8 ) 												// Filename
+			$headerlen = strpos( $data, chr( 0 ), $headerlen ) + 1;
+		if( $flags & 16 )												// Comment
+			$headerlen = strpos( $data, chr( 0 ), $headerlen ) + 1;
+		if( $flags & 2 )												// CRC at end of file
+			$headerlen	+= 2;
+		$unpacked = gzinflate( substr( $data, $headerlen ) );
+		if( $unpacked === FALSE )
+			$unpacked = $data;
+		return $unpacked;
+	}
+}
+
 ?>

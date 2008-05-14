@@ -45,11 +45,12 @@ class XML_DOM_Builder
 	{
 		foreach( $tree->getAttributes() as $key => $value )
 		{
+			$value	= addslashes( $value );
 			if( $encoding == "utf-8" && utf8_encode( utf8_decode( $value ) ) != $value )
 				$value	= utf8_encode( $value );
 			$root->setAttribute( $key, $value );
 		}
-		if( method_exists( $tree, 'hasChildren' ) && $tree->hasChildren() )
+		if( $tree->hasChildren() )
 		{
 			$children =& $tree->getChildren();
 			foreach( $children as $child )
@@ -62,6 +63,7 @@ class XML_DOM_Builder
 		else if( $tree->hasContent() )
 		{
 			$text	= (string) $tree->getContent();
+			$text	= addslashes( $text );
 			if( $encoding == "utf-8" && utf8_encode( utf8_decode( $text ) ) != $text )
 				$text	= utf8_encode( $text );
 			$text	= $this->document->createTextNode( $text );

@@ -29,7 +29,7 @@ class Net_HTTP_AlexaRank
 	 *	@param		int			$cache_time		Duration of Cache File in seconds (0 - Cache disabled)
 	 *	@return		string
 	 */
-	function getRank( $host, $cacheTime = 86400 )
+	public function getRank( $host, $cacheTime = 86400 )
 	{
 		$cacheFile = "cache_".$host.".html";
 		if( $cacheTime && file_exists( $cacheFile ) && filemtime( $cacheFile ) >= time() - $cacheTime )

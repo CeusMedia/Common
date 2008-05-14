@@ -1,46 +1,70 @@
 <?php
 /**
- *	XML Node DOM Implementation.
+ *	Simplified XML Node DOM Implementation.
  *	@package		xml.dom
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.6
  */
 /**
- *	XML Node DOM Implementation.
+ *	Simplified XML Node DOM Implementation.
  *	@package		xml.dom
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.6
  */
 class XML_DOM_Node
 {
-	/**	@var	string	$nodeName		Name of XML Leaf Node */
+	/**	@var		string		$nodeName		Name of XML Node */
 	protected $nodeName;
-	/**	@var	array	$attributes		Map of XML Leaf Node attributes */
-	protected $attributes		= array ();
-	/**	@var	array	$children		List of Child Nodes  */
-	protected $children	= array();
-	
-	/**	@var	string	$content		Content of XML Leaf Node */
+	/**	@var		array		$attributes		Map of XML Node Attributes */
+	protected $attributes		= array();
+	/**	@var		array		$children		List of Child Nodes  */
+	protected $children			= array();
+	/**	@var		string		$content		Content of XML Node */
 	protected $content;
 
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		string		nodeName	Name of XML Leaf Node
-	 *	@param		string		content		Content of XML Leaf Node
+	 *	@param		string		$nodeName		Tag Name of XML Node
+	 *	@param		string		$content		Content of XML Node
+	 *	@param		array		$attributes		Array of Node Attributes
 	 *	@return		void
 	 */
-	public function __construct( $nodeName, $content = NULL )
+	public function __construct( $nodeName, $content = NULL, $attributes = array() )
 	{
 		$this->setNodeName( $nodeName );
 		if( $content !== NULL )
 			$this->setContent( $content );
+		if( !is_array( $attributes ) )
+			throw new InvalidArgumentException( 'Attributes must be given as Array.' );
+		if( count( $attributes ) )
+			foreach( $attributes as $key => $value )
+				$this->setAttribute( $key, $value );
 	}
-	
+
+	public function __get( $key )
+	{
+		switch( $key )
+		{
+			case 'name':
+			case 'nodeName':
+				return $this->nodeName;
+			case 'content':
+			case 'nodeContent':
+			case 'nodeValue':
+				return $this->content;
+			case 'attr':
+			case 'attributes':
+				return $this->attributes;
+			default:
+				throw new InvalidArgumentException( 'Property "'.$key.'" not defined.' );
+		}
+	}
+
 	/**
 	 *	Adds a Child Node, returns the Node just added.
 	 *	@access		public
-	 *	@param		XML_DOM_Node	$xmlNode		XML Node to add
+	 *	@param		XML_DOM_Node	$xmlNode	XML Node to add
 	 *	@return		XML_DOM_Node
 	 */
 	public function addChild( $xmlNode )
@@ -50,23 +74,23 @@ class XML_DOM_Node
 	}
 
 	/**
-	 *	Returns an attribute if it is set.
+	 *	Returns an Attribute if it is set.
 	 *	@access		public
-	 *	@param		string		$key			Key of attribute
+	 *	@param		string		$key			Key of Attribute
 	 *	@return		string
 	 */
 	public function getAttribute( $key )
 	{
 		if( $this->hasAttribute( $key ) )
 			return $this->attributes[$key];
-		return NULL;
+		return "";
 	}
 
 	/**
-	 *	Returns all attributes as associative array.
+	 *	Returns Array of all Attributes.
 	 *	@access		public
 	 *	@param		string		$key			Key of attribute
-	 *	@return		string
+	 *	@return		array
 	 */
 	public function getAttributes()
 	{
@@ -79,12 +103,26 @@ class XML_DOM_Node
 	 *	@param		string		$nodeName		Name of Child Node
 	 *	@return		XML_DOM_Node
 	 */
-	public function getChild( $nodeName )
+	public function & getChild( $nodeName )
 	{
 		for( $i=0; $i<count( $this->children ); $i++ )
 			if( $this->children[$i]->getNodeName() == $nodeName )
 				return $this->children[$i];
-		return NULL;
+		throw new InvalidArgumentException( 'Child Node with Node Name "'.$nodeName.'" is not existing.' );
+	}
+
+	/**
+	 *	Returns a Child Node by its Index.
+	 *	@access		public
+	 *	@param		int			$index			Index of Child, starting with 0
+	 *	@return		XML_DOM_Node
+	 *	@todo		write Unit Test
+	 */
+	public function & getChildByIndex( $index )
+	{
+		if( $index > count( $this->children ) )
+			throw new InvalidArgumentException( 'Child Node with Index "'.$index.'" is not existing.' );
+		return $this->children[$index];
 	}
 	
 	/**
@@ -93,14 +131,14 @@ class XML_DOM_Node
 	 *	@param		string		$nodeName		Name of Child Node
 	 *	@return		array
 	 */
-	public function getChildren( $nodeName = "" )
+	public function & getChildren( $nodeName = NULL )
 	{
 		if( !$nodeName )
 			return $this->children;
 		$list	= array();
 		for( $i=0; $i<count( $this->children ); $i++ )
 			if( $this->children[$i]->getNodeName() == $nodeName )
-				$list[]	= $this->children[$i];
+				$list[]	=& $this->children[$i];
 		return $list;
 	}
 	
@@ -183,12 +221,10 @@ class XML_DOM_Node
 	 */
 	public function removeAttribute( $key )
 	{
-		if( $this->hasAttribute( $key ) )
-		{
-			unset( $this->attributes[$key] );
-			return true;
-		}
-		return false;
+		if( !$this->hasAttribute( $key ) )
+			return FALSE;
+		unset( $this->attributes[$key] );
+		return TRUE;
 	}
 
 	/**
@@ -205,15 +241,15 @@ class XML_DOM_Node
 		{
 			if( !$found && $child->getNodeName() == $nodeName )
 			{
-				$found	= true;
+				$found	= TRUE;
 				continue;
 			}
 			$children[] = $child;
 		}
 		if( $children == $this->children )
-			return false;
+			return FALSE;
 		$this->children = $children;
-		return true;		
+		return TRUE;		
 	}
 
 	/**
@@ -223,12 +259,10 @@ class XML_DOM_Node
 	 */
 	public function removeContent()
 	{
-		if( $this->hasContent() )
-		{
-			$this->setContent( "" );
-			return true;
-		}
-		return false;
+		if( !$this->hasContent() )
+			return FALSE;
+		$this->setContent( "" );
+		return TRUE;
 	}
 	
 	/**
@@ -240,12 +274,10 @@ class XML_DOM_Node
 	 */
 	public function setAttribute( $key, $value )
 	{
-		if( $this->getAttribute( $key ) !== $value )
-		{
-			$this->attributes[$key] = $value;
-			return true;
-		}
-		return false;
+		if( $this->getAttribute( $key ) === (string) $value )
+			return FALSE;
+		$this->attributes[$key] = (string) $value;
+		return TRUE;
 	}
 	
 	/**
@@ -256,12 +288,10 @@ class XML_DOM_Node
 	 */
 	public function setContent( $content )
 	{
-		if( $this->content != $content )
-		{
-			$this->content = $content;
-			return true;
-		}
-		return false;
+		if( $this->content === (string) $content )
+			return FALSE;
+		$this->content = (string) $content;
+		return TRUE;
 	}
 
 	/**
@@ -272,12 +302,10 @@ class XML_DOM_Node
 	 */
 	public function setNodeName( $name )
 	{
-		if( $this->nodeName != $name )
-		{
-			$this->nodeName = $name;
-			return true;
-		}
-		return false;
+		if( $this->nodeName == (string) $name )
+			return FALSE;
+		$this->nodeName = (string) $name;
+		return TRUE;
 	}
 }
 ?>

@@ -1,9 +1,11 @@
 <?php
 import( 'de.ceus-media.file.log.Writer' );
+import( 'de.ceus-media.StopWatch' );
 /**
  *	Compresses and sends HTTP Output.
  *	@package		protocol.http
  *	@uses			File_Log_Writer
+ *	@uses			StopWatch
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.6
  */
@@ -11,87 +13,135 @@ import( 'de.ceus-media.file.log.Writer' );
  *	Compresses and sends HTTP Output.
  *	@package		net.http
  *	@uses			File_Log_Writer
+ *	@uses			StopWatch
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.6
  */
 class Net_HTTP_Compression
 {
-	/**	@var	string		$name			Connection Name for Log File */
-	protected $name	= "";
+	/**	@var		string		$method		Compression Method to use */	
+	protected static $method	= "deflate";
+	/**	@var		array		$methods	List of supported Compression Methods (deflate|gzip) */	
+	protected static $methods	= array( 'deflate', 'gzip' );
+	/**	@var		string		$logFile	File Name of Log File */	
+	protected $logFile;
+	/**	@var		int			$precision	Precision of mathematical Operations */	
+	protected $precision;
 
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		string	$name			Connection Name for Log File for Compression Statistics
 	 *	@return		void
 	 */
-	public function __construct( $name = "" )
+	public function __construct( $logFile = NULL, $precision = 1 )
 	{
-		$this->name = $name;
+		$this->logFile		= $logFile;
+		$this->precision	= $precision;
 		ob_start();
 		ob_implicit_flush( 0 );
 	}
-
+	
 	/**
-	 *	Sends checksum and size as 4 characters.
-	 *	@access		protected
-	 *	@param		int		$value			Checksum or size
-	 *	@return		void
-	 */
-	protected function gzipPrintFourChars( $value )
-	{
-		$code = "";
-		for( $i = 0; $i < 4; $i ++ )
-		{
-			$code .= chr( $value % 256 );
-			$value	= floor( $value / 256 );
-		}
-		return $code;
-	}
-
-	/**
-	 *	Sends compressed Content Data.
+	 *	Returns currently set Compression Method.
 	 *	@access		public
-	 *	@param		string	$logFile		File Name of Log File for Compression Statistics
-	 *	@return		void
+	 *	@return		string
 	 */
-	public function putOut( $logFile = false )
+	public static function getMethod()
 	{
-		$contents	= ob_get_contents();
-		for( $i=0; $i<=ob_get_level(); $i++ )
-			ob_end_clean();
-
-		$size		= strlen( $contents );
-		$crc		= crc32( $contents );
-		$contents	= gzcompress( $contents, 9 );
-		$contents	= substr( $contents, 0, strlen( $contents ) - 4 );
-
-		if( $logFile )
-			$this->logRatio( $logFile, $size, strlen($contents) );
-
-		header( "Content-Encoding: gzip" );
-		echo "\x1f\x8b\x08\x00\x00\x00\x00\x00";
-		echo $contents;
-		echo $this->gzipPrintFourChars( $crc );
-		echo $this->gzipPrintFourChars( $size );
-		die;
+		return self::$method;
 	}
 	
 	/**
-	 *	Writes Compression Statistics to LogFile.
+	 *	Returns List of supported Compression Methods.
+	 *	@access		public
+	 *	@return		array
+	 */
+	public static function getMethods()
+	{
+		return self::$methods;
+	}
+	
+	/**
+	 *	Appeds statistical Data to Log File.
 	 *	@access		private
 	 *	@param		string	$logfile		Name of LogFile for Compression Statistics
 	 *	@param		int		$before		Content Size before Compression
 	 *	@param		int		$after		Content Size after Compression
+	 *	@return		bool
+	 */
+	protected static function log( $logFile, $before, $after, $time, $precision = 1 )
+	{
+		$ratio	= $after / $before * 100;
+		$ratio	= round( $ratio, $precision );
+		$entry	= time()." ".self::$method." ".$before." ".$after." ".$ratio." ".$time."\n";
+		return error_log( $entry, 3, $logFile );
+	}
+
+	/**
+	 *	Sends compressed Output Buffer Content and returns Length of sent compressed Content.
+	 *	@access		public
+	 *	@return		int
+	 */
+	public function send()
+	{
+		$content	= ob_get_clean();
+		return self::sendContent( $content, $this->logFile, $this->precision );
+	}
+
+	/**
+	 *	Sends compressed Content and returns Length of sent compressed Content statically.
+	 *	@access		public
+	 *	@param		string	$logFile		File Name of Log File for Compression Statistics
+	 *	@return		int
+	 */
+	public static function sendContent( $content, $logFile = NULL, $precision = 1 )
+	{
+		$sizeBefore	= strlen( $content );												//  get Length of Content before Compression
+		if( headers_sent() )															//  Header are already sent, no Compression possible
+		{
+			print( $content );															//  send uncompressed Content
+			return $sizeBefore;															//  return Length of uncompressed Content
+		}
+		$watch	= new Stopwatch;														//  start Stopwatch
+		switch( self::$method )															//  switch for Compression Method
+		{
+			case 'deflate':																//  DEFLATE
+				$content	= gzcompress( $content );									//  compress Content
+				header( "Content-Encoding: deflate" );									//  send Encoding Header
+				break;
+			case 'gzip':
+				$content	= gzencode( $content );										//  compress Content
+				header( "Content-Encoding: gzip" );										//  send Encoding Header
+				break;
+			default:																	//  no valid Compression Method set
+				print( $content );														//  send uncompressed Content
+				return $sizeBefore;														//  return Length of uncompressed Content
+		}
+		$sizeAfter	= strlen( $content );												//  get Length of Content after Compression
+		ob_start();																		//  open Output Buffer to avoid Problems
+		if( $logFile )																	//  Logging is enabled
+		{
+			$time	= $watch->stop( 6, 0 );												//  get Compression Time
+			@self::log( $logFile, $sizeBefore, $sizeAfter, $time, $precision );			//  log statistical Data
+		}
+		while( ob_get_level() )															//  all open Output Buffers
+			ob_end_clean();																//  will be closed
+		print( $content );																//  send compressed Content
+		flush();
+		return $sizeAfter;																//  return Length of compressed Content
+	}
+	
+	/**
+	 *	Sets Compression Method statically.
+	 *	@access		public
+	 *	@param		string		$method		Compression Method to use
 	 *	@return		void
 	 */
-	protected function logRatio( $logFile, $before, $after )
+	public static function setMethod( $method )
 	{
-		$log		= new File_Log_Writer( $logFile );
-		$ratio	= round( ( $after / $before * 100 ), 2 );
-		$before	= round( $before/1024, 3 )." kB";
-		$after	= round( $after/1024, 3 )." kB";
-		$log->note( $this->name." (".$before.")->[".$after."] = ".$ratio." %" );
+		if( !( empty( $method ) || in_array( strtolower( $method ), self::$methods ) ) )
+			throw new InvalidArgumentException( 'Method "'.$method.'" is not supported ('.implode( ",", self::$methods ).').' );
+		self::$method	= strtolower( $method );
 	}
 }
 ?>

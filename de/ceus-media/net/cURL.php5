@@ -75,9 +75,16 @@ class Net_cURL
 	private $status;
 
 	/**
+	 *	Time out in Seconds.
+	 *	@access private
+	 *	@var int
+	 */
+	private static $timeOut		= 0; 
+
+	/**
 	 *	cURL class constructor
 	 *	@access		public
-	 *	@param		string	$url 			URL to be accessed.
+	 *	@param		string		$url 		URL to be accessed.
 	 *	@return		void
 	 *	@link		http://www.php.net/curl_init
 	 */
@@ -94,6 +101,11 @@ class Net_cURL
 			$this->setOption( CURLOPT_URL, $url ); 
 		$this->setOption( CURLOPT_HEADER, false );
 		$this->setOption( CURLOPT_RETURNTRANSFER, true );
+		if( self::$timeOut )
+		{
+			$this->setOption( CURLOPT_TIMEOUT, self::$timeOut );
+			$this->setOption( CURLOPT_CONNECTTIMEOUT, self::$timeOut );
+		}
 	}
 
 	/**
@@ -111,18 +123,29 @@ class Net_cURL
 	/**
 	 *	Execute the cURL request and return the result.
 	 *	@access		public
+	 *	@param		bool		$breakOnError		Flag: throw an Exception if a Error has occured
 	 *	@return		string
 	 *	@link		http://www.php.net/curl_exec
 	 *	@link		http://www.php.net/curl_getinfo
 	 *	@link		http://www.php.net/curl_errno
 	 *	@link		http://www.php.net/curl_error
 	 */
-	public function exec()
+	public function exec( $breakOnError = FALSE )
 	{
+		$url	= $this->getOption( CURLOPT_URL );
+		if( empty( $url ) )
+			throw new RuntimeException( 'No URL set.' );
+		if( !preg_match( "@[a-z]+://[a-z0-9]+.+@i", $url ) )
+			throw new InvalidArgumentException( 'URL "'.$url.'" has no valid Protocol.' );
+
 		$result = curl_exec( $this->handle );
 		$this->status = curl_getinfo( $this->handle );
 		$this->status['errno']	= curl_errno( $this->handle );
 		$this->status['error']	= curl_error( $this->handle );
+				
+		if( $breakOnError && $this->status['errno'] )
+			throw new RuntimeException( $this->status['error'], $this->status['errno'] );
+
 		$this->header = NULL;
 		if( $this->getOption( CURLOPT_HEADER ) )
 		{
@@ -139,7 +162,7 @@ class Net_cURL
 	/**
 	 *	Returns the parsed HTTP header.
 	 *	@access		public
-	 *	@param		string	$key		Key name of Header Information
+	 *	@param		string		$key		Key name of Header Information
 	 *	@returns 	mixed
 	 */
 	public function getHeader( $key = NULL )
@@ -159,7 +182,7 @@ class Net_cURL
 	/**
 	 *	Returns the current setting of the request option.
 	 *	@access		public
-	 *	@param		int		$option		Key name of cURL Option
+	 *	@param		int			$option		Key name of cURL Option
 	 *	@returns 	mixed
 	 */
 	public function getOption( $option )
@@ -172,7 +195,7 @@ class Net_cURL
 	/**
 	 *	Return the status information of the last cURL request.
 	 *	@access		public
-	 *	@param		string	$key		Key name of Information
+	 *	@param		string		$key		Key name of Information
 	 *	@returns	mixed
 	 */
 	public function getStatus( $key = NULL )
@@ -215,7 +238,7 @@ class Net_cURL
 	 *	the headers are really stored as an array of arrays.
 	 *
 	 *	@access		public
-	 *	@param		string	$header		The HTTP data header
+	 *	@param		string		$header		The HTTP data header
 	 *	@return		void
 	 */
 	public function parseHeader( $header )
@@ -238,8 +261,8 @@ class Net_cURL
 	 *	Set a cURL option.
 	 *
 	 *	@access		public
-	 *	@param		mixed	$option		One of the valid CURLOPT defines.
-	 *	@param		mixed	$value		the value of the cURL option.
+	 *	@param		mixed		$option		One of the valid CURLOPT defines.
+	 *	@param		mixed		$value		the value of the cURL option.
 	 *	@return		void
 	 *	@link		http://www.php.net/curl_setopt
 	 */
@@ -248,6 +271,17 @@ class Net_cURL
 		if( !curl_setopt( $this->handle, $option, $value ) )
 			throw new InvalidArgumentException( "Option could not been set." );
 		$this->options[$option]	= $value;
+	}
+	
+	/**
+	 *	Set Time Out in Seconds.
+	 *	@access		public
+	 *	@param		int			$seconds	Seconds until Time Out
+	 *	@return		void
+	 */
+	public static function setTimeOut( $seconds )
+	{
+		self::$timeOut	= (int) $seconds;
 	}
 }
 ?>

@@ -35,18 +35,18 @@ import( 'de.ceus-media.net.http.OperatingSystemSniffer' );
  */
 class Net_HTTP_ClientSniffer
 {
-	/**	@var	object	$browser_sniffer		Object of Net_HTTP_BrowserSniffer */
-	protected $browser_sniffer;
-	/**	@var	object	$charset_sniffer		Object of Net_HTTP_CharsetSniffer */
-	protected $charset_sniffer;
-	/**	@var	object	$encoding_sniffer		Object of Net_HTTP_EncodingSniffer */
-	protected $encoding_sniffer;
-	/**	@var	object	$language_sniffer		Object of Net_HTTP_LanguageSniffer */
-	protected $language_sniffer;
-	/**	@var	object	$mime_sniffer			Object of Net_HTTP_MimeTypeSniffer */
-	protected $mime_sniffer;
-	/**	@var	object	$os_sniffer				Object of Net_HTTP_OperatingSystemSniffer */
-	protected $os_sniffer;
+	/**	@var		object		$browserSniffer		Object of Net_HTTP_BrowserSniffer */
+	protected $browserSniffer;
+	/**	@var		object		$charsetSniffer		Object of Net_HTTP_CharsetSniffer */
+	protected $charsetSniffer;
+	/**	@var		object		$encodingSniffer	Object of Net_HTTP_EncodingSniffer */
+	protected $encodingSniffer;
+	/**	@var		object		$languageSniffer	Object of Net_HTTP_LanguageSniffer */
+	protected $languageSniffer;
+	/**	@var		object		$mimeTypeSniffer	Object of Net_HTTP_MimeTypeSniffer */
+	protected $mimeTypeSniffer;
+	/**	@var		object		$osSniffer			Object of Net_HTTP_OperatingSystemSniffer */
+	protected $osSniffer;
 
 	/**
 	 *	Constructor.
@@ -55,12 +55,12 @@ class Net_HTTP_ClientSniffer
 	 */
 	public function __construct()
 	{
-		$this->browser	= new Net_HTTP_BrowserSniffer();
-		$this->charset	= new Net_HTTP_CharsetSniffer();
-		$this->encoding	= new Net_HTTP_EncodingSniffer();
-		$this->language	= new Net_HTTP_LanguageSniffer();
-		$this->mime		= new Net_HTTP_MimeTypeSniffer();
-		$this->system	= new Net_HTTP_OperatingSystemSniffer();
+		$this->browserSniffer	= new Net_HTTP_BrowserSniffer();
+		$this->charsetSniffer	= new Net_HTTP_CharsetSniffer();
+		$this->encodingSniffer	= new Net_HTTP_EncodingSniffer();
+		$this->languageSniffer	= new Net_HTTP_LanguageSniffer();
+		$this->mimeSniffer		= new Net_HTTP_MimeTypeSniffer();
+		$this->systemSniffer	= new Net_HTTP_OperatingSystemSniffer();
 	}
 	
 	/**
@@ -68,7 +68,7 @@ class Net_HTTP_ClientSniffer
 	 *	@access		public
 	 *	@return		string
 	 */
-	function getIp()
+	public function getIp()
 	{
 		return getEnv( 'REMOTE_ADDR' );
 	}
@@ -76,45 +76,45 @@ class Net_HTTP_ClientSniffer
 	/**
 	 *	Returns prefered allowed and accepted Language of a HTTP Request.
 	 *	@access		public
-	 *	@param		array	$allowed			Array of Languages supported and allowed by the Application
+	 *	@param		array		$allowed			Array of Languages supported and allowed by the Application
 	 *	@return		string
 	 */
-	function getLanguage( $allowed )
+	public function getLanguage( $allowed )
 	{
-		return $this->language->getLanguage( $allowed  );
+		return $this->languageSniffer->getLanguage( $allowed  );
 	}
 
 	/**
 	 *	Returns prefered allowed and accepted Character Set of a HTTP Request.
 	 *	@access		public
-	 *	@param		array	$allowed			Array of Languages supported and allowed by the Application
+	 *	@param		array		$allowed			Array of Languages supported and allowed by the Application
 	 *	@return		string
 	 */
-	function getCharset( $allowed )
+	public function getCharset( $allowed )
 	{
-		return $this->charset->getCharset( $allowed  );
+		return $this->charsetSniffer->getCharset( $allowed  );
 	}
 
 	/**
 	 *	Returns prefered allowed and accepted Mime Type of a HTTP Request.
 	 *	@access		public
-	 *	@param		array	$allowed			Array of Mime Types supported and allowed by the Application
+	 *	@param		array		$allowed			Array of Mime Types supported and allowed by the Application
 	 *	@return		string
 	 */
-	function getMimeType( $allowed )
+	public function getMimeType( $allowed )
 	{
-		return $this->mime->getMimeType( $allowed  );
+		return $this->mimeTypeSniffer->getMimeType( $allowed  );
 	}
 
 	/**
 	 *	Returns prefered allowed and accepted Encoding Methods of a HTTP Request.
 	 *	@access		public
-	 *	@param		array	$allowed			Array of Encoding Methods supported and allowed by the Application
+	 *	@param		array		$allowed			Array of Encoding Methods supported and allowed by the Application
 	 *	@return		string
 	 */
-	function getEncoding( $allowed )
+	public function getEncoding( $allowed )
 	{
-		return $this->encoding->getEncoding( $allowed  );
+		return $this->encodingSniffer->getEncoding( $allowed  );
 	}
 
 	/**
@@ -122,9 +122,9 @@ class Net_HTTP_ClientSniffer
 	 *	@access		public
 	 *	@return		array
 	 */
-	function getOS()
+	public function getOS()
 	{
-		return $this->os->getOS();
+		return $this->osSniffer->getOS();
 	}
 
 	/**
@@ -132,9 +132,9 @@ class Net_HTTP_ClientSniffer
 	 *	@access		public
 	 *	@return		string
 	 */
-	function getBrowser()
+	public function getBrowser()
 	{
-		return $this->browser->getBrowser();
+		return $this->browserSniffer->getBrowser();
 	}
 	
 	/**
@@ -142,9 +142,9 @@ class Net_HTTP_ClientSniffer
 	 *	@access		public
 	 *	@return		bool
 	 */
-	function isRobot()
+	public function isRobot()
 	{
-		return $this->browser->isRobot();
+		return $this->browserSniffer->isRobot();
 	}
 
 	/**
@@ -152,9 +152,9 @@ class Net_HTTP_ClientSniffer
 	 *	@access		public
 	 *	@return		bool
 	 */
-	function isBrowser()
+	public function isBrowser()
 	{
-		return $this->browser->isBrowser();
+		return $this->browserSniffer->isBrowser();
 	}
 }
 ?>
