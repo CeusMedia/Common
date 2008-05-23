@@ -24,8 +24,8 @@ import( 'de.ceus-media.alg.TimeConverter' );
  */
 class Framework_Neon_Action
 {
-	/**	@var	array			$_actions	Array of Action events and methods */
-	var $_actions	= array();
+	/**	@var	array			$actions	Array of Action events and methods */
+	var $actions	= array();
 	/**	@var	ADT_Reference	$ref		Object Reference */
 	var $ref;
 
@@ -34,7 +34,7 @@ class Framework_Neon_Action
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function __construct()
+	public public function __construct()
 	{
 		$this->ref			= new ADT_Reference();
 		$this->tc			= new Alg_TimeConverter;
@@ -47,14 +47,12 @@ class Framework_Neon_Action
 	 *	@access		public
 	 *	@return		void
 	 */
-	function act()
+	public function act()
 	{
 		$request	= $this->ref->get( 'request' );
-		foreach( $this->_actions as $event => $action )
-		{
+		foreach( $this->actions as $event => $action )
 			if( $request->has( $event ) )
 				$this->$action();
-		}
 	}
 
 	/**
@@ -64,11 +62,11 @@ class Framework_Neon_Action
 	 *	@param		string		$action			Method name of Action
 	 *	@return		void
 	 */
-	function add( $event, $action = false )
+	public function add( $event, $action = false )
 	{
 		if( !$action )
 			$action = $event;
-		$this->_actions[$event]	= $action;
+		$this->actions[$event]	= $action;
 	}
 
 	/**
@@ -78,7 +76,7 @@ class Framework_Neon_Action
 	 *	@param		string		$separator		Separator
 	 *	@return		string
 	 */
-	function formatPrice( $price, $separator = "." )
+	public function formatPrice( $price, $separator = "." )
 	{
 		$price	= (float)$price;
 		ob_start();
@@ -92,9 +90,9 @@ class Framework_Neon_Action
 	 *	@param		string		$event			Event name of Action
 	 *	@return		bool
 	 */
-	function has( $event )
+	public function has( $event )
 	{
-		return isset( $this->_actions[$event]);
+		return isset( $this->actions[$event]);
 	}
 
 	/**
@@ -104,7 +102,7 @@ class Framework_Neon_Action
 	 *	@param		string		$section			Section Name in Language Space
 	 *	@return		void
 	 */
-	function loadLanguage( $filename, $section = false, $verbose = true )
+	public function loadLanguage( $filename, $section = false, $verbose = true )
 	{
 		$language	=& $this->ref->get( 'language' );
 		$language->loadLanguage( $filename, $section, $verbose );
@@ -119,7 +117,7 @@ class Framework_Neon_Action
 	 *	@param		string		$separator_class		Separator for Language File
 	 *	@return		string
 	 */
-	function loadTemplate( $_template, $data = array(), $separator_link = ".", $separator_file = "/" )
+	public function loadTemplate( $_template, $data = array(), $separator_link = ".", $separator_file = "/" )
 	{
 		$config	=& $this->ref->get( "config" );
 		$_file	= str_replace( $separator_link, $separator_file, $_template );
@@ -145,10 +143,10 @@ class Framework_Neon_Action
 	 *	@param		string		$event			Event name of Action
 	 *	@return		void
 	 */
-	function remove( $event )
+	public function remove( $event )
 	{
 		if( $this->has( $event ) )
-			unset( $this->_actions[$event] );
+			unset( $this->actions[$event] );
 	}
 
 	/**
@@ -157,7 +155,7 @@ class Framework_Neon_Action
 	 *	@param		string		$request			Request URL with Query String
 	 *	@return		void
 	 */
-	function restart( $request )
+	public function restart( $request )
 	{
 		header( "Location: ".$request );
 		die;

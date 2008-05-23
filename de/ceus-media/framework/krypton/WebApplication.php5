@@ -32,56 +32,56 @@ class Framework_Krypton_WebApplication extends Framework_Krypton_Base
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function __construct( $configPath = "config/" )
+	public function __construct()
 	{
 		//  --  ENVIRONMENT  --  //
-		$this->initRegistry();							//  must be first
-		$this->initConfiguration( $configPath );		//  must be one of the first
-		$this->initEnvironment();						//  must be one of the first
+		$this->initRegistry();										//  must be first
+		$this->initConfiguration();									//  must be one of the first
+		$this->initEnvironment();									//  must be one of the first
 #		$this->initCookie();
 		$this->initSession();
 		$this->initRequest();
 
 		//  --  RESOURCE SUPPORT  --  //
-		$this->initDatabase( $configPath );				//  needs Configuration
-		$this->initLanguage();							//  needs Request and Session
-		$this->initFormDefinition();					//  needs Configuration
-		$this->initThemeSupport();						//  needs Configuration, Request and Session
-		$this->initPageController( $configPath );		//  needs Configuration
+		$this->initDatabase();										//  needs Configuration
+		$this->initLanguage();										//  needs Request and Session
+		$this->initFormDefinition();								//  needs Configuration
+		$this->initThemeSupport();									//  needs Configuration, Request and Session
+		$this->initPageController();								//  needs Configuration
 
 		//  --  AUTHENTICATION LOGIC  --  //
-		$this->initAuthentication();					//  needs Implementation of Authentication Logic in Project Classes
+		$this->initAuthentication();								//  needs Implementation of Authentication Logic in Project Classes
 
 		ob_start();
 		
 		if( !defined( 'DEV_MODE' ) )
 			define( 'DEV_MODE', 1 );
 	}
-	
+
 	/**
 	 *	Runs called Actions.
 	 *	@access		public
+	 *	@param		bool		$verbose		Flag: show Information
 	 *	@return		void
 	 */
-	public function act()
+	public function act( $verbose = FALSE )
 	{
 		$request	= $this->registry->get( "request" );
 		$session	= $this->registry->get( "session" );
 		$controller	= $this->registry->get( "controller" );
-		$auth		= $this->registry->get( "auth" );
 		
-		//  --  EVALUATE LINK  --  //
-		$link		= $request->get( 'link' );
-		if( !$auth->hasAccessToPage( $link ) )
-			$link	= $auth->getFirstAccessiblePage();
+		//  --  VALIDATE LINK  --  //
+		$link	= $this->validateLink( $request->get( 'link' ) );
 		$request->set( 'link', $link );
-//		remark( "<b>Requested Link: </b>".$link );
+		if( $verbose )
+			remark( "<b>Requested Link: </b>".$link );
 
 		//  --  REFERER (=last site)  --  //
 		if( $referer = getEnv( 'HTTP_REFERER' ) )
 			if( !preg_match( "@(=|&)(log(in|out))|register@i", $referer ) )
 				$session->set( 'referer', $referer );
-		remark( "<b>Referer: </b>".$session->get( 'referer' ) );
+		if( $verbose )
+			remark( "<b>Referer: </b>".$session->get( 'referer' ) );
 
 		//  --  ACTION CALL  --  //
 		if( $controller->checkPage( $link ) )
@@ -91,7 +91,8 @@ class Framework_Krypton_WebApplication extends Framework_Krypton_Base
 				$classname	= "Action_".$controller->getClassname( $link );
 				$filename	= $this->getFileNameOfClass( $classname );
 
-				remark( "<b>Action Class: </b>".$classname." (from File ".$filename.")" );
+				if( $verbose )
+					remark( "<b>Action Class: </b>".$classname." (from File ".$filename.")" );
 				if( file_exists( $filename ) )
 				{
 					require_once( $filename );
@@ -121,10 +122,12 @@ class Framework_Krypton_WebApplication extends Framework_Krypton_Base
 	/**
 	 *	Creates Views by called Link and Rights of current User and returns HTML.
 	 *	@access		public
+	 *	@param		bool		$verbose		Flag: show Information
 	 *	@return		string
 	 */
-	public function respond()
+	public function respond( $verbose = FALSE )
 	{
+		$config		= $this->registry->get( "config" );
 		$session	= $this->registry->get( "session" );
 		$request	= $this->registry->get( "request" );
 		$controller	= $this->registry->get( "controller" );
@@ -148,7 +151,8 @@ class Framework_Krypton_WebApplication extends Framework_Krypton_Base
 				{
 					$classname	= "View_".$controller->getClassname( $link );
 					$filename	= $this->getFileNameOfClass( $classname );
-					remark( "<b>View Class: </b>".$classname." (from File ".$filename.")" );
+					if( $verbose )
+						remark( "<b>View Class: </b>".$classname." (from File ".$filename.")" );
 					if( file_exists( $filename ) )
 					{
 						require_once( $filename );
@@ -179,25 +183,40 @@ class Framework_Krypton_WebApplication extends Framework_Krypton_Base
 				else
 				{
 					$source		= $controller->getSource( $link );
-					remark( "<b>HTML File: </b>".$source );
+					if( $verbose )
+						remark( "<b>HTML File: </b>".$source );
 					$content	= $interface->loadContent( $source );
 				//	$extra		.= $view->buildExtra();
 				}
 			}
 		}
 
-	if( isset( $GLOBALS['length'] ) )
-	{
-		remark( "<b>Class Length: </b>".$GLOBALS['length']['total'] );
-		arsort( $GLOBALS['length']['classes'] );
-		print_m( array_flip( $GLOBALS['length']['classes'] ) );
-	}
+		if( isset( $GLOBALS['length'] ) )
+		{
+			remark( "<b>Class Length: </b>".$GLOBALS['length']['total'] );
+			arsort( $GLOBALS['length']['classes'] );
+			print_m( array_flip( $GLOBALS['length']['classes'] ) );
+		}
 
 		$content	= $interface->buildInterface( $content, $control, $extra );
 
-		$response	= new Net_HTTP_Request_Response();
-		$response->write( $content );
-		$response->send();
+		$zipMethod	= $config['config.http_compression'];
+		$zipLogFile	= $config['config.http_compression_log'];
+		$length		= Net_HTTP_Request_Response::sendContent( $content, $zipMethod, $zipLogFile );
+	}
+	
+	/**
+	 *	Validate requested Link (can be overwritten for another Validation).
+	 *	@access		protected
+	 *	@param		string		$link		Requested Link to validate
+	 *	@return		string
+	 */
+	protected function validateLink( $link )
+	{
+		$auth		= $this->registry->get( "auth" );
+		if( !$auth->hasAccessToPage( $link ) )
+			return $auth->getFirstAccessiblePage();
+		return $link;
 	}
 }
 ?>

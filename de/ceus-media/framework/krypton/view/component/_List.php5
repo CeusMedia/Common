@@ -58,7 +58,7 @@ class View_Component_List
 		$this->registry	= Framework_Krypton_Core_Registry::getInstance();
 		$config			= $this->registry->get( 'config' );
 		$this->view		= new Core_View();
-		$this->logic	= new Logic_List( $collection, $config['config']['table_prefix'] );
+		$this->logic	= new Logic_List( $collection, $config['config.table_prefix'] );
 		$this->setTransformator( $this, 'transformItem' );
 	}
 	

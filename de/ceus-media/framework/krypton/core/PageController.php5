@@ -45,7 +45,7 @@ class Framework_Krypton_Core_PageController
 		$config		= Framework_Krypton_Core_Registry::getStatic( 'config' );
 
 		$this->fileName		= $fileName;
-		$this->cacheFile	= $config['paths']['cache'].basename( $fileName ).".cache";
+		$this->cacheFile	= $config['paths.cache'].basename( $fileName ).".cache";
 		$this->readPages();
 	}
 

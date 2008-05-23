@@ -6,6 +6,7 @@
  *	@uses			Database_PDO_Connection
  *	@uses			Net_HTTP_PartitionSession
  *	@uses			Net_HTTP_Request_Receiver
+ *	@uses			File_Configuration_Reader
  *	@uses			Console_RequestReceiver
  *	@uses			Framework_Krypton_Core_Registry
  *	@uses			Framework_Krypton_Core_Messenger
@@ -24,6 +25,7 @@
  *	@uses			Database_PDO_Connection
  *	@uses			Net_HTTP_PartitionSession
  *	@uses			Net_HTTP_Request_Response
+ *	@uses			File_Configuration_Reader
  *	@uses			Console_RequestReceiver
  *	@uses			Framework_Krypton_Core_Registry
  *	@uses			Framework_Krypton_Core_Messenger
@@ -37,20 +39,24 @@
  */
 abstract class Framework_Krypton_Base
 {
-	/**	@var	Core_Registry	$registry		Instance of Framework_Krypton_Core_Registry */
+	/**	@var		string		$configFile		File Name of Base Configuration File */	
+	public static $configFile	= "config.ini";
+	/**	@var		string		$configPath		Path to Configuration Files */	
+	public static $configPath	= "config/";
+	/**	@var		string		$configFile		File Name of Base Configuration File */	
+	public static $cachePath	= "contents/cache/";
+	/**	@var		string		$configPath		Path to Configuration Files */	
+	public static $dbLogPath	= "logs/database/";
+	/**	@var		object		$registry		Instance of Framework_Krypton_Core_Registry */
 	protected $registry		= null;
-
-	public static $databaseLogPath	= "logs/database/";
-
-	public static $configPath		= "config/";
 
 	/**
 	 *	Constructor, sets up Environment.
 	 *	@access		public
-	 *	@param		string		$configPath			Path to basic Configuration Files
+	 *	@param		string		$cachePath			Cache Path for basic Configuration Files
 	 *	@return		void
 	 */
-	abstract function __construct( $configPath = "config/" );
+	abstract function __construct();
 
 	/**
 	 *	Returns File Name for a Class Name.
@@ -60,7 +66,27 @@ abstract class Framework_Krypton_Base
 	 *	@param		string		$extension			Class File Extension, by default 'php5'
 	 *	@return		string
 	 */
-	protected static function getFileNameOfClass( $className, $caseSensitive = true, $extension = "php5" )
+	protected static function getPathNameOfClass( $className, $caseSensitive = TRUE )
+	{
+		if( !$caseSensitive )
+			return str_replace( "_", ".", $className );
+		$parts		= explode( "_", $className );
+		$class		= array_pop( $parts );
+		$parts		= array_map( 'strtolower', array_values( $parts ) );
+		array_push( $parts, $class );
+		$pathName	= implode( ".", $parts );
+		return $pathName;
+	}
+
+	/**
+	 *	Returns File Name for a Class Name.
+	 *	@access		protected
+	 *	@param		string		$className			Class Name to get File Name for
+	 *	@param		string		$caseSensitive		Flag: sense Case (important on *nix Servers)
+	 *	@param		string		$extension			Class File Extension, by default 'php5'
+	 *	@return		string
+	 */
+	protected static function getFileNameOfClass( $className, $caseSensitive = TRUE, $extension = "php5" )
 	{
 		if( !$caseSensitive )
 			return "classes/".str_replace( "_", "/", $className ).".".$extension;
@@ -86,6 +112,25 @@ abstract class Framework_Krypton_Base
 	}
 	
 	/**
+	 *	Sets up Basic Configuration.
+	 *	@access		protected
+	 *	@return		void
+	 */
+	protected function initConfiguration()
+	{
+/*		$config	= parse_ini_file( self::$configPath.self::$configFile, TRUE );
+		if( isset( $config['config.error_level'] ) )
+			error_reporting( $config['config.error_level'] );
+		$this->registry->set( "config", $config, TRUE );
+*/		
+		import( 'de.ceus-media.file.configuration.Reader' );
+		$config	= new File_Configuration_Reader( self::$configPath.self::$configFile, self::$cachePath );
+		if( $config->has( 'config.error_level' ) )
+			error_reporting( $config->get( 'config.error_level' ) );
+		$this->registry->set( "config", $config, TRUE );
+	}
+
+	/**
 	 *	Sets up Cookie Support.
 	 *	@access		protected
 	 *	@return		void
@@ -94,49 +139,62 @@ abstract class Framework_Krypton_Base
 	{
 		import( 'de.ceus-media.net.http.PartitionCookie' );
 		$config	=& $this->registry->get( 'config' );
-		$cookie	= new Net_HTTP_PartitionCookie( $config['application']['name'] );
+		$cookie	= new Net_HTTP_PartitionCookie( $config['application.name'] );
 		$this->registry->set( 'cookie', $cookie );
 	}
 	
 	/**
-	 *	Sets up Basic Configuration.
-	 *	@access		protected
-	 *	@param		string		$configPath		Path to basic Configuration Files
-	 *	@return		void
-	 */
-	protected function initConfiguration( $configPath = "config/" )
-	{
-		$config	= parse_ini_file( $configPath."config.ini", true );
-		if( isset( $config['config']['error_level'] ) )
-			error_reporting( $config['config']['error_level'] );
-		$this->registry->set( "config", $config, true );
-	}
-
-	/**
 	 *	Sets up Database Connection.
 	 *	@access		protected
-	 *	@param		string		$configPath		Path to basic Configuration Files
 	 *	@return		void
 	 */
-	protected function initDatabase( $configPath = "config/", $logPath = "logs/database/" )
+	protected function initDatabase()
 	{
 		import( 'de.ceus-media.database.pdo.Connection' );
-		$dba	= parse_ini_file( $configPath."db_access.ini", true );
-		foreach( $dba['options'] as $key => $value )
-			$options[constant( "PDO::".$key )]	= eval( "return ".$value.";" );
-			
-		$dsn	= $dba['access']['type'].":host=".$dba['access']['hostname'].";dbname=".$dba['access']['database'];
-		$dbc	= new Database_PDO_Connection( $dsn, $dba['access']['username'], $dba['access']['password'], $options );
-#		$dbc->setErrorLogFile( $dba['access']['logfile'] );
-#		$dbc->setStatementLogFile( self::$databaseLogPath."queries.log" );
-		$dbc->setLogFile( $dba['access']['logfile'] );
-		$dbc->setQueryLogFile( self::$databaseLogPath."queries.log" );
+		$config	= $this->registry->get( 'config' );
 
-		foreach( $dba['attributes'] as $key => $value )
+		//  --  DATABASE OPTIONS  --  //
+		foreach( $config['database.options'] as $key => $value )
+			$options[constant( "PDO::".$key )]	= eval( "return ".$value.";" );
+
+		//  --  DATA SOURCE NAME  --  //
+		extract( $config['database.access'] );
+		$dsn	= $type.":";
+		switch( $type )
+		{
+			case 'pgsql':														//  PORT should be 5432
+				$port	= isset( $port ) ? $port : 5432;
+				$dsn	.= "host=".$hostname.";port=".$port.";dbname=".$database.";user=".$username.";password=".$password;
+				break;
+			case 'sqlite':
+				$dsn	.= $database.".sqlite3";
+				break;
+			case 'mysql':
+			case 'mssql':
+			case 'sybase':
+			case 'dblib':
+			default:
+				$dsn	.= "host=".$hostname.";dbname=".$database;
+				break;
+		}
+
+		//  --  DATABASE CONNECTION  --  //
+		$dbc	= new Database_PDO_Connection( $dsn, $username, $password, $options );
+#		$dbc->setErrorLogFile( $dba['access']['logfile'] );
+#		$dbc->setStatementLogFile( self::$dbLogPath."queries.log" );
+		$dbc->setLogFile( $logfile );
+		if( $config->has( 'database.access.errorLogFile' ) )
+			$dbc->setLogFile( $errorLogFile );
+		$dbc->setQueryLogFile( self::$dbLogPath."queries.log" );
+		if( $config->has( 'database.access.statementLogFile' ) )
+			$dbc->setLogFile( $statementLogFile );
+
+		//  --  DATABASE ATTRIBUTES  --  //
+		foreach( $config['database.attributes'] as $key => $value )
 			$dbc->setAttribute( constant( "PDO::".$key ), eval( "return ".$value.";" ) );
-		$config	=& $this->registry->get( 'config' );
-		$config['config']['table_prefix']	= $dba['access']['prefix'];
-		$this->registry->set( "dbc", $dbc, true );
+		
+		$config['config.table_prefix']	= $prefix;
+		$this->registry->set( "dbc", $dbc, TRUE );
 	}
 
 	/**
@@ -161,9 +219,9 @@ abstract class Framework_Krypton_Base
 	{
 		import( 'de.ceus-media.framework.krypton.core.FormDefinitionReader' );
 		$config		= $this->registry->get( "config" );
-		$formPath	= $config['paths']['forms'];
-		$cachePath	= $config['paths']['cache'].basename( $config['paths']['forms'] )."/";
-		$definition	= new Framework_Krypton_Core_FormDefinitionReader( $formPath, true, $cachePath );
+		$formPath	= $config['paths.forms'];
+		$cachePath	= $config['paths.cache'].basename( $config['paths.forms'] )."/";
+		$definition	= new Framework_Krypton_Core_FormDefinitionReader( $formPath, TRUE, $cachePath );
 		$definition->setChannel( "html" );
 		$this->registry->set( 'definition', $definition );
 	}
@@ -173,14 +231,12 @@ abstract class Framework_Krypton_Base
 	 *	@access		protected
 	 *	@return		void
 	 */
-	protected function initLanguage( $identify = true )
+	protected function initLanguage( $identify = TRUE )
 	{
 		import( 'de.ceus-media.framework.krypton.core.Language' );
-		$language	= new Framework_Krypton_Core_Language();
-		if( $identify )
-			$language->identifyLanguage();
+		$language	= new Framework_Krypton_Core_Language( $identify );
 		$language->loadLanguage( 'main' );
-		$this->registry->set( 'language', $language, true );		
+		$this->registry->set( 'language', $language, TRUE );		
 		
 		import( 'de.ceus-media.framework.krypton.exception.Template' );
 		import( 'de.ceus-media.framework.krypton.exception.SQL' );
@@ -193,10 +249,10 @@ abstract class Framework_Krypton_Base
 	 *	@access		protected
 	 *	@return		void
 	 */
-	protected function initPageController( $configPath = "config/" )
+	protected function initPageController()
 	{
 		import( 'de.ceus-media.framework.krypton.core.PageController' );
-		$controller	= new Framework_Krypton_Core_PageController( $configPath."pages.xml" );
+		$controller	= new Framework_Krypton_Core_PageController( self::$configPath."pages.xml" );
 		$this->registry->set( 'controller', $controller );
 	}
 
@@ -216,17 +272,17 @@ abstract class Framework_Krypton_Base
 	 *	@access		protected
 	 *	@return		void
 	 */
-	protected function initRequest( $console = false )
+	protected function initRequest( $console = FALSE )
 	{
-		if( $console )
-		{
-			import( 'de.ceus-media.console.RequestReceiver' );
-			$request	= new Console_RequestReceiver;
-		}
-		else
+		if( getEnv( 'HTTP_HOST' ) )
 		{
 			import( 'de.ceus-media.net.http.request.Receiver' );
 			$request	= new Net_HTTP_Request_Receiver;
+		}
+		else
+		{
+			import( 'de.ceus-media.console.RequestReceiver' );
+			$request	= new Console_RequestReceiver;
 		}
 		$this->registry->set( "request", $request );
 	}
@@ -242,10 +298,10 @@ abstract class Framework_Krypton_Base
 			throw new Exception( 'Configuration has not been set up.' );
 		$config		= $this->registry->get( 'config' );
 		$client	= new Service_Client( "", "logs/services.log" );
-		$client->setHostAddress( $config['services']['url'] );
+		$client->setHostAddress( $config['services.url'] );
 		$client->setUserAgent( "Motrada Office" );
-		if( $config['services']['username'] )
-			$client->setBasicAuth( $config['services']['username'], $config['services']['password'] );
+		if( $config['services.username'] )
+			$client->setBasicAuth( $config['services.username'], $config['services.password'] );
 		$this->registry->set( 'client', $client );
 	}
 
@@ -260,7 +316,7 @@ abstract class Framework_Krypton_Base
 		if( !$this->registry->has( 'config' ) )
 			throw new Exception( 'Configuration has not been set up.' );
 		$config		= $this->registry->get( 'config' );
-		$session	= new Net_HTTP_PartitionSession( $config['application']['name'], $config['config']['session_name'] );
+		$session	= new Net_HTTP_PartitionSession( $config['application.name'], $config['config.session_name'] );
 		$this->registry->set( "session", $session );
 	}
 
@@ -282,17 +338,17 @@ abstract class Framework_Krypton_Base
 		$request	= $this->registry->get( "request" );
 		$session	= $this->registry->get( "session" );
 
-		if( $config['layout']['switchable_themes'] )
+		if( $config['layout.switchable_themes'] )
 		{
 			if( $request->has( 'switchThemeTo' ) )
 				$session->set( 'theme', $request->get( 'switchThemeTo' ) );
 			if( $session->get( 'theme' ) )
-				$config['layout']['theme'] =  $session->get( 'theme' );
+				$config['layout.theme'] =  $session->get( 'theme' );
 			else
-				$session->set( 'theme', $config['layout']['theme'] );
+				$session->set( 'theme', $config['layout.theme'] );
 		}
 		else
-			$session->set( 'theme', $config['layout']['theme'] );
+			$session->set( 'theme', $config['layout.theme'] );
 	}
 
 	protected function logRemarks( $output )
@@ -312,7 +368,7 @@ abstract class Framework_Krypton_Base
 		);
 		$data	= base64_encode( serialize( $data ) );
 		$log	= new File_Log_Writer( "logs/dev/".$ip.".log" );
-		$log->note( $data, false );
+		$log->note( $data, FALSE );
 	}
 }
 ?>

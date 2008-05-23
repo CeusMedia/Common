@@ -39,8 +39,7 @@ class Framework_Krypton_Exception_SQL extends RuntimeException
 		$this->sqlCode		= $sqlCode;
 		$this->sqlMessage	= $sqlMessage;
 		$this->pdoCode		= $pdoCode;
-		parent::__construct( self::$exceptionMessage );
-		
+		parent::__construct( self::$exceptionMessage );	
 	}
 	
 	/**

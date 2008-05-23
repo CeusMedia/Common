@@ -37,7 +37,7 @@ class Framework_Krypton_Core_Model extends Database_PDO_TableWriter
 	{
 		$dbc			= Framework_Krypton_Core_Registry::getStatic( 'dbc' );
 		$config			= Framework_Krypton_Core_Registry::getStatic( 'config' );
-		$this->prefix	= $config['config']['table_prefix'];
+		$this->prefix	= $config['config.table_prefix'];
 		parent::__construct( $dbc, $table, $columns, $primaryKey, $focus );
 	}
 	

@@ -194,7 +194,7 @@ class Framework_Krypton_Core_DefinitionView extends Framework_Krypton_Core_View
 				$maxlength	= isset( $data['syntax']['maxlength'] ) ? $data['syntax']['maxlength'] : 0;
 				$validator	= isset( $data['input']['validator'] ) ? $data['input']['validator'] : "";
 				$style		= isset( $data['input']['style'] ) ? $data['input']['style'] : "";
-				$input = $this->html->Input( $data['input']['name'], $values[$field], $style, false, false, false, $maxlength, $validator );
+				$input = $this->html->Input( $data['input']['name'], $values[$field], $style, false, false, $maxlength, $validator );
 			}
 			else if( $data['input']['type'] == "password" )
 				$input = $this->html->Password( $data['input']['name'], $data['input']['style'] );

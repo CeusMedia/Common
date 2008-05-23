@@ -9,7 +9,7 @@ import( 'de.ceus-media.framework.krypton.core.Registry' );
  *	@uses			File_Writer
  *	@uses			File_INI_Reader
  *	@uses			Net_HTTP_LanguageSniffer
- *	@uses			LanguageValidator
+ *	@uses			Alg_Validation_LanguageValidator
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			05.12.2006
  *	@version		0.6
@@ -23,7 +23,7 @@ import( 'de.ceus-media.framework.krypton.core.Registry' );
  *	@uses			File_Writer
  *	@uses			File_INI_Reader
  *	@uses			Net_HTTP_LanguageSniffer
- *	@uses			LanguageValidator
+ *	@uses			Alg_Validation_LanguageValidator
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			05.12.2006
  *	@version		0.6
@@ -56,15 +56,18 @@ class Framework_Krypton_Core_Language
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function __construct()
+	public function __construct( $identify = TRUE )
 	{
 		$this->registry	= Framework_Krypton_Core_Registry::getInstance();
 		$session	= $this->registry->get( 'session' );
 		$config		= $this->registry->get( 'config' );
 
-		$this->default	= $config['languages']['default'];
-		$this->allowed	= explode( ",", $config['languages']['allowed'] );
-		$this->registry->set( 'words', $this->words, true );
+		$this->default	= $config['languages.default'];
+		$this->allowed	= explode( ",", $config['languages.allowed'] );
+
+		if( $identify )
+			$this->identifyLanguage();
+		$this->registry->set( 'words', $this->words, TRUE );
 	}
 	
 	/**
@@ -118,7 +121,7 @@ class Framework_Krypton_Core_Language
 	 *	@param		string		$section		Section in Language File
 	 *	@return		array
 	 */
-	public function & getWords( $fileName = false, $section = false )
+	public function & getWords( $fileName = FALSE, $section = FALSE )
 	{
 		if( $fileName )
 		{
@@ -146,22 +149,28 @@ class Framework_Krypton_Core_Language
 		$request	= $this->registry->get( 'request' );
 		$session	= $this->registry->get( 'session' );
 
-		//  --  LANGUAGE SELECT  --  //
-		if( $language 	= $request->get( 'switchLanguageTo' ) )
+		//  --  LANGUAGE SWITCH  --  //
+		if( $request->has( 'switchLanguageTo' ) )
 		{
-			import( 'de.ceus-media.validation.LanguageValidator' );
-			$lv	= new LanguageValidator( $this->allowed, $this->default );
-			$language	= $lv->getLanguage( $language );
+			import( 'de.ceus-media.alg.validation.LanguageValidator' );
+			$language	= $request->get( 'switchLanguageTo' );
+			$language	= Alg_Validation_LanguageValidator::validate( $language, $this->allowed, $this->default );
 			$this->setLanguage( $language );
+			if( getEnv( 'HTTP_REFERER' ) && getEnv( "HTTP_USER_AGENT" ) != "Motrada Office" )
+				die( header( "Location: ".getEnv( 'HTTP_REFERER' ) ) );
 		}
+
+		//  --  SESSION PRESET  --  //
+		if( $session->has( 'language' ) )
+			return;
+
 		//  --  LANGUAGE SNIFF  --  //
-		if( !( $language = $session->get( 'language' ) ) )
+		if( getEnv( 'HTTP_ACCEPT_LANGUAGE' ) )
 		{
 			import( 'de.ceus-media.net.http.LanguageSniffer' );
-			$sniffer	= new Net_HTTP_LanguageSniffer;
-			$language	= $sniffer->getLanguage( $this->allowed, $this->default );
+			$language	= Net_HTTP_LanguageSniffer::getLanguage( $this->allowed, $this->default );
+			$this->setLanguage( $language );
 		}
-		$this->setLanguage( $language );
 	}
 
 	/**
@@ -172,11 +181,12 @@ class Framework_Krypton_Core_Language
 	 */
 	private function loadCache( $url )
 	{
-		import( 'de.ceus-media.file.Reader' );
+		return file_get_contents( $url );
+/*		import( 'de.ceus-media.file.Reader' );
 		$file	= new File_Reader( $url );
 		return $file->readString();
 			return implode( "", file( $url ) );
-	}
+*/	}
 	
 	/**
 	 *	Loads Hover Texts.
@@ -203,7 +213,7 @@ class Framework_Krypton_Core_Language
 	 *	@param		bool		$verbose		Flag: Note missing Language Files.
 	 *	@return		bool
 	 */
-	public function loadLanguage( $fileName, $section = false, $verbose = false )
+	public function loadLanguage( $fileName, $section = FALSE, $verbose = FALSE )
 	{
 		if( $verbose )
 	 	   remark( "<b>Load Language: </b> File: ".$fileName." -> Section: ".$section );
@@ -215,37 +225,37 @@ class Framework_Krypton_Core_Language
 			$section	= $fileName;
 
 		if( in_array( $fileName, array_keys( $this->loadedFiles ) ) )
-			return false;
+			return FALSE;
 
 		if( in_array( $section, array_values( $this->words ) ) )
 			throw new Exception( 'Language File with Key "'.$section.'" is already loaded.' );
 
 		//  --  BASICS  --  //
-		$basePath	= $config['paths']['languages'].$language."/";
+		$basePath	= $config['paths.languages'].$language."/";
 		$baseName	= str_replace( ".", "/", $fileName ).".lan";
 		$lanFile	= $basePath.$baseName;		//  fallback: base path
 
 		//  --  CACHE CHECK  --  //
-		$cache	= false;
-		if( isset( $config['paths']['cache'] ) && $config['paths']['cache'] )
+		$cache	= FALSE;
+		if( isset( $config['paths.cache'] ) && $config['paths.cache'] )
 		{
-			$cachePath	= $config['paths']['cache'].basename( $config['paths']['languages'] ).'/';
+			$cachePath	= $config['paths.cache'].basename( $config['paths.languages'] ).'/';
 			$cacheFile	= $cachePath.$language.".".$fileName.".ser";
 			if( file_exists( $cacheFile ) && filemtime( $lanFile ) <= filemtime( $cacheFile ) )
 			{
 				$this->words[$section]	= unserialize( $this->loadCache( $cacheFile ) );
 				$this->loadedFiles[$fileName]	= $section;
-				return true;
+				return TRUE;
 			}
-			$cache	= true;
+			$cache	= TRUE;
 		}
 
 		if( !file_exists( $lanFile ) )
 			throw new Framework_Krypton_Exception_IO( 'Language File "'.$fileName.'" is not existing.' );	
 
 		import( 'de.ceus-media.file.ini.Reader' );
-		$ir	= new File_INI_Reader( $lanFile, true );
-		$this->words[$section]	= $ir->toArray( true );
+		$ir	= new File_INI_Reader( $lanFile, TRUE );
+		$this->words[$section]	= $ir->toArray( TRUE );
 		foreach( $this->words[$section] as $area => $pairs )
 			foreach( array_keys( $pairs ) as $key )
 				if( isset( $this->hovers[$baseName."/".$area."/".$key] ) )
@@ -253,7 +263,7 @@ class Framework_Krypton_Core_Language
 		if( $cache )
 			$this->saveCache( $cacheFile, serialize( $this->words[$section] ) );
 		$this->loadedFiles[$fileName]	= $section;
-		return true;
+		return TRUE;
 	}
 
 	/**
@@ -286,10 +296,10 @@ class Framework_Krypton_Core_Language
 			throw new Exception( 'Language "'.$language.'" is not allowed.' );
 		$session->set( 'language', $language );
 
-		$this->pathFiles	= $config['paths']['languages'];
-		$this->pathCache	= $config['paths']['cache'].basename( $config['paths']['languages'] ).$language."/";
+		$this->pathFiles	= $config['paths.languages'];
+		$this->pathCache	= $config['paths.cache'].basename( $config['paths.languages'] ).$language."/";
 		$this->loadedFiles	= array();
-		$this->registry->set( 'words', $this->words, true );
+		$this->registry->set( 'words', $this->words, TRUE );
 //		$this->loadHovers();
 	}
 }

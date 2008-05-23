@@ -330,10 +330,10 @@ class Framework_Neon_View
 			if( $config['layout']['template_theme'] )
 				$_template_theme	= $config['layout']['template_theme']."/";
 		
-		extract( $data );
 		$_content	= "";
 		$_path		= isset( $config['paths']['templates'] ) ? $config['paths']['templates'] : "templates/";
 		$_filename	= $_path.$_template_theme.$_file.".phpt";
+		extract( $data );
 		if( file_exists( $_filename ) )
 			$_content = include( $_filename );
 		else

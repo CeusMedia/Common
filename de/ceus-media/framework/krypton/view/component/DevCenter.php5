@@ -38,10 +38,10 @@ class Framework_Krypton_View_Component_DevCenter extends Framework_Krypton_Core_
 	public function buildContent( $content )
 	{
 		$config		= $this->registry->get( 'config' );
-		if( $config['debug']['show'] )
+		if( $config['debug.show'] )
 		{
-			$showForAll	= $config['debug']['show'] == "*";
-			$showForIp	= in_array( getEnv( 'REMOTE_ADDR' ), explode( ",", $config['debug']['show'] ) );
+			$showForAll	= $config['debug.show'] == "*";
+			$showForIp	= in_array( getEnv( 'REMOTE_ADDR' ), explode( ",", $config['debug.show'] ) );
 			if( $showForAll || $showForIp )
 			{
 				$this->buildTopics( $config, $content );
@@ -60,7 +60,7 @@ class Framework_Krypton_View_Component_DevCenter extends Framework_Krypton_Core_
 				$listDivs[]	= '<div id="'.$id.'">'.$this->divs[$id].'</div>';
 			}
 			$ui		= array(
-				'path_js'	=> $config['paths']['javascripts'],
+				'path_js'	=> $config['paths.javascripts'],
 				'tabs'		=> UI_HTML_Elements::unorderedList( $listTabs ),
 				'divs'		=> implode( "\n", $listDivs ),
 			);
@@ -73,18 +73,18 @@ class Framework_Krypton_View_Component_DevCenter extends Framework_Krypton_Core_
 		if( $content )
 			$this->showRemarks( $content );
 		foreach( $this->topics as $option => $method )
-			if( isset( $config['debug'][$option] ) && $config['debug'][$option] )
+			if( $config['debug.'.$option] )
 				if( method_exists( $this, $method ) )
-					$this->$method();
+					$this->$method( $config['debug.'.$option] );
 	}
 
 	/**
 	 *	Creates readable Dump of a Variable, either with print_m or var_dump, depending on printMode
-	 *	@access		private
+	 *	@access		protected
 	 *	@param		mixed		$element		Variable to be dumped
 	 *	@return		string
 	 */
-	private function dumpVar( $element )
+	protected function dumpVar( $element )
 	{
 		ob_start();																	//  open Buffer
 		if( $this->printMode )														//  Print Mode: var_dump
@@ -163,8 +163,8 @@ class Framework_Krypton_View_Component_DevCenter extends Framework_Krypton_Core_
 		$config	= $this->registry->get( 'config' );
 		if( count( $config ) )
 		{
-			$this->tabs['devTabConfig']	= "Config";
-			$this->divs['devTabConfig']	= $this->dumpVar( $config );
+			$this->tabs['devTabConfig']	= "Config <small>(".count( $config ).")</small>";
+			$this->divs['devTabConfig']	= $this->dumpVar( $config->getAll() );
 		}
 	}
 

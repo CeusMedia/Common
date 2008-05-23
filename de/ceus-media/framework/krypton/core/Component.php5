@@ -212,7 +212,7 @@ abstract class Framework_Krypton_Core_Component
 	public function getCacheUri( $fileKey, $verbose = false )
 	{
 		$config		= $this->registry->get( "config" );
-		$basePath	= $config['paths']['cache'];
+		$basePath	= $config['paths.cache'];
 		$fileName	= $basePath.$fileKey;
 		return $fileName;
 	}
@@ -239,9 +239,9 @@ abstract class Framework_Krypton_Core_Component
 		if( !isset( $this->paths[$extension] ) )
 			throw new InvalidArgumentException( 'No Content Type for Extension "'.$extension.'" is not registered.' );
 		$pathType	= $this->paths[$extension];
-		if( !isset( $config['paths'][$pathType] ) )
+		if( !isset( $config['paths.'.$pathType] ) )
 			throw new RuntimeException( 'No Path for Content Type "'.$pathType.'" set.' );
-		$typePath	= $config['paths'][$pathType];
+		$typePath	= $config['paths.'.$pathType];
 
 		//  --  PARTS  --  //
 		$ext		= $extension ? ".".$extension : "";
@@ -264,7 +264,7 @@ abstract class Framework_Krypton_Core_Component
 
 		$pathType	= $this->paths[$ext];
 		
-		$basePath	= $config['paths'][$pathType];
+		$basePath	= $config['paths.'.$pathType];
 		$language	= $session->get( 'language' )."/";
 		$fileName	= $basePath.$language.$baseFile;
 		return $fileName;
@@ -282,7 +282,7 @@ abstract class Framework_Krypton_Core_Component
 	{
 		$config		= $this->registry->get( "config" );
 
-		$basePath	= $config['paths']['templates'];
+		$basePath	= $config['paths.templates'];
 		$baseName	= str_replace( ".", "/", $fileKey ).".html";
 
 		$fileName = $basePath.$baseName;
@@ -483,10 +483,7 @@ abstract class Framework_Krypton_Core_Component
 	{
 		$fileName	= $this->getContentUri( $fileKey, $verbose );
 		if( !file_exists( $fileName ) )							//  check file
-		{
-			$this->messenger->noteFailure( "Content File '".$fileKey."' is not existing in '".$fileName."'." );
-			return "";
-		}
+			throw new Framework_Krypton_Exception_IO( "Content File '".$fileKey."' is not existing in '".$fileName."'." );
 
 		//  --  FILE INTERPRETATION  --  //
 		$file	= new File_Reader( $fileName );
@@ -552,7 +549,7 @@ abstract class Framework_Krypton_Core_Component
 	public function loadCache( $fileName )
 	{
 		$config	= $this->registry->get( 'config' );
-		$url	= $config['paths']['cache'].$fileName;
+		$url	= $config['paths.cache'].$fileName;
 		return File_Reader::load( $url );
 	}
 	
@@ -567,7 +564,7 @@ abstract class Framework_Krypton_Core_Component
 	{
 		import( 'de.ceus-media.file.Writer' );
 		$config	= $this->registry->get( 'config' );
-		$url	= $config['paths']['cache'].$fileName;
+		$url	= $config['paths.cache'].$fileName;
 		$file	= new File_Writer( $url, 0750 );
 		return $file->writeString( $content );
 	}
