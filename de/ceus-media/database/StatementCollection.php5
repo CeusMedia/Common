@@ -83,9 +83,11 @@ class Database_StatementCollection
 	 *	@access		public
 	 *	@param		array		$data		Pair of Offset and Limit
 	 *	@return		array
+	 *	@deprecated use setLimit and setOffset instead
 	 */
 	public function Limit( $data )
 	{
+		remark( "deprecated: ".__METHOD__.":".__LINE__ );
 		if( !is_array( $data ) )
 			throw new InvalidArgumentException( 'Limit must be given as List of Offset and Row Limit.' );
 		$offset	= 0;
@@ -94,7 +96,8 @@ class Database_StatementCollection
 			$offset	= (int) $data[0];
 		if( isset( $data[1] ) && (int) $data[1] && $data[1] == abs( $data[1] ) )
 			$rows	= (int) $data[1];
-		$this->builder->setLimit( $rows, $offset );	
+		$this->builder->setLimit( $rows );	
+		$this->builder->setOffset( $offset );	
 		return array();
 	}
 
@@ -115,17 +118,39 @@ class Database_StatementCollection
 	}
 
 	/**
-	 *	Sets Offset and Limit.
+	 *	Base Statement Component for Ordering.
 	 *	@access		public
-	 *	@param		array		$data		Pairs of Offset and Limit
+	 *	@param		string		$column		Column to order by
+	 *	@param		string		$direction	Direction of Order (ASC|DESC)
 	 *	@return		array
 	 */
-	public function setLimit( $offset = 0, $limit = 10 )
+	public function orderBy( $column, $direction )
 	{
-		$offset	= abs( $offset );
-		$limit	= abs( $limit );
-		$this->builder->setLimit( $limit, $offset );	
+		$this->builder->addOrder( $column, strtoupper( $direction ) );	
 		return array();
+	}
+
+
+	/**
+	 *	Set Rows to limit.
+	 *	@access		public
+	 *	@param		int			$rowCount		Rows to limit
+	 *	@return		void
+ 	 */	
+	public function setLimit( $rowCount )
+	{
+		$this->builder->setLimit( $rowCount );	
+	}
+	
+	/**
+	 *	Sets Offset to start at.
+	 *	@access		public
+	 *	@param		int			$offset			Offset to start at
+	 *	@return		void
+ 	 */	
+	public function setOffset( $offset )
+	{
+		$this->builder->setOffset( $offset );	
 	}
 }
 ?>

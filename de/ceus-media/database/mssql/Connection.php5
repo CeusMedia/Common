@@ -4,7 +4,7 @@ import( 'de.ceus-media.database.Result' );
 import( 'de.ceus-media.database.Row' );
 import( 'de.ceus-media.functions.getBits' );
 /**
- *	Wrapper for mySQL Database Connection with Transaction Support.
+ *	Wrapper for MS SQL Database Connection with Transaction Support.
  *	@package		database.mysql
  *	@extends		Database_BaseConnection
  *	@uses			Database_Result
@@ -13,7 +13,7 @@ import( 'de.ceus-media.functions.getBits' );
  *	@version 		0.6
  */
 /**
- *	Wrapper for mySQL Database Connection with Transaction Support.
+ *	Wrapper for MS SQL Database Connection with Transaction Support.
  *	@package		database.mysql
  *	@extends		Database_BaseConnection
  *	@uses			Database_Result
@@ -22,7 +22,7 @@ import( 'de.ceus-media.functions.getBits' );
  *	@version 		0.6
  *	@todo			Code Documentation
  */
-class Database_pgSQL_Connection extends Database_BaseConnection
+class Database_MSSQL_Connection extends Database_BaseConnection
 {
 	/**	@var		double		$countTime			Counter of Query Times */	
 	public $countTime;
@@ -52,14 +52,20 @@ class Database_pgSQL_Connection extends Database_BaseConnection
 	/**
 	 *	Opens a Transaction and sets auto commission.
 	 *	@access		public
+	 *	@param		bool		$autoCommit			Flag for setting auto commission
 	 *	@return		void
 	 */
-	public function beginTransaction()
+	public function beginTransaction( $autoCommit = 1 )
 	{
 		$this->openTransactions ++;
 		if( $this->openTransactions == 1 )
 		{
-			$query = "BEGIN";
+			if( $autoCommit )
+			{
+				$query = "SET AUTOCOMMIT=0";
+			}
+			$this->Execute( $query );
+			$query = "START TRANSACTION";
 			$this->Execute ($query);
 		}
 	}
@@ -71,20 +77,23 @@ class Database_pgSQL_Connection extends Database_BaseConnection
 	 */
 	public function close()
 	{
-		pg_close( $this->dbc );
+		mssql_close( $this->dbc );
 	}
 	
 	/**
 	 *	Commits all modifications of Transaction.
 	 *	@access		public
+	 *	@param		bool		$autoCommit			Flag for setting auto commission
 	 *	@return		void
 	 */
-	public function commit()
+	public function commit( $autoCommit = 1 )
 	{
 		if( $this->openTransactions == 1 )
 		{
 			$query = "COMMIT";
 			$this->Execute( $query );
+			if( $autoCommit )
+				$this->Execute( "SET AUTOCOMMIT=1" );
 		}
 		$this->openTransactions--;
 		if( $this->openTransactions < 0 )
@@ -95,15 +104,17 @@ class Database_pgSQL_Connection extends Database_BaseConnection
 	{
 		if( $type == "connect" )
 		{
-			$resource	= pg_connect( "host=".$host." dbname=".$database." user=".$user." password=".$pass );
+			$resource	= mssql_connect( $host, $user, $pass );
 			if( !$resource )
 				throw new Exception( 'Database Connection failed for User "'.$user.'" on Host "'.$host.'".' );
 			$this->dbc = $resource;
-			return $this->connected = true;
+			if( $database )
+				if( $this->selectDB( $database ) )
+					return $this->connected = true;
 		}
 		else if( $type == "pconnect" )
 		{
-			$resource	= pg_pconnect( $host, $user, $pass );
+			$resource	= mssql_pconnect( $host, $user, $pass );
 			if( !$resource )
 				throw new Exception( 'Database Connection failed for User "'.$user.'" on Host "'.$host.'".' );
 			$this->dbc = $resource;
@@ -141,18 +152,18 @@ class Database_pgSQL_Connection extends Database_BaseConnection
 			}
 			if( eregi( "^( |\n|\r|\t)*(INSERT)", $query ) )
 			{
-				if( $result = pg_query( $this->dbc, $query ) )
+				if( $result = mssql_query( $query, $this->dbc ) )
 				{
-					$this->insertId = (int) pg_last_oid( $result );
+					$this->insertId = $result->last_insert_id;
 					$result	= $this->insertId;
 				}
 			}
 			else if( eregi( "^( |\n|\r|\t)*(SELECT|SHOW)", $query ) )
 			{
 				$result = new Database_Result();
-				if( $q = pg_query( $this->dbc, $query ) )
+				if( $q = mssql_query( $query, $this->dbc ) )
 				{
-					while( $d = pg_fetch_array( $q ) )
+					while( $d = mssql_fetch_array( $q ) )
 					{
 						$row = new Database_Row();
 						foreach( $d as $key => $value )
@@ -163,10 +174,10 @@ class Database_pgSQL_Connection extends Database_BaseConnection
 			}
 			else
 			{
-				$result = pg_query( $this->dbc, $query );
+				$result = mssql_query( $query, $this->dbc );
 			}
-			if( pg_last_error() )
-				$this->handleError( 0/*pg_errno()*/, pg_last_error(), $query );
+			if( mssql_get_last_message() )
+				$this->handleError( 0, mssql_get_last_message(), $query );
 			if( $debug > 0 )
 			{
 				if( $bits[0] )
@@ -180,14 +191,14 @@ class Database_pgSQL_Connection extends Database_BaseConnection
 
 	public function getAffectedRows()
 	{
-		return pg_affected_rows();
+		return mssql_rows_affected( $this->dbc );
 	}
 
 	public function getDatabases()
 	{
-		$db_list = pg_list_dbs( $this->dbc );
+		$db_list = mssql_query( "SHOW DATABASES" );
 		$databases	= array();
-		while( $row = pg_fetch_object( $db_list ) )
+		while( $row = mssql_fetch_object( $db_list ) )
 			$databases[]	= $row->Database . "\n";
 		return $databases;
 	}
@@ -199,7 +210,8 @@ class Database_pgSQL_Connection extends Database_BaseConnection
 	 */
 	public function getErrNo()
 	{
-#		return pg_errno( $this->dbc );
+		throw new Exception( 'not implemented.' );
+#		return mssql_errno( $this->dbc );
 	}
 
 	/**
@@ -209,7 +221,7 @@ class Database_pgSQL_Connection extends Database_BaseConnection
 	 */
 	public function getError()
 	{
-		return pg_last_error( $this->dbc );
+		return mssql_get_last_message();
 	
 	}
 
@@ -225,8 +237,8 @@ class Database_pgSQL_Connection extends Database_BaseConnection
 	
 	public function getTables()
 	{
-		$tab_list = pg_list_tables( $this->database, $this->dbc );
-		while( $table	= pg_fetch_row( $tab_list ) )
+		$tab_list = mssql_query( "SHOW TABLES", $this->dbc );
+		while( $table	= mssql_fetch_row( $tab_list ) )
 			$tables[]	= $table['0'];
 		return $tables;
 	}
@@ -234,15 +246,18 @@ class Database_pgSQL_Connection extends Database_BaseConnection
 	/**
 	 *	Cancels Transaction by rolling back all modifications.
 	 *	@access		public
+	 *	@param		bool		$autoCommit			Flag for setting auto commission
 	 *	@return		bool
 	 */
-	public function rollback()
+	public function rollback( $autoCommit = 1 )
 	{
 		if( $this->openTransactions == 0 )
 			return false;
 		$query = "ROLLBACK";
 		$this->Execute( $query );
 		$this->openTransactions = 0;
+		if( $autoCommit )
+			$this->Execute( "SET AUTOCOMMIT=1" );
 		return true;
 	}
 
@@ -254,6 +269,27 @@ class Database_pgSQL_Connection extends Database_BaseConnection
 			return true;
 		}
 		return false;
+	}
+
+	/**
+	 *	Opens a Transaction and sets auto commission.
+	 *	@access		public
+	 *	@param		bool		$autoCommit			Flag for setting auto commission
+	 *	@return		void
+	 */
+	public function start( $autoCommit = 1 )
+	{
+		$this->openTransactions ++;
+		if( $this->openTransactions == 1 )
+		{
+			if( $autoCommit )
+			{
+				$query = "SET AUTOCOMMIT=0";
+			}
+			$this->Execute( $query );
+			$query = "START TRANSACTION";
+			$this->Execute ($query);
+		}
 	}
 }
 ?>

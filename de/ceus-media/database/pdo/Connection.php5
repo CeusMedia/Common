@@ -1,10 +1,7 @@
 <?php
-import( 'de.ceus-media.database.pdo.Statement' );
-import( 'de.ceus-media.exception.SQL' );
 /**
  *	Enhanced PDO Connection.
  *	@package		database.pdo
- *	@uses			Database_PDO_Statement
  *	@uses			Exception_SQL
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			09.03.2007
@@ -13,62 +10,61 @@ import( 'de.ceus-media.exception.SQL' );
 /**
  *	Enhanced PDO Connection.
  *	@package		database.pdo
- *	@uses			Database_PDO_Statement
  *	@uses			Exception_SQL
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			09.03.2007
  *	@version		0.1
  *	@todo			Code Documentation
  */
-class Database_PDO_Connection
+class Database_PDO_Connection extends PDO 
 {
-	private $cwd;
-	protected $PDO;
-	public $numExecutes;
-	public $numStatements;
-	protected $logFile		= "logs/db_error.log";
-	private $queries		= array();
-	public $queryLogFile	= "logs/queries.log";
+	public $numberExecutes		= 0;
+	public $numberStatements	= 0;
+	public $logFileErrors		= "logs/db_error.log";
+	public $logFileStatements	= "logs/queries.log";
+	protected $openTransactions	= 0;
 	
-	public function __construct( $dsn, $user = NULL, $pass = NULL, $driver_options = NULL )
+	
+	public function setLogFile( $file )
 	{
-		$this->PDO = new PDO( $dsn, $user, $pass, $driver_options );
-		$this->numExecutes = 0;
-		$this->numStatements = 0;
-		$this->cwd	= getCwd();
+		return $this->setErrorLogFile( $file );
 	}
 
-	public function __destruct()
+	public function setQueryLogFile( $file )
 	{
-		$this->PDO	= null;
+		return $this->setStatementLogFile( $file );
 	}
-
-	public function __call( $func, $args )
-	{
-		return call_user_func_array( array( &$this->PDO, $func ), $args );
-	}
-
-
-public function beginTransaction()
-{
-	if( !$this->openTransactions )					//  no Transaction is open
-		parent::beginTransaction();					//  begin Transaction
-	$this->openTransactions++;						//  increase Transaction Counter
-	return true;
-}
-
-public function commit()
-{
-	if( !$this->openTransactions )					//  there has been an inner RollBack or no Transaction was opened
-		return FALSE;								//  ignore Commit
-	if( $this->openTransactions == 1)				//  commit of an outer Transaction
-		parent::commit();							//  commit Transaction
-	$this->openTransactions--;						//  decrease Transaction Counter
-	return TRUE;
-}
 
 	/**
-	 *	Rolls back an Transaction.
+	 *	Starts a Transaction.
+	 *	@access		public
+	 *	@return		bool
+	 */
+	public function beginTransaction()
+	{
+		$this->openTransactions++;						//  increase Transaction Counter
+		if( $this->openTransactions == 1)				//  no Transaction is open
+			parent::beginTransaction();					//  begin Transaction
+		return TRUE;
+	}
+
+	/**
+	 *	Commits a Transaction.
+	 *	@access		public
+	 *	@return		bool
+	 */
+	public function commit()
+	{
+		if( !$this->openTransactions )					//  there has been an inner RollBack or no Transaction was opened
+			return FALSE;								//  ignore Commit
+		if( $this->openTransactions == 1)				//  commit of an outer Transaction
+			parent::commit();							//  commit Transaction
+		$this->openTransactions--;						//  decrease Transaction Counter
+		return TRUE;
+	}
+
+	/**
+	 *	Rolls back a Transaction.
 	 *	@access		public
 	 *	@return		bool
 	 */
@@ -78,77 +74,90 @@ public function commit()
 			return FALSE;								//  ignore Commit
 		parent::rollBack();								//  roll back Transaction
 		$this->openTransactions = 0;					//  reset Transaction Counter
-}
+		return TRUE;
+	}
 
-	public function exec( $query, $verbose = 1 )
+	public function exec( $statement, $verbose = 0 )
 	{
-		$this->logQuery( $query );
+		$this->logStatement( $statement );
 		try
 		{
-			$this->numExecutes++;
-			return call_user_func_array( array( &$this->PDO, 'exec' ), array( $query ) );
+			$this->numberExecutes++;
+			$this->numberStatements++;
+			return parent::exec( $statement );
 		}
 		catch( PDOException $e )
 		{
-			$this->logError( $e );
-			return false;
+			$this->logError( $e, $statement );						//  logs Error and throws SQL Exception
 		}
 	}
 	
-	protected function logError( Exception $e )
+	protected function logError( Exception $e, $statement )
 	{
 		$info	= $this->errorInfo();
-		error_log( time().":".$e->getMessage()."\n", 3, $this->logFile );
+		error_log( time().":".$e->getMessage()." -> ".$statement."\n", 3, $this->logFileErrors );
+		import( 'de.ceus-media.exception.SQL' );
 		throw new Exception_SQL( $info[1], $info[2], $info[0] );
 	}
 	
-	public function prepare()
+	public function prepare( $statement, $driverOptions = array() )
 	{
-		$this->numStatements++;
-		$args = func_get_args();
-		$PDOS = call_user_func_array( array( &$this->PDO, 'prepare' ), $args );
-		return new Database_PDO_Statement( $this, $PDOS );
+		$this->numberStatements++;
+		$this->logStatement( $statement );
+		return parent::prepare( $statement, $driverOptions );
 	}
 
-	public function query( $query, $verbose = 1, $fetchMode = PDO::FETCH_ASSOC )
+	public function query( $statement, $verbose = 0, $fetchMode = PDO::FETCH_ASSOC )
 	{
-		$this->logQuery( $query );
+		$this->logStatement( $statement );
+		$this->numberStatements++;
 		try
 		{
-			$this->numExecutes++;
-			if( $verbose )
+			if( 0 && $verbose )
 			{
-				if( $verbose == 2 )
-					echo $query;
-				if( $verbose == 4 )
-					remark( $query );
-				if( $verbose == 5 )
-					die( $query );
+				if( $verbose == 1 )
+					print( $statement );
+				else if( $verbose == 2 )
+					die( $statement );
 			}
-			$PDOS = call_user_func_array( array( &$this->PDO, 'query' ), array( $query, $fetchMode ) );
-			return new Database_PDO_Statement( $this, $PDOS );
+			return parent::query( $statement, $fetchMode );
 		}
 		catch( PDOException $e )
 		{
-			$this->logError( $e );
-			return false;
+			$this->logError( $e, $statement );						//  logs Error and throws SQL Exception
 		}
 	}
 
-	private function logQuery( $query )
+	private function logStatement( $statement )
 	{
-		if( $this->queryLogFile )
-			error_log( $query."\n".str_repeat( "-", 80 )."\n", 3, $this->queryLogFile );
+		if( $this->logFileStatements )
+		{
+			$statement	= preg_replace( "@(\r)?\n@", " ", $statement );
+			$message	= time()." ".getEnv( 'REMOTE_ADDR' )." ".$statement."\n";
+			error_log( $message, 3, $this->logFileStatements);
+		}
 	}
 
-	public function setLogFile( $fileName )
+	/**
+	 *	Sets File Name of Error Log.
+	 *	@access		public
+	 *	@param		string		$fileName		File Name of Statement Error File
+	 *	@return		void
+	 */
+	public function setErrorLogFile( $fileName )
 	{
-		$this->logFile	= $fileName;
+		$this->logFileErrors	= $fileName;
 	}
 
-	public function setQueryLogFile( $fileName )
+	/**
+	 *	Sets File Name of Statement Log.
+	 *	@access		public
+	 *	@param		string		$fileName		File Name of Statement Log File
+	 *	@return		void
+	 */
+	public function setStatementLogFile( $fileName )
 	{
-		$this->queryLogFile	= $fileName;
+		$this->logFileStatements	= $fileName;
 	}
 }
 ?>

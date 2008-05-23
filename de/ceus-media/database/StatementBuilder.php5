@@ -268,15 +268,24 @@ class Database_StatementBuilder
 	}
 
 	/**
-	 *	Adds limit conditions.
+	 *	Adds Limit Conditions.
 	 *	@access		public
-	 *	@param		string		$rows			Rows to limit
-	 *	@param		string		$offset			Offset
+	 *	@param		int			$rowCount		Rows to limit
 	 *	@return		void
  	 */	
-	public function setLimit( $rows, $offset = 0 )
+	public function setLimit( $rowCount )
 	{
-		$this->limits['rows']	= (int) $rows;
+		$this->limits['rows']	= (int) $rowCount;
+	}
+	
+	/**
+	 *	Adds Offset Condition.
+	 *	@access		public
+	 *	@param		int			$offset			Offset to start at
+	 *	@return		void
+ 	 */	
+	public function setOffset( $offset )
+	{
 		$this->limits['offset']	= (int) $offset;
 	}
 }

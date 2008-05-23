@@ -1,42 +1,43 @@
 <?php
 import( 'de.ceus-media.database.BaseConnection' );
-import( 'de.ceus-media.database.mysql.Result' );
-import( 'de.ceus-media.database.mysql.Row' );
+import( 'de.ceus-media.database.Result' );
+import( 'de.ceus-media.database.Row' );
 import( 'de.ceus-media.functions.getBits' );
 /**
- *	mySQL Connection
- *
- *	Is a mySQL Wrapper class for bypassing AdoDB to reach better performance.
- *	Most important functions of AdoDB API are realised.
- *
+ *	Wrapper for mySQL Database Connection with Transaction Support.
  *	@package		database.mysql
  *	@extends		Database_BaseConnection
- *	@uses			Database_mySQL_Result
- *	@uses			Database_mySQL_Row
+ *	@uses			Database_Result
+ *	@uses			Database_Row
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version 		0.6
  */
 /**
- *	mySQL Connection
- *
- *	Is a mySQL Wrapper class for bypassing AdoDB to reach better performance.
- *	Most important functions of AdoDB API are realised.
- *
+ *	Wrapper for mySQL Database Connection with Transaction Support.
  *	@package		database.mysql
  *	@extends		Database_BaseConnection
- *	@uses			Database_mySQL_Result
- *	@uses			Database_mySQL_Row
+ *	@uses			Database_Result
+ *	@uses			Database_Row
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version 		0.6
  *	@todo			Code Documentation
  */
 class Database_mySQL_Connection extends Database_BaseConnection
 {
-	protected $dbc;
-	protected $database;
-	protected $insertId;
+	/**	@var		double		$countTime			Counter of Query Times */	
 	public $countTime;
+	/**	@var		int			$countQueries		Counter of Queries */	
 	public $countQueries;
+	/**	@var		string		$data				Name of currently selected Database */	
+	protected $database;
+	/**	@var		resource	$dbc				Database Connection Resource */	
+	protected $dbc;
+	/**	@var		int			$insertId			ID of latest inserted Table Entry */	
+	protected $insertId;
+	/**	@var		int			$openTransactions	Counter for open Transactions */	
+	protected $openTransactions = 0;
+
+	public static $autoCommit	= 1;
 
 	/**
 	 *	Constructor.
@@ -51,6 +52,26 @@ class Database_mySQL_Connection extends Database_BaseConnection
 	}
 
 	/**
+	 *	Opens a Transaction and sets auto commission.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function beginTransaction()
+	{
+		$this->openTransactions ++;
+		if( $this->openTransactions == 1 )
+		{
+			if( self::$autoCommit )
+			{
+				$query = "SET AUTOCOMMIT=0";
+			}
+			$this->Execute( $query );
+			$query = "START TRANSACTION";
+			$this->Execute ($query);
+		}
+	}
+
+	/**
 	 *	Closes Database Connection.
 	 *	@access		public
 	 *	@return		void
@@ -61,60 +82,45 @@ class Database_mySQL_Connection extends Database_BaseConnection
 	}
 	
 	/**
-	 *	Returns last Error.
+	 *	Commits all modifications of Transaction.
 	 *	@access		public
-	 *	@return		string
+	 *	@return		void
 	 */
-	public function getError()
+	public function commit()
 	{
-		return mysql_error( $this->dbc );
-	
-	}
-
-	/**
-	 *	Closes Database Connection.
-	 *	@access		public
-	 *	@return		int
-	 */
-	public function getErrNo()
-	{
-		return mysql_errno( $this->dbc );
-	}
-
-	public function connect( $host, $user, $pass, $database = false, $verbose = false )
-	{
-		if( $verbose )
-			return $this->connectDatabase( "connect", $host, $user, $pass, $database );
-		return @$this->connectDatabase( "connect", $host, $user, $pass, $database );
+		if( $this->openTransactions == 1 )
+		{
+			$query = "COMMIT";
+			$this->Execute( $query );
+			if( self::$autoCommit )
+				$this->Execute( "SET AUTOCOMMIT=1" );
+		}
+		$this->openTransactions--;
+		if( $this->openTransactions < 0 )
+			$this->openTransactions = 0;
 	}
 
 	public function connectDatabase( $type, $host, $user, $pass, $database = false )
 	{
 		if( $type == "connect" )
 		{
-			if( $this->dbc = mysql_connect( $host, $user, $pass ) )
-				if( $database )
-					if( $this->selectDB( $database ) )
-						return $this->connected = true;
+			$resource	= mysql_connect( $host, $user, $pass );
+			if( !$resource )
+				throw new Exception( 'Database Connection failed for User "'.$user.'" on Host "'.$host.'".' );
+			$this->dbc = $resource;
+			if( $database )
+				if( $this->selectDB( $database ) )
+					return $this->connected = true;
 		}
 		else if( $type == "pconnect" )
 		{
-			if( $this->dbc = mysql_pconnect( $host, $user, $pass ) )
-			{
-				if( $database )
-					if( $this->selectDB( $database ) )
-						return $this->connected = true;
-			}
-		}
-		return false;
-	}
-
-	public function selectDB( $database )
-	{
-		if( $this->Execute( "use ".$database ) )
-		{
-			$this->database = $database;
-			return true;
+			$resource	= mysql_pconnect( $host, $user, $pass );
+			if( !$resource )
+				throw new Exception( 'Database Connection failed for User "'.$user.'" on Host "'.$host.'".' );
+			$this->dbc = $resource;
+			if( $database )
+				if( $this->selectDB( $database ) )
+					return $this->connected = true;
 		}
 		return false;
 	}
@@ -144,7 +150,7 @@ class Database_mySQL_Connection extends Database_BaseConnection
 				if( $bits[3] )
 					die();
 			}
-			if (eregi( "^( |\n|\r|\t)*(INSERT)", $query ) )
+			if( eregi( "^( |\n|\r|\t)*(INSERT)", $query ) )
 			{
 				if( mysql_query( $query, $this->dbc ) )
 				{
@@ -154,15 +160,15 @@ class Database_mySQL_Connection extends Database_BaseConnection
 			}
 			else if( eregi( "^( |\n|\r|\t)*(SELECT|SHOW)", $query ) )
 			{
-				$result = new Database_mySQL_Result();
+				$result = new Database_Result();
 				if( $q = mysql_query( $query, $this->dbc ) )
 				{
 					while( $d = mysql_fetch_array( $q ) )
 					{
-						$row = new Database_mySQL_Row();
+						$row = new Database_Row();
 						foreach( $d as $key => $value )
 							$row->$key = $value;
-						$result->objects[] = $row;
+						$result->rows[] = $row;
 					}
 				}
 			}
@@ -183,11 +189,11 @@ class Database_mySQL_Connection extends Database_BaseConnection
 		}
 	}
 
-	public function getInsertId()
+	public function getAffectedRows()
 	{
-		return $this->insertId;
+		return mysql_affected_rows();
 	}
-	
+
 	public function getDatabases()
 	{
 		$db_list = mysql_list_dbs( $this->dbc );
@@ -197,6 +203,37 @@ class Database_mySQL_Connection extends Database_BaseConnection
 		return $databases;
 	}
 
+	/**
+	 *	Returns last Error Number.
+	 *	@access		public
+	 *	@return		int
+	 */
+	public function getErrNo()
+	{
+		return mysql_errno( $this->dbc );
+	}
+
+	/**
+	 *	Returns last Error.
+	 *	@access		public
+	 *	@return		string
+	 */
+	public function getError()
+	{
+		return mysql_error( $this->dbc );
+	
+	}
+
+	/**
+	 *	Returns last Entry ID.
+	 *	@access		public
+	 *	@return		int
+	 */
+	public function getInsertId()
+	{
+		return $this->insertId;
+	}
+	
 	public function getTables()
 	{
 		$tab_list = mysql_list_tables( $this->database, $this->dbc );
@@ -205,14 +242,31 @@ class Database_mySQL_Connection extends Database_BaseConnection
 		return $tables;
 	}
 
-	public function connectPersistant( $host, $user, $pass, $database )
+	/**
+	 *	Cancels Transaction by rolling back all modifications.
+	 *	@access		public
+	 *	@return		bool
+	 */
+	public function rollback()
 	{
-		return $this->connectDatabase( "pconnect", $host, $user, $pass, $database );
+		if( $this->openTransactions == 0 )
+			return FALSE;
+		$query = "ROLLBACK";
+		$this->Execute( $query );
+		$this->openTransactions = 0;
+		if( self::$autoCommit )
+			$this->Execute( "SET AUTOCOMMIT=1" );
+		return true;
 	}
 
-	public function getAffectedRows()
+	public function selectDB( $database )
 	{
-		return mysql_affected_rows();
+		if( $this->Execute( "use ".$database ) )
+		{
+			$this->database = $database;
+			return true;
+		}
+		return false;
 	}
 }
 ?>

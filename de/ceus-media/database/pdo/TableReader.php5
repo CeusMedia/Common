@@ -375,10 +375,10 @@ class Database_PDO_TableReader
 	 */
 	protected function getLimitCondition( $limit = array() )
 	{
-		$limit = "";
+		$condition	= "";
 		if( is_array( $limit ) && count( $limit ) == 2 ) 
-			$limit = " LIMIT ".$limit[0].", ".$limit[1];
-		return $limit;
+			$condition = " LIMIT ".$limit[0].", ".$limit[1];
+		return $condition;
 	}
 	
 	/**

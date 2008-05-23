@@ -37,6 +37,27 @@ abstract class Database_BaseConnection
 	}
 
 	/**
+	 *	Opens a Transaction and sets auto commission.
+	 *	@access		public
+	 *	@return		void
+	 */
+	abstract public function beginTransaction();
+
+	/**
+	 *	Closes Database Connection.
+	 *	@access		public
+	 *	@return		void
+	 */
+	abstract public function close();
+	
+	/**
+	 *	Commits all modifications of Transaction.
+	 *	@access		public
+	 *	@return		void
+	 */
+	abstract public function commit();
+
+	/**
 	 *	Establishs Database Connection.
 	 *	@access		public
 	 *	@param		string		$host			Host Name
@@ -51,6 +72,48 @@ abstract class Database_BaseConnection
 	}
 
 	/**
+	 *	Establishs persitant Database Connection.
+	 *	@access		public
+	 *	@param		string		$host			Host Name
+	 *	@param		string		$user			User Name
+	 *	@param		string		$pass			Password
+	 *	@param		string		$database		Database Name
+	 *	@return		bool
+	 */
+	public function connectPersistant( $host, $user, $pass, $database )
+	{
+		return $this->connectDatabase( "pconnect", $host, $user, $pass, $database );
+	}
+
+	/**
+	 *	Executes SQL Query.
+	 *	@param	string	query			SQL Statement to be executed against Database Connection.
+	 *	@param	int		debug			deBug Level (16:die after, 8:die before, 4:remark, 2:echo, 1:count[default])
+	 */
+	abstract public function execute( $query, $debug = 1 );
+
+	/**
+	 *	Returns last Error Number.
+	 *	@access		public
+	 *	@return		int
+	 */
+	abstract public function getErrNo();
+
+	/**
+	 *	Returns last Error.
+	 *	@access		public
+	 *	@return		string
+	 */
+	abstract public function getError();
+
+	/**
+	 *	Returns last Entry ID.
+	 *	@access		public
+	 *	@return		int
+	 */
+	abstract public function getInsertId();
+	
+	/**
 	 *	Returns Micro Time for Time Counter.
 	 *	@access		protected
 	 *	@return		double
@@ -61,6 +124,8 @@ abstract class Database_BaseConnection
 		$time = ( doubleval( $arrTime[0] ) + $arrTime[1] ) * 1000;
 		return $time;
 	}
+
+	abstract public function getTables();
 
 	/**
 	 *	Returns Time Difference between Start and now.
@@ -81,27 +146,6 @@ abstract class Database_BaseConnection
 	public function isConnected()
 	{
 		return $this->connected;
-	}
-
-	/**
-	 *	Sets Log File.
-	 *	@access		public
-	 *	@param		string		$fileName		File Name of Log File
-	 *	@return		void
-	 */
-	public function setLogFile( $fileName )
-	{
-		$this->logFile = $fileName;
-	}
-
-	/**
-	 *	Sets Level of Error Reporting.
-	 *	@access		public
-	 *	@param		int			$level			Level of Error Reporting (0:none|1:log only|2:log & warning|3:log & error|4:log & exception)
-	 */
-	public function setErrorReporting( $level )
-	{
-		$this->errorLevel = $level;
 	}
 	
 	/**
@@ -125,6 +169,36 @@ abstract class Database_BaseConnection
 			else if( $this->errorLevel == 4 )
 				throw new Exception( $errorCode.": ".$errorMessage." in EXECUTE (\"".$query."\")" );
 		}
+	}
+
+	/**
+	 *	Cancels Transaction by rolling back all modifications.
+	 *	@access		public
+	 *	@return		bool
+	 */
+	abstract public function rollback();
+
+	abstract public function selectDB( $database );
+
+	/**
+	 *	Sets Level of Error Reporting.
+	 *	@access		public
+	 *	@param		int			$level			Level of Error Reporting (0:none|1:log only|2:log & warning|3:log & error|4:log & exception)
+	 */
+	public function setErrorReporting( $level )
+	{
+		$this->errorLevel = $level;
+	}
+
+	/**
+	 *	Sets Log File.
+	 *	@access		public
+	 *	@param		string		$fileName		File Name of Log File
+	 *	@return		void
+	 */
+	public function setLogFile( $fileName )
+	{
+		$this->logFile = $fileName;
 	}
 }
 ?>
