@@ -28,7 +28,7 @@ class ADT_Tree_BinaryNode
 	 *	@param		mixed		$value		Value to be added to the Tree
 	 *	@return		void
 	 */
-	public function __construct( $value = false )
+	public function __construct( $value = NULL )
 	{
 		if( $value )
 			$this->add( $value );
@@ -151,7 +151,7 @@ class ADT_Tree_BinaryNode
 			if( $this->right )
 				return $this->right->search( $value );
 		}
-		return false;
+		return NULL;
 	}
 
 	/**
@@ -167,11 +167,13 @@ class ADT_Tree_BinaryNode
 			$code .= "<tr><td align=center valign=top>";
 			if( $this->left )
 				$code .= $this->left->toTable();
-			else $code .= "&nbsp;";
+			else
+				$code .= "&nbsp;";
 			$code .= "</td><td align=center valign=top>";
 			if( $this->right )
 				$code .= $this->right->toTable();
-			else $code .= "&nbsp;";
+			else
+				$code .= "&nbsp;";
 			$code .= "</td></tr>\n";
 		}
 		$code .= "</table>\n";
@@ -184,7 +186,7 @@ class ADT_Tree_BinaryNode
 	 *	@param		string		$dir		Direction to run through the Tree (lwr|rwl|wlr|wrl)
 	 *	@return		array
 	 */
-	public function toList( $dir = false )
+	public function toList( $dir = NULL )
 	{
 		$array	= array();
 		if( !$dir || $dir == "lwr" )

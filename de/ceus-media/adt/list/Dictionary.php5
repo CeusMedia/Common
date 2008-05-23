@@ -156,7 +156,7 @@ class ADT_List_Dictionary implements ArrayAccess, Countable, Iterator
 	 *	@access		public
 	 *	@param		string		$key		Key in Dictionary
 	 *	@param		string		$value		Value of Key
-	 *	@return		void
+	 *	@return		bool
 	 */
 	public function offsetSet( $key, $value )
 	{
@@ -167,7 +167,7 @@ class ADT_List_Dictionary implements ArrayAccess, Countable, Iterator
 	 *	Removes a Value from Dictionary by its Key.
 	 *	@access		public
 	 *	@param		string		$key		Key in Dictionary
-	 *	@return		void
+	 *	@return		bool
 	 */
 	public function offsetUnset( $key )
 	{
@@ -178,12 +178,14 @@ class ADT_List_Dictionary implements ArrayAccess, Countable, Iterator
 	 *	Removes a Value from Dictionary by its Key.
 	 *	@access		public
 	 *	@param		string		$key		Key in Dictionary
-	 *	@return		void
+	 *	@return		bool
 	 */
 	public function remove( $key )
 	{
-		if( isset( $this->pairs[$key] ) )
-			unset( $this->pairs[$key] );
+		if( !isset( $this->pairs[$key] ) )
+			return FALSE;
+		unset( $this->pairs[$key] );
+		return TRUE;
 	}
 	
 	/**
@@ -201,11 +203,14 @@ class ADT_List_Dictionary implements ArrayAccess, Countable, Iterator
 	 *	@access		public
 	 *	@param		string		$key		Key in Dictionary
 	 *	@param		string		$value		Value of Key
-	 *	@return		void
+	 *	@return		bool
 	 */
 	public function set( $key, $value )
 	{
+		if( isset( $this->pairs[$key] ) && $this->pairs[$key] === $value )
+			return FALSE;
 		$this->pairs[$key]		= $value;
+		return TRUE;
 	}
 	
 	/**
