@@ -48,7 +48,7 @@ class File_INI_Reader extends File_Reader
 	/**
 	 *	Constructor, reads Property File.
 	 *	@access		public
-	 *	@param		string		$fileName		File Name of Property File
+	 *	@param		string		$fileName		File Name of Property File, absolute or relative URI
 	 *	@param		bool		$usesSections	Flag: Property File containts Sections
 	 *	@return		void
 	 */
@@ -382,6 +382,7 @@ class File_INI_Reader extends File_Reader
 				$pos	= strpos( $line, "=" );
 				$key	= trim( substr( $line, 0, $pos ) );
 				$value	= trim( substr( $line, ++$pos ) );
+
 				if( ereg( $this->disablePattern, $key ) )
 				{
 					$key = ereg_replace( $this->disablePattern, "", $key );
@@ -389,6 +390,8 @@ class File_INI_Reader extends File_Reader
 						$this->disabled[$currentSection][] = $key;
 					$this->disabled[] = $key;
 				}
+
+				//  --  CUT COMMENT  --  //
 				if( eregi( $this->lineCommentPattern, $value ) )
 				{
 					$newValue		= spliti( $this->lineCommentPattern, $value );
@@ -399,6 +402,15 @@ class File_INI_Reader extends File_Reader
 					else
 						$this->comments[$key] = $inlineComment;
 				}
+
+				//  --  CONVERT PROTECTED VALUES  --  //
+				if( in_array( strtolower( $value ), array( 'yes', 'true' ) ) )
+					$value	= TRUE;
+				else if( in_array( strtolower( $value ), array( 'no', 'false' ) ) )
+					$value	= FALSE;
+					
+				if( preg_match( '@^".*"$@', $value ) )
+					$value	= substr( $value, 1, -1 );			
 				if( $this->usesSections() )
 					$this->properties[$currentSection][$key] = $value;
 				else

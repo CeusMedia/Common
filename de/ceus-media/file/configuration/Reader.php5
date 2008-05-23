@@ -1,5 +1,6 @@
 <?php
-import( 'de.ceus-media.adt.list.LevelMap' );
+#import( 'de.ceus-media.adt.list.LevelMap' );
+import( 'de.ceus-media.adt.list.Dictionary' );
 /**
  *	Reader for Configuration Files of different Types.
  *	Supported File Types are CONF, INI, JSON, YAML and XML.
@@ -28,7 +29,8 @@ import( 'de.ceus-media.adt.list.LevelMap' );
  *	@since			06.05.2008
  *	@version		0.6
  */
-class File_Configuration_Reader extends ADT_List_LevelMap
+#class File_Configuration_Reader extends ADT_List_LevelMap
+class File_Configuration_Reader extends ADT_List_Dictionary
 {
 	/**	@var		bool		$iniQuickLoad	Flag: load INI Files with parse_ini_files, no Type Support */
 	public static $iniQuickLoad		= FALSE;

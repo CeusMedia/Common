@@ -21,18 +21,18 @@ import( 'de.ceus-media.file.Writer' );
  */
 class PHPEncoder
 {
-	/**	@var		string		$incode_prefix	Prefix of inner Code Wrapper */
-	var $incode_prefix	= "";
-	/**	@var		string		$incode_suffix		Suffix of inner Code Wrapper */
-	var $incode_suffix	= "";
-	/**	@var		string		$outcode_prefix	Prefix of outer Code Wrapper */
-	var $outcode_prefix	= "";
-	/**	@var		string		$outcode_suffix	Suffix of outer Code Wrapper */
-	var $outcode_suffix	= "";
-	/**	@var		string		$file_prefix		Prefix of compressed PHP File */
-	var $file_prefix	= "code.";
-	/**	@var		string		$file_suffix		Suffix of compressed PHP File */
-	var $file_suffix	= "";
+	/**	@var		string		$incodePrefix		Prefix of inner Code Wrapper */
+	var $incodePrefix			= "";
+	/**	@var		string		$incodeSuffix		Suffix of inner Code Wrapper */
+	var $incodeSuffix			= "";
+	/**	@var		string		$outcodePrefix		Prefix of outer Code Wrapper */
+	var $outcodePrefix			= "";
+	/**	@var		string		$outcodeSuffix		Suffix of outer Code Wrapper */
+	var $outcodeSuffix			= "";
+	/**	@var		string		$filePrefix			Prefix of compressed PHP File */
+	var $filePrefix				= "code.";
+	/**	@var		string		$fileSuffix			Suffix of compressed PHP File */
+	var $fileSuffix					= "";
 
 	/**
 	 *	Constructor.
@@ -41,11 +41,11 @@ class PHPEncoder
 	 */
 	public function __construct()
 	{
-		$this->incode_prefix	= "?".">";
-		$this->incode_suffix	= "<"."?";
-		$this->outcode_prefix	= "<"."? print( '<xmp>'.gzinflate(base64_decode('";
-		$this->outcode_prefix	= "<"."? eval( gzinflate(base64_decode('";
-		$this->outcode_suffix	= "')));?".">";
+		$this->incodePrefix		= "?".">";
+		$this->incodeSuffix		= "<"."?";
+		$this->outcodePrefix	= "<"."? print( '<xmp>'.gzinflate(base64_decode('";
+		$this->outcodePrefix	= "<"."? eval( gzinflate(base64_decode('";
+		$this->outcodeSuffix	= "')));?".">";
 	}
 	
 	/**
@@ -54,9 +54,9 @@ class PHPEncoder
 	 *	@param		string		$php		Encoded PHP Content
 	 * 	@return		string
 	 */
-	function decode( $php )
+	public function decode( $php )
 	{
-		$code	= substr( $php, strlen( $this->outcode_prefix) , -strlen( $this->outcode_suffix ) );
+		$code	= substr( $php, strlen( $this->outcodePrefix) , -strlen( $this->outcodeSuffix ) );
 		$php 	= $this->decodeHash( $code );
 		return $php;
 	}
@@ -66,38 +66,38 @@ class PHPEncoder
 	 *	@access		public
 	 * 	@return		void
 	 */
-	function decodeFile( $filename, $overwrite = false )
+	public function decodeFile( $fileName, $overwrite = FALSE )
 	{
-		if( file_exists( $filename ) )
+		if( file_exists( $fileName ) )
 		{
-			if( $this->isEncoded( $filename ) )
+			if( $this->isEncoded( $fileName ) )
 			{
-				$file	= new File_Reader( $filename );
+				$file	= new File_Reader( $fileName );
 				$php	= $file->readString();
 				$code	= $this->encode( $php );
-				$dirname	= dirname( $filename );
-				$basename	= basename( $filename );
-				$target	= $dirname."/".substr( $basename, strlen( $this->file_prefix) , -strlen( $this->file_suffix ) );
-				if( $filename == $target && !$overwrite )
+				$dirname	= dirname( $fileName );
+				$basename	= basename( $fileName );
+				$target	= $dirname."/".substr( $basename, strlen( $this->filePrefix) , -strlen( $this->fileSuffix ) );
+				if( $fileName == $target && !$overwrite )
 					trigger_error( "File cannot be overwritten, use Parameter [overwrite]", E_USER_ERROR );
 				$file	= new File_Writer( $target );
 				$file->writeString( $code );
-				return true;
+				return TRUE;
 			}
 		}
-		return false;	
+		return FALSE;	
 	}
 	
 	/**
 	 *	Returns Hash decoded PHP Content.
-	 *	@access		public
+	 *	@access		protected 
 	 *	@param		string		$php		Encoded PHP Content
 	 * 	@return		string
 	 */
-	function decodeHash( $code )
+	protected function decodeHash( $code )
 	{
 		$php	= gzinflate( base64_decode( $code ) );
-		$php	= substr( $php, strlen( $this->incode_prefix) , -strlen( $this->incode_suffix ) );
+		$php	= substr( $php, strlen( $this->incodePrefix) , -strlen( $this->incodeSuffix ) );
 		return 	$php;
 	}
 	
@@ -107,10 +107,10 @@ class PHPEncoder
 	 *	@param		string		$php		Encoded PHP Content
 	 * 	@return		string
 	 */
-	function encode( $php )
+	public function encode( $php )
 	{
 		$code	= $this->encodeHash( $php );
-		$php	= $this->outcode_prefix.$code.$this->outcode_suffix;
+		$php	= $this->outcodePrefix.$code.$this->outcodeSuffix;
 		return $php;
 	}
 
@@ -119,56 +119,50 @@ class PHPEncoder
 	 *	@access		public
 	 * 	@return		void
 	 */
-	function encodeFile( $filename, $overwrite = false )
+	public function encodeFile( $fileName, $overwrite = FALSE )
 	{
-		if( file_exists( $filename ) )
-		{
-			if( !$this->isEncoded( $filename ) )
-			{
-				$file	= new File_Reader( $filename );
-				$php	= $file->readString();
-				$code	= $this->encode( $php );
-				$dirname	= dirname( $filename );
-				$basename	= basename( $filename );
-				$target	= $dirname."/".$this->file_prefix.$basename.$this->file_suffix;
-				if( $filename == $target && !$overwrite )
-					trigger_error( "File cannot be overwritten, use Parameter [overwrite]", E_USER_ERROR );
-//				copy( $filename, "#".$filename );
-				$file	= new File_Writer( $target );
-				$file->writeString( $code );
-				return true;
-			}
-		}
-		return false;
+		if( !file_exists( $fileName ) )
+			return FALSE;
+		if( $this->isEncoded( $fileName ) )
+			return TRUE;
+		$php		= File_Reader::load( $fileName );
+		$code		= $this->encode( $php );
+		$dirname	= dirname( $fileName );
+		$basename	= basename( $fileName );
+		$target		= $dirname."/".$this->filePrefix.$basename.$this->fileSuffix;
+		if( $fileName == $target && !$overwrite )
+			throw new Exception( 'File cannot be overwritten, use Parameter "overwrite".' );
+//		copy( $fileName, "#".$fileName );
+		return (bool) File_Writer::save( $target, $code );
 	}
 	
 	/**
 	 *	Returns encoded PHP Content.
-	 *	@access		public
+	 *	@access		protected
 	 *	@param		string		$php		Encoded PHP Content
 	 * 	@return		string
 	 */
-	function encodeHash( $php )
+	protected function encodeHash( $php )
 	{
-		return base64_encode( gzdeflate( $this->incode_prefix.$php.$this->incode_suffix ) );	
+		return base64_encode( gzdeflate( $this->incodePrefix.$php.$this->incodeSuffix ) );	
 	}
 	
 	/**
 	 *	Indicated whether a PHP File ist encoded.
 	 *	@access		public
-	 *	@param		string		$filename		File Name of PHP File to be checked
+	 *	@param		string		$fileName		File Name of PHP File to be checked
 	 * 	@return		bool
 	 */
-	function isEncoded( $filename )
+	public function isEncoded( $fileName )
 	{
-		if( file_exists( $filename ) )
+		if( file_exists( $fileName ) )
 		{
-			$fp	= fopen( $filename, "r" );
-			$code	= fgets( $fp, strlen( $this->outcode_prefix ) );
-			if( $code == $this->outcode_prefix )
-				return true;
+			$fp	= fopen( $fileName, "r" );
+			$code	= fgets( $fp, strlen( $this->outcodePrefix ) );
+			if( $code == $this->outcodePrefix )
+				return TRUE;
 		}
-		return false;
+		return FALSE;
 	}
 }
 ?>

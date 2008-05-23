@@ -31,18 +31,18 @@ class File_Log_Writer
 	}
 
 	/**
-	 *	Adds an entry to the logfile.
+	 *	Adds an Note to Log File.
 	 *
 	 *	@access		public
 	 *	@param		string		$line		Entry to add to Log File
-	 *	@return		void
+	 *	@return		bool
 	 */
 	public function note( $line, $format = "datetime" )
 	{
 		$converter 	= new Alg_TimeConverter();
 		$time		= $format ? " [".$converter->convertToHuman( time(), $format )."]" : "";
 		$message	= time().$time." ".$line."\n";
-		error_log( $message, 3, $this->uri );
+		return error_log( $message, 3, $this->uri );
 	}
 }
 ?>

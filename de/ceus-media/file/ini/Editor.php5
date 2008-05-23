@@ -291,14 +291,14 @@ class File_INI_Editor extends File_INI_Reader
 	{
 		if( $this->usesSections() )
 		{
-			if( $this->hasProperty( $key, $section ) )
+			if( $this->hasSection( $section ) && $this->hasProperty( $key, $section ) )
 				$this->properties[$section][$key] = $value;
 			else
 				$this->addProperty( $key, $value, false, true, $section );
 		}
 		else
 		{
-			if( $this->hasProperty( $key ) )
+			if( $this->hasSection( $section ) && $this->hasProperty( $key ) )
 				$this->properties[$key] = $value;
 			else
 				$this->addProperty( $key, $value, FALSE, TRUE );
@@ -313,7 +313,7 @@ class File_INI_Editor extends File_INI_Reader
 	 */
 	protected function write()
 	{
-		$file		= new File_Writer( $this->fileName, 0777 );
+		$file		= new File_Writer( $this->fileName );
 		$newLines	= array();
 		$currentSection	= "";
 		foreach( $this->lines as $line )

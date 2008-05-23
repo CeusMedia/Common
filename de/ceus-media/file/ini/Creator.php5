@@ -31,7 +31,7 @@ class File_INI_Creator
 	 *	@param		bool		$useSections	Flag: use Sections within Ini File
 	 *	@return		void
 	 */
-	public function __construct( $useSections = false )
+	public function __construct( $useSections = FALSE )
 	{
 		$this->useSections = $useSections;
 	}
@@ -45,12 +45,16 @@ class File_INI_Creator
 	 *	@param		string		$section		Name of new Section
 	 *	@return		void
 	 */
-	public function addProperty( $key, $value, $comment = "" )
+	public function addProperty( $key, $value, $comment = NULL )
 	{
 		if( $this->useSections )
-			$this->addPropertyToSection( $key, $value, $comment, $this->currentSection );
+			$this->addPropertyToSection( $key, $value, $this->currentSection, $comment );
 		else
-			$this->setData( $key, $value, $comment );
+		{
+			$this->data[$key]['key']		= $key;
+			$this->data[$key]['value']		= $value;
+			$this->data[$key]['comment']	= $comment;
+		}
 	}
 	
 	/**
@@ -62,9 +66,11 @@ class File_INI_Creator
 	 *	@param		string		$section		Name of new Section
 	 *	@return		void
 	 */
-	public function addPropertyToSection( $key, $value, $comment = "", $section )
+	public function addPropertyToSection( $key, $value, $section, $comment = NULL )
 	{
-		$this->setData( $key, $value, $comment, $section );
+		$this->data[$section][$key]['key']		= $key;
+		$this->data[$section][$key]['value']	= $value;
+		$this->data[$section][$key]['comment']	= $comment;
 	}
 
 	/**
@@ -97,36 +103,10 @@ class File_INI_Creator
 		if( $value_breaks < 1 )
 			$value_breaks = 1;
 		if( $comment )
-			$line = $key.str_repeat( "\t", $key_breaks )."=".$value.str_repeat( "\t", $value_breaks )."; ".$comment."\n";
+			$line = $key.str_repeat( "\t", $key_breaks )."=".$value.str_repeat( "\t", $value_breaks )."; ".$comment;
 		else
 			$line = $key.str_repeat( "\t", $key_breaks )."=".$value;
 		return $line;
-	}
-
-	/**
-	 *	Sets Property (in Section).
-	 *	@access		protected
-	 *	@param		string		$key			Key of new Property
-	 *	@param		string		$value			Value of new Property
-	 *	@param		string		$comment		Comment of Property (optional)
-	 *	@param		string		$section		Name of new Section (optional)
-	 *	@return		void
-	 */
-	protected function setData( $key, $value, $comment = "", $section = false )
-	{
-		if ( $section )
-		{
-			$this->data[$section][$key]['key'] = $key;
-			$this->data[$section][$key]['value'] = $value;
-			$this->data[$section][$key]['comment'] = $comment;
-		}
-		else
-		{
-			$this->data[$key]['key'] = $key;
-			$this->data[$key]['value'] = $value;
-			$this->data[$key]['comment'] = $comment;
-		
-		}
 	}
 	
 	/**
@@ -145,8 +125,9 @@ class File_INI_Creator
 			{
 				$value		= $key_data['value'];
 				$comment	= $key_data['comment'];
-				$lines[]		= $this->buildLine( $key, $value, $comment);
+				$lines[]	= $this->buildLine( $key, $value, $comment);
 			}
+			$lines[]	= "";
 		}
 		$file		= new File_Writer( $fileName, 0777 );
 		return $file->writeArray( $lines );

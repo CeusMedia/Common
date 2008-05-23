@@ -1,5 +1,4 @@
 <?php
-import( 'de.ceus-media.Object' );
 /**
  *	Base Folder implementation.
  *	@package	file

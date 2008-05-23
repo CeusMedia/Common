@@ -19,7 +19,7 @@ class File_Writer
 	/**
 	 *	Constructor. Creates if File if not existing and Creation Mode is set.
 	 *	@access		public
-	 *	@param		string		$fileName		File Name of List, absolute or relative URI
+	 *	@param		string		$fileName		File Name, absolute or relative URI
 	 *	@param		string		$creationMode	UNIX rights for chmod()
 	 *	@param		string		$creationUser	User Name for chown()
 	 *	@param		string		$creationGroup	Group Name for chgrp()
@@ -43,7 +43,7 @@ class File_Writer
 	public function create( $mode = NULL, $user = NULL, $group = NULL )
 	{
 		if( false === @file_put_contents( $this->fileName, "" ) )
-			throw new RuntimeException( "File '".$this->fileName."' could not be created." );
+			throw new RuntimeException( "File '".$this->fileName."' could not been created." );
 			
 		if( $mode )
 			chmod( $this->fileName, $mode );
