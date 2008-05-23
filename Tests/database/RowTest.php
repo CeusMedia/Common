@@ -1,26 +1,26 @@
 <?php
 /**
- *	TestUnit of Database_mySQL_Result.
- *	@package		Tests.database.mysql
+ *	TestUnit of Database_Row.
+ *	@package		Tests.database
  *	@extends		PHPUnit_Framework_TestCase
- *	@uses			Database_mySQL_Result
+ *	@uses			Database_Row
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@since			04.05.2008
+ *	@since			15.05.2008
  *	@version		0.1
  */
 require_once( 'PHPUnit/Framework/TestCase.php' ); 
 require_once( 'Tests/initLoaders.php5' );
-import( 'de.ceus-media.database.mysql.Result' );
+import( 'de.ceus-media.database.Row' );
 /**
- *	TestUnit of Database_mySQL_Result.
- *	@package		Tests.database.mysql
+ *	TestUnit of Database_Row.
+ *	@package		Tests.database
  *	@extends		PHPUnit_Framework_TestCase
- *	@uses			Database_mySQL_Result
+ *	@uses			Database_Row
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@since			04.05.2008
+ *	@since			15.05.2008
  *	@version		0.1
  */
-class Tests_Database_mySQL_ResultTest extends PHPUnit_Framework_TestCase
+class Tests_Database_RowTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 *	Constructor.
@@ -50,106 +50,145 @@ class Tests_Database_mySQL_ResultTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 *	Tests Method '__construct'.
+	 *	Tests Method 'getColCount'.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function test__construct()
+	public function testGetColCount()
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= Database_mySQL_Result::__construct();
+		$creation	= Database_Row::getColCount();
 		$this->assertEquals( $assertion, $creation );
 	}
 
 	/**
-	 *	Tests Method 'fetchArray'.
+	 *	Tests Method 'getKeys'.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testFetchArray()
+	public function testGetKeys()
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= Database_mySQL_Result::fetchArray();
+		$creation	= Database_Row::getKeys();
 		$this->assertEquals( $assertion, $creation );
 	}
 
 	/**
-	 *	Tests Method 'fetchNextArray'.
+	 *	Tests Method 'getPairs'.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testFetchNextArray()
+	public function testGetPairs()
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= Database_mySQL_Result::fetchNextArray();
+		$creation	= Database_Row::getPairs();
 		$this->assertEquals( $assertion, $creation );
 	}
 
 	/**
-	 *	Tests Method 'fetchNextObject'.
+	 *	Tests Method 'getValue'.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testFetchNextObject()
+	public function testGetValue()
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= Database_mySQL_Result::fetchNextObject();
+		$creation	= Database_Row::getValue();
 		$this->assertEquals( $assertion, $creation );
 	}
 
 	/**
-	 *	Tests Method 'fetchNextRow'.
+	 *	Tests Method 'getValues'.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testFetchNextRow()
+	public function testGetValues()
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= Database_mySQL_Result::fetchNextRow();
+		$creation	= Database_Row::getValues();
 		$this->assertEquals( $assertion, $creation );
 	}
 
 	/**
-	 *	Tests Method 'fetchObject'.
+	 *	Tests Method 'count'.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testFetchObject()
+	public function testCount()
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= Database_mySQL_Result::fetchObject();
+		$creation	= Database_Row::count();
 		$this->assertEquals( $assertion, $creation );
 	}
 
 	/**
-	 *	Tests Method 'fetchRow'.
+	 *	Tests Method 'current'.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testFetchRow()
+	public function testCurrent()
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= Database_mySQL_Result::fetchRow();
+		$creation	= Database_Row::current();
 		$this->assertEquals( $assertion, $creation );
 	}
 
 	/**
-	 *	Tests Method 'recordCount'.
+	 *	Tests Method 'key'.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testRecordCount()
+	public function testKey()
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= Database_mySQL_Result::recordCount();
+		$creation	= Database_Row::key();
+		$this->assertEquals( $assertion, $creation );
+	}
+
+	/**
+	 *	Tests Method 'next'.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testNext()
+	{
+		$this->markTestIncomplete( 'Incomplete Test' );
+		$assertion	= TRUE;
+		$creation	= Database_Row::next();
+		$this->assertEquals( $assertion, $creation );
+	}
+
+	/**
+	 *	Tests Method 'rewind'.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testRewind()
+	{
+		$this->markTestIncomplete( 'Incomplete Test' );
+		$assertion	= TRUE;
+		$creation	= Database_Row::rewind();
+		$this->assertEquals( $assertion, $creation );
+	}
+
+	/**
+	 *	Tests Method 'valid'.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testValid()
+	{
+		$this->markTestIncomplete( 'Incomplete Test' );
+		$assertion	= TRUE;
+		$creation	= Database_Row::valid();
 		$this->assertEquals( $assertion, $creation );
 	}
 }

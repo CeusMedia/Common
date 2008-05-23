@@ -1,26 +1,26 @@
 <?php
 /**
- *	TestUnit of Database_mySQL_TransactionConnection.
- *	@package		Tests.database.mysql
+ *	TestUnit of XML_Atom_Validator.
+ *	@package		Tests.xml.atom
  *	@extends		PHPUnit_Framework_TestCase
- *	@uses			Database_mySQL_TransactionConnection
+ *	@uses			XML_Atom_Validator
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@since			04.05.2008
+ *	@since			14.05.2008
  *	@version		0.1
  */
 require_once( 'PHPUnit/Framework/TestCase.php' ); 
 require_once( 'Tests/initLoaders.php5' );
-import( 'de.ceus-media.database.mysql.TransactionConnection' );
+import( 'de.ceus-media.xml.atom.Validator' );
 /**
- *	TestUnit of Database_mySQL_TransactionConnection.
- *	@package		Tests.database.mysql
+ *	TestUnit of XML_Atom_Validator.
+ *	@package		Tests.xml.atom
  *	@extends		PHPUnit_Framework_TestCase
- *	@uses			Database_mySQL_TransactionConnection
+ *	@uses			XML_Atom_Validator
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@since			04.05.2008
+ *	@since			14.05.2008
  *	@version		0.1
  */
-class Tests_Database_mySQL_TransactionConnectionTest extends PHPUnit_Framework_TestCase
+class Tests_XML_Atom_ValidatorTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 *	Constructor.
@@ -50,41 +50,28 @@ class Tests_Database_mySQL_TransactionConnectionTest extends PHPUnit_Framework_T
 	}
 
 	/**
-	 *	Tests Method 'start'.
+	 *	Tests Method 'getErrors'.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testStart()
+	public function testGetErrors()
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= Database_mySQL_TransactionConnection::start();
+		$creation	= XML_Atom_Validator::getErrors();
 		$this->assertEquals( $assertion, $creation );
 	}
 
 	/**
-	 *	Tests Method 'commit'.
+	 *	Tests Method 'getFirstError'.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testCommit()
+	public function testGetFirstError()
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= Database_mySQL_TransactionConnection::commit();
-		$this->assertEquals( $assertion, $creation );
-	}
-
-	/**
-	 *	Tests Method 'rollback'.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function testRollback()
-	{
-		$this->markTestIncomplete( 'Incomplete Test' );
-		$assertion	= TRUE;
-		$creation	= Database_mySQL_TransactionConnection::rollback();
+		$creation	= XML_Atom_Validator::getFirstError();
 		$this->assertEquals( $assertion, $creation );
 	}
 }

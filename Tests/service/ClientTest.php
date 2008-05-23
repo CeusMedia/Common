@@ -32,7 +32,7 @@ class Tests_Service_ClientTest extends PHPUnit_Framework_TestCase
 	 */
 	public function __construct()
 	{
-		$this->client	= new Tests_Service_ClientInstance( "http;//public.services.ceus-media.de/" );
+		$this->client	= new Tests_Service_ClientInstance( "http://public.services.ceus-media.de/" );
 	}
 	
 	/**
@@ -403,6 +403,15 @@ class Tests_Service_ClientRequestMock extends ADT_OptionObject
 		);
 		if( $key && array_key_exists( $key, $status ) )
 			return $status[$key];
+		return $status;
+		
+	}
+
+	public function getHeader()
+	{
+		$status	= array(
+			'testKey'	=> "testValue",
+		);
 		return $status;
 		
 	}

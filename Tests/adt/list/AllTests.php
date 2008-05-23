@@ -5,9 +5,10 @@ if( !defined( 'PHPUnit_MAIN_METHOD' ) )
 require_once 'PHPUnit/Framework/TestSuite.php';
 require_once 'PHPUnit/TextUI/TestRunner.php';
 require_once 'Tests/initLoaders.php5' ;
+require_once 'Tests/adt/list/DictionaryTest.php';
+require_once 'Tests/adt/list/LevelMapTest.php';
 require_once 'Tests/adt/list/LinkListTest.php';
 require_once 'Tests/adt/list/SectionListTest.php';
-require_once 'Tests/adt/list/DictionaryTest.php';
 class Tests_ADT_List_AllTests
 {
 	public static function main()
@@ -18,9 +19,10 @@ class Tests_ADT_List_AllTests
 	public static function suite()
 	{
 		$suite = new PHPUnit_Framework_TestSuite( 'ClassContainer/ADT/List' );
+		$suite->addTestSuite('Tests_ADT_List_DictionaryTest'); 
+		$suite->addTestSuite('Tests_ADT_List_LevelMapTest'); 
 		$suite->addTestSuite('Tests_ADT_List_LinkListTest'); 
 		$suite->addTestSuite('Tests_ADT_List_SectionListTest'); 
-		$suite->addTestSuite('Tests_ADT_List_DictionaryTest'); 
 		return $suite;
 	}
 }

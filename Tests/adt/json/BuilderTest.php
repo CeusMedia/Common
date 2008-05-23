@@ -8,6 +8,8 @@
  *	@version		0.1
  */
 require_once 'PHPUnit/Framework/TestCase.php'; 
+require_once( 'Tests/initLoaders.php5' );
+require_once( 'Tests/TestObject.php5' );
 import( 'de.ceus-media.adt.json.Builder' );
 /**
  *	TestUnit of LinkList
@@ -19,11 +21,27 @@ import( 'de.ceus-media.adt.json.Builder' );
  */
 class Tests_ADT_JSON_BuilderTest extends PHPUnit_Framework_TestCase
 {
+	/**
+	 *	Constructor.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function __construct()
+	{
+		$this->object		= new TestObject();
+		$this->object->a	= "test";
+	}
+
+	/**
+	 *	Tests Exception of Method 'encodeStatic'.
+	 *	@access		public
+	 *	@return		void
+	 */
 	public function testEncode()
 	{
-		$data		= array( 1, 2, "string", TRUE, NULL );
+		$data		= array( 1, 2.3, "string", TRUE, NULL, $this->object );
 		$builder	= new ADT_JSON_Builder();
-		$assertion	= '[1,2,"string",true,null]';
+		$assertion	= '[1,2.3,"string",true,null,{"a":"test"}]';
 		$creation	= $builder->encode( $data );
 		$this->assertEquals( $assertion, $creation );
 
@@ -34,10 +52,15 @@ class Tests_ADT_JSON_BuilderTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals( $assertion, $creation );
 	}
 
+	/**
+	 *	Tests Exception of Method 'encodeStatic'.
+	 *	@access		public
+	 *	@return		void
+	 */
 	public function testEncodeStatic()
 	{
-		$data		= array( 1, 2, "string", TRUE, NULL );
-		$assertion	= '[1,2,"string",true,null]';
+		$data		= array( 1, 2.3, "string", TRUE, NULL, $this->object );
+		$assertion	= '[1,2.3,"string",true,null,{"a":"test"}]';
 		$creation	= ADT_JSON_Builder::encode( $data );
 		$this->assertEquals( $assertion, $creation );
 
@@ -46,6 +69,17 @@ class Tests_ADT_JSON_BuilderTest extends PHPUnit_Framework_TestCase
 		$creation	= ADT_JSON_Builder::encode( $data );
 		$this->assertEquals( $assertion, $creation );
 
+	}
+
+	/**
+	 *	Tests Exception of Method 'encodeStatic'.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testEncodeStaticException()
+	{
+		$this->setExpectedException( 'InvalidArgumentException' );
+		ADT_JSON_Builder::encode( dir( dirname( __FILE__ ) ) );
 	}
 }
 ?>

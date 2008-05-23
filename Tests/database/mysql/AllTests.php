@@ -5,9 +5,6 @@ if( !defined( 'PHPUnit_MAIN_METHOD' ) )
 require_once( 'PHPUnit/Framework/TestSuite.php' );
 require_once( 'PHPUnit/TextUI/TestRunner.php' );
 require_once( 'Tests/Database/mysql/ConnectionTest.php' );
-require_once( 'Tests/Database/mysql/TransactionConnectionTest.php' );
-require_once( 'Tests/Database/mysql/ResultTest.php' );
-require_once( 'Tests/Database/mysql/RowTest.php' );
 class Tests_Database_mySQL_AllTests
 {
 	public static function main()
@@ -19,9 +16,6 @@ class Tests_Database_mySQL_AllTests
 	{
 		$suite = new PHPUnit_Framework_TestSuite( 'ClassContainer/Database/mySQL' );
 		$suite->addTestSuite( 'Tests_Database_mySQL_ConnectionTest' ); 
-		$suite->addTestSuite( 'Tests_Database_mySQL_TransactionConnectionTest' ); 
-		$suite->addTestSuite( 'Tests_Database_mySQL_ResultTest' ); 
-		$suite->addTestSuite( 'Tests_Database_mySQL_RowTest' ); 
 		return $suite;
 	}
 }

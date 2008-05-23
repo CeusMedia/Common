@@ -37,6 +37,29 @@ class Tests_XML_DOM_NodeTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 *	Tests Method '__construct'.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testConstruct()
+	{
+		$attributes	= array( 'key1' => "value1", 'key2' => "value2" );
+		$node		= new XML_DOM_Node( "tag1", "content1", $attributes );
+
+		$assertion	= "tag1";
+		$creation	= $node->getNodeName();
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= "content1";
+		$creation	= $node->getContent();
+		$this->assertEquals( $assertion, $creation );
+		
+		$assertion	= $attributes;
+		$creation	= $node->getAttributes();
+		$this->assertEquals( $assertion, $creation );
+	}
+
+	/**
 	 *	Tests Method 'addChild'.
 	 *	@access		public
 	 *	@return		void
@@ -122,6 +145,17 @@ class Tests_XML_DOM_NodeTest extends PHPUnit_Framework_TestCase
 		$assertion	= $this->leaf;
 		$creation	= $this->node->getChild( $this->leaf->getNodeName() );
 		$this->assertEquals( $assertion, $creation );
+	}
+
+	/**
+	 *	Tests Exception of Method 'getChild'.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testGetChildException()
+	{
+		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->node->getChild( "not_existing" );
 	}
 
 	/**
@@ -302,8 +336,8 @@ class Tests_XML_DOM_NodeTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals( $assertion, $creation );
 
 		//  test Children
-		$assertion	= NULL;
-		$creation	= $this->node->getChild( $this->leaf->getNodeName() );
+		$assertion	= FALSE;
+		$creation	= $this->node->hasChild( $this->leaf->getNodeName() );
 		$this->assertEquals( $assertion, $creation );
 
 		//  try to remove Children again

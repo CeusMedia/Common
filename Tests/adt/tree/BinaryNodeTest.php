@@ -157,6 +157,14 @@ class Tests_ADT_Tree_BinaryNodeTest extends PHPUnit_Framework_TestCase
 		$assertion	= $this->tree->getRight()->getRight();
 		$creation	= $this->tree->search( 5 );
 		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= $this->tree->getLeft()->getLeft();
+		$creation	= $this->tree->search( 1 );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= NULL;
+		$creation	= $this->tree->search( -1 );
+		$this->assertEquals( $assertion, $creation );
 	}
 
 

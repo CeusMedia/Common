@@ -31,14 +31,12 @@ class Tests_Framework_Krypton_Core_ComponentTest extends PHPUnit_Framework_TestC
 	{
 		$this->registry		= Framework_Krypton_Core_Registry::getInstance();
 		$config		= array(
-			'paths'	=> array(
-				'cache'		=> "Tests/framework/krypton/core/cacheDir/",
-				'languages'	=> "Tests/framework/krypton/core/languageDir/",
-				'html'		=> "Tests/framework/krypton/core/htmlDir/",
-				'text'		=> "Tests/framework/krypton/core/textDir/",
-				'test'		=> "Tests/framework/krypton/core/testDir/",
-				'templates'	=> "Tests/framework/krypton/core/templateDir/",
-			)
+			'paths.cache'		=> "Tests/framework/krypton/core/cacheDir/",
+			'paths.languages'	=> "Tests/framework/krypton/core/languageDir/",
+			'paths.html'		=> "Tests/framework/krypton/core/htmlDir/",
+			'paths.text'		=> "Tests/framework/krypton/core/textDir/",
+			'paths.test'		=> "Tests/framework/krypton/core/testDir/",
+			'paths.templates'	=> "Tests/framework/krypton/core/templateDir/",
 		);
 
 		$session	= new ADT_List_Dictionary();
@@ -274,7 +272,7 @@ class Tests_Framework_Krypton_Core_ComponentTest extends PHPUnit_Framework_TestC
 		$this->assertEquals( $assertion, $creation );
 
 		$config		=& $this->registry->get( 'config' );
-		$cacheFile	= $config['paths']['cache']."test.cache";
+		$cacheFile	= $config['paths.cache']."test.cache";
 		file_put_contents( $cacheFile, time() );
 		$assertion	= true;
 		$creation	= $this->component->hasCache( "test.cache" );
@@ -290,7 +288,7 @@ class Tests_Framework_Krypton_Core_ComponentTest extends PHPUnit_Framework_TestC
 		
 		$config		=& $this->registry->get( 'config' );
 		$session	= $this->registry->get( 'session' );
-		$config['paths']['php']	= "Tests/framework/krypton/";
+		$config['paths.php']	= "Tests/framework/krypton/";
 		$this->component->paths['php']	= "php";
 		$session->set( 'language', 'core' );
 
@@ -310,8 +308,8 @@ class Tests_Framework_Krypton_Core_ComponentTest extends PHPUnit_Framework_TestC
 		$creation	= preg_match( "@not existing@", $messenger->buildMessages() ); 
 		$this->assertEquals( $assertion, $creation );
 		
-		$config['paths']['php']	= "Tests/framework/krypton/";
-		unset( $config['paths']['cache'] );
+		$config['paths.php']	= "Tests/framework/krypton/";
+		unset( $config['paths.cache'] );
 		$this->component->paths['php']	= "php";
 		$session->set( 'language', 'core' );
 		$assertion	= file_get_contents( __FILE__ );
@@ -322,7 +320,7 @@ class Tests_Framework_Krypton_Core_ComponentTest extends PHPUnit_Framework_TestC
 	public function testLoadTempate()
 	{
 		$config		=& $this->registry->get( 'config' );		
-		$config['paths']['templates']	= "Tests/framework/krypton/";
+		$config['paths.templates']	= "Tests/framework/krypton/";
 		$assertion	= file_get_contents( "Tests/framework/krypton/core/messenger.html" );
 		$creation	= $this->component->loadTemplate( "core.messenger", array() );
 		$this->assertEquals( $assertion, $creation );
@@ -339,7 +337,7 @@ class Tests_Framework_Krypton_Core_ComponentTest extends PHPUnit_Framework_TestC
 		$config		=& $this->registry->get( 'config' );		
 		$session	= $this->registry->get( 'session' );
 
-		$config['paths']['cache']		= "";
+		$config['paths.cache']		= "";
 		$session->set( 'language', 'en' );
 
 		$assertion	= true;
@@ -358,7 +356,7 @@ class Tests_Framework_Krypton_Core_ComponentTest extends PHPUnit_Framework_TestC
 		$creation	= $this->component->loadLanguage( "language" );
 		$this->assertEquals( $assertion, $creation );
 
-		$cacheFile	= $config['paths']['cache'].basename( $config['paths']['languages'] )."/en.language.ser";
+		$cacheFile	= $config['paths.cache'].basename( $config['paths.languages'] )."/en.language.ser";
 		$this->component->loadLanguage( "language" );
 		$assertion	= true;
 		$creation	= file_exists( $cacheFile );
@@ -369,7 +367,7 @@ class Tests_Framework_Krypton_Core_ComponentTest extends PHPUnit_Framework_TestC
 	public function testLoadLanguageException()
 	{
 		$config		=& $this->registry->get( 'config' );		
-		$config['paths']['cache']	= "";
+		$config['paths.cache']	= "";
 		$this->setExpectedException( "Framework_Krypton_Exception_IO" );
 		$this->component->loadLanguage( "not_existing" );
 	}
