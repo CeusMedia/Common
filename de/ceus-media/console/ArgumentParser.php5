@@ -31,17 +31,27 @@ class Console_ArgumentParser extends ADT_OptionObject
 	public function parseArguments()
 	{
 		$args	= $_SERVER["argv"];
-		$this->setOption( "script", array_shift( $args) );
+		$this->setOption( "script", array_shift( $args ) );
 		foreach( $args as $arg )
 		{
-			if( substr_count( $arg, "=" ) )
+			$value	= TRUE;
+			if( substr_count( $arg, ":" ) )
 			{
-				$parts	= explode( "=", $arg );
-				$arg		= array_shift( $parts );
-				$value	= implode( "=", $parts );
+				$parts	= explode( ":", $arg );
+				$arg	= array_shift( $parts );
+				$value	= implode( ":", $parts );
 			}
-			else
-				$value	= true;
+			if( substr( $arg, 0, 1 ) == "-" )
+			{
+				if( !$this->hasOption( 'options' ) )
+					$options	= array();
+				else
+					$options	= (array) $this->getOption( 'options' );
+				$arg	= substr( $arg, 1 );
+				$options[$arg]	= $value;
+				$arg	= "options";
+				$value	= $options;
+			}
 			$this->setArgument( $arg, $value );
 		}
 	}

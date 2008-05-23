@@ -350,7 +350,6 @@ class UI_HTML_FormElements
 			'value'		=> $value,
 			'class'		=> $class,
 			'checked'	=> $checked		? "checked" : NULL,
-			'disabled'	=> $disabled	? "disabled" : NULL,
 		);
 		if( $readOnly )
 			self::addReadonlyAttributes( $attributes, $readOnly );

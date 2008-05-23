@@ -19,30 +19,41 @@ class Exception_TraceViewer
 {
 	/**
 	 *	Constructor, prints Exception Trace.
+	 *	Break Modes:
+	 *	0	show every Trace Step in one Line
+	 *	1	break Function Call after File Name
+	 *	2	break on every Argument
 	 *	@access		public
-	 *	@param		Exception	$exception	Exception
+	 *	@param		Exception	$exception		Exception
+	 *	@param		int			$breakMode		Mode of Line Breaks (0-one line|1-break line|2-break arguments)
 	 *	@return		void
 	 */
-	public function __construct( $e )
+	public function __construct( $e, $breakMode )
 	{
-		print( $this->buildTrace( $e ) );
+		print( $this->buildTrace( $e, $breakMode ) );
 	}
 
 	/**
 	 *	Builds Trace HTML Code from an Exception.
+	 *	Break Modes:
+	 *	0	show every Trace Step in one Line
+	 *	1	break Function Call after File Name
+	 *	2	break on every Argument
 	 *	@access		private
-	 *	@param		Exception	$exception	Exception
+	 *	@param		Exception	$exception		Exception
+	 *	@param		int			$breakMode		Mode of Line Breaks (0-one line|1-break line|2-break arguments)
 	 *	@return		string
 	 */
-	public static function buildTrace( Exception $exception )
+	public static function buildTrace( Exception $exception, $breakMode = 0 )
 	{
-		$content	= "<p style=\"font-family: monospace; border: solid 1px #000000\"><span style=\"font-weight: bold; color: #000000;\">An exception was thrown :<br/></span>";
-		$content	.= "Exception code : ".$exception->getCode()."<br/>";
-		$content	.= "Exception message : ".$exception->getMessage()."<br/>";
-		$content	.= "<span style=\"color: #0000FF;\">";
+		$content	= '<p style="font-family: monospace;"><span style="font-weight: bold; color: #000000;">An exception was thrown :<br/></span>';
+		$content	.= "Type: ".get_class( $exception )."<br/>";
+		$content	.= "Message: ".$exception->getMessage()."<br/>";
+		$content	.= "Code: ".$exception->getCode()."<br/>";
+		$content	.= '<span style="color: #0000FF;">';
 		$i = 0;
 		foreach( $exception->getTrace() as $key => $trace )
-			$content	.= self::buildTraceStep( $trace, $i++ );
+			$content	.= self::buildTraceStep( $trace, $i++, $breakMode );
 		$content	.= "#$i {main}<br/>";
 		$content	.= "</span></p>";
 		return $content;
@@ -51,14 +62,25 @@ class Exception_TraceViewer
 	/**
 	 *	Builds HTML Code of one Trace Step.
 	 *	@access		private
-	 *	@param		array		$trace		Trace Step Data
-	 *	@param		int			$i			Trace Step Number
+	 *	@param		array		$trace			Trace Step Data
+	 *	@param		int			$i				Trace Step Number
+	 *	@param		int			$breakMode		Mode of Line Breaks (0-one line|1-break line|2-break arguments)
 	 *	@return		string
 	 */
-	private static function buildTraceStep( $trace, $i )
+	private static function buildTraceStep( $trace, $i, $breakMode = 0 )
 	{
-		$indent		= str_repeat( "&nbsp;", 2 + strlen( $i ) );
-		$content	= "#$i ".$trace["file"]."(".$trace["line"]."): <br/>";
+		$indent		= " ";
+		$break		= "";
+		if( $breakMode == 2 )
+		{
+			$indent		= str_repeat( "&nbsp;", 2 + strlen( $i ) );
+			$break		= "<br/>".$indent;
+		}
+		$funcBreak	= $break;
+		if( $breakMode == 1 )
+			$funcBreak	= "<br/>";
+
+		$content	= "#$i ".$trace["file"]."(".$trace["line"]."): ".$funcBreak;
 		if( array_key_exists( "class", $trace ) && array_key_exists( "type", $trace ) )
 			$content	.= $indent.$trace["class"].$trace["type"];
 		if( array_key_exists( "function", $trace ) )
@@ -73,29 +95,42 @@ class Exception_TraceViewer
 					{
 						$type	= gettype( $argument );
 						$value	= $argument;
-						if( $type == "boolean" )
-							$argList[] = $type ? "true" : "false";
-						else if( $type == "integer" || $type == "double")
+						$arg	= ucFirst( $type ).": ";
+						switch( $type )
 						{
-							if( settype( $value, "string" ) )
-								$argList[] = strlen( $value ) <= 80 ? $value : substr( $value, 0, 17 )."...";
-							else
-								$argList[] = $type == "integer" ? "? integer ?" : "? double or float ?";
+							case 'boolean':
+								$arg	.= $type ? "TRUE" : "FALSE";
+								break;
+							case 'integer':
+							case 'double':
+							case 'float':
+								if( settype( $value, "string" ) )
+									$arg	.= strlen( $value ) <= 78 ? $value : substr( $value, 0, 75 )."...";
+								else
+									$arg	.= $type == "integer" ? "? integer ?" : "? double or float ?";
+								break;
+							case 'string':
+								$arg	.= strlen( $value ) <= 78 ? '"'.$value.'"' : '"'.substr( $value, 0, 75 ).'..."';
+								break;
+							case 'array':
+								$arg	.= self::convertArrayToString( $argument );
+								break;
+							case 'object':
+								$arg	.= get_class( $argument );
+								break;
+							case 'NULL':
+								break;
+							case 'resource':
+								$arg	.= (string) $value;
+							default:
+								$arg	.= (string) $value;
+								break;
 						}
-						else if( $type == "string" )
-							$argList[] = strlen( $value ) <= 78 ? '"'.$value.'"' : '"'.substr( $value, 0, 15 ).'..."';
-						else if( $type == "array" )
-							$argList[] = "Array: ".self::convertArrayToString( $argument );
-						else if( $type == "object" )
-							$argList[] = "Object: ".get_class( $argument );
-						else if( $type == "resource" )
-							$argList[] = "Resource";
-						else if( $type == "NULL" )
-							$argList[] = "null";
-						else if( $type == "unknown type" )
-							$argList[] = "? unknown type ?";
+						$argList[]	= $arg;
 					}
-					$content	.= "<br/>".$indent.$indent.implode( ",<br/>".$indent.$indent, $argList )."<br/>".$indent;
+					$argBreak	= $breakMode ? $break.$indent : " ";
+					$arguments	= implode( ",".$argBreak, $argList );
+					$content	.= $argBreak.$arguments.$break;
 				}
 			}			
 			$content	.= ")<br/>";
@@ -106,7 +141,7 @@ class Exception_TraceViewer
 	/**
 	 *	Converts Array to String.
 	 *	@access		private
-	 *	@param		array		$array		Array to convert to String
+	 *	@param		array		$array			Array to convert to String
 	 *	@return		string
 	 */
 	private static function convertArrayToString( $array )
