@@ -86,13 +86,16 @@ class Service_Client
 		switch( $format )
 		{
 			case 'json':
-				$response	= json_decode( $response );
+				if( $decode = @json_decode( $response ) )
+					$response	= json_decode( $response );
 				break;
 			case 'php':
-				$response	= unserialize( $response );
+				if( $decode = @unserialize( $response ) )
+					$response	= unserialize( $response );
 				break;
 			case 'wddx':
-				$response	= wddx_deserialize( $response );
+				if( $decode = @wddx_deserialize( $response ) )
+					$response	= wddx_deserialize( $response );
 				break;
 			default:
 				break;
@@ -118,17 +121,20 @@ class Service_Client
 			$request->setOption( CURLOPT_USERAGENT, $this->userAgent );
 		if( $this->username )
 			$request->setOption( CURLOPT_USERPWD, $this->username.":".$this->password );
-		$response	= $request->exec();
-		$code		= $request->getStatus( CURL_STATUS_HTTP_CODE );
+		$response['content']	= $request->exec();
+		$response['status']		= $request->getStatus();
+		$response['headers']	= $request->getHeader();
 	
+		$code		= $request->getStatus( CURL_STATUS_HTTP_CODE );
 		if( !in_array( $code, array( '200', '304' ) ) )
 			throw new RuntimeException( 'URL "'.$request->getOption( CURLOPT_URL ).'" can not be accessed (HTTP Code '.$code.').', $code );
-		
-		if( $compression )
+
+		if( array_key_exists( 'Content-Encoding', $response['headers'] ) )
 		{
+			$compression	= $response['headers']['Content-Encoding'][0];		
 			if( !in_array( $compression, $this->compressionTypes ) )
 				$compression	= $this->compressionTypes[0];
-			$response	= self::uncompressResponse( $response, $compression );
+			$response['content']	= self::uncompressResponse( $response['content'], $compression );
 		}
 		return $response;
 	}
@@ -159,18 +165,20 @@ class Service_Client
 		$response	= $this->executeRequest( $request, $compress );
 		if( $this->logFile )
 		{
-			$message	= time()." ".strlen( $response )." ".$st->stop( 6, 0 )." ".$service."\n";
+			$message	= time()." ".strlen( $response['content'] )." ".$st->stop( 6, 0 )." ".$service."\n";
 			error_log( $message, 3, $this->logFile );
 		}
 		
 		$this->requests[]	= array(
 			'method'	=> "GET",
 			'url'		=> $serviceUrl,
-			'response'	=> $response,
+			'headers'	=> $response['headers'],
+			'status'	=> $response['status'],
+			'response'	=> $response['content'],
 			'time'		=> $st->stop(),
-			);
-		$response	= $this->decodeResponse( $response, $format, $verbose );
-		return $response;
+		);
+		$response['content']	= $this->decodeResponse( $response['content'], $format, $verbose );
+		return $response['content'];
 	}
 	
 	/**
@@ -224,20 +232,22 @@ class Service_Client
 		$response	= $this->executeRequest( $request );
 		if( $this->logFile )
 		{
-			$message	= time()." ".strlen( $response )." ".$st->stop( 6, 0 )." ".$service."\n";
+			$message	= time()." ".strlen( $response['content'] )." ".$st->stop( 6, 0 )." ".$service."\n";
 			error_log( $message, 3, $this->logFile );
 		}
 		$this->requests[]	= array(
 			'method'	=> "POST",
 			'url'		=> $baseUrl,
 			'data'		=> serialize( $data ),
-			'response'	=> $response,
+			'headers'	=> $response['headers'],
+			'status'	=> $response['status'],
+			'response'	=> $response['content'],
 			'time'		=> $st->stop(),
 			);
 		if( $verbose )
 			xmp( $response );
-		$response	= $this->decodeResponse( $response, $format );
-		return $response;
+		$response['content']	= $this->decodeResponse( $response['content'], $format, $verbose );
+		return $response['content'];
 	}
 
 	/**

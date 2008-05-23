@@ -1,9 +1,9 @@
 <?php
-import( 'de.ceus-media.net.http.Session' );
+import( 'de.ceus-media.adt.list.Dictionary' );
 /**
  *	Session Management.
  *	@package		net.http
- *	@extends		Net_HTTP_Session
+ *	@extends		ADT_List_Dictionary
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			26.07.2005
  *	@version		0.6
@@ -11,12 +11,12 @@ import( 'de.ceus-media.net.http.Session' );
 /**
  *	Session Management.
  *	@package		net.http
- *	@extends		Net_HTTP_Session
+ *	@extends		ADT_List_Dictionary
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			26.07.2005
  *	@version		0.6
  */
-class Net_HTTP_PartitionSession extends Net_HTTP_Session
+class Net_HTTP_PartitionSession extends ADT_List_Dictionary
 {
 	/**	@var	array		$session			Reference to Session with Partitions */
 	protected $session;
@@ -44,10 +44,20 @@ class Net_HTTP_PartitionSession extends Net_HTTP_Session
 				unset( $this->session[$key] );
 			$this->session['ip'] = $ip;
 		}
-		unset( $this->data );
+		unset( $this->pairs );
 		if( !isset( $_SESSION['partitions'][$partitionName] ) )
 			$_SESSION['partitions'][$partitionName]	= array();
-		$this->data =& $_SESSION['partitions'][$partitionName];
+		$this->pairs =& $_SESSION['partitions'][$partitionName];
+	}
+	
+	/**
+	 *	Destructor.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function __destruct()
+	{
+		session_write_close();
 	}
 
 	/**
@@ -57,8 +67,28 @@ class Net_HTTP_PartitionSession extends Net_HTTP_Session
 	 */
 	public function clear()
 	{
-		parent::clear();
+		$this->pairs	= array();
 		$this->session['ip'] = getEnv( 'REMOTE_ADDR' );
+	}
+
+	/**
+	 *	Returns current Session ID.
+	 *	@access		public
+	 *	@return		string
+	 */
+	public function getSessionID()
+	{
+		return session_id();
+	}
+
+	/**
+	 *	Returns current Session Name.
+	 *	@access		public
+	 *	@return		string
+	 */
+	public function getSessionName()
+	{
+		return session_name();
 	}
 }
 ?>

@@ -78,7 +78,6 @@ class Service_Point implements Service_Interface_Point
 		$response	= $object->$serviceName( $responseFormat, $requestData );
 		return $response;
 	}
-
 	/**
 	 *	Checks Service and throws Exception if Service is not existing.
 	 *	@access		protected
@@ -88,7 +87,7 @@ class Service_Point implements Service_Interface_Point
 	protected function checkServiceDefinition( $serviceName )
 	{
 		if( !isset( $this->services['services'][$serviceName] ) )
-			throw new InvalidArgumentException( 'Service "'.$serviceName.'" is not existing.' );
+			throw new ServiceException( 'Service "'.$serviceName.'" is not existing.' );
 		if( !isset( $this->services['services'][$serviceName]['class'] ) )
 			throw new Exception( 'No Service Class definied for Service "'.$serviceName.'".' );
 	}
@@ -152,7 +151,7 @@ class Service_Point implements Service_Interface_Point
 			}
 			catch( InvalidArgumentException $e )
 			{
-				throw new InvalidArgumentException( 'Parameter "'.$field.'" for Service "'.$serviceName.'" is invalid ( '.$e->getMessage().' ).' );			
+				throw new InvalidArgumentException( 'Parameter "'.$field.'" for Service "'.$serviceName.'" failed Rule "'.$e->getMessage().'".' );			
 			}
 		}
 	}
@@ -304,5 +303,11 @@ class Service_Point implements Service_Interface_Point
 		$this->loader	= new self::$loaderClass;
 		$this->services	= $this->loader->loadServices( $fileName, $cacheFile );
 	}
+}
+class ServiceException extends Exception
+{
+}
+class ServiceParameterException extends Exception
+{
 }
 ?>

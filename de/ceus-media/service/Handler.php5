@@ -4,6 +4,7 @@ import( 'de.ceus-media.net.http.request.Response' );
  *	Service Handlers for HTTP Requests.
  *	@package		service
  *	@uses			Net_HTTP_Request_Response
+ *	@uses			UI_HTML_Exception_TraceViewer
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			18.06.2007
  *	@version		0.6
@@ -12,6 +13,7 @@ import( 'de.ceus-media.net.http.request.Response' );
  *	Service Handlers for HTTP Requests.
  *	@package		service
  *	@uses			Net_HTTP_Request_Response
+ *	@uses			UI_HTML_Exception_TraceViewer
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			18.06.2007
  *	@version		0.6
@@ -55,37 +57,55 @@ class Service_Handler
 	 *	@param		bool			$serializeException		Flag: serialize Exceptions instead of throwing
 	 *	@return		int
 	 */
-	public function handle( $requestData, $serializeException = false )
+	public function handle( $requestData, $serializeException = FALSE )
 	{
 		if( empty( $requestData['service'] ) )
 			throw new InvalidArgumentException( 'No Service Name given.' );
+
+		//  --  CALL SERVICE  --  //
+		$service	= $requestData['service'];
 		try
 		{
+			$format		= ( isset( $requestData['format'] ) && $requestData['format'] ) ? $requestData['format'] : $this->servicePoint->getDefaultServiceFormat( $service );
 			ob_start();
-			$service	= $requestData['service'];
-			$format		= $requestData['format'];
-			$response	= $this->servicePoint->callService( $service, $format, $requestData );
-			$exception	= ob_get_clean();
-			if( $exception )
-				throw new RuntimeException( $exception );
-			$format		= $format ? $format : $this->servicePoint->getDefaultServiceFormat( $service );
-			$compress	= isset( $requestData['compressResponse'] ) ? strtolower( $requestData['compressResponse'] ) : "";
-			if( $compress )
+			
+			if( isset( $requestData['argumentsGivenByServiceCaller'] ) )
 			{
-				if( !in_array( $compress, $this->compressionTypes ) )
-					$compress	= $this->compressionTypes[0];
-				$response	= self::compressResponse( $response, $compress );
+				$parameters	= array_keys( $this->servicePoint->getServiceParameters( $service ) );
+				$arguments	= unserialize( stripslashes( $requestData['argumentsGivenByServiceCaller'] ) );
+				for( $i=0; $i<count( $arguments ); $i++ )
+					$requestData[$parameters[$i]]	= $arguments[$i];
+				unset( $requestData['argumentsGivenByServiceCaller'] );
 			}
-			return $this->sendResponse( $response, $format, $compress );
+			$response	= $this->servicePoint->callService( $service, $format, $requestData );
+			$errors		= ob_get_clean();
+			if( $errors )
+				throw new RuntimeException( $errors );
 
+			return $this->sendResponse( $requestData, $response, $format );
+		}
+		catch( ServiceParameterException $e )
+		{
+			$response	= $e->getMessage();
+			return $this->sendResponse( $requestData, $response );
+		}
+		catch( ServiceException $e )
+		{
+			$response	= $e->getMessage();
+			return $this->sendResponse( $requestData, $response );
 		}
 		catch( Exception $e )
 		{
-			if( $serializeException )
-				$message	= serialize( $e );
+			if( isset( $requestData['showExceptions'] ) )
+			{
+				import( 'de.ceus-media.ui.html.exception.TraceViewer' );
+				$response	= UI_HTML_Exception_TraceViewer::buildTrace( $e, 2 );
+			}
+			else if( $serializeException )
+				$response	= serialize( $e );
 			else
-				$message	= $e->getMessage();
-			return $this->sendResponse( $message );
+				$response	= $e->getMessage();
+			return $this->sendResponse( $requestData, $response );
 		}
 	}
 
@@ -117,14 +137,25 @@ class Service_Handler
 	 *	@param		string			$content		Content of Response
 	 *	@return		int
 	 */
-	protected function sendResponse( $content, $format = "html", $compressionType = NULL )
+	protected function sendResponse( $requestData, $content, $format = "html", $compressionType = NULL )
 	{
+		//  --  CONTENT TYPE  --  //
 		if( !array_key_exists( $format, $this->contentTypes ) )
 			throw new InvalidArgumentException( 'Content Type for Response Format "'.$format.'" is not defined.' );
 		$contentType	= $this->contentTypes[$format];
 		if( $this->charset )
 			$contentType	.= "; charset=".$this->charset;
 
+		//  --  COMPRESS CONTENT  --  //
+		$compression	= isset( $requestData['compressResponse'] ) ? strtolower( $requestData['compressResponse'] ) : "";
+		if( $compression )
+		{
+			if( !in_array( $compression, $this->compressionTypes ) )
+				$compression	= $this->compressionTypes[0];
+			$content	= self::compressResponse( $content, $compression );
+		}
+		
+		//  --  BUILD RESPONSE  --  //
 		$response	= new Net_HTTP_Request_Response();
 		$response->write( $content );
 		$response->addHeader( 'Last-Modified', date( 'r' ) );
@@ -132,8 +163,8 @@ class Service_Handler
 		$response->addHeader( 'Pragma', "no-cache" );
 		$response->addHeader( 'Content-Type', $contentType );
 		$response->addHeader( 'Content-Length', strlen( $content ) );
-		if( $compressionType )
-			$response->addHeader( 'Content-Encoding', $compressionType );
+		if( $compression )
+			$response->addHeader( 'Content-Encoding', $compression );
 		
 		return $response->send();
 	}

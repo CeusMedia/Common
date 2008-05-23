@@ -1,23 +1,21 @@
 <?php
+import( 'de.ceus-media.adt.list.Dictionary' );
 /**
  *	Session Management.
  *	@package		net.http
- *	@implements		ArrayAccess
+ *	@extends		ADT_List_Dictionary
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.6
  */
 /**
  *	Session Management.
  *	@package		net.http
- *	@implements		ArrayAccess
+ *	@extends		ADT_List_Dictionary
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.6
  */
-class Net_HTTP_Session implements ArrayAccess, Countable
+class Net_HTTP_Session extends ADT_List_Dictionary
 {
-	/**	@var	array	$data		Reference to session data */
-	protected $data;
-
 	/**
 	 *	Constructor.
 	 *	@access		public
@@ -27,7 +25,7 @@ class Net_HTTP_Session implements ArrayAccess, Countable
 	{
 		session_name( $sessionName );
 		session_start();
-		$this->data =& $_SESSION;
+		$this->pairs =& $_SESSION;
 	}
 	
 	/**
@@ -47,42 +45,9 @@ class Net_HTTP_Session implements ArrayAccess, Countable
 	 */
 	public function clear()
 	{
-		$this->data	= array();
-		foreach( $this->data as $key => $value )
-			unset( $this->data[$key] );
-	}
-	
-	/**
-	 *	Returns Amount of stored Information.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function count()
-	{
-		return count( $this->data );
-	}
-	
-	/**
-	 *	Returns a setting by its key name.
-	 *	@access		public
-	 *	@param		string		$key		Key name of setting
-	 *	@return		mixed
-	 */
-	public function get( $key )
-	{
-		if( $this->has( $key ) )
-			return $this->data [$key];
-		return NULL;
-	}
-	
-	/**
-	 *	Returns all settings of this session.
-	 *	@access		public
-	 *	@return		array
-	 */
-	public function getAll()
-	{
-		return $this->data;
+		$this->pairs	= array();
+#		foreach( $this->pairs as $key => $value )
+#			unset( $this->pairs[$key] );
 	}
 
 	/**
@@ -103,91 +68,6 @@ class Net_HTTP_Session implements ArrayAccess, Countable
 	public function getSessionName()
 	{
 		return session_name();
-	}
-
-	/**
-	 *	Indicates whether a setting is set by its key name.
-	 *	@access		public
-	 *	@param		string		$key		Key name of setting
-	 *	@return		string
-	 */
-	public function has( $key )
-	{
-		return isset( $this->data[$key] );
-	}
-
-	/**
-	 *	Indicates whether a Key is existing.
-	 *	@access		public
-	 *	@param		string		$key		Key name of setting
-	 *	@return		bool
-	 */
-	public function offsetExists( $key )
-	{
-		return $this->has( $key );
-	}
-	
-	/**
-	 *	Return a Value of Session by its Key.
-	 *	@access		public
-	 *	@param		string		$key		Key name of setting
-	 *	@return		mixed
-	 */
-	public function offsetGet( $key )
-	{
-		return $this->get( $key );
-	}
-	
-	/**
-	 *	Sets Value of Key in Session.
-	 *	@access		public
-	 *	@param		string		$key		Key name of setting
-	 *	@param		string		$value		Value of setting
-	 *	@return		void
-	 */
-	public function offsetSet( $key, $value )
-	{
-		return $this->set( $key, $value );
-	}
-	
-	/**
-	 *	Removes a Value from Session by its Key.
-	 *	@access		public
-	 *	@param		string		$key		Key name of setting
-	 *	@return		void
-	 */
-	public function offsetUnset( $key )
-	{
-		return $this->remove( $key );
-	}
-
-	/**
-	 *	Deletes a setting of session.
-	 *	@access		public
-	 *	@param		string		$key		Key name of setting
-	 *	@return		bool
-	 */
-	public function remove( $key )
-	{
-		if( !$this->has( $key ) )
-			return FALSE;
-		unset( $this->data[$key] );	
-		return TRUE;
-	}
-	
-	/**
-	 *	Writes a setting to session.
-	 *	@access		public
-	 *	@param		string		$key		Key name of setting
-	 *	@param		string		$value		Value of setting
-	 *	@return		bool
-	 */
-	public function set( $key, $value )
-	{
-		if( isset( $this->data[$key] ) && $this->data[$key] == $value )
-			return FALSE;
-		$this->data[$key] = $value;
-		return TRUE;
 	}
 }
 ?>

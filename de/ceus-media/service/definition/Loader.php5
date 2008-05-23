@@ -40,7 +40,7 @@ class Service_Definition_Loader
 	{
 		if( !file_exists( $fileName ) )
 			throw new RuntimeException( 'Service Definition File "'.$fileName.'" is not existing.' );
-		if( $cacheFile && file_exists( $cacheFile ) && filemtime( $fileName ) <= filemtime( $cacheFile ) )
+		if( $cacheFile && filemtime( $fileName ) <= @filemtime( $cacheFile ) )
 			return $this->services	= unserialize( file_get_contents( $cacheFile ) );
 
 		$info	= pathinfo( $fileName );

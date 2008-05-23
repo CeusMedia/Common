@@ -99,8 +99,8 @@ class Net_cURL
 		$this->options	= array();
 		if( !empty( $url ) )
 			$this->setOption( CURLOPT_URL, $url ); 
-		$this->setOption( CURLOPT_HEADER, false );
-		$this->setOption( CURLOPT_RETURNTRANSFER, true );
+		$this->setOption( CURLOPT_HEADER, TRUE );
+		$this->setOption( CURLOPT_RETURNTRANSFER, TRUE );
 		if( self::$timeOut )
 		{
 			$this->setOption( CURLOPT_TIMEOUT, self::$timeOut );
@@ -149,11 +149,12 @@ class Net_cURL
 		$this->header = NULL;
 		if( $this->getOption( CURLOPT_HEADER ) )
 		{
-			$array = preg_split( "/(\r\n){2,2}/", $result, 2 );
-			if( $array[0] )
+			$result	= preg_replace( "@^HTTP/1\.1 100 Continue\r\n\r\n@", "", $result );				//  Hack: remove "100 Continue"
+			$array = preg_split( "/(\r\n){2}/", $result, 2 );
+			if( count( $array ) > 1 )
 			{
-				$this->parseHeader( $array[0] );
-				return $array[1];
+				$this->parseHeader( array_shift( $array ) );
+				return implode( "\r\n\r\n", $array );
 			}
 		}
 		return $result;

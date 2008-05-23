@@ -35,7 +35,9 @@ class Net_HTTP_Request_Response
 	 */
 	public function addHeader( $name, $value )
 	{
-		$this->headers[$name]	= $value;
+		if( !isset( $this->headers[$name] ) )
+			$this->headers[$name]	= array();
+		$this->headers[$name][]	= $value;
 	}
 
 	/**
@@ -61,8 +63,9 @@ class Net_HTTP_Request_Response
 	public function send( $useCompression = FALSE, $compressionLogFile = NULL )
 	{
 		header( "HTTP/1.1 ".$this->status );
-		foreach( $this->headers as $name => $value )
-			header( $name.": ".$value );
+		foreach( $this->headers as $name => $headers )
+			foreach( $headers as $header )
+				header( $name.": ".$header );
 		if( $useCompression )
 		{
 			import( 'de.ceus-media.net.http.Compression' );			
