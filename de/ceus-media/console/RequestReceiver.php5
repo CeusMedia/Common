@@ -27,7 +27,7 @@ class Console_RequestReceiver extends ADT_List_Dictionary
 	{
 		$count	= 0;
 		global $argv;
-		//$argv = array("runJob.php5", "Job_SaleTermination" , "cmd=");
+		//$argv = array("runJob.php5", "Job_SaleTermination" , "cmd=");	
 		foreach( $argv as $argument )
 		{
 			if( substr_count( $argument, "=" ) )

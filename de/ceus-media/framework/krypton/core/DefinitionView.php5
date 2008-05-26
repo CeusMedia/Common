@@ -65,7 +65,7 @@ class Framework_Krypton_Core_DefinitionView extends Framework_Krypton_Core_View
 					if( $data['calendar']['component'] == "MonthCalendar" )
 					{
 						import( 'de.ceus-media.framework.krypton.view.component.MonthCalendar' );
-						$cal	= new View_Component_MonthCalendar();
+						$cal	= new Framework_Krypton_View_Component_MonthCalendar();
 						if( isset( $data['calendar']['range'] ) )
 							$cal->setRange( $data['calendar']['range'] );
 						if( isset( $data['calendar']['type'] ) )
@@ -84,7 +84,7 @@ class Framework_Krypton_Core_DefinitionView extends Framework_Krypton_Core_View
 					if( $data['calendar']['component'] == "DayCalendar" )
 					{
 						import( 'de.ceus-media.framework.krypton.view.component.DayCalendar' );
-						$cal	= new View_Component_DayCalendar();
+						$cal	= new Framework_Krypton_View_Component_DayCalendar();
 				//		if( isset( $data['calendar']['range'] ) )
 				//			$cal->setRange( $data['calendar']['range'] );
 						if( isset( $data['calendar']['format'] ) )
@@ -95,10 +95,10 @@ class Framework_Krypton_Core_DefinitionView extends Framework_Krypton_Core_View
 				//			$cal->setDirection( $data['calendar']['direction'] == "asc" );
 						
 				//		$cal->setLanguage( $data['calendar']['language'] );
-						$id_input	= $data['input']['name'];
-						$id_opener	= "dcal_".$data['input']['name'];
-						$cal	= $cal->buildCalendar( $id_input, $id_opener );
-						$suffix	= $cal."<span class='suffix'>".$suffix."</span>";
+						$idInput	= $data['input']['name'];
+						$idOpener	= "dcal_".$data['input']['name'];
+						$cal		= $cal->buildCalendar( $idInput, $idOpener );
+						$suffix		= $cal."<span class='suffix'>".$suffix."</span>";
 					}
 				}
 				$colspan	= $data['input']['colspan'] ? $data['input']['colspan'] : 1;

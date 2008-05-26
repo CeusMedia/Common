@@ -136,8 +136,9 @@ class Alg_Validation_DefinitionValidator
 			}
 		}
 		else if( isset( $definition['syntax']['mandatory'] ) && $definition['syntax']['mandatory'] )
-			$errors[]	= $this->handleError( $field, 'isMandatory', $value, false, $prefix );
-	
+		{
+			$errors[]	= $this->handleError( $field, 'isMandatory', $value, NULL, $prefix );
+		}
 		return $errors;
 	}
 	

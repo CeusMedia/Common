@@ -1,21 +1,21 @@
 <?php
 /**
  *	Builds HTML for Month Calendar.
- *	@package		mv2.view.component
- *	@extends		Core_View
+ *	@package		framework.krypton.view.component
+ *	@extends		Framework_Krypton_Core_View
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			11.03.2007
  *	@version		0.1
  */
 /**
  *	Builds HTML for Month Calendar.
- *	@package		mv2.view.component
- *	@extends		Core_View
+ *	@package		framework.krypton.view.component
+ *	@extends		Framework_Krypton_Core_View
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			11.03.2007
  *	@version		0.1
  */
-class View_Component_MonthCalendar extends Framework_Krypton_Core_View
+class Framework_Krypton_View_Component_MonthCalendar extends Framework_Krypton_Core_View
 {
 	/**	@var	array		$months			Array of Months */
 	var $months	= array(

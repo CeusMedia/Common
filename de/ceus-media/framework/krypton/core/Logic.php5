@@ -83,13 +83,28 @@ class Framework_Krypton_Core_Logic
 	 *	@throws		Exception_IO
 	 *	@return		array
 	 */
-
 	public static function getFieldsFromModel( $modelName )
 	{
 		if( class_exists( $modelName, true ) )
 		{
 			$model	= new $modelName;
 			return $model->getColumns();
+		}
+		else
+		{
+			$list		= array();
+			$parts		= explode( "_", $modelName );
+			$className	= array_pop( $parts );
+			foreach( $parts as $part )
+				$list[]	= strtolower( $part );
+			$classPath	= implode( "/", $list );
+			$fileName	= "classes/".$classPath."/".$className.".php5";
+			if( file_exists( $fileName ) )
+			{
+				require_once( $fileName );
+				$model	= new $modelName;
+				return $model->getColumns();
+			}
 		}
 		import( 'de.ceus-media.framework.krypton.exception.IO' );
 		throw new Framework_Krypton_Exception_IO( 'Class "'.$modelName.'" is not existing.' );

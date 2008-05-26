@@ -130,6 +130,16 @@ class Database_StatementCollection
 		return array();
 	}
 
+	/**
+	 *	Base Statement Component Grouping.
+	 *	@access		public
+	 *	@param		string		$column		Column to group by
+	 *	@return		array
+	 */
+	public function groupBy( $column )
+	{
+		$this->addGrouping( $column );
+	}
 
 	/**
 	 *	Set Rows to limit.

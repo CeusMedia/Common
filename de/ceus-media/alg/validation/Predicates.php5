@@ -318,6 +318,17 @@ class Alg_Validation_Predicates
 	}
 
 	/**
+	 *	Indicates whether a String is not "0".
+	 *	@access		public
+	 *	@param		string		$string		String to be checked
+	 *	@return		bool
+	 */
+	public static function isNotZero( $string )
+	{
+		return (int) $string != 0;
+	}
+
+	/**
 	 *	Indicates whether a String contains only numeric characters (also ²³).
 	 *	@access		public
 	 *	@param		string		$string		String to be checked

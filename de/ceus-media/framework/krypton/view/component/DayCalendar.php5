@@ -1,21 +1,21 @@
 <?php
 /**
  *	Builds HTML for Day Calendar.
- *	@package		mv2.view.component
- *	@extends		Core_View
+ *	@package		framework.krypton.view.component
+ *	@extends		Framework_Krypton_Core_View
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			17.03.2007
  *	@version		0.1
  */
 /**
  *	Builds HTML for Day Calendar.
- *	@package		mv2.view.component
- *	@extends		Core_View
+ *	@package		framework.krypton.view.component
+ *	@extends		Framework_Krypton_Core_View
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			17.03.2007
  *	@version		0.1
  */
-class View_Component_DayCalendar extends Framework_Krypton_Core_View
+class Framework_Krypton_View_Component_DayCalendar extends Framework_Krypton_Core_View
 {
 	/**	@var		string		$format			Format for Input Field */
 	var $format		= "%m-%d-%Y %H:%M";

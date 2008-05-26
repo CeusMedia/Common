@@ -81,7 +81,6 @@ class Service_Handler
 			$errors		= ob_get_clean();
 			if( $errors )
 				throw new RuntimeException( $errors );
-
 			return $this->sendResponse( $requestData, $response, $format );
 		}
 		catch( ServiceParameterException $e )
@@ -154,7 +153,7 @@ class Service_Handler
 				$compression	= $this->compressionTypes[0];
 			$content	= self::compressResponse( $content, $compression );
 		}
-		
+
 		//  --  BUILD RESPONSE  --  //
 		$response	= new Net_HTTP_Request_Response();
 		$response->write( $content );
