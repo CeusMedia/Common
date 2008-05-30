@@ -33,5 +33,25 @@ class Framework_Krypton_Core_DefinitionValidator extends Alg_Validation_Definiti
 		import( 'de.ceus-media.framework.krypton.logic.ValidationError' );
 		return new Framework_Krypton_Logic_ValidationError( $field, $key, $value, $edge, $prefix );
 	}
+
+	/**
+	 *	Validates Syntax against Field Definition and generates Messages, special Treatment for Select Options with Key '0'.
+	 *	@access		public
+	 *	@param		string		$field		Field
+	 *	@param		string		$data		Field Definition
+	 *	@param		string		$value		Value to validate
+	 *	@param		string		$prefix	 	Prefix of Input Field
+	 *	@return		array
+	 */
+	public function validate( $field, $definition, $value, $prefix = "" )
+	{
+		$errors	= parent::validate( $field, $definition, $value, $prefix );
+
+		if( isset( $definition['syntax']['mandatory'] ) && $definition['syntax']['mandatory'] )
+			if( $definition['input']['type'] == "select" )
+				if( !$this->validator->validate( $value, 'isNotZero' ) )
+					$errors[]	= $this->handleError( $field, 'isMandatory', $value, NULL, $prefix );
+		return $errors;
+	}
 }
 ?>

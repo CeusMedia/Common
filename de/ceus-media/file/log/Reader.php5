@@ -40,14 +40,14 @@ class File_Log_Reader
 	 *	@param		int			$limit		Amount of Entries to return
 	 *	@return		array
 	 */
-	public static function load( $fileName, $offset = 0, $limit = 0)
+	public static function load( $fileName, $offset = NULL, $limit = NULL )
 	{
 		$file	= new File_Reader( $fileName );
 		$lines	= $file->readArray();
-		if( $offset && $limit )
-			$lines	= array_slice( $lines, $offset, $limit );
-		else if( $offset )
-			$lines	= array_slice( $lines, $offset );
+		if( $offset !== NULL && $limit !== NULL && (int) $limit !==  0 )
+			$lines	= array_slice( $lines, abs( (int) $offset ), (int) $limit );
+		else if( $offset !== NULL && (int) $offset !== 0 )
+			$lines	= array_slice( $lines, (int) $offset );
 		return $lines;
 	}
 
@@ -58,15 +58,9 @@ class File_Log_Reader
 	 *	@param		int			$limit		Amount of Entries to return
 	 *	@return		array
 	 */
-	public function read( $offset = 0, $limit = 0)
+	public function read( $offset = NULL, $limit = NULL )
 	{
-		$file	= new File_Reader( $this->fileName );
-		$lines	= $file->readArray();
-		if( $offset && $limit )
-			$lines	= array_slice( $lines, $offset, $limit );
-		else if( $offset )
-			$lines	= array_slice( $lines, $offset );
-		return $lines;
+		return $this->load( $this->fileName, $offset, $limit );
 	}
 }
 ?>

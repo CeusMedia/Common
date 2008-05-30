@@ -220,10 +220,10 @@ class Framework_Krypton_FatalExceptionHandler
 			print( "Line: ".$e->getLine().$this->break );
 			if( $code )
 				print( "Code: ".$code.$this->break );
-			if( $type )
 			if( $mode == "error" )
 				return;
 		}
+		$type	= "";
 		foreach( $trace as $data )
 		{
 			extract( $data );

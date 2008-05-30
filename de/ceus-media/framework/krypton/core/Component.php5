@@ -272,6 +272,28 @@ abstract class Framework_Krypton_Core_Component
 	}
 
 	/**
+	 *	Retursn HTTP Query String build from basic Parameter Pairs and additional Pairs, where a Pair will Value NULL will remove the Pair.
+	 *	@access		public
+	 *	@param		array		$basePairs		Array of basic Parameter Pairs
+	 *	@param		array		$otherPairs		Arrayo of Pairs to add or remove (on Value NULL)
+	 *	@return		string
+	 */
+	public function getQueryString( $basePairs, $otherPairs = array() )
+	{
+		foreach( $otherPairs as $key => $value )
+		{
+			if( $value === NULL )
+			{
+				unset( $basePairs[$key] );
+				continue;
+			}
+			$basePairs[$key]	= $value;
+		}
+		$query	= http_build_query( $basePairs, '', "&" );
+		return $query;
+	}
+
+	/**
 	 *	Returns Template File URI.
 	 *	@access		public
 	 *	@param		string		$fileKey		File Name of Template File
@@ -309,6 +331,7 @@ abstract class Framework_Krypton_Core_Component
 				$this->handleLogicExceptionOld( $e, $lanfile );
 				break;
 			case 'Framework_Krypton_Exception_SQL':
+				new UI_HTML_Exception_TraceViewer( $e );
 				$this->handleSqlException( $e );
 				break;
 			case 'Framework_Krypton_Exception_Template':
@@ -318,7 +341,7 @@ abstract class Framework_Krypton_Core_Component
 				$this->handleLogicException( $e, $lanfile );
 				break;
 			case 'Exception':
-				throw new Exception( $e->getMessage() );
+				throw $e;
 
 /*				$break	= ( !getEnv( 'PROMPT' ) && !getEnv( 'SHELL' ) ) ? "<br/>" : "\n";
 				$code	= $e->getCode();
@@ -340,6 +363,8 @@ abstract class Framework_Krypton_Core_Component
 				break;
 */			
 			default:
+				import( 'de.ceus-media.ui.html.exception.TraceViewer' );
+				new UI_HTML_Exception_TraceViewer( $e );
 				$this->messenger->noteFailure( $e->getMessage() );
 		}
 	}
