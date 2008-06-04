@@ -9,6 +9,8 @@ require_once 'Tests/adt/list/DictionaryTest.php';
 require_once 'Tests/adt/list/LevelMapTest.php';
 require_once 'Tests/adt/list/LinkListTest.php';
 require_once 'Tests/adt/list/SectionListTest.php';
+require_once 'Tests/adt/list/StackTest.php';
+require_once 'Tests/adt/list/QueueTest.php';
 class Tests_ADT_List_AllTests
 {
 	public static function main()
@@ -23,6 +25,8 @@ class Tests_ADT_List_AllTests
 		$suite->addTestSuite('Tests_ADT_List_LevelMapTest'); 
 		$suite->addTestSuite('Tests_ADT_List_LinkListTest'); 
 		$suite->addTestSuite('Tests_ADT_List_SectionListTest'); 
+		$suite->addTestSuite('Tests_ADT_List_StackTest'); 
+		$suite->addTestSuite('Tests_ADT_List_QueueTest'); 
 		return $suite;
 	}
 }

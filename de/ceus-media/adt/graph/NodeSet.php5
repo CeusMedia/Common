@@ -16,21 +16,21 @@ import( "de.ceus-media.adt.graph.Node");
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.2
  */
-class NodeSet
+class ADT_Graph_NodeSet implements Countable
 {
-	/**	@var	array	$nodes		array of all Nodes */
+	/**	@var		array			$nodes			array of all Nodes */
  	protected $nodes = array();
 
 	/**
 	 *	Adds a new Node and returns reference of this Node.
 	 *	@access		public
-	 *	@param		string		$nodeName		Name of the new Node
-	 *	@param		string		$nodeValue		Value of the new Node
-	 *	@return 	Node
+	 *	@param		string			$nodeName		Name of the new Node
+	 *	@param		string			$nodeValue		Value of the new Node
+	 *	@return 	ADT_Graph_Node
 	 */
 	public function addNode( $nodeName, $nodeValue = false )
 	{
-		$newNode = new Node( $nodeName, $nodeValue );
+		$newNode = new ADT_Graph_Node( $nodeName, $nodeValue );
 		if( !$this->isNode( $newNode ) )
 		{
 			$this->nodes[] = $newNode;
@@ -43,7 +43,7 @@ class NodeSet
 	/**
 	 *	Returns first Node of this NodeSet.
 	 *	@access		public
-	 *	@return 	Node
+	 *	@return 	ADT_Graph_Node
 	 */
 	public function getFirstNode()
 	{
@@ -54,7 +54,7 @@ class NodeSet
 	/**
 	 *	Returns last Node of this NodeSet.
 	 *	@access		public
-	 *	@return 	Node
+	 *	@return 	ADT_Graph_Node
 	 */
 	public function getLastNode()
 	{
@@ -65,8 +65,8 @@ class NodeSet
 	/**
 	 *	Returns a Node of this NodeSet.
 	 *	@access		public
-	 *	@param		string		$node			Name of the new Node
-	 *	@return 	Node
+	 *	@param		string				$node			Name of the new Node
+	 *	@return 	ADT_Graph_Node
 	 */
 	public function getNode( $node )
 	{
@@ -77,7 +77,7 @@ class NodeSet
 	/**
 	 *	Returns index of a node in this NodeSet.
 	 *	@access		private
-	 *	@param		Node		$node			Node to get index for
+	 *	@param		ADT_Graph_Node		$node			Node to get index for
 	 *	@return 	int
 	 */
 	private function getNodeIndex( $node )
@@ -93,8 +93,8 @@ class NodeSet
 	/**
 	 *	Returns an array of all nodes in this NodeSet.
 	 *	@access		public
-	 *	@param		string		$nodeName		Name of the new Node
-	 *	@return 	Node
+	 *	@param		string				$nodeName		Name of the new Node
+	 *	@return 	ADT_Graph_Node
 	 */
 	public function getNodes()
 	{
@@ -106,40 +106,37 @@ class NodeSet
 	 *	@access		public
 	 *	@return 	int
 	 */
-	public function getNodeSize()
+	public function count()
 	{
-		return sizeof( $this->getNodes() );
+		return count( $this->getNodes() );
 	}
 
 	/**
 	 *	Indicates whether a Node is existing in this NodeSet.
 	 *	@access		public
-	 *	@param		Node		$node			Node to be searched for
+	 *	@param		ADT_Graph_Node		$node			Node to be searched for
 	 *	@return 	bool
 	 */
 	public function isNode( $node )
 	{
 		foreach( $this->nodes as $_node )
-		{
 			if( $_node == $node )
-				return true;
-		}
+				return TRUE;
 	}
 
 	/**
 	 *	Removing a node.
 	 *	@access		public
-	 *	@param		Node		$node			Node to be removed
+	 *	@param		ADT_Graph_Node		$node			Node to be removed
 	 *	@return 	void
 	 */
 	public function removeNode( $node )
 	{
-		if( $this->isNode( $node ) )
-		{
-			$index = $this->getNodeIndex( $node );
-			unset( $this->nodes[$index] );
-			sort( $this->nodes );
-		}
+		if( !$this->isNode( $node ) )
+			throw new Exception( 'Edge is not existing.' );
+		$index = $this->getNodeIndex( $node );
+		unset( $this->nodes[$index] );
+		sort( $this->nodes );
 	}
 }
 ?>

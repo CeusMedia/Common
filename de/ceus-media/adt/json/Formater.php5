@@ -1,7 +1,7 @@
 <?php
 /**
  *	Formats JSON String.
- *	@package			ADT_JSON
+ *	@package			adt_json
  *	@author				Umbrae <umbrae@gmail.com>
  *	@author				Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since				10.01.2008
@@ -9,7 +9,7 @@
  */
 /**
  *	Formats JSON String.
- *	@package			ADT_JSON
+ *	@package			adt_json
  *	@author				Umbrae <umbrae@gmail.com>
  *	@author				Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since				10.01.2008

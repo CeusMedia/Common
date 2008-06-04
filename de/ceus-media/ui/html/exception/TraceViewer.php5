@@ -113,7 +113,7 @@ class UI_HTML_Exception_TraceViewer
 								$arg	.= strlen( $value ) <= 78 ? '"'.$value.'"' : '"'.substr( $value, 0, 75 ).'..."';
 								break;
 							case 'array':
-								$arg	.= self::convertArrayToString( $argument, $breakMode );
+								$arg	.= "array";#self::convertArrayToString( $argument, $breakMode );
 								break;
 							case 'object':
 								$arg	.= get_class( $argument );

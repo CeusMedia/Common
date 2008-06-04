@@ -3,22 +3,22 @@
  *	Edge in a graph
  *	@package		adt.graph
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version		0.2
+ *	@version		0.6
  */
 /**
  *	Edge in a graph
  *	@package		adt.graph
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version		0.2
+ *	@version		0.6
  */
-class Edge
+class ADT_Graph_Edge
 {
-	/**	@var	Node	$sourceNode		Source Node of Edge */
+	/**	@var		ADT_Graph_Node		$sourceNode		Source Node of Edge */
  	protected $sourceNode;
-	/**	@var	Node	$targetNode		Target Node of Edge */
+	/**	@var		ADT_Graph_Node		$targetNode		Target Node of Edge */
 	protected $targetNode;
-	/**	@var	int		$edgeValue		Value of Edge */
-	protected $edgeValue		= 1;
+	/**	@var		int					$edgeValue		Value of Edge */
+	protected $edgeValue				= 1;
 
 	/**
 	 *	Constructor.
@@ -34,9 +34,8 @@ class Edge
 
 	/**
 	 *	Setting the Value of this Edge.
-	 *
 	 *	@access		public
-	 *	@param		int		$edgeValue		Value of this Edge
+	 *	@param		int					$edgeValue		Value of this Edge
 	 *	@return		void
 	 */
 	public function setEdgeValue( $edgeValue )
@@ -46,9 +45,8 @@ class Edge
 
 	/**
 	 *	Setting the Source Node of this Edge.
-	 *
 	 *	@access		public
-	 *	@param		Node	$sourceNode		Source Node of this Edge
+	 *	@param		ADT_Graph_Node		$sourceNode		Source Node of this Edge
 	 *	@return		void
 	 */
 	public function setSourceNode( $sourceNode )
@@ -58,9 +56,8 @@ class Edge
 
 	/**
 	 *	Setting the Target Node of this Edge.
-	 *
 	 *	@access		public
-	 *	@param		Node	$targetNode		Target Node of this Edge
+	 *	@param		ADT_Graph_Node		$targetNode		Target Node of this Edge
 	 *	@return		void
 	 */
 	public function setTargetNode( $targetNode )
@@ -81,7 +78,7 @@ class Edge
 	/**
 	 *	Returns the Source Node of this Edge.
 	 *	@access		public
-	 *	@return		Node
+	 *	@return		ADT_Graph_Node
 	 */
 	public function getSourceNode()
 	{
@@ -91,7 +88,7 @@ class Edge
 	/**
 	 *	Returns the Target Node of this Edge.
 	 *	@access		public
-	 *	@return		Node
+	 *	@return		ADT_Graph_Node
 	 */
 	public function getTargetNode()
 	{

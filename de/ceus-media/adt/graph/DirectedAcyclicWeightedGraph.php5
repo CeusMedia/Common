@@ -1,5 +1,5 @@
 <?php
-import( 'de.ceus-media.adt.graph.DirectedGraph' );
+import( 'de.ceus-media.adt.graph.DirectedWeightedGraph' );
 /**
  *	Directed Acyclic Graph.
  *	@package		adt.graph
@@ -14,7 +14,7 @@ import( 'de.ceus-media.adt.graph.DirectedGraph' );
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.3
  */
-class DirectedAcyclicWeightedGraph extends DirectedWeightedGraph
+class ADT_Graph_DirectedAcyclicWeightedGraph extends ADT_Graph_DirectedWeightedGraph
 {
 	/**
 	 *	Adds an Edge and returns the reference on the new Edge.

@@ -11,7 +11,7 @@
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.2
  */
-class Node
+class ADT_Graph_Node
 {
 	/**	@var	string		$nodeName 		Name of this Node */
 	protected $nodeName;

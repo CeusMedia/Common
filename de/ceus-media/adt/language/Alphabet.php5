@@ -29,22 +29,22 @@ class ADT_Language_Alphabet extends Set
 	/**
 	 *	Adds a Sign to the Alphabet.
 	 *	@access		public
-	 *	@param		Sign		$sign		Sign to be added
+	 *	@param		ADT_Language_Sign		$sign		Sign to be added
 	 *	@return		void
 	 */
 	public function addSign ($sign)
 	{
-		if( !( $sign && is_object( $sign ) && $sign->getClass() == "ADT_Language_Sign" ) )
+		if( !( $sign && is_object( $sign ) && is_a( $sign, "ADT_Language_Sign" ) )
 			throw new InvalidArgumentException( 'Data Type of  Sign must be "ADT_Language_Sign".' );
 		if( $this->hasSign( $sign ) )
 			throw new InvalidArgumentException( 'Sign "'.$sign->getSign ().'" is already in Sign Set.' );
-		$this->add ($sign);
+		$this->add( $sign );
 	}
 	
 	/**
 	 *	Indicates wheter a Sign is in the Alphabet.
 	 *	@access		public
-	 *	@param		Sign		$sign		Sign to be proved
+	 *	@param		ADT_Language_Sign		$sign		Sign to be proved
 	 *	@return		bool
 	 */
 	public function hasSign( $sign )
