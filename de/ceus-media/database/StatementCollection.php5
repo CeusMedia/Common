@@ -109,6 +109,7 @@ class Database_StatementCollection
 	 */
 	public function Order( $data )
 	{
+		remark( "deprecated: ".__METHOD__.":".__LINE__ );
 		if( !is_array( $data ) )
 			throw new InvalidArgumentException( 'Orders must be given as List of Column and Direction.' );
 		$column		= $data[0];

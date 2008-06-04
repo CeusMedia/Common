@@ -117,54 +117,16 @@ class Tests_Database_StatementCollectionTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 *	Tests Method 'Limit'.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function testLimit()
-	{
-		$this->collection->Limit( array( 10, 20 ) );
-		$assertion	= array(
-			'offset'	=> 10,
-			'rows'		=> 20,
-		);
-		$creation	= $this->builder->getProtectedVar( 'limits' );
-		$this->assertEquals( $assertion, $creation );
-	}
-
-	/**
-	 *	Tests Exception of Method 'Limit'.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function testLimitException()
-	{
-		$this->setExpectedException( 'InvalidArgumentException' );
-		$this->collection->Limit( "not_an_array" );
-	}
-
-	/**
 	 *	Tests Method 'Order'.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testOrder()
+	public function testOrderBy()
 	{
-		$this->collection->Order( array( "key1", "ASC" ) );
+		$this->collection->orderBy( "key1", "ASC" );
 		$assertion	= array( 'key1' => "ASC" );
 		$creation	= $this->builder->getProtectedVar( 'orders' );
 		$this->assertEquals( $assertion, $creation );
-	}
-
-	/**
-	 *	Tests Exception of Method 'Order'.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function testOrderException()
-	{
-		$this->setExpectedException( 'InvalidArgumentException' );
-		$this->collection->Order( "not_an_array" );
 	}
 
 	/**
@@ -174,12 +136,22 @@ class Tests_Database_StatementCollectionTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testSetLimit()
 	{
-		$this->collection->setLimit( 10, 20 );
-		$assertion	= array(
-			'offset'	=> 10,
-			'rows'		=> 20,
-		);
-		$creation	= $this->builder->getProtectedVar( 'limits' );
+		$this->collection->setLimit( 10 );
+		$assertion	= 10;
+		$creation	= $this->builder->getProtectedVar( 'limit' );
+		$this->assertEquals( $assertion, $creation );
+	}
+
+	/**
+	 *	Tests Method 'setOffset'.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testSetOffset()
+	{
+		$this->collection->setOffset( 20 );
+		$assertion	= 20;
+		$creation	= $this->builder->getProtectedVar( 'offset' );
 		$this->assertEquals( $assertion, $creation );
 	}
 }

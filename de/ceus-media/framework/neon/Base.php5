@@ -2,6 +2,7 @@
 import( 'de.ceus-media.adt.Reference' );
 import( 'de.ceus-media.StopWatch' );
 import( 'de.ceus-media.net.http.request.Receiver' );
+import( 'de.ceus-media.net.http.request.Response' );
 import( 'de.ceus-media.framework.neon.Messenger' );
 /**
  *	Basic Framework Instance.
@@ -9,6 +10,7 @@ import( 'de.ceus-media.framework.neon.Messenger' );
  *	@uses			ADT_Reference
  *	@uses			StopWatch
  *	@uses			Net_HTTP_Request_Receiver
+ *	@uses			Net_HTTP_Request_Response
  *	@uses			Framework_Neon_Messenger
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			01.12.2005
@@ -20,6 +22,7 @@ import( 'de.ceus-media.framework.neon.Messenger' );
  *	@uses			ADT_Reference
  *	@uses			StopWatch
  *	@uses			Net_HTTP_Request_Receiver
+ *	@uses			Net_HTTP_Request_Response
  *	@uses			Framework_Neon_Messenger
  *	@uses			InterfaceViews
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>

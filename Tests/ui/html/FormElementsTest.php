@@ -284,11 +284,11 @@ class Tests_UI_HTML_FormElementsTest extends PHPUnit_Framework_TestCase
 		$creation	= UI_HTML_FormElements::Radio( "testName", "testValue", TRUE, "testClass" );
 		$this->assertEquals( $assertion, $creation );
 
-		$assertion	= '<input id="testName_testValue" type="radio" name="testName" value="testValue" class="testClass" readonly="readonly"/>';
+		$assertion	= '<input id="testName_testValue" type="radio" name="testName" value="testValue" class="testClass" disabled="disabled" readonly="readonly"/>';
 		$creation	= UI_HTML_FormElements::Radio( "testName", "testValue", NULL, "testClass", TRUE );
 		$this->assertEquals( $assertion, $creation );
 
-		$assertion	= '<input id="testName_testValue" type="radio" name="testName" value="testValue" class="testClass" readonly="readonly" onclick="alert(\'testDisabled\');"/>';
+		$assertion	= '<input id="testName_testValue" type="radio" name="testName" value="testValue" class="testClass" disabled="disabled" readonly="readonly" onclick="alert(\'testDisabled\');"/>';
 		$creation	= UI_HTML_FormElements::Radio( "testName", "testValue", NULL, "testClass", "testDisabled" );
 		$this->assertEquals( $assertion, $creation );
 	}
@@ -307,6 +307,7 @@ class Tests_UI_HTML_FormElementsTest extends PHPUnit_Framework_TestCase
 		);
 		
 		$fieldRadio	= '<input id="testName_value1" type="radio" name="testName" value="value1" class="testClass"/>';
+		$fieldRadio	= UI_HTML_FormElements::Radio( 'testName', 'value1', FALSE, 'testClass' );
 		$spanRadio	= '<span class="radio">'.$fieldRadio.'</span>';
 		$spanLabel	= '<span class="label"><label for="testName_value1">label1</label></span>';
 		$assertion	= '<span class="radiolabel">'.$spanRadio.$spanLabel.'</span>';
@@ -321,7 +322,7 @@ class Tests_UI_HTML_FormElementsTest extends PHPUnit_Framework_TestCase
 
 
 		$options	= array( 'value1' => 'label1' );
-		$fieldRadio	= '<input id="testName_value1" type="radio" name="testName" value="value1" readonly="readonly" onclick="alert(\'testDisabled\');"/>';
+		$fieldRadio	= UI_HTML_FormElements::Radio( 'testName', 'value1', FALSE, NULL, 'testDisabled' );
 		$spanRadio	= '<span class="radio">'.$fieldRadio.'</span>';
 		$spanLabel	= '<span class="label"><label for="testName_value1">label1</label></span>';
 		$assertion	= '<span class="radiolabel">'.$spanRadio.$spanLabel.'</span>';

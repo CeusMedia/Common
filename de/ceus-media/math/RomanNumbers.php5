@@ -17,41 +17,30 @@ import ("de.ceus-media.ui.DevOutput");
 class Math_RomanNumbers
 {
 	/**	@var	array	$roman		Map of roman numbers and shortcut placeholders*/
-	protected $roman	= array ();
+	protected static $roman	= array(
+		"I"		=> 1,			"A"		=> 4,
+		"V"		=> 5,			"B"		=> 9,
+		"X"		=> 10,			"E"		=> 40,
+		"L"		=> 50,			"F"		=> 90,
+		"C"		=> 100,			"G"		=> 400,
+		"D"		=> 500,			"H"		=> 900,
+		"M"		=> 1000,		"J"		=> 4000,
+		"P"		=> 5000,		"K"		=> 9000,
+		"Q"		=> 10000,		"N"		=> 40000,
+		"R"		=> 50000,		"W"		=> 90000,
+		"S"		=> 100000,		"Y"		=> 400000,
+		"T"		=> 500000,		"Z"		=> 900000,
+		"U"		=> 1000000
+	);
 	/**	@var	array	$shorts		Map of shortcuts in roman number system */
-	protected $shorts	= array ();
-	
-	/**
-	 *	Constructor.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function __construct()
-	{
-		$this->roman	= array(
-			"I"		=> 1,			"A"		=> 4,
-			"V"		=> 5,			"B"		=> 9,
-			"X"		=> 10,			"E"		=> 40,
-			"L"		=> 50,			"F"		=> 90,
-			"C"		=> 100,			"G"		=> 400,
-			"D"		=> 500,			"H"		=> 900,
-			"M"		=> 1000,		"J"		=> 4000,
-			"P"		=> 5000,		"K"		=> 9000,
-			"Q"		=> 10000,		"N"		=> 40000,
-			"R"		=> 50000,		"W"		=> 90000,
-			"S"		=> 100000,		"Y"		=> 400000,
-			"T"		=> 500000,		"Z"		=> 900000,
-			"U"		=> 1000000);
-		$this->shorts	= array(
-			"A"	=> "IV",				"B"	=> "IX",
-			"E"	=> "XL",				"F"	=> "XC",
-			"G"	=> "CD",				"H"	=> "CM",
-			"J"	=> "MP",				"K"	=> "MQ",
-			"N"	=> "QR",				"W"	=> "QS",
-			"Y"	=> "ST",				"Z"	=> "SU"
-			);
-		arsort( $this->roman );
-	}
+	protected static $shorts	= array(
+		"A"	=> "IV",				"B"	=> "IX",
+		"E"	=> "XL",				"F"	=> "XC",
+		"G"	=> "CD",				"H"	=> "CM",
+		"J"	=> "MP",				"K"	=> "MQ",
+		"N"	=> "QR",				"W"	=> "QS",
+		"Y"	=> "ST",				"Z"	=> "SU"
+	);
 	
 	/**
 	 *	Converts and returns an arabian number as roman number.
@@ -59,14 +48,16 @@ class Math_RomanNumbers
 	 *	@param		int			$integer		Arabian number
 	 *	@return		string
 	 */
-	public function convertToRoman( $integer )
+	public static function convertToRoman( $integer )
 	{
+		arsort( self::$roman );
 		$roman = "";																		//  initiating roman number
 		if( is_numeric( $integer ) && $integer == round( $integer, 0 ) )					//  prove integer by cutting floats
 		{
 			while( $integer > 0 )
 			{
-				foreach( $this->roman as $key => $value )									//  all roman number starting with biggest
+				
+				foreach( self::$roman as $key => $value )									//  all roman number starting with biggest
 				{
 					if( $integer >= $value )												//  current roman number is in integer
 					{
@@ -76,8 +67,8 @@ class Math_RomanNumbers
 					}
 				}
 			}
-			$keys	= array_keys( $this->shorts );
-			$values	= array_values( $this->shorts );
+			$keys	= array_keys( self::$shorts );
+			$values	= array_values( self::$shorts );
 			$roman	= str_replace( $keys, $values, $roman );								//  realize shortcuts
 			return $roman;
 		}

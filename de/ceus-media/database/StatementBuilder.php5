@@ -29,8 +29,10 @@ class Database_StatementBuilder
 	protected $havings			= array();
 	/**	@var		array		$orders			Array of Order Conditions */	
 	protected $orders			= array();
-	/**	@var		array		$limits 		Array of Limit Conditions */	
-	protected $limits			= array();
+	/**	@var		array		$limit 			Limit Value */	
+	protected $limit			= 0;
+	/**	@var		array		$string 		Offset Value */	
+	protected $offset			= 0;
 	/**	@var		string		$prefix			Prefix of Tables */	
 	protected $prefix			= "";
 
@@ -274,7 +276,7 @@ class Database_StatementBuilder
 		$conditions	= "";
 		$groupings	= "";
 		$havings	= "";
-		$limits		= "";
+		$limit		= "";
 
 		if( $this->conditions )
 			$conditions	= "\nWHERE\n\t".implode( " AND\n\t", $this->conditions );
@@ -290,13 +292,13 @@ class Database_StatementBuilder
 				$orders[] = $column." ".$direction;			
 			$orders		= "\nORDER BY\n\t".implode( ",\n\t", $orders );
 		}
-		if( count( $this->limits ) && isset( $this->limits['rows'] ) )
+		if( $this->limit )
 		{
-			$limits = "\nLIMIT ".$this->limits['rows'];
-			if( isset( $this->limits['offset'] ) )
-				$limits .= "\nOFFSET ".$this->limits['offset'];
+			$limit = "\nLIMIT ".$this->limit;
+			if( $this->offset )
+				$limit .= "\nOFFSET ".$this->offset;
 		}		
-		$statement = $keys.$tables.$conditions.$groupings.$havings.$orders.$limits;
+		$statement = $keys.$tables.$conditions.$groupings.$havings.$orders.$limit;
 		return $statement;
 	}
 
@@ -329,7 +331,7 @@ class Database_StatementBuilder
 	public function setLimit( $rowCount )
 	{
 		if( $rowCount > 0 )
-			$this->limits['rows']	= (int) $rowCount;
+			$this->limit	= (int) $rowCount;
 	}
 	
 	/**
@@ -340,7 +342,7 @@ class Database_StatementBuilder
  	 */	
 	public function setOffset( $offset )
 	{
-		$this->limits['offset']	= (int) $offset;
+		$this->offset	= (int) $offset;
 	}
 }
 ?>
