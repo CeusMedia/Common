@@ -5,6 +5,7 @@ if( !defined( 'PHPUnit_MAIN_METHOD' ) )
 require_once( 'PHPUnit/Framework/TestSuite.php' );
 require_once( 'PHPUnit/TextUI/TestRunner.php' );
 require_once( 'Tests/net/http/AllTests.php' );
+require_once( 'Tests/net/service/AllTests.php' );
 require_once( 'Tests/net/ReaderTest.php' );
 class Tests_Net_AllTests
 {
@@ -17,6 +18,7 @@ class Tests_Net_AllTests
 	{
 		$suite = new PHPUnit_Framework_TestSuite( 'ClassContainer/Net' );
 		$suite->addTest( Tests_Net_HTTP_AllTests::suite() );
+		$suite->addTest( Tests_Net_Service_AllTests::suite() );
 		$suite->addTestSuite( 'Tests_Net_ReaderTest' );
 		return $suite;
 	}

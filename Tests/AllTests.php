@@ -11,7 +11,6 @@ require_once( 'Tests/file/AllTests.php' );
 require_once( 'Tests/folder/AllTests.php' );
 require_once( 'Tests/framework/AllTests.php' );
 require_once( 'Tests/net/AllTests.php' );
-require_once( 'Tests/service/AllTests.php' );
 require_once( 'Tests/ui/AllTests.php' );
 require_once( 'Tests/xml/AllTests.php' );
 
