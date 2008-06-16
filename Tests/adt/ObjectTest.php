@@ -45,7 +45,6 @@ class Tests_ADT_ObjectTest extends PHPUnit_Framework_TestCase
 		$this->vars	= array(
 			'publicVar'		=> FALSE,
 			'protectedVar'	=> FALSE,
-			'privateVar'	=> FALSE,
 		);
 	}
 	

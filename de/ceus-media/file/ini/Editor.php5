@@ -250,6 +250,7 @@ class File_INI_Editor extends File_INI_Reader
 			throw new RuntimeException( 'Sections are not used.' );
 		if( !$this->hasSection( $section ) )
 			throw new InvalidArgumentException( 'Section "'.$section.'" is not existing.' );
+		$index	= array_search( $section, $this->sections);
 		unset( $this->sections[$index] );
 		return is_int( $this->write() );
 	}
@@ -298,7 +299,7 @@ class File_INI_Editor extends File_INI_Reader
 		}
 		else
 		{
-			if( $this->hasSection( $section ) && $this->hasProperty( $key ) )
+			if( $this->hasProperty( $key ) )
 				$this->properties[$key] = $value;
 			else
 				$this->addProperty( $key, $value, FALSE, TRUE );
@@ -339,7 +340,7 @@ class File_INI_Editor extends File_INI_Reader
 				}
 				$currentSection =  substr( trim( $line ), 1, -1 );
 				if( !in_array( $currentSection, $this->sections ) )
-					unset( $line );
+					continue;
 			}
 			else if( eregi( $this->propertyPattern, $line ) )
 			{
