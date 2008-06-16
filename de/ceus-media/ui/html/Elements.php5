@@ -95,6 +95,20 @@ class UI_HTML_Elements extends UI_HTML_FormElements
 		return $code;
 	}
 
+	public static function MailLink( $address, $label, $class = "mail", $crypt = TRUE )
+	{
+		if( $crypt )
+		{
+			$crypt	= $address;
+			$crypt	= str_replace( "@", " (at) ", $crypt );
+			$crypt	= str_replace( ".", " [dot] ", $crypt );
+
+			return '<span class="'.$class.'"><span class="mailAddress">'.$crypt.'</span><span class="mailName">'.$label.'</span></span>';
+		}
+		else
+			return self::Link( "mailto:".$address, $label, $class );
+	}
+
 	/**
 	 *	@todo	Signature Documentation
 	 */

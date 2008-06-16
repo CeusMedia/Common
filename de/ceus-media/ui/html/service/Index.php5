@@ -1,9 +1,9 @@
 <?php
-import( 'de.ceus-media.service.Handler' );
+import( 'de.ceus-media.net.service.Handler' );
 /**
  *	Service Handler which indexes with HTML Output.
  *	@package		ui.html.service
- *	@extends		Service_Handler
+ *	@extends		Net_Service_Handler
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			18.06.2007
  *	@version		0.2
@@ -11,12 +11,12 @@ import( 'de.ceus-media.service.Handler' );
 /**
  *	Service Handler which indexes with HTML Output.
  *	@package		ui.html.service
- *	@extends		Service_Handler
+ *	@extends		Net_Service_Handler
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			18.06.2007
  *	@version		0.2
  */
-class UI_HTML_Service_Index extends Service_Handler
+class UI_HTML_Service_Index extends Net_Service_Handler
 {
 	/**	@param		array				List of available Response Formats */
 	protected $formats		= array();
