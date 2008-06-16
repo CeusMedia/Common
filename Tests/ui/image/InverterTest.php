@@ -22,11 +22,23 @@ import( 'de.ceus-media.ui.image.Inverter' );
  */
 class Tests_UI_Image_InverterTest extends PHPUnit_Framework_TestCase
 {
+	public function __construct()
+	{
+		$this->path	= dirname( __FILE__ )."/";
+	}
+	
+	public function tearDown()
+	{
+		@unlink( $this->path."targetInverter.gif" );
+		@unlink( $this->path."targetInverter.png" );
+		@unlink( $this->path."targetInverter.jpg" );
+	}
+
 	public function testInvertGif()
 	{
-		$assertFile	= "Tests/ui/image/assertInverter.gif";
-		$sourceFile	= "Tests/ui/image/sourceInverter.gif";
-		$targetFile	= "Tests/ui/image/targetInverter.gif";
+		$assertFile	= $this->path."assertInverter.gif";
+		$sourceFile	= $this->path."sourceInverter.gif";
+		$targetFile	= $this->path."targetInverter.gif";
 		if( file_exists( $targetFile ) )
 			unlink( $targetFile );
 		
@@ -44,9 +56,9 @@ class Tests_UI_Image_InverterTest extends PHPUnit_Framework_TestCase
 
 	public function testInvertJpg()
 	{
-		$assertFile	= "Tests/ui/image/assertInverter.jpg";
-		$sourceFile	= "Tests/ui/image/sourceInverter.jpg";
-		$targetFile	= "Tests/ui/image/targetInverter.jpg";
+		$assertFile	= $this->path."assertInverter.jpg";
+		$sourceFile	= $this->path."sourceInverter.jpg";
+		$targetFile	= $this->path."targetInverter.jpg";
 		if( file_exists( $targetFile ) )
 			unlink( $targetFile );
 		
@@ -64,9 +76,9 @@ class Tests_UI_Image_InverterTest extends PHPUnit_Framework_TestCase
 
 	public function testInvertPng()
 	{
-		$assertFile	= "Tests/ui/image/assertInverter.png";
-		$sourceFile	= "Tests/ui/image/sourceInverter.png";
-		$targetFile	= "Tests/ui/image/targetInverter.png";
+		$assertFile	= $this->path."assertInverter.png";
+		$sourceFile	= $this->path."sourceInverter.png";
+		$targetFile	= $this->path."targetInverter.png";
 		if( file_exists( $targetFile ) )
 			unlink( $targetFile );
 		

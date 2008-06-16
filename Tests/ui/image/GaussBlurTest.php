@@ -22,11 +22,23 @@ import( 'de.ceus-media.ui.image.GaussBlur' );
  */
 class Tests_UI_Image_GaussBlurTest extends PHPUnit_Framework_TestCase
 {
+	public function __construct()
+	{
+		$this->path	= dirname( __FILE__ )."/";
+	}
+	
+	public function tearDown()
+	{
+		@unlink( $this->path."targetGauss.gif" );
+		@unlink( $this->path."targetGauss.png" );
+		@unlink( $this->path."targetGauss.jpg" );
+	}
+
 	public function testBlurGif()
 	{
-		$assertFile	= "Tests/ui/image/assertGauss.gif";
-		$sourceFile	= "Tests/ui/image/sourceGauss.gif";
-		$targetFile	= "Tests/ui/image/targetGauss.gif";
+		$assertFile	= $this->path."assertGauss.gif";
+		$sourceFile	= $this->path."sourceGauss.gif";
+		$targetFile	= $this->path."targetGauss.gif";
 		if( file_exists( $targetFile ) )
 			unlink( $targetFile );
 		
@@ -44,9 +56,9 @@ class Tests_UI_Image_GaussBlurTest extends PHPUnit_Framework_TestCase
 
 	public function testBlurJpg()
 	{
-		$assertFile	= "Tests/ui/image/assertGauss.jpg";
-		$sourceFile	= "Tests/ui/image/sourceGauss.jpg";
-		$targetFile	= "Tests/ui/image/targetGauss.jpg";
+		$assertFile	= $this->path."assertGauss.jpg";
+		$sourceFile	= $this->path."sourceGauss.jpg";
+		$targetFile	= $this->path."targetGauss.jpg";
 		if( file_exists( $targetFile ) )
 			unlink( $targetFile );
 		
@@ -64,9 +76,9 @@ class Tests_UI_Image_GaussBlurTest extends PHPUnit_Framework_TestCase
 
 	public function testBlurPng()
 	{
-		$assertFile	= "Tests/ui/image/assertGauss.png";
-		$sourceFile	= "Tests/ui/image/sourceGauss.png";
-		$targetFile	= "Tests/ui/image/targetGauss.png";
+		$assertFile	= $this->path."assertGauss.png";
+		$sourceFile	= $this->path."sourceGauss.png";
+		$targetFile	= $this->path."targetGauss.png";
 		if( file_exists( $targetFile ) )
 			unlink( $targetFile );
 		

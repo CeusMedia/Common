@@ -22,15 +22,30 @@ import( 'de.ceus-media.ui.image.ThumbnailCreator' );
  */
 class Tests_UI_Image_ThumbnailCreatorTest extends PHPUnit_Framework_TestCase
 {
-	protected $assertFile	= "Tests/ui/image/assertThumbnail.png";
-	protected $sourceFile	= "Tests/ui/image/sourceThumbnail.png";
-	protected $targetFile	= "Tests/ui/image/targetThumbnail.png";	
+	protected $assertFile;
+	protected $sourceFile;
+	protected $targetFile;
+
+	public function __construct()
+	{
+		$this->path	= dirname( __FILE__ )."/";
+		$this->assertFile	= $this->path."assertThumbnail.png";
+		$this->sourceFile	= $this->path."sourceThumbnail.png";
+		$this->targetFile	= $this->path."targetThumbnail.png";	
+	}
+	
+	public function tearDown()
+	{
+		@unlink( $this->path."targetThumbnail.gif" );
+		@unlink( $this->path."targetThumbnail.png" );
+		@unlink( $this->path."targetThumbnail.jpg" );
+	}
 
 	public function testThumbizeGif()
 	{
-		$assertFile	= "Tests/ui/image/assertThumbnail.gif";
-		$sourceFile	= "Tests/ui/image/sourceThumbnail.gif";
-		$targetFile	= "Tests/ui/image/targetThumbnail.gif";
+		$assertFile	= $this->path."assertThumbnail.gif";
+		$sourceFile	= $this->path."sourceThumbnail.gif";
+		$targetFile	= $this->path."targetThumbnail.gif";
 
 		if( file_exists( $targetFile ) )
 			unlink( $targetFile );
@@ -49,9 +64,9 @@ class Tests_UI_Image_ThumbnailCreatorTest extends PHPUnit_Framework_TestCase
 
 	public function testThumbizeJpg()
 	{
-		$assertFile	= "Tests/ui/image/assertThumbnail.jpg";
-		$sourceFile	= "Tests/ui/image/sourceThumbnail.jpg";
-		$targetFile	= "Tests/ui/image/targetThumbnail.jpg";
+		$assertFile	= $this->path."assertThumbnail.jpg";
+		$sourceFile	= $this->path."sourceThumbnail.jpg";
+		$targetFile	= $this->path."targetThumbnail.jpg";
 
 		if( file_exists( $targetFile ) )
 			unlink( $targetFile );
@@ -70,9 +85,9 @@ class Tests_UI_Image_ThumbnailCreatorTest extends PHPUnit_Framework_TestCase
 
 	public function testThumbizePng()
 	{
-		$assertFile	= "Tests/ui/image/assertThumbnail.png";
-		$sourceFile	= "Tests/ui/image/sourceThumbnail.png";
-		$targetFile	= "Tests/ui/image/targetThumbnail.png";
+		$assertFile	= $this->path."assertThumbnail.png";
+		$sourceFile	= $this->path."sourceThumbnail.png";
+		$targetFile	= $this->path."targetThumbnail.png";
 
 		if( file_exists( $targetFile ) )
 			unlink( $targetFile );

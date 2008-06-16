@@ -9,6 +9,9 @@ require_once( 'Tests/ui/image/ThumbnailCreatorTest.php' );
 require_once( 'Tests/ui/image/MedianBlurTest.php' );
 require_once( 'Tests/ui/image/GaussBlurTest.php' );
 require_once( 'Tests/ui/image/InverterTest.php' );
+require_once( 'Tests/ui/image/CreatorTest.php' );
+require_once( 'Tests/ui/image/ErrorTest.php' );
+require_once( 'Tests/ui/image/PrinterTest.php' );
 class Tests_UI_Image_AllTests
 {
 	public static function main()
@@ -25,6 +28,9 @@ class Tests_UI_Image_AllTests
 		$suite->addTestSuite( 'Tests_UI_Image_MedianBlurTest' ); 
 		$suite->addTestSuite( 'Tests_UI_Image_GaussBlurTest' ); 
 		$suite->addTestSuite( 'Tests_UI_Image_InverterTest' ); 
+		$suite->addTestSuite( 'Tests_UI_Image_CreatorTest' ); 
+		$suite->addTestSuite( 'Tests_UI_Image_ErrorTest' ); 
+		$suite->addTestSuite( 'Tests_UI_Image_PrinterTest' ); 
 		return $suite;
 	}
 }

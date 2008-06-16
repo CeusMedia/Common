@@ -22,11 +22,23 @@ import( 'de.ceus-media.ui.image.MedianBlur' );
  */
 class Tests_UI_Image_MedianBlurTest extends PHPUnit_Framework_TestCase
 {
+	public function __construct()
+	{
+		$this->path	= dirname( __FILE__ )."/";
+	}
+	
+	public function tearDown()
+	{
+		@unlink( $this->path."targetMedian.gif" );
+		@unlink( $this->path."targetMedian.png" );
+		@unlink( $this->path."targetMedian.jpg" );
+	}
+
 	public function testBlurGif()
 	{
-		$assertFile	= "Tests/ui/image/assertMedian.gif";
-		$sourceFile	= "Tests/ui/image/sourceMedian.gif";
-		$targetFile	= "Tests/ui/image/targetMedian.gif";
+		$assertFile	= $this->path."assertMedian.gif";
+		$sourceFile	= $this->path."sourceMedian.gif";
+		$targetFile	= $this->path."targetMedian.gif";
 		if( file_exists( $targetFile ) )
 			unlink( $targetFile );
 		
@@ -44,9 +56,9 @@ class Tests_UI_Image_MedianBlurTest extends PHPUnit_Framework_TestCase
 
 	public function testBlurJpg()
 	{
-		$assertFile	= "Tests/ui/image/assertMedian.jpg";
-		$sourceFile	= "Tests/ui/image/sourceMedian.jpg";
-		$targetFile	= "Tests/ui/image/targetMedian.jpg";
+		$assertFile	= $this->path."assertMedian.jpg";
+		$sourceFile	= $this->path."sourceMedian.jpg";
+		$targetFile	= $this->path."targetMedian.jpg";
 		if( file_exists( $targetFile ) )
 			unlink( $targetFile );
 		
@@ -64,9 +76,9 @@ class Tests_UI_Image_MedianBlurTest extends PHPUnit_Framework_TestCase
 
 	public function testBlurPng()
 	{
-		$assertFile	= "Tests/ui/image/assertMedian.png";
-		$sourceFile	= "Tests/ui/image/sourceMedian.png";
-		$targetFile	= "Tests/ui/image/targetMedian.png";
+		$assertFile	= $this->path."assertMedian.png";
+		$sourceFile	= $this->path."sourceMedian.png";
+		$targetFile	= $this->path."targetMedian.png";
 		if( file_exists( $targetFile ) )
 			unlink( $targetFile );
 		
