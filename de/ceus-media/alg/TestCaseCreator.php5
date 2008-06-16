@@ -1,12 +1,12 @@
 <?php
 import( 'de.ceus-media.folder.Editor' );
-import( 'de.ceus-media.folder.RecursiveNamePatternFinder' );
+import( 'de.ceus-media.folder.RecursiveRegexFilter' );
 /**
  *	Created Test Class for PHP Unit Tests using Class Parser and two Templates.
  *	@package		alg
  *	@uses			UI_ClassParser
  *	@uses			Folder_Editor
- *	@uses			Folder_RecursiveNamePatternFinder
+ *	@uses			Folder_RecursiveRegexFilter
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.1
  */
@@ -15,7 +15,7 @@ import( 'de.ceus-media.folder.RecursiveNamePatternFinder' );
  *	@package		alg
  *	@uses			UI_ClassParser
  *	@uses			Folder_Editor
- *	@uses			Folder_RecursiveNamePatternFinder
+ *	@uses			Folder_RecursiveRegexFilter
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.1
  */
@@ -79,8 +79,8 @@ class TestCaseCreator
 		$fullPath	= "de/ceus-media/".str_replace( "_", "/", $path )."/";		
 		if( file_exists( $fullPath ) && is_dir( $fullPath ) )
 		{
-			$index	= new Folder_RecursiveNamePatternFinder( $fullPath, "@\.php5$@i", TRUE, FALSE );
-			foreach( $index as $entry )
+			$filter	= new Folder_RecursiveRegexFilter( $fullPath, "@\.php5$@i", TRUE, FALSE );
+			foreach( $filter as $entry )
 			{
 				$counter++;
 				$className	= $entry->getPathname();

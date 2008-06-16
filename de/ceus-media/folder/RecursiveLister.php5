@@ -7,9 +7,9 @@ import( 'de.ceus-media.folder.Lister' );
  *	It is possible to hide Folders or Files from the List.
  *	Folders starting with a Dot can be stripped from the List.
  *	@package		folder
- *	@extends		Folder_List
- *	@uses			Folder_RecursiveNamePatternFinder
- *	@uses			Folder_RecursiveIndexer
+ *	@extends		Folder_Lister
+ *	@uses			Folder_RecursiveRegexFilter
+ *	@uses			Folder_RecursiveIterator
  *	@author			Christian Würker <Christian.Wuerker@Ceus-Media.de>
  *	@since			15.04.2008
  *	@version		0.6a
@@ -21,9 +21,9 @@ import( 'de.ceus-media.folder.Lister' );
  *	It is possible to hide Folders or Files from the List.
  *	Folders starting with a Dot can be stripped from the List.
  *	@package		folder
- *	@extends		Folder_List
- *	@uses			Folder_RecursiveNamePatternFinder
- *	@uses			Folder_RecursiveIndexer
+ *	@extends		Folder_Lister
+ *	@uses			Folder_RecursiveRegexFilter
+ *	@uses			Folder_RecursiveIterator
  *	@author			Christian Würker <Christian.Wuerker@Ceus-Media.de>
  *	@since			15.04.2008
  *	@version		0.6a
@@ -39,15 +39,11 @@ class Folder_RecursiveLister extends Folder_Lister
 	{
 		if( $this->pattern )
 		{
-			import( 'de.ceus-media.folder.RecursiveNamePatternFinder' );
-			$finder	= new Folder_RecursiveNamePatternFinder( $this->path, $this->pattern, $this->showFiles, $this->showFolders, $this->stripDotFolders );
+			import( 'de.ceus-media.folder.RecursiveRegexFilter' );
+			return new Folder_RecursiveRegexFilter( $this->path, $this->pattern, $this->showFiles, $this->showFolders, $this->stripDotFolders );
 		}
-		else
-		{
-			import( 'de.ceus-media.folder.RecursiveIndexer' );
-			$finder	= new Folder_RecursiveIndexer( $this->path, $this->showFiles, $this->showFolders, $this->stripDotFolders );
-		}
-		return $finder;
+		import( 'de.ceus-media.folder.RecursiveIterator' );
+		return new Folder_RecursiveIterator( $this->path, $this->showFiles, $this->showFolders, $this->stripDotFolders );
 	}
 
 	/**

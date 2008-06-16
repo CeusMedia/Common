@@ -86,8 +86,8 @@ class Folder_Editor extends Folder_Reader
 		else if( !self::isFolder( $targetFolder ) )											//  Target Folder is not existing
 			$count	+= (int) self::createFolder( $targetFolder );							//  create TargetFolder and count
 
-		import( 'de.ceus-media.folder.Indexer' );
-		$index	= new Folder_Indexer( $sourceFolder, TRUE, TRUE, $skipDotFolders );			//  Index of Source Folder
+		import( 'de.ceus-media.folder.Iterator' );
+		$index	= new Folder_Iterator( $sourceFolder, TRUE, TRUE, $skipDotFolders );		//  Index of Source Folder
 		foreach( $index as $entry )														
 		{
 			if( $entry->isDot() )															//  Dot Folders

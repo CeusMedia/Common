@@ -4,7 +4,7 @@
  *	@package		Tests.folder
  *	@extends		Tests_Folder_TestCase
  *	@uses			Folder_RecursiveLister
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian WÃ¼rker <Christian.Wuerker@CeuS-Media.de>
  *	@since			21.04.2008
  *	@version		0.1
  */
@@ -15,7 +15,7 @@ import( 'de.ceus-media.folder.RecursiveLister' );
  *	@package		Tests.folder
  *	@extends		Tests_Folder_TestCase
  *	@uses			Folder_RecursiveLister
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian WÃ¼rker <Christian.Wuerker@CeuS-Media.de>
  *	@since			21.04.2008
  *	@version		0.1
  */

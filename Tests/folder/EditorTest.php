@@ -42,6 +42,7 @@ class Tests_Folder_EditorTest extends Tests_Folder_TestCase
 	public function setUp()
 	{
 		$this->editor	= new Folder_Editor( $this->folder );
+		$this->tearDown();
 	}
 	
 	public function tearDown()

@@ -1,4 +1,5 @@
 <?php
+import( 'de.ceus-media.folder.RegexFilter' );
 /**
  *	Lists Folders and Files within a Folder.
  *	Entries can be filtered with a RegEx Pattern or allowed Extensions.
@@ -6,8 +7,8 @@
  *	It is possible to hide Folders or Files from the List.
  *	Folders starting with a Dot can be stripped from the List.
  *	@package		folder
- *	@uses			Folder_NamePatternFinder
- *	@uses			Folder_Indexer
+ *	@uses			Folder_RegexFilter
+ *	@uses			Folder_Iterator
  *	@author			Christian Würker <Christian.Wuerker@Ceus-Media.de>
  *	@since			15.04.2008
  *	@version		0.6a
@@ -19,8 +20,8 @@
  *	It is possible to hide Folders or Files from the List.
  *	Folders starting with a Dot can be stripped from the List.
  *	@package		folder
- *	@uses			Folder_NamePatternFinder
- *	@uses			Folder_Indexer
+ *	@uses			Folder_RegexFilter
+ *	@uses			Folder_Iterator
  *	@author			Christian Würker <Christian.Wuerker@Ceus-Media.de>
  *	@since			15.04.2008
  *	@version		0.6a
@@ -58,15 +59,11 @@ class Folder_Lister
 	{
 		if( $this->pattern )
 		{
-			import( 'de.ceus-media.folder.NamePatternFinder' );
-			$finder	= new Folder_NamePatternFinder( $this->path, $this->pattern, $this->showFiles, $this->showFolders, $this->stripDotFolders );
+			import( 'de.ceus-media.folder.RegexFilter' );
+			return new Folder_RegexFilter( $this->path, $this->pattern, $this->showFiles, $this->showFolders, $this->stripDotFolders );
 		}
-		else
-		{
-			import( 'de.ceus-media.folder.Indexer' );
-			$finder	= new Folder_Indexer( $this->path, $this->showFiles, $this->showFolders, $this->stripDotFolders );
-		}
-		return $finder;
+		import( 'de.ceus-media.folder.Iterator' );
+		return new Folder_Iterator( $this->path, $this->showFiles, $this->showFolders, $this->stripDotFolders );
 	}
 
 	/**

@@ -1,13 +1,13 @@
 <?php
 import( 'de.ceus-media.file.SyntaxChecker' );
-import( 'de.ceus-media.folder.RecursiveNamePatternFinder' );
+import( 'de.ceus-media.folder.RecursiveRegexFilter' );
 import( 'de.ceus-media.ui.DevOutput' );
 import( 'de.ceus-media.Stopwatch' );
 /**
  *	Checks Syntax of all PHP Classes and Scripts within a Folder.
  *	@package		folder
  *	@uses			File_SyntaxChecker
- *	@uses			Folder_RecursiveNamePatternFinder
+ *	@uses			Folder_RecursiveRegexFilter
  *	@uses			UI_DevOutput
  *	@uses			Stopwatch
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
@@ -18,7 +18,7 @@ import( 'de.ceus-media.Stopwatch' );
  *	Checks Syntax of all PHP Classes and Scripts within a Folder.
  *	@package		folder
  *	@uses			File_SyntaxChecker
- *	@uses			Folder_RecursiveNamePatternFinder
+ *	@uses			Folder_RecursiveRegexFilter
  *	@uses			UI_DevOutput
  *	@uses			Stopwatch
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
@@ -57,7 +57,7 @@ class Folder_SyntaxChecker
 		$invalid	= array();
 		$watch		= new Stopwatch;
 		$this->failures	= array();
-		$index		= new Folder_RecursiveNamePatternFinder( $pathName, "@\.".self::$phpExtension."$@" );
+		$index		= new Folder_RecursiveRegexFilter( $pathName, "@\.".self::$phpExtension."$@" );
 		foreach( $index as $file )
 		{
 			$counter++;
