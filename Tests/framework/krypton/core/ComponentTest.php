@@ -303,11 +303,6 @@ class Tests_Framework_Krypton_Core_ComponentTest extends PHPUnit_Framework_TestC
 		$session	= $this->registry->get( 'session' );
 		$messenger	= $this->registry->get( 'messenger' );
 
-		$this->component->loadContent( "wrong_path.not_existing.html" );
-		$assertion	= 1;
-		$creation	= preg_match( "@not existing@", $messenger->buildMessages() ); 
-		$this->assertEquals( $assertion, $creation );
-		
 		$config['paths.php']	= "Tests/framework/krypton/";
 		unset( $config['paths.cache'] );
 		$this->component->paths['php']	= "php";
@@ -317,6 +312,17 @@ class Tests_Framework_Krypton_Core_ComponentTest extends PHPUnit_Framework_TestC
 		$this->assertEquals( $assertion, $creation );
 	}
 	
+	public function testLoadContentException()
+	{
+		$this->setExpectedException( 'Framework_Krypton_Exception_IO' );
+
+		$config		=& $this->registry->get( 'config' );
+		$session	= $this->registry->get( 'session' );
+		$messenger	= $this->registry->get( 'messenger' );
+
+		$this->component->loadContent( "wrong_path.not_existing.html" );
+	}
+
 	public function testLoadTempate()
 	{
 		$config		=& $this->registry->get( 'config' );		

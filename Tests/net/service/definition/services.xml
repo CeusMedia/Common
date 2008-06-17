@@ -18,7 +18,7 @@
       <format>json</format>
       <format>php</format>
       <parameter mandatory="yes" preg="@^[0-9]+$@">a</parameter>
-      <parameter mandatory="yes" preg="@^[0-9]+$@">b</parameter>
+      <parameter mandatory="no" preg="@^[0-9]+$@">b</parameter>
     </service>
   </services>
 </servicePoint>

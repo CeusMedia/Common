@@ -447,12 +447,22 @@ FROM
 	 */
 	public function testSetLimit()
 	{
-		$this->builder->setLimit( 10, 20 );
-		$assertion	= array(
-			'rows'		=> 10,
-			'offset'	=> 20,
-		);
-		$creation	= $this->builder->getProtectedVar( 'limits' );
+		$this->builder->setLimit( 10 );
+		$assertion	= 10;
+		$creation	= $this->builder->getProtectedVar( 'limit' );
+		$this->assertEquals( $assertion, $creation );
+	}
+
+	/**
+	 *	Tests Method 'setOffset'.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testSetOffset()
+	{
+		$this->builder->setOffset( 10 );
+		$assertion	= 10;
+		$creation	= $this->builder->getProtectedVar( 'offset' );
 		$this->assertEquals( $assertion, $creation );
 	}
 }

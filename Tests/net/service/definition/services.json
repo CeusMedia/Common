@@ -26,11 +26,11 @@
       "preferred": "txt",
       "parameters": {
         "a": {
-          "mandatory": "yes",
+          "mandatory": true,
           "preg": "@^[0-9]+$@"
         },
         "b": {
-          "mandatory": "yes",
+          "mandatory": false,
           "preg": "@^[0-9]+$@"
         }
       }

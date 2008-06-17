@@ -21,7 +21,7 @@ import( 'de.ceus-media.file.Writer' );
 class Tests_File_WriterTest extends PHPUnit_Framework_TestCase
 {
 	/**	@var	string		$fileName		File Name of Test File */
-	private $fileName		= "Tests/file/writer.test";
+	private $fileName;
 	/**	@var	string		$fileContent	Content of Test File */
 	private $fileContent	= "line1\nline2\n";
 
@@ -32,7 +32,14 @@ class Tests_File_WriterTest extends PHPUnit_Framework_TestCase
 	 */
 	public function __construct()
 	{
+		$this->path		= dirname( __FILE__ )."/";
+		$this->fileName	= $this->path."writer.test";
 		$this->writer	= new File_Writer( $this->fileName );
+	}
+	
+	public function tearDown()
+	{
+		@unlink( $this->fileName );
 	}
 
 	/**
@@ -42,7 +49,25 @@ class Tests_File_WriterTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testCreate()
 	{
-		$this->markTestIncomplete( "incomplete" );
+		$writer	= new File_Writer( $this->path."writer_create.test" );
+		$writer->create();
+		
+		$assertion	= TRUE;
+		$creation	= file_exists( $this->path."writer_create.test" );
+		$this->assertEquals( $assertion, $creation );
+		@unlink( $this->path."writer_create.test" );
+	}
+
+	/**
+	 *	Tests Exception of Method 'create'.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testCreateException()
+	{
+		$this->setExpectedException( 'RuntimeException' );
+		$writer	= new File_Writer( "not_existing_folder/file" );
+		$writer->create();
 	}
 
 	/**
@@ -52,7 +77,8 @@ class Tests_File_WriterTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testIsWritable()
 	{
-		$assertion	= true;
+		$this->writer->create();
+		$assertion	= TRUE;
 		$creation	= $this->writer->isWritable();
 		$this->assertEquals( $assertion, $creation );
 
@@ -69,7 +95,7 @@ class Tests_File_WriterTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testRemove()
 	{
-		$removeFile	= "writer_remove.test";
+		$removeFile	= $this->path."writer_remove.test";
 		file_put_contents( $removeFile, "test" );
 		
 		$assertion	= true;

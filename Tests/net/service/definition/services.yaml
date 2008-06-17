@@ -26,5 +26,5 @@ services:
         mandatory: yes
         preg: @^[0-9]+$@
       b: 
-        mandatory: yes
+        mandatory: no
         preg: @^[0-9]+$@

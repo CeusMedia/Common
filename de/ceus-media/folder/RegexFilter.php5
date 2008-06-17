@@ -18,8 +18,6 @@
  */
 class Folder_RegexFilter extends RegexIterator
 {
-	/**	@var		string		$pattern			Regular Expression to match with File Name */
-	private $pattern;
 	/**	@var		 bool		$showFiles			Flag: show Files */
 	protected $showFiles;
 	/**	@var		 bool		$showFolders		Flag: show Folders */

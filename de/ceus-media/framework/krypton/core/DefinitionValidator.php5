@@ -46,6 +46,9 @@ class Framework_Krypton_Core_DefinitionValidator extends Alg_Validation_Definiti
 	public function validate( $field, $definition, $value, $prefix = "" )
 	{
 		$errors	= parent::validate( $field, $definition, $value, $prefix );
+		foreach( $errors as $error )
+			if( $error->key == "isMandatory" )
+				return $errors;
 
 		if( isset( $definition['syntax']['mandatory'] ) && $definition['syntax']['mandatory'] )
 			if( $definition['input']['type'] == "select" )

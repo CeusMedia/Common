@@ -152,7 +152,7 @@ class Tests_Framework_Krypton_Core_LogicTest extends PHPUnit_Framework_TestCase
 		catch( Framework_Krypton_Exception_Validation $e )
 		{
 			$errors	= $e->getErrors();
-			
+
 			$assertion	= 2;
 			$creation	= count( $errors );
 			$this->assertEquals( $assertion, $creation );

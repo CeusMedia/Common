@@ -11,22 +11,19 @@ class UI_HTML_Service_Test
 		$this->servicePoint		= $servicePoint;
 	}
 	
-	public function buildContent( $requestData )
+	public function buildContent( $request )
 	{
-		$service	= $requestData['test'];
-		$format		= isset( $requestData['format'] ) ? $requestData['format'] : NULL;
+		$service	= $request['test'];
+		$format		= isset( $request['parameter_format'] ) ? $request['parameter_format'] : NULL;
 		$url		= "";
 		$response	= "";
-		$parameters	= $this->getParameterFields( $service, $format, $requestData );
-		if( isset( $requestData['call'] ) )
-		{
-			$url		= $this->getRequestUrl( $requestData );
-			$response	= $this->getResponse( $url, $format );
-		}
+		$parameters	= $this->getParameterFields( $service, $format, $request );
+		$url		= $this->getRequestUrl( $request );
+		$response	= $this->getResponse( $url, $format );
 		return require_once( $this->template );
 	}
 
-	private function getParameterFields( $service, $format, $requestData )
+	private function getParameterFields( $service, $format, $request )
 	{
 		$parameters	= $this->servicePoint->getServiceParameters( $service );
 		$formats	= $this->servicePoint->getServiceFormats( $service );
@@ -39,9 +36,9 @@ class UI_HTML_Service_Test
 
 		$list	= array(
 			array(
-				'label'	=> $format,
+				'label'	=> "Format of Response",
 				'rules'	=> "",
-				'input'	=> UI_HTML_Elements::Select( 'format', $optFormat, 's' )
+				'input'	=> UI_HTML_Elements::Select( 'parameter_format', $optFormat, 's' )
 			)
 		);
 
@@ -58,25 +55,28 @@ class UI_HTML_Service_Test
 				}
 			}
 			$rules	= count( $ruleList ) ? " (".implode( ", ", $ruleList ).")" : "";
-			$value	= isset( $requestData[$parameter] ) ? $requestData[$parameter] : NULL;	
+			$value	= isset( $request["parameter_".$parameter] ) ? $request["parameter_".$parameter] : NULL;	
 			$list[]	= array(
 				'label' => $parameter,
 				'rules'	=> $rules,
-				'input'	=> UI_HTML_Elements::Input( $parameter, $value, 'l' )
+				'input'	=> UI_HTML_Elements::Input( "parameter_".$parameter, $value, 'l' )
 			);
 		}
 		return $list;
 	}
 
-	private function getRequestUrl( $requestData )
+	private function getRequestUrl( $request )
 	{
-		$query	= (array) $requestData;
-		unset( $query['test'] );
-		unset( $query['call'] );
-		$query	= http_build_query( $query, '', "&" );
+		$pairs		= is_a( $request, "ADT_List_Dictionary" ) ? $request->getAll() : $request;
+		$parameters	= array();
+		foreach( $pairs as $key => $value )
+			if( preg_match( "@^parameter_@", $key ) )
+				$parameters[preg_replace( "@^parameter_@", "", $key)]	= $value;
+
+		$query	= http_build_query( $parameters, '', "&" );
 
 		$url	= parse_url( getEnv( 'HTTP_REFERER' ) );
-		$url	= $url['scheme']."://".$url['host'].$url['path']."?service=".$requestData['test']."&".$query;
+		$url	= $url['scheme']."://".$url['host'].$url['path']."?service=".$request['test']."&".$query;
 		return $url;
 	}
 
@@ -89,7 +89,7 @@ class UI_HTML_Service_Test
 
 		if( $format == "json" )
 		{
-			$response	= "<xmp>".ADT_JSON_Formater::format( $response )."</xmp>";
+			$response	= "<xmp>".ADT_JSON_Formater::format( stripslashes( $response ) )."</xmp>";
 		}
 		else if( $format == "php" )
 		{

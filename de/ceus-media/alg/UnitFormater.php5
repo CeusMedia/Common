@@ -47,7 +47,7 @@ class Alg_UnitFormater
 	 */
 	public static function formatNumber( $float, $unit = 1, $precision = 0 )
 	{
-		if( $unit )
+		if( (int) $unit )
 		{
 			$float	= $float / $unit;
 			if( is_int( $precision ) )

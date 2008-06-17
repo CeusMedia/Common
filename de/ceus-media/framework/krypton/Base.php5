@@ -6,6 +6,7 @@
  *	@uses			Database_PDO_Connection
  *	@uses			Net_HTTP_PartitionSession
  *	@uses			Net_HTTP_Request_Receiver
+ *	@uses			Net_Service_Client
  *	@uses			File_Configuration_Reader
  *	@uses			Console_RequestReceiver
  *	@uses			Framework_Krypton_Core_Registry
@@ -25,6 +26,7 @@
  *	@uses			Database_PDO_Connection
  *	@uses			Net_HTTP_PartitionSession
  *	@uses			Net_HTTP_Request_Response
+ *	@uses			Net_Service_Client
  *	@uses			File_Configuration_Reader
  *	@uses			Console_RequestReceiver
  *	@uses			Framework_Krypton_Core_Registry
@@ -294,10 +296,11 @@ abstract class Framework_Krypton_Base
 	 */
 	protected function initServiceClient()
 	{
+		import( 'de.ceus-media.net.service.Client' );
 		if( !$this->registry->has( 'config' ) )
 			throw new Exception( 'Configuration has not been set up.' );
 		$config		= $this->registry->get( 'config' );
-		$client	= new Service_Client( "", "logs/services.log" );
+		$client	= new Net_Service_Client( "", "logs/services.log" );
 		$client->setHostAddress( $config['services.url'] );
 		$client->setUserAgent( "Motrada Office" );
 		if( $config['services.username'] )

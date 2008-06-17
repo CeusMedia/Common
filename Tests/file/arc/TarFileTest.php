@@ -22,18 +22,33 @@ class Tests_File_Arc_TarFileTest extends PHPUnit_Framework_TestCase
 	/**	@var	string		$fileName		URL of Archive File Name */
 	private $fileName;
 	
+	public function __construct()
+	{
+		$this->path	= dirname( __FILE__ )."/";
+	}
+	
 	public function setUp()
 	{
-		$this->fileName	= "Tests/file/arc/test.tar";
+		$this->fileName	= $this->path."test.tar";
+	}
+
+	public function tearDown()
+	{
+		@unlink( $this->fileName );
 	}
 
 	public function testAddFile()
 	{
 		$arc	= new TarFile();
-		$arc->addFile( "Tests/file/arc/test.bz" );
-		$arc->addFile( "Tests/file/arc/test.gz" );
+		$arc->addFile( $this->path."AllTests.php" );
+		$arc->addFile( $this->path."TarFileTest.php" );
+
+		$assertion	= TRUE;
 		$creation	= $arc->save( $this->fileName );
-		$assertion	= true;
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= TRUE;
+		$creation	= file_exists( $this->fileName );
 		$this->assertEquals( $assertion, $creation );
 	}
 }

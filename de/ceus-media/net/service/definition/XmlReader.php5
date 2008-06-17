@@ -39,20 +39,24 @@ class Net_Service_Definition_XmlReader
 				'preferred'		=> (string) $serviceElement->getAttribute( 'format' ),
 			);
 			foreach( $serviceElement->format as $formatElement )
-				$service['formats'][]	= (string) $formatElement;
+				$service['formats'][]	= strtolower( (string) $formatElement );
 			$parameters	= array();
 			foreach( $serviceElement->parameter as $parameterElement )
 			{
 				$parameterName	= (string) $parameterElement;
 				$validators		= array();
 				foreach( $parameterElement->getAttributes() as $key => $value )
-					$validators[$key]	= $value;
+				{
+					if( strtolower( $key ) == "mandatory" )
+						$value	= strtolower( strtolower( $value ) ) == "yes" ? TRUE : FALSE;
+					$validators[strtolower( $key)]	= $value;
+				}
 				$parameters[$parameterName]	= $validators;
 			}
 			if( $parameters )
 				$service['parameters']	= $parameters;
 			if( $serviceElement->hasAttribute( "status" ) )
-				$service['status']	= $serviceElement->getAttribute( "status" );
+				$service['status']	= strtolower( $serviceElement->getAttribute( "status" ) );
 			$data['services'][$serviceName]	= $service;
 		}
 		return $data;

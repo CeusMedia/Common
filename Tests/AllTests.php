@@ -33,7 +33,6 @@ class Tests_AllTests
 		$suite->addTest( Tests_Folder_AllTests::suite() );
 		$suite->addTest( Tests_Framework_AllTests::suite() );
 		$suite->addTest( Tests_Net_AllTests::suite() );
-		$suite->addTest( Tests_Service_AllTests::suite() );
 		$suite->addTest( Tests_UI_AllTests::suite() );
 		$suite->addTest( Tests_XML_AllTests::suite() );
 		return $suite;

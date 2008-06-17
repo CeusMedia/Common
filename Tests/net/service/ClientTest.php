@@ -32,7 +32,7 @@ class Tests_Net_Service_ClientTest extends PHPUnit_Framework_TestCase
 	 */
 	public function __construct()
 	{
-		$this->client	= new Test_Net_Service_ClientInstance( "http://public.services.ceus-media.de/" );
+		$this->client	= new Test_Net_Service_ClientInstance( "http://services.ceus-media.de/public/" );
 	}
 	
 	/**

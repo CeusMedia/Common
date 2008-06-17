@@ -37,46 +37,46 @@ class Folder_RecursiveIterator extends FilterIterator
 	 *	@param		bool		$stripDotFolders	Flag: strip Folder with leading Dot
 	 *	@return		void
 	 */
-    public function __construct( $path, $showFiles = TRUE, $showFolders = TRUE, $stripDotFolders = TRUE )
-    {
+	public function __construct( $path, $showFiles = TRUE, $showFolders = TRUE, $stripDotFolders = TRUE )
+	{
 		if( !file_exists( $path ) )
 			throw new RuntimeException( 'Path "'.$path.'" is not existing.' );
-    	$this->showFiles		= $showFiles;
-    	$this->showFiles		= $showFiles;
-    	$this->stripDotFolders	= $stripDotFolders;
-    	$selfIterator			= $showFolders ? RecursiveIteratorIterator::SELF_FIRST : NULL;
-        parent::__construct(
-        	new RecursiveIteratorIterator(
-        		new RecursiveDirectoryIterator(
-        			$path,
-        			0
-        		),
-        		$selfIterator
-        	)
-        );
-    }
+		$this->showFiles		= $showFiles;
+		$this->showFiles		= $showFiles;
+		$this->stripDotFolders	= $stripDotFolders;
+		$selfIterator			= $showFolders ? RecursiveIteratorIterator::SELF_FIRST : NULL;
+		parent::__construct(
+			new RecursiveIteratorIterator(
+				new RecursiveDirectoryIterator(
+					$path,
+					0
+				),
+				$selfIterator
+			)
+		);
+	}
 
 	/**
 	 *	Decides which Entry should be indexed.
 	 *	@access		public
 	 *	@return		bool
 	 */
-    public function accept()
-    {
-   		if( $this->getInnerIterator()->isDot() )
-   			return FALSE;
+	public function accept()
+	{
+		if( $this->getInnerIterator()->isDot() )
+			return FALSE;
 
-   		$isDir	= $this->getInnerIterator()->isDir();
-   		if( !$this->showFiles && !$isDir )
-   			return FALSE;
-    	
-    	if( $this->stripDotFolders )
-    	{
+		$isDir	= $this->getInnerIterator()->isDir();
+		if( !$this->showFiles && !$isDir )
+			return FALSE;
+
+		if( $this->stripDotFolders )
+		{
 			$folderName	= $this->getInnerIterator()->getFilename();
 			if( preg_match( "@^\.\w@", $folderName ) )
 				return FALSE;
 		}
-        return TRUE;
-    }
+		return TRUE;
+	}
 }
 ?>
