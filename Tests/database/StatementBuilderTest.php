@@ -289,7 +289,8 @@ class Tests_Database_StatementBuilderTest extends PHPUnit_Framework_TestCase
 		$this->builder->addConditions( array( 'a.key1=b.key2', 'field>10' ) );
 		$this->builder->addGroupings( array( 'key1', 'key2' ) );
 		$this->builder->addOrders( array( 'key1' => "ASC", 'key2' => "DESC" ) );
-		$this->builder->setLimit( 10, 20 );
+		$this->builder->setLimit( 10 );
+		$this->builder->setOffset( 20 );
 
 		$assertion	= "SELECT COUNT(key1) as rowcount
 FROM
@@ -340,7 +341,8 @@ GROUP BY
 		$this->builder->addConditions( array( 'a.key1=b.key2', 'field>10' ) );
 		$this->builder->addGroupings( array( 'key1', 'key2' ) );
 		$this->builder->addOrders( array( 'key1' => "ASC", 'key2' => "DESC" ) );
-		$this->builder->setLimit( 10, 20 );
+		$this->builder->setLimit( 10 );
+		$this->builder->setOffset( 20 );
 
 		$assertion	= "SELECT
 	key1,

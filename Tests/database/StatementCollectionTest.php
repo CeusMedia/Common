@@ -74,7 +74,7 @@ class Tests_Database_StatementCollectionTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testAddComponent()
 	{
-		$this->collection->addComponent( 'Order', array( 'column1', "DESC" ) );
+		$this->collection->orderBy( 'column1', "DESC" );
 		$assertion	= array( 'column1'	=> "DESC" );
 		$creation	= $this->builder->getProtectedVar( 'orders' );
 		$this->assertEquals( $assertion, $creation );
