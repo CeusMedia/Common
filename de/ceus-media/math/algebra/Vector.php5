@@ -1,26 +1,22 @@
 <?php
 /**
  *	Vector.
- *	@package		math
- *	@subpackage		algebra
- *	@extends		Object
+ *	@package		math.algebra
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version		0.1
+ *	@version		0.6
  */
 /**
  *	Vector.
- *	@package		math
- *	@subpackage		algebra
- *	@extends		Object
+ *	@package		math.algebra
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version		0.1
+ *	@version		0.6
  */
-class Vector
+class Math_Algebra_Vector
 {
-	/**	@var	int		$_dim		Dimension of the Vector */
-	var $_dim = 0;
-	/**	@var	array	$_vals	Value of the Vector */
-	var $_vals = array();
+	/**	@var		int			$dimension		Dimension of the Vector */
+	protected $dimension		= 0;
+	/**	@var		array		$values			Value of the Vector */
+	protected $values			= array();
 
 	/**
 	 *	Constructor.
@@ -29,94 +25,13 @@ class Vector
 	 */
 	public function __construct()
 	{
-		$args = func_get_args();
-		if( is_array( $args[0] ) )
-			$args = $args[0];
-//		if (!count ($args))
-//			trigger_error( "Vector needs Arguments", E_USER_ERROR );
-		$this->_setDimension( count( $args ) );
-		$this->_setValues( $args );
-	}
-	
-	/**
-	 *	Adds a Value to Vector and increases Dimension
-	 *	@access		public
-	 *	@param		mixed	$value		Value to add
-	 *	@return		void
-	 */
-	function addValue( $value )
-	{
-		$this->_vals[]	= $value;
-		$this->_dim++;
-	}
-	
-	/**
-	 *	Returns the dimension of the Vector.
-	 *	@access		public
-	 *	@return		int
-	 */
-	function getDimension()
-	{
-		return $this->_dim;
-	}
-	
-	/**
-	 *	Returns the value of a dimension.
-	 *	@access		public
-	 *	@param		int		$index		Dimension starting with 1
-	 *	@return		mixed
-	 */
-	function getDimValue( $index )
-	{
-		return $this->getValue( $index-1 );
-	}
-
-	/**
-	 *	Returns the value of a dimension starting with 0.
-	 *	@access		public
-	 *	@param		int		$index		Dimension starting with 0
-	 *	@return		mixed
-	 */
-	function getValue( $index )
-	{
-		$val = 0;
-		if( $index >= ( $dim = $this->getDimension() ) )
-			trigger_error( "Vector Index(".$index.") cannot be larger than Vector Dimension (".$dim.")", E_USER_WARNING );
-		else
-			$val = $this->_vals[$index];
-		return $val;
-	}
-
-	/**
-	 *	Sets the dimension of the Vector.
-	 *	@access		private
-	 *	@param		int		$dim			Dimension to be set
-	 *	@return		void
-	 */
-	function _setDimension( $dim )
-	{
-		$this->_dim = $dim;
-	}
-
-	/**
-	 *	Sets the values of all dimension of the Vector.
-	 *	@access		public
-	 *	@param		array	$values		Values of all dimension
-	 *	@return		void
-	 */
-	function _setValues( $vals )
-	{
-		$this->_vals = $vals;
-	}
-	
-	/**
-	 *	Returns Vector as array.
-	 *	@access		public
-	 *	@return		array
-	 */
-	function toArray()
-	{
-		return $this->_vals;
+		$arguments = func_get_args();
+		if( is_array( $arguments[0] ) )
+			$arguments = $arguments[0];
+		if( !count( $arguments ) )
+			throw new InvalidArgumentException( 'Vector needs at least 1 Value.' );
+		foreach( $arguments as $argument )
+			$this->addValue( $argument );
 	}
 	
 	/**
@@ -124,11 +39,69 @@ class Vector
 	 *	@access		public
 	 *	@return		string
 	 */
-	function toString()
+	public function __toString()
 	{
-		$code = "(".implode( ", ", array_values( $this->_vals ) ).")";
+		$code = "(".implode( ", ", array_values( $this->values ) ).")";
 		return $code;
+	}
 	
+	/**
+	 *	Adds a Value to Vector and increases Dimension
+	 *	@access		public
+	 *	@param		mixed		$value			Value to add
+	 *	@return		void
+	 */
+	public function addValue( $value )
+	{
+		$this->values[]	= (float) $value;
+		$this->dimension++;
+	}
+	
+	/**
+	 *	Returns the dimension of the Vector.
+	 *	@access		public
+	 *	@return		int
+	 */
+	public function getDimension()
+	{
+		return $this->dimension;
+	}
+	
+	/**
+	 *	Returns the value of a dimension.
+	 *	@access		public
+	 *	@param		int			$dimension		Dimension starting with 1
+	 *	@return		mixed
+	 */
+	public function getValueFromDimension( $dimension )
+	{
+		return $this->getValueFromIndex( $dimension - 1 );
+	}
+
+	/**
+	 *	Returns the value of a dimension starting with 0.
+	 *	@access		public
+	 *	@param		int			$index			Dimension starting with 0
+	 *	@return		mixed
+	 */
+	public function getValueFromIndex( $index )
+	{
+		$dimension	= $this->getDimension();
+		if( $index < 0 )
+			throw new OutOfRangeException( 'Vector Index ('.$index.') must be greater than 0.' );
+		if( $index >= $dimension )
+			throw new OutOfRangeException( 'Vector Index ('.$index.') must be lower than Vector Dimension ('.$dimension.').' );
+		return $this->values[$index];
+	}
+	
+	/**
+	 *	Returns Vector as array.
+	 *	@access		public
+	 *	@return		array
+	 */
+	public function toArray()
+	{
+		return $this->values;
 	}
 }
 ?>

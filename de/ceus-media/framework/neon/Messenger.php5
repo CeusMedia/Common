@@ -32,7 +32,7 @@ class Framework_Neon_Messenger extends ADT_OptionObject
 		'1'	=> 'error',
 		'2'	=> 'notice',
 		'3'	=> 'success',
-		);
+	);
 
 	/**
 	 *	Constructor.
@@ -55,7 +55,7 @@ class Framework_Neon_Messenger extends ADT_OptionObject
 	 *	@param		string		$heading			Text of Heading
 	 *	@return		void
 	 */
-	function addHeading( $heading )
+	public function addHeading( $heading )
 	{
 		$session		=& $this->ref->get( 'session' );
 		$headings	= $session->get( $this->getOption( 'key_headings' ) );
@@ -70,7 +70,7 @@ class Framework_Neon_Messenger extends ADT_OptionObject
 	 *	@access		public
 	 *	@return		string
 	 */
-	function buildHeadings()
+	public function buildHeadings()
 	{
 		$session		=& $this->ref->get( 'session' );
 		$headings	= $session->get( $this->getOption( 'key_headings' ) );
@@ -83,7 +83,7 @@ class Framework_Neon_Messenger extends ADT_OptionObject
 	 *	@access		public
 	 *	@return		string
 	 */
-	function buildMessages( $format_time = false, $auto_clear = true )
+	public function buildMessages( $format_time = false, $auto_clear = true )
 	{
 		$config		= $this->ref->get( 'config' );
 		$session	= $this->ref->get( 'session' );
@@ -111,11 +111,26 @@ class Framework_Neon_Messenger extends ADT_OptionObject
 	 *	@access		public
 	 *	@return		void
 	 */
-	function clear()
+	public function clear()
 	{
 		$session	=& $this->ref->get( 'session' );
 		$session->set( $this->getOption( 'key_headings' ), array() );
 		$session->set( $this->getOption( 'key_messages' ), array() );
+	}
+	
+	/**
+	 *	Indicates wheteher an Error or a Failure has been reported.
+	 *	@access		public
+	 *	@return		bool
+	 */
+	public function gotError()
+	{
+		$session		=& $this->ref->get( 'session' );
+		$messages	= (array) $session->get( $this->getOption( 'key_messages' ) );
+		foreach( $messages as $message )
+			if( $message['type'] < 2 )
+				return true;
+		return false;
 	}
 
 	/**
@@ -126,10 +141,10 @@ class Framework_Neon_Messenger extends ADT_OptionObject
 	 *	@param		string		$arg2			Argument to be set into Message
 	 *	@return		void
 	 */
-	function noteError( $message, $arg1 = NULL, $arg2 = NULL )
+	public function noteError( $message, $arg1 = NULL, $arg2 = NULL )
 	{
-		$message	= $this->_setIn( $message, $arg1, $arg2 );
-		$this->_noteMessage( 1, $message);
+		$message	= $this->setIn( $message, $arg1, $arg2 );
+		$this->noteMessage( 1, $message);
 	}
 
 	/**
@@ -140,10 +155,27 @@ class Framework_Neon_Messenger extends ADT_OptionObject
 	 *	@param		string		$arg2			Argument to be set into Message
 	 *	@return		void
 	 */
-	function noteFailure( $message, $arg1 = NULL, $arg2 = NULL )
+	public function noteFailure( $message, $arg1 = NULL, $arg2 = NULL )
 	{
-		$message	= $this->_setIn( $message, $arg1, $arg2 );
-		$this->_noteMessage( 0, $message);
+		$message	= $this->setIn( $message, $arg1, $arg2 );
+		$this->noteMessage( 0, $message);
+	}
+	
+	/**
+	 *	Saves a Message on the Message Stack.
+	 *	@access		private
+	 *	@param		int			$type			Message Type (0-Failure|1-Error|2-Notice|3-Success)
+	 *	@param		string		$message		Message to display
+	 *	@return		void
+	 */
+	private function noteMessage( $type, $message )
+	{
+		if( !$message )
+			return;
+		$session		=& $this->ref->get( 'session' );
+		$messages	= (array) $session->get( $this->getOption( 'key_messages' ) );
+		$messages[]	= array( "message" => $message, "type" => $type, "timestamp" => time() );
+		$session->set( $this->getOption( 'key_messages' ), $messages );
 	}
 	
 	/**
@@ -154,10 +186,10 @@ class Framework_Neon_Messenger extends ADT_OptionObject
 	 *	@param		string		$arg2			Argument to be set into Message
 	 *	@return		void
 	 */
-	function noteNotice( $message, $arg1 = NULL, $arg2 = NULL )
+	public function noteNotice( $message, $arg1 = NULL, $arg2 = NULL )
 	{
-		$message	= $this->_setIn( $message, $arg1, $arg2 );
-		$this->_noteMessage( 2, $message);
+		$message	= $this->setIn( $message, $arg1, $arg2 );
+		$this->noteMessage( 2, $message);
 	}
 	
 	/**
@@ -168,28 +200,12 @@ class Framework_Neon_Messenger extends ADT_OptionObject
 	 *	@param		string		$arg2			Argument to be set into Message
 	 *	@return		void
 	 */
-	function noteSuccess( $message, $arg1 = NULL, $arg2 = NULL )
+	public function noteSuccess( $message, $arg1 = NULL, $arg2 = NULL )
 	{
-		$message	= $this->_setIn( $message, $arg1, $arg2 );
-		$this->_noteMessage( 3, $message);
-	}
-	
-	/**
-	 *	Indicates wheteher an Error or a Failure has been reported.
-	 *	@access		public
-	 *	@return		bool
-	 */
-	function gotError()
-	{
-		$session		=& $this->ref->get( 'session' );
-		$messages	= (array) $session->get( $this->getOption( 'key_messages' ) );
-		foreach( $messages as $message )
-			if( $message['type'] < 2 )
-				return true;
-		return false;
+		$message	= $this->setIn( $message, $arg1, $arg2 );
+		$this->noteMessage( 3, $message);
 	}
 
-	//  --  PRIVATE METHODS
 	/**
 	 *	Inserts arguments into a Message.
 	 *	@access		private
@@ -198,7 +214,7 @@ class Framework_Neon_Messenger extends ADT_OptionObject
 	 *	@param		string		$arg2			Argument to be set into Message
 	 *	@return		string
 	 */
-	function _setIn( $message, $arg1 = null, $arg2 = null )
+	private function setIn( $message, $arg1 = null, $arg2 = null )
 	{
 		if( !(is_string( $message ) && trim( $message ) ) )
 			return "";
@@ -209,23 +225,6 @@ class Framework_Neon_Messenger extends ADT_OptionObject
 //		$message		= preg_replace( "@\{\S+\}@i", "", $message );
 		$message		= str_replace( "###", "", $message );
 		return $message;
-	}
-	
-	/**
-	 *	Saves a Message on the Message Stack.
-	 *	@access		private
-	 *	@param		int			$type			Message Type (0-Failure|1-Error|2-Notice|3-Success)
-	 *	@param		string		$message		Message to display
-	 *	@return		void
-	 */
-	function _noteMessage( $type, $message )
-	{
-		if( !$message )
-			return;
-		$session		=& $this->ref->get( 'session' );
-		$messages	= (array) $session->get( $this->getOption( 'key_messages' ) );
-		$messages[]	= array( "message" => $message, "type" => $type, "timestamp" => time() );
-		$session->set( $this->getOption( 'key_messages' ), $messages );
 	}
 }
 ?>

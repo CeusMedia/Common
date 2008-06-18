@@ -68,7 +68,7 @@ class DefinitionValidator
 	 *	@param		array		$labels		Labels of Fields 
 	 *	@return		void
 	 */
-	function setLabels( $labels )
+	public function setLabels( $labels )
 	{
 		$this->labels	= $labels;
 	}
@@ -79,7 +79,7 @@ class DefinitionValidator
 	 *	@param		array		$messages	Messages for Errors
 	 *	@return		void
 	 */
-	function setMessages( $messages )
+	public function setMessages( $messages )
 	{
 		$this->messages	= $messages;	
 	}
@@ -92,7 +92,7 @@ class DefinitionValidator
 	 *	@param		string		$value		Value to validate
 	 *	@return		array
 	 */
-	function validateSyntax( $field, $data, $value )
+	public function validateSyntax( $field, $data, $value )
 	{
 		$errors	= array();
 		if( strlen( $value ) )
@@ -117,7 +117,7 @@ class DefinitionValidator
 	 *	@param		string		$value		Value to validate
 	 *	@return		array
 	 */
-	function validateSemantics( $field, $data, $value )
+	public function validateSemantics( $field, $data, $value )
 	{
 		$errors	= array();
 		if( isset( $data['semantic'] ) )

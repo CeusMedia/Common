@@ -44,7 +44,7 @@ class Model
 	 */
 	public function __construct( $application, $id = false )
 	{
-		$this->_setEnv( $application );
+		$this->setEnv( $application );
 		$this->table	= new Database_TableWriter( $this->_dbc, $this->_table, $this->fields, $this->primary_key, $id );
 		$this->table->setForeignKeys( $this->foreign_keys );
 	}
@@ -56,7 +56,7 @@ class Model
 	 *	@param		array		$data			Data to add to Table
 	 *	@return		int
 	 */
-	function add( $data )
+	public function add( $data )
 	{
 		$id	= $this->table->addData( $data );
 		return $id;
@@ -69,7 +69,7 @@ class Model
 	 *	@param		array		$data			Data to edit
 	 *	@return		bool
 	 */
-	function edit( $id, $data )
+	public function edit( $id, $data )
 	{
 		$this->table->focusPrimary( $id );
 		$result	= false;
@@ -88,7 +88,7 @@ class Model
 	 *	@param		int			$id				ID to focus on
 	 *	@return		bool
 	 */
-	function remove( $id )
+	public function remove( $id )
 	{
 		$this->table->focusPrimary( $id );
 		$result	= false;
@@ -108,7 +108,7 @@ class Model
 	 *	@param		string		$field			Single Field to return
 	 *	@return		mixed
 	 */
-	function get( $id, $field = "" )
+	public function get( $id, $field = "" )
 	{
 		$this->table->focusPrimary( $id );
 		$data	= $this->table->getData( true );
@@ -126,7 +126,7 @@ class Model
 	 *	@param		array		$limits			Array of Limits to include in SQL Query
 	 *	@return		array
 	 */
-	function getAll( $conditions = array(), $orders = array(), $limits = array() )
+	public function getAll( $conditions = array(), $orders = array(), $limits = array() )
 	{
 		$data	= $this->table->getAllData( array(), $conditions, $orders, $limits );
 		return $data;
@@ -142,7 +142,7 @@ class Model
 	 *	@param		array		$limits			Array of Limits to include in SQL Query
 	 *	@return		array
 	 */
-	function getAllByForeignKey( $key, $value, $conditions = array(), $orders = array(), $limits = array() )
+	public function getAllByForeignKey( $key, $value, $conditions = array(), $orders = array(), $limits = array() )
 	{
 		$this->table->focusForeign( $key, $value );
 		$data	= $this->table->getData( array(), $conditions, $orders, $limits );
@@ -159,7 +159,7 @@ class Model
 	 *	@param		array		$limits			Array of Limits to include in SQL Query
 	 *	@return		array
 	 */
-	function getAllByForeignKeys( $keys = array(), $conditions = array(), $orders = array(), $limits = array() )
+	public function getAllByForeignKeys( $keys = array(), $conditions = array(), $orders = array(), $limits = array() )
 	{
 		foreach( $keys as $key => $value )
 			$this->table->focusForeign( $key, $value );
@@ -176,7 +176,7 @@ class Model
 	 *	@param		string		$field			Single Field to return
 	 *	@return		mixed
 	 */
-	function getByForeignKey( $key, $value, $field = "" )
+	public function getByForeignKey( $key, $value, $field = "" )
 	{
 		$this->table->focusForeign( $key, $value );
 		$data	= $this->table->getData( true );
@@ -193,7 +193,7 @@ class Model
 	 *	@param		string		$field			Single Field to return
 	 *	@return		mixed
 	 */
-	function getByForeignKeys( $keys = array(), $field = "" )
+	public function getByForeignKeys( $keys = array(), $field = "" )
 	{
 		foreach( $keys as $key => $value )
 			$this->table->focusForeign( $key, $value );
@@ -207,11 +207,11 @@ class Model
 	//  --  PRIVATE METHODS  --  //
 	/**
 	 *	Sets Environment of Controller by copying Framework Member Variables.
-	 *	@access		private
+	 *	@access		protected
 	 *	@param		Framework	$application		Instance of Framework
 	 *	@return		void
 	 */
-	function _setEnv( $application )
+	protected function setEnv( $application )
 	{
 		$this->_prefix	= $application->config['config']['table_prefix'];
 		$this->_dbc	= $application->dbc;

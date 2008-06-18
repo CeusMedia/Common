@@ -369,5 +369,4 @@ if( !function_exists( 'gzdecode' ) )
 		return $unpacked;
 	}
 }
-
 ?>

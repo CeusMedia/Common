@@ -50,7 +50,7 @@ class Framework_Helium_Action
 	 *	@access		public
 	 *	@return		void
 	 */
-	function act()
+	public function act()
 	{
 		$request	=& $this->ref->get( 'request' );
 		foreach( $this->_actions as $event => $action )
@@ -67,7 +67,7 @@ class Framework_Helium_Action
 	 *	@param		string		$action			Method name of Action
 	 *	@return		void
 	 */
-	function add( $event, $action )
+	public function add( $event, $action )
 	{
 		$this->_actions[$event]	= $action;
 	}
@@ -78,7 +78,7 @@ class Framework_Helium_Action
 	 *	@param		string		$event			Event name of Action
 	 *	@return		bool
 	 */
-	function has( $event )
+	public function has( $event )
 	{
 		return isset( $this->_actions[$event]);
 	}
@@ -90,7 +90,7 @@ class Framework_Helium_Action
 	 *	@param		string		$filename			File Name of Language File
 	 *	@return		void
 	 */
-	function loadLanguage( $section, $filename = false, $verbose = true )
+	public function loadLanguage( $section, $filename = false, $verbose = true )
 	{
 		$session	= $this->ref->get( 'session' );
 		if( !$filename )
@@ -113,7 +113,7 @@ class Framework_Helium_Action
 	 *	@param		string		$event			Event name of Action
 	 *	@return		void
 	 */
-	function remove( $event )
+	public function remove( $event )
 	{
 		if( $this->has( $event ) )
 			unset( $this->_actions[$event] );
@@ -125,7 +125,7 @@ class Framework_Helium_Action
 	 *	@param		string		$request			Request URL with Query String
 	 *	@return		void
 	 */
-	function restart( $request )
+	public function restart( $request )
 	{
 		header( "Location: ".$request );
 		die;

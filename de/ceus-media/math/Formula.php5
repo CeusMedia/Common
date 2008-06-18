@@ -1,30 +1,46 @@
 <?php
 /**
  *	@package		math
- *	@extends		Object
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version		0.1
+ *	@version		0.6
  */
 /**
  *	@package		math
- *	@extends		Object
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version		0.1
- *	@todo			finish Documentation
+ *	@version		0.6
  */
-class Formula
+class Math_Formula
 {
+	/**	@var		string		$name			Formular Name (default 'f') */
+	protected $name	= "f";
+	/**	@var		string		$expression		Formular Expression */
+	protected $expression;
+	/**	@var		array		$variables		List of Variables in Formula */
+	protected $variables		= array();
+
 	/**
 	 *	Constuctor.
 	 *	@access		public
-	 *	@param		string	$expression		Formula Expression
-	 *	@param		array	$vars			Array of Variables Names
+	 *	@param		string		$expression		Formula Expression
+	 *	@param		array		$variables		Array of Variables Names
 	 *	@return		void
 	 */
-	public function __construct( $expression, $vars = array() )
+	public function __construct( $expression, $variables = array(), $name = NULL )
 	{
-		$this->_setExpression( $expression );
-		$this->_setVars( $vars );
+		$this->expression = $expression;
+		if( !is_array( $variables ) )
+			if( is_string( $variables ) && $variables )
+				$variables = array( $variables );
+			else
+				$variables = array();
+		foreach( $variables as $variable )
+		{
+			if( in_array( $variable, $this->variables ) )
+				throw new InvalidArgumentException( 'Variable "'.$variable.'" is already defined for Formula "'.$this->expression.'"' );
+			$this->variables[]	= $variable;
+		}
+		if( $name )
+			$this->name	= $name;
 	}
 
 	/**
@@ -32,9 +48,9 @@ class Formula
 	 *	@access		public
 	 *	@return		string
 	 */
-	function getExpression()
+	public function getExpression()
 	{
-		return $this->_expression;
+		return $this->expression;
 	}
 
 	/**
@@ -42,12 +58,12 @@ class Formula
 	 *	@access		public
 	 *	@return		mixed
 	 */
-	function getValue()
+	public function getValue()
 	{
-		$args	= func_get_args();
-		$exp	= $this->_insertValues( $args );
-		$value	= $this->_evaluateExpression( $exp, $args );
-		return	$value;
+		$arguments	= func_get_args();
+		$expression	= $this->insertValues( $arguments );
+		$value		= $this->evaluateExpression( $expression, $arguments );
+		return $value;
 	}
 	
 	/**
@@ -55,9 +71,9 @@ class Formula
 	 *	@access		public
 	 *	@return		array
 	 */
-	function getVars()
+	public function getVariables()
 	{
-		return $this->_vars;
+		return $this->variables;
 	}
 
 	/**
@@ -66,21 +82,20 @@ class Formula
 	 *	@param		string	$name			Name of Formula
 	 *	@return		string
 	 */
-	function toString( $name = "f" )
+	public function __toString()
 	{
-		$string = $name."(".implode( ", ", $this->getVars() ).") = ".$this->getExpression();
+		$string	= $this->name."(".implode( ", ", $this->variables ).") = ".$this->expression;
 		return $string;
 	}
 
-	//  --  PRIVATE METHODS  --  //	
 	/**
 	 *	Resolves Formula Expression and returns Value.
-	 *	@access		private
+	 *	@access		protected
 	 *	@param		string	$exp			Formula Expression with inserted Arguments
-	 *	@param		array	$vars			Array of Arguments
+	 *	@param		array	$variables			Array of Arguments
 	 *	@return		mixed
 	 */
-	function _evaluateExpression( $exp, $args )
+	protected function evaluateExpression( $exp, $args )
 	{
 		if( false  === ( $value = @eval( $exp ) ) )
 			trigger_error( "Formula '".$this->getExpression()."' is incorrect or not defined for (".implode( ", ", $args ).")", E_USER_WARNING );
@@ -89,57 +104,17 @@ class Formula
 
 	/**
 	 *	Inserts Arguments into Formula Expression and returns evalatable Code.
-	 *	@access		private
+	 *	@access		protected
 	 *	@return		string
 	 */
-	function _insertValues( $args )
+	protected function insertValues( $args )
 	{
-		$vars = $this->getVars();
-		if( count( $args ) < count( $vars ) )
+		$variables = $this->getVariables();
+		if( count( $args ) < count( $variables ) )
 			trigger_error( "to less arguments, more variables used", E_USER_WARNING );
-		$exp = str_replace( $vars, $args, $this->getExpression() );
+		$exp = str_replace( $variables, $args, $this->getExpression() );
 		$eval_code = "return (".$exp.");";
 		return $eval_code;
-	}
-
-	/**
-	 *	Sets Formula Expression.
-	 *	@access		private
-	 *	@param		string	$expression		Formula Expression
-	 *	@return		void
-	 */
-	function _setExpression( $expression )
-	{
-		$this->_expression = $expression;
-	}
-
-
-	function setVar( $var, $overwrite = false )
-	{
-		if( in_array( $var, $this->_vars ) )
-		{
-			if( !$overwrite )
-				trigger_error( "Variable '".$var."' is already defined for Formula '".$this->getExpression()."'", E_USER_ERROR );
-		}
-		else
-			$this->_vars[]	= $var;
-	}
-	
-
-	/**
-	 *	Sets Variables Names.
-	 *	@access		private
-	 *	@param		array	$vars			Array of Variables Names
-	 *	@return		void
-	 */
-	function _setVars( $vars )
-	{
-		if( !is_array ($vars ) )
-			if( is_string( $vars ) && $vars )
-				$vars = array( $vars );
-			else
-				$vars = array();
-		$this->_vars	= $vars;
 	}
 }
 ?>

@@ -68,11 +68,11 @@ class Math_Prime
 	 */
 	public static function getPrimeFactors( $number, $list = array () )
 	{
-		$primes = self::getPrimes( $number );
+		$edge	= floor( sqrt( $number ) );
+		$primes	= self::getPrimes( $edge );
 		if( self::isPrime( $number ) )
 		{
 			$list[] = $number;
-			return $list;
 		}
 		else if( count( $primes ) )
 		{
@@ -86,11 +86,14 @@ class Math_Prime
 					$rest = $number / $prime;
 					$result = self::getPrimeFactors( $rest, $tmp );
 					if( count( $result ) )
+					{
+						sort( $result );
 						return $result;
+					}
 				}
 			}
 		}
-		return array();
+		return $list;
 	}
 }
 ?>

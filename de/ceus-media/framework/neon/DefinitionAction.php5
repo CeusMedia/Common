@@ -40,6 +40,19 @@ class Framework_Neon_DefinitionAction extends Framework_Neon_Action
 	}
 
 	/**
+	 *	Runs Validation of Field Definitions againt Request Input and creates Error Messages.
+	 *	@access		protected
+	 *	@param		string		$file				Name of XML Definition File (e.g. %PREFIX%#FILE#.xml)
+	 *	@return		void
+	 */
+	protected function loadDefinition( $file , $form )
+	{
+		$this->definition->setForm( $form );
+		$this->definition->setOption( 'prefix', $this->prefix );
+		$this->definition->loadDefinition( $file );
+	}
+
+	/**
 	 *	Runs Validation of Field Definitions againt Request Input and creates Error Messages and returns Success.
 	 *	@access		public
 	 *	@param		string		$file				Name of XML Definition File (e.g. %PREFIX%#FILE#.xml)
@@ -48,14 +61,14 @@ class Framework_Neon_DefinitionAction extends Framework_Neon_Action
 	 *	@param		string		$lan_section		Section in Language File (e.g. 'add')
 	 *	@return		bool
 	 */
-	function validateForm( $file , $form, $lan_file, $lan_section )
+	public function validateForm( $file , $form, $lan_file, $lan_section )
 	{
 		$request	= $this->ref->get( 'request' );
 		$labels		= $this->words[$lan_file][$lan_section];
 
 		$this->validator->setLabels( $labels );
 		$errors	= array();
-		$this->_loadDefinition( $file , $form, $this->prefix );
+		$this->loadDefinition( $file , $form, $this->prefix );
 		$fields	= $this->definition->getFields();
 		foreach( $fields as $field )
 		{
@@ -80,20 +93,6 @@ class Framework_Neon_DefinitionAction extends Framework_Neon_Action
 			foreach( $errors as $error )
 				$this->messenger->noteError( $error );
 		return !count( $errors );
-	}
-
-	//  --  PRIVATE METHODS  --  //
-	/**
-	 *	Runs Validation of Field Definitions againt Request Input and creates Error Messages.
-	 *	@access		public
-	 *	@param		string		$file				Name of XML Definition File (e.g. %PREFIX%#FILE#.xml)
-	 *	@return		void
-	 */
-	function _loadDefinition( $file , $form )
-	{
-		$this->definition->setForm( $form );
-		$this->definition->setOption( 'prefix', $this->prefix );
-		$this->definition->loadDefinition( $file );
 	}
 }
 ?>

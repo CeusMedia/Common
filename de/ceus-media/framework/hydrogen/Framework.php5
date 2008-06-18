@@ -74,8 +74,8 @@ class Framework
 	 */
 	public function __construct()
 	{
-		$this->_init();
-		$this->_openBuffer();
+		$this->init();
+		$this->openBuffer();
 	}
 	
 	/**
@@ -83,10 +83,10 @@ class Framework
 	 *	@access		public
 	 *	@return		void
 	 */
-	function main()
+	public function main()
 	{
 		$this->control();
-		$this->_closeBuffer();
+		$this->closeBuffer();
 		$this->setViewComponents( array(
 				'config'			=> $this->config,
 				'content'			=> $this->content,
@@ -105,14 +105,14 @@ class Framework
 	 *	@access		public
 	 *	@return		void
 	 */
-	function control()
+	public function control()
 	{
 		$this->controller	= $this->request->get( 'controller' );
 		$this->action		= $this->request->get( 'action' );
 //		remark( "controller: ".$this->controller );
 //		remark( "action: ".$this->action );
 		
-		$filename		= $this->_getFilenameOfController( ucfirst( $this->controller ) );
+		$filename		= $this->getFilenameOfController( ucfirst( $this->controller ) );
 		if( file_exists( $filename ) )
 		{
 			require_once( $filename );
@@ -139,7 +139,7 @@ class Framework
 	 *	@access		public
 	 *	@return		void
 	 */
-	function setViewComponents( $components = array() )
+	public function setViewComponents( $components = array() )
 	{
 		$this->_components	= $components;
 	}
@@ -149,7 +149,7 @@ class Framework
 	 *	@access		public
 	 *	@return		void
 	 */
-	function view()
+	public function view()
 	{
 		extract( $this->_components );
 		require_once( $this->config['paths']['templates']."master.php" );
@@ -161,10 +161,10 @@ class Framework
 	//  --  PRIVATE METHODS  --  //
 	/**
 	 *	Closes Output Buffer.
-	 *	@access		private
+	 *	@access		protected
 	 *	@return		void
 	 */
-	function _closeBuffer()
+	protected function closeBuffer()
 	{
 		$this->_dev	= ob_get_contents();
 		ob_end_clean();
@@ -172,11 +172,11 @@ class Framework
 
 	/**
 	 *	Returns File Name of selected Controller.
-	 *	@access		private
+	 *	@access		protected
 	 *	@param		string		$controller		Name of called Controller
 	 *	@return		string
 	 */
-	function _getFilenameOfController( $controller )
+	protected function getFilenameOfController( $controller )
 	{
 		$filename	= $this->config['paths']['controllers'].ucfirst( $controller)."Controller.php";
 		return $filename;
@@ -184,10 +184,10 @@ class Framework
 	
 	/**
 	 *	Initialisation of Framework.
-	 *	@access		private
+	 *	@access		protected
 	 *	@return		void
 	 */
-	function _init()
+	protected function init()
 	{
 		$this->_sw	= new StopWatch();
 		
@@ -229,10 +229,10 @@ class Framework
 	
 	/**
 	 *	Opens Output Buffer.
-	 *	@access		private
+	 *	@access		protected
 	 *	@return		void
 	 */
-	function _openBuffer()
+	protected function openBuffer()
 	{
 		ob_start();
 	}

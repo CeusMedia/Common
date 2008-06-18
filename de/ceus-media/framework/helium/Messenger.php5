@@ -55,7 +55,7 @@ class Framework_Helium_Messenger extends ADT_OptionObject
 	 *	@param		string		$heading			Text of Heading
 	 *	@return		void
 	 */
-	function addHeading( $heading )
+	public function addHeading( $heading )
 	{
 		$session		= $this->ref->get( 'session' );
 		$headings		= $session->get( $this->getOption( 'key_headings' ) );
@@ -70,7 +70,7 @@ class Framework_Helium_Messenger extends ADT_OptionObject
 	 *	@access		public
 	 *	@return		string
 	 */
-	function buildHeadings()
+	public function buildHeadings()
 	{
 		$session	= $this->ref->get( 'session' );
 		$headings	= $session->get( $this->getOption( 'key_headings' ) );
@@ -83,7 +83,7 @@ class Framework_Helium_Messenger extends ADT_OptionObject
 	 *	@access		public
 	 *	@return		string
 	 */
-	function buildMessages( $format_time = false, $auto_clear = true )
+	public function buildMessages( $format_time = false, $auto_clear = true )
 	{
 		$config		= $this->ref->get( 'config' );
 		$session	= $this->ref->get( 'session' );
@@ -111,7 +111,7 @@ class Framework_Helium_Messenger extends ADT_OptionObject
 	 *	@access		public
 	 *	@return		void
 	 */
-	function clear()
+	public function clear()
 	{
 		$session	= $this->ref->get( 'session' );
 		$session->set( $this->getOption( 'key_headings' ), array() );
@@ -126,10 +126,10 @@ class Framework_Helium_Messenger extends ADT_OptionObject
 	 *	@param		string		$arg2			Argument to be set into Message
 	 *	@return		void
 	 */
-	function noteError( $message, $arg1 = false, $arg2 = false )
+	public function noteError( $message, $arg1 = false, $arg2 = false )
 	{
-		$message	= $this->_setIn( $message, $arg1, $arg2 );
-		$this->_noteMessage( 1, $message);
+		$message	= $this->setIn( $message, $arg1, $arg2 );
+		$this->noteMessage( 1, $message);
 	}
 
 	/**
@@ -140,10 +140,10 @@ class Framework_Helium_Messenger extends ADT_OptionObject
 	 *	@param		string		$arg2			Argument to be set into Message
 	 *	@return		void
 	 */
-	function noteFailure( $message, $arg1 = false, $arg2 = false )
+	public function noteFailure( $message, $arg1 = false, $arg2 = false )
 	{
-		$message	= $this->_setIn( $message, $arg1, $arg2 );
-		$this->_noteMessage( 0, $message);
+		$message	= $this->setIn( $message, $arg1, $arg2 );
+		$this->noteMessage( 0, $message);
 	}
 	
 	/**
@@ -154,10 +154,10 @@ class Framework_Helium_Messenger extends ADT_OptionObject
 	 *	@param		string		$arg2			Argument to be set into Message
 	 *	@return		void
 	 */
-	function noteNotice( $message, $arg1 = false, $arg2 = false )
+	public function noteNotice( $message, $arg1 = false, $arg2 = false )
 	{
-		$message	= $this->_setIn( $message, $arg1, $arg2 );
-		$this->_noteMessage( 2, $message);
+		$message	= $this->setIn( $message, $arg1, $arg2 );
+		$this->noteMessage( 2, $message);
 	}
 	
 	/**
@@ -168,10 +168,10 @@ class Framework_Helium_Messenger extends ADT_OptionObject
 	 *	@param		string		$arg2			Argument to be set into Message
 	 *	@return		void
 	 */
-	function noteSuccess( $message, $arg1 = false, $arg2 = false )
+	public function noteSuccess( $message, $arg1 = false, $arg2 = false )
 	{
-		$message	= $this->_setIn( $message, $arg1, $arg2 );
-		$this->_noteMessage( 3, $message);
+		$message	= $this->setIn( $message, $arg1, $arg2 );
+		$this->noteMessage( 3, $message);
 	}
 	
 	/**
@@ -179,7 +179,7 @@ class Framework_Helium_Messenger extends ADT_OptionObject
 	 *	@access		public
 	 *	@return		bool
 	 */
-	function gotError()
+	public function gotError()
 	{
 		foreach( $messages as $message )
 			if( $message['type'] < 2 )
@@ -190,13 +190,13 @@ class Framework_Helium_Messenger extends ADT_OptionObject
 	//  --  PRIVATE METHODS
 	/**
 	 *	Inserts arguments into a Message.
-	 *	@access		private
+	 *	@access		protected
 	 *	@param		string		$message		Message to display
 	 *	@param		string		$arg1			Argument to be set into Message
 	 *	@param		string		$arg2			Argument to be set into Message
 	 *	@return		string
 	 */
-	function _setIn( $message, $arg1, $arg2 )
+	protected function setIn( $message, $arg1, $arg2 )
 	{
 		if( $arg2 )
 			$message	= preg_replace( "@(.*)\{\S+\}(.*)\{\S+\}(.*)@si", "$1".$arg1."$2".$arg2."$3", $message );
@@ -209,12 +209,12 @@ class Framework_Helium_Messenger extends ADT_OptionObject
 	
 	/**
 	 *	Saves a Message on the Message Stack.
-	 *	@access		private
+	 *	@access		protected
 	 *	@param		int			$type			Message Type (0-Failure|1-Error|2-Notice|3-Success)
 	 *	@param		string		$message		Message to display
 	 *	@return		void
 	 */
-	function _noteMessage( $type, $message)
+	protected function noteMessage( $type, $message)
 	{
 		$session	= $this->ref->get( 'session' );
 		$messages	= (array) $session->get( $this->getOption( 'key_messages' ) );

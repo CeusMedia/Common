@@ -25,7 +25,7 @@ class Math_Factorial
 	{
 		if( $integer < 0 )
 			throw new InvalidArgumentException( "Factorial is defined for positive natural Numbers only" );
-		else if( $integer != (int)$integer )
+		else if( !is_int( $integer ) )
 			throw new InvalidArgumentException( "Factorial is defined for natural Numbers (Integer) only" );
 		else if( $integer == 0 )
 			return 1;

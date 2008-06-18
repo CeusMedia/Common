@@ -10,6 +10,7 @@ require_once( 'Tests/database/AllTests.php' );
 require_once( 'Tests/file/AllTests.php' );
 require_once( 'Tests/folder/AllTests.php' );
 require_once( 'Tests/framework/AllTests.php' );
+require_once( 'Tests/math/AllTests.php' );
 require_once( 'Tests/net/AllTests.php' );
 require_once( 'Tests/ui/AllTests.php' );
 require_once( 'Tests/xml/AllTests.php' );
@@ -32,6 +33,7 @@ class Tests_AllTests
 		$suite->addTest( Tests_File_AllTests::suite() );
 		$suite->addTest( Tests_Folder_AllTests::suite() );
 		$suite->addTest( Tests_Framework_AllTests::suite() );
+		$suite->addTest( Tests_Math_AllTests::suite() );
 		$suite->addTest( Tests_Net_AllTests::suite() );
 		$suite->addTest( Tests_UI_AllTests::suite() );
 		$suite->addTest( Tests_XML_AllTests::suite() );

@@ -32,7 +32,7 @@ import( 'de.ceus-media.framework.neon.Messenger' );
 class Framework_Neon_Base
 {
 	/**	@var	ADT_Reference	$ref			Object Reference */
-	var $ref;
+	protected $ref;
 
 	/**
 	 *	Constructor.

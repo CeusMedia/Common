@@ -2,33 +2,31 @@
 import( 'de.ceus-media.math.analysis.Integration' );
 /**
  *	Integration with Simpsons Algorithm within a compact Interval.
- *	@package		math
- *	@subpackage		analysis
- *	@extends		Integration 
+ *	@package		math.analysis
+ *	@extends		Math_Analysis_Integration 
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version		0.1
+ *	@version		0.6
  */
 /**
  *	Integration with Simpsons Algorithm within a compact Interval.
- *	@package		math
- *	@subpackage		analysis
- *	@extends		Integration 
+ *	@package		math.analysis
+ *	@extends		Math_Analysis_Integration 
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version		0.1
+ *	@version		0.6
  */
-class SimpsonIntegration extends Integration
+class Math_Analysis_SimpsonIntegration extends Math_Analysis_Integration
 {
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		Formula		$_formula		Formula to integrate
-	 *	@param		Interval		$_interval		Interval to integrate within
-	 *	@param		int			$_nodes			Amount of Sampling Nodes to use
+	 *	@param		Math_Formula			$formula		Formula to integrate
+	 *	@param		Math_CompactInterval	$interval		Interval to integrate within
+	 *	@param		int						$nodes			Amount of Sampling Nodes to use
 	 *	@return		void
 	 */
-	public function __construct ($formula, $interval, $nodes)
+	public function __construct( $formula, $interval, $nodes )
 	{
-		$this->Integration( $formula, $interval, $nodes );
+		parent::__construct( $formula, $interval, $nodes );
 	}
 
 	/**
@@ -36,13 +34,13 @@ class SimpsonIntegration extends Integration
 	 *	@access		public
 	 *	@return		array
 	 */
-	function getSamplingNodes ()
+	public function getSamplingNodes()
 	{
-		$nodes	= array ();
-		$start	= $this->_interval->getStart ();
-		$end	= $this->_interval->getEnd ();
-		$distance	= $this->getNodeDistance ();
-		for ($i = 0; $i<$this->getNodes(); $i++)
+		$nodes	= array();
+		$start	= $this->interval->getStart();
+		$end	= $this->interval->getEnd();
+		$distance	= $this->getNodeDistance();
+		for( $i = 0; $i<$this->getNodes(); $i++ )
 		{
 			$x = $start + $i * $distance;
 			$nodes [] = $x;		
@@ -55,19 +53,18 @@ class SimpsonIntegration extends Integration
 	 *	@access		public
 	 *	@return		mixed
 	 */
-	function integrate ()
+	public function integrate()
 	{
-		$sum	= 0;
-		$factor	= 0;
-		$nodes	= $this->getSamplingNodes ();
-		$distance	= $this->getNodeDistance ();
-		$sum	+= $this->_formula->getValue (array_pop($nodes));
-		$sum	+= $this->_formula->getValue (array_shift ($nodes));
-		foreach ($nodes as $node)
+		$sum		= 0;
+		$factor		= 0;
+		$nodes		= $this->getSamplingNodes();
+		$distance	= $this->getNodeDistance();
+		$sum		+= $this->formula->getValue( array_pop( $nodes ) );
+		$sum		+= $this->formula->getValue( array_shift( $nodes ) );
+		foreach( $nodes as $node )
 		{
-			$factor = ($factor == 4) ? 2 : 4;
-			$sum += $factor * $this->_formula->getValue ($node);
-//			remark( "node: ".$node." | factor: ".$factor." | sum: ".$sum );
+			$factor	= ( $factor == 4 ) ? 2 : 4;
+			$sum	+= $factor * $this->formula->getValue( $node );
 		}
 		$sum = $sum * $distance / 3;
 		return $sum;			

@@ -17,12 +17,12 @@
  */
 class Controller
 {
-	/**	@var		Framework			$_application		Instance of Framework */
-	var $_application;
+	/**	@var		Framework			$application		Instance of Framework */
+	var $application;
 	/**	@var		array				$_data			Collected Data for View */
 	var $_data	= array();
-	/**	@var		array				$_env_keys		Keys of Environment */
-	var $_env_keys	= array(
+	/**	@var		array				$envKeys		Keys of Environment */
+	var $envKeys	= array(
 		'dbc',
 		'config',
 		'session',
@@ -59,8 +59,8 @@ class Controller
 	 */
 	public function __construct( &$application )
 	{
-		$this->_setEnv( $application );
-		$this->_loadModel();
+		$this->setEnv( $application );
+		$this->loadModel();
 		$this->language->load( $this->controller );
 	}
 	
@@ -72,7 +72,7 @@ class Controller
 	 *	@param		string		[$topic]			Topic Name of Data
 	 *	@return		void
 	 */
-	function setData( $data, $topic = "" )
+	public function setData( $data, $topic = "" )
 	{
 		if( $topic )
 		{
@@ -93,7 +93,7 @@ class Controller
 	 *	@access		public
 	 *	@return		array
 	 */
-	function getData()
+	public function getData()
 	{
 		return $this->_data;
 	}
@@ -104,9 +104,9 @@ class Controller
 	 *	@access		public
 	 *	@return		string
 	 */
-	function getView()
+	public function getView()
 	{
-		$this->_loadView();
+		$this->loadView();
 		if( method_exists( $this->view, $this->action ) )
 		{
 			$this->view->{$this->action}();
@@ -124,7 +124,7 @@ class Controller
 	 *	@param		string		$action			Action to be called
 	 *	@return		void
 	 */
-	function redirect( $controller, $action = "index" )
+	public function redirect( $controller, $action = "index" )
 	{
 		$this->request->set( 'controller', $controller );
 		$this->request->set( 'action', $action );
@@ -137,7 +137,7 @@ class Controller
 	 *	@param		string		$uri				URI to request
 	 *	@return		void
 	 */
-	function restart( $uri )
+	public function restart( $uri )
 	{
 		$base	= dirname( getEnv( 'SCRIPT_NAME' ) )."/";
 		$this->dbc->close();
@@ -146,14 +146,13 @@ class Controller
 		die;
 	}
 
-	//  --  PRIVATE METHODS  --  //
 	/**
 	 *	Returns File Name of selected Model.
-	 *	@access		private
+	 *	@access		protected
 	 *	@param		string		$controller		Name of called Controller
 	 *	@return		string
 	 */
-	function _getFilenameOfModel( $controller )
+	protected function getFilenameOfModel( $controller )
 	{
 		$filename	= $this->config['paths']['models'].ucfirst( $controller)."Model.php";
 		return $filename;
@@ -161,11 +160,11 @@ class Controller
 
 	/**
 	 *	Returns File Name of selected View.
-	 *	@access		private
+	 *	@access		protected
 	 *	@param		string		$controller		Name of called Controller
 	 *	@return		string
 	 */
-	function _getFilenameOfView( $controller )
+	protected function getFilenameOfView( $controller )
 	{
 		$filename	= $this->config['paths']['views'].ucfirst( $controller)."View.php";
 		return $filename;
@@ -173,12 +172,12 @@ class Controller
 	
 	/**
 	 *	Loads Modul Class of called Controller.
-	 *	@access		private
+	 *	@access		protected
 	 *	@return		void
 	 */
-	function _loadModel()
+	protected function loadModel()
 	{
-		$filename	= $this->_getFilenameOfModel( ucfirst( $this->controller ) );
+		$filename	= $this->getFilenameOfModel( ucfirst( $this->controller ) );
 		if( file_exists( $filename ) )
 		{
 			require_once( $filename );
@@ -191,12 +190,12 @@ class Controller
 
 	/**
 	 *	Loads View Class of called Controller.
-	 *	@access		private
+	 *	@access		protected
 	 *	@return		void
 	 */
-	function _loadView()
+	protected function loadView()
 	{
-		$filename	= $this->_getFilenameOfView( ucfirst( $this->controller ) );
+		$filename	= $this->getFilenameOfView( ucfirst( $this->controller ) );
 		if( file_exists( $filename ) )
 		{
 			require_once( $filename );
@@ -209,15 +208,15 @@ class Controller
 
 	/**
 	 *	Sets Environment of Controller by copying Framework Member Variables.
-	 *	@access		private
+	 *	@access		protected
 	 *	@param		Framework	$application		Instance of Framework
 	 *	@return		void
 	 */
-	function _setEnv( &$application )
+	protected function setEnv( &$application )
 	{
-		$this->_application	=& $application;
-		foreach( $this->_env_keys as $key )
-			$this->$key	=& $this->_application->$key;
+		$this->application	=& $application;
+		foreach( $this->envKeys as $key )
+			$this->$key	=& $this->application->$key;
 	}
 }
 ?>

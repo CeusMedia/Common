@@ -27,7 +27,7 @@ class Framework_Krypton_View_Component_Template extends Framework_Krypton_Core_T
 	 *	@param		array		$elements		Array of Elements to set in Template
 	 *	@return		void
 	 */
-	function __construct( $filename, $elements = null )
+	public function __construct( $filename, $elements = null )
 	{
 		$config		= Framework_Krypton_Core_Registry::getStatic( 'config' );
 

@@ -64,7 +64,7 @@ class TransparentWatermark  {
 	* @uses readImage()
 	* @uses errorMsg
 	*/
-	function markImageFile ( $imageFile, $resultImageFile="") {
+	public function markImageFile ( $imageFile, $resultImageFile="") {
 		if (!$this->stampImage) {
 			$this->errorMsg="Stamp image is not set.";
 			return(false);
@@ -103,7 +103,7 @@ class TransparentWatermark  {
 	* @uses stampPositionX
 	* @uses stampPositionY
 	*/
-	function markImage ( $imageResource) {
+	public function markImage ( $imageResource) {
 		if (!$this->stampImage) {
 			$this->errorMsg="Stamp image is not set.";
 			return(false);
@@ -178,7 +178,7 @@ class TransparentWatermark  {
 	* $this->stampPositionY
 	* @uses errorMsg
 	*/
-	function setStampPosition ( $Xposition, $Yposition) {
+	public function setStampPosition ( $Xposition, $Yposition) {
 		// set X position
 		switch ($Xposition) {
 			case transparentWatermarkOnLeft: 
@@ -209,7 +209,7 @@ class TransparentWatermark  {
 	* @uses stampHeight
 	* @uses errorMsg
 	*/
-	function setStamp( $stampFile) {
+	public function setStamp( $stampFile) {
 		$imageinfos = @getimagesize($stampFile);
 		$width  = $imageinfos[0];
 		$height = $imageinfos[1];
@@ -240,7 +240,7 @@ class TransparentWatermark  {
 	* @access public
 	* @uses errorMsg
 	*/
-	function getLastError() {
+	public function getLastError() {
 		return($this->errorMsg);
 	}
 	
@@ -253,7 +253,7 @@ class TransparentWatermark  {
 	* @access protected
 	* @uses errorMsg
 	*/
-	function readImage( $file, $type) {
+	public function readImage( $file, $type) {
 		switch ($type) {
 			case 2:	//JPEG
 			return(ImageCreateFromJPEG($file));
@@ -278,7 +278,7 @@ class TransparentWatermark  {
 	* @access protected
 	* @uses errorMsg
 	*/
-	function writeImage( $image, $file, $type) {
+	public function writeImage( $image, $file, $type) {
 		switch ($type) {
 			case 2:	//JPEG
 			Imagejpeg( $image, $file);
@@ -301,7 +301,7 @@ class TransparentWatermark  {
 	* @access protected
 	* @uses errorMsg
 	*/
-	function displayImage( $image, $type) {
+	public function displayImage( $image, $type) {
 		switch ($type) {
 			case 2:	//JPEG
 			header("Content-Type: image/jpeg");

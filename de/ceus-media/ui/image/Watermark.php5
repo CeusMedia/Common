@@ -17,31 +17,31 @@
  */
 class Watermark
 {
-	/**	@var	array		$size			Array of Information of Stamp Image */
-	var $_size;
-	/**	@var	string		$_stamp			File Name of Stamp Image */
-	var $_stamp;
-	/**	@var	array		$_stamp_source	Image Source Stamp Image */
-	var $_stamp_source;
-	/**	@var	int			$_quality			Quality of resulting JPEG Image */
-	var $_quality;
-	/**	@var	string		$_position_h		Horizontal Position of Stamp Image (left, center, right) */
-	var $_position_h	= 'right';
-	/**	@var	string		$_position_v		Vertical Position of Stamp Image (top, middle, bottom) */
-	var $_position_v	= 'bottom';
-	/**	@var	int			$_margin_x		Horizontal Margin of Stamp Image */
-	var $_margin_x	= 0;
-	/**	@var	int			$_margin_y		Vertical Margin of Stamp Image */
-	var $_margin_y	= 0;
-	/**	@var	int			$_alpha			Opacity of Stamp Image */
-	var $_alpha;
+	/**	@var		array		$size			Array of Information of Stamp Image */
+	protected $size;
+	/**	@var		string		$stamp			File Name of Stamp Image */
+	protected $stamp;
+	/**	@var		array		$stampSource	Image Source Stamp Image */
+	protected $stampSource;
+	/**	@var		int			$quality		Quality of resulting JPEG Image */
+	protected $quality;
+	/**	@var		string		$positionH		Horizontal Position of Stamp Image (left, center, right) */
+	protected $positionH		= 'right';
+	/**	@var		string		$positionV		Vertical Position of Stamp Image (top, middle, bottom) */
+	protected $positionV		= 'bottom';
+	/**	@var		int			$marginX		Horizontal Margin of Stamp Image */
+	protected $marginX			= 0;
+	/**	@var		int			$marginY		Vertical Margin of Stamp Image */
+	protected $marginY			= 0;
+	/**	@var		int			$alpha			Opacity of Stamp Image */
+	protected $alpha;
 	
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		string	$stamp 		File Name of Stamp Image
-	 *	@param		int		$alpha 		Opacity of Stamp Image
-	 *	@param		int		$quality 		Quality of resulting Image
+	 *	@param		string		$stamp 			File Name of Stamp Image
+	 *	@param		int			$alpha 			Opacity of Stamp Image
+	 *	@param		int			$quality 		Quality of resulting Image
 	 *	@return		void
 	 */
 	public function __construct( $stamp, $alpha = 100, $quality = 100 )
@@ -52,88 +52,55 @@ class Watermark
 	}
 	
 	/**
-	 *	Sets the Position of Stamp Image.
-	 *	@access		public
-	 *	@param		string	$horizontal 	Horizontal Position of Stamp Image (left,center,right)
-	 *	@param		string	$vertical 		Vertical Position of Stamp Image (top,middle,bottom)
-	 *	@return		void
+	 *	Return Array with Coords of Stamp Image within a given Image.
+	 *	@access		protected
+	 *	@param		resource		$img 		Image Resource
+	 *	@return		array
 	 */
-	function setPosition( $horizontal, $vertical )
+	protected function calculatePosition( $img )
 	{
-		if( in_array( $horizontal, array( 'left', 'center', 'right' ) ) )
-			$this->_position_h	= $horizontal;
-		else
-			trigger_error( "Horizontal Position '".$horizontal."' must be on of ('left', 'center', 'right').", E_USER_ERROR );
-		if( in_array( $vertical, array( 'top', 'middle', 'bottom' ) ) )
-			$this->_position_v	= $vertical;
-		else
-			trigger_error( "Vertical Position '".$horizontal."' must be on of ('top', 'middle', 'bottom').", E_USER_ERROR );
-	}
-	
-	/**
-	 *	Sets the Opacity of Stamp Image.
-	 *	@access		public
-	 *	@param		int		$alpha 		Opacity of Stamp Image
-	 *	@return		void
-	 */
-	function setAlpha( $alpha )
-	{
-		$this->_alpha	= abs( (int)$alpha );
-	}
-	
-	/**
-	 *	Sets the Marig of Stamp Image.
-	 *	@access		public
-	 *	@param		int		$x 			Horizontal Margin of Stamp Image
-	 *	@param		int		$y 			Vertical Margin of Stamp Image
-	 *	@return		void
-	 */
-	function setMargin( $x, $y )
-	{
-		$this->_margin_x	= abs( (int)$x );
-		$this->_margin_y	= abs( (int)$y );
-	}
-	
-	/**
-	 *	Sets the Quality of resulting Image.
-	 *	@access		public
-	 *	@param		int		$quality 		Quality of resulting Image
-	 *	@return		void
-	 */
-	function setQuality( $quality )
-	{
-		$this->_quality	= $quality;
-	}
-
-	/**
-	 *	Sets the Stamp Image.
-	 *	@access		public
-	 *	@param		string	$stamp		File Name of Stamp Image
-	 *	@return		void
-	 */
-	function setStamp( $stamp )
-	{
-		if( $size = getimagesize( $stamp ) )
+		$sx	= imagesx( $img );
+		$sy	= imagesy( $img );
+		
+		switch( $this->positionH )
 		{
-			$this->_size			= $size;
-			$this->_stamp			= $stamp;
-			$this->_stamp_source	= $this->_getStampSource();
+			case 'left':
+				$posX	= 0 + $this->marginX;
+				break;
+			case 'center':
+				$posX	= ceil( $sx / 2 - $this->size[0] / 2 );
+				break;
+			case 'right':
+				$posX	= $sx - $this->size[0] - $this->marginX;
+				break;
 		}
-		else
+		switch( $this->positionV )
 		{
-			$this->_size	= false;
-			trigger_error( "Stamp File is not an supported Image", E_USER_WARNING );
+			case 'top':
+				$posY	= 0 + $this->marginY;
+				break;
+			case 'middle':
+				$posY	= ceil( $sy / 2 - $this->size[1] / 2 );
+				break;
+			case 'bottom':
+				$posY	= $sy - $this->size[1] - $this->marginY;
+				break;
 		}
+		$position	= array(
+			'x'	=> $posX,
+			'y'	=> $posY
+			);
+		return $position;
 	}
 	
 	/**
 	 *	Marks a Image with Stamp Image.
 	 *	@access		public
-	 *	@param		string	$source 		File Name of Source Image
-	 *	@param		string	$target 		Target Name of Target Image
+	 *	@param		string		$source 		File Name of Source Image
+	 *	@param		string		$target 		Target Name of Target Image
 	 *	@return		bool
 	 */
-	function markImage( $source, $target = false )
+	public function markImage( $source, $target = false )
 	{
 		if( false === $target )
 			$target = $source;
@@ -145,17 +112,17 @@ class Watermark
 			{
 				case 1:
 					$img	= imagecreatefromgif( $source );
-					$img	= $this->_markImageSource( $img );
+					$img	= $this->markImageSource( $img );
 					imagegif( $img, $target );
 					return true;
 				case 2:
 					$img	= imagecreatefromjpeg( $source );
-					$img	= $this->_markImageSource( $img );
-					imagejpeg( $img, $target, $this->_quality );
+					$img	= $this->markImageSource( $img );
+					imagejpeg( $img, $target, $this->quality );
 					return true;
 				case 3:
 					$img	= imagecreatefrompng( $source );
-					$img	= $this->_markImageSource( $img );
+					$img	= $this->markImageSource( $img );
 					imagepng( $img, $target );
 					return true;
 			}
@@ -164,82 +131,114 @@ class Watermark
 			trigger_error( "Source File is not an supported Image", E_USER_WARNING );
 		return false;
 	}
-
-	//  --  PRIVATE METHODS  --  //
-	/**
-	 *	Create Image Resource from Image File.
-	 *	@access		private
-	 *	@return		resource
-	 */
-	function _getStampSource()
-	{
-		switch( $this->_size[2] )
-		{
-			case 1:
-				$img	= imagecreatefromgif( $this->_stamp );
-				return $img;
-			case 2:
-				$img	= imagecreatefromjpeg( $this->_stamp );
-				return $img;
-			case 3:
-				$img	= imagecreatefrompng( $this->_stamp );
-				return $img;
-		}
-	}
-	
-	/**
-	 *	Return Array with Coords of Stamp Image within a given Image.
-	 *	@access		private
-	 *	@param		resource		$img 		Image Resource
-	 *	@return		array
-	 */
-	function _calculatePosition( $img )
-	{
-		$sx	= imagesx( $img );
-		$sy	= imagesy( $img );
-		
-		switch( $this->_position_h )
-		{
-			case 'left':
-				$pos_x	= 0 + $this->_margin_x;
-				break;
-			case 'center':
-				$pos_x	= ceil( $sx / 2 - $this->_size[0] / 2 );
-				break;
-			case 'right':
-				$pos_x	= $sx - $this->_size[0] - $this->_margin_x;
-				break;
-		}
-		switch( $this->_position_v )
-		{
-			case 'top':
-				$pos_y	= 0 + $this->_margin_y;
-				break;
-			case 'middle':
-				$pos_y	= ceil( $sy / 2 - $this->_size[1] / 2 );
-				break;
-			case 'bottom':
-				$pos_y	= $sy - $this->_size[1] - $this->_margin_y;
-				break;
-		}
-		$position	= array(
-			'x'	=> $pos_x,
-			'y'	=> $pos_y
-			);
-		return $position;
-	}
 	
 	/**
 	 *	Returns marked Image Source.
-	 *	@access		private
+	 *	@access		protected
 	 *	@param		resource		$img 		Image Resource
 	 *	@return		resource
 	 */
-	function _markImageSource( $img )
+	protected function markImageSource( $img )
 	{
-		$position	= $this->_calculatePosition( $img );
-		imagecopymerge( $img, $this->_stamp_source, $position['x'], $position['y'], 0, 0, $this->_size[0], $this->_size[1], $this->_alpha );
+		$position	= $this->calculatePosition( $img );
+		imagecopymerge( $img, $this->stampSource, $position['x'], $position['y'], 0, 0, $this->size[0], $this->size[1], $this->alpha );
 		return $img;
+	}
+
+	/**
+	 *	Create Image Resource from Image File.
+	 *	@access		protected
+	 *	@return		resource
+	 */
+	protected function getStampSource()
+	{
+		switch( $this->size[2] )
+		{
+			case 1:
+				$img	= imagecreatefromgif( $this->stamp );
+				return $img;
+			case 2:
+				$img	= imagecreatefromjpeg( $this->stamp );
+				return $img;
+			case 3:
+				$img	= imagecreatefrompng( $this->stamp );
+				return $img;
+		}
+	}
+	
+	/**
+	 *	Sets the Opacity of Stamp Image.
+	 *	@access		public
+	 *	@param		int		$alpha 		Opacity of Stamp Image
+	 *	@return		void
+	 */
+	public function setAlpha( $alpha )
+	{
+		$this->alpha	= abs( (int)$alpha );
+	}
+	
+	/**
+	 *	Sets the Marig of Stamp Image.
+	 *	@access		public
+	 *	@param		int			$x 				Horizontal Margin of Stamp Image
+	 *	@param		int			$y 				Vertical Margin of Stamp Image
+	 *	@return		void
+	 */
+	public function setMargin( $x, $y )
+	{
+		$this->marginX	= abs( (int)$x );
+		$this->marginY	= abs( (int)$y );
+	}
+	
+	/**
+	 *	Sets the Position of Stamp Image.
+	 *	@access		public
+	 *	@param		string		$horizontal 	Horizontal Position of Stamp Image (left,center,right)
+	 *	@param		string		$vertical 		Vertical Position of Stamp Image (top,middle,bottom)
+	 *	@return		void
+	 */
+	public function setPosition( $horizontal, $vertical )
+	{
+		if( in_array( $horizontal, array( 'left', 'center', 'right' ) ) )
+			$this->positionH	= $horizontal;
+		else
+			trigger_error( "Horizontal Position '".$horizontal."' must be on of ('left', 'center', 'right').", E_USER_ERROR );
+		if( in_array( $vertical, array( 'top', 'middle', 'bottom' ) ) )
+			$this->positionV	= $vertical;
+		else
+			trigger_error( "Vertical Position '".$horizontal."' must be on of ('top', 'middle', 'bottom').", E_USER_ERROR );
+	}
+	
+	/**
+	 *	Sets the Quality of resulting Image.
+	 *	@access		public
+	 *	@param		int			$quality 		Quality of resulting Image
+	 *	@return		void
+	 */
+	public function setQuality( $quality )
+	{
+		$this->quality	= $quality;
+	}
+
+	/**
+	 *	Sets the Stamp Image.
+	 *	@access		public
+	 *	@param		string		$stamp			File Name of Stamp Image
+	 *	@return		void
+	 */
+	public function setStamp( $stamp )
+	{
+		if( $size = getimagesize( $stamp ) )
+		{
+			$this->size			= $size;
+			$this->stamp			= $stamp;
+			$this->stampSource	= $this->getStampSource();
+		}
+		else
+		{
+			$this->size	= false;
+			trigger_error( "Stamp File is not an supported Image", E_USER_WARNING );
+		}
 	}
 }
 ?>

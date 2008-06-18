@@ -1,37 +1,36 @@
 <?php
 /**
  *	Newton Interpolation.
- *	@package		math
- *	@subpackage		analysis
- *	@uses			Polynomial
+ *	@package		math.analysis
+ *	@uses			Math_Polynomial
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			03.02.2006
- *	@version		0.1
+ *	@version		0.6
  */
 /**
  *	Newton Interpolation.
- *	@package		math
- *	@subpackage		analysis
+ *	@package		math.analysis
+ *	@uses			Math_Polynomial
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			03.02.2006
- *	@version		0.1
+ *	@version		0.6
  */
-class NewtonInterpolation
+class Math_Analysis_NewtonInterpolation
 {
-	/**	@var	array		$_data			Array of x and y values (Xi->Fi) */
-	var $_data		= array();
-	/**	@var	array		$_polynomial		Polynomial coefficients */
-	var $_polynomial	= array();
+	/**	@var		array		$data			Array of x and y values (Xi->Fi) */
+	protected $data				= array();
+	/**	@var		array		$polynomial		Polynomial coefficients */
+	protected $polynomial		= array();
 
 	/**
 	 *	Sets Data.
 	 *	@access		public
-	 *	@param		array	$data			Array of x and y values (Xi->Fi)
+	 *	@param		array		$data			Array of x and y values (Xi->Fi)
 	 *	@return		void
 	 */
-	function setData( $data )
+	public function setData( $data )
 	{
-		$this->_data	= $data;
+		$this->data	= $data;
 	}
 
 	/**
@@ -39,12 +38,12 @@ class NewtonInterpolation
 	 *	@access		public
 	 *	@return		void
 	 */
-	function buildPolynomial()
+	public function buildPolynomial()
 	{
 		$t		= array();
 		$a		= array();
-		$keys	= array_keys( $this->_data );
-		$values	= array_values( $this->_data );
+		$keys	= array_keys( $this->data );
+		$values	= array_values( $this->data );
 		for( $i=0; $i<count( $keys ); $i++ )
 		{
 			$t[$i]	= $values[$i];
@@ -52,22 +51,22 @@ class NewtonInterpolation
 				$t[$j]	= ( $t[$j+1] - $t[$j] ) / ( $keys[$i] - $keys[$j] );
 			$a[$i]	= $t[0];
 		}
-		$this->_polynomial	= $a;
+		$this->polynomial	= $a;
 	}
 
 	/**
 	 *	Interpolates for a specific x value and returns P(x).
 	 *	@access		public
-	 *	@param		double	$x			Value to interpolate for
+	 *	@param		double		$x				Value to interpolate for
 	 *	@return		double
 	 */
-	function interpolate( $x )
+	public function interpolate( $x )
 	{
-		$keys	= array_keys( $this->_data );
+		$keys	= array_keys( $this->data );
 		$n	= count( $keys );
-		$p	= $this->_polynomial[$n-1];
+		$p	= $this->polynomial[$n-1];
 		for( $i=$n-2; $i>=0; $i-- )
-			$p	= $p * ( $x - $keys[$i] ) + $this->_polynomial[$i];
+			$p	= $p * ( $x - $keys[$i] ) + $this->polynomial[$i];
 		return $p;
 	}
 }

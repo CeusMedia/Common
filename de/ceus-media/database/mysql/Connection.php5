@@ -2,7 +2,6 @@
 import( 'de.ceus-media.database.BaseConnection' );
 import( 'de.ceus-media.database.Result' );
 import( 'de.ceus-media.database.Row' );
-import( 'de.ceus-media.functions.getBits' );
 /**
  *	Wrapper for mySQL Database Connection with Transaction Support.
  *	@package		database.mysql
@@ -137,7 +136,7 @@ class Database_mySQL_Connection extends Database_BaseConnection
 		{
 			if( $debug > 0 )
 			{
-				$bits = getBits( $debug, 5 );
+				$bits = $this->getBits( $debug, 5 );
 				if( $bits[0] )
 				{
 					$this->countQueries++;

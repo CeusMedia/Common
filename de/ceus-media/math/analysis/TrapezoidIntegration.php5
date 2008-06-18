@@ -2,33 +2,31 @@
 import( 'de.ceus-media.math.analysis.Integration' );
 /**
  *	Integration with Trapezoid Algorithm within a compact Interval.
- *	@package		math
- *	@subpackage		analysis
- *	@extends		Integration 
+ *	@package		math.analysis
+ *	@extends		Math_Analysis_Integration 
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version		0.1
+ *	@version		0.6
  */
 /**
  *	Integration with Trapezoid Algorithm within a compact Interval.
- *	@package		math
- *	@subpackage		analysis
- *	@extends		Integration
+ *	@package		math.analysis
+ *	@extends		Math_Analysis_Integration
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version		0.1
+ *	@version		0.6
  */
-class TrapezoidIntegration extends Integration
+class Math_Analysis_TrapezoidIntegration extends Math_Analysis_Integration
 {
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		Formula		$_formula		Formula to integrate
-	 *	@param		Interval		$_interval		Interval to integrate within
-	 *	@param		int			$_nodes			Amount of Sampling Nodes to use
+	 *	@param		Math_Formula			$formula		Formula to integrate
+	 *	@param		Math_CompanctInterval	$interval		Interval to integrate within
+	 *	@param		int						$nodes			Amount of Sampling Nodes to use
 	 *	@return		void
 	 */
 	public function __construct( $formula, $interval, $nodes )
 	{
-		$this->Integration( $formula, $interval, $nodes );
+		parent::__construct( $formula, $interval, $nodes );
 	}
 
 	/**
@@ -36,11 +34,11 @@ class TrapezoidIntegration extends Integration
 	 *	@access		public
 	 *	@return		array
 	 */
-	function getSamplingNodes()
+	public function getSamplingNodes()
 	{
 		$nodes	= array();
-		$start	= $this->_interval->getStart();
-		$end	= $this->_interval->getEnd();
+		$start	= $this->interval->getStart();
+		$end	= $this->interval->getEnd();
 		$distance	= $this->getNodeDistance();
 		for( $i = 0; $i<$this->getNodes(); $i++ )
 		{
@@ -55,15 +53,15 @@ class TrapezoidIntegration extends Integration
 	 *	@access		public
 	 *	@return		mixed
 	 */
-	function integrate()
+	public function integrate()
 	{
-		$sum	= 0;
-		$nodes	= $this->getSamplingNodes();
+		$sum		= 0;
+		$nodes		= $this->getSamplingNodes();
 		$distance	= $this->getNodeDistance();
-		$sum	+= $this->_formula->getValue( array_pop( $nodes ) );
-		$sum	+= $this->_formula->getValue( array_shift ( $nodes ) );
+		$sum		+= $this->formula->getValue( array_pop( $nodes ) );
+		$sum		+= $this->formula->getValue( array_shift ( $nodes ) );
 		foreach( $nodes as $node )
-			$sum += 2 * $this->_formula->getValue( $node );
+			$sum += 2 * $this->formula->getValue( $node );
 		$sum = $sum * $distance / 2;
 		return $sum;			
 	}

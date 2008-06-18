@@ -25,9 +25,9 @@ import( 'de.ceus-media.alg.TimeConverter' );
 class Framework_Neon_Action
 {
 	/**	@var	array			$actions	Array of Action events and methods */
-	var $actions	= array();
+	protected $actions	= array();
 	/**	@var	ADT_Reference	$ref		Object Reference */
-	var $ref;
+	protected $ref;
 
 	/**
 	 *	Constructor.

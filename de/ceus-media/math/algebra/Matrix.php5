@@ -2,192 +2,197 @@
 import( 'de.ceus-media.math.algebra.Vector' );
 /**
  *	Matrix.
- *	@package		math
- *	@subpackage		algebra
- *	@extends		Object
- *	@uses			Vector
+ *	@package		math.algebra
+ *	@uses			Math_Algebra_Vector
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version		0.1
+ *	@version		0.6
  */
 /**
  *	Matrix.
- *	@package		math
- *	@subpackage		algebra
- *	@extends		Object
- *	@uses			Vector
+ *	@package		math.algebra
+ *	@uses			Math_Algebra_Vector
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version		0.1
+ *	@version		0.6
  */
-class Matrix
+class Math_Algebra_Matrix
 {
-	/**	@var	int		$_dimx		Dimension of x axis */
-	var $_dimx = 0;
-	/**	@var	int		$_dimy		Dimension of y axis */
-	var $_dimy = 0;
-	/**	@var	array	$_values		Values of Matrix */
-	var $_values = array();
+	/**	@var		int			$rowNumber		Number of Rows */
+	protected $rowNumber		= 0;
+	/**	@var		int			$columnNumber	Number of Columns */
+	protected $columnNumber		= 0;
+	/**	@var		array		$values			Values of Matrix */
+	protected $values			= array();
 
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		int		$dimx		Dimension of x axis
-	 *	@param		int		$dimy		Dimension of y axis
-	 *	@param		int		$init			initial values in Matrix
+	 *	@param		int			$rowNumber		Number of Rows
+	 *	@param		int			$columnNumber	Number of Columns
+	 *	@param		int			$init			Initial Values in Matrix
 	 *	@return		void
 	 */
-	public function __construct( $dimx, $dimy, $init = 0 )
+	public function __construct( $rowNumber, $columnNumber, $init = 0 )
 	{
-		if( $dimx < 1 )
-			trigger_error( "Dimension of x axis must be at least 1.", E_USER_ERROR );
-		if( $dimx < 1 )
-			trigger_error( "Dimension of y axis must be at least 1.", E_USER_ERROR );
-		$this->_dimx = $dimx;
-		$this->_dimy = $dimy;
+		if( $rowNumber < 1 )
+			throw new InvalidArgumentException( 'Number of Rows must be at least 1.' );
+		if( $columnNumber < 1 )
+			throw new InvalidArgumentException( 'Number of Columns must be at least 1.' );
+		$this->rowNumber	= $rowNumber;
+		$this->columnNumber	= $columnNumber;
 		$this->clear( $init );
 	}
 	
 	/**
 	 *	Clears Matrix by setting initial value.
 	 *	@access		public
-	 *	@param		int		$init			initial values in Matrix
+	 *	@param		int			$init			initial values in Matrix
 	 *	@return		void
 	 */
-	function clear( $init = 0 )
+	public function clear( $init = 0 )
 	{
-		for( $x = 0; $x < $this->getDimX(); $x++ )
-			for( $y = 0; $y < $this->getDimY(); $y++ )
-				$this->setValue( $x, $y, $init );
+		for( $row = 0; $row < $this->getRowNumber(); $row++ )
+			for( $column = 0; $column < $this->getColumnNumber(); $column++ )
+				$this->setValue( $row, $column, $init );
 	}
 	
 	/**
-	 *	Returns Dimension of x axis.
+	 *	Returns Number of Rows.
 	 *	@access		public
 	 *	@return		int
 	 */
-	function getDimX()
+	public function getRowNumber()
 	{
-		return $this->_dimx;
+		return $this->rowNumber;
 	}
 
 	/**
-	 *	Returns Dimension of y axis.
+	 *	Returns Number of Columns.
 	 *	@access		public
 	 *	@return		int
 	 */
-	function getDimY()
+	public function getColumnNumber()
 	{
-		return $this->_dimy;
+		return $this->columnNumber;
 	}
 
 	/**
 	 *	Returns a column as Vector.
 	 *	@access		public
-	 *	@param		int		$column		Column Key on y axis
-	 *	@return		Vector
+	 *	@param		int			$column			Column Index
+	 *	@return		Math_Algebra_Vector
 	 */
-	function getColumn( $column )
+	public function getColumn( $column )
 	{
-		if( $column < 0 || $column >= $this->getDimY() )
-			trigger_error( "Column key '".$column."' is not valid.", E_USER_ERROR );
+		if( $column < 0 || $column >= $this->getColumnNumber() )
+			throw new OutOfRangeException( 'Column key "'.$column.'" is not valid.' );
 		$values = array();
-		for( $x = 0; $x < $this->getDimX(); $x++ )
-			$values[] = $this->getValue( $x, $column );
-		$v = new Vector( $values );
-		return $v;
+		for( $row = 0; $row < $this->getRowNumber(); $row++ )
+			$values[] = $this->getValue( $row, $column );
+		return new Math_Algebra_Vector( $values );
 	}
 
 	/**
 	 *	Returns a row as Vector.
 	 *	@access		public
-	 *	@param		int		$row		Row Key on x axis
-	 *	@return		Vector
+	 *	@param		int			$row			Row Index
+	 *	@return		Math_Algebra_Vector
 	 */
-	function getRow( $row )
+	public function getRow( $row )
 	{
-		if( $row < 0 || $row >= $this->getDimX() )
-			trigger_error( "Row key '".$row."' is not valid.", E_USER_ERROR );
-		$v = new Vector( $this->_values[$row] );
-		return $v;
+		if( $row < 0 || $row >= $this->getRowNumber() )
+			throw new OutOfRangeException( 'Row key "'.$row.'" is not valid.' );
+		return new Math_Algebra_Vector( $this->values[$row] );
 	}
 	
 	/**
 	 *	Returns a Value.
 	 *	@access		public
-	 *	@param		int		$x			Key on x axis
-	 *	@param		int		$y			Key on y axis
+	 *	@param		int			$row			Row Index
+	 *	@param		int			$column			Column Index
 	 *	@return		mixed
 	 */
-	function getValue( $x, $y )
+	public function getValue( $row, $column )
 	{
-		if( $x < 0 || $x >= $this->getDimX() )
-			trigger_error( "Row key '".$x."' is not valid.", E_USER_ERROR );
-		if( $y < 0 || $y >= $this->getDimY() )
-			trigger_error( "Column key '".$y."' is not valid.", E_USER_ERROR );
-		return $this->_values[$x][$y];
+		if( $row < 0 || $row >= $this->getRowNumber() )
+			throw new OutOfRangeException( 'Row key "'.$row.'" is not valid.' );
+		if( $column < 0 || $column >= $this->getColumnNumber() )
+			throw new OutOfRangeException( 'Column key "'.$column.'" is not valid.' );
+		return $this->values[$row][$column];
 	}
 
 	/**
 	 *	Sets a value.
 	 *	@access		public
-	 *	@param		int		$x			Key on x axis
-	 *	@param		int		$y			Key on y axis
-	 *	@param		mixed	$value		Values to be set
+	 *	@param		int			$row			Row Index
+	 *	@param		int			$column			Column Index
+	 *	@param		mixed		$value			Values to be set
 	 *	@return		void
 	 */
-	function setValue ($x, $y, $value)
+	public function setValue( $row, $column, $value )
 	{
-		if( $x < 0 || $x >= $this->getDimX() )
-			trigger_error( "Row key '".$x."' is not valid.", E_USER_ERROR );
-		if( $y < 0 || $y >= $this->getDimY() )
-			trigger_error( "Column key '".$y."' is not valid.", E_USER_ERROR );
-		$this->_values[$x][$y] = $value;
+		if( $row < 0 || $row >= $this->getRowNumber() )
+			throw new OutOfRangeException( 'Row key "'.$row.'" is not valid.' );
+		if( $column < 0 || $column >= $this->getColumnNumber() )
+			throw new OutOfRangeException( 'Column key "'.$column.'" is not valid.' );
+		$this->values[$row][$column] = $value;
 	}
 
 	/**
 	 *	Returns transposed Matrix.
 	 *	@access		public
-	 *	@return		Matrix
+	 *	@return		Math_Algebra_Matrix
 	 */
-	function transpose()
+	public function transpose()
 	{
-		$m = new Matrix( $this->getDimY(), $this->getDimX() );
-		for( $x = 0; $x < $this->getDimX(); $x++ )
-			for( $y = 0; $y < $this->getDimY(); $y++ )
-				$m->setValue( $y, $x, $this->getValue( $x, $y ) );
-		return $m;
+		$array	= array();
+		$rowNumber		= $this->getRowNumber();
+		$columnNumber	= $this->getColumnNumber();
+		for( $row = 0; $row < $rowNumber; $row++ )
+			for( $column = 0; $column < $columnNumber; $column++ )
+				$array[$column][$row]	= $this->values[$row][$column];
+		$this->rowNumber	= $columnNumber;
+		$this->columnNumber	= $rowNumber;
+		$this->values		= $array;
 	}
 
 	/**
 	 *	Swaps 2 Rows within Matrix.
 	 *	@access		public
-	 *	@param		int		$row1		Source Row 
-	 *	@param		int		$row2		Target Row 
+	 *	@param		int			$row1			Index of Source Row 
+	 *	@param		int			$row2			Index of Target Row 
 	 *	@return		void
 	 */
-	function swapRows( $row1, $row2 )
+	public function swapRows( $row1, $row2 )
 	{
-		for( $i=0; $i<$this->getDimY(); $i++ )
-		{
-			$buffer	= $this->getValue( $row1, $i );
-			$this->setValue( $row1, $i, $this->getValue( $row2, $i ) );
-			$this->setValue( $row2, $i, $buffer );
-		}
+		if( $row1 < 0 || $row1 >= $this->getRowNumber() )
+			throw new OutOfRangeException( 'Source Row key "'.$row1.'" is not valid.' );
+		if( $row2 < 0 || $row2 >= $this->getRowNumber() )
+			throw new OutOfRangeException( 'Target Row key "'.$row2.'" is not valid.' );
+
+		$buffer	= $this->values[$row2];
+		$this->values[$row2]	= $this->values[$row1];
+		$this->values[$row1]	= $buffer;
 	}
 	
 	/**
 	 *	Swaps 2 Columns within Matrix.
 	 *	@access		public
-	 *	@param		int		$col1		Source Column
-	 *	@param		int		$col2		Target Column
+	 *	@param		int			$column1		Index of Source Column
+	 *	@param		int			$column2		Index of Target Column
 	 *	@return		void
 	 */
-	function swapColumns( $col1, $col2 )
+	public function swapColumns( $column1, $column2 )
 	{
-		for( $i=0; $i<$this->getDimX(); $i++ )
+		if( $column1 < 0 || $column1 >= $this->getColumnNumber() )
+			throw new OutOfRangeException( 'Column key "'.$column1.'" is not valid.' );
+		if( $column2 < 0 || $column2 >= $this->getColumnNumber() )
+			throw new OutOfRangeException( 'Column key "'.$column2.'" is not valid.' );
+
+		for( $row = 0; $row < $this->getRowNumber(); $row++ )
 		{
-			$buffer	= $this->getValue( $i, $col1 );
-			$this->setValue( $i, $col1, $this->getValue( $i, $col2 ) );
-			$this->setValue( $i, $col2, $buffer );
+			$buffer	= $this->values[$row][$column1];
+			$this->values[$row][$column1]	= $this->values[$row][$column2];
+			$this->values[$row][$column2]	= $buffer;
 		}
 	}
 	
@@ -196,9 +201,9 @@ class Matrix
 	 *	@access		public
 	 *	@return		array
 	 */
-	function toArray()
+	public function toArray()
 	{
-		return $this->_values;		
+		return $this->values;		
 	}
 	
 	/**
@@ -206,18 +211,18 @@ class Matrix
 	 *	@access		public
 	 *	@return		string
 	 */
-	function toTable()
+/*	public function toTable()
 	{
 		$code = "<table style='border-width: 0px 1px 0px 1px; border-style: solid; border-color: black'>";
-		for( $x = 0; $x < $this->getDimX(); $x++ )
+		for( $row = 0; $row < $this->getRowNumber(); $row++ )
 		{
 			$code .= "<tr>";
-			for( $y = 0; $y < $this->getDimY(); $y++ )
-				$code .= "<td align='right'>".$this->getValue( $x, $y )."</td>";
+			for( $column = 0; $column < $this->getColumnNumber(); $column++ )
+				$code .= "<td align='right'>".$this->getValue( $row, $column )."</td>";
 			$code .= "</tr>";
 		}
 		$code .= "</table>";
 		return $code;
-	}
+	}*/
 }
 ?>

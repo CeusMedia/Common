@@ -1,24 +1,22 @@
 <?php
 /**
  *	Neville Interpolation.
- *	@package		math
- *	@subpackage		analysis
+ *	@package		math.analysis
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			03.02.2006
- *	@version		0.1
+ *	@version		0.6
  */
 /**
  *	Neville Interpolation.
- *	@package		math
- *	@subpackage		analysis
+ *	@package		math.analysis
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			03.02.2006
- *	@version		0.1
+ *	@version		0.6
  */
-class NevilleInterpolation
+class Math_Analysis_NevilleInterpolation
 {
-	/**	@var	array		$_data			Array of x and y values (Xi->Fi) */
-	var $_data		= array();
+	/**	@var		array		$data		Array of x and y values (Xi->Fi) */
+	protected $data				= array();
 
 	/**
 	 *	Sets Data.
@@ -26,22 +24,22 @@ class NevilleInterpolation
 	 *	@param		array		$data		Array of x and y values (Xi->Fi)
 	 *	@return		void
 	 */
-	function setData( $data )
+	protected function setData( $data )
 	{
-		$this->_data	= $data;
+		$this->data	= $data;
 	}
 
 	/**
 	 *	Interpolates for a specific x value and returns P(x).
 	 *	@access		public
-	 *	@param		double		$x		Value to interpolate for
+	 *	@param		double		$x			Value to interpolate for
 	 *	@return		double
 	 */
-	function interpolate( $x )
+	protected function interpolate( $x )
 	{
 		$t		= array();
-		$keys	= array_keys( $this->_data );
-		$values	= array_values( $this->_data );
+		$keys	= array_keys( $this->data );
+		$values	= array_values( $this->data );
 		for( $i=0; $i<count( $keys ); $i++ )
 		{
 			$t[$i]	= $values[$i];

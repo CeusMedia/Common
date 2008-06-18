@@ -1,33 +1,34 @@
 <?php
 /**
  *	Sequence within a compact Interval.
- *	@package		math
- *	@subpackage		analysis
- *	@extends		Object
+ *	@package		math.analysis
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version		0.1
+ *	@version		0.6
  */
 /**
  *	Sequence within a compact Interval.
- *	@package		math
- *	@subpackage		analysis
- *	@extends		Object
+ *	@package		math.analysis
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version		0.1
+ *	@version		0.6
  */
-class Sequence
+class Math_Analysis_Sequence
 {
+	/**	@var		Math_Formula			$formula		Formula to integrate */
+	protected $formula;
+	/**	@var		Math_CompactInterval	$interval		Interval to integrate within */
+	protected $interval;
+
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		Formula		$formula		Formula of Sequence
-	 *	@param		Interval		$interval		Interval of Sequence
+	 *	@param		Math_Formula			$formula		Formula of Sequence
+	 *	@param		Math_CompactInterval	$interval		Interval of Sequence
 	 *	@return		void
 	 */
 	public function __construct( $formula, $interval )
 	{
-		$this->_formula	= $formula;
-		$this->_interval	= $interval;
+		$this->formula	= $formula;
+		$this->interval	= $interval;
 	}
 
 	/**
@@ -35,9 +36,9 @@ class Sequence
 	 *	@access		public
 	 *	@return		string
 	 */
-	function getExpression()
+	public function getExpression()
 	{
-		return $this->_formula->getExpression();
+		return $this->formula->getExpression();
 	}
 	
 	/**
@@ -46,9 +47,9 @@ class Sequence
 	 *	@param		int			$index		Index of Value within Sequence
 	 *	@return		double
 	 */
-	function getValue( $index )
+	public function getValue( $index )
 	{
-		return $this->_formula->getValue( $index );
+		return $this->formula->getValue( $index );
 	}
 
 	/**
@@ -56,9 +57,9 @@ class Sequence
 	 *	@access		public
 	 *	@return		bool
 	 */
-	function isConvergent ()
+	public function isConvergent ()
 	{
-		for ($i=$this->_interval->getStart(); $i<$this->_interval->getEnd(); $i++)
+		for ($i=$this->interval->getStart(); $i<$this->interval->getEnd(); $i++)
 		{
 			$diff = abs ($this->getValue ($i+1) - $this->getValue ($i));		
 			if (!$old_diff) $old_diff = $diff;
@@ -76,7 +77,7 @@ class Sequence
 	 *	@access		public
 	 *	@return		bool
 	 */
-	function isDivergent ()
+	public function isDivergent ()
 	{
 		return !$this->isConvergent ();
 	}
@@ -86,10 +87,10 @@ class Sequence
 	 *	@access		public
 	 *	@return		array
 	 */
-	function toArray ()
+	public function toArray ()
 	{
 		$array = array ();
-		for ($i=$this->_interval->getStart(); $i<$this->_interval->getEnd(); $i++)
+		for ($i=$this->interval->getStart(); $i<$this->interval->getEnd(); $i++)
 		{
 			$value = $this->getValue ($i);
 			$array [$i] = $value;
@@ -102,7 +103,7 @@ class Sequence
 	 *	@access		public
 	 *	@return		array
 	 */
-	function toTable ()
+	public function toTable ()
 	{
 		$array = $this->toArray ();
 		$code = "<table cellpadding=2 cellspacing=0 border=1>";

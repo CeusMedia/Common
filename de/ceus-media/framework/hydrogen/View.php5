@@ -23,12 +23,12 @@ import( 'de.ceus-media.alg.TimeConverter' );
  */
 class View
 {
-	/**	@var		Framework			$_application		Instance of Framework */
-	var $_application;
-	/**	@var		array				$_data			Collected Data for View */
-	var $_data	= array();
-	/**	@var		array				$_env_keys		Keys of Environment */
-	var $_env_keys	= array(
+	/**	@var		Framework			$application		Instance of Framework */
+	var $application;
+	/**	@var		array				$data			Collected Data for View */
+	var $data	= array();
+	/**	@var		array				$envKeys		Keys of Environment */
+	var $envKeys	= array(
 		'dbc',
 		'config',
 		'session',
@@ -64,7 +64,7 @@ class View
 	 */
 	public function __construct( $application )
 	{
-		$this->_setEnv( $application );
+		$this->setEnv( $application );
 		$this->html	= new UI_HTML_Elements;
 		$this->time	= new Alg_TimeConverter();
 	}
@@ -77,36 +77,35 @@ class View
 	 *	@param		string		[$topic]			Topic Name of Data
 	 *	@return		void
 	 */
-	function setData( $data, $topic = "" )
+	public function setData( $data, $topic = "" )
 	{
 		if( $topic )
 		{
-			if( !isset( $this->_data[$topic] ) )
-				$this->_data[$topic]	= array();
+			if( !isset( $this->data[$topic] ) )
+				$this->data[$topic]	= array();
 			foreach( $data as $key => $value )
-				$this->_data[$topic][$key]	= $value;
+				$this->data[$topic][$key]	= $value;
 		}
 		else
 		{
 			foreach( $data as $key => $value )
-				$this->_data[$key]	= $value;
+				$this->data[$key]	= $value;
 		}
 	}
 	
-	//  --  PUBLIC METHODS  --  //
 	/**
 	 *	Loads Template of View and returns Content.
 	 *	@access		public
 	 *	@return		string
 	 */
-	function loadTemplate()
+	public function loadTemplate()
 	{
 		$words	= $this->language->getWords( $this->controller );
 		$content	= "";
-		$filename	= $this->_getFilenameOfTemplate( $this->controller, $this->action );
+		$filename	= $this->getFilenameOfTemplate( $this->controller, $this->action );
 		if( file_exists( $filename ) )
 		{
-			extract( $this->_data );
+			extract( $this->data );
 			$content	= require( $filename );
 		}
 		else
@@ -114,15 +113,14 @@ class View
 		return $content;
 	}
 	
-	//  --  PRIVATE METHODS  --  //
 	/**
 	 *	Returns File Name of Template.
-	 *	@access		private
+	 *	@access		protected
 	 *	@param		string		$controller		Name of Controller
 	 *	@param		string		$action			Name of Action
 	 *	@return		string
 	 */
-	function _getFilenameOfTemplate( $controller, $action )
+	protected function getFilenameOfTemplate( $controller, $action )
 	{
 		$filename	= $this->config['paths']['templates'].$controller."/".$action.".php";
 		return $filename;
@@ -130,15 +128,15 @@ class View
 	
 	/**
 	 *	Sets Environment of Controller by copying Framework Member Variables.
-	 *	@access		private
+	 *	@access		protected
 	 *	@param		Framework	$application		Instance of Framework
 	 *	@return		void
 	 */
-	function _setEnv( $application )
+	protected function setEnv( $application )
 	{
-		$this->_application	=& $application;
-		foreach( $this->_env_keys as $key )
-			$this->$key	=& $this->_application->$key;
+		$this->application	=& $application;
+		foreach( $this->envKeys as $key )
+			$this->$key	=& $this->application->$key;
 	}
 }
 ?>

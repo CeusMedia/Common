@@ -47,13 +47,14 @@ class Framework_Krypton_View_Component_List
 	private $view			= null;
 	/** @var	string				$link			Link Name of List Items */
 	private $link			= "";
+
 	/**
 	 *	Constructor.
 	 * 	@access		public
 	 *	@param		string		$collection		Class Name of Statement Collection to use
 	 *	@return		void
 	 */
-	function __construct( $collection )
+	public function __construct( $collection )
 	{
 		$this->registry	= Framework_Krypton_Core_Registry::getInstance();
 		$config			= $this->registry->get( 'config' );

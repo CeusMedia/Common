@@ -50,7 +50,7 @@ class Math_Finance_CompoundInterest
 	{
 		if( (int) $periods < 1 )
 			throw new InvalidArgumentException( "Periods must be at least 1." );
-		$result	= $amount / pow( ( 1 + $interest / 100 ), (int) $periods );
+		$result	= (float) $amount / pow( ( 1 + $interest / 100 ), (int) $periods );
 		return $result;
 	}
 
@@ -121,7 +121,7 @@ class Math_Finance_CompoundInterest
 	 *	@access		public
 	 *	@return		float
 	 */
-	public function getFutureAmount( $change = false )
+	public function getFutureAmount( $change = FALSE )
 	{
 		$result	= self::calculateFutureAmount( $this->amount, $this->interest, $this->periods );
 		if( $change )
@@ -134,7 +134,7 @@ class Math_Finance_CompoundInterest
 	 *	@access		public
 	 *	@return		float
 	 */
-	public function getInterestFromFutureAmount( $futureAmount, $change = false )
+	public function getInterestFromFutureAmount( $futureAmount, $change = FALSE )
 	{
 		$result	= self::calculateInterest( $this->amount, $futureAmount, $this->periods );
 		if( $change )
@@ -147,7 +147,7 @@ class Math_Finance_CompoundInterest
 	 *	@access		public
 	 *	@return		float
 	 */
-/*	public function getPeriodsFromFutureAmount( $futureAmount, $change = false )
+/*	public function getPeriodsFromFutureAmount( $futureAmount, $change = FALSE )
 	{
 		$result	= self::calculatePeriods( $this->amount, $futureAmount, $this->interest );
 		if( $change )
@@ -160,7 +160,7 @@ class Math_Finance_CompoundInterest
 	 *	@access		public
 	 *	@return		float
 	 */
-	public function getPresentAmount( $change = false )
+	public function getPresentAmount( $change = FALSE )
 	{
 		$result	= self::calculatePresentAmount( $this->amount, $this->interest, $this->periods );
 		if( $change )
@@ -168,10 +168,17 @@ class Math_Finance_CompoundInterest
 		return $result;
 	}
 
-	public static function root( $amount, $periods )
+	/**
+	 *	Calculates Root of Period Dimension.
+	 *	@access		protected
+	 *	@param		float		$amount			Amount
+	 *	@param		int			$periods		Number of Periods
+	 *	@return		float
+	 */
+	protected static function root( $amount, $periods )
 	{
-		$sign	= ( $amount<0 && $periods%2>0 ) ? -1 : 1;
-		$value	= pow( abs( $amount ), 1/$periods );
+		$sign	= ( $amount < 0 && $periods % 2 > 0 ) ? -1 : 1;
+		$value	= pow( abs( $amount ), 1 / $periods );
 		return $sign * $value;
 	}
 

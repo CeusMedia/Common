@@ -1,72 +1,68 @@
 <?php
 /**
  *	Calculates Integral with Sampling Nodes within a compact Interval.
- *	@package		math
- *	@subpackage		analysis
- *	@extends		Object
+ *	@package		math.analysis
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version		0.4
+ *	@version		0.6
  */
 /**
  *	Calculates Integral with Sampling Nodes within a compact Interval.
- *	@package		math
- *	@subpackage		analysis
- *	@extends		Object
+ *	@package		math.analysis
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version		0.4
+ *	@version		0.6
  */
-class Integration
+class Math_Analysis_Integration
 {
-	/**	@var	Formula		$_formula		Formula to integrate */
-	var $_formula;
-	/**	@var	Interval		$_interval		Interval to integrate within */
-	var $_interval;
-	/**	@var	Formula		$_nodes			Amount of Sampling Nodes to use */
-	var $_nodes;
+	/**	@var		Math_Formula			$formula		Formula to integrate */
+	protected $formula;
+	/**	@var		Math_CompactInterval	$interval		Interval to integrate within */
+	protected $interval;
+	/**	@var		int						$nodes			Amount of Sampling Nodes to use */
+	protected $nodes;
 
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		Formula		$_formula		Formula to integrate
-	 *	@param		Interval		$_interval		Interval to integrate within
-	 *	@param		int			$_nodes			Amount of Sampling Nodes to use
+	 *	@param		Math_Formula			$formula		Formula to integrate
+	 *	@param		Math_CompactInterval	$interval		Interval to integrate within
+	 *	@param		int						$nodes			Amount of Sampling Nodes to use
 	 *	@return		void
 	 */
 	public function __construct( $formula, $interval, $nodes )
 	{
-		$this->_setFormula( $formula );
-		$this->_setInterval( $interval );
-		$this->_setNodes( $nodes );
+		$this->setFormula( $formula );
+		$this->setInterval( $interval );
+		$this->setNodes( $nodes );
 	}
 
 	/**
 	 *	Returns set Formula.
 	 *	@access		public
-	 *	@return		Formula
+	 *	@return		Math_Formula
 	 */
-	function getFormula()
+	public function getFormula()
 	{
-		return $this->_formula;
+		return $this->formula;
 	}
 	
 	/**
 	 *	Returns set Interval.
 	 *	@access		public
-	 *	@return		Interval
+	 *	@return		Math_CompactInterval
 	 */
-	function getInterval()
+	public function getInterval()
 	{
-		return $this->_interval;
+		return $this->interval;
 	}
 	
 	/**
 	 *	Returns quantity of Sampling Nodes.
 	 *	@access		public
-	 *	@return		Formula
+	 *	@return		Math_Formula
 	 */
-	function getNodes()
+	public function getNodes()
 	{
-		return $this->_nodes;
+		return $this->nodes;
 	}
 	
 	/**
@@ -74,11 +70,11 @@ class Integration
 	 *	@access		public
 	 *	@return		array
 	 */
-	function getSamplingNodes()
+	public function getSamplingNodes()
 	{
 		$nodes	= array();
-		$start	= $this->_interval->getStart();
-		$end	= $this->_interval->getEnd();
+		$start	= $this->interval->getStart();
+		$end	= $this->interval->getEnd();
 		$distance	= $this->getNodeDistance();
 		for( $i = 0; $i<$this->getNodes(); $i++ )
 		{
@@ -93,9 +89,9 @@ class Integration
 	 *	@access		public
 	 *	@return		mixed
 	 */
-	function getNodeDistance()
+	public function getNodeDistance()
 	{
-		$distance	= $this->_interval->getDiam() / ( $this->getNodes() - 1 );
+		$distance	= $this->interval->getDiameter() / ( $this->getNodes() - 1 );
 		return $distance;
 	}
 
@@ -104,55 +100,54 @@ class Integration
 	 *	@access		public
 	 *	@return		mixed
 	 */
-	function integrate()
+	public function integrate()
 	{
 		$sum	= 0;
 		$nodes	= $this->getNodes()-1;
 		$distance	= $this->getNodeDistance();
-		$start	= $this->_interval->getStart();
+		$start	= $this->interval->getStart();
 		for( $i=0; $i<$nodes; $i++ )
 		{
 			$x		= $start + $distance * ( $i + $distance / 2 );
-			$y		= $this->_formula->getValue( $x );
+			$y		= $this->formula->getValue( $x );
 			$sum	+= $y;
 		}
 		return $distance * $sum;
 	}
 
-	//  --  PRIVATE METHODS  --  //	
 	/**
 	 *	Sets Formula.
-	 *	@access		private
-	 *	@param		Formula		$formula		Formula to integrate
+	 *	@access		public
+	 *	@param		Math_Formula			$formula		Formula to integrate
 	 *	@return		void
 	 */
-	function _setFormula( $formula )
+	public function setFormula( $formula )
 	{
-		$this->_formula	= $formula;	
+		$this->formula	= $formula;	
 	}
 	
 	/**
 	 *	Sets Interval.
-	 *	@access		private
-	 *	@param		Interval		$interval		Interval to integrate within
+	 *	@access		public
+	 *	@param		Math_CompactInterval	$interval		Interval to integrate within
 	 *	@return		void
 	 */
-	function _setInterval( $interval )
+	public function setInterval( $interval )
 	{
-		$this->_interval	= $interval;	
+		$this->interval	= $interval;	
 	}
 	
 	/**
 	 *	Sets amount of Sampling Nodes to use.
-	 *	@access		private
-	 *	@param		int			$nodes		Amount of Sampling Nodes to use
+	 *	@access		public
+	 *	@param		int						$nodes			Amount of Sampling Nodes to use
 	 *	@return		void
 	 */
-	function _setNodes( $nodes )
+	public function setNodes( $nodes )
 	{
 		if( $nodes < 2 )
-			trigger_error( "amount of sampling points must be > 1", E_USER_ERROR );
-		$this->_nodes = $nodes;
+			throw new InvalidArgumentException( 'Number of Sampling Points must be greater than 1.' );
+		$this->nodes = $nodes;
 	}
 }
 ?>

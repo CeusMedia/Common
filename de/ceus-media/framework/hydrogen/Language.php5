@@ -17,10 +17,10 @@
  */
 class Language
 {
-	/**	@var		string		$_language		Set Language */
-	var $_language;
-	/**	@var		array		$_env_keys		Keys of Environment */
-	var $_env_keys	= array(
+	/**	@var		string		$language		Set Language */
+	var $language;
+	/**	@var		array		$envKeys		Keys of Environment */
+	var $envKeys	= array(
 		'config',
 		'messenger',
 		);
@@ -38,7 +38,7 @@ class Language
 	 */
 	public function __construct( &$application, $language = "" )
 	{
-		$this->_setEnv( $application );
+		$this->setIn( $application );
 		if( $language )
 			$this->setLanguage( $language );
 	}
@@ -49,9 +49,9 @@ class Language
 	 *	@param		string		$language		Language to select
 	 *	@return		void
 	 */
-	function setLanguage( $language )
+	public function setLanguage( $language )
 	{
-		$this->_language	= $language;
+		$this->language	= $language;
 	}
 	
 	/**
@@ -59,9 +59,9 @@ class Language
 	 *	@access		public
 	 *	@return		string
 	 */
-	function getLanguage()
+	public function getLanguage()
 	{
-		return $this->_language;
+		return $this->language;
 	}
 	
 	/**
@@ -70,7 +70,7 @@ class Language
 	 *	@param		string		$topic			Topic of Language
 	 *	@return		array
 	 */
-	function getWords( $topic )
+	public function getWords( $topic )
 	{
 		if( isset( $this->_data[$topic] ) )
 			return $this->_data[$topic];
@@ -84,9 +84,9 @@ class Language
 	 *	@param		string		$topic			Topic of Language
 	 *	@return		void
 	 */
-	function load( $topic )
+	public function load( $topic )
 	{
-		$filename	= $this->_getFilenameOfLanguage( $topic );
+		$filename	= $this->getFilenameOfLanguage( $topic );
 		if( file_exists( $filename ) )
 		{
 			$data	= parse_ini_file( $filename, true );
@@ -96,16 +96,15 @@ class Language
 			$this->messenger->noteFailure( "Language Topic '".$topic."' is not defined yet." );
 	}
 
-	//  --  PRIVATE METHODS  --  //
 	/**
 	 *	Returns File Name of Language Topic.
-	 *	@access		private
+	 *	@access		protected
 	 *	@param		string		$topic			Topic of Language
 	 *	@return		void
 	 */
-	function _getFilenameOfLanguage( $topic )
+	protected public function getFilenameOfLanguage( $topic )
 	{
-		$filename	= $this->config['paths']['languages'].$this->_language."/".$topic.".ini";	
+		$filename	= $this->config['paths']['languages'].$this->language."/".$topic.".ini";	
 		return $filename;
 	}
 
@@ -115,9 +114,9 @@ class Language
 	 *	@param		Framework	$application		Instance of Framework
 	 *	@return		void
 	 */
-	function _setEnv( &$application )
+	protected function setIn( &$application )
 	{
-		foreach( $this->_env_keys as $key )
+		foreach( $this->envKeys as $key )
 			$this->$key	=& $application->$key;
 	}
 }

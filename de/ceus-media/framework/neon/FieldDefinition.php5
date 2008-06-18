@@ -24,7 +24,7 @@ import( 'de.ceus-media.file.Writer' );
  */
 class Framework_Neon_FieldDefinition extends ADT_OptionObject
 {
-	private $_definition	= array();
+	private $definition	= array();
 	
 	/**
 	 *	Constructor.
@@ -45,6 +45,18 @@ class Framework_Neon_FieldDefinition extends ADT_OptionObject
 			$this->setOption( 'prefix', $prefix );
 		}
 	}
+
+	/**
+	 *	Returns full File Name of Cache File.
+	 *	@access		private
+	 *	@param		string		filename		File Name of XML Definition File
+	 *	@return		string
+	 */
+	private function getCacheFilename( $filename )
+	{
+		$file	= $this->getOption( 'cache_path' ).$filename."_".$this->getOption( 'channel' )."_".$this->getOption( 'screen' )."_".$this->getOption( 'form' ).".cache";
+		return $file;
+	}
 	
 	/**
 	 *	Returns complete Definition of a Field.
@@ -52,10 +64,10 @@ class Framework_Neon_FieldDefinition extends ADT_OptionObject
 	 *	@param		string		name		Name of Field
 	 *	@return		array
 	 */
-	function getField( $name )
+	public function getField( $name )
 	{
-		if( isset( $this->_definition[$name] ) )
-			return $this->_definition[$name];
+		if( isset( $this->definition[$name] ) )
+			return $this->definition[$name];
 		return array();
 	}
 
@@ -65,9 +77,9 @@ class Framework_Neon_FieldDefinition extends ADT_OptionObject
 	 *	@param		string		name		Name of Field
 	 *	@return		array
 	 */
-	function getFieldSyntax( $name )
+	public function getFieldSyntax( $name )
 	{
-		return $this->_definition[$name]['syntax'];
+		return $this->definition[$name]['syntax'];
 	}
 
 	/**
@@ -76,10 +88,10 @@ class Framework_Neon_FieldDefinition extends ADT_OptionObject
 	 *	@param		string		name		Name of Field
 	 *	@return		array
 	 */
-	function getFieldSemantics( $name )
+	public function getFieldSemantics( $name )
 	{
-		if( isset( $this->_definition[$name]['semantic'] ) )
-			return $this->_definition[$name]['semantic'];
+		if( isset( $this->definition[$name]['semantic'] ) )
+			return $this->definition[$name]['semantic'];
 		return array();
 	}
 
@@ -89,9 +101,9 @@ class Framework_Neon_FieldDefinition extends ADT_OptionObject
 	 *	@param		string		name		Name of Field
 	 *	@return		array
 	 */
-	function getFieldInput( $name )
+	public function getFieldInput( $name )
 	{
-		return (array)$this->_definition[$name]['input'];
+		return (array)$this->definition[$name]['input'];
 	}
 
 	/**
@@ -99,9 +111,9 @@ class Framework_Neon_FieldDefinition extends ADT_OptionObject
 	 *	@access		public
 	 *	@return		array
 	 */
-	function getFields()
+	public function getFields()
 	{
-		return array_keys( $this->_definition );	
+		return array_keys( $this->definition );	
 	}
 
 	/**
@@ -111,26 +123,26 @@ class Framework_Neon_FieldDefinition extends ADT_OptionObject
 	 *	@param		bool			force		Flag: force Loading of XML Defintion
 	 *	@return		void
 	 */
-	function loadDefinition( $filename, $force = false )
+	public function loadDefinition( $filename, $force = false )
 	{
 		$prefix	= $this->getOption( 'prefix' );
 		$path	= $this->getOption( 'path' );
 		$xml_file	= $path.$prefix.$filename.".xml";
 		if( !$force && $this->getOption( 'use_cache' ) )
 		{
-			$cache_file	= $this->_getCacheFilename( $filename );
+			$cache_file	= $this->getCacheFilename( $filename );
 			if( file_exists( $cache_file ) && filemtime( $xml_file ) <= filemtime( $cache_file ) )
 			{
 				$file	= new File_Reader( $cache_file );
-				$this->_definition	= unserialize( $file->readString() );
+				$this->definition	= unserialize( $file->readString() );
 				return true;
 			}
 		}
 		if(  file_exists( $xml_file ) )
 		{
-			$this->_loadDefinitionXML( $xml_file );
+			$this->loadDefinitionXML( $xml_file );
 			if( $this->getOption( 'use_cache' ) )
-				$this->_writeCacheFile( $filename );
+				$this->writeCacheFile( $filename );
 		}
 		else
 			trigger_error( "Definition File '".$xml_file."' is not existing", E_USER_ERROR );
@@ -142,7 +154,7 @@ class Framework_Neon_FieldDefinition extends ADT_OptionObject
 	 *	@param		string		channel		Output Channel
 	 *	@return		void
 	 */
-	function setChannel( $channel )
+	public function setChannel( $channel )
 	{
 		$this->setOption( 'channel', $channel );
 	}
@@ -153,7 +165,7 @@ class Framework_Neon_FieldDefinition extends ADT_OptionObject
 	 *	@param		string		screen		Channel Screen
 	 *	@return		void
 	 */
-	function setScreen( $screen )
+	public function setScreen( $screen )
 	{
 		$this->setOption( 'screen', $screen );
 	}
@@ -164,7 +176,7 @@ class Framework_Neon_FieldDefinition extends ADT_OptionObject
 	 *	@param		string		form			Screen Form
 	 *	@return		void
 	 */
-	function setForm( $form )
+	public function setForm( $form )
 	{
 		$this->setOption( 'form', $form );
 	}
@@ -172,13 +184,13 @@ class Framework_Neon_FieldDefinition extends ADT_OptionObject
 	//  --  PRIVATE METHODS  --  //
 	/**
 	 *	Loads Definition from XML Definition File.
-	 *	@access		public
+	 *	@access		private
 	 *	@param		string		filename		File Name of XML Definition File
 	 *	@return		void
 	 */
-	function _loadDefinitionXML( $filename )
+	private function loadDefinitionXML( $filename )
 	{
-		$this->_definition	= array();
+		$this->definition	= array();
 
 		$doc	= new DOMDocument();
 		$doc->preserveWhiteSpace	= false;
@@ -253,7 +265,7 @@ class Framework_Neon_FieldDefinition extends ADT_OptionObject
 												}
 											}
 											$name	= $field->getAttribute( "name" );
-											$this->_definition[$name] = $_field;
+											$this->definition[$name] = $_field;
 										}
 									}
 									break;
@@ -272,23 +284,11 @@ class Framework_Neon_FieldDefinition extends ADT_OptionObject
 	 *	@param		string		filename		File Name of XML Definition File
 	 *	@return		void
 	 */
-	function _writeCacheFile( $filename )
+	private function writeCacheFile( $filename )
 	{
-		$cache_file	= $this->_getCacheFilename( $filename );
+		$cache_file	= $this->getCacheFilename( $filename );
 		$file	= new File_Writer( $cache_file, 0755 );
-		$file->writeString( serialize( $this->_definition ) );
-	}
-
-	/**
-	 *	Returns full File Name of Cache File.
-	 *	@access		pricate
-	 *	@param		string		filename		File Name of XML Definition File
-	 *	@return		string
-	 */
-	function _getCacheFilename( $filename )
-	{
-		$file	= $this->getOption( 'cache_path' ).$filename."_".$this->getOption( 'channel' )."_".$this->getOption( 'screen' )."_".$this->getOption( 'form' ).".cache";
-		return $file;
+		$file->writeString( serialize( $this->definition ) );
 	}
 }
 ?>

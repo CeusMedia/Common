@@ -12,35 +12,35 @@ import( 'de.ceus-media.file.Configuration' );
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.6
  */
-define('IMODE_COLOUR_BW',			0);
-define('IMODE_COLOUR_GREYSCALE',	1);
-define('IMODE_COLOUR_256',			2);
-define('IMODE_COLOUR_4096',			3);
-define('IMODE_COLOUR_65536',		4);
-define('IMODE_DEFAULT_CACHE',		5);
-define('IMODE_UNKNOWN_USER_AGENT',	1);
+define( 'IMODE_COLOUR_BW',			0 );
+define( 'IMODE_COLOUR_GREYSCALE',	1 );
+define( 'IMODE_COLOUR_256',			2 );
+define( 'IMODE_COLOUR_4096',		3 );
+define( 'IMODE_COLOUR_65536',		4 );
+define( 'IMODE_DEFAULT_CACHE',		5 );
+define( 'IMODE_UNKNOWN_USER_AGENT',	1 );
 class Net_HTTP_ImodeClientSniffer
 {
-	/**	@var	array		$data			Data of all known Imode Clients */
-	var $data	= array();
-	/**	@var	array		$extra			List of Extra */
-	var $extra	= array();
-	/**	@var	array		$extra			List of Manufacturs */
-	var $manufacturer	= array();
-	/**	@var	string		$user_agent		Given User Agent */
-	var $user_agent;    
-	/**	@var	string		$model			Recognized Model */
-	var $model;           
-	/**	@var	string		$model			Recognized Manufactur */
-	var $manufacturer;     
-	/**	@var	string		$model			HTTP Version of Client */
-	var $httpversion;  
-	/**	@var	string		$cache			Cache Size of Client */
-	var $cache;
-	/**	@var	string		$extra			Extra Features of Client */
-	var $extra;
-	/**	@var	string		$error			Error during Recongition */
-	var $error;
+	/**	@var		array		$data			Data of all known Imode Clients */
+	protected $data				= array();
+	/**	@var		array		$extra			List of Extra */
+	protected $extra			= array();
+	/**	@var		array		$extra			List of Manufacturs */
+	protected $manufacturer		= array();
+	/**	@var		string		$user_agent		Given User Agent */
+	protected $user_agent;    
+	/**	@var		string		$model			Recognized Model */
+	protected $model;           
+	/**	@var		string		$model			Recognized Manufactur */
+	protected $manufacturer;     
+	/**	@var		string		$model			HTTP Version of Client */
+	protected $httpversion;  
+	/**	@var		string		$cache			Cache Size of Client */
+	protected $cache;
+	/**	@var		string		$extra			Extra Features of Client */
+	protected $extra;
+	/**	@var		string		$error			Error during Recongition */
+	protected $error;
 
 	/**
 	 *	Constructor
@@ -82,7 +82,7 @@ class Net_HTTP_ImodeClientSniffer
 	 *	@access		public
 	 *	@return		array
 	 */
-	function getImageDimensions()
+	pubic function getImageDimensions()
 	{
 		$data	= $this->data["$this->model"];
 		$width	= $data["imagewidth"];
@@ -96,7 +96,7 @@ class Net_HTTP_ImodeClientSniffer
 	 *	@access		public
 	 *	@return		array
 	 */
-	function getTextDimensions()
+	public function getTextDimensions()
 	{
 		$data	= $this->data[$this->model];
 		$width	= $data['textwidth'];
@@ -110,7 +110,7 @@ class Net_HTTP_ImodeClientSniffer
 	 *	@access		public
 	 *	@return		int
 	 */
-	function getCache()
+	public function getCache()
 	{
 		return	(int)$this->cache;
 	}
@@ -120,7 +120,7 @@ class Net_HTTP_ImodeClientSniffer
 	 *	@access		public
 	 *	@return		string
 	 */
-	function getManufacturer()
+	public function getManufacturer()
 	{
 		return	$this->manufacturer;
 	}
@@ -130,12 +130,12 @@ class Net_HTTP_ImodeClientSniffer
 	 *	@access		public
 	 *	@return		string
 	 */
-	function getExtra()
+	public function getExtra()
 	{
 		return	$this->extra;
 	}
 
-	function getImageFormats()
+	public function getImageFormats()
 	{
 		$data	= $this->data[$this->model];
 		$retval	= $data['imageformats'];
@@ -143,17 +143,11 @@ class Net_HTTP_ImodeClientSniffer
 	}
 
 	/**
-	 *	Returns Manufacturer of Client.
-	 *	@access		public
-	 *	@return		string
-	 */
-
-	/**
 	 *	Returns Version of HTTP Protocol of Client.
 	 *	@access		public
 	 *	@return		string
 	 */
-	function getHTTPVersion()
+	public function getHttpVersion()
 	{
 		return	$this->httpversion;
 	}
@@ -163,7 +157,7 @@ class Net_HTTP_ImodeClientSniffer
 	 *	@access		public
 	 *	@return		string
 	 */
-	function getColours()
+	public function getColours()
 	{
 		$data   = $this->data[$this->model];
 		$colour = $data['colour'];
@@ -186,7 +180,7 @@ class Net_HTTP_ImodeClientSniffer
 	 *	@access		public
 	 *	@return		bool
 	 */
-	function isColour()
+	public function isColour()
 	{
 		$data   = $this->data[$this->model];
 		$colour = $data['colour'];
@@ -201,7 +195,7 @@ class Net_HTTP_ImodeClientSniffer
 	 *	@access		public
 	 *	@return		bool
 	 */
-	function isGreyScale()
+	public function isGreyScale()
 	{
 		$data	= $this->data[$this->model];
 		$colour	= $data['colour'];
@@ -216,7 +210,7 @@ class Net_HTTP_ImodeClientSniffer
 	 *	@access		public
 	 *	@return		bool
 	 */
-	function isBlackAndWhite()
+	public function isBlackAndWhite()
 	{
 		$data   = $this->data[$this->model];
 		$colour = $data['colour'];
@@ -231,7 +225,7 @@ class Net_HTTP_ImodeClientSniffer
 	 *	@access		public
 	 *	@return		bool
 	 */
-	function supportsGIF()
+	public function supportsGif()
 	{
 		$data   = $this->data[$this->model];
 		$formats	= array();
@@ -249,7 +243,7 @@ class Net_HTTP_ImodeClientSniffer
 	 *	@access		public
 	 *	@return		bool
 	 */
-	function supportsJPG()
+	public function supportsJpeg()
 	{
 		$data   = $this->data[$this->model];
 		$formats	= array();
@@ -267,7 +261,7 @@ class Net_HTTP_ImodeClientSniffer
 	 *	@access		public
 	 *	@return		bool
 	 */
-	function supportsPNG()
+	public function supportsPng()
 	{
 		$data   	= $this->data[$this->model];
 		$formats	= array();
@@ -285,24 +279,24 @@ class Net_HTTP_ImodeClientSniffer
 	 *	@access		public
 	 *	@return		array
 	 */
-	function getAllInfo()
+	public function getAllInfo()
 	{
 		$data	= array(
-			'model'	=> array(
+			'model'		=> array(
 				'manufactor'	=> $this->getManufacturer(),
 				'model'			=> $this->model,
 				'http_version'	=> $this->getHTTPVersion(),
 				),
-			'sizes'	=> array(
+			'sizes'		=> array(
 				'image'		=> $this->getImageDimensions(),
 				'text'		=> $this->getTextDimensions(),
 				'cache'		=> $this->getCache(),
 				),
 			'formats'	=> array(
 				'supported'	=> $this->getImageFormats(),
-				'gif'		=> (bool) $this->supportsGIF(),
-				'jpg'		=> (bool) $this->supportsJPG(),
-				'png'		=> (bool) $this->supportsPNG(),
+				'gif'		=> (bool) $this->supportsGig(),
+				'jpg'		=> (bool) $this->supportsJpeg(),
+				'png'		=> (bool) $this->supportsPng(),
 				),
 			'colors'	=> array(
 				'bw'		=> (bool) $this->isBlackAndWhite(),

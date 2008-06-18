@@ -1,39 +1,33 @@
 <?php
 /**
  *	Scalar Product of two Vectors.
- *	@package		math
- *	@subpackage		algebra
- *	@extends		Object
+ *	@package		math.algebra
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version		0.1
+ *	@version		0.6
  */
 /**
  *	Scalar Product of two Vectors.
- *	@package		math
- *	@subpackage		algebra
- *	@extends		Object
+ *	@package		math.algebra
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version		0.1
+ *	@version		0.6
  */
-class VectorScalarProduct
+class Math_Algebra_VectorScalarProduct
 {
 	/**
 	 *	Returns Scalar Product of two Vectors
 	 *	@access		public
-	 *	@param		Vector	$vector1		Vector 1
-	 *	@param		Vector	$vector2		Vector 2
+	 *	@param		Math_Algebra_Vector		$vector1		Vector 1
+	 *	@param		Math_Algebra_Vector		$vector2		Vector 2
 	 *	@return		mixed
 	 */
-	function produce ($vector1, $vector2)
+	public function produce( $vector1, $vector2 )
 	{
 		$sum = 0;
-		if ($vector1->getDimension() != $vector2->getDimension())
-			trigger_error( "Dimensions of Vectors are not compatible", E_USER_WARNING );
-		else
-		{
-			for ($i=0; $i<$vector1->getDimension(); $i++)
-				$sum += $vector1->getValue ($i) * $vector2->getValue ($i);
-		}
+		if( $vector1->getDimension() != $vector2->getDimension() )
+			throw new Exception( 'Dimensions of Vectors are not compatible.' );
+
+		for( $i=0; $i<$vector1->getDimension(); $i++)
+			$sum += $vector1->getValueFromIndex( $i ) * $vector2->getValueFromIndex( $i );
 		return $sum;
 	}
 }

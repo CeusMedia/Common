@@ -1,70 +1,77 @@
 <?php
 import( 'de.ceus-media.math.Formula' );
-import( 'de.ceus-media.math.analysis.CompactInterval' );
+import( 'de.ceus-media.math.CompactInterval' );
 /**
  *	RegulaFalsi Interpolation within a compact Interval.
- *	@package		math
- *	@subpackage		analysis
- *	@uses			Formula
- *	@uses			CompactInterval
+ *	@package		math.analysis
+ *	@uses			Math_Formula
+ *	@uses			Math_CompactInterval
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			03.02.2006
- *	@version		0.1
+ *	@version		0.6
  */
 /**
  *	RegulaFalsi Interpolation within a compact Interval.
- *	@package		math
- *	@subpackage		analysis
- *	@uses			Formula
- *	@uses			CompactInterval
+ *	@package		math.analysis
+ *	@uses			Math_Formula
+ *	@uses			Math_CompactInterval
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			03.02.2006
- *	@version		0.1
+ *	@version		0.6
  */
-class RegulaFalsi
+class Math_Analysis_RegulaFalsi
 {
-	/**	@var	array		$_data			Array of x and y values (Xi->Fi) */
-	var $_data		= array();
+	/**	@var		array					$data		Array of x and y values (Xi->Fi) */
+	protected $data							= array();
+	/**	@var		Math_Formula			$formula	Formula */
+	protected $formula;
+	/**	@var		Math_CompactInterval	$interval	Interval */
+	protected $interval;
 
 	/**
 	 *	Sets Data.
 	 *	@access		public
-	 *	@param		array		$data		Array of x and y values (Xi->Fi)
+	 *	@param		string		$formula	Formula Expression
+	 *	@param		array		$variables	Variables in Formula
 	 *	@return		void
 	 */
-	function setFormula( $formula, $vars )
+	public function setFormula( $formula, $variables )
 	{
-		$this->_formula	= new Formula( $formula, array( $vars ) );
+		$this->formula	= new Math_Formula( $formula, $variables );
 	}
 
 	/**
 	 *	Sets Interval data to start at.
 	 *	@access		public
-	 *	@param		array		$data		Array of x and y values (Xi->Fi)
+	 *	@param		int			$start		Start of Interval
+	 *	@param		int			$end		End of Interval
 	 *	@return		void
 	 */
-	function setInterval( $start, $end )
+	public function setInterval( $start, $end )
 	{
-		$this->_interval	= new CompactInterval( $start, $end );
+		if( $start * $end > 0 )
+			throw new InvalidArgumentException( 'Interval needs to start below 0.' );
+		$this->interval	= new Math_CompactInterval( $start, $end );
 	}
 
 	/**
 	 *	Interpolates for a specific x value and returns P(x).
 	 *	@access		public
+	 *	@param		double		$toleranz	Tolerates Distance within Algorithm
 	 *	@return		double
 	 */
-	function interpolate( $tolerance )
+	public function interpolate( $tolerance )
 	{
-		$a	= $this->_interval->getStart();
-		$b	= $this->_interval->getEnd();
+		$a	= $this->interval->getStart();
+		$b	= $this->interval->getEnd();
 		$c	= false;
 		do{
-			$ya	= $this->_formula->getValue( $a );
-			$yb	= $this->_formula->getValue( $b );
+			$ya	= $this->formula->getValue( $a );
+			$yb	= $this->formula->getValue( $b );
 
 			if( $ya * $yb > 0 )
 			{
-				trigger_error( "Formula has no null in Interval[".$a.",".$b."]", E_USER_WARNING );
+				throw new InvalidArgumentException( 'Formula has no 0 in Interval '.(string)$this->interval.'.' );
 				break;
 			}
 			$c	= ( $a * $yb - $b * $ya ) / ( $yb - $ya );

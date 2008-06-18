@@ -41,7 +41,7 @@ class Framework_Helium_DefinitionView extends Framework_Helium_View
 	 *	@todo		TO BE CHANGED in next Version (check Usage with LogFile)
 	 *	@todo		sense clear: create simple label, usage unclear: no form, no lan?
 	 */
-	function buildLabel( $field )
+	public function buildLabel( $field )
 	{
 		$data	= $this->definition->getField( $field );
 		$label	= $this->html->Label( $data['input']['name'], $labels[$field] );
@@ -61,7 +61,7 @@ class Framework_Helium_DefinitionView extends Framework_Helium_View
 	 *	@param		string		$lan_section		Section in Language File (e.g. 'add')
 	 *	@return		array
 	 */
-	function buildLabels( $file , $form, $lan_file, $lan_section )
+	public function buildLabels( $file , $form, $lan_file, $lan_section )
 	{
 		$request	= $this->ref->get( 'request' );
 		$labels	= $this->lan[$lan_file][$lan_section];
@@ -93,7 +93,7 @@ class Framework_Helium_DefinitionView extends Framework_Helium_View
 			$this->messenger->noteError( "DefinitionView->buildLabels: no Fields defined for Form '".$form."'." );
 	}
 
-	function buildInputs( $file , $form, $lan_file, $lan_section, $values = array(), $sources = array() )
+	public function buildInputs( $file , $form, $lan_file, $lan_section, $values = array(), $sources = array() )
 	{
 		$request	= $this->ref->get( 'request' );
 		$labels	= $this->lan[$lan_file][$lan_section];
@@ -169,7 +169,7 @@ class Framework_Helium_DefinitionView extends Framework_Helium_View
 		return $array;
 	}
 
-	function buildFields( $file , $form, $lan_file, $lan_section, $inputs )
+	public function buildFields( $file , $form, $lan_file, $lan_section, $inputs )
 	{
 		$request	= $this->ref->get( 'request' );
 		$labels	= $this->lan[$lan_file][$lan_section];
@@ -208,7 +208,7 @@ class Framework_Helium_DefinitionView extends Framework_Helium_View
 	 *	@return		array
 	 *	@todo		TO BE DELETED in next Version
 	 */
-	function buildForm( $file , $form, $lan_file, $lan_section, $values = array(), $sources = array() )
+	public function buildForm( $file , $form, $lan_file, $lan_section, $values = array(), $sources = array() )
 	{
 		$this->definition->setForm( $form );
 		$inputs	= $this->buildInputs( $file, $form, $lan_file, $lan_section, $values, $sources );
@@ -220,11 +220,11 @@ class Framework_Helium_DefinitionView extends Framework_Helium_View
 	//  --  PRIVATE METHODS  --  //
 	/**
 	 *	Runs Validation of Field Definitions againt Request Input and creates Error Messages.
-	 *	@access		public
+	 *	@access		protected
 	 *	@param		string		$file				Name of XML Definition File (e.g. %PREFIX%#FILE#.xml)
 	 *	@return		void
 	 */
-	function _loadDefinition( $file , $form )
+	protected function loadDefinition( $file , $form )
 	{
 		$this->definition->setForm( $form );
 		$this->definition->setOption( 'prefix', $this->prefix );

@@ -63,8 +63,23 @@ class Framework_Neon_Language extends ADT_OptionObject
 		$this->ref->add( 'words', $this->words );
 		$this->loadHovers();
 	}
+
+	public function hasCache( $filename )
+	{
+		$config	= $this->ref->get( 'config' );
+//		remark( $url );
+		return file_exists( $url );
+	}
 	
-	function loadHovers()
+	public function loadCache( $url )
+	{
+		$config	= $this->ref->get( 'config' );
+		$file	= new File_Reader( $url );
+		return $file->readString();
+			return implode( "", file( $url ) );
+	}
+	
+	public function loadHovers()
 	{
 		$session	= $this->ref->get( 'session' );
 		$uri	= $this->getOption( 'path_files' )."/hovers.blocks";
@@ -75,7 +90,7 @@ class Framework_Neon_Language extends ADT_OptionObject
 		}
 	}
 	
-	function loadLanguage( $filename, $section = false, $verbose = true )
+	public function loadLanguage( $filename, $section = false, $verbose = true )
 	{
 		$session	= $this->ref->get( 'session' );
 		$messenger	= $this->ref->get( 'messenger' );
@@ -85,7 +100,7 @@ class Framework_Neon_Language extends ADT_OptionObject
 		$cache	= $this->getOption( 'path_cache' ).basename( $filename ).".cache";
 		if( file_exists( $cache ) && filemtime( $uri ) <= filemtime( $cache ) )
 		{
-			$this->words[$section]	= unserialize( $this->_loadCache( $cache ) );
+			$this->words[$section]	= unserialize( $this->loadCache( $cache ) );
 		}
 		else if( file_exists( $uri ) )
 		{
@@ -103,30 +118,15 @@ class Framework_Neon_Language extends ADT_OptionObject
 					foreach( $pairs as $key => $value )
 						$this->words[$section][$area][$key]	= $value;
 #			}
-			$this->_saveCache( $cache, serialize( $this->words[$section] ) );
+			$this->saveCache( $cache, serialize( $this->words[$section] ) );
 			return true;
 		}
 		else if( $verbose )
 			$messenger->noteFailure( "Language File '".$filename."' is not existing in '".$uri."'" );
 		return false;
 	}
-
-	function _hasCache( $filename )
-	{
-		$config	= $this->ref->get( 'config' );
-//		remark( $url );
-		return file_exists( $url );
-	}
 	
-	function _loadCache( $url )
-	{
-		$config	= $this->ref->get( 'config' );
-		$file	= new File_Reader( $url );
-		return $file->readString();
-			return implode( "", file( $url ) );
-	}
-	
-	function _saveCache( $url, $content )
+	public function saveCache( $url, $content )
 	{
 		$config	= $this->ref->get( 'config' );
 		$file	= new File_Writer( $url, 0750 );

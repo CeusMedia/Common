@@ -23,7 +23,7 @@ class Math_Average
 	 *	@param		int			$accuracy		Accuracy of Result 
 	 *	@return		float
 	 */
-	public static function arithmetic( $values, $accuracy = -1 )
+	public static function arithmetic( $values, $accuracy = NULL )
 	{
 		$sum	= 0;
 		foreach( $values as $value )
@@ -41,7 +41,7 @@ class Math_Average
 	 *	@param		int			$accuracy		Accuracy of Result 
 	 *	@return		float
 	 */
-	public static function geometric( $values, $accuracy	= -1 )
+	public static function geometric( $values, $accuracy = NULL )
 	{
 		$product	= 1;
 		foreach( $values as $value )

@@ -92,6 +92,16 @@ abstract class Database_BaseConnection
 	 */
 	abstract public function execute( $query, $debug = 1 );
 
+	protected function getBits( $integer, $length = 8, $reverse = FALSE )
+	{
+		$bin	= decbin( $integer );
+		$bin	= str_pad( $bin, $length, "0", STR_PAD_LEFT );
+		$array	= str_split( $bin );
+		if( !$reverse )
+			$array	= array_reverse( $array );
+		return $array;
+	}
+
 	/**
 	 *	Returns last Error Number.
 	 *	@access		public

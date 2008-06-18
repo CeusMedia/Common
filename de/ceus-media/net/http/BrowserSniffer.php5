@@ -38,7 +38,7 @@ class Net_HTTP_BrowserSniffer
 	 *	@access		public
 	 *	@return		array
 	 */
-	function getBrowser()
+	public function getBrowser()
 	{
 		return array( "browser" => $this->browser, "version" => $this->browserVersion, "type" => $this->browserType );
 	}
@@ -48,7 +48,7 @@ class Net_HTTP_BrowserSniffer
 	 *	@access		public
 	 *	@return		bool
 	 */
-	function isRobot()
+	public function isRobot()
 	{
 		return $this->browserType == "robot";
 	}
@@ -58,7 +58,7 @@ class Net_HTTP_BrowserSniffer
 	 *	@access		public
 	 *	@return		bool
 	 */
-	function isBrowser()
+	public function isBrowser()
 	{
 		return $this->browserType == "browser";
 	}
@@ -69,7 +69,7 @@ class Net_HTTP_BrowserSniffer
 	 *	@param		string		$userAgent			User Agent
 	 *	@return		void
 	 */
-	function identifyBrowser( $ua = false )
+	public function identifyBrowser( $ua = false )
 	{
 		if( !$ua )
 			$ua = getEnv( 'HTTP_userAgent' );

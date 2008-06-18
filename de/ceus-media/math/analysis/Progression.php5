@@ -2,30 +2,28 @@
 import  ("de.ceus-media.math.analysis.Sequence");
 /**
  *	Progression within a compact Interval.
- *	@package	math
- *	@subpackage	analysis
- *	@extends	Sequence
- *	@author		Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@since		09.05.2006
- *	@version		0.1
+ *	@package		math.analysis
+ *	@extends		Math_Analysis_Sequence
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@since			09.05.2006
+ *	@version		0.5
  */
 /**
  *	Progression within a compact Interval.
- *	@package	math
- *	@subpackage	analysis
- *	@extends	Sequence
- *	@author		Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@since		09.05.2006
- *	@version		0.1
- *	@todo		Code Correction
+ *	@package		math.analysis
+ *	@extends		Math_Analysis_Sequence
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@since			09.05.2006
+ *	@version		0.5
+ *	@todo			Code Correction
  */
-class Progression extends Sequence
+class Math_Analysis_Progression extends Sequence
 {
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		Formula		$formula		Formula of Progression
-	 *	@param		Interval		$interval		Interval of Progression
+	 *	@param		Math_Formula			$formula		Formula of Progression
+	 *	@param		Math_CompactInterval	$interval		Interval of Progression
 	 *	@return		void
 	 */
 	public function __construct( $formula, $interval )
@@ -38,9 +36,9 @@ class Progression extends Sequence
 	 *	@access		public
 	 *	@return		string
 	 */
-	function getExpression()
+	public function getExpression()
 	{
-		return $this->_formula->getExpression();
+		return $this->formula->getExpression();
 	}
 	
 	/**
@@ -50,7 +48,7 @@ class Progression extends Sequence
 	 *	@param		int			$to			Interval End
 	 *	@return		double
 	 */
-	function getPartialSum( $from, $to )
+	public function getPartialSum( $from, $to )
 	{
 		for( $i=$from; $i<=$to; $i++ )
 			$sum += $this->getValue( $i );
@@ -62,9 +60,9 @@ class Progression extends Sequence
 	 *	@access		public
 	 *	@return		void
 	 */
-	function getSum()
+	public function getSum()
 	{
-		return $this->getPartialSum( $this->_interval->getStart(), $this->_interval->getEnd() );
+		return $this->getPartialSum( $this->interval->getStart(), $this->interval->getEnd() );
 	}
 
 	/**
@@ -73,13 +71,13 @@ class Progression extends Sequence
 	 *	@return		bool
 	 *	@todo		correct Function: harmonic progression is convergent which is WRONG
 	 */
-	function isConvergent ()
+	public function isConvergent ()
 	{
 		$is = true;
-		for( $i=$this->_interval->getStart(); $i<$this->_interval->getEnd(); $i++ )
+		for( $i=$this->interval->getStart(); $i<$this->interval->getEnd(); $i++ )
 		{
-			$an = $this->getPartialSum( $this->_interval->getStart(), $i );
-			$an1 = $this->getPartialSum( $this->_interval->getStart(), $i+1 );
+			$an = $this->getPartialSum( $this->interval->getStart(), $i );
+			$an1 = $this->getPartialSum( $this->interval->getStart(), $i+1 );
 			$diff = abs( $an1 - $an );
 //			echo "<br>an1: ".$an1." | an: ".$an." | diff: ".$diff; 
 			if (!$old_diff) $old_diff = $diff;
@@ -95,7 +93,7 @@ class Progression extends Sequence
 	 *	@return		bool
 	 *	@todo		correct Function: harmonic progression is convergent which is WRONG
 	 */
-	function isDivergent()
+	public function isDivergent()
 	{
 		return !$this->isConvergent();
 	}
@@ -105,12 +103,12 @@ class Progression extends Sequence
 	 *	@access		public
 	 *	@return		array
 	 */
-	function toArray()
+	public function toArray()
 	{
 		$array = array();
-		for( $i=$this->_interval->getStart(); $i<$this->_interval->getEnd(); $i++ )
+		for( $i=$this->interval->getStart(); $i<$this->interval->getEnd(); $i++ )
 		{
-			$value = $this->getPartialSum( $this->_interval->getStart(), $i );
+			$value = $this->getPartialSum( $this->interval->getStart(), $i );
 			$array[$i] = $value;
 		}
 		return $array;	
@@ -121,7 +119,7 @@ class Progression extends Sequence
 	 *	@access		public
 	 *	@return		array
 	 */
-	function toTable()
+	public function toTable()
 	{
 		$array = $this->toArray();
 		$code = "<table cellpadding=2 cellspacing=0 border=1>";
