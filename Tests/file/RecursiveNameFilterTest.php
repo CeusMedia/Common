@@ -41,8 +41,11 @@ class Tests_File_RecursiveNameFilterTest extends PHPUnit_Framework_TestCase
 	public function setUp()
 	{
 		mkDir( $this->path );
+		mkDir( $this->path."nested/" );
 		file_put_contents( $this->path."test1.test", "test1" );
 		file_put_contents( $this->path."test2.test", "test2" );
+		file_put_contents( $this->path."nested/test1.test", "test3" );
+		file_put_contents( $this->path."nested/test2.test", "test4" );
 	}
 	
 	/**
@@ -54,6 +57,9 @@ class Tests_File_RecursiveNameFilterTest extends PHPUnit_Framework_TestCase
 	{
 		@unlink( $this->path."test1.test" );
 		@unlink( $this->path."test2.test" );
+		@unlink( $this->path."nested/test1.test" );
+		@unlink( $this->path."nested/test2.test" );
+		@rmDir( $this->path."nested/" );
 		@rmDir( $this->path );
 	}
 
@@ -82,7 +88,7 @@ class Tests_File_RecursiveNameFilterTest extends PHPUnit_Framework_TestCase
 		foreach( $filter as $entry )
 			$files[]	= $entry->getFilename();
 
-		$assertion	= array( $search );
+		$assertion	= array( $search, $search );
 		$creation	= $files;
 		$this->assertEquals( $assertion, $creation );
 

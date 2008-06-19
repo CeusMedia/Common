@@ -14,6 +14,7 @@ require_once( 'Tests/math/AllTests.php' );
 require_once( 'Tests/net/AllTests.php' );
 require_once( 'Tests/ui/AllTests.php' );
 require_once( 'Tests/xml/AllTests.php' );
+require_once( 'Tests/StopWatchTest.php' );
 
 PHPUnit_Util_Filter::addDirectoryToFilter( "d:/.mirror/cmClasses/Tests" );
 
@@ -37,6 +38,7 @@ class Tests_AllTests
 		$suite->addTest( Tests_Net_AllTests::suite() );
 		$suite->addTest( Tests_UI_AllTests::suite() );
 		$suite->addTest( Tests_XML_AllTests::suite() );
+		$suite->addTestSuite( "Tests_StopWatchTest" );
 		return $suite;
 	}
 }

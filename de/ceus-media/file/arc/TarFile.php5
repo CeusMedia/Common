@@ -1,14 +1,12 @@
 <?php
 import( 'de.ceus-media.file.Reader' );
 import ("de.ceus-media.file.Writer");
-import( 'de.ceus-media.file.folder.Folder' );
 /**
  *	Tar File allows creation and manipulation of tar archives.
  *	@package		file
  *	@subpackage		arc
  *	@uses			File_Reader
  *	@uses			File_Writer
- *	@uses			Folder
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.5
  */
@@ -18,7 +16,6 @@ import( 'de.ceus-media.file.folder.Folder' );
  *	@subpackage		arc
  *	@uses			File_Reader
  *	@uses			File_Writer
- *	@uses			Folder
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.5
  */
@@ -372,21 +369,20 @@ class TarFile
 	{
 		if( $to )
 		{
-			$current = new Folder( getCwd() );
-			$f = new Folder( $to, true );
+			$cwd	= getCwd();
+			mkdir( $to );
 			chdir( $to );
 		}
 		foreach( $this->folders as $folder )
-			new Folder( $folder['name'], true );
+			mkdir( $folder['name'] );
 		foreach( $this->files as $file )
 		{
 			if( $folder = dirname( $file['name'] ) )
-				new Folder( $folder, true );
-			$f = new File_Writer( $file['name'], true );
-			$f->writeString( $file['file'] );
+				mkdir( $folder );
+			File_Writer::save( $file['name'], $file['file'] );
 		}
 		if( $to )
-			chDir( $current->getName() );
+			chDir( $cwd );
 	}
 }
 ?>

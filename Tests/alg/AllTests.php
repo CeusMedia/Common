@@ -7,6 +7,7 @@ require_once 'PHPUnit/TextUI/TestRunner.php';
 require_once 'Tests/alg/crypt/AllTests.php';
 require_once 'Tests/alg/validation/AllTests.php';
 require_once 'Tests/alg/RandomizerTest.php';
+require_once 'Tests/alg/StringUnicoderTest.php';
 require_once 'Tests/alg/UnitFormaterTest.php';
 class Tests_Alg_AllTests
 {
@@ -21,6 +22,7 @@ class Tests_Alg_AllTests
 		$suite->addTest( Tests_Alg_Crypt_AllTests::suite() );
 		$suite->addTest( Tests_Alg_Validation_AllTests::suite() );
 		$suite->addTestSuite( 'Tests_Alg_RandomizerTest' ); 
+		$suite->addTestSuite( 'Tests_Alg_StringUnicoderTest' ); 
 		$suite->addTestSuite( 'Tests_Alg_UnitFormaterTest' ); 
 		return $suite;
 	}

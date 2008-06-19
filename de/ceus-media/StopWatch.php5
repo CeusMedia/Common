@@ -46,7 +46,7 @@ class StopWatch
 	public function stop( $base = 3, $round = 3 )
 	{
 		$this->microtimeStop 	= microtime();
-		return $this->result( $base, $round );
+		return $this->getTime( $base, $round );
 	}
 
 
@@ -57,7 +57,7 @@ class StopWatch
 	 *	@param		int		$round		Numbers after dot
 	 *	@return		string
 	 */
-	public function result( $base = 3, $round = 3 )
+	public function getTime( $base = 3, $round = 3 )
 	{
 		$start	= explode( ' ', $this->microtimeStart );
 		$end	= explode( ' ', $this->microtimeStop );

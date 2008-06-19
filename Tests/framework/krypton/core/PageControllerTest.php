@@ -23,10 +23,9 @@ class Tests_Framework_Krypton_Core_PageControllerTest extends PHPUnit_Framework_
 {
 	public function __construct()
 	{
+		$this->path	= "Tests/framework/krypton/core/";
 		$config		= array(
-			'paths'	=> array(
-				'cache'	=> "Tests/framework/krypton/core/cacheDir/",
-			),
+			'paths.cache'	=> $this->path."cacheDir/",
 		);
 		$factory	= new Framework_Krypton_Core_CategoryFactory();
 		$factory->setTypes( array( "alpha", "beta", "gamma" ) );
@@ -36,12 +35,12 @@ class Tests_Framework_Krypton_Core_PageControllerTest extends PHPUnit_Framework_
 		$this->registry		= Framework_Krypton_Core_Registry::getInstance();
 		$this->registry->set( 'config', $config, true );
 		$this->registry->set( 'factory', $factory, true );
-		$this->controller	= new Framework_Krypton_Core_PageController( "Tests/framework/krypton/core/pages.xml" );
+		$this->controller	= new Framework_Krypton_Core_PageController( $this->path."pages.xml" );
 	}
 
 	public function testConstruct()
 	{
-		$controller	= new Framework_Krypton_Core_PageController( "Tests/framework/krypton/core/pages.xml" );
+		$controller	= new Framework_Krypton_Core_PageController( $this->path."pages.xml" );
 
 		$pages		= $controller->getPages();
 

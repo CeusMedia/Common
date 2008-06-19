@@ -2,19 +2,21 @@
 import( 'de.ceus-media.alg.UnitFormater' );
 /**
  *	Reader for Folders.
- *	@package		file.folder
+ *	@package		folder
  *	@uses			Folder_Lister
+ *	@uses			Folder_RecursiveLister
  *	@uses			Alg_UnitFormater
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version		0.6a
+ *	@version		0.6b
  */
 /**
  *	Reader for Folders.
  *	@package		file.folder
  *	@uses			Folder_Lister
+ *	@uses			Folder_RecursiveLister
  *	@uses			Alg_UnitFormater
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version		0.6a
+ *	@version		0.6b
  *	@todo			implement getFileTree, getFolderTree, getTree
  */
 class Folder_Reader

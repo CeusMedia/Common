@@ -41,8 +41,11 @@ class Tests_File_RecursiveRegexFilterTest extends PHPUnit_Framework_TestCase
 	public function setUp()
 	{
 		mkDir( $this->path );
+		mkDir( $this->path."nested/" );
 		file_put_contents( $this->path."test1.test", "test1" );
 		file_put_contents( $this->path."test2.test", "test2" );
+		file_put_contents( $this->path."nested/test3.test", "test3" );
+		file_put_contents( $this->path."nested/test4.test", "test4" );
 	}
 	
 	/**
@@ -54,6 +57,9 @@ class Tests_File_RecursiveRegexFilterTest extends PHPUnit_Framework_TestCase
 	{
 		@unlink( $this->path."test1.test" );
 		@unlink( $this->path."test2.test" );
+		@unlink( $this->path."nested/test3.test" );
+		@unlink( $this->path."nested/test4.test" );
+		@rmDir( $this->path."nested/" );
 		@rmDir( $this->path );
 	}
 
@@ -82,7 +88,8 @@ class Tests_File_RecursiveRegexFilterTest extends PHPUnit_Framework_TestCase
 		foreach( $filter as $entry )
 			$files[]	= $entry->getFilename();
 
-		$assertion	= array( "test1.test", "test2.test" );
+		sort( $files );
+		$assertion	= array( "test1.test", "test2.test", "test3.test", "test4.test" );
 		$creation	= $files;
 		$this->assertEquals( $assertion, $creation );
 
@@ -130,7 +137,24 @@ class Tests_File_RecursiveRegexFilterTest extends PHPUnit_Framework_TestCase
 		$creation	= $files;
 		$this->assertEquals( $assertion, $creation );
 
-		$incode	= "@test3@";
+
+
+		$incode	= "@test@";
+		$filter	= new File_RecursiveRegexFilter( $this->path, $name, $incode );
+
+		$files	= array();
+		foreach( $filter as $entry )
+			$files[]	= $entry->getFilename();
+
+		sort( $files );
+		$assertion	= array( "test1.test",  "test2.test",  "test3.test",  "test4.test" );
+		$creation	= $files;
+		$this->assertEquals( $assertion, $creation );
+
+
+
+
+		$incode	= "@test5@";
 		$filter	= new File_RecursiveRegexFilter( $this->path, $name, $incode );
 
 		$files	= array();
