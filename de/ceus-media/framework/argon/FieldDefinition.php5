@@ -57,7 +57,7 @@ class Framework_Neon_FieldDefinition extends ADT_OptionObject
 	 *	@param		string		name		Name of Field
 	 *	@return		array
 	 */
-	function getField( $name )
+	public function getField( $name )
 	{
 		return $this->_definition[$name];	
 	}
@@ -68,7 +68,7 @@ class Framework_Neon_FieldDefinition extends ADT_OptionObject
 	 *	@param		string		name		Name of Field
 	 *	@return		array
 	 */
-	function getFieldSyntax( $name )
+	public function getFieldSyntax( $name )
 	{
 		return $this->_definition[$name]['syntax'];
 	}
@@ -79,7 +79,7 @@ class Framework_Neon_FieldDefinition extends ADT_OptionObject
 	 *	@param		string		name		Name of Field
 	 *	@return		array
 	 */
-	function getFieldSemantics( $name )
+	public function getFieldSemantics( $name )
 	{
 		if( isset( $this->_definition[$name]['semantic'] ) )
 			return $this->_definition[$name]['semantic'];
@@ -92,7 +92,7 @@ class Framework_Neon_FieldDefinition extends ADT_OptionObject
 	 *	@param		string		name		Name of Field
 	 *	@return		array
 	 */
-	function getFieldInput( $name )
+	public function getFieldInput( $name )
 	{
 		return (array)$this->_definition[$name]['input'];
 	}
@@ -102,7 +102,7 @@ class Framework_Neon_FieldDefinition extends ADT_OptionObject
 	 *	@access		public
 	 *	@return		array
 	 */
-	function getFields()
+	public function getFields()
 	{
 		return array_keys( $this->_definition );	
 	}
@@ -114,7 +114,7 @@ class Framework_Neon_FieldDefinition extends ADT_OptionObject
 	 *	@param		bool			force		Flag: force Loading of XML Defintion
 	 *	@return		void
 	 */
-	function loadDefinition( $filename, $force = false )
+	public function loadDefinition( $filename, $force = false )
 	{
 		$prefix	= $this->getOption( 'prefix' );
 		$path	= $this->getOption( 'path' );
@@ -145,7 +145,7 @@ class Framework_Neon_FieldDefinition extends ADT_OptionObject
 	 *	@param		string		channel		Output Channel
 	 *	@return		void
 	 */
-	function setChannel( $channel )
+	public function setChannel( $channel )
 	{
 		$this->setOption( 'channel', $channel );
 	}
@@ -156,7 +156,7 @@ class Framework_Neon_FieldDefinition extends ADT_OptionObject
 	 *	@param		string		screen		Channel Screen
 	 *	@return		void
 	 */
-	function setScreen( $screen )
+	public function setScreen( $screen )
 	{
 		$this->setOption( 'screen', $screen );
 	}
@@ -167,7 +167,7 @@ class Framework_Neon_FieldDefinition extends ADT_OptionObject
 	 *	@param		string		form			Screen Form
 	 *	@return		void
 	 */
-	function setForm( $form )
+	public function setForm( $form )
 	{
 		$this->setOption( 'form', $form );
 	}
@@ -175,11 +175,11 @@ class Framework_Neon_FieldDefinition extends ADT_OptionObject
 	//  --  PRIVATE METHODS  --  //
 	/**
 	 *	Loads Definition from XML Definition File.
-	 *	@access		public
+	 *	@access		protected
 	 *	@param		string		filename		File Name of XML Definition File
 	 *	@return		void
 	 */
-	function _loadDefinitionXML( $filename )
+	protected function _loadDefinitionXML( $filename )
 	{
 		$this->_definition	= array();
 
@@ -265,11 +265,11 @@ class Framework_Neon_FieldDefinition extends ADT_OptionObject
 
 	/**
 	 *	Writes Cache File.
-	 *	@access		private
+	 *	@access		protected
 	 *	@param		string		filename		File Name of XML Definition File
 	 *	@return		void
 	 */
-	function _writeCacheFile( $filename )
+	protected function _writeCacheFile( $filename )
 	{
 		$cache_file	= $this->_getCacheFilename( $filename );
 		$file	= new File_Writer( $cache_file, 0755 );
@@ -278,11 +278,11 @@ class Framework_Neon_FieldDefinition extends ADT_OptionObject
 
 	/**
 	 *	Returns full File Name of Cache File.
-	 *	@access		pricate
+	 *	@access		protected
 	 *	@param		string		filename		File Name of XML Definition File
 	 *	@return		string
 	 */
-	function _getCacheFilename( $filename )
+	protected function _getCacheFilename( $filename )
 	{
 		$file	= $this->getOption( 'cache_path' ).$filename."_".$this->getOption( 'channel' )."_".$this->getOption( 'screen' )."_".$this->getOption( 'form' ).".cache";
 		return $file;

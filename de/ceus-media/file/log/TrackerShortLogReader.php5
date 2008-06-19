@@ -30,7 +30,7 @@ class TrackerShortLogReader extends ShortLogReader
 	 *	@param		string		$skip			Remote Address to skip (own Requests)
 	 *	@return		void
 	 */
-	function __construct( $uri, $skip = "" )
+	public function __construct( $uri, $skip = "" )
 	{
 		parent::__construct( $uri );
 		$this->skip	= $skip;

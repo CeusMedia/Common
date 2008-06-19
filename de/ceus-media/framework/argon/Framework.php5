@@ -49,10 +49,10 @@ class Framework
 	
 	/**
 	 *	Creates references Objects and loads Configuration, to be overwritten.
-	 *	@access		private
+	 *	@access		protected
 	 *	@return		void
 	 */
-	function _init()
+	protected function _init()
 	{
 	}
 
@@ -61,7 +61,7 @@ class Framework
 	 *	@access		public
 	 *	@return		void
 	 */
-	function runActions()
+	public function runActions()
 	{
 	}
 	
@@ -70,20 +70,20 @@ class Framework
 	 *	@access		public
 	 *	@return		string
 	 */
-	function buildViews()
+	public function buildViews()
 	{
 	}
 
 	//  --  PRIVATE METHODS  --  //
 	/**
 	 *	Transforms requested Link into linked Class Names usind Separators.
-	 *	@access		private
+	 *	@access		protected
 	 *	@param		string		$link				Link to transform to Class Name File
 	 *	@param		string		$separator_link		Separator in Link
 	 *	@param		string		$separator_class	Separator for Classes
 	 *	@return		string
 	 */
-	function _transformLink( $link, $separator_folder = "__", $separator_class = "/", $separator_case = "_" )
+	protected function _transformLink( $link, $separator_folder = "__", $separator_class = "/", $separator_case = "_" )
 	{
 		$words	= explode( $separator_folder, $link );
 		$count	= count( $words );

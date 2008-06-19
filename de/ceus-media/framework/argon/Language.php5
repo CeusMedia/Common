@@ -2,7 +2,7 @@
 import( 'de.ceus-media.adt.OptionObject' );
 import( 'de.ceus-media.net.http.LanguageSniffer' );
 import( 'de.ceus-media.validation.LanguageValidator' );
-import( 'de.ceus-media.file.block.BlockFileReader' );
+import( 'de.ceus-media.file.block.Reader' );
 
 /**
  *	Language Support with sniffing of Browser Language and Language Validation.
@@ -66,18 +66,18 @@ class Language extends ADT_OptionObject
 		$this->loadHovers();
 	}
 	
-	function loadHovers()
+	public function loadHovers()
 	{
 		$session	= $this->ref->get( 'session' );
 		$uri	= $this->getOption( 'path_files' ).$session->get( 'language' )."/hovers.blocks";
 		if( file_exists( $uri ) )
 		{
-			$bfr	= new BlockFileReader( $uri );
+			$bfr	= new File_Block_Reader( $uri );
 			$this->_hovers	= $bfr->getBlocks();
 		}
 	}
 	
-	function loadLanguage( $filename, $section = false, $verbose = true )
+	public function loadLanguage( $filename, $section = false, $verbose = true )
 	{
 		$session	= $this->ref->get( 'session' );
 		$messenger	= $this->ref->get( 'messenger' );
@@ -105,14 +105,14 @@ class Language extends ADT_OptionObject
 		return false;
 	}
 
-	function _hasCache( $filename )
+	protected function _hasCache( $filename )
 	{
 		$config	= $this->ref->get( 'config' );
 //		remark( $url );
 		return file_exists( $url );
 	}
 	
-	function _loadCache( $url )
+	protected function _loadCache( $url )
 	{
 		$config	= $this->ref->get( 'config' );
 		$file	= new File_Reader( $url );
@@ -120,7 +120,7 @@ class Language extends ADT_OptionObject
 			return implode( "", file( $url ) );
 	}
 	
-	function _saveCache( $url, $content )
+	protected function _saveCache( $url, $content )
 	{
 		$config	= $this->ref->get( 'config' );
 		$file	= new File_Writer( $url, 0750 );

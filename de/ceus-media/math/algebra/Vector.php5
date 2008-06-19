@@ -53,7 +53,8 @@ class Math_Algebra_Vector
 	 */
 	public function addValue( $value )
 	{
-		$this->values[]	= (float) $value;
+		$value	= is_int( $value ) ? $value : (float) $value;
+		$this->values[]	= $value;
 		$this->dimension++;
 	}
 	

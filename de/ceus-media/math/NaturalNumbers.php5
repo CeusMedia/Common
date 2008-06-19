@@ -12,49 +12,30 @@
  */
 class NaturalNumbers
 {
-	function is_prime( $number )
-	{
-		if( !NaturalNumbers::isNatural( $number ) )
-			trigger_error( "is_prime($number): first argument must be a natural number", E_USER_ERROR );
-		$limit = round( sqrt( $number ) );
-		$counter = 2;
-		while( $counter <= $limit )
-		{
-			if( $number % $counter == 0 )
-				return false;
-			$counter ++;
-		}
-		return true;
-	}
-	
-	function pow( $base, $number )
-	{
-		if( !NaturalNumbers::isNatural( $number ) )
-			trigger_error( "pow( $base, $n ): second argument must be a natural number", E_USER_ERROR );
-		if( $number == 0 )
-			return 1;
-		else 	if( $number > 0 )
-			return NaturalNumbers::pow( $base, NaturalNumbers::pre( $number ) ) * $base;		
-		else if( $number < 0 )
-			return NaturalNumbers::pow( NaturalNumbers::rec( $base ), NaturalNumbers::abs( $number ) );
-	}
-
-	function inv( $number )
-	{
-		return -1 * $number;
-	}
-
-	function abs( $number )
+	public function abs( $number )
 	{
 		return max( $number, NaturalNumbers::inv( $number ) );
 	}
 	
-	function isNatural( $number )
+	public function arithmeticAverage( $args )
 	{
-		return fmod( $number, 1 ) == 0;
+		$sum = 1;
+		if( $size = sizeof( $args ) )
+		{
+			foreach( $args as $arg )
+				$sum *= $arg;
+			$average = pow( $sum, 1 / $size );
+			return $average;
+		}
+		return $sum;
 	}
-	
-	function fac( $number )
+
+	public function avg( $args )
+	{
+		return NaturalNumbers::geometricAverage( $args );
+	}
+
+	public function fac( $number )
 	{
 		if( $number >= 0 )
 		{
@@ -63,55 +44,8 @@ class NaturalNumbers
 			$value = $number * NaturalNumbers::fac( NaturalNumbers::pre( $number ) );
 			return $value;
 		}
-		return false;
+		return 0;
 	}
-
-	function pre( $number )
-	{
-		if( !NaturalNumbers::isNatural( $number ) )
-			trigger_error( "pre( $number ): first argument must be a natural number", E_USER_ERROR );
-		return --$number;
-	}
-
-	function succ( $number )
-	{
-		if( !NaturalNumbers::isNatural( $number ) )
-			trigger_error( "succ( $number ): first argument must be a natural number", E_USER_ERROR );
-		return ++$number;
-	}
-
-	/**
-	 *	maximum
-	 */
-	function max()
-	{
-		$args = func_get_args();
-		if( is_array( $args[0] ) )
-			$args = $args[0];
-		return max( $args );
-	}
-
-	/**
-	 *	minimum
-	 */
-	function min()
-	{
-		$args = func_get_args();
-		if( is_array( $args[0] ) )
-			$args = $args[0];
-		return min( $args );
-	}
-
-	/**
-	 *	Reciprocal
-	 */
-	function rec( $number )
-	{
-		if( $number == 0 )
-			trigger_error( "rec( $number ): first argument must not be 0", E_USER_ERROR );
-		return 1 / $number;
-	}
-	
 	
 	/**
 	 *	Calcalates greatest common Divisor of m and n.
@@ -120,7 +54,7 @@ class NaturalNumbers
 	 *	@param		int		n		Natural Number n
 	 *	@return		int
 	 */
-	function gcd( $m, $n )
+	public function gcd( $m, $n )
 	{
 		if( $n != 0 )
 			return NaturalNumbers::gcd( $n, $m % $n );
@@ -133,7 +67,7 @@ class NaturalNumbers
 	 *	@todo		Test
 	 *	@todo		Code Documentation
 	 */
-	 function gcdm( $args )
+	 public function gcdm( $args )
 	 {
 		if( count( $args ) )
 		{
@@ -151,41 +85,22 @@ class NaturalNumbers
 		return false;
 	}
 
-	/**
-	 *	Calculates least common Multiple of m and n.
-	 *	@access		public	 
-	 *	@param		int		$m		Natural Number m
-	 *	@param		int		$n		Natural Number n
-	 *	@return		int
-	 */
-	function lcm( $m, $n )
+	public function geometricAverage( $args )
 	{
-		return $m * $n / NaturalNumbers::gcd( $m, $n );
-	}
-
-	/**
-	 *	Calculates least common Multiple of at least 2 Numbers.
-	 *	@todo		Test
-	 *	@todo		Code Documentation
-	 */
-	 function lcmm( $args )
-	 {
-		if( count( $args ) )
+		if( $size = sizeof( $args ) )
 		{
-		 	$gcd = $this->gcdm( $args );
-			$m = 1;
 			foreach( $args as $arg )
-				$m *= $arg;
-			$r = $m / $gcd;
-			return $r;
+				$sum += $arg;
+			$average = $sum / $size;
+			return $average;
 		}
-		return false;
-	 }
-
+		return 0;
+	}
+	
 	/**
 	 *	greatest devisor
 	 */
-	function greatestDivisor( $number )
+	public function greatestDivisor( $number )
 	{
 		$limit = round( $number / 2,0 );
 		$counter = 2;
@@ -198,10 +113,66 @@ class NaturalNumbers
 		return false;
 	}
 
+	public function inv( $number )
+	{
+		return -1 * $number;
+	}
+	
+	public function isNatural( $number )
+	{
+		return fmod( $number, 1 ) == 0;
+	}
+
+	public function isPrime( $number )
+	{
+		if( !NaturalNumbers::isNatural( $number ) )
+			throw new InvalidArgumentException( 'First Argument must be a natural Number.' );
+		$limit		= round( sqrt( $number ) );
+		$counter	= 2;
+		while( $counter <= $limit )
+		{
+			if( $number % $counter == 0 )
+				return FALSE;
+			$counter ++;
+		}
+		return TRUE;
+	}
+
+	/**
+	 *	Calculates least common Multiple of m and n.
+	 *	@access		public	 
+	 *	@param		int		$m		Natural Number m
+	 *	@param		int		$n		Natural Number n
+	 *	@return		int
+	 */
+	public function lcm( $m, $n )
+	{
+		return $m * $n / NaturalNumbers::gcd( $m, $n );
+	}
+
+	/**
+	 *	Calculates least common Multiple of at least 2 Numbers.
+	 *	@todo		Test
+	 *	@todo		Code Documentation
+	 */
+	 public function lcmm( $args )
+	 {
+		if( count( $args ) )
+		{
+		 	$gcd = $this->gcdm( $args );
+			$m = 1;
+			foreach( $args as $arg )
+				$m *= $arg;
+			$r = $m / $gcd;
+			return $r;
+		}
+		return false;
+	}
+
 	/**
 	 *	least devisor
 	 */
-	function leastDivisor( $number )
+	public function leastDivisor( $number )
 	{
 		$limit = round( sqrt( $number ) );
 		$counter = 2;
@@ -213,35 +184,63 @@ class NaturalNumbers
 		}
 		return false;
 	}
-	
-	function avg( $args )
+
+	/**
+	 *	maximum
+	 */
+	public function max()
 	{
-		return NaturalNumbers::geometricAverage( $args );
+		$args = func_get_args();
+		if( is_array( $args[0] ) )
+			$args = $args[0];
+		return max( $args );
 	}
 
-	function geometricAverage( $args )
+	/**
+	 *	minimum
+	 */
+	public function min()
 	{
-		if( $size = sizeof( $args ) )
-		{
-			foreach( $args as $arg )
-				$sum += $arg;
-			$average = $sum / $size;
-			return $average;
-		}
-		return 0;
+		$args = func_get_args();
+		if( is_array( $args[0] ) )
+			$args = $args[0];
+		return min( $args );
 	}
 	
-	function arithmeticAverage( $args )
+	public function pow( $base, $number )
 	{
-		$sum = 1;
-		if( $size = sizeof( $args ) )
-		{
-			foreach( $args as $arg )
-				$sum *= $arg;
-			$average = pow( $sum, 1 / $size );
-			return $average;
-		}
-		return $sum;
+		if( !NaturalNumbers::isNatural( $number ) )
+			throw new InvalidArgumentException( 'First Argument must be a natural Number.' );
+		if( $number == 0 )
+			return 1;
+		else if( $number > 0 )
+			return NaturalNumbers::pow( $base, NaturalNumbers::pre( $number ) ) * $base;		
+		else if( $number < 0 )
+			return NaturalNumbers::pow( NaturalNumbers::rec( $base ), NaturalNumbers::abs( $number ) );
+	}
+
+	public function pre( $number )
+	{
+		if( !NaturalNumbers::isNatural( $number ) )
+			throw new InvalidArgumentException( 'First Argument must be a natural Number.' );
+		return --$number;
+	}
+
+	/**
+	 *	Reciprocal
+	 */
+	public function rec( $number )
+	{
+		if( $number == 0 )
+			trigger_error( "rec( $number ): first argument must not be 0", E_USER_ERROR );
+		return 1 / $number;
+	}
+
+	public function succ( $number )
+	{
+		if( !NaturalNumbers::isNatural( $number ) )
+			throw new InvalidArgumentException( 'First Argument must be a natural Number.' );
+		return ++$number;
 	}
 }
 ?>

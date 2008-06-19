@@ -2,7 +2,7 @@
 import( 'de.ceus-media.adt.OptionObject' );
 import( 'de.ceus-media.net.http.LanguageSniffer' );
 import( 'de.ceus-media.validation.LanguageValidator' );
-import( 'de.ceus-media.file.block.BlockFileReader' );
+import( 'de.ceus-media.file.block.Reader' );
 
 /**
  *	Language Support with sniffing of Browser Language and Language Validation.
@@ -85,7 +85,7 @@ class Framework_Neon_Language extends ADT_OptionObject
 		$uri	= $this->getOption( 'path_files' )."/hovers.blocks";
 		if( file_exists( $uri ) )
 		{
-			$bfr	= new BlockFileReader( $uri );
+			$bfr	= new File_Block_Reader( $uri );
 			$this->_hovers	= $bfr->getBlocks();
 		}
 	}

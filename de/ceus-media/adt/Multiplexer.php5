@@ -5,28 +5,28 @@
  *	@extends		Object
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			23.08.2005
- *	@version		0.1
+ *	@version		0.6
  */
 /**
  *	Multiplexer.
  *	@package		adt
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			23.08.2005
- *	@version		0.1
+ *	@version		0.6
  */
 class ADT_Multiplexer
 {
-	/**	@var		int			$type		Type (1,2,4) */
+	/**	@var		int			$type			Type (1,2,4) */
 	protected $type;
-	/**	@var		array		$controls	Controls */
-	protected $controls	= array();
-	/**	@var		int			$inputs		Inputs */
-	protected $inputs		= array();
+	/**	@var		array		$controls		Controls */
+	protected $controls			= array();
+	/**	@var		int			$inputs			Inputs */
+	protected $inputs			= array();
 
 	/**
 	 *	Contructor.
 	 *	@access		public
-	 *	@param		int		type			Type (1,2,4)
+	 *	@param		int			$type			Type (1,2,4)
 	 *	@return		void
 	 */
 	public function __construct( $type = 1 )
@@ -34,35 +34,6 @@ class ADT_Multiplexer
 		$this->type = $type;
 		$this->setControls();
 		$this->setInputs();
-	}
-
-	/**
-	 *	Sets Controls from Method Arguments.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function setControls()
-	{
-		$this->controls	= array();
-		$args	= func_get_args();
-		for( $i = 0; $i < $this->type; $i ++ )
-			if( isset( $args[$i] ) )
-				$this->controls[$i]	= $args[$i];
-	}
-
-	/**
-	 *	Sets Inputs from Method Arguments.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function setInputs()
-	{
-		$this->inputs	= array();
-		$len	= pow( 2, $this->type );
-		$args	= func_get_args();
-		for( $i = 0; $i < $len; $i ++ )
-			if( isset( $args[$i] ) )
-				$this->inputs[$i] = $args[$i];
 	}
 	
 	/**
@@ -93,6 +64,35 @@ class ADT_Multiplexer
 	public function getType()
 	{
 		return $this->type;
+	}
+
+	/**
+	 *	Sets Controls from Method Arguments.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function setControls()
+	{
+		$this->controls	= array();
+		$args	= func_get_args();
+		for( $i = 0; $i < $this->type; $i ++ )
+			if( isset( $args[$i] ) )
+				$this->controls[$i]	= $args[$i];
+	}
+
+	/**
+	 *	Sets Inputs from Method Arguments.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function setInputs()
+	{
+		$this->inputs	= array();
+		$len	= pow( 2, $this->type );
+		$args	= func_get_args();
+		for( $i = 0; $i < $len; $i ++ )
+			if( isset( $args[$i] ) )
+				$this->inputs[$i] = $args[$i];
 	}
 	
 	/**

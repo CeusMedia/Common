@@ -30,7 +30,7 @@ class UI_HTML_AjaxElements extends UI_HTML_Elements
 	 *	@patam		string		$disabled			Ausgrauen des Buttons
 	 *	@return		string
 	 */
-	function Button( $name, $value, $class = 'but', $confirm = false, $disabled = false)
+	public function Button( $name, $value, $class = 'but', $confirm = false, $disabled = false)
 	{
 		$ins_class	= $class ? " class=\"".$class."\"" : "";
 		$ins_disabled	= $disabled ? " disabled=\"disabled\"" : "";
@@ -49,7 +49,7 @@ class UI_HTML_AjaxElements extends UI_HTML_Elements
 	 *	@param		string		$on_submit		JavaScript vor dem Versenden des Formulars
 	 *	@return		string
 	 */
-	function Form( $id = "", $action = '', $target = false, $enctype = false, $on_submit = "" )
+	public function Form( $id = "", $action = '', $target = false, $enctype = false, $on_submit = "" )
 	{
 		$ins_id		= " id=\"form_".$id."\"";
 		$ins_action	= " action=\"".$action."\"";
@@ -69,7 +69,7 @@ class UI_HTML_AjaxElements extends UI_HTML_Elements
 	 *	@param		int			$tabindex		Tabulatur-Index
 	 *	@return		string
 	 */
-	function Link( $url = "", $name, $class = false, $target = false, $confirm = false, $tabindex = false )
+	public function Link( $url = "", $name, $class = false, $target = false, $confirm = false, $tabindex = false )
 	{
 		if( $target || substr_count( $url, "://" ) )
 			return UI_HTML_Elements::Link( $url, $name, $class, $target, $confirm, $tabindex );

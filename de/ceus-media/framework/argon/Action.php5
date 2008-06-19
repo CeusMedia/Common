@@ -38,7 +38,7 @@ class Framework_Argon_Action
 	 *	@access		public
 	 *	@return		void
 	 */
-	function __construct()
+	public function __construct()
 	{
 		$this->ref			= new ADT_Reference();
 		$this->tc			= new Alg_TimeConverter;
@@ -51,7 +51,7 @@ class Framework_Argon_Action
 	 *	@access		public
 	 *	@return		void
 	 */
-	function act()
+	public function act()
 	{
 		$request	=& $this->ref->get( 'request' );
 	}
@@ -63,7 +63,7 @@ class Framework_Argon_Action
 	 *	@param		string		$filename			File Name of Language File
 	 *	@return		void
 	 */
-	function loadLanguage( $section, $filename = false, $verbose = true )
+	public function loadLanguage( $section, $filename = false, $verbose = true )
 	{
 		$language	=& $this->ref->get( 'language' );
 		$language->loadLanguage( $section, $filename = false, $verbose );
@@ -78,7 +78,7 @@ class Framework_Argon_Action
 	 *	@param		string		$separator_class		Separator for Language File
 	 *	@return		string
 	 */
-	function loadTemplate( $_template, $data = array(), $separator_link = ".", $separator_file = "/" )
+	public function loadTemplate( $_template, $data = array(), $separator_link = ".", $separator_file = "/" )
 	{
 		$config	=& $this->ref->get( "config" );
 		$_file	= str_replace( $separator_link, $separator_file, $_template );
@@ -104,7 +104,7 @@ class Framework_Argon_Action
 	 *	@param		string		$request			Request URL with Query String
 	 *	@return		void
 	 */
-	function restart( $request )
+	public function restart( $request )
 	{
 		$session	= $this->ref->get( 'session' );
 		$session->close();

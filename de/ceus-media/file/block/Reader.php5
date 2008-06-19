@@ -18,22 +18,23 @@ import( 'de.ceus-media.file.Reader' );
  *	@since			19.12.2006
  *	@version		0.1
  */
-class BlockFileReader
+class File_Block_Reader
 {
-	var $pattern_section;
-	var $_blocks			= array();
+	protected $blocks			= array();
+	protected $fileName;
+	protected $patternSection;
 
 	/**
 	 *	Constructor, reads Block File.
 	 *	@access		public
-	 *	@param		string		$filename		File Name of Block File
+	 *	@param		string		$fileName		File Name of Block File
 	 *	@return		void
 	 */
-	public function __construct( $filename )
+	public function __construct( $fileName )
 	{
-		$this->pattern_section	= "@^\[([a-z][^\]]*)\]$@i";
-		$this->filename	= $filename;
-		$this->_read();	
+		$this->patternSection	= "@^\[([a-z][^\]]*)\]$@i";
+		$this->fileName	= $fileName;
+		$this->readBlocks();	
 		
 	}
 	
@@ -42,9 +43,9 @@ class BlockFileReader
 	 *	@access		public
 	 *	@return		array
 	 */
-	function getBlockNames()
+	public function getBlockNames()
 	{
-		return array_keys( $this->_blocks );
+		return array_keys( $this->blocks );
 	}
 	
 	/**
@@ -53,10 +54,10 @@ class BlockFileReader
 	 *	@param		string		$section		Name of Block
 	 *	@return		array
 	 */
-	function getBlock( $section )
+	public function getBlock( $section )
 	{
 		if( $this->hasBlock( $section ) )
-			return $this->_blocks[$section];
+			return $this->blocks[$section];
 	}
 	
 	/**
@@ -65,9 +66,9 @@ class BlockFileReader
 	 *	@param		string		$section		Name of Block
 	 *	@return		bool
 	 */
-	function hasBlock( $section )
+	public function hasBlock( $section )
 	{
-		$names	= array_keys( $this->_blocks );
+		$names	= array_keys( $this->blocks );
 		$result	= array_search( $section, $names );
 		$return	= is_int( $result );
 		return $return;
@@ -79,41 +80,41 @@ class BlockFileReader
 	 *	@param		string		$section		Name of Block
 	 *	@return		bool
 	 */
-	function getBlocks()
+	public function getBlocks()
 	{
-		return $this->_blocks;
+		return $this->blocks;
 	}
 	
 	/**
 	 *	Reads Block File.
-	 *	@access		private
+	 *	@access		protected
 	 *	@return		void
 	 */
-	function _read()
+	protected function readBlocks()
 	{
 		$open	= false;
-		$file	= new File_Reader( $this->filename );
+		$file	= new File_Reader( $this->fileName );
 		$lines	= $file->readArray();
 		foreach( $lines as $line )
 		{
 			$line	= trim( $line );
 			if( $line )
 			{
-				if( preg_match( $this->pattern_section, $line ) )
+				if( preg_match( $this->patternSection, $line ) )
 				{
-					$section 	= preg_replace( $this->pattern_section, "\\1", $line );
-					if( !isset( $this->_blocks[$section] ) )
-						$this->_blocks[$section]	= array();
+					$section 	= preg_replace( $this->patternSection, "\\1", $line );
+					if( !isset( $this->blocks[$section] ) )
+						$this->blocks[$section]	= array();
 					$open = true;
 				}
 				else if( $open )
 				{
-					$this->_blocks[$section][]	= $line;
+					$this->blocks[$section][]	= $line;
 				}
 			}
 		}
-		foreach( $this->_blocks as $section => $block )
-			$this->_blocks[$section]	= implode( "\n", $block );
+		foreach( $this->blocks as $section => $block )
+			$this->blocks[$section]	= implode( "\n", $block );
 	}
 }
 ?>

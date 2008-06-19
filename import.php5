@@ -1,7 +1,6 @@
 <?php
 /**
  *	Java-like import of Classes.
- *	@package		functions
  *	@access			public
  *	@param			string		$classPath		Java-formated URI of Class
  *	@return			void

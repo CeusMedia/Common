@@ -196,11 +196,11 @@ class Framework_Krypton_Core_Language
 /*	protected function loadHovers()
 	{
 		$session	= $this->registry->get( 'session' );
-		import( 'de.ceus-media.file.block.BlockFileReader' );
+		import( 'de.ceus-media.file.block.Reader' );
 		$uri	= $this->pathFiles.$session->get( 'language' )."/hovers.blocks";
 		if( file_exists( $uri ) )
 		{
-			$bfr	= new BlockFileReader( $uri );
+			$bfr	= new File_Block_Reader( $uri );
 			$this->hovers	= $bfr->getBlocks();
 		}
 	}

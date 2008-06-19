@@ -30,8 +30,6 @@ class FileWikiParser extends WikiParser
 	 *	Construcor.
 	 *	@access		public
 	 *	@return		void
-	 *	@since		01.04.2006
-	 *	@version		0.1
 	 */
 	public function __construct()
 	{
@@ -46,10 +44,8 @@ class FileWikiParser extends WikiParser
 	 *	@access		public
 	 *	@param		string		$id			Page ID
 	 *	@return		string
-	 *	@since		01.04.2006
-	 *	@version		0.1
 	 */
-	function loadPage( $id )
+	public function loadPage( $id )
 	{
 		if( $this->getOption( 'use_cache' ) )
 		{
@@ -98,10 +94,8 @@ class FileWikiParser extends WikiParser
 	 *	@param		string		$id			Page ID
 	 *	@param		string		$content		Content (unparsed) to write to File
 	 *	@return		void
-	 *	@since		01.04.2006
-	 *	@version		0.1
 	 */
-	function writePage( $id, $content )
+	public function writePage( $id, $content )
 	{
 		$filename	= $this->getFilenameFromPage( $id );
 		if( file_exists( $filename ) )
@@ -127,10 +121,8 @@ class FileWikiParser extends WikiParser
 	 *	@access		public
 	 *	@param		string		$id			Page ID
 	 *	@return		string
-	 *	@since		01.04.2006
-	 *	@version		0.1
 	 */
-	function getFilenameFromPage( $id )
+	public function getFilenameFromPage( $id )
 	{
 		$filename	= $this->getOption( 'path' ).str_replace( $this->getOption( 'namespace_separator' ), '/', $id ).$this->getOption( 'extension' );
 		return $filename;
@@ -141,10 +133,8 @@ class FileWikiParser extends WikiParser
 	 *	@access		public
 	 *	@param		string		$id			Page ID
 	 *	@return		string
-	 *	@since		01.04.2006
-	 *	@version		0.1
 	 */
-	function getUrlFromPage( $id )
+	public function getUrlFromPage( $id )
 	{
 		$url	= $this->getOption( 'url' ).$this->getOption( 'carrier' ).$id;
 		return $url;
@@ -155,25 +145,20 @@ class FileWikiParser extends WikiParser
 	 *	@access		public
 	 *	@param		string		$id			Page ID
 	 *	@return		bool
-	 *	@since		01.04.2006
-	 *	@version		0.1
 	 */
-	function hasPage( $id )
+	public function hasPage( $id )
 	{
 		$filename	= $this->getFilenameFromPage( $id );
 		return file_exists( $filename );
 	}
 
-	//  --  PRIVATE METHODS  --  //
 	/**
 	 *	Returns Filename of Cache File from a Page ID.
-	 *	@access		private
+	 *	@access		protected
 	 *	@param		string		$id			Page ID
 	 *	@return		string
-	 *	@since		01.04.2006
-	 *	@version		0.1
 	 */
-	function _getCacheFilenameFromPage( $id )
+	protected function getCacheFilenameFromPage( $id )
 	{
 		$filename	= $this->getOption( 'cache_path' ).md5( $id );
 		return $filename;

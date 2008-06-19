@@ -60,7 +60,7 @@ class Framework_Argon_View
 	 *	@access		public
 	 *	@return		void
 	 */
-	function __construct()
+	public function __construct()
 	{
 		$this->ref			= new ADT_Reference();
 		$this->tc			= new Alg_TimeConverter;
@@ -80,7 +80,7 @@ class Framework_Argon_View
 	 *	@param		array	$options		Array of Options to set
 	 *	@return		string
 	 */
-	function buildPaging( $count_all, $limit, $offset, $options = array())
+	public function buildPaging( $count_all, $limit, $offset, $options = array())
 	{
 		$request	=& $this->ref->get( "request" );
 		$link		= $request->get( 'link');
@@ -111,7 +111,7 @@ class Framework_Argon_View
 	 *	@param		string		$searches		Array of String to highlight
 	 *	@return 	string
 	 */
-	function hilight( $text, $searches )
+	public function hilight( $text, $searches )
 	{
 		if( is_array( $searches ) && count( $searches ) )
 		{
@@ -151,7 +151,7 @@ class Framework_Argon_View
 	 *	@param		string		$mask		Mask to append to shortened string
 	 *	@return		string
 	 */
-	function str_shorten( $string, $length = 20, $mask = "..." )
+	public function str_shorten( $string, $length = 20, $mask = "..." )
 	{
 		if( $length )
 		{
@@ -169,7 +169,7 @@ class Framework_Argon_View
 	 *	@param		string		$string		String to be transformed
 	 *	@return		string
 	 */
-	function transform( $string )
+	public function transform( $string )
 	{
 		$string	= htmlspecialchars( $string );
 		$pattern	= "@(\[d\])(.*)(\[/d\])@si";
@@ -188,7 +188,7 @@ class Framework_Argon_View
 	 *	@param		string		$string		String to be transformed
 	 *	@return		string
 	 */
-	function transform_callback( $matches )
+	public function transform_callback( $matches )
 	{
 		if( $matches[0] )
 		{
@@ -209,7 +209,7 @@ class Framework_Argon_View
 	 *	@param		string		$separator		Separator
 	 *	@return		string
 	 */
-	function formatPrice( $price, $separator = "." )
+	public function formatPrice( $price, $separator = "." )
 	{
 		$price	= (float)$price;
 		ob_start();
@@ -217,7 +217,7 @@ class Framework_Argon_View
 		return ob_get_clean();
 	}
 
-	function hasContent( $file )
+	public function hasContent( $file )
 	{
 		$config		=& $this->ref->get( "config" );
 		$session	=& $this->ref->get( "session" );
@@ -245,7 +245,7 @@ class Framework_Argon_View
 	 *	@param		string		$separator_class	Separator for Language File
 	 *	@return		string
 	 */
-	function loadContent( $_file, $data = array(), $separator_link = ".", $separator_file = "/" )
+	public function loadContent( $_file, $data = array(), $separator_link = ".", $separator_file = "/" )
 	{
 		$config		=& $this->ref->get( "config" );
 		$session	=& $this->ref->get( "session" );
@@ -293,7 +293,7 @@ class Framework_Argon_View
 	 *	@param		string		$separator_class		Separator for Language File
 	 *	@return		string
 	 */
-	function loadTemplate( $_template, $data = array(), $separator_link = ".", $separator_file = "/" )
+	public function loadTemplate( $_template, $data = array(), $separator_link = ".", $separator_file = "/" )
 	{
 		$config	=& $this->ref->get( "config" );
 		$_file	= str_replace( $separator_link, $separator_file, $_template );
@@ -320,13 +320,13 @@ class Framework_Argon_View
 	 *	@param		string		$filename		File Name of Language File
 	 *	@return		void
 	 */
-	function loadLanguage( $section, $filename = false, $verbose = true )
+	public function loadLanguage( $section, $filename = false, $verbose = true )
 	{
 		$language	=& $this->ref->get( 'language' );
 		$language->loadLanguage( $section, $filename = false, $verbose );
 	}
 
-	function loadCache( $filename )
+	public function loadCache( $filename )
 	{
 		$config	= $this->ref->get( 'config' );
 		$url	= $config['paths']['cache'].$filename;
@@ -336,7 +336,7 @@ class Framework_Argon_View
 		return implode( "", file( $url ) );
 	}
 	
-	function saveCache( $filename, $content )
+	public function saveCache( $filename, $content )
 	{
 		$config	= $this->ref->get( 'config' );
 		$url	= $config['paths']['cache'].$filename;

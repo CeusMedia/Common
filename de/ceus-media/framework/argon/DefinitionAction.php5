@@ -50,7 +50,7 @@ class DefinitionAction extends Framework_Neon_Action
 	 *	@param		string		$lan_section		Section in Language File (e.g. 'add')
 	 *	@return		bool
 	 */
-	function validateForm( $file , $form, $lan_file, $lan_section )
+	public function validateForm( $file , $form, $lan_file, $lan_section )
 	{
 		$request	= $this->ref->get( 'request' );
 		$labels		= $this->words[$lan_file][$lan_section];
@@ -87,11 +87,11 @@ class DefinitionAction extends Framework_Neon_Action
 	//  --  PRIVATE METHODS  --  //
 	/**
 	 *	Runs Validation of Field Definitions againt Request Input and creates Error Messages.
-	 *	@access		public
+	 *	@access		protected
 	 *	@param		string		$file				Name of XML Definition File (e.g. %PREFIX%#FILE#.xml)
 	 *	@return		void
 	 */
-	function _loadDefinition( $file , $form )
+	protected function _loadDefinition( $file , $form )
 	{
 		$this->definition->setForm( $form );
 		$this->definition->setOption( 'prefix', $this->prefix );

@@ -7,7 +7,6 @@ import( 'de.ceus-media.framework.krypton.core.Action' );
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			18.06.2006
  *	@version		0.6
- *	@deprecated		XML Definition moved to Core_Logic, to be deleted soon
  */
 /**
  *	Generic Definition Action Handler.
@@ -23,11 +22,8 @@ class Framework_Krypton_Core_DefinitionAction extends Framework_Krypton_Core_Act
 	 *	Constructor.
 	 *	@access		public
 	 *	@return		void
-	 *	@author		Christian Würker <Christian.Wuerker@CeuS-Media.de>
-	 *	@since		18.06.2006
-	 *	@version		0.1
 	 */
-	function __construct( $useWikiParser = false )
+	public function __construct( $useWikiParser = false )
 	{
 		parent::__construct( $useWikiParser );
 		$this->loadLanguage( 'validator', false, false );

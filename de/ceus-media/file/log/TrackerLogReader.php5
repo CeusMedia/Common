@@ -19,11 +19,11 @@ import( 'de.ceus-media.file.log.LogFileReader' );
 class TrackerLogReader extends LogFileReader
 {
 	/*	@var		string		$patterns		RegEx Patterns to parse Line */
-	var $patterns;
+	protected $patterns;
 	/*	@var		string		$skip			Remote Address to skip (own Requests) */
-	var $skip;
+	protected $skip;
 	/*	@var		array		$data			Array of Data from parsed Lines */
-	var $data	= array();
+	protected $data	= array();
 	
 	/**
 	 *	Constructor.
@@ -33,7 +33,7 @@ class TrackerLogReader extends LogFileReader
 	 *	@param		bool		$auto_parse		Flag: parse LogFile automaticly
 	 *	@return		void
 	 */
-	function __construct( $logFile, $skip, $autoParse = false )
+	public function __construct( $logFile, $skip, $autoParse = false )
 	{
 		parent::__construct( $logFile );
 		$this->patterns	= "@^([0-9]+) \[([0-9:. -]+)\] ([a-z0-9:.-]+) (.*) (.*) \"(.*)\"$@si";
@@ -47,7 +47,7 @@ class TrackerLogReader extends LogFileReader
 	 *	@access		public
 	 *	@return		array
 	 */
-	function getData()
+	public function getData()
 	{
 		return $this->data;
 	}
@@ -57,7 +57,7 @@ class TrackerLogReader extends LogFileReader
 	 *	@access		public
 	 *	@return		int
 	 */
-	function getVisits()
+	public function getVisits()
 	{
 		return count( $this->data );
 	}
@@ -67,7 +67,7 @@ class TrackerLogReader extends LogFileReader
 	 *	@access		public
 	 *	@return		int
 	 */
-	function getVisitors()
+	public function getVisitors()
 	{
 		$remote_addrs	= array();	
 		$counter	= 0;
@@ -96,7 +96,7 @@ class TrackerLogReader extends LogFileReader
 	 *	@access		public
 	 *	@return 	array
 	 */
-	function getBrowsers()
+	public function getBrowsers()
 	{
 		$remote_addrs	= array();	
 		$browsers		= array();
@@ -139,7 +139,7 @@ class TrackerLogReader extends LogFileReader
 	 *	@access		public
 	 *	@return 	array
 	 */
-	function getReferers( $skip )
+	public function getReferers( $skip )
 	{
 		$referers		= array();
 		foreach( $this->data as $entry )
@@ -168,7 +168,7 @@ class TrackerLogReader extends LogFileReader
 	 *	@access		public
 	 *	@return 	float
 	 */
-	function getPagesPerVisitor()
+	public function getPagesPerVisitor()
 	{
 		$remote_addrs	= array();	
 		$visitors		= array();
@@ -207,7 +207,7 @@ class TrackerLogReader extends LogFileReader
 	 *	@param		int			$max		List Entries (0-all)
 	 *	@return 	array
 	 */
-	function getTable( $max = 0)
+	public function getTable( $max = 0)
 	{
 		$data	= $this->data;
 		if( $max )
@@ -231,7 +231,7 @@ class TrackerLogReader extends LogFileReader
 	 *	@access		public
 	 *	@return		void	 
 	 */
-	function parse()
+	public function parse()
 	{
 		$data	= array();
 		$lines	= $this->read();
@@ -246,7 +246,7 @@ class TrackerLogReader extends LogFileReader
 	 *	@param		array		data			Parsed Log Data
 	 *	@return		void
 	 */
-	function setData( $data )
+	public function setData( $data )
 	{
 		$this->data	= $data;
 	}

@@ -52,9 +52,9 @@ class Framework_Krypton_Core_CategoryFactory
 	{
 		$type		= $category ? $category : $this->getType();
 		$className	= ucFirst( $className );
-		$className	= lcFirst( $type ).".".$className;
+		$className	= strtolower( $type ).".".$className;
 		if( $prefix )
-			$className	= lcFirst( $prefix ).".".$className;
+			$className	= strtolower( $prefix ).".".$className;
 		return $className;
 	}
 	
