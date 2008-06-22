@@ -105,16 +105,8 @@ class Language extends ADT_OptionObject
 		return false;
 	}
 
-	protected function _hasCache( $filename )
-	{
-		$config	= $this->ref->get( 'config' );
-//		remark( $url );
-		return file_exists( $url );
-	}
-	
 	protected function _loadCache( $url )
 	{
-		$config	= $this->ref->get( 'config' );
 		$file	= new File_Reader( $url );
 		return $file->readString();
 			return implode( "", file( $url ) );
@@ -122,7 +114,6 @@ class Language extends ADT_OptionObject
 	
 	protected function _saveCache( $url, $content )
 	{
-		$config	= $this->ref->get( 'config' );
 		$file	= new File_Writer( $url, 0750 );
 		$file->writeString( $content );
 	}

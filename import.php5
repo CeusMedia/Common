@@ -1,16 +1,33 @@
 <?php
 /**
  *	Java-like import of Classes.
- *	@access			public
- *	@param			string		$classPath		Java-formated URI of Class
- *	@return			void
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@since			16.06.2005
+ *	@version		0.6
+ */
+$constants	= array(																			//  Array of Constants to be set
+	'CM_CLASSES_IMPORT_SEPARATOR'	=> '.',														//  Separator in Import Path (default '.')
+	'CM_CLASSES_PHP_EXTENSION'		=> 'php5',													//  Extension of PHP Classes (default 'php5')
+	'CM_CLASSES_VERSION'			=> '0.6',													//  Version of Class Container
+	'CM_CLASSES_EXTENSIONS'			=> TRUE,													//  Flag: use Exception Extension
+);
+foreach( $constants as $key => $value )															//  iterate Constants
+	if( !defined( $key ) )																		//  if not defined, yet
+		define( $key, $value );																	//  define Constant
+
+/**
+ *	Tries to loads PHP Classes in current Path or from Class Container with Java-like Path Syntax.
+ *	@param		string		$classPath			Class Path, e.g 'xml.dom.Parser' or 'your.path.in.project.YourClass'
+ *	@param		bool		$supressWarnings	Flag:  supress Warnings on including Class File
+ *	@return		void
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			16.06.2005
  *	@version		0.6
  */
 function import( $classPath, $supressWarnings = FALSE )
 {
-	$fileName = str_replace( IMPORT_SEPARATOR, FOLDER_SEPARATOR, $classPath).".".PHP_EXTENSION;
+	$fileName	= str_replace( CM_CLASSES_IMPORT_SEPARATOR, "/", $classPath);
+	$fileName	.= ".".CM_CLASSES_PHP_EXTENSION;
 	while( preg_match( "@^-@", $fileName ) )
 		$fileName	= preg_replace( "@^(-*)-@", "\\1../", $fileName ); 
 	try
@@ -23,7 +40,7 @@ function import( $classPath, $supressWarnings = FALSE )
 				error_reporting( 5 );
 			}
 			if( !include_once $fileName )
-				throw new Exception( 'Class "'.$fileName.'" could not be loaded.' );
+				throw new Exception( 'Class "'.$fileName.'" is not existing or invalid.' );
 			if( $supressWarnings )
 				error_reporting( $errorLevel );
 			$GLOBALS['imported'][$classPath] = $fileName;
@@ -36,18 +53,6 @@ function import( $classPath, $supressWarnings = FALSE )
 		die( $message );
 	}
 }
-
 $GLOBALS['imported'] = array ();
-
-if( !defined ("CLASS_CACHE" ) )
-	define ("CLASS_CACHE", FALSE );
-if( !defined ( "PATH_SEPARATOR" ) )
-	define ( "PATH_SEPARATOR", ( substr( PHP_OS, 0, 3 ) == 'WIN' ) ? ";" : ":" );
-if( !defined ("FOLDER_SEPARATOR" ) )
-	define( "FOLDER_SEPARATOR", "/" );
-if( !defined( "IMPORT_SEPARATOR" ) )
-	define( "IMPORT_SEPARATOR", "." );
-if( !defined( "PHP_EXTENSION" ) )
-	define( "PHP_EXTENSION", "php5" );
-
+import( 'de.ceus-media.throwException' );
 ?>

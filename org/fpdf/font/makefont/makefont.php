@@ -1,10 +1,10 @@
 <?php
-/*******************************************************************************
-* Utility to generate font definition files                                    *
-* Version: 1.13                                                                *
-* Date:    2004-12-31                                                          *
-*******************************************************************************/
-
+/**
+ *	Utility to generate font definition files
+ *	@package		fpdf
+ *	@version		1.13
+ *	@date			2004-12-31
+ */
 function ReadMap($enc)
 {
 	//Read a map file

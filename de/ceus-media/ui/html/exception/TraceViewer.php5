@@ -51,10 +51,18 @@ class UI_HTML_Exception_TraceViewer
 		$content	.= "Message: ".$exception->getMessage()."<br/>";
 		$content	.= "Code: ".$exception->getCode()."<br/>";
 		$content	.= '<span style="color: #0000FF;">';
-		$i = 0;
+		$i	= 0;
+		$j	= 0;
 		foreach( $exception->getTrace() as $key => $trace )
-			$content	.= self::buildTraceStep( $trace, $i++, $breakMode );
-		$content	.= "#$i {main}<br/>";
+		{
+			$step	= self::buildTraceStep( $trace, $i++, $j, $breakMode );
+			if( $step )
+			{
+				$content	.= $step;
+				$j++;
+			}
+		}
+		$content	.= "#$j {main}<br/>";
 		$content	.= "</span></p>";
 		return $content;
 	}
@@ -67,20 +75,25 @@ class UI_HTML_Exception_TraceViewer
 	 *	@param		int			$breakMode		Mode of Line Breaks (0-one line|1-break line|2-break arguments)
 	 *	@return		string
 	 */
-	private static function buildTraceStep( $trace, $i, $breakMode = 0 )
+	private static function buildTraceStep( $trace, $i, $j, $breakMode = 0 )
 	{
+		if( $j == 0 )
+			if( !isset( $trace['class'] ) && isset( $trace['function'] ) )
+				if( in_array( $trace['function'], array( "eval", "throwException" ) ) )		//  Exception was thrown using throwException
+					return "";
+
 		$indent		= " ";
 		$break		= "";
 		if( $breakMode == 2 )
 		{
-			$indent		= str_repeat( "&nbsp;", 2 + strlen( $i ) );
+			$indent		= str_repeat( "&nbsp;", 2 + strlen( $j ) );
 			$break		= "<br/>".$indent;
 		}
 		$funcBreak	= $break;
 		if( $breakMode == 1 )
 			$funcBreak	= "<br/>";
 
-		$content	= "#$i ".$trace["file"]."(".$trace["line"]."): ".$funcBreak;
+		$content	= "#$j ".$trace["file"]."(".$trace["line"]."): ".$funcBreak;
 		if( array_key_exists( "class", $trace ) && array_key_exists( "type", $trace ) )
 			$content	.= $indent.$trace["class"].$trace["type"];
 		if( array_key_exists( "function", $trace ) )
@@ -113,7 +126,7 @@ class UI_HTML_Exception_TraceViewer
 								$arg	.= strlen( $value ) <= 78 ? '"'.$value.'"' : '"'.substr( $value, 0, 75 ).'..."';
 								break;
 							case 'array':
-								$arg	.= "array";#self::convertArrayToString( $argument, $breakMode );
+								$arg	.= "Array";#self::convertArrayToString( $argument, $breakMode );
 								break;
 							case 'object':
 								$arg	.= get_class( $argument );

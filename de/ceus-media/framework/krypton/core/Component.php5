@@ -173,14 +173,12 @@ abstract class Framework_Krypton_Core_Component
 	 *	@param		string		$separator		Separator
 	 *	@return		string
 	 */
-	public static function formatPrice( $number, $decimals = 2, $separatorDecimals = ",", $separatorThousands = "." )
+	public static function formatPrice( $number, $decimals = 2, $separatorDecimals = NULL, $separatorThousands = NULL )
 	{
-		return number_format( $number, $decimals, $separatorDecimals, $separatorThousands );
-/*		$price	= (float)$price;
-		ob_start();
-		printf( "%01".$separator."2f", $price );
-		return ob_get_clean();
-*/	}
+		$sepDecimals	= $separatorDecimals ? $separatorDecimals : ",";
+		$sepThousands	= $separatorThousands ? $separatorThousands : ".";
+		return number_format( $number, $decimals, $sepDecimals, $sepThousands );
+	}
 
 	public static function getPriceFromString( $string )
 	{
@@ -206,10 +204,9 @@ abstract class Framework_Krypton_Core_Component
 	 *	Returns Cache File URI.
 	 *	@access		public
 	 *	@param		string		$fileKey		File Name of Cache File
-	 *	@param		bool		$verbose		Flag: show Debug Information
 	 *	@return		string
 	 */
-	public function getCacheUri( $fileKey, $verbose = false )
+	public function getCacheUri( $fileKey )
 	{
 		$config		= $this->registry->get( "config" );
 		$basePath	= $config['paths.cache'];
@@ -221,10 +218,9 @@ abstract class Framework_Krypton_Core_Component
 	 *	Returns Content File URI.
 	 *	@access		public
 	 *	@param		string		$fileKey		File Name of Content File
-	 *	@param		bool		$verbose		Flag: show Debug Information
 	 *	@return		string
 	 */
-	public function getContentUri( $fileKey, $verbose = false )
+	public function getContentUri( $fileKey )
 	{
 		$config		= $this->registry->get( "config" );
 		$session	= $this->registry->get( "session" );
@@ -297,10 +293,9 @@ abstract class Framework_Krypton_Core_Component
 	 *	Returns Template File URI.
 	 *	@access		public
 	 *	@param		string		$fileKey		File Name of Template File
-	 *	@param		bool		$verbose		Flag: show Debug Information
 	 *	@return		string
 	 */
-	public function getTemplateUri( $fileKey, $verbose = false )
+	public function getTemplateUri( $fileKey )
 	{
 		$config		= $this->registry->get( "config" );
 
@@ -559,7 +554,7 @@ abstract class Framework_Krypton_Core_Component
 	 *	@param		string		$section			Section Name in Language Space
 	 *	@return		bool
 	 */
-	public function loadLanguage( $fileName, $section = false, $verbose = false )
+	public function loadLanguage( $fileName, $section = FALSE, $verbose = FALSE )
 	{
 		$language	= $this->registry->get( 'language' );
 		return $language->loadLanguage( $fileName, $section, $verbose );

@@ -11,7 +11,7 @@ import( 'de.ceus-media.framework.krypton.Base' );
  */
 /**
  *	Handler for static Error Pages.
- *	@package		mv2
+ *	@package		framework.krypton
  *	@package		framework.krypton
  *	@extends		Framework_Krypton_Base
  *	@uses			Framework_Krypton_Core_View
@@ -70,7 +70,6 @@ class Framework_Krypton_ErrorPageHandler extends Framework_Krypton_Base
 		}
 		if( $this->level )
 		{
-			$request	= $this->registry->get( 'request' );
 			try
 			{
 				import( 'de.ceus-media.framework.krypton.core.View' );

@@ -128,7 +128,6 @@ class XML_WDDX_Configuration
 	protected function readWDDX()
 	{
 		$wr	= new XML_WDDX_FileReader( $this->pathConfig.$this->fileName );
-		$content = $wr->read();
 		$this->config = $wr->read();
 	}
 

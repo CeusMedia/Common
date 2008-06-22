@@ -84,7 +84,7 @@ class Framework_Krypton_Core_Messenger
 	 *	@access		public
 	 *	@return		string
 	 */
-	public function buildMessages( $formatTime = FALSE, $autoClear = TRUE )
+	public function buildMessages( $autoClear = TRUE )
 	{
 		$config		= Framework_Krypton_Core_Registry::getStatic( 'config' );
 		$session	= Framework_Krypton_Core_Registry::getStatic( 'session' );

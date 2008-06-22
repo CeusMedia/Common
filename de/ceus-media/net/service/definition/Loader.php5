@@ -60,10 +60,9 @@ class Net_Service_Definition_Loader
 	 *	Loads Service Definitions from XML File.
 	 *	@access		protected
 	 *	@param		string				$fileName			Service Definition File Name
-	 *	@param		string				$cacheFile			Service Definition Cache File Name
 	 *	@return		void
 	 */
-	protected function loadServicesFromJson( $fileName, $cacheFile = false )
+	protected function loadServicesFromJson( $fileName )
 	{
 		import( 'de.ceus-media.adt.json.Converter' );
 		$jsonString		= file_get_contents( $fileName );
@@ -74,10 +73,9 @@ class Net_Service_Definition_Loader
 	 *	Loads Service Definitions from XML File.
 	 *	@access		protected
 	 *	@param		string				$fileName			Service Definition File Name
-	 *	@param		string				$cacheFile			Service Definition Cache File Name
 	 *	@return		void
 	 */
-	protected function loadServicesFromXml( $fileName, $cacheFile = false )
+	protected function loadServicesFromXml( $fileName )
 	{
 		import( 'de.ceus-media.net.service.definition.XmlReader' );
 		return Net_Service_Definition_XmlReader::load( $fileName );
@@ -87,10 +85,9 @@ class Net_Service_Definition_Loader
 	 *	Loads Service Definitions from YAML File.
 	 *	@access		protected
 	 *	@param		string				$fileName			Service Definition File Name
-	 *	@param		string				$cacheFile			Service Definition Cache File Name
 	 *	@return		void
 	 */
-	protected function loadServicesFromYaml( $fileName, $cacheFile = NULL )
+	protected function loadServicesFromYaml( $fileName )
 	{
 		import( 'de.ceus-media.file.yaml.Reader' );
 		return File_YAML_Reader::load( $fileName );

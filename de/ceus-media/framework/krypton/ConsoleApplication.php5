@@ -86,8 +86,6 @@ class ConsoleApplication extends Framework_Krypton_Base
 		catch( Exception $e )
 		{
 			$this->logException( $e, $className, $verbose );
-			if( $verbose )
-				remark( "Unhandled Exception catched. See Job Error Log Reader or ".LOG_JOBERROR."." );
 		}
 		if( $verbose )
 			echo "\n";
@@ -108,6 +106,8 @@ class ConsoleApplication extends Framework_Krypton_Base
 		$line		= $e->getLine();
 		$message	= $e->getMessage();
 		error_log( time()."|".$className."(".$file."[".$line."]):".$message."|trace:".$trace."\n", 3, LOG_JOBERROR );
+		if( $verbose )
+			remark( "Unhandled Exception catched. See Job Error Log Reader or ".LOG_JOBERROR."." );
 	}
 }
 ?>

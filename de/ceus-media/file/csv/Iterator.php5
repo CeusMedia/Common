@@ -28,14 +28,14 @@ class File_CSV_Iterator implements Iterator
 	 * @var int
 	 * @access private
 	 */
-
 	private $rowCounter = NULL;
+
 	/**
 	 * The delimiter for the csv file.
 	 * @var str
 	 * @access private
 	 */
-	private $delimiter = NULL;
+	private $delimiter	= ",";
 
 	/**
 	 * This is the constructor.It try to open the csv file.The method throws an exception
@@ -47,9 +47,10 @@ class File_CSV_Iterator implements Iterator
 	 *
 	 * @throws Exception
 	 */
-	public function __construct( $file, $delimiter=',' )
+	public function __construct( $file, $delimiter = NULL )
 	{
-		$this->delimiter	= $delimiter;
+		if( $delimiter )
+			$this->delimiter	= $delimiter;
 		$this->filePointer	= @fopen( $file, 'r' );
 		if( $this->filePointer === false )
 			throw new Exception( 'The file "'.$file.'" cannot be read.' );

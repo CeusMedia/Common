@@ -274,7 +274,7 @@ abstract class Framework_Krypton_Base
 	 *	@access		protected
 	 *	@return		void
 	 */
-	protected function initRequest( $console = FALSE )
+	protected function initRequest()
 	{
 		if( getEnv( 'HTTP_HOST' ) )
 		{

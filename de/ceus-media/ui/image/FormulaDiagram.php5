@@ -68,7 +68,7 @@ class FormulaDiagram extends Image
 
 	public function draw( $stop = false )
 	{
-		if ($stop)
+		if( $stop )
 			$st = new StopWatch ();
 		$xStart		= $this->intervalX->getStart();
 		$xEnd		= $this->intervalX->getEnd();
@@ -79,7 +79,7 @@ class FormulaDiagram extends Image
 
 		$this->create ($xDiam, $yDiam);
 
-		$col	= $this->allocateColor( $this->backRed, $this->backGreen, $this->backBlue );
+#		$col	= $this->allocateColor( $this->backRed, $this->backGreen, $this->backBlue );
 		$col1	= $this->allocateColor( $this->arcRed, $this->arcGreen, $this->arcBlue );
 		$grcol	= $this->allocateColor( $this->gridRed, $this->gridGreen, $this->gridBlue );
 		

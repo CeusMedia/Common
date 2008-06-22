@@ -76,17 +76,16 @@ class Database_PDO_TableReader
 	 *	Returns count of all entries of this Table covered by conditions.
 	 *	@access		public
 	 *	@param		array		$conditions		Array of Condition Strings
-	 *	@param		int			$debug			deBug Level (16:die after, 8:die before, 4:remark, 2:echo, 1:count[default])
 	 *	@return		int
 	 */
-	public function count( $conditions = array(), $debug = false )
+	public function count( $conditions = array() )
 	{
 		$this->check( 'columns' );
-		$conditions	= $this->getConditionQuery( $conditions, false, true );
+		$conditions	= $this->getConditionQuery( $conditions, FALSE, TRUE );
 		$conditions	= $conditions ? " WHERE ".$conditions : "";
 		$query	= "SELECT * FROM ".$this->getTableName().$conditions;
 		$query = "SELECT COUNT(".$this->primaryKey.") as count FROM ".$this->getTableName().$conditions;
-		$q	= $this->dbc->query( $query, $debug );
+		$q	= $this->dbc->query( $query );
 		$d	= $q->fetch( PDO::FETCH_ASSOC );
 		return $d['count'];
 	}
@@ -118,10 +117,9 @@ class Database_PDO_TableReader
 	 *	@param		array		$conditions		Array of Condition Strings
 	 *	@param		array		$orders			Array of Order Relations
 	 *	@param		array		$limit			Array of Limit Conditions
-	 *	@param		int			$debug			deBug Level (16:die after, 8:die before, 4:remark, 2:echo, 1:count[default])
 	 *	@return		array
 	 */
-	public function find( $keys = array(), $conditions = array(), $orders = array(), $limit = array(), $debug = 1 )
+	public function find( $keys = array(), $conditions = array(), $orders = array(), $limit = array() )
 	{
 		$this->check( 'columns' );
 		if( !(is_array( $keys ) && count( $keys ) ) )
@@ -131,7 +129,7 @@ class Database_PDO_TableReader
 		$orders		= $this->getOrderCondition( $orders );
 		$limit		= $this->getLimitCondition( $limit );
 		$query		= "SELECT ".implode( ", ", $keys )." FROM ".$this->getTableName().$conditions.$orders.$limit;
-		$resultSet	= $this->dbc->query( $query, $debug );
+		$resultSet	= $this->dbc->query( $query );
 
 		return $resultSet->fetchAll( PDO::FETCH_ASSOC );
 	
@@ -147,7 +145,7 @@ class Database_PDO_TableReader
 		return $list;
 	}
 	
-	public function findWhereIn( $keys = array(), $column, $values, $orders = array(), $limit = array(), $debug = 1 )
+	public function findWhereIn( $keys = array(), $column, $values, $orders = array(), $limit = array() )
 	{
 		$this->check( 'columns' );
 		if( $column != $this->getPrimaryKey() && !in_array( $column, $this->getIndices() ) )
@@ -157,7 +155,7 @@ class Database_PDO_TableReader
 		$orders		= $this->getOrderCondition( $orders );
 		$limit		= $this->getLimitCondition( $limit );
 		$query		= "SELECT ".implode( ", ", $keys )." FROM ".$this->getTableName()." WHERE ".$column." IN (".implode( ", ", $values ).") ".$orders.$limit;
-		$resultSet	= $this->dbc->query( $query, $debug );
+		$resultSet	= $this->dbc->query( $query );
 
 		return $resultSet->fetchAll( PDO::FETCH_ASSOC );
 
@@ -173,7 +171,7 @@ class Database_PDO_TableReader
 		return $list;
 	}
 
-	public function findWhereInAnd( $keys = array(), $column, $values, $conditions, $orders = array(), $limit = array(), $debug = 1 )
+	public function findWhereInAnd( $keys = array(), $column, $values, $conditions, $orders = array(), $limit = array() )
 	{
 		$this->check( 'columns' );
 		if( $column != $this->getPrimaryKey() && !in_array( $column, $this->getIndices() ) )
@@ -186,7 +184,7 @@ class Database_PDO_TableReader
 		if( $conditions )
 			$conditions	.= " AND ";
 		$query		= "SELECT ".implode( ", ", $keys )." FROM ".$this->getTableName()." WHERE ".$conditions.$column." IN (".implode( ", ", $values ).") ".$orders.$limit;
-		$resultSet	= $this->dbc->query( $query, $debug );
+		$resultSet	= $this->dbc->query( $query );
 
 		return $resultSet->fetchAll( PDO::FETCH_ASSOC );
 
@@ -240,10 +238,9 @@ class Database_PDO_TableReader
 	 *	@param		bool	$first		Extract first entry of Result
 	 *	@param		array	$orders		Associative Array of Orders
 	 *	@param		array	$limit		Array of Offset and Limit
-	 *	@param		int		$debug		deBug Level (16:die after, 8:die before, 4:remark, 2:echo, 1:count[default])
 	 *	@return		array
 	 */
-	public function get( $first = true, $orders = array(), $limit = array(), $debug = 1 )
+	public function get( $first = true, $orders = array(), $limit = array() )
 	{
 		$this->check( 'columns' );
 		$this->check( 'focus' );
@@ -253,7 +250,7 @@ class Database_PDO_TableReader
 		$limit		= $this->getLimitCondition( $limit );
 		$query = "SELECT * FROM ".$this->getTableName()." WHERE ".$conditions.$orders.$limit;
 
-		$resultSet	= $this->dbc->query( $query, $debug );
+		$resultSet	= $this->dbc->query( $query );
 		$resultList	= $resultSet->fetchAll( PDO::FETCH_ASSOC );
 
 		if( count( $resultList ) && $first )

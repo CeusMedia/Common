@@ -1,4 +1,7 @@
 <?php
+/**
+ *	@package		fpdf
+ */
 require('../fpdf.php');
 
 $pdf=new FPDF();

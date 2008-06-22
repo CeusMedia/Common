@@ -1,4 +1,4 @@
-<?php
+4<?php
 import( 'de.ceus-media.adt.graph.NodeSet' );
 import( 'de.ceus-media.adt.graph.EdgeSet' );
 import( 'de.ceus-media.adt.stack.Queue' );
@@ -344,7 +344,6 @@ class ADT_Graph_WeightedGraph
 	 */
 	public function hasCycle()
 	{
-		$hadNodes = array();
 		if( $this->hasLoop() )
 			return true;
 		else

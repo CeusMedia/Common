@@ -18,7 +18,7 @@
 class Exception_IO extends RuntimeException
 {
 	/**	@var		string		$sourceUri		Name of Source which was not fully accessible */
-	prvate $sourceUri			= "";
+	private $sourceUri			= "";
 
 	/**
 	 *	Constructor.
@@ -27,7 +27,7 @@ class Exception_IO extends RuntimeException
 	 *	@param		string		$sourceUri		Error Code
 	 *	@return		void
 	 */
-	public function __construct( $message = null, $sourceUri = "" );
+	public function __construct( $message = null, $sourceUri = "" )
 	{
 		parent::__construct( $message );
 		$this->sourceUri	= $sourceUri;

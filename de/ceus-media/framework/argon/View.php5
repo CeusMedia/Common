@@ -241,11 +241,9 @@ class Framework_Argon_View
 	 *	@access		public
 	 *	@param		string		$_file				File Name (with Extension) of Content File (HTML|Wiki|Text), i.E. home.html leads to {CONTENT}/{LANGUAGE}/home.html
 	 *	@param		array		$data				Data for Insertion in Template
-	 *	@param		string		$separator_link		Separator in Language Link
-	 *	@param		string		$separator_class	Separator for Language File
 	 *	@return		string
 	 */
-	public function loadContent( $_file, $data = array(), $separator_link = ".", $separator_file = "/" )
+	public function loadContent( $_file, $data = array() )
 	{
 		$config		=& $this->ref->get( "config" );
 		$session	=& $this->ref->get( "session" );

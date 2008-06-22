@@ -25,7 +25,7 @@ class File_CSV_IteratorReader
 	 *	@param		string		$delimiter		Delimiter between Information
 	 *	@return		void
 	 */
-	public function __construct( $fileName, $delimiter = "," )
+	public function __construct( $fileName, $delimiter = NULL )
 	{
 		$this->iterator	= new File_CSV_Iterator( $fileName, $delimiter );	
 	}

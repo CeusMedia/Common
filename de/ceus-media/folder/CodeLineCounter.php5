@@ -54,7 +54,6 @@ class Folder_CodeLineCounter
 		$numberCodes	= 0;
 		$numberDocs		= 0;
 		$numberFiles	= 0;
-		$numberFolders	= 0;
 		$numberLength	= 0;
 		$numberLines	= 0;
 		$numberStrips	= 0;

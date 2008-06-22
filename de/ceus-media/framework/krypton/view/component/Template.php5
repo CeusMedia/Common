@@ -39,17 +39,7 @@ class Framework_Krypton_View_Component_Template extends Framework_Krypton_Core_T
 		$uri	= $filename = $basepath.$basename;
 		if( !file_exists( $uri ) )							//  check file
 			throw new Framework_Krypton_Exception_IO( "Template '".$filename."' is existing in '".$uri."'." );	
-//		remark( "<h2>".$filename."</h2>");
 		parent::__construct( $uri, $elements );
-/*		try
-		{
-		}
-		catch( Exception_IO $e )
-		{
-			thr
-			$messenger	= Core_Registry::getStatic( 'messenger' );
-			$messenger->noteFailure( $e->getMessage() );
-		}
-*/	}
+	}
 }  
 ?>

@@ -148,7 +148,7 @@ class Net_IMAP_Message
 	 */
 	public function getSubject()
 	{
-		$info	= $this->getHeaderInfo();
+		$this->getHeaderInfo();
 		return $this->info->subject;
 	}
 }

@@ -84,7 +84,7 @@ class File_Css_Combiner
 		$content	= $this->combineString( $pathName, $content );
 		$fileName	= $this->prefix.$fileBase.$this->suffix.".css";
 		$fileUri	= $pathName.$fileName;
-		$length		= file_put_contents( $fileUri, $content );
+		file_put_contents( $fileUri, $content );
 		return $fileUri;
 	}
 

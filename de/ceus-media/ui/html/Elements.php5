@@ -304,7 +304,7 @@ class UI_HTML_Elements extends UI_HTML_FormElements
 	 *	@param		string		$width			Weitenangabe
 	 *	@return		string
 	 */
-	public static function Label( $label_name, $label_text, $class = 'label', $icons = array(), $width = "" )
+	public static function Label( $label_name, $label_text, $class = 'label', $icons = array() )
 	{
 		if( !is_array( $icons ) )
 		{

@@ -32,7 +32,6 @@ class XML_DOM_ObjectSerializer
 	{
 		$root	= new XML_DOM_Node( "object" );
 		$root->setAttribute( 'class', get_class( $object ) );
-		$attributes	= array();
 		$vars	= get_object_vars( $object );
 		$this->serializeVarsRec( $vars, $root );
 		$builder	= new XML_DOM_Builder();

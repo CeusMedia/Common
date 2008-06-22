@@ -77,10 +77,9 @@ class UI_Image_Captcha
 	 *	@access		public
 	 *	@param		string		$word		Captcha Word
 	 *	@param		string		$fileName	File Name to write Captcha Image to
-	 *	@param		bool		$verbose	Flag: show internal Information
 	 *	@return		int
 	 */
-	public function generateImage( $word, $fileName, $verbose = FALSE )
+	public function generateImage( $word, $fileName )
 	{
 		if( !( is_array( $this->textColor ) && count( $this->textColor ) == 3 ) )
 			throw new InvalidArgumentException( 'Text Color must be an Array of 3 decimal Values.' );

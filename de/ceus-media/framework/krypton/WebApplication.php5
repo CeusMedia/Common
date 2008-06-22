@@ -128,7 +128,6 @@ class Framework_Krypton_WebApplication extends Framework_Krypton_Base
 	public function respond( $verbose = FALSE )
 	{
 		$config		= $this->registry->get( "config" );
-		$session	= $this->registry->get( "session" );
 		$request	= $this->registry->get( "request" );
 		$controller	= $this->registry->get( "controller" );
 		$messenger	= $this->registry->get( "messenger" );
@@ -202,7 +201,7 @@ class Framework_Krypton_WebApplication extends Framework_Krypton_Base
 
 		$zipMethod	= $config['config.http_compression'];
 		$zipLogFile	= $config['config.http_compression_log'];
-		$length		= Net_HTTP_Request_Response::sendContent( $content, $zipMethod, $zipLogFile );
+		Net_HTTP_Request_Response::sendContent( $content, $zipMethod, $zipLogFile );
 	}
 	
 	/**

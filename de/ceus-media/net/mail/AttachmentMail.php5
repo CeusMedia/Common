@@ -63,7 +63,6 @@ class Net_Mail_AttachmentMail extends Net_Mail_PlainMail
 			throw new InvalidArgumentException( 'File "'.$fileName.'" is not existing.' );
 		$content	= chunk_split( base64_encode( file_get_contents( $fileName ) ) );	
 		$baseName	= basename( $fileName );
-		$fileType	= filetype( $fileName );
 		
 		$this->attachments[]	= "--".$this->mimeBoundary;
 		$this->attachments[]	= "Content-Type: ".$mimeType."; name=\"".$baseName."\"";

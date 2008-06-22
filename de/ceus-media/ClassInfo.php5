@@ -82,7 +82,6 @@ class ClassInfo
 	{
 		$catch	= false;
 		$vars	= array();
-		$functions = array();
 		foreach( $this->_tokens as $token )
 		{
 			if( is_array( $token ) )
@@ -111,7 +110,6 @@ class ClassInfo
 	{
 		$catch	= 0;
 		$vars	= array();
-		$functions = array();
 		foreach( $this->_tokens as $token )
 		{
 			if( is_array( $token ) )

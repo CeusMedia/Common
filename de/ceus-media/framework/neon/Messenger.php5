@@ -83,7 +83,7 @@ class Framework_Neon_Messenger extends ADT_OptionObject
 	 *	@access		public
 	 *	@return		string
 	 */
-	public function buildMessages( $format_time = false, $auto_clear = true )
+	public function buildMessages( $autoClear = TRUE )
 	{
 		$config		= $this->ref->get( 'config' );
 		$session	= $this->ref->get( 'session' );
@@ -100,7 +100,7 @@ class Framework_Neon_Messenger extends ADT_OptionObject
 				$list[] = "<div class='".$class."'><span class='info'>".$time."</span><span class='message'>".$message['message']."</span></div>";
 			}
 			$list	= "<div id='list'>".implode( "\n", $list )."</div>";
-			if( $auto_clear )
+			if( $autoClear )
 				$this->clear();
 		}
 		return $list;

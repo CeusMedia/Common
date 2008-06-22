@@ -65,7 +65,6 @@ class DefinitionView extends Framework_Neon_View
 	 */
 	public function buildLabels( $file , $form, $lan_file, $lan_section )
 	{
-		$request	= $this->ref->get( 'request' );
 		$labels		= $this->words[$lan_file][$lan_section];
 
 		$array	= array();
@@ -95,10 +94,9 @@ class DefinitionView extends Framework_Neon_View
 		return $array;
 	}
 
-	public function buildInputs( $file , $form, $lan_file, $lan_section, $values = array(), $sources = array() )
+	public function buildInputs( $file , $form, $values = array(), $sources = array() )
 	{
 		$request	= $this->ref->get( 'request' );
-		$labels		= $this->words[$lan_file][$lan_section];
 
 		$array	= array();
 		$this->_loadDefinition( $file , $form );
@@ -173,7 +171,6 @@ class DefinitionView extends Framework_Neon_View
 
 	public function buildFields( $file , $form, $lan_file, $lan_section, $inputs )
 	{
-		$request	= $this->ref->get( 'request' );
 		$labels		= $this->words[$lan_file][$lan_section];
 
 		$array	= array();
@@ -213,7 +210,7 @@ class DefinitionView extends Framework_Neon_View
 	public function buildForm( $file , $form, $lan_file, $lan_section, $values = array(), $sources = array() )
 	{
 		$this->definition->setForm( $form );
-		$inputs	= $this->buildInputs( $file, $form, $lan_file, $lan_section, $values, $sources );
+		$inputs	= $this->buildInputs( $file, $form, $values, $sources );
 		$array	= $this->buildLabels( $file, $form, $lan_file, $lan_section )
 				+ $this->buildFields( $file, $form, $lan_file, $lan_section, $inputs )
 				+ $inputs;

@@ -97,7 +97,7 @@ class UI_DevOutput
 	 */
 	public function printObject( $object, $offset = 0, $key = NULL, $sign = NULL, $factor = NULL )
 	{
-		if( is_object( $object ) )
+		if( is_object( $object ) || gettype( $object ) == "object" )
 		{
 			$ins_key	= ( $key !== NULL ) ? $key." -> " : "";
 			$space		= $this->indentSign( $offset, $sign, $factor );
@@ -158,7 +158,7 @@ class UI_DevOutput
 	 */
 	public function printMixed( $mixed, $offset = 0, $key = NULL, $sign = NULL, $factor = NULL )
 	{
-		if( is_object( $mixed ) )
+		if( is_object( $mixed ) || gettype( $mixed ) == "object" )
 			$this->printObject( $mixed, $offset, $key, $sign, $factor );
 		else if( is_array( $mixed ) )
 			$this->printArray( $mixed, $offset, $key, $sign, $factor );

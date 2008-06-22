@@ -1,4 +1,7 @@
 <?php
+/**
+ *	@package		fpdf
+ */
 define('FPDF_FONTPATH','./');
 require('../fpdf.php');
 

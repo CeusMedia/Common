@@ -1,14 +1,14 @@
 <?php
 /**
  *	Converts a String into UTF-8.
- *	@package		
+ *	@package		alg
  *	@version		Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			18.10.2007
  *	@version		0.1
  */
 /**
  *	Converts a String into UTF-8.
- *	@package		
+ *	@package		alg
  *	@version		Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			18.10.2007
  *	@version		0.1

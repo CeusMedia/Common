@@ -100,7 +100,6 @@ class TrackerLogReader extends LogFileReader
 	{
 		$remote_addrs	= array();	
 		$browsers		= array();
-		$counter	= 0;
 		foreach( $this->data as $entry )
 		{
 			if( $entry['remote_addr'] != $this->skip && $entry['useragent'] )
@@ -233,9 +232,8 @@ class TrackerLogReader extends LogFileReader
 	 */
 	public function parse()
 	{
-		$data	= array();
-		$lines	= $this->read();
 		$i=0;
+		$lines	= $this->read();
 		foreach( $lines as $line )
 			$this->data[]	= $this->parseLine( $line );
 	}
@@ -258,7 +256,6 @@ class TrackerLogReader extends LogFileReader
 	 */
 	protected function parseLine( $line )
 	{
-		$pattern	= "";
 		$data	= preg_replace_callback( $this->patterns, array( $this, 'callback' ), $line );
 		return unserialize( $data );
 	}

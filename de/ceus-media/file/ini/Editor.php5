@@ -348,7 +348,6 @@ class File_INI_Editor extends File_INI_Reader
 				$key		= trim( substr( $line, 0, $pos ) );
 				$pureKey	= eregi_replace( $this->disablePattern, "", $key );
 				$parts		= explode(  "//", trim( substr( $line, $pos+1 ) ) );
-				$value		= trim( $parts[0] );
 				if( count( $parts ) > 1 )
 					$comment = trim( $parts[1] );
 				if( $this->usesSections() )

@@ -77,7 +77,7 @@ class Database_PDO_Connection extends PDO
 		return TRUE;
 	}
 
-	public function exec( $statement, $verbose = 0 )
+	public function exec( $statement )
 	{
 		$this->logStatement( $statement );
 		try
@@ -107,19 +107,12 @@ class Database_PDO_Connection extends PDO
 		return parent::prepare( $statement, $driverOptions );
 	}
 
-	public function query( $statement, $verbose = 0, $fetchMode = PDO::FETCH_ASSOC )
+	public function query( $statement, $fetchMode = PDO::FETCH_ASSOC )
 	{
 		$this->logStatement( $statement );
 		$this->numberStatements++;
 		try
 		{
-			if( 0 && $verbose )
-			{
-				if( $verbose == 1 )
-					print( $statement );
-				else if( $verbose == 2 )
-					die( $statement );
-			}
 			return parent::query( $statement, $fetchMode );
 		}
 		catch( PDOException $e )

@@ -75,7 +75,7 @@ class XML_FeedIdentifier
 		}
 
 		//  --  RSS 1.0 - RDF  --  //
-		$namespace = $xpath->evaluate( 'namespace-uri(//*)' );
+		$namespace	= $xpath->evaluate( 'namespace-uri(//*)' );
 		$xpath->registerNamespace( "rdf", $namespace );
 		$rdf		= $xpath->evaluate( "//rdf:RDF" );
 		if( $rdf->length )

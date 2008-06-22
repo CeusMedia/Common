@@ -100,7 +100,6 @@ class View
 	 */
 	public function loadTemplate()
 	{
-		$words	= $this->language->getWords( $this->controller );
 		$content	= "";
 		$filename	= $this->getFilenameOfTemplate( $this->controller, $this->action );
 		if( file_exists( $filename ) )

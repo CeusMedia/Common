@@ -111,7 +111,6 @@ class TrackerShortLogReader extends ShortLogReader
 		}
 		$remote_addrs	= array();	
 		$browsers		= array();
-		$counter	= 0;
 		foreach( $this->data as $entry )
 		{
 			if( $entry['remote_addr'] != $this->skip && $entry['http_user_agent'] )
@@ -267,9 +266,8 @@ class TrackerShortLogReader extends ShortLogReader
 	 */
 	public function parse()
 	{
-		$data	= array();
-		$lines	= $this->read();
 		$i=0;
+		$lines	= $this->read();
 		foreach( $lines as $line )
 			$this->data[]	= array_combine( $this->_pattern, $line );
 	}

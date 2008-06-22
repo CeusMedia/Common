@@ -53,7 +53,6 @@ class Framework_Argon_Action
 	 */
 	public function act()
 	{
-		$request	=& $this->ref->get( 'request' );
 	}
 
 	/**

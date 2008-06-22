@@ -3,14 +3,14 @@ import( 'de.ceus-media.ui.html.Tag' );
 import( 'de.ceus-media.file.Writer' );
 /**
  *	The main Chart package file. It includes the core of all Chart classes.
- *	@package		UI_SVG
+ *	@package		ui_svg
  *	@uses			UI_HTML_Tag
  *	@uses			File_Writer
  *	@author			Jonas Schneider <JonasSchneider@gmx.de>
  */
 /**
  *	The main Chart class. Base class for all subtypes of charts, like Pie, Bar, Line and so on.
- *	@package		UI_SVG
+ *	@package		ui_svg
  *	@uses			UI_HTML_Tag
  *	@uses			File_Writer
  *	@author			Jonas Schneider <JonasSchneider@gmx.de>
@@ -65,13 +65,9 @@ class UI_SVG_Chart
 	 */
 	public function setData( $data )
 	{
-		$tmp = $this->data;
-		
 		$sum = 0;
 		foreach( $data as $obj )
-		{
 			$sum += $obj->value;
-		}
 		
 		foreach( $data as $key => $obj )
 		{

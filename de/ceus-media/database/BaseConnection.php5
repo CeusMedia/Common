@@ -29,7 +29,7 @@ abstract class Database_BaseConnection
 	 *	@param		string		$logFile		FileName of Log File
 	 *	@return		void
 	 */
-	public function __construct( $logFile = false )
+	public function __construct( $logFile = FALSE )
 	{
 		if( $logFile )
 			$this->logFile	= $logFile;

@@ -286,7 +286,7 @@ class File_Configuration_Converter
 				$valueNode->setAttribute( 'type', $pair['type'] );
 				$valueNode->setAttribute( 'name', $pair['key'] );
 				if( $pair['comment'] )
-					$valueNode->setAttribute( 'comment', $pair['comment'] );
+					$valueNode->setAttribute( 'comment', $comment );
 				$sectionNode->addChild( $valueNode );
 			}
 			$root->addChild( $sectionNode );

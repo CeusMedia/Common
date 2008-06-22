@@ -117,7 +117,7 @@ class File_Editor extends File_Reader
 	 */
 	public function writeArray( $array )
 	{
-		return $this->writer->writeArray( $string );
+		return $this->writer->writeArray( $array );
 	}
 	
 	/**

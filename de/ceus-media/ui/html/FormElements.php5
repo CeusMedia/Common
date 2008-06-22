@@ -279,7 +279,6 @@ class UI_HTML_FormElements
 	public static function Options( $options, $selected = NULL )
 	{
 		$list		= array();
-		$grouped	= false;
 		foreach( $options as $key => $value)
 		{
 			if( (string) $key != "_selected" && is_array( $value ) )

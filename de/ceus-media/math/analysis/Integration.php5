@@ -74,7 +74,6 @@ class Math_Analysis_Integration
 	{
 		$nodes	= array();
 		$start	= $this->interval->getStart();
-		$end	= $this->interval->getEnd();
 		$distance	= $this->getNodeDistance();
 		for( $i = 0; $i<$this->getNodes(); $i++ )
 		{

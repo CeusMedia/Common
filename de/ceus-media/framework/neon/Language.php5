@@ -64,16 +64,8 @@ class Framework_Neon_Language extends ADT_OptionObject
 		$this->loadHovers();
 	}
 
-	public function hasCache( $filename )
-	{
-		$config	= $this->ref->get( 'config' );
-//		remark( $url );
-		return file_exists( $url );
-	}
-	
 	public function loadCache( $url )
 	{
-		$config	= $this->ref->get( 'config' );
 		$file	= new File_Reader( $url );
 		return $file->readString();
 			return implode( "", file( $url ) );
@@ -81,7 +73,6 @@ class Framework_Neon_Language extends ADT_OptionObject
 	
 	public function loadHovers()
 	{
-		$session	= $this->ref->get( 'session' );
 		$uri	= $this->getOption( 'path_files' )."/hovers.blocks";
 		if( file_exists( $uri ) )
 		{
@@ -92,7 +83,6 @@ class Framework_Neon_Language extends ADT_OptionObject
 	
 	public function loadLanguage( $filename, $section = false, $verbose = true )
 	{
-		$session	= $this->ref->get( 'session' );
 		$messenger	= $this->ref->get( 'messenger' );
 		if( !$section )
 			$section	= $filename;
@@ -128,7 +118,6 @@ class Framework_Neon_Language extends ADT_OptionObject
 	
 	public function saveCache( $url, $content )
 	{
-		$config	= $this->ref->get( 'config' );
 		$file	= new File_Writer( $url, 0750 );
 		$file->writeString( $content );
 	}

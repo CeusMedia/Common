@@ -29,32 +29,6 @@ class Math_Analysis_RegulaFalsi
 	protected $interval;
 
 	/**
-	 *	Sets Data.
-	 *	@access		public
-	 *	@param		string		$formula	Formula Expression
-	 *	@param		array		$variables	Variables in Formula
-	 *	@return		void
-	 */
-	public function setFormula( $formula, $variables )
-	{
-		$this->formula	= new Math_Formula( $formula, $variables );
-	}
-
-	/**
-	 *	Sets Interval data to start at.
-	 *	@access		public
-	 *	@param		int			$start		Start of Interval
-	 *	@param		int			$end		End of Interval
-	 *	@return		void
-	 */
-	public function setInterval( $start, $end )
-	{
-		if( $start * $end > 0 )
-			throw new InvalidArgumentException( 'Interval needs to start below 0.' );
-		$this->interval	= new Math_CompactInterval( $start, $end );
-	}
-
-	/**
 	 *	Interpolates for a specific x value and returns P(x).
 	 *	@access		public
 	 *	@param		double		$toleranz	Tolerates Distance within Algorithm
@@ -80,10 +54,35 @@ class Math_Analysis_RegulaFalsi
 				$a	= $c;
 			else 
 				$b	= $c;
-			$yc	= $this->_formula->getValue( $c );
 		}
 		while( !$found );
 		return $c;
+	}
+
+	/**
+	 *	Sets Data.
+	 *	@access		public
+	 *	@param		string		$formula	Formula Expression
+	 *	@param		array		$variables	Variables in Formula
+	 *	@return		void
+	 */
+	public function setFormula( $formula, $variables )
+	{
+		$this->formula	= new Math_Formula( $formula, $variables );
+	}
+
+	/**
+	 *	Sets Interval data to start at.
+	 *	@access		public
+	 *	@param		int			$start		Start of Interval
+	 *	@param		int			$end		End of Interval
+	 *	@return		void
+	 */
+	public function setInterval( $start, $end )
+	{
+		if( $start * $end > 0 )
+			throw new InvalidArgumentException( 'Interval needs to start below 0.' );
+		$this->interval	= new Math_CompactInterval( $start, $end );
 	}
 }
 ?>

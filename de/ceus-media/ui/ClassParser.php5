@@ -168,7 +168,7 @@ class ClassParser
 	 *	@param		string		$var		Variable name
 	 *	@return		array
 	 */
-	public function getVarData( $ver )
+	public function getVarData( $var )
 	{
 		return $this->vars[$var];
 	}
@@ -341,7 +341,7 @@ class ClassParser
 	 *	@param		string		$template			Template URI to use
 	 *	@return		string
 	 */
-	public function toUML( $showPrivate = false, $template = false )
+	public function toUML( $showPrivate = FALSE, $template = FALSE )
 	{
 		if( !$template )
 			$template = dirname( __FILE__ )."/ClassParserUML.tpl";

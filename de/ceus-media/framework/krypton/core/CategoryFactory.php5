@@ -68,7 +68,6 @@ class Framework_Krypton_Core_CategoryFactory
 	 */
 	public function getObject( $className, $prefix = "", $category = "" )
 	{
-		$type		= $category ? $category : $this->getType();
 		$fileName	= "classes.".$this->getClassFileName( $className, $prefix, $category );
 		$className	= $this->getClassName( $className, $prefix, $category );
 		if( !class_exists( $className ) )

@@ -73,7 +73,6 @@ class Net_Service_Point implements Net_Service_Interface_Point
 		if( !$responseFormat )
 			$responseFormat	= $this->getDefaultServiceFormat( $serviceName );
 
-
 		$parameters	= array( 'format' => $responseFormat );
 		
 		if( isset( $this->services['services'][$serviceName]['parameters'] ) )
@@ -297,7 +296,7 @@ class Net_Service_Point implements Net_Service_Interface_Point
 	 */
 	protected function loadServiceClass( $className )
 	{
-		return false;
+		throw new RunException( 'No Service Class Loader implemented. Service Class "'.$className.'" has not been loaded..' );
 	}
 	
 	/**

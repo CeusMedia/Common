@@ -1,13 +1,13 @@
 <?php
 /**
    * Spyc -- A Simple PHP YAML Class
-   * @version 0.3
-   * @author Chris Wanstrath <chris@ozmm.org>
-   * @author Vlad Andersen <vlad@oneiros.ru>
-   * @link http://spyc.sourceforge.net/
-   * @copyright Copyright 2005-2006 Chris Wanstrath
-   * @license http://www.opensource.org/licenses/mit-license.php MIT License
-   * @package Spyc
+   * @version	0.3
+   * @author	Chris Wanstrath <chris@ozmm.org>
+   * @author	Vlad Andersen <vlad@oneiros.ru>
+   * @link		http://spyc.sourceforge.net/
+   * @copyright	Copyright 2005-2006 Chris Wanstrath
+   * @license	http://www.opensource.org/licenses/mit-license.php MIT License
+   * @package	spyc
    */
 /**
    * The Simple PHP YAML Class.
@@ -21,7 +21,7 @@
    *   $parser = new Spyc;
    *   $array  = $parser->load($file);
    * </code>
-   * @package Spyc
+   * @package	spyc
    */
 class Spyc {
 

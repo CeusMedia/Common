@@ -41,12 +41,12 @@ class Database_mySQL_Connection extends Database_BaseConnection
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		string		logfile		File Name of Log File
+	 *	@param		string		$logFile		File Name of Log File
 	 *	@return		void
 	 */
-	public function __construct( $logfile	= false )
+	public function __construct( $logFile = FALSE )
 	{
-		parent::__construct( $logfile );
+		parent::__construct( $logFile );
 		$this->insertId = false;
 	}
 

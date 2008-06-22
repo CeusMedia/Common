@@ -3,14 +3,14 @@
  *	This is a pie visualization class. 
  *	You shouldn´t use this class alone, but you can.
  *	You should only use it in corporation with the UI_SVG_Chart class.
- *	@package		UI_SVG
+ *	@package		ui_svg
  *	@author			Jonas Schneider <JonasSchneider@gmx.de>
  */
 /**
  *	This is a pie visualization class. 
  *	You shouldn´t use this class alone, but you can.
  *	You should only use it in corporation with the UI_SVG_Chart class.
- *	@package		UI_SVG
+ *	@package		ui_svg
  *	@author			Jonas Schneider <JonasSchneider@gmx.de>
  */
 class UI_SVG_PieGraph
@@ -33,17 +33,14 @@ class UI_SVG_PieGraph
 		$r	= isset( $options["r"] ) ? $options["r"] : 150;
 		$x1 = $cx;
 		$y1 = $cy - $r;
-		$alpha = 0;
-		$output = "";
-		$count = 0;
+		$alpha	= 0;
+		$output	= "";
+		$count	= 0;
 		
-		$data = $this->chart->data;
-		$sum = 0;
+		$data	= $this->chart->data;
+		$sum	= 0;
 		foreach( $data as $obj )
-		{
 			$sum += $obj->value;
-		}
-		$colors = $this->chart->colors;
 		
 		foreach( $data as $obj )
 		{
@@ -52,9 +49,8 @@ class UI_SVG_PieGraph
 			$x2 = $cx + ( $r * sin( $alpha ) );
 			$y2 = $cy - ( $r * cos( $alpha ) );
 			
-			$rotate180 = $obj->percent > 50 ? 1 : 0; 
-			
-			$color = $this->chart->getColor( $count );
+			$rotate180	= $obj->percent > 50 ? 1 : 0; 
+			$color		= $this->chart->getColor( $count );
 			
 			$attributes	= array(
 				'd'			=> "M{$cx},{$cy} L$x1,$y1 A{$r},{$r} 0 $rotate180,1 $x2,$y2 Z",

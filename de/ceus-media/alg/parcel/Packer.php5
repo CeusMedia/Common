@@ -36,7 +36,7 @@ class Alg_Parcel_Packer
 		$this->factory		= new Alg_Parcel_Factory( $packets, $articles, $volumes );
 	}
 
-	public function calculatePackage( $articleList, $verbose = FALSE )
+	public function calculatePackage( $articleList )
 	{
 		$this->packetList	= array();																	//  reset Packet List
 

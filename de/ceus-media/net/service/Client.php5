@@ -350,7 +350,6 @@ if( !function_exists( 'gzdecode' ) )
 		$flags	= ord( substr( $data, 3, 1 ) );
 		$headerlen		= 10;
 		$extralen		= 0;
-		$filenamelen	= 0;
 		if( $flags & 4 )
 		{
 			$extralen	= unpack( 'v' ,substr( $data, 10, 2 ) );

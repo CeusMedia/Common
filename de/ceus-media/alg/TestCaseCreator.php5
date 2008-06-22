@@ -146,6 +146,7 @@ class TestCaseCreator
 	 */
 	protected function buildTestMethods()
 	{
+		$lastMethod	= NULL;
 		$methods	= array();
 		foreach( $this->data['methods'] as $methodName => $methodData )
 		{

@@ -202,8 +202,6 @@ class Database_TableWriter extends Database_TableReader
 	 */
 	public function modifyDataWhere( $data = array(), $where = array(), $debug = 1 )
 	{
-		$keys	= array();
-		$vals	= array();
 		$conditions	= $this->getConditionQuery( $where, $this->isFocused() == "primary" );
 		foreach( $this->fields as $field )
 		{

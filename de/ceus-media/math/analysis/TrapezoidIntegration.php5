@@ -28,25 +28,6 @@ class Math_Analysis_TrapezoidIntegration extends Math_Analysis_Integration
 	{
 		parent::__construct( $formula, $interval, $nodes );
 	}
-
-	/**
-	 *	Returns an array of Sampling Nodes.
-	 *	@access		public
-	 *	@return		array
-	 */
-	public function getSamplingNodes()
-	{
-		$nodes	= array();
-		$start	= $this->interval->getStart();
-		$end	= $this->interval->getEnd();
-		$distance	= $this->getNodeDistance();
-		for( $i = 0; $i<$this->getNodes(); $i++ )
-		{
-			$x = $start + $i * $distance;
-			$nodes[] = $x;		
-		}
-		return $nodes;
-	}
 	
 	/**
 	 *	Calculates integrational sum of Formula within the Interval by using Sampling Nodes.

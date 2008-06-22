@@ -1,17 +1,19 @@
 <?php
 /**
  *	Free PDF Generator - PHP5 Version.
- *	@version	1.53
- *	@date		2004-12-31
- *	@author		Olivier PLATHEY
- *	@license	Freeware
+ *	@package		fpdf
+ *	@version		1.53
+ *	@date			2004-12-31
+ *	@author			Olivier PLATHEY
+ *	@license		Freeware
  */
 /**
  *	Free PDF Generator - PHP5 Version.
- *	@version	1.53
- *	@date		2004-12-31
- *	@author		Olivier PLATHEY
- *	@license	Freeware
+ *	@package		fpdf
+ *	@version		1.53
+ *	@date			2004-12-31
+ *	@author			Olivier PLATHEY
+ *	@license		Freeware
  */
 define('FPDF_VERSION','1.53');
 class FPDF

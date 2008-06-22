@@ -103,7 +103,6 @@ class NaturalNumbers
 	public function greatestDivisor( $number )
 	{
 		$limit = round( $number / 2,0 );
-		$counter = 2;
 		while ($limit >= 2)
 		{
 			if( $number % $limit == 0 )

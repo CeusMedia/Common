@@ -252,7 +252,7 @@ class Framework_Neon_View
 	 *	@param		string		$separator_class	Separator for Language File
 	 *	@return		string
 	 */
-	public function loadContent( $_file, $data = array(), $separator_link = ".", $separator_file = "/" )
+	public function loadContent( $_file, $data = array() )
 	{
 		$config		= $this->ref->get( "config" );
 		$session	= $this->ref->get( "session" );
@@ -437,8 +437,7 @@ class Framework_Neon_View
 	protected function setKeywords( $list )
 	{
 		$config		= $this->ref->get( 'config' );
-		$current	= $config['meta']['keywords'];
-		$kewords	= implode( ",", $list );
+			$kewords	= implode( ",", $list );
 		$config['meta']['keywords']	.= ",".$kewords;
 	}
 }

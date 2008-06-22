@@ -3,7 +3,7 @@ import( 'de.ceus-media.alg.UnitFormater' );
 import( 'de.ceus-media.Stopwatch' );
 /**
  *	Downloads a File from an URL while showing Progress in Console.
- *	@package		Console
+ *	@package		console
  *	@uses			Alg_UnitFormater
  *	@uses			Stopwatch
  *	@author			Keyvan Minoukadeh
@@ -13,7 +13,7 @@ import( 'de.ceus-media.Stopwatch' );
  */
 /**
  *	Downloads a File from an URL while showing Progress in Console.
- *	@package		Console
+ *	@package		console
  *	@uses			Alg_UnitFormater
  *	@uses			Stopwatch
  *	@author			Keyvan Minoukadeh
@@ -143,7 +143,7 @@ class Console_Downloader
 		else																				//  File Size is not known
 			$saveUri	= $this->fileUri;													//  save File directly to Save Path
 
-		$fp	= fopen( $this->tempUri, "ab+" );												//  open File for appending
+		$fp	= fopen( $saveUri, "ab+" );														//  open File for appending
 		fputs( $fp, $string );																//  append Chunk Content
 		fclose( $fp );																		//  close File
 		

@@ -63,7 +63,6 @@ class Framework_Helium_DefinitionView extends Framework_Helium_View
 	 */
 	public function buildLabels( $file , $form, $lan_file, $lan_section )
 	{
-		$request	= $this->ref->get( 'request' );
 		$labels	= $this->lan[$lan_file][$lan_section];
 
 		$this->_loadDefinition( $file, $form );
@@ -93,10 +92,9 @@ class Framework_Helium_DefinitionView extends Framework_Helium_View
 			$this->messenger->noteError( "DefinitionView->buildLabels: no Fields defined for Form '".$form."'." );
 	}
 
-	public function buildInputs( $file , $form, $lan_file, $lan_section, $values = array(), $sources = array() )
+	public function buildInputs( $file, $form, $values = array(), $sources = array() )
 	{
 		$request	= $this->ref->get( 'request' );
-		$labels	= $this->lan[$lan_file][$lan_section];
 
 		$array	= array();
 		$this->_loadDefinition( $file , $form );
@@ -171,7 +169,6 @@ class Framework_Helium_DefinitionView extends Framework_Helium_View
 
 	public function buildFields( $file , $form, $lan_file, $lan_section, $inputs )
 	{
-		$request	= $this->ref->get( 'request' );
 		$labels	= $this->lan[$lan_file][$lan_section];
 
 		$this->_loadDefinition( $file , $form );
@@ -211,7 +208,7 @@ class Framework_Helium_DefinitionView extends Framework_Helium_View
 	public function buildForm( $file , $form, $lan_file, $lan_section, $values = array(), $sources = array() )
 	{
 		$this->definition->setForm( $form );
-		$inputs	= $this->buildInputs( $file, $form, $lan_file, $lan_section, $values, $sources );
+		$inputs	= $this->buildInputs( $file, $form, $values, $sources );
 		$array	= $this->buildLabels( $file, $form, $lan_file, $lan_section )
 				+ $this->buildFields( $file, $form, $lan_file, $lan_section, $inputs );
 		return (array)$array;

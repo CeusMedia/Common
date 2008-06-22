@@ -172,7 +172,7 @@ class Alg_TimeConverter
 			return $human;
 	}
 	
-	public static function convertTimeToHuman( $seconds, $format = false )
+	public static function convertTimeToHuman( $seconds )
 	{
 		$_min	= 60;
 		$_hour	= 60 * $_min;

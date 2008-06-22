@@ -145,7 +145,6 @@ class DebugTrace
 	public function traceToHTML( $trace, $depth = 0 )
 	{
 		$track	= array_shift( $trace );
-		$child	= "";
 		$entry	= "<li>".$this->buildTrace( $track )."</li>";
 		if( count( $trace ) )
 			$entry	.= $this->traceToHTML( $trace, ++$depth );

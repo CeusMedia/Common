@@ -59,7 +59,6 @@ class Framework_Krypton_Core_Language
 	public function __construct( $identify = TRUE )
 	{
 		$this->registry	= Framework_Krypton_Core_Registry::getInstance();
-		$session	= $this->registry->get( 'session' );
 		$config		= $this->registry->get( 'config' );
 
 		$this->default	= $config['languages.default'];
@@ -218,8 +217,6 @@ class Framework_Krypton_Core_Language
 		if( $verbose )
 	 	   remark( "<b>Load Language: </b> File: ".$fileName." -> Section: ".$section );
 		$config		= $this->registry->get( 'config' );
-		$session	= $this->registry->get( 'session' );
-		$messenger	= $this->registry->get( 'messenger' );
 		$language	= $this->getLanguage();
 		if( !$section )
 			$section	= $fileName;
@@ -276,7 +273,6 @@ class Framework_Krypton_Core_Language
 	private function saveCache( $url, $content )
 	{
 		import( 'de.ceus-media.file.Writer' );
-		$config	= $this->registry->get( 'config' );
 		$this->createFolder( dirname( $url ) );		
 		$file	= new File_Writer( $url, 0750 );
 		$file->writeString( $content );

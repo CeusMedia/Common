@@ -31,11 +31,12 @@ class File_CSV_Reader
 	 *	@param		string		$separator		Separator sign
 	 *	@return		void
 	 */
-	public function __construct( $fileName, $headers = false, $separator = "," )
+	public function __construct( $fileName, $headers = false, $separator = NULL )
 	{
 		$this->fileName	= $fileName;
 		$this->headers	= $headers;
-		$this->setSeparator( $separator );
+		if( $separator )
+			$this->setSeparator( $separator );
 	}
 
 	/**

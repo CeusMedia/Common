@@ -74,6 +74,7 @@ class Math_Analysis_LagrangeInterpolation
 	 *	@access		public
 	 *	@param		double		$x				Value to interpolate for
 	 *	@return		double
+	 *	@todo		Var x is not needed? Why getValue( 2 ) ?
 	 */
 	public function interpolate( $x )
 	{

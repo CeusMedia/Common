@@ -48,7 +48,6 @@ class Framework_Krypton_Core_DefinitionView extends Framework_Krypton_Core_View
 	public function buildFields( $fileName, $formName, $languageFile, $languageSection, $inputs )
 	{
 		$cal_count	= 0;
-		$request	= $this->registry->get( 'request' );
 		$labels		= $this->words[$languageFile][$languageSection];
 
 		$array	= array();
@@ -302,7 +301,6 @@ class Framework_Krypton_Core_DefinitionView extends Framework_Krypton_Core_View
 	 */
 	public function buildLabels( $fileName, $formName, $languageFile, $languageSection )
 	{
-		$request	= $this->registry->get( 'request' );
 		$labels		= $this->words[$languageFile][$languageSection];
 
 		$array	= array();

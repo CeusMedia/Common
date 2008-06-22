@@ -19,7 +19,7 @@ class File_CSV_Writer
 	/**	@var		string		$fileName		Flag: use ColumnHeaders in first line */
 	protected $fileName;
 	/**	@var		string		$separator		Separator Sign */
-	protected $separator		= ";";
+	protected $separator		= ",";
 	
 	/**
 	 *	Constructor.
@@ -28,10 +28,11 @@ class File_CSV_Writer
 	 *	@param		string		$separator		Separator sign
 	 *	@return		void
 	 */
-	public function __construct( $fileName, $separator = "," )
+	public function __construct( $fileName, $separator = NULL )
 	{
 		$this->fileName	= $fileName;
-		$this->setSeparator( $separator );
+		if( $separator )
+			$this->setSeparator( $separator );
 	}
 
 	/**

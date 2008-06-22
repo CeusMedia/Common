@@ -67,7 +67,6 @@ class Math_ComplexNumber
 		$d	= $complex->getImagePart();
 		$real	= $a + $c;
 		$image	= $b + $d;
-		$result = new ComplexNumber( $real, $image );
 		return new ComplexNumber( $real, $image );
 	}
 	
@@ -85,7 +84,6 @@ class Math_ComplexNumber
 		$d	= $complex->getImagePart();
 		$real	= $a - $c;
 		$image	= $b - $d;
-		$result = new ComplexNumber( $real, $image );
 		return new ComplexNumber( $real, $image );
 	}
 	
@@ -120,7 +118,6 @@ class Math_ComplexNumber
 		$d	= $complex->getImagePart();
 		$real	= ( $a * $c + $b * $d ) / ( $c * $c + $d * $d );
 		$image	= ( $b * $c - $a * $d ) / ( $c * $c + $d * $d );
-		$result = new ComplexNumber( $real, $image );
 		return new ComplexNumber( $real, $image );
 	}
 

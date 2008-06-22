@@ -103,7 +103,7 @@ class Console_Server_Cron_Parser
 		if( !file_exists( $fileName ) )
 			throw new Exception( "Cron Tab File '".$fileName."' is not existing." );
 		$reader	= new File_Reader( $fileName );
-		$lines	= reader->readArray();
+		$lines	= $reader->readArray();
 		$lines	= file( $fileName );
 		foreach( $lines as $line )
 			if( trim( $line ) && !preg_match( "@^#@", $line ) )

@@ -11,6 +11,7 @@ import( 'de.ceus-media.file.Configuration' );
  *	@package		net.http
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.6
+ *	@deprecated		needs to be rearanged with File_Configuration_Reader
  */
 define( 'IMODE_COLOUR_BW',			0 );
 define( 'IMODE_COLOUR_GREYSCALE',	1 );

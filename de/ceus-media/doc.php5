@@ -16,7 +16,7 @@ $title	= " -ti cmClasses";
 $source	= " -d c:/.mirror/cmClasses/de/ceus-media/";
 $target	= " -t c:/.mirror/docs/cmClasses/api/";
 $output	= " -o HTML:Smarty:PHP";
-$ignore	= " -i doc.php,mirror.lnk";
+$ignore	= " -i doc.php,mirror.lnk,Tests\";
 $quiet	= "";
 passthru( "php phpdocumentor-1.3.2/phpdoc".$source.$target.$title.$output.$ignore.$quiet );
 chdir( $path_current );

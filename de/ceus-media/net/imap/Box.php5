@@ -36,8 +36,8 @@ class Net_IMAP_Box
 	 */
 	public function getBoxInfo( $folder = NULL )
 	{
-		$addess	= $this->resource->getAddress( $folder );
-		$info = imap_mailboxmsginfo( $this->stream, $address, SA_ALL );
+		$address	= $this->resource->getAddress( $folder );
+		$info		= imap_mailboxmsginfo( $this->stream, $address, SA_ALL );
 		if( !$info )
 			throw new Exception( "imap_mailboxmsginfo() failed: ". imap_lasterror() );
 		return array(

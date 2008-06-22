@@ -74,7 +74,7 @@ class File_Css_Compressor
 		$fileName	= $this->prefix.$styleName.$this->suffix.".css";
 		$fileUri	= $pathName."/".$fileName;
 		
-		$length		= file_put_contents( $fileUri, $content );
+		file_put_contents( $fileUri, $content );
 		return $fileUri;
 	}
 
