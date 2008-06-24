@@ -1,0 +1,170 @@
+#summary How to install cmClasses.
+
+First you need to get a copy, then you can install it.
+There is a tiny thing you will have to configure.
+Lets go!
+
+== Download ==
+There are two ways to get a copy.
+But before it is important to mention this:
+
+*The library does not need to be installed within the folder which is readable by apache. It can be installed anywhere on the file system.*
+
+Please choose your type of installation now:
+
+=== Subversion ===
+The library can be pulled from the Google Code Subversion Server.
+To do so you need a SVN client software on your machine.
+In the end you will see a list of files which were installed - this is the aim of this section.
+
+==== Linux ====
+On Linux machines SVN should be there by default, otherwise you can install it using the package manager of your Linux.
+If you have SVN on your machine you can checkout the library within a console.
+
+Do these steps:
+  * open a console
+  * go to the location where the library should be installed
+  * create a new folder called 'cmclasses' of 'ClassContainer' or what ever you like
+  * type in `svn co http://code.google.com/svn/cmclasses cmclasses`
+
+Of course, you can replace the last 'cmclasses' with you individual folder name.
+
+==== Windows ====
+
+On Windows machines i advise you to use [http://tortoise.tigris.org Tortoise] SVN client which integrates nicely into Windows context menu and is really easy to use.
+
+Afterwards you do the following:
+  * create a folder called 'cmClasses' or 'ClassContainer' or what ever you want
+  * right click the folder and click on "SVN Checkout"
+  * enter the URL `http://code.google.com/svn/cmclasses` into the field "URL of repository"
+  * hit "OK"
+
+=== Archive ===
+For those who does not have SVN or defenitly not want to contribute there are different archives to download on the Source Forge site.
+
+Do the following steps:
+  * go to http://code.google.com/p/cmClasses/Download
+  * download the latest version in the format you like
+  * open the file exploring tool you use
+  * go to the location where the library should be installed
+  * create a new folder called 'cmclasses' of 'ClassContainer' or what ever you like
+  * extract all files and folders from the archive into the new folder
+
+== Configuration ==
+Okay, i guess you just installed the library into a folder on your machine.
+Now it is important to configure PHP to use this library. This going to be easy.
+At first we will set the include path to the library and then we will check for missing PHP modules.
+
+=== Include Path ===
+The include path defined in PHP's configuration file (php.ini) sets all paths where PHP will look for files (also classes) when these PHP commands are used.
+  * include
+  * include_one
+  * require
+  * require_once
+
+Now, there are two ways to change the include path:
+  * accessing and changing php.ini, which is not possible in hosted webspace
+  * loading a small script which will extend the include path
+
+==== useClasses.php ====
+This is the most easy way.<br/>
+You just need to load a small script in the main PHP Script of you applications.
+
+Do these steps now:
+  * go into the library folder
+  * find a PHP script called 'useClasses.php5' and copy it to a central location like the web root folder
+  * open this script and enter the path to the library where it says `$__container = "..."`
+  * form a habit of always including this script in all of your applications first
+
+{{{
+require_once( "/path/to/script/useClasses.php5" );
+}}}
+
+If you copied the script to the web root folder and a project would existing in the sub folder 'demo' then the line in the projects main script would be:
+
+{{{
+require_once( "../useClasses.php5" );
+}}}
+
+You can also copy the script into the folders of your project but this is not recommended.
+
+==== changing php.ini ====
+If you got full access to the web server you can access and change the PHP configuration file.
+
+Go on like this:
+  * find the php.ini which is used by the web server
+  * open the configuration file and find the line where it says `include_path = "..."`
+  * add the path to the library before all other paths (or after .) and seprate this path with the seperator sign depending on the Operating System
+  * form a habit of always including a script called 'import.php5' in all of your applications first
+
+{{{
+require_once( "/path/to/library/import.php5" );
+}}}
+
+=== Extensions ===
+Some classes in the library are using PHP extensions which may not be activated or compiles in by default.
+
+These extensions are:
+  * BZ2 (php_bz2)
+  * CURL (php_curl)
+  * GD2 (php_gd2)
+  * IMAP (php_imap)
+  * MIME Magic (php_mime_magic)
+  * PDO_msSQL (php_pdo_mssql)
+  * PDO_pgSQL (php_pdo_pgsql)
+  * pgSQL (php_pgsql)
+  * sqlite (php_sqlite)
+  * XML Transformation (php_xsl)
+
+You do not need to install all of the extensions now.
+But now you now why some classes will not work and what you will have to do.
+
+=== Test ===
+Now it is time to test the new installed library.
+Write a small script like this:
+
+{{{
+<?php
+require_once("/path/to/library/useClasses.php5");
+?>
+}}}
+
+If you get the message {{{Path to "cmClasses" is not set correctly in Script "C:\.mirror\useClasses.php5".}}} than your set path is wrong.
+
+To get a first visible result, save a script with:
+{{{
+<?php
+require_once("/path/to/library/useClasses.php5");
+import( 'de.ceus-media.math.RomanNumbers' );
+
+$year	= 2008;
+$roman	= Math_RomanNumbers::convertToRoman( $year );
+print( $year." in roman is ".$roman );
+?>
+}}}
+
+If you get a Message like {{{Fatal error: Class 'Math_RomanNumbers' not found in ...}}} then the library is not installed correctly.
+
+If you get {{{2008 in roman is MMVIII}}} then everything is fine.
+
+=== Troubleshooting ===
+
+==== PHP file extension ====
+The file extension within this library is always 'php5'.
+Make sure your server has at least PHP 5.2.0 installed and the web server is configured to understand these files as PHP.
+Please read further information about server installation on web sites dealing with this topic.
+
+==== What else ? ====
+
+Ülease feel free to share your experiences with us (and the rest of the world). See the [Contribution contribution] page.
+
+== Extras ==
+You can also get:
+  * Documentations( see Download)
+  * Unit tests (are included in since version 0.6)
+  * Code coverage reports (will be created by unit tests since version 0.6)
+
+We recommend to install every extra directly into the class container folder.<br/>
+If you have installed the class container outside your web folder, there are 2 ways:
+  # install into class container folder and configure aliases for the web server
+  # install into web folder and correct paths in scripts if necessary (e.g. Tests/initLoaders.php5)
