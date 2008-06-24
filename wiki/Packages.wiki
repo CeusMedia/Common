@@ -1,0 +1,184 @@
+#summary Package structure of cmClasses.
+
+== Introduction ==
+The class container contains more than 390 classes which where designed for very different tasks.
+Some manipulate files, some calculate, some create HTML (or XHTML), some handle with HTTP stuff and so on.
+Therefore all classes with a specific intentions are arranged in packages which are represented by folders.
+These package folder can contain further folders.
+
+Here is a simple examples:
+If a class is doing some math it will be in package _math_.
+If the type of this mathematic algorithms is very specific and there are some more classes dealing with this there will be another package inside the math package.
+Lets say the class does algebra, so its class name would be Math_Algebra and its package would be 'math.algebra'.
+It would exist in the path 'math/algrebra'.
+
+== Packages ==
+Now it is time to show you the packages.
+If you have an installed library just open the library folder and look arround.
+You will find some folders the look like domains but this is explain in [Usage#Domain Structure Usage].
+
+Lets step into the folder 'de/ceus-media/'.
+What so will see is the first level of packages.
+
+There are:
+  * [#ADT adt]
+  * [#Alg alg]
+  * [#Console console]
+  * [#Database database]
+  * [#Exception exception]
+  * [#File file]
+  * [#Folder folder]
+  * [#Framework framework]
+  * [#Functions functions]
+  * [#Math math]
+  * [#Net net]
+  * [#UI ui]
+  * [#Validation validation]
+  * [#Xml xml]
+
+=== ADT ===
+This package is about abstract data types.
+It containts classes that are or can used to build extended data types.
+
+Often used classes are:
+  * ADT_JSON_Converter
+  * ADT_List_Dictionary (used for Net_HTTP_Request_Receiver and Net_HTTP_Session)
+  * ADT_List_LevelMap (used for File_Configuration_Reader)
+  * ADT_OptionObject
+  * ADT_Registry (implements Registry Pattern)
+
+=== Alg ===
+This package contains classes implementing common or specific algorithms for searching, sorting and validation.
+
+Often used classes are:
+  * Alg_Crypt_PasswordStrength
+  * Alg_Validation_Predicates
+  * Alg_Randomizer
+  * Alg_UnitFormater
+
+=== Console ===
+Most tasks for PHP are to build something for web applications.
+But PHP can be used for console applications, too!
+You can also find base classes for server applications or Windows services.
+
+Often used classes are:
+  * Console_ArgumentParser
+  * Console_Application
+  * Console_RequestReceiver
+  * Console_Downloader
+
+=== Database ===
+Database abstraction has always been a big topic.
+This library does not have a database abstraction layer but it provides a database connection abstraction.
+It can be used to write applications without database specific commands to be able to switch between database management systems afterwards.
+Since PHP is having PDO (PHP Data Objects) this layer is not so interesting anymore but is very easy to use since it behaved live adoDB.
+New in the library is a transparent extension of PDO.
+Other interesting classes make it easy to read and write to database tables and are used strictly in the CeuS Media frameworks.
+
+Often used classes are:
+  * Database_PDO_Connection
+  * Database_PDO_TableReader and Database_PDO_TableWriter (are the base for database models)
+  * Database_StatementBuilder (builds SQL statements out of SQL components held by collections)
+  * Database_StatementCollection (holds components for SQL statements to be put together by the statement builder)
+
+=== Exception ===
+Okay, this is easy: This package holds classes which extends PHP's exception class.
+This classes do not have very much functionality. They are available to be able to catch and handle exceptions precisly.
+
+Often used classes are:
+  * Exception_IO
+  * Exception_SQL
+  * Exception_Template
+  * Exception_Validation
+
+=== File ===
+Classes within this package read and write file of different formats, like CSV, INI, iCal, YAML and also log and list files.
+There is a little exception: Classes for XML files have there ohne package since they were so many.
+
+Often used classes are:
+  * File_Reader and File_Writer (base for many other classes which handle files)
+  * File_INI_Reader (better implementation of parse_ini_file)
+  * File_Log_Writer (class using error_log)
+  * File_NamePatternFinder (searches for files with RegExp patterns)
+
+=== Folder ===
+This package holds classes for dealing with folder, mostly in a recursive way.
+
+Often used classes are:
+  * Folder_Editor
+  * Folder_Lister
+  * Folder_RecursiveLister
+  * Folder_RecursiveNamePatternFinder
+
+=== Framework ===
+This package is one of the largest. It contains all classes of all published CeuS Media frameworks.
+The folders within this package are the names of the frameworks:
+  * Helium
+  * Neon
+  * Krypton
+The other frameworks Hydrogen, Argon and Tool are not finished yet but already included.
+
+The functions and usage of the frameworks is explaing on the page about [Frameworks frameworks].
+
+=== Functions ===
+Okay - it was said that this library is purely object oriented. Now here is the truth: It is not.
+There are some functions but they are not important and will be deleted soon.
+But one of the functions will stay because it is the functional replacement for require/include.
+
+=== Math ===
+Math is a wide science and so this package is divided into:
+  * Algebra
+  * Analysis
+  * Finance
+  * Geometry
+  * Syntax (with means formula expressions in a theoretical view)
+
+Most of the sub packages are not as evolved as could be but this is only a matter of time and contribution.
+
+=== Net ===
+This package is very important because it brings support for all types of network communication / transfer.
+With the cURL extension most protocols are supported and with some wrapper classes it is also made easy to use.
+There is also an Implementation of WebServices as REST architecture - faster and easier to use than SOAP.
+~~For more information see [http://ceus-media.de/ CeuS Media] [[Web_Services|WebServices Documentation]].~~
+
+There is also an easy way to send plain text or HTML mails, also with attachments.
+
+Often used classes are:
+  * Net_Reader
+  * Net_HTTP_Request_Receiver
+  * Net_HTTP_Request_Response
+  * Net_HTTP_PartitionSession (session with partitions to avoid collisions)
+  * Net_Service_Handler
+
+=== UI ===
+This package contains lots of classes for build components for user interfaces.
+Since console output is easy, creating output for web is more interesting and very often needed.
+The classes for generating of (X)HTML and images were expanded by classes for SVN lately.
+We are were interested what will come next - may be XForms support ?
+
+Often used classes are:
+  * UI_HTML_FormElements
+  * UI_HTML_Paging
+  * UI_Image_Captcha
+  * UI_Image_ThumbnailCreator
+
+=== Validation ===
+Here you can find classes for validation of input data.<br/> The base valdator class checks single characters.
+All other validator classes extend this class with more functionality like type check or semantic validation.
+A contributor (Sinan SARAL) pronounced another way of validation and we could use his idea to create a better validation solution which is now stored in the alg package.
+The frameworks Helium and Neon are still using the old validation classes and when the support for the new classes is finished, these old classes will be removed as well as the package itself.
+
+=== XML ===
+No this is a candy in the library.
+XML is the base for many formats like RSS, ATOM, WDDX, OPML and so forth.
+And PHP has many XML Readers (see [http://de.php.net/manual/en/refs.xml.php php.net XML Manipulation]) where beginners don't habe a clue.
+Within the container there are much simpler readers and writer.
+The most classes are using the DOM but there is also a reader extending the SimpleXMLElement with some missing methods.
+
+Often used classes are:
+  * XML_DOM_Parser
+  * XML_DOM_FileReader
+  * XML_RSS_Reader
+  * XML_RSS_Writer
+
+If you are interested you can see some [Demos demos].
