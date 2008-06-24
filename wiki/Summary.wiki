@@ -1,4 +1,4 @@
-#summary Overview and of cmClases Wiki.
+#summary Overview and Summary of cmClases Wiki.
 
 == Introduction ==
 === What is _cmClasses_ or _class container_ ? ===
@@ -14,8 +14,8 @@ Some classes are based upon standalone packages of other developers who publishe
 
 The class container can be seen as a library and is called _cmClasses_ internally what stands for _CeuS Media class container_.
 
-This library has been published on 2008-06-18 as stable version 0.6.
-There will be updates and patches, see [#Versioning Versioning].
+This library has been published on 24.06.2008 as stable version 0.6.
+There will be updates and patches, see [#Maintenance Maintenance].
 
 === Who can use it ? ===
 Although there is a company name inside it is a open source library.
@@ -104,4 +104,4 @@ Our server will run the tests frequently (every day), store results and send mes
 
 Of course, to run the tests you must have installed PHPUnit on your system.
 
-You can run tests on console by typing <code>phpunit Tests_AllTests</code>
+You can run tests on console by typing {{{phpunit Tests_AllTests}}}.
