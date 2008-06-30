@@ -202,7 +202,7 @@ class Framework_Neon_DefinitionView extends Framework_Neon_View
 				{
 					if( $data['calendar']['component'] == "MonthCalendar" )
 					{
-						import( 'classes.views.components.MonthCalendar' );
+						import( 'de.ceus-media.framework.neon.views.components.MonthCalendar' );
 						$cal	= new MonthCalendar();							if( isset( $data['calendar']['range'] ) )
 							$cal->setRange( $data['calendar']['range'] );
 						if( isset( $data['calendar']['type'] ) )
@@ -218,10 +218,10 @@ class Framework_Neon_DefinitionView extends Framework_Neon_View
 					}
 					if( $data['calendar']['component'] == "DayCalendar" )
 					{
-						import( 'classes.views.components.DayCalendar' );
+						import( 'de.ceus-media.framework.neon.views.components.DayCalendar' );
 						$cal	= new DayCalendar();
-				//		if( isset( $data['calendar']['range'] ) )
-				//			$cal->setRange( $data['calendar']['range'] );
+						if( isset( $data['calendar']['range'] ) )
+							$cal->setRange( $data['calendar']['range'] );
 						if( isset( $data['calendar']['format_js'] ) )
 							$cal->setFormat( $data['calendar']['format_js'] );
 						if( isset( $data['calendar']['type'] ) )
