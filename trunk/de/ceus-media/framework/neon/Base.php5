@@ -75,7 +75,56 @@ class Framework_Neon_Base
 	{
 	}
 
-	//  --  PRIVATE METHODS  --  //
+	protected function transformLink( $link, $cutSeparator = "__", $joinSeparator = "_" )
+	{
+		$parts	= explode( $cutSeparator, $link );
+		$class	= ucFirst( array_pop( $parts ) );
+		$path	= implode( $joinSeparator, $parts );
+		$path	= $path ? $path.$joinSeparator : "";
+		$parts	= explode( "_", $class );
+		foreach( $parts as $part )
+			$path	.= ucFirst( $part );
+		return $path;
+	}
+	
+	protected function getClassNameFromLink( $link )
+	{
+		return $this->transformLink( $link, "__", "_" );
+	}
+	
+	protected function getClassFileFromLink( $link )
+	{
+		return $this->transformLink( $link, "__", "/" );
+	}
+	
+	protected function loadActionClassFromLink( $link )
+	{
+		return $this->loadClassFromLink( $link, "actions/", "Actions" );
+	}
+	
+	protected function loadClassFromLink( $link, $pathSuffix, $classSuffix )
+	{
+		$className	= $this->getClassNameFromLink( $link ).$classSuffix;
+		$classFile	= "classes/".$pathSuffix.$this->getClassFileFromLink( $link ).$classSuffix.".php5";
+		if( !file_exists( $classFile ) )
+		{
+			$path		= ucFirst( str_replace( "/", "_", $pathSuffix ) );
+			$className2	= "Framework_Neon_".$path.$className;
+			$classFile	= preg_replace( "@^classes/@", CM_CLASS_PATH."de/ceus-media/framework/neon/", $classFile );
+			if( !file_exists( $classFile ) )
+				throw new RuntimeException( 'Neither Project Class "'.$className.'" nor Framework Class "'.$className2.'" is existing.' );
+			$className	= $className2;
+		}
+		require_once( $classFile );
+		$object	= new $className();
+		return $object;
+	}
+	
+	protected function loadViewClassFromLink( $link )
+	{
+		return $this->loadClassFromLink( $link, "views/", "Views" );
+	}
+	
 	/**
 	 *	Transforms requested Link into linked Class Names usind Separators.
 	 *	@access		protected

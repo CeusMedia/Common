@@ -1,8 +1,8 @@
-4<?php
+<?php
 import( 'de.ceus-media.adt.graph.NodeSet' );
 import( 'de.ceus-media.adt.graph.EdgeSet' );
-import( 'de.ceus-media.adt.stack.Queue' );
-import( 'de.ceus-media.adt.stack.Stack' );
+import( 'de.ceus-media.adt.list.Queue' );
+import( 'de.ceus-media.adt.list.Stack' );
 //import( "de.ceus-media.adt.matrix.AssocFileMatrix");
 /**
  *	Graph.
