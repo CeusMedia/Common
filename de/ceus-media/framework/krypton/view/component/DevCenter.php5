@@ -34,6 +34,7 @@ class Framework_Krypton_View_Component_DevCenter extends Framework_Krypton_Core_
 		'show_words'		=> 'showWords',
 		'show_sources'		=> 'showSources',
 	);
+	public static $templateDevSources	= 'dev_sources';
 	
 	public function buildContent( $content )
 	{
@@ -272,7 +273,7 @@ class Framework_Krypton_View_Component_DevCenter extends Framework_Krypton_Core_
 	protected function showSources()
 	{
 		$this->tabs['devTabSources']	= "Sources ";
-		$this->divs['devTabSources']	= $this->loadTemplate( 'dev_sources', array() );
+		$this->divs['devTabSources']	= $this->loadTemplate( self::$templateDevSources, array() );
 	}
 
 	protected function showWords()

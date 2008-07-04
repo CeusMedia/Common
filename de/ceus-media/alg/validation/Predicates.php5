@@ -244,7 +244,7 @@ class Alg_Validation_Predicates
 	 */
 	public static function isGreater( $string, $limit )
 	{
-		return (int) $string > (int) $limit;
+		return (bool) $string > (int) $limit;
 	}
 
 	/**
@@ -278,7 +278,7 @@ class Alg_Validation_Predicates
 	 */
 	public static function isLess( $string, $limit )
 	{
-		return (int) $string < (int) $limit;
+		return (bool) $string < (int) $limit;
 	}
 
 	/**
@@ -286,7 +286,7 @@ class Alg_Validation_Predicates
 	 *	@access		public
 	 *	@param		string		$string		String to be checked
 	 *	@return		bool
-	 *	@todo		add Umlauts (äöüßâáàêéèîíìôóòûúù + missing other languages(
+	 *	@todo		add Umlauts (äöüßâáàêéèîíìôóòûúù + missing other languages)
 	 */
 	public static function isLetter( $string )
 	{
@@ -302,7 +302,7 @@ class Alg_Validation_Predicates
 	 */
 	public static function isMaximum( $string, $limit )
 	{
-		return (int) $string <= (int) $limit;
+		return (bool) $string <= (int) $limit;
 	}
 
 	/**
@@ -314,7 +314,7 @@ class Alg_Validation_Predicates
 	 */
 	public static function isMinimum( $string, $limit )
 	{
-		return (int) $string >= (int) $limit;
+		return (bool) $string >= (int) $limit;
 	}
 
 	/**
@@ -325,7 +325,7 @@ class Alg_Validation_Predicates
 	 */
 	public static function isNotZero( $string )
 	{
-		return (int) $string != 0;
+		return "0" ==! (string) $string;
 	}
 
 	/**

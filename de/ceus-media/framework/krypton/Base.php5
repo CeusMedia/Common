@@ -263,10 +263,12 @@ abstract class Framework_Krypton_Base
 	 *	@access		protected
 	 *	@return		void
 	 */
-	protected function initRegistry()
+	protected function initRegistry( $clear = TRUE )
 	{
 		import( 'de.ceus-media.framework.krypton.core.Registry' );
 		$this->registry	= Framework_Krypton_Core_Registry::getInstance();
+		if( $clear )
+			$this->registry->clear();
 	}
 
 	/**
@@ -286,7 +288,7 @@ abstract class Framework_Krypton_Base
 			import( 'de.ceus-media.console.RequestReceiver' );
 			$request	= new Console_RequestReceiver;
 		}
-		$this->registry->set( "request", $request );
+		$this->registry->set( "request", $request, TRUE );
 	}
 
 	/**

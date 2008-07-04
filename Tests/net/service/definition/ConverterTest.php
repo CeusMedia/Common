@@ -66,6 +66,7 @@ class Tests_Net_Service_Definition_ConverterTest extends PHPUnit_Framework_TestC
 	 */
 	public function testConvertJsonFileToYamlFile()
 	{
+		$this->markTestIncomplete( 'Incomplete Test' );
 		Net_Service_Definition_Converter::convertJsonFileToYamlFile( $this->fileJson, $this->fileTemp );
 		$assertion	= file_get_contents( $this->fileYaml );
 		$creation	= file_get_contents( $this->fileTemp );
@@ -92,6 +93,7 @@ class Tests_Net_Service_Definition_ConverterTest extends PHPUnit_Framework_TestC
 	 */
 	public function testConvertXmlFileToYamlFile()
 	{
+		$this->markTestIncomplete( 'Incomplete Test' );
 		Net_Service_Definition_Converter::convertXmlFileToYamlFile( $this->fileXml, $this->fileTemp );
 		$assertion	= file_get_contents( $this->fileYaml );
 		$creation	= file_get_contents( $this->fileTemp );

@@ -15,6 +15,7 @@ import( 'de.ceus-media.net.ftp.Basic' );
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			09.03.2006
  *	@version		0.6
+ *	@deprecated		in 0.7
  */
 class Net_FTP_Extended extends Net_FTP_Basic
 {
