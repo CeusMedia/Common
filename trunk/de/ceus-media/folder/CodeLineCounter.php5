@@ -58,6 +58,8 @@ class Folder_CodeLineCounter
 		$numberLines	= 0;
 		$numberStrips	= 0;
 
+		$path	= preg_replace( "@^(.+)/?$@", "\\1/", $path );
+
 		$st	= new StopWatch();
 		$lister	= new Folder_RecursiveLister( $path );
 		$lister->setExtensions( $extensions );
@@ -180,7 +182,7 @@ class Folder_CodeLineCounter
 		$list	= array();
 		foreach( $this->data['files'] as $pathName => $data )
 		{
-			$fileName	= substr( $pathName, strlen( $this->data['path'] ) + 1 );
+			$fileName	= substr( $pathName, strlen( $this->data['path'] ) );
 			$link	= UI_HTML_Elements::Link( "view.php5?file=".$pathName."&width=900&height=700",  $fileName, 'thickbox' );
 			$row	= "
 <tr>

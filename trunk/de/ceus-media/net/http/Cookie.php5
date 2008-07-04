@@ -63,7 +63,7 @@ class Net_HTTP_Cookie
 	public function set( $key, $value )
 	{
 		$this->data[$key] =& $value;
-#		setcookie( $key, $value );
+		setcookie( $key, $value );
 	}
 		
 	/**
