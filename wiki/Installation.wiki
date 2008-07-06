@@ -40,11 +40,11 @@ Afterwards you do the following:
   * hit "OK"
 
 === Archive ===
-For those who does not have SVN or defenitly not want to contribute there are different archives to download on the Source Forge site.
+For those who does not have SVN or definitly not want to contribute, there are different archives to download on the Google Code site.
 
 Do the following steps:
   * go to http://code.google.com/p/cmClasses/Download
-  * download the latest version in the format you like
+  * download the latest version of 'cmClasses_0.x' in the format you like
   * open the file exploring tool you use
   * go to the location where the library should be installed
   * create a new folder called 'cmclasses' of 'ClassContainer' or what ever you like
@@ -67,7 +67,7 @@ Now, there are two ways to change the include path:
   * loading a small script which will extend the include path
 
 ==== useClasses.php ====
-This is the most easy way.<br/>
+This is the most easy way.
 You just need to load a small script in the main PHP Script of you applications.
 
 Do these steps now:
