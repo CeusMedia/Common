@@ -48,6 +48,7 @@ class Tests_Net_FTP_WriterTest extends PHPUnit_Framework_TestCase
 	 */
 	public function setUp()
 	{
+		@mkDir( $this->ftpPath );
 		@mkDir( $this->ftpPath."folder" );
 		@file_put_contents( $this->ftpPath."source.txt", "source file" );
 		@file_put_contents( $this->ftpPath."folder/source.txt", "source file" );
@@ -75,6 +76,7 @@ class Tests_Net_FTP_WriterTest extends PHPUnit_Framework_TestCase
 		@rmDir( $this->ftpPath."copy" );
 		@rmDir( $this->ftpPath."created" );
 		@rmDir( $this->ftpPath."moved" );
+		@rmDir( $this->ftpPath );
 	}
 
 	/**

@@ -17,13 +17,13 @@ import( 'de.ceus-media.database.pdo.TableReader' );
 class Database_PDO_TableWriter extends Database_PDO_TableReader
 {
 	/**
-	 *	Deletes data of focused primary key in this table.
+	 *	Deletes focused Rows in this Table and returns Number of Rows.
 	 *	@access		public
-	 *	@return		bool
+	 *	@return		int
 	 */
 	public function delete()
 	{
-		$this->check( 'focus' );
+		$this->validateFocus();
 		$has	= $this->get( FALSE );
 		if( !$has )
 			throw new InvalidArgumentException( 'Focused Indices are not existing.' );
@@ -40,7 +40,6 @@ class Database_PDO_TableWriter extends Database_PDO_TableReader
 	 */
 	public function deleteByConditions( $where = array() )
 	{
-#		$this->check( 'focus' );
 		$conditions	= $this->getConditionQuery( $where );
 		$query	= "DELETE FROM ".$this->getTableName()." WHERE ".$conditions;
 		$result	= $this->dbc->exec( $query );
@@ -57,7 +56,6 @@ class Database_PDO_TableWriter extends Database_PDO_TableReader
 	 */
 	public function insert( $data = array(), $stripTags = FALSE )
 	{
-		$this->check( 'columns' );
 		$keys	= array();
 		$vals	= array();
 		foreach( $this->columns as $column )
@@ -77,6 +75,8 @@ class Database_PDO_TableWriter extends Database_PDO_TableReader
 			foreach( $this->focusedIndices as $key => $value )
 			{
 				if( isset( $keys[$key] ) )
+					continue;
+				if( $key == $this->primaryKey )
 					continue;
 				$keys[$key]	= $key;
 				$vals[$key]	= $this->secureValue( $value );
@@ -100,15 +100,13 @@ class Database_PDO_TableWriter extends Database_PDO_TableReader
 	 */
 	public function update( $data = array(), $stripTags = TRUE )
 	{
-		$this->check( 'columns' );
-		$this->check( 'focus' );
+		if( !( is_array( $data ) && $data ) )
+			throw new InvalidArgumentException( 'Data for Update must be an Array and have atleast 1 Pair.' );
+
+		$this->validateFocus();
 		$has	= $this->get( FALSE );
 		if( !$has )
-		{
-			remark( "Insufficient Keys on Select in Table ".$this->getTableName() );
-			print_m( $this->focusedIndices );
 			throw new InvalidArgumentException( 'Focused Indices are not existing. No Data Sets found for Update.' );
-		}
 		$updates	= array();
 		foreach( $this->columns as $column )
 		{
@@ -132,14 +130,19 @@ class Database_PDO_TableWriter extends Database_PDO_TableReader
 	/**
 	 *	Updates data in table where conditions are given for.
 	 *	@access		public
-	 *	@param		array		$data			associative Array of Data to store
-	 *	@param		array		$where			associative Array of Condition Strings
+	 *	@param		array		$data			Array of Data to store
+	 *	@param		array		$conditions		Array of Condition Pairs
 	 *	@param		bool		$stripTags		Flag: strip HTML Tags from Values
 	 *	@return		bool
 	 */
-	public function updateByConditions( $data = array(), $where = array(), $stripTags = FALSE )
+	public function updateByConditions( $data = array(), $conditions = array(), $stripTags = FALSE )
 	{
-		$conditions	= $this->getConditionQuery( $where, $this->isFocused() == "primary" );
+		if( !( is_array( $data ) && $data ) )
+			throw new InvalidArgumentException( 'Data for Update must be an Array and have atleast 1 Pair.' );
+		if( !( is_array( $conditions ) && $conditions ) )
+			throw new InvalidArgumentException( 'Conditions for Update must be an Array and have atleast 1 Pair.' );
+
+		$conditions	= $this->getConditionQuery( $conditions, FALSE, FALSE );
 		foreach( $this->columns as $column )
 		{
 			if( $data[$column] )
@@ -155,9 +158,7 @@ class Database_PDO_TableWriter extends Database_PDO_TableReader
 		{
 			$ins_sets	= implode( ", ", $sets );
 			$query	= "UPDATE ".$this->getTableName()." SET $ins_sets WHERE ".$conditions;
-			$result	= $this->dbc->query( $query );
-			foreach( $this->columns as $column )
-				$this->$column = $data[$column];
+			$result	= $this->dbc->exec( $query );
 			return $result;
 		}
 	}

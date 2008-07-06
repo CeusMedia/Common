@@ -43,6 +43,7 @@ class Tests_Net_FTP_ClientTest extends PHPUnit_Framework_TestCase
 	 */
 	public function setUp()
 	{
+		@mkDir( $this->ftpPath );
 		@mkDir( $this->ftpPath."folder" );
 		@mkDir( $this->ftpPath."folder/nested" );
 		@file_put_contents( $this->ftpPath."test1.txt", "test1" );
@@ -85,6 +86,7 @@ class Tests_Net_FTP_ClientTest extends PHPUnit_Framework_TestCase
 		@rmDir( $this->ftpPath."moved" );
 		@rmDir( $this->ftpPath."folder/nested" );
 		@rmDir( $this->ftpPath."folder" );
+		@rmDir( $this->ftpPath );
 	}
 
 	/**
