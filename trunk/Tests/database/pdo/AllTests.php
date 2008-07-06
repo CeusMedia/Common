@@ -4,6 +4,7 @@ if( !defined( 'PHPUnit_MAIN_METHOD' ) )
 
 require_once( 'PHPUnit/Framework/TestSuite.php' );
 require_once( 'PHPUnit/TextUI/TestRunner.php' );
+require_once( 'Tests/Database/pdo/ConnectionTest.php' );
 require_once( 'Tests/Database/pdo/TableReaderTest.php' );
 require_once( 'Tests/Database/pdo/TableWriterTest.php' );
 class Tests_Database_PDO_AllTests
@@ -16,6 +17,7 @@ class Tests_Database_PDO_AllTests
 	public static function suite()
 	{
 		$suite = new PHPUnit_Framework_TestSuite( 'ClassContainer/Database/PDO' );
+		$suite->addTestSuite( 'Tests_Database_PDO_ConnectionTest' ); 
 		$suite->addTestSuite( 'Tests_Database_PDO_TableReaderTest' ); 
 		$suite->addTestSuite( 'Tests_Database_PDO_TableWriterTest' ); 
 		return $suite;

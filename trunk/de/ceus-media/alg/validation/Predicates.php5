@@ -244,7 +244,7 @@ class Alg_Validation_Predicates
 	 */
 	public static function isGreater( $string, $limit )
 	{
-		return (bool) $string > (int) $limit;
+		return (int) $string > (int) $limit;
 	}
 
 	/**
@@ -278,7 +278,7 @@ class Alg_Validation_Predicates
 	 */
 	public static function isLess( $string, $limit )
 	{
-		return (bool) $string < (int) $limit;
+		return (int) $string < (int) $limit;
 	}
 
 	/**
@@ -302,7 +302,7 @@ class Alg_Validation_Predicates
 	 */
 	public static function isMaximum( $string, $limit )
 	{
-		return (bool) $string <= (int) $limit;
+		return (int) $string <= (int) $limit;
 	}
 
 	/**
@@ -314,7 +314,7 @@ class Alg_Validation_Predicates
 	 */
 	public static function isMinimum( $string, $limit )
 	{
-		return (bool) $string >= (int) $limit;
+		return (int) $string >= (int) $limit;
 	}
 
 	/**

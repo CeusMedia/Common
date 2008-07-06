@@ -18,13 +18,9 @@
 class Exception_SQL extends RuntimeException
 {
 	/**	@var		string		$error				Error Message from SQL */
-	public $sqlCode;
-	/**	@var		string		$error				Error Message from SQL */
-	public $sqlMessage;
-	/**	@var		string		$error				Error Message from SQL */
-	public $pdoCode;
-	/**	@var		string		$exceptionMessage	Message of Exception with Placeholder */
-	public static $exceptionMessage	= 'SQL Error';
+	protected $pdoCode;
+	/**	@var		string		$defaultMessage		Default Message if SQL Info Message is empty */
+	public static $default		= "Unknown SQL Error.";
 
 	/**
 	 *	Constructor.
@@ -34,32 +30,12 @@ class Exception_SQL extends RuntimeException
 	 *	@param		int			$pdoCode		PDO Error Code
 	 *	@return		void
 	 */
-	public function __construct( $sqlCode, $sqlMessage, $pdoCode = 0 )
+	public function __construct( $message, $code, $pdoCode = 0 )
 	{
-		$this->sqlCode		= $sqlCode;
-		$this->sqlMessage	= $sqlMessage;
+		if( !$message )
+			$message	= self::$default;
+		parent::__construct( $message, $code );
 		$this->pdoCode		= $pdoCode;
-		parent::__construct( self::$exceptionMessage );
-	}
-	
-	/**
-	 *	Returns SQL Error Message.
-	 *	@access		public
-	 *	@return		string
-	 */
-	public function getErrorCode()
-	{
-		return $this->sqlCode;
-	}
-
-	/**
-	 *	Returns SQL Error Message.
-	 *	@access		public
-	 *	@return		string
-	 */
-	public function getErrorMessage()
-	{
-		return $this->sqlMessage;
 	}
 
 	/**
@@ -71,35 +47,5 @@ class Exception_SQL extends RuntimeException
 	{
 		return $this->pdoCode;
 	}
-/*	
-	public function __sleep()
-	{
-		get_object_vars( $this );
-	}
-	
-	public function _sleep()
-	{
-		get_object_vars( $this );
-	}
-	
-
-	private function check( $array )
-	{
-		foreach( $array as $element )
-		{
-			if ( $element instanceof PDO )
-			{
-			}
-			if ( $element instanceof PDOException )
-			{
-				unset($element);
-				break;
-			}
-			if ( is_array( $element ) )
-			{
-				$this->_check( $element );
-			}
-		}
-	}*/
 }
 ?>
