@@ -22,7 +22,7 @@ class Tests_Database_AllTests
 
 	public static function suite()
 	{
-		$suite = new PHPUnit_Framework_TestSuite( 'ClassContainer/Database' );
+		$suite = new PHPUnit_Framework_TestSuite( 'cmClasses/Database' );
 		$suite->addTest( Tests_Database_PDO_AllTests::suite() );
 		$suite->addTest( Tests_Database_mySQL_AllTests::suite() );
 		$suite->addTestSuite( 'Tests_Database_BaseConnectionTest' ); 

@@ -17,7 +17,7 @@ class Tests_File_Arc_AllTests
 
 	public static function suite()
 	{
-		$suite = new PHPUnit_Framework_TestSuite( 'ClassContainer/File/Arc' );
+		$suite = new PHPUnit_Framework_TestSuite( 'cmClasses/File/Arc' );
 		$suite->addTestSuite('Tests_File_Arc_BzipFileTest'); 
 		$suite->addTestSuite('Tests_File_Arc_GzipFileTest'); 
 		$suite->addTestSuite('Tests_File_Arc_TarFileTest'); 

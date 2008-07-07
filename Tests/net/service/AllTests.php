@@ -18,7 +18,7 @@ class Tests_Net_Service_AllTests
 
 	public static function suite()
 	{
-		$suite = new PHPUnit_Framework_TestSuite( 'ClassContainer/Net/Service' );
+		$suite = new PHPUnit_Framework_TestSuite( 'cmClasses/Net/Service' );
 		$suite->addTest( Tests_Net_Service_Definition_AllTests::suite() );
 		$suite->addTestSuite( 'Tests_Net_Service_ClientTest' );
 		$suite->addTestSuite( 'Tests_Net_Service_HandlerTest' );

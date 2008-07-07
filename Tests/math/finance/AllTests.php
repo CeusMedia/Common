@@ -14,7 +14,7 @@ class Tests_Math_Finance_AllTests
 
 	public static function suite()
 	{
-		$suite = new PHPUnit_Framework_TestSuite( 'ClassContainer/Math/Finance' );
+		$suite = new PHPUnit_Framework_TestSuite( 'cmClasses/Math/Finance' );
 		$suite->addTestSuite( 'Tests_Math_Finance_CompoundInterestTest' );
 		return $suite;
 	}

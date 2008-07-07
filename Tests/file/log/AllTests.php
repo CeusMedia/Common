@@ -15,7 +15,7 @@ class Tests_File_Log_AllTests
 
 	public static function suite()
 	{
-		$suite = new PHPUnit_Framework_TestSuite( 'ClassContainer/File/Log' );
+		$suite = new PHPUnit_Framework_TestSuite( 'cmClasses/File/Log' );
 		$suite->addTestSuite('Tests_File_Log_WriterTest'); 
 		return $suite;
 	}

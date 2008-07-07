@@ -18,7 +18,7 @@ class Tests_Alg_Validation_AllTests
 
 	public static function suite()
 	{
-		$suite = new PHPUnit_Framework_TestSuite( 'ClassContainer/Alg/Validation' );
+		$suite = new PHPUnit_Framework_TestSuite( 'cmClasses/Alg/Validation' );
 		$suite->addTestSuite( 'Tests_Alg_Validation_LanguageValidatorTest' ); 
 		$suite->addTestSuite( 'Tests_Alg_Validation_PredicatesTest' ); 
 		$suite->addTestSuite( 'Tests_Alg_Validation_PredicateValidatorTest' ); 

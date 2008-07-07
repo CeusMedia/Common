@@ -18,7 +18,7 @@ class Tests_Net_HTTP_AllTests
 
 	public static function suite()
 	{
-		$suite = new PHPUnit_Framework_TestSuite( 'ClassContainer/Net/HTTP' );
+		$suite = new PHPUnit_Framework_TestSuite( 'cmClasses/Net/HTTP' );
 		$suite->addTest( Tests_Net_HTTP_Request_AllTests::suite() );
 #		$suite->addTestSuite( 'Tests_Net_HTTP_SessionTest' ); 
 		$suite->addTestSuite( 'Tests_Net_HTTP_PartitionSessionTest' ); 

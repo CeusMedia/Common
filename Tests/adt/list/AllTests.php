@@ -19,7 +19,7 @@ class Tests_ADT_List_AllTests
 
 	public static function suite()
 	{
-		$suite = new PHPUnit_Framework_TestSuite( 'ClassContainer/ADT/List' );
+		$suite = new PHPUnit_Framework_TestSuite( 'cmClasses/ADT/List' );
 		$suite->addTestSuite('Tests_ADT_List_DictionaryTest'); 
 		$suite->addTestSuite('Tests_ADT_List_LevelMapTest'); 
 		$suite->addTestSuite('Tests_ADT_List_SectionListTest'); 

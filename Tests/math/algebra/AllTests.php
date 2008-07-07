@@ -16,7 +16,7 @@ class Tests_Math_Algebra_AllTests
 
 	public static function suite()
 	{
-		$suite = new PHPUnit_Framework_TestSuite( 'ClassContainer/Math/Algebra' );
+		$suite = new PHPUnit_Framework_TestSuite( 'cmClasses/Math/Algebra' );
 		$suite->addTestSuite( 'Tests_Math_Algebra_VectorTest' );
 		$suite->addTestSuite( 'Tests_Math_Algebra_MatrixTest' );
 		$suite->addTestSuite( 'Tests_Math_Algebra_LabelMatrixTest' );

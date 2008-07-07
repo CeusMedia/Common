@@ -18,7 +18,7 @@ class Tests_XML_WDDX_AllTests
 
 	public static function suite()
 	{
-		$suite = new PHPUnit_Framework_TestSuite( 'ClassContainer/XML/WDDX' );
+		$suite = new PHPUnit_Framework_TestSuite( 'cmClasses/XML/WDDX' );
 		$suite->addTestSuite( 'Tests_XML_WDDX_BuilderTest' ); 
 		$suite->addTestSuite( 'Tests_XML_WDDX_FileReaderTest' ); 
 		$suite->addTestSuite( 'Tests_XML_WDDX_FileWriterTest' ); 

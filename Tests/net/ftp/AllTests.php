@@ -17,7 +17,7 @@ class Tests_Net_FTP_AllTests
 
 	public static function suite()
 	{
-		$suite = new PHPUnit_Framework_TestSuite( 'ClassContainer/Net/FTP' );
+		$suite = new PHPUnit_Framework_TestSuite( 'cmClasses/Net/FTP' );
 		$suite->addTestSuite( 'Tests_Net_FTP_ClientTest' );
 		$suite->addTestSuite( 'Tests_Net_FTP_ConnectionTest' );
 		$suite->addTestSuite( 'Tests_Net_FTP_ReaderTest' );

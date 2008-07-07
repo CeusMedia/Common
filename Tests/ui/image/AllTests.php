@@ -21,7 +21,7 @@ class Tests_UI_Image_AllTests
 
 	public static function suite()
 	{
-		$suite = new PHPUnit_Framework_TestSuite( 'ClassContainer/UI/Image' );
+		$suite = new PHPUnit_Framework_TestSuite( 'cmClasses/UI/Image' );
 #		$suite->addTest( Tests_UI_Image_service_AllTests::suite() );
 		$suite->addTestSuite( 'Tests_UI_Image_CaptchaTest' ); 
 		$suite->addTestSuite( 'Tests_UI_Image_ThumbnailCreatorTest' ); 

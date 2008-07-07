@@ -18,7 +18,7 @@ class Tests_UI_HTML_AllTests
 
 	public static function suite()
 	{
-		$suite = new PHPUnit_Framework_TestSuite( 'ClassContainer/UI/HTML' );
+		$suite = new PHPUnit_Framework_TestSuite( 'cmClasses/UI/HTML' );
 #		$suite->addTest( Tests_UI_HTML_service_AllTests::suite() );
 #		$suite->addTestSuite( 'Tests_UI_HTML_ElementsTest' ); 
 		$suite->addTestSuite( 'Tests_UI_HTML_TagTest' ); 

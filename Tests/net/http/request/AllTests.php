@@ -17,7 +17,7 @@ class Tests_Net_HTTP_Request_AllTests
 
 	public static function suite()
 	{
-		$suite = new PHPUnit_Framework_TestSuite( 'ClassContainer/Net/HTTP/Request' );
+		$suite = new PHPUnit_Framework_TestSuite( 'cmClasses/Net/HTTP/Request' );
 		$suite->addTestSuite( 'Tests_Net_HTTP_Request_ReceiverTest' ); 
 		$suite->addTestSuite( 'Tests_Net_HTTP_Request_ResponseTest' ); 
 		$suite->addTestSuite( 'Tests_Net_HTTP_Request_SenderTest' ); 

@@ -15,7 +15,7 @@ class Tests_ADT_JSON_AllTests
 
 	public static function suite()
 	{
-		$suite = new PHPUnit_Framework_TestSuite( 'ClassContainer/ADT/JSON' );
+		$suite = new PHPUnit_Framework_TestSuite( 'cmClasses/ADT/JSON' );
 		$suite->addTestSuite('Tests_ADT_JSON_BuilderTest'); 
 		return $suite;
 	}

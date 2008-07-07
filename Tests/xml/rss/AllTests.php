@@ -18,7 +18,7 @@ class Tests_XML_RSS_AllTests
 
 	public static function suite()
 	{
-		$suite = new PHPUnit_Framework_TestSuite( 'ClassContainer/XML/RSS' );
+		$suite = new PHPUnit_Framework_TestSuite( 'cmClasses/XML/RSS' );
 		$suite->addTestSuite( 'Tests_XML_RSS_ReaderTest' ); 
 		$suite->addTestSuite( 'Tests_XML_RSS_ParserTest' ); 
 		$suite->addTestSuite( 'Tests_XML_RSS_BuilderTest' ); 

@@ -15,7 +15,7 @@ class Tests_XML_XSL_AllTests
 
 	public static function suite()
 	{
-		$suite = new PHPUnit_Framework_TestSuite( 'ClassContainer/XML/XSL' );
+		$suite = new PHPUnit_Framework_TestSuite( 'cmClasses/XML/XSL' );
 		$suite->addTestSuite('Tests_XML_XSL_TransformatorTest'); 
 		return $suite;
 	}
