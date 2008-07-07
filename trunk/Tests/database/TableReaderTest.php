@@ -1,8 +1,9 @@
 <?php
 /**
  *	TestUnit of Database_TableReader.
- *	@package		Tests.{classPackage}
+ *	@package		Tests.database
  *	@extends		PHPUnit_Framework_TestCase
+ *	@uses			Database_MySQL_Connection
  *	@uses			Database_TableReader
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			02.05.2008
@@ -10,11 +11,13 @@
  */
 require_once( 'PHPUnit/Framework/TestCase.php' ); 
 require_once( 'Tests/initLoaders.php5' );
-import( 'de.ceus-media.database/TableReader' );
+import( 'de.ceus-media.database.mysql.Connection' );
+import( 'de.ceus-media.database.TableReader' );
 /**
  *	TestUnit of Database_TableReader.
- *	@package		Tests.{classPackage}
+ *	@package		Tests.database
  *	@extends		PHPUnit_Framework_TestCase
+ *	@uses			Database_MySQL_Connection
  *	@uses			Database_TableReader
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			02.05.2008
@@ -29,6 +32,29 @@ class Tests_Database_TableReaderTest extends PHPUnit_Framework_TestCase
 	 */
 	public function __construct()
 	{
+		$this->host		= "localhost";
+		$this->port		= 3306;
+		$this->username	= "ceus";
+		$this->password	= "ceus";
+		$this->database	= "test";
+		$this->path		= dirname( __FILE__ )."/";
+		$this->logFile	= $this->path."errors.log";
+
+		$this->connection	= new Database_MySQL_Connection( $this->logFile );
+		$this->connection->connect( $this->host, $this->username, $this->password, $this->database );
+		
+		$this->tableName	= "transactions";
+		$this->columns	= array(
+			'id',
+			'topic',
+			'label',
+			'timestamp',
+		);
+		$this->primaryKey	= $this->columns[0];
+		$this->indices	= array(
+			'topic',
+			'label'
+		);
 	}
 	
 	/**
@@ -38,6 +64,15 @@ class Tests_Database_TableReaderTest extends PHPUnit_Framework_TestCase
 	 */
 	public function setUp()
 	{
+		$this->mysql	= mysql_connect( $this->host, $this->username, $this->password ) or die( mysql_error() );
+		mysql_select_db( $this->database );
+		$sql	= file_get_contents( $this->path."createTable.sql" );
+		foreach( explode( ";", $sql ) as $part )
+			if( trim( $part ) )
+				mysql_query( $part ) or die( mysql_error() );
+
+		$this->reader	= new Database_TableReader( $this->connection, $this->tableName, $this->columns, $this->primaryKey );
+		$this->reader->setForeignKeys( $this->indices );
 	}
 	
 	/**
@@ -47,6 +82,9 @@ class Tests_Database_TableReaderTest extends PHPUnit_Framework_TestCase
 	 */
 	public function tearDown()
 	{
+		@unlink( $this->errorLog );
+		@unlink( $this->queryLog );
+		mysql_query( "DROP TABLE transactions" );
 	}
 
 	/**
@@ -54,11 +92,38 @@ class Tests_Database_TableReaderTest extends PHPUnit_Framework_TestCase
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function test__construct()
+	public function testConstruct1()
 	{
-		$this->markTestIncomplete( 'Incomplete Test' );
-		$assertion	= TRUE;
-		$creation	= Database_TableReader::__construct();
+		$reader		= new Database_TableReader( $this->connection, "table", array( 'col1', 'col2' ), 'col2', 1 );
+
+		$assertion	= 'table';
+		$creation	= $reader->getTableName();
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= array( 'col1', 'col2' );
+		$creation	= $reader->getFields();
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= 'col2';
+		$creation	= $reader->getPrimaryKey();
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= 1;
+		$creation	= $reader->getFocus();
+		$this->assertEquals( $assertion, $creation );
+	}
+
+	/**
+	 *	Tests Method '__construct'.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testConstruct2()
+	{
+		$reader		= new Database_TableReader( $this->connection, $this->tableName, $this->columns, $this->primaryKey, 1 );
+	
+		$assertion	= array( 'id' => 1 );
+		$creation	= array_slice( $reader->getData( TRUE ), 0, 1 );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -69,9 +134,29 @@ class Tests_Database_TableReaderTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testDefocus()
 	{
-		$this->markTestIncomplete( 'Incomplete Test' );
-		$assertion	= TRUE;
-		$creation	= Database_TableReader::defocus();
+		$this->reader->focusPrimary( 2 );
+		
+		$assertion	= 2;
+		$creation	= $this->reader->getFocus();
+		$this->assertEquals( $assertion, $creation );
+
+		$this->reader->defocus();
+
+		$assertion	= FALSE;
+		$creation	= $this->reader->getFocus();
+		$this->assertEquals( $assertion, $creation );
+
+
+		$this->reader->focusForeign( 'topic', 'test' );
+		
+		$assertion	= array( 'topic' => 'test' );
+		$creation	= $this->reader->getFocus();
+		$this->assertEquals( $assertion, $creation );
+
+		$this->reader->defocus();
+
+		$assertion	= FALSE;
+		$creation	= $this->reader->getFocus();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -82,9 +167,33 @@ class Tests_Database_TableReaderTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testFocusForeign()
 	{
-		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= Database_TableReader::focusForeign();
+		$creation	= $this->reader->focusForeign( 'topic', 'test' );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= array(
+			'topic' => 'test'
+			);
+		$creation	= $this->reader->getFocus();
+		$this->assertEquals( $assertion, $creation );
+
+		$this->reader->focusForeign( 'topic', 'something_else' );
+		$assertion	= array(
+			'topic' => 'something_else'
+			);
+		$creation	= $this->reader->getFocus();
+		$this->assertEquals( $assertion, $creation );
+
+		$this->reader->focusForeign( 'label', 'text' );
+		$assertion	= array(
+			'topic' => 'something_else',
+			'label'	=> 'text'
+			);
+		$creation	= $this->reader->getFocus();
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= FALSE;
+		$creation	= $this->reader->focusForeign( 'not_existing', 'not_relevant' );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -95,9 +204,14 @@ class Tests_Database_TableReaderTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testFocusPrimary()
 	{
-		$this->markTestIncomplete( 'Incomplete Test' );
-		$assertion	= TRUE;
-		$creation	= Database_TableReader::focusPrimary();
+		$this->reader->focusPrimary( 2 );
+		$assertion	= 2;
+		$creation	= $this->reader->getFocus();
+		$this->assertEquals( $assertion, $creation );
+
+		$this->reader->focusPrimary( 1 );
+		$assertion	= 1;
+		$creation	= $this->reader->getFocus();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -108,9 +222,22 @@ class Tests_Database_TableReaderTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetAllCount()
 	{
-		$this->markTestIncomplete( 'Incomplete Test' );
-		$assertion	= TRUE;
-		$creation	= Database_TableReader::getAllCount();
+		$assertion	= 1;
+		$creation	= $this->reader->getAllCount();
+		$this->assertEquals( $assertion, $creation );
+
+		$this->connection->execute( "INSERT INTO transactions (label) VALUES ('countTest');" );
+
+		$assertion	= 2;
+		$creation	= $this->reader->getAllCount();
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= 1;
+		$creation	= $this->reader->getAllCount( array( 'label' => 'countTest' ) );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= 0;
+		$creation	= $this->reader->getAllCount( array( 'label' => 'not_existing' ) );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -119,11 +246,178 @@ class Tests_Database_TableReaderTest extends PHPUnit_Framework_TestCase
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testGetAllData()
+	public function testGetAllData1()
 	{
-		$this->markTestIncomplete( 'Incomplete Test' );
-		$assertion	= TRUE;
-		$creation	= Database_TableReader::getAllData();
+		$this->connection->execute( "INSERT INTO transactions (topic,label) VALUES ('test','findTest');" );
+
+		$result		= $this->reader->getAllData();
+
+		$assertion	= 2;
+		$creation	= count( $result );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= 4;
+		$creation	= count( $result[0] );
+		$this->assertEquals( $assertion, $creation );
+	}
+
+	/**
+	 *	Tests Method 'getAllData'.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testGetAllData2()
+	{
+		$this->connection->execute( "INSERT INTO transactions (topic,label) VALUES ('test','findTest');" );
+
+		$result		= $this->reader->getAllData( array( "*" ) );
+
+		$assertion	= 2;
+		$creation	= count( $result );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= 4;
+		$creation	= count( $result[0] );
+		$this->assertEquals( $assertion, $creation );
+	}
+
+	/**
+	 *	Tests Method 'getAllData'.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testGetAllData3()
+	{
+		$this->connection->execute( "INSERT INTO transactions (topic,label) VALUES ('test','findTest');" );
+
+		$result		= $this->reader->getAllData( array( "id" ) );
+
+		$assertion	= 2;
+		$creation	= count( $result );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= 1;
+		$creation	= count( $result[0] );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= array( 'id' );
+		$creation	= array_keys( $result[0] );
+		$this->assertEquals( $assertion, $creation );
+	}
+
+	/**
+	 *	Tests Method 'getAllData'.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testGetAllData4()
+	{
+		$this->connection->execute( "INSERT INTO transactions (topic,label) VALUES ('test','findTest');" );
+
+		$conditions	= array( 'topic' => 'start' );
+		$result		= $this->reader->getAllData( array( 'id' ), $conditions );
+
+		$assertion	= 1;
+		$creation	= count( $result );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= 1;
+		$creation	= count( $result[0] );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= 1;
+		$creation	= $result[0]['id'];
+		$this->assertEquals( $assertion, $creation );
+
+		$conditions	= array( 'topic' => 'test' );
+		$result		= $this->reader->getAllData( array( 'id' ), $conditions );
+
+		$assertion	= 1;
+		$creation	= count( $result );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= 1;
+		$creation	= count( $result[0] );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= 2;
+		$creation	= $result[0]['id'];
+		$this->assertEquals( $assertion, $creation );
+	}
+
+	/**
+	 *	Tests Method 'getAllData'.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testGetAllData5()
+	{
+		$this->connection->execute( "INSERT INTO transactions (topic,label) VALUES ('test','findTest');" );
+
+		$conditions	= array( 'id' => 1 );
+		$result		= $this->reader->getAllData( array( 'id' ), $conditions );
+
+		$assertion	= 1;
+		$creation	= count( $result );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= 1;
+		$creation	= count( $result[0] );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= 1;
+		$creation	= $result[0]['id'];
+		$this->assertEquals( $assertion, $creation );
+	}
+
+	/**
+	 *	Tests Method 'getAllData'.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testGetAllDataWithOrder()
+	{
+		$this->connection->execute( "INSERT INTO transactions (topic,label) VALUES ('test','findTest');" );
+
+		$result		= $this->reader->getAllData( array( 'id' ), array(), array( 'id' => 'ASC' ) );
+
+		$assertion	= 2;
+		$creation	= count( $result );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= 1;
+		$creation	= count( $result[0] );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= array(
+			array( 'id' => 1 ),
+			array( 'id' => 2 ),
+		);
+		$creation	= $result;
+		$this->assertEquals( $assertion, $creation );
+	}
+
+	/**
+	 *	Tests Method 'getAllData'.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testGetAllDataWithLimit()
+	{
+		$this->connection->execute( "INSERT INTO transactions (topic,label) VALUES ('test','findTest');" );
+
+		$result		= $this->reader->getAllData( array( 'id' ), array(), array( 'id' => 'DESC' ), array( 0, 1 ) );
+
+		$assertion	= 1;
+		$creation	= count( $result );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= 1;
+		$creation	= count( $result[0] );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= array( array( 'id' => 2 ) );
+		$creation	= $result;
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -132,11 +426,162 @@ class Tests_Database_TableReaderTest extends PHPUnit_Framework_TestCase
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testGetData()
+	public function testGetDataWithPrimary()
 	{
-		$this->markTestIncomplete( 'Incomplete Test' );
-		$assertion	= TRUE;
-		$creation	= Database_TableReader::getData();
+		$this->connection->execute( "INSERT INTO transactions (topic,label) VALUES ('test','findWhereInAndTest');" );
+		$this->reader->focusPrimary( 1 );
+		$result		= $this->reader->getData();
+				
+		$assertion	= 1;
+		$creation	= count( $result );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= 4;
+		$creation	= count( $result[0] );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= 1;
+		$creation	= count( $result[0]['id'] );
+		$this->assertEquals( $assertion, $creation );
+
+		$this->reader->focusPrimary( 2 );
+		$result		= $this->reader->getData( TRUE );
+		
+		$assertion	= 4;
+		$creation	= count( $result );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= 2;
+		$creation	= $result['id'];
+		$this->assertEquals( $assertion, $creation );
+	}
+
+	/**
+	 *	Tests Method 'getData'.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testGetDataWithForeign()
+	{
+		$this->connection->execute( "INSERT INTO transactions (topic,label) VALUES ('start','getWithIndexTest');" );
+		$this->reader->focusForeign( 'topic', 'start' );
+		$result		= $this->reader->getData( TRUE );
+
+		$assertion	= 4;
+		$creation	= count( $result );
+		$this->assertEquals( $assertion, $creation );
+
+		$result		= $this->reader->getData();
+
+		$assertion	= 2;
+		$creation	= count( $result );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= 4;
+		$creation	= count( $result[0] );
+		$this->assertEquals( $assertion, $creation );
+
+		$this->reader->focusForeign( 'label', 'getWithIndexTest' );
+		$result		= $this->reader->getData( FALSE );
+
+		$assertion	= 1;
+		$creation	= count( $result );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= 4;
+		$creation	= count( $result[0] );
+		$this->assertEquals( $assertion, $creation );
+	}
+
+	/**
+	 *	Tests Method 'getData'.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testGetDataWithOrder()
+	{
+		$this->connection->execute( "INSERT INTO transactions (topic,label) VALUES ('start','getWithOrderTest');" );
+		$this->reader->focusForeign( 'topic', 'start' );
+		$result		= $this->reader->getData( FALSE, array( 'id' => "ASC" ) );
+
+		$assertion	= 2;
+		$creation	= count( $result );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= 4;
+		$creation	= count( $result[0] );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= 1;
+		$creation	= $result[0]['id'];
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= 2;
+		$creation	= $result[1]['id'];
+		$this->assertEquals( $assertion, $creation );
+
+		$result		= $this->reader->getData( FALSE, array( 'id' => "DESC" ) );
+
+		$assertion	= 2;
+		$creation	= count( $result );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= 4;
+		$creation	= count( $result[0] );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= 2;
+		$creation	= $result[0]['id'];
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= 1;
+		$creation	= $result[1]['id'];
+		$this->assertEquals( $assertion, $creation );
+	}
+
+	/**
+	 *	Tests Method 'getData'.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testGetDataWithLimit()
+	{
+		$this->connection->execute( "INSERT INTO transactions (topic,label) VALUES ('start','getWithLimitTest');" );
+		$this->reader->focusForeign( 'topic', 'start' );
+		$result		= $this->reader->getData( FALSE, array( 'id' => "ASC" ), array( 0, 1 ) );
+
+		$assertion	= 1;
+		$creation	= count( $result );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= 1;
+		$creation	= $result[0]['id'];
+		$this->assertEquals( $assertion, $creation );
+
+		$result		= $this->reader->getData( FALSE, array( 'id' => "ASC" ), array( 1, 1 ) );
+
+		$assertion	= 1;
+		$creation	= count( $result );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= 2;
+		$creation	= $result[0]['id'];
+		$this->assertEquals( $assertion, $creation );
+	}
+
+	/**
+	 *	Tests Exception of Method 'getData'.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testGetDataWithNoFocus()
+	{
+		$assertion	= array();
+		$creation	= $this->reader->getData( TRUE );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= array();
+		$creation	= $this->reader->getData( FALSE );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -147,9 +592,8 @@ class Tests_Database_TableReaderTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetDBConnection()
 	{
-		$this->markTestIncomplete( 'Incomplete Test' );
-		$assertion	= TRUE;
-		$creation	= Database_TableReader::getDBConnection();
+		$assertion	= $this->connection;
+		$creation	= $this->reader->getDBConnection();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -160,9 +604,8 @@ class Tests_Database_TableReaderTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetFields()
 	{
-		$this->markTestIncomplete( 'Incomplete Test' );
-		$assertion	= TRUE;
-		$creation	= Database_TableReader::getFields();
+		$assertion	= $this->columns;
+		$creation	= $this->reader->getFields();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -173,9 +616,22 @@ class Tests_Database_TableReaderTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetFocus()
 	{
-		$this->markTestIncomplete( 'Incomplete Test' );
-		$assertion	= TRUE;
-		$creation	= Database_TableReader::getFocus();
+		$this->reader->focusPrimary( 1 );
+		$assertion	= 1;
+		$creation	= $this->reader->getFocus();
+		$this->assertEquals( $assertion, $creation );
+
+		$this->reader->defocus();
+		$this->reader->focusForeign( 'topic', 'start' );
+		$assertion	= array(
+			'topic' => 'start'
+		);
+		$creation	= $this->reader->getFocus();
+		$this->assertEquals( $assertion, $creation );
+
+		$this->reader->focusPrimary( 2 );
+		$assertion	= 2;
+		$creation	= $this->reader->getFocus();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -186,9 +642,25 @@ class Tests_Database_TableReaderTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetForeignKeys()
 	{
-		$this->markTestIncomplete( 'Incomplete Test' );
-		$assertion	= TRUE;
-		$creation	= Database_TableReader::getForeignKeys();
+		$indices	= array( 'topic', 'timestamp' );
+		$this->reader->setForeignKeys( $indices );
+
+		$assertion	= $indices;
+		$creation	= $this->reader->getForeignKeys();
+		$this->assertEquals( $assertion, $creation );
+
+		$indices	= array( 'topic' );
+		$this->reader->setForeignKeys( $indices );
+
+		$assertion	= $indices;
+		$creation	= $this->reader->getForeignKeys();
+		$this->assertEquals( $assertion, $creation );
+
+		$indices	= array();
+		$this->reader->setForeignKeys( $indices );
+
+		$assertion	= $indices;
+		$creation	= $this->reader->getForeignKeys();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -199,9 +671,13 @@ class Tests_Database_TableReaderTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetPrimaryKey()
 	{
-		$this->markTestIncomplete( 'Incomplete Test' );
-		$assertion	= TRUE;
-		$creation	= Database_TableReader::getPrimaryKey();
+		$assertion	= 'id';
+		$creation	= $this->reader->getPrimaryKey();
+		$this->assertEquals( $assertion, $creation );
+
+		$this->reader->setPrimaryKey( 'timestamp' );
+		$assertion	= 'timestamp';
+		$creation	= $this->reader->getPrimaryKey();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -212,9 +688,14 @@ class Tests_Database_TableReaderTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetTableName()
 	{
-		$this->markTestIncomplete( 'Incomplete Test' );
-		$assertion	= TRUE;
-		$creation	= Database_TableReader::getTableName();
+		$assertion	= "transactions";
+		$creation	= $this->reader->getTableName();
+		$this->assertEquals( $assertion, $creation );
+
+		$this->reader->setTableName( "other_table" );
+
+		$assertion	= "other_table";
+		$creation	= $this->reader->getTableName();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -225,9 +706,24 @@ class Tests_Database_TableReaderTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testIsFocused()
 	{
-		$this->markTestIncomplete( 'Incomplete Test' );
-		$assertion	= TRUE;
-		$creation	= Database_TableReader::isFocused();
+		$assertion	= "";
+		$creation	= $this->reader->isFocused();
+		$this->assertEquals( $assertion, $creation );
+
+		$this->reader->focusPrimary( 2 );
+		$assertion	= "primary";
+		$creation	= $this->reader->isFocused();
+		$this->assertEquals( $assertion, $creation );
+
+		$this->reader->focusForeign( 'topic', 'start' );
+		$assertion	= "primary";
+		$creation	= $this->reader->isFocused();
+		$this->assertEquals( $assertion, $creation );
+
+		$this->reader->defocus();
+		$this->reader->focusForeign( 'topic', 'start' );
+		$assertion	= "foreign";
+		$creation	= $this->reader->isFocused();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -238,9 +734,12 @@ class Tests_Database_TableReaderTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testSetDBConnection()
 	{
-		$this->markTestIncomplete( 'Incomplete Test' );
-		$assertion	= TRUE;
-		$creation	= Database_TableReader::setDBConnection();
+		$dsn = "mysql:host=".$this->host.";dbname=".$this->database;
+		$dbc		= new PDO( $dsn, $this->username, $this->password );
+		$this->reader->setDBConnection( $dbc );
+
+		$assertion	= $dbc;
+		$creation	= $this->reader->getDBConnection();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -251,9 +750,12 @@ class Tests_Database_TableReaderTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testSetFields()
 	{
-		$this->markTestIncomplete( 'Incomplete Test' );
-		$assertion	= TRUE;
-		$creation	= Database_TableReader::setFields();
+		$columns	= array( 'col1', 'col2', 'col3' );
+
+		$this->reader->setFields( $columns );
+		
+		$assertion	= $columns;
+		$creation	= $this->reader->getFields();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -264,9 +766,29 @@ class Tests_Database_TableReaderTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testSetForeignKeys()
 	{
-		$this->markTestIncomplete( 'Incomplete Test' );
-		$assertion	= TRUE;
-		$creation	= Database_TableReader::setForeignKeys();
+		$indices	= array( 'topic', 'timestamp' );
+		$this->reader->setForeignKeys( $indices );
+
+		$assertion	= $indices;
+		$creation	= $this->reader->getForeignKeys();
+		$this->assertEquals( $assertion, $creation );
+
+		$indices	= array( 'topic' );
+		$this->reader->setForeignKeys( $indices );
+
+		$assertion	= $indices;
+		$creation	= $this->reader->getForeignKeys();
+		$this->assertEquals( $assertion, $creation );
+
+		$indices	= array();
+		$this->reader->setForeignKeys( $indices );
+
+		$assertion	= $indices;
+		$creation	= $this->reader->getForeignKeys();
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= FALSE;
+		$creation	= $this->reader->setForeignKeys( array( 'topic', 'topic' ) );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -277,9 +799,16 @@ class Tests_Database_TableReaderTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testSetPrimaryKey()
 	{
-		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= Database_TableReader::setPrimaryKey();
+		$creation	= $this->reader->setPrimaryKey( 'topic' );
+		$this->assertEquals( $assertion, $creation );
+		
+		$assertion	= 'topic';
+		$creation	= $this->reader->getPrimaryKey();
+		$this->assertEquals( $assertion, $creation );
+		
+		$assertion	= FALSE;
+		$creation	= $this->reader->setPrimaryKey( 'not_existing' );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -290,9 +819,12 @@ class Tests_Database_TableReaderTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testSetTableName()
 	{
-		$this->markTestIncomplete( 'Incomplete Test' );
-		$assertion	= TRUE;
-		$creation	= Database_TableReader::setTableName();
+		$tableName	= "other_table";
+		$this->reader->setTableName( $tableName );
+		
+			
+		$assertion	= $tableName;
+		$creation	= $this->reader->getTableName();
 		$this->assertEquals( $assertion, $creation );
 	}
 }

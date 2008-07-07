@@ -133,8 +133,8 @@ class Database_TableReader
 	{
 		if( sizeof( $this->fields ) )
 		{
-			if( !count( $keys ) )
-				$keys[]	= "*";
+			if( ( is_array( $keys ) && !count( $keys ) ) || ( is_string( $keys ) && !$keys ) )
+				$keys	= array( "*" );
 			$conditions	= $this->getConditionQuery( $conditions, false, false );
 			$conditions 	= $conditions ? " WHERE ".$conditions : "";
 			$orders		= $this->getOrderQuery( $orders );
@@ -257,7 +257,7 @@ class Database_TableReader
 			return $this->focus;
 		else if( $this->isFocused() == "foreign" )
 			return $this->foreignFocuses;
-		return false;
+		return FALSE;
 	}
 
 	/**
@@ -373,6 +373,7 @@ class Database_TableReader
 	public function setForeignKeys( $keys )
 	{
 		$found = true;
+		$this->foreignKeys	= array();
 		foreach( $keys as $key )
 		{
 			if( !in_array( $key, $this->foreignKeys ) )

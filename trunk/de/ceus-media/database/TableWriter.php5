@@ -111,15 +111,14 @@ class Database_TableWriter extends Database_TableReader
 	 */
 	public function deleteDataWhere( $where = array(), $debug = 1 )
 	{
-		if( $this->isFocused() )
+		$conditions	= $this->getConditionQuery( $where );
+		if( $conditions )
 		{
-			$conditions	= $this->getConditionQuery( $where );
 			$query	= "DELETE FROM ".$this->getTableName()." WHERE ".$conditions;
 			$result	= $this->dbc->Execute( $query, $debug );
 			$this->defocus();
 			return $result;
 		}
-		return false;
 	}
 
 	/**
@@ -202,26 +201,25 @@ class Database_TableWriter extends Database_TableReader
 	 */
 	public function modifyDataWhere( $data = array(), $where = array(), $debug = 1 )
 	{
-		$conditions	= $this->getConditionQuery( $where, $this->isFocused() == "primary" );
+		$result		= FALSE;
+		$conditions	= $this->getConditionQuery( $where, FALSE, FALSE );
 		foreach( $this->fields as $field )
 		{
 			if( $data[$field] )
 			{
-				$data[$field]	= stripTags( $data[$field] );
+				$data[$field]	= strip_tags( $data[$field] );
 				if( $data[$field] == "on" )
 					$data[$field] = 1;
 				$sets[]	= $field."='".$data[$field]."'";
 			}
 		}
-		if( sizeof( $sets ) )
+		if( sizeof( $sets ) && $conditions )
 		{
 			$sets	= implode( ", ", $sets );
 			$query	= "UPDATE ".$this->getTableName()." SET $sets WHERE ".$conditions;
 			$result	= $this->dbc->Execute( $query, $debug );
-			foreach( $this->fields as $field )
-				$this->$field = $data[$field];
-			return $result;
 		}
+		return $result;
 	}
 }
 ?>

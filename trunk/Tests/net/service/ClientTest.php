@@ -25,6 +25,8 @@ import( 'de.ceus-media.adt.OptionObject' );
  */
 class Tests_Net_Service_ClientTest extends PHPUnit_Framework_TestCase
 {
+	protected $client;
+
 	/**
 	 *	Constructor.
 	 *	@access		public

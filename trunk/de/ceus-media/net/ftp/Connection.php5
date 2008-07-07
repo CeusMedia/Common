@@ -12,6 +12,7 @@
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			09.03.2006
  *	@version		0.6
+ *	@todo			implement SSL Support
  */
 class Net_FTP_Connection
 {
@@ -31,11 +32,12 @@ class Net_FTP_Connection
 	 *	@access		public
 	 *	@param		string		$host			Host Name
 	 *	@param		int			$port			Service Port
+	 *	@param		int			$timeout		Timeout in Seconds
 	 *	@return		void
 	 */
-	public function __construct( $host, $port = 21 )
+	public function __construct( $host, $port = 21, $timeout = 90 )
 	{
-		$this->connect( $host, $port );
+		$this->connect( $host, $port, $timeout );
 	}
 	
 	/**
@@ -84,11 +86,12 @@ class Net_FTP_Connection
 	 *	@access		public
 	 *	@param		string		$host			Host Name
 	 *	@param		int			$port			Service Port
+	 *	@param		int			$timeout		Timeout in Seconds
 	 *	@return		bool
 	 */
-	public function connect( $host, $port = 21 )
+	public function connect( $host, $port = 21, $timeout = 10 )
 	{
-		$resource	= @ftp_connect( $host, $port );
+		$resource	= @ftp_connect( $host, $port, $timeout );
 		if( !$resource )
 			return FALSE;
 		$this->host	= $host;
@@ -138,6 +141,16 @@ class Net_FTP_Connection
 	{
 		return $this->resource;
 	}
+
+	/**
+	 *	Returns current set Timeout in Seconds.
+	 *	@access		public
+	 *	@return		int
+	 */
+	public function getTimeout()
+	{
+		return ftp_get_option( $this->resource, FTP_TIMEOUT_SEC );
+	}
 	
 	/**
 	 *	Authenticates FTP Connection.
@@ -154,6 +167,20 @@ class Net_FTP_Connection
 		$this->auth	= TRUE;
 		return TRUE;
 	}
+
+	/**
+	 *	Set Transfer Mode between binary and ascii.
+	 *	@access		public
+	 *	@param		int			$mode			Transfer Mode (FTP_BINARY|FTP_ASCII)
+	 *	@return		bool
+	 */
+	public function setMode( $mode )
+	{
+		if( $mode != FTP_BINARY && $mode != FTP_ASCII )
+			return FALSE;
+		$this->mode	= $mode;
+		return TRUE;
+	}
 	
 	/**
 	 *	Set current Path.
@@ -168,17 +195,14 @@ class Net_FTP_Connection
 	}
 
 	/**
-	 *	Set Transfer Mode between binary and ascii.
+	 *	Sets Timeout for all following Operations.
 	 *	@access		public
-	 *	@param		int			$mode			Transfer Mode (FTP_BINARY|FTP_ASCII)
+	 *	@param		int			$seconds		Timeout in Seconds
 	 *	@return		bool
 	 */
-	public function setMode( $mode )
+	public function setTimeout( $seconds )
 	{
-		if( $mode != FTP_BINARY && $mode != FTP_ASCII )
-			return FALSE;
-		$this->mode	= $mode;
-		return TRUE;
+		return @ftp_set_option( $this->resource, FTP_TIMEOUT_SEC, $seconds );
 	}
 }	
 ?>
