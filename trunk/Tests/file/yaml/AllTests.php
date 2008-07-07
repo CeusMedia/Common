@@ -16,7 +16,7 @@ class Tests_File_Yaml_AllTests
 
 	public static function suite()
 	{
-		$suite = new PHPUnit_Framework_TestSuite( 'ClassContainer/File/Yaml' );
+		$suite = new PHPUnit_Framework_TestSuite( 'cmClasses/File/Yaml' );
 		$suite->addTestSuite('Tests_File_Yaml_ReaderTest'); 
 		$suite->addTestSuite('Tests_File_Yaml_WriterTest'); 
 		return $suite;

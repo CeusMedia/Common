@@ -19,7 +19,7 @@ class Tests_File_List_AllTests
 
 	public static function suite()
 	{
-		$suite = new PHPUnit_Framework_TestSuite( 'ClassContainer/File/List' );
+		$suite = new PHPUnit_Framework_TestSuite( 'cmClasses/File/List' );
 		$suite->addTestSuite( 'Tests_File_List_ReaderTest' ); 
 		$suite->addTestSuite( 'Tests_File_List_WriterTest' ); 
 		$suite->addTestSuite( 'Tests_File_List_EditorTest' ); 

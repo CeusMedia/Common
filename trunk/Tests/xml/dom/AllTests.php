@@ -25,7 +25,7 @@ class Tests_XML_DOM_AllTests
 
 	public static function suite()
 	{
-		$suite = new PHPUnit_Framework_TestSuite( 'ClassContainer/XML/DOM' );
+		$suite = new PHPUnit_Framework_TestSuite( 'cmClasses/XML/DOM' );
 		$suite->addTestSuite( 'Tests_XML_DOM_NodeTest' ); 
 		$suite->addTestSuite( 'Tests_XML_DOM_BuilderTest' ); 
 		$suite->addTestSuite( 'Tests_XML_DOM_ParserTest' ); 

@@ -16,7 +16,7 @@ class Tests_Alg_Crypt_AllTests
 
 	public static function suite()
 	{
-		$suite = new PHPUnit_Framework_TestSuite( 'ClassContainer/Alg/Crypt' );
+		$suite = new PHPUnit_Framework_TestSuite( 'cmClasses/Alg/Crypt' );
 		$suite->addTestSuite( 'Tests_Alg_Crypt_PasswordStrengthTest' ); 
 		$suite->addTestSuite( 'Tests_Alg_Crypt_Rot13Test' ); 
 		$suite->addTestSuite( 'Tests_Alg_Crypt_CaesarTest' ); 

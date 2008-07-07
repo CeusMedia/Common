@@ -16,7 +16,7 @@ class Tests_File_Configuration_AllTests
 
 	public static function suite()
 	{
-		$suite = new PHPUnit_Framework_TestSuite( 'ClassContainer/File/Configuration' );
+		$suite = new PHPUnit_Framework_TestSuite( 'cmClasses/File/Configuration' );
 		$suite->addTestSuite('Tests_File_Configuration_ConverterTest');
 		$suite->addTestSuite('Tests_File_Configuration_ReaderTest');
 		return $suite;

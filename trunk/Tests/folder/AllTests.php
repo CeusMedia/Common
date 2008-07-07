@@ -21,7 +21,7 @@ class Tests_Folder_AllTests
 
 	public static function suite()
 	{
-		$suite = new PHPUnit_Framework_TestSuite( 'ClassContainer/Folder' );
+		$suite = new PHPUnit_Framework_TestSuite( 'cmClasses/Folder' );
 		$suite->addTestSuite( 'Tests_Folder_IteratorTest' ); 
 		$suite->addTestSuite( 'Tests_Folder_ListerTest' ); 
 		$suite->addTestSuite( 'Tests_Folder_RegexFilterTest' );

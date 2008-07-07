@@ -20,7 +20,7 @@ class Tests_ADT_AllTests
 
 	public static function suite()
 	{
-		$suite = new PHPUnit_Framework_TestSuite( 'ClassContainer/ADT' );
+		$suite = new PHPUnit_Framework_TestSuite( 'cmClasses/ADT' );
 		$suite->addTest(Tests_ADT_List_AllTests::suite());
 		$suite->addTest(Tests_ADT_Tree_AllTests::suite());
 		$suite->addTest(Tests_ADT_JSON_AllTests::suite());

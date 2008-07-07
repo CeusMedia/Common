@@ -16,7 +16,7 @@ class Tests_ADT_Tree_AllTests
 
 	public static function suite()
 	{
-		$suite = new PHPUnit_Framework_TestSuite( 'ClassContainer/ADT/Tree' );
+		$suite = new PHPUnit_Framework_TestSuite( 'cmClasses/ADT/Tree' );
 		$suite->addTestSuite('Tests_ADT_Tree_BinaryNodeTest'); 
 		$suite->addTestSuite('Tests_ADT_Tree_BalanceBinaryNodeTest'); 
 		return $suite;

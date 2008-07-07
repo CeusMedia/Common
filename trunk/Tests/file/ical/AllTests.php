@@ -16,7 +16,7 @@ class Tests_File_iCal_AllTests
 
 	public static function suite()
 	{
-		$suite = new PHPUnit_Framework_TestSuite( 'ClassContainer/File/iCal' );
+		$suite = new PHPUnit_Framework_TestSuite( 'cmClasses/File/iCal' );
 		$suite->addTestSuite('Tests_File_iCal_BuilderTest'); 
 		$suite->addTestSuite('Tests_File_iCal_ParserTest'); 
 		return $suite;

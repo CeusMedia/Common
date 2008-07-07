@@ -17,7 +17,7 @@ class Tests_Net_Service_Definition_AllTests
 
 	public static function suite()
 	{
-		$suite = new PHPUnit_Framework_TestSuite( 'ClassContainer/Net/Service/Definition' );
+		$suite = new PHPUnit_Framework_TestSuite( 'cmClasses/Net/Service/Definition' );
 		$suite->addTestSuite( 'Tests_Net_Service_Definition_ConverterTest' );
 		$suite->addTestSuite( 'Tests_Net_Service_Definition_LoaderTest' );
 		$suite->addTestSuite( 'Tests_Net_Service_Definition_XmlReaderTest' );

@@ -20,7 +20,7 @@ class Tests_XML_AllTests
 
 	public static function suite()
 	{
-		$suite = new PHPUnit_Framework_TestSuite( 'ClassContainer/XML' );
+		$suite = new PHPUnit_Framework_TestSuite( 'cmClasses/XML' );
 		$suite->addTest( Tests_XML_Atom_AllTests::suite() );
 		$suite->addTest( Tests_XML_DOM_AllTests::suite() );
 		$suite->addTest( Tests_XML_RSS_AllTests::suite() );

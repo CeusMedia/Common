@@ -14,7 +14,7 @@ class Tests_Framework_AllTests
 
 	public static function suite()
 	{
-		$suite = new PHPUnit_Framework_TestSuite( 'ClassContainer/Framework' );
+		$suite = new PHPUnit_Framework_TestSuite( 'cmClasses/Framework' );
 		$suite->addTest(Tests_Framework_Krypton_AllTests::suite());
 		return $suite;
 	}

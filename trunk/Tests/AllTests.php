@@ -27,7 +27,7 @@ class Tests_AllTests
 
 	public static function suite()
 	{
-		$suite = new PHPUnit_Framework_TestSuite( 'ClassContainer' );
+		$suite = new PHPUnit_Framework_TestSuite( 'cmClasses' );
 		$suite->addTest( Tests_ADT_AllTests::suite() );
 		$suite->addTest( Tests_Alg_AllTests::suite() );
 		$suite->addTest( Tests_Database_AllTests::suite() );

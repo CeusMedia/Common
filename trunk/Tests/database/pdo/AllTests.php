@@ -16,7 +16,7 @@ class Tests_Database_PDO_AllTests
 
 	public static function suite()
 	{
-		$suite = new PHPUnit_Framework_TestSuite( 'ClassContainer/Database/PDO' );
+		$suite = new PHPUnit_Framework_TestSuite( 'cmClasses/Database/PDO' );
 		$suite->addTestSuite( 'Tests_Database_PDO_ConnectionTest' ); 
 		$suite->addTestSuite( 'Tests_Database_PDO_TableReaderTest' ); 
 		$suite->addTestSuite( 'Tests_Database_PDO_TableWriterTest' ); 

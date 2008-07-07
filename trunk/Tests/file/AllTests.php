@@ -29,7 +29,7 @@ class Tests_File_AllTests
 
 	public static function suite()
 	{
-		$suite = new PHPUnit_Framework_TestSuite( 'ClassContainer/File' );
+		$suite = new PHPUnit_Framework_TestSuite( 'cmClasses/File' );
 		$suite->addTest( Tests_File_Arc_AllTests::suite() );
 		$suite->addTest( Tests_File_Configuration_AllTests::suite() );
 		$suite->addTest( Tests_File_iCal_AllTests::suite() );

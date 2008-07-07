@@ -16,7 +16,7 @@ class Tests_File_Block_AllTests
 
 	public static function suite()
 	{
-		$suite = new PHPUnit_Framework_TestSuite( 'ClassContainer/File/Block' );
+		$suite = new PHPUnit_Framework_TestSuite( 'cmClasses/File/Block' );
 		$suite->addTestSuite('Tests_File_Block_ReaderTest'); 
 		$suite->addTestSuite('Tests_File_Block_WriterTest'); 
 		return $suite;

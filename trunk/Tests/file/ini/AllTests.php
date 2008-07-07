@@ -18,7 +18,7 @@ class Tests_File_INI_AllTests
 
 	public static function suite()
 	{
-		$suite = new PHPUnit_Framework_TestSuite( 'ClassContainer/File/INI' );
+		$suite = new PHPUnit_Framework_TestSuite( 'cmClasses/File/INI' );
 		$suite->addTestSuite('Tests_File_INI_ReaderTest'); 
 		$suite->addTestSuite('Tests_File_INI_EditorTest'); 
 		$suite->addTestSuite('Tests_File_INI_SectionReaderTest'); 

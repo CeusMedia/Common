@@ -19,7 +19,7 @@ class Tests_XML_Atom_AllTests
 
 	public static function suite()
 	{
-		$suite = new PHPUnit_Framework_TestSuite( 'ClassContainer/XML/Atom' );
+		$suite = new PHPUnit_Framework_TestSuite( 'cmClasses/XML/Atom' );
 		$suite->addTestSuite( 'Tests_XML_Atom_ValidatorTest' ); 
 		$suite->addTestSuite( 'Tests_XML_Atom_ParserTest' ); 
 		$suite->addTestSuite( 'Tests_XML_Atom_ReaderTest' ); 

@@ -21,7 +21,7 @@ class Tests_Math_AllTests
 
 	public static function suite()
 	{
-		$suite = new PHPUnit_Framework_TestSuite( 'ClassContainer/Math' );
+		$suite = new PHPUnit_Framework_TestSuite( 'cmClasses/Math' );
 		$suite->addTest(Tests_Math_Algebra_AllTests::suite());
 		$suite->addTest(Tests_Math_Finance_AllTests::suite());
 		$suite->addTestSuite( 'Tests_Math_CompactIntervalTest' );
