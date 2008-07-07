@@ -82,8 +82,7 @@ class Tests_Database_TableWriterTest extends PHPUnit_Framework_TestCase
 	 */
 	public function tearDown()
 	{
-		@unlink( $this->errorLog );
-		@unlink( $this->queryLog );
+		@unlink( $this->logFile );
 		mysql_query( "DROP TABLE transactions" );
 	}
 
