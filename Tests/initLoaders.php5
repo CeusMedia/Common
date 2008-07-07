@@ -16,4 +16,5 @@ function import( $class )
     include_once( $filename );
 }
 import( 'de.ceus-media.ui.DevOutput' );
+import( 'de.ceus-media.throwException' );
 ?>
