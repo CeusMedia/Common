@@ -314,7 +314,7 @@ class Tests_Framework_Krypton_Core_ComponentTest extends PHPUnit_Framework_TestC
 	
 	public function testLoadContentException()
 	{
-		$this->setExpectedException( 'Framework_Krypton_Exception_IO' );
+		$this->setExpectedException( 'Exception_IO' );
 
 		$config		=& $this->registry->get( 'config' );
 		$session	= $this->registry->get( 'session' );
@@ -334,7 +334,7 @@ class Tests_Framework_Krypton_Core_ComponentTest extends PHPUnit_Framework_TestC
 	
 	public function testLoadTemplateException()
 	{
-		$this->setExpectedException( "Framework_Krypton_Exception_IO" );
+		$this->setExpectedException( "Exception_IO" );
 		$this->component->loadTemplate( "wrong_path.not_existing", array() );
 	}
 	
@@ -374,7 +374,7 @@ class Tests_Framework_Krypton_Core_ComponentTest extends PHPUnit_Framework_TestC
 	{
 		$config		=& $this->registry->get( 'config' );		
 		$config['paths.cache']	= "";
-		$this->setExpectedException( "Framework_Krypton_Exception_IO" );
+		$this->setExpectedException( "Exception_IO" );
 		$this->component->loadLanguage( "not_existing" );
 	}
 	

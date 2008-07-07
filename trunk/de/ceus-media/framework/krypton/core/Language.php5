@@ -248,7 +248,7 @@ class Framework_Krypton_Core_Language
 		}
 
 		if( !file_exists( $lanFile ) )
-			throw new Framework_Krypton_Exception_IO( 'Language File "'.$fileName.'" is not existing.' );	
+			throwException ( 'IO', 'Language File "'.$fileName.'" is not existing.', $lanFile );	
 
 		import( 'de.ceus-media.file.ini.Reader' );
 		$ir	= new File_INI_Reader( $lanFile, TRUE );

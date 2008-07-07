@@ -13,6 +13,7 @@ import( 'de.ceus-media.alg.TimeConverter' );
  *	@uses			File_Reader
  *	@uses			File_Writer
  *	@uses			Alg_TimeConverter
+ *	@uses			Alg_InputFilter
  *	@uses			UI_HTML_WikiParser
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			01.12.2005
@@ -27,50 +28,53 @@ import( 'de.ceus-media.alg.TimeConverter' );
  *	@uses			File_Reader
  *	@uses			File_Writer
  *	@uses			Alg_TimeConverter
+ *	@uses			Alg_InputFilter
  *	@uses			UI_HTML_WikiParser
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			01.12.2005
  *	@version		0.6
  */
-/**
-	T	S	J	C	E
-	0	0	0	0	0	0			NONE
-	0	0	0	0	1	1			EVENTS
-	0	0	0	1	0	2			COMMENTS
-	0	0	0	1	1	3			COMMENTS_AND_EVENTS
-	0	0	1	0	0	4			SCRIPTS
-	0	0	1	0	1	5			SCRIPTS_AND_EVENTS
-	0	0	1	1	0	6			SCRIPTS_AND_COMMENTS
-	0	0	1	1	1	7			SCRIPTS_AND_COMMENTS_AND_EVENTS
-	0	1	0	0	0	8			STYLES
-	0	1	0	0	1	9			STYLES_AND_EVENTS
-	0	1	0	1	0	10			STYLES_AND_COMMENTS
-	0	1	0	1	1	11			STYLES_AND_COMMENTS_AND_EVENTS
-	0	1	1	0	0	12			STYLES_AND_SCRIPTS
-	0	1	1	0	1	13			STYLES_AND_SCRIPTS_AND_EVENTS
-	0	1	1	1	0	14			STYLES_AND_SCRIPTS_AND_COMMENTS
-	0	1	1	1	1	15			STYLES_AND_SCRIPTS_AND_COMMENTS_AND_EVENTS
-	1	0	0	0	0	16			ALL
-*/
-define( 'KRYPTON_CLEANSE_NONE',											0 );
-define( 'KRYPTON_CLEANSE_EVENTS',										1 );
-define( 'KRYPTON_CLEANSE_COMMENTS',										2 );
-define( 'KRYPTON_CLEANSE_COMMENTS_AND_EVENTS',							3 );
-define( 'KRYPTON_CLEANSE_SCRIPTS',										4 );
-define( 'KRYPTON_CLEANSE_SCRIPTS_AND_EVENTS',							5 );
-define( 'KRYPTON_CLEANSE_SCRIPTS_AND_COMMENTS',							6 );
-define( 'KRYPTON_CLEANSE_SCRIPTS_AND_COMMENTS_AND_EVENTS',				7 );
-define( 'KRYPTON_CLEANSE_STYLES',										8 );
-define( 'KRYPTON_CLEANSE_STYLES_AND_EVENTS',							9 );
-define( 'KRYPTON_CLEANSE_STYLES_AND_COMMENTS',							10 );
-define( 'KRYPTON_CLEANSE_STYLES_AND_COMMENTS_AND_EVENTS',				11 );
-define( 'KRYPTON_CLEANSE_STYLES_AND_SCRIPTS',							12 );
-define( 'KRYPTON_CLEANSE_STYLES_AND_SCRIPTS_AND_EVENTS',				13 );
-define( 'KRYPTON_CLEANSE_STYLES_AND_SCRIPTS_AND_COMMENTS',				14 );
-define( 'KRYPTON_CLEANSE_STYLES_AND_SCRIPTS_AND_COMMENTS_AND_EVENTS',	15 );
-define( 'KRYPTON_CLEANSE_ALL',											16 );
 abstract class Framework_Krypton_Core_Component
 {
+/**
+	Tags	Styles	Scripts	Comment	Events	(int)		Type
+--------------------------------------------------------------------------------------------------
+	0		0		0		0		0		0			NONE
+	0		0		0		0		1		1			EVENTS
+	0		0		0		1		0		2			COMMENTS
+	0		0		0		1		1		3			COMMENTS_AND_EVENTS
+	0		0		1		0		0		4			SCRIPTS
+	0		0		1		0		1		5			SCRIPTS_AND_EVENTS
+	0		0		1		1		0		6			SCRIPTS_AND_COMMENTS
+	0		0		1		1		1		7			SCRIPTS_AND_COMMENTS_AND_EVENTS
+	0		1		0		0		0		8			STYLES
+	0		1		0		0		1		9			STYLES_AND_EVENTS
+	0		1		0		1		0		10			STYLES_AND_COMMENTS
+	0		1		0		1		1		11			STYLES_AND_COMMENTS_AND_EVENTS
+	0		1		1		0		0		12			STYLES_AND_SCRIPTS
+	0		1		1		0		1		13			STYLES_AND_SCRIPTS_AND_EVENTS
+	0		1		1		1		0		14			STYLES_AND_SCRIPTS_AND_COMMENTS
+	0		1		1		1		1		15			STYLES_AND_SCRIPTS_AND_COMMENTS_AND_EVENTS
+	1		0		0		0		0		16			ALL
+*/
+	const CLEAR_NONE										= 0;
+	const CLEAR_EVENTS										= 1;
+	const CLEAR_COMMENTS									= 2;
+	const CLEAR_COMMENTS_AND_EVENTS							= 3;
+	const CLEAR_SCRIPTS										= 4;
+	const CLEAR_SCRIPTS_AND_EVENTS							= 5;
+	const CLEAR_SCRIPTS_AND_COMMENTS						= 6;
+	const CLEAR_SCRIPTS_AND_COMMENTS_AND_EVENTS				= 7;
+	const CLEAR_STYLES										= 8;
+	const CLEAR_STYLES_AND_EVENTS							= 9;
+	const CLEAR_STYLES_AND_COMMENTS							= 10;
+	const CLEAR_STYLES_AND_COMMENTS_AND_EVENTS				= 11;
+	const CLEAR_STYLES_AND_SCRIPTS							= 12;
+	const CLEAR_STYLES_AND_SCRIPTS_AND_EVENTS				= 13;
+	const CLEAR_STYLES_AND_SCRIPTS_AND_COMMENTS				= 14;
+	const CLEAR_STYLES_AND_SCRIPTS_AND_COMMENTS_AND_EVENTS	= 15;
+	const CLEAR_ALL											= 16;
+
 	/**	@var		Framework_Krypton_Core_Registry		$registry		Registry of Objects */
 	var $registry	= null;
 	/**	@var		UI_HTML_Elements	$html			HTML Elements */
@@ -112,14 +116,20 @@ abstract class Framework_Krypton_Core_Component
 		$this->language		= $this->registry->get( 'language' );
 		$this->words		=& $this->language->getWords();
 	}
-	
+
 	//  --  STRING MANIPULATION  --  //
 	/**
 	 *	Cleanse String by removing all HTML Tags or Scripts, Style, Comments or Event Attributes.
-	 *	@todo		implement Events
+	 *	@access		public
+	 *	@param		string		$string			String to cleanse
+	 *	@param		int			$flag			Type, see CLEAR_* Constants
+	 *	@param		bool		$verbose		Flag: shop triggered Types
+	 *	@return		string
 	 */
-	public function cleanseString( $string, $flag = 16, $verbose = false )
+	public function cleanseString( $string, $flag = 16, $verbose = FALSE )
 	{
+		import( 'de.ceus-media.alg.InputFilter' );
+
 		if( !is_int( $flag ) )
 			$flag	= 16;
 
@@ -133,15 +143,15 @@ abstract class Framework_Krypton_Core_Component
 		}
 
 		if( ( $flag >> 4 ) % 2 )
-			$string	= preg_replace( "@<[\/\!]*?[^<>]*?>@si", "", $string );
+			$string	= Alg_InputFilter::stripTags( $string );
 		if( ( $flag >> 3 ) % 2 )
-			$string	= preg_replace( "@<style[^>]*?>.*?</style>@siU", "", $string );
+			$string	= Alg_InputFilter::stripStyles( $string );
 		if( ( $flag >> 2 ) % 2 )
-			$string	= preg_replace( "@<script[^>]*?>.*?</script>@si", "", $string );
+			$string	= Alg_InputFilter::stripScripts( $string );
 		if( ( $flag >> 1 ) % 2 )
-			$string	= preg_replace( "@<![\s\S]*?--[ \t\n\r]*>@", "", $string );
+			$string	= Alg_InputFilter::stripComments( $string );
 		if( ( $flag >> 0 ) % 2 )
-			$string	= $string;
+			$string	= Alg_InputFilter::stripEventAttributes( $string );
 		return $string;
 	}
 
@@ -503,7 +513,7 @@ abstract class Framework_Krypton_Core_Component
 	{
 		$fileName	= $this->getContentUri( $fileKey, $verbose );
 		if( !file_exists( $fileName ) )							//  check file
-			throw new Framework_Krypton_Exception_IO( "Content File '".$fileKey."' is not existing in '".$fileName."'." );
+			throwException ( 'IO', 'Content File "'.$fileKey.'" is not existing.', $fileName );
 
 		//  --  FILE INTERPRETATION  --  //
 		$file	= new File_Reader( $fileName );
@@ -532,19 +542,12 @@ abstract class Framework_Krypton_Core_Component
 	 */
 	public function loadTemplate( $fileKey, $data = array(), $verbose = false )
 	{
-#		try
-#		{
-			$fileName	= $this->getTemplateUri( $fileKey, $verbose );
-			if( !file_exists( $fileName ) )
-				throw new Framework_Krypton_Exception_IO( "Template '".$fileKey."' is not existing in '".$fileName."'." );
+		$fileName	= $this->getTemplateUri( $fileKey, $verbose );
+		if( !file_exists( $fileName ) )
+			throwException ( 'IO', 'Template "'.$fileKey.'" is not existing.', $fileName );
 
-			$template	= new Framework_Krypton_Core_Template( $fileName, $data );
-			return $template->create();
-#		}
-#		catch( Exception $e )
-#		{
-			$this->handleException( $e, 'main', 'exceptions' );
-#		}
+		$template	= new Framework_Krypton_Core_Template( $fileName, $data );
+		return $template->create();
 	}
 
 	/**
