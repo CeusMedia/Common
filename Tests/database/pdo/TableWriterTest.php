@@ -48,6 +48,19 @@ class Tests_Database_PDO_TableWriterTest extends PHPUnit_Framework_TestCase
 		$this->connection->setAttribute( PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, TRUE );
 		$this->connection->setErrorLogFile( $this->errorLog );
 		$this->connection->setStatementLogFile( $this->queryLog );
+
+		$this->tableName	= "transactions";
+		$this->columns	= array(
+			'id',
+			'topic',
+			'label',
+			'timestamp',
+		);
+		$this->primaryKey	= $this->columns[0];
+		$this->indices	= array(
+			'topic',
+			'label'
+		);
 	}
 	
 	/**
@@ -64,17 +77,7 @@ class Tests_Database_PDO_TableWriterTest extends PHPUnit_Framework_TestCase
 			if( trim( $part ) )
 				mysql_query( $part ) or die( mysql_error() );
 
-		$this->columns	= array(
-			'id',
-			'topic',
-			'label',
-			'timestamp',
-		);
-		$this->indices	= array(
-			'topic',
-			'label'
-		);
-		$this->writer	= new Database_PDO_TableWriter( $this->connection, "transactions", $this->columns, $this->columns[0] );
+		$this->writer	= new Database_PDO_TableWriter( $this->connection, $this->tableName, $this->columns, $this->primaryKey );
 		$this->writer->setIndices( $this->indices );
 	}
 	
@@ -246,7 +249,7 @@ class Tests_Database_PDO_TableWriterTest extends PHPUnit_Framework_TestCase
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testUpdateForein()
+	public function testUpdateIndex()
 	{
 		$this->connection->query( "INSERT INTO transactions (topic,label) VALUES ('update','updateTest1');" );
 		$this->connection->query( "INSERT INTO transactions (topic,label) VALUES ('update','updateTest2');" );

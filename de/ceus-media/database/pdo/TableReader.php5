@@ -49,19 +49,6 @@ class Database_PDO_TableReader
 	}
 
 	/**
-	 *	Constructor.
-	 *	@access		protected
-	 *	@param		string		$type			Type of Check (columns|focus)
-	 *	@throws		Exception
-	 *	@return		void
-	 */
-	protected function validateFocus()
-	{
-		if( !$this->isFocused() )
-			throw new RuntimeException( "No Primary Key or Index focused for Table '".$this->tableName."'." );
-	}	
-
-	/**
 	 *	Returns count of all entries of this Table covered by conditions.
 	 *	@access		public
 	 *	@param		array		$conditions		Array of Condition Strings
@@ -101,15 +88,15 @@ class Database_PDO_TableReader
 	 *	Returns all entries of this Table in an array.
 	 *	@access		public
 	 *	@param		array		$keys			Array of Table Keys
-	 *	@param		array		$conditions		Array of Condition Strings
+	 *	@param		array		$conditions		Array of Condition Pairs additional to focuses Indices
 	 *	@param		array		$orders			Array of Order Relations
 	 *	@param		array		$limit			Array of Limit Conditions
 	 *	@return		array
 	 */
 	public function find( $keys = array(), $conditions = array(), $orders = array(), $limit = array() )
 	{
-		if( !(is_array( $keys ) && count( $keys ) ) )
-			$keys[]	= "*";
+		$this->validateKeys( $keys );
+			
 		$conditions	= $this->getConditionQuery( $conditions, FALSE, TRUE );		
 		$conditions = $conditions ? " WHERE ".$conditions : "";
 		$orders		= $this->getOrderCondition( $orders );
@@ -133,10 +120,11 @@ class Database_PDO_TableReader
 	
 	public function findWhereIn( $keys = array(), $column, $values, $orders = array(), $limit = array() )
 	{
+		$this->validateKeys( $keys );
+
 		if( $column != $this->getPrimaryKey() && !in_array( $column, $this->getIndices() ) )
-			throw new Exception( "Field of WHERE IN-Statement must be an Index." );
-		if( !(is_array( $keys ) && count( $keys ) ) )
-			$keys[]	= "*";
+			throw new InvalidArgumentException( "Field of WHERE IN-Statement must be an Index." );
+
 		$orders		= $this->getOrderCondition( $orders );
 		$limit		= $this->getLimitCondition( $limit );
 		for( $i=0; $i<count( $values ); $i++ )
@@ -147,24 +135,25 @@ class Database_PDO_TableReader
 
 		return $resultSet->fetchAll( PDO::FETCH_ASSOC );
 
-		$list		= array();
-		while( $d = $resultSet->fetch( PDO::FETCH_OBJ ) )
-		{
-			$data	= array();
-			foreach( $this->columns as $column )
-				if( in_array( "*", $keys ) || in_array( $column, $keys ) )
-					$data[$column] = stripslashes( $d->$column );
-			$list[] = $data;
-		}
-		return $list;
+#		$list		= array();
+#		while( $d = $resultSet->fetch( PDO::FETCH_OBJ ) )
+#		{
+#			$data	= array();
+#			foreach( $this->columns as $column )
+#				if( in_array( "*", $keys ) || in_array( $column, $keys ) )
+#					$data[$column] = stripslashes( $d->$column );
+#			$list[] = $data;
+#		}
+#		return $list;
 	}
 
 	public function findWhereInAnd( $keys = array(), $column, $values, $conditions, $orders = array(), $limit = array() )
 	{
+		$this->validateKeys( $keys );
+
 		if( $column != $this->getPrimaryKey() && !in_array( $column, $this->getIndices() ) )
-			throw new Exception( "Field of WHERE IN-Statement must be an Index." );
-		if( !(is_array( $keys ) && count( $keys ) ) )
-			$keys[]	= "*";
+			throw new InvalidArgumentException( "Field of WHERE IN-Statement must be an Index." );
+
 		$conditions	= $this->getConditionQuery( $conditions, FALSE, TRUE );
 		$orders		= $this->getOrderCondition( $orders );
 		$limit		= $this->getLimitCondition( $limit );
@@ -494,6 +483,40 @@ class Database_PDO_TableReader
 	public function setTableName( $tableName )
 	{
 		$this->tableName = $tableName;
+	}
+
+	/**
+	 *	Checks if a Focus is set for following Operation and throws an Exception if not.
+	 *	@access		protected
+	 *	@throws		RuntimeException
+	 *	@return		void
+	 */
+	protected function validateFocus()
+	{
+		if( !$this->isFocused() )
+			throw new RuntimeException( "No Primary Key or Index focused for Table '".$this->tableName."'." );
+	}
+
+	/**
+	 *	Checks Columns Keys for querying Methods (find,get), sets Wildcard if empty or throws an Exception if inacceptable.
+	 *	@access		protected
+	 *	@param		mixed		$keys			String or Array of Column Names
+	 *	@return		void
+	 */
+	protected function validateKeys( &$keys )
+	{
+		if( is_string( $keys ) && $keys )
+			$keys	= array( $keys );
+		else if( is_array( $keys ) && !count( $keys ) )
+			$keys	= array( "*" );
+		else if( $keys === NULL || $keys == FALSE )
+			$keys	= array( "*" );
+
+		if( !is_array( $keys ) )
+			throw new InvalidArgumentException( 'Column Keys must be an Array of Column Names, a Column Name String or "*".' );
+		foreach( $keys as $key )
+			if( $key != "*" && !in_array( $key, $this->columns ) )
+				throw new InvalidArgumentException( 'Column Key "'.$key.'" is not a valid Column of Table "'.$this->tableName.'".' );
 	}
 }
 ?>

@@ -49,6 +49,19 @@ class Tests_Database_PDO_TableReaderTest extends PHPUnit_Framework_TestCase
 		$this->connection->setAttribute( PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, TRUE );
 		$this->connection->setErrorLogFile( $this->errorLog );
 		$this->connection->setStatementLogFile( $this->queryLog );
+		
+		$this->tableName	= "transactions";
+		$this->columns	= array(
+			'id',
+			'topic',
+			'label',
+			'timestamp',
+		);
+		$this->primaryKey	= $this->columns[0];
+		$this->indices	= array(
+			'topic',
+			'label'
+		);
 	}
 	
 	/**
@@ -65,17 +78,7 @@ class Tests_Database_PDO_TableReaderTest extends PHPUnit_Framework_TestCase
 			if( trim( $part ) )
 				mysql_query( $part ) or die( mysql_error() );
 
-		$this->columns	= array(
-			'id',
-			'topic',
-			'label',
-			'timestamp',
-		);
-		$this->indices	= array(
-			'topic',
-			'label'
-		);
-		$this->reader	= new Database_PDO_TableReader( $this->connection, "transactions", $this->columns, $this->columns[0] );
+		$this->reader	= new Database_PDO_TableReader( $this->connection, $this->tableName, $this->columns, $this->primaryKey );
 		$this->reader->setIndices( $this->indices );
 	}
 	
@@ -96,7 +99,7 @@ class Tests_Database_PDO_TableReaderTest extends PHPUnit_Framework_TestCase
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testConstruct()
+	public function testConstruct1()
 	{
 		$reader		= new Database_PDO_TableReader( $this->connection, "table", array( 'col1', 'col2' ), 'col2', 1 );
 
@@ -118,6 +121,20 @@ class Tests_Database_PDO_TableReaderTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 *	Tests Method '__construct'.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testConstruct2()
+	{
+		$reader		= new Database_PDO_TableReader( $this->connection, $this->tableName, $this->columns, $this->primaryKey, 1 );
+	
+		$assertion	= array( 'id' => 1 );
+		$creation	= array_slice( $reader->get(), 0, 1 );
+		$this->assertEquals( $assertion, $creation );
+	}
+
+	/**
 	 *	Tests Method 'count'.
 	 *	@access		public
 	 *	@return		void
@@ -132,6 +149,14 @@ class Tests_Database_PDO_TableReaderTest extends PHPUnit_Framework_TestCase
 
 		$assertion	= 2;
 		$creation	= $this->reader->count();
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= 1;
+		$creation	= $this->reader->count( array( 'label' => 'countTest' ) );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= 0;
+		$creation	= $this->reader->count( array( 'label' => 'not_existing' ) );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -162,7 +187,7 @@ class Tests_Database_PDO_TableReaderTest extends PHPUnit_Framework_TestCase
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testFind()
+	public function testFind1()
 	{
 		$this->connection->query( "INSERT INTO transactions (topic,label) VALUES ('test','findTest');" );
 
@@ -174,6 +199,94 @@ class Tests_Database_PDO_TableReaderTest extends PHPUnit_Framework_TestCase
 
 		$assertion	= 4;
 		$creation	= count( $result[0] );
+		$this->assertEquals( $assertion, $creation );
+	}
+
+	/**
+	 *	Tests Method 'find'.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testFind2()
+	{
+		$this->connection->query( "INSERT INTO transactions (topic,label) VALUES ('test','findTest');" );
+
+		$result		= $this->reader->find( array( "*" ) );
+
+		$assertion	= 2;
+		$creation	= count( $result );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= 4;
+		$creation	= count( $result[0] );
+		$this->assertEquals( $assertion, $creation );
+	}
+
+	/**
+	 *	Tests Method 'find'.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testFind3()
+	{
+		$this->connection->query( "INSERT INTO transactions (topic,label) VALUES ('test','findTest');" );
+
+		$result		= $this->reader->find( "*" );
+
+		$assertion	= 2;
+		$creation	= count( $result );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= 4;
+		$creation	= count( $result[0] );
+		$this->assertEquals( $assertion, $creation );
+	}
+
+	/**
+	 *	Tests Method 'find'.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testFind4()
+	{
+		$this->connection->query( "INSERT INTO transactions (topic,label) VALUES ('test','findTest');" );
+
+		$result		= $this->reader->find( array( "id" ) );
+
+		$assertion	= 2;
+		$creation	= count( $result );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= 1;
+		$creation	= count( $result[0] );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= array( 'id' );
+		$creation	= array_keys( $result[0] );
+		$this->assertEquals( $assertion, $creation );
+	}
+
+	/**
+	 *	Tests Method 'find'.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testFind5()
+	{
+		$this->connection->query( "INSERT INTO transactions (topic,label) VALUES ('test','findTest');" );
+
+		$result		= $this->reader->find( "id" );
+
+		$assertion	= 2;
+		$creation	= count( $result );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= 1;
+		$creation	= count( $result[0] );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= array( 'id' );
+		$creation	= array_keys( $result[0] );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -236,7 +349,6 @@ class Tests_Database_PDO_TableReaderTest extends PHPUnit_Framework_TestCase
 	public function testFindWithFocus1()
 	{
 		$this->connection->query( "INSERT INTO transactions (topic,label) VALUES ('test','findTest');" );
-
 		$this->reader->focusIndex( 'topic', 'start' );
 		$result		= $this->reader->find( array( 'id' ) );
 
@@ -403,6 +515,28 @@ class Tests_Database_PDO_TableReaderTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 *	Tests Exception of Method 'findWhereInAnd'.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testFindWhereInException1()
+	{
+		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->reader->findWhereIn( array( 'not_valid' ), "id", 1 );
+	}
+
+	/**
+	 *	Tests Exception of Method 'findWhereInAnd'.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testFindWhereInException2()
+	{
+		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->reader->findWhereIn( "*", "not_valid", 1 );
+	}
+
+	/**
 	 *	Tests Method 'findWhereInAnd'.
 	 *	@access		public
 	 *	@return		void
@@ -538,7 +672,7 @@ class Tests_Database_PDO_TableReaderTest extends PHPUnit_Framework_TestCase
 	{
 		$this->connection->query( "INSERT INTO transactions (topic,label) VALUES ('test','findWhereInAndTest');" );
 		$this->reader->focusPrimary( 1 );
-		$result		= $this->reader->get( FALSE);
+		$result		= $this->reader->get( FALSE );
 				
 		$assertion	= 1;
 		$creation	= count( $result );
@@ -678,7 +812,7 @@ class Tests_Database_PDO_TableReaderTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 *	Tests Method 'get'.
+	 *	Tests Exception of Method 'get'.
 	 *	@access		public
 	 *	@return		void
 	 */
@@ -956,6 +1090,8 @@ class Tests_Database_PDO_TableReaderTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testSetIndicesException()
 	{
+		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->reader->setIndices( array( 'not_existing' ) );
 	}
 
 	/**

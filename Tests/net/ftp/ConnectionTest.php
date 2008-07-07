@@ -43,6 +43,7 @@ class Tests_Net_FTP_ConnectionTest extends PHPUnit_Framework_TestCase
 	 */
 	public function setUp()
 	{
+		@mkDir( $this->ftpPath );
 		$this->connection	= new Net_FTP_Connection( $this->host, $this->port );
 	}
 	
@@ -54,6 +55,7 @@ class Tests_Net_FTP_ConnectionTest extends PHPUnit_Framework_TestCase
 	public function tearDown()
 	{
 		$this->connection->close( TRUE );
+		@rmDir( $this->ftpPath );
 	}
 
 	/**
@@ -142,13 +144,16 @@ class Tests_Net_FTP_ConnectionTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testConnect()
 	{
-		$connection	= new Net_FTP_Connection( "127.0.0.1", 21 );
+		$connection	= new Net_FTP_Connection( "127.0.0.1", 21, 2 );
 		$assertion	= TRUE;
 		$creation	= is_resource( $connection->getResource() );
 		$this->assertEquals( $assertion, $creation );
 
-		$this->markTestIncomplete( 'Incomplete Test' );
-		$connection	= new Net_FTP_Connection( "not_existing", 1 );
+		$assertion	= 2;
+		$creation	= $connection->getTimeout();
+		$this->assertEquals( $assertion, $creation );
+
+		$connection	= new Net_FTP_Connection( "not_existing", 1, 1 );
 		$assertion	= FALSE;
 		$creation	= is_resource( $connection->getResource() );
 		$this->assertEquals( $assertion, $creation );
@@ -221,6 +226,24 @@ class Tests_Net_FTP_ConnectionTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 *	Tests Method 'getTimeout'.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testGetTimeout()
+	{
+		$assertion	= 90;
+		$creation	= $this->connection->getTimeout();
+		$this->assertEquals( $assertion, $creation );
+
+		$this->connection->setTimeout( 8 );
+
+		$assertion	= 8;
+		$creation	= $this->connection->getTimeout();
+		$this->assertEquals( $assertion, $creation );
+	}
+
+	/**
 	 *	Tests Method 'login'.
 	 *	@access		public
 	 *	@return		void
@@ -233,6 +256,26 @@ class Tests_Net_FTP_ConnectionTest extends PHPUnit_Framework_TestCase
 
 		$assertion	= FALSE;
 		$creation	= $this->connection->login( "wrong_user", "wrong_pass" );
+		$this->assertEquals( $assertion, $creation );
+	}
+
+	/**
+	 *	Tests Method 'setMode'.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testSetMode()
+	{
+		$assertion	= TRUE;
+		$creation	= $this->connection->setMode( FTP_ASCII );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= TRUE;
+		$creation	= $this->connection->setMode( FTP_BINARY );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= FALSE;
+		$creation	= $this->connection->setMode( -1 );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -261,22 +304,22 @@ class Tests_Net_FTP_ConnectionTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 *	Tests Method 'setMode'.
+	 *	Tests Method 'setTimeout'.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testSetMode()
+	public function testSetTimeout()
 	{
-		$assertion	= TRUE;
-		$creation	= $this->connection->setMode( FTP_ASCII );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= TRUE;
-		$creation	= $this->connection->setMode( FTP_BINARY );
-		$this->assertEquals( $assertion, $creation );
-
 		$assertion	= FALSE;
-		$creation	= $this->connection->setMode( -1 );
+		$creation	= $this->connection->setTimeout( 0 );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= TRUE;
+		$creation	= $this->connection->setTimeout( 9 );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= 9;
+		$creation	= $this->connection->getTimeout();
 		$this->assertEquals( $assertion, $creation );
 	}
 }
