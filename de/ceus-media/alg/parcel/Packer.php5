@@ -27,15 +27,29 @@ class Alg_Parcel_Packer
 	/**	@var		array		$packetList			Array of Packets need to pack Articles */
 	protected $packetList	= array();
 
+	/**
+	 *	Constructor.
+	 *	@access		public
+	 *	@param		array		$packets			Packet Definitions
+	 *	@param		array		$articles			Article Definitions
+	 *	@param		array		$volumes			Volumes of all Articles in all Packages
+	 *	@return		void
+	 */
 	public function __construct( $packets, $articles, $volumes )
 	{
 		asort( $packets );
 		$this->packets		= $packets;
 		$this->articles		= $articles;
 		$this->volumes		= $volumes;
-		$this->factory		= new Alg_Parcel_Factory( $packets, $articles, $volumes );
+		$this->factory		= new Alg_Parcel_Factory( array_keys( $packets ), $articles, $volumes );
 	}
 
+	/**
+	 *	Calculates Packages for Articles and returns Packet List.
+	 *	@access		public
+	 *	@param		array		$articleList		Array of Articles and their Quantities.
+	 *	@return		array
+	 */
 	public function calculatePackage( $articleList )
 	{
 		$this->packetList	= array();																	//  reset Packet List
@@ -61,7 +75,7 @@ class Alg_Parcel_Packer
 			for( $i=0; $i<count( $this->packetList ); $i++ )											//  iterate Packets in Packet List
 			{
 				$packet	= $this->getPacket( $i );														//  get current Packet
-				$articleVolume	= $this->volumes[$packet->name][$largestArticle];						//  get Article Volume in this Packet
+				$articleVolume	= $this->volumes[$packet->getName()][$largestArticle];						//  get Article Volume in this Packet
 				if( $packet->hasVolumeLeft( $articleVolume ) )											//  check if Article will fit in Packet
 				{
 					$packet->addArticle( $largestArticle, $articleVolume );								//  put Article in Packet
@@ -76,10 +90,11 @@ class Alg_Parcel_Packer
 			for( $i=0; $i<count( $this->packetList ); $i++ )											//  iterate Packets in Packet List
 			{
 				$packet	= $this->getPacket( $i );														//  get current Packet
-				while( $this->hasLargerPacket( $packet->name ) )										//  there is a larger Packet Type
+				while( $this->hasLargerPacket( $packet->getName() ) )									//  there is a larger Packet Type
 				{
-					$largerPacketName	= $this->getNameOfLargerPacket( $packet->name );				//  get larger Packet
-					$largerPacket		= $this->factory->produce( $largerPacketName, $packet->articles );	//  produce new Packet and add Articles from old Packet
+					$largerPacketName	= $this->getNameOfLargerPacket( $packet->getName() );	
+					$articles			= $packet->getArticles();										//  get larger Packet
+					$largerPacket		= $this->factory->produce( $largerPacketName, $articles );		//  produce new Packet and add Articles from old Packet
 					$articleVolume		= $this->volumes[$largerPacketName][$largestArticle];			//  get Volume of current Article in this Packet
 					if( $largerPacket->hasVolumeLeft( $articleVolume ) )
 					{
@@ -103,16 +118,28 @@ class Alg_Parcel_Packer
 		}
 		return $this->packetList;																		//  return final Packet List with Articles
 	}
-	
-	public public function calculatePrice( $articleList )
+
+	/**
+	 *	Calculates Price of Packets for Articles and returns total Price.
+	 *	@access		public
+	 *	@param		array		$articleList		Array of Articles and their Quantities.
+	 *	@return		float
+	 */
+	public function calculatePrice( $articleList )
 	{
 		$price	= 0;
 		$packetList	= $this->calculatePackage( $articleList );
 		foreach( $packetList as $packet )
-			$price	+= $this->packets[$packet->name];
+			$price	+= $this->packets[$packet->getName()];
 		return $price;
 	}
 
+	/**
+	 *	Returns the largest Article from an Article List by Article Volume.
+	 *	@access		protected
+	 *	@param		array		$articleList		Array of Articles and their Quantities.
+	 *	@return		string
+	 */
 	protected function getLargestArticle( $articleList )
 	{
 		$largestPacketName	= $this->getNameOfLargestPacket();
@@ -127,7 +154,13 @@ class Alg_Parcel_Packer
 		}
 		while( $articleKeys );
 	}
-	
+
+	/**
+	 *	Returns Name of next larger Packet.
+	 *	@access		protected
+	 *	@param		string		$packetName			Packet Name to get next larger Packet for
+	 *	@return		string
+	 */
 	protected function getNameOfLargerPacket( $packetName )
 	{
 		$keys	= array_keys( $this->packets );
@@ -135,7 +168,12 @@ class Alg_Parcel_Packer
 		$next	= array_pop( array_slice( $keys, $index + 1, 1 ) );
 		return $next;
 	}
-	
+
+	/**
+	 *	Returns Name of largest Packet from Packet Definition.
+	 *	@access		protected
+	 *	@return		string
+	 */
 	protected function getNameOfLargestPacket()
 	{
 		$packets	= $this->packets;
@@ -143,7 +181,13 @@ class Alg_Parcel_Packer
 		$packetName	= key( array_slice( $packets, -1 ) );
 		return $packetName;
 	}
-	
+
+	/**
+	 *	Returns Name of smallest Packet for an Article.
+	 *	@access		protected 
+	 *	@param		string		$articleName		Name of Article to get smallest Article for
+	 *	@return		string
+	 */
 	protected function getNameOfSmallestPacketForArticle( $articleName )
 	{
 		foreach( array_keys( $this->packets ) as $packetName )
@@ -157,22 +201,46 @@ class Alg_Parcel_Packer
 			throw new OutOfRangeException( 'Invalid Packet Index.' );
 		return $this->packetList[$index];
 	}
-	
+
+	/**
+	 *	Indicates whether a larger Packet would be available.
+	 *	@access		protected
+	 *	@param		string		$packetName			Name of Packet to find a larger Packet for
+	 *	@param		bool
+	 */
 	protected function hasLargerPacket( $packetName )
 	{
 		$last	= key( array_slice( $this->packets, -1 ) );
 		return $packetName != $last;
 	}
-		
+
+	/**
+	 *	Removes an Article from an Article List (by Reference).
+	 *	@access		protected
+	 *	@param		array		$articleList		Array of Articles and their Quantities.
+	 *	@param		string		$articleName		Name of Article to remove from Article List
+	 *	@return		bool
+	 */
 	protected function removeArticleFromList( &$articleList, $articleName )
 	{
-		if( $articleList[$articleName] == 1 )
-			unset( $articleList[$articleName] );
-		else
-			$articleList[$articleName]--;
-		return TRUE;
+		if( $articleList[$articleName] > 0 )
+		{
+			if( $articleList[$articleName] == 1 )
+				unset( $articleList[$articleName] );
+			else
+				$articleList[$articleName]--;
+			return TRUE;
+		}
+		return FALSE;
 	}
-	
+
+	/**
+	 *	Replaces a Packet from current Packet List with another Packet.
+	 *	@access		public
+	 *	@param		int					$index		Index of Packet to replace
+	 *	@param		Alg_Parcel_packet	$packet		Packet to set for another Packet
+	 *	@return		void
+	 */
 	public function replacePacket( $index, $packet )
 	{
 		if( !isset( $this->packetList[$index] ) )
