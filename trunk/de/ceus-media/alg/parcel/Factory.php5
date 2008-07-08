@@ -36,7 +36,7 @@ class Alg_Parcel_Factory
 	public function __construct( $packets, $articles, $volumes )
 	{
 		$this->packets	= $packets;
-		$this->article	= $articles;
+		$this->articles	= $articles;
 		$this->volumes	= $volumes;
 	}
 
@@ -49,14 +49,27 @@ class Alg_Parcel_Factory
 	 */
 	public function produce( $packetName, $articles )
 	{
-		$volume	= 0;
-		foreach( $articles as $articleName => $articleQuantity )
-			for( $i=0; $i<$articleQuantity; $i++ )
-				$volume	+= $this->volumes[$packetName][$articleName];
-		if( $volume > 1 )
-			throw RangeException( 'To much Articles for Packet' ); 
-		$packet	= new Alg_Parcel_Packet( $packetName, $articles, $volume );
-		return $packet;
+		if( !in_array( $packetName, $this->packets ) )
+			throw new InvalidArgumentException( 'Packet "'.$packetName.'" is not a valid Packet.' );
+		try
+		{
+			$packet	= new Alg_Parcel_Packet( $packetName );
+			foreach( $articles as $articleName => $articleQuantity )
+			{
+				if( !in_array( $articleName, $this->articles ) )
+					throw new InvalidArgumentException( 'Article "'.$articleName.'" is not a valid Article.' );
+				for( $i=0; $i<$articleQuantity; $i++ )
+				{
+					$volume	= $this->volumes[$packetName][$articleName];
+					$packet->addArticle( $articleName, $volume );
+				}
+			}
+			return $packet;
+		}
+		catch( OutOfRangeException $e )
+		{
+			throw new OutOfRangeException( 'To much Articles for Packet.' ); 
+		}
 	}
 }
 ?>
