@@ -30,13 +30,69 @@ class Tests_ADT_OptionObjectTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 *	Tests Method '__construct'.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testConstruct()
+	{
+		$object		= new ADT_OptionObject();
+		$assertion	= array();
+		$creation	= $object->getOptions();
+		$this->assertEquals( $assertion, $creation );
+
+		$pairs		= array(
+			'key1'	=> "param1",
+			'key2'	=> "param2",
+		);
+
+		$object		= new ADT_OptionObject( $pairs );
+		$assertion	= $pairs;
+		$creation	= $object->getOptions();
+		$this->assertEquals( $assertion, $creation );
+	}
+
+	/**
+	 *	Tests Exception of Method '__construct'.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testConstructException1()
+	{
+		$this->setExpectedException( 'InvalidArgumentException' );
+		new ADT_OptionObject( "string" );
+	}
+
+	/**
+	 *	Tests Exception of Method '__construct'.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testConstructException2()
+	{
+		$this->setExpectedException( 'InvalidArgumentException' );
+		new ADT_OptionObject( array( 1, 2 ) );
+	}
+
+	/**
 	 *	Tests Method 'clearOptions'.
 	 *	@access		public
 	 *	@return		void
 	 */
 	public function testClearOptions()
 	{
-		$this->object->clearOptions();
+		$assertion	= TRUE;
+		$creation	= $this->object->clearOptions();
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= array();
+		$creation	= $this->object->getOptions();
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= FALSE;
+		$creation	= $this->object->clearOptions();
+		$this->assertEquals( $assertion, $creation );
+
 		$assertion	= array();
 		$creation	= $this->object->getOptions();
 		$this->assertEquals( $assertion, $creation );
@@ -55,7 +111,20 @@ class Tests_ADT_OptionObjectTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 *	Tests Method 'clearOptions'.
+	 *	Tests Method 'declareOptions'.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testDeclareOptions()
+	{
+	
+	}
+
+
+
+
+	/**
+	 *	Tests Method 'testGetOption'.
 	 *	@access		public
 	 *	@return		void
 	 */
@@ -80,6 +149,22 @@ class Tests_ADT_OptionObjectTest extends PHPUnit_Framework_TestCase
 		$assertion	= array( "key" => "value" );
 		$creation	= $this->object->getOption( "array1" );
 		$this->assertEquals( $assertion, $creation );
+
+		//  get NULL
+		$assertion	= NULL;
+		$creation	= $this->object->getOption( "not_existing", FALSE );
+		$this->assertEquals( $assertion, $creation );
+	}
+
+	/**
+	 *	Tests Exception of Method 'testGetOption'.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testGetOptionException()
+	{
+		$this->setExpectedException( 'OutOfRangeException' );
+		$this->object->getOption( 'not_existing' );
 	}
 
 	/**
