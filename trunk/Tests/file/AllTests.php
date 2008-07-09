@@ -5,6 +5,7 @@ if( !defined( 'PHPUnit_MAIN_METHOD' ) )
 require_once 'PHPUnit/Framework/TestSuite.php';
 require_once 'PHPUnit/TextUI/TestRunner.php';
 require_once 'Tests/file/arc/AllTests.php';
+require_once 'Tests/file/block/AllTests.php';
 require_once 'Tests/file/configuration/AllTests.php';
 require_once 'Tests/file/ical/AllTests.php';
 require_once 'Tests/file/ini/AllTests.php';
@@ -12,6 +13,7 @@ require_once 'Tests/file/list/AllTests.php';
 #require_once 'Tests/file/log/AllTests.php';
 require_once 'Tests/file/yaml/AllTests.php';
 require_once 'Tests/file/ReaderTest.php';
+require_once 'Tests/file/EditorTest.php';
 require_once 'Tests/file/WriterTest.php';
 
 require_once 'Tests/file/NameFilterTest.php';
@@ -31,6 +33,7 @@ class Tests_File_AllTests
 	{
 		$suite = new PHPUnit_Framework_TestSuite( 'cmClasses/File' );
 		$suite->addTest( Tests_File_Arc_AllTests::suite() );
+		$suite->addTest( Tests_File_Block_AllTests::suite() );
 		$suite->addTest( Tests_File_Configuration_AllTests::suite() );
 		$suite->addTest( Tests_File_iCal_AllTests::suite() );
 		$suite->addTest( Tests_File_INI_AllTests::suite() );
@@ -38,6 +41,7 @@ class Tests_File_AllTests
 #		$suite->addTest( Tests_File_Log_AllTests::suite() );
 		$suite->addTest( Tests_File_Yaml_AllTests::suite() );
 		$suite->addTestSuite('Tests_File_ReaderTest'); 
+		$suite->addTestSuite('Tests_File_EditorTest'); 
 		$suite->addTestSuite('Tests_File_WriterTest'); 
 
 		$suite->addTestSuite('Tests_File_UnicoderTest'); 

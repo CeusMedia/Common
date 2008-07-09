@@ -4,7 +4,7 @@ if( !defined( 'PHPUnit_MAIN_METHOD' ) )
 
 require_once( 'PHPUnit/Framework/TestSuite.php' );
 require_once( 'PHPUnit/TextUI/TestRunner.php' );
-require_once( 'Tests/blocktLoaders.php5' );
+require_once( 'Tests/initLoaders.php5' );
 require_once( 'Tests/file/block/ReaderTest.php' );
 require_once( 'Tests/file/block/WriterTest.php' );
 class Tests_File_Block_AllTests

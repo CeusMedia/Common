@@ -13,17 +13,17 @@
  */
 class StringBuffer
 {
-	/**	@var	string	$buffer		internal String */
+	/**	@var		string		$buffer			internal String */
 	private $buffer;
-	/**	@var	string	$direction	internal Direction */
+	/**	@var		string		$direction		internal Direction */
 	private $direction = "";
-	/**	@var	int		$pointer		internal Position Pointer */
+	/**	@var		int			$pointer		internal Position Pointer */
 	private $pointer = 0;
 
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		string		$buffer		initial String in StringBuffer
+	 *	@param		string		$buffer			initial String in StringBuffer
 	 *	@return		void
 	 */
 	public function __construct( $buffer )
@@ -34,7 +34,7 @@ class StringBuffer
 	/**
 	 *	Deletes a Character at a given Position.
 	 *	@access		public
-	 *	@param		int			$pos		Position to delete
+	 *	@param		int			$pos			Position to delete
 	 *	@return		string
 	 */
 	public function deleteCharAt( $pos )
@@ -51,7 +51,7 @@ class StringBuffer
 	/**
 	 *	Returns the Character at a given Position.
 	 *	@access		public
-	 *	@param		int			$pos		Position
+	 *	@param		int			$pos			Position
 	 *	@return		string
 	 */
 	public function getCharAt( $pos )
@@ -177,7 +177,7 @@ class StringBuffer
 	/**
 	 *	Resets Buffer, Pointer and Flags.
 	 *	@access		public
-	 *	@param		string		$buffer		new initial String in StringBuffer
+	 *	@param		string		$buffer			new initial String in StringBuffer
 	 *	@return		void
 	 */
 	public function reset( $buffer = "" )

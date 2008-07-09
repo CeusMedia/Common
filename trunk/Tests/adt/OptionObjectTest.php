@@ -117,10 +117,42 @@ class Tests_ADT_OptionObjectTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testDeclareOptions()
 	{
-	
+		$optionKeys	= array( "key1", "key2" );
+		$object		= new ADT_OptionObject();
+		$object->declareOptions( $optionKeys );
+		
+		$assertion	= $optionKeys;
+		$creation	= array_keys( $object->getOptions() );
+		$this->assertEquals( $assertion, $creation );
+		
+		$assertion	= NULL;
+		$creation	= $object->getOption( "key1" );
+		$this->assertEquals( $assertion, $creation );
 	}
 
+	/**
+	 *	Tests Exception of Method 'declareOptions'.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testDeclareOptionsException1()
+	{
+		$this->setExpectedException( 'InvalidArgumentException' );
+		$object		= new ADT_OptionObject();
+		$object->declareOptions( "string" );
+	}
 
+	/**
+	 *	Tests Exception of Method 'declareOptions'.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testDeclareOptionsException2()
+	{
+		$this->setExpectedException( 'InvalidArgumentException' );
+		$object		= new ADT_OptionObject();
+		$object->declareOptions( array( "a", 1 )  );
+	}
 
 
 	/**

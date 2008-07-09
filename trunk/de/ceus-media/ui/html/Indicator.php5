@@ -29,6 +29,12 @@ class UI_HTML_Indicator extends ADT_OptionObject
 	public $classPercentage		= "indicator-percentage";
 	/**	@var		string		$classRatio				CSS Class of Ratio Block */
 	public $classRatio			= "indicator-ratio";
+	/**	@var		array		$optionKeys				List of Indicator Option Keys */
+	public $optionKeys			= array(
+		'useColor',
+		'usePercentage',
+		'useRatio'
+	);
 
 	/**
 	 *	Constructor, sets Default Options, sets useColor and usePercentage to TRUE.
@@ -43,18 +49,6 @@ class UI_HTML_Indicator extends ADT_OptionObject
 			'useRatio'		=> FALSE,
 		);
 		parent::__construct( $default );
-	}
-
-	/**
-	 *	Sets Option.
-	 *	@access		public
-	 *	@param		string		$key		Option Key (useColor|usePercentage|useRatio)
-	 *	@param		bool		$values		Flag: switch Option
-	 *	@return		bool
-	 */
-	public function setOption( $key, $value )
-	{
-		parent::setOption( $key, $value );
 	}
 
 	/**
@@ -119,6 +113,23 @@ class UI_HTML_Indicator extends ADT_OptionObject
 		return $this->classPercentage;
 	}
 
+	/**
+	 *	Returns CSS Class of Ratio DIV.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function getRatioClass()
+	{
+		return $this->classRatio;
+	}
+
+	/**
+	 *	Builds HTML Code of Indicator Bar.
+	 *	@access		protected
+	 *	@param		float		$ratio		Ratio (between 0 and 1)
+	 *	@param		int			$length		Length of inner Indicator Bar
+	 *	@return		string
+	 */
 	protected function renderBar( $ratio, $length = 100 )
 	{
 		$css			= array();
@@ -141,27 +152,40 @@ class UI_HTML_Indicator extends ADT_OptionObject
 			'style'	=> $style,
 		);
 		$bar	= UI_HTML_Tag::create( 'div', "", $attributes );
-		$div	= UI_HTML_Tag::create( "div", $bar, array( 'class' => $this->classOuter ) );
+		$div	= UI_HTML_Tag::create( "span", $bar, array( 'class' => $this->classOuter ) );
 		return $div;
 	}
 
+	/**
+	 *	Builds HTML Code of Percentage Block.
+	 *	@access		protected
+	 *	@param		float		$ratio		Ratio (between 0 and 1)
+	 *	@return		string
+	 */
 	protected function renderPercentage( $ratio )
 	{
 		if( !$this->getOption( 'usePercentage' ) )
 			return "";
-		$value		= floor( $ratio * 100 )." %";
+		$value		= floor( $ratio * 100 )."&nbsp;%";
 		$attributes	= array( 'class' => $this->classPercentage );
-		$div		= UI_HTML_Tag::create( "div", $value, $attributes );
+		$div		= UI_HTML_Tag::create( "span", $value, $attributes );
 		return $div;
 	}
-	
+
+	/**
+	 *	Builds HTML Code of Ratio Block.
+	 *	@access		protected
+	 *	@param		int			$found		Amount of positive Cases
+	 *	@param		int			$count		Amount of all Cases
+	 *	@return		string
+	 */
 	protected function renderRatio( $found, $count )
 	{
 		if( !$this->getOption( 'useRatio' ) )
 			return "";
 		$content	= $found."/".$count;
 		$attributes	= array( 'class' => $this->classRatio );
-		$div		= UI_HTML_Tag::create( "div", $content, $attributes );
+		$div		= UI_HTML_Tag::create( "span", $content, $attributes );
 		return $div;
 	}
 
@@ -188,6 +212,20 @@ class UI_HTML_Indicator extends ADT_OptionObject
 	}
 
 	/**
+	 *	Sets Option.
+	 *	@access		public
+	 *	@param		string		$key		Option Key (useColor|usePercentage|useRatio)
+	 *	@param		bool		$values		Flag: switch Option
+	 *	@return		bool
+	 */
+	public function setOption( $key, $value )
+	{
+		if( !in_array( $key, $this->optionKeys ) )
+			throw new OutOfRangeException( 'Option "'.$key.'" is not a valid Indicator Option.' );
+		return parent::setOption( $key, $value );
+	}
+
+	/**
 	 *	Sets CSS Class of outer DIV.
 	 *	@access		public
 	 *	@param		string		$class		CSS Class Name
@@ -207,6 +245,17 @@ class UI_HTML_Indicator extends ADT_OptionObject
 	public function setPercentageClass( $class )
 	{
 		$this->classPercentage	= $class;
+	}
+
+	/**
+	 *	Sets CSS Class of Ratio DIV.
+	 *	@access		public
+	 *	@param		string		$class		CSS Class Name
+	 *	@return		void
+	 */
+	public function setRatioClass( $class )
+	{
+		$this->classRatio	= $class;
 	}
 }
 ?>
