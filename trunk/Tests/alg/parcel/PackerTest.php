@@ -41,19 +41,19 @@ class Tests_Alg_Parcel_PackerTest extends PHPUnit_Framework_TestCase
 		);
 		$this->volumes	= array(
 			'S'	=> array(
-				'a'	=> 0.2,
-				'b'	=> 0.5,
-				'c'	=> 0.8
+				'a'	=> 0.4,
+				'b'	=> 0.8,
+				'c'	=> 2
 			),
 			'M'	=> array(
-				'a'	=> 0.11,
-				'b'	=> 0.26,
-				'c'	=> 0.4
+				'a'	=> 0.2,
+				'b'	=> 0.4,
+				'c'	=> 1.0
 			),
 			'L'	=> array(
-				'a'	=> 0.06,
-				'b'	=> 0.19,
-				'c'	=> 0.27
+				'a'	=> 0.1,
+				'b'	=> 0.2,
+				'c'	=> 0.5
 			)
 		);
 
@@ -66,6 +66,7 @@ class Tests_Alg_Parcel_PackerTest extends PHPUnit_Framework_TestCase
 	 */
 	public function setUp()
 	{
+		$this->packer	= new Alg_Parcel_Packer( $this->packets, $this->articles, $this->volumes );
 	}
 	
 	/**
@@ -82,7 +83,7 @@ class Tests_Alg_Parcel_PackerTest extends PHPUnit_Framework_TestCase
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function test__construct()
+	public function testConstruct()
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
@@ -110,9 +111,22 @@ class Tests_Alg_Parcel_PackerTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testCalculatePrice()
 	{
-		$this->markTestIncomplete( 'Incomplete Test' );
-		$assertion	= TRUE;
-		$creation	= Alg_Parcel_Packer::calculatePrice();
+		$articles	= array(
+			'a'	=> 1,
+			'b'	=> 1,
+			'c'	=> 1,
+		);
+		$assertion	= 8;
+		$creation	= $this->packer->calculatePrice( $articles );
+		$this->assertEquals( $assertion, $creation );
+
+		$articles	= array(
+			'a'	=> 2,
+			'b'	=> 2,
+			'c'	=> 1,
+		);
+		$assertion	= 10;
+		$creation	= $this->packer->calculatePrice( $articles );
 		$this->assertEquals( $assertion, $creation );
 	}
 

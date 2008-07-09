@@ -19,21 +19,25 @@ import( 'de.ceus-media.xml.rss.Builder' );
 class XML_RSS_GoogleBaseBuilder extends XML_RSS_Builder
 {
 	protected $itemElements	= array(
-		'titel'						=> false,
-		'beschreibung'				=> false,
-		'g:preis'					=> false,
+		'title'						=> false,
+		'description'				=> false,
+		'titel'						=> TRUE,
+		'beschreibung'				=> TRUE,
+		'link'						=> TRUE,
+		'g:id'						=> TRUE,
+		'g:preis'					=> TRUE,
+		'g:autor'					=> TRUE,
 		'g:isbn'					=> false,
-		'g:autor'					=> false,
 		'g:bild_url'				=> false,
-		'g:format'					=> false,
-		'g:id'						=> false,
-		'g:künstler'				=> false,
 		'g:name_publikation'		=> false,
 		'g:produktart'				=> false,
 		'g:sprache'					=> false,
 		'g:standort'				=> false,
 		'g:währung'					=> false,
+		'g:zustand'					=> false,
 		'g:veröffentlichungs_datum'	=> false,
+		'g:herstellungsjahr'		=> false,
+		'g:veröffentlichung_band'	=> false,
 	);
 	/**	@var		string		$namespaceUri		URI of Google Base Namespace */
 	public static $namespaceUri	= "http://base.google.com/ns/1.0";
