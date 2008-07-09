@@ -91,7 +91,6 @@ class UI_HTML_Paging extends ADT_OptionObject
 				}*/
 			}
 			
-			
 			$pages[]	= $this->buildButton( $here + 1, 'class_text' );												//  page here
 			$after	= ceil( ( ( $amount - $limit ) / $limit ) - $here );											//  pages after
 			if( $after )

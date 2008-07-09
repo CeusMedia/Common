@@ -33,7 +33,7 @@ class File_Editor extends File_Reader
 	public function __construct( $fileName, $creationMode = NULL, $creationUser = NULL, $creationGroup = NULL )
 	{
 		parent::__construct( $fileName );
-		$this->writer	= new File_Writer( $fileName, $creationMode, $creationUser, $creationGroup )
+		$this->writer	= new File_Writer( $fileName, $creationMode, $creationUser, $creationGroup );
 	}
 
 	/**

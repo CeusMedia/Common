@@ -122,7 +122,7 @@ class ADT_OptionObject implements ArrayAccess, Countable
 	 */
 	public function hasOption( $key )
 	{
-		return isset( $this->options[$key] );
+		return array_key_exists( (string) $key, $this->options );
 	}
 	
 	/**
