@@ -1,0 +1,94 @@
+<?php
+import( 'de.ceus-media.math.Formula' );
+/**
+ *	Lagrange Interpolation.
+ *	@package		math.analysis
+ *	@uses			Math_Formula
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@since			03.02.2006
+ *	@version		0.6
+ */
+/**
+ *	Lagrange Interpolation.
+ *	@package		math.analysis
+ *	@uses			Math_Formula
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@since			03.02.2006
+ *	@version		0.6
+ */
+class Math_Analysis_LagrangeInterpolation
+{
+	/**	@var		array		$data			Array of x and y values (Xi->Fi) */
+	protected $data				= array();
+	/**	@var		array		$expressions	Array of built Expressions */
+	protected $expressions		= array();	
+
+	/**
+	 *	Sets Data.
+	 *	@access		public
+	 *	@param		array		$data			Array of x and y values (Xi->Fi)
+	 *	@return		void
+	 */
+	public function setData( $data )
+	{
+		$this->data	= $data;
+	}
+
+	/**
+	 *	Build Expressions for Interpolation.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function buildExpressions()
+	{
+		$this->expressions	= array();
+		$values	= array_keys( $this->data );
+		for( $i=0; $i<count( $values ); $i++ )
+		{
+			$this->expressions[$i]	= "";
+			for( $k=0; $k<count( $values ) ;$k++ )
+			{
+				if( $k == $i )
+					continue;
+				$expression	= "(x-".$values[$k].")/(".$values[$i]."-".$values[$k].")";
+				if( strlen( $this->expressions[$i] ) )
+					$this->expressions[$i]	.= "*".$expression;
+				else
+					$this->expressions[$i]	= $expression;
+			}
+		}
+	}
+
+	/**
+	 *	Returns built Expression.
+	 *	@access		public
+	 *	@return		array
+	 */
+	public function getExpressions()
+	{
+		return $this->expressions;
+	}
+
+	/**
+	 *	Interpolates for a specific x value and returns P(x).
+	 *	@access		public
+	 *	@param		double		$x				Value to interpolate for
+	 *	@return		double
+	 *	@todo		Var x is not needed? Why getValue( 2 ) ?
+	 */
+	public function interpolate( $x )
+	{
+		$sum	= 0;
+		$values	= array_values( $this->data );
+		$expressions	= $this->getExpressions();
+		for( $i=0; $i<count( $expressions ); $i++ )
+		{
+			$expression	= $expressions[$i];
+			$formula	= new Math_Formula( $expression, array( "x" ) );
+			$value	= $formula->getValue( 2 );
+			$sum	+= $values[$i] * $value;
+		}
+		return $sum;
+	}
+}
+?>
