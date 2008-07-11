@@ -1,18 +1,38 @@
 <?php
-
-import( 'de.ceus-media.file.Reader' );
-import( 'de.ceus-media.ui.html.Elements' );
-import( 'de.ceus-media.ui.html.Tag' );
-
-abstract class View
+/**
+ *	Abstrace Base View Class for Tool Applications.
+ *	@package		framework.tool
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@since			27.05.2008
+ *	@version		0.1
+ */
+/**
+ *	Abstrace Base View Class for Tool Applications.
+ *	@package		framework.tool
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@since			27.05.2008
+ *	@version		0.1
+ */
+abstract class Framework_Tool_View
 {
-	private $config;
-	private $logic;
-	private $request;
-	private $response;
-	private $session;
+	/**	@var		File_Configuration_Reader	$config			Configuration Object */
+	protected $config;
+	/**	@var		Logic						$logic			Logic Object */
+	protected $logic;
+	/**	@var		Net_HTTP_Request_Receiver	$request		HTTP Request Object */
+	protected $request;
+	/**	@var		Net_HTTP_Request_Response	$response		HTTP Response Object */
+	protected $response;
+	/**	@var		Net_HTTP_Session			$session		Session Object */
+	protected $session;
 
-	public function __construct( Environment $environment )
+	/**
+	 *	Constructor.
+	 *	@access		public
+	 *	@param		Framework_Tool_Environment	$environment	Environment Object
+	 *	@return		void
+	 */
+	public function __construct( Framework_Tool_Environment $environment )
 	{
 		$this->config		= $environment->getConfiguration();							//  get Configuration Object
 		$this->logic		= $environment->getLogic();									//  get Logic Object
@@ -23,6 +43,11 @@ abstract class View
 		$this->buildView();
 	}
 	
-	abstract private function buildView();
+	/**
+	 *	Calls View Components and responds complete View. To be overwritten.
+	 *	@access		protected
+	 *	@return		void
+	 */
+	abstract protected function buildView();
 }
 ?>

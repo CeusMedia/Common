@@ -1,12 +1,11 @@
 <?php
 /**
- *	Setup for Resource Environment of Tool.
- *	@package		tool
+ *	Setup for Resource Environment for Tool Applications.
+ *	@package		framework.tool
  *	@uses			File_Configuration_Reader
  *	@uses			Net_HTTP_Request_Receiver
  *	@uses			Net_HTTP_Request_Response
  *	@uses			Net_HTTP_Session
- *	@uses			Logic
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			27.05.2008
  *	@version		0.1
@@ -15,20 +14,18 @@ import( 'de.ceus-media.file.configuration.Reader' );
 import( 'de.ceus-media.net.http.request.Receiver' );
 import( 'de.ceus-media.net.http.request.Response' );
 import( 'de.ceus-media.net.http.Session' );
-import( 'classes.Logic' );
 /**
- *	Setup for Environment of Tool.
- *	@package		tool
+ *	Setup for Resource Environment for Tool Applications.
+ *	@package		framework.tool
  *	@uses			File_Configuration_Reader
  *	@uses			Net_HTTP_Request_Receiver
  *	@uses			Net_HTTP_Request_Response
  *	@uses			Net_HTTP_Session
- *	@uses			Logic
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			27.05.2008
  *	@version		0.1
  */
-class Environment
+class Framework_Tool_Environment
 {
 	/**	@var	File_Configuration_Reader	$config		Configuration Object */
 	private $config;
@@ -41,19 +38,22 @@ class Environment
 	/**	@var	Logic						$logic		Logic Object */
 	private $logic;
 
+	public static $configFile	= "config.ini";
+
 	/**
 	 *	Constructor, sets up Resource Environment.
 	 *	@access		public
-	 *	@param		string		$configFile		File Name of Configuration File
+	 *	@param		string		$logicClassName			Class Name of Logic Class, must be loaded before
 	 *	@return		void
 	 */
-	public function __construct( $configFile = "config.ini" )
+	public function __construct( $logicClassName )
 	{
-		$this->config	= new File_Configuration_Reader( $configFile );
-		$this->logic	= new Logic( $this->config );
+		$this->config	= new File_Configuration_Reader( self::$configFile );
 		$this->request	= new Net_HTTP_Request_Receiver();
 		$this->response	= new Net_HTTP_Request_Response();
 		$this->session	= new Net_HTTP_Session();
+		$this->logic	= new $logicClassName( $this->config );
+
 		ob_start();
 	}
 	
