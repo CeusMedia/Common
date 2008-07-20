@@ -2,23 +2,21 @@
 import( 'de.ceus-media.ui.html.MonthCalendar' );
 /**
  *	Generator for Month Calendar with Events.
- *	@package	ui
- *	@subpackage	html
- *	@extends	MonthCalendar
- *	@author		Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@since		20.03.06
- *	@version		0.1
+ *	@package		ui.html
+ *	@extends		UI_HTML_MonthCalendar
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@since			20.03.06
+ *	@version		0.6
  */
 /**
  *	Generator for Month Calendar with Events.
- *	@package	ui
- *	@subpackage	html
- *	@extends	MonthCalendar
- *	@author		Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@since		20.03.06
- *	@version		0.1
+ *	@package		ui.html
+ *	@extends		UI_HTML_MonthCalendar
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@since			20.03.06
+ *	@version		0.6
  */
-class EventMonthCalendar extends MonthCalendar
+class UI_HTML_EventMonthCalendar extends UI_HTML_MonthCalendar
 {
 	/**	@var	array		$events			Array of Days with Events */
 	protected $events	= array();
@@ -33,56 +31,9 @@ class EventMonthCalendar extends MonthCalendar
 	{
 		parent::__construct();
 		$this->setOption( 'carrier_day', "day" );
-		$months	= array(
-			"Januar",
-			"Februar",
-			"März",
-			"April",
-			"Mai",
-			"Juni",
-			"Juli",
-			"August",
-			"September",
-			"Oktober",
-			"November",
-			"Dezember"
-			);
-		$this->setMonthNames( $months );
-		$days	= array(
-			"Mo",
-			"Di",
-			"Mi",
-			"Do",
-			"Fr",
-			"Sa",
-			"So"
-			);
-		$this->setDayNames( $days );
+		$this->setDay( date( "j" ) );
 	}
 	
-	/**
-	 *	Sets Day to show.
-	 *	@access		public
-	 *	@param		int			$day			Day to show.
-	 *	@return		void
-	 */
-	public function setDay( $day )
-	{
-		$this->setOption( 'show_day', $day );
-	}
-	
-	/**
-	 *	Sets Events for Links.
-	 *	@access		public
-	 *	@param		array		$events		Array of Days with Events
-	 *	@return		void
-	 */
-	public function setEvents( $events )
-	{
-		$this->events	= $events;
-	}
-	
-	//  -- PRIVATE METHODS  --  //
 	/**
 	 *	Modification of Cell Content of Days - to be overwritten.
 	 *	@access		protected
@@ -105,6 +56,28 @@ class EventMonthCalendar extends MonthCalendar
 		}
 		$class	= implode( ' ', $classes );
 		return $data	= array( 'day'	=> $day, 'class' => $class );		
+	}
+	
+	/**
+	 *	Sets Day to show.
+	 *	@access		public
+	 *	@param		int			$day			Day to show.
+	 *	@return		void
+	 */
+	public function setDay( $day )
+	{
+		$this->setOption( 'show_day', $day );
+	}
+	
+	/**
+	 *	Sets Events for Links.
+	 *	@access		public
+	 *	@param		array		$events		Array of Days with Events
+	 *	@return		void
+	 */
+	public function setEvents( $events )
+	{
+		$this->events	= $events;
 	}
 }
 ?>

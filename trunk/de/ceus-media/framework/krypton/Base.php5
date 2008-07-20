@@ -156,7 +156,8 @@ abstract class Framework_Krypton_Base
 		$config	= $this->registry->get( 'config' );
 
 		//  --  DATABASE OPTIONS  --  //
-		foreach( $config['database.options'] as $key => $value )
+		$options	= $config['database.options'];
+		foreach( $options as $key => $value )
 			$options[constant( "PDO::".$key )]	= eval( "return ".$value.";" );
 
 		//  --  DATA SOURCE NAME  --  //

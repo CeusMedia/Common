@@ -79,8 +79,9 @@ class Net_HTTP_Request_Response
 			$this->body		= "";
 			return $length;
 		}
+		ob_flush();
 		$length	= strlen( $this->body );
-		header( "Content-Length: ".$length );
+#		header( "Content-Length: ".$length );
 		print( $this->body );
 		flush();
 		$this->headers	= array();

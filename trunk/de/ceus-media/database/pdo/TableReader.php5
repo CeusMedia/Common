@@ -167,16 +167,16 @@ class Database_PDO_TableReader
 
 		return $resultSet->fetchAll( PDO::FETCH_ASSOC );
 
-		$list	= array();
-		while( $d = $q->fetch( PDO::FETCH_OBJ ) )
-		{
-			$data	= array();
-			foreach( $this->columns as $column )
-				if( in_array( "*", $keys ) || in_array( $column, $keys ) )
-					$data[$column] = stripslashes( $d->$column );
-			$list[] = $data;
-		}
-		return $list;
+#		$list	= array();
+#		while( $d = $q->fetch( PDO::FETCH_OBJ ) )
+#		{
+#			$data	= array();
+#			foreach( $this->columns as $column )
+#				if( in_array( "*", $keys ) || in_array( $column, $keys ) )
+#					$data[$column] = stripslashes( $d->$column );
+#			$list[] = $data;
+#		}
+#		return $list;
 	}
 
 	/**
