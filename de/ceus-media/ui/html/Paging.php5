@@ -33,14 +33,14 @@ class UI_HTML_Paging extends ADT_OptionObject
 		$this->setOption( 'coverage',		"2" );
 		$this->setOption( 'extreme',		"1" );
 		$this->setOption( 'more',			"1" );
-		$this->setOption( 'indent',			"\n\t" );
+		$this->setOption( 'linebreak',		"\n" );
 		$this->setOption( 'key_request',	"?" );
 		$this->setOption( 'key_param',		"&" );
 		$this->setOption( 'key_assign',		"=" );
 		$this->setOption( 'key_offset',		"offset" );
-		$this->setOption( 'class_span',		"paging" );
-		$this->setOption( 'class_link',		"paging" );
-		$this->setOption( 'class_text',		"text" );
+		$this->setOption( 'class_span',		"pagingSpan" );
+		$this->setOption( 'class_link',		"pagingLink" );
+		$this->setOption( 'class_text',		"pagingText" );
 
 		$this->setOption( 'text_first',		"<<" );
 		$this->setOption( 'text_previous',	"<" );
@@ -67,44 +67,66 @@ class UI_HTML_Paging extends ADT_OptionObject
 		$pages	= array();
 		if( $limit && $amount > $limit )
 		{
-			$cover	= $this->getOption( 'coverage' );
+			$cover		= $this->getOption( 'coverage' );
 			$extreme	= $this->getOption( 'extreme' );
-			$more	= $this->getOption( 'more' );
-			$offset	= ( (int)$offset >= 0 ) ? (int)$offset : 0;												//  reset invalid negative offsets
-			$offset	= ( 0 !== $offset % $limit ) ? ceil( $offset / $limit ) * $limit : $offset;							//  synchronise invalid offsets
-			$here	= ceil( $offset / $limit );																//  current page
-			$before	= (int)$offset / (int)$limit;															//  pages before
+			$more		= $this->getOption( 'more' );
+			$offset		= ( (int)$offset >= 0 ) ? (int)$offset : 0;												//  reset invalid negative offsets
+			$offset		= ( 0 !== $offset % $limit ) ? ceil( $offset / $limit ) * $limit : $offset;				//  synchronise invalid offsets
+			$here		= ceil( $offset / $limit );																//  current page
+			$before		= (int)$offset / (int)$limit;															//  pages before
 			if( $before )
 			{
-				if( $extreme && $before > $extreme )														//  first page
-					$pages[]	= $this->buildButton( 'text_first', 'class_link', 0, 'class_link' );
-				$pages[]	= $this->buildButton( 'text_previous', 'class_link', ( $here - 1 ) * $limit, 'class_link' );			//  previous page
-				if( $more && $before > $cover )															//  more before pages
+				//  --  FIRST PAGE --  //
+				if( $extreme && $before > $extreme )															//  first page
+					$pages[]	= $this->buildButton( 'text_first', 'class_link', 'class_link', 0 );
+
+				//  --  PREVIOUS PAGE --  //
+				$previous	= ( $here - 1 ) * $limit;
+				$pages[]	= $this->buildButton( 'text_previous', 'class_link', 'class_link', $previous );		//  previous page
+
+				//  --  MORE PAGES  --  //
+				if( $more && $before > $cover )																	//  more previous pages
 					$pages[]	= $this->buildButton( 'text_more', 'class_text' );
-				for( $i=max( 0, $before - $cover ); $i<$here; $i++ )											//  before pages
-					$pages[]	= $this->buildButton( $i + 1, 'class_link', $i * $limit, 'class_link' );
+
+				//  --  PREVIOUS PAGES --  //
+				for( $i=max( 0, $before - $cover ); $i<$here; $i++ )											//  previous pages
+					$pages[]	= $this->buildButton( $i + 1, 'class_link', 'class_link', $i * $limit );
 /*				if( $this->getOption( 'key_previous' ) )
 				{
 					$latest	= count( $pages ) - 1;
-					$button	= $this->buildButton( $i, 'class_link', ($i-1) * $limit, 'class_link', 'previous' );
+					$button	= $this->buildButton( $i, 'class_link', 'class_link', ($i-1) * $limit, 'previous' );
 					$pages[$latest]	= $button;
 				}*/
 			}
 			
-			$pages[]	= $this->buildButton( $here + 1, 'class_text' );												//  page here
-			$after	= ceil( ( ( $amount - $limit ) / $limit ) - $here );											//  pages after
+			$pages[]	= $this->buildButton( $here + 1, 'class_text' );										//  page here
+			$after	= ceil( ( ( $amount - $limit ) / $limit ) - $here );										//  pages after
 			if( $after )
 			{
-				for( $i=0; $i<min( $cover, $after ); $i++ )													//  after pages
-					$pages[]	= $this->buildButton( $here + $i + 2, 'class_link', ( $here + $i + 1 ) * $limit, 'class_link' );
-				if( $more && $after > $cover )															//  more after pages
+				//  --  NEXT PAGES --  //
+				for( $i=0; $i<min( $cover, $after ); $i++ )														//  after pages
+				{
+					$offset		= ( $here + $i + 1 ) * $limit;
+					$pages[]	= $this->buildButton( $here + $i + 2, 'class_link', 'class_link', $offset );
+				}
+
+				//  --  MORE PAGES --  //
+				if( $more && $after > $cover )																	//  more after pages
 					$pages[]	= $this->buildButton( 'text_more', 'class_text' );
-				$pages[]	= $this->buildButton( 'text_next', 'class_link', ( $here + 1 ) * $limit, 'class_link' );			//  next page
-				if( $extreme && $after > $extreme )														//  last page
-					$pages[]	= $this->buildButton( 'text_last', 'class_link', ( $here + $after ) * $limit, 'class_link' );
+
+				//  --  NEXT PAGE --  //
+				$offset		= ( $here + 1 ) * $limit;
+				$pages[]	= $this->buildButton( 'text_next', 'class_link', 'class_link', $offset );			//  next page
+
+				//  --  LAST PAGE --  //
+				if( $extreme && $after > $extreme )																//  last page
+				{
+					$offset		= ( $here + $after ) * $limit;
+					$pages[]	= $this->buildButton( 'text_last', 'class_link', 'class_link', $offset );
+				}
 			}
 		}
-		$pages	= implode( $this->getOption( "indent" ), $pages );
+		$pages	= implode( $this->getOption( "linebreak" ), $pages );
 		return $pages;
 	}
 	
@@ -117,30 +139,29 @@ class UI_HTML_Paging extends ADT_OptionObject
 	 *	@param		string		$linkClass		Style Class of Paging Button Link
 	 *	@return		string
 	 */
-	protected function buildButton( $text, $spanClass, $offset = false, $linkClass = false, $key = false )
+	protected function buildButton( $text, $spanClass, $linkClass = NULL, $offset = NULL, $key = NULL )
 	{
 		$text	= $this->hasOption( $text ) ? $this->getOption( $text ) : $text;
-		if( "" !== $text )
+		if( empty( $text ) )
+			throw new InvalidArgumentException( 'Button Text cannot be empty.' );
+		$spanClass	= $this->getOption( $spanClass ) ? $this->getOption( $spanClass ) : "";
+		if( $offset !== NULL )
 		{
-			$spanClass	= $this->getOption( $spanClass ) ? $this->getOption( $spanClass ) : "";
-			if( false !== $offset )
-			{
-				$linkClass	= $this->getOption( $linkClass ) ? $this->getOption( $linkClass ) : "";
-				$url		= $this->buildLink( $offset );
-				$key		= $key ? $this->getOption( 'key_'.$key ) : "";
-				$text		= UI_HTML_Elements::Link( $url, $text, $linkClass, false, false, false, $key );
-			}
-			return $this->buildSpan( $text, $spanClass );
+			$linkClass	= $this->getOption( $linkClass ) ? $this->getOption( $linkClass ) : "";
+			$url		= $this->buildLinkUrl( $offset );
+			$key		= $key ? $this->getOption( 'key_'.$key ) : "";
+			$text		= UI_HTML_Elements::Link( $url, $text, $linkClass, NULL, NULL, NULL, $key );
 		}
+		return $this->buildSpan( $text, $spanClass );
 	}
 
 	/**
-	 *	Builds HTML Link of Paging Button.
+	 *	Builds Link URL of Paging Button.
 	 *	@access		protected
 	 *	@param		int			$offset			Currently offset entries
 	 *	@return		string
 	 */
-	protected function buildLink( $offset )
+	protected function buildLinkUrl( $offset )
 	{
 		$param	= $this->getOption( 'param' );
 		$param[$this->getOption( 'key_offset' )] = $offset;
@@ -159,10 +180,10 @@ class UI_HTML_Paging extends ADT_OptionObject
 	 *	@param		string		$class			Additive Style Class of Paging Button Span
 	 *	@return		string
 	 */
-	protected function buildSpan( $text, $class = false )
+	protected function buildSpan( $text, $class = NULL )
 	{
 		$class 	= $class ? $this->getOption( 'class_span' )." ".$class : $this->getOption( 'class_span' );
-		$span	= "<span class='".$class."'>".$text."</span>";
+		$span	= UI_HTML_Tag::create( "span", $text, array( 'class' => $class ) );
 		return $span;
 	}
 }

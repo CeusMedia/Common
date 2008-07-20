@@ -20,6 +20,8 @@ import( 'de.ceus-media.framework.krypton.core.Component' );
  */
 class Framework_Krypton_Core_View extends Framework_Krypton_Core_Component
 {
+	public static $baseUrl	= "index.php5";
+	
 	/**
 	 *	Constructor, references Output Objects.
 	 *	@access		public
@@ -30,16 +32,31 @@ class Framework_Krypton_Core_View extends Framework_Krypton_Core_Component
 		parent::__construct( $useWikiParser );
 	}
 	
+	/**
+	 *	Abstract Method for Content Views.
+	 *	@access		public
+	 *	@return		string
+	 */
 	public function buildContent()
 	{
 		return "";
 	}
 	
+	/**
+	 *	Abstract Method for Control Views.
+	 *	@access		public
+	 *	@return		string
+	 */
 	public function buildControl()
 	{
 		return "";
 	}
 
+	/**
+	 *	Abstract Method for Content Views in Extra Column.
+	 *	@access		public
+	 *	@return		string
+	 */
 	public function buildExtra()
 	{
 		return "";
@@ -48,34 +65,49 @@ class Framework_Krypton_Core_View extends Framework_Krypton_Core_Component
 	/**
 	 *	Builds HTML for Paging of Lists.
 	 *	@access		public
-	 *	@param		int		$count_all		Total mount of total entries
-	 *	@param		int		$limit			Maximal amount of displayed entries
-	 *	@param		int		$offset			Currently offset entries
-	 *	@param		array	$options		Array of Options to set
+	 *	@param		int			$numberTotal	Total mount of total entries
+	 *	@param		int			$rowLimit		Number of displayed Rows
+	 *	@param		int			$rowOffset		Number of of skipped Rows
+	 *	@param		array		$optionMap		Array of Options to set
 	 *	@return		string
 	 */
-	public function buildPaging( $count_all, $limit, $offset, $options = array())
+	public function buildPaging( $numberTotal, $rowLimit, $rowOffset, $optionMap = array())
 	{
 		import( 'de.ceus-media.ui.html.Paging' );
 		$request	= Framework_Krypton_Core_Registry::getStatic( "request" );
 		$link		= $request->get( 'link');
-		$words		= $this->words['main']['paging'];
 		
 		$paging			= new UI_HTML_Paging;
-		$paging->setOption( 'uri', "index.php5" );
+		$paging->setOption( 'uri', self::$baseUrl );
 		$paging->setOption( 'param', array( 'link'	=> $link ) );
 		$paging->setOption( 'indent', "" );
+		$paging->setOption( 'class_link', 'paging' );
+		$paging->setOption( 'class_span', 'paging' );
+		$paging->setOption( 'class_text', 'text' );
 
-		foreach( $options as $key => $value )
+		foreach( $optionMap as $key => $value )
+		{
+			if( !$paging->hasOption( $key ) )
+				throw new InvalidArgumentException( 'Option "'.$key.'" is not a valid Paging Option.' );
 			$paging->setOption( $key, $value );
+		}
 
-		$paging->setOption( 'text_first', $words['first'] );
-		$paging->setOption( 'text_previous', $words['previous'] );
-		$paging->setOption( 'text_next', $words['next'] );
-		$paging->setOption( 'text_last', $words['last'] );
-		$paging->setOption( 'text_more', $words['more'] );
+		if( isset( $this->words['main']['paging'] ) )
+		{
+			$words		= $this->words['main']['paging'];
+			if( isset( $words['first'] ) )
+				$paging->setOption( 'text_first', $words['first'] );
+			if( isset( $words['previous'] ) )
+				$paging->setOption( 'text_previous', $words['previous'] );
+			if( isset( $words['next'] ) )
+				$paging->setOption( 'text_next', $words['next'] );
+			if( isset( $words['last'] ) )
+				$paging->setOption( 'text_last', $words['last'] );
+			if( isset( $words['more'] ) )
+				$paging->setOption( 'text_more', $words['more'] );
+		}
 
-		$pages	= $paging->build( $count_all, $limit, $offset );
+		$pages	= $paging->build( $numberTotal, $rowLimit, $rowOffset );
 		return $pages;
 	}
 }

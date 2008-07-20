@@ -3,28 +3,26 @@ import( 'de.ceus-media.file.Reader' );
 import( 'de.ceus-media.file.Writer' );
 import( 'de.ceus-media.ui.html.WikiParser' );
 /**
- *	File Reader for Wiki Parser.
- *	@package		ui
- *	@subpackage		html
- *	@extends		WikiParser
+ *	File Reader and Writer for Wiki Pages.
+ *	@package		ui.html
+ *	@extends		UI_HTML_WikiParser
  *	@uses			File_Reader
  *	@uses			File_Writer
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			01.04.2006
- *	@version			0.1
+ *	@version		0.6
  */
 /**
- *	File Reader for Wiki Parser.
- *	@package		ui
- *	@subpackage		html
- *	@extends		WikiParser
+ *	File Reader and Writer for Wiki Pages.
+ *	@package		ui.html
+ *	@extends		UI_HTML_WikiParser
  *	@uses			File_Reader
  *	@uses			File_Writer
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			01.04.2006
- *	@version			0.1
+ *	@version		0.6
  */
-class FileWikiParser extends WikiParser
+class File_Wiki extends UI_HTML_WikiParser
 {
 	/**
 	 *	Construcor.
@@ -37,6 +35,54 @@ class FileWikiParser extends WikiParser
 		$this->setOption( 'use_cache', false );
 		$this->setOption( 'cache_path', '' );
 		$this->setOption( 'compress_cache', false );
+	}
+
+	/**
+	 *	Returns Filename of Cache File from a Page ID.
+	 *	@access		protected
+	 *	@param		string		$id			Page ID
+	 *	@return		string
+	 */
+	protected function getCacheFilenameFromPage( $id )
+	{
+		$filename	= $this->getOption( 'cache_path' ).md5( $id );
+		return $filename;
+	}
+	
+	/**
+	 *	Returns Name of File from a Page ID.
+	 *	@access		public
+	 *	@param		string		$id			Page ID
+	 *	@return		string
+	 */
+	public function getFilenameFromPage( $id )
+	{
+		$filename	= $this->getOption( 'path' ).str_replace( $this->getOption( 'namespace_separator' ), '/', $id ).$this->getOption( 'extension' );
+		return $filename;
+	}
+	
+	/**
+	 *	Returns URL for a Page ID.
+	 *	@access		public
+	 *	@param		string		$id			Page ID
+	 *	@return		string
+	 */
+	public function getUrlFromPage( $id )
+	{
+		$url	= $this->getOption( 'url' ).$this->getOption( 'carrier' ).$id;
+		return $url;
+	}
+	
+	/**
+	 *	Indicates whether a File for a Page ID is existing.
+	 *	@access		public
+	 *	@param		string		$id			Page ID
+	 *	@return		bool
+	 */
+	public function hasPage( $id )
+	{
+		$filename	= $this->getFilenameFromPage( $id );
+		return file_exists( $filename );
 	}
 
 	/**
@@ -114,54 +160,6 @@ class FileWikiParser extends WikiParser
 			if( file_exists( $cachefile ) )
 				unlink( $cachefile );
 		}
-	}
-	
-	/**
-	 *	Returns Name of File from a Page ID.
-	 *	@access		public
-	 *	@param		string		$id			Page ID
-	 *	@return		string
-	 */
-	public function getFilenameFromPage( $id )
-	{
-		$filename	= $this->getOption( 'path' ).str_replace( $this->getOption( 'namespace_separator' ), '/', $id ).$this->getOption( 'extension' );
-		return $filename;
-	}
-	
-	/**
-	 *	Returns URL for a Page ID.
-	 *	@access		public
-	 *	@param		string		$id			Page ID
-	 *	@return		string
-	 */
-	public function getUrlFromPage( $id )
-	{
-		$url	= $this->getOption( 'url' ).$this->getOption( 'carrier' ).$id;
-		return $url;
-	}
-	
-	/**
-	 *	Indicates whether a File for a Page ID is existing.
-	 *	@access		public
-	 *	@param		string		$id			Page ID
-	 *	@return		bool
-	 */
-	public function hasPage( $id )
-	{
-		$filename	= $this->getFilenameFromPage( $id );
-		return file_exists( $filename );
-	}
-
-	/**
-	 *	Returns Filename of Cache File from a Page ID.
-	 *	@access		protected
-	 *	@param		string		$id			Page ID
-	 *	@return		string
-	 */
-	protected function getCacheFilenameFromPage( $id )
-	{
-		$filename	= $this->getOption( 'cache_path' ).md5( $id );
-		return $filename;
 	}
 }
 ?>

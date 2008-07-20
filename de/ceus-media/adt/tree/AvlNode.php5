@@ -22,7 +22,7 @@ class ADT_Tree_AvlNode extends ADT_Tree_BalanceBinaryNode
 	 *	@param		mixed	value	Value of Root Element
 	 *	@return		void
 	 */
-	public function __construct( $value = false )
+	public function __construct( $value = FALSE )
 	{
 		parent::__construct( 2, $value );
 	}

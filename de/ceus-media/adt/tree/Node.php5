@@ -16,7 +16,7 @@
 class ADT_Tree_Node
 {
 	/**	@var	array		$children		Array of Children */
-	protected $children = array ();
+	protected $children		= array ();
 	
 	/**
 	 *	Adds a child to Tree.
@@ -27,6 +27,8 @@ class ADT_Tree_Node
 	 */
 	public function addChild( $name, $child )
 	{
+		if( isset( $this->children[$name] ) )
+			throw new InvalidArgumentException( 'A Child with Name "'.$name.'" is already existing.' );
 		$this->children[$name] = $child;
 	}
 	
@@ -48,7 +50,7 @@ class ADT_Tree_Node
 	 */
 	public function getChildren()
 	{
-		return array_values( $this->children() );
+		return $this->children;
 	}
 	
 	/**
@@ -59,9 +61,22 @@ class ADT_Tree_Node
 	 */
 	public function getChild( $name )
 	{
-		return $this->children( $name );
+		if( !array_key_exists( $name, $this->children ) )
+			throw new InvalidArgumentException( 'A Child with Name "'.$name.'" is not existing.' );
+		return $this->children[$name];
 	}
-	
+
+	/**
+	 *	Indicates whether Tree has Children or not.
+	 *	@access		public
+	 *	@param		string		$name		Child name
+	 *	@return		bool
+	 */
+	public function hasChild( $name )
+	{
+		return array_key_exists( $name, $this->children );
+	}
+
 	/**
 	 *	Indicates whether Tree has Children or not.
 	 *	@access		public
@@ -80,22 +95,10 @@ class ADT_Tree_Node
 	 */
 	public function removeChild( $name )
 	{
-		if( in_array( $name, $this->children ) )
-		{
-			unset( $this->children[$name] );
-			return true;
-		}
-		return false;
-	}
-	
-	/**
-	 *	Returns Tree as representative array.
-	 *	@access		public
-	 *	@return		array
-	 */
-	public function toArray()
-	{
-		return $this->children();
+		if( !array_key_exists( $name, $this->children ) )
+			return FALSE;
+		unset( $this->children[$name] );
+		return TRUE;
 	}
 }
 ?>

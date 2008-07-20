@@ -351,38 +351,37 @@ class UI_HTML_Elements extends UI_HTML_FormElements
 	 *	@param		bool		$relation		Relation (nofollow,licence,...)
 	 *	@return		string
 	 */
-	public static function Link( $url = "", $name, $class = "", $target = "", $confirm = "", $tabindex = false, $key = "", $relation = "" )
+	public static function Link( $url, $name, $class = NULL, $target = NULL, $confirm = NULL, $tabindex = NULL, $key = NULL, $relation = NULL )
 	{
-		$ins_class		= $class ? " class=\"".$class."\"" : "";
-		$ins_confirm	= $confirm ? " onClick=\"return confirm('".$confirm."')\"" : "";
-		$ins_key		= $key ? " accesskey=\"".$key."\"" : "";
-		$ins_target		= $target ? " target=\"".$target."\"" : "";
-		$ins_relation	= $relation ? " rel=\"".$relation."\"" : "";
 		$url = str_replace( '"', "'", $url );
 		$url = str_replace( "&", "&amp;", $url );
-		$ins_tabindex = $tabindex ? " tabindex=\"".$tabindex."\"" : "";
-		$code = "<a href=\"".$url."\"".$ins_class.$ins_target.$ins_tabindex.$ins_key.$ins_confirm." onFocus=\"this.blur()\">".$name."</a>";
-		$code = "<a href=\"".$url."\"".$ins_relation.$ins_class.$ins_target.$ins_tabindex.$ins_key.$ins_confirm.">".$name."</a>";
-		return $code;
+		$attributes	= array(
+			'href'		=> $url,
+			'class'		=> $class		? $class : NULL,
+			'accesskey'	=> $key			? $key : NULL,
+			'tabindex'	=> $tabindex	? $tabindex : NULL,
+			'target'	=> $target		? $target : NULL,
+			'rel'		=> $relation	? $relation : NULL,
+			'onclick'	=> $confirm		? "return confirm('".$confirm."')" : NULL,
+		);
+		$link	= UI_HTML_Tag::create( "a", $name, $attributes );
+		return $link;
 	}
 
 	/**
 	 *	Build List Item.
 	 *	@access		public
-	 *	@param		string		$content			Content of List Item
+	 *	@param		string		$content		Content of List Item
 	 *	@param		int			$level			Level of Indenting
 	 *	@param		array		$attributes		Array of HTML Attributes
 	 *	@return		string
 	 */
-	public static static function ListItem( $content, $level = 0, $attributes = array() )
+	public static function ListItem( $content, $level = 0, $attributes = array() )
 	{
-		$list	= array();
-		$indent	= str_repeat( "  ", 2 * abs( (int)$level ) );
-		foreach( $attributes as $key => $value )
-			$list[]	= " ".$key."=\"".$value."\"";
-		$attributes	= implode( "", $list );
-		$code	= "  ".$indent."<li".$attributes.">".$content."</li>";
-		return	$code;
+		$indent	= str_repeat( "	", 2 * abs( (int) $level ) + 1 );
+		$tag	= UI_HTML_Tag::create( "li", $content, $attributes );
+		$code	= $indent.$tag;
+		return $code;
 	}
 
 	/**
@@ -393,16 +392,13 @@ class UI_HTML_Elements extends UI_HTML_FormElements
 	 *	@param		array		$attributes		Array of HTML Attributes
 	 *	@return		string
 	 */
-	static function orderedList( $items, $level = 0, $attributes = array() )
+	public static function orderedList( $items, $level = 0, $attributes = array() )
 	{
-		$content	= implode( "\n", $items );
-		$list	= array();
-		$indent	= str_repeat( "  ", 2 * abs( (int)$level ) );
-		foreach( $attributes as $key => $value )
-			$list[]	= " ".$key."=\"".$value."\"";
-		$attributes	= implode( "", $list );
-		$code	= $indent."<ol".$attributes.">\n".$content."\n".$indent."</ol>";
-		return	$code;
+		$content	= "\n".implode( "\n", $items )."\n";
+		$indent		= str_repeat( "	", 2 * abs( (int) $level ) );
+		$tag		= UI_HTML_Tag::create( "ol", $content, $attributes );
+		$code		= $indent.$tag;
+		return $code;
 	}
 
 	/**
@@ -457,7 +453,8 @@ class UI_HTML_Elements extends UI_HTML_FormElements
 	{
 		$ins_class	= $class ? " class=\"".$class."\"" : "";
 		$ins_check	= $checktable_id ? " onClick=\"ct.switchTable('".$checktable_id."');\"" : "";
-		$code	= "<caption".$ins_class.$ins_check."><span>".$caption."</span></caption>";
+		$span		= UI_HTML_Tag::create( "span", $caption );
+		$code		= "<caption".$ins_class.$ins_check.">".$span."</caption>";
 		return $code;
 	}
 
@@ -490,8 +487,8 @@ class UI_HTML_Elements extends UI_HTML_FormElements
 	 */
 	public static function TableHeads( $heads, $class = '', $colspan = 0 )
 	{
-		$cols	= array();
-		$class	= $class ? " class=\"".$class."\"" : "";
+		$cols		= array();
+		$class		= $class ? " class=\"".$class."\"" : "";
 		$colspan	= $colspan ? " colspan=\"".$colspan."\"" : "";
 		foreach( $heads as $head )
 			$cols[]	= "<th".$class.$colspan.">".$head."</th>";
@@ -509,14 +506,11 @@ class UI_HTML_Elements extends UI_HTML_FormElements
 	 */
 	public static function unorderedList( $items, $level = 0, $attributes = array() )
 	{
-		$content	= implode( "\n", $items );
-		$list	= array();
-		$indent	= str_repeat( "  ", 2 * abs( (int)$level ) );
-		foreach( $attributes as $key => $value )
-			$list[]	= " ".$key."=\"".$value."\"";
-		$attributes	= implode( "", $list );
-		$code	= $indent."<ul".$attributes.">\n".$content."\n".$indent."</ul>";
-		return	$code;
+		$indent		= str_repeat( "  ", 2 * abs( (int)$level ) );
+		$content	= "\n".implode( "\n", $items )."\n".$indent;
+		$tag		= UI_HTML_Tag::create( "ul", $content, $attributes );
+		$code		= $indent.$tag;
+		return $code;
 	}
 }
 ?>
