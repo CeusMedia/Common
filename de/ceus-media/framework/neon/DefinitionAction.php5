@@ -1,24 +1,27 @@
 <?php
 import( 'de.ceus-media.framework.neon.Action' );
 import( 'de.ceus-media.file.log.LogFile' );
-import( 'de.ceus-media.validation.DefinitionValidator' );
+import( 'de.ceus-media.alg.validation.Predicates' );
+import( 'de.ceus-media.alg.validation.DefinitionValidator' );
 /**
  *	Generic Definition Action Handler.
  *	@package		framework.neon
  *	@extends		Framework_Neon_Action
- *	@uses			DefinitionValidator
+ *	@uses			Alg_Definition_Predicates
+ *	@uses			Alg_Definition_DefinitionValidator
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			18.06.2006
- *	@version		0.1
+ *	@version		0.5
  */
 /**
  *	Generic Definition Action Handler.
  *	@package		framework.neon
  *	@extends		Framework_Neon_Action
- *	@uses			DefinitionValidator
+ *	@uses			Alg_Definition_Predicates
+ *	@uses			Alg_Definition_DefinitionValidator
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			18.06.2006
- *	@version		0.1
+ *	@version		0.5
  */
 class Framework_Neon_DefinitionAction extends Framework_Neon_Action
 {
@@ -33,16 +36,17 @@ class Framework_Neon_DefinitionAction extends Framework_Neon_Action
 	public function __construct()
 	{
 		parent::__construct();
-		$this->validator	= new DefinitionValidator;
+		$this->validator	= new Alg_Validation_DefinitionValidator;
 		$this->loadLanguage( 'validator', false, false );
-		$this->validator->setMessages( $this->words['validator'] );
+		$this->validator->setMessages( $this->words['validator']['messages'] );
 		$this->definition	=& $this->ref->get( 'definition' );
 	}
 
 	/**
-	 *	Runs Validation of Field Definitions againt Request Input and creates Error Messages.
+	 *	Loads Form Definitions.
 	 *	@access		protected
 	 *	@param		string		$file				Name of XML Definition File (e.g. %PREFIX%#FILE#.xml)
+	 *	@param		string		$form				Form Name in XML Definition File
 	 *	@return		void
 	 */
 	protected function loadDefinition( $file , $form )
@@ -80,11 +84,9 @@ class Framework_Neon_DefinitionAction extends Framework_Neon_Action
 //			{
 			if( !is_array( $value ) )
 			{
-				$_errors	= $this->validator->validateSyntax( $field, $data, $value );
-				if( !count( $_errors ) )
-					$_errors	= $this->validator->validateSemantics( $field, $data, $value );
-				if( count( $_errors ) )
-					$errors[]	= $_errors[0];
+				$_errors	= $this->validator->validate( $field, $data, $value );
+				foreach( $_errors as $error )
+					$errors[]	= $error;
 			}
 //			else 
 //				$this->messenger->noteError( "Skipped Validation of Field '".$field."'" );

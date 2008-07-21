@@ -54,7 +54,7 @@ class Framework_Neon_FieldDefinition extends ADT_OptionObject
 	 */
 	private function getCacheFilename( $filename )
 	{
-		$file	= $this->getOption( 'cache_path' ).$filename."_".$this->getOption( 'channel' )."_".$this->getOption( 'screen' )."_".$this->getOption( 'form' ).".cache";
+		$file	= $this->getOption( 'cache_path' ).$filename."_".$this->getOption( 'channel' )."_".$this->getOption( 'screen', FALSE )."_".$this->getOption( 'form' ).".cache";
 		return $file;
 	}
 	
@@ -203,7 +203,7 @@ class Framework_Neon_FieldDefinition extends ADT_OptionObject
 				$screens	= $channel->childNodes;
 				foreach( $screens as $screen )
 				{
-					if( !$this->getOption( 'screen' ) || $screen->getAttribute( "id" ) == $this->getOption( 'screen' ) )
+					if( !$this->getOption( 'screen', FALSE ) || $screen->getAttribute( "id" ) == $this->getOption( 'screen' ) )
 					{
 						$forms	= $screen->childNodes;
 						foreach( $forms as $form )
