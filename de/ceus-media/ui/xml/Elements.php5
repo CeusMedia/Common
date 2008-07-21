@@ -13,7 +13,7 @@ import( 'de.ceus-media.xml.dom.Builder' );
  *	@todo			finish Implementation
  *	@todo			Code Documentation
  */
-class XML_Elements
+class UI_XML_Elements
 {
 	public function __construct( &$root )
 	{

@@ -8,7 +8,7 @@ import( 'de.ceus-media.file.Writer' );
  *	@uses			File_Writer
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			11.10.2006
- *	@version 		0.1
+ *	@version 		0.6
  */
 /**
  *	Class for encoding PHP File.
@@ -17,22 +17,22 @@ import( 'de.ceus-media.file.Writer' );
  *	@uses			File_Writer
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			11.10.2006
- *	@version 		0.1
+ *	@version 		0.6
  */
-class PHPEncoder
+class File_PHPEncoder
 {
 	/**	@var		string		$incodePrefix		Prefix of inner Code Wrapper */
-	var $incodePrefix			= "";
+	protected $incodePrefix		= "";
 	/**	@var		string		$incodeSuffix		Suffix of inner Code Wrapper */
-	var $incodeSuffix			= "";
+	protected $incodeSuffix		= "";
 	/**	@var		string		$outcodePrefix		Prefix of outer Code Wrapper */
-	var $outcodePrefix			= "";
+	protected $outcodePrefix	= "";
 	/**	@var		string		$outcodeSuffix		Suffix of outer Code Wrapper */
-	var $outcodeSuffix			= "";
+	protected $outcodeSuffix	= "";
 	/**	@var		string		$filePrefix			Prefix of compressed PHP File */
-	var $filePrefix				= "code.";
+	public $filePrefix		= "code.";
 	/**	@var		string		$fileSuffix			Suffix of compressed PHP File */
-	var $fileSuffix					= "";
+	public $fileSuffix		= "";
 
 	/**
 	 *	Constructor.
@@ -79,7 +79,7 @@ class PHPEncoder
 				$basename	= basename( $fileName );
 				$target	= $dirname."/".substr( $basename, strlen( $this->filePrefix) , -strlen( $this->fileSuffix ) );
 				if( $fileName == $target && !$overwrite )
-					trigger_error( "File cannot be overwritten, use Parameter [overwrite]", E_USER_ERROR );
+					throw new RuntimeException( 'File cannot be overwritten, use Parameter "overwrite".' );
 				$file	= new File_Writer( $target );
 				$file->writeString( $code );
 				return TRUE;
@@ -131,7 +131,7 @@ class PHPEncoder
 		$basename	= basename( $fileName );
 		$target		= $dirname."/".$this->filePrefix.$basename.$this->fileSuffix;
 		if( $fileName == $target && !$overwrite )
-			throw new Exception( 'File cannot be overwritten, use Parameter "overwrite".' );
+			throw new runtimeException( 'File cannot be overwritten, use Parameter "overwrite".' );
 //		copy( $fileName, "#".$fileName );
 		return (bool) File_Writer::save( $target, $code );
 	}
