@@ -3,25 +3,23 @@ import( 'de.ceus-media.adt.OptionObject' );
 import( 'de.ceus-media.alg.TimeConverter' );
 /**
  *	Message Output Handler of Framework Hydrogen.
- *	@package		framework
- *	@subpackage		hydrogen
+ *	@package		framework.hydrogen
  *	@extends		ADT_OptionObject
  *	@uses			Alg_TimeConverter
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			01.09.2006
- *	@version		0.1
+ *	@version		0.5
  */
 /**
  *	Message Output Handler of Framework Hydrogen.
- *	@package		framework
- *	@subpackage		hydrogen
+ *	@package		framework.hydrogen
  *	@extends		ADT_OptionObject
  *	@uses			Alg_TimeConverter
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			01.09.2006
- *	@version		0.1
+ *	@version		0.5
  */
-class Messenger extends ADT_OptionObject
+class Framework_Hydrogen_Messenger extends ADT_OptionObject
 {
 	/**	@var		array		$classes			CSS Classes of Message Types */
 	var $classes	= array(
@@ -29,13 +27,13 @@ class Messenger extends ADT_OptionObject
 		'1'	=> 'error',
 		'2'	=> 'notice',
 		'3'	=> 'success',
-		);
+	);
 
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		Session		$session			Instance of any Session Handler
-	 *	@param		string		$key_messages		Key of Messages within Session
+	 *	@param		Net_HTTP_PartitionSession		$session			Instance of any Session Handler
+	 *	@param		string							$key_messages		Key of Messages within Session
 	 *	@return		void
 	 */
 	public function __construct( &$session, $key_messages = "messenger_messages" )

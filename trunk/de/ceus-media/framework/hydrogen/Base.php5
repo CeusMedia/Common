@@ -20,11 +20,11 @@ import( 'de.ceus-media.framework.hydrogen.Language' );
  *	@uses			Net_HTTP_Request_Receiver
  *	@uses			StopWatch
  *	@uses			FieldDefinition
- *	@uses			Messenger
- *	@uses			Model
- *	@uses			View
- *	@uses			Controller
- *	@uses			Language
+ *	@uses			Framework_Hydrogen_Messenger
+ *	@uses			Framework_Hydrogen_Model
+ *	@uses			Framework_Hydrogen_View
+ *	@uses			Framework_Hydrogen_Controller
+ *	@uses			Framework_Hydrogen_Language
  *	@author			Christian Würker <Christian.Wuerker@Ceus-Media.de>
  *	@since			01.09.2006
  *	@version		0.1
@@ -39,17 +39,17 @@ import( 'de.ceus-media.framework.hydrogen.Language' );
  *	@uses			Net_HTTP_Request_Receiver
  *	@uses			StopWatch
  *	@uses			FieldDefinition
- *	@uses			Messenger
- *	@uses			Model
- *	@uses			View
- *	@uses			Controller
+ *	@uses			Framework_Hydrogen_Messenger
+ *	@uses			Framework_Hydrogen_Model
+ *	@uses			Framework_Hydrogen_View
+ *	@uses			Framework_Hydrogen_Controller
  *	@uses			Language
  *	@author			Christian Würker <Christian.Wuerker@Ceus-Media.de>
  *	@since			01.09.2006
  *	@version		0.1
  *	@todo			Code Documentation
  */
-class Framework
+class Framework_Hydrogen_Base
 {
 	var $config;
 	var $dbc;
@@ -88,13 +88,13 @@ class Framework
 		$this->control();
 		$this->closeBuffer();
 		$this->setViewComponents( array(
-				'config'			=> $this->config,
-				'content'			=> $this->content,
+				'config'		=> $this->config,
+				'content'		=> $this->content,
 				'messages'		=> $this->messenger->buildMessages( $this->config['layout']['format_timestamp'] ),
 				'language'		=> $this->config['languages']['default'],
 				'words'			=> $this->language->getWords( 'main' ),
 				'stopwatch'		=> $this->_sw->stop(),
-				'dev'				=> $this->_dev,
+				'dev'			=> $this->_dev,
 			)
 		);
 		$this->view();
@@ -200,16 +200,16 @@ class Framework
 		$this->session	= new Net_HTTP_PartitionSession( $this->config['application']['name'], $this->config['config']['session_name'] );
 
 		//  --  UI MESSENGER  --  //
-		$this->messenger	=& new Messenger( $this->session );
+		$this->messenger	=& new Framework_Hydrogen_Messenger( $this->session );
 
 		//  --  DATABASE CONNECTION  --  //
 		$data		= parse_ini_file( "config/db_access.ini" );
-		$this->dbc	= new DatabaseConnection ( $data['type'], $data['logfile'] );
+		$this->dbc	= new Database_MySQL_Connection ( $data['type'], $data['logfile'] );
 		$this->dbc->connect( $data['hostname'], $data['username'], $data['password'], $data['database'] );
 		$this->config['config']['table_prefix']	= $data['prefix'];
 		
 		//  --  LANGUAGE SUPPORT  --  //
-		$this->language	= new Language( $this, $this->config['languages']['default'] );
+		$this->language	= new Framework_Hydrogen_Language( $this, $this->config['languages']['default'] );
 		$this->language->load( 'main' );
 
 		//  --  REQUEST HANDLER  --  //

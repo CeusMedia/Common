@@ -1,27 +1,25 @@
 <?php
 /**
  *	Abstract Controller Class of Framework Hydrogen.
- *	@package		framework
- *	@subpackage		hydrogen
+ *	@package		framework.hydrogen
  *	@author			Christian Würker <Christian.Wuerker@Ceus-Media.de>
  *	@since			01.09.2006
- *	@version		0.1
+ *	@version		0.5
  */
 /**
  *	Abstract Controller Class of Framework Hydrogen.
- *	@package		framework
- *	@subpackage		hydrogen
+ *	@package		framework.hydrogen
  *	@author			Christian Würker <Christian.Wuerker@Ceus-Media.de>
  *	@since			01.09.2006
- *	@version		0.1
+ *	@version		0.5
  */
-class Controller
+class Framework_Hydrogen_Controller
 {
-	/**	@var		Framework			$application		Instance of Framework */
+	/**	@var		Framework_Hydrogen_Base			$application	Instance of Framework */
 	var $application;
-	/**	@var		array				$_data			Collected Data for View */
+	/**	@var		array							$_data			Collected Data for View */
 	var $_data	= array();
-	/**	@var		array				$envKeys		Keys of Environment */
+	/**	@var		array							$envKeys		Keys of Environment */
 	var $envKeys	= array(
 		'dbc',
 		'config',
@@ -32,29 +30,29 @@ class Controller
 		'controller',
 		'action',
 		);
-	/**	@var		DatabaseConnection	$dbc			Database Connection */
+	/**	@var		Database_MySQL_Connection		$dbc			Database Connection */
 	var $dbc;
-	/**	@var		array				$config			Configuration Settings */
+	/**	@var		array							$config			Configuration Settings */
 	var $config;
-	/**	@var		PartitionSession		$session			Partition Session */
+	/**	@var		Net_HTTP_PartitionSession		$session		Partition Session */
 	var $session;
-	/**	@var		Net_HTTP_Request_Receiver	$request			Receiver of Request Parameters */
+	/**	@var		Net_HTTP_Request_Receiver		$request		Receiver of Request Parameters */
 	var $request;
-	/**	@var		Language			$language		Language Support */
+	/**	@var		Framework_Hydrogen_Language		$language		Language Support */
 	var $language;
-	/**	@var		Messenger			$messenger		UI Messenger */
+	/**	@var		Framework_Hydrogen_Messenger	$messenger		UI Messenger */
 	var $messenger;
-	/**	@var		string				$controller		Name of called Controller */
+	/**	@var		string							$controller		Name of called Controller */
 	var $controller	= "";
-	/**	@var		string				$action			Name of called Action */
+	/**	@var		string							$action			Name of called Action */
 	var $action	= "";
-	/**	@var		bool					$redirect			Flag for Redirection */
+	/**	@var		bool							$redirect		Flag for Redirection */
 	var $redirect	= false;
 
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		Framework	application	Instance of Framework
+	 *	@param		Framework_Hydrogen_Framework	$application	Instance of Framework
 	 *	@return		void
 	 */
 	public function __construct( &$application )
@@ -209,7 +207,7 @@ class Controller
 	/**
 	 *	Sets Environment of Controller by copying Framework Member Variables.
 	 *	@access		protected
-	 *	@param		Framework	$application		Instance of Framework
+	 *	@param		Framework_Hydrogen_Framework	$application		Instance of Framework
 	 *	@return		void
 	 */
 	protected function setEnv( &$application )

@@ -1,39 +1,37 @@
 <?php
 /**
  *	Language Class of Framework Hydrogen.
- *	@package		framework
- *	@subpackage		hydrogen
+ *	@package		framework.hydrogen
  *	@author			Christian Würker <Christian.Wuerker@Ceus-Media.de>
  *	@since			01.09.2006
- *	@version		0.1
+ *	@version		0.5
  */
 /**
  *	Language Class of Framework Hydrogen.
- *	@package		framework
- *	@subpackage		hydrogen
+ *	@package		framework.hydrogen
  *	@author			Christian Würker <Christian.Wuerker@Ceus-Media.de>
  *	@since			01.09.2006
- *	@version		0.1
+ *	@version		0.5
  */
-class Language
+class Framework_Hydrogen_Language
 {
-	/**	@var		string		$language		Set Language */
+	/**	@var		string							$language		Set Language */
 	var $language;
-	/**	@var		array		$envKeys		Keys of Environment */
+	/**	@var		array							$envKeys		Keys of Environment */
 	var $envKeys	= array(
 		'config',
 		'messenger',
 		);
-	/**	@var		array		$config			Configuration Settings */
+	/**	@var		array							$config			Configuration Settings */
 	var $config;
-	/**	@var		Messenger	$messenger		UI Messenger */
+	/**	@var		Framework_Hydrogen_Messenger	$messenger		UI Messenger */
 	var $messenger;
 	
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		Framework	$application		Instance of Framework
-	 *	@param		string		$language		Language to select
+	 *	@param		Framework_Hydrogen_Framework	$application	Instance of Framework
+	 *	@param		string							$language		Language to select
 	 *	@return		void
 	 */
 	public function __construct( &$application, $language = "" )
@@ -111,7 +109,7 @@ class Language
 	/**
 	 *	Sets Environment of Controller by copying Framework Member Variables.
 	 *	@access		private
-	 *	@param		Framework	$application		Instance of Framework
+	 *	@param		Framework_Hydrogen_Framework	$application		Instance of Framework
 	 *	@return		void
 	 */
 	protected function setIn( &$application )
