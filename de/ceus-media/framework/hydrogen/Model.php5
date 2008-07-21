@@ -16,30 +16,29 @@ import( 'de.ceus-media.database.TableWriter' );
  *	@since			01.09.2006
  *	@version		0.4
  */
-class Model
+class Framework_Hydrogen_Model
 {
-	/**	@var		string				$name			Name of Model */
+	/**	@var		string						$name			Name of Model */
 	var $name		= "";
-	/**	@var		array				$field			Array of Table Field */
+	/**	@var		array						$field			Array of Table Field */
 	var $fields		= array();
-	/**	@var		array				$name			Array of foreign Keys of Table */
+	/**	@var		array						$name			Array of foreign Keys of Table */
  	var $foreign_keys	= array();
-	/**	@var		string				$primary_key		Primary Key of Table*/
+	/**	@var		string						$primary_key	Primary Key of Table*/
 	var $primary_key	= "";
-	/**	@var		TableWriter			$table			TableWriter for accessing Database Table */
+	/**	@var		Database_TableWriter		$table			TableWriter for accessing Database Table */
 	var $table;
-
-	/**	@var		DatabaseConnection	$dbc			Database Connection  */
+	/**	@var		Database_MySQL_Connection	$dbc			Database Connection  */
 	var $_dbc;
-	/**	@var		string				$_prefix			Table Prefix */
+	/**	@var		string						$_prefix		Table Prefix */
 	var $_prefix;
 
 
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		Framework	$application		Instance of Framework
-	 *	@param		int			$id				ID to focus on
+	 *	@param		Framework_Hydrogen_Framework	$application		Instance of Framework
+	 *	@param		int								$id				ID to focus on
 	 *	@return		void
 	 */
 	public function __construct( $application, $id = false )
@@ -208,7 +207,7 @@ class Model
 	/**
 	 *	Sets Environment of Controller by copying Framework Member Variables.
 	 *	@access		protected
-	 *	@param		Framework	$application		Instance of Framework
+	 *	@param		Framework_Hydrogen_Framework	$application		Instance of Framework
 	 *	@return		void
 	 */
 	protected function setEnv( $application )

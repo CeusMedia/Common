@@ -3,8 +3,7 @@ import( 'de.ceus-media.ui.html.Elements' );
 import( 'de.ceus-media.alg.TimeConverter' );
 /**
  *	Abstract View Class of Framework Hydrogen.
- *	@package		framework
- *	@subpackage		hydrogen
+ *	@package		framework.hydrogen
  *	@uses			UI_HTML_Elements
  *	@uses			Alg_TimeConverter
  *	@author			Christian Würker <Christian.Wuerker@Ceus-Media.de>
@@ -13,21 +12,20 @@ import( 'de.ceus-media.alg.TimeConverter' );
  */
 /**
  *	Abstract View Class of Framework Hydrogen.
- *	@package		framework
- *	@subpackage		hydrogen
+ *	@package		framework.hydrogen
  *	@uses			UI_HTML_Elements
  *	@uses			Alg_TimeConverter
  *	@author			Christian Würker <Christian.Wuerker@Ceus-Media.de>
  *	@since			01.09.2006
  *	@version		0.1
  */
-class View
+class Framework_Hydrogen_View
 {
-	/**	@var		Framework			$application		Instance of Framework */
+	/**	@var		Framework_Hydrogen_Framework	$application	Instance of Framework */
 	var $application;
-	/**	@var		array				$data			Collected Data for View */
+	/**	@var		array							$data			Collected Data for View */
 	var $data	= array();
-	/**	@var		array				$envKeys		Keys of Environment */
+	/**	@var		array							$envKeys		Keys of Environment */
 	var $envKeys	= array(
 		'dbc',
 		'config',
@@ -39,27 +37,27 @@ class View
 		'controller',
 		'action',
 		);
-	/**	@var		DatabaseConnection	$dbc			Database Connection */
+	/**	@var		Database_MySQL_Connection		$dbc			Database Connection */
 	var $dbc;
-	/**	@var		array				$config			Configuration Settings */
+	/**	@var		array							$config			Configuration Settings */
 	var $config;
-	/**	@var		PartitionSession		$session			Partition Session */
+	/**	@var		Net_HTTP_PartitionSession		$session		Partition Session */
 	var $session;
-	/**	@var		Net_HTTP_Request_Receiver	$request			Receiver of Request Parameters */
+	/**	@var		Net_HTTP_Request_Receiver		$request		Receiver of Request Parameters */
 	var $request;
-	/**	@var		Language			$language		Language Support */
+	/**	@var		Framework_Hydrogen_Language		$language		Language Support */
 	var $language;
-	/**	@var		Messenger			$messenger		UI Messenger */
+	/**	@var		Framework_Hydrogen_Messenger	$messenger		UI Messenger */
 	var $messenger;
-	/**	@var		string				$controller		Name of called Controller */
+	/**	@var		string							$controller		Name of called Controller */
 	var $controller	= "";
-	/**	@var		string				$action			Name of called Action */
+	/**	@var		string							$action			Name of called Action */
 	var $action	= "";
 
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		Framework	$application		Instance of Framework
+	 *	@param		Framework_Hydrogen_Framework	$application		Instance of Framework
 	 *	@return		void
 	 */
 	public function __construct( $application )
@@ -128,7 +126,7 @@ class View
 	/**
 	 *	Sets Environment of Controller by copying Framework Member Variables.
 	 *	@access		protected
-	 *	@param		Framework	$application		Instance of Framework
+	 *	@param		Framework_Hydrogen_Framework	$application		Instance of Framework
 	 *	@return		void
 	 */
 	protected function setEnv( $application )
