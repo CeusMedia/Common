@@ -7,6 +7,7 @@ require_once 'PHPUnit/TextUI/TestRunner.php';
 require_once 'Tests/initLoaders.php5' ;
 require_once 'Tests/adt/tree/BinaryNodeTest.php';
 require_once 'Tests/adt/tree/BalanceBinaryNodeTest.php';
+require_once 'Tests/adt/tree/NodeTest.php';
 class Tests_ADT_Tree_AllTests
 {
 	public static function main()
@@ -19,6 +20,7 @@ class Tests_ADT_Tree_AllTests
 		$suite = new PHPUnit_Framework_TestSuite( 'cmClasses/ADT/Tree' );
 		$suite->addTestSuite('Tests_ADT_Tree_BinaryNodeTest'); 
 		$suite->addTestSuite('Tests_ADT_Tree_BalanceBinaryNodeTest'); 
+		$suite->addTestSuite('Tests_ADT_Tree_NodeTest'); 
 		return $suite;
 	}
 }

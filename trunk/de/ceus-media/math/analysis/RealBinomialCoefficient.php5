@@ -16,7 +16,7 @@ import( 'de.ceus-media.math.Factorial' );
  *	@since			24.04.2006
  *	@version		0.6
  */
-class Math_Algebra_RealBinomialCoefficient
+class Math_Analysis_RealBinomialCoefficient
 {
 	/**
 	 *	Calculates Binomial Coefficient of Top and Button Integers.

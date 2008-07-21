@@ -3,23 +3,21 @@ import( 'de.ceus-media.file.Reader' );
 import ("de.ceus-media.file.Writer");
 /**
  *	Tar File allows creation and manipulation of tar archives.
- *	@package		file
- *	@subpackage		arc
+ *	@package		file.arc
  *	@uses			File_Reader
  *	@uses			File_Writer
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version		0.5
+ *	@version		0.6
  */
 /**
  *	Tar File allows creation and manipulation of tar archives.
- *	@package		file
- *	@subpackage		arc
+ *	@package		file.arc
  *	@uses			File_Reader
  *	@uses			File_Writer
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version		0.5
+ *	@version		0.6
  */
-class TarFile
+class File_Arc_Tar
 {
 	// Unprocessed Archive Information
 	protected $fileName;

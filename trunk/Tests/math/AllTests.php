@@ -11,6 +11,7 @@ require_once 'Tests/math/CompactIntervalTest.php';
 require_once 'Tests/math/FactorialTest.php';
 require_once 'Tests/math/FormulaTest.php';
 require_once 'Tests/math/FormulaSumTest.php';
+require_once 'Tests/math/FormulaProductTest.php';
 require_once 'Tests/math/PrimeTest.php';
 class Tests_Math_AllTests
 {
@@ -29,6 +30,7 @@ class Tests_Math_AllTests
 		$suite->addTestSuite( 'Tests_Math_FactorialTest' );
 		$suite->addTestSuite( 'Tests_Math_FormulaTest' );
 		$suite->addTestSuite( 'Tests_Math_FormulaSumTest' );
+		$suite->addTestSuite( 'Tests_Math_FormulaProductTest' );
 		$suite->addTestSuite( 'Tests_Math_PrimeTest' );
 		return $suite;
 	}

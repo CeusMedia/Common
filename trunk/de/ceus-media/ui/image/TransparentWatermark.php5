@@ -30,7 +30,7 @@ define ("transparentWatermarkOnLeft", -10);
 define ("transparentWatermarkOnCenter", 0);
 define ("transparentWatermarkOnRight", 10);
 
-class TransparentWatermark  {
+class UI_Image_TransparentWatermark  {
 	var $stampImage=0;
 	var $stampWidth;
 	var $stampHeight;

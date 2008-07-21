@@ -21,20 +21,21 @@ class ADT_List_SectionList
 	/**
 	 *	Adds an Entry to a Section of the List.
 	 *	@access		public
-	 *	@param		mixed	$entry		Entry to add
-	 *	@param		string	$section		Section to add in
+	 *	@param		mixed		$entry			Entry to add
+	 *	@param		string		$section		Section to add in
 	 *	@return		void
 	 */
 	public function addEntry( $entry, $section )
 	{
-		if( !( is_array( $this->list[$section] ) && in_array( $entry, $this->list[$section] ) ) )
-			$this->list[$section][] = $entry;
+		if( is_array( $this->list[$section] ) && in_array( $entry, $this->list[$section] ) )
+			throw new InvalidArgumentException( 'Entry "'.$entry.'" is already in Section "'.$section.'".' );
+		$this->list[$section][] = $entry;
 	}
 
 	/**
 	 *	Adds a Section to List.
 	 *	@access		public
-	 *	@param		string	$section		Name of Section to add
+	 *	@param		string		$section		Name of Section to add
 	 *	@return		void
 	 */
 	public function addSection( $section )
@@ -54,18 +55,24 @@ class ADT_List_SectionList
 	}
 
 	/**
-	 *	Return the Index of a given String in the List.
+	 *	Returns the amount of Entries in a Sections.
 	 *	@access		public
-	 *	@param		string	$content		content of String
+	 *	@param		string		$section		Section to count Entries for
 	 *	@return		int
 	 */
-	public function getIndex( $entry, $section = false )
+	public function countEntries( $section )
 	{
-		if( $section )
-			return array_search( $entry, $this->list[$section] );
-		else if( $section = $this->getSectionOfEntry( $entry ) )
-			return $this->getIndex( $entry, $section );			
-		return -1;
+		return count( $this->getEntries( $section ) );
+	}
+	
+	/**
+	 *	Returns the amount of Sections in the List.
+	 *	@access		public
+	 *	@return		int
+	 */
+	public function countSections()
+	{
+		return count( $this->list );
 	}
 
 	/**
@@ -75,35 +82,62 @@ class ADT_List_SectionList
 	 */
 	public function getEntry( $index, $section )
 	{
-		if( isset( $this->list[$section][$index] ) )
-			return $this->list[$section][$index];
-		return NULL;
+		if( !isset( $this->list[$section][$index] ) )
+			throw new InvalidArgumentException( 'No Entry with Index '.$index.' in Section "'.$section.'" found.' );
+		return $this->list[$section][$index];
 	}
 	
 	/**
 	 *	Returns a list of Entries of a Section in the List.
 	 *	@access		public
+	 *	@param		string		$section		Section to get Entries for
 	 *	@return		array
 	 */
 	public function getEntries( $section )
 	{
-		if( isset( $this->list[$section] ) )
-			return array_values( $this->list[$section] );
-		return array();
+		if( !isset( $this->list[$section] ) )
+			throw new InvalidArgumentException( 'Invalid Section "'.$section.'".' );
+		return array_values( $this->list[$section] );
+	}
+
+	/**
+	 *	Return the Index of a given String in the List.
+	 *	@access		public
+	 *	@param		string		$content		Content String of Entry
+	 *	@param		string		$section		Section of Entry
+	 *	@return		int
+	 */
+	public function getIndex( $entry, $section = NULL )
+	{
+		if( !$section )
+			$section	= $this->getSectionOfEntry( $entry );
+		if( !isset( $this->list[$section] ) )
+			throw new InvalidArgumentException( 'Invalid Section "'.$section.'".' );
+		return array_search( $entry, $this->list[$section] );
+	}
+	
+	/**
+	 *	Returns the Section List as Array.
+	 *	@access		public
+	 *	@return		array
+	 */
+	public function getList()
+	{
+		return $this->list;
 	}
 
 	/**
 	 *	Return the Sections of an entry if available.
 	 *	@access		public
-	 *	@param		string	$entry		Entry to get section for
-	 *	@return		int
+	 *	@param		string		$entry			Entry to get Section for
+	 *	@return		string
 	 */
 	public function getSectionOfEntry( $entry )
 	{
 		foreach( $this->getSections() as $section )
-			if( -1 < ( $pos = $this->getIndex( $entry, $section ) ) )
+			if( in_array( $entry, $this->list[$section] ) )
 				return $section;
-		return NULL;
+		throw new InvalidArgumentException( 'Entry "'.$entry.'" not found in any Section.' );
 	}
 	
 	/**
@@ -117,76 +151,33 @@ class ADT_List_SectionList
 	}
 
 	/**
-	 *	Returns the amount of Entries in a Sections.
-	 *	@access		public
-	 *	@return		int
-	 */
-	public function getSectionSize( $section )
-	{
-		return count( $this->list[$section] );
-	}
-	
-	/**
-	 *	Returns the amount of Sections in the List.
-	 *	@access		public
-	 *	@return		int
-	 */
-	public function getSectionsSize()
-	{
-		return count( $this->list );
-	}
-
-	/**
 	 *	Removes an entry in a section in the List.
 	 *	@access		public
+	 *	@param		string		$entry			Entry to remove
+	 *	@param		string		$section		Section of Entry
 	 *	@return		void
 	 */
-	public function removeEntry( $entry, $section = false )
+	public function removeEntry( $entry, $section = NULL )
 	{
-		if( $section )
-		{
-			if( in_array( $entry, $this->list[$section] ) )
-				unset( $this->list[$section][$this->getIndex( $entry, $section )] );
-		}
-		else if( $section = $this->getSectionOfEntry( $entry ) )
-			return $this->removeEntry( $entry, $section );
+		if( !$section )
+			$section	= $this->getSectionOfEntry( $entry );
+		$index	= $this->getIndex( $entry, $section );
+		if( $index === FALSE )
+			throw new InvalidArgumentException( 'Entry "'.$entry.'" not found in Section "'.$section.'".' );
+		unset( $this->list[$section][$index] );
 	}
 
 	/**
 	 *	Removes a section in the List.
 	 *	@access		public
+	 *	@param		string		$section		Section to remove
 	 *	@return		void
 	 */
-	public function removeSection( $section)
+	public function removeSection( $section )
 	{
-		if( in_array( $section, array_keys( $this->list ) ) )
-			unset( $this->list[$section] );
-	}
-	
-	/**
-	 *	Returns the Section List as Array.
-	 *	@access		public
-	 *	@return		array
-	 */
-	public function toArray()
-	{
-		return $this->list;
-	}
-	
-	/**
-	 *	Returns a representative String of Section List.
-	 *	@access		public
-	 *	@return		string
-	 */
-	public function toString()
-	{
-		foreach( $this->list as $section => $list )
-		{
-			$code .= "[".$section."]<br/>";
-			foreach( $list as $entry )
-				$code .= $entry."<br/>";
-		}
-		return $code;
+		if( !isset( $this->list[$section] ) )
+			throw new InvalidArgumentException( 'Invalid Section "'.$section.'".' );
+		unset( $this->list[$section] );
 	}
 }
 ?>

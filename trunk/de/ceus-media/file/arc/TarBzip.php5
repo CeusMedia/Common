@@ -1,25 +1,23 @@
 <?php
-import( 'de.ceus-media.file.arc.TarFile' );
-import( 'de.ceus-media.file.arc.BzipFile' );
+import( 'de.ceus-media.file.arc.Tar' );
+import( 'de.ceus-media.file.arc.Bzip' );
 /**
  *	Tar Bzip File allows creation and manipulation of bzipped tar archives.
- *	@package		file
- *	@subpackage		arc
- *	@extends		TarFile
- *	@uses			BzipFile
+ *	@package		file.arc
+ *	@extends		File_Arc_Tar
+ *	@uses			File_Arc_Bzip
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.5
  */
 /**
  *	Tar Bzip File allows creation and manipulation of bzipped tar archives.
- *	@package		file
- *	@subpackage		arc
- *	@extends		TarFile
- *	@uses			BzipFile
+ *	@package		file.arc
+ *	@extends		File_Arc_Tar
+ *	@uses			File_Arc_Bzip
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.5
  */
-class TarBzipFile extends TarFile
+class File_Arc_TarBzip extends File_Arc_Tar
 {
 	/**
 	 *	Constructor.
@@ -42,7 +40,7 @@ class TarBzipFile extends TarFile
 	public function open( $fileName )
 	{
 		if( !file_exists( $fileName ) )																		// If the tar file doesn't exist...
-			throw new Exception( "TBZ file '".$fileName."' is not existing." );
+			throw new RuntimeException( 'TBZ file "'.$fileName.'" is not existing.' );
 		$this->fileName = $fileName;
 		$this->readBzipTar( $fileName );
 	}
@@ -55,7 +53,7 @@ class TarBzipFile extends TarFile
 	 */
 	private function readBzipTar( $fileName )
 	{
-		$f = new BzipFile( $fileName );
+		$f = new File_Arc_Bzip( $fileName );
 		$this->content = $f->readString();
 		$this->parseTar();																			// Parse the TAR file
 		return true;
@@ -72,11 +70,11 @@ class TarBzipFile extends TarFile
 		if( !$fileName )
 		{
 			if( !$this->fileName )
-				throw new Exception( "No TBZ file name for saving given." );
+				throw new RuntimeException( 'No TBZ file name for saving given.' );
 			$fileName = $this->fileName;
 		}
 		$this->generateTar();												// Encode processed files into TAR file format
-		$f = new BzipFile( $fileName );
+		$f = new File_Arc_Bzip( $fileName );
 		$f->writeString( $this->content );
 		return true;
 	}

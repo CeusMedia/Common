@@ -3,21 +3,22 @@
  *	TestUnit of Bzip File.
  *	@package		Tests.file.arc
  *	@extends		PHPUnit_Framework_TestCase
- *	@uses			BzipFile
+ *	@uses			File_Arc_Bzip
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.1
  */
 require_once 'PHPUnit/Framework/TestCase.php'; 
-import( 'de.ceus-media.file.arc.BzipFile' );
+require_once( 'Tests/initLoaders.php5' );
+import( 'de.ceus-media.file.arc.Bzip' );
 /**
  *	TestUnit of Bzip File.
  *	@package		Tests.file.arc
  *	@extends		PHPUnit_Framework_TestCase
- *	@uses			BzipFile
+ *	@uses			File_Arc_Bzip
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.1
  */
-class Tests_File_Arc_BzipFileTest extends PHPUnit_Framework_TestCase
+class Tests_File_Arc_BzipTest extends PHPUnit_Framework_TestCase
 {
 	/**	@var	string		$fileName		URL of Archive File Name */
 	private $fileName;
@@ -25,11 +26,11 @@ class Tests_File_Arc_BzipFileTest extends PHPUnit_Framework_TestCase
 	public function __construct()
 	{
 		$this->path	= dirname( __FILE__ )."/";
+		$this->fileName	= $this->path."test.bz";
 	}
 	
 	public function setUp()
 	{
-		$this->fileName	= $this->path."test.bz";
 	}
 	
 	public function tearDown()
@@ -39,19 +40,22 @@ class Tests_File_Arc_BzipFileTest extends PHPUnit_Framework_TestCase
 
 	public function testWriteString()
 	{
-		$arc	= new BzipFile( $this->fileName );
+		$arc	= new File_Arc_Bzip( $this->fileName );
 		$arc->writeString( "test" );
 
 		$assertion	= TRUE;
 		$creation	= file_exists( $this->fileName );
 		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= bzcompress( "test" );
+		$creation	= file_get_contents( $this->fileName );
+		$this->assertEquals( $assertion, $creation );
 	}
 
 	public function testReadString()
 	{
-		$arc	= new BzipFile( $this->fileName );
+		$arc	= new File_Arc_Bzip( $this->fileName );
 		$arc->writeString( "test" );
-		$arc	= new BzipFile( $this->fileName );
 	
 		$assertion	= "test";
 		$creation	= $arc->readString();

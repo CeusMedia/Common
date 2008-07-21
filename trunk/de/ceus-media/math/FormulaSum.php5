@@ -23,8 +23,8 @@ class Math_FormulaSum
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		Formula			$formula		Formula within Sum
-	 *	@param		Interval		$interval		Interval of Sum
+	 *	@param		Math_Formula			$formula		Formula within Sum
+	 *	@param		Math_CompactInterval	$interval		Interval of Sum
 	 *	@return		void
 	 */
 	public function __construct( $formula, $interval )
@@ -38,7 +38,7 @@ class Math_FormulaSum
 	}
 	
 	/**
-	 *	Calculates Sum of given Formula within given compact Interval.
+	 *	Calculates Sum of given Formula within given compact Interval and Parameters.
 	 *	@access		public
 	 *	@return		mixed
 	 */
@@ -46,13 +46,12 @@ class Math_FormulaSum
 	{
 		$sum		= 0;
 		$arguments	= func_get_args();
-		$formula	= $this->formula;
 		for( $i=$this->interval->getStart(); $i<=$this->interval->getEnd(); $i++ )
 		{
 			$params	= array( $i );
 			foreach( $arguments as $argument )
 				$params[]	= $argument;
-			$value	= call_user_func_array( array( &$formula, 'getValue' ), $params );
+			$value	= call_user_func_array( array( &$this->formula, 'getValue' ), $params );
 			$sum	+= $value;
 		}
 		return $sum;

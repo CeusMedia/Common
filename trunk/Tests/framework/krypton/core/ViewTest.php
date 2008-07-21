@@ -24,6 +24,7 @@ class Tests_Framework_Krypton_Core_ViewTest extends PHPUnit_Framework_TestCase
 {
 	public function __construct()
 	{
+		$this->path	= dirname( __FILE__ )."/";
 		$words	= array(
 			'main'	=> array(
 				'paging'	=> array(
@@ -74,18 +75,24 @@ class Tests_Framework_Krypton_Core_ViewTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals( $assertion, $creation );
 	}
 
-	public function testBuildPaging()
+	public function testBuildPaging1()
 	{
-		$assertion	= file_get_contents( "Tests/framework/krypton/core/paging1.html" );
-		$creation	= $this->view->buildPaging( 100, 10, 0 );
+		$assertion	= preg_replace( "@\r?\n *@s", "", file_get_contents( $this->path."paging1.html" ) );
+		$creation	= preg_replace( "@\r?\n *@s", "", $this->view->buildPaging( 100, 10, 0 ) );
 		$this->assertEquals( $assertion, $creation );
+	}
 
-		$assertion	= file_get_contents( "Tests/framework/krypton/core/paging2.html" );
-		$creation	= $this->view->buildPaging( 100, 10, 50 );
+	public function testBuildPaging2()
+	{
+		$assertion	= preg_replace( "@\r?\n *@s", "", file_get_contents( $this->path."paging2.html" ) );
+		$creation	= preg_replace( "@\r?\n *@s", "", $this->view->buildPaging( 100, 10, 50 ) );
 		$this->assertEquals( $assertion, $creation );
+	}
 
-		$assertion	= file_get_contents( "Tests/framework/krypton/core/paging3.html" );
-		$creation	= $this->view->buildPaging( 100, 10, 90 );
+	public function testBuildPaging3()
+	{
+		$assertion	= preg_replace( "@\r?\n *@s", "", file_get_contents( $this->path."paging3.html" ) );
+		$creation	= preg_replace( "@\r?\n *@s", "", $this->view->buildPaging( 100, 10, 90 ) );
 		$this->assertEquals( $assertion, $creation );
 	}
 	
@@ -95,8 +102,8 @@ class Tests_Framework_Krypton_Core_ViewTest extends PHPUnit_Framework_TestCase
 			'coverage'	=> 10
 		);
 
-		$assertion	= file_get_contents( "Tests/framework/krypton/core/paging4.html" );
-		$creation	= $this->view->buildPaging( 100, 10, 50, $options );
+		$assertion	= preg_replace( "@\r?\n *@s", "", file_get_contents( $this->path."paging4.html" ) );
+		$creation	= preg_replace( "@\r?\n *@s", "", $this->view->buildPaging( 100, 10, 50, $options ) );
 		$this->assertEquals( $assertion, $creation );
 	}
 }

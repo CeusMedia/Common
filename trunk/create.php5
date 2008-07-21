@@ -15,7 +15,7 @@ $file	= $arguments['file'];
 $force	= isset( $arguments['force'] ) ? (bool) $arguments['force'] : FALSE;
 $folder	= isset( $arguments['folder'] ) ? (bool) $arguments['folder'] : FALSE;
 
-$creator	= new TestCaseCreator();
+$creator	= new Alg_TestCaseCreator();
 if( $folder )
 {
 	remark( "Indexing Path..." );

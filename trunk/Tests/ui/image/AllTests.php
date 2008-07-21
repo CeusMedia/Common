@@ -12,6 +12,7 @@ require_once( 'Tests/ui/image/InverterTest.php' );
 require_once( 'Tests/ui/image/CreatorTest.php' );
 require_once( 'Tests/ui/image/ErrorTest.php' );
 require_once( 'Tests/ui/image/PrinterTest.php' );
+require_once( 'Tests/ui/image/WatermarkTest.php' );
 class Tests_UI_Image_AllTests
 {
 	public static function main()
@@ -31,6 +32,7 @@ class Tests_UI_Image_AllTests
 		$suite->addTestSuite( 'Tests_UI_Image_CreatorTest' ); 
 		$suite->addTestSuite( 'Tests_UI_Image_ErrorTest' ); 
 		$suite->addTestSuite( 'Tests_UI_Image_PrinterTest' ); 
+		$suite->addTestSuite( 'Tests_UI_Image_WatermarkTest' ); 
 		return $suite;
 	}
 }

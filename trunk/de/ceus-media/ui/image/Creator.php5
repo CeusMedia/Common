@@ -1,6 +1,13 @@
 <?php
+/**
+ *	@version		0.2
+ */
 class UI_Image_Creator
 {
+	const TYPE_PNG	= 0;
+	const TYPE_JPEG	= 1;
+	const TYPE_GIF	= 2;
+
 	protected $height		= -1;
 	protected $resource		= NULL;
 	protected $type			= NULL;
@@ -15,31 +22,9 @@ class UI_Image_Creator
 		imagefilledrectangle( $this->resource, 0, 0, $width - 1, $height - 1, $backColor );		
 	}
 	
-	public function loadImage( $fileName )
+	public function getExtension()
 	{
-		if( !file_exists( $fileName ) )
-			throw new InvalidArgumentException( 'Image File "'.$fileName.'" is not existing.' );
-		$info	= pathinfo( $fileName );
-		$type	= strtolower( $info['extension'] );
-		switch( $type )
-		{
-			case 'png':
-				$this->resource	= imagecreatefrompng( $fileName );
-				break;
-			case 'jpe':
-			case 'jpeg':
-			case 'jpg':
-				$this->resource	= imagecreatefromjpeg( $fileName );
-				break;
-			case 'gif':
-				$this->resource	= imagecreatefromgif( $fileName );
-				break;
-			default:
-				throw new InvalidArgumentException( 'Image Type "'.$type.'" is not supported.' );
-		}
-		$this->type		= $type;
-		$this->width	= imagesx( $this->resource );		
-		$this->height	= imagesy( $this->resource );		
+		return $this->extension;	
 	}
 	
 	public function getHeight()
@@ -60,6 +45,36 @@ class UI_Image_Creator
 	public function getWidth()
 	{
 		return $this->width;
+	}
+	
+	public function loadImage( $fileName )
+	{
+		if( !file_exists( $fileName ) )
+			throw new InvalidArgumentException( 'Image File "'.$fileName.'" is not existing.' );
+		$info		= pathinfo( $fileName );
+		$extension	= strtolower( $info['extension'] );
+		switch( $extension )
+		{
+			case 'png':
+				$this->resource	= imagecreatefrompng( $fileName );
+				$this->type	= self::TYPE_PNG;
+				break;
+			case 'jpe':
+			case 'jpeg':
+			case 'jpg':
+				$this->resource	= imagecreatefromjpeg( $fileName );
+				$this->type	= self::TYPE_JPEG;
+				break;
+			case 'gif':
+				$this->resource	= imagecreatefromgif( $fileName );
+				$this->type	= self::TYPE_GIF;
+				break;
+			default:
+				throw new InvalidArgumentException( 'Image Type "'.$type.'" is not supported.' );
+		}
+		$this->extension	= $extension;
+		$this->width		= imagesx( $this->resource );		
+		$this->height		= imagesy( $this->resource );		
 	}
 }
 ?>

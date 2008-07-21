@@ -8,6 +8,7 @@
  *	@version		0.1
  */
 require_once 'PHPUnit/Framework/TestCase.php'; 
+require_once( 'Tests/initLoaders.php5' );
 import( 'de.ceus-media.adt.list.Dictionary' );
 /**
  *	TestUnit of Dictionary

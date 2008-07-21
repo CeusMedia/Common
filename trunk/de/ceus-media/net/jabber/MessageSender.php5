@@ -16,7 +16,7 @@ import( 'com.google.code.xmpphp.xmpp' );
  *	@since			25.04.2008
  *	@version		0.6
  */
-class Jabber_MessageSender
+class Net_Jabber_MessageSender
 {
 	/**	@var	bool		$encryption			Flag: use TLS Encryption */
 	protected $encryption	= TRUE;
