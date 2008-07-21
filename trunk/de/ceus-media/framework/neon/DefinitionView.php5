@@ -254,13 +254,12 @@ class Framework_Neon_DefinitionView extends Framework_Neon_View
 	 *	Builds Labels and Input Fields of Form widthin Definition.
 	 *	@access		public
 	 *	@param		string		$file				Name of XML Definition File (e.g. %PREFIX%#FILE#.xml)
-	 *	@param		string		$form			Name of Form within XML Definition File (e.g. 'addExample' )
+	 *	@param		string		$form				Name of Form within XML Definition File (e.g. 'addExample' )
 	 *	@param		string		$lan_file			Name of Language File (e.g. 'example')
 	 *	@param		string		$lan_section		Section in Language File (e.g. 'add')
-	 *	@param		array		$values			Array of Input Values of defined Fields
+	 *	@param		array		$values				Array of Input Values of defined Fields
 	 *	@param		array		$sources			Array of Sources for defined Fields (e.g. Options for Selects)
 	 *	@return		array
-	 *	@todo		TO BE DELETED in next Version
 	 */
 	public function buildForm( $file , $form, $lan_file, $lan_section, $values = array(), $sources = array() )
 	{
@@ -273,12 +272,13 @@ class Framework_Neon_DefinitionView extends Framework_Neon_View
 	}
 
 	/**
-	 *	Runs Validation of Field Definitions againt Request Input and creates Error Messages.
+	 *	Loads Form Definition.
 	 *	@access		protected
 	 *	@param		string		$file				Name of XML Definition File (e.g. %PREFIX%#FILE#.xml)
+	 *	@param		string		$form				Form Name in  XML Definition File
 	 *	@return		void
 	 */
-	protected function loadDefinition( $file , $form )
+	protected function loadDefinition( $file, $form )
 	{
 		$this->definition->setForm( $form );
 		$this->definition->setOption( 'prefix', $this->prefix );

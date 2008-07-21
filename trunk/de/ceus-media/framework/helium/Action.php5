@@ -1,7 +1,6 @@
 <?php
 import( 'de.ceus-media.adt.Reference' );
 import( 'de.ceus-media.file.ini.Reader' );
-import( 'de.ceus-media.validation.DefinitionValidator' );
 import( 'de.ceus-media.alg.TimeConverter' );
 /**
  *	Generic Action Handler.
@@ -9,10 +8,9 @@ import( 'de.ceus-media.alg.TimeConverter' );
  *	@uses			ADT_Reference
  *	@uses			Alg_TimeConverter
  *	@uses			File_INI_Reader
- *	@uses			DefinitionValidator
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			01.12.2005
- *	@version		0.1
+ *	@version		0.5
  */
 /**
  *	Generic Action Handler.
@@ -20,10 +18,9 @@ import( 'de.ceus-media.alg.TimeConverter' );
  *	@uses			ADT_Reference
  *	@uses			Alg_TimeConverter
  *	@uses			File_INI_Reader
- *	@uses			DefinitionValidator
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			01.12.2005
- *	@version		0.1
+ *	@version		0.5
  */
 class Framework_Helium_Action
 {

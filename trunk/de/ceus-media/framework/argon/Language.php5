@@ -1,7 +1,7 @@
 <?php
 import( 'de.ceus-media.adt.OptionObject' );
 import( 'de.ceus-media.net.http.LanguageSniffer' );
-import( 'de.ceus-media.validation.LanguageValidator' );
+import( 'de.ceus-media.alg.validation.LanguageValidator' );
 import( 'de.ceus-media.file.block.Reader' );
 
 /**
@@ -11,7 +11,7 @@ import( 'de.ceus-media.file.block.Reader' );
  *	@subpackage		neon
  *	@extends		ADT_OptionObject
  *	@uses			Net_HTTP_LanguageSniffer
- *	@uses			LanguageValidator
+ *	@uses			Alg_Validation_LanguageValidator
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			05.12.2006
  *	@version		0.1
@@ -23,7 +23,7 @@ import( 'de.ceus-media.file.block.Reader' );
  *	@subpackage		neon
  *	@extends		ADT_OptionObject
  *	@uses			Net_HTTP_LanguageSniffer
- *	@uses			LanguageValidator
+ *	@uses			Alg_Validation_LanguageValidator
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			05.12.2006
  *	@version		0.1
@@ -44,7 +44,7 @@ class Language extends ADT_OptionObject
 		$allowed	= explode( ",", $config['languages']['allowed'] );
 		if( $language 	= $request->get( 'switchLanguageTo' ) )
 		{
-			$lv	= new LanguageValidator( $allowed, $default );
+			$lv	= new Alg_Validation_LanguageValidator( $allowed, $default );
 			$language	= $lv->getLanguage( $language );
 			$session->set( 'language', $language );
 		}
@@ -55,7 +55,7 @@ class Language extends ADT_OptionObject
 			$session->set( 'language', $language );
 		}
 		$language = $session->get( 'language' );
-		$lv	= new LanguageValidator( $allowed, $default );
+		$lv	= new Alg_Validation_LanguageValidator( $allowed, $default );
 		$language	= $lv->getLanguage( $language );
 		$session->set( 'language', $language );
 
