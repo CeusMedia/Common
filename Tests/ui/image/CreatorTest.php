@@ -114,7 +114,7 @@ class Tests_UI_Image_CreatorTest extends PHPUnit_Framework_TestCase
 
 	public function testGetType()
 	{
-		$assertion	= "png";
+		$assertion	= UI_Image_Creator::TYPE_PNG;
 		$creation	= $this->image->getType();
 		$this->assertEquals( $assertion, $creation );
 	}

@@ -6,7 +6,7 @@ import( 'de.ceus-media.adt.OptionObject' );
  *	@extends		ADT_OptionObject
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			13.09.2006
- *	@version		0.1
+ *	@version		0.5
  */
 /**
  *	Generator for Evolution Graph Images.
@@ -14,11 +14,11 @@ import( 'de.ceus-media.adt.OptionObject' );
  *	@extends		ADT_OptionObject
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			13.09.2006
- *	@version		0.1
+ *	@version		0.5
  *	@todo			Finish Implementation
  *	@todo			Code Documentation
  */
-class EvolutionGraph extends ADT_OptionObject
+class UI_Image_EvolutionGraph extends ADT_OptionObject
 {
 	protected $defaults	= array(
 		'width'					=> 400,												//  Width of Image	

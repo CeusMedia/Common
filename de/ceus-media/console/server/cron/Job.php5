@@ -16,7 +16,7 @@ import( 'de.ceus-media.adt.OptionObject' );
  *	@since			20.01.2006
  *	@version		0.6
  */
-class Console-Server_Cron_Job extends ADT_OptionObject
+class Console_Server_Cron_Job extends ADT_OptionObject
 {
 	/**
 	 *	Constructor.

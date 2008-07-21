@@ -16,7 +16,7 @@ require_once( 'Tests/ui/AllTests.php' );
 require_once( 'Tests/xml/AllTests.php' );
 require_once( 'Tests/StopWatchTest.php' );
 
-PHPUnit_Util_Filter::addDirectoryToFilter( "d:/.mirror/cmClasses/Tests" );
+PHPUnit_Util_Filter::addDirectoryToFilter( dirname( __FILE__ ) );
 
 class Tests_AllTests
 {

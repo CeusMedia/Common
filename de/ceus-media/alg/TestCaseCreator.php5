@@ -19,7 +19,7 @@ import( 'de.ceus-media.folder.RecursiveRegexFilter' );
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.1
  */
-class TestCaseCreator
+class Alg_TestCaseCreator
 {
 	/**	@var		string			$className			Class Name, eg. Package_Class */
 	protected $className			= "";

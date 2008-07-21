@@ -1,29 +1,22 @@
 <?php
-import( 'de.ceus-media.file.Reader' );
+import( 'de.ceus-media.file.Editor' );
 import( 'de.ceus-media.file.Writer' );
 /**
  *	Base bzip File implementation.
- *	@package		file
- *	@subpackage		arc
- *	@uses			File_Reader
- *	@uses			File_Writer
+ *	@package		file.arc
+ *	@uses			File_Editor
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version		0.5
+ *	@version		0.6
  */
 /**
  *	Base bzip File implementation.
- *	@package		file
- *	@subpackage		arc
- *	@uses			File_Reader
- *	@uses			File_Writer
+ *	@package		file.arc
+ *	@uses			File_Editor
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version		0.5
- *	@todo			use File_Editor
+ *	@version		0.6
  */
-class BzipFile
+class File_Arc_Bzip extends File_Editor
 {
-	protected $fileName;
-	
 	/**
 	 *	Constructor.
 	 *	@access		public
@@ -33,9 +26,8 @@ class BzipFile
 	public function __construct( $fileName )
 	{
 		if( !function_exists( "bzcompress" ) )
-			throw new Exception( "Bzip2 Extension is not available." );
-		$this->fileName	= $fileName;
-#		parent::__construct( $fileName );
+			throw new Exception( 'Bzip2 Extension is not available.' );
+		parent::__construct( $fileName );
 	}
 
 	/**
@@ -45,7 +37,7 @@ class BzipFile
 	 */
  	public function readString()
 	{
-		$content	= File_Reader::load( $this->fileName );
+		$content	= parent::readString();
 		return bzdecompress( $content );
 	}
 
@@ -58,7 +50,7 @@ class BzipFile
 	public function writeString( $string )
 	{
 		$content	= bzcompress( $string );
-		return File_Writer::save( $this->fileName, $content );
+		return parent::writeString( $content );
 	}
 }
 ?>

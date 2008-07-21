@@ -1,12 +1,12 @@
 <?php
-import( 'de.ceus-media.file.arc.TarFile' );
-import( 'de.ceus-media.file.arc.GzipFile' );
+import( 'de.ceus-media.file.arc.Tar' );
+import( 'de.ceus-media.file.arc.Gzip' );
 /**
  *	Tar Gzip File allows creation and manipulation of gzipped tar archives.
  *	@package		file
  *	@subpackage		arc
- *	@extends		TarFile
- *	@uses			GzipFile
+ *	@extends		File_Arc_Tar
+ *	@uses			File_Arc_Gzip
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.5
  */
@@ -14,12 +14,12 @@ import( 'de.ceus-media.file.arc.GzipFile' );
  *	Tar Gzip File allows creation and manipulation of gzipped tar archives.
  *	@package		file
  *	@subpackage		arc
- *	@extends		TarFile
+ *	@extends		File_Arc_Tar
  *	@uses			GzipFile
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.5
  */
-class TarGzipFile extends TarFile
+class File_Arc_TarGzip extends File_Arc_Tar
 {
 	/**
 	 *	Constructor.
@@ -55,7 +55,7 @@ class TarGzipFile extends TarFile
 	 */
 	private function readGzipTar( $fileName )
 	{
-		$f = new GzipFile( $fileName );
+		$f = new File_Arc_Gzip( $fileName );
 		$this->content = $f->readString();
 		$this->parseTar();																			// Parse the TAR file
 		return true;
@@ -76,7 +76,7 @@ class TarGzipFile extends TarFile
 			$fileName = $this->fileName;
 		}
 		$this->generateTar();												// Encode processed files into TAR file format
-		$f = new GzipFile( $fileName );
+		$f = new File_Arc_Gzip( $fileName );
 		$f->writeString( $this->content);
 		return true;
 	}

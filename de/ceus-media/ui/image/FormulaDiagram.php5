@@ -4,25 +4,23 @@ import( 'de.ceus-media.math.analysis.CompactInterval' );
 import( 'de.ceus-media.StopWatch' );
 /**
  *	Paints Formula Diagram
- *	@package		ui
- *	@subpackage		image
+ *	@package		ui.image
  *	@extends		Image
  *	@uses			CompactInterval
  *	@uses			StopWatch
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version		0.1
+ *	@version		0.5
  */
 /**
  *	Paints Formula Diagram
- *	@package		ui
- *	@subpackage		image
+ *	@package		ui.image
  *	@extends		Image
  *	@uses			CompactInterval
  *	@uses			StopWatch
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version		0.1
+ *	@version		0.5
  */
-class FormulaDiagram extends Image
+class UI_Image_FormulaDiagram extends Image
 {
 	protected $intervalX;
 	protected $intervalY;

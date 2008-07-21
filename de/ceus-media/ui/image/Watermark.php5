@@ -1,21 +1,25 @@
 <?php
+import( 'de.ceus-media.ui.image.Creator' );
+import( 'de.ceus-media.ui.image.Printer' );
 /**
  *	Mark Image with another Image.
- *	@package	ui
- *	@subpackage	image
- *	@author		Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@since		16.12.2005
- *	@version		0.1
+ *	@package		ui.image
+ *	@extends		UI_Image_Creator
+ *	@extends		UI_Image_Printer
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@since			16.12.2005
+ *	@version		0.5
  */
 /**
  *	Mark Image with another Image.
- *	@package	ui
- *	@subpackage	image
- *	@author		Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@since		16.12.2005
- *	@version		0.1
+ *	@package		ui.image
+ *	@extends		UI_Image_Creator
+ *	@extends		UI_Image_Printer
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@since			16.12.2005
+ *	@version		0.5
  */
-class Watermark
+class UI_Image_Watermark
 {
 	/**	@var		array		$size			Array of Information of Stamp Image */
 	protected $size;
@@ -57,21 +61,18 @@ class Watermark
 	 *	@param		resource		$img 		Image Resource
 	 *	@return		array
 	 */
-	protected function calculatePosition( $img )
+	protected function calculatePosition( $image )
 	{
-		$sx	= imagesx( $img );
-		$sy	= imagesy( $img );
-		
 		switch( $this->positionH )
 		{
 			case 'left':
 				$posX	= 0 + $this->marginX;
 				break;
 			case 'center':
-				$posX	= ceil( $sx / 2 - $this->size[0] / 2 );
+				$posX	= ceil( $image->getWidth() / 2 - $this->stamp->getWidth() / 2 );
 				break;
 			case 'right':
-				$posX	= $sx - $this->size[0] - $this->marginX;
+				$posX	= $image->getWidth() - $this->stamp->getWidth() - $this->marginX;
 				break;
 		}
 		switch( $this->positionV )
@@ -80,16 +81,16 @@ class Watermark
 				$posY	= 0 + $this->marginY;
 				break;
 			case 'middle':
-				$posY	= ceil( $sy / 2 - $this->size[1] / 2 );
+				$posY	= ceil( $image->getHeight() / 2 - $this->stamp->getHeight() / 2 );
 				break;
 			case 'bottom':
-				$posY	= $sy - $this->size[1] - $this->marginY;
+				$posY	= $image->getHeight() - $this->stamp->getHeight() - $this->marginY;
 				break;
 		}
 		$position	= array(
 			'x'	=> $posX,
 			'y'	=> $posY
-			);
+		);
 		return $position;
 	}
 	
@@ -100,72 +101,26 @@ class Watermark
 	 *	@param		string		$target 		Target Name of Target Image
 	 *	@return		bool
 	 */
-	public function markImage( $source, $target = false )
+	public function markImage( $source, $target = NULL )
 	{
-		if( false === $target )
+		if( !$target )
 			$target = $source;
 		
-		if( $size = getimagesize( $source ) )
-		{
-	
-			switch( $size[2] )
-			{
-				case 1:
-					$img	= imagecreatefromgif( $source );
-					$img	= $this->markImageSource( $img );
-					imagegif( $img, $target );
-					return true;
-				case 2:
-					$img	= imagecreatefromjpeg( $source );
-					$img	= $this->markImageSource( $img );
-					imagejpeg( $img, $target, $this->quality );
-					return true;
-				case 3:
-					$img	= imagecreatefrompng( $source );
-					$img	= $this->markImageSource( $img );
-					imagepng( $img, $target );
-					return true;
-			}
-		}
-		else
-			trigger_error( "Source File is not an supported Image", E_USER_WARNING );
-		return false;
-	}
-	
-	/**
-	 *	Returns marked Image Source.
-	 *	@access		protected
-	 *	@param		resource		$img 		Image Resource
-	 *	@return		resource
-	 */
-	protected function markImageSource( $img )
-	{
-		$position	= $this->calculatePosition( $img );
-		imagecopymerge( $img, $this->stampSource, $position['x'], $position['y'], 0, 0, $this->size[0], $this->size[1], $this->alpha );
-		return $img;
+		$creator	= new UI_Image_Creator();
+		$creator->loadImage( $source );
+		$image		= $creator->getResource();
+		$type		= $creator->getType();
+
+		$position		= $this->calculatePosition( $creator );
+		$stampHeight	= $this->stamp->getHeight();
+		$stampWidth		= $this->stamp->getWidth();
+		$stampResource	= $this->stamp->getResource();
+		imagecopymerge( $image, $stampResource, $position['x'], $position['y'], 0, 0, $stampWidth, $stampHeight, $this->alpha );
+
+		$printer	= new UI_Image_Printer( $image );
+		$printer->save( $target, $type );
 	}
 
-	/**
-	 *	Create Image Resource from Image File.
-	 *	@access		protected
-	 *	@return		resource
-	 */
-	protected function getStampSource()
-	{
-		switch( $this->size[2] )
-		{
-			case 1:
-				$img	= imagecreatefromgif( $this->stamp );
-				return $img;
-			case 2:
-				$img	= imagecreatefromjpeg( $this->stamp );
-				return $img;
-			case 3:
-				$img	= imagecreatefrompng( $this->stamp );
-				return $img;
-		}
-	}
-	
 	/**
 	 *	Sets the Opacity of Stamp Image.
 	 *	@access		public
@@ -174,7 +129,7 @@ class Watermark
 	 */
 	public function setAlpha( $alpha )
 	{
-		$this->alpha	= abs( (int)$alpha );
+		$this->alpha	= abs( (int) $alpha );
 	}
 	
 	/**
@@ -202,11 +157,11 @@ class Watermark
 		if( in_array( $horizontal, array( 'left', 'center', 'right' ) ) )
 			$this->positionH	= $horizontal;
 		else
-			trigger_error( "Horizontal Position '".$horizontal."' must be on of ('left', 'center', 'right').", E_USER_ERROR );
+			throw new InvalidArgumentException( 'Horizontal Position "'.$horizontal.'" must be on of (left, center, right).' );
 		if( in_array( $vertical, array( 'top', 'middle', 'bottom' ) ) )
 			$this->positionV	= $vertical;
 		else
-			trigger_error( "Vertical Position '".$horizontal."' must be on of ('top', 'middle', 'bottom').", E_USER_ERROR );
+			throw new InvalidArgumentException( 'Vertical Position "'.$horizontal.'" must be on of (top, middle, bottom).' );
 	}
 	
 	/**
@@ -228,17 +183,8 @@ class Watermark
 	 */
 	public function setStamp( $stamp )
 	{
-		if( $size = getimagesize( $stamp ) )
-		{
-			$this->size			= $size;
-			$this->stamp			= $stamp;
-			$this->stampSource	= $this->getStampSource();
-		}
-		else
-		{
-			$this->size	= false;
-			trigger_error( "Stamp File is not an supported Image", E_USER_WARNING );
-		}
+		$this->stamp	= new UI_Image_Creator();
+		$this->stamp->loadImage( $stamp );
 	}
 }
 ?>

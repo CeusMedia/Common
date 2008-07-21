@@ -11,7 +11,7 @@
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.5
  */
-class StringBuffer
+class ADT_StringBuffer implements Countable
 {
 	/**	@var		string		$buffer			internal String */
 	private $buffer;
@@ -32,18 +32,28 @@ class StringBuffer
 	}
 
 	/**
+	 *	Returns the Size of the String.
+	 *	@access		public
+	 *	@return		int
+	 */
+	public function count()
+	{
+		return strlen( $this->buffer );
+	}
+
+	/**
 	 *	Deletes a Character at a given Position.
 	 *	@access		public
-	 *	@param		int			$pos			Position to delete
+	 *	@param		int			$position			Position to delete
 	 *	@return		string
 	 */
-	public function deleteCharAt( $pos )
+	public function deleteCharAt( $position )
 	{
-		for( $i = 0; $i < $this->getSize(); $i++ )
-			if( $pos != $i )
+		for( $i = 0; $i < $this->count(); $i++ )
+			if( $position != $i )
 				$chr_state = $chr_state.$this->buffer[$i];
 		$this->buffer = $chr_state;
-		if( $pos == $this->pointer )
+		if( $position == $this->pointer )
 			$this->pointer++;
 		return $this->toString();
 	}
@@ -51,14 +61,14 @@ class StringBuffer
 	/**
 	 *	Returns the Character at a given Position.
 	 *	@access		public
-	 *	@param		int			$pos			Position
+	 *	@param		int			$position			Position
 	 *	@return		string
 	 */
-	public function getCharAt( $pos )
+	public function getCharAt( $position )
 	{
-		if($pos <= $this->getSize() && $pos >= 0 )
-			$chr = $this->buffer[$pos];
-		return $chr;
+		if($position <= $this->count() && $position >= 0 )
+			$character = $this->buffer[$position];
+		return $character;
 	}
 
 	/**
@@ -68,8 +78,6 @@ class StringBuffer
 	 */
 	public function getCurrentPos()
 	{
-		if( $this->direction == ">" )
-			return $this->pointer-1;
 		return $this->pointer;
 	}
 
@@ -80,8 +88,8 @@ class StringBuffer
 	 */
 	public function getCurrentChar()
 	{
-		$chr = $this->buffer[$this->pointer];
-		return $chr;
+		$character = $this->buffer[$this->pointer];
+		return $character;
 	}
 
 	/**
@@ -91,15 +99,16 @@ class StringBuffer
 	 */
 	public function getNextChar()
 	{
+		$character	= NULL;
 		if( $this->direction == "<" )
 			$this->pointer++;
-		if( $this->pointer < $this->getSize() &&  $this->pointer >=0 )
+		if( $this->pointer < $this->count() &&  $this->pointer >=0 )
 		{
 			$this->direction = ">";
-			$chr = $this->buffer[$this->pointer];
+			$character = $this->buffer[$this->pointer];
 			$this->pointer++;
 		}
-		return $chr;
+		return $character;
 	}
 
 	/**
@@ -111,23 +120,13 @@ class StringBuffer
 	{
 		if( $this->direction == ">" )
 			$this->pointer--;
-		if( $this->pointer <= $this->getSize() &&  $this->pointer > 0 )
+		if( $this->pointer <= $this->count() &&  $this->pointer > 0 )
 		{
 			$this->direction = "<";
 			$this->pointer--;
-			$chr = $this->buffer[$this->pointer];
+			$character = $this->buffer[$this->pointer];
 		}
-		return $chr;
-	}
-
-	/**
-	 *	Returns the Size of the String.
-	 *	@access		public
-	 *	@return		int
-	 */
-	public function getSize()
-	{
-		return strlen( $this->buffer );
+		return $character;
 	}
 
 	/**
@@ -138,8 +137,8 @@ class StringBuffer
 	public function hasLess()
 	{
 		if( $this->pointer > 0 )
-			return true;
-		return false;
+			return TRUE;
+		return FALSE;
 	}
 
 	/**
@@ -149,26 +148,26 @@ class StringBuffer
 	 */
 	public function hasMore()
 	{
-		if( $this->pointer < $this->getSize() )
-			return true;
-		return false;
+		if( $this->pointer < $this->count() )
+			return TRUE;
+		return FALSE;
 	}
 
 	/**
 	 *	Inserts a String at a given Position.
 	 *	@access		public
-	 *	@param		int			$pos			Position to insert to
+	 *	@param		int			$position		Position to insert to
 	 *	@param		string		$string			String to insert
 	 *	@return		string
 	 */
-	public function insert( $pos, $string )
+	public function insert( $position, $string )
 	{
-		if( $pos<= $this->getSize() && $pos >=0 )
+		if( $position<= $this->count() && $position >=0 )
 		{
-			if( $pos < $this->pointer )
+			if( $position < $this->pointer )
 				$this->pointer = $this->pointer + strlen( $string );
-			$left		= substr( $this->toString(), 0, $pos );
-			$right	= substr( $this->toString(), $pos, $this->getSize() );
+			$left	= substr( $this->toString(), 0, $position );
+			$right	= substr( $this->toString(), $position );
 			$this->buffer = $left.$string.$right;
 		}
 		return $this->toString();
@@ -187,16 +186,27 @@ class StringBuffer
 	}
 
 	/**
+	 *	Resets Pointer and Flags.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function resetPointer()
+	{
+		$this->pointer		= 0;
+		$this->direction	= FALSE;
+	}
+
+	/**
 	 *	Sets the Character at a given Position.
 	 *	@access		public
-	 *	@param		int			$pos			Position to set to
-	 *	@param		string		$chr			Character to set
+	 *	@param		int			$position		Position to set to
+	 *	@param		string		$characte		Character to set
 	 *	@return		string
 	 */
-	public function setCharAt( $pos, $chr )
+	public function setCharAt( $position, $character )
 	{
-		if($pos <= $this->getSize() && $pos >= 0 )
-			$this->buffer[$pos] = $chr;
+		if( $position <= $this->count() && $position >= 0 )
+			$this->buffer[$position] = $character;
 		return $this->toString();
 	}
 
@@ -207,20 +217,7 @@ class StringBuffer
 	 */
 	public function toString()
 	{
-		if( $this->getSize() > 0 )
-			return $this->buffer;
-		return "";
-	}
-
-	/**
-	 *	Resets Pointer and Flags.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function resetPointer()
-	{
-		$this->pointer = 0;
-		$this->direction = false;
+		return $this->buffer;
 	}
 }
 ?>

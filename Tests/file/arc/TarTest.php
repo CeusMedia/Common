@@ -1,23 +1,24 @@
 <?php
 /**
- *	TestUnit of Gzip File.
+ *	TestUnit of T File.
  *	@package		Tests.file.arc
  *	@extends		PHPUnit_Framework_TestCase
- *	@uses			GzipFile
+ *	@uses			File_Arc_Tar
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.1
  */
 require_once 'PHPUnit/Framework/TestCase.php'; 
-import( 'de.ceus-media.file.arc.GzipFile' );
+require_once( 'Tests/initLoaders.php5' );
+import( 'de.ceus-media.file.arc.Tar' );
 /**
- *	TestUnit of Gzip File.
+ *	TestUnit of Tar File.
  *	@package		Tests.file.arc
  *	@extends		PHPUnit_Framework_TestCase
- *	@uses			GzipFile
+ *	@uses			File_Arc_Tar
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.1
  */
-class Tests_File_Arc_GzipFileTest extends PHPUnit_Framework_TestCase
+class Tests_File_Arc_TarTest extends PHPUnit_Framework_TestCase
 {
 	/**	@var	string		$fileName		URL of Archive File Name */
 	private $fileName;
@@ -29,7 +30,7 @@ class Tests_File_Arc_GzipFileTest extends PHPUnit_Framework_TestCase
 	
 	public function setUp()
 	{
-		$this->fileName	= $this->path."test.gz";
+		$this->fileName	= $this->path."test.tar";
 	}
 
 	public function tearDown()
@@ -37,24 +38,18 @@ class Tests_File_Arc_GzipFileTest extends PHPUnit_Framework_TestCase
 		@unlink( $this->fileName );
 	}
 
-	public function testWriteString()
+	public function testAddFile()
 	{
-		$arc	= new GzipFile( $this->fileName );
-		$arc->writeString( "test" );
+		$arc	= new File_Arc_Tar();
+		$arc->addFile( $this->path."AllTests.php" );
+		$arc->addFile( $this->path."TarTest.php" );
+
+		$assertion	= TRUE;
+		$creation	= $arc->save( $this->fileName );
+		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= TRUE;
 		$creation	= file_exists( $this->fileName );
-		$this->assertEquals( $assertion, $creation );
-	}
-
-	public function testReadString()
-	{
-		$arc	= new GzipFile( $this->fileName );
-		$arc->writeString( "test" );
-		$arc	= new GzipFile( $this->fileName );
-
-		$assertion	= "test";
-		$creation	= $arc->readString();
 		$this->assertEquals( $assertion, $creation );
 	}
 }
