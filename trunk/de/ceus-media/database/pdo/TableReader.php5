@@ -186,9 +186,9 @@ class Database_PDO_TableReader
 	 *	@param		int			$value			Index to focus on
 	 *	@return		void
 	 */
-	public function focusIndex( $key, $value )
+	public function focusIndex( $key, $value, $resetPrimaryFocus = TRUE )
 	{
-		if( isset( $this->focusedIndices[$this->primaryKey] ) )									//  focused on primary Key
+		if( $resetPrimaryFocus && isset( $this->focusedIndices[$this->primaryKey] ) )									//  focused on primary Key
 			unset( $this->focusedIndices[$this->primaryKey] );									//  remove primary Key Focus
 		if( !in_array( $key, $this->indices ) )													//  check Column Name
 			throw new InvalidArgumentException( 'Column "'.$key.'" is not an Index and cannot be focused.' );
@@ -278,7 +278,7 @@ class Database_PDO_TableReader
 			if( !array_key_exists( $this->primaryKey, $new ) )				//  if primary Key is not already in Conditions
 				$new = $this->getFocus();									//  note primary Key Pair
 		}
-		else if( $useIndices && count( $this->focusedIndices ) )			//  if using Indices
+		if( $useIndices && count( $this->focusedIndices ) )			//  if using Indices
 		{
 			foreach( $this->focusedIndices as $key => $value )				//  iterate focused Indices
 				if( !array_key_exists( $key, $new ) )						//  if Index Key is not already in Conditions
@@ -455,8 +455,12 @@ class Database_PDO_TableReader
 	public function setIndices( $keys )
 	{
 		foreach( $keys as $key )
+		{
 			if( !in_array( $key, $this->columns ) )
 				throw new InvalidArgumentException( 'Column "'.$key.'" is not existing in Table "'.$this->tableName.'" and cannot be an Index.' );
+			if( $key === $this->primaryKey )
+				throw new InvalidArgumentException( 'Column "'.$key.'" is already primary Key and cannot be an Index.' );
+		}
 		$this->indices	= $keys;
 		array_unique( $this->indices );
 	}

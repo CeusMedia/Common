@@ -79,7 +79,7 @@ class Net_HTTP_Request_Response
 			$this->body		= "";
 			return $length;
 		}
-		ob_flush();
+		flush();
 		$length	= strlen( $this->body );
 #		header( "Content-Length: ".$length );
 		print( $this->body );
