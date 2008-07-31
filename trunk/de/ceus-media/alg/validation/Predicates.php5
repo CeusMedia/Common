@@ -194,7 +194,7 @@ class Alg_Validation_Predicates
 	 */
 	public static function isEreg( $string, $pattern )
 	{
-		return ereg( $pattern, $string );
+		return (bool) ereg( $pattern, $string );
 	}
 	
 	/**
@@ -206,7 +206,7 @@ class Alg_Validation_Predicates
 	 */
 	public static function isEregi( $string, $pattern )
 	{
-		return eregi( $pattern, $string );
+		return (bool) eregi( $pattern, $string );
 	}
 
 	/**
