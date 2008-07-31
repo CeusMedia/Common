@@ -5,7 +5,7 @@
  *	@extends		PHPUnit_Framework_TestCase
  *	@uses			File_Editor
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@since			09.07.2008
+ *	@since			04.07.2008
  *	@version		0.1
  */
 require_once( 'PHPUnit/Framework/TestCase.php' ); 
@@ -17,11 +17,20 @@ import( 'de.ceus-media.file.Editor' );
  *	@extends		PHPUnit_Framework_TestCase
  *	@uses			File_Editor
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@since			09.07.2008
+ *	@since			04.07.2008
  *	@version		0.1
  */
 class Tests_File_EditorTest extends PHPUnit_Framework_TestCase
 {
+	/**	@var	File_Editor	$editor			Instance of File Editor */
+	private $editor			= NULL;
+	/**	@var	string		$fileName		File Name of Test File */
+	private $fileName		= "editor.test";
+	/**	@var	string		$fileContent	Content of Test File */
+	private $fileContent	= "line1\nline2\n";
+	/**	@var	string		$path			Path to work in */
+	private $path;
+
 	/**
 	 *	Constructor.
 	 *	@access		public
@@ -29,6 +38,9 @@ class Tests_File_EditorTest extends PHPUnit_Framework_TestCase
 	 */
 	public function __construct()
 	{
+		$this->path		= dirname( __FILE__ )."/";
+		$this->fileName	= $this->path.$this->fileName;
+		$this->editor	= new File_Editor( $this->fileName );
 	}
 	
 	/**
@@ -38,6 +50,7 @@ class Tests_File_EditorTest extends PHPUnit_Framework_TestCase
 	 */
 	public function setUp()
 	{
+		file_put_contents( $this->fileName, $this->fileContent );
 	}
 	
 	/**
@@ -47,6 +60,8 @@ class Tests_File_EditorTest extends PHPUnit_Framework_TestCase
 	 */
 	public function tearDown()
 	{
+		@unlink( $this->fileName );
+		@unlink( $this->path."renamed.txt" );
 	}
 
 	/**
@@ -58,7 +73,7 @@ class Tests_File_EditorTest extends PHPUnit_Framework_TestCase
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= File_Editor::__construct();
+		$creation	= $this->editor->__construct();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -71,7 +86,7 @@ class Tests_File_EditorTest extends PHPUnit_Framework_TestCase
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= File_Editor::changeGroup();
+		$creation	= $this->editor->changeGroup();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -84,7 +99,7 @@ class Tests_File_EditorTest extends PHPUnit_Framework_TestCase
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$this->setExpectedException( 'InvalidArgumentException' );
-		File_Editor::changeGroup();
+		$this->editor->changeGroup();
 	}
 
 	/**
@@ -96,7 +111,7 @@ class Tests_File_EditorTest extends PHPUnit_Framework_TestCase
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= File_Editor::changeMode();
+		$creation	= $this->editor->changeMode();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -109,7 +124,7 @@ class Tests_File_EditorTest extends PHPUnit_Framework_TestCase
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$this->setExpectedException( 'InvalidArgumentException' );
-		File_Editor::changeMode();
+		$this->editor->changeMode();
 	}
 
 	/**
@@ -121,7 +136,7 @@ class Tests_File_EditorTest extends PHPUnit_Framework_TestCase
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$this->setExpectedException( 'InvalidArgumentException' );
-		File_Editor::changeMode();
+		$this->editor->changeMode();
 	}
 
 	/**
@@ -133,7 +148,7 @@ class Tests_File_EditorTest extends PHPUnit_Framework_TestCase
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$this->setExpectedException( 'InvalidArgumentException' );
-		File_Editor::changeMode();
+		$this->editor->changeMode();
 	}
 
 	/**
@@ -145,7 +160,7 @@ class Tests_File_EditorTest extends PHPUnit_Framework_TestCase
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= File_Editor::changeOwner();
+		$creation	= $this->editor->changeOwner();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -158,7 +173,7 @@ class Tests_File_EditorTest extends PHPUnit_Framework_TestCase
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$this->setExpectedException( 'InvalidArgumentException' );
-		File_Editor::changeOwner();
+		$this->editor->changeOwner();
 	}
 
 	/**
@@ -168,9 +183,16 @@ class Tests_File_EditorTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testRemove()
 	{
-		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= File_Editor::remove();
+		$creation	= $this->editor->exists();
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= TRUE;
+		$creation	= $this->editor->remove();
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= FALSE;
+		$creation	= $this->editor->exists();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -181,11 +203,36 @@ class Tests_File_EditorTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testRename()
 	{
-		$this->markTestIncomplete( 'Incomplete Test' );
+		$fileName	= $this->path."renamed.txt";
+
 		$assertion	= TRUE;
-		$creation	= File_Editor::rename();
+		$creation	= $this->editor->exists();
 		$this->assertEquals( $assertion, $creation );
-	}
+
+		$assertion	= FALSE;
+		$creation	= file_exists( $fileName );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= TRUE;
+		$creation	= $this->editor->rename( $fileName );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= TRUE;
+		$creation	= file_exists( $fileName );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= FALSE;
+		$creation	= file_exists( $this->fileName );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= $fileName;
+		$creation	= $this->editor->getFileName();
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= TRUE;
+		$creation	= $this->editor->exists();
+		$this->assertEquals( $assertion, $creation );
+}
 
 	/**
 	 *	Tests Exception of Method 'rename'.
@@ -194,9 +241,8 @@ class Tests_File_EditorTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testRenameException1()
 	{
-		$this->markTestIncomplete( 'Incomplete Test' );
 		$this->setExpectedException( 'InvalidArgumentException' );
-		File_Editor::rename();
+		$this->editor->rename( NULL );
 	}
 
 	/**
@@ -206,9 +252,8 @@ class Tests_File_EditorTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testRenameException2()
 	{
-		$this->markTestIncomplete( 'Incomplete Test' );
 		$this->setExpectedException( 'RuntimeException' );
-		File_Editor::rename();
+		$this->editor->rename( "not_existing_path/not_relevant.txt" );
 	}
 
 	/**
@@ -218,9 +263,14 @@ class Tests_File_EditorTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testWriteArray()
 	{
-		$this->markTestIncomplete( 'Incomplete Test' );
+		$lines		= array( "line3", "line4" );
+
 		$assertion	= TRUE;
-		$creation	= File_Editor::writeArray();
+		$creation	= (bool) $this->editor->writeArray( $lines );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= $lines;
+		$creation	= $this->editor->readArray();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -231,9 +281,14 @@ class Tests_File_EditorTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testWriteString()
 	{
-		$this->markTestIncomplete( 'Incomplete Test' );
+		$string		= "test string 123";
+
 		$assertion	= TRUE;
-		$creation	= File_Editor::writeString();
+		$creation	= (bool) $this->editor->writeString( $string );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= $string;
+		$creation	= $this->editor->readString();
 		$this->assertEquals( $assertion, $creation );
 	}
 }

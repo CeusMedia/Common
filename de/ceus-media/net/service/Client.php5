@@ -86,16 +86,13 @@ class Net_Service_Client
 		switch( $format )
 		{
 			case 'json':
-				if( $decode = @json_decode( $response ) )
-					$response	= json_decode( $response );
+				$response	= json_decode( $response );
 				break;
 			case 'php':
-				if( $decode = @unserialize( $response ) )
-					$response	= unserialize( $response );
+				$response	= unserialize( $response );
 				break;
 			case 'wddx':
-				if( $decode = @wddx_deserialize( $response ) )
-					$response	= wddx_deserialize( $response );
+				$response	= wddx_deserialize( $response );
 				break;
 			default:
 				break;

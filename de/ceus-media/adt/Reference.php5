@@ -39,7 +39,7 @@ class ADT_Reference
 	public function add( $name, &$object, $overwrite = false )
 	{
 		if( $this->has( $name ) && !$overwrite )
-			throw new InvalidArgumentExeption ( 'Refence to "'.$name.'" has already been added (Overwriting not used by function call)' );
+			throw new InvalidArgumentException ( 'Refence to "'.$name.'" has already been added (Overwriting not used by function call)' );
 		$GLOBALS[$this->workspace][$name] =& $object;
 	}
 	

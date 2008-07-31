@@ -1,1 +1,1 @@
-@phpunit  --log-json Tests/results.json --log-xml Tests/results.xml --report Reports Tests_AllTests
+@phpunit --coverage-html Reports --log-json Tests/results.json --log-xml Tests/results.xml Tests_AllTests
