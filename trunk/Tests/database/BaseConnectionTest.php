@@ -38,6 +38,7 @@ class Tests_Database_BaseConnectionTest extends PHPUnit_Framework_TestCase
 	 */
 	public function setUp()
 	{
+		$this->connection	= new Tests_Database_BaseConnectionInstance();
 	}
 	
 	/**
@@ -54,11 +55,16 @@ class Tests_Database_BaseConnectionTest extends PHPUnit_Framework_TestCase
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function test__construct()
+	public function testConstruct()
 	{
-		$this->markTestIncomplete( 'Incomplete Test' );
-		$assertion	= TRUE;
-		$creation	= Database_BaseConnection::__construct();
+		$connection	= new Tests_Database_BaseConnectionInstance( "test" );
+
+		$assertion	= "test";
+		$creation	= $connection->getProtectedVar( 'logFile' );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= FALSE;
+		$creation	= $connection->getProtectedVar( 'connected' );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -67,7 +73,7 @@ class Tests_Database_BaseConnectionTest extends PHPUnit_Framework_TestCase
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testConnect()
+	public function _testConnect()
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
@@ -82,9 +88,13 @@ class Tests_Database_BaseConnectionTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testIsConnected()
 	{
-		$this->markTestIncomplete( 'Incomplete Test' );
+		$assertion	= FALSE;
+		$creation	= $this->connection->isConnected();
+		$this->assertEquals( $assertion, $creation );
+
+		$this->connection->setProtectedVar( 'connected', TRUE );
 		$assertion	= TRUE;
-		$creation	= Database_BaseConnection::isConnected();
+		$creation	= $this->connection->isConnected();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -95,9 +105,9 @@ class Tests_Database_BaseConnectionTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testSetLogFile()
 	{
-		$this->markTestIncomplete( 'Incomplete Test' );
-		$assertion	= TRUE;
-		$creation	= Database_BaseConnection::setLogFile();
+		$this->connection->setLogFile( "test" );
+		$assertion	= "test";
+		$creation	= $this->connection->getProtectedVar( 'logFile' );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -108,10 +118,41 @@ class Tests_Database_BaseConnectionTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testSetErrorReporting()
 	{
-		$this->markTestIncomplete( 'Incomplete Test' );
-		$assertion	= TRUE;
-		$creation	= Database_BaseConnection::setErrorReporting();
+		$this->connection->setErrorReporting( 0 );
+		$assertion	= 0;
+		$creation	= $this->connection->getProtectedVar( 'errorLevel' );
+		$this->assertEquals( $assertion, $creation );
+
+		$this->connection->setErrorReporting( 1 );
+		$assertion	= 1;
+		$creation	= $this->connection->getProtectedVar( 'errorLevel' );
+		$this->assertEquals( $assertion, $creation );
+
+		$this->connection->setErrorReporting( 2 );
+		$assertion	= 2;
+		$creation	= $this->connection->getProtectedVar( 'errorLevel' );
 		$this->assertEquals( $assertion, $creation );
 	}
+}
+class Tests_Database_BaseConnectionInstance extends Database_BaseConnection
+{
+	function getProtectedVar( $key )
+	{
+		return $this->$key;
+	}
+	function setProtectedVar( $key, $value )
+	{
+		$this->$key	= $value;
+	}
+	function beginTransaction(){}
+	function close(){}
+	function commit(){}
+	function execute( $query, $debug = 1 ){}
+	function getErrNo(){}
+	function getError(){}
+	function getInsertId(){}
+	function getTables(){}
+	function rollback(){}
+	function selectDB( $database ){}
 }
 ?>
