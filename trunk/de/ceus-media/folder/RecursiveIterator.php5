@@ -21,6 +21,8 @@
  */
 class Folder_RecursiveIterator extends FilterIterator
 {
+	/**	@var		 string		$path				Path to iterate */
+	protected $path;
 	/**	@var		 bool		$showFiles			Flag: show Files */
 	protected $showFiles;
 	/**	@var		 bool		$showFolders		Flag: show Folders */
@@ -41,10 +43,11 @@ class Folder_RecursiveIterator extends FilterIterator
 	{
 		if( !file_exists( $path ) )
 			throw new RuntimeException( 'Path "'.$path.'" is not existing.' );
+		$this->path				= $path;
 		$this->showFiles		= $showFiles;
 		$this->showFiles		= $showFiles;
 		$this->stripDotFolders	= $stripDotFolders;
-		$selfIterator			= $showFolders ? RecursiveIteratorIterator::SELF_FIRST : NULL;
+		$selfIterator			= $showFolders ? RecursiveIteratorIterator::SELF_FIRST : RecursiveIteratorIterator::LEAVES_ONLY;
 		parent::__construct(
 			new RecursiveIteratorIterator(
 				new RecursiveDirectoryIterator(
@@ -77,6 +80,11 @@ class Folder_RecursiveIterator extends FilterIterator
 				return FALSE;
 		}
 		return TRUE;
+	}
+	
+	public function getPath()
+	{
+		return $this->path;
 	}
 }
 ?>

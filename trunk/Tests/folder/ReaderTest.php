@@ -44,31 +44,6 @@ class Tests_Folder_ReaderTest extends Tests_Folder_TestCase
 	}
 
 	/**
-	 *	Returns Array of plain File and Folder Lists from Directory Iterator or Filter Iterator.
-	 *	@access		private
-	 *	@return		array
-	 */
-	private function getListFromIndex( $index )
-	{
-		$folders	= array();
-		$files		= array();
-		foreach( $index as $entry )
-		{
-			if( $entry->isDot() )
-				continue;
-			$name	= $entry->getFilename();
-			if( $entry->isDir() )
-				$folders[]	= $name;
-			else if( $entry->isFile() )
-				$files[]	= $name;
-		}
-		return array(
-			'folders'	=> $folders,
-			'files'		=> $files,
-		);
-	}
-
-	/**
 	 *	Tests Method '__construct'.
 	 *	@access		public
 	 *	@return		void

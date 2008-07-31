@@ -26,7 +26,7 @@ class Tests_Folder_TestCase extends PHPUnit_Framework_TestCase
 	 */
 	public function __construct()
 	{
-		$this->_path		= $path	= dirname( __FILE__ )."/";
+		$this->path		= $path	= dirname( __FILE__ )."/";
 		
 		@mkDir( $path."folder" );
 		@mkDir( $path."folder/.hidden" );
@@ -54,10 +54,34 @@ class Tests_Folder_TestCase extends PHPUnit_Framework_TestCase
 	 */
 	public function __destruct()
 	{
-		if( file_exists( $this->_path."folder" ) )
-			$this->removeFolder( $this->_path."folder", true );
+		if( file_exists( $this->path."folder" ) )
+			$this->removeFolder( $this->path."folder", true );
 	}
 
+	/**
+	 *	Returns Array of plain File and Folder Lists from Directory Iterator or Filter Iterator.
+	 *	@access		private
+	 *	@return		array
+	 */
+	protected function getListFromIndex( $index )
+	{
+		$folders	= array();
+		$files		= array();
+		foreach( $index as $entry )
+		{
+			if( $entry->getFileName() == "." || $entry->getFileName() == ".." )
+				continue;
+			$name	= $entry->getFilename();
+			if( $entry->isDir() )
+				$folders[]	= $name;
+			else if( $entry->isFile() )
+				$files[]	= $name;
+		}
+		return array(
+			'folders'	=> $folders,
+			'files'		=> $files,
+		);
+	}
 	/**
 	 *	Removes Folders and Files recursive and returns number of removed Objects.
 	 *	@access		protected
