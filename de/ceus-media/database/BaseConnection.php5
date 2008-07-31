@@ -16,12 +16,12 @@ import( "de.ceus-media.file.log.Writer" );
  */
 abstract class Database_BaseConnection
 {
-	/**	@var	bool		$connected			State of Connection */
-	protected $connected	= false;
-	/**	@var	string		$logFile			File Name of Log File */
-	protected $logFile		= "db_error.log";
-	/**	@var	int			$errorLevel			Level of Error Reporting */
-	protected $errorLevel	= 4;
+	/**	@var		bool		$connected		State of Connection */
+	protected $connected		= FALSE;
+	/**	@var		string		$logFile		File Name of Log File */
+	protected $logFile			= "db_error.log";
+	/**	@var		int			$errorLevel		Level of Error Reporting */
+	protected $errorLevel		= 4;
 
 	/**
 	 *	Constructor.
@@ -33,7 +33,7 @@ abstract class Database_BaseConnection
 	{
 		if( $logFile )
 			$this->logFile	= $logFile;
-		$this->connected = false;
+		$this->connected = FALSE;
 	}
 
 	/**
@@ -87,8 +87,8 @@ abstract class Database_BaseConnection
 
 	/**
 	 *	Executes SQL Query.
-	 *	@param	string	query			SQL Statement to be executed against Database Connection.
-	 *	@param	int		debug			deBug Level (16:die after, 8:die before, 4:remark, 2:echo, 1:count[default])
+	 *	@param		string		$query			SQL Statement to be executed against Database Connection.
+	 *	@param		int			$debug			deBug Level (16:die after, 8:die before, 4:remark, 2:echo, 1:count[default])
 	 */
 	abstract public function execute( $query, $debug = 1 );
 
@@ -145,7 +145,7 @@ abstract class Database_BaseConnection
 	 */
 	protected function getTimeDifference( $start )
 	{
-		return sprintf( "%1.4f", $this->getMicroTime( true ) - $start );
+		return sprintf( "%1.4f", $this->getMicroTime( TRUE ) - $start );
 	}
 	
 	/**

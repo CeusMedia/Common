@@ -18,21 +18,6 @@ import( 'de.ceus-media.database.TableReader' );
 class Database_TableWriter extends Database_TableReader
 {
 	/**
-	 *	Constructor.
-	 *	@access		private
-	 *	@param		Object		$dbc			Database Connection
-	 *	@param		string		$tableName		table name
-	 *	@param		array		$fields			all fields / columns of this table
-	 *	@param		string		$primaryKey		name of the primary keys of this table
-	 *	@param		int			$focus			focused primary key of this table
-	 *	@return		void
-	 */
-	public function __construct( $dbc, $tableName, $fields = array(), $primaryKey = false, $focus = false )
-	{
-		parent::__construct( $dbc, $tableName, $fields, $primaryKey, $focus );
-	}
-
-	/**
 	 *	Inserting data into this table.
 	 *	@access		public
 	 *	@param		array		$data			associative array of data to store
@@ -40,7 +25,7 @@ class Database_TableWriter extends Database_TableReader
 	 *	@param		int			$debug			deBug Level (16:die after, 8:die before, 4:remark, 2:echo, 1:count[default])
 	 *	@return		bool
 	 */
-	public function addData( $data = array(), $stripTags = true, $debug = 1 )
+	public function addData( $data = array(), $stripTags = TRUE, $debug = 1 )
 	{
 		if( sizeof( $this->fields ) )
 		{
@@ -82,7 +67,7 @@ class Database_TableWriter extends Database_TableReader
 			$this->focusPrimary( $id );
 			return $id;
 		}
-		return false;
+		return FALSE;
 	}
 
 	/**
@@ -99,7 +84,7 @@ class Database_TableWriter extends Database_TableReader
 			$query	= "DELETE FROM ".$this->getTableName()." WHERE ".$conditions;
 			return $this->dbc->Execute( $query, $debug );
 		}
-		return false;
+		return FALSE;
 	}
 
 	/**
@@ -141,7 +126,7 @@ class Database_TableWriter extends Database_TableReader
 	 *	@param		int		$debug		deBug Level (16:die after, 8:die before, 4:remark, 2:echo, 1:count[default])
 	 *	@return		bool
 	 */
-	public function modifyData( $data = array(), $stripTags = true, $debug = 1 )
+	public function modifyData( $data = array(), $stripTags = TRUE, $debug = 1 )
 	{
 		if( $this->isFocused() )
 		{

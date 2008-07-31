@@ -24,11 +24,11 @@ class Database_PDO_TableWriter extends Database_PDO_TableReader
 	public function delete()
 	{
 		$this->validateFocus();
-		$has	= $this->get( FALSE );
-		if( !$has )
-			throw new InvalidArgumentException( 'Focused Indices are not existing.' );
 		$conditions	= $this->getConditionQuery( array() );
 		$query	= "DELETE FROM ".$this->getTableName()." WHERE ".$conditions;
+#		$has	= $this->get( FALSE );
+#		if( !$has )
+#			throw new InvalidArgumentException( 'Focused Indices are not existing.' );
 		return $this->dbc->exec( $query );
 	}
 
@@ -58,11 +58,9 @@ class Database_PDO_TableWriter extends Database_PDO_TableReader
 	{
 		$keys	= array();
 		$vals	= array();
-		foreach( $this->columns as $column )
+		foreach( $this->columns as $column )										//  iterate Columns
 		{
-//			if( $column == $this->primaryKey )
-//				continue;
-			if( !isset( $data[$column] ) )
+			if( !isset( $data[$column] ) )											//  no Data given for Column
 				continue;
 			$value = $data[$column];
 			if( $stripTags )
@@ -70,16 +68,16 @@ class Database_PDO_TableWriter extends Database_PDO_TableReader
 			$keys[$column] = $column;
 			$vals[$column] = $this->secureValue( $value );
 		}
-		if( $this->isFocused() == "index" )
+		if( $this->isFocused() )													//  add focused Indices to Data
 		{
-			foreach( $this->focusedIndices as $key => $value )
+			foreach( $this->focusedIndices as $key => $value )						//  iterate focused Indices
 			{
-				if( isset( $keys[$key] ) )
+				if( isset( $keys[$key] ) )											//  Column is already set
 					continue;
-				if( $key == $this->primaryKey )
+				if( $key == $this->primaryKey )										//  skip primary Key
 					continue;
-				$keys[$key]	= $key;
-				$vals[$key]	= $this->secureValue( $value );
+				$keys[$key]	= $key;													//  add Key
+				$vals[$key]	= $this->secureValue( $value );							//  add Value
 			}
 		}
 		$keys	= implode( ", ", array_values( $keys ) );
@@ -87,7 +85,6 @@ class Database_PDO_TableWriter extends Database_PDO_TableReader
 		$query	= "INSERT INTO ".$this->getTableName()." (".$keys.") VALUES (".$vals.")";
 		$this->dbc->exec( $query );
 		$id	= $this->dbc->lastInsertId();
-	//	$this->focusPrimary( $id );
 		return $id;
 	}
 
