@@ -349,33 +349,18 @@ class Tests_Database_PDO_TableReaderTest extends PHPUnit_Framework_TestCase
 	public function testFindWithFocus1()
 	{
 		$this->connection->query( "INSERT INTO transactions (topic,label) VALUES ('test','findTest');" );
-		$this->reader->focusIndex( 'topic', 'start' );
+		$this->reader->focusIndex( 'topic', 'start' );							//  will be ignored
 		$result		= $this->reader->find( array( 'id' ) );
-
-		$assertion	= 1;
-		$creation	= count( $result );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= 1;
-		$creation	= count( $result[0] );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= 1;
-		$creation	= $result[0]['id'];
-		$this->assertEquals( $assertion, $creation );
-
-		$this->reader->focusIndex( 'topic', 'test' );
-		$result		= $this->reader->find( array( 'id' ) );
-
-		$assertion	= 1;
-		$creation	= count( $result );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= 1;
-		$creation	= count( $result[0] );
-		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= 2;
+		$creation	= count( $result );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= 1;
+		$creation	= count( $result[0] );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= 1;
 		$creation	= $result[0]['id'];
 		$this->assertEquals( $assertion, $creation );
 	}
@@ -388,10 +373,10 @@ class Tests_Database_PDO_TableReaderTest extends PHPUnit_Framework_TestCase
 	public function testFindWithFocus2()
 	{
 		$this->connection->query( "INSERT INTO transactions (topic,label) VALUES ('test','findTest');" );
-		$this->reader->focusPrimary( 1 );
+		$this->reader->focusPrimary( 1 );										//  will be ignored
 		$result		= $this->reader->find( array( 'id' ) );
 
-		$assertion	= 1;
+		$assertion	= 2;
 		$creation	= count( $result );
 		$this->assertEquals( $assertion, $creation );
 
@@ -413,42 +398,12 @@ class Tests_Database_PDO_TableReaderTest extends PHPUnit_Framework_TestCase
 	{
 		$this->connection->query( "INSERT INTO transactions (topic,label) VALUES ('test','findTest');" );
 
-		$this->reader->focusIndex( 'topic', 'test' );
-		$this->reader->focusPrimary( 1, FALSE );								//  focused Index AND primary Key with no match
+		$this->reader->focusIndex( 'topic', 'test' );							//  will be ignored
+		$this->reader->focusPrimary( 1, FALSE );								//  will be ignored
 		$result		= $this->reader->find( array( 'id' ) );
-
-		$assertion	= 0;
-		$creation	= count( $result );
-		$this->assertEquals( $assertion, $creation );
-
-		$this->reader->focusPrimary( 2, FALSE );								//  focused Index AND primary Key with match
-		$result		= $this->reader->find( array( 'id' ) );
-
-		$assertion	= 1;
-		$creation	= count( $result );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= 1;
-		$creation	= count( $result[0] );
-		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= 2;
-		$creation	= $result[0]['id'];
-		$this->assertEquals( $assertion, $creation );
-
-		$this->reader->focusPrimary( 1, TRUE );									//  focused primary Key only
-		$result		= $this->reader->find( array( 'id' ) );
-
-		$assertion	= 1;
 		$creation	= count( $result );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= 1;
-		$creation	= count( $result[0] );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= 1;
-		$creation	= $result[0]['id'];
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -574,7 +529,7 @@ class Tests_Database_PDO_TableReaderTest extends PHPUnit_Framework_TestCase
 	{
 		$this->connection->query( "INSERT INTO transactions (topic,label) VALUES ('test','findWhereInAndTest');" );
 
-		$this->reader->focusIndex( 'topic', 'test' );
+		$this->reader->focusIndex( 'topic', 'test' );								//  will be ignored
 		$result		= $this->reader->findWhereInAnd( array( 'id' ), "topic", array( 'start', 'test' ), array( "label" => "findWhereInAndTest" ), array( 'id' => 'ASC' ) ); 
 
 		$assertion	= 1;
@@ -589,24 +544,27 @@ class Tests_Database_PDO_TableReaderTest extends PHPUnit_Framework_TestCase
 		$creation	= $result[0]['id'];
 		$this->assertEquals( $assertion, $creation );
 
-		$this->reader->focusIndex( 'topic', 'start' );
+		$result		= $this->reader->findWhereInAnd( array( 'id' ), "topic", array( 'start', 'test' ) ); 
+
+		$assertion	= 2;
+		$creation	= count( $result );
+		$this->assertEquals( $assertion, $creation );
+
 		$result		= $this->reader->findWhereInAnd( array( 'id' ), "topic", array( 'start', 'test' ), array( "label" => "findWhereInAndTest" ), array( 'id' => 'ASC' ) ); 
 
-		$assertion	= 0;
+		$assertion	= 1;
 		$creation	= count( $result );
 		$this->assertEquals( $assertion, $creation );
 
-		$this->reader->focusIndex( 'topic', 'test' );
-		$result		= $this->reader->findWhereInAnd( array( 'id' ), "topic", array( 'start' ), array( "label" => "findWhereInAndTest" ), array( 'id' => 'ASC' ) ); 
-
-		$assertion	= 0;
-		$creation	= count( $result );
-		$this->assertEquals( $assertion, $creation );
-
-		$this->reader->focusIndex( 'topic', 'test' );
 		$result		= $this->reader->findWhereInAnd( array( 'id' ), "topic", array( 'test' ), array( "label" => "findWhereInAndTest" ), array( 'id' => 'ASC' ) ); 
 
 		$assertion	= 1;
+		$creation	= count( $result );
+		$this->assertEquals( $assertion, $creation );
+
+		$result		= $this->reader->findWhereInAnd( array( 'id' ), "topic", array( 'start' ), array( "label" => "findWhereInAndTest" ), array( 'id' => 'ASC' ) ); 
+
+		$assertion	= 0;
 		$creation	= count( $result );
 		$this->assertEquals( $assertion, $creation );
 	}
@@ -629,7 +587,16 @@ class Tests_Database_PDO_TableReaderTest extends PHPUnit_Framework_TestCase
 		$assertion	= array(
 			'topic' => 'test',
 			'label'	=> 'text'
-			);
+		);
+		$creation	= $this->reader->getFocus();
+		$this->assertEquals( $assertion, $creation );
+
+		$this->reader->focusIndex( 'id', 1 );
+		$assertion	= array(
+			'topic' => 'test',
+			'label'	=> 'text',
+			'id'	=> 1
+		);
 		$creation	= $this->reader->getFocus();
 		$this->assertEquals( $assertion, $creation );
 	}
@@ -668,10 +635,45 @@ class Tests_Database_PDO_TableReaderTest extends PHPUnit_Framework_TestCase
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testGetWithPrimary()
+	public function testGetWithPrimary1()
 	{
 		$this->connection->query( "INSERT INTO transactions (topic,label) VALUES ('test','findWhereInAndTest');" );
 		$this->reader->focusPrimary( 1 );
+		$result		= $this->reader->get( FALSE );
+				
+		$assertion	= 1;
+		$creation	= count( $result );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= 4;
+		$creation	= count( $result[0] );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= 1;
+		$creation	= count( $result[0]['id'] );
+		$this->assertEquals( $assertion, $creation );
+
+		$this->reader->focusPrimary( 2 );
+		$result		= $this->reader->get();
+		
+		$assertion	= 4;
+		$creation	= count( $result );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= 2;
+		$creation	= $result['id'];
+		$this->assertEquals( $assertion, $creation );
+	}
+
+	/**
+	 *	Tests Method 'get'.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testGetWithPrimary2()
+	{
+		$this->connection->query( "INSERT INTO transactions (topic,label) VALUES ('test','findWhereInAndTest');" );
+		$this->reader->focusIndex( $this->primaryKey, 1 );
 		$result		= $this->reader->get( FALSE );
 				
 		$assertion	= 1;
@@ -862,6 +864,7 @@ class Tests_Database_PDO_TableReaderTest extends PHPUnit_Framework_TestCase
 
 		$this->reader->focusIndex( 'topic', 'start' );
 		$assertion	= array(
+			'id'	=> 1,
 			'topic' => 'start'
 		);
 		$creation	= $this->reader->getFocus();
@@ -954,27 +957,27 @@ class Tests_Database_PDO_TableReaderTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testIsFocused()
 	{
-		$assertion	= "";
+		$assertion	= FALSE;
 		$creation	= $this->reader->isFocused();
 		$this->assertEquals( $assertion, $creation );
 
 		$this->reader->focusPrimary( 2 );
-		$assertion	= "primary";
+		$assertion	= TRUE;
 		$creation	= $this->reader->isFocused();
 		$this->assertEquals( $assertion, $creation );
 
 		$this->reader->focusIndex( 'topic', 'start' );
-		$assertion	= "index";
+		$assertion	= TRUE;
 		$creation	= $this->reader->isFocused();
 		$this->assertEquals( $assertion, $creation );
 
 		$this->reader->focusPrimary( 1, FALSE );
-		$assertion	= "index";
+		$assertion	= TRUE;
 		$creation	= $this->reader->isFocused();
 		$this->assertEquals( $assertion, $creation );
 
 		$this->reader->focusPrimary( 1 );
-		$assertion	= "primary";
+		$assertion	= TRUE;
 		$creation	= $this->reader->isFocused();
 		$this->assertEquals( $assertion, $creation );
 	}
@@ -1088,10 +1091,21 @@ class Tests_Database_PDO_TableReaderTest extends PHPUnit_Framework_TestCase
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testSetIndicesException()
+	public function testSetIndicesException1()
 	{
 		$this->setExpectedException( 'InvalidArgumentException' );
 		$this->reader->setIndices( array( 'not_existing' ) );
+	}
+
+	/**
+	 *	Tests Exception of Method 'setIndices'.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testSetIndicesException2()
+	{
+		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->reader->setIndices( array( 'id' ) );
 	}
 
 	/**

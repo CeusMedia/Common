@@ -34,6 +34,7 @@ class Tests_Net_Service_ClientTest extends PHPUnit_Framework_TestCase
 	 */
 	public function __construct()
 	{
+		$this->path		= dirname( __FILE__ )."/";
 		$this->client	= new Test_Net_Service_ClientInstance( "http://services.ceus-media.de/public/" );
 	}
 	
@@ -95,7 +96,7 @@ class Tests_Net_Service_ClientTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testDecodeResponseException()
 	{
-		$response	= serialize( new RuntimeException( 'testException' ) );
+		$response	= file_get_contents( $this->path."exception.serial" );
 		try
 		{
 			$this->client->executeProtectedMethod( 'decodeResponse', $response, 'not_relevant' );
