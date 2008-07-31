@@ -89,7 +89,12 @@ class Tests_File_RecursiveRegexFilterTest extends PHPUnit_Framework_TestCase
 			$files[]	= $entry->getFilename();
 
 		sort( $files );
-		$assertion	= array( "test1.test", "test2.test", "test3.test", "test4.test" );
+		$assertion	= array(
+			"test1.test",
+			"test2.test",
+			"test3.test",
+			"test4.test"
+		);
 		$creation	= $files;
 		$this->assertEquals( $assertion, $creation );
 

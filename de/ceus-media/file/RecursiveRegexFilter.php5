@@ -22,6 +22,8 @@ class File_RecursiveRegexFilter extends RegexIterator
 	protected $count			= 0;
 	/**	@var	int				$count			Number of found Files */
 	protected $files			= 0;
+	/**	@var	string			filePattern		Regular Expression to match with File Name */
+	private $filePattern;
 	/**	@var	string			$contentPattern	Regular Expression to match with File Content */
 	private $contentPattern;
 
@@ -37,6 +39,7 @@ class File_RecursiveRegexFilter extends RegexIterator
 		if( !file_exists( $path ) )
 			throw new RuntimeException( 'Path "'.$path.'" is not existing.' );
 		$this->count			= 0;
+		$this->filePattern		= $filePattern;
 		$this->contentPattern	= $contentPattern;
 		parent::__construct(
 			new RecursiveIteratorIterator(
@@ -45,7 +48,8 @@ class File_RecursiveRegexFilter extends RegexIterator
 					0
 				)
 			),
-			$filePattern
+			$filePattern,
+			parent::MATCH
 		);
 	}
 
@@ -57,7 +61,7 @@ class File_RecursiveRegexFilter extends RegexIterator
 	public function accept()
 	{
 		$this->count++;
-		if( !parent::accept() )
+		if( !preg_match( $this->filePattern, $this->current()->getFilename() ) )
 			return FALSE;
 		$this->files++;
 		if( !$this->contentPattern )
