@@ -18,6 +18,7 @@ import( 'de.ceus-media.file.Writer' );
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			15.04.2008
  *	@version		0.6a
+ *	@todo			finish Writer Methods (create, isWritable)
  */
 class File_Editor extends File_Reader
 {

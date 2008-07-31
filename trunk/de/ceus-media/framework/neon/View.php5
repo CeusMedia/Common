@@ -1,4 +1,5 @@
 <?php
+import( 'de.ceus-media.framework.neon.Component' );
 import( 'de.ceus-media.adt.Reference' );
 import( 'de.ceus-media.ui.html.Elements' );
 import( 'de.ceus-media.ui.html.Paging' );
@@ -9,7 +10,7 @@ import( 'de.ceus-media.ui.html.WikiParser' );
  *	Generic View with Language Support.
  *	@package		framework
  *	@subpackage		neon
- *	@extends		Object
+ *	@extends		Framework_Neon_Component
  *	@uses			ADT_Reference
  *	@uses			UI_HTML_Elements
  *	@uses			UI_HTML_Paging
@@ -24,7 +25,7 @@ import( 'de.ceus-media.ui.html.WikiParser' );
  *	Generic View with Language Support.
  *	@package		framework
  *	@subpackage		neon
- *	@extends		Object
+ *	@extends		Framework_Neon_Component
  *	@uses			ADT_Reference
  *	@uses			UI_HTML_Elements
  *	@uses			UI_HTML_Paging
@@ -36,29 +37,20 @@ import( 'de.ceus-media.ui.html.WikiParser' );
  *	@version		0.3
  *	@todo			Code Documentation
  */
-class Framework_Neon_View
+class Framework_Neon_View extends Framework_Neon_Component
 {
-	/**	@var	ADT_Reference				$ref			Object Registry */
-	protected $ref;
-
 	/**	@var	array		$_paths			Array of possible Path Keys in Config for Content Loading */
 	var $_paths	= array(
 			'html'	=> 'html',
 			'wiki'	=> 'wiki',
 			'txt'	=> 'text',
 			);
-	/**	@var	Alg_TimeConverter			$tc				Time Converter */
-	public $tc;
 	/**	@var	UI_HTML_Elements			$html			HTML Elements */
 	var $html;
 	/**	@var	UI_HTML_WikiParser			$wiki			Wiki Parser */
 	var $wiki;
 	/**	@var	Framework_Neon_Language		$language		Language Support */
 	var $language;
-	/**	@var	array						$words			Array of all Words */
-	var $words;
-	/**	@var	Framework_Neon_Messenger	$messenger		Messenger */
-	var $messenger;
 
 	/**
 	 *	Constructor, references Output Objects.
@@ -67,26 +59,23 @@ class Framework_Neon_View
 	 */
 	public function __construct( $useWikiParser = FALSE )
 	{
-		$this->ref			= new ADT_Reference();
-		$this->tc			= new Alg_TimeConverter;
+		parent::__construct();
+		$this->language		= $this->ref->get( 'language' );
 		$this->html			= new UI_HTML_Elements;
 		if( $useWikiParser )
 			$this->wiki			= new UI_HTML_WikiParser;
-		$this->language		= $this->ref->get( 'language' );
-		$this->words		=& $this->language->words;
-		$this->messenger	= $this->ref->get( 'messenger' );
 	}
 
 	/**
 	 *	Builds HTML for Paging of Lists.
 	 *	@access		public
-	 *	@param		int		$count_all		Total mount of total entries
-	 *	@param		int		$limit			Maximal amount of displayed entries
+	 *	@param		int		$number			Total Number of Entries
+	 *	@param		int		$limit			Maximal Number of Entries to display
 	 *	@param		int		$offset			Currently offset entries
 	 *	@param		array	$options		Array of Options to set
 	 *	@return		string
 	 */
-	public function buildPaging( $count_all, $limit, $offset, $options = array())
+	public function buildPaging( $number, $limit, $offset, $options = array())
 	{
 		$request	= $this->ref->get( "request" );
 		$link		= $request->get( 'link');
@@ -106,7 +95,7 @@ class Framework_Neon_View
 		$p->setOption( 'text_last',		$words['last'] );
 		$p->setOption( 'text_more',		$words['more'] );
 		
-		$pages	= $p->build( $count_all, $limit, $offset );
+		$pages	= $p->build( $number, $limit, $offset );
 		return $pages;
 	}
 
@@ -207,22 +196,6 @@ class Framework_Neon_View
 		}
 		return $string;
 	}
-	
-	/**
-	 *	Returns a float formated as Currency.
-	 *	@access		public
-	 *	@param		mixed		$price			Price to be formated
-	 *	@param		string		$separator		Separator
-	 *	@return		string
-	 */
-	public function formatPrice( $price, $separator = "." )
-	{
-		$price	= (float)$price;
-		$price	= sprintf( "%01.2f", $price );
-		if( $separator != "." )
-			$price	= str_replace( ".", $separator, $price );
-		return $price;
-	}
 
 	public function hasContent( $file )
 	{
@@ -312,49 +285,6 @@ class Framework_Neon_View
 	}
 
 	/**
-	 *	Loads Template File and returns Content.
-	 *	@access		public
-	 *	@param		string		$_template			Template Name (namespace(.class).view, i.E. example.add)
-	 *	@param		array		$data				Data for Insertion in Template
-	 *	@param		string		$separator_link		Separator in Language Link
-	 *	@param		string		$separator_class		Separator for Language File
-	 *	@return		string
-	 */
-	public function loadTemplate( $_template, $data = array(), $separator_link = ".", $separator_file = "/" )
-	{
-		$config	= $this->ref->get( "config" );
-		$_file	= str_replace( $separator_link, $separator_file, $_template );
-
-		$_template_theme	= "";		
-		if( isset( $config['layout']['template_theme'] ) )
-			if( $config['layout']['template_theme'] )
-				$_template_theme	= $config['layout']['template_theme']."/";
-		
-		$_content	= "";
-		$_path		= isset( $config['paths']['templates'] ) ? $config['paths']['templates'] : "templates/";
-		$_filename	= $_path.$_template_theme.$_file.".phpt";
-		extract( $data );
-		if( file_exists( $_filename ) )
-			$_content = include( $_filename );
-		else
-			$this->messenger->noteFailure( "Template '".$_filename."' for View '".$_template."' is not existing" );
-		return $_content;
-	}
-
-	/**
-	 *	Loads a Language File into Language Space, needs Session.
-	 *	@access		public
-	 *	@param		string		$section		Section Name in Language Space
-	 *	@param		string		$filename		File Name of Language File
-	 *	@return		void
-	 */
-	public function loadLanguage( $section, $filename = false, $verbose = true )
-	{
-		$language	= $this->ref->get( 'language' );
-		$language->loadLanguage( $section, $filename = false, $verbose );
-	}
-
-	/**
 	 *	Indicates whether a Cache File is existing.
 	 *	@access		public
 	 *	@param		string		$filename		File Name of Cache File
@@ -384,8 +314,7 @@ class Framework_Neon_View
 			error_log( "Loaded from Cache File '".$filename."' ".strlen( $content )." Bytes.\n", 3, $config['paths']['logs'].$log );
 		return $content;
 	}
-	
-	
+
 	/**
 	 *	Saves Content to Cache File and returns Number of written Bytes.
 	 *	@access		public

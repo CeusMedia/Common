@@ -45,6 +45,39 @@ class Framework_Neon_Model extends Database_TableWriter
 	}
 	
 	/**
+	 *	Adds Data to Table.
+	 *	@access		public
+	 *	@param		array		$data		Data to add
+	 *	@param		string		$prefix		Prefix of Request Data
+	 *	@param		bool		$stripTags	Flag: strip HTML Tags
+	 *	@param		int			$debug		Debug Mode
+	 *	@return 	void
+	 */
+	public function add( $data, $prefix = "add_", $stripTags = false, $debug = 1  )
+	{
+		if( $prefix )
+			array_walk( $data, array( $this, "removeRequestPrefix" ), $prefix );
+		$this->addData( $data, $stripTags, $debug );	
+	}
+	
+	/**
+	 *	Indicates whether an Entry is existing.
+	 *	@access		public
+	 *	@param		int			$id			Primary Id of Entry
+	 *	@return 	bool
+	 */
+	public function exists( $id = 0 )
+	{
+		if( $id )
+		{
+			$object	= clone( $this );
+			$object->focusPrimary( $id );
+			return (bool)count( $object->getData( true ) );
+		}
+		return (bool)count( $this->getData( true ) );
+	}
+	
+	/**
 	 *	Returns Prefix of Table.
 	 *	@access		public
 	 *	@return		string
@@ -69,22 +102,6 @@ class Framework_Neon_Model extends Database_TableWriter
 	}
 	
 	/**
-	 *	Adds Data to Table.
-	 *	@access		public
-	 *	@param		array		$data		Data to add
-	 *	@param		string		$prefix		Prefix of Request Data
-	 *	@param		bool		$stripTags	Flag: strip HTML Tags
-	 *	@param		int			$debug		Debug Mode
-	 *	@return 	void
-	 */
-	public function add( $data, $prefix = "add_", $stripTags = false, $debug = 1  )
-	{
-		if( $prefix )
-			array_walk( $data, array( $this, "removeRequestPrefix" ), $prefix );
-		$this->addData( $data, $stripTags, $debug );	
-	}
-	
-	/**
 	 *	Modifies Data in Table.
 	 *	@access		public
 	 *	@param		array		$data		Data to modify
@@ -98,23 +115,6 @@ class Framework_Neon_Model extends Database_TableWriter
 		if( $prefix )
 			array_walk( $data, array( $this, "removeRequestPrefix" ), $prefix );
 		$this->modifyData( $data, $stripTags, $debug );	
-	}
-	
-	/**
-	 *	Indicates whether an Entry is existing.
-	 *	@access		public
-	 *	@param		int			$id			Primary Id of Entry
-	 *	@return 	bool
-	 */
-	public function exists( $id = 0 )
-	{
-		if( $id )
-		{
-			$object	= clone( $this );
-			$object->focusPrimary( $id );
-			return (bool)count( $object->getData( true ) );
-		}
-		return (bool)count( $this->getData( true ) );
 	}
 	
 	/**

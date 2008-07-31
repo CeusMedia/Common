@@ -30,8 +30,10 @@ class Tests_ADT_ObjectTest extends PHPUnit_Framework_TestCase
 	public function __construct()
 	{
 		$this->object	= new TestObjectClass;
-		$this->methods = array(
+		$this->methods	= array(
 					'publicMethod',
+					'protectedMethod',
+#					'privateMethod',
 					'getClass',
 					'getMethods',
 					'getObjectInfo',
@@ -45,7 +47,7 @@ class Tests_ADT_ObjectTest extends PHPUnit_Framework_TestCase
 		$this->vars	= array(
 			'publicVar'		=> FALSE,
 			'protectedVar'	=> FALSE,
-			'privateVar'	=> FALSE,
+#			'privateVar'	=> FALSE,
 		);
 	}
 	
