@@ -42,6 +42,7 @@ class Folder_RecursiveRegexFilter extends RegexIterator
 	{
 		if( !file_exists( $path ) )
 			throw new RuntimeException( 'Path "'.$path.'" is not existing.' );
+		$this->pattern			= $pattern;
     	$this->showFiles		= $showFiles;
     	$this->showFolders		= $showFolders;
     	$this->stripDotFolders	= $stripDotFolders;
@@ -76,7 +77,7 @@ class Folder_RecursiveRegexFilter extends RegexIterator
 			if( preg_match( "@^\.\w@", $this->getFilename() ) )
 				return FALSE;
 
-		return parent::accept();
+		return preg_match( $this->pattern, $this->getFilename() );
 	}
 }
 ?>
