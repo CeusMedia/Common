@@ -97,7 +97,7 @@ class Database_PDO_TableReader
 	{
 		$this->validateKeys( $keys );
 			
-		$conditions	= $this->getConditionQuery( $conditions, FALSE, TRUE );		
+		$conditions	= $this->getConditionQuery( $conditions, FALSE, FALSE );		
 		$conditions = $conditions ? " WHERE ".$conditions : "";
 		$orders		= $this->getOrderCondition( $orders );
 		$limit		= $this->getLimitCondition( $limit );
@@ -105,17 +105,6 @@ class Database_PDO_TableReader
 		$resultSet	= $this->dbc->query( $query );
 
 		return $resultSet->fetchAll( PDO::FETCH_ASSOC );
-	
-#		$list		= array();
-#		while( $d = $resultSet->fetch( PDO::FETCH_OBJ ) )
-#		{
-#			$data	= array();
-#			foreach( $this->columns as $column )
-#				if( in_array( "*", $keys ) || in_array( $column, $keys ) )
-#					$data[$column] = stripslashes( $d->$column );
-#			$list[] = $data;
-#		}
-#		return $list;
 	}
 	
 	public function findWhereIn( $keys = array(), $column, $values, $orders = array(), $limit = array() )
@@ -134,27 +123,16 @@ class Database_PDO_TableReader
 		$resultSet	= $this->dbc->query( $query );
 
 		return $resultSet->fetchAll( PDO::FETCH_ASSOC );
-
-#		$list		= array();
-#		while( $d = $resultSet->fetch( PDO::FETCH_OBJ ) )
-#		{
-#			$data	= array();
-#			foreach( $this->columns as $column )
-#				if( in_array( "*", $keys ) || in_array( $column, $keys ) )
-#					$data[$column] = stripslashes( $d->$column );
-#			$list[] = $data;
-#		}
-#		return $list;
 	}
 
-	public function findWhereInAnd( $keys = array(), $column, $values, $conditions, $orders = array(), $limit = array() )
+	public function findWhereInAnd( $keys = array(), $column, $values, $conditions = array(), $orders = array(), $limit = array() )
 	{
 		$this->validateKeys( $keys );
 
 		if( $column != $this->getPrimaryKey() && !in_array( $column, $this->getIndices() ) )
 			throw new InvalidArgumentException( "Field of WHERE IN-Statement must be an Index." );
 
-		$conditions	= $this->getConditionQuery( $conditions, FALSE, TRUE );
+		$conditions	= $this->getConditionQuery( $conditions, FALSE, FALSE );
 		$orders		= $this->getOrderCondition( $orders );
 		$limit		= $this->getLimitCondition( $limit );
 		for( $i=0; $i<count( $values ); $i++ )
@@ -166,17 +144,6 @@ class Database_PDO_TableReader
 		$resultSet	= $this->dbc->query( $query );
 
 		return $resultSet->fetchAll( PDO::FETCH_ASSOC );
-
-#		$list	= array();
-#		while( $d = $q->fetch( PDO::FETCH_OBJ ) )
-#		{
-#			$data	= array();
-#			foreach( $this->columns as $column )
-#				if( in_array( "*", $keys ) || in_array( $column, $keys ) )
-#					$data[$column] = stripslashes( $d->$column );
-#			$list[] = $data;
-#		}
-#		return $list;
 	}
 
 	/**
@@ -186,12 +153,10 @@ class Database_PDO_TableReader
 	 *	@param		int			$value			Index to focus on
 	 *	@return		void
 	 */
-	public function focusIndex( $key, $value, $resetPrimaryFocus = TRUE )
+	public function focusIndex( $key, $value )
 	{
-		if( $resetPrimaryFocus && isset( $this->focusedIndices[$this->primaryKey] ) )									//  focused on primary Key
-			unset( $this->focusedIndices[$this->primaryKey] );									//  remove primary Key Focus
-		if( !in_array( $key, $this->indices ) )													//  check Column Name
-			throw new InvalidArgumentException( 'Column "'.$key.'" is not an Index and cannot be focused.' );
+		if( !in_array( $key, $this->indices ) && $key != $this->primaryKey )					//  check Column Name
+			throw new InvalidArgumentException( 'Column "'.$key.'" is neither an Index not primary Key and cannot be focused.' );
 		$this->focusedIndices[$key] = $value;													//  set Focus
 	}
 
@@ -273,16 +238,17 @@ class Database_PDO_TableReader
 			if( isset( $conditions[$column] ) )								//  if Condition given
 				$new[$column] = $conditions[$column];						//  note Condition Pair
 
-		if( $usePrimary && $this->isFocused() == "primary" )				//  if using primary Key & is focused primary
+		if( $usePrimary && $this->isFocused( $this->primaryKey ) )			//  if using primary Key & is focused primary
 		{
 			if( !array_key_exists( $this->primaryKey, $new ) )				//  if primary Key is not already in Conditions
 				$new = $this->getFocus();									//  note primary Key Pair
 		}
-		if( $useIndices && count( $this->focusedIndices ) )			//  if using Indices
+		if( $useIndices && count( $this->focusedIndices ) )					//  if using Indices
 		{
 			foreach( $this->focusedIndices as $key => $value )				//  iterate focused Indices
-				if( !array_key_exists( $key, $new ) )						//  if Index Key is not already in Conditions
-					$new[$key] = $value; 									//  note Index Pair
+				if( $key != $this->primaryKey )								//  skip primary Key
+					if( !array_key_exists( $key, $new ) )					//  if Index Key is not already in Conditions
+						$new[$key] = $value; 								//  note Index Pair
 		}
 
 		$conditions = array();
@@ -394,13 +360,13 @@ class Database_PDO_TableReader
 	 *	@access		public
 	 *	@return		string
 	 */
-	public function isFocused()
+	public function isFocused( $index = NULL )
 	{
 		if( !count( $this->focusedIndices ) )
-			return "";
-		if( array_keys( $this->focusedIndices ) == array( $this->primaryKey ) )
-			return "primary";
-		return "index";
+			return FALSE;
+		if( $index && !array_key_exists( $index, $this->focusedIndices ) )
+			return FALSE;
+		return TRUE;
 	}
 	
 	/**

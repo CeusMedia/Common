@@ -19,7 +19,7 @@ class Database_TableReader
 	/**	@var	array			$fields			List of Table Fields / columns */
 	protected $fields			= array();
 	/**	@var	int				$focus			focused Primary Key */
-	protected $focus			= false;
+	protected $focus			= FALSE;
 	/**	@var	string			$focusKey		Name of Primary Key */
 	protected $focusKey;
 	/**	@var	array			$foreignKeys	List of Foreign Keys of Table */
@@ -42,7 +42,7 @@ class Database_TableReader
 	 *	@param		int			$focus			Focused Primary Key of this Table
 	 *	@return		void
 	 */
-	public function __construct( $dbc, $tableName, $fields, $primaryKey, $focus = false )
+	public function __construct( $dbc, $tableName, $fields, $primaryKey, $focus = FALSE )
 	{
 		$this->setDBConnection( $dbc );
 		$this->setTableName( $tableName );
@@ -60,10 +60,10 @@ class Database_TableReader
 	 */
 	public function defocus()
 	{
-		$this->focus		= false;
-		$this->focusKey	= false;
+		$this->focus		= FALSE;
+		$this->focusKey		= FALSE;
 		$this->foreignFocuses = array();
-		return true;
+		return TRUE;
 	}
 
 	/**
@@ -78,9 +78,9 @@ class Database_TableReader
 		if( in_array( $key, $this->foreignKeys ) )
 		{
 			$this->foreignFocuses[$key] = $id;
-			return true;
+			return TRUE;
 		}
-		return false;
+		return FALSE;
 	}
 
 	/**
@@ -91,9 +91,9 @@ class Database_TableReader
 	 */
 	public function focusPrimary( $id )
 	{
-		$this->focus = $id;
-		$this->focusKey = $this->primaryKey;
-		return true;
+		$this->focus	= $id;
+		$this->focusKey	= $this->primaryKey;
+		return TRUE;
 	}
 
 	/**
@@ -103,11 +103,11 @@ class Database_TableReader
 	 *	@param		bool		$verbose		Flag: print Query
 	 *	@return		int
 	 */
-	public function getAllCount( $conditions = array(), $verbose = false )
+	public function getAllCount( $conditions = array(), $verbose = FALSE )
 	{
 		if( sizeof( $this->fields ) )
 		{
-			$conditions	= $this->getConditionQuery( $conditions, false, false );
+			$conditions	= $this->getConditionQuery( $conditions, FALSE, FALSE );
 			$conditions 	= $conditions ? " WHERE ".$conditions : "";
 			$query = "SELECT COUNT(".$this->primaryKey.") FROM ".$this->getTableName().$conditions;
 			if( $verbose )
@@ -129,13 +129,13 @@ class Database_TableReader
 	 *	@param		bool		$verbose		Flag: print Query
 	 *	@return		array
 	 */
-	public function getAllData( $keys = array(), $conditions = array(), $orders = array(), $limit = array(), $verbose = false )
+	public function getAllData( $keys = array(), $conditions = array(), $orders = array(), $limit = array(), $verbose = FALSE )
 	{
 		if( sizeof( $this->fields ) )
 		{
 			if( ( is_array( $keys ) && !count( $keys ) ) || ( is_string( $keys ) && !$keys ) )
 				$keys	= array( "*" );
-			$conditions	= $this->getConditionQuery( $conditions, false, false );
+			$conditions	= $this->getConditionQuery( $conditions, FALSE, FALSE );
 			$conditions 	= $conditions ? " WHERE ".$conditions : "";
 			$orders		= $this->getOrderQuery( $orders );
 			$limit		= $this->getLimitQuery( $limit );
@@ -145,7 +145,7 @@ class Database_TableReader
 			if( $verbose )
 				echo "<br/>".$query;
 			$q	= $this->dbc->Execute( $query );
-			while( $d = $q->FetchNextObject( false ) )
+			while( $d = $q->FetchNextObject( FALSE ) )
 			{
 				$data	= array();
 				foreach( $this->fields as $field )
@@ -165,7 +165,7 @@ class Database_TableReader
 	 *	@param		bool		$useForeign		Flag: use focused Foreign Keys
 	 *	@return		string
 	 */
-	protected function getConditionQuery( $conditions, $usePrimary = true, $useForeign = true )
+	protected function getConditionQuery( $conditions, $usePrimary = TRUE, $useForeign = TRUE )
 	{
 		$new = array();
 		foreach( $this->fields as $field )									//  iterate all Fields
@@ -197,7 +197,7 @@ class Database_TableReader
 	 *	@param		array	$data		array of data to store
 	 *	@return		bool
 	 */
-	public function getData( $first = false, $orders = array(), $limit = array(), $verbose = false )
+	public function getData( $first = FALSE, $orders = array(), $limit = array(), $verbose = FALSE )
 	{
 		$data = array();
 		if( $this->isFocused() && sizeof( $this->fields ) )
@@ -212,7 +212,7 @@ class Database_TableReader
 			$q	= $this->dbc->Execute( $query );
 			if( $q->RecordCount() )
 			{
-				while( $d = $q->FetchNextObject( false ) )
+				while( $d = $q->FetchNextObject( FALSE ) )
 				{
 					$line = array();
 					foreach( $this->fields as $field )
@@ -332,11 +332,11 @@ class Database_TableReader
 	 */
 	public function isFocused()
 	{
-		if( $this->focus !== false && $this->focusKey )
+		if( $this->focus !== FALSE && $this->focusKey )
 			return "primary";
 		if( count( $this->foreignFocuses ) )
 			return "foreign";
-		return false;
+		return FALSE;
 	}
 
 	/**
@@ -372,13 +372,13 @@ class Database_TableReader
 	 */
 	public function setForeignKeys( $keys )
 	{
-		$found = true;
+		$found = TRUE;
 		$this->foreignKeys	= array();
 		foreach( $keys as $key )
 		{
 			if( !in_array( $key, $this->foreignKeys ) )
 				$this->foreignKeys[] = $key;
-			else $found = false;
+			else $found = FALSE;
 		}
 		return $found;
 	}
@@ -394,9 +394,9 @@ class Database_TableReader
 		if( in_array( $key, $this->fields ) )
 		{
 			$this->primaryKey = $key;
-			return true;
+			return TRUE;
 		}
-		return false;
+		return FALSE;
 	}
 
 	/**
