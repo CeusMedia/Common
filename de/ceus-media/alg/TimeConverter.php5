@@ -47,6 +47,7 @@ class Alg_TimeConverter
 		$string		= date( "c", $time );
 		if( $mode )
 		{
+			$string		= date( "c", $time + 24 * 60 * 60 -1 );
 			$complement	= date( "t", $time );
 			$string		= str_replace( "-01T", "-".$complement."T", $string );
 		}

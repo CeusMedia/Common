@@ -255,4 +255,4 @@ class Net_FTP_Client
 		return $this->ftp->setPath( $path );
 	}
 }
-d?>
+?>

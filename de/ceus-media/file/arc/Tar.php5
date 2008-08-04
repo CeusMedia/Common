@@ -40,6 +40,7 @@ class File_Arc_Tar
 	// to try to ensure valid file
 	private function computeUnsignedChecksum( $bytestring )
 	{
+		$unsigned_chksum	= 0;
 		for( $i=0; $i<512; $i++ )
 			$unsigned_chksum += ord( $bytestring[$i] );
 		for( $i=0; $i<8; $i++ )
@@ -168,6 +169,7 @@ class File_Arc_Tar
 				unset($header);
 				// Generate the TAR header for this file
 				// Filename, Permissions, UID, GID, size, Time, checksum, typeflag, linkname, magic, version, user name, group name, devmajor, devminor, prefix, end
+				$header	= "";
 				$header .= str_pad($information["name"],100,chr(0));
 				$header .= str_pad(decoct($information["mode"]),7,"0",STR_PAD_LEFT) . chr(0);
 				$header .= str_pad(decoct($information["user_id"]),7,"0",STR_PAD_LEFT) . chr(0);
@@ -260,7 +262,7 @@ class File_Arc_Tar
 		$activeDir["time"]		= $fileInfo["time"];
 		$activeDir["user_id"]	= $fileInfo["uid"];
 		$activeDir["group_id"]	= $fileInfo["gid"];
-		$activeDir["checksum"]	= $checksum;
+#		$activeDir["checksum"]	= $checksum;
 		return true;
 	}
 
@@ -286,7 +288,7 @@ class File_Arc_Tar
 			$activeFile["group_id"]		= $fileInfo["gid"];
 			$activeFile["size"]			= $fileInfo["size"];
 			$activeFile["time"]			= $fileInfo["mtime"];
-			$activeFile["checksum"]		= $checksum;
+#			$activeFile["checksum"]		= $checksum;
 			$activeFile["user_name"]	= "";
 			$activeFile["group_name"]	= "";
 			$activeFile["file"]			= $filecontents;

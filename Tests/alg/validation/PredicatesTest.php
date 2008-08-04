@@ -287,7 +287,7 @@ class Tests_Alg_Validation_PredicatesTest extends PHPUnit_Framework_TestCase
 	public function testIsAfterException()
 	{
 		$this->setExpectedException( "InvalidArgumentException" );
-		Alg_Validation_Predicates::isAfter( "01.71.2008", time );
+		Alg_Validation_Predicates::isAfter( "01.71.2008", $this->point );
 	}
 
 	/**
@@ -472,7 +472,7 @@ class Tests_Alg_Validation_PredicatesTest extends PHPUnit_Framework_TestCase
 	public function testIsBeforeException()
 	{
 		$this->setExpectedException( "InvalidArgumentException" );
-		Alg_Validation_Predicates::isBefore( "01.71.2008", time );
+		Alg_Validation_Predicates::isBefore( "01.71.2008", $this->point );
 	}
 
 	/**
@@ -736,7 +736,7 @@ class Tests_Alg_Validation_PredicatesTest extends PHPUnit_Framework_TestCase
 	public function testIsFutureException()
 	{
 		$this->setExpectedException( "InvalidArgumentException" );
-		Alg_Validation_Predicates::isFuture( "01.71.2008", time );
+		Alg_Validation_Predicates::isFuture( "01.71.2008", $this->point );
 	}
 
 	/**
@@ -1038,7 +1038,7 @@ class Tests_Alg_Validation_PredicatesTest extends PHPUnit_Framework_TestCase
 	public function testIsPastException()
 	{
 		$this->setExpectedException( "InvalidArgumentException" );
-		Alg_Validation_Predicates::isPast( "01.71.2008", time );
+		Alg_Validation_Predicates::isPast( "01.71.2008", $this->point );
 	}
 
 	/**

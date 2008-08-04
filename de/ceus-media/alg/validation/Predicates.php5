@@ -347,9 +347,9 @@ class Alg_Validation_Predicates
 	 */
 	public static function isPast( $string )
 	{
-		$string	= Alg_TimeConverter::complementMonthDate( $string, 1 );
-		$time	= strtotime( $string );
-		if( $time === false )
+		$date	= Alg_TimeConverter::complementMonthDate( $string, 1 );
+		$time	= strtotime( $date );
+		if( $time === FALSE )
 			throw new InvalidArgumentException( 'Given Date "'.$string.'" could not been parsed.' );
 		return $time < time();
 	}

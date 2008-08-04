@@ -110,15 +110,39 @@ class File_Editor extends File_Reader
 	}
 	
 	/**
+	 *	Saves a String into the File statically and returns Length.
+	 *	@access		public
+	 *	@param		string		$string			List of String to write to File
+	 *	@param		string		$lineBreak		Line Break
+	 *	@return		int
+	 */
+	public static function save( $fileName, $string )
+	{
+		return File_Writer::save( $fileName, $string );
+	}
+	
+	/**
+	 *	Writes an Array into the File statically and returns Length.
+	 *	@access		public
+	 *	@param		array		$array			List of String to write to File
+	 *	@param		string		$lineBreak		Line Break
+	 *	@return		int
+	 */
+	public static  function saveArray( $fileName, $array, $lineBreak = "\n" )
+	{
+		return File_Writer::saveArray( $fileName, $array, $lineBreak );
+	}
+	
+	/**
 	 *	Writes an Array into the File and returns Length.
 	 *	@access		public
 	 *	@param		array		$array			List of String to write to File
 	 *	@param		string		$lineBreak		Line Break
 	 *	@return		int
 	 */
-	public function writeArray( $array )
+	public function writeArray( $array, $lineBreak = "\n" )
 	{
-		return $this->writer->writeArray( $array );
+		return $this->writer->writeArray( $array, $lineBreak );
 	}
 	
 	/**

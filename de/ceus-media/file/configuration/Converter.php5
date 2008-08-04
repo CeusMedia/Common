@@ -235,7 +235,7 @@ class File_Configuration_Converter
 						$pair['value']	= $pair['value'] ? "yes" : "no";
 						break;
 				}
-				$pair['comment']	= $pair['comment'] ? $pair['type'].": ".$pair['comment'] : $pair['type'];
+				$pair['comment']	= isset( $pair['comment'] ) ? $pair['type'].": ".$pair['comment'] : $pair['type'];
 				$creator->addProperty( $pair['key'], $pair['value'], $pair['comment'] );
 			}
 		}
@@ -285,7 +285,7 @@ class File_Configuration_Converter
 				$valueNode	=& new XML_DOM_Node( "value", $pair['value'] );
 				$valueNode->setAttribute( 'type', $pair['type'] );
 				$valueNode->setAttribute( 'name', $pair['key'] );
-				if( $pair['comment'] )
+				if( isset( $pair['comment'] ) )
 					$valueNode->setAttribute( 'comment', $comment );
 				$sectionNode->addChild( $valueNode );
 			}
