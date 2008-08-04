@@ -1,4 +1,4 @@
-<?php
+g98<?php
 /**
  *	TestUnit of Predicates.
  *	@package		Tests.alg.validation
@@ -976,15 +976,6 @@ class Tests_Alg_Validation_PredicatesTest extends PHPUnit_Framework_TestCase
 		$creation	= Alg_Validation_Predicates::isPast( "01/01/2001 01:02:03" );
 		$this->assertTrue( $creation );
 
-		$creation	= Alg_Validation_Predicates::isPast( date( "m.Y" ) );
-		$this->assertTrue( $creation );
-
-		$creation	= Alg_Validation_Predicates::isPast( date( "Y-m" ) );
-		$this->assertTrue( $creation );
-
-		$creation	= Alg_Validation_Predicates::isPast( date( "m/Y" ) );
-		$this->assertTrue( $creation );
-
 		$creation	= Alg_Validation_Predicates::isPast( date( "d.m.Y" ) );
 		$this->assertTrue( $creation );
 
@@ -1018,6 +1009,15 @@ class Tests_Alg_Validation_PredicatesTest extends PHPUnit_Framework_TestCase
 		$this->assertFalse( $creation );
 
 		$creation	= Alg_Validation_Predicates::isPast( "01/01/2037" );
+		$this->assertFalse( $creation );
+
+		$creation	= Alg_Validation_Predicates::isPast( date( "m.Y" ) );
+		$this->assertFalse( $creation );
+
+		$creation	= Alg_Validation_Predicates::isPast( date( "Y-m" ) );
+		$this->assertFalse( $creation );
+
+		$creation	= Alg_Validation_Predicates::isPast( date( "m/Y" ) );
 		$this->assertFalse( $creation );
 
 		$creation	= Alg_Validation_Predicates::isPast( date( "d.m.Y" )." 23:59:59" );
