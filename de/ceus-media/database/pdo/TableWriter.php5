@@ -142,7 +142,7 @@ class Database_PDO_TableWriter extends Database_PDO_TableReader
 		$conditions	= $this->getConditionQuery( $conditions, FALSE, FALSE );
 		foreach( $this->columns as $column )
 		{
-			if( $data[$column] )
+			if( isset( $data[$column] ) )
 			{
 				if( $stripTags )
 					$data[$column]	= strip_tags( $data[$column] );

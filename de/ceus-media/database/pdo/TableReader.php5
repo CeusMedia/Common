@@ -252,11 +252,12 @@ class Database_PDO_TableReader
 		}
 
 		$conditions = array();
+		
 		foreach( $new as $key => $value )									//  iterate all noted Pairs
 		{
-			if( preg_match( "/%/", $value ) )
+			if( preg_match( "/^%/", $value ) || preg_match( "/%$/", $value ) )
 				$conditions[] = $key." LIKE '".$value."'";
-			else if( preg_match( "/^<|=|>|!=/", $value ) )
+			else if( preg_match( "/^(<|=|>|!=)/", $value, $result ) )
 				$conditions[] = $key.$value;
 			else
 			{

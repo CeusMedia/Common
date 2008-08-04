@@ -99,6 +99,7 @@ class Net_cURL
 		$this->options	= array();
 		if( !empty( $url ) )
 			$this->setOption( CURLOPT_URL, $url ); 
+		$this->setOption( CURLOPT_FOLLOWLOCATION, TRUE );
 		$this->setOption( CURLOPT_HEADER, TRUE );
 		$this->setOption( CURLOPT_RETURNTRANSFER, TRUE );
 		if( self::$timeOut )
@@ -150,12 +151,17 @@ class Net_cURL
 		if( $this->getOption( CURLOPT_HEADER ) )
 		{
 			$result	= preg_replace( "@^HTTP/1\.1 100 Continue\r\n\r\n@", "", $result );				//  Hack: remove "100 Continue"
-			$array = preg_split( "/(\r\n){2}/", $result, 2 );
-			if( count( $array ) > 1 )
-			{
-				$this->parseHeader( array_shift( $array ) );
-				return implode( "\r\n\r\n", $array );
-			}
+			$result	= trim( $result );																//  trim Result String
+			
+			$parts	= preg_split( "/(\r\n){2}/", $result );											//  split Headers Blocks
+			if( count( $parts ) < 2 )																//  no Header Blocks splitted
+				throw new Exception( 'Error while splitting HTTP Response String.' );
+
+			while( $parts && preg_match( "@^HTTP/@", trim( $parts[0] ) ) )							//  another Header Block found
+				$header	= array_shift( $parts );													//  Header Blocks is first Part
+
+			$result	= implode( "\r\n\r\b", $parts );												//  implode other Blocks
+			$this->parseHeader( $header );															//  parse Header Block
 		}
 		return $result;
 	}
@@ -245,16 +251,16 @@ class Net_cURL
 	public function parseHeader( $header )
 	{
 		$this->caseless = array();
-		$array	= preg_split( "/(\r\n)+/", $header );
-		if( preg_match( '/^HTTP/', $array[0] ) )
-			$array = array_slice($array, 1);
-		foreach( $array as $headerString )
+		$headers	= preg_split( "/(\r\n)+/", $header );
+		foreach( $headers as $header )
 		{
-			$headerStringArray = preg_split( "/\s*:\s*/", $headerString, 2 );
-			$caselessTag = strtoupper( $headerStringArray[0] );
+			if( !( trim( $header ) && !preg_match( '/^HTTP/', $header ) ) )
+				continue;
+			$pair	= preg_split( "/\s*:\s*/", $header, 2 );
+			$caselessTag = strtoupper( $pair[0] );
 			if( !isset( $this->caseless[$caselessTag] ) )
-				$this->caseless[$caselessTag] = $headerStringArray[0];
-			$this->header[$this->caseless[$caselessTag]][] = $headerStringArray[1];
+				$this->caseless[$caselessTag] = $pair[0];
+			$this->header[$this->caseless[$caselessTag]][] = $pair[1];
 		}
 	}
 
