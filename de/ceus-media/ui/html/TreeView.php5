@@ -38,45 +38,6 @@ class UI_HTML_TreeView
 		$this->baseUrl	= $baseUrl;
 		$this->queryKey	= $queryKey;
 	}
-
-	/**
-	 *	Constructs Tree View recursive.
-	 *	@access		private
-	 *	@param		string		$currentLink		Current Link
-	 *	@param		array		$nodes				Array of Nodes
-	 *	@param		array		$attributes			Attributes for List Tag
-	 *	@param		int			$level				Depth of List
-	 *	@return		string
-	 */
-	public function constructTree( $nodes, $attributes = array(), $level = 0, $path = "" )
-	{
-		$list	= array();
-		foreach( $nodes as $node )
-		{
-			$node['type']	= ( isset( $node['type'] ) && $node['type'] ) ? $node['type'] : isset( $node['children'] ) && $node['children'];
-			$node['class']	= ( isset( $node['class'] ) && $node['class'] ) ? $node['class'] : $node['type'];
-			$node['linked']	= ( isset( $node['linked'] ) && $node['linked'] ) ? TRUE : $node['type'] == "leaf";
-
-			$way	= $path ? $path."/" : "";
-			if( !isset( $node['id'] ) )
-				$node['id']	= $way.$node['label'];
-
-			$label	= UI_HTML_Tag::create( "span", $node['label'], array( 'class' => $node['class'] ) );
-			if( isset( $node['linked'] ) && $node['linked'] )
-			{
-				$url	= $this->baseUrl.$this->queryKey.$node['id'];
-				$link	= UI_HTML_Elements::Link( $url, $node['label'] );
-				$label	= UI_HTML_Tag::create( "span", $link, array( 'class' => $node['class'] ) );
-			}
-			$sublist	= $node['type'] == "node" ? $this->constructTree( $node['children'], array(), $level + 1 ) : "";
-			$label		.= $sublist;
-			$item		= UI_HTML_Elements::ListItem( $label, $level, array( 'id' => $node['id'] ) );
-			$list[]		= $item;
-		}
-		if( count( $list ) )
-			return UI_HTML_Elements::unorderedList( $list, $level, $attributes );
-		return "";
-	}
 	
 	/**
 	 *	Builds JavaScript to call Plugin.
@@ -88,7 +49,7 @@ class UI_HTML_TreeView
 	 *	@param		bool		$collapsed			Flag: start with collapsed Nodes
 	 *	@return		string
 	 */
-	public function buildJavaScript( $selector, $cookieId = NULL, $animated = "fast", $unique = FALSE, $collapsed = FALSE )
+	public static function buildJavaScript( $selector, $cookieId = NULL, $animated = "fast", $unique = FALSE, $collapsed = FALSE )
 	{
 		$options	= array();
 		if( $cookieId )
@@ -106,6 +67,58 @@ class UI_HTML_TreeView
 			$options['collapsed']	= "true";
 		
 		return UI_HTML_JQuery::buildPluginCall( "treeview", $selector, $options );
+	}
+
+	/**
+	 *	Constructs Tree View recursive.
+	 *	@access		private
+	 *	@param		ArrayObject	$nodes				Array of Nodes
+	 *	@param		string		$currentId			Current ID selected in Tree
+	 *	@param		array		$attributes			Attributes for List Tag
+	 *	@param		int			$level				Depth of List
+	 *	@param		string		$path				Path for generated IDs
+	 *	@return		string
+	 */
+	public function constructTree( ArrayObject $nodes, $currentId = NULL, $attributes = array(), $level = 0, $path = "" )
+	{
+		$list	= array();
+		foreach( $nodes as $node )
+		{
+			if( !isset( $node['label'] ) )
+				throw new InvalidArgumentException( 'A Node must at least have a Label.' );
+	
+			$node['type']	= ( isset( $node['type'] ) && $node['type'] ) ? $node['type'] : isset( $node['children'] ) && $node['children'];
+			$node['class']	= ( isset( $node['class'] ) && $node['class'] ) ? $node['class'] : $node['type'];
+			$node['linked']	= ( isset( $node['linked'] ) && $node['linked'] ) ? TRUE : $node['type'] == "leaf";
+
+			$way	= $path ? $path."/" : "";
+			if( !isset( $node['id'] ) )																		//  no ID set
+				$node['id']	= rawurlencode( $way.$node['label'] );											//  generate ID
+
+			$linkClass	= rawurlencode( $currentId ) == $node['id'] ? 'selected' : NULL;
+
+			$label	= UI_HTML_Tag::create( "span", $node['label'], array( 'class' => $node['class'] ) );
+			if( $node['linked'] )																			//  linked Item
+			{
+				$url	= $this->baseUrl.$this->queryKey.$node['id'];										//  generate URL
+				$link	= UI_HTML_Elements::Link( $url, $node['label'], $linkClass );						//  generate Link Tag
+				$label	= $link;																			//  linked Nodes have no Span Container
+				if( $node['type'] == "leaf" )																//  linked Leafes have a Span Container
+					$label	= UI_HTML_Tag::create( "span", $link, array( 'class' => $node['class'] ) );
+			}
+			$sublist	= "";
+			if( $node['type'] == "node" )
+			{
+				$children	= new ArrayObject( $node['children'] );
+				$sublist	= "\n".$this->constructTree( $children, $currentId, array(), $level + 1, $node['label'] );
+			}
+			$label		.= $sublist;
+			$item		= UI_HTML_Elements::ListItem( $label, $level, array( 'id' => $node['id'] ) );
+			$list[]		= $item;
+		}
+		if( count( $list ) )
+			return UI_HTML_Elements::unorderedList( $list, $level, $attributes );
+		return "";
 	}
 }
 ?>

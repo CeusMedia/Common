@@ -378,7 +378,8 @@ class UI_HTML_Elements extends UI_HTML_FormElements
 	 */
 	public static function ListItem( $content, $level = 0, $attributes = array() )
 	{
-		$indent	= str_repeat( "	", 2 * abs( (int) $level ) + 1 );
+		$depth	= 2 * abs( (int) $level ) + 1;
+		$indent	= str_repeat( "  ", $depth );
 		$tag	= UI_HTML_Tag::create( "li", $content, $attributes );
 		$code	= $indent.$tag;
 		return $code;
@@ -506,10 +507,13 @@ class UI_HTML_Elements extends UI_HTML_FormElements
 	 */
 	public static function unorderedList( $items, $level = 0, $attributes = array() )
 	{
-		$indent		= str_repeat( "  ", 2 * abs( (int)$level ) );
-		$content	= "\n".implode( "\n", $items )."\n".$indent;
+		$depth1		= 2 * abs( (int) $level );
+		$depth2		= $level ? 2 * abs( (int) $level - 1 ) + 1 : 0;
+		$indent1	= str_repeat( "  ", $depth1 );
+		$indent2	= str_repeat( "  ", $depth2 );
+		$content	= "\n".implode( "\n", $items )."\n".$indent1;
 		$tag		= UI_HTML_Tag::create( "ul", $content, $attributes );
-		$code		= $indent.$tag;
+		$code		= $indent1.$tag."\n".$indent2;
 		return $code;
 	}
 }
