@@ -131,6 +131,12 @@ class Tests_Database_PDO_TableWriterTest extends PHPUnit_Framework_TestCase
 		$assertion	= 1;
 		$creation	= $this->writer->count();
 		$this->assertEquals( $assertion, $creation );
+
+		$this->writer->defocus();
+		$this->writer->focusPrimary( 999999 );
+		$assertion	= 0;
+		$creation	= $this->writer->delete();
+		$this->assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -141,18 +147,6 @@ class Tests_Database_PDO_TableWriterTest extends PHPUnit_Framework_TestCase
 	public function testDeleteException1()
 	{
 		$this->setExpectedException( 'RuntimeException' );
-		$this->writer->delete();
-	}
-
-	/**
-	 *	Tests Exception of Method 'delete'.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function testDeleteException2()
-	{
-		$this->setExpectedException( 'InvalidArgumentException' );
-		$this->writer->focusPrimary( 999999 );
 		$this->writer->delete();
 	}
 
