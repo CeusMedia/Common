@@ -325,7 +325,7 @@ class File_INI_Reader extends File_Reader
 		{
 			if( !$section )
 				throw new InvalidArgumentException( 'No Section given.' );
-			if( is_array( $this->disabled[$section] ) )
+			if( isset( $this->disabled[$section] ) && is_array( $this->disabled[$section] ) )
 			{
 				if( in_array( $key, $this->disabled[$section] ) )
 					return false;
@@ -335,7 +335,7 @@ class File_INI_Reader extends File_Reader
 		else
 		{
 			if( in_array( $key, $this->disabled ) )
-				return false;
+				return FALSE;
 			return $this->hasProperty( $key );
 		}
 	}

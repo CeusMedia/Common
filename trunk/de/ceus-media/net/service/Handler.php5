@@ -161,7 +161,7 @@ class Net_Service_Handler
 		$response->addHeader( 'Cache-Control', "no-store, no-cache, must-revalidate, pre-check=0, post-check=0, max-age=0" );
 		$response->addHeader( 'Pragma', "no-cache" );
 		$response->addHeader( 'Content-Type', $contentType );
-		$response->addHeader( 'Content-Length', strlen( $content ) );
+#		$response->addHeader( 'Content-Length', strlen( $content ) );
 		if( $compression )
 			$response->addHeader( 'Content-Encoding', $compression );
 		

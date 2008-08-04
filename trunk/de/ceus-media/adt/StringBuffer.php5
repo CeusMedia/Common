@@ -26,9 +26,20 @@ class ADT_StringBuffer implements Countable
 	 *	@param		string		$buffer			initial String in StringBuffer
 	 *	@return		void
 	 */
-	public function __construct( $buffer )
+	public function __construct( $buffer = "" )
 	{
 		$this->buffer = $buffer;
+	}
+
+	/**
+	 *	Returns the Size of the String.
+	 *	@access		public
+	 *	@return		ADT_StringBuffer
+	 */
+	public function append( $string )
+	{
+		$this->buffer	.= $string;
+		return $this;
 	}
 
 	/**

@@ -65,7 +65,7 @@ class Net_Reader
 	 *	Returns URL to read.
 	 *	@access		public
 	 *	@return		string
-	 */
+ 		 */
 	public function getUrl()
 	{
 		return $this->url;
@@ -99,6 +99,7 @@ class Net_Reader
 			$curl->setOption( CURLOPT_SSL_VERIFYHOST, $this->verifyHost );
 		if( $this->verifyPeer )
 			$curl->setOption( CURLOPT_SSL_VERIFYPEER, $this->verifyPeer );
+
 		foreach( $curlOptions as $key => $value )
 		{
 			if( is_string( $key ) && preg_match( "@^CURLOPT_@", $key ) )
@@ -109,7 +110,7 @@ class Net_Reader
 		$this->status	= $curl->getStatus();
 		$code			= $curl->getStatus( CURL_STATUS_HTTP_CODE );
 	
-		if( !in_array( $code, array( '200', '304' ) ) )
+		if( !in_array( $code, array( '200', '301', '303', '304', '307' ) ) )
 			throw new RuntimeException( 'URL "'.$this->url.'" can not be accessed (HTTP Code '.$code.').', $code );
 
 		return $response;
@@ -141,7 +142,7 @@ class Net_Reader
 		$this->username	= $username;
 		$this->password	= $password;
 	}
-	
+
 	/**
 	 *	Sets User Agent.
 	 *	@access		public
@@ -161,8 +162,8 @@ class Net_Reader
 	 */
 	public function setUrl( $url )
 	{
-		if( !$url )
-			throw new RuntimeException( "No URL set." );
+		if( !( is_string( $url ) && $url ) )
+			throw new InvalidArgumentException( "No URL given." );
 		$this->url	= $url;
 	}
 

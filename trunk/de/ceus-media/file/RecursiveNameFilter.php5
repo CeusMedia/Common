@@ -33,7 +33,8 @@ class File_RecursiveNameFilter extends FilterIterator
 		$this->fileName = $fileName;
 		parent::__construct(
 			new RecursiveIteratorIterator(
-				new RecursiveDirectoryIterator( $path )
+				new RecursiveDirectoryIterator( $path ),
+				RecursiveIteratorIterator::LEAVES_ONLY
 			)
 		);
 	}
