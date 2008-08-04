@@ -44,6 +44,8 @@ class Tests_Database_PDO_TableReaderTest extends PHPUnit_Framework_TestCase
 
 		$this->dsn = "mysql:host=".$this->host.";dbname=".$this->database;
 
+		$options	= array();
+		
 		$this->connection	= new Database_PDO_Connection( $this->dsn, $this->username, $this->password, $options );
 		$this->connection->setAttribute( PDO::ATTR_CASE, PDO::CASE_NATURAL );
 		$this->connection->setAttribute( PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, TRUE );
