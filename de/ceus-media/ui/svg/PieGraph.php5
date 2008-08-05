@@ -3,14 +3,14 @@
  *	This is a pie visualization class. 
  *	You shouldn´t use this class alone, but you can.
  *	You should only use it in corporation with the UI_SVG_Chart class.
- *	@package		ui_svg
+ *	@package		ui.svg
  *	@author			Jonas Schneider <JonasSchneider@gmx.de>
  */
 /**
  *	This is a pie visualization class. 
  *	You shouldn´t use this class alone, but you can.
  *	You should only use it in corporation with the UI_SVG_Chart class.
- *	@package		ui_svg
+ *	@package		ui.svg
  *	@author			Jonas Schneider <JonasSchneider@gmx.de>
  */
 class UI_SVG_PieGraph

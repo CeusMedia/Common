@@ -1,7 +1,7 @@
 <?php
 /**
  *	Exception for Input/Output Errors.
- *	@package		mv2.exception
+ *	@package		framework.krypton.exception
  *	@extends		Exception
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			01.03.2007
@@ -9,7 +9,7 @@
  */
 /**
  *	Exception for Input/Output Errors.
- *	@package		mv2.exception
+ *	@package		framework.krypton.exception
  *	@extends		Exception
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			01.03.2007

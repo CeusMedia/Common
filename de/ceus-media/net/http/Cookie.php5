@@ -1,16 +1,14 @@
 <?php
 /**
  *	Cookie Management.
- *	@package		protocol
- *	@subpackage		http
+ *	@package		net.http
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			01.07.2005
  *	@version		0.1
  */
 /**
  *	Cookie Management.
- *	@package		protocol
- *	@subpackage		http
+ *	@package		net.http
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			01.07.2005
  *	@version		0.1

@@ -12,7 +12,6 @@ import( 'de.ceus-media.framework.krypton.Base' );
 /**
  *	Handler for static Error Pages.
  *	@package		framework.krypton
- *	@package		framework.krypton
  *	@extends		Framework_Krypton_Base
  *	@uses			Framework_Krypton_Core_View
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>

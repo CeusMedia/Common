@@ -1,7 +1,7 @@
 <?php
 /**
  *	Builder for iCalendar File from XML Tree.
- *	@package		file_ical
+ *	@package		file.ical
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			09.03.2006
  *	@version		0.1
@@ -10,7 +10,7 @@
  */
 /**
  *	Builder for iCalendar File from XML Tree.
- *	@package		file_ical
+ *	@package		file.ical
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			09.03.2006
  *	@version		0.1

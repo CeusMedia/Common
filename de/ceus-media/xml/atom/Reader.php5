@@ -1,4 +1,8 @@
 <?php
+/**
+ *	@package		xml.atom
+ *	@todo			Code Doc
+ */
 import( 'de.ceus-media.xml.atom.Parser' );
 class XML_Atom_Reader
 {

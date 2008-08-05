@@ -141,7 +141,7 @@ class Framework_Krypton_Core_Language
 	/**
 	 *	Identifies Language from User Browser or User Request.
 	 *	@access		public
-	 *	@ver
+	 *	@return		void
 	 */
 	public function identifyLanguage()
 	{

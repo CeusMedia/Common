@@ -1,6 +1,8 @@
 <?php
 /**
+ *	@package		ui.image
  *	@version		0.2
+ *	@todo			Code Doc
  */
 class UI_Image_Creator
 {

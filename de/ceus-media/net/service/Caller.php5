@@ -2,8 +2,9 @@
 import( 'de.ceus-media.net.service.Client' );
 import( 'de.ceus-media.StopWatch' );
 /**
- *	@todo		Code Docu
- *	@todo		Unit Test
+ *	@package		net.service
+ *	@todo			Code Docu
+ *	@todo			Unit Test
  */
 class Net_Service_Caller
 {

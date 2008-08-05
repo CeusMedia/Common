@@ -1,14 +1,14 @@
 <?php
 /**
  *	Validation Error.
- *	@package		mv2.logic
+ *	@package		framework.krypton.logic
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			22.02.2007
  *	@version		0.1
  */
 /**
  *	Validation Error.
- *	@package		mv2.logic
+ *	@package		framework.krypton.logic
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			22.02.2007
  *	@version		0.1

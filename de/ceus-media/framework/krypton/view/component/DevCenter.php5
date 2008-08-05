@@ -8,6 +8,8 @@ import( 'de.ceus-media.framework.krypton.core.View' );
  *	@since			01.04.2007
  *	@version		0.6
  */
+define( 'DEV_CENTER_PRINT_M', 0 );
+define( 'DEV_CENTER_VAR_DUMP', 1 );
 /**
  *	View Component for Development Information.
  *	@package		framework.krypton.view.component
@@ -16,8 +18,6 @@ import( 'de.ceus-media.framework.krypton.core.View' );
  *	@since			01.04.2007
  *	@version		0.6
  */
-define( 'DEV_CENTER_PRINT_M', 0 );
-define( 'DEV_CENTER_VAR_DUMP', 1 );
 class Framework_Krypton_View_Component_DevCenter extends Framework_Krypton_Core_View
 {
 	public $printMode	= DEV_CENTER_VAR_DUMP;
@@ -35,6 +35,7 @@ class Framework_Krypton_View_Component_DevCenter extends Framework_Krypton_Core_
 		'show_sources'		=> 'showSources',
 	);
 	public static $templateDevSources	= 'dev_sources';
+	public static $templateDevTabs		= 'dev';
 	
 	public function buildContent( $content )
 	{
@@ -65,7 +66,7 @@ class Framework_Krypton_View_Component_DevCenter extends Framework_Krypton_Core_
 				'tabs'		=> UI_HTML_Elements::unorderedList( $listTabs ),
 				'divs'		=> implode( "\n", $listDivs ),
 			);
-			return $this->loadTemplate( 'dev', $ui );
+			return $this->loadTemplate( self::$templateDevTabs, $ui );
 		}
 	}
 
@@ -111,7 +112,7 @@ class Framework_Krypton_View_Component_DevCenter extends Framework_Krypton_Core_
 
 	/**
 	 *	Returns Array of set Topics for Tabs.
-	 *	@access		pubic
+	 *	@access		public
 	 *	@return		array
 	 */
 	public function getTopics()
@@ -133,7 +134,7 @@ class Framework_Krypton_View_Component_DevCenter extends Framework_Krypton_Core_
 
 	/**
 	 *	Sets Topics for Tabs.
-	 *	@access		pubic
+	 *	@access		public
 	 *	@return		array
 	 */
 	public function setTopics( $topics )

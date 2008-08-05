@@ -1,7 +1,12 @@
 <?php
 /**
- *	@todo		code doc
- *	@todo		unit test
+ *	@package		adt.json
+ */
+/**
+ *	@package		adt.json
+ *	@todo			code doc
+ *	@todo			unit test
+ *	@deprecated		use json_decode( $string, TRUE ) instead
  */
 class ADT_JSON_Converter
 {

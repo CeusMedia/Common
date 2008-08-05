@@ -52,7 +52,7 @@ class Framework_Krypton_Core_Template
 	 *	@access		public
 	 *	@param		string		$fileName		File Name of Template File
 	 *	@param		array		$elements		List of Elements {@link add()}
-	 *	@return		
+	 *	@return		void
 	 */
 	public function __construct( $fileName, $elements = NULL )
 	{

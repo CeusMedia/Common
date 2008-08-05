@@ -21,7 +21,7 @@
  */
 class Net_Service_Definition_Loader
 {
-	/**	@protected		array			$sourceTypes		Array of supported Source Types / Definition File Extensions */	
+	/**	@var		array			$sourceTypes		Array of supported Source Types / Definition File Extensions */	
 	protected $sourceTypes	= array(
 		'JS'	=> "loadServicesFromJson",
 		'JSON'	=> "loadServicesFromJson",

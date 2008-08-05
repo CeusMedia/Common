@@ -2,18 +2,18 @@
 import( 'de.ceus-media.framework.krypton.core.Template' );
 /**
  *	Template Component.
- *	@package		mv2.view.component
- *	@extends		Core_Template
- *	@uses			Core_Registry
+ *	@package		framework.krypton.view.component
+ *	@extends		Framework_Krypton_Core_Template
+ *	@uses			Framework_Krypton_Core_Registry
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			02.03.2007
  *	@version		0.2
  */
 /**
  *	Template Component.
- *	@package		mv2.view.component
- *	@extends		Core_Template
- *	@uses			Core_Registry
+ *	@package		framework.krypton.view.component
+ *	@extends		Framework_Krypton_Core_Template
+ *	@uses			Framework_Krypton_Core_Registry
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			02.03.2007
  *	@version		0.2

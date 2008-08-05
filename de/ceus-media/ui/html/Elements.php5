@@ -60,7 +60,7 @@ class UI_HTML_Elements extends UI_HTML_FormElements
 	}*/
 
 	/**
-	 *	@todo:	Signature Documenation
+	 *	@todo		Signature Documenation
 	 */
 	public static function CheckButton( $name, $value, $text, $class = FALSE )
 	{
@@ -137,7 +137,7 @@ class UI_HTML_Elements extends UI_HTML_FormElements
 	}
 
 	/**
-	 *	@todo:	Signature Documenation
+	 *	@todo		Signature Documenation
 	 */
 	public static function CheckTable( $id, $class = 'panel', $width = "100%", $border = 0, $spacing = 0 )
 	{
@@ -151,7 +151,7 @@ class UI_HTML_Elements extends UI_HTML_FormElements
 	}
 	
 	/**
-	 *	@todo:	Signature Documenation
+	 *	@todo		Signature Documenation
 	 */
 	public static function CheckTableEnd( $id )
 	{
@@ -160,7 +160,7 @@ class UI_HTML_Elements extends UI_HTML_FormElements
 	}
 
 	/**
-	 *	@todo:	Signature Documenation
+	 *	@todo		Signature Documenation
 	 */
 	public static function Anchor( $name )
 	{

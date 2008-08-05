@@ -2,22 +2,21 @@
 import( 'de.ceus-media.net.cURL' );
 /**
  *	Alexa Rank Request.
- *	@package		protocol
- *	@subpackage		http
- *	@uses			Snoopy
+ *	@package		net.http
+ *	@uses			Net_cURL
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			22.01.2007
  *	@version		0.5
  */
 /**
  *	Alexa Rank Request.
- *	@package		protocol
- *	@subpackage		http
- *	@uses			Snoopy
+ *	@package		net.http
+ *	@uses			Net_cURL
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			22.01.2007
  *	@version		0.5
  *	@todo			broken due to Changes on Alexa.com
+ *	@deprecated		not working anymore
  */
 class Net_HTTP_AlexaRank
 {

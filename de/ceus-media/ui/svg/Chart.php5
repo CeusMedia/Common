@@ -3,14 +3,14 @@ import( 'de.ceus-media.ui.html.Tag' );
 import( 'de.ceus-media.file.Writer' );
 /**
  *	The main Chart package file. It includes the core of all Chart classes.
- *	@package		ui_svg
+ *	@package		ui.svg
  *	@uses			UI_HTML_Tag
  *	@uses			File_Writer
  *	@author			Jonas Schneider <JonasSchneider@gmx.de>
  */
 /**
  *	The main Chart class. Base class for all subtypes of charts, like Pie, Bar, Line and so on.
- *	@package		ui_svg
+ *	@package		ui.svg
  *	@uses			UI_HTML_Tag
  *	@uses			File_Writer
  *	@author			Jonas Schneider <JonasSchneider@gmx.de>

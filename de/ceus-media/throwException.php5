@@ -8,6 +8,15 @@
  *	@since			20.06.2008
  *	@version		0.1
  */
+/**
+ *	Extension of throw command for lazy load of Exception Class, throws new Exception of given Type.
+ *	@param			string		$type		Exception Type (eg. IO for Exception_IO)
+ *	@param			string		$message	Exception Message
+ *	@return			void
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@since			20.06.2008
+ *	@version		0.1
+ */
 function throwException()
 {
 	$arguments	= func_get_args();												//  get Exception Arguments

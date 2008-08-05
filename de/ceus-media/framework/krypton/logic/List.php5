@@ -2,7 +2,7 @@
 import( 'de.ceus-media.database.StatementBuilder' );
 /**
  *	Logic for Data Lists from Database.
- *	@package		mv2.logic
+ *	@package		framework.krypton.logic
  *	@uses			Database_StatementBuilder
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			23.02.2007
@@ -10,7 +10,7 @@ import( 'de.ceus-media.database.StatementBuilder' );
  */
 /**
  *	Logic for Data Lists from Database.
- *	@package		mv2.logic
+ *	@package		framework.krypton.logic
  *	@uses			Database_StatementBuilder
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			23.02.2007

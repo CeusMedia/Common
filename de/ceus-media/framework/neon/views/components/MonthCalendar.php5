@@ -1,21 +1,21 @@
 <?php
 /**
  *	Builds HTML for Month Calendar.
- *	@package		mv2.view.component
- *	@extends		Core_View
+ *	@package		framework.neon.view.component
+ *	@extends		Framework_Neon_View
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			11.03.2007
  *	@version		0.2
  */
 /**
  *	Builds HTML for Month Calendar.
- *	@package		mv2.view.component
- *	@extends		Core_View
+ *	@package		framework.neon.view.component
+ *	@extends		Framework_Neon_View
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			11.03.2007
  *	@version		0.2
  */
-class MonthCalendar extends View
+class MonthCalendar extends Framework_Neon_View
 {
 	/**	@var	array		$months			Array of Months */
 	var $months	= array(
