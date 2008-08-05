@@ -1,14 +1,35 @@
 <?php
+/**
+ *	Builder for jQuery Plugin Calls for HTML Documents.
+ *	@package		ui.html
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@since			25.06.2008
+ *	@version		0.1
+ */
+/**
+ *	Builder for jQuery Plugin Calls for HTML Documents.
+ *	@package		ui.html
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@since			25.06.2008
+ *	@version		0.1
+ */
 class UI_HTML_JQuery
 {
-	public static function buildOptions( $options, $spaces = 2 )
+	/**
+	 *	Builds and returns Plugin Constructor Options.
+	 *	@access		protected
+	 *	@param		array		$options		Array of Plugin Constructor Options
+	 *	@param		int			$spaces			Number of indenting Whitespaces
+	 *	@return		string
+	 */
+	protected static function buildOptions( $options, $spaces = 2 )
 	{
 		$innerIndent	= "";
 		$outerIndent	= "";
 		if( $spaces > 1 )
 		{
-			$innerIndent	= str_repeat( " ", $spaces );
-			$outerIndent	= str_repeat( " ", $spaces - 2 );
+			$innerIndent	= str_repeat( " ", $spaces + 2 );
+			$outerIndent	= str_repeat( " ", $spaces );
 		}
 
 		if( $options )
@@ -24,12 +45,23 @@ class UI_HTML_JQuery
 		return $options;
 	}
 
-	public static function buildPluginCall( $plugin, $selector, $options )
+	/**
+	 *	Builds and returns JavaScript Code of jQuery Plugin Call.
+	 *	@access		public
+	 *	@param		string		$plugin			Name of Plugin Constructor Methode
+	 *	@param		string		$selector		XPath Selector of HTML Tag(s) to call Plugin on
+	 *	@param		array		$option			Array of Plugin Constructor Options
+	 *	@param		int			$spaces			Number of indenting Whitespaces
+	 *	@return		string
+	 */
+	public static function buildPluginCall( $plugin, $selector, $options, $spaces = 0 )
 	{
-		$options	= self::buildOptions( $options, 4 );
-		return '$(document).ready(function(){
-  $("'.$selector.'").'.$plugin.'('.$options.');
-});';
+		$innerIndent	= str_repeat( " ", $spaces + 2 );
+		$outerIndent	= str_repeat( " ", $spaces );
+		$options	= self::buildOptions( $options, $spaces + 2 );
+		return $outerIndent.'$(document).ready(function(){
+'.$innerIndent.'$("'.$selector.'").'.$plugin.'('.$options.');
+'.$outerIndent.'});';
 	}
 }
 ?>

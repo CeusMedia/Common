@@ -17,7 +17,7 @@ import  ("de.ceus-media.math.analysis.Sequence");
  *	@version		0.5
  *	@todo			Code Correction
  */
-class Math_Analysis_Progression extends Sequence
+class Math_Analysis_Progression extends Math_Analysis_Sequence
 {
 	/**
 	 *	Constructor.
