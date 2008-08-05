@@ -1,6 +1,4 @@
 <?php
-import( 'de.ceus-media.net.cURL' );
-define( 'GOOGLE_MAGIC', 0xE6359A60 );
 /**
  *	Google PageRank.
  *	@package		net.http
@@ -10,6 +8,8 @@ define( 'GOOGLE_MAGIC', 0xE6359A60 );
  *	@since			18.01.2007
  *	@version		0.6
  */
+import( 'de.ceus-media.net.cURL' );
+define( 'GOOGLE_MAGIC', 0xE6359A60 );
 /**
  *	Google PageRank.
  *	@package		net.http

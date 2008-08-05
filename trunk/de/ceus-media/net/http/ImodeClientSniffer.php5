@@ -6,13 +6,6 @@ import( 'de.ceus-media.file.Configuration' );
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.6
  */
-/**
- *	Sniffer for iMode Clients.
- *	@package		net.http
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@version		0.6
- *	@deprecated		needs to be rearanged with File_Configuration_Reader
- */
 define( 'IMODE_COLOUR_BW',			0 );
 define( 'IMODE_COLOUR_GREYSCALE',	1 );
 define( 'IMODE_COLOUR_256',			2 );
@@ -20,6 +13,13 @@ define( 'IMODE_COLOUR_4096',		3 );
 define( 'IMODE_COLOUR_65536',		4 );
 define( 'IMODE_DEFAULT_CACHE',		5 );
 define( 'IMODE_UNKNOWN_USER_AGENT',	1 );
+/**
+ *	Sniffer for iMode Clients.
+ *	@package		net.http
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@version		0.6
+ *	@deprecated		needs to be rearanged with File_Configuration_Reader
+ */
 class Net_HTTP_ImodeClientSniffer
 {
 	/**	@var		array		$data			Data of all known Imode Clients */

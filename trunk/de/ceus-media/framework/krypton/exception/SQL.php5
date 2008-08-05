@@ -1,7 +1,7 @@
 <?php
 /**
  *	Exception for SQL Errors.
- *	@package		mv2.exception
+ *	@package		framework.krypton.exception
  *	@extends		RuntimeException
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			01.03.2007
@@ -9,7 +9,7 @@
  */
 /**
  *	Exception for SQL Errors.
- *	@package		mv2.exception
+ *	@package		framework.krypton.exception
  *	@extends		RuntimeException
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			01.03.2007

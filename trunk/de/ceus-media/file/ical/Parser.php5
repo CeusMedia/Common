@@ -2,7 +2,7 @@
 import( 'de.ceus-media.xml.dom.Node' );
 /**
  *	Parser for iCalendar Files.
- *	@package		file_ical
+ *	@package		file.ical
  *	@uses			XML_DOM_Node
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			09.03.2006
@@ -12,8 +12,7 @@ import( 'de.ceus-media.xml.dom.Node' );
  */
 /**
  *	Parser for iCalendar Files.
- *	@package		file
- *	@package		file_ical
+ *	@package		file.ical
  *	@uses			XML_DOM_Node
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			09.03.2006

@@ -126,9 +126,9 @@ class Net_Jabber_MessageSender
 	}
 
 	/**
-	 *	Sets .
+	 *	Sets Encryption
 	 *	@access		public
-	 *	@param		
+	 *	@param		bool		$bool			Flag: set Encryption
 	 *	@return		void
 	 */
 	public function setEncryption( $bool )

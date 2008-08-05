@@ -6,6 +6,10 @@
  *	@since			22.04.2008
  *	@version		0.1
  */
+define( 'SIZE_BYTE', pow( 1024, 0 ) );
+define( 'SIZE_KILOBYTE', pow( 1024, 1 ) );
+define( 'SIZE_MEGABYTE', pow( 1024, 2 ) );
+define( 'SIZE_GIGABYTE', pow( 1024, 3 ) );
 /**
  *	Formats Numbers intelligently and adds Units to Bytes and Seconds.
  *	@package		alg
@@ -13,10 +17,6 @@
  *	@since			18.10.2007
  *	@version		0.1
  */
-define( 'SIZE_BYTE', pow( 1024, 0 ) );
-define( 'SIZE_KILOBYTE', pow( 1024, 1 ) );
-define( 'SIZE_MEGABYTE', pow( 1024, 2 ) );
-define( 'SIZE_GIGABYTE', pow( 1024, 3 ) );
 class Alg_UnitFormater
 {
 	/**	@var		array		$unitBytes		List of Byte Units */

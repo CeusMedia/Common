@@ -1,4 +1,8 @@
 <?php
+/**
+ *	@package		math.algebra
+ *	@todo			Code Doc
+ */
 import( 'de.ceus-media.math.algebra.Matrix' );
 class Math_Algebra_LabelMatrix
 {

@@ -27,7 +27,7 @@ class UI_HTML_AjaxElements extends UI_HTML_Elements
 	 *	@param		string		$value 			Beschriftung des Buttons
 	 *	@param		string		$class			CSS-Class der Beschriftung
 	 *	@param		string		$confirm 			Nachricht der Bestätigung
-	 *	@patam		string		$disabled			Ausgrauen des Buttons
+	 *	@param		string		$disabled			Ausgrauen des Buttons
 	 *	@return		string
 	 */
 	public function Button( $name, $value, $class = 'but', $confirm = false, $disabled = false)

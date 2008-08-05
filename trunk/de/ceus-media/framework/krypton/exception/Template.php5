@@ -1,19 +1,17 @@
 <?php
 /**
  *	Exception for Templates.
- *	@package		mv2.exception
+ *	@package		framework.krypton.exception
  *	@extends		RuntimeException
  *	@author			David Seebacher <dseebacher@gmail.com>
  *	@since			03.03.2007
  *	@version		0.1
  */
-
 /**   not all labels used constant */
 define('TEMPLATE_EXCEPTION_LABELS_NOT_USED', 100);
- 
 /**
  *	Exception for Templates.
- *	@package		mv2.exception
+ *	@package		framework.krypton.exception
  *	@extends		RuntimeException
  *	@author			David Seebacher <dseebacher@gmail.com>
  *	@since			03.03.2007

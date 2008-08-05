@@ -27,6 +27,7 @@ import( 'de.ceus-media.net.service.interface.Point' );
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			18.06.2007
  *	@version		0.3
+ *	@todo			rename Exception Classes (see bottom) to Net_Service_ and/or move package 'exception'
  */
 class Net_Service_Point implements Net_Service_Interface_Point
 {
@@ -38,7 +39,7 @@ class Net_Service_Point implements Net_Service_Interface_Point
 	public static $loaderClass		= "Net_Service_Definition_Loader";
 	/**	@var		string			$validatorClass		Validator Class to use */
 	public static $validatorClass	= "Net_Service_ParameterValidator";
-	/**	@protected	array			$services			Array of Services */	
+	/**	@var		array			$services			Array of Services */	
 	protected $services	= array();
 	
 	/**
@@ -314,6 +315,6 @@ class Net_Service_Point implements Net_Service_Interface_Point
 		$this->services	= $this->loader->loadServices( $fileName, $cacheFile );
 	}
 }
-class ServiceException extends Exception {}
+class NetServiceException extends Exception {}
 class ServiceParameterException extends Exception {}
 ?>

@@ -3,18 +3,18 @@ import( 'de.ceus-media.framework.krypton.core.View' );
 import( 'de.ceus-media.framework.krypton.logic.List' );
 /**
  *	View Component for generated Lists.
- *	@package		mv2.view.component
- *	@uses			Logic_List
- *	@uses			Core_View
+ *	@package		framework.krypton.view.component
+ *	@uses			Framework_Krypton_Logic_List
+ *	@uses			Framework_Krypton_Core_View
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			23.02.2007
  *	@version		0.1
  */
 /**
  *	View Component for generated Lists.
- *	@package		mv2.view.component
- *	@uses			Logic_List
- *	@uses			Core_View
+ *	@package		framework.krypton.view.component
+ *	@uses			Framework_Krypton_Logic_List
+ *	@uses			Framework_Krypton_Core_View
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			23.02.2007
  *	@version		0.1

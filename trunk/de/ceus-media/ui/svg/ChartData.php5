@@ -2,13 +2,13 @@
 /**
  *	This class represents an object in a chart, i.e. a line in a line diagram, a piece of pie in a 
  *	pie chart and so on.
- *	@package		ui_svg
+ *	@package		ui.svg
  *	@author			Jonas Schneider <JonasSchneider@gmx.de>
  */
 /**
  *	This class represents an object in a chart, i.e. a line in a line diagram, a piece of pie in a 
  *	pie chart and so on.
- *	@package		ui_svg
+ *	@package		ui.svg
  *	@author			Jonas Schneider <JonasSchneider@gmx.de>
  */
 class UI_SVG_ChartData

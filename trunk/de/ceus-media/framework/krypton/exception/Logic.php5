@@ -1,6 +1,7 @@
 <?php
 /**
  *	Logic Error.
+ *	@package		framework.krypton.exception
  *	@package		mv2.logic
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			22.02.2007
@@ -8,7 +9,7 @@
  */
 /**
  *	Logic Error.
- *	@package		mv2.logic
+ *	@package		framework.krypton.exception
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			22.02.2007
  *	@version		0.1

@@ -6,13 +6,6 @@
  *	@since			16.06.2005
  *	@version		0.6
  */
-/**
- *	cURL Wrapper
- *	@package		net
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@since			16.06.2005
- *	@version		0.6
- */
 define( 'CURL_STATUS_CONTENT_TYPE',				'content_type' );
 define( 'CURL_STATUS_CONTENT_LENGTH_DOWNLOAD',	'download_content_length' );
 define( 'CURL_STATUS_CONTENT_LENGTH_UPLOAD',	'upload_content_length' );
@@ -34,6 +27,13 @@ define( 'CURL_STATUS_TIME_NAMELOOKUP',			'namelookup_time' );
 define( 'CURL_STATUS_TIME_PRETRANSFER',			'pretransfer_time' );
 define( 'CURL_STATUS_TIME_STARTTRANSFER',		'starttransfer_time' );
 define( 'CURL_STATUS_TIME_TOTAL',				'total_time' );
+/**
+ *	cURL Wrapper
+ *	@package		net
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@since			16.06.2005
+ *	@version		0.6
+ */
 class Net_cURL
 {
 	/**

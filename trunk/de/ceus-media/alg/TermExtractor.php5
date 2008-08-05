@@ -1,9 +1,14 @@
 <?php
+/**
+ *	Extracts Terms from a Text Document.
+ *	@package		alg
+ */
 import( 'de.ceus-media.alg.StringUnicoder' );
 import( 'de.ceus-media.file.Editor' );
 /**
  *	Extracts Terms from a Text Document.
  *	@package		alg
+ *	@todo			Code Doc
  */
 class Alg_TermExtractor
 {

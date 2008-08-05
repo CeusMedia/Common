@@ -3,7 +3,7 @@ import( 'de.ceus-media.file.log.Writer' );
 import( 'de.ceus-media.StopWatch' );
 /**
  *	Compresses and sends HTTP Output.
- *	@package		protocol.http
+ *	@package		net.http
  *	@uses			File_Log_Writer
  *	@uses			StopWatch
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>

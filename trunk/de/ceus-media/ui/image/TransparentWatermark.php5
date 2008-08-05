@@ -9,6 +9,13 @@
  *	@author			Lionel Micault <lionel.micault@laposte.net>
  *	@version		1.01
  */
+// position constants
+define ("transparentWatermarkOnTop", -10);
+define ("transparentWatermarkOnMiddle", 0);
+define ("transparentWatermarkOnBottom", 10);
+define ("transparentWatermarkOnLeft", -10);
+define ("transparentWatermarkOnCenter", 0);
+define ("transparentWatermarkOnRight", 10);
 /**
  *	Put watermark in image with transparent and randomize effect
  *
@@ -22,14 +29,6 @@
  *	@todo			create TestCases
  *	@todo			Code Documentation
  */
-// position constants
-define ("transparentWatermarkOnTop", -10);
-define ("transparentWatermarkOnMiddle", 0);
-define ("transparentWatermarkOnBottom", 10);
-define ("transparentWatermarkOnLeft", -10);
-define ("transparentWatermarkOnCenter", 0);
-define ("transparentWatermarkOnRight", 10);
-
 class UI_Image_TransparentWatermark  {
 	var $stampImage=0;
 	var $stampWidth;
@@ -170,13 +169,11 @@ class UI_Image_TransparentWatermark  {
 	/**
 	* set stamp position on image
 	*
-	* @param int $Xposition x position
-	* @param int $Yposition y position
-	* @return void
-	* @access public
-	* $this->stampPositionX
-	* $this->stampPositionY
-	* @uses errorMsg
+	* @access	public
+	* @param	int $Xposition x position
+	* @param	int $Yposition y position
+	* @return	void
+	* @uses	errorMsg
 	*/
 	public function setStampPosition ( $Xposition, $Yposition) {
 		// set X position

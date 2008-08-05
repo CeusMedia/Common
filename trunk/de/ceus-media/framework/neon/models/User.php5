@@ -4,7 +4,7 @@ import( 'de.ceus-media.framework.neon.models.UserRole' );
 import( 'de.ceus-media.framework.neon.models.Role' );
 /**
  *	Data Model of Users.
- *	@package		PlantShopAdmin
+ *	@package		framework.neon.models
  *	@extends		Framework_Neon_Model
  *	@uses			Framework_Neon_Models_UserRole
  *	@uses			Framework_Neon_Models_Role
@@ -14,7 +14,7 @@ import( 'de.ceus-media.framework.neon.models.Role' );
  */
 /**
  *	Data Model of Users.
- *	@package		PlantShopAdmin
+ *	@package		framework.neon.models
  *	@extends		Framework_Neon_Model
  *	@uses			Framework_Neon_Models_UserRole
  *	@uses			Framework_Neon_Models_Role

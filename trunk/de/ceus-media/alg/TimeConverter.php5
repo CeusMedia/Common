@@ -20,7 +20,7 @@ class Alg_TimeConverter
 	 *	@access		public
 	 *	@param		string		$string		String to be complemented
 	 *	@param		int			$mode		Complement Mode (0:Month Start, 1:Month End)
-	 *	@return		
+	 *	@return		string
 	 */
 	public static function complementMonthDate( $string, $mode = 0 )
 	{
