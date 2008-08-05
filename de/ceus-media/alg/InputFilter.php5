@@ -6,6 +6,13 @@
  *	@since			01.07.2007
  *	@version		0.6
  */
+/**
+ *	Filters HTML Content by stripping out unwanted Content Types like Scripts or Styles.
+ *	@package		alg
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@since			01.07.2007
+ *	@version		0.6
+ */
 class Alg_InputFilter
 {
 	/**
@@ -29,7 +36,7 @@ class Alg_InputFilter
 	 */
 	public static function stripScripts( $string )
 	{
-		$string	= preg_replace( "@<script[^>]*?>.*?</script>@si", "", $string );
+		$string	= preg_replace( "@<script[^>]*>.*</script>@siU", "", $string );
 		return $string;
 	}
 
