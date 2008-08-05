@@ -297,17 +297,17 @@ abstract class Framework_Krypton_Base
 	 *	@access		protected
 	 *	@return		void
 	 */
-	protected function initServiceClient()
+	protected function initServiceClient( $configSection = "services", $keyUrl = "url", $keyUsername = "username", $keyPassword = "password" )
 	{
 		import( 'de.ceus-media.net.service.Client' );
 		if( !$this->registry->has( 'config' ) )
 			throw new Exception( 'Configuration has not been set up.' );
 		$config		= $this->registry->get( 'config' );
 		$client	= new Net_Service_Client( "", "logs/services.log" );
-		$client->setHostAddress( $config['services.url'] );
+		$client->setHostAddress( $config["$configSection.$keyUrl"] );
 		$client->setUserAgent( "Motrada Office" );
-		if( $config['services.username'] )
-			$client->setBasicAuth( $config['services.username'], $config['services.password'] );
+		if( $config["$configSection.$keyUsername"] )
+			$client->setBasicAuth( $config["$configSection.$keyUsername"], $config["$configSection.$keyPassword"] );
 		$this->registry->set( 'client', $client );
 	}
 

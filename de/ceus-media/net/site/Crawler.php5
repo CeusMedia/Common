@@ -6,7 +6,7 @@ import( 'de.ceus-media.adt.StringBuffer' );
 import( 'de.ceus-media.alg.UnitFormater' );
 /**
  *	Crawls and counts all internal Links of an URL.
- *	@package		...
+ *	@package		net.site
  *	@uses			Net_Reader
  *	@uses			StopWatch
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
@@ -15,12 +15,13 @@ import( 'de.ceus-media.alg.UnitFormater' );
  */
 /**
  *	Crawls and counts all internal Links of an URL.
- *	@package		...
+ *	@package		net.site
  *	@uses			Net_Reader
  *	@uses			StopWatch
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			10.12.2006
  *	@version		0.2
+ *	@todo			finish Code Doc
  */
 class Net_Site_Crawler
 {
@@ -103,8 +104,12 @@ class Net_Site_Crawler
 	 */
 	public function crawl( $url, $followExternalLinks = FALSE, $verbose = FALSE )
 	{
+		if( $xdebug = ini_get( 'xdebug.profiler_enable' ) )							//  XDebug Profiler is enabled
+			ini_set( 'xdebug.profiler_enable', "0" );								//  disable Profiler
+
 		$this->crawled	= FALSE;
 		$this->errors	= array();
+		$this->links	= array();
 		$parts			= parse_url( $url );
 		$this->scheme	= isset( $parts['scheme'] ) ? $parts['scheme'] : "";
 		$this->host		= isset( $parts['host'] ) ? $parts['host'] : "";
@@ -133,7 +138,7 @@ class Net_Site_Crawler
 					continue;	
 
 			$url		= $this->buildUrl( $parts );
-			if( array_key_exists( $url, $this->links ) )
+			if( array_key_exists( base64_encode( $url ), $this->links ) )
 				continue;
 
 			$denied				= FALSE;
@@ -168,6 +173,8 @@ class Net_Site_Crawler
 			}
 		}
 		$this->crawled	= TRUE;
+		if( $xdebug )																//  XDebug Profiler was enabled
+			ini_set( 'xdebug.profiler_enable', "1" );								//  enable Profiler
 		return count( $this->links );
 	}
 
@@ -278,7 +285,8 @@ class Net_Site_Crawler
 	{
 		if( array_key_exists( $url, $this->links ) )
 			return $this->links[$url]['references']++;
-		$this->links[$url] = array(
+		$this->links[base64_encode( $url )] = array(
+			'url'			=> $url,
 			'references'	=> 1,
 			'content'		=> $content
 		);

@@ -172,7 +172,7 @@ class Tests_Net_ReaderTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testSetUrlException()
 	{
-		$this->setExpectedException( "RuntimeException" );
+		$this->setExpectedException( "InvalidArgumentException" );
 		$this->reader->setUrl( "" );
 	}
 }
