@@ -107,7 +107,7 @@ class File_Reader
 	 *	@param		int			$precision		Precision of rounded Size (only if unit is set)
 	 *	@return		int
 	 */
-	public function getSize( $unit = SIZE_BYTE, $precision = NULL )
+	public function getSize( $unit = 1, $precision = NULL )
 	{
 		$size	= filesize( $this->fileName );
 		if( $unit )

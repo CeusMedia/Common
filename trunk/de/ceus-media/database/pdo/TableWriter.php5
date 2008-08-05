@@ -54,7 +54,7 @@ class Database_PDO_TableWriter extends Database_PDO_TableReader
 	 *	@param		bool		$stripTags		Flag: strip HTML Tags from values
 	 *	@return		int
 	 */
-	public function insert( $data = array(), $stripTags = FALSE )
+	public function insert( $data = array(), $stripTags = TRUE )
 	{
 		$keys	= array();
 		$vals	= array();
@@ -103,7 +103,7 @@ class Database_PDO_TableWriter extends Database_PDO_TableReader
 		$this->validateFocus();
 		$has	= $this->get( FALSE );
 		if( !$has )
-			throw new InvalidArgumentException( 'Focused Indices are not existing. No Data Sets found for Update.' );
+			throw new InvalidArgumentException( 'No Data Sets found for Update. Focused Indices are not existing.' );
 		$updates	= array();
 		foreach( $this->columns as $column )
 		{

@@ -1,12 +1,12 @@
 <?php
-import( 'de.ceus-media.ui.image.Image' );
+import( 'de.ceus-media.ui.image.Drawer' );
 import( 'de.ceus-media.math.analysis.CompactInterval' );
 import( 'de.ceus-media.StopWatch' );
 /**
  *	Paints Formula Diagram
  *	@package		ui.image
- *	@extends		Image
- *	@uses			CompactInterval
+ *	@extends		UI_Image_Drawer
+ *	@uses			Math_CompactInterval
  *	@uses			StopWatch
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.5
@@ -14,13 +14,14 @@ import( 'de.ceus-media.StopWatch' );
 /**
  *	Paints Formula Diagram
  *	@package		ui.image
- *	@extends		Image
- *	@uses			CompactInterval
+ *	@extends		UI_Image_Drawer
+ *	@uses			Math_CompactInterval
  *	@uses			StopWatch
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.5
+ *	@todo			Code Doc
  */
-class UI_Image_FormulaDiagram extends Image
+class UI_Image_FormulaDiagram extends UI_Image_Drawer
 {
 	protected $intervalX;
 	protected $intervalY;
@@ -46,17 +47,17 @@ class UI_Image_FormulaDiagram extends Image
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		CompactInterval		Interval on X Axis
-	 *	@param		CompactInterval		Interval on Y Axis
-	 *	@param		Formula				Formula to display
-	 *	@param		float				Dots between to 2 Points.
-	 *	@param		int					Dots between Grid Lines (0 for 'no Grid')
+	 *	@param		Math_CompactInterval	Interval on X Axis
+	 *	@param		Math_CompactInterval	Interval on Y Axis
+	 *	@param		Math_Formula			Formula to display
+	 *	@param		float					Dots between to 2 Points.
+	 *	@param		int						Dots between Grid Lines (0 for 'no Grid')
 	 *	@return		void
 	 */
 	public function __construct( $intervalX, $intervalY, $formula, $step = 1, $grid = 0 )
 	{
-		$this->intervalX	= $grid ? new CompactInterval( $intervalX->getStart(), $intervalX->getEnd() + 1 ) : $intervalX;
-		$this->intervalY	= $grid ? new CompactInterval( $intervalY->getStart(), $intervalY->getEnd() + 1 ) : $intervalY;
+		$this->intervalX	= $grid ? new Math_CompactInterval( $intervalX->getStart(), $intervalX->getEnd() + 1 ) : $intervalX;
+		$this->intervalY	= $grid ? new Math_CompactInterval( $intervalY->getStart(), $intervalY->getEnd() + 1 ) : $intervalY;
 		$this->formula		= $formula;
 		$this->step			= (real) $step;
 		$this->grid			= (int) $grid;
