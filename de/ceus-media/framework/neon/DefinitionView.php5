@@ -3,8 +3,7 @@ import( 'de.ceus-media.framework.neon.View' );
 import( 'de.ceus-media.file.log.Writer' );
 /**
  *	Generic Definition View with Language Support.
- *	@package		framework
- *	@subpackage		neon
+ *	@package		framework.neon
  *	@extends		Framework_Neon_View
  *	@uses			File_Log_Writer
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
@@ -13,8 +12,7 @@ import( 'de.ceus-media.file.log.Writer' );
  */
 /**
  *	Generic Definition View with References.
- *	@package		framework
- *	@subpackage		neon
+ *	@package		framework.neon
  *	@extends		Framework_Neon_View
  *	@uses			File_Log_Writer
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>

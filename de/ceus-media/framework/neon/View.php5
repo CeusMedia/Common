@@ -8,8 +8,7 @@ import( 'de.ceus-media.file.ini.Reader' );
 import( 'de.ceus-media.ui.html.WikiParser' );
 /**
  *	Generic View with Language Support.
- *	@package		framework
- *	@subpackage		neon
+ *	@package		framework.neon
  *	@extends		Framework_Neon_Component
  *	@uses			ADT_Reference
  *	@uses			UI_HTML_Elements
@@ -23,8 +22,7 @@ import( 'de.ceus-media.ui.html.WikiParser' );
  */
 /**
  *	Generic View with Language Support.
- *	@package		framework
- *	@subpackage		neon
+ *	@package		framework.neon
  *	@extends		Framework_Neon_Component
  *	@uses			ADT_Reference
  *	@uses			UI_HTML_Elements
