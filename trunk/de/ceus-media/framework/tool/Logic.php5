@@ -1,7 +1,7 @@
 <?php
 /**
  *	Abstract Business Logic, Access to Database or other Resources.
- *	@package		tool
+ *	@package		framework.tool
  *	@uses			Database_PDO_Connection
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			27.05.2008
@@ -9,7 +9,7 @@
  */
 /**
  *	Abstract Business Logic, Access to Database or other Resources.
- *	@package		tool
+ *	@package		framework.tool
  *	@uses			Database_PDO_Connection
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			27.05.2008

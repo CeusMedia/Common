@@ -12,8 +12,7 @@ import( 'de.ceus-media.framework.hydrogen.Controller' );
 import( 'de.ceus-media.framework.hydrogen.Language' );
 /**
  *	Abstract Main Class of Framework Hydrogen
- *	@package		framework
- *	@subpackage		hydrogen
+ *	@package		framework.hydrogen
  *	@uses			DatabaseConnection
  *	@uses			File_INI_Reader
  *	@uses			Net_HTTP_PartitionSession
@@ -31,8 +30,7 @@ import( 'de.ceus-media.framework.hydrogen.Language' );
  */
 /**
  *	Abstract Main Class of Framework Hydrogen
- *	@package		framework
- *	@subpackage		hydrogen
+ *	@package		framework.hydrogen
  *	@uses			DatabaseConnection
  *	@uses			File_INI_Reader
  *	@uses			Net_HTTP_PartitionSession
