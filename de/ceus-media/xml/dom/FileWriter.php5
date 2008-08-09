@@ -32,8 +32,7 @@ class XML_DOM_FileWriter
 	{
 		$this->fileName	= $fileName;
 	}
-	
-	
+
 	/**
 	 *	Writes XML Tree into XML File.
 	 *	@access		public
