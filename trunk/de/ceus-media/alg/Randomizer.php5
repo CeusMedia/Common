@@ -62,7 +62,7 @@ class Alg_Randomizer
 	/**
 	 *	Creates and returns randomized String.
 	 *	@access		protected
-	 *	@param		int			$length		
+	 *	@param		int			$length			Length of String to create
 	 *	@param		string		$pool			Sign Pool String
 	 *	@return		string
 	 */

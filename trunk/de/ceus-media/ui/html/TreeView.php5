@@ -78,6 +78,7 @@ class UI_HTML_TreeView
 	 *	@param		int			$level				Depth of List
 	 *	@param		string		$path				Path for generated IDs
 	 *	@return		string
+	 *	@link		http://docs.jquery.com/Plugins/Treeview/treeview#options
 	 */
 	public function constructTree( ArrayObject $nodes, $currentId = NULL, $attributes = array(), $level = 0, $path = "" )
 	{
