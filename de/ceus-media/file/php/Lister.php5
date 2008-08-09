@@ -16,7 +16,7 @@
  *	@version		0.3
  *	@todo			Code Doc
  */
-class ClassLister extends FilterIterator
+class File_PHP_Lister extends FilterIterator
 {
 	public $ignoreFolders		= array();
 	public $ignoreFiles			= array();
