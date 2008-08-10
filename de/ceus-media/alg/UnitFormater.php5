@@ -39,11 +39,13 @@ class Alg_UnitFormater
 	);
 
 	/**
-	 *	Constructor.
+	 *	Formats Number.
 	 *	@access		public
-	 *	@param		string		$string			String to unicode
-	 *	@param		bool		$force			Flag: encode into UTF-8 even if UTF-8 Encoding has been detected
+	 *	@param		float		$float			Number to format
+	 *	@param		int			$unit			Number of Digits for dot to move to left
+	 *	@param		int			$precision		Number of Digits after dot
 	 *	@return		void
+	 *	@deprecated	uncomplete method, please remove
 	 */
 	public static function formatNumber( $float, $unit = 1, $precision = 0 )
 	{

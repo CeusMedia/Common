@@ -10,6 +10,7 @@ require_once 'Tests/file/configuration/AllTests.php';
 require_once 'Tests/file/ical/AllTests.php';
 require_once 'Tests/file/ini/AllTests.php';
 require_once 'Tests/file/list/AllTests.php';
+require_once 'Tests/file/php/AllTests.php';
 #require_once 'Tests/file/log/AllTests.php';
 require_once 'Tests/file/yaml/AllTests.php';
 require_once 'Tests/file/ReaderTest.php';
@@ -38,6 +39,7 @@ class Tests_File_AllTests
 		$suite->addTest( Tests_File_iCal_AllTests::suite() );
 		$suite->addTest( Tests_File_INI_AllTests::suite() );
 		$suite->addTest( Tests_File_List_AllTests::suite() );
+		$suite->addTest( Tests_File_PHP_AllTests::suite() );
 #		$suite->addTest( Tests_File_Log_AllTests::suite() );
 		$suite->addTest( Tests_File_Yaml_AllTests::suite() );
 		$suite->addTestSuite('Tests_File_ReaderTest'); 

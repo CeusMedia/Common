@@ -19,29 +19,46 @@ import( 'de.ceus-media.file.Reader' );
  */
 class File_PHP_Parser
 {
+	protected $fileData	= array(
+		'name'			=> "",
+		'uri'			=> "",
+		'uses'			=> array(),
+		'description'	=> "",
+		'package'		=> "",
+		'subpackage'	=> "",
+		'description'	=> array(),
+		'license'		=> array(),
+		'copyright'		=> array(),
+		'version'		=> "",
+		'since'			=> "",
+		'author'		=> array(),
+		'see'			=> array(),
+		'link'			=> array(),
+		'functions'		=> array(),
+	);
 	protected $classData		= array(
 		'type'			=> "",
 		'name'			=> "",
-		"abstract"		=> FALSE,
-		"final"			=> FALSE,
-		"extends"		=> "",
-		"implements"	=> array(),
-		"uses"			=> array(),
+		'abstract'		=> FALSE,
+		'final'			=> FALSE,
+		'extends'		=> "",
+		'implements'	=> array(),
+		'uses'			=> array(),
 		'description'	=> "",
-		"package"		=> "",
-		"subpackage"	=> "",
-		"description"	=> array(),
-		"todo"			=> array(),
-		"see"			=> array(),
-		"link"			=> array(),
-		"license"		=> array(),
-		"copyright"		=> array(),
-		"link"			=> array(),
-		"version"		=> array(),
-		"since"			=> array(),
-		"author"		=> array(),
-		"methods"		=> array(),
-		);
+		'package'		=> "",
+		'subpackage'	=> "",
+		'description'	=> array(),
+		'license'		=> array(),
+		'copyright'		=> array(),
+		'version'		=> "",
+		'since'			=> "",
+		'author'		=> array(),
+		'link'			=> array(),
+		'see'			=> array(),
+		'todo'			=> array(),
+		'deprecated'	=> array(),
+		'methods'		=> array(),
+	);
 
 	protected $methodData		= array(
 		'name'			=> "",
@@ -51,34 +68,44 @@ class File_PHP_Parser
 		'static'		=> FALSE,
 		'access'		=> "",
 		'param'			=> array(),
-		'return'		=> array(),
+		'return'		=> array(
+			'type'			=> "void",
+			'description' => NULL,
+		),
 		'throws'		=> array(),
 		"version"		=> "",
 		"since"			=> "",
 		"author"		=> array(),
-		"todo"			=> array(),
 		"see"			=> array(),
 		"link"			=> array(),
+		"todo"			=> array(),
+		"deprecated"	=> array(),
 	);
 	
-	var $regexClass		= '@^(abstract )?(final )?(interface |class )([\w]+)( extends ([\w]+))?( implements ([\w]+)(, ([\w]+))*)?$@i';
-	var $regexMethod	= '@^(abstract )?(final )?(protected |private |public )?(static )?function ([\w]+)\((.*)\)$@';
-	var $regexParam		= '@^(([\w]+) )?((&\s*)?\$([\w]+))( ?= ?([\S]+))?$@';
-	var $regexDocParam	= '@^\*\s+\@param\s+(([\w]+)\s+)?(\$([\w]+))\s*(.+)?$@';
+	protected $regexClass		= '@^(abstract )?(final )?(interface |class )([\w]+)( extends ([\w]+))?( implements ([\w]+)(, ([\w]+))*)?$@i';
+	protected $regexMethod	= '@^(abstract )?(final )?(protected |private |public )?(static )?function ([\w]+)\((.*)\)$@';
+	protected $regexParam		= '@^(([\w]+) )?((&\s*)?\$([\w]+))( ?= ?([\S]+))?$@';
+	protected $regexDocParam	= '@^\*\s+\@param\s+(([\w]+)\s+)?(\$?([\w]+))\s*(.+)?$@';
 
+	/**
+	 *	Parses a PHP File and returns nested Array of collected Information.
+	 *	@access		public
+	 *	@param		string		$fileName		File Name of PHP File to parse
+	 *	@param		string		$innerPath		Base Path to File to be removed in Information
+	 *	@return		array
+	 */
 	public function parseFile( $fileName, $innerPath )
 	{
 		$lines			= File_Reader::loadArray( $fileName );
 		$openBlocks		= array();
 		$fileBlock		= NULL;
 		$openClass		= FALSE;
-		$file			= $this->classData;
-		$file['uri']	= substr( str_replace( "\\", "/", $fileName ), strlen( $innerPath ) );
-		unset( $file['methods'] );
-		$file['functions']	= array();
+		$file			= $this->fileData;
+		$file['name']	= substr( str_replace( "\\", "/", $fileName ), strlen( $innerPath ) );
+		$file['uri']	= str_replace( "\\", "/", $fileName );
 	
 		$level	= 0;
-		$class	= $this->classData;
+		$class	= NULL;
 		do
 		{
 			$line	= trim( array_shift( $lines ) );
@@ -101,15 +128,19 @@ class File_PHP_Parser
 				while( !preg_match( "@^\*?\*/$@", $line ) );
 				$openBlocks[]	= $this->parseDocBlock( $list );
 				if( !$fileBlock )
+				{
 					$fileBlock	= array_shift( $openBlocks );
+					$this->overwriteCodeDataWithDocData( $file, $fileBlock );
+				}
 			}
 			if( !$openClass )
 			{
 				if( preg_match( $this->regexClass, $line, $matches ) )
 				{
+					$class	= $this->classData;
 					$class	= $this->parseClass( $class, $matches, $openBlocks );
-					if( $fileBlock )
-						$this->overwriteCodeDataWithDocData( $file, $fileBlock );
+					if( $openBlocks )
+						$this->overwriteCodeDataWithDocData( $class, array_pop( $openBlocks ) );
 					$openClass	= TRUE;
 				}
 				else if( preg_match( $this->regexMethod, $line, $matches ) )
@@ -138,6 +169,13 @@ class File_PHP_Parser
 		return $data;
 	}
 
+	/**
+	 *	Appends all collected Documentation Information to already collected Code Information.
+	 *	@access		private
+	 *	@param		array		$codeData		Data collected by parsing Code
+	 *	@param		string		$docData		Data collected by parsing Documentation
+	 *	@return		void
+	 */
 	private function overwriteCodeDataWithDocData( &$codeData, $docData )
 	{
 		foreach( $docData as $key => $value )
@@ -151,58 +189,62 @@ class File_PHP_Parser
 			}
 			else if( isset( $codeData[$key] ) )
 			{
-#				remark( "Key: ".$key );
 				foreach( $value as $itemKey	=> $itemValue )
 				{
-#					remark( "ItemKey: ".$itemKey );
 					if( is_string( $itemValue ) )
 					{
-						$codeData[$key][]	= $itemValue;
+						if( is_string( $itemKey ) )
+							$codeData[$key][$itemKey]	= $itemValue;
+						else if( is_int( $itemKey ) && !in_array( $itemValue, $codeData[$key] ) )
+							$codeData[$key][]	= $itemValue;
 					}
-					else if( isset( $codeData[$key][$itemKey] ) )
+					else if( is_string( $itemKey ) && isset( $codeData[$key][$itemKey] ) )
 					{
 						foreach( $itemValue as $itemItemKey => $itemItemValue )
-						{
-#							remark( "ItemItemKey: ".$itemItemKey );
-							if( isset( $codeData[$key][$itemKey][$itemItemKey] ) )
-								continue;
-							$codeData[$key][$itemKey][$itemItemKey]	= $itemItemValue;
-						}
+							if( !isset( $codeData[$key][$itemKey][$itemItemKey] ) )
+								$codeData[$key][$itemKey][$itemItemKey]	= $itemItemValue;
+					}
+					else if( $key != "param" )
+					{
+						foreach( $itemValue as $itemItemKey => $itemItemValue )
+							if( !isset( $codeData[$key][$itemKey][$itemItemKey] ) )
+								$codeData[$key][$itemKey][$itemItemKey]	= $itemItemValue;
 					}
 				}
 			}
 		}
 	}
 	
+	/**
+	 *	Parses a Class Signature and returns Array of collected Information.
+	 *	@access		private
+	 *	@param		array		$data			Class Data so far
+	 *	@param		array		$matches		Matches of RegEx
+	 *	@param		array		$openBlocks		Doc Blocks opened before
+	 *	@return		array
+	 */
 	private function parseClass( $data, $matches, &$openBlocks )
 	{
-	#	print_m( $matches );
-		if( $matches[1] )
-			$data['abstract']	= TRUE;
-		if( $matches[2] )
-			$data['final']		= TRUE;
-		$data['type']	= $matches[3];
-		$data['name']	= $matches[4];
-		if( isset( $matches[5] ) )
-			$data['extends']	= $matches[6];
+		$data['abstract']	= (bool) $matches[1];
+		$data['final']		= (bool) $matches[2];
+		$data['type']		= $matches[3];
+		$data['name']		= $matches[4];
+		$data['extends']	= isset( $matches[5] ) ? $matches[6] : NULL;
 		if( isset( $matches[7] ) )
-		{
-			$matches	= array_slice( $matches, 8 );
-			foreach( $matches as $match )
-			{
-				if( preg_match( "@^, @", $match ) )
-					continue;
-				$data['implements'][]	= $match;
-			}
-		}
+			foreach( array_slice( $matches, 8 ) as $match )
+				if( !preg_match( "@^,@", $match ) )
+					$data['implements'][]	= trim( $match );
 		if( $openBlocks )
-		{
-			$classBlock	= array_pop( $openBlocks );
-			$this->overwriteCodeDataWithDocData( $data, $classBlock );
-		}
+			$this->overwriteCodeDataWithDocData( $data, array_pop( $openBlocks ) );
 		return $data;
 	}
 
+	/**
+	 *	Parses a Doc Block and returns Array of collected Information.
+	 *	@access		private
+	 *	@param		array		$lines			Lines of Doc Block
+	 *	@return		array
+	 */
 	private function parseDocBlock( $lines )
 	{
 #		remark( "Parsing DocBlock" );
@@ -212,20 +254,23 @@ class File_PHP_Parser
 		{
 			if( preg_match( $this->regexDocParam, $line, $matches ) )
 			{
-#				print_m( $matches );
 				$param	= array(
 					'type'			=> $matches[2],
 					'name'			=> $matches[4],
-					'description'	=> "",
+					'description'	=> isset( $matches[5] ) ? $matches[5] : NULL,
 				);
-				if( isset( $matches[5] ) )
-					$param['description']		= $matches[5];
 				if( !isset( $data['param'] ) )
 					$data['param']	= array();
-				
 				$data['param'][$matches[4]]	= $param;
 			}
-			else if( preg_match( "@\*\s+\@author(.+)( <(.+)>)?$@iU", $line, $matches ) )
+			else if( preg_match( "@\*\s+\@return\s+(\w+)\s*(.+)?$@i", $line, $matches ) )
+			{
+				$data['return']	= array(
+					'type'			=> trim( $matches[1] ),
+					'description'	=> isset( $matches[2] ) ? trim( $matches[2] ) : "",
+				);
+			}
+			else if( preg_match( "@\*\s+\@author\s+(.+)\s*(<(.+)>)?$@iU", $line, $matches ) )
 			{
 				$data['author'][]	= array(
 					'name'	=> trim( $matches[1] ),
@@ -261,13 +306,10 @@ class File_PHP_Parser
 						break;
 				}
 			}
-			else if( !$data && preg_match( "/^\*\s+([^@].+)$/", $line, $matches ) )
-			{
-				$descLines[]	= $matches[1];
-			}
-			
+			else if( !$data && preg_match( "/^\*\s*([^@].+)?$/", $line, $matches ) )
+				$descLines[]	= isset( $matches[1] ) ? trim( $matches[1] ) : "";
 		}
-		$data['description']	= implode( "\n", $descLines );
+		$data['description']	= trim( implode( "\n", $descLines ) );
 		if( !isset( $data['throws'] ) )
 			$data['throws']	= array();
 		foreach( $data['throws'] as $throws )
@@ -278,40 +320,39 @@ class File_PHP_Parser
 				$list[]	= trim( $part );
 			$data['throws']	= $list;
 		}
-#		print_m( $data );
 		return $data;
 	}
 
+	/**
+	 *	Parses a Method Signature and returns Array of collected Information.
+	 *	@access		private
+	 *	@param		array		$matches		Matches of RegEx
+	 *	@param		array		$openBlocks		Doc Blocks opened before
+	 *	@return		array
+	 */
 	private function parseMethod( $matches, &$openBlocks )
 	{
-#		print_m( $matches );
 		$method	= $this->methodData;
 		$method['name']		= $matches[5];
 		$method['access']	= trim( $matches[3] );
-		if( $matches[1] )
-			$method['abstract']	= TRUE;
-		if( $matches[2] )
-			$method['final']	= TRUE;
-		if( $matches[4] )
-			$method['static']	= TRUE;
+		$method['abstract']	= (bool) $matches[1];
+		$method['final']	= (bool) $matches[2];
+		$method['static']	= (bool) $matches[4];
 		if( trim( $matches[6] ) )
 		{
-			$params		= explode( ",", $matches[6] );
 			$paramList	= array();
-			foreach( $params as $param )
+			foreach( explode( ",", $matches[6] ) as $param )
 			{
 				$param	 = trim( $param );
-#				remark( $param );
 				if( !preg_match( $this->regexParam, $param, $matches ) )
 					continue;
-#				print_m( $matches );
 				$param	= array(
 					'cast'		=> $matches[2],
 					'reference'	=> $matches[4] ? TRUE : FALSE,
 					'name'		=> $matches[5],
 				);
 				if( isset( $matches[6] ) )
-					$param['default']	= $matches[6];
+					$param['default']	= $matches[7];
 				$method['param'][$matches[5]] = $param; 
 			}
 		}
