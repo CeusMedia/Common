@@ -112,7 +112,7 @@ class Tests_File_RegexFilterTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals( $assertion, $creation );
 
 		$search	= "@".time()."@";
-		$filter	= new File_RegexFilter( $this->path, "@php$@", $search );
+		$filter	= new File_RegexFilter( $this->path, "@\.php3$@", $search );
 
 		$files	= array();
 		foreach( $filter as $entry )
