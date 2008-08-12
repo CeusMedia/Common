@@ -7,7 +7,7 @@
  *	@uses			RecursiveDirectoryIterator
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			15.04.2008
- *	@version		0.6a
+ *	@version		0.6
  */
 /**
  *	Iterates all Folders and Files recursive within a Folder.
@@ -17,7 +17,7 @@
  *	@uses			RecursiveDirectoryIterator
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			15.04.2008
- *	@version		0.6a
+ *	@version		0.6
  */
 class Folder_RecursiveIterator extends FilterIterator
 {
@@ -81,7 +81,12 @@ class Folder_RecursiveIterator extends FilterIterator
 		}
 		return TRUE;
 	}
-	
+
+	/**
+	 *	Returns Path to Folder to iterate.
+	 *	@access		public
+	 *	@return		string		Path to Folder to iterate
+	 */
 	public function getPath()
 	{
 		return $this->path;

@@ -5,7 +5,7 @@
  *	@extends		FilterIterator
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			15.04.2008
- *	@version		0.6a
+ *	@version		0.6
  */
 /**
  *	Iterates all Folders and Files within a Folder.
@@ -13,7 +13,7 @@
  *	@extends		FilterIterator
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			15.04.2008
- *	@version		0.6a
+ *	@version		0.6
  */
 class Folder_Iterator extends FilterIterator
 {

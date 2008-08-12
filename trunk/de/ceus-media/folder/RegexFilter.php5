@@ -1,20 +1,20 @@
 <?php
 /**
  *	Searchs for Folders by given RegEx Pattern (as File Name) in Folder.
- *	@package	file
- *	@extends	RegexIterator
- *	@author		Christian Würker <Christian.Wuerker@Ceus-Media.de>
- *	@since		09.06.2007
- *	@version	0.1
+ *	@package		folder
+ *	@extends		RegexIterator
+ *	@author			Christian Würker <Christian.Wuerker@Ceus-Media.de>
+ *	@since			09.06.2007
+ *	@version		0.6
  */
 /**
  *	Searchs for Folders by given RegEx Pattern (as File Name) in Folder.
- *	@package	file
- *	@extends	RegexIterator
- *	@author		Christian Würker <Christian.Wuerker@Ceus-Media.de>
- *	@since		09.06.2007
- *	@version	0.1
- *	@todo		Fix Error while comparing File Name to Current File with Path
+ *	@package		folder
+ *	@extends		RegexIterator
+ *	@author			Christian Würker <Christian.Wuerker@Ceus-Media.de>
+ *	@since			09.06.2007
+ *	@version		0.6
+ *	@todo			Fix Error while comparing File Name to Current File with Path
  */
 class Folder_RegexFilter extends RegexIterator
 {
@@ -29,8 +29,8 @@ class Folder_RegexFilter extends RegexIterator
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		string		$path		Path to seach in
-	 *	@param		string		$pattern	Regular Expression to match with File Name
+	 *	@param		string		$path				Path to seach in
+	 *	@param		string		$pattern			Regular Expression to match with File Name
 	 *	@param		bool		$showFiles			Flag: show Files
 	 *	@param		bool		$showFolders		Flag: show Folders
 	 *	@param		bool		$stripDotFolders	Flag: strip Folder with leading Dot

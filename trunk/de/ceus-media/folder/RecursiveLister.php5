@@ -12,7 +12,7 @@ import( 'de.ceus-media.folder.Lister' );
  *	@uses			Folder_RecursiveIterator
  *	@author			Christian Würker <Christian.Wuerker@Ceus-Media.de>
  *	@since			15.04.2008
- *	@version		0.6a
+ *	@version		0.6
  */
 /**
  *	Lists Folders and Files within a Folder recursive.
@@ -26,7 +26,7 @@ import( 'de.ceus-media.folder.Lister' );
  *	@uses			Folder_RecursiveIterator
  *	@author			Christian Würker <Christian.Wuerker@Ceus-Media.de>
  *	@since			15.04.2008
- *	@version		0.6a
+ *	@version		0.6
  */
 class Folder_RecursiveLister extends Folder_Lister
 {

@@ -108,7 +108,7 @@ class Net_Reader
 	/**
 	 *	Requests set URL and returns Response.
 	 *	@access		public
-	 *	@return		string
+	 *	@return		string		$curlOptions		Array of cURL Options
 	 *	@todo		Auth
 	 */
 	public function read( $curlOptions = array() )

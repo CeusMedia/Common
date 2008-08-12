@@ -4,7 +4,7 @@ import( 'de.ceus-media.adt.list.Dictionary' );
 /**
  *	Reader for Configuration Files of different Types.
  *	Supported File Types are CONF, INI, JSON, YAML and XML.
- *	@package		
+ *	@package		file.configuration
  *	@extends		ADT_List_LevelMap
  *	@uses			ADT_JSON_Converter
  *	@uses			File_Writer
@@ -18,7 +18,7 @@ import( 'de.ceus-media.adt.list.Dictionary' );
 /**
  *	Reader for Configuration Files of different Types.
  *	Supported File Types are CONF, INI, JSON, YAML and XML.
- *	@package		
+ *	@package		file.configuration
  *	@extends		ADT_List_LevelMap
  *	@uses			ADT_JSON_Converter
  *	@uses			File_Writer

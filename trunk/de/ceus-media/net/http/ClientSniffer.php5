@@ -7,8 +7,7 @@ import( 'de.ceus-media.net.http.MimeTypeSniffer' );
 import( 'de.ceus-media.net.http.OperatingSystemSniffer' );
 /**
  *	Combination of different Sniffers for HTTP Request to determine all information about the Client.
- *	@package		net
- *	@subpackage		http
+ *	@package		net.http
  *	@uses			Net_HTTP_BrowserSniffer
  *	@uses			Net_HTTP_CharsetSniffer
  *	@uses			Net_HTTP_EncodingSniffer
@@ -21,8 +20,7 @@ import( 'de.ceus-media.net.http.OperatingSystemSniffer' );
  */
 /**
  *	Combination of different Sniffers for HTTP Request to determine all information about the Client.
- *	@package		net
- *	@subpackage		http
+ *	@package		net.http
  *	@uses			Net_HTTP_BrowserSniffer
  *	@uses			Net_HTTP_CharsetSniffer
  *	@uses			Net_HTTP_EncodingSniffer

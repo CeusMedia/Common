@@ -2,8 +2,7 @@
 import( 'de.ceus-media.file.Reader' );
 /**
  *	Reader for Files with Text Block Contents, named by Section.
- *	@package		file
- *	@subpackage		block
+ *	@package		file.block
  *	@uses			File_Reader
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			19.12.2006
@@ -11,8 +10,7 @@ import( 'de.ceus-media.file.Reader' );
  */
 /**
  *	Reader for Files with Text Block Contents, named by Section.
- *	@package		file
- *	@subpackage		block
+ *	@package		file.block
  *	@uses			File_Reader
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			19.12.2006

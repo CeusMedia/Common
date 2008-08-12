@@ -2,8 +2,7 @@
 import( 'de.ceus-media.adt.OptionObject' );
 /**
  *	The DokuWiki parser.
- *	@package		ui
- *	@subpackage		html
+ *	@package		ui.html
  *	@extends		ADT_OptionObject
  *	@license		GPL 2 (http://www.gnu.org/licenses/gpl.html)
  *	@author			Andreas Gohr <andi@splitbrain.org>
@@ -13,8 +12,7 @@ import( 'de.ceus-media.adt.OptionObject' );
  */
 /**
  *	The DokuWiki parser.
- *	@package		ui
- *	@subpackage		html
+ *	@package		ui.html
  *	@extends		ADT_OptionObject
  *	@license		GPL 2 (http://www.gnu.org/licenses/gpl.html)
  *	@author			Andreas Gohr <andi@splitbrain.org>

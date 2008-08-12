@@ -5,8 +5,7 @@ import( 'de.ceus-media.xml.dom.FileReader' );
 import( 'de.ceus-media.xml.dom.FileWriter' );
 /**
  *	Storage with unlimited depth to store pairs of data in XML Files.
- *	@package		xml
- *	@subpackage		dom
+ *	@package		xml.dom
  *	@extends		ADT_OptionObject
  *	@uses			XML_DOM_Node
  *	@uses			XML_DOM_FileReader
@@ -16,8 +15,7 @@ import( 'de.ceus-media.xml.dom.FileWriter' );
  */
 /**
  *	Storage with unlimited depth to store pairs of data in XML Files.
- *	@package		xml
- *	@subpackage		dom
+ *	@package		xml.dom
  *	@extends		ADT_OptionObject
  *	@uses			XML_DOM_Node
  *	@uses			XML_DOM_FileReader

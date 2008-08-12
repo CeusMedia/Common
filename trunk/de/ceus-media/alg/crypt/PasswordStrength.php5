@@ -1,14 +1,14 @@
 <?php
 /**
  *	Calculates a Score for the Strength of a Password.
- *	@package		alg
+ *	@package		alg.crypt
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			14.02.2008
  *	@version		0.1
  */
 /**
  *	Calculates a Score for the Strength of a Password.
- *	@package		alg
+ *	@package		alg.crypt
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			14.02.2008
  *	@version		0.1
