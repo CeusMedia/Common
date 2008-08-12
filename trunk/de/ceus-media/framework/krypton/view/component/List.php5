@@ -64,6 +64,18 @@ class Framework_Krypton_View_Component_List
 	}
 	
 	/**
+	 *	Adds a Component by Name and Arguments.
+	 * 	@access		public
+	 *	@param		string		$name			Name of Component
+	 *	@param		array		$arguments		Component Arguments
+	 *	@return		void
+	 */
+	public function __call( $component, $arguments )
+	{
+		$this->logic->addComponent( $component, $arguments );
+	}
+
+	/**
 	 *	Adds an Actions by Name and Label.
 	 * 	@access		public
 	 *	@param		array		$actions		Associative Array of Action Names and Labels
@@ -150,12 +162,12 @@ class Framework_Krypton_View_Component_List
 			$ui['paging']	= $this->buildPaging( $count );
 			$i = 0;
 			$items	= array();
-			$transformator	= $this->transformator[0];
-			$method	= $this->transformator[1];
+			$transformatorObject	= $this->transformator[0];
+			$transformatorMethod	= $this->transformator[1];
 			$list	= $this->logic->getList( $dbc, $verbose );
 			foreach( $list as $entry )
 			{
-				$item = $transformator->$method( $entry, $this->link );
+				$item = $transformatorObject->$transformatorMethod( $entry, $this->link );
 				$item['style']	= ++$i % 2 ? 'list1' : 'list2';
 				$items[]	= $this->view->loadTemplate( $this->templates[1], $item );
 			}
@@ -291,6 +303,12 @@ class Framework_Krypton_View_Component_List
 	 */
 	public function setTransformator( $object, $method )
 	{
+		if( !is_object( $object ) )
+		{
+			if( !class_exists( $object ) )
+				throw new RuntimeException( 'Transformator Class "'.$object.'" has not been loaded.' );
+			$object	= new $object();
+		}
 		$this->transformator	= array( $object, $method );	
 	}
 	
