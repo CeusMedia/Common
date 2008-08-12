@@ -16,6 +16,7 @@ import( 'de.ceus-media.ui.html.Elements' );
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			15.04.2008
  *	@version		0.1
+ *	@todo			Code Doc
  */
 class Folder_CodeLineCounter
 {

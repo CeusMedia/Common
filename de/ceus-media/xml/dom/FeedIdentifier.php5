@@ -3,8 +3,7 @@ import( 'de.ceus-media.file.Reader' );
 import( 'de.ceus-media.xml.dom.Parser' );
 /**
  *	Identifies Type and Version of RSS and ATOM Feeds.
- *	@package		xml
- *	@subpackage		dom
+ *	@package		xml.dom
  *	@uses			File
  *	@uses			XML_DOM_Parser
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
@@ -13,8 +12,7 @@ import( 'de.ceus-media.xml.dom.Parser' );
  */
 /**
  *	Identifies Type and Version of RSS and ATOM Feeds.
- *	@package		xml
- *	@subpackage		dom
+ *	@package		xml.dom
  *	@uses			File
  *	@uses			XML_DOM_Parser
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>

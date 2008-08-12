@@ -4,7 +4,7 @@ import( 'de.ceus-media.database.Result' );
 import( 'de.ceus-media.database.Row' );
 /**
  *	Wrapper for MS SQL Database Connection with Transaction Support.
- *	@package		database.mysql
+ *	@package		database.mssql
  *	@extends		Database_BaseConnection
  *	@uses			Database_Result
  *	@uses			Database_Row
@@ -13,7 +13,7 @@ import( 'de.ceus-media.database.Row' );
  */
 /**
  *	Wrapper for MS SQL Database Connection with Transaction Support.
- *	@package		database.mysql
+ *	@package		database.mssql
  *	@extends		Database_BaseConnection
  *	@uses			Database_Result
  *	@uses			Database_Row

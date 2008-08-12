@@ -10,7 +10,7 @@ import( 'de.ceus-media.folder.Reader' );
  *	@extends	 	Folder_Reader
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			15.04.2008
- *	@version		0.1
+ *	@version		0.6
  */
 /**
  *	Editor for Folders.
@@ -22,7 +22,7 @@ import( 'de.ceus-media.folder.Reader' );
  *	@extends	 	Folder_Reader
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			15.04.2008
- *	@version		0.1
+ *	@version		0.6
  */
 class Folder_Editor extends Folder_Reader
 {

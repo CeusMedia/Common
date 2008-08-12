@@ -25,6 +25,8 @@ class UI_HTML_TreeView
 	protected $baseUrl;
 	/**	@var		string		$queryKey			Query Key for linked Items */
 	protected $queryKey;
+	
+	protected $target			= "";
 
 	/**
 	 *	Constructor.
@@ -82,6 +84,7 @@ class UI_HTML_TreeView
 	 */
 	public function constructTree( ArrayObject $nodes, $currentId = NULL, $attributes = array(), $level = 0, $path = "" )
 	{
+		$target	= $this->target ? $this->target : NULL;
 		$list	= array();
 		foreach( $nodes as $node )
 		{
@@ -102,7 +105,7 @@ class UI_HTML_TreeView
 			if( $node['linked'] )																			//  linked Item
 			{
 				$url	= $this->baseUrl.$this->queryKey.$node['id'];										//  generate URL
-				$link	= UI_HTML_Elements::Link( $url, $node['label'], $linkClass );						//  generate Link Tag
+				$link	= UI_HTML_Elements::Link( $url, $node['label'], $linkClass, $target );				//  generate Link Tag
 				$label	= $link;																			//  linked Nodes have no Span Container
 				if( $node['type'] == "leaf" )																//  linked Leafes have a Span Container
 					$label	= UI_HTML_Tag::create( "span", $link, array( 'class' => $node['class'] ) );
@@ -120,6 +123,11 @@ class UI_HTML_TreeView
 		if( count( $list ) )
 			return UI_HTML_Elements::unorderedList( $list, $level, $attributes );
 		return "";
+	}
+	
+	public function setTarget( $target )
+	{
+		$this->target	= $target;
 	}
 }
 ?>

@@ -3,8 +3,7 @@ import( 'de.ceus-media.alg.Randomizer' );
 import( 'de.ceus-media.file.Writer' );
 /**
  *	Simple CAPTCHA Generator.
- *	@package		ui
- *	@subpackage		image
+ *	@package		ui.image
  *	@uses			Alg_Randomizer
  *	@uses			File_Writer
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
@@ -13,8 +12,7 @@ import( 'de.ceus-media.file.Writer' );
  */
 /**
  *	Simple CAPTCHA Generator.
- *	@package		ui
- *	@subpackage		image
+ *	@package		ui.image
  *	@uses			Alg_Randomizer
  *	@uses			File_Writer
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
