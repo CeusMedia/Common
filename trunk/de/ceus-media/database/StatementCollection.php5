@@ -139,7 +139,7 @@ class Database_StatementCollection
 	 */
 	public function groupBy( $column )
 	{
-		$this->addGrouping( $column );
+		$this->builder->addGrouping( $column );
 	}
 
 	/**
