@@ -85,7 +85,7 @@ class ConsoleApplication extends Framework_Krypton_Base
 		}
 		catch( Exception $e )
 		{
-			$this->logException( $e, $className, $verbose );
+			self::logException( $e, $className, $verbose );
 		}
 		if( $verbose )
 			echo "\n";

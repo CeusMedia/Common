@@ -193,7 +193,8 @@ abstract class Framework_Krypton_Base
 			$dbc->setLogFile( $statementLogFile );
 
 		//  --  DATABASE ATTRIBUTES  --  //
-		foreach( $config['database.attributes'] as $key => $value )
+		$attributes	= $config['database.attributes'];
+		foreach( $attributes as $key => $value )
 			$dbc->setAttribute( constant( "PDO::".$key ), eval( "return ".$value.";" ) );
 		
 		$config['config.table_prefix']	= $prefix;
