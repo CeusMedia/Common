@@ -76,6 +76,7 @@ class Net_Service_Client
 	{
 		//  --  CHECK EXCEPTION  --  //
 		ob_start();
+		$response	= stripslashes( $response );
 		$exception	= unserialize( $response );
 		ob_get_clean();
 		if( $exception && $exception instanceof Exception )
@@ -217,14 +218,16 @@ class Net_Service_Client
 
 		//  cURL POST Hack (cURL identifies leading @ in Values as File Upload  //
 		foreach( $data as $key => $value )
-			if( substr( $value, 0, 1 ) == "@" )
+			if( is_string( $value ) && substr( $value, 0, 1 ) == "@" )
 				$data[$key]	= "\\".$value;
+			else if( is_array( $value ) )
+				$data[$key]	= serialize( $value );
 
 		$data['clientRequestSessionId']	= $this->id;							//  adding Client Request Session ID
 
 		$st			= new StopWatch;
 		$request	= new Net_cURL( $baseUrl );
-		$request->setOption( CURLOPT_POST, 1);
+		$request->setOption( CURLOPT_POST, TRUE );
 		$request->setOption( CURLOPT_POSTFIELDS, $data );
 		$response	= $this->executeRequest( $request );
 		if( $this->logFile )
