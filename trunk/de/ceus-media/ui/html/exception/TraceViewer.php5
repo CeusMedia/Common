@@ -93,7 +93,9 @@ class UI_HTML_Exception_TraceViewer
 		if( $breakMode == 1 )
 			$funcBreak	= "<br/>";
 
-		$content	= "#$j ".$trace["file"]."(".$trace["line"]."): ".$funcBreak;
+		$content	= "#$j ";
+		if( isset( $trace["file"] ) )
+			$content	.= $trace["file"]."(".$trace["line"]."): ".$funcBreak;
 		if( array_key_exists( "class", $trace ) && array_key_exists( "type", $trace ) )
 			$content	.= $indent.$trace["class"].$trace["type"];
 		if( array_key_exists( "function", $trace ) )

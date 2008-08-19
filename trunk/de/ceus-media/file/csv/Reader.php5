@@ -130,6 +130,8 @@ class File_CSV_Reader
 			$keys	= explode( $this->separator, trim( $line ) );
 			foreach( $lines as $line )
 			{
+				if( !trim( $line ) )
+					continue;
 				$c++;
 				$values	= explode( $this->separator, trim( $line ) );
 				if( count( $values ) != count( $keys ) )

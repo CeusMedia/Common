@@ -49,6 +49,7 @@ class File_Css_Combiner
 			$this->statistics['fileList'][]	= $fileName;
 
 			$content	= file_get_contents( $path.$fileName );
+			$content	= $this->reviseStyle( $content );
 			$this->statistics['fileCount']	++;
 			$this->statistics['size']		+= strlen( $content );
 //			$depth	= substr
@@ -60,6 +61,17 @@ class File_Css_Combiner
 		}
 		$content	= implode( "\n", $list );
 		$this->statistics['combined']	= strlen( $content );
+		return $content;
+	}
+	
+	/**
+	 *	Callback Method for additional Modifikations before Combination.
+	 *	@access		protected
+	 *	@param		string		$content		Content of Style File
+	 *	@return		string		Revised Content of Style File
+	 */
+	protected function reviseStyle( $content )
+	{
 		return $content;
 	}
 
