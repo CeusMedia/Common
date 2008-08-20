@@ -81,31 +81,44 @@ class Framework_Krypton_View_Component_DevCenter extends Framework_Krypton_Core_
 	}
 
 	/**
-	 *	Creates readable Dump of a Variable, either with print_m or var_dump, depending on printMode
+	 *	Creates readable Dump of a Variable, either with print_m or var_dump, depending on printMode and installed XDebug Extension
+	 *
+	 *	The custom method print_m creates lots of DOM Elements.
+	 *	Having to much DOM Elements can be avoided by using var_dump, which now is called Print Mode.
+	 *	But since XDebug extends var_dump it creates even way more DOM Elements.
+	 *	So, you should use Print Mode and it will be disabled if XDebug is detected.
+	 *	However, you can force to use Print Mode.
+	 *
 	 *	@access		protected
 	 *	@param		mixed		$element		Variable to be dumped
+	 *	@param		bool		$forcePrintMode	Flag: force to use var_dump even if XDebug is enabled (not recommended)
 	 *	@return		string
 	 */
-	protected function dumpVar( $element )
+	protected function dumpVar( $element, $forcePrintMode = FALSE )
 	{
 		ob_start();																	//  open Buffer
-		if( $this->printMode )														//  Print Mode: var_dump
+		$hasXDebug	= extension_loaded( 'xdebug' );									//  check for XDebug Extension
+		$printMode	= $this->printMode && ( !$hasXDebug || $forcePrintMode );		//  evaluate Print Mode
+		if( $printMode )															//  Print Mode: var_dump WITHOUT XDEBUG EXTENSION
 		{
 			var_dump( $element );													//  print  Variable Dump
-			$dump	= ob_get_clean();												//  get buffered Dump
-			$dump	= preg_replace( "@=>\n +@", ": ", $dump );						//  remove Line Break on Relations
-			$dump	= str_replace( "{\n", "\n", $dump );							//  remove Array Opener
-			$dump	= str_replace( "}\n", "\n", $dump );							//  remove Array Closer
-			$dump	= str_replace( ' ["', " ", $dump );								//  remove Variable Key Opener
-			$dump	= str_replace( '"]:', ":", $dump );								//  remove Variable Key Closer
-			$dump	= preg_replace( '@string\([0-9]+\)@', "", $dump );				//  remove Variable Type for Strings
-			$dump	= preg_replace( '@array\([0-9]+\)@', "", $dump );				//  remove Variable Type for Arrays
-			ob_start();																//  open Buffer
-			xmp( $dump );															//  print Dump with XMP
+			if( !$hasXDebug )
+			{
+				$dump	= ob_get_clean();												//  get buffered Dump
+				$dump	= preg_replace( "@=>\n +@", ": ", $dump );						//  remove Line Break on Relations
+				$dump	= str_replace( "{\n", "\n", $dump );							//  remove Array Opener
+				$dump	= str_replace( "}\n", "\n", $dump );							//  remove Array Closer
+				$dump	= str_replace( ' ["', " ", $dump );								//  remove Variable Key Opener
+				$dump	= str_replace( '"]:', ":", $dump );								//  remove Variable Key Closer
+				$dump	= preg_replace( '@string\([0-9]+\)@', "", $dump );				//  remove Variable Type for Strings
+				$dump	= preg_replace( '@array\([0-9]+\)@', "", $dump );				//  remove Variable Type for Arrays
+				ob_start();																//  open Buffer
+				xmp( $dump );															//  print Dump with XMP
+			}
 		}
 		else																		//  Print Mode: print_m
 		{
-			print_m( $element, ".", 2 );											//  print Dump with 2 Dots as Indent Space
+			print_m( $element, ". ", 2 );											//  print Dump with 2 Dots as Indent Space
 		}
 		return ob_get_clean();														//  return buffered Dump
 	}
