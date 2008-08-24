@@ -81,7 +81,7 @@ class Net_Service_Handler
 			}
 			$response	= $this->servicePoint->callService( $service, $format, $requestData );
 			$errors		= ob_get_clean();
-			if( $errors )
+			if( trim( $errors ) )
 				throw new RuntimeException( $errors );
 			return $this->sendResponse( $requestData, $response, $format );
 		}

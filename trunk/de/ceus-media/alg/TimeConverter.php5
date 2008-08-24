@@ -10,6 +10,7 @@
  *	@package		alg
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.5
+ *	@todo			revise, internationalise
  */
 class Alg_TimeConverter
 {
@@ -150,14 +151,15 @@ class Alg_TimeConverter
 	 */
 	public static function convertToHuman( $timestamp, $format )
 	{
+		$human	= NULL;
 		if( $format == "date" )
-			$human = date( "d.m.Y", (int)$timestamp );
+			$human = date( "d.m.Y", (int) $timestamp );
 		else if( $format == "monthdate" )
-			$human = date( "m.Y", (int)$timestamp );
+			$human = date( "m.Y", (int) $timestamp );
 		else if( $format == "time" )
-			$human = date( "H:i:s", (int)$timestamp );
+			$human = date( "H:i:s", (int) $timestamp );
 		else if( $format == "datetime" )
-			$human = date( "d.m.Y - H:i:s", (int)$timestamp );
+			$human = date( "d.m.Y - H:i:s", (int) $timestamp );
 		else if( $format == "duration" )
 		{
 			$hours	= str_pad( floor( $timestamp / 3600 ), 2, 0, STR_PAD_LEFT );
