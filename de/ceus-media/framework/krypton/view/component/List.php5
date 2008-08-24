@@ -131,7 +131,8 @@ class Framework_Krypton_View_Component_List
 			}
 			$limit	= $session->get( $this->limitKey );
 			$offset	= $session->get( $this->offsetKey );
-			$this->logic->addComponent( 'Limit', array( $offset, $limit ) );
+			$this->logic->setLimit( $limit );
+			$this->logic->setOffset( $offset );
 			if( $count > $limit && isset( $this->templates[2] ))
 			{
 				$pages	= $this->view->buildPaging( $count, $limit, $offset, $this->pagingOptions );
