@@ -62,11 +62,13 @@ class Net_Service_Handler
 		if( empty( $requestData['service'] ) )
 			throw new InvalidArgumentException( 'No Service Name given.' );
 
+
 		//  --  CALL SERVICE  --  //
 		$service	= $requestData['service'];
 		try
 		{
 			$format		= ( isset( $requestData['format'] ) && $requestData['format'] ) ? $requestData['format'] : $this->servicePoint->getDefaultServiceFormat( $service );
+			$serializeException	= strtolower( $format ) == "php";
 			ob_start();
 			
 			if( isset( $requestData['argumentsGivenByServiceCaller'] ) )
@@ -93,8 +95,15 @@ class Net_Service_Handler
 			$response	= $e->getMessage();
 			return $this->sendResponse( $requestData, $response );
 		}
+		catch( PDOException $e )
+		{
+			import( 'de.ceus-media.ui.html.exception.TraceViewer' );
+			$response	= UI_HTML_Exception_TraceViewer::buildTrace( $e, 2 );
+			return $this->sendResponse( $requestData, $response );
+		}
 		catch( Exception $e )
 		{
+			$response	= $e->getMessage();
 			if( isset( $requestData['showExceptions'] ) )
 			{
 				import( 'de.ceus-media.ui.html.exception.TraceViewer' );
@@ -102,8 +111,6 @@ class Net_Service_Handler
 			}
 			else if( $serializeException )
 				$response	= serialize( $e );
-			else
-				$response	= $e->getMessage();
 			return $this->sendResponse( $requestData, $response );
 		}
 	}

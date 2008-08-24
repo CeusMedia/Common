@@ -74,16 +74,7 @@ class Net_Service_Client
 	 */
 	protected function decodeResponse( $response, $format )
 	{
-		//  --  CHECK EXCEPTION  --  //
-		ob_start();
-		$response	= stripslashes( $response );
-		$exception	= unserialize( $response );
-		ob_get_clean();
-		if( $exception && $exception instanceof Exception )
-			throw $exception;
-
 		//  --  DECODE SERIALS  --  //
-		ob_start();
 		switch( $format )
 		{
 			case 'json':
@@ -91,6 +82,8 @@ class Net_Service_Client
 				break;
 			case 'php':
 				$response	= unserialize( $response );
+				if( $response && $response instanceof Exception )
+					throw $response;
 				break;
 			case 'wddx':
 				$response	= wddx_deserialize( $response );
