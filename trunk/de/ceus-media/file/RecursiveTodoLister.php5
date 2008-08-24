@@ -21,7 +21,7 @@ import( 'de.ceus-media.file.RecursiveRegexFilter' );
  */
 class File_RecursiveTodoLister extends File_TodoLister
 {
-	protected function getIndexIterator( $path, $filePattern, $contentPattern )
+	protected function getIndexIterator( $path, $filePattern, $contentPattern = NULL )
 	{
 		return new File_RecursiveRegexFilter( $path, $filePattern, $contentPattern );
 	}
