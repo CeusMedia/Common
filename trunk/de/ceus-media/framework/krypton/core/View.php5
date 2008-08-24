@@ -81,9 +81,6 @@ class Framework_Krypton_Core_View extends Framework_Krypton_Core_Component
 		$paging->setOption( 'uri', self::$baseUrl );
 		$paging->setOption( 'param', array( 'link'	=> $link ) );
 		$paging->setOption( 'indent', "" );
-		$paging->setOption( 'class_link', 'paging' );
-		$paging->setOption( 'class_span', 'paging' );
-		$paging->setOption( 'class_text', 'text' );
 
 		foreach( $optionMap as $key => $value )
 		{
