@@ -162,6 +162,9 @@ class Framework_Krypton_Core_DefinitionView extends Framework_Krypton_Core_View
 				$values[$field]	= "";
 			if( !$values[$field] && $value	= $request->get( $data['input']['name'] ) )
 				$values[$field]	= $value;
+
+			if( $data['syntax']['mandatory'] )
+				$data['input']['style']	.= " mandatory";
 			if( $data['input']['type'] == "select" )
 			{
 //				$disabled	= ( isset( $data['input']['disabled'] ) && $data['input']['disabled'] ) ? 'disabled' : false;
