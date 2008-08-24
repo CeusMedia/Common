@@ -25,9 +25,9 @@ class File_Unicoder
 	 *	@param		bool		$force		Flag: encode into UTF-8 even if UTF-8 Encoding has been detected
 	 *	@return		void
 	 */
-	public function __construct( $fileName, $force = false )
+	public function __construct( $fileName, $force = FALSE )
 	{
-		return self::convertToUnicode( $fileName, $force = false );
+		return self::convertToUnicode( $fileName, $force = FALSE );
 	}
 
 	/**
@@ -52,7 +52,7 @@ class File_Unicoder
 	 *	@param		bool		$force		Flag: encode into UTF-8 even if UTF-8 Encoding has been detected
 	 *	@return		bool
 	 */
-	public static function convertToUnicode( $fileName, $force = false )
+	public static function convertToUnicode( $fileName, $force = FALSE )
 	{
 		if( !(!$force && self::isUnicode( $fileName ) ) )
 		{
@@ -60,7 +60,7 @@ class File_Unicoder
 			$unicoded	= Alg_StringUnicoder::convertToUnicode( $string );
 			return (bool) file_put_contents( $fileName, $unicoded );
 		}
-		return false;
+		return FALSE;
 	}
 	
 #	public function convert()

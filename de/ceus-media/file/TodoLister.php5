@@ -18,17 +18,19 @@ import( 'de.ceus-media.file.RegexFilter' );
  */
 class File_TodoLister
 {
-	/**	@var		int			$count			Total Number of scanned Files */
-	protected $count			= 0;
-	/**	@var		int			$files			Number of found Files */
-	protected $files			= 0;
-	/**	@var		int			$found			Number of matching Files */
-	protected $found			= 0;
+	/**	@var		int			$numberFound	Number of matching Files */
+	protected $numberFound		= 0;
+	/**	@var		int			$numberLines	Number of scanned Lines in matching Files */
+	protected $numberLines		= 0;
+	/**	@var		int			$numberScanned	Total Number of scanned Files */
+	protected $numberScanned	= 0;
+	/**	@var		int			$numberTodos	Number of found Todos */
+	protected $numberTodos		= 0;
 	/**	@var		string		$extension		Default File Extension */
 	protected $extension		= "php5";
 	/**	@var		array		$extensions		Other File Extensions */
 	protected $extensions		= array();
-	/**	@var		array		$list			List of found Files */
+	/**	@var		array		$list			List of numberFound Files */
 	protected $list				= array();
 	/**	@var		string		$pattern		Default Pattern */
 	protected $pattern			= "@todo";
@@ -50,16 +52,6 @@ class File_TodoLister
 		$this->extensions	= $additionalExtensions;
 		$this->patterns		= $additionalPatterns;
 	}
-
-	/**
-	 *	Returns Number of scanned Files.
-	 *	@access		public
-	 *	@return		int
-	 */
-	public function getCount()
-	{
-		return $this->count;
-	}
 	
 	private function getExtendedPattern( $member = "pattern" )
 	{
@@ -74,7 +66,7 @@ class File_TodoLister
 			$pattern	= "(".implode( "|", $list2 ).")";
 		if( $member == "extension" )
 			$pattern	.= "$";
-		$pattern	= "/".$pattern."/";
+		$pattern	= "%".$pattern."%";
 		return $pattern;
 	}
 	
@@ -84,32 +76,52 @@ class File_TodoLister
 	}
 
 	/**
-	 *	Returns Number of found Files.
-	 *	@access		public
-	 *	@return		int
-	 */
-	public function getFiles()
-	{
-		return $this->files;
-	}
-
-	/**
 	 *	Returns Number of matching Files.
 	 *	@access		public
 	 *	@return		int
 	 */
-	public function getFound()
+	public function getNumberFound()
 	{
-		return $this->found;
+		return $this->numberFound;
 	}
-	
+
+	/**
+	 *	Returns Number of scanned Lines in matching Files.
+	 *	@access		public
+	 *	@return		int
+	 */
+	public function getNumberLines()
+	{
+		return $this->numberLines;
+	}
+
+	/**
+	 *	Returns Number of scanned Files.
+	 *	@access		public
+	 *	@return		int
+	 */
+	public function getNumberScanned()
+	{
+		return $this->numberScanned;
+	}
+
+	/**
+	 *	Returns Number of found Todos.
+	 *	@access		public
+	 *	@return		int
+	 */
+	public function getNumberTodos()
+	{
+		return $this->numberTodos;
+	}
+
 	protected function getPattern()
 	{
 		return $this->getExtendedPattern();
 	}
 	
 	/**
-	 *	Returns Array of found Files.
+	 *	Returns Array of numberFound Files.
 	 *	@access		public
 	 *	@param		bool		$full		Flag: Return Path Name, File Name and Content also
 	 *	@return		array
@@ -124,9 +136,9 @@ class File_TodoLister
 		return $list;
 	}
 
-	protected function getIndexIterator( $path, $filePattern, $contentPattern )
+	protected function getIndexIterator( $path, $filePattern )
 	{
-		return new File_RegexFilter( $path, $filePattern, $contentPattern );
+		return new File_RegexFilter( $path, $filePattern );
 	}
 
 	/**
@@ -136,23 +148,38 @@ class File_TodoLister
 	 */
 	public function scan( $path )
 	{
-		$this->count	= 0;
-		$this->found	= 0;
+		$this->numberFound		= 0;
+		$this->numberScanned	= 0;
+		$this->numberTodos		= 0;
+		$this->numberLines		= 0;
 		$this->list		= array();
 		$extensions		= $this->getExtensionPattern(); 
-		$pattern		= $this->getPattern();
-		$iterator		= $this->getIndexIterator( $path, $extensions, $pattern );
+		$pattern		= $this->getExtendedPattern();
+		$iterator		= $this->getIndexIterator( $path, $extensions );
 		foreach( $iterator as $entry )
 		{
-			$this->found++;
+			$this->numberScanned++;
 			$content	= file_get_contents( $entry->getPathname() );
+			$lines		= explode( "\n", $content );
+			$i			=0;
+			$list		= array();
+			foreach( $lines as $line )
+			{
+				$this->numberLines++;
+				$i++;
+				if( !preg_match( $pattern, $line ) )
+					continue;
+				$this->numberTodos++;
+				$list[$i]	= trim( $line );
+			}
+			if( !$list )
+				continue;
+			$this->numberFound++;
 			$this->list[$entry->getPathname()]	= array(
 				'fileName'	=> $entry->getFilename(),
-				'content'	=> $content,
+				'lines'		=> $list,
 			);
 		}
-		$this->files	= $finder->getFiles();
-		$this->count	= $finder->getCount();
 	}
 }
 ?>
