@@ -63,7 +63,9 @@ class Net_Service_ParameterValidator
 	 */
 	protected static function checkMandatory( $value )
 	{
-		if( strlen( $value ) )
+		if( is_string( $value ) && strlen( $value ) )
+			return TRUE;
+		else if( is_array( $value ) && count( $value ) )
 			return TRUE;
 		return FALSE;
 	}
@@ -103,6 +105,24 @@ class Net_Service_ParameterValidator
 	protected static function checkPreg( $value, $measure )
 	{
 		return preg_match( $measure, $value );
+	}
+
+	/**
+	 *	...
+	 *	@access		protected
+	 *	@param		string		$value			Value to validate
+	 *	@return		bool
+	 */
+	protected static function checkType( $value, $measure )
+	{
+		$type	= gettype( $value );
+		if( $type == $measure )
+			return TRUE;
+		switch( $measure )
+		{
+			case 'boolean':	return $value == NULL;
+		}
+		return FALSE;
 	}
 }
 ?>

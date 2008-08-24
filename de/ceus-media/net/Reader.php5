@@ -52,9 +52,9 @@ class Net_Reader
 	/**	@var		string		$password		Password for Basic Authentication */
 	private $password			= "";
 	/**	@var		bool		$verifyHost		Flag: verify Host */
-	private $verifyHost 		= false;
+	private $verifyHost 		= FALSE;
 	/**	@var		bool		$verifyPeer		Flag: verify Peer */
-	private $verifyPeer			= false;
+	private $verifyPeer			= FALSE;
 
 	/**
 	 *	Constructor.
@@ -115,14 +115,12 @@ class Net_Reader
 	{
 		$curl		= new Net_cURL( $this->url );
 
+		$curl->setOption( CURLOPT_SSL_VERIFYHOST, $this->verifyHost );
+		$curl->setOption( CURLOPT_SSL_VERIFYPEER, $this->verifyPeer );
 		if( self::$userAgent )
 			$curl->setOption( CURLOPT_USERAGENT, self::$userAgent );
 		if( $this->username )
 			$curl->setOption( CURLOPT_USERPWD, $this->username.":".$this->password );
-		if( $this->verifyHost )
-			$curl->setOption( CURLOPT_SSL_VERIFYHOST, $this->verifyHost );
-		if( $this->verifyPeer )
-			$curl->setOption( CURLOPT_SSL_VERIFYPEER, $this->verifyPeer );
 
 		foreach( $curlOptions as $key => $value )
 		{

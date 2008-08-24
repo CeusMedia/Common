@@ -10,6 +10,9 @@ import( 'de.ceus-media.ui.DevOutput' );
 import( 'de.ceus-media.ui.html.exception.TraceViewer' );
 class UI_HTML_Service_Test
 {
+	protected $username;
+	protected $password;
+
 	public function __construct( Net_Service_Point $servicePoint )
 	{
 		$this->servicePoint		= $servicePoint;
@@ -21,10 +24,35 @@ class UI_HTML_Service_Test
 		$format		= isset( $request['parameter_format'] ) ? $request['parameter_format'] : NULL;
 		$url		= "";
 		$response	= "";
-		$parameters	= $this->getParameterFields( $service, $format, $request );
-		$url		= $this->getRequestUrl( $request );
-		$response	= $this->getResponse( $url, $format );
+		
+		$requestUrl		= $this->getRequestUrl( $request );
+		$testUrl		= $this->getTestUrl( $request );
+		try
+		{
+			$response	= $this->getResponse( $requestUrl, $format );
+			$parameters	= $this->getParameterFields( $service, $format, $request );
+		}
+		catch( Exception $e )
+		{
+			$response	= UI_HTML_Exception_TraceViewer::buildTrace( $e );
+			$parameters	= array();
+		}
 		return require_once( $this->template );
+	}
+
+	private function getBaseUrl()
+	{
+		if( $referrer = getEnv( 'HTTP_REFERER' ) )
+			extract( parse_url( $referrer ) );
+		else
+		{
+			$path	= dirname( getEnv( 'REQUEST_URI' ) );
+			$path	= preg_replace( "@^(.*)/?$@", "\\1/", $path );
+			$host	= getEnv( 'HTTP_HOST' );
+			$scheme	= getEnv( 'HTTPS' ) ? "https" : "http";
+		}
+		$url	= $scheme."://".$host.$path;
+		return $url;
 	}
 
 	private function getParameterFields( $service, $format, $request )
@@ -69,24 +97,32 @@ class UI_HTML_Service_Test
 		return $list;
 	}
 
-	private function getRequestUrl( $request )
+	private function getParametersFromRequest( $request )
 	{
 		$pairs		= is_a( $request, "ADT_List_Dictionary" ) ? $request->getAll() : $request;
 		$parameters	= array();
 		foreach( $pairs as $key => $value )
 			if( preg_match( "@^parameter_@", $key ) )
 				$parameters[preg_replace( "@^parameter_@", "", $key)]	= $value;
+		return $parameters;
+	}
 
+	private function getRequestUrl( $request )
+	{
+		$parameters	= $this->getParametersFromRequest( $request );
 		$query	= http_build_query( $parameters, '', "&" );
 
-		$url	= parse_url( getEnv( 'HTTP_REFERER' ) );
-		$url	= $url['scheme']."://".$url['host'].$url['path']."?service=".$request['test']."&".$query;
+		$url	= $this->getBaseUrl();
+		$url	.= "?service=".$request['test']."&".$query;
 		return $url;
 	}
 
 	private function getResponse( $url, $format )
 	{
-		$response	= Net_Reader::readUrl( $url );
+		$reader		= new Net_Reader( $url );
+		$reader->setBasicAuth( $this->username, $this->password );
+		
+		$response	= $reader->read();
 		$exception	= @unserialize( $response );
 		if( $exception && is_a( $exception, "Exception" ) )
 			return UI_HTML_Exception_TraceViewer::buildTrace( $exception );
@@ -110,6 +146,18 @@ class UI_HTML_Service_Test
 		}
 		return $response;
 	}
+
+	private function getTestUrl( $request )
+	{
+		$parameters	= is_a( $request, "ADT_List_Dictionary" ) ? $request->getAll() : $request;
+		unset( $parameters['test'] );
+		unset( $parameters['call'] );
+		$query	= http_build_query( $parameters, '', "&" );
+
+		$url	= $this->getBaseUrl();
+		$url	.= "?test=".$request['test']."&".$query;
+		return $url;
+	}
 	
 	public function setTemplate( $fileName )
 	{
@@ -119,6 +167,12 @@ class UI_HTML_Service_Test
 	public function setTableClass( $className )
 	{
 		$this->tableClass	= $className;
+	}
+	
+	public function setAuth( $username, $password )
+	{
+		$this->username	= $username;
+		$this->password	= $password;
 	}
 }
 ?>

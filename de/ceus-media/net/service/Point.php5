@@ -78,9 +78,15 @@ class Net_Service_Point implements Net_Service_Interface_Point
 		
 		if( isset( $this->services['services'][$serviceName]['parameters'] ) )
 		{
-			$names	= array_keys( $this->services['services'][$serviceName]['parameters'] );
-			foreach( $names as $name )
-				$parameters[$name]	= isset( $requestData[$name] ) ? $requestData[$name] : NULL;
+			$names	= $this->services['services'][$serviceName]['parameters'];
+			foreach( $names as $name => $rules )
+			{
+				$parameters[$name]	= NULL;
+				if( isset( $requestData[$name] ) )
+					$parameters[$name]	= $requestData[$name];
+				else if( isset( $rules['type'] ) )
+					$parameters[$name]	= $this->getDefaultParameterType( $rules['type'] );
+			}
 		}
 		
 		$class		= $this->services['services'][$serviceName]['class'];
@@ -98,7 +104,7 @@ class Net_Service_Point implements Net_Service_Interface_Point
 	protected function checkServiceDefinition( $serviceName )
 	{
 		if( !isset( $this->services['services'][$serviceName] ) )
-			throw new ServiceException( 'Service "'.$serviceName.'" is not existing.' );
+			throw new NetServiceException( 'Service "'.$serviceName.'" is not existing.' );
 		if( !isset( $this->services['services'][$serviceName]['class'] ) )
 			throw new Exception( 'No Service Class definied for Service "'.$serviceName.'".' );
 	}
@@ -155,7 +161,15 @@ class Net_Service_Point implements Net_Service_Interface_Point
 		{
 			if( !$rules )
 				continue;
-			$parameter	= isset( $parameters[$field] ) ? $parameters[$field] : NULL;
+			if( isset( $parameters[$field] ) )
+				$parameter	= $parameters[$field];
+			else
+			{
+				$type	 = NULL;
+				if( isset( $rules['type'] ) )
+					$type	= $this->getDefaultParameterType( $rules['type'] );
+				$parameter	= $type;
+			}
 			try
 			{
 				$this->validator->validateParameterValue( $rules, $parameter );
@@ -165,6 +179,26 @@ class Net_Service_Point implements Net_Service_Interface_Point
 				throw new InvalidArgumentException( 'Parameter "'.$field.'" for Service "'.$serviceName.'" failed Rule "'.$e->getMessage().'".' );			
 			}
 		}
+	}
+	
+	protected function getDefaultParameterType( $type )
+	{
+		switch( $type )
+		{
+			case 'array':	$type	= array();
+							break;
+			case 'bool':
+			case 'boolean':	$type	= FALSE;
+							break;
+			case 'string':	$type	= "";
+							break;
+			case 'int':
+			case 'float':
+			case 'double':	$type	= 0;
+							break;
+			default:		$type	= NULL;
+		}
+		return $type;
 	}
 
 	/**
@@ -297,7 +331,7 @@ class Net_Service_Point implements Net_Service_Interface_Point
 	 */
 	protected function loadServiceClass( $className )
 	{
-		throw new RunException( 'No Service Class Loader implemented. Service Class "'.$className.'" has not been loaded..' );
+		throw new RuntimeException( 'No Service Class Loader implemented. Service Class "'.$className.'" has not been loaded..' );
 	}
 	
 	/**
