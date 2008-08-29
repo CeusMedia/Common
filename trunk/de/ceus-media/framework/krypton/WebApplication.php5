@@ -53,7 +53,6 @@ class Framework_Krypton_WebApplication extends Framework_Krypton_Base
 		$this->initAuthentication();								//  needs Implementation of Authentication Logic in Project Classes
 
 		ob_start();
-		
 		if( !defined( 'DEV_MODE' ) )
 			define( 'DEV_MODE', 1 );
 	}

@@ -20,7 +20,7 @@ class XML_DOM_Node
 	/**	@var		array		$children		List of Child Nodes  */
 	protected $children			= array();
 	/**	@var		string		$content		Content of XML Node */
-	protected $content;
+	protected $content			= NULL;
 
 	/**
 	 *	Constructor.
@@ -210,7 +210,7 @@ class XML_DOM_Node
 	 */
 	public function hasContent()
 	{
-		return (bool) strlen( trim( $this->content ) );
+		return $this->content != NULL;
 	}
 
 	/**

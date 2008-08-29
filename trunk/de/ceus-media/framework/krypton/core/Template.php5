@@ -83,7 +83,7 @@ class Framework_Krypton_Core_Template
 				else
 				{
 					$key_valid		= is_string( $key ) || is_int( $key ) || is_float( $key );
-					$value_valid	= is_string( $value ) || is_int( $value ) || is_float( $value ) || is_a( $value, 'Core_Template' );
+					$value_valid	= is_string( $value ) || is_int( $value ) || is_float( $value ) || is_a( $value, get_class( $this ) );
 					if( $key_valid && $value_valid )
 					{
 						if( $overwrite == true )
@@ -166,7 +166,7 @@ class Framework_Krypton_Core_Template
 			{
 	 			if( is_object( $element ) )
 	 			{
-	 				if( !is_a( $element, self ) )
+	 				if( !is_a( $element, get_class( $this ) ) )
 	 					continue;
 					$element = $element->create();
 	 			}

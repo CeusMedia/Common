@@ -23,14 +23,16 @@ class Console_RequestReceiver extends ADT_List_Dictionary
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function __construct()
+	public function __construct( $fallBackOnEmptyPair = FALSE )
 	{
 		$count	= 0;
 		global $argv;
 		//$argv = array("runJob.php5", "Job_SaleTermination" , "cmd=");	
+		if( !$fallBackOnEmptyPair && in_array( 'fallBackOnEmptyPair', $argv ) )
+			$fallBackOnEmptyPair	= TRUE;
 		foreach( $argv as $argument )
 		{
-			if( substr_count( $argument, "=" ) )
+			if( !( $fallBackOnEmptyPair && !substr_count( $argument, "=" ) ) )
 			{
 				$parts	= explode( "=", $argument );
 				$key	= array_shift( $parts );
