@@ -127,8 +127,20 @@ class Alg_Parcel_Packer
 	 */
 	public function calculatePrice( $articleList )
 	{
-		$price	= 0;
 		$packetList	= $this->calculatePackage( $articleList );
+		$price		= $this->calculatePriceFromPackage( $packetList );
+		return $price;
+	}
+
+	/**
+	 *	Calculates Price of Packets for Articles and returns total Price.
+	 *	@access		public
+	 *	@param		array		$articleList		Array of Articles and their Quantities.
+	 *	@return		float
+	 */
+	public function calculatePriceFromPackage( $packetList )
+	{
+		$price	= 0;
 		foreach( $packetList as $packet )
 			$price	+= $this->packets[$packet->getName()];
 		return $price;
