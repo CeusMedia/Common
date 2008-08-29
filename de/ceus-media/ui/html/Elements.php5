@@ -33,6 +33,16 @@ class UI_HTML_Elements extends UI_HTML_FormElements
 		return $code;
 	}
 
+	public static function CheckboxLabel( $name, $value, $checked, $text, $class = 'checklabel' )
+	{
+		$checkBox	= self::CheckBox( $name, $value, $checked );
+		$checkSpan	= UI_HTML_Tag::create( "span", $checkBox, array( 'class' => "checkbox" ) );
+		$label		= UI_HTML_Tag::create( "label", $text, array( 'for' => $name ) );
+		$span		= UI_HTML_Tag::create( "span", $checkSpan.$label, array( 'class' => $class ) );
+		return $span;
+		
+	}
+
 	/**
 	 *	Builds HTML Code for a CheckBox with Label.
 	 *	@access		public
