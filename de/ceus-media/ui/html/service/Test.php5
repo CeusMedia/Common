@@ -21,7 +21,9 @@ class UI_HTML_Service_Test
 	public function buildContent( $request )
 	{
 		$service	= $request['test'];
-		$format		= isset( $request['parameter_format'] ) ? $request['parameter_format'] : NULL;
+		
+		$preferred	= $this->servicePoint->getDefaultServiceFormat( $service );
+		$format		= isset( $request['parameter_format'] ) ? $request['parameter_format'] : $preferred;
 		$url		= "";
 		$response	= "";
 		
@@ -123,26 +125,31 @@ class UI_HTML_Service_Test
 		$reader->setBasicAuth( $this->username, $this->password );
 		
 		$response	= $reader->read();
-		$exception	= @unserialize( $response );
-		if( $exception && is_a( $exception, "Exception" ) )
-			return UI_HTML_Exception_TraceViewer::buildTrace( $exception );
-
 		if( $format == "json" )
 		{
 			$response	= "<xmp>".ADT_JSON_Formater::format( stripslashes( $response ) )."</xmp>";
 		}
 		else if( $format == "php" )
 		{
-			if( @unserialize( $response ) )
-			{
-				ob_start();
-				print_m( unserialize( $response ) );
-				$response	= ob_get_clean();
-			}
+			$response	= unserialize( $response );
+			if( $response && is_a( $response, "Exception" ) )
+				return UI_HTML_Exception_TraceViewer::buildTrace( $response );
+			ob_start();
+			print_m( $response );
+			$response	= ob_get_clean();
 		}
 		else if( $format == "xml" )
 		{
 			$response	= "<xmp>".$response."</xmp>";
+		}
+		else if( $format == "wddx" )
+		{
+			$response	= wddx_deserialize( $response );
+			if( $response && is_a( $response, "Exception" ) )
+				return UI_HTML_Exception_TraceViewer::buildTrace( $response );
+			ob_start();
+			print_m( $response );
+			$response	= ob_get_clean();
 		}
 		return $response;
 	}

@@ -154,13 +154,13 @@ class Net_cURL
 			$result	= trim( $result );																//  trim Result String
 			
 			$parts	= preg_split( "/(\r\n){2}/", $result );											//  split Headers Blocks
-			if( count( $parts ) < 2 )																//  no Header Blocks splitted
-				throw new Exception( 'Error while splitting HTTP Response String.' );
+#			if( count( $parts ) < 2 )																//  no Header Blocks splitted
+#				throw new Exception( 'Error while splitting HTTP Response String.' );
 
 			while( $parts && preg_match( "@^HTTP/@", trim( $parts[0] ) ) )							//  another Header Block found
 				$header	= array_shift( $parts );													//  Header Blocks is first Part
 
-			$result	= implode( "\r\n\r\b", $parts );												//  implode other Blocks
+			$result	= implode( "\r\n\r", $parts );													//  implode other Blocks
 			$this->parseHeader( $header );															//  parse Header Block
 		}
 		return $result;
