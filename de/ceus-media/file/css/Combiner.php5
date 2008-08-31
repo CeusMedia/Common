@@ -31,11 +31,14 @@ class File_Css_Combiner
 	 *	@param		string		$styleFile		File Name of Style without Extension (iE. style.css,import.css,default.css)
 	 *	@return		string
 	 */
-	public function combineString( $path, $content )
+	public function combineString( $path, $content, $throwException = FALSE )
 	{
-		$this->statistics['size']		= 0;
-		$this->statistics['fileCount']	= 0;
-		$this->statistics['fileList']	= array();
+		$this->statistics['sizeOriginal']	= 0;
+		$this->statistics['sizeCombined']	= 0;
+		$this->statistics['sizeCompressed']	= 0;
+		$this->statistics['numberFiles']	= 0;
+		$this->statistics['filesFound']		= array();
+		$this->statistics['filesSkipped']	= array();
 		$lines		= explode( "\n", $content );
 		foreach( $lines as $line )
 		{
@@ -46,12 +49,20 @@ class File_Css_Combiner
 				continue;
 			preg_match_all( $this->importPattern, $line, $matches );
 			$fileName	= $matches[1][0];
-			$this->statistics['fileList'][]	= $fileName;
+			$this->statistics['filesFound'][]	= $fileName;
+			
+			if( !file_exists( $path.$fileName ) )
+			{
+				if( $throwException )
+					throw new RuntimeException( 'CSS File "'.$fileName.'" is not existing.' );
+				$this->statistics['filesSkipped'][] = $fileName;
+				continue;
+			}
 
 			$content	= file_get_contents( $path.$fileName );
 			$content	= $this->reviseStyle( $content );
-			$this->statistics['fileCount']	++;
-			$this->statistics['size']		+= strlen( $content );
+			$this->statistics['numberFiles']	++;
+			$this->statistics['sizeOriginal']	+= strlen( $content );
 //			$depth	= substr
 			if( substr_count( $fileName, "/" ) )
 				$content	= preg_replace( "@(\.\./){1}([^\.])@i", "\\2", $content );
@@ -60,7 +71,7 @@ class File_Css_Combiner
 			$list[]	= $content;
 		}
 		$content	= implode( "\n", $list );
-		$this->statistics['combined']	= strlen( $content );
+		$this->statistics['sizeCombined']	= strlen( $content );
 		return $content;
 	}
 	
