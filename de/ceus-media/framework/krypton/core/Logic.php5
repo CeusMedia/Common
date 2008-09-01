@@ -29,8 +29,8 @@ class Framework_Krypton_Core_Logic
 	/**	@var		Registry	$registry		Registry for Objects */
 	protected $registry;
 	
-	public static $pathLogic		= "classes.logic.";
-	public static $pathCollection	= "classes.collection.";
+	public static $pathLogic		= "classes.logic.category.";
+	public static $pathCollection	= "classes.collection.category.";
 
 	/**
 	 *	Constructor, loads Definition Validator and Field Definition.
@@ -53,7 +53,7 @@ class Framework_Krypton_Core_Logic
 	{
 		$category	= ucFirst( $category );
 		$fileName	= self::$pathLogic.$category;
-		$className	= "Logic_".$category;
+		$className	= "Logic_Category_".$category;
 		import( $fileName );
 		$logic		= new $className();
 		return $logic;
@@ -70,7 +70,7 @@ class Framework_Krypton_Core_Logic
 	{
 		$category	= ucFirst( $category );
 		$fileName	= self::$pathCollection.$category;
-		$className	= "Collection_".$category;
+		$className	= "Collection_Category_".$category;
 		import( $fileName );
 		$collection	= new $className( $builder );
 		return $collection;
