@@ -33,7 +33,7 @@ class Framework_Krypton_Core_CategoryFactory
 	public function getClassName( $className, $prefix = "", $category = "" )
 	{
 		$type	= $category ? $category : $this->getType();
-		$name	= $prefix." ".$type." ".$className;
+		$name	= $prefix." Category ".$type." ".$className;
 		$name	= ucWords( trim( $name ) );
 		$name	= str_replace( " ", "_", $name );
 		return $name;
@@ -54,7 +54,7 @@ class Framework_Krypton_Core_CategoryFactory
 		$className	= ucFirst( $className );
 		$className	= strtolower( $type ).".".$className;
 		if( $prefix )
-			$className	= strtolower( $prefix ).".".$className;
+			$className	= strtolower( $prefix ).".category.".$className;
 		return $className;
 	}
 	
