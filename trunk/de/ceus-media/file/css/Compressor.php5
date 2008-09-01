@@ -13,14 +13,14 @@
  *	@since		26.09.2007
  *	@version	0.1
  */
-class File_Css_Compressor
+class File_CSS_Compressor
 {
-	/**	@var	string			$prefix			Prefix of compressed File Name */
-	var $prefix	= "";
-	/**	@var	array			$statistics		Statistical Data */
+	/**	@var		string			$prefix			Prefix of compressed File Name */
+	var $prefix		= "";
+	/**	@var		array			$statistics		Statistical Data */
 	var $statistics	= array();
-	/**	@var	string			$suffix			Suffix of compressed File Name */
-	var $suffix	= ".min";
+	/**	@var		string			$suffix			Suffix of compressed File Name */
+	var $suffix		= ".min";
 	
 	/**
 	 *	Returns statistical Data of last Combination.
