@@ -1,28 +1,28 @@
 <?php
 /**
  *	Combines CSS Files imported in one CSS File.
- *	@package	file.css
- *	@author		Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@since		26.09.2007
- *	@version	0.1
+ *	@package		file.css
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@since			26.09.2007
+ *	@version		0.1
  */
 /**
  *	Combines CSS Files imported in one CSS File.
- *	@package	file.css
- *	@author		Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@since		26.09.2007
- *	@version	0.1
+ *	@package		file.css
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@since			26.09.2007
+ *	@version		0.1
  */
-class File_Css_Combiner
+class File_CSS_Combiner
 {
-	/**	@var	string			$prefix			Prefix of combined File Name */
-	var $prefix			= "";
-	/**	@var	string			$suffix			Suffix of combined File Name */
-	var $suffix			= ".combined";
-	/**	@var	string			$importPattern	Pattern of imported CSS Files */
-	var $importPattern	= '#^@import "(.*)";?$#i';
-	/**	@var	array			$statistics		Statistical Data */
-	var $statistics	= array();
+	/**	@var		string		$prefix			Prefix of combined File Name */
+	var $prefix					= "";
+	/**	@var		string		$suffix			Suffix of combined File Name */
+	var $suffix					= ".combined";
+	/**	@var		string		$importPattern	Pattern of imported CSS Files */
+	var $importPattern			= '#^@import "(.*)";?$#i';
+	/**	@var		array		$statistics		Statistical Data */
+	var $statistics				= array();
 	
 	/**
 	 *	Combines all CSS Files imported in CSS String and returns Combination String;
