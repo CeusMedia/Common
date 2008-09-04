@@ -17,7 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- *	@package		adt_json
+ *	@package		adt.json
  *	@author			Umbrae <umbrae@gmail.com>
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@copyright		2008 Christian Würker
@@ -28,7 +28,7 @@
  */
 /**
  *	Formats JSON String.
- *	@package		adt_json
+ *	@package		adt.json
  *	@author			Umbrae <umbrae@gmail.com>
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@copyright		2008 Christian Würker

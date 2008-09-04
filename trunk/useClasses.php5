@@ -5,7 +5,7 @@
  *	@version		0.6
  */
 
-define( 'CM_CLASS_PATH',	"/var/www/cmClasses/0.6/" );									//  EDIT THIS PATH FOR YOUR INSTALLATION
+define( 'CM_CLASS_PATH',	"/var/www/cmClasses/0.6.3/" );									//  EDIT THIS PATH FOR YOUR INSTALLATION
 
 ini_set( 'include_path', CM_CLASS_PATH.PATH_SEPARATOR.ini_get( "include_path" ) );
 if( !@include_once( "import.php5" ) )
