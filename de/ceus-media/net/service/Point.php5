@@ -5,12 +5,31 @@ import( 'de.ceus-media.net.service.interface.Point' );
  *	A different Service Parameter Validator Class can be used by setting static Member "validatorClass".
  *	If a different Validator Class should be used, it needs to be imported before.
  *	A different Service Definition Loader Class can be used by setting static Member "loaderClass".
+ *
+ *	Copyright (c) 2008 Christian Würker (ceus-media.de)
+ *
+ *	This program is free software: you can redistribute it and/or modify
+ *	it under the terms of the GNU General Public License as published by
+ *	the Free Software Foundation, either version 3 of the License, or
+ *	(at your option) any later version.
+ *
+ *	This program is distributed in the hope that it will be useful,
+ *	but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *	GNU General Public License for more details.
+ *
+ *	You should have received a copy of the GNU General Public License
+ *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
  *	If a different Loader Class should be used, it needs to be imported before.
  *	@package		net.service
  *	@implements		Net_Service_Interface_Point
  *	@uses			Net_Service_ParameterValidator
  *	@uses			Net_Service_Definition_Loader
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
+ *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@link			http://code.google.com/p/cmclasses/
  *	@since			18.06.2007
  *	@version		0.3
  */
@@ -25,6 +44,9 @@ import( 'de.ceus-media.net.service.interface.Point' );
  *	@uses			Net_Service_ParameterValidator
  *	@uses			Net_Service_Definition_Loader
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
+ *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@link			http://code.google.com/p/cmclasses/
  *	@since			18.06.2007
  *	@version		0.3
  *	@todo			rename Exception Classes (see bottom) to Net_Service_ and/or move package 'exception'
