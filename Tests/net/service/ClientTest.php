@@ -94,15 +94,26 @@ class Tests_Net_Service_ClientTest extends PHPUnit_Framework_TestCase
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testDecodeResponseException()
+	public function testDecodeResponseException1()
 	{
 		$response	= file_get_contents( $this->path."exception.serial" );
+		$this->setExpectedException( 'RuntimeException' );
+		$this->client->executeProtectedMethod( 'decodeResponse', $response, 'php' );
+	}
+	
+	/**
+	 *	Tests Exception Forwarding of Method 'decodeResponse'.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testDecodeResponseException2()
+	{
 		try
 		{
-			$this->client->executeProtectedMethod( 'decodeResponse', $response, 'not_relevant' );
-			$this->fail( 'An expected Exception has not been thrown.' );
+			$response	= file_get_contents( $this->path."exception.serial" );
+			$this->client->executeProtectedMethod( 'decodeResponse', $response, 'php' );
 		}
-		catch( RuntimeException $e )
+		catch( Exception $e )
 		{
 			$assertion	= 'RuntimeException';
 			$creation	= get_class( $e );

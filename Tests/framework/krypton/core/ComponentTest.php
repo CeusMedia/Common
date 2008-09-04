@@ -31,6 +31,8 @@ class Tests_Framework_Krypton_Core_ComponentTest extends PHPUnit_Framework_TestC
 	{
 		$this->registry		= Framework_Krypton_Core_Registry::getInstance();
 		$config		= array(
+			'languages.default'	=> "en",
+			'languages.allowed'	=> "en,de,fr",
 			'paths.cache'		=> "Tests/framework/krypton/core/cacheDir/",
 			'paths.languages'	=> "Tests/framework/krypton/core/languageDir/",
 			'paths.html'		=> "Tests/framework/krypton/core/htmlDir/",

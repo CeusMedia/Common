@@ -26,6 +26,8 @@ class Tests_Framework_Krypton_Core_LogicTest extends PHPUnit_Framework_TestCase
 	{
 		Framework_Krypton_Core_Logic::$pathLogic		= "Tests.framework.krypton.core.logic.";
 		Framework_Krypton_Core_Logic::$pathCollection	= "Tests.framework.krypton.core.collection.";
+		Framework_Krypton_Core_Logic::$classLogic		= "Logic_";
+		Framework_Krypton_Core_Logic::$classCollection	= "Collection_";
 	}
 	
 	public function testGetCategoryLogic()

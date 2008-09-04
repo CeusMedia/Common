@@ -83,15 +83,15 @@ class Tests_Framework_Krypton_Core_PageControllerTest extends PHPUnit_Framework_
 
 	public function testGetClassName()
 	{
-		$assertion	= "Beta_CatalogSearch";
+		$assertion	= "Category_Beta_CatalogSearch";
 		$creation	= $this->controller->getClassName( 'search' );
 		$this->assertEquals( $assertion, $creation );
 
-		$assertion	= "Prefix_Beta_CatalogSearch";
+		$assertion	= "Prefix_Category_Beta_CatalogSearch";
 		$creation	= $this->controller->getClassName( 'search', "prefix" );
 		$this->assertEquals( $assertion, $creation );
 
-		$assertion	= "Prefix_Gamma_CatalogSearch";
+		$assertion	= "Prefix_Category_Gamma_CatalogSearch";
 		$creation	= $this->controller->getClassName( 'search', "prefix", "gamma" );
 		$this->assertEquals( $assertion, $creation );
 

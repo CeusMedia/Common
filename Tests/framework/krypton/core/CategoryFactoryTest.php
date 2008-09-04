@@ -141,43 +141,53 @@ class Tests_Framework_Krypton_Core_CategoryFactoryTest extends PHPUnit_Framework
 		$this->factory->setDefault( "bar" );
 		$this->factory->setType( "baz" );
 		
-		$assertion	= "Baz_Test";
+		$assertion	= "Category_Baz_Test";
 		$creation	= $this->factory->getClassName( "Test" );
 		$this->assertEquals( $assertion, $creation );
 		
-		$assertion	= "Baz_Test";
+		$assertion	= "Category_Baz_Test";
 		$creation	= $this->factory->getClassName( "test" );
 		$this->assertEquals( $assertion, $creation );
 		
-		$assertion	= "Baz_TEST";
+		$assertion	= "Category_Baz_TEST";
 		$creation	= $this->factory->getClassName( "tEST" );
 		$this->assertEquals( $assertion, $creation );
 		
-		$assertion	= "Prefix_Baz_Test";
+		$assertion	= "Prefix_Category_Baz_Test";
 		$creation	= $this->factory->getClassName( "Test", "Prefix" );
 		$this->assertEquals( $assertion, $creation );
 		
-		$assertion	= "Prefix_Baz_Test";
+		$assertion	= "Prefix_Category_Baz_Test";
 		$creation	= $this->factory->getClassName( "test", "prefix" );
 		$this->assertEquals( $assertion, $creation );
 
-
-		$assertion	= "Foo_Test";
+		$assertion	= "Category_Foo_Test";
 		$creation	= $this->factory->getClassName( "Test", false, "foo" );
 		$this->assertEquals( $assertion, $creation );
 		
-		$assertion	= "Foo_Test";
+		$assertion	= "Category_Foo_Test";
 		$creation	= $this->factory->getClassName( "test", false, "foo" );
 		$this->assertEquals( $assertion, $creation );
 		
-		$assertion	= "Foo_TEST";
+		$assertion	= "Category_Foo_TEST";
 		$creation	= $this->factory->getClassName( "tEST", false, "foo" );
 		$this->assertEquals( $assertion, $creation );
 		
-		$assertion	= "Prefix_Foo_Test";
+		$assertion	= "Prefix_Category_Foo_Test";
 		$creation	= $this->factory->getClassName( "Test", "Prefix", "foo" );
 		$this->assertEquals( $assertion, $creation );
 		
+		$assertion	= "Prefix_Category_Foo_Test";
+		$creation	= $this->factory->getClassName( "test", "prefix", "foo" );
+		$this->assertEquals( $assertion, $creation );
+
+
+		$this->factory->prefixClass	= "";
+
+		$assertion	= "Baz_Test";
+		$creation	= $this->factory->getClassName( "Test" );
+		$this->assertEquals( $assertion, $creation );
+
 		$assertion	= "Prefix_Foo_Test";
 		$creation	= $this->factory->getClassName( "test", "prefix", "foo" );
 		$this->assertEquals( $assertion, $creation );
@@ -189,43 +199,54 @@ class Tests_Framework_Krypton_Core_CategoryFactoryTest extends PHPUnit_Framework
 		$this->factory->setDefault( "bar" );
 		$this->factory->setType( "baz" );
 		
-		$assertion	= "baz.Test";
+		$assertion	= "category.baz.Test";
 		$creation	= $this->factory->getClassFileName( "Test" );
 		$this->assertEquals( $assertion, $creation );
 		
-		$assertion	= "baz.Test";
+		$assertion	= "category.baz.Test";
 		$creation	= $this->factory->getClassFileName( "test" );
 		$this->assertEquals( $assertion, $creation );
 		
-		$assertion	= "baz.TEST";
+		$assertion	= "category.baz.TEST";
 		$creation	= $this->factory->getClassFileName( "tEST" );
 		$this->assertEquals( $assertion, $creation );
 		
-		$assertion	= "prefix.baz.Test";
+		$assertion	= "prefix.category.baz.Test";
 		$creation	= $this->factory->getClassFileName( "Test", "Prefix" );
 		$this->assertEquals( $assertion, $creation );
 		
-		$assertion	= "prefix.baz.Test";
+		$assertion	= "prefix.category.baz.Test";
 		$creation	= $this->factory->getClassFileName( "test", "prefix" );
 		$this->assertEquals( $assertion, $creation );
 
 
-		$assertion	= "foo.Test";
+		$assertion	= "category.foo.Test";
 		$creation	= $this->factory->getClassFileName( "Test", false, "foo" );
 		$this->assertEquals( $assertion, $creation );
 		
-		$assertion	= "foo.Test";
+		$assertion	= "category.foo.Test";
 		$creation	= $this->factory->getClassFileName( "test", false, "foo" );
 		$this->assertEquals( $assertion, $creation );
 		
-		$assertion	= "foo.TEST";
+		$assertion	= "category.foo.TEST";
 		$creation	= $this->factory->getClassFileName( "tEST", false, "Foo" );
 		$this->assertEquals( $assertion, $creation );
 		
-		$assertion	= "prefix.foo.Test";
+		$assertion	= "prefix.category.foo.Test";
 		$creation	= $this->factory->getClassFileName( "Test", "Prefix", "foo" );
 		$this->assertEquals( $assertion, $creation );
 		
+		$assertion	= "prefix.category.foo.Test";
+		$creation	= $this->factory->getClassFileName( "test", "prefix", "foo" );
+		$this->assertEquals( $assertion, $creation );
+
+
+		$this->factory->prefixFile	= "";
+
+		$assertion	= "baz.Test";
+		$creation	= $this->factory->getClassFileName( "Test" );
+		$this->assertEquals( $assertion, $creation );
+
 		$assertion	= "prefix.foo.Test";
 		$creation	= $this->factory->getClassFileName( "test", "prefix", "foo" );
 		$this->assertEquals( $assertion, $creation );
@@ -237,20 +258,20 @@ class Tests_Framework_Krypton_Core_CategoryFactoryTest extends PHPUnit_Framework
 	
 		$object	= $this->factory->getObject( "Class" );
 		$assertion	= true;
-		$creation	= is_a( $object, 'Foo_Class' );
+		$creation	= is_a( $object, 'Category_Foo_Class' );
 		$this->assertEquals( $assertion, $creation );
 	
 		$object	= $this->factory->getObject( "Class", "Test" );
 		$assertion	= true;
-		$creation	= is_a( $object, 'Test_Foo_Class' );
+		$creation	= is_a( $object, 'Test_Category_Foo_Class' );
 		$this->assertEquals( $assertion, $creation );
 	
 		$object	= $this->factory->getObject( "class", "test" );
 		$assertion	= true;
-		$creation	= is_a( $object, 'Test_Foo_Class' );
+		$creation	= is_a( $object, 'Test_Category_Foo_Class' );
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-class Foo_Class {}
-class Test_Foo_Class {}
+class Category_Foo_Class {}
+class Test_Category_Foo_Class {}
 ?>
