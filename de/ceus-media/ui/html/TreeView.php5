@@ -107,7 +107,7 @@ class UI_HTML_TreeView
 				$url	= $this->baseUrl.$this->queryKey.$node['id'];										//  generate URL
 				$link	= UI_HTML_Elements::Link( $url, $node['label'], $linkClass, $target );				//  generate Link Tag
 				$label	= $link;																			//  linked Nodes have no Span Container
-				if( $node['type'] == "leaf" )																//  linked Leafes have a Span Container
+				if( 1 || $node['type'] == "leaf" )																//  linked Leafes have a Span Container
 					$label	= UI_HTML_Tag::create( "span", $link, array( 'class' => $node['class'] ) );
 			}
 			$sublist	= "";
