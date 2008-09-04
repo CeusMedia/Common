@@ -57,7 +57,7 @@ class Framework_Neon_Model extends Database_TableWriter
 	{
 		if( $prefix )
 			array_walk( $data, array( $this, "removeRequestPrefix" ), $prefix );
-		$this->addData( $data, $stripTags, $debug );	
+		return $this->addData( $data, $stripTags, $debug );	
 	}
 	
 	/**
@@ -114,7 +114,7 @@ class Framework_Neon_Model extends Database_TableWriter
 	{
 		if( $prefix )
 			array_walk( $data, array( $this, "removeRequestPrefix" ), $prefix );
-		$this->modifyData( $data, $stripTags, $debug );	
+		return $this->modifyData( $data, $stripTags, $debug );	
 	}
 	
 	/**
@@ -127,6 +127,16 @@ class Framework_Neon_Model extends Database_TableWriter
 	protected function removeRequestPrefix( $string, $prefix )
 	{
 		return preg_replace( "°^".$prefix."°", "", $string );
+	}
+
+	/**
+	 *	Deletes focused Data in Table.
+	 *	@access		public
+	 *	@return		bool
+	 */
+	public function delete()
+	{
+		return $this->deleteData();
 	}
 }
 ?>

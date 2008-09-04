@@ -47,9 +47,12 @@ class Database_TableWriter extends Database_TableReader
 						$value = str_replace( '"', "'", $value );
 						if ($value == "on")
 							$value = 1;
-						$keys[$field] = $field;
 						if( !ini_get( 'magic_quotes_gpc' ) )
+						{
+							$field = addslashes( $field );
 							$value = addslashes( $value );
+						}
+						$keys[$field] = '`'.$field.'`';
 						$vals[$field] = '"'.$value.'"';
 					}
 //				}
@@ -151,11 +154,16 @@ class Database_TableWriter extends Database_TableReader
 							if( $stripTags )
 								$value	= strip_tags( $value );
 							if( !ini_get( 'magic_quotes_gpc' ) )
+							{
+								$field = addslashes( $field );
+								$value = addslashes( $value );
+							}
+							if( !ini_get( 'magic_quotes_gpc' ) )
 								$value	= addslashes( $value );
 							$value	= str_replace( '"', "'", $value );
 							if( $value == "on" )
 								$value = 1;
-							$updates[] = $field.'="'.$value.'"';
+							$updates[] = "`".$field."`".'="'.$value.'"';
 						}
 					}
 					if( sizeof( $updates ) )
