@@ -21,6 +21,9 @@ import( 'net.sourceforge.spyc.Spyc' );
  */
 class File_YAML_Writer
 {
+	/**	@var		string		$fileName		File Name of YAML File */
+	protected $fileName;
+
 	/**
 	 *	Constructor.
 	 *	@access		public
