@@ -25,17 +25,18 @@ class Tests_Framework_Krypton_Core_MessengerTest extends PHPUnit_Framework_TestC
 
 	public function __construct()
 	{
-		$config		= array(
-			'layout' => array(
-				'format_timestamp' => 'Y-m-d H:i:s'
-			)
-		);
-		$this->registry	= Framework_Krypton_Core_Registry::getInstance();
-		$this->registry->set( 'config', $config, true );
 	}
 	
 	public function setUp()
 	{
+		$this->registry	= Framework_Krypton_Core_Registry::getInstance();
+
+		$config		= array(
+			'layout.formatTimestamp' => 'Y-m-d H:i:s'
+		);
+		$config		= new ADT_List_Dictionary( $config );
+		$this->registry->set( 'config', $config, TRUE );
+
 		$session	= new ADT_List_Dictionary();
 		$this->registry->set( 'session', $session, true );
 		$this->messenger	= new Framework_Krypton_Core_Messenger();
