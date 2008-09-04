@@ -19,10 +19,10 @@ foreach( $constants as $key => $value )															//  iterate Constants
  *	Tries to loads PHP Classes in current Path or from Class Container with Java-like Path Syntax.
  *	@param		string		$classPath			Class Path, e.g 'xml.dom.Parser' or 'your.path.in.project.YourClass'
  *	@param		bool		$supressWarnings	Flag:  supress Warnings on including Class File
- *	@return		void
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@since			16.06.2005
- *	@version		0.6
+ *	@return		bool
+ *	@author		Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@since		16.06.2005
+ *	@version	0.6.3
  */
 function import( $classPath, $supressWarnings = FALSE )
 {
@@ -48,10 +48,11 @@ function import( $classPath, $supressWarnings = FALSE )
 	}
 	catch( Exception $e )
 	{
-		$t	= $e->getTrace();
-		$message = $t[0]['file']."[".$t[0]['line']."]: ".$e->getMessage();
+		$trace		= $e->getTrace();
+		$message	= $trace[0]['file']."[".$trace[0]['line']."]: ".$e->getMessage();
 		die( $message );
 	}
+	return TRUE;
 }
 $GLOBALS['imported'] = array ();
 import( 'de.ceus-media.throwException' );
