@@ -1,0 +1,39 @@
+{
+  "title": "Motrada V2 Public Web Services",
+  "url": "",
+  "syntax": "http:\/\/...\/services\/?service=[service](&format=[format])(&[parameter1]=value1)",
+  "services": {
+    "getTimestamp": {
+      "class": "Services_Public",
+      "description": "Returns current Timestamp on Server.",
+      "formats": [
+        "xml",
+        "php",
+        "json",
+        "txt"
+      ],
+      "preferred": "txt"
+    },
+    "add": {
+      "class": "Services_Public",
+      "description": "Adds to Integers.",
+      "formats": [
+        "txt",
+        "xml",
+        "json",
+        "php"
+      ],
+      "preferred": "txt",
+      "parameters": {
+        "a": {
+          "mandatory": true,
+          "preg": "@^[0-9]+$@"
+        },
+        "b": {
+          "mandatory": false,
+          "preg": "@^[0-9]+$@"
+        }
+      }
+    }
+  }
+}

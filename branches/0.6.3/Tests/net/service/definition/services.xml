@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<servicePoint>
+  <title>Motrada V2 Public Web Services</title>
+  <url/>
+  <syntax>http://.../services/?service=[service](&amp;format=[format])(&amp;[parameter1]=value1)</syntax>
+  <services>
+    <service name="getTimestamp" class="Services_Public" format="txt">
+      <description>Returns current Timestamp on Server.</description>
+      <format>xml</format>
+      <format>php</format>
+      <format>json</format>
+      <format>txt</format>
+    </service>
+    <service name="add" class="Services_Public" format="txt">
+      <description>Adds to Integers.</description>
+      <format>txt</format>
+      <format>xml</format>
+      <format>json</format>
+      <format>php</format>
+      <parameter mandatory="yes" preg="@^[0-9]+$@">a</parameter>
+      <parameter mandatory="no" preg="@^[0-9]+$@">b</parameter>
+    </service>
+  </services>
+</servicePoint>
