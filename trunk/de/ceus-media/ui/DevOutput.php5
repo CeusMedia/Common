@@ -454,10 +454,14 @@ function showDOM( $node )
  *	Prints out Code formatted with Tag XMP
  *	@access		public
  *	@param		string		$string		Code to print out
- *	@return		void
+ *	@return		mixed		String for Dump Mode or void
  */
-function xmp( $string )
+function xmp( $string, $dump = FALSE )
 {
+	if( $dump )
+		ob_start();
 	echo "<xmp>".$string."</xmp>";
+	if( $dump )
+		return ob_get_clean();
 }
 ?>
