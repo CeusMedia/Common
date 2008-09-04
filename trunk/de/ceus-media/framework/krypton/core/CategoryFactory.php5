@@ -1,8 +1,27 @@
 <?php
 /**
  *	Factory to produce Class Names for Types.
+ *
+ *	Copyright (c) 2008 Christian Würker (ceus-media.de)
+ *
+ *	This program is free software: you can redistribute it and/or modify
+ *	it under the terms of the GNU General Public License as published by
+ *	the Free Software Foundation, either version 3 of the License, or
+ *	(at your option) any later version.
+ *
+ *	This program is distributed in the hope that it will be useful,
+ *	but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *	GNU General Public License for more details.
+ *
+ *	You should have received a copy of the GNU General Public License
+ *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
  *	@package		framework.krypton.core
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
+ *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@link			http://code.google.com/p/cmclasses/
  *	@since			03.03.2007
  *	@version		0.1
  */
@@ -10,6 +29,9 @@
  *	Factory to produce Class Names for Types.
  *	@package		framework.krypton.core
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
+ *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@link			http://code.google.com/p/cmclasses/
  *	@since			03.03.2007
  *	@version		0.1
  */
@@ -22,6 +44,9 @@ class Framework_Krypton_Core_CategoryFactory
 	/**	@var	string		$types		Available Types */
 	protected $types	= array();
 	
+	public $prefixClass	= "Category_";
+	public $prefixFile	= "category.";
+	
 	/**
 	 *	Returns typed Class Name.
 	 *	@access		public
@@ -33,7 +58,7 @@ class Framework_Krypton_Core_CategoryFactory
 	public function getClassName( $className, $prefix = "", $category = "" )
 	{
 		$type	= $category ? $category : $this->getType();
-		$name	= $prefix." Category ".$type." ".$className;
+		$name	= $prefix." ".str_replace( "_", " ", $this->prefixClass ).$type." ".$className;
 		$name	= ucWords( trim( $name ) );
 		$name	= str_replace( " ", "_", $name );
 		return $name;
@@ -52,9 +77,9 @@ class Framework_Krypton_Core_CategoryFactory
 	{
 		$type		= $category ? $category : $this->getType();
 		$className	= ucFirst( $className );
-		$className	= strtolower( $type ).".".$className;
+		$className	= $this->prefixFile.strtolower( $type ).".".$className;
 		if( $prefix )
-			$className	= strtolower( $prefix ).".category.".$className;
+			$className	= strtolower( $prefix ).".".$className;
 		return $className;
 	}
 	
