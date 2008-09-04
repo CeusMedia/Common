@@ -35,6 +35,7 @@ class File_RegexFilter extends RegexIterator
 		if( !file_exists( $path ) )
 			throw new RuntimeException( 'Path "'.$path.'" is not existing.' );
 		$this->count			= 0;
+		$this->files			= 0;
 		$this->contentPattern	= $contentPattern;
 		parent::__construct(
 			new DirectoryIterator( $path ),
