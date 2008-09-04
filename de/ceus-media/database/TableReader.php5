@@ -182,11 +182,11 @@ class Database_TableReader
 		foreach( $new as $key => $value )									//  iterate all noted Pairs
 //			$conditions[] =  $key.'="'.$value.'"';							//  create SQL WHERE Condition
 			if( preg_match( "/%/", $value ) )
-				$conditions[] = $key." LIKE '".$value."'";
+				$conditions[] = "`".$key."` LIKE '".$value."'";
 			else if( preg_match( "/^<|=|>|!=/", $value ) )
 				$conditions[] = $key.$value;
 			else
-				$conditions[] = $key."='".$value."'";
+				$conditions[] = "`".$key."`='".$value."'";
 		$conditions = implode( " AND ", $conditions );						//  combine Conditions with AND
 		return $conditions;
 	}

@@ -39,6 +39,9 @@ abstract class Framework_Neon_Component
 	{
 		$this->ref			= new ADT_Reference();
 		$this->tc			= new Alg_TimeConverter;
+		$this->config	 	= $this->ref->get( 'config' );
+		$this->request	 	= $this->ref->get( 'request' );
+		$this->session		= $this->ref->get( 'session' );
 		$this->messenger	= $this->ref->get( 'messenger' );
 		$this->words		=& $this->ref->get( 'words' );
 	}

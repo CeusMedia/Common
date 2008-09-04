@@ -78,13 +78,17 @@ class Framework_Neon_DefinitionView extends Framework_Neon_View
 				$data	= $this->definition->getField( $field );
 				if( isset( $labels[$field] ) )
 				{
+					$classes	= array( 'label');
+					if( isset( $data['syntax']['mandatory'] ) && $data['syntax']['mandatory'] )
+						$classes[]	= "mandatory";
+					$classes	= implode( " ", $classes );
 					if( isset( $labels[$field."_acronym"] ) )
 						$labels[$field]	= $this->html->Acronym( $labels[$field], $labels[$field."_acronym"] );
 					else if( isset( $labels[$field."_tip"] ) )
 						$labels[$field]	= $this->html->ToolTip( $labels[$field], $labels[$field."_tip"] );
 					else if( isset( $labels[$field."_hover"] ) )
 						$labels[$field]	= $this->html->HelpHover( $labels[$field], $labels[$field."_hover"] );
-					$array['label_'.$field]	= $this->html->Label( $data['input']['name'], $labels[$field] );
+					$array['label_'.$field]	= $this->html->Label( $data['input']['name'], $labels[$field], $classes );
 				}
 				else
 					$this->messenger->noteError( "Label for Field '".$field."' is not defined" );
