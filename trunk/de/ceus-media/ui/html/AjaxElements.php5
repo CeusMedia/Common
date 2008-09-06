@@ -3,7 +3,7 @@ import( 'de.ceus-media.ui.html.Elements' );
 /**
  *	Builds HTML Components for AJAX Applications.
  *
- *	Copyright (c) 2008 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2008 Christian WÃ¼rker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,8 +20,8 @@ import( 'de.ceus-media.ui.html.Elements' );
  *
  *	@package		ui.html
  *	@extends		UI_HTML_Elements
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@copyright		2008 Christian Würker
+ *	@author			Christian WÃ¼rker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian WÃ¼rker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		0.1
@@ -30,8 +30,8 @@ import( 'de.ceus-media.ui.html.Elements' );
  *	Builds HTML Components for AJAX Applications.
  *	@package		ui.html
  *	@extends		UI_HTML_Elements
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@copyright		2008 Christian Würker
+ *	@author			Christian WÃ¼rker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian WÃ¼rker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		0.1
@@ -48,7 +48,7 @@ class UI_HTML_AjaxElements extends UI_HTML_Elements
 	 *	@param		string		$name 			Name des Formular-Elementes
 	 *	@param		string		$value 			Beschriftung des Buttons
 	 *	@param		string		$class			CSS-Class der Beschriftung
-	 *	@param		string		$confirm 			Nachricht der Bestätigung
+	 *	@param		string		$confirm 			Nachricht der BestÃ¤tigung
 	 *	@param		string		$disabled			Ausgrauen des Buttons
 	 *	@return		string
 	 */
@@ -67,7 +67,7 @@ class UI_HTML_AjaxElements extends UI_HTML_Elements
 	 *	@param		string		$id				ID des Formulars
 	 *	@param		string		$action			URL der Aktion
 	 *	@param		string		$target			Zielframe der Aktion
-	 *	@param		string		$enctype			Encryption-Typ, für Uploads
+	 *	@param		string		$enctype			Encryption-Typ, fÃ¼r Uploads
 	 *	@param		string		$on_submit		JavaScript vor dem Versenden des Formulars
 	 *	@return		string
 	 */
@@ -87,7 +87,7 @@ class UI_HTML_AjaxElements extends UI_HTML_Elements
 	 *	@param		string		$name			Name des Links
 	 *	@param		string		$class			CSS-Klasse des Links
 	 *	@param		string		$target			Zielframe des Links
-	 *	@param		string		$confirm			Bestätigungstext des Links
+	 *	@param		string		$confirm			BestÃ¤tigungstext des Links
 	 *	@param		int			$tabindex		Tabulatur-Index
 	 *	@return		string
 	 */

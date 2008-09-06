@@ -40,6 +40,8 @@ import( 'de.ceus-media.adt.list.Dictionary' );
  */
 class Console_RequestReceiver extends ADT_List_Dictionary
 {
+	public static $delimiterAssign	= "=";
+
 	/**
 	 *	Constructor, receives Console Arguments.
 	 *	@access		public
@@ -54,9 +56,9 @@ class Console_RequestReceiver extends ADT_List_Dictionary
 			$fallBackOnEmptyPair	= TRUE;
 		foreach( $argv as $argument )
 		{
-			if( !( $fallBackOnEmptyPair && !substr_count( $argument, "=" ) ) )
+			if( !( $fallBackOnEmptyPair && !substr_count( $argument, self::$delimiterAssign ) ) )
 			{
-				$parts	= explode( "=", $argument );
+				$parts	= explode( self::$delimiterAssign, $argument );
 				$key	= array_shift( $parts );
 				$this->pairs[$key]	= (string)implode( "=", $parts );
 			}

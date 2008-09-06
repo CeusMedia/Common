@@ -41,7 +41,7 @@ class Alg_Crypt_Rot13
 	 *	Encrypts a String with ROT13.
 	 *	@access		public
 	 *	@param		string		$string		String to be encrypted.
-	 *	@returns	string
+	 *	@return		string
 	 */
 	public static function encrypt( $string )
 	{
@@ -52,7 +52,7 @@ class Alg_Crypt_Rot13
 	 *	Decrypts a String encrypted with ROT13.
 	 *	@access		public
 	 *	@param		string		$string		String to be decrypted.
-	 *	@returns	string
+	 *	@return		string
 	 */
 	public static function decrypt( $string )
 	{

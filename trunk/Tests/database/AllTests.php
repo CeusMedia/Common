@@ -4,15 +4,15 @@ if( !defined( 'PHPUnit_MAIN_METHOD' ) )
 
 require_once( 'PHPUnit/Framework/TestSuite.php' );
 require_once( 'PHPUnit/TextUI/TestRunner.php' );
-require_once( 'Tests/Database/pdo/AllTests.php' );
-require_once( 'Tests/Database/mysql/AllTests.php' );
-require_once( 'Tests/Database/BaseConnectionTest.php' );
-require_once( 'Tests/Database/ResultTest.php' );
-require_once( 'Tests/Database/RowTest.php' );
-require_once( 'Tests/Database/StatementBuilderTest.php' );
-require_once( 'Tests/Database/StatementCollectionTest.php' );
-require_once( 'Tests/Database/TableReaderTest.php' );
-require_once( 'Tests/Database/TableWriterTest.php' );
+require_once( 'Tests/database/pdo/AllTests.php' );
+require_once( 'Tests/database/mysql/AllTests.php' );
+require_once( 'Tests/database/BaseConnectionTest.php' );
+require_once( 'Tests/database/ResultTest.php' );
+require_once( 'Tests/database/RowTest.php' );
+require_once( 'Tests/database/StatementBuilderTest.php' );
+require_once( 'Tests/database/StatementCollectionTest.php' );
+require_once( 'Tests/database/TableReaderTest.php' );
+require_once( 'Tests/database/TableWriterTest.php' );
 class Tests_Database_AllTests
 {	
 	public static function main()

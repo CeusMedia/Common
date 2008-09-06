@@ -192,7 +192,7 @@ class Net_cURL
 	 *	Returns the parsed HTTP header.
 	 *	@access		public
 	 *	@param		string		$key		Key name of Header Information
-	 *	@returns 	mixed
+	 *	@return	 	mixed
 	 */
 	public function getHeader( $key = NULL )
 	{
@@ -212,7 +212,7 @@ class Net_cURL
 	 *	Returns the current setting of the request option.
 	 *	@access		public
 	 *	@param		int			$option		Key name of cURL Option
-	 *	@returns 	mixed
+	 *	@return 	mixed
 	 */
 	public function getOption( $option )
 	{
@@ -225,7 +225,7 @@ class Net_cURL
 	 *	Return the status information of the last cURL request.
 	 *	@access		public
 	 *	@param		string		$key		Key name of Information
-	 *	@returns	mixed
+	 *	@return		mixed
 	 */
 	public function getStatus( $key = NULL )
 	{
