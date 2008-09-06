@@ -21,7 +21,7 @@ class Framework_Neon_Models_Project extends Framework_Neon_Model
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		int		projectId		ID of Project
+	 *	@param		int		$projectId		ID of Project
 	 *	@return		void
 	 *	@author		Christian Würker <Christian.Wuerker@CeuS-Media.de>
 	 *	@since		26.03.2007

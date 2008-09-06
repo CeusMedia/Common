@@ -4,7 +4,7 @@ if( !defined( 'PHPUnit_MAIN_METHOD' ) )
 
 require_once( 'PHPUnit/Framework/TestSuite.php' );
 require_once( 'PHPUnit/TextUI/TestRunner.php' );
-require_once( 'Tests/Database/mysql/ConnectionTest.php' );
+require_once( 'Tests/database/mysql/ConnectionTest.php' );
 class Tests_Database_mySQL_AllTests
 {
 	public static function main()

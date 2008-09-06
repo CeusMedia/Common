@@ -383,8 +383,8 @@ class File_INI_Reader extends File_Reader
 			$line			= trim( $line );
 			$this->lines[]	= $line;
 
-			$commentOpen	-= preg_match( "@\*/@", $line );
-			$commentOpen	+= preg_match( "@/\*@", $line );
+			$commentOpen	-= preg_match( "@^\*/$@", trim( $line ) );
+			$commentOpen	+= preg_match( "@^/\*@", trim( $line ) );
 
 			if( $commentOpen )
 				continue;
@@ -430,7 +430,7 @@ class File_INI_Reader extends File_Reader
 					$value	= TRUE;
 				else if( in_array( strtolower( $value ), array( 'no', 'false' ) ) )
 					$value	= FALSE;
-					
+				
 				if( preg_match( '@^".*"$@', $value ) )
 					$value	= substr( $value, 1, -1 );			
 				if( $this->usesSections() )
@@ -439,6 +439,16 @@ class File_INI_Reader extends File_Reader
 					$this->properties[$key] = $value;
 			}
 		}
+	}
+	public static function load( $fileName, $usesSections = FALSE, $activeOnly = TRUE )
+	{
+		$reader	= new self( $fileName, $usesSections );
+		return $reader->toArray( $activeOnly );
+	}
+
+	public static function loadAsArrayObject( $fileName, $usesSections = FALSE, $activeOnly = TRUE )
+	{
+		return new ArrayObject( self::load( $fileName, $usesSections, $activeOnly ) );
 	}
 
 	/**

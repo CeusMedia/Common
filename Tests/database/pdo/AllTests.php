@@ -4,9 +4,9 @@ if( !defined( 'PHPUnit_MAIN_METHOD' ) )
 
 require_once( 'PHPUnit/Framework/TestSuite.php' );
 require_once( 'PHPUnit/TextUI/TestRunner.php' );
-require_once( 'Tests/Database/pdo/ConnectionTest.php' );
-require_once( 'Tests/Database/pdo/TableReaderTest.php' );
-require_once( 'Tests/Database/pdo/TableWriterTest.php' );
+require_once( 'Tests/database/pdo/ConnectionTest.php' );
+require_once( 'Tests/database/pdo/TableReaderTest.php' );
+require_once( 'Tests/database/pdo/TableWriterTest.php' );
 class Tests_Database_PDO_AllTests
 {
 	public static function main()

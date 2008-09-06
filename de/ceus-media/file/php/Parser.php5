@@ -27,6 +27,7 @@
  *	@version		0.3
  */
 import( 'de.ceus-media.file.Reader' );
+import( 'de.ceus-media.alg.StringUnicoder' );
 /**
  *	Parses PHP Files containing a Class or Methods.
  *	@package		file.php
@@ -48,7 +49,7 @@ class File_PHP_Parser
 		'description'	=> "",
 		'package'		=> "",
 		'subpackage'	=> "",
-		'description'	=> array(),
+		'description'	=> "",
 		'license'		=> array(),
 		'copyright'		=> array(),
 		'version'		=> "",
@@ -69,7 +70,6 @@ class File_PHP_Parser
 		'description'	=> "",
 		'package'		=> "",
 		'subpackage'	=> "",
-		'description'	=> array(),
 		'license'		=> array(),
 		'copyright'		=> array(),
 		'version'		=> "",
@@ -131,8 +131,10 @@ class File_PHP_Parser
 		do
 		{
 			$line	= trim( array_shift( $lines ) );
+			$line	= Alg_StringUnicoder::convertToUnicode( $line );
 			if( preg_match( "@^(<\?(php)?)|((php)?\?>)$@", $line ) )
 				continue;
+			
 
 			if( preg_match( '@{ ?}?$@', $line ) )
 				$level++;
@@ -206,7 +208,9 @@ class File_PHP_Parser
 				continue;
 			if( is_string( $value ) )
 			{
-				if( isset( $codeData[$key] ) && !$codeData[$key] )
+				if( isset( $codeData[$key] ) && is_array( $codeData[$key] ) )
+					$codeData[$key][]	= $value;
+				else if( isset( $codeData[$key] ) && !$codeData[$key] )
 					$codeData[$key]	= $value;
 			}
 			else if( isset( $codeData[$key] ) )
