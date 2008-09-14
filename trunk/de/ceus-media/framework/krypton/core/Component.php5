@@ -358,6 +358,7 @@ abstract class Framework_Krypton_Core_Component
 				$this->handleLogicExceptionOld( $e, $lanfile );
 				break;
 			case 'Framework_Krypton_Exception_SQL':
+				import( 'de.ceus-media.ui.html.exception.TraceViewer' );
 				new UI_HTML_Exception_TraceViewer( $e );
 				$this->handleSqlException( $e );
 				break;
