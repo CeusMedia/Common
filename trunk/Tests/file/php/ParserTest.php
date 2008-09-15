@@ -101,7 +101,7 @@ class Tests_File_PHP_ParserTest extends PHPUnit_Framework_TestCase
 				'name'			=> "parser.php",
 				'uri'			=> $fileName,
 				'uses'			=> array(),
-				'description'	=> array(),
+				'description'	=> "",
 				'package'		=> "",
 				'subpackage'	=> "",
 				'see'			=> array(),
