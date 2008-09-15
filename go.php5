@@ -27,8 +27,11 @@ class Go
 				require_once( "useClasses.php5" );														//  enable cmClasses
 				import( 'de.ceus-media.ui.DevOutput' );													//  load output methods
 			}
-			else if( $command != "install" )															//  anything else but installation is impossible
-				throw new RuntimeException( sprintf( $this->messages['config_missing'], $configFile ) );
+			else if( !( $command == "install" || $command == "configure" ) )							//  anything else but installation is impossible
+			{
+				$message	= sprintf( $this->messages['config_missing'], $configFile );
+				throw new RuntimeException( $message );
+			}
 			$this->run( $configFile, $arguments, $command );											//  run tool component switch
 		}
 		catch( InvalidArgumentException $e )															//  catch argument exception
@@ -43,7 +46,6 @@ class Go
 		
 	private function run( $configFile, $arguments, $command )
 	{
-		$config		= parse_ini_file( $configFile, TRUE );
 		switch( $command )
 		{
 			case '-h':
@@ -54,6 +56,7 @@ class Go
 				$this->showUsage();
 				break;
 			case 'create':
+				$config		= parse_ini_file( $configFile, TRUE );
 				if( count( $arguments ) < 2 )
 					throw new InvalidArgumentException( $this->messages['subject_invalid'] );
 				$subject	= strtolower( $arguments[1] );
@@ -83,6 +86,7 @@ class Go
 				}
 				break;
 			case 'test':
+				$config		= parse_ini_file( $configFile, TRUE );
 				if( count( $arguments ) < 2 )
 					throw new InvalidArgumentException( $this->messages['subject_test_invalid'] );
 				$subject	= strtolower( $arguments[1] );
