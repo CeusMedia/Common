@@ -123,8 +123,9 @@ class UI_HTML_FormElements
 			'name'		=> $name,
 			'value'		=> $value,
 			'class'		=> $class,
-			'checked'	=> $checked		? "checked" : NULL,
-		);	
+			'checked'	=> $checked		? "checked"		: NULL,
+			'disabled'	=> $readOnly	? "disabled"	: NULL,
+		);
 		if( $readOnly )
 			self::addReadonlyAttributes( $attributes, $readOnly );
 		return UI_HTML_Tag::create( "input", NULL, $attributes );
