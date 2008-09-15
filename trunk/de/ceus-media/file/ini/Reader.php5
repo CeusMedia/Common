@@ -376,15 +376,15 @@ class File_INI_Reader extends File_Reader
 		$this->sections		= array();
 		$this->lines		= array();
 		$this->comments		= array();
-		$commentOpen		= false;
+		$commentOpen		= 0;
 		$lines				= File_Reader::loadArray( $this->fileName );
 		foreach( $lines as $line )
 		{
 			$line			= trim( $line );
 			$this->lines[]	= $line;
 
-			$commentOpen	-= preg_match( "@^\*/$@", trim( $line ) );
 			$commentOpen	+= preg_match( "@^/\*@", trim( $line ) );
+			$commentOpen	-= preg_match( "@\*/$@", trim( $line ) );
 
 			if( $commentOpen )
 				continue;
