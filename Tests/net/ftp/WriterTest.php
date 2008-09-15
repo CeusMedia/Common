@@ -32,12 +32,10 @@ class Tests_Net_FTP_WriterTest extends PHPUnit_Framework_TestCase
 	 */
 	public function __construct()
 	{
-		$host		= "localhost";
-		$port		= 21;
-		$username	= "ftp_user";
-		$password	= "ftp_pass";
-		$this->connection	= new Net_FTP_Connection( $host, $port );
-		$this->connection->login( $username, $password );
+		$this->host		= "localhost";
+		$this->port		= 21;
+		$this->username	= "ftp_user";
+		$this->password	= "ftp_pass";
 		$this->ftpPath	= dirname( __FILE__ )."/upload/";
 	}
 	
@@ -48,6 +46,9 @@ class Tests_Net_FTP_WriterTest extends PHPUnit_Framework_TestCase
 	 */
 	public function setUp()
 	{
+		$this->connection	= new Net_FTP_Connection( $this->host, $this->port );
+		$this->connection->login( $this->username, $this->password );
+
 		@mkDir( $this->ftpPath );
 		@mkDir( $this->ftpPath."folder" );
 		@file_put_contents( $this->ftpPath."source.txt", "source file" );
