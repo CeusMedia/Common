@@ -66,11 +66,11 @@ class Tests_UI_HTML_FormElementsTest extends PHPUnit_Framework_TestCase
 		$creation	= UI_HTML_FormElements::CheckBox( "testName", "testValue", TRUE, "testClass" );
 		$this->assertEquals( $assertion, $creation );
 
-		$assertion	= '<input id="testName" type="checkbox" name="testName" value="testValue" class="testClass" readonly="readonly"/>';
+		$assertion	= '<input id="testName" type="checkbox" name="testName" value="testValue" class="testClass" disabled="disabled" readonly="readonly"/>';
 		$creation	= UI_HTML_FormElements::CheckBox( "testName", "testValue", NULL, "testClass", TRUE );
 		$this->assertEquals( $assertion, $creation );
 
-		$assertion	= '<input id="testName" type="checkbox" name="testName" value="testValue" class="testClass" readonly="readonly" onclick="alert(\'testDisabled\');"/>';
+		$assertion	= '<input id="testName" type="checkbox" name="testName" value="testValue" class="testClass" disabled="disabled" readonly="readonly" onclick="alert(\'testDisabled\');"/>';
 		$creation	= UI_HTML_FormElements::CheckBox( "testName", "testValue", NULL, "testClass", "testDisabled" );
 		$this->assertEquals( $assertion, $creation );
 	}
