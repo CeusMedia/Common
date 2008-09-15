@@ -173,7 +173,7 @@ class Alg_TimeConverter
 	 */
 	public static function convertToHuman( $timestamp, $format )
 	{
-		$human	= NULL;
+		$human = "";
 		if( $format == "date" )
 			$human = date( "d.m.Y", (int) $timestamp );
 		else if( $format == "monthdate" )
