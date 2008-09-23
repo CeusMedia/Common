@@ -4,11 +4,11 @@ class UI_HTML_Panel
 {
 	public static $class	= "panel";
 
-	public static function create( $title, $content, $class = "default", $attributes = array() )
+	public static function create( $header, $content, $footer = "", $class = "default", $attributes = array() )
 	{
-		$divHead	= self::wrap( self::wrap( $title, 'panelHeadInner' ), 'panelHead' );
+		$divHead	= self::wrap( self::wrap( $header, 'panelHeadInner' ), 'panelHead' );
 		$divContent	= self::wrap( self::wrap( $content, 'panelContentInner' ), 'panelContent' );
-		$divFoot	= self::wrap( self::wrap( "", 'panelFootInner' ), 'panelFoot' );
+		$divFoot	= self::wrap( self::wrap( $footer, 'panelFootInner' ), 'panelFoot' );
 		$class		= $class ? self::$class." ".$class : self::$class;
 		$divPanel	= self::wrap( $divHead.$divContent.$divFoot, $class, $attributes );
 		return $divPanel;

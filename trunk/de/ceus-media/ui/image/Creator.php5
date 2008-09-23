@@ -72,7 +72,7 @@ class UI_Image_Creator
 				$this->type	= self::TYPE_GIF;
 				break;
 			default:
-				throw new InvalidArgumentException( 'Image Type "'.$type.'" is not supported.' );
+				throw new InvalidArgumentException( 'Image Type "'.$extension.'" is not supported.' );
 		}
 		$this->extension	= $extension;
 		$this->width		= imagesx( $this->resource );		

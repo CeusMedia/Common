@@ -230,6 +230,23 @@ class UI_HTML_FormElements
 	}
 
 	/**
+	 *	Builds HTML Code for a Field Label.
+	 *	@access		public
+	 *	@param		string		$id				ID of Field to reference
+	 *	@param		string		$label			Label Text
+	 *	@param		string		$class			CSS Class
+	 *	@return		string
+	 */
+	public static function Label( $id, $label, $class = NULL )
+	{
+		$attributes	= array(
+			'for'		=> $id,
+			'class'		=> $class ? $class : NULL,
+		);
+		return UI_HTML_Tag::create( "label", $label, $attributes );
+	}
+
+	/**
 	 *	Builds HTML Code for a Button behaving like a Link.
 	 *	@access		public
 	 *	@param		string		$label			Button Label, also used for ID with Prefix 'button_' and MD5 Hash
