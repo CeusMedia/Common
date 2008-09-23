@@ -144,6 +144,22 @@ class Tests_UI_HTML_FormElementsTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 *	Tests Method 'Label'.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testLabel()
+	{
+		$assertion	= '<label for="testId">testLabel</label>';
+		$creation	= UI_HTML_FormElements::Label( "testId", "testLabel" );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= '<label for="testId" class="testClass">testLabel</label>';
+		$creation	= UI_HTML_FormElements::Label( "testId", "testLabel", "testClass" );
+		$this->assertEquals( $assertion, $creation );
+	}
+
+	/**
 	 *	Tests Method 'LinkButton'.
 	 *	@access		public
 	 *	@return		void

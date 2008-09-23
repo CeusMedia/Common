@@ -5,10 +5,10 @@ class UI_HTML_CollapsePanel extends UI_HTML_Panel
 {
 	public static $class	= "collapsable";
 
-	public static function create( $id, $title, $content, $class = "default" )
+	public static function create( $id, $header, $content, $footer = "", $class = "default" )
 	{
 		$class		= $class ? self::$class." ".$class : self::$class;
-		return parent::create( $title, $content, $class, array( 'id' => $id ) );
+		return parent::create( $header, $content, $footer, $class, array( 'id' => $id ) );
 	}
 
 	public static function createScript( $selector, $options = array() )
