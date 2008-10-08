@@ -38,6 +38,7 @@
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			20.02.2007
  *	@version		0.6
+ *	@todo			add Filter Support
  */
 class Net_HTTP_Request_Response
 {
