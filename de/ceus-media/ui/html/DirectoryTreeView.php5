@@ -110,7 +110,9 @@ class UI_HTML_DirectoryTreeView
 		{
 			if( $file->isDot() )
 				continue;
-			if( $index->isDir() )
+			if( preg_match( "@^\.@", $file->getFilename() ) )
+				continue;
+			if( $file->isDir() )
 			{
 				$children	= array();
 				$this->readRecursive( $file->getPathname(), $currentId, $children, $linkNodes, $classNode, $classLeaf );
