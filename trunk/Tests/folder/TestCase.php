@@ -16,6 +16,39 @@ require_once( 'Tests/initLoaders.php5' );
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			21.04.2008
  *	@version		0.1
+ *
+ *	This Class creates and removed this File Structure:
+ *	# folder
+ *	  ° file1
+ *	  ° file2
+ *	  ° .file3
+ *	  # sub1
+ *	    ° file1_1
+ *	    ° file1_2
+ *	    # sub1sub1
+ *	      ° file1_1_1
+ *	      ° file1_1_2
+ *	    # sub1sub2
+ *	      ° file1_2_1
+ *	      ° file1_2_2
+ *	  # sub2
+ *	    ° file2_1
+ *	    ° .file2_2
+ *	    # sub2sub1
+ *	      ° file2_1_1
+ *	      ° .file2_1_2
+ *	    # .sub2sub2
+ *	      ° file2_2_1
+ *	      ° .file2_2_2
+ *	  # .sub3
+ *	    ° file3_1
+ *	    ° .file3_2
+ *	    # sub3sub1
+ *	      ° file3_1_1
+ *	      ° .file3_1_2
+ *	    # .sub3sub2
+ *	      ° file3_2_1
+ *	      ° .file3_2_2
  */
 class Tests_Folder_TestCase extends PHPUnit_Framework_TestCase
 {
@@ -29,14 +62,18 @@ class Tests_Folder_TestCase extends PHPUnit_Framework_TestCase
 		$this->path		= $path	= dirname( __FILE__ )."/";
 		
 		@mkDir( $path."folder" );
-		@mkDir( $path."folder/.hidden" );
 		@mkDir( $path."folder/sub1" );
-		@mkDir( $path."folder/sub2" );
 		@mkDir( $path."folder/sub1/sub1sub1" );
 		@mkDir( $path."folder/sub1/sub1sub2" );
 		@mkDir( $path."folder/sub2" );
 		@mkDir( $path."folder/sub2/sub2sub1" );
+		@mkDir( $path."folder/sub2/.sub2sub2" );
+		@mkDir( $path."folder/.sub3" );
+		@mkDir( $path."folder/.sub3/sub3sub1" );
+		@mkDir( $path."folder/.sub3/.sub3sub2" );
 		@file_put_contents( $path."folder/file1.txt", "test" );
+		@file_put_contents( $path."folder/file2.txt", "test" );
+		@file_put_contents( $path."folder/.file3.txt", "test" );
 		@file_put_contents( $path."folder/sub1/file1_1.txt", "test" );
 		@file_put_contents( $path."folder/sub1/file1_2.txt", "test" );
 		@file_put_contents( $path."folder/sub1/sub1sub1/file1_1_1.txt", "test" );
@@ -44,9 +81,19 @@ class Tests_Folder_TestCase extends PHPUnit_Framework_TestCase
 		@file_put_contents( $path."folder/sub1/sub1sub2/file1_2_1.txt", "test" );
 		@file_put_contents( $path."folder/sub1/sub1sub2/file1_2_2.txt", "test" );
 		@file_put_contents( $path."folder/sub2/file2_1.txt", "test" );
+		@file_put_contents( $path."folder/sub2/.file2_2.txt", "test" );
 		@file_put_contents( $path."folder/sub2/sub2sub1/file2_1_1.txt", "test" );
+		@file_put_contents( $path."folder/sub2/sub2sub1/.file2_1_2.txt", "test" );
+		@file_put_contents( $path."folder/sub2/.sub2sub2/file2_2_1.txt", "test" );
+		@file_put_contents( $path."folder/sub2/.sub2sub2/.file2_2_2.txt", "test" );
+		@file_put_contents( $path."folder/.sub3/file3_1.txt", "test" );
+		@file_put_contents( $path."folder/.sub3/.file3_2.txt", "test" );
+		@file_put_contents( $path."folder/.sub3/sub3sub1/file3_1_1.txt", "test" );
+		@file_put_contents( $path."folder/.sub3/sub3sub1/.file3_1_2.txt", "test" );
+		@file_put_contents( $path."folder/.sub3/.sub3sub2/file3_2_1.txt", "test" );
+		@file_put_contents( $path."folder/.sub3/.sub3sub2/.file3_2_2.txt", "test" );
 	}
-	
+
 	/**
 	 *	Destructor, removes File Structure.
 	 *	@access		public

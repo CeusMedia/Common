@@ -84,7 +84,7 @@ class Tests_Folder_EditorTest extends Tests_Folder_TestCase
 	 */
 	public function testCopy()
 	{
-		$assertion	= 15;
+		$assertion	= 16;
 		$creation	= $this->editor->copy( $this->path."copy" );
 		$this->assertEquals( $assertion, $creation );
 
@@ -94,7 +94,7 @@ class Tests_Folder_EditorTest extends Tests_Folder_TestCase
 
 
 		$this->removeFolder( $this->path."copy", TRUE );
-		$assertion	= 16;
+		$assertion	= 31;
 		$creation	= $this->editor->copy( $this->path."copy", FALSE, FALSE );
 		$this->assertEquals( $assertion, $creation );
 
@@ -104,7 +104,7 @@ class Tests_Folder_EditorTest extends Tests_Folder_TestCase
 
 
 		$this->removeFolder( $this->path."copy", TRUE );
-		$assertion	= 15;
+		$assertion	= 16;
 		$creation	= $this->editor->copy( $this->path."copy", FALSE, TRUE, TRUE );
 		$this->assertEquals( $assertion, $creation );
 
@@ -120,11 +120,11 @@ class Tests_Folder_EditorTest extends Tests_Folder_TestCase
 	 */
 	public function testCopyFolder()
 	{
-		$assertion	= 16;
+		$assertion	= 31;
 		$creation	= Folder_Editor::copyFolder( $this->path."folder", $this->path."copy", FALSE, FALSE );
 		$this->assertEquals( $assertion, $creation );
 
-		$assertion	= 9;
+		$assertion	= 21;
 		$creation	= Folder_Editor::copyFolder( $this->path."folder", $this->path."copy", TRUE, FALSE );
 		$this->assertEquals( $assertion, $creation );
 	}
@@ -327,7 +327,7 @@ class Tests_Folder_EditorTest extends Tests_Folder_TestCase
 		
 		$editor	= new Folder_Editor( $this->path."remove" );
 
-		$assertion	= 15;
+		$assertion	= 16;
 		$creation	= $editor->remove( TRUE );
 		$this->assertEquals( $assertion, $creation );
 
@@ -349,7 +349,7 @@ class Tests_Folder_EditorTest extends Tests_Folder_TestCase
 		$creation	= file_exists( $this->path."remove" );
 		$this->assertEquals( $assertion, $creation );
 		
-		$assertion	= 15;
+		$assertion	= 16;
 		$creation	= Folder_Editor::removeFolder( $this->path."remove", TRUE );
 		$this->assertEquals( $assertion, $creation );
 
