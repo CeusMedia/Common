@@ -179,8 +179,9 @@ abstract class Framework_Krypton_Base
 
 		//  --  DATABASE OPTIONS  --  //
 		$options	= $config['database.options'];
-		foreach( $options as $key => $value )
-			$options[constant( "PDO::".$key )]	= eval( "return ".$value.";" );
+		if( is_array( $options ) )
+			foreach( $options as $key => $value )
+				$options[constant( "PDO::".$key )]	= eval( "return ".$value.";" );
 
 		//  --  DATA SOURCE NAME  --  //
 		extract( $config['database.access'] );
@@ -207,7 +208,7 @@ abstract class Framework_Krypton_Base
 		$dbc	= new Database_PDO_Connection( $dsn, $username, $password, $options );
 #		$dbc->setErrorLogFile( $dba['access']['logfile'] );
 #		$dbc->setStatementLogFile( self::$dbLogPath."queries.log" );
-		$dbc->setLogFile( $logfile );
+#		$dbc->setLogFile( $logfile );
 		if( $config->has( 'database.access.errorLogFile' ) )
 			$dbc->setLogFile( $errorLogFile );
 		$dbc->setQueryLogFile( self::$dbLogPath."queries.log" );
@@ -216,8 +217,9 @@ abstract class Framework_Krypton_Base
 
 		//  --  DATABASE ATTRIBUTES  --  //
 		$attributes	= $config['database.attributes'];
-		foreach( $attributes as $key => $value )
-			$dbc->setAttribute( constant( "PDO::".$key ), eval( "return ".$value.";" ) );
+		if( is_array( $attributes ) )
+			foreach( $attributes as $key => $value )
+				$dbc->setAttribute( constant( "PDO::".$key ), eval( "return ".$value.";" ) );
 		
 		$config['config.table_prefix']	= $prefix;
 		$this->registry->set( "dbc", $dbc, TRUE );
