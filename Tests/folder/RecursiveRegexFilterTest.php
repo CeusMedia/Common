@@ -29,7 +29,7 @@ class Tests_Folder_RecursiveRegexFilterTest extends Tests_Folder_TestCase
 	public function __construct()
 	{
 		parent::__construct();
-		$this->path	= dirname( __FILE__ )."/";
+		$this->path	= str_replace( "\\", "/", dirname( __FILE__ ) )."/";
 	}
 
 	/**
@@ -41,7 +41,7 @@ class Tests_Folder_RecursiveRegexFilterTest extends Tests_Folder_TestCase
 	{
 		$folders	= array();
 		$files		= array();
-		$path		= str_replace( "\\", "/", $this->path."folder" );
+		$path		= $this->path."folder";
 		$index	= new Folder_RecursiveRegexFilter( $path, "@.*@" );
 		extract( $this->getListFromIndex( $index ) );
 
@@ -63,10 +63,13 @@ class Tests_Folder_RecursiveRegexFilterTest extends Tests_Folder_TestCase
 			'file1_1_2.txt',
 			'file1_2_1.txt',
 			'file1_2_2.txt',
+			'file2.txt',
 			'file2_1.txt',
 			'file2_1_1.txt',
 		);
 		$creation	= $files;
+		sort( $assertion );
+		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -88,7 +91,7 @@ class Tests_Folder_RecursiveRegexFilterTest extends Tests_Folder_TestCase
 	 */
 	public function testConstructTextFilesOnly()
 	{
-		$path		= str_replace( "\\", "/", $this->path."folder" );
+		$path		= $this->path."folder";
 		$index	= new Folder_RecursiveRegexFilter( $path, "@\.txt$@", TRUE, FALSE );
 		extract( $this->getListFromIndex( $index ) );
 
@@ -104,10 +107,13 @@ class Tests_Folder_RecursiveRegexFilterTest extends Tests_Folder_TestCase
 			'file1_1_2.txt',
 			'file1_2_1.txt',
 			'file1_2_2.txt',
+			'file2.txt',
 			'file2_1.txt',
 			'file2_1_1.txt',
 		);
 		$creation	= $files;
+		sort( $assertion );
+		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -118,7 +124,7 @@ class Tests_Folder_RecursiveRegexFilterTest extends Tests_Folder_TestCase
 	 */
 	public function testConstructFilesOnly()
 	{
-		$path		= str_replace( "\\", "/", $this->path."folder" );
+		$path		= $this->path."folder";
 		$index	= new Folder_RecursiveRegexFilter( $path, "@file@", TRUE, FALSE );
 		extract( $this->getListFromIndex( $index ) );
 
@@ -134,10 +140,13 @@ class Tests_Folder_RecursiveRegexFilterTest extends Tests_Folder_TestCase
 			'file1_1_2.txt',
 			'file1_2_1.txt',
 			'file1_2_2.txt',
+			'file2.txt',
 			'file2_1.txt',
 			'file2_1_1.txt',
 		);
 		$creation	= $files;
+		sort( $assertion );
+		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -148,8 +157,8 @@ class Tests_Folder_RecursiveRegexFilterTest extends Tests_Folder_TestCase
 	 */
 	public function testConstructPhpFilesOnly()
 	{
-		$path		= str_replace( "\\", "/", $this->path."folder" );
-		$index	= new Folder_RecursiveRegexFilter( $path, "@\.php$@", TRUE, FALSE );
+		$path		= $this->path."folder";
+		$index		= new Folder_RecursiveRegexFilter( $path, "@\.php$@", TRUE, FALSE );
 		extract( $this->getListFromIndex( $index ) );
 
 		$assertion	= array();
@@ -168,8 +177,8 @@ class Tests_Folder_RecursiveRegexFilterTest extends Tests_Folder_TestCase
 	 */
 	public function testConstructFoldersOnly()
 	{
-		$path		= str_replace( "\\", "/", $this->path."folder" );
-		$index	= new Folder_RecursiveRegexFilter( $path, "@.*@", FALSE, TRUE );
+		$path		= $this->path."folder";
+		$index		= new Folder_RecursiveRegexFilter( $path, "@.*@", FALSE, TRUE );
 		extract( $this->getListFromIndex( $index ) );
 
 		$assertion	= array(
@@ -194,8 +203,8 @@ class Tests_Folder_RecursiveRegexFilterTest extends Tests_Folder_TestCase
 	 */
 	public function a_testConstructSub1FoldersOnly()
 	{
-		$path		= str_replace( "\\", "/", $this->path."folder" );
-		$index	= new Folder_RecursiveRegexFilter( $path, "@^sub1@", FALSE, TRUE );
+		$path		= $this->path."folder";
+		$index		= new Folder_RecursiveRegexFilter( $path, "@^sub1@", FALSE, TRUE );
 		extract( $this->getListFromIndex( $index ) );
 
 		$assertion	= array(
@@ -218,12 +227,18 @@ class Tests_Folder_RecursiveRegexFilterTest extends Tests_Folder_TestCase
 	 */
 	public function testConstructShowHiddenFolders()
 	{
-		$path		= str_replace( "\\", "/", $this->path."folder" );
-		$index	= new Folder_RecursiveRegexFilter( $path, "@hidden@", FALSE, TRUE, FALSE );
+		$path		= $this->path."folder";
+		$index		= new Folder_RecursiveRegexFilter( $path, "@sub3@", FALSE, TRUE, FALSE );
 		extract( $this->getListFromIndex( $index ) );
 
-		$assertion	= array( '.hidden' );
+		$assertion	= array(
+			'.sub3',
+			'sub3sub1',
+			'.sub3sub2',
+			);
 		$creation	= $folders;
+		sort( $assertion );
+		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= array();

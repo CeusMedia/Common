@@ -47,7 +47,7 @@ class Tests_Folder_IteratorTest extends Tests_Folder_TestCase
 		$creation	= $folders;
 		$this->assertEquals( $assertion, $creation );
 
-		$assertion	= array( 'file1.txt' );
+		$assertion	= array( 'file1.txt', 'file2.txt' );
 		$creation	= $files;
 		$this->assertEquals( $assertion, $creation );
 	}
@@ -78,7 +78,7 @@ class Tests_Folder_IteratorTest extends Tests_Folder_TestCase
 		$creation	= $folders;
 		$this->assertEquals( $assertion, $creation );
 
-		$assertion	= array( 'file1.txt' );
+		$assertion	= array( 'file1.txt', 'file2.txt' );
 		$creation	= $files;
 		$this->assertEquals( $assertion, $creation );
 	}
@@ -108,14 +108,46 @@ class Tests_Folder_IteratorTest extends Tests_Folder_TestCase
 	 *	@access		public
 	 *	@return		void
 	 */
+	public function testConstructShowHiddenFiles()
+	{
+		$path		= str_replace( "\\", "/", $this->path."folder" );
+		$index	= new Folder_Iterator( $path, TRUE, FALSE, FALSE );
+		extract( $this->getListFromIndex( $index ) );
+
+		$assertion	= array(
+			'file1.txt',
+			'file2.txt',
+			'.file3.txt'
+		);
+		$creation	= $files;
+		sort( $assertion );
+		sort( $creation );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= array();
+		$creation	= $folders;
+		$this->assertEquals( $assertion, $creation );
+	}
+
+	/**
+	 *	Tests Method '__construct'.
+	 *	@access		public
+	 *	@return		void
+	 */
 	public function testConstructShowHiddenFolders()
 	{
 		$path		= str_replace( "\\", "/", $this->path."folder" );
 		$index	= new Folder_Iterator( $path, FALSE, TRUE, FALSE );
 		extract( $this->getListFromIndex( $index ) );
 
-		$assertion	= array( '.hidden', 'sub1', 'sub2' );
+		$assertion	= array(
+			'sub1',
+			'sub2',
+			'.sub3'
+		);
 		$creation	= $folders;
+		sort( $assertion );
+		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= array();
