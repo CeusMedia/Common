@@ -3,7 +3,7 @@ import( 'de.ceus-media.folder.Reader' );
 /**
  *	Editor for Folders.
  *	All Methods to create, copy, move or remove a Folder are working recursive.
- *	Folders with a leading Dot are ignored if not set otherwise with Option 'skipDotFolders'.
+ *	Files and Folders with a leading Dot are ignored if not set otherwise with Option 'skipDotEntries'.
  *	By default copy, move and remove are not overwriting existing Files or deleting Folders containing Files or Folders.
  *	It can be forced to overwrite or remove everything with Option 'force'.
  *
@@ -34,7 +34,7 @@ import( 'de.ceus-media.folder.Reader' );
 /**
  *	Editor for Folders.
  *	All Methods to create, copy, move or remove a Folder are working recursive.
- *	Folders with a leading Dot are ignored if not set otherwise with Option 'skipDotFolders'.
+ *	Files and Folders with a leading Dot are ignored if not set otherwise with Option 'skipDotEntries'.
  *	By default copy, move and remove are not overwriting existing Files or deleting Folders containing Files or Folders.
  *	It can be forced to overwrite or remove everything with Option 'force'.
  *	@package		folder
@@ -92,10 +92,10 @@ class Folder_Editor extends Folder_Reader
 	 *	@param		string		$sourceFolder	Folder Name of Folder to copy
 	 *	@param		string		$targetFolder	Folder Name to Target Folder
 	 *	@param		bool		$force			Flag: force Copy if file is existing
-	 *	@param		bool		$skipDotFolders	Flag: skip Folders starting with Dot
+	 *	@param		bool		$skipDotEntries	Flag: skip Files and Folders starting with Dot
 	 *	@return		int
 	 */
-	public static function copyFolder( $sourceFolder, $targetFolder, $force = FALSE, $skipDotFolders = TRUE )
+	public static function copyFolder( $sourceFolder, $targetFolder, $force = FALSE, $skipDotEntries = TRUE )
 	{
 		if( !self::isFolder( $sourceFolder ) )												//  Source Folder not existing
 			throw new RuntimeException( 'Folder "'.$sourceFolder.'" cannot be copied because it is not existing.' );
@@ -109,7 +109,7 @@ class Folder_Editor extends Folder_Reader
 			$count	+= (int) self::createFolder( $targetFolder );							//  create TargetFolder and count
 
 		import( 'de.ceus-media.folder.Iterator' );
-		$index	= new Folder_Iterator( $sourceFolder, TRUE, TRUE, $skipDotFolders );		//  Index of Source Folder
+		$index	= new Folder_Iterator( $sourceFolder, TRUE, TRUE, $skipDotEntries );		//  Index of Source Folder
 		foreach( $index as $entry )														
 		{
 			if( $entry->isDot() )															//  Dot Folders
@@ -118,7 +118,7 @@ class Folder_Editor extends Folder_Reader
 			{
 				$source	= $entry->getPathname();											//  Source Folder Name
 				$target	= $targetFolder.$entry->getFilename()."/";							//  Target Folder Name
-				$count	+= self::copyFolder( $source, $target, $force, $skipDotFolders );	//  copy Folder recursive and count
+				$count	+= self::copyFolder( $source, $target, $force, $skipDotEntries );	//  copy Folder recursive and count
 			}
 			else if( $entry->isFile() )														//  nested File
 			{
@@ -137,12 +137,12 @@ class Folder_Editor extends Folder_Reader
 	 *	@param		string		$targetFolder	Folder Name of Target Folder
 	 *	@param		bool		$useCopy		Flag: switch current Folder to Copy afterwards
 	 *	@param		bool		$force			Flag: force Copy if file is existing
-	 *	@param		bool		$skipDotFolders	Flag: skip Folders starting with Dot
+	 *	@param		bool		$skipDotEntries	Flag: skip Files and Folders starting with Dot
 	 *	@return		int
 	 */
-	public function copy( $targetFolder, $force = FALSE, $skipDotFolders = TRUE, $useCopy = FALSE )
+	public function copy( $targetFolder, $force = FALSE, $skipDotEntries = TRUE, $useCopy = FALSE )
 	{
-		$result	= self::copyFolder( $this->folderName, $targetFolder, $force, $skipDotFolders );
+		$result	= self::copyFolder( $this->folderName, $targetFolder, $force, $skipDotEntries );
 		if( $result && $useCopy )
 			$this->folderName	= $targetFolder;
 		return $result;

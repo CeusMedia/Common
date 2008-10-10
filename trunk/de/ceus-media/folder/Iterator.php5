@@ -43,8 +43,8 @@ class Folder_Iterator extends FilterIterator
 	protected $showFiles;
 	/**	@var		 bool		$showFolders		Flag: show Folders */
 	protected $showFolders;
-	/**	@var		 bool		$stripDotFolders	Flag: strip Folder with leading Dot */
-	protected $stripDotFolders;
+	/**	@var		 bool		$stripDotEntries	Flag: strip Files and Folder with leading Dot */
+	protected $stripDotEntries;
 
 	/**
 	 *	Constructor.
@@ -52,16 +52,16 @@ class Folder_Iterator extends FilterIterator
 	 *	@param		string		$path				Path to Folder
 	 *	@param		bool		$showFiles			Flag: show Files
 	 *	@param		bool		$showFolders		Flag: show Folders
-	 *	@param		bool		$stripDotFolders	Flag: strip Folder with leading Dot
+	 *	@param		bool		$stripDotEntries	Flag: strip Files and Folders with leading Dot
 	 *	@return		void
 	 */
-	public function __construct( $path, $showFiles = TRUE, $showFolders = TRUE, $stripDotFolders = TRUE )
+	public function __construct( $path, $showFiles = TRUE, $showFolders = TRUE, $stripDotEntries = TRUE )
 	{
 		if( !file_exists( $path ) )
 			throw new RuntimeException( 'Path "'.$path.'" is not existing.' );
 		$this->showFiles		= $showFiles;
 		$this->showFolders		= $showFolders;
-		$this->stripDotFolders	= $stripDotFolders;
+		$this->stripDotEntries	= $stripDotEntries;
 		parent::__construct( new DirectoryIterator( $path ) );
 	}
 
@@ -80,7 +80,7 @@ class Folder_Iterator extends FilterIterator
 		if( !$this->showFiles && !$isDir ) 
 			return FALSE;
 
-		if( $this->stripDotFolders && $isDir )
+		if( $this->stripDotEntries )
 		{
 			$folderName	= $this->getInnerIterator()->getFilename();
 			if( preg_match( "@^\.\w@", $folderName ) )
