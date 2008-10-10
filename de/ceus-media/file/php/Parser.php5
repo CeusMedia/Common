@@ -80,6 +80,7 @@ class File_PHP_Parser
 		'todo'			=> array(),
 		'deprecated'	=> array(),
 		'methods'		=> array(),
+		'members'		=> array(),
 	);
 
 	protected $methodData		= array(
@@ -105,9 +106,11 @@ class File_PHP_Parser
 	);
 	
 	protected $regexClass		= '@^(abstract )?(final )?(interface |class )([\w]+)( extends ([\w]+))?( implements ([\w]+)(, ([\w]+))*)?$@i';
-	protected $regexMethod	= '@^(abstract )?(final )?(protected |private |public )?(static )?function ([\w]+)\((.*)\)$@';
+	protected $regexMethod		= '@^(abstract )?(final )?(protected |private |public )?(static )?function ([\w]+)\((.*)\)$@';
 	protected $regexParam		= '@^(([\w]+) )?((&\s*)?\$([\w]+))( ?= ?([\S]+))?$@';
 	protected $regexDocParam	= '@^\*\s+\@param\s+(([\w]+)\s+)?(\$?([\w]+))\s*(.+)?$@';
+	protected $regexDocVariable	= '@^/\*\*\s+\@var\s+(\w+)\s+\$(\w+)(\s(.+))?\*\/$@s';
+	protected $regexVariable	= '@^(protected|private|public|var)\s+(static\s+)?\$(\w+)(\s+=\s+([^(]+))?.*$@';
 
 	/**
 	 *	Parses a PHP File and returns nested Array of collected Information.
@@ -135,7 +138,6 @@ class File_PHP_Parser
 			if( preg_match( "@^(<\?(php)?)|((php)?\?>)$@", $line ) )
 				continue;
 			
-
 			if( preg_match( '@{ ?}?$@', $line ) )
 				$level++;
 			else if( preg_match( '@}$@', $line ) )
@@ -182,6 +184,32 @@ class File_PHP_Parser
 				{
 					$method	= $this->parseMethod( $matches, $openBlocks );
 					$class['methods'][$method['name']]	= $method;
+				}
+				else if( preg_match( $this->regexDocVariable, $line, $matches ) )
+				{
+					$this->varBlocks[$matches[2]]	= array(
+						'type'			=> $matches[1],
+						'name'			=> $matches[2],
+						'description'	=> trim( $matches[4] ),
+					);
+				}
+				else if( preg_match( $this->regexVariable, $line, $matches ) )
+				{
+					$name	= $matches[3];
+					$default	= NULL;
+					if( isset( $matches[4] ) )
+						$default	= preg_replace( "@;$@", "", $matches[5] );
+					$data	= array(
+						'access'		=> $matches[1] == "var" ? "public" : $matches[1],
+						'static'		=> (bool) trim( $matches[2] ),
+						'type'			=> NULL,
+						'name'			=> $name,
+						'description'	=> NULL,
+						'default'		=> $default,
+					);
+					if( isset( $this->varBlocks[$name] ) )
+						$data	= array_merge( $data, $this->varBlocks[$name] );
+					$class['members'][$name]	= $data;
 				}
 			}
 		}
@@ -305,9 +333,27 @@ class File_PHP_Parser
 			}
 			else if( preg_match( "@\*\s+\@license\s+(\S+)( .+)?$@i", $line, $matches ) )
 			{
+				if( isset( $matches[2] ) )
+				{
+					$url	= trim( $matches[1] );
+					$name	= trim( $matches[2] );
+					if( preg_match( "@^http://@", $matches[2] ) )
+					{
+						$url	= trim( $matches[2] );
+						$name	= trim( $matches[1] );
+					}
+				}
+				else
+				{
+					$url	= "";
+					$name	= trim( $matches[1] );
+					if( preg_match( "@^http://@", $matches[1] ) )
+						$url	= trim( $matches[1] );
+				}
+			
 				$data['license'][]	= array(
-					'url'	=> trim( $matches[1] ),
-					'name'	=> isset( $matches[2] ) ? trim( $matches[2] ) : "",
+					'url'	=> $url,
+					'name'	=> $name,
 				);
 			}
 			else if( preg_match( "/^\*\s+@(\w+)\s+(.+)$/", $line, $matches ) )
@@ -315,6 +361,7 @@ class File_PHP_Parser
 				switch( $matches[1] )
 				{
 					case 'implements':
+					case 'deprecated':
 					case 'todo':
 					case 'see':
 					case 'link':
