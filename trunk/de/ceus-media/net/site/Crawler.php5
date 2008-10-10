@@ -86,10 +86,11 @@ class Net_Site_Crawler
 	 *	@param		int			$depth			Number of Links followed in a Row
 	 *	@return		void
 	 */
-	public function __construct( $depth = 10 )
+	public function __construct( $baseUrl, $depth = 10 )
 	{
 		if( $depth < 1 )
 			throw new InvalidArgumentException( 'Depth must be at least 1.' );
+		$this->baseUrl	= $baseUrl;
 		$this->depth	= $depth;
 		$this->reader	= new Net_Reader( "empty" );
 		$this->reader->setUserAgent( "SiteCrawler/0.1" );
@@ -155,10 +156,9 @@ class Net_Site_Crawler
 			$parts['pass']		= $this->pass;
 #			$parts['path']		= $this->path.$parts['path'];	
 			
-			if( $parts['host'] != $this->host )
+			if( !preg_match( "@^".$this->baseUrl."@", $url ) )
 				if( !$followExternalLinks )
 					continue;	
-
 			$url		= $this->buildUrl( $parts );
 			if( array_key_exists( base64_encode( $url ), $this->links ) )
 				continue;
@@ -277,8 +277,17 @@ class Net_Site_Crawler
 		foreach( $nodes as $node )
 		{
 			$ref	= $node->getAttribute( 'href' );
-			if( preg_match( "@^(#|mailto:|javascript:)@", $ref ) )
+			if( preg_match( "@^(#|mailto:|javascript:|../)@", $ref ) )
 				continue;
+			if( preg_match( "@^/@", $ref ) )
+			{
+				$parts	= parse_url( $this->baseUrl );
+				$ref	= $parts['scheme']."://".$parts['host'].$ref;
+			}
+			else if( preg_match( "@^\./@", $ref ) )
+				$ref	= preg_replace( "@^\./@", "", $ref );
+			if( !preg_match( "@^https?://@", $ref ) )
+				$ref	= $this->baseUrl.$ref;
 			$links[$ref]	= $node->nodeValue;
 		}
 		return $links;
