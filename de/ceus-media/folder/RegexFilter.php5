@@ -44,8 +44,8 @@ class Folder_RegexFilter extends RegexIterator
 	protected $showFiles;
 	/**	@var		 bool		$showFolders		Flag: show Folders */
 	protected $showFolders;
-	/**	@var		 bool		$stripDotFolders	Flag: strip Folder with leading Dot */
-	protected $stripDotFolders;
+	/**	@var		 bool		$stripDotEntries	Flag: strip Folder with leading Dot */
+	protected $stripDotEntries;
 
 
 	/**
@@ -55,16 +55,16 @@ class Folder_RegexFilter extends RegexIterator
 	 *	@param		string		$pattern			Regular Expression to match with File Name
 	 *	@param		bool		$showFiles			Flag: show Files
 	 *	@param		bool		$showFolders		Flag: show Folders
-	 *	@param		bool		$stripDotFolders	Flag: strip Folder with leading Dot
+	 *	@param		bool		$stripDotEntries	Flag: strip Files and Folder with leading Dot
 	 *	@return		void
 	 */
-	public function __construct( $path, $pattern, $showFiles = TRUE, $showFolders = TRUE, $stripDotFolders = TRUE  )
+	public function __construct( $path, $pattern, $showFiles = TRUE, $showFolders = TRUE, $stripDotEntries = TRUE  )
 	{
 		if( !file_exists( $path ) )
 			throw new RuntimeException( 'Path "'.$path.'" is not existing.' );
     	$this->showFiles		= $showFiles;
     	$this->showFolders		= $showFolders;
-    	$this->stripDotFolders	= $stripDotFolders;
+    	$this->stripDotEntries	= $stripDotEntries;
 		parent::__construct(
 			new DirectoryIterator( $path  ),
 			$pattern
@@ -85,7 +85,7 @@ class Folder_RegexFilter extends RegexIterator
 			return FALSE;
 		if( !$this->showFolders && $isDir )
 			return FALSE;
-		if( $this->stripDotFolders && $isDir )
+		if( $this->stripDotEntries )
 			if( preg_match( "@^\.\w@", $this->getFilename() ) )
 				return FALSE;
 		return parent::accept();

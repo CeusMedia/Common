@@ -46,8 +46,8 @@ class Folder_RecursiveRegexFilter extends RegexIterator
 	protected $showFiles;
 	/**	@var		 bool		$showFolders		Flag: show Folders */
 	protected $showFolders;
-	/**	@var		 bool		$stripDotFolders	Flag: strip Folder with leading Dot */
-	protected $stripDotFolders;
+	/**	@var		 bool		$stripDotEntries	Flag: strip Files and Folder with leading Dot */
+	protected $stripDotEntries;
 
 
 	/**
@@ -57,17 +57,19 @@ class Folder_RecursiveRegexFilter extends RegexIterator
 	 *	@param		string		$pattern			Regular Expression to match with File Name
 	 *	@param		bool		$showFiles			Flag: show Files
 	 *	@param		bool		$showFolders		Flag: show Folders
-	 *	@param		bool		$stripDotFolders	Flag: strip Folder with leading Dot
+	 *	@param		bool		$stripDotEntries	Flag: strip Files and Folder with leading Dot
 	 *	@return		void
 	 */
-	public function __construct( $path, $pattern, $showFiles = TRUE, $showFolders = TRUE, $stripDotFolders = TRUE  )
+	public function __construct( $path, $pattern, $showFiles = TRUE, $showFolders = TRUE, $stripDotEntries = TRUE  )
 	{
 		if( !file_exists( $path ) )
 			throw new RuntimeException( 'Path "'.$path.'" is not existing.' );
+		$this->realPath			= str_replace( "\\", "/", realpath( $path ) );
+		$this->realPathLength	= strlen( $this->realPath );
 		$this->pattern			= $pattern;
     	$this->showFiles		= $showFiles;
     	$this->showFolders		= $showFolders;
-    	$this->stripDotFolders	= $stripDotFolders;
+    	$this->stripDotEntries	= $stripDotEntries;
     	$selfIterator			= $showFolders ? RecursiveIteratorIterator::SELF_FIRST : NULL;
         parent::__construct(
         	new RecursiveIteratorIterator(
@@ -95,9 +97,15 @@ class Folder_RecursiveRegexFilter extends RegexIterator
    		if( !$this->showFiles && !$isDir )
    			return FALSE;
 
-    	if( $this->stripDotFolders )
+    	if( $this->stripDotEntries )
+    	{
 			if( preg_match( "@^\.\w@", $this->getFilename() ) )
 				return FALSE;
+			$folderPath	= str_replace( "\\", "/", $this->getInnerIterator()->getPathname() );
+			$folderPath	= substr( $folderPath, $this->realPathLength );
+			if( preg_match( "@/\.\w+/@", $folderPath ) )
+				return FALSE;
+		}
 
 		return preg_match( $this->pattern, $this->getFilename() );
 	}

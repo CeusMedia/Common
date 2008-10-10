@@ -58,8 +58,8 @@ class Folder_Lister
 	protected $showFiles		= TRUE;
 	/**	@var		 bool		$showFolders		Flag: show Folders */
 	protected $showFolders		= TRUE;
-	/**	@var		 bool		$stripDotFolders	Flag: strip Folder with leading Dot */
-	protected $stripDotFolders	= TRUE;
+	/**	@var		 bool		$stripDotEntries	Flag: strip Files and Folder with leading Dot */
+	protected $stripDotEntries	= TRUE;
 
 	/**
 	 *	Constructor.
@@ -82,10 +82,10 @@ class Folder_Lister
 		if( $this->pattern )
 		{
 			import( 'de.ceus-media.folder.RegexFilter' );
-			return new Folder_RegexFilter( $this->path, $this->pattern, $this->showFiles, $this->showFolders, $this->stripDotFolders );
+			return new Folder_RegexFilter( $this->path, $this->pattern, $this->showFiles, $this->showFolders, $this->stripDotEntries );
 		}
 		import( 'de.ceus-media.folder.Iterator' );
-		return new Folder_Iterator( $this->path, $this->showFiles, $this->showFolders, $this->stripDotFolders );
+		return new Folder_Iterator( $this->path, $this->showFiles, $this->showFolders, $this->stripDotEntries );
 	}
 
 	/**
@@ -109,16 +109,16 @@ class Folder_Lister
 	 *	@access		public
 	 *	@param		string		$path				Path to Folder
 	 *	@param		string		$pattern			RegEx Pattern to match with Folder Name
-	 *	@param		bool		$stripDotFolders	Flag: strip Folders starting with a Dot
+	 *	@param		bool		$stripDotEntries	Flag: strip Files and Folders starting with a Dot
 	 *	@return		FilterIterator
 	 */	
-	public static function getFolderList( $path, $pattern = NULL, $stripDotFolders = TRUE )
+	public static function getFolderList( $path, $pattern = NULL, $stripDotEntries = TRUE )
 	{
 		$index	= new Folder_Lister( $path );
 		$index->setPattern( $pattern );
 		$index->showFiles( FALSE );
 		$index->showFolders( TRUE );
-		$index->stripDotFolders( $stripDotFolders );
+		$index->stripDotEntries( $stripDotEntries );
 		return $index->getList();
 	}
 
@@ -127,16 +127,16 @@ class Folder_Lister
 	 *	@access		public
 	 *	@param		string		$path				Path to Folder
 	 *	@param		string		$pattern			RegEx Pattern to match with Entry Name
-	 *	@param		bool		$stripDotFolders	Flag: strip Folders starting with a Dot
+	 *	@param		bool		$stripDotEntries	Flag: strip Files and Folders starting with a Dot
 	 *	@return		FilterIterator
 	 */	
-	public static function getMixedList( $path, $pattern = NULL, $stripDotFolders = TRUE )
+	public static function getMixedList( $path, $pattern = NULL, $stripDotEntries = TRUE )
 	{
 		$index	= new Folder_Lister( $path );
 		$index->setPattern( $pattern );
 		$index->showFiles( TRUE );
 		$index->showFolders( TRUE );
-		$index->stripDotFolders( $stripDotFolders );
+		$index->stripDotEntries( $stripDotEntries );
 		return $index->getList();
 	}
 
@@ -197,14 +197,14 @@ class Folder_Lister
 	}
 
 	/**
-	 *	Sets whether Folders starting with a Dot should be stripped from the List.
+	 *	Sets whether Files and Folders starting with a Dot should be stripped from the List.
 	 *	@access		public
-	 *	@param		bool		$flag			Flag: strip Folders starting with a Dot
+	 *	@param		bool		$flag			Flag: strip Files and Folders starting with a Dot
 	 *	@return		void
 	 */
-	public function stripDotFolders( $flag )
+	public function stripDotEntries( $flag )
 	{
-		$this->stripDotFolders	= (bool) $flag;
+		$this->stripDotEntries	= (bool) $flag;
 	}
 }
 ?>
