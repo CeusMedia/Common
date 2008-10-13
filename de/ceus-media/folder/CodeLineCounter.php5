@@ -1,6 +1,4 @@
 <?php
-import( 'de.ceus-media.folder.RecursiveLister' );
-import( 'de.ceus-media.ui.html.Elements' );
 /**
  *	Counter for Lines of Code.
  *
@@ -20,24 +18,31 @@ import( 'de.ceus-media.ui.html.Elements' );
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@package		folder
+ *	@uses			File_Reader
  *	@uses			Folder_RecursiveLister
+ *	@uses			UI_HTML_Elements
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			15.04.2008
- *	@version		0.1
+ *	@version		0.2
  */
+import( 'de.ceus-media.file.CodeLineCounter' );
+import( 'de.ceus-media.folder.RecursiveLister' );
+import( 'de.ceus-media.ui.html.Elements' );
 /**
  *	Counter for Lines of Code.
  *	@package		folder
+ *	@uses			File_Reader
  *	@uses			Folder_RecursiveLister
+ *	@uses			UI_HTML_Elements
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			15.04.2008
- *	@version		0.1
+ *	@version		0.2
  *	@todo			Code Doc
  */
 class Folder_CodeLineCounter
@@ -91,16 +96,17 @@ class Folder_CodeLineCounter
 		{
 			$fileName	= $entry->getFilename();
 			$pathName	= $entry->getPathname();
+			
 			if( substr( $fileName, 0, 1 ) == "_" )
 				continue;
 			if( preg_match( "@/_@", str_replace( "\\", "/", $pathName ) ) )
 				continue;
-			$content			= file_get_contents( $entry->getPathname() );
-			$numberLength		+= strlen( $content );
-			$lines				= count( explode( "\n", $content ) );
-			$numberLines		+= $lines;
-			$countData			= $this->countLines( $content );
 
+			$countData	= File_CodeLineCounter::countLines( $pathName );
+			
+			$numberLength		+= $countData['length'];
+			$numberLines		+= $countData['linesTotal'];
+			
 			$numberFiles		++;
 			$numberStrips		+= $countData['numberStrips'];
 			$numberCodes		+= $countData['numberCodes'];
