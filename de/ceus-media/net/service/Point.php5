@@ -1,5 +1,4 @@
 <?php
-import( 'de.ceus-media.net.service.interface.Point' );
 /**
  *	Access Point for Service Calls.
  *	A different Service Parameter Validator Class can be used by setting static Member "validatorClass".
@@ -33,6 +32,7 @@ import( 'de.ceus-media.net.service.interface.Point' );
  *	@since			18.06.2007
  *	@version		0.3
  */
+import( 'de.ceus-media.net.service.interface.Point' );
 /**
  *	Access Point for Service Calls.
  *	A different Service Parameter Validator Class can be used by setting static Member "validatorClass".

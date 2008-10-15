@@ -1,5 +1,4 @@
 <?php
-import( 'de.ceus-media.net.http.request.Response' );
 /**
  *	Service Handlers for HTTP Requests.
  *
@@ -28,6 +27,7 @@ import( 'de.ceus-media.net.http.request.Response' );
  *	@since			18.06.2007
  *	@version		0.6
  */
+import( 'de.ceus-media.net.http.request.Response' );
 /**
  *	Service Handlers for HTTP Requests.
  *	@package		net.service
