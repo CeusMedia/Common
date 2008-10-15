@@ -53,6 +53,8 @@ class Console_Downloader
 	/**	@var		array		$headers			Collected Response Headers, already splitted */
 	protected $headers			= array();
 	/**	@var		bool		$showFileName		Flag: show File Name */
+	public $redirected			= FALSE;
+	/**	@var		bool		$showHeaders		Flag: show Headers */
 	public $showFileName		= TRUE;
 	/**	@var		bool		$showHeaders		Flag: show Headers */
 	public $showHeaders			= FALSE;
@@ -88,6 +90,11 @@ class Console_Downloader
 
 		$this->loadSize	= 0;																//  clear Size of current Load
 		$this->fileSize	= 0;																//  clear Size og File to download
+		$this->redirected	= FALSE;
+
+		if( $savePath && !file_exists( $savePath ) )
+			if( !@mkDir( $savePath, 0777, TRUE ) )
+				throw new RuntimeException( 'Save path could not been created.' );
 
 		$savePath	= $savePath ? preg_replace( "@([^/])$@", "\\1/", $savePath ) : "";		//  correct Path
 		$parts		= parse_url( $url );													//  parse URL

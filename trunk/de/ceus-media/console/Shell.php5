@@ -58,7 +58,8 @@ class Console_Shell
 		"static", 
 		"switch", 
 		"while"
-		);
+	);
+
 	/**	@var	array	$okeq	Valide equation operators */
 	protected $okeq = array(
 		"===", 
@@ -67,7 +68,7 @@ class Console_Shell
 		"!=", 
 		"<=", 
 		">="
-		);
+	);
 
 	/**
 	 *	Constructor.

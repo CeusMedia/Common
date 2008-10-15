@@ -1,5 +1,6 @@
 <?php
-import( 'de.ceus-media.adt.OptionObject' );
+import( 'de.ceus-media.adt.list.Dictionary' );
+import( 'de.ceus-media.console.RequestReceiver' );
 /**
  *	Argument Parser for Console Applications.
  *
@@ -20,6 +21,7 @@ import( 'de.ceus-media.adt.OptionObject' );
  *
  *	@package		console
  *	@extends		ADT_OptionObject
+ *	@uses			Console_RequestReceiver
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -30,7 +32,8 @@ import( 'de.ceus-media.adt.OptionObject' );
 /**
  *	Argument Parser for Console Applications.
  *	@package		console
- *	@extends		ADT_OptionObject
+ *	@extends		ADT_List_Dictionary
+ *	@uses			Console_RequestReceiver
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -38,7 +41,7 @@ import( 'de.ceus-media.adt.OptionObject' );
  *	@since			11.01.2006
  *	@version		0.6
  */
-class Console_ArgumentParser extends ADT_OptionObject
+class Console_ArgumentParser extends ADT_List_Dictionary
 {
 	/**	@var	array		shortcuts		Associative Array of Shortcuts */
 	private $shortcuts	= array();
@@ -50,31 +53,32 @@ class Console_ArgumentParser extends ADT_OptionObject
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function parseArguments()
+	public function parseArguments( $fallBackOnEmptyPair = FALSE )
 	{
-		$args	= $_SERVER["argv"];
-		$this->setOption( "script", array_shift( $args ) );
-		foreach( $args as $arg )
+		$request	= new Console_RequestReceiver( $fallBackOnEmptyPair );
+		$arguments	= $request->getAll();
+		$script		= key( array_slice( $arguments, 0, 1 ) );
+#		$this->set( "__file", __FILE__ );
+		$this->set( "__class", get_class( $this ) );
+		$this->set( "__script", $script );
+		array_shift( $arguments );
+		foreach( $arguments as $key => $value )
 		{
-			$value	= TRUE;
-			if( substr_count( $arg, ":" ) )
+			$reverse	= array_flip( $this->shortcuts );
+			if( in_array( $key, array_keys( $this->shortcuts ) ) )
 			{
-				$parts	= explode( ":", $arg );
-				$arg	= array_shift( $parts );
-				$value	= implode( ":", $parts );
+				$key	= $this->shortcuts[$key];
+				$this->set( $key, $value );
 			}
-			if( substr( $arg, 0, 1 ) == "-" )
+			else
 			{
-				if( !$this->hasOption( 'options' ) )
-					$options	= array();
-				else
-					$options	= (array) $this->getOption( 'options' );
-				$arg	= substr( $arg, 1 );
-				$options[$arg]	= $value;
-				$arg	= "options";
-				$value	= $options;
+				$this->set( $key, $value );
 			}
-			$this->setArgument( $arg, $value );
+#			else if( in_array( $key, array_keys( $reverse ) ) )
+#			{
+#				$key	= $reverse[$key];
+#				$this->set( $key, $value );
+#			}
 		}
 	}
 	
@@ -103,26 +107,6 @@ class Console_ArgumentParser extends ADT_OptionObject
 	{
 		if( isset( $this->shortcuts[$key] ) )
 			unset( $this->shortcuts[$key] );
-	}
-	
-	//  --  PRIVATE METHODS  --  //
-
-	/**
-	 *	Sets Argument to Object's Options.
-	 *	@access		protected
-	 *	@param		string	key		Key of Argument
-	 *	@param		string	value	Value of Argument
-	 *	@return		void
-	 */
-	protected function setArgument( $key, $value )
-	{
-		if( in_array( $key, array_keys( $this->shortcuts ) ) )
-		{
-			$key	= $this->shortcuts[$key];
-			$this->setArgument( $key, $value );
-		}
-		else
-			$this->setOption( $key, $value );
 	}
 }
 ?>
