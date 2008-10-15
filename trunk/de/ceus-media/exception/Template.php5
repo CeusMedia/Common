@@ -17,7 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- *	@package		exception
+ *	@package		framework.krypton.exception
  *	@extends		RuntimeException
  *	@author			David Seebacher <dseebacher@gmail.com>
  *	@copyright		2008 Christian Würker
@@ -26,13 +26,11 @@
  *	@since			03.03.2007
  *	@version		0.1
  */
-
 /**   not all labels used constant */
-define( 'TEMPLATE_EXCEPTION_LABELS_NOT_USED', 100 );
- 
+define('TEMPLATE_EXCEPTION_LABELS_NOT_USED', 100);
 /**
  *	Exception for Templates.
- *	@package		exception
+ *	@package		framework.krypton.exception
  *	@extends		RuntimeException
  *	@author			David Seebacher <dseebacher@gmail.com>
  *	@copyright		2008 Christian Würker
@@ -44,9 +42,7 @@ define( 'TEMPLATE_EXCEPTION_LABELS_NOT_USED', 100 );
 class Exception_Template extends RuntimeException
 {
 	/**	@var		string		$exceptionMessage		Message of Exception with Placeholder */
-	public static $message	= array(
-		TEMPLATE_EXCEPTION_LABELS_NOT_USED	=> 'Not all non-optional labels are defined in Template "%s"',
-	);
+	public static $exceptionMessage	= 'Not all non-optional labels are defined in Template "%s"';
 
 	/**	@var		array		$labels		Holds all not used and non optional labels */
 	private $labels;
@@ -65,7 +61,7 @@ class Exception_Template extends RuntimeException
 		{
 			case TEMPLATE_EXCEPTION_LABELS_NOT_USED:
 				$this->labels	= $data;
-				$message		= sprintf( self::$message[TEMPLATE_EXCEPTION_LABELS_NOT_USED], $filename );
+				$message		= sprintf( self::$exceptionMessage, $filename );
 				parent::__construct( $message, TEMPLATE_EXCEPTION_LABELS_NOT_USED );
 				break;
 		}
