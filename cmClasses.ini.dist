@@ -52,9 +52,9 @@ log-xml				= Tests/results.xml
 #	Settings for automated documentation creation using DocCreator
 #
 [docCreator]
-pathTool			= "c:/.mirror/dev/DocCreator"
-pathClasses			= "c:/.mirror/cmClasses/de/ceus-media/"
-pathTarget			= "c:/.mirror/cmClasses/References/doc/"
+pathTool			= "/path/to/DocCreator/"
+pathClasses			= "/path/to/cmClasses/version/"
+pathTarget			= "/path/to/cmClasses/version/"
 language			= en
 theme				= cm1
 title				= cmClasses API
