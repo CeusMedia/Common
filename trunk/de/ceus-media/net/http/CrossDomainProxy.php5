@@ -69,17 +69,21 @@ class Net_HTTP_CrossDomainProxy
 	 */
 	public function forward( $throwException = FALSE )
 	{
+		$query	= getEnv( 'QUERY_STRING' );														//  get GET Query String
+		$url	= $this->url."?".$query;														//  build Service Request URL
+		return self::requestUrl( $url, $this->username, $this->password, $throwException );
+	}
+	
+	public static function requestUrl( $url, $username = NULL, $password = NULL, $throwException = FALSE )
+	{
 		$curl	= curl_init();																	//  open cURL Handler
 		curl_setopt( $curl, CURLOPT_SSL_VERIFYPEER, 0 );										//  skip Peer Verification
 		curl_setopt( $curl, CURLOPT_SSL_VERIFYHOST, 0 );										//  skip Host Verification
-		curl_setopt( $curl, CURLOPT_HEADER, FALSE );
-		if( $this->username )																	//  Basic Authentication Username is set
-			curl_setopt( $curl, CURLOPT_USERPWD, $this->username.":".$this->password );			//  set HTTP Basic Authentication
-		curl_setopt( $curl, CURLOPT_RETURNTRANSFER, TRUE );										//  catch Response
-
-		$query	= getEnv( 'QUERY_STRING' );														//  get GET Query String
-		$url	= $this->url."?".$query;														//  build Service Request URL
 		curl_setopt( $curl, CURLOPT_URL, $url );												//  set Service Request URL
+		curl_setopt( $curl, CURLOPT_RETURNTRANSFER, TRUE );										//  catch Response
+		curl_setopt( $curl, CURLOPT_HEADER, FALSE );
+		if( $username )																			//  Basic Authentication Username is set
+			curl_setopt( $curl, CURLOPT_USERPWD, $username.":".$password );						//  set HTTP Basic Authentication
 		$method	= getEnv( 'REQUEST_METHOD' );													//  get Request Method
 		if( $method == "POST" )																	//  Request Method is POST
 		{
@@ -89,6 +93,7 @@ class Net_HTTP_CrossDomainProxy
 		}
 		else if( $method != "GET" )																//  neither POST nor GET
 			throw new Exception( 'Invalid Request Method.' );									//  throw Exception
+
 		$response	= curl_exec( $curl );														//  get Service Response
 		curl_close( $curl );																	//  close cURL Handler
 
@@ -99,5 +104,6 @@ class Net_HTTP_CrossDomainProxy
 
 		return $response;																		//  return Service Response
 	}
+	
 }
 ?>
