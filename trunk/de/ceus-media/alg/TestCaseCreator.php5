@@ -1,6 +1,4 @@
 <?php
-import( 'de.ceus-media.folder.Editor' );
-import( 'de.ceus-media.folder.RecursiveRegexFilter' );
 /**
  *	Created Test Class for PHP Unit Tests using Class Parser and two Templates.
  *
@@ -29,6 +27,9 @@ import( 'de.ceus-media.folder.RecursiveRegexFilter' );
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		0.1
  */
+import( 'de.ceus-media.ui.ClassParser' );
+import( 'de.ceus-media.folder.Editor' );
+import( 'de.ceus-media.folder.RecursiveRegexFilter' );
 /**
  *	Created Test Class for PHP Unit Tests using Class Parser and two Templates.
  *	@package		alg
@@ -80,7 +81,7 @@ class Alg_TestCaseCreator
 		$this->targetFile	= "Tests/".$this->getPath( "/" )."Test.php";
 		
 		if( file_exists( $this->targetFile ) && !$force )
-			die( 'Test Class for Class "'.$this->className.'" is already existing.' );
+			throw new RuntimeException( 'Test Class for Class "'.$this->className.'" is already existing.' );
 		
 		$parser				= new ClassParser( $this->classFile );
 		$this->data			= $parser->getClassData();

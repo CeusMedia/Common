@@ -110,7 +110,7 @@ class UI_HTML_DirectoryTreeView
 		{
 			if( $file->isDot() )
 				continue;
-			if( preg_match( "@^\.@", $file->getFilename() ) )
+			if( preg_match( "@^\.\w@", $file->getFilename() ) )
 				continue;
 			if( $file->isDir() )
 			{
