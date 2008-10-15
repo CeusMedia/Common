@@ -11,7 +11,7 @@
 #
 [project]
 name				= cmClasses							
-version				= 0.6.3
+version				= 0.6.4
 author				= "Christian Würker <christian.wuerker@ceus-media.de>"
 company				= "CeuS Media (ceus-media.de)"
 link				= http://code.google.com/p/cmclasses/
@@ -59,17 +59,19 @@ language			= en
 theme				= cm1
 title				= cmClasses API
 
+extensions			= php5
 ignoreFiles			= "*/_*.php5"
 ignoreFolders			= "*/.svn/*,Reports/,References/,Tests/,"
 upperCasePackages		= adt,cs*,dom,*tp,*ml,imap,ini,pdo,php,rss,ui,wddx,xsl
 upperCasePackages		= adt,css,csv,dom,ftp,html,http,imap,ini,pdo,php,opml,rss,ui,wddx,xml,xsl,yaml
 fileDataSerial			= "data.serial"
-filePackageSerial		= "packages.serial"
 timeLimit			= 120
-forceParser			= no
-forceCreator			= no
+skipParser			= no
+skipCreator			= no
+skipResources			= no
 verbose				= yes
 verboseSkip			= no
+verboseConfig			= no
 timezone			= "Europe/Berlin"
 
 #

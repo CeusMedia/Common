@@ -69,7 +69,7 @@ class Go
 						switch( $tool )
 						{
 							case 'creator':
-								new GocDocCreator( array_slice( $arguments, 3 ), $configFile, $config );
+								new GoDocCreator( array_slice( $arguments, 3 ), $configFile, $config );
 								break;
 							case 'phpdoc':
 								new GoPhpDocumentor( array_slice( $arguments, 3 ), $configFile, $config );
@@ -138,27 +138,27 @@ class Go
 		print( "
 Usage: go COMMAND [OPTION]...
   install                      install cmClasses via SVN
-    VERSION                     version to install (trunk,branches/0.6.3,...)
+    VERSION                      version to install (trunk,branches/0.6.3,...)
   configure                    auto-configure paths
-   -f, --force                  overwrite if existing (warning!)
+   -f, --force                   overwrite if existing (warning!)
   update                       update cmClasses via SVN
-    [REVISION]                  revision to update to
+    [REVISION]                   revision to update to
   create                       create...
-    test                        test class
-      PACKAGE_CLASS              for class in cmClasses
-      -f, --force                force to write test class (warning!)
+    test                         test class
+      PACKAGE_CLASS                for class in cmClasses
+      -f, --force                  force to write test class (warning!)
     doc                        documentations
-      creator                   using DocCreator
-        -fp, --force-parser      force to parse class files
-        -fc, --force-creator     force to write doc file
-        --show-config             show settings
-        --show-config-only        show settings and abort
+      creator                    using DocCreator
+        -fp, --force-parser        force to parse class files
+        -fc, --force-creator       force to write doc file
+        --show-config                show settings
+        --show-config-only           show settings and abort
       phpdoc                     using PhpDocumentor
-        --show-config-only        show settings and abort
+        --show-config-only         show settings and abort
   run                          (not implemented yet)
   test                         test...
-    self                        very basic self test
-    unittests                   units = test classes
+    self                         very basic self test
+    units                        units = test classes
     
 ".$message );
 	}
