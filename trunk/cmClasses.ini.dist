@@ -52,16 +52,16 @@ log-xml				= Tests/results.xml
 #	Settings for automated documentation creation using DocCreator
 #
 [docCreator]
-pathTool			= "c:/.mirror/dev/DocCreator"
-pathClasses			= "c:/.mirror/cmClasses/de/ceus-media/"
-pathTarget			= "c:/.mirror/cmClasses/References/doc/"
+pathTool			= "/path/to/DocCreator/"
+pathClasses			= "/path/to/cmClasses/version/"
+pathTarget			= "/path/to/cmClasses/version/"
 language			= en
 theme				= cm1
 title				= cmClasses API
 
 extensions			= php5
 ignoreFiles			= "*/_*.php5"
-ignoreFolders			= "*/.svn/*,Reports/,References/,Tests/,"
+ignoreFolders			= "*/.svn/*,Reports/,References/,Tests/"
 upperCasePackages		= adt,cs*,dom,*tp,*ml,imap,ini,pdo,php,rss,ui,wddx,xsl
 upperCasePackages		= adt,css,csv,dom,ftp,html,http,imap,ini,pdo,php,opml,rss,ui,wddx,xml,xsl,yaml
 fileDataSerial			= "data.serial"
