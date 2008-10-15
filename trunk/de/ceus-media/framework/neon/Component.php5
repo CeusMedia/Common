@@ -53,12 +53,13 @@ abstract class Framework_Neon_Component
 	 *	@param		string		$separator		Separator
 	 *	@return		string
 	 */
-	public function formatPrice( $price, $separator = "." )
+	public static function formatPrice( $price, $separator = "." )
 	{
-		$price	= (float)$price;
+		$price	= (float) $price;
 		ob_start();
-		printf( "%01".$separator."2f", $price );
-		return ob_get_clean();
+		$price	= sprintf( "%01.2f", $price );
+		$price	= str_replace( ".", $separator, $price );
+		return $price;
 	}
 
 	/**
