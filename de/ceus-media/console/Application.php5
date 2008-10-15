@@ -38,7 +38,7 @@ import( 'de.ceus-media.console.ArgumentParser' );
  *	@since			11.01.2006
  *	@version		0.6
  */
-class Console_Application extends Console_ArgumentParser
+class Console_Application 
 {
 	/**
 	 *	Constructor.
@@ -46,22 +46,23 @@ class Console_Application extends Console_ArgumentParser
 	 *	@param		array		$shortcuts		Array of Shortcuts to be set
 	 *	@return		void
 	 */
-	public function __construct( $shortcuts = array())
+	public function __construct( $shortcuts = array(), $fallBackOnEmptyPair = FALSE )
 	{
-		parent::__construct();
-		$this->setShortCuts( $shortcuts );
-		$this->parseArguments();
+		$this->arguments	= new Console_ArgumentParser();
+		foreach( $shortcuts as $key => $value )
+			$this->arguments->addShortCut( $key, $value );
+		$this->arguments->parseArguments( $fallBackOnEmptyPair );
 		$this->main();
 	}
 	
 	/**
-	 *	Main Method called by Console Parser, to be overwritten.
-	 *	@access		public
+	 *	Main Method called by Console Application Constructor, to be overwritten.
+	 *	@access		protected
 	 *	@return		void
 	 */
-	public function main()
+	protected function main()
 	{
-		if( $this->getOption( "/?" ) )
+		if( $this->arguments->has( "/?" ) )
 			$this->showUsage();
 /*		if( !$this->getOption( "a" ) )						//  asking for parameters and options
 		{
@@ -72,18 +73,6 @@ class Console_Application extends Console_ArgumentParser
 */	}
 
 	//  --  PROTECTED METHODS  --  //
-	/**
-	 *	Sets ShortCuts of Applications's Arguments, to be overwritten.
-	 *	@access		protected
-	 *	@return		void
-	 */
-	protected function setShortCuts( $shortcuts )
-	{
-		foreach( $shortcuts as $key => $value )
-		{
-			$this->addShortCut( $key, $value );
-		}
-	}
 		
 	/**
 	 *	Prints Error Message to Console, to be overwritten.
@@ -91,9 +80,12 @@ class Console_Application extends Console_ArgumentParser
 	 *	@param		string		$message		Error Message to print to Console
 	 *	@return		void
 	 */
-	protected function showError( $message )
+	protected function showError( $message, $abort = TRUE )
 	{
-		echo $message."\n";
+		$message	= "\nERROR: ".$message."\n";
+		if( $abort )
+			die( $message );
+		echo $message;
 	}
 	
 	/**
@@ -101,7 +93,7 @@ class Console_Application extends Console_ArgumentParser
 	 *	@access		protected
 	 *	@return		void
 	 */
-	protected function showUsage()
+	protected function showUsage( $message = NULL )
 	{
 		echo "\n";
 		echo "ConsoleApplication v0.5\n";
@@ -110,7 +102,8 @@ class Console_Application extends Console_ArgumentParser
 		echo "  a\tMandatory Option\n";
 		echo "  b\tOptional Option\n";
 		echo "  /?\tUsage Information\n";
-		die();
+		if( $message )
+			$this->showError( $message );
 	}
 
 	/**
