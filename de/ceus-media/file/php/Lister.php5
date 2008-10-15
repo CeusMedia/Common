@@ -65,12 +65,11 @@ class File_PHP_Lister extends FilterIterator
 		$pathName	= dirname( str_replace( "\\", "/", $this->current() ) );
 		$innerPath	= substr( $pathName, strlen( $this->path) )."/";					//  get inner Path Name
 		$innerFile	= $innerPath.$fileName;
-
 		foreach( $this->ignoreFolders as $folder )										//  iterate Folders to be ignored
 		{
 			$folder	= str_replace( ".", "\.", $folder );								//  replace Wildcard by RegEx Wildcard
 			$folder	= preg_replace( "@/?\*/?@", ".*", $folder );						//  replace Wildcard by RegEx Wildcard
-			$found	= preg_match( "@^".$folder."$@", $innerPath );
+			$found	= preg_match( "@^".$folder."@", $innerPath );
 #			remark( $file." @ ".$innerPath." : ".$found );
 			if( $found )																//  ...
 			{

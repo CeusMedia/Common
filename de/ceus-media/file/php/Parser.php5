@@ -121,7 +121,8 @@ class File_PHP_Parser
 	 */
 	public function parseFile( $fileName, $innerPath )
 	{
-		$lines			= File_Reader::loadArray( $fileName );
+		$content		= File_Reader::load( $fileName );
+		$lines			= explode( "\n", $content );
 		$openBlocks		= array();
 		$fileBlock		= NULL;
 		$openClass		= FALSE;
@@ -217,6 +218,7 @@ class File_PHP_Parser
 		$data	= array(
 			'file'		=> $file,
 			'class'		=> $class,
+			'source'	=> $content,
 		);
 		return $data;
 	}
