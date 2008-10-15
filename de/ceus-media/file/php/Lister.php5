@@ -67,6 +67,8 @@ class File_PHP_Lister extends FilterIterator
 		$innerFile	= $innerPath.$fileName;
 		foreach( $this->ignoreFolders as $folder )										//  iterate Folders to be ignored
 		{
+			if( !trim( $folder ) )
+				continue;
 			$folder	= str_replace( ".", "\.", $folder );								//  replace Wildcard by RegEx Wildcard
 			$folder	= preg_replace( "@/?\*/?@", ".*", $folder );						//  replace Wildcard by RegEx Wildcard
 			$found	= preg_match( "@^".$folder."@", $innerPath );
@@ -82,6 +84,8 @@ class File_PHP_Lister extends FilterIterator
 
 		foreach( $this->ignoreFiles as $file )											//  iterate Files to be ignored
 		{
+			if( !trim( $file ) )
+				continue;
 			$file	= str_replace( ".", "\.", $file );									//  replace Wildcard by RegEx Wildcard
 			$file	= preg_replace( "@\*@", ".*", $file );								//  replace Wildcard by RegEx Wildcard
 			$found	= preg_match( "@^".$file."$@", $innerFile );
