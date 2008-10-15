@@ -54,6 +54,8 @@ class UI_HTML_Tag
 	 */
 	public function __construct( $name, $content = NULL, $attributes = array() )
 	{
+		if( !is_array( $attributes ) )
+			throw new InvalidArgumentException( 'Parameter "attributes" must be an Array.' );
 		$this->name		= $name;
 		$this->setContent( $content );
 		if( is_array( $attributes ) && count( $attributes ) )
@@ -81,6 +83,8 @@ class UI_HTML_Tag
 	 */
 	public static function create( $name, $content = NULL, $attributes = array() )
 	{
+		if( !is_array( $attributes ) )
+			throw new InvalidArgumentException( 'Parameter "attributes" must be an Array.' );
 		$name	= strtolower( $name );
 		$list	= array();
 		foreach( $attributes as $key => $value )
