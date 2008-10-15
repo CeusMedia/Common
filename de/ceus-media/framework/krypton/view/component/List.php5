@@ -63,8 +63,8 @@ class Framework_Krypton_View_Component_List
 	private $pagingOptions	= array();
 	/**	@var	string				$templates		List of Templates for List and List Items */
 	private $templates		= array();
-	/**	@var	array				$transformator	Array of Transformator Object and Method */
-	private $transformator	= array();
+	/**	@var	array				$transformer	Array of Transformer Object and Method */
+	private $transformer	= array();
 	/**	@var	Core_View			$view			Basic View Object */
 	private $view			= null;
 	/** @var	string				$link			Link Name of List Items */
@@ -82,7 +82,7 @@ class Framework_Krypton_View_Component_List
 		$config			= $this->registry->get( 'config' );
 		$this->view		= new Framework_Krypton_Core_View();
 		$this->logic	= new Framework_Krypton_Logic_List( $collection, $config['config.table_prefix'] );
-		$this->setTransformator( $this, 'transformItem' );
+		$this->setTransformer( $this, 'transformItem' );
 	}
 	
 	/**
@@ -185,12 +185,12 @@ class Framework_Krypton_View_Component_List
 			$ui['paging']	= $this->buildPaging( $count );
 			$i = 0;
 			$items	= array();
-			$transformatorObject	= $this->transformator[0];
-			$transformatorMethod	= $this->transformator[1];
+			$transformerObject	= $this->transformer[0];
+			$transformerMethod	= $this->transformer[1];
 			$list	= $this->logic->getList( $dbc, $verbose );
 			foreach( $list as $entry )
 			{
-				$item = $transformatorObject->$transformatorMethod( $entry, $this->link );
+				$item = $transformerObject->$transformerMethod( $entry, $this->link );
 				$item['style']	= ++$i % 2 ? 'list1' : 'list2';
 				$items[]	= $this->view->loadTemplate( $this->templates[1], $item );
 			}
@@ -320,19 +320,19 @@ class Framework_Krypton_View_Component_List
 	/**
 	 *	Sets Callback for Transformation of Item Values.
 	 *	@access		public
-	 *	@param		Object		$object				Transformator Object
-	 *	@param		string		$method				Transformator Method
+	 *	@param		Object		$object				Transformer Object
+	 *	@param		string		$method				Transformer Method
 	 *	@return		void
 	 */
-	public function setTransformator( $object, $method )
+	public function setTransformer( $object, $method )
 	{
 		if( !is_object( $object ) )
 		{
 			if( !class_exists( $object ) )
-				throw new RuntimeException( 'Transformator Class "'.$object.'" has not been loaded.' );
+				throw new RuntimeException( 'Transformer Class "'.$object.'" has not been loaded.' );
 			$object	= new $object();
 		}
-		$this->transformator	= array( $object, $method );	
+		$this->transformer	= array( $object, $method );	
 	}
 	
 	/**

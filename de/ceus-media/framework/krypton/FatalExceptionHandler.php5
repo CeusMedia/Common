@@ -64,12 +64,13 @@ class Framework_Krypton_FatalExceptionHandler
 		$EXCEPTION_DEBUG_MODE	= defined( 'EXCEPTION_DEBUG_MODE' ) && EXCEPTION_DEBUG_MODE;
 		$EXCEPTION_ERROR_PAGE	= defined( 'EXCEPTION_ERROR_PAGE' ) && EXCEPTION_ERROR_PAGE;
 		$EXCEPTION_MAIL_TO		= defined( 'EXCEPTION_MAIL_TO' ) && EXCEPTION_MAIL_TO;
+		$EXCEPTION_LOG_PATH		= defined( 'EXCEPTION_LOG_PATH' ) && EXCEPTION_LOG_PATH;
 		
 		$this->setMail( $EXCEPTION_MAIL_TO ? EXCEPTION_MAIL_TO : "" );
 		$this->setErrorPage( ( $EXCEPTION_ERROR_PAGE && !$EXCEPTION_DEBUG_MODE ) ? EXCEPTION_ERROR_PAGE : "" );
 		if( $e )
 		{
-			$this->handleException( $e );
+			$this->handleException( $e, $EXCEPTION_LOG_PATH ? EXCEPTION_LOG_PATH : "" );
 		}
 	}
 	
@@ -77,11 +78,12 @@ class Framework_Krypton_FatalExceptionHandler
 	 *	Handles Exception by creating, storing and mailing a Report and showing the Report or a static Error Page.
 	 *	@access		public
 	 *	@param		Exception		$e			Exception to handle
+	 *	@param		string			$logPath	Path to write Report to, disabled if empty
 	 *	@return		string
 	 */
-	public function handleException( $e )
+	public function handleException( $e, $logPath = NULL )
 	{
-		$report	= $this->buildReport( $e );
+		$report	= $this->buildReport( $e, $logPath );
 		if( $this->mail )
 		{
 			import( 'de.ceus-media.net.mail.PlainMail' );
@@ -97,6 +99,7 @@ class Framework_Krypton_FatalExceptionHandler
 			}
 			catch( Exception $e )
 			{
+				remark( "<b>Warning! </b>Report Mail has not been sent." );
 				
 			}
 		}
@@ -112,9 +115,10 @@ class Framework_Krypton_FatalExceptionHandler
 	 *	Builds Report from Exception.
 	 *	@access		protected
 	 *	@param		Exception		$e			Exception to handle
+	 *	@param		string			$logPath	Path to write Report to, disabled if empty
 	 *	@return		string
 	 */
-	protected function buildReport( $e )
+	protected function buildReport( $e, $logPath )
 	{
 		$dev	= "";
 		if( ob_get_level() )
@@ -185,25 +189,29 @@ class Framework_Krypton_FatalExceptionHandler
 			$cookie		= ob_get_clean();
 		}
 
-		$fileName	= date( "y.m.d-H.i.s" )."_".getEnv( 'REMOTE_ADDR' ).".html";
-		$filePath	= "logs/exceptions/";
-		$fileUrl	= $filePath.$fileName;
-
-		$this->lastFileUrl	= $fileUrl;
 
 		$body	= require_once( $this->template );
+
+		if( $logPath )
+			$this->logReport( $body, $logPath );
 		return $body;
 	}
 	
 	/**
-	 *	Sets File Name of Template.
-	 *	@access		public
-	 *	@param		string		$template	Template to load
+	 *	Saves Report in Log Path.
+	 *	@access		protected
+	 *	@param		string		$report		Report to save
+	 *	@param		string		$logPath	Path to write Report to
 	 *	@return		void
 	 */
-	public function setTemplate( $template )
+	protected function logReport( $report, $logPath )
 	{
-		$this->template	= $template;
+		$fileName	= date( "y.m.d-H.i.s" )."_".getEnv( 'REMOTE_ADDR' ).".html";
+		$fileUrl	= $logPath.$fileName;
+
+		$this->lastFileUrl	= $fileUrl;
+		$report	= str_replace( 'href="contents/base.css"', 'href="../../contents/base.css"', $report );
+		file_put_contents( $fileUrl, $report );
 	}
 
 	/**
@@ -220,6 +228,17 @@ class Framework_Krypton_FatalExceptionHandler
 	public function setMail( $mail )
 	{
 		$this->mail	= $mail;
+	}
+
+	/**
+	 *	Sets File Name of Template.
+	 *	@access		public
+	 *	@param		string		$template	Template to load
+	 *	@return		void
+	 */
+	public function setTemplate( $template )
+	{
+		$this->template	= $template;
 	}
 
 	/**
