@@ -175,6 +175,7 @@ abstract class Framework_Krypton_Base
 	protected function initDatabase()
 	{
 		import( 'de.ceus-media.database.pdo.Connection' );
+		import( 'de.ceus-media.database.pdo.DataSourceName' );
 		$config	= $this->registry->get( 'config' );
 
 		//  --  DATABASE OPTIONS  --  //
@@ -184,28 +185,22 @@ abstract class Framework_Krypton_Base
 				$options[constant( "PDO::".$key )]	= eval( "return ".$value.";" );
 
 		//  --  DATA SOURCE NAME  --  //
-		extract( $config['database.access'] );
-		$dsn	= $type.":";
-		switch( $type )
-		{
-			case 'pgsql':														//  PORT should be 5432
-				$port	= isset( $port ) ? $port : 5432;
-				$dsn	.= "host=".$hostname.";port=".$port.";dbname=".$database.";user=".$username.";password=".$password;
-				break;
-			case 'sqlite':
-				$dsn	.= $database.".sqlite3";
-				break;
-			case 'mysql':
-			case 'mssql':
-			case 'sybase':
-			case 'dblib':
-			default:
-				$dsn	.= "host=".$hostname.";dbname=".$database;
-				break;
-		}
+		$dsn	= new Database_PDO_DataSourceName(
+			$config['database.access.type'],
+			$config['database.access.hostname'],
+			$config['database.access.port'],
+			$config['database.access.database'],
+			$config['database.access.username'],
+			$config['database.access.password']
+		);
 
 		//  --  DATABASE CONNECTION  --  //
-		$dbc	= new Database_PDO_Connection( $dsn, $username, $password, $options );
+		$dbc	= new Database_PDO_Connection(
+			$dsn,
+			$config['database.access.username'],
+			$config['database.access.password'],
+			$options
+		);
 #		$dbc->setErrorLogFile( $dba['access']['logfile'] );
 #		$dbc->setStatementLogFile( self::$dbLogPath."queries.log" );
 #		$dbc->setLogFile( $logfile );
@@ -221,7 +216,8 @@ abstract class Framework_Krypton_Base
 			foreach( $attributes as $key => $value )
 				$dbc->setAttribute( constant( "PDO::".$key ), eval( "return ".$value.";" ) );
 		
-		$config['config.table_prefix']	= $prefix;
+		$config['config.table_prefix']	= $config['database.access.prefix'];
+;
 		$this->registry->set( "dbc", $dbc, TRUE );
 	}
 

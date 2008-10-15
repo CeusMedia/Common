@@ -35,7 +35,7 @@
  *	@since			02.08.2008
  *	@version		0.1
  */
-class DataSourceName
+class Database_PDO_DataSourceName
 {
 	/**	@var		string		$type			Database Type */
 	protected $type;
