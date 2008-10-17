@@ -191,7 +191,7 @@ class Framework_Krypton_Core_Logic
 
 	/**
 	 *	Runs Validation of Field Definitions against Input, creates Error Objects and returns Success.
-	 *	@access		protected
+	 *	@access		public
 	 *	@param		string		$file			Name of XML Definition File (e.g. %PREFIX%#FILE#.xml)
 	 *	@param		string		$form			Name of Form within XML Definition File (e.g. 'addExample' )
 	 *	@param		array		$data			Array of Input Data
@@ -200,7 +200,7 @@ class Framework_Krypton_Core_Logic
 	 *	@throws		Framework_Krypton_Exception_Validation
 	 *	@return		bool
 	 */
-	protected static function validateForm( $file, $form, &$data, $prefix = "", $predicateClass = "Alg_Validation_Predicates" )
+	public static function validateForm( $file, $form, &$data, $prefix = "", $predicateClass = "Alg_Validation_Predicates" )
 	{
 		import( 'de.ceus-media.framework.krypton.core.DefinitionValidator' );
 		import( 'de.ceus-media.alg.validation.Predicates' );

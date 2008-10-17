@@ -140,7 +140,7 @@ abstract class Framework_Krypton_Base
 	 *	@access		protected
 	 *	@return		void
 	 */
-	protected function initConfiguration()
+	protected function initConfiguration( $errorLevelKey = "config.error.level" )
 	{
 /*		$config	= parse_ini_file( self::$configPath.self::$configFile, TRUE );
 		if( isset( $config['config.error_level'] ) )
@@ -149,8 +149,8 @@ abstract class Framework_Krypton_Base
 */		
 		import( 'de.ceus-media.file.configuration.Reader' );
 		$config	= new File_Configuration_Reader( self::$configPath.self::$configFile, self::$cachePath );
-		if( $config->has( 'config.error_level' ) )
-			error_reporting( $config->get( 'config.error_level' ) );
+		if( $config->has( $errorLevelKey ) )
+			error_reporting( $config->get( $errorLevelKey ) );
 		$this->registry->set( "config", $config, TRUE );
 	}
 
@@ -337,13 +337,13 @@ abstract class Framework_Krypton_Base
 	 *	@access		protected
 	 *	@return		void
 	 */
-	protected function initSession()
+	protected function initSession( $sessionNameKey	= 'config.session.name', $sessionPartitionKey = 'application.name' )
 	{
 		import( 'de.ceus-media.net.http.PartitionSession' );
 		if( !$this->registry->has( 'config' ) )
 			throw new Exception( 'Configuration has not been set up.' );
 		$config		= $this->registry->get( 'config' );
-		$session	= new Net_HTTP_PartitionSession( $config['application.name'], $config['config.session_name'] );
+		$session	= new Net_HTTP_PartitionSession( $config[$sessionPartitionKey], $config[$sessionNameKey ] );
 		$this->registry->set( "session", $session );
 	}
 
@@ -365,7 +365,7 @@ abstract class Framework_Krypton_Base
 		$request	= $this->registry->get( "request" );
 		$session	= $this->registry->get( "session" );
 
-		if( $config['layout.switchable_themes'] )
+		if( $config['layout.theme.switchable'] )
 		{
 			if( $request->has( 'switchThemeTo' ) )
 				$session->set( 'theme', $request->get( 'switchThemeTo' ) );
