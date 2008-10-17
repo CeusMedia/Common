@@ -119,7 +119,7 @@ class Framework_Krypton_Core_Messenger
 			$list	= array();
 			foreach( $messages as $message )
 			{
-				$time	= $message['timestamp'] ? "[".$tc->convertToHuman( $message['timestamp'], $config['layout.formatTimestamp'] )."] " : "";
+				$time	= $message['timestamp'] ? "[".$tc->convertToHuman( $message['timestamp'], $config['layout.format.timestamp'] )."] " : "";
 				$class	= $this->classes[$message['type']];
 				$list[] = "<div class='".$class."'><span class='info'>".$time."</span><span class='message'>".$message['message']."</span></div>";
 			}

@@ -342,41 +342,41 @@ abstract class Framework_Krypton_Core_Component
 	/**
 	 *	Handles different Exceptions by calling special Exception Handlers.
 	 *	@access		public
-	 *	@param	 	Exception	$e			Exception to handle
-	 *	@param	 	string		$lanfile	Language File with Error Messages and Form Fields
-	 *	@param	 	mixed		$section	Section Name as String or associative Array in combination with Form Names.
+	 *	@param	 	Exception	$exception			Exception to handle
+	 *	@param	 	string		$languageKey		Language File Key with Error Messages and Form Fields
+	 *	@param	 	string		$languageSection	Section Name within Language File.
 	 *	@return		void
 	 */
-	public function handleException( $e, $lanfile, $section )
+	public function handleException( $exception, $languageKey, $languageSection = "msg" )
 	{
-		switch( get_class( $e ) )
+		switch( get_class( $exception ) )
 		{
 			case 'Framework_Krypton_Exception_Validation':
-				$this->handleValidationException( $e, $lanfile, $section );
+				$this->handleValidationException( $exception, $languageKey, $languageSection );
 				break;
 			case 'Framework_Krypton_Exception_Logic':
-				$this->handleLogicExceptionOld( $e, $lanfile );
+				$this->handleLogicExceptionOld( $exception, $languageKey );
 				break;
 			case 'Framework_Krypton_Exception_SQL':
 				import( 'de.ceus-media.ui.html.exception.TraceViewer' );
-				new UI_HTML_Exception_TraceViewer( $e );
-				$this->handleSqlException( $e );
+				new UI_HTML_Exception_TraceViewer( $exception );
+				$this->handleSqlException( $exception );
 				break;
 			case 'Framework_Krypton_Exception_Template':
-				$this->handleTemplateException( $e );
+				$this->handleTemplateException( $exception );
 				break;
 			case 'LogicException':
-				$this->handleLogicException( $e, $lanfile );
+				$this->handleLogicException( $exception, $languageKey, 'exceptions' );
 				break;
 			case 'Exception':
-				throw $e;
+				throw $exception;
 
 /*				$break	= ( !getEnv( 'PROMPT' ) && !getEnv( 'SHELL' ) ) ? "<br/>" : "\n";
-				$code	= $e->getCode();
-				$trace	= $e->getTrace();
-				print( "Error: ".$e->getMessage().$break );
-				print( "File: ".$e->getFile().$break );
-				print( "Line: ".$e->getLine().$break );
+				$code	= $exception->getCode();
+				$trace	= $exception->getTrace();
+				print( "Error: ".$exception->getMessage().$break );
+				print( "File: ".$exception->getFile().$break );
+				print( "Line: ".$exception->getLine().$break );
 				if( $code )
 					print( "Code: ".$code.$break );
 				foreach( $trace as $data )
@@ -392,68 +392,70 @@ abstract class Framework_Krypton_Core_Component
 */			
 			default:
 				import( 'de.ceus-media.ui.html.exception.TraceViewer' );
-				new UI_HTML_Exception_TraceViewer( $e );
-				$this->messenger->noteFailure( $e->getMessage() );
+				new UI_HTML_Exception_TraceViewer( $exception );
+				$this->messenger->noteFailure( $exception->getMessage() );
 		}
 	}
 
 	/**
 	 *	Interprets Logic Exception and builds Error Message.
 	 *	@access		protected
-	 *	@param		LogicException		$e				Exception to handle.
-	 *	@param		string				$filename		File Name of Language File
-	 *	@param		string				$section		Section Name in Language Space
+	 *	@param		LogicException		$exception			Exception to handle.
+	 *	@param		string				$languageKey		Language File Key
+	 *	@param		string				$languageSection	Section Name in Language Space
 	 *	@return		void
 	 */
-	protected function handleLogicExceptionOld( Exception $e, $filename, $section = "msg" )
+	protected function handleLogicExceptionOld( Exception $exception, $languageKey, $languageSection = "msg" )
 	{
-		$words	= $this->words[$filename][$section];
-		if( isset( $words[$e->key] ) )
-			$msg	= $words[$e->key];
+		$words	= $this->words[$languageKey][$languageSection];
+		if( isset( $words[$exception->key] ) )
+			$msg	= $words[$exception->key];
 		else
-			$msg	= $e->key;
-		$this->messenger->noteError( $msg, $e->subject );
+			$msg	= $exception->key;
+		$this->messenger->noteError( $msg, $exception->subject );
 	}
 
 	/**
 	 *	Interprets Logic Exception and builds Error Message.
 	 *	@access		protected
-	 *	@param		LogicException		$e				Exception to handle.
-	 *	@param		string				$filename		File Name of Language File
-	 *	@param		string				$section		Section Name in Language Space
+	 *	@param		LogicException		$exception			Exception to handle.
+	 *	@param		string				$languageKey		Language File Key
+	 *	@param		string				$languageSection	Section Name in Language Space
 	 *	@return		void
 	 */
-	protected function handleLogicException( LogicException $e, $filename, $section = "msg" )
+	protected function handleLogicException( LogicException $exception, $languageKey, $languageSection = "exceptions" )
 	{
-		$words	= $this->words[$filename][$section];
-		if( isset( $words[$e->getMessage()] ) )
-			$msg	= $words[$e->getMessage()];
+	remark( $languageKey );
+	remark( $languageSection );
+		$words	= $this->words[$languageKey][$languageSection];
+		if( isset( $words[$exception->getMessage()] ) )
+			$msg	= $words[$exception->getMessage()];
 		else
-			$msg	= $e->getMessage();
-		$this->messenger->noteError( $msg, $e->getCode() );
+			$msg	= $exception->getMessage();
+		$this->messenger->noteError( $msg, $exception->getCode() );
 	}
 
 	/**
 	 *	Interprets Errors of Validation Exception and sets built Error Messages.
 	 *	@access		protected
-	 *	@param		Framework_Krypton_Exception_Logic	$e				Exception to handle.
-	 *	@param		string								$filename		File Name of Language File
-	 *	@param		string								$section		Section Name in Language Space
+	 *	@param		Framework_Krypton_Exception_Validation	$exception			Exception to handle.
+	 *	@param		string									$languageKey		Language File Key
+	 *	@param		string									$languageSection	Section Name in Language Space
 	 *	@return		void
 	 */
-	protected function handleValidationException( Framework_Krypton_Exception_Validation $e, $filename, $section )
+	protected function handleValidationException( Framework_Krypton_Exception_Validation $exception, $languageKey, $languageSection )
 	{
-		if( is_array( $section ) )
+		if( is_array( $languageSection ) )
 		{
-			$form	= $e->getForm();
-			if( $form && in_array( $form, array_keys( $section ) ) )
-				$section	= $section[$form];
+			$form	= $exception->getForm();
+			if( $form && in_array( $form, array_keys( $languageSection ) ) )
+				$languageSection	= $languageSection[$form];
 			else
-				$section	= array_shift( $section );
+				$languageSection	= array_shift( $languageSection );
 		}
-		$labels		= $this->words[$filename][$section];
+		$labels		= $this->words[$languageKey][$languageSection];
 		$messages	= $this->words['validator']['messages'];
-		foreach( $e->getErrors() as $error )
+		foreach( $exception->getErrors() as $error )
 		{
 			if( $error instanceOf Framework_Krypton_Logic_ValidationError )
 			{
@@ -473,30 +475,30 @@ abstract class Framework_Krypton_Core_Component
 	/**
 	 *	Interprets SQL Exception and sets built Error Messages.
 	 *	@access		protected
-	 *	@param		Framework_Krypton_Exception_SQL		$e				Exception to handle.
+	 *	@param		Framework_Krypton_Exception_SQL		$exception				Exception to handle.
 	 *	@return		void
 	 */
-	protected function handleSqlException( Framework_Krypton_Exception_SQL $e )
+	protected function handleSqlException( Framework_Krypton_Exception_SQL $exception )
 	{
-		$message	= $e->getMessage();
-		$message	.= "<br/>".$e->sqlMessage;
+		$message	= $exception->getMessage();
+		$message	.= "<br/>".$exception->sqlMessage;
 		$this->messenger->noteFailure( $message );
 	}
 	
 	/**
 	 *	Interprets Template Exception and sets built Error Messages.
 	 *	@access		protected
-	 *	@param		Framework_Krypton_Exception_Template	$e				Exception to handle.
+	 *	@param		Framework_Krypton_Exception_Template	$exception				Exception to handle.
 	 *	@return		void
 	 */
-	protected function handleTemplateException( Framework_Krypton_Exception_Template $e )
+	protected function handleTemplateException( Framework_Krypton_Exception_Template $exception )
 	{
 		$list	= array();
-		foreach( $e->getNotUsedLabels() as $label )
+		foreach( $exception->getNotUsedLabels() as $label )
 			$list[]	= preg_replace( "@<%(.*)%>@", "\\1", $label );
 		$labels	= implode( ",", $list );
 		$labels	= htmlentities( $labels );
-		$this->messenger->noteFailure( $e->getMessage()."<br/><small>".$labels."</small>" );
+		$this->messenger->noteFailure( $exception->getMessage()."<br/><small>".$labels."</small>" );
 	}
 
 	//  --  FILE MANAGEMENT  --  //
