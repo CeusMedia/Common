@@ -1,4 +1,4 @@
-g98<?php
+<?php
 /**
  *	TestUnit of Predicates.
  *	@package		Tests.alg.validation
