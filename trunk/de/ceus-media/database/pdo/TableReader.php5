@@ -80,7 +80,7 @@ class Database_PDO_TableReader
 	{
 		$conditions	= $this->getConditionQuery( $conditions, FALSE, TRUE );
 		$conditions	= $conditions ? " WHERE ".$conditions : "";
-		$query	= "SELECT COUNT(".$this->primaryKey.") as count FROM ".$this->getTableName().$conditions;
+		$query	= "SELECT COUNT(`".$this->primaryKey."`) as count FROM ".$this->getTableName().$conditions;
 		$result	= $this->dbc->query( $query );
 		$count	= $result->fetch( PDO::FETCH_ASSOC );
 		return $count['count'];
@@ -284,11 +284,11 @@ class Database_PDO_TableReader
 			else
 			{
 				if( strtolower( $value ) == 'is null' || strtolower( $value ) == 'is not null')
-					$conditions[] = $key.' '.$value;
+					$conditions[] = '`'.$key.'`'.' '.$value;
 				else if( $value === null )
-					$conditions[] = $key.' is NULL';
+					$conditions[] = '`'.$key.'` is NULL';
 				else
-					$conditions[] = $key."=".$this->secureValue( $value );
+					$conditions[] = '`'.$key.'`='.$this->secureValue( $value );
 			}
 		}
 		$conditions = implode( " AND ", $conditions );						//  combine Conditions with AND
