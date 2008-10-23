@@ -121,6 +121,8 @@ class Database_PDO_Connection extends PDO
 	 */
 	protected function logError( Exception $exception, $statement )
 	{
+		if( !$this->logFileErrors )
+			return;
 		$info		= $exception->errorInfo;
 		$sqlError	= $info[2];
 		$sqlCode	= $info[1];
@@ -150,12 +152,11 @@ class Database_PDO_Connection extends PDO
 	 */
 	protected function logStatement( $statement )
 	{
-		if( $this->logFileStatements )
-		{
-			$statement	= preg_replace( "@(\r)?\n@", " ", $statement );
-			$message	= time()." ".getEnv( 'REMOTE_ADDR' )." ".$statement."\n";
-			error_log( $message, 3, $this->logFileStatements);
-		}
+		if( !$this->logFileStatements )
+			return;
+		$statement	= preg_replace( "@(\r)?\n@", " ", $statement );
+		$message	= time()." ".getEnv( 'REMOTE_ADDR' )." ".$statement."\n";
+		error_log( $message, 3, $this->logFileStatements);
 	}
 	
 	public function prepare( $statement, $driverOptions = array() )
