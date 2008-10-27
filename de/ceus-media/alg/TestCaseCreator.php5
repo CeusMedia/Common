@@ -28,6 +28,7 @@
  *	@version		0.1
  */
 import( 'de.ceus-media.ui.ClassParser' );
+import( 'de.ceus-media.file.php.Parser' );
 import( 'de.ceus-media.folder.Editor' );
 import( 'de.ceus-media.folder.RecursiveRegexFilter' );
 /**
@@ -83,8 +84,14 @@ class Alg_TestCaseCreator
 		if( file_exists( $this->targetFile ) && !$force )
 			throw new RuntimeException( 'Test Class for Class "'.$this->className.'" is already existing.' );
 		
-		$parser				= new ClassParser( $this->classFile );
-		$this->data			= $parser->getClassData();
+		$parser	= new File_PHP_Parser();
+		$data	= $parser->parseFile( $this->classFile, "" );
+		$this->data	= $data['class'];
+		
+#		$parser				= new ClassParser( $this->classFile );
+#		$this->data			= $parser->getClassData();
+#		print_m( $data );
+#		die;
 		$this->dumpClassData();
 		$this->buildTestClass();
 	}
@@ -131,7 +138,7 @@ class Alg_TestCaseCreator
 		$template	= str_replace( "{className}", $this->className, $template );
 		$template	= str_replace( "{classFile}", $this->classFile, $template );
 		$template	= str_replace( "{classPath}", $this->classPath, $template );
-		$template	= str_replace( "{classPackage}", implode( ".", $this->data['class']['package'] ), $template );
+		$template	= str_replace( "{classPackage}", $this->data['package'], $template );
 		$template	= str_replace( "{date}", date( "d.m.Y" ), $template );
 
 		Folder_Editor::createFolder( dirname( $this->targetFile ) );
@@ -215,7 +222,7 @@ class Alg_TestCaseCreator
 		ob_start();
 		print_m( $this->data );
 		$data	= ob_get_clean();
-		file_put_contents( "data.html", "<xmp>".$data."</xmp>" );
+		file_put_contents( "lastCreatedTest.cache", "<xmp>".$data."</xmp>" );
 	}
 	
 	/**
