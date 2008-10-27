@@ -129,6 +129,8 @@ class File_CSS_Combiner
 		$content	= $this->combineString( $pathName, $content );
 		$fileName	= $this->prefix.$fileBase.$this->suffix.".css";
 		$fileUri	= $pathName.$fileName;
+		$fileUri	= str_replace( "\\", "/", $fileUri );
+
 		file_put_contents( $fileUri, $content );
 		return $fileUri;
 	}
