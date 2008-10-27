@@ -172,7 +172,7 @@ abstract class Framework_Krypton_Base
 	 *	@access		protected
 	 *	@return		void
 	 */
-	protected function initDatabase()
+	protected function initDatabase( $setUtf8 = TRUE )
 	{
 		import( 'de.ceus-media.database.pdo.Connection' );
 		import( 'de.ceus-media.database.pdo.DataSourceName' );
@@ -215,9 +215,12 @@ abstract class Framework_Krypton_Base
 		if( is_array( $attributes ) )
 			foreach( $attributes as $key => $value )
 				$dbc->setAttribute( constant( "PDO::".$key ), eval( "return ".$value.";" ) );
-		
+
+		if( $setUtf8 )
+			$dbc->query( "SET NAMES utf8" );		
+
 		$config['config.table_prefix']	= $config['database.access.prefix'];
-;
+
 		$this->registry->set( "dbc", $dbc, TRUE );
 	}
 
