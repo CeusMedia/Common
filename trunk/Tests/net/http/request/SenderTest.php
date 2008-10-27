@@ -23,12 +23,14 @@ class Tests_Net_HTTP_Request_SenderTest extends PHPUnit_Framework_TestCase
 	public function testSend()
 	{
 		$host		= "www.example.com";
+		$url		= "/";
 		$needle		= "@RFC\s+2606@i";
 		
 		$host		= "ceus-media.de";
+		$url		= "/site/";
 		$needle		= "@ceus media@i";
 
-		$sender		= new Net_HTTP_Request_Sender( $host, "/" );
+		$sender		= new Net_HTTP_Request_Sender( $host, $url );
 		$response	= $sender->send( array(), "test" );
 
 		$assertion	= true;

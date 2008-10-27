@@ -8,6 +8,7 @@ require_once( 'PHPUnit/Framework/TestSuite.php' );
 require_once( 'PHPUnit/TextUI/TestRunner.php' );
 require_once( 'Tests/adt/AllTests.php' );
 require_once( 'Tests/alg/AllTests.php' );
+require_once( 'Tests/console/AllTests.php' );
 require_once( 'Tests/database/AllTests.php' );
 require_once( 'Tests/file/AllTests.php' );
 require_once( 'Tests/folder/AllTests.php' );
@@ -32,6 +33,7 @@ class Tests_AllTests
 		$suite = new PHPUnit_Framework_TestSuite( 'cmClasses' );
 		$suite->addTest( Tests_ADT_AllTests::suite() );
 		$suite->addTest( Tests_Alg_AllTests::suite() );
+		$suite->addTest( Tests_Console_AllTests::suite() );
 		$suite->addTest( Tests_Database_AllTests::suite() );
 		$suite->addTest( Tests_File_AllTests::suite() );
 		$suite->addTest( Tests_Folder_AllTests::suite() );
