@@ -152,6 +152,7 @@ class Framework_Krypton_WebApplication extends Framework_Krypton_Base
 		$request	= $this->registry->get( "request" );
 		$controller	= $this->registry->get( "controller" );
 		$messenger	= $this->registry->get( "messenger" );
+		$words		= $this->registry->get( "words" );
 
 		$extra		= "";
 		$field		= "";
@@ -202,11 +203,11 @@ class Framework_Krypton_WebApplication extends Framework_Krypton_Base
 				}
 				else
 				{
-					$source		= $controller->getSource( $link );
-					if( $verbose )
-						remark( "<b>HTML File: </b>".$source );
-					$content	= $interface->loadContent( $source );
-				//	$extra		.= $view->buildExtra();
+					$source	= $controller->getSource( $link );
+					if( $interface->hasContent( $source ) )
+						$content	= $interface->loadContent( $source );
+					else
+						$messenger->noteFailure( str_replace( "#URI#", $source, $words['main']['msg']['error_no_content'] ) );
 				}
 			}
 		}
@@ -224,7 +225,7 @@ class Framework_Krypton_WebApplication extends Framework_Krypton_Base
 		$zipLogFile	= $config['config.http_compression_log'];
 		Net_HTTP_Request_Response::sendContent( $content, $zipMethod, $zipLogFile );
 	}
-	
+
 	/**
 	 *	Validate requested Link (can be overwritten for another Validation).
 	 *	@access		protected
