@@ -13,6 +13,7 @@ require_once 'Tests/alg/RandomizerTest.php';
 require_once 'Tests/alg/StringUnicoderTest.php';
 require_once 'Tests/alg/UnitFormaterTest.php';
 require_once 'Tests/alg/CamelCaseTest.php';
+require_once 'Tests/alg/StringTrimmerTest.php';
 class Tests_Alg_AllTests
 {
 	public static function main()
@@ -32,6 +33,7 @@ class Tests_Alg_AllTests
 		$suite->addTestSuite( 'Tests_Alg_StringUnicoderTest' ); 
 		$suite->addTestSuite( 'Tests_Alg_UnitFormaterTest' ); 
 		$suite->addTestSuite( 'Tests_Alg_CamelCaseTest' ); 
+		$suite->addTestSuite( 'Tests_Alg_StringTrimmerTest' ); 
 		return $suite;
 	}
 }
