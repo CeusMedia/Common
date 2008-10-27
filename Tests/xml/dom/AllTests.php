@@ -5,6 +5,7 @@ if( !defined( 'PHPUnit_MAIN_METHOD' ) )
 require_once( 'PHPUnit/Framework/TestSuite.php' );
 require_once( 'PHPUnit/TextUI/TestRunner.php' );
 require_once( 'Tests/initLoaders.php5' );
+require_once( 'Tests/xml/dom/pear/AllTests.php' );
 require_once( 'Tests/xml/dom/NodeTest.php' );
 require_once( 'Tests/xml/dom/BuilderTest.php' );
 require_once( 'Tests/xml/dom/ParserTest.php' );
@@ -26,6 +27,7 @@ class Tests_XML_DOM_AllTests
 	public static function suite()
 	{
 		$suite = new PHPUnit_Framework_TestSuite( 'cmClasses/XML/DOM' );
+		$suite->addTest( Tests_XML_DOM_PEAR_AllTests::suite() );
 		$suite->addTestSuite( 'Tests_XML_DOM_NodeTest' ); 
 		$suite->addTestSuite( 'Tests_XML_DOM_BuilderTest' ); 
 		$suite->addTestSuite( 'Tests_XML_DOM_ParserTest' ); 
