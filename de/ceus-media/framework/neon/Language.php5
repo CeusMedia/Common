@@ -28,10 +28,11 @@ import( 'de.ceus-media.file.block.Reader' );
  */
 class Framework_Neon_Language extends ADT_OptionObject
 {
-	protected $loaded	= array();
-	public $words		= array();
+	protected	$loaded			= array();
+	protected	$multilingual	= TRUE;
+	public		$words			= array();
 	
-	public function __construct( $encoding = false )
+	public function __construct( $encoding = NULL )
 	{
 		parent::__construct();
 
@@ -40,25 +41,35 @@ class Framework_Neon_Language extends ADT_OptionObject
 		$session	= $this->ref->get( 'session' );
 		$config		= $this->ref->get( 'config' );
 
-		//  --  LANGUAGE SELECT  --  //
-		$default	= $config['languages']['default'];
-		$allowed	= explode( ",", $config['languages']['allowed'] );
-		if( $language 	= $request->get( 'switchLanguageTo' ) )
+		$pathFiles	= $config['paths']['languages'];
+		$pathCache	= $config['paths']['cache'].basename( $config['paths']['languages'] )."/";
+
+		if( isset( $config['languages'] ) )
 		{
-			$lv	= new Alg_Validation_LanguageValidator( $allowed, $default );
-			$language	= $lv->getLanguage( $language );
-			$session->set( 'language', $language );
+			//  --  LANGUAGE SELECT  --  //
+			$default	= $config['languages']['default'];
+			$allowed	= explode( ",", $config['languages']['allowed'] );
+			if( $language 	= $request->get( 'switchLanguageTo' ) )
+			{
+				$lv	= new Alg_Validation_LanguageValidator( $allowed, $default );
+				$language	= $lv->getLanguage( $language );
+				$session->set( 'language', $language );
+				$request->remove( 'switchLanguageTo' );
+			}
+			if( !( $language = $session->get( 'language' ) ) )
+			{
+				$sniffer	= new Net_HTTP_LanguageSniffer;
+				$language	= $sniffer->getLanguage( $allowed, $default );
+				$session->set( 'language', $language );
+			}
+
+			$pathFiles	.= $language."/";
+			$pathCache	.= $language."/";
 		}
-		if( !( $language = $session->get( 'language' ) ) )
-		{
-			$sniffer	= new Net_HTTP_LanguageSniffer;
-			$language	= $sniffer->getLanguage( $allowed, $default );
-			$session->set( 'language', $language );
-		}
-				
+
+		$this->setOption( 'path_files', $pathFiles );
+		$this->setOption( 'path_cache', $pathCache );
 		$this->setOption( 'encoding', $encoding );
-		$this->setOption( 'path_files', $config['paths']['languages'].$language."/" );
-		$this->setOption( 'path_cache', $config['paths']['cache'].preg_replace("@^".$config['paths']['contents']."@", "", $config['paths']['languages'] ).$language."/" );
 		$this->setOption( 'loaded_file', array() );
 		$this->ref->add( 'words', $this->words );
 		$this->loadHovers();
@@ -86,7 +97,7 @@ class Framework_Neon_Language extends ADT_OptionObject
 		$messenger	= $this->ref->get( 'messenger' );
 		if( !$section )
 			$section	= $filename;
-		$uri	= $this->getOption( 'path_files' )."/".$filename.".lan";
+		$uri	= $this->getOption( 'path_files' ).$filename.".lan";
 		$cache	= $this->getOption( 'path_cache' ).basename( $filename ).".cache";
 		if( file_exists( $cache ) && filemtime( $uri ) <= filemtime( $cache ) )
 		{
