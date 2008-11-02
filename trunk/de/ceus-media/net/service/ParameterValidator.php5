@@ -140,9 +140,22 @@ class Net_Service_ParameterValidator
 		$type	= gettype( $value );
 		if( $type == $measure )
 			return TRUE;
+		$copy	= $value;
 		switch( $measure )
 		{
-			case 'boolean':	return $value == NULL;
+			case 'bool':
+			case 'boolean':
+				return (bool) $copy == $value;
+			case 'int':
+				return (int) $copy == $value;
+			case 'float':
+				return (float) $copy == $value;
+			case 'double':
+				return (double) $copy == $value;
+			case 'string':
+				return (string) $copy == $value;
+			case 'array':
+				return (array) $copy == $value;
 		}
 		return FALSE;
 	}

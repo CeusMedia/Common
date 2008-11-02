@@ -3,6 +3,7 @@
  *	@package		ui.html.service
  *	@todo			Code Doc
  */
+import( 'de.ceus-media.StopWatch' );
 import( 'de.ceus-media.net.Reader' );
 import( 'de.ceus-media.adt.json.Formater' );
 import( 'de.ceus-media.ui.html.Elements' );
@@ -18,7 +19,7 @@ class UI_HTML_Service_Test
 		$this->servicePoint		= $servicePoint;
 	}
 	
-	public function buildContent( $request )
+	public function buildContent( $request, $subfolderLevel = 0 )
 	{
 		$service	= $request['test'];
 		
@@ -29,16 +30,26 @@ class UI_HTML_Service_Test
 		
 		$requestUrl		= $this->getRequestUrl( $request );
 		$testUrl		= $this->getTestUrl( $request );
+
 		try
 		{
+			$stopwatch	= new StopWatch();
 			$response	= $this->getResponse( $requestUrl, $format );
 			$parameters	= $this->getParameterFields( $service, $format, $request );
+			$time		= $stopwatch->stop( 6, 0 );
 		}
 		catch( Exception $e )
 		{
 			$response	= UI_HTML_Exception_TraceViewer::buildTrace( $e );
 			$parameters	= array();
 		}
+
+		//  --  INFORMATION FOR TEMPLATE  --  //
+		$title			= $this->servicePoint->getTitle();							//  Service Title
+		$class			= $this->servicePoint->getServiceClass( $service );			//  Service Class Name
+		$description	= $this->servicePoint->getServiceDescription( $service );	//  Service Description
+		$defaultFormat	= $this->servicePoint->getDefaultServiceFormat( $service );	//  Service Format by default
+
 		return require_once( $this->template );
 	}
 
@@ -125,31 +136,37 @@ class UI_HTML_Service_Test
 		$reader->setBasicAuth( $this->username, $this->password );
 		
 		$response	= $reader->read();
-		if( $format == "json" )
+		switch( $format )
 		{
-			$response	= "<xmp>".ADT_JSON_Formater::format( stripslashes( $response ) )."</xmp>";
-		}
-		else if( $format == "php" )
-		{
-			$response	= unserialize( $response );
-			if( $response && is_a( $response, "Exception" ) )
-				return UI_HTML_Exception_TraceViewer::buildTrace( $response );
-			ob_start();
-			print_m( $response );
-			$response	= ob_get_clean();
-		}
-		else if( $format == "xml" )
-		{
-			$response	= "<xmp>".$response."</xmp>";
-		}
-		else if( $format == "wddx" )
-		{
-			$response	= wddx_deserialize( $response );
-			if( $response && is_a( $response, "Exception" ) )
-				return UI_HTML_Exception_TraceViewer::buildTrace( $response );
-			ob_start();
-			print_m( $response );
-			$response	= ob_get_clean();
+			case 'php':
+				$response	= unserialize( $response );
+				if( $response && is_a( $response, "Exception" ) )
+					return UI_HTML_Exception_TraceViewer::buildTrace( $response );
+				ob_start();
+				print_m( $response );
+				$response	= ob_get_clean();
+				break;
+			case "xml":
+			case "rss":
+			case "atom":
+				$doc	= new DOMDocument();
+				$doc->formatOutput	= TRUE;
+				$doc->preserveWhiteSpace	= TRUE;
+				$doc->loadXml( $response );
+				$response	= $doc->saveXml();
+				$response	= "<xmp>".$response."</xmp>";
+				break;
+			case "wddx":
+				$response	= wddx_deserialize( $response );
+				if( $response && is_a( $response, "Exception" ) )
+					return UI_HTML_Exception_TraceViewer::buildTrace( $response );
+				ob_start();
+				print_m( $response );
+				$response	= ob_get_clean();
+				break;
+			case "json";
+				$response	= "<xmp>".ADT_JSON_Formater::format( stripslashes( $response ) )."</xmp>";
+				break;
 		}
 		return $response;
 	}

@@ -89,35 +89,38 @@ class Net_Service_Client
 	}
 
 	/**
-	 *	Decodes Response if JSON oder PHP Serial.
+	 *	Decodes Response if JSON, PHP or WDDX Serial.
 	 *	@access		protected
 	 *	@param		string		$response			Response Content as serialized String
 	 *	@param		string		$format				Format of Serial (json|php|wddx|xml|rss|txt|...)
 	 *	@return		mixed
+	 *	@todo		Kriss: is "reponse === FALSE" correct, if Service returns FALSE ?
 	 */
 	protected function decodeResponse( $response, $format )
 	{
-		//  --  DECODE SERIALS  --  //
-		switch( $format )
+		ob_start();																		//  open Buffer for PHP Error Messages
+
+		//  --  DECODE RESPONSE SERIAL  --  //
+		switch( $format )																//  go for requested Format
 		{
-			case 'json':
-				$response	= json_decode( $response );
+			case 'json':																//  requested Format is JSON
+				$response	= json_decode( $response );									//  try to decode JSON Response
 				break;
-			case 'php':
-				$response	= unserialize( $response );
-				if( $response && $response instanceof Exception )
-					throw $response;
+			case 'php':																	//  requested Format is PHP
+				$response	= unserialize( $response );									//  try to decode PHP Response
+				if( $response && $response instanceof Exception )						//  Response is Exception
+					throw $response;													//  throw Response Exception
 				break;
-			case 'wddx':
-				$response	= wddx_deserialize( $response );
+			case 'wddx':																//  requested Format is WDDX
+				$response	= wddx_deserialize( $response );							//  try to decode WDDX Response
 				break;
-			default:
-				break;
+			default:																	//  other Formats
+				break;																	//  bypass Response Content undecoded
 		}
-		$output	= ob_get_clean();
-		if( $response === FALSE )
-			return $output;
-		return $response;
+		$output	= ob_get_clean();														//  close Buffer for PHP Error Messages
+		if( $response === FALSE )														//  could not decode
+			return $output;																//  return Error Message instead
+		return $response;																//  return decoded Response Content
 	}
 
 	/**

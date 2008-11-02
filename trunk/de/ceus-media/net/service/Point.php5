@@ -179,28 +179,49 @@ class Net_Service_Point implements Net_Service_Interface_Point
 	{
 		if( !isset( $this->services['services'][$serviceName]['parameters'] ) )
 			return;
-		foreach( $this->services['services'][$serviceName]['parameters'] as $field => $rules )
+		foreach( $this->services['services'][$serviceName]['parameters'] as $parameterName => $parameterRules )
 		{
-			if( !$rules )
+			if( !$parameterRules )
 				continue;
-			if( isset( $parameters[$field] ) )
-				$parameter	= $parameters[$field];
+			if( isset( $parameters[$parameterName] ) )
+				$parameter	= $parameters[$parameterName];
 			else
 			{
 				$type	 = NULL;
-				if( isset( $rules['type'] ) )
-					$type	= $this->getDefaultParameterType( $rules['type'] );
+				if( isset( $parameterRules['type'] ) )
+					$type	= $this->getDefaultParameterType( $parameterRules['type'] );
 				$parameter	= $type;
 			}
 			try
 			{
-				$this->validator->validateParameterValue( $rules, $parameter );
+				$this->validator->validateParameterValue( $parameterRules, $parameter );
 			}
 			catch( InvalidArgumentException $e )
 			{
-				throw new InvalidArgumentException( 'Parameter "'.$field.'" for Service "'.$serviceName.'" failed Rule "'.$e->getMessage().'".' );			
+				throw new InvalidArgumentException( 'Parameter "'.$parameterName.'" for Service "'.$serviceName.'" failed Rule "'.$e->getMessage().'".' );			
 			}
 		}
+	}
+
+	/**
+	 *	Returns default Type of Service Parameter.
+	 *	@access		public
+	 *	@param		string			$serviceName		Name of Service to call 
+	 *	@param		arrray			$parameterName		Name oif Parameter to get default Type for
+	 *	@return		string
+	 */
+	public function getServiceDefaultParameterType( $serviceName, $parameterName )
+	{
+		$type	= "unknown";
+		$parameters	= $this->getServiceParameters( $serviceName );
+		if( !$parameters )
+			throw new InvalidArgumentException( 'Service "'.$serviceName.'" does not receive any Parameters.' );
+		if( !isset( $parameters[$parameterName] ) )
+			throw new InvalidArgumentException( 'Parameter "'.$parameterName.'" for Service "'.$serviceName.'" is not defined.' );
+		$parameter	= $parameters[$parameterName];
+		if( isset( $parameter['type'] ) )
+			$type	= $parameter['type'];
+		return $type;
 	}
 	
 	protected function getDefaultParameterType( $type )
@@ -239,6 +260,16 @@ class Net_Service_Point implements Net_Service_Interface_Point
 		if( !in_array( $default, $responseFormats ) )
 			return "";
 		return $default;
+	}
+
+	/**
+	 *	Returns Description of Service Point.
+	 *	@access		public
+	 *	@return		string								Title of Service Point
+	 */
+	public function getDescription()
+	{
+		return $this->services['description'];	
 	}
 
 	/**
