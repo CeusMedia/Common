@@ -37,33 +37,6 @@ import( 'de.ceus-media.ui.html.WikiParser' );
  */
 class Framework_Neon_View extends Framework_Neon_Component
 {
-	/**	@var	array		$_paths			Array of possible Path Keys in Config for Content Loading */
-	var $_paths	= array(
-			'html'	=> 'html',
-			'wiki'	=> 'wiki',
-			'txt'	=> 'text',
-			);
-	/**	@var	UI_HTML_Elements			$html			HTML Elements */
-	var $html;
-	/**	@var	UI_HTML_WikiParser			$wiki			Wiki Parser */
-	var $wiki;
-	/**	@var	Framework_Neon_Language		$language		Language Support */
-	var $language;
-
-	/**
-	 *	Constructor, references Output Objects.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function __construct( $useWikiParser = FALSE )
-	{
-		parent::__construct();
-		$this->language		= $this->ref->get( 'language' );
-		$this->html			= new UI_HTML_Elements;
-		if( $useWikiParser )
-			$this->wiki			= new UI_HTML_WikiParser;
-	}
-
 	/**
 	 *	Builds HTML for Paging of Lists.
 	 *	@access		public
@@ -193,93 +166,6 @@ class Framework_Neon_View extends Framework_Neon_Component
 				$string	= "<font size='+1'>".$matches[2]."</font>";
 		}
 		return $string;
-	}
-
-	public function hasContent( $file )
-	{
-		$config		= $this->ref->get( "config" );
-		$session	= $this->ref->get( "session" );
-
-		$parts		= explode( ".", $file );
-		$ext		= array_pop( $parts );
-		$file		= array_pop( $parts );
-		$basename	= $file.".".$ext;
-		
-		$path		= $this->_paths[$ext];
-		$uri			= $config['paths'][$path].$session->get( 'language' )."/".implode( "/", $parts )."/";
-//		$theme		= $config['layout']['template_theme'] ? $config['layout']['template_theme']."/" : "";
-		$theme		= "";
-		$filename		= $uri.$theme.$basename;
-		
-		return file_exists( $filename );
-	}
-
-	/**
-	 *	Loads Content File in HTML or DokuWiki-Format returns Content.
-	 *	@access		public
-	 *	@param		string		$_file				File Name (with Extension) of Content File (HTML|Wiki|Text), i.E. home.html leads to {CONTENT}/{LANGUAGE}/home.html
-	 *	@param		array		$data				Data for Insertion in Template
-	 *	@param		string		$separator_link		Separator in Language Link
-	 *	@param		string		$separator_class	Separator for Language File
-	 *	@return		string
-	 */
-	public function loadContent( $_file, $data = array() )
-	{
-		$config		= $this->ref->get( "config" );
-		$session	= $this->ref->get( "session" );
-
-		$parts		= explode( ".", $_file );
-		$ext		= array_pop( $parts );
-		$file		= array_pop( $parts );
-		$basename	= $file.".".$ext;
-		
-		$path		= $this->_paths[$ext];
-		$uri			= $config['paths'][$path].$session->get( 'language' )."/";
-		if( count( $parts ) )
-			$uri	.= implode( "/", $parts )."/";
-//		$theme		= $config['layout']['template_theme'] ? $config['layout']['template_theme']."/" : "";
-		$theme		= "";
-		$filename		= $uri.$theme.$basename;
-
-		$content	= "";
-		
-		if( $ext == "wiki" && $this->wiki )
-		{
-			$cachefile	= $config['paths']['cache'].$path."/".$session->get( 'language' )."/".$basename.".html";
-			if( file_exists( $cachefile ) && filemtime( $filename ) <= filemtime( $cachefile ) )
-			{
-				$file		= new File_Reader( $cachefile );
-				$content	= $file->readString();
-			}
-			else if( file_exists( $filename ) )
-			{
-				$file		= new File_Reader( $filename );
-				$cache		= new File_Writer( $cachefile, 0755 );
-				$content	= $this->wiki->parse( $file->readString() );
-				$cache->writeString( $content );
-				$content = "<div class='wiki'>".$content."</div>";
-			}
-			else
-				$this->messenger->noteFailure( "Content File '".$filename."' is not existing." );
-		}
-		else if( $ext == "html" )
-		{
-			if( file_exists( $filename ) )
-			{
-				$file		= new File_Reader( $filename );
-				$content	= $file->readString();
-			}
-			else
-				$this->messenger->noteFailure( "Content File '".$filename."' is not existing." );
-		}
-		else
-		{
-			$this->messenger->noteFailure( "Content Type for File '".$filename."' is not implemented." );
-			return "";
-		}
-		foreach( $data as $key => $value )
-			$content	= str_replace( "[#".$key."#]", $value, $content );
-		return $content;
 	}
 
 	/**

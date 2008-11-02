@@ -30,12 +30,23 @@ abstract class Framework_Neon_Component
 	/**	@var		array						$words				Array of all Words */
 	protected $words;
 
+	/**	@var	array		$contentPaths			Array of possible Path Keys in Config for Content Loading */
+	protected $contentPaths	= array(
+			'html'	=> 'html',
+			'wiki'	=> 'wiki',
+			'txt'	=> 'text',
+			);
+	/**	@var	Framework_Neon_Language		$language		Language Support */
+	var $language;
+	/**	@var	UI_HTML_WikiParser			$wiki			Wiki Parser */
+	var $wiki;
+
 	/**
 	 *	Constructor.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public public function __construct()
+	public function __construct( $useWikiParser = FALSE )
 	{
 		$this->ref			= new ADT_Reference();
 		$this->tc			= new Alg_TimeConverter;
@@ -43,7 +54,13 @@ abstract class Framework_Neon_Component
 		$this->request	 	= $this->ref->get( 'request' );
 		$this->session		= $this->ref->get( 'session' );
 		$this->messenger	= $this->ref->get( 'messenger' );
+		$this->language		= $this->ref->get( 'language' );
 		$this->words		=& $this->ref->get( 'words' );
+		$this->multilingual	= isset( $this->config['languages'] );
+
+		$this->html			= new UI_HTML_Elements;
+		if( $useWikiParser )
+			$this->wiki		= new UI_HTML_WikiParser;
 	}
 
 	/**
@@ -105,6 +122,79 @@ abstract class Framework_Neon_Component
 		else
 			$this->messenger->noteFailure( "Template '".$_filename."' for View '".$_template."' is not existing" );
 		return $_content;
+	}
+
+	public function getContentUri( $file )
+	{
+		$parts		= explode( ".", $file );
+		$ext		= array_pop( $parts );
+		$file		= array_pop( $parts );
+		$fileName	= $file.".".$ext;
+		$filePath	= $parts ? implode( "/", $parts )."/" : "";
+
+		if( !array_key_exists( $ext, $this->contentPaths ) )
+			return !$this->messenger->noteFailure( "Content Type '".$ext."' is not registered." );
+
+		$typePath	= $this->contentPaths[$ext];
+		$basePath	= $this->config['paths'][$typePath];
+		if( $this->multilingual )
+			$basePath	.= $this->session->get( 'language' )."/";
+		return $basePath.$filePath.$fileName;
+	}
+
+	public function hasContent( $file )
+	{
+		return file_exists( $this->getContentUri( $file ) );
+	}
+
+	/**
+	 *	Loads Content File in HTML or DokuWiki-Format returns Content.
+	 *	@access		public
+	 *	@param		string		$fileKey			File Name (with Extension) of Content File (HTML|Wiki|Text), i.E. home.html leads to {CONTENT}/[{LANGUAGE}/]home.html
+	 *	@param		array		$data				Data for Insertion in Template
+	 *	@param		string		$separator_link		Separator in Language Link
+	 *	@param		string		$separator_class	Separator for Language File
+	 *	@return		string
+	 */
+	public function loadContent( $fileKey, $data = array() )
+	{
+		$fileUri	= $this->getContentUri( $fileKey );
+		$parts		= explode( ".", $fileKey );
+		$ext		= array_pop( $parts );
+
+		$content	= "";
+		if( $ext == "wiki" && $this->wiki )
+		{
+			$cachefile	= $config['paths']['cache'].$path."/".$session->get( 'language' )."/".$basename.".html";
+			if( file_exists( $cachefile ) && filemtime( $fileUri ) <= filemtime( $cachefile ) )
+			{
+				$file		= new File_Reader( $cachefile );
+				$content	= $file->readString();
+			}
+			else if( file_exists( $filename ) )
+			{
+				$file		= new File_Reader( $fileUri );
+				$cache		= new File_Writer( $cachefile, 0755 );
+				$content	= $this->wiki->parse( $file->readString() );
+				$cache->writeString( $content );
+				$content = "<div class='wiki'>".$content."</div>";
+			}
+			else
+				$this->messenger->noteFailure( "Content File '".$fileUri."' is not existing." );
+		}
+		else if( $ext == "html" )
+		{
+			if( file_exists( $fileUri ) )
+			{
+				$file		= new File_Reader( $fileUri );
+				$content	= $file->readString();
+			}
+			else
+				$this->messenger->noteFailure( "Content File '".$fileUri."' is not existing." );
+		}
+		foreach( $data as $key => $value )
+			$content	= str_replace( "[#".$key."#]", $value, $content );
+		return $content;
 	}
 }
 ?>
