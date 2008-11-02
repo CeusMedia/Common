@@ -82,5 +82,48 @@ class Net_Service_Response
 #			$mixed	= get_class( $mixed ).": ".$midex->getMessage();
 		return wddx_serialize_value( $mixed );
 	}
+	
+	protected function createXmlDocument( $rootName = "response" )
+	{
+		$root	= new XML_Element( "<".$rootName."/>" );
+		return $root;
+	}
+
+	protected function getXml( $data, $rootName = "response" )
+	{
+		$root	= $this->createXmlDocument( $rootName );
+		$this->addArrayToXmlNode( $root, $data );
+		return $root->asXml();
+	}
+	
+	protected function addArrayToXmlNode( &$xmlNode, $dataArray, $lastParent = "" )
+	{
+		foreach( $dataArray as $key => $value )
+		{
+			if( is_array( $value ) )
+			{
+				$child	=& $xmlNode->addChild( $key );
+				$this->addArrayToXmlNode( $child, $value, $key );
+				continue;
+			}
+			else if( is_int( $key ) )
+				$key	= $this->getSingular( $lastParent );
+			$xmlNode->addChild( $key, $value );
+		}
+	}
+
+	/**
+	 *	Returns Singular of a Word.
+	 *	@access		public
+	 *	@param		string		$words			Word in Plural
+	 *	@return		string
+	 */
+	protected function getSingular( $word )
+	{
+		$word	= preg_replace( '@ies$@', "y", $word );
+		$word	= preg_replace( '@(([s|x|h])e)?s$@', "\\2", $word );
+		return $word;
+	}
+
 }
 ?>

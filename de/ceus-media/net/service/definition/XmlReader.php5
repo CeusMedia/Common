@@ -46,11 +46,12 @@ class Net_Service_Definition_XmlReader
 	 */
 	public static function load( $fileName )
 	{
-		$element			= XML_ElementReader::readFile( $fileName );
-		$data['title']		= (string) $element->title;
-		$data['url']		= (string) $element->url;
-		$data['syntax']		= (string) $element->syntax;
-		$data['services']	= array();
+		$element				= XML_ElementReader::readFile( $fileName );
+		$data['title']			= (string) $element->title;
+		$data['description']	= (string) $element->description;
+		$data['url']			= (string) $element->url;
+		$data['syntax']			= (string) $element->syntax;
+		$data['services']		= array();
 		foreach( $element->services->service as $serviceElement )
 		{
 			$serviceName	= $serviceElement->getAttribute( 'name' );

@@ -25,12 +25,13 @@ class UI_HTML_Service_Table
 		natcasesort( $services );
 		$heads		= array();
 		
-		$heads	= array( "<th>Service</th><th>Parameter</th>" );
-		$cols	= array( "<col width='35%'/><col width='30%'/>" ); 
+		$heads	= array( "<th>Service</th><th>Parameters</th>" );
+		$cols	= array( "<col width='35%'/><col width='35%'/>" ); 
 		foreach( $this->availableFormats as $format )
 		{
-			$cols[]		= "<col width='".round( ( 100 - 65 ) / count( $this->availableFormats ), 0 )."%'/>";
-			$heads[]	= "<th><a href='#' onClick='$(\"#format\").val(\"".$format."\").trigger(\"change\")'>".strtoupper( $format )."</a></th>";
+			$cols[]		= "<col width='".round( ( 100 - 70 ) / count( $this->availableFormats ), 0 )."%'/>";
+			$label		= UI_HTML_Elements::Acronym( strtoupper( $format ), "show services with response format ".strtoupper( $format ) );
+			$heads[]	= "<th style='text-align: center' class='format'><a href='#'>".$label."</a></th>";
 		}
 		$cols	= "<colgroup>".implode( "", $cols )."</colgroup>";
 		$heads	= "<tr>".implode( "", $heads )."</tr>";
@@ -45,11 +46,11 @@ class UI_HTML_Service_Table
 			foreach( $this->availableFormats as $format )
 			{
 				if( $format == $default )
-					$cells[]	= "<td class='preferred'><span class='".$format."'>+</span></td>";
+					$cells[]	= "<td class='preferred'><span class='".$format."'>default</span></td>";
 				else if( in_array( $format, $formats ) )
-					$cells[]	= "<td class='yes'><span class='".$format."'>+</span></td>";
+					$cells[]	= "<td class='yes'><span class='".$format."'>yes</span></td>";
 				else
-					$cells[]	= "<td class='no'>-</td>";
+					$cells[]	= "<td class='no'>no</td>";
 			}
 						
 			//  --  PARAMETERS  --   //
@@ -67,17 +68,18 @@ class UI_HTML_Service_Table
 						$ruleList[]	= $ruleKey.": ".htmlspecialchars( $ruleValue );
 					}
 				}
-				$rules	= implode( ", ", $ruleList );
+				$rules	= implode( "<br/>", $ruleList );
 				if( $rules )
-					$parameter	= '<div class="rule">'.$rules.'</div>'.$parameter;
-				$parameterList[]	= $parameter;
+					$parameter	= $parameter.'<div class="rules">'.$rules.'</div>';
+				$parameterList[]	= UI_HTML_Elements::ListItem( $parameter );
 			}
-			$parameters	= implode( "<br/>", $parameterList );
+			$parameters		= UI_HTML_Elements::unorderedList( $parameterList );
 
-			$linkService	= UI_HTML_Elements::Link( "?service=".$service, $service );
-			$linkTest		= UI_HTML_Elements::Link( "?test=".$service, "(test)" );
+			$linkService	= UI_HTML_Tag::create( "a", $service, array( 'href' => "?service=".$service, 'title' => "Run this service" ) );
+			$imageTest		= UI_HTML_Tag::create( "span", NULL, array( 'class' => 'linkTest', 'title' => 'Test this service' ) );
+			$linkTest		= UI_HTML_Elements::Link( "?test=".$service, $imageTest );
 
-			$serviceLink	= '<div class="serviceName">'.$linkService.'&nbsp;'.$linkTest.'</div>';
+			$serviceLink	= '<div class="serviceName">'.$linkTest.$linkService.'</div>';
 			$serviceClass	= '<div class="className">'.$this->servicePoint->getServiceClass( $service ).'</div>';
 			$description	= '<div class="description">'.$this->servicePoint->getServiceDescription( $service ).'</div>';
 			$cellService	= '<td class="service">'.$serviceClass.$serviceLink.$description.'</td>';

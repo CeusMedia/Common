@@ -54,12 +54,13 @@ class UI_HTML_Service_Index extends Net_Service_Handler
 	 *	@access		public
 	 *	@return		string		HTML of Service Index
 	 */
-	public function buildContent()
+	public function buildContent( $subfolderLevel = 0 )
 	{
-		$title		= $this->servicePoint->getTitle();							//  Services Title
-		$syntax		= $this->servicePoint->getSyntax();							//  Services Syntax
-		$table		= $this->getServiceTable();									//  Services Table
-		$list		= $this->getServiceList();									//  Services List
+		$title			= $this->servicePoint->getTitle();							//  Services Title
+		$description	= $this->servicePoint->getDescription();					//  Services Title
+		$syntax			= $this->servicePoint->getSyntax();							//  Services Syntax
+		$table			= $this->getServiceTable();									//  Services Table
+		$list			= $this->getServiceList();									//  Services List
 
 		//  --  TYPES FOR FILTER  --  //
 		$optFormat	= array( '<option value=""> -- all -- </option>' );
