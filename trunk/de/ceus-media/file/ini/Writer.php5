@@ -1,5 +1,5 @@
 <?php
-import( 'de.ceus-media.file.File' );
+import( 'de.ceus-media.file.Editor' );
 import( 'de.ceus-media.file.ini.Reader' );
 /**
  *	Property File Writer.
@@ -21,7 +21,7 @@ import( 'de.ceus-media.file.ini.Reader' );
  *
  *	@package		file.ini
  *	@extends		File_INI_Reader
- *	@uses			File
+ *	@uses			File_Editor
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -32,7 +32,7 @@ import( 'de.ceus-media.file.ini.Reader' );
  *	Property File Writer.
  *	@package		file.ini
  *	@extends		File_INI_Reader
- *	@uses			File
+ *	@uses			File_Editor
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -130,7 +130,7 @@ class File_INI_Writer extends File_INI_Reader
 	 */
 	public function addSection( $sectionName )
 	{
-		$file		= new File( $this->fileName );
+		$file		= new File_Editor( $this->fileName );
 		$lines		= $file->readArray();
 		$lines[]	= "[".$sectionName."]";
 		if( !in_array( $sectionName, $this->sections ) )
@@ -224,7 +224,7 @@ class File_INI_Writer extends File_INI_Reader
 	{
 		if( $this->usesSections() )
 		{
-			$file	= new File( $this->fileName );
+			$file	= new File_Editor( $this->fileName );
 			$content	= $file->readString();
 			$content	= preg_replace( "/(.*)(\[".$section."\])(.*)/si", "$1[".$new."]$3", $content );
 			$file->writeString( $content );
@@ -301,7 +301,7 @@ class File_INI_Writer extends File_INI_Reader
 	 */
 	public function write()
 	{
-		$file	= new File( $this->fileName, 777 );
+		$file	= new File_Editor( $this->fileName, 777 );
 		if( $file->isWritable() )
 		{
 			$newLines = array();
