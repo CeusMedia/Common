@@ -60,7 +60,10 @@ abstract class Framework_Neon_Component
 
 		$this->html			= new UI_HTML_Elements;
 		if( $useWikiParser )
+		{
+			import( 'de.ceus-media.ui.html.WikiParser' );
 			$this->wiki		= new UI_HTML_WikiParser;
+		}
 	}
 
 	/**
@@ -165,16 +168,20 @@ abstract class Framework_Neon_Component
 		$content	= "";
 		if( $ext == "wiki" && $this->wiki )
 		{
-			$cachefile	= $config['paths']['cache'].$path."/".$session->get( 'language' )."/".$basename.".html";
-			if( file_exists( $cachefile ) && filemtime( $fileUri ) <= filemtime( $cachefile ) )
+			$typePath	= $this->contentPaths['wiki'];
+			$cacheFile	= $this->config['paths']['cache'].$typePath."/".$fileKey;
+			if( $this->multilingual )
+				$cacheFile	= $this->config['paths']['cache'].$typePath."/".$session->get( 'language' )."/".$fileKey;
+
+			if( file_exists( $cacheFile ) && filemtime( $fileUri ) <= filemtime( $cacheFile ) )
 			{
-				$file		= new File_Reader( $cachefile );
+				$file		= new File_Reader( $cacheFile );
 				$content	= $file->readString();
 			}
 			else if( file_exists( $filename ) )
 			{
 				$file		= new File_Reader( $fileUri );
-				$cache		= new File_Writer( $cachefile, 0755 );
+				$cache		= new File_Writer( $cacheFile, 0755 );
 				$content	= $this->wiki->parse( $file->readString() );
 				$cache->writeString( $content );
 				$content = "<div class='wiki'>".$content."</div>";

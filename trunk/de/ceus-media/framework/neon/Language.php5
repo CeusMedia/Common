@@ -92,7 +92,7 @@ class Framework_Neon_Language extends ADT_OptionObject
 		}
 	}
 	
-	public function loadLanguage( $filename, $section = false, $verbose = true )
+	public function loadLanguage( $filename, $section = FALSE, $verbose = TRUE )
 	{
 		$messenger	= $this->ref->get( 'messenger' );
 		if( !$section )
