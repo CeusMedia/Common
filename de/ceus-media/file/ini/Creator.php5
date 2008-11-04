@@ -41,11 +41,11 @@ import( 'de.ceus-media.file.Writer' );
 class File_INI_Creator
 {
 	/**	@var	array			$data			Data of Ini File */
-	protected $data = array();
+	protected $data				= array();
 	/**	@var	string			$currentSection	Current working Section */
-	protected $currentSection = "";
+	protected $currentSection	= NULL;
 	/**	@var	bool			$useSections	Flag: use Sections within Ini File */
-	protected $useSections = false;
+	protected $useSections		= FALSE;
 
 	/**
 	 *	Constructor.
@@ -69,14 +69,16 @@ class File_INI_Creator
 	 */
 	public function addProperty( $key, $value, $comment = NULL )
 	{
-		if( $this->useSections )
-			$this->addPropertyToSection( $key, $value, $this->currentSection, $comment );
-		else
+		if( !$this->useSections )
 		{
 			$this->data[$key]['key']		= $key;
 			$this->data[$key]['value']		= $value;
 			$this->data[$key]['comment']	= $comment;
 		}
+		else if( $this->currentSection )
+			$this->addPropertyToSection( $key, $value, $this->currentSection, $comment );
+		else
+			throw new InvalidArgumentException( 'No section given.' );
 	}
 	
 	/**
@@ -140,13 +142,26 @@ class File_INI_Creator
 	public function write( $fileName )
 	{
 		$lines	= array();
-		foreach ( $this->data as $section => $section_data )
+		if( $this->useSections )
 		{
-			$lines[]	= "[".$section."]";
-			foreach ( $section_data as $key => $key_data )
+			foreach ( $this->data as $section => $sectionPairs )
 			{
-				$value		= $key_data['value'];
-				$comment	= $key_data['comment'];
+				$lines[]	= "[".$section."]";
+				foreach ( $sectionPairs as $key => $data )
+				{
+					$value		= $data['value'];
+					$comment	= $data['comment'];
+					$lines[]	= $this->buildLine( $key, $value, $comment);
+				}
+				$lines[]	= "";
+			}
+		}
+		else
+		{
+			foreach ( $this->data as $key => $data )
+			{
+				$value		= $data['value'];
+				$comment	= $data['comment'];
 				$lines[]	= $this->buildLine( $key, $value, $comment);
 			}
 			$lines[]	= "";
