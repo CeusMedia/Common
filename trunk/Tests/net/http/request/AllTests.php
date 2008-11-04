@@ -8,6 +8,7 @@ require_once( 'Tests/net/http/request/ReceiverTest.php' );
 require_once( 'Tests/net/http/request/ResponseTest.php' );
 require_once( 'Tests/net/http/request/SenderTest.php' );
 require_once( 'Tests/net/http/request/HeaderTest.php' );
+require_once( 'Tests/net/http/request/QueryParserTest.php' );
 class Tests_Net_HTTP_Request_AllTests
 {
 	public static function main()
@@ -22,6 +23,7 @@ class Tests_Net_HTTP_Request_AllTests
 		$suite->addTestSuite( 'Tests_Net_HTTP_Request_ResponseTest' ); 
 		$suite->addTestSuite( 'Tests_Net_HTTP_Request_SenderTest' ); 
 		$suite->addTestSuite( 'Tests_Net_HTTP_Request_HeaderTest' ); 
+		$suite->addTestSuite( 'Tests_Net_HTTP_Request_QueryParserTest' ); 
 		return $suite;
 	}
 }

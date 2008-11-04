@@ -374,6 +374,74 @@ class Tests_Database_TableReaderTest extends PHPUnit_Framework_TestCase
 	 *	@access		public
 	 *	@return		void
 	 */
+	public function testGetAllData6()
+	{
+		$this->connection->execute( "INSERT INTO transactions (topic,label) VALUES ('test','findTest1');" );
+		$this->connection->execute( "INSERT INTO transactions (topic,label) VALUES ('test','findTest2');" );
+
+		$conditions	= array( 'id' => "<2" );
+		$result		= $this->reader->getAllData( array( 'id' ), $conditions );
+
+		$assertion	= 1;
+		$creation	= count( $result );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= 1;
+		$creation	= count( $result[0] );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= 1;
+		$creation	= $result[0]['id'];
+		$this->assertEquals( $assertion, $creation );
+
+		$conditions	= array( 'label' => "%est%" );
+		$result		= $this->reader->getAllData( array( 'id', 'label' ), $conditions );
+
+		$assertion	= 2;
+		$creation	= count( $result );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= 2;
+		$creation	= count( $result[0] );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= "findTest1";
+		$creation	= $result[0]['label'];
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= "findTest2";
+		$creation	= $result[1]['label'];
+		$this->assertEquals( $assertion, $creation );
+
+		$conditions	= array( 'label' => ">findTest1" );
+		$result		= $this->reader->getAllData( array( 'id', 'label' ), $conditions );
+
+		$assertion	= 1;
+		$creation	= count( $result );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= 2;
+		$creation	= count( $result[0] );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= "findTest2";
+		$creation	= $result[0]['label'];
+		$this->assertEquals( $assertion, $creation );
+
+
+		$conditions	= array( 'label' => "test=test" );
+		$result		= $this->reader->getAllData( array( 'id', 'label' ), $conditions );
+
+		$assertion	= 0;
+		$creation	= count( $result );
+		$this->assertEquals( $assertion, $creation );
+	}
+
+	/**
+	 *	Tests Method 'getAllData'.
+	 *	@access		public
+	 *	@return		void
+	 */
 	public function testGetAllDataWithOrder()
 	{
 		$this->connection->execute( "INSERT INTO transactions (topic,label) VALUES ('test','findTest');" );
