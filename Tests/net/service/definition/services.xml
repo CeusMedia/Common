@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <servicePoint>
   <title>Motrada V2 Public Web Services</title>
+  <description/>
   <url/>
   <syntax>http://.../services/?service=[service](&amp;format=[format])(&amp;[parameter1]=value1)</syntax>
   <services>
