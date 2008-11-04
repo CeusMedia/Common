@@ -200,15 +200,30 @@ class Database_TableReader
 		if( $usePrimary && $this->isFocused() == "primary" )				//  if using foreign Keys & is focused primary
 			$new[$this->focusKey] = $this->focus;							//  note primary Key Pair
 
+		$pattern	= "/^(<|<=|>=|>|!=)(.+)/";
 		$conditions = array();
 		foreach( $new as $key => $value )									//  iterate all noted Pairs
+		{
+			if( !$value )
+				continue;
+			$operation	= " = ";
 //			$conditions[] =  $key.'="'.$value.'"';							//  create SQL WHERE Condition
 			if( preg_match( "/%/", $value ) )
-				$conditions[] = "`".$key."` LIKE '".$value."'";
-			else if( preg_match( "/^<|=|>|!=/", $value ) )
-				$conditions[] = $key.$value;
-			else
-				$conditions[] = "`".$key."`='".$value."'";
+				$operation	= " LIKE ";
+			else if( preg_match( $pattern, $value ) )
+			{
+				$matches	= array();
+				preg_match_all( $pattern, $value, $matches );
+				$operation	= " ".$matches[1][0]." ";
+				$value		= $matches[2][0];
+			}
+			if( !ini_get( 'magic_quotes_gpc' ) )
+			{
+				$key	= addslashes( $key );
+				$value	= addslashes( $value );
+			}
+			$conditions[] = "`".$key."`".$operation."'".$value."'";
+		}
 		$conditions = implode( " AND ", $conditions );						//  combine Conditions with AND
 		return $conditions;
 	}

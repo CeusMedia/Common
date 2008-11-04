@@ -180,8 +180,6 @@ class Database_TableWriter extends Database_TableReader
 								$field = addslashes( $field );
 								$value = addslashes( $value );
 							}
-							if( !ini_get( 'magic_quotes_gpc' ) )
-								$value	= addslashes( $value );
 							$value	= str_replace( '"', "'", $value );
 							if( $value == "on" )
 								$value = 1;
