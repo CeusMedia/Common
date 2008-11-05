@@ -57,6 +57,7 @@ class Net_Service_Definition_XmlWriter
 	{
 		$root	= new XML_DOM_Node( 'servicePoint' );
 		$root->addChild( new XML_DOM_Node( 'title', $data['title'] ) );
+		$root->addChild( new XML_DOM_Node( 'description', $data['description'] ) );
 		$root->addChild( new XML_DOM_Node( 'url', $data['url'] ) );
 		$root->addChild( new XML_DOM_Node( 'syntax', $data['syntax'] ) );
 		$nodeServices	= new XML_DOM_Node( 'services' );
