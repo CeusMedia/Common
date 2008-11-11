@@ -43,7 +43,8 @@ import( 'de.ceus-media.framework.krypton.core.Registry' );
  */
 class Framework_Krypton_Core_Model extends Database_PDO_TableWriter
 {
-	public static $tablePrefixKey	= 'config.access.prefix';
+	public static $tablePrefixKey	= 'database.access.prefix';
+	public static $tablePrefixKeyBelow_v0_6_5	= 'config.table_prefix';
 
 	/**	@var	string			$prefix			Prefix of Table  */
 	private $prefix;
@@ -62,6 +63,11 @@ class Framework_Krypton_Core_Model extends Database_PDO_TableWriter
 		$dbc			= Framework_Krypton_Core_Registry::getStatic( 'dbc' );
 		$config			= Framework_Krypton_Core_Registry::getStatic( 'config' );
 		$this->prefix	= $config[self::$tablePrefixKey];
+		
+		//  downwards compatibility with applications build below cmClasses v0.6.5
+		if( !isset( $config[self::$tablePrefixKey] )&& isset( $config[self::$tablePrefixKeyBelow_v0_6_5] ) )
+			$this->prefix	= $config[self::$tablePrefixKeyBelow_v0_6_5];
+
 		parent::__construct( $dbc, $table, $columns, $primaryKey, $focus );
 	}
 	

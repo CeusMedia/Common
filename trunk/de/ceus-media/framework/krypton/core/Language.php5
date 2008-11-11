@@ -88,7 +88,8 @@ class Framework_Krypton_Core_Language
 
 		if( $identify )
 			$this->identifyLanguage();
-		$this->registry->set( 'words', $this->words, TRUE );
+		if( !$this->registry->has( 'words' ) )
+			$this->registry->set( 'words', $this->getWords(), TRUE );
 	}
 	
 	/**
@@ -128,7 +129,7 @@ class Framework_Krypton_Core_Language
 		return $this->loadedFiles;	
 	}
 	
-	public function getWord( $fileName, $section, $key )
+	public function & getWord( $fileName, $section, $key )
 	{
 		if( isset( $this->words[$fileName][$section][$key] ) )
 			return $this->words[$fileName][$section][$key];
