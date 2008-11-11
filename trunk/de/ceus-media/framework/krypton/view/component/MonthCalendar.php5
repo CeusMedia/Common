@@ -63,7 +63,7 @@ class Framework_Krypton_View_Component_MonthCalendar extends Framework_Krypton_C
 	var $format	= "m.y";
 	/**	@var	int			$year			Year to start from */
 	var $year;
-	/**	@var	int			$type			Type of Calendar  */
+	/**	@var	int			$type			Type of Calendar (TYPE_PAST|TYPE_PRESENT|TYPE_FUTURE) */
 	var $type	= self::TYPE_PRESENT;
 	/**	@var	bool		$asc			Direction where true is ascending */
 	var $asc	= true;
@@ -122,20 +122,26 @@ class Framework_Krypton_View_Component_MonthCalendar extends Framework_Krypton_C
 		{
 			case self::TYPE_FUTURE:
 				$start	= $this->year;
-				$end	= $this->year+$this->range;
+				$end	= $this->year + $this->range;
 				break;
 			case self::TYPE_PAST:
-				$start	= $this->year-$this->range;
+				$start	= $this->year - $this->range;
 				$end	= $this->year;
 				break;
 			default:
-				$start		= $this->year - (int) ($this->range / 2);
-				$end		= $this->year + (int) ($this->range / 2);
-				$selected	= $this->year;
+				if( $this->range % 2 )
+				{
+					$start		= $this->year - floor( $this->range / 2 );
+					$end		= $this->year + floor( $this->range / 2 );
+				}
+				else
+				{
+					$start		= $this->year - floor( $this->range - 1 / 2 );
+					$end		= $this->year + ceil( $this->range - 1 / 2 );
+				}
+				$opt_year['_selected'] = $selected;
 				break;
 		}
-		if ( isset( $selected ) )
-			$opt_year['_selected'] = $selected;
 
 		for( $i=$start; $i<=$end; $i++ )
 			$opt_year[$i]	= $i;
@@ -193,7 +199,7 @@ class Framework_Krypton_View_Component_MonthCalendar extends Framework_Krypton_C
 	/**
 	 *	Sets Type to 'future' or 'past' or 'present'.
 	 *	@access		public
-	 *	@param		int			$type		Type of Calendar (future|past|present)
+	 *	@param		int			$type		Type of Calendar (TYPE_PAST|TYPE_PRESENT|TYPE_FUTURE)
 	 *	@return		void
 	 */
 	public function setType( $type )
