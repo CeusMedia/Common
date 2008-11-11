@@ -39,6 +39,10 @@
  */
 class Framework_Krypton_View_Component_MonthCalendar extends Framework_Krypton_Core_View
 {
+	const TYPE_PAST 		= 0;
+	const TYPE_PRESENT		= 1;
+	const TYPE_FUTURE		= 2;
+	
 	/**	@var	array		$months			Array of Months */
 	var $months	= array(
 		'01'	=> "Januar",
@@ -59,8 +63,8 @@ class Framework_Krypton_View_Component_MonthCalendar extends Framework_Krypton_C
 	var $format	= "m.y";
 	/**	@var	int			$year			Year to start from */
 	var $year;
-	/**	@var	bool		$future			Type of Calendar where true is 'future' */
-	var $future	= true;
+	/**	@var	int			$type			Type of Calendar  */
+	var $type	= self::TYPE_PRESENT;
 	/**	@var	bool		$asc			Direction where true is ascending */
 	var $asc	= true;
 	/**	@var	int			$range			Range of Years */
@@ -114,23 +118,30 @@ class Framework_Krypton_View_Component_MonthCalendar extends Framework_Krypton_C
 	protected function buildYears()
 	{
 		$opt_year	= array();
-		switch( $this->future )
+		switch( $this->type )
 		{
-			case true:
+			case self::TYPE_FUTURE:
 				$start	= $this->year;
 				$end	= $this->year+$this->range;
 				break;
-			default:
+			case self::TYPE_PAST:
 				$start	= $this->year-$this->range;
 				$end	= $this->year;
 				break;
+			default:
+				$start		= $this->year - (int) ($this->range / 2);
+				$end		= $this->year + (int) ($this->range / 2);
+				$selected	= $this->year;
+				break;
 		}
+		if ( isset( $selected ) )
+			$opt_year['_selected'] = $selected;
+
 		for( $i=$start; $i<=$end; $i++ )
 			$opt_year[$i]	= $i;
 		if( !$this->asc )
 			krsort( $opt_year );
 		return $opt_year;
-	
 	}
 	
 	/**
@@ -180,14 +191,14 @@ class Framework_Krypton_View_Component_MonthCalendar extends Framework_Krypton_C
 	}
 	
 	/**
-	 *	Sets Type to 'future' or 'past'.
+	 *	Sets Type to 'future' or 'past' or 'present'.
 	 *	@access		public
-	 *	@param		string		$type		Type of Calendar (future|past)
+	 *	@param		int			$type		Type of Calendar (future|past|present)
 	 *	@return		void
 	 */
 	public function setType( $type )
 	{
-		$this->future	= $type == "future";
+		$this->type	= $type;
 	}
 }
 ?>
