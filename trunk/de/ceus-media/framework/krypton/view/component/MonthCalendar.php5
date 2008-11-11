@@ -131,13 +131,13 @@ class Framework_Krypton_View_Component_MonthCalendar extends Framework_Krypton_C
 			default:
 				if( $this->range % 2 )
 				{
-					$start		= $this->year - floor( $this->range / 2 );
-					$end		= $this->year + floor( $this->range / 2 );
+					$start		= $this->year - ceil( $this->range / 2 );
+					$end		= $this->year + ceil( $this->range / 2 );
 				}
 				else
 				{
-					$start		= $this->year - floor( $this->range - 1 / 2 );
-					$end		= $this->year + ceil( $this->range - 1 / 2 );
+					$start		= $this->year - floor( ( $this->range - 1 ) / 2 );
+					$end		= $this->year + ceil( ( $this->range - 1 ) / 2 );
 				}
 				$opt_year['_selected'] = $this->year;
 				break;
