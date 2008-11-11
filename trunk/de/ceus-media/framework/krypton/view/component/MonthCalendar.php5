@@ -139,7 +139,7 @@ class Framework_Krypton_View_Component_MonthCalendar extends Framework_Krypton_C
 					$start		= $this->year - floor( $this->range - 1 / 2 );
 					$end		= $this->year + ceil( $this->range - 1 / 2 );
 				}
-				$opt_year['_selected'] = $selected;
+				$opt_year['_selected'] = $this->year;
 				break;
 		}
 
