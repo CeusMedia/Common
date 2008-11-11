@@ -90,7 +90,22 @@ class Framework_Krypton_Core_DefinitionView extends Framework_Krypton_Core_View
 						if( isset( $data['calendar']['range'] ) )
 							$cal->setRange( $data['calendar']['range'] );
 						if( isset( $data['calendar']['type'] ) )
-							$cal->setType( $data['calendar']['type'] );
+						{
+							$type	= Framework_Krypton_View_Component_MonthCalendar::TYPE_PRESENT;
+							switch( strtolower( trim( $data['calendar']['type'] ) ))
+							{
+								case "past":
+									$type	= Framework_Krypton_View_Component_MonthCalendar::TYPE_PAST;
+									break;
+								case "present":
+									$type	= Framework_Krypton_View_Component_MonthCalendar::TYPE_PRESENT;
+									break;
+								case "future":
+									$type	= Framework_Krypton_View_Component_MonthCalendar::TYPE_FUTURE;
+									break;
+							}
+							$cal->setType( $type );
+						}
 						if( isset( $data['calendar']['direction'] ) )
 							$cal->setDirection( $data['calendar']['direction'] == "asc" );
 						if( isset( $this->words['main']['months'] ) )
