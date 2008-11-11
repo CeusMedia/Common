@@ -263,7 +263,8 @@ abstract class Framework_Krypton_Base
 		import( 'de.ceus-media.framework.krypton.core.Language' );
 		$language	= new Framework_Krypton_Core_Language( $identify );
 		$language->loadLanguage( 'main' );
-		$this->registry->set( 'language', $language, TRUE );		
+		$this->registry->set( 'language', $language, TRUE );	
+		$this->registry->set( 'words', $language->getWords(), TRUE );
 		
 		import( 'de.ceus-media.framework.krypton.exception.Template' );
 		import( 'de.ceus-media.framework.krypton.exception.SQL' );

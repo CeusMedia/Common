@@ -425,8 +425,6 @@ abstract class Framework_Krypton_Core_Component
 	 */
 	protected function handleLogicException( LogicException $exception, $languageKey, $languageSection = "exceptions" )
 	{
-	remark( $languageKey );
-	remark( $languageSection );
 		$words	= $this->words[$languageKey][$languageSection];
 		if( isset( $words[$exception->getMessage()] ) )
 			$msg	= $words[$exception->getMessage()];
@@ -584,8 +582,7 @@ abstract class Framework_Krypton_Core_Component
 	 */
 	public function loadLanguage( $fileName, $section = FALSE, $verbose = FALSE )
 	{
-		$language	= $this->registry->get( 'language' );
-		return $language->loadLanguage( $fileName, $section, $verbose );
+		return $this->language->loadLanguage( $fileName, $section, $verbose );
 	}
 
 	/**

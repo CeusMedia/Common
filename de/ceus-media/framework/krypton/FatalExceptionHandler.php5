@@ -190,7 +190,7 @@ class Framework_Krypton_FatalExceptionHandler
 		}
 
 
-		$body	= require_once( $this->template );
+		$body	= @require_once( $this->template );
 
 		if( $logPath )
 			$this->logReport( $body, $logPath );
