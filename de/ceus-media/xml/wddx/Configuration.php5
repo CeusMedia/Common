@@ -7,7 +7,7 @@ import( 'de.ceus-media.xml.wddx.WDDX_FileWriter' );
 /**
  *	Reads and writes Configurations via WDDX.
  *
- *	Copyright (c) 2008 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2008 Christian WÃ¼rker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -27,8 +27,8 @@ import( 'de.ceus-media.xml.wddx.WDDX_FileWriter' );
  *	@uses			XML_WDDX_File_Writer
  *	@uses			File_Reader
  *	@uses			File_Writer
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@copyright		2008 Christian Würker
+ *	@author			Christian WÃ¼rker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian WÃ¼rker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			18.07.02005
@@ -41,8 +41,8 @@ import( 'de.ceus-media.xml.wddx.WDDX_FileWriter' );
  *	@uses			XML_WDDX_File_Writer
  *	@uses			File_Reader
  *	@uses			File_Writer
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@copyright		2008 Christian Würker
+ *	@author			Christian WÃ¼rker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian WÃ¼rker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			18.07.02005
@@ -78,9 +78,9 @@ class XML_WDDX_Configuration
 	public function __construct( $fileName, $useCache = false )
 	{
 		$this->fileName		= realpath( $fileName );
-		$this->useCache		= $useCache );
+		$this->useCache		= $useCache;
 		$this->pathCache	= dirname( realpath( $fileName ) )."/cache/";
-		$this->read():
+		$this->read();
 	}
 
 	/**
@@ -104,7 +104,7 @@ class XML_WDDX_Configuration
 	{
 		return $this->config;
 	}
-	
+
 	/**
 	 *	Reads a configuration.
 	 *	@access		protected
@@ -126,9 +126,9 @@ class XML_WDDX_Configuration
 			}
 		}
 		return $this->readWDDX();
-	
+
 	}
-	
+
 	/**
 	 *	Reads configuration from cache.
 	 *	@access		protected
