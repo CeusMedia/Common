@@ -84,7 +84,7 @@ class UI_HTML_JQuery
 		$innerIndent	= str_repeat( " ", $spaces + 2 );
 		$outerIndent	= str_repeat( " ", $spaces );
 		$options	= self::buildOptions( $options, $spaces + 2 );
-		return $outerIndent.'$(document).ready(function(){
+		return $outerIndent.self::$jQueryFunctionName.'(document).ready(function(){
 '.$innerIndent.self::$jQueryFunctionName.'("'.$selector.'").'.$plugin.'('.$options.').show();
 '.$outerIndent.'});';
 	}
