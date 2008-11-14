@@ -38,7 +38,7 @@
 class UI_HTML_JQuery
 {
 	/**	@var		string		$jQueryFunctionName		Name of jQuery Function to call, default: $ */
-	public static $jQueryFunctionName	= "$";
+	public static $jQueryFunctionName	= '$';
 	
 	/**
 	 *	Builds and returns Plugin Constructor Options.
