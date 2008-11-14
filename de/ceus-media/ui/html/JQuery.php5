@@ -37,6 +37,7 @@
  */
 class UI_HTML_JQuery
 {
+	public static $jQueryFunctionName	= "$"
 	/**
 	 *	Builds and returns Plugin Constructor Options.
 	 *	@access		protected
@@ -82,7 +83,7 @@ class UI_HTML_JQuery
 		$outerIndent	= str_repeat( " ", $spaces );
 		$options	= self::buildOptions( $options, $spaces + 2 );
 		return $outerIndent.'$(document).ready(function(){
-'.$innerIndent.'$("'.$selector.'").'.$plugin.'('.$options.').show();
+'.$innerIndent.self::$jQueryFunctionName.'("'.$selector.'").'.$plugin.'('.$options.').show();
 '.$outerIndent.'});';
 	}
 }
