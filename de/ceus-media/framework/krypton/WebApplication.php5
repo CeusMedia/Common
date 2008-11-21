@@ -235,7 +235,7 @@ class Framework_Krypton_WebApplication extends Framework_Krypton_Base
 	protected function validateLink( $link )
 	{
 		$auth		= $this->registry->get( "auth" );
-		if( !$auth->hasAccessToPage( $link ) )
+		if( !( $link && $auth->hasAccessToPage( $link ) ) )
 			return $auth->getFirstAccessiblePage();
 		return $link;
 	}

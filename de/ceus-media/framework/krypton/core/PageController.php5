@@ -193,9 +193,15 @@ class Framework_Krypton_Core_PageController
 	{
 		$list	= array();
 		foreach( $this->pages as $scope => $pages )
+		{
 			foreach( $pages as $pageId => $page )
-				if( isset( $page['default'] ) && $page['default'] )
+			{
+				$isDefault	= isset( $page['default'] ) && $page['default'];
+				$isHidden	= isset( $page['hidden'] ) && $page['hidden'];
+				if( $isDefault && !$isHidden )
 					$list[]	= $pageId;
+			}
+		}
 		return $list;
 	}
 
