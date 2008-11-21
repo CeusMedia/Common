@@ -60,12 +60,22 @@ function throwException()
 			import( $classFile );												//  import extended Exception Class
 		}
 	}
-	$list	= array();
+	if( count( $arguments ) == 4 )
+		$exception	= new $className( $arguments[0], $arguments[1], $arguments[2], $arguments[3] );
+	else if( count( $arguments ) == 3 )
+		$exception	= new $className( $arguments[0], $arguments[1], $arguments[2] );
+	else if( count( $arguments ) == 2 )
+		$exception	= new $className( $arguments[0], $arguments[1] );
+	else if( count( $arguments ) == 1 )
+		$exception	= new $className( $arguments[0] );
+	
+	
+/*	$list	= array();
 	for( $i=0; $i<count( $arguments ); $i++ )									//  iterate Arguments
 		$list[]	= ' $arguments['.$i.']';										//  add Parameter
 	$list	= implode( ", ", $list );											//  build Parameter List
 	$code	= 'return new '.$className.'( '.$list.' );';						//  build Exception Instance Call Code
 	$exception	= eval( $code );												//  call new Exception Instance
-	throw $exception;															//  throw this new Exception
+*/	throw $exception;															//  throw this new Exception
 }
 ?>
