@@ -26,10 +26,12 @@ import( 'de.ceus-media.file.Reader' );
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		0.6
  */
+import( 'de.ceus-media.alg.StringUnicoder' );
 /**
  *	Reading comma separated values with or without column headers.
  *	@package		file.csv
  *	@extends		File_Reader
+ *	@uses			Alg_StringUnicoder
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -38,25 +40,25 @@ import( 'de.ceus-media.file.Reader' );
  */
 class File_CSV_Reader
 {
-	/**	@var		string		$fileName		Flag: use ColumnHeaders in first line */
+	/**	@var		string		$fileName		File Name of CSV File */
 	protected $fileName;
-	/**	@var		bool		$headers		Flag: use ColumnHeaders in first line */
-	protected $headers			= false;
+	/**	@var		bool		$withHeaders	Flag: use Column Headers in first line */
+	protected $withHeaders			= false;
 	/**	@var		string		$separator		Separator Sign */
 	protected $separator		= ";";
 	
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		string		$fileName		File name of CSV File
-	 *	@param		bool		$headers		Flag: use column headers
-	 *	@param		string		$separator		Separator sign
+	 *	@param		string		$fileName		File Name of CSV File
+	 *	@param		bool		$withHeaders	Flag: use Column Headers in first line
+	 *	@param		string		$separator		Separator Sign
 	 *	@return		void
 	 */
-	public function __construct( $fileName, $headers = false, $separator = NULL )
+	public function __construct( $fileName, $withHeaders = FALSE, $separator = NULL )
 	{
-		$this->fileName	= $fileName;
-		$this->headers	= $headers;
+		$this->fileName		= $fileName;
+		$this->withHeaders	= $withHeaders;
 		if( $separator )
 			$this->setSeparator( $separator );
 	}
@@ -66,15 +68,28 @@ class File_CSV_Reader
 	 *	@access		public
 	 *	@return		array
 	 */
-	public function getColumnHeaders()
+	public function getColumnHeaders( $headerMap = array() )
 	{
 		$keys	= array();
-		if( $this->headers )
+		if( !$this->withHeaders )
+			throw new RuntimeException( 'CSV is not using Column Headers.' );
+		$file	= new File_Reader( $this->fileName );
+		$lines	= $file->readArray();
+		$line	= array_shift( $lines );
+		$list	= explode( $this->separator, trim( $line ) );
+		$keys	= array();
+		foreach( $list as $key )
+			$keys[]	= preg_replace( '@(^")|("$)@', "", $key );
+		if( $headerMap )
 		{
-			$file	= new File_Reader( $this->fileName );
-			$lines	= $file->readArray();
-			$line	= array_shift( $lines );
-			$keys	= explode( $this->separator, trim( $line ) );
+			foreach( $headerMap as $key => $value )
+			{
+				if( !$value )
+					continue;
+				$pos	= array_search( $key, $keys );
+				if( is_int( $pos ) && $pos >= 0 )
+					$keys[$pos] = $value;
+			}
 		}
 		return $keys;
 	}
@@ -89,7 +104,7 @@ class File_CSV_Reader
 		$file	= new File_Reader( $this->fileName );
 		$lines	= $file->readArray();
 		$count	= count( $lines );
-		if( $this->headers )
+		if( $this->withHeaders )
 			$count--;
 		return $count;
 	}
@@ -125,11 +140,11 @@ class File_CSV_Reader
 		$data	= array();
 		$file	= new File_Reader( $this->fileName );
 		$lines	= $file->readArray();
-		if( $this->headers )
+		if( $this->withHeaders )
 			array_shift( $lines );
 		foreach( $lines as $line )
 		{
-			$values	= explode( $this->separator, trim( $line ) );
+			$values	= $this->getLineValues( $line );
 			$data[]	= $values;
 		}
 		return $data;
@@ -140,28 +155,42 @@ class File_CSV_Reader
 	 *	@access		public
 	 *	@return		array
 	 */
-	public function toAssocArray()
+	public function toAssocArray( $headerMap = array() )
 	{
 		$data = array();
-		if( $this->headers )
+		if( !$this->withHeaders )
+			throw new RuntimeException( 'CSV is not using Column Headers.' );
+
+		$c = 0;
+		$file	= new File_Reader( $this->fileName );
+		$lines	= $file->readArray();
+		$keys	= $this->getColumnHeaders( $headerMap );
+		array_shift( $lines );
+		foreach( $lines as $line )
 		{
-			$c = 0;
-			$file	= new File_Reader( $this->fileName );
-			$lines	= $file->readArray();
-			$line	= array_shift( $lines );
-			$keys	= explode( $this->separator, trim( $line ) );
-			foreach( $lines as $line )
-			{
-				if( !trim( $line ) )
-					continue;
-				$c++;
-				$values	= explode( $this->separator, trim( $line ) );
-				if( count( $values ) != count( $keys ) )
-					throw new Exception( "CSV File is invalid in Line ".($c+1)."." );
-				$data[]	= array_combine( $keys, $values );
-			}
+			if( !trim( $line ) )
+				continue;
+			$c++;
+			$values	= $this->getLineValues( $line );
+			if( count( $values ) != count( $keys ) )
+				throw new Exception( "CSV File is invalid in Line ".($c+1)."." );
+			$data[]	= array_combine( $keys, $values );
 		}
 		return $data;
+	}
+	
+	protected function getLineValues( $line, $forceUnicode = FALSE )
+	{
+		$values	= explode( $this->separator, trim( $line ) );
+		foreach( $values as $key => $value )
+		{
+			$value	= preg_replace( '@(^")|("$)@', "", $value );
+			$value	= trim( $value );
+			if( $forceUnicode )
+				$value	= Alg_StringUnicoder::convertToUnicode( $value );
+			$values[$key]	= $value;
+		}
+		return $values;
 	}
 }
 ?>
