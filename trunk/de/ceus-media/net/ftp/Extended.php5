@@ -166,24 +166,27 @@ class Net_FTP_Extended extends Net_FTP_Basic
 			if( !$path )
 				$path	= $this->getPath();
 			$list	= ftp_rawlist( $this->conn, $path );
-			foreach( $list as $current )
+			if( is_array( $list ) )
 			{
-				$data	= $this->parseListEntry( $current );
-				if( count( $data ) )
+				foreach( $list as $current )
 				{
-					$parsed[]	= $data;
-					if( $recursive && $data['isdir'] && $data['name'] != "." && $data['name'] != ".." )
+					$data	= $this->parseListEntry( $current );
+					if( count( $data ) )
 					{
-						$nested	= $this->getList( $path."/".$data['name'], true );
-						foreach( $nested as $entry )
+						$parsed[]	= $data;
+						if( $recursive && $data['isdir'] && $data['name'] != "." && $data['name'] != ".." )
 						{
-							$entry['name']	= $data['name']."/".$entry['name'];
-							$parsed[]	= $entry;
+							$nested	= $this->getList( $path."/".$data['name'], true );
+							foreach( $nested as $entry )
+							{
+								$entry['name']	= $data['name']."/".$entry['name'];
+								$parsed[]	= $entry;
+							}
 						}
 					}
 				}
+				return $parsed;
 			}
-			return $parsed;
 		}
 		return array();
 	}

@@ -29,6 +29,11 @@ class Net_Google_API_Geocoder extends Net_Google_API_Request
 			throw new RuntimeException( 'Address not found.' );
 		$coordinates	= (string) $xml->Response->Placemark->Point->coordinates;
 		$parts			= explode( ",", $coordinates );
+		$data			= array(
+			'latitude'	=> $parts[1],
+			'longitude'	=> $parts[0],
+			'accuracy'	=> $parts[2],
+		);
 		return $parts;
 	}
 }
