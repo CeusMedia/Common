@@ -163,17 +163,21 @@ class UI_HTML_Paging extends ADT_OptionObject
 	 */
 	protected function buildButton( $text, $spanClass, $linkClass = NULL, $offset = NULL, $key = NULL )
 	{
-		$text	= $this->hasOption( $text ) ? $this->getOption( $text ) : $text;
-		if( empty( $text ) )
-			throw new InvalidArgumentException( 'Button Text cannot be empty.' );
+		$label	= $this->hasOption( $text ) ? $this->getOption( $text ) : $text;
+		if( empty( $label ) )
+			throw new InvalidArgumentException( 'Button Label cannot be empty.' );
 		$spanClass	= $this->getOption( $spanClass ) ? $this->getOption( $spanClass ) : "";
 		if( $offset !== NULL )
 		{
-			$linkClass	= $this->getOption( $linkClass ) ? $this->getOption( $linkClass ) : "";
+			$linkClass	= (string) $this->getOption( $linkClass );
 			$url		= $this->buildLinkUrl( $offset );
 			$key		= $key ? $this->getOption( 'key_'.$key ) : "";
-			$text		= UI_HTML_Elements::Link( $url, $text, $linkClass, NULL, NULL, NULL, $key );
+			if( $label == $text )
+				$linkClass	.= " page";
+			$text		= UI_HTML_Elements::Link( $url, $label, $linkClass, NULL, NULL, NULL, $key );
 		}
+		if( $label == $text )
+			$spanClass	.= " page";
 		return $this->buildSpan( $text, $spanClass );
 	}
 
