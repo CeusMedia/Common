@@ -174,7 +174,7 @@ class UI_HTML_FormElements
 			'name'		=> $name,
 			'action'	=> $action		? str_replace( "&", "&amp;", $action ) : NULL,
 			'target'	=> $target,
-			'method'	=> "POST",
+			'method'	=> "post",
 			'enctype'	=> $enctype,
 			'onsubmit'	=> $onSubmit,
 		);
