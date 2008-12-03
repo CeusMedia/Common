@@ -38,7 +38,7 @@ import( 'de.ceus-media.framework.krypton.Base' );
  *	@since			11.12.2006
  *	@version		0.3
  */
-class ConsoleApplication extends Framework_Krypton_Base
+class Framework_Krypton_ConsoleApplication extends Framework_Krypton_Base
 {
 	/**	@var	Core_Registry	$registry		Instance of Core_Registry */
 	protected $registry		= NULL;
@@ -51,6 +51,8 @@ class ConsoleApplication extends Framework_Krypton_Base
 	 */
 	public function __construct( $verbose = TRUE )
 	{
+		if( getEnv( 'HTTP_HOST' ) )
+			die( '<b>Access denied:</b> This is a console application.' );
 #		self::$configFile	= "config.xml";
 		$this->initRegistry();							//  must be first
 		$this->initConfiguration();						//  must be one of the first

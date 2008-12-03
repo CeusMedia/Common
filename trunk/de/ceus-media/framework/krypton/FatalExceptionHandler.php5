@@ -70,7 +70,7 @@ class Framework_Krypton_FatalExceptionHandler
 		$this->setErrorPage( ( $EXCEPTION_ERROR_PAGE && !$EXCEPTION_DEBUG_MODE ) ? EXCEPTION_ERROR_PAGE : "" );
 		if( $e )
 		{
-			$this->handleException( $e, $EXCEPTION_LOG_PATH ? EXCEPTION_LOG_PATH : "" );
+			die( $this->handleException( $e, $EXCEPTION_LOG_PATH ? EXCEPTION_LOG_PATH : "" ) );
 		}
 	}
 	
@@ -105,6 +105,8 @@ class Framework_Krypton_FatalExceptionHandler
 		}
 		if( $this->errorPage )
 		{
+			if( !file_exists( $this->errorPage ) )
+				throw new Exception( 'Template "'.$this->errorPage.'" is not existing.' );
 			$content	= require_once( $this->errorPage );
 			die( $content );
 		}
@@ -189,8 +191,9 @@ class Framework_Krypton_FatalExceptionHandler
 			$cookie		= ob_get_clean();
 		}
 
-
-		$body	= @require_once( $this->template );
+		if( !file_exists( $this->template ) )
+			throw new Exception( 'Template "'.$this->template.'" is not existing.' );
+		$body	= require_once( $this->template );
 
 		if( $logPath )
 			$this->logReport( $body, $logPath );
@@ -211,6 +214,8 @@ class Framework_Krypton_FatalExceptionHandler
 
 		$this->lastFileUrl	= $fileUrl;
 		$report	= str_replace( 'href="contents/base.css"', 'href="../../contents/base.css"', $report );
+		if( !file_exists( $logPath ) )
+			mkdir( $logPath, 0700, TRUE );
 		file_put_contents( $fileUrl, $report );
 	}
 
