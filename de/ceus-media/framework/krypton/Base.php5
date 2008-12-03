@@ -138,7 +138,7 @@ abstract class Framework_Krypton_Base
 	/**
 	 *	Sets up Basic Configuration.
 	 *	@access		protected
-	 *	@return		void
+	 *	@return		File_Configuration_Reader
 	 */
 	protected function initConfiguration( $errorLevelKey = "config.error.level" )
 	{
@@ -152,12 +152,13 @@ abstract class Framework_Krypton_Base
 		if( $config->has( $errorLevelKey ) )
 			error_reporting( $config->get( $errorLevelKey ) );
 		$this->registry->set( "config", $config, TRUE );
+		return $config;
 	}
 
 	/**
 	 *	Sets up Cookie Support.
 	 *	@access		protected
-	 *	@return		void
+	 *	@return		Net_HTTP_PartitionCookie
 	 */
 	protected function initCookie()
 	{
@@ -165,12 +166,13 @@ abstract class Framework_Krypton_Base
 		$config	=& $this->registry->get( 'config' );
 		$cookie	= new Net_HTTP_PartitionCookie( $config['application.name'] );
 		$this->registry->set( 'cookie', $cookie );
+		return $cookie;
 	}
 	
 	/**
 	 *	Sets up Database Connection.
 	 *	@access		protected
-	 *	@return		void
+	 *	@return		Database_PDO_Connection
 	 */
 	protected function initDatabase( $setUtf8 = TRUE )
 	{
@@ -240,7 +242,7 @@ abstract class Framework_Krypton_Base
 	/**
 	 *	Sets up Form Definition Support.
 	 *	@access		protected
-	 *	@return		void
+	 *	@return		Framework_Krypton_Core_FormDefinitionReader
 	 */
 	protected function initFormDefinition()
 	{
@@ -251,14 +253,15 @@ abstract class Framework_Krypton_Base
 		$definition	= new Framework_Krypton_Core_FormDefinitionReader( $formPath, TRUE, $cachePath );
 		$definition->setChannel( "html" );
 		$this->registry->set( 'definition', $definition );
+		return $definition;
 	}
 
 	/**
 	 *	Sets up Language Support.
 	 *	@access		protected
-	 *	@return		void
+	 *	@return		Framework_Krypton_Core_Language
 	 */
-	protected function initLanguage( $identify = TRUE )
+	protected function & initLanguage( $identify = TRUE )
 	{
 		import( 'de.ceus-media.framework.krypton.core.Language' );
 		$language	= new Framework_Krypton_Core_Language( $identify );
@@ -270,18 +273,20 @@ abstract class Framework_Krypton_Base
 		import( 'de.ceus-media.framework.krypton.exception.SQL' );
 		Framework_Krypton_Exception_Template::$exceptionMessage	 = $language->getWord( 'main', 'exceptions', 'template' );
 		Framework_Krypton_Exception_Sql::$exceptionMessage	 = $language->getWord( 'main', 'exceptions', 'sql' );
+		return $language;
 	}
 
 	/**
 	 *	Sets up Page Controller.
 	 *	@access		protected
-	 *	@return		void
+	 *	@return		Framework_Krypton_Core_PageController
 	 */
-	protected function initPageController()
+	protected function & initPageController()
 	{
 		import( 'de.ceus-media.framework.krypton.core.PageController' );
 		$controller	= new Framework_Krypton_Core_PageController( self::$configPath."pages.xml" );
 		$this->registry->set( 'controller', $controller );
+		return $controller;
 	}
 
 	/**
@@ -302,7 +307,7 @@ abstract class Framework_Krypton_Base
 	 *	@access		protected
 	 *	@return		void
 	 */
-	protected function initRequest()
+	protected function & initRequest()
 	{
 		if( getEnv( 'HTTP_HOST' ) )
 		{
@@ -315,14 +320,15 @@ abstract class Framework_Krypton_Base
 			$request	= new Console_RequestReceiver;
 		}
 		$this->registry->set( "request", $request, TRUE );
+		return $request;
 	}
 
 	/**
 	 *	Sets up Service Client.
 	 *	@access		protected
-	 *	@return		void
+	 *	@return		Net_Service_Client
 	 */
-	protected function initServiceClient( $configSection = "services", $keyUrl = "url", $keyUsername = "username", $keyPassword = "password" )
+	protected function & initServiceClient( $configSection = "services", $keyUrl = "url", $keyUsername = "username", $keyPassword = "password" )
 	{
 		import( 'de.ceus-media.net.service.Client' );
 		if( !$this->registry->has( 'config' ) )
@@ -334,14 +340,15 @@ abstract class Framework_Krypton_Base
 		if( $config["$configSection.$keyUsername"] )
 			$client->setBasicAuth( $config["$configSection.$keyUsername"], $config["$configSection.$keyPassword"] );
 		$this->registry->set( 'client', $client );
+		return $client;
 	}
 
 	/**
 	 *	Sets up Request Handler.
 	 *	@access		protected
-	 *	@return		void
+	 *	@return		Net_HTTP_PartitionSession
 	 */
-	protected function initSession( $sessionNameKey	= 'config.session.name', $sessionPartitionKey = 'application.name' )
+	protected function & initSession( $sessionNameKey	= 'config.session.name', $sessionPartitionKey = 'application.name' )
 	{
 		import( 'de.ceus-media.net.http.PartitionSession' );
 		if( !$this->registry->has( 'config' ) )
@@ -349,6 +356,7 @@ abstract class Framework_Krypton_Base
 		$config		= $this->registry->get( 'config' );
 		$session	= new Net_HTTP_PartitionSession( $config[$sessionPartitionKey], $config[$sessionNameKey ] );
 		$this->registry->set( "session", $session );
+		return $session;
 	}
 
 	/**
