@@ -231,6 +231,8 @@ abstract class Database_BaseConnection
 	public function setLogFile( $fileName )
 	{
 		$this->logFile = $fileName;
+		if( !file_exists( dirname( $fileName ) ) )
+			mkDir( dirname( $fileName ), 0700, TRUE );
 	}
 }
 ?>
