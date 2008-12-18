@@ -12,7 +12,7 @@
       <format>json</format>
       <format>txt</format>
     </service>
-    <service name="add" class="Services_Public" format="txt">
+    <service name="add" class="Services_Public" format="txt" status="alpha">
       <description>Adds to Integers.</description>
       <format>txt</format>
       <format>xml</format>
@@ -20,6 +20,8 @@
       <format>php</format>
       <parameter mandatory="yes" preg="@^[0-9]+$@">a</parameter>
       <parameter mandatory="no" preg="@^[0-9]+$@">b</parameter>
+      <role>tester</role>
+      <role>operator</role>
     </service>
   </services>
 </servicePoint>

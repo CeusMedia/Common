@@ -98,10 +98,12 @@ class Net_Service_Definition_Converter
 	public static function convertXmlFileToJsonFile( $xmlFile, $jsonFile )
 	{
 		$data	= Net_Service_Definition_XmlReader::load( $xmlFile );
+		self::reduceDefinition( $data );
 		$json	= json_encode( $data );
 		$json	= ADT_JSON_Formater::format( $json );
 		return File_Writer::save( $jsonFile, $json );
 	}
+
 	
 	/**
 	 *	Converts a XML File into a YAML File statically.
@@ -113,6 +115,7 @@ class Net_Service_Definition_Converter
 	public static function convertXmlFileToYamlFile( $xmlFile, $yamlFile )
 	{
 		$data	= Net_Service_Definition_XmlReader::load( $xmlFile );
+		self::reduceDefinition( $data );
 		return File_YAML_Writer::save( $yamlFile, $data );
 	}
 
@@ -126,6 +129,7 @@ class Net_Service_Definition_Converter
 	public static function convertYamlFileToJsonFile( $yamlFile, $jsonFile )
 	{
 		$data	= File_YAML_Reader::load( $yamlFile );
+		self::reduceDefinition( $data );
 		$json	= json_encode( $data );
 		$json	= ADT_JSON_Formater::format( $json );
 		return File_Writer::save( $jsonFile, $json );
@@ -141,7 +145,22 @@ class Net_Service_Definition_Converter
 	public static function convertYamlFileToXmlFile( $yamlFile, $xmlFile )
 	{
 		$data	= File_YAML_Reader::load( $yamlFile );
+		self::reduceDefinition( $data );
 		return Net_Service_Definition_XmlWriter::save( $xmlFile, $data );
+	}
+
+	protected function reduceDefinition( &$definition )
+	{
+		foreach( array_keys( $definition['services'] ) as $serviceName )
+		{
+			$service	= $definition['services'][$serviceName];
+			if( !( isset( $service['parameters'] ) && $service['parameters'] ) )
+				unset( $definition['services'][$serviceName]['parameters'] );
+			if( !( isset( $service['roles'] ) && $service['roles'] ) )
+				unset( $definition['services'][$serviceName]['roles'] );
+			if( !( isset( $service['status'] ) && strlen( $service['status'] ) ) )
+				unset( $definition['services'][$serviceName]['status'] );
+		}
 	}
 }
 ?>

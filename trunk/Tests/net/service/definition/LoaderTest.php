@@ -11,8 +11,8 @@
  */
 require_once( 'PHPUnit/Framework/TestCase.php' ); 
 require_once( 'Tests/initLoaders.php5' );
-import( 'de.ceus-media.net.service.definition/Loader' );
-import( 'de.ceus-media.file.yaml.Reader' );
+import( 'de.ceus-media.net.service.definition.Loader' );
+import( 'de.ceus-media.net.service.definition.XmlReader' );
 /**
  *	TestUnit of Net Service Definition Loader.
  *	@package		Tests.net.service.definition
@@ -32,7 +32,7 @@ class Tests_Net_Service_Definition_LoaderTest extends PHPUnit_Framework_TestCase
 	public function __construct()
 	{
 		$this->path		= dirname( __FILE__ )."/";
-		$this->data		= File_YAML_Reader::load( $this->path."services.yaml" );
+		$this->data		= Net_Service_Definition_XmlReader::load( $this->path."services.xml" );
 		$this->loader	= new Net_Service_Definition_Loader;
 	}
 	
