@@ -42,10 +42,10 @@ class XML_DOM_Builder
 	 *	Builds XML and returns XML as string.
 	 *	@access		public
 	 *	@param		XML_DOM_Node	$tree			XML Tree
-	 *	@param		string			$encoding		Encoding Type
+	 *	@param		string			$encoding		Encoding Character Set (utf-8 etc.)
 	 *	@return		string
 	 */
-	public function build( $tree, $encoding = "utf-8" )
+	public function build( XML_DOM_Node $tree, $encoding = "utf-8" )
 	{
 		$this->document = new DOMDocument( "1.0", $encoding );
 		$this->document->formatOutput = true;
@@ -61,9 +61,10 @@ class XML_DOM_Builder
 	 *	@access		protected
 	 *	@param		DOMElement		$root		DOM Element
 	 *	@param		XML_DOM_Node	$tree		Parent XML Node
+	 *	@param		string			$encoding	Encoding Character Set (utf-8 etc.)
 	 *	@return		void
 	 */
-	protected function buildRecursive( $root, $tree, $encoding )
+	protected function buildRecursive( DOMElement $root, XML_DOM_Node $tree, $encoding )
 	{
 		foreach( $tree->getAttributes() as $key => $value )
 		{

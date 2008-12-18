@@ -29,3 +29,8 @@ services:
       b: 
         mandatory: no
         preg: @^[0-9]+$@
+    roles:
+      - tester
+      - operator
+    status: alpha
+    

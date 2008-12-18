@@ -88,7 +88,9 @@ class Net_Service_Definition_Loader
 	{
 		import( 'de.ceus-media.adt.json.Converter' );
 		$jsonString		= file_get_contents( $fileName );
-		return ADT_JSON_Converter::convertToArray( $jsonString );
+		$definition		= ADT_JSON_Converter::convertToArray( $jsonString );
+		$this->completeDefinition( $definition );
+		return $definition;
 	}
 
 	/**
@@ -112,7 +114,23 @@ class Net_Service_Definition_Loader
 	protected function loadServicesFromYaml( $fileName )
 	{
 		import( 'de.ceus-media.file.yaml.Reader' );
-		return File_YAML_Reader::load( $fileName );
+		$definition	= File_YAML_Reader::load( $fileName );
+		$this->completeDefinition( $definition );
+		return $definition;
+	}	
+	
+	protected function completeDefinition( &$definition )
+	{
+		foreach( array_keys( $definition['services'] ) as $serviceName )
+		{
+			$service	= $definition['services'][$serviceName];
+			if( !isset( $service['parameters'] ) )
+				$definition['services'][$serviceName]['parameters']	= array();
+			if( !isset( $service['roles'] ) )
+				$definition['services'][$serviceName]['roles']	= array();
+			if( !isset( $service['status'] ) )
+				$definition['services'][$serviceName]['status']	= NULL;
+		}
 	}
 }
 ?>
