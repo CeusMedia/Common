@@ -204,10 +204,7 @@ class Database_TableReader
 		$conditions = array();
 		foreach( $new as $key => $value )									//  iterate all noted Pairs
 		{
-			if( !$value )
-				continue;
 			$operation	= " = ";
-//			$conditions[] =  $key.'="'.$value.'"';							//  create SQL WHERE Condition
 			if( preg_match( "/%/", $value ) )
 				$operation	= " LIKE ";
 			else if( preg_match( $pattern, $value ) )
@@ -217,12 +214,12 @@ class Database_TableReader
 				$operation	= " ".$matches[1][0]." ";
 				$value		= $matches[2][0];
 			}
-			if( !ini_get( 'magic_quotes_gpc' ) )
+			if( !ini_get( 'magic_quotes_gpc' ) )							
 			{
 				$key	= addslashes( $key );
 				$value	= addslashes( $value );
 			}
-			$conditions[] = "`".$key."`".$operation."'".$value."'";
+			$conditions[] = "`".$key."`".$operation."'".$value."'";			//  create SQL WHERE Condition
 		}
 		$conditions = implode( " AND ", $conditions );						//  combine Conditions with AND
 		return $conditions;
