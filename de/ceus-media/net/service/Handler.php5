@@ -18,6 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@package		net.service
+ *	@extends		Net_Service_Response
  *	@uses			Net_HTTP_Request_Response
  *	@uses			UI_HTML_Exception_TraceViewer
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
@@ -27,10 +28,12 @@
  *	@since			18.06.2007
  *	@version		0.6
  */
+import( 'de.ceus-media.net.service.Response' );
 import( 'de.ceus-media.net.http.request.Response' );
 /**
  *	Service Handlers for HTTP Requests.
  *	@package		net.service
+ *	@extends		Net_Service_Response
  *	@uses			Net_HTTP_Request_Response
  *	@uses			UI_HTML_Exception_TraceViewer
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
@@ -40,7 +43,7 @@ import( 'de.ceus-media.net.http.request.Response' );
  *	@since			18.06.2007
  *	@version		0.6
  */
-class Net_Service_Handler
+class Net_Service_Handler extends Net_Service_Response
 {
 	/**	@var		string		$charset				Character Set of Response */
 	public $charset	= "utf-8";		
@@ -107,33 +110,9 @@ class Net_Service_Handler
 				throw new RuntimeException( $errors );
 			return $this->sendResponse( $requestData, $response, $format );
 		}
-		catch( ServiceParameterException $e )
-		{
-			$response	= $e->getMessage();
-			return $this->sendResponse( $requestData, $response );
-		}
-		catch( ServiceException $e )
-		{
-			$response	= $e->getMessage();
-			return $this->sendResponse( $requestData, $response );
-		}
-		catch( PDOException $e )
-		{
-			import( 'de.ceus-media.ui.html.exception.TraceViewer' );
-			$response	= UI_HTML_Exception_TraceViewer::buildTrace( $e, 2 );
-			return $this->sendResponse( $requestData, $response );
-		}
 		catch( Exception $e )
 		{
-			$response	= $e->getMessage();
-			if( isset( $requestData['showExceptions'] ) )
-			{
-				import( 'de.ceus-media.ui.html.exception.TraceViewer' );
-				$response	= UI_HTML_Exception_TraceViewer::buildTrace( $e, 2 );
-			}
-			else if( $serializeException )
-				$response	= serialize( $e );
-			return $this->sendResponse( $requestData, $response );
+			return $this->sendException( $requestData, $format, $e );
 		}
 	}
 
@@ -157,6 +136,38 @@ class Net_Service_Handler
 			default:
 		}
 		return $content;
+	}
+
+	protected function sendException( $requestData, $format, $e )
+	{
+		import( 'de.ceus-media.ui.html.exception.TraceViewer' );
+		$trace	= UI_HTML_Exception_TraceViewer::buildTrace( $e, 2 );
+		$data	= array(
+			'type'		=> get_class( $e ),
+			'message'	=> $e->getMessage(),
+			'code'		=> $e->getCode(),
+			'file'		=> $e->getFile(),
+			'line'		=> $e->getLine(),
+			'trace'		=> $trace,
+		);
+		switch( $format )
+		{
+			case 'xml':
+				$response	= $this->getXml( $data, "exception" );
+				break;
+			case 'php':
+				$response	= $this->getPhp( $data, "exception" );
+				break;
+			case 'json':
+				$response	= $this->getJson( $data, "exception" );
+				break;
+			case 'wddx':
+				$response	= $this->getWddx( $data, "exception" );
+				break;
+			default:
+				$response	= $trace;
+		}
+		return $this->sendResponse( $requestData, $response, $format );
 	}
 
 	/**
@@ -191,6 +202,7 @@ class Net_Service_Handler
 		$response->addHeader( 'Pragma', "no-cache" );
 		$response->addHeader( 'Content-Type', $contentType );
 #		$response->addHeader( 'Content-Length', strlen( $content ) );
+
 		if( $compression )
 			$response->addHeader( 'Content-Encoding', $compression );
 		

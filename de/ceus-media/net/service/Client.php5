@@ -104,23 +104,27 @@ class Net_Service_Client
 		switch( $format )																//  go for requested Format
 		{
 			case 'json':																//  requested Format is JSON
-				$response	= json_decode( $response );									//  try to decode JSON Response
+				$structure	= json_decode( $response );									//  try to decode JSON Response
 				break;
 			case 'php':																	//  requested Format is PHP
-				$response	= unserialize( $response );									//  try to decode PHP Response
-				if( $response && $response instanceof Exception )						//  Response is Exception
-					throw $response;													//  throw Response Exception
+				$structure	= unserialize( $response );									//  try to decode PHP Response
+				if( $structure && $structure instanceof Exception )						//  Response is Exception
+					throw $structure;													//  throw Response Exception
 				break;
 			case 'wddx':																//  requested Format is WDDX
-				$response	= wddx_deserialize( $response );							//  try to decode WDDX Response
+				$structure	= wddx_deserialize( $response );							//  try to decode WDDX Response
 				break;
 			default:																	//  other Formats
 				break;																	//  bypass Response Content undecoded
 		}
+		$data	= $structure['data'];													//  Extract Response Data
+		if( $structure['status'] == "exception" )										//  Response contains an Exception
+			throw new Exception( $data['type'].": ".$data['message'] );					//  throw Exception and carry Message 
+
 		$output	= ob_get_clean();														//  close Buffer for PHP Error Messages
-		if( $response === FALSE )														//  could not decode
+		if( $structure === FALSE )														//  could not decode
 			return $output;																//  return Error Message instead
-		return $response;																//  return decoded Response Content
+		return $data;																	//  return decoded Response Data
 	}
 
 	/**
