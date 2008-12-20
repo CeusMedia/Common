@@ -115,7 +115,7 @@ class Framework_Krypton_ErrorPageHandler extends Framework_Krypton_Base
 			import( 'de.ceus-media.net.http.LanguageSniffer' );
 			$sniffer	= new Net_HTTP_LanguageSniffer;
 			$language	= $sniffer->getLanguage( $languages );
-			$html		= file_get_contents( "contents/html/".$language."/".$this->type.".html" );
+			$html		= file_get_contents( "contents/html/".$language."/errors/".$this->type.".html" );
 		}
 		return $html;
 	}
