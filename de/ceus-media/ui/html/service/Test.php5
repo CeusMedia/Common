@@ -6,9 +6,14 @@
 import( 'de.ceus-media.StopWatch' );
 import( 'de.ceus-media.net.Reader' );
 import( 'de.ceus-media.adt.json.Formater' );
+import( 'de.ceus-media.alg.StringTrimmer' );
 import( 'de.ceus-media.ui.html.Elements' );
+import( 'de.ceus-media.ui.html.Tabs' );
 import( 'de.ceus-media.ui.DevOutput' );
+import( 'de.ceus-media.ui.VariableDumper' );
 import( 'de.ceus-media.ui.html.exception.TraceViewer' );
+import( 'de.ceus-media.xml.Element' );
+import( 'de.ceus-media.xml.dom.Formater' );
 class UI_HTML_Service_Test
 {
 	protected $username;
@@ -25,31 +30,45 @@ class UI_HTML_Service_Test
 		
 		$preferred	= $this->servicePoint->getDefaultServiceFormat( $service );
 		$format		= isset( $request['parameter_format'] ) ? $request['parameter_format'] : $preferred;
-		$url		= "";
-		$response	= "";
+
 		
 		$requestUrl		= $this->getRequestUrl( $request );
 		$testUrl		= $this->getTestUrl( $request );
 
+		$stopwatch	= new StopWatch();
 		try
 		{
-			$stopwatch	= new StopWatch();
 			$response	= $this->getResponse( $requestUrl, $format );
-			$parameters	= $this->getParameterFields( $service, $format, $request );
-			$time		= $stopwatch->stop( 6, 0 );
 		}
 		catch( Exception $e )
 		{
-			$response	= UI_HTML_Exception_TraceViewer::buildTrace( $e );
-			$parameters	= array();
+			$response	= UI_HTML_Exception_TraceViewer::buildTrace( $e, 2 );
 		}
+		$time			= $stopwatch->stop( 6, 0 );
 
 		//  --  INFORMATION FOR TEMPLATE  --  //
 		$title			= $this->servicePoint->getTitle();							//  Service Title
 		$class			= $this->servicePoint->getServiceClass( $service );			//  Service Class Name
 		$description	= $this->servicePoint->getServiceDescription( $service );	//  Service Description
 		$defaultFormat	= $this->servicePoint->getDefaultServiceFormat( $service );	//  Service Format by default
+		$parameters		= $this->getParameterFields( $service, $format, $request );
 
+		$trace		= "";
+		$data		= "";
+		$exception	= "";
+		$this->evaluateResponse( $format, $response, $data, $exception, $trace );
+
+		$tabs	= array();
+		if( $data )
+			$tabs['Data']	= $data;
+		if( $exception )
+			$tabs['Exception']	= $exception;
+		$tabs['Response']	= "<xmp>".$response."</xmp>";
+		$tabs['Request']	= UI_VariableDumper::dump( $request->getAll(), 1, 0 );
+		if( $trace )
+			$tabs['Trace']	= $trace;
+
+		$tabs	= new UI_HTML_Tabs( $tabs, 'tabs-office' );
 		return require_once( $this->template );
 	}
 
@@ -72,6 +91,7 @@ class UI_HTML_Service_Test
 	{
 		$parameters	= $this->servicePoint->getServiceParameters( $service );
 		$formats	= $this->servicePoint->getServiceFormats( $service );
+		asort( $formats );
 
 		//  --  TYPES FOR FILTER  --  //
 		if( !$format )
@@ -96,10 +116,13 @@ class UI_HTML_Service_Test
 				{
 					if( $ruleKey == "mandatory" )
 						$ruleValue = $ruleValue ? "yes" : "no";
-					$ruleList[]	= $ruleKey.": ".htmlspecialchars( $ruleValue );
+					$spanKey	= UI_HTML_Tag::create( "span", $ruleKey.":", array( 'class' => "key" ) );
+					$spanValue	= UI_HTML_Tag::create( "span", htmlspecialchars( $ruleValue ), array( 'class' => "value" ) );
+					$ruleList[]	= $spanKey." ".$spanValue;
 				}
 			}
-			$rules	= count( $ruleList ) ? " (".implode( ", ", $ruleList ).")" : "";
+			$divRules	= UI_HTML_Tag::create( "span", " (".implode( ", ", $ruleList ).")", array( 'class' => "rules" ) );
+			$rules	= count( $ruleList ) ? $divRules : "";
 			$value	= isset( $request["parameter_".$parameter] ) ? $request["parameter_".$parameter] : NULL;	
 			$list[]	= array(
 				'label' => $parameter,
@@ -134,41 +157,90 @@ class UI_HTML_Service_Test
 	{
 		$reader		= new Net_Reader( $url );
 		$reader->setBasicAuth( $this->username, $this->password );
-		
 		$response	= $reader->read();
+		return $response;
+	}
+
+	private function buildExceptionTab( $type, $message )
+	{
+		$type		= preg_replace( "@([a-z])([A-Z])@", "\\1 \\2", $type );
+		$message	= $message;
+		$exception	= "<em>".$type."</em>: <b>".$message."</b>";
+		return $exception;
+	}
+	
+	private function evaluateResponse( $format, &$response, &$data, &$exception, &$trace  )
+	{
 		switch( $format )
 		{
-			case 'php':
-				$response	= unserialize( $response );
-				if( $response && is_a( $response, "Exception" ) )
-					return UI_HTML_Exception_TraceViewer::buildTrace( $response );
-				ob_start();
-				print_m( $response );
-				$response	= ob_get_clean();
+			case "json":
+				$structure	= json_decode( $response, TRUE );
+				if( $structure['status'] == "exception" )
+				{
+					$e			= $structure['data'];
+					$trace		= $e['trace'];
+					$exception	= $this->buildExceptionTab( $e['type'], $e['message'] );
+				}
+				else
+					$data	= dumpVar( $structure['data'], 1, 0 );
+				$response	= ADT_JSON_Formater::format( $response );
+				$response	= $this->trimResponseLines( $response, 120 );
 				break;
-			case "xml":
-			case "rss":
-			case "atom":
-				$doc	= new DOMDocument();
-				$doc->formatOutput	= TRUE;
-				$doc->preserveWhiteSpace	= TRUE;
-				$doc->loadXml( $response );
-				$response	= $doc->saveXml();
-				$response	= "<xmp>".$response."</xmp>";
+			case 'php':
+				$structure	= unserialize( $response );
+				if( $structure['status'] == "exception" )
+				{
+					$e			= $structure['data'];
+					$trace		= $e['trace'];
+					$exception	= $this->buildExceptionTab( $e['type'], $e['message'] );
+				}
+				else
+					$data	= dumpVar( $structure['data'], 1, 0 );
 				break;
 			case "wddx":
-				$response	= wddx_deserialize( $response );
-				if( $response && is_a( $response, "Exception" ) )
-					return UI_HTML_Exception_TraceViewer::buildTrace( $response );
-				ob_start();
-				print_m( $response );
-				$response	= ob_get_clean();
+				$structure	= wddx_deserialize( $response );
+				if( $structure['status'] == "exception" )
+				{
+					$e			= $structure['data'];
+					$trace		= $e['trace'];
+					$exception	= $this->buildExceptionTab( $e['type'], $e['message'] );
+				}
+				else
+					$data	= dumpVar( $structure['data'] );
+				$response	= XML_DOM_Formater::format( $response );
+				$response	= $this->trimResponseLines( $response );
 				break;
-			case "json";
-				$response	= "<xmp>".ADT_JSON_Formater::format( stripslashes( $response ) )."</xmp>";
+			case "xml":
+				$xml	= new XML_Element( $response );
+				if( $xml->status->getValue() == "exception" )
+				{
+					$trace		= $xml->data->trace->getValue();
+					$type		= $xml->data->type->getValue();
+					$message	= $xml->data->message->getValue();
+					$exception	= $this->buildExceptionTab( $type, $message );
+				}
+				else
+					$data	= UI_VariableDumper::dump( $xml->data, 1, 1 );
+				$response	= $this->trimResponseLines( $response, 120 );
+				break;
+			case "atom":
+			case "rss":
+				break;
+			case "txt":
+				$data	= nl2br( $response );
+				break;
+			case "html":
+				$data	= $response;
 				break;
 		}
-		return $response;
+	}
+
+	private function trimResponseLines( $response, $length = 100 )
+	{
+		$lines	= array();
+		foreach( explode( "\n", $response ) as $line )
+			$lines[]	= Alg_StringTrimmer::trimCentric( $line, $length );
+		return implode( "\n", $lines );
 	}
 
 	private function getTestUrl( $request )
