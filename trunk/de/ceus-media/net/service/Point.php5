@@ -126,9 +126,9 @@ class Net_Service_Point implements Net_Service_Interface_Point
 	protected function checkServiceDefinition( $serviceName )
 	{
 		if( !isset( $this->services['services'][$serviceName] ) )
-			throw new NetServiceException( 'Service "'.$serviceName.'" is not existing.' );
+			throw new BadFunctionCallException( 'Service "'.$serviceName.'" is not existing.' );
 		if( !isset( $this->services['services'][$serviceName]['class'] ) )
-			throw new Exception( 'No Service Class definied for Service "'.$serviceName.'".' );
+			throw new RuntimeException( 'No Service Class definied for Service "'.$serviceName.'".' );
 	}
 
 	/**
@@ -140,7 +140,7 @@ class Net_Service_Point implements Net_Service_Interface_Point
 	protected function checkServiceMethod( $serviceName )
 	{
 		if( !isset( $this->services['services'][$serviceName] ) )
-			throw new Exception( "Service '".$serviceName."' is not existing." );
+			throw new BadFunctionCallException( "Service '".$serviceName."' is not existing." );
 		$className	= $this->services['services'][$serviceName]['class'];
 		if( !class_exists( $className ) && !$this->loadServiceClass( $className ) )
 			throw new RuntimeException( 'Service Class "'.$className.'" is not existing.' );
@@ -402,6 +402,4 @@ class Net_Service_Point implements Net_Service_Interface_Point
 		$this->services	= $this->loader->loadServices( $fileName, $cacheFile );
 	}
 }
-class NetServiceException extends Exception {}
-class ServiceParameterException extends Exception {}
 ?>
