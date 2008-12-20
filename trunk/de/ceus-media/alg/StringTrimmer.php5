@@ -46,7 +46,6 @@ class Alg_StringTrimmer
 		if( strlen( $mask ) >= $length )
 			throw new InvalidArgumentException( 'Lenght must be greater than '.strlen( $mask ) );
 
-		$string	= trim( $string );
 		if( !( $length && strlen( $string ) > $length ) )
 			return $string;
 
