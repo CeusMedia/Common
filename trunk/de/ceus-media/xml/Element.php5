@@ -89,18 +89,6 @@ class XML_Element extends SimpleXMLElement
 	}
 
 	/**
-	 *	Indicates whether an Attribute is existing by it's Key.
-	 *	@access		public
-	 *	@param		string		$key		Key of Attribute
-	 *	@return		bool
-	 */
-	public function hasAttribute( $key, $nameSpace = ""  )
-	{
-		$keys	= $this->getAttributeKeys( $nameSpace );
-		return in_array( $key, $keys );
-	}
-
-	/**
 	 *	Returns Array of Attributes.
 	 *	@access		public
 	 *	@return		array
@@ -111,6 +99,28 @@ class XML_Element extends SimpleXMLElement
 		foreach( $this->attributes() as $key => $value )
 			$list[$key]	= (string) $value;
 		return $list;
+	}
+	
+	/**
+	 *	Returns Text Value.
+	 *	@access		public
+	 *	@return		string
+	 */
+	public function getValue()
+	{
+		return (string) $this;
+	}
+
+	/**
+	 *	Indicates whether an Attribute is existing by it's Key.
+	 *	@access		public
+	 *	@param		string		$key		Key of Attribute
+	 *	@return		bool
+	 */
+	public function hasAttribute( $key, $nameSpace = ""  )
+	{
+		$keys	= $this->getAttributeKeys( $nameSpace );
+		return in_array( $key, $keys );
 	}
 
 	/**
