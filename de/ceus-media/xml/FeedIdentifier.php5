@@ -153,12 +153,13 @@ class XML_FeedIdentifier
 	 *	Identifies Feed from an URL.
 	 *	@access		public
 	 *	@param		string		$url		URL of Feed
+	 *	@param		int			$timeout	Timeout in seconds
 	 *	@return		string
 	 */
-	public function identifyFromUrl( $url )
+	public function identifyFromUrl( $url, $timeout = 5 )
 	{
 		import( 'de.ceus-media.net.Reader' );
-		Net_cURL::setTimeOut( 5 );
+		Net_cURL::setTimeOut( $timeout );
 		$xml	= Net_Reader::readUrl( $url );
 		return $this->identify( $xml );
 	}
