@@ -85,7 +85,7 @@ class Net_HTTP_Request_Response
 	 */
 	public function send( $useCompression = FALSE, $compressionLogFile = NULL )
 	{
-		header( "HTTP/1.1 ".$this->status );
+		header( "HTTP/1.0 ".$this->status );
 		foreach( $this->headers as $name => $headers )
 			foreach( $headers as $header )
 				header( $name.": ".$header );
