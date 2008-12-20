@@ -31,6 +31,35 @@ class UI_HTML_Tabs
 	protected $tabs	= array();
 
 	/**
+	 *	Constructor, can set Tabs.
+	 *	@access		public
+	 *	@param		array		$tabs		Array of Labels and Contents
+	 *	@return		void
+	 */
+	public function __construct( $tabs = array(), $class = NULL )
+	{
+		if( $tabs )
+			$this->addTabs( $tabs );
+		if( $class )
+			$this->setOption( 'navClass', $class );
+		$this->class	= $class;
+	}
+
+	/**
+	 *	Constructor, can set Tabs.
+	 *	@access		public
+	 *	@param		array		$tabs		Array of Labels and Contents
+	 *	@return		void
+	 */
+	public function addTabs( $tabs = array() )
+	{
+		if( !is_array( $tabs ) )
+			throw new InvalidArgumentException( 'Tabs must be given as array of labels and contents.' );
+		foreach( $tabs as $label => $content )
+			$this->addTab( $label, $content );
+	}
+
+	/**
 	 *	Adds a new Tab by its Label and Content.
 	 *	@access		public
 	 *	@param		string		$label		Label of Tab
@@ -52,6 +81,7 @@ class UI_HTML_Tabs
 	 */
 	public function buildTabs( $id, $class = NULL )
 	{
+		$class	= $class ? $class : $this->class;
 		return self::createTabs( $id, $this->tabs, $this->divs, $class );
 	}
 
