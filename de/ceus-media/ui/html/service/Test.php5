@@ -24,7 +24,7 @@ class UI_HTML_Service_Test
 		$this->servicePoint		= $servicePoint;
 	}
 	
-	public function buildContent( $request, $subfolderLevel = 0 )
+	public function buildContent( $request, $subfolderLevel = 0, $basePath = "" )
 	{
 		$service	= $request['test'];
 		
@@ -114,6 +114,8 @@ class UI_HTML_Service_Test
 			{
 				foreach( $rules as $ruleKey => $ruleValue )
 				{
+					if( $ruleKey == "title" )
+						continue;
 					if( $ruleKey == "mandatory" )
 						$ruleValue = $ruleValue ? "yes" : "no";
 					$spanKey	= UI_HTML_Tag::create( "span", $ruleKey.":", array( 'class' => "key" ) );
@@ -122,10 +124,11 @@ class UI_HTML_Service_Test
 				}
 			}
 			$divRules	= UI_HTML_Tag::create( "span", " (".implode( ", ", $ruleList ).")", array( 'class' => "rules" ) );
+			$label	= isset( $rules['title'] ) ? UI_HTML_Elements::Acronym( $parameter, $rules['title'] ) : $parameter;
 			$rules	= count( $ruleList ) ? $divRules : "";
-			$value	= isset( $request["parameter_".$parameter] ) ? $request["parameter_".$parameter] : NULL;	
+			$value	= isset( $request["parameter_".$parameter] ) ? $request["parameter_".$parameter] : NULL;
 			$list[]	= array(
-				'label' => $parameter,
+				'label' => $label,
 				'rules'	=> $rules,
 				'input'	=> UI_HTML_Elements::Input( "parameter_".$parameter, $value, 'l' )
 			);
@@ -207,7 +210,7 @@ class UI_HTML_Service_Test
 				}
 				else
 					$data	= dumpVar( $structure['data'] );
-				$response	= XML_DOM_Formater::format( $response );
+#				$response	= XML_DOM_Formater::format( $response );
 				$response	= $this->trimResponseLines( $response );
 				break;
 			case "xml":
