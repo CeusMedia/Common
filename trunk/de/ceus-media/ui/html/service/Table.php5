@@ -58,6 +58,8 @@ class UI_HTML_Service_Table
 			foreach( $parameters as $parameter => $rules )
 			{
 				$ruleList	= array();
+				$mandatory	= FALSE;
+				$type		= "";
 				if( $rules )
 				{
 					foreach( $rules as $ruleKey => $ruleValue )
@@ -65,7 +67,14 @@ class UI_HTML_Service_Table
 						if( $ruleKey == "title" )
 							continue;
 						if( $ruleKey == "mandatory" )
-							$ruleValue = $ruleValue ? "yes" : "no";
+						{
+							$mandatory	= $ruleValue;
+							$ruleValue	= $ruleValue ? "yes" : "no";
+						}
+						if( $ruleKey == "type" )
+						{
+							$type	= "<small><em>".$ruleValue."</em></small>&nbsp;";
+						}
 						$spanKey	= UI_HTML_Tag::create( "span", $ruleKey.":", array( 'class' => "key" ) );
 						$spanValue	= UI_HTML_Tag::create( "span", htmlspecialchars( $ruleValue ), array( 'class' => "value" ) );
 						$ruleList[]	= $spanKey." ".$spanValue;
@@ -73,10 +82,11 @@ class UI_HTML_Service_Table
 				}
 				if( isset( $rules['title'] ) )
 					$parameter	= UI_HTML_Elements::Acronym( $parameter, $rules['title'] );
-				if( $ruleList )
-					$parameter	= '<div class="rules">'.$rules.'</div>'.$parameter;
-				$rules	= implode( ", ", $ruleList );
-				$parameterList[]	= $parameter;
+				$parameter	= $type.$parameter;
+				if( !$mandatory )
+					$parameter	= "[".$parameter."]";
+				$rules	= $ruleList ? '<div class="rules">'.implode( ", ", $ruleList ).'</div>' : "";
+				$parameterList[]	= $rules.$parameter;
 			}
 			$parameters	= implode( "<br/>", $parameterList );
 

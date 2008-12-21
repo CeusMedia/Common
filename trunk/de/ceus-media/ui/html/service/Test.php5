@@ -110,6 +110,8 @@ class UI_HTML_Service_Test
 		foreach( $parameters as $parameter => $rules )
 		{
 			$ruleList	= array();
+			$mandatory	= FALSE;
+			$type		= "";
 			if( $rules )
 			{
 				foreach( $rules as $ruleKey => $ruleValue )
@@ -117,16 +119,27 @@ class UI_HTML_Service_Test
 					if( $ruleKey == "title" )
 						continue;
 					if( $ruleKey == "mandatory" )
-						$ruleValue = $ruleValue ? "yes" : "no";
+					{
+						$mandatory	= $ruleValue;
+						$ruleValue	= $ruleValue ? "yes" : "no";
+					}
+					if( $ruleKey == "type" )
+					{
+						$type	= "<small><em>".$ruleValue."</em></small>&nbsp;";
+					}
 					$spanKey	= UI_HTML_Tag::create( "span", $ruleKey.":", array( 'class' => "key" ) );
 					$spanValue	= UI_HTML_Tag::create( "span", htmlspecialchars( $ruleValue ), array( 'class' => "value" ) );
 					$ruleList[]	= $spanKey." ".$spanValue;
 				}
 			}
-			$divRules	= UI_HTML_Tag::create( "span", " (".implode( ", ", $ruleList ).")", array( 'class' => "rules" ) );
+
 			$label	= isset( $rules['title'] ) ? UI_HTML_Elements::Acronym( $parameter, $rules['title'] ) : $parameter;
-			$rules	= count( $ruleList ) ? $divRules : "";
 			$value	= isset( $request["parameter_".$parameter] ) ? $request["parameter_".$parameter] : NULL;
+			$label	= $type.$label;
+			if( !$mandatory )
+				$label	= "[".$label."]";
+			$divRules	= UI_HTML_Tag::create( "span", " (".implode( ", ", $ruleList ).")", array( 'class' => "rules" ) );
+			$rules	= count( $ruleList ) ? $divRules : "";
 			$list[]	= array(
 				'label' => $label,
 				'rules'	=> $rules,
