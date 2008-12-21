@@ -111,7 +111,7 @@ class Net_Service_Definition_XmlReader
 			foreach( $parameterElement->getAttributes() as $key => $value )
 			{
 				if( strtolower( $key ) == "mandatory" )
-					$value	= strtolower( strtolower( $value ) ) == "yes" ? TRUE : FALSE;
+					$value	= strtolower( $value ) == "yes" ? TRUE : FALSE;
 				$validators[strtolower( $key)]	= $value;
 			}
 			$service['parameters'][$parameterName]	= $validators;

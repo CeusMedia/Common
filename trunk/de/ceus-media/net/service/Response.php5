@@ -82,13 +82,15 @@ class Net_Service_Response
 	 */
 	protected function getBase64( $string )
 	{
+		if( !is_string( $string ) )
+			throw new InvalidArgumentException( 'Base64 needs a string.' );
 		return base64_encode( $string );
 	}
 
 	/**
 	 *	Return Content as JSON.
 	 *	@access		protected
-	 *	@param		string			$data			Content
+	 *	@param		mixed			$data			Content
 	 *	@return 	string
 	 */
 	protected function getJson( $mixed, $status = "data" )
@@ -105,7 +107,7 @@ class Net_Service_Response
 	/**
 	 *	Return Content as PHP Serial.
 	 *	@access		protected
-	 *	@param		string			$data			Content
+	 *	@param		mixed			$data			Content
 	 *	@return 	string
 	 */
 	protected function getPhp( $mixed, $status = "data" )
@@ -135,7 +137,7 @@ class Net_Service_Response
 	/**
 	 *	Return Content as WDDX String.
 	 *	@access		protected
-	 *	@param		string			$data			Content
+	 *	@param		mixed			$data			Content
 	 *	@return 	string
 	 */
 	protected function getWddx( $mixed, $status = "data" )
@@ -154,7 +156,7 @@ class Net_Service_Response
 	/**
 	 *	Return Content as XML String.
 	 *	@access		protected
-	 *	@param		string			$data			Content
+	 *	@param		mixed			$data			Content
 	 *	@param		string			$status			Status String, by default "data"
 	 *	@return 	string
 	 */
@@ -173,6 +175,22 @@ class Net_Service_Response
 		$xml	= $root->asXml();
 		$xml	= XML_DOM_Formater::format( $xml );
 		return $xml;
+	}
+
+	/**
+	 *	Tries to convert Data to Output Format.
+	 *	@access		public
+	 *	@param		mixed			$data			Data to Convert
+	 *	@return		string
+	 *	@throws		BadMethodCallException
+	 */
+	public function convertToOutputFormat( $data, $format )
+	{
+		$method	= "get".ucFirst( $format );
+		if( method_exists( $this, $method ) )
+			return $this->$method( $data );
+		$message	= 'No method "'.$method.'" implemented for output format "'.$format.'".';
+		throw new BadMethodCallException( $message );
 	}
 }
 ?>
