@@ -47,16 +47,29 @@ class Net_Service_Response
 	 */
 	private function addArrayToXmlNode( &$xmlNode, $dataArray, $lastParent = "" )
 	{
+		if( !( is_string( $lastParent ) && $lastParent ) )
+			$lastParent	= "item";
 		foreach( $dataArray as $key => $value )
 		{
 			if( is_array( $value ) )
 			{
+				if( is_int( $key ) )
+				{
+					$child	=& $xmlNode->addChild( "set" );
+					$this->addArrayToXmlNode( $child, $value, "items" );
+					continue;
+				}
 				$child	=& $xmlNode->addChild( $key );
-				$this->addArrayToXmlNode( $child, $value, $key );
+				$this->addArrayToXmlNode( $child, $value, "1".$key );
 				continue;
 			}
-			else if( is_int( $key ) && $lastParent )
-				$key	= $this->getSingular( $lastParent );
+			else if( is_int( $key ) )
+			{
+				if( $lastParent )
+					$key	= $this->getSingular( $lastParent );
+				else
+					$key	= "item";
+			}
 			$xmlNode->addChild( $key, str_replace( "&", "&amp;", $value ) );
 		}
 	}
@@ -156,7 +169,7 @@ class Net_Service_Response
 		import( 'de.ceus-media.xml.Element' );
 		import( 'de.ceus-media.xml.dom.Formater' );
 		$root	= new XML_Element( "<response/>" );
-		$this->addArrayToXmlNode( $root, $data );
+		$this->addArrayToXmlNode( $root, $data, "item" );
 		$xml	= $root->asXml();
 		$xml	= XML_DOM_Formater::format( $xml );
 		return $xml;
