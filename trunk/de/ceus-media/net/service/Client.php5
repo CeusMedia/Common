@@ -104,7 +104,7 @@ class Net_Service_Client
 		switch( $format )																//  go for requested Format
 		{
 			case 'json':																//  requested Format is JSON
-				$structure	= json_decode( $response );									//  try to decode JSON Response
+				$structure	= json_decode( $response, TRUE );							//  try to decode JSON Response
 				break;
 			case 'php':																	//  requested Format is PHP
 				$structure	= unserialize( $response );									//  try to decode PHP Response

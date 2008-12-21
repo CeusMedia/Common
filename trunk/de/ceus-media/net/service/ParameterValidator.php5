@@ -50,6 +50,8 @@ class Net_Service_ParameterValidator
 		{
 			foreach( $rules as $ruleName => $ruleValue )
 			{
+				if( $ruleName == "title" )
+					continue;
 				if( $ruleValue )
 					self::callMethod( "check".ucFirst( $ruleName ), $value, $ruleValue );
 			}
