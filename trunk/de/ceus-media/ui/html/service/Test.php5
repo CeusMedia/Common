@@ -18,6 +18,9 @@ class UI_HTML_Service_Test
 {
 	protected $username;
 	protected $password;
+	protected $tableClass;
+	protected $template;
+	protected $servicePoint;
 
 	public function __construct( Net_Service_Point $servicePoint )
 	{
