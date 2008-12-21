@@ -62,6 +62,8 @@ class UI_HTML_Service_Table
 				{
 					foreach( $rules as $ruleKey => $ruleValue )
 					{
+						if( $ruleKey == "title" )
+							continue;
 						if( $ruleKey == "mandatory" )
 							$ruleValue = $ruleValue ? "yes" : "no";
 						$spanKey	= UI_HTML_Tag::create( "span", $ruleKey.":", array( 'class' => "key" ) );
@@ -69,9 +71,11 @@ class UI_HTML_Service_Table
 						$ruleList[]	= $spanKey." ".$spanValue;
 					}
 				}
-				$rules	= implode( ", ", $ruleList );
-				if( $rules )
+				if( isset( $rules['title'] ) )
+					$parameter	= UI_HTML_Elements::Acronym( $parameter, $rules['title'] );
+				if( $ruleList )
 					$parameter	= '<div class="rules">'.$rules.'</div>'.$parameter;
+				$rules	= implode( ", ", $ruleList );
 				$parameterList[]	= $parameter;
 			}
 			$parameters	= implode( "<br/>", $parameterList );
