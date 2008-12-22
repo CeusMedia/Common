@@ -40,6 +40,7 @@ class Tests_Database_PDO_TableWriterTest extends PHPUnit_Framework_TestCase
 		$this->path		= dirname( __FILE__ )."/";
 		$this->errorLog	= $this->path."errors.log";
 		$this->queryLog	= $this->path."queries.log";
+		$options		= array();
 
 		$this->dsn = "mysql:host=".$this->host.";dbname=".$this->database;
 

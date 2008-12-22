@@ -31,10 +31,13 @@ class Tests_Net_Service_ResponseTest extends PHPUnit_Framework_TestCase
 	{
 		$this->instance	= new Test_Net_Service_ResponseInstance;
 		$this->data		= array(
-			'string'	=> "VALUE1",
-			'bool'		=> TRUE,
-			'double'	=> M_PI,
-			'object'	=> new stdClass(),
+			'status'	=> "data",
+			'data'		=> array(
+				'string'	=> "VALUE1",
+				'bool'		=> TRUE,
+				'double'	=> M_PI,
+				'object'	=> new stdClass(),
+			)
 		);
 	}
 	
@@ -45,8 +48,8 @@ class Tests_Net_Service_ResponseTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetBase64()
 	{
-		$assertion	= base64_encode( serialize( $this->data ) );
-		$creation	= $this->instance->executeProtectedMethod( 'getBase64', serialize( $this->data ) ); 
+		$assertion	= base64_encode( serialize( $this->data['data'] ) );
+		$creation	= $this->instance->executeProtectedMethod( 'getBase64', serialize( $this->data['data'] ) ); 
 		$this->assertEquals( $assertion, $creation );
 	}
 	
@@ -58,7 +61,7 @@ class Tests_Net_Service_ResponseTest extends PHPUnit_Framework_TestCase
 	public function testGetJson()
 	{
 		$assertion	= json_encode( $this->data );
-		$creation	= $this->instance->executeProtectedMethod( 'getJson', $this->data ); 
+		$creation	= $this->instance->executeProtectedMethod( 'getJson', $this->data['data'] ); 
 		$this->assertEquals( $assertion, $creation );
 	}
 	
@@ -70,7 +73,7 @@ class Tests_Net_Service_ResponseTest extends PHPUnit_Framework_TestCase
 	public function testGetPhp()
 	{
 		$assertion	= serialize( $this->data );
-		$creation	= $this->instance->executeProtectedMethod( 'getPhp', $this->data ); 
+		$creation	= $this->instance->executeProtectedMethod( 'getPhp', $this->data['data'] ); 
 		$this->assertEquals( $assertion, $creation );
 	}
 	
@@ -82,18 +85,18 @@ class Tests_Net_Service_ResponseTest extends PHPUnit_Framework_TestCase
 	public function testGetWddx()
 	{
 		$assertion	= wddx_serialize_value( $this->data );
-		$creation	= $this->instance->executeProtectedMethod( 'getWddx', $this->data ); 
+		$creation	= $this->instance->executeProtectedMethod( 'getWddx', $this->data['data'] ); 
 		$this->assertEquals( $assertion, $creation );
 	}
 }
 
 class Test_Net_Service_ResponseInstance extends Net_Service_Response
 {
-	public function executeProtectedMethod( $method, $content, $comment = NULL )
+	public function executeProtectedMethod( $method, $content )
 	{
 		if( !method_exists( $this, $method ) )
 			throw new Exception( 'Method "'.$method.'" is not callable.' );
-		return $this->$method( $content, $comment );
+		return $this->$method( $content );
 	}
 }
 ?>
