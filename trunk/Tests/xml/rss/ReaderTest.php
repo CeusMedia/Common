@@ -76,7 +76,7 @@ class Tests_XML_RSS_ReaderTest extends PHPUnit_Framework_TestCase
 	{
 		$assertion	= unserialize( file_get_contents( $this->serial ) );
 		$creation	= $this->reader->readFile( $this->file );
-		file_put_contents( $this->serial, serialize( $creation ) );
+#		file_put_contents( $this->serial, serialize( $creation ) );
 		$this->assertEquals( $assertion, $creation );
 	}
 

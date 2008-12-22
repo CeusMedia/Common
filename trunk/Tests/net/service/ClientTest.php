@@ -132,8 +132,9 @@ class Tests_Net_Service_ClientTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testDecodeResponsePhp()
 	{
-		$response	= serialize( array( 'key1' => 'value1' ) );
-		$assertion	= unserialize( $response );
+		$data		= array( 'status' => "data", 'data' => array( 'key1' => 'value1' ) );
+		$response	= serialize( $data );
+		$assertion	= $data['data'];
 		$creation	= $this->client->executeProtectedMethod( 'decodeResponse', $response, 'php' );
 		$this->assertEquals( $assertion, $creation );
 	}
@@ -145,8 +146,9 @@ class Tests_Net_Service_ClientTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testDecodeResponseJson()
 	{
-		$response	= json_encode( array( 'key1' => 'value1' ) );
-		$assertion	= json_decode( $response );
+		$data		= array( 'status' => "data", 'data' => array( 'key1' => 'value1' ) );
+		$response	= json_encode( $data );
+		$assertion	= $data['data'];
 		$creation	= $this->client->executeProtectedMethod( 'decodeResponse', $response, 'json' );
 		$this->assertEquals( $assertion, $creation );
 	}
@@ -171,8 +173,9 @@ class Tests_Net_Service_ClientTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testDecodeResponseWddx()
 	{
-		$response	= wddx_serialize_value( array( 'key1' => 'value1' ) );
-		$assertion	= wddx_deserialize( $response );
+		$data		= array( 'status' => "data", 'data' => array( 'key1' => 'value1' ) );
+		$response	= wddx_serialize_value( $data );
+		$assertion	= $data['data'];
 		$creation	= $this->client->executeProtectedMethod( 'decodeResponse', $response, 'wddx' );
 		$this->assertEquals( $assertion, $creation );
 	}

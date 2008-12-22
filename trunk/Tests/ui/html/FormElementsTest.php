@@ -134,11 +134,11 @@ class Tests_UI_HTML_FormElementsTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testForm()
 	{
-		$assertion	= '<form method="POST">';
+		$assertion	= '<form method="post">';
 		$creation	= UI_HTML_FormElements::Form();
 		$this->assertEquals( $assertion, $creation );
 
-		$assertion	= '<form id="form_testName" name="testName" action="testURL" target="testTarget" method="POST" enctype="testEnctype" onsubmit="testSubmit">';
+		$assertion	= '<form id="form_testName" name="testName" action="testURL" target="testTarget" method="post" enctype="testEnctype" onsubmit="testSubmit">';
 		$creation	= UI_HTML_FormElements::Form( "testName", "testURL", "testTarget", "testEnctype", "testSubmit" );
 		$this->assertEquals( $assertion, $creation );
 	}

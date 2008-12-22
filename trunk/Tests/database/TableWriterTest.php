@@ -39,6 +39,7 @@ class Tests_Database_TableWriterTest extends PHPUnit_Framework_TestCase
 		$this->database	= "test";
 		$this->path		= dirname( __FILE__ )."/";
 		$this->logFile	= $this->path."errors.log";
+		$options		= array();
 
 		$this->connection	= new Database_MySQL_Connection( $this->logFile );
 		$this->connection->connect( $this->host, $this->username, $this->password, $options );
