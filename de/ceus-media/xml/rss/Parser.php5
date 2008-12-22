@@ -88,7 +88,6 @@ class XML_RSS_Parser
 	{
 		$channelData	= array();
 		$itemList		= array();
-		
 		$xPath	= new XML_DOM_XPathQuery();
 		$xPath->loadXml( $xml );
 
@@ -102,8 +101,10 @@ class XML_RSS_Parser
 			$parts	= explode( "/", $channelKey );
 			if( isset( $parts[1] ) )
 				$channelKey	= $parts[0].ucFirst( $parts[1] );
-			$channelData[$channelKey]	= $nodes->item( 0 )->nodeValue;
+			$value	= $nodes->length ? $nodes->item( 0 )->nodeValue : NULL;
+			$channelData[$channelKey]	= $value;
 		}
+
 		$nodeList	= $xPath->query( "//rss/channel/item" );
 		foreach( $nodeList as $item )
 		{
@@ -111,7 +112,8 @@ class XML_RSS_Parser
 			foreach( self::$itemKeys as $itemKey )
 			{
 				$nodes	= $xPath->query( $itemKey."/text()", $item );
-				$array[$itemKey]	= $nodes->item( 0 )->nodeValue;
+				$value	= $nodes->length ? $nodes->item( 0 )->nodeValue : NULL;
+				$array[$itemKey]	= $value;
 			}
 			$itemList[]	= $array;
 		}

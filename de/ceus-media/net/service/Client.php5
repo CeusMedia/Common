@@ -114,9 +114,11 @@ class Net_Service_Client
 			case 'wddx':																//  requested Format is WDDX
 				$structure	= wddx_deserialize( $response );							//  try to decode WDDX Response
 				break;
-			default:																	//  other Formats
+			default:																	//  other Formats like Text or HTML
+				return $response;
 				break;																	//  bypass Response Content undecoded
 		}
+
 		$data	= $structure['data'];													//  Extract Response Data
 		if( $structure['status'] == "exception" )										//  Response contains an Exception
 			throw new Exception( $data['type'].": ".$data['message'] );					//  throw Exception and carry Message 

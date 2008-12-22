@@ -218,7 +218,7 @@ class Database_TableWriter extends Database_TableReader
 		$conditions	= $this->getConditionQuery( $where, FALSE, FALSE );
 		foreach( $this->fields as $field )
 		{
-			if( $data[$field] )
+			if( array_key_exists( $field, $data ) )
 			{
 				$data[$field]	= strip_tags( $data[$field] );
 				if( $data[$field] == "on" )

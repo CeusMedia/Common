@@ -48,7 +48,7 @@ class ADT_Tree_BalanceBinaryNode extends ADT_Tree_BinaryNode
 	 *	@param		mixed		value		Value of Node
 	 *	@return		void
 	 */
-	public function __construct( $balance, $value = false )
+	public function __construct( $balance, $value = FALSE )
 	{
 		$this->balance	= $balance;
 		parent::__construct( $value );
@@ -73,7 +73,7 @@ class ADT_Tree_BalanceBinaryNode extends ADT_Tree_BinaryNode
 			else
 				$this->left =& new ADT_Tree_BalanceBinaryNode( $this->balance, $value );
 		}
-		else if( $value > $tree->value )
+		else if( $value > $this->value )
 		{
 			if( $this->right )
 				$this->right->add( $value );
@@ -96,8 +96,8 @@ class ADT_Tree_BalanceBinaryNode extends ADT_Tree_BinaryNode
 	 */
 	public function getBalance()
 	{
-		$la = $this->left ? $this->left->getHeight() : 0;
-		$lb = $this->right? $this->right->getHeight(): 0;
+		$la = $this->left  ? $this->left->getHeight()  : 0;
+		$lb = $this->right ? $this->right->getHeight() : 0;
 		return ( $la - $lb );
 	}
 
@@ -111,18 +111,18 @@ class ADT_Tree_BalanceBinaryNode extends ADT_Tree_BinaryNode
 		$bf	= $this->getBalance();
 		if( $bf >= $this->balance ) 												// LR or LL rotation
 		{
-			$ll_height	= $this->left->left ? $this->left->left->getHeight() : 0;
-			$lr_height	= $this->left->right? $this->left->right->getHeight(): 0;
+			$ll_height	= $this->left->left  ? $this->left->left->getHeight()  : 0;
+			$lr_height	= $this->left->right ? $this->left->right->getHeight() : 0;
 			if( $ll_height < $lr_height )
-				$this->left->rotateRR(); 										// LR rotation
+				$this->left->rotateRR(); 											// LR rotation
 			$this->rotateLL();
 		}
 		else if( $bf <= $this->balance )											// RR or RL rotation
 		{
-			$rr_height	= $this->right->right? $this->right->right->getHeight(): 0;
-			$rl_height	= $this->right->left ? $this->right->left->getHeight() : 0;
+			$rr_height	= $this->right->right ? $this->right->right->getHeight() : 0;
+			$rl_height	= $this->right->left  ? $this->right->left->getHeight()  : 0;
 			if( $rl_height > $rr_height )
-				$this->right->rotateLL();										// RR rotation
+				$this->right->rotateLL();											// RR rotation
 			$this->rotateRR();
 		}
 	}
@@ -167,12 +167,10 @@ class ADT_Tree_BalanceBinaryNode extends ADT_Tree_BinaryNode
 	 *	@param		bool		[showBalanceFactor]		Flag: show Balance Factor
 	 *	@return		void
 	 */
-	public function toTable( $showBalanceFactor = false )
+	public function toTable( $showBalanceFactor = FALSE )
 	{
-		if( $this->left )
-			$la	= $this->left->getHeight();
-		if( $this->right )
-			$lb	= $this->right->getHeight();
+		$la		= $this->left  ? $this->left->getHeight()  : 0;
+		$lb		= $this->right ? $this->right->getHeight() : 0;
 		$depth	= $this->getHeight ();
 		$color	= 240 - ( 3 * $depth );
 		if( $showBalanceFactor )

@@ -49,7 +49,7 @@ class ADT_List_SectionList
 	 */
 	public function addEntry( $entry, $section )
 	{
-		if( is_array( $this->list[$section] ) && in_array( $entry, $this->list[$section] ) )
+		if( isset( $this->list[$section] ) && is_array( $this->list[$section] ) && in_array( $entry, $this->list[$section] ) )
 			throw new InvalidArgumentException( 'Entry "'.$entry.'" is already in Section "'.$section.'".' );
 		$this->list[$section][] = $entry;
 	}
