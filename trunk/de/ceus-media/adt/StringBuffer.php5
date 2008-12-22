@@ -82,10 +82,11 @@ class ADT_StringBuffer implements Countable
 	 */
 	public function deleteCharAt( $position )
 	{
+		$string	= "";
 		for( $i = 0; $i < $this->count(); $i++ )
 			if( $position != $i )
-				$chr_state = $chr_state.$this->buffer[$i];
-		$this->buffer = $chr_state;
+				$string .= $this->buffer[$i];
+		$this->buffer = $string;
 		if( $position == $this->pointer )
 			$this->pointer++;
 		return $this->toString();

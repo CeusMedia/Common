@@ -172,13 +172,13 @@ class UI_HTML_Paging extends ADT_OptionObject
 			$linkClass	= (string) $this->getOption( $linkClass );
 			$url		= $this->buildLinkUrl( $offset );
 			$key		= $key ? $this->getOption( 'key_'.$key ) : "";
-			if( $label == $text )
-				$linkClass	.= " page";
-			$text		= UI_HTML_Elements::Link( $url, $label, $linkClass, NULL, NULL, NULL, $key );
+#			if( $label == $text )
+#				$linkClass	.= " page";
+			$label		= UI_HTML_Elements::Link( $url, $label, $linkClass, NULL, NULL, NULL, $key );
 		}
-		if( $label == $text )
-			$spanClass	.= " page";
-		return $this->buildSpan( $text, $spanClass );
+#		if( $label == $text )
+#			$spanClass	.= " page";
+		return $this->buildSpan( $label, $spanClass );
 	}
 
 	/**

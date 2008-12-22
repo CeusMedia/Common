@@ -48,7 +48,7 @@ class Math_Algebra_Vector
 	public function __construct()
 	{
 		$arguments = func_get_args();
-		if( is_array( $arguments[0] ) )
+		if( isset( $arguments[0] ) && is_array( $arguments[0] ) )
 			$arguments = $arguments[0];
 		if( !count( $arguments ) )
 			throw new InvalidArgumentException( 'Vector needs at least 1 Value.' );
