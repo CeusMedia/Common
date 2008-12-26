@@ -28,10 +28,9 @@ import( 'de.ceus-media.file.Editor' );
  */
 class Alg_TermExtractor
 {
-	protected $list				= array();
 	public static $blacklist	= array();
 
-	public function getTerms( $text )
+	public static function getTerms( $text )
 	{
 		$list	= array();
 		$lines	= explode( "\n", $text );
@@ -66,7 +65,7 @@ class Alg_TermExtractor
 		return $list;
 	}
 	
-	public function loadBlacklist( $fileName )
+	public static function loadBlacklist( $fileName )
 	{
 		$string	= File_Editor::load( $fileName );
 		if( !Alg_StringUnicoder::isUnicode( $string ) )
@@ -75,12 +74,12 @@ class Alg_TermExtractor
 			File_Editor::save( $fileName, $string );
 		}
 		$list	= File_Editor::loadArray( $fileName );
-		$this->setBlacklist( $list );
+		self::setBlacklist( array_unique( $list ) );
 	}
 	
-	public function setBlacklist( $list )
+	public static function setBlacklist( $list )
 	{
-		self::$blacklist	= $list;
+		self::$blacklist	= array_unique( $list );
 	}
 }
 ?>
