@@ -69,6 +69,8 @@ class UI_Template
 	/**	@var		string		content of a specified templatefile */
 	protected $template;
 	
+	public static $removeComments	= TRUE;
+	
 	/**
 	 *	Constructor
 	 *	@access		public
@@ -192,6 +194,8 @@ class UI_Template
 #			die;
 #		}
  		$out	= preg_replace( '/<%--.*--%>/sU', '', $out );	
+ 		if( self::$removeComments )
+			$out	= preg_replace( '/<!--.+-->/sU', '', $out );	
 		foreach( $this->elements as $label => $labelElements )
 		{
 			$tmp = '';
