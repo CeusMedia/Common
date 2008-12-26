@@ -68,6 +68,8 @@ class Framework_Krypton_Core_Template
 	protected $fileName;
 	/**	@var		string		content of a specified templatefile */
 	protected $template;
+
+	public static $removeComments	= FALSE;
 	
 	/**
 	 *	Constructor
@@ -180,7 +182,9 @@ class Framework_Krypton_Core_Template
 	public function create()
 	{
 		$out	= $this->template;
- 		$out	= preg_replace( '/<%--.*--%>/sU', '', $out );	
+ 		$out	= preg_replace( '/<%--.+--%>/sU', '', $out );	
+ 		if( self::$removeComments )
+	 		$out	= preg_replace( '/<!--.+-->/sU', '', $out );	
 		foreach( $this->elements as $label => $labelElements )
 		{
 			$tmp = '';
