@@ -205,7 +205,15 @@ class Framework_Krypton_WebApplication extends Framework_Krypton_Base
 				{
 					$source	= $controller->getSource( $link );
 					if( $interface->hasContent( $source ) )
+					{
 						$content	= $interface->loadContent( $source );
+						if( method_exists( $interface, 'setTitleByLink' ) )
+							$interface->setTitleByLink( $link );
+						if( method_exists( $interface, 'setKeywordsByLink' ) )
+							$interface->setKeywordsByLink( $link );
+						if( method_exists( $interface, 'setDescriptionByLink' ) )
+							$interface->setDescriptionByLink( $link );
+					}
 					else
 						$messenger->noteFailure( str_replace( "#URI#", $source, $words['main']['msg']['error_no_content'] ) );
 				}

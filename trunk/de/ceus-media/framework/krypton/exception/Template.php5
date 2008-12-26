@@ -61,7 +61,7 @@ class Framework_Krypton_Exception_Template extends RuntimeException
 		{
 			case TEMPLATE_EXCEPTION_LABELS_NOT_USED:
 				$this->labels	= $data;
-				$message		= sprintf( self::$exceptionMessage, $filename );
+				$message		= sprintf( self::$exceptionMessage, $filename, implode( ", ", $data ) );
 				parent::__construct( $message, TEMPLATE_EXCEPTION_LABELS_NOT_USED );
 				break;
 		}

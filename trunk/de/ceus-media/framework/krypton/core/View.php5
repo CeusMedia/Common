@@ -42,7 +42,8 @@ import( 'de.ceus-media.framework.krypton.core.Component' );
  */
 class Framework_Krypton_Core_View extends Framework_Krypton_Core_Component
 {
-	public static $baseUrl	= "index.php5";
+	public static $titleMode	= "right";
+	public static $baseUrl		= "index.php5";
 	
 	/**
 	 *	Constructor, references Output Objects.
@@ -128,6 +129,58 @@ class Framework_Krypton_Core_View extends Framework_Krypton_Core_Component
 
 		$pages	= $paging->build( $numberTotal, $rowLimit, $rowOffset );
 		return $pages;
+	}
+
+	/**
+	 *	Sets a List of Keywords to Configuration for HTML Page.
+	 *	@access		protected
+	 *	@param		string		$description	Description String for HTML Meta Tags
+	 *	@return		void
+	 */
+	protected function setDescription( $description )
+	{
+		$this->words['main']['meta']['description']		= $description;
+		$this->words['main']['meta']['dc.Description']	= $description;
+	}
+
+	/**
+	 *	Sets a List of Keywords to Configuration for HTML Page.
+	 *	@access		protected
+	 *	@param		mixed		$words			String or List of Keywords for HTML Meta Tags
+	 *	@return		void
+	 */
+	protected function setKeywords( $words )
+	{
+		if( is_array( $words ) )
+			$words	= implode( ",", $words );
+		$this->words['main']['meta']['keywords']	= $words;
+		$this->words['main']['meta']['dc.Subject']	= $words;
+	}
+
+	/**
+	 *	Set the Title of HTML Page.
+	 *	@access		protected
+	 *	@param		string		$title			Title to set or add
+	 *	@param		string		$separator		Separator if a Title is added
+	 *	@return		void
+	 */
+	protected function setTitle( $title, $separator = NULL )
+	{
+		$words		= $this->words['main']['main'];
+		$current	= $this->words['main']['main']['title'];
+
+		$separator	= $separator ? $separator : " ".$words['separator']." ";
+
+		if( self::$titleMode == "left" )
+			$current	= $title.$separator.$current;
+		else if( self::$titleMode == "right" )
+			$current	= $current.$separator.$title;
+		else
+			$current	= $title;
+		
+		$this->words['main']['main']['title']		= $current;
+		$this->words['main']['meta']['dc.Title']	= $current;
+		
 	}
 }
 ?>
