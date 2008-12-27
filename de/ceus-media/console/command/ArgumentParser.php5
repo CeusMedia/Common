@@ -1,4 +1,7 @@
 <?php
+/**
+ *	@package		console.command
+ */
 class Console_Command_ArgumentParser
 {
 	const STATUS_START				= 0; 

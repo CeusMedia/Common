@@ -1,12 +1,4 @@
 <?php
-import( 'de.ceus-media.net.service.definition.XmlReader' );
-import( 'de.ceus-media.net.service.definition.XmlWriter' );
-import( 'de.ceus-media.file.yaml.Reader' );
-import( 'de.ceus-media.file.yaml.Writer' );
-import( 'de.ceus-media.file.Reader' );
-import( 'de.ceus-media.file.Writer' );
-import( 'de.ceus-media.adt.json.Converter' );
-import( 'de.ceus-media.adt.json.Formater' );
 /**
  *	Converts Service Definitions between JSON, XML and YAML.
  *
@@ -26,21 +18,20 @@ import( 'de.ceus-media.adt.json.Formater' );
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@package		net.service.definition
- *	@uses			Net_Serivce_Definition_Reader
- *	@uses			Net_Service_Definition_Writer
- *	@uses			File_YAML_Writer
- *	@uses			File_YAML_Reader
- *	@uses			File_YAML_Writer
- *	@uses			File_Reader
- *	@uses			File_Writer
- *	@uses			ADT_JSON_Converter
- *	@uses			ADT_JSON_Formater
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		0.6
  */
+import( 'de.ceus-media.net.service.definition.XmlReader' );
+import( 'de.ceus-media.net.service.definition.XmlWriter' );
+import( 'de.ceus-media.file.yaml.Reader' );
+import( 'de.ceus-media.file.yaml.Writer' );
+import( 'de.ceus-media.file.Reader' );
+import( 'de.ceus-media.file.Writer' );
+import( 'de.ceus-media.adt.json.Converter' );
+import( 'de.ceus-media.adt.json.Formater' );
 /**
  *	Converts Service Definitions between JSON, XML and YAML.
  *	@package		net.service.definition

@@ -1,6 +1,4 @@
 <?php
-import( 'de.ceus-media.adt.OptionObject' );
-import( 'de.ceus-media.ui.html.Elements' );
 /**
  *	Paging System for Lists.
  *
@@ -29,6 +27,8 @@ import( 'de.ceus-media.ui.html.Elements' );
  *	@since			01.12.2005
  *	@version		0.6
  */
+import( 'de.ceus-media.adt.OptionObject' );
+import( 'de.ceus-media.ui.html.Elements' );
 /**
  *	Paging System for Lists.
  *	@package		ui.html

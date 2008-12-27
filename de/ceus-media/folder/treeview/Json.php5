@@ -1,4 +1,7 @@
 <?php
+/**
+ *	@package		folder.treeview
+ */
 import( 'de.ceus-media.Stopwatch' );
 import( 'de.ceus-media.ui.html.Tag' );
 class Folder_Treeview_Json
