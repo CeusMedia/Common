@@ -149,10 +149,9 @@ Usage: go COMMAND [OPTION]...
       -f, --force                  force to write test class (warning!)
     doc                        documentations
       creator                    using DocCreator
-        -fp, --force-parser        force to parse class files
-        -fc, --force-creator       force to write doc file
-        --show-config                show settings
-        --show-config-only           show settings and abort
+        -sp, --skip-parser        skip to parse class files
+        -sc, --skip-creator       skip to write doc file
+        -sr, --skip-resources     skip to copy resource files
       phpdoc                     using PhpDocumentor
         --show-config-only         show settings and abort
   run                          (not implemented yet)
