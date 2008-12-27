@@ -1,6 +1,7 @@
 <?php
 /**
- *	@see		http://www.w3.org/Addressing/URL/url-spec.html
+ *	@package		adt
+ *	@see			http://www.w3.org/Addressing/URL/url-spec.html
  */
 class ADT_URL
 {

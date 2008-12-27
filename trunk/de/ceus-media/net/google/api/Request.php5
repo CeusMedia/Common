@@ -1,5 +1,11 @@
 <?php
+/**
+ *	@package		net.goole.api
+ */
 import( 'de.ceus-media.net.Reader' );
+/**
+ *	@package		net.goole.api
+ */
 class Net_Google_API_Request
 {
 	public $apiKey		= "";

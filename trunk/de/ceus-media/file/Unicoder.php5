@@ -1,5 +1,4 @@
 <?php
-import( 'de.ceus-media.alg.StringUnicoder' );
 /**
  *	Converts a File into UTF-8.
  *
@@ -18,7 +17,7 @@ import( 'de.ceus-media.alg.StringUnicoder' );
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- *	@package		
+ *	@package		file
  *	@uses			Alg_StringUnicoder
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@copyright		2008 Christian Würker
@@ -27,9 +26,10 @@ import( 'de.ceus-media.alg.StringUnicoder' );
  *	@since			18.10.2007
  *	@version		0.1
  */
+import( 'de.ceus-media.alg.StringUnicoder' );
 /**
  *	Converts a File into UTF-8.
- *	@package		
+ *	@package		file
  *	@uses			Alg_StringUnicoder
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@copyright		2008 Christian Würker

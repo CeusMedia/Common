@@ -1,5 +1,6 @@
 <?php
 /**
+ *	@package		adt
  *	@see		http://www.ietf.org/rfc/rfc2141.txt
  */
 class ADT_URN

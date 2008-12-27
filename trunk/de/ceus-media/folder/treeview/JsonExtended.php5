@@ -1,4 +1,7 @@
 <?php
+/**
+ *	@package		folder.treeview
+ */
 import( 'de.ceus-media.folder.treeview.Json' );
 class Folder_Treeview_JsonExtended extends Folder_Treeview_Json
 {

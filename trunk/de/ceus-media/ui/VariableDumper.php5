@@ -1,4 +1,7 @@
 <?php
+/**
+ *	@package		ui
+ */
 define( 'SERVICE_TEST_PRINT_M', 0 );
 define( 'SERVICE_TEST_VAR_DUMP', 1 );
 class UI_VariableDumper

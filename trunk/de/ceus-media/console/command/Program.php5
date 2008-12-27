@@ -1,4 +1,7 @@
 <?php
+/**
+ *	@package		console.command
+ */
 import( 'de.ceus-media.console.command.ArgumentParser' );
 abstract class Console_Command_Program
 {
