@@ -1,11 +1,11 @@
 <?php
 /**
- *	@package		net.goole.api
+ *	@package		net.google.api
  */
 import( 'de.ceus-media.net.google.api.Request' );
 import( 'de.ceus-media.xml.Element' );
 /**
- *	@package		net.goole.api
+ *	@package		net.google.api
  */
 class Net_Google_API_Geocoder extends Net_Google_API_Request
 {
