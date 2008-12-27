@@ -1,10 +1,10 @@
 <?php
 /**
- *	@package		net.goole.api
+ *	@package		net.google.api
  */
 import( 'de.ceus-media.net.Reader' );
 /**
- *	@package		net.goole.api
+ *	@package		net.google.api
  */
 class Net_Google_API_Request
 {
