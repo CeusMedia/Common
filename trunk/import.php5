@@ -3,13 +3,17 @@
  *	Java-like import of Classes.
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			16.06.2005
- *	@version		0.6
+ *	@version		0.6.5
  */
+//$__c	= parse_ini_file( dirname( __FILE__ )."/cmClasses.ini", TRUE );
+
 $constants	= array(																			//  Array of Constants to be set
-	'CM_CLASSES_IMPORT_SEPARATOR'	=> '.',														//  Separator in Import Path (default '.')
-	'CM_CLASSES_PHP_EXTENSION'		=> 'php5',													//  Extension of PHP Classes (default 'php5')
-	'CM_CLASSES_VERSION'			=> '0.6',													//  Version of Class Container
-	'CM_CLASSES_EXTENSIONS'			=> TRUE,													//  Flag: use Exception Extension
+	'CM_CLASSES_IMPORT_EXTENSION'		=> 'php5',												//  Extension of PHP Classes (default 'php5')
+	'CM_CLASSES_IMPORT_SEPARATOR'		=> '.',													//  Separator in Import Path (default '.')
+	'CM_CLASSES_IMPORT_ALLOW_SEPARATOR'	=> FALSE,												//  Flag: allow Separator in Folder Names (slower)
+	'CM_CLASSES_VERSION'				=> "0.6.5",												//  Version of Class Container
+//	'CM_CLASSES_VERSION'				=> $__c['project']['version'],							//  Version of Class Container
+//	'CM_CLASSES_EXTENSIONS'				=> TRUE,												//  Flag: use Exception Extension
 );
 foreach( $constants as $key => $value )															//  iterate Constants
 	if( !defined( $key ) )																		//  if not defined, yet
@@ -26,8 +30,17 @@ foreach( $constants as $key => $value )															//  iterate Constants
  */
 function import( $classPath, $supressWarnings = FALSE )
 {
-	$fileName	= str_replace( CM_CLASSES_IMPORT_SEPARATOR, "/", $classPath);
-	$fileName	.= ".".CM_CLASSES_PHP_EXTENSION;
+	if( CM_CLASSES_IMPORT_ALLOW_SEPARATOR )
+	{
+		$regexp		= '@(\w+)['.CM_CLASSES_IMPORT_SEPARATOR.'](\S+)@';
+		$fileName	= $classPath;
+		while( preg_match( $regexp, $fileName ) )
+			$fileName	= preg_replace( $regexp, "\\1/\\2", $fileName );
+	}
+	else
+		$fileName	= str_replace( CM_CLASSES_IMPORT_SEPARATOR, "/", $classPath );
+
+	$fileName	.= ".".CM_CLASSES_IMPORT_EXTENSION;
 	while( preg_match( "@^-@", $fileName ) )
 		$fileName	= preg_replace( "@^(-*)-@", "\\1../", $fileName ); 
 	try
