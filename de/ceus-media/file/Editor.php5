@@ -1,6 +1,4 @@
 <?php
-import( 'de.ceus-media.file.Reader' );
-import( 'de.ceus-media.file.Writer' );
 /**
  *	Editor for Files.
  *
@@ -29,6 +27,8 @@ import( 'de.ceus-media.file.Writer' );
  *	@since			15.04.2008
  *	@version		0.6a
  */
+import( 'de.ceus-media.file.Reader' );
+import( 'de.ceus-media.file.Writer' );
 /**
  *	Editor for Files.
  *	@package		file

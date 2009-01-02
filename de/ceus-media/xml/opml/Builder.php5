@@ -1,6 +1,4 @@
 <?php
-import( 'de.ceus-media.xml.dom.Node' );
-import( 'de.ceus-media.xml.dom.Builder' );
 /**
  *	Builder for OPML Files.
  *
@@ -29,6 +27,8 @@ import( 'de.ceus-media.xml.dom.Builder' );
  *	@since			01.02.2006
  *	@version		0.6
  */
+import( 'de.ceus-media.xml.dom.Node' );
+import( 'de.ceus-media.xml.dom.Builder' );
 /**
  *	Builder for OPML Files.
  *	@package		xml.opml

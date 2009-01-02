@@ -1,5 +1,4 @@
 <?php
-import( 'de.ceus-media.net.ftp.Reader' );
 /**
  *	Writer for FTP Connections.
  *
@@ -27,6 +26,7 @@ import( 'de.ceus-media.net.ftp.Reader' );
  *	@since			01.07.2008
  *	@version		0.6
  */
+import( 'de.ceus-media.net.ftp.Reader' );
 /**
  *	Writer for FTP Connections.
  *	@package		net.ftp

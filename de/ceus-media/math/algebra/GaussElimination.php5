@@ -1,5 +1,4 @@
 <?php
-import( 'de.ceus-media.adt.matrix.Vector' );
 /**
  *	Implementation of Gauss Eleminiation Algorith with Pivot Search.
  *
@@ -27,6 +26,7 @@ import( 'de.ceus-media.adt.matrix.Vector' );
  *	@since			18.01.2006
  *	@version		0.1
  */
+import( 'de.ceus-media.adt.matrix.Vector' );
 /**
  *	Implementation of Gauss Eleminiation Algorith with Pivot Search.
  *	@package		math.algebra

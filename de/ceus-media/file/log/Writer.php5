@@ -1,5 +1,4 @@
 <?php
-import ("de.ceus-media.alg.TimeConverter"); 
 /**
  *	Writer for Log File.
  *
@@ -26,6 +25,7 @@ import ("de.ceus-media.alg.TimeConverter");
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		0.6
  */
+import ("de.ceus-media.alg.TimeConverter"); 
 /**
  *	Writer for Log File.
  *	@package		file.log

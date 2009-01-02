@@ -1,7 +1,4 @@
 <?php
-import( 'de.ceus-media.adt.OptionObject' );
-import( 'de.ceus-media.file.Reader' );
-import( 'de.ceus-media.file.Writer' );
 /**
  *	Definition of Input Field within Channels, Screens and Forms.
  *	@package		framework.neon
@@ -12,6 +9,9 @@ import( 'de.ceus-media.file.Writer' );
  *	@since			01.05.2006
  *	@version		0.1
  */
+import( 'de.ceus-media.adt.OptionObject' );
+import( 'de.ceus-media.file.Reader' );
+import( 'de.ceus-media.file.Writer' );
 /**
  *	Definition of Input Field within Channels, Screens and Forms.
  *	@package		framework.neon

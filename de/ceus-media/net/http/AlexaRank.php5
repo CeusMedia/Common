@@ -1,5 +1,4 @@
 <?php
-import( 'de.ceus-media.net.cURL' );
 /**
  *	Alexa Rank Request.
  *
@@ -27,6 +26,7 @@ import( 'de.ceus-media.net.cURL' );
  *	@since			22.01.2007
  *	@version		0.5
  */
+import( 'de.ceus-media.net.cURL' );
 /**
  *	Alexa Rank Request.
  *	@package		net.http

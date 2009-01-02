@@ -1,6 +1,4 @@
 <?php
-import( 'de.ceus-media.file.arc.Tar' );
-import( 'de.ceus-media.file.arc.Gzip' );
 /**
  *	Tar Gzip File allows creation and manipulation of gzipped tar archives.
  *
@@ -28,6 +26,8 @@ import( 'de.ceus-media.file.arc.Gzip' );
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		0.5
  */
+import( 'de.ceus-media.file.arc.Tar' );
+import( 'de.ceus-media.file.arc.Gzip' );
 /**
  *	Tar Gzip File allows creation and manipulation of gzipped tar archives.
  *	@package		file.arc

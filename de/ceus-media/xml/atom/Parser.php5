@@ -1,5 +1,4 @@
 <?php
-import( 'de.ceus-media.xml.Element' );
 /**
  *	Parser for Atom Feeds.
  *
@@ -29,6 +28,7 @@ import( 'de.ceus-media.xml.Element' );
  *	@since			13.05.2008
  *	@version		0.6
  */
+import( 'de.ceus-media.xml.Element' );
 /**
  *	Parser for Atom Feeds.
  *	@package		xml.atom

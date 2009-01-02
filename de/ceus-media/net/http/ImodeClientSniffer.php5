@@ -1,5 +1,4 @@
 <?php
-import( 'de.ceus-media.file.Configuration' );
 /**
  *	Sniffer for iMode Clients.
  *
@@ -25,6 +24,7 @@ import( 'de.ceus-media.file.Configuration' );
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		0.6
  */
+import( 'de.ceus-media.file.Configuration' );
 define( 'IMODE_COLOUR_BW',			0 );
 define( 'IMODE_COLOUR_GREYSCALE',	1 );
 define( 'IMODE_COLOUR_256',			2 );

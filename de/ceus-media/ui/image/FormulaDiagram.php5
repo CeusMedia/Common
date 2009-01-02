@@ -1,7 +1,4 @@
 <?php
-import( 'de.ceus-media.ui.image.Drawer' );
-import( 'de.ceus-media.math.analysis.CompactInterval' );
-import( 'de.ceus-media.StopWatch' );
 /**
  *	Paints Formula Diagram
  *
@@ -30,6 +27,9 @@ import( 'de.ceus-media.StopWatch' );
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		0.5
  */
+import( 'de.ceus-media.ui.image.Drawer' );
+import( 'de.ceus-media.math.analysis.CompactInterval' );
+import( 'de.ceus-media.StopWatch' );
 /**
  *	Paints Formula Diagram
  *	@package		ui.image

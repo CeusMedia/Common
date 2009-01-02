@@ -1,7 +1,4 @@
 <?php
-import( 'de.ceus-media.framework.krypton.Base' );
-import( 'de.ceus-media.net.http.request.Response' );
-#import( 'classes.view.Interface' );
 /**
  *	Main Class for Web Applications.
  *	This Class need to be called within an existing Web Project.
@@ -32,6 +29,9 @@ import( 'de.ceus-media.net.http.request.Response' );
  *	@since			11.04.2008
  *	@version		0.1
  */
+import( 'de.ceus-media.framework.krypton.Base' );
+import( 'de.ceus-media.net.http.request.Response' );
+#import( 'classes.view.Interface' );
 /**
  *	Main Class for Web Applications.
  *	This Class need to be called within an existing Web Project.

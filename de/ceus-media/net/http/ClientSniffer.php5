@@ -1,10 +1,4 @@
 <?php
-import( 'de.ceus-media.net.http.BrowserSniffer' );
-import( 'de.ceus-media.net.http.CharsetSniffer' );
-import( 'de.ceus-media.net.http.EncodingSniffer' );
-import( 'de.ceus-media.net.http.LanguageSniffer' );
-import( 'de.ceus-media.net.http.MimeTypeSniffer' );
-import( 'de.ceus-media.net.http.OperatingSystemSniffer' );
 /**
  *	Combination of different Sniffers for HTTP Request to determine all information about the Client.
  *
@@ -37,6 +31,12 @@ import( 'de.ceus-media.net.http.OperatingSystemSniffer' );
  *	@since			12.08.2005
  *	@version		0.6
  */
+import( 'de.ceus-media.net.http.BrowserSniffer' );
+import( 'de.ceus-media.net.http.CharsetSniffer' );
+import( 'de.ceus-media.net.http.EncodingSniffer' );
+import( 'de.ceus-media.net.http.LanguageSniffer' );
+import( 'de.ceus-media.net.http.MimeTypeSniffer' );
+import( 'de.ceus-media.net.http.OperatingSystemSniffer' );
 /**
  *	Combination of different Sniffers for HTTP Request to determine all information about the Client.
  *	@package		net.http

@@ -1,7 +1,4 @@
 <?php
-import( 'de.ceus-media.ui.image.Creator' );
-import( 'de.ceus-media.ui.image.Drawer' );
-import( 'de.ceus-media.ui.image.Printer' );
 /**
  *	Creates and displays Error Image with Message.
  *
@@ -31,6 +28,9 @@ import( 'de.ceus-media.ui.image.Printer' );
  *	@since			16.06.2008
  *	@version		0.1
  */
+import( 'de.ceus-media.ui.image.Creator' );
+import( 'de.ceus-media.ui.image.Drawer' );
+import( 'de.ceus-media.ui.image.Printer' );
 /**
  *	Creates and displays Error Image with Message.
  *	@package		ui.image

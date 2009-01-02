@@ -1,5 +1,4 @@
 <?php
-import( 'de.ceus-media.alg.TimeConverter' );
 /**
  *	Class holding Predicates for String Validation.
  *
@@ -28,6 +27,7 @@ import( 'de.ceus-media.alg.TimeConverter' );
  *	@since			14.02.2007
  *	@version		0.6
  */
+import( 'de.ceus-media.alg.TimeConverter' );
 /**
  *	Class holding Predicates for String Validation.
  *	@package		alg.validation

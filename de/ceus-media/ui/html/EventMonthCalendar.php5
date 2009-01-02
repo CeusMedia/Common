@@ -1,5 +1,4 @@
 <?php
-import( 'de.ceus-media.ui.html.MonthCalendar' );
 /**
  *	Generator for Month Calendar with Events.
  *
@@ -27,6 +26,7 @@ import( 'de.ceus-media.ui.html.MonthCalendar' );
  *	@since			20.03.06
  *	@version		0.6
  */
+import( 'de.ceus-media.ui.html.MonthCalendar' );
 /**
  *	Generator for Month Calendar with Events.
  *	@package		ui.html

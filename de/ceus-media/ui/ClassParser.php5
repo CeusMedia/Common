@@ -1,5 +1,4 @@
 <?php
-import( 'de.ceus-media.file.Reader' );
 /**
  *	Parses Class and creates UML Diagram.
  *
@@ -28,6 +27,7 @@ import( 'de.ceus-media.file.Reader' );
  *	@since			22.06.2005
  *	@version		0.4
  */
+import( 'de.ceus-media.file.Reader' );
 /**
  *	Parses Class and creates UML Diagram.
  *	@package		ui

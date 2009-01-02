@@ -1,5 +1,4 @@
 <?php
-import( 'de.ceus-media.alg.parcel.Factory' );
 /**
  *
  *
@@ -27,6 +26,7 @@ import( 'de.ceus-media.alg.parcel.Factory' );
  *	@since			08.05.2008
  *	@version		0.5
  */
+import( 'de.ceus-media.alg.parcel.Factory' );
 /**
  *
  *	@package		alg.parcel

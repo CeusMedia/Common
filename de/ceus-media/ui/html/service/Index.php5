@@ -1,5 +1,4 @@
 <?php
-import( 'de.ceus-media.net.service.Handler' );
 /**
  *	Service Handler which indexes with HTML Output.
  *
@@ -27,6 +26,7 @@ import( 'de.ceus-media.net.service.Handler' );
  *	@since			18.06.2007
  *	@version		0.2
  */
+import( 'de.ceus-media.net.service.Handler' );
 /**
  *	Service Handler which indexes with HTML Output.
  *	@package		ui.html.service

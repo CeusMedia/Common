@@ -1,6 +1,4 @@
 <?php
-import( 'de.ceus-media.adt.OptionObject' );
-import( 'de.ceus-media.alg.TimeConverter' );
 /**
  *	Message Output Handler of Framework Hydrogen.
  *
@@ -29,6 +27,8 @@ import( 'de.ceus-media.alg.TimeConverter' );
  *	@since			01.09.2006
  *	@version		0.5
  */
+import( 'de.ceus-media.adt.OptionObject' );
+import( 'de.ceus-media.alg.TimeConverter' );
 /**
  *	Message Output Handler of Framework Hydrogen.
  *	@package		framework.hydrogen

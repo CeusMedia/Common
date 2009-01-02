@@ -1,7 +1,4 @@
 <?php
-import ("de.ceus-media.net.AtomTime");
-import ("de.ceus-media.file.Reader");
-import ("de.ceus-media.file.Writer");
 /**
  *	Calculates real Time by Server time and synchronised Atom time.
  *
@@ -31,6 +28,9 @@ import ("de.ceus-media.file.Writer");
  *	@since			13.07.2005
  *	@version		0.6
  */
+import ("de.ceus-media.net.AtomTime");
+import ("de.ceus-media.file.Reader");
+import ("de.ceus-media.file.Writer");
 /**
  *	Calculates real Time by Server time and synchronised Atom time.
  *	@package		net

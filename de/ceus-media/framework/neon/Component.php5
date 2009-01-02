@@ -1,6 +1,4 @@
 <?php
-import( 'de.ceus-media.adt.Reference' );
-import( 'de.ceus-media.alg.TimeConverter' );
 /**
  *	Generic Action Handler.
  *	@package		framework.neon
@@ -10,6 +8,8 @@ import( 'de.ceus-media.alg.TimeConverter' );
  *	@since			01.12.2005
  *	@version		0.1
  */
+import( 'de.ceus-media.adt.Reference' );
+import( 'de.ceus-media.alg.TimeConverter' );
 /**
  *	Generic Action Handler.
  *	@package		framework.neon

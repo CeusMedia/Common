@@ -1,5 +1,4 @@
 <?php
-import( 'de.ceus-media.net.http.Cookie' );
 /**
  *	Partitioned Cookie Management.
  *
@@ -26,6 +25,7 @@ import( 'de.ceus-media.net.http.Cookie' );
  *	@since			11.08.2005
  *	@version		0.6
  */
+import( 'de.ceus-media.net.http.Cookie' );
 /**
  *	Partitioned Cookie Management.
  *	@package		net.http

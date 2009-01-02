@@ -1,5 +1,4 @@
 <?php
-import( 'de.ceus-media.file.Writer' );
 /**
  *	A Class for reading and writing List Files.
  *
@@ -26,6 +25,7 @@ import( 'de.ceus-media.file.Writer' );
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		0.6
  */
+import( 'de.ceus-media.file.Writer' );
 /**
  *	A Class for reading and writing List Files.
  *	@package		file.list

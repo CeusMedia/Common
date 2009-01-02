@@ -1,6 +1,4 @@
 <?php
-import ("de.ceus-media.file.Reader");
-import ("de.ceus-media.xml.dom.Parser");
 /**
  *	Loads an parses a XML File to a Tree of XML_DOM_Nodes.
  *
@@ -28,6 +26,8 @@ import ("de.ceus-media.xml.dom.Parser");
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		0.6
  */
+import ("de.ceus-media.file.Reader");
+import ("de.ceus-media.xml.dom.Parser");
 /**
  *	Loads an parses a XML File to a Tree of XML_DOM_Nodes.
  *	@package		xml.dom

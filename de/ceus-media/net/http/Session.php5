@@ -1,5 +1,4 @@
 <?php
-import( 'de.ceus-media.adt.list.Dictionary' );
 /**
  *	Session Management.
  *
@@ -26,6 +25,7 @@ import( 'de.ceus-media.adt.list.Dictionary' );
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		0.6
  */
+import( 'de.ceus-media.adt.list.Dictionary' );
 /**
  *	Session Management.
  *	@package		net.http

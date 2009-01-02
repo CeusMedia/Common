@@ -1,6 +1,4 @@
 <?php
-import( 'de.ceus-media.file.Reader' );
-import ("de.ceus-media.file.Writer");
 /**
  *	Tar File allows creation and manipulation of tar archives.
  *
@@ -28,6 +26,8 @@ import ("de.ceus-media.file.Writer");
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		0.6
  */
+import( 'de.ceus-media.file.Reader' );
+import ("de.ceus-media.file.Writer");
 /**
  *	Tar File allows creation and manipulation of tar archives.
  *	@package		file.arc

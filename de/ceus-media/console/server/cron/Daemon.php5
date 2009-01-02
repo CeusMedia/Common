@@ -1,6 +1,4 @@
 <?php
-import( 'de.ceus-media.server.cron.CronParser' );
-import( 'de.ceus-media.file.log.LogFile' );
 /**
  *	Cron Server.
  *
@@ -29,6 +27,8 @@ import( 'de.ceus-media.file.log.LogFile' );
  *	@since			20.01.2006
  *	@version		0.5
  */
+import( 'de.ceus-media.server.cron.CronParser' );
+import( 'de.ceus-media.file.log.LogFile' );
 /**
  *	Cron Server.
  *	@package		console.server.cron

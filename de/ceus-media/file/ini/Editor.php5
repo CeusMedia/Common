@@ -1,7 +1,4 @@
 <?php
-import( 'de.ceus-media.file.ini.Reader' );
-import( 'de.ceus-media.file.Reader' );
-import( 'de.ceus-media.file.Writer' );
 /**
  *	Property File Editor.
  *	This Implementation keeps the File Structure of original File completely alive.
@@ -32,6 +29,9 @@ import( 'de.ceus-media.file.Writer' );
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		0.6
  */
+import( 'de.ceus-media.file.ini.Reader' );
+import( 'de.ceus-media.file.Reader' );
+import( 'de.ceus-media.file.Writer' );
 /**
  *	Property File Editor.
  *	This Implementation keeps the File Structure of original File completely alive.

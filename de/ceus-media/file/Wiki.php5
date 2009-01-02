@@ -1,7 +1,4 @@
 <?php
-import( 'de.ceus-media.file.Reader' );
-import( 'de.ceus-media.file.Writer' );
-import( 'de.ceus-media.ui.html.WikiParser' );
 /**
  *	File Reader and Writer for Wiki Pages.
  *
@@ -31,6 +28,9 @@ import( 'de.ceus-media.ui.html.WikiParser' );
  *	@since			01.04.2006
  *	@version		0.6
  */
+import( 'de.ceus-media.file.Reader' );
+import( 'de.ceus-media.file.Writer' );
+import( 'de.ceus-media.ui.html.WikiParser' );
 /**
  *	File Reader and Writer for Wiki Pages.
  *	@package		ui.html

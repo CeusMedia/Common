@@ -1,6 +1,4 @@
 <?php
-import( 'de.ceus-media.xml.dom.Node' );
-import( 'de.ceus-media.xml.dom.Builder' );
 /**
  *	Google Sitemap XML Builder.
  *
@@ -29,6 +27,8 @@ import( 'de.ceus-media.xml.dom.Builder' );
  *	@since			10.12.2006
  *	@version		0.2
  */
+import( 'de.ceus-media.xml.dom.Node' );
+import( 'de.ceus-media.xml.dom.Builder' );
 /**
  *	Builds Sitemap XML File for Google.
  *	@package		net.site

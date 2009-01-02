@@ -1,15 +1,4 @@
 <?php
-import( 'de.ceus-media.database.DatabaseConnection' );
-import( 'de.ceus-media.file.ini.Reader' );
-import( 'de.ceus-media.net.http.PartitionSession' );
-import( 'de.ceus-media.net.http.request.Receiver' );
-import( 'de.ceus-media.StopWatch' );
-import( 'de.ceus-media.adt.FieldDefinition' );
-import( 'de.ceus-media.framework.hydrogen.Messenger' );
-import( 'de.ceus-media.framework.hydrogen.Model' );
-import( 'de.ceus-media.framework.hydrogen.View' );
-import( 'de.ceus-media.framework.hydrogen.Controller' );
-import( 'de.ceus-media.framework.hydrogen.Language' );
 /**
  *	Abstract Main Class of Framework Hydrogen
  *
@@ -47,6 +36,17 @@ import( 'de.ceus-media.framework.hydrogen.Language' );
  *	@since			01.09.2006
  *	@version		0.1
  */
+import( 'de.ceus-media.database.DatabaseConnection' );
+import( 'de.ceus-media.file.ini.Reader' );
+import( 'de.ceus-media.net.http.PartitionSession' );
+import( 'de.ceus-media.net.http.request.Receiver' );
+import( 'de.ceus-media.StopWatch' );
+import( 'de.ceus-media.adt.FieldDefinition' );
+import( 'de.ceus-media.framework.hydrogen.Messenger' );
+import( 'de.ceus-media.framework.hydrogen.Model' );
+import( 'de.ceus-media.framework.hydrogen.View' );
+import( 'de.ceus-media.framework.hydrogen.Controller' );
+import( 'de.ceus-media.framework.hydrogen.Language' );
 /**
  *	Abstract Main Class of Framework Hydrogen
  *	@package		framework.hydrogen

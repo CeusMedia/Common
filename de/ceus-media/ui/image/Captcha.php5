@@ -1,6 +1,4 @@
 <?php
-import( 'de.ceus-media.alg.Randomizer' );
-import( 'de.ceus-media.file.Writer' );
 /**
  *	Simple CAPTCHA Generator.
  *
@@ -29,6 +27,8 @@ import( 'de.ceus-media.file.Writer' );
  *	@since			01.05.2005
  *	@version		0.6
  */
+import( 'de.ceus-media.alg.Randomizer' );
+import( 'de.ceus-media.file.Writer' );
 /**
  *	Simple CAPTCHA Generator.
  *	@package		ui.image

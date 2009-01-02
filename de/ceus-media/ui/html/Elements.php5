@@ -1,5 +1,4 @@
 <?php
-import( 'de.ceus-media.ui.html.FormElements' );
 /**
  *	Builds HTML Components.
  *
@@ -26,6 +25,7 @@ import( 'de.ceus-media.ui.html.FormElements' );
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		0.6
  */
+import( 'de.ceus-media.ui.html.FormElements' );
 /**
  *	Builds HTML Components.
  *	@package		ui.html

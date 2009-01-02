@@ -1,5 +1,4 @@
 <?php
-import( 'de.ceus-media.file.RegexFilter' );
 /**
  *	Class to find all Files with ToDos inside.
  *
@@ -27,6 +26,7 @@ import( 'de.ceus-media.file.RegexFilter' );
  *	@since			11.06.2008
  *	@version		0.1
  */
+import( 'de.ceus-media.file.RegexFilter' );
 /**
  *	Class to find all Files with ToDos inside.
  *	@package		file

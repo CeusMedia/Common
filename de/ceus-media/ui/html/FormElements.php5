@@ -1,5 +1,4 @@
 <?php
-import( 'de.ceus-media.ui.html.Tag' );
 /**
  *	Builder for HTML Form Components.
  *
@@ -26,6 +25,7 @@ import( 'de.ceus-media.ui.html.Tag' );
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		0.6
  */
+import( 'de.ceus-media.ui.html.Tag' );
 /**
  *	Builder for HTML Form Components.
  *	@package		ui.html

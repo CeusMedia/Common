@@ -1,4 +1,4 @@
-<?PHP
+<?php
 /**
  *	This is a Bar Visualization Class. 
  *	You shouldn´t use this class alone, but you can.

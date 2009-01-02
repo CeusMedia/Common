@@ -1,7 +1,4 @@
 <?php
-import( 'de.ceus-media.framework.neon.Model' );
-import( 'de.ceus-media.framework.neon.models.RightObject' );
-import( 'de.ceus-media.framework.neon.models.RightAction' );
 /**
  *	Data Model of Role Rights.
  *	@package		framework.neon.models
@@ -12,6 +9,9 @@ import( 'de.ceus-media.framework.neon.models.RightAction' );
  *	@since			20.01.2007
  *	@version		0.2
  */
+import( 'de.ceus-media.framework.neon.Model' );
+import( 'de.ceus-media.framework.neon.models.RightObject' );
+import( 'de.ceus-media.framework.neon.models.RightAction' );
 /**
  *	Data Model of Role ights.
  *	@package		framework.neon.models

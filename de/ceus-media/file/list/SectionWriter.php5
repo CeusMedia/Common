@@ -1,5 +1,4 @@
 <?php
-import ("de.ceus-media.file.Writer");
 /**
  *	Writer for Section List.
  *
@@ -26,6 +25,7 @@ import ("de.ceus-media.file.Writer");
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		0.6
  */
+import ("de.ceus-media.file.Writer");
 /**
  *	Writer for Section List.
  *	@package		file.list

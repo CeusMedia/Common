@@ -1,7 +1,4 @@
 <?php
-import( 'de.ceus-media.framework.neon.Model' );
-import( 'de.ceus-media.framework.neon.models.UserRole' );
-import( 'de.ceus-media.framework.neon.models.Role' );
 /**
  *	Data Model of Users.
  *	@package		framework.neon.models
@@ -12,6 +9,9 @@ import( 'de.ceus-media.framework.neon.models.Role' );
  *	@since			01.12.2005
  *	@version		0.6
  */
+import( 'de.ceus-media.framework.neon.Model' );
+import( 'de.ceus-media.framework.neon.models.UserRole' );
+import( 'de.ceus-media.framework.neon.models.Role' );
 /**
  *	Data Model of Users.
  *	@package		framework.neon.models

@@ -1,5 +1,4 @@
 <?php
-import( 'de.ceus-media.file.Reader' );
 /**
  *	Reader for Property Files or typical .ini Files with Key, Values and optional Sections and Comments.
  *
@@ -27,6 +26,7 @@ import( 'de.ceus-media.file.Reader' );
  *	@since			01.01.2001
  *	@version		0.6
  */
+import( 'de.ceus-media.file.Reader' );
 /**
  *	Reader for Property Files or typical .ini Files with Key, Values and optional Sections and Comments.
  *	@package		file.ini

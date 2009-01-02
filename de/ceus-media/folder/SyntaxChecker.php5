@@ -1,8 +1,4 @@
 <?php
-import( 'de.ceus-media.file.SyntaxChecker' );
-import( 'de.ceus-media.folder.RecursiveRegexFilter' );
-import( 'de.ceus-media.ui.DevOutput' );
-import( 'de.ceus-media.Stopwatch' );
 /**
  *	Checks Syntax of all PHP Classes and Scripts within a Folder.
  *
@@ -33,6 +29,10 @@ import( 'de.ceus-media.Stopwatch' );
  *	@since			12.05.2008
  *	@version		0.1
  */
+import( 'de.ceus-media.file.SyntaxChecker' );
+import( 'de.ceus-media.folder.RecursiveRegexFilter' );
+import( 'de.ceus-media.ui.DevOutput' );
+import( 'de.ceus-media.Stopwatch' );
 /**
  *	Checks Syntax of all PHP Classes and Scripts within a Folder.
  *	@package		folder

@@ -1,5 +1,4 @@
 <?php
-import( 'de.ceus-media.adt.graph.DirectedWeightedGraph' );
 /**
  *	Directed Acyclic Graph.
  *
@@ -26,6 +25,7 @@ import( 'de.ceus-media.adt.graph.DirectedWeightedGraph' );
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		0.3
  */
+import( 'de.ceus-media.adt.graph.DirectedWeightedGraph' );
 /**
  *	Directed Acyclic Graph.
  *	@package		adt.graph

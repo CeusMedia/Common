@@ -1,6 +1,4 @@
 <?php
-import( 'de.ceus-media.framework.krypton.exception.IO' );
-import( 'de.ceus-media.exception.Template' );
 /**
  *	Template Class.
  *
@@ -29,6 +27,8 @@ import( 'de.ceus-media.exception.Template' );
  *	@since			03.03.2007
  *	@version		0.6
  */
+import( 'de.ceus-media.framework.krypton.exception.IO' );
+import( 'de.ceus-media.exception.Template' );
 /**
  *	Template Class.
  *	@package		framework.krypton.core

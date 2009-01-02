@@ -1,6 +1,4 @@
 <?php
-import( 'de.ceus-media.xml.dom.ObjectDeserializer' );
-import( 'de.ceus-media.file.Reader' );
 /**
  *	Deserializer for a XML File into a Data Object.
  *
@@ -29,6 +27,8 @@ import( 'de.ceus-media.file.Reader' );
  *	@since			26.12.2005
  *	@version		0.6
  */
+import( 'de.ceus-media.xml.dom.ObjectDeserializer' );
+import( 'de.ceus-media.file.Reader' );
 /**
  *	Deserializer for a XML File into a Data Object.
  *	@package		xml.dom

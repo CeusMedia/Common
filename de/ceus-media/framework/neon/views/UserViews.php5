@@ -1,12 +1,4 @@
 <?php
-import( 'de.ceus-media.framework.neon.DefinitionView' );
-import( 'de.ceus-media.database.StatementBuilder' );
-import( 'de.ceus-media.framework.neon.models.UserStatements' );
-import( 'de.ceus-media.framework.neon.models.User' );
-import( 'de.ceus-media.framework.neon.models.Role' );
-import( 'de.ceus-media.framework.neon.models.RightObject' );
-import( 'de.ceus-media.framework.neon.models.RightAction' );
-import( 'de.ceus-media.framework.neon.models.RightObjectAction' );
 /**
  *	...
  *	@package		framework.neon.views
@@ -22,6 +14,14 @@ import( 'de.ceus-media.framework.neon.models.RightObjectAction' );
  *	@since			20.01.2007
  *	@version		0.2
  */
+import( 'de.ceus-media.framework.neon.DefinitionView' );
+import( 'de.ceus-media.database.StatementBuilder' );
+import( 'de.ceus-media.framework.neon.models.UserStatements' );
+import( 'de.ceus-media.framework.neon.models.User' );
+import( 'de.ceus-media.framework.neon.models.Role' );
+import( 'de.ceus-media.framework.neon.models.RightObject' );
+import( 'de.ceus-media.framework.neon.models.RightAction' );
+import( 'de.ceus-media.framework.neon.models.RightObjectAction' );
 /**
  *	...
  *	@package		framework.neon.views

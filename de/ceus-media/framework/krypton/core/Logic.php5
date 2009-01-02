@@ -1,5 +1,4 @@
 <?php
-import( 'de.ceus-media.framework.krypton.core.Registry' );
 /**
  *	Logic Base Class with Validation
  *
@@ -31,6 +30,7 @@ import( 'de.ceus-media.framework.krypton.core.Registry' );
  *	@since			21.02.2007
  *	@version		0.6
  */
+import( 'de.ceus-media.framework.krypton.core.Registry' );
 /**
  *	Logic Base Class with Validation
  *	@package		framework.krypton.core

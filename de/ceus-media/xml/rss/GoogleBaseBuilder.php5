@@ -1,5 +1,4 @@
 <?php
-import( 'de.ceus-media.xml.rss.Builder' );
 /**
  *	Builds RSS for Google Base - Froogle.
  *
@@ -27,6 +26,7 @@ import( 'de.ceus-media.xml.rss.Builder' );
  *	@since			19.02.02008
  *	@version		0.1
  */
+import( 'de.ceus-media.xml.rss.Builder' );
 /**
  *	Builds RSS for Google Base - Froogle.
  *	@package		xml.rss
@@ -64,6 +64,11 @@ class XML_RSS_GoogleBaseBuilder extends XML_RSS_Builder
 	/**	@var		string		$namespaceUri		URI of Google Base Namespace */
 	public static $namespaceUri	= "http://base.google.com/ns/1.0";
 
+	/**
+	 *	Constructor.
+	 *	@access		public
+	 *	@return		void
+	 */
 	public function __construct()
 	{
 		parent::__construct();

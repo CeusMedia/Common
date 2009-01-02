@@ -1,6 +1,4 @@
 <?php
-import( 'de.ceus-media.framework.neon.Model' );
-import( 'de.ceus-media.framework.neon.models.RoleRight' );
 /**
  *	Data Model of Roles.
  *	@package		framework.neon.models
@@ -10,6 +8,8 @@ import( 'de.ceus-media.framework.neon.models.RoleRight' );
  *	@since			20.01.2007
  *	@version		0.2
  */
+import( 'de.ceus-media.framework.neon.Model' );
+import( 'de.ceus-media.framework.neon.models.RoleRight' );
 /**
  *	Data Model of Roles.
  *	@package		framework.neon.models

@@ -1,5 +1,4 @@
 <?php
-import( 'com.google.code.xmpphp.xmpp' );
 /**
  *	Sender for Messages via Jabber.
  *
@@ -27,6 +26,7 @@ import( 'com.google.code.xmpphp.xmpp' );
  *	@since			25.04.2008
  *	@version		0.6
  */
+import( 'com.google.code.xmpphp.xmpp' );
 /**
  *	Sender for Messages via Jabber.
  *	@package		net.jabber

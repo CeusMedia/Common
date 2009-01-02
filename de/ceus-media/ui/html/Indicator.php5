@@ -1,6 +1,4 @@
 <?php
-import( 'de.ceus-media.adt.OptionObject' );
-import( 'de.ceus-media.ui.html.Tag' );
 /**
  *	Builds HTML of Bar Indicator.
  *
@@ -28,6 +26,8 @@ import( 'de.ceus-media.ui.html.Tag' );
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		0.6
  */
+import( 'de.ceus-media.adt.OptionObject' );
+import( 'de.ceus-media.ui.html.Tag' );
 /**
  *	Builds HTML of Bar Indicator.
  *	@package		ui.html

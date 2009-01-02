@@ -1,6 +1,4 @@
 <?php
-import( 'de.ceus-media.adt.list.Dictionary' );
-import( 'de.ceus-media.console.RequestReceiver' );
 /**
  *	Argument Parser for Console Applications.
  *
@@ -29,6 +27,8 @@ import( 'de.ceus-media.console.RequestReceiver' );
  *	@since			11.01.2006
  *	@version		0.6
  */
+import( 'de.ceus-media.adt.list.Dictionary' );
+import( 'de.ceus-media.console.RequestReceiver' );
 /**
  *	Argument Parser for Console Applications.
  *	@package		console

@@ -1,5 +1,4 @@
 <?php
-import  ("de.ceus-media.math.analysis.Sequence");
 /**
  *	Progression within a compact Interval.
  *
@@ -27,6 +26,7 @@ import  ("de.ceus-media.math.analysis.Sequence");
  *	@since			09.05.2006
  *	@version		0.5
  */
+import( 'de.ceus-media.math.analysis.Sequence' );
 /**
  *	Progression within a compact Interval.
  *	@package		math.analysis

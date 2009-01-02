@@ -1,5 +1,4 @@
 <?php
-import( 'de.ceus-media.xml.Element' );
 /**
  *	Reader for XML Elements from File or URL.
  *
@@ -29,6 +28,7 @@ import( 'de.ceus-media.xml.Element' );
  *	@since			20.02.2008
  *	@version		0.6
  */
+import( 'de.ceus-media.xml.Element' );
 /**
  *	Reader for XML Elements from File or URL.
  *	@package		xml

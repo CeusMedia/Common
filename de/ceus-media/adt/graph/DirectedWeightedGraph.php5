@@ -1,7 +1,4 @@
 <?php
-import( 'de.ceus-media.adt.graph.WeightedGraph' );
-import( 'de.ceus-media.adt.list.Stack' );
-//import( "de.ceus-media.adt.matrix.AssocFileMatrix");
 /**
  *	DirectedGraph.
  *
@@ -28,6 +25,9 @@ import( 'de.ceus-media.adt.list.Stack' );
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		0.1
  */
+import( 'de.ceus-media.adt.graph.WeightedGraph' );
+import( 'de.ceus-media.adt.list.Stack' );
+//import( "de.ceus-media.adt.matrix.AssocFileMatrix");
 /**
  *	DirectedGraph.
  *	@package		adt.graph

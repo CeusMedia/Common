@@ -1,6 +1,4 @@
 <?php
-import( 'de.ceus-media.net.site.MapBuilder' );
-import( 'de.ceus-media.file.Writer' );
 /**
  *	Google Sitemap XML Writer.
  *
@@ -29,6 +27,8 @@ import( 'de.ceus-media.file.Writer' );
  *	@since			10.12.2006
  *	@version		0.2
  */
+import( 'de.ceus-media.net.site.MapBuilder' );
+import( 'de.ceus-media.file.Writer' );
 /**
  *	Google Sitemap XML Writer.
  *	@package		net.site

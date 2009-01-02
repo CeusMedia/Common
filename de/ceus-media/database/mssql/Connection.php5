@@ -1,7 +1,4 @@
 <?php
-import( 'de.ceus-media.database.BaseConnection' );
-import( 'de.ceus-media.database.Result' );
-import( 'de.ceus-media.database.Row' );
 /**
  *	Wrapper for MS SQL Database Connection with Transaction Support.
  *
@@ -30,6 +27,9 @@ import( 'de.ceus-media.database.Row' );
  *	@link			http://code.google.com/p/cmclasses/
  *	@version 		0.6
  */
+import( 'de.ceus-media.database.BaseConnection' );
+import( 'de.ceus-media.database.Result' );
+import( 'de.ceus-media.database.Row' );
 /**
  *	Wrapper for MS SQL Database Connection with Transaction Support.
  *	@package		database.mssql

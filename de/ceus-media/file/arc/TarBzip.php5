@@ -1,6 +1,4 @@
 <?php
-import( 'de.ceus-media.file.arc.Tar' );
-import( 'de.ceus-media.file.arc.Bzip' );
 /**
  *	Tar Bzip File allows creation and manipulation of bzipped tar archives.
  *
@@ -28,6 +26,8 @@ import( 'de.ceus-media.file.arc.Bzip' );
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		0.5
  */
+import( 'de.ceus-media.file.arc.Tar' );
+import( 'de.ceus-media.file.arc.Bzip' );
 /**
  *	Tar Bzip File allows creation and manipulation of bzipped tar archives.
  *	@package		file.arc

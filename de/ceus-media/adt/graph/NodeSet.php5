@@ -1,5 +1,4 @@
 <?php
-import( "de.ceus-media.adt.graph.Node");
 /**
  *	NodeSet to store and manipulate nodes in a graph.
  *
@@ -27,6 +26,7 @@ import( "de.ceus-media.adt.graph.Node");
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		0.2
  */
+import( "de.ceus-media.adt.graph.Node");
 /**
  *	NodeSet to store and manipulate nodes in a graph.
  *	@package		adt

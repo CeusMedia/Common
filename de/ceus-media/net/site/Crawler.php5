@@ -1,9 +1,4 @@
 <?php
-import( 'de.ceus-media.StopWatch' );
-import( 'de.ceus-media.net.Reader' );
-import( 'de.ceus-media.adt.list.Dictionary' );
-import( 'de.ceus-media.adt.StringBuffer' );
-import( 'de.ceus-media.alg.UnitFormater' );
 /**
  *	Crawls and counts all internal Links of an URL.
  *
@@ -32,6 +27,11 @@ import( 'de.ceus-media.alg.UnitFormater' );
  *	@since			10.12.2006
  *	@version		0.2
  */
+import( 'de.ceus-media.StopWatch' );
+import( 'de.ceus-media.net.Reader' );
+import( 'de.ceus-media.adt.list.Dictionary' );
+import( 'de.ceus-media.adt.StringBuffer' );
+import( 'de.ceus-media.alg.UnitFormater' );
 /**
  *	Crawls and counts all internal Links of an URL.
  *	@package		net.site

@@ -1,5 +1,4 @@
 <?php
-import( 'de.ceus-media.adt.OptionObject' );
 /**
  *	Generator for Evolution Graph Images.
  *
@@ -27,6 +26,7 @@ import( 'de.ceus-media.adt.OptionObject' );
  *	@since			13.09.2006
  *	@version		0.5
  */
+import( 'de.ceus-media.adt.OptionObject' );
 /**
  *	Generator for Evolution Graph Images.
  *	@package		ui.image

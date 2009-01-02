@@ -1,5 +1,4 @@
 <?php
-import( 'de.ceus-media.file.log.LogFile' );
 /**
  *	Reader for Log File.
  *
@@ -26,6 +25,7 @@ import( 'de.ceus-media.file.log.LogFile' );
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		0.5
  */
+import( 'de.ceus-media.file.log.LogFile' );
 /**
  *	Reader for Log File.
  *	@package		file.log

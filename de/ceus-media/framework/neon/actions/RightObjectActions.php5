@@ -1,7 +1,4 @@
 <?php
-import( 'de.ceus-media.framework.neon.DefinitionAction' );
-import( 'de.ceus-media.framework.neon.models.RightObject' );
-import( 'de.ceus-media.framework.neon.models.RightObjectAction' );
 /**
  *	Actions for Right Objects.
  *	@package		framework.neon.actions
@@ -12,6 +9,9 @@ import( 'de.ceus-media.framework.neon.models.RightObjectAction' );
  *	@since			20.01.2007
  *	@version		0.2
  */
+import( 'de.ceus-media.framework.neon.DefinitionAction' );
+import( 'de.ceus-media.framework.neon.models.RightObject' );
+import( 'de.ceus-media.framework.neon.models.RightObjectAction' );
 /**
  *	Actions for Right Objects.
  *	@package		framework.neon.actions

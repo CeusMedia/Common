@@ -1,9 +1,4 @@
 <?php
-import( 'de.ceus-media.adt.graph.NodeSet' );
-import( 'de.ceus-media.adt.graph.EdgeSet' );
-import( 'de.ceus-media.adt.list.Queue' );
-import( 'de.ceus-media.adt.list.Stack' );
-//import( "de.ceus-media.adt.matrix.AssocFileMatrix");
 /**
  *	Graph.
  *
@@ -32,6 +27,11 @@ import( 'de.ceus-media.adt.list.Stack' );
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		0.2
  */
+import( 'de.ceus-media.adt.graph.NodeSet' );
+import( 'de.ceus-media.adt.graph.EdgeSet' );
+import( 'de.ceus-media.adt.list.Queue' );
+import( 'de.ceus-media.adt.list.Stack' );
+//import( "de.ceus-media.adt.matrix.AssocFileMatrix");
 /**
  *	Graph.
  *	@package		adt.graph

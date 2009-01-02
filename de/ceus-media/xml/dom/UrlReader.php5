@@ -1,6 +1,4 @@
 <?php
-import( 'de.ceus-media.xml.dom.Parser' );
-import( 'de.ceus-media.net.Reader' );
 /**
  *	Loads XML from an URL and parses to a Tree of XML_DOM_Nodes.
  *
@@ -29,6 +27,8 @@ import( 'de.ceus-media.net.Reader' );
  *	@since			15.04.2008
  *	@version		0.6
  */
+import( 'de.ceus-media.xml.dom.Parser' );
+import( 'de.ceus-media.net.Reader' );
 /**
  *	Loads XML from an URL and parses to a Tree of XML_DOM_Nodes.
  *	@package		xml.dom

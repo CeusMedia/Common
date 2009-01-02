@@ -1,6 +1,4 @@
 <?php
-import( 'de.ceus-media.ui.html.Elements' );
-import( 'de.ceus-media.alg.TimeConverter' );
 /**
  *	Abstract View Class of Framework Hydrogen.
  *
@@ -29,6 +27,8 @@ import( 'de.ceus-media.alg.TimeConverter' );
  *	@since			01.09.2006
  *	@version		0.1
  */
+import( 'de.ceus-media.ui.html.Elements' );
+import( 'de.ceus-media.alg.TimeConverter' );
 /**
  *	Abstract View Class of Framework Hydrogen.
  *	@package		framework.hydrogen

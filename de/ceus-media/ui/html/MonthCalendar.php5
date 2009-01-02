@@ -1,6 +1,4 @@
 <?php
-import( 'de.ceus-media.adt.OptionObject' );
-import( 'de.ceus-media.ui.html.Elements' );
 /**
  *	Calendar with Month View.
  *
@@ -29,6 +27,8 @@ import( 'de.ceus-media.ui.html.Elements' );
  *	@since			14.03.2006
  *	@version		0.6
  */
+import( 'de.ceus-media.adt.OptionObject' );
+import( 'de.ceus-media.ui.html.Elements' );
 /**
  *	Calendar with Month View.
  *	@package		ui.html

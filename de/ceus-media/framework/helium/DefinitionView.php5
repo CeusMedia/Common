@@ -1,6 +1,4 @@
 <?php
-import( 'de.ceus-media.framework.helium.View' );
-import( 'de.ceus-media.file.log.Writer' );
 /**
  *	Generic Definition View with Language Support.
  *
@@ -28,6 +26,8 @@ import( 'de.ceus-media.file.log.Writer' );
  *	@since			18.06.2006
  *	@version		0.1
  */
+import( 'de.ceus-media.framework.helium.View' );
+import( 'de.ceus-media.file.log.Writer' );
 /**
  *	Generic Definition View with References.
  *	@package		framework.helium

@@ -1,5 +1,4 @@
 <?php
-import( 'de.ceus-media.xml.dom.Node' );
 /**
  *	XML Node for OPML Outlines.
  *
@@ -27,6 +26,7 @@ import( 'de.ceus-media.xml.dom.Node' );
  *	@since			01.02.2006
  *	@version		0.6
  */
+import( 'de.ceus-media.xml.dom.Node' );
 /**
  *	XML Node for OPML Outlines.
  *	@package		xml.opml

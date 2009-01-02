@@ -1,5 +1,4 @@
 <?php
-import( 'de.ceus-media.framework.krypton.Base' );
 /**
  *	Handler for static Error Pages.
  *
@@ -28,6 +27,7 @@ import( 'de.ceus-media.framework.krypton.Base' );
  *	@since			28.03.2008
  *	@version		0.1
  */
+import( 'de.ceus-media.framework.krypton.Base' );
 /**
  *	Handler for static Error Pages.
  *	@package		framework.krypton

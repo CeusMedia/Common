@@ -1,5 +1,4 @@
 <?php
-import ("de.ceus-media.net.cURL");
 /**
  *	Connects Server to request Atom Time.
  *
@@ -27,6 +26,7 @@ import ("de.ceus-media.net.cURL");
  *	@since			13.07.2005
  *	@version		0.6
  */
+import ("de.ceus-media.net.cURL");
 /**
  *	Connects Server to request Atom Time.
  *	@package		net

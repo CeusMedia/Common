@@ -1,5 +1,4 @@
 <?php
-import( 'de.ceus-media.file.Reader' );
 /**
  *	Reader for Log File.
  *
@@ -27,6 +26,7 @@ import( 'de.ceus-media.file.Reader' );
  *	@since			28.11.2007
  *	@version		0.6
  */
+import( 'de.ceus-media.file.Reader' );
 /**
  *	Reader for Log File.
  *	@package		file.log

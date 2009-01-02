@@ -1,5 +1,4 @@
 <?php
-import ("de.ceus-media.ui.DevOutput");
 /**
  *	Convertion between roman and arabic number system.
  *
@@ -26,6 +25,7 @@ import ("de.ceus-media.ui.DevOutput");
  *	@since			22.06.2005
  *	@version		0.6
  */
+import ("de.ceus-media.ui.DevOutput");
 /**
  *	Convertion between roman and arabic number system.
  *	@package		math

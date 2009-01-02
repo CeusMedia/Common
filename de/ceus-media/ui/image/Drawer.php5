@@ -1,5 +1,4 @@
 <?php
-import( 'de.ceus-media.ui.image.Printer' );
 /**
  *	Basic Image Creation.
  *
@@ -26,6 +25,7 @@ import( 'de.ceus-media.ui.image.Printer' );
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		0.1
  */
+import( 'de.ceus-media.ui.image.Printer' );
 /**
  *	Basic Image Creation.
  *	@package		ui.image

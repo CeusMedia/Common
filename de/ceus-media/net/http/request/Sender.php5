@@ -1,5 +1,4 @@
 <?php
-import( 'de.ceus-media.net.http.request.Header' );
 /**
  *	Request for HTTP Protocol.
  *
@@ -26,6 +25,7 @@ import( 'de.ceus-media.net.http.request.Header' );
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		0.6
  */
+import( 'de.ceus-media.net.http.request.Header' );
 /**
  *	Request for HTTP Protocol.
  *	@package		net.http.request

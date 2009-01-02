@@ -1,6 +1,4 @@
 <?php
-import( 'de.ceus-media.file.Reader' );
-import( 'de.ceus-media.xml.opml.Parser' );
 /**
  *	@package		xml.opml
  *
@@ -27,6 +25,8 @@ import( 'de.ceus-media.xml.opml.Parser' );
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		0.6
  */
+import( 'de.ceus-media.file.Reader' );
+import( 'de.ceus-media.xml.opml.Parser' );
 /**
  *	@package		xml.opml
  *	@uses			XML_OPML_Parser

@@ -1,6 +1,4 @@
 <?php
-import( 'de.ceus-media.file.log.Writer' );
-import( 'de.ceus-media.StopWatch' );
 /**
  *	Compresses and sends HTTP Output.
  *
@@ -28,6 +26,8 @@ import( 'de.ceus-media.StopWatch' );
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		0.6
  */
+import( 'de.ceus-media.file.log.Writer' );
+import( 'de.ceus-media.StopWatch' );
 /**
  *	Compresses and sends HTTP Output.
  *	@package		net.http

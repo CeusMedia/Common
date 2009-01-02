@@ -1,5 +1,4 @@
 <?php
-import( 'de.ceus-media.framework.neon.View' );
 /**
  *	View of static Contents.
  *	@package		framework.neon.views
@@ -8,6 +7,7 @@ import( 'de.ceus-media.framework.neon.View' );
  *	@since			15.10.2006
  *	@version		0.2
  */
+import( 'de.ceus-media.framework.neon.View' );
 /**
  *	View of static Contents.
  *	@package		framework.neon.views

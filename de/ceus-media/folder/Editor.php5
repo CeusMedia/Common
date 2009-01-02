@@ -1,5 +1,4 @@
 <?php
-import( 'de.ceus-media.folder.Reader' );
 /**
  *	Editor for Folders.
  *	All Methods to create, copy, move or remove a Folder are working recursive.
@@ -31,6 +30,7 @@ import( 'de.ceus-media.folder.Reader' );
  *	@since			15.04.2008
  *	@version		0.6
  */
+import( 'de.ceus-media.folder.Reader' );
 /**
  *	Editor for Folders.
  *	All Methods to create, copy, move or remove a Folder are working recursive.

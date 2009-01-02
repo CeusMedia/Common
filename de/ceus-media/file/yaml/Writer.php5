@@ -1,6 +1,4 @@
 <?php
-import( 'de.ceus-media.file.Writer' );
-import( 'net.sourceforge.spyc.Spyc' );
 /**
  *	YAML Writer based on Spyc.
  *
@@ -29,6 +27,8 @@ import( 'net.sourceforge.spyc.Spyc' );
  *	@since			18.06.2007
  *	@version		0.6
  */
+import( 'de.ceus-media.file.Writer' );
+import( 'net.sourceforge.spyc.Spyc' );
 /**
  *	YAML Writer based on Spyc.
  *	@package		file.yaml

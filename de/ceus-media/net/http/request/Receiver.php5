@@ -1,5 +1,4 @@
 <?php
-import( 'de.ceus-media.adt.list.Dictionary' );
 /**
  *	Collects and Manages Request Data.
  *
@@ -27,6 +26,7 @@ import( 'de.ceus-media.adt.list.Dictionary' );
  *	@since			27.03.2006
  *	@version		0.6
  */
+import( 'de.ceus-media.adt.list.Dictionary' );
 /**
  *	Collects and Manages Request Data.
  *	@package		net.http.request

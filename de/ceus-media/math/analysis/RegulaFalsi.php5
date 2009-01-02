@@ -1,6 +1,4 @@
 <?php
-import( 'de.ceus-media.math.Formula' );
-import( 'de.ceus-media.math.CompactInterval' );
 /**
  *	RegulaFalsi Interpolation within a compact Interval.
  *
@@ -29,6 +27,8 @@ import( 'de.ceus-media.math.CompactInterval' );
  *	@since			03.02.2006
  *	@version		0.6
  */
+import( 'de.ceus-media.math.Formula' );
+import( 'de.ceus-media.math.CompactInterval' );
 /**
  *	RegulaFalsi Interpolation within a compact Interval.
  *	@package		math.analysis

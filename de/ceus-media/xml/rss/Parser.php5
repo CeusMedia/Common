@@ -1,5 +1,4 @@
 <?php
-import( 'de.ceus-media.xml.dom.XPathQuery' );
 /**
  *	Parser for RSS 2 Feed using XPath.
  *
@@ -28,6 +27,7 @@ import( 'de.ceus-media.xml.dom.XPathQuery' );
  *	@version		0.1
  *	@see			http://blogs.law.harvard.edu/tech/rss
  */
+import( 'de.ceus-media.xml.dom.XPathQuery' );
 /**
  *	Parser for RSS 2 Feed using XPath.
  *	@package		xml.rss
