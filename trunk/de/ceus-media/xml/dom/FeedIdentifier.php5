@@ -1,6 +1,4 @@
 <?php
-import( 'de.ceus-media.file.Reader' );
-import( 'de.ceus-media.xml.dom.Parser' );
 /**
  *	Identifies Type and Version of RSS and ATOM Feeds.
  *
@@ -29,6 +27,8 @@ import( 'de.ceus-media.xml.dom.Parser' );
  *	@since			24.01.2006
  *	@version		0.6
  */
+import( 'de.ceus-media.file.Reader' );
+import( 'de.ceus-media.xml.dom.Parser' );
 /**
  *	Identifies Type and Version of RSS and ATOM Feeds.
  *	@package		xml.dom

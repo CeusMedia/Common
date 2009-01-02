@@ -1,7 +1,4 @@
 <?php
-import( 'de.ceus-media.framework.helium.Action' );
-import( 'de.ceus-media.alg.validation.Predicates' );
-import( 'de.ceus-media.alg.validation.DefinitionValidator' );
 /**
  *	Generic Definition Action Handler.
  *
@@ -31,6 +28,9 @@ import( 'de.ceus-media.alg.validation.DefinitionValidator' );
  *	@since			18.06.2006
  *	@version		0.5
  */
+import( 'de.ceus-media.framework.helium.Action' );
+import( 'de.ceus-media.alg.validation.Predicates' );
+import( 'de.ceus-media.alg.validation.DefinitionValidator' );
 /**
  *	Generic Definition Action Handler.
  *	@package		framework.helium

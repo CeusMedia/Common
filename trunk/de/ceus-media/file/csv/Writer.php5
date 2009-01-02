@@ -1,5 +1,4 @@
 <?php
-import ("de.ceus-media.file.csv.csvReader");
 /**
  *	Writing comma separatad values (CSV) data with or without column headers to File. 
  *
@@ -26,6 +25,7 @@ import ("de.ceus-media.file.csv.csvReader");
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		0.6
  */
+import ("de.ceus-media.file.csv.csvReader");
 /**
  *	Writing comma separatad values (CSV) data with or without column headers to File. 
  *	@package		file.csv

@@ -1,5 +1,4 @@
 <?php
-import ("de.ceus-media.adt.tree.BalanceBinaryNode");
 /**
  *	AVL Tree.
  *
@@ -26,6 +25,7 @@ import ("de.ceus-media.adt.tree.BalanceBinaryNode");
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		0.6
  */
+import ("de.ceus-media.adt.tree.BalanceBinaryNode");
 /**
  *	AVL Tree.
  *	@package		adt.tree

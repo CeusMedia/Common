@@ -1,6 +1,4 @@
 <?php
-import( 'de.ceus-media.database.pdo.TableWriter' );
-import( 'de.ceus-media.framework.krypton.core.Registry' );
 /**
  *	Abstract Model for Database Structures.
  *
@@ -29,6 +27,8 @@ import( 'de.ceus-media.framework.krypton.core.Registry' );
  *	@since			19.02.2007
  *	@version		0.6
  */
+import( 'de.ceus-media.database.pdo.TableWriter' );
+import( 'de.ceus-media.framework.krypton.core.Registry' );
 /**
  *	Abstract Model for Database Structures.
  *	@package		framework.krypton.core

@@ -1,5 +1,4 @@
 <?php
-import( 'de.ceus-media.file.Reader' );
 /**
  *	Reading comma separated values with or without column headers.
  *
@@ -26,6 +25,7 @@ import( 'de.ceus-media.file.Reader' );
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		0.6
  */
+import( 'de.ceus-media.file.Reader' );
 import( 'de.ceus-media.alg.StringUnicoder' );
 /**
  *	Reading comma separated values with or without column headers.

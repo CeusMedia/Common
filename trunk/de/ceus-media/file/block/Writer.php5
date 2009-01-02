@@ -1,5 +1,4 @@
 <?php
-import( 'de.ceus-media.file.Writer' );
 /**
  *	Writer for Files with Text Block Contents, named by Section.
  *
@@ -27,6 +26,7 @@ import( 'de.ceus-media.file.Writer' );
  *	@since			19.12.2006
  *	@version		0.6
  */
+import( 'de.ceus-media.file.Writer' );
 /**
  *	Writer for Files with Text Block Contents, named by Section.
  *	@package		file.block

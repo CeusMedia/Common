@@ -1,5 +1,4 @@
 <?php
-import( 'de.ceus-media.database.TableReader' );
 /**
  *	TableWriter.
  *
@@ -26,6 +25,7 @@ import( 'de.ceus-media.database.TableReader' );
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		0.6
  */
+import( 'de.ceus-media.database.TableReader' );
 /**
  *	TableWriter.
  *	@package		database

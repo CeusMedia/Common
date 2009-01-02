@@ -1,9 +1,4 @@
 <?php
-import( 'de.ceus-media.framework.krypton.core.Registry' );
-import( 'de.ceus-media.framework.krypton.core.Template' );
-import( 'de.ceus-media.file.Reader' );
-import( 'de.ceus-media.ui.html.Elements' );
-import( 'de.ceus-media.alg.TimeConverter' );
 /**
  *	Abstract Basic Component for Actions and Views.
  *
@@ -38,6 +33,11 @@ import( 'de.ceus-media.alg.TimeConverter' );
  *	@since			01.12.2005
  *	@version		0.6
  */
+import( 'de.ceus-media.framework.krypton.core.Registry' );
+import( 'de.ceus-media.framework.krypton.core.Template' );
+import( 'de.ceus-media.file.Reader' );
+import( 'de.ceus-media.ui.html.Elements' );
+import( 'de.ceus-media.alg.TimeConverter' );
 /**
  *	Generic View with Language Support.
  *	@package		framework.krypton.core

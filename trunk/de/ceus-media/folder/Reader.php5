@@ -1,5 +1,4 @@
 <?php
-import( 'de.ceus-media.alg.UnitFormater' );
 /**
  *	Reader for Folders.
  *
@@ -28,6 +27,7 @@ import( 'de.ceus-media.alg.UnitFormater' );
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		0.6
  */
+import( 'de.ceus-media.alg.UnitFormater' );
 /**
  *	Reader for Folders.
  *	@package		folder

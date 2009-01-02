@@ -1,7 +1,4 @@
 <?php
-import( 'de.ceus-media.adt.OptionObject' );
-import( 'de.ceus-media.adt.Reference' );
-import( 'de.ceus-media.alg.TimeConverter' );
 /**
  *	Message Output Handler within a Session.
  *	@package		framework.neon
@@ -12,6 +9,9 @@ import( 'de.ceus-media.alg.TimeConverter' );
  *	@since			01.12.2005
  *	@version		0.2
  */
+import( 'de.ceus-media.adt.OptionObject' );
+import( 'de.ceus-media.adt.Reference' );
+import( 'de.ceus-media.alg.TimeConverter' );
 /**
  *	Message Output Handler within a Session.
  *	@package		framework.neon

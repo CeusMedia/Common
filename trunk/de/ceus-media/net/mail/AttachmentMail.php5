@@ -1,7 +1,6 @@
 <?php
-import( 'de.ceus-media.net.mail.PlainMail' );
 /**
- *	Sends Mails.
+ *	Sends Mails with Attachment.
  *
  *	Copyright (c) 2008 Christian Würker (ceus-media.de)
  *
@@ -27,8 +26,9 @@ import( 'de.ceus-media.net.mail.PlainMail' );
  *	@since			01.01.2008
  *	@version		0.2
  */
+import( 'de.ceus-media.net.mail.PlainMail' );
 /**
- *	Sends Mails.
+ *	Sends Mails with Attachment.
  *	@package		net.mail
  *	@extends		Net_Mail_PlainMail
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>

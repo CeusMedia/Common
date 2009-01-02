@@ -1,5 +1,4 @@
 <?php
-import( 'de.ceus-media.file.Reader' );
 /**
  *	Reader for Files with Text Block Contents, named by Section.
  *
@@ -27,6 +26,7 @@ import( 'de.ceus-media.file.Reader' );
  *	@since			19.12.2006
  *	@version		0.1
  */
+import( 'de.ceus-media.file.Reader' );
 /**
  *	Reader for Files with Text Block Contents, named by Section.
  *	@package		file.block

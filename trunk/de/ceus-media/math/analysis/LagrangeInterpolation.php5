@@ -1,5 +1,4 @@
 <?php
-import( 'de.ceus-media.math.Formula' );
 /**
  *	Lagrange Interpolation.
  *
@@ -27,6 +26,7 @@ import( 'de.ceus-media.math.Formula' );
  *	@since			03.02.2006
  *	@version		0.6
  */
+import( 'de.ceus-media.math.Formula' );
 /**
  *	Lagrange Interpolation.
  *	@package		math.analysis

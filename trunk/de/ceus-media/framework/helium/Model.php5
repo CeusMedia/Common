@@ -1,6 +1,4 @@
 <?php
-import( 'de.ceus-media.database.TableWriter' );
-import( 'de.ceus-media.adt.Reference' );
 /**
  *	Generic Model for Database Structures.
  *
@@ -29,6 +27,8 @@ import( 'de.ceus-media.adt.Reference' );
  *	@since			01.11.2005
  *	@version		0.6
  */
+import( 'de.ceus-media.database.TableWriter' );
+import( 'de.ceus-media.adt.Reference' );
 /**
  *	Generic Model for Database Structures.
  *	@package		framework.helium

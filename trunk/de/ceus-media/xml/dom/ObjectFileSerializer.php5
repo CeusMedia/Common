@@ -1,6 +1,4 @@
 <?php
-import( 'de.ceus-media.xml.dom.ObjectSerializer' );
-import( 'de.ceus-media.file.Writer' );
 /**
  *	Serializer for Data Object into a XML File.
  *
@@ -29,6 +27,8 @@ import( 'de.ceus-media.file.Writer' );
  *	@since			26.12.2005
  *	@version		0.6
  */
+import( 'de.ceus-media.xml.dom.ObjectSerializer' );
+import( 'de.ceus-media.file.Writer' );
 /**
  *	Serializer for Data Object into a XML File.
  *	@package		xml.dom

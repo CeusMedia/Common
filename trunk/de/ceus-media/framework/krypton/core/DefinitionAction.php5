@@ -1,5 +1,4 @@
 <?php
-import( 'de.ceus-media.framework.krypton.core.Action' );
 /**
  *	Generic Definition Action Handler.
  *
@@ -27,6 +26,7 @@ import( 'de.ceus-media.framework.krypton.core.Action' );
  *	@since			18.06.2006
  *	@version		0.6
  */
+import( 'de.ceus-media.framework.krypton.core.Action' );
 /**
  *	Generic Definition Action Handler.
  *	@package		framework.krypton.core

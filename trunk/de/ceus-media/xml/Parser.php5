@@ -25,6 +25,7 @@
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		0.6
  */
+import( 'de.ceus-media.xml.dom.Node' );
 /**
  *	Parses XML String and returns Array or Object Structure.
  *	@package		xml

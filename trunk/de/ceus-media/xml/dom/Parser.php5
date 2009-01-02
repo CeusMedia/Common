@@ -1,8 +1,4 @@
 <?php
-import( 'de.ceus-media.xml.dom.Node' );
-import( 'de.ceus-media.xml.dom.SyntaxValidator' );
-import( 'de.ceus-media.adt.OptionObject' );
-import( 'de.ceus-media.ui.DevOutput' );
 /**
  *	Parses a XML Document to a Tree of XML_DOM_Nodes.
  *
@@ -31,6 +27,10 @@ import( 'de.ceus-media.ui.DevOutput' );
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		0.6
  */
+import( 'de.ceus-media.xml.dom.Node' );
+import( 'de.ceus-media.xml.dom.SyntaxValidator' );
+import( 'de.ceus-media.adt.OptionObject' );
+import( 'de.ceus-media.ui.DevOutput' );
 /**
  *	Parses a XML Document to a Tree of XML_DOM_Nodes.
  *	@package		xml.dom

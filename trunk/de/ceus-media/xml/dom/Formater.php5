@@ -1,5 +1,4 @@
 <?php
-import( 'de.ceus-media.xml.dom.SyntaxValidator' );
 /**
  *	Formats a XML String or recodes it to another Character Set.
  *
@@ -27,6 +26,7 @@ import( 'de.ceus-media.xml.dom.SyntaxValidator' );
  *	@since			12.05.2008
  *	@version		0.6
  */
+import( 'de.ceus-media.xml.dom.SyntaxValidator' );
 /**
  *	Formats untidy XML or recodes to another Character Set.
  *	@package		xml.dom

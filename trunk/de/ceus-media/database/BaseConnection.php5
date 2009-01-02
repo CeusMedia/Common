@@ -1,5 +1,4 @@
 <?php
-import( "de.ceus-media.file.log.Writer" );
 /**
  *	Abstract Database Connection.
  *
@@ -26,6 +25,7 @@ import( "de.ceus-media.file.log.Writer" );
  *	@link			http://code.google.com/p/cmclasses/
  *	@version 		0.6
  */
+import( "de.ceus-media.file.log.Writer" );
 /**
  *	Abstract Database Connection.
  *	@package		database

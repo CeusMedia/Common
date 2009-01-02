@@ -1,5 +1,4 @@
 <?php
-import( 'de.ceus-media.ui.html.TreeView' );
 /**
  *	Builds Tree View of Directory.
  *
@@ -27,6 +26,7 @@ import( 'de.ceus-media.ui.html.TreeView' );
  *	@since			01.08.2008
  *	@version		0.1
  */
+import( 'de.ceus-media.ui.html.TreeView' );
 /**
  *	Builds Tree View of Directory.
  *	@package		ui.html

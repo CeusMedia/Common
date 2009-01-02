@@ -1,5 +1,4 @@
 <?php
-import( 'de.ceus-media.framework.krypton.core.Component' );
 /**
  *	Basic View Component.
  *
@@ -28,6 +27,7 @@ import( 'de.ceus-media.framework.krypton.core.Component' );
  *	@since			01.12.2005
  *	@version		0.6
  */
+import( 'de.ceus-media.framework.krypton.core.Component' );
 /**
  *	Basic View Component.
  *	@package		framework.krypton.core

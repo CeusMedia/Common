@@ -1,7 +1,4 @@
 <?php
-import( 'de.ceus-media.adt.OptionObject' );
-import( 'de.ceus-media.net.cURL' );
-import( 'de.ceus-media.xml.dom.SyntaxValidator' );
 /**
  *	Evaluator for XPath Queries.
  *
@@ -30,6 +27,9 @@ import( 'de.ceus-media.xml.dom.SyntaxValidator' );
  *	@since			24.01.2006
  *	@version		0.6
  */
+import( 'de.ceus-media.adt.OptionObject' );
+import( 'de.ceus-media.net.cURL' );
+import( 'de.ceus-media.xml.dom.SyntaxValidator' );
 /**
  *	Evaluator for XPath Queries.
  *	@package		xml.dom

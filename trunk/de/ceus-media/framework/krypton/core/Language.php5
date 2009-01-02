@@ -1,5 +1,4 @@
 <?php
-import( 'de.ceus-media.framework.krypton.core.Registry' );
 /**
  *	Language Support with sniffing of Browser Language and Language Validation.
  *	Loads Language Files direct or from Cache if enabled.
@@ -33,6 +32,7 @@ import( 'de.ceus-media.framework.krypton.core.Registry' );
  *	@since			05.12.2006
  *	@version		0.6
  */
+import( 'de.ceus-media.framework.krypton.core.Registry' );
 /**
  *	Language Support with sniffing of Browser Language and Language Validation.
  *	Loads Language Files direct or from Cache if enabled.

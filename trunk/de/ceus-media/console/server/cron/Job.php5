@@ -1,5 +1,4 @@
 <?php
-import( 'de.ceus-media.adt.OptionObject' );
 /**
  *	CronParser.
  *
@@ -27,6 +26,7 @@ import( 'de.ceus-media.adt.OptionObject' );
  *	@since			20.01.2006
  *	@version		0.6
  */
+import( 'de.ceus-media.adt.OptionObject' );
 /**
  *	CronParser.
  *	@package		console.server.cron

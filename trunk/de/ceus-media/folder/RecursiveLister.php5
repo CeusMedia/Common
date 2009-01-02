@@ -1,5 +1,4 @@
 <?php
-import( 'de.ceus-media.folder.Lister' );
 /**
  *	Lists Folders and Files within a Folder recursive.
  *	Entries can be filtered with a RegEx Pattern or allowed Extensions.
@@ -33,6 +32,7 @@ import( 'de.ceus-media.folder.Lister' );
  *	@since			15.04.2008
  *	@version		0.6
  */
+import( 'de.ceus-media.folder.Lister' );
 /**
  *	Lists Folders and Files within a Folder recursive.
  *	Entries can be filtered with a RegEx Pattern or allowed Extensions.

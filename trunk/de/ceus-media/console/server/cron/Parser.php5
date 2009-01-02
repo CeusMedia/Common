@@ -1,5 +1,4 @@
 <?php
-import( 'de.ceus-media.server.cron.Job' );
 /**
  *	Cron Parser.
  *
@@ -28,6 +27,7 @@ import( 'de.ceus-media.server.cron.Job' );
  *	@since			20.01.2006
  *	@version		0.6
  */
+import( 'de.ceus-media.server.cron.Job' );
 /**
  *	Cron Parser.
  *	@package		console.server.cron

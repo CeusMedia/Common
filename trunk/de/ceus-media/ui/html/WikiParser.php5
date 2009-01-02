@@ -1,5 +1,4 @@
 <?php
-import( 'de.ceus-media.adt.OptionObject' );
 /**
  *	The DokuWiki parser.
  *
@@ -29,6 +28,7 @@ import( 'de.ceus-media.adt.OptionObject' );
  *	@since			20.03.2006
  *	@version		0.1
  */
+import( 'de.ceus-media.adt.OptionObject' );
 /**
  *	The DokuWiki parser.
  *	@package		ui.html

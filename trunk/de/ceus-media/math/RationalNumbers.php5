@@ -1,11 +1,11 @@
 <?php
-import( 'de.ceus-media.math.NaturalNumbers' );
 /**
  *	@package		math
  *	@uses			Math_NaturalNumbers
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.6
  */
+import( 'de.ceus-media.math.NaturalNumbers' );
 /**
  *	@package		math
  *	@uses			Math_NaturalNumbers

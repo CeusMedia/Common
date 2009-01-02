@@ -1,5 +1,4 @@
 <?php
-import( 'de.ceus-media.framework.krypton.Base' );
 /**
  *	Main Class of Motrada V2 to realize Actions and build Views.
  *
@@ -27,6 +26,7 @@ import( 'de.ceus-media.framework.krypton.Base' );
  *	@since			11.12.2006
  *	@version		0.3
  */
+import( 'de.ceus-media.framework.krypton.Base' );
 /**
  *	Main Class of Motrada V2 to realize Actions and build Views.
  *	@package		framework.krypton

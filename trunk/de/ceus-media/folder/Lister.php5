@@ -1,5 +1,4 @@
 <?php
-import( 'de.ceus-media.folder.RegexFilter' );
 /**
  *	Lists Folders and Files within a Folder.
  *	Entries can be filtered with a RegEx Pattern or allowed Extensions.
@@ -32,6 +31,7 @@ import( 'de.ceus-media.folder.RegexFilter' );
  *	@since			15.04.2008
  *	@version		0.6
  */
+import( 'de.ceus-media.folder.RegexFilter' );
 /**
  *	Lists Folders and Files within a Folder.
  *	Entries can be filtered with a RegEx Pattern or allowed Extensions.

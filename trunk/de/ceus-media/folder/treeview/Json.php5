@@ -4,6 +4,10 @@
  */
 import( 'de.ceus-media.Stopwatch' );
 import( 'de.ceus-media.ui.html.Tag' );
+/**
+ *	@package		folder.treeview
+ *	@todo			Code Doc
+ */
 class Folder_Treeview_Json
 {
 	protected $logFile;

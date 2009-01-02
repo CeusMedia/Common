@@ -1,6 +1,4 @@
 <?php
-import( 'de.ceus-media.xml.dom.Node' );
-import( 'de.ceus-media.xml.dom.Builder' );
 /**
  *	Builder for RSS Feeds.
  *
@@ -29,6 +27,8 @@ import( 'de.ceus-media.xml.dom.Builder' );
  *	@since			18.07.02005
  *	@version		0.4
  */
+import( 'de.ceus-media.xml.dom.Node' );
+import( 'de.ceus-media.xml.dom.Builder' );
 /**
  *	Builder for RSS Feeds.
  *	@package		xml.rss

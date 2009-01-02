@@ -1,6 +1,4 @@
-<?PHP
-import( 'de.ceus-media.ui.html.Tag' );
-import( 'de.ceus-media.file.Writer' );
+<?php
 /**
  *	The main Chart package file. It includes the core of all Chart classes.
  *
@@ -27,6 +25,8 @@ import( 'de.ceus-media.file.Writer' );
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  */
+import( 'de.ceus-media.ui.html.Tag' );
+import( 'de.ceus-media.file.Writer' );
 /**
  *	The main Chart class. Base class for all subtypes of charts, like Pie, Bar, Line and so on.
  *	@package		ui.svg

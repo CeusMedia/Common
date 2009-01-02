@@ -1,5 +1,4 @@
 <?php
-import( 'de.ceus-media.framework.krypton.core.Component' );
 /**
  *	Abstract Basic Action Handler.
  *
@@ -27,6 +26,7 @@ import( 'de.ceus-media.framework.krypton.core.Component' );
  *	@since			21.02.2007
  *	@version		0.6
  */
+import( 'de.ceus-media.framework.krypton.core.Component' );
 /**
  *	Abstract Basic Action Handler.
  *	@package		framework.krypton.core

@@ -3,6 +3,10 @@
  *	@package		folder.treeview
  */
 import( 'de.ceus-media.folder.treeview.Json' );
+/**
+ *	@package		folder.treeview
+ *	@todo			Code Doc
+ */
 class Folder_Treeview_JsonExtended extends Folder_Treeview_Json
 {
 	protected function buildFileItem( $entry )

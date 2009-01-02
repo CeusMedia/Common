@@ -1,6 +1,4 @@
 <?php
-import( 'de.ceus-media.framework.neon.View' );
-import( 'de.ceus-media.file.log.Writer' );
 /**
  *	Generic Definition View with Language Support.
  *	@package		framework.neon
@@ -10,6 +8,8 @@ import( 'de.ceus-media.file.log.Writer' );
  *	@since			18.06.2006
  *	@version		0.1
  */
+import( 'de.ceus-media.framework.neon.View' );
+import( 'de.ceus-media.file.log.Writer' );
 /**
  *	Generic Definition View with References.
  *	@package		framework.neon

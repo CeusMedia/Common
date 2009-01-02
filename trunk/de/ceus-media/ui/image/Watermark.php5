@@ -1,6 +1,4 @@
 <?php
-import( 'de.ceus-media.ui.image.Creator' );
-import( 'de.ceus-media.ui.image.Printer' );
 /**
  *	Mark Image with another Image.
  *
@@ -29,6 +27,8 @@ import( 'de.ceus-media.ui.image.Printer' );
  *	@since			16.12.2005
  *	@version		0.5
  */
+import( 'de.ceus-media.ui.image.Creator' );
+import( 'de.ceus-media.ui.image.Printer' );
 /**
  *	Mark Image with another Image.
  *	@package		ui.image

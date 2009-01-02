@@ -1,5 +1,4 @@
 <?php
-import( 'de.ceus-media.database.pdo.TableReader' );
 /**
  *	Write Access for Database Tables.
  *
@@ -26,6 +25,7 @@ import( 'de.ceus-media.database.pdo.TableReader' );
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		0.6
  */
+import( 'de.ceus-media.database.pdo.TableReader' );
 /**
  *	Write Access for Database Tables.
  *	@package		database.pdo

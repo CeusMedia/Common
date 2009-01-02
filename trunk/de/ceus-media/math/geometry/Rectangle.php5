@@ -1,11 +1,11 @@
 <?php
-import( 'de.ceus-media.math.geometry.Triangle' );
 /**
  *	@package		math.geometry
  *	@uses			Math_Geometry_Triangle
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.6
  */
+import( 'de.ceus-media.math.geometry.Triangle' );
 /**
  *	@package		math.geometry
  *	@uses			Math_Geometry_Triangle

@@ -1,5 +1,4 @@
 <?php
-import( 'de.ceus-media.ui.html.Elements' );
 /**
  *	Builds HTML Components for AJAX Applications.
  *
@@ -26,6 +25,7 @@ import( 'de.ceus-media.ui.html.Elements' );
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		0.1
  */
+import( 'de.ceus-media.ui.html.Elements' );
 /**
  *	Builds HTML Components for AJAX Applications.
  *	@package		ui.html

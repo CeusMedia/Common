@@ -1,5 +1,4 @@
 <?php
-import( 'de.ceus-media.math.algebra.Vector' );
 /**
  *	Matrix.
  *
@@ -26,6 +25,7 @@ import( 'de.ceus-media.math.algebra.Vector' );
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		0.6
  */
+import( 'de.ceus-media.math.algebra.Vector' );
 /**
  *	Matrix.
  *	@package		math.algebra

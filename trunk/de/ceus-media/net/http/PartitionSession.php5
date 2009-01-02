@@ -1,5 +1,4 @@
 <?php
-import( 'de.ceus-media.adt.list.Dictionary' );
 /**
  *	Session Management.
  *
@@ -27,6 +26,7 @@ import( 'de.ceus-media.adt.list.Dictionary' );
  *	@since			26.07.2005
  *	@version		0.6
  */
+import( 'de.ceus-media.adt.list.Dictionary' );
 /**
  *	Session Management.
  *	@package		net.http

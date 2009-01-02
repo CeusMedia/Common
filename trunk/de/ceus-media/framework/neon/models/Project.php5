@@ -1,5 +1,4 @@
 <?php
-import( 'de.ceus-media.framework.neon.Model' );
 /**
  *	Data Model of Projects.
  *	@package		framework.neon.models
@@ -8,6 +7,7 @@ import( 'de.ceus-media.framework.neon.Model' );
  *	@since			26.03.2007
  *	@version		0.2
  */
+import( 'de.ceus-media.framework.neon.Model' );
 /**
  *	Data Model of Projects.
  *	@package		framework.neon.models

@@ -1,5 +1,4 @@
 <?php
-import( 'de.ceus-media.framework.krypton.core.Registry' );
 /**
  *	Controller for Pages requested by Links.
  *
@@ -28,6 +27,7 @@ import( 'de.ceus-media.framework.krypton.core.Registry' );
  *	@since			03.03.2007
  *	@version		0.6
  */
+import( 'de.ceus-media.framework.krypton.core.Registry' );
 /**
  *	Controller for Pages requested by Links.
  *	@package		framework.krypton.core

@@ -1,6 +1,4 @@
 <?php
-import( 'de.ceus-media.framework.krypton.core.View' );
-import( 'de.ceus-media.framework.krypton.logic.List' );
 /**
  *	View Component for generated Lists.
  *
@@ -29,6 +27,8 @@ import( 'de.ceus-media.framework.krypton.logic.List' );
  *	@since			23.02.2007
  *	@version		0.1
  */
+import( 'de.ceus-media.framework.krypton.core.View' );
+import( 'de.ceus-media.framework.krypton.logic.List' );
 /**
  *	View Component for generated Lists.
  *	@package		mv2.view.component

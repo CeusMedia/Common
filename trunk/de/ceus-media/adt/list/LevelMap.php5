@@ -1,5 +1,4 @@
 <?php
-import( 'de.ceus-media.adt.list.Dictionary' );
 /**
  *	A Map with Level Support.
  *	It is a Dictionary where Keys can contain Dots.
@@ -29,6 +28,7 @@ import( 'de.ceus-media.adt.list.Dictionary' );
  *	@since			07.05.2008
  *	@version		0.6
  */
+import( 'de.ceus-media.adt.list.Dictionary' );
 /**
  *	A Map with Level Support.
  *	It is a Dictionary where Keys can contain Dots.

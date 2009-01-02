@@ -1,8 +1,4 @@
 <?php
-import( 'de.ceus-media.framework.neon.DefinitionView' );
-import( 'de.ceus-media.database.StatementBuilder' );
-import( 'de.ceus-media.framework.neon.models.ProjectStatements' );
-import( 'de.ceus-media.framework.neon.models.Project' );
 /**
  *	Views of Projects.
  *	@package		framework.neon.views
@@ -14,6 +10,10 @@ import( 'de.ceus-media.framework.neon.models.Project' );
  *	@since			26.03.2007
  *	@version		0.2
  */
+import( 'de.ceus-media.framework.neon.DefinitionView' );
+import( 'de.ceus-media.database.StatementBuilder' );
+import( 'de.ceus-media.framework.neon.models.ProjectStatements' );
+import( 'de.ceus-media.framework.neon.models.Project' );
 /**
  *	Views of Projects.
  *	@package		framework.neon.views

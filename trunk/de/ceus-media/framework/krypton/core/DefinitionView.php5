@@ -1,7 +1,4 @@
 <?php
-import( 'de.ceus-media.framework.krypton.core.View' );
-#import( 'de.ceus-media.file.log.LogFile' );
-#import( 'de.ceus-media.framework.krypton.logic.ValidationError' );
 /**
  *	Generic Definition View with Language Support.
  *
@@ -29,6 +26,9 @@ import( 'de.ceus-media.framework.krypton.core.View' );
  *	@since			18.06.2006
  *	@version		0.6
  */
+import( 'de.ceus-media.framework.krypton.core.View' );
+#import( 'de.ceus-media.file.log.LogFile' );
+#import( 'de.ceus-media.framework.krypton.logic.ValidationError' );
 /**
  *	Generic Definition View with References.
  *	@package		framework.krypton.core

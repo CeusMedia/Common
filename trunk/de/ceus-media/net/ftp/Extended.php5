@@ -1,5 +1,4 @@
 <?php
-import( 'de.ceus-media.net.ftp.Basic' );
 /**
  *	Extended FTP Connection.
  *
@@ -27,6 +26,7 @@ import( 'de.ceus-media.net.ftp.Basic' );
  *	@since			09.03.2006
  *	@version		0.6
  */
+import( 'de.ceus-media.net.ftp.Basic' );
 /**
  *	Extended FTP Connection.
  *	@package		net.ftp

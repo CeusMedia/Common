@@ -1,6 +1,4 @@
 <?php
-import( 'de.ceus-media.framework.krypton.core.Registry' );
-import( 'de.ceus-media.alg.TimeConverter' );
 /**
  *	Message Output Handler within a Session.
  *
@@ -29,6 +27,8 @@ import( 'de.ceus-media.alg.TimeConverter' );
  *	@since			01.12.2005
  *	@version		0.6
  */
+import( 'de.ceus-media.framework.krypton.core.Registry' );
+import( 'de.ceus-media.alg.TimeConverter' );
 /**
  *	Message Output Handler within a Session.
  *	@package		framework.krypton.core

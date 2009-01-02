@@ -1,6 +1,4 @@
 <?php
-import( 'de.ceus-media.file.ini.SectionReader' );
-import( 'de.ceus-media.file.Writer' );
 /**
  *	Editor for sectioned Ini Files using parse_ini_file.
  *
@@ -29,6 +27,8 @@ import( 'de.ceus-media.file.Writer' );
  *	@since			01.11.2005
  *	@version		0.6
  */
+import( 'de.ceus-media.file.ini.SectionReader' );
+import( 'de.ceus-media.file.Writer' );
 /**
  *	Editor for sectioned Ini Files using parse_ini_file.
  *	@package		file.ini

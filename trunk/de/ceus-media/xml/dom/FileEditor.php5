@@ -1,6 +1,4 @@
 <?php
-import( 'de.ceus-media.xml.dom.FileReader' );
-import( 'de.ceus-media.xml.dom.FileWriter' );
 /**
  *	Editor for XML Files.
  *
@@ -32,6 +30,8 @@ import( 'de.ceus-media.xml.dom.FileWriter' );
  *	@since			10.05.2008
  *	@version		0.6
  */
+import( 'de.ceus-media.xml.dom.FileReader' );
+import( 'de.ceus-media.xml.dom.FileWriter' );
 /**
  *	Editor for XML Files.
  *	Every Method is working with a Node Path, which is a bit like XPath but without Attribute Selectors.

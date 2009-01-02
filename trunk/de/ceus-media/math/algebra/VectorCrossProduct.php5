@@ -1,5 +1,4 @@
 <?php
-import ("de.ceus-media.math.algebra.Vector");
 /**
  *	Cross Product of two Vectors with 3 Dimensions.
  *
@@ -26,6 +25,7 @@ import ("de.ceus-media.math.algebra.Vector");
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		0.6
  */
+import( 'de.ceus-media.math.algebra.Vector' );
 /**
  *	Cross Product of two Vectors with 3 Dimensions.
  *	@package		math.algebra

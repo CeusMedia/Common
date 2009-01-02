@@ -1,8 +1,4 @@
 <?php
-import( 'de.ceus-media.framework.neon.DefinitionAction' );
-import( 'de.ceus-media.framework.neon.models.Role' );
-import( 'de.ceus-media.framework.neon.models.RightObject' );
-import( 'de.ceus-media.framework.neon.models.RightAction' );
 /**
  *	Actions for Roles.
  *	@package		framework.neon.actions
@@ -14,6 +10,10 @@ import( 'de.ceus-media.framework.neon.models.RightAction' );
  *	@since			20.01.2007
  *	@version		0.2
  */
+import( 'de.ceus-media.framework.neon.DefinitionAction' );
+import( 'de.ceus-media.framework.neon.models.Role' );
+import( 'de.ceus-media.framework.neon.models.RightObject' );
+import( 'de.ceus-media.framework.neon.models.RightAction' );
 /**
  *	Actions for Roles.
  *	@package		framework.neon.actions

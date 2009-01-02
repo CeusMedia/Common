@@ -1,8 +1,4 @@
 <?php
-import( 'de.ceus-media.framework.neon.Action' );
-import( 'de.ceus-media.file.log.LogFile' );
-import( 'de.ceus-media.alg.validation.Predicates' );
-import( 'de.ceus-media.alg.validation.DefinitionValidator' );
 /**
  *	Generic Definition Action Handler.
  *	@package		framework.neon
@@ -13,6 +9,10 @@ import( 'de.ceus-media.alg.validation.DefinitionValidator' );
  *	@since			18.06.2006
  *	@version		0.5
  */
+import( 'de.ceus-media.framework.neon.Action' );
+import( 'de.ceus-media.file.log.LogFile' );
+import( 'de.ceus-media.alg.validation.Predicates' );
+import( 'de.ceus-media.alg.validation.DefinitionValidator' );
 /**
  *	Generic Definition Action Handler.
  *	@package		framework.neon

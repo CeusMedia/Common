@@ -1,6 +1,4 @@
 <?php
-import( 'de.ceus-media.ui.html.Elements' );
-import( 'de.ceus-media.ui.html.JQuery' );
 /**
  *	Builds HTML Tree with nested Lists for JQuery Plugin Treeview.
  *
@@ -29,6 +27,8 @@ import( 'de.ceus-media.ui.html.JQuery' );
  *	@since			18.06.2008
  *	@version		0.1
  */
+import( 'de.ceus-media.ui.html.Elements' );
+import( 'de.ceus-media.ui.html.JQuery' );
 /**
  *	Builds HTML Tree with nested Lists for JQuery Plugin Treeview.
  *	@package		ui.html

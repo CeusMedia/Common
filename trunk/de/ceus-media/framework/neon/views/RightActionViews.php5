@@ -1,6 +1,4 @@
 <?php
-import( 'de.ceus-media.framework.neon.DefinitionView' );
-import( 'de.ceus-media.framework.neon.models.RightAction' );
 /**
  *	...
  *	@package		framework.neon.views
@@ -10,6 +8,8 @@ import( 'de.ceus-media.framework.neon.models.RightAction' );
  *	@since			20.01.2007
  *	@version		0.2
  */
+import( 'de.ceus-media.framework.neon.DefinitionView' );
+import( 'de.ceus-media.framework.neon.models.RightAction' );
 /**
  *	...
  *	@package		framework.neon.views

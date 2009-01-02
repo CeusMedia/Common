@@ -1,8 +1,4 @@
 <?php
-import( 'de.ceus-media.adt.OptionObject' );
-import( 'de.ceus-media.xml.dom.Node' );
-import( 'de.ceus-media.xml.dom.FileReader' );
-import( 'de.ceus-media.xml.dom.FileWriter' );
 /**
  *	Storage with unlimited depth to store pairs of data in XML Files.
  *
@@ -32,6 +28,10 @@ import( 'de.ceus-media.xml.dom.FileWriter' );
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		0.1
  */
+import( 'de.ceus-media.adt.OptionObject' );
+import( 'de.ceus-media.xml.dom.Node' );
+import( 'de.ceus-media.xml.dom.FileReader' );
+import( 'de.ceus-media.xml.dom.FileWriter' );
 /**
  *	Storage with unlimited depth to store pairs of data in XML Files.
  *	@package		xml.dom

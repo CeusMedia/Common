@@ -1,5 +1,4 @@
 <?php
-import( 'de.ceus-media.database.StatementBuilder' );
 /**
  *	Logic for Data Lists from Database.
  *
@@ -27,6 +26,7 @@ import( 'de.ceus-media.database.StatementBuilder' );
  *	@since			23.02.2007
  *	@version		0.1
  */
+import( 'de.ceus-media.database.StatementBuilder' );
 /**
  *	Logic for Data Lists from Database.
  *	@package		framework.krypton.logic

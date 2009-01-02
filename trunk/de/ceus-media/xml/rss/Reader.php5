@@ -1,5 +1,4 @@
 <?php
-import( 'de.ceus-media.xml.rss.Parser' );
 /**
  *	Reader for RSS 2.0 Feeds.
  *
@@ -29,6 +28,7 @@ import( 'de.ceus-media.xml.rss.Parser' );
  *	@since			20.02.2008
  *	@version		0.6
  */
+import( 'de.ceus-media.xml.rss.Parser' );
 /**
  *	Reader for RSS 2.0 Feeds.
  *	@package		xml.rss

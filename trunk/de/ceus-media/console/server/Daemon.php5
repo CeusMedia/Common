@@ -1,5 +1,4 @@
 <?php
-import( 'de.ceus-media.console.Application' );
 /**
  *	Base Implementation of a Unix Demon.
  *
@@ -27,6 +26,7 @@ import( 'de.ceus-media.console.Application' );
  *	@since			20.01.2006
  *	@version		0.6
  */
+import( 'de.ceus-media.console.Application' );
 /**
  *	Base Implementation of a Unix Demon.
  *	@package		console.server

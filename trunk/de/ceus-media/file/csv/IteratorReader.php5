@@ -1,5 +1,4 @@
 <?php
-import( 'de.ceus-media.file.csv.Iterator' );
 /**
  *	Reads CSV Files using the File_CSV_Iterator.
  *
@@ -27,6 +26,7 @@ import( 'de.ceus-media.file.csv.Iterator' );
  *	@since			10.12.2007
  *	@version		0.1
  */
+import( 'de.ceus-media.file.csv.Iterator' );
 /**
  *	Reads CSV Files using the File_CSV_Iterator.
  *	@package		file.csv

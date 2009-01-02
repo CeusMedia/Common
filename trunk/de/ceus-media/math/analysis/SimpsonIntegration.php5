@@ -1,5 +1,4 @@
 <?php
-import( 'de.ceus-media.math.analysis.Integration' );
 /**
  *	Integration with Simpsons Algorithm within a compact Interval.
  *
@@ -26,6 +25,7 @@ import( 'de.ceus-media.math.analysis.Integration' );
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		0.6
  */
+import( 'de.ceus-media.math.analysis.Integration' );
 /**
  *	Integration with Simpsons Algorithm within a compact Interval.
  *	@package		math.analysis

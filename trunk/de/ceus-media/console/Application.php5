@@ -1,5 +1,4 @@
 <?php
-import( 'de.ceus-media.console.ArgumentParser' );
 /**
  *	Generic Console Application.
  *
@@ -27,6 +26,7 @@ import( 'de.ceus-media.console.ArgumentParser' );
  *	@since			11.01.2006
  *	@version		0.6
  */
+import( 'de.ceus-media.console.ArgumentParser' );
 /**
  *	Generic Console Application.
  *	@package		console

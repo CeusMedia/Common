@@ -1,6 +1,4 @@
 <?php
-import( 'de.ceus-media.framework.neon.DefinitionAction' );
-import( 'de.ceus-media.framework.neon.models.Project' );
 /**
  *	Project Actions.
  *	@package		framework.neon.actions
@@ -10,6 +8,8 @@ import( 'de.ceus-media.framework.neon.models.Project' );
  *	@since			26.03.2007
  *	@version		0.2
  */
+import( 'de.ceus-media.framework.neon.DefinitionAction' );
+import( 'de.ceus-media.framework.neon.models.Project' );
 /**
  *	Project Actions.
  *	@package		framework.neon.actions

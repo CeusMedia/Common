@@ -1,5 +1,4 @@
 <?php
-import( 'de.ceus-media.file.log.ShortLogReader' );
 /**
  *	Reader and Parser for Tracker Log File.
  *
@@ -27,6 +26,7 @@ import( 'de.ceus-media.file.log.ShortLogReader' );
  *	@since			27.12.2006
  *	@version		0.1
  */
+import( 'de.ceus-media.file.log.ShortLogReader' );
 /**
  *	Reader and Parser for Tracker Log File.
  *	@package		file.log

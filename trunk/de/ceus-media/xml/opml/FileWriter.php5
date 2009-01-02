@@ -1,6 +1,4 @@
 <?php
-import( 'de.ceus-media.file.Writer' );
-import( 'de.ceus-media.xml.dom.XML_DOM_Builder' );
 /**
  *	Writes XML Files from Trees build with XML_Node.
  *
@@ -28,6 +26,8 @@ import( 'de.ceus-media.xml.dom.XML_DOM_Builder' );
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		0.6
  */
+import( 'de.ceus-media.file.Writer' );
+import( 'de.ceus-media.xml.dom.XML_DOM_Builder' );
 /**
  *	Writes XML Files from Trees build with XML_Node.
  *	@package		xml.opml

@@ -1,5 +1,4 @@
 <?php
-import( 'de.ceus-media.xml.dom.Node' );
 /**
  *	Parser for iCalendar Files.
  *
@@ -29,6 +28,7 @@ import( 'de.ceus-media.xml.dom.Node' );
  *	@see			RFC2445
  *	@link			http://www.w3.org/2002/12/cal/rfc2445
  */
+import( 'de.ceus-media.xml.dom.Node' );
 /**
  *	Parser for iCalendar Files.
  *	@package		file.ical

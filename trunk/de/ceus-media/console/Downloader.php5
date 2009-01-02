@@ -1,6 +1,4 @@
 <?php
-import( 'de.ceus-media.alg.UnitFormater' );
-import( 'de.ceus-media.Stopwatch' );
 /**
  *	Downloads a File from an URL while showing Progress in Console.
  *
@@ -30,6 +28,8 @@ import( 'de.ceus-media.Stopwatch' );
  *	@since			05.05.2008
  *	@version		0.1
  */
+import( 'de.ceus-media.alg.UnitFormater' );
+import( 'de.ceus-media.Stopwatch' );
 /**
  *	Downloads a File from an URL while showing Progress in Console.
  *	@package		console

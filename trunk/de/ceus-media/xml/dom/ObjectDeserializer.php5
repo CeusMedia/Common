@@ -1,5 +1,4 @@
 <?php
-import( 'de.ceus-media.xml.dom.Parser' );
 /**
  *	Deserializer for XML into a Data Object.
  *
@@ -27,6 +26,7 @@ import( 'de.ceus-media.xml.dom.Parser' );
  *	@since			26.12.2005
  *	@version		0.6
  */
+import( 'de.ceus-media.xml.dom.Parser' );
 /**
  *	Deserializer for XML into a Data Object.
  *	@package		xml.dom

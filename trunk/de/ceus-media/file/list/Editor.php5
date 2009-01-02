@@ -1,6 +1,4 @@
 <?php
-import( 'de.ceus-media.file.list.Reader' );
-import( 'de.ceus-media.file.list.Writer' );
 /**
  *	Editor for List Files.
  *
@@ -29,6 +27,8 @@ import( 'de.ceus-media.file.list.Writer' );
  *	@since			25.04.2008
  *	@version		0.6
  */
+import( 'de.ceus-media.file.list.Reader' );
+import( 'de.ceus-media.file.list.Writer' );
 /**
  *	Editor for List Files.
  *	@package		file.list

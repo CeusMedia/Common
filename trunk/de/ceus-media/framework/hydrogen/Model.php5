@@ -1,5 +1,4 @@
 <?php
-import( 'de.ceus-media.database.TableWriter' );
 /**
  *	Abstract Model Class of Framework Hydrogen.
  *
@@ -27,6 +26,7 @@ import( 'de.ceus-media.database.TableWriter' );
  *	@since			01.09.2006
  *	@version		0.4
  */
+import( 'de.ceus-media.database.TableWriter' );
 /**
  *	Abstract Model Class of Framework Hydrogen.
  *	@package		framework.hydrogen

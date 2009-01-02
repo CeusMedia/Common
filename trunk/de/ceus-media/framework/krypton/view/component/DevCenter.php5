@@ -1,5 +1,4 @@
 <?php
-import( 'de.ceus-media.framework.krypton.core.View' );
 /**
  *	View Component for Development Information.
  *
@@ -27,6 +26,7 @@ import( 'de.ceus-media.framework.krypton.core.View' );
  *	@since			01.04.2007
  *	@version		0.6
  */
+import( 'de.ceus-media.framework.krypton.core.View' );
 define( 'DEV_CENTER_PRINT_M', 0 );
 define( 'DEV_CENTER_VAR_DUMP', 1 );
 /**

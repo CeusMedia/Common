@@ -1,5 +1,4 @@
 <?php
-import( 'de.ceus-media.adt.tree.BinaryNode' );
 /**
  *	Balanced Binary Tree.
  *
@@ -26,6 +25,7 @@ import( 'de.ceus-media.adt.tree.BinaryNode' );
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		0.1
  */
+import( 'de.ceus-media.adt.tree.BinaryNode' );
 /**
  *	Balanced Binary Tree.
  *	@package		adt.tree

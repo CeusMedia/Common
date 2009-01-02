@@ -1,5 +1,4 @@
 <?php
-import( 'de.ceus-media.framework.krypton.core.Template' );
 /**
  *	Template Component.
  *
@@ -28,6 +27,7 @@ import( 'de.ceus-media.framework.krypton.core.Template' );
  *	@since			02.03.2007
  *	@version		0.2
  */
+import( 'de.ceus-media.framework.krypton.core.Template' );
 /**
  *	Template Component.
  *	@package		framework.krypton.view.component

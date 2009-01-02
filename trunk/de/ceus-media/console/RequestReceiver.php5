@@ -1,5 +1,4 @@
 <?php
-import( 'de.ceus-media.adt.list.Dictionary' );
 /**
  *	Handler for Console Requests.
  *
@@ -27,6 +26,7 @@ import( 'de.ceus-media.adt.list.Dictionary' );
  *	@since			12.02.2007
  *	@version		0.1
  */
+import( 'de.ceus-media.adt.list.Dictionary' );
 /**
  *	Handler for Console Requests.
  *	@package		console

@@ -1,5 +1,4 @@
 <?php
-import( 'de.ceus-media.file.Editor' );
 /**
  *	Class for encoding PHP File.
  *
@@ -27,6 +26,7 @@ import( 'de.ceus-media.file.Editor' );
  *	@since			11.10.2006
  *	@version 		0.6
  */
+import( 'de.ceus-media.file.Editor' );
 /**
  *	Class for encoding PHP File.
  *	@package		file.php

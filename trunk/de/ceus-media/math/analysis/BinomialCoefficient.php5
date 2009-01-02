@@ -1,5 +1,4 @@
 <?php
-import( 'de.ceus-media.math.Factorial' );
 /**
  *	Calculation of Factorial for Integers.
  *
@@ -27,6 +26,7 @@ import( 'de.ceus-media.math.Factorial' );
  *	@since			24.04.2006
  *	@version		0.6
  */
+import( 'de.ceus-media.math.Factorial' );
 /**
  *	Calculation of Factorial for Integers.
  *	@package		math.analysis

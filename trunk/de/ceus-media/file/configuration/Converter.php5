@@ -1,12 +1,4 @@
 <?php
-import( 'de.ceus-media.file.Writer' );
-import( 'de.ceus-media.file.ini.Creator' );
-import( 'de.ceus-media.file.ini.Reader' );
-import( 'de.ceus-media.adt.json.Formater' );
-import( 'de.ceus-media.adt.json.Converter' );
-import( 'de.ceus-media.xml.ElementReader' );
-import( 'de.ceus-media.xml.dom.Node' );
-import( 'de.ceus-media.xml.dom.FileWriter' );
 /**
  *	Converter for Configuration to translate between INI, JSON and XML.
  *	YAML  will be supported if Spyc is improved.
@@ -42,6 +34,14 @@ import( 'de.ceus-media.xml.dom.FileWriter' );
  *	@since			06.05.2008
  *	@version		0.1
  */
+import( 'de.ceus-media.file.Writer' );
+import( 'de.ceus-media.file.ini.Creator' );
+import( 'de.ceus-media.file.ini.Reader' );
+import( 'de.ceus-media.adt.json.Formater' );
+import( 'de.ceus-media.adt.json.Converter' );
+import( 'de.ceus-media.xml.ElementReader' );
+import( 'de.ceus-media.xml.dom.Node' );
+import( 'de.ceus-media.xml.dom.FileWriter' );
 /**
  *	Converter for Configuration to translate between INI, JSON and XML.
  *	YAML will be supported if Spyc is improved.

@@ -1,6 +1,4 @@
 <?php
-#import( 'de.ceus-media.adt.list.LevelMap' );
-import( 'de.ceus-media.adt.list.Dictionary' );
 /**
  *	Reader for Configuration Files of different Types.
  *	Supported File Types are CONF, INI, JSON, YAML and XML.
@@ -34,6 +32,8 @@ import( 'de.ceus-media.adt.list.Dictionary' );
  *	@since			06.05.2008
  *	@version		0.6
  */
+#import( 'de.ceus-media.adt.list.LevelMap' );
+import( 'de.ceus-media.adt.list.Dictionary' );
 /**
  *	Reader for Configuration Files of different Types.
  *	Supported File Types are CONF, INI, JSON, YAML and XML.

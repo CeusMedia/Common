@@ -1,6 +1,4 @@
 <?php
-import( 'de.ceus-media.xml.dom.GoogleSitemapBuilder' );
-import( 'de.ceus-media.file.Writer' );
 /**
  *	Builds and writes Google Sitemap.
  *
@@ -29,6 +27,8 @@ import( 'de.ceus-media.file.Writer' );
  *	@since			14.02.2008
  *	@version		0.1
  */
+import( 'de.ceus-media.xml.dom.GoogleSitemapBuilder' );
+import( 'de.ceus-media.file.Writer' );
 /**
  *	Builds and writes Google Sitemap.
  *	@package		xml.dom

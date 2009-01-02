@@ -1,5 +1,4 @@
 <?php
-import( 'de.ceus-media.file.Writer' );
 /**
  *	Builder for File in .ini-Format.
  *
@@ -27,6 +26,7 @@ import( 'de.ceus-media.file.Writer' );
  *	@since			18.07.2005
  *	@version		0.6
  */
+import( 'de.ceus-media.file.Writer' );
 /**
  *	Builder for File in .ini-Format.
  *	@package		file.ini

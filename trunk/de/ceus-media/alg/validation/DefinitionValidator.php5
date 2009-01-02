@@ -1,5 +1,4 @@
 <?php
-import( 'de.ceus-media.alg.validation.PredicateValidator' );
 /**
  *	Validator for defined Fields.
  *
@@ -27,6 +26,7 @@ import( 'de.ceus-media.alg.validation.PredicateValidator' );
  *	@since			28.08.2006
  *	@version		0.1
  */
+import( 'de.ceus-media.alg.validation.PredicateValidator' );
 /**
  *	Validator for defined Fields.
  *	@package		alg.validation

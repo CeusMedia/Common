@@ -1,8 +1,4 @@
 <?php
-import( 'de.ceus-media.net.site.MapWriter' );
-import( 'de.ceus-media.net.site.Crawler' );
-import( 'de.ceus-media.file.block.Writer' );
-import( 'de.ceus-media.file.Writer' );
 /**
  *	Google Sitemap XML Creator, crawls a Web Site and writes a Sitemap XML File.
  *
@@ -33,6 +29,10 @@ import( 'de.ceus-media.file.Writer' );
  *	@since			10.12.2006
  *	@version		0.2
  */
+import( 'de.ceus-media.net.site.MapWriter' );
+import( 'de.ceus-media.net.site.Crawler' );
+import( 'de.ceus-media.file.block.Writer' );
+import( 'de.ceus-media.file.Writer' );
 /**
  *	Google Sitemap XML Creator, crawls a Web Site and writes a Sitemap XML File.
  *	@package		net.site
