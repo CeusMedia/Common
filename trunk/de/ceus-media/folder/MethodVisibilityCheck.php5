@@ -59,7 +59,7 @@ class Folder_MethodVisibilityCheck
 		$this->count	= 0;
 		$this->found	= 0;
 		$this->list		= array();
-		$finder	= new File_RecursiveRegexFilter( $path, '@^[^_].*\.'.$extensions.'$@', "@function @" );
+		$finder	= new File_RecursiveRegexFilter( $path, '@^[^_].*\.'.$extension.'$@', "@function @" );
 		foreach( $finder as $entry )
 		{
 			$checker	= new File_PHP_MethodVisibilityCheck( $entry->getPathname() );
