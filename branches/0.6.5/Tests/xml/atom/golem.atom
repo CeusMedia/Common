@@ -1,0 +1,463 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- generator="FeedCreator 1.6" -->
+<feed xmlns="http://www.w3.org/2005/Atom"
+ xmlns:dc="http://purl.org/dc/elements/1.1/"
+ xml:lang="de">
+    <title>Golem.de</title>
+    <subtitle>IT-News fuer Profis</subtitle>
+    <link rel="self" type="application/atom+xml" href="http://rss.golem.de/rss.php?feed=ATOM1.0"/>
+    <link rel="alternate" type="text/html" href="http://www.golem.de/"/>
+    <id>http://www.golem.de/</id>
+    <updated>2008-05-12T15:14:04+02:00</updated>
+    <generator>FeedCreator 1.6</generator>
+    <entry>
+        <title>iPhone geht nach Indien, Australien und auf die Philippinen</title>
+        <link rel="alternate" type="text/html" href="http://www.golem.de/0805/59620.html"/>
+        <published>2008-05-12T15:05:00+02:00</published>
+        <updated>2008-05-12T15:05:00+02:00</updated>
+        <id>http://www.golem.de/0805/59620.html</id>
+        <author>
+            <name>Golem.de</name>
+        </author>
+        <summary type="html">Vier weitere Telekommunikationsunternehmen haben Verträge mit Apple geschlossen, um das iPhone im Laufe des Jahres auf ihren jeweiligen Landesmärkten anzubieten. Singapore Telecommunications (SingTel) bringt das Mobiltelefone nach Singapur, Bharti Airtel nach Indien, Globe Telecom auf die Philippinen und Optus nach Australien. (&lt;a href=&quot;http://www.golem.de/specials/iphone/&quot;&gt;iPhone&lt;/a&gt;)</summary>
+        <source>
+	    <title>Golem.de</title>
+	    <subtitle>IT-News fuer Profis</subtitle>
+	    <link rel="self" type="application/atom+xml" href="http://rss.golem.de/rss.php?feed=ATOM1.0"/>
+	    <link rel="alternate" type="text/html" href="http://www.golem.de/"/>
+	    <id>http://www.golem.de/</id>
+	    <updated>2008-05-12T15:14:04+02:00</updated>
+	    <generator>FeedCreator 1.6</generator>
+	    <rights>All Rights reversed.</rights>
+        </source>
+    </entry>
+    <entry>
+        <title>Valves Source-Engine künftig auch für Linux und Mac?</title>
+        <link rel="alternate" type="text/html" href="http://www.golem.de/0805/59619.html"/>
+        <published>2008-05-12T12:14:00+02:00</published>
+        <updated>2008-05-12T12:14:00+02:00</updated>
+        <id>http://www.golem.de/0805/59619.html</id>
+        <author>
+            <name>Golem.de</name>
+        </author>
+        <summary type="html">Gerüchte gibt es schon länger, jetzt meldet eine amerikanische Newsseite, dass Valve an einer Linux- und MacOS-X-Version seiner weit verbreiteten Source-Engine arbeitet. Sinnvoll wäre es - allein schon, wenn Valve künftig auch mit diesen Betriebssystemen Geschäfte über seine digitale Vertriebsplattform Steam machen möchte. (&lt;a href=&quot;http://www.golem.de/specials/directx/&quot;&gt;DirectX&lt;/a&gt;, &lt;a href=&quot;http://www.golem.de/specials/mac/&quot;&gt;Mac&lt;/a&gt;)</summary>
+    </entry>
+    <entry>
+        <title>RIM präsentiert den BlackBerry Bold mit HSDPA</title>
+        <link rel="alternate" type="text/html" href="http://www.golem.de/0805/59618.html"/>
+        <published>2008-05-12T11:50:00+02:00</published>
+        <updated>2008-05-12T11:50:00+02:00</updated>
+        <id>http://www.golem.de/0805/59618.html</id>
+        <author>
+            <name>Golem.de</name>
+        </author>
+        <summary type="html">Der kanadische Smartphone-Hersteller Research In Motion (RIM) hat seinen ersten BlackBerry mit HSDPA-Unterstützung (Tri-Band) und Quad-Band EDGE vorgestellt. Der BlackBerry Bold soll ein helleres Display und einen besseren Browser mitbringen, als bisherige Geräte, so Firmen-Co-Chef James Balsillie. (&lt;a href=&quot;http://www.golem.de/specials/iphone/&quot;&gt;iPhone&lt;/a&gt;, &lt;a href=&quot;http://www.golem.de/specials/gps/&quot;&gt;GPS&lt;/a&gt;)</summary>
+    </entry>
+    <entry>
+        <title>Vodafone will grössten afrikanischen Mobilfunker kaufen</title>
+        <link rel="alternate" type="text/html" href="http://www.golem.de/0805/59617.html"/>
+        <published>2008-05-11T17:35:00+02:00</published>
+        <updated>2008-05-11T17:35:00+02:00</updated>
+        <id>http://www.golem.de/0805/59617.html</id>
+        <author>
+            <name>Golem.de</name>
+        </author>
+        <summary type="html">Der britische Mobilfunkbetreiber Vodafone will den größten afrikanischen Mobilfunkbetreiber MTN kaufen. Wie die Tageszeitung Times berichtet, prüft Vodafone ein Gebot von ca. 20 Milliarden Pfund (25 Milliarden Euro). Konzernlenker Arun Sarin habe sein Übernahmeteam, dass der frühere UBS-Banker Warren Finegold leitet, entsprechend instruiert. </summary>
+    </entry>
+    <entry>
+        <title>Telekom bestätigt Verkauf von mehr als 100.000 iPhones</title>
+        <link rel="alternate" type="text/html" href="http://www.golem.de/0805/59616.html"/>
+        <published>2008-05-10T18:16:00+02:00</published>
+        <updated>2008-05-10T18:16:00+02:00</updated>
+        <id>http://www.golem.de/0805/59616.html</id>
+        <author>
+            <name>Golem.de</name>
+        </author>
+        <summary type="html">Deutsche Telekom-Chef René Obermann wertet die exklusive Vermarktung des Apple iPhones als Erfolg. Mit mehr als 100.000 in Deutschland abgesetzten Geräten hätten sich die Hoffnung erfüllt, so der Vorstandsvorsitzende gegenüber der Frankfurter Allgemeinen Sonntagszeitung. Damit bestätigt er erstmals offiziell entsprechende Presseberichte zu den Verkaufszahlen. (&lt;a href=&quot;http://www.golem.de/specials/iphone/&quot;&gt;iPhone&lt;/a&gt;)</summary>
+    </entry>
+    <entry>
+        <title>ARD-Programm mit Spam-Links (Update)</title>
+        <link rel="alternate" type="text/html" href="http://www.golem.de/0805/59615.html"/>
+        <published>2008-05-10T11:11:00+02:00</published>
+        <updated>2008-05-10T11:11:00+02:00</updated>
+        <id>http://www.golem.de/0805/59615.html</id>
+        <author>
+            <name>Golem.de</name>
+        </author>
+        <summary type="html">Angreifer haben offenbar versucht, mittels JavaScript eigene Inhalte in Webseiten der ARD einzuschleusen. Das hat zwar nicht geklappt, doch die entsprechenden Links auf eine chinesische Website finden sich unter anderem auf den Programmseiten der ARD. (&lt;a href=&quot;http://www.golem.de/specials/spam/&quot;&gt;Spam&lt;/a&gt;)</summary>
+    </entry>
+    <entry>
+        <title>Erster Release-Candidate von Wine 1.0 erschienen</title>
+        <link rel="alternate" type="text/html" href="http://www.golem.de/0805/59614.html"/>
+        <published>2008-05-10T11:09:00+02:00</published>
+        <updated>2008-05-10T11:09:00+02:00</updated>
+        <id>http://www.golem.de/0805/59614.html</id>
+        <author>
+            <name>Golem.de</name>
+        </author>
+        <summary type="html">Wie geplant veröffentlichte das Wine-Projekt am Freitag einen ersten Release-Candidate von Wine 1.0. Die Software bildet das Windows-API unter Linux und Unix ab, so dass sich Windows-Applikationen auch unter diesen Betriebssystemen nutzen lassen. (&lt;a href=&quot;http://www.golem.de/specials/wine/&quot;&gt;Wine&lt;/a&gt;)</summary>
+    </entry>
+    <entry>
+        <title>Jugendstrafen: Beckstein will Spielkonsolen beschlagnahmen</title>
+        <link rel="alternate" type="text/html" href="http://www.golem.de/0805/59613.html"/>
+        <published>2008-05-10T10:32:00+02:00</published>
+        <updated>2008-05-10T10:32:00+02:00</updated>
+        <id>http://www.golem.de/0805/59613.html</id>
+        <author>
+            <name>Golem.de</name>
+        </author>
+        <summary type="html">Bayerns Ministerpräsident Günther Beckstein (CSU) will jugendliche Täter mit neuen Strafen wirksamer maßregeln. Es sei unabdingbar, dass so genannte kreative Strafen wie die Beschlagnahmung von Spielkonsolen, Handy-Verbot, Fahrverbot oder ein Warnschuss-Arrest eingeführt werden, sagte Beckstein der Berliner Zeitung.</summary>
+    </entry>
+    <entry>
+        <title>Microsoft will Rekordstrafe der EU anfechten</title>
+        <link rel="alternate" type="text/html" href="http://www.golem.de/0805/59611.html"/>
+        <published>2008-05-09T19:09:00+02:00</published>
+        <updated>2008-05-09T19:09:00+02:00</updated>
+        <id>http://www.golem.de/0805/59611.html</id>
+        <author>
+            <name>Golem.de</name>
+        </author>
+        <summary type="html">Microsoft will sich gegen die von der Europäischen Kommission verhängte Rekordstrafe in Höhe von 899 Millionen Euro zur Wehr setzen. Das Bußgelt erließ die EU-Kommission gegen Microsoft, weil der Konzern die Auflagen der Kommission wiederholt nicht erfüllt hatte. (&lt;a href=&quot;http://www.golem.de/specials/microsoft/&quot;&gt;Microsoft&lt;/a&gt;)</summary>
+    </entry>
+    <entry>
+        <title>Gewalt in Computerspielen als Verkaufsargument?</title>
+        <link rel="alternate" type="text/html" href="http://www.golem.de/0805/59608.html"/>
+        <published>2008-05-09T18:48:00+02:00</published>
+        <updated>2008-05-09T18:48:00+02:00</updated>
+        <id>http://www.golem.de/0805/59608.html</id>
+        <author>
+            <name>Golem.de</name>
+        </author>
+        <summary type="html">Gewalt in Computerspielen - wie groß ist das Problem, wer trägt Verantwortung, wer kann was tun? Auf der Entwicklerkonferenz 2008 ging es in einer großen Podiumsdiskussion um Jugendschutz, Moral und die Bevormundung von erwachsenen Bürgern. (&lt;a href=&quot;http://www.golem.de/specials/quovadis/&quot;&gt;Quo Vadis&lt;/a&gt;, &lt;a href=&quot;http://www.golem.de/specials/killerspiele/&quot;&gt;Killerspiele&lt;/a&gt;)</summary>
+    </entry>
+    <entry>
+        <title>Niedergelassene Ärzte fordern Aufschub der E-Gesundheitscard</title>
+        <link rel="alternate" type="text/html" href="http://www.golem.de/0805/59610.html"/>
+        <published>2008-05-09T18:25:00+02:00</published>
+        <updated>2008-05-09T18:25:00+02:00</updated>
+        <id>http://www.golem.de/0805/59610.html</id>
+        <author>
+            <name>Golem.de</name>
+        </author>
+        <summary type="html">Der NAV-Virchow-Bund, ein Verband niedergelassener Ärzte in Deutschland, will einen Aufschub bei der Einführung der elektronischen Gesundheitskarte erreichen. Verbandschef Klaus Bittmann: &lt;em&gt;&quot;Das Projekt ist in Kosten und Nutzen völlig unklar, zeigt in den Testregionen große Anfälligkeiten und spiegelt schon heute nicht mehr den aktuellen Stand der Technik wider&quot;.&lt;/em&gt; </summary>
+    </entry>
+    <entry>
+        <title>CSU will Strafrecht zu Computerspielen</title>
+        <link rel="alternate" type="text/html" href="http://www.golem.de/0805/59604.html"/>
+        <published>2008-05-09T16:37:00+02:00</published>
+        <updated>2008-05-09T16:37:00+02:00</updated>
+        <id>http://www.golem.de/0805/59604.html</id>
+        <author>
+            <name>Golem.de</name>
+        </author>
+        <summary type="html">Die bayerische Justizministerin Beate Merk (CSU) hat die gestrige Verschärfung des Jugendschutzgesetzes bei Computerspielen und Filmen durch den Bundestag als ungenügend bezeichnet. Eine leichtere Indizierungsmöglichkeit als jugendgefährdend allein reiche nicht aus. (&lt;a href=&quot;http://www.golem.de/specials/killerspiele/&quot;&gt;Killerspiele&lt;/a&gt;)</summary>
+    </entry>
+    <entry>
+        <title>Neuer Prepaid-Tarif Maxxim: 8 Cent pro Minute und jede SMS</title>
+        <link rel="alternate" type="text/html" href="http://www.golem.de/0805/59607.html"/>
+        <published>2008-05-09T16:28:00+02:00</published>
+        <updated>2008-05-09T16:28:00+02:00</updated>
+        <id>http://www.golem.de/0805/59607.html</id>
+        <author>
+            <name>Golem.de</name>
+        </author>
+        <summary type="html">Mit Maxxim betritt eine neue Prepaid-Marke den Mobilfunkmarkt. Für 8 Cent pro Minute kann der Kunde in alle deutschsprachigen Netze telefonieren und der Versand jeder SMS kostet 8 Cent. Bei den Prepaid-Angeboten ist Maxxim damit derzeit das günstigste Angebot.</summary>
+    </entry>
+    <entry>
+        <title>SP3 für Windows XP macht Probleme auf AMD-Systemen</title>
+        <link rel="alternate" type="text/html" href="http://www.golem.de/0805/59606.html"/>
+        <published>2008-05-09T15:58:00+02:00</published>
+        <updated>2008-05-09T15:58:00+02:00</updated>
+        <id>http://www.golem.de/0805/59606.html</id>
+        <author>
+            <name>Golem.de</name>
+        </author>
+        <summary type="html">Ein paar Tage nach der Veröffentlichung des Service Pack 3 für Windows XP wurden Probleme mit dem Update-Paket bekannt. Besitzer von PCs mit AMD-Prozessoren klagen darüber, dass ihre Systeme nicht mehr vernünftig hochfahren. Zwei Gründe können dafür verantwortlich sein, berichtet ein früherer Microsoft-Mitarbeiter.  (&lt;a href=&quot;http://www.golem.de/specials/microsoft/&quot;&gt;Microsoft&lt;/a&gt;, &lt;a href=&quot;http://www.golem.de/specials/amd/&quot;&gt;AMD&lt;/a&gt;)</summary>
+    </entry>
+    <entry>
+        <title>Xbox 360 &quot;Jasper&quot; mit 65-nm-Chips soll im August 2008 kommen</title>
+        <link rel="alternate" type="text/html" href="http://www.golem.de/0805/59605.html"/>
+        <published>2008-05-09T15:46:00+02:00</published>
+        <updated>2008-05-09T15:46:00+02:00</updated>
+        <id>http://www.golem.de/0805/59605.html</id>
+        <author>
+            <name>Golem.de</name>
+        </author>
+        <summary type="html">Bereits seit Oktober 2007 wird über eine neue Version von Microsofts Xbox 360 spekuliert, mit welcher unter anderem das Hitzeproblem der Konsole endgültig gelöst werden soll. Microsoft hat inzwischen bestätigt, dass das Unternehmen mit dem taiwanischen Chiphersteller TSMC zusammenarbeitet. Andere Quellen geben auch vor zu wissen, was dort genau hergestellt werden soll. (&lt;a href=&quot;http://www.golem.de/specials/ibm/&quot;&gt;IBM&lt;/a&gt;, &lt;a href=&quot;http://www.golem.de/specials/microsoft/&quot;&gt;Microsoft&lt;/a&gt;)</summary>
+    </entry>
+    <entry>
+        <title>SPD geht auf Distanz zum elektronischen Personalausweis</title>
+        <link rel="alternate" type="text/html" href="http://www.golem.de/0805/59600.html"/>
+        <published>2008-05-09T15:24:00+02:00</published>
+        <updated>2008-05-09T15:24:00+02:00</updated>
+        <id>http://www.golem.de/0805/59600.html</id>
+        <author>
+            <name>Golem.de</name>
+        </author>
+        <summary type="html">Beim elektronischen Personalausweis, der im Koalitionsvertrag bereits vorgesehen war, macht die SPD offenbar einen gewissen Rückzieher. Vergangene Woche wurden massive Bedenken laut, berichtet der Spiegel. In der SPD-Fraktion heißt es, die Idee, Fingerabdrücke und ein biometrisches Foto in den Ausweis aufzunehmen, stehe &lt;em&gt;&quot;vor dem Scheitern&quot;&lt;/em&gt;.</summary>
+    </entry>
+    <entry>
+        <title>Auf Star Wreck folgt Iron Sky</title>
+        <link rel="alternate" type="text/html" href="http://www.golem.de/0805/59603.html"/>
+        <published>2008-05-09T15:15:00+02:00</published>
+        <updated>2008-05-09T15:15:00+02:00</updated>
+        <id>http://www.golem.de/0805/59603.html</id>
+        <author>
+            <name>Golem.de</name>
+        </author>
+        <summary type="html">Die Macher der Star-Trek-Parodie Star Wreck beginnen die Arbeit an ihrem zweiten Filmprojekt: Iron Sky. Wie schon beim Vorgänger soll der Film &quot;kollaborativ&quot; entstehen, also unter Mitwirkung einer großen Internetcommunity. Die grobe Handlung erklärt ein erster Trailer: 1945 wanderten die Nazis auf den Mond aus, 2018 kommen sie zurück. (&lt;a href=&quot;http://www.golem.de/specials/film/&quot;&gt;Film&lt;/a&gt;, &lt;a href=&quot;http://www.golem.de/specials/web20/&quot;&gt;Web2.0&lt;/a&gt;)</summary>
+    </entry>
+    <entry>
+        <title>Zboard-Tasten für Age of Conan (Update)</title>
+        <link rel="alternate" type="text/html" href="http://www.golem.de/0805/59601.html"/>
+        <published>2008-05-09T13:41:00+02:00</published>
+        <updated>2008-05-09T13:41:00+02:00</updated>
+        <id>http://www.golem.de/0805/59601.html</id>
+        <author>
+            <name>Golem.de</name>
+        </author>
+        <summary type="html">Der Hersteller Ideazon bringt für seine Zboard-Tastaturen nun auch einen Aufsatz für das bald startende Onlinerollenspiel &quot;Age of Conan: Hyborian Adventures&quot;. Um erwachsene Möchtegern-Barbaren vom Kauf zu überzeugen, liegt dem Zboard-Keyset für Age of Conan ein Code bei, mit dem sich im Spiel ein nützlicher Gegenstand freischalten lässt. (&lt;a href=&quot;http://www.golem.de/specials/mmorpg/&quot;&gt;MMORPG&lt;/a&gt;, &lt;a href=&quot;http://www.golem.de/specials/eingabegeraet/&quot;&gt;Eingabegerät&lt;/a&gt;)</summary>
+    </entry>
+    <entry>
+        <title>Zweites Update-Rollup für Exchange Server 2007 mit SP1</title>
+        <link rel="alternate" type="text/html" href="http://www.golem.de/0805/59602.html"/>
+        <published>2008-05-09T13:33:00+02:00</published>
+        <updated>2008-05-09T13:33:00+02:00</updated>
+        <id>http://www.golem.de/0805/59602.html</id>
+        <author>
+            <name>Golem.de</name>
+        </author>
+        <summary type="html">Für den Exchange Server 2007 mit installiertem Service Pack 1 steht ein zweites Update-Rollup als Download bereit. Ein erstes Patch-Paket war bereits Ende Februar 2008 erschienen. Das Update Rollup 2 soll zahlreiche Fehler beseitigen, damit die Software insgesamt zuverlässiger und stabiler zu Werke geht.  (&lt;a href=&quot;http://www.golem.de/specials/microsoft/&quot;&gt;Microsoft&lt;/a&gt;, &lt;a href=&quot;http://www.golem.de/specials/entscheider/&quot;&gt;Entscheider&lt;/a&gt;)</summary>
+    </entry>
+    <entry>
+        <title>Angespielt: Little Big Planet - die Sackmännchen kommen</title>
+        <link rel="alternate" type="text/html" href="http://www.golem.de/0805/59572.html"/>
+        <published>2008-05-09T12:27:00+02:00</published>
+        <updated>2008-05-09T12:27:00+02:00</updated>
+        <id>http://www.golem.de/0805/59572.html</id>
+        <author>
+            <name>Golem.de</name>
+        </author>
+        <summary type="html">Beim PlayStation Day wurde in dieser Woche angekündigt, dass Little Big Planet (LBP) im Oktober 2008 erscheint - und der PlayStation-3-Titel war sogar schon anspielbar. Sony Computer Entertainment will nicht nur ein witziges Geschicklichkeitsspiel, sondern einen vernetzten Spielebaukasten nebst zugehöriger Community liefern. (&lt;a href=&quot;http://www.golem.de/specials/psn/&quot;&gt;PSN&lt;/a&gt;, &lt;a href=&quot;http://www.golem.de/specials/sony/&quot;&gt;Sony&lt;/a&gt;)</summary>
+    </entry>
+    <entry>
+        <title>Die Formel 1 wechselt von Sony zu Codemasters</title>
+        <link rel="alternate" type="text/html" href="http://www.golem.de/0805/59597.html"/>
+        <published>2008-05-09T12:25:00+02:00</published>
+        <updated>2008-05-09T12:25:00+02:00</updated>
+        <id>http://www.golem.de/0805/59597.html</id>
+        <author>
+            <name>Golem.de</name>
+        </author>
+        <summary type="html">Nach Jahren mittelmäßiger exklusiver Sony-Spiele wechselt die Formel 1 zu Codemasters, denn der britische Entwickler und Publisher hat sich die exklusiven Rechte der FIA Formel 1 zur Entwicklung von Computer- und Videospielen gesichert. (&lt;a href=&quot;http://www.golem.de/specials/rennspiel/&quot;&gt;Rennspiel&lt;/a&gt;)</summary>
+    </entry>
+    <entry>
+        <title>Onlinebankraub: 1.000 Euro für Zugangsdaten</title>
+        <link rel="alternate" type="text/html" href="http://www.golem.de/0805/59596.html"/>
+        <published>2008-05-09T12:21:00+02:00</published>
+        <updated>2008-05-09T12:21:00+02:00</updated>
+        <id>http://www.golem.de/0805/59596.html</id>
+        <author>
+            <name>Golem.de</name>
+        </author>
+        <summary type="html">Kreditkartennummer und Onlinebanking-Daten sind wertvolle Güter, die laut McAfee im Internet in Einzelfällen für 1.000 Euro und mehr verkauft werden. Einschlägige Seiten im Internet bieten alle nötigen Informationen vom Namen, der Karten- oder Kontonummer über Angaben zur Guthabenhöhe bis hin zu PINs. Dabei variiert der Preis für die Daten je nach Land und Höhe des Guthabens auf den Konten. (&lt;a href=&quot;http://www.golem.de/specials/studie/&quot;&gt;Studie&lt;/a&gt;, &lt;a href=&quot;http://www.golem.de/specials/virus/&quot;&gt;Virus&lt;/a&gt;)</summary>
+    </entry>
+    <entry>
+        <title>Freies Dokumentenmanagement OpenKM 2.0 veröffentlicht</title>
+        <link rel="alternate" type="text/html" href="http://www.golem.de/0805/59599.html"/>
+        <published>2008-05-09T12:14:00+02:00</published>
+        <updated>2008-05-09T12:14:00+02:00</updated>
+        <id>http://www.golem.de/0805/59599.html</id>
+        <author>
+            <name>Golem.de</name>
+        </author>
+        <summary type="html">Die Dokumentenverwaltung OpenKM ist in der Version 2.0 erschienen. Die Websoftware kann nun eine Vorschau auf Multimedia-Dateien geben und mit Zip-Dateien umgehen. Neben der kostenlosen Community-Edition gibt es auch kommerzielle Fassungen der Software. (&lt;a href=&quot;http://www.golem.de/specials/entscheider/&quot;&gt;Entscheider&lt;/a&gt;, &lt;a href=&quot;http://www.golem.de/specials/jboss/&quot;&gt;JBoss&lt;/a&gt;)</summary>
+    </entry>
+    <entry>
+        <title>AMD-Hauptversammlung: Ruiz lässt wichtige Fragen offen</title>
+        <link rel="alternate" type="text/html" href="http://www.golem.de/0805/59598.html"/>
+        <published>2008-05-09T12:11:00+02:00</published>
+        <updated>2008-05-09T12:11:00+02:00</updated>
+        <id>http://www.golem.de/0805/59598.html</id>
+        <author>
+            <name>Golem.de</name>
+        </author>
+        <summary type="html">In einer ungewöhnlich kurzen Telefonkonferenz zur jährlichen Aktionärsversammlung von AMD fand CEO Hector Ruiz deutliche Worte zu den jüngsten Verlusten. Wie AMD seine nun &quot;asset smart&quot; genannte Strategie der Kostensenkungen umsetzen will und warum bereits angekündigte Architekturen auf den aktuellen Server-Roadmaps fehlen, ließ er unkommentiert. (&lt;a href=&quot;http://www.golem.de/specials/amd/&quot;&gt;AMD&lt;/a&gt;, &lt;a href=&quot;http://www.golem.de/specials/cpu/&quot;&gt;Prozessor&lt;/a&gt;)</summary>
+    </entry>
+    <entry>
+        <title>KOffice 2.0 Alpha 7 veröffentlicht</title>
+        <link rel="alternate" type="text/html" href="http://www.golem.de/0805/59593.html"/>
+        <published>2008-05-09T12:00:00+02:00</published>
+        <updated>2008-05-09T12:00:00+02:00</updated>
+        <id>http://www.golem.de/0805/59593.html</id>
+        <author>
+            <name>Golem.de</name>
+        </author>
+        <summary type="html">Die Entwickler des freien Office-Paketes KOffice 2.0 haben eine weitere Vorabversion freigegeben. Doch das KDE-Office ist immer noch in der Alpha-Phase. Während die Veröffentlichung der Unix- und Linux-Desktop-Oberfläche KDE 4.1 näher rückt, scheint es für KOffice 2.0 keinen offiziellen Veröffentlichungstermin zu geben. (&lt;a href=&quot;http://www.golem.de/specials/officesuite/&quot;&gt;Office-Suite&lt;/a&gt;, &lt;a href=&quot;http://www.golem.de/specials/opendocument/&quot;&gt;OpenDocument&lt;/a&gt;)</summary>
+    </entry>
+    <entry>
+        <title>Freenet laufen die Kunden davon</title>
+        <link rel="alternate" type="text/html" href="http://www.golem.de/0805/59594.html"/>
+        <published>2008-05-09T11:56:00+02:00</published>
+        <updated>2008-05-09T11:56:00+02:00</updated>
+        <id>http://www.golem.de/0805/59594.html</id>
+        <author>
+            <name>Golem.de</name>
+        </author>
+        <summary type="html">Das Telekommunikations- und Internetunternehmen Freenet musste im ersten Quartal 2008 einen Kunden- und Gewinnrückgang hinnehmen. Auch der Umsatz gab nach. Die Kundenzahl sank von 12,68 Millionen im Vergleichszeitraum des Vorjahres auf 11,36 Millionen. Hier habe sich das &lt;em&gt;&quot;latente Zerschlagungsszenario rund um das Unternehmen&quot;&lt;/em&gt; negativ ausgewirkt, so Freenet. Die Großaktionäre United Internet und Drillisch hatten versucht, Freenet zu übernehmen, um die einzelnen Sparten unter sich aufzuteilen. (&lt;a href=&quot;http://www.golem.de/specials/dsl/&quot;&gt;DSL&lt;/a&gt;)</summary>
+    </entry>
+    <entry>
+        <title>Pioneers neue Blu-ray-Player mit Bonusview</title>
+        <link rel="alternate" type="text/html" href="http://www.golem.de/0805/59595.html"/>
+        <published>2008-05-09T11:54:00+02:00</published>
+        <updated>2008-05-09T11:54:00+02:00</updated>
+        <id>http://www.golem.de/0805/59595.html</id>
+        <author>
+            <name>Golem.de</name>
+        </author>
+        <summary type="html">In den USA hat Pioneer in dieser Woche zwei neue Blu-ray-Player vorgestellt, die Bild-in-Bild-Funktionen und Onlinebonusmaterial (&quot;Bonusview&quot;) von Blu-ray-Filmen nutzen können. Preislich liegen sie noch nicht in einem Bereich, der dem Blu-ray-Format gegenüber der DVD zum schnellen Durchbruch verhelfen könnte. (&lt;a href=&quot;http://www.golem.de/specials/hdtv/&quot;&gt;HDTV&lt;/a&gt;, &lt;a href=&quot;http://www.golem.de/specials/heimkino/&quot;&gt;Heimkino&lt;/a&gt;)</summary>
+    </entry>
+    <entry>
+        <title>Anonyme P2P-Software Freenet 0.7 soll Nutzer besser schützen</title>
+        <link rel="alternate" type="text/html" href="http://www.golem.de/0805/59592.html"/>
+        <published>2008-05-09T11:48:00+02:00</published>
+        <updated>2008-05-09T11:48:00+02:00</updated>
+        <id>http://www.golem.de/0805/59592.html</id>
+        <author>
+            <name>Golem.de</name>
+        </author>
+        <summary type="html">Das Freenet-Projekt hat seine Peer-to-Peer-Software (P2P) Freenet in der Version 0.7.0 veröffentlicht, die Nutzer des Systems besser vor möglichen Repressalien schützen soll. Ziel ist es, den freien Fluss von Informationen über das Internet zu ermöglichen, ohne dass die Nutzer Angst vor Zensur haben müssen. (&lt;a href=&quot;http://www.golem.de/specials/p2p/&quot;&gt;P2P&lt;/a&gt;)</summary>
+    </entry>
+    <entry>
+        <title>Lebensdauer von OLED-Displays infrage gestellt</title>
+        <link rel="alternate" type="text/html" href="http://www.golem.de/0805/59591.html"/>
+        <published>2008-05-09T11:38:00+02:00</published>
+        <updated>2008-05-09T11:38:00+02:00</updated>
+        <id>http://www.golem.de/0805/59591.html</id>
+        <author>
+            <name>Golem.de</name>
+        </author>
+        <summary type="html">Ein erster Langzeittest von Sonys OLED-Fernsehern durch die technischen Analysten von DisplaySearch stellt der neuen Technik kein gutes Zeugnis aus: Hochgerechnet soll sich die Helligkeit bereits nach fünf Jahren halbieren, Sony gab bisher fast die doppelte Lebensdauer für die organischen Leuchtdioden an. (&lt;a href=&quot;http://www.golem.de/specials/display/&quot;&gt;Display&lt;/a&gt;, &lt;a href=&quot;http://www.golem.de/specials/heimkino/&quot;&gt;Heimkino&lt;/a&gt;)</summary>
+    </entry>
+    <entry>
+        <title>Office 2007 SP1 kommt Mitte Juni 2008 automatisch</title>
+        <link rel="alternate" type="text/html" href="http://www.golem.de/0805/59590.html"/>
+        <published>2008-05-09T10:52:00+02:00</published>
+        <updated>2008-05-09T10:52:00+02:00</updated>
+        <id>http://www.golem.de/0805/59590.html</id>
+        <author>
+            <name>Golem.de</name>
+        </author>
+        <summary type="html">Mitte Dezember 2007 wurde das Service Pack 1 für Office 2007 veröffentlicht, ein halbes Jahr später will Microsoft die Patch-Sammlung auch automatisiert verteilen. Damit will der Softwaregigant Kunden die Möglichkeit geben, sich ausgiebig auf die Installation des Service Pack 1 vorbereiten zu können. (&lt;a href=&quot;http://www.golem.de/specials/microsoft/&quot;&gt;Microsoft&lt;/a&gt;, &lt;a href=&quot;http://www.golem.de/specials/officesuite/&quot;&gt;Office-Suite&lt;/a&gt;)</summary>
+    </entry>
+    <entry>
+        <title>Mehr Filmklassiker auf Blu-ray</title>
+        <link rel="alternate" type="text/html" href="http://www.golem.de/0805/59589.html"/>
+        <published>2008-05-09T10:32:00+02:00</published>
+        <updated>2008-05-09T10:32:00+02:00</updated>
+        <id>http://www.golem.de/0805/59589.html</id>
+        <author>
+            <name>Golem.de</name>
+        </author>
+        <summary type="html">Stück für Stück finden Filmklassiker und Kultfilme ihren Weg auf den DVD-Nachfolger Blu-ray Disc. Auch Criterion Collection will ab Herbst 2008 in den USA dazu beitragen und kündigte über ein Dutzend Blu-ray-Titel an, darunter beispielsweise &quot;The Third Man&quot; (&quot;Der dritte Mann&quot;), &quot;The Last Emperor&quot; (&quot;Der letzte Kaiser&quot;) und &quot;Chungking Express&quot;. (&lt;a href=&quot;http://www.golem.de/specials/blu-ray/&quot;&gt;Blu-ray&lt;/a&gt;, &lt;a href=&quot;http://www.golem.de/specials/heimkino/&quot;&gt;Heimkino&lt;/a&gt;)</summary>
+    </entry>
+    <entry>
+        <title>MySpace gewährt Dritten Zugriff auf Nutzerdaten</title>
+        <link rel="alternate" type="text/html" href="http://www.golem.de/0805/59588.html"/>
+        <published>2008-05-09T10:18:00+02:00</published>
+        <updated>2008-05-09T10:18:00+02:00</updated>
+        <id>http://www.golem.de/0805/59588.html</id>
+        <author>
+            <name>Golem.de</name>
+        </author>
+        <summary type="html">MySpace öffnet seine Datensilos und schließt sich dem Data-Portability-Projekt an. Nutzer des weltweiten größten Social-Networks können ihre dort eingestellten Daten auf andere Webseiten übernehmen, angefangen von Profildaten über Fotos und Videos bis hin zum eigenen Netzwerk von Freunden. (&lt;a href=&quot;http://www.golem.de/specials/socialnetwork/&quot;&gt;Soziales Netz&lt;/a&gt;, &lt;a href=&quot;http://www.golem.de/specials/technologie/&quot;&gt;Technologie&lt;/a&gt;)</summary>
+    </entry>
+    <entry>
+        <title>OHB will alle 26 Galileo-Satelliten bauen</title>
+        <link rel="alternate" type="text/html" href="http://www.golem.de/0805/59584.html"/>
+        <published>2008-05-09T10:08:00+02:00</published>
+        <updated>2008-05-09T10:08:00+02:00</updated>
+        <id>http://www.golem.de/0805/59584.html</id>
+        <author>
+            <name>Golem.de</name>
+        </author>
+        <summary type="html">Der Bremer Raumfahrtkonzern OHB Technology will ein Gebot zum Bau aller 26 Satelliten für das europäische Navigationssystem Galileo abgeben. OHB möchte bei allen &lt;em&gt;&quot;26 Satelliten und auch möglichen Einzeltranchen&quot;&lt;/em&gt; zum Zuge kommen, erklärte Firmenchef Marco Fuchs gegenüber der Wirtschaftswoche. (&lt;a href=&quot;http://www.golem.de/specials/gps/&quot;&gt;GPS&lt;/a&gt;)</summary>
+    </entry>
+    <entry>
+        <title>Skype zieht Einspruch im GPL-Verfahren zurück</title>
+        <link rel="alternate" type="text/html" href="http://www.golem.de/0805/59587.html"/>
+        <published>2008-05-09T10:05:00+02:00</published>
+        <updated>2008-05-09T10:05:00+02:00</updated>
+        <id>http://www.golem.de/0805/59587.html</id>
+        <author>
+            <name>Golem.de</name>
+        </author>
+        <summary type="html">Das Unternehmen Skype hat seine Berufung gegen seine Verurteilung wegen Verletzung der GNU General Public License (GPL) zurückgezogen und das Urteil angenommen. 2007 war Skype verurteilt worden, da es ein mit Linux betriebenes Voice-over-IP-Telefon ohne die entsprechenden Quelltexte ausliefert. (&lt;a href=&quot;http://www.golem.de/specials/rechtsstreitigkeiten/&quot;&gt;Rechtsstreitigkeiten&lt;/a&gt;, &lt;a href=&quot;http://www.golem.de/specials/urheberrecht/&quot;&gt;Urheberrecht&lt;/a&gt;)</summary>
+    </entry>
+    <entry>
+        <title>Nvidia verkauft 42 Prozent mehr Grafikchips</title>
+        <link rel="alternate" type="text/html" href="http://www.golem.de/0805/59586.html"/>
+        <published>2008-05-09T09:41:00+02:00</published>
+        <updated>2008-05-09T09:41:00+02:00</updated>
+        <id>http://www.golem.de/0805/59586.html</id>
+        <author>
+            <name>Golem.de</name>
+        </author>
+        <summary type="html">Ein Umsatzplus von 37 Prozent gegenüber dem Vorjahr auf 1,15 Milliarden US-Dollar vermeldet der Grafikchip-Hersteller Nvidia für das erste Quartal seines Geschäftsjahres 2008/2009, das am 27. April 2008 endete. (&lt;a href=&quot;http://www.golem.de/specials/nvidia/&quot;&gt;NVidia&lt;/a&gt;)</summary>
+    </entry>
+    <entry>
+        <title>Zwei Office-Patches und ein Update für Windows geplant</title>
+        <link rel="alternate" type="text/html" href="http://www.golem.de/0805/59585.html"/>
+        <published>2008-05-09T09:27:00+02:00</published>
+        <updated>2008-05-09T09:27:00+02:00</updated>
+        <id>http://www.golem.de/0805/59585.html</id>
+        <author>
+            <name>Golem.de</name>
+        </author>
+        <summary type="html">Microsoft hat vier Security Bulletins für den Patch-Day im Mai 2008 in Aussicht gestellt. Am 13. Mai 2008 erscheinen zwei Patches für die Office-Software aus Redmond sowie ein Windows-Patch, um Sicherheitslecks zu beseitigen, die als gefährlich eingestuft werden. Zudem ist ein Update für Microsofts Sicherheitssoftware geplant. (&lt;a href=&quot;http://www.golem.de/specials/microsoft/&quot;&gt;Microsoft&lt;/a&gt;)</summary>
+    </entry>
+    <entry>
+        <title>Activision mit guten Zahlen</title>
+        <link rel="alternate" type="text/html" href="http://www.golem.de/0805/59583.html"/>
+        <published>2008-05-09T09:05:00+02:00</published>
+        <updated>2008-05-09T09:05:00+02:00</updated>
+        <id>http://www.golem.de/0805/59583.html</id>
+        <author>
+            <name>Golem.de</name>
+        </author>
+        <summary type="html">Activision konnte für das abgelaufene Geschäftsjahr Rekordzahlen präsentieren. Der Umsatz belief sich auf 2,9 Milliarden US-Dollar und der Nettogewinn betrug 344,9 Millionen US-Dollar bzw. 1,10 US-Dollar pro Aktie. </summary>
+    </entry>
+    <entry>
+        <title>Neue Fernbedienung für Apple TV könnte Wii ähnlich werden</title>
+        <link rel="alternate" type="text/html" href="http://www.golem.de/0805/59582.html"/>
+        <published>2008-05-09T08:58:00+02:00</published>
+        <updated>2008-05-09T08:58:00+02:00</updated>
+        <id>http://www.golem.de/0805/59582.html</id>
+        <author>
+            <name>Golem.de</name>
+        </author>
+        <summary type="html">Nintendos Steuerkonzept für seine Spielkonsole Wii sorgte für Furore - und offensichtlich ist eine dreidimensionale Steuerung auch eine Idee, die Apple künftig für seine Fernseh-Set-Top-Box Apple TV erwägt. Ein Patentantrag des Unternehmens legt dies nahe und verspricht auch Spiele für Apples Gerät. (&lt;a href=&quot;http://www.golem.de/specials/apple/&quot;&gt;Apple&lt;/a&gt;, &lt;a href=&quot;http://www.golem.de/specials/iphone/&quot;&gt;iPhone&lt;/a&gt;)</summary>
+    </entry>
+    <entry>
+        <title>Online-Photoshop unterstützt Flickr</title>
+        <link rel="alternate" type="text/html" href="http://www.golem.de/0805/59581.html"/>
+        <published>2008-05-09T08:52:00+02:00</published>
+        <updated>2008-05-09T08:52:00+02:00</updated>
+        <id>http://www.golem.de/0805/59581.html</id>
+        <author>
+            <name>Golem.de</name>
+        </author>
+        <summary type="html">Die Onlineversion von Adobes Photoshop bietet in Zukunft zwei neue Funktionen. Zum einen unterstützt Adobe Photoshop Express ab sofort Yahoos Bilder-Community Flickr und bietet zum anderen eine auf beliebigen Seiten einzubindende Diashow. (&lt;a href=&quot;http://www.golem.de/specials/grafiksoftware/&quot;&gt;Grafiksoftware&lt;/a&gt;, &lt;a href=&quot;http://www.golem.de/specials/adobe/&quot;&gt;Adobe&lt;/a&gt;)</summary>
+    </entry>
+    <entry>
+        <title>Best Buy greift Media Markt und Saturn an</title>
+        <link rel="alternate" type="text/html" href="http://www.golem.de/0805/59580.html"/>
+        <published>2008-05-09T08:29:00+02:00</published>
+        <updated>2008-05-09T08:29:00+02:00</updated>
+        <id>http://www.golem.de/0805/59580.html</id>
+        <author>
+            <name>Golem.de</name>
+        </author>
+        <summary type="html">Die Saturn Media Holding, die in Europa die Elektronikmärkte Saturn und Media Markt betreibt, könnte bald Konkurrenz durch die weltgrößte Elektronikhandelskette Best Buy bekommen. Das US-Unternehmen und der britische Mobilfunkspezialist Carphone, der hierzulande unter ThePhone House auftritt, haben ein gemeinsames Unternehmen gegründet. </summary>
+    </entry>
+</feed>
