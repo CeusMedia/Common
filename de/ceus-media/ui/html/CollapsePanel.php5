@@ -39,7 +39,7 @@ import( 'de.ceus-media.ui.html.JQuery' );
  */
 class UI_HTML_CollapsePanel extends UI_HTML_Panel
 {
-	public static $class	= "collapsable";
+	public static $classPanel	= "collapsable";
 
 	/**
 	 *	Builds HTML Code of Panel.
@@ -49,12 +49,13 @@ class UI_HTML_CollapsePanel extends UI_HTML_Panel
 	 *	@param		string		$content		Content of Panel
 	 *	@param		string		$footer			Content of Footer
 	 *	@param		string		$class			CSS Class of Panel
+	 *	@param		array		$attributes		Map of Attributes of Panel DIV
 	 *	@return		string
 	 */
-	public static function create( $id, $header, $content, $footer = "", $class = "default" )
+	public static function create( $id, $header, $content, $footer = "", $theme = "default", $attributes = array() )
 	{
-		$class		= $class ? self::$class." ".$class : self::$class;
-		return parent::create( $header, $content, $footer, $class, array( 'id' => $id ) );
+		$classes	= $theme ? self::$classPanel." ".$theme : self::$classPanel;
+		return parent::create( $id, $header, $content, $footer, $classes, $attributes );
 	}
 
 	/**

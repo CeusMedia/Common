@@ -1,6 +1,7 @@
 <?php
 /**
- *	Paging System for Lists.
+ *	User Interface Component for Panels with Header, Footer and Content.
+ *	Base Implementation for further Panel Systems.
  *
  *	Copyright (c) 2008 Christian Würker (ceus-media.de)
  *
@@ -24,39 +25,137 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			21.11.2008
- *	@version		0.6
+ *	@version		0.7
  */
 import( 'de.ceus-media.ui.html.Tag' );
 /**
- *	Paging System for Lists.
+ *	User Interface Component for Panels with Header, Footer and Content.
+ *	Base Implementation for further Panel Systems.
  *	@package		ui.html
  *	@uses			UI_HTML_Tag
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			21.11.2008
- *	@version		0.6
+ *	@version		0.7
  */
 class UI_HTML_Panel
 {
-	public static $class	= "panel";
+	/**	@var		string		$classContent		CSS Class of Content DIV */
+	public static $classContent						= "panelContent";
+	/**	@var		string		$classContentInner	CSS Class of inner Content DIV */
+	public static $classContentInner				= "panelContentInner";
+	/**	@var		string		$classFooter		CSS Class of Footer DIV */
+	public static $classFooter						= "panelFoot";
+	/**	@var		string		$classFooterInner	CSS Class of inner Footer DIV */
+	public static $classFooterInner					= "panelFootInner";
+	/**	@var		string		$classHeader		CSS Class of Header DIV */
+	public static $classHeader						= "panelHead";
+	/**	@var		string		$classHeaderInner	CSS Class of inner Header DIV */
+	public static $classHeaderInner					= "panelHeadInner";
+	/**	@var		string		$classPanel			CSS Class of Panel DIV */
+	public static $classPanel						= "panel";
+
+	/** @var		array		$attributes			Map of Attributes of Panel DIV */
+	protected $attributes		= array();
+	/** @var		string		$content			Content of Panel */
+	protected $content			= NULL;
+	/** @var		string		$footer				Footer of Panel */
+	protected $footer			= NULL;
+	/** @var		string		$header				Header of Panel */
+	protected $header			= NULL;
 
 	/**
-	 *	Builds HTML Code of Panel.
+	 *	Builds HTML Code of Panel after settings Contents using the set methods.
+	 *	@param		string		$id				Tag ID of Panel
+	 *	@param		string		$theme			Theme / additional CSS Class of Panel
+	 *	@return		string
+	 */
+	public function build( $id, $theme = "default" )
+	{
+		return $this->create( $id, $this->header, $this->content, $this->footer, $theme, $this->attributes );
+	}
+
+	/**
+	 *	Builds HTML Code of Panel statically.
 	 *	@access		public
 	 *	@param		string		$id				Tag ID of Panel
 	 *	@param		string		$header			Content of Header
 	 *	@param		string		$content		Content of Panel
 	 *	@param		string		$footer			Content of Footer
-	 *	@param		string		$class			CSS Class of Panel
+	 *	@param		string		$theme			Theme / additional CSS Class of Panel
+	 *	@param		array		$attributes		Map of Attributes of Panel DIV
 	 *	@return		string
 	 */
-	public static function create( $header, $content, $footer = "", $class = "default", $attributes = array() )
+	public static function create( $id, $header, $content, $footer = NULL, $theme= "default", $attributes = array() )
 	{
-		$divHead	= self::wrap( self::wrap( $header, 'panelHeadInner' ), 'panelHead' );
-		$divContent	= self::wrap( self::wrap( (string) $content, 'panelContentInner' ), 'panelContent' );
-		$divFoot	= self::wrap( self::wrap( $footer, 'panelFootInner' ), 'panelFoot' );
-		$class		= $class ? self::$class." ".$class : self::$class;
-		$divPanel	= self::wrap( $divHead.$divContent.$divFoot, $class, $attributes );
+		$divContInner	= self::wrap( (string) $content, self::$classContentInner );
+		$divFootInner	= !is_null( $footer ) ? self::wrap( $footer, self::$classFooterInner ) : "";
+		$divHeadInner	= !is_null( $header ) ? self::wrap( $header, self::$classHeaderInner ) : "";
+
+		$divCont		= self::wrap( $divContInner, self::$classContent );
+		$divFoot		= !is_null( $footer ) ? self::wrap( $divFootInner, self::$classFooter ) : "";
+		$divHead		= !is_null( $header ) ? self::wrap( $divHeadInner, self::$classHeader ) : "";
+
+		$classes		= $theme ? self::$classPanel." ".$theme : self::$classPanel;
+		$attributes		= array_merge( array( "id" => $id ), $attributes );
+		$divPanel		= self::wrap( $divHead.$divCont.$divFoot, $classes, $attributes );
 		return $divPanel;
+	}
+
+	/**
+	 *	Set an Attributes of Panel DIV.
+	 *	@access		public
+	 *	@param		string		$key			Key of Attribute
+	 *	@param		string		$value			Value of Attribute
+	 *	@return		void
+	 */
+	public function setAttribute( $key, $value )
+	{
+		$this->attributes[$key]	= $value;
+	}
+	
+	/**
+	 *	Sets a Map of Attributes of Panel DIV.
+	 *	@access		public
+	 *	@param		array		$attributes		Map of Attribute
+	 *	@return		void
+	 */
+	public function setAttributes( $attributes )
+	{
+		foreach( $attributes as $key => $value )
+			$this->attributes[$key]	= $value;
+	}
+
+	/**
+	 *	Sets Content of Panel.
+	 *	@access		public
+	 *	@param		string		$content		Content of Panel
+	 *	@return		void
+	 */
+	public function setContent( $content )
+	{
+		$this->content	= $content;
+	}
+
+	/**
+	 *	Sets Footer Content of Panel.
+	 *	@access		public
+	 *	@param		string		$content		Footer Content of Panel
+	 *	@return		void
+	 */
+	public function setFooter( $footer )
+	{
+		$this->footer	= $footer;
+	}
+
+	/**
+	 *	Sets Header Content of Panel.
+	 *	@access		public
+	 *	@param		string		$content		Header Content of Panel
+	 *	@return		void
+	 */
+	public function setHeader( $header )
+	{
+		$this->header	= $header;
 	}
 
 	/**
