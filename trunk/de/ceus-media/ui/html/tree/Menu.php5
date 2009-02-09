@@ -18,15 +18,15 @@ import( 'de.ceus-media.ui.html.Elements' );
  */
 class UI_HTML_Tree_Menu
 {
-	/**	@var		string		$contentDrop		Indicator HTML Code for Items containing further Items */
+	/**	@var		string				$contentDrop		Indicator HTML Code for Items containing further Items */
 	protected $contentDrop;
-	/**	@var		string		$contentDrop		Indicator HTML Code for Items containing further Items */
+	/**	@var		string				$contentDrop		Indicator HTML Code for Items containing further Items */
 	public static $contentDropDefault	= "&nbsp;";
 	
 	/**
 	 *	Constructor, sets Indicator HTML Code for Items containing further Items.
 	 *	@access		public
-	 *	@param		string		$contentDrop	Indicator HTML Code for Items containing further Items
+	 *	@param		string				$contentDrop		Indicator HTML Code for Items containing further Items
 	 *	@return		void
 	 */
 	public function __construct( $contentDrop = NULL )
@@ -37,7 +37,7 @@ class UI_HTML_Tree_Menu
 	/**
 	 *	Builds HTML of Tree Menu from Tree Menu List Data Object dynamically.
 	 *	@access		public
-	 *	@param		ADT_Tree_Menu_List	$tree			Tree Menu List Data Object
+	 *	@param		ADT_Tree_Menu_List	$tree				Tree Menu List Data Object
 	 *	@return		string
 	 */
 	public function build( ADT_Tree_Menu_List $tree )
@@ -48,8 +48,8 @@ class UI_HTML_Tree_Menu
 	/**
 	 *	Builds HTML of Tree Menu from Data Array dynamically.
 	 *	@access		public
-	 *	@param		array		$tree			Data Array with Tree Menu Structure 
-	 *	@param		string		$contentDrop	Indicator HTML Code for Items containing further Items
+	 *	@param		array				$tree				Data Array with Tree Menu Structure 
+	 *	@param		string				$contentDrop		Indicator HTML Code for Items containing further Items
 	 *	@return		string
 	 */
 	public static function buildFromArray( $tree )
@@ -60,8 +60,8 @@ class UI_HTML_Tree_Menu
 	/**
 	 *	Builds HTML of Tree Menu from Tree Menu List Data Object statically.
 	 *	@access		public
-	 *	@param		ADT_Tree_Menu_List	$tree			Tree Menu List Data Object
-	 *	@param		string				$contentDrop	Indicator HTML Code for Items containing further Items
+	 *	@param		ADT_Tree_Menu_List	$tree				Tree Menu List Data Object
+	 *	@param		string				$contentDrop		Indicator HTML Code for Items containing further Items
 	 *	@return		string
 	 */
 	public static function buildMenu( ADT_Tree_Menu_List $tree, $contentDrop = NULL )
@@ -75,8 +75,8 @@ class UI_HTML_Tree_Menu
 	/**
 	 *	Builds HTML of Tree Menu from Data Array statically.
 	 *	@access		public
-	 *	@param		array		$tree			Data Array with Tree Menu Structure 
-	 *	@param		string		$contentDrop	Indicator HTML Code for Items containing further Items
+	 *	@param		array				$tree				Data Array with Tree Menu Structure 
+	 *	@param		string				$contentDrop		Indicator HTML Code for Items containing further Items
 	 *	@return		string
 	 */
 	public static function buildMenuFromArray( $tree, $contentDrop = NULL )
@@ -90,8 +90,8 @@ class UI_HTML_Tree_Menu
 	/**
 	 *	Builds HTML of a List Item with its nested Tree Menu Items statically.
 	 *	@access		protected
-	 *	@param		ADT_Tree_Menu_Item	$node			Tree Menu Item
-	 *	@param		string				$contentDrop	Indicator HTML Code for Items containing further Items
+	 *	@param		ADT_Tree_Menu_Item	$node				Tree Menu Item
+	 *	@param		string				$contentDrop		Indicator HTML Code for Items containing further Items
 	 *	@return		string
 	 */
 	protected static function buildItemWithChildren( ADT_Tree_Menu_Item &$node, $level, $contentDrop = NULL )
@@ -123,8 +123,8 @@ class UI_HTML_Tree_Menu
 	/**
 	 *	Builds HTML of a List Item with its nested Tree Menu Items from Data Array statically.
 	 *	@access		protected
-	 *	@param		array			$node			Data Array of Tree Menu Item
-	 *	@param		string			$contentDrop	Indicator HTML Code for Items containing further Items
+	 *	@param		array				$node				Data Array of Tree Menu Item
+	 *	@param		string				$contentDrop		Indicator HTML Code for Items containing further Items
 	 *	@return		string
 	 */
 	protected static function buildItemWithChildrenFromArray( &$node, $level, $contentDrop = NULL )

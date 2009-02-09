@@ -78,13 +78,13 @@ class UI_HTML_TreeView
 		$options	= array();
 		if( $cookieId )
 		{
-			$options['persist']		= '"cookie"';
-			$options['cookieId']	= '"'.$cookieId.'"';
+			$options['persist']		= "cookie";
+			$options['cookieId']	= $cookieId;
 		}
 		else
-			$options['persist']		= '"location"';
+			$options['persist']		= "location";
 		if( $animated )
-			$options['animated']	= '"'.$animated.'"';
+			$options['animated']	= strtolower( (string) $animated );
 		if( $unique )
 			$options['unique']		= "true";
 		if( $collapsed )
