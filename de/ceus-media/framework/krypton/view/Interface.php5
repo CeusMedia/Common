@@ -134,6 +134,8 @@ class Framework_Krypton_View_Interface extends Framework_Krypton_Core_View
 
 		$current	= $config['layout.theme'];
 		$list		= array();
+		if( !file_exists( $config['paths.themes'] ) )
+			throw new RuntimeException( 'Theme path "'.$config['paths.themes'].'" is not existing.' );
 		$dir		= new DirectoryIterator( $config['paths.themes'] );
 		foreach( $dir as $entry )
 		{
