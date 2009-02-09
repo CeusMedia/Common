@@ -90,7 +90,7 @@ class File_iCal_Parser
 	 *	@param		string			$lines			Array of iCal Lines
 	 *	@return 	void
 	 */
-	protected static function parseRecursive( $type, &$root, $lines )
+	protected static function parseRecursive( $type, &$root, &$lines )
 	{
 		$node =& new XML_DOM_Node( strtolower( $type ) );
 		$root->addChild( $node );
