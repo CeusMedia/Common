@@ -315,14 +315,19 @@ class UI_HTML_Elements extends UI_HTML_FormElements
 	 *	@param		string		$class			CSS-Klasse des Eingabefeldes
 	 *	@return		string
 	 */
-	public static function Image( $url, $title, $class = "", $width = false, $height = false )
+	public static function Image( $url, $title, $class = "", $width = NULL, $height = NULL )
 	{
-		$ins_class	= $class ? " class=\"".$class."\"" : "";
-		$ins_width	= $width ? " width=\"".$width."\"" : "";
-		$ins_height	= $height ? " height=\"".$height."\"" : "";
-		$ins_source	= " src=\"".$url."\"";
-		$ins_title		= " alt=\"".$title."\" title=\"".$title."\"";
-		$code		= "<img".$ins_class.$ins_source.$ins_title.$ins_width.$ins_height." hspace=\"0\" vspace=\"0\"/>";
+		$attributes	= array(
+			'src'		=> $url,
+			'class'		=> $class		? $class : NULL,
+			'width'		=> $width		? $width : NULL,
+			'height'	=> $height		? $height : NULL,
+			'alt'		=> $title		? $title : NULL,
+			'title'		=> $title		? $title : NULL,
+			'hspace'	=> 0,
+			'vspace'	=> 0,
+		);
+		$code	= UI_HTML_Tag::create( "img", NULL, $attributes );
 		return $code;
 	}
 

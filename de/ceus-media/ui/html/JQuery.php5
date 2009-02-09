@@ -38,7 +38,7 @@
 class UI_HTML_JQuery
 {
 	/**	@var		string		$jQueryFunctionName		Name of jQuery Function to call, default: $ */
-	public static $jQueryFunctionName	= '$';
+	public static $jQueryFunctionName	= 'jQuery';
 	
 	/**
 	 *	Builds and returns Plugin Constructor Options.
@@ -61,7 +61,18 @@ class UI_HTML_JQuery
 		{
 			$list	= array();
 			foreach( $options as $key => $value )
-				$list[]	= $key.": ".$value;
+			{
+				if( is_array( $value ) )
+					$value	= self::buildOptions( $value, $spaces + 2 );
+				else if( is_bool( $value ) )
+					$value	= (int) $value;
+				else if( is_string( $value ) )
+					$value	= '"'.$value.'"';
+				if( is_int( $key ) )
+					$list[]	= $value;
+				else
+					$list[]	= $key.": ".$value;
+			}
 			$options	= implode( ",\n    ", $list );
 			$options	= "{\n".$innerIndent.$options."\n".$outerIndent."}";
 		}
@@ -83,9 +94,11 @@ class UI_HTML_JQuery
 	{
 		$innerIndent	= str_repeat( " ", $spaces + 2 );
 		$outerIndent	= str_repeat( " ", $spaces );
-		$options	= self::buildOptions( $options, $spaces + 2 );
+		$options		= self::buildOptions( $options, $spaces + 2 );
+		$show			= $selector ? '.show()' : "";
+		$selector		= $selector ? '("'.$selector.'")' : "";
 		return $outerIndent.self::$jQueryFunctionName.'(document).ready(function(){
-'.$innerIndent.self::$jQueryFunctionName.'("'.$selector.'").'.$plugin.'('.$options.').show();
+'.$innerIndent.self::$jQueryFunctionName.$selector.'.'.$plugin.'('.$options.')'.$show.';
 '.$outerIndent.'});';
 	}
 }
