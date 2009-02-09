@@ -203,7 +203,7 @@ class Database_PDO_Connection extends PDO
 	public function setErrorLogFile( $fileName )
 	{
 		$this->logFileErrors	= $fileName;
-		if( !file_exists( dirname( $fileName ) ) )
+		if( $fileName && !file_exists( dirname( $fileName ) ) )
 			mkDir( dirname( $fileName ), 0700, TRUE );
 	}
 
@@ -234,7 +234,7 @@ class Database_PDO_Connection extends PDO
 	public function setStatementLogFile( $fileName )
 	{
 		$this->logFileStatements	= $fileName;
-		if( !file_exists( dirname( $fileName ) ) )
+		if( $fileName && !file_exists( dirname( $fileName ) ) )
 			mkDir( dirname( $fileName ), 0700, TRUE );
 	}
 }
