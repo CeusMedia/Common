@@ -17,7 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- *	@package		file.php
+ *	@package		folder
  *	@uses			File_RecursiveRegexFilter
  *	@uses			File_PHP_MethodVisibilityCheck
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
@@ -31,7 +31,7 @@ import( 'de.ceus-media.file.RecursiveRegexFilter' );
 import( 'de.ceus-media.file.php.MethodVisibilityCheck' );
 /**
  *	Checks visibility of methods in a folder containing PHP files.
- *	@package		file.php
+ *	@package		folder
  *	@uses			File_RecursiveRegexFilter
  *	@uses			File_PHP_MethodVisibilityCheck
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>

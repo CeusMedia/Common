@@ -40,9 +40,9 @@ import( 'de.ceus-media.file.Reader' );
  */
 class File_PHP_MethodVisibilityCheck
 {
-	private $fileName		= "";
-	private $methods		= array();
-	private $checked		= FALSE;
+	protected $fileName		= "";
+	protected $methods		= array();
+	protected $checked		= FALSE;
 
 	/**
 	 *	Constructor.
@@ -53,7 +53,7 @@ class File_PHP_MethodVisibilityCheck
 	public function __construct( $fileName )
 	{
 		if( !file_exists( $fileName ) )
-			throw new Exception( "File '".$fileName."' is not existing." );
+			throw new RuntimeException( "File '".$fileName."' is not existing." );
 		$this->fileName	= $fileName;
 		$this->checked	= FALSE;
 	}

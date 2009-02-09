@@ -50,7 +50,6 @@ class Tests_File_RegexFilterTest extends PHPUnit_Framework_TestCase
 	{
 	}
 
-
 	/**
 	 *	Tests Exception of Method 'construct'.
 	 *	@access		public

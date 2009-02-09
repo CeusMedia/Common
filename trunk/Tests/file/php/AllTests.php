@@ -6,6 +6,7 @@ require_once 'PHPUnit/Framework/TestSuite.php';
 require_once 'PHPUnit/TextUI/TestRunner.php';
 require_once 'Tests/initLoaders.php5' ;
 require_once 'Tests/file/php/ParserTest.php';
+require_once 'Tests/file/php/MethodVisibilityCheckTest.php';
 class Tests_File_PHP_AllTests
 {
 	public static function main()
@@ -16,7 +17,8 @@ class Tests_File_PHP_AllTests
 	public static function suite()
 	{
 		$suite = new PHPUnit_Framework_TestSuite( 'cmClasses/File/PHP' );
-		$suite->addTestSuite('Tests_File_PHP_ParserTest'); 
+		$suite->addTestSuite( 'Tests_File_PHP_ParserTest' ); 
+		$suite->addTestSuite( 'Tests_File_PHP_MethodVisibilityCheckTest' ); 
 		return $suite;
 	}
 }
