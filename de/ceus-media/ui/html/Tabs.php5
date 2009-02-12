@@ -26,7 +26,9 @@ class UI_HTML_Tabs
 	/**	@var		array		$pairs		List of Content Divs */
 	protected $divs	= array();
 	/**	@var		array		$options	Array of Options for the jQuery Plugin Call */
-	protected $options	= array();
+	protected $options	= array(
+		'navClass'	=> "tabs-nav"
+	);
 	/**	@var		array		$tabs		List of Tab Labels */
 	protected $tabs	= array();
 
@@ -42,7 +44,6 @@ class UI_HTML_Tabs
 			$this->addTabs( $tabs );
 		if( $class )
 			$this->setOption( 'navClass', $class );
-		$this->class	= $class;
 	}
 
 	/**
@@ -81,8 +82,7 @@ class UI_HTML_Tabs
 	 */
 	public function buildTabs( $id, $class = NULL )
 	{
-		$class	= $class ? $class : $this->class;
-		return self::createTabs( $id, $this->tabs, $this->divs, $class );
+		return self::createTabs( $id, $this->tabs, $this->divs, $this->options['navClass'] );
 	}
 
 	/**
@@ -146,14 +146,7 @@ class UI_HTML_Tabs
 	 */
 	public static function createScript( $selector, $options = array() )
 	{
-		$list	= array();
-		foreach( $options as $key => $value )
-		{
-			if( is_string( $value ) && preg_match( '@^([a-z0-9-_.#]+)$@i', $value ) )
-				$value	= '"'.$value.'"';
-			$list[$key]	= $value;
-		}
-		return UI_HTML_JQuery::buildPluginCall( "tabs", $selector, $list );	
+		return UI_HTML_JQuery::buildPluginCall( "tabs", $selector, $options );	
 	}
 
 	/**
