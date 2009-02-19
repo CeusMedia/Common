@@ -1,7 +1,7 @@
 <?php
 /**
  *	Implementation of CSS Menu, a dynamic Tree Navigation without JavaScript.
- *	@package		ui.html.tree
+ *	@package		ui.html.css
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			08.11.2008
  *	@version		0.1
@@ -10,13 +10,13 @@
 import( 'de.ceus-media.ui.html.Elements' );
 /**
  *	Implementation of CSS Menu, a dynamic Tree Navigation without JavaScript.
- *	@package		ui.html.tree
+ *	@package		ui.html.css
  *	@uses			UI_HTML_Elements
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			08.11.2008
  *	@version		0.1
  */
-class UI_HTML_Tree_Menu
+class UI_HTML_CSS_TreeMenu
 {
 	/**	@var		string				$contentDrop		Indicator HTML Code for Items containing further Items */
 	protected $contentDrop;
@@ -62,14 +62,15 @@ class UI_HTML_Tree_Menu
 	 *	@access		public
 	 *	@param		ADT_Tree_Menu_List	$tree				Tree Menu List Data Object
 	 *	@param		string				$contentDrop		Indicator HTML Code for Items containing further Items
+	 *	@param		array				$attributes			Map of HTML Attributes of List Tag
 	 *	@return		string
 	 */
-	public static function buildMenu( ADT_Tree_Menu_List $tree, $contentDrop = NULL )
+	public static function buildMenu( ADT_Tree_Menu_List $tree, $contentDrop = NULL, $attributes = array() )
 	{
 		$list	= array();
 		foreach( $tree->getChildren() as $child )
 			$list[]	= self::buildItemWithChildren( $child, 1, $contentDrop );
-		return UI_HTML_Elements::unorderedList( $list, 1 );
+		return UI_HTML_Elements::unorderedList( $list, 1, $attributes );
 	}
 
 	/**
