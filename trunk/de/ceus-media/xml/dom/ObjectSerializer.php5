@@ -50,12 +50,12 @@ class XML_DOM_ObjectSerializer
 	 *	@param		string		$encoding	Encoding Type
 	 *	@return		string
 	 */
-	public function serialize( $object, $encoding = "utf-8" )
+	public static function serialize( $object, $encoding = "utf-8" )
 	{
 		$root	= new XML_DOM_Node( "object" );
 		$root->setAttribute( 'class', get_class( $object ) );
 		$vars	= get_object_vars( $object );
-		$this->serializeVarsRec( $vars, $root );
+		self::serializeVarsRec( $vars, $root );
 		$builder	= new XML_DOM_Builder();
 		$serial		= $builder->build( $root, $encoding );
 		return $serial;
@@ -68,7 +68,7 @@ class XML_DOM_ObjectSerializer
 	 *	@param		XML_DOM_Node	$node		current XML Tree Node
 	 *	@return		string
 	 */
-	protected function serializeVarsRec( $array, &$node )
+	protected static function serializeVarsRec( $array, &$node )
 	{
 		foreach( $array as $key => $value)
 		{
@@ -102,7 +102,7 @@ class XML_DOM_ObjectSerializer
 				case 'array':
 					$child	=& new XML_DOM_Node( "array" );
 					$child->setAttribute( "name", $key );
-					$this->serializeVarsRec( $value, $child );
+					self::serializeVarsRec( $value, $child );
 					$node->addChild( $child );
 					break;
 				case 'object':
@@ -110,7 +110,7 @@ class XML_DOM_ObjectSerializer
 					$child->setAttribute( "name", $key );
 					$child->setAttribute( "class", get_class( $value ) );
 					$vars	= get_object_vars( $value );
-					$this->serializeVarsRec( $vars, $child );
+					self::serializeVarsRec( $vars, $child );
 					$node->addChild( $child );
 					break;
 			}
