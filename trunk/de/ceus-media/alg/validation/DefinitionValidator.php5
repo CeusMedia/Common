@@ -95,74 +95,6 @@ class Alg_Validation_DefinitionValidator
 	{
 		$this->validator	= new $validatorClass( $predicateClass );
 	}
-
-	/**
-	 *	Sets Field Labels for Messages.
-	 *	@access		public
-	 *	@param		array		$labels		Labels of Fields 
-	 *	@return		void
-	 */
-	public function setLabels( $labels )
-	{
-		$this->labels	= $labels;
-	}
-	
-	/**
-	 *	Sets Messages.
-	 *	@access		public
-	 *	@param		array		$messages	Messages for Errors
-	 *	@return		void
-	 */
-	public function setMessages( $messages )
-	{
-		$this->messages	= $messages;	
-	}
-
-	/**
-	 *	Validates Syntax against Field Definition and generates Messages.
-	 *	@access		public
-	 *	@param		string		$field		Field
-	 *	@param		string		$data		Field Definition
-	 *	@param		string		$value		Value to validate
-	 *	@param		string		$prefix	 	Prefix of Input Field
-	 *	@return		array
-	 */
-	public function validate( $field, $definition, $value, $prefix = "" )
-	{
-		$errors	= array();
-		if( strlen( $value ) )
-		{
-			if( isset( $definition['syntax']['class'] ) && $definition['syntax']['class'] )
-			{
-				if( !$this->validator->isClass( $value, $definition['syntax']['class'] ) )
-					$errors[]	= $this->handleError( $field, 'isClass', $value, $definition['syntax']['class'], $prefix );
-			}
-			if( isset( $definition['syntax']['minlength'] ) && $definition['syntax']['minlength'] )
-			{
-				if( !$this->validator->validate( $value, 'hasMinLength', $definition['syntax']['minlength'] ) )
-					$errors[]	= $this->handleError( $field, 'hasMinLength', $value, $definition['syntax']['minlength'], $prefix );
-			}
-			if( isset( $definition['syntax']['maxlength'] ) && $definition['syntax']['maxlength'] )
-			{
-				if( !$this->validator->validate( $value, 'hasMaxLength', $definition['syntax']['maxlength'] ) )
-					$errors[]	= $this->handleError( $field, 'hasMaxLength', $value, $definition['syntax']['maxlength'], $prefix );
-			}
-			if( isset( $definition['semantic'] ) )
-			{
-				foreach( $definition['semantic'] as $semantic )
-				{
-					$param	= isset( $semantic['edge'] ) && strlen( $semantic['edge'] ) ? $semantic['edge'] : NULL;
-					if( !$this->validator->validate( $value, $semantic['predicate'], $param ) )
-						$errors[]	= $this->handleError( $field, $semantic['predicate'], $value, $param, $prefix );
-				}
-			}
-		}
-		else if( isset( $definition['syntax']['mandatory'] ) && $definition['syntax']['mandatory'] )
-		{
-			$errors[]	= $this->handleError( $field, 'isMandatory', $value, NULL, $prefix );
-		}
-		return $errors;
-	}
 	
 	/**
 	 *	Returns Label of Field.
@@ -200,6 +132,72 @@ class Alg_Validation_DefinitionValidator
 		$msg	= str_replace( "%edge%", $edge, $msg );
 		$msg	= str_replace( "%prefix%", $prefix, $msg );
 		return $msg;
+	}
+
+	/**
+	 *	Sets Field Labels for Messages.
+	 *	@access		public
+	 *	@param		array		$labels		Labels of Fields 
+	 *	@return		void
+	 */
+	public function setLabels( $labels )
+	{
+		$this->labels	= $labels;
+	}
+	
+	/**
+	 *	Sets Messages.
+	 *	@access		public
+	 *	@param		array		$messages	Messages for Errors
+	 *	@return		void
+	 */
+	public function setMessages( $messages )
+	{
+		$this->messages	= $messages;	
+	}
+
+	/**
+	 *	Validates Syntax against Field Definition and generates Messages.
+	 *	@access		public
+	 *	@param		string		$field		Field
+	 *	@param		string		$data		Field Definition
+	 *	@param		string		$value		Value to validate
+	 *	@param		string		$prefix	 	Prefix of Input Field
+	 *	@return		array
+	 */
+	public function validate( $field, $definition, $value, $prefix = "" )
+	{
+		$errors		= array();
+		$syntax		= new ArrayObject( $definition['syntax'] );
+		$semantics	= isset( $definition['semantic'] ) ? $definition['semantic'] : array();
+
+		if( !strlen( $value ) && $syntax['mandatory'] )
+		{
+			$errors[]	= $this->handleError( $field, 'isMandatory', $value, NULL, $prefix );
+			return $errors;
+		}
+
+		if( $syntax['class'] )
+			if( !$this->validator->isClass( $value, $syntax['class'] ) )
+				$errors[]	= $this->handleError( $field, 'isClass', $value, $syntax['class'], $prefix );
+
+		$predicates	= array(
+			'maxlength'	=> "hasMaxLength",
+			'minlength'	=> "hasMinLength",
+		);
+		foreach( $predicates as $key => $predicate )
+			if( $syntax[$key] )
+				if( !$this->validator->validate( $value, $predicate, $syntax[$key] ) )
+					$errors[]	= $this->handleError( $field, $predicate, $value, $syntax[$key], $prefix );
+
+		foreach( $semantics as $semantic )
+		{
+			$semantic	= new ArrayObject( $semantic );
+			$param	= strlen( $semantic['edge'] ) ? $semantic['edge'] : NULL;
+			if( !$this->validator->validate( $value, $semantic['predicate'], $param ) )
+				$errors[]	= $this->handleError( $field, $semantic['predicate'], $value, $param, $prefix );
+		}
+		return $errors;
 	}
 }
 ?>
