@@ -306,7 +306,7 @@ class UI_DevOutput
 		{
 			$key = ( $key !== NULL ) ? $key." => " : "";
 			$space = $this->indentSign( $offset, $sign, $factor );
-			echo $space."[ ] ".$key.$this->noteOpen."NULL".$this->noteClose.$this->lineBreak;
+			echo $space."[N] ".$key.$this->noteOpen."NULL".$this->noteClose.$this->lineBreak;
 		}
 		else
 			$this->printMixed( $null, $offset, $key, $sign, $factor );
@@ -416,10 +416,13 @@ function dump( $variable )
  *	@param		int			$factor		Space Factor
  *	@return		void
  */
-function print_m( $mixed, $sign = NULL, $factor = NULL )
+function print_m( $mixed, $prefix = NULL, $sign = NULL, $factor = NULL )
 {
 	$o = new UI_DevOutput();
-	echo $o->lineBreak;
+	if( $prefix )
+		remark( $prefix );
+	else
+		echo $o->lineBreak;
 	$o->printMixed( $mixed, 0, NULL, $sign, $factor );
 }
 
@@ -445,7 +448,7 @@ function print_globals( $sign = NULL, $factor = NULL )
  *	@param		bool		$break		Flag: break Line before Print
  *	@return		void
  */
-function remark( $text = "", $parameters = array(), $break = true )
+function remark( $text = "", $parameters = array(), $break = TRUE )
 {
 	$o = new UI_DevOutput();
 	if( $break )

@@ -17,24 +17,24 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- *	@package	file.css
- *	@author		Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@package		file.css
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
- *	@since		26.09.2007
- *	@version	0.1
+ *	@since			26.09.2007
+ *	@version		0.1
  */
 /**
  *	Compresses CSS Files..
- *	@package	file.css
- *	@author		Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@package		file.css
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
- *	@since		26.09.2007
- *	@version	0.1
- */
+ *	@since			26.09.2007
+ *	@version		0.1
+ *
 class File_CSS_Compressor
 {
 	/**	@var		string			$prefix			Prefix of compressed File Name */
