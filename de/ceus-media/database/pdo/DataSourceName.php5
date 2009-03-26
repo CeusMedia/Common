@@ -84,7 +84,7 @@ class Database_PDO_DataSourceName
 	 */
 	public static function getDSN( $type, $hostname = NULL, $port = NULL, $database, $username = NULL, $password = NULL )
 	{
-		$dsn	= new DataSourceName( $type, $hostname, $port, $database, $username, $password );
+		$dsn	= new Database_PDO_DataSourceName( $type, $hostname, $port, $database, $username, $password );
 		return $dsn->__toString();
 	}
 
