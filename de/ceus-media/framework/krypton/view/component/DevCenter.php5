@@ -126,16 +126,16 @@ class Framework_Krypton_View_Component_DevCenter extends Framework_Krypton_Core_
 			var_dump( $element );													//  print  Variable Dump
 			if( !$hasXDebug )
 			{
-				$dump	= ob_get_clean();												//  get buffered Dump
-				$dump	= preg_replace( "@=>\n +@", ": ", $dump );						//  remove Line Break on Relations
-				$dump	= str_replace( "{\n", "\n", $dump );							//  remove Array Opener
-				$dump	= str_replace( "}\n", "\n", $dump );							//  remove Array Closer
-				$dump	= str_replace( ' ["', " ", $dump );								//  remove Variable Key Opener
-				$dump	= str_replace( '"]:', ":", $dump );								//  remove Variable Key Closer
-				$dump	= preg_replace( '@string\([0-9]+\)@', "", $dump );				//  remove Variable Type for Strings
-				$dump	= preg_replace( '@array\([0-9]+\)@', "", $dump );				//  remove Variable Type for Arrays
-				ob_start();																//  open Buffer
-				xmp( $dump );															//  print Dump with XMP
+				$dump	= ob_get_clean();											//  get buffered Dump
+				$dump	= preg_replace( "@=>\n +@", ": ", $dump );					//  remove Line Break on Relations
+				$dump	= str_replace( "{\n", "\n", $dump );						//  remove Array Opener
+				$dump	= str_replace( "}\n", "\n", $dump );						//  remove Array Closer
+				$dump	= str_replace( ' ["', " ", $dump );							//  remove Variable Key Opener
+				$dump	= str_replace( '"]:', ":", $dump );							//  remove Variable Key Closer
+				$dump	= preg_replace( '@string\([0-9]+\)@', "", $dump );			//  remove Variable Type for Strings
+				$dump	= preg_replace( '@array\([0-9]+\)@', "", $dump );			//  remove Variable Type for Arrays
+				ob_start();															//  open Buffer
+				xmp( $dump );														//  print Dump with XMP
 			}
 		}
 		else																		//  Print Mode: print_m
@@ -211,7 +211,7 @@ class Framework_Krypton_View_Component_DevCenter extends Framework_Krypton_Core_
 	 *	@param		bool		$supportPartitionCookie		Flag: support PartitionCookie/Cake
 	 *	@return		void
 	 */
-	protected function showCookie( $supportPartitionCookie = true )
+	protected function showCookie( $supportPartitionCookie = TRUE )
 	{
 		if( count( $_COOKIE ) )
 		{
