@@ -52,7 +52,7 @@ class UI_HTML_CollapsePanel extends UI_HTML_Panel
 	 *	@param		array		$attributes		Map of Attributes of Panel DIV
 	 *	@return		string
 	 */
-	public static function create( $id, $header, $content, $footer = "", $theme = "default", $attributes = array() )
+	public static function create( $id, $header, $content, $footer = NULL, $theme = "default", $attributes = array() )
 	{
 		$classes	= $theme ? self::$classPanel." ".$theme : self::$classPanel;
 		return parent::create( $id, $header, $content, $footer, $classes, $attributes );
