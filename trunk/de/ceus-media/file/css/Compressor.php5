@@ -34,7 +34,7 @@
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			26.09.2007
  *	@version		0.1
- *
+ */
 class File_CSS_Compressor
 {
 	/**	@var		string			$prefix			Prefix of compressed File Name */
