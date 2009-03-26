@@ -103,6 +103,36 @@ class File_Configuration_Reader extends ADT_List_Dictionary
 		}
 		return NULL;																			//  nothing found
 	}
+	
+	public function remove( $key )
+	{
+		if( empty( $key ) )																		//  no Key given
+			throw new InvalidArgumentException( 'Key must not be empty.' );						//  throw Exception
+		if( isset( $this->pairs[$key] ) )														//  Key is set on its own
+		{
+			unset( $this->pairs[$key] );														//  remove Pair
+			return 1;																			//  return Success
+		}
+
+		$count	= 0;
+		$key		.= ".";																		//  prepare Prefix Key to seach for
+		$length		= strlen( $key );															//  get Length of Prefix Key outside the Loop
+		foreach( $this->pairs as $pairKey => $pairValue )										//  iterate all stores Pairs
+		{
+			if( $pairKey[0] !== $key[0] )														//  precheck for Performance
+			{
+				if( $count )																	//  Pairs with Prefix Keys are passed
+					break;																		//  break Loop -> big Performance Boost
+				continue;																		//  skip Pair
+			}
+			if( strpos( $pairKey, $key ) === 0 )												//  Prefix Key is found
+			{
+				unset( $this->pairs[$pairKey] );												//  remove Pair
+				$count++;																		//  count removed Pairs
+			}
+		}
+		return $count;																			//  return number of removed pairs
+	}
 
 	/**
 	 *	Loads Configuration File directly or from Cache and returns Source (cache|ini|conf|xml|...).
