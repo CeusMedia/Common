@@ -14,7 +14,7 @@
 class XML_DOM_Namespaces
 {
 	/**	@var		array		$namespaces		Map of Namespaces */
-	procted $namespaces	= array();
+	protected $namespaces	= array();
 
 	/**
 	 *	Adds a Namespace to Map.
