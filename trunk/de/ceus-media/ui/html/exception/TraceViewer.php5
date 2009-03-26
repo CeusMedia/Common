@@ -68,11 +68,14 @@ class UI_HTML_Exception_TraceViewer
 	 */
 	public static function buildTrace( Exception $exception, $breakMode = 0 )
 	{
+
 		$content	= '<p style="font-family: monospace;"><span style="font-weight: bold; color: #000000;">An exception was thrown.<br/></span>';
 		$content	.= "Type: ".get_class( $exception )."<br/>";
 		$content	.= "Message: ".$exception->getMessage()."<br/>";
 		$content	.= "Code: ".$exception->getCode()."<br/>";
-		$content	.= '<span style="color: #0000FF;">';
+		$content	.= "File: ".self::trimRootPath( $exception->getFile() )."<br/>";
+		$content	.= "Line: ".$exception->getLine()."<br/>";
+		$content	.= 'Trace:<br/><span style="color: #0000FF;">';
 		$i	= 0;
 		$j	= 0;
 		foreach( $exception->getTrace() as $key => $trace )
@@ -100,7 +103,7 @@ class UI_HTML_Exception_TraceViewer
 	private static function buildTraceStep( $trace, $i, $j, $breakMode = 0 )
 	{
 		if( $j == 0 )
-			if( !isset( $trace['class'] ) && isset( $trace['function'] ) )
+			if( isset( $trace['function'] ) )
 				if( in_array( $trace['function'], array( "eval", "throwException" ) ) )		//  Exception was thrown using throwException
 					return "";
 
@@ -117,7 +120,7 @@ class UI_HTML_Exception_TraceViewer
 
 		$content	= "#$j ";
 		if( isset( $trace["file"] ) )
-			$content	.= $trace["file"]."(".$trace["line"]."): ".$funcBreak;
+			$content	.= self::trimRootPath( $trace["file"] )."(".$trace["line"]."): ".$funcBreak;
 		if( array_key_exists( "class", $trace ) && array_key_exists( "type", $trace ) )
 			$content	.= $indent.$trace["class"].$trace["type"];
 		if( array_key_exists( "function", $trace ) )
@@ -195,6 +198,24 @@ class UI_HTML_Exception_TraceViewer
 #			return "(<br/>".$indent.$indent.$indent.$indent.implode( ",<br/>".$indent.$indent.$indent.$indent, $list )."<br/>".$indent.$indent.$indent.")";
 #		}
 		return "(".implode( ", ", $list ).")";
+	}
+
+	/**
+	 *	Removes Document Root in File Names.
+	 *	@access		protected
+	 *	@param		string		$fileName		File Name to clear
+	 *	@return		string
+	 */
+	protected function trimRootPath( $fileName )
+	{
+		$rootPath	= isset( $_SERVER['DOCUMENT_ROOT'] ) ? $_SERVER['DOCUMENT_ROOT'] : "";
+		if( !$rootPath || !$fileName )
+			return;
+		$fileName	= str_replace( '\\', "/", $fileName );
+		$cut		= substr( $fileName, 0, strlen( $rootPath ) );
+		if( $cut == $rootPath )
+			$fileName	= substr( $fileName, strlen( $rootPath ) );
+		return $fileName;
 	}
 }
 ?>

@@ -88,12 +88,20 @@ class UI_HTML_Panel
 	public static function create( $id, $header, $content, $footer = NULL, $theme= "default", $attributes = array() )
 	{
 		$divContInner	= self::wrap( (string) $content, self::$classContentInner );
-		$divFootInner	= !is_null( $footer ) ? self::wrap( $footer, self::$classFooterInner ) : "";
-		$divHeadInner	= !is_null( $header ) ? self::wrap( $header, self::$classHeaderInner ) : "";
-
 		$divCont		= self::wrap( $divContInner, self::$classContent );
-		$divFoot		= !is_null( $footer ) ? self::wrap( $divFootInner, self::$classFooter ) : "";
-		$divHead		= !is_null( $header ) ? self::wrap( $divHeadInner, self::$classHeader ) : "";
+		$divHead		= "";
+		$divFoot		= "";
+		
+		if( !is_null( $footer ) )
+		{
+			$divFootInner	= self::wrap( $footer, self::$classFooterInner );
+			$divFoot		= self::wrap( $divFootInner, self::$classFooter );
+		}
+		if( !is_null( $header ) )
+		{
+			$divHeadInner	= self::wrap( $header, self::$classHeaderInner );
+			$divHead		= self::wrap( $divHeadInner, self::$classHeader );
+		}
 
 		$classes		= $theme ? self::$classPanel." ".$theme : self::$classPanel;
 		$attributes		= array_merge( array( "id" => $id ), $attributes );
