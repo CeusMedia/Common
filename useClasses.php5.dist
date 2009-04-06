@@ -5,9 +5,10 @@
  *	@version		0.6
  */
 
-define( 'CM_CLASS_PATH',	"/path/to/cmClasses/version/" );		//  EDIT THIS PATH FOR YOUR INSTALLATION
+define( 'CMC_VERSION',	"0.6.6" );
+define( 'CMC_PATH',	"/path/to/cmClasses/version/" );		//  EDIT THIS PATH FOR YOUR INSTALLATION
 
-set_include_path( CM_CLASS_PATH.PATH_SEPARATOR.get_include_path() );		//  prepend cmClasses in PHP's include path
+set_include_path( CMC_PATH.PATH_SEPARATOR.get_include_path() );		//  prepend cmClasses in PHP's include path
 if( !@include_once( "import.php5" ) )										//  test path by loading cmClasses import function
 	die( 'Path to "cmClasses" is not set correctly in "'.__FILE__.'".' );	//  exit with notice if not available
 ?>

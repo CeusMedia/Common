@@ -110,9 +110,9 @@ class Alg_UnusedVariableFinder
 					$open	= $parts[0];
 					$matches[$open]['params']	= array();
 					$matches[$open]['lines']	= array();
-					if( isset( $parts[1] ) && $parts[1] )
+					if( isset( $parts[1] ) && trim( $parts[1] ) )
 					{
-						$params	= explode( ",", $parts[1] ) ;
+						$params	= explode( ",", preg_replace( "@\(.*\)@", "", $parts[1] ) );
 						foreach( $params as $param )
 						{
 							$param	= trim( $param );

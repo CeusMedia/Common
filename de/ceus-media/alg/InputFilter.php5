@@ -58,7 +58,7 @@ class Alg_InputFilter
 	 */
 	public static function stripScripts( $string )
 	{
-		$string	= preg_replace( "@<script[^>]*>.*</script>@siU", "", $string );
+		$string	= preg_replace( "@<\s*s\s*c\s*r\s*i\s*p\s*t[^>]*>.*<\s*/\s*s\s*c\s*r\s*i\s*p\s*t\s*>@siU", "", $string );
 		return $string;
 	}
 
