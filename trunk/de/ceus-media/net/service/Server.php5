@@ -29,11 +29,8 @@ import( 'de.ceus-media.ui.DevOutput' );
  */
 class Net_Service_Server
 {
-	/**	@var		string			$basePath		Path to Service Index */
-	protected $basePath	= "";
-
 	/**	@var		array			$formats		Available Service Formats, can be overwritten */
-	public $formats		= array(
+	protected $formats					= array(
 		'atom',
 		'json',
 		'php',
@@ -43,38 +40,59 @@ class Net_Service_Server
 		'xml',
 	);
 
+	/**	@var		string			$fileName		File Name of Service Definition */
+	protected $fileName				= "services.xml";
+
+	/**	@var		string			$cacheFile		Cache File Name of Service Definition */
+	protected $cacheFile			= "services.cache";
+	
+	/**	@var		string			$templateIndex	Template of Index */
+	protected $templateIndex		= ".index/templates/index.phpt";
+	
+	/**	@var		string			$templateTest	Template of Test */
+	protected $templateTest			= ".index/templates/test.phpt";
+
+	/**	@var		string			$basePath		Path to Service Index */
+	protected $basePath				= "";
+
 	protected $servicePoint;
-	protected $fileName;
-	protected $cacheFile;
+
+	protected $pointFolders			= array();
 
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		string			$path			Service Point Path, eg. 'public/'
-	 *	@param		string			$basePath		Path to Service Point, eg. 'services/'
+	 *	@param		string			$classPath		Working Path of Application, eg. '../'
+	 *	@param		string			$pointPath		Service Point Path, eg. 'public/'
 	 *	@param		array			$formats		Service Response Formats, overwrites preset Formats
 	 *	@return		void
 	 */
-	public function __construct( $path, $basePath = "", $formats = array() )
+	public function __construct( $classPath = "", $pointPath = "", $formats = array() )
 	{
-		error_reporting( 1023 );
-
-		$this->basePath	= $basePath;
+		error_reporting( E_ALL );
 		if( is_array( $formats ) && $formats )
 			$this->formats	= $formats;
-			
-		$parts	= array();
-		foreach( explode( "/", $basePath.$path ) as $part )
-			if( trim( $part ) )
-				$parts[]	= $part;
 
-		chDir( str_repeat( "../", count( $parts ) ) );
-		$this->path	= implode( "/", $parts )."/";
-
-		$this->fileName			= $this->path."services.xml";
-		$this->cacheFile		= $this->path."services.cache";
-		$this->servicePoint		= $this->loadServicePoint();
+		$this->realizePaths( $classPath, $pointPath );
+		$this->loadServicePoint();
 		$this->handleRequest();
+	}
+
+	protected function realizePaths( $classPath, $pointPath )
+	{
+		foreach( explode( "/", $pointPath ) as $part )
+		{
+			if( !trim( $part ) )
+				continue;
+			$this->pointFolders[]	= $part; 
+			chDir( ".." );
+		}
+		$this->basePath		= getCwd()."/";
+		$this->pointPath	= $pointPath;
+		$this->pointPath	.= preg_match( '@/$@', $this->pointPath ) ? "" : "/";		//  correct Path
+
+		if( $classPath )
+			chDir( $classPath );
 	}
 
 	/**
@@ -85,7 +103,7 @@ class Net_Service_Server
 	protected function handleRequest()
 	{
 		$requestHandler	= new Net_HTTP_Request_Receiver;
-		$subfolderLevel	= substr_count( $this->path, "/" );
+		$subfolderLevel	= count( $this->pointFolders );
 
 		if( $requestHandler->has( 'service' ) )											//  run Service
 			$this->runService( $requestHandler );
@@ -102,8 +120,10 @@ class Net_Service_Server
 	 */
 	protected function loadServicePoint()
 	{
-		import( 'de.ceus-media.net.service.Point' );
-		return new Net_Service_Point( $this->fileName, $this->cacheFile );
+		import( 'de.ceus-media.net.service.Point' );									//  load Standard Service Point Class
+		$fileName	= $this->basePath.$this->pointPath.$this->fileName;					//  File Path of Service Definition
+		$fileCache	= $this->basePath.$this->pointPath.$this->cacheFile;				//  File Path of Service Definition Cache File
+		$this->servicePoint	= new Net_Service_Point( $fileName, $fileCache );			//  start Service Point
 	}
 	
 	/**
@@ -116,8 +136,8 @@ class Net_Service_Server
 		import( 'de.ceus-media.ui.html.service.Index' );
 		$index		= new UI_HTML_Service_Index( $this->servicePoint, $this->formats );
 		$index->setTableClass( 'services list' );
-		$index->setTemplate( $this->basePath.".index/templates/index.phpt" );
-		return $index->buildContent( $subfolderLevel, $this->basePath );
+		$index->setTemplate( $this->basePath.$this->templateIndex );
+		return $index->buildContent( $subfolderLevel, "" );
 	}
 	
 	/**
@@ -141,9 +161,9 @@ class Net_Service_Server
 	{
 		import( 'de.ceus-media.ui.html.service.Test' );
 		$test		= new UI_HTML_Service_Test( $this->servicePoint );
-		$test->setTableClass( 'services list' );
-		$test->setTemplate( $this->basePath.".index/templates/test.phpt" );
-		return $test->buildContent( $requestHandler, $subfolderLevel, $this->basePath );
+#		$test->setTableClass( 'services list' );
+		$test->setTemplate( $this->basePath.$this->templateTest );
+		return $test->buildContent( $requestHandler, $subfolderLevel, "");
 	}
 }
 ?>

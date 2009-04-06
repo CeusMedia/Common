@@ -77,6 +77,28 @@ class Net_Service_Handler extends Net_Service_Response
 	}
 
 	/**
+	 *	Compresses Response String using one of the supported Compressions.
+	 *	@access		protected
+	 *	@param		string			$content		Content of Response
+	 *	@param		string			$type			Compression Type
+	 *	@return		string
+	 */
+	protected static function compressResponse( $content, $type )
+	{
+		switch( $type )
+		{
+			case 'deflate':
+				$content	= gzcompress( $content );
+				break;
+			case 'gzip':
+				$content	= gzencode( $content );
+				break;
+			default:
+		}
+		return $content;
+	}
+
+	/**
 	 *	Handles Service Call by sending HTTP Response and returns Length of Response Content.
 	 *	@param		array			$requestData			Request Array (or Object with ArrayAccess Interface)
 	 *	@param		bool			$serializeException		Flag: serialize Exceptions instead of throwing
@@ -104,6 +126,7 @@ class Net_Service_Handler extends Net_Service_Response
 					$requestData[$parameters[$i]]	= $arguments[$i];
 				unset( $requestData['argumentsGivenByServiceCaller'] );
 			}
+			
 			$response	= $this->servicePoint->callService( $service, $format, $requestData );
 			$errors		= ob_get_clean();
 			if( trim( $errors ) )
@@ -117,55 +140,22 @@ class Net_Service_Handler extends Net_Service_Response
 	}
 
 	/**
-	 *	Compresses Response String using one of the supported Compressions.
+	 *	Encodes and responses an Exception as Data Array for requested Format.
 	 *	@access		protected
-	 *	@param		string			$content		Content of Response
-	 *	@param		string			$type			Compression Type
-	 *	@return		string
+	 *	@param		array			$requestData		Request Array (or Object with ArrayAccess Interface)
+	 *	@param		string			$format				Requested Format
+	 *	@param		Exception		$exception			Exception to encode
+	 *	@return		int
 	 */
-	protected static function compressResponse( $content, $type )
+	protected function sendException( $requestData, $format, $exception )
 	{
-		switch( $type )
+		try
 		{
-			case 'deflate':
-				$content	= gzcompress( $content );
-				break;
-			case 'gzip':
-				$content	= gzencode( $content );
-				break;
-			default:
+			$response	= $this->convertToOutputFormat( $exception, $format, "exception" );
 		}
-		return $content;
-	}
-
-	protected function sendException( $requestData, $format, $e )
-	{
-		import( 'de.ceus-media.ui.html.exception.TraceViewer' );
-		$trace	= UI_HTML_Exception_TraceViewer::buildTrace( $e, 2 );
-		$data	= array(
-			'type'		=> get_class( $e ),
-			'message'	=> $e->getMessage(),
-			'code'		=> $e->getCode(),
-			'file'		=> $e->getFile(),
-			'line'		=> $e->getLine(),
-			'trace'		=> $trace,
-		);
-		switch( $format )
+		catch( Exception $e )
 		{
-			case 'xml':
-				$response	= $this->getXml( $data, "exception" );
-				break;
-			case 'php':
-				$response	= $this->getPhp( $data, "exception" );
-				break;
-			case 'json':
-				$response	= $this->getJson( $data, "exception" );
-				break;
-			case 'wddx':
-				$response	= $this->getWddx( $data, "exception" );
-				break;
-			default:
-				$response	= $trace;
+			$response	= $exception->getMessage();
 		}
 		return $this->sendResponse( $requestData, $response, $format );
 	}

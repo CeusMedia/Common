@@ -28,6 +28,7 @@
  *	@version		0.6
  */
 import( 'de.ceus-media.net.cURL' );
+import( 'de.ceus-media.net.service.Decoder' );
 /**
  *	Client for interaction with Frontend Services.
  *	@package		net.service
@@ -66,67 +67,25 @@ class Net_Service_Client
 		'traffic'	=> 0,
 		'time'		=> 0,
 	);
-	/**	@var		array		$compressionTypes	List of supported Compression Types */
-	protected $compressionTypes	= array(
-		'deflate',
-		'gzip',
-	);
+	/**	@var		Net_Service_Decoder	$decoder	Response Decoder Object */	
+	protected $decoder;
 
 	/**
 	 *	Constructor.
 	 *	@access		public
 	 *	@param		string		$hostUrl			Basic Host URL of Service
 	 *	@param		bool		$logFile			File Name of Request Log File
+	 *	@param		string		$decoderClass		Name of Class with Methods to decompress and decode Response
 	 *	@return		void
 	 */
-	public function __construct( $hostUrl = NULL, $logFile = NULL )
+	public function __construct( $hostUrl = NULL, $logFile = NULL, $decoderClass = "Net_Service_Decoder" )
 	{
 		$this->id	= md5( uniqid( rand(), true ) );
 		if( $hostUrl )
 			$this->setHostAddress( $hostUrl );
 		if( $logFile )
 			$this->setLogFile( $logFile );
-	}
-
-	/**
-	 *	Decodes Response if JSON, PHP or WDDX Serial.
-	 *	@access		protected
-	 *	@param		string		$response			Response Content as serialized String
-	 *	@param		string		$format				Format of Serial (json|php|wddx|xml|rss|txt|...)
-	 *	@return		mixed
-	 *	@todo		Kriss: is "reponse === FALSE" correct, if Service returns FALSE ?
-	 */
-	protected function decodeResponse( $response, $format )
-	{
-		ob_start();																		//  open Buffer for PHP Error Messages
-
-		//  --  DECODE RESPONSE SERIAL  --  //
-		switch( $format )																//  go for requested Format
-		{
-			case 'json':																//  requested Format is JSON
-				$structure	= json_decode( $response, TRUE );							//  try to decode JSON Response
-				break;
-			case 'php':																	//  requested Format is PHP
-				$structure	= unserialize( $response );									//  try to decode PHP Response
-				if( $structure && $structure instanceof Exception )						//  Response is Exception
-					throw $structure;													//  throw Response Exception
-				break;
-			case 'wddx':																//  requested Format is WDDX
-				$structure	= wddx_deserialize( $response );							//  try to decode WDDX Response
-				break;
-			default:																	//  other Formats like Text or HTML
-				return $response;
-				break;																	//  bypass Response Content undecoded
-		}
-
-		$data	= $structure['data'];													//  Extract Response Data
-		if( $structure['status'] == "exception" )										//  Response contains an Exception
-			throw new Exception( $data['type'].": ".$data['message'] );					//  throw Exception and carry Message 
-
-		$output	= ob_get_clean();														//  close Buffer for PHP Error Messages
-		if( $structure === FALSE )														//  could not decode
-			return $output;																//  return Error Message instead
-		return $data;																	//  return decoded Response Data
+		$this->decoder	= new $decoderClass;
 	}
 
 	/**
@@ -154,10 +113,8 @@ class Net_Service_Client
 
 		if( array_key_exists( 'Content-Encoding', $response['headers'] ) )
 		{
-			$compression	= $response['headers']['Content-Encoding'][0];		
-			if( !in_array( $compression, $this->compressionTypes ) )
-				$compression	= $this->compressionTypes[0];
-			$response['content']	= self::uncompressResponse( $response['content'], $compression );
+			$compression	= $response['headers']['Content-Encoding'][0];
+			$response['content']	= $this->decoder->decompressResponse( $response['content'], $compression  );
 		}
 		return $response;
 	}
@@ -200,7 +157,7 @@ class Net_Service_Client
 			'response'	=> $response['content'],
 			'time'		=> $st->stop(),
 		);
-		$response['content']	= $this->decodeResponse( $response['content'], $format, $verbose );
+		$response['content']	= $this->decoder->decodeResponse( $response['content'], $format, $verbose );
 		return $response['content'];
 	}
 	
@@ -271,7 +228,7 @@ class Net_Service_Client
 			);
 		if( $verbose )
 			xmp( $response );
-		$response['content']	= $this->decodeResponse( $response['content'], $format, $verbose );
+		$response['content']	= $this->decoder->decodeResponse( $response['content'], $format, $verbose );
 		return $response['content'];
 	}
 
@@ -341,56 +298,6 @@ class Net_Service_Client
 	public function setVerifyPeer( $verify )
 	{
 		$this->verifyPeer	= (bool) $verify;
-	}
-
-	/**
-	 *	Decompresses compressed Response.
-	 *	@access		protected
-	 *	@param		string		$content			Response Content, compressed
-	 *	@param		string		$type				Compression Type used for compressing Response
-	 *	@return		string
-	 */
-	protected static function uncompressResponse( $content, $type )
-	{
-		switch( $type )
-		{
-			case 'deflate':
-				$compressed	= @gzuncompress( $content );
-				if( $compressed !== FALSE )
-					$content	= $compressed;
-				break;
-			case 'gzip':
-				$compressed	= @gzdecode( $content );
-				if( $compressed !== FALSE )
-					$content	= $compressed;
-				break;
-		}
-		return $content;
-	}
-}
-if( !function_exists( 'gzdecode' ) )
-{
-	function gzdecode( $data )
-	{
-		$flags	= ord( substr( $data, 3, 1 ) );
-		$headerlen		= 10;
-		$extralen		= 0;
-		if( $flags & 4 )
-		{
-			$extralen	= unpack( 'v' ,substr( $data, 10, 2 ) );
-			$extralen	= $extralen[1];
-			$headerlen	+= 2 + $extralen;
-		}
-		if( $flags & 8 ) 												// Filename
-			$headerlen = strpos( $data, chr( 0 ), $headerlen ) + 1;
-		if( $flags & 16 )												// Comment
-			$headerlen = strpos( $data, chr( 0 ), $headerlen ) + 1;
-		if( $flags & 2 )												// CRC at end of file
-			$headerlen	+= 2;
-		$unpacked = gzinflate( substr( $data, $headerlen ) );
-		if( $unpacked === FALSE )
-			$unpacked = $data;
-		return $unpacked;
 	}
 }
 ?>

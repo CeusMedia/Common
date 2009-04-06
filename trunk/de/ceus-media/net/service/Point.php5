@@ -283,7 +283,7 @@ class Net_Service_Point implements Net_Service_Interface_Point
 		$this->checkServiceDefinition( $serviceName );
 		return $this->services['services'][$serviceName]['class'];
 	}
-	
+
 	/**
 	 *	Returns Description of Service.
 	 *	@access		public
@@ -308,6 +308,18 @@ class Net_Service_Point implements Net_Service_Interface_Point
 	{
 		$this->checkServiceDefinition( $serviceName );
 		return $this->services['services'][$serviceName]['formats'];
+	}
+
+	/**
+	 *	Returns Roles having Access to Service.
+	 *	@access		public
+	 *	@param		string			$serviceName		Name of Service to call 
+	 *	@return		array								List of allowed Roles
+	 */
+	public function getServiceRoles( $serviceName )
+	{
+		$this->checkServiceDefinition( $serviceName );
+		return $this->services['services'][$serviceName]['roles'];
 	}
 	
 	/**
