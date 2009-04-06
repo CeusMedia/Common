@@ -38,22 +38,22 @@ import( 'de.ceus-media.net.http.request.Header' );
  */
 class Net_HTTP_Request_Sender
 {
-	/**	@var	string	$host			Host IP to be connected to */
+	/**	@var		string		$host			Host IP to be connected to */
 	protected $host;
-	/**	@var	string	$uri			URI to request to */
+	/**	@var		string		$uri			URI to request to */
 	protected $uri;
-	/**	@var	string	$port			Service Port of Host */
+	/**	@var		string		$port			Service Port of Host */
 	protected $port;
-	/**	@var	string	$method			Method of Request (GET or POST) */
+	/**	@var		string		$method			Method of Request (GET or POST) */
 	protected $method;
 
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		string	$host		Host adresse (IP or Hostname)
-	 *	@param		string	$uri		URI of Request
-	 *	@param		int		$port		Port of Request
-	 *	@param		string	$method		Method of Request (GET or POST)
+	 *	@param		string		$host			Host adresse (IP or Hostname)
+	 *	@param		string		$uri			URI of Request
+	 *	@param		int			$port			Port of Request
+	 *	@param		string		$method			Method of Request (GET or POST)
 	 *	@return		void
 	 */
 	public function __construct( $host, $uri, $port = 80, $method = "POST" )
@@ -67,16 +67,22 @@ class Net_HTTP_Request_Sender
 	/**
 	 *	Sends data via prepared Request.
 	 *	@access		public
-	 *	@param		array	$headers		Array of HTTP Headers
-	 *	@param		string	$data		Data to be sent
+	 *	@param		array		$headers		Array of HTTP Headers
+	 *	@param		string		$data			Data to be sent
 	 *	@return		bool
 	 */
-	public function send( $headers, $data )
+	public function send( $headers, $data = "" )
 	{
+		if( is_array( $data ) )
+			$data	= http_build_query( $data );
+		else if( !is_string( $data ) )
+			throw new InvalidArgumentException( 'Data must be String or Array' );
+	
 		$headers[] = new Net_HTTP_Request_Header( "Host", $this->host );
 		$headers[] = new Net_HTTP_Request_Header( "Referer", getEnv( "SERVER_ADDR" ) );
 		$headers[] = new Net_HTTP_Request_Header( "Content-type", "application/x-www-form-urlencoded" );
-		$headers[] = new Net_HTTP_Request_Header( "Content-length", strlen( $data ) );
+		if( $data )
+			$headers[] = new Net_HTTP_Request_Header( "Content-length", strlen( $data ) );
 		$headers[] = new Net_HTTP_Request_Header( "Connection", "close\r\n" );
 
 		$result	= "";
