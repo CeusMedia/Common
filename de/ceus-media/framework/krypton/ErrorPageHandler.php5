@@ -51,8 +51,18 @@ class Framework_Krypton_ErrorPageHandler extends Framework_Krypton_Base
 	 */
 	public function __construct( $configPath = "config/" )
 	{
-		$this->type		= array_shift( array_keys( $_REQUEST ) );
-		$this->level	= 0;
+		$type			= array_shift( array_keys( $_REQUEST ) );
+		$frameworked	= $this->initApplication( $configPath );
+		echo $this->buildView( $type, $frameworked );
+	}
+
+	/**
+	 *	Tries to initialise an Application Instance and returns Success.
+	 *	@access		protected
+	 *	@return		bool
+	 */
+	protected function initApplication( $configPath = "config/" )
+	{
 		try
 		{
 			//  --  ENVIRONMENT  --  //
@@ -67,7 +77,7 @@ class Framework_Krypton_ErrorPageHandler extends Framework_Krypton_Base
 			$this->initLanguage();							//  needs Request and Session
 			$this->initThemeSupport();						//  needs Configuration, Request and Session
 
-			$this->level	= 1;
+			return TRUE;
 		}
 		catch( PDOException $e )
 		{
@@ -76,26 +86,27 @@ class Framework_Krypton_ErrorPageHandler extends Framework_Krypton_Base
 		{
 			throw $e;
 		}
+		return FALSE;
 	}
 
 	/**
 	 *	Builds Error Page View.
-	 *	@access		public
+	 *	@access		protected
 	 *	@return		string
 	 */
-	public function buildView()
+	protected function buildView( $type, $frameworked )
 	{
-		if( !$this->type )
+		if( !$type )
 		{
 			throw new Exception( "No Error Type defined." );
 		}
-		if( $this->level )
+		if( $frameworked )
 		{
 			try
 			{
 				import( 'de.ceus-media.framework.krypton.core.View' );
 				$view	= new Framework_Krypton_Core_View();
-				$html	= $view->loadContent( $this->type.'.html' );
+				$html	= $view->loadContent( $type.'.html' );
 
 			}
 			catch( Exception $e )
@@ -115,7 +126,7 @@ class Framework_Krypton_ErrorPageHandler extends Framework_Krypton_Base
 			import( 'de.ceus-media.net.http.LanguageSniffer' );
 			$sniffer	= new Net_HTTP_LanguageSniffer;
 			$language	= $sniffer->getLanguage( $languages );
-			$html		= file_get_contents( "contents/html/".$language."/errors/".$this->type.".html" );
+			$html		= file_get_contents( "contents/html/".$language."/errors/".$type.".html" );
 		}
 		return $html;
 	}

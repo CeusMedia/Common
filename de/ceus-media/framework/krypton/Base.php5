@@ -83,6 +83,19 @@ abstract class Framework_Krypton_Base
 	abstract function __construct();
 
 	/**
+	 *	Loads a INI File and defines Constants for Core System.
+	 *	@access		public
+	 *	@param		string		$fileName			File Name of INI File containg Constant Pairs
+	 *	@return		void
+	 */
+	public static function loadConstants( $fileName = "config/constants.ini" )
+	{
+		$map	= parse_ini_file( $fileName, FALSE );								//  load Map of System Constants
+		foreach( $map as $key => $value )											//  iterate Map
+			define( strtoupper( trim( $key ) ), trim( $value ) );					//  define System Constants
+	}
+
+	/**
 	 *	Returns File Name for a Class Name.
 	 *	@access		protected
 	 *	@param		string		$className			Class Name to get File Name for
@@ -203,14 +216,12 @@ abstract class Framework_Krypton_Base
 			$config['database.access.password'],
 			$options
 		);
-#		$dbc->setErrorLogFile( $dba['access']['logfile'] );
-#		$dbc->setStatementLogFile( self::$dbLogPath."queries.log" );
-#		$dbc->setLogFile( $logfile );
-		if( $config->has( 'database.access.errorLogFile' ) )
-			$dbc->setLogFile( $errorLogFile );
-		$dbc->setQueryLogFile( self::$dbLogPath."queries.log" );
-		if( $config->has( 'database.access.statementLogFile' ) )
-			$dbc->setLogFile( $statementLogFile );
+
+		self::$dbLogPath	= $config['database.log.path'];
+		$log1	= $config['database.log.errors'] ? self::$dbLogPath.$config['database.log.errors'] : "";
+		$log2	= $config['database.log.statements'] ? self::$dbLogPath."queries.log" : "";
+		$dbc->setErrorLogFile( $log1 );
+		$dbc->setStatementLogFile( $log2 );
 
 		//  --  DATABASE ATTRIBUTES  --  //
 		$attributes	= $config['database.attributes'];
@@ -222,6 +233,7 @@ abstract class Framework_Krypton_Base
 			$dbc->query( "SET NAMES utf8" );		
 
 		$config['config.table_prefix']	= $config['database.access.prefix'];
+		$config->remove( 'database.access' );
 
 		$this->registry->set( "dbc", $dbc, TRUE );
 	}
@@ -348,7 +360,7 @@ abstract class Framework_Krypton_Base
 	 *	@access		protected
 	 *	@return		Net_HTTP_PartitionSession
 	 */
-	protected function & initSession( $sessionNameKey	= 'config.session.name', $sessionPartitionKey = 'application.name' )
+	protected function & initSession( $sessionNameKey	= 'config.sessionName', $sessionPartitionKey = 'application.name' )
 	{
 		import( 'de.ceus-media.net.http.PartitionSession' );
 		if( !$this->registry->has( 'config' ) )
