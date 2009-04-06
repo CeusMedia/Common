@@ -10,6 +10,8 @@
  *	@package		xml.dom
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.1
+ *	@deprecated		use XML_Namespaces instead, which is faster using Simple XML
+ *	@todo			remove in 0.6.6
  */
 class XML_DOM_Namespaces
 {

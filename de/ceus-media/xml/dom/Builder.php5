@@ -45,11 +45,13 @@ class XML_DOM_Builder
 	 *	@param		string			$encoding		Encoding Character Set (utf-8 etc.)
 	 *	@return		string
 	 */
-	public function build( XML_DOM_Node $tree, $encoding = "utf-8" )
+	public function build( XML_DOM_Node $tree, $encoding = "utf-8", $namespaces = array() )
 	{
 		$this->document = new DOMDocument( "1.0", $encoding );
 		$this->document->formatOutput = true;
 		$root = $this->document->createElement( $tree->getNodename() );
+		foreach( $namespaces as $prefix => $namespace )
+			$root->setAttribute( "xmlns:".$prefix, $namespace );
 		$root = $this->document->appendChild( $root );
 		$this->buildRecursive( $root, $tree, $encoding );
 		$xml	= $this->document->saveXML();

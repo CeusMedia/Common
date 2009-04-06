@@ -181,7 +181,7 @@ class XML_RSS_Builder
 		}
 		$tree->addChild( $channel );
 		$this->items	= array();
-		return $this->builder->build( $tree, $encoding );	
+		return $this->builder->build( $tree, $encoding, $this->namespaces );	
 	}
 
 	/**
@@ -239,6 +239,11 @@ class XML_RSS_Builder
 		$this->items	= array();
 		foreach( $items as $item )
 			$this->addItem( $item );
+	}
+	
+	public function registerNamespace( $prefix, $url )
+	{
+		$this->namespaces[$prefix]	= $url;
 	}
 }
 ?>
