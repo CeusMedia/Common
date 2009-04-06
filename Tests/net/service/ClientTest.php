@@ -90,97 +90,6 @@ class Tests_Net_Service_ClientTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 *	Tests Exception Forwarding of Method 'decodeResponse'.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function testDecodeResponseException1()
-	{
-		$response	= file_get_contents( $this->path."exception.serial" );
-		$this->setExpectedException( 'RuntimeException' );
-		$this->client->executeProtectedMethod( 'decodeResponse', $response, 'php' );
-	}
-	
-	/**
-	 *	Tests Exception Forwarding of Method 'decodeResponse'.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function testDecodeResponseException2()
-	{
-		try
-		{
-			$response	= file_get_contents( $this->path."exception.serial" );
-			$this->client->executeProtectedMethod( 'decodeResponse', $response, 'php' );
-		}
-		catch( Exception $e )
-		{
-			$assertion	= 'RuntimeException';
-			$creation	= get_class( $e );
-			$this->assertEquals( $assertion, $creation );
-		
-			$assertion	= 'testException';
-			$creation	= $e->getMessage();
-			$this->assertEquals( $assertion, $creation );
-		}
-	}
-
-	/**
-	 *	Tests Method 'decodeResponse' with PHP Serial.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function testDecodeResponsePhp()
-	{
-		$data		= array( 'status' => "data", 'data' => array( 'key1' => 'value1' ) );
-		$response	= serialize( $data );
-		$assertion	= $data['data'];
-		$creation	= $this->client->executeProtectedMethod( 'decodeResponse', $response, 'php' );
-		$this->assertEquals( $assertion, $creation );
-	}
-		
-	/**
-	 *	Tests Method 'decodeResponse' with JSON.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function testDecodeResponseJson()
-	{
-		$data		= array( 'status' => "data", 'data' => array( 'key1' => 'value1' ) );
-		$response	= json_encode( $data );
-		$assertion	= $data['data'];
-		$creation	= $this->client->executeProtectedMethod( 'decodeResponse', $response, 'json' );
-		$this->assertEquals( $assertion, $creation );
-	}
-		
-	/**
-	 *	Tests Method 'decodeResponse' with Text.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function testDecodeResponseTxt()
-	{
-		$response	= time();
-		$assertion	= $response;
-		$creation	= $this->client->executeProtectedMethod( 'decodeResponse', $response, 'txt' );
-		$this->assertEquals( $assertion, $creation );
-	}
-		
-	/**
-	 *	Tests Method 'decodeResponse' with WDDX.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function testDecodeResponseWddx()
-	{
-		$data		= array( 'status' => "data", 'data' => array( 'key1' => 'value1' ) );
-		$response	= wddx_serialize_value( $data );
-		$assertion	= $data['data'];
-		$creation	= $this->client->executeProtectedMethod( 'decodeResponse', $response, 'wddx' );
-		$this->assertEquals( $assertion, $creation );
-	}
-
-	/**
 	 *	Tests Method 'executeRequest'.
 	 *	@access		public
 	 *	@return		void
@@ -390,31 +299,6 @@ class Tests_Net_Service_ClientTest extends PHPUnit_Framework_TestCase
 		$assertion	= FALSE;
 		$creation	= $this->client->getProtectedVar( 'verifyPeer' );
 		$this->assertEquals( $assertion, $creation );
-	}
-
-	/**
-	 *	Tests Method 'uncompressResponse'.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function testUncompressResponse()
-	{
-		$message	= "this is a uncompressed test text.";
-
-		$compressed	= gzcompress( $message );
-		$assertion	= $message;
-		$creation	= $this->client->executeProtectedMethod( 'uncompressResponse', $compressed, "deflate" );
-		$this->assertEquals( $assertion, $creation );
-
-		$compressed	= $message;
-		$assertion	= $message;
-		$creation	= $this->client->executeProtectedMethod( 'uncompressResponse', $compressed, "not_supported" );
-		$this->assertEquals( $assertion, $creation );
-
-#		$compressed	= gzencode( $message );
-#		$assertion	= $message;
-#		$creation	= $this->client->executeProtectedMethod( 'uncompressResponse', $compressed, "gzip" );
-#		$this->assertEquals( $assertion, $creation );
 	}
 }
 class Test_Net_Service_ClientRequestMock extends ADT_OptionObject
