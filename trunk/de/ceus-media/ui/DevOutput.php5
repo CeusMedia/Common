@@ -416,13 +416,10 @@ function dump( $variable )
  *	@param		int			$factor		Space Factor
  *	@return		void
  */
-function print_m( $mixed, $prefix = NULL, $sign = NULL, $factor = NULL )
+function print_m( $mixed, $sign = NULL, $factor = NULL )
 {
 	$o = new UI_DevOutput();
-	if( $prefix )
-		remark( $prefix );
-	else
-		echo $o->lineBreak;
+	echo $o->lineBreak;
 	$o->printMixed( $mixed, 0, NULL, $sign, $factor );
 }
 
