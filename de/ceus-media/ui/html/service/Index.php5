@@ -54,7 +54,7 @@ class UI_HTML_Service_Index extends Net_Service_Handler
 	 *	@access		public
 	 *	@return		string		HTML of Service Index
 	 */
-	public function buildContent( $subfolderLevel = 0, $basePath = "" )
+	public function buildContent( $subfolderLevel = 0 )
 	{
 		$title			= $this->servicePoint->getTitle();							//  Services Title
 		$description	= $this->servicePoint->getDescription();					//  Services Title
@@ -68,6 +68,7 @@ class UI_HTML_Service_Index extends Net_Service_Handler
 			$optFormat[$format]	= "<option>".$format."</option>";
 		$optFormat	= implode( "", $optFormat );
 		
+		$basePath	= str_repeat( "../", $subfolderLevel );
 		return require_once( $this->template );
 	}
 		
