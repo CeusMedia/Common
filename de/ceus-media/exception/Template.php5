@@ -27,7 +27,8 @@
  *	@version		0.1
  */
 /**   not all labels used constant */
-define('TEMPLATE_EXCEPTION_LABELS_NOT_USED', 100);
+if( !defined( 'TEMPLATE_EXCEPTION_LABELS_NOT_USED' ) )
+	define( 'TEMPLATE_EXCEPTION_LABELS_NOT_USED', 100 );
 /**
  *	Exception for Templates.
  *	@package		framework.krypton.exception

@@ -317,5 +317,18 @@ class UI_Template
 		$this->fileName	= $fileName;
 		$this->template = file_get_contents( $fileName );
 	}
+	
+	/**
+	 *	Renders a Template with given Elements statically.
+	 *	@access		public
+	 *	@param		string		$fileName		File Name of Template File
+	 *	@param		array		$elements		List of Elements {@link add()}
+	 *	@return		void
+	 */
+	public static function render( $fileName, $elements )
+	{
+		$template	= new self( $fileName, $elements );
+		return $template->create();
+	}
 }
 ?>
