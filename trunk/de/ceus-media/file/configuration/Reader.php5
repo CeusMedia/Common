@@ -304,6 +304,9 @@ class File_Configuration_Reader extends ADT_List_Dictionary
 	 */
 	protected function tryToLoadFromCache( $cacheFile, $lastChange )
 	{
+		if( !file_exists( $cacheFile ) )
+			return FALSE;
+
 		$lastCache	= @filemtime( $cacheFile );
 		if( $lastCache && $lastChange <= $lastCache )
 		{

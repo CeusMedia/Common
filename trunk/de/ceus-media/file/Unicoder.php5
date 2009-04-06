@@ -18,7 +18,6 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@package		file
- *	@uses			Alg_StringUnicoder
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -27,10 +26,12 @@
  *	@version		0.1
  */
 import( 'de.ceus-media.alg.StringUnicoder' );
+import( 'de.ceus-media.file.Editor' );
 /**
  *	Converts a File into UTF-8.
  *	@package		file
  *	@uses			Alg_StringUnicoder
+ *	@uses			File_Editor
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -62,7 +63,7 @@ class File_Unicoder
 	{
 		if( !file_exists( $fileName ) )
 			throw new Exception( 'File "'.$fileName.'" is not existing.' );
-		$string		= file_get_contents( $fileName );
+		$string		= File_Editor::load( $fileName );
 		$unicoded	= Alg_StringUnicoder::convertToUnicode( $string );
 		return $unicoded == $string;
 	}
@@ -78,9 +79,9 @@ class File_Unicoder
 	{
 		if( !(!$force && self::isUnicode( $fileName ) ) )
 		{
-			$string		= file_get_contents( $fileName );
+			$string		= File_Editor::load( $fileName );
 			$unicoded	= Alg_StringUnicoder::convertToUnicode( $string );
-			return (bool) file_put_contents( $fileName, $unicoded );
+			return (bool) File_Editor::save( $fileName, $unicoded );
 		}
 		return FALSE;
 	}
