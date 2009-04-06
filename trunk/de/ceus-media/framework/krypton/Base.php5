@@ -233,7 +233,8 @@ abstract class Framework_Krypton_Base
 			$dbc->query( "SET NAMES utf8" );		
 
 		$config['config.table_prefix']	= $config['database.access.prefix'];
-		$config->remove( 'database.access' );
+		$config->remove( 'database.access.username' );
+		$config->remove( 'database.access.password' );
 
 		$this->registry->set( "dbc", $dbc, TRUE );
 	}
