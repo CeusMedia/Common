@@ -47,13 +47,13 @@ class Net_Service_Response
 
 	/**
 	 *	Converts a Data Array to a XML Structure and appends it to the given SimpleXMLElement.
-	 *	@access		private
+	 *	@access		protected
 	 *	@param		XML_Element		$xmlNode		XML Node to append to
 	 *	@param		array			$dataArray		Array to append
 	 *	@param		string			$lastParent		Recursion: Outer Node Name for Integer Values
 	 *	@return		void
 	 */
-	private function addArrayToXmlNode( &$xmlNode, $dataArray, $lastParent = "" )
+	protected function addArrayToXmlNode( &$xmlNode, $dataArray, $lastParent = "" )
 	{
 		if( !( is_string( $lastParent ) && $lastParent ) )
 			$lastParent	= "item";
@@ -68,7 +68,7 @@ class Net_Service_Response
 					continue;
 				}
 				$child	=& $xmlNode->addChild( $key );
-				$this->addArrayToXmlNode( $child, $value, "1".$key );
+				$this->addArrayToXmlNode( $child, $value, $key );
 				continue;
 			}
 			else if( is_int( $key ) )

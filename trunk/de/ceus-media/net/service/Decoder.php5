@@ -142,9 +142,9 @@ class Net_Service_Decoder
 		if( !array_key_exists( $type, $this->compressionTypes ) )
 		{
 			if( $fallback )
-				$type	= $this->compressionTypes[0];
+				$type	= array_shift( array_keys( $this->compressionTypes ) );
 			else
-				throw new Exception( 'Decompression Method "'.$type.'" is not supported.' );
+				throw new InvalidArgumentException( 'Decompression Method "'.$type.'" is not supported.' );
 		}
 		ob_start();
 		$method		= $this->compressionTypes[$type];							//  get Name of Method to decompress Response Content
@@ -164,23 +164,31 @@ class Net_Service_Decoder
 	protected function gzipDecode( $data )
 	{
 		if( function_exists( 'gzdecode' ) )
-			return gzdecode( $data );
-		$flags	= ord( substr( $data, 3, 1 ) );
-		$headerlen		= 10;
-		$extralen		= 0;
-		if( $flags & 4 )
 		{
-			$extralen	= unpack( 'v' ,substr( $data, 10, 2 ) );
-			$extralen	= $extralen[1];
-			$headerlen	+= 2 + $extralen;
+			$data	= @gzdecode( $data );
 		}
-		if( $flags & 8 ) 												// Filename
-			$headerlen = strpos( $data, chr( 0 ), $headerlen ) + 1;
-		if( $flags & 16 )												// Comment
-			$headerlen = strpos( $data, chr( 0 ), $headerlen ) + 1;
-		if( $flags & 2 )												// CRC at end of file
-			$headerlen	+= 2;
-		return gzinflate( substr( $data, $headerlen ) );
+		else
+		{
+			$flags	= ord( substr( $data, 3, 1 ) );
+			$headerlen		= 10;
+			$extralen		= 0;
+			if( $flags & 4 )
+			{
+				$extralen	= unpack( 'v' ,substr( $data, 10, 2 ) );
+				$extralen	= $extralen[1];
+				$headerlen	+= 2 + $extralen;
+			}
+			if( $flags & 8 ) 												// Filename
+				$headerlen = strpos( $data, chr( 0 ), $headerlen ) + 1;
+			if( $flags & 16 )												// Comment
+				$headerlen = strpos( $data, chr( 0 ), $headerlen ) + 1;
+			if( $flags & 2 )												// CRC at end of file
+				$headerlen	+= 2;
+			$data	= @gzinflate( substr( $data, $headerlen ) );
+		}
+		if( FALSE == $data )
+			throw new RuntimeException( "Data not decompressable with gzdecode." );
+		return $data;
 	}
 	
 	/**
@@ -191,7 +199,10 @@ class Net_Service_Decoder
 	 */
 	protected function gzipUncompress( $content )
 	{
-		return gzuncompress( $content );
+		$data	= @gzuncompress( $content );
+		if( FALSE == $data )
+			throw new RuntimeException( "Data not decompressable with gzuncompress." );
+		return $data;
 	}
 }
 ?>
