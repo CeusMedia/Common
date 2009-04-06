@@ -1,0 +1,119 @@
+/*  SERVICE TABLE  */
+.index #list {
+	clear: both;
+	}
+.index table.list.services {
+	width: 100%;
+	border: 0px solid #444;
+	border-collapse: collapse;
+	}
+
+.index table.list.services tr th {
+/*	background: #EEE;*/
+	font-style: italic;
+	font-size: 1.1em;
+	}
+
+.index table.list.services tr td {
+	border-bottom: 1px solid #DDD;
+/*	border-left: 1px dotted #ddd;*/
+	vertical-align: top;
+	}
+
+.index table.list.services tr td.yes {
+	background: #dfd;
+	text-align: center;
+	height: 30px;
+	vertical-align: middle;
+	}
+
+.index table.list.services tr td.no {
+/*	background: #FEE;*/
+	text-align: center;
+	vertical-align: middle;
+	}
+
+.index table.list.services tr td.preferred {
+	border-width: 0px;
+	background: #bfb;
+	text-align: center;
+	vertical-align: middle;
+	}
+
+.index table.list.services tr:hover {
+	background: #EFE;
+	}
+
+.index table.list.services tr.clicked {
+	background: #FFD;
+	}
+
+.index table.list.services tr.clicked td {
+	}
+
+
+/*  SERVICE COLUMN  */
+.index table.list tr td.service {
+	padding: 2px;
+	}
+
+.index table.list tr td.service .className {
+	color: #444;
+	margin-right: 1em;
+	font-size: 0.9em;
+	}
+
+.index table.list tr td.service .serviceName {
+	float: left;
+	font-weight: bold;
+	padding: 0.2em;
+	}
+
+.index table.list tr td.service .description {
+	clear: both;
+	font-size: 0.8em;
+	color: #777;
+	padding: 0.2em;
+	}
+
+.index table.list tr td.service .linkTest {
+	float: left;
+	display: block;
+	margin-right: 4px;
+	background-image: url(../images/cog.png);
+	background-repeat: no-repeat;
+	width: 16px;
+	height: 16px;
+	}
+
+
+/*  PARAMETERS COLUMN  */
+.index table.list tr td.parameter {
+	padding: 2px;
+	}
+
+.index table.list tr td.parameter ul {
+	margin: 0px;
+	padding: 0px;
+	}
+
+.index table.list tr td.parameter ul li {
+	list-style: none;
+	display: block;
+	}
+
+.index table.list tr td.parameter .rules {
+	float: right;
+	font-size: 0.9em;
+	color: #777;
+	margin-right: 1em;
+	}
+
+.index table.list tr td.parameter .rules .key {
+	font-style: italic;
+	}
+
+.index table.list tr td.parameter .rules .value {
+	font-weight: bold;
+	}
+

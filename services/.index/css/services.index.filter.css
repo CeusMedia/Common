@@ -1,0 +1,27 @@
+/*  FILTER  */
+.index #filter {
+	float: right;
+	width: 230px;
+	}
+.index #filter h3 {
+	margin: 0px;
+	padding: 0.3em .7em;
+	border-bottom: 1px solid #444;
+	}	
+.index #filter ul {
+	display: block;
+	padding: 0.5em 1em;
+	background: #F7F7F7;
+	list-style: none;
+	margin: 0px;
+	}
+.index #filter ul li {
+	clear: left;
+	}
+.index #filter input {
+	float: left;
+	display: block;
+	}
+.index #filter label {
+	width: auto;
+	}
