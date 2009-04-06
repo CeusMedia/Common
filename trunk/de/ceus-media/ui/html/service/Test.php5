@@ -16,20 +16,22 @@ import( 'de.ceus-media.xml.Element' );
 import( 'de.ceus-media.xml.dom.Formater' );
 class UI_HTML_Service_Test
 {
-	protected $username;
-	protected $password;
-	protected $tableClass;
+	protected $username			= NULL;
+	protected $password			= NULL;
 	protected $template;
 	protected $servicePoint;
+	protected $headers			= array();
 
 	public function __construct( Net_Service_Point $servicePoint )
 	{
 		$this->servicePoint		= $servicePoint;
 	}
 	
-	public function buildContent( $request, $subfolderLevel = 0, $basePath = "" )
+	public function buildContent( $request, $subfolderLevel = 0 )
 	{
 		$service	= $request['test'];
+		
+		$basePath	= str_repeat( "../", $subfolderLevel );
 		
 		$preferred	= $this->servicePoint->getDefaultServiceFormat( $service );
 		$format		= isset( $request['parameter_format'] ) ? $request['parameter_format'] : $preferred;
@@ -65,11 +67,14 @@ class UI_HTML_Service_Test
 		if( $data )
 			$tabs['Data']	= $data;
 		if( $exception )
+		{
 			$tabs['Exception']	= $exception;
+			if( $trace )
+				$tabs['Trace']	= "<xmp>".$trace."</xmp>";
+		}
 		$tabs['Response']	= "<xmp>".$response."</xmp>";
+		$tabs['Response Headers']	= UI_VariableDumper::dump( $this->headers );
 		$tabs['Request']	= UI_VariableDumper::dump( $request->getAll(), 1, 0 );
-		if( $trace )
-			$tabs['Trace']	= $trace;
 
 		$tabs	= new UI_HTML_Tabs( $tabs, 'tabs-office' );
 		return require_once( $this->template );
@@ -96,6 +101,20 @@ class UI_HTML_Service_Test
 		$formats	= $this->servicePoint->getServiceFormats( $service );
 		asort( $formats );
 
+		if( $this->servicePoint->getServiceRoles( $service ) )
+		{
+			if( !array_key_exists( "auth_username", $parameters ) )
+				$parameters['auth_username']	= array(
+					'mandatory'	=> 1,
+					'preg'		=> '@^\w+$@',
+				);
+			if( !array_key_exists( "auth_password", $parameters ) )
+				$parameters['auth_password']	= array(
+					'mandatory'	=> 1,
+					'preg'		=> '@^\S+$@',
+				);
+		}
+
 		//  --  TYPES FOR FILTER  --  //
 		if( !$format )
 			$format	= $this->servicePoint->getDefaultServiceFormat( $service );
@@ -112,44 +131,49 @@ class UI_HTML_Service_Test
 
 		foreach( $parameters as $parameter => $rules )
 		{
-			$ruleList	= array();
 			$mandatory	= FALSE;
-			$type		= "";
-			if( $rules )
-			{
-				foreach( $rules as $ruleKey => $ruleValue )
-				{
-					if( $ruleKey == "title" )
-						continue;
-					if( $ruleKey == "mandatory" )
-					{
-						$mandatory	= $ruleValue;
-						$ruleValue	= $ruleValue ? "yes" : "no";
-					}
-					if( $ruleKey == "type" )
-					{
-						$type	= "<small><em>".$ruleValue."</em></small>&nbsp;";
-					}
-					$spanKey	= UI_HTML_Tag::create( "span", $ruleKey.":", array( 'class' => "key" ) );
-					$spanValue	= UI_HTML_Tag::create( "span", htmlspecialchars( $ruleValue ), array( 'class' => "value" ) );
-					$ruleList[]	= $spanKey." ".$spanValue;
-				}
-			}
-
+			$type		= isset( $rules['type'] ) ? "<small><em>".$rules['type']."</em></small>&nbsp;" : "";
+			$ruleList	= $this->buildParameterRuleList( $rules );
 			$label	= isset( $rules['title'] ) ? UI_HTML_Elements::Acronym( $parameter, $rules['title'] ) : $parameter;
 			$value	= isset( $request["parameter_".$parameter] ) ? $request["parameter_".$parameter] : NULL;
 			$label	= $type.$label;
 			if( !$mandatory )
 				$label	= "[".$label."]";
 			$divRules	= UI_HTML_Tag::create( "span", " (".implode( ", ", $ruleList ).")", array( 'class' => "rules" ) );
-			$rules	= count( $ruleList ) ? $divRules : "";
+			$ruleList	= count( $ruleList ) ? $divRules : "";
+
+			$input	= UI_HTML_Elements::Input( "parameter_".$parameter, $value, 'l' );
+			if( array_key_exists( "type", $rules ) )
+			{
+				if( $rules['type']	== "bool" )
+					$input	= UI_HTML_FormElements::CheckBox( "parameter_".$parameter, 1, $value );
+			}
 			$list[]	= array(
 				'label' => $label,
-				'rules'	=> $rules,
-				'input'	=> UI_HTML_Elements::Input( "parameter_".$parameter, $value, 'l' )
+				'rules'	=> $ruleList,
+				'input'	=> $input,
 			);
 		}
 		return $list;
+	}
+
+	protected function buildParameterRuleList( $rules )
+	{
+		$ruleList	= array();
+		foreach( $rules as $ruleKey => $ruleValue )
+		{
+			if( $ruleKey == "title" )
+				continue;
+			if( $ruleKey == "mandatory" )
+			{
+				$mandatory	= $ruleValue;
+				$ruleValue	= $ruleValue ? "yes" : "no";
+			}
+			$spanKey	= UI_HTML_Tag::create( "span", $ruleKey.":", array( 'class' => "key" ) );
+			$spanValue	= UI_HTML_Tag::create( "span", htmlspecialchars( $ruleValue ), array( 'class' => "value" ) );
+			$ruleList[]	= $spanKey." ".$spanValue;
+		}
+		return $ruleList;
 	}
 
 	private function getParametersFromRequest( $request )
@@ -177,6 +201,12 @@ class UI_HTML_Service_Test
 		$reader		= new Net_Reader( $url );
 		$reader->setBasicAuth( $this->username, $this->password );
 		$response	= $reader->read();
+		
+		$this->headers	= array();
+		$headers	= $reader->getHeader();
+		foreach( $headers as $key => $values )
+			$this->headers[$key]	= array_pop( $values );
+
 		return $response;
 	}
 
@@ -197,7 +227,7 @@ class UI_HTML_Service_Test
 				if( $structure['status'] == "exception" )
 				{
 					$e			= $structure['data'];
-					$trace		= $e['trace'];
+					$trace		= isset( $e['trace'] ) ? $e['trace'] : "";
 					$exception	= $this->buildExceptionTab( $e['type'], $e['message'] );
 				}
 				else
@@ -210,7 +240,7 @@ class UI_HTML_Service_Test
 				if( $structure['status'] == "exception" )
 				{
 					$e			= $structure['data'];
-					$trace		= $e['trace'];
+					$trace		= isset( $e['trace'] ) ? $e['trace'] : "";
 					$exception	= $this->buildExceptionTab( $e['type'], $e['message'] );
 				}
 				else
@@ -221,13 +251,13 @@ class UI_HTML_Service_Test
 				if( $structure['status'] == "exception" )
 				{
 					$e			= $structure['data'];
-					$trace		= $e['trace'];
+					$trace		= isset( $e['trace'] ) ? $e['trace'] : "";
 					$exception	= $this->buildExceptionTab( $e['type'], $e['message'] );
 				}
 				else
 					$data	= dumpVar( $structure['data'] );
-#				$response	= XML_DOM_Formater::format( $response );
-				$response	= $this->trimResponseLines( $response );
+				$response	= XML_DOM_Formater::format( $response );
+				$response	= $this->trimResponseLines( $response, 120 );
 				break;
 			case "xml":
 				$xml	= new XML_Element( $response );
@@ -277,11 +307,6 @@ class UI_HTML_Service_Test
 	public function setTemplate( $fileName )
 	{
 		$this->template	= $fileName;
-	}
-
-	public function setTableClass( $className )
-	{
-		$this->tableClass	= $className;
 	}
 	
 	public function setAuth( $username, $password )
