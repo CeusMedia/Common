@@ -132,7 +132,7 @@ class Tests_Console_Command_ArgumentParserTest extends PHPUnit_Framework_TestCas
 		$string		= "-a xyz -beta 123 -f Argument1 Argument2";
 
 		$parser	= new Console_Command_ArgumentParser();
-		$parser->setNumberOfArguments( 2 );
+		$parser->setNumberOfMandatoryArguments( 2 );
 		$parser->setPossibleOptions( $options );
 		$parser->setShortcuts( $shortcuts );
 		$parser->parse( $string );
@@ -175,7 +175,7 @@ class Tests_Console_Command_ArgumentParserTest extends PHPUnit_Framework_TestCas
 	public function testParseException2()
 	{
 		$this->setExpectedException( 'RuntimeException' );
-		$this->parser->setNumberOfArguments( 2 );
+		$this->parser->setNumberOfMandatoryArguments( 2 );
 		$this->parser->parse( "Argument1" );
 	}
 
@@ -216,19 +216,19 @@ class Tests_Console_Command_ArgumentParserTest extends PHPUnit_Framework_TestCas
 	}
 
 	/**
-	 *	Tests Method 'setNumberOfArguments'.
+	 *	Tests Method 'setNumberOfMandatoryArguments'.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testSetNumberOfArguments()
+	public function testSetNumberOfMandatoryArguments()
 	{
-		$this->parser->setNumberOfArguments( 1 );
+		$this->parser->setNumberOfMandatoryArguments( 1 );
 		
 		$assertion	= 1;
 		$creation	= $this->parser->getProtectedVar( 'numberArguments' );
 		$this->assertEquals( $assertion, $creation );
 
-		$this->parser->setNumberOfArguments( 2 );
+		$this->parser->setNumberOfMandatoryArguments( 2 );
 		
 		$assertion	= 2;
 		$creation	= $this->parser->getProtectedVar( 'numberArguments' );
