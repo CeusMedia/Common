@@ -58,7 +58,7 @@ class Go
 			case 'create':
 				$config		= parse_ini_file( $configFile, TRUE );
 				if( count( $arguments ) < 2 )
-					throw new InvalidArgumentException( $this->messages['subject_invalid'] );
+					throw new InvalidArgumentException( $this->messages['subject_create_invalid'] );
 				$subject	= strtolower( $arguments[1] );
 				switch( $subject )
 				{
