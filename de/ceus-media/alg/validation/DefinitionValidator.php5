@@ -171,9 +171,10 @@ class Alg_Validation_DefinitionValidator
 		$syntax		= new ArrayObject( $definition['syntax'] );
 		$semantics	= isset( $definition['semantic'] ) ? $definition['semantic'] : array();
 
-		if( !strlen( $value ) && $syntax['mandatory'] )
+		if( !strlen( $value ) )
 		{
-			$errors[]	= $this->handleError( $field, 'isMandatory', $value, NULL, $prefix );
+			if( $syntax['mandatory'] )
+				$errors[]	= $this->handleError( $field, 'isMandatory', $value, NULL, $prefix );
 			return $errors;
 		}
 
