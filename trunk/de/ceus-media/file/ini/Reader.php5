@@ -72,9 +72,10 @@ class File_INI_Reader extends File_Reader
 	 *	@access		public
 	 *	@param		string		$fileName		File Name of Property File, absolute or relative URI
 	 *	@param		bool		$usesSections	Flag: Property File containts Sections
+	 *	@param		bool		$reservedWords	Flag: interprete reserved Words like yes,no,true,false,null
 	 *	@return		void
 	 */
-	public function __construct( $fileName, $usesSections = FALSE )
+	public function __construct( $fileName, $usesSections = FALSE, $reservedWords = TRUE )
 	{
 		parent::__construct( $fileName );
 		$this->usesSections			= $usesSections;
@@ -84,6 +85,7 @@ class File_INI_Reader extends File_Reader
 		$this->descriptionPattern	= "^[;|#|:|/|=]{1,2}";
 		$this->sectionPattern		= "^([){1}([a-z0-9_=.,:;#@-])+(]){1}$";
 		$this->lineCommentPattern	= "([\t| ]+([/]{2}|[;])+[\t| ]*)";
+		$this->reservedWords		= $reservedWords;
 		$this->read();
 	}
 
@@ -426,11 +428,15 @@ class File_INI_Reader extends File_Reader
 				}
 
 				//  --  CONVERT PROTECTED VALUES  --  //
-				if( in_array( strtolower( $value ), array( 'yes', 'true' ) ) )
-					$value	= TRUE;
-				else if( in_array( strtolower( $value ), array( 'no', 'false' ) ) )
-					$value	= FALSE;
-				
+				if( $this->reservedWords )
+				{
+					if( in_array( strtolower( $value ), array( 'yes', 'true' ) ) )
+						$value	= TRUE;
+					else if( in_array( strtolower( $value ), array( 'no', 'false' ) ) )
+						$value	= FALSE;
+					else if( strtolower( $value ) === "null" )
+						$value	= NULL;
+				}
 				if( preg_match( '@^".*"$@', $value ) )
 					$value	= substr( $value, 1, -1 );			
 				if( $this->usesSections() )

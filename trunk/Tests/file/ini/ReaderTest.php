@@ -26,10 +26,12 @@ class Tests_File_INI_ReaderTest extends PHPUnit_Framework_TestCase
 
 	public function __construct()
 	{
+		$this->path		= dirname( __FILE__ )."/";
 		$this->list		= new File_INI_Reader( $this->fileName );
 		$this->sections	= new File_INI_Reader( $this->fileName, true );
 
 	}
+
 	public function testContruct()
 	{
 		$assertion	= array(
@@ -55,6 +57,48 @@ class Tests_File_INI_ReaderTest extends PHPUnit_Framework_TestCase
 		);
 		$reader		= new File_INI_Reader( $this->fileName, TRUE );
 		$creation	= $reader->toArray();
+		$this->assertEquals( $assertion, $creation );
+	}
+
+	public function testContructNotReserved()
+	{
+		$reader		= new File_INI_Reader( $this->path."reader.types.ini", FALSE, FALSE );
+		$assertion	= array(
+			'bool1'		=> "yes",
+			'bool2'		=> "true",
+			'bool3'		=> "no",
+			'bool4'		=> "false",
+			'null'		=> "null",
+			'string1'	=> "abc",
+			'string2'	=> "xyz",
+			'url1'		=> "http://ceusmedia.com/",
+			'url2'		=> "http://ceusmedia.com/",
+			'email1'	=> "example@example.com",
+			'email2'	=> "example@example.com"
+		);
+		$creation	= $reader->toArray();
+		$this->assertEquals( $assertion, $creation );
+	}
+
+	public function testContructReserved()
+	{
+		$reader		= new File_INI_Reader( $this->path."reader.types.ini", FALSE, TRUE );
+		$assertion	= array(
+			'bool1'		=> TRUE,
+			'bool2'		=> TRUE,
+			'bool3'		=> FALSE,
+			'bool4'		=> FALSE,
+#			'null'		=> NULL,		//  not included after reading because setting Key to NULL means removing the Pair
+			'string1'	=> "abc",
+			'string2'	=> "xyz",
+			'url1'		=> "http://ceusmedia.com/",
+			'url2'		=> "http://ceusmedia.com/",
+			'email1'	=> "example@example.com",
+			'email2'	=> "example@example.com"
+		);
+		$creation	= $reader->toArray();
+		print_m( $creation );
+		
 		$this->assertEquals( $assertion, $creation );
 	}
 
