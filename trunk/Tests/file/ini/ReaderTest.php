@@ -97,8 +97,6 @@ class Tests_File_INI_ReaderTest extends PHPUnit_Framework_TestCase
 			'email2'	=> "example@example.com"
 		);
 		$creation	= $reader->toArray();
-		print_m( $creation );
-		
 		$this->assertEquals( $assertion, $creation );
 	}
 

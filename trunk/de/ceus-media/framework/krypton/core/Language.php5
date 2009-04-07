@@ -276,8 +276,8 @@ class Framework_Krypton_Core_Language
 			throwException ( 'IO', 'Language File "'.$fileName.'" is not existing.', $lanFile );	
 
 		import( 'de.ceus-media.file.ini.Reader' );
-		$ir	= new File_INI_Reader( $lanFile, TRUE );
-		$this->words[$section]	= $ir->toArray( TRUE );
+		$ir	= new File_INI_Reader( $lanFile, TRUE, FALSE );							//  load File with Sections and without reserved Words
+		$this->words[$section]	= $ir->toArray( TRUE );								//  load File Sections into Language Array
 		foreach( $this->words[$section] as $area => $pairs )
 			foreach( array_keys( $pairs ) as $key )
 				if( isset( $this->hovers[$baseName."/".$area."/".$key] ) )
