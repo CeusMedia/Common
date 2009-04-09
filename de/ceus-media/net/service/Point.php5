@@ -63,6 +63,8 @@ class Net_Service_Point implements Net_Service_Interface_Point
 	public static $validatorClass	= "Net_Service_ParameterValidator";
 	/**	@var		array			$services			Array of Services */	
 	protected $services	= array();
+	/**	@var		mixed			$validator			Validator Class */	
+	protected $validator	= null;
 	
 	/**
 	 *	Constructor Method.
