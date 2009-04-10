@@ -42,18 +42,18 @@
  */
 class Net_HTTP_Request_Response
 {
-	/** @var		string		$status			Status of Response */
+	/** @var		string		$status				Status of Response */
 	private $status				= "200 OK";
-	/** @var		array		$headers		Array of Headers */
+	/** @var		array		$headers			Array of Headers */
 	private $headers			= array();
-	/** @var		string		$body			Body of Response */
+	/** @var		string		$body				Body of Response */
 	private $body				= "";
 
 	/**
 	 *	Sets a Header.
 	 *	@access		public
-	 *	@param		string		$name		Name of Response Header
-	 *	@param		mixed		$value 		Value of Response Header
+	 *	@param		string		$name				Name of Response Header
+	 *	@param		mixed		$value 				Value of Response Header
 	 *	@return		void
 	 */
 	public function addHeader( $name, $value )
@@ -66,14 +66,15 @@ class Net_HTTP_Request_Response
 	/**
 	 *	Sends Contents and returns Length of sent Response Content.
 	 *	@access		public
-	 *	@param		string		$compression	Compression Method (deflate|gzip)
+	 *	@param		string		$compression		Compression Method (deflate|gzip)
+	 *	@param		string		$compressionLogFile	File Name of Compression Log
 	 *	@return		int
 	 */
-	public static function sendContent( $content, $compression = NULL )
+	public static function sendContent( $content, $compression = FALSE, $compressionLogFile = NULL  )
 	{
 		$response	= new Net_HTTP_Request_Response();
 		$response->write( $content );
-		return $response->send( $compression );
+		return $response->send( $compression, $compressionLogFile );
 	}
 	
 	/**
@@ -115,7 +116,7 @@ class Net_HTTP_Request_Response
 	/**
 	 *	Sets Status of Response.
 	 *	@access		public
-	 *	@param		string		$status		Status to be set
+	 *	@param		string		$status				Status to be set
 	 *	@return		void
 	 */
 	public function setStatus( $status )
@@ -126,13 +127,12 @@ class Net_HTTP_Request_Response
 	/**
 	 *	Writes Data to Response.
 	 *	@access		public
-	 *	@param		string		$data		Data to be responsed
+	 *	@param		string		$data				Data to be responsed
 	 *	@return		void
 	 */
 	public function write( $data )
 	{
 		$this->body	.= $data;
-	}
-	
+	}	
 }
 ?>
