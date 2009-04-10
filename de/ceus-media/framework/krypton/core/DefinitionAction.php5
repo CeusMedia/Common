@@ -45,10 +45,10 @@ class Framework_Krypton_Core_DefinitionAction extends Framework_Krypton_Core_Act
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function __construct( $useWikiParser = false )
+	public function __construct( $useWikiParser = FALSE )
 	{
 		parent::__construct( $useWikiParser );
-		$this->loadLanguage( 'validator', false, false );
+		$this->loadLanguage( 'validator', FALSE, FALSE );
 	}
 }
 ?>

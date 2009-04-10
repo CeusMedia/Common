@@ -29,8 +29,15 @@
  *	@since			29.03.2009
  *	@version		0.1
  */
-abstract class ApplicationRunner
+abstract class Framework_Krypton_ApplicationRunner
 {
+	public static $configKeyDatabaseLogPath			= 'database.log.path';
+	public static $configKeyDatabaseLogErrors		= 'database.log.errors';
+	public static $configKeyDatabaseLogStatements	= 'database.log.statements';
+	public static $configKeyLanguages				= 'languages.allowed';
+	public static $configKeyPathHtml				= 'paths.html';
+	public static $errorTemplate					= 'error.html';
+
 	/**
 	 *	Constructor.
 	 *	@access		public
@@ -61,43 +68,58 @@ abstract class ApplicationRunner
 	 */
 	protected function handleException( Exception $e )
 	{
+		$isConsole	= !getEnv( 'HTTP_HOST' );
 		try
 		{
 			import( 'de.ceus-media.file.configuration.Reader' );
 			import( 'de.ceus-media.net.http.LanguageSniffer' );
-			if( defined( 'CMC_VERSION' ) && version_compare( CMC_VERSION, "0.6.6", ">=" ) )
+
+			import( 'de.ceus-media.framework.krypton.ExceptionHandler' );
+			$configPath	= defined( 'CMC_KRYPTON_CONFIG_PATH' ) ? CMC_KRYPTON_CONFIG_PATH : "config/";		//  get Path of Configuration File from System Constants (config/constansts.ini)
+			$configFile	= defined( 'CMC_KRYPTON_CONFIG_FILE' ) ? CMC_KRYPTON_CONFIG_FILE : "config.ini";	//  get Name of Configuration File from System Constants (config/constansts.ini)
+			$config		= new File_Configuration_Reader( $configPath.$configFile, NULL );
+
+			if( $config->has( self::$configKeyDatabaseLogErrors ) )											//  Database Error Log is defined
 			{
-				import( 'de.ceus-media.framework.krypton.ExceptionHandler' );
-				$config		= new File_Configuration_Reader( CMC_KRYPTON_CONFIG_PATH.CMC_KRYPTON_CONFIG_FILE, NULL );
-				if( $config['database.log.errors'] )
-					Framework_Krypton_ExceptionHandler::$logDbErrors		= $config['database.log.path'].$config['database.log.errors'];
-				if( $config['database.log.statements'] )
-					Framework_Krypton_ExceptionHandler::$logDbStatements	= $config['database.log.path'].$config['database.log.statements'];
-				if( defined( 'CMC_EXCEPTION_MAIL_TO' ) && CMC_EXCEPTION_MAIL_TO )
-					Framework_Krypton_ExceptionHandler::$mailReceiver		= CMC_EXCEPTION_MAIL_TO;
-				if( defined( 'CMC_EXCEPTION_LOG_PATH' ) && CMC_EXCEPTION_LOG_PATH )
-					Framework_Krypton_ExceptionHandler::$logPath			= CMC_EXCEPTION_LOG_PATH;
-				if( !defined( 'CMC_EXCEPTION_DEBUG_MODE' ) || !CMC_EXCEPTION_DEBUG_MODE )
-				{
-					$languages	= explode( ",", $config['languages.allowed'] );
-					$language	= Net_HTTP_LanguageSniffer::getLanguage( $languages );
-					Framework_Krypton_ExceptionHandler::$errorPage		= $config['paths.html'].$language."/error.html";
-				}
-				new Framework_Krypton_ExceptionHandler( $e );
+				$logPath	= $config[self::$configKeyDatabaseLogPath];										//  get Path of Log from Configuration
+				$logUri		= $config[self::$configKeyDatabaseLogErrors];									//  get Name of Log from Configuration
+				Framework_Krypton_ExceptionHandler::$logDbErrors		= $logPath.$logUri;					//  set Log in Exception Handler
 			}
-			else
+			if( $config->has( self::$configKeyDatabaseLogStatements ) )
 			{
-				import( 'de.ceus-media.framework.krypton.FatalExceptionHandler' );
-				if( !EXCEPTION_DEBUG_MODE )
-				{
-					$config		= new File_Configuration_Reader( "config/config.xml", NULL );
-					$languages	= explode( ",", $config['languages.allowed'] );
-					$language	= Net_HTTP_LanguageSniffer::getLanguage( $languages );
-					define( 'EXCEPTION_ERROR_PAGE', "contents/html/".$language."/error.html" );
-				}
-				$h	= new Framework_Krypton_FatalExceptionHandler;
-				print( $h->handleException( $e ) );
+				$logPath	= $config[self::$configKeyDatabaseLogPath];
+				$logUri		= $config[self::$configKeyDatabaseLogStatements];
+				Framework_Krypton_ExceptionHandler::$logDbStatements	= $logPath.$logUri;
 			}
+
+			if( defined( 'CMC_EXCEPTION_MAIL_TO' ) && CMC_EXCEPTION_MAIL_TO )
+			{
+				Framework_Krypton_ExceptionHandler::$mailReceiver		= CMC_EXCEPTION_MAIL_TO;
+			}
+
+			if( defined( 'CMC_EXCEPTION_LOG_PATH' ) && CMC_EXCEPTION_LOG_PATH )
+			{
+				Framework_Krypton_ExceptionHandler::$logPath			= CMC_EXCEPTION_LOG_PATH;
+			}
+
+			if( !defined( 'CMC_EXCEPTION_DEBUG_MODE' ) || !CMC_EXCEPTION_DEBUG_MODE && !$isConsole )	
+			{
+				$languages	= $config[self::$configKeyLanguages];
+				$languages	= explode( ",", $languages );
+				$language	= Net_HTTP_LanguageSniffer::getLanguage( $languages );
+				$template	= $config[self::$configKeyPathHtml].$language."/".self::$errorTemplate;
+				Framework_Krypton_ExceptionHandler::$errorPage		= $template;
+			}
+			$report	= Framework_Krypton_ExceptionHandler::handleException( $e );
+			print( $report );
+			if( !$isConsole )
+				die( $report );
+			
+			$message	= $e->getMessage();
+			if( $e->getCode() )
+				$message	.=" (Code:".$e->getCode().")";
+			die( "\nException: ".$message );
+
 		}
 		catch( Exception $e )
 		{

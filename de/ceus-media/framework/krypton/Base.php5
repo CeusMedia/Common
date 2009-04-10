@@ -83,19 +83,6 @@ abstract class Framework_Krypton_Base
 	abstract function __construct();
 
 	/**
-	 *	Loads a INI File and defines Constants for Core System.
-	 *	@access		public
-	 *	@param		string		$fileName			File Name of INI File containg Constant Pairs
-	 *	@return		void
-	 */
-	public static function loadConstants( $fileName = "config/constants.ini" )
-	{
-		$map	= parse_ini_file( $fileName, FALSE );								//  load Map of System Constants
-		foreach( $map as $key => $value )											//  iterate Map
-			define( strtoupper( trim( $key ) ), trim( $value ) );					//  define System Constants
-	}
-
-	/**
 	 *	Returns File Name for a Class Name.
 	 *	@access		protected
 	 *	@param		string		$className			Class Name to get File Name for
@@ -185,6 +172,7 @@ abstract class Framework_Krypton_Base
 	/**
 	 *	Sets up Database Connection.
 	 *	@access		protected
+	 *	@param		bool		$setUtf8		Flag: set Database Connection to UTF-8
 	 *	@return		Database_PDO_Connection
 	 */
 	protected function initDatabase( $setUtf8 = TRUE )
@@ -401,6 +389,26 @@ abstract class Framework_Krypton_Base
 		}
 		else
 			$session->set( 'theme', $config['layout.theme'] );
+	}
+
+	/**
+	 *	Loads a INI File and defines Constants for Core System.
+	 *	@access		public
+	 *	@param		string		$fileName			File Name of INI File containg Constant Pairs
+	 *	@return		void
+	 */
+	public static function loadConstants( $fileName = "config/constants.ini", $force = TRUE )
+	{
+		if( !file_exists( $fileName ) )												//  Constants File is not existing
+		{
+			if( !$force )															//  but is not needed
+				return;
+			throw new RuntimeException( 'File "'.$fileName.'" is missing.' );		//  otherwise it is missing
+		}
+		$map	= parse_ini_file( $fileName, FALSE );								//  load Map of System Constants
+		foreach( $map as $key => $value )											//  iterate Map
+			if( !defined( trim( $key ) ) )											//  
+				define( strtoupper( trim( $key ) ), trim( $value ) );				//  define System Constants
 	}
 
 	protected function logRemarks( $output )

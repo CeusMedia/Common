@@ -131,6 +131,13 @@ class Framework_Krypton_Core_View extends Framework_Krypton_Core_Component
 		return $pages;
 	}
 
+	protected function getIcon( $fileName, $label, $configKey = 'paths.icons' )
+	{
+		$url		= $this->config[$configKey].$fileName;
+		$image		= UI_HTML_Elements::Image( $url, $label );
+		return $image;
+	}
+
 	/**
 	 *	Sets a List of Keywords to Configuration for HTML Page.
 	 *	@access		protected
@@ -180,7 +187,6 @@ class Framework_Krypton_Core_View extends Framework_Krypton_Core_Component
 		
 		$this->words['main']['main']['title']		= $current;
 		$this->words['main']['meta']['dc.Title']	= $current;
-		
 	}
 }
 ?>

@@ -22,6 +22,17 @@ class Framework_Krypton_View_Interface extends Framework_Krypton_Core_View
 	protected $ui	= array();
 
 	/**
+	 *	Builds Header View.
+	 *	@access		protected
+	 *	@return		string
+	 */
+	protected function buildHeader()
+	{
+		$words		= $this->registry->get( "words" );
+		return $this->loadTemplate( 'interface.header', $words['main']['header'] );
+	}
+
+	/**
 	 *	Builds Dev Center View.
 	 *	@access		protected
 	 *	@return		string
@@ -31,6 +42,50 @@ class Framework_Krypton_View_Interface extends Framework_Krypton_Core_View
 		import( 'de.ceus-media.framework.krypton.view.component.DevCenter' );
 		$view	= new Framework_Krypton_View_Component_DevCenter();
 		return $view->buildContent( $content );
+	}
+
+	/**
+	 *	Builds complete User Interface as HTML Page by calling Interface Components and adding build Contents.
+	 *	@access		public
+	 *	@param		string			$content		Page Content Area
+	 *	@param		string			$control		Page Control Area
+	 *	@param		string			$extra			Page Extra Area
+	 *	@return		string
+	 */
+	public function buildInterface( $content, $control, $extra )
+	{
+		$ui	= $this->getUserInterfaceData();
+
+		$ui['title']			= $this->words['main']['main']['title'];
+		$ui['messages']			= $this->messenger->buildMessages();
+		$ui['control']			= $control;
+		$ui['content']			= $content;
+		$ui['extra']			= $extra;
+		$ui['metatags']			= $this->buildMetaTags();
+		$ui['header']			= $this->buildHeader();
+		$ui['navigation']		= $this->buildNavigation();
+		$ui['mainfooter']		= $this->buildMainFooter();
+		$ui['subfooter']		= $this->buildSubFooter();
+		$ui['languages']		= $this->buildLanguageSwitch();
+		$ui['themes']			= $this->buildThemeSwitch();
+		$ui['dev']				= $this->buildDevCenter( ob_get_clean() );
+		$ui['styles']			= $this->buildStyleLinks();
+		$ui['scripts']			= $this->buildScriptLinks();
+		$ui['noscript']			= $this->buildNoScript();
+
+		try
+		{
+			$content	= $this->loadTemplate( 'interface.master', $ui );
+			$content	= str_replace( "[[%", "&lt;%", $content );
+			$content	= str_replace( "%]]", "%&gt;", $content );
+		}
+		catch( Exception $e )
+		{
+			$labels	= implode( ", ", $e->getNotUsedLabels() );
+			$labels	= htmlentities( $labels );
+			die( $e->getMessage()."<br/><small>".$labels."</small>" );
+		}
+		return $content;
 	}
 
 	/**
@@ -54,7 +109,7 @@ class Framework_Krypton_View_Interface extends Framework_Krypton_Core_View
 		foreach( $allowed as $languageKey )
 		{
 			$label	= $this->words['main']['languages'][$languageKey];
-			$icon	= UI_HTML_Elements::Image( $config['paths.icons']."flags/".$languageKey.".png", $label );
+			$icon	= $this->getFlagIcon( $languageKey, $label );
 			if( $languageKey != $current )
 				$icon	= UI_HTML_Elements::Link( "?link=".$request->get( 'link' )."&switchLanguageTo=".$languageKey, $icon );
 			if( $languageKey == $current )
@@ -67,6 +122,35 @@ class Framework_Krypton_View_Interface extends Framework_Krypton_Core_View
 		return $this->loadTemplate( 'interface.languages', $ui );
 	}
 
+	/**
+	 *	Builds Main Footer View.
+	 *	@access		protected
+	 *	@return		string
+	 */
+	protected function buildMainFooter()
+	{
+		$request	= $this->registry->get( 'request' );
+		$controller	= $this->registry->get( 'controller' );
+
+		$pages		= $controller->getPages( "foot" );
+		foreach( $pages as $page )
+		{
+			if( $page['hidden'] || $page['disabled'] )
+				continue;
+			$label	= $this->words['main']['links_footer'][$page['id']];
+			$link	= $this->html->Link( "?link=".$page['id'], $label );
+			$list[]	= $this->html->ListItem( $link );
+		}
+		$list	= $this->html->unorderedList( $list );
+
+		$ui	= array(
+			'link'		=> $request->get( 'link' ),
+			'list'		=> $list,
+			);
+		$uiData		= $this->getUserInterfaceData();
+		$ui			= array_merge( $ui, $uiData );
+		return $this->loadTemplate( "interface.mainfooter", $ui );
+	}
 	/**
 	 *	Builds MetaTag Component for HTML Page using Meta Information from Main Language File, Section 'meta'.
 	 *  Also builds automated LogOut if Options are set.
@@ -88,6 +172,18 @@ class Framework_Krypton_View_Interface extends Framework_Krypton_Core_View
 		$ui['referrer']	= getEnv( "HTTP_REFERER" );
 
 		return $this->loadTemplate( 'interface.metatags', $ui );
+	}
+
+	/**
+	 *	Builds Navigation View.
+	 *	@access		protected
+	 *	@return		string
+	 */
+	protected function buildNavigation()
+	{
+		import( 'de.ceus-media.framework.krypton.view.component.Navigation' );
+		$navigation	= new Framework_Krypton_View_Component_Navigation();
+		return $navigation->buildNavigation();
 	}
 
 	/**
@@ -118,6 +214,27 @@ class Framework_Krypton_View_Interface extends Framework_Krypton_Core_View
 	protected function buildStyleLinks()
 	{
 		return $this->loadTemplate( 'interface.styles', $this->getUserInterfaceData() );
+	}
+	
+	/**
+	 *	Builds Sub Footer View.
+	 *	@access		protected
+	 *	@return		string
+	 */
+	protected function buildSubFooter()
+	{
+		$request	= $this->registry->get( 'request' );
+		$stopwatch	= $this->registry->get( 'stopwatch' );
+		$dbc		= $this->registry->get( 'dbc' );
+		$words		= $this->words['main']['footer'];
+
+		$ui			= $this->getUserInterfaceData();
+		$ui['link']				= $request->get( 'link' );
+		$ui['time']				= $stopwatch->stop( 0, 3 )."s";
+		$ui['db_executes']		= $dbc->numberExecutes;
+		$ui['db_statements']	= $dbc->numberStatements;
+		$ui['words']			= $words;
+		return $this->loadTemplate( "interface.footer", $ui );
 	}
 	
 	/**
@@ -153,6 +270,13 @@ class Framework_Krypton_View_Interface extends Framework_Krypton_Core_View
 		$ui['heading']	= $words['heading'];
 		$ui['caption']	= UI_HTML_Elements::TableCaption( $words['caption'], 'list' );
 		return $this->loadTemplate( 'interface.themes', $ui );
+	}
+
+	protected function getFlagIcon( $country, $label )
+	{
+		$fileName	= "ceus-media/flags/".$country.".png";
+		$image		= $this->getIcon( $fileName, $label );
+		return $image;
 	}
 
 	/**
