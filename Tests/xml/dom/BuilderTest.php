@@ -10,6 +10,7 @@
  *	@version		0.1
  */
 require_once 'PHPUnit/Framework/TestCase.php'; 
+require_once 'Tests/initLoaders.php5' ;
 import( 'de.ceus-media.xml.dom.Builder' );
 import( 'de.ceus-media.xml.dom.Node' );
 /**
@@ -72,7 +73,7 @@ class Tests_XML_DOM_BuilderTest extends PHPUnit_Framework_TestCase
 		$tree->addChild( $leaf32 );
 
 		$assertion	= file_get_contents( "Tests/xml/dom/builder.xml" );
-		$creation	= $this->builder->build( $tree );
+		$creation	= XML_DOM_Builder::build( $tree );
 		$this->assertEquals( $assertion, $creation );
 	}
 }
