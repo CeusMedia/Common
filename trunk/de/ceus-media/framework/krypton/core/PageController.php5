@@ -131,7 +131,7 @@ class Framework_Krypton_Core_PageController
 			$this->cachedScopes	= array();
 			
 		if( $clearCacheFile && file_exists( $this->cacheFile ) )
-			unlink( $cacheFile );
+			unlink( $this->cacheFile );
 	}
 
 	/**

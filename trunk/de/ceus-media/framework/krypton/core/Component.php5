@@ -98,19 +98,21 @@ abstract class Framework_Krypton_Core_Component
 	const CLEAR_ALL											= 16;
 
 	/**	@var		Framework_Krypton_Core_Registry		$registry		Registry of Objects */
-	var $registry	= null;
+	protected $registry	= null;
+	/**	@var		Net_HTTP_Request_Receiver			Request Receiver Object */
+	protected $request		= NULL;
 	/**	@var		UI_HTML_Elements	$html			HTML Elements */
-	var $html		= null;
+	public $html			= NULL;
 	/**	@var		Language			$language		Language Support */
-	var $language	= null;
+	protected $language		= NULL;
 	/**	@var		Messenger			$messenger		Messenger Object */
-	var $messenger	= null;
+	protected $messenger	= NULL;
 	/**	@var		Alg_TimeConverter	$tc				Time Converter Object */
-	var $tc			= null;
+	protected $tc			= NULL;
 	/**	@var		array				$words			Array of defined Words */
-	var $words		= array();
+	protected $words		= array();
 	/**	@var		UI_HTML_WikiParser	$wiki			Wiki Parser Object */
-	var $wiki		= null;
+	protected $wiki			= NULL;
 	/**	@var		array				$paths			Array of possible Path Keys in Config for Content Loading */
 	public $paths	= array(
 			'html'	=> 'html',
@@ -124,9 +126,11 @@ abstract class Framework_Krypton_Core_Component
 	 *	@param		bool		$useWikiParser		Flag: make WikiParser a Member Object
 	 *	@return		void
 	 */
-	public function __construct( $useWikiParser = false )
+	public function __construct( $useWikiParser = FALSE )
 	{
 		$this->registry		= Framework_Krypton_Core_Registry::getInstance();
+		$this->config		= $this->registry->get( 'config' );
+		$this->request		= $this->registry->get( 'request' );
 		$this->html			= new UI_HTML_Elements;
 		$this->tc			= new Alg_TimeConverter;
 		if( $useWikiParser )

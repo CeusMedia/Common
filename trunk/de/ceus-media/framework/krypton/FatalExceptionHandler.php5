@@ -38,6 +38,7 @@
  *	@uses			Net_Mail_Sender
  *	@since			22.04.2007
  *	@version		0.2
+ *	@deprecated		to be removed in 0,7
  */
 class Framework_Krypton_FatalExceptionHandler
 {

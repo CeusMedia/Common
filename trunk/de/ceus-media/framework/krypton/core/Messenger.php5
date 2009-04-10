@@ -25,7 +25,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			01.12.2005
- *	@version		0.6
+ *	@version		0.7
  */
 import( 'de.ceus-media.framework.krypton.core.Registry' );
 import( 'de.ceus-media.alg.TimeConverter' );
@@ -39,24 +39,32 @@ import( 'de.ceus-media.alg.TimeConverter' );
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			01.12.2005
- *	@version		0.6
+ *	@version		0.7
  */
 class Framework_Krypton_Core_Messenger
 {
+	const TYPE_FAILURE		= 0;
+	const TYPE_ERROR		= 1;
+	const TYPE_NOTICE		= 2;
+	const TYPE_SUCCESS		= 3;
+	
 	/**	@var	object			$registry			Registry for Objects */
 	protected $registry;
+
 	/**	@var	array			$classes			CSS Classes of Message Types */
 	protected $classes	= array(
 		'0'	=> 'failure',
 		'1'	=> 'error',
 		'2'	=> 'notice',
 		'3'	=> 'success',
-		);
+	);
 
 	/**	@var		string		$headingSeparator	Separator of Headings */
 	public $headingSeparator	= " / ";
+
 	/**	@var		string		$keyHeadings		Key of Headings within Session */
 	public $keyHeadings			= "messenger_headings";
+
 	/**	@var		string		$keyMessages		Key of Messages within Session */
 	public $keyMessages			= "messenger_messages";
 
@@ -105,6 +113,7 @@ class Framework_Krypton_Core_Messenger
 	 *	Builds Output for each Message on the Message Stack.
 	 *	@access		public
 	 *	@return		string
+	 *	@todo		create HTML with UI_HTML_* or use Templates
 	 */
 	public function buildMessages( $autoClear = TRUE )
 	{
@@ -143,7 +152,22 @@ class Framework_Krypton_Core_Messenger
 	}
 	
 	/**
-	 *	Saves a Error Message on the Message Stack.
+	 *	Adds a Message of a given Message Type to the Message Stack.
+	 *	@access		public
+	 *	@param		int			$type			Message Type (0-Failure|1-Error|2-Notice|3-Success)
+	 *	@param		string		$message		Message to display
+	 *	@param		string		$arg1			Argument to be set into Message
+	 *	@param		string		$arg2			Argument to be set into Message
+	 *	@return		void
+	 */
+	public function note( $type, $message, $arg1 = NULL, $arg2 = NULL )
+	{
+		$message	= $this->setIn( $message, $arg1, $arg2 );
+		$this->noteMessage( $type, $message);
+	}
+	
+	/**
+	 *	Adds an Error Message to the Message Stack.
 	 *	@access		public
 	 *	@param		string		$message		Message to display
 	 *	@param		string		$arg1			Argument to be set into Message
@@ -157,7 +181,7 @@ class Framework_Krypton_Core_Messenger
 	}
 
 	/**
-	 *	Saves a Failure Message on the Message Stack.
+	 *	Adds a Failure Message to the Message Stack.
 	 *	@access		public
 	 *	@param		string		$message		Message to display
 	 *	@param		string		$arg1			Argument to be set into Message
@@ -171,13 +195,13 @@ class Framework_Krypton_Core_Messenger
 	}
 	
 	/**
-	 *	Saves a Message on the Message Stack.
+	 *	Adds a Message to the Message Stack.
 	 *	@access		protected
 	 *	@param		int			$type			Message Type (0-Failure|1-Error|2-Notice|3-Success)
 	 *	@param		string		$message		Message to display
 	 *	@return		void
 	 */
-	protected function noteMessage( $type, $message)
+	protected function noteMessage( $type, $message )
 	{
 		$session	= Framework_Krypton_Core_Registry::getStatic( 'session' );
 		$messages	= (array) $session->get( $this->keyMessages );
@@ -186,7 +210,7 @@ class Framework_Krypton_Core_Messenger
 	}
 	
 	/**
-	 *	Saves a Notice Message on the Message Stack.
+	 *	Adds a Notice Message to the Message Stack.
 	 *	@access		public
 	 *	@param		string		$message		Message to display
 	 *	@param		string		$arg1			Argument to be set into Message
@@ -200,7 +224,7 @@ class Framework_Krypton_Core_Messenger
 	}
 	
 	/**
-	 *	Saves a Success Message on the Message Stack.
+	 *	Adds a Success Message to the Message Stack.
 	 *	@access		public
 	 *	@param		string		$message		Message to display
 	 *	@param		string		$arg1			Argument to be set into Message
@@ -229,15 +253,18 @@ class Framework_Krypton_Core_Messenger
 	}
 
 	/**
-	 *	Inserts arguments into a Message.
+	 *	Inserts arguments into a Message, supports printf and own Pattern 'a {1} b {2} c'.
 	 *	@access		protected
 	 *	@param		string		$message		Message to display
 	 *	@param		string		$arg1			Argument to be set into Message
 	 *	@param		string		$arg2			Argument to be set into Message
 	 *	@return		string
+	 *	@todo		remove own Pattern in 0.6.7
 	 */
-	protected function setIn( $message, $arg1, $arg2 )
+	protected function setIn( $message, $arg1 = NULL, $arg2 = NULL )
 	{
+		$message	= sprintf( $message, (string) $arg1, (string) $arg2 );
+		
 		if( $arg2 !== NULL )
 			$message	= preg_replace( "@(.*)\{\S+\}(.*)\{\S+\}(.*)@si", "$1".$arg1."$2".$arg2."$3", $message );
 		else if( $arg1 !== NULL )

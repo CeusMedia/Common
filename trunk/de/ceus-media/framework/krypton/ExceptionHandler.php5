@@ -153,7 +153,7 @@ class Framework_Krypton_ExceptionHandler
 				throw new Exception( 'Template "'.self::$errorPage.'" is not existing.' );
 			$report	= require_once( self::$errorPage );
 		}
-		return $report ;
+		return $report;
 	}
 
 	/**

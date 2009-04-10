@@ -40,30 +40,44 @@ import( 'de.ceus-media.framework.krypton.core.Component' );
  */
 abstract class Framework_Krypton_Core_Action extends Framework_Krypton_Core_Component
 {
-	/**	@var	array			$actions		Array of Action events and methods */
-	protected $actions	= array();
+	/**	@var	array			$registeredActions		Map of Action Keys and Methods */
+	protected $registeredActions	= array();
 
 	/**
 	 *	Method for manually called Actions in inheriting Action Classes.
 	 *	@access		public
 	 *	@return		void
+	 *	@deprecated	use performAfterRegisteredActions() instead
+	 *	@deprecated	to be removed in 0.6.7
 	 */
 	public function act()
 	{
+		$this->performBeforeRegisteredActions();	
 	}
 	
 	/**
 	 *	Adds an Action by an event name and a method name.
 	 *	@access		protected
 	 *	@param		string		$event			Event name of Action
-	 *	@param		string		$action			Method name of Action
+	 *	@param		string		$action			Method of Action if different from Event name
 	 *	@return		void
+	 *	@deprecated use registerAction since 0.6.6
+	 *	@deprecated to be removed in 0.6.7
 	 */
-	protected function addAction( $event, $action = "" )
+	protected function addAction( $event, $action = NULL )
 	{
-		if( !$action )
-			$action	= $event;
-		$this->actions[$event]	= $action;
+		return $this->registerAction( $event, $action );
+	}
+
+	/**
+	 *	Indicates whether an Action is registered by an Event.
+	 *	@access		public
+	 *	@param		string		$actionKey		Key of Action
+	 *	@return		bool
+	 */
+	public function isRegisteredAction( $actionKey )
+	{
+		return isset( $this->registeredActions[$actionKey]);
 	}
 
 	/**
@@ -72,42 +86,73 @@ abstract class Framework_Krypton_Core_Action extends Framework_Krypton_Core_Comp
 	 *	@param		string		$event			Event name of Action
 	 *	@return		bool
 	 */
-	public function hasAction( $event )
+	public function hasAction( $actionKey )
 	{
-		return isset( $this->actions[$event]);
+		return isset( $this->registeredActions[$actionKey]);
 	}
 
 	/**
 	 *	Calls Actions by checking calls in Request. Also collects and returns results of all Action Calls as Array.
 	 *	@access		public
 	 *	@return		array
+	 *	@deprecated	use performRegisteredActions()
+	 *	@deprecated	to be removed in 0.6.7
 	 */
 	public function performActions()
 	{
+		return $this->performRegisteredActions();
+	}
+
+	public function performAfterRegisteredActions()
+	{
+	}
+	
+	public function performBeforeRegisteredActions()
+	{
+	}
+	
+	/**
+	 *	Calls Actions by checking calls in Request. Also collects and returns results of all Action Calls as Array.
+	 *	@access		public
+	 *	@return		array
+	 */
+	public function performRegisteredActions()
+	{
 		$results	= array();
-		$request	= Framework_Krypton_Core_Registry::getStatic( 'request' );
-		foreach( $this->actions as $event => $action )
+		foreach( $this->registeredActions as $actionKey => $actionMethod )
 		{
-			if( $request->has( $event ) )
-			{
-				if( !method_exists( $this, $action ) )
-					throw new BadMethodCallException( 'Action "'.get_class( $this ).'::'.$action.'()" is not existing.' );
-				$results[$action]	= $this->$action( $request->get( $event ) );
-			}
+			if( !$this->request->has( $actionKey ) )
+				continue;
+			if( !method_exists( $this, $actionMethod ) )
+				throw new BadMethodCallException( 'Action "'.get_class( $this ).'::'.$actionMethod.'()" is not existing.' );
+			$results[$actionKey]	= $this->$actionMethod( $this->request->get( $actionKey ) );
 		}
 		return $results;
 	}
 
 	/**
-	 *	Removes a registered Action.
-	 *	@access		public
-	 *	@param		string		$event			Event name of Action
+	 *	Adds an Action by an event name and a method name to the internal Action Register, excuted by performActions().
+	 *	@access		protected
+	 *	@param		string		$actionKey			Key of Action
+	 *	@param		string		$actionMethod		Method of Action  if different from Key
 	 *	@return		void
 	 */
-	public function removeAction( $event )
+	protected function registerAction( $actionKey, $actionMethod = NULL )
 	{
-		if( $this->hasAction( $event ) )
-			unset( $this->actions[$event] );
+		$actionMethod	= $actionMethod ? $actionMethod	: $actionKey;
+		$this->registeredActions[$actionKey]	= $actionMethod;
+	}
+
+	/**
+	 *	Removes a registered Action.
+	 *	@access		public
+	 *	@param		string		$actionKey			Key of Action
+	 *	@return		void
+	 */
+	public function unregisterAction( $actionKey )
+	{
+		if( $this->isRegisteredAction( $actionKey ) )
+			unset( $this->registeredActions[$actionKey] );
 	}
 
 	/**
@@ -115,12 +160,35 @@ abstract class Framework_Krypton_Core_Action extends Framework_Krypton_Core_Comp
 	 *	@access		protected
 	 *	@param		string		$request			Request URL with Query String
 	 *	@return		void
+	 *	@deprecated	use redirect instead
+	 *	@deprecated	to be removed in 0.6.7
 	 */
 	protected function restart( $request )
 	{
 		$session	= Framework_Krypton_Core_Registry::getStatic( 'session' );
 		$session->__destruct();
 		header( "Location: ./".$request );
+		exit;
+	}
+
+	/**
+	 *	Restart application with a Request URL.
+	 *	@access		protected
+	 *	@param		string		$request			Request URL with Query String
+	 *	@param		string		$message			Message to display
+	 *	@param		int			$messageType		Message Type (0-Failure|1-Error|2-Notice|3-Success)
+	 *	@param		string		$arg1				Argument to be set into Message
+	 *	@param		string		$arg2				Argument to be set into Message
+	 *	@return		void
+	 */
+	protected function redirect( $url, $message = NULL, $messageType = 2, $arg1 = NULL, $arg2 = NULL )
+	{
+		if( $message )
+			$this->messenger->note( $messageType, $message, $arg1, $arg2 );
+
+		$session	= Framework_Krypton_Core_Registry::getStatic( 'session' );
+		$session->__destruct();
+		header( "Location: ./".$url );
 		exit;
 	}
 }
