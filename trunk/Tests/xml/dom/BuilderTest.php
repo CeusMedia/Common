@@ -26,14 +26,28 @@ import( 'de.ceus-media.xml.dom.Node' );
 class Tests_XML_DOM_BuilderTest extends PHPUnit_Framework_TestCase
 {
 	/**
-	 *	Sets up Leaf.
+	 *	Sets up Builder.
 	 *	@access		public
 	 *	@return		void
 	 */
 	public function setUp()
 	{
 		$this->builder	= new XML_DOM_Builder();
+		$this->fileName		= dirname( __FILE__ )."/builder.xml";
+
 	}
+
+
+
+	/**
+	 *	Sets down Writer.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function tearDown()
+	{
+		@unlink( $this->path."writer.xml" );
+	} 
 
 	/**
 	 *	Tests Method 'build'.
@@ -72,7 +86,7 @@ class Tests_XML_DOM_BuilderTest extends PHPUnit_Framework_TestCase
 		$tree->addChild( $leaf31 );
 		$tree->addChild( $leaf32 );
 
-		$assertion	= file_get_contents( "Tests/xml/dom/builder.xml" );
+		$assertion	= file_get_contents( $this->fileName );
 		$creation	= XML_DOM_Builder::build( $tree );
 		$this->assertEquals( $assertion, $creation );
 	}

@@ -27,14 +27,15 @@ class TestAction extends Framework_Krypton_Core_Action
 	public $var	= 0;
 	public function __construct()
 	{
-		$this->addAction( 'testOne',			'returnOne' );
-		$this->addAction( 'notExisting',		'notExistingMethod' );
-		$this->addAction( 'removeThisAction',	'removeAction' );
+		parent::__construct();
+		$this->registerAction( 'testOne',			'returnOne' );
+		$this->registerAction( 'notExisting',		'notExistingMethod' );
+		$this->registerAction( 'removeThisAction',	'removeAction' );
 	}
 
 	public function addTestAction()
 	{
-		$this->addAction( 'testAction' );
+		$this->registerAction( 'testAction' );
 	}
 
 	public function returnOne()
@@ -51,10 +52,10 @@ class Tests_Framework_Krypton_Core_ActionTest extends PHPUnit_Framework_TestCase
 		$language->expects( $this->any() )->method( 'getWords' )->will( $this->returnValue( array() ) );
 		
 		$registry	= Framework_Krypton_Core_Registry::getInstance();
-		$registry->set( 'request', new ADT_List_Dictionary, true );
-		$registry->set( 'session', new ADT_List_Dictionary, true );
-		$registry->set( 'messenger', new Framework_Krypton_Core_Messenger, true );
-		$registry->set( 'language', $language, true );
+		$registry->set( 'request', new ADT_List_Dictionary, TRUE );
+		$registry->set( 'session', new ADT_List_Dictionary, TRUE );
+		$registry->set( 'messenger', new Framework_Krypton_Core_Messenger, TRUE );
+		$registry->set( 'language', $language, TRUE );
 	}
 
 	public function setUp()
@@ -62,22 +63,22 @@ class Tests_Framework_Krypton_Core_ActionTest extends PHPUnit_Framework_TestCase
 		$this->action	= new TestAction();
 	}
 
-	public function testAddAction()
+	public function testRegisterAction()
 	{
 		$this->action->addTestAction();
-		$assertion	= true;
-		$creation	= $this->action->hasAction( 'testAction' );
+		$assertion	= TRUE;
+		$creation	= $this->action->isRegisteredAction( 'testAction' );
 		$this->assertEquals( $assertion, $creation );
 	}
 
-	public function testHasAction()
+	public function testIsRegisteredAction()
 	{
-		$assertion	= true;
-		$creation	= $this->action->hasAction( 'testOne' );
+		$assertion	= TRUE;
+		$creation	= $this->action->isRegisteredAction( 'testOne' );
 		$this->assertEquals( $assertion, $creation );
 
-		$assertion	= false;
-		$creation	= $this->action->hasAction( 'wrong_name' );
+		$assertion	= FALSE;
+		$creation	= $this->action->isRegisteredAction( 'wrong_name' );
 		$this->assertEquals( $assertion, $creation );
 	}
 	
@@ -110,11 +111,11 @@ class Tests_Framework_Krypton_Core_ActionTest extends PHPUnit_Framework_TestCase
 		$this->fail( 'An expected Exception has not been thrown.' );
 	}
 	
-	public function testRemoveAction()
+	public function testUnregisterAction()
 	{
-		$this->action->removeAction( "testOne" );
-		$assertion	= false;
-		$creation	= $this->action->hasAction( 'testOne' );
+		$this->action->unregisterAction( "testOne" );
+		$assertion	= FALSE;
+		$creation	= $this->action->isRegisteredAction( 'testOne' );
 		$this->assertEquals( $assertion, $creation );
 	}
 }

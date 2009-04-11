@@ -1,6 +1,4 @@
 <?php
-import( 'de.ceus-media.file.Writer' );
-import( 'de.ceus-media.xml.rss.Builder' );
 /**
  *	Writer for RSS 2.0 Feeds.
  *
@@ -30,6 +28,8 @@ import( 'de.ceus-media.xml.rss.Builder' );
  *	@since			20.02.2008
  *	@version		0.6
  */
+import( 'de.ceus-media.file.Writer' );
+import( 'de.ceus-media.xml.rss.Builder' );
 /**
  *	Writer for RSS 2.0 Feeds.
  *	@package		xml.rss
@@ -99,13 +99,13 @@ class XML_RSS_Writer
 	}
 
 	/**
-	 *	Writes RSS to a File statically.
+	 *	Writes RSS to a File statically and returns Number of written Bytes.
 	 *	@access		public
 	 *	@param		string		$fileName	File Name of XML RSS File
 	 *	@param		array		$array		Array of Channel Information Pairs
 	 *	@param		array		$array		List of Item
 	 *	@param		string		$encoding	Encoding Type
-	 *	@return		bool
+	 *	@return		int
 	 */
 	public static function save( $fileName, $channelData, $itemList, $encoding = "utf-8" )
 	{
@@ -113,15 +113,15 @@ class XML_RSS_Writer
 		$builder->setChannelData( $channelData );
 		$builder->setItemList( $itemList );
 		$xml	= $builder->build( $encoding = "utf-8" );
-		return (bool) File_Writer::save( $fileName, $xml );
+		return File_Writer::save( $fileName, $xml );
 	}
 
 	/**
-	 *	Writes RSS to a File.
+	 *	Writes RSS to a File and returns Number of written Bytes.
 	 *	@access		public
 	 *	@param		string		$fileName	File Name of XML RSS File
 	 *	@param		string		$encoding	Encoding Type
-	 *	@return		bool
+	 *	@return		int
 	 */
 	public function write( $fileName, $encoding = "utf-8" )
 	{

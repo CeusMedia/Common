@@ -29,7 +29,7 @@ class Tests_XML_DOM_StorageTest extends PHPUnit_Framework_TestCase
 	 */
 	public function __construct()
 	{
-		$this->fileName		= "Tests/xml/dom/storage.xml";
+		$this->fileName		= dirname( __FILE__ )."/storage.xml";
 	}
 
 	/**
