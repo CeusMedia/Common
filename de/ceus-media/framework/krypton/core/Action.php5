@@ -72,10 +72,12 @@ abstract class Framework_Krypton_Core_Action extends Framework_Krypton_Core_Comp
 	/**
 	 *	Indicates whether an Action is registered by an Event.
 	 *	@access		public
-	 *	@param		string		$actionKey		Key of Action
+	 *	@param		string		$event			Event name of Action
 	 *	@return		bool
+	 *	@deprecated use isRegisteredAction since 0.6.6
+	 *	@deprecated to be removed in 0.6.7
 	 */
-	public function isRegisteredAction( $actionKey )
+	public function hasAction( $actionKey )
 	{
 		return isset( $this->registeredActions[$actionKey]);
 	}
@@ -83,12 +85,12 @@ abstract class Framework_Krypton_Core_Action extends Framework_Krypton_Core_Comp
 	/**
 	 *	Indicates whether an Action is registered by an Event.
 	 *	@access		public
-	 *	@param		string		$event			Event name of Action
+	 *	@param		string		$actionKey		Key of Action
 	 *	@return		bool
 	 */
-	public function hasAction( $actionKey )
+	public function isRegisteredAction( $actionKey )
 	{
-		return isset( $this->registeredActions[$actionKey]);
+		return isset( $this->registeredActions[$actionKey] );
 	}
 
 	/**

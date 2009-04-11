@@ -192,9 +192,9 @@ class XML_RSS_Builder
 	 */
 	protected function getDate( $time )
 	{
-		if( strtotime( $time ) )
-			$time	= strtotime( $time );
-		return date( "r", (int) $time );
+		if( preg_match( '@^[0-9]+$@', $time ) )
+			$time	= date( "r", (int) $time );
+		return $time;
 	}
 	
 	/**
