@@ -34,6 +34,8 @@
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			22.02.2007
  *	@version		0.1
+ *	@deprecated		not working since Exception::getMessage() is final
+ *	@todo			to be deleted in 0.6.7
  */
 class Exception_Logic extends Exception
 {

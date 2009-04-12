@@ -246,7 +246,7 @@ class Framework_Krypton_Core_FormDefinitionReader
 				$this->writeCacheFile( $fileName );
 		}
 		else
-			throw new Exception( 'Definition File "'.$xmlFile.'" is not existing.' );
+			throw new RuntimeException( 'Definition File "'.$xmlFile.'" is not existing.' );
 	}
 	
 	/**

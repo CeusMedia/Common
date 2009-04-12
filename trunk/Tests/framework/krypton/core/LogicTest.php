@@ -28,6 +28,7 @@ class Tests_Framework_Krypton_Core_LogicTest extends PHPUnit_Framework_TestCase
 		Framework_Krypton_Core_Logic::$pathCollection	= "Tests.framework.krypton.core.collection.";
 		Framework_Krypton_Core_Logic::$classLogic		= "Logic_";
 		Framework_Krypton_Core_Logic::$classCollection	= "Collection_";
+		$this->path	= dirname( __FILE__ )."/";
 	}
 	
 	public function testGetCategoryLogic()
@@ -39,15 +40,8 @@ class Tests_Framework_Krypton_Core_LogicTest extends PHPUnit_Framework_TestCase
 
 	public function testGetCategoryLogicException()
 	{
-		try
-		{
-			Framework_Krypton_Core_Logic::getCategoryLogic( "test1" );
-		}
-		catch( Exception $e )
-		{
-			return;
-		}
-		$this->fail( 'An expected Exception has not been thrown.' );
+		$this->setExpectedException( 'InvalidArgumentException' );
+		Framework_Krypton_Core_Logic::getCategoryLogic( "test1" );
 	}
 	
 	public function testGetCategoryCollection()
@@ -59,15 +53,8 @@ class Tests_Framework_Krypton_Core_LogicTest extends PHPUnit_Framework_TestCase
 
 	public function testGetCategoryCollectionException()
 	{
-		try
-		{
-			Framework_Krypton_Core_Logic::getCategoryCollection( "test1", "builder_dummy" );
-		}
-		catch( Exception $e )
-		{
-			return;
-		}
-		$this->fail( 'An expected Exception has not been thrown.' );
+		$this->setExpectedException( 'InvalidArgumentException' );
+		Framework_Krypton_Core_Logic::getCategoryCollection( "test1", "builder_dummy" );
 	}
 	
 	public function testGetFieldsFromModel()
@@ -79,15 +66,8 @@ class Tests_Framework_Krypton_Core_LogicTest extends PHPUnit_Framework_TestCase
 
 	public function testGetFieldsFromModelException()
 	{
-		try
-		{
-			Framework_Krypton_Core_Logic::getFieldsFromModel( "Not_Existing" );
-		}
-		catch( Exception $e )
-		{
-			return;
-		}
-		$this->fail( 'An expected Exception has not been thrown.' );
+		$this->setExpectedException( 'Framework_Krypton_Exception_IO' );
+		Framework_Krypton_Core_Logic::getFieldsFromModel( "Not_Existing" );
 	}
 
 
@@ -95,21 +75,14 @@ class Tests_Framework_Krypton_Core_LogicTest extends PHPUnit_Framework_TestCase
 	{
 		$registry	= Framework_Krypton_Core_Registry::getInstance();
 		import( 'de.ceus-media.framework.krypton.core.FormDefinitionReader' );
-		$definition	= new Framework_Krypton_Core_FormDefinitionReader( "Tests/framework/krypton/core/" );
+		$definition	= new Framework_Krypton_Core_FormDefinitionReader( $this->path );
 		$definition->setChannel( 'html' );
 		$registry->set( 'definition', $definition, true );
 		$data	= array(
 			'relation_id'	=> 2,
 			'title'			=> 'test',
 		);
-		try
-		{
-			Test_Logic::testValidateForm( "form", "addSomething", $data, "add_" );
-		}
-		catch( Framework_Krypton_Exception_Validation $e )
-		{
-			$this->fail( "An unexpected Exception has been thrown: ".$e->getMessage() );
-		}
+		Test_Logic::testValidateForm( "form", "addSomething", $data, "add_" );
 	}
 
 
@@ -119,22 +92,13 @@ class Tests_Framework_Krypton_Core_LogicTest extends PHPUnit_Framework_TestCase
 	
 		$registry	= Framework_Krypton_Core_Registry::getInstance();
 		import( 'de.ceus-media.framework.krypton.core.FormDefinitionReader' );
-		$definition	= new Framework_Krypton_Core_FormDefinitionReader( "Tests/framework/krypton/core/" );
+		$definition	= new Framework_Krypton_Core_FormDefinitionReader( $this->path );
 		$definition->setChannel( 'html' );
 		$definition->setPrefix( 'wrong_prefix_' );
 		$registry->set( 'definition', $definition, true );
 
-		try
-		{
-			Test_Logic::testValidateForm( "form", "addSomething", array(), "add_" );
-		}
-		catch( Exception $e )
-		{
-			if( preg_match( "@not existing@i", $e->getMessage() ) )
-				return true;
-			$this->fail( 'An unexpected Exception has not been thrown.' );
-		}
-		$this->fail( 'An expected Exception has not been thrown.' );
+		$this->setExpectedException( 'RuntimeException' );
+		Test_Logic::testValidateForm( "form", "addSomething", array(), "add_" );
 	}
 
 	public function testValidationFail()
@@ -142,7 +106,7 @@ class Tests_Framework_Krypton_Core_LogicTest extends PHPUnit_Framework_TestCase
 	
 		$registry	= Framework_Krypton_Core_Registry::getInstance();
 		import( 'de.ceus-media.framework.krypton.core.FormDefinitionReader' );
-		$definition	= new Framework_Krypton_Core_FormDefinitionReader( "Tests/framework/krypton/core/" );
+		$definition	= new Framework_Krypton_Core_FormDefinitionReader( $this->path );
 		$definition->setChannel( 'html' );
 		$definition->setPrefix( '' );
 		$registry->set( 'definition', $definition, true );
@@ -151,7 +115,7 @@ class Tests_Framework_Krypton_Core_LogicTest extends PHPUnit_Framework_TestCase
 		{
 			Test_Logic::testValidateForm( "form", "addSomething", array(), "add_" );
 		}
-		catch( Framework_Krypton_Exception_Validation $e )
+		catch( Exception_Validation $e )
 		{
 			$errors	= $e->getErrors();
 

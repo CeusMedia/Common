@@ -27,7 +27,6 @@
  *	@since			03.03.2007
  *	@version		0.6
  */
-import( 'de.ceus-media.framework.krypton.exception.IO' );
 import( 'de.ceus-media.exception.Template' );
 /**
  *	Template Class.
@@ -69,7 +68,7 @@ class UI_Template
 	/**	@var		string		content of a specified templatefile */
 	protected $template;
 	
-	public static $removeComments	= TRUE;
+	public static $removeComments	= FALSE;
 	
 	/**
 	 *	Constructor
@@ -80,7 +79,8 @@ class UI_Template
 	 */
 	public function __construct( $fileName, $elements = NULL )
 	{
-		$this->elements = array();
+		$this->elements		= array();
+		$this->className	= get_class( $this );
 		$this->setTemplate( $fileName );
 		$this->add( $elements ); 
 	}
@@ -91,28 +91,28 @@ class UI_Template
 	 *							float and is the <b>label</b>. The <b>value</b> can be a 
 	 *							string, integer, float or a template object and represents
 	 *							the element to add.
-	 *	@param		bool		if true an a tag is already used, it will overwrite it 
+	 *	@param		bool		if TRUE an a tag is already used, it will overwrite it 
 	 *	@return		void
 	 */
-	public function add( $elements, $overwrite = false )
+	public function add( $elements, $overwrite = FALSE )
 	{
-		$self		= get_class( $this );
 		if( is_array( $elements ) )
 		{
 			foreach( $elements as $key => $value )
 			{
-				if( is_array( $value ) || $value instanceof ArrayObject || $value instanceof ADT_List_Dictionary )
+				$isListObject	= $value instanceof ArrayObject || $value instanceof ADT_List_Dictionary;
+				if( is_array( $value ) || $isListObject )
 				{
 					$this->addArrayRecursive( $key, $value, array(), $overwrite );
 				}
 				else
 				{
 					$validKey	= is_string( $key ) || is_int( $key ) || is_float( $key );
-					$validValue	= is_string( $value ) || is_int( $value ) || is_float( $value ) || $value instanceof $self;
+					$validValue	= is_string( $value ) || is_int( $value ) || is_float( $value ) || $value instanceof $this->className;
 					if( $validKey && $validValue )
 					{
-						if( $overwrite == true )
-							$this->elements[$key] = null;
+						if( $overwrite == TRUE )
+							$this->elements[$key] = NULL;
 						$this->elements[$key][] = $value;
 					}
 				}
@@ -128,26 +128,21 @@ class UI_Template
 	 *	@param		array		$steps			Steps within Recursion
 	 *	@param		bool		$overwrite		Flag: overwrite existing Tag
 	 */
-	public function addArrayRecursive( $name, $data, $steps = array(), $overwrite = false )
+	public function addArrayRecursive( $name, $data, $steps = array(), $overwrite = FALSE )
 	{
 		$steps[]	= $name;
 		foreach( $data as $key => $value )
 		{
-			if( is_array( $value ) || $value instanceof ArrayObject || $value instanceof ADT_List_Dictionary  )
-			{
+			$isListObject	= $value instanceof ArrayObject || $value instanceof ADT_List_Dictionary;
+			if( is_array( $value ) || $isListObject  )
 				$this->addArrayRecursive( $key, $value, $steps );
-			}
-			else if( is_int( $key ) )
-				$this->elements[$name][] = $value;
-			else if( is_object( $value ) )
+			else if( is_int( $key ) || is_float( $key ) || is_object( $value ) )
 				$this->elements[$name][] = $value;
 			else
 			{
 				$key	= implode( ".", $steps ).".".$key;
-				if( $overwrite == true )
-				{
-					$this->elements[$key] = null;
-				}
+				if( $overwrite == TRUE )
+					$this->elements[$key] = NULL;
 				$this->elements[$key][] = $value;
 			}
 		}
@@ -157,10 +152,10 @@ class UI_Template
 	 *	Adds one Element
 	 *	@param		string		tagname
 	 *	@param		string|int|float|Template
-	 *	@param		bool		if set to true, it will overwrite an existing element with the same label
+	 *	@param		bool		if set to TRUE, it will overwrite an existing element with the same label
 	 *	@return		void
 	 */
-	public function addElement( $tag, $element, $overwrite = false )
+	public function addElement( $tag, $element, $overwrite = FALSE )
 	{
 		$this->add( array( $tag => $element ), $overwrite );
 	}
@@ -170,10 +165,10 @@ class UI_Template
 	 *	@param		string		tagname
 	 *	@param		string		template file
 	 *	@param		array		array containing elements {@link add()}
-	 *	@param		bool		if set to true, it will overwrite an existing element with the same label
+	 *	@param		bool		if set to TRUE, it will overwrite an existing element with the same label
 	 *	@return		void
 	 */
-	public function addTemplate( $tag, $fileName, $element = null, $overwrite = false )
+	public function addTemplate( $tag, $fileName, $element = NULL, $overwrite = FALSE )
 	{
 		$this->addElement( $tag, new self( $fileName, $element ), $overwrite );
 	}
@@ -186,13 +181,7 @@ class UI_Template
 	 */
 	public function create()
 	{
-		$self	= get_class( $this );
 		$out	= $this->template;
-#		if( preg_match( "@statistics@", $this->template ) )
-#		{
-#			print_m( $this->elements );
-#			die;
-#		}
  		$out	= preg_replace( '/<%--.*--%>/sU', '', $out );	
  		if( self::$removeComments )
 			$out	= preg_replace( '/<!--.+-->/sU', '', $out );	
@@ -203,7 +192,7 @@ class UI_Template
 			{
 	 			if( is_object( $element ) )
 	 			{
-	 				if( !( $element instanceof $self ) )
+	 				if( !( $element instanceof $this->className ) )
 	 					continue;
 					$element = $element->create();
 	 			}
@@ -218,7 +207,9 @@ class UI_Template
 		    return $out; 				
 
 		$tags	= array_shift( $tags );
-		throw new Exception_Template( TEMPLATE_EXCEPTION_LABELS_NOT_USED, $this->fileName, $tags );
+		foreach( $tags as $key => $value )
+			$tags[$key]	= preg_replace( '@(<%\??)|%>@', "", $value );
+		throw new Exception_Template( EXCEPTION_TEMPLATE_LABELS_NOT_USED, $this->fileName, $tags );
 	}
 
 	/**
@@ -241,7 +232,7 @@ class UI_Template
 	{
 		$content = $this->getTaggedComment( $comment );
 		if( !isset( $content ) )
-			return null;
+			return NULL;
 
 		$list	= array();
 		$content = explode( "\n", $content );
@@ -305,14 +296,14 @@ class UI_Template
 	}
 
 	/**
-	 *	Loads a new template file if it exists. Otherwise it will throw an IOException.
+	 *	Loads a new template file if it exists. Otherwise it will throw an Exception.
 	 *	@param		string		$fileName 	File Name of Template
 	 *	@return		void
 	 */
 	public function setTemplate( $fileName )
 	{
 		if( !file_exists( $fileName ) )
-			throw new InvalidArgumentException( 'Template File "'.$fileName.'" not found.' );
+			throw new Exception_Template( EXCEPTION_TEMPLATE_FILE_NOT_FOUND, $this->fileName );
 
 		$this->fileName	= $fileName;
 		$this->template = file_get_contents( $fileName );
