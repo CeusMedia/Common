@@ -43,24 +43,6 @@ import( 'de.ceus-media.ui.Template' );
 class Framework_Krypton_View_Component_Template extends UI_Template
 {
 	/**
-	 *	Constructor.
-	 *	@access		public
-	 *	@param		string		$fileName		File Name of Template
-	 *	@param		array		$elements		Map of Elements to set in Template
-	 *	@return		void
-	 */
-	public function setTemplate( $fileName )
-	{
-		$filePath	= $this->getTemplateUri( $fileName );
-		if( !file_exists( $filePath ) )									//  check file
-			throw new Exception_Template( EXCEPTION_TEMPLATE_FILE_NOT_FOUND, $fileName, $filePath );
-
-		$this->fileName	= $fileName;
-		$this->template = file_get_contents( $filePath );
-	}
-
-
-	/**
 	 *	Returns Template File URI.
 	 *	@access		public
 	 *	@param		string		$fileKey		File Name of Template File
@@ -73,6 +55,22 @@ class Framework_Krypton_View_Component_Template extends UI_Template
 		$baseName	= str_replace( ".", "/", $fileKey ).".html";
 		$fileName	= $basePath.$baseName;
 		return $fileName;
+	}
+
+	/**
+	 *	Loads a new template file if it exists. Otherwise it will throw an Exception.
+	 *	@access		public
+	 *	@param		string		$fileName		File Name of Template
+	 *	@return		void
+	 */
+	public function setTemplate( $fileName )
+	{
+		$filePath	= $this->getTemplateUri( $fileName );
+		if( !file_exists( $filePath ) )									//  check file
+			throw new Exception_Template( EXCEPTION_TEMPLATE_FILE_NOT_FOUND, $fileName, $filePath );
+
+		$this->fileName	= $fileName;
+		$this->template = file_get_contents( $filePath );
 	}
 }  
 ?>

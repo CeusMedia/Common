@@ -4,7 +4,6 @@ if( !defined( 'PHPUnit_MAIN_METHOD' ) )
 
 require_once( 'PHPUnit/Framework/TestSuite.php' );
 require_once( 'PHPUnit/TextUI/TestRunner.php' );
-require_once( 'Tests/framework/krypton/core/TemplateTest.php' );
 
 require_once( 'Tests/framework/krypton/core/ActionTest.php' );
 require_once( 'Tests/framework/krypton/core/CategoryFactoryTest.php' );
@@ -26,7 +25,6 @@ require_once( 'Tests/framework/krypton/core/RegistryTest.php' );
 #require_once( 'Tests/framework/krypton/core/SessionTest.php' );
 #require_once( 'Tests/framework/krypton/core/SessionRegistryTest.php' );
 #require_once( 'Tests/framework/krypton/core/StopWatchTest.php' );
-require_once( 'Tests/framework/krypton/core/TemplateTest.php' );
 require_once( 'Tests/framework/krypton/core/ViewTest.php' );
 
 
@@ -54,7 +52,6 @@ class Tests_Framework_Krypton_Core_AllTests
 		$suite->addTestSuite( 'Tests_Framework_Krypton_Core_PageDefinitionEditorTest' ); 
 		$suite->addTestSuite( 'Tests_Framework_Krypton_Core_PageDefinitionReaderTest' ); 
 		$suite->addTestSuite( 'Tests_Framework_Krypton_Core_RegistryTest' ); 
-		$suite->addTestSuite( 'Tests_Framework_Krypton_Core_TemplateTest' ); 
 		$suite->addTestSuite( 'Tests_Framework_Krypton_Core_ViewTest' ); 
 		return $suite;
 	}

@@ -252,21 +252,6 @@ class Tests_Framework_Krypton_Core_ComponentTest extends PHPUnit_Framework_TestC
 		catch( Exception $e ) {}
 	}
 
-	public function testGetTemplateUri()
-	{
-		$assertion	= "Tests/framework/krypton/core/templateDir/test.html";
-		$creation	= $this->component->getTemplateUri( "test" );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= "Tests/framework/krypton/core/templateDir/test/test.html";
-		$creation	= $this->component->getTemplateUri( "test/test" );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= "Tests/framework/krypton/core/templateDir/test/test.html";
-		$creation	= $this->component->getTemplateUri( "test.test" );
-		$this->assertEquals( $assertion, $creation );
-	}
-
 	public function testHasCache()
 	{
 		$assertion	= false;
@@ -336,7 +321,7 @@ class Tests_Framework_Krypton_Core_ComponentTest extends PHPUnit_Framework_TestC
 	
 	public function testLoadTemplateException()
 	{
-		$this->setExpectedException( "Exception_IO" );
+		$this->setExpectedException( "Exception_Template" );
 		$this->component->loadTemplate( "wrong_path.not_existing", array() );
 	}
 	
