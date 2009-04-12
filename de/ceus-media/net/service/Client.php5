@@ -27,7 +27,6 @@
  *	@since			02.07.2007
  *	@version		0.6
  */
-import( 'de.ceus-media.net.cURL' );
 import( 'de.ceus-media.net.service.Decoder' );
 /**
  *	Client for interaction with Frontend Services.

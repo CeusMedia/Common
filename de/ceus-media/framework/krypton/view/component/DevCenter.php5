@@ -57,9 +57,9 @@ class Framework_Krypton_View_Component_DevCenter extends Framework_Krypton_Core_
 		'showSources',
 	);
 	/**	@var		string		$templateSources		Template File for Sources Tab */
-	public static $templateSources	= 'dev_sources';
+	public static $templateSources	= 'interface.dev_sources';
 	/**	@var		string		$templateTabs			Template File DevCenter */
-	public static $templateTabs		= 'dev';
+	public static $templateTabs		= 'interface.dev';
 	
 	/**
 	 *	Constructor.

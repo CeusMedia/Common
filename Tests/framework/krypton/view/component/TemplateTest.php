@@ -64,6 +64,19 @@ final class Tests_Framework_Krypton_View_Component_TemplateTest extends PHPUnit_
 	 *	@access		public
 	 *	@return		void
 	 */
+	public function testGetTemplate()
+	{
+		$template	= new Tests_Framework_Krypton_View_Component_TemplateInstance( "template.html" );
+		$assertion	= file_get_contents( $this->path."template.html" );
+		$creation	= $template->getTemplate();
+		$this->assertEquals( $assertion, $creation );
+	}
+
+	/**
+	 *	Tests Method 'getTemplateUri'.
+	 *	@access		public
+	 *	@return		void
+	 */
 	public function testGetTemplateUri()
 	{
 		$template	= new Tests_Framework_Krypton_View_Component_TemplateInstance( );
