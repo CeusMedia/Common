@@ -77,7 +77,7 @@ class Framework_Krypton_ErrorPageHandler extends Framework_Krypton_Base
 			//  --  RESOURCE SUPPORT  --  //
 			$this->initDatabase( $configPath );				//  needs Configuration
 			$this->initLanguage();							//  needs Request and Session
-			$this->initThemeSupport();						//  needs Configuration, Request and Session
+#			$this->initThemeSupport();						//  needs Configuration, Request and Session
 
 			return TRUE;
 		}
