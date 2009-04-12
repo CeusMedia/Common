@@ -40,8 +40,8 @@ class Tests_UI_HTML_WikiParserTest extends PHPUnit_Framework_TestCase
 	public function testParse()
 	{
 		$parser		= new UI_HTML_WikiParser();
-		$assertion	= file_get_contents( $this->path."parsed.html" );
-		$creation	= $parser->parse( file_get_contents( $this->path."syntax.txt" ) );
+		$assertion	= file_get_contents( $this->path."wiki-parsed.html" );
+		$creation	= $parser->parse( file_get_contents( $this->path."wiki-syntax.txt" ) );
 		$this->assertEquals( $assertion, $creation );
 	}
 }
