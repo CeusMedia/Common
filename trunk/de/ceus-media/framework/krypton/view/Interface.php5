@@ -54,37 +54,29 @@ class Framework_Krypton_View_Interface extends Framework_Krypton_Core_View
 	 */
 	public function buildInterface( $content, $control, $extra )
 	{
-		$ui	= $this->getUserInterfaceData();
-
-		$ui['title']			= $this->words['main']['main']['title'];
-		$ui['messages']			= $this->messenger->buildMessages();
-		$ui['control']			= $control;
-		$ui['content']			= $content;
-		$ui['extra']			= $extra;
-		$ui['metatags']			= $this->buildMetaTags();
-		$ui['header']			= $this->buildHeader();
-		$ui['navigation']		= $this->buildNavigation();
-		$ui['mainfooter']		= $this->buildMainFooter();
-		$ui['subfooter']		= $this->buildSubFooter();
-		$ui['languages']		= $this->buildLanguageSwitch();
-		$ui['themes']			= $this->buildThemeSwitch();
-		$ui['dev']				= $this->buildDevCenter( ob_get_clean() );
-		$ui['styles']			= $this->buildStyleLinks();
-		$ui['scripts']			= $this->buildScriptLinks();
-		$ui['noscript']			= $this->buildNoScript();
-
-		try
-		{
-			$content	= $this->loadTemplate( 'interface.master', $ui );
-			$content	= str_replace( "[[%", "&lt;%", $content );
-			$content	= str_replace( "%]]", "%&gt;", $content );
-		}
-		catch( Exception $e )
-		{
-			$labels	= implode( ", ", $e->getNotUsedLabels() );
-			$labels	= htmlentities( $labels );
-			die( $e->getMessage()."<br/><small>".$labels."</small>" );
-		}
+		$uiData		= $this->getUserInterfaceData();
+		$uiParts	= array(
+			'title'			=> $this->words['main']['main']['title'],
+			'messages'		=> $this->messenger->buildMessages(),
+			'control'		=> $control,
+			'content'		=> $content,
+			'extra'			=> $extra,
+			'metatags'		=> $this->buildMetaTags(),
+			'header'		=> $this->buildHeader(),
+			'navigation'	=> $this->buildNavigation(),
+			'mainfooter'	=> $this->buildMainFooter(),
+			'subfooter'		=> $this->buildSubFooter(),
+			'languages'		=> $this->buildLanguageSwitch(),
+			'themes'		=> $this->buildThemeSwitch(),
+			'dev'			=> $this->buildDevCenter( ob_get_clean() ),
+			'styles'		=> $this->buildStyleLinks(),
+			'scripts'		=> $this->buildScriptLinks(),
+			'noscript'		=> $this->buildNoScript(),
+		);
+		$ui			= array_merge( $uiData, $uiParts );
+		$content	= $this->loadTemplate( 'interface.master', $ui );
+		$content	= str_replace( "[[%", "&lt;%", $content );
+		$content	= str_replace( "%]]", "%&gt;", $content );
 		return $content;
 	}
 

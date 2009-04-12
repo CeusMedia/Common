@@ -42,6 +42,8 @@ import( 'de.ceus-media.framework.krypton.Base' );
  */
 class Framework_Krypton_ErrorPageHandler extends Framework_Krypton_Base
 {
+	public static $pathPages	= "errors/";
+
 	/**
 	 *	Constructor.
 	 *	@access		public
@@ -106,8 +108,7 @@ class Framework_Krypton_ErrorPageHandler extends Framework_Krypton_Base
 			{
 				import( 'de.ceus-media.framework.krypton.core.View' );
 				$view	= new Framework_Krypton_Core_View();
-				$html	= $view->loadContent( $type.'.html' );
-
+				$html	= $view->loadContent( self::$pathPages.$type.'.html' );
 			}
 			catch( Exception $e )
 			{
@@ -126,7 +127,8 @@ class Framework_Krypton_ErrorPageHandler extends Framework_Krypton_Base
 			import( 'de.ceus-media.net.http.LanguageSniffer' );
 			$sniffer	= new Net_HTTP_LanguageSniffer;
 			$language	= $sniffer->getLanguage( $languages );
-			$html		= file_get_contents( "contents/html/".$language."/errors/".$type.".html" );
+			$fileName	= "contents/html/".$language."/".self::$pathPages."/".$type.".html";
+			$html		= file_get_contents( $fileName );
 		}
 		return $html;
 	}

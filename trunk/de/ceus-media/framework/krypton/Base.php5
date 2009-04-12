@@ -270,9 +270,12 @@ abstract class Framework_Krypton_Base
 		$this->registry->set( 'language', $language, TRUE );	
 		$this->registry->set( 'words', $language->getWords(), TRUE );
 		
-		import( 'de.ceus-media.framework.krypton.exception.Template' );
+		import( 'de.ceus-media.exception.Template' );
 		import( 'de.ceus-media.framework.krypton.exception.SQL' );
-		Framework_Krypton_Exception_Template::$exceptionMessage	 = $language->getWord( 'main', 'exceptions', 'template' );
+		Exception_Template::$messages	= array(
+			EXCEPTION_TEMPLATE_FILE_NOT_FOUND 	=> $language->getWord( 'main', 'exceptions', 'templateFileNotFound' ),
+			EXCEPTION_TEMPLATE_LABELS_NOT_USED	=> $language->getWord( 'main', 'exceptions', 'templateLabelsMissing' ),
+		);
 		Framework_Krypton_Exception_Sql::$exceptionMessage	 = $language->getWord( 'main', 'exceptions', 'sql' );
 		return $language;
 	}
@@ -361,37 +364,6 @@ abstract class Framework_Krypton_Base
 	}
 
 	/**
-	 *	Sets up Theme Support.
-	 *	@access		protected
-	 *	@return		void
-	 */
-	protected function initThemeSupport()
-	{
-		if( !$this->registry->has( 'config' ) )
-			throw new Exception( 'Configuration has not been set up.' );
-		if( !$this->registry->has( 'request' ) )
-			throw new Exception( 'Request Handler has not been set up.' );
-		if( !$this->registry->has( 'session' ) )
-			throw new Exception( 'Session Support has not been set up.' );
-
-		$config		= $this->registry->get( "config" );
-		$request	= $this->registry->get( "request" );
-		$session	= $this->registry->get( "session" );
-
-		if( $config['layout.theme.switchable'] )
-		{
-			if( $request->has( 'switchThemeTo' ) )
-				$session->set( 'theme', $request->get( 'switchThemeTo' ) );
-			if( $session->get( 'theme' ) )
-				$config['layout.theme'] =  $session->get( 'theme' );
-			else
-				$session->set( 'theme', $config['layout.theme'] );
-		}
-		else
-			$session->set( 'theme', $config['layout.theme'] );
-	}
-
-	/**
 	 *	Loads a INI File and defines Constants for Core System.
 	 *	@access		public
 	 *	@param		string		$fileName			File Name of INI File containg Constant Pairs
@@ -407,8 +379,13 @@ abstract class Framework_Krypton_Base
 		}
 		$map	= parse_ini_file( $fileName, FALSE );								//  load Map of System Constants
 		foreach( $map as $key => $value )											//  iterate Map
-			if( !defined( trim( $key ) ) )											//  
-				define( strtoupper( trim( $key ) ), trim( $value ) );				//  define System Constants
+		{
+			if( defined( trim( $key ) ) )											//  Constant is already defined
+				continue;															//  go on
+			if( preg_match( '@^[A-Z_]+$@', $value ) )								//  value is a Constant itself
+				$value	= constant( $value );										//  get Constant Value
+			define( strtoupper( trim( $key ) ), trim( $value ) );					//  define System Constants
+		}
 	}
 
 	protected function logRemarks( $output )

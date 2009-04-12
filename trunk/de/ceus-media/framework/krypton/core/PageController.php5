@@ -177,7 +177,7 @@ class Framework_Krypton_Core_PageController
 			}
 			catch( Exception $e )
 			{
-				throw new LogicException( 'No Category Factory "'.$factory.'" available.' );
+				throwException( 'Logic', 'No Category Factory "'.$factory.'" available.' );
 			}
 			return $factory->getClassName( $page['file'], $prefix, $category );
 		}
