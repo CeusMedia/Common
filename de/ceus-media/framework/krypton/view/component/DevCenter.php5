@@ -46,23 +46,35 @@ class Framework_Krypton_View_Component_DevCenter extends Framework_Krypton_Core_
 	protected $tabs		= array();
 	protected $divs		= array();
 	protected $topics	= array(
-		'show_request'		=> 'showRequest',
-		'show_session'		=> 'showSession',
-		'show_cookie'		=> 'showCookie',
-		'show_classes'		=> 'showClasses',
-		'show_config'		=> 'showConfig',
-		'show_queries'		=> 'showQueries',
-		'show_languages'	=> 'showLanguages',
-		'show_words'		=> 'showWords',
-		'show_sources'		=> 'showSources',
+		'showRequest',
+		'showSession',
+		'showCookie',
+		'showClasses',
+		'showConfig',
+		'showQueries',
+		'showLanguages',
+		'showWords',
+		'showSources',
 	);
-	public static $templateDevSources	= 'dev_sources';
-	public static $templateDevTabs		= 'dev';
+	/**	@var		string		$templateSources		Template File for Sources Tab */
+	public static $templateSources	= 'dev_sources';
+	/**	@var		string		$templateTabs			Template File DevCenter */
+	public static $templateTabs		= 'dev';
+	
+	/**
+	 *	Constructor.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function __construct()
+	{
+		parent::__construct();
+	}
 	
 	public function buildContent( $content )
 	{
 		$config		= $this->registry->get( 'config' );
-		if( $config['debug.show'] )
+		if( $config['debug.show'] && CMC_KRYPTON_MODE != CMC_KRYPTON_MODE_PRODUCTION )
 		{
 			$showForAll	= $config['debug.show'] == "*";
 			$showForIp	= in_array( getEnv( 'REMOTE_ADDR' ), explode( ",", $config['debug.show'] ) );
@@ -88,7 +100,7 @@ class Framework_Krypton_View_Component_DevCenter extends Framework_Krypton_Core_
 				'tabs'		=> UI_HTML_Elements::unorderedList( $listTabs ),
 				'divs'		=> implode( "\n", $listDivs ),
 			);
-			return $this->loadTemplate( self::$templateDevTabs, $ui );
+			return $this->loadTemplate( self::$templateTabs, $ui );
 		}
 	}
 
@@ -96,10 +108,10 @@ class Framework_Krypton_View_Component_DevCenter extends Framework_Krypton_Core_
 	{
 		if( $content )
 			$this->showRemarks( $content );
-		foreach( $this->topics as $option => $method )
-			if( $config['debug.'.$option] )
-				if( method_exists( $this, $method ) )
-					$this->$method( $config['debug.'.$option] );
+		foreach( $this->topics as $topic )
+			if( $config['debug.'.$topic] )
+				if( method_exists( $this, $topic ) )
+					$this->$topic( $config['debug.'.$topic] );
 	}
 
 	/**
@@ -155,18 +167,6 @@ class Framework_Krypton_View_Component_DevCenter extends Framework_Krypton_Core_
 		return $this->topics;
 	}
 	
-	/**
-	 *	Adds another Topic or overwrites set Topic.
-	 *	@access		public
-	 *	@param		string		$key		Topic Key in Configuration File 'config.ini[debug]'
-	 *	@param		string		$method		Method in DevCenter to build Topic Tab.
-	 *	@return		void
-	 */
-	public function setTopic( $key, $method )
-	{
-		$this->topics[$key]	= $method;
-	}
-
 	/**
 	 *	Sets Topics for Tabs.
 	 *	@access		public
@@ -309,7 +309,7 @@ class Framework_Krypton_View_Component_DevCenter extends Framework_Krypton_Core_
 	protected function showSources()
 	{
 		$this->tabs['devTabSources']	= "Sources ";
-		$this->divs['devTabSources']	= $this->loadTemplate( self::$templateDevSources, array() );
+		$this->divs['devTabSources']	= $this->loadTemplate( self::$templateSources, array() );
 	}
 
 	protected function showWords()

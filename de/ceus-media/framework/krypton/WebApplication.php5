@@ -80,7 +80,37 @@ class Framework_Krypton_WebApplication extends Framework_Krypton_Base
 		ob_start();
 		if( !defined( 'CMC_KRYPTON_LIVE_MODE' ) )
 			define( 'CMC_KRYPTON_LIVE_MODE', 1 );
-		
+	}
+
+	/**
+	 *	Sets up Theme Support.
+	 *	@access		protected
+	 *	@return		void
+	 */
+	protected function initThemeSupport()
+	{
+		if( !$this->registry->has( 'config' ) )
+			throw new Exception( 'Configuration has not been set up.' );
+		if( !$this->registry->has( 'request' ) )
+			throw new Exception( 'Request Handler has not been set up.' );
+		if( !$this->registry->has( 'session' ) )
+			throw new Exception( 'Session Support has not been set up.' );
+
+		$config		= $this->registry->get( "config" );
+		$request	= $this->registry->get( "request" );
+		$session	= $this->registry->get( "session" );
+
+		if( $config['layout.theme.switchable'] )
+		{
+			if( $request->has( 'switchThemeTo' ) )
+				$session->set( 'theme', $request->get( 'switchThemeTo' ) );
+			if( $session->get( 'theme' ) )
+				$config['layout.theme'] =  $session->get( 'theme' );
+			else
+				$session->set( 'theme', $config['layout.theme'] );
+		}
+		else
+			$session->set( 'theme', $config['layout.theme'] );
 	}
 
 	/**
@@ -97,10 +127,9 @@ class Framework_Krypton_WebApplication extends Framework_Krypton_Base
 	/**
 	 *	Runs called Actions.
 	 *	@access		public
-	 *	@param		bool		$verbose		Flag: show Information
 	 *	@return		void
 	 */
-	public function act( $verbose = FALSE )
+	public function act()
 	{
 		$request	= $this->registry->get( "request" );
 		$session	= $this->registry->get( "session" );
@@ -158,10 +187,9 @@ class Framework_Krypton_WebApplication extends Framework_Krypton_Base
 	/**
 	 *	Creates Views by called Link and Rights of current User and returns HTML.
 	 *	@access		public
-	 *	@param		bool		$verbose		Flag: show Information
 	 *	@return		string
 	 */
-	public function respond( $verbose = FALSE )
+	public function respond()
 	{
 		$config		= $this->registry->get( "config" );
 		$request	= $this->registry->get( "request" );
@@ -199,7 +227,7 @@ class Framework_Krypton_WebApplication extends Framework_Krypton_Base
 						}
 					}
 					else
-						$messenger->noteFailure( "Class '".$classname."' is not existing." );
+						$messenger->noteFailure( "Class '".$className."' is not existing." );
 				}
 				else
 				{

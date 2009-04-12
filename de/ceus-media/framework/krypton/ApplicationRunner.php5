@@ -36,7 +36,7 @@ abstract class Framework_Krypton_ApplicationRunner
 	public static $configKeyDatabaseLogStatements	= 'database.log.statements';
 	public static $configKeyLanguages				= 'languages.allowed';
 	public static $configKeyPathHtml				= 'paths.html';
-	public static $errorTemplate					= 'error.html';
+	public static $errorTemplate					= 'errors/error.html';
 
 	/**
 	 *	Constructor.
@@ -101,8 +101,7 @@ abstract class Framework_Krypton_ApplicationRunner
 			{
 				Framework_Krypton_ExceptionHandler::$logPath			= CMC_EXCEPTION_LOG_PATH;
 			}
-
-			if( !defined( 'CMC_EXCEPTION_DEBUG_MODE' ) || !CMC_EXCEPTION_DEBUG_MODE && !$isConsole )	
+			if( !defined( 'CMC_KRYPTON_MODE' ) || !CMC_KRYPTON_MODE && !$isConsole )	
 			{
 				$languages	= $config[self::$configKeyLanguages];
 				$languages	= explode( ",", $languages );

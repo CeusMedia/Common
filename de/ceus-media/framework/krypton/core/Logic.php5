@@ -229,8 +229,8 @@ class Framework_Krypton_Core_Logic
 		}
 		if( $errors )
 		{
-			import( 'de.ceus-media.framework.krypton.exception.Validation' );
-			throw new Framework_Krypton_Exception_Validation( "error_not_valid", $errors, $form );
+			import( 'de.ceus-media.exception.Validation' );
+			throw new Exception_Validation( "error_not_valid", $errors, $form );
 		}
 		return true;
 	}

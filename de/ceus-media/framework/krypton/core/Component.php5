@@ -34,7 +34,7 @@
  *	@version		0.6
  */
 import( 'de.ceus-media.framework.krypton.core.Registry' );
-import( 'de.ceus-media.framework.krypton.core.Template' );
+import( 'de.ceus-media.framework.krypton.view.component.Template' );
 import( 'de.ceus-media.file.Reader' );
 import( 'de.ceus-media.ui.html.Elements' );
 import( 'de.ceus-media.alg.TimeConverter' );
@@ -330,8 +330,9 @@ abstract class Framework_Krypton_Core_Component
 	 *	@access		public
 	 *	@param		string		$fileKey		File Name of Template File
 	 *	@return		string
+	 *	@deprecated	moved to Framework_Krypton_View_Component_Template
 	 */
-	public function getTemplateUri( $fileKey )
+	public function _getTemplateUri( $fileKey )
 	{
 		$config		= $this->registry->get( "config" );
 
@@ -350,12 +351,16 @@ abstract class Framework_Krypton_Core_Component
 	 *	@param	 	string		$languageKey		Language File Key with Error Messages and Form Fields
 	 *	@param	 	string		$languageSection	Section Name within Language File.
 	 *	@return		void
+	 *	@todo		clean up after 0.6.6
 	 */
-	public function handleException( $exception, $languageKey, $languageSection = "msg" )
+	public function handleException( $exception, $languageKey = NULL, $languageSection = "msg" )
 	{
 		switch( get_class( $exception ) )
 		{
-			case 'Framework_Krypton_Exception_Validation':
+			case 'Framework_Krypton_Exception_Validation':										//  deprecated
+				$this->handleValidationException( $exception, $languageKey, $languageSection );
+				break;
+			case 'Exception_Validation':
 				$this->handleValidationException( $exception, $languageKey, $languageSection );
 				break;
 			case 'Framework_Krypton_Exception_Logic':
@@ -366,34 +371,17 @@ abstract class Framework_Krypton_Core_Component
 				new UI_HTML_Exception_TraceViewer( $exception );
 				$this->handleSqlException( $exception );
 				break;
-			case 'Framework_Krypton_Exception_Template':
+			case 'Framework_Krypton_Exception_Template':										//  deprecated
+				$this->handleTemplateException( $exception );
+				break;
+			case 'Exception_Template':
 				$this->handleTemplateException( $exception );
 				break;
 			case 'LogicException':
 				$this->handleLogicException( $exception, $languageKey, 'exceptions' );
 				break;
 			case 'Exception':
-				throw $exception;
-
-/*				$break	= ( !getEnv( 'PROMPT' ) && !getEnv( 'SHELL' ) ) ? "<br/>" : "\n";
-				$code	= $exception->getCode();
-				$trace	= $exception->getTrace();
-				print( "Error: ".$exception->getMessage().$break );
-				print( "File: ".$exception->getFile().$break );
-				print( "Line: ".$exception->getLine().$break );
-				if( $code )
-					print( "Code: ".$code.$break );
-				foreach( $trace as $data )
-				{
-					extract( $data );
-					$class	= isset( $class ) ? $class : "";
-					$type	= isset( $type ) ? $type : "";
-					print( str_repeat( "-", 70 ).$break );
-					print( $class.$type.$function.$break );
-					print( $file." [".$line."]".$break );
-				}
-				break;
-*/			
+				throw $exception;			
 			default:
 				import( 'de.ceus-media.ui.html.exception.TraceViewer' );
 				new UI_HTML_Exception_TraceViewer( $exception );
@@ -426,10 +414,16 @@ abstract class Framework_Krypton_Core_Component
 	 *	@param		string				$languageKey		Language File Key
 	 *	@param		string				$languageSection	Section Name in Language Space
 	 *	@return		void
+	 *	@todo		remove older Section, see below
 	 */
 	protected function handleLogicException( LogicException $exception, $languageKey, $languageSection = "exceptions" )
 	{
-		$words	= $this->words[$languageKey][$languageSection];
+		$words	= $this->words[$languageKey];										//  to be removed
+		if( isset( $words[$languageSection] ) )										//  on 0.6.6
+			$words	= $words[$languageSection];										//  because all logic messages
+		else																		//  should be in
+			$words	= $words['msg'];												//  Language Section 'exceptions'  
+
 		if( isset( $words[$exception->getMessage()] ) )
 			$msg	= $words[$exception->getMessage()];
 		else
@@ -445,7 +439,7 @@ abstract class Framework_Krypton_Core_Component
 	 *	@param		string									$languageSection	Section Name in Language Space
 	 *	@return		void
 	 */
-	protected function handleValidationException( Framework_Krypton_Exception_Validation $exception, $languageKey, $languageSection )
+	protected function handleValidationException( Exception $exception, $languageKey, $languageSection )
 	{
 		if( is_array( $languageSection ) )
 		{
@@ -493,7 +487,7 @@ abstract class Framework_Krypton_Core_Component
 	 *	@param		Framework_Krypton_Exception_Template	$exception				Exception to handle.
 	 *	@return		void
 	 */
-	protected function handleTemplateException( Framework_Krypton_Exception_Template $exception )
+	protected function handleTemplateException( Exception $exception )
 	{
 		$list	= array();
 		foreach( $exception->getNotUsedLabels() as $label )
@@ -526,6 +520,19 @@ abstract class Framework_Krypton_Core_Component
 	{
 		$fileName	= $this->getContentUri( $fileKey );
 		return file_exists( $fileName );
+	}
+
+	/**
+	 *	Loads File from Cache.
+	 *	@access		public
+	 *	@param		string		$fileName 			File Name of Cache File.
+	 *	@return		string
+	 */
+	public function loadCache( $fileName )
+	{
+		$config	= $this->registry->get( 'config' );
+		$url	= $config['paths.cache'].$fileName;
+		return File_Reader::load( $url );
 	}
 	
 	/**
@@ -560,24 +567,6 @@ abstract class Framework_Krypton_Core_Component
 	}
 
 	/**
-	 *	Loads Template File and returns Content.
-	 *	@access		public
-	 *	@param		string		$fileKey			Template Name (namespace(.class).view, i.E. example.add)
-	 *	@param		array		$data				Data for Insertion in Template
-	 *	@param		bool		$verbose			Flag: remark File Name
-	 *	@return		string
-	 */
-	public function loadTemplate( $fileKey, $data = array(), $verbose = false )
-	{
-		$fileName	= $this->getTemplateUri( $fileKey, $verbose );
-		if( !file_exists( $fileName ) )
-			throwException ( 'IO', 'Template "'.$fileKey.'" is not existing.', $fileName );
-
-		$template	= new Framework_Krypton_Core_Template( $fileName, $data );
-		return $template->create();
-	}
-
-	/**
 	 *	Loads a Language File into Language Space, needs Session.
 	 *	@access		public
 	 *	@param		string		$fileName			File Name of Language File
@@ -590,16 +579,17 @@ abstract class Framework_Krypton_Core_Component
 	}
 
 	/**
-	 *	Loads File from Cache.
+	 *	Loads Template File and returns Content.
 	 *	@access		public
-	 *	@param		string		$fileName 			File Name of Cache File.
+	 *	@param		string		$fileKey			Template Name (namespace(.class).view, i.E. example.add)
+	 *	@param		array		$data				Data for Insertion in Template
+	 *	@param		bool		$verbose			Flag: remark File Name (no function yet)
 	 *	@return		string
 	 */
-	public function loadCache( $fileName )
+	public function loadTemplate( $fileKey, $data = array(), $verbose = FALSE )
 	{
-		$config	= $this->registry->get( 'config' );
-		$url	= $config['paths.cache'].$fileName;
-		return File_Reader::load( $url );
+		$template	= new Framework_Krypton_View_Component_Template( $fileKey, $data );
+		return $template->create();
 	}
 	
 	/**
