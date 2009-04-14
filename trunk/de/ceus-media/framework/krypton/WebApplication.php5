@@ -169,11 +169,27 @@ class Framework_Krypton_WebApplication extends Framework_Krypton_Base
 			$action->handleException( $e );
 		}
 	}
+	
+	/**
+	 *	Log Performance (Time needed to run Application).
+	 *	@access		protected
+	 *	@param		int			$length			Number of sent Bytes of Content
+	 *	@param		string		$fileName		File Name of Log File
+	 *	@return		bool
+	 */
+	protected function logPerformance( $fileName = "logs/performance.log" )
+	{
+		$watch	= $this->registry->get( 'stopwatch' );
+		$time	= $watch->stop( 6, 0 );
+		$line	= time()." [".$time."] ".getEnv( "REQUEST_URI" )." ".getEnv( "HTTP_REFERER" )."\n";
+		return error_log( $line, 3, $fileName );
+	}
 
 	/**
 	 *	Log sent Content Length.
 	 *	@access		protected
 	 *	@param		int			$length			Number of sent Bytes of Content
+	 *	@param		string		$fileName		File Name of Log File
 	 *	@return		void
 	 */
 	protected function logTraffic( $length, $fileName = "logs/traffic.log" )
@@ -255,8 +271,12 @@ class Framework_Krypton_WebApplication extends Framework_Krypton_Base
 			print_m( array_flip( $GLOBALS['length']['classes'] ) );
 		}
 
-		$content	= $this->interface->buildInterface( $content, $control, $extra );
+		$dev		= ob_get_clean();
+		$content	= $this->interface->buildInterface( $content, $control, $extra, $dev );
 		$length		= $this->respondContent( $content );
+		$this->logRemarks( $dev );
+		$this->logTraffic( strlen( $content ) );
+		$this->logPerformance();
 	}
 
 	/**
