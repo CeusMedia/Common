@@ -226,7 +226,7 @@ class Net_Service_Client
 			'time'		=> $st->stop(),
 			);
 		if( $verbose )
-			xmp( $response );
+			xmp( $response['content'] );
 		$response['content']	= $this->decoder->decodeResponse( $response['content'], $format, $verbose );
 		return $response['content'];
 	}
