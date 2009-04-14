@@ -50,10 +50,12 @@ class Framework_Krypton_View_Interface extends Framework_Krypton_Core_View
 	 *	@param		string			$content		Page Content Area
 	 *	@param		string			$control		Page Control Area
 	 *	@param		string			$extra			Page Extra Area
+	 *	@param		string			$dev			Remarks on catched for Developement
 	 *	@return		string
 	 */
-	public function buildInterface( $content, $control, $extra )
+	public function buildInterface( $content, $control = "", $extra = "", $dev = "" )
 	{
+		ob_start();
 		$uiData		= $this->getUserInterfaceData();
 		$uiParts	= array(
 			'title'			=> $this->words['main']['main']['title'],
@@ -68,10 +70,10 @@ class Framework_Krypton_View_Interface extends Framework_Krypton_Core_View
 			'subfooter'		=> $this->buildSubFooter(),
 			'languages'		=> $this->buildLanguageSwitch(),
 			'themes'		=> $this->buildThemeSwitch(),
-			'dev'			=> $this->buildDevCenter( ob_get_clean() ),
 			'styles'		=> $this->buildStyleLinks(),
 			'scripts'		=> $this->buildScriptLinks(),
 			'noscript'		=> $this->buildNoScript(),
+			'dev'			=> $this->buildDevCenter( $dev.ob_get_clean() ),
 		);
 		$ui			= array_merge( $uiData, $uiParts );
 		$content	= $this->loadTemplate( 'interface.master', $ui );

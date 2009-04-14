@@ -75,42 +75,44 @@ abstract class Framework_Krypton_ApplicationRunner
 			import( 'de.ceus-media.net.http.LanguageSniffer' );
 
 			import( 'de.ceus-media.framework.krypton.ExceptionHandler' );
-			$configPath	= defined( 'CMC_KRYPTON_CONFIG_PATH' ) ? CMC_KRYPTON_CONFIG_PATH : "config/";		//  get Path of Configuration File from System Constants (config/constansts.ini)
-			$configFile	= defined( 'CMC_KRYPTON_CONFIG_FILE' ) ? CMC_KRYPTON_CONFIG_FILE : "config.ini";	//  get Name of Configuration File from System Constants (config/constansts.ini)
-			$config		= new File_Configuration_Reader( $configPath.$configFile, NULL );
+			if( defined( 'CMC_KRYPTON_CONFIG_PATH' ) )
+			{
+				$configPath	= defined( 'CMC_KRYPTON_CONFIG_PATH' ) ? CMC_KRYPTON_CONFIG_PATH : "config/";		//  get Path of Configuration File from System Constants (config/constansts.ini)
+				$configFile	= defined( 'CMC_KRYPTON_CONFIG_FILE' ) ? CMC_KRYPTON_CONFIG_FILE : "config.ini";	//  get Name of Configuration File from System Constants (config/constansts.ini)
+				$config		= new File_Configuration_Reader( $configPath.$configFile, NULL );
 
-			if( $config->has( self::$configKeyDatabaseLogErrors ) )											//  Database Error Log is defined
-			{
-				$logPath	= $config[self::$configKeyDatabaseLogPath];										//  get Path of Log from Configuration
-				$logUri		= $config[self::$configKeyDatabaseLogErrors];									//  get Name of Log from Configuration
-				Framework_Krypton_ExceptionHandler::$logDbErrors		= $logPath.$logUri;					//  set Log in Exception Handler
-			}
-			if( $config->has( self::$configKeyDatabaseLogStatements ) )
-			{
-				$logPath	= $config[self::$configKeyDatabaseLogPath];
-				$logUri		= $config[self::$configKeyDatabaseLogStatements];
-				Framework_Krypton_ExceptionHandler::$logDbStatements	= $logPath.$logUri;
-			}
+				if( $config->has( self::$configKeyDatabaseLogErrors ) )											//  Database Error Log is defined
+				{
+					$logPath	= $config[self::$configKeyDatabaseLogPath];										//  get Path of Log from Configuration
+					$logUri		= $config[self::$configKeyDatabaseLogErrors];									//  get Name of Log from Configuration
+					Framework_Krypton_ExceptionHandler::$logDbErrors		= $logPath.$logUri;					//  set Log in Exception Handler
+				}
+				if( $config->has( self::$configKeyDatabaseLogStatements ) )
+				{
+					$logPath	= $config[self::$configKeyDatabaseLogPath];
+					$logUri		= $config[self::$configKeyDatabaseLogStatements];
+					Framework_Krypton_ExceptionHandler::$logDbStatements	= $logPath.$logUri;
+				}
 
-			if( defined( 'CMC_EXCEPTION_MAIL_TO' ) && CMC_EXCEPTION_MAIL_TO )
-			{
-				Framework_Krypton_ExceptionHandler::$mailReceiver		= CMC_EXCEPTION_MAIL_TO;
-			}
+				if( defined( 'CMC_EXCEPTION_MAIL_TO' ) && CMC_EXCEPTION_MAIL_TO )
+				{
+					Framework_Krypton_ExceptionHandler::$mailReceiver		= CMC_EXCEPTION_MAIL_TO;
+				}
 
-			if( defined( 'CMC_EXCEPTION_LOG_PATH' ) && CMC_EXCEPTION_LOG_PATH )
-			{
-				Framework_Krypton_ExceptionHandler::$logPath			= CMC_EXCEPTION_LOG_PATH;
-			}
-			if( !defined( 'CMC_KRYPTON_MODE' ) || !CMC_KRYPTON_MODE && !$isConsole )	
-			{
-				$languages	= $config[self::$configKeyLanguages];
-				$languages	= explode( ",", $languages );
-				$language	= Net_HTTP_LanguageSniffer::getLanguage( $languages );
-				$template	= $config[self::$configKeyPathHtml].$language."/".self::$errorTemplate;
-				Framework_Krypton_ExceptionHandler::$errorPage		= $template;
+				if( defined( 'CMC_EXCEPTION_LOG_PATH' ) && CMC_EXCEPTION_LOG_PATH )
+				{
+					Framework_Krypton_ExceptionHandler::$logPath			= CMC_EXCEPTION_LOG_PATH;
+				}
+				if( !defined( 'CMC_KRYPTON_MODE' ) || !CMC_KRYPTON_MODE && !$isConsole )	
+				{
+					$languages	= $config[self::$configKeyLanguages];
+					$languages	= explode( ",", $languages );
+					$language	= Net_HTTP_LanguageSniffer::getLanguage( $languages );
+					$template	= $config[self::$configKeyPathHtml].$language."/".self::$errorTemplate;
+					Framework_Krypton_ExceptionHandler::$errorPage		= $template;
+				}
 			}
 			$report	= Framework_Krypton_ExceptionHandler::handleException( $e );
-			print( $report );
 			if( !$isConsole )
 				die( $report );
 			
