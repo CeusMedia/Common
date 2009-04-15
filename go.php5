@@ -229,7 +229,7 @@ class GoUpdater
 	{
 		$revision	= $arguments ? $arguments[0] : "";
 		$path		= dirname( realpath( __FILE__ ) );
-		exec( "update ".$path." ".$revision, $return );
+		exec( "svn update ".$path." ".$revision, $return );
 		if( !$return )
 			throw new RuntimeException( "SVN seems to be not installed." );
 	}
