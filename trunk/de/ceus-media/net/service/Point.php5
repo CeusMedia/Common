@@ -49,7 +49,6 @@ import( 'de.ceus-media.net.service.interface.Point' );
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			18.06.2007
  *	@version		0.3
- *	@todo			rename Exception Classes (see bottom) to Net_Service_ and/or move package 'exception'
  */
 class Net_Service_Point implements Net_Service_Interface_Point
 {
@@ -163,11 +162,11 @@ class Net_Service_Point implements Net_Service_Interface_Point
 		if( $responseFormat )
 		{
 			if( !in_array( $responseFormat, $this->services['services'][$serviceName]['formats'] ) )
-				throw new Exception( 'Response Format "'.$responseFormat.'" for Service "'.$serviceName.'" is not available.' );
+				throw new InvalidArgumentException( 'Response Format "'.$responseFormat.'" for Service "'.$serviceName.'" is not available.' );
 			return true;
 		}
 		if( !$this->getDefaultServiceFormat( $serviceName ) )
-			throw new Exception( 'No Response Format given and no default Response Format set for Service "'.$serviceName.'".' );
+			throw new RuntimeException( 'No Response Format given and no default Response Format set for Service "'.$serviceName.'".' );
 	}
 
 	/**

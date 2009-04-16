@@ -48,7 +48,7 @@ class Net_Service_Definition_NameSortCheck
  	public function __construct( $fileName )
 	{
 		if( !file_exists( $fileName ) )
-			throw new Exception( "File '".$fileName."' is not existing." );
+			throw new RuntimeException( "File '".$fileName."' is not existing." );
 		$this->fileName	= $fileName;
 	}
 
@@ -70,7 +70,7 @@ class Net_Service_Definition_NameSortCheck
 			case 'xml':		$regEx	= "@^\s*<service .*name=\"(\w+)\"@i";
 							$content	= preg_replace( "@<!--.*-->@u", "", $content );
 							break;
-			default:		throw new Exception( 'Extension "'.$info['extension'].'" is not supported.' );
+			default:		throw new InvalidArgumentException( 'Extension "'.$info['extension'].'" is not supported.' );
 		}
 	
 	
@@ -95,7 +95,7 @@ class Net_Service_Definition_NameSortCheck
 	public function getOriginalList()
 	{
 		if( !$this->compared )
-			throw new Exception( "Not compared yet." );
+			throw new RuntimeException( "Not compared yet." );
 		return $this->originalList;
 	}
 
@@ -107,7 +107,7 @@ class Net_Service_Definition_NameSortCheck
 	public function getSortedList()
 	{
 		if( !$this->compared )
-			throw new Exception( "Not compared yet." );
+			throw new RuntimeException( "Not compared yet." );
 		return $this->sortedList;
 	}
 }

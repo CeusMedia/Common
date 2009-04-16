@@ -101,21 +101,18 @@ class Net_Service_Handler extends Net_Service_Response
 	/**
 	 *	Handles Service Call by sending HTTP Response and returns Length of Response Content.
 	 *	@param		array			$requestData			Request Array (or Object with ArrayAccess Interface)
-	 *	@param		bool			$serializeException		Flag: serialize Exceptions instead of throwing
 	 *	@return		int
 	 */
-	public function handle( $requestData, $serializeException = FALSE )
+	public function handle( $requestData )
 	{
 		if( empty( $requestData['service'] ) )
 			throw new InvalidArgumentException( 'No Service Name given.' );
-
 
 		//  --  CALL SERVICE  --  //
 		$service	= $requestData['service'];
 		try
 		{
 			$format		= ( isset( $requestData['format'] ) && $requestData['format'] ) ? $requestData['format'] : $this->servicePoint->getDefaultServiceFormat( $service );
-			$serializeException	= strtolower( $format ) == "php";
 			ob_start();
 			
 			if( isset( $requestData['argumentsGivenByServiceCaller'] ) )

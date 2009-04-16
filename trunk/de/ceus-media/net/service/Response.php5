@@ -102,6 +102,7 @@ class Net_Service_Response
 				'file'		=> $content->getFile(),
 				'line'		=> $content->getLine(),
 				'trace'		=> $content->getTraceAsString(),
+				'serial'	=> serialize( $content )
 			);
 			$status	= "exception";
 		}
