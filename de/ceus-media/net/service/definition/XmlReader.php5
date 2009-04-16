@@ -162,7 +162,7 @@ class Net_Service_Definition_XmlReader
 		$dom = new DOMDocument;
 		$dom->load( $fileName );
 		if( !@$dom->validate() )
-			throw new Exception( 'Service XML File is not valid or no DTD given.' );
+			throw new RuntimeException( 'Service XML File is not valid or no DTD given.' );
 	}
 }
 ?>

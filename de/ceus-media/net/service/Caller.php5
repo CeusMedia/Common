@@ -19,6 +19,7 @@
  *
  *	@package		net.service
  *	@uses			Net_Service_Client
+ *	@uses			Net_Service_Decoder
  *	@uses			StopWatch
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@copyright		2008 Christian Würker
@@ -28,10 +29,12 @@
  *	@version		0.6
  */
 import( 'de.ceus-media.net.service.Client' );
+import( 'de.ceus-media.net.service.Decoder' );
 import( 'de.ceus-media.StopWatch' );
 /**
  *	@package		net.service
  *	@uses			Net_Service_Client
+ *	@uses			Net_Service_Decoder
  *	@uses			StopWatch
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@copyright		2008 Christian Würker
@@ -68,10 +71,8 @@ class Net_Service_Caller
 			'response'	=> $response,
 			'time'		=> $watch->stop( 6, 0 ),
 		);
-		$result		= @unserialize( $response );
-		if( $result && is_object( $result ) && is_a( $result, 'Exception' ) )
-			throw $result;		
-		return $response;
+		$decoder	= new Net_Service_Decoder;
+		return $decoder->decodeResponse( $response, "php" );
 	}
 	
 	/**

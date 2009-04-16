@@ -49,7 +49,16 @@ class Net_Service_Decoder
 
 		$data		= $structure['data'];										//  Extract Response Data
 		if( $structure['status'] == "exception" )								//  Response contains an Exception
-			throw new Exception( $data['type'].": ".$data['message'] );			//  throw Exception and carry Message 
+		{
+			$object	= unserialize( $data['serial'] );
+			if( $object instanceof __PHP_Incomplete_Class )
+			{
+				$name	= $object->__PHP_Incomplete_Class_Name;
+				throw new RuntimeException( 'Class "'.$name.'" is not loaded.' );
+			}
+			else if( $object instanceof Exception )
+				throw $object;													//  throw responded Exception
+		}
 
 		$output	= ob_get_clean();												//  close Buffer for PHP Error Messages
 		if( $structure === FALSE )												//  could not decode
