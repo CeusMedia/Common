@@ -27,6 +27,8 @@
  *	@version		0.6
  */
 import( 'de.ceus-media.alg.validation.DefinitionValidator' );
+import( 'de.ceus-media.framework.krypton.logic.ValidationError' );
+import( 'de.ceus-media.exception.Validation' );
 /**
  *	Validator for defined Fields.
  *	@package		framework.krypton.core

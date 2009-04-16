@@ -299,24 +299,33 @@ class Framework_Krypton_Core_FormDefinitionReader
 						//  --  SPECIAL TREATMENT OF DEFINITION TAGS  --  //							 
 						switch( $tagName )
 						{
-							case 'syntax':		break;
-							case 'semantic':	$semantic	= array(
-													'predicate'	=> $node->getAttribute( 'predicate' ),
-													'edge'		=> $node->getAttribute( 'edge' ),
-												);
-												$_field[$tagName][] = $semantic;
-												break;
-							case 'input':		$_field[$tagName]['default']	= $node->textContent;
-												break;
-							case 'output':		$_field[$tagName]['default']	= $node->textContent;
-												break;
-							case 'calendar':	break;
-							case 'help':		break;
-							case 'hidemode':	$_field[$tagName]['hidemode'][]	= $node->getContent();
-												break;
-							case 'disablemode':	$_field[$tagName]['hidemode'][]	= $node->getContent();
-												break;
-							default:			break;
+							case 'syntax':
+								break;
+							case 'semantic':
+								$semantic	= array(
+									'predicate'	=> $node->getAttribute( 'predicate' ),
+									'edge'		=> $node->getAttribute( 'edge' ),
+								);
+								$_field[$tagName][] = $semantic;
+								break;
+							case 'input':
+								$_field[$tagName]['default']	= $node->textContent;
+								break;
+							case 'output':
+								$_field[$tagName]['default']	= $node->textContent;
+								break;
+							case 'calendar':
+								break;
+							case 'help':
+								break;
+							case 'hidemode':
+								$_field[$tagName]['hidemode'][]	= $node->getContent();
+								break;
+							case 'disablemode':
+								$_field[$tagName]['hidemode'][]	= $node->getContent();
+								break;
+							default:
+								break;
 						}
 					}
 					$fieldName	= $field->getAttribute( "name" );

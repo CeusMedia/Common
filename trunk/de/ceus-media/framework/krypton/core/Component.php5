@@ -355,6 +355,7 @@ abstract class Framework_Krypton_Core_Component
 	 */
 	public function handleException( $exception, $languageKey = NULL, $languageSection = "msg" )
 	{
+		import( 'de.ceus-media.framework.krypton.exception.Logic' );
 		switch( get_class( $exception ) )
 		{
 			case 'Framework_Krypton_Exception_Validation':										//  deprecated
@@ -380,8 +381,14 @@ abstract class Framework_Krypton_Core_Component
 			case 'LogicException':
 				$this->handleLogicException( $exception, $languageKey, 'exceptions' );
 				break;
+			case 'Exception_Service_Response':
+				$type	= $exception->getType();
+				$e		= new $type( $exception->getMessage() );
+				$this->handleException( $e, $languageKey, $languageSection );
+				break;
 			case 'Exception':
 				throw $exception;			
+				break;
 			default:
 				import( 'de.ceus-media.ui.html.exception.TraceViewer' );
 				new UI_HTML_Exception_TraceViewer( $exception );
