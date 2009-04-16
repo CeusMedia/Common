@@ -168,35 +168,40 @@ class Alg_Validation_DefinitionValidator
 	public function validate( $field, $definition, $value, $prefix = "" )
 	{
 		$errors		= array();
-		$syntax		= new ArrayObject( $definition['syntax'] );
-		$semantics	= isset( $definition['semantic'] ) ? $definition['semantic'] : array();
-
-		if( !strlen( $value ) )
+		if( isset( $definition['syntax'] ) )
 		{
-			if( $syntax['mandatory'] )
-				$errors[]	= $this->handleError( $field, 'isMandatory', $value, NULL, $prefix );
-			return $errors;
+			$syntax		= new ArrayObject( $definition['syntax'] );
+
+			if( !strlen( $value ) )
+			{
+				if( $syntax['mandatory'] )
+					$errors[]	= $this->handleError( $field, 'isMandatory', $value, NULL, $prefix );
+				return $errors;
+			}
+
+			if( $syntax['class'] )
+				if( !$this->validator->isClass( $value, $syntax['class'] ) )
+					$errors[]	= $this->handleError( $field, 'isClass', $value, $syntax['class'], $prefix );
+
+			$predicates	= array(
+				'maxlength'	=> "hasMaxLength",
+				'minlength'	=> "hasMinLength",
+			);
+			foreach( $predicates as $key => $predicate )
+				if( $syntax[$key] )
+					if( !$this->validator->validate( $value, $predicate, $syntax[$key] ) )
+						$errors[]	= $this->handleError( $field, $predicate, $value, $syntax[$key], $prefix );
 		}
 
-		if( $syntax['class'] )
-			if( !$this->validator->isClass( $value, $syntax['class'] ) )
-				$errors[]	= $this->handleError( $field, 'isClass', $value, $syntax['class'], $prefix );
-
-		$predicates	= array(
-			'maxlength'	=> "hasMaxLength",
-			'minlength'	=> "hasMinLength",
-		);
-		foreach( $predicates as $key => $predicate )
-			if( $syntax[$key] )
-				if( !$this->validator->validate( $value, $predicate, $syntax[$key] ) )
-					$errors[]	= $this->handleError( $field, $predicate, $value, $syntax[$key], $prefix );
-
-		foreach( $semantics as $semantic )
+		if( isset( $definition['semantic'] ) )
 		{
-			$semantic	= new ArrayObject( $semantic );
-			$param	= strlen( $semantic['edge'] ) ? $semantic['edge'] : NULL;
-			if( !$this->validator->validate( $value, $semantic['predicate'], $param ) )
-				$errors[]	= $this->handleError( $field, $semantic['predicate'], $value, $param, $prefix );
+			foreach( $definition['semantic'] as $semantic )
+			{
+				$semantic	= new ArrayObject( $semantic );
+				$param	= strlen( $semantic['edge'] ) ? $semantic['edge'] : NULL;
+				if( !$this->validator->validate( $value, $semantic['predicate'], $param ) )
+					$errors[]	= $this->handleError( $field, $semantic['predicate'], $value, $param, $prefix );
+			}
 		}
 		return $errors;
 	}

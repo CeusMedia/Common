@@ -266,13 +266,6 @@ class Framework_Krypton_View_Interface extends Framework_Krypton_Core_View
 		return $this->loadTemplate( 'interface.themes', $ui );
 	}
 
-	protected function getFlagIcon( $country, $label )
-	{
-		$fileName	= "ceus-media/flags/".$country.".png";
-		$image		= $this->getIcon( $fileName, $label );
-		return $image;
-	}
-
 	/**
 	 *	Builds and returns all Data for User Interface Templates.
 	 *	@access		protected

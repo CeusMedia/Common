@@ -205,7 +205,7 @@ class Framework_Krypton_Core_DefinitionView extends Framework_Krypton_Core_View
 				$classes[]	= "mandatory";
 				$data['input']['style']	= implode( " ", $classes );
 			}
-			$options	= $this->getInputOptions( $data['input'], $languageFile, $sources, $value );
+			$options	= $this->getInputOptions( $fieldName, $data['input'], $languageFile, $sources, $value );
 			$input		= $this->inputElements->buildInputElement( $fieldName, $data, $value, $options );
 			$elements['input_'.$fieldName]	= $input;
 		}
@@ -266,12 +266,13 @@ class Framework_Krypton_Core_DefinitionView extends Framework_Krypton_Core_View
 	/**
 	 *	Returns Map of Options for Input Elements either from Sources Array or Option Language Section depending on Form Definition.
 	 *	@access		public
+	 *	@param		array		$fieldName			Field Name to build Options for
 	 *	@param		array		$inputData			Input Definition of Field
 	 *	@param		string		$languageFile		Name of Language File (e.g. 'example')
 	 *	@param		array		$sources			Map of Option Arrays for Select Boxes
 	 *	@return		array
 	 */
-	protected function getInputOptions( $inputData, $languageFile, $sources, $value )
+	protected function getInputOptions( $fieldName, $inputData, $languageFile, $sources, $value )
 	{
 		$options	= NULL;
 		if( !empty( $inputData['source'] ) )

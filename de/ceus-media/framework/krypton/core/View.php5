@@ -131,6 +131,13 @@ class Framework_Krypton_Core_View extends Framework_Krypton_Core_Component
 		return $pages;
 	}
 
+	protected function getFlagIcon( $country, $label )
+	{
+		$fileName	= "ceus-media/flags/".$country.".png";
+		$image		= $this->getIcon( $fileName, $label );
+		return $image;
+	}
+
 	protected function getIcon( $fileName, $label, $configKey = 'paths.icons' )
 	{
 		$url		= $this->config[$configKey].$fileName;
