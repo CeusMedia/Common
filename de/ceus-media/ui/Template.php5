@@ -77,7 +77,7 @@ class UI_Template
 	 *	@param		array		$elements		List of Elements {@link add()}
 	 *	@return		void
 	 */
-	public function __construct( $fileName, $elements = NULL )
+	public function __construct( $fileName = NULL, $elements = NULL )
 	{
 		$this->elements		= array();
 		$this->className	= get_class( $this );
@@ -86,70 +86,82 @@ class UI_Template
 	}
 	
 	/**
-	 *	Adds an associative array with labels and elements to the template 
+	 *	Adds an associative array with labels and elements to the template and returns number of added elements. 
 	 *	@param		array 		Array where the <b>key</b> can be a string, integer or 
 	 *							float and is the <b>label</b>. The <b>value</b> can be a 
 	 *							string, integer, float or a template object and represents
 	 *							the element to add.
 	 *	@param		bool		if TRUE an a tag is already used, it will overwrite it 
-	 *	@return		void
+	 *	@return		int
 	 */
 	public function add( $elements, $overwrite = FALSE )
 	{
-		if( is_array( $elements ) )
+		if( !is_array( $elements ) )
+			return 0;
+		$number	= 0;
+		foreach( $elements as $key => $value )
 		{
-			foreach( $elements as $key => $value )
+			$isListObject	= $value instanceof ArrayObject || $value instanceof ADT_List_Dictionary;
+			if( is_array( $value ) || $isListObject )
 			{
-				$isListObject	= $value instanceof ArrayObject || $value instanceof ADT_List_Dictionary;
-				if( is_array( $value ) || $isListObject )
+				$number	+= $this->addArrayRecursive( $key, $value, array(), $overwrite );
+			}
+			else
+			{
+				$validKey	= is_string( $key ) || is_int( $key ) || is_float( $key );
+				$validValue	= is_string( $value ) || is_int( $value ) || is_float( $value ) || $value instanceof $this->className;
+				if( $validKey && $validValue )
 				{
-					$this->addArrayRecursive( $key, $value, array(), $overwrite );
+					if( $overwrite == TRUE )
+						$this->elements[$key] = NULL;
+					$this->elements[$key][] = $value;
 				}
-				else
-				{
-					$validKey	= is_string( $key ) || is_int( $key ) || is_float( $key );
-					$validValue	= is_string( $value ) || is_int( $value ) || is_float( $value ) || $value instanceof $this->className;
-					if( $validKey && $validValue )
-					{
-						if( $overwrite == TRUE )
-							$this->elements[$key] = NULL;
-						$this->elements[$key][] = $value;
-					}
-				}
+				$number	++;
 			}
 		}
+		return $number;
 	}
 
 	/**
-	 *	Adds an Array recursive.
+	 *	Adds an array recursive and returns number of added elements.
 	 *	@access		public
-	 *	@param		string		$name			Key of Array
-	 *	@param		mixed		$data			Values of Array
-	 *	@param		array		$steps			Steps within Recursion
-	 *	@param		bool		$overwrite		Flag: overwrite existing Tag
+	 *	@param		string		$name			Key of array
+	 *	@param		mixed		$data			Values of array
+	 *	@param		array		$steps			Steps within recursion
+	 *	@param		bool		$overwrite		Flag: overwrite existing tag
+	 *	@return		int
 	 */
 	public function addArrayRecursive( $name, $data, $steps = array(), $overwrite = FALSE )
 	{
+		$number		= 0;
 		$steps[]	= $name;
 		foreach( $data as $key => $value )
 		{
 			$isListObject	= $value instanceof ArrayObject || $value instanceof ADT_List_Dictionary;
 			if( is_array( $value ) || $isListObject  )
-				$this->addArrayRecursive( $key, $value, $steps );
+			{
+				$number	+= $this->addArrayRecursive( $key, $value, $steps );
+			}
 			else if( is_int( $key ) || is_float( $key ) || is_object( $value ) )
+			{
 				$this->elements[$name][] = $value;
+				$itemKey	= implode( ".", $steps ).".".$key;
+				$number ++;
+			}
 			else
 			{
 				$key	= implode( ".", $steps ).".".$key;
 				if( $overwrite == TRUE )
 					$this->elements[$key] = NULL;
 				$this->elements[$key][] = $value;
+				$number ++;
 			}
 		}
+		return $number;
 	}
 	
 	/**
-	 *	Adds one Element
+	 *	Adds one Element.
 	 *	@param		string		tagname
 	 *	@param		string|int|float|Template
 	 *	@param		bool		if set to TRUE, it will overwrite an existing element with the same label
@@ -298,15 +310,19 @@ class UI_Template
 	/**
 	 *	Loads a new template file if it exists. Otherwise it will throw an Exception.
 	 *	@param		string		$fileName 	File Name of Template
-	 *	@return		void
+	 *	@return		bool
 	 */
 	public function setTemplate( $fileName )
 	{
+		if( empty( $fileName ) )
+			return FALSE;
+			
 		if( !file_exists( $fileName ) )
 			throw new Exception_Template( EXCEPTION_TEMPLATE_FILE_NOT_FOUND, $this->fileName );
 
 		$this->fileName	= $fileName;
 		$this->template = file_get_contents( $fileName );
+		return TRUE;
 	}
 	
 	/**
@@ -319,6 +335,14 @@ class UI_Template
 	public static function render( $fileName, $elements )
 	{
 		$template	= new self( $fileName, $elements );
+		return $template->create();
+	}
+
+	public static function renderString( $string, $elements = NULL )
+	{
+		$template	= new self();
+		$template->template	= $string;
+		$template->add( $elements );
 		return $template->create();
 	}
 }
