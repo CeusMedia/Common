@@ -17,4 +17,5 @@ function import( $class )
 }
 import( 'de.ceus-media.ui.DevOutput' );
 import( 'de.ceus-media.throwException' );
+require_once( 'Tests/MockAntiProtection.php' );
 ?>

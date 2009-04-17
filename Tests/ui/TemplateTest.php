@@ -22,20 +22,65 @@ import( 'de.ceus-media.ui.Template' );
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.2
  */
+
 class Tests_UI_TemplateTest extends PHPUnit_Framework_TestCase
 {
 	private $template;
 	
 	public function setUp()
 	{
-		$this->path		= dirname( __FILE__ )."/";
-		$this->template = new UI_Template( $this->path.'template_testcase1.html' );
+		$this->mock			= Tests_MockAntiProtection::getInstance( 'UI_Template' );
+		$this->path			= dirname( __FILE__ )."/";
+		$this->template		= new UI_Template( $this->path.'template_testcase1.html' );
+		$this->mockElements	= array(
+			'user'	=> "Welt",
+			'list'	=> array(
+				6, 5, 4
+			),
+			'map1'	=> array(
+				'string1'	=> 'value1',
+				'list1'	=> array(
+					1, 2, 3
+				),
+				'map1'		=> array(
+					'string1'	=> 'value2',
+					'float1'		=> M_PI,
+					'list1'	=> array(
+						1, 2, 3
+					),
+				),
+				'map2'		=> array(
+					'string1'	=> 'value2',
+					'float1'		=> M_PI,
+					'list1'	=> array(
+						1, 2, 3
+					),
+				),
+			)
+		);
+
 	}
 	
 	public function testInitialyNoElements()
 	{
 		$size	= sizeof( $this->template->getElements() );
 		$this->assertEquals( 0, $size );
+	}
+
+	public function testAdd()
+	{
+		$assertion	= 18;
+		$creation	= $this->mock->add( $this->mockElements );
+		$this->assertEquals( $assertion, $creation );
+	}
+
+	public function testGetElements()
+	{
+		$data		= array( 'key' => 'value' );
+		$this->mock->setProtectedVar( 'elements', $data );
+		$assertion	= $data;
+		$creation	= $this->mock->getElements();
+		$this->assertEquals( $assertion, $creation );
 	}
 	
 	public function testAddElement()
