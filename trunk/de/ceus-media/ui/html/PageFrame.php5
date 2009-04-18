@@ -139,7 +139,6 @@ class UI_HTML_PageFrame
 	{
 		$typeDefault	= isset( $this->metaTags["http-equiv:content-script-type"] ) ? NULL : "text/javascript";
 		$scriptData	= array(
-			'rel'		=> "stylesheet",
 			'type'		=> $type ? $type : $typeDefault,
 			'charset'	=> $charset ? $charset : NULL,
 			'src'		=> $uri,
