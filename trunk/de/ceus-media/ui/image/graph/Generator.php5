@@ -50,10 +50,18 @@ abstract class UI_Image_Graph_Generator
 	 *	Extends already set Configuration Data by setting in Labels for Placeholders.
 	 *	@access		protected
 	 *	@param		array		$labels			Map of Labels to set in
+	 *	@param		array		$request		Request Parameters to extend Labels
 	 *	@return		void
 	 */
-	protected function extendConfigByLabels( $labels )
+	protected function extendConfigByLabels( $labels, $request = array() )
 	{
+		foreach( $request as $key => $value )
+		{
+			$key	= str_replace( "_", ".", $key );
+			if( array_key_exists( $key, $labels ) )
+				$labels[$key]	= $value;
+		}
+
 		foreach( $this->config as $key => $value )
 			$this->config[$key]	= UI_Template::renderString( $value, $labels );
 	}
@@ -116,7 +124,7 @@ abstract class UI_Image_Graph_Generator
 	 */
 	public function saveImage( $fileName )
 	{
-		UI_Image_Graph_Builder::buildImage( $this->config, $this->data );
+		UI_Image_Graph_Builder::saveImage( $fileName, $this->config, $this->data );
 	}
 
 	/**
