@@ -2,7 +2,7 @@
 /**
  *
  *
- *	Copyright (c) 2008 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -18,13 +18,13 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@package		adt.json
- *	@copyright		2008 Christian Würker
+ *	@copyright		2007-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  */
 /**
  *	@package		adt.json
- *	@copyright		2008 Christian Würker
+ *	@copyright		2007-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@todo			code doc

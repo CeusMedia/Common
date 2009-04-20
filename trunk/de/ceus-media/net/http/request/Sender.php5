@@ -2,7 +2,7 @@
 /**
  *	Request for HTTP Protocol.
  *
- *	Copyright (c) 2008 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -19,8 +19,8 @@
  *
  *	@package		net.http.request
  *	@uses			Net_HTTP_Request_Header
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@copyright		2008 Christian Würker
+ *	@author			Christian Würker <christian.wuerker@ceus-media.de>
+ *	@copyright		2007-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		0.6
@@ -30,8 +30,8 @@ import( 'de.ceus-media.net.http.request.Header' );
  *	Request for HTTP Protocol.
  *	@package		net.http.request
  *	@uses			Net_HTTP_Request_Header
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@copyright		2008 Christian Würker
+ *	@author			Christian Würker <christian.wuerker@ceus-media.de>
+ *	@copyright		2007-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		0.6
