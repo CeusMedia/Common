@@ -18,6 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@package		framework.krypton.core
+ *	@extends		Framework_Krypton_Core_Component
  *	@uses			Framework_Krypton_Core_Registry
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2009 Christian Würker
@@ -27,9 +28,12 @@
  *	@version		0.6
  */
 import( 'de.ceus-media.framework.krypton.core.Component' );
+import( 'de.ceus-media.framework.krypton.core.Registry' );
 /**
  *	Abstract Basic Action Handler.
  *	@package		framework.krypton.core
+ *	@abstract
+ *	@extends		Framework_Krypton_Core_Component
  *	@uses			Framework_Krypton_Core_Registry
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2009 Christian Würker
@@ -105,10 +109,20 @@ abstract class Framework_Krypton_Core_Action extends Framework_Krypton_Core_Comp
 		return $this->performRegisteredActions();
 	}
 
+	/**
+	 *	This Method can be overwritten to handle stuff after the registered Actions where called.
+	 *	@access		public
+	 *	@return		void
+	 */
 	public function performAfterRegisteredActions()
 	{
 	}
 	
+	/**
+	 *	This Method can be overwritten to handle stuff before the registered Actions will be called.
+	 *	@access		public
+	 *	@return		void
+	 */
 	public function performBeforeRegisteredActions()
 	{
 	}

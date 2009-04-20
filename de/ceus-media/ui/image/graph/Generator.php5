@@ -30,6 +30,7 @@ import( 'de.ceus-media.ui.image.graph.Builder' );
 /**
  *	Abstract Generator Class for several Graph Generator Appications.
  *	@package		ui.image.graph
+ *	@abstract
  *	@uses			UI_Template
  *	@uses			UI_Image_Graph_Builder
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
@@ -124,6 +125,7 @@ abstract class UI_Image_Graph_Generator
 
 	/**
 	 *	Prepares Graph Configuration, needs to be implemented for each Generator.
+	 *	@abstract
 	 *	@access		protected
 	 *	@return		void
 	 */
@@ -131,6 +133,7 @@ abstract class UI_Image_Graph_Generator
 	
 	/**
 	 *	Prepares Graph Data, needs to be implemented for each Generator.
+	 *	@abstract
 	 *	@access		protected
 	 *	@return		void
 	 */

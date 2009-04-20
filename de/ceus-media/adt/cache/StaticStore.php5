@@ -28,6 +28,7 @@
 /**
  *	Abstract static Cache Store, can be used to implement a static Data Cache.
  *	@package		adt.cache
+ *	@abstract
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -39,6 +40,7 @@ abstract class ADT_Cache_StaticStore
 {
 	/**
 	 *	Returns a Value from Cache by its Key.
+	 *	@abstract
 	 *	@access		public
 	 *	@param		string		$key			Key of Cache File
 	 *	@return		mixed
@@ -47,6 +49,7 @@ abstract class ADT_Cache_StaticStore
 
 	/**
 	 *	Indicates wheter a Value is in Cache by its Key.
+	 *	@abstract
 	 *	@access		public
 	 *	@param		string		$key			Key of Cache File
 	 *	@return		void
@@ -55,6 +58,7 @@ abstract class ADT_Cache_StaticStore
 
 	/**
 	 *	Removes a Value from Cache by its Key.
+	 *	@abstract
 	 *	@access		public
 	 *	@param		string		$key			Key of Cache File
 	 *	@return		void
@@ -63,6 +67,7 @@ abstract class ADT_Cache_StaticStore
 
 	/**
 	 *	Stores a Value in Cache by its Key.
+	 *	@abstract
 	 *	@access		public
 	 *	@param		string		$key			Key of Cache File
 	 *	@param		mixed		$value			Value to store

@@ -29,6 +29,7 @@
 /**
  *	Abstract Business Logic, Access to Database or other Resources.
  *	@package		framework.tool
+ *	@abstract
  *	@uses			Database_PDO_Connection
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2009 Christian Würker

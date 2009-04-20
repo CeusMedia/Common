@@ -41,6 +41,7 @@
 /**
  *	Base for all Applications.
  *	@package		framework.krypton
+ *	@abstract
  *	@uses			StopWatch
  *	@uses			Database_PDO_Connection
  *	@uses			Net_HTTP_PartitionSession
@@ -76,6 +77,7 @@ abstract class Framework_Krypton_Base
 
 	/**
 	 *	Constructor, sets up Environment.
+	 *	@abstract
 	 *	@access		public
 	 *	@param		string		$cachePath			Cache Path for basic Configuration Files
 	 *	@return		void

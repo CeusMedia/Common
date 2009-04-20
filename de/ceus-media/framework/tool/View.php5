@@ -28,6 +28,7 @@
 /**
  *	Abstrace Base View Class for Tool Applications.
  *	@package		framework.tool
+ *	@abstract
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -67,6 +68,7 @@ abstract class Framework_Tool_View
 	
 	/**
 	 *	Calls View Components and responds complete View. To be overwritten.
+	 *	@abstract
 	 *	@access		protected
 	 *	@return		void
 	 */

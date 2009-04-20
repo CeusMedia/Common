@@ -1,6 +1,6 @@
 <?php
 /**
- *	Abstract View Class of Framework Hydrogen.
+ *	Generic View Class of Framework Hydrogen.
  *
  *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
  *
@@ -30,7 +30,7 @@
 import( 'de.ceus-media.ui.html.Elements' );
 import( 'de.ceus-media.alg.TimeConverter' );
 /**
- *	Abstract View Class of Framework Hydrogen.
+ *	Generic View Class of Framework Hydrogen.
  *	@package		framework.hydrogen
  *	@uses			UI_HTML_Elements
  *	@uses			Alg_TimeConverter

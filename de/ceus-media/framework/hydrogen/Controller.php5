@@ -1,6 +1,6 @@
 <?php
 /**
- *	Abstract Controller Class of Framework Hydrogen.
+ *	Generic Controller Class of Framework Hydrogen.
  *
  *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
  *
@@ -26,7 +26,7 @@
  *	@version		0.5
  */
 /**
- *	Abstract Controller Class of Framework Hydrogen.
+ *	Generic Controller Class of Framework Hydrogen.
  *	@package		framework.hydrogen
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2009 Christian Würker
@@ -69,7 +69,7 @@ class Framework_Hydrogen_Controller
 	/**	@var		string							$action			Name of called Action */
 	var $action	= "";
 	/**	@var		bool							$redirect		Flag for Redirection */
-	var $redirect	= false;
+	var $redirect	= FALSE;
 
 	/**
 	 *	Constructor.
@@ -148,7 +148,7 @@ class Framework_Hydrogen_Controller
 	{
 		$this->request->set( 'controller', $controller );
 		$this->request->set( 'action', $action );
-		$this->redirect = true;
+		$this->redirect = TRUE;
 	}
 	
 	/**
