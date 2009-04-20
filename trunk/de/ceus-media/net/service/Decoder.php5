@@ -2,8 +2,27 @@
 /**
  *	Decompresses and decodes Service Response Strings in several Formats.
  *	Can be overwritten to extend with further Formats or Compression Methods.
+ *
+ *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *
+ *	This program is free software: you can redistribute it and/or modify
+ *	it under the terms of the GNU General Public License as published by
+ *	the Free Software Foundation, either version 3 of the License, or
+ *	(at your option) any later version.
+ *
+ *	This program is distributed in the hope that it will be useful,
+ *	but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *	GNU General Public License for more details.
+ *
+ *	You should have received a copy of the GNU General Public License
+ *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
  *	@package		net.service
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2007-2009 Christian Würker
+ *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@link			http://code.google.com/p/cmclasses/
  *	@since			04.04.2009
  *	@version		0.1
  */
@@ -12,6 +31,9 @@
  *	Can be overwritten to extend with further Formats or Compression Methods.
  *	@package		net.service
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2007-2009 Christian Würker
+ *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@link			http://code.google.com/p/cmclasses/
  *	@since			04.04.2009
  *	@version		0.1
  *	@todo			fix: not reproducable errors using gzuncompress on format 'txt'
@@ -46,12 +68,14 @@ class Net_Service_Decoder
 		ob_start();																		//  open Buffer for PHP Error Messages
 		$method		= $this->formats[$format];									//  get Name of Method to decode Response
 		$structure	= $this->$method( $response );								//  call Method to decode Response
-
 		$data		= $structure['data'];										//  Extract Response Data
+
 		if( $structure['status'] == "exception" )								//  Response contains an Exception
 		{
+			if( empty( $data['serial'] ) )
+				throw new Exception( $data['message'] );
 			$object	= unserialize( $data['serial'] );
-			if( $object instanceof __PHP_Incomplete_Class )
+			if( !( $object instanceof __PHP_Incomplete_Class ) )
 			{
 				$name	= $object->__PHP_Incomplete_Class_Name;
 				throw new RuntimeException( 'Class "'.$name.'" is not loaded.' );
@@ -130,7 +154,7 @@ class Net_Service_Decoder
 	{
 		$doc	= new SimpleXmlElement( $response );
 		if( strtolower( $doc->status ) == "exception" )
-			throw new Exception( $doc->data->type.": ".$doc->data->message );
+			throw new Exception( $doc->data->message );
 		$structure	= array(
 			'status'	=> $doc->status,
 			'data'		=> $doc->data,

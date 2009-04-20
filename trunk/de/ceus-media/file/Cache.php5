@@ -1,8 +1,27 @@
 <?php
 /**
  *	Cache to store Data in Files.
+ *
+ *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *
+ *	This program is free software: you can redistribute it and/or modify
+ *	it under the terms of the GNU General Public License as published by
+ *	the Free Software Foundation, either version 3 of the License, or
+ *	(at your option) any later version.
+ *
+ *	This program is distributed in the hope that it will be useful,
+ *	but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *	GNU General Public License for more details.
+ *
+ *	You should have received a copy of the GNU General Public License
+ *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
  *	@package		file
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2007-2009 Christian Würker
+ *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@link			http://code.google.com/p/cmclasses/
  *	@since			13.04.2009
  *	@version		0.1
  */
@@ -15,6 +34,9 @@ import( 'de.ceus-media.adt.cache.Store' );
  *	@implements		Countable
  *	@uses			File_Editor
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2007-2009 Christian Würker
+ *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@link			http://code.google.com/p/cmclasses/
  *	@since			13.04.2009
  *	@version		0.1
  */
@@ -37,6 +59,7 @@ class File_Cache extends ADT_Cache_Store implements Countable
 	 */
 	public function __construct( $path, $expires = 0 )
 	{
+		$path	.= substr( $path, -1 ) == "/" ? "" : "/";
 		if( !file_exists( $path ) )
 			throw new RuntimeException( 'Path "'.$path.'" is not existing.' );
 		$this->path		= $path;
@@ -93,9 +116,10 @@ class File_Cache extends ADT_Cache_Store implements Countable
 		{
 			if( $entry->isDot() || $entry->isDir() )
 				continue;
-			if( substr_compare( $entry->getFilename(), -7 ) == ".serial" )
+			if( substr( $entry->getFilename(), -7 ) == ".serial" )
 				$number	+= (int) @unlink( $entry->getPathname() );
 		}
+		$this->data	= array();
 		return $number;
 	}
 
@@ -107,11 +131,11 @@ class File_Cache extends ADT_Cache_Store implements Countable
 	 */
 	public function get( $key )
 	{
-		if( isset( $this->data[$key] ) )
-			return $this->data[$key];
 		$uri		= $this->getUriForKey( $key );
 		if( !$this->isValidFile( $uri ) )
 			return NULL;
+		if( isset( $this->data[$key] ) )
+			return $this->data[$key];
 		$content	= File_Editor::load( $uri );
 		$value		= unserialize( $content );
 		$this->data[$key]	= $value;
@@ -137,8 +161,6 @@ class File_Cache extends ADT_Cache_Store implements Countable
 	 */
 	public function has( $key )
 	{
-		if( isset( $this->data[$key] ) )
-			return TRUE;
 		$uri	= $this->getUriForKey( $key );
 		return $this->isValidFile( $uri );
 	}
@@ -167,6 +189,7 @@ class File_Cache extends ADT_Cache_Store implements Countable
 	protected function isExpired( $uri, $expires )
 	{
 		$edge	= time() - $expires;
+		clearstatcache();
 		return filemtime( $uri ) <= $edge;
 	}
 
