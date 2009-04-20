@@ -18,7 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@package		net.http
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
@@ -35,8 +35,8 @@ define( 'IMODE_UNKNOWN_USER_AGENT',	1 );
 /**
  *	Sniffer for iMode Clients.
  *	@package		net.http
- *	@author			Christian W�rker <Christian.Wuerker@CeuS-Media.de>
- *	@copyright		2008 Christian W�rker
+ *	@author			Christian Würker <christian.wuerker@ceus-media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		0.6

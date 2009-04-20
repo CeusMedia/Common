@@ -19,7 +19,7 @@
  *
  *	@package		framework.neon.models
  *	@extends		Framework_Neon_Model
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
@@ -31,7 +31,7 @@ import( 'de.ceus-media.framework.neon.Model' );
  *	Data Model of Projects.
  *	@package		framework.neon.models
  *	@extends		Framework_Neon_Model
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
@@ -45,7 +45,7 @@ class Framework_Neon_Models_Project extends Framework_Neon_Model
 	 *	@access		public
 	 *	@param		int		$projectId		ID of Project
 	 *	@return		void
-	 *	@author		Christian Würker <Christian.Wuerker@CeuS-Media.de>
+	 *	@author		Christian Würker <christian.wuerker@ceus-media.de>
 	 *	@since		26.03.2007
 	 */
 	public function __construct( $projectId = false )
