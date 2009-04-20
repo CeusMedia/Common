@@ -1,39 +1,79 @@
 <?php
 /**
  *	Cache to store Data in Files statically.
+ *
+ *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *
+ *	This program is free software: you can redistribute it and/or modify
+ *	it under the terms of the GNU General Public License as published by
+ *	the Free Software Foundation, either version 3 of the License, or
+ *	(at your option) any later version.
+ *
+ *	This program is distributed in the hope that it will be useful,
+ *	but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *	GNU General Public License for more details.
+ *
+ *	You should have received a copy of the GNU General Public License
+ *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
  *	@package		file
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2007-2009 Christian Würker
+ *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@link			http://code.google.com/p/cmclasses/
  *	@since			13.04.2009
  *	@version		0.1
  */
 import( 'de.ceus-media.adt.cache.StaticStore' );
-import( 'de.ceus-media.file.Editor' );
+import( 'de.ceus-media.file.Cache' );
 /**
  *	Cache to store Data in Files statically.
  *	@package		file
  *	@extends		ADT_Cache_StaticStore
  *	@implements		Countable
- *	@uses			File_Editor
+ *	@uses			File_Cache
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2007-2009 Christian Würker
+ *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@link			http://code.google.com/p/cmclasses/
  *	@since			13.04.2009
  *	@version		0.1
  */
-class File_StaticCache extends ADT_Cache_StaticStore implements Countable
+class File_StaticCache extends ADT_Cache_StaticStore
 {
-	/**	@var		array		$data			Memory Cache */
-	protected static $data			= array();
+	/**	@var		File_Cache	$store			Instance of File Cache */
+	protected static $store			= NULL;
 
-	/**	@var		string		$path			Path to Cache Files */
-	protected static $path			= NULL;
+	/**
+	 *	Removes all expired Cache Files.
+	 *	@access		public
+	 *	@param		int			$expires		Cache File Lifetime in Seconds
+	 *	@return		bool
+	 */
+	public static function cleanUp( $expires = 0 )
+	{
+		return self::$store->cleanUp( $expires );
+	}
 
 	/**
 	 *	Counts all Elements in Cache.
 	 *	@access		public
 	 *	@return		int
 	 */
-	public function count()
+	public static function count()
 	{
-		return count( $this->data );	
+		return self::$store->count();
+	}
+
+	/**
+	 *	Removes all Cache Files.
+	 *	@access		public
+	 *	@return		bool
+	 */
+	public function flush()
+	{
+		return self::$store->flush();
 	}
 
 	/**
@@ -44,17 +84,7 @@ class File_StaticCache extends ADT_Cache_StaticStore implements Countable
 	 */
 	public static function get( $key )
 	{
-		if( self::$path === NULL )
-			throw new RuntimeException( 'Cache has not been initiated.' );
-		if( isset( self::$data[$key] ) )
-			return self::$data[$key];
-		if( !self::has( $key ) )
-			return NULL;
-		$uri		= self::getUriForKey( $key );
-		$content	= File_Editor::load( $uri );
-		$value		= unserialize( $content );
-		self::$data[$key]	= $value;
-		return $value;
+		return self::$store->get( $key );
 	}
 
 	/**
@@ -65,24 +95,12 @@ class File_StaticCache extends ADT_Cache_StaticStore implements Countable
 	 */
 	public static function has( $key )
 	{
-		if( self::$path === NULL )
-			throw new RuntimeException( 'Cache has not been initiated.' );
-		if( isset( self::$data[$key] ) )
-			return self::$data[$key];
-		$uri	= self::getUriForKey( $key );
-		return file_exists( $uri );		
+		return self::$store->has( $key );
 	}
 
-	protected static function getUriForKey( $key )
+	public static function init( $path, $expires = 0 )
 	{
-		return self::$path.urlencode( $key );
-	}
-
-	public static function init( $path )
-	{
-		if( !file_exists( $path ) )
-			throw new RuntimeException( 'Path "'.$path.'" is not existing.' );
-		self::$path	= $path;
+		self::$store	= new File_Cache( $path, $expires );
 	}
 
 	/**
@@ -93,11 +111,7 @@ class File_StaticCache extends ADT_Cache_StaticStore implements Countable
 	 */
 	public static function remove( $key )
 	{
-		if( self::$path === NULL )
-			throw new RuntimeException( 'Cache has not been initiated.' );
-		$uri	= self::getUriForKey( $key );
-		@unlink( $uri );
-		unset( self::$data[$key] );
+		return self::$store->remove( $key );
 	}
 
 	/**
@@ -109,12 +123,7 @@ class File_StaticCache extends ADT_Cache_StaticStore implements Countable
 	 */
 	public static function set( $key, $value )
 	{
-		if( self::$path === NULL )
-			throw new RuntimeException( 'Cache has not been initiated.' );
-		$uri		= self::getUriForKey( $key );
-		$content	= serialize( $value );
-		File_Editor::save( $uri, $content );
-		self::$data[$key]	= $value;
+		return self::$store->set( $key, $value );
 	}
 }
 ?>
