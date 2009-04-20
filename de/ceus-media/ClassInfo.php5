@@ -32,6 +32,8 @@
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			03.08.2005
  *	@version		0.5
+ *	@deprecated		use File_PHP_Parser  instead
+ *	@todo			to be deleted in 0.6.7
  */
 class ClassInfo
 {
