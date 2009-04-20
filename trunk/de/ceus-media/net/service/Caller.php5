@@ -60,19 +60,25 @@ class Net_Service_Caller
 		$this->client	= new Net_Service_Client( $url );
 	}
 
+	/**
+	 *	This Method masks Net Service Calls under local Method Calls.
+	 *	Catches Method Calls on current Object and requests Service Response of Method Key.
+	 *	@access		public
+	 *	@param		string		$key		Method Key, Method called on current Object
+	 *	@return		mixed
+	 */
 	public function __call( $key, $arguments )
 	{
 		$watch		= new StopWatch();
 		$arguments	= $this->buildArgumentsForRequest( $arguments );
-		$response	= $this->client->get( $key, "php", $arguments );
+		$response	= $this->client->post( $key, "php", $arguments );
 		$this->calls[]	= array(
 			'service'	=> $key,
 			'arguments'	=> $arguments,
-			'response'	=> $response,
+			'response'	=> serialize( $response ),
 			'time'		=> $watch->stop( 6, 0 ),
 		);
-		$decoder	= new Net_Service_Decoder;
-		return $decoder->decodeResponse( $response, "php" );
+		return $response;
 	}
 	
 	/**
@@ -83,14 +89,11 @@ class Net_Service_Caller
 	 */
 	protected function buildArgumentsForRequest( $arguments )
 	{
-		if( $arguments )
-		{
-			if( count( $arguments ) == 1 && is_array( $arguments[0] ) )
-				return $arguments[0];
-			else
-				return array( 'argumentsGivenByServiceCaller' => serialize( $arguments ) );
-		}
-		return array();
+		if( !$arguments )
+			return array();
+		if( count( $arguments ) == 1 && is_array( $arguments[0] ) )
+			return $arguments[0];
+		return array( 'argumentsGivenByServiceCaller' => serialize( $arguments ) );
 	}
 	
 	/**
