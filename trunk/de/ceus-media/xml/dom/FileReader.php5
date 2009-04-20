@@ -58,6 +58,7 @@ class XML_DOM_FileReader
 	/**
 	 *	Loads a XML File statically and returns parsed Tree.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$fileName		URI of XML File
 	 *	@return		XML_DOM_Node
 	 */

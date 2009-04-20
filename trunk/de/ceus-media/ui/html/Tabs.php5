@@ -124,6 +124,7 @@ class UI_HTML_Tabs
 	/**
 	 *	Builds HTML Code of Tabbed Content statically.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$id			ID of whole Tabbed Content Block
 	 *	@param		array		$label		List of Tab Labels
 	 *	@param		array		$contents	List of Contents related to the Tabs
@@ -161,6 +162,7 @@ class UI_HTML_Tabs
 	/**
 	 *	Creates JavaScript Call statically.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$selector		jQuery Selector of Tabs DIV (mostly '#' + ID)
 	 *	@param		array		$options		Tabs Options Array
 	 *	@return 	string

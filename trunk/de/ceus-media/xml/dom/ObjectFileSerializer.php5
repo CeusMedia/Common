@@ -45,6 +45,8 @@ class XML_DOM_ObjectFileSerializer extends XML_DOM_ObjectSerializer
 {
 	/**
 	 *	Writes XML String from an Object to a File.
+	 *	@access		public
+	 *	@static
 	 *	@param		mixed		$object			Object to serialize
 	 *	@param		string		$fileName		XML File to write to
 	 *	@return		void

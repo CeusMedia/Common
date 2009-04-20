@@ -41,6 +41,7 @@ class Alg_Sort_MapList
 	/**
 	 *	Sorts a List of associative Arrays by a Column and Direction.
 	 *	@access		public
+	 *	@static
 	 *	@param		array		$data		List of associative Arrays
 	 *	@param		string		$key		Column to sort by
 	 *	@param		int			$direction	Sort Direction (0 - ::DIRECTION_ASC | 1 - ::DIRECTION_DESC)
@@ -54,6 +55,7 @@ class Alg_Sort_MapList
 	/**
 	 *	Sorts a List of associative Arrays by several Columns and Directions.
 	 *	@access		public
+	 *	@static
 	 *	@param		array		$data		List of associative Arrays
 	 *	@param		string		$order		Map of Columns and their Directions (0 - ::DIRECTION_ASC | 1 - ::DIRECTION_DESC)
 	 *	@return		array

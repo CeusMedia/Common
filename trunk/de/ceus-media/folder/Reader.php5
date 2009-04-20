@@ -60,6 +60,7 @@ class Folder_Reader
 	/**
 	 *	Adds a Slash at the End of a Path if missing.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$path			Path to correct
 	 *	@return		string
 	 */
@@ -332,6 +333,7 @@ class Folder_Reader
 	/**
 	 *	Indicates whether a Path is an existing Folder.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$path			Path to check
 	 *	@return		bool
 	 */

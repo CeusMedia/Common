@@ -305,6 +305,7 @@ class Net_cURL
 	/**
 	 *	Set Time Out in Seconds.
 	 *	@access		public
+	 *	@static
 	 *	@param		int			$seconds	Seconds until Time Out
 	 *	@return		void
 	 */

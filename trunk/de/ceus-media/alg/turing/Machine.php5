@@ -1,6 +1,6 @@
 <?php
 /**
- *	Turing Machine with 1 Band.
+ *	Turing Machine with one band.
  *
  *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
  *
@@ -26,7 +26,7 @@
  *	@version		0.6
  */
 /**
- *	Turing Machine with 1 Band.
+ *	Turing Machine with one band.
  *	@package		alg.turing
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2009 Christian Würker
@@ -37,21 +37,21 @@
  */
 class Alg_Turing_Machine
 {
-	/**	@var	array		$states			States of Machine */
+	/**	@var	array			$states			States of Machine */
 	protected $states;
-	/**	@var	array		$alphabet		Alphabet of Machine Language */
+	/**	@var	array			$alphabet		Alphabet of Machine Language */
 	protected $alphabet;
-	/**	@var	array		$transition		Transitions of Machine */
+	/**	@var	array			$transition		Transitions of Machine */
 	protected $transition;
-	/**	@var	array		$start			Start State */
+	/**	@var	array			$start			Start State */
 	protected $start;
-	/**	@var	array		$blank			Blank Sign of Machine Language */
+	/**	@var	array			$blank			Blank Sign of Machine Language */
 	protected $blank;
-	/**	@var	array		$finals			Final States */
+	/**	@var	array			$finals			Final States */
 	protected $finals;
-	/**	@var	array		$state			Current State of Machine */
+	/**	@var	array			$state			Current State of Machine */
 	protected $state;
-	/**	@var	int			$pointer		Current Pointer of Machine */
+	/**	@var	int				$pointer		Current Pointer of Machine */
 	protected $pointer;
 
 	/**

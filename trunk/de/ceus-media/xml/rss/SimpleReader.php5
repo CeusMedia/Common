@@ -46,6 +46,7 @@ class XML_RSS_SimpleReader
 	/**
 	 *	Reads RSS from File.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$fileName	File Name to XML RSS File
 	 *	@return		array
 	 */
@@ -59,6 +60,7 @@ class XML_RSS_SimpleReader
 	/**
 	 *	Reads RSS from URL.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$url		URL to read RSS from
 	 *	@return		array
 	 */
@@ -72,6 +74,7 @@ class XML_RSS_SimpleReader
 	/**
 	 *	Reads RSS from XML.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$xml		XML String to read
 	 *	@return		array
 	 */

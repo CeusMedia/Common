@@ -38,6 +38,7 @@ class XML_WDDX_Parser
 	/**
 	 *	Deserializes a wddx packet.
 	 *	@access		public
+	 *	@static
 	 *	@return		mixed
 	 */
 	public static function parse( $packet )

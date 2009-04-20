@@ -44,6 +44,7 @@ class Alg_CamelCase
 	/**
 	 *	Convert a String to Camel Case, removing all spaces and underscores and capitalizing all Words.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$string		String to convert
 	 *	@param		bool		$startLow	Flag: convert first Word also to uppercase, use static default if NULL
 	 *	@return		string

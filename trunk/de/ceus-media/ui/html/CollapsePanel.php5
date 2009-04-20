@@ -44,6 +44,7 @@ class UI_HTML_CollapsePanel extends UI_HTML_Panel
 	/**
 	 *	Builds HTML Code of Panel.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$id				Tag ID of Panel
 	 *	@param		string		$header			Content of Header
 	 *	@param		string		$content		Content of Panel
@@ -61,6 +62,7 @@ class UI_HTML_CollapsePanel extends UI_HTML_Panel
 	/**
 	 *	Builds JQuery Plugin Call for Panel.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$selector		CSS Selector of Panel
 	 *	@param		array		$options		JQuery Plugin Options
 	 *	@return		string

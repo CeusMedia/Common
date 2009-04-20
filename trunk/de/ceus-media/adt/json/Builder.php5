@@ -40,6 +40,7 @@ class ADT_JSON_Builder
 	/**
 	 *	Encodes Data into a representative String.
 	 *	@access		public
+	 *	@static
 	 *	@param		mixed		$data			Data to be encoded
 	 *	@return		string
 	 */
@@ -89,6 +90,7 @@ class ADT_JSON_Builder
 	/**
 	 *	Returns Data Type of Pair Value.
 	 *	@access		private
+	 *	@static
 	 *	@param		string		$key			Key of Pair
 	 *	@param		mixed		$value			Value of Pair
 	 *	@return		string
@@ -115,6 +117,7 @@ class ADT_JSON_Builder
 	/**
 	 *	Loops through Data Array and returns a representative String.
 	 *	@access		private
+	 *	@static
 	 *	@param		array		$array			Array to be looped
 	 *	@param		string		$type			Data Type
 	 *	@return		string
@@ -131,6 +134,7 @@ class ADT_JSON_Builder
 	/**
 	 *	Escpapes Control Sings in String.
 	 *	@access		private
+	 *	@static
 	 *	@param		string		$string			String to be escaped
 	 *	@return		string
 	 */
@@ -154,6 +158,7 @@ class ADT_JSON_Builder
 	/**
 	 *	Indicates whether a array is associative or not.
 	 *	@access		private
+	 *	@static
 	 *	@param		array		$array			Array to be checked
 	 *	@return		bool
 	 */

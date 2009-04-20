@@ -91,6 +91,7 @@ class XML_DOM_Namespaces
 	/**
 	 *	Detects and returns Map of Namespaces found in a XML DOM Document.
 	 *	@access		public
+	 *	@static
 	 *	@param		DOMDocument		$doc			DOM Document of XML File
 	 *	@return		array
 	 */
@@ -110,6 +111,7 @@ class XML_DOM_Namespaces
 	/**
 	 *	Detects and returns Map of Namespaces found in a XML File.
 	 *	@access		public
+	 *	@static
 	 *	@return		array
 	 */
 	public static function getNamespacesFromXml( $xml )

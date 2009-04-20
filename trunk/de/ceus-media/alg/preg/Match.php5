@@ -42,6 +42,7 @@ class ALG_Preg_Match
 	/**
 	 *	Indicates whether a String matches a regular expression.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$pattern		Regular expression, pattern String
 	 *	@param		string		$string			String to test
 	 *	@param		array		$modifiers		String, Array of Dictionary or Modifiers

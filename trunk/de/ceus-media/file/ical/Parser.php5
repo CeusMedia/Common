@@ -85,6 +85,7 @@ class File_iCal_Parser
 	/**
 	 *	Parses iCal Lines and returns a XML Tree recursive.
 	 *	@access		protected
+	 *	@static
 	 *	@param		string			$type			String to unfold
 	 *	@param		XML_DOM_Node	$root			Parent XML Node
 	 *	@param		string			$lines			Array of iCal Lines
@@ -117,6 +118,7 @@ class File_iCal_Parser
 
 	/**
 	 *	Unfolds folded Contents of iCal Lines.
+	 *	@static
 	 *	@access		protected
 	 *	@param		string		$string		String to unfold
 	 *	@return 	string
@@ -132,6 +134,7 @@ class File_iCal_Parser
 	/**
 	 *	Parses a single iCal Lines.
 	 *	@access		protected
+	 *	@static
 	 *	@param		string		$line		Line to parse
 	 *	@return 	array
 	 */

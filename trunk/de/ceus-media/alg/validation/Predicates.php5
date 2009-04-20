@@ -45,6 +45,7 @@ class Alg_Validation_Predicates
 	/**
 	 *	Indicates whether a String is short enough.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$string		String to be checked
 	 *	@return		bool
 	 */
@@ -56,6 +57,7 @@ class Alg_Validation_Predicates
 	/**
 	 *	Indicates whether a String is long enough.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$string		String to be checked
 	 *	@return		bool
 	 */
@@ -67,6 +69,7 @@ class Alg_Validation_Predicates
 	/**
 	 *	Indicates whether a Password String has a Stength.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$string		String to be checked
 	 *	@param		int			$strength	Strength to a have at least
 	 *	@return		bool
@@ -80,6 +83,7 @@ class Alg_Validation_Predicates
 	/**
 	 *	Indicates whether a Password String has a Score.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$string		String to be checked
 	 *	@param		int			$score		Score to a have at least
 	 *	@return		bool
@@ -92,6 +96,7 @@ class Alg_Validation_Predicates
 	/**
 	 *	Indicates whether a String has a Value.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$string		String to be checked
 	 *	@return		bool
 	 */
@@ -103,6 +108,7 @@ class Alg_Validation_Predicates
 	/**
 	 *	Indicates whether a String is time formated and is after another point in time.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$string		String to be checked
 	 *	@param		string		$point		Point of Time to be after
 	 *	@return		bool
@@ -119,6 +125,7 @@ class Alg_Validation_Predicates
 	/**
 	 *	Indicates whether a String contains only letters.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$string		String to be checked
 	 *	@return		bool
 	 */
@@ -130,6 +137,7 @@ class Alg_Validation_Predicates
 	/**
 	 *	Indicates whether a String contains only letters and digits.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$string		String to be checked
 	 *	@return		bool
 	 */
@@ -141,6 +149,7 @@ class Alg_Validation_Predicates
 	/**
 	 *	Indicates whether a String contains only letters and spaces.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$string		String to be checked
 	 *	@return		bool
 	 */
@@ -152,6 +161,7 @@ class Alg_Validation_Predicates
 	/**
 	 *	Indicates whether a String is time formated and is before another point in time.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$string		String to be checked
 	 *	@param		string		$point		Point of Time to be before
 	 *	@return		bool
@@ -168,6 +178,7 @@ class Alg_Validation_Predicates
 	/**
 	 *	Indicates whether a String is a valid Date.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$string		String to be checked
 	 *	@return		bool
 	 */
@@ -188,6 +199,7 @@ class Alg_Validation_Predicates
 	/**
 	 *	Indicates whether a String contains only numeric characters.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$string		String to be checked
 	 *	@return		bool
 	 */
@@ -199,6 +211,7 @@ class Alg_Validation_Predicates
 	/**
 	 *	Indicates whether a String an valid eMail address.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$string		String to be checked
 	 *	@return		bool
 	 */
@@ -210,6 +223,7 @@ class Alg_Validation_Predicates
 	/**
 	 *	Indicates whether a String can be matched by a POSIX RegEx.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$string		String to be checked
 	 *	@param		string		$pattern	POSIX regular expression
 	 *	@return		bool
@@ -222,6 +236,7 @@ class Alg_Validation_Predicates
 	/**
 	 *	Indicates whether a String can be matched by a case insensitive POSIX RegEx.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$string		String to be checked
 	 *	@param		string		$pattern	POSIX regular expression
 	 *	@return		bool
@@ -234,6 +249,7 @@ class Alg_Validation_Predicates
 	/**
 	 *	Indicates whether a String contains a floating number.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$string		String to be checked
 	 *	@return		bool
 	 */
@@ -245,6 +261,7 @@ class Alg_Validation_Predicates
 	/**
 	 *	Indicates whether a String is time formated and is in future.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$string		String to be checked
 	 *	@return		bool
 	 */
@@ -260,6 +277,7 @@ class Alg_Validation_Predicates
 	/**
 	 *	Indicates whether a String is larger than a limit.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$string		String to be checked
 	 *	@param		string		$limit		Parameter to be measured with
 	 *	@return		bool
@@ -272,6 +290,7 @@ class Alg_Validation_Predicates
 	/**
 	 *	Indicates whether a String is a valid Id.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$string		String to be checked
 	 *	@return		bool
 	 */
@@ -283,6 +302,7 @@ class Alg_Validation_Predicates
 	/**
 	 *	Indicates whether a String is a valid File Name.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$string		String to be checked
 	 *	@return		bool
 	 */
@@ -294,6 +314,7 @@ class Alg_Validation_Predicates
 	/**
 	 *	Indicates whether a String is smaller than a limit.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$string		String to be checked
 	 *	@param		string		$limit		Parameter to be measured with
 	 *	@return		bool
@@ -306,6 +327,7 @@ class Alg_Validation_Predicates
 	/**
 	 *	Indicates whether a String contains only letters.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$string		String to be checked
 	 *	@return		bool
 	 *	@todo		add Umlauts (äöüßâáàêéèîíìôóòûúù + missing other languages)
@@ -318,6 +340,7 @@ class Alg_Validation_Predicates
 	/**
 	 *	Indicates whether a String is at most a limit.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$string		String to be checked
 	 *	@param		string		$limit		Parameter to be measured with
 	 *	@return		bool
@@ -330,6 +353,7 @@ class Alg_Validation_Predicates
 	/**
 	 *	Indicates whether a String is at least a limit.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$string		String to be checked
 	 *	@param		string		$limit		Parameter to be measured with
 	 *	@return		bool
@@ -342,6 +366,7 @@ class Alg_Validation_Predicates
 	/**
 	 *	Indicates whether a String is not "0".
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$string		String to be checked
 	 *	@return		bool
 	 */
@@ -353,6 +378,7 @@ class Alg_Validation_Predicates
 	/**
 	 *	Indicates whether a String contains only numeric characters (also ²³).
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$string		String to be checked
 	 *	@return		bool
 	 */
@@ -364,6 +390,7 @@ class Alg_Validation_Predicates
 	/**
 	 *	Indicates whether a String is time formated and is in past.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$string		String to be checked
 	 *	@return		bool
 	 */
@@ -379,6 +406,7 @@ class Alg_Validation_Predicates
 	/**
 	 *	Indicates whether a String can be matched by a Perl RegEx.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$string		String to be checked
 	 *	@param		string		$pattern	Perl regular expression
 	 *	@return		bool
@@ -391,6 +419,7 @@ class Alg_Validation_Predicates
 	/**
 	 *	Indicates whether a String an valid URL.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$string		String to be checked
 	 *	@return		bool
 	 */

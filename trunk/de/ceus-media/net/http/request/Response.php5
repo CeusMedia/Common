@@ -66,6 +66,7 @@ class Net_HTTP_Request_Response
 	/**
 	 *	Sends Contents and returns Length of sent Response Content.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$compression		Compression Method (deflate|gzip)
 	 *	@param		string		$compressionLogFile	File Name of Compression Log
 	 *	@return		int

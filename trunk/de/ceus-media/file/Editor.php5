@@ -134,6 +134,7 @@ class File_Editor extends File_Reader
 	/**
 	 *	Saves a String into the File statically and returns Length.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$string			List of String to write to File
 	 *	@param		string		$lineBreak		Line Break
 	 *	@return		int
@@ -146,6 +147,7 @@ class File_Editor extends File_Reader
 	/**
 	 *	Writes an Array into the File statically and returns Length.
 	 *	@access		public
+	 *	@static
 	 *	@param		array		$array			List of String to write to File
 	 *	@param		string		$lineBreak		Line Break
 	 *	@return		int

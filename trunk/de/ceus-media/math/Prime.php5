@@ -40,7 +40,8 @@ class Math_Prime
 	/**
 	 *	Returns all Primes from 2 to a given Number
 	 *	@access		public
-	 *	@param		int		$max	Greatest Number to get Primes for
+	 *	@static
+	 *	@param		int			$max	Greatest Number to get Primes for
 	 *	@return		array
 	 */
 	public static function getPrimes( $max )
@@ -67,7 +68,8 @@ class Math_Prime
 	/**
 	 *	Indicates whether a given Number is a Prime Number.
 	 *	@access		public
-	 *	@param		int		$number		Number to be checked
+	 *	@static
+	 *	@param		int			$number		Number to be checked
 	 *	@return		bool
 	 */
 	public static function isPrime( $number )
@@ -84,8 +86,9 @@ class Math_Prime
 	/**
 	 *	Returns a List of Prime Factors if given Number is dividable with Prime Numbers.
 	 *	@access		public
-	 *	@param		int		$number
-	 *	@param		array	$list
+	 *	@static
+	 *	@param		int			$number
+	 *	@param		array		$list
 	 *	@return		array
 	 */
 	public static function getPrimeFactors( $number, $list = array () )

@@ -40,6 +40,7 @@ class Net_HTTP_Request_QueryParser
 	/**
 	 *	Parses Query String and returns an Array statically.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$query		Query String to parse, eg. a=word&b=123&c
 	 *	@param		string		$separatorPairs		Separator Sign between Parameter Pairs
 	 *	@param		string		$separatorPair		Separator Sign between Key and Value

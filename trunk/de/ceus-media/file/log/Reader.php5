@@ -57,6 +57,7 @@ class File_Log_Reader
 	/**
 	 *	Reads a Log File and returns Lines.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$uri		URI of Log File
 	 *	@param		int			$offset		Offset from Start or End
 	 *	@param		int			$limit		Amount of Entries to return

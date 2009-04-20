@@ -48,12 +48,14 @@ import( 'de.ceus-media.adt.json.Formater' );
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		0.6
+ *	@todo			Code Doc
  */
 class Net_Service_Definition_Converter
 {
 	/**
 	 *	Converts a JSON File into a XML File statically.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$jsonFile		URI of JSON File to read
 	 *	@param		string		$xmlFile		URI of XML File to write
 	 *	@return		void
@@ -68,6 +70,7 @@ class Net_Service_Definition_Converter
 	/**
 	 *	Converts a JSON File into a YAML File statically.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$jsonFile		URI of JSON File to read
 	 *	@param		string		$yamlFile		URI of YAML File to write
 	 *	@return		void
@@ -82,6 +85,7 @@ class Net_Service_Definition_Converter
 	/**
 	 *	Converts a XML File into a YAML File statically.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$xmlFile		URI of XML File to read
 	 *	@param		string		$jsonFile		URI of JSON File to write
 	 *	@return		void
@@ -99,6 +103,7 @@ class Net_Service_Definition_Converter
 	/**
 	 *	Converts a XML File into a YAML File statically.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$xmlFile		URI of XML File to read
 	 *	@param		string		$yamlFile		URI of YAML File to write
 	 *	@return		void
@@ -113,6 +118,7 @@ class Net_Service_Definition_Converter
 	/**
 	 *	Converts a YAML File into a JSON File statically.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$yamlFile		URI of YAML File to read
 	 *	@param		string		$jsonFile		URI of JSON File to write
 	 *	@return		void
@@ -129,6 +135,7 @@ class Net_Service_Definition_Converter
 	/**
 	 *	Converts a YAML File into a XML File statically.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$yamlFile		URI of YAML File to read
 	 *	@param		string		$xmlFile		URI of XML File to write
 	 *	@return		void
@@ -140,7 +147,7 @@ class Net_Service_Definition_Converter
 		return Net_Service_Definition_XmlWriter::save( $xmlFile, $data );
 	}
 
-	protected function reduceDefinition( &$definition )
+	protected static function reduceDefinition( &$definition )
 	{
 		foreach( array_keys( $definition['services'] ) as $serviceName )
 		{

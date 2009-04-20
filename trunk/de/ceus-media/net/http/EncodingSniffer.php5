@@ -40,6 +40,7 @@ class Net_HTTP_EncodingSniffer
 	/**
 	 *	Returns prefered allowed and accepted Encoding Method.
 	 *	@access		public
+	 *	@static
 	 *	@param		array	$allowed		Array of Encoding Methods supported and allowed by the Application
 	 *	@param		string	$default		Default Encoding Methods supported and allowed by the Application
 	 *	@return		string

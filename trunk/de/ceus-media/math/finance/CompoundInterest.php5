@@ -47,6 +47,7 @@ class Math_Finance_CompoundInterest
 	/**
 	 *	Calculates Present Amount from Future Amount statically.
 	 *	@access		public
+	 *	@static
 	 *	@param		float		$amount			Amount to calculate with
 	 *	@param		float		$interest		Interest per Period
 	 *	@param		int			$periods		Number of Periods
@@ -63,6 +64,7 @@ class Math_Finance_CompoundInterest
 	/**
 	 *	Calculates Future Amount from Present Amount statically.
 	 *	@access		public
+	 *	@static
 	 *	@param		float		$amount			Amount to calculate with
 	 *	@param		float		$interest		Interest per Period
 	 *	@param		int			$periods		Number of Periods
@@ -79,6 +81,7 @@ class Math_Finance_CompoundInterest
 	/**
 	 *	Calculates Future Amount from Present Amount statically.
 	 *	@access		public
+	 *	@static
 	 *	@param		float		$amount			Amount to calculate with
 	 *	@param		float		$interest		Interest per Period
 	 *	@param		int			$periods		Number of Periods
@@ -96,6 +99,7 @@ class Math_Finance_CompoundInterest
 	/**
 	 *	Calculates Periods needed to reach Future Amount from Present Amount statically using the 70+x rule.
 	 *	@access		public
+	 *	@static
 	 *	@param		float		$amount			Amount to calculate with
 	 *	@param		float		$interest		Interest per Period
 	 *	@param		int			$periods		Number of Periods
@@ -193,6 +197,7 @@ class Math_Finance_CompoundInterest
 	/**
 	 *	Calculates Root of Period Dimension.
 	 *	@access		protected
+	 *	@static
 	 *	@param		float		$amount			Amount
 	 *	@param		int			$periods		Number of Periods
 	 *	@return		float
@@ -238,6 +243,5 @@ class Math_Finance_CompoundInterest
 			throw new InvalidArgumentException( "Periods must be at least 1." );
 		$this->periods	= (int) $periods;
 	}
-
 }
 ?>

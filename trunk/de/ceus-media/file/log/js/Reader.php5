@@ -66,6 +66,7 @@ class File_Log_JS_Reader
 	/**
 	 *	Reads and returns List of parsed Lines statically.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$fileName		File Name of Log File
 	 *	@param		bool		$reverse		Flag: revert List
 	 *	@param		int			$limit			Optional: limit List

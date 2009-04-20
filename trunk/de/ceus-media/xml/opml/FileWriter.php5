@@ -58,6 +58,7 @@ class XML_OPML_FileWriter
 	/**
 	 *	Saves OPML Tree to OPML File statically.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$fileName		URI of OPML File
 	 *	@param		XML_DOM_Node	tree		OPML Tree
 	 *	@param		string			encoding	Encoding Type

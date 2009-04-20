@@ -40,6 +40,7 @@ class Alg_Crypt_Caesar
 	/**
 	 *	Realizes Encryption/Decryption of a text with the normal/inversed Key.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$string		String to be encrypted
 	 *	@param		int			$key		Rotation Key
 	 *	@return		string
@@ -73,6 +74,7 @@ class Alg_Crypt_Caesar
 	/**
 	 *	Decrypts a String.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$string		String to be encrypted
 	 *	@param		int			$key		Rotation Key
 	 *	@return		string
@@ -85,6 +87,7 @@ class Alg_Crypt_Caesar
 	/**
 	 *	Encrypts a String.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$string		String to be encrypted
 	 *	@param		int			$key		Rotation Key
 	 *	@return		string

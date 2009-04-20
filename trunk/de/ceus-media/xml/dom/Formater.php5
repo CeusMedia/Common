@@ -44,6 +44,7 @@ class XML_DOM_Formater
 	/**
 	 *	Formats a XML String with Line Breaks and Indention and returns it.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$xml		XML String to format
 	 *	@return		string
 	 */
@@ -61,6 +62,7 @@ class XML_DOM_Formater
 	/**
 	 *	Recodes a XML String to another Character Set.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$xml		XML String to format
 	 *	@param		string		$encodeTo	Character Set to encode to
 	 *	@see		http://www.iana.org/assignments/character-sets

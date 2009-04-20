@@ -40,6 +40,7 @@ class UI_Image_Graph_Components
 	/**
 	 *	Returns the interpreted Value of a Configuration Parameter.
 	 *	@access		public
+	 *	@static
 	 *	@param		array		$config			Configuration Data
 	 *	@param		string		$key			Parameter Key
 	 *	@param		mixed		$default		Default Value to set if empty or not set
@@ -64,6 +65,7 @@ class UI_Image_Graph_Components
 	/**
 	 *	Returns a Configuration Subset with a Prefix
 	 *	@access		protected
+	 *	@static
 	 *	@param		array		$config			Configuration Data
 	 *	@param		string		$prefix			Parameter Prefix, must end mit a Point
 	 *	@return		array
@@ -81,6 +83,7 @@ class UI_Image_Graph_Components
 	/**
 	 *	Adds an Axis to the JpGraph Graph Object.
 	 *	@access		public
+	 *	@static
 	 *	@param		Graph		$object			JpGraph Graph Object
 	 *	@param		array		$config			Configuration Data
 	 *	@param		array		$data			Graph Data
@@ -110,6 +113,7 @@ class UI_Image_Graph_Components
 	/**
 	 *	Sets the Font of a JpGraph Object.
 	 *	@access		public
+	 *	@static
 	 *	@param		mixed		$object			JpGraph Object
 	 *	@param		array		$config			Configuration Data
 	 *	@return		void
@@ -126,6 +130,7 @@ class UI_Image_Graph_Components
 	/**
 	 *	Sets the Frame of a JpGraph Graph Object.
 	 *	@access		public
+	 *	@static
 	 *	@param		Graph		$object			JpGraph Graph Object
 	 *	@param		array		$config			Configuration Data
 	 *	@return		void
@@ -142,6 +147,7 @@ class UI_Image_Graph_Components
 	/**
 	 *	Sets the Grid of a JpGraph Grid Object.
 	 *	@access		public
+	 *	@static
 	 *	@param		Grid		$object			JpGraph Grid Object
 	 *	@param		array		$config			Configuration Data
 	 *	@return		void
@@ -171,6 +177,7 @@ class UI_Image_Graph_Components
 	/**
 	 *	Sets the Grid of a JpGraph Graph Object.
 	 *	@access		public
+	 *	@static
 	 *	@param		Graph		$object			JpGraph Graph Object
 	 *	@param		array		$config			Configuration Data
 	 *	@return		void
@@ -212,6 +219,7 @@ class UI_Image_Graph_Components
 	/**
 	 *	Sets the Marks of a JpGraph Plot Object.
 	 *	@access		public
+	 *	@static
 	 *	@param		mixed		$object			JpGraph Plot Object
 	 *	@param		array		$config			Configuration Data
 	 *	@return		void
@@ -241,6 +249,7 @@ class UI_Image_Graph_Components
 	/**
 	 *	Sets Shadow of a JpGraph Object.
 	 *	@access		public
+	 *	@static
 	 *	@param		mixed		$object			JpGraph Object
 	 *	@param		array		$config			Configuration Data
 	 *	@return		void
@@ -256,6 +265,7 @@ class UI_Image_Graph_Components
 	/**
 	 *	Sets Subtitle of a JpGraph Graph Object.
 	 *	@access		public
+	 *	@static
 	 *	@param		Graph		$graph			JpGraph Graph Object
 	 *	@param		array		$config			Configuration Data
 	 *	@return		void
@@ -271,6 +281,7 @@ class UI_Image_Graph_Components
 	/**
 	 *	Sets Title of a JpGraph Graph Object.
 	 *	@access		public
+	 *	@static
 	 *	@param		Graph		$graph			JpGraph Graph Object
 	 *	@param		array		$config			Configuration Data
 	 *	@return		void
@@ -286,6 +297,7 @@ class UI_Image_Graph_Components
 	/**
 	 *	Sets Value Style of a JpGraph Plot Object.
 	 *	@access		public
+	 *	@static
 	 *	@param		Graph		$object			JpGraph Plot Object
 	 *	@param		array		$config			Configuration Data
 	 *	@return		void

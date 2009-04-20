@@ -86,6 +86,7 @@ class UI_Image_Printer
 	/**
 	 *	Prints an Image to Screen statically.
 	 *	@access		public
+	 *	@static
 	 *	@param		resource	$resource		Image Resource
 	 *	@param		int			$type			Image Type
 	 *	@param		int			$quality		JPEG Quality (1-100)
@@ -119,6 +120,7 @@ class UI_Image_Printer
 	/**
 	 *	Saves an Image to File statically.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$fleName		Name of target Image File
 	 *	@param		resource	$resource		Image Resource
 	 *	@param		int			$type			Image Type

@@ -61,6 +61,7 @@ class File_List_SectionReader
 	/**
 	 *	Reads the List.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$fileName		File Name of sectioned List
 	 *	@return		array
 	 */

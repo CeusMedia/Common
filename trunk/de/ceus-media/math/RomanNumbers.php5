@@ -67,6 +67,7 @@ class Math_RomanNumbers
 	/**
 	 *	Converts and returns an arabian number as roman number.
 	 *	@access		public
+	 *	@static
 	 *	@param		int			$integer		Arabian number
 	 *	@return		string
 	 */

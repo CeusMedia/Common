@@ -40,6 +40,7 @@ class XML_RSS_SimpleParser
 	/**
 	 *	Reads RSS from XML statically and returns Array containing Channel Data and Items.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$xml		XML String to read
 	 *	@return		array
 	 */
@@ -83,6 +84,7 @@ class XML_RSS_SimpleParser
 	/**
 	 *	Reads Subset of Node.
 	 *	@access		protected
+	 *	@static
 	 *	@param		SimpleXMLElement	$node		Subset Node
 	 *	@return		array
 	 */

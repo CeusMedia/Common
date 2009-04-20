@@ -101,6 +101,7 @@ class File_List_Writer
 	/**
 	 *	Saves a List to File.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$fileName		File Name of List, absolute or relative URI
 	 *	@param		array		$list			List to save
 	 *	@param		string		$mode			UNIX rights for chmod()

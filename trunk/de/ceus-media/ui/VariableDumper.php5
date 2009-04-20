@@ -50,6 +50,7 @@ class UI_VariableDumper
 	 *	However, you can force to use Print Mode.
 	 *
 	 *	@access		protected
+	 *	@static
 	 *	@param		mixed		$element		Variable to be dumped
 	 *	@param		bool		$forcePrintMode	Flag: force to use var_dump even if XDebug is enabled (not recommended)
 	 *	@return		string

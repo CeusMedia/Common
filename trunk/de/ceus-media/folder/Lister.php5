@@ -91,6 +91,7 @@ class Folder_Lister
 	/**
 	 *	Returns List of Files statically.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$path				Path to Folder
 	 *	@param		string		$pattern			RegEx Pattern to match with File Name
 	 *	@return		FilterIterator
@@ -107,6 +108,7 @@ class Folder_Lister
 	/**
 	 *	Returns List of Folders statically.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$path				Path to Folder
 	 *	@param		string		$pattern			RegEx Pattern to match with Folder Name
 	 *	@param		bool		$stripDotEntries	Flag: strip Files and Folders starting with a Dot
@@ -125,6 +127,7 @@ class Folder_Lister
 	/**
 	 *	Returns List of Folders and Files statically.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$path				Path to Folder
 	 *	@param		string		$pattern			RegEx Pattern to match with Entry Name
 	 *	@param		bool		$stripDotEntries	Flag: strip Files and Folders starting with a Dot

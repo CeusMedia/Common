@@ -55,6 +55,7 @@ class File_Cache extends ADT_Cache_Store implements Countable
 	 *	Constructor.
 	 *	@access		public
 	 *	@param		string		$path			Path to Cache Files
+	 *	@param		int			$expires		Seconds until Pairs will be expired
 	 *	@return		void
 	 */
 	public function __construct( $path, $expires = 0 )

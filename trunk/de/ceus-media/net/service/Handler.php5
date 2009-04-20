@@ -79,6 +79,7 @@ class Net_Service_Handler extends Net_Service_Response
 	/**
 	 *	Compresses Response String using one of the supported Compressions.
 	 *	@access		protected
+	 *	@static
 	 *	@param		string			$content		Content of Response
 	 *	@param		string			$type			Compression Type
 	 *	@return		string

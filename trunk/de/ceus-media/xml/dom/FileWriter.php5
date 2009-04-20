@@ -71,6 +71,7 @@ class XML_DOM_FileWriter
 	/**
 	 *	Writes XML Tree into XML File.
 	 *	@access		public
+	 *	@static
 	 *	@param		string			$fileName		URI of XML File
 	 *	@param		XML_DOM_Node	$tree			XML Tree
 	 *	@param		string			$encoding		Encoding Type

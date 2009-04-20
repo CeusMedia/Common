@@ -71,6 +71,7 @@ class XML_DOM_GoogleSitemapBuilder
 	/**
 	 *	Builds and return XML of Sitemap.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$links		List of Sitemap Link
 	 *	@param		string		$baseUrl	Basic URL to add to every Link
 	 *	@return		bool

@@ -43,6 +43,7 @@ class Math_Analysis_RealBinomialCoefficient
 	/**
 	 *	Calculates Binomial Coefficient of Top and Button Integers.
 	 *	@access		public
+	 *	@static
 	 *	@param		int			$top			Top Integer
 	 *	@param		int			$bottom			Bottom Integer (lower than or equal to Top Integer)
 	 *	@return		int

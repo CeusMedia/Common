@@ -85,6 +85,7 @@ class XML_WDDX_FileWriter
 	/**
 	 *	Writes Data into a WDDX File statically.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$fileName		File Name of WDDX File
 	 *	@param		array		$data			Array of Packet Data
 	 *	@param		string		$packetName		Packet Name

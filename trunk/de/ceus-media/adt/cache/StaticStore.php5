@@ -42,6 +42,7 @@ abstract class ADT_Cache_StaticStore
 	 *	Returns a Value from Cache by its Key.
 	 *	@abstract
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$key			Key of Cache File
 	 *	@return		mixed
 	 */
@@ -51,6 +52,7 @@ abstract class ADT_Cache_StaticStore
 	 *	Indicates wheter a Value is in Cache by its Key.
 	 *	@abstract
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$key			Key of Cache File
 	 *	@return		void
 	 */
@@ -60,6 +62,7 @@ abstract class ADT_Cache_StaticStore
 	 *	Removes a Value from Cache by its Key.
 	 *	@abstract
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$key			Key of Cache File
 	 *	@return		void
 	 */
@@ -69,6 +72,7 @@ abstract class ADT_Cache_StaticStore
 	 *	Stores a Value in Cache by its Key.
 	 *	@abstract
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$key			Key of Cache File
 	 *	@param		mixed		$value			Value to store
 	 *	@return		void

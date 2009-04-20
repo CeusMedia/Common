@@ -112,6 +112,7 @@ class File_List_Reader
 	/**
 	 *	Reads List File.
 	 *	@access		public
+	 *	@static
 	 *	@param		string	fileName		URI of list
 	 *	@return		void
 	 */

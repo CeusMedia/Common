@@ -163,6 +163,7 @@ class File_Reader
 	/**
 	 *	Loads a File into a String statically.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$fileName		Name of File to load
 	 *	@return		string
 	 */
@@ -175,6 +176,7 @@ class File_Reader
 	/**
 	 *	Loads a File into an Array statically.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$fileName		Name of File to load
 	 *	@return		array
 	 */

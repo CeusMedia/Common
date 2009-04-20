@@ -106,6 +106,7 @@ class Alg_Validation_LanguageValidator
 	/**
 	 *	Validates Language statically and returns valid Language.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$language		Language to validate
 	 *	@param		array		$allowed		List of allowed Languages
 	 *	@param		string		$default		Default Language

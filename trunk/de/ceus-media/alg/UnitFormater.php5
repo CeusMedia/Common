@@ -63,6 +63,7 @@ class Alg_UnitFormater
 	/**
 	 *	Formats Number.
 	 *	@access		public
+	 *	@static
 	 *	@param		float		$float			Number to format
 	 *	@param		int			$unit			Number of Digits for dot to move to left
 	 *	@param		int			$precision		Number of Digits after dot
@@ -87,6 +88,7 @@ class Alg_UnitFormater
 	 *	Caution! With Precision at 0 you may have Errors from rounding.
 	 *	To avoid the Units to be appended, enter FALSE or NULL for indent.
 	 *	@access		public
+	 *	@static
 	 *	@param		float		$float			Number of Bytes
 	 *	@param		int			$precision		Number of Floating Point Digits
 	 *	@param		string		$indent			Space between Number and Unit
@@ -116,6 +118,7 @@ class Alg_UnitFormater
 	 *	Formats Kilo Bytes like formatBytes.
 	 *	You can also enter 0.25 (KB) and it will return 256 B.
 	 *	@access		public
+	 *	@static
 	 *	@param		float		$float			Number of Kilo Bytes
 	 *	@param		int			$precision		Number of Floating Point Digits
 	 *	@param		string		$indent			Space between Number and Unit
@@ -131,6 +134,7 @@ class Alg_UnitFormater
 	 *	Formats Mega Bytes like formatBytes.
 	 *	You can also enter 0.25 (MB) and it will return 256 KB.
 	 *	@access		public
+	 *	@static
 	 *	@param		float		$float			Number of Mega Bytes
 	 *	@param		int			$precision		Number of Floating Point Digits
 	 *	@param		string		$indent			Space between Number and Unit
@@ -149,6 +153,7 @@ class Alg_UnitFormater
 	 *	Caution! With Precision at 0 you may have Errors from rounding.
 	 *	To avoid the Units to be appended, enter FALSE or NULL for indent.
 	 *	@access		public
+	 *	@static
 	 *	@param		float		$float			Number of Micro Seconds
 	 *	@param		int			$precision		Number of Floating Point Digits
 	 *	@param		string		$indent			Space between Number and Unit
@@ -194,6 +199,7 @@ class Alg_UnitFormater
 	 *	Formats Milli Seconds like formatMicroSeconds.
 	 *	You can also enter 0.1 (ms) and it will return 100 µs.
 	 *	@access		public
+	 *	@static
 	 *	@param		float		$float			Number of Milli Seconds
 	 *	@param		int			$precision		Number of Floating Point Digits
 	 *	@param		string		$indent			Space between Number and Unit
@@ -209,6 +215,7 @@ class Alg_UnitFormater
 	 *	Formats Minutes like formatMicroSeconds.
 	 *	You can also enter 0.1 (m) and it will return 6 s.
 	 *	@access		public
+	 *	@static
 	 *	@param		float		$float			Number of Minutes
 	 *	@param		int			$precision		Number of Floating Point Digits
 	 *	@param		string		$indent			Space between Number and Unit
@@ -224,6 +231,7 @@ class Alg_UnitFormater
 	 *	Formats Seconds like formatMicroSeconds.
 	 *	You can also enter 0.1 (s) and it will return 100 ms.
 	 *	@access		public
+	 *	@static
 	 *	@param		float		$float			Number of Seconds
 	 *	@param		int			$precision		Number of Floating Point Digits
 	 *	@param		string		$indent			Space between Number and Unit

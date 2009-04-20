@@ -72,6 +72,7 @@ class Framework_Krypton_ExceptionHandler
 	/**
 	 *	Builds Report from Exception.
 	 *	@access		protected
+	 *	@static
 	 *	@param		Exception		$e				Exception to handle
 	 *	@param		string			$logPath		Path to write Report to, disabled if empty
 	 *	@return		string
@@ -100,6 +101,7 @@ class Framework_Krypton_ExceptionHandler
 	/**
 	 *	Builds List of Log Lines.
 	 *	@access		protected
+	 *	@static
 	 *	@param		string			$fileName		File Name of Log File
 	 *	@param		int				$limit			Amount of Lines from the end
 	 *	@param		string			$default		String to return if List is empty
@@ -137,6 +139,7 @@ class Framework_Krypton_ExceptionHandler
 	/**
 	 *	Handles Exception by creating, storing and mailing a Report and showing the Report or a static Error Page.
 	 *	@access		public
+	 *	@static
 	 *	@param		Exception		$e				Exception to handle
 	 *	@param		string			$logPath		Path to write Report to, disabled if empty
 	 *	@return		string
@@ -159,6 +162,7 @@ class Framework_Krypton_ExceptionHandler
 	/**
 	 *	Saves Report in Log Path and returns number of written Byt.
 	 *	@access		protected
+	 *	@static
 	 *	@param		string			$report			Report to save
 	 *	@param		string			$logPath		Path to write Report to
 	 *	@return		int
@@ -177,6 +181,7 @@ class Framework_Krypton_ExceptionHandler
 	/**
 	 *	Saves Report in Log Path and returns number of written Byt.
 	 *	@access		protected
+	 *	@static
 	 *	@param		Exception		$e				Exception to handle
 	 *	@param		string			$report			Report to save
 	 *	@return		bool

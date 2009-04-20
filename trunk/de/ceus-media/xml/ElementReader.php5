@@ -47,6 +47,7 @@ class XML_ElementReader
 	/**
 	 *	Reads XML from File.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$fileName	File Name to XML File
 	 *	@return		array
 	 */
@@ -60,6 +61,7 @@ class XML_ElementReader
 	/**
 	 *	Reads XML from URL.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$url		URL to read XML from
 	 *	@return		array
 	 */

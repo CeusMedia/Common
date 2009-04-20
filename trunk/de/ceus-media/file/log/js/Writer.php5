@@ -65,6 +65,7 @@ class File_Log_JS_Writer
 	/**
 	 *	Adds Data to Log File statically.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$fileName		File Name of Log File
 	 *	@param		array		$data			Data Array to note
 	 *	@return		bool

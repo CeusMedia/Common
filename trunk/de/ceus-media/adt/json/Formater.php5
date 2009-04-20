@@ -43,6 +43,7 @@ class ADT_JSON_Formater
 	/**
 	 *	Formats JSON String.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$json		JSON String or Object to format
 	 *	@return		string
 	 */

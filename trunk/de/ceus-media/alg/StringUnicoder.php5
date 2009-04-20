@@ -65,6 +65,7 @@ class Alg_StringUnicoder
 	/**
 	 *	Check whether a String is encoded into UTF-8.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$string		String to be checked
 	 *	@return		bool
 	 */
@@ -77,6 +78,7 @@ class Alg_StringUnicoder
 	/**
 	 *	Converts a String to UTF-8.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$string		String to be converted
 	 *	@param		bool		$force		Flag: encode into UTF-8 even if UTF-8 Encoding has been detected
 	 *	@return		string

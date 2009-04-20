@@ -67,6 +67,7 @@ class Folder_Editor extends Folder_Reader
 	/**
 	 *	Creates a Folder by creating all Folders in Path recursive.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$folderName		Folder to create
 	 *	@param		int			$mode			Permission Mode, default: 0755
 	 *	@param		string		$userName		User Name
@@ -89,6 +90,7 @@ class Folder_Editor extends Folder_Reader
 	/**
 	 *	Copies a Folder recursive to another Path and returns Number of copied Files and Folders.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$sourceFolder	Folder Name of Folder to copy
 	 *	@param		string		$targetFolder	Folder Name to Target Folder
 	 *	@param		bool		$force			Flag: force Copy if file is existing
@@ -151,6 +153,7 @@ class Folder_Editor extends Folder_Reader
 	/**
 	 *	Moves a Folder to another Path.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$sourceFolder	Folder Name of Source Folder, eg. /path/to/source/folder
 	 *	@param		string		$targetPath		Folder Path of Target Folder, eg. /path/to/target
 	 *	@param		string		$force			Flag: continue if Target Folder is already existing, otherwise break
@@ -207,6 +210,7 @@ class Folder_Editor extends Folder_Reader
 	/**
 	 *	Renames a Folder to another Folder Name.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$sourceFolder	Folder to rename
 	 *	@param		string		$targetName		New Name of Folder
 	 *	@return		bool
@@ -242,6 +246,7 @@ class Folder_Editor extends Folder_Reader
 	 *	Removes a Folder recursive and returns Number of removed Folders and Files.
 	 *	Because there where Permission Issues with DirectoryIterator it uses the old 'dir' command.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$folderName		Folder to be removed
 	 *	@param		bool		$force			Flag: force to remove nested Files and Folders
 	 *	@return		int
@@ -275,6 +280,7 @@ class Folder_Editor extends Folder_Reader
 	/**
 	 *	Removes a Folder recursive and returns Number of removed Folders and Files.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$folderName		Folder to be removed
 	 *	@param		bool		$force			Flag: force to remove nested Files and Folders
 	 *	@return		int

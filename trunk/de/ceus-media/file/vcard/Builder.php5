@@ -50,6 +50,7 @@ class File_VCard_Builder
 	/**
 	 *	Builds vCard String from vCard Object and converts between Charsets.
 	 *	@access		public
+	 *	@static
 	 *	@param		ADT_VCard	$card
 	 *	@param		string		$charsetIn		Charset to convert from
 	 *	@param		string		$charsetOut		Charset to convert to

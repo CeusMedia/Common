@@ -73,6 +73,7 @@ class File_VCard_Writer
 	/**
 	 *	Saves a vCard Object to a File statically and returns Number of written Bytes.
 	 *	@access		public
+	 *	@static
 	 *	@param		ADT_VCard	$card			vCard Object
 	 *	@param		string		$charsetIn		Charset to convert from
 	 *	@param		string		$charsetOut		Charset to convert to

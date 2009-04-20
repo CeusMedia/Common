@@ -98,6 +98,7 @@ class File_Writer
 	/**
 	 *	Saves Content into a File statically and returns Length.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$fileName 		URI of File
 	 *	@param		string		$content		Content to save in File
 	 *	@return		int
@@ -111,6 +112,7 @@ class File_Writer
 	/**
 	 *	Saves an Array into a File statically and returns Length.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$fileName		URI of File
 	 *	@param		array		$array			Array to save
 	 *	@param		string		$lineBreak		Line Break

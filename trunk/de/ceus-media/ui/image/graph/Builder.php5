@@ -42,6 +42,7 @@ class UI_Image_Graph_Builder
 	/**
 	 *	Builds and returns the Graph Object.
 	 *	@access		protected
+	 *	@static
 	 *	@param		array		$config			Configuration Data
 	 *	@param		array		$data			Graph Data
 	 *	@return		Graph
@@ -69,6 +70,7 @@ class UI_Image_Graph_Builder
 	/**
 	 *	Builds and prints Graph Image.
 	 *	@access		public
+	 *	@static
 	 *	@param		array		$config			Configuration Data
 	 *	@param		array		$data			Graph Data
 	 *	@return		void
@@ -82,6 +84,7 @@ class UI_Image_Graph_Builder
 	/**
 	 *	Creates a Plot working like a Plot Factory.
 	 *	@access		protected
+	 *	@static
 	 *	@param		array		$config			Configuration Data
 	 *	@param		array		$data			Graph Data
 	 *	@param		string		$prefix			Configuration Prefix, must end with a Point
@@ -100,6 +103,7 @@ class UI_Image_Graph_Builder
 	/**
 	 *	Alias for UI_Image_Graph_Components::getConfigValue.
 	 *	@access		protected
+	 *	@static
 	 *	@param		array		$config			Configuration Data
 	 *	@param		string		$key			Parameter Key
 	 *	@param		mixed		$default		Default Value to set if empty or not set
@@ -113,6 +117,7 @@ class UI_Image_Graph_Builder
 	/**
 	 *	Alias for UI_Image_Graph_Components::getSubConfig.
 	 *	@access		protected
+	 *	@static
 	 *	@param		array		$config			Configuration Data
 	 *	@param		string		$prefix			Parameter Prefix, must end mit a Point
 	 *	@return		array
@@ -125,6 +130,7 @@ class UI_Image_Graph_Builder
 	/**
 	 *	Builds and saves Graph Image to an Image File.
 	 *	@access		public
+	 *	@static
 	 *	@param		array		$config			Configuration Data
 	 *	@param		array		$data			Graph Data
 	 *	@return		void
@@ -138,6 +144,7 @@ class UI_Image_Graph_Builder
 	/**
 	 *	Adds a Grid to Graph.
 	 *	@access		protected
+	 *	@static
 	 *	@param		Graph		$graph			Graph Object to work on
 	 *	@param		array		$config			Configuration Data
 	 *	@param		array		$data			Graph Data
@@ -154,6 +161,7 @@ class UI_Image_Graph_Builder
 	/**
 	 *	Adds Margin to Graph.
 	 *	@access		protected
+	 *	@static
 	 *	@param		Graph		$graph			Graph Object to work on
 	 *	@param		array		$config			Configuration Data
 	 *	@return		void
@@ -173,6 +181,7 @@ class UI_Image_Graph_Builder
 	/**
 	 *	Adds Plots to Graph.
 	 *	@access		protected
+	 *	@static
 	 *	@param		Graph		$graph			Graph Object to work on
 	 *	@param		array		$config			Configuration Data
 	 *	@param		array		$data			Graph Data

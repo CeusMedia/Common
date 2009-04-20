@@ -56,6 +56,7 @@ class File_Unicoder
 	/**
 	 *	Check whether a String is encoded into UTF-8.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$fileName	Name of File to unicode
 	 *	@return		bool
 	 */
@@ -71,6 +72,7 @@ class File_Unicoder
 	/**
 	 *	Converts a String to UTF-8.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$fileName	Name of File to unicode
 	 *	@param		bool		$force		Flag: encode into UTF-8 even if UTF-8 Encoding has been detected
 	 *	@return		bool
@@ -85,10 +87,5 @@ class File_Unicoder
 		}
 		return FALSE;
 	}
-	
-#	public function convert()
-#	{
-#	
-#	}
 }
 ?>

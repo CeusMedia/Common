@@ -66,6 +66,7 @@ class File_List_SectionWriter
 	/**
 	 *	Saves a Section List to a File.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$fileName		File Name of Section List
 	 *	@param		array		$list			Section List to write
 	 *	@return		void

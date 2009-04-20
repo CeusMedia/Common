@@ -46,6 +46,7 @@ class Net_HTTP_PageRank
 	/**
 	 *	Calculates Checksum of URL for Google Request
 	 *	@access		private
+	 *	@static
 	 *	@param		array		$url		URL as numeric Array
 	 *	@return		string
 	 */
@@ -91,6 +92,7 @@ class Net_HTTP_PageRank
 	/**
 	 *	Returns Google PageRank.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$url		URL to check (e.G. www.domain.com)
 	 *	@return		int
 	 */
@@ -124,6 +126,7 @@ class Net_HTTP_PageRank
 	/**
 	 *	Converts a String into an Array of Integers containing the numeric Values of the Characters.
 	 *	@access		private
+	 *	@static
 	 *	@param		string		$string		String to convert
 	 *	@return		array
 	 */

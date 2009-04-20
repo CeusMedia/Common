@@ -45,6 +45,8 @@ class XML_DOM_ObjectFileDeserializer extends XML_DOM_ObjectDeserializer
 {
 	/**
 	 *	Builds Object from XML File of a serialized Object.
+	 *	@access		public
+	 *	@static
 	 *	@param		string		$fileName		XML File of a serialized Object
 	 *	@return		Object
 	 */

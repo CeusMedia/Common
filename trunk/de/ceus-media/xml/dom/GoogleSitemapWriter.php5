@@ -72,6 +72,7 @@ class XML_DOM_GoogleSitemapWriter
 	/**
 	 *	Builds and write XML of Sitemap.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$links		List of Sitemap Link
 	 *	@param		string		$fileName	File Name of XML Sitemap File
 	 *	@param		string		$baseUrl	Basic URL to add to every Link

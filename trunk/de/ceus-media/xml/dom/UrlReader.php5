@@ -66,6 +66,7 @@ class XML_DOM_UrlReader
 	/**
 	 *	Loads a XML File statically and returns parsed Tree.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$url			URL of XML File
 	 *	@param		array		$curlOptions	Array of cURL Options
 	 *	@return		XML_DOM_Node

@@ -38,6 +38,7 @@ class Alg_Sort_SelectionSort
 	/**
 	 *	Sorts List with Selection Sort.
 	 *	@access		public
+	 *	@static
 	 *	@param		array		$list		List to sort
 	 *	@return		array
 	 */
@@ -58,6 +59,7 @@ class Alg_Sort_SelectionSort
 	/**
 	 *	Finds and returns Position of lowest Element in Bounds.
 	 *	@access		protected
+	 *	@static
 	 *	@param		array		$list		List
 	 *	@param		int			$pos1		Position of lower Bound
 	 *	@param		int			$pos1		Position of higher Bound
@@ -75,6 +77,7 @@ class Alg_Sort_SelectionSort
 	/**
 	 *	Swaps two Elements in List.
 	 *	@access		protected
+	 *	@static
 	 *	@param		array		$list		Reference to List
 	 *	@param		int			$pos1		Position of first Element
 	 *	@param		int			$pos1		Position of second Element

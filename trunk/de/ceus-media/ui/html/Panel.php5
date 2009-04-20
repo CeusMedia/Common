@@ -77,6 +77,7 @@ class UI_HTML_Panel
 	/**
 	 *	Builds HTML Code of Panel statically.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$id				Tag ID of Panel
 	 *	@param		string		$header			Content of Header
 	 *	@param		string		$content		Content of Panel
@@ -169,6 +170,7 @@ class UI_HTML_Panel
 	/**
 	 *	Wraps Content in DIV.
 	 *	@access		protected
+	 *	@static
 	 *	@param		string		$content		...
 	 *	@param		string		$class			CSS Class of DIV
 	 *	@param		array		$attributes		Array of Attributes

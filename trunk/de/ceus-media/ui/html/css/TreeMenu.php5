@@ -70,6 +70,7 @@ class UI_HTML_CSS_TreeMenu
 	/**
 	 *	Builds HTML of Tree Menu from Data Array dynamically.
 	 *	@access		public
+	 *	@static
 	 *	@param		array				$tree				Data Array with Tree Menu Structure 
 	 *	@param		string				$contentDrop		Indicator HTML Code for Items containing further Items
 	 *	@return		string
@@ -82,6 +83,7 @@ class UI_HTML_CSS_TreeMenu
 	/**
 	 *	Builds HTML of Tree Menu from Tree Menu List Data Object statically.
 	 *	@access		public
+	 *	@static
 	 *	@param		ADT_Tree_Menu_List	$tree				Tree Menu List Data Object
 	 *	@param		string				$contentDrop		Indicator HTML Code for Items containing further Items
 	 *	@param		array				$attributes			Map of HTML Attributes of List Tag
@@ -98,6 +100,7 @@ class UI_HTML_CSS_TreeMenu
 	/**
 	 *	Builds HTML of Tree Menu from Data Array statically.
 	 *	@access		public
+	 *	@static
 	 *	@param		array				$tree				Data Array with Tree Menu Structure 
 	 *	@param		string				$contentDrop		Indicator HTML Code for Items containing further Items
 	 *	@return		string
@@ -113,6 +116,7 @@ class UI_HTML_CSS_TreeMenu
 	/**
 	 *	Builds HTML of a List Item with its nested Tree Menu Items statically.
 	 *	@access		protected
+	 *	@static
 	 *	@param		ADT_Tree_Menu_Item	$node				Tree Menu Item
 	 *	@param		string				$contentDrop		Indicator HTML Code for Items containing further Items
 	 *	@return		string
@@ -146,6 +150,7 @@ class UI_HTML_CSS_TreeMenu
 	/**
 	 *	Builds HTML of a List Item with its nested Tree Menu Items from Data Array statically.
 	 *	@access		protected
+	 *	@static
 	 *	@param		array				$node				Data Array of Tree Menu Item
 	 *	@param		string				$contentDrop		Indicator HTML Code for Items containing further Items
 	 *	@return		string

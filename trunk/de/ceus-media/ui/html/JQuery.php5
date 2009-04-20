@@ -43,6 +43,7 @@ class UI_HTML_JQuery
 	/**
 	 *	Builds and returns Plugin Constructor Options.
 	 *	@access		protected
+	 *	@static
 	 *	@param		array		$options		Array of Plugin Constructor Options
 	 *	@param		int			$spaces			Number of indenting Whitespaces
 	 *	@return		string
@@ -84,6 +85,7 @@ class UI_HTML_JQuery
 	/**
 	 *	Builds and returns JavaScript Code of jQuery Plugin Call.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$plugin			Name of Plugin Constructor Methode
 	 *	@param		string		$selector		XPath Selector of HTML Tag(s) to call Plugin on
 	 *	@param		array		$option			Array of Plugin Constructor Options

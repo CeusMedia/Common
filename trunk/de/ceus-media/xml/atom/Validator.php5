@@ -71,6 +71,7 @@ class XML_Atom_Validator
 	 *	Returns Error Messages of all Atom Rules hurt by Validation.
 	 *	Call Method 'validate'.
 	 *	@access		public
+	 *	@static
 	 *	@return		array
 	 */
 	public static function getErrors()
