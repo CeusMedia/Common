@@ -2,8 +2,8 @@
 /**
  *	Matches String against regular expression.
  *	@package		alg.preg
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@copyright		2008 Christian Würker
+ *	@author			Christian Würker <christian.wuerker@ceus-media.de>
+ *	@copyright		2007-2009 Christian Würker
  *	@since			03.12.2008
  *	@version		0.1
  *	@see			http://de.php.net/preg_match
@@ -11,8 +11,8 @@
 /**
  *	Matches String against regular expression.
  *	@package		alg.preg
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@copyright		2008 Christian Würker
+ *	@author			Christian Würker <christian.wuerker@ceus-media.de>
+ *	@copyright		2007-2009 Christian Würker
  *	@since			03.12.2008
  *	@version		0.1
  *	@see			http://de.php.net/preg_match
