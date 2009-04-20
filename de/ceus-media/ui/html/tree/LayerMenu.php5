@@ -102,6 +102,7 @@ class UI_HTML_Tree_LayerMenu
 	/**
 	 *	Builds Layer Menu from Tree Menu Structure.
 	 *	@access		protected
+	 *	@static
 	 *	@param		ADT_Tree_Menu_List	$list	Tree Menu Structure
 	 *	@param		string				$parent	ID of parent Node
 	 *	@param		array				$steps	List of Steps in Tree

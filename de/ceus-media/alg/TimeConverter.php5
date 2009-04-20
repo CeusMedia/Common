@@ -41,6 +41,7 @@ class Alg_TimeConverter
 	 *	Complements Month Date Format for Time Predicates with Month Start or Month End for Formats.
 	 *	Allowed Formats are: m.y, m.Y, m/y, m/Y, y-m, Y-m 
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$string		String to be complemented
 	 *	@param		int			$mode		Complement Mode (0:Month Start, 1:Month End)
 	 *	@return		string
@@ -80,6 +81,7 @@ class Alg_TimeConverter
 	/**
 	 *	Converts a human time format to Unix Timestamp.
 	 *	@access		public
+	 *	@static
 	 *	@param		string	$string			Human time
 	 *	@param		string	$format			Format of human time (date|monthdate|datetime)
 	 *	@return		int
@@ -167,6 +169,7 @@ class Alg_TimeConverter
 	/**
 	 *	Converts Unix Timestamp to a human time format.
 	 *	@access		public
+	 *	@static
 	 *	@param		string	$timestamp		Unix Timestamp	
 	 *	@param		string	$format			Format of human time (date|monthdate|datetime|duration|custom format)
 	 *	@return		string

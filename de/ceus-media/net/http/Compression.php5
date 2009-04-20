@@ -66,6 +66,7 @@ class Net_HTTP_Compression
 	/**
 	 *	Returns currently set Compression Method.
 	 *	@access		public
+	 *	@static
 	 *	@return		string
 	 */
 	public static function getMethod()
@@ -76,6 +77,7 @@ class Net_HTTP_Compression
 	/**
 	 *	Returns List of supported Compression Methods.
 	 *	@access		public
+	 *	@static
 	 *	@return		array
 	 */
 	public static function getMethods()
@@ -86,6 +88,7 @@ class Net_HTTP_Compression
 	/**
 	 *	Appeds statistical Data to Log File.
 	 *	@access		private
+	 *	@static
 	 *	@param		string	$logfile		Name of LogFile for Compression Statistics
 	 *	@param		int		$before		Content Size before Compression
 	 *	@param		int		$after		Content Size after Compression
@@ -113,6 +116,7 @@ class Net_HTTP_Compression
 	/**
 	 *	Sends compressed Content and returns Length of sent compressed Content statically.
 	 *	@access		public
+	 *	@static
 	 *	@param		string	$logFile		File Name of Log File for Compression Statistics
 	 *	@return		int
 	 */
@@ -156,6 +160,7 @@ class Net_HTTP_Compression
 	/**
 	 *	Sets Compression Method statically.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$method		Compression Method to use
 	 *	@return		void
 	 */

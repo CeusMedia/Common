@@ -139,6 +139,7 @@ class XML_FeedIdentifier
 	/**
 	 *	Identifies Feed from a File.
 	 *	@access		public
+	 *	@static
 	 *	@param		string	filename		XML File of Feed
 	 *	@return		string
 	 */

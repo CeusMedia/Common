@@ -66,6 +66,7 @@ class UI_HTML_TreeView
 	/**
 	 *	Builds JavaScript to call Plugin.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$selector			JQuery Selector of Tree
 	 *	@param		string		$cookieId			Store Tree in Cookie
 	 *	@param		string		$animated			Speed of Animation (fast|slow)

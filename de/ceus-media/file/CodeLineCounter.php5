@@ -43,6 +43,7 @@ class File_CodeLineCounter
 	/**
 	 *	Reads File and counts Code Lines, Documentation Lines and unimportant Lines and returns a Data Array.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$fileName		Name File to analyse
 	 *	@return		array
 	 */
@@ -55,6 +56,7 @@ class File_CodeLineCounter
 	/**
 	 *	Reads File and counts Code Lines, Documentation Lines and unimportant Lines and returns a Data Array.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$content		Source Code of File
 	 *	@return		array
 	 */

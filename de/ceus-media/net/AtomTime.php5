@@ -46,6 +46,7 @@ class Net_AtomTime
 	/**
 	 *	Returns timestamp.
 	 *	@access		public
+	 *	@static
 	 *	@return		int
 	 *	@link		http://www.php.net/time
 	 */
@@ -65,6 +66,7 @@ class Net_AtomTime
 	/**
 	 *	Returns date as formatted string.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$format			Date format
 	 *	@return		string
 	 *	@link		http://www.php.net/date

@@ -70,6 +70,7 @@ class Framework_Krypton_Core_Registry
 	/**
 	 *	Returns Instance of Registry.
 	 *	@access		public
+	 *	@static
 	 *	@return		Registry
 	 */
 	public static function getInstance()
@@ -97,6 +98,7 @@ class Framework_Krypton_Core_Registry
 	/**
 	 *	Returns registered Object statically.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$key		Key of registered Object
 	 *	@return		mixed
 	 */

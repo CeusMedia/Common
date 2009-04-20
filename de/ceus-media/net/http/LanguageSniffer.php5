@@ -43,6 +43,7 @@ class Net_HTTP_LanguageSniffer
 	/**
 	 *	Returns prefered allowed and accepted Language from HTTP_ACCEPT_LANGUAGE.
 	 *	@access		public
+	 *	@static
 	 *	@param		array	$allowed		Array of Languages supported and allowed by the Application
 	 *	@param		string	$default		Default Languages supported and allowed by the Application
 	 *	@return		string
@@ -56,6 +57,7 @@ class Net_HTTP_LanguageSniffer
 	/**
 	 *	Returns prefered allowed and accepted Language from String.
 	 *	@access		public
+	 *	@static
 	 *	@param		array	$allowed		Array of Languages supported and allowed by the Application
 	 *	@param		string	$default		Default Languages supported and allowed by the Application
 	 *	@return		string

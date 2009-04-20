@@ -87,6 +87,7 @@ abstract class Framework_Krypton_Base
 	/**
 	 *	Returns File Name for a Class Name.
 	 *	@access		protected
+	 *	@static
 	 *	@param		string		$className			Class Name to get File Name for
 	 *	@param		string		$caseSensitive		Flag: sense Case (important on *nix Servers)
 	 *	@param		string		$extension			Class File Extension, by default 'php5'
@@ -107,6 +108,7 @@ abstract class Framework_Krypton_Base
 	/**
 	 *	Returns File Name for a Class Name.
 	 *	@access		protected
+	 *	@static
 	 *	@param		string		$className			Class Name to get File Name for
 	 *	@param		string		$caseSensitive		Flag: sense Case (important on *nix Servers)
 	 *	@param		string		$extension			Class File Extension, by default 'php5'
@@ -368,7 +370,9 @@ abstract class Framework_Krypton_Base
 	/**
 	 *	Loads a INI File and defines Constants for Core System.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$fileName			File Name of INI File containg Constant Pairs
+	 *	@param		bool		$force				Flag: throw Exception if Constants File is not existing, otherwise be quiet
 	 *	@return		void
 	 */
 	public static function loadConstants( $fileName = "config/constants.ini", $force = TRUE )

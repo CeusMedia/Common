@@ -56,6 +56,7 @@ class XML_OPML_FileReader
 	/**
 	 *	Loads a OPML File statically.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$fileName		URI of OPML File
 	 *	@return		bool
 	 */

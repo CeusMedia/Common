@@ -70,6 +70,7 @@ class Framework_Krypton_Core_Logic
 	/**
 	 *	Logic Factory for Categories.
 	 *	@access		public
+	 *	@static
 	 *	@param		string			$category			Category to get Logic for
 	 *	@return		object
 	 */
@@ -86,6 +87,7 @@ class Framework_Krypton_Core_Logic
 	/**
 	 *	Collection Factory for Categories.
 	 *	@access		public
+	 *	@static
 	 *	@param		string						$category		Category to get Logic for
 	 *	@param		Database_StatementBuilder	$builder		Statement Builder
 	 *	@return		object
@@ -103,6 +105,7 @@ class Framework_Krypton_Core_Logic
 	/**
 	 *	Returns Table Fields of Model
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$modelName		Class Name of Model
 	 *	@throws		Exception_IO
 	 *	@return		array
@@ -137,6 +140,7 @@ class Framework_Krypton_Core_Logic
 	/**
 	 *	Loads Field Definitions.
 	 *	@access		private
+	 *	@static
 	 *	@param		string		$fileKey		File Key of XML Definition File (e.g. #FOLDER.FILE#.xml)
 	 *	@return		void
 	 */
@@ -153,7 +157,8 @@ class Framework_Krypton_Core_Logic
 
 	/**
 	 *	Removes Prefix from Field Name.
-	 *	@access		protected
+	 *	@access		public
+	 *	@static
 	 *	@param		string		$name		Field Name
 	 *	@param		string		$prefix		Prefix to be removed
 	 *	@return		string
@@ -169,6 +174,7 @@ class Framework_Krypton_Core_Logic
 	/**
 	 *	Removes Prefix from Fields within an associative Array.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$array		Associative Array of Fields and Values
 	 *	@param		string		$prefix		Prefix to be removed
 	 *	@return		array
@@ -192,6 +198,7 @@ class Framework_Krypton_Core_Logic
 	/**
 	 *	Runs Validation of Field Definitions against Input, creates Error Objects and returns Success.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$file			Name of XML Definition File (e.g. %PREFIX%#FILE#.xml)
 	 *	@param		string		$form			Name of Form within XML Definition File (e.g. 'addExample' )
 	 *	@param		array		$data			Array of Input Data

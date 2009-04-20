@@ -90,6 +90,7 @@ abstract class Framework_Neon_Component
 	/**
 	 *	Returns a float formated as Currency.
 	 *	@access		public
+	 *	@static
 	 *	@param		mixed		$price			Price to be formated
 	 *	@param		string		$separator		Separator
 	 *	@return		string

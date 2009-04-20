@@ -40,6 +40,7 @@ class Alg_StringTrimmer
 	/**
 	 *	Trims String and cuts to the right if too long, also adding a mask string.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$string		String to be trimmed
 	 *	@param		int			$length		Length of String to be at most
 	 *	@param		string		$mask		Mask String to append after cut.
@@ -58,6 +59,7 @@ class Alg_StringTrimmer
 	/**
 	 *	Trims String and cuts to the right if too long, also adding a mask string.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$string		String to be trimmed
 	 *	@param		int			$length		Length of String to be at most
 	 *	@param		string		$mask		Mask String to append after cut.

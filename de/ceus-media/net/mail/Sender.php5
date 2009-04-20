@@ -94,6 +94,7 @@ class Net_Mail_Sender
 	/**
 	 *	Sends Mail statically.
 	 *	@access		public
+	 *	@static
 	 *	@param		mixed		$mail		Mail Object
 	 *	@param		string		$mailer		Mailer
 	 *	@return		void

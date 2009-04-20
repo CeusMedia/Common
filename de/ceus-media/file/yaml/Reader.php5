@@ -67,6 +67,7 @@ class File_YAML_Reader
 	/**
 	 *	Loads YAML File statically.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$fileName		File Name of YAML File.
 	 *	@return		array
 	 */

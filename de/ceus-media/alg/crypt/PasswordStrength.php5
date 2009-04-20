@@ -57,6 +57,7 @@ class Alg_Crypt_PasswordStrength
 	/**
 	 *	Calculates and returns Score for the Strength of a Password (max 56).
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$password
 	 *	@return		int			between -300 and +56
 	 */
@@ -112,6 +113,7 @@ class Alg_Crypt_PasswordStrength
 	/**
 	 *	Calculates and returns the Strength of a Password (max 100).
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$password
 	 *	@return		int			between -300 and +100
 	 */
@@ -124,6 +126,7 @@ class Alg_Crypt_PasswordStrength
 	/**
 	 *	Calculates an Integer between -300 and +100 for a calculated Score.
 	 *	@access		public
+	 *	@static
 	 *	@param		int			$score
 	 *	@return		int			between -300 and +100
 	 */

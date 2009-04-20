@@ -43,6 +43,7 @@ class Net_HTTP_CharsetSniffer
 	/**
 	 *	Returns prefered allowed and accepted Character Set from HTTP_ACCEPT_CHARSET.
 	 *	@access		public
+	 *	@static
 	 *	@param		array	$allowed		Array of Character Sets supported and allowed by the Application
 	 *	@param		string	$default		Default Character Sets supported and allowed by the Application
 	 *	@return		string
@@ -56,6 +57,7 @@ class Net_HTTP_CharsetSniffer
 	/**
 	 *	Returns prefered allowed and accepted Character Set from String.
 	 *	@access		public
+	 *	@static
 	 *	@param		array	$allowed		Array of Character Sets supported and allowed by the Application
 	 *	@param		string	$default		Default Character Sets supported and allowed by the Application
 	 *	@return		string

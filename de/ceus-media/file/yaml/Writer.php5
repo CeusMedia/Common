@@ -70,8 +70,9 @@ class File_YAML_Writer
 	/**
 	 *	Writes Data into YAML File statically.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$fileName		File Name of YAML File.
-	 *	@param		array		$data		Array to write into YAML File
+	 *	@param		array		$data			Array to write into YAML File
 	 *	@return		bool
 	 */
 	public static function save( $fileName, $data )

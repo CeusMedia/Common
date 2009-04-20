@@ -40,6 +40,8 @@ class Alg_Sort_Quicksort
 
 	/**
 	 *	Sorts an array of numeric values with the quicksort algorithm.
+	 *	@access		public
+	 *	@static
 	 *	@param		array		$array		Array of numeric values passed by reference
 	 *	@param		int			$first		Start index
 	 *	@param		int			$last		End index
@@ -82,6 +84,7 @@ class Alg_Sort_Quicksort
 	/**
 	 *	Swaps two values.
 	 *	@access		protected
+	 *	@static
 	 *	@param		array   	$array		Array of numeric values passed by reference
 	 *	@param		int			$pos1		First index
 	 *	@param		int			$pos2 		Second index

@@ -68,6 +68,7 @@ class XML_WDDX_FileReader
 	/**
 	 *	Reads a WDDX File statically and returns deserialized Data.
 	 *	@access		public
+	 *	@static
 	 *	@return		mixed
 	 */
 	public static function load( $fileName )

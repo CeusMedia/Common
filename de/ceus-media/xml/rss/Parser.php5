@@ -39,6 +39,7 @@ import( 'de.ceus-media.xml.dom.XPathQuery' );
  *	@since			30.01.2006
  *	@version		0.1
  *	@see			http://blogs.law.harvard.edu/tech/rss
+ *	@todo			Code Doc
  */
 class XML_RSS_Parser
 {

@@ -40,7 +40,8 @@ class Math_Factorial
 	/**
 	 *	Calculates Factorial of Integer recursive and returns Integer or Double.
 	 *	@access		public
-	 *	@param		int		$integer		Integer (<=170) to calculate Factorial for
+	 *	@static
+	 *	@param		int			$integer		Integer (<=170) to calculate Factorial for
 	 *	@return		mixed
 	 */
 	public static function calculate( $integer )

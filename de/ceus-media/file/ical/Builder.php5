@@ -74,7 +74,8 @@ class File_iCal_Builder
 	//  --  PRIVATE METHODS  --  //
 	/**
 	 *	Builds Array of iCal Lines from XML Tree recursive.
-	 *	@access		private
+	 *	@access		protected
+	 *	@static
 	 *	@param		XML_DOM_Node	node	XML Node
 	 *	@return 	array
 	 */
@@ -100,7 +101,8 @@ class File_iCal_Builder
 	
 	/**
 	 *	Builds iCal Line.
-	 *	@access		private
+	 *	@access		protected
+	 *	@static
 	 *	@param		string		name		Line Name
 	 *	@param		array		param		Line Parameters
 	 *	@param		string		content		Line Value

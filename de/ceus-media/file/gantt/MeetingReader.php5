@@ -54,6 +54,7 @@ class File_Gantt_MeetingReader
 	/**
 	 *	Calculates End Date from Start Date and Duration in Days.
 	 *	@access		protected
+	 *	@static
 	 *	@param		string		$startDate		Start Date
 	 *	@param		int			$durationDays	Duration in Days
 	 *	@return		string		$endDate

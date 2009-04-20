@@ -39,6 +39,7 @@ class Alg_Sort_BubbleSort
 	/**
 	 *	Sorts List with Bubble Sort.
 	 *	@access		public
+	 *	@static
 	 *	@param		array		$list		List to sort
 	 *	@return		array
 	 */
@@ -54,6 +55,7 @@ class Alg_Sort_BubbleSort
 	/**
 	 *	Swaps two Elements in List.
 	 *	@access		protected
+	 *	@static
 	 *	@param		array		$list		Reference to List
 	 *	@param		int			$pos1		Position of first Element
 	 *	@param		int			$pos1		Position of second Element

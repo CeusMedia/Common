@@ -62,14 +62,13 @@ class ADT_Registry
 	/**
 	 *	Returns Instance of Registry.
 	 *	@access		public
+	 *	@static
 	 *	@return		Registry
 	 */
 	public static function getInstance( $poolKey = "REFERENCES" )
 	{
-		if( self::$instance == null )
-		{
+		if( self::$instance === NULL )
 			self::$instance	= new self( $poolKey );
-		}
 		return self::$instance;		
 	}
 
@@ -89,6 +88,7 @@ class ADT_Registry
 	/**
 	 *	Returns registered Object statically.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$key		Registry Key of registered Object
 	 *	@return		mixed
 	 */

@@ -46,6 +46,7 @@ class XML_DOM_ObjectSerializer
 	/**
 	 *	Builds XML String from an Object.
 	 *	@access		public
+	 *	@static
 	 *	@param		mixed		$object		Object to serialize
 	 *	@param		string		$encoding	Encoding Type
 	 *	@return		string
@@ -64,6 +65,7 @@ class XML_DOM_ObjectSerializer
 	/**
 	 *	Adds XML Nodes to a XML Tree by their Type while supporting nested Arrays.
 	 *	@access		protected
+	 *	@static
 	 *	@param		array			$array		Array of Vars to add
 	 *	@param		XML_DOM_Node	$node		current XML Tree Node
 	 *	@return		string

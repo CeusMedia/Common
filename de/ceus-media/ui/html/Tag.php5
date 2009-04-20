@@ -76,6 +76,7 @@ class UI_HTML_Tag
 	/**
 	 *	Creates Tag statically.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$name			Name of Tag
 	 *	@param		string		$content		Content of Tag
 	 *	@param		array		$attributes		Attributes of Tag

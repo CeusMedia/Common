@@ -50,6 +50,7 @@ class Net_Service_Definition_XmlWriter
 	/**
 	 *	Builds Service Definition Array statically and returns XML Service Definition String.
 	 *	@access		public
+	 *	@static
 	 *	@param		array			$data				Service Point Definition Array
 	 *	@return		string
 	 */
@@ -63,6 +64,7 @@ class Net_Service_Definition_XmlWriter
 	/**
 	 *	Builds and returns a single Service Structure, can be overwritten.
 	 *	@access		protected
+	 *	@static
 	 *	@param		string			$serviceName		Name of Service
 	 *	@param		array			$serviceData		Service Definition Array
 	 *	@return		XML_DOM_Node
@@ -85,6 +87,7 @@ class Net_Service_Definition_XmlWriter
 	/**
 	 *	Builds a Service Formats Structure in situ, can be overwritten.
 	 *	@access		protected
+	 *	@static
 	 *	@param		array			$serviceData		Service Definition Array
 	 *	@param		XML_DOM_Node	$serviceNode		Service Node to add Formats Structure to
 	 *	@return		void
@@ -101,6 +104,7 @@ class Net_Service_Definition_XmlWriter
 	/**
 	 *	Builds a Service Parameters Structure in situ, can be overwritten.
 	 *	@access		protected
+	 *	@static
 	 *	@param		array			$serviceData		Service Definition Array
 	 *	@param		XML_DOM_Node	$serviceNode		Service Node to add Parameters Structure to
 	 *	@return		void
@@ -127,6 +131,7 @@ class Net_Service_Definition_XmlWriter
 	/**
 	 *	Builds and returns a Service Point Structure, can be overwritten.
 	 *	@access		protected
+	 *	@static
 	 *	@param		array			$data				Service Point Definition Array
 	 *	@return		XML_DOM_Node
 	 */
@@ -144,6 +149,7 @@ class Net_Service_Definition_XmlWriter
 	/**
 	 *	Builds a Services Structure in situ, can be overwritten.
 	 *	@access		protected
+	 *	@static
 	 *	@param		array			$services			Services Definition Array
 	 *	@param		XML_DOM_Node	$root				Service Point Node to add Services Structure to
 	 *	@return		void
@@ -162,6 +168,7 @@ class Net_Service_Definition_XmlWriter
 	/**
 	 *	Builds a Service Roles Structure in situ, can be overwritten.
 	 *	@access		protected
+	 *	@static
 	 *	@param		array			$serviceData		Service Definition Array
 	 *	@param		XML_DOM_Node	$serviceNode		Service Node to add Roles Structure to
 	 *	@return		void
@@ -182,6 +189,7 @@ class Net_Service_Definition_XmlWriter
 	/**
 	 *	Writes XML Service Definition String from Service Definition Array to XML File and returns number of written Bytes.
 	 *	@access		public
+	 *	@static
 	 *	@param		string			$fileName			File Name of XML File
 	 *	@param		array			$data				Service Point Definition Array
 	 *	@return		int				Number of written Bytes

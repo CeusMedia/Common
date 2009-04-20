@@ -46,6 +46,7 @@ class Alg_Tree_Menu_Converter
 	/**
 	 *	Converts an OPML File to a Tree Menu List.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$fileName		File Name of OPML File
 	 *	@param		string		$labelRoot		Label of Top Tree Menu List
 	 *	@return		ADT_Tree_Menu_List
@@ -59,6 +60,7 @@ class Alg_Tree_Menu_Converter
 	/**
 	 *	Converts an OPML String to a Tree Menu List.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$opml			OPML String
 	 *	@param		string		$labelRoot		Label of Top Tree Menu List
 	 *	@return		ADT_Tree_Menu_List
@@ -77,6 +79,7 @@ class Alg_Tree_Menu_Converter
 	/**
 	 *	Adds Tree Menu Items from OPML Outlines into a given Tree Menu List recursively.
 	 *	@access		public
+	 *	@static
 	 *	@param		array				$outlines		Outline Array from OPML Parser
 	 *	@param		ADT_Tree_Menu_List	$container		Current working Menu Container, a Tree Menu List initially.
 	 *	@return		void

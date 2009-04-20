@@ -41,6 +41,7 @@ class Net_Service_Definition_XmlReader
 	/**
 	 *	Parses XML Service Definition statically and returns Service Data Array.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$fileName		File Name of XML Service Definition
 	 *	@param		bool		$validate		Flag: validate against DTD
 	 *	@return		array
@@ -58,6 +59,7 @@ class Net_Service_Definition_XmlReader
 	/**
 	 *	Reads Service Information in situ, can be overwritten.
 	 *	@access		protected
+	 *	@static
 	 *	@param		XML_Element	$element	Service Point XML Element
 	 *	@param		array		$services	Reference to Service Point Service List
 	 *	@return		void
@@ -85,6 +87,7 @@ class Net_Service_Definition_XmlReader
 	/**
 	 *	Reads Service Formats in situ, can be overwritten.
 	 *	@access		protected
+	 *	@static
 	 *	@param		XML_Element	$element	Service Point XML Element
 	 *	@param		array		$service	Reference to Service Definition Array
 	 *	@return		void
@@ -98,6 +101,7 @@ class Net_Service_Definition_XmlReader
 	/**
 	 *	Reads Service Parameters in situ, can be overwritten.
 	 *	@access		protected
+	 *	@static
 	 *	@param		XML_Element	$element	Service XML Element
 	 *	@param		array		$service	Reference to Service Definition Array
 	 *	@return		void
@@ -121,6 +125,7 @@ class Net_Service_Definition_XmlReader
 	/**
 	 *	Reads all Service Point Information and returns Definition Array, can be overwritten.
 	 *	@access		protected
+	 *	@static
 	 *	@param		XML_Element	$element	Service Point XML Element
 	 *	@return		array
 	 */
@@ -141,6 +146,7 @@ class Net_Service_Definition_XmlReader
 	/**
 	 *	Reads Service Roles in situ, can be overwritten.
 	 *	@access		protected
+	 *	@static
 	 *	@param		XML_Element	$element	Service Point XML Element
 	 *	@param		array		$service	Reference to Service Definition Array
 	 *	@return		void
@@ -154,6 +160,7 @@ class Net_Service_Definition_XmlReader
 	/**
 	 *	Validates Service XML File againt linked DTD and throws Exception if invalid.
 	 *	@access		protected
+	 *	@static
 	 *	@param		string		$fileName	File Name of Service XML File.
 	 *	@return		void
 	 */

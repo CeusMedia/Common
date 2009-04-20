@@ -40,6 +40,7 @@ class Alg_InputFilter
 	/**
 	 *	Strips all Comments from String.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$string			String to cleanse
 	 *	@return		string
 	 */
@@ -53,6 +54,7 @@ class Alg_InputFilter
 	/**
 	 *	Strips all JavaScripts from HTML String.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$string			String to cleanse
 	 *	@return		string
 	 */
@@ -65,6 +67,7 @@ class Alg_InputFilter
 	/**
 	 *	Strips all Styles and Stylesheet Links from HTML String.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$string			String to cleanse
 	 *	@return		string
 	 */
@@ -78,6 +81,7 @@ class Alg_InputFilter
 	/**
 	 *	Strips all Tags (<...>) from String.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$string			String to cleanse
 	 *	@return		string
 	 */
@@ -90,6 +94,7 @@ class Alg_InputFilter
 	/**
 	 *	Strips all JavaScript Event Attributes from HTML String.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$string			String to cleanse
 	 *	@return		string
 	 */

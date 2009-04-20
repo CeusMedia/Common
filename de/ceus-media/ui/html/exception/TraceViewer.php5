@@ -62,6 +62,7 @@ class UI_HTML_Exception_TraceViewer
 	 *	1	break Function Call after File Name
 	 *	2	break on every Argument
 	 *	@access		private
+	 *	@static
 	 *	@param		Exception	$exception		Exception
 	 *	@param		int			$breakMode		Mode of Line Breaks (0-one line|1-break line|2-break arguments)
 	 *	@return		string
@@ -95,6 +96,7 @@ class UI_HTML_Exception_TraceViewer
 	/**
 	 *	Builds HTML Code of one Trace Step.
 	 *	@access		private
+	 *	@static
 	 *	@param		array		$trace		Trace Step Data
 	 *	@param		int			$i			Trace Step Number
 	 *	@param		int			$breakMode		Mode of Line Breaks (0-one line|1-break line|2-break arguments)
@@ -181,6 +183,7 @@ class UI_HTML_Exception_TraceViewer
 	/**
 	 *	Converts Array to String.
 	 *	@access		private
+	 *	@static
 	 *	@param		array		$array			Array to convert to String
 	 *	@return		string
 	 */
@@ -203,10 +206,11 @@ class UI_HTML_Exception_TraceViewer
 	/**
 	 *	Removes Document Root in File Names.
 	 *	@access		protected
+	 *	@static
 	 *	@param		string		$fileName		File Name to clear
 	 *	@return		string
 	 */
-	protected function trimRootPath( $fileName )
+	protected static function trimRootPath( $fileName )
 	{
 		$rootPath	= isset( $_SERVER['DOCUMENT_ROOT'] ) ? $_SERVER['DOCUMENT_ROOT'] : "";
 		if( !$rootPath || !$fileName )

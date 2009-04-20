@@ -185,6 +185,7 @@ abstract class Framework_Krypton_Core_Component
 	/**
 	 *	Shortens a string by a maximum length with a mask.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$string		String to be shortened
 	 *	@param		int			$length		Maximum length to cut at
 	 *	@param		string		$mask		Mask to append to shortened string
@@ -206,6 +207,7 @@ abstract class Framework_Krypton_Core_Component
 	/**
 	 *	Returns a float formated as Currency.
 	 *	@access		public
+	 *	@static
 	 *	@param		mixed		$price			Price to be formated
 	 *	@param		string		$separator		Separator
 	 *	@return		string

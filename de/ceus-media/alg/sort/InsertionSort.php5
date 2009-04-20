@@ -70,6 +70,7 @@ class Alg_Sort_InsertionSort
 	/**
 	 *	Swaps two Elements in List.
 	 *	@access		protected
+	 *	@static
 	 *	@param		array		$list		List
 	 *	@param		int			$pos1		Position of first Element
 	 *	@param		int			$pos1		Position of second Element

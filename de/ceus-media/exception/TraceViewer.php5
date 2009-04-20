@@ -62,6 +62,7 @@ class Exception_TraceViewer
 	 *	1	break Function Call after File Name
 	 *	2	break on every Argument
 	 *	@access		private
+	 *	@static
 	 *	@param		Exception	$exception		Exception
 	 *	@param		int			$breakMode		Mode of Line Breaks (0-one line|1-break line|2-break arguments)
 	 *	@return		string
@@ -84,6 +85,7 @@ class Exception_TraceViewer
 	/**
 	 *	Builds HTML Code of one Trace Step.
 	 *	@access		private
+	 *	@static
 	 *	@param		array		$trace			Trace Step Data
 	 *	@param		int			$i				Trace Step Number
 	 *	@param		int			$breakMode		Mode of Line Breaks (0-one line|1-break line|2-break arguments)
@@ -163,6 +165,7 @@ class Exception_TraceViewer
 	/**
 	 *	Converts Array to String.
 	 *	@access		private
+	 *	@static
 	 *	@param		array		$array			Array to convert to String
 	 *	@return		string
 	 */

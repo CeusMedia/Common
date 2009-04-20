@@ -102,6 +102,7 @@ class XML_Namespaces
 	/**
 	 *	Returns Map of Namespaces found in a XML DOM Document.
 	 *	@access		public
+	 *	@static
 	 *	@param		DOMDocument			$doc			DOM Document of XML File
 	 *	@return		array
 	 */
@@ -114,6 +115,7 @@ class XML_Namespaces
 	/**
 	 *	Detects and returns Map of Namespaces found in a XML DOM Document.
 	 *	@access		public
+	 *	@static
 	 *	@param		SimpleXmlElement	$element		Simple XML Element of XML File
 	 *	@return		array
 	 */
@@ -125,6 +127,7 @@ class XML_Namespaces
 	/**
 	 *	Detects and returns Map of Namespaces found in a XML File.
 	 *	@access		public
+	 *	@static
 	 *	@param		string				$xml			XML String
 	 *	@return		array
 	 */

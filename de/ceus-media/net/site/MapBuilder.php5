@@ -46,6 +46,7 @@ class Net_Site_MapBuilder
 	/**
 	 *	Builds Sitemap XML for List of URLs.
 	 *	@access		public
+	 *	@static
 	 *	@param		array		$urls			List of URLs
 	 *	@return		string
 	 */

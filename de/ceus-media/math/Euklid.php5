@@ -42,8 +42,11 @@ class Math_Euklid
 {
 	/**
 	 *	ggT( m, n)
-	 *	@param	int	$m	natuerliche Zahlen > 0
-	 *	@param	int	$n	natuerliche Zahlen > 0
+	 *	@access		public
+	 *	@static
+	 *	@param		int			$m			natuerliche Zahlen > 0
+	 *	@param		int			$n			natuerliche Zahlen > 0
+	 *	@return		int
 	 */
 	public static function ggT( $m, $n )
 	{
@@ -55,8 +58,11 @@ class Math_Euklid
 
 	/**
 	 *	kgV( m, n)
-	 *	@param	int	$m	natuerliche Zahlen > 0
-	 *	@param	int	$n	natuerliche Zahlen > 0
+	 *	@access		public
+	 *	@static
+	 *	@param		int			$m			natuerliche Zahlen > 0
+	 *	@param		int			$n			natuerliche Zahlen > 0
+	 *	@return		int
 	 */
 	public static function kgV( $m, $n )
 	{

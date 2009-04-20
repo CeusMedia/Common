@@ -68,6 +68,7 @@ class UI_HTML_Elements extends UI_HTML_FormElements
 	/**
 	 *	Builds HTML Code for a CheckBox with Label.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$checkbox		HTML Code einer CheckBox
 	 *	@param		string		$text			Text der Beschriftung
 	 *	@param		string		$class			CSS Class
@@ -92,6 +93,7 @@ class UI_HTML_Elements extends UI_HTML_FormElements
 	}*/
 
 	/**
+	 *	@static
 	 *	@todo		Signature Documenation
 	 */
 	public static function CheckButton( $name, $value, $text, $class = FALSE )
@@ -109,6 +111,7 @@ class UI_HTML_Elements extends UI_HTML_FormElements
 	/**
 	 *	Builds HTML Code for a Radio Button with a Label.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$name			Field Name
 	 *	@param		string		$label			Field Label
 	 *	@param		string		$value			Field Value
@@ -142,6 +145,7 @@ class UI_HTML_Elements extends UI_HTML_FormElements
 	}
 
 	/**
+	 *	@static
 	 *	@todo	Signature Documentation
 	 */
 	public static function FoldingArea( $name, $content, $state = false, $class = false )
@@ -153,6 +157,7 @@ class UI_HTML_Elements extends UI_HTML_FormElements
 	}
 
 	/**
+	 *	@static
 	 *	@todo	Signature Documentation
 	 */
 	public static function FoldingButton( $name, $value, $text, $class )
@@ -169,6 +174,7 @@ class UI_HTML_Elements extends UI_HTML_FormElements
 	}
 
 	/**
+	 *	@static
 	 *	@todo		Signature Documenation
 	 */
 	public static function CheckTable( $id, $class = 'panel', $width = "100%", $border = 0, $spacing = 0 )
@@ -183,6 +189,7 @@ class UI_HTML_Elements extends UI_HTML_FormElements
 	}
 	
 	/**
+	 *	@static
 	 *	@todo		Signature Documenation
 	 */
 	public static function CheckTableEnd( $id )
@@ -192,6 +199,7 @@ class UI_HTML_Elements extends UI_HTML_FormElements
 	}
 
 	/**
+	 *	@static
 	 *	@todo		Signature Documenation
 	 */
 	public static function Anchor( $name )
@@ -207,6 +215,7 @@ class UI_HTML_Elements extends UI_HTML_FormElements
 	/**
 	 *	Erzeugt HTML Box for Hover über HTML-Elementen.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$html		HTML of linked Element
 	 *	@param		string		$text		Text within HelpHover
 	 *	@param		string		$class		CSS Class of HelpHover
@@ -221,6 +230,7 @@ class UI_HTML_Elements extends UI_HTML_FormElements
 	/**
 	 *	Erzeugt HTML Box for ToolTip über HTML-Elementen.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$html		HTML of linked Element
 	 *	@param		string		$text		Text within ToolTip
 	 *	@param		string		$class		CSS Class of ToolTip
@@ -245,6 +255,7 @@ class UI_HTML_Elements extends UI_HTML_FormElements
 	/**
 	 *	Erzeugt HTML-Code eines Acronyms.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$text			Text des Acronyms
 	 *	@param		string		$description		Beschreibung des Acronyms
 	 *	@param		string		$class			CSS-Klasse des Acronyms
@@ -261,6 +272,7 @@ class UI_HTML_Elements extends UI_HTML_FormElements
 	/**
 	 *	Spaltenangaben in Prozent für eine Tabelle.
 	 *	@access		public
+	 *	@static
 	 *	@return		string
 	 */
 	public static function ColumnGroup()
@@ -285,6 +297,7 @@ class UI_HTML_Elements extends UI_HTML_FormElements
 	/**
 	 *	Erzeugt HTML-Code eines Eingabefeldes.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$field_id			interner Name des Eingabefeldes
 	 *	@param		string		$field_element		HTML-Code des Eingabeelements
 	 *	@param		string		$class			CSS-Klasse
@@ -310,6 +323,7 @@ class UI_HTML_Elements extends UI_HTML_FormElements
 	/**
 	 *	Erzeugt HTML-Code einer Grafik.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$url				URL der Grafik
 	 *	@param		string		$title			Alternativ-Text
 	 *	@param		string		$class			CSS-Klasse des Eingabefeldes
@@ -334,6 +348,7 @@ class UI_HTML_Elements extends UI_HTML_FormElements
 	/**
 	 *	Erzeugt HTML-Code einer Feldbeschriftung.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$label_name		interner Name des Beschrifungsfeldes
 	 *	@param		string		$label_name		Inhalt des Beschriftungsfeldes
 	 *	@param		string		$class			CSS-Klasse
@@ -378,6 +393,7 @@ class UI_HTML_Elements extends UI_HTML_FormElements
 	/**
 	 *	Erzeugt HTML-Code eines Links.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$url			URL des Links
 	 *	@param		string		$name			Name des Links
 	 *	@param		string		$class			CSS-Klasse des Links
@@ -408,6 +424,7 @@ class UI_HTML_Elements extends UI_HTML_FormElements
 	/**
 	 *	Build List Item.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$content		Content of List Item
 	 *	@param		int			$level			Level of Indenting
 	 *	@param		array		$attributes		Array of HTML Attributes
@@ -425,6 +442,7 @@ class UI_HTML_Elements extends UI_HTML_FormElements
 	/**
 	 *	Build ordered List from List Items.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$content			Content of List Item
 	 *	@param		int			$level			Level of Indenting
 	 *	@param		array		$attributes		Array of HTML Attributes
@@ -442,6 +460,7 @@ class UI_HTML_Elements extends UI_HTML_FormElements
 	/**
 	 * Erzeugt HTML-Code einer horizontale und vertikale Trennzeile.
 	 *	@access		public
+	 *	@static
 	 *	@param		int			$colspan			Name des Formulars
 	 *	@param		int			$rowspan		URL der Aktion
 	 *	@param		int			$strength		Stärke der Linie
@@ -460,6 +479,7 @@ class UI_HTML_Elements extends UI_HTML_FormElements
 	/**
 	 *	Erzeugt HTML-Code einer Tabelle.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$content			Inhalt der Tabelle
 	 *	@param		string		$class 			CSS Style Klasse
 	 *	@param		int			$width			Breite der Tabelle
@@ -482,6 +502,7 @@ class UI_HTML_Elements extends UI_HTML_FormElements
 	/**
 	 *	Erzeugt eine Überschriftzeile für Tabellen als HTML-Code.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$caption 			Inhalt der Überschrift
 	 *	@param		string		$class 			CSS Style Klasse
 	 *	@param		string		$checktable_id	ID der CheckTable
@@ -499,6 +520,7 @@ class UI_HTML_Elements extends UI_HTML_FormElements
 	/**
 	 *	Erzeugt eine Überschriftzeile für Tabellen als HTML-Code.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$heading 		Inhalt der Überschrift
 	 *	@param		int			$colspan 			Spaltenanzahl der Tabelle
 	 *	@param		string		$class 			CSS Style Klasse
@@ -519,6 +541,7 @@ class UI_HTML_Elements extends UI_HTML_FormElements
 	/**
 	 *	Erzeugt eine Überschriftzeile für Tabellen als HTML-Code.
 	 *	@access		public
+	 *	@static
 	 *	@param		array		$heads 		Inhalte der Überschriften
 	 *	@param		string		$class 		CSS Style Klasse
 	 *	@return		string
@@ -537,6 +560,7 @@ class UI_HTML_Elements extends UI_HTML_FormElements
 	/**
 	 *	Build unordered List from List Items.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$content			Content of List Item
 	 *	@param		int			$level			Level of Indenting
 	 *	@param		array		$attributes		Array of HTML Attributes

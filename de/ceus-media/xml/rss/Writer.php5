@@ -101,6 +101,7 @@ class XML_RSS_Writer
 	/**
 	 *	Writes RSS to a File statically and returns Number of written Bytes.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$fileName	File Name of XML RSS File
 	 *	@param		array		$array		Array of Channel Information Pairs
 	 *	@param		array		$array		List of Item

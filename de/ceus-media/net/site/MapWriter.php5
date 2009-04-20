@@ -72,6 +72,7 @@ class Net_Site_MapWriter
 	/**
 	 *	Saves Sitemap for List of URLs statically.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$fileName			File Name of Sitemap XML File
 	 *	@param		array		$urls				List of URLs for Sitemap
 	 *	@param		int			$mode				Right Mode

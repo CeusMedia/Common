@@ -48,6 +48,7 @@ class File_StaticCache extends ADT_Cache_StaticStore
 	/**
 	 *	Removes all expired Cache Files.
 	 *	@access		public
+	 *	@static
 	 *	@param		int			$expires		Cache File Lifetime in Seconds
 	 *	@return		bool
 	 */
@@ -59,6 +60,7 @@ class File_StaticCache extends ADT_Cache_StaticStore
 	/**
 	 *	Counts all Elements in Cache.
 	 *	@access		public
+	 *	@static
 	 *	@return		int
 	 */
 	public static function count()
@@ -69,6 +71,7 @@ class File_StaticCache extends ADT_Cache_StaticStore
 	/**
 	 *	Removes all Cache Files.
 	 *	@access		public
+	 *	@static
 	 *	@return		bool
 	 */
 	public function flush()
@@ -79,6 +82,7 @@ class File_StaticCache extends ADT_Cache_StaticStore
 	/**
 	 *	Returns a Value from Cache by its Key.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$key			Key of Cache File
 	 *	@return		mixed
 	 */
@@ -90,6 +94,7 @@ class File_StaticCache extends ADT_Cache_StaticStore
 	/**
 	 *	Indicates wheter a Value is in Cache by its Key.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$key			Key of Cache File
 	 *	@return		void
 	 */
@@ -98,6 +103,14 @@ class File_StaticCache extends ADT_Cache_StaticStore
 		return self::$store->has( $key );
 	}
 
+	/**
+	 *	Sets Path to Cache Files and time until Pairs will expire.
+	 *	@access		public
+	 *	@static
+	 *	@param		string		$path			Path to Cache Files
+	 *	@param		int			$expires		Seconds until Pairs will be expired
+	 *	@return		void
+	 */
 	public static function init( $path, $expires = 0 )
 	{
 		self::$store	= new File_Cache( $path, $expires );
@@ -106,6 +119,7 @@ class File_StaticCache extends ADT_Cache_StaticStore
 	/**
 	 *	Removes a Value from Cache by its Key.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$key			Key of Cache File
 	 *	@return		void
 	 */
@@ -117,6 +131,7 @@ class File_StaticCache extends ADT_Cache_StaticStore
 	/**
 	 *	Stores a Value in Cache by its Key.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$key			Key of Cache File
 	 *	@param		mixed		$value			Value to store
 	 *	@return		void

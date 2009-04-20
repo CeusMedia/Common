@@ -106,6 +106,7 @@ class File_Gantt_MeetingCollector
 	/**
 	 *	Lists all Gantt Project XML Files in a specified Path.
 	 *	@access		protected
+	 *	@static
 	 *	@param		array		$path			Path to Gantt Project XML Files
 	 *	@return		array
 	 */
@@ -127,6 +128,7 @@ class File_Gantt_MeetingCollector
 	/**
 	 *	Reads Gantt Project XML Files and extracts Project and Meeting Dates.
 	 *	@access		protected
+	 *	@static
 	 *	@param		array		$fileList		List of Gantt Project XML Files
 	 *	@return		array
 	 */

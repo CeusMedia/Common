@@ -43,6 +43,7 @@ class Alg_SgmlTagReader
 	/**
 	 *	Returns Node Name from Tag.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$string			String containing exactly 1 SGML based Tag
 	 *	@return		string
 	 */
@@ -60,6 +61,7 @@ class Alg_SgmlTagReader
 	/**
 	 *	Returns Attributes from a Tag.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$string			String containing exactly 1 SGML based Tag
 	 *	@return		array
 	 */
@@ -72,6 +74,7 @@ class Alg_SgmlTagReader
 	/**
 	 *	Returns Content from a Tag.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$string			String containing exactly 1 SGML based Tag
 	 *	@return		string
 	 */
@@ -83,6 +86,7 @@ class Alg_SgmlTagReader
 	/**
 	 *	Returns all Information from a Tag.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$string			String containing exactly 1 SGML based Tag
 	 *	@return		array
 	 */

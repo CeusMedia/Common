@@ -34,12 +34,14 @@
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			08.01.2008
  *	@version		0.6
+ *	@todo			Code Doc
  */
 class Net_Service_ParameterValidator
 {
 	/**
 	 *	Validates a Parameter Value from Request by calling Validator Methods for Parameter Rules and throwing Exceptions.
 	 *	@access		public
+	 *	@static
 	 *	@param		array		$rules			Parameter Rules
 	 *	@param		string		$value			Parameter Value from Request
 	 *	@return		void
@@ -65,6 +67,7 @@ class Net_Service_ParameterValidator
 	/**
 	 *	Calls Validator Method and throws Exception if Validation failed.
 	 *	@access		protected
+	 *	@static
 	 *	@param		string		$method			Validation Method to call
 	 *	@param		string		$value			Value to validate
 	 *	@param		string		$measure		Measure to validate against
@@ -82,6 +85,7 @@ class Net_Service_ParameterValidator
 	/**
 	 *	...
 	 *	@access		protected
+	 *	@static
 	 *	@param		string		$value			Value to validate
 	 *	@return		bool
 	 */
@@ -97,6 +101,7 @@ class Net_Service_ParameterValidator
 	/**
 	 *	...
 	 *	@access		protected
+	 *	@static
 	 *	@param		string		$value			Value to validate
 	 *	@return		bool
 	 */
@@ -110,6 +115,7 @@ class Net_Service_ParameterValidator
 	/**
 	 *	...
 	 *	@access		protected
+	 *	@static
 	 *	@param		string		$value			Value to validate
 	 *	@return		bool
 	 */
@@ -123,6 +129,7 @@ class Net_Service_ParameterValidator
 	/**
 	 *	...
 	 *	@access		protected
+	 *	@static
 	 *	@param		string		$value			Value to validate
 	 *	@return		bool
 	 */
@@ -134,6 +141,7 @@ class Net_Service_ParameterValidator
 	/**
 	 *	...
 	 *	@access		protected
+	 *	@static
 	 *	@param		string		$value			Value to validate
 	 *	@return		bool
 	 */

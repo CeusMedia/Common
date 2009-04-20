@@ -41,6 +41,7 @@ class Alg_ColorConverter
 	/**
 	 *	Converts CMY to CMYK.
 	 *	@access		public
+	 *	@static
 	 *	@param		array	cmy		CMY-Color as array
 	 *	@return		array
 	 */
@@ -57,6 +58,7 @@ class Alg_ColorConverter
 	/**
 	 *	Converts CMYK to CMY.
 	 *	@access		public
+	 *	@static
 	 *	@param		array	cmyk	CMYK-Color as array
 	 *	@return		array
 	 */
@@ -72,6 +74,7 @@ class Alg_ColorConverter
 	/**
 	 *	Converts CMY to RGB.
 	 *	@access		public
+	 *	@static
 	 *	@param		array	cmy		CMY-Color as array
 	 *	@return		array
 	 */
@@ -87,6 +90,7 @@ class Alg_ColorConverter
 	/**
 	 *	Converts CMYK to RGB.
 	 *	@access		public
+	 *	@static
 	 *	@param		array	cmyk	CMKY-Color as array
 	 *	@return		array
 	 */
@@ -98,6 +102,7 @@ class Alg_ColorConverter
 	/**
 	 *	Converts HSV to HTML.
 	 *	@access		public
+	 *	@static
 	 *	@param		array	hsv		HSV-Color as array
 	 *	@return		string
 	 */
@@ -109,6 +114,7 @@ class Alg_ColorConverter
 	/**
 	 *	Converts HSV to RGB.
 	 *	@access		public
+	 *	@static
 	 *	@param		array	hsv		HSV-Color as array
 	 *	@return		array
 	 */
@@ -180,6 +186,7 @@ class Alg_ColorConverter
 	/**
 	 *	Converts HTML to RGB.
 	 *	@access		public
+	 *	@static
 	 *	@param		string	html		HTML-Color as string
 	 *	@return		array
 	 */
@@ -192,6 +199,7 @@ class Alg_ColorConverter
 	/**
 	 *	Converts HTML to hsv.
 	 *	@access		public
+	 *	@static
 	 *	@param		string	html		HTML-Color as string
 	 *	@return		array
 	 */
@@ -204,6 +212,7 @@ class Alg_ColorConverter
 	/**
 	 *	Converts RGB to CMY.
 	 *	@access		public
+	 *	@static
 	 *	@param		array	rgb		RGB-Color as array
 	 *	@return		array
 	 */
@@ -219,6 +228,7 @@ class Alg_ColorConverter
 	/**
 	 *	Converts RGB to CMYK.
 	 *	@access		public
+	 *	@static
 	 *	@param		array	rgb		RGB-Color as array
 	 *	@return		array
 	 */
@@ -230,6 +240,7 @@ class Alg_ColorConverter
 	/**
 	 *	Converts RGB to HSV.
 	 *	@access		public
+	 *	@static
 	 *	@param		array	rgb		RGB-Color as array
 	 *	@return		array
 	 */
@@ -257,6 +268,7 @@ class Alg_ColorConverter
 	/**
 	 *	Converts RGB to HTML.
 	 *	@access		public
+	 *	@static
 	 *	@param		array	rgb		RGB-Color as array
 	 *	@return		string
 	 */
@@ -271,6 +283,7 @@ class Alg_ColorConverter
 	/**
 	 *	Converts RGB to XYZ.
 	 *	@access		public
+	 *	@static
 	 *	@param		array	rgb		RGB-Color as array
 	 *	@return		array
 	 */
@@ -289,6 +302,7 @@ class Alg_ColorConverter
 	/**
 	 *	Converts XYZ to RGB.
 	 *	@access		public
+	 *	@static
 	 *	@param		array	xyz		XYZ-Color as array
 	 *	@return		array
 	 */

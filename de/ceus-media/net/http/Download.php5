@@ -40,6 +40,7 @@ class Net_HTTP_Download
 	/**
 	 *	Sends String for Download.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$url			File to send
 	 *	@return		void
 	 */
@@ -80,6 +81,7 @@ class Net_HTTP_Download
 	/**
 	 *	Sends Mime Type Header.
 	 *	@access		private
+	 *	@static
 	 *	@return		void
 	 */
 	private static function setMimeType()
@@ -96,6 +98,7 @@ class Net_HTTP_Download
 	/**
 	 *	Closes active Output Buffers.
 	 *	@access		private
+	 *	@static
 	 *	@return		void
 	 */
 	private static function clearOutputBuffers()

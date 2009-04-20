@@ -160,6 +160,7 @@ class Net_Reader
 	/**
 	 *	Requests URL and returns Response statically.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$url		URL to request
 	 *	@param		array		$curlOptions	Array of cURL Options
 	 *	@return		string

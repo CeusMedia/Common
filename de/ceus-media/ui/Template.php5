@@ -328,6 +328,7 @@ class UI_Template
 	/**
 	 *	Renders a Template with given Elements statically.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$fileName		File Name of Template File
 	 *	@param		array		$elements		List of Elements {@link add()}
 	 *	@return		void
@@ -338,7 +339,15 @@ class UI_Template
 		return $template->create();
 	}
 
-	public static function renderString( $string, $elements = NULL )
+	/**
+	 *	Renders a Template String with given Elements statically.
+	 *	@access		public
+	 *	@static
+	 *	@param		string		$string			Template String
+	 *	@param		array		$elements		Map of Elements for Template String
+	 *	@return		string
+	 */
+	public static function renderString( $string, $elements = array() )
 	{
 		$template	= new self();
 		$template->template	= $string;

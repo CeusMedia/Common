@@ -85,6 +85,7 @@ class Framework_Krypton_ConsoleApplication extends Framework_Krypton_Base
 	/**
 	 *	Runs Job Class as Console Application.
 	 *	@access		protected
+	 *	@static
 	 *	@param		bool		$verbose		Flag: print Information to Console
 	 *	@return		void
 	 */

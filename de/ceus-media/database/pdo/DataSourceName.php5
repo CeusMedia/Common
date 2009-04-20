@@ -74,6 +74,7 @@ class Database_PDO_DataSourceName
 	/**
 	 *	Returns Data Source Name String.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$type			Database Type (mysql|mssql|pgsql|sqlite|sybyse|dblib)
 	 *	@param		string		$hostname		Host Name
 	 *	@param		int			$port			Host Port

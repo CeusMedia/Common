@@ -41,6 +41,7 @@ class Math_Average
 	/**
 	 *	Calculates artithmetic Average.
 	 *	@access		public
+	 *	@static
 	 *	@param		array		$values			Array of Values.
 	 *	@param		int			$accuracy		Accuracy of Result 
 	 *	@return		float
@@ -59,6 +60,7 @@ class Math_Average
 	/**
 	 *	Calculates geometric Average.
 	 *	@access		public
+	 *	@static
 	 *	@param		array		$values			Array of Values
 	 *	@param		int			$accuracy		Accuracy of Result 
 	 *	@return		float
