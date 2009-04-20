@@ -35,6 +35,8 @@
  *	@since			23.09.2005
  *	@version		0.6
  *	@todo			Code Documentation
+ *	@deprecated		use Alg_ColorConverter instead
+ *	@todo			to be removed in 0.6.7
  */
 class ADT_ColorConverter
 {
