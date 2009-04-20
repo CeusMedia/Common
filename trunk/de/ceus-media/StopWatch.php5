@@ -30,6 +30,8 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		0.7
+ *	@deprecated		use Alg_Time_Clock instead
+ *	@todo			to be deleted in 0.6.7
  */
 class StopWatch
 {

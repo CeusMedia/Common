@@ -1,6 +1,6 @@
 <?php
 /**
- *
+ *	...
  *
  *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
  *
@@ -28,7 +28,7 @@
  */
 import( 'de.ceus-media.alg.parcel.Packet' );
 /**
- *
+ *	...
  *	@package		alg.parcel
  *	@uses			Alg_Parcel_Packet
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
@@ -37,6 +37,7 @@ import( 'de.ceus-media.alg.parcel.Packet' );
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			08.05.2008
  *	@version		0.5
+ *	@todo			Code Doc
  */
 class Alg_Parcel_Factory
 {

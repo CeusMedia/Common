@@ -32,6 +32,7 @@
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			29.12.2005
  *	@version		0.1
+ *	@deprecated		to be deleted in 0.6.7
  */
 class DebugTrace
 {
