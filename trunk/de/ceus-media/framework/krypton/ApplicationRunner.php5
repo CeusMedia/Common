@@ -35,6 +35,7 @@
  *	This class is abstract and needs to be extended in run().
  *
  *	@package		framework.krypton
+ *	@abstract
  *	@uses			File_Configuration_Reader
  *	@uses			Framework_Krypton_ExceptionHandler
  *	@uses			Framework_Krypton_FatalExceptionHandler
@@ -165,6 +166,7 @@ abstract class Framework_Krypton_ApplicationRunner
 
 	/**
 	 *	Runs Krypton Application itself and needs to be overwritten with the pure execution lines.
+	 *	@abstract
 	 *	@access		protected
 	 *	@return		void
 	 */

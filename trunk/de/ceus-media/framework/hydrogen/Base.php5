@@ -1,6 +1,6 @@
 <?php
 /**
- *	Abstract Main Class of Framework Hydrogen
+ *	Generic Main Class of Framework Hydrogen
  *
  *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
  *
@@ -48,7 +48,7 @@ import( 'de.ceus-media.framework.hydrogen.View' );
 import( 'de.ceus-media.framework.hydrogen.Controller' );
 import( 'de.ceus-media.framework.hydrogen.Language' );
 /**
- *	Abstract Main Class of Framework Hydrogen
+ *	Generic Main Class of Framework Hydrogen
  *	@package		framework.hydrogen
  *	@uses			DatabaseConnection
  *	@uses			File_INI_Reader
@@ -212,7 +212,7 @@ class Framework_Hydrogen_Base
 		$this->_sw	= new StopWatch();
 		
 		//  --  CONFIGURATION  --  //
-		$ir_conf		= new File_INI_Reader( "config/config.ini", true );
+		$ir_conf		= new File_INI_Reader( "config/config.ini", TRUE );
 		$this->config	= $ir_conf->toArray();
 		error_reporting( $this->config['config']['error_reporting'] );
 

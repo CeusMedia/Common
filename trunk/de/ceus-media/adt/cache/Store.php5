@@ -28,6 +28,7 @@
 /**
  *	Abstract Cache Store, can be used to implement a Data Cache.
  *	@package		adt.cache
+ *	@abstract
  *	@implements		ArrayAccess
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2009 Christian Würker
@@ -85,6 +86,7 @@ abstract class ADT_Cache_Store implements ArrayAccess
 
 	/**
 	 *	Returns a Value from Cache by its Key.
+	 *	@abstract
 	 *	@access		public
 	 *	@param		string		$key			Key of Cache File
 	 *	@return		mixed
@@ -93,6 +95,7 @@ abstract class ADT_Cache_Store implements ArrayAccess
 
 	/**
 	 *	Indicates wheter a Value is in Cache by its Key.
+	 *	@abstract
 	 *	@access		public
 	 *	@param		string		$key			Key of Cache File
 	 *	@return		void
@@ -146,6 +149,7 @@ abstract class ADT_Cache_Store implements ArrayAccess
 
 	/**
 	 *	Removes a Value from Cache by its Key.
+	 *	@abstract
 	 *	@access		public
 	 *	@param		string		$key			Key of Cache File
 	 *	@return		void
@@ -154,6 +158,7 @@ abstract class ADT_Cache_Store implements ArrayAccess
 
 	/**
 	 *	Stores a Value in Cache by its Key.
+	 *	@abstract
 	 *	@access		public
 	 *	@param		string		$key			Key of Cache File
 	 *	@param		mixed		$value			Value to store

@@ -29,6 +29,7 @@ import( "de.ceus-media.file.log.Writer" );
 /**
  *	Abstract Database Connection.
  *	@package		database
+ *	@abstract
  *	@uses			File_Log_Writer
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2009 Christian Würker
@@ -60,6 +61,7 @@ abstract class Database_BaseConnection
 
 	/**
 	 *	Opens a Transaction and sets auto commission.
+	 *	@abstract
 	 *	@access		public
 	 *	@return		void
 	 */
@@ -67,6 +69,7 @@ abstract class Database_BaseConnection
 
 	/**
 	 *	Closes Database Connection.
+	 *	@abstract
 	 *	@access		public
 	 *	@return		void
 	 */
@@ -74,6 +77,7 @@ abstract class Database_BaseConnection
 	
 	/**
 	 *	Commits all modifications of Transaction.
+	 *	@abstract
 	 *	@access		public
 	 *	@return		void
 	 */
@@ -109,6 +113,8 @@ abstract class Database_BaseConnection
 
 	/**
 	 *	Executes SQL Query.
+	 *	@abstract
+	 *	@access		public
 	 *	@param		string		$query			SQL Statement to be executed against Database Connection.
 	 *	@param		int			$debug			deBug Level (16:die after, 8:die before, 4:remark, 2:echo, 1:count[default])
 	 */
@@ -126,6 +132,7 @@ abstract class Database_BaseConnection
 
 	/**
 	 *	Returns last Error Number.
+	 *	@abstract
 	 *	@access		public
 	 *	@return		int
 	 */
@@ -133,6 +140,7 @@ abstract class Database_BaseConnection
 
 	/**
 	 *	Returns last Error.
+	 *	@abstract
 	 *	@access		public
 	 *	@return		string
 	 */
@@ -140,6 +148,7 @@ abstract class Database_BaseConnection
 
 	/**
 	 *	Returns last Entry ID.
+	 *	@abstract
 	 *	@access		public
 	 *	@return		int
 	 */
@@ -157,6 +166,12 @@ abstract class Database_BaseConnection
 		return $time;
 	}
 
+	/**
+	 *	Returns List of Tables.
+	 *	@abstract
+	 *	@access		public
+	 *	@return		array
+	 */
 	abstract public function getTables();
 
 	/**
@@ -205,11 +220,18 @@ abstract class Database_BaseConnection
 
 	/**
 	 *	Cancels Transaction by rolling back all modifications.
+	 *	@abstract
 	 *	@access		public
 	 *	@return		bool
 	 */
 	abstract public function rollback();
 
+	/**
+	 *	Selects a Database on connected Server.
+	 *	@abstract
+	 *	@access		public
+	 *	@param		string		$database		Database Name
+	 */
 	abstract public function selectDB( $database );
 
 	/**

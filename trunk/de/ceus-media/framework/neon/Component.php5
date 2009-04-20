@@ -30,6 +30,7 @@ import( 'de.ceus-media.alg.TimeConverter' );
 /**
  *	Generic Action Handler.
  *	@package		framework.neon
+ *	@abstract
  *	@uses			ADT_Reference
  *	@uses			Alg_TimeConverter
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>

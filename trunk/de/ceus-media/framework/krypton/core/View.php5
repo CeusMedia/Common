@@ -50,13 +50,13 @@ class Framework_Krypton_Core_View extends Framework_Krypton_Core_Component
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function __construct( $useWikiParser = false )
+	public function __construct( $useWikiParser = FALSE )
 	{
 		parent::__construct( $useWikiParser );
 	}
 	
 	/**
-	 *	Abstract Method for Content Views.
+	 *	Build and return Content Views, to be overwritten.
 	 *	@access		public
 	 *	@return		string
 	 */
@@ -66,7 +66,7 @@ class Framework_Krypton_Core_View extends Framework_Krypton_Core_Component
 	}
 	
 	/**
-	 *	Abstract Method for Control Views.
+	 *	Build and return Control Views, to be overwritten.
 	 *	@access		public
 	 *	@return		string
 	 */
@@ -76,7 +76,7 @@ class Framework_Krypton_Core_View extends Framework_Krypton_Core_Component
 	}
 
 	/**
-	 *	Abstract Method for Content Views in Extra Column.
+	 *	Build and return Extra Views, to be overwritten.
 	 *	@access		public
 	 *	@return		string
 	 */

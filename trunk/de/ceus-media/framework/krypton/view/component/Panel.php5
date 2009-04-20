@@ -30,6 +30,7 @@ import( 'de.ceus-media.framework.krypton.core.DefinitionView' );
 /**
  *	Base Class for Panels.
  *	@package		framework.krypton.view.component
+ *	@abstract
  *	@extends		Framework_Krypton_Core_DefinitionView
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2009 Christian Würker
@@ -40,6 +41,12 @@ import( 'de.ceus-media.framework.krypton.core.DefinitionView' );
  */
 abstract class Framework_Krypton_View_Component_Panel extends Framework_Krypton_Core_DefinitionView
 {
+	/**
+	 *	Build and return Content of Panel.
+	 *	@abstract
+	 *	@access		public
+	 *	@return		string
+	 */
 	abstract public function getContent();
 }
 ?>

@@ -1,6 +1,6 @@
 <?php
 /**
- *	Abstract Model Class of Framework Hydrogen.
+ *	Generic Model Class of Framework Hydrogen.
  *
  *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
  *
@@ -28,7 +28,7 @@
  */
 import( 'de.ceus-media.database.TableWriter' );
 /**
- *	Abstract Model Class of Framework Hydrogen.
+ *	Generic Model Class of Framework Hydrogen.
  *	@package		framework.hydrogen
  *	@uses			Database_TableWriter
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
@@ -63,7 +63,7 @@ class Framework_Hydrogen_Model
 	 *	@param		int								$id				ID to focus on
 	 *	@return		void
 	 */
-	public function __construct( $application, $id = false )
+	public function __construct( $application, $id = FALSE )
 	{
 		$this->setEnv( $application );
 		$this->table	= new Database_TableWriter( $this->_dbc, $this->_table, $this->fields, $this->primary_key, $id );
@@ -93,11 +93,11 @@ class Framework_Hydrogen_Model
 	public function edit( $id, $data )
 	{
 		$this->table->focusPrimary( $id );
-		$result	= false;
+		$result	= FALSE;
 		if( count( $this->table->getData() ) )
 		{
 			$this->table->modifyData( $data );
-			$result	= true;
+			$result	= TRUE;
 		}
 		$this->table->defocus();
 		return $result;
@@ -112,11 +112,11 @@ class Framework_Hydrogen_Model
 	public function remove( $id )
 	{
 		$this->table->focusPrimary( $id );
-		$result	= false;
+		$result	= FALSE;
 		if( count( $this->table->getData() ) )
 		{
 			$this->table->deleteData();
-			$result	= true;
+			$result	= TRUE;
 		}
 		$this->table->defocus();
 		return $result;
@@ -132,7 +132,7 @@ class Framework_Hydrogen_Model
 	public function get( $id, $field = "" )
 	{
 		$this->table->focusPrimary( $id );
-		$data	= $this->table->getData( true );
+		$data	= $this->table->getData( TRUE );
 		$this->table->defocus();
 		if( $field )
 			return $data[$field];
@@ -200,7 +200,7 @@ class Framework_Hydrogen_Model
 	public function getByForeignKey( $key, $value, $field = "" )
 	{
 		$this->table->focusForeign( $key, $value );
-		$data	= $this->table->getData( true );
+		$data	= $this->table->getData( TRUE );
 		$this->table->defocus();
 		if( $field )
 			return $data[$field];
@@ -218,7 +218,7 @@ class Framework_Hydrogen_Model
 	{
 		foreach( $keys as $key => $value )
 			$this->table->focusForeign( $key, $value );
-		$data	= $this->table->getData( true );
+		$data	= $this->table->getData( TRUE );
 		$this->table->defocus();
 		if( $field )
 			return $data[$field];

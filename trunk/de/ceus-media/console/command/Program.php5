@@ -28,6 +28,7 @@ import( 'de.ceus-media.console.command.ArgumentParser' );
 /**
  *	Basic Program to implement Console Application using Automaton Argument Parser.
  *	@package		console.command
+ *	@abstract
  *	@uses			Console_Command_ArgumentParser
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2009 Christian Würker
@@ -104,6 +105,7 @@ abstract class Console_Command_Program
 
 	/**
 	 *	Program, to be implemented by you.
+	 *	@abstract
 	 *	@access		protected
 	 *	@return		mixed			can return a String or an Integer Exit Code.
 	 */

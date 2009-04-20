@@ -1,6 +1,7 @@
 <?php
 /**
- *	Abstract Model for Database Structures.
+ *	Generic Model for Database Structures.
+ *	Is related to open Database Connection and Configuration in Registry.
  *
  *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
  *
@@ -30,7 +31,8 @@
 import( 'de.ceus-media.database.pdo.TableWriter' );
 import( 'de.ceus-media.framework.krypton.core.Registry' );
 /**
- *	Abstract Model for Database Structures.
+ *	Generic Model for Database Structures.
+ *	Is related to open Database Connection and Configuration in Registry.
  *	@package		framework.krypton.core
  *	@extends		Database_PDO_TableWriter
  *	@uses			Core_Registry
@@ -58,7 +60,7 @@ class Framework_Krypton_Core_Model extends Database_PDO_TableWriter
 	 *	@param		int			$focus			Current focussed primary Key
 	 *	@return		void
 	 */
-	public function __construct( $table, $columns, $primaryKey, $focus = false )
+	public function __construct( $table, $columns, $primaryKey, $focus = FALSE )
 	{
 		$dbc			= Framework_Krypton_Core_Registry::getStatic( 'dbc' );
 		$config			= Framework_Krypton_Core_Registry::getStatic( 'config' );
@@ -93,12 +95,11 @@ class Framework_Krypton_Core_Model extends Database_PDO_TableWriter
 	 *	@param		bool		$prefixed		Flag: use also Prefix of Table
 	 *	@return		string
 	 */
-	public function getTableName( $prefixed = true )
+	public function getTableName( $prefixed = TRUE )
 	{
 		if( $prefixed )
 			return $this->getPrefix().parent::getTableName();
-		else
-			return parent::getTableName();
+		return parent::getTableName();
 	}
 		
 	/**
@@ -110,14 +111,15 @@ class Framework_Krypton_Core_Model extends Database_PDO_TableWriter
 	public function exists( $id = NULL )
 	{
 		if( $id === NULL )
-			return (bool)count( $this->get( true ) );
+			return (bool) count( $this->get( TRUE ) );
 		if( (int) $id > 0 )
 		{
 			$clone	= clone( $this );
 			$clone->defocus();
-			$clone->focusPrimary( $id );
-			return (bool)count( $clone->get( true ) );
+			$clone->focusPrimary( (int) $id );
+			return (bool) count( $clone->get( TRUE ) );
 		}
+		throw new InvalidArgumentException( 'ID invalid' );
 	}
 }
 ?>

@@ -41,6 +41,7 @@ import( 'de.ceus-media.alg.TimeConverter' );
 /**
  *	Generic View with Language Support.
  *	@package		framework.krypton.core
+ *	@abstract
  *	@uses			Framework_Krypton_Core_Registry
  *	@uses			Framework_Krypton_Core_Template
  *	@uses			View_Component_Elements
