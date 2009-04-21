@@ -142,7 +142,7 @@ class Tests_Net_Service_DecoderTest extends PHPUnit_Framework_TestCase
 		}
 		catch( Exception $e )
 		{
-			$assertion	= "Exception: Test Exception (responded)";
+			$assertion	= "Test Exception (responded)";
 			$creation	= $e->getMessage();
 			$this->assertEquals( $assertion, $creation );
 		}
@@ -174,7 +174,7 @@ class Tests_Net_Service_DecoderTest extends PHPUnit_Framework_TestCase
 		}
 		catch( Exception $e )
 		{
-			$assertion	= "Exception: Test Exception (responded)";
+			$assertion	= "Test Exception (responded)";
 			$creation	= $e->getMessage();
 			$this->assertEquals( $assertion, $creation );
 		}
@@ -219,7 +219,7 @@ class Tests_Net_Service_DecoderTest extends PHPUnit_Framework_TestCase
 		}
 		catch( Exception $e )
 		{
-			$assertion	= "Exception: Test Exception (responded)";
+			$assertion	= "Test Exception (responded)";
 			$creation	= $e->getMessage();
 			$this->assertEquals( $assertion, $creation );
 		}
@@ -251,7 +251,7 @@ class Tests_Net_Service_DecoderTest extends PHPUnit_Framework_TestCase
 		}
 		catch( Exception $e )
 		{
-			$assertion	= "Exception: Test Exception (responded)";
+			$assertion	= "Test Exception (responded)";
 			$creation	= $e->getMessage();
 			$this->assertEquals( $assertion, $creation );
 		}
