@@ -11,6 +11,7 @@
  */
 require_once( 'PHPUnit/Framework/TestCase.php' ); 
 require_once( 'Tests/initLoaders.php5' );
+import( 'de.ceus-media.net.cUrl' );
 import( 'de.ceus-media.net.service.Client' );
 import( 'de.ceus-media.adt.OptionObject' );
 /**

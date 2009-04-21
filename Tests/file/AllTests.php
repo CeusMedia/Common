@@ -22,6 +22,8 @@ require_once 'Tests/file/RegexFilterTest.php';
 require_once 'Tests/file/RecursiveNameFilterTest.php';
 require_once 'Tests/file/RecursiveRegexFilterTest.php';
 require_once 'Tests/file/UnicoderTest.php';
+require_once 'Tests/file/CacheTest.php';
+require_once 'Tests/file/StaticCacheTest.php';
 
 class Tests_File_AllTests
 {
@@ -46,10 +48,12 @@ class Tests_File_AllTests
 		$suite->addTestSuite('Tests_File_EditorTest'); 
 		$suite->addTestSuite('Tests_File_WriterTest'); 
 
-		$suite->addTestSuite('Tests_File_UnicoderTest'); 
 		$suite->addTestSuite('Tests_File_RegexFilterTest'); 
 		$suite->addTestSuite('Tests_File_RecursiveNameFilterTest'); 
 		$suite->addTestSuite('Tests_File_RecursiveRegexFilterTest'); 
+		$suite->addTestSuite('Tests_File_UnicoderTest'); 
+		$suite->addTestSuite('Tests_File_CacheTest'); 
+		$suite->addTestSuite('Tests_File_StaticCacheTest'); 
 		return $suite;
 	}
 }
