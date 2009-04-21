@@ -104,7 +104,8 @@ class Go
 						passthru( $command );
 						break;
 					default:
-						throw new InvalidArgumentException( $this->messages['subject_test_invalid'] );
+						new GoTestRunner( $arguments );
+#						throw new InvalidArgumentException( $this->messages['subject_test_invalid'] );
 				}
 			case 'run':
 				break;
@@ -157,6 +158,7 @@ Usage: go COMMAND [OPTION]...
   run                          (not implemented yet)
   test                         test...
     self                         very basic self test
+    PACKAGE_CLASS                class in cmClasses
     units                        units = test classes
     
 ".$message );
@@ -232,6 +234,7 @@ class GoUpdater
 		exec( "svn update ".$path." ".$revision, $return );
 		if( !$return )
 			throw new RuntimeException( "SVN seems to be not installed." );
+		echo implode( "\n", $return );
 	}
 }
 class GoDocCreator
@@ -271,6 +274,25 @@ class GoPhpDocumentor
 			@unlink( $reportFile );														//  remove old Report File
 		}
 		passthru( $command );															//  run phpDocumentor
+	}
+}
+class GoTestRunner
+{
+	public function __construct( $arguments )
+	{
+		$classKey	= $arguments[1];
+		$parts		= explode( "_", $classKey );
+		$fileKey	= array_pop( $parts );
+		$suffix		= $fileKey == "All" ? "Tests" : "Test";
+		while( $parts )
+			$fileKey	= strtolower( array_pop( $parts ) )."/".$fileKey;
+
+		$testClass	= "Tests_".$arguments[1].$suffix;
+		$testFile	= "Tests/".$fileKey.$suffix.".php";
+		if( !file_exists( $testFile ) )
+			throw new RuntimeException( 'Test Class File "'.$testFile.'" is not existing.' );
+		echo "\nTesting Class: ".$classKey."\n\n";
+		passthru( "phpunit ".$testClass, $return );
 	}
 }
 class GoTestCreator
