@@ -51,8 +51,9 @@ class UI_HTML_CSS_LinkSelect
 		
 		foreach( $links as $link )
 		{
-			$key	= is_null( $link['key'] ) ? NULL : (string) $link['key'];
-			if( $key === $value )
+			$key	= isset( $link['key'] ) ? (string) $link['key'] : NULL;
+			$url	= isset( $link['url'] ) ? (string) $link['url'] : NULL;
+			if( $key === $value && $url )
 			{
 				$label	= $prefix ? $prefix.$link['label'] : $link['label'];
 				$main	= new ADT_Tree_Menu_Item( "#", $label );
@@ -60,10 +61,13 @@ class UI_HTML_CSS_LinkSelect
 		}
 		if( !( isset( $main ) && $main instanceof ADT_Tree_Menu_Item ) )
 		{
-			$first	= array_pop( array_slice( $links, 0, 1 ) );
+			$i=0;
+			do
+				$first	= array_pop( array_slice( $links, $i++, 1 ) );
+			while( empty( $first['url'] ) && $i < count( $links ) );
 			$label	= $prefix ? $prefix.$first['label'] : $first['label'];
 			$main	= new ADT_Tree_Menu_Item( "#", $label );
-			$value	= $first['key'];
+			$value	= isset( $first['key'] ) ? $first['key'] : NULL;
 		}
 		$value	= is_null( $value ) ? NULL : (string) $value;
 		
@@ -71,8 +75,19 @@ class UI_HTML_CSS_LinkSelect
 
 		foreach( $links as $link )
 		{
-			$item	= new ADT_Tree_Menu_Item( $link['url'], $link['label'] );
-			$key	= is_null( $link['key'] ) ? NULL : (string) $link['key'];
+			if( !( isset( $link['attributes'] ) && is_array( $link['attributes'] ) ) )				//  no attributes given
+				$link['attributes']	= array();														//  set empty array
+
+			$attributes	= array();
+			if( isset( $link['class'] ) )
+				$attributes['class']	= $link['class'];
+			else if( isset( $link['disabled'] ) )
+				$attributes['disabled']	= $link['disabled'];
+			
+			$key	= isset( $link['key'] ) ? (string) $link['key'] : NULL;
+			$url	= isset( $link['url'] ) ? (string) $link['url'] : NULL;
+			$item	= new ADT_Tree_Menu_Item( $url, $link['label'], $attributes );
+			$key	= is_null( $key ) ? NULL : (string) $key;
 			if( $key === $value )
 				continue;
 			$main->addChild( $item );
