@@ -71,7 +71,7 @@ class UI_HTML_PageFrame
 	 *	@access		public
 	 *	@return		string
 	 */
-	public function build()
+	public function build( $bodyAttributes = array() )
 	{
 		$tagsHead	= array();
 		$tagsBody	= array();
@@ -94,7 +94,7 @@ class UI_HTML_PageFrame
 		$tagsHead	= implode( "\n    ", $tagsHead ).$this->head;
 		$tagsBody	= implode( "\n    ", $tagsBody ).$this->body;
 		$head		= UI_HTML_Tag::create( "head", "\n    ".$tagsHead."\n  " );
-		$body		= UI_HTML_Tag::create( "body", "\n    ".$tagsBody."\n  " );
+		$body		= UI_HTML_Tag::create( "body", "\n    ".$tagsBody."\n  ", $bodyAttributes );
 		$attributes	= array(
 			'xmlns'		=> "http://www.w3.org/1999/xhtml",
 			'xml:lang'	=> $this->language,
