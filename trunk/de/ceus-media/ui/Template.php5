@@ -142,12 +142,6 @@ class UI_Template
 			{
 				$number	+= $this->addArrayRecursive( $key, $value, $steps );
 			}
-			else if( is_int( $key ) || is_float( $key ) || is_object( $value ) )
-			{
-				$this->elements[$name][] = $value;
-				$itemKey	= implode( ".", $steps ).".".$key;
-				$number ++;
-			}
 			else
 			{
 				$key	= implode( ".", $steps ).".".$key;
@@ -197,6 +191,7 @@ class UI_Template
  		$out	= preg_replace( '/<%--.*--%>/sU', '', $out );	
  		if( self::$removeComments )
 			$out	= preg_replace( '/<!--.+-->/sU', '', $out );	
+
 		foreach( $this->elements as $label => $labelElements )
 		{
 			$tmp = '';

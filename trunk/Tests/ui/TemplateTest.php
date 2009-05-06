@@ -67,10 +67,42 @@ class Tests_UI_TemplateTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals( 0, $size );
 	}
 
-	public function testAdd()
+	public function testAdd1()
 	{
 		$assertion	= 18;
 		$creation	= $this->mock->add( $this->mockElements );
+		$this->assertEquals( $assertion, $creation );
+	}
+
+	public function testAdd2()
+	{
+		$tags	= array(
+			'step1'	=> array(
+				'key1'	=> "value1",
+				'key2'	=> "value2",
+			),
+		);
+		$assertion	= array(
+			'step1.key1'	=> array( "value1" ),
+			'step1.key2'	=> array( "value2" ),
+		);
+		$this->mock->add( $tags );
+		$creation	= $this->mock->getProtectedVar( 'elements' );
+		$this->assertEquals( $assertion, $creation );
+	}
+
+	public function testAdd3()
+	{
+		$tags	= array(
+			'step1.key1'	=> "value1",
+			'step1.key2'	=> "value2",
+		);
+		$assertion	= array(
+			'step1.key1'	=> array( "value1" ),
+			'step1.key2'	=> array( "value2" ),
+		);
+		$this->mock->add( $tags );
+		$creation	= $this->mock->getProtectedVar( 'elements' );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -116,6 +148,19 @@ class Tests_UI_TemplateTest extends PHPUnit_Framework_TestCase
 /*		var_dump( $assertion );
 		var_dump( $creation );
 */		$this->assertEquals( $assertion, $creation );
+	}
+
+	/**
+	 *	Tests Nested Data Types only
+	 */
+	public function testCreate3()
+	{
+		$this->template->setTemplate( $this->path.'template_testcase3.html' );
+		$this->template->addElement( 'list', array( 1, 2, 3 ) );
+		$this->template->addElement( 'array', array( 'key1' => 'value1', 'key2' => 'value2', 'key3' => 'value3' ) );
+		$assertion	= file_get_contents( $this->path.'template_testcase3_result.html' );
+		$creation	= $this->template->create();
+		$this->assertEquals( $assertion, $creation );
 	}
 
 	public function testCreate4()
