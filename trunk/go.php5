@@ -12,7 +12,9 @@ class Go
 
 	public function __construct()
 	{
-		exec( isset( $_SERVER['SHELL'] ) ? "clear" : "cls" );											//  try to clear screen (not working?)
+		if( !empty( $_SERVER['SERVER_ADDR'] ) )
+			die( "This tool is for console only." );
+		isset( $_SERVER['SHELL'] ) ? passthru( "clear" ) : exec( "command /C cls" );					//  try to clear screen (not working on Windows!?)
 		print( "\n".$this->messages['title'] );															//  print tool title
 		$configFile	= "cmClasses.ini";																	//  Configuration File
 		$arguments	= array_slice( $_SERVER['argv'], 1 );												//  get given arguments
@@ -218,9 +220,10 @@ class GoInstaller
 		if( count( $arguments ) < 1 )
 			throw new InvalidArgumentException( 'No version to install set.' );
 
-		exec( "svn co http://cmclasses.googlecode.com/svn/".$arguments[0]." ".$arguments[1], $return );
+		exec( "svn", $return );
 		if( !$return )
 			throw new RuntimeException( "SVN seems to be not installed." );
+		passthru( "svn co http://cmclasses.googlecode.com/svn/".$arguments[0]." ".$arguments[1] );
 		chDir( $arguments[1] );
 		new GoConfigurator();
 	}
@@ -231,10 +234,10 @@ class GoUpdater
 	{
 		$revision	= $arguments ? $arguments[0] : "";
 		$path		= dirname( realpath( __FILE__ ) );
-		exec( "svn update ".$path." ".$revision, $return );
+		exec( "svn", $return );
 		if( !$return )
 			throw new RuntimeException( "SVN seems to be not installed." );
-		echo implode( "\n", $return );
+		passthru( "svn update ".$path." ".$revision, $return );
 	}
 }
 class GoDocCreator
