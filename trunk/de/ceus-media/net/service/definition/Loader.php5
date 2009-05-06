@@ -124,6 +124,8 @@ class Net_Service_Definition_Loader
 		foreach( array_keys( $definition['services'] ) as $serviceName )
 		{
 			$service	= $definition['services'][$serviceName];
+			if( !isset( $service['description'] ) )
+				$definition['services'][$serviceName]['description']	= NULL;
 			if( !isset( $service['parameters'] ) )
 				$definition['services'][$serviceName]['parameters']	= array();
 			if( !isset( $service['roles'] ) )
