@@ -145,10 +145,5 @@ class UI_HTML_DirectoryTreeView
 		foreach( $files as $file )
 			$nodes[]	= $file;
 	}
-	
-	public function setTarget( $target )
-	{
-		$this->view->setTarget( $target );
-	}
 }
 ?>

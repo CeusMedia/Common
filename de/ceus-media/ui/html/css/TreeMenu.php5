@@ -124,8 +124,8 @@ class UI_HTML_CSS_TreeMenu
 	protected static function buildItemWithChildren( ADT_Tree_Menu_Item &$node, $level, $contentDrop = NULL )
 	{
 		$contentDrop	= $contentDrop !== NULL ? $contentDrop : self::$contentDropDefault;
-		$children		= "";
-		$label			= self::buildLabelSpan( $node->label, $level, $node->class, $node->disabled, $node->url );
+		$children	= "";
+		$label		= '<span class="label level-'.$level.'">'.$node->label.'</span>';
 		if( $node->hasChildren() )
 		{
 			$children	= array();
@@ -140,14 +140,10 @@ class UI_HTML_CSS_TreeMenu
 		}
 		$classLink	= $node->getAttribute( 'classLink' )." level-".$level;
 		$classItem	= $node->getAttribute( 'classItem' )." level-".$level;
-		$labelLink	= $label;
-		if( $node->url && !$node->getAttribute( 'disabled' ) )
-			$labelLink	= UI_HTML_Elements::Link( $node->url, $label, $classLink );
+		$labelLink	= UI_HTML_Elements::Link( $node->url, $label, $classLink );
 		if( $node->hasChildren() )
 			$labelLink	.= '<!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->';
 		$attributes	= array( 'class' => $classItem );
-		if( $node->getAttribute( 'disabled' ) )
-			$attributes['class']	.= " disabled";
 		return UI_HTML_Elements::ListItem( $labelLink.$children, $level, $attributes );
 	}
 
@@ -163,9 +159,7 @@ class UI_HTML_CSS_TreeMenu
 	{
 		$contentDrop	= $contentDrop !== NULL ? $contentDrop : self::$contentDropDefault;
 		$children	= "";
-		$class		= isset( $node['class'] ) ? $node['class'] : 'option';
-		$disabled	= isset( $node['disabled'] ) ? $node['disabled'] : FALSE;
-		$label		= self::buildLabelSpan( $node['label'], $level, $disabled, $node['url'] );
+		$label		= '<span class="label level-'.$level.'">'.$node['label'].'</span>';
 		if( isset( $node['children'] ) && $node['children'] )
 		{
 			$children	= array();
@@ -185,26 +179,6 @@ class UI_HTML_CSS_TreeMenu
 			$labelLink	.= '<!--<![endif]--><!--[if lt IE 7]><table border="0" cellpadding="0" cellspacing="0"><tr><td><![endif]-->';
 		$attributes	= array( 'class' => $classItem );
 		return UI_HTML_Elements::ListItem( $labelLink.$children, $level, $attributes );
-	}
-
-	protected function buildLabelSpan( $label, $level, $class, $disabled, $url )
-	{
-		$attributes	= array(
-			'class'	=> array(
-				$class,
-				'level-'.$level
-			)
-		);
-		if( $disabled )
-		{
-			$attributes['src']		= $url;
-			$attributes['class'][]	= "disabled";
-			if( is_string( $disabled ) )
-				$attributes['title']	= $disabled;
-		}
-		$attributes['class']	= implode( " ", $attributes['class'] );
-		$label		= UI_HTML_Tag::create( "span", $label, $attributes );
-		return $label;
 	}
 }
 ?>

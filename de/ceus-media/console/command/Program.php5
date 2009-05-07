@@ -50,9 +50,8 @@ abstract class Console_Command_Program
 	 *	If this class is going to be extended, the constructor must be extend too and the parents constructor must be called
 	 *
 	 *	<code>
-	 *  public function __construct()
+	 *  public function __construct( $options, $shortcuts, $numberArguments = 0 )
 	 *  {
-	 *		$numberArguments	= 1;
 	 *		$options	= array(
 	 *			'anything'	=> "",
 	 *			'something'	=> "@.+@",
@@ -61,7 +60,7 @@ abstract class Console_Command_Program
 	 *			'a'	=> "anything",
 	 *			's'	=> "something",
 	 *		);
-	 *		parent::__construct( $options, $shortcuts, 0 );
+	 *		parent::__construct( $options, $shortcuts, 0 )
 	 *	}
 	 *  </code>
 	 *
@@ -87,13 +86,8 @@ abstract class Console_Command_Program
 		}
 		catch( Exception $e )													//  handle uncatched Exceptions
 		{
-			$this->handleParserException( $e );
-		}
-	}
-	
-	protected function handleParserException( Exception $e )
-	{
 			$this->showError( $e->getMessage() );								//  just show Exception Message
+		}
 	}
 
 	/**

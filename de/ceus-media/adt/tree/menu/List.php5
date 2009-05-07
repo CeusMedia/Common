@@ -43,11 +43,6 @@ class ADT_Tree_Menu_List
 	public $attributes			= NULL;
 	/**	@var		array		$children		List of nested Tree Menu Items */
 	public $children			= array();
-	
-	public $defaultAttributes	= array(
-		'class'		=> "option",
-		'default'	=> FALSE,
-	);
 
 	/**
 	 *	Constructor.
@@ -59,7 +54,6 @@ class ADT_Tree_Menu_List
 	public function __construct( $label = NULL, $attributes = array() )
 	{
 		$this->label		= $label;
-		$attributes			= array_merge( $this->defaultAttributes, $attributes );
 		$this->attributes	= new ADT_List_Dictionary( $attributes );
 	}
 
