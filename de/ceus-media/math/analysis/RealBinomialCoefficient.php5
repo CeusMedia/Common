@@ -1,8 +1,9 @@
 <?php
+import( 'de.ceus-media.math.Factorial' );
 /**
  *	Calculation of Factorial for Reals.
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2008 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -19,20 +20,19 @@
  *
  *	@package		math.analysis
  *	@uses			Math_Factorial
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			15.09.2006
  *	@version		0.6
  */
-import( 'de.ceus-media.math.Factorial' );
 /**
  *	Calculation of Factorial for Reals.
  *	@package		math.analysis
  *	@uses			Math_Factorial
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			24.04.2006
@@ -43,7 +43,6 @@ class Math_Analysis_RealBinomialCoefficient
 	/**
 	 *	Calculates Binomial Coefficient of Top and Button Integers.
 	 *	@access		public
-	 *	@static
 	 *	@param		int			$top			Top Integer
 	 *	@param		int			$bottom			Bottom Integer (lower than or equal to Top Integer)
 	 *	@return		int

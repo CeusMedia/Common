@@ -5,7 +5,7 @@
  *	If a different Validator Class should be used, it needs to be imported before.
  *	A different Service Definition Loader Class can be used by setting static Member "loaderClass".
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2008 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -25,8 +25,8 @@
  *	@implements		Net_Service_Interface_Point
  *	@uses			Net_Service_ParameterValidator
  *	@uses			Net_Service_Definition_Loader
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			18.06.2007
@@ -43,12 +43,13 @@ import( 'de.ceus-media.net.service.interface.Point' );
  *	@implements		Net_Service_Interface_Point
  *	@uses			Net_Service_ParameterValidator
  *	@uses			Net_Service_Definition_Loader
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			18.06.2007
  *	@version		0.3
+ *	@todo			rename Exception Classes (see bottom) to Net_Service_ and/or move package 'exception'
  */
 class Net_Service_Point implements Net_Service_Interface_Point
 {
@@ -62,8 +63,6 @@ class Net_Service_Point implements Net_Service_Interface_Point
 	public static $validatorClass	= "Net_Service_ParameterValidator";
 	/**	@var		array			$services			Array of Services */	
 	protected $services	= array();
-	/**	@var		mixed			$validator			Validator Class */	
-	protected $validator	= null;
 	
 	/**
 	 *	Constructor Method.
@@ -127,9 +126,9 @@ class Net_Service_Point implements Net_Service_Interface_Point
 	protected function checkServiceDefinition( $serviceName )
 	{
 		if( !isset( $this->services['services'][$serviceName] ) )
-			throw new BadFunctionCallException( 'Service "'.$serviceName.'" is not existing.' );
+			throw new NetServiceException( 'Service "'.$serviceName.'" is not existing.' );
 		if( !isset( $this->services['services'][$serviceName]['class'] ) )
-			throw new RuntimeException( 'No Service Class definied for Service "'.$serviceName.'".' );
+			throw new Exception( 'No Service Class definied for Service "'.$serviceName.'".' );
 	}
 
 	/**
@@ -141,7 +140,7 @@ class Net_Service_Point implements Net_Service_Interface_Point
 	protected function checkServiceMethod( $serviceName )
 	{
 		if( !isset( $this->services['services'][$serviceName] ) )
-			throw new BadFunctionCallException( "Service '".$serviceName."' is not existing." );
+			throw new Exception( "Service '".$serviceName."' is not existing." );
 		$className	= $this->services['services'][$serviceName]['class'];
 		if( !class_exists( $className ) && !$this->loadServiceClass( $className ) )
 			throw new RuntimeException( 'Service Class "'.$className.'" is not existing.' );
@@ -162,11 +161,11 @@ class Net_Service_Point implements Net_Service_Interface_Point
 		if( $responseFormat )
 		{
 			if( !in_array( $responseFormat, $this->services['services'][$serviceName]['formats'] ) )
-				throw new InvalidArgumentException( 'Response Format "'.$responseFormat.'" for Service "'.$serviceName.'" is not available.' );
+				throw new Exception( 'Response Format "'.$responseFormat.'" for Service "'.$serviceName.'" is not available.' );
 			return true;
 		}
 		if( !$this->getDefaultServiceFormat( $serviceName ) )
-			throw new RuntimeException( 'No Response Format given and no default Response Format set for Service "'.$serviceName.'".' );
+			throw new Exception( 'No Response Format given and no default Response Format set for Service "'.$serviceName.'".' );
 	}
 
 	/**
@@ -180,49 +179,28 @@ class Net_Service_Point implements Net_Service_Interface_Point
 	{
 		if( !isset( $this->services['services'][$serviceName]['parameters'] ) )
 			return;
-		foreach( $this->services['services'][$serviceName]['parameters'] as $parameterName => $parameterRules )
+		foreach( $this->services['services'][$serviceName]['parameters'] as $field => $rules )
 		{
-			if( !$parameterRules )
+			if( !$rules )
 				continue;
-			if( isset( $parameters[$parameterName] ) )
-				$parameter	= $parameters[$parameterName];
+			if( isset( $parameters[$field] ) )
+				$parameter	= $parameters[$field];
 			else
 			{
 				$type	 = NULL;
-				if( isset( $parameterRules['type'] ) )
-					$type	= $this->getDefaultParameterType( $parameterRules['type'] );
+				if( isset( $rules['type'] ) )
+					$type	= $this->getDefaultParameterType( $rules['type'] );
 				$parameter	= $type;
 			}
 			try
 			{
-				$this->validator->validateParameterValue( $parameterRules, $parameter );
+				$this->validator->validateParameterValue( $rules, $parameter );
 			}
 			catch( InvalidArgumentException $e )
 			{
-				throw new InvalidArgumentException( 'Parameter "'.$parameterName.'" for Service "'.$serviceName.'" failed Rule "'.$e->getMessage().'".' );			
+				throw new InvalidArgumentException( 'Parameter "'.$field.'" for Service "'.$serviceName.'" failed Rule "'.$e->getMessage().'".' );			
 			}
 		}
-	}
-
-	/**
-	 *	Returns default Type of Service Parameter.
-	 *	@access		public
-	 *	@param		string			$serviceName		Name of Service to call 
-	 *	@param		arrray			$parameterName		Name oif Parameter to get default Type for
-	 *	@return		string
-	 */
-	public function getServiceDefaultParameterType( $serviceName, $parameterName )
-	{
-		$type	= "unknown";
-		$parameters	= $this->getServiceParameters( $serviceName );
-		if( !$parameters )
-			throw new InvalidArgumentException( 'Service "'.$serviceName.'" does not receive any Parameters.' );
-		if( !isset( $parameters[$parameterName] ) )
-			throw new InvalidArgumentException( 'Parameter "'.$parameterName.'" for Service "'.$serviceName.'" is not defined.' );
-		$parameter	= $parameters[$parameterName];
-		if( isset( $parameter['type'] ) )
-			$type	= $parameter['type'];
-		return $type;
 	}
 	
 	protected function getDefaultParameterType( $type )
@@ -264,16 +242,6 @@ class Net_Service_Point implements Net_Service_Interface_Point
 	}
 
 	/**
-	 *	Returns Description of Service Point.
-	 *	@access		public
-	 *	@return		string								Title of Service Point
-	 */
-	public function getDescription()
-	{
-		return $this->services['description'];	
-	}
-
-	/**
 	 *	Returns Class of Service.
 	 *	@access		public
 	 *	@param		string			$serviceName		Name of Service to call 
@@ -284,7 +252,7 @@ class Net_Service_Point implements Net_Service_Interface_Point
 		$this->checkServiceDefinition( $serviceName );
 		return $this->services['services'][$serviceName]['class'];
 	}
-
+	
 	/**
 	 *	Returns Description of Service.
 	 *	@access		public
@@ -309,18 +277,6 @@ class Net_Service_Point implements Net_Service_Interface_Point
 	{
 		$this->checkServiceDefinition( $serviceName );
 		return $this->services['services'][$serviceName]['formats'];
-	}
-
-	/**
-	 *	Returns Roles having Access to Service.
-	 *	@access		public
-	 *	@param		string			$serviceName		Name of Service to call 
-	 *	@return		array								List of allowed Roles
-	 */
-	public function getServiceRoles( $serviceName )
-	{
-		$this->checkServiceDefinition( $serviceName );
-		return $this->services['services'][$serviceName]['roles'];
 	}
 	
 	/**
@@ -415,4 +371,6 @@ class Net_Service_Point implements Net_Service_Interface_Point
 		$this->services	= $this->loader->loadServices( $fileName, $cacheFile );
 	}
 }
+class NetServiceException extends Exception {}
+class ServiceParameterException extends Exception {}
 ?>

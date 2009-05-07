@@ -2,7 +2,7 @@
 /**
  *	Finds not used Variables in Methods of a Class.
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2008 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -18,8 +18,8 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@package		alg
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			14.01.2008
@@ -28,8 +28,8 @@
 /**
  *	Finds not used Variables in Methods of a Class.
  *	@package		alg
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			14.01.2008
@@ -110,9 +110,9 @@ class Alg_UnusedVariableFinder
 					$open	= $parts[0];
 					$matches[$open]['params']	= array();
 					$matches[$open]['lines']	= array();
-					if( isset( $parts[1] ) && trim( $parts[1] ) )
+					if( isset( $parts[1] ) && $parts[1] )
 					{
-						$params	= explode( ",", preg_replace( "@\(.*\)@", "", $parts[1] ) );
+						$params	= explode( ",", $parts[1] ) ;
 						foreach( $params as $param )
 						{
 							$param	= trim( $param );

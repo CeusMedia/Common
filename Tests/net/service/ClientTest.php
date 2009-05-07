@@ -11,7 +11,6 @@
  */
 require_once( 'PHPUnit/Framework/TestCase.php' ); 
 require_once( 'Tests/initLoaders.php5' );
-import( 'de.ceus-media.net.cUrl' );
 import( 'de.ceus-media.net.service.Client' );
 import( 'de.ceus-media.adt.OptionObject' );
 /**
@@ -87,6 +86,94 @@ class Tests_Net_Service_ClientTest extends PHPUnit_Framework_TestCase
 
 		$assertion	= "services.log";
 		$creation	= $client->getProtectedVar( 'logFile' );
+		$this->assertEquals( $assertion, $creation );
+	}
+
+	/**
+	 *	Tests Exception Forwarding of Method 'decodeResponse'.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testDecodeResponseException1()
+	{
+		$response	= file_get_contents( $this->path."exception.serial" );
+		$this->setExpectedException( 'RuntimeException' );
+		$this->client->executeProtectedMethod( 'decodeResponse', $response, 'php' );
+	}
+	
+	/**
+	 *	Tests Exception Forwarding of Method 'decodeResponse'.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testDecodeResponseException2()
+	{
+		try
+		{
+			$response	= file_get_contents( $this->path."exception.serial" );
+			$this->client->executeProtectedMethod( 'decodeResponse', $response, 'php' );
+		}
+		catch( Exception $e )
+		{
+			$assertion	= 'RuntimeException';
+			$creation	= get_class( $e );
+			$this->assertEquals( $assertion, $creation );
+		
+			$assertion	= 'testException';
+			$creation	= $e->getMessage();
+			$this->assertEquals( $assertion, $creation );
+		}
+	}
+
+	/**
+	 *	Tests Method 'decodeResponse' with PHP Serial.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testDecodeResponsePhp()
+	{
+		$response	= serialize( array( 'key1' => 'value1' ) );
+		$assertion	= unserialize( $response );
+		$creation	= $this->client->executeProtectedMethod( 'decodeResponse', $response, 'php' );
+		$this->assertEquals( $assertion, $creation );
+	}
+		
+	/**
+	 *	Tests Method 'decodeResponse' with JSON.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testDecodeResponseJson()
+	{
+		$response	= json_encode( array( 'key1' => 'value1' ) );
+		$assertion	= json_decode( $response );
+		$creation	= $this->client->executeProtectedMethod( 'decodeResponse', $response, 'json' );
+		$this->assertEquals( $assertion, $creation );
+	}
+		
+	/**
+	 *	Tests Method 'decodeResponse' with Text.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testDecodeResponseTxt()
+	{
+		$response	= time();
+		$assertion	= $response;
+		$creation	= $this->client->executeProtectedMethod( 'decodeResponse', $response, 'txt' );
+		$this->assertEquals( $assertion, $creation );
+	}
+		
+	/**
+	 *	Tests Method 'decodeResponse' with WDDX.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testDecodeResponseWddx()
+	{
+		$response	= wddx_serialize_value( array( 'key1' => 'value1' ) );
+		$assertion	= wddx_deserialize( $response );
+		$creation	= $this->client->executeProtectedMethod( 'decodeResponse', $response, 'wddx' );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -300,6 +387,31 @@ class Tests_Net_Service_ClientTest extends PHPUnit_Framework_TestCase
 		$assertion	= FALSE;
 		$creation	= $this->client->getProtectedVar( 'verifyPeer' );
 		$this->assertEquals( $assertion, $creation );
+	}
+
+	/**
+	 *	Tests Method 'uncompressResponse'.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testUncompressResponse()
+	{
+		$message	= "this is a uncompressed test text.";
+
+		$compressed	= gzcompress( $message );
+		$assertion	= $message;
+		$creation	= $this->client->executeProtectedMethod( 'uncompressResponse', $compressed, "deflate" );
+		$this->assertEquals( $assertion, $creation );
+
+		$compressed	= $message;
+		$assertion	= $message;
+		$creation	= $this->client->executeProtectedMethod( 'uncompressResponse', $compressed, "not_supported" );
+		$this->assertEquals( $assertion, $creation );
+
+#		$compressed	= gzencode( $message );
+#		$assertion	= $message;
+#		$creation	= $this->client->executeProtectedMethod( 'uncompressResponse', $compressed, "gzip" );
+#		$this->assertEquals( $assertion, $creation );
 	}
 }
 class Test_Net_Service_ClientRequestMock extends ADT_OptionObject

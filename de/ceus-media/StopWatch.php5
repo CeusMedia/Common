@@ -1,8 +1,8 @@
 <?php
 /**
- *	Stopwatch implementation with Lap Support.
+ *	Stopwatch implementation.
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2008 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -17,32 +17,26 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
- *	@version		0.7
+ *	@version		0.6
  */
 /**
  *	Stopwatch implementation.
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
- *	@version		0.7
- *	@deprecated		use Alg_Time_Clock instead
- *	@todo			to be deleted in 0.6.7
+ *	@version		0.6
  */
 class StopWatch
 {
-	/**	@var	string		$microtimeStart		Microtime at the Start */
+	/**	@var	string		$microtimeStart		microtime at the start */
 	protected $microtimeStart;
-	/**	@var	string		$microtimeLap		Time in micro at the end of the last since start */
-	protected $microtimeLap;
-	/**	@var	string		$microtimeStop		Microtime at the End */
+	/**	@var	string		$microtimeStop		microtime at the end */
 	protected $microtimeStop;
-	/**	@var	array		$laps				Array of Lap Times */
-	protected $laps			= array();
 
 	/**
 	 *	Constructor.
@@ -52,11 +46,6 @@ class StopWatch
 	public function __construct()
 	{
 		$this->start();
-	}
-
-	public function getLaps()
-	{
-		return $this->laps;	
 	}
 
 	/**
@@ -82,27 +71,6 @@ class StopWatch
 		return $this->getTime( $base, $round );
 	}
 
-	public function stopLap( $base = 3, $round = 3, $label = NULL )
-	{
-		$microtimeLast	= $this->microtimeLap ? $this->microtimeLap : $this->microtimeStart;
-		$microtimeNow	= microtime();
-
-		$totalMicro		= round( $this->calculateTimeSpan( $this->microtimeStart, $microtimeNow ) * 1000000 );
-		$timeMicro		= round( $this->calculateTimeSpan( $microtimeLast, $microtimeNow ) * 1000000 );
-		
-		$total			= round( $totalMicro * pow( 10, $base - 6 ), $round );
-		$time			= round( $timeMicro * pow( 10, $base - 6 ), $round );
-		
-		$this->laps[]	= array(
-			'time'			=> $time,
-			'timeMicro'		=> $timeMicro,
-			'total'			=> $total,
-			'totalMicro'	=> $totalMicro,
-			'label'			=> $label
-		);
-		$this->microtimeLap	= $microtimeNow;
-		return $time;
-	}
 
 	/**
 	 *	Calculates the time difference between start and stop in microseconds.
@@ -113,19 +81,13 @@ class StopWatch
 	 */
 	public function getTime( $base = 3, $round = 3 )
 	{
-		$time	= $this->calculateTimeSpan( $this->microtimeStart, $this->microtimeStop );
-		$time	= $time * pow( 10, $base );
-		$time	= round( $time, $round );
-		return $time;
-	}
-	
-	protected function calculateTimeSpan( $microtimeStart, $microtimeStop )
-	{
-		$start	= explode( ' ', $microtimeStart );
-		$end	= explode( ' ', $microtimeStop );
+		$start	= explode( ' ', $this->microtimeStart );
+		$end	= explode( ' ', $this->microtimeStop );
 		$sec	= $end[1] - $start[1];
 		$msec	= $end[0] - $start[0];
 		$time	= (float) $sec + $msec;
+		$time	= $time * pow( 10, $base );
+		$time	= round( $time, $round );
 		return $time;
 	}
 }

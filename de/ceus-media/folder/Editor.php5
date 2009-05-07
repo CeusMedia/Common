@@ -1,4 +1,5 @@
 <?php
+import( 'de.ceus-media.folder.Reader' );
 /**
  *	Editor for Folders.
  *	All Methods to create, copy, move or remove a Folder are working recursive.
@@ -6,7 +7,7 @@
  *	By default copy, move and remove are not overwriting existing Files or deleting Folders containing Files or Folders.
  *	It can be forced to overwrite or remove everything with Option 'force'.
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2008 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -23,14 +24,13 @@
  *
  *	@package		folder
  *	@extends	 	Folder_Reader
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			15.04.2008
  *	@version		0.6
  */
-import( 'de.ceus-media.folder.Reader' );
 /**
  *	Editor for Folders.
  *	All Methods to create, copy, move or remove a Folder are working recursive.
@@ -39,8 +39,8 @@ import( 'de.ceus-media.folder.Reader' );
  *	It can be forced to overwrite or remove everything with Option 'force'.
  *	@package		folder
  *	@extends	 	Folder_Reader
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			15.04.2008
@@ -67,7 +67,6 @@ class Folder_Editor extends Folder_Reader
 	/**
 	 *	Creates a Folder by creating all Folders in Path recursive.
 	 *	@access		public
-	 *	@static
 	 *	@param		string		$folderName		Folder to create
 	 *	@param		int			$mode			Permission Mode, default: 0755
 	 *	@param		string		$userName		User Name
@@ -90,7 +89,6 @@ class Folder_Editor extends Folder_Reader
 	/**
 	 *	Copies a Folder recursive to another Path and returns Number of copied Files and Folders.
 	 *	@access		public
-	 *	@static
 	 *	@param		string		$sourceFolder	Folder Name of Folder to copy
 	 *	@param		string		$targetFolder	Folder Name to Target Folder
 	 *	@param		bool		$force			Flag: force Copy if file is existing
@@ -153,7 +151,6 @@ class Folder_Editor extends Folder_Reader
 	/**
 	 *	Moves a Folder to another Path.
 	 *	@access		public
-	 *	@static
 	 *	@param		string		$sourceFolder	Folder Name of Source Folder, eg. /path/to/source/folder
 	 *	@param		string		$targetPath		Folder Path of Target Folder, eg. /path/to/target
 	 *	@param		string		$force			Flag: continue if Target Folder is already existing, otherwise break
@@ -210,7 +207,6 @@ class Folder_Editor extends Folder_Reader
 	/**
 	 *	Renames a Folder to another Folder Name.
 	 *	@access		public
-	 *	@static
 	 *	@param		string		$sourceFolder	Folder to rename
 	 *	@param		string		$targetName		New Name of Folder
 	 *	@return		bool
@@ -246,7 +242,6 @@ class Folder_Editor extends Folder_Reader
 	 *	Removes a Folder recursive and returns Number of removed Folders and Files.
 	 *	Because there where Permission Issues with DirectoryIterator it uses the old 'dir' command.
 	 *	@access		public
-	 *	@static
 	 *	@param		string		$folderName		Folder to be removed
 	 *	@param		bool		$force			Flag: force to remove nested Files and Folders
 	 *	@return		int
@@ -280,7 +275,6 @@ class Folder_Editor extends Folder_Reader
 	/**
 	 *	Removes a Folder recursive and returns Number of removed Folders and Files.
 	 *	@access		public
-	 *	@static
 	 *	@param		string		$folderName		Folder to be removed
 	 *	@param		bool		$force			Flag: force to remove nested Files and Folders
 	 *	@return		int

@@ -2,7 +2,7 @@
 /**
  *	Extracts Terms from a Text Document.
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2008 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -18,34 +18,20 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@package		alg
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@link			http://code.google.com/p/cmclasses/
- *	@since			04.08.2008
- *	@version		0.1
- *	
  */
 import( 'de.ceus-media.alg.StringUnicoder' );
 import( 'de.ceus-media.file.Editor' );
 /**
  *	Extracts Terms from a Text Document.
  *	@package		alg
- *	@uses			Alg_StringUnicoder
- *	@uses			File_Editor
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@link			http://code.google.com/p/cmclasses/
- *	@since			04.08.2008
- *	@version		0.1
  *	@todo			Code Doc
  */
 class Alg_TermExtractor
 {
+	protected $list				= array();
 	public static $blacklist	= array();
 
-	public static function getTerms( $text )
+	public function getTerms( $text )
 	{
 		$list	= array();
 		$lines	= explode( "\n", $text );
@@ -80,7 +66,7 @@ class Alg_TermExtractor
 		return $list;
 	}
 	
-	public static function loadBlacklist( $fileName )
+	public function loadBlacklist( $fileName )
 	{
 		$string	= File_Editor::load( $fileName );
 		if( !Alg_StringUnicoder::isUnicode( $string ) )
@@ -89,12 +75,12 @@ class Alg_TermExtractor
 			File_Editor::save( $fileName, $string );
 		}
 		$list	= File_Editor::loadArray( $fileName );
-		self::setBlacklist( array_unique( $list ) );
+		$this->setBlacklist( $list );
 	}
 	
-	public static function setBlacklist( $list )
+	public function setBlacklist( $list )
 	{
-		self::$blacklist	= array_unique( $list );
+		self::$blacklist	= $list;
 	}
 }
 ?>

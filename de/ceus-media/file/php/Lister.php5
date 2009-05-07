@@ -2,7 +2,7 @@
 /**
  *	Lists PHP Files within a Path an applies Filter on Folder and File Names.
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2008 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -19,8 +19,8 @@
  *
  *	@package		file.php
  *	@extends		FilterIterator
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			04.08.08
@@ -30,8 +30,8 @@
  *	Lists PHP Files within a Path an applies Filter on Folder and File Names.
  *	@package		file.php
  *	@extends		FilterIterator
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			04.08.08
@@ -67,8 +67,6 @@ class File_PHP_Lister extends FilterIterator
 		$innerFile	= $innerPath.$fileName;
 		foreach( $this->ignoreFolders as $folder )										//  iterate Folders to be ignored
 		{
-			if( !trim( $folder ) )
-				continue;
 			$folder	= str_replace( ".", "\.", $folder );								//  replace Wildcard by RegEx Wildcard
 			$folder	= preg_replace( "@/?\*/?@", ".*", $folder );						//  replace Wildcard by RegEx Wildcard
 			$found	= preg_match( "@^".$folder."@", $innerPath );
@@ -84,8 +82,6 @@ class File_PHP_Lister extends FilterIterator
 
 		foreach( $this->ignoreFiles as $file )											//  iterate Files to be ignored
 		{
-			if( !trim( $file ) )
-				continue;
 			$file	= str_replace( ".", "\.", $file );									//  replace Wildcard by RegEx Wildcard
 			$file	= preg_replace( "@\*@", ".*", $file );								//  replace Wildcard by RegEx Wildcard
 			$found	= preg_match( "@^".$file."$@", $innerFile );

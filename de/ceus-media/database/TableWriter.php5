@@ -1,8 +1,9 @@
 <?php
+import( 'de.ceus-media.database.TableReader' );
 /**
  *	TableWriter.
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2008 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -19,19 +20,18 @@
  *
  *	@package		database
  *	@extends		Database_TableReader
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		0.6
  */
-import( 'de.ceus-media.database.TableReader' );
 /**
  *	TableWriter.
  *	@package		database
  *	@extends		TableReader
- *	@author			Database_Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Database_Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		0.6
@@ -180,6 +180,8 @@ class Database_TableWriter extends Database_TableReader
 								$field = addslashes( $field );
 								$value = addslashes( $value );
 							}
+							if( !ini_get( 'magic_quotes_gpc' ) )
+								$value	= addslashes( $value );
 							$value	= str_replace( '"', "'", $value );
 							if( $value == "on" )
 								$value = 1;
@@ -218,7 +220,7 @@ class Database_TableWriter extends Database_TableReader
 		$conditions	= $this->getConditionQuery( $where, FALSE, FALSE );
 		foreach( $this->fields as $field )
 		{
-			if( array_key_exists( $field, $data ) )
+			if( $data[$field] )
 			{
 				$data[$field]	= strip_tags( $data[$field] );
 				if( $data[$field] == "on" )

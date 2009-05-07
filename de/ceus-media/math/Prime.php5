@@ -2,7 +2,7 @@
 /**
  *	Prime Numbers
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2008 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -18,8 +18,8 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@package		math
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			30.4.2005
@@ -28,8 +28,8 @@
 /**
  *	Prime Numbers
  *	@package		math
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			30.4.2005
@@ -40,8 +40,7 @@ class Math_Prime
 	/**
 	 *	Returns all Primes from 2 to a given Number
 	 *	@access		public
-	 *	@static
-	 *	@param		int			$max	Greatest Number to get Primes for
+	 *	@param		int		$max	Greatest Number to get Primes for
 	 *	@return		array
 	 */
 	public static function getPrimes( $max )
@@ -68,8 +67,7 @@ class Math_Prime
 	/**
 	 *	Indicates whether a given Number is a Prime Number.
 	 *	@access		public
-	 *	@static
-	 *	@param		int			$number		Number to be checked
+	 *	@param		int		$number		Number to be checked
 	 *	@return		bool
 	 */
 	public static function isPrime( $number )
@@ -86,9 +84,8 @@ class Math_Prime
 	/**
 	 *	Returns a List of Prime Factors if given Number is dividable with Prime Numbers.
 	 *	@access		public
-	 *	@static
-	 *	@param		int			$number
-	 *	@param		array		$list
+	 *	@param		int		$number
+	 *	@param		array	$list
 	 *	@return		array
 	 */
 	public static function getPrimeFactors( $number, $list = array () )

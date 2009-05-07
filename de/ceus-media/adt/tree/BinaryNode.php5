@@ -2,7 +2,7 @@
 /**
  *	Binary Tree.
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2008 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -19,8 +19,8 @@
  *
  *	@package		adt.tree
  *	@extends		Object
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		0.6
@@ -29,8 +29,8 @@
  *	Binary Tree.
  *	@package		adt.tree
  *	@extends		Object
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		0.6
@@ -143,10 +143,13 @@ class ADT_Tree_BinaryNode
 	 */
 	public function getHeight()
 	{
-		$left_height	= $this->left  ? $this->left->getHeight()  : 0;		//  Rekursiver Aufruf des linken Teilbaumes
-		$right_height	= $this->right ? $this->right->getHeight() : 0;		//  Rekursiver Aufruf des rechten Teilbaumes
-		$height = max( $left_height, $right_height ); 						//  Vergleichen welcher der beiden Teilbäume höher ist
-		$height++;															//  Höhe hochzählen
+		$left_height = $right_hight = 0;
+		if( $this->left )
+			$left_height	= $this->left->getHeight();				//Rekursiver Aufruf des linken Teilbaumes
+		if( $this->right )
+			$right_height	= $this->right->getHeight();			//Rekursiver Aufruf des rechten Teilbaumes
+		$height = max( $left_height, $right_height ); 				//Vergleichen welcher der beiden Teilbäume höher ist
+		$height++;													//Höhe hochzählen
 		return $height;
 	}
 

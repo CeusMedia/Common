@@ -1,8 +1,10 @@
 <?php
+import( 'de.ceus-media.xml.dom.Node' );
+import( 'de.ceus-media.xml.dom.Builder' );
 /**
  *	Serializer for Data Object into XML.
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2008 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,22 +22,20 @@
  *	@package		xml.dom
  *	@uses			XML_DOM_Node
  *	@uses			XML_DOM_Builder
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			26.12.2005
  *	@version		0.6
  */
-import( 'de.ceus-media.xml.dom.Node' );
-import( 'de.ceus-media.xml.dom.Builder' );
 /**
  *	Serializer for Data Object into XML.
  *	@package		xml.dom
  *	@uses			XML_DOM_Node
  *	@uses			XML_DOM_Builder
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			26.12.2005
@@ -46,17 +46,16 @@ class XML_DOM_ObjectSerializer
 	/**
 	 *	Builds XML String from an Object.
 	 *	@access		public
-	 *	@static
 	 *	@param		mixed		$object		Object to serialize
 	 *	@param		string		$encoding	Encoding Type
 	 *	@return		string
 	 */
-	public static function serialize( $object, $encoding = "utf-8" )
+	public function serialize( $object, $encoding = "utf-8" )
 	{
 		$root	= new XML_DOM_Node( "object" );
 		$root->setAttribute( 'class', get_class( $object ) );
 		$vars	= get_object_vars( $object );
-		self::serializeVarsRec( $vars, $root );
+		$this->serializeVarsRec( $vars, $root );
 		$builder	= new XML_DOM_Builder();
 		$serial		= $builder->build( $root, $encoding );
 		return $serial;
@@ -65,12 +64,11 @@ class XML_DOM_ObjectSerializer
 	/**
 	 *	Adds XML Nodes to a XML Tree by their Type while supporting nested Arrays.
 	 *	@access		protected
-	 *	@static
 	 *	@param		array			$array		Array of Vars to add
 	 *	@param		XML_DOM_Node	$node		current XML Tree Node
 	 *	@return		string
 	 */
-	protected static function serializeVarsRec( $array, &$node )
+	protected function serializeVarsRec( $array, &$node )
 	{
 		foreach( $array as $key => $value)
 		{
@@ -104,7 +102,7 @@ class XML_DOM_ObjectSerializer
 				case 'array':
 					$child	=& new XML_DOM_Node( "array" );
 					$child->setAttribute( "name", $key );
-					self::serializeVarsRec( $value, $child );
+					$this->serializeVarsRec( $value, $child );
 					$node->addChild( $child );
 					break;
 				case 'object':
@@ -112,7 +110,7 @@ class XML_DOM_ObjectSerializer
 					$child->setAttribute( "name", $key );
 					$child->setAttribute( "class", get_class( $value ) );
 					$vars	= get_object_vars( $value );
-					self::serializeVarsRec( $vars, $child );
+					$this->serializeVarsRec( $vars, $child );
 					$node->addChild( $child );
 					break;
 			}

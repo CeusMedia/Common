@@ -10,7 +10,6 @@
  *	@version		0.1
  */
 require_once 'PHPUnit/Framework/TestCase.php'; 
-require_once 'Tests/initLoaders.php5' ;
 import( 'de.ceus-media.xml.dom.Builder' );
 import( 'de.ceus-media.xml.dom.Node' );
 /**
@@ -26,28 +25,14 @@ import( 'de.ceus-media.xml.dom.Node' );
 class Tests_XML_DOM_BuilderTest extends PHPUnit_Framework_TestCase
 {
 	/**
-	 *	Sets up Builder.
+	 *	Sets up Leaf.
 	 *	@access		public
 	 *	@return		void
 	 */
 	public function setUp()
 	{
 		$this->builder	= new XML_DOM_Builder();
-		$this->fileName		= dirname( __FILE__ )."/builder.xml";
-
 	}
-
-
-
-	/**
-	 *	Sets down Writer.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function tearDown()
-	{
-		@unlink( $this->path."writer.xml" );
-	} 
 
 	/**
 	 *	Tests Method 'build'.
@@ -86,8 +71,8 @@ class Tests_XML_DOM_BuilderTest extends PHPUnit_Framework_TestCase
 		$tree->addChild( $leaf31 );
 		$tree->addChild( $leaf32 );
 
-		$assertion	= file_get_contents( $this->fileName );
-		$creation	= XML_DOM_Builder::build( $tree );
+		$assertion	= file_get_contents( "Tests/xml/dom/builder.xml" );
+		$creation	= $this->builder->build( $tree );
 		$this->assertEquals( $assertion, $creation );
 	}
 }

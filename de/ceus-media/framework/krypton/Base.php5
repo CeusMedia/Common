@@ -2,7 +2,7 @@
 /**
  *	Base for all Applications.
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2008 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -31,8 +31,8 @@
  *	@uses			Framework_Krypton_Core_FormDefinitionReader
  *	@uses			Framework_Krypton_Core_PageController
  *	@uses			Logic_Authentication
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			01.02.2007
@@ -41,7 +41,6 @@
 /**
  *	Base for all Applications.
  *	@package		framework.krypton
- *	@abstract
  *	@uses			StopWatch
  *	@uses			Database_PDO_Connection
  *	@uses			Net_HTTP_PartitionSession
@@ -55,8 +54,8 @@
  *	@uses			Framework_Krypton_Core_FormDefinitionReader
  *	@uses			Framework_Krypton_Core_PageController
  *	@uses			Logic_Authentication
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			01.02.2007
@@ -77,7 +76,6 @@ abstract class Framework_Krypton_Base
 
 	/**
 	 *	Constructor, sets up Environment.
-	 *	@abstract
 	 *	@access		public
 	 *	@param		string		$cachePath			Cache Path for basic Configuration Files
 	 *	@return		void
@@ -87,7 +85,6 @@ abstract class Framework_Krypton_Base
 	/**
 	 *	Returns File Name for a Class Name.
 	 *	@access		protected
-	 *	@static
 	 *	@param		string		$className			Class Name to get File Name for
 	 *	@param		string		$caseSensitive		Flag: sense Case (important on *nix Servers)
 	 *	@param		string		$extension			Class File Extension, by default 'php5'
@@ -108,7 +105,6 @@ abstract class Framework_Krypton_Base
 	/**
 	 *	Returns File Name for a Class Name.
 	 *	@access		protected
-	 *	@static
 	 *	@param		string		$className			Class Name to get File Name for
 	 *	@param		string		$caseSensitive		Flag: sense Case (important on *nix Servers)
 	 *	@param		string		$extension			Class File Extension, by default 'php5'
@@ -142,9 +138,9 @@ abstract class Framework_Krypton_Base
 	/**
 	 *	Sets up Basic Configuration.
 	 *	@access		protected
-	 *	@return		File_Configuration_Reader
+	 *	@return		void
 	 */
-	protected function initConfiguration( $errorLevelKey = "config.error.level" )
+	protected function initConfiguration()
 	{
 /*		$config	= parse_ini_file( self::$configPath.self::$configFile, TRUE );
 		if( isset( $config['config.error_level'] ) )
@@ -153,16 +149,15 @@ abstract class Framework_Krypton_Base
 */		
 		import( 'de.ceus-media.file.configuration.Reader' );
 		$config	= new File_Configuration_Reader( self::$configPath.self::$configFile, self::$cachePath );
-		if( $config->has( $errorLevelKey ) )
-			error_reporting( $config->get( $errorLevelKey ) );
+		if( $config->has( 'config.error_level' ) )
+			error_reporting( $config->get( 'config.error_level' ) );
 		$this->registry->set( "config", $config, TRUE );
-		return $config;
 	}
 
 	/**
 	 *	Sets up Cookie Support.
 	 *	@access		protected
-	 *	@return		Net_HTTP_PartitionCookie
+	 *	@return		void
 	 */
 	protected function initCookie()
 	{
@@ -170,16 +165,14 @@ abstract class Framework_Krypton_Base
 		$config	=& $this->registry->get( 'config' );
 		$cookie	= new Net_HTTP_PartitionCookie( $config['application.name'] );
 		$this->registry->set( 'cookie', $cookie );
-		return $cookie;
 	}
 	
 	/**
 	 *	Sets up Database Connection.
 	 *	@access		protected
-	 *	@param		bool		$setUtf8		Flag: set Database Connection to UTF-8
-	 *	@return		Database_PDO_Connection
+	 *	@return		void
 	 */
-	protected function initDatabase( $setUtf8 = TRUE )
+	protected function initDatabase()
 	{
 		import( 'de.ceus-media.database.pdo.Connection' );
 		import( 'de.ceus-media.database.pdo.DataSourceName' );
@@ -208,26 +201,23 @@ abstract class Framework_Krypton_Base
 			$config['database.access.password'],
 			$options
 		);
-
-		self::$dbLogPath	= $config['database.log.path'];
-		$log1	= $config['database.log.errors'] ? self::$dbLogPath.$config['database.log.errors'] : "";
-		$log2	= $config['database.log.statements'] ? self::$dbLogPath."queries.log" : "";
-		$dbc->setErrorLogFile( $log1 );
-		$dbc->setStatementLogFile( $log2 );
+#		$dbc->setErrorLogFile( $dba['access']['logfile'] );
+#		$dbc->setStatementLogFile( self::$dbLogPath."queries.log" );
+#		$dbc->setLogFile( $logfile );
+		if( $config->has( 'database.access.errorLogFile' ) )
+			$dbc->setLogFile( $errorLogFile );
+		$dbc->setQueryLogFile( self::$dbLogPath."queries.log" );
+		if( $config->has( 'database.access.statementLogFile' ) )
+			$dbc->setLogFile( $statementLogFile );
 
 		//  --  DATABASE ATTRIBUTES  --  //
 		$attributes	= $config['database.attributes'];
 		if( is_array( $attributes ) )
 			foreach( $attributes as $key => $value )
 				$dbc->setAttribute( constant( "PDO::".$key ), eval( "return ".$value.";" ) );
-
-		if( $setUtf8 )
-			$dbc->query( "SET NAMES utf8" );		
-
+		
 		$config['config.table_prefix']	= $config['database.access.prefix'];
-		$config->remove( 'database.access.username' );
-		$config->remove( 'database.access.password' );
-
+;
 		$this->registry->set( "dbc", $dbc, TRUE );
 	}
 
@@ -247,7 +237,7 @@ abstract class Framework_Krypton_Base
 	/**
 	 *	Sets up Form Definition Support.
 	 *	@access		protected
-	 *	@return		Framework_Krypton_Core_FormDefinitionReader
+	 *	@return		void
 	 */
 	protected function initFormDefinition()
 	{
@@ -258,43 +248,36 @@ abstract class Framework_Krypton_Base
 		$definition	= new Framework_Krypton_Core_FormDefinitionReader( $formPath, TRUE, $cachePath );
 		$definition->setChannel( "html" );
 		$this->registry->set( 'definition', $definition );
-		return $definition;
 	}
 
 	/**
 	 *	Sets up Language Support.
 	 *	@access		protected
-	 *	@return		Framework_Krypton_Core_Language
+	 *	@return		void
 	 */
-	protected function & initLanguage( $identify = TRUE )
+	protected function initLanguage( $identify = TRUE )
 	{
 		import( 'de.ceus-media.framework.krypton.core.Language' );
 		$language	= new Framework_Krypton_Core_Language( $identify );
 		$language->loadLanguage( 'main' );
-		$this->registry->set( 'language', $language, TRUE );	
-		$this->registry->set( 'words', $language->getWords(), TRUE );
+		$this->registry->set( 'language', $language, TRUE );		
 		
-		import( 'de.ceus-media.exception.Template' );
+		import( 'de.ceus-media.framework.krypton.exception.Template' );
 		import( 'de.ceus-media.framework.krypton.exception.SQL' );
-		Exception_Template::$messages	= array(
-			EXCEPTION_TEMPLATE_FILE_NOT_FOUND 	=> $language->getWord( 'main', 'exceptions', 'templateFileNotFound' ),
-			EXCEPTION_TEMPLATE_LABELS_NOT_USED	=> $language->getWord( 'main', 'exceptions', 'templateLabelsMissing' ),
-		);
+		Framework_Krypton_Exception_Template::$exceptionMessage	 = $language->getWord( 'main', 'exceptions', 'template' );
 		Framework_Krypton_Exception_Sql::$exceptionMessage	 = $language->getWord( 'main', 'exceptions', 'sql' );
-		return $language;
 	}
 
 	/**
 	 *	Sets up Page Controller.
 	 *	@access		protected
-	 *	@return		Framework_Krypton_Core_PageController
+	 *	@return		void
 	 */
-	protected function & initPageController()
+	protected function initPageController()
 	{
 		import( 'de.ceus-media.framework.krypton.core.PageController' );
 		$controller	= new Framework_Krypton_Core_PageController( self::$configPath."pages.xml" );
 		$this->registry->set( 'controller', $controller );
-		return $controller;
 	}
 
 	/**
@@ -315,7 +298,7 @@ abstract class Framework_Krypton_Base
 	 *	@access		protected
 	 *	@return		void
 	 */
-	protected function & initRequest()
+	protected function initRequest()
 	{
 		if( getEnv( 'HTTP_HOST' ) )
 		{
@@ -328,15 +311,14 @@ abstract class Framework_Krypton_Base
 			$request	= new Console_RequestReceiver;
 		}
 		$this->registry->set( "request", $request, TRUE );
-		return $request;
 	}
 
 	/**
 	 *	Sets up Service Client.
 	 *	@access		protected
-	 *	@return		Net_Service_Client
+	 *	@return		void
 	 */
-	protected function & initServiceClient( $configSection = "services", $keyUrl = "url", $keyUsername = "username", $keyPassword = "password" )
+	protected function initServiceClient( $configSection = "services", $keyUrl = "url", $keyUsername = "username", $keyPassword = "password" )
 	{
 		import( 'de.ceus-media.net.service.Client' );
 		if( !$this->registry->has( 'config' ) )
@@ -348,50 +330,52 @@ abstract class Framework_Krypton_Base
 		if( $config["$configSection.$keyUsername"] )
 			$client->setBasicAuth( $config["$configSection.$keyUsername"], $config["$configSection.$keyPassword"] );
 		$this->registry->set( 'client', $client );
-		return $client;
 	}
 
 	/**
 	 *	Sets up Request Handler.
 	 *	@access		protected
-	 *	@return		Net_HTTP_PartitionSession
+	 *	@return		void
 	 */
-	protected function & initSession( $sessionNameKey	= 'config.sessionName', $sessionPartitionKey = 'application.name' )
+	protected function initSession()
 	{
 		import( 'de.ceus-media.net.http.PartitionSession' );
 		if( !$this->registry->has( 'config' ) )
 			throw new Exception( 'Configuration has not been set up.' );
 		$config		= $this->registry->get( 'config' );
-		$session	= new Net_HTTP_PartitionSession( $config[$sessionPartitionKey], $config[$sessionNameKey ] );
+		$session	= new Net_HTTP_PartitionSession( $config['application.name'], $config['config.session_name'] );
 		$this->registry->set( "session", $session );
-		return $session;
 	}
 
 	/**
-	 *	Loads a INI File and defines Constants for Core System.
-	 *	@access		public
-	 *	@static
-	 *	@param		string		$fileName			File Name of INI File containg Constant Pairs
-	 *	@param		bool		$force				Flag: throw Exception if Constants File is not existing, otherwise be quiet
+	 *	Sets up Theme Support.
+	 *	@access		protected
 	 *	@return		void
 	 */
-	public static function loadConstants( $fileName = "config/constants.ini", $force = TRUE )
+	protected function initThemeSupport()
 	{
-		if( !file_exists( $fileName ) )												//  Constants File is not existing
+		if( !$this->registry->has( 'config' ) )
+			throw new Exception( 'Configuration has not been set up.' );
+		if( !$this->registry->has( 'request' ) )
+			throw new Exception( 'Request Handler has not been set up.' );
+		if( !$this->registry->has( 'session' ) )
+			throw new Exception( 'Session Support has not been set up.' );
+
+		$config		= $this->registry->get( "config" );
+		$request	= $this->registry->get( "request" );
+		$session	= $this->registry->get( "session" );
+
+		if( $config['layout.switchable_themes'] )
 		{
-			if( !$force )															//  but is not needed
-				return;
-			throw new RuntimeException( 'File "'.$fileName.'" is missing.' );		//  otherwise it is missing
+			if( $request->has( 'switchThemeTo' ) )
+				$session->set( 'theme', $request->get( 'switchThemeTo' ) );
+			if( $session->get( 'theme' ) )
+				$config['layout.theme'] =  $session->get( 'theme' );
+			else
+				$session->set( 'theme', $config['layout.theme'] );
 		}
-		$map	= parse_ini_file( $fileName, FALSE );								//  load Map of System Constants
-		foreach( $map as $key => $value )											//  iterate Map
-		{
-			if( defined( trim( $key ) ) )											//  Constant is already defined
-				continue;															//  go on
-			if( preg_match( '@^[A-Z_]+$@', $value ) )								//  value is a Constant itself
-				$value	= constant( $value );										//  get Constant Value
-			define( strtoupper( trim( $key ) ), trim( $value ) );					//  define System Constants
-		}
+		else
+			$session->set( 'theme', $config['layout.theme'] );
 	}
 
 	protected function logRemarks( $output )

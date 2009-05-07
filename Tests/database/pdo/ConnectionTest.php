@@ -46,8 +46,7 @@ class Tests_Database_PDO_ConnectionTest extends PHPUnit_Framework_TestCase
 	 */
 	public function setUp()
 	{
-		$dsn 		= "mysql:host=".$this->host.";dbname=".$this->database;
-		$options	= array();
+		$dsn = "mysql:host=".$this->host.";dbname=".$this->database;
 		$this->connection	= new Database_PDO_Connection( $dsn, $this->username, $this->password, $options );
 		$this->connection->setAttribute( PDO::ATTR_CASE, PDO::CASE_NATURAL );
 		$this->connection->setAttribute( PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, TRUE );
@@ -181,7 +180,6 @@ class Tests_Database_PDO_ConnectionTest extends PHPUnit_Framework_TestCase
 	public function testQuery()
 	{
 		$assertion	= FALSE;
-		$creation	= NULL;
 		try
 		{
 			$creation	= $this->connection->query( "SELECT none FROM nowhere" );

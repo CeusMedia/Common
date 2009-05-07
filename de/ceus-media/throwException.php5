@@ -2,7 +2,7 @@
 /**
  *	Extension of throw command for lazy load of Exception Class, throws new Exception of given Type.
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2008 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,8 +20,8 @@
  *	@param			string		$type		Exception Type (eg. IO for Exception_IO)
  *	@param			string		$message	Exception Message
  *	@return			void
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			20.06.2008
@@ -32,8 +32,8 @@
  *	@param			string		$type		Exception Type (eg. IO for Exception_IO)
  *	@param			string		$message	Exception Message
  *	@return			void
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			20.06.2008
@@ -60,22 +60,12 @@ function throwException()
 			import( $classFile );												//  import extended Exception Class
 		}
 	}
-	if( count( $arguments ) == 4 )
-		$exception	= new $className( $arguments[0], $arguments[1], $arguments[2], $arguments[3] );
-	else if( count( $arguments ) == 3 )
-		$exception	= new $className( $arguments[0], $arguments[1], $arguments[2] );
-	else if( count( $arguments ) == 2 )
-		$exception	= new $className( $arguments[0], $arguments[1] );
-	else if( count( $arguments ) == 1 )
-		$exception	= new $className( $arguments[0] );
-	
-	
-/*	$list	= array();
+	$list	= array();
 	for( $i=0; $i<count( $arguments ); $i++ )									//  iterate Arguments
 		$list[]	= ' $arguments['.$i.']';										//  add Parameter
 	$list	= implode( ", ", $list );											//  build Parameter List
 	$code	= 'return new '.$className.'( '.$list.' );';						//  build Exception Instance Call Code
 	$exception	= eval( $code );												//  call new Exception Instance
-*/	throw $exception;															//  throw this new Exception
+	throw $exception;															//  throw this new Exception
 }
 ?>

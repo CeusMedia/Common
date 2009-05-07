@@ -1,8 +1,9 @@
 <?php
+import( 'de.ceus-media.file.Writer' );
 /**
  *	Builder for File in .ini-Format.
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2008 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -19,20 +20,19 @@
  *
  *	@package		file.ini
  *	@uses			File_Writer
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			18.07.2005
  *	@version		0.6
  */
-import( 'de.ceus-media.file.Writer' );
 /**
  *	Builder for File in .ini-Format.
  *	@package		file.ini
  *	@uses			File_Writer
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			18.07.2005
@@ -41,11 +41,11 @@ import( 'de.ceus-media.file.Writer' );
 class File_INI_Creator
 {
 	/**	@var	array			$data			Data of Ini File */
-	protected $data				= array();
+	protected $data = array();
 	/**	@var	string			$currentSection	Current working Section */
-	protected $currentSection	= NULL;
+	protected $currentSection = "";
 	/**	@var	bool			$useSections	Flag: use Sections within Ini File */
-	protected $useSections		= FALSE;
+	protected $useSections = false;
 
 	/**
 	 *	Constructor.
@@ -69,16 +69,14 @@ class File_INI_Creator
 	 */
 	public function addProperty( $key, $value, $comment = NULL )
 	{
-		if( !$this->useSections )
+		if( $this->useSections )
+			$this->addPropertyToSection( $key, $value, $this->currentSection, $comment );
+		else
 		{
 			$this->data[$key]['key']		= $key;
 			$this->data[$key]['value']		= $value;
 			$this->data[$key]['comment']	= $comment;
 		}
-		else if( $this->currentSection )
-			$this->addPropertyToSection( $key, $value, $this->currentSection, $comment );
-		else
-			throw new InvalidArgumentException( 'No section given.' );
 	}
 	
 	/**
@@ -142,26 +140,13 @@ class File_INI_Creator
 	public function write( $fileName )
 	{
 		$lines	= array();
-		if( $this->useSections )
+		foreach ( $this->data as $section => $section_data )
 		{
-			foreach ( $this->data as $section => $sectionPairs )
+			$lines[]	= "[".$section."]";
+			foreach ( $section_data as $key => $key_data )
 			{
-				$lines[]	= "[".$section."]";
-				foreach ( $sectionPairs as $key => $data )
-				{
-					$value		= $data['value'];
-					$comment	= $data['comment'];
-					$lines[]	= $this->buildLine( $key, $value, $comment);
-				}
-				$lines[]	= "";
-			}
-		}
-		else
-		{
-			foreach ( $this->data as $key => $data )
-			{
-				$value		= $data['value'];
-				$comment	= $data['comment'];
+				$value		= $key_data['value'];
+				$comment	= $key_data['comment'];
 				$lines[]	= $this->buildLine( $key, $value, $comment);
 			}
 			$lines[]	= "";

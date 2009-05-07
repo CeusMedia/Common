@@ -2,7 +2,7 @@
 /**
  *	Visualisation of Exception Stack Trace.
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2008 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -19,8 +19,8 @@
  *
  *	@package		ui.html.exception
  *	@author			Romain Boisnard
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			11.04.2008
@@ -30,8 +30,8 @@
  *	Visualisation of Exception Stack Trace.
  *	@package		ui.html.exception
  *	@author			Romain Boisnard
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			11.04.2008
@@ -62,21 +62,17 @@ class UI_HTML_Exception_TraceViewer
 	 *	1	break Function Call after File Name
 	 *	2	break on every Argument
 	 *	@access		private
-	 *	@static
 	 *	@param		Exception	$exception		Exception
 	 *	@param		int			$breakMode		Mode of Line Breaks (0-one line|1-break line|2-break arguments)
 	 *	@return		string
 	 */
 	public static function buildTrace( Exception $exception, $breakMode = 0 )
 	{
-
 		$content	= '<p style="font-family: monospace;"><span style="font-weight: bold; color: #000000;">An exception was thrown.<br/></span>';
 		$content	.= "Type: ".get_class( $exception )."<br/>";
 		$content	.= "Message: ".$exception->getMessage()."<br/>";
 		$content	.= "Code: ".$exception->getCode()."<br/>";
-		$content	.= "File: ".self::trimRootPath( $exception->getFile() )."<br/>";
-		$content	.= "Line: ".$exception->getLine()."<br/>";
-		$content	.= 'Trace:<br/><span style="color: #0000FF;">';
+		$content	.= '<span style="color: #0000FF;">';
 		$i	= 0;
 		$j	= 0;
 		foreach( $exception->getTrace() as $key => $trace )
@@ -96,7 +92,6 @@ class UI_HTML_Exception_TraceViewer
 	/**
 	 *	Builds HTML Code of one Trace Step.
 	 *	@access		private
-	 *	@static
 	 *	@param		array		$trace		Trace Step Data
 	 *	@param		int			$i			Trace Step Number
 	 *	@param		int			$breakMode		Mode of Line Breaks (0-one line|1-break line|2-break arguments)
@@ -105,7 +100,7 @@ class UI_HTML_Exception_TraceViewer
 	private static function buildTraceStep( $trace, $i, $j, $breakMode = 0 )
 	{
 		if( $j == 0 )
-			if( isset( $trace['function'] ) )
+			if( !isset( $trace['class'] ) && isset( $trace['function'] ) )
 				if( in_array( $trace['function'], array( "eval", "throwException" ) ) )		//  Exception was thrown using throwException
 					return "";
 
@@ -122,7 +117,7 @@ class UI_HTML_Exception_TraceViewer
 
 		$content	= "#$j ";
 		if( isset( $trace["file"] ) )
-			$content	.= self::trimRootPath( $trace["file"] )."(".$trace["line"]."): ".$funcBreak;
+			$content	.= $trace["file"]."(".$trace["line"]."): ".$funcBreak;
 		if( array_key_exists( "class", $trace ) && array_key_exists( "type", $trace ) )
 			$content	.= $indent.$trace["class"].$trace["type"];
 		if( array_key_exists( "function", $trace ) )
@@ -183,7 +178,6 @@ class UI_HTML_Exception_TraceViewer
 	/**
 	 *	Converts Array to String.
 	 *	@access		private
-	 *	@static
 	 *	@param		array		$array			Array to convert to String
 	 *	@return		string
 	 */
@@ -201,25 +195,6 @@ class UI_HTML_Exception_TraceViewer
 #			return "(<br/>".$indent.$indent.$indent.$indent.implode( ",<br/>".$indent.$indent.$indent.$indent, $list )."<br/>".$indent.$indent.$indent.")";
 #		}
 		return "(".implode( ", ", $list ).")";
-	}
-
-	/**
-	 *	Removes Document Root in File Names.
-	 *	@access		protected
-	 *	@static
-	 *	@param		string		$fileName		File Name to clear
-	 *	@return		string
-	 */
-	protected static function trimRootPath( $fileName )
-	{
-		$rootPath	= isset( $_SERVER['DOCUMENT_ROOT'] ) ? $_SERVER['DOCUMENT_ROOT'] : "";
-		if( !$rootPath || !$fileName )
-			return;
-		$fileName	= str_replace( '\\', "/", $fileName );
-		$cut		= substr( $fileName, 0, strlen( $rootPath ) );
-		if( $cut == $rootPath )
-			$fileName	= substr( $fileName, strlen( $rootPath ) );
-		return $fileName;
 	}
 }
 ?>

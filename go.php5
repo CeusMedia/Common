@@ -12,9 +12,7 @@ class Go
 
 	public function __construct()
 	{
-		if( !empty( $_SERVER['SERVER_ADDR'] ) )
-			die( "This tool is for console only." );
-		isset( $_SERVER['SHELL'] ) ? passthru( "clear" ) : exec( "command /C cls" );					//  try to clear screen (not working on Windows!?)
+		exec( isset( $_SERVER['SHELL'] ) ? "clear" : "cls" );											//  try to clear screen (not working?)
 		print( "\n".$this->messages['title'] );															//  print tool title
 		$configFile	= "cmClasses.ini";																	//  Configuration File
 		$arguments	= array_slice( $_SERVER['argv'], 1 );												//  get given arguments
@@ -60,7 +58,7 @@ class Go
 			case 'create':
 				$config		= parse_ini_file( $configFile, TRUE );
 				if( count( $arguments ) < 2 )
-					throw new InvalidArgumentException( $this->messages['subject_create_invalid'] );
+					throw new InvalidArgumentException( $this->messages['subject_invalid'] );
 				$subject	= strtolower( $arguments[1] );
 				switch( $subject )
 				{
@@ -106,8 +104,7 @@ class Go
 						passthru( $command );
 						break;
 					default:
-						new GoTestRunner( $arguments );
-#						throw new InvalidArgumentException( $this->messages['subject_test_invalid'] );
+						throw new InvalidArgumentException( $this->messages['subject_test_invalid'] );
 				}
 			case 'run':
 				break;
@@ -152,15 +149,15 @@ Usage: go COMMAND [OPTION]...
       -f, --force                  force to write test class (warning!)
     doc                        documentations
       creator                    using DocCreator
-        -sp, --skip-parser        skip to parse class files
-        -sc, --skip-creator       skip to write doc file
-        -sr, --skip-resources     skip to copy resource files
+        -fp, --force-parser        force to parse class files
+        -fc, --force-creator       force to write doc file
+        --show-config                show settings
+        --show-config-only           show settings and abort
       phpdoc                     using PhpDocumentor
         --show-config-only         show settings and abort
   run                          (not implemented yet)
   test                         test...
     self                         very basic self test
-    PACKAGE_CLASS                class in cmClasses
     units                        units = test classes
     
 ".$message );
@@ -220,10 +217,9 @@ class GoInstaller
 		if( count( $arguments ) < 1 )
 			throw new InvalidArgumentException( 'No version to install set.' );
 
-		exec( "svn", $return );
+		exec( "svn co http://cmclasses.googlecode.com/svn/".$arguments[0]." ".$arguments[1], $return );
 		if( !$return )
 			throw new RuntimeException( "SVN seems to be not installed." );
-		passthru( "svn co http://cmclasses.googlecode.com/svn/".$arguments[0]." ".$arguments[1] );
 		chDir( $arguments[1] );
 		new GoConfigurator();
 	}
@@ -234,10 +230,9 @@ class GoUpdater
 	{
 		$revision	= $arguments ? $arguments[0] : "";
 		$path		= dirname( realpath( __FILE__ ) );
-		exec( "svn", $return );
+		exec( "update ".$path." ".$revision, $return );
 		if( !$return )
 			throw new RuntimeException( "SVN seems to be not installed." );
-		passthru( "svn update ".$path." ".$revision, $return );
 	}
 }
 class GoDocCreator
@@ -277,25 +272,6 @@ class GoPhpDocumentor
 			@unlink( $reportFile );														//  remove old Report File
 		}
 		passthru( $command );															//  run phpDocumentor
-	}
-}
-class GoTestRunner
-{
-	public function __construct( $arguments )
-	{
-		$classKey	= $arguments[1];
-		$parts		= explode( "_", $classKey );
-		$fileKey	= array_pop( $parts );
-		$suffix		= $fileKey == "All" ? "Tests" : "Test";
-		while( $parts )
-			$fileKey	= strtolower( array_pop( $parts ) )."/".$fileKey;
-
-		$testClass	= "Tests_".$arguments[1].$suffix;
-		$testFile	= "Tests/".$fileKey.$suffix.".php";
-		if( !file_exists( $testFile ) )
-			throw new RuntimeException( 'Test Class File "'.$testFile.'" is not existing.' );
-		echo "\nTesting Class: ".$classKey."\n\n";
-		passthru( "phpunit ".$testClass, $return );
 	}
 }
 class GoTestCreator

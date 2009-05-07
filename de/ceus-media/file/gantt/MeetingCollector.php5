@@ -1,36 +1,15 @@
 <?php
 /**
  *	Reads for several "Gantt Project" XML Files and extracts Project Information and Meeting Dates.
- *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
- *
- *	This program is free software: you can redistribute it and/or modify
- *	it under the terms of the GNU General Public License as published by
- *	the Free Software Foundation, either version 3 of the License, or
- *	(at your option) any later version.
- *
- *	This program is distributed in the hope that it will be useful,
- *	but WITHOUT ANY WARRANTY; without even the implied warranty of
- *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *	GNU General Public License for more details.
- *
- *	You should have received a copy of the GNU General Public License
- *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- *	@package		file.gantt
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@link			http://code.google.com/p/cmclasses/
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			12.03.2008
  *	@version		0.1
  */
 import( 'de.ceus-media.file.gantt.MeetingReader' );
 /**
  *	Reads for several "Gantt Project" XML Files and extracts Project Information and Meeting Dates.
- *	@package		file.gantt
  *	@uses			File_Gantt_MeetingReader
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			12.03.2008
  *	@version		0.1
  */
@@ -106,7 +85,6 @@ class File_Gantt_MeetingCollector
 	/**
 	 *	Lists all Gantt Project XML Files in a specified Path.
 	 *	@access		protected
-	 *	@static
 	 *	@param		array		$path			Path to Gantt Project XML Files
 	 *	@return		array
 	 */
@@ -128,7 +106,6 @@ class File_Gantt_MeetingCollector
 	/**
 	 *	Reads Gantt Project XML Files and extracts Project and Meeting Dates.
 	 *	@access		protected
-	 *	@static
 	 *	@param		array		$fileList		List of Gantt Project XML Files
 	 *	@return		array
 	 */

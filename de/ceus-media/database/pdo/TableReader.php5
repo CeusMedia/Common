@@ -2,7 +2,7 @@
 /**
  *	Table with Column Definition and Keys.
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2008 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -18,8 +18,8 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@package		database.pdo
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		0.6
@@ -27,8 +27,8 @@
 /**
  *	Table with column definition and keys.
  *	@package		database.pdo
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		0.6
@@ -80,7 +80,7 @@ class Database_PDO_TableReader
 	{
 		$conditions	= $this->getConditionQuery( $conditions, FALSE, TRUE );
 		$conditions	= $conditions ? " WHERE ".$conditions : "";
-		$query	= "SELECT COUNT(`".$this->primaryKey."`) as count FROM ".$this->getTableName().$conditions;
+		$query	= "SELECT COUNT(".$this->primaryKey.") as count FROM ".$this->getTableName().$conditions;
 		$result	= $this->dbc->query( $query );
 		$count	= $result->fetch( PDO::FETCH_ASSOC );
 		return $count['count'];
@@ -284,11 +284,11 @@ class Database_PDO_TableReader
 			else
 			{
 				if( strtolower( $value ) == 'is null' || strtolower( $value ) == 'is not null')
-					$conditions[] = '`'.$key.'`'.' '.$value;
+					$conditions[] = $key.' '.$value;
 				else if( $value === null )
-					$conditions[] = '`'.$key.'` is NULL';
+					$conditions[] = $key.' is NULL';
 				else
-					$conditions[] = '`'.$key.'`='.$this->secureValue( $value );
+					$conditions[] = $key."=".$this->secureValue( $value );
 			}
 		}
 		$conditions = implode( " AND ", $conditions );						//  combine Conditions with AND

@@ -2,7 +2,7 @@
 /**
  *	Shows an Exception and quits.
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2008 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,8 +20,8 @@
  *	@package		framework.krypton
  *	@uses			Net_Mail_PlainMail
  *	@uses			Net_Mail_Sender
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			22.04.2007
@@ -30,15 +30,14 @@
 /**
  *	Shows an Exception and quits.
  *	@package		framework.krypton
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@uses			Net_Mail_PlainMail
  *	@uses			Net_Mail_Sender
  *	@since			22.04.2007
  *	@version		0.2
- *	@deprecated		to be removed in 0,7
  */
 class Framework_Krypton_FatalExceptionHandler
 {
@@ -71,7 +70,7 @@ class Framework_Krypton_FatalExceptionHandler
 		$this->setErrorPage( ( $EXCEPTION_ERROR_PAGE && !$EXCEPTION_DEBUG_MODE ) ? EXCEPTION_ERROR_PAGE : "" );
 		if( $e )
 		{
-			die( $this->handleException( $e, $EXCEPTION_LOG_PATH ? EXCEPTION_LOG_PATH : "" ) );
+			$this->handleException( $e, $EXCEPTION_LOG_PATH ? EXCEPTION_LOG_PATH : "" );
 		}
 	}
 	
@@ -106,8 +105,6 @@ class Framework_Krypton_FatalExceptionHandler
 		}
 		if( $this->errorPage )
 		{
-			if( !file_exists( $this->errorPage ) )
-				throw new Exception( 'Template "'.$this->errorPage.'" is not existing.' );
 			$content	= require_once( $this->errorPage );
 			die( $content );
 		}
@@ -192,8 +189,7 @@ class Framework_Krypton_FatalExceptionHandler
 			$cookie		= ob_get_clean();
 		}
 
-		if( !file_exists( $this->template ) )
-			throw new Exception( 'Template "'.$this->template.'" is not existing.' );
+
 		$body	= require_once( $this->template );
 
 		if( $logPath )
@@ -215,8 +211,6 @@ class Framework_Krypton_FatalExceptionHandler
 
 		$this->lastFileUrl	= $fileUrl;
 		$report	= str_replace( 'href="contents/base.css"', 'href="../../contents/base.css"', $report );
-		if( !file_exists( $logPath ) )
-			mkdir( $logPath, 0700, TRUE );
 		file_put_contents( $fileUrl, $report );
 	}
 

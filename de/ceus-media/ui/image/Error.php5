@@ -1,8 +1,11 @@
 <?php
+import( 'de.ceus-media.ui.image.Creator' );
+import( 'de.ceus-media.ui.image.Drawer' );
+import( 'de.ceus-media.ui.image.Printer' );
 /**
  *	Creates and displays Error Image with Message.
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2008 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,24 +24,21 @@
  *	@uses			UI_Image_Creator
  *	@uses			UI_Image_Drawer
  *	@uses			UI_Image_Printer
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			16.06.2008
  *	@version		0.1
  */
-import( 'de.ceus-media.ui.image.Creator' );
-import( 'de.ceus-media.ui.image.Drawer' );
-import( 'de.ceus-media.ui.image.Printer' );
 /**
  *	Creates and displays Error Image with Message.
  *	@package		ui.image
  *	@uses			UI_Image_Creator
  *	@uses			UI_Image_Drawer
  *	@uses			UI_Image_Printer
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			16.06.2008

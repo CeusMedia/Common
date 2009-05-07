@@ -22,33 +22,9 @@ import( 'de.ceus-media.xml.rss.Writer' );
  */
 class Tests_XML_RSS_WriterTest extends PHPUnit_Framework_TestCase
 {
-
-	/**
-	 *	Sets up Builder.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function setUp()
-	{
-		$this->path		= dirname( __FILE__ )."/";
-		$this->assert	= $this->path."reader.xml";
-		$this->file		= $this->path."writer.xml";
-		$this->serial	= $this->path."reader.serial";
-		
-#		$this->timeZone	= date_default_timezone_get();
-#		date_default_timezone_set( 'GMT' );
-	}
-
-	/**
-	 *	Sets down Writer.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function tearDown()
-	{
-		@unlink( $this->file );
-#		date_default_timezone_set( $this->timeZone );
-	} 
+	protected $assert	= "Tests/xml/rss/reader.xml";
+	protected $file		= "Tests/xml/rss/writer.xml";
+	protected $serial	= "Tests/xml/rss/reader.serial";
 
 	/**
 	 *	Tests Method 'build'.
@@ -75,12 +51,8 @@ class Tests_XML_RSS_WriterTest extends PHPUnit_Framework_TestCase
 		foreach( $data['itemList'] as $item )
 			$writer->addItem( $item );
 
-		$assertion	= 2469;
+		$assertion	= file_get_contents( $this->assert );
 		$creation	= $writer->write( $this->file );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= preg_replace( "@\n(\r)*@", "", file_get_contents( $this->assert ) );
-		$creation	= preg_replace( "@\n(\r)*@", "", file_get_contents( $this->file ) );
 		$this->assertEquals( $assertion, $creation );
 	}
 }

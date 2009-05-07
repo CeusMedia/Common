@@ -1,8 +1,9 @@
 <?php
+import( 'de.ceus-media.adt.tree.BinaryNode' );
 /**
  *	Balanced Binary Tree.
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2008 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -19,19 +20,18 @@
  *
  *	@package		adt.tree
  *	@extends		BinaryTree
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		0.1
  */
-import( 'de.ceus-media.adt.tree.BinaryNode' );
 /**
  *	Balanced Binary Tree.
  *	@package		adt.tree
  *	@extends		BinaryTree
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		0.1
@@ -48,7 +48,7 @@ class ADT_Tree_BalanceBinaryNode extends ADT_Tree_BinaryNode
 	 *	@param		mixed		value		Value of Node
 	 *	@return		void
 	 */
-	public function __construct( $balance, $value = FALSE )
+	public function __construct( $balance, $value = false )
 	{
 		$this->balance	= $balance;
 		parent::__construct( $value );
@@ -73,7 +73,7 @@ class ADT_Tree_BalanceBinaryNode extends ADT_Tree_BinaryNode
 			else
 				$this->left =& new ADT_Tree_BalanceBinaryNode( $this->balance, $value );
 		}
-		else if( $value > $this->value )
+		else if( $value > $tree->value )
 		{
 			if( $this->right )
 				$this->right->add( $value );
@@ -96,8 +96,8 @@ class ADT_Tree_BalanceBinaryNode extends ADT_Tree_BinaryNode
 	 */
 	public function getBalance()
 	{
-		$la = $this->left  ? $this->left->getHeight()  : 0;
-		$lb = $this->right ? $this->right->getHeight() : 0;
+		$la = $this->left ? $this->left->getHeight() : 0;
+		$lb = $this->right? $this->right->getHeight(): 0;
 		return ( $la - $lb );
 	}
 
@@ -111,18 +111,18 @@ class ADT_Tree_BalanceBinaryNode extends ADT_Tree_BinaryNode
 		$bf	= $this->getBalance();
 		if( $bf >= $this->balance ) 												// LR or LL rotation
 		{
-			$ll_height	= $this->left->left  ? $this->left->left->getHeight()  : 0;
-			$lr_height	= $this->left->right ? $this->left->right->getHeight() : 0;
+			$ll_height	= $this->left->left ? $this->left->left->getHeight() : 0;
+			$lr_height	= $this->left->right? $this->left->right->getHeight(): 0;
 			if( $ll_height < $lr_height )
-				$this->left->rotateRR(); 											// LR rotation
+				$this->left->rotateRR(); 										// LR rotation
 			$this->rotateLL();
 		}
 		else if( $bf <= $this->balance )											// RR or RL rotation
 		{
-			$rr_height	= $this->right->right ? $this->right->right->getHeight() : 0;
-			$rl_height	= $this->right->left  ? $this->right->left->getHeight()  : 0;
+			$rr_height	= $this->right->right? $this->right->right->getHeight(): 0;
+			$rl_height	= $this->right->left ? $this->right->left->getHeight() : 0;
 			if( $rl_height > $rr_height )
-				$this->right->rotateLL();											// RR rotation
+				$this->right->rotateLL();										// RR rotation
 			$this->rotateRR();
 		}
 	}
@@ -167,10 +167,12 @@ class ADT_Tree_BalanceBinaryNode extends ADT_Tree_BinaryNode
 	 *	@param		bool		[showBalanceFactor]		Flag: show Balance Factor
 	 *	@return		void
 	 */
-	public function toTable( $showBalanceFactor = FALSE )
+	public function toTable( $showBalanceFactor = false )
 	{
-		$la		= $this->left  ? $this->left->getHeight()  : 0;
-		$lb		= $this->right ? $this->right->getHeight() : 0;
+		if( $this->left )
+			$la	= $this->left->getHeight();
+		if( $this->right )
+			$lb	= $this->right->getHeight();
 		$depth	= $this->getHeight ();
 		$color	= 240 - ( 3 * $depth );
 		if( $showBalanceFactor )

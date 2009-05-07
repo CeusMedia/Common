@@ -1,8 +1,10 @@
 <?php
+import( 'de.ceus-media.adt.OptionObject' );
+import( 'de.ceus-media.ui.html.Elements' );
 /**
  *	Paging System for Lists.
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2008 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,22 +22,20 @@
  *	@package		ui.html
  *	@extends		ADT_OptionObject
  *	@uses			UI_HTML_Elements
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			01.12.2005
  *	@version		0.6
  */
-import( 'de.ceus-media.adt.OptionObject' );
-import( 'de.ceus-media.ui.html.Elements' );
 /**
  *	Paging System for Lists.
  *	@package		ui.html
  *	@extends		ADT_OptionObject
  *	@uses			UI_HTML_Elements
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			01.12.2005
@@ -163,22 +163,18 @@ class UI_HTML_Paging extends ADT_OptionObject
 	 */
 	protected function buildButton( $text, $spanClass, $linkClass = NULL, $offset = NULL, $key = NULL )
 	{
-		$label	= $this->hasOption( $text ) ? $this->getOption( $text ) : $text;
-		if( empty( $label ) )
-			throw new InvalidArgumentException( 'Button Label cannot be empty.' );
+		$text	= $this->hasOption( $text ) ? $this->getOption( $text ) : $text;
+		if( empty( $text ) )
+			throw new InvalidArgumentException( 'Button Text cannot be empty.' );
 		$spanClass	= $this->getOption( $spanClass ) ? $this->getOption( $spanClass ) : "";
 		if( $offset !== NULL )
 		{
-			$linkClass	= (string) $this->getOption( $linkClass );
+			$linkClass	= $this->getOption( $linkClass ) ? $this->getOption( $linkClass ) : "";
 			$url		= $this->buildLinkUrl( $offset );
 			$key		= $key ? $this->getOption( 'key_'.$key ) : "";
-#			if( $label == $text )
-#				$linkClass	.= " page";
-			$label		= UI_HTML_Elements::Link( $url, $label, $linkClass, NULL, NULL, NULL, $key );
+			$text		= UI_HTML_Elements::Link( $url, $text, $linkClass, NULL, NULL, NULL, $key );
 		}
-#		if( $label == $text )
-#			$spanClass	.= " page";
-		return $this->buildSpan( $label, $spanClass );
+		return $this->buildSpan( $text, $spanClass );
 	}
 
 	/**

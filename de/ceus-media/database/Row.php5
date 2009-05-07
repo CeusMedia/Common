@@ -1,9 +1,9 @@
 <?php
 /**
  *	Result Row Object for Database Result Sets.
- *	All Rows Pairs can be iterated or accessed like an Array.
+ *	All Rows Pairs can be iterated like an Array.
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2008 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -19,23 +19,23 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@package		database
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
- *	@version 		0.6.6
+ *	@version 		0.6
  */
 /**
  *	Result Row Object for Database Result Sets.
- *	All Rows Pairs can be iterated or accessed like an Array.
+ *	All Rows Pairs can be iterated like an Array.
  *	@package		database
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
- *	@version 		0.6.6
+ *	@version 		0.6
  */
-class Database_Row implements Countable, Iterator, ArrayAccess
+class Database_Row implements Countable, Iterator
 {
 	/**	@var		int			$cursor			Internal Pointer to current Row */
 	protected $____cursor;
@@ -83,14 +83,20 @@ class Database_Row implements Countable, Iterator, ArrayAccess
 	}
 
 	/**
-	 *	Returns a Value by its Key.
+	 *	Returns Values of Column by its Key.
 	 *	@access		public
-	 *	@param		string		$key		Column Key
+	 *	@param		$string		$key		Column Key
 	 *	@return		string
 	 */
 	public function getValue( $key )
 	{
-		return $this->offsetGet( $key );
+		if( !isset( $this->____pairs ) )
+			$this->getPairs();
+		if( !array_key_exists( $key, $this->____pairs ) )
+			throw new Exception( 'Pair Key "'.$key.'" is not set in Row.' );
+		if( !isset( $this->$key ) )
+			return NULL;
+		return $this->$key;
 	}
 
 	/**
@@ -150,67 +156,6 @@ class Database_Row implements Countable, Iterator, ArrayAccess
 	{
 		$this->____cursor++;
 	}	
-
-	/**
-	 *	Returns a Value by its Key.
-	 *	@access		public
-	 *	@param		string		$key		Column Key
-	 *	@return		string
-	 */
-	public function offsetGet( $key )
-	{
-		if( !isset( $this->____pairs ) )
-			$this->getPairs();
-		if( !array_key_exists( $key, $this->____pairs ) )
-			throw new Exception( 'Pair Key "'.$key.'" is not set in Row.' );
-		if( !isset( $this->$key ) )
-			return NULL;
-		return $this->$key;
-	}
-
-	/**
-	 *	Sets a Value by its Key.
-	 *	@access		public
-	 *	@param		string		$key		Column Key
-	 *	@param		string		$value		Column Value to set
-	 *	@return		string
-	 */
-	public function offsetSet( $key, $value )
-	{
-		if( !isset( $this->____pairs ) )
-			$this->getPairs();
-		if( !array_key_exists( $key, $this->____pairs ) )
-			throw new Exception( 'Pair Key "'.$key.'" is not set in Row.' );
-		$this->____pairs[$key]	= $value;
-	}
-
-	/**
-	 *	Indicates whether a Pair is existing by its Key.
-	 *	@access		public
-	 *	@param		string		$key		Column Key
-	 *	@return		bool
-	 */
-	public function offsetExists( $key )
-	{
-		if( !isset( $this->____pairs ) )
-			$this->getPairs();
-		return array_key_exists( $key, $this->____pairs );
-	}
-
-	/**
-	 *	Removes a Pair by its Key.
-	 *	@access		public
-	 *	@param		string		$key		Column Key
-	 *	@return		string
-	 */
-	public function offsetUnset( $key )
-	{
-		if( !isset( $this->____pairs ) )
-			$this->getPairs();
-		if( !array_key_exists( $key, $this->____pairs ) )
-			throw new Exception( 'Pair Key "'.$key.'" is not set in Row.' );
-		unset( $this->____pairs[$key] );
-	}
 
 	/**
 	 *	Resets Pair Pointer.

@@ -2,7 +2,7 @@
 /**
  *	Caesar Encryption.
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2008 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -18,8 +18,8 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@package		alg.crypt
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			30.4.2005
@@ -28,8 +28,8 @@
 /**
  *	Caesar Encryption.
  *	@package		alg.crypt
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			30.4.2005
@@ -40,7 +40,6 @@ class Alg_Crypt_Caesar
 	/**
 	 *	Realizes Encryption/Decryption of a text with the normal/inversed Key.
 	 *	@access		public
-	 *	@static
 	 *	@param		string		$string		String to be encrypted
 	 *	@param		int			$key		Rotation Key
 	 *	@return		string
@@ -74,7 +73,6 @@ class Alg_Crypt_Caesar
 	/**
 	 *	Decrypts a String.
 	 *	@access		public
-	 *	@static
 	 *	@param		string		$string		String to be encrypted
 	 *	@param		int			$key		Rotation Key
 	 *	@return		string
@@ -87,7 +85,6 @@ class Alg_Crypt_Caesar
 	/**
 	 *	Encrypts a String.
 	 *	@access		public
-	 *	@static
 	 *	@param		string		$string		String to be encrypted
 	 *	@param		int			$key		Rotation Key
 	 *	@return		string

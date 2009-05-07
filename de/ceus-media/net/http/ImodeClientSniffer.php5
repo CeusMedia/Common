@@ -1,8 +1,9 @@
 <?php
+import( 'de.ceus-media.file.Configuration' );
 /**
  *	Sniffer for iMode Clients.
  *
- *	Copyright (c) 2007-2009 Christian WÃ¼rker (ceus-media.de)
+ *	Copyright (c) 2008 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -18,13 +19,12 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@package		net.http
- *	@author			Christian WÃ¼rker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian WÃ¼rker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		0.6
  */
-import( 'de.ceus-media.file.Configuration' );
 define( 'IMODE_COLOUR_BW',			0 );
 define( 'IMODE_COLOUR_GREYSCALE',	1 );
 define( 'IMODE_COLOUR_256',			2 );
@@ -35,8 +35,8 @@ define( 'IMODE_UNKNOWN_USER_AGENT',	1 );
 /**
  *	Sniffer for iMode Clients.
  *	@package		net.http
- *	@author			Christian WÃ¼rker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian WÃ¼rker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		0.6
@@ -51,13 +51,13 @@ class Net_HTTP_ImodeClientSniffer
 	/**	@var		array		$extra			List of Manufacturs */
 	protected $manufacturer		= array();
 	/**	@var		string		$user_agent		Given User Agent */
-	protected $user_agent;
+	protected $user_agent;    
 	/**	@var		string		$model			Recognized Model */
-	protected $model;
+	protected $model;           
 	/**	@var		string		$model			Recognized Manufactur */
-	protected $manufacturer;
+	protected $manufacturer;     
 	/**	@var		string		$model			HTTP Version of Client */
-	protected $httpversion;
+	protected $httpversion;  
 	/**	@var		string		$cache			Cache Size of Client */
 	protected $cache;
 	/**	@var		string		$extra			Extra Features of Client */
@@ -85,7 +85,7 @@ class Net_HTTP_ImodeClientSniffer
 		$this->extra		= $config['extra'];
 		$this->manufacturer	= $config['manufacturer'];
 		$error	= 0;
-		$temp	= explode( "/", $input );
+		$temp	= explode( "/", $input );    
 		$this->user_agent	= $input;
 		$this->httpversion	= $temp[1];
 		$this->model			= $temp[2];
@@ -105,7 +105,7 @@ class Net_HTTP_ImodeClientSniffer
 	 *	@access		public
 	 *	@return		array
 	 */
-	public function getImageDimensions()
+	pubic function getImageDimensions()
 	{
 		$data	= $this->data["$this->model"];
 		$width	= $data["imagewidth"];

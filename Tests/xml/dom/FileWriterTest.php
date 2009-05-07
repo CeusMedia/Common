@@ -26,25 +26,13 @@ import( 'de.ceus-media.xml.dom.Node' );
 class Tests_XML_DOM_FileWriterTest extends PHPUnit_Framework_TestCase
 {
 	/**
-	 *	Sets up Writer.
+	 *	Sets up Leaf.
 	 *	@access		public
 	 *	@return		void
 	 */
 	public function setUp()
 	{
-		$this->path	= dirname( __FILE__ )."/";
 	}
-
-	/**
-	 *	Sets down Writer.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function tearDown()
-	{
-		@unlink( $this->path."writer.xml" );
-	} 
-
 
 	/**
 	 *	Tests Method 'write'.
@@ -83,10 +71,10 @@ class Tests_XML_DOM_FileWriterTest extends PHPUnit_Framework_TestCase
 		$tree->addChild( $leaf31 );
 		$tree->addChild( $leaf32 );
 
-		$writer	= new XML_DOM_FileWriter( $this->path."writer.xml" );
+		$writer	= new XML_DOM_FileWriter( "Tests/xml/dom/writer.xml" );
 		$writer->write( $tree );
-		$assertion	= file_get_contents( $this->path."builder.xml" );
-		$creation	= file_get_contents( $this->path."writer.xml" );
+		$assertion	= file_get_contents( "Tests/xml/dom/builder.xml" );
+		$creation	= file_get_contents( "Tests/xml/dom/writer.xml" );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -127,9 +115,9 @@ class Tests_XML_DOM_FileWriterTest extends PHPUnit_Framework_TestCase
 		$tree->addChild( $leaf31 );
 		$tree->addChild( $leaf32 );
 
-		XML_DOM_FileWriter::save( $this->path."writer.xml", $tree );
-		$assertion	= file_get_contents( $this->path."builder.xml" );
-		$creation	= file_get_contents( $this->path."writer.xml" );
+		XML_DOM_FileWriter::save( "Tests/xml/dom/writer.xml", $tree );
+		$assertion	= file_get_contents( "Tests/xml/dom/builder.xml" );
+		$creation	= file_get_contents( "Tests/xml/dom/writer.xml" );
 		$this->assertEquals( $assertion, $creation );
 	}
 }

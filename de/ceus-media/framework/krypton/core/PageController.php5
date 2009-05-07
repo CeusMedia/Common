@@ -1,8 +1,9 @@
 <?php
+import( 'de.ceus-media.framework.krypton.core.Registry' );
 /**
  *	Controller for Pages requested by Links.
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2008 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,21 +21,20 @@
  *	@package		framework.krypton.core
  *	@uses			Framework_Krypton_Core_Registry
  *	@uses			Framework_Krypton_Core_PageDefinitionReader
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			03.03.2007
  *	@version		0.6
  */
-import( 'de.ceus-media.framework.krypton.core.Registry' );
 /**
  *	Controller for Pages requested by Links.
  *	@package		framework.krypton.core
  *	@uses			Framework_Krypton_Core_Registry
  *	@uses			Framework_Krypton_Core_PageDefinitionReader
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			03.03.2007
@@ -66,8 +66,6 @@ class Framework_Krypton_Core_PageController
 	{
 		$config		= Framework_Krypton_Core_Registry::getStatic( 'config' );
 
-		if( !file_exists( $fileName ) )
-			throw new RuntimeException( 'Missing '.$fileName );
 		$this->fileName		= $fileName;
 		$this->cacheFile	= $config['paths.cache'].basename( $fileName ).".cache";
 		$this->readPages();
@@ -131,7 +129,7 @@ class Framework_Krypton_Core_PageController
 			$this->cachedScopes	= array();
 			
 		if( $clearCacheFile && file_exists( $this->cacheFile ) )
-			unlink( $this->cacheFile );
+			unlink( $cacheFile );
 	}
 
 	/**
@@ -177,7 +175,7 @@ class Framework_Krypton_Core_PageController
 			}
 			catch( Exception $e )
 			{
-				throwException( 'Logic', 'No Category Factory "'.$factory.'" available.' );
+				throw new LogicException( 'No Category Factory "'.$factory.'" available.' );
 			}
 			return $factory->getClassName( $page['file'], $prefix, $category );
 		}
@@ -195,15 +193,9 @@ class Framework_Krypton_Core_PageController
 	{
 		$list	= array();
 		foreach( $this->pages as $scope => $pages )
-		{
 			foreach( $pages as $pageId => $page )
-			{
-				$isDefault	= isset( $page['default'] ) && $page['default'];
-				$isHidden	= isset( $page['hidden'] ) && $page['hidden'];
-				if( $isDefault && !$isHidden )
+				if( isset( $page['default'] ) && $page['default'] )
 					$list[]	= $pageId;
-			}
-		}
 		return $list;
 	}
 

@@ -1,8 +1,9 @@
 <?php
+import( 'de.ceus-media.xml.dom.Node' );
 /**
  *	Parser for iCalendar Files.
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2008 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -19,8 +20,8 @@
  *
  *	@package		file.ical
  *	@uses			XML_DOM_Node
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			09.03.2006
@@ -28,13 +29,12 @@
  *	@see			RFC2445
  *	@link			http://www.w3.org/2002/12/cal/rfc2445
  */
-import( 'de.ceus-media.xml.dom.Node' );
 /**
  *	Parser for iCalendar Files.
  *	@package		file.ical
  *	@uses			XML_DOM_Node
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			09.03.2006
@@ -85,13 +85,12 @@ class File_iCal_Parser
 	/**
 	 *	Parses iCal Lines and returns a XML Tree recursive.
 	 *	@access		protected
-	 *	@static
 	 *	@param		string			$type			String to unfold
 	 *	@param		XML_DOM_Node	$root			Parent XML Node
 	 *	@param		string			$lines			Array of iCal Lines
 	 *	@return 	void
 	 */
-	protected static function parseRecursive( $type, &$root, &$lines )
+	protected static function parseRecursive( $type, &$root, $lines )
 	{
 		$node =& new XML_DOM_Node( strtolower( $type ) );
 		$root->addChild( $node );
@@ -118,7 +117,6 @@ class File_iCal_Parser
 
 	/**
 	 *	Unfolds folded Contents of iCal Lines.
-	 *	@static
 	 *	@access		protected
 	 *	@param		string		$string		String to unfold
 	 *	@return 	string
@@ -134,7 +132,6 @@ class File_iCal_Parser
 	/**
 	 *	Parses a single iCal Lines.
 	 *	@access		protected
-	 *	@static
 	 *	@param		string		$line		Line to parse
 	 *	@return 	array
 	 */

@@ -61,7 +61,7 @@ title				= cmClasses API
 
 extensions			= php5
 ignoreFiles			= "*/_*.php5"
-ignoreFolders			= "*/.svn/*,Reports/,References/,Tests/"
+ignoreFolders			= "*/.svn/*,Reports/,References/,Tests/,"
 upperCasePackages		= adt,cs*,dom,*tp,*ml,imap,ini,pdo,php,rss,ui,wddx,xsl
 upperCasePackages		= adt,css,csv,dom,ftp,html,http,imap,ini,pdo,php,opml,rss,ui,wddx,xml,xsl,yaml
 fileDataSerial			= "data.serial"

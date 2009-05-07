@@ -1,8 +1,9 @@
 <?php
+import( 'de.ceus-media.framework.krypton.Base' );
 /**
  *	Main Class of Motrada V2 to realize Actions and build Views.
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2008 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -19,26 +20,25 @@
  *
  *	@package		framework.krypton
  *	@extends		Framework_Krypton_Base
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			11.12.2006
  *	@version		0.3
  */
-import( 'de.ceus-media.framework.krypton.Base' );
 /**
  *	Main Class of Motrada V2 to realize Actions and build Views.
  *	@package		framework.krypton
  *	@extends		Framework_Krypton_Base
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			11.12.2006
  *	@version		0.3
  */
-class Framework_Krypton_ConsoleApplication extends Framework_Krypton_Base
+class ConsoleApplication extends Framework_Krypton_Base
 {
 	/**	@var	Core_Registry	$registry		Instance of Core_Registry */
 	protected $registry		= NULL;
@@ -51,8 +51,6 @@ class Framework_Krypton_ConsoleApplication extends Framework_Krypton_Base
 	 */
 	public function __construct( $verbose = TRUE )
 	{
-		if( getEnv( 'HTTP_HOST' ) )
-			die( '<b>Access denied:</b> This is a console application.' );
 #		self::$configFile	= "config.xml";
 		$this->initRegistry();							//  must be first
 		$this->initConfiguration();						//  must be one of the first
@@ -85,7 +83,6 @@ class Framework_Krypton_ConsoleApplication extends Framework_Krypton_Base
 	/**
 	 *	Runs Job Class as Console Application.
 	 *	@access		protected
-	 *	@static
 	 *	@param		bool		$verbose		Flag: print Information to Console
 	 *	@return		void
 	 */
