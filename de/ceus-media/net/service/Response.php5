@@ -2,7 +2,7 @@
 /**
  *	Basic Response Class for a Service.
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2008 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -18,19 +18,18 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@package		net.service
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			18.06.2007
  *	@version		0.6.5
  */
-import( 'de.ceus-media.StopWatch' );
 /**
  *	Basic Response Class for a Service.
  *	@package		net.service
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			18.06.2007
@@ -38,22 +37,15 @@ import( 'de.ceus-media.StopWatch' );
  */
 class Net_Service_Response
 {
-	protected $watch	= NULL;
-
-	public function __construct()
-	{
-		$this->watch	= new StopWatch;	
-	}
-
 	/**
 	 *	Converts a Data Array to a XML Structure and appends it to the given SimpleXMLElement.
-	 *	@access		protected
+	 *	@access		private
 	 *	@param		XML_Element		$xmlNode		XML Node to append to
 	 *	@param		array			$dataArray		Array to append
 	 *	@param		string			$lastParent		Recursion: Outer Node Name for Integer Values
 	 *	@return		void
 	 */
-	protected function addArrayToXmlNode( &$xmlNode, $dataArray, $lastParent = "" )
+	private function addArrayToXmlNode( &$xmlNode, $dataArray, $lastParent = "" )
 	{
 		if( !( is_string( $lastParent ) && $lastParent ) )
 			$lastParent	= "item";
@@ -68,7 +60,7 @@ class Net_Service_Response
 					continue;
 				}
 				$child	=& $xmlNode->addChild( $key );
-				$this->addArrayToXmlNode( $child, $value, $key );
+				$this->addArrayToXmlNode( $child, $value, "1".$key );
 				continue;
 			}
 			else if( is_int( $key ) )
@@ -80,59 +72,6 @@ class Net_Service_Response
 			}
 			$xmlNode->addChild( $key, str_replace( "&", "&amp;", $value ) );
 		}
-	}
-	
-	/**
-	 *	Builds Response Structure for every Format, containing Response Data Content, Status and more.
-	 *	@access		protected
-	 *	@param		mixed			$content		Response Data Content
-	 *	@param		string			$status			Status String, by default "data"
-	 *	@return 	array
-	 */
-	protected function buildResponseStructure( $content, $status )
-	{
-		if( $content instanceof Exception )
-		{
-#			import( 'de.ceus-media.ui.html.exception.TraceViewer' );
-#			$trace	= UI_HTML_Exception_TraceViewer::buildTrace( $content, 2 );
-			$serial		= ( $content instanceof PDOException ) ? serialize( $content ) : NULL;
-			$content	= array(
-				'type'		=> get_class( $content ),
-				'message'	=> $content->getMessage(),
-				'code'		=> $content->getCode(),
-				'file'		=> $content->getFile(),
-				'line'		=> $content->getLine(),
-				'trace'		=> $content->getTraceAsString(),
-				'serial'	=> $serial
-			);
-			$status	= "exception";
-		}
-		$structure	= array(
-			'status'	=> $status,
-			'data'		=> $content,
-			'timestamp'	=> time(),
-			'duration'	=> $this->watch === NULL ? NULL : $this->watch->stop( 6, 0 ),
-		
-		);
-		return $structure;
-	}
-
-	/**
-	 *	Tries to convert Data to Output Format.
-	 *	@access		public
-	 *	@param		mixed			$content		Response Data Content to Convert
-	 *	@param		mixed			$format			Response Format
-	 *	@param		string			$status			Status String, by default "data"
-	 *	@return		string
-	 *	@throws		BadMethodCallException
-	 */
-	public function convertToOutputFormat( $content, $format, $status = "data" )
-	{
-		$method	= "get".ucFirst( $format );
-		if( method_exists( $this, $method ) )
-			return $this->$method( $content, $status );
-		$message	= 'No method "'.$method.'" implemented for output format "'.$format.'".';
-		throw new BadMethodCallException( $message );
 	}
 	
 	/**
@@ -151,26 +90,34 @@ class Net_Service_Response
 	/**
 	 *	Return Content as JSON.
 	 *	@access		protected
-	 *	@param		mixed			$content		Response Data Content
-	 *	@param		string			$status			Status String, by default "data"
+	 *	@param		mixed			$data			Content
 	 *	@return 	string
 	 */
-	protected function getJson( $content, $status = "data" )
+	protected function getJson( $mixed, $status = "data" )
 	{
-		$data	= $this->buildResponseStructure( $content, $status );
+		if( $mixed instanceof Exception )
+			throw $mixed;
+		$data	= array(
+			'status'	=> $status,
+			'data'		=> $mixed
+		);
 		return json_encode( $data );		
 	}
 
 	/**
 	 *	Return Content as PHP Serial.
 	 *	@access		protected
-	 *	@param		mixed			$content		Response Data Content
-	 *	@param		string			$status			Status String, by default "data"
+	 *	@param		mixed			$data			Content
 	 *	@return 	string
 	 */
-	protected function getPhp( $content, $status = "data" )
+	protected function getPhp( $mixed, $status = "data" )
 	{
-		$data	= $this->buildResponseStructure( $content, $status );
+		if( $mixed instanceof Exception )
+			throw $mixed;
+		$data	= array(
+			'status'	=> $status,
+			'data'		=> $mixed
+		);
 		return serialize( $data );
 	}
 
@@ -190,40 +137,37 @@ class Net_Service_Response
 	/**
 	 *	Return Content as WDDX String.
 	 *	@access		protected
-	 *	@param		mixed			$content		Response Data Content
-	 *	@param		string			$status			Status String, by default "data"
+	 *	@param		mixed			$data			Content
 	 *	@return 	string
 	 */
-	protected function getTxt( $content, $status = "data" )
+	protected function getWddx( $mixed, $status = "data" )
 	{
-		if( $content instanceof Exception )
-			return $content->getMessage();
-		return (string) $content;
-	}
-
-	/**
-	 *	Return Content as WDDX String.
-	 *	@access		protected
-	 *	@param		mixed			$content		Response Data Content
-	 *	@param		string			$status			Status String, by default "data"
-	 *	@return 	string
-	 */
-	protected function getWddx( $content, $status = "data" )
-	{
-		$data	= $this->buildResponseStructure( $content, $status );
+		if( $mixed instanceof Exception )
+			throw $mixed;
+#		if( $mixed instanceof Exception )
+#			$mixed	= get_class( $mixed ).": ".$midex->getMessage();
+		$data	= array(
+			'status'	=> $status,
+			'data'		=> $mixed
+		);
 		return wddx_serialize_value( $data );
 	}
 
 	/**
 	 *	Return Content as XML String.
 	 *	@access		protected
-	 *	@param		mixed			$content		Response Data Content
+	 *	@param		mixed			$data			Content
 	 *	@param		string			$status			Status String, by default "data"
 	 *	@return 	string
 	 */
-	protected function getXml( $content, $status = "data" )
+	protected function getXml( $data, $status = "data" )
 	{
-		$data	= $this->buildResponseStructure( $content, $status );
+		if( $data instanceof Exception )
+			throw $data;
+		$data	= array(
+			'status'	=> $status,
+			'data'		=> $data,
+		);
 		import( 'de.ceus-media.xml.Element' );
 		import( 'de.ceus-media.xml.dom.Formater' );
 		$root	= new XML_Element( "<response/>" );
@@ -231,6 +175,22 @@ class Net_Service_Response
 		$xml	= $root->asXml();
 		$xml	= XML_DOM_Formater::format( $xml );
 		return $xml;
+	}
+
+	/**
+	 *	Tries to convert Data to Output Format.
+	 *	@access		public
+	 *	@param		mixed			$data			Data to Convert
+	 *	@return		string
+	 *	@throws		BadMethodCallException
+	 */
+	public function convertToOutputFormat( $data, $format )
+	{
+		$method	= "get".ucFirst( $format );
+		if( method_exists( $this, $method ) )
+			return $this->$method( $data );
+		$message	= 'No method "'.$method.'" implemented for output format "'.$format.'".';
+		throw new BadMethodCallException( $message );
 	}
 }
 ?>

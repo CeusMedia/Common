@@ -2,7 +2,7 @@
 /**
  *	Parser and Reader for XML Service Definitions.
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2008 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -19,8 +19,8 @@
  *
  *	@package		net.service.definition
  *	@uses			XML_ElementReader
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		0.6
@@ -30,8 +30,8 @@ import( 'de.ceus-media.xml.ElementReader' );
  *	Parser and Reader for XML Service Definitions.
  *	@package		net.service.definition
  *	@uses			XML_ElementReader
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		0.6.5
@@ -41,7 +41,6 @@ class Net_Service_Definition_XmlReader
 	/**
 	 *	Parses XML Service Definition statically and returns Service Data Array.
 	 *	@access		public
-	 *	@static
 	 *	@param		string		$fileName		File Name of XML Service Definition
 	 *	@param		bool		$validate		Flag: validate against DTD
 	 *	@return		array
@@ -59,7 +58,6 @@ class Net_Service_Definition_XmlReader
 	/**
 	 *	Reads Service Information in situ, can be overwritten.
 	 *	@access		protected
-	 *	@static
 	 *	@param		XML_Element	$element	Service Point XML Element
 	 *	@param		array		$services	Reference to Service Point Service List
 	 *	@return		void
@@ -87,7 +85,6 @@ class Net_Service_Definition_XmlReader
 	/**
 	 *	Reads Service Formats in situ, can be overwritten.
 	 *	@access		protected
-	 *	@static
 	 *	@param		XML_Element	$element	Service Point XML Element
 	 *	@param		array		$service	Reference to Service Definition Array
 	 *	@return		void
@@ -101,7 +98,6 @@ class Net_Service_Definition_XmlReader
 	/**
 	 *	Reads Service Parameters in situ, can be overwritten.
 	 *	@access		protected
-	 *	@static
 	 *	@param		XML_Element	$element	Service XML Element
 	 *	@param		array		$service	Reference to Service Definition Array
 	 *	@return		void
@@ -125,7 +121,6 @@ class Net_Service_Definition_XmlReader
 	/**
 	 *	Reads all Service Point Information and returns Definition Array, can be overwritten.
 	 *	@access		protected
-	 *	@static
 	 *	@param		XML_Element	$element	Service Point XML Element
 	 *	@return		array
 	 */
@@ -146,7 +141,6 @@ class Net_Service_Definition_XmlReader
 	/**
 	 *	Reads Service Roles in situ, can be overwritten.
 	 *	@access		protected
-	 *	@static
 	 *	@param		XML_Element	$element	Service Point XML Element
 	 *	@param		array		$service	Reference to Service Definition Array
 	 *	@return		void
@@ -160,7 +154,6 @@ class Net_Service_Definition_XmlReader
 	/**
 	 *	Validates Service XML File againt linked DTD and throws Exception if invalid.
 	 *	@access		protected
-	 *	@static
 	 *	@param		string		$fileName	File Name of Service XML File.
 	 *	@return		void
 	 */
@@ -169,7 +162,7 @@ class Net_Service_Definition_XmlReader
 		$dom = new DOMDocument;
 		$dom->load( $fileName );
 		if( !@$dom->validate() )
-			throw new RuntimeException( 'Service XML File is not valid or no DTD given.' );
+			throw new Exception( 'Service XML File is not valid or no DTD given.' );
 	}
 }
 ?>

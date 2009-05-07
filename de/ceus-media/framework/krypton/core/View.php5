@@ -2,7 +2,7 @@
 /**
  *	Basic View Component.
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2008 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,8 +20,8 @@
  *	@package		framework.krypton.core
  *	@uses			Framework_Krypton_Core_Registry
  *	@uses			UI_HTML_Paging
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			01.12.2005
@@ -33,8 +33,8 @@ import( 'de.ceus-media.framework.krypton.core.Component' );
  *	@package		framework.krypton.core
  *	@uses			Framework_Krypton_Core_Registry
  *	@uses			UI_HTML_Paging
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			01.12.2005
@@ -50,13 +50,13 @@ class Framework_Krypton_Core_View extends Framework_Krypton_Core_Component
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function __construct( $useWikiParser = FALSE )
+	public function __construct( $useWikiParser = false )
 	{
 		parent::__construct( $useWikiParser );
 	}
 	
 	/**
-	 *	Build and return Content Views, to be overwritten.
+	 *	Abstract Method for Content Views.
 	 *	@access		public
 	 *	@return		string
 	 */
@@ -66,7 +66,7 @@ class Framework_Krypton_Core_View extends Framework_Krypton_Core_Component
 	}
 	
 	/**
-	 *	Build and return Control Views, to be overwritten.
+	 *	Abstract Method for Control Views.
 	 *	@access		public
 	 *	@return		string
 	 */
@@ -76,7 +76,7 @@ class Framework_Krypton_Core_View extends Framework_Krypton_Core_Component
 	}
 
 	/**
-	 *	Build and return Extra Views, to be overwritten.
+	 *	Abstract Method for Content Views in Extra Column.
 	 *	@access		public
 	 *	@return		string
 	 */
@@ -131,20 +131,6 @@ class Framework_Krypton_Core_View extends Framework_Krypton_Core_Component
 		return $pages;
 	}
 
-	protected function getFlagIcon( $country, $label )
-	{
-		$fileName	= "ceus-media/flags/".$country.".png";
-		$image		= $this->getIcon( $fileName, $label );
-		return $image;
-	}
-
-	protected function getIcon( $fileName, $label, $configKey = 'paths.icons' )
-	{
-		$url		= $this->config[$configKey].$fileName;
-		$image		= UI_HTML_Elements::Image( $url, $label );
-		return $image;
-	}
-
 	/**
 	 *	Sets a List of Keywords to Configuration for HTML Page.
 	 *	@access		protected
@@ -194,6 +180,7 @@ class Framework_Krypton_Core_View extends Framework_Krypton_Core_Component
 		
 		$this->words['main']['main']['title']		= $current;
 		$this->words['main']['meta']['dc.Title']	= $current;
+		
 	}
 }
 ?>

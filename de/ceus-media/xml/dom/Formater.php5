@@ -2,7 +2,7 @@
 /**
  *	Formats a XML String or recodes it to another Character Set.
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2008 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -19,8 +19,8 @@
  *
  *	@package		xml.dom
  *	@uses			XML_DOM_SyntaxValidator
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			12.05.2008
@@ -31,8 +31,8 @@ import( 'de.ceus-media.xml.dom.SyntaxValidator' );
  *	Formats untidy XML or recodes to another Character Set.
  *	@package		xml.dom
  *	@uses			XML_DOM_SyntaxValidator
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			12.05.2008
@@ -44,7 +44,6 @@ class XML_DOM_Formater
 	/**
 	 *	Formats a XML String with Line Breaks and Indention and returns it.
 	 *	@access		public
-	 *	@static
 	 *	@param		string		$xml		XML String to format
 	 *	@return		string
 	 */
@@ -62,7 +61,6 @@ class XML_DOM_Formater
 	/**
 	 *	Recodes a XML String to another Character Set.
 	 *	@access		public
-	 *	@static
 	 *	@param		string		$xml		XML String to format
 	 *	@param		string		$encodeTo	Character Set to encode to
 	 *	@see		http://www.iana.org/assignments/character-sets

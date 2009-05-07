@@ -5,7 +5,7 @@
  *	If a different Validator Class should be used, it needs to be imported before.
  *	A different Service Definition Loader Class can be used by setting static Member "loaderClass".
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2008 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -25,8 +25,8 @@
  *	@implements		Net_Service_Interface_Point
  *	@uses			Net_Service_ParameterValidator
  *	@uses			Net_Service_Definition_Loader
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			18.06.2007
@@ -43,12 +43,13 @@ import( 'de.ceus-media.net.service.interface.Point' );
  *	@implements		Net_Service_Interface_Point
  *	@uses			Net_Service_ParameterValidator
  *	@uses			Net_Service_Definition_Loader
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			18.06.2007
  *	@version		0.3
+ *	@todo			rename Exception Classes (see bottom) to Net_Service_ and/or move package 'exception'
  */
 class Net_Service_Point implements Net_Service_Interface_Point
 {
@@ -62,8 +63,6 @@ class Net_Service_Point implements Net_Service_Interface_Point
 	public static $validatorClass	= "Net_Service_ParameterValidator";
 	/**	@var		array			$services			Array of Services */	
 	protected $services	= array();
-	/**	@var		mixed			$validator			Validator Class */	
-	protected $validator	= null;
 	
 	/**
 	 *	Constructor Method.
@@ -162,11 +161,11 @@ class Net_Service_Point implements Net_Service_Interface_Point
 		if( $responseFormat )
 		{
 			if( !in_array( $responseFormat, $this->services['services'][$serviceName]['formats'] ) )
-				throw new InvalidArgumentException( 'Response Format "'.$responseFormat.'" for Service "'.$serviceName.'" is not available.' );
+				throw new Exception( 'Response Format "'.$responseFormat.'" for Service "'.$serviceName.'" is not available.' );
 			return true;
 		}
 		if( !$this->getDefaultServiceFormat( $serviceName ) )
-			throw new RuntimeException( 'No Response Format given and no default Response Format set for Service "'.$serviceName.'".' );
+			throw new Exception( 'No Response Format given and no default Response Format set for Service "'.$serviceName.'".' );
 	}
 
 	/**
@@ -284,7 +283,7 @@ class Net_Service_Point implements Net_Service_Interface_Point
 		$this->checkServiceDefinition( $serviceName );
 		return $this->services['services'][$serviceName]['class'];
 	}
-
+	
 	/**
 	 *	Returns Description of Service.
 	 *	@access		public
@@ -309,18 +308,6 @@ class Net_Service_Point implements Net_Service_Interface_Point
 	{
 		$this->checkServiceDefinition( $serviceName );
 		return $this->services['services'][$serviceName]['formats'];
-	}
-
-	/**
-	 *	Returns Roles having Access to Service.
-	 *	@access		public
-	 *	@param		string			$serviceName		Name of Service to call 
-	 *	@return		array								List of allowed Roles
-	 */
-	public function getServiceRoles( $serviceName )
-	{
-		$this->checkServiceDefinition( $serviceName );
-		return $this->services['services'][$serviceName]['roles'];
 	}
 	
 	/**

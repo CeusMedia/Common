@@ -2,7 +2,7 @@
 /**
  *	Counter for Lines of Code of a File.
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2008 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -19,8 +19,8 @@
  *
  *	@package		file
  *	@uses			File_Reader
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			15.04.2008
@@ -31,8 +31,8 @@ import( 'de.ceus-media.file.Reader' );
  *	Counter for Lines of Code of a File.
  *	@package		file
  *	@uses			File_Reader
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			15.04.2008
@@ -43,7 +43,6 @@ class File_CodeLineCounter
 	/**
 	 *	Reads File and counts Code Lines, Documentation Lines and unimportant Lines and returns a Data Array.
 	 *	@access		public
-	 *	@static
 	 *	@param		string		$fileName		Name File to analyse
 	 *	@return		array
 	 */
@@ -56,7 +55,6 @@ class File_CodeLineCounter
 	/**
 	 *	Reads File and counts Code Lines, Documentation Lines and unimportant Lines and returns a Data Array.
 	 *	@access		public
-	 *	@static
 	 *	@param		string		$content		Source Code of File
 	 *	@return		array
 	 */

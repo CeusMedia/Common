@@ -6,7 +6,7 @@
  *	It is possible to hide Folders or Files from the List.
  *	Folders starting with a Dot can be stripped from the List.
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2008 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -25,8 +25,8 @@
  *	@extends		Folder_Lister
  *	@uses			Folder_RecursiveRegexFilter
  *	@uses			Folder_RecursiveIterator
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@Ceus-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			15.04.2008
@@ -43,8 +43,8 @@ import( 'de.ceus-media.folder.Lister' );
  *	@extends		Folder_Lister
  *	@uses			Folder_RecursiveRegexFilter
  *	@uses			Folder_RecursiveIterator
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@Ceus-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			15.04.2008
@@ -71,7 +71,6 @@ class Folder_RecursiveLister extends Folder_Lister
 	/**
 	 *	Returns List of Files statically.
 	 *	@access		public
-	 *	@static
 	 *	@param		string		$path				Path to Folder
 	 *	@param		string		$pattern			RegEx Pattern to match with File Name
 	 *	@return		FilterIterator
@@ -88,7 +87,6 @@ class Folder_RecursiveLister extends Folder_Lister
 	/**
 	 *	Returns List of Folders statically.
 	 *	@access		public
-	 *	@static
 	 *	@param		string		$path				Path to Folder
 	 *	@param		string		$pattern			RegEx Pattern to match with Folder Name
 	 *	@param		bool		$stripDotEntries	Flag: strip Files and Folders starting with a Dot
@@ -107,7 +105,6 @@ class Folder_RecursiveLister extends Folder_Lister
 	/**
 	 *	Returns List of Folders and Files statically.
 	 *	@access		public
-	 *	@static
 	 *	@param		string		$path				Path to Folder
 	 *	@param		string		$pattern			RegEx Pattern to match with Entry Name
 	 *	@param		bool		$stripDotEntries	Flag: strip Files and Folders starting with a Dot

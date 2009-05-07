@@ -2,7 +2,7 @@
 /**
  *	Prints an Image Resource into a File or on Screen.
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2008 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -18,8 +18,8 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@package		ui.image
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			16.06.2008
@@ -28,8 +28,8 @@
 /**
  *	Prints an Image Resource into a File or on Screen.
  *	@package		ui.image
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			16.06.2008
@@ -86,7 +86,6 @@ class UI_Image_Printer
 	/**
 	 *	Prints an Image to Screen statically.
 	 *	@access		public
-	 *	@static
 	 *	@param		resource	$resource		Image Resource
 	 *	@param		int			$type			Image Type
 	 *	@param		int			$quality		JPEG Quality (1-100)
@@ -120,7 +119,6 @@ class UI_Image_Printer
 	/**
 	 *	Saves an Image to File statically.
 	 *	@access		public
-	 *	@static
 	 *	@param		string		$fleName		Name of target Image File
 	 *	@param		resource	$resource		Image Resource
 	 *	@param		int			$type			Image Type

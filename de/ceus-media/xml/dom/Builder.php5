@@ -2,7 +2,7 @@
 /**
  *	Builder for XML Strings with DOM.
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2008 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -18,8 +18,8 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@package		xml.dom
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		0.6
@@ -27,8 +27,8 @@
 /**
  *	Builder for XML Strings with DOM.
  *	@package		xml.dom
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		0.6
@@ -45,33 +45,30 @@ class XML_DOM_Builder
 	 *	@param		string			$encoding		Encoding Character Set (utf-8 etc.)
 	 *	@return		string
 	 */
-	public function build( XML_DOM_Node $tree, $encoding = "utf-8", $namespaces = array() )
+	public function build( XML_DOM_Node $tree, $encoding = "utf-8" )
 	{
-		$document	= new DOMDocument( "1.0", $encoding );
-		$document->formatOutput = TRUE;
-		$root		= $document->createElement( $tree->getNodename() );
-		foreach( $namespaces as $prefix => $namespace )
-			$root->setAttribute( "xmlns:".$prefix, $namespace );
-		$root		= $document->appendChild( $root );
-		self::buildRecursive( $document, $root, $tree, $encoding );
-		$xml		= $document->saveXML();
+		$this->document = new DOMDocument( "1.0", $encoding );
+		$this->document->formatOutput = true;
+		$root = $this->document->createElement( $tree->getNodename() );
+		$root = $this->document->appendChild( $root );
+		$this->buildRecursive( $root, $tree, $encoding );
+		$xml	= $this->document->saveXML();
 		return $xml;
 	}
 
 	/**
 	 *	Writes XML Tree to XML File recursive.
 	 *	@access		protected
-	 *	@param		DOMElement		$document	DOM Document
 	 *	@param		DOMElement		$root		DOM Element
 	 *	@param		XML_DOM_Node	$tree		Parent XML Node
 	 *	@param		string			$encoding	Encoding Character Set (utf-8 etc.)
 	 *	@return		void
 	 */
-	protected function buildRecursive( DOMDocument $document, DOMElement $root, XML_DOM_Node $tree, $encoding )
+	protected function buildRecursive( DOMElement $root, XML_DOM_Node $tree, $encoding )
 	{
 		foreach( $tree->getAttributes() as $key => $value )
 		{
-	#		$value	= addslashes( $value );
+			$value	= addslashes( $value );
 			if( $encoding == "utf-8" && utf8_encode( utf8_decode( $value ) ) != $value )
 				$value	= utf8_encode( $value );
 			$root->setAttribute( $key, $value );
@@ -81,18 +78,18 @@ class XML_DOM_Builder
 			$children =& $tree->getChildren();
 			foreach( $children as $child )
 			{
-				$element = $document->createElement( $child->getNodename() );
-				self::buildRecursive( $document, $element, $child, $encoding );
+				$element = $this->document->createElement( $child->getNodename() );
+				$this->buildRecursive( $element, $child, $encoding );
 				$element = $root->appendChild( $element );
 			}
 		}
 		else if( $tree->hasContent() )
 		{
 			$text	= (string) $tree->getContent();
-#			$text	= addslashes( $text );
+			$text	= addslashes( $text );
 			if( $encoding == "utf-8" && utf8_encode( utf8_decode( $text ) ) != $text )
 				$text	= utf8_encode( $text );
-			$text	= $document->createTextNode( $text );
+			$text	= $this->document->createTextNode( $text );
 			$text	= $root->appendChild( $text );
 		}
 	}

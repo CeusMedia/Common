@@ -2,7 +2,7 @@
 /**
  *	Template Class.
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2008 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,21 +20,22 @@
  *	@package		framework.krypton.core
  *	@uses			Exception_Template
  *	@author			David Seebacher <dseebacher@gmail.com>
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			03.03.2007
  *	@version		0.6
  */
+import( 'de.ceus-media.framework.krypton.exception.IO' );
 import( 'de.ceus-media.exception.Template' );
 /**
  *	Template Class.
  *	@package		framework.krypton.core
  *	@uses			Exception_Template
  *	@author			David Seebacher <dseebacher@gmail.com>
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			03.03.2007
@@ -68,7 +69,7 @@ class UI_Template
 	/**	@var		string		content of a specified templatefile */
 	protected $template;
 	
-	public static $removeComments	= FALSE;
+	public static $removeComments	= TRUE;
 	
 	/**
 	 *	Constructor
@@ -77,91 +78,89 @@ class UI_Template
 	 *	@param		array		$elements		List of Elements {@link add()}
 	 *	@return		void
 	 */
-	public function __construct( $fileName = NULL, $elements = NULL )
+	public function __construct( $fileName, $elements = NULL )
 	{
-		$this->elements		= array();
-		$this->className	= get_class( $this );
+		$this->elements = array();
 		$this->setTemplate( $fileName );
 		$this->add( $elements ); 
 	}
 	
 	/**
-	 *	Adds an associative array with labels and elements to the template and returns number of added elements. 
+	 *	Adds an associative array with labels and elements to the template 
 	 *	@param		array 		Array where the <b>key</b> can be a string, integer or 
 	 *							float and is the <b>label</b>. The <b>value</b> can be a 
 	 *							string, integer, float or a template object and represents
 	 *							the element to add.
-	 *	@param		bool		if TRUE an a tag is already used, it will overwrite it 
-	 *	@return		int
+	 *	@param		bool		if true an a tag is already used, it will overwrite it 
+	 *	@return		void
 	 */
-	public function add( $elements, $overwrite = FALSE )
+	public function add( $elements, $overwrite = false )
 	{
-		if( !is_array( $elements ) )
-			return 0;
-		$number	= 0;
-		foreach( $elements as $key => $value )
+		$self		= get_class( $this );
+		if( is_array( $elements ) )
 		{
-			$isListObject	= $value instanceof ArrayObject || $value instanceof ADT_List_Dictionary;
-			if( is_array( $value ) || $isListObject )
+			foreach( $elements as $key => $value )
 			{
-				$number	+= $this->addArrayRecursive( $key, $value, array(), $overwrite );
-			}
-			else
-			{
-				$validKey	= is_string( $key ) || is_int( $key ) || is_float( $key );
-				$validValue	= is_string( $value ) || is_int( $value ) || is_float( $value ) || $value instanceof $this->className;
-				if( $validKey && $validValue )
+				if( is_array( $value ) || $value instanceof ArrayObject || $value instanceof ADT_List_Dictionary )
 				{
-					if( $overwrite == TRUE )
-						$this->elements[$key] = NULL;
-					$this->elements[$key][] = $value;
+					$this->addArrayRecursive( $key, $value, array(), $overwrite );
 				}
-				$number	++;
+				else
+				{
+					$validKey	= is_string( $key ) || is_int( $key ) || is_float( $key );
+					$validValue	= is_string( $value ) || is_int( $value ) || is_float( $value ) || $value instanceof $self;
+					if( $validKey && $validValue )
+					{
+						if( $overwrite == true )
+							$this->elements[$key] = null;
+						$this->elements[$key][] = $value;
+					}
+				}
 			}
 		}
-		return $number;
 	}
 
 	/**
-	 *	Adds an array recursive and returns number of added elements.
+	 *	Adds an Array recursive.
 	 *	@access		public
-	 *	@param		string		$name			Key of array
-	 *	@param		mixed		$data			Values of array
-	 *	@param		array		$steps			Steps within recursion
-	 *	@param		bool		$overwrite		Flag: overwrite existing tag
-	 *	@return		int
+	 *	@param		string		$name			Key of Array
+	 *	@param		mixed		$data			Values of Array
+	 *	@param		array		$steps			Steps within Recursion
+	 *	@param		bool		$overwrite		Flag: overwrite existing Tag
 	 */
-	public function addArrayRecursive( $name, $data, $steps = array(), $overwrite = FALSE )
+	public function addArrayRecursive( $name, $data, $steps = array(), $overwrite = false )
 	{
-		$number		= 0;
 		$steps[]	= $name;
 		foreach( $data as $key => $value )
 		{
-			$isListObject	= $value instanceof ArrayObject || $value instanceof ADT_List_Dictionary;
-			if( is_array( $value ) || $isListObject  )
+			if( is_array( $value ) || $value instanceof ArrayObject || $value instanceof ADT_List_Dictionary  )
 			{
-				$number	+= $this->addArrayRecursive( $key, $value, $steps );
+				$this->addArrayRecursive( $key, $value, $steps );
 			}
+			else if( is_int( $key ) )
+				$this->elements[$name][] = $value;
+			else if( is_object( $value ) )
+				$this->elements[$name][] = $value;
 			else
 			{
 				$key	= implode( ".", $steps ).".".$key;
-				if( $overwrite == TRUE )
-					$this->elements[$key] = NULL;
+				if( $overwrite == true )
+				{
+					$this->elements[$key] = null;
+				}
 				$this->elements[$key][] = $value;
-				$number ++;
 			}
 		}
-		return $number;
 	}
 	
 	/**
-	 *	Adds one Element.
+	 *	Adds one Element
 	 *	@param		string		tagname
 	 *	@param		string|int|float|Template
-	 *	@param		bool		if set to TRUE, it will overwrite an existing element with the same label
+	 *	@param		bool		if set to true, it will overwrite an existing element with the same label
 	 *	@return		void
 	 */
-	public function addElement( $tag, $element, $overwrite = FALSE )
+	public function addElement( $tag, $element, $overwrite = false )
 	{
 		$this->add( array( $tag => $element ), $overwrite );
 	}
@@ -171,10 +170,10 @@ class UI_Template
 	 *	@param		string		tagname
 	 *	@param		string		template file
 	 *	@param		array		array containing elements {@link add()}
-	 *	@param		bool		if set to TRUE, it will overwrite an existing element with the same label
+	 *	@param		bool		if set to true, it will overwrite an existing element with the same label
 	 *	@return		void
 	 */
-	public function addTemplate( $tag, $fileName, $element = NULL, $overwrite = FALSE )
+	public function addTemplate( $tag, $fileName, $element = null, $overwrite = false )
 	{
 		$this->addElement( $tag, new self( $fileName, $element ), $overwrite );
 	}
@@ -187,11 +186,16 @@ class UI_Template
 	 */
 	public function create()
 	{
+		$self	= get_class( $this );
 		$out	= $this->template;
+#		if( preg_match( "@statistics@", $this->template ) )
+#		{
+#			print_m( $this->elements );
+#			die;
+#		}
  		$out	= preg_replace( '/<%--.*--%>/sU', '', $out );	
  		if( self::$removeComments )
 			$out	= preg_replace( '/<!--.+-->/sU', '', $out );	
-
 		foreach( $this->elements as $label => $labelElements )
 		{
 			$tmp = '';
@@ -199,7 +203,7 @@ class UI_Template
 			{
 	 			if( is_object( $element ) )
 	 			{
-	 				if( !( $element instanceof $this->className ) )
+	 				if( !( $element instanceof $self ) )
 	 					continue;
 					$element = $element->create();
 	 			}
@@ -214,9 +218,7 @@ class UI_Template
 		    return $out; 				
 
 		$tags	= array_shift( $tags );
-		foreach( $tags as $key => $value )
-			$tags[$key]	= preg_replace( '@(<%\??)|%>@', "", $value );
-		throw new Exception_Template( EXCEPTION_TEMPLATE_LABELS_NOT_USED, $this->fileName, $tags );
+		throw new Exception_Template( TEMPLATE_EXCEPTION_LABELS_NOT_USED, $this->fileName, $tags );
 	}
 
 	/**
@@ -239,7 +241,7 @@ class UI_Template
 	{
 		$content = $this->getTaggedComment( $comment );
 		if( !isset( $content ) )
-			return NULL;
+			return null;
 
 		$list	= array();
 		$content = explode( "\n", $content );
@@ -303,51 +305,17 @@ class UI_Template
 	}
 
 	/**
-	 *	Loads a new template file if it exists. Otherwise it will throw an Exception.
+	 *	Loads a new template file if it exists. Otherwise it will throw an IOException.
 	 *	@param		string		$fileName 	File Name of Template
-	 *	@return		bool
+	 *	@return		void
 	 */
 	public function setTemplate( $fileName )
 	{
-		if( empty( $fileName ) )
-			return FALSE;
-			
 		if( !file_exists( $fileName ) )
-			throw new Exception_Template( EXCEPTION_TEMPLATE_FILE_NOT_FOUND, $this->fileName );
+			throw new InvalidArgumentException( 'Template File "'.$fileName.'" not found.' );
 
 		$this->fileName	= $fileName;
 		$this->template = file_get_contents( $fileName );
-		return TRUE;
-	}
-	
-	/**
-	 *	Renders a Template with given Elements statically.
-	 *	@access		public
-	 *	@static
-	 *	@param		string		$fileName		File Name of Template File
-	 *	@param		array		$elements		List of Elements {@link add()}
-	 *	@return		void
-	 */
-	public static function render( $fileName, $elements )
-	{
-		$template	= new self( $fileName, $elements );
-		return $template->create();
-	}
-
-	/**
-	 *	Renders a Template String with given Elements statically.
-	 *	@access		public
-	 *	@static
-	 *	@param		string		$string			Template String
-	 *	@param		array		$elements		Map of Elements for Template String
-	 *	@return		string
-	 */
-	public static function renderString( $string, $elements = array() )
-	{
-		$template	= new self();
-		$template->template	= $string;
-		$template->add( $elements );
-		return $template->create();
 	}
 }
 ?>

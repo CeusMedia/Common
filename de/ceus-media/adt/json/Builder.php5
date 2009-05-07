@@ -2,7 +2,7 @@
 /**
  *	JSON Implementation for building JSON Code.
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2008 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -18,8 +18,8 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@package		adt.json
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			14.05.2006
@@ -28,8 +28,8 @@
 /**
  *	JSON Implementation for building JSON Code.
  *	@package		adt.json
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			14.05.2006
@@ -40,7 +40,6 @@ class ADT_JSON_Builder
 	/**
 	 *	Encodes Data into a representative String.
 	 *	@access		public
-	 *	@static
 	 *	@param		mixed		$data			Data to be encoded
 	 *	@return		string
 	 */
@@ -90,7 +89,6 @@ class ADT_JSON_Builder
 	/**
 	 *	Returns Data Type of Pair Value.
 	 *	@access		private
-	 *	@static
 	 *	@param		string		$key			Key of Pair
 	 *	@param		mixed		$value			Value of Pair
 	 *	@return		string
@@ -117,7 +115,6 @@ class ADT_JSON_Builder
 	/**
 	 *	Loops through Data Array and returns a representative String.
 	 *	@access		private
-	 *	@static
 	 *	@param		array		$array			Array to be looped
 	 *	@param		string		$type			Data Type
 	 *	@return		string
@@ -134,7 +131,6 @@ class ADT_JSON_Builder
 	/**
 	 *	Escpapes Control Sings in String.
 	 *	@access		private
-	 *	@static
 	 *	@param		string		$string			String to be escaped
 	 *	@return		string
 	 */
@@ -158,7 +154,6 @@ class ADT_JSON_Builder
 	/**
 	 *	Indicates whether a array is associative or not.
 	 *	@access		private
-	 *	@static
 	 *	@param		array		$array			Array to be checked
 	 *	@return		bool
 	 */

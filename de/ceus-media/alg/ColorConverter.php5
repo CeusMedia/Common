@@ -2,7 +2,7 @@
 /**
  *	Converter for different Formats of Colors.
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2008 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -18,8 +18,8 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@package		alg
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			23.09.2005
@@ -28,8 +28,8 @@
 /**
  *	Converter for Colors.
  *	@package		alg
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			23.09.2005
@@ -41,7 +41,6 @@ class Alg_ColorConverter
 	/**
 	 *	Converts CMY to CMYK.
 	 *	@access		public
-	 *	@static
 	 *	@param		array	cmy		CMY-Color as array
 	 *	@return		array
 	 */
@@ -58,7 +57,6 @@ class Alg_ColorConverter
 	/**
 	 *	Converts CMYK to CMY.
 	 *	@access		public
-	 *	@static
 	 *	@param		array	cmyk	CMYK-Color as array
 	 *	@return		array
 	 */
@@ -74,7 +72,6 @@ class Alg_ColorConverter
 	/**
 	 *	Converts CMY to RGB.
 	 *	@access		public
-	 *	@static
 	 *	@param		array	cmy		CMY-Color as array
 	 *	@return		array
 	 */
@@ -90,7 +87,6 @@ class Alg_ColorConverter
 	/**
 	 *	Converts CMYK to RGB.
 	 *	@access		public
-	 *	@static
 	 *	@param		array	cmyk	CMKY-Color as array
 	 *	@return		array
 	 */
@@ -102,7 +98,6 @@ class Alg_ColorConverter
 	/**
 	 *	Converts HSV to HTML.
 	 *	@access		public
-	 *	@static
 	 *	@param		array	hsv		HSV-Color as array
 	 *	@return		string
 	 */
@@ -114,7 +109,6 @@ class Alg_ColorConverter
 	/**
 	 *	Converts HSV to RGB.
 	 *	@access		public
-	 *	@static
 	 *	@param		array	hsv		HSV-Color as array
 	 *	@return		array
 	 */
@@ -186,7 +180,6 @@ class Alg_ColorConverter
 	/**
 	 *	Converts HTML to RGB.
 	 *	@access		public
-	 *	@static
 	 *	@param		string	html		HTML-Color as string
 	 *	@return		array
 	 */
@@ -199,7 +192,6 @@ class Alg_ColorConverter
 	/**
 	 *	Converts HTML to hsv.
 	 *	@access		public
-	 *	@static
 	 *	@param		string	html		HTML-Color as string
 	 *	@return		array
 	 */
@@ -212,7 +204,6 @@ class Alg_ColorConverter
 	/**
 	 *	Converts RGB to CMY.
 	 *	@access		public
-	 *	@static
 	 *	@param		array	rgb		RGB-Color as array
 	 *	@return		array
 	 */
@@ -228,7 +219,6 @@ class Alg_ColorConverter
 	/**
 	 *	Converts RGB to CMYK.
 	 *	@access		public
-	 *	@static
 	 *	@param		array	rgb		RGB-Color as array
 	 *	@return		array
 	 */
@@ -240,7 +230,6 @@ class Alg_ColorConverter
 	/**
 	 *	Converts RGB to HSV.
 	 *	@access		public
-	 *	@static
 	 *	@param		array	rgb		RGB-Color as array
 	 *	@return		array
 	 */
@@ -268,7 +257,6 @@ class Alg_ColorConverter
 	/**
 	 *	Converts RGB to HTML.
 	 *	@access		public
-	 *	@static
 	 *	@param		array	rgb		RGB-Color as array
 	 *	@return		string
 	 */
@@ -283,7 +271,6 @@ class Alg_ColorConverter
 	/**
 	 *	Converts RGB to XYZ.
 	 *	@access		public
-	 *	@static
 	 *	@param		array	rgb		RGB-Color as array
 	 *	@return		array
 	 */
@@ -302,7 +289,6 @@ class Alg_ColorConverter
 	/**
 	 *	Converts XYZ to RGB.
 	 *	@access		public
-	 *	@static
 	 *	@param		array	xyz		XYZ-Color as array
 	 *	@return		array
 	 */
@@ -323,7 +309,7 @@ class Alg_ColorConverter
 #	 *	@access		public
 #	 *	@param		array	xyz		XYZ-Color as array
 #	 *	@return		array
-#	 *	@author		Christian Würker <christian.wuerker@ceus-media.de>
+#	 *	@author		Christian Würker <Christian.Wuerker@CeuS-Media.de>
 #	 *	@since		23.09.2005
 #	 *	@version		0.1
 #	 */
@@ -339,7 +325,7 @@ class Alg_ColorConverter
 #	 *	@access		public
 #	 *	@param		array	luv		LUV-Color as array
 #	 *	@return		array
-#	 *	@author		Christian Würker <christian.wuerker@ceus-media.de>
+#	 *	@author		Christian Würker <Christian.Wuerker@CeuS-Media.de>
 #	 *	@since		23.09.2005
 #	 *	@version		0.1
 #	 */
@@ -355,7 +341,7 @@ class Alg_ColorConverter
 #	 *	@access		public
 #	 *	@param		array	xyz		XYZ-Color as array
 #	 *	@return		array
-#	 *	@author		Christian Würker <christian.wuerker@ceus-media.de>
+#	 *	@author		Christian Würker <Christian.Wuerker@CeuS-Media.de>
 #	 *	@since		23.09.2005
 #	 *	@version		0.1
 #	 */
@@ -371,7 +357,7 @@ class Alg_ColorConverter
 #	 *	@access		public
 #	 *	@param		array	lab		LAB-Color as array
 #	 *	@return		array
-#	 *	@author		Christian Würker <christian.wuerker@ceus-media.de>
+#	 *	@author		Christian Würker <Christian.Wuerker@CeuS-Media.de>
 #	 *	@since		23.09.2005
 #	 *	@version		0.1
 #	 */
@@ -387,7 +373,7 @@ class Alg_ColorConverter
 #	 *	@access		public
 #	 *	@param		array	lab		LAB-Color as array
 #	 *	@return		array
-#	 *	@author		Christian Würker <christian.wuerker@ceus-media.de>
+#	 *	@author		Christian Würker <Christian.Wuerker@CeuS-Media.de>
 #	 *	@since		23.09.2005
 #	 *	@version		0.1
 #	 */
@@ -403,7 +389,7 @@ class Alg_ColorConverter
 #	 *	@access		public
 #	 *	@param		array	luv		LUV-Color as array
 #	 *	@return		array
-#	 *	@author		Christian Würker <christian.wuerker@ceus-media.de>
+#	 *	@author		Christian Würker <Christian.Wuerker@CeuS-Media.de>
 #	 *	@since		23.09.2005
 #	 *	@version		0.1
 #	 */

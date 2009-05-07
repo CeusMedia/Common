@@ -2,7 +2,7 @@
 /**
  *	Checks visibility of methods in a PHP file.
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2009 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -19,8 +19,8 @@
  *
  *	@package		file.php
  *	@uses			File_Reader
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			03.12.2009
@@ -31,8 +31,8 @@ import( 'de.ceus-media.file.Reader' );
  *	Checks visibility of methods in a PHP file.
  *	@package		file.php
  *	@uses			File_Reader
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			03.12.2009
@@ -40,9 +40,9 @@ import( 'de.ceus-media.file.Reader' );
  */
 class File_PHP_MethodVisibilityCheck
 {
-	protected $fileName		= "";
-	protected $methods		= array();
-	protected $checked		= FALSE;
+	private $fileName		= "";
+	private $methods		= array();
+	private $checked		= FALSE;
 
 	/**
 	 *	Constructor.
@@ -53,7 +53,7 @@ class File_PHP_MethodVisibilityCheck
 	public function __construct( $fileName )
 	{
 		if( !file_exists( $fileName ) )
-			throw new RuntimeException( "File '".$fileName."' is not existing." );
+			throw new Exception( "File '".$fileName."' is not existing." );
 		$this->fileName	= $fileName;
 		$this->checked	= FALSE;
 	}

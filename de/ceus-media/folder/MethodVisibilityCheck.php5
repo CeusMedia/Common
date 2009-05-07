@@ -2,7 +2,7 @@
 /**
  *	Checks visibility of methods in a folder containing PHP files.
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2009 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -17,11 +17,11 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- *	@package		folder
+ *	@package		file.php
  *	@uses			File_RecursiveRegexFilter
  *	@uses			File_PHP_MethodVisibilityCheck
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			03.12.2009
@@ -31,11 +31,11 @@ import( 'de.ceus-media.file.RecursiveRegexFilter' );
 import( 'de.ceus-media.file.php.MethodVisibilityCheck' );
 /**
  *	Checks visibility of methods in a folder containing PHP files.
- *	@package		folder
+ *	@package		file.php
  *	@uses			File_RecursiveRegexFilter
  *	@uses			File_PHP_MethodVisibilityCheck
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			03.12.2009

@@ -1,8 +1,8 @@
 <?php
 /**
- *	Turing Machine with one band.
+ *	Turing Machine with 1 Band.
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2008 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -18,18 +18,18 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@package		alg.turing
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			30.4.2005
  *	@version		0.6
  */
 /**
- *	Turing Machine with one band.
+ *	Turing Machine with 1 Band.
  *	@package		alg.turing
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			30.4.2005
@@ -37,21 +37,21 @@
  */
 class Alg_Turing_Machine
 {
-	/**	@var	array			$states			States of Machine */
+	/**	@var	array		$states			States of Machine */
 	protected $states;
-	/**	@var	array			$alphabet		Alphabet of Machine Language */
+	/**	@var	array		$alphabet		Alphabet of Machine Language */
 	protected $alphabet;
-	/**	@var	array			$transition		Transitions of Machine */
+	/**	@var	array		$transition		Transitions of Machine */
 	protected $transition;
-	/**	@var	array			$start			Start State */
+	/**	@var	array		$start			Start State */
 	protected $start;
-	/**	@var	array			$blank			Blank Sign of Machine Language */
+	/**	@var	array		$blank			Blank Sign of Machine Language */
 	protected $blank;
-	/**	@var	array			$finals			Final States */
+	/**	@var	array		$finals			Final States */
 	protected $finals;
-	/**	@var	array			$state			Current State of Machine */
+	/**	@var	array		$state			Current State of Machine */
 	protected $state;
-	/**	@var	int				$pointer		Current Pointer of Machine */
+	/**	@var	int			$pointer		Current Pointer of Machine */
 	protected $pointer;
 
 	/**

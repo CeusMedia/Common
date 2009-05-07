@@ -3,7 +3,7 @@
  *	Reader for Configuration Files of different Types.
  *	Supported File Types are CONF, INI, JSON, YAML and XML.
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2008 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -25,8 +25,8 @@
  *	@uses			File_INI_Reader
  *	@uses			File_YAML_Reader
  *	@uses			XML_ElementReader
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			06.05.2008
@@ -44,8 +44,8 @@ import( 'de.ceus-media.adt.list.Dictionary' );
  *	@uses			File_INI_Reader
  *	@uses			File_YAML_Reader
  *	@uses			XML_ElementReader
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			06.05.2008
@@ -102,36 +102,6 @@ class File_Configuration_Reader extends ADT_List_Dictionary
 				return $list;																	//  return Pair Map
 		}
 		return NULL;																			//  nothing found
-	}
-	
-	public function remove( $key )
-	{
-		if( empty( $key ) )																		//  no Key given
-			throw new InvalidArgumentException( 'Key must not be empty.' );						//  throw Exception
-		if( isset( $this->pairs[$key] ) )														//  Key is set on its own
-		{
-			unset( $this->pairs[$key] );														//  remove Pair
-			return 1;																			//  return Success
-		}
-
-		$count	= 0;
-		$key		.= ".";																		//  prepare Prefix Key to seach for
-		$length		= strlen( $key );															//  get Length of Prefix Key outside the Loop
-		foreach( $this->pairs as $pairKey => $pairValue )										//  iterate all stores Pairs
-		{
-			if( $pairKey[0] !== $key[0] )														//  precheck for Performance
-			{
-				if( $count )																	//  Pairs with Prefix Keys are passed
-					break;																		//  break Loop -> big Performance Boost
-				continue;																		//  skip Pair
-			}
-			if( strpos( $pairKey, $key ) === 0 )												//  Prefix Key is found
-			{
-				unset( $this->pairs[$pairKey] );												//  remove Pair
-				$count++;																		//  count removed Pairs
-			}
-		}
-		return $count;																			//  return number of removed pairs
 	}
 
 	/**
@@ -304,9 +274,6 @@ class File_Configuration_Reader extends ADT_List_Dictionary
 	 */
 	protected function tryToLoadFromCache( $cacheFile, $lastChange )
 	{
-		if( !file_exists( $cacheFile ) )
-			return FALSE;
-
 		$lastCache	= @filemtime( $cacheFile );
 		if( $lastCache && $lastChange <= $lastCache )
 		{

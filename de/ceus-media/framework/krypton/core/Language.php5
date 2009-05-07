@@ -3,7 +3,7 @@
  *	Language Support with sniffing of Browser Language and Language Validation.
  *	Loads Language Files direct or from Cache if enabled.
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2008 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -25,8 +25,8 @@
  *	@uses			File_INI_Reader
  *	@uses			Net_HTTP_LanguageSniffer
  *	@uses			Alg_Validation_LanguageValidator
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			05.12.2006
@@ -43,8 +43,8 @@ import( 'de.ceus-media.framework.krypton.core.Registry' );
  *	@uses			File_INI_Reader
  *	@uses			Net_HTTP_LanguageSniffer
  *	@uses			Alg_Validation_LanguageValidator
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			05.12.2006
@@ -276,8 +276,8 @@ class Framework_Krypton_Core_Language
 			throwException ( 'IO', 'Language File "'.$fileName.'" is not existing.', $lanFile );	
 
 		import( 'de.ceus-media.file.ini.Reader' );
-		$ir	= new File_INI_Reader( $lanFile, TRUE, FALSE );							//  load File with Sections and without reserved Words
-		$this->words[$section]	= $ir->toArray( TRUE );								//  load File Sections into Language Array
+		$ir	= new File_INI_Reader( $lanFile, TRUE );
+		$this->words[$section]	= $ir->toArray( TRUE );
 		foreach( $this->words[$section] as $area => $pairs )
 			foreach( array_keys( $pairs ) as $key )
 				if( isset( $this->hovers[$baseName."/".$area."/".$key] ) )

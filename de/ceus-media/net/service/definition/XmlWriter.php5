@@ -2,7 +2,7 @@
 /**
  *	Builder and Writer for XML Service Definitions.
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2008 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -22,8 +22,8 @@
  *	@uses			XML_DOM_Node
  *	@uses			XML_DOM_Parser
  *	@uses			File_Writer
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		0.6
@@ -39,8 +39,8 @@ import( 'de.ceus-media.file.Writer' );
  *	@uses			XML_DOM_Node
  *	@uses			XML_DOM_Parser
  *	@uses			File_Writer
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		0.6
@@ -50,7 +50,6 @@ class Net_Service_Definition_XmlWriter
 	/**
 	 *	Builds Service Definition Array statically and returns XML Service Definition String.
 	 *	@access		public
-	 *	@static
 	 *	@param		array			$data				Service Point Definition Array
 	 *	@return		string
 	 */
@@ -64,7 +63,6 @@ class Net_Service_Definition_XmlWriter
 	/**
 	 *	Builds and returns a single Service Structure, can be overwritten.
 	 *	@access		protected
-	 *	@static
 	 *	@param		string			$serviceName		Name of Service
 	 *	@param		array			$serviceData		Service Definition Array
 	 *	@return		XML_DOM_Node
@@ -87,7 +85,6 @@ class Net_Service_Definition_XmlWriter
 	/**
 	 *	Builds a Service Formats Structure in situ, can be overwritten.
 	 *	@access		protected
-	 *	@static
 	 *	@param		array			$serviceData		Service Definition Array
 	 *	@param		XML_DOM_Node	$serviceNode		Service Node to add Formats Structure to
 	 *	@return		void
@@ -104,7 +101,6 @@ class Net_Service_Definition_XmlWriter
 	/**
 	 *	Builds a Service Parameters Structure in situ, can be overwritten.
 	 *	@access		protected
-	 *	@static
 	 *	@param		array			$serviceData		Service Definition Array
 	 *	@param		XML_DOM_Node	$serviceNode		Service Node to add Parameters Structure to
 	 *	@return		void
@@ -131,7 +127,6 @@ class Net_Service_Definition_XmlWriter
 	/**
 	 *	Builds and returns a Service Point Structure, can be overwritten.
 	 *	@access		protected
-	 *	@static
 	 *	@param		array			$data				Service Point Definition Array
 	 *	@return		XML_DOM_Node
 	 */
@@ -149,7 +144,6 @@ class Net_Service_Definition_XmlWriter
 	/**
 	 *	Builds a Services Structure in situ, can be overwritten.
 	 *	@access		protected
-	 *	@static
 	 *	@param		array			$services			Services Definition Array
 	 *	@param		XML_DOM_Node	$root				Service Point Node to add Services Structure to
 	 *	@return		void
@@ -168,7 +162,6 @@ class Net_Service_Definition_XmlWriter
 	/**
 	 *	Builds a Service Roles Structure in situ, can be overwritten.
 	 *	@access		protected
-	 *	@static
 	 *	@param		array			$serviceData		Service Definition Array
 	 *	@param		XML_DOM_Node	$serviceNode		Service Node to add Roles Structure to
 	 *	@return		void
@@ -189,7 +182,6 @@ class Net_Service_Definition_XmlWriter
 	/**
 	 *	Writes XML Service Definition String from Service Definition Array to XML File and returns number of written Bytes.
 	 *	@access		public
-	 *	@static
 	 *	@param		string			$fileName			File Name of XML File
 	 *	@param		array			$data				Service Point Definition Array
 	 *	@return		int				Number of written Bytes

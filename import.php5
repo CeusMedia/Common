@@ -11,7 +11,7 @@ $constants	= array(																			//  Array of Constants to be set
 	'CM_CLASSES_IMPORT_EXTENSION'		=> 'php5',												//  Extension of PHP Classes (default 'php5')
 	'CM_CLASSES_IMPORT_SEPARATOR'		=> '.',													//  Separator in Import Path (default '.')
 	'CM_CLASSES_IMPORT_ALLOW_SEPARATOR'	=> FALSE,												//  Flag: allow Separator in Folder Names (slower)
-	'CM_CLASSES_VERSION'				=> "0.6.6",												//  Version of Class Container
+	'CM_CLASSES_VERSION'				=> "0.6.5",												//  Version of Class Container
 //	'CM_CLASSES_VERSION'				=> $__c['project']['version'],							//  Version of Class Container
 //	'CM_CLASSES_EXTENSIONS'				=> TRUE,												//  Flag: use Exception Extension
 );
@@ -43,22 +43,29 @@ function import( $classPath, $supressWarnings = FALSE )
 	$fileName	.= ".".CM_CLASSES_IMPORT_EXTENSION;
 	while( preg_match( "@^-@", $fileName ) )
 		$fileName	= preg_replace( "@^(-*)-@", "\\1../", $fileName ); 
-
-	if( !in_array( $fileName, $GLOBALS['imported'] ) )
+	try
 	{
-		if( $supressWarnings )
+		if( !in_array( $fileName, $GLOBALS['imported'] ) )
 		{
-			$errorLevel	= error_reporting();
-			error_reporting( 5 );
+			if( $supressWarnings )
+			{
+				$errorLevel	= error_reporting();
+				error_reporting( 5 );
+			}
+			if( !include_once $fileName )
+				throw new Exception( 'Class "'.$fileName.'" is not existing or invalid.' );
+			if( $supressWarnings )
+				error_reporting( $errorLevel );
+			$GLOBALS['imported'][$classPath] = $fileName;
 		}
-		if( !include_once $fileName )
-			throw new Exception( 'Class "'.$fileName.'" is not existing or invalid.' );
-		if( $supressWarnings )
-			error_reporting( $errorLevel );
-		$GLOBALS['imported'][$classPath] = $fileName;
-		return TRUE;
 	}
-	return FALSE;
+	catch( Exception $e )
+	{
+		$trace		= $e->getTrace();
+		$message	= $trace[0]['file']."[".$trace[0]['line']."]: ".$e->getMessage();
+		die( $message );
+	}
+	return TRUE;
 }
 $GLOBALS['imported'] = array ();
 import( 'de.ceus-media.throwException' );

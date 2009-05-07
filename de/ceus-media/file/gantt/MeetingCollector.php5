@@ -2,7 +2,7 @@
 /**
  *	Reads for several "Gantt Project" XML Files and extracts Project Information and Meeting Dates.
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2008 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -18,8 +18,8 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@package		file.gantt
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			12.03.2008
@@ -30,7 +30,7 @@ import( 'de.ceus-media.file.gantt.MeetingReader' );
  *	Reads for several "Gantt Project" XML Files and extracts Project Information and Meeting Dates.
  *	@package		file.gantt
  *	@uses			File_Gantt_MeetingReader
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			12.03.2008
  *	@version		0.1
  */
@@ -106,7 +106,6 @@ class File_Gantt_MeetingCollector
 	/**
 	 *	Lists all Gantt Project XML Files in a specified Path.
 	 *	@access		protected
-	 *	@static
 	 *	@param		array		$path			Path to Gantt Project XML Files
 	 *	@return		array
 	 */
@@ -128,7 +127,6 @@ class File_Gantt_MeetingCollector
 	/**
 	 *	Reads Gantt Project XML Files and extracts Project and Meeting Dates.
 	 *	@access		protected
-	 *	@static
 	 *	@param		array		$fileList		List of Gantt Project XML Files
 	 *	@return		array
 	 */

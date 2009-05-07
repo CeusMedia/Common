@@ -2,7 +2,7 @@
 /**
  *	Bubble Sort.
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2008 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -18,8 +18,8 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@package		alg.sort
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		0.5
@@ -27,8 +27,8 @@
 /**
  *	Bubble Sort.
  *	@package		alg.sort
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		0.5
@@ -39,7 +39,6 @@ class Alg_Sort_BubbleSort
 	/**
 	 *	Sorts List with Bubble Sort.
 	 *	@access		public
-	 *	@static
 	 *	@param		array		$list		List to sort
 	 *	@return		array
 	 */
@@ -55,7 +54,6 @@ class Alg_Sort_BubbleSort
 	/**
 	 *	Swaps two Elements in List.
 	 *	@access		protected
-	 *	@static
 	 *	@param		array		$list		Reference to List
 	 *	@param		int			$pos1		Position of first Element
 	 *	@param		int			$pos1		Position of second Element

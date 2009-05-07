@@ -2,7 +2,7 @@
 /**
  *	Converter between OPML and Tree Menu Structure.
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2008 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -18,8 +18,8 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@package		alg.tree.menu
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			02.12.2008
@@ -34,8 +34,8 @@ import( 'de.ceus-media.adt.tree.menu.Item' );
  *	@uses			File_Reader
  *	@uses			XML_OPML_Parser
  *	@uses			ADT_Tree_Menu_List
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			02.12.2008
@@ -46,7 +46,6 @@ class Alg_Tree_Menu_Converter
 	/**
 	 *	Converts an OPML File to a Tree Menu List.
 	 *	@access		public
-	 *	@static
 	 *	@param		string		$fileName		File Name of OPML File
 	 *	@param		string		$labelRoot		Label of Top Tree Menu List
 	 *	@return		ADT_Tree_Menu_List
@@ -60,7 +59,6 @@ class Alg_Tree_Menu_Converter
 	/**
 	 *	Converts an OPML String to a Tree Menu List.
 	 *	@access		public
-	 *	@static
 	 *	@param		string		$opml			OPML String
 	 *	@param		string		$labelRoot		Label of Top Tree Menu List
 	 *	@return		ADT_Tree_Menu_List
@@ -79,7 +77,6 @@ class Alg_Tree_Menu_Converter
 	/**
 	 *	Adds Tree Menu Items from OPML Outlines into a given Tree Menu List recursively.
 	 *	@access		public
-	 *	@static
 	 *	@param		array				$outlines		Outline Array from OPML Parser
 	 *	@param		ADT_Tree_Menu_List	$container		Current working Menu Container, a Tree Menu List initially.
 	 *	@return		void

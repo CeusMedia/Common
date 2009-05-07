@@ -36,22 +36,9 @@ class Tests_Net_Service_ResponseTest extends PHPUnit_Framework_TestCase
 				'string'	=> "VALUE1",
 				'bool'		=> TRUE,
 				'double'	=> M_PI,
-#				'object'	=> new stdClass(),
+				'object'	=> new stdClass(),
 			)
 		);
-	}
-	
-	/**
-	 *	Tests Method 'getBase64'.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function test__construct()
-	{
-		$instance	= new Test_Net_Service_ResponseInstance();
-		$assertion	= "StopWatch";
-		$creation	= get_class( $instance->getProtectedVar( 'watch' ) );
-		$this->assertEquals( $assertion, $creation );
 	}
 	
 	/**
@@ -67,134 +54,38 @@ class Tests_Net_Service_ResponseTest extends PHPUnit_Framework_TestCase
 	}
 	
 	/**
-	 *	Tests Method 'convertToOutputFormat' with Format Exception.
+	 *	Tests Method 'getJson'.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testConvertToOutputFormatException1()
-	{
-		$this->setExpectedException( 'BadMethodCallException' );
-		$this->instance->convertToOutputFormat( "", "invalidFormat" );
-	}
-	
-	/**
-	 *	Tests Method 'convertToOutputFormat' with Data Exception.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function testConvertToOutputFormatException2()
-	{
-		$message	= "Test Exception";
-		$assertion	= $message;
-		$structure	= unserialize( $this->instance->convertToOutputFormat( new Exception( $message ), "php" ) );
-		$creation	= $structure['data']['message']; 
-		$this->assertEquals( $assertion, $creation );
-	}
-	
-	/**
-	 *	Tests Method 'convertToOutputFormat' with JSON.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function testConvertToOutputFormatJson()
+	public function testGetJson()
 	{
 		$assertion	= json_encode( $this->data );
-		$creation	= $this->instance->convertToOutputFormat( $this->data['data'], "json" ); 
+		$creation	= $this->instance->executeProtectedMethod( 'getJson', $this->data['data'] ); 
 		$this->assertEquals( $assertion, $creation );
 	}
 	
 	/**
-	 *	Tests Method 'convertToOutputFormat' with PHP.
+	 *	Tests Method 'getPhp'.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testConvertToOutputFormatPhp()
+	public function testGetPhp()
 	{
 		$assertion	= serialize( $this->data );
-		$creation	= $this->instance->convertToOutputFormat( $this->data['data'], "php" ); 
-		$this->assertEquals( $assertion, $creation );
-	}
-
-	/**
-	 *	Tests Method 'convertToOutputFormat' with Text.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function testConvertToOutputFormatTxt()
-	{
-		$assertion	= $this->data['data']['string'];
-		$creation	= $this->instance->convertToOutputFormat( $this->data['data']['string'], "txt" ); 
+		$creation	= $this->instance->executeProtectedMethod( 'getPhp', $this->data['data'] ); 
 		$this->assertEquals( $assertion, $creation );
 	}
 	
 	/**
-	 *	Tests Method 'convertToOutputFormat' with WDDX.
+	 *	Tests Method 'getPhp'.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testConvertToOutputFormatWddx()
+	public function testGetWddx()
 	{
 		$assertion	= wddx_serialize_value( $this->data );
-		$creation	= $this->instance->convertToOutputFormat( $this->data['data'], "wddx" ); 
-		$this->assertEquals( $assertion, $creation );
-	}
-	
-	/**
-	 *	Tests Method 'convertToOutputFormat' with XML.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function testConvertToOutputFormatXml1()
-	{
-		$list	= array();
-		foreach( $this->data['data'] as $key => $value )
-			$list[]	= '<'.$key.'>'.$value.'</'.$key.'>';
-		$assertion	= '
-<?xml version="1.0"?>
-<response>
-  <status>data</status>
-  <data>
-    '.implode( "\n    ", $list ).'
-  </data>
-</response>';
-		$assertion	= preg_replace( "/\n\r?/", "", $assertion );
-		$creation	= $this->instance->convertToOutputFormat( $this->data['data'], "xml" );
-		$creation	= preg_replace( "/\n\r?/", "", $creation );
-		$this->assertEquals( $assertion, $creation );
-	}
-
-	/**
-	 *	Tests Method 'convertToOutputFormat' with XML.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function testConvertToOutputFormatXml2()
-	{
-		$data	= array(
-			'colors'	=> array(
-				'white',
-				'black',
-				'red',
-				'blue',
-				'green'
-			)
-		);
-		$list	= array();
-		foreach( $data['colors'] as $color )
-			$list[]	= '<color>'.$color.'</color>';
-		$assertion	= '
-<?xml version="1.0"?>
-<response>
-  <status>data</status>
-  <data>
-    <colors>
-      '.implode( "\n      ", $list ).'
-    </colors>
-  </data>
-</response>';
-		$creation	= $this->instance->convertToOutputFormat( $data, "xml" );
-		$assertion	= preg_replace( "/\n\r?/", "", $assertion );
-		$creation	= preg_replace( "/\n\r?/", "", $creation );
+		$creation	= $this->instance->executeProtectedMethod( 'getWddx', $this->data['data'] ); 
 		$this->assertEquals( $assertion, $creation );
 	}
 }
@@ -206,21 +97,6 @@ class Test_Net_Service_ResponseInstance extends Net_Service_Response
 		if( !method_exists( $this, $method ) )
 			throw new Exception( 'Method "'.$method.'" is not callable.' );
 		return $this->$method( $content );
-	}
-	
-	public function getProtectedVar( $varName )
-	{
-		if( !in_array( $varName, array_keys( get_object_vars( $this ) ) ) )
-			throw new Exception( 'Var "'.$varName.'" is not declared.' );
-		return $this->$varName;
-	}
-	
-	protected function buildResponseStructure( $content, $status )
-	{
-		$structure	= parent::buildResponseStructure( $content, $status );
-		unset( $structure['timestamp'] );
-		unset( $structure['duration'] );
-		return $structure;
 	}
 }
 ?>

@@ -2,7 +2,7 @@
 /**
  *	Abstract Basic Component for Actions and Views.
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2008 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -26,22 +26,21 @@
  *	@uses			Alg_TimeConverter
  *	@uses			Alg_InputFilter
  *	@uses			UI_HTML_WikiParser
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			01.12.2005
  *	@version		0.6
  */
 import( 'de.ceus-media.framework.krypton.core.Registry' );
-import( 'de.ceus-media.framework.krypton.view.component.Template' );
+import( 'de.ceus-media.framework.krypton.core.Template' );
 import( 'de.ceus-media.file.Reader' );
 import( 'de.ceus-media.ui.html.Elements' );
 import( 'de.ceus-media.alg.TimeConverter' );
 /**
  *	Generic View with Language Support.
  *	@package		framework.krypton.core
- *	@abstract
  *	@uses			Framework_Krypton_Core_Registry
  *	@uses			Framework_Krypton_Core_Template
  *	@uses			View_Component_Elements
@@ -50,8 +49,8 @@ import( 'de.ceus-media.alg.TimeConverter' );
  *	@uses			Alg_TimeConverter
  *	@uses			Alg_InputFilter
  *	@uses			UI_HTML_WikiParser
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			01.12.2005
@@ -99,21 +98,19 @@ abstract class Framework_Krypton_Core_Component
 	const CLEAR_ALL											= 16;
 
 	/**	@var		Framework_Krypton_Core_Registry		$registry		Registry of Objects */
-	protected $registry	= null;
-	/**	@var		Net_HTTP_Request_Receiver			Request Receiver Object */
-	protected $request		= NULL;
+	var $registry	= null;
 	/**	@var		UI_HTML_Elements	$html			HTML Elements */
-	public $html			= NULL;
+	var $html		= null;
 	/**	@var		Language			$language		Language Support */
-	protected $language		= NULL;
+	var $language	= null;
 	/**	@var		Messenger			$messenger		Messenger Object */
-	protected $messenger	= NULL;
+	var $messenger	= null;
 	/**	@var		Alg_TimeConverter	$tc				Time Converter Object */
-	protected $tc			= NULL;
+	var $tc			= null;
 	/**	@var		array				$words			Array of defined Words */
-	protected $words		= array();
+	var $words		= array();
 	/**	@var		UI_HTML_WikiParser	$wiki			Wiki Parser Object */
-	protected $wiki			= NULL;
+	var $wiki		= null;
 	/**	@var		array				$paths			Array of possible Path Keys in Config for Content Loading */
 	public $paths	= array(
 			'html'	=> 'html',
@@ -127,11 +124,9 @@ abstract class Framework_Krypton_Core_Component
 	 *	@param		bool		$useWikiParser		Flag: make WikiParser a Member Object
 	 *	@return		void
 	 */
-	public function __construct( $useWikiParser = FALSE )
+	public function __construct( $useWikiParser = false )
 	{
 		$this->registry		= Framework_Krypton_Core_Registry::getInstance();
-		$this->config		= $this->registry->get( 'config' );
-		$this->request		= $this->registry->get( 'request' );
 		$this->html			= new UI_HTML_Elements;
 		$this->tc			= new Alg_TimeConverter;
 		if( $useWikiParser )
@@ -185,7 +180,6 @@ abstract class Framework_Krypton_Core_Component
 	/**
 	 *	Shortens a string by a maximum length with a mask.
 	 *	@access		public
-	 *	@static
 	 *	@param		string		$string		String to be shortened
 	 *	@param		int			$length		Maximum length to cut at
 	 *	@param		string		$mask		Mask to append to shortened string
@@ -207,7 +201,6 @@ abstract class Framework_Krypton_Core_Component
 	/**
 	 *	Returns a float formated as Currency.
 	 *	@access		public
-	 *	@static
 	 *	@param		mixed		$price			Price to be formated
 	 *	@param		string		$separator		Separator
 	 *	@return		string
@@ -333,9 +326,8 @@ abstract class Framework_Krypton_Core_Component
 	 *	@access		public
 	 *	@param		string		$fileKey		File Name of Template File
 	 *	@return		string
-	 *	@deprecated	moved to Framework_Krypton_View_Component_Template
 	 */
-	public function _getTemplateUri( $fileKey )
+	public function getTemplateUri( $fileKey )
 	{
 		$config		= $this->registry->get( "config" );
 
@@ -354,17 +346,12 @@ abstract class Framework_Krypton_Core_Component
 	 *	@param	 	string		$languageKey		Language File Key with Error Messages and Form Fields
 	 *	@param	 	string		$languageSection	Section Name within Language File.
 	 *	@return		void
-	 *	@todo		clean up after 0.6.6
 	 */
-	public function handleException( $exception, $languageKey = NULL, $languageSection = "msg" )
+	public function handleException( $exception, $languageKey, $languageSection = "msg" )
 	{
-		import( 'de.ceus-media.framework.krypton.exception.Logic' );
 		switch( get_class( $exception ) )
 		{
-			case 'Framework_Krypton_Exception_Validation':										//  deprecated
-				$this->handleValidationException( $exception, $languageKey, $languageSection );
-				break;
-			case 'Exception_Validation':
+			case 'Framework_Krypton_Exception_Validation':
 				$this->handleValidationException( $exception, $languageKey, $languageSection );
 				break;
 			case 'Framework_Krypton_Exception_Logic':
@@ -375,23 +362,34 @@ abstract class Framework_Krypton_Core_Component
 				new UI_HTML_Exception_TraceViewer( $exception );
 				$this->handleSqlException( $exception );
 				break;
-			case 'Framework_Krypton_Exception_Template':										//  deprecated
-				$this->handleTemplateException( $exception );
-				break;
-			case 'Exception_Template':
+			case 'Framework_Krypton_Exception_Template':
 				$this->handleTemplateException( $exception );
 				break;
 			case 'LogicException':
 				$this->handleLogicException( $exception, $languageKey, 'exceptions' );
 				break;
-			case 'Exception_Service_Response':
-				$type	= $exception->getType();
-				$e		= new $type( $exception->getMessage() );
-				$this->handleException( $e, $languageKey, $languageSection );
-				break;
 			case 'Exception':
-				throw $exception;			
+				throw $exception;
+
+/*				$break	= ( !getEnv( 'PROMPT' ) && !getEnv( 'SHELL' ) ) ? "<br/>" : "\n";
+				$code	= $exception->getCode();
+				$trace	= $exception->getTrace();
+				print( "Error: ".$exception->getMessage().$break );
+				print( "File: ".$exception->getFile().$break );
+				print( "Line: ".$exception->getLine().$break );
+				if( $code )
+					print( "Code: ".$code.$break );
+				foreach( $trace as $data )
+				{
+					extract( $data );
+					$class	= isset( $class ) ? $class : "";
+					$type	= isset( $type ) ? $type : "";
+					print( str_repeat( "-", 70 ).$break );
+					print( $class.$type.$function.$break );
+					print( $file." [".$line."]".$break );
+				}
 				break;
+*/			
 			default:
 				import( 'de.ceus-media.ui.html.exception.TraceViewer' );
 				new UI_HTML_Exception_TraceViewer( $exception );
@@ -424,16 +422,10 @@ abstract class Framework_Krypton_Core_Component
 	 *	@param		string				$languageKey		Language File Key
 	 *	@param		string				$languageSection	Section Name in Language Space
 	 *	@return		void
-	 *	@todo		remove older Section, see below
 	 */
 	protected function handleLogicException( LogicException $exception, $languageKey, $languageSection = "exceptions" )
 	{
-		$words	= $this->words[$languageKey];										//  to be removed
-		if( isset( $words[$languageSection] ) )										//  on 0.6.6
-			$words	= $words[$languageSection];										//  because all logic messages
-		else																		//  should be in
-			$words	= $words['msg'];												//  Language Section 'exceptions'  
-
+		$words	= $this->words[$languageKey][$languageSection];
 		if( isset( $words[$exception->getMessage()] ) )
 			$msg	= $words[$exception->getMessage()];
 		else
@@ -449,7 +441,7 @@ abstract class Framework_Krypton_Core_Component
 	 *	@param		string									$languageSection	Section Name in Language Space
 	 *	@return		void
 	 */
-	protected function handleValidationException( Exception $exception, $languageKey, $languageSection )
+	protected function handleValidationException( Framework_Krypton_Exception_Validation $exception, $languageKey, $languageSection )
 	{
 		if( is_array( $languageSection ) )
 		{
@@ -497,7 +489,7 @@ abstract class Framework_Krypton_Core_Component
 	 *	@param		Framework_Krypton_Exception_Template	$exception				Exception to handle.
 	 *	@return		void
 	 */
-	protected function handleTemplateException( Exception $exception )
+	protected function handleTemplateException( Framework_Krypton_Exception_Template $exception )
 	{
 		$list	= array();
 		foreach( $exception->getNotUsedLabels() as $label )
@@ -530,19 +522,6 @@ abstract class Framework_Krypton_Core_Component
 	{
 		$fileName	= $this->getContentUri( $fileKey );
 		return file_exists( $fileName );
-	}
-
-	/**
-	 *	Loads File from Cache.
-	 *	@access		public
-	 *	@param		string		$fileName 			File Name of Cache File.
-	 *	@return		string
-	 */
-	public function loadCache( $fileName )
-	{
-		$config	= $this->registry->get( 'config' );
-		$url	= $config['paths.cache'].$fileName;
-		return File_Reader::load( $url );
 	}
 	
 	/**
@@ -577,6 +556,24 @@ abstract class Framework_Krypton_Core_Component
 	}
 
 	/**
+	 *	Loads Template File and returns Content.
+	 *	@access		public
+	 *	@param		string		$fileKey			Template Name (namespace(.class).view, i.E. example.add)
+	 *	@param		array		$data				Data for Insertion in Template
+	 *	@param		bool		$verbose			Flag: remark File Name
+	 *	@return		string
+	 */
+	public function loadTemplate( $fileKey, $data = array(), $verbose = false )
+	{
+		$fileName	= $this->getTemplateUri( $fileKey, $verbose );
+		if( !file_exists( $fileName ) )
+			throwException ( 'IO', 'Template "'.$fileKey.'" is not existing.', $fileName );
+
+		$template	= new Framework_Krypton_Core_Template( $fileName, $data );
+		return $template->create();
+	}
+
+	/**
 	 *	Loads a Language File into Language Space, needs Session.
 	 *	@access		public
 	 *	@param		string		$fileName			File Name of Language File
@@ -589,17 +586,16 @@ abstract class Framework_Krypton_Core_Component
 	}
 
 	/**
-	 *	Loads Template File and returns Content.
+	 *	Loads File from Cache.
 	 *	@access		public
-	 *	@param		string		$fileKey			Template Name (namespace(.class).view, i.E. example.add)
-	 *	@param		array		$data				Data for Insertion in Template
-	 *	@param		bool		$verbose			Flag: remark File Name (no function yet)
+	 *	@param		string		$fileName 			File Name of Cache File.
 	 *	@return		string
 	 */
-	public function loadTemplate( $fileKey, $data = array(), $verbose = FALSE )
+	public function loadCache( $fileName )
 	{
-		$template	= new Framework_Krypton_View_Component_Template( $fileKey, $data );
-		return $template->create();
+		$config	= $this->registry->get( 'config' );
+		$url	= $config['paths.cache'].$fileName;
+		return File_Reader::load( $url );
 	}
 	
 	/**

@@ -3,7 +3,7 @@
  *	Main Class for Web Applications.
  *	This Class need to be called within an existing Web Project.
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2008 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,8 +21,9 @@
  *	@package		framework.krypton
  *	@extends		Framework_Krypton_Base
  *	@uses			Net_HTTP_Request_Response
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@uses			View_Interface
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			11.04.2008
@@ -30,6 +31,7 @@
  */
 import( 'de.ceus-media.framework.krypton.Base' );
 import( 'de.ceus-media.net.http.request.Response' );
+#import( 'classes.view.Interface' );
 /**
  *	Main Class for Web Applications.
  *	This Class need to be called within an existing Web Project.
@@ -37,8 +39,9 @@ import( 'de.ceus-media.net.http.request.Response' );
  *	@extends		Framework_Krypton_Base
  *	@uses			Framework_Krypton_Core_FormDefinitionReader
  *	@uses			Framework_Krypton_Core_PageController
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@uses			View_Interface
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			11.04.2008
@@ -46,11 +49,6 @@ import( 'de.ceus-media.net.http.request.Response' );
  */
 class Framework_Krypton_WebApplication extends Framework_Krypton_Base
 {
-	protected $responseHeaders	= array(
-		'Cache-Control'	=> "no-store, no-cache, must-revalidate, pre-check=0, post-check=0, max-age=0",
-		'Pragma'		=> "no-cache"
-	);
-
 	/**
 	 *	Constructor.
 	 *	@access		public
@@ -75,61 +73,19 @@ class Framework_Krypton_WebApplication extends Framework_Krypton_Base
 
 		//  --  AUTHENTICATION LOGIC  --  //
 		$this->initAuthentication();								//  needs Implementation of Authentication Logic in Project Classes
-		$this->initUserInterface();
 
 		ob_start();
-		if( !defined( 'CMC_KRYPTON_LIVE_MODE' ) )
-			define( 'CMC_KRYPTON_LIVE_MODE', 1 );
-	}
-
-	/**
-	 *	Sets up Theme Support.
-	 *	@access		protected
-	 *	@return		void
-	 */
-	protected function initThemeSupport()
-	{
-		if( !$this->registry->has( 'config' ) )
-			throw new Exception( 'Configuration has not been set up.' );
-		if( !$this->registry->has( 'request' ) )
-			throw new Exception( 'Request Handler has not been set up.' );
-		if( !$this->registry->has( 'session' ) )
-			throw new Exception( 'Session Support has not been set up.' );
-
-		$config		= $this->registry->get( "config" );
-		$request	= $this->registry->get( "request" );
-		$session	= $this->registry->get( "session" );
-
-		if( $config['layout.theme.switchable'] )
-		{
-			if( $request->has( 'switchThemeTo' ) )
-				$session->set( 'theme', $request->get( 'switchThemeTo' ) );
-			if( $session->get( 'theme' ) )
-				$config['layout.theme'] =  $session->get( 'theme' );
-			else
-				$session->set( 'theme', $config['layout.theme'] );
-		}
-		else
-			$session->set( 'theme', $config['layout.theme'] );
-	}
-
-	/**
-	 *	Loads Class of User Interface.
-	 *	@access		protected
-	 *	@return		void
-	 */
-	protected function initUserInterface()
-	{
-		import( 'de.ceus-media.framework.krypton.view.Interface' );
-		$this->interface	= new Framework_Krypton_View_Interface;
+		if( !defined( 'DEV_MODE' ) )
+			define( 'DEV_MODE', 1 );
 	}
 
 	/**
 	 *	Runs called Actions.
 	 *	@access		public
+	 *	@param		bool		$verbose		Flag: show Information
 	 *	@return		void
 	 */
-	public function act()
+	public function act( $verbose = FALSE )
 	{
 		$request	= $this->registry->get( "request" );
 		$session	= $this->registry->get( "session" );
@@ -138,74 +94,59 @@ class Framework_Krypton_WebApplication extends Framework_Krypton_Base
 		//  --  VALIDATE LINK  --  //
 		$link	= $this->validateLink( $request->get( 'link' ) );
 		$request->set( 'link', $link );
+		if( $verbose )
+			remark( "<b>Requested Link: </b>".$link );
 
 		//  --  REFERER (=last site)  --  //
 		if( $referer = getEnv( 'HTTP_REFERER' ) )
 			if( !preg_match( "@(=|&)(log(in|out))|register@i", $referer ) )
 				$session->set( 'referer', $referer );
+		if( $verbose )
+			remark( "<b>Referer: </b>".$session->get( 'referer' ) );
 
 		//  --  ACTION CALL  --  //
-		if( !$controller->checkPage( $link ) )
-			return;
-		if( !$controller->isDynamic( $link ) )
-			return;
-
-		$className	= "Action_".$controller->getClassname( $link );
-		$fileName	= $this->getFileNameOfClass( $className );
-		if( !file_exists( $fileName ) )
-			return;
-
-		require_once( $fileName );
-		$action	= new $className;
-		try
+		if( $controller->checkPage( $link ) )
 		{
-			$action->performBeforeRegisteredActions();
-			$action->performActions();
-			$action->act();											//  @deprecated
-			$action->performAfterRegisteredActions();
-		}
-		catch( Exception $e )
-		{
-			$action->handleException( $e );
-		}
-	}
-	
-	/**
-	 *	Log Performance (Time needed to run Application).
-	 *	@access		protected
-	 *	@param		int			$length			Number of sent Bytes of Content
-	 *	@param		string		$fileName		File Name of Log File
-	 *	@return		bool
-	 */
-	protected function logPerformance( $fileName = "logs/performance.log" )
-	{
-		$watch	= $this->registry->get( 'stopwatch' );
-		$time	= $watch->stop( 6, 0 );
-		$line	= time()." [".$time."] ".getEnv( "REQUEST_URI" )." ".getEnv( "HTTP_REFERER" )."\n";
-		return error_log( $line, 3, $fileName );
-	}
+			if( $controller->isDynamic( $link ) )
+			{
+				$classname	= "Action_".$controller->getClassname( $link );
+				$filename	= $this->getFileNameOfClass( $classname );
 
-	/**
-	 *	Log sent Content Length.
-	 *	@access		protected
-	 *	@param		int			$length			Number of sent Bytes of Content
-	 *	@param		string		$fileName		File Name of Log File
-	 *	@return		void
-	 */
-	protected function logTraffic( $length, $fileName = "logs/traffic.log" )
-	{
-		$ip		= getEnv( "REMOTE_ADDR" );
-		$uri	= getEnv( "REQUEST_URI" );
-		$line	= time()." [".$length."] ".$ip." ".$uri."\n";
-		error_log( $line, 3, $fileName );
+				if( $verbose )
+					remark( "<b>Action Class: </b>".$classname." (from File ".$filename.")" );
+				if( file_exists( $filename ) )
+				{
+					require_once( $filename );
+					$action	= new $classname();
+					if( !DEV_MODE && method_exists( $action, 'handleException' ) )
+					{
+						try
+						{
+							$action->performActions();
+							$action->act();
+						}
+						catch( Exception $e )
+						{
+							$action->handleException( $e );
+						}
+					}
+					else
+					{
+						$action->performActions();
+						$action->act();
+					}
+				}
+			}
+		}
 	}
 
 	/**
 	 *	Creates Views by called Link and Rights of current User and returns HTML.
 	 *	@access		public
+	 *	@param		bool		$verbose		Flag: show Information
 	 *	@return		string
 	 */
-	public function respond()
+	public function respond( $verbose = FALSE )
 	{
 		$config		= $this->registry->get( "config" );
 		$request	= $this->registry->get( "request" );
@@ -218,6 +159,10 @@ class Framework_Krypton_WebApplication extends Framework_Krypton_Base
 		$control	= "";
 		$content	= "";
 		$link		= $request->get( 'link' );
+		$interface	= new View_Interface();
+//		$view		= new View_Auth;
+//		$control	= $view->buildControl();
+//		$content	= $view->buildContent();
 
 		if( !$content )
 		{
@@ -225,38 +170,49 @@ class Framework_Krypton_WebApplication extends Framework_Krypton_Base
 			{
 				if( $controller->isDynamic( $link ) )
 				{
-					$className	= "View_".$controller->getClassname( $link );
-					$fileName	= $this->getFileNameOfClass( $className );
-					if( file_exists( $fileName ) )
+					$classname	= "View_".$controller->getClassname( $link );
+					$filename	= $this->getFileNameOfClass( $classname );
+					if( $verbose )
+						remark( "<b>View Class: </b>".$classname." (from File ".$filename.")" );
+					if( file_exists( $filename ) )
 					{
-						require_once( $fileName );
-						$view		= new $className;
-						try
+						require_once( $filename );
+						$view		= new $classname;
+						if( !DEV_MODE && method_exists( $view, 'handleException' ) )
+						{
+							try
+							{
+								$content	= $view->buildContent();
+								$control	.= $view->buildControl();
+								$extra		.= $view->buildExtra();
+							}
+							catch( Exception $e )
+							{
+								$view->handleException( $e, 'main', 'exceptions' );
+							}
+						}
+						else
 						{
 							$content	= $view->buildContent();
 							$control	.= $view->buildControl();
 							$extra		.= $view->buildExtra();
 						}
-						catch( Exception $e )
-						{
-							$view->handleException( $e, 'main', 'exceptions' );
-						}
 					}
 					else
-						$messenger->noteFailure( "Class '".$className."' is not existing." );
+						$messenger->noteFailure( "Class '".$classname."' is not existing." );
 				}
 				else
 				{
 					$source	= $controller->getSource( $link );
-					if( $this->interface->hasContent( $source ) )
+					if( $interface->hasContent( $source ) )
 					{
-						$content	= $this->interface->loadContent( $source );
-						if( method_exists( $this->interface, 'setTitleByLink' ) )
-							$this->interface->setTitleByLink( $link );
-						if( method_exists( $this->interface, 'setKeywordsByLink' ) )
-							$this->interface->setKeywordsByLink( $link );
-						if( method_exists( $this->interface, 'setDescriptionByLink' ) )
-							$this->interface->setDescriptionByLink( $link );
+						$content	= $interface->loadContent( $source );
+						if( method_exists( $interface, 'setTitleByLink' ) )
+							$interface->setTitleByLink( $link );
+						if( method_exists( $interface, 'setKeywordsByLink' ) )
+							$interface->setKeywordsByLink( $link );
+						if( method_exists( $interface, 'setDescriptionByLink' ) )
+							$interface->setDescriptionByLink( $link );
 					}
 					else
 						$messenger->noteFailure( str_replace( "#URI#", $source, $words['main']['msg']['error_no_content'] ) );
@@ -271,30 +227,11 @@ class Framework_Krypton_WebApplication extends Framework_Krypton_Base
 			print_m( array_flip( $GLOBALS['length']['classes'] ) );
 		}
 
-		$dev		= ob_get_clean();
-		$content	= $this->interface->buildInterface( $content, $control, $extra, $dev );
-		$length		= $this->respondContent( $content );
-		$this->logRemarks( $dev );
-		$this->logTraffic( strlen( $content ) );
-		$this->logPerformance();
-	}
+		$content	= $interface->buildInterface( $content, $control, $extra );
 
-	/**
-	 *	Sends HTTP Response and returns Length of sent Content.
-	 *	@access		protected
-	 *	@param		string		$content		HTML to respond
-	 *	@return		int
-	 */
-	protected function respondContent( $content )
-	{
-		$config		= $this->registry->get( 'config' );
 		$zipMethod	= $config['config.http_compression'];
 		$zipLogFile	= $config['config.http_compression_log'];
-		$response	= new Net_HTTP_Request_Response();
-		foreach( $this->responseHeaders as $key => $value )
-			$response->addHeader( $key, $value );			
-		$response->write( $content );
-		return $response->send( $zipMethod, $zipLogFile );
+		Net_HTTP_Request_Response::sendContent( $content, $zipMethod, $zipLogFile );
 	}
 
 	/**

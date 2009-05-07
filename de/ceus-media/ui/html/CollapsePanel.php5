@@ -2,7 +2,7 @@
 /**
  *	User Interface Component to build a Panel which can be expanded and collapsed.
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2008 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -18,8 +18,8 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@package		ui.html
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		0.1
@@ -31,38 +31,35 @@ import( 'de.ceus-media.ui.html.JQuery' );
  *	@package		ui.html
  *	@extends		UI_HTML_Panel
  *	@uses			UI_HTML_JQuery
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		0.1
  */
 class UI_HTML_CollapsePanel extends UI_HTML_Panel
 {
-	public static $classPanel	= "collapsable";
+	public static $class	= "collapsable";
 
 	/**
 	 *	Builds HTML Code of Panel.
 	 *	@access		public
-	 *	@static
 	 *	@param		string		$id				Tag ID of Panel
 	 *	@param		string		$header			Content of Header
 	 *	@param		string		$content		Content of Panel
 	 *	@param		string		$footer			Content of Footer
 	 *	@param		string		$class			CSS Class of Panel
-	 *	@param		array		$attributes		Map of Attributes of Panel DIV
 	 *	@return		string
 	 */
-	public static function create( $id, $header, $content, $footer = NULL, $theme = "default", $attributes = array() )
+	public static function create( $id, $header, $content, $footer = "", $class = "default" )
 	{
-		$classes	= $theme ? self::$classPanel." ".$theme : self::$classPanel;
-		return parent::create( $id, $header, $content, $footer, $classes, $attributes );
+		$class		= $class ? self::$class." ".$class : self::$class;
+		return parent::create( $header, $content, $footer, $class, array( 'id' => $id ) );
 	}
 
 	/**
 	 *	Builds JQuery Plugin Call for Panel.
 	 *	@access		public
-	 *	@static
 	 *	@param		string		$selector		CSS Selector of Panel
 	 *	@param		array		$options		JQuery Plugin Options
 	 *	@return		string

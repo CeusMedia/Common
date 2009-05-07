@@ -2,7 +2,7 @@
 /**
  *	Reader for Contents from the Net.
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2008 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -19,8 +19,8 @@
  *
  *	@package		net
  *	@uses			Net_cURL
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			20.02.2008
@@ -32,8 +32,8 @@ import( 'de.ceus-media.net.cURL' );
  *
  *	@package		net
  *	@uses			Net_cURL
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			20.02.2008
@@ -69,27 +69,10 @@ class Net_Reader
 	}
 
 	/**
-	 *	Returns Headers Array or a specified Header from last Request.
-	 *	@access		public
-	 *	@param		string		$key		Header Key
-	 *	@return		mixed
-	 */
-	public function getHeader( $key = NULL )
-	{
-		if( !$this->status )
-			throw new RuntimeException( "No Request has been sent, yet." );
-		if( !$key )
-			return $this->headers;
-		if( !array_key_exists( $key, $this->headers ) )
-			throw new InvalidArgumentException( 'Header Key "'.$key.'" is invalid.' );
-		return $this->headers[$key];
-	}
-
-	/**
-	 *	Returns Status Array or single Status Information from last Request.
+	 *	Returns Status Array of single Status Information from last Request.
 	 *	@access		public
 	 *	@param		string		$key		Status Information Key
-	 *	@return		mixed
+	 *	@return		void
 	 */
 	public function getStatus( $key = NULL )
 	{
@@ -141,14 +124,12 @@ class Net_Reader
 
 		foreach( $curlOptions as $key => $value )
 		{
-			if( !( is_string( $key ) && preg_match( "@^CURLOPT_@", $key ) && defined( $key ) ) )
-				throw new InvalidArgumentException( 'Invalid constant "'.$key.'"' );
-			$key	= constant( $key );
+			if( is_string( $key ) && preg_match( "@^CURLOPT_@", $key ) )
+				$key	= eval( "return ".$key.";" );
 			$curl->setOption( $key, $value );
 		}
 		$response		= $curl->exec();
 		$this->status	= $curl->getStatus();
-		$this->headers	= $curl->getHeader();
 		$code			= $curl->getStatus( CURL_STATUS_HTTP_CODE );
 	
 		if( !in_array( $code, array( '200', '301', '303', '304', '307' ) ) )
@@ -160,7 +141,6 @@ class Net_Reader
 	/**
 	 *	Requests URL and returns Response statically.
 	 *	@access		public
-	 *	@static
 	 *	@param		string		$url		URL to request
 	 *	@param		array		$curlOptions	Array of cURL Options
 	 *	@return		string

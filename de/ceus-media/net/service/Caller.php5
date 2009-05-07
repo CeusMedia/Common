@@ -2,7 +2,7 @@
 /**
  *	Net Service Caller.
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2008 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -19,25 +19,22 @@
  *
  *	@package		net.service
  *	@uses			Net_Service_Client
- *	@uses			Net_Service_Decoder
  *	@uses			StopWatch
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			18.06.2007
  *	@version		0.6
  */
 import( 'de.ceus-media.net.service.Client' );
-import( 'de.ceus-media.net.service.Decoder' );
 import( 'de.ceus-media.StopWatch' );
 /**
  *	@package		net.service
  *	@uses			Net_Service_Client
- *	@uses			Net_Service_Decoder
  *	@uses			StopWatch
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			18.06.2007
@@ -60,24 +57,20 @@ class Net_Service_Caller
 		$this->client	= new Net_Service_Client( $url );
 	}
 
-	/**
-	 *	This Method masks Net Service Calls under local Method Calls.
-	 *	Catches Method Calls on current Object and requests Service Response of Method Key.
-	 *	@access		public
-	 *	@param		string		$key		Method Key, Method called on current Object
-	 *	@return		mixed
-	 */
 	public function __call( $key, $arguments )
 	{
 		$watch		= new StopWatch();
 		$arguments	= $this->buildArgumentsForRequest( $arguments );
-		$response	= $this->client->post( $key, "php", $arguments );
+		$response	= $this->client->get( $key, "php", $arguments );
 		$this->calls[]	= array(
 			'service'	=> $key,
 			'arguments'	=> $arguments,
-			'response'	=> serialize( $response ),
+			'response'	=> $response,
 			'time'		=> $watch->stop( 6, 0 ),
 		);
+		$result		= @unserialize( $response );
+		if( $result && is_object( $result ) && is_a( $result, 'Exception' ) )
+			throw $result;		
 		return $response;
 	}
 	
@@ -89,11 +82,14 @@ class Net_Service_Caller
 	 */
 	protected function buildArgumentsForRequest( $arguments )
 	{
-		if( !$arguments )
-			return array();
-		if( count( $arguments ) == 1 && is_array( $arguments[0] ) )
-			return $arguments[0];
-		return array( 'argumentsGivenByServiceCaller' => serialize( $arguments ) );
+		if( $arguments )
+		{
+			if( count( $arguments ) == 1 && is_array( $arguments[0] ) )
+				return $arguments[0];
+			else
+				return array( 'argumentsGivenByServiceCaller' => serialize( $arguments ) );
+		}
+		return array();
 	}
 	
 	/**

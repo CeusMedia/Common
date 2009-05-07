@@ -2,7 +2,7 @@
 /**
  *	Calculator for Compound Interest.
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2008 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -18,8 +18,8 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@package		math.finance
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			19.12.2007
@@ -28,8 +28,8 @@
 /**
  *	Calculator for Compound Interest.
  *	@package		math.finance
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			19.12.2007
@@ -47,7 +47,6 @@ class Math_Finance_CompoundInterest
 	/**
 	 *	Calculates Present Amount from Future Amount statically.
 	 *	@access		public
-	 *	@static
 	 *	@param		float		$amount			Amount to calculate with
 	 *	@param		float		$interest		Interest per Period
 	 *	@param		int			$periods		Number of Periods
@@ -64,7 +63,6 @@ class Math_Finance_CompoundInterest
 	/**
 	 *	Calculates Future Amount from Present Amount statically.
 	 *	@access		public
-	 *	@static
 	 *	@param		float		$amount			Amount to calculate with
 	 *	@param		float		$interest		Interest per Period
 	 *	@param		int			$periods		Number of Periods
@@ -81,7 +79,6 @@ class Math_Finance_CompoundInterest
 	/**
 	 *	Calculates Future Amount from Present Amount statically.
 	 *	@access		public
-	 *	@static
 	 *	@param		float		$amount			Amount to calculate with
 	 *	@param		float		$interest		Interest per Period
 	 *	@param		int			$periods		Number of Periods
@@ -99,7 +96,6 @@ class Math_Finance_CompoundInterest
 	/**
 	 *	Calculates Periods needed to reach Future Amount from Present Amount statically using the 70+x rule.
 	 *	@access		public
-	 *	@static
 	 *	@param		float		$amount			Amount to calculate with
 	 *	@param		float		$interest		Interest per Period
 	 *	@param		int			$periods		Number of Periods
@@ -197,7 +193,6 @@ class Math_Finance_CompoundInterest
 	/**
 	 *	Calculates Root of Period Dimension.
 	 *	@access		protected
-	 *	@static
 	 *	@param		float		$amount			Amount
 	 *	@param		int			$periods		Number of Periods
 	 *	@return		float
@@ -243,5 +238,6 @@ class Math_Finance_CompoundInterest
 			throw new InvalidArgumentException( "Periods must be at least 1." );
 		$this->periods	= (int) $periods;
 	}
+
 }
 ?>

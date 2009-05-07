@@ -2,7 +2,7 @@
 /**
  *	Logic Base Class with Validation
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2008 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -23,8 +23,8 @@
  *	@uses			Alg_Validation_Predicates
  *	@uses			Framework_Krypton_Exception_Validation
  *	@uses			Framework_Krypton_Exception_IO
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			21.02.2007
@@ -39,8 +39,8 @@ import( 'de.ceus-media.framework.krypton.core.Registry' );
  *	@uses			Alg_Validation_Predicates
  *	@uses			Framework_Krypton_Exception_Validation
  *	@uses			Framework_Krypton_Exception_IO
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			21.02.2007
@@ -70,7 +70,6 @@ class Framework_Krypton_Core_Logic
 	/**
 	 *	Logic Factory for Categories.
 	 *	@access		public
-	 *	@static
 	 *	@param		string			$category			Category to get Logic for
 	 *	@return		object
 	 */
@@ -87,7 +86,6 @@ class Framework_Krypton_Core_Logic
 	/**
 	 *	Collection Factory for Categories.
 	 *	@access		public
-	 *	@static
 	 *	@param		string						$category		Category to get Logic for
 	 *	@param		Database_StatementBuilder	$builder		Statement Builder
 	 *	@return		object
@@ -105,7 +103,6 @@ class Framework_Krypton_Core_Logic
 	/**
 	 *	Returns Table Fields of Model
 	 *	@access		public
-	 *	@static
 	 *	@param		string		$modelName		Class Name of Model
 	 *	@throws		Exception_IO
 	 *	@return		array
@@ -140,7 +137,6 @@ class Framework_Krypton_Core_Logic
 	/**
 	 *	Loads Field Definitions.
 	 *	@access		private
-	 *	@static
 	 *	@param		string		$fileKey		File Key of XML Definition File (e.g. #FOLDER.FILE#.xml)
 	 *	@return		void
 	 */
@@ -157,8 +153,7 @@ class Framework_Krypton_Core_Logic
 
 	/**
 	 *	Removes Prefix from Field Name.
-	 *	@access		public
-	 *	@static
+	 *	@access		protected
 	 *	@param		string		$name		Field Name
 	 *	@param		string		$prefix		Prefix to be removed
 	 *	@return		string
@@ -174,7 +169,6 @@ class Framework_Krypton_Core_Logic
 	/**
 	 *	Removes Prefix from Fields within an associative Array.
 	 *	@access		public
-	 *	@static
 	 *	@param		string		$array		Associative Array of Fields and Values
 	 *	@param		string		$prefix		Prefix to be removed
 	 *	@return		array
@@ -198,7 +192,6 @@ class Framework_Krypton_Core_Logic
 	/**
 	 *	Runs Validation of Field Definitions against Input, creates Error Objects and returns Success.
 	 *	@access		public
-	 *	@static
 	 *	@param		string		$file			Name of XML Definition File (e.g. %PREFIX%#FILE#.xml)
 	 *	@param		string		$form			Name of Form within XML Definition File (e.g. 'addExample' )
 	 *	@param		array		$data			Array of Input Data
@@ -236,8 +229,8 @@ class Framework_Krypton_Core_Logic
 		}
 		if( $errors )
 		{
-			import( 'de.ceus-media.exception.Validation' );
-			throw new Exception_Validation( "error_not_valid", $errors, $form );
+			import( 'de.ceus-media.framework.krypton.exception.Validation' );
+			throw new Framework_Krypton_Exception_Validation( "error_not_valid", $errors, $form );
 		}
 		return true;
 	}

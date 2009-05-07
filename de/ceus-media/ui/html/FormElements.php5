@@ -2,7 +2,7 @@
 /**
  *	Builder for HTML Form Components.
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2008 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -19,8 +19,8 @@
  *
  *	@package		ui.html
  *	@uses			UI_HTML_Tag
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		0.6
@@ -30,8 +30,8 @@ import( 'de.ceus-media.ui.html.Tag' );
  *	Builder for HTML Form Components.
  *	@package		ui.html
  *	@uses			UI_HTML_Tag
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		0.6
@@ -55,7 +55,6 @@ class UI_HTML_FormElements
 	/**
 	 *	Builds HTML for a Group of Radio Buttons, behaving like a Select.
 	 *	@access		public
-	 *	@static
 	 *	@param		string		$name			Field Name
 	 *	@param		array		$options		Array of Options
 	 *	@param		string		$class			CSS Class
@@ -85,7 +84,6 @@ class UI_HTML_FormElements
 	/**
 	 *	Builds HTML Code for a Button to submit a Form.
 	 *	@access		public
-	 *	@static
 	 *	@param		string		$name 			Button Name
 	 *	@param		string		$label 			Button Label
 	 *	@param		string		$class			CSS Class
@@ -110,7 +108,6 @@ class UI_HTML_FormElements
 	/**
 	 *	Builds HTML Code for a Checkbox.
 	 *	@access		public
-	 *	@static
 	 *	@param		string		$name 			Field Name
 	 *	@param		string		$value 			Field Value if checked
 	 *	@param		bool		$checked		Field State
@@ -137,7 +134,6 @@ class UI_HTML_FormElements
 	/**
 	 *	Builds HTML Code for a File Upload Field.
 	 *	@access		public
-	 *	@static
 	 *	@param		string		$name			Field Name
 	 *	@param		string		$class			CSS Class (xl|l|m|s|xs)
 	 *	@param		mixed		$readOnly		Field is not writable, JavaScript Alert if String is given
@@ -164,7 +160,6 @@ class UI_HTML_FormElements
 	/**
 	 *	Builds HTML Code for a Form using POST.
 	 *	@access		public
-	 *	@static
 	 *	@param		string		$name			Form Name, also used for ID with Prefix 'form_'
 	 *	@param		string		$action			Form Action, mostly an URL
 	 *	@param		string		$target			Target Frage of Action
@@ -190,7 +185,6 @@ class UI_HTML_FormElements
 	/**
 	 *	Builds HTML Code for an Input Field. Validation is possible using Validator Classes from UI.validateInput.js.
 	 *	@access		public
-	 *	@static
 	 *	@param		string		$name			Field Name
 	 *	@param		string		$value			Field Value
 	 *	@param		string		$class			CSS Class (xl|l|m|s|xs)
@@ -220,7 +214,6 @@ class UI_HTML_FormElements
 	/**
 	 *	Builds HTML Code for a hidden Input Field. It is not advised to work with hidden Fields.
 	 *	@access		public
-	 *	@static
 	 *	@param		string		$name			Field Name
 	 *	@param		string		$value			Field Value
 	 *	@return 	string
@@ -239,7 +232,6 @@ class UI_HTML_FormElements
 	/**
 	 *	Builds HTML Code for a Field Label.
 	 *	@access		public
-	 *	@static
 	 *	@param		string		$id				ID of Field to reference
 	 *	@param		string		$label			Label Text
 	 *	@param		string		$class			CSS Class
@@ -257,7 +249,6 @@ class UI_HTML_FormElements
 	/**
 	 *	Builds HTML Code for a Button behaving like a Link.
 	 *	@access		public
-	 *	@static
 	 *	@param		string		$label			Button Label, also used for ID with Prefix 'button_' and MD5 Hash
 	 *	@param		string		$url			URL to request
 	 *	@param		string		$class			CSS Class
@@ -283,7 +274,6 @@ class UI_HTML_FormElements
 	/**
 	 *	Builds HTML Code for an Option for a Select.
 	 *	@access		public
-	 *	@static
 	 *	@param		string		$value			Option Value
 	 *	@param		string		$label			Option Label
 	 *	@param		bool		$selected		Option State
@@ -307,7 +297,6 @@ class UI_HTML_FormElements
 	/**
 	 *	Builds HTML Code for an Option Group for a Select.
 	 *	@access		public
-	 *	@static
 	 *	@param		string		$label			Group Label
 	 *	@param		string		$options 		Array of Options
 	 *	@param		string		$selected		Value of selected Option
@@ -323,7 +312,6 @@ class UI_HTML_FormElements
 	/**
 	 *	Builds HTML Code for Options for a Select.
 	 *	@access		public
-	 *	@static
 	 *	@param		array		$options 			Array of Options
 	 *	@param		string		$selected			Value of selected Option
 	 *	@return		string
@@ -360,7 +348,6 @@ class UI_HTML_FormElements
 	/**
 	 *	Builds HTML Code for a Password Field.
 	 *	@access		public
-	 *	@static
 	 *	@param		string		$name			Field Name
 	 *	@param		string		$class			CSS Class (xl|l|m|s|xs)
 	 *	@param		mixed		$readOnly		Field is not writable, JavaScript Alert if String is given
@@ -386,7 +373,6 @@ class UI_HTML_FormElements
 	/**
 	 *	Builds HTML Code for Radio Buttons.
 	 *	@access		public
-	 *	@static
 	 *	@param		string		$name 			Field Name
 	 *	@param		string		$value 			Field Value if checked
 	 *	@param		string		$checked 		Field State
@@ -413,7 +399,6 @@ class UI_HTML_FormElements
 	/**
 	 *	Builds HTML Code for a Button to reset the current Form.
 	 *	@access		public
-	 *	@static
 	 *	@param		string		$label	 		Button Label
 	 *	@param		string		$class			CSS Class
 	 *	@param		string		$confirm 		Confirmation Message
@@ -435,7 +420,6 @@ class UI_HTML_FormElements
 	/**
 	 *	Builds HTML Code for a Select.
 	 *	@access		public
-	 *	@static
 	 *	@param		string		$name			Field Name
 	 *	@param		mixed		$options		Array of String of Options
 	 *	@param		string		$class			CSS Class (xl|l|m|s|xs)
@@ -469,7 +453,6 @@ class UI_HTML_FormElements
 	/**
 	 *	Builds HTML Code for a Textarea.
 	 *	@access		public
-	 *	@static
 	 *	@param		string		$name			Field Name
 	 *	@param		string		$content		Field Content
 	 *	@param		string		$class			CSS Class (ll|lm|ls|ml|mm|ms|sl|sm|ss)

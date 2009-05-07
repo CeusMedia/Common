@@ -2,7 +2,7 @@
 /**
  *	Service Handlers for HTTP Requests.
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2008 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,8 +21,8 @@
  *	@extends		Net_Service_Response
  *	@uses			Net_HTTP_Request_Response
  *	@uses			UI_HTML_Exception_TraceViewer
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			18.06.2007
@@ -36,8 +36,8 @@ import( 'de.ceus-media.net.http.request.Response' );
  *	@extends		Net_Service_Response
  *	@uses			Net_HTTP_Request_Response
  *	@uses			UI_HTML_Exception_TraceViewer
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			18.06.2007
@@ -77,9 +77,48 @@ class Net_Service_Handler extends Net_Service_Response
 	}
 
 	/**
+	 *	Handles Service Call by sending HTTP Response and returns Length of Response Content.
+	 *	@param		array			$requestData			Request Array (or Object with ArrayAccess Interface)
+	 *	@param		bool			$serializeException		Flag: serialize Exceptions instead of throwing
+	 *	@return		int
+	 */
+	public function handle( $requestData, $serializeException = FALSE )
+	{
+		if( empty( $requestData['service'] ) )
+			throw new InvalidArgumentException( 'No Service Name given.' );
+
+
+		//  --  CALL SERVICE  --  //
+		$service	= $requestData['service'];
+		try
+		{
+			$format		= ( isset( $requestData['format'] ) && $requestData['format'] ) ? $requestData['format'] : $this->servicePoint->getDefaultServiceFormat( $service );
+			$serializeException	= strtolower( $format ) == "php";
+			ob_start();
+			
+			if( isset( $requestData['argumentsGivenByServiceCaller'] ) )
+			{
+				$parameters	= array_keys( $this->servicePoint->getServiceParameters( $service ) );
+				$arguments	= unserialize( stripslashes( $requestData['argumentsGivenByServiceCaller'] ) );
+				for( $i=0; $i<count( $arguments ); $i++ )
+					$requestData[$parameters[$i]]	= $arguments[$i];
+				unset( $requestData['argumentsGivenByServiceCaller'] );
+			}
+			$response	= $this->servicePoint->callService( $service, $format, $requestData );
+			$errors		= ob_get_clean();
+			if( trim( $errors ) )
+				throw new RuntimeException( $errors );
+			return $this->sendResponse( $requestData, $response, $format );
+		}
+		catch( Exception $e )
+		{
+			return $this->sendException( $requestData, $format, $e );
+		}
+	}
+
+	/**
 	 *	Compresses Response String using one of the supported Compressions.
 	 *	@access		protected
-	 *	@static
 	 *	@param		string			$content		Content of Response
 	 *	@param		string			$type			Compression Type
 	 *	@return		string
@@ -99,61 +138,34 @@ class Net_Service_Handler extends Net_Service_Response
 		return $content;
 	}
 
-	/**
-	 *	Handles Service Call by sending HTTP Response and returns Length of Response Content.
-	 *	@param		array			$requestData			Request Array (or Object with ArrayAccess Interface)
-	 *	@return		int
-	 */
-	public function handle( $requestData )
+	protected function sendException( $requestData, $format, $e )
 	{
-		if( empty( $requestData['service'] ) )
-			throw new InvalidArgumentException( 'No Service Name given.' );
-
-		//  --  CALL SERVICE  --  //
-		$service	= $requestData['service'];
-		try
+		import( 'de.ceus-media.ui.html.exception.TraceViewer' );
+		$trace	= UI_HTML_Exception_TraceViewer::buildTrace( $e, 2 );
+		$data	= array(
+			'type'		=> get_class( $e ),
+			'message'	=> $e->getMessage(),
+			'code'		=> $e->getCode(),
+			'file'		=> $e->getFile(),
+			'line'		=> $e->getLine(),
+			'trace'		=> $trace,
+		);
+		switch( $format )
 		{
-			$format		= ( isset( $requestData['format'] ) && $requestData['format'] ) ? $requestData['format'] : $this->servicePoint->getDefaultServiceFormat( $service );
-			ob_start();
-			
-			if( isset( $requestData['argumentsGivenByServiceCaller'] ) )
-			{
-				$parameters	= array_keys( $this->servicePoint->getServiceParameters( $service ) );
-				$arguments	= unserialize( stripslashes( $requestData['argumentsGivenByServiceCaller'] ) );
-				for( $i=0; $i<count( $arguments ); $i++ )
-					$requestData[$parameters[$i]]	= $arguments[$i];
-				unset( $requestData['argumentsGivenByServiceCaller'] );
-			}
-			
-			$response	= $this->servicePoint->callService( $service, $format, $requestData );
-			$errors		= ob_get_clean();
-			if( trim( $errors ) )
-				throw new RuntimeException( $errors );
-			return $this->sendResponse( $requestData, $response, $format );
-		}
-		catch( Exception $e )
-		{
-			return $this->sendException( $requestData, $format, $e );
-		}
-	}
-
-	/**
-	 *	Encodes and responses an Exception as Data Array for requested Format.
-	 *	@access		protected
-	 *	@param		array			$requestData		Request Array (or Object with ArrayAccess Interface)
-	 *	@param		string			$format				Requested Format
-	 *	@param		Exception		$exception			Exception to encode
-	 *	@return		int
-	 */
-	protected function sendException( $requestData, $format, $exception )
-	{
-		try
-		{
-			$response	= $this->convertToOutputFormat( $exception, $format, "exception" );
-		}
-		catch( Exception $e )
-		{
-			$response	= $exception->getMessage();
+			case 'xml':
+				$response	= $this->getXml( $data, "exception" );
+				break;
+			case 'php':
+				$response	= $this->getPhp( $data, "exception" );
+				break;
+			case 'json':
+				$response	= $this->getJson( $data, "exception" );
+				break;
+			case 'wddx':
+				$response	= $this->getWddx( $data, "exception" );
+				break;
+			default:
+				$response	= $trace;
 		}
 		return $this->sendResponse( $requestData, $response, $format );
 	}

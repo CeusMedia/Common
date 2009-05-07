@@ -2,27 +2,13 @@
 /**
  *	Generic Server for Service Points.
  *	You can extends this Class to set up your own Service Point / Environment.
- *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
- *
- *	This program is free software: you can redistribute it and/or modify
- *	it under the terms of the GNU General Public License as published by
- *	the Free Software Foundation, either version 3 of the License, or
- *	(at your option) any later version.
- *
- *	This program is distributed in the hope that it will be useful,
- *	but WITHOUT ANY WARRANTY; without even the implied warranty of
- *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *	GNU General Public License for more details.
- *
- *	You should have received a copy of the GNU General Public License
- *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
  *	@package		net.service
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@link			http://code.google.com/p/cmclasses/
+ *	@uses			Net_HTTP_Request_Receiver
+ *	@uses			Net_Service_Point
+ *	@uses			Net_Service_Handler
+ *	@uses			UI_HTML_Service_Index
+ *	@uses			UI_HTML_Service_Test
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			20.12.2008
  *	@version		0.1
  */
@@ -37,17 +23,17 @@ import( 'de.ceus-media.ui.DevOutput' );
  *	@uses			Net_Service_Handler
  *	@uses			UI_HTML_Service_Index
  *	@uses			UI_HTML_Service_Test
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@link			http://code.google.com/p/cmclasses/
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			20.12.2008
  *	@version		0.1
  */
 class Net_Service_Server
 {
+	/**	@var		string			$basePath		Path to Service Index */
+	protected $basePath	= "";
+
 	/**	@var		array			$formats		Available Service Formats, can be overwritten */
-	protected $formats					= array(
+	public $formats		= array(
 		'atom',
 		'json',
 		'php',
@@ -57,59 +43,38 @@ class Net_Service_Server
 		'xml',
 	);
 
-	/**	@var		string			$fileName		File Name of Service Definition */
-	protected $fileName				= "services.xml";
-
-	/**	@var		string			$cacheFile		Cache File Name of Service Definition */
-	protected $cacheFile			= "services.cache";
-	
-	/**	@var		string			$templateIndex	Template of Index */
-	protected $templateIndex		= ".index/templates/index.phpt";
-	
-	/**	@var		string			$templateTest	Template of Test */
-	protected $templateTest			= ".index/templates/test.phpt";
-
-	/**	@var		string			$basePath		Path to Service Index */
-	protected $basePath				= "";
-
 	protected $servicePoint;
-
-	protected $pointFolders			= array();
+	protected $fileName;
+	protected $cacheFile;
 
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		string			$classPath		Working Path of Application, eg. '../'
-	 *	@param		string			$pointPath		Service Point Path, eg. 'public/'
+	 *	@param		string			$path			Service Point Path, eg. 'public/'
+	 *	@param		string			$basePath		Path to Service Point, eg. 'services/'
 	 *	@param		array			$formats		Service Response Formats, overwrites preset Formats
 	 *	@return		void
 	 */
-	public function __construct( $classPath = "", $pointPath = "", $formats = array() )
+	public function __construct( $path, $basePath = "", $formats = array() )
 	{
-		error_reporting( E_ALL );
+		error_reporting( 1023 );
+
+		$this->basePath	= $basePath;
 		if( is_array( $formats ) && $formats )
 			$this->formats	= $formats;
+			
+		$parts	= array();
+		foreach( explode( "/", $basePath.$path ) as $part )
+			if( trim( $part ) )
+				$parts[]	= $part;
 
-		$this->realizePaths( $classPath, $pointPath );
-		$this->loadServicePoint();
+		chDir( str_repeat( "../", count( $parts ) ) );
+		$this->path	= implode( "/", $parts )."/";
+
+		$this->fileName			= $this->path."services.xml";
+		$this->cacheFile		= $this->path."services.cache";
+		$this->servicePoint		= $this->loadServicePoint();
 		$this->handleRequest();
-	}
-
-	protected function realizePaths( $classPath, $pointPath )
-	{
-		foreach( explode( "/", $pointPath ) as $part )
-		{
-			if( !trim( $part ) )
-				continue;
-			$this->pointFolders[]	= $part; 
-			chDir( ".." );
-		}
-		$this->basePath		= getCwd()."/";
-		$this->pointPath	= $pointPath;
-		$this->pointPath	.= preg_match( '@/$@', $this->pointPath ) ? "" : "/";		//  correct Path
-
-		if( $classPath )
-			chDir( $classPath );
 	}
 
 	/**
@@ -120,7 +85,7 @@ class Net_Service_Server
 	protected function handleRequest()
 	{
 		$requestHandler	= new Net_HTTP_Request_Receiver;
-		$subfolderLevel	= count( $this->pointFolders );
+		$subfolderLevel	= substr_count( $this->path, "/" );
 
 		if( $requestHandler->has( 'service' ) )											//  run Service
 			$this->runService( $requestHandler );
@@ -137,10 +102,8 @@ class Net_Service_Server
 	 */
 	protected function loadServicePoint()
 	{
-		import( 'de.ceus-media.net.service.Point' );									//  load Standard Service Point Class
-		$fileName	= $this->basePath.$this->pointPath.$this->fileName;					//  File Path of Service Definition
-		$fileCache	= $this->basePath.$this->pointPath.$this->cacheFile;				//  File Path of Service Definition Cache File
-		$this->servicePoint	= new Net_Service_Point( $fileName, $fileCache );			//  start Service Point
+		import( 'de.ceus-media.net.service.Point' );
+		return new Net_Service_Point( $this->fileName, $this->cacheFile );
 	}
 	
 	/**
@@ -153,8 +116,8 @@ class Net_Service_Server
 		import( 'de.ceus-media.ui.html.service.Index' );
 		$index		= new UI_HTML_Service_Index( $this->servicePoint, $this->formats );
 		$index->setTableClass( 'services list' );
-		$index->setTemplate( $this->basePath.$this->templateIndex );
-		return $index->buildContent( $subfolderLevel, "" );
+		$index->setTemplate( $this->basePath.".index/templates/index.phpt" );
+		return $index->buildContent( $subfolderLevel, $this->basePath );
 	}
 	
 	/**
@@ -178,9 +141,9 @@ class Net_Service_Server
 	{
 		import( 'de.ceus-media.ui.html.service.Test' );
 		$test		= new UI_HTML_Service_Test( $this->servicePoint );
-#		$test->setTableClass( 'services list' );
-		$test->setTemplate( $this->basePath.$this->templateTest );
-		return $test->buildContent( $requestHandler, $subfolderLevel, "");
+		$test->setTableClass( 'services list' );
+		$test->setTemplate( $this->basePath.".index/templates/test.phpt" );
+		return $test->buildContent( $requestHandler, $subfolderLevel, $this->basePath );
 	}
 }
 ?>

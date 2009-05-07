@@ -2,27 +2,8 @@
 /**
  *	Tabbed Content Builder - builds Tab List and Content Divs and applies JavaScript 'tabs.js'.
  *	The Script is a jQuery Plugin and must be loaded within the surrounding HTML.
- *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
- *
- *	This program is free software: you can redistribute it and/or modify
- *	it under the terms of the GNU General Public License as published by
- *	the Free Software Foundation, either version 3 of the License, or
- *	(at your option) any later version.
- *
- *	This program is distributed in the hope that it will be useful,
- *	but WITHOUT ANY WARRANTY; without even the implied warranty of
- *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *	GNU General Public License for more details.
- *
- *	You should have received a copy of the GNU General Public License
- *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
  *	@package		ui.html
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@link			http://code.google.com/p/cmclasses/
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			14.11.2008
  *	@version		0.1
  */
@@ -34,10 +15,7 @@ import( 'de.ceus-media.ui.html.JQuery' );
  *	@package		ui.html
  *	@uses			UI_HTML_Tag
  *	@uses			UI_HTML_JQuery
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@link			http://code.google.com/p/cmclasses/
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			14.11.2008
  *	@version		0.1
  */
@@ -48,9 +26,7 @@ class UI_HTML_Tabs
 	/**	@var		array		$pairs		List of Content Divs */
 	protected $divs	= array();
 	/**	@var		array		$options	Array of Options for the jQuery Plugin Call */
-	protected $options	= array(
-		'navClass'	=> "tabs-nav"
-	);
+	protected $options	= array();
 	/**	@var		array		$tabs		List of Tab Labels */
 	protected $tabs	= array();
 
@@ -66,6 +42,7 @@ class UI_HTML_Tabs
 			$this->addTabs( $tabs );
 		if( $class )
 			$this->setOption( 'navClass', $class );
+		$this->class	= $class;
 	}
 
 	/**
@@ -104,7 +81,8 @@ class UI_HTML_Tabs
 	 */
 	public function buildTabs( $id, $class = NULL )
 	{
-		return self::createTabs( $id, $this->tabs, $this->divs, $this->options['navClass'] );
+		$class	= $class ? $class : $this->class;
+		return self::createTabs( $id, $this->tabs, $this->divs, $class );
 	}
 
 	/**
@@ -124,7 +102,6 @@ class UI_HTML_Tabs
 	/**
 	 *	Builds HTML Code of Tabbed Content statically.
 	 *	@access		public
-	 *	@static
 	 *	@param		string		$id			ID of whole Tabbed Content Block
 	 *	@param		array		$label		List of Tab Labels
 	 *	@param		array		$contents	List of Contents related to the Tabs
@@ -162,7 +139,6 @@ class UI_HTML_Tabs
 	/**
 	 *	Creates JavaScript Call statically.
 	 *	@access		public
-	 *	@static
 	 *	@param		string		$selector		jQuery Selector of Tabs DIV (mostly '#' + ID)
 	 *	@param		array		$options		Tabs Options Array
 	 *	@return 	string
@@ -170,7 +146,14 @@ class UI_HTML_Tabs
 	 */
 	public static function createScript( $selector, $options = array() )
 	{
-		return UI_HTML_JQuery::buildPluginCall( "tabs", $selector, $options );	
+		$list	= array();
+		foreach( $options as $key => $value )
+		{
+			if( is_string( $value ) && preg_match( '@^([a-z0-9-_.#]+)$@i', $value ) )
+				$value	= '"'.$value.'"';
+			$list[$key]	= $value;
+		}
+		return UI_HTML_JQuery::buildPluginCall( "tabs", $selector, $list );	
 	}
 
 	/**

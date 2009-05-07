@@ -2,7 +2,7 @@
 /**
  *	Converting Unix Timestamps to Human Time in different formats and backwards.	
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2008 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -18,8 +18,8 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@package		alg
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		0.5
@@ -27,8 +27,8 @@
 /**
  *	Converting Unix Timestamps to Human Time in different formats and backwards.	
  *	@package		alg
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		0.5
@@ -41,7 +41,6 @@ class Alg_TimeConverter
 	 *	Complements Month Date Format for Time Predicates with Month Start or Month End for Formats.
 	 *	Allowed Formats are: m.y, m.Y, m/y, m/Y, y-m, Y-m 
 	 *	@access		public
-	 *	@static
 	 *	@param		string		$string		String to be complemented
 	 *	@param		int			$mode		Complement Mode (0:Month Start, 1:Month End)
 	 *	@return		string
@@ -81,7 +80,6 @@ class Alg_TimeConverter
 	/**
 	 *	Converts a human time format to Unix Timestamp.
 	 *	@access		public
-	 *	@static
 	 *	@param		string	$string			Human time
 	 *	@param		string	$format			Format of human time (date|monthdate|datetime)
 	 *	@return		int
@@ -169,7 +167,6 @@ class Alg_TimeConverter
 	/**
 	 *	Converts Unix Timestamp to a human time format.
 	 *	@access		public
-	 *	@static
 	 *	@param		string	$timestamp		Unix Timestamp	
 	 *	@param		string	$format			Format of human time (date|monthdate|datetime|duration|custom format)
 	 *	@return		string

@@ -2,7 +2,7 @@
 /**
  *	Template Component.
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2008 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -18,59 +18,50 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@package		framework.krypton.view.component
- *	@extends		UI_Template
+ *	@extends		Framework_Krypton_Core_Template
  *	@uses			Framework_Krypton_Core_Registry
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			02.03.2007
  *	@version		0.2
  */
-import( 'de.ceus-media.ui.Template' );
+import( 'de.ceus-media.framework.krypton.core.Template' );
 /**
  *	Template Component.
  *	@package		framework.krypton.view.component
- *	@extends		UI_Template
+ *	@extends		Framework_Krypton_Core_Template
  *	@uses			Framework_Krypton_Core_Registry
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			02.03.2007
  *	@version		0.2
  */
-class Framework_Krypton_View_Component_Template extends UI_Template
+class Framework_Krypton_View_Component_Template extends Framework_Krypton_Core_Template
 {
 	/**
-	 *	Returns Template File URI.
+	 *	Constructor.
 	 *	@access		public
-	 *	@param		string		$fileKey		File Name of Template File
-	 *	@return		string
-	 */
-	protected function getTemplateUri( $fileKey )
-	{
-		$config		= Framework_Krypton_Core_Registry::getStatic( 'config' );
-		$basePath	= $config['paths.templates'];
-		$baseName	= str_replace( ".", "/", $fileKey ).".html";
-		$fileName	= $basePath.$baseName;
-		return $fileName;
-	}
-
-	/**
-	 *	Loads a new template file if it exists. Otherwise it will throw an Exception.
-	 *	@access		public
-	 *	@param		string		$fileName		File Name of Template
+	 *	@param		string		$filename		File Name of Template
+	 *	@param		array		$elements		Array of Elements to set in Template
 	 *	@return		void
 	 */
-	public function setTemplate( $fileName )
+	public function __construct( $filename, $elements = null )
 	{
-		$filePath	= $this->getTemplateUri( $fileName );
-		if( !file_exists( $filePath ) )									//  check file
-			throw new Exception_Template( EXCEPTION_TEMPLATE_FILE_NOT_FOUND, $fileName, $filePath );
+		$config		= Framework_Krypton_Core_Registry::getStatic( 'config' );
 
-		$this->fileName	= $fileName;
-		$this->template = file_get_contents( $filePath );
+		//  --  BASICS  --  //
+		$basepath	= $config['paths']['templates'];
+		$basename	= str_replace( ".", "/", $filename ).".html";
+
+		//  --  FILE URI CHECK  --  //
+		$uri	= $filename = $basepath.$basename;
+		if( !file_exists( $uri ) )							//  check file
+			throw new Framework_Krypton_Exception_IO( "Template '".$filename."' is existing in '".$uri."'." );	
+		parent::__construct( $uri, $elements );
 	}
 }  
 ?>

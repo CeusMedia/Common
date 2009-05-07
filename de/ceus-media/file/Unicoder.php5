@@ -2,7 +2,7 @@
 /**
  *	Converts a File into UTF-8.
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2008 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -18,22 +18,21 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@package		file
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@uses			Alg_StringUnicoder
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			18.10.2007
  *	@version		0.1
  */
 import( 'de.ceus-media.alg.StringUnicoder' );
-import( 'de.ceus-media.file.Editor' );
 /**
  *	Converts a File into UTF-8.
  *	@package		file
  *	@uses			Alg_StringUnicoder
- *	@uses			File_Editor
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			18.10.2007
@@ -56,7 +55,6 @@ class File_Unicoder
 	/**
 	 *	Check whether a String is encoded into UTF-8.
 	 *	@access		public
-	 *	@static
 	 *	@param		string		$fileName	Name of File to unicode
 	 *	@return		bool
 	 */
@@ -64,7 +62,7 @@ class File_Unicoder
 	{
 		if( !file_exists( $fileName ) )
 			throw new Exception( 'File "'.$fileName.'" is not existing.' );
-		$string		= File_Editor::load( $fileName );
+		$string		= file_get_contents( $fileName );
 		$unicoded	= Alg_StringUnicoder::convertToUnicode( $string );
 		return $unicoded == $string;
 	}
@@ -72,7 +70,6 @@ class File_Unicoder
 	/**
 	 *	Converts a String to UTF-8.
 	 *	@access		public
-	 *	@static
 	 *	@param		string		$fileName	Name of File to unicode
 	 *	@param		bool		$force		Flag: encode into UTF-8 even if UTF-8 Encoding has been detected
 	 *	@return		bool
@@ -81,11 +78,16 @@ class File_Unicoder
 	{
 		if( !(!$force && self::isUnicode( $fileName ) ) )
 		{
-			$string		= File_Editor::load( $fileName );
+			$string		= file_get_contents( $fileName );
 			$unicoded	= Alg_StringUnicoder::convertToUnicode( $string );
-			return (bool) File_Editor::save( $fileName, $unicoded );
+			return (bool) file_put_contents( $fileName, $unicoded );
 		}
 		return FALSE;
 	}
+	
+#	public function convert()
+#	{
+#	
+#	}
 }
 ?>
