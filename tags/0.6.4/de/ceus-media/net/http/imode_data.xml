@@ -1,0 +1,323 @@
+<?xml version="1.0"?>
+<configuration>
+  <section name="D209i">
+    <value name="imagewidth" type="int">96</value>
+    <value name="imageheight" type="int">90</value>
+    <value name="textwidth" type="int">8</value>
+    <value name="textheight" type="int">7</value>
+    <value name="colour" type="int">2</value>
+    <value name="imageformats" type="string">gif</value>
+  </section>
+  <section name="F209i">
+    <value name="imagewidth" type="int">96</value>
+    <value name="imageheight" type="int">91</value>
+    <value name="textwidth" type="int">8</value>
+    <value name="textheight" type="int">7</value>
+    <value name="colour" type="int">2</value>
+    <value name="imageformats" type="string">gif</value>
+  </section>
+  <section name="N209i">
+    <value name="imagewidth" type="int">108</value>
+    <value name="imageheight" type="int">82</value>
+    <value name="textwidth" type="int">9</value>
+    <value name="textheight" type="int">6</value>
+    <value name="colour" type="int">1</value>
+    <value name="imageformats" type="string">gif</value>
+  </section>
+  <section name="P209i">
+    <value name="imagewidth" type="int">96</value>
+    <value name="imageheight" type="int">87</value>
+    <value name="textwidth" type="int">8</value> 
+    <value name="textheight" type="int">6</value>
+    <value name="colour" type="int">1</value>
+    <value name="imageformats" type="string">gif</value>
+  </section>
+  <section name="P209is">
+    <value name="imagewidth" type="int">96</value>
+    <value name="imageheight" type="int">87</value>
+    <value name="textwidth" type="int">8</value>
+    <value name="textheight" type="int">6</value>
+    <value name="colour" type="int">2</value>
+    <value name="imageformats" type="string">gif</value>
+  </section>
+  <section name="R209i">
+    <value name="imagewidth" type="int">96</value>
+    <value name="imageheight" type="int">72</value>
+    <value name="textwidth" type="int">8</value>
+    <value name="textheight" type="int">6</value>
+    <value name="colour" type="int">1</value>
+    <value name="imageformats" type="string">gif</value>
+  </section>
+  <section name="ER209i">
+    <value name="imagewidth" type="int">120</value>
+    <value name="imageheight" type="int">72</value>
+    <value name="textwidth" type="int">10</value>
+    <value name="textheight" type="int">6</value>
+    <value name="colour" type="int">1</value>
+    <value name="imageformats" type="string">gif</value>
+  </section>
+  <section name="KO209i">
+    <value name="imagewidth" type="int">96</value>
+    <value name="imageheight" type="int">96</value>
+    <value name="textwidth" type="int">8</value>
+    <value name="textheight" type="int">8</value>
+    <value name="colour" type="int">2</value>
+    <value name="imageformats" type="string">gif</value>
+  </section>
+  <section name="D210i">
+    <value name="imagewidth" type="int">96</value>
+    <value name="imageheight" type="int">91</value>
+    <value name="textwidth" type="int">8</value>
+    <value name="textheight" type="int">7</value>
+    <value name="colour" type="int">2</value>
+    <value name="imageformats" type="string">gif</value>
+  </section>
+  <section name="F210i">
+    <value name="imagewidth" type="int">96</value>
+    <value name="imageheight" type="int">113</value>
+    <value name="textwidth" type="int">8</value> 
+    <value name="textheight" type="int">8</value>
+    <value name="colour" type="int">2</value>
+    <value name="imageformats" type="string">gif</value>
+  </section>
+  <section name="N210i">
+    <value name="imagewidth" type="int">118</value>
+    <value name="imageheight" type="int">113</value>
+    <value name="textwidth" type="int">10</value>
+    <value name="textheight" type="int">8</value>
+    <value name="colour" type="int">2</value>
+    <value name="imageformats" type="string">gif</value>
+  </section>
+  <section name="P210i">
+    <value name="imagewidth" type="int">96</value>
+    <value name="imageheight" type="int">91</value>
+    <value name="textwidth" type="int">8</value>
+    <value name="textheight" type="int">6</value>
+    <value name="colour" type="int">2</value>
+    <value name="imageformats" type="string">gif</value>
+  </section>
+  <section name="KO210i">
+    <value name="imagewidth" type="int">96</value> 
+    <value name="imageheight" type="int">96</value>
+    <value name="textwidth" type="int">8</value>
+    <value name="textheight" type="int">8</value>
+    <value name="colour" type="int">2</value>
+    <value name="imageformats" type="string">gif</value>
+  </section>
+  <section name="SO210i">
+    <value name="imagewidth" type="int">120</value>
+    <value name="imageheight" type="int">113</value>
+    <value name="textwidth" type="int">8</value>
+    <value name="textheight" type="int">7</value>
+    <value name="colour" type="int">2</value>
+    <value name="imageformats" type="string">gif</value>
+  </section>
+  <section name="D501i">
+    <value name="imagewidth" type="int">96</value>
+    <value name="imageheight" type="int">72</value>
+    <value name="textwidth" type="int">8</value>
+    <value name="textheight" type="int">6</value>
+    <value name="colour" type="int">0</value>
+    <value name="imageformats" type="string">gif</value>
+  </section>
+  <section name="F501i">
+    <value name="imagewidth" type="int">112</value>
+    <value name="imageheight" type="int">84</value>
+    <value name="textwidth" type="int">8</value>
+    <value name="textheight" type="int">6</value>
+    <value name="colour" type="int">0</value>
+    <value name="imageformats" type="string">gif</value>
+  </section>
+  <section name="N501i">
+    <value name="imagewidth" type="string">118</value>
+    <value name="imageheight" type="string">128</value>
+    <value name="textwidth" type="string">10</value>
+    <value name="textheight" type="int">10</value>
+    <value name="colour" type="string">0</value>
+    <value name="imageformats" type="string">gif</value>
+  </section>
+  <section name="P501i">
+    <value name="imagewidth" type="string">96</value>
+    <value name="imageheight" type="string">120</value>
+    <value name="textwidth" type="string">8</value> 
+    <value name="textheight" type="string">8</value>
+    <value name="colour" type="string">0</value>
+    <value name="imageformats" type="string">gif</value>
+  </section>
+  <section name="D502i">
+    <value name="imagewidth" type="string">96</value>
+    <value name="imageheight" type="string">90</value>
+    <value name="textwidth" type="string">8</value>
+    <value name="textheight" type="string">7</value>
+    <value name="colour" type="string">2</value>
+    <value name="imageformats" type="string">gif</value>
+  </section>
+  <section name="F502i">
+    <value name="imagewidth" type="string">96</value>
+    <value name="imageheight" type="string">91</value>
+    <value name="textwidth" type="string">8</value>
+    <value name="textheight" type="string">7</value>
+    <value name="colour" type="string">2</value>
+    <value name="imageformats" type="string">gif</value>
+  </section>
+  <section name="F502it">
+    <value name="imagewidth" type="string">96</value>
+    <value name="imageheight" type="string">91</value>
+    <value name="textwidth" type="string">8</value>
+    <value name="textheight" type="string">7</value>
+    <value name="colour" type="string">2</value>
+    <value name="imageformats" type="string">gif</value>
+  </section>
+  <section name="N502i">
+    <value name="imagewidth" type="string">118</value>
+    <value name="imageheight" type="string">128</value>
+    <value name="textwidth" type="string">10</value> 
+    <value name="textheight" type="string">10</value>
+    <value name="colour" type="string">1</value>
+    <value name="imageformats" type="string">gif</value>
+  </section>
+  <section name="N502it">
+    <value name="imagewidth" type="string">118</value>
+    <value name="imageheight" type="string">128</value>
+    <value name="textwidth" type="string">10</value>
+    <value name="textheight" type="string">10</value>
+    <value name="colour" type="string">2</value>
+    <value name="imageformats" type="string">gif</value>
+  </section>
+  <section name="P502i">
+    <value name="imagewidth" type="string">96</value>
+    <value name="imageheighth" type="string">117</value>
+    <value name="textwidth" type="string">8</value> 
+    <value name="textheight" type="string">8</value>
+    <value name="colour" type="string">1</value>
+    <value name="imageformats" type="string">gif</value>
+  </section>
+  <section name="NM502i">
+    <value name="imagewidth" type="string">111</value>
+    <value name="imageheight" type="string">77</value>
+    <value name="textwidth" type="string">8</value> 
+    <value name="textheight" type="string">6</value>
+    <value name="colour" type="string">0</value>
+    <value name="imageformats" type="string">gif</value>
+  </section>
+  <section name="SO502i">
+    <value name="imagewidth" type="string">120</value>
+    <value name="imageheight" type="string">120</value>
+    <value name="textwidth" type="string">8</value>
+    <value name="textheight" type="string">8</value>
+    <value name="colour" type="string">1</value>
+    <value name="imageformats" type="string">gif</value>
+  </section>
+  <section name="SO502iwm">
+    <value name="imagewidth" type="string">120</value>
+    <value name="imageheight" type="string">113</value>
+    <value name="textwidth" type="string">8</value>
+    <value name="textheight" type="string">7</value>
+    <value name="colour" type="string">2</value>
+    <value name="imageformats" type="string">gif</value>
+  </section>
+  <section name="F503i">
+    <value name="imagewidth" type="string">120</value>
+    <value name="imageheight" type="string">130</value>
+    <value name="textwidth" type="string">10</value>
+    <value name="textheight" type="string">10</value>
+    <value name="colour" type="string">2</value>
+    <value name="imageformats" type="string">gif</value>
+  </section>
+  <section name="F503iS">
+    <value name="imagewidth" type="string">120</value>
+    <value name="imageheight" type="string">130</value>
+    <value name="textwidth" type="string">12</value>
+    <value name="textheight" type="string">12</value>
+    <value name="colour" type="string">3</value>
+    <value name="imageformats" type="string">gif</value>
+  </section>
+  <section name="P503i">
+    <value name="imagewidth" type="string">120</value>
+    <value name="imageheight" type="string">130</value>
+    <value name="textwidth" type="string">12</value>
+    <value name="textheight" type="string">10</value>
+    <value name="colour" type="string">2</value>
+    <value name="imageformats" type="string">gif</value>
+  </section>
+  <section name="P503iS">
+    <value name="imagewidth" type="string">120</value>
+    <value name="imageheight" type="string">130</value>
+    <value name="textwidth" type="string">12</value>
+    <value name="textheight" type="string">10</value>
+    <value name="colour" type="string">2</value>
+    <value name="imageformats" type="string">gif</value>
+  </section>
+  <section name="SO503i">
+    <value name="imagewidth" type="int">120</value>
+    <value name="imageheight" type="int">113</value>
+    <value name="textwidth" type="int">8.5</value>
+    <value name="textheight" type="int">7</value>
+    <value name="colour" type="int">4</value>
+    <value name="imageformats" type="string">gif</value>
+  </section>
+  <section name="D503i">
+    <value name="imagewidth" type="int">132</value>
+    <value name="imageheight" type="int">126</value>
+    <value name="textwidth" type="int">8</value>
+    <value name="textheight" type="int">7</value>
+    <value name="colour" type="int">3</value>
+    <value name="imageformats" type="string">gif</value>
+  </section>
+  <section name="N503i">
+    <value name="imagewidth" type="int">118</value>
+    <value name="imageheight" type="int">128</value>
+    <value name="textwidth" type="int">10</value>
+    <value name="textheight" type="int">10</value>
+    <value name="colour" type="int">3</value>
+    <value name="imageformats" type="string">gif,jpg</value>
+  </section>
+  <section name="N503iS">
+    <value name="imagewidth" type="int">118</value>
+    <value name="imageheight" type="int">128</value>
+    <value name="textwidth" type="int">10</value>
+    <value name="textheight" type="int">10</value>
+    <value name="colour" type="int">3</value>
+    <value name="imageformats" type="string">gif,jpg</value>
+  </section>
+  <section name="N691i">
+    <value name="imagewidth" type="int">96</value>
+    <value name="imageheight" type="int">72</value>
+    <value name="textwidth" type="int">8</value>
+    <value name="textheight" type="int">6</value>
+    <value name="colour" type="int">1</value>
+    <value name="imageformats" type="string">gif</value>
+  </section>
+  <section name="SH821i">
+    <value name="imagewidth" type="int">96</value>
+    <value name="imageheight" type="int">78</value>
+    <value name="textwidth" type="int">8</value>
+    <value name="textheight" type="int">6</value>
+    <value name="colour" type="int">2</value>
+    <value name="imageformats" type="string">gif</value>
+  </section>
+  <section name="N821i">
+    <value name="imagewidth" type="int">118</value>
+    <value name="imageheight" type="int">128</value>
+    <value name="textwidth" type="int">10</value>
+    <value name="textheight" type="int">10</value>
+    <value name="colour" type="int">1</value>
+    <value name="imageformats" type="string">gif</value>
+  </section>
+  <section name="P821i">
+    <value name="imagewidth" type="int">118</value>
+    <value name="imageheight" type="int">128</value>
+    <value name="textwidth" type="int">10</value>
+    <value name="textheight" type="int">10</value>
+    <value name="colour" type="int">1</value>
+    <value name="imageformats" type="string">gif</value>
+  </section>
+  <section name="safe">
+    <value name="imagewidth" type="int">94</value>
+    <value name="imageheight" type="int">72</value>
+    <value name="textwidth" type="int">8</value>
+    <value name="textheight" type="int">6</value>
+    <value name="colour" type="int">0</value>
+    <value name="imageformats" type="string">gif</value>
+  </section>
+</configuration>

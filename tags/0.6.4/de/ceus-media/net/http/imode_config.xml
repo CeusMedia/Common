@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<configuration>
+  <section name="manufacturer">
+    <value name="D"  type="string">Mitsubishi</value>
+    <value name="P"  type="string">Panasonic (Matsushita)</value>
+    <value name="NM" type="string">Nokia</value>
+    <value name="SO" type="string">Sony</value>
+    <value name="F"  type="string">Fujitsu</value>
+    <value name="N"  type="string">Nec</value>
+    <value name="SH" type="string">Sharp</value>
+    <value name="ER" type="string">Ericsson</value>
+    <value name="R"  type="string">Japan Radio</value>
+    <value name="KO" type="string">Kokusai (Hitachi)</value>
+  </section>
+  <section name="extra">
+    <value name="t" type="string">Transport layer</value>
+    <value name="e" type="string">English language</value>
+    <value name="s" type="string">Second version</value>
+  </section>
+</configuration>
