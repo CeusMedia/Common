@@ -26,8 +26,7 @@ class Go
 		{
 			if( file_exists( $configFile ) )															//  cmClasses installed and configured
 			{
-				require_once( "useClasses.php5" );														//  enable cmClasses
-				import( 'de.ceus-media.ui.DevOutput' );													//  load output methods
+				new UI_DevOutput;																		//  load output methods
 			}
 			else if( !( $command == "install" || $command == "configure" ) )							//  anything else but installation is impossible
 			{
@@ -178,9 +177,7 @@ class GoConfigurator
 		if( !defined( 'CM_CLASS_PATH' ) )
 			define( 'CM_CLASS_PATH',	$pwd );
 		ini_set( 'include_path', CM_CLASS_PATH.PATH_SEPARATOR.ini_get( "include_path" ) );
-		if( !@include_once( "import.php5" ) )
-			die( 'Installation of "cmClasses" seems to be corrupt: '.$pwd.'import.php5 is missing.' );
-		import( 'de.ceus-media.ui.DevOutput' );
+		new UI_DevOutput;
 
 		$files	= array(
 			"cmClasses.ini.dist"	=> "cmClasses.ini",
@@ -249,7 +246,7 @@ class GoDocCreator
 		if( !file_exists( $pathTool ) )
 			throw new RuntimeException( 'Tool DocCreator is not installed in "'.$pathTool.'".' );
 		chDir( $pathTool );
-		import( 'classes.DocCreator' );
+		require_once 'classes/DocCreator.php5';
 		DocCreator::$defaultConfigFile	= $configFile;
 		new DocCreator( $pathWork );
 	}
@@ -290,12 +287,14 @@ class GoTestRunner
 		while( $parts )
 			$fileKey	= strtolower( array_pop( $parts ) )."/".$fileKey;
 
-		$testClass	= "Tests_".$arguments[1].$suffix;
-		$testFile	= "Tests/".$fileKey.$suffix.".php";
+		$testClass	= $arguments[1].$suffix;
+		$testFile	= "test/".$fileKey.$suffix.".php";
 		if( !file_exists( $testFile ) )
 			throw new RuntimeException( 'Test Class File "'.$testFile.'" is not existing.' );
 		echo "\nTesting Class: ".$classKey."\n\n";
+		chDir( "test" );
 		passthru( "phpunit ".$testClass, $return );
+		chDir( ".." );
 	}
 }
 class GoTestCreator
@@ -344,6 +343,7 @@ class GoSelfTester
 		remark( "" );
 	}
 }
+require_once( dirname( __FILE__ )."/autoload.php5" );
 $cwd		= getCwd();											//  current working directory
 $twd		= dirname( realpath( __FILE__ ) );					//  tool working directory
 chDir( $twd ); 
