@@ -1,0 +1,103 @@
+#
+#	Configuration File for 'cmClasses'
+#	
+#	This file contains settings for several tools like
+#	- Project Index
+#	- Unit Testing
+#	- phpDocumentor
+#	- DocCreator
+#
+#	The first section describes the project itself
+#
+[project]
+name				= cmClasses							
+version				= 0.7.0
+author				= "Christian Würker <christian.wuerker@ceus-media.de>"
+company				= "CeuS Media (ceus-media.de)"
+link				= http://code.google.com/p/cmclasses/
+
+
+#
+#	This section holds URLs for Project Index
+#
+[links]
+company				= http://ceus-media.de/
+project				= http://code.google.com/p/cmclasses/
+download			= http://code.google.com/p/cmclasses/downloads/list
+source				= http://code.google.com/p/cmclasses/source/checkout
+svn				= http://cmclasses.googlecode.com/svn/trunk/
+documentation			= 
+manual				= 
+tutorial			=
+
+
+[paths]
+php				= 
+phpDocumentor			= 
+code_coverage			= doc/coverage/
+documentations			= doc/
+tests				= test/
+
+
+#
+#	Options for Unit Testing using PHPUnit
+#
+[unitTestOptions]
+coverage-html			= Reports
+log-json			= test/results.json
+log-xml				= test/results.xml
+
+
+#
+#	Settings for automated documentation creation using DocCreator
+#
+[docCreator]
+pathTool			= "/path/to/DocCreator/"
+pathClasses			= "/path/to/cmClasses/version/src/"
+pathTarget			= "/path/to/cmClasses/version/doc/doc/"
+language			= en
+theme				= cm1
+title				= cmClasses API
+
+extensions			= php5
+ignoreFiles			= "*/_*.php5"
+ignoreFolders			= "*/.svn/*"
+upperCasePackages		= adt,cs*,dom,*tp,*ml,imap,ini,pdo,php,rss,ui,wddx,xsl
+upperCasePackages		= adt,css,csv,dom,ftp,html,http,imap,ini,pdo,php,opml,rss,ui,wddx,xml,xsl,yaml
+fileDataSerial			= "data.serial"
+timeLimit			= 120
+skipParser			= no
+skipCreator			= no
+skipResources			= no
+verbose				= yes
+verboseSkip			= no
+verboseConfig			= no
+timezone			= "Europe/Berlin"
+
+#
+#	Settings for automated documentation creation using phpDocumentor
+#
+[phpDocumentor]
+directory			= src/
+target				= doc/phpDoc/
+output				= HTML:frames:earthli,HTML:Smarty:PHP,PDF:default:default,XML:DocBook/peardoc2:default,HTML:frames:phphtmllib,HTML:frames:phpedit
+output				= HTML:frames:earthli,XML:DocBook/peardoc2:default,HTML:frames:phphtmllib,HTML:frames:phpedit
+output				= HTML:frames:phpedit
+ignore				= .svn/,createTest.php5,index.php5,*.bat,*.sh,cmClasses.ini,*/_*.php5
+
+title				= cmClasses
+defaultcategoryname		= cmClasses
+defaultpackagename		= cmClasses
+
+sourcecode			= on
+parseprivate			= on
+javadocdesc			= off
+quiet				= off
+pear				= off
+hidden				= false
+
+;customtags			= mytag1,mytag2
+;packageoutput			= package1,package2
+;filename			= /path/to/file1,/path/to/file2,fileincurrentdirectory
+
+outputLog			= cmClasses.phpDoc.log
