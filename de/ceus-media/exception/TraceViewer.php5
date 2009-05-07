@@ -2,7 +2,7 @@
 /**
  *	Visualisation of Exception Stack Trace.
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2008 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -19,8 +19,8 @@
  *
  *	@package		exception
  *	@author			Romain Boisnard
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			11.04.2008
@@ -30,8 +30,8 @@
  *	Visualisation of Exception Stack Trace.
  *	@package		exception
  *	@author			Romain Boisnard
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			11.04.2008
@@ -62,7 +62,6 @@ class Exception_TraceViewer
 	 *	1	break Function Call after File Name
 	 *	2	break on every Argument
 	 *	@access		private
-	 *	@static
 	 *	@param		Exception	$exception		Exception
 	 *	@param		int			$breakMode		Mode of Line Breaks (0-one line|1-break line|2-break arguments)
 	 *	@return		string
@@ -85,7 +84,6 @@ class Exception_TraceViewer
 	/**
 	 *	Builds HTML Code of one Trace Step.
 	 *	@access		private
-	 *	@static
 	 *	@param		array		$trace			Trace Step Data
 	 *	@param		int			$i				Trace Step Number
 	 *	@param		int			$breakMode		Mode of Line Breaks (0-one line|1-break line|2-break arguments)
@@ -165,7 +163,6 @@ class Exception_TraceViewer
 	/**
 	 *	Converts Array to String.
 	 *	@access		private
-	 *	@static
 	 *	@param		array		$array			Array to convert to String
 	 *	@return		string
 	 */

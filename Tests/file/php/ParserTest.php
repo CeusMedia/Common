@@ -73,7 +73,6 @@ class Tests_File_PHP_ParserTest extends PHPUnit_Framework_TestCase
 		$assertion	= array(
 			'file',
 			'class',
-			'source',
 		);
 		$creation	= array_keys( $data );
 		$this->assertEquals( $assertion, $creation );
@@ -102,7 +101,7 @@ class Tests_File_PHP_ParserTest extends PHPUnit_Framework_TestCase
 				'name'			=> "parser.php",
 				'uri'			=> $fileName,
 				'uses'			=> array(),
-				'description'	=> "",
+				'description'	=> array(),
 				'package'		=> "",
 				'subpackage'	=> "",
 				'see'			=> array(),
@@ -114,7 +113,6 @@ class Tests_File_PHP_ParserTest extends PHPUnit_Framework_TestCase
 				'since'			=> "",
 				'functions'		=> array(),
 			),
-			'source'	=> $string,
 		);
 		$this->assertEquals( $assertion, $data );
 	}

@@ -66,11 +66,11 @@ class Tests_UI_HTML_FormElementsTest extends PHPUnit_Framework_TestCase
 		$creation	= UI_HTML_FormElements::CheckBox( "testName", "testValue", TRUE, "testClass" );
 		$this->assertEquals( $assertion, $creation );
 
-		$assertion	= '<input id="testName" type="checkbox" name="testName" value="testValue" class="testClass" disabled="disabled" readonly="readonly"/>';
+		$assertion	= '<input id="testName" type="checkbox" name="testName" value="testValue" class="testClass" readonly="readonly"/>';
 		$creation	= UI_HTML_FormElements::CheckBox( "testName", "testValue", NULL, "testClass", TRUE );
 		$this->assertEquals( $assertion, $creation );
 
-		$assertion	= '<input id="testName" type="checkbox" name="testName" value="testValue" class="testClass" disabled="disabled" readonly="readonly" onclick="alert(\'testDisabled\');"/>';
+		$assertion	= '<input id="testName" type="checkbox" name="testName" value="testValue" class="testClass" readonly="readonly" onclick="alert(\'testDisabled\');"/>';
 		$creation	= UI_HTML_FormElements::CheckBox( "testName", "testValue", NULL, "testClass", "testDisabled" );
 		$this->assertEquals( $assertion, $creation );
 	}
@@ -134,28 +134,12 @@ class Tests_UI_HTML_FormElementsTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testForm()
 	{
-		$assertion	= '<form method="post">';
+		$assertion	= '<form method="POST">';
 		$creation	= UI_HTML_FormElements::Form();
 		$this->assertEquals( $assertion, $creation );
 
-		$assertion	= '<form id="form_testName" name="testName" action="testURL" target="testTarget" method="post" enctype="testEnctype" onsubmit="testSubmit">';
+		$assertion	= '<form id="form_testName" name="testName" action="testURL" target="testTarget" method="POST" enctype="testEnctype" onsubmit="testSubmit">';
 		$creation	= UI_HTML_FormElements::Form( "testName", "testURL", "testTarget", "testEnctype", "testSubmit" );
-		$this->assertEquals( $assertion, $creation );
-	}
-
-	/**
-	 *	Tests Method 'Label'.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function testLabel()
-	{
-		$assertion	= '<label for="testId">testLabel</label>';
-		$creation	= UI_HTML_FormElements::Label( "testId", "testLabel" );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= '<label for="testId" class="testClass">testLabel</label>';
-		$creation	= UI_HTML_FormElements::Label( "testId", "testLabel", "testClass" );
 		$this->assertEquals( $assertion, $creation );
 	}
 

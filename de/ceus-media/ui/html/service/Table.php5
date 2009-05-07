@@ -1,38 +1,9 @@
 <?php
 /**
- *	...
- *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
- *
- *	This program is free software: you can redistribute it and/or modify
- *	it under the terms of the GNU General Public License as published by
- *	the Free Software Foundation, either version 3 of the License, or
- *	(at your option) any later version.
- *
- *	This program is distributed in the hope that it will be useful,
- *	but WITHOUT ANY WARRANTY; without even the implied warranty of
- *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *	GNU General Public License for more details.
- *
- *	You should have received a copy of the GNU General Public License
- *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
  *	@package		ui.html.service
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@link			http://code.google.com/p/cmclasses/
- */
-import( 'de.ceus-media.ui.html.Elements' );
-/**
- *	...
- *	@package		ui.html.service
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@link			http://code.google.com/p/cmclasses/
  *	@todo			Code Doc
  */
+import( 'de.ceus-media.ui.html.Elements' );
 class UI_HTML_Service_Table
 {
 	public function __construct( Net_Service_Point $servicePoint, $availableFormats, $tableClass = NULL )
@@ -87,43 +58,26 @@ class UI_HTML_Service_Table
 			foreach( $parameters as $parameter => $rules )
 			{
 				$ruleList	= array();
-				$mandatory	= FALSE;
-				$type		= "";
 				if( $rules )
 				{
 					foreach( $rules as $ruleKey => $ruleValue )
 					{
-						if( $ruleKey == "title" )
-							continue;
 						if( $ruleKey == "mandatory" )
-						{
-							$mandatory	= $ruleValue;
-							$ruleValue	= $ruleValue ? "yes" : "no";
-						}
-						if( $ruleKey == "type" )
-						{
-							$type	= "<small><em>".$ruleValue."</em></small>&nbsp;";
-						}
-						$spanKey	= UI_HTML_Tag::create( "span", $ruleKey.":", array( 'class' => "key" ) );
-						$spanValue	= UI_HTML_Tag::create( "span", htmlspecialchars( $ruleValue ), array( 'class' => "value" ) );
-						$ruleList[]	= $spanKey." ".$spanValue;
+							$ruleValue = $ruleValue ? "yes" : "no";
+						$ruleList[]	= $ruleKey.": ".htmlspecialchars( $ruleValue );
 					}
 				}
-				if( isset( $rules['title'] ) )
-					$parameter	= UI_HTML_Elements::Acronym( $parameter, $rules['title'] );
-				$parameter	= $type.$parameter;
-				if( !$mandatory )
-					$parameter	= "[".$parameter."]";
-				$rules	= $ruleList ? '<div class="rules">'.implode( ", ", $ruleList ).'</div>' : "";
-				$parameterList[]	= $rules.$parameter;
+				$rules	= implode( ", ", $ruleList );
+				if( $rules )
+					$parameter	= '<div class="rule">'.$rules.'</div>'.$parameter;
+				$parameterList[]	= $parameter;
 			}
 			$parameters	= implode( "<br/>", $parameterList );
 
-			$linkService	= UI_HTML_Tag::create( "a", $service, array( 'href' => "?service=".$service, 'title' => "Run this service" ) );
-			$imageTest		= UI_HTML_Tag::create( "span", NULL, array( 'class' => 'linkTest', 'title' => 'Test this service' ) );
-			$linkTest		= UI_HTML_Elements::Link( "?test=".$service, $imageTest );
+			$linkService	= UI_HTML_Elements::Link( "?service=".$service, $service );
+			$linkTest		= UI_HTML_Elements::Link( "?test=".$service, "(test)" );
 
-			$serviceLink	= '<div class="serviceName">'.$linkTest.$linkService.'</div>';
+			$serviceLink	= '<div class="serviceName">'.$linkService.'&nbsp;'.$linkTest.'</div>';
 			$serviceClass	= '<div class="className">'.$this->servicePoint->getServiceClass( $service ).'</div>';
 			$description	= '<div class="description">'.$this->servicePoint->getServiceDescription( $service ).'</div>';
 			$cellService	= '<td class="service">'.$serviceClass.$serviceLink.$description.'</td>';

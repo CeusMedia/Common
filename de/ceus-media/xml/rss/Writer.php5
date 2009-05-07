@@ -1,8 +1,10 @@
 <?php
+import( 'de.ceus-media.file.Writer' );
+import( 'de.ceus-media.xml.rss.Builder' );
 /**
  *	Writer for RSS 2.0 Feeds.
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2008 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,22 +23,20 @@
  *	@uses			File_Reader
  *	@uses			Net_Reader
  *	@uses			XML_RSS_Builder
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			20.02.2008
  *	@version		0.6
  */
-import( 'de.ceus-media.file.Writer' );
-import( 'de.ceus-media.xml.rss.Builder' );
 /**
  *	Writer for RSS 2.0 Feeds.
  *	@package		xml.rss
  *	@uses			File_Reader
  *	@uses			XML_RSS_Builder
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			20.02.2008
@@ -99,14 +99,13 @@ class XML_RSS_Writer
 	}
 
 	/**
-	 *	Writes RSS to a File statically and returns Number of written Bytes.
+	 *	Writes RSS to a File statically.
 	 *	@access		public
-	 *	@static
 	 *	@param		string		$fileName	File Name of XML RSS File
 	 *	@param		array		$array		Array of Channel Information Pairs
 	 *	@param		array		$array		List of Item
 	 *	@param		string		$encoding	Encoding Type
-	 *	@return		int
+	 *	@return		bool
 	 */
 	public static function save( $fileName, $channelData, $itemList, $encoding = "utf-8" )
 	{
@@ -114,15 +113,15 @@ class XML_RSS_Writer
 		$builder->setChannelData( $channelData );
 		$builder->setItemList( $itemList );
 		$xml	= $builder->build( $encoding = "utf-8" );
-		return File_Writer::save( $fileName, $xml );
+		return (bool) File_Writer::save( $fileName, $xml );
 	}
 
 	/**
-	 *	Writes RSS to a File and returns Number of written Bytes.
+	 *	Writes RSS to a File.
 	 *	@access		public
 	 *	@param		string		$fileName	File Name of XML RSS File
 	 *	@param		string		$encoding	Encoding Type
-	 *	@return		int
+	 *	@return		bool
 	 */
 	public function write( $fileName, $encoding = "utf-8" )
 	{

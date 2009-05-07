@@ -1,30 +1,4 @@
 <?php
-/**
- *	Generic View with Language Support.
- *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
- *
- *	This program is free software: you can redistribute it and/or modify
- *	it under the terms of the GNU General Public License as published by
- *	the Free Software Foundation, either version 3 of the License, or
- *	(at your option) any later version.
- *
- *	This program is distributed in the hope that it will be useful,
- *	but WITHOUT ANY WARRANTY; without even the implied warranty of
- *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *	GNU General Public License for more details.
- *
- *	You should have received a copy of the GNU General Public License
- *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- *	@package		framework.neon
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@link			http://code.google.com/p/cmclasses/
- *	@since			01.12.2005
- *	@version		0.3
- */
 import( 'de.ceus-media.framework.neon.Component' );
 import( 'de.ceus-media.adt.Reference' );
 import( 'de.ceus-media.ui.html.Elements' );
@@ -41,10 +15,21 @@ import( 'de.ceus-media.ui.html.WikiParser' );
  *	@uses			UI_HTML_Paging
  *	@uses			Alg_TimeConverter
  *	@uses			File_INI_Reader
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@link			http://code.google.com/p/cmclasses/
+ *	@uses			UI_HTML_WikiParser
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@since			01.12.2005
+ *	@version		0.3
+ */
+/**
+ *	Generic View with Language Support.
+ *	@package		framework.neon
+ *	@extends		Framework_Neon_Component
+ *	@uses			ADT_Reference
+ *	@uses			UI_HTML_Elements
+ *	@uses			UI_HTML_Paging
+ *	@uses			Alg_TimeConverter
+ *	@uses			File_INI_Reader
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@uses			UI_HTML_WikiParser
  *	@since			01.12.2005
  *	@version		0.3
@@ -52,6 +37,33 @@ import( 'de.ceus-media.ui.html.WikiParser' );
  */
 class Framework_Neon_View extends Framework_Neon_Component
 {
+	/**	@var	array		$_paths			Array of possible Path Keys in Config for Content Loading */
+	var $_paths	= array(
+			'html'	=> 'html',
+			'wiki'	=> 'wiki',
+			'txt'	=> 'text',
+			);
+	/**	@var	UI_HTML_Elements			$html			HTML Elements */
+	var $html;
+	/**	@var	UI_HTML_WikiParser			$wiki			Wiki Parser */
+	var $wiki;
+	/**	@var	Framework_Neon_Language		$language		Language Support */
+	var $language;
+
+	/**
+	 *	Constructor, references Output Objects.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function __construct( $useWikiParser = FALSE )
+	{
+		parent::__construct();
+		$this->language		= $this->ref->get( 'language' );
+		$this->html			= new UI_HTML_Elements;
+		if( $useWikiParser )
+			$this->wiki			= new UI_HTML_WikiParser;
+	}
+
 	/**
 	 *	Builds HTML for Paging of Lists.
 	 *	@access		public
@@ -181,6 +193,93 @@ class Framework_Neon_View extends Framework_Neon_Component
 				$string	= "<font size='+1'>".$matches[2]."</font>";
 		}
 		return $string;
+	}
+
+	public function hasContent( $file )
+	{
+		$config		= $this->ref->get( "config" );
+		$session	= $this->ref->get( "session" );
+
+		$parts		= explode( ".", $file );
+		$ext		= array_pop( $parts );
+		$file		= array_pop( $parts );
+		$basename	= $file.".".$ext;
+		
+		$path		= $this->_paths[$ext];
+		$uri			= $config['paths'][$path].$session->get( 'language' )."/".implode( "/", $parts )."/";
+//		$theme		= $config['layout']['template_theme'] ? $config['layout']['template_theme']."/" : "";
+		$theme		= "";
+		$filename		= $uri.$theme.$basename;
+		
+		return file_exists( $filename );
+	}
+
+	/**
+	 *	Loads Content File in HTML or DokuWiki-Format returns Content.
+	 *	@access		public
+	 *	@param		string		$_file				File Name (with Extension) of Content File (HTML|Wiki|Text), i.E. home.html leads to {CONTENT}/{LANGUAGE}/home.html
+	 *	@param		array		$data				Data for Insertion in Template
+	 *	@param		string		$separator_link		Separator in Language Link
+	 *	@param		string		$separator_class	Separator for Language File
+	 *	@return		string
+	 */
+	public function loadContent( $_file, $data = array() )
+	{
+		$config		= $this->ref->get( "config" );
+		$session	= $this->ref->get( "session" );
+
+		$parts		= explode( ".", $_file );
+		$ext		= array_pop( $parts );
+		$file		= array_pop( $parts );
+		$basename	= $file.".".$ext;
+		
+		$path		= $this->_paths[$ext];
+		$uri			= $config['paths'][$path].$session->get( 'language' )."/";
+		if( count( $parts ) )
+			$uri	.= implode( "/", $parts )."/";
+//		$theme		= $config['layout']['template_theme'] ? $config['layout']['template_theme']."/" : "";
+		$theme		= "";
+		$filename		= $uri.$theme.$basename;
+
+		$content	= "";
+		
+		if( $ext == "wiki" && $this->wiki )
+		{
+			$cachefile	= $config['paths']['cache'].$path."/".$session->get( 'language' )."/".$basename.".html";
+			if( file_exists( $cachefile ) && filemtime( $filename ) <= filemtime( $cachefile ) )
+			{
+				$file		= new File_Reader( $cachefile );
+				$content	= $file->readString();
+			}
+			else if( file_exists( $filename ) )
+			{
+				$file		= new File_Reader( $filename );
+				$cache		= new File_Writer( $cachefile, 0755 );
+				$content	= $this->wiki->parse( $file->readString() );
+				$cache->writeString( $content );
+				$content = "<div class='wiki'>".$content."</div>";
+			}
+			else
+				$this->messenger->noteFailure( "Content File '".$filename."' is not existing." );
+		}
+		else if( $ext == "html" )
+		{
+			if( file_exists( $filename ) )
+			{
+				$file		= new File_Reader( $filename );
+				$content	= $file->readString();
+			}
+			else
+				$this->messenger->noteFailure( "Content File '".$filename."' is not existing." );
+		}
+		else
+		{
+			$this->messenger->noteFailure( "Content Type for File '".$filename."' is not implemented." );
+			return "";
+		}
+		foreach( $data as $key => $value )
+			$content	= str_replace( "[#".$key."#]", $value, $content );
+		return $content;
 	}
 
 	/**

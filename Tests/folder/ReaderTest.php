@@ -79,7 +79,7 @@ class Tests_Folder_ReaderTest extends Tests_Folder_TestCase
 	 */
 	public function testGetCount()
 	{
-		$assertion	= 4;
+		$assertion	= 3;
 		$creation	= $this->reader1->getCount();
 		$this->assertEquals( $assertion, $creation );
 
@@ -106,11 +106,11 @@ class Tests_Folder_ReaderTest extends Tests_Folder_TestCase
 	 */
 	public function testGetFileCount()
 	{
-		$assertion	= 2;
+		$assertion	= 1;
 		$creation	= $this->reader1->getFileCount();
 		$this->assertEquals( $assertion, $creation );
 
-		$assertion	= 2;
+		$assertion	= 1;
 		$creation	= $this->reader1->getFileCount( "@file@" );
 		$this->assertEquals( $assertion, $creation );
 
@@ -139,10 +139,7 @@ class Tests_Folder_ReaderTest extends Tests_Folder_TestCase
 	{
 		$index	= $this->reader1->getFileList();
 		$list	= $this->getListFromIndex( $index );		
-		$assertion	= array(
-			'file1.txt',
-			'file2.txt',
-		);
+		$assertion	= array( 'file1.txt' );
 		$creation	= $list['files'];
 		$this->assertEquals( $assertion, $creation );
 	}
@@ -167,10 +164,7 @@ class Tests_Folder_ReaderTest extends Tests_Folder_TestCase
 	{
 		$index	= $this->reader1->getFileListByExtensions( array( 'txt' ) );
 		$list	= $this->getListFromIndex( $index );		
-		$assertion	= array(
-			'file1.txt',
-			'file2.txt',
-		);
+		$assertion	= array( 'file1.txt' );
 		$creation	= $list['files'];
 		$this->assertEquals( $assertion, $creation );
 	
@@ -274,10 +268,7 @@ class Tests_Folder_ReaderTest extends Tests_Folder_TestCase
 		$creation	= $list['folders'];
 		$this->assertEquals( $assertion, $creation );
 
-		$assertion	= array(
-			'file1.txt',
-			'file2.txt',
-		);
+		$assertion	= array( 'file1.txt' );
 		$creation	= $list['files'];
 		$this->assertEquals( $assertion, $creation );
 
@@ -366,7 +357,7 @@ class Tests_Folder_ReaderTest extends Tests_Folder_TestCase
 	 */
 	public function testGetNestedCount()
 	{
-		$assertion	= 15;
+		$assertion	= 14;
 		$creation	= $this->reader1->getNestedCount();
 		$this->assertEquals( $assertion, $creation );
 
@@ -393,7 +384,7 @@ class Tests_Folder_ReaderTest extends Tests_Folder_TestCase
 	 */
 	public function testGetNestedFileCount()
 	{
-		$assertion	= 10;
+		$assertion	= 9;
 		$creation	= $this->reader1->getNestedFileCount();
 		$this->assertEquals( $assertion, $creation );
 
@@ -430,13 +421,10 @@ class Tests_Folder_ReaderTest extends Tests_Folder_TestCase
 			'file1_1_2.txt',
 			'file1_2_1.txt',
 			'file1_2_2.txt',
-			'file2.txt',
 			'file2_1.txt',
 			'file2_1_1.txt',
 		);
 		$creation	= $list['files'];
-		sort( $assertion );
-		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
 
 		$index	= $this->reader1->getNestedFileList( "@not_existing@" );
@@ -548,13 +536,10 @@ class Tests_Folder_ReaderTest extends Tests_Folder_TestCase
 			'file1_1_2.txt',
 			'file1_2_1.txt',
 			'file1_2_2.txt',
-			'file2.txt',
 			'file2_1.txt',
 			'file2_1_1.txt',
 		);
 		$creation	= $list['files'];
-		sort( $assertion );
-		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -576,7 +561,7 @@ class Tests_Folder_ReaderTest extends Tests_Folder_TestCase
 	 */
 	public function testGetNestedSize()
 	{
-		$assertion	= 40;
+		$assertion	= 36;
 		$creation	= $this->reader1->getNestedSize();
 		$this->assertEquals( $assertion, $creation );
 
@@ -603,7 +588,7 @@ class Tests_Folder_ReaderTest extends Tests_Folder_TestCase
 	 */
 	public function testGetSize()
 	{
-		$assertion	= 8;
+		$assertion	= 4;
 		$creation	= $this->reader1->getSize();
 		$this->assertEquals( $assertion, $creation );
 
@@ -611,7 +596,7 @@ class Tests_Folder_ReaderTest extends Tests_Folder_TestCase
 		$creation	= $this->reader1->getSize( "@not_existing@" );
 		$this->assertEquals( $assertion, $creation );
 
-		$assertion	= 0.008;
+		$assertion	= 0.004;
 		$creation	= $this->reader1->getSize( "", SIZE_KILOBYTE, 3 );
 		$this->assertEquals( $assertion, $creation );
 	}

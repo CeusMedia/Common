@@ -1,4 +1,5 @@
 <?php
+import( 'de.ceus-media.folder.Lister' );
 /**
  *	Lists Folders and Files within a Folder recursive.
  *	Entries can be filtered with a RegEx Pattern or allowed Extensions.
@@ -6,7 +7,7 @@
  *	It is possible to hide Folders or Files from the List.
  *	Folders starting with a Dot can be stripped from the List.
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2008 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -25,14 +26,13 @@
  *	@extends		Folder_Lister
  *	@uses			Folder_RecursiveRegexFilter
  *	@uses			Folder_RecursiveIterator
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@Ceus-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			15.04.2008
  *	@version		0.6
  */
-import( 'de.ceus-media.folder.Lister' );
 /**
  *	Lists Folders and Files within a Folder recursive.
  *	Entries can be filtered with a RegEx Pattern or allowed Extensions.
@@ -43,8 +43,8 @@ import( 'de.ceus-media.folder.Lister' );
  *	@extends		Folder_Lister
  *	@uses			Folder_RecursiveRegexFilter
  *	@uses			Folder_RecursiveIterator
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@Ceus-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			15.04.2008
@@ -62,16 +62,15 @@ class Folder_RecursiveLister extends Folder_Lister
 		if( $this->pattern )
 		{
 			import( 'de.ceus-media.folder.RecursiveRegexFilter' );
-			return new Folder_RecursiveRegexFilter( $this->path, $this->pattern, $this->showFiles, $this->showFolders, $this->stripDotEntries );
+			return new Folder_RecursiveRegexFilter( $this->path, $this->pattern, $this->showFiles, $this->showFolders, $this->stripDotFolders );
 		}
 		import( 'de.ceus-media.folder.RecursiveIterator' );
-		return new Folder_RecursiveIterator( $this->path, $this->showFiles, $this->showFolders, $this->stripDotEntries );
+		return new Folder_RecursiveIterator( $this->path, $this->showFiles, $this->showFolders, $this->stripDotFolders );
 	}
 
 	/**
 	 *	Returns List of Files statically.
 	 *	@access		public
-	 *	@static
 	 *	@param		string		$path				Path to Folder
 	 *	@param		string		$pattern			RegEx Pattern to match with File Name
 	 *	@return		FilterIterator
@@ -88,38 +87,36 @@ class Folder_RecursiveLister extends Folder_Lister
 	/**
 	 *	Returns List of Folders statically.
 	 *	@access		public
-	 *	@static
 	 *	@param		string		$path				Path to Folder
 	 *	@param		string		$pattern			RegEx Pattern to match with Folder Name
-	 *	@param		bool		$stripDotEntries	Flag: strip Files and Folders starting with a Dot
+	 *	@param		bool		$stripDotFolders	Flag: strip Folders starting with a Dot
 	 *	@return		FilterIterator
 	 */	
-	public static function getFolderList( $path, $pattern = NULL, $stripDotEntries = TRUE )
+	public static function getFolderList( $path, $pattern = NULL, $stripDotFolders = TRUE )
 	{
 		$index	= new Folder_RecursiveLister( $path );
 		$index->setPattern( $pattern );
 		$index->showFiles( FALSE );
 		$index->showFolders( TRUE );
-		$index->stripDotEntries( $stripDotEntries );
+		$index->stripDotFolders( $stripDotFolders );
 		return $index->getList();
 	}
 
 	/**
 	 *	Returns List of Folders and Files statically.
 	 *	@access		public
-	 *	@static
 	 *	@param		string		$path				Path to Folder
 	 *	@param		string		$pattern			RegEx Pattern to match with Entry Name
-	 *	@param		bool		$stripDotEntries	Flag: strip Files and Folders starting with a Dot
+	 *	@param		bool		$stripDotFolders	Flag: strip Folders starting with a Dot
 	 *	@return		FilterIterator
 	 */	
-	public static function getMixedList( $path, $pattern = NULL, $stripDotEntries = TRUE )
+	public static function getMixedList( $path, $pattern = NULL, $stripDotFolders = TRUE )
 	{
 		$index	= new Folder_RecursiveLister( $path );
 		$index->setPattern( $pattern );
 		$index->showFiles( TRUE );
 		$index->showFolders( TRUE );
-		$index->stripDotEntries( $stripDotEntries );
+		$index->stripDotFolders( $stripDotFolders );
 		return $index->getList();
 	}}
 ?>

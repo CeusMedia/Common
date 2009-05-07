@@ -1,8 +1,9 @@
 <?php
+import( 'de.ceus-media.adt.list.Dictionary' );
 /**
  *	Handler for Console Requests.
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2008 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -19,20 +20,19 @@
  *
  *	@package		console
  *	@extends		ADT_List_Dictionary
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			12.02.2007
  *	@version		0.1
  */
-import( 'de.ceus-media.adt.list.Dictionary' );
 /**
  *	Handler for Console Requests.
  *	@package		console
  *	@extends		ADT_List_Dictionary
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			12.02.2007
@@ -40,8 +40,6 @@ import( 'de.ceus-media.adt.list.Dictionary' );
  */
 class Console_RequestReceiver extends ADT_List_Dictionary
 {
-	public static $delimiterAssign	= "=";
-
 	/**
 	 *	Constructor, receives Console Arguments.
 	 *	@access		public
@@ -56,9 +54,9 @@ class Console_RequestReceiver extends ADT_List_Dictionary
 			$fallBackOnEmptyPair	= TRUE;
 		foreach( $argv as $argument )
 		{
-			if( !( $fallBackOnEmptyPair && !substr_count( $argument, self::$delimiterAssign ) ) )
+			if( !( $fallBackOnEmptyPair && !substr_count( $argument, "=" ) ) )
 			{
-				$parts	= explode( self::$delimiterAssign, $argument );
+				$parts	= explode( "=", $argument );
 				$key	= array_shift( $parts );
 				$this->pairs[$key]	= (string)implode( "=", $parts );
 			}

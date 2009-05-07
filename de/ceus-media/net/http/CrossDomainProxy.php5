@@ -2,7 +2,7 @@
 /**
  *	Proxy for Cross Domain Requests to bypass JavaScript's same origin policy.
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2008 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -18,8 +18,8 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@package		net.http
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			14.06.2008
@@ -28,8 +28,8 @@
 /**
  *	Proxy for Cross Domain Requests to bypass JavaScript's same origin policy.
  *	@package		net.http
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			14.06.2008
@@ -69,21 +69,17 @@ class Net_HTTP_CrossDomainProxy
 	 */
 	public function forward( $throwException = FALSE )
 	{
-		$query	= getEnv( 'QUERY_STRING' );														//  get GET Query String
-		$url	= $this->url."?".$query;														//  build Service Request URL
-		return self::requestUrl( $url, $this->username, $this->password, $throwException );
-	}
-	
-	public static function requestUrl( $url, $username = NULL, $password = NULL, $throwException = FALSE )
-	{
 		$curl	= curl_init();																	//  open cURL Handler
 		curl_setopt( $curl, CURLOPT_SSL_VERIFYPEER, 0 );										//  skip Peer Verification
 		curl_setopt( $curl, CURLOPT_SSL_VERIFYHOST, 0 );										//  skip Host Verification
-		curl_setopt( $curl, CURLOPT_URL, $url );												//  set Service Request URL
-		curl_setopt( $curl, CURLOPT_RETURNTRANSFER, TRUE );										//  catch Response
 		curl_setopt( $curl, CURLOPT_HEADER, FALSE );
-		if( $username )																			//  Basic Authentication Username is set
-			curl_setopt( $curl, CURLOPT_USERPWD, $username.":".$password );						//  set HTTP Basic Authentication
+		if( $this->username )																	//  Basic Authentication Username is set
+			curl_setopt( $curl, CURLOPT_USERPWD, $this->username.":".$this->password );			//  set HTTP Basic Authentication
+		curl_setopt( $curl, CURLOPT_RETURNTRANSFER, TRUE );										//  catch Response
+
+		$query	= getEnv( 'QUERY_STRING' );														//  get GET Query String
+		$url	= $this->url."?".$query;														//  build Service Request URL
+		curl_setopt( $curl, CURLOPT_URL, $url );												//  set Service Request URL
 		$method	= getEnv( 'REQUEST_METHOD' );													//  get Request Method
 		if( $method == "POST" )																	//  Request Method is POST
 		{
@@ -93,7 +89,6 @@ class Net_HTTP_CrossDomainProxy
 		}
 		else if( $method != "GET" )																//  neither POST nor GET
 			throw new Exception( 'Invalid Request Method.' );									//  throw Exception
-
 		$response	= curl_exec( $curl );														//  get Service Response
 		curl_close( $curl );																	//  close cURL Handler
 
@@ -104,6 +99,5 @@ class Net_HTTP_CrossDomainProxy
 
 		return $response;																		//  return Service Response
 	}
-	
 }
 ?>

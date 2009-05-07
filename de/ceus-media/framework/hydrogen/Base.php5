@@ -1,8 +1,19 @@
 <?php
+import( 'de.ceus-media.database.DatabaseConnection' );
+import( 'de.ceus-media.file.ini.Reader' );
+import( 'de.ceus-media.net.http.PartitionSession' );
+import( 'de.ceus-media.net.http.request.Receiver' );
+import( 'de.ceus-media.StopWatch' );
+import( 'de.ceus-media.adt.FieldDefinition' );
+import( 'de.ceus-media.framework.hydrogen.Messenger' );
+import( 'de.ceus-media.framework.hydrogen.Model' );
+import( 'de.ceus-media.framework.hydrogen.View' );
+import( 'de.ceus-media.framework.hydrogen.Controller' );
+import( 'de.ceus-media.framework.hydrogen.Language' );
 /**
- *	Generic Main Class of Framework Hydrogen
+ *	Abstract Main Class of Framework Hydrogen
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2008 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -29,26 +40,15 @@
  *	@uses			Framework_Hydrogen_View
  *	@uses			Framework_Hydrogen_Controller
  *	@uses			Framework_Hydrogen_Language
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@Ceus-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			01.09.2006
  *	@version		0.1
  */
-import( 'de.ceus-media.database.DatabaseConnection' );
-import( 'de.ceus-media.file.ini.Reader' );
-import( 'de.ceus-media.net.http.PartitionSession' );
-import( 'de.ceus-media.net.http.request.Receiver' );
-import( 'de.ceus-media.StopWatch' );
-import( 'de.ceus-media.adt.FieldDefinition' );
-import( 'de.ceus-media.framework.hydrogen.Messenger' );
-import( 'de.ceus-media.framework.hydrogen.Model' );
-import( 'de.ceus-media.framework.hydrogen.View' );
-import( 'de.ceus-media.framework.hydrogen.Controller' );
-import( 'de.ceus-media.framework.hydrogen.Language' );
 /**
- *	Generic Main Class of Framework Hydrogen
+ *	Abstract Main Class of Framework Hydrogen
  *	@package		framework.hydrogen
  *	@uses			DatabaseConnection
  *	@uses			File_INI_Reader
@@ -61,8 +61,8 @@ import( 'de.ceus-media.framework.hydrogen.Language' );
  *	@uses			Framework_Hydrogen_View
  *	@uses			Framework_Hydrogen_Controller
  *	@uses			Language
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@Ceus-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			01.09.2006
@@ -212,7 +212,7 @@ class Framework_Hydrogen_Base
 		$this->_sw	= new StopWatch();
 		
 		//  --  CONFIGURATION  --  //
-		$ir_conf		= new File_INI_Reader( "config/config.ini", TRUE );
+		$ir_conf		= new File_INI_Reader( "config/config.ini", true );
 		$this->config	= $ir_conf->toArray();
 		error_reporting( $this->config['config']['error_reporting'] );
 

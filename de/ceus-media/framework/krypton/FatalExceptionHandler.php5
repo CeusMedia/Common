@@ -2,7 +2,7 @@
 /**
  *	Shows an Exception and quits.
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2008 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,8 +20,8 @@
  *	@package		framework.krypton
  *	@uses			Net_Mail_PlainMail
  *	@uses			Net_Mail_Sender
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			22.04.2007
@@ -30,15 +30,14 @@
 /**
  *	Shows an Exception and quits.
  *	@package		framework.krypton
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@uses			Net_Mail_PlainMail
  *	@uses			Net_Mail_Sender
  *	@since			22.04.2007
  *	@version		0.2
- *	@deprecated		to be removed in 0,7
  */
 class Framework_Krypton_FatalExceptionHandler
 {
@@ -65,13 +64,12 @@ class Framework_Krypton_FatalExceptionHandler
 		$EXCEPTION_DEBUG_MODE	= defined( 'EXCEPTION_DEBUG_MODE' ) && EXCEPTION_DEBUG_MODE;
 		$EXCEPTION_ERROR_PAGE	= defined( 'EXCEPTION_ERROR_PAGE' ) && EXCEPTION_ERROR_PAGE;
 		$EXCEPTION_MAIL_TO		= defined( 'EXCEPTION_MAIL_TO' ) && EXCEPTION_MAIL_TO;
-		$EXCEPTION_LOG_PATH		= defined( 'EXCEPTION_LOG_PATH' ) && EXCEPTION_LOG_PATH;
 		
 		$this->setMail( $EXCEPTION_MAIL_TO ? EXCEPTION_MAIL_TO : "" );
 		$this->setErrorPage( ( $EXCEPTION_ERROR_PAGE && !$EXCEPTION_DEBUG_MODE ) ? EXCEPTION_ERROR_PAGE : "" );
 		if( $e )
 		{
-			die( $this->handleException( $e, $EXCEPTION_LOG_PATH ? EXCEPTION_LOG_PATH : "" ) );
+			$this->handleException( $e );
 		}
 	}
 	
@@ -79,12 +77,11 @@ class Framework_Krypton_FatalExceptionHandler
 	 *	Handles Exception by creating, storing and mailing a Report and showing the Report or a static Error Page.
 	 *	@access		public
 	 *	@param		Exception		$e			Exception to handle
-	 *	@param		string			$logPath	Path to write Report to, disabled if empty
 	 *	@return		string
 	 */
-	public function handleException( $e, $logPath = NULL )
+	public function handleException( $e )
 	{
-		$report	= $this->buildReport( $e, $logPath );
+		$report	= $this->buildReport( $e );
 		if( $this->mail )
 		{
 			import( 'de.ceus-media.net.mail.PlainMail' );
@@ -100,14 +97,11 @@ class Framework_Krypton_FatalExceptionHandler
 			}
 			catch( Exception $e )
 			{
-				remark( "<b>Warning! </b>Report Mail has not been sent." );
 				
 			}
 		}
 		if( $this->errorPage )
 		{
-			if( !file_exists( $this->errorPage ) )
-				throw new Exception( 'Template "'.$this->errorPage.'" is not existing.' );
 			$content	= require_once( $this->errorPage );
 			die( $content );
 		}
@@ -118,10 +112,9 @@ class Framework_Krypton_FatalExceptionHandler
 	 *	Builds Report from Exception.
 	 *	@access		protected
 	 *	@param		Exception		$e			Exception to handle
-	 *	@param		string			$logPath	Path to write Report to, disabled if empty
 	 *	@return		string
 	 */
-	protected function buildReport( $e, $logPath )
+	protected function buildReport( $e )
 	{
 		$dev	= "";
 		if( ob_get_level() )
@@ -192,32 +185,25 @@ class Framework_Krypton_FatalExceptionHandler
 			$cookie		= ob_get_clean();
 		}
 
-		if( !file_exists( $this->template ) )
-			throw new Exception( 'Template "'.$this->template.'" is not existing.' );
-		$body	= require_once( $this->template );
+		$fileName	= date( "y.m.d-H.i.s" )."_".getEnv( 'REMOTE_ADDR' ).".html";
+		$filePath	= "logs/exceptions/";
+		$fileUrl	= $filePath.$fileName;
 
-		if( $logPath )
-			$this->logReport( $body, $logPath );
+		$this->lastFileUrl	= $fileUrl;
+
+		$body	= require_once( $this->template );
 		return $body;
 	}
 	
 	/**
-	 *	Saves Report in Log Path.
-	 *	@access		protected
-	 *	@param		string		$report		Report to save
-	 *	@param		string		$logPath	Path to write Report to
+	 *	Sets File Name of Template.
+	 *	@access		public
+	 *	@param		string		$template	Template to load
 	 *	@return		void
 	 */
-	protected function logReport( $report, $logPath )
+	public function setTemplate( $template )
 	{
-		$fileName	= date( "y.m.d-H.i.s" )."_".getEnv( 'REMOTE_ADDR' ).".html";
-		$fileUrl	= $logPath.$fileName;
-
-		$this->lastFileUrl	= $fileUrl;
-		$report	= str_replace( 'href="contents/base.css"', 'href="../../contents/base.css"', $report );
-		if( !file_exists( $logPath ) )
-			mkdir( $logPath, 0700, TRUE );
-		file_put_contents( $fileUrl, $report );
+		$this->template	= $template;
 	}
 
 	/**
@@ -234,17 +220,6 @@ class Framework_Krypton_FatalExceptionHandler
 	public function setMail( $mail )
 	{
 		$this->mail	= $mail;
-	}
-
-	/**
-	 *	Sets File Name of Template.
-	 *	@access		public
-	 *	@param		string		$template	Template to load
-	 *	@return		void
-	 */
-	public function setTemplate( $template )
-	{
-		$this->template	= $template;
 	}
 
 	/**

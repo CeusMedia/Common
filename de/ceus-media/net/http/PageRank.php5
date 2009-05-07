@@ -2,7 +2,7 @@
 /**
  *	Google PageRank.
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2008 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,8 +20,8 @@
  *	@package		net.http
  *	@uses			Net_cURL
  *	@author			Emir Plicanic
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			18.01.2007
@@ -34,8 +34,8 @@ define( 'GOOGLE_MAGIC', 0xE6359A60 );
  *	@package		net.http
  *	@uses			Net_cURL
  *	@author			Emir Plicanic
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			18.01.2007
@@ -46,7 +46,6 @@ class Net_HTTP_PageRank
 	/**
 	 *	Calculates Checksum of URL for Google Request
 	 *	@access		private
-	 *	@static
 	 *	@param		array		$url		URL as numeric Array
 	 *	@return		string
 	 */
@@ -92,7 +91,6 @@ class Net_HTTP_PageRank
 	/**
 	 *	Returns Google PageRank.
 	 *	@access		public
-	 *	@static
 	 *	@param		string		$url		URL to check (e.G. www.domain.com)
 	 *	@return		int
 	 */
@@ -126,7 +124,6 @@ class Net_HTTP_PageRank
 	/**
 	 *	Converts a String into an Array of Integers containing the numeric Values of the Characters.
 	 *	@access		private
-	 *	@static
 	 *	@param		string		$string		String to convert
 	 *	@return		array
 	 */

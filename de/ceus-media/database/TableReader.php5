@@ -2,7 +2,7 @@
 /**
  *	Table with Column Definition and Keys.
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2008 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -18,8 +18,8 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@package		database
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		0.6
@@ -27,8 +27,8 @@
 /**
  *	Table with column definition and keys.
  *	@package		database
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		0.6
@@ -200,27 +200,15 @@ class Database_TableReader
 		if( $usePrimary && $this->isFocused() == "primary" )				//  if using foreign Keys & is focused primary
 			$new[$this->focusKey] = $this->focus;							//  note primary Key Pair
 
-		$pattern	= "/^(<|<=|>=|>|!=)(.+)/";
 		$conditions = array();
 		foreach( $new as $key => $value )									//  iterate all noted Pairs
-		{
-			$operation	= " = ";
+//			$conditions[] =  $key.'="'.$value.'"';							//  create SQL WHERE Condition
 			if( preg_match( "/%/", $value ) )
-				$operation	= " LIKE ";
-			else if( preg_match( $pattern, $value ) )
-			{
-				$matches	= array();
-				preg_match_all( $pattern, $value, $matches );
-				$operation	= " ".$matches[1][0]." ";
-				$value		= $matches[2][0];
-			}
-			if( !ini_get( 'magic_quotes_gpc' ) )							
-			{
-				$key	= addslashes( $key );
-				$value	= addslashes( $value );
-			}
-			$conditions[] = "`".$key."`".$operation."'".$value."'";			//  create SQL WHERE Condition
-		}
+				$conditions[] = "`".$key."` LIKE '".$value."'";
+			else if( preg_match( "/^<|=|>|!=/", $value ) )
+				$conditions[] = $key.$value;
+			else
+				$conditions[] = "`".$key."`='".$value."'";
 		$conditions = implode( " AND ", $conditions );						//  combine Conditions with AND
 		return $conditions;
 	}

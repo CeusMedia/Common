@@ -2,7 +2,7 @@
 /**
  *	Definition of Input Field within Channels, Screens and Forms.
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2008 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,8 +20,8 @@
  *	@package		framework.krypton.core
  *	@uses			File_Reader
  *	@uses			File_Writer
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			01.05.2006
@@ -32,8 +32,8 @@
  *	@package		framework.krypton.core
  *	@uses			File_Reader
  *	@uses			File_Writer
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			01.05.2006
@@ -246,7 +246,7 @@ class Framework_Krypton_Core_FormDefinitionReader
 				$this->writeCacheFile( $fileName );
 		}
 		else
-			throw new RuntimeException( 'Definition File "'.$xmlFile.'" is not existing.' );
+			throw new Exception( 'Definition File "'.$xmlFile.'" is not existing.' );
 	}
 	
 	/**
@@ -299,33 +299,24 @@ class Framework_Krypton_Core_FormDefinitionReader
 						//  --  SPECIAL TREATMENT OF DEFINITION TAGS  --  //							 
 						switch( $tagName )
 						{
-							case 'syntax':
-								break;
-							case 'semantic':
-								$semantic	= array(
-									'predicate'	=> $node->getAttribute( 'predicate' ),
-									'edge'		=> $node->getAttribute( 'edge' ),
-								);
-								$_field[$tagName][] = $semantic;
-								break;
-							case 'input':
-								$_field[$tagName]['default']	= $node->textContent;
-								break;
-							case 'output':
-								$_field[$tagName]['default']	= $node->textContent;
-								break;
-							case 'calendar':
-								break;
-							case 'help':
-								break;
-							case 'hidemode':
-								$_field[$tagName]['hidemode'][]	= $node->getContent();
-								break;
-							case 'disablemode':
-								$_field[$tagName]['hidemode'][]	= $node->getContent();
-								break;
-							default:
-								break;
+							case 'syntax':		break;
+							case 'semantic':	$semantic	= array(
+													'predicate'	=> $node->getAttribute( 'predicate' ),
+													'edge'		=> $node->getAttribute( 'edge' ),
+												);
+												$_field[$tagName][] = $semantic;
+												break;
+							case 'input':		$_field[$tagName]['default']	= $node->textContent;
+												break;
+							case 'output':		$_field[$tagName]['default']	= $node->textContent;
+												break;
+							case 'calendar':	break;
+							case 'help':		break;
+							case 'hidemode':	$_field[$tagName]['hidemode'][]	= $node->getContent();
+												break;
+							case 'disablemode':	$_field[$tagName]['hidemode'][]	= $node->getContent();
+												break;
+							default:			break;
 						}
 					}
 					$fieldName	= $field->getAttribute( "name" );

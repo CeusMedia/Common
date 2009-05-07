@@ -2,7 +2,7 @@
 /**
  *	Calculates artithmetic and geometric Average.
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2008 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -18,8 +18,8 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@package		math
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			15.09.2006
@@ -28,8 +28,8 @@
 /**
  *	Calculates artithmetic and geometric Average.
  *	@package		math
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			15.09.2006
@@ -41,7 +41,6 @@ class Math_Average
 	/**
 	 *	Calculates artithmetic Average.
 	 *	@access		public
-	 *	@static
 	 *	@param		array		$values			Array of Values.
 	 *	@param		int			$accuracy		Accuracy of Result 
 	 *	@return		float
@@ -60,7 +59,6 @@ class Math_Average
 	/**
 	 *	Calculates geometric Average.
 	 *	@access		public
-	 *	@static
 	 *	@param		array		$values			Array of Values
 	 *	@param		int			$accuracy		Accuracy of Result 
 	 *	@return		float

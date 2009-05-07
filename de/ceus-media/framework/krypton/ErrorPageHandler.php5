@@ -1,8 +1,9 @@
 <?php
+import( 'de.ceus-media.framework.krypton.Base' );
 /**
  *	Handler for static Error Pages.
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2008 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,21 +21,20 @@
  *	@package		framework.krypton
  *	@extends		Framework_Krypton_Base
  *	@uses			Framework_Krypton_Core_View
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			28.03.2008
  *	@version		0.1
  */
-import( 'de.ceus-media.framework.krypton.Base' );
 /**
  *	Handler for static Error Pages.
  *	@package		framework.krypton
  *	@extends		Framework_Krypton_Base
  *	@uses			Framework_Krypton_Core_View
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			28.03.2008
@@ -42,8 +42,6 @@ import( 'de.ceus-media.framework.krypton.Base' );
  */
 class Framework_Krypton_ErrorPageHandler extends Framework_Krypton_Base
 {
-	public static $pathPages	= "errors/";
-
 	/**
 	 *	Constructor.
 	 *	@access		public
@@ -53,18 +51,8 @@ class Framework_Krypton_ErrorPageHandler extends Framework_Krypton_Base
 	 */
 	public function __construct( $configPath = "config/" )
 	{
-		$type			= array_shift( array_keys( $_REQUEST ) );
-		$frameworked	= $this->initApplication( $configPath );
-		echo $this->buildView( $type, $frameworked );
-	}
-
-	/**
-	 *	Tries to initialise an Application Instance and returns Success.
-	 *	@access		protected
-	 *	@return		bool
-	 */
-	protected function initApplication( $configPath = "config/" )
-	{
+		$this->type		= array_shift( array_keys( $_REQUEST ) );
+		$this->level	= 0;
 		try
 		{
 			//  --  ENVIRONMENT  --  //
@@ -77,9 +65,9 @@ class Framework_Krypton_ErrorPageHandler extends Framework_Krypton_Base
 			//  --  RESOURCE SUPPORT  --  //
 			$this->initDatabase( $configPath );				//  needs Configuration
 			$this->initLanguage();							//  needs Request and Session
-#			$this->initThemeSupport();						//  needs Configuration, Request and Session
+			$this->initThemeSupport();						//  needs Configuration, Request and Session
 
-			return TRUE;
+			$this->level	= 1;
 		}
 		catch( PDOException $e )
 		{
@@ -88,27 +76,27 @@ class Framework_Krypton_ErrorPageHandler extends Framework_Krypton_Base
 		{
 			throw $e;
 		}
-		return FALSE;
 	}
 
 	/**
 	 *	Builds Error Page View.
-	 *	@access		protected
+	 *	@access		public
 	 *	@return		string
 	 */
-	protected function buildView( $type, $frameworked )
+	public function buildView()
 	{
-		if( !$type )
+		if( !$this->type )
 		{
 			throw new Exception( "No Error Type defined." );
 		}
-		if( $frameworked )
+		if( $this->level )
 		{
 			try
 			{
 				import( 'de.ceus-media.framework.krypton.core.View' );
 				$view	= new Framework_Krypton_Core_View();
-				$html	= $view->loadContent( self::$pathPages.$type.'.html' );
+				$html	= $view->loadContent( $this->type.'.html' );
+
 			}
 			catch( Exception $e )
 			{
@@ -127,8 +115,7 @@ class Framework_Krypton_ErrorPageHandler extends Framework_Krypton_Base
 			import( 'de.ceus-media.net.http.LanguageSniffer' );
 			$sniffer	= new Net_HTTP_LanguageSniffer;
 			$language	= $sniffer->getLanguage( $languages );
-			$fileName	= "contents/html/".$language."/".self::$pathPages."/".$type.".html";
-			$html		= file_get_contents( $fileName );
+			$html		= file_get_contents( "contents/html/".$language."/".$this->type.".html" );
 		}
 		return $html;
 	}

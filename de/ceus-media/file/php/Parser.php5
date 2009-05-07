@@ -2,7 +2,7 @@
 /**
  *	Parses PHP Files containing a Class or Methods.
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2008 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -19,21 +19,20 @@
  *
  *	@package		file.php
  *	@uses			File_Reader
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			04.08.08
  *	@version		0.3
  */
 import( 'de.ceus-media.file.Reader' );
-import( 'de.ceus-media.alg.StringUnicoder' );
 /**
  *	Parses PHP Files containing a Class or Methods.
  *	@package		file.php
  *	@uses			File_Reader
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			04.08.08
@@ -49,7 +48,7 @@ class File_PHP_Parser
 		'description'	=> "",
 		'package'		=> "",
 		'subpackage'	=> "",
-		'description'	=> "",
+		'description'	=> array(),
 		'license'		=> array(),
 		'copyright'		=> array(),
 		'version'		=> "",
@@ -70,6 +69,7 @@ class File_PHP_Parser
 		'description'	=> "",
 		'package'		=> "",
 		'subpackage'	=> "",
+		'description'	=> array(),
 		'license'		=> array(),
 		'copyright'		=> array(),
 		'version'		=> "",
@@ -80,7 +80,6 @@ class File_PHP_Parser
 		'todo'			=> array(),
 		'deprecated'	=> array(),
 		'methods'		=> array(),
-		'members'		=> array(),
 	);
 
 	protected $methodData		= array(
@@ -106,11 +105,9 @@ class File_PHP_Parser
 	);
 	
 	protected $regexClass		= '@^(abstract )?(final )?(interface |class )([\w]+)( extends ([\w]+))?( implements ([\w]+)(, ([\w]+))*)?$@i';
-	protected $regexMethod		= '@^(abstract )?(final )?(protected |private |public )?(static )?function ([\w]+)\((.*)\)$@';
+	protected $regexMethod	= '@^(abstract )?(final )?(protected |private |public )?(static )?function ([\w]+)\((.*)\)$@';
 	protected $regexParam		= '@^(([\w]+) )?((&\s*)?\$([\w]+))( ?= ?([\S]+))?$@';
 	protected $regexDocParam	= '@^\*\s+\@param\s+(([\w]+)\s+)?(\$?([\w]+))\s*(.+)?$@';
-	protected $regexDocVariable	= '@^/\*\*\s+\@var\s+(\w+)\s+\$(\w+)(\s(.+))?\*\/$@s';
-	protected $regexVariable	= '@^(protected|private|public|var)\s+(static\s+)?\$(\w+)(\s+=\s+([^(]+))?.*$@';
 
 	/**
 	 *	Parses a PHP File and returns nested Array of collected Information.
@@ -121,8 +118,7 @@ class File_PHP_Parser
 	 */
 	public function parseFile( $fileName, $innerPath )
 	{
-		$content		= File_Reader::load( $fileName );
-		$lines			= explode( "\n", $content );
+		$lines			= File_Reader::loadArray( $fileName );
 		$openBlocks		= array();
 		$fileBlock		= NULL;
 		$openClass		= FALSE;
@@ -135,10 +131,9 @@ class File_PHP_Parser
 		do
 		{
 			$line	= trim( array_shift( $lines ) );
-			$line	= Alg_StringUnicoder::convertToUnicode( $line );
 			if( preg_match( "@^(<\?(php)?)|((php)?\?>)$@", $line ) )
 				continue;
-			
+
 			if( preg_match( '@{ ?}?$@', $line ) )
 				$level++;
 			else if( preg_match( '@}$@', $line ) )
@@ -186,39 +181,12 @@ class File_PHP_Parser
 					$method	= $this->parseMethod( $matches, $openBlocks );
 					$class['methods'][$method['name']]	= $method;
 				}
-				else if( preg_match( $this->regexDocVariable, $line, $matches ) )
-				{
-					$this->varBlocks[$matches[2]]	= array(
-						'type'			=> $matches[1],
-						'name'			=> $matches[2],
-						'description'	=> trim( $matches[4] ),
-					);
-				}
-				else if( preg_match( $this->regexVariable, $line, $matches ) )
-				{
-					$name	= $matches[3];
-					$default	= NULL;
-					if( isset( $matches[4] ) )
-						$default	= preg_replace( "@;$@", "", $matches[5] );
-					$data	= array(
-						'access'		=> $matches[1] == "var" ? "public" : $matches[1],
-						'static'		=> (bool) trim( $matches[2] ),
-						'type'			=> NULL,
-						'name'			=> $name,
-						'description'	=> NULL,
-						'default'		=> $default,
-					);
-					if( isset( $this->varBlocks[$name] ) )
-						$data	= array_merge( $data, $this->varBlocks[$name] );
-					$class['members'][$name]	= $data;
-				}
 			}
 		}
 		while( $lines );
 		$data	= array(
 			'file'		=> $file,
 			'class'		=> $class,
-			'source'	=> $content,
 		);
 		return $data;
 	}
@@ -238,9 +206,7 @@ class File_PHP_Parser
 				continue;
 			if( is_string( $value ) )
 			{
-				if( isset( $codeData[$key] ) && is_array( $codeData[$key] ) )
-					$codeData[$key][]	= $value;
-				else if( isset( $codeData[$key] ) && !$codeData[$key] )
+				if( isset( $codeData[$key] ) && !$codeData[$key] )
 					$codeData[$key]	= $value;
 			}
 			else if( isset( $codeData[$key] ) )
@@ -335,27 +301,9 @@ class File_PHP_Parser
 			}
 			else if( preg_match( "@\*\s+\@license\s+(\S+)( .+)?$@i", $line, $matches ) )
 			{
-				if( isset( $matches[2] ) )
-				{
-					$url	= trim( $matches[1] );
-					$name	= trim( $matches[2] );
-					if( preg_match( "@^http://@", $matches[2] ) )
-					{
-						$url	= trim( $matches[2] );
-						$name	= trim( $matches[1] );
-					}
-				}
-				else
-				{
-					$url	= "";
-					$name	= trim( $matches[1] );
-					if( preg_match( "@^http://@", $matches[1] ) )
-						$url	= trim( $matches[1] );
-				}
-			
 				$data['license'][]	= array(
-					'url'	=> $url,
-					'name'	=> $name,
+					'url'	=> trim( $matches[1] ),
+					'name'	=> isset( $matches[2] ) ? trim( $matches[2] ) : "",
 				);
 			}
 			else if( preg_match( "/^\*\s+@(\w+)\s+(.+)$/", $line, $matches ) )
@@ -363,7 +311,6 @@ class File_PHP_Parser
 				switch( $matches[1] )
 				{
 					case 'implements':
-					case 'deprecated':
 					case 'todo':
 					case 'see':
 					case 'link':

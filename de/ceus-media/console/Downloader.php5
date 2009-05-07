@@ -1,8 +1,10 @@
 <?php
+import( 'de.ceus-media.alg.UnitFormater' );
+import( 'de.ceus-media.Stopwatch' );
 /**
  *	Downloads a File from an URL while showing Progress in Console.
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2008 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,23 +23,21 @@
  *	@uses			Alg_UnitFormater
  *	@uses			Stopwatch
  *	@author			Keyvan Minoukadeh
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			05.05.2008
  *	@version		0.1
  */
-import( 'de.ceus-media.alg.UnitFormater' );
-import( 'de.ceus-media.Stopwatch' );
 /**
  *	Downloads a File from an URL while showing Progress in Console.
  *	@package		console
  *	@uses			Alg_UnitFormater
  *	@uses			Stopwatch
  *	@author			Keyvan Minoukadeh
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			05.05.2008
@@ -53,8 +53,6 @@ class Console_Downloader
 	/**	@var		array		$headers			Collected Response Headers, already splitted */
 	protected $headers			= array();
 	/**	@var		bool		$showFileName		Flag: show File Name */
-	public $redirected			= FALSE;
-	/**	@var		bool		$showHeaders		Flag: show Headers */
 	public $showFileName		= TRUE;
 	/**	@var		bool		$showHeaders		Flag: show Headers */
 	public $showHeaders			= FALSE;
@@ -90,11 +88,6 @@ class Console_Downloader
 
 		$this->loadSize	= 0;																//  clear Size of current Load
 		$this->fileSize	= 0;																//  clear Size og File to download
-		$this->redirected	= FALSE;
-
-		if( $savePath && !file_exists( $savePath ) )
-			if( !@mkDir( $savePath, 0777, TRUE ) )
-				throw new RuntimeException( 'Save path could not been created.' );
 
 		$savePath	= $savePath ? preg_replace( "@([^/])$@", "\\1/", $savePath ) : "";		//  correct Path
 		$parts		= parse_url( $url );													//  parse URL

@@ -2,7 +2,7 @@
 /**
  *	Builds HTML for Month Calendar.
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2008 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -19,8 +19,8 @@
  *
  *	@package		framework.krypton.view.component
  *	@extends		Framework_Krypton_Core_View
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			11.03.2007
@@ -30,8 +30,8 @@
  *	Builds HTML for Month Calendar.
  *	@package		framework.krypton.view.component
  *	@extends		Framework_Krypton_Core_View
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			11.03.2007
@@ -39,10 +39,6 @@
  */
 class Framework_Krypton_View_Component_MonthCalendar extends Framework_Krypton_Core_View
 {
-	const TYPE_PAST 		= 0;
-	const TYPE_PRESENT		= 1;
-	const TYPE_FUTURE		= 2;
-	
 	/**	@var	array		$months			Array of Months */
 	var $months	= array(
 		'01'	=> "Januar",
@@ -63,8 +59,8 @@ class Framework_Krypton_View_Component_MonthCalendar extends Framework_Krypton_C
 	var $format	= "m.y";
 	/**	@var	int			$year			Year to start from */
 	var $year;
-	/**	@var	int			$type			Type of Calendar (TYPE_PAST|TYPE_PRESENT|TYPE_FUTURE) */
-	var $type	= self::TYPE_PRESENT;
+	/**	@var	bool		$future			Type of Calendar where true is 'future' */
+	var $future	= true;
 	/**	@var	bool		$asc			Direction where true is ascending */
 	var $asc	= true;
 	/**	@var	int			$range			Range of Years */
@@ -118,36 +114,23 @@ class Framework_Krypton_View_Component_MonthCalendar extends Framework_Krypton_C
 	protected function buildYears()
 	{
 		$opt_year	= array();
-		switch( $this->type )
+		switch( $this->future )
 		{
-			case self::TYPE_FUTURE:
+			case true:
 				$start	= $this->year;
-				$end	= $this->year + $this->range;
-				break;
-			case self::TYPE_PAST:
-				$start	= $this->year - $this->range;
-				$end	= $this->year;
+				$end	= $this->year+$this->range;
 				break;
 			default:
-				if( $this->range % 2 )
-				{
-					$start		= $this->year - floor( $this->range / 2 );
-					$end		= $this->year + floor( $this->range / 2 );
-				}
-				else
-				{
-					$start		= $this->year - floor( ( $this->range - 1 ) / 2 );
-					$end		= $this->year + ceil( ( $this->range - 1 ) / 2 );
-				}
-				$opt_year['_selected'] = $this->year;
+				$start	= $this->year-$this->range;
+				$end	= $this->year;
 				break;
 		}
-
 		for( $i=$start; $i<=$end; $i++ )
 			$opt_year[$i]	= $i;
 		if( !$this->asc )
 			krsort( $opt_year );
 		return $opt_year;
+	
 	}
 	
 	/**
@@ -197,14 +180,14 @@ class Framework_Krypton_View_Component_MonthCalendar extends Framework_Krypton_C
 	}
 	
 	/**
-	 *	Sets Type to 'future' or 'past' or 'present'.
+	 *	Sets Type to 'future' or 'past'.
 	 *	@access		public
-	 *	@param		int			$type		Type of Calendar (TYPE_PAST|TYPE_PRESENT|TYPE_FUTURE)
+	 *	@param		string		$type		Type of Calendar (future|past)
 	 *	@return		void
 	 */
 	public function setType( $type )
 	{
-		$this->type	= $type;
+		$this->future	= $type == "future";
 	}
 }
 ?>

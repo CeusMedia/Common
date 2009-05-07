@@ -1,8 +1,9 @@
 <?php
+import( 'de.ceus-media.file.Reader' );
 /**
  *	Reader for Property Files or typical .ini Files with Key, Values and optional Sections and Comments.
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2008 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -19,20 +20,19 @@
  *
  *	@package		file.ini
  *	@uses			File_Reader
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			01.01.2001
  *	@version		0.6
  */
-import( 'de.ceus-media.file.Reader' );
 /**
  *	Reader for Property Files or typical .ini Files with Key, Values and optional Sections and Comments.
  *	@package		file.ini
  *	@uses			File_Reader
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			01.01.2001
@@ -72,10 +72,9 @@ class File_INI_Reader extends File_Reader
 	 *	@access		public
 	 *	@param		string		$fileName		File Name of Property File, absolute or relative URI
 	 *	@param		bool		$usesSections	Flag: Property File containts Sections
-	 *	@param		bool		$reservedWords	Flag: interprete reserved Words like yes,no,true,false,null
 	 *	@return		void
 	 */
-	public function __construct( $fileName, $usesSections = FALSE, $reservedWords = TRUE )
+	public function __construct( $fileName, $usesSections = FALSE )
 	{
 		parent::__construct( $fileName );
 		$this->usesSections			= $usesSections;
@@ -85,7 +84,6 @@ class File_INI_Reader extends File_Reader
 		$this->descriptionPattern	= "^[;|#|:|/|=]{1,2}";
 		$this->sectionPattern		= "^([){1}([a-z0-9_=.,:;#@-])+(]){1}$";
 		$this->lineCommentPattern	= "([\t| ]+([/]{2}|[;])+[\t| ]*)";
-		$this->reservedWords		= $reservedWords;
 		$this->read();
 	}
 
@@ -378,15 +376,15 @@ class File_INI_Reader extends File_Reader
 		$this->sections		= array();
 		$this->lines		= array();
 		$this->comments		= array();
-		$commentOpen		= 0;
+		$commentOpen		= false;
 		$lines				= File_Reader::loadArray( $this->fileName );
 		foreach( $lines as $line )
 		{
 			$line			= trim( $line );
 			$this->lines[]	= $line;
 
-			$commentOpen	+= preg_match( "@^/\*@", trim( $line ) );
-			$commentOpen	-= preg_match( "@\*/$@", trim( $line ) );
+			$commentOpen	-= preg_match( "@\*/@", $line );
+			$commentOpen	+= preg_match( "@/\*@", $line );
 
 			if( $commentOpen )
 				continue;
@@ -428,15 +426,11 @@ class File_INI_Reader extends File_Reader
 				}
 
 				//  --  CONVERT PROTECTED VALUES  --  //
-				if( $this->reservedWords )
-				{
-					if( in_array( strtolower( $value ), array( 'yes', 'true' ) ) )
-						$value	= TRUE;
-					else if( in_array( strtolower( $value ), array( 'no', 'false' ) ) )
-						$value	= FALSE;
-					else if( strtolower( $value ) === "null" )
-						$value	= NULL;
-				}
+				if( in_array( strtolower( $value ), array( 'yes', 'true' ) ) )
+					$value	= TRUE;
+				else if( in_array( strtolower( $value ), array( 'no', 'false' ) ) )
+					$value	= FALSE;
+					
 				if( preg_match( '@^".*"$@', $value ) )
 					$value	= substr( $value, 1, -1 );			
 				if( $this->usesSections() )
@@ -445,16 +439,6 @@ class File_INI_Reader extends File_Reader
 					$this->properties[$key] = $value;
 			}
 		}
-	}
-	public static function load( $fileName, $usesSections = FALSE, $activeOnly = TRUE )
-	{
-		$reader	= new self( $fileName, $usesSections );
-		return $reader->toArray( $activeOnly );
-	}
-
-	public static function loadAsArrayObject( $fileName, $usesSections = FALSE, $activeOnly = TRUE )
-	{
-		return new ArrayObject( self::load( $fileName, $usesSections, $activeOnly ) );
 	}
 
 	/**

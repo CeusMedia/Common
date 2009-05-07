@@ -11,7 +11,6 @@
  */
 require_once( 'PHPUnit/Framework/TestCase.php' ); 
 require_once( 'Tests/initLoaders.php5' );
-import( 'de.ceus-media.net.service.definition.Loader' );
 import( 'de.ceus-media.net.service.definition.XmlReader' );
 import( 'de.ceus-media.file.yaml.Reader' );
 /**
@@ -44,8 +43,7 @@ class Tests_Net_Service_Definition_XmlReaderTest extends PHPUnit_Framework_TestC
 	 */
 	public function testLoad()
 	{
-		$reader		= new Net_Service_Definition_Loader;
-		$assertion	= $reader->loadServices( $this->path."services.yaml" );
+		$assertion	= File_YAML_Reader::load( $this->path."services.yaml" );
 		$creation	= Net_Service_Definition_XmlReader::load( $this->fileName );
 		$this->assertEquals( $assertion, $creation );
 	}

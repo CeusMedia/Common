@@ -2,7 +2,7 @@
 /**
  *	Iterates all Folders and Files within a Folder.
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2008 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -19,8 +19,8 @@
  *
  *	@package		folder
  *	@extends		FilterIterator
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			15.04.2008
@@ -30,8 +30,8 @@
  *	Iterates all Folders and Files within a Folder.
  *	@package		folder
  *	@extends		FilterIterator
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			15.04.2008
@@ -43,8 +43,8 @@ class Folder_Iterator extends FilterIterator
 	protected $showFiles;
 	/**	@var		 bool		$showFolders		Flag: show Folders */
 	protected $showFolders;
-	/**	@var		 bool		$stripDotEntries	Flag: strip Files and Folder with leading Dot */
-	protected $stripDotEntries;
+	/**	@var		 bool		$stripDotFolders	Flag: strip Folder with leading Dot */
+	protected $stripDotFolders;
 
 	/**
 	 *	Constructor.
@@ -52,16 +52,16 @@ class Folder_Iterator extends FilterIterator
 	 *	@param		string		$path				Path to Folder
 	 *	@param		bool		$showFiles			Flag: show Files
 	 *	@param		bool		$showFolders		Flag: show Folders
-	 *	@param		bool		$stripDotEntries	Flag: strip Files and Folders with leading Dot
+	 *	@param		bool		$stripDotFolders	Flag: strip Folder with leading Dot
 	 *	@return		void
 	 */
-	public function __construct( $path, $showFiles = TRUE, $showFolders = TRUE, $stripDotEntries = TRUE )
+	public function __construct( $path, $showFiles = TRUE, $showFolders = TRUE, $stripDotFolders = TRUE )
 	{
 		if( !file_exists( $path ) )
 			throw new RuntimeException( 'Path "'.$path.'" is not existing.' );
 		$this->showFiles		= $showFiles;
 		$this->showFolders		= $showFolders;
-		$this->stripDotEntries	= $stripDotEntries;
+		$this->stripDotFolders	= $stripDotFolders;
 		parent::__construct( new DirectoryIterator( $path ) );
 	}
 
@@ -80,7 +80,7 @@ class Folder_Iterator extends FilterIterator
 		if( !$this->showFiles && !$isDir ) 
 			return FALSE;
 
-		if( $this->stripDotEntries )
+		if( $this->stripDotFolders && $isDir )
 		{
 			$folderName	= $this->getInnerIterator()->getFilename();
 			if( preg_match( "@^\.\w@", $folderName ) )

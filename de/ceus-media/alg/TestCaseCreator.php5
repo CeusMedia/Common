@@ -1,8 +1,10 @@
 <?php
+import( 'de.ceus-media.folder.Editor' );
+import( 'de.ceus-media.folder.RecursiveRegexFilter' );
 /**
  *	Created Test Class for PHP Unit Tests using Class Parser and two Templates.
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2008 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,24 +23,20 @@
  *	@uses			UI_ClassParser
  *	@uses			Folder_Editor
  *	@uses			Folder_RecursiveRegexFilter
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		0.1
  */
-import( 'de.ceus-media.ui.ClassParser' );
-import( 'de.ceus-media.file.php.Parser' );
-import( 'de.ceus-media.folder.Editor' );
-import( 'de.ceus-media.folder.RecursiveRegexFilter' );
 /**
  *	Created Test Class for PHP Unit Tests using Class Parser and two Templates.
  *	@package		alg
  *	@uses			UI_ClassParser
  *	@uses			Folder_Editor
  *	@uses			Folder_RecursiveRegexFilter
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		0.1
@@ -82,16 +80,10 @@ class Alg_TestCaseCreator
 		$this->targetFile	= "Tests/".$this->getPath( "/" )."Test.php";
 		
 		if( file_exists( $this->targetFile ) && !$force )
-			throw new RuntimeException( 'Test Class for Class "'.$this->className.'" is already existing.' );
+			die( 'Test Class for Class "'.$this->className.'" is already existing.' );
 		
-		$parser	= new File_PHP_Parser();
-		$data	= $parser->parseFile( $this->classFile, "" );
-		$this->data	= $data['class'];
-		
-#		$parser				= new ClassParser( $this->classFile );
-#		$this->data			= $parser->getClassData();
-#		print_m( $data );
-#		die;
+		$parser				= new ClassParser( $this->classFile );
+		$this->data			= $parser->getClassData();
 		$this->dumpClassData();
 		$this->buildTestClass();
 	}
@@ -138,7 +130,7 @@ class Alg_TestCaseCreator
 		$template	= str_replace( "{className}", $this->className, $template );
 		$template	= str_replace( "{classFile}", $this->classFile, $template );
 		$template	= str_replace( "{classPath}", $this->classPath, $template );
-		$template	= str_replace( "{classPackage}", $this->data['package'], $template );
+		$template	= str_replace( "{classPackage}", implode( ".", $this->data['class']['package'] ), $template );
 		$template	= str_replace( "{date}", date( "d.m.Y" ), $template );
 
 		Folder_Editor::createFolder( dirname( $this->targetFile ) );
@@ -222,7 +214,7 @@ class Alg_TestCaseCreator
 		ob_start();
 		print_m( $this->data );
 		$data	= ob_get_clean();
-		file_put_contents( "lastCreatedTest.cache", "<xmp>".$data."</xmp>" );
+		file_put_contents( "data.html", "<xmp>".$data."</xmp>" );
 	}
 	
 	/**

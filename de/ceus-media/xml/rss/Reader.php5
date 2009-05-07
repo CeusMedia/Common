@@ -1,8 +1,9 @@
 <?php
+import( 'de.ceus-media.xml.rss.Parser' );
 /**
  *	Reader for RSS 2.0 Feeds.
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2008 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,21 +22,20 @@
  *	@uses			File_Reader
  *	@uses			Net_Reader
  *	@uses			XML_RSS_Parser
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			20.02.2008
  *	@version		0.6
  */
-import( 'de.ceus-media.xml.rss.Parser' );
 /**
  *	Reader for RSS 2.0 Feeds.
  *	@package		xml.rss
  *	@uses			File_Reader
  *	@uses			XML_RSS_Parser
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			20.02.2008
@@ -46,7 +46,6 @@ class XML_RSS_Reader
 	/**
 	 *	Reads RSS from File.
 	 *	@access		public
-	 *	@static
 	 *	@param		string		$fileName	File Name to XML RSS File
 	 *	@return		array
 	 */
@@ -60,7 +59,6 @@ class XML_RSS_Reader
 	/**
 	 *	Reads RSS from URL.
 	 *	@access		public
-	 *	@static
 	 *	@param		string		$url		URL to read RSS from
 	 *	@return		array
 	 */
@@ -74,7 +72,6 @@ class XML_RSS_Reader
 	/**
 	 *	Reads RSS from XML.
 	 *	@access		public
-	 *	@static
 	 *	@param		string		$xml		XML String to read
 	 *	@return		array
 	 */

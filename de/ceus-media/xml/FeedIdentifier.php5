@@ -1,8 +1,9 @@
 <?php
+import( 'de.ceus-media.xml.dom.SyntaxValidator' );
 /**
  *	Identifies Type and Version of RSS and ATOM Feeds.
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2008 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,22 +22,21 @@
  *	@uses			File_Reader
  *	@uses			Net_Reader
  *	@uses			XML_DOM_SyntaxValidator
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			24.01.2006
  *	@version		0.6
  */
-import( 'de.ceus-media.xml.dom.SyntaxValidator' );
 /**
  *	Identifies Type and Version of RSS and ATOM Feeds.
  *	@package		xml.dom
  *	@uses			File_Reader
  *	@uses			Net_Reader
  *	@uses			XML_DOM_SyntaxValidator
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			24.01.2006
@@ -139,7 +139,6 @@ class XML_FeedIdentifier
 	/**
 	 *	Identifies Feed from a File.
 	 *	@access		public
-	 *	@static
 	 *	@param		string	filename		XML File of Feed
 	 *	@return		string
 	 */
@@ -154,13 +153,12 @@ class XML_FeedIdentifier
 	 *	Identifies Feed from an URL.
 	 *	@access		public
 	 *	@param		string		$url		URL of Feed
-	 *	@param		int			$timeout	Timeout in seconds
 	 *	@return		string
 	 */
-	public function identifyFromUrl( $url, $timeout = 5 )
+	public function identifyFromUrl( $url )
 	{
 		import( 'de.ceus-media.net.Reader' );
-		Net_cURL::setTimeOut( $timeout );
+		Net_cURL::setTimeOut( 5 );
 		$xml	= Net_Reader::readUrl( $url );
 		return $this->identify( $xml );
 	}

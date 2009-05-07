@@ -1,8 +1,9 @@
 <?php
+import( 'de.ceus-media.framework.krypton.core.View' );
 /**
  *	View Component for Development Information.
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2008 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -19,22 +20,21 @@
  *
  *	@package		framework.krypton.view.component
  *	@extends		Framework_Krypton_Core_View
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			01.04.2007
  *	@version		0.6
  */
-import( 'de.ceus-media.framework.krypton.core.View' );
 define( 'DEV_CENTER_PRINT_M', 0 );
 define( 'DEV_CENTER_VAR_DUMP', 1 );
 /**
  *	View Component for Development Information.
  *	@package		framework.krypton.view.component
  *	@extends		Framework_Krypton_Core_View
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			01.04.2007
@@ -46,35 +46,23 @@ class Framework_Krypton_View_Component_DevCenter extends Framework_Krypton_Core_
 	protected $tabs		= array();
 	protected $divs		= array();
 	protected $topics	= array(
-		'showRequest',
-		'showSession',
-		'showCookie',
-		'showClasses',
-		'showConfig',
-		'showQueries',
-		'showLanguages',
-		'showWords',
-		'showSources',
+		'show_request'		=> 'showRequest',
+		'show_session'		=> 'showSession',
+		'show_cookie'		=> 'showCookie',
+		'show_classes'		=> 'showClasses',
+		'show_config'		=> 'showConfig',
+		'show_queries'		=> 'showQueries',
+		'show_languages'	=> 'showLanguages',
+		'show_words'		=> 'showWords',
+		'show_sources'		=> 'showSources',
 	);
-	/**	@var		string		$templateSources		Template File for Sources Tab */
-	public static $templateSources	= 'interface.dev_sources';
-	/**	@var		string		$templateTabs			Template File DevCenter */
-	public static $templateTabs		= 'interface.dev';
-	
-	/**
-	 *	Constructor.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function __construct()
-	{
-		parent::__construct();
-	}
+	public static $templateDevSources	= 'dev_sources';
+	public static $templateDevTabs		= 'dev';
 	
 	public function buildContent( $content )
 	{
 		$config		= $this->registry->get( 'config' );
-		if( $config['debug.show'] && CMC_KRYPTON_MODE != CMC_KRYPTON_MODE_PRODUCTION )
+		if( $config['debug.show'] )
 		{
 			$showForAll	= $config['debug.show'] == "*";
 			$showForIp	= in_array( getEnv( 'REMOTE_ADDR' ), explode( ",", $config['debug.show'] ) );
@@ -100,7 +88,7 @@ class Framework_Krypton_View_Component_DevCenter extends Framework_Krypton_Core_
 				'tabs'		=> UI_HTML_Elements::unorderedList( $listTabs ),
 				'divs'		=> implode( "\n", $listDivs ),
 			);
-			return $this->loadTemplate( self::$templateTabs, $ui );
+			return $this->loadTemplate( self::$templateDevTabs, $ui );
 		}
 	}
 
@@ -108,10 +96,10 @@ class Framework_Krypton_View_Component_DevCenter extends Framework_Krypton_Core_
 	{
 		if( $content )
 			$this->showRemarks( $content );
-		foreach( $this->topics as $topic )
-			if( $config['debug.'.$topic] )
-				if( method_exists( $this, $topic ) )
-					$this->$topic( $config['debug.'.$topic] );
+		foreach( $this->topics as $option => $method )
+			if( $config['debug.'.$option] )
+				if( method_exists( $this, $method ) )
+					$this->$method( $config['debug.'.$option] );
 	}
 
 	/**
@@ -138,16 +126,16 @@ class Framework_Krypton_View_Component_DevCenter extends Framework_Krypton_Core_
 			var_dump( $element );													//  print  Variable Dump
 			if( !$hasXDebug )
 			{
-				$dump	= ob_get_clean();											//  get buffered Dump
-				$dump	= preg_replace( "@=>\n +@", ": ", $dump );					//  remove Line Break on Relations
-				$dump	= str_replace( "{\n", "\n", $dump );						//  remove Array Opener
-				$dump	= str_replace( "}\n", "\n", $dump );						//  remove Array Closer
-				$dump	= str_replace( ' ["', " ", $dump );							//  remove Variable Key Opener
-				$dump	= str_replace( '"]:', ":", $dump );							//  remove Variable Key Closer
-				$dump	= preg_replace( '@string\([0-9]+\)@', "", $dump );			//  remove Variable Type for Strings
-				$dump	= preg_replace( '@array\([0-9]+\)@', "", $dump );			//  remove Variable Type for Arrays
-				ob_start();															//  open Buffer
-				xmp( $dump );														//  print Dump with XMP
+				$dump	= ob_get_clean();												//  get buffered Dump
+				$dump	= preg_replace( "@=>\n +@", ": ", $dump );						//  remove Line Break on Relations
+				$dump	= str_replace( "{\n", "\n", $dump );							//  remove Array Opener
+				$dump	= str_replace( "}\n", "\n", $dump );							//  remove Array Closer
+				$dump	= str_replace( ' ["', " ", $dump );								//  remove Variable Key Opener
+				$dump	= str_replace( '"]:', ":", $dump );								//  remove Variable Key Closer
+				$dump	= preg_replace( '@string\([0-9]+\)@', "", $dump );				//  remove Variable Type for Strings
+				$dump	= preg_replace( '@array\([0-9]+\)@', "", $dump );				//  remove Variable Type for Arrays
+				ob_start();																//  open Buffer
+				xmp( $dump );															//  print Dump with XMP
 			}
 		}
 		else																		//  Print Mode: print_m
@@ -167,6 +155,18 @@ class Framework_Krypton_View_Component_DevCenter extends Framework_Krypton_Core_
 		return $this->topics;
 	}
 	
+	/**
+	 *	Adds another Topic or overwrites set Topic.
+	 *	@access		public
+	 *	@param		string		$key		Topic Key in Configuration File 'config.ini[debug]'
+	 *	@param		string		$method		Method in DevCenter to build Topic Tab.
+	 *	@return		void
+	 */
+	public function setTopic( $key, $method )
+	{
+		$this->topics[$key]	= $method;
+	}
+
 	/**
 	 *	Sets Topics for Tabs.
 	 *	@access		public
@@ -211,7 +211,7 @@ class Framework_Krypton_View_Component_DevCenter extends Framework_Krypton_Core_
 	 *	@param		bool		$supportPartitionCookie		Flag: support PartitionCookie/Cake
 	 *	@return		void
 	 */
-	protected function showCookie( $supportPartitionCookie = TRUE )
+	protected function showCookie( $supportPartitionCookie = true )
 	{
 		if( count( $_COOKIE ) )
 		{
@@ -309,7 +309,7 @@ class Framework_Krypton_View_Component_DevCenter extends Framework_Krypton_Core_
 	protected function showSources()
 	{
 		$this->tabs['devTabSources']	= "Sources ";
-		$this->divs['devTabSources']	= $this->loadTemplate( self::$templateSources, array() );
+		$this->divs['devTabSources']	= $this->loadTemplate( self::$templateDevSources, array() );
 	}
 
 	protected function showWords()

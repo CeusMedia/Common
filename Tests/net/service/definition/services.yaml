@@ -1,5 +1,4 @@
 title: Motrada V2 Public Web Services
-description: 
 url: 
 syntax: >
   http://.../services/?service=[service](&format=[format])(&[parameter1]=value1)
@@ -29,8 +28,3 @@ services:
       b: 
         mandatory: no
         preg: @^[0-9]+$@
-    roles:
-      - tester
-      - operator
-    status: alpha
-    

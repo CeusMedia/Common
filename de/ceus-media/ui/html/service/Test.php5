@@ -1,111 +1,44 @@
 <?php
 /**
- *	...
- *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
- *
- *	This program is free software: you can redistribute it and/or modify
- *	it under the terms of the GNU General Public License as published by
- *	the Free Software Foundation, either version 3 of the License, or
- *	(at your option) any later version.
- *
- *	This program is distributed in the hope that it will be useful,
- *	but WITHOUT ANY WARRANTY; without even the implied warranty of
- *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *	GNU General Public License for more details.
- *
- *	You should have received a copy of the GNU General Public License
- *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
  *	@package		ui.html.service
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@link			http://code.google.com/p/cmclasses/
- */
-import( 'de.ceus-media.StopWatch' );
-import( 'de.ceus-media.net.Reader' );
-import( 'de.ceus-media.adt.json.Formater' );
-import( 'de.ceus-media.alg.StringTrimmer' );
-import( 'de.ceus-media.ui.html.Elements' );
-import( 'de.ceus-media.ui.html.Tabs' );
-import( 'de.ceus-media.ui.DevOutput' );
-import( 'de.ceus-media.ui.VariableDumper' );
-import( 'de.ceus-media.ui.html.exception.TraceViewer' );
-import( 'de.ceus-media.xml.Element' );
-import( 'de.ceus-media.xml.dom.Formater' );
-/**
- *	...
- *	@package		ui.html.service
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@link			http://code.google.com/p/cmclasses/
  *	@todo			Code Doc
  */
+import( 'de.ceus-media.net.Reader' );
+import( 'de.ceus-media.adt.json.Formater' );
+import( 'de.ceus-media.ui.html.Elements' );
+import( 'de.ceus-media.ui.DevOutput' );
+import( 'de.ceus-media.ui.html.exception.TraceViewer' );
 class UI_HTML_Service_Test
 {
-	protected $username			= NULL;
-	protected $password			= NULL;
-	protected $template;
-	protected $servicePoint;
-	protected $headers			= array();
+	protected $username;
+	protected $password;
 
 	public function __construct( Net_Service_Point $servicePoint )
 	{
 		$this->servicePoint		= $servicePoint;
 	}
 	
-	public function buildContent( $request, $subfolderLevel = 0 )
+	public function buildContent( $request )
 	{
 		$service	= $request['test'];
 		
-		$basePath	= str_repeat( "../", $subfolderLevel );
-		
 		$preferred	= $this->servicePoint->getDefaultServiceFormat( $service );
 		$format		= isset( $request['parameter_format'] ) ? $request['parameter_format'] : $preferred;
-
+		$url		= "";
+		$response	= "";
 		
 		$requestUrl		= $this->getRequestUrl( $request );
 		$testUrl		= $this->getTestUrl( $request );
-
-		$stopwatch	= new StopWatch();
 		try
 		{
 			$response	= $this->getResponse( $requestUrl, $format );
+			$parameters	= $this->getParameterFields( $service, $format, $request );
 		}
 		catch( Exception $e )
 		{
-			$response	= UI_HTML_Exception_TraceViewer::buildTrace( $e, 2 );
+			$response	= UI_HTML_Exception_TraceViewer::buildTrace( $e );
+			$parameters	= array();
 		}
-		$time			= $stopwatch->stop( 6, 0 );
-
-		//  --  INFORMATION FOR TEMPLATE  --  //
-		$title			= $this->servicePoint->getTitle();							//  Service Title
-		$class			= $this->servicePoint->getServiceClass( $service );			//  Service Class Name
-		$description	= $this->servicePoint->getServiceDescription( $service );	//  Service Description
-		$defaultFormat	= $this->servicePoint->getDefaultServiceFormat( $service );	//  Service Format by default
-		$parameters		= $this->getParameterFields( $service, $format, $request );
-
-		$trace		= "";
-		$data		= "";
-		$exception	= "";
-		$this->evaluateResponse( $format, $response, $data, $exception, $trace );
-
-		$tabs	= array();
-		if( $data )
-			$tabs['Data']	= $data;
-		if( $exception )
-		{
-			$tabs['Exception']	= $exception;
-			if( $trace )
-				$tabs['Trace']	= "<xmp>".$trace."</xmp>";
-		}
-		$tabs['Response']	= "<xmp>".$response."</xmp>";
-		$tabs['Response Headers']	= UI_VariableDumper::dump( $this->headers );
-		$tabs['Request']	= UI_VariableDumper::dump( $request->getAll(), 1, 0 );
-
-		$tabs	= new UI_HTML_Tabs( $tabs, 'tabs-office' );
 		return require_once( $this->template );
 	}
 
@@ -128,21 +61,6 @@ class UI_HTML_Service_Test
 	{
 		$parameters	= $this->servicePoint->getServiceParameters( $service );
 		$formats	= $this->servicePoint->getServiceFormats( $service );
-		asort( $formats );
-
-		if( $this->servicePoint->getServiceRoles( $service ) )
-		{
-			if( !array_key_exists( "auth_username", $parameters ) )
-				$parameters['auth_username']	= array(
-					'mandatory'	=> 1,
-					'preg'		=> '@^\w+$@',
-				);
-			if( !array_key_exists( "auth_password", $parameters ) )
-				$parameters['auth_password']	= array(
-					'mandatory'	=> 1,
-					'preg'		=> '@^\S+$@',
-				);
-		}
 
 		//  --  TYPES FOR FILTER  --  //
 		if( !$format )
@@ -160,49 +78,25 @@ class UI_HTML_Service_Test
 
 		foreach( $parameters as $parameter => $rules )
 		{
-			$mandatory	= FALSE;
-			$type		= isset( $rules['type'] ) ? "<small><em>".$rules['type']."</em></small>&nbsp;" : "";
-			$ruleList	= $this->buildParameterRuleList( $rules );
-			$label	= isset( $rules['title'] ) ? UI_HTML_Elements::Acronym( $parameter, $rules['title'] ) : $parameter;
-			$value	= isset( $request["parameter_".$parameter] ) ? $request["parameter_".$parameter] : NULL;
-			$label	= $type.$label;
-			if( !$mandatory )
-				$label	= "[".$label."]";
-			$divRules	= UI_HTML_Tag::create( "span", " (".implode( ", ", $ruleList ).")", array( 'class' => "rules" ) );
-			$ruleList	= count( $ruleList ) ? $divRules : "";
-
-			$input	= UI_HTML_Elements::Input( "parameter_".$parameter, $value, 'l' );
-			if( array_key_exists( "type", $rules ) )
+			$ruleList	= array();
+			if( $rules )
 			{
-				if( $rules['type']	== "bool" )
-					$input	= UI_HTML_FormElements::CheckBox( "parameter_".$parameter, 1, $value );
+				foreach( $rules as $ruleKey => $ruleValue )
+				{
+					if( $ruleKey == "mandatory" )
+						$ruleValue = $ruleValue ? "yes" : "no";
+					$ruleList[]	= $ruleKey.": ".htmlspecialchars( $ruleValue );
+				}
 			}
+			$rules	= count( $ruleList ) ? " (".implode( ", ", $ruleList ).")" : "";
+			$value	= isset( $request["parameter_".$parameter] ) ? $request["parameter_".$parameter] : NULL;	
 			$list[]	= array(
-				'label' => $label,
-				'rules'	=> $ruleList,
-				'input'	=> $input,
+				'label' => $parameter,
+				'rules'	=> $rules,
+				'input'	=> UI_HTML_Elements::Input( "parameter_".$parameter, $value, 'l' )
 			);
 		}
 		return $list;
-	}
-
-	protected function buildParameterRuleList( $rules )
-	{
-		$ruleList	= array();
-		foreach( $rules as $ruleKey => $ruleValue )
-		{
-			if( $ruleKey == "title" )
-				continue;
-			if( $ruleKey == "mandatory" )
-			{
-				$mandatory	= $ruleValue;
-				$ruleValue	= $ruleValue ? "yes" : "no";
-			}
-			$spanKey	= UI_HTML_Tag::create( "span", $ruleKey.":", array( 'class' => "key" ) );
-			$spanValue	= UI_HTML_Tag::create( "span", htmlspecialchars( $ruleValue ), array( 'class' => "value" ) );
-			$ruleList[]	= $spanKey." ".$spanValue;
-		}
-		return $ruleList;
 	}
 
 	private function getParametersFromRequest( $request )
@@ -229,96 +123,35 @@ class UI_HTML_Service_Test
 	{
 		$reader		= new Net_Reader( $url );
 		$reader->setBasicAuth( $this->username, $this->password );
-		$response	= $reader->read();
 		
-		$this->headers	= array();
-		$headers	= $reader->getHeader();
-		foreach( $headers as $key => $values )
-			$this->headers[$key]	= array_pop( $values );
-
-		return $response;
-	}
-
-	private function buildExceptionTab( $type, $message )
-	{
-		$type		= preg_replace( "@([a-z])([A-Z])@", "\\1 \\2", $type );
-		$message	= $message;
-		$exception	= "<em>".$type."</em>: <b>".$message."</b>";
-		return $exception;
-	}
-	
-	private function evaluateResponse( $format, &$response, &$data, &$exception, &$trace  )
-	{
-		switch( $format )
+		$response	= $reader->read();
+		if( $format == "json" )
 		{
-			case "json":
-				$structure	= json_decode( $response, TRUE );
-				if( $structure['status'] == "exception" )
-				{
-					$e			= $structure['data'];
-					$trace		= isset( $e['trace'] ) ? $e['trace'] : "";
-					$exception	= $this->buildExceptionTab( $e['type'], $e['message'] );
-				}
-				else
-					$data	= dumpVar( $structure['data'], 1, 0 );
-				$response	= ADT_JSON_Formater::format( $response );
-				$response	= $this->trimResponseLines( $response, 120 );
-				break;
-			case 'php':
-				$structure	= unserialize( $response );
-				if( $structure['status'] == "exception" )
-				{
-					$e			= $structure['data'];
-					$trace		= isset( $e['trace'] ) ? $e['trace'] : "";
-					$exception	= $this->buildExceptionTab( $e['type'], $e['message'] );
-				}
-				else
-					$data	= dumpVar( $structure['data'], 1, 0 );
-				break;
-			case "wddx":
-				$structure	= wddx_deserialize( $response );
-				if( $structure['status'] == "exception" )
-				{
-					$e			= $structure['data'];
-					$trace		= isset( $e['trace'] ) ? $e['trace'] : "";
-					$exception	= $this->buildExceptionTab( $e['type'], $e['message'] );
-				}
-				else
-					$data	= dumpVar( $structure['data'] );
-				$response	= XML_DOM_Formater::format( $response );
-				$response	= $this->trimResponseLines( $response, 120 );
-				break;
-			case "xml":
-				$xml	= new XML_Element( $response );
-				if( $xml->status->getValue() == "exception" )
-				{
-					$trace		= $xml->data->trace->getValue();
-					$type		= $xml->data->type->getValue();
-					$message	= $xml->data->message->getValue();
-					$exception	= $this->buildExceptionTab( $type, $message );
-				}
-				else
-					$data	= UI_VariableDumper::dump( $xml->data, 1, 1 );
-				$response	= $this->trimResponseLines( $response, 120 );
-				break;
-			case "atom":
-			case "rss":
-				break;
-			case "txt":
-				$data	= nl2br( $response );
-				break;
-			case "html":
-				$data	= $response;
-				break;
+			$response	= "<xmp>".ADT_JSON_Formater::format( stripslashes( $response ) )."</xmp>";
 		}
-	}
-
-	private function trimResponseLines( $response, $length = 100 )
-	{
-		$lines	= array();
-		foreach( explode( "\n", $response ) as $line )
-			$lines[]	= Alg_StringTrimmer::trimCentric( $line, $length );
-		return implode( "\n", $lines );
+		else if( $format == "php" )
+		{
+			$response	= unserialize( $response );
+			if( $response && is_a( $response, "Exception" ) )
+				return UI_HTML_Exception_TraceViewer::buildTrace( $response );
+			ob_start();
+			print_m( $response );
+			$response	= ob_get_clean();
+		}
+		else if( $format == "xml" )
+		{
+			$response	= "<xmp>".$response."</xmp>";
+		}
+		else if( $format == "wddx" )
+		{
+			$response	= wddx_deserialize( $response );
+			if( $response && is_a( $response, "Exception" ) )
+				return UI_HTML_Exception_TraceViewer::buildTrace( $response );
+			ob_start();
+			print_m( $response );
+			$response	= ob_get_clean();
+		}
+		return $response;
 	}
 
 	private function getTestUrl( $request )
@@ -336,6 +169,11 @@ class UI_HTML_Service_Test
 	public function setTemplate( $fileName )
 	{
 		$this->template	= $fileName;
+	}
+
+	public function setTableClass( $className )
+	{
+		$this->tableClass	= $className;
 	}
 	
 	public function setAuth( $username, $password )

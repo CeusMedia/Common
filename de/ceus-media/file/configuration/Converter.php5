@@ -1,9 +1,17 @@
 <?php
+import( 'de.ceus-media.file.Writer' );
+import( 'de.ceus-media.file.ini.Creator' );
+import( 'de.ceus-media.file.ini.Reader' );
+import( 'de.ceus-media.adt.json.Formater' );
+import( 'de.ceus-media.adt.json.Converter' );
+import( 'de.ceus-media.xml.ElementReader' );
+import( 'de.ceus-media.xml.dom.Node' );
+import( 'de.ceus-media.xml.dom.FileWriter' );
 /**
  *	Converter for Configuration to translate between INI, JSON and XML.
  *	YAML  will be supported if Spyc is improved.
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2008 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -27,21 +35,13 @@
  *	@uses			XML_ElementReader
  *	@uses			XML_DOM_Node
  *	@uses			XML_DOM_FileWriter
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			06.05.2008
  *	@version		0.1
  */
-import( 'de.ceus-media.file.Writer' );
-import( 'de.ceus-media.file.ini.Creator' );
-import( 'de.ceus-media.file.ini.Reader' );
-import( 'de.ceus-media.adt.json.Formater' );
-import( 'de.ceus-media.adt.json.Converter' );
-import( 'de.ceus-media.xml.ElementReader' );
-import( 'de.ceus-media.xml.dom.Node' );
-import( 'de.ceus-media.xml.dom.FileWriter' );
 /**
  *	Converter for Configuration to translate between INI, JSON and XML.
  *	YAML will be supported if Spyc is improved.
@@ -54,8 +54,8 @@ import( 'de.ceus-media.xml.dom.FileWriter' );
  *	@uses			XML_ElementReader
  *	@uses			XML_DOM_Node
  *	@uses			XML_DOM_FileWriter
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			06.05.2008
@@ -69,7 +69,6 @@ class File_Configuration_Converter
 	/**
 	 *	Converts Configuration File from INI to JSON and returns Length of Target File.
 	 *	@access		public
-	 *	@static
 	 *	@param		string		$sourceFile			File Name of Source File
 	 *	@param		string		$targetFile			File Name of Target File
 	 *	@return		int
@@ -83,7 +82,6 @@ class File_Configuration_Converter
 	/**
 	 *	Converts Configuration File from INI to XML and returns Length of Target File.
 	 *	@access		public
-	 *	@static
 	 *	@param		string		$sourceFile			File Name of Source File
 	 *	@param		string		$targetFile			File Name of Target File
 	 *	@return		int
@@ -97,7 +95,6 @@ class File_Configuration_Converter
 	/**
 	 *	Converts Configuration File from JSON to INI and returns Length of Target File.
 	 *	@access		public
-	 *	@static
 	 *	@param		string		$sourceFile			File Name of Source File
 	 *	@param		string		$targetFile			File Name of Target File
 	 *	@return		int
@@ -111,7 +108,6 @@ class File_Configuration_Converter
 	/**
 	 *	Converts Configuration File from JSON to XML and returns Length of Target File.
 	 *	@access		public
-	 *	@static
 	 *	@param		string		$sourceFile			File Name of Source File
 	 *	@param		string		$targetFile			File Name of Target File
 	 *	@return		int
@@ -125,7 +121,6 @@ class File_Configuration_Converter
 	/**
 	 *	Converts Configuration File from XML to INI and returns Length of Target File.
 	 *	@access		public
-	 *	@static
 	 *	@param		string		$sourceFile			File Name of Source File
 	 *	@param		string		$targetFile			File Name of Target File
 	 *	@return		int
@@ -139,7 +134,6 @@ class File_Configuration_Converter
 	/**
 	 *	Converts Configuration File from XML to JSON and returns Length of Target File.
 	 *	@access		public
-	 *	@static
 	 *	@param		string		$sourceFile			File Name of Source File
 	 *	@param		string		$targetFile			File Name of Target File
 	 *	@return		int
@@ -153,7 +147,6 @@ class File_Configuration_Converter
 	/**
 	 *	Loads Configuration Data from INI File.
 	 *	@access		protected
-	 *	@static
 	 *	@param		string		$fileName		File Name of INI File.
 	 *	@return		array
 	 */
@@ -192,7 +185,6 @@ class File_Configuration_Converter
 	/**
 	 *	Loads Configuration Data from JSON File.
 	 *	@access		protected
-	 *	@static
 	 *	@param		string		$fileName		File Name of JSON File.
 	 *	@return		array
 	 */
@@ -214,7 +206,6 @@ class File_Configuration_Converter
 	/**
 	 *	Loads Configuration Data from XML File.
 	 *	@access		protected
-	 *	@static
 	 *	@param		string		$fileName		File Name of XML File.
 	 *	@return		array
 	 */
@@ -244,7 +235,6 @@ class File_Configuration_Converter
 	/**
 	 *	Saves Configuration Data as INI File and returns Number of written Bytes.
 	 *	@access		protected
-	 *	@static
 	 *	@param		string		$fileName		File Name of INI File
 	 *	@param		array		$data			Configuration Data as Array
 	 *	@return		int
@@ -277,7 +267,6 @@ class File_Configuration_Converter
 	/**
 	 *	Saves Configuration Data as JSON File and returns Number of written Bytes.
 	 *	@access		protected
-	 *	@static
 	 *	@param		string		$fileName		File Name of JSON File
 	 *	@param		array		$data			Configuration Data as Array
 	 *	@return		int
@@ -301,7 +290,6 @@ class File_Configuration_Converter
 	/**
 	 *	Saves Configuration Data as XML File and returns Number of written Bytes.
 	 *	@access		protected
-	 *	@static
 	 *	@param		string		$fileName		File Name of XML File
 	 *	@param		array		$data			Configuration Data as Array
 	 *	@return		int

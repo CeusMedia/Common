@@ -1,8 +1,10 @@
 <?php
+import( 'de.ceus-media.folder.RecursiveLister' );
+import( 'de.ceus-media.ui.html.Elements' );
 /**
  *	Counter for Lines of Code.
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2008 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -18,31 +20,24 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@package		folder
- *	@uses			File_Reader
  *	@uses			Folder_RecursiveLister
- *	@uses			UI_HTML_Elements
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			15.04.2008
- *	@version		0.2
+ *	@version		0.1
  */
-import( 'de.ceus-media.file.CodeLineCounter' );
-import( 'de.ceus-media.folder.RecursiveLister' );
-import( 'de.ceus-media.ui.html.Elements' );
 /**
  *	Counter for Lines of Code.
  *	@package		folder
- *	@uses			File_Reader
  *	@uses			Folder_RecursiveLister
- *	@uses			UI_HTML_Elements
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			15.04.2008
- *	@version		0.2
+ *	@version		0.1
  *	@todo			Code Doc
  */
 class Folder_CodeLineCounter
@@ -94,19 +89,18 @@ class Folder_CodeLineCounter
 		$list	= $lister->getList();
 		foreach( $list as $entry )
 		{
-			$fileName	= str_replace( "\\", "/", $entry->getFilename() );
-			$pathName	= str_replace( "\\", "/", $entry->getPathname() );
-			
+			$fileName	= $entry->getFilename();
+			$pathName	= $entry->getPathname();
 			if( substr( $fileName, 0, 1 ) == "_" )
 				continue;
-			if( preg_match( "@/_@", $pathName ) )
+			if( preg_match( "@/_@", str_replace( "\\", "/", $pathName ) ) )
 				continue;
+			$content			= file_get_contents( $entry->getPathname() );
+			$numberLength		+= strlen( $content );
+			$lines				= count( explode( "\n", $content ) );
+			$numberLines		+= $lines;
+			$countData			= $this->countLines( $content );
 
-			$countData	= File_CodeLineCounter::countLines( $pathName );
-			
-			$numberLength		+= $countData['length'];
-			$numberLines		+= $countData['linesTotal'];
-			
 			$numberFiles		++;
 			$numberStrips		+= $countData['numberStrips'];
 			$numberCodes		+= $countData['numberCodes'];
@@ -137,7 +131,62 @@ class Folder_CodeLineCounter
 			'path'		=> $path,
 		);
 	}
+	
+	/**
+	 *	Counts Lines per File.
+	 *	@access		public
+	 *	@param		string		$content		Content of File
+	 *	@return		array
+	 */
+	public static function countLines( $content )
+	{
+		$numberCodes	= 0;
+		$numberDocs		= 0;
+		$numberStrips	= 0;
+		$linesCodes		= array();
+		$linesDocs		= array();
+		$linesStrips	= array();
 
+		$counter	= 0;
+		$lines		= explode( "\n", $content );
+		foreach( $lines as $line )
+		{
+			if( preg_match( "@^(\t| )*/?\*@", $line ) )
+			{
+				$linesDocs[$counter] = $line;
+				$numberDocs++;
+			}
+			else if( preg_match( "@^(<\?php|<\?|\?>|\}|\{|\t| )*$@", trim( $line ) ) )
+			{
+				$linesStrips[$counter] = $line;
+				$numberStrips++;
+			}
+			else if( preg_match( "@^(public|protected|private|class|function|final|define|import)@", trim( $line ) ) )
+			{
+				$linesStrips[$counter] = $line;
+				$numberStrips++;
+			}
+			else
+			{
+				$linesCodes[$counter] = $line;
+				$numberCodes++;
+			}
+			$counter++;
+		}
+		$data	= array(
+			'numberCodes'	=> $numberCodes,
+			'numberDocs'	=> $numberDocs,
+			'numberStrips'	=> $numberStrips,
+			'linesCodes'	=> $linesCodes,
+			'linesDocs'		=> $linesDocs,
+			'linesStrips'	=> $linesStrips,
+			'ratioCodes'	=> $numberCodes / $counter * 100,
+			'ratioDocs'		=> $numberDocs / $counter * 100,
+			'ratioStrips'	=> $numberStrips / $counter * 100,
+		);
+		return $data;
+	}
+	
 	public function buildFileList()
 	{
 		$list	= array();
@@ -161,7 +210,6 @@ class Folder_CodeLineCounter
 			$row	= "
 <tr>
   <td>".$link."</td>
-  <td>".$data['numberCodes']." %</td>
   <td>".round( $data['ratioCodes'], $precision )." %</td>
   <td>".round( $data['ratioDocs'], $precision )." %</td>
   <td>".round( $data['ratioStrips'], $precision )." %</td>

@@ -2,7 +2,7 @@
 /**
  *	Iterates all Folders and Files recursive within a Folder.
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2008 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,8 +21,8 @@
  *	@extends		FilterIterator
  *	@uses			RecursiveIteratorIterator
  *	@uses			RecursiveDirectoryIterator
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			15.04.2008
@@ -34,8 +34,8 @@
  *	@extends		FilterIterator
  *	@uses			RecursiveIteratorIterator
  *	@uses			RecursiveDirectoryIterator
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			15.04.2008
@@ -58,19 +58,17 @@ class Folder_RecursiveIterator extends FilterIterator
 	 *	@param		string		$path				Path to Folder
 	 *	@param		bool		$showFiles			Flag: show Files
 	 *	@param		bool		$showFolders		Flag: show Folders
-	 *	@param		bool		$stripDotEntries	Flag: strip Files and Folder with leading Dot
+	 *	@param		bool		$stripDotFolders	Flag: strip Folder with leading Dot
 	 *	@return		void
 	 */
-	public function __construct( $path, $showFiles = TRUE, $showFolders = TRUE, $stripDotEntries = TRUE )
+	public function __construct( $path, $showFiles = TRUE, $showFolders = TRUE, $stripDotFolders = TRUE )
 	{
 		if( !file_exists( $path ) )
 			throw new RuntimeException( 'Path "'.$path.'" is not existing.' );
-		$this->path				= str_replace( "\\", "/", $path );
-		$this->realPath			= str_replace( "\\", "/", realpath( $path ) );
-		$this->realPathLength	= strlen( $this->realPath );
+		$this->path				= $path;
 		$this->showFiles		= $showFiles;
 		$this->showFiles		= $showFiles;
-		$this->stripDotEntries	= $stripDotEntries;
+		$this->stripDotFolders	= $stripDotFolders;
 		$selfIterator			= $showFolders ? RecursiveIteratorIterator::SELF_FIRST : RecursiveIteratorIterator::LEAVES_ONLY;
 		parent::__construct(
 			new RecursiveIteratorIterator(
@@ -97,14 +95,10 @@ class Folder_RecursiveIterator extends FilterIterator
 		if( !$this->showFiles && !$isDir )
 			return FALSE;
 
-		if( $this->stripDotEntries )
+		if( $this->stripDotFolders )
 		{
-			$folderName	= str_replace( "\\", "/", $this->getInnerIterator()->getFilename() );
-			if( preg_match( "@^\.\w+@", $folderName ) )
-				return FALSE;
-			$folderPath	= str_replace( "\\", "/", $this->getInnerIterator()->getPathname() );
-			$folderPath	= substr( $folderPath, $this->realPathLength );
-			if( preg_match( "@/\.\w+/@", $folderPath ) )
+			$folderName	= $this->getInnerIterator()->getFilename();
+			if( preg_match( "@^\.\w@", $folderName ) )
 				return FALSE;
 		}
 		return TRUE;

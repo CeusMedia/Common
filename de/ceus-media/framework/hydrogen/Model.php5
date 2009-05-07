@@ -1,8 +1,9 @@
 <?php
+import( 'de.ceus-media.database.TableWriter' );
 /**
- *	Generic Model Class of Framework Hydrogen.
+ *	Abstract Model Class of Framework Hydrogen.
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2008 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -19,20 +20,19 @@
  *
  *	@package		framework.hydrogen
  *	@uses			Database_TableWriter
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@Ceus-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			01.09.2006
  *	@version		0.4
  */
-import( 'de.ceus-media.database.TableWriter' );
 /**
- *	Generic Model Class of Framework Hydrogen.
+ *	Abstract Model Class of Framework Hydrogen.
  *	@package		framework.hydrogen
  *	@uses			Database_TableWriter
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@Ceus-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			01.09.2006
@@ -63,7 +63,7 @@ class Framework_Hydrogen_Model
 	 *	@param		int								$id				ID to focus on
 	 *	@return		void
 	 */
-	public function __construct( $application, $id = FALSE )
+	public function __construct( $application, $id = false )
 	{
 		$this->setEnv( $application );
 		$this->table	= new Database_TableWriter( $this->_dbc, $this->_table, $this->fields, $this->primary_key, $id );
@@ -93,11 +93,11 @@ class Framework_Hydrogen_Model
 	public function edit( $id, $data )
 	{
 		$this->table->focusPrimary( $id );
-		$result	= FALSE;
+		$result	= false;
 		if( count( $this->table->getData() ) )
 		{
 			$this->table->modifyData( $data );
-			$result	= TRUE;
+			$result	= true;
 		}
 		$this->table->defocus();
 		return $result;
@@ -112,11 +112,11 @@ class Framework_Hydrogen_Model
 	public function remove( $id )
 	{
 		$this->table->focusPrimary( $id );
-		$result	= FALSE;
+		$result	= false;
 		if( count( $this->table->getData() ) )
 		{
 			$this->table->deleteData();
-			$result	= TRUE;
+			$result	= true;
 		}
 		$this->table->defocus();
 		return $result;
@@ -132,7 +132,7 @@ class Framework_Hydrogen_Model
 	public function get( $id, $field = "" )
 	{
 		$this->table->focusPrimary( $id );
-		$data	= $this->table->getData( TRUE );
+		$data	= $this->table->getData( true );
 		$this->table->defocus();
 		if( $field )
 			return $data[$field];
@@ -200,7 +200,7 @@ class Framework_Hydrogen_Model
 	public function getByForeignKey( $key, $value, $field = "" )
 	{
 		$this->table->focusForeign( $key, $value );
-		$data	= $this->table->getData( TRUE );
+		$data	= $this->table->getData( true );
 		$this->table->defocus();
 		if( $field )
 			return $data[$field];
@@ -218,7 +218,7 @@ class Framework_Hydrogen_Model
 	{
 		foreach( $keys as $key => $value )
 			$this->table->focusForeign( $key, $value );
-		$data	= $this->table->getData( TRUE );
+		$data	= $this->table->getData( true );
 		$this->table->defocus();
 		if( $field )
 			return $data[$field];

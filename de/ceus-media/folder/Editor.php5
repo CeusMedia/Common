@@ -1,12 +1,13 @@
 <?php
+import( 'de.ceus-media.folder.Reader' );
 /**
  *	Editor for Folders.
  *	All Methods to create, copy, move or remove a Folder are working recursive.
- *	Files and Folders with a leading Dot are ignored if not set otherwise with Option 'skipDotEntries'.
+ *	Folders with a leading Dot are ignored if not set otherwise with Option 'skipDotFolders'.
  *	By default copy, move and remove are not overwriting existing Files or deleting Folders containing Files or Folders.
  *	It can be forced to overwrite or remove everything with Option 'force'.
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2008 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -23,24 +24,23 @@
  *
  *	@package		folder
  *	@extends	 	Folder_Reader
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			15.04.2008
  *	@version		0.6
  */
-import( 'de.ceus-media.folder.Reader' );
 /**
  *	Editor for Folders.
  *	All Methods to create, copy, move or remove a Folder are working recursive.
- *	Files and Folders with a leading Dot are ignored if not set otherwise with Option 'skipDotEntries'.
+ *	Folders with a leading Dot are ignored if not set otherwise with Option 'skipDotFolders'.
  *	By default copy, move and remove are not overwriting existing Files or deleting Folders containing Files or Folders.
  *	It can be forced to overwrite or remove everything with Option 'force'.
  *	@package		folder
  *	@extends	 	Folder_Reader
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			15.04.2008
@@ -67,7 +67,6 @@ class Folder_Editor extends Folder_Reader
 	/**
 	 *	Creates a Folder by creating all Folders in Path recursive.
 	 *	@access		public
-	 *	@static
 	 *	@param		string		$folderName		Folder to create
 	 *	@param		int			$mode			Permission Mode, default: 0755
 	 *	@param		string		$userName		User Name
@@ -90,14 +89,13 @@ class Folder_Editor extends Folder_Reader
 	/**
 	 *	Copies a Folder recursive to another Path and returns Number of copied Files and Folders.
 	 *	@access		public
-	 *	@static
 	 *	@param		string		$sourceFolder	Folder Name of Folder to copy
 	 *	@param		string		$targetFolder	Folder Name to Target Folder
 	 *	@param		bool		$force			Flag: force Copy if file is existing
-	 *	@param		bool		$skipDotEntries	Flag: skip Files and Folders starting with Dot
+	 *	@param		bool		$skipDotFolders	Flag: skip Folders starting with Dot
 	 *	@return		int
 	 */
-	public static function copyFolder( $sourceFolder, $targetFolder, $force = FALSE, $skipDotEntries = TRUE )
+	public static function copyFolder( $sourceFolder, $targetFolder, $force = FALSE, $skipDotFolders = TRUE )
 	{
 		if( !self::isFolder( $sourceFolder ) )												//  Source Folder not existing
 			throw new RuntimeException( 'Folder "'.$sourceFolder.'" cannot be copied because it is not existing.' );
@@ -111,7 +109,7 @@ class Folder_Editor extends Folder_Reader
 			$count	+= (int) self::createFolder( $targetFolder );							//  create TargetFolder and count
 
 		import( 'de.ceus-media.folder.Iterator' );
-		$index	= new Folder_Iterator( $sourceFolder, TRUE, TRUE, $skipDotEntries );		//  Index of Source Folder
+		$index	= new Folder_Iterator( $sourceFolder, TRUE, TRUE, $skipDotFolders );		//  Index of Source Folder
 		foreach( $index as $entry )														
 		{
 			if( $entry->isDot() )															//  Dot Folders
@@ -120,7 +118,7 @@ class Folder_Editor extends Folder_Reader
 			{
 				$source	= $entry->getPathname();											//  Source Folder Name
 				$target	= $targetFolder.$entry->getFilename()."/";							//  Target Folder Name
-				$count	+= self::copyFolder( $source, $target, $force, $skipDotEntries );	//  copy Folder recursive and count
+				$count	+= self::copyFolder( $source, $target, $force, $skipDotFolders );	//  copy Folder recursive and count
 			}
 			else if( $entry->isFile() )														//  nested File
 			{
@@ -139,12 +137,12 @@ class Folder_Editor extends Folder_Reader
 	 *	@param		string		$targetFolder	Folder Name of Target Folder
 	 *	@param		bool		$useCopy		Flag: switch current Folder to Copy afterwards
 	 *	@param		bool		$force			Flag: force Copy if file is existing
-	 *	@param		bool		$skipDotEntries	Flag: skip Files and Folders starting with Dot
+	 *	@param		bool		$skipDotFolders	Flag: skip Folders starting with Dot
 	 *	@return		int
 	 */
-	public function copy( $targetFolder, $force = FALSE, $skipDotEntries = TRUE, $useCopy = FALSE )
+	public function copy( $targetFolder, $force = FALSE, $skipDotFolders = TRUE, $useCopy = FALSE )
 	{
-		$result	= self::copyFolder( $this->folderName, $targetFolder, $force, $skipDotEntries );
+		$result	= self::copyFolder( $this->folderName, $targetFolder, $force, $skipDotFolders );
 		if( $result && $useCopy )
 			$this->folderName	= $targetFolder;
 		return $result;
@@ -153,7 +151,6 @@ class Folder_Editor extends Folder_Reader
 	/**
 	 *	Moves a Folder to another Path.
 	 *	@access		public
-	 *	@static
 	 *	@param		string		$sourceFolder	Folder Name of Source Folder, eg. /path/to/source/folder
 	 *	@param		string		$targetPath		Folder Path of Target Folder, eg. /path/to/target
 	 *	@param		string		$force			Flag: continue if Target Folder is already existing, otherwise break
@@ -210,7 +207,6 @@ class Folder_Editor extends Folder_Reader
 	/**
 	 *	Renames a Folder to another Folder Name.
 	 *	@access		public
-	 *	@static
 	 *	@param		string		$sourceFolder	Folder to rename
 	 *	@param		string		$targetName		New Name of Folder
 	 *	@return		bool
@@ -246,7 +242,6 @@ class Folder_Editor extends Folder_Reader
 	 *	Removes a Folder recursive and returns Number of removed Folders and Files.
 	 *	Because there where Permission Issues with DirectoryIterator it uses the old 'dir' command.
 	 *	@access		public
-	 *	@static
 	 *	@param		string		$folderName		Folder to be removed
 	 *	@param		bool		$force			Flag: force to remove nested Files and Folders
 	 *	@return		int
@@ -280,7 +275,6 @@ class Folder_Editor extends Folder_Reader
 	/**
 	 *	Removes a Folder recursive and returns Number of removed Folders and Files.
 	 *	@access		public
-	 *	@static
 	 *	@param		string		$folderName		Folder to be removed
 	 *	@param		bool		$force			Flag: force to remove nested Files and Folders
 	 *	@return		int

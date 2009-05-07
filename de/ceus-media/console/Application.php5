@@ -1,8 +1,9 @@
 <?php
+import( 'de.ceus-media.console.ArgumentParser' );
 /**
  *	Generic Console Application.
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2008 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -19,26 +20,25 @@
  *
  *	@package		console
  *	@extends		Console_ArgumentParser
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			11.01.2006
  *	@version		0.6
  */
-import( 'de.ceus-media.console.ArgumentParser' );
 /**
  *	Generic Console Application.
  *	@package		console
  *	@extends		Console_ArgumentParser
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			11.01.2006
  *	@version		0.6
  */
-class Console_Application 
+class Console_Application extends Console_ArgumentParser
 {
 	/**
 	 *	Constructor.
@@ -46,23 +46,22 @@ class Console_Application
 	 *	@param		array		$shortcuts		Array of Shortcuts to be set
 	 *	@return		void
 	 */
-	public function __construct( $shortcuts = array(), $fallBackOnEmptyPair = FALSE )
+	public function __construct( $shortcuts = array())
 	{
-		$this->arguments	= new Console_ArgumentParser();
-		foreach( $shortcuts as $key => $value )
-			$this->arguments->addShortCut( $key, $value );
-		$this->arguments->parseArguments( $fallBackOnEmptyPair );
+		parent::__construct();
+		$this->setShortCuts( $shortcuts );
+		$this->parseArguments();
 		$this->main();
 	}
 	
 	/**
-	 *	Main Method called by Console Application Constructor, to be overwritten.
-	 *	@access		protected
+	 *	Main Method called by Console Parser, to be overwritten.
+	 *	@access		public
 	 *	@return		void
 	 */
-	protected function main()
+	public function main()
 	{
-		if( $this->arguments->has( "/?" ) )
+		if( $this->getOption( "/?" ) )
 			$this->showUsage();
 /*		if( !$this->getOption( "a" ) )						//  asking for parameters and options
 		{
@@ -73,6 +72,18 @@ class Console_Application
 */	}
 
 	//  --  PROTECTED METHODS  --  //
+	/**
+	 *	Sets ShortCuts of Applications's Arguments, to be overwritten.
+	 *	@access		protected
+	 *	@return		void
+	 */
+	protected function setShortCuts( $shortcuts )
+	{
+		foreach( $shortcuts as $key => $value )
+		{
+			$this->addShortCut( $key, $value );
+		}
+	}
 		
 	/**
 	 *	Prints Error Message to Console, to be overwritten.
@@ -80,12 +91,9 @@ class Console_Application
 	 *	@param		string		$message		Error Message to print to Console
 	 *	@return		void
 	 */
-	protected function showError( $message, $abort = TRUE )
+	protected function showError( $message )
 	{
-		$message	= "\nERROR: ".$message."\n";
-		if( $abort )
-			die( $message );
-		echo $message;
+		echo $message."\n";
 	}
 	
 	/**
@@ -93,7 +101,7 @@ class Console_Application
 	 *	@access		protected
 	 *	@return		void
 	 */
-	protected function showUsage( $message = NULL )
+	protected function showUsage()
 	{
 		echo "\n";
 		echo "ConsoleApplication v0.5\n";
@@ -102,8 +110,7 @@ class Console_Application
 		echo "  a\tMandatory Option\n";
 		echo "  b\tOptional Option\n";
 		echo "  /?\tUsage Information\n";
-		if( $message )
-			$this->showError( $message );
+		die();
 	}
 
 	/**

@@ -2,7 +2,7 @@
 /**
  *	Client for interaction with Frontend Services.
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2008 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,21 +20,21 @@
  *	@package		net.service
  *	@uses			Net_cURL
  *	@uses			StopWatch
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			02.07.2007
  *	@version		0.6
  */
-import( 'de.ceus-media.net.service.Decoder' );
+import( 'de.ceus-media.net.cURL' );
 /**
  *	Client for interaction with Frontend Services.
  *	@package		net.service
  *	@uses			Net_cURL
  *	@uses			StopWatch
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			02.07.2007
@@ -66,25 +66,58 @@ class Net_Service_Client
 		'traffic'	=> 0,
 		'time'		=> 0,
 	);
-	/**	@var		Net_Service_Decoder	$decoder	Response Decoder Object */	
-	protected $decoder;
+	/**	@var		array		$compressionTypes	List of supported Compression Types */
+	protected $compressionTypes	= array(
+		'deflate',
+		'gzip',
+	);
 
 	/**
 	 *	Constructor.
 	 *	@access		public
 	 *	@param		string		$hostUrl			Basic Host URL of Service
 	 *	@param		bool		$logFile			File Name of Request Log File
-	 *	@param		string		$decoderClass		Name of Class with Methods to decompress and decode Response
 	 *	@return		void
 	 */
-	public function __construct( $hostUrl = NULL, $logFile = NULL, $decoderClass = "Net_Service_Decoder" )
+	public function __construct( $hostUrl = NULL, $logFile = NULL )
 	{
 		$this->id	= md5( uniqid( rand(), true ) );
 		if( $hostUrl )
 			$this->setHostAddress( $hostUrl );
 		if( $logFile )
 			$this->setLogFile( $logFile );
-		$this->decoder	= new $decoderClass;
+	}
+
+	/**
+	 *	Decodes Response if JSON oder PHP Serial.
+	 *	@access		protected
+	 *	@param		string		$response			Response Content as serialized String
+	 *	@param		string		$format				Format of Serial (json|php|wddx|xml|rss|txt|...)
+	 *	@return		mixed
+	 */
+	protected function decodeResponse( $response, $format )
+	{
+		//  --  DECODE SERIALS  --  //
+		switch( $format )
+		{
+			case 'json':
+				$response	= json_decode( $response );
+				break;
+			case 'php':
+				$response	= unserialize( $response );
+				if( $response && $response instanceof Exception )
+					throw $response;
+				break;
+			case 'wddx':
+				$response	= wddx_deserialize( $response );
+				break;
+			default:
+				break;
+		}
+		$output	= ob_get_clean();
+		if( $response === FALSE )
+			return $output;
+		return $response;
 	}
 
 	/**
@@ -112,8 +145,10 @@ class Net_Service_Client
 
 		if( array_key_exists( 'Content-Encoding', $response['headers'] ) )
 		{
-			$compression	= $response['headers']['Content-Encoding'][0];
-			$response['content']	= $this->decoder->decompressResponse( $response['content'], $compression  );
+			$compression	= $response['headers']['Content-Encoding'][0];		
+			if( !in_array( $compression, $this->compressionTypes ) )
+				$compression	= $this->compressionTypes[0];
+			$response['content']	= self::uncompressResponse( $response['content'], $compression );
 		}
 		return $response;
 	}
@@ -156,7 +191,7 @@ class Net_Service_Client
 			'response'	=> $response['content'],
 			'time'		=> $st->stop(),
 		);
-		$response['content']	= $this->decoder->decodeResponse( $response['content'], $format, $verbose );
+		$response['content']	= $this->decodeResponse( $response['content'], $format, $verbose );
 		return $response['content'];
 	}
 	
@@ -226,8 +261,8 @@ class Net_Service_Client
 			'time'		=> $st->stop(),
 			);
 		if( $verbose )
-			xmp( $response['content'] );
-		$response['content']	= $this->decoder->decodeResponse( $response['content'], $format, $verbose );
+			xmp( $response );
+		$response['content']	= $this->decodeResponse( $response['content'], $format, $verbose );
 		return $response['content'];
 	}
 
@@ -297,6 +332,56 @@ class Net_Service_Client
 	public function setVerifyPeer( $verify )
 	{
 		$this->verifyPeer	= (bool) $verify;
+	}
+
+	/**
+	 *	Decompresses compressed Response.
+	 *	@access		protected
+	 *	@param		string		$content			Response Content, compressed
+	 *	@param		string		$type				Compression Type used for compressing Response
+	 *	@return		string
+	 */
+	protected static function uncompressResponse( $content, $type )
+	{
+		switch( $type )
+		{
+			case 'deflate':
+				$compressed	= @gzuncompress( $content );
+				if( $compressed !== FALSE )
+					$content	= $compressed;
+				break;
+			case 'gzip':
+				$compressed	= @gzdecode( $content );
+				if( $compressed !== FALSE )
+					$content	= $compressed;
+				break;
+		}
+		return $content;
+	}
+}
+if( !function_exists( 'gzdecode' ) )
+{
+	function gzdecode( $data )
+	{
+		$flags	= ord( substr( $data, 3, 1 ) );
+		$headerlen		= 10;
+		$extralen		= 0;
+		if( $flags & 4 )
+		{
+			$extralen	= unpack( 'v' ,substr( $data, 10, 2 ) );
+			$extralen	= $extralen[1];
+			$headerlen	+= 2 + $extralen;
+		}
+		if( $flags & 8 ) 												// Filename
+			$headerlen = strpos( $data, chr( 0 ), $headerlen ) + 1;
+		if( $flags & 16 )												// Comment
+			$headerlen = strpos( $data, chr( 0 ), $headerlen ) + 1;
+		if( $flags & 2 )												// CRC at end of file
+			$headerlen	+= 2;
+		$unpacked = gzinflate( substr( $data, $headerlen ) );
+		if( $unpacked === FALSE )
+			$unpacked = $data;
+		return $unpacked;
 	}
 }
 ?>

@@ -1,8 +1,9 @@
 <?php
+import( 'de.ceus-media.database.pdo.TableReader' );
 /**
  *	Write Access for Database Tables.
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2008 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -19,19 +20,18 @@
  *
  *	@package		database.pdo
  *	@extends		Database_PDO_TableReader
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		0.6
  */
-import( 'de.ceus-media.database.pdo.TableReader' );
 /**
  *	Write Access for Database Tables.
  *	@package		database.pdo
  *	@extends		Database_PDO_TableReader
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		0.6
@@ -87,7 +87,7 @@ class Database_PDO_TableWriter extends Database_PDO_TableReader
 			$value = $data[$column];
 			if( $stripTags )
 				$value = strip_tags( $value );
-			$keys[$column] = '`'.$column.'`';
+			$keys[$column] = $column;
 			$vals[$column] = $this->secureValue( $value );
 		}
 		if( $this->isFocused() )													//  add focused Indices to Data
@@ -98,7 +98,7 @@ class Database_PDO_TableWriter extends Database_PDO_TableReader
 					continue;
 				if( $key == $this->primaryKey )										//  skip primary Key
 					continue;
-				$keys[$key]	= '`'.$key.'`';													//  add Key
+				$keys[$key]	= $key;													//  add Key
 				$vals[$key]	= $this->secureValue( $value );							//  add Value
 			}
 		}
@@ -135,7 +135,7 @@ class Database_PDO_TableWriter extends Database_PDO_TableReader
 			if( $stripTags )
 				$value	= strip_tags( $value );
 			$value	= $this->secureValue( $value );
-			$updates[] = '`'.$column.'`='.$value;
+			$updates[] = $column."=".$value;
 		}
 		if( sizeof( $updates ) )
 		{
@@ -170,7 +170,7 @@ class Database_PDO_TableWriter extends Database_PDO_TableReader
 					$data[$column]	= strip_tags( $data[$column] );
 				if( $data[$column] == "on" )
 					$data[$column] = 1;
-				$sets[]	= '`'.$column.'`'."='".$data[$column]."'";
+				$sets[]	= $column."='".$data[$column]."'";
 			}
 		}
 		if( sizeof( $sets ) )

@@ -1,8 +1,10 @@
 <?php
+import( 'de.ceus-media.framework.krypton.core.View' );
+import( 'de.ceus-media.framework.krypton.logic.List' );
 /**
  *	View Component for generated Lists.
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2008 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,22 +22,20 @@
  *	@package		framework.krypton.view.component
  *	@uses			Framework_Krypton_Logic_List
  *	@uses			Framework_Krypton_Core_View
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			23.02.2007
  *	@version		0.1
  */
-import( 'de.ceus-media.framework.krypton.core.View' );
-import( 'de.ceus-media.framework.krypton.logic.List' );
 /**
  *	View Component for generated Lists.
  *	@package		framework.krypton.view.component
  *	@uses			Framework_Krypton_Logic_List
  *	@uses			Framework_Krypton_Core_View
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			23.02.2007
@@ -63,8 +63,8 @@ class Framework_Krypton_View_Component_List
 	private $pagingOptions	= array();
 	/**	@var	string				$templates		List of Templates for List and List Items */
 	private $templates		= array();
-	/**	@var	array				$transformer	Array of Transformer Object and Method */
-	private $transformer	= array();
+	/**	@var	array				$transformator	Array of Transformator Object and Method */
+	private $transformator	= array();
 	/**	@var	Core_View			$view			Basic View Object */
 	private $view			= null;
 	/** @var	string				$link			Link Name of List Items */
@@ -82,7 +82,7 @@ class Framework_Krypton_View_Component_List
 		$config			= $this->registry->get( 'config' );
 		$this->view		= new Framework_Krypton_Core_View();
 		$this->logic	= new Framework_Krypton_Logic_List( $collection, $config['config.table_prefix'] );
-		$this->setTransformer( $this, 'transformItem' );
+		$this->setTransformator( $this, 'transformItem' );
 	}
 	
 	/**
@@ -185,12 +185,12 @@ class Framework_Krypton_View_Component_List
 			$ui['paging']	= $this->buildPaging( $count );
 			$i = 0;
 			$items	= array();
-			$transformerObject	= $this->transformer[0];
-			$transformerMethod	= $this->transformer[1];
+			$transformatorObject	= $this->transformator[0];
+			$transformatorMethod	= $this->transformator[1];
 			$list	= $this->logic->getList( $dbc, $verbose );
 			foreach( $list as $entry )
 			{
-				$item = $transformerObject->$transformerMethod( $entry, $this->link );
+				$item = $transformatorObject->$transformatorMethod( $entry, $this->link );
 				$item['style']	= ++$i % 2 ? 'list1' : 'list2';
 				$items[]	= $this->view->loadTemplate( $this->templates[1], $item );
 			}
@@ -320,19 +320,19 @@ class Framework_Krypton_View_Component_List
 	/**
 	 *	Sets Callback for Transformation of Item Values.
 	 *	@access		public
-	 *	@param		Object		$object				Transformer Object
-	 *	@param		string		$method				Transformer Method
+	 *	@param		Object		$object				Transformator Object
+	 *	@param		string		$method				Transformator Method
 	 *	@return		void
 	 */
-	public function setTransformer( $object, $method )
+	public function setTransformator( $object, $method )
 	{
 		if( !is_object( $object ) )
 		{
 			if( !class_exists( $object ) )
-				throw new RuntimeException( 'Transformer Class "'.$object.'" has not been loaded.' );
+				throw new RuntimeException( 'Transformator Class "'.$object.'" has not been loaded.' );
 			$object	= new $object();
 		}
-		$this->transformer	= array( $object, $method );	
+		$this->transformator	= array( $object, $method );	
 	}
 	
 	/**

@@ -1,8 +1,9 @@
 <?php
+import( 'de.ceus-media.xml.rss.Builder' );
 /**
  *	Builds RSS for Google Base - Froogle.
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2008 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -19,20 +20,19 @@
  *
  *	@package		xml.rss
  *	@extends		XML_RSS_Builder
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			19.02.02008
  *	@version		0.1
  */
-import( 'de.ceus-media.xml.rss.Builder' );
 /**
  *	Builds RSS for Google Base - Froogle.
  *	@package		xml.rss
  *	@extends		XML_RSS_Builder
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			19.02.02008
@@ -64,11 +64,6 @@ class XML_RSS_GoogleBaseBuilder extends XML_RSS_Builder
 	/**	@var		string		$namespaceUri		URI of Google Base Namespace */
 	public static $namespaceUri	= "http://base.google.com/ns/1.0";
 
-	/**
-	 *	Constructor.
-	 *	@access		public
-	 *	@return		void
-	 */
 	public function __construct()
 	{
 		parent::__construct();

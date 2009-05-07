@@ -2,7 +2,7 @@
 /**
  *	Searchs for Folders by given RegEx Pattern (as File Name) in Folder recursive.
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2008 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -19,8 +19,8 @@
  *
  *	@package		folder
  *	@extends		RegexIterator
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@Ceus-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			09.06.2007
@@ -30,8 +30,8 @@
  *	Searchs for Folders by given RegEx Pattern (as File Name) in Folder recursive.
  *	@package		folder
  *	@extends		RegexIterator
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@Ceus-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			09.06.2007
@@ -46,8 +46,8 @@ class Folder_RecursiveRegexFilter extends RegexIterator
 	protected $showFiles;
 	/**	@var		 bool		$showFolders		Flag: show Folders */
 	protected $showFolders;
-	/**	@var		 bool		$stripDotEntries	Flag: strip Files and Folder with leading Dot */
-	protected $stripDotEntries;
+	/**	@var		 bool		$stripDotFolders	Flag: strip Folder with leading Dot */
+	protected $stripDotFolders;
 
 
 	/**
@@ -57,19 +57,17 @@ class Folder_RecursiveRegexFilter extends RegexIterator
 	 *	@param		string		$pattern			Regular Expression to match with File Name
 	 *	@param		bool		$showFiles			Flag: show Files
 	 *	@param		bool		$showFolders		Flag: show Folders
-	 *	@param		bool		$stripDotEntries	Flag: strip Files and Folder with leading Dot
+	 *	@param		bool		$stripDotFolders	Flag: strip Folder with leading Dot
 	 *	@return		void
 	 */
-	public function __construct( $path, $pattern, $showFiles = TRUE, $showFolders = TRUE, $stripDotEntries = TRUE  )
+	public function __construct( $path, $pattern, $showFiles = TRUE, $showFolders = TRUE, $stripDotFolders = TRUE  )
 	{
 		if( !file_exists( $path ) )
 			throw new RuntimeException( 'Path "'.$path.'" is not existing.' );
-		$this->realPath			= str_replace( "\\", "/", realpath( $path ) );
-		$this->realPathLength	= strlen( $this->realPath );
 		$this->pattern			= $pattern;
     	$this->showFiles		= $showFiles;
     	$this->showFolders		= $showFolders;
-    	$this->stripDotEntries	= $stripDotEntries;
+    	$this->stripDotFolders	= $stripDotFolders;
     	$selfIterator			= $showFolders ? RecursiveIteratorIterator::SELF_FIRST : NULL;
         parent::__construct(
         	new RecursiveIteratorIterator(
@@ -97,15 +95,9 @@ class Folder_RecursiveRegexFilter extends RegexIterator
    		if( !$this->showFiles && !$isDir )
    			return FALSE;
 
-    	if( $this->stripDotEntries )
-    	{
+    	if( $this->stripDotFolders )
 			if( preg_match( "@^\.\w@", $this->getFilename() ) )
 				return FALSE;
-			$folderPath	= str_replace( "\\", "/", $this->getInnerIterator()->getPathname() );
-			$folderPath	= substr( $folderPath, $this->realPathLength );
-			if( preg_match( "@/\.\w+/@", $folderPath ) )
-				return FALSE;
-		}
 
 		return preg_match( $this->pattern, $this->getFilename() );
 	}

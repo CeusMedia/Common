@@ -1,8 +1,13 @@
 <?php
+import( 'de.ceus-media.StopWatch' );
+import( 'de.ceus-media.net.Reader' );
+import( 'de.ceus-media.adt.list.Dictionary' );
+import( 'de.ceus-media.adt.StringBuffer' );
+import( 'de.ceus-media.alg.UnitFormater' );
 /**
  *	Crawls and counts all internal Links of an URL.
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2008 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,25 +25,20 @@
  *	@package		net.site
  *	@uses			Net_Reader
  *	@uses			StopWatch
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			10.12.2006
  *	@version		0.2
  */
-import( 'de.ceus-media.StopWatch' );
-import( 'de.ceus-media.net.Reader' );
-import( 'de.ceus-media.adt.list.Dictionary' );
-import( 'de.ceus-media.adt.StringBuffer' );
-import( 'de.ceus-media.alg.UnitFormater' );
 /**
  *	Crawls and counts all internal Links of an URL.
  *	@package		net.site
  *	@uses			Net_Reader
  *	@uses			StopWatch
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			10.12.2006
@@ -86,11 +86,10 @@ class Net_Site_Crawler
 	 *	@param		int			$depth			Number of Links followed in a Row
 	 *	@return		void
 	 */
-	public function __construct( $baseUrl, $depth = 10 )
+	public function __construct( $depth = 10 )
 	{
 		if( $depth < 1 )
 			throw new InvalidArgumentException( 'Depth must be at least 1.' );
-		$this->baseUrl	= $baseUrl;
 		$this->depth	= $depth;
 		$this->reader	= new Net_Reader( "empty" );
 		$this->reader->setUserAgent( "SiteCrawler/0.1" );
@@ -156,9 +155,10 @@ class Net_Site_Crawler
 			$parts['pass']		= $this->pass;
 #			$parts['path']		= $this->path.$parts['path'];	
 			
-			if( !preg_match( "@^".$this->baseUrl."@", $url ) )
+			if( $parts['host'] != $this->host )
 				if( !$followExternalLinks )
 					continue;	
+
 			$url		= $this->buildUrl( $parts );
 			if( array_key_exists( base64_encode( $url ), $this->links ) )
 				continue;
@@ -277,17 +277,8 @@ class Net_Site_Crawler
 		foreach( $nodes as $node )
 		{
 			$ref	= $node->getAttribute( 'href' );
-			if( preg_match( "@^(#|mailto:|javascript:|../)@", $ref ) )
+			if( preg_match( "@^(#|mailto:|javascript:)@", $ref ) )
 				continue;
-			if( preg_match( "@^/@", $ref ) )
-			{
-				$parts	= parse_url( $this->baseUrl );
-				$ref	= $parts['scheme']."://".$parts['host'].$ref;
-			}
-			else if( preg_match( "@^\./@", $ref ) )
-				$ref	= preg_replace( "@^\./@", "", $ref );
-			if( !preg_match( "@^https?://@", $ref ) )
-				$ref	= $this->baseUrl.$ref;
 			$links[$ref]	= $node->nodeValue;
 		}
 		return $links;

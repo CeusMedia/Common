@@ -2,7 +2,7 @@
 /**
  *	Output Methods for Developement.
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2008 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -18,8 +18,8 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@package		ui
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		0.1
@@ -27,8 +27,8 @@
 /**
  *	Output Methods for Developement.
  *	@package		ui
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		0.1
@@ -306,7 +306,7 @@ class UI_DevOutput
 		{
 			$key = ( $key !== NULL ) ? $key." => " : "";
 			$space = $this->indentSign( $offset, $sign, $factor );
-			echo $space."[N] ".$key.$this->noteOpen."NULL".$this->noteClose.$this->lineBreak;
+			echo $space."[ ] ".$key.$this->noteOpen."NULL".$this->noteClose.$this->lineBreak;
 		}
 		else
 			$this->printMixed( $null, $offset, $key, $sign, $factor );
@@ -445,7 +445,7 @@ function print_globals( $sign = NULL, $factor = NULL )
  *	@param		bool		$break		Flag: break Line before Print
  *	@return		void
  */
-function remark( $text = "", $parameters = array(), $break = TRUE )
+function remark( $text = "", $parameters = array(), $break = true )
 {
 	$o = new UI_DevOutput();
 	if( $break )

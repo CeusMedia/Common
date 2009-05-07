@@ -2,7 +2,7 @@
 /**
  *	Loader for Service Defintions in JSON, XML or YAML.
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2008 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,8 +21,8 @@
  *	@uses			ADT_JSON_Converter
  *	@uses			Service_Definition_XmlReader
  *	@uses			File_Yaml_Reader
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			18.06.2007
@@ -34,8 +34,8 @@
  *	@uses			ADT_JSON_Converter
  *	@uses			Service_Definition_XmlReader
  *	@uses			File_Yaml_Reader
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			18.06.2007
@@ -88,9 +88,7 @@ class Net_Service_Definition_Loader
 	{
 		import( 'de.ceus-media.adt.json.Converter' );
 		$jsonString		= file_get_contents( $fileName );
-		$definition		= ADT_JSON_Converter::convertToArray( $jsonString );
-		$this->completeDefinition( $definition );
-		return $definition;
+		return ADT_JSON_Converter::convertToArray( $jsonString );
 	}
 
 	/**
@@ -114,25 +112,7 @@ class Net_Service_Definition_Loader
 	protected function loadServicesFromYaml( $fileName )
 	{
 		import( 'de.ceus-media.file.yaml.Reader' );
-		$definition	= File_YAML_Reader::load( $fileName );
-		$this->completeDefinition( $definition );
-		return $definition;
-	}	
-	
-	protected function completeDefinition( &$definition )
-	{
-		foreach( array_keys( $definition['services'] ) as $serviceName )
-		{
-			$service	= $definition['services'][$serviceName];
-			if( !isset( $service['description'] ) )
-				$definition['services'][$serviceName]['description']	= NULL;
-			if( !isset( $service['parameters'] ) )
-				$definition['services'][$serviceName]['parameters']	= array();
-			if( !isset( $service['roles'] ) )
-				$definition['services'][$serviceName]['roles']	= array();
-			if( !isset( $service['status'] ) )
-				$definition['services'][$serviceName]['status']	= NULL;
-		}
+		return File_YAML_Reader::load( $fileName );
 	}
 }
 ?>

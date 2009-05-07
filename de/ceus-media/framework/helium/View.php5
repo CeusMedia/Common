@@ -1,8 +1,14 @@
 <?php
+import( 'de.ceus-media.adt.Reference' );
+import( 'de.ceus-media.ui.html.Elements' );
+import( 'de.ceus-media.ui.html.Paging' );
+import( 'de.ceus-media.alg.TimeConverter' );
+import( 'de.ceus-media.file.ini.Reader' );
+import( 'de.ceus-media.ui.html.WikiParser' );
 /**
  *	Generic View with Language Support.
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2008 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -24,19 +30,13 @@
  *	@uses			Alg_TimeConverter
  *	@uses			File_INI_Reader
  *	@uses			WikiParser
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			01.12.2005
  *	@version		0.3
  */
-import( 'de.ceus-media.adt.Reference' );
-import( 'de.ceus-media.ui.html.Elements' );
-import( 'de.ceus-media.ui.html.Paging' );
-import( 'de.ceus-media.alg.TimeConverter' );
-import( 'de.ceus-media.file.ini.Reader' );
-import( 'de.ceus-media.ui.html.WikiParser' );
 /**
  *	Generic View with Language Support.
  *	@package		framework.helium
@@ -46,8 +46,8 @@ import( 'de.ceus-media.ui.html.WikiParser' );
  *	@uses			Alg_TimeConverter
  *	@uses			File_INI_Reader
  *	@uses			WikiParser
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			01.12.2005

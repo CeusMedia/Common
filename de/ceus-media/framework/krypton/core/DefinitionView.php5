@@ -1,8 +1,11 @@
 <?php
+import( 'de.ceus-media.framework.krypton.core.View' );
+#import( 'de.ceus-media.file.log.LogFile' );
+#import( 'de.ceus-media.framework.krypton.logic.ValidationError' );
 /**
  *	Generic Definition View with Language Support.
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2008 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -19,44 +22,39 @@
  *
  *	@package		framework.krypton.core
  *	@extends		Framework_Krypton_Core_View
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			18.06.2006
- *	@version		0.7
+ *	@version		0.6
  */
-import( 'de.ceus-media.framework.krypton.core.View' );
 /**
  *	Generic Definition View with References.
  *	@package		framework.krypton.core
  *	@extends		Framework_Krypton_Core_View
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			18.06.2006
- *	@version		0.7
+ *	@version		0.6
  */
 class Framework_Krypton_Core_DefinitionView extends Framework_Krypton_Core_View
 {
-	/**	@var	string			$prefix		Prefix of XML Definition Files */
-	protected $prefix			= "";
-
-	protected $definition		= NULL;
+	/**	@var	string		$prefix		Prefix of XML Definition Files */
+	protected $prefix		= "";
+	protected $definition	= null;
 	
-	protected $inputElements	= NULL;
-
 	/**
 	 *	Constructor, references Output Objects.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function __construct( $useWikiParser = FALSE )
+	public function __construct( $useWikiParser = false )
 	{
 		parent::__construct( $useWikiParser );
 		$this->definition	= $this->registry->get( 'definition' );
-		$this->loadInputElements();
 	}
 
 	/**
@@ -92,22 +90,7 @@ class Framework_Krypton_Core_DefinitionView extends Framework_Krypton_Core_View
 						if( isset( $data['calendar']['range'] ) )
 							$cal->setRange( $data['calendar']['range'] );
 						if( isset( $data['calendar']['type'] ) )
-						{
-							$type	= Framework_Krypton_View_Component_MonthCalendar::TYPE_PRESENT;
-							switch( strtolower( trim( $data['calendar']['type'] ) ))
-							{
-								case "past":
-									$type	= Framework_Krypton_View_Component_MonthCalendar::TYPE_PAST;
-									break;
-								case "present":
-									$type	= Framework_Krypton_View_Component_MonthCalendar::TYPE_PRESENT;
-									break;
-								case "future":
-									$type	= Framework_Krypton_View_Component_MonthCalendar::TYPE_FUTURE;
-									break;
-							}
-							$cal->setType( $type );
-						}
+							$cal->setType( $data['calendar']['type'] );
 						if( isset( $data['calendar']['direction'] ) )
 							$cal->setDirection( $data['calendar']['direction'] == "asc" );
 						if( isset( $this->words['main']['months'] ) )
@@ -181,35 +164,139 @@ class Framework_Krypton_Core_DefinitionView extends Framework_Krypton_Core_View
 	 *	@param		string		$formName			Name of Form within XML Definition File (e.g. 'addExample' )
 	 *	@param		string		$languageFile		Name of Language File (e.g. 'example')
 	 *	@param		string		$languageSection	Section in Language File (e.g. 'add')
-	 *	@param		array		$values				Map of available Input Field Values
-	 *	@param		array		$sources			Map of Option Arrays for Select Boxes
+	 *	@param		array		$values				Array of available Input Field Values
+	 *	@param		array		$sources			Array of Option Arrays for Select Boxes
 	 *	@return		array
 	 */
 	public function buildInputs( $fileName, $formName, $languageFile, $languageSection, $values = array(), $sources = array() )
 	{
+		$request	= $this->registry->get( 'request' );
+		$labels		= $this->words[$languageFile][$languageSection];
+
+		$array	= array();
 		$this->loadDefinition( $fileName, $formName );
-
-		$this->inputElements->setFormName( $formName );
-
-		$elements	= array();
-		$fields		= $this->definition->getFields();
-		foreach( $fields as $fieldName )
+		$fields	= $this->definition->getFields();
+		foreach( $fields as $field )
 		{
-			$data	= $this->definition->getField( $fieldName );
-			$value	= $this->request->get( $data['input']['name'] );
-			$value	= isset( $values[$fieldName] ) ? $values[$fieldName] : $value;
-			if( !empty( $data['syntax']['mandatory'] ) )
+			$input = "";
+			$data	= $this->definition->getField( $field );
+			if( !isset( $values[$field] ) )
+				$values[$field]	= "";
+			if( !$values[$field] && $value	= $request->get( $data['input']['name'] ) )
+				$values[$field]	= $value;
+
+			if( $data['syntax']['mandatory'] )
+				$data['input']['style']	.= " mandatory";
+			if( $data['input']['type'] == "select" )
 			{
-				$style		= !empty( $data['input']['style'] ) ? $data['input']['style'] : "";
-				$classes	= explode( " ", trim( $style ) );
-				$classes[]	= "mandatory";
-				$data['input']['style']	= implode( " ", $classes );
+//				$disabled	= ( isset( $data['input']['disabled'] ) && $data['input']['disabled'] ) ? 'disabled' : false;
+				$submit	= isset( $data['input']['submit'] ) && $data['input']['submit'] ? $formName : false;
+				if( $data['input']['options'] )
+				{
+					if( preg_match( "@[^:]+(:)[^:]+@", $data['input']['options'] ) )
+					{
+						$parts	= explode( ":", $data['input']['options'] );
+						$this->loadLanguage( $parts[0] );
+						$options	= $this->words[$parts[0]][$data['input']['options']];
+					}
+					else
+						$options	= $this->words[$languageFile][$data['input']['options']];
+					$options['_selected']	= $values[$field];
+					$input	= $this->html->Select( $data['input']['name'], $options, $data['input']['style'], false, $submit );
+				}
+				else if( isset( $sources[$data['input']['source']] ) )
+					$input	= $this->html->Select( $data['input']['name'], $sources[$data['input']['source']], $data['input']['style'], false, $submit );
+				else
+					$input	= $this->html->Select( $data['input']['name'], "", $data['input']['style'], false, $submit );
 			}
-			$options	= $this->getInputOptions( $fieldName, $data['input'], $languageFile, $sources, $value );
-			$input		= $this->inputElements->buildInputElement( $fieldName, $data, $value, $options );
-			$elements['input_'.$fieldName]	= $input;
+			else if( $data['input']['type'] == "textarea" )
+			{
+				$input = $this->html->TextArea( $data['input']['name'], $values[$field], $data['input']['style'], $data['input']['disabled'], $data['input']['validator'] );
+			}
+			else if( $data['input']['type'] == "input" )
+			{
+				$maxlength	= isset( $data['syntax']['maxlength'] ) ? $data['syntax']['maxlength'] : 0;
+				$validator	= isset( $data['input']['validator'] ) ? $data['input']['validator'] : "";
+				$style		= isset( $data['input']['style'] ) ? $data['input']['style'] : "";
+				$input = $this->html->Input( $data['input']['name'], $values[$field], $style, false, false, $maxlength, $validator );
+			}
+			else if( $data['input']['type'] == "password" )
+				$input = $this->html->Password( $data['input']['name'], $data['input']['style'] );
+			else if( $data['input']['type'] == "checkbox" )
+				$input = $this->html->CheckBox( $data['input']['name'], 1, $values[$field], $data['input']['style'] );
+			else if( $data['input']['type'] == "checklabel" )
+			{
+				$label	= $this->getLabel( $data, $field, $labels );
+				$input = $this->html->CheckLabel( $data['input']['name'], $values[$field], $label, $data['input']['style'] );
+			}
+			else if( $data['input']['type'] == "file" )
+				$input = $this->html->File( $data['input']['name'], '', $data['input']['style'] );
+			else if( $data['input']['type'] == "label" )
+			{
+				$value	= $values[$field];
+				if( $data['input']['options'] )
+				{
+					$options	= $this->words[$languageFile][$data['input']['options']];
+					$value		= $options[$value];
+				}
+				if( isset( $data['input']['style'] ) && $data['input']['style'] )
+					$input	= '<span class="'.$data['input']['style'].'">'.$value.'</span>';
+				else
+					$input	= '<span>'.$value.'</span>';
+			}
+/*			else if( $data['input']['type'] == "checklabel" )
+			{
+				$checkbox = $gui->elements->CheckBox( $name, $value, $name );
+				$field = $gui->elements->CheckLabel( $checkbox, $source, $class, $name, $maxlength );
+			}
+*/			else if( $data['input']['type'] == "radio" )
+			{
+				$input = $this->html->Radio( $name, $value, array( $source ) );
+			}
+			else if( $data['input']['type'] == "radiogroup" )
+			{
+				if( $data['input']['options'] )
+				{
+					$options	= $this->words[$languageFile][$data['input']['options']];
+					$options['_selected']	= $values[$field];
+					$input = $this->html->RadioGroup( $data['input']['name'], $options, $data['input']['style'] );
+				}
+				else
+					$input = $this->html->RadioGroup( $data['input']['name'], $sources[$data['input']['source']], $data['input']['style'] );
+			}
+			else if( $data['input']['type'] == "radiolist" )
+			{
+				if( $data['input']['options'] )
+				{
+					$options	= $this->words[$languageFile][$data['input']['options']];
+					$options['_selected']	= $values[$field];
+					$input = $this->html->RadioList( $data['input']['name'], $options, $data['input']['style'] );
+				}
+				else
+					$input = $this->html->RadioList( $data['input']['name'], $sources[$data['input']['source']], $data['input']['style'] );
+			}
+
+/*			else if( $data['input']['type'] == "selectlabel" )
+			{
+				$options	= $this->words[$languageFile][$data['input']['source']];
+				$input = $options[$values[$field]];
+			}
+*/			
+			
+/*			else if( $data['input']['type'] == "radios" && $source )
+			{
+				$words = $language->getWords( $front, $source );
+				foreach( $words as $word_key => $word_value )
+				{
+					unset( $words[$word_key] );
+					$word_key = substr( $word_key, 4 );
+					$new_words[$word_key] = $word_value;
+				}
+				$field = $gui->elements->Radio( $name, $value, $new_words, $class, false, false, $allow, $tabindex, $disabled || $radio_dis );
+*/			
+			$array['input_'.$field]	= $input;
 		}
-		return $elements;
+		return $array;
 	}
 
 	/**
@@ -264,46 +351,6 @@ class Framework_Krypton_Core_DefinitionView extends Framework_Krypton_Core_View
 	}
 
 	/**
-	 *	Returns Map of Options for Input Elements either from Sources Array or Option Language Section depending on Form Definition.
-	 *	@access		public
-	 *	@param		array		$fieldName			Field Name to build Options for
-	 *	@param		array		$inputData			Input Definition of Field
-	 *	@param		string		$languageFile		Name of Language File (e.g. 'example')
-	 *	@param		array		$sources			Map of Option Arrays for Select Boxes
-	 *	@return		array
-	 */
-	protected function getInputOptions( $fieldName, $inputData, $languageFile, $sources, $value )
-	{
-		$options	= NULL;
-		if( !empty( $inputData['source'] ) )
-		{
-			$source	= $inputData['source'];
-			if( !( isset( $sources[$source] ) && is_array( $sources[$source] ) ) )
-				throw new Exception( 'No Options given for "'.$fieldName.'".' );
-			$options	= $sources[$source];
-		}
-		if( !empty( $inputData['options'] ) )
-		{
-			$optionFile		 = $languageFile;
-			$optionSection	 = $inputData['options'];
-			if( preg_match( "@[^:]+(:)[^:]+@", $optionSection ) )
-			{
-				$parts	= explode( ":", $optionSection );
-				$optionFile		= $parts[1];
-				$optionSection	= $parts[1];
-				$this->loadLanguage( $optionFile );
-			}
-			if( empty( $this->words[$optionFile] ) )
-				throw new RuntimeException( 'Language File "'.$optionFile.'" is not loaded.' );
-			if( empty( $this->words[$optionFile][$optionSection] ) )
-				throw new RuntimeException( 'Option Section "'.$optionSection.'" is missing in Language File "'.$optionFile.'".' );
-			$options	= $this->words[$optionFile][$optionSection];
-			$options['_selected']	= $value;
-		}
-		return $options;
-	}
-
-	/**
 	 *	Returns Field Label including Acronym, ToolTip or HelpHover if available.
 	 *	@access		public
 	 *	@param		array		$data			Field Definition
@@ -341,17 +388,6 @@ class Framework_Krypton_Core_DefinitionView extends Framework_Krypton_Core_View
 		$this->definition->setForm( $formName );
 		$this->definition->setPrefix( $this->prefix );
 		$this->definition->loadDefinition( $fileName );
-	}
-
-	/**
-	 *	Loads Class containing Input Element Components, can be overwritten.
-	 *	@access		protected
-	 *	@return		void
-	 */
-	protected function loadInputElements()
-	{
-		import( 'de.ceus-media.framework.krypton.view.component.InputElements' );
-		$this->inputElements	= new Framework_Krypton_View_Component_InputElements();
 	}
 }
 ?>

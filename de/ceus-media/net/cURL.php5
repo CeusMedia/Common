@@ -2,7 +2,7 @@
 /**
  *	cURL Wrapper
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2008 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -18,8 +18,8 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@package		net
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			16.06.2005
@@ -49,8 +49,8 @@ define( 'CURL_STATUS_TIME_TOTAL',				'total_time' );
 /**
  *	cURL Wrapper
  *	@package		net
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			16.06.2005
@@ -192,7 +192,7 @@ class Net_cURL
 	 *	Returns the parsed HTTP header.
 	 *	@access		public
 	 *	@param		string		$key		Key name of Header Information
-	 *	@return	 	mixed
+	 *	@returns 	mixed
 	 */
 	public function getHeader( $key = NULL )
 	{
@@ -212,7 +212,7 @@ class Net_cURL
 	 *	Returns the current setting of the request option.
 	 *	@access		public
 	 *	@param		int			$option		Key name of cURL Option
-	 *	@return 	mixed
+	 *	@returns 	mixed
 	 */
 	public function getOption( $option )
 	{
@@ -225,7 +225,7 @@ class Net_cURL
 	 *	Return the status information of the last cURL request.
 	 *	@access		public
 	 *	@param		string		$key		Key name of Information
-	 *	@return		mixed
+	 *	@returns	mixed
 	 */
 	public function getStatus( $key = NULL )
 	{
@@ -305,7 +305,6 @@ class Net_cURL
 	/**
 	 *	Set Time Out in Seconds.
 	 *	@access		public
-	 *	@static
 	 *	@param		int			$seconds	Seconds until Time Out
 	 *	@return		void
 	 */

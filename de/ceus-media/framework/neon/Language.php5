@@ -1,35 +1,9 @@
 <?php
-/**
- *	Language Support with sniffing of Browser Language and Language Validation.
- *	Loads Language Files direct or from Cache if enabled.
- *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
- *
- *	This program is free software: you can redistribute it and/or modify
- *	it under the terms of the GNU General Public License as published by
- *	the Free Software Foundation, either version 3 of the License, or
- *	(at your option) any later version.
- *
- *	This program is distributed in the hope that it will be useful,
- *	but WITHOUT ANY WARRANTY; without even the implied warranty of
- *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *	GNU General Public License for more details.
- *
- *	You should have received a copy of the GNU General Public License
- *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
- *	@package		framework.neon
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@link			http://code.google.com/p/cmclasses/
- *	@since			05.12.2006
- *	@version		0.6
- */
 import( 'de.ceus-media.adt.OptionObject' );
 import( 'de.ceus-media.net.http.LanguageSniffer' );
 import( 'de.ceus-media.alg.validation.LanguageValidator' );
 import( 'de.ceus-media.file.block.Reader' );
+
 /**
  *	Language Support with sniffing of Browser Language and Language Validation.
  *	Loads Language Files direct or from Cache if enabled.
@@ -37,20 +11,27 @@ import( 'de.ceus-media.file.block.Reader' );
  *	@extends		ADT_OptionObject
  *	@uses			Net_HTTP_LanguageSniffer
  *	@uses			Alg_Validation_LanguageValidator
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@link			http://code.google.com/p/cmclasses/
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@since			05.12.2006
+ *	@version		0.6
+ */
+/**
+ *	Language Support with sniffing of Browser Language and Language Validation.
+ *	Loads Language Files direct or from Cache if enabled.
+ *	@package		framework.neon
+ *	@extends		ADT_OptionObject
+ *	@uses			Net_HTTP_LanguageSniffer
+ *	@uses			Alg_Validation_LanguageValidator
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			05.12.2006
  *	@version		0.6
  */
 class Framework_Neon_Language extends ADT_OptionObject
 {
-	protected	$loaded			= array();
-	protected	$multilingual	= TRUE;
-	public		$words			= array();
+	protected $loaded	= array();
+	public $words		= array();
 	
-	public function __construct( $encoding = NULL )
+	public function __construct( $encoding = false )
 	{
 		parent::__construct();
 
@@ -59,35 +40,25 @@ class Framework_Neon_Language extends ADT_OptionObject
 		$session	= $this->ref->get( 'session' );
 		$config		= $this->ref->get( 'config' );
 
-		$pathFiles	= $config['paths']['languages'];
-		$pathCache	= $config['paths']['cache'].basename( $config['paths']['languages'] )."/";
-
-		if( isset( $config['languages'] ) )
+		//  --  LANGUAGE SELECT  --  //
+		$default	= $config['languages']['default'];
+		$allowed	= explode( ",", $config['languages']['allowed'] );
+		if( $language 	= $request->get( 'switchLanguageTo' ) )
 		{
-			//  --  LANGUAGE SELECT  --  //
-			$default	= $config['languages']['default'];
-			$allowed	= explode( ",", $config['languages']['allowed'] );
-			if( $language 	= $request->get( 'switchLanguageTo' ) )
-			{
-				$lv	= new Alg_Validation_LanguageValidator( $allowed, $default );
-				$language	= $lv->getLanguage( $language );
-				$session->set( 'language', $language );
-				$request->remove( 'switchLanguageTo' );
-			}
-			if( !( $language = $session->get( 'language' ) ) )
-			{
-				$sniffer	= new Net_HTTP_LanguageSniffer;
-				$language	= $sniffer->getLanguage( $allowed, $default );
-				$session->set( 'language', $language );
-			}
-
-			$pathFiles	.= $language."/";
-			$pathCache	.= $language."/";
+			$lv	= new Alg_Validation_LanguageValidator( $allowed, $default );
+			$language	= $lv->getLanguage( $language );
+			$session->set( 'language', $language );
 		}
-
-		$this->setOption( 'path_files', $pathFiles );
-		$this->setOption( 'path_cache', $pathCache );
+		if( !( $language = $session->get( 'language' ) ) )
+		{
+			$sniffer	= new Net_HTTP_LanguageSniffer;
+			$language	= $sniffer->getLanguage( $allowed, $default );
+			$session->set( 'language', $language );
+		}
+				
 		$this->setOption( 'encoding', $encoding );
+		$this->setOption( 'path_files', $config['paths']['languages'].$language."/" );
+		$this->setOption( 'path_cache', $config['paths']['cache'].preg_replace("@^".$config['paths']['contents']."@", "", $config['paths']['languages'] ).$language."/" );
 		$this->setOption( 'loaded_file', array() );
 		$this->ref->add( 'words', $this->words );
 		$this->loadHovers();
@@ -110,12 +81,12 @@ class Framework_Neon_Language extends ADT_OptionObject
 		}
 	}
 	
-	public function loadLanguage( $filename, $section = FALSE, $verbose = TRUE )
+	public function loadLanguage( $filename, $section = false, $verbose = true )
 	{
 		$messenger	= $this->ref->get( 'messenger' );
 		if( !$section )
 			$section	= $filename;
-		$uri	= $this->getOption( 'path_files' ).$filename.".lan";
+		$uri	= $this->getOption( 'path_files' )."/".$filename.".lan";
 		$cache	= $this->getOption( 'path_cache' ).basename( $filename ).".cache";
 		if( file_exists( $cache ) && filemtime( $uri ) <= filemtime( $cache ) )
 		{

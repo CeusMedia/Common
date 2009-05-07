@@ -1,8 +1,9 @@
 <?php
+import( 'de.ceus-media.file.Reader' );
 /**
  *	Reader for Log File.
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2008 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -19,20 +20,19 @@
  *
  *	@package		file.log
  *	@uses			File_Reader
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			28.11.2007
  *	@version		0.6
  */
-import( 'de.ceus-media.file.Reader' );
 /**
  *	Reader for Log File.
  *	@package		file.log
  *	@uses			File_Reader
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			28.11.2007
@@ -57,7 +57,6 @@ class File_Log_Reader
 	/**
 	 *	Reads a Log File and returns Lines.
 	 *	@access		public
-	 *	@static
 	 *	@param		string		$uri		URI of Log File
 	 *	@param		int			$offset		Offset from Start or End
 	 *	@param		int			$limit		Amount of Entries to return
