@@ -81,5 +81,17 @@ class Net_HTTP_Request_Receiver extends ADT_List_Dictionary
 			throw new InvalidArgumentException( "No valid source chosen." );
 		return $this->sources[$source];
 	}
+
+	/**
+	 *	Indicates whether this Request came by AJAX.
+	 *	It seems only jQery is supporting this at the moment.
+	 *	@access		public
+	 *	@return		bool
+	 *	@since		0.6.7
+	 */
+	public function isAjax()
+	{
+		return getEnv( 'HTTP_X_REQUESTED_WITH' ) == "HTTP_X_REQUESTED_WITH" );
+	}
 }
 ?>
