@@ -91,7 +91,7 @@ class Net_HTTP_Request_Receiver extends ADT_List_Dictionary
 	 */
 	public function isAjax()
 	{
-		return getEnv( 'HTTP_X_REQUESTED_WITH' ) == "HTTP_X_REQUESTED_WITH" );
+		return getEnv( 'HTTP_X_REQUESTED_WITH' ) == "HTTP_X_REQUESTED_WITH";
 	}
 }
 ?>
