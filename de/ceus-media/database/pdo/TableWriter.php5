@@ -183,12 +183,16 @@ class Database_PDO_TableWriter extends Database_PDO_TableReader
 	}
 
 	/**
-	 *	Deletes all data in Table.
+	 *	Removes all Data and resets incremental counter.
+	 *	Note: This method does not return the number of removed rows.
+	 *	@access		public
+	 *	@return		void
+	 *	@see		http://dev.mysql.com/doc/refman/4.1/en/truncate.html
 	 */
 	public function truncate()
 	{
 		$query	= "TRUNCATE ".$this->getTableName();
-		return $this->dbc->exec( $query );
+		$this->dbc->exec( $query );
 	}
 }
 ?>
