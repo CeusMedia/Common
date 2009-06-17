@@ -50,7 +50,7 @@ class Net_FTP_Connection
 	public $mode				= FTP_BINARY;
 
 	/**
-	 *	Constructor.
+	 *	Constructor, connects to FTP Server.
 	 *	@access		public
 	 *	@param		string		$host			Host Name
 	 *	@param		int			$port			Service Port
@@ -61,9 +61,9 @@ class Net_FTP_Connection
 	{
 		$this->connect( $host, $port, $timeout );
 	}
-	
+
 	/**
-	 *	Destructor.
+	 *	Destructor, closes open Connection to FTP Server.
 	 *	@access		public
 	 *	@return		void
 	 */
