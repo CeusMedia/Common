@@ -50,6 +50,7 @@ class Tests_Database_PDO_TableWriterTest extends PHPUnit_Framework_TestCase
 		$this->connection->setErrorLogFile( $this->errorLog );
 		$this->connection->setStatementLogFile( $this->queryLog );
 
+
 		$this->tableName	= "transactions";
 		$this->columns	= array(
 			'id',
@@ -359,7 +360,7 @@ class Tests_Database_PDO_TableWriterTest extends PHPUnit_Framework_TestCase
 	{
 		$this->connection->query( "INSERT INTO transactions (label) VALUES ('truncateTest');" );
 
-		$assertion	= 2;
+		$assertion	= NULL;
 		$creation	= $this->writer->truncate();
 		$this->assertEquals( $assertion, $creation );
 		
