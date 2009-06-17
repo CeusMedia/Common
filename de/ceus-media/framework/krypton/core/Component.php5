@@ -130,8 +130,9 @@ abstract class Framework_Krypton_Core_Component
 	public function __construct( $useWikiParser = FALSE )
 	{
 		$this->registry		= Framework_Krypton_Core_Registry::getInstance();
-		$this->config		= $this->registry->get( 'config' );
-		$this->request		= $this->registry->get( 'request' );
+		$this->config		=& $this->registry->get( 'config' );
+		$this->request		=& $this->registry->get( 'request' );
+		$this->session		=& $this->registry->get( 'session' );
 		$this->html			= new UI_HTML_Elements;
 		$this->tc			= new Alg_TimeConverter;
 		if( $useWikiParser )
@@ -310,7 +311,7 @@ abstract class Framework_Krypton_Core_Component
 	 *	Retursn HTTP Query String build from basic Parameter Pairs and additional Pairs, where a Pair will Value NULL will remove the Pair.
 	 *	@access		public
 	 *	@param		array		$basePairs		Array of basic Parameter Pairs
-	 *	@param		array		$otherPairs		Arrayo of Pairs to add or remove (on Value NULL)
+	 *	@param		array		$otherPairs		Array of Pairs to add or remove (on Value NULL)
 	 *	@return		string
 	 */
 	public function getQueryString( $basePairs, $otherPairs = array() )
@@ -333,16 +334,12 @@ abstract class Framework_Krypton_Core_Component
 	 *	@access		public
 	 *	@param		string		$fileKey		File Name of Template File
 	 *	@return		string
-	 *	@deprecated	moved to Framework_Krypton_View_Component_Template
 	 */
-	public function _getTemplateUri( $fileKey )
+	public function getTemplateUri( $fileKey )
 	{
-		$config		= $this->registry->get( "config" );
-
-		$basePath	= $config['paths.templates'];
+		$basePath	= $this->config['paths.templates'];
 		$baseName	= str_replace( ".", "/", $fileKey ).".html";
-
-		$fileName = $basePath.$baseName;
+		$fileName	= $basePath.$baseName;
 		return $fileName;
 	}
 
@@ -598,8 +595,8 @@ abstract class Framework_Krypton_Core_Component
 	 */
 	public function loadTemplate( $fileKey, $data = array(), $verbose = FALSE )
 	{
-		$template	= new Framework_Krypton_View_Component_Template( $fileKey, $data );
-		return $template->create();
+		$fileName	= $this->getTemplateUri( $fileKey );
+		return UI_Template::render( $fileName, $data );
 	}
 	
 	/**
