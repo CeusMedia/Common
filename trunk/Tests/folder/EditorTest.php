@@ -29,9 +29,6 @@ class Tests_Folder_EditorTest extends Tests_Folder_TestCase
 	public function __construct()
 	{
 		parent::__construct();
-		$this->path		= dirname( __FILE__ )."/";
-		$this->path		= "Tests/folder/";
-		$this->folder	= $this->path."folder";
 	}
 	
 	/**
@@ -41,6 +38,7 @@ class Tests_Folder_EditorTest extends Tests_Folder_TestCase
 	 */
 	public function setUp()
 	{
+		parent::setUp();
 		$this->editor	= new Folder_Editor( $this->folder );
 		$this->tearDown();
 	}

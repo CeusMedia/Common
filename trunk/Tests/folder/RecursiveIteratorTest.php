@@ -29,7 +29,6 @@ class Tests_Folder_RecursiveIteratorTest extends Tests_Folder_TestCase
 	public function __construct()
 	{
 		parent::__construct();
-		$this->path	= dirname( __FILE__ )."/";
 	}
 
 	/**
@@ -39,8 +38,7 @@ class Tests_Folder_RecursiveIteratorTest extends Tests_Folder_TestCase
 	 */
 	public function testConstruct()
 	{
-		$path		= str_replace( "\\", "/", $this->path."folder" );
-		$index	= new Folder_RecursiveIterator( $path );
+		$index	= new Folder_RecursiveIterator( $this->folder );
 		$list	= $this->getListFromIndex( $index );
 
 		$assertion	= array(
@@ -90,8 +88,7 @@ class Tests_Folder_RecursiveIteratorTest extends Tests_Folder_TestCase
 	 */
 	public function testConstructFilesOnly()
 	{
-		$path		= str_replace( "\\", "/", $this->path."folder" );
-		$index	= new Folder_RecursiveIterator( $path, TRUE, FALSE );
+		$index	= new Folder_RecursiveIterator( $this->folder, TRUE, FALSE );
 		$list	= $this->getListFromIndex( $index );
 
 		$assertion	= array();
@@ -123,8 +120,7 @@ class Tests_Folder_RecursiveIteratorTest extends Tests_Folder_TestCase
 	 */
 	public function testConstructFoldersOnly()
 	{
-		$path		= str_replace( "\\", "/", $this->path."folder" );
-		$index	= new Folder_RecursiveIterator( $path, FALSE, TRUE );
+		$index	= new Folder_RecursiveIterator( $this->folder, FALSE, TRUE );
 		$list	= $this->getListFromIndex( $index );
 
 		$assertion	= array(
@@ -149,8 +145,7 @@ class Tests_Folder_RecursiveIteratorTest extends Tests_Folder_TestCase
 	 */
 	public function testConstructHiddenFilesAlso()
 	{
-		$path	= str_replace( "\\", "/", $this->path."folder" );
-		$index	= new Folder_RecursiveIterator( $path, TRUE, FALSE, FALSE );
+		$index	= new Folder_RecursiveIterator( $this->folder, TRUE, FALSE, FALSE );
 		$list	= $this->getListFromIndex( $index );
 
 		$assertion	= array(
@@ -193,8 +188,7 @@ class Tests_Folder_RecursiveIteratorTest extends Tests_Folder_TestCase
 	 */
 	public function testConstructHiddenFoldersAlso()
 	{
-		$path	= str_replace( "\\", "/", $this->path."folder" );
-		$index	= new Folder_RecursiveIterator( $path, FALSE, TRUE, FALSE );
+		$index	= new Folder_RecursiveIterator( $this->folder, FALSE, TRUE, FALSE );
 		$list	= $this->getListFromIndex( $index );
 
 		$assertion	= array(

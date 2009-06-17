@@ -29,7 +29,6 @@ class Tests_Folder_ReaderTest extends Tests_Folder_TestCase
 	public function __construct()
 	{
 		parent::__construct();
-		$this->path	= dirname( __FILE__ )."/";
 	}
 
 	/**
@@ -39,7 +38,8 @@ class Tests_Folder_ReaderTest extends Tests_Folder_TestCase
 	 */
 	public function setUp()
 	{
-		$this->reader1	= new Folder_Reader( $this->path."folder" );				//  valid Folder Reader
+		parent::setUp();
+		$this->reader1	= new Folder_Reader( $this->folder );				//  valid Folder Reader
 		$this->reader2	= new Folder_Reader( $this->path."not_existing" );			//  invalid Folder Reader
 	}
 
@@ -251,7 +251,7 @@ class Tests_Folder_ReaderTest extends Tests_Folder_TestCase
 	 */
 	public function testGetFolderName()
 	{
-		$assertion	= $this->path."folder";
+		$assertion	= $this->folder;
 		$creation	= $this->reader1->getFolderName();
 		$this->assertEquals( $assertion, $creation );
 
@@ -635,7 +635,7 @@ class Tests_Folder_ReaderTest extends Tests_Folder_TestCase
 	public function testIsFolder()
 	{
 		$assertion	= true;
-		$creation	= Folder_Reader::isFolder( $this->path."folder" );
+		$creation	= Folder_Reader::isFolder( $this->folder );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= false;
