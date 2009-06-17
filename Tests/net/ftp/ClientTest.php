@@ -29,7 +29,7 @@ class Tests_Net_FTP_ClientTest extends PHPUnit_Framework_TestCase
 	 */
 	public function __construct()
 	{
-		$this->host		= "localhost";
+		$this->host		= "127.0.0.1";
 		$this->port		= 21;
 		$this->username	= "ftp_user";
 		$this->password	= "ftp_pass";
@@ -87,6 +87,8 @@ class Tests_Net_FTP_ClientTest extends PHPUnit_Framework_TestCase
 		@rmDir( $this->ftpPath."folder/nested" );
 		@rmDir( $this->ftpPath."folder" );
 		@rmDir( $this->ftpPath );
+		
+		unset( $this->client );
 	}
 
 	/**

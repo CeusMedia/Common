@@ -26,7 +26,11 @@ class Tests_Net_HTTP_PartitionSessionTest extends PHPUnit_Framework_TestCase
 	
 	public function __construct()
 	{
-		$this->session		= new Net_HTTP_PartitionSession( 'test' );
+	}
+	
+	public function setUp()
+	{
+		$this->session		= @new Net_HTTP_PartitionSession( "test" );
 		$this->session->clear();
 	}
 	

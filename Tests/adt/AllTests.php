@@ -11,6 +11,7 @@ require_once( 'Tests/adt/OptionObjectTest.php' );
 require_once( 'Tests/adt/ReferenceTest.php' );
 require_once( 'Tests/adt/RegistryTest.php' );
 require_once( 'Tests/adt/ObjectTest.php' );
+require_once( 'Tests/adt/StringTest.php' );
 require_once( 'Tests/adt/StringBufferTest.php' );
 class Tests_ADT_AllTests
 {
@@ -29,6 +30,7 @@ class Tests_ADT_AllTests
 		$suite->addTestSuite( "Tests_ADT_ReferenceTest" ); 
 		$suite->addTestSuite( "Tests_ADT_RegistryTest" ); 
 		$suite->addTestSuite( "Tests_ADT_ObjectTest" );
+		$suite->addTestSuite( "Tests_ADT_StringTest" );
 		$suite->addTestSuite( "Tests_ADT_StringBufferTest" );
 		return $suite;
 	}

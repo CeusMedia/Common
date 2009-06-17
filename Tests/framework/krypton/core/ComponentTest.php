@@ -310,7 +310,7 @@ class Tests_Framework_Krypton_Core_ComponentTest extends PHPUnit_Framework_TestC
 		$this->component->loadContent( "wrong_path.not_existing.html" );
 	}
 
-	public function testLoadTempate()
+	public function testLoadTemplate()
 	{
 		$config		=& $this->registry->get( 'config' );		
 		$config['paths.templates']	= "Tests/framework/krypton/";
