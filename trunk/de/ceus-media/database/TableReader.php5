@@ -200,7 +200,7 @@ class Database_TableReader
 		if( $usePrimary && $this->isFocused() == "primary" )				//  if using foreign Keys & is focused primary
 			$new[$this->focusKey] = $this->focus;							//  note primary Key Pair
 
-		$pattern	= "/^(<|<=|>=|>|!=)(.+)/";
+		$pattern	= "/^(<=|>=|<|>|!=)(.+)/";
 		$conditions = array();
 		foreach( $new as $key => $value )									//  iterate all noted Pairs
 		{
