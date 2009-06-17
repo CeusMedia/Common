@@ -33,6 +33,7 @@
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		0.5
  *	@todo			revise, internationalise
+ *	@deprecated		use Alg_Time_Converter instead
  */
 class Alg_TimeConverter
 {

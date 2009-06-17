@@ -206,7 +206,7 @@ class Alg_ColorConverter
 	public static function html2hsv( $string )
 	{
 		sscanf( $string, "%2X%2X%2X", $r, $g, $b );
-		return ColorConversion::rgb2hsv( array( $r, $g, $b ) );
+		return self::rgb2hsv( array( $r, $g, $b ) );
 	}
 	
 	/**
@@ -244,25 +244,66 @@ class Alg_ColorConverter
 	 *	@param		array	rgb		RGB-Color as array
 	 *	@return		array
 	 */
-	public static function rgb2hsv($c)
+	public static function rgb2hsv( $rgb )
 	{
-		list($r,$g,$b)=$c;
-		$v=max($r,$g,$b);
-		$t=min($r,$g,$b);
-		$s=($v==0)?0:($v-$t)/$v;
-		if ($s==0)
-			$h=-1;
-		 else
-		 {
-			$a=$v-$t;
-			$cr=($v-$r)/$a;
-			$cg=($v-$g)/$a;
-			$cb=($v-$b)/$a;
-			$h=($r==$v)?$cb-$cg:(($g==$v)?2+$cr-$cb:(($b==$v)?$h=4+$cg-$cr:0));
-			$h=60*$h;
-			$h=($h<0)?$h+360:$h;
+#		return self::rgb2hsv_2( $rgb );
+		list( $r, $g, $b ) = $rgb;
+		$v	= max( $r, $g, $b );
+		$t	= min( $r, $g, $b );
+		$s	= ( $v == 0 ) ? 0 : ( $v - $t ) / $v;
+		if( $s == 0 )
+			$h	= 0;
+		else
+		{
+			$a	= $v - $t;
+			$cr	= ( $v - $r ) / $a;
+			$cg	= ( $v - $g ) / $a;
+			$cb	= ( $v - $b ) / $a;
+			$h	= ( $r == $v ) ? $cb - $cg : ( ( $g == $v ) ? 2 + $cr - $cb : ( ( $b == $v ) ? $h = 4 + $cg - $cr : 0 ) );
+			$h	= 60 * $h;
+			$h	= ( $h < 0 ) ? $h + 360 : $h;
 		}
-		return array(round($h),round($s*100),round($v/2.55));
+		return array( round( $h ), round( $s * 100 ), round( $v / 2.55 ) );
+	}
+
+	private function rgb2hsv_2( $rgb )
+	{
+		list( $r, $g, $b ) = $rgb;
+		$r		= $r / 255.0;
+		$g		= $g / 255.0;
+		$b		= $b / 255.0;
+		$min	= min( min( $r, $g ), $b );
+		$max	= max( max( $r, $g ), $b );
+		$delta	= $max - $min;
+		$v		= $max;
+	
+		if( $delta == 0 )
+		{
+			$h = 0;
+			$s = 0;
+		}
+		else
+		{
+			$s = $delta / $max;
+			$dR = ( ( ( $max - $r ) / 6 ) + ( $delta / 2 ) ) / $delta;
+			$dG = ( ( ( $max - $g ) / 6 ) + ( $delta / 2 ) ) / $delta;
+			$dB = ( ( ( $max - $b ) / 6 ) + ( $delta / 2 ) ) / $delta;
+			if( $r == $max )
+				$h = $dB - $dG;
+			else if( $g == $max )
+				$h = ( 1 / 3 ) + $dR - $dB;
+			else
+				$h = ( 2 / 3 ) + $dG - $dR;
+			if( $h < 0 )
+				$h += 1;
+			if( $h > 1 )
+				$h -= 1;
+		}
+		return array(
+			round( $h * 360 ),
+			round( $s * 100 ),
+			round( $v * 100 )
+		);
 	}
 
 	/**

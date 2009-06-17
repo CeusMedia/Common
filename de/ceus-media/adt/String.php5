@@ -1,6 +1,48 @@
 <?php
+/**
+ *	String Class wrapping most of the PHP functions in a usable way.
+ *
+ *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *
+ *	This program is free software: you can redistribute it and/or modify
+ *	it under the terms of the GNU General Public License as published by
+ *	the Free Software Foundation, either version 3 of the License, or
+ *	(at your option) any later version.
+ *
+ *	This program is distributed in the hope that it will be useful,
+ *	but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *	GNU General Public License for more details.
+ *
+ *	You should have received a copy of the GNU General Public License
+ *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ *	@package		adt
+ *	@author			Christian Würker <christian.wuerker@ceus-media.de>
+ *	@copyright		2007-2009 Christian Würker
+ *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@link			http://code.google.com/p/cmclasses/
+ *	@since			0.6.7
+ *	@version		0.1
+ */
+/**
+ *	String Class wrapping most of the PHP functions in a usable way.
+ *	@package		adt
+ *	@author			Christian Würker <christian.wuerker@ceus-media.de>
+ *	@copyright		2007-2009 Christian Würker
+ *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@link			http://code.google.com/p/cmclasses/
+ *	@since			0.6.7
+ *	@version		0.1
+ */
 class ADT_String
 {
+	/**
+	 *	Constructor.
+	 *	@access		public
+	 *	@param		string		$string			Initial string
+	 *	@return		void
+	 */
 	public function __construct( $string = "" )
 	{
 		$this->string	= $string;
@@ -51,8 +93,12 @@ class ADT_String
 	 */
 	public function countSubstring( $string, $offset = 0, $limit = NULL )
 	{
+		if( !is_string( $string ) && !( $string instanceof ADT_String ) )
+			throw new InvalidArgumentException( 'No string given' );
 		if( !is_int( $offset ) )
 			throw new InvalidArgumentException( 'Offset must be integer' );
+		if( abs( $offset ) > $this->getLength() )
+			throw new OutOfBoundsException( 'Offset excesses string length' );
 		if( !is_null( $limit ) )
 		{
 			if( !is_int( $limit ) )
@@ -61,8 +107,6 @@ class ADT_String
 				throw new OutOfBoundsException( 'Offset and limit excess string length' );
 			return substr_count( $this->string, $string, $offset, $limit );
 		}
-		if( $offset > $this->getLength() )
-			throw new OutOfBoundsException( 'Offset excesses string length' );
 		return substr_count( $this->string, $string, $offset );
 	}
 
@@ -89,6 +133,15 @@ class ADT_String
 	 */
 	public function extend( $length, $string = " ", $left = FALSE, $right = TRUE )
 	{
+		if( !is_int( $length ) )
+			throw new InvalidArgumentException( 'Length must be integer' );
+		if( $length < $this->getLength() )
+			throw new InvalidArgumentException( 'Length cannot be lower than string length' );
+		if( !is_string( $string ) && !( $string instanceof ADT_String ) )
+			throw new InvalidArgumentException( 'Padding string must be of string' );
+		if( !$string )
+			throw new InvalidArgumentException( 'Padding string cannot be empty' );
+
 		$oldLength	= $this->getLength();
 		$mode		= STR_PAD_RIGHT;
 		if( $right && $left )
@@ -97,10 +150,7 @@ class ADT_String
 			$mode	= STR_PAD_LEFT;
 		else if( !$right )
 			throw new InvalidArgumentException( 'No mode given, set left and/or right to TRUE' );
-		remark( "length: ".$length );
-		remark( "string: ".$string );
-		remark( "mode: ".$mode );
-		$this->string	= str_pad( $this->string, $length, $string, $mode );
+		$this->string	= str_pad( $this->string, $length, (string) $string, $mode );
 		return $this->getLength() - $oldLength;
 	}	
 
@@ -123,14 +173,16 @@ class ADT_String
 	 *	@return		string		Substring
 	 *	@see		http://www.php.net/manual/en/function.substr.php
 	 */
-	public function getSubstring( $start, $length = NULL )
+	public function getSubstring( $start = 0, $length = NULL )
 	{
 		if( !is_int( $start ) )
 			throw new InvalidArgumentException( 'Start must be integer' );
 		if( abs( $start ) > $this->getLength() )
 			throw new OutOfBoundsException( 'Start excesses string length' );
-		if( is_int( $length ) )																		//  a length is given
+		if( !is_null( $length ) )																	//  a length is given
 		{
+			if( !is_int( $length ) )
+				throw new InvalidArgumentException( 'Length must be integer' );
 			if( $start >= 0 )																		//  start is postive, starting from left
 			{
 				if( $length >= 0 && $start + $length > $this->getLength() )							//  length from start is to long
@@ -176,7 +228,7 @@ class ADT_String
 	 *	Negative multipliers are not allowed.
 	 *	@access		public
 	 *	@param		int			$multiplier		
-	 *	@return		int			Number of removed slashes
+	 *	@return		int			Number of added characters
 	 */
 	public function repeat( $multiplier )
 	{
@@ -241,16 +293,16 @@ class ADT_String
 	/**
 	 *	Converts string to camel case (removes spaces and capitalizes all words).
 	 *	Use the first parameter to get a string beginning with a low letter.
-	 *	@param		bool		Lowercase first letter
+	 *	@param		bool		$startUpperCase		Start with a upper case letter
 	 *	@return		bool		At least 1 character has been changed
 	 *	@see		http://en.wikipedia.org/wiki/CamelCase
 	 */
-	public function toCamelCase( $startLow = FALSE )
+	public function toCamelCase( $startUpperCase = TRUE )
 	{
 		$oldString		= $this->string;
 		$this->capitalizeWords();
 		$this->replace( " ", "" );
-		if( $startLow )
+		if( !$startUpperCase )
 			$this->toLowerCase( TRUE );
 		return $this->string !== $oldString;
 	}
@@ -333,7 +385,7 @@ class ADT_String
 	{
 		$length			= $this->getLength();
 		$this->string	= (string) $left . $this->string . (string) $right;
-		return $length - $this->getLength();
+		return $this->getLength() - $length;
 	}
 }
 ?>
