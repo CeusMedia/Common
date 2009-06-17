@@ -104,11 +104,19 @@ class Net_Service_Point implements Net_Service_Interface_Point
 			$names	= $this->services['services'][$serviceName]['parameters'];
 			foreach( $names as $name => $rules )
 			{
-				$parameters[$name]	= NULL;
-				if( isset( $requestData[$name] ) )
-					$parameters[$name]	= $requestData[$name];
-				else if( isset( $rules['type'] ) )
-					$parameters[$name]	= $this->getDefaultParameterType( $rules['type'] );
+				if( empty( $requestData[$name] ) )														//  no Value given by Request
+				{
+					$default	= empty( $rules['default'] ) ? NULL : $rules['default'];				//  get Default Value
+					$value		= $default;
+				}
+				else
+				{
+					$type		= empty( $rules['type'] ) ? "string" : $rules['type'];					//  get Type of Parameter
+					$value		= $requestData[$name];
+					if( $type == "array" && is_string( $value ) )
+						$value	= parse_str( $value );													//  realise Request Value
+				}
+				$parameters[$name]	= $value;
 			}
 		}
 		
@@ -180,26 +188,27 @@ class Net_Service_Point implements Net_Service_Interface_Point
 	{
 		if( !isset( $this->services['services'][$serviceName]['parameters'] ) )
 			return;
-		foreach( $this->services['services'][$serviceName]['parameters'] as $parameterName => $parameterRules )
+		foreach( $this->services['services'][$serviceName]['parameters'] as $name => $rules )
 		{
-			if( !$parameterRules )
+			if( !$rules )
 				continue;
-			if( isset( $parameters[$parameterName] ) )
-				$parameter	= $parameters[$parameterName];
-			else
+
+			$type	= empty( $rules['type'] ) ? "string" : $rules['type'];				//  get Type of Parameter
+			$value	= empty( $rules['default'] ) ? NULL : $rules['default'];			//  get Default Value
+			if( isset( $parameters[$name] ) )
 			{
-				$type	 = NULL;
-				if( isset( $parameterRules['type'] ) )
-					$type	= $this->getDefaultParameterType( $parameterRules['type'] );
-				$parameter	= $type;
+				$value	= $parameters[$name];
+				if( $type == "array" && is_string( $value ) )
+					$value	= parse_str( $value );
 			}
+
 			try
 			{
-				$this->validator->validateParameterValue( $parameterRules, $parameter );
+				$this->validator->validateParameterValue( $rules, $value );
 			}
 			catch( InvalidArgumentException $e )
 			{
-				throw new InvalidArgumentException( 'Parameter "'.$parameterName.'" for Service "'.$serviceName.'" failed Rule "'.$e->getMessage().'".' );			
+				throw new InvalidArgumentException( 'Parameter "'.$name.'" for Service "'.$serviceName.'" failed Rule "'.$e->getMessage().'".' );			
 			}
 		}
 	}
@@ -224,25 +233,28 @@ class Net_Service_Point implements Net_Service_Interface_Point
 			$type	= $parameter['type'];
 		return $type;
 	}
-	
-	protected function getDefaultParameterType( $type )
+
+	protected function realizeParameterType( $value, $type )
 	{
 		switch( $type )
 		{
-			case 'array':	$type	= array();
-							break;
-			case 'bool':
-			case 'boolean':	$type	= FALSE;
-							break;
-			case 'string':	$type	= "";
-							break;
+			case 'array':
+				$value	= parse_str( (string) $value );
+				break;
+			case 'string':
 			case 'int':
+			case 'integer':
 			case 'float':
-			case 'double':	$type	= 0;
-							break;
-			default:		$type	= NULL;
+			case 'double':
+			case 'real':
+			case 'bool':
+			case 'boolean':
+#				settype( $value, $type );
+				break;
+			default:
+				$value	= $default;
 		}
-		return $type;
+		return $value;
 	}
 
 	/**
