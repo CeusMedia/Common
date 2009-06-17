@@ -32,7 +32,7 @@
  *	@version		0.4
  *	@todo			Code Documentation
  */
-class NaturalNumbers
+class Math_NaturalNumbers
 {
 	public function abs( $number )
 	{

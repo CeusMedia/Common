@@ -18,7 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@package		framework.hydrogen
- *	@uses			DatabaseConnection
+ *	@uses			Database_MySQL_Connection
  *	@uses			File_INI_Reader
  *	@uses			Net_HTTP_PartitionSession
  *	@uses			Net_HTTP_Request_Receiver
@@ -36,7 +36,7 @@
  *	@since			01.09.2006
  *	@version		0.1
  */
-import( 'de.ceus-media.database.DatabaseConnection' );
+import( 'de.ceus-media.database.MySQL.Connection' );
 import( 'de.ceus-media.file.ini.Reader' );
 import( 'de.ceus-media.net.http.PartitionSession' );
 import( 'de.ceus-media.net.http.request.Receiver' );
@@ -50,7 +50,7 @@ import( 'de.ceus-media.framework.hydrogen.Language' );
 /**
  *	Generic Main Class of Framework Hydrogen
  *	@package		framework.hydrogen
- *	@uses			DatabaseConnection
+ *	@uses			Database_MySQL_Connection
  *	@uses			File_INI_Reader
  *	@uses			Net_HTTP_PartitionSession
  *	@uses			Net_HTTP_Request_Receiver

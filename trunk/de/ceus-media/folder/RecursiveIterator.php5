@@ -99,12 +99,12 @@ class Folder_RecursiveIterator extends FilterIterator
 
 		if( $this->stripDotEntries )
 		{
-			$folderName	= str_replace( "\\", "/", $this->getInnerIterator()->getFilename() );
-			if( preg_match( "@^\.\w+@", $folderName ) )
+			$fileName	= str_replace( "\\", "/", $this->getInnerIterator()->getFilename() );
+			if( preg_match( "@^\.\w+@", $fileName ) )
 				return FALSE;
-			$folderPath	= str_replace( "\\", "/", $this->getInnerIterator()->getPathname() );
-			$folderPath	= substr( $folderPath, $this->realPathLength );
-			if( preg_match( "@/\.\w+/@", $folderPath ) )
+			$pathName	= str_replace( "\\", "/", $this->getInnerIterator()->getPathname() );
+			$pathName	= substr( $pathName, $this->realPathLength );
+			if( preg_match( "@/\.\w+/@", $pathName ) )
 				return FALSE;
 		}
 		return TRUE;
