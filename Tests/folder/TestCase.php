@@ -59,39 +59,43 @@ class Tests_Folder_TestCase extends PHPUnit_Framework_TestCase
 	 */
 	public function __construct()
 	{
-		$this->path		= $path	= dirname( __FILE__ )."/";
-		
-		@mkDir( $path."folder" );
-		@mkDir( $path."folder/sub1" );
-		@mkDir( $path."folder/sub1/sub1sub1" );
-		@mkDir( $path."folder/sub1/sub1sub2" );
-		@mkDir( $path."folder/sub2" );
-		@mkDir( $path."folder/sub2/sub2sub1" );
-		@mkDir( $path."folder/sub2/.sub2sub2" );
-		@mkDir( $path."folder/.sub3" );
-		@mkDir( $path."folder/.sub3/sub3sub1" );
-		@mkDir( $path."folder/.sub3/.sub3sub2" );
-		@file_put_contents( $path."folder/file1.txt", "test" );
-		@file_put_contents( $path."folder/file2.txt", "test" );
-		@file_put_contents( $path."folder/.file3.txt", "test" );
-		@file_put_contents( $path."folder/sub1/file1_1.txt", "test" );
-		@file_put_contents( $path."folder/sub1/file1_2.txt", "test" );
-		@file_put_contents( $path."folder/sub1/sub1sub1/file1_1_1.txt", "test" );
-		@file_put_contents( $path."folder/sub1/sub1sub1/file1_1_2.txt", "test" );
-		@file_put_contents( $path."folder/sub1/sub1sub2/file1_2_1.txt", "test" );
-		@file_put_contents( $path."folder/sub1/sub1sub2/file1_2_2.txt", "test" );
-		@file_put_contents( $path."folder/sub2/file2_1.txt", "test" );
-		@file_put_contents( $path."folder/sub2/.file2_2.txt", "test" );
-		@file_put_contents( $path."folder/sub2/sub2sub1/file2_1_1.txt", "test" );
-		@file_put_contents( $path."folder/sub2/sub2sub1/.file2_1_2.txt", "test" );
-		@file_put_contents( $path."folder/sub2/.sub2sub2/file2_2_1.txt", "test" );
-		@file_put_contents( $path."folder/sub2/.sub2sub2/.file2_2_2.txt", "test" );
-		@file_put_contents( $path."folder/.sub3/file3_1.txt", "test" );
-		@file_put_contents( $path."folder/.sub3/.file3_2.txt", "test" );
-		@file_put_contents( $path."folder/.sub3/sub3sub1/file3_1_1.txt", "test" );
-		@file_put_contents( $path."folder/.sub3/sub3sub1/.file3_1_2.txt", "test" );
-		@file_put_contents( $path."folder/.sub3/.sub3sub2/file3_2_1.txt", "test" );
-		@file_put_contents( $path."folder/.sub3/.sub3sub2/.file3_2_2.txt", "test" );
+		$this->path		= str_replace( "\\", "/", dirname( __FILE__ ) )."/";
+		$this->folder	= $this->path."folder/";
+	}
+	
+	public function setUp()
+	{
+		@mkDir( $this->folder );
+		@mkDir( $this->folder."sub1" );
+		@mkDir( $this->folder."sub1/sub1sub1" );
+		@mkDir( $this->folder."sub1/sub1sub2" );
+		@mkDir( $this->folder."sub2" );
+		@mkDir( $this->folder."sub2/sub2sub1" );
+		@mkDir( $this->folder."sub2/.sub2sub2" );
+		@mkDir( $this->folder.".sub3" );
+		@mkDir( $this->folder.".sub3/sub3sub1" );
+		@mkDir( $this->folder.".sub3/.sub3sub2" );
+		@file_put_contents( $this->folder."file1.txt", "test" );
+		@file_put_contents( $this->folder."file2.txt", "test" );
+		@file_put_contents( $this->folder.".file3.txt", "test" );
+		@file_put_contents( $this->folder."sub1/file1_1.txt", "test" );
+		@file_put_contents( $this->folder."sub1/file1_2.txt", "test" );
+		@file_put_contents( $this->folder."sub1/sub1sub1/file1_1_1.txt", "test" );
+		@file_put_contents( $this->folder."sub1/sub1sub1/file1_1_2.txt", "test" );
+		@file_put_contents( $this->folder."sub1/sub1sub2/file1_2_1.txt", "test" );
+		@file_put_contents( $this->folder."sub1/sub1sub2/file1_2_2.txt", "test" );
+		@file_put_contents( $this->folder."sub2/file2_1.txt", "test" );
+		@file_put_contents( $this->folder."sub2/.file2_2.txt", "test" );
+		@file_put_contents( $this->folder."sub2/sub2sub1/file2_1_1.txt", "test" );
+		@file_put_contents( $this->folder."sub2/sub2sub1/.file2_1_2.txt", "test" );
+		@file_put_contents( $this->folder."sub2/.sub2sub2/file2_2_1.txt", "test" );
+		@file_put_contents( $this->folder."sub2/.sub2sub2/.file2_2_2.txt", "test" );
+		@file_put_contents( $this->folder.".sub3/file3_1.txt", "test" );
+		@file_put_contents( $this->folder.".sub3/.file3_2.txt", "test" );
+		@file_put_contents( $this->folder.".sub3/sub3sub1/file3_1_1.txt", "test" );
+		@file_put_contents( $this->folder.".sub3/sub3sub1/.file3_1_2.txt", "test" );
+		@file_put_contents( $this->folder.".sub3/.sub3sub2/file3_2_1.txt", "test" );
+		@file_put_contents( $this->folder.".sub3/.sub3sub2/.file3_2_2.txt", "test" );
 	}
 
 	/**
@@ -99,10 +103,10 @@ class Tests_Folder_TestCase extends PHPUnit_Framework_TestCase
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function __destruct()
+	public function tearDown()
 	{
-		if( file_exists( $this->path."folder" ) )
-			$this->removeFolder( $this->path."folder", true );
+		if( file_exists( $this->folder ) )
+			$this->removeFolder( $this->folder, true );
 	}
 
 	/**

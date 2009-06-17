@@ -29,7 +29,6 @@ class Tests_Folder_RegexFilterTest extends Tests_Folder_TestCase
 	public function __construct()
 	{
 		parent::__construct();
-		$this->path	= str_replace( "\\", "/", dirname( __FILE__ ) )."/";
 	}
 
 	/**
@@ -41,8 +40,7 @@ class Tests_Folder_RegexFilterTest extends Tests_Folder_TestCase
 	{
 		$folders	= array();
 		$files		= array();
-		$path		= $this->path."folder";
-		$index		= new Folder_RegexFilter( $path, "@.*@" );
+		$index		= new Folder_RegexFilter( $this->folder, "@.*@" );
 		extract( $this->getListFromIndex( $index ) );
 
 		$assertion	= array(
@@ -78,8 +76,7 @@ class Tests_Folder_RegexFilterTest extends Tests_Folder_TestCase
 	 */
 	public function testConstructTextFilesOnly()
 	{
-		$path		= $this->path."folder";
-		$index		= new Folder_RegexFilter( $path, "@\.txt$@", TRUE, FALSE );
+		$index		= new Folder_RegexFilter( $this->folder, "@\.txt$@", TRUE, FALSE );
 		extract( $this->getListFromIndex( $index ) );
 
 		$assertion	= array();
@@ -101,8 +98,7 @@ class Tests_Folder_RegexFilterTest extends Tests_Folder_TestCase
 	 */
 	public function testConstructFilesOnly()
 	{
-		$path		= $this->path."folder";
-		$index		= new Folder_RegexFilter( $path, "@file@", TRUE, FALSE );
+		$index		= new Folder_RegexFilter( $this->folder, "@file@", TRUE, FALSE );
 		extract( $this->getListFromIndex( $index ) );
 
 		$assertion	= array();
@@ -124,8 +120,7 @@ class Tests_Folder_RegexFilterTest extends Tests_Folder_TestCase
 	 */
 	public function testConstructPhpFilesOnly()
 	{
-		$path		= $this->path."folder";
-		$index		= new Folder_RegexFilter( $path, "@\.php$@", TRUE, FALSE );
+		$index		= new Folder_RegexFilter( $this->folder, "@\.php$@", TRUE, FALSE );
 		extract( $this->getListFromIndex( $index ) );
 
 		$assertion	= array();
@@ -144,8 +139,7 @@ class Tests_Folder_RegexFilterTest extends Tests_Folder_TestCase
 	 */
 	public function testConstructFoldersOnly()
 	{
-		$path		= $this->path."folder";
-		$index		= new Folder_RegexFilter( $path, "@.*@", FALSE, TRUE );
+		$index		= new Folder_RegexFilter( $this->folder, "@.*@", FALSE, TRUE );
 		extract( $this->getListFromIndex( $index ) );
 
 		$assertion	= array( 'sub1', 'sub2' );
@@ -164,8 +158,7 @@ class Tests_Folder_RegexFilterTest extends Tests_Folder_TestCase
 	 */
 	public function testConstructSubFoldersOnly()
 	{
-		$path		= $this->path."folder";
-		$index		= new Folder_RegexFilter( $path, "@^sub@", FALSE, TRUE );
+		$index		= new Folder_RegexFilter( $this->folder, "@^sub@", FALSE, TRUE );
 		extract( $this->getListFromIndex( $index ) );
 
 		$assertion	= array( 'sub1', 'sub2' );
@@ -184,8 +177,7 @@ class Tests_Folder_RegexFilterTest extends Tests_Folder_TestCase
 	 */
 	public function testConstructShowHiddenFolders()
 	{
-		$path		= $this->path."folder";
-		$index		= new Folder_RegexFilter( $path, "@.*@", FALSE, TRUE, FALSE );
+		$index		= new Folder_RegexFilter( $this->folder, "@.*@", FALSE, TRUE, FALSE );
 		extract( $this->getListFromIndex( $index ) );
 
 		$assertion	= array(

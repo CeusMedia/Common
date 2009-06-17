@@ -29,7 +29,6 @@ class Tests_Folder_RecursiveRegexFilterTest extends Tests_Folder_TestCase
 	public function __construct()
 	{
 		parent::__construct();
-		$this->path	= str_replace( "\\", "/", dirname( __FILE__ ) )."/";
 	}
 
 	/**
@@ -41,8 +40,7 @@ class Tests_Folder_RecursiveRegexFilterTest extends Tests_Folder_TestCase
 	{
 		$folders	= array();
 		$files		= array();
-		$path		= $this->path."folder";
-		$index	= new Folder_RecursiveRegexFilter( $path, "@.*@" );
+		$index	= new Folder_RecursiveRegexFilter( $this->folder, "@.*@" );
 		extract( $this->getListFromIndex( $index ) );
 
 		$assertion	= array(
@@ -91,8 +89,7 @@ class Tests_Folder_RecursiveRegexFilterTest extends Tests_Folder_TestCase
 	 */
 	public function testConstructTextFilesOnly()
 	{
-		$path		= $this->path."folder";
-		$index	= new Folder_RecursiveRegexFilter( $path, "@\.txt$@", TRUE, FALSE );
+		$index	= new Folder_RecursiveRegexFilter( $this->folder, "@\.txt$@", TRUE, FALSE );
 		extract( $this->getListFromIndex( $index ) );
 
 		$assertion	= array();
@@ -124,8 +121,7 @@ class Tests_Folder_RecursiveRegexFilterTest extends Tests_Folder_TestCase
 	 */
 	public function testConstructFilesOnly()
 	{
-		$path		= $this->path."folder";
-		$index	= new Folder_RecursiveRegexFilter( $path, "@file@", TRUE, FALSE );
+		$index	= new Folder_RecursiveRegexFilter( $this->folder, "@file@", TRUE, FALSE );
 		extract( $this->getListFromIndex( $index ) );
 
 		$assertion	= array();
@@ -157,8 +153,7 @@ class Tests_Folder_RecursiveRegexFilterTest extends Tests_Folder_TestCase
 	 */
 	public function testConstructPhpFilesOnly()
 	{
-		$path		= $this->path."folder";
-		$index		= new Folder_RecursiveRegexFilter( $path, "@\.php$@", TRUE, FALSE );
+		$index		= new Folder_RecursiveRegexFilter( $this->folder, "@\.php$@", TRUE, FALSE );
 		extract( $this->getListFromIndex( $index ) );
 
 		$assertion	= array();
@@ -177,8 +172,7 @@ class Tests_Folder_RecursiveRegexFilterTest extends Tests_Folder_TestCase
 	 */
 	public function testConstructFoldersOnly()
 	{
-		$path		= $this->path."folder";
-		$index		= new Folder_RecursiveRegexFilter( $path, "@.*@", FALSE, TRUE );
+		$index		= new Folder_RecursiveRegexFilter( $this->folder, "@.*@", FALSE, TRUE );
 		extract( $this->getListFromIndex( $index ) );
 
 		$assertion	= array(
@@ -203,8 +197,7 @@ class Tests_Folder_RecursiveRegexFilterTest extends Tests_Folder_TestCase
 	 */
 	public function a_testConstructSub1FoldersOnly()
 	{
-		$path		= $this->path."folder";
-		$index		= new Folder_RecursiveRegexFilter( $path, "@^sub1@", FALSE, TRUE );
+		$index		= new Folder_RecursiveRegexFilter( $this->folder, "@^sub1@", FALSE, TRUE );
 		extract( $this->getListFromIndex( $index ) );
 
 		$assertion	= array(
@@ -227,8 +220,7 @@ class Tests_Folder_RecursiveRegexFilterTest extends Tests_Folder_TestCase
 	 */
 	public function testConstructShowHiddenFolders()
 	{
-		$path		= $this->path."folder";
-		$index		= new Folder_RecursiveRegexFilter( $path, "@sub3@", FALSE, TRUE, FALSE );
+		$index		= new Folder_RecursiveRegexFilter( $this->folder, "@sub3@", FALSE, TRUE, FALSE );
 		extract( $this->getListFromIndex( $index ) );
 
 		$assertion	= array(

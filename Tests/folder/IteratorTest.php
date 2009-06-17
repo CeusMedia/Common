@@ -29,7 +29,6 @@ class Tests_Folder_IteratorTest extends Tests_Folder_TestCase
 	public function __construct()
 	{
 		parent::__construct();
-		$this->path	= dirname( __FILE__ )."/";
 	}
 
 	/**
@@ -39,8 +38,7 @@ class Tests_Folder_IteratorTest extends Tests_Folder_TestCase
 	 */
 	public function testConstruct()
 	{
-		$path		= str_replace( "\\", "/", $this->path."folder" );
-		$index	= new Folder_Iterator( $path );
+		$index	= new Folder_Iterator( $this->folder );
 		extract( $this->getListFromIndex( $index ) );
 
 		$assertion	= array( 'sub1', 'sub2' );
@@ -70,8 +68,7 @@ class Tests_Folder_IteratorTest extends Tests_Folder_TestCase
 	 */
 	public function testConstructFilesOnly()
 	{
-		$path		= str_replace( "\\", "/", $this->path."folder" );
-		$index	= new Folder_Iterator( $path, TRUE, FALSE );
+		$index	= new Folder_Iterator( $this->folder, TRUE, FALSE );
 		extract( $this->getListFromIndex( $index ) );
 
 		$assertion	= array();
@@ -90,8 +87,7 @@ class Tests_Folder_IteratorTest extends Tests_Folder_TestCase
 	 */
 	public function testConstructFoldersOnly()
 	{
-		$path		= str_replace( "\\", "/", $this->path."folder" );
-		$index	= new Folder_Iterator( $path, FALSE, TRUE );
+		$index	= new Folder_Iterator( $this->folder, FALSE, TRUE );
 		extract( $this->getListFromIndex( $index ) );
 
 		$assertion	= array( 'sub1', 'sub2' );
@@ -110,8 +106,7 @@ class Tests_Folder_IteratorTest extends Tests_Folder_TestCase
 	 */
 	public function testConstructShowHiddenFiles()
 	{
-		$path		= str_replace( "\\", "/", $this->path."folder" );
-		$index	= new Folder_Iterator( $path, TRUE, FALSE, FALSE );
+		$index	= new Folder_Iterator( $this->folder, TRUE, FALSE, FALSE );
 		extract( $this->getListFromIndex( $index ) );
 
 		$assertion	= array(
@@ -136,8 +131,7 @@ class Tests_Folder_IteratorTest extends Tests_Folder_TestCase
 	 */
 	public function testConstructShowHiddenFolders()
 	{
-		$path		= str_replace( "\\", "/", $this->path."folder" );
-		$index	= new Folder_Iterator( $path, FALSE, TRUE, FALSE );
+		$index	= new Folder_Iterator( $this->folder, FALSE, TRUE, FALSE );
 		extract( $this->getListFromIndex( $index ) );
 
 		$assertion	= array(
