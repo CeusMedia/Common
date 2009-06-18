@@ -89,10 +89,20 @@ class UI_HTML_Tabs
 	 *	@param		string		$content	Content related to Tab
 	 *	@return		void
 	 */
-	public function addTab( $label, $content )
+	public function addTab( $label, $content, $fragmentKey = NULL )
 	{
-		$this->tabs[]	= $label;
-		$this->divs[]	= $content;
+		if( is_null( $fragmentKey ) )
+		{
+			$this->tabs[]	= $label;
+			$this->divs[]	= $content;
+		}
+		else
+		{
+			if( isset( $this->tabs[$fragmentKey] ) )
+				throw Exception( 'Tab with Fragment ID "'.$fragmentKey.'" is already set' );
+			$this->tabs[$fragmentKey]	= $label;
+			$this->divs[$fragmentKey]	= $content;
+		}
 	}
 
 	/**
@@ -138,12 +148,12 @@ class UI_HTML_Tabs
 
 		$tabs		= array();
 		$divs		= array();
-		$labels		= array_values( $labels );
-		$contents	= array_values( $contents );
+		$labels		= $labels;
+		$contents	= $contents;
 		foreach( $labels as $index => $label )
 		{
-			$tabKey		= 'tab-'.self::$counter;
-			$divKey		= $tabKey."-container";
+			$tabKey		= is_int( $index ) ? 'tab-'.$index : $index;
+			$divKey		= $index."-container";
 			$label		= UI_HTML_Tag::create( 'span', $label );
 			$link		= UI_HTML_Tag::create( 'a', $label, array( 'href' => "#".$divKey ) );
 			$tabs[]		= UI_HTML_Tag::create( 'li', $link, array( 'id' => $tabKey ) );
