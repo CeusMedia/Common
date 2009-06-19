@@ -124,10 +124,10 @@ class Net_Service_Point implements Net_Service_Interface_Point
 					if( $type == "array" && is_string( $value ) )
 						$value	= parse_str( $value );													//  realise Request Value
 				}
-				if( $rules['filter'] )
+				if( isset( $rules['filter'] ) && $rules['filter'] )
 				{
 					foreach( $rules['filter'] as $filter )
-					$value	= Net_Service_Parameter_Filter::applyFilter( $filter, $value );
+						$value	= Net_Service_Parameter_Filter::applyFilter( $filter, $value );
 				}
 				$parameters[$name]	= $value;
 			}
