@@ -193,6 +193,8 @@ class UI_HTML_Service_Test
 		{
 			if( $ruleKey == "title" )
 				continue;
+			if( $ruleKey == "filter" )
+				$ruleValue	= implode( ", ", $ruleValue );
 			if( $ruleKey == "mandatory" )
 			{
 				$mandatory	= $ruleValue;
