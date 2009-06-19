@@ -23,7 +23,8 @@
  *	If a different Loader Class should be used, it needs to be imported before.
  *	@package		net.service
  *	@implements		Net_Service_Interface_Point
- *	@uses			Net_Service_ParameterValidator
+ *	@uses			Net_Service_Parameter_Validator
+ *	@uses			Net_Service_Parameter_Filter
  *	@uses			Net_Service_Definition_Loader
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2009 Christian Würker
@@ -41,7 +42,8 @@ import( 'de.ceus-media.net.service.interface.Point' );
  *	If a different Loader Class should be used, it needs to be imported before.
  *	@package		net.service
  *	@implements		Net_Service_Interface_Point
- *	@uses			Net_Service_ParameterValidator
+ *	@uses			Net_Service_Parameter_Validator
+ *	@uses			Net_Service_Parameter_Filter
  *	@uses			Net_Service_Definition_Loader
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2009 Christian Würker
@@ -55,15 +57,19 @@ class Net_Service_Point implements Net_Service_Interface_Point
 	/**	@var		string			$defaultLoader		Default Definition Loader Class */
 	protected $defaultLoader		= "Net_Service_Definition_Loader";
 	/**	@var		string			$defaultValidator	Default Validator Class */
-	protected $defaultValidator		= "Net_Service_ParameterValidator";
+	protected $defaultFilter		= "Net_Service_Parameter_Filter";
+	/**	@var		string			$defaultValidator	Default Validator Class */
+	protected $defaultValidator		= "Net_Service_Parameter_Validator";
 	/**	@var		string			$validatorClass		Definition Loader Class to use */
 	public static $loaderClass		= "Net_Service_Definition_Loader";
+	/**	@var		string			$filterClass		Filter Class to use */
+	public static $filterClass		= "Net_Service_Parameter_Filter";
 	/**	@var		string			$validatorClass		Validator Class to use */
-	public static $validatorClass	= "Net_Service_ParameterValidator";
+	public static $validatorClass	= "Net_Service_Parameter_Validator";
 	/**	@var		array			$services			Array of Services */	
-	protected $services	= array();
+	protected $services				= array();
 	/**	@var		mixed			$validator			Validator Class */	
-	protected $validator	= null;
+	protected $validator			= null;
 	
 	/**
 	 *	Constructor Method.
@@ -75,8 +81,10 @@ class Net_Service_Point implements Net_Service_Interface_Point
 	public function __construct( $fileName, $cacheFile = NULL )
 	{
 		$this->loadServices( $fileName, $cacheFile );
+		if( self::$filterClass == $this->defaultFilter )
+			import( 'de.ceus-media.net.service.parameter.Filter' );
 		if( self::$validatorClass == $this->defaultValidator )
-			import( 'de.ceus-media.net.service.ParameterValidator' );
+			import( 'de.ceus-media.net.service.parameter.Validator' );
 		$this->validator	= new self::$validatorClass;
 	}
 
@@ -115,6 +123,11 @@ class Net_Service_Point implements Net_Service_Interface_Point
 					$value		= $requestData[$name];
 					if( $type == "array" && is_string( $value ) )
 						$value	= parse_str( $value );													//  realise Request Value
+				}
+				if( $rules['filter'] )
+				{
+					foreach( $rules['filter'] as $filter )
+					$value	= Net_Service_Parameter_Filter::applyFilter( $filter, $value );
 				}
 				$parameters[$name]	= $value;
 			}
