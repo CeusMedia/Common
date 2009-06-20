@@ -49,7 +49,14 @@ class Net_Service_Parameter_Filter
 	{
 		if( !method_exists( __CLASS__, $filterKey ) )
 			throw new BadMethodCallException( 'Filter "'.$filterKey.'" is not existing' );
-		return self::$filterKey( $parameterValue );
+		try
+		{
+			return self::$filterKey( $parameterValue );
+		}
+		catch( Exception $e )
+		{
+			throw new InvalidArgumentException( $filterKey.': '.$e->getMessage() );
+		}
 	}
 	
 	/**
@@ -65,7 +72,10 @@ class Net_Service_Parameter_Filter
 	
 	protected static function decodeBase64( $value )
 	{
-		return base64_decode( $value );
+		$code	= @base64_decode( $value, TRUE );
+		if( !$code )
+			throw new InvalidArgumentException( 'Could not decode Base64' );
+		return $code;
 	}
 	
 	protected static function encodeBase64( $value )
@@ -76,6 +86,18 @@ class Net_Service_Parameter_Filter
 	protected static function encodeMD5( $value )
 	{
 		return md5( $value );
+	}
+	
+	protected static function test( $value )
+	{
+		return $value." [tested]";
+	}
+		
+	protected static function trimString( $value )
+	{
+		if( !is_string( $value ) )
+			throw new InvalidArgumentException( 'Must be string' );
+		return trim( $value );
 	}
 }
 ?>

@@ -69,6 +69,7 @@ class Net_Service_Definition_XmlReader
 		$serviceName	= $element->getAttribute( 'name' );
 		$service		= array(
 			'class'			=> (string) $element->getAttribute( 'class' ),
+			'filters'		=> array(),
 			'description'	=> (string) $element->description,
 			'formats'		=> array(),
 			'preferred'		=> (string) $element->getAttribute( 'format' ),
@@ -78,10 +79,24 @@ class Net_Service_Definition_XmlReader
 		);
 		if( $element->hasAttribute( "status" ) )
 			$service['status']	= $element->getAttribute( "status" );
+		self::readServiceFilters( $element, $service );
 		self::readServiceFormats( $element, $service );
 		self::readServiceParameters( $element, $service );
 		self::readServiceRoles( $element, $service );
 		$services[$serviceName]	= $service;
+	}
+
+	protected function readServiceFilters( $element, &$service )
+	{
+		foreach( $element->filter as $filterElement )
+		{
+			$key	= strtolower( trim( (string) $filterElement ) );
+			$value	= array(
+				'title'		=> $filterElement->hasAttribute( 'title' ) ? $filterElement->getAttribute( 'title' ) : NULL,
+				'value'		=> $filterElement->hasAttribute( 'value' ) ? $filterElement->getAttribute( 'value' ) : NULL,
+			);
+			$service['filters'][$key]	= $value;
+		}
 	}
 
 	/**
@@ -111,22 +126,27 @@ class Net_Service_Definition_XmlReader
 		foreach( $element->parameter as $parameterElement )
 		{
 			$parameterName	= (string) $parameterElement;
-			$validators		= array();
+			$attributes		= array(
+				'mandatory'	=> NULL,
+				'type'		=> NULL,
+				'title'		=> NULL,
+				'preg'		=> NULL,
+				'filter'	=> array(),
+			);
 			foreach( $parameterElement->getAttributes() as $key => $value )
 			{
-			
 				if( strtolower( $key ) == "mandatory" )
-					$value	= strtolower( $value ) == "yes" ? TRUE : FALSE;
-				else if( strtolower( $key ) == "filter" && trim( $value ) )
+					$attributes['mandatory']	= strtolower( $value ) == "yes" ? TRUE : FALSE;
+				else if( strtolower( $key ) == "filter" )
 				{
-					$list	= array();
 					foreach( explode( ",", $value ) as $filter )
-						$list[]	= trim( $filter );
-					$value	= $list;
+						if( trim( $filter ) )
+							$attributes['filter'][]	= trim( $filter );
 				}
-				$validators[strtolower( $key)]	= $value;
+				else
+					$attributes[strtolower( $key)]	= $value;
 			}
-			$service['parameters'][$parameterName]	= $validators;
+			$service['parameters'][$parameterName]	= $attributes;
 		}
 	}
 

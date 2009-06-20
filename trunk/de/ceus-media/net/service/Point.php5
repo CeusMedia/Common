@@ -124,11 +124,12 @@ class Net_Service_Point implements Net_Service_Interface_Point
 					if( $type == "array" && is_string( $value ) )
 						$value	= parse_str( $value );													//  realise Request Value
 				}
-				if( isset( $rules['filter'] ) && $rules['filter'] )
-				{
-					foreach( $rules['filter'] as $filter )
-						$value	= Net_Service_Parameter_Filter::applyFilter( $filter, $value );
-				}
+				$serviceFilters	= $this->services['services'][$serviceName]['filters'];					//  global Service Filters
+				foreach( $serviceFilters as $filterKey => $filterData )									//  iterate
+					$value	= Net_Service_Parameter_Filter::applyFilter( $filterKey, $value );			//  apply to Paramater Value
+				if( isset( $rules['filter'] ) && $rules['filter'] )										//  local Parameter Filters
+					foreach( $rules['filter'] as $filter )												//  iterate
+						$value	= Net_Service_Parameter_Filter::applyFilter( $filter, $value );			//  apply to Paramater Value
 				$parameters[$name]	= $value;
 			}
 		}
@@ -322,6 +323,18 @@ class Net_Service_Point implements Net_Service_Interface_Point
 		if( isset( $this->services['services'][$serviceName]['description'] ) )
 			return $this->services['services'][$serviceName]['description'];
 		return "";
+	}
+
+	/**
+	 *	Returns available Response Formats of Service.
+	 *	@access		public
+	 *	@param		string			$serviceName		Name of Service to call 
+	 *	@return		array								Response Formats of this Service
+	 */
+	public function getServiceFilters( $serviceName )
+	{
+		$this->checkServiceDefinition( $serviceName );
+		return $this->services['services'][$serviceName]['filters'];
 	}
 
 	/**
