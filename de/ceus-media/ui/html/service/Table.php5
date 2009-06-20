@@ -100,6 +100,10 @@ class UI_HTML_Service_Table
 							$mandatory	= $ruleValue;
 							$ruleValue	= $ruleValue ? "yes" : "no";
 						}
+						if( $ruleKey == "filter" )
+						{
+							$ruleValue	= implode( ", ", $ruleValue );
+						}
 						if( $ruleKey == "type" )
 						{
 							$type	= "<small><em>".$ruleValue."</em></small>&nbsp;";
@@ -111,6 +115,17 @@ class UI_HTML_Service_Table
 				}
 				if( isset( $rules['title'] ) )
 					$parameter	= UI_HTML_Elements::Acronym( $parameter, $rules['title'] );
+				
+				$filters	= $this->servicePoint->getServiceFilters( $service );
+				foreach( $rules['filter'] as $filter )
+					$filters[$filter]	= array( 'title' => NULL, 'value' => NULL );
+				if( $filters )
+					foreach( $filters as $filterKey => $filterData )
+					{
+						if( !empty( $filterData['title'] ) )
+							$filterKey	= UI_HTML_Elements::Acronym( $filterKey, $filterData['title'] );
+						$parameter	= $filterKey."( ".$parameter." )";
+					}
 				$parameter	= $type.$parameter;
 				if( !$mandatory )
 					$parameter	= "[".$parameter."]";
