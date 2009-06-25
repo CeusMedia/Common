@@ -116,6 +116,23 @@ class UI_HTML_PageFrame
 		$this->body	.= "\n".$string;
 	}
 
+	/**
+	 *	Adds a favourite Icon to the Page (supports ICO and other Formats).
+	 *	@access		public
+	 *	@param		string		$url			URL of Icon or Image 
+	 *	@return		void
+	 *	@since		0.6.7
+	 */
+	public function addFavouriteIcon( $url )
+	{
+		$styleData	= array(
+			'rel'		=> "icon",
+			'type'		=> "image/x-icon",
+			'href'		=> $uri,
+		);
+		$this->styles[]	= $styleData;
+	}
+
 	/** 
 	 *	Adds further HTML to Head.
 	 *	@access		public
