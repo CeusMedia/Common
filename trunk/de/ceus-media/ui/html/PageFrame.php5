@@ -128,7 +128,7 @@ class UI_HTML_PageFrame
 		$styleData	= array(
 			'rel'		=> "icon",
 			'type'		=> "image/x-icon",
-			'href'		=> $uri,
+			'href'		=> $url,
 		);
 		$this->styles[]	= $styleData;
 	}
