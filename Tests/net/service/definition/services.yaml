@@ -33,4 +33,20 @@ services:
       - tester
       - operator
     status: alpha
-    
+  reflectInput:
+    class: Services_Public
+    description: Returns given String filtering all JavaScripts.
+    formats:
+      - txt
+    preferred: txt
+    filters:
+      test: Testing...
+      encodeBase64: Encode Base64
+    parameters:
+      input:
+        mandatory: yes
+        type: string
+        filters:
+          - decodeBase64
+        title: String to be reflected by Server, HTML allowed, JavaScript not allowed.
+
