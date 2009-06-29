@@ -23,7 +23,7 @@
  *	@copyright		2007-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
- *	@version		0.6
+ *	@version		0.6.7
  */
 import( 'de.ceus-media.xml.ElementReader' );
 /**
@@ -34,7 +34,7 @@ import( 'de.ceus-media.xml.ElementReader' );
  *	@copyright		2007-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
- *	@version		0.6.5
+ *	@version		0.6.7
  */
 class Net_Service_Definition_XmlReader
 {
@@ -69,33 +69,42 @@ class Net_Service_Definition_XmlReader
 		$serviceName	= $element->getAttribute( 'name' );
 		$service		= array(
 			'class'			=> (string) $element->getAttribute( 'class' ),
-			'filters'		=> array(),
 			'description'	=> (string) $element->description,
 			'formats'		=> array(),
 			'preferred'		=> (string) $element->getAttribute( 'format' ),
+			'filters'		=> array(),
 			'parameters'	=> array(),
 			'roles'			=> array(),
 			'status'		=> NULL,
 		);
 		if( $element->hasAttribute( "status" ) )
 			$service['status']	= $element->getAttribute( "status" );
-		self::readServiceFilters( $element, $service );
+		self::readServiceFilters( $element, &$service );
 		self::readServiceFormats( $element, $service );
 		self::readServiceParameters( $element, $service );
 		self::readServiceRoles( $element, $service );
 		$services[$serviceName]	= $service;
 	}
 
-	protected function readServiceFilters( $element, &$service )
+	/**
+	 *	Reads Service Filters in situ, can be overwritten.
+	 *	@access		protected
+	 *	@static
+	 *	@param		XML_Element	$element	Service Point XML Element
+	 *	@param		array		$service	Reference to Service Definition Array
+	 *	@return		void
+	 */
+	protected static function readServiceFilters( $element, &$service )
 	{
 		foreach( $element->filter as $filterElement )
 		{
-			$key	= strtolower( trim( (string) $filterElement ) );
-			$value	= array(
-				'title'		=> $filterElement->hasAttribute( 'title' ) ? $filterElement->getAttribute( 'title' ) : NULL,
-				'value'		=> $filterElement->hasAttribute( 'value' ) ? $filterElement->getAttribute( 'value' ) : NULL,
-			);
-			$service['filters'][$key]	= $value;
+			$key	= trim( (string) $filterElement );
+			if( !trim( $key ) )
+				continue;
+			$title	= NULL;
+			if( $filterElement->hasAttribute( 'title' ) )
+				$title	= $filterElement->getAttribute( 'title' );
+			$service['filters'][$key]	= $title;
 		}
 	}
 
@@ -129,19 +138,19 @@ class Net_Service_Definition_XmlReader
 			$attributes		= array(
 				'mandatory'	=> NULL,
 				'type'		=> NULL,
-				'title'		=> NULL,
 				'preg'		=> NULL,
-				'filter'	=> array(),
+				'filters'	=> array(),
+				'title'		=> NULL,
 			);
 			foreach( $parameterElement->getAttributes() as $key => $value )
 			{
 				if( strtolower( $key ) == "mandatory" )
 					$attributes['mandatory']	= strtolower( $value ) == "yes" ? TRUE : FALSE;
-				else if( strtolower( $key ) == "filter" )
+				else if( strtolower( $key ) == "filters" )
 				{
 					foreach( explode( ",", $value ) as $filter )
 						if( trim( $filter ) )
-							$attributes['filter'][]	= trim( $filter );
+							$attributes['filters'][]	= trim( $filter );
 				}
 				else
 					$attributes[strtolower( $key)]	= $value;
@@ -164,8 +173,10 @@ class Net_Service_Definition_XmlReader
 			'description'	=> (string) $element->description,
 			'url'			=> (string) $element->url,
 			'syntax'		=> (string) $element->syntax,
+			'filters'		=> array(),
 			'services'		=> array(),
 		);
+		self::readServiceFilters( $element, $data );
 		foreach( $element->services->service as $serviceElement )
 			self::readService( $serviceElement, $data['services'] );
 		return $data;
