@@ -149,13 +149,25 @@ class Net_Service_Definition_Converter
 
 	protected static function reduceDefinition( &$definition )
 	{
+		if( empty( $definition['filters'] ) )
+			unset( $definition['filters'] );
 		foreach( array_keys( $definition['services'] ) as $serviceName )
 		{
-			$service	= $definition['services'][$serviceName];
-			if( !( isset( $service['parameters'] ) && $service['parameters'] ) )
+			$service	=& $definition['services'][$serviceName];
+			if( empty( $service['parameters'] ) )
 				unset( $definition['services'][$serviceName]['parameters'] );
-			if( !( isset( $service['roles'] ) && $service['roles'] ) )
+			else
+				foreach( $service['parameters'] as $parameterName => $parameterData )
+				{
+					$parameter	=& $service['parameters'][$parameterName];
+					foreach( $parameterData as $parameterDataKey => $parameterDataValue )
+						if( is_null( $parameter[$parameterDataKey] ) || !count( $parameter[$parameterDataKey] ) )
+							unset( $parameter[$parameterDataKey] );
+				}
+			if( empty( $service['roles'] ) )
 				unset( $definition['services'][$serviceName]['roles'] );
+			if( empty( $service['filters'] ) )
+				unset( $definition['services'][$serviceName]['filters'] );
 			if( !( isset( $service['status'] ) && strlen( $service['status'] ) ) )
 				unset( $definition['services'][$serviceName]['status'] );
 		}

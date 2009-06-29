@@ -125,10 +125,10 @@ class Net_Service_Point implements Net_Service_Interface_Point
 						$value	= parse_str( $value );													//  realise Request Value
 				}
 				$serviceFilters	= $this->services['services'][$serviceName]['filters'];					//  global Service Filters
-				foreach( $serviceFilters as $filterKey => $filterData )									//  iterate
-					$value	= Net_Service_Parameter_Filter::applyFilter( $filterKey, $value );			//  apply to Paramater Value
-				if( isset( $rules['filter'] ) && $rules['filter'] )										//  local Parameter Filters
-					foreach( $rules['filter'] as $filter )												//  iterate
+				foreach( array_keys( $serviceFilters ) as $filterMethod )								//  iterate
+					$value	= Net_Service_Parameter_Filter::applyFilter( $filterMethod, $value );		//  apply Filter to Paramater Value
+				if( !empty( $rules['filters'] ) )														//  local Parameter Filters
+					foreach( $rules['filters'] as $filter )												//  iterate
 						$value	= Net_Service_Parameter_Filter::applyFilter( $filter, $value );			//  apply to Paramater Value
 				$parameters[$name]	= $value;
 			}

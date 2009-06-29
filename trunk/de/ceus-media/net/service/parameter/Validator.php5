@@ -55,7 +55,7 @@ class Net_Service_Parameter_Validator
 #				remark( "Rule: ".$ruleName );
 				if( $ruleName == "title" )
 					continue;
-				if( $ruleName == "filter" )
+				if( $ruleName == "filters" )
 					continue;
 				if( $ruleValue )
 					self::callMethod( "check".ucFirst( $ruleName ), $value, $ruleValue );
