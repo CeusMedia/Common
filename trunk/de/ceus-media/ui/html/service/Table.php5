@@ -118,12 +118,12 @@ class UI_HTML_Service_Table
 				
 				$filters	= $this->servicePoint->getServiceFilters( $service );
 				foreach( $rules['filter'] as $filter )
-					$filters[$filter]	= array( 'title' => NULL, 'value' => NULL );
+					$filters[$filter]	= NULL;
 				if( $filters )
-					foreach( $filters as $filterKey => $filterData )
+					foreach( $filters as $filterKey => $filterTitle )
 					{
-						if( !empty( $filterData['title'] ) )
-							$filterKey	= UI_HTML_Elements::Acronym( $filterKey, $filterData['title'] );
+						if( !empty( $filterTitle ) )
+							$filterKey	= UI_HTML_Elements::Acronym( $filterKey, $filterTitle );
 						$parameter	= $filterKey."( ".$parameter." )";
 					}
 				$parameter	= $type.$parameter;
