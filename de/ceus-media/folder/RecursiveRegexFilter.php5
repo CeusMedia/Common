@@ -67,20 +67,20 @@ class Folder_RecursiveRegexFilter extends RegexIterator
 		$this->realPath			= str_replace( "\\", "/", realpath( $path ) );
 		$this->realPathLength	= strlen( $this->realPath );
 		$this->pattern			= $pattern;
-    	$this->showFiles		= $showFiles;
-    	$this->showFolders		= $showFolders;
-    	$this->stripDotEntries	= $stripDotEntries;
-    	$selfIterator			= $showFolders ? RecursiveIteratorIterator::SELF_FIRST : NULL;
-        parent::__construct(
-        	new RecursiveIteratorIterator(
-        		new RecursiveDirectoryIterator(
-        			$path,
-        			0
-        		),
-        		$selfIterator
-        	),
-        	$pattern
-        );
+		$this->showFiles		= $showFiles;
+		$this->showFolders		= $showFolders;
+		$this->stripDotEntries	= $stripDotEntries;
+		$selfIterator			= $showFolders ? RecursiveIteratorIterator::SELF_FIRST : NULL;
+		parent::__construct(
+			new RecursiveIteratorIterator(
+				new RecursiveDirectoryIterator(
+					$path,
+					0
+				),
+				$selfIterator
+			),
+			$pattern
+		);
 	}
 
 	/**
@@ -90,20 +90,19 @@ class Folder_RecursiveRegexFilter extends RegexIterator
 	 */
 	public function accept()
 	{
-   		if( $this->isDot() )
-   			return FALSE;
+		if( $this->isDot() )
+			return FALSE;
 
-   		$isDir	= $this->isDir();
-   		if( !$this->showFiles && !$isDir )
-   			return FALSE;
+		$isDir	= $this->isDir();
+		if( !$this->showFiles && !$isDir )
+			return FALSE;
 
-    	if( $this->stripDotEntries )
-    	{
+		if( $this->stripDotEntries )
+		{
 			if( preg_match( "@^\.\w@", $this->getFilename() ) )
 				return FALSE;
-			$folderPath	= str_replace( "\\", "/", $this->getInnerIterator()->getPathname() );
-			$folderPath	= substr( $folderPath, $this->realPathLength );
-			if( preg_match( "@/\.\w+/@", $folderPath ) )
+			$pathName	= str_replace( "\\", "/", "/".$this->getPath() );
+			if( preg_match( "@/\.\w@", $pathName ) )
 				return FALSE;
 		}
 
