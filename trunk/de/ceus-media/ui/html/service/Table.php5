@@ -59,7 +59,7 @@ class UI_HTML_Service_Table
 		foreach( $this->availableFormats as $format )
 		{
 			$cols[]		= "<col width='".round( ( 100 - 65 ) / count( $this->availableFormats ), 0 )."%'/>";
-			$heads[]	= "<th><a href='#' onClick='$(\"#format\").val(\"".$format."\").trigger(\"change\")'>".strtoupper( $format )."</a></th>";
+			$heads[]	= '<th>'.UI_HTML_Elements::Link( '#', strtoupper( $format ), 'format' ).'</th>';
 		}
 		$cols	= "<colgroup>".implode( "", $cols )."</colgroup>";
 		$heads	= "<tr>".implode( "", $heads )."</tr>";
@@ -100,7 +100,7 @@ class UI_HTML_Service_Table
 							$mandatory	= $ruleValue;
 							$ruleValue	= $ruleValue ? "yes" : "no";
 						}
-						if( $ruleKey == "filter" )
+						if( $ruleKey == "filters" )
 						{
 							$ruleValue	= implode( ", ", $ruleValue );
 						}
@@ -117,7 +117,7 @@ class UI_HTML_Service_Table
 					$parameter	= UI_HTML_Elements::Acronym( $parameter, $rules['title'] );
 				
 				$filters	= $this->servicePoint->getServiceFilters( $service );
-				foreach( $rules['filter'] as $filter )
+				foreach( $rules['filters'] as $filter )
 					$filters[$filter]	= NULL;
 				if( $filters )
 					foreach( $filters as $filterKey => $filterTitle )

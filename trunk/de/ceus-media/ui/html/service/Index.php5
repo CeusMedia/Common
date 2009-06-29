@@ -134,7 +134,7 @@ class UI_HTML_Service_Index extends Net_Service_Handler
 					{
 						if( $ruleKey == "mandatory" )
 							$ruleValue = $ruleValue ? "yes" : "no";
-						if( $ruleKey == "filter" )
+						if( $ruleKey == "filters" )
 							$ruleValue = implode( ", ", $ruleValue );
 						$ruleList[]	= $ruleKey.": ".htmlspecialchars( $ruleValue );
 					}
