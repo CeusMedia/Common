@@ -86,8 +86,10 @@ class Folder_RegexFilter extends RegexIterator
 		if( !$this->showFolders && $isDir )
 			return FALSE;
 		if( $this->stripDotEntries )
+		{
 			if( preg_match( "@^\.\w@", $this->getFilename() ) )
 				return FALSE;
+		}
 		return parent::accept();
 	}
 }
