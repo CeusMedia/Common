@@ -59,7 +59,7 @@ class Tests_Folder_TestCase extends PHPUnit_Framework_TestCase
 	 */
 	public function __construct()
 	{
-		$this->path		= str_replace( "\\", "/", dirname( __FILE__ ) )."/";
+		$this->path		= "Tests/folder/";
 		$this->folder	= $this->path."folder/";
 	}
 	
