@@ -437,6 +437,8 @@ class File_PHP_Parser
 			$this->overwriteCodeDataWithDocData( $method, $methodBlock );
 			$openBlocks	= array();
 		}
+		if( !$method['access'] )
+			$method['access']	= "public";
 		return $method;
 	}
 }
