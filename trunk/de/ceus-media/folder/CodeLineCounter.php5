@@ -104,6 +104,10 @@ class Folder_CodeLineCounter
 
 			$countData	= File_CodeLineCounter::countLines( $pathName );
 			
+			unset( $countData['linesCodes'] );
+			unset( $countData['linesDocs'] );
+			unset( $countData['linesStrips'] );
+
 			$numberLength		+= $countData['length'];
 			$numberLines		+= $countData['linesTotal'];
 			
@@ -136,40 +140,6 @@ class Folder_CodeLineCounter
 			'seconds'	=> $st->stop( 6 ),
 			'path'		=> $path,
 		);
-	}
-
-	public function buildFileList()
-	{
-		$list	= array();
-		foreach( $this->data['files'] as $pathName => $fileName )
-		{
-			$link	= UI_HTML_Elements::Link( "view.php5?file=".$pathName."&width=900&height=700", $fileName, 'thickbox' );
-			$item	= UI_HTML_Elements::ListItem( $link );
-			$list[]	= $item;
-		}
-		$list	= UI_HTML_Elements::unorderedList( $list );
-		return $list;
-	}
-	
-	public function buildFileTableRows( $precision = 0 )
-	{
-		$list	= array();
-		foreach( $this->data['files'] as $pathName => $data )
-		{
-			$fileName	= substr( $pathName, strlen( $this->data['path'] ) );
-			$link	= UI_HTML_Elements::Link( "view.php5?file=".$pathName."&width=900&height=700",  $fileName, 'thickbox' );
-			$row	= "
-<tr>
-  <td>".$link."</td>
-  <td>".$data['numberCodes']." %</td>
-  <td>".round( $data['ratioCodes'], $precision )." %</td>
-  <td>".round( $data['ratioDocs'], $precision )." %</td>
-  <td>".round( $data['ratioStrips'], $precision )." %</td>
-</tr>";
-			$list[]	= $row;
-		}
-		$rows	= implode( "", $list );
-		return $rows;
 	}
 }
 ?>
