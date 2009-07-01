@@ -188,7 +188,7 @@ class UI_Template
 	public function create()
 	{
 		$out	= $this->template;
- 		$out	= preg_replace( '/<%--.*--%>/sU', '', $out );	
+ 		$out	= preg_replace( '/\s*<%--.*--%>\s*/sU', '', $out );	
  		if( self::$removeComments )
 			$out	= preg_replace( '/<!--.+-->/sU', '', $out );	
 
@@ -208,7 +208,7 @@ class UI_Template
 			$out	= preg_replace( '/<%(\?)?' . $label . '%>/', $tmp, $out );
  		}
 		$out = preg_replace( '/<%\?.*%>/U', '', $out );    
-        $out = preg_replace( '/\n\s+\n/', "\n", $out );
+#        $out = preg_replace( '/\n\s+\n/', "\n", $out );
 		$tags = array();
 		if( preg_match_all( '/<%.*%>/U', $out, $tags ) === 0 )
 		    return $out; 				
@@ -313,7 +313,7 @@ class UI_Template
 			return FALSE;
 			
 		if( !file_exists( $fileName ) )
-			throw new Exception_Template( EXCEPTION_TEMPLATE_FILE_NOT_FOUND, $this->fileName );
+			throw new Exception_Template( EXCEPTION_TEMPLATE_FILE_NOT_FOUND, $fileName );
 
 		$this->fileName	= $fileName;
 		$this->template = file_get_contents( $fileName );
