@@ -11,7 +11,7 @@ $constants	= array(																			//  Array of Constants to be set
 	'CM_CLASSES_IMPORT_EXTENSION'		=> 'php5',												//  Extension of PHP Classes (default 'php5')
 	'CM_CLASSES_IMPORT_SEPARATOR'		=> '.',													//  Separator in Import Path (default '.')
 	'CM_CLASSES_IMPORT_ALLOW_SEPARATOR'	=> FALSE,												//  Flag: allow Separator in Folder Names (slower)
-	'CM_CLASSES_VERSION'				=> "0.6.6",												//  Version of Class Container
+	'CM_CLASSES_VERSION'				=> "0.6.7",												//  Version of Class Container
 //	'CM_CLASSES_VERSION'				=> $__c['project']['version'],							//  Version of Class Container
 //	'CM_CLASSES_EXTENSIONS'				=> TRUE,												//  Flag: use Exception Extension
 );
