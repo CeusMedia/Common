@@ -145,9 +145,8 @@ class Tests_UI_TemplateTest extends PHPUnit_Framework_TestCase
 		$this->template->setTemplate( $this->path.'template_testcase2.html' );
 		$assertion	= file_get_contents( $this->path.'template_testcase2_result.html' );
 		$creation	= $this->template->create();
-/*		var_dump( $assertion );
-		var_dump( $creation );
-*/		$this->assertEquals( $assertion, $creation );
+#		file_put_contents( $this->path."template_testcase2_creation", $creation );
+		$this->assertEquals( $assertion, $creation );
 	}
 
 	/**
