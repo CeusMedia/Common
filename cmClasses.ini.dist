@@ -11,7 +11,7 @@
 #
 [project]
 name				= cmClasses							
-version				= 0.6.4
+version				= 0.6.7
 author				= "Christian Würker <christian.wuerker@ceus-media.de>"
 company				= "CeuS Media (ceus-media.de)"
 link				= http://code.google.com/p/cmclasses/
@@ -68,6 +68,7 @@ fileDataSerial			= "data.serial"
 timeLimit			= 120
 skipParser			= no
 skipCreator			= no
+skipInfo			= no
 skipResources			= no
 verbose				= yes
 verboseSkip			= no
