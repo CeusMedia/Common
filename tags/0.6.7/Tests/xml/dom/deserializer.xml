@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<object class="TestObject">
+  <null name="null"/>
+  <boolean name="boolean">1</boolean>
+  <integer name="integer">1</integer>
+  <double name="float">1.23</double>
+  <double name="double">2.34</double>
+  <string name="string">content</string>
+  <array name="list">
+    <string name="0">item1</string>
+    <string name="1">item2</string>
+  </array>
+  <array name="array">
+    <string name="key">value</string>
+  </array>
+  <object name="child" class="TestObject">
+    <integer name="integer">2</integer>
+  </object>
+</object>

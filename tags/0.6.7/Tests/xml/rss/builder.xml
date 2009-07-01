@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0">
+  <channel>
+    <title>UnitTest created Feed</title>
+    <description>This RSS Feed has been created by a PHPUnit Test.</description>
+    <link>http://nowhere.tld</link>
+    <image>
+      <url>siegel_map.jpg</url>
+    </image>
+    <textInput>
+      <title>Text Box</title>
+    </textInput>
+    <item>
+      <title>Test Entry 1</title>
+      <description>Description of Test Entry 1</description>
+      <pubDate>Wed, 20 Feb 2008 23:33:20 +0100</pubDate>
+    </item>
+    <item>
+      <title>Test Entry 2</title>
+      <description>Description of Test Entry 2</description>
+      <pubDate>Tue, 19 Feb 2008 23:33:20 +0100</pubDate>
+    </item>
+  </channel>
+</rss>
