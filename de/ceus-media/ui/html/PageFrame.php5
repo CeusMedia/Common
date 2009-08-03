@@ -44,6 +44,7 @@ class UI_HTML_PageFrame
 	protected $metaTags	= array();
 	protected $head		= "";
 	protected $body		= "";
+	protected $profile	= NULL;
 	
 	protected $charset	= NULL;
 	protected $language	= NULL;
@@ -64,6 +65,11 @@ class UI_HTML_PageFrame
 		$this->addMetaTag( "http-equiv", "Content-Type", "text/html; charset=".strtoupper( $charset ) );
 		$this->addMetaTag( "http-equiv", "Content-Script-Type", $scriptType );
 		$this->addMetaTag( "http-equiv", "Content-Style-Type", $styleType );
+	}
+
+	public function setHeadProfileUrl( $url )
+	{
+		$this->profile	= $url;
 	}
 
 	/**
@@ -91,9 +97,13 @@ class UI_HTML_PageFrame
 		foreach( $this->scripts as $attributes )
 			$tagsHead[]	= UI_HTML_Tag::create( "script", "", $attributes );
 
+		$headAttributes	= array(
+			'profile'	=> $this->profile
+		);
+
 		$tagsHead	= implode( "\n    ", $tagsHead ).$this->head;
 		$tagsBody	= implode( "\n    ", $tagsBody ).$this->body;
-		$head		= UI_HTML_Tag::create( "head", "\n    ".$tagsHead."\n  " );
+		$head		= UI_HTML_Tag::create( "head", "\n    ".$tagsHead."\n  ", $headAttributes );
 		$body		= UI_HTML_Tag::create( "body", "\n    ".$tagsBody."\n  ", $bodyAttributes );
 		$attributes	= array(
 			'xmlns'		=> "http://www.w3.org/1999/xhtml",
