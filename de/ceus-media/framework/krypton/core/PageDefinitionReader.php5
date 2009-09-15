@@ -74,11 +74,11 @@ class Framework_Krypton_Core_PageDefinitionReader
 	 *	@param		string		$parentId	ID of parent Page
 	 *	@return		void
 	 */
-	private function readPage( $page, $scope, $parentId = false )
+	private function readPage( $page, $scope, $parentId = FALSE )
 	{
 		$data	= array(
 			'scope'		=> strtolower( $scope ),
-			'id'		=> strtolower( $page->getAttribute( 'id' ) ),
+			'id'		=> $page->getAttribute( 'id' ),
 			'default'	=> (bool) $page->getAttribute( 'default' ),
 			'hidden'	=> (bool) $page->getAttribute( 'hidden' ),
 			'disabled'	=> (bool) $page->getAttribute( 'disabled' ),
