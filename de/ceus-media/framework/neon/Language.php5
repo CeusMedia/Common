@@ -29,6 +29,7 @@
 import( 'de.ceus-media.adt.OptionObject' );
 import( 'de.ceus-media.net.http.LanguageSniffer' );
 import( 'de.ceus-media.alg.validation.LanguageValidator' );
+import( 'de.ceus-media.file.Writer' );
 import( 'de.ceus-media.file.block.Reader' );
 /**
  *	Language Support with sniffing of Browser Language and Language Validation.
@@ -37,6 +38,8 @@ import( 'de.ceus-media.file.block.Reader' );
  *	@extends		ADT_OptionObject
  *	@uses			Net_HTTP_LanguageSniffer
  *	@uses			Alg_Validation_LanguageValidator
+ *	@uses			File_Writer
+ *	@uses			File_Block_Reader
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
