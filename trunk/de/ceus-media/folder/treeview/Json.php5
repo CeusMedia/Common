@@ -69,7 +69,7 @@ class Folder_Treeview_Json
 		$list	= array_merge( $folders, $files );
 		$json	= json_encode( $list );
 		if( $this->logFile )
-			$this->log( $path, count( $list ), strlen( $json ), $watch->stop( 6, 0 ) );
+			$this->log( $path, count( $list ), strlen( $json ), $clock->stop( 6, 0 ) );
 		return $json;
 	}
 
