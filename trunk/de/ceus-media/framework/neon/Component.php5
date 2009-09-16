@@ -42,6 +42,14 @@ import( 'de.ceus-media.alg.TimeConverter' );
  */
 abstract class Framework_Neon_Component
 {
+	/**	@var		array						$config				Configuration Array */
+	protected $config;
+	/**	@var		Net_HTTP_Request_Receiver	$request			Request Object */
+	protected $request;
+	/**	@var		Net_HTTP_PartitionSession	$session			Session Object */
+	protected $session;
+	/**	@var		Framework_Neon_Language		$language			Language Support Object */
+	protected $language;
 	/**	@var		ADT_Reference				$ref				Object Reference */
 	protected $ref;
 	/**	@var		Framework_Neon_Messenger	$messenger			Messenger */
@@ -57,8 +65,7 @@ abstract class Framework_Neon_Component
 			'wiki'	=> 'wiki',
 			'txt'	=> 'text',
 			);
-	/**	@var	Framework_Neon_Language		$language		Language Support */
-	var $language;
+	/**	@var		Framework_Neon_Language		$language		Language  */
 	/**	@var	UI_HTML_WikiParser			$wiki			Wiki Parser */
 	var $wiki;
 
