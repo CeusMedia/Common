@@ -106,7 +106,7 @@ class Framework_Krypton_Core_PageController
 		{
 			if( !isset( $this->pages[$scope] ) )
 				return FALSE;
-			if( !array_key_exists( strtolower( $pageId ), $this->pages[$scope] ) )
+			if( !array_key_exists( $pageId, $this->pages[$scope] ) )
 				return FALSE;
 			$this->cachedScopes[$pageId] = $scope;
 			return TRUE;
@@ -165,7 +165,7 @@ class Framework_Krypton_Core_PageController
 			throw new InvalidArgumentException( 'Page "'.$pageId.'" is not defined.' );
 
 		$registry	= Framework_Krypton_Core_Registry::getInstance();
-		$pageId		= strtolower( $pageId );
+#		$pageId		= strtolower( $pageId );
 		$scope		= $this->getPageScope( $pageId );
 		$page		= $this->pages[$scope][$pageId];
 		if( isset( $page['factory'] ) && $page['factory'] )
@@ -280,7 +280,7 @@ class Framework_Krypton_Core_PageController
 			throw new InvalidArgumentException( 'Page "'.$pageId.'" is not defined.' );
 			
 		$scope	= $this->getPageScope( $pageId );
-		$pageId	= strtolower( $pageId );
+#		$pageId	= strtolower( $pageId );
 		$page	= $this->pages[$scope][$pageId];
 		return $page['file'];
 	}
@@ -311,7 +311,7 @@ class Framework_Krypton_Core_PageController
 	{
 		if( $this->checkPage( $pageId ) )
 		{
-			$pageId	= strtolower( $pageId );
+#			$pageId	= strtolower( $pageId );
 			$scope	= $this->getPageScope( $pageId );
 			$page	= $this->pages[$scope][$pageId];
 			return isset( $page['type'] ) && $page['type'] == "dynamic";
