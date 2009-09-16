@@ -23,7 +23,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  */
-import( 'de.ceus-media.Stopwatch' );
+import( 'de.ceus-media.alg.time.Clock' );
 import( 'de.ceus-media.ui.html.Tag' );
 /**
  *	...
@@ -53,7 +53,7 @@ class Folder_Treeview_Json
 	
 	public function buildJson( $path = "" )
 	{
-		$watch		= new Stopwatch;
+		$clock		= new Alg_Time_Clock;
 		$index		= new DirectoryIterator( $this->basePath.$path );
 		$folders	= array();
 		$files		= array();
