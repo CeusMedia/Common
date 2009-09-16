@@ -148,6 +148,7 @@ class Framework_Krypton_View_Interface extends Framework_Krypton_Core_View
 		$controller	= $this->registry->get( 'controller' );
 
 		$pages		= $controller->getPages( "foot" );
+		$list		= array();
 		foreach( $pages as $page )
 		{
 			if( $page['hidden'] || $page['disabled'] )
