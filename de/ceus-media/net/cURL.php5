@@ -158,8 +158,8 @@ class Net_cURL
 		$url	= $this->getOption( CURLOPT_URL );
 		if( empty( $url ) )
 			throw new RuntimeException( 'No URL set.' );
-		if( !preg_match( "@[a-z]+://[a-z0-9]+.+@i", $url ) )
-			throw new InvalidArgumentException( 'URL "'.$url.'" has no valid Protocol.' );
+#		if( !preg_match( "@[a-z]+://[a-z0-9]+.+@i", $url ) )
+#			throw new InvalidArgumentException( 'URL "'.$url.'" has no valid Protocol.' );
 
 		$result = curl_exec( $this->handle );
 		$this->status = curl_getinfo( $this->handle );
@@ -179,6 +179,7 @@ class Net_cURL
 #			if( count( $parts ) < 2 )																//  no Header Blocks splitted
 #				throw new Exception( 'Error while splitting HTTP Response String.' );
 
+			$header	= "";
 			while( $parts && preg_match( "@^HTTP/@", trim( $parts[0] ) ) )							//  another Header Block found
 				$header	= array_shift( $parts );													//  Header Blocks is first Part
 
