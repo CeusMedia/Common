@@ -185,7 +185,7 @@ class Framework_Krypton_Core_Language
 		}
 
 		//  --  SESSION PRESET  --  //
-		if( $session->has( 'language' ) )
+		if( $session->get( 'language' ) )
 			return;
 
 		//  --  LANGUAGE SNIFF  --  //
@@ -195,6 +195,8 @@ class Framework_Krypton_Core_Language
 			$language	= Net_HTTP_LanguageSniffer::getLanguage( $this->allowed, $this->default );
 			$this->setLanguage( $language );
 		}
+		else
+			$this->setLanguage( $this->default );
 	}
 
 	/**

@@ -231,15 +231,24 @@ class Framework_Krypton_WebApplication extends Framework_Krypton_Base
 					{
 						require_once( $fileName );
 						$view		= new $className;
-						try
+						if( !CMC_KRYPTON_MODE && method_exists( $view, 'handleException' ) )
+						{
+							try
+							{
+								$content	= $view->buildContent();
+								$control	.= $view->buildControl();
+								$extra		.= $view->buildExtra();
+							}
+							catch( Exception $e )
+							{
+								$view->handleException( $e, 'main', 'exceptions' );
+							}
+						}
+						else
 						{
 							$content	= $view->buildContent();
 							$control	.= $view->buildControl();
 							$extra		.= $view->buildExtra();
-						}
-						catch( Exception $e )
-						{
-							$view->handleException( $e, 'main', 'exceptions' );
 						}
 					}
 					else
