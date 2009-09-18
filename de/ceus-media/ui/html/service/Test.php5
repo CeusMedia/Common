@@ -93,6 +93,15 @@ class UI_HTML_Service_Test
 		$exception	= "";
 		$this->evaluateResponse( $format, $response, $data, $exception, $trace );
 
+
+		if( strlen( $data ) > 1024 * 1024 )
+			$data	= "<em><small>Response larger than 1MB</small></em>";
+
+		if( strlen( $response ) > 1024 * 1024 )
+			$response	= Alg_StringTrimmer::trimCentric(  $response, 200 );
+			$response	= "Response larger than 1MB\n".$response;
+
+
 		$tabs	= array();
 		if( $data )
 			$tabs['Data']	= $data;

@@ -68,7 +68,68 @@ class UI_HTML_CountryFlagIcon
 		$code			= UI_HTML_Elements::Image( $url, $title, $class );
 		return $code;
 	}
+/*
+	public static function getLanguageFromCountry( $countryCode )
+	{
+		$countryLanguages	= array(
+			'eg'	=> 'ar',	// .eg
+			'al'	=> 'sq',	// .al
+			'au'	=> 'en',	// .au
+			'bt'	=> 'bt',	// .bt
+			'br'	=> 'pt',	// .br
+			'cn'	=> 'zh',	// .cn
+			'dk'	=> 'da',	// .dk
+			'ge'	=> 'ka',	// .ge
+			'gr'	=> 'el',	// .gr
+			'gl'	=> 'kl',	// .gl
+			'jp'	=> 'ja',	// .jp
+			'kh'	=> 'km',	// .kh
+			'kr'	=> 'ko',	// .kr
+			'np'	=> 'ne',	// .np
+			'at'	=> 'de',	// .at
+			'se'	=> 'sv',	// .se
+			'ch'	=> 'de',	// .ch
+			'rs'	=> 'sr',	// .rs
+			'si'	=> 'sl',	// .si
+			'cz'	=> 'cs',	// .cz
+			'tm'	=> 'tk',	// .tm
+			'us'	=> 'en',	// .us
+			'vn'	=> 'vi',	// .vn
+		);
+		if( in_array( $countryCode, $countryLanguages ) )
+			return $countryLanguages[$countryCode];
+		return $countryCode;
+	}
 
+	public static function getCountryFromLanguage( $languageCode )
+	{
+		$languageCountries	= array(
+			'sq'	=> 'al',	// .al
+			'en'	=> 'au',	// .au
+			'bt'	=> 'bt',	// .bt
+			'pt'	=> 'br',	// .br
+			'zh'	=> 'cn',	// .cn
+			'da'	=> 'dk',	// .dk
+			'ka'	=> 'ge',	// .ge
+			'el'	=> 'gr',	// .gr
+			'kl'	=> 'gl',	// .gl
+			'ja'	=> 'jp',	// .jp
+			'km'	=> 'kh',	// .kh
+			'ko'	=> 'kr',	// .kr
+			'ne'	=> 'np',	// .np
+			'sv'	=> 'se',	// .se
+			'sr'	=> 'rs',	// .rs
+			'sl'	=> 'si',	// .si
+			'cs'	=> 'cz',	// .cz
+			'tk'	=> 'tm',	// .tm
+			'en'	=> 'us',	// .us
+			'vi'	=> 'vn',	// .vn
+		);
+		if( in_array( $languageCode, $languageCountries ) )
+			return $languageCountries[$languageCode];
+		return $languageCode;
+	}
+*/
 	/**
 	 *	Transforms special Language Codes to ISO Codes. To be overwritten.
 	 *	@access		protected
@@ -80,6 +141,8 @@ class UI_HTML_CountryFlagIcon
 		$isoCode	= $languageCode;
 		if( $languageCode == "en" || $languageCode == "uk" )
 			$isoCode = "gb";
+		if( $languageCode == "cs" )
+			$isoCode = "cz";
 		return $isoCode;
 	}
 }
