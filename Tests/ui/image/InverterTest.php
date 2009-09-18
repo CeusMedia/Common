@@ -31,7 +31,7 @@ class Tests_UI_Image_InverterTest extends PHPUnit_Framework_TestCase
 	{
 		@unlink( $this->path."targetInverter.gif" );
 		@unlink( $this->path."targetInverter.png" );
-		@unlink( $this->path."targetInverter.jpg" );
+#		@unlink( $this->path."targetInverter.jpg" );
 	}
 
 	public function testInvertGif()

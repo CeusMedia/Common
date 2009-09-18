@@ -18,8 +18,6 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@package		file.yaml
- *	@uses			File_Reader
- *	@uses			Spyc
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -28,7 +26,7 @@
  *	@version		0.6
  */
 import( 'de.ceus-media.file.Reader' );
-import( 'net.sourceforge.spyc.Spyc' );
+require_once( 'spyc/0.4.1/spyc.php' );
 /**
  *	YAML Reader based on Spyc.
  *	@package		file.yaml
