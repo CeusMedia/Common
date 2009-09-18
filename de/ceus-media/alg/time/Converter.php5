@@ -85,6 +85,7 @@ class Alg_Time_Converter
 	 *	@param		string	$string			Human time
 	 *	@param		string	$format			Format of human time (date|monthdate|datetime)
 	 *	@return		int
+	 *	@todo		finish Implementation
 	 */
 	public static function convertToTimestamp ($string, $format )
 	{
