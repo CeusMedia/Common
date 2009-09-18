@@ -68,6 +68,7 @@ class File_PHP_Parser
 		'implements'	=> array(),
 		'uses'			=> array(),
 		'description'	=> "",
+		'category'		=> "",
 		'package'		=> "",
 		'subpackage'	=> "",
 		'license'		=> array(),
@@ -105,8 +106,8 @@ class File_PHP_Parser
 		"deprecated"	=> array(),
 	);
 	
-	protected $regexClass		= '@^(abstract )?(final )?(interface |class )([\w]+)( extends ([\w]+))?( implements ([\w]+)(, ([\w]+))*)?$@i';
-	protected $regexMethod		= '@^(abstract )?(final )?(protected |private |public )?(static )?function ([\w]+)\((.*)\)$@';
+	protected $regexClass		= '@^(abstract )?(final )?(interface |class )([\w]+)( extends ([\w]+))?( implements ([\w]+)(, ([\w]+))*)?(\s*{\s*)?$@i';
+	protected $regexMethod		= '@^(abstract )?(final )?(protected |private |public )?(static )?function ([\w]+)\((.*)\)(\s*{\s*)?$@';
 	protected $regexParam		= '@^(([\w]+) )?((&\s*)?\$([\w]+))( ?= ?([\S]+))?$@';
 	protected $regexDocParam	= '@^\*\s+\@param\s+(([\w]+)\s+)?(\$?([\w]+))\s*(.+)?$@';
 	protected $regexDocVariable	= '@^/\*\*\s+\@var\s+(\w+)\s+\$(\w+)(\s(.+))?\*\/$@s';
@@ -165,6 +166,13 @@ class File_PHP_Parser
 				if( preg_match( $this->regexClass, $line, $matches ) )
 				{
 					$class	= $this->classData;
+					if( trim( array_pop( array_slice( $matches, -1 ) ) ) == "{" )
+					{
+						array_pop( $matches );
+						$level++;
+					}
+					while( !trim( array_pop( array_slice( $matches, -1 ) ) ) )
+						array_pop( $matches );
 					$class	= $this->parseClass( $class, $matches, $openBlocks );
 					if( $openBlocks )
 						$this->overwriteCodeDataWithDocData( $class, array_pop( $openBlocks ) );
@@ -173,6 +181,8 @@ class File_PHP_Parser
 				else if( preg_match( $this->regexMethod, $line, $matches ) )
 				{
 					$function	= $this->parseMethod( $matches, $openBlocks );
+					if( isset( $matches[8] ) )
+						$level++;
 					unset( $function['access'] );
 					$file['functions'][$function['name']]	= $function;
 				}
@@ -185,6 +195,8 @@ class File_PHP_Parser
 				{
 					$method	= $this->parseMethod( $matches, $openBlocks );
 					$class['methods'][$method['name']]	= $method;
+					if( isset( $matches[8] ) )
+						$level++;
 				}
 				else if( preg_match( $this->regexDocVariable, $line, $matches ) )
 				{
@@ -288,7 +300,7 @@ class File_PHP_Parser
 		$data['extends']	= isset( $matches[5] ) ? $matches[6] : NULL;
 		if( isset( $matches[7] ) )
 			foreach( array_slice( $matches, 8 ) as $match )
-				if( !preg_match( "@^,@", $match ) )
+				if( trim( $match ) && !preg_match( "@^,|{@", trim( $match ) ) )
 					$data['implements'][]	= trim( $match );
 		if( $openBlocks )
 			$this->overwriteCodeDataWithDocData( $data, array_pop( $openBlocks ) );

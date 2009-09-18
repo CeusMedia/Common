@@ -21,7 +21,14 @@ import( 'de.ceus-media.file.yaml.Reader' );
 class Tests_File_Yaml_ReaderTest extends PHPUnit_Framework_TestCase
 {
 	/**	@var	string		$fileName		URL of Archive File Name */
-	private $fileName		= "Tests/file/yaml/reader.yaml";
+	private $fileName		= "";
+
+	public function __construct()
+	{
+		$this->path			= dirname( __FILE__ )."/";
+		$this->fileName		= $this->path."spyc.yaml";
+		$this->data			= unserialize( file_get_contents( $this->path."data.serial" ) );
+	}
 
 	/**
 	 *	Tests Method 'load'.
@@ -31,14 +38,8 @@ class Tests_File_Yaml_ReaderTest extends PHPUnit_Framework_TestCase
 	public function testLoad()
 	{
 		$creation	= File_Yaml_Reader::load( $this->fileName );
-		$assertion	= array(
-			"title" => "test",
-			"list"	=> array(
-				"entry1",
-				"entry2",
-				)
-			);
-		$this->assertEquals( $assertion, $creation );
+#		file_put_contents( $this->path."data.serial", serialize( $creation ) );
+		$this->assertEquals( $this->data, $creation );
 	}
 
 	/**
@@ -50,14 +51,7 @@ class Tests_File_Yaml_ReaderTest extends PHPUnit_Framework_TestCase
 	{
 		$reader		= new File_Yaml_Reader( $this->fileName );
 		$creation	= $reader->read();
-		$assertion	= array(
-			"title" => "test",
-			"list"	=> array(
-				"entry1",
-				"entry2",
-				)
-			);
-		$this->assertEquals( $assertion, $creation );
+		$this->assertEquals( $this->data, $creation );
 	}
 }
 ?>

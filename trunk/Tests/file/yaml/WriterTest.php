@@ -35,11 +35,9 @@ class Tests_File_Yaml_WriterTest extends PHPUnit_Framework_TestCase
 	 */
 	public function __construct()
 	{
-		$this->fileName	= dirname( __FILE__ )."/writer.yaml";
-		$this->data		= array(
-			'test1',
-			'test2'
-		);
+		$this->path		= dirname( __FILE__ )."/";
+		$this->fileName	= $this->path."writer.yaml";
+		$this->data		= unserialize( file_get_contents( $this->path."data.serial" ) );
 	}
 	
 	/**
@@ -49,7 +47,7 @@ class Tests_File_Yaml_WriterTest extends PHPUnit_Framework_TestCase
 	 */
 	public function setUp()
 	{
-		@unlink( $this->fileName );
+#		@unlink( $this->fileName );
 	}
 	
 	/**
@@ -59,7 +57,7 @@ class Tests_File_Yaml_WriterTest extends PHPUnit_Framework_TestCase
 	 */
 	public function tearDown()
 	{
-		@unlink( $this->fileName );
+#		@unlink( $this->fileName );
 	}
 
 	/**
@@ -90,7 +88,6 @@ class Tests_File_Yaml_WriterTest extends PHPUnit_Framework_TestCase
 		$creation	= is_int( $writer->write( $this->data ) );
 		$this->assertEquals( $assertion, $creation );
 
-		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= $this->data;
 		$creation	= File_Yaml_Reader::load( $this->fileName );
 		$this->assertEquals( $assertion, $creation );
@@ -107,7 +104,6 @@ class Tests_File_Yaml_WriterTest extends PHPUnit_Framework_TestCase
 		$creation	= is_int( File_Yaml_Writer::save( $this->fileName, $this->data ) );
 		$this->assertEquals( $assertion, $creation );
 
-		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= $this->data;
 		$creation	= File_Yaml_Reader::load( $this->fileName );
 		$this->assertEquals( $assertion, $creation );
