@@ -41,7 +41,7 @@ import( 'de.ceus-media.file.ini.Reader' );
 import( 'de.ceus-media.net.http.PartitionSession' );
 import( 'de.ceus-media.net.http.request.Receiver' );
 import( 'de.ceus-media.StopWatch' );
-import( 'de.ceus-media.adt.FieldDefinition' );
+import( 'de.ceus-media.framework.hydrogen.FieldDefinition' );
 import( 'de.ceus-media.framework.hydrogen.Messenger' );
 import( 'de.ceus-media.framework.hydrogen.Model' );
 import( 'de.ceus-media.framework.hydrogen.View' );
@@ -55,7 +55,7 @@ import( 'de.ceus-media.framework.hydrogen.Language' );
  *	@uses			Net_HTTP_PartitionSession
  *	@uses			Net_HTTP_Request_Receiver
  *	@uses			StopWatch
- *	@uses			FieldDefinition
+ *	@uses			Framework_Hydrogen_FieldDefinition
  *	@uses			Framework_Hydrogen_Messenger
  *	@uses			Framework_Hydrogen_Model
  *	@uses			Framework_Hydrogen_View
@@ -129,10 +129,11 @@ class Framework_Hydrogen_Base
 	{
 		$this->controller	= $this->request->get( 'controller' );
 		$this->action		= $this->request->get( 'action' );
-//		remark( "controller: ".$this->controller );
-//		remark( "action: ".$this->action );
+		remark( "controller: ".$this->controller );
+		remark( "action: ".$this->action );
 		
 		$filename		= $this->getFilenameOfController( ucfirst( $this->controller ) );
+		remark( "File: ".$filename );
 		if( file_exists( $filename ) )
 		{
 			require_once( $filename );
@@ -173,7 +174,7 @@ class Framework_Hydrogen_Base
 	{
 		extract( $this->_components );
 		require_once( $this->config['paths']['templates']."master.php" );
-		$this->session->close();
+		unset( $this->session );			//		->close();
 		$this->dbc->close();
 		die( $content );
 	}
@@ -198,7 +199,7 @@ class Framework_Hydrogen_Base
 	 */
 	protected function getFilenameOfController( $controller )
 	{
-		$filename	= $this->config['paths']['controllers'].ucfirst( $controller)."Controller.php";
+		$filename	= $this->config['paths']['controllers'].ucfirst( $controller)."Controller.php5";
 		return $filename;
 	}
 	
@@ -207,7 +208,7 @@ class Framework_Hydrogen_Base
 	 *	@access		protected
 	 *	@return		void
 	 */
-	protected function init()
+	private function init()
 	{
 		$this->_sw	= new StopWatch();
 		
@@ -243,7 +244,7 @@ class Framework_Hydrogen_Base
 		}
 
 		//  --  FIELD DEFINITION SUPPORT  --  //
-		$this->definition	= new FieldDefinition( "config/", $this->config['config']['use_cache'], $this->config['config']['cache_path'] );
+		$this->definition	= new Framework_Hydrogen_FieldDefinition( "config/", $this->config['config']['use_cache'], $this->config['config']['cache_path'] );
 		$this->definition->setChannel( "html" );
 	}
 	
