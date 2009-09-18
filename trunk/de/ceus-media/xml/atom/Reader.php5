@@ -145,6 +145,7 @@ class XML_Atom_Reader
 	
 	public function getEntries( $language = NULL )
 	{
+		return $this->parser->entries;
 	}	
 	
 
