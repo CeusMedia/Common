@@ -244,14 +244,14 @@ class GoDocCreator
 {
 	public function __construct( $arguments, $configFile, $config )
 	{
-		$pathProject	= str_replace( "\\", "/", dirname( realpath( __FILE__ ) ) )."/";
-		$pathTool		= $config['docCreator']['pathTool'];
+		$pathWork	= dirname( realpath( __FILE__ ) )."/";	
+		$pathTool	= $config['docCreator']['pathTool'];
 		if( !file_exists( $pathTool ) )
 			throw new RuntimeException( 'Tool DocCreator is not installed in "'.$pathTool.'".' );
 		chDir( $pathTool );
 		import( 'classes.DocCreator' );
 		DocCreator::$defaultConfigFile	= $configFile;
-		new DocCreator( $pathProject );
+		new DocCreator( $pathWork );
 	}
 }
 class GoPhpDocumentor
