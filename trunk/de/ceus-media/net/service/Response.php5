@@ -157,8 +157,8 @@ class Net_Service_Response
 	 */
 	protected function getJson( $content, $status = "data" )
 	{
-		$data	= $this->buildResponseStructure( $content, $status );
-		return json_encode( $data );		
+		$content	= $this->buildResponseStructure( $content, $status );
+		return json_encode( $content );		
 	}
 
 	/**
@@ -170,8 +170,8 @@ class Net_Service_Response
 	 */
 	protected function getPhp( $content, $status = "data" )
 	{
-		$data	= $this->buildResponseStructure( $content, $status );
-		return serialize( $data );
+		$content	= $this->buildResponseStructure( $content, $status );
+		return serialize( $content );
 	}
 
 	/**
@@ -210,8 +210,8 @@ class Net_Service_Response
 	 */
 	protected function getWddx( $content, $status = "data" )
 	{
-		$data	= $this->buildResponseStructure( $content, $status );
-		return wddx_serialize_value( $data );
+		$content	= $this->buildResponseStructure( $content, $status );
+		return wddx_serialize_value( $content );
 	}
 
 	/**
