@@ -129,11 +129,11 @@ class Framework_Hydrogen_Base
 	{
 		$this->controller	= $this->request->get( 'controller' );
 		$this->action		= $this->request->get( 'action' );
-		remark( "controller: ".$this->controller );
-		remark( "action: ".$this->action );
+#		remark( "controller: ".$this->controller );
+#		remark( "action: ".$this->action );
 		
 		$filename		= $this->getFilenameOfController( ucfirst( $this->controller ) );
-		remark( "File: ".$filename );
+#		remark( "File: ".$filename );
 		if( file_exists( $filename ) )
 		{
 			require_once( $filename );
