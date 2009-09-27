@@ -60,11 +60,13 @@ class UI_HTML_JQuery
 
 		if( $options )
 		{
-			$list	= array();
+			$options	= json_encode( $options );
+			
+/*			$list	= array();
 			foreach( $options as $key => $value )
 			{
 				if( is_array( $value ) )
-					$value	= self::buildOptions( $value, $spaces + 2 );
+					$value	= json_encode( $value ); # self::buildOptions( $value, $spaces + 2 );
 				else if( is_bool( $value ) )
 					$value	= (int) $value;
 				else if( is_string( $value ) )
@@ -75,7 +77,7 @@ class UI_HTML_JQuery
 					$list[]	= $key.": ".$value;
 			}
 			$options	= implode( ",\n    ", $list );
-			$options	= "{\n".$innerIndent.$options."\n".$outerIndent."}";
+			$options	= "{\n".$innerIndent.$options."\n".$outerIndent."}";*/
 		}
 		else
 			$options	= "";
