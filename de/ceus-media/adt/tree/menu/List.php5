@@ -157,23 +157,13 @@ class ADT_Tree_Menu_List
 	/**
 	 *	Returns recursive Array Structure of this List and its nested Tree Menu Items.
 	 *	@access		public
-	 *	@param		bool		$wrapped		Wrap Array Structure (deprecated)
 	 *	@return		array
-	 *	@todo		remove param 'wrapped'
-	 *	@todo		remove timer
 	 */
-	public function toArray( $wrapped = FALSE )
+	public function toArray()
 	{
-		$st	= new StopWatch;
 		$children	= array();
 		foreach( $this->children as $child )
 			$children[]	= $child->toArray();
-		if( $wrapped )
-			$children	= array(
-				'children'	=> $children
-			);
-		if( $wrapped )
-			remark( $st->stop( 6 )."&micro;s" );
 		return $children;
 	}
 }
