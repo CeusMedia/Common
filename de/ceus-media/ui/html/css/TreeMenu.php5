@@ -187,7 +187,7 @@ class UI_HTML_CSS_TreeMenu
 		return UI_HTML_Elements::ListItem( $labelLink.$children, $level, $attributes );
 	}
 
-	protected function buildLabelSpan( $label, $level, $class, $disabled, $url )
+	protected static function buildLabelSpan( $label, $level, $class, $disabled, $url )
 	{
 		$attributes	= array(
 			'class'	=> array(
