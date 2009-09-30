@@ -275,21 +275,38 @@ class Database_PDO_TableReader
 
 		$conditions = array();
 		
+		$pattern	= "/^(<=|>=|<|>|!=)(.+)/";
 		foreach( $new as $key => $value )									//  iterate all noted Pairs
 		{
 			if( preg_match( "/^%/", $value ) || preg_match( "/%$/", $value ) )
-				$conditions[] = $key." LIKE '".$value."'";
-			else if( preg_match( "/^(<|=|>|!=)/", $value, $result ) )
-				$conditions[] = $key.$value;
+			{
+				$operation	= " LIKE ";
+				$value		= $this->secureValue( $value );
+			}
+			else if( preg_match( $pattern, $value, $result ) )
+			{
+				$matches	= array();
+				preg_match_all( $pattern, $value, $matches );
+				$operation	= " ".$matches[1][0]." ";
+				$value		= $this->secureValue( $matches[2][0] );
+			}
 			else
 			{
 				if( strtolower( $value ) == 'is null' || strtolower( $value ) == 'is not null')
-					$conditions[] = '`'.$key.'`'.' '.$value;
-				else if( $value === null )
-					$conditions[] = '`'.$key.'` is NULL';
+					$operation	= ' ';
+				else if( $value === NULL )
+				{
+					$operation	= " is ";
+					$value		= "NULL";
+				}
 				else
-					$conditions[] = '`'.$key.'`='.$this->secureValue( $value );
+				{
+					$operation	= " = ";
+					$value		= $this->secureValue( $value );
+				}
 			}
+			$key	= '`'.$key.'`';
+			$conditions[]	= $key.$operation.$value;
 		}
 		$conditions = implode( " AND ", $conditions );						//  combine Conditions with AND
 		return $conditions;

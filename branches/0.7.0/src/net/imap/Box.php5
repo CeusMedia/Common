@@ -97,7 +97,7 @@ class Net_IMAP_Box
 	public function getHeaders( $sort = SORTDATE, $reverse = TRUE )
 	{
 		$messages	= array();
-		remark( $this->resource->getAddress() );
+#		remark( $this->resource->getAddress() );
 		$sort		= imap_sort( $this->stream, $sort, (int) $reverse, 0 );
 		$messages	= array();
 		foreach( $sort as $id )

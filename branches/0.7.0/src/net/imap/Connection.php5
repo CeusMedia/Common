@@ -84,7 +84,7 @@ class Net_IMAP_Connection
 		$this->resetFlags();
 		$this->folder	= $folder;
 		$address		= $this->getAddress();
-		$this->stream	= imap_open( $address, $username, $password );
+		$this->stream	= @imap_open( $address, $username, $password );
 		if( false === $this->stream )
 			throw new Exception( 'Connection could not be established.' );
 	}		

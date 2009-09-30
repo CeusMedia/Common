@@ -19,7 +19,7 @@
  *
  *	@package		framework.helium
  *	@uses			ADT_Reference
- *	@uses			StopWatch
+ *	@uses			Alg_Time_Clock
  *	@uses			Net_HTTP_Request_Receiver
  *	@uses			Framework_Helium_Messenger
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
@@ -30,14 +30,14 @@
  *	@version		0.1
  */
 import( 'de.ceus-media.adt.Reference' );
-import( 'de.ceus-media.StopWatch' );
+import( 'de.ceus-media.alg.time.Clock' );
 import( 'de.ceus-media.net.http.request.Receiver' );
 import( 'de.ceus-media.framework.helium.Messenger' );
 /**
  *	Basic Framework Instance.
  *	@package		framework.helium
  *	@uses			ADT_Reference
- *	@uses			StopWatch
+ *	@uses			Alg_Time_Clock
  *	@uses			Net_HTTP_Request_Receiver
  *	@uses			Framework_Helium_Messenger
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
@@ -60,7 +60,7 @@ class Framework_Helium_Base
 	public function __construct()
 	{
 		$this->ref	= new ADT_Reference;
-		$this->ref->add( "stopwatch",	new StopWatch );		
+		$this->ref->add( "stopwatch",	new Alg_Time_Clock );		
 		$this->ref->add( "messenger",	new Framework_Helium_Messenger );
 		$this->ref->add( "request",		new Net_HTTP_Request_Receiver );
 		$this->init();

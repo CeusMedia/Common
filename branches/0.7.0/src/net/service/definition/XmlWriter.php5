@@ -77,6 +77,7 @@ class Net_Service_Definition_XmlWriter
 		$node->setAttribute( 'format', $serviceData['preferred'] );								//  set preferred Service Format Attribute
 		$node->addChild( new XML_DOM_Node( 'description', $serviceData['description'] ) );		//  set Service Description
 		self::buildServiceFormats( $serviceData, $node );										//  set Service Formats
+		self::buildServiceFilters( $serviceData, $node );										//  set Service Filters
 		self::buildServiceParameters( $serviceData, $node );									//  set Service Parameters
 		self::buildServiceRoles( $serviceData, $node );											//  set Service Roles
 		if( isset( $serviceData['status'] ) && $serviceData['status'] )							//  Service Status is available
@@ -92,9 +93,30 @@ class Net_Service_Definition_XmlWriter
 	 *	@param		XML_DOM_Node	$serviceNode		Service Node to add Formats Structure to
 	 *	@return		void
 	 */
+	protected static function buildServiceFilters( $serviceData, $serviceNode )
+	{
+		if( empty( $serviceData['filters'] ) )
+			return;
+		foreach( $serviceData['filters'] as $method => $title )									//  iterate Service Filters
+		{
+			$node	= new XML_DOM_Node( 'filter', $method );									//  build new Format Node
+			if( $title )
+				$node->setAttribute( 'title', $title );
+			$serviceNode->addChild( $node );													//  append Format Node to Service Node
+		}
+	}
+
+	/**
+	 *	Builds a Service Formats Structure in situ, can be overwritten.
+	 *	@access		protected
+	 *	@static
+	 *	@param		array			$serviceData		Service Definition Array
+	 *	@param		XML_DOM_Node	$serviceNode		Service Node to add Formats Structure to
+	 *	@return		void
+	 */
 	protected static function buildServiceFormats( $serviceData, $serviceNode )
 	{
-		foreach( $serviceData['formats'] as $format )											//  iterate Service Formates
+		foreach( $serviceData['formats'] as $format )											//  iterate Service Formats
 		{
 			$node	= new XML_DOM_Node( 'format', $format );									//  build new Format Node
 			$serviceNode->addChild( $node );													//  append Format Node to Service Node
@@ -122,6 +144,8 @@ class Net_Service_Definition_XmlWriter
 			{
 				if( is_bool( $propertyValue ) )													//  boolean Value
 					$propertyValue	= $propertyValue ? "yes" : "no";							//  convert to String
+				else if( is_array( $propertyValue ) )
+					$propertyValue	= implode( ",", $propertyValue );
 				$node->setAttribute( $propertyName, $propertyValue );							//  set Parameter Attribute
 			}
 			$serviceNode->addChild( $node );													//  append Parameter Node to Service Node

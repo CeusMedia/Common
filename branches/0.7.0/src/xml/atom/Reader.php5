@@ -145,6 +145,7 @@ class XML_Atom_Reader
 	
 	public function getEntries( $language = NULL )
 	{
+		return $this->parser->entries;
 	}	
 	
 
@@ -181,7 +182,7 @@ class XML_Atom_Reader
 			return $this->parser->entries[$index][$element];
 		if( !array_key_exists( $attribute, $this->parser->entries[$index][$element] ) )
 		{
-			print_m( $this->parser->entries[$index][$element] );
+#			print_m( $this->parser->entries[$index][$element] );
 			throw new Exception( 'Attribute "'.$attribute.'" is not set in Entry Element "'.$element.'".' );
 		}
 		return $this->parser->entries[$index][$element][$attribute];

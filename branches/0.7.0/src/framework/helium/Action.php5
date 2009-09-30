@@ -30,7 +30,7 @@
  */
 import( 'de.ceus-media.adt.Reference' );
 import( 'de.ceus-media.file.ini.Reader' );
-import( 'de.ceus-media.alg.TimeConverter' );
+import( 'de.ceus-media.alg.time.Converter' );
 /**
  *	Generic Action Handler.
  *	@package		framework.helium
@@ -59,7 +59,7 @@ class Framework_Helium_Action
 	public function __construct()
 	{
 		$this->ref			= new ADT_Reference();
-		$this->tc			= new Alg_TimeConverter;
+		$this->tc			= new Alg_Time_Converter;
 		$this->messenger	= $this->ref->get( 'messenger' );
 		$this->lan			=& $this->ref->get( 'language' );
 	}
@@ -109,7 +109,7 @@ class Framework_Helium_Action
 	 *	@param		string		$filename			File Name of Language File
 	 *	@return		void
 	 */
-	public function loadLanguage( $section, $filename = false, $verbose = true )
+	public function loadLanguage( $section, $filename = false, $verbose = TRUE )
 	{
 		$session	= $this->ref->get( 'session' );
 		if( !$filename )
@@ -119,11 +119,11 @@ class Framework_Helium_Action
 		{
 			$ir	= new File_INI_Reader( $uri, true );
 			$this->lan[$section]	= $ir->toArray( true );
-			return true;
+			return TRUE;
 		}
 		else if( $verbose )
 			$this->messenger->noteFailure( "Language File '".$filename."' is not existing in '".$uri."'" );
-		return false;
+		return FALSE;
 	}
 
 	/**

@@ -77,7 +77,7 @@ class XML_DOM_Formater
 		$encodeTo	= strtoupper( $encodeTo );
 		$document	= DOMDocument::loadXml( $xml );
 		$encoding	= strtoupper( $document->actualEncoding );
-		remark( "Encoding: ".$encoding );
+#		remark( "Encoding: ".$encoding );
 		if( $encoding == $encodeTo )
 			return $xml;
 		
