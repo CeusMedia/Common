@@ -8,6 +8,7 @@ require_once 'Tests/initLoaders.php5' ;
 require_once 'Tests/adt/tree/BinaryNodeTest.php';
 require_once 'Tests/adt/tree/BalanceBinaryNodeTest.php';
 require_once 'Tests/adt/tree/NodeTest.php';
+//require_once 'Tests/adt/tree/AvlNodeTest.php';
 class Tests_ADT_Tree_AllTests
 {
 	public static function main()
@@ -21,6 +22,7 @@ class Tests_ADT_Tree_AllTests
 		$suite->addTestSuite('Tests_ADT_Tree_BinaryNodeTest'); 
 		$suite->addTestSuite('Tests_ADT_Tree_BalanceBinaryNodeTest'); 
 		$suite->addTestSuite('Tests_ADT_Tree_NodeTest'); 
+//		$suite->aadTestSuite('Tests_ADT_Tree_AvlNodeTest');
 		return $suite;
 	}
 }
