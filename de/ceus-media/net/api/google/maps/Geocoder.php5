@@ -1,6 +1,6 @@
 <?php
 /**
- *	...
+ *	Resolves an address to geo codes using Google Maps API.
  *
  *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
  *
@@ -19,40 +19,61 @@
  *
  *	@package		net.google.api
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@copyright		2008-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
+ *	@since			0.6.5
  */
-import( 'de.ceus-media.net.google.api.Request' );
+import( 'de.ceus-media.net.api.google.Request' );
+import( 'de.ceus-media.file.Editor' );
 import( 'de.ceus-media.xml.Element' );
 /**
- *	...
+ *	Resolves an address to geo codes using Google Maps API.
  *	@package		net.google.api
+ *	@extends		Net_API_Google_Request
+ *	@uses			XML_Element
+ *	@uses			File_Editor
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@copyright		2008-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
+ *	@since			0.6.5
  */
-class Net_Google_API_Geocoder extends Net_Google_API_Request
+class Net_API_Google_Maps_Geocoder extends Net_API_Google_Request
 {
-	public function __construct( $apiKey, $apiUrl = "http://maps.google.com/maps/geo" )
-	{
-		parent::__construct( $apiKey, $apiUrl );
-		$this->pathCache	= $this->pathCache."geocodes/";
-	}
+	/** @var		string		$apiUrl			Google Maps API URL */
+	public $apiUrl				= "http://maps.google.com/maps/geo";
 
+	/**
+	 *	Returns KML data for an address.
+	 *	@access		public
+	 *	@param		string		$address		Address to get data for
+	 *	@param		bool		$force			Flag: do not use cache
+	 *	@return		string
+	 */
 	public function getGeoCode( $address, $force = FALSE )
 	{
 		$address	= urlencode( $address );
-		$cacheFile	= $this->pathCache.$address.".xml.cache";
-		if( file_exists( $cacheFile ) && !$force )
-			return file_get_contents( $cacheFile );
-		$query	= "?q=".$address."&sensor=false&output=xml";
+		$query		= "?q=".$address."&sensor=false&output=xml";
+		if( $this->pathCache )
+		{
+			$cacheFile	= $this->pathCache.$address.".xml.cache";
+			if( file_exists( $cacheFile ) && !$force )
+				return File_Editor::load( $cacheFile );
+		}
 		$xml	= $this->sendQuery( $query );
-		file_put_contents( $cacheFile, $xml );
+		if( $this->pathCache )
+			File_Editor::save( $cacheFile, $xml );
 		return $xml;
 	}
-	
+
+	/**
+	 *	Returns longitude, latitude and accuracy for an address.
+	 *	@access		public
+	 *	@param		string		$address		Address to get data for
+	 *	@param		bool		$force			Flag: do not use cache
+	 *	@return		array
+	 */
 	public function getGeoTags( $address, $force = FALSE )
 	{
 		$xml	= $this->getGeoCode( $address, $force );
@@ -62,11 +83,11 @@ class Net_Google_API_Geocoder extends Net_Google_API_Request
 		$coordinates	= (string) $xml->Response->Placemark->Point->coordinates;
 		$parts			= explode( ",", $coordinates );
 		$data			= array(
-			'latitude'	=> $parts[1],
 			'longitude'	=> $parts[0],
+			'latitude'	=> $parts[1],
 			'accuracy'	=> $parts[2],
 		);
-		return $parts;
+		return $data;
 	}
 }
 ?>
