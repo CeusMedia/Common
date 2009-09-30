@@ -1,6 +1,6 @@
 <?php
 /**
- *	...
+ *	Base class for request to Google APIs.
  *
  *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
  *
@@ -17,31 +17,40 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- *	@package		net.google.api
+ *	@package		net.api.google
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@copyright		2008-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
+ *	@since			0.6.5
  */
 import( 'de.ceus-media.net.Reader' );
 /**
- *	...
- *	@package		net.google.api
+ *	Base class for request to Google APIs.
+ *	@package		net.api.google
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@copyright		2008-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
+ *	@since			0.6.5
+ *	@todo			finish implementation
  */
-class Net_Google_API_Request
+abstract class Net_API_Google_Request
 {
 	public $apiKey		= "";
 	public $apiUrl		= "";
-	public $pathCache	= "cache/";
+	public $pathCache	= "";
 
-	public function __construct( $apiKey, $apiUrl = "http://maps.google.com/maps/geo" )
+	/**
+	 *	Constructor.
+	 *	@access		public
+	 *	@param		string		$apiKey			Google Maps API Key
+	 *	@return		void
+	 *	@todo		check if apiKey is still needed
+	 */
+	public function __construct( $apiKey )
 	{
 		$this->apiKey	= $apiKey;
-		$this->apiUrl	= $apiUrl;
 	}
 	
 	protected function sendQuery( $query )
@@ -51,6 +60,17 @@ class Net_Google_API_Request
 		$response	= Net_Reader::readUrl( $url );
 		$response	= utf8_encode( $response );
 		return $response;
+	}
+
+	/**
+	 *	Sets Cache Path.
+	 *	@access		public
+	 *	@param		string		$path		Path to Cache
+	 *	@return		void
+	 */
+	public function setCachePath( $path )
+	{
+		$this->pathCache	= $path;
 	}
 }
 ?>

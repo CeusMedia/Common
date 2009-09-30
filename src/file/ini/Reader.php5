@@ -365,6 +365,33 @@ class File_INI_Reader extends File_Reader
 	}
 
 	/**
+	 *	Loads an INI File and returns an Array statically.
+	 *	@access		public
+	 *	@param		string		$fileName		File Name of Property File, absolute or relative URI
+	 *	@param		bool		$usesSections	Flag: Property File containts Sections
+	 *	@param		bool		$activeOnly		Flag: return only active Properties
+	 *	@return		array
+	 */
+	public static function load( $fileName, $usesSections = FALSE, $activeOnly = TRUE )
+	{
+		$reader	= new self( $fileName, $usesSections );
+		return $reader->toArray( $activeOnly );
+	}
+
+	/**
+	 *	Loads an INI File and returns an Array Object statically.
+	 *	@access		public
+	 *	@param		string		$fileName		File Name of Property File, absolute or relative URI
+	 *	@param		bool		$usesSections	Flag: Property File containts Sections
+	 *	@param		bool		$activeOnly		Flag: return only active Properties
+	 *	@return		ArrayObject
+	 */
+	public static function loadAsArrayObject( $fileName, $usesSections = FALSE, $activeOnly = TRUE )
+	{
+		return new ArrayObject( self::load( $fileName, $usesSections, $activeOnly ) );
+	}
+
+	/**
 	 *	Reads the entire Property File and divides Properties and Comments.
 	 *	@access		protected
 	 *	@return		void
@@ -445,16 +472,6 @@ class File_INI_Reader extends File_Reader
 					$this->properties[$key] = $value;
 			}
 		}
-	}
-	public static function load( $fileName, $usesSections = FALSE, $activeOnly = TRUE )
-	{
-		$reader	= new self( $fileName, $usesSections );
-		return $reader->toArray( $activeOnly );
-	}
-
-	public static function loadAsArrayObject( $fileName, $usesSections = FALSE, $activeOnly = TRUE )
-	{
-		return new ArrayObject( self::load( $fileName, $usesSections, $activeOnly ) );
 	}
 
 	/**

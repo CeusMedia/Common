@@ -124,7 +124,7 @@ class Math_RationNumbers
 		}
 		if( $gcd = Math_NaturalNumbers::gcd( $sum, $max ) )
 		{
-			remark( "sum: ".$sum." max: ".$max. " -> gcd: ".$gcd );
+#			remark( "sum: ".$sum." max: ".$max. " -> gcd: ".$gcd );
 			$sum	/= $gcd;
 			$max	/= $gcd;
 		}

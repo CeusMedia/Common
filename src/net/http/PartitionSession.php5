@@ -89,7 +89,8 @@ class Net_HTTP_PartitionSession extends ADT_List_Dictionary
 	 */
 	public function clear()
 	{
-		$this->pairs	= array();
+		foreach( $this->pairs as $key => $value )
+			unset( $this->pairs[$key] );
 		$this->session['ip'] = getEnv( 'REMOTE_ADDR' );
 	}
 

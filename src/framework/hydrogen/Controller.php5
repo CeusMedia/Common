@@ -174,7 +174,7 @@ class Framework_Hydrogen_Controller
 	 */
 	protected function getFilenameOfModel( $controller )
 	{
-		$filename	= $this->config['paths']['models'].ucfirst( $controller)."Model.php";
+		$filename	= $this->config['paths']['models'].ucfirst( $controller)."Model.php5";
 		return $filename;
 	}
 
@@ -186,7 +186,7 @@ class Framework_Hydrogen_Controller
 	 */
 	protected function getFilenameOfView( $controller )
 	{
-		$filename	= $this->config['paths']['views'].ucfirst( $controller)."View.php";
+		$filename	= $this->config['paths']['views'].ucfirst( $controller)."View.php5";
 		return $filename;
 	}
 	

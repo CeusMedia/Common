@@ -90,7 +90,10 @@ class Alg_Tree_Menu_Converter
 		{
 			if( isset( $line['outlines'] ) && count( $line['outlines'] ) )
 			{
-				$item	= new ADT_Tree_Menu_List( $line['text'] );
+				if( isset ( $line['url'] ) )
+					$item	= new ADT_Tree_Menu_Item( $line['url'], $line['text'] );
+				else
+					$item	= new ADT_Tree_Menu_List( $line['text'] );
 				self::buildMenuListFromOutlines( $line['outlines'], $item );
 				$container->addChild( $item );
 			}

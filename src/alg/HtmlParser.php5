@@ -107,6 +107,8 @@ class Alg_HtmlParser
 	public function getFavoriteIcon( $throwException = TRUE )
 	{
 		$values	= array(
+			'apple-touch-icon',
+			'APPLE-TOUCH-ICON',
 			'shortcut icon',
 			'SHORTCUT ICON',
 			'icon',

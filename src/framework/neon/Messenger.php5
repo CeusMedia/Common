@@ -237,6 +237,9 @@ class Framework_Neon_Messenger extends ADT_OptionObject
 	{
 		if( !(is_string( $message ) && trim( $message ) ) )
 			return "";
+
+		$message	= sprintf( $message, (string) $arg1, (string) $arg2 );
+
 		if( NULL !== $arg2 )
 			$message	= preg_replace( "@(.*)\{\S+\}(.*)\{\S+\}(.*)@si", "$1".$arg1."$2".$arg2."$3", $message );
 		else if( NULL !== $arg1 )

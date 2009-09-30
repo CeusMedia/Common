@@ -163,28 +163,29 @@ class Framework_Neon_Actions_RoleActions extends Framework_Neon_DefinitionAction
 
 		if( $roleId = $request->get( 'roleId' ) )
 		{
-			$object	=  new Framework_Neon_Models_RightObject();
-			$action	=  new Framework_Neon_Models_RightAction();
+			$object		=  new Framework_Neon_Models_RightObject();
+			$action		=  new Framework_Neon_Models_RightAction();
 			$objects	= $object->getObjects();
 			$actions	= $action->getActions();
 
 			$changes	= 0;
 			$role	= new Framework_Neon_Models_RoleRight();
 			$right	= $request->get( 'right' );
+
 			foreach( $objects as $objectId => $object )
 			{
 				foreach( $actions as $actionId => $action )
 				{
-					$old		= (int)$role->hasRightByID( $roleId, $objectId, $actionId );
-					$new	= isset( $right[$objectId][$actionId] ) ? 1 : 0;
+					$old	= (int)$role->hasRightByID( $roleId, $objectId, $actionId );
+					$new	= empty( $right[$objectId][$actionId] ) ? 0 : 1;
 					if( $old != $new )
 					{
 						if( $old < $new )
 						{
 							$data	= array(
-								"roleId"			=> $roleId,
+								"roleId"		=> $roleId,
 								"rightObjectId"	=> $objectId,
-								"rightObjectId"	=> $actionId,
+								"rightActionId"	=> $actionId,
 							);
 							$role->addData( $data );
 						}
@@ -192,7 +193,7 @@ class Framework_Neon_Actions_RoleActions extends Framework_Neon_DefinitionAction
 						{
 							$role->focusForeign( 'roleId', $roleId );
 							$role->focusForeign( 'rightObjectId', $objectId );
-							$role->focusForeign( 'rightObjectId', $actionId );
+							$role->focusForeign( 'rightActionId', $actionId );
 							$role->deleteData();
 							$role->defocus();
 						}

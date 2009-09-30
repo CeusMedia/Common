@@ -122,7 +122,7 @@ class Framework_Hydrogen_Language
 	 *	@param		string		$topic			Topic of Language
 	 *	@return		void
 	 */
-	protected public function getFilenameOfLanguage( $topic )
+	protected function getFilenameOfLanguage( $topic )
 	{
 		$filename	= $this->config['paths']['languages'].$this->language."/".$topic.".ini";	
 		return $filename;

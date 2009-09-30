@@ -121,13 +121,35 @@ class Net_Service_Definition_Loader
 	
 	protected function completeDefinition( &$definition )
 	{
+		if( !isset( $definition['filters'] ) )
+			$definition['filters']	= array();
 		foreach( array_keys( $definition['services'] ) as $serviceName )
 		{
-			$service	= $definition['services'][$serviceName];
+			$service	=& $definition['services'][$serviceName];
 			if( !isset( $service['description'] ) )
 				$definition['services'][$serviceName]['description']	= NULL;
+			if( !isset( $service['filters'] ) )
+				$definition['services'][$serviceName]['filters']	= array();
 			if( !isset( $service['parameters'] ) )
 				$definition['services'][$serviceName]['parameters']	= array();
+			else
+			{
+				foreach( $service['parameters'] as $parameterName => $parameterValue )
+				{
+					$parameter	=& $service['parameters'][$parameterName];
+					if( !isset( $parameter['mandatory'] ) )
+						$parameter['mandatory']	= NULL;
+					if( !isset( $parameter['preg'] ) )
+						$parameter['preg']	= NULL;
+					if( !isset( $parameter['type'] ) )
+						$parameter['type']	= NULL;
+					if( !isset( $parameter['filters'] ) )
+						$parameter['filters']	= array();
+					if( !isset( $parameter['title'] ) )
+						$parameter['title']	= NULL;
+				}
+			
+			}
 			if( !isset( $service['roles'] ) )
 				$definition['services'][$serviceName]['roles']	= array();
 			if( !isset( $service['status'] ) )
