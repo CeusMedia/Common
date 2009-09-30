@@ -133,7 +133,7 @@ class Alg_Randomizer
 	 *	@param		int			$strength		Strength to have at least (-100 <= x <= 100)
 	 *	@return		string
 	 */
-	public function get( $length, $strength = 0, $turn = 0 )
+	public function get( $length, $strength = 0 )
 	{
 		if( !is_int( $length ) )															//  Length is not Integer
 			throw new InvalidArgumentException( 'Length must be an Integer.' );
