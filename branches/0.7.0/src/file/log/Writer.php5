@@ -25,7 +25,7 @@
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		0.6
  */
-import ("de.ceus-media.alg.TimeConverter"); 
+import ("de.ceus-media.alg.time.Converter"); 
 /**
  *	Writer for Log File.
  *	@package		file.log
@@ -61,7 +61,7 @@ class File_Log_Writer
 	 */
 	public function note( $line, $format = "datetime" )
 	{
-		$converter 	= new Alg_TimeConverter();
+		$converter 	= new Alg_Time_Converter();
 		$time		= $format ? " [".$converter->convertToHuman( time(), $format )."]" : "";
 		$message	= time().$time." ".$line."\n";
 		return error_log( $message, 3, $this->uri );

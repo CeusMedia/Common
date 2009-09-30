@@ -313,7 +313,7 @@ class UI_Template
 			return FALSE;
 			
 		if( !file_exists( $fileName ) )
-			throw new Exception_Template( EXCEPTION_TEMPLATE_FILE_NOT_FOUND, $this->fileName );
+			throw new Exception_Template( EXCEPTION_TEMPLATE_FILE_NOT_FOUND, $fileName );
 
 		$this->fileName	= $fileName;
 		$this->template = file_get_contents( $fileName );
