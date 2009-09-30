@@ -1,18 +1,30 @@
 <?php
 function import( $classKey )
 {
-	if( preg_match( "/ceus-media/", $classKey ) )
+#	return TRUE;
+	if( preg_match( "/ceus-media/i", $classKey ) )
 		return;
 	$fileName	= str_replace( ".", "/", $classKey ).".php5";
+	if( !@file_get_contents( $fileName, TRUE ) )
+		throw new RuntimeException( 'Invalid file: '.$fileName );
 	require_once( $fileName );
 }
-$func	= create_function( '$className','
-	$path		= dirname( __FILE__ )."/src/";
+$loaderLib	= create_function( '$className','
+	$pathLib	= str_replace( "\\\\", "/", dirname( __FILE__ ) )."/src/";
 	$fileName	= str_replace( "_","/", $className );
-	$fileName	= $path.$fileName.".php5";
+	$fileName	= $pathLib.$fileName.".php5";
+#	echo "<br/>autoload lib: try ".$fileName;
 	if( !file_exists( $fileName ) )
 		return FALSE;
 	require_once( $fileName );' );
-spl_autoload_register( $func );
+$loaderLocal	= create_function( '$className','
+	$fileName	= str_replace( "_","/", $className );
+	$fileName	= $fileName.".php5";
+#	echo "<br/>autoload local: try ".$fileName;
+	if( !file_exists( $fileName ) )
+		return FALSE;
+	require_once( $fileName );' );
+spl_autoload_register( $loaderLib );
+spl_autoload_register( $loaderLocal );
 new UI_DevOutput;
 ?>
