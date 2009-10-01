@@ -14,6 +14,7 @@ $constants	= array(																			//  Array of Constants to be set
 	'CM_CLASSES_VERSION'				=> "0.6.7",												//  Version of Class Container
 //	'CM_CLASSES_VERSION'				=> $__c['project']['version'],							//  Version of Class Container
 //	'CM_CLASSES_EXTENSIONS'				=> TRUE,												//  Flag: use Exception Extension
+	'CM_CLASSES_CALL_LOG_MODE'			=> 1,													//  Flags: 1 - log Lib Calls | 2 - log Class Calls
 );
 foreach( $constants as $key => $value )															//  iterate Constants
 	if( !defined( $key ) )																		//  if not defined, yet
@@ -62,4 +63,6 @@ function import( $classPath, $supressWarnings = FALSE )
 }
 $GLOBALS['imported'] = array ();
 import( 'de.ceus-media.throwException' );
+import( 'de.ceus-media.LibCallCounter' );
+LibCallCounter::setup();
 ?>
