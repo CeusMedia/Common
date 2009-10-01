@@ -57,7 +57,7 @@ class Tests_File_Yaml_WriterTest extends PHPUnit_Framework_TestCase
 	 */
 	public function tearDown()
 	{
-#		@unlink( $this->fileName );
+		@unlink( $this->fileName );
 	}
 
 	/**
