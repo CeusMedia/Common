@@ -63,6 +63,11 @@ class Tests_Folder_TestCase extends PHPUnit_Framework_TestCase
 		$this->folder	= $this->path."folder/";
 	}
 	
+	/**
+	 *	Sets up a File Structure for several extending Tests.
+	 *	@access		public
+	 *	@return		void
+	 */
 	public function setUp()
 	{
 		@mkDir( $this->folder );
@@ -99,7 +104,7 @@ class Tests_Folder_TestCase extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 *	Destructor, removes File Structure.
+	 *	Removes File Structure.
 	 *	@access		public
 	 *	@return		void
 	 */

@@ -24,8 +24,8 @@
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		0.6
  */
-import( 'de.ceus-media.net.http.request.Header' );
-import( 'de.ceus-media.net.http.request.Headers' );
+import( 'de.ceus-media.net.http.Header' );
+import( 'de.ceus-media.net.http.Headers' );
 /**
  *	Request for HTTP Protocol.
  *	@package		net.http.request
