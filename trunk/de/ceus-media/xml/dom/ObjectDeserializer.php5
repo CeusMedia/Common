@@ -37,6 +37,7 @@ import( 'de.ceus-media.xml.dom.Parser' );
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			26.12.2005
  *	@version		0.6
+ *	@todo			rewrite, use ObjectFactory
  */
 class XML_DOM_ObjectDeserializer
 {
@@ -46,7 +47,7 @@ class XML_DOM_ObjectDeserializer
 	 *	@param		string		$xml			XML String of a serialized Object
 	 *	@return		mixed
 	 */
-	public function deserialize( $xml, $strict = true )
+	public static function deserialize( $xml, $strict = TRUE )
 	{
 		$parser	= new XML_DOM_Parser();
 		$tree	= $parser->parse( $xml );
@@ -54,7 +55,7 @@ class XML_DOM_ObjectDeserializer
 		if( !class_exists( $class ) )
 			throw new Exception( 'Class "'.$class.'" has not been loaded, yet.' );
 		$object	= new $class();
-		$this->deserializeVarsRec( $tree->getChildren(), $object );
+		self::deserializeVarsRec( $tree->getChildren(), $object );
 		return $object;
 	}
 	
@@ -65,7 +66,7 @@ class XML_DOM_ObjectDeserializer
 	 *	@param		mixed		$element		current Position in Object
 	 *	@return		string
 	 */
-	protected function deserializeVarsRec( $children, &$element )
+	protected static function deserializeVarsRec( $children, &$element )
 	{
 		foreach( $children as $child )
 		{
@@ -100,12 +101,12 @@ class XML_DOM_ObjectDeserializer
 					break;
 				case 'array':
 					$pointer	= array();
-					$this->deserializeVarsRec( $child->getChildren(), $pointer );
+					self::deserializeVarsRec( $child->getChildren(), $pointer );
 					break;
 				case 'object':
 					$class		= $child->getAttribute( 'class' );
 					$pointer	= new $class();
-					$this->deserializeVarsRec( $child->getChildren(), $pointer );
+					self::deserializeVarsRec( $child->getChildren(), $pointer );
 					break;
 				default:
 					$pointer	= NULL;

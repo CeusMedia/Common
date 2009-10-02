@@ -66,6 +66,8 @@ class UI_Image_Error
 		$image	= new UI_Image_Creator();
 		$image->create( $width, $height );
 		$image	= new UI_Image_Drawer( $image->getResource() );
+		$color	= $image->getColor( 255, 255, 255, 0 );
+		$image->fill( $color );
 		$color	= $image->getColor( 255, 0, 0 );
 		$image->drawBorder( $color, self::$borderWidth );
 		$image->drawString( $posX, $posY, $message, 3, $color ); 

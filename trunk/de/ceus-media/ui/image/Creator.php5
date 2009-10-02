@@ -46,13 +46,11 @@ class UI_Image_Creator
 	protected $type			= NULL;
 	protected $width		= -1;
 
-	public function create( $width, $height, $backgroundRed = 255, $backgroundGreen = 255, $backgroundBlue = 255, $alpha = 0 )
+	public function create( $width, $height )
 	{
 		$this->resource	= imagecreatetruecolor( $width, $height );
 		$this->width	= $width;
 		$this->height	= $height;
-		$backColor		= imagecolorallocatealpha( $this->resource, $backgroundRed, $backgroundGreen, $backgroundBlue, $alpha );
-		imagefilledrectangle( $this->resource, 0, 0, $width - 1, $height - 1, $backColor );		
 	}
 	
 	public function getExtension()
