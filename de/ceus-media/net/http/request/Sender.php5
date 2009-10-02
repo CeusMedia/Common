@@ -109,7 +109,7 @@ class Net_HTTP_Request_Sender
 			throw new InvalidArgumentException( 'Data must be String or Array' );
 	
 		$this->addHeaderPair( 'Host', $this->host );
-		$this->addHeaderPair( 'Content-Type', $this->conentType );
+		$this->addHeaderPair( 'Content-Type', $this->contentType );
 		if( getEnv( "SERVER_ADDR" ) )
 			$this->addHeaderPair( 'Referer', getEnv( "SERVER_ADDR" ) );
 

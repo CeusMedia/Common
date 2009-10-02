@@ -54,7 +54,6 @@ class UI_Image_Drawer
 	
 	public function getColor( $red, $green, $blue, $alpha = 0 )
 	{
-		
 		return imagecolorallocatealpha( $this->image, $red, $green, $blue, $alpha );
 	}
 
@@ -82,6 +81,16 @@ class UI_Image_Drawer
 	public function drawString( $x, $y, $text, $size, $color )
 	{
 		return imagestring( $this->image, $size, $x, $y, $text, $color );
+	}
+
+	public function fill( $color )
+	{
+		return imagefilledrectangle( $this->image, 0, 0, imagesx( $this->image ) - 1, imagesy( $this->image ) - 1, $color );		
+	}
+	
+	public function fillRectangle( $x0, $y0, $x1, $y1, $color )
+	{
+		return imagefilledrectangle( $this->image, $x0, $y0, $x1, $y1, $color );		
 	}
 	
 /*	public function isSet()

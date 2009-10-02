@@ -27,7 +27,7 @@
  *	@since			20.01.2006
  *	@version		0.6
  */
-import( 'de.ceus-media.server.cron.Job' );
+import( 'de.ceus-media.console.server.cron.Job' );
 /**
  *	Cron Parser.
  *	@package		console.server.cron
