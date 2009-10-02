@@ -11,7 +11,7 @@
 #
 [project]
 name				= cmClasses							
-version				= 0.6.7
+version				= 0.6.8a
 author				= "Christian Würker <christian.wuerker@ceus-media.de>"
 company				= "CeuS Media (ceus-media.de)"
 link				= http://code.google.com/p/cmclasses/
@@ -45,7 +45,7 @@ tests				= Tests/
 [unitTestOptions]
 coverage-html			= Reports
 log-json			= Tests/results.json
-log-xml				= Tests/results.xml
+log-junit			= Tests/results.xml
 
 
 #

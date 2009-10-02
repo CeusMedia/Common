@@ -1,0 +1,55 @@
+
+//  --  MAIN TOOL SETTINGS      --  //
+creator.timeLimit		= 300
+creator.file.data.serial	= "doc.serial"						; relative to 'doc.path'
+creator.file.data.archive	= "doc.serial.gz"					; relative to 'doc.path'
+creator.file.log.error		= "logs/docCreatorErrors.log"				; absolute
+creator.mail.receiver		= 
+creator.skipParser		= no
+creator.skipCreator		= no
+creator.skipInfo		= no
+creator.skipResources		= no
+creator.verbose			= yes
+creator.verboseSkip		= no
+creator.verboseConfig		= no
+
+
+//  --  PROJECT SETTINGS        --  //
+project.path.source		= "/path/to/cmClasses/de/ceus-media/"			; absolute
+project.path.documents		= "/path/to/cmClasses/"				; absolute
+project.extensions		= "php5"						; no wildcards or regex
+project.ignoreFiles		= "*/_*.php5"						; use wildcards, not regex
+project.ignoreFolders		= "*/.svn/*,Reports/,References/,Tests/,"		; use wildcards, not regex
+
+project.name			= "cmClasses"
+project.version			= "0.6.8a"
+project.date			= "30.09.2009"
+project.author			= "Christian Würker <christian.wuerker@ceus-media.de>"
+project.company			= "CeuS Media (ceus-media.de)"
+
+
+//  --  DOCUMENTATION SETTINGS  --  //
+doc.path			= "/path/to/cmClasses/References/doc/"		; absolute
+doc.language			= de
+doc.theme			= cm1
+doc.title			= "cmClasses API"
+doc.timezone			= "Europe/Berlin"
+doc.package.default		= ""
+doc.package.upperCase		= ""
+doc.logo.url			= no
+doc.upperCasePackages		= adt,cs*,dom,*tp,*ml,imap,ini,pdo,php,rss,ui,wddx,xsl
+doc.upperCasePackages		= adt,css,csv,dom,ftp,html,http,imap,ini,pdo,php,opml,rss,ui,wddx,xml,xsl,yaml
+
+
+//  --  RSS FEED SETTINGS       --  //
+rss.timezone			= "+0100"
+rss.title			= "cmClasses API RSS Feed"
+rss.link			= ""
+rss.description			= "cmClasses updates"
+rss.copyright			= "2009 DocCreator"
+rss.doc				= "http://blogs.law.harvard.edu/tech/rss"
+rss.manager			= "christian.wuerker@ceus-media.de (Christian Würker)"
+rss.webmaster			= "christian.wuerker@ceus-media.de (Christian Würker)"
+rss.language			= "en"
+rss.ttl				= "120"
+rss.item.url			= ""
