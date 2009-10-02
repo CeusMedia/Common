@@ -2,8 +2,6 @@
 /**
  *	TestUnit of Thumbnail Creator.
  *	@package		Tests.ui.image
- *	@extends		PHPUnit_Framework_TestCase
- *	@uses			UI_Image_ThumbnailCreator
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			16.02.2008
  *	@version		0.1
@@ -11,11 +9,13 @@
 require_once( 'PHPUnit/Framework/TestCase.php' ); 
 require_once( 'Tests/initLoaders.php5' );
 import( 'de.ceus-media.ui.image.ThumbnailCreator' );
+import( 'de.ceus-media.file.Reader' );
 /**
  *	TestUnit of Thumbnail Creator.
  *	@package		Tests.ui.image
  *	@extends		PHPUnit_Framework_TestCase
  *	@uses			UI_Image_ThumbnailCreator
+ *	@uses			File_Reader
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			16.02.2008
  *	@version		0.1
@@ -57,9 +57,8 @@ class Tests_UI_Image_ThumbnailCreatorTest extends PHPUnit_Framework_TestCase
 		$creation	= file_exists( $targetFile );
 		$this->assertEquals( $assertion, $creation );
 
-		$assertion	= file_get_contents( $assertFile );
-		$creation	= file_get_contents( $targetFile );
-		$this->assertEquals( $assertion, $creation );
+		$file		= new File_Reader( $assertFile );
+		$this->assertTrue( $file->equals( $targetFile ) );
 	}
 
 	public function testThumbizeJpg()
@@ -78,9 +77,8 @@ class Tests_UI_Image_ThumbnailCreatorTest extends PHPUnit_Framework_TestCase
 		$creation	= file_exists( $targetFile );
 		$this->assertEquals( $assertion, $creation );
 
-		$assertion	= file_get_contents( $assertFile );
-		$creation	= file_get_contents( $targetFile );
-		$this->assertEquals( $assertion, $creation );
+		$file		= new File_Reader( $assertFile );
+		$this->assertTrue( $file->equals( $targetFile ) );
 	}
 
 	public function testThumbizePng()
@@ -99,9 +97,8 @@ class Tests_UI_Image_ThumbnailCreatorTest extends PHPUnit_Framework_TestCase
 		$creation	= file_exists( $targetFile );
 		$this->assertEquals( $assertion, $creation );
 
-		$assertion	= file_get_contents( $assertFile );
-		$creation	= file_get_contents( $targetFile );
-		$this->assertEquals( $assertion, $creation );
+		$file		= new File_Reader( $assertFile );
+		$this->assertTrue( $file->equals( $targetFile ) );
 	}
 
 	public function testThumbizeByLimit()
@@ -116,9 +113,8 @@ class Tests_UI_Image_ThumbnailCreatorTest extends PHPUnit_Framework_TestCase
 		$creation	= file_exists( $this->targetFile );
 		$this->assertEquals( $assertion, $creation );
 
-		$assertion	= file_get_contents( $this->assertFile );
-		$creation	= file_get_contents( $this->targetFile );
-		$this->assertEquals( $assertion, $creation );
+		$file		= new File_Reader( $this->assertFile );
+		$this->assertTrue( $file->equals( $this->targetFile ) );
 	}
 
 	public function testThumbizeExceptions()

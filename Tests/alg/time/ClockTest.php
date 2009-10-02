@@ -1,26 +1,26 @@
 <?php
 /**
- *	TestUnit of StopWatch.
+ *	TestUnit of Alg_Time_Clock.
  *	@package		Tests.
  *	@extends		PHPUnit_Framework_TestCase
- *	@uses			StopWatch
+ *	@uses			Alg_Time_Clock
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			19.06.2008
  *	@version		0.1
  */
 require_once( 'PHPUnit/Framework/TestCase.php' ); 
 require_once( 'Tests/initLoaders.php5' );
-import( 'de.ceus-media..StopWatch' );
+import( 'de.ceus-media.alg.time.Clock' );
 /**
- *	TestUnit of StopWatch.
+ *	TestUnit of Alg_Time_Clock.
  *	@package		Tests.
  *	@extends		PHPUnit_Framework_TestCase
- *	@uses			StopWatch
+ *	@uses			Alg_Time_Clock
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			19.06.2008
  *	@version		0.1
  */
-class Tests_StopWatchTest extends PHPUnit_Framework_TestCase
+class Tests_Alg_Time_ClockTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 *	Constructor.
@@ -56,9 +56,9 @@ class Tests_StopWatchTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testConstruct()
 	{
-		$watch	= new Tests_StopWatchInstance();
+		$clock	= new Tests_Alg_Time_ClockInstance();
 		$assertion	= 1;
-		$creation	= preg_match( "@^0\.[0-9]+ [0-9]+$@", $watch->getProtectedVar( 'microtimeStart' ) );
+		$creation	= preg_match( "@^0\.[0-9]+ [0-9]+$@", $clock->getProtectedVar( 'microtimeStart' ) );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -69,9 +69,9 @@ class Tests_StopWatchTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testStart()
 	{
-		$watch	= new Tests_StopWatchInstance();
+		$clock	= new Tests_Alg_Time_ClockInstance();
 		$assertion	= 1;
-		$creation	= preg_match( "@^0\.[0-9]+ [0-9]+$@", $watch->getProtectedVar( 'microtimeStart' ) );
+		$creation	= preg_match( "@^0\.[0-9]+ [0-9]+$@", $clock->getProtectedVar( 'microtimeStart' ) );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -82,10 +82,10 @@ class Tests_StopWatchTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testStop()
 	{
-		$watch	= new Tests_StopWatchInstance();
-		$watch->stop();
+		$clock	= new Tests_Alg_Time_ClockInstance();
+		$clock->stop();
 		$assertion	= 1;
-		$creation	= preg_match( "@^[0-9]+\.[0-9]+$@", $watch->stop() );
+		$creation	= preg_match( "@^[0-9]+\.[0-9]+$@", $clock->stop() );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -96,25 +96,25 @@ class Tests_StopWatchTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetTime()
 	{
-		$watch	= new Tests_StopWatchInstance();
+		$clock	= new Tests_Alg_Time_ClockInstance();
 
-		$watch->setProtectedVar( 'microtimeStart', "0.00000000 ".time() );
-		$watch->setProtectedVar( 'microtimeStop', "0.12345678 ".time() );
+		$clock->setProtectedVar( 'microtimeStart', "0.00000000 ".time() );
+		$clock->setProtectedVar( 'microtimeStop', "0.12345678 ".time() );
 		
 		$assertion	= 123.457;
-		$creation	= $watch->getTime( 3, 3 );
+		$creation	= $clock->getTime( 3, 3 );
 		$this->assertEquals( $assertion, $creation );
 		
 		$assertion	= 123457;
-		$creation	= $watch->getTime( 6, 0 );
+		$creation	= $clock->getTime( 6, 0 );
 		$this->assertEquals( $assertion, $creation );
 		
 		$assertion	= 0.123;
-		$creation	= $watch->getTime( 0 );
+		$creation	= $clock->getTime( 0 );
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-class Tests_StopWatchInstance extends StopWatch
+class Tests_Alg_Time_ClockInstance extends Alg_Time_Clock
 {
 	public function getProtectedVar( $varName )
 	{

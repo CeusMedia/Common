@@ -7,6 +7,7 @@ require_once 'PHPUnit/TextUI/TestRunner.php';
 require_once 'Tests/alg/crypt/AllTests.php';
 require_once 'Tests/alg/parcel/AllTests.php';
 require_once 'Tests/alg/preg/AllTests.php';
+require_once 'Tests/alg/time/AllTests.php';
 require_once 'Tests/alg/validation/AllTests.php';
 require_once 'Tests/alg/HtmlParserTest.php';
 require_once 'Tests/alg/InputFilterTest.php';
@@ -29,6 +30,7 @@ class Tests_Alg_AllTests
 		$suite->addTest( Tests_Alg_Crypt_AllTests::suite() );
 		$suite->addTest( Tests_Alg_Parcel_AllTests::suite() );
 		$suite->addTest( Tests_Alg_Preg_AllTests::suite() );
+		$suite->addTest( Tests_Alg_Time_AllTests::suite() );
 		$suite->addTest( Tests_Alg_Validation_AllTests::suite() );
 		$suite->addTestSuite( 'Tests_Alg_HtmlParserTest' ); 
 		$suite->addTestSuite( 'Tests_Alg_InputFilterTest' ); 
