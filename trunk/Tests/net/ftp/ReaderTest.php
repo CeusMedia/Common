@@ -32,7 +32,7 @@ class Tests_Net_FTP_ReaderTest extends PHPUnit_Framework_TestCase
 	 */
 	public function __construct()
 	{
-		$this->host		= "localhost";
+		$this->host		= "127.0.0.1";
 		$this->port		= 21;
 		$this->username	= "ftp_user";
 		$this->password	= "ftp_pass";
