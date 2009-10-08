@@ -46,6 +46,8 @@ import( 'de.ceus-media.ui.html.Elements' );
  */
 class UI_HTML_Tree_Menu
 {
+	protected $target	= NULL;
+
 	/**
 	 *	Constructor.
 	 *	@access		public
@@ -57,15 +59,21 @@ class UI_HTML_Tree_Menu
 	{
 	}
 
+	public function setTarget( $target )
+	{
+		$this->target	= $target;
+	}
+
 	/**
 	 *	Builds Layer Menu from OPML File.
 	 *	@access		public
 	 *	@param		string		$fileName		URL of OPML File
+	 *	@param		string		$rootClass		CSS Class of root node
 	 *	@return
 	 */
-	public function buildMenuFromOpmlFile( $fileName )
+	public function buildMenuFromOpmlFile( $fileName, $rootClass = NULL )
 	{
-		$list	= Alg_Tree_Menu_Converter::convertFromOpmlFile( $fileName, NULL );
+		$list	= Alg_Tree_Menu_Converter::convertFromOpmlFile( $fileName, NULL, $rootClass );
 		return $this->buildMenuFromMenuList( $list );
 	}
 	
@@ -73,11 +81,12 @@ class UI_HTML_Tree_Menu
 	 *	Builds Layer Menu from OPML String.
 	 *	@access		public
 	 *	@param		string		$opml			OPML String
+	 *	@param		string		$rootClass		CSS Class of root node
 	 *	@return
 	 */
-	public function buildMenuFromOpml( $opml )
+	public function buildMenuFromOpml( $opml, $rootClass = NULL )
 	{
-		$list		= Alg_Tree_Menu_Converter::convertFromOpml( $opml, $this->rootLabel );
+		$list		= Alg_Tree_Menu_Converter::convertFromOpml( $opml, $this->rootLabel, $rootClass );
 		return $this->buildMenuFromMenuList( $list );
 	}
 
@@ -89,8 +98,8 @@ class UI_HTML_Tree_Menu
 	 */
 	public function buildMenuFromMenuList( ADT_Tree_Menu_List $list )
 	{
-		$tree		= self::buildMenuRecursive( $list );
-		$code		= UI_HTML_Tag::create( 'div', $tree, array( 'class' => 'cmTreeMenu' ) );
+		$tree		= $this->buildMenuRecursive( $list );
+		$code		= UI_HTML_Tag::create( 'div', $tree, $list->getAttributes( TRUE ) );
 		return $code;
 	}
 
@@ -104,7 +113,7 @@ class UI_HTML_Tree_Menu
 	 *	@param		int					$level	Depth Level of Tree
 	 *	@return		string
 	 */
-	protected static function buildMenuRecursive( ADT_Tree_Menu_List $tree, $level = 1 )
+	protected function buildMenuRecursive( ADT_Tree_Menu_List $tree, $level = 1 )
 	{
 		$list	= array();
 		foreach( $tree->getChildren() as $child )
@@ -112,13 +121,13 @@ class UI_HTML_Tree_Menu
 			$class		= $child->getAttributes()->get( 'class' );
 			$label		= $child->label;
 			if( !empty( $child->url ) )
-				$label	= UI_HTML_Elements::Link( $child->url, $child->label, $class );
+				$label	= UI_HTML_Elements::Link( $child->url, $child->label, $class, $this->target );
 			else
 				$label	= UI_HTML_Tag::create( 'span', $child->label );
 
 			$sublist	= "";
 			if( $child->hasChildren() )
-				$sublist	= "\n".self::buildMenuRecursive( $child, $level+1 );
+				$sublist	= "\n".$this->buildMenuRecursive( $child, $level+1 );
 			$classes	= array( 'level-'.$level );
 			if( $child->hasChildren() )
 				$classes[]	= "parent";
