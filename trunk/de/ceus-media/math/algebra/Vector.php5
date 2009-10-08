@@ -33,7 +33,7 @@
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		0.6
  */
-class Math_Algebra_Vector
+class Math_Algebra_Vector implements ArrayAccess, Iterator
 {
 	/**	@var		int			$dimension		Dimension of the Vector */
 	protected $dimension		= 0;
@@ -116,6 +116,63 @@ class Math_Algebra_Vector
 			throw new OutOfRangeException( 'Vector Index ('.$index.') must be lower than Vector Dimension ('.$dimension.').' );
 		return $this->values[$index];
 	}
+
+	public function offsetExist( $index )
+	{
+		if( $index < 0 )
+			throw new OutOfRangeException( 'Vector Index ('.$index.') must be greater than 0.' );
+		return isset( $this->values[$index] );
+	}
+	
+	public function offsetGet( $index )
+	{
+		if( !$this->offsetExist( $index ) )
+			throw new OutOfRangeException( 'Invalid Vector Index' );
+		return $this->values[$index];
+	}
+	
+	public function offsetSet( $index, $value )
+	{
+		if( !$this->offsetExist( $index ) )
+			throw new OutOfRangeException( 'Invalid Vector Index' );
+		$this->values[$index] = $value;
+	}
+
+	public function offsetUnset( $index )
+	{
+		if( !$this->offsetExist( $index ) )
+			throw new OutOfRangeException( 'Invalid Vector Index' );
+		$this->values[$index]	= 0;
+	}
+
+    public function __construct() {
+        $this->position = 0;
+    }
+
+    public function current()
+    {
+        return $this->values[$this->position];
+    }
+
+    public function key()
+    {
+        return $this->position;
+    }
+
+    public function next()
+    {
+        ++$this->position;
+    }
+
+    public function rewind()
+    {
+        $this->position = 0;
+    }
+
+    public function valid()
+    {
+		return isset( $this->values[$this->position] );
+    }
 	
 	/**
 	 *	Returns Vector as array.

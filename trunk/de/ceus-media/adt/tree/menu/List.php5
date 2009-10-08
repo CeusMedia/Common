@@ -104,7 +104,7 @@ class ADT_Tree_Menu_List
 	public function getAttributes( $asArray = FALSE )
 	{
 		if( $asArray )
-			return $this->attributes->toArray();
+			return $this->attributes->getAll();
 		return $this->attributes;
 	}
 	
