@@ -63,7 +63,10 @@ class UI_HTML_CSS_LinkSelect
 		{
 			$i=0;
 			do
-				$first	= array_pop( array_slice( $links, $i++, 1 ) );
+			{
+				$first	= array_slice( $links, $i++, 1 );
+				$first	= array_pop( $first );
+			}
 			while( empty( $first['url'] ) && $i < count( $links ) );
 			$label	= $prefix ? $prefix.$first['label'] : $first['label'];
 			$main	= new ADT_Tree_Menu_Item( "#", $label );
