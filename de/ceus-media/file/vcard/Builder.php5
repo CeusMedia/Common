@@ -25,8 +25,6 @@
  *	@since			02.09.2008
  *	@version		0.1
  *	@link			http://www.ietf.org/rfc/rfc2426.txt
- *	@todo			PHOTO,BDAY,NOTE,LABEL,KEY,PRODID,MAILER,TZ
- *	@todo			Code Doc
  */
 /**
  *	Builds vCard String from vCard Data Object.
