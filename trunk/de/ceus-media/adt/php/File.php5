@@ -251,14 +251,14 @@ class ADT_PHP_File
 		$this->description	= $description;
 	}
 	
-	public function setFunction( $name, ADT_PHP_Function $function )
+	public function setFunction( ADT_PHP_Function $function )
 	{
-		$this->functions[$name]	= $function;
+		$this->functions[$function->getName()]	= $function;
 	}
 	
 	public function setInterace( ADT_PHP_Interface $interface )
 	{
-		$this->interfaces[$interface->name]	= $interface;
+		$this->interfaces[$interface->getName()]	= $interface;
 	}
 	
 	public function setInterfaceName( $interfaceName )

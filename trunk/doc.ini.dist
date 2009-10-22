@@ -12,6 +12,22 @@ creator.skipResources		= no
 creator.verbose			= yes
 creator.verboseSkip		= no
 creator.verboseConfig		= no
+creator.verboseInfo		= yes
+
+creator.reader.plugins		= Statistics,Unicode,Defaults,Relations,Primitives
+
+
+//  --  DOCUMENTATION SETTINGS  --  //
+doc.path			= "/path/to/cmClasses/References/doc/"		; absolute
+doc.language			= en
+doc.theme			= cm1
+doc.title			= "cmClasses API"
+doc.timezone			= "Europe/Berlin"
+doc.package.default		= "unknown"
+doc.package.upperCase		= ""
+doc.logo.url			= no
+doc.upperCasePackages		= adt,cs*,dom,*tp,*ml,imap,ini,pdo,php,rss,ui,wddx,xsl
+doc.upperCasePackages		= adt,css,csv,dom,ftp,html,http,imap,ini,pdo,php,opml,rss,ui,wddx,xml,xsl,yaml
 
 
 //  --  PROJECT SETTINGS        --  //
@@ -27,18 +43,10 @@ project.date			= "30.09.2009"
 project.author			= "Christian Würker <christian.wuerker@ceus-media.de>"
 project.company			= "CeuS Media (ceus-media.de)"
 
-
-//  --  DOCUMENTATION SETTINGS  --  //
-doc.path			= "/path/to/cmClasses/References/doc/"		; absolute
-doc.language			= de
-doc.theme			= cm1
-doc.title			= "cmClasses API"
-doc.timezone			= "Europe/Berlin"
-doc.package.default		= ""
-doc.package.upperCase		= ""
-doc.logo.url			= no
-doc.upperCasePackages		= adt,cs*,dom,*tp,*ml,imap,ini,pdo,php,rss,ui,wddx,xsl
-doc.upperCasePackages		= adt,css,csv,dom,ftp,html,http,imap,ini,pdo,php,opml,rss,ui,wddx,xml,xsl,yaml
+project.builder.format		= html
+project.builder.converter	= cm1
+project.builder.theme		= cm1
+project.builder.site.plugins	= Home,ClassList,About,Installation,History,Changes,Deprecations,Todos,Bugs,ParseErrors,Statistics,UnusedVariables,MethodOrder,MethodAccess
 
 
 //  --  RSS FEED SETTINGS       --  //
