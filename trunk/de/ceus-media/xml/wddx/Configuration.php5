@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		xml.wddx
  *	@uses			XML_WDDX_FileReader
  *	@uses			XML_WDDX_File_Writer
@@ -36,6 +37,7 @@ import( 'de.ceus-media.xml.wddx.FileReader' );
 import( 'de.ceus-media.xml.wddx.FileWriter' );
 /**
  *	Reads and writes Configurations via WDDX.
+ *	@category		cmClasses
  *	@package		xml.wddx
  *	@uses			File_Reader
  *	@uses			File_Writer

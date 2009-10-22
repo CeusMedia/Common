@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		xml.dom.pear
  *	@uses			File_Reader
  *	@author			Christian Würker
@@ -29,6 +30,7 @@
 import( 'de.ceus-media.file.Reader' );
 /**
  *	Reader for PEAR Package Description Files in XML.
+ *	@category		cmClasses
  *	@package		xml.dom.pear
  *	@uses			File_Reader
  *	@author			Christian Würker

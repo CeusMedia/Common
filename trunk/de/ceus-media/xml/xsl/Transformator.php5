@@ -19,6 +19,7 @@ import( 'de.ceus-media.file.Writer' );
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		xml.xsl
  *	@uses			File_Reader
  *	@uses			File_Writer
@@ -31,6 +32,7 @@ import( 'de.ceus-media.file.Writer' );
  */
 /**
  *	Transformator for XML and XSLT.
+ *	@category		cmClasses
  *	@package		xml.xsl
  *	@uses			File_Reader
  *	@uses			File_Writer

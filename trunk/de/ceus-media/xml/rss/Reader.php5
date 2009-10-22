@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		xml.rss
  *	@uses			File_Reader
  *	@uses			Net_Reader
@@ -31,6 +32,7 @@
 import( 'de.ceus-media.xml.rss.Parser' );
 /**
  *	Reader for RSS 2.0 Feeds.
+ *	@category		cmClasses
  *	@package		xml.rss
  *	@uses			File_Reader
  *	@uses			XML_RSS_Parser

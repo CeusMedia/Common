@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		xml.dom
  *	@extends		ADT_OptionObject
  *	@uses			Net_cURL
@@ -32,6 +33,7 @@ import( 'de.ceus-media.net.cURL' );
 import( 'de.ceus-media.xml.dom.SyntaxValidator' );
 /**
  *	Evaluator for XPath Queries.
+ *	@category		cmClasses
  *	@package		xml.dom
  *	@extends		ADT_OptionObject
  *	@uses			Net_cURL
