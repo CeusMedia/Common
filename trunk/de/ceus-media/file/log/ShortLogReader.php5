@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		file
  *	@subpackage		log
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
@@ -28,6 +29,7 @@
  */
 /**
  *	Reader for short Log Files.
+ *	@category		cmClasses
  *	@package		file
  *	@subpackage		log
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>

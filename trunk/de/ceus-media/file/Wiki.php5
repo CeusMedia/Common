@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		ui.html
  *	@extends		UI_HTML_WikiParser
  *	@uses			File_Reader
@@ -33,6 +34,7 @@ import( 'de.ceus-media.file.Writer' );
 import( 'de.ceus-media.ui.html.WikiParser' );
 /**
  *	File Reader and Writer for Wiki Pages.
+ *	@category		cmClasses
  *	@package		ui.html
  *	@extends		UI_HTML_WikiParser
  *	@uses			File_Reader
