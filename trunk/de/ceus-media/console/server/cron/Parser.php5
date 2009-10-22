@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		console.server.cron
  *	@uses			Console_Server_Cron_Job
  *	@uses			File_Reader
@@ -30,6 +31,7 @@
 import( 'de.ceus-media.console.server.cron.Job' );
 /**
  *	Cron Parser.
+ *	@category		cmClasses
  *	@package		console.server.cron
  *	@uses			Console_Server_Cron_Job
  *	@uses			File_Reader
