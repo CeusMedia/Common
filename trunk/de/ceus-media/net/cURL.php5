@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		net
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2009 Christian Würker
@@ -48,6 +49,7 @@ define( 'CURL_STATUS_TIME_STARTTRANSFER',		'starttransfer_time' );
 define( 'CURL_STATUS_TIME_TOTAL',				'total_time' );
 /**
  *	cURL Wrapper
+ *	@category		cmClasses
  *	@package		net
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2009 Christian Würker

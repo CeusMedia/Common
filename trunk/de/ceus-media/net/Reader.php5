@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		net
  *	@uses			Net_cURL
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
@@ -30,6 +31,7 @@ import( 'de.ceus-media.net.cURL' );
 /**
  *	Reader for Contents from the Net.
  *
+ *	@category		cmClasses
  *	@package		net
  *	@uses			Net_cURL
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>

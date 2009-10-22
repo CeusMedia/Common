@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		net.memory
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2009 Christian Würker
@@ -26,6 +27,7 @@
 import( 'de.ceus-media.adt.cache.StaticStore' );
 /**
  *	...
+ *	@category		cmClasses
  *	@package		net.memory
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2009 Christian Würker
@@ -39,8 +41,10 @@ class Net_Memory_StaticCache extends ADT_Cache_StaticStore
 	protected static $compress		= FALSE;
 	protected static $connection	= NULL;
 	
-	public static function connect( $host = "localhost", $port = 11211 )
+	public static function connect( $host = "127.0.0.1", $port = 11211 )
 	{
+		if( !defined( 'MEMCACHE_COMPRESSED' ) )
+			throw new RuntimeException( 'Memcache is not installed' );
 		self::$connection	= new Memcache;
 		self::$connection->connect( $host, $port );
 	}

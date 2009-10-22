@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		net.ftp
  *	@uses			Net_FTP_Connection
  *	@uses			Net_FTP_Reader
@@ -33,6 +34,7 @@ import( 'de.ceus-media.net.ftp.Reader' );
 import( 'de.ceus-media.net.ftp.Writer' );
 /**
  *	Client for FTP Connections.
+ *	@category		cmClasses
  *	@package		net.ftp
  *	@uses			Net_FTP_Connection
  *	@uses			Net_FTP_Reader
