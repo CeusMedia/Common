@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		framework.krypton.view.component
  *	@extends		Framework_Krypton_Core_View
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
@@ -31,6 +32,7 @@ define( 'DEV_CENTER_PRINT_M', 0 );
 define( 'DEV_CENTER_VAR_DUMP', 1 );
 /**
  *	View Component for Development Information.
+ *	@category		cmClasses
  *	@package		framework.krypton.view.component
  *	@extends		Framework_Krypton_Core_View
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>

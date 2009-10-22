@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		framework.neon.models
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2009 Christian Würker
@@ -28,6 +29,7 @@
 import( 'de.ceus-media.database.StatementCollection' );
 /**
  *	Project Collection of SQL Statement Components.
+ *	@category		cmClasses
  *	@package		framework.neon.models
  *	@extends		Database_StatementCollection
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>

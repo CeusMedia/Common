@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		framework.neon
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2009 Christian Würker
@@ -30,6 +31,7 @@ import( 'de.ceus-media.file.Reader' );
 import( 'de.ceus-media.file.Writer' );
 /**
  *	Definition of Input Field within Channels, Screens and Forms.
+ *	@category		cmClasses
  *	@package		framework.neon
  *	@extends		ADT_OptionObject
  *	@uses			File_Reader

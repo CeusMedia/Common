@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		framework.krypton
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2009 Christian Würker
@@ -29,6 +30,7 @@ import( 'de.ceus-media.ui.DevOutput' );
 import( 'de.ceus-media.ui.Template' );
 /**
  *	Shows an Exception and quits.
+ *	@category		cmClasses
  *	@package		framework.krypton
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2009 Christian Würker
