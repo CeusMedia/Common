@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		alg.validation
  *	@uses			Alg_TimeConverter
  *	@uses			Alg_Crypt_PasswordStrength
@@ -30,6 +31,7 @@
 import( 'de.ceus-media.alg.TimeConverter' );
 /**
  *	Class holding Predicates for String Validation.
+ *	@category		cmClasses
  *	@package		alg.validation
  *	@uses			Alg_TimeConverter
  *	@uses			Alg_Crypt_PasswordStrength

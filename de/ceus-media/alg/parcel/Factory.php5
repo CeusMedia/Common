@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		alg.parcel
  *	@uses			Alg_Parcel_Packet
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
@@ -29,6 +30,7 @@
 import( 'de.ceus-media.alg.parcel.Packet' );
 /**
  *	...
+ *	@category		cmClasses
  *	@package		alg.parcel
  *	@uses			Alg_Parcel_Packet
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
