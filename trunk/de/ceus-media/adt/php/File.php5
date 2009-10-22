@@ -18,6 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
+ *	@category		cmClasses
  *	@package		ADT_PHP
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2009 Christian Würker
@@ -27,6 +28,7 @@
  */
 /**
  *	File Data Class.
+ *	@category		cmClasses
  *	@category		cmClasses
  *	@package		ADT_PHP
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
@@ -42,7 +44,7 @@ class ADT_PHP_File
 	protected $uri			= NULL;
 
 	protected $description	= NULL;
-	protected $category		= "default";
+	protected $category		= NULL;
 	protected $package		= NULL;
 	protected $subpackage	= NULL;
 	protected $since		= NULL;

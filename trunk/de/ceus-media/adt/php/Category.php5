@@ -18,6 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
+ *	@category		cmClasses
  *	@package		ADT_PHP
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2009 Christian Würker
@@ -27,6 +28,7 @@
  */
 /**
  *	...
+ *	@category		cmClasses
  *	@category		cmClasses
  *	@package		ADT_PHP
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
