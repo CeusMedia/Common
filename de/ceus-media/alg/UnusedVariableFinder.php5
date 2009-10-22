@@ -90,10 +90,9 @@ class Alg_UnusedVariableFinder
 	 *	@param		string		$fileName		File Name of Class
 	 *	@return		void
 	 */
-	private function parseFile( $fileName )
+	private function parseCode( $content )
 	{
 		$open		= FALSE;
-		$content	= file_get_contents( $fileName );
 		$content	= preg_replace( "@/\*.*\*/@Us", "", $content );
 		$lines		= explode( "\n", $content );
 		$matches	= array();
@@ -193,9 +192,21 @@ class Alg_UnusedVariableFinder
 	 */
 	public function readFile( $fileName )
 	{
+		$code	= File_Reader::load( $fileName );
+		$this->readCode( $code );
+	}
+
+	/**
+	 *	Reads a Class Code and finds unused Variables in Methods.
+	 *	@access		public
+	 *	@param		string		$code			Code of Class
+	 *	@return		void
+	 */
+	public function readCode( $code )
+	{
 		$this->methods	= array();
 		$this->vars		= array();
-		$this->parseFile( $fileName );
+		$this->parseCode( $code );
 		$this->parseFunctions();
 	}
 }

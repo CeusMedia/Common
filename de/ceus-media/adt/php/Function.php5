@@ -57,7 +57,7 @@ class ADT_PHP_Function
 	protected $param		= array();
 	protected $return		= NULL;
 	
-	protected $sourceCode		= NULL;
+	protected $sourceCode	= NULL;
 	protected $line			= 0;
 
 	public function __construct( $name )

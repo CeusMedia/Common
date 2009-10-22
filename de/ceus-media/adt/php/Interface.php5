@@ -39,7 +39,7 @@ class ADT_PHP_Interface
 {
 	protected $parent			= NULL;
 
-	protected $category			= "default";
+	protected $category			= NULL;
 	protected $package			= NULL;
 	protected $subpackage		= NULL;
 	protected $name				= NULL;
