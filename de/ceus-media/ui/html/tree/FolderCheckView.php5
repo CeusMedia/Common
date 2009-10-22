@@ -18,6 +18,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		ui.html.tree
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2009 Christian Würker
@@ -34,6 +35,7 @@ import( 'de.ceus-media.ui.html.JQuery' );
  *	Builds HTML Tree of Folder Entries with Checkboxes for Selection.
  *	If an ID is set the JQuery Plugins 'cmCheckTree' and 'treeview' can be bound.
  *
+ *	@category		cmClasses
  *	@package		ui.html.tree
  *	@uses			Folder_Lister
  *	@uses			UI_HTML_Elements

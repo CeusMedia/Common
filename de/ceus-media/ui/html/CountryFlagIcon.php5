@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		ui.html
  *	@uses			UI_HTML_Elements
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
@@ -37,6 +38,7 @@ import( 'de.ceus-media.ui.html.Elements' );
  *	Please keep in mind that this project will help you to start but your production is on your own.
  *	If you slow down our Image Server the community will suffer from your traffic.
  *
+ *	@category		cmClasses
  *	@package		ui.html
  *	@uses			UI_HTML_Elements
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
