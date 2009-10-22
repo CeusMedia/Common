@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		net.google.api
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2008-2009 Christian Würker
@@ -29,6 +30,7 @@ import( 'de.ceus-media.file.Editor' );
 import( 'de.ceus-media.xml.Element' );
 /**
  *	Resolves an address to geo codes using Google Maps API.
+ *	@category		cmClasses
  *	@package		net.google.api
  *	@extends		Net_API_Google_Request
  *	@uses			XML_Element

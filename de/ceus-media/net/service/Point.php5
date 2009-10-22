@@ -21,6 +21,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	If a different Loader Class should be used, it needs to be imported before.
+ *	@category		cmClasses
  *	@package		net.service
  *	@implements		Net_Service_Interface_Point
  *	@uses			Net_Service_Parameter_Validator
@@ -40,6 +41,7 @@ import( 'de.ceus-media.net.service.interface.Point' );
  *	If a different Validator Class should be used, it needs to be imported before.
  *	A different Service Definition Loader Class can be used by setting static Member "loaderClass".
  *	If a different Loader Class should be used, it needs to be imported before.
+ *	@category		cmClasses
  *	@package		net.service
  *	@implements		Net_Service_Interface_Point
  *	@uses			Net_Service_Parameter_Validator
