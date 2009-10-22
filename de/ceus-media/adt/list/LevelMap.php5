@@ -19,6 +19,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		adt.list
  *	@extends		ADT_List_Dictionary
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
@@ -33,6 +34,7 @@ import( 'de.ceus-media.adt.list.Dictionary' );
  *	A Map with Level Support.
  *	It is a Dictionary where Keys can contain Dots.
  *	All Method work with complete Keys and single Values or Prefix Keys and Arrays.
+ *	@category		cmClasses
  *	@package		adt.list
  *	@extends		ADT_List_Dictionary
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
