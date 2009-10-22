@@ -1,5 +1,6 @@
 <?php
 /**
+ *	@category		cmClasses
  *	@package		math
  *
  *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
@@ -24,6 +25,7 @@
  *	@version		0.4
  */
 /**
+ *	@category		cmClasses
  *	@package		math
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2009 Christian Würker
