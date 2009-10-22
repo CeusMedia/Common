@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		xml.opml
  *	@uses			ADT_OptionObject
  *	@uses			XML_DOM_Parser
@@ -31,6 +32,7 @@ import( 'de.ceus-media.adt.OptionObject' );
 import( 'de.ceus-media.xml.dom.Parser' );
 /**
  *	Parser for OPML Files.
+ *	@category		cmClasses
  *	@package		xml.opml
  *	@uses			ADT_OptionObject
  *	@uses			XML_DOM_Parser

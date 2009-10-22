@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		xml.dom
  *	@uses			XML_DOM_Parser
  *	@uses			Net_Reader
@@ -31,6 +32,7 @@ import( 'de.ceus-media.xml.dom.Parser' );
 import( 'de.ceus-media.net.Reader' );
 /**
  *	Loads XML from an URL and parses to a Tree of XML_DOM_Nodes.
+ *	@category		cmClasses
  *	@package		xml.dom
  *	@uses			XML_DOM_Parser
  *	@uses			Net_Reader

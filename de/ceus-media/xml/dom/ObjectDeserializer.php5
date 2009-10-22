@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		xml.dom
  *	@uses			XML_DOM_Parser
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
@@ -29,6 +30,7 @@
 import( 'de.ceus-media.xml.dom.Parser' );
 /**
  *	Deserializer for XML into a Data Object.
+ *	@category		cmClasses
  *	@package		xml.dom
  *	@uses			XML_DOM_Parser
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
