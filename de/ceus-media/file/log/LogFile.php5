@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		file
  *	@subpackage		log
  *	@uses			Alg_TimeConverter
@@ -29,6 +30,7 @@
 import ("de.ceus-media.alg.TimeConverter"); 
 /**
  *	Writer for Log File.
+ *	@category		cmClasses
  *	@package		file
  *	@subpackage		log
  *	@uses			Alg_TimeConverter

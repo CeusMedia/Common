@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		file.yaml
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2009 Christian Würker
@@ -29,6 +30,7 @@ import( 'de.ceus-media.file.Reader' );
 require_once( 'spyc/0.4.1/spyc.php' );
 /**
  *	YAML Reader based on Spyc.
+ *	@category		cmClasses
  *	@package		file.yaml
  *	@uses			File_Reader
  *	@uses			Spyc
