@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		alg
  *	@uses			UI_ClassParser
  *	@uses			Folder_Editor
@@ -33,6 +34,7 @@ import( 'de.ceus-media.folder.Editor' );
 import( 'de.ceus-media.folder.RecursiveRegexFilter' );
 /**
  *	Created Test Class for PHP Unit Tests using Class Parser and two Templates.
+ *	@category		cmClasses
  *	@package		alg
  *	@uses			UI_ClassParser
  *	@uses			Folder_Editor
