@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		console.server.cron
  *	@uses			Console_Server_Cron_Parser
  *	@uses			File_Log_Writer
@@ -31,6 +32,7 @@ import( 'de.ceus-media.console.server.cron.Parser' );
 import( 'de.ceus-media.file.log.LogFile' );
 /**
  *	Cron Server.
+ *	@category		cmClasses
  *	@package		console.server.cron
  *	@uses			Console_Server_Cron_Parser
  *	@uses			File_Log_Writer
