@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@param			string		$type		Exception Type (eg. IO for Exception_IO)
  *	@param			string		$message	Exception Message
  *	@return			void
@@ -29,6 +30,7 @@
  */
 /**
  *	Extension of throw command for lazy load of Exception Class, throws new Exception of given Type.
+ *	@category		cmClasses
  *	@param			string		$type		Exception Type (eg. IO for Exception_IO)
  *	@param			string		$message	Exception Message
  *	@return			void
