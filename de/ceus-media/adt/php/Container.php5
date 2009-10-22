@@ -18,6 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
+ *	@category		cmClasses
  *	@package		ADT_PHP
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2009 Christian Würker
@@ -29,6 +30,7 @@ import( 'de.ceus-media.adt.php.Category' );
 import( 'de.ceus-media.adt.php.Package' );
 /**
  *	...
+ *	@category		cmClasses
  *	@category		cmClasses
  *	@package		ADT_PHP
  *	@uses			ADT_PHP_Category
@@ -104,17 +106,19 @@ class ADT_PHP_Container
 	 *	Builds internal index of classes for direct access bypassing the tree.
 	 *	Afterwards the methods getClassFromClassName() and getClassFromId() can be used.
 	 *	@access		public
+	 *	@param		string		$defaultCategory		Default Category Name
+	 *	@param		string		$defaultPackage			Default Package Name
 	 *	@return		void
 	 *	@todo		move to Environment
 	 */
-	public function indexClasses()
+	public function indexClasses( $defaultCategory = 'default', $defaultPackage = 'default' )
 	{
 		foreach( $this->files as $fileName => $file )
 		{
 			foreach( $file->getClasses() as $class )
 			{
-				$category	= $class->getCategory() ? $class->getCategory() : "default";
-				$package	= $class->getPackage() ? $class->getPackage() : "default";
+				$category	= $class->getCategory() ? $class->getCategory() : $defaultCategory;
+				$package	= $class->getPackage() ? $class->getPackage() : $defaultPackage;
 				$name		= $class->getName();
 				$this->classNameList[$name][$category][$package]	= $class;
 				$this->classIdList[$class->getId()]	= $class;
