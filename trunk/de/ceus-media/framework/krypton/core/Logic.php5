@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		framework.krypton.core
  *	@uses			Framework_Krypton_Core_Registry
  *	@uses			Framework_Krypton_Core_DefinitionValidator
@@ -33,6 +34,7 @@
 import( 'de.ceus-media.framework.krypton.core.Registry' );
 /**
  *	Logic Base Class with Validation
+ *	@category		cmClasses
  *	@package		framework.krypton.core
  *	@uses			Framework_Krypton_Core_Registry
  *	@uses			Framework_Krypton_Core_DefinitionValidator

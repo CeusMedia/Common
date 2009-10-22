@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		framework.helium
  *	@uses			ADT_Reference
  *	@uses			Alg_TimeConverter
@@ -33,6 +34,7 @@ import( 'de.ceus-media.file.ini.Reader' );
 import( 'de.ceus-media.alg.time.Converter' );
 /**
  *	Generic Action Handler.
+ *	@category		cmClasses
  *	@package		framework.helium
  *	@uses			ADT_Reference
  *	@uses			Alg_TimeConverter

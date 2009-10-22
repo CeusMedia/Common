@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		framework.helium
  *	@extends		Framework_Helium_Action
  *	@uses			Alg_Validation_Predicates
@@ -33,6 +34,7 @@ import( 'de.ceus-media.alg.validation.Predicates' );
 import( 'de.ceus-media.alg.validation.DefinitionValidator' );
 /**
  *	Generic Definition Action Handler.
+ *	@category		cmClasses
  *	@package		framework.helium
  *	@extends		Framework_Helium_Action
  *	@uses			Alg_Validation_Predicates
