@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		framework.krypton.exception
  *	@extends		RuntimeException
  *	@author			David Seebacher <dseebacher@gmail.com>
@@ -33,6 +34,7 @@ if( !defined( 'EXCEPTION_TEMPLATE_FILE_NOT_FOUND' ) )
 	define( 'EXCEPTION_TEMPLATE_FILE_NOT_FOUND', 101 );
 /**
  *	Exception for Templates.
+ *	@category		cmClasses
  *	@package		framework.krypton.exception
  *	@extends		RuntimeException
  *	@author			David Seebacher <dseebacher@gmail.com>
