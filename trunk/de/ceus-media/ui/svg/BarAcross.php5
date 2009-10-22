@@ -19,6 +19,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		ui.svg
  *	@author			Jonas Schneider <JonasSchneider@gmx.de>
  *	@copyright		2007-2009 Christian Würker
@@ -29,6 +30,7 @@
  *	This is a Bar Visualization Class. 
  *	You shouldn´t use this class alone, but you can.
  *	You should only use it in corporation with the {@link Chart} class.
+ *	@category		cmClasses
  *	@package		ui.svg
  *	@author			Jonas Schneider <JonasSchneider@gmx.de>
  *	@copyright		2007-2009 Christian Würker

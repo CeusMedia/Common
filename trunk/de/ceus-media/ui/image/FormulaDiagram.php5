@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		ui.image
  *	@extends		UI_Image_Drawer
  *	@uses			Math_CompactInterval
@@ -32,6 +33,7 @@ import( 'de.ceus-media.math.CompactInterval' );
 import( 'de.ceus-media.alg.time.Clock' );
 /**
  *	Paints Formula Diagram
+ *	@category		cmClasses
  *	@package		ui.image
  *	@extends		UI_Image_Drawer
  *	@uses			Math_CompactInterval
