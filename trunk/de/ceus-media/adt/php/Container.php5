@@ -47,30 +47,35 @@ class ADT_PHP_Container
 	protected $classIdList		= array();
 	protected $classNameList	= array();
 
+	/**
+	 *	Searches for a Class by its Name in same Category and Package.
+	 *	Otherwise is searches in different Packages and finally in different Categories.
+	 *	@access		public
+	 *	@param		string				$className		Name of Class to find Data Object for
+	 *	@param		ADT_PHP_Interface	$relatedClass	A related Class (for Package and Category Information)
+	 *	@return		ADT_PHP_Interface
+	 *	@throws		Exception			if Class is not known
+	 */
 	public function getClassFromClassName( $className, ADT_PHP_Interface $relatedClass )
 	{
 #		file_put_contents( "c.list", implode( "\n", get_declared_classes() ) );
 #		remark( "getClassFromClassName: ".$className );
 		
 		if( !isset( $this->classNameList[$className] ) )
-			return NULL;
+			throw new Exception( 'Unknown class "'.$className.'"' );
 		$list	= $this->classNameList[$className];
 		$category	= $relatedClass->getCategory();
 		$package	= $relatedClass->getPackage();
-		if( isset( $list[$category][$package] ) )													//  found class in same category same package
-			return $list[$category][$package];														//  return class
-		if( isset( $list[$category] ) )																//  found class in same category but different package
-			return array_shift( $list[$category] );													//  return class
-		if( count( $list ) )																		//  found class in different category not looking for package
-			return array_shift( array_shift( $list ) );															//  return class
-
-
-		remark( "!NOT FOUND!" );
-/*		if( isset( $list['default'][$relatedClass->package] ) )
-			return $list['default'][$relatedClass->package];
-		if( isset( $list[$relatedClass->category]['default'] ) )
-			return $list[$relatedClass->category]['default'];
-*/		
+		if( isset( $list[$category][$package] ) )													//  found Class in same Category same Package
+			return $list[$category][$package];														//  return Data Object of Class
+		if( isset( $list[$category] ) )																//  found Class in same Category but different Package
+		{
+			$firstPackage	= array_slice( $list[$category], 0, 1 );								//  this is a Guess: get first Package found for Class Name
+			return array_pop( $firstPackage );														//  return Data Object of guessed Class
+		}
+		$firstCategory	= array_slice( $list, 0, 1 );											//  this is a Guess: get first Category found for Class Name
+		$firstPackage	= array_slice( $firstCategory, 0, 1 );									//  this is a Guess: get first Package found for Class Name
+		return array_pop( $firstPackage );														//  return Data Object of guessed Class
 	}
 
 	public function & getClassFromId( $id )
