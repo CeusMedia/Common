@@ -19,7 +19,7 @@
  *
  *	@category		cmClasses
  *	@category		cmClasses
- *	@package		ADT_PHP
+ *	@package		adt.php
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -31,7 +31,7 @@ import( 'de.ceus-media.adt.php.Interface' );
  *	Class Data Class.
  *	@category		cmClasses
  *	@category		cmClasses
- *	@package		ADT_PHP
+ *	@package		adt.php
  *	@extends		ADT_PHP_Interface
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2009 Christian Würker

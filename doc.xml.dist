@@ -5,8 +5,8 @@
   <creator>
     <timeLimit>300</timeLimit>
     <mail></mail>
-    <file type="serial" alt="relative to 'doc.path'">doc.serial</file>
-    <file type="archive" alt="relative to 'doc.path'">doc.serial.gz</file>
+    <file type="serial" alt="relative to 'doc.path'">doc.cmc.serial</file>
+    <file type="archive" alt="relative to 'doc.path'">doc.cmc.serial.gz</file>
     <file type="errors">logs/docCreatorErrors.log</file>
     <skip parser="FALSE" creator="FALSE" info="FALSE" resources="FALSE"/>
     <verbose general="TRUE" skip="FALSE" config="FALSE" info="TRUE"/>
@@ -24,7 +24,7 @@
 
   <!--  PROJECTS  -->  
   <projects>
-    <project label="cmClasses" version="0.6.8a" date="" revision="">
+    <project label="cmClasses" version="0.6.8dev" date="" revision="">
       <path alt="must be absolute">/path/to/cmClasses/version/de/ceus-media/</path>
       <extensions>
         <extension>php5</extension>
@@ -36,11 +36,11 @@
         <folder alt="regular expression">#^Tests/#</folder>
       </ignore>
       <package>
-        <default>unknown</default>
+        <default>unreleased</default>
         <uppercase alt="comma seperated"></uppercase>
       </package>
       <category>
-        <default>unknown</default>
+        <default>cmClasses</default>
       </category>
     </project>
   </projects>
