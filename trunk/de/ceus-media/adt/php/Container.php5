@@ -58,24 +58,19 @@ class ADT_PHP_Container
 	 */
 	public function getClassFromClassName( $className, ADT_PHP_Interface $relatedClass )
 	{
-#		file_put_contents( "c.list", implode( "\n", get_declared_classes() ) );
-#		remark( "getClassFromClassName: ".$className );
-		
 		if( !isset( $this->classNameList[$className] ) )
 			throw new Exception( 'Unknown class "'.$className.'"' );
 		$list	= $this->classNameList[$className];
 		$category	= $relatedClass->getCategory();
 		$package	= $relatedClass->getPackage();
+
 		if( isset( $list[$category][$package] ) )													//  found Class in same Category same Package
 			return $list[$category][$package];														//  return Data Object of Class
+
 		if( isset( $list[$category] ) )																//  found Class in same Category but different Package
-		{
-			$firstPackage	= array_slice( $list[$category], 0, 1 );								//  this is a Guess: get first Package found for Class Name
-			return array_pop( $firstPackage );														//  return Data Object of guessed Class
-		}
-		$firstCategory	= array_slice( $list, 0, 1 );											//  this is a Guess: get first Category found for Class Name
-		$firstPackage	= array_slice( $firstCategory, 0, 1 );									//  this is a Guess: get first Package found for Class Name
-		return array_pop( $firstPackage );														//  return Data Object of guessed Class
+			return array_shift( $list[$category] );													//  this is a Guess: return Data Object of guessed Class
+
+		return array_shift( array_shift( $list ) );
 	}
 
 	public function & getClassFromId( $id )

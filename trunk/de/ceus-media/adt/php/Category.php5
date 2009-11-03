@@ -49,11 +49,6 @@ class ADT_PHP_Category
 		if( $label )
 			$this->setLabel( $label );
 	}
-	
-	public function setParent( ADT_PHP_Category $parent )
-	{
-		$this->parent	= $parent;
-	}
 		
 	public function & getClass( $name )
 	{
@@ -170,6 +165,11 @@ class ADT_PHP_Category
 #			foreach( $package->getFiles() as $file )												//  iterate Files
 #				$this->packages[$name]->setFile( $file->basename, $file );							//  add File to existing Package
 		}
+	}
+	
+	public function setParent( ADT_PHP_Category $parent )
+	{
+		$this->parent	= $parent;
 	}
 	
 	public function setLabel( $string )

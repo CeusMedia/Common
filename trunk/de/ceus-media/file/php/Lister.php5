@@ -42,17 +42,19 @@
  */
 class File_PHP_Lister extends FilterIterator
 {
+	public $extensions			= array();
 	public $ignoreFolders		= array();
 	public $ignoreFiles			= array();
 	public $skippedFiles		= array();
 	public $skippedFolders		= array();
 
-	public function __construct( $path, $folders = array(), $files = array(), $verbose = TRUE )
+	public function __construct( $path, $extensions = array(), $ignoreFolders = array(), $ignoreFiles = array(), $verbose = TRUE )
 	{
 		$path	= preg_replace( "@^(.*)/*$@U", "\\1/", $path );
 		$this->path	= str_replace( "\\", "/", $path );
-		$this->setIgnoredFiles( $files );
-		$this->setIgnoredFolders( $folders );
+		$this->setExtensions( $extensions );
+		$this->setIgnoredFolders( $ignoreFolders );
+		$this->setIgnoredFiles( $ignoreFiles );
 		$this->verbose	= $verbose;
 		parent::__construct(
 			new RecursiveIteratorIterator(
@@ -64,16 +66,22 @@ class File_PHP_Lister extends FilterIterator
 	public function accept()
 	{
 		$fileName	= basename( $this->current() );
+		if( $this->extensions )
+		{
+			$info		= pathinfo( $fileName );
+			if( empty( $info['extension'] ) )
+				return FALSE;
+			if( !in_array( $info['extension'], $this->extensions ) )
+				return FALSE;
+		}
 		$pathName	= dirname( str_replace( "\\", "/", $this->current() ) );
 		$innerPath	= substr( $pathName, strlen( $this->path) )."/";					//  get inner Path Name
 		$innerFile	= $innerPath.$fileName;
 		foreach( $this->ignoreFolders as $folder )										//  iterate Folders to be ignored
 		{
-			if( !trim( $folder ) )
+			if( !trim( (string) $folder ) )
 				continue;
-			$folder	= str_replace( ".", "\.", $folder );								//  replace Wildcard by RegEx Wildcard
-			$folder	= preg_replace( "@/?\*/?@", ".*", $folder );						//  replace Wildcard by RegEx Wildcard
-			$found	= preg_match( "@^".$folder."@", $innerPath );
+			$found	= preg_match( (string) $folder, $innerPath );
 #			remark( $file." @ ".$innerPath." : ".$found );
 			if( $found )																//  ...
 			{
@@ -86,11 +94,9 @@ class File_PHP_Lister extends FilterIterator
 
 		foreach( $this->ignoreFiles as $file )											//  iterate Files to be ignored
 		{
-			if( !trim( $file ) )
+			if( !trim( (string) $file ) )
 				continue;
-			$file	= str_replace( ".", "\.", $file );									//  replace Wildcard by RegEx Wildcard
-			$file	= preg_replace( "@\*@", ".*", $file );								//  replace Wildcard by RegEx Wildcard
-			$found	= preg_match( "@^".$file."$@", $innerFile );
+			$found	= preg_match( (string) $file, $fileName );
 			if( $found )																//  ...
 			{
 				$this->logSkippedFile( $this->current() );								//  log File
@@ -102,7 +108,12 @@ class File_PHP_Lister extends FilterIterator
 		return TRUE;
 	}
 
-	protected function getSkippedFiles()
+	public function getExtensions()
+	{
+		return $this->extensions;	
+	}
+
+	public function getSkippedFiles()
 	{
 		return $this->skippedFiles;
 	}
@@ -120,6 +131,11 @@ class File_PHP_Lister extends FilterIterator
 	private function logSkippedFile( $file )
 	{
 		$this->skippedFiles[]	= $file;
+	}
+
+	public function setExtensions( $extensions )
+	{
+		$this->extensions	= $extensions;
 	}
 	
 	public function setIgnoredFiles( $files = array() )
