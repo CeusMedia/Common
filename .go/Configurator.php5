@@ -16,6 +16,7 @@ class Go_Configurator
 		$files	= array(
 			"cmClasses.ini.dist"	=> "cmClasses.ini",
 			"useClasses.php5.dist"	=> "useClasses.php5",
+			"doc.xml.dist"			=> "doc.xml",
 		);
 
 		foreach( $files as $sourceFile => $targetFile )
@@ -23,7 +24,7 @@ class Go_Configurator
 			if( !file_exists( $pwd.$sourceFile ) )
 				throw new RuntimeException( 'Source file "'.$sourceFile.'" is not existing.' );
 			
-			remark( 'Setting up "'.$sourceFile.'"... ' );
+			remark( 'Setting up "'.$targetFile.'"... ' );
 			$content	= file_get_contents( $pwd.$sourceFile );
 			$content	= str_replace( "/path/to/cmClasses/version/", $pwd, $content );
 			if( !$force && file_exists( $pwd.$targetFile ) )
