@@ -170,5 +170,46 @@ class Tests_File_RecursiveRegexFilterTest extends PHPUnit_Framework_TestCase
 		$creation	= $files;
 		$this->assertEquals( $assertion, $creation );
 	}
+
+	/**
+	 *	Tests Method 'getNumberFound'.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testGetNumberFound()
+	{
+		$search	= "@^test(1|2)@";
+		$filter	= new File_RecursiveRegexFilter( $this->path, $search );
+
+		foreach( $filter as $entry );
+		$assertion	= 2;
+		$creation	= $filter->getNumberFound();
+		$this->assertEquals( $assertion, $creation );
+		
+		foreach( $filter as $entry );
+		$assertion	= 2;
+		$creation	= $filter->getNumberFound();
+		$this->assertEquals( $assertion, $creation );
+	}
+
+	/**
+	 *	Tests Method 'getNumberScanned'.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testGetNumberScanned()
+	{
+		$search	= "@^test(1|2)@";
+		$filter	= new File_RecursiveRegexFilter( $this->path, $search );
+
+		foreach( $filter as $entry );
+		$creation	= $filter->getNumberScanned();
+		$this->assertGreaterThan( 2, $creation );
+		
+		foreach( $filter as $entry );
+		$assertion	= $creation;
+		$creation	= $filter->getNumberScanned();
+		$this->assertEquals( $assertion, $creation );
+	}
 }
 ?>

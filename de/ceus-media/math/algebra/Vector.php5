@@ -41,6 +41,8 @@ class Math_Algebra_Vector implements ArrayAccess, Iterator
 	protected $dimension		= 0;
 	/**	@var		array		$values			Value of the Vector */
 	protected $values			= array();
+	/**	@var		int			$position		Current Position of inner Iterator */
+	protected $position			= 0;
 
 	/**
 	 *	Constructor.
@@ -56,6 +58,7 @@ class Math_Algebra_Vector implements ArrayAccess, Iterator
 			throw new InvalidArgumentException( 'Vector needs at least 1 Value.' );
 		foreach( $arguments as $argument )
 			$this->addValue( $argument );
+        $this->position = 0;
 	}
 	
 	/**
@@ -119,7 +122,7 @@ class Math_Algebra_Vector implements ArrayAccess, Iterator
 		return $this->values[$index];
 	}
 
-	public function offsetExist( $index )
+	public function offsetExists( $index )
 	{
 		if( $index < 0 )
 			throw new OutOfRangeException( 'Vector Index ('.$index.') must be greater than 0.' );
@@ -146,10 +149,6 @@ class Math_Algebra_Vector implements ArrayAccess, Iterator
 			throw new OutOfRangeException( 'Invalid Vector Index' );
 		$this->values[$index]	= 0;
 	}
-
-    public function __construct() {
-        $this->position = 0;
-    }
 
     public function current()
     {

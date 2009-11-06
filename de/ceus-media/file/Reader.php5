@@ -192,6 +192,8 @@ class File_Reader
 	 *	Reads file and returns it as string.
 	 *	@access		public
 	 *	@return		string
+	 *	@throws		RuntimeException			if File is not existing
+	 *	@throws		RuntimeException			if File is not readable
 	 */
  	public function readString()
 	{

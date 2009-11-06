@@ -42,10 +42,10 @@
  */
 class File_RecursiveRegexFilter extends RegexIterator
 {
-	/**	@var	int				$count			Number of scanned Files */
-	protected $count			= 0;
-	/**	@var	int				$count			Number of found Files */
-	protected $files			= 0;
+	/**	@var	int				$numberFound			Number of found Files */
+	protected $numberFound		= 0;
+	/**	@var	int				$numberScanned	Number of scanned Files */
+	protected $numberScanned	= 0;
 	/**	@var	string			filePattern		Regular Expression to match with File Name */
 	private $filePattern;
 	/**	@var	string			$contentPattern	Regular Expression to match with File Content */
@@ -62,7 +62,8 @@ class File_RecursiveRegexFilter extends RegexIterator
 	{
 		if( !file_exists( $path ) )
 			throw new RuntimeException( 'Path "'.$path.'" is not existing.' );
-		$this->count			= 0;
+		$this->numberScanned	= 0;
+		$this->numberFound		= 0;
 		$this->filePattern		= $filePattern;
 		$this->contentPattern	= $contentPattern;
 		parent::__construct(
@@ -84,10 +85,10 @@ class File_RecursiveRegexFilter extends RegexIterator
 	 */
 	public function accept()
 	{
-		$this->count++;
+		$this->numberScanned++;
 		if( !preg_match( $this->filePattern, $this->current()->getFilename() ) )
 			return FALSE;
-		$this->files++;
+		$this->numberFound++;
 		if( !$this->contentPattern )
 			return TRUE;
 		$filePath	= $this->current()->getPathname();
@@ -98,25 +99,37 @@ class File_RecursiveRegexFilter extends RegexIterator
 		$found		= preg_match( $this->contentPattern, $content );
 		return $found;
 	}
-	
-	/**
-	 *	Returns Number of scanned Files.
-	 *	@access		public
-	 *	@return		int
-	 */
-	public function getCount()
-	{
-		return $this->count;
-	}
 
 	/**
 	 *	Returns Number of found Files.
 	 *	@access		public
 	 *	@return		int
 	 */
-	public function getFiles()
+	public function getNumberFound()
 	{
-		return $this->files;
+		return $this->numberFound;
+	}
+	
+	/**
+	 *	Returns Number of scanned Files.
+	 *	@access		public
+	 *	@return		int
+	 */
+	public function getNumberScanned()
+	{
+		return $this->numberScanned;
+	}
+
+	/**
+	 *	Resets inner Iterator and numbers.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function rewind()
+	{
+		$this->numberFound		= 0;
+		$this->numberScanned	= 0;
+		parent::rewind();
 	}
 }
 ?>

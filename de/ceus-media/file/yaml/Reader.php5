@@ -27,7 +27,7 @@
  *	@version		0.6
  */
 import( 'de.ceus-media.file.Reader' );
-require_once( 'spyc/0.4.1/spyc.php' );
+require_once( 'spyc/0.4.5/spyc.php' );
 /**
  *	YAML Reader based on Spyc.
  *	@category		cmClasses

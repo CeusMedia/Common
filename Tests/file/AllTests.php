@@ -48,6 +48,7 @@ class Tests_File_AllTests
 		$suite->addTestSuite('Tests_File_EditorTest'); 
 		$suite->addTestSuite('Tests_File_WriterTest'); 
 
+		$suite->addTestSuite('Tests_File_NameFilterTest'); 
 		$suite->addTestSuite('Tests_File_RegexFilterTest'); 
 		$suite->addTestSuite('Tests_File_RecursiveNameFilterTest'); 
 		$suite->addTestSuite('Tests_File_RecursiveRegexFilterTest'); 
