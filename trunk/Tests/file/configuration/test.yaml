@@ -4,7 +4,7 @@ section1:
   double: 3.14
   bool: yes
 section2:
-  string: "http://sub.domain.tld/application/"	; string
+  string: "http://sub.domain.tld/application/"
   integer: 12
   double: -5.12
   bool: no

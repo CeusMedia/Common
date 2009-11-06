@@ -133,6 +133,7 @@ class Tests_File_Configuration_ReaderTest extends PHPUnit_Framework_TestCase
 	{
 		$reader		= new File_Configuration_Reader( $this->path."test.yaml" );
 		$assertion	= $this->data;
+		ksort( $assertion );
 		$creation	= $reader->getAll();
 		$this->assertEquals( $assertion, $creation );
 	}
@@ -146,6 +147,7 @@ class Tests_File_Configuration_ReaderTest extends PHPUnit_Framework_TestCase
 	{
 		$reader		= new File_Configuration_Reader( $this->path."test.yaml", $this->path );
 		$assertion	= $this->data;
+		ksort( $assertion );
 		$creation	= $reader->getAll();
 		$this->assertEquals( $assertion, $creation );
 	}

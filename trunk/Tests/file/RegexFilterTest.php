@@ -121,5 +121,46 @@ class Tests_File_RegexFilterTest extends PHPUnit_Framework_TestCase
 		$creation	= $files;
 		$this->assertEquals( $assertion, $creation );
 	}
+
+	/**
+	 *	Tests Method 'getNumberFound'.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testGetNumberFound()
+	{
+		$search	= "@^RegexFilterTest@";
+		$filter	= new File_RegexFilter( $this->path, $search );
+
+		foreach( $filter as $entry );
+		$assertion	= 1;
+		$creation	= $filter->getNumberFound();
+		$this->assertEquals( $assertion, $creation );
+		
+		foreach( $filter as $entry );
+		$assertion	= 1;
+		$creation	= $filter->getNumberFound();
+		$this->assertEquals( $assertion, $creation );
+	}
+
+	/**
+	 *	Tests Method 'getNumberScanned'.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testGetNumberScanned()
+	{
+		$search	= "@^RegexFilterTest@";
+		$filter	= new File_RegexFilter( $this->path, $search );
+
+		foreach( $filter as $entry );
+		$creation	= $filter->getNumberScanned();
+		$this->assertGreaterThan( 1, $creation );
+		
+		foreach( $filter as $entry );
+		$assertion	= $creation;
+		$creation	= $filter->getNumberScanned();
+		$this->assertEquals( $assertion, $creation );
+	}
 }
 ?>

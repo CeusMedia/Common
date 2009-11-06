@@ -26,10 +26,13 @@
  *	@since			09.06.2007
  *	@version		0.1
  */
+import( 'de.ceus-media.file.Reader' );
 /**
  *	Searchs for Files by given RegEx Pattern (as File Name) in Folder.
  *	@category		cmClasses
  *	@package		file
+ *	@extends		RegexIterator
+ *	@uses			File_Reader
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -40,10 +43,10 @@
  */
 class File_RegexFilter extends RegexIterator
 {
-	/**	@var	int				$count			Number of scanned Files */
-	protected $count			= 0;
-	/**	@var	int				$count			Number of found Files */
-	protected $files			= 0;
+	/**	@var	int				$numberFound			Number of found Files */
+	protected $numberFound		= 0;
+	/**	@var	int				$numberScanned			Number of scanned Files */
+	protected $numberScanned	= 0;
 	/**	@var	string			$contentPattern	Regular Expression to match with File Content */
 	private $contentPattern;
 
@@ -58,8 +61,8 @@ class File_RegexFilter extends RegexIterator
 	{
 		if( !file_exists( $path ) )
 			throw new RuntimeException( 'Path "'.$path.'" is not existing.' );
-		$this->count			= 0;
-		$this->files			= 0;
+		$this->numberFound		= 0;
+		$this->numberScanned	= 0;
 		$this->contentPattern	= $contentPattern;
 		parent::__construct(
 			new DirectoryIterator( $path ),
@@ -74,29 +77,19 @@ class File_RegexFilter extends RegexIterator
 	 */
 	public function accept()
 	{
-		$this->count++;
+		$this->numberScanned++;
 		if( !parent::accept() )
 			return FALSE;
-		$this->files++;
+		$this->numberFound++;
 		if( !$this->contentPattern )
 			return TRUE;
 		$filePath	= $this->current()->getPathname();
 		$realPath	= realpath( $this->current()->getPathname() );
 		if( $realPath )
 			$filePath	= $realPath;
-		$content	= file_get_contents( $filePath );
+		$content	= File_Reader::load( $filePath );
 		$found		= preg_match( $this->contentPattern, $content );
 		return $found;
-	}
-	
-	/**
-	 *	Returns Number of scanned Files.
-	 *	@access		public
-	 *	@return		int
-	 */
-	public function getCount()
-	{
-		return $this->count;
 	}
 
 	/**
@@ -104,9 +97,31 @@ class File_RegexFilter extends RegexIterator
 	 *	@access		public
 	 *	@return		int
 	 */
-	public function getFiles()
+	public function getNumberFound()
 	{
-		return $this->files;
+		return $this->numberFound;
+	}
+	
+	/**
+	 *	Returns Number of scanned Files.
+	 *	@access		public
+	 *	@return		int
+	 */
+	public function getNumberScanned()
+	{
+		return $this->numberScanned;
+	}
+
+	/**
+	 *	Resets inner Iterator and numbers.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function rewind()
+	{
+		$this->numberFound		= 0;
+		$this->numberScanned	= 0;
+		parent::rewind();
 	}
 }
 ?>
