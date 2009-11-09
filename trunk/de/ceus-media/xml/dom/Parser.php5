@@ -51,13 +51,14 @@ class XML_DOM_Parser extends ADT_OptionObject
 	protected $document			= NULL;
 	/**	@var	array			$attributes		List of DOM Document Options */
 	protected $attributes	= array(
-			"version",
-			"encoding",
-			"standalone",
-			"type",
-			"compression",
-			"charset"
-			);
+		"version",
+		"encoding",
+		"standalone",
+		"type",
+		"compression",
+		"charset"
+	);
+
 	/**
 	 *	Returns DOM Document.
 	 *	@access		public
