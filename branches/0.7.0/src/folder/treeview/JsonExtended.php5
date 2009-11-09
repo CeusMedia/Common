@@ -57,7 +57,7 @@ class Folder_Treeview_JsonExtended extends Folder_Treeview_Json
 	{
 		$children	= $this->hasChildren( $entry, TRUE );
 		$item	= array(
-			'text'			=> $entry->getFilename()." (".$children.")",
+			'text'			=> $entry->getFilename(),#." (".$children.")",
 			'id'			=> rawurlencode( $this->getPathName( $entry ) ),
 			'hasChildren'	=> (bool) $children,
 			'classes'		=> $this->classNode,

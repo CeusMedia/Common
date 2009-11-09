@@ -51,12 +51,13 @@ class Alg_Tree_Menu_Converter
 	 *	@static
 	 *	@param		string		$fileName		File Name of OPML File
 	 *	@param		string		$labelRoot		Label of Top Tree Menu List
+	 *	@param		string		$rootClass		CSS Class of root node
 	 *	@return		ADT_Tree_Menu_List
 	 */
-	public static function convertFromOpmlFile( $fileName, $labelRoot )
+	public static function convertFromOpmlFile( $fileName, $labelRoot, $rootClass = NULL )
 	{
 		$opml		= File_Reader::load( $fileName );
-		return self::convertFromOpml( $opml, $labelRoot );
+		return self::convertFromOpml( $opml, $labelRoot, $rootClass );
 	}
 	
 	/**
@@ -65,14 +66,15 @@ class Alg_Tree_Menu_Converter
 	 *	@static
 	 *	@param		string		$opml			OPML String
 	 *	@param		string		$labelRoot		Label of Top Tree Menu List
+	 *	@param		string		$rootClass		CSS Class of root node
 	 *	@return		ADT_Tree_Menu_List
 	 */
-	public static function convertFromOpml( $opml, $labelRoot )
+	public static function convertFromOpml( $opml, $labelRoot, $rootClass = NULL )
 	{
 		$parser		= new XML_OPML_Parser();
 		$parser->parse( $opml );
 		$lines		= $parser->getOutlines();
-		$list		= new ADT_Tree_Menu_List( $labelRoot );
+		$list		= new ADT_Tree_Menu_List( $labelRoot, array( 'class' => $rootClass ) );
 
 		self::buildMenuListFromOutlines( $lines, $list );
 		return $list;

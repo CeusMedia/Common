@@ -2,7 +2,7 @@
 /**
  *	Iterates all Folders and Files recursive within a Folder.
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2008 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -22,8 +22,8 @@
  *	@extends		FilterIterator
  *	@uses			RecursiveIteratorIterator
  *	@uses			RecursiveDirectoryIterator
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			15.04.2008
@@ -36,8 +36,8 @@
  *	@extends		FilterIterator
  *	@uses			RecursiveIteratorIterator
  *	@uses			RecursiveDirectoryIterator
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@copyright		2008 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			15.04.2008
@@ -99,15 +99,16 @@ class Folder_RecursiveIterator extends FilterIterator
 		if( !$this->showFiles && !$isDir )
 			return FALSE;
 
-		if( $this->stripDotEntries )
+		if( $this->stripDotEntries )															//  skip all folders and files starting with a dot
 		{
-			$folderName	= str_replace( "\\", "/", $this->getInnerIterator()->getFilename() );
-			if( preg_match( "@^\.\w+@", $folderName ) )
+			if( substr( $this->getFilename(), 0, 1 ) == "." )									//  found file or folder is hidden
 				return FALSE;
-			$folderPath	= str_replace( "\\", "/", $this->getInnerIterator()->getPathname() );
-#			$folderPath	= substr( $folderPath, $this->realPathLength );
-			remark( $folderPath );
-			if( preg_match( "@/\.\w+/@", $folderPath ) )
+			
+			if( substr( $this->getSubPathname(), 0, 1 ) == "." )								//  inner path is hidden
+				return FALSE;
+
+			$subPath	= str_replace( "\\", "/", $this->getSubPathname() );					//  be nice to Windows
+			if( preg_match( '/\/\.\w/', $subPath ) )											//  atleast 1 folder in inner path is hidden
 				return FALSE;
 		}
 		return TRUE;
