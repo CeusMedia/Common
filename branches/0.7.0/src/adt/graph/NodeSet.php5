@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		adt
  *	@subpackage		graph
  *	@uses			Node
@@ -29,6 +30,7 @@
 import( "de.ceus-media.adt.graph.Node");
 /**
  *	NodeSet to store and manipulate nodes in a graph.
+ *	@category		cmClasses
  *	@package		adt
  *	@subpackage		graph
  *	@uses			Node

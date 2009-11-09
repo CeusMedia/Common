@@ -18,6 +18,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		net.service
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2009 Christian Würker
@@ -29,6 +30,7 @@
 /**
  *	Generic Server for Service Points.
  *	You can extends this Class to set up your own Service Point / Environment.
+ *	@category		cmClasses
  *	@package		net.service
  *	@uses			Net_HTTP_Request_Receiver
  *	@uses			Net_Service_Point

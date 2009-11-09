@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		file
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2009 Christian Würker
@@ -29,6 +30,7 @@ import( 'de.ceus-media.file.Editor' );
 import( 'de.ceus-media.adt.cache.Store' );
 /**
  *	Cache to store Data in Files.
+ *	@category		cmClasses
  *	@package		file
  *	@extends		ADT_Cache_Store
  *	@implements		Countable

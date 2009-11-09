@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		framework.xenon.core
  *	@uses			Core_Registry
  *	@uses			Alg_Time_Converter
@@ -31,6 +32,7 @@ import( 'de.ceus-media.framework.xenon.core.Registry' );
 import( 'de.ceus-media.alg.TimeConverter' );
 /**
  *	Message Output Handler within a Session.
+ *	@category		cmClasses
  *	@package		framework.xenon.core
  *	@uses			Core_Registry
  *	@uses			Alg_Time_Converter

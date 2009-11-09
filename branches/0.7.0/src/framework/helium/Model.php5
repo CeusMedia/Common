@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		framework.helium
  *	@extends		Database_TableWriter
  *	@uses			ADT_Reference
@@ -31,6 +32,7 @@ import( 'de.ceus-media.database.TableWriter' );
 import( 'de.ceus-media.adt.Reference' );
 /**
  *	Generic Model for Database Structures.
+ *	@category		cmClasses
  *	@package		framework.helium
  *	@extends		Database_TableWriter
  *	@uses			ADT_Reference

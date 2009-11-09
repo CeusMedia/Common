@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		database
  *	@uses			File_Log_Writer
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
@@ -28,6 +29,7 @@
 import( "de.ceus-media.file.log.Writer" );
 /**
  *	Abstract Database Connection.
+ *	@category		cmClasses
  *	@package		database
  *	@abstract
  *	@uses			File_Log_Writer

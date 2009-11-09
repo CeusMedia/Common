@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		file.ini
  *	@extends		File_INI_SectionReader
  *	@uses			File_Writer
@@ -31,6 +32,7 @@ import( 'de.ceus-media.file.ini.SectionReader' );
 import( 'de.ceus-media.file.Writer' );
 /**
  *	Editor for sectioned Ini Files using parse_ini_file.
+ *	@category		cmClasses
  *	@package		file.ini
  *	@extends		File_INI_SectionReader
  *	@uses			File_Writer

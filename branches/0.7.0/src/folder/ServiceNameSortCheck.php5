@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		folder
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2009 Christian Würker
@@ -29,6 +30,7 @@ import( 'de.ceus-media.net.service.definition.NameSortCheck' );
 import( 'de.ceus-media.file.RecursiveRegexFilter' );
 /**
  *	Checks order of methods in a several PHP Files within a Folder.
+ *	@category		cmClasses
  *	@package		folder
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2009 Christian Würker

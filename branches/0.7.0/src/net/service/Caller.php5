@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		net.service
  *	@uses			Net_Service_Client
  *	@uses			Net_Service_Decoder
@@ -32,6 +33,7 @@ import( 'de.ceus-media.net.service.Client' );
 import( 'de.ceus-media.net.service.Decoder' );
 import( 'de.ceus-media.StopWatch' );
 /**
+ *	@category		cmClasses
  *	@package		net.service
  *	@uses			Net_Service_Client
  *	@uses			Net_Service_Decoder

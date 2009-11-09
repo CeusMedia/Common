@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		framework.xenon.core
  *	@uses			Framework_Xenon_Exception_IO
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
@@ -29,6 +30,7 @@
 import( 'de.ceus-media.framework.xenon.exception.IO' );
 /**
  *	Editor for XML Page Definitions.
+ *	@category		cmClasses
  *	@package		framework.xenon.core
  *	@uses			Framework_Xenon_Exception_IO
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>

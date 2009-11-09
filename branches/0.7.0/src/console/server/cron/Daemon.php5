@@ -17,9 +17,10 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		console.server.cron
  *	@uses			Console_Server_Cron_Parser
- *	@uses			LogFile
+ *	@uses			File_Log_Writer
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -27,10 +28,11 @@
  *	@since			20.01.2006
  *	@version		0.5
  */
-import( 'de.ceus-media.server.cron.CronParser' );
+import( 'de.ceus-media.console.server.cron.Parser' );
 import( 'de.ceus-media.file.log.LogFile' );
 /**
  *	Cron Server.
+ *	@category		cmClasses
  *	@package		console.server.cron
  *	@uses			Console_Server_Cron_Parser
  *	@uses			File_Log_Writer

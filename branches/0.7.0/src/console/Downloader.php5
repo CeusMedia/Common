@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		console
  *	@uses			Alg_UnitFormater
  *	@uses			Stopwatch
@@ -32,6 +33,7 @@ import( 'de.ceus-media.alg.UnitFormater' );
 import( 'de.ceus-media.Stopwatch' );
 /**
  *	Downloads a File from an URL while showing Progress in Console.
+ *	@category		cmClasses
  *	@package		console
  *	@uses			Alg_UnitFormater
  *	@uses			Stopwatch

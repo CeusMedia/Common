@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		ui.html.css
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2009 Christian Würker
@@ -29,6 +30,7 @@
 import( 'de.ceus-media.ui.html.Elements' );
 /**
  *	Implementation of CSS Menu, a dynamic Tree Navigation without JavaScript.
+ *	@category		cmClasses
  *	@package		ui.html.css
  *	@uses			UI_HTML_Elements
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>

@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		net.service
  *	@uses			Net_cURL
  *	@uses			StopWatch
@@ -29,6 +30,7 @@
  */
 /**
  *	Client for interaction with Frontend Services.
+ *	@category		cmClasses
  *	@package		net.service
  *	@uses			Net_cURL
  *	@uses			StopWatch

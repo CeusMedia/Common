@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		file.csv
  *	@extends		File_Reader
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
@@ -29,6 +30,7 @@ import( 'de.ceus-media.file.Reader' );
 import( 'de.ceus-media.alg.StringUnicoder' );
 /**
  *	Reading comma separated values with or without column headers.
+ *	@category		cmClasses
  *	@package		file.csv
  *	@extends		File_Reader
  *	@uses			Alg_StringUnicoder

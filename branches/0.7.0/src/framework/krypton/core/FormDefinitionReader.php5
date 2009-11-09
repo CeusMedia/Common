@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		framework.krypton.core
  *	@uses			File_Reader
  *	@uses			File_Writer
@@ -29,6 +30,7 @@
  */
 /**
  *	Definition of Input Field within Channels, Screens and Forms.
+ *	@category		cmClasses
  *	@package		framework.krypton.core
  *	@uses			File_Reader
  *	@uses			File_Writer

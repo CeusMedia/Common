@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		adt.list
  *	@implements		Countable
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
@@ -27,6 +28,7 @@
  */
 /**
  *	Stack Implementation based on an Array. LIFO - last in first out.
+ *	@category		cmClasses
  *	@package		adt.list
  *	@implements		Countable
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>

@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		file.ical
  *	@uses			XML_DOM_Node
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
@@ -31,6 +32,7 @@
 import( 'de.ceus-media.xml.dom.Node' );
 /**
  *	Parser for iCalendar Files.
+ *	@category		cmClasses
  *	@package		file.ical
  *	@uses			XML_DOM_Node
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>

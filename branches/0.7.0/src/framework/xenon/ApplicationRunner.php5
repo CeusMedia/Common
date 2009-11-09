@@ -20,6 +20,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		framework.xenon
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2009 Christian Würker
@@ -34,6 +35,7 @@
  *	If the Exception Handling fails itself, the resulting Exception with be shown with an Exception Trace Viewer.
  *	This class is abstract and needs to be extended in run().
  *
+ *	@category		cmClasses
  *	@package		framework.xenon
  *	@abstract
  *	@uses			File_Configuration_Reader

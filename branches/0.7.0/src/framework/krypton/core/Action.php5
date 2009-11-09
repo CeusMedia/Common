@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		framework.krypton.core
  *	@extends		Framework_Krypton_Core_Component
  *	@uses			Framework_Krypton_Core_Registry
@@ -31,6 +32,7 @@ import( 'de.ceus-media.framework.krypton.core.Component' );
 import( 'de.ceus-media.framework.krypton.core.Registry' );
 /**
  *	Abstract Basic Action Handler.
+ *	@category		cmClasses
  *	@package		framework.krypton.core
  *	@abstract
  *	@extends		Framework_Krypton_Core_Component

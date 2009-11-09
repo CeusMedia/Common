@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		file.vcard
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2009 Christian Würker
@@ -25,12 +26,11 @@
  *	@since			02.09.2008
  *	@version		0.1
  *	@link			http://www.ietf.org/rfc/rfc2426.txt
- *	@todo			PHOTO,BDAY,NOTE,LABEL,KEY,PRODID,MAILER,TZ
- *	@todo			Code Doc
  */
 /**
  *	Builds vCard String from vCard Data Object.
  *
+ *	@category		cmClasses
  *	@package		file.vcard
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2009 Christian Würker

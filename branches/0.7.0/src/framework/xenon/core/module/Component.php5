@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		framework.xenon.core
  *	@uses			Framework_Xenon_Core_Registry
  *	@uses			Framework_Xenon_Core_Template
@@ -40,6 +41,7 @@ import( 'de.ceus-media.ui.html.Elements' );
 import( 'de.ceus-media.alg.TimeConverter' );
 /**
  *	Generic View with Language Support.
+ *	@category		cmClasses
  *	@package		framework.xenon.core
  *	@abstract
  *	@uses			Framework_Xenon_Core_Registry

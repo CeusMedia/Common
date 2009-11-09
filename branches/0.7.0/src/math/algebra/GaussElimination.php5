@@ -17,8 +17,9 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		math.algebra
- *	@uses			ADT_Matrix_Vector
+ *	@uses			Math_Algebra_Vector
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -26,11 +27,12 @@
  *	@since			18.01.2006
  *	@version		0.1
  */
-import( 'de.ceus-media.adt.matrix.Vector' );
+import( 'de.ceus-media.math.algebra.Vector' );
 /**
  *	Implementation of Gauss Eleminiation Algorith with Pivot Search.
+ *	@category		cmClasses
  *	@package		math.algebra
- *	@uses			ADT_Matrix_Vector
+ *	@uses			Math_Algebra_Vector
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3

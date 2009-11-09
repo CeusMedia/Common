@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		net.service.definition
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2009 Christian Würker
@@ -27,6 +28,7 @@
  */
 /**
  *	Checks order of Services in a Service Definition File (YAML and XML).
+ *	@category		cmClasses
  *	@package		net.service.definition
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@since			04.09.2008

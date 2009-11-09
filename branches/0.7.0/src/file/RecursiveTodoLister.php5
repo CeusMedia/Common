@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		file
  *	@extends		File_TodoLister
  *	@uses			File_RecursiveRegexFilter
@@ -31,6 +32,7 @@ import( 'de.ceus-media.file.TodoLister' );
 import( 'de.ceus-media.file.RecursiveRegexFilter' );
 /**
  *	Class to find all Files with ToDos inside.
+ *	@category		cmClasses
  *	@package		file
  *	@extends		File_TodoLister
  *	@uses			File_RecursiveRegexFilter

@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		framework.xenon.core
  *	@extends		Alg_Validation_DefinitionValidator
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
@@ -31,6 +32,7 @@ import( 'de.ceus-media.framework.xenon.logic.ValidationError' );
 import( 'de.ceus-media.exception.Validation' );
 /**
  *	Validator for defined Fields.
+ *	@category		cmClasses
  *	@package		framework.xenon.core
  *	@extends		Alg_Validation_DefinitionValidator
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>

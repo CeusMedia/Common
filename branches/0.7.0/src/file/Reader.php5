@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		file
  *	@uses			Alg_UnitFormater
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
@@ -27,6 +28,7 @@
  */
 /**
  *	Basic File Reader.
+ *	@category		cmClasses
  *	@package		file
  *	@uses			Alg_UnitFormater
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
@@ -190,6 +192,8 @@ class File_Reader
 	 *	Reads file and returns it as string.
 	 *	@access		public
 	 *	@return		string
+	 *	@throws		RuntimeException			if File is not existing
+	 *	@throws		RuntimeException			if File is not readable
 	 */
  	public function readString()
 	{

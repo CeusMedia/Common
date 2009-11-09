@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		framework.xenon.core
  *	@uses			Framework_Xenon_Core_Registry
  *	@uses			Framework_Xenon_Core_PageDefinitionReader
@@ -30,6 +31,7 @@
 import( 'de.ceus-media.framework.xenon.core.Registry' );
 /**
  *	Controller for Pages requested by Links.
+ *	@category		cmClasses
  *	@package		framework.xenon.core
  *	@uses			Framework_Xenon_Core_Registry
  *	@uses			Framework_Xenon_Core_PageDefinitionReader

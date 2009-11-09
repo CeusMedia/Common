@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		framework.xenon.view.component
  *	@extends		UI_Template
  *	@uses			Framework_Xenon_Core_Registry
@@ -30,6 +31,7 @@
 import( 'de.ceus-media.ui.Template' );
 /**
  *	Template Component.
+ *	@category		cmClasses
  *	@package		framework.xenon.view.component
  *	@extends		UI_Template
  *	@uses			Framework_Xenon_Core_Registry

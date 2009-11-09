@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		console
  *	@extends		ADT_OptionObject
  *	@uses			Console_RequestReceiver
@@ -31,6 +32,7 @@ import( 'de.ceus-media.adt.list.Dictionary' );
 import( 'de.ceus-media.console.RequestReceiver' );
 /**
  *	Argument Parser for Console Applications.
+ *	@category		cmClasses
  *	@package		console
  *	@extends		ADT_List_Dictionary
  *	@uses			Console_RequestReceiver

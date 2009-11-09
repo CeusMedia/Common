@@ -18,6 +18,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		ui.svg
  *	@author			Jonas Schneider <JonasSchneider@gmx.de>
  *	@copyright		2007-2009 Christian Würker
@@ -27,6 +28,7 @@
 /**
  *	This class represents an object in a chart, i.e. a line in a line diagram, a piece of pie in a 
  *	pie chart and so on.
+ *	@category		cmClasses
  *	@package		ui.svg
  *	@author			Jonas Schneider <JonasSchneider@gmx.de>
  *	@copyright		2007-2009 Christian Würker

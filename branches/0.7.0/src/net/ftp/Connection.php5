@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		net.ftp
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2009 Christian Würker
@@ -27,6 +28,7 @@
  */
 /**
  *	Basic FTP Connection.
+ *	@category		cmClasses
  *	@package		net.ftp
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2009 Christian Würker
@@ -50,7 +52,7 @@ class Net_FTP_Connection
 	public $mode				= FTP_BINARY;
 
 	/**
-	 *	Constructor.
+	 *	Constructor, connects to FTP Server.
 	 *	@access		public
 	 *	@param		string		$host			Host Name
 	 *	@param		int			$port			Service Port
@@ -61,9 +63,9 @@ class Net_FTP_Connection
 	{
 		$this->connect( $host, $port, $timeout );
 	}
-	
+
 	/**
-	 *	Destructor.
+	 *	Destructor, closes open Connection to FTP Server.
 	 *	@access		public
 	 *	@return		void
 	 */

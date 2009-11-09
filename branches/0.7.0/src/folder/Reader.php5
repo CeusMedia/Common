@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		folder
  *	@uses			Folder_Lister
  *	@uses			Folder_RecursiveLister
@@ -30,6 +31,7 @@
 import( 'de.ceus-media.alg.UnitFormater' );
 /**
  *	Reader for Folders.
+ *	@category		cmClasses
  *	@package		folder
  *	@uses			Folder_Lister
  *	@uses			Folder_RecursiveLister

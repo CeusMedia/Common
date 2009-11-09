@@ -17,7 +17,8 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- *	@package	framework.xenon.view.component
+ *	@category		cmClasses
+ *	@package		framework.xenon.view.component
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -26,12 +27,13 @@
 import( 'de.ceus-media.framework.xenon.core.View' );
 /**
  *	...
- *	@package	framework.xenon.view.component
+ *	@category		cmClasses
+ *	@package		framework.xenon.view.component
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
- *	@todo		Code Doc
+ *	@todo			Code Doc
  */
 class Framework_Xenon_View_Component_Navigation extends Framework_Xenon_Core_View
 {
