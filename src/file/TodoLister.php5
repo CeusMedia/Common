@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		file
  *	@uses			File_RegexFilter
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
@@ -29,6 +30,7 @@
 import( 'de.ceus-media.file.RegexFilter' );
 /**
  *	Class to find all Files with ToDos inside.
+ *	@category		cmClasses
  *	@package		file
  *	@uses			File_RegexFilter
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>

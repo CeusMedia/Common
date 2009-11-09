@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		framework.xenon
  *	@extends		Framework_Xenon_Base
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
@@ -29,6 +30,7 @@
 import( 'de.ceus-media.framework.xenon.Base' );
 /**
  *	Main Class of Motrada V2 to realize Actions and build Views.
+ *	@category		cmClasses
  *	@package		framework.xenon
  *	@extends		Framework_Xenon_Base
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>

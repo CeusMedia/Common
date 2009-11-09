@@ -20,6 +20,7 @@
  *	Every Method is working with a Node Path, which is a bit like XPath but without Attribute Selectors.
  *  You can address Nodes with same Node Names with an Index, eg. "node[2]]. Please remember that this Index will start with 0.
  *	To focus on the second Node named 'test' within a Node named 'parent' the Node Path would be "mother/test[1]"
+ *	@category		cmClasses
  *	@package		xml.dom
  *	@uses			XML_DOM_FileReader
  *	@uses			XML_DOM_FileWriter
@@ -37,6 +38,7 @@ import( 'de.ceus-media.xml.dom.FileWriter' );
  *	Every Method is working with a Node Path, which is a bit like XPath but without Attribute Selectors.
  *  You can address Nodes with same Node Names with an Index, eg. "node[2]]. Please remember that this Index will start with 0.
  *	To focus on the second Node named 'test' within a Node named 'parent' the Node Path would be "mother/test[1]"
+ *	@category		cmClasses
  *	@package		xml.dom
  *	@uses			XML_DOM_FileReader
  *	@uses			XML_DOM_FileWriter

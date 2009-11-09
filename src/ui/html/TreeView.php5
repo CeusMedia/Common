@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		ui.html
  *	@uses			UI_HTML_Elements
  *	@uses			UI_HTML_JQuery
@@ -31,6 +32,7 @@ import( 'de.ceus-media.ui.html.Elements' );
 import( 'de.ceus-media.ui.html.JQuery' );
 /**
  *	Builds HTML Tree with nested Lists for JQuery Plugin Treeview.
+ *	@category		cmClasses
  *	@package		ui.html
  *	@uses			UI_HTML_Elements
  *	@uses			UI_HTML_JQuery

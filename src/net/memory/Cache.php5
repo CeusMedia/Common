@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		net.memory
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2009 Christian Würker
@@ -28,6 +29,7 @@
 import( 'de.ceus-media.adt.cache.Store' );
 /**
  *	Cache to store Data in Memory of a remote Server using MemCache as Store.
+ *	@category		cmClasses
  *	@package		net.memory
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2009 Christian Würker
@@ -49,8 +51,10 @@ class Net_Memory_Cache extends ADT_Cache_Store
 	 *	@param		string		$port		Port of MemCache Server
 	 *	@return		void
 	 */
-	public function __construct( $host = "localhost", $port = 11211 )
+	public function __construct( $host = "127.0.0.1", $port = 11211 )
 	{
+		if( !defined( 'MEMCACHE_COMPRESSED' ) )
+			throw new RuntimeException( 'Memcache is not installed' );
 		$this->store	= new Memcache;
 		$this->store->connect( $host, $port );
 	}

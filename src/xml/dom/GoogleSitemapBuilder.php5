@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		xml.dom
  *	@uses			XML_DOM_Node
  *	@uses			XML_DOM_Builder
@@ -31,6 +32,7 @@ import( 'de.ceus-media.xml.dom.Node' );
 import( 'de.ceus-media.xml.dom.Builder' );
 /**
  *	Builds and writes Google Sitemap.
+ *	@category		cmClasses
  *	@package		xml.dom
  *	@uses			XML_DOM_Node
  *	@uses			XML_DOM_Builder

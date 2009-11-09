@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		framework.tool
  *	@uses			Database_PDO_Connection
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
@@ -28,6 +29,7 @@
  */
 /**
  *	Abstract Business Logic, Access to Database or other Resources.
+ *	@category		cmClasses
  *	@package		framework.tool
  *	@abstract
  *	@uses			Database_PDO_Connection

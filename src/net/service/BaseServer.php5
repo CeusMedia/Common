@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		net.service
  *	@extends		UI_HTML_Service_Index
  *	@uses			Net_HTTP_Request_Receiver
@@ -34,6 +35,7 @@ import( 'de.ceus-media.net.service.Point' );
 /**
  *	Basic Server for Net Services.
  *
+ *	@category		cmClasses
  *	@package		net.service
  *	@extends		UI_HTML_Service_Index
  *	@uses			Net_HTTP_Request_Receiver

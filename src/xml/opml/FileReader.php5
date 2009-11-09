@@ -1,5 +1,6 @@
 <?php
 /**
+ *	@category		cmClasses
  *	@package		xml.opml
  *
  *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
@@ -28,6 +29,7 @@
 import( 'de.ceus-media.file.Reader' );
 import( 'de.ceus-media.xml.opml.Parser' );
 /**
+ *	@category		cmClasses
  *	@package		xml.opml
  *	@uses			XML_OPML_Parser
  *	@uses			File_Reader

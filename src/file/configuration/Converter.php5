@@ -18,6 +18,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		file.configuration
  *	@uses			File_Writer
  *	@uses			File_INI_Creator
@@ -45,6 +46,7 @@ import( 'de.ceus-media.xml.dom.FileWriter' );
 /**
  *	Converter for Configuration to translate between INI, JSON and XML.
  *	YAML will be supported if Spyc is improved.
+ *	@category		cmClasses
  *	@package		file.configuration
  *	@uses			File_Writer
  *	@uses			File_INI_Creator

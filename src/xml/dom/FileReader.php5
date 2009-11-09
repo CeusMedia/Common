@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		xml.dom
  *	@uses			XML_DOM_Parser
  *	@uses			File_Reader
@@ -30,6 +31,7 @@ import ("de.ceus-media.file.Reader");
 import ("de.ceus-media.xml.dom.Parser");
 /**
  *	Loads an parses a XML File to a Tree of XML_DOM_Nodes.
+ *	@category		cmClasses
  *	@package		xml.dom
  *	@uses			XML_DOM_Parser
  *	@uses			File_Reader

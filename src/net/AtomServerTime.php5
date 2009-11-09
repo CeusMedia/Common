@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		net
  *	@uses			Net_AtomTime
  *	@uses			File_Reader
@@ -33,6 +34,7 @@ import ("de.ceus-media.file.Reader");
 import ("de.ceus-media.file.Writer");
 /**
  *	Calculates real Time by Server time and synchronised Atom time.
+ *	@category		cmClasses
  *	@package		net
  *	@uses			Net_AtomTime
  *	@uses			File_Reader

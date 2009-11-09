@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		net.http
  *	@uses			Net_HTTP_BrowserSniffer
  *	@uses			Net_HTTP_CharsetSniffer
@@ -39,6 +40,7 @@ import( 'de.ceus-media.net.http.MimeTypeSniffer' );
 import( 'de.ceus-media.net.http.OperatingSystemSniffer' );
 /**
  *	Combination of different Sniffers for HTTP Request to determine all information about the Client.
+ *	@category		cmClasses
  *	@package		net.http
  *	@uses			Net_HTTP_BrowserSniffer
  *	@uses			Net_HTTP_CharsetSniffer

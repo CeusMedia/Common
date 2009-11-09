@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		folder
  *	@uses			File_SyntaxChecker
  *	@uses			Folder_RecursiveRegexFilter
@@ -35,6 +36,7 @@ import( 'de.ceus-media.ui.DevOutput' );
 import( 'de.ceus-media.Stopwatch' );
 /**
  *	Checks Syntax of all PHP Classes and Scripts within a Folder.
+ *	@category		cmClasses
  *	@package		folder
  *	@uses			File_SyntaxChecker
  *	@uses			Folder_RecursiveRegexFilter

@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		ui.svg
  *	@uses			UI_HTML_Tag
  *	@uses			File_Writer
@@ -29,6 +30,7 @@ import( 'de.ceus-media.ui.html.Tag' );
 import( 'de.ceus-media.file.Writer' );
 /**
  *	The main Chart class. Base class for all subtypes of charts, like Pie, Bar, Line and so on.
+ *	@category		cmClasses
  *	@package		ui.svg
  *	@uses			UI_HTML_Tag
  *	@uses			File_Writer

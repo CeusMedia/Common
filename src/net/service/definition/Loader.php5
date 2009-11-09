@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		net.service.definition
  *	@uses			ADT_JSON_Converter
  *	@uses			Service_Definition_XmlReader
@@ -30,6 +31,7 @@
  */
 /**
  *	Loader for Service Defintions in JSON, XML or YAML.
+ *	@category		cmClasses
  *	@package		net.service.definition
  *	@uses			ADT_JSON_Converter
  *	@uses			Service_Definition_XmlReader

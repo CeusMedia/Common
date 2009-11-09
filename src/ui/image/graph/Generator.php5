@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		ui.image.graph
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2009 Christian Würker
@@ -29,6 +30,7 @@ import( 'de.ceus-media.ui.Template' );
 import( 'de.ceus-media.ui.image.graph.Builder' );
 /**
  *	Abstract Generator Class for several Graph Generator Appications.
+ *	@category		cmClasses
  *	@package		ui.image.graph
  *	@abstract
  *	@uses			UI_Template

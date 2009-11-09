@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		ui.html
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2009 Christian Würker
@@ -27,6 +28,7 @@
 import( 'de.ceus-media.ui.html.Tag' );
 /**
  *	Builds XHTML Page Frame containing Doctype, Meta Tags, Title, Title, JavaScripts, Stylesheets and additional Head and Body.
+ *	@category		cmClasses
  *	@package		ui.html
  *	@uses			UI_HTML_Tag
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>

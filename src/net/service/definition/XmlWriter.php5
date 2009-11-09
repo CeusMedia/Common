@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		net.service.definition
  *	@uses			XML_DOM_Builder
  *	@uses			XML_DOM_Node
@@ -34,6 +35,7 @@ import( 'de.ceus-media.xml.dom.Parser' );
 import( 'de.ceus-media.file.Writer' );
 /**
  *	Builder and Writer for XML Service Definitions.
+ *	@category		cmClasses
  *	@package		net.service.definition
  *	@uses			XML_DOM_Builder
  *	@uses			XML_DOM_Node

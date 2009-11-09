@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		file
  *	@extends		File_Reader
  *	@uses			File_Writer
@@ -31,6 +32,7 @@ import( 'de.ceus-media.file.Reader' );
 import( 'de.ceus-media.file.Writer' );
 /**
  *	Editor for Files.
+ *	@category		cmClasses
  *	@package		file
  *	@extends		File_Reader
  *	@uses			File_Writer

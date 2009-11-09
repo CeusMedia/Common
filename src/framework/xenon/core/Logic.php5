@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		framework.xenon.core
  *	@uses			Framework_Xenon_Core_Registry
  *	@uses			Framework_Xenon_Core_DefinitionValidator
@@ -32,6 +33,7 @@
  */
 /**
  *	Logic Base Class with Validation
+ *	@category		cmClasses
  *	@package		framework.xenon.core
  *	@uses			Framework_Xenon_Core_Registry
  *	@uses			Framework_Xenon_Core_DefinitionValidator

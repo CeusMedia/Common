@@ -19,6 +19,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		file.ini
  *	@extends		File_INI_Reader
  *	@uses			File_Reader
@@ -36,6 +37,7 @@ import( 'de.ceus-media.file.Writer' );
  *	Property File Editor.
  *	This Implementation keeps the File Structure of original File completely alive.
  *	All Line Feeds and Comments will be kept.
+ *	@category		cmClasses
  *	@package		file.ini
  *	@extends		File_INI_Reader
  *	@uses			File_Reader

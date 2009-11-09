@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		net.http
  *	@uses			Net_cURL
  *	@author			Emir Plicanic
@@ -31,6 +32,7 @@ import( 'de.ceus-media.net.cURL' );
 define( 'GOOGLE_MAGIC', 0xE6359A60 );
 /**
  *	Google PageRank.
+ *	@category		cmClasses
  *	@package		net.http
  *	@uses			Net_cURL
  *	@author			Emir Plicanic

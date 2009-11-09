@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		xml.atom
  *	@uses			XML_Element
  *	@uses			XML_Atom_Validator
@@ -31,6 +32,7 @@
 import( 'de.ceus-media.xml.Element' );
 /**
  *	Parser for Atom Feeds.
+ *	@category		cmClasses
  *	@package		xml.atom
  *	@uses			XML_Element
  *	@uses			XML_Atom_Validator

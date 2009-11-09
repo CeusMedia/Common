@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		ui.html.tree
  *	@uses			Alg_Tree_Menu_Converter
  *	@uses			UI_HTML_Tag
@@ -32,6 +33,7 @@ import( 'de.ceus-media.ui.html.Tag' );
 import( 'de.ceus-media.ui.html.Elements' );
 /**
  *	Builder for Layer Menu.
+ *	@category		cmClasses
  *	@package		ui.html.tree
  *	@uses			Alg_Tree_Menu_Converter
  *	@uses			UI_HTML_Tag

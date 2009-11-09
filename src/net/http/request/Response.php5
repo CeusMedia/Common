@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		net.http.request
  *	@uses			Net_HTTP_Compression
  *	@uses			Net_HTTP_EncodingSniffer
@@ -29,6 +30,7 @@
  */
 /**
  *	Handler for HTTP Responses with HTTP Compression Support.
+ *	@category		cmClasses
  *	@package		net.http.request
  *	@uses			Net_HTTP_Compression
  *	@uses			Net_HTTP_EncodingSniffer

@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		xml.dom
  *	@uses			File_Reader
  *	@uses			Net_Reader
@@ -31,6 +32,7 @@
 import( 'de.ceus-media.xml.dom.SyntaxValidator' );
 /**
  *	Identifies Type and Version of RSS and ATOM Feeds.
+ *	@category		cmClasses
  *	@package		xml.dom
  *	@uses			File_Reader
  *	@uses			Net_Reader

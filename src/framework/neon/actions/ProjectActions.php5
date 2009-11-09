@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		framework.neon.actions
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2009 Christian Würker
@@ -29,6 +30,7 @@ import( 'de.ceus-media.framework.neon.DefinitionAction' );
 import( 'de.ceus-media.framework.neon.models.Project' );
 /**
  *	Project Actions.
+ *	@category		cmClasses
  *	@package		framework.neon.actions
  *	@extends		Framework_Neon_DefinitionAction
  *	@uses			Framework_Neon_Models_Project

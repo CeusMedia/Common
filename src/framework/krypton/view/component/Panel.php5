@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		framework.krypton.view.component
  *	@extends		Framework_Krypton_Core_DefinitionView
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
@@ -29,6 +30,7 @@
 import( 'de.ceus-media.framework.krypton.core.DefinitionView' );
 /**
  *	Base Class for Panels.
+ *	@category		cmClasses
  *	@package		framework.krypton.view.component
  *	@abstract
  *	@extends		Framework_Krypton_Core_DefinitionView

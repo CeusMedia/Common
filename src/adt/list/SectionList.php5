@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		adt.list
  *	@author			Chistian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2009 Christian Würker
@@ -26,6 +27,7 @@
  */
 /**
  *	Implementation of a Section List using an Array.
+ *	@category		cmClasses
  *	@package		adt.list
  *	@author			Chistian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2009 Christian Würker

@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		ui.html
  *	@extends		ADT_OptionObject
  *	@license		GPL 2 (http://www.gnu.org/licenses/gpl.html)
@@ -31,6 +32,7 @@
 import( 'de.ceus-media.adt.OptionObject' );
 /**
  *	The DokuWiki parser.
+ *	@category		cmClasses
  *	@package		ui.html
  *	@extends		ADT_OptionObject
  *	@license		GPL 2 (http://www.gnu.org/licenses/gpl.html)

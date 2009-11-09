@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		xml.dom
  *	@extends		ADT_OptionObject
  *	@uses			XML_DOM_Node
@@ -33,6 +34,7 @@ import( 'de.ceus-media.adt.OptionObject' );
 import( 'de.ceus-media.ui.DevOutput' );
 /**
  *	Parses a XML Document to a Tree of XML_DOM_Nodes.
+ *	@category		cmClasses
  *	@package		xml.dom
  *	@extends		ADT_OptionObject
  *	@uses			XML_DOM_Node
@@ -49,13 +51,14 @@ class XML_DOM_Parser extends ADT_OptionObject
 	protected $document			= NULL;
 	/**	@var	array			$attributes		List of DOM Document Options */
 	protected $attributes	= array(
-			"version",
-			"encoding",
-			"standalone",
-			"type",
-			"compression",
-			"charset"
-			);
+		"version",
+		"encoding",
+		"standalone",
+		"type",
+		"compression",
+		"charset"
+	);
+
 	/**
 	 *	Returns DOM Document.
 	 *	@access		public

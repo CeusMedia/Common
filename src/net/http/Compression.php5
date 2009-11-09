@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		net.http
  *	@uses			File_Log_Writer
  *	@uses			StopWatch
@@ -30,6 +31,7 @@ import( 'de.ceus-media.file.log.Writer' );
 import( 'de.ceus-media.StopWatch' );
 /**
  *	Compresses and sends HTTP Output.
+ *	@category		cmClasses
  *	@package		net.http
  *	@uses			File_Log_Writer
  *	@uses			StopWatch

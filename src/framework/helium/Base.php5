@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		framework.helium
  *	@uses			ADT_Reference
  *	@uses			Alg_Time_Clock
@@ -35,6 +36,7 @@ import( 'de.ceus-media.net.http.request.Receiver' );
 import( 'de.ceus-media.framework.helium.Messenger' );
 /**
  *	Basic Framework Instance.
+ *	@category		cmClasses
  *	@package		framework.helium
  *	@uses			ADT_Reference
  *	@uses			Alg_Time_Clock

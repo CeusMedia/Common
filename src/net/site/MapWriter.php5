@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		net.site
  *	@uses			GoogleSitemapBuilder
  *	@uses			File
@@ -31,6 +32,7 @@ import( 'de.ceus-media.net.site.MapBuilder' );
 import( 'de.ceus-media.file.Writer' );
 /**
  *	Google Sitemap XML Writer.
+ *	@category		cmClasses
  *	@package		net.site
  *	@uses			GoogleSitemapBuilder
  *	@uses			File

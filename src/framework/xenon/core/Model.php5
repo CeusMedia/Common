@@ -18,6 +18,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		framework.xenon.core
  *	@extends		Database_PDO_TableWriter
  *	@uses			Core_Registry
@@ -33,6 +34,7 @@ import( 'de.ceus-media.framework.xenon.core.Registry' );
 /**
  *	Generic Model for Database Structures.
  *	Is related to open Database Connection and Configuration in Registry.
+ *	@category		cmClasses
  *	@package		framework.xenon.core
  *	@extends		Database_PDO_TableWriter
  *	@uses			Core_Registry

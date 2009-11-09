@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		ui.image
  *	@uses			Alg_Randomizer
  *	@uses			File_Writer
@@ -31,6 +32,7 @@ import( 'de.ceus-media.alg.Randomizer' );
 import( 'de.ceus-media.file.Writer' );
 /**
  *	Simple CAPTCHA Generator.
+ *	@category		cmClasses
  *	@package		ui.image
  *	@uses			Alg_Randomizer
  *	@uses			File_Writer

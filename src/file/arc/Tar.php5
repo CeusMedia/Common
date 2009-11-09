@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		file.arc
  *	@uses			File_Reader
  *	@uses			File_Writer
@@ -30,6 +31,7 @@ import( 'de.ceus-media.file.Reader' );
 import( 'de.ceus-media.file.Writer' );
 /**
  *	Tar File allows creation and manipulation of tar archives.
+ *	@category		cmClasses
  *	@package		file.arc
  *	@uses			File_Reader
  *	@uses			File_Writer

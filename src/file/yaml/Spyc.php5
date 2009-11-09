@@ -7,6 +7,7 @@
  *	@link			http://spyc.sourceforge.net/
  *	@copyright		Copyright 2005-2006 Chris Wanstrath
  *	@license		http://www.opensource.org/licenses/mit-license.php MIT License
+ *	@category		cmClasses
  *	@package		file.yaml
  */
 /**
@@ -21,6 +22,7 @@
  *		$parser = new Spyc;
  *		$array  = $parser->load($file);
  *	</code>
+ *	@category		cmClasses
  *	@package			file.yaml
  */
 class File_YAML_Spyc {

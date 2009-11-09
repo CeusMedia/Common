@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		framework.krypton.view.component
  *	@uses			Framework_Krypton_Logic_List
  *	@uses			Framework_Krypton_Core_View
@@ -31,6 +32,7 @@ import( 'de.ceus-media.framework.krypton.core.View' );
 import( 'de.ceus-media.framework.krypton.logic.List' );
 /**
  *	View Component for generated Lists.
+ *	@category		cmClasses
  *	@package		framework.krypton.view.component
  *	@uses			Framework_Krypton_Logic_List
  *	@uses			Framework_Krypton_Core_View

@@ -18,6 +18,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		framework.xenon
  *	@extends		Framework_Xenon_Base
  *	@uses			Net_HTTP_Request_Response
@@ -33,6 +34,7 @@ import( 'de.ceus-media.net.http.request.Response' );
 /**
  *	Main Class for Web Applications.
  *	This Class need to be called within an existing Web Project.
+ *	@category		cmClasses
  *	@package		framework.xenon
  *	@extends		Framework_Xenon_Base
  *	@uses			Framework_Xenon_Core_FormDefinitionReader

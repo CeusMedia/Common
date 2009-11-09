@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		framework.krypton
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2009 Christian Würker
@@ -29,6 +30,7 @@ import( 'de.ceus-media.framework.krypton.WebApplication' );
 import( 'de.ceus-media.framework.krypton.ApplicationRunner' );
 /**
  *	Executes Web Application in Container secured by Exception Handler.
+ *	@category		cmClasses
  *	@package		framework.krypton
  *	@extends		Framework_Krypton_ApplicationRunner
  *	@uses			Framework_Krypton_WebApplication 

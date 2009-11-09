@@ -21,6 +21,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		folder
  *	@extends		Folder_Lister
  *	@uses			Folder_RecursiveRegexFilter
@@ -39,6 +40,7 @@ import( 'de.ceus-media.folder.Lister' );
  *	The resulting List is a FilterIterator and contains SplInfo Entries.
  *	It is possible to hide Folders or Files from the List.
  *	Folders starting with a Dot can be stripped from the List.
+ *	@category		cmClasses
  *	@package		folder
  *	@extends		Folder_Lister
  *	@uses			Folder_RecursiveRegexFilter

@@ -18,6 +18,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		file.configuration
  *	@extends		ADT_List_LevelMap
  *	@uses			ADT_JSON_Converter
@@ -37,6 +38,7 @@ import( 'de.ceus-media.adt.list.Dictionary' );
 /**
  *	Reader for Configuration Files of different Types.
  *	Supported File Types are CONF, INI, JSON, YAML and XML.
+ *	@category		cmClasses
  *	@package		file.configuration
  *	@extends		ADT_List_LevelMap
  *	@uses			ADT_JSON_Converter

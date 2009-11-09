@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		database.pdo
  *	@uses			Exception_SQL
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
@@ -28,6 +29,7 @@
  */
 /**
  *	Enhanced PDO Connection.
+ *	@category		cmClasses
  *	@package		database.pdo
  *	@uses			Exception_SQL
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>

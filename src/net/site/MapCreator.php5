@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		net.site
  *	@uses			Net_Site_MapapWriter
  *	@uses			Net_Site_Crawler
@@ -35,6 +36,7 @@ import( 'de.ceus-media.file.block.Writer' );
 import( 'de.ceus-media.file.Writer' );
 /**
  *	Google Sitemap XML Creator, crawls a Web Site and writes a Sitemap XML File.
+ *	@category		cmClasses
  *	@package		net.site
  *	@uses			Net_Site_MapapWriter
  *	@uses			Net_Site_Crawler

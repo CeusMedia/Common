@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		framework.krypton
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2009 Christian Würker
@@ -29,6 +30,7 @@ import( 'de.ceus-media.framework.krypton.ErrorPageHandler' );
 import( 'de.ceus-media.framework.krypton.ApplicationRunner' );
 /**
  *	Executes Error Page Handler in Container secured by Exception Handler.
+ *	@category		cmClasses
  *	@package		framework.krypton
  *	@extends		ApplicationRunner
  *	@uses			Framework_Krypton_ErrorPageHandler

@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		alg
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2009 Christian Würker
@@ -31,6 +32,7 @@ define( 'SIZE_MEGABYTE', pow( 1024, 2 ) );
 define( 'SIZE_GIGABYTE', pow( 1024, 3 ) );
 /**
  *	Formats Numbers intelligently and adds Units to Bytes and Seconds.
+ *	@category		cmClasses
  *	@package		alg
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2009 Christian Würker

@@ -17,7 +17,8 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- *	@package	framework.krypton.view.component
+ *	@category		cmClasses
+ *	@package		framework.krypton.view.component
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -26,12 +27,13 @@
 import( 'de.ceus-media.framework.krypton.core.View' );
 /**
  *	...
- *	@package	framework.krypton.view.component
+ *	@category		cmClasses
+ *	@package		framework.krypton.view.component
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
- *	@todo		Code Doc
+ *	@todo			Code Doc
  */
 class Framework_Krypton_View_Component_Navigation extends Framework_Krypton_Core_View
 {

@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		file.log
  *	@uses			TimeConverter
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
@@ -25,9 +26,10 @@
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		0.6
  */
-import ("de.ceus-media.alg.time.Converter"); 
+import ("de.ceus-media.alg.TimeConverter"); 
 /**
  *	Writer for Log File.
+ *	@category		cmClasses
  *	@package		file.log
  *	@uses			TimeConverter
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
@@ -61,7 +63,7 @@ class File_Log_Writer
 	 */
 	public function note( $line, $format = "datetime" )
 	{
-		$converter 	= new Alg_Time_Converter();
+		$converter 	= new Alg_TimeConverter();
 		$time		= $format ? " [".$converter->convertToHuman( time(), $format )."]" : "";
 		$message	= time().$time." ".$line."\n";
 		return error_log( $message, 3, $this->uri );

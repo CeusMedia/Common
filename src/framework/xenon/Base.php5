@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		framework.xenon
  *	@uses			Alg_Time_Clock
  *	@uses			Database_PDO_Connection
@@ -40,6 +41,7 @@
  */
 /**
  *	Base for all Applications.
+ *	@category		cmClasses
  *	@package		framework.xenon
  *	@abstract
  *	@uses			Alg_Time_Clock

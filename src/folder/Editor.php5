@@ -21,6 +21,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		folder
  *	@extends	 	Folder_Reader
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
@@ -37,6 +38,7 @@ import( 'de.ceus-media.folder.Reader' );
  *	Files and Folders with a leading Dot are ignored if not set otherwise with Option 'skipDotEntries'.
  *	By default copy, move and remove are not overwriting existing Files or deleting Folders containing Files or Folders.
  *	It can be forced to overwrite or remove everything with Option 'force'.
+ *	@category		cmClasses
  *	@package		folder
  *	@extends	 	Folder_Reader
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>

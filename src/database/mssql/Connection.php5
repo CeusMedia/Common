@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		database.mssql
  *	@extends		Database_BaseConnection
  *	@uses			Database_Result
@@ -32,6 +33,7 @@ import( 'de.ceus-media.database.Result' );
 import( 'de.ceus-media.database.Row' );
 /**
  *	Wrapper for MS SQL Database Connection with Transaction Support.
+ *	@category		cmClasses
  *	@package		database.mssql
  *	@extends		Database_BaseConnection
  *	@uses			Database_Result

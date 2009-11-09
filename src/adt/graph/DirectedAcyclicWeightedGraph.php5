@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		adt.graph
  *	@extends		DirectedGraph
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
@@ -28,6 +29,7 @@
 import( 'de.ceus-media.adt.graph.DirectedWeightedGraph' );
 /**
  *	Directed Acyclic Graph.
+ *	@category		cmClasses
  *	@package		adt.graph
  *	@extends		DirectedGraph
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>

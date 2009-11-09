@@ -19,6 +19,7 @@
  *
  *	@license		LGPL
  *	@copyright		(c) 2005 by Christian Würker <christian.wuerker@ceus-media.de>
+ *	@category		cmClasses
  *	@package		alg.sort
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2009 Christian Würker
@@ -28,6 +29,7 @@
  */
 /**
  *	Sorting numeric arrays with the Quicksort algorithm.
+ *	@category		cmClasses
  *	@package		alg.sort
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2009 Christian Würker

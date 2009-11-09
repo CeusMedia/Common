@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		adt.list
  *	@implements		ArrayAccess
  *	@implements		Countable
@@ -31,6 +32,7 @@
  */
 /**
  *	Dictionary is a simple Pair Structure similar to an associative Array but implementing some Interfaces.
+ *	@category		cmClasses
  *	@package		adt.list
  *	@implements		ArrayAccess
  *	@implements		Countable

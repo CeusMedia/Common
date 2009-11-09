@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		xml.dom
  *	@extends		XML_DOM_ObjectDeserializer
  *	@uses			File_Reader
@@ -31,6 +32,7 @@ import( 'de.ceus-media.xml.dom.ObjectDeserializer' );
 import( 'de.ceus-media.file.Reader' );
 /**
  *	Deserializer for a XML File into a Data Object.
+ *	@category		cmClasses
  *	@package		xml.dom
  *	@extends		XML_DOM_ObjectDeserializer
  *	@uses			File_Reader

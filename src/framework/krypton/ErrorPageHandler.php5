@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		framework.krypton
  *	@extends		Framework_Krypton_Base
  *	@uses			Framework_Krypton_Core_View
@@ -30,6 +31,7 @@
 import( 'de.ceus-media.framework.krypton.Base' );
 /**
  *	Handler for static Error Pages.
+ *	@category		cmClasses
  *	@package		framework.krypton
  *	@extends		Framework_Krypton_Base
  *	@uses			Framework_Krypton_Core_View

@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		framework.krypton.core
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2009 Christian Würker
@@ -28,6 +29,7 @@
 import( 'de.ceus-media.file.StaticCache' );
 /**
  *	Cache to store any Value by its Key statically accessible in all other Scopes.
+ *	@category		cmClasses
  *	@package		framework.krypton.core
  *	@extends		File_StaticCache
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>

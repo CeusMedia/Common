@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		framework.krypton.core
  *	@uses			Framework_Krypton_Core_Registry
  *	@uses			UI_HTML_Paging
@@ -30,6 +31,7 @@
 import( 'de.ceus-media.framework.krypton.core.Component' );
 /**
  *	Basic View Component.
+ *	@category		cmClasses
  *	@package		framework.krypton.core
  *	@uses			Framework_Krypton_Core_Registry
  *	@uses			UI_HTML_Paging

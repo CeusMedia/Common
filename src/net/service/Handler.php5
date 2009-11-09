@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		net.service
  *	@extends		Net_Service_Response
  *	@uses			Net_HTTP_Request_Response
@@ -32,6 +33,7 @@ import( 'de.ceus-media.net.service.Response' );
 import( 'de.ceus-media.net.http.request.Response' );
 /**
  *	Service Handlers for HTTP Requests.
+ *	@category		cmClasses
  *	@package		net.service
  *	@extends		Net_Service_Response
  *	@uses			Net_HTTP_Request_Response

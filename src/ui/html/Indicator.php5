@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		ui.html
  *	@extends		ADT_OptionObject
  *	@uses			UI_HTML_Tag
@@ -30,6 +31,7 @@ import( 'de.ceus-media.adt.OptionObject' );
 import( 'de.ceus-media.ui.html.Tag' );
 /**
  *	Builds HTML of Bar Indicator.
+ *	@category		cmClasses
  *	@package		ui.html
  *	@extends		ADT_OptionObject
  *	@uses			UI_HTML_Tag

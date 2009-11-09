@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		net.site
  *	@uses			Net_Reader
  *	@uses			StopWatch
@@ -34,6 +35,7 @@ import( 'de.ceus-media.adt.StringBuffer' );
 import( 'de.ceus-media.alg.UnitFormater' );
 /**
  *	Crawls and counts all internal Links of an URL.
+ *	@category		cmClasses
  *	@package		net.site
  *	@uses			Net_Reader
  *	@uses			StopWatch

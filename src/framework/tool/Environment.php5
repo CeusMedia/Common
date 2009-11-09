@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		framework.tool
  *	@uses			File_Configuration_Reader
  *	@uses			Net_HTTP_Request_Receiver
@@ -35,6 +36,7 @@ import( 'de.ceus-media.net.http.request.Response' );
 import( 'de.ceus-media.net.http.Session' );
 /**
  *	Setup for Resource Environment for Tool Applications.
+ *	@category		cmClasses
  *	@package		framework.tool
  *	@uses			File_Configuration_Reader
  *	@uses			Net_HTTP_Request_Receiver

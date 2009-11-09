@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		file.ini
  *	@uses			File_Writer
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
@@ -29,6 +30,7 @@
 import( 'de.ceus-media.file.Writer' );
 /**
  *	Builder for File in .ini-Format.
+ *	@category		cmClasses
  *	@package		file.ini
  *	@uses			File_Writer
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>

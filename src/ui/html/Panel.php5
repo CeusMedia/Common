@@ -18,6 +18,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		ui.html
  *	@uses			UI_HTML_Tag
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
@@ -31,6 +32,7 @@ import( 'de.ceus-media.ui.html.Tag' );
 /**
  *	User Interface Component for Panels with Header, Footer and Content.
  *	Base Implementation for further Panel Systems.
+ *	@category		cmClasses
  *	@package		ui.html
  *	@uses			UI_HTML_Tag
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>

@@ -19,6 +19,7 @@ import( 'de.ceus-media.file.Writer' );
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		xml.wddx
  *	@uses			XML_WDDX_Builder
  *	@uses			File_Writer
@@ -30,6 +31,7 @@ import( 'de.ceus-media.file.Writer' );
  */
 /**
  *	Writes a WDDX File.
+ *	@category		cmClasses
  *	@package		xml.wddx
  *	@uses			XML_WDDX_Builder
  *	@uses			File_Writer

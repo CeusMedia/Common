@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		file.vcard
  *	@uses			File_Writer
  *	@uses			File_VCard_Builder
@@ -31,6 +32,7 @@ import( 'de.ceus-media.file.Writer' );
 import( 'de.ceus-media.file.vcard.Builder' );
 /**
  *	Writes vCard String from vCard Data Object to a File.
+ *	@category		cmClasses
  *	@package		file.vcard
  *	@uses			File_Writer
  *	@uses			File_VCard_Builder

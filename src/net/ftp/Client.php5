@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		net.ftp
  *	@uses			Net_FTP_Connection
  *	@uses			Net_FTP_Reader
@@ -33,6 +34,7 @@ import( 'de.ceus-media.net.ftp.Reader' );
 import( 'de.ceus-media.net.ftp.Writer' );
 /**
  *	Client for FTP Connections.
+ *	@category		cmClasses
  *	@package		net.ftp
  *	@uses			Net_FTP_Connection
  *	@uses			Net_FTP_Reader
@@ -47,7 +49,7 @@ import( 'de.ceus-media.net.ftp.Writer' );
 class Net_FTP_Client
 {
 	/**
-	 *	Constructor
+	 *	Constructor, opens FTP Connection.
 	 *	@access		public
 	 *	@param		Net_FTP_Connection	$connection		FTP Connection Object
 	 *	@return		void
@@ -58,6 +60,16 @@ class Net_FTP_Client
 		$this->ftp->login( $username, $password );
 		$this->reader	= new Net_FTP_Reader( $this->ftp );
 		$this->writer	= new Net_FTP_Writer( $this->ftp );
+	}
+
+	/**
+	 *	Destructor, closes FTP Connection.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function __destruct()
+	{
+		$this->ftp->close( TRUE );
 	}
 
 	/**

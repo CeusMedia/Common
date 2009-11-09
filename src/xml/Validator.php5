@@ -18,6 +18,7 @@ import( 'de.ceus-media.file.Reader' );
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		xml
  *	@uses			File_Reader
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
@@ -28,6 +29,7 @@ import( 'de.ceus-media.file.Reader' );
  */
 /**
  *	Validates XML.
+ *	@category		cmClasses
  *	@package		xml
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2009 Christian Würker

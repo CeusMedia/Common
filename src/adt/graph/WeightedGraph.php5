@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		adt.graph
  *	@uses			NodeSet
  *	@uses			EdgeSet
@@ -34,6 +35,7 @@ import( 'de.ceus-media.adt.list.Stack' );
 //import( "de.ceus-media.adt.matrix.AssocFileMatrix");
 /**
  *	Graph.
+ *	@category		cmClasses
  *	@package		adt.graph
  *	@uses			NodeSet
  *	@uses			EdgeSet

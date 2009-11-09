@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		folder
  *	@uses			File_Reader
  *	@uses			Folder_RecursiveLister
@@ -33,6 +34,7 @@ import( 'de.ceus-media.folder.RecursiveLister' );
 import( 'de.ceus-media.ui.html.Elements' );
 /**
  *	Counter for Lines of Code.
+ *	@category		cmClasses
  *	@package		folder
  *	@uses			File_Reader
  *	@uses			Folder_RecursiveLister

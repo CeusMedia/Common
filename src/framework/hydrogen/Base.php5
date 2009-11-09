@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		framework.hydrogen
  *	@uses			Database_MySQL_Connection
  *	@uses			File_INI_Reader
@@ -49,6 +50,7 @@ import( 'de.ceus-media.framework.hydrogen.Controller' );
 import( 'de.ceus-media.framework.hydrogen.Language' );
 /**
  *	Generic Main Class of Framework Hydrogen
+ *	@category		cmClasses
  *	@package		framework.hydrogen
  *	@uses			Database_MySQL_Connection
  *	@uses			File_INI_Reader

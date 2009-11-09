@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		ui.image
  *	@uses			UI_Image_Creator
  *	@uses			UI_Image_Drawer
@@ -33,6 +34,7 @@ import( 'de.ceus-media.ui.image.Drawer' );
 import( 'de.ceus-media.ui.image.Printer' );
 /**
  *	Creates and displays Error Image with Message.
+ *	@category		cmClasses
  *	@package		ui.image
  *	@uses			UI_Image_Creator
  *	@uses			UI_Image_Drawer

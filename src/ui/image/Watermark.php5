@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		ui.image
  *	@extends		UI_Image_Creator
  *	@extends		UI_Image_Printer
@@ -31,6 +32,7 @@ import( 'de.ceus-media.ui.image.Creator' );
 import( 'de.ceus-media.ui.image.Printer' );
 /**
  *	Mark Image with another Image.
+ *	@category		cmClasses
  *	@package		ui.image
  *	@extends		UI_Image_Creator
  *	@extends		UI_Image_Printer

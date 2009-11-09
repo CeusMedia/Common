@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		framework.xenon.core
  *	@extends		Framework_Xenon_Core_Component
  *	@uses			Framework_Xenon_Core_Registry
@@ -31,6 +32,7 @@ import( 'de.ceus-media.framework.xenon.core.Component' );
 import( 'de.ceus-media.framework.xenon.core.Registry' );
 /**
  *	Abstract Basic Action Handler.
+ *	@category		cmClasses
  *	@package		framework.xenon.core
  *	@abstract
  *	@extends		Framework_Xenon_Core_Component

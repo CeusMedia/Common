@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		framework.neon.view.component
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2009 Christian Würker
@@ -27,6 +28,7 @@
  */
 /**
  *	Builds HTML for Month Calendar.
+ *	@category		cmClasses
  *	@package		framework.neon.view.component
  *	@extends		Framework_Neon_View
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>

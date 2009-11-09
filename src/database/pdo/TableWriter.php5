@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		database.pdo
  *	@extends		Database_PDO_TableReader
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
@@ -28,6 +29,7 @@
 import( 'de.ceus-media.database.pdo.TableReader' );
 /**
  *	Write Access for Database Tables.
+ *	@category		cmClasses
  *	@package		database.pdo
  *	@extends		Database_PDO_TableReader
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>

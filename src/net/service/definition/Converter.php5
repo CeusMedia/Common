@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		net.service.definition
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2009 Christian Würker
@@ -34,6 +35,7 @@ import( 'de.ceus-media.adt.json.Converter' );
 import( 'de.ceus-media.adt.json.Formater' );
 /**
  *	Converts Service Definitions between JSON, XML and YAML.
+ *	@category		cmClasses
  *	@package		net.service.definition
  *	@uses			Net_Serivce_Definition_Reader
  *	@uses			Net_Service_Definition_Writer

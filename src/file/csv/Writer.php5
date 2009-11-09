@@ -17,6 +17,7 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
+ *	@category		cmClasses
  *	@package		file.csv
  *	@uses			File_Writer
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
@@ -25,9 +26,10 @@
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		0.6
  */
-import ("de.ceus-media.file.csv.csvReader");
+import ("de.ceus-media.file.Writer");
 /**
  *	Writing comma separatad values (CSV) data with or without column headers to File. 
+ *	@category		cmClasses
  *	@package		file.csv
  *	@uses			File_Writer
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
