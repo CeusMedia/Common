@@ -4,7 +4,7 @@ if( !defined( 'PHPUnit_MAIN_METHOD' ) )
 
 require_once( 'PHPUnit/Framework/TestSuite.php' );
 require_once( 'PHPUnit/TextUI/TestRunner.php' );
-require_once( 'adt/list/AllTests.php' );
+require_once( 'test/adt/list/AllTests.php' );
 require_once( 'adt/tree/AllTests.php' );
 require_once( 'adt/json/AllTests.php' );
 require_once( 'adt/OptionObjectTest.php' );
