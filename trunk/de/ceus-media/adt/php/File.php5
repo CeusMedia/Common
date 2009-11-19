@@ -53,8 +53,8 @@ class ADT_PHP_File
 	protected $authors		= array();
 	protected $links		= array();
 	protected $sees			= array();
-	protected $todos			= array();
-	protected $deprecations		= array();
+	protected $todos		= array();
+	protected $deprecations	= array();
 /*	protected $usedClasses	= array();*/
 
 	protected $functions	= array();
@@ -64,14 +64,14 @@ class ADT_PHP_File
 	protected $sourceCode	= "";
 	public $unicode;
 	
-	public function addClass( $name, ADT_PHP_Class $class )
+	public function addClass( ADT_PHP_Class $class )
 	{
-		$this->classes[$name]	= $class;
+		$this->classes[$class->getName()]	= $class;
 	}
 	
-	public function addInterface( $name, ADT_PHP_Interface $interface )
+	public function addInterface( ADT_PHP_Interface $interface )
 	{
-		$this->interfaces[$name]	= $interface;
+		$this->interfaces[$interface->getName()]	= $interface;
 	}
 
 	/**
