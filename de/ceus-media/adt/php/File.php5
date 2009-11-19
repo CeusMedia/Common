@@ -18,7 +18,6 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@category		cmClasses
  *	@package		adt.php
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2009 Christian Würker
@@ -28,7 +27,6 @@
  */
 /**
  *	File Data Class.
- *	@category		cmClasses
  *	@category		cmClasses
  *	@package		adt.php
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
@@ -65,6 +63,24 @@ class ADT_PHP_File
 	
 	protected $sourceCode	= "";
 	public $unicode;
+	
+	public function addClass( $name, ADT_PHP_Class $class )
+	{
+		$this->classes[$name]	= $class;
+	}
+	
+	public function addInterface( $name, ADT_PHP_Interface $interface )
+	{
+		$this->interfaces[$name]	= $interface;
+	}
+
+	/**
+	 *	@deprecated	seems to be unused
+	 */
+	public function addInterfaceName( $interfaceName )
+	{
+		$this->interfaces[$interfaceName]	= $interfaceName;
+	}
 
 	public function getAuthors()
 	{
@@ -233,11 +249,6 @@ class ADT_PHP_File
 		$this->category	= $string;
 	}
 	
-	public function setClass( $name, ADT_PHP_Class $class )
-	{
-		$this->classes[$name]	= $class;
-	}
-	
 	public function setCopyright( $string )
 	{
 		$this->copyright	= $string;
@@ -256,16 +267,6 @@ class ADT_PHP_File
 	public function setFunction( ADT_PHP_Function $function )
 	{
 		$this->functions[$function->getName()]	= $function;
-	}
-	
-	public function setInterace( ADT_PHP_Interface $interface )
-	{
-		$this->interfaces[$interface->getName()]	= $interface;
-	}
-	
-	public function setInterfaceName( $interfaceName )
-	{
-		$this->interfaces[$interfaceName]	= $interfaceName;
 	}
 	
 	public function setLicense( ADT_PHP_License $license )

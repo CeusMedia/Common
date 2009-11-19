@@ -18,7 +18,6 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@category		cmClasses
  *	@package		adt.php
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2009 Christian Würker
@@ -28,7 +27,6 @@
  */
 /**
  *	Interface Data Class.
- *	@category		cmClasses
  *	@category		cmClasses
  *	@package		adt.php
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
@@ -84,6 +82,26 @@ class ADT_PHP_Interface
 			$this->setName( $name );
 	}
 
+	public function addReceivingClass( ADT_PHP_Class $class )
+	{
+		return $this->receivedBy[$class->getName()]	= $class;
+	}
+
+	public function addReceivingInterface( ADT_PHP_Interface $interface )
+	{
+		return $this->receivedBy[$interface->getName()]	= $interface;
+	}
+
+	public function addReturningClass( ADT_PHP_Class $class )
+	{
+		return $this->returnedBy[$class->getName()]	= $class;
+	}
+
+	public function addReturningInterface( ADT_PHP_Interface $interface )
+	{
+		return $this->returnedBy[$interface->getName()]	= $interface;
+	}
+
 	/**
 	 *	Returns list of author data objects.
 	 *	@access		public
@@ -125,12 +143,17 @@ class ADT_PHP_Interface
 
 	public function getExtendedInterface()
 	{
-		return $this->extends();
+		return $this->extends;
 	}
 
 	public function getExtendingInterfaces()
 	{
-		return $this->extendedBy();
+		return $this->extendedBy;
+	}
+	
+	public function getImplementingClasses()
+	{
+		return $this->implementedBy;	
 	}
 
 	/**
@@ -145,7 +168,7 @@ class ADT_PHP_Interface
 			$parts[]	= $this->category;
 		if( $this->package )
 			$parts[]	= $this->package;
-		$parts[]	= $this->parent->getBasename();
+#		$parts[]	= $this->parent->getBasename();
 		$parts[]	= $this->name;
 		return implode( "-", $parts );
 	}
@@ -216,7 +239,8 @@ class ADT_PHP_Interface
 	}
 
 	/**
-	 *	Returns package.
+	 *	Returns full package name.
+	 *	@access		public
 	 *	@return		string			Package name
 	 */
 	public function getPackage()
@@ -464,16 +488,6 @@ class ADT_PHP_Interface
 	public function setParent( ADT_PHP_File $parent )
 	{
 		$this->parent	= $parent;
-	}
-
-	public function setReceivingClass( ADT_PHP_Class $class )
-	{
-		return $this->receivedBy[$class->getName()]	= $class;
-	}
-
-	public function setReturningClass( ADT_PHP_Class $class )
-	{
-		return $this->returnedBy[$class->getName()]	= $class;
 	}
 
 	public function setSee( $string )
