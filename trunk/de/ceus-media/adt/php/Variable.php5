@@ -18,7 +18,6 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@category		cmClasses
  *	@package		adt.php
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2009 Christian Würker
@@ -28,7 +27,6 @@
  */
 /**
  *	Class Variable Data Class.
- *	@category		cmClasses
  *	@category		cmClasses
  *	@package		adt.php
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>

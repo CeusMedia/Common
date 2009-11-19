@@ -19,6 +19,10 @@
  *
  *	@category		cmClasses
  *	@package		adt.list
+ *	@implements		ArrayAccess
+ *	@implements		Countable
+ *	@implements		Iterator
+ *	@implements		IteratorAggregate
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3

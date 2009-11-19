@@ -18,7 +18,6 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@category		cmClasses
  *	@package		adt.php
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2009 Christian Würker
@@ -29,7 +28,6 @@
 /**
  *	...
  *	@category		cmClasses
- *	@category		cmClasses
  *	@package		adt.php
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2009 Christian Würker
@@ -39,18 +37,58 @@
  */
 class ADT_PHP_Category
 {
-	protected $classes	= array();
-	protected $packages	= array();
-	protected $label	= "";
+	protected $classes		= array();
+	protected $interfaces	= array();
+	protected $packages		= array();
+	protected $label		= "";
 	protected $parent;
-	
+
+	/**
+	 *	Constructure, sets Label of Category if given.
+	 *	@access		public
+	 *	@param		string		$label		Label of Category
+	 *	@return		void
+	 */
 	public function __construct( $label = NULL )
 	{
 		if( $label )
 			$this->setLabel( $label );
 	}
-		
-	public function & getClass( $name )
+
+	/**
+	 *	Relates a Class Object to this Category.
+	 *	@access		public
+	 *	@param		ADT_PHP_Class		$class			Class Object to relate to this Category
+	 *	@return		void
+	 */
+	public function addClass( ADT_PHP_Class $class )
+	{
+		$this->classes[$class->getName()]	= $class;
+	}
+	
+	/**
+	 *	Relates a Interface Object to this Category.
+	 *	@access		public
+	 *	@param		ADT_PHP_Interface	$interface		Interface Object to relate to this Category
+	 *	@return		void
+	 */
+	public function addInterface( ADT_PHP_Interface $interface )
+	{
+		$this->interfaces[$interface->getName()]	= $interface;
+	}
+
+	/**
+	 *	@deprecated		not used yet
+	 */
+	public function getCategories()
+	{
+		return $this->categories;
+	}
+
+	/**
+	 *	@deprecated	seems to be unused
+	 */
+	public function & getClassByName( $name )
 	{
 		if( isset( $this->classes[$name] ) )
 			return $this->classes[$name];
@@ -60,6 +98,21 @@ class ADT_PHP_Category
 	public function getClasses()
 	{
 		return $this->classes;
+	}
+
+	/**
+	 *	@deprecated	seems to be unused
+	 */
+	public function & getInterfaceByName( $name )
+	{
+		if( isset( $this->interface[$name] ) )
+			return $this->interface[$name];
+		throw new RuntimeException( "Interface '$name' is unknown" );
+	}
+
+	public function getInterfaces()
+	{
+		return $this->interfaces;
 	}
 
 	public function getId()
@@ -101,15 +154,35 @@ class ADT_PHP_Category
 		$sub	= implode( "_", array_slice( $parts, 1 ) );											//  Subpackage key
 		return $this->packages[$main]->getPackage( $sub );											//  ask for Subpackage in Mainpackage
 	}
-	
+
+	/**
+	 *	Returns Map of nested Packages.
+	 *	@access		public
+	 *	@return		array
+	 */
 	public function getPackages()
 	{
 		return $this->packages;
 	}
 	
+	/**
+	 *	Indicates whether Classes are registered in this Category.
+	 *	@access		public
+	 *	@return		bool
+	 */
 	public function hasClasses()
 	{
-		return count( $this->classes ) > 1;
+		return (bool) count( $this->classes );
+	}
+	
+	/**
+	 *	Indicates whether Interfaces are registered in this Category.
+	 *	@access		public
+	 *	@return		bool
+	 */
+	public function hasInterfaces()
+	{
+		return (bool) count( $this->interfaces );
 	}
 	
 	public function hasPackage( $name )
@@ -126,14 +199,19 @@ class ADT_PHP_Category
 		return $this->packages[$main]->hasPackage( $sub );											//  ask for Subpackage in Mainpackage
 	}
 	
+	/**
+	 *	Indicates whether Packages are registered in this Category.
+	 *	@access		public
+	 *	@return		bool
+	 */
 	public function hasPackages()
 	{
 		return count( $this->packages ) > 0;
 	}
 	
-	public function setClass( $name, ADT_PHP_Class $class )
+	public function setLabel( $string )
 	{
-		$this->classes[$name]	= $class;
+		$this->label	= $string;
 	}
 	
 	public function setPackage( $name, ADT_PHP_Category $package )
@@ -160,8 +238,12 @@ class ADT_PHP_Category
 				$this->packages[$name]->setParent( $this );
 			}
 			else
-				foreach( $package->getClasses() as $class )											//  iterate classes in Package
-					$this->packages[$name]->setClass( $class->getName(), $class );					//  add Class to existing Package
+			{
+				foreach( $package->getClasses() as $class )											//  iterate Classes in Package
+					$this->packages[$name]->addClass( $class );										//  add Class to existing Package
+				foreach( $package->getInterfaces() as $interface )									//  iterate Interfaces in Package
+					$this->packages[$name]->addInterface( $interface );							//  add Interface to existing Package
+			}
 #			foreach( $package->getFiles() as $file )												//  iterate Files
 #				$this->packages[$name]->setFile( $file->basename, $file );							//  add File to existing Package
 		}
@@ -170,11 +252,6 @@ class ADT_PHP_Category
 	public function setParent( ADT_PHP_Category $parent )
 	{
 		$this->parent	= $parent;
-	}
-	
-	public function setLabel( $string )
-	{
-		$this->label	= $string;
 	}
 }
 ?>
