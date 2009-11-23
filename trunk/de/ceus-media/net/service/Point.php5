@@ -151,9 +151,9 @@ class Net_Service_Point implements Net_Service_Interface_Point
 	protected function checkServiceDefinition( $serviceName )
 	{
 		if( !isset( $this->services['services'][$serviceName] ) )
-			throw new BadFunctionCallException( 'Service "'.$serviceName.'" is not existing.' );
+			throw new BadFunctionCallException( 'Service "'.$serviceName.'" is not existing' );
 		if( !isset( $this->services['services'][$serviceName]['class'] ) )
-			throw new RuntimeException( 'No Service Class definied for Service "'.$serviceName.'".' );
+			throw new RuntimeException( 'No Service Class definied for Service "'.$serviceName.'"' );
 	}
 
 	/**
@@ -165,13 +165,13 @@ class Net_Service_Point implements Net_Service_Interface_Point
 	protected function checkServiceMethod( $serviceName )
 	{
 		if( !isset( $this->services['services'][$serviceName] ) )
-			throw new BadFunctionCallException( "Service '".$serviceName."' is not existing." );
+			throw new BadFunctionCallException( 'Service "'.$serviceName.'" is not existing' );
 		$className	= $this->services['services'][$serviceName]['class'];
 		if( !class_exists( $className ) && !$this->loadServiceClass( $className ) )
-			throw new RuntimeException( 'Service Class "'.$className.'" is not existing.' );
+			throw new RuntimeException( 'Service Class "'.$className.'" is not existing' );
 		$methods	= get_class_methods( $className );
 		if( !in_array( $serviceName, $methods ) )
-			throw new BadMethodCallException( 'Method "'.$serviceName.'" does not exist in Service Class "'.$className.'".' );
+			throw new BadMethodCallException( 'Method "'.$serviceName.'" does not exist in Service Class "'.$className.'"' );
 	}
 
 	/**
@@ -186,11 +186,11 @@ class Net_Service_Point implements Net_Service_Interface_Point
 		if( $responseFormat )
 		{
 			if( !in_array( $responseFormat, $this->services['services'][$serviceName]['formats'] ) )
-				throw new InvalidArgumentException( 'Response Format "'.$responseFormat.'" for Service "'.$serviceName.'" is not available.' );
+				throw new InvalidArgumentException( 'Response Format "'.$responseFormat.'" for Service "'.$serviceName.'" is not available' );
 			return true;
 		}
 		if( !$this->getDefaultServiceFormat( $serviceName ) )
-			throw new RuntimeException( 'No Response Format given and no default Response Format set for Service "'.$serviceName.'".' );
+			throw new RuntimeException( 'No Response Format given and no default Response Format set for Service "'.$serviceName.'"' );
 	}
 
 	/**
@@ -224,7 +224,7 @@ class Net_Service_Point implements Net_Service_Interface_Point
 			}
 			catch( InvalidArgumentException $e )
 			{
-				throw new InvalidArgumentException( 'Parameter "'.$name.'" for Service "'.$serviceName.'" failed Rule "'.$e->getMessage().'".' );			
+				throw new InvalidArgumentException( 'Parameter "'.$name.'" for Service "'.$serviceName.'" failed Rule "'.$e->getMessage().'"' );			
 			}
 		}
 	}
@@ -241,9 +241,9 @@ class Net_Service_Point implements Net_Service_Interface_Point
 		$type	= "unknown";
 		$parameters	= $this->getServiceParameters( $serviceName );
 		if( !$parameters )
-			throw new InvalidArgumentException( 'Service "'.$serviceName.'" does not receive any Parameters.' );
+			throw new InvalidArgumentException( 'Service "'.$serviceName.'" does not receive any Parameters' );
 		if( !isset( $parameters[$parameterName] ) )
-			throw new InvalidArgumentException( 'Parameter "'.$parameterName.'" for Service "'.$serviceName.'" is not defined.' );
+			throw new InvalidArgumentException( 'Parameter "'.$parameterName.'" for Service "'.$serviceName.'" is not defined' );
 		$parameter	= $parameters[$parameterName];
 		if( isset( $parameter['type'] ) )
 			$type	= $parameter['type'];
@@ -437,7 +437,7 @@ class Net_Service_Point implements Net_Service_Interface_Point
 	 */
 	protected function loadServiceClass( $className )
 	{
-		throw new RuntimeException( 'No Service Class Loader implemented. Service Class "'.$className.'" has not been loaded..' );
+		throw new RuntimeException( 'No Service Class Loader implemented. Service Class "'.$className.'" has not been loaded' );
 	}
 	
 	/**
