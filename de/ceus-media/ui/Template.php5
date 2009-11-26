@@ -209,10 +209,10 @@ class UI_Template
 			}
 			$out	= preg_replace( '/<%(\?)?' . $label . '%>/', $tmp, $out );
  		}
-		$out = preg_replace( '/<%\?.*%>/U', '', $out );    
-#        $out = preg_replace( '/\n\s+\n/', "\n", $out );
+		$out = preg_replace( '/<%\?.+%>/U', '', $out );    
+#		$out = preg_replace( '/\n\s+\n/', "\n", $out );
 		$tags = array();
-		if( preg_match_all( '/<%.*%>/U', $out, $tags ) === 0 )
+		if( preg_match_all( '/<%.+%>/U', $out, $tags ) === 0 )
 		    return $out; 				
 
 		$tags	= array_shift( $tags );
