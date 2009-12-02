@@ -167,7 +167,7 @@ class UI_HTML_CSS_TreeMenu
 		$children	= "";
 		$class		= isset( $node['class'] ) ? $node['class'] : 'option';
 		$disabled	= isset( $node['disabled'] ) ? $node['disabled'] : FALSE;
-		$label		= self::buildLabelSpan( $node['label'], $level, $disabled, $node['url'] );
+		$label		= self::buildLabelSpan( $node['label'], $level, $class, $disabled, $node['url'] );
 		if( isset( $node['children'] ) && $node['children'] )
 		{
 			$children	= array();
@@ -189,7 +189,7 @@ class UI_HTML_CSS_TreeMenu
 		return UI_HTML_Elements::ListItem( $labelLink.$children, $level, $attributes );
 	}
 
-	protected function buildLabelSpan( $label, $level, $class, $disabled, $url )
+	protected static function buildLabelSpan( $label, $level, $class, $disabled, $url )
 	{
 		$attributes	= array(
 			'class'	=> array(

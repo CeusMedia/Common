@@ -93,11 +93,13 @@ class Net_Service_ParameterValidator
 	 */
 	protected static function checkMandatory( $value )
 	{
-		if( is_string( $value ) && strlen( $value ) )
-			return TRUE;
-		else if( is_array( $value ) && count( $value ) )
-			return TRUE;
-		return FALSE;
+		switch( gettype( $value ) )
+		{
+			case 'array':	
+				return (bool) count( $value );
+			default:
+				return (bool) strlen( $value );
+		}
 	}
 
 	/**

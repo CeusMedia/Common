@@ -109,13 +109,13 @@ class Net_Service_Handler extends Net_Service_Response
 	public function handle( $requestData )
 	{
 		if( empty( $requestData['service'] ) )
-			throw new InvalidArgumentException( 'No Service Name given.' );
+			throw new InvalidArgumentException( 'No Service Name given' );
 
 		//  --  CALL SERVICE  --  //
 		$service	= $requestData['service'];
+		$format		= empty( $requestData['format'] ) ? NULL : $requestData['format'];
 		try
 		{
-			$format		= ( isset( $requestData['format'] ) && $requestData['format'] ) ? $requestData['format'] : $this->servicePoint->getDefaultServiceFormat( $service );
 			ob_start();
 			
 			if( isset( $requestData['argumentsGivenByServiceCaller'] ) )
@@ -170,7 +170,7 @@ class Net_Service_Handler extends Net_Service_Response
 	{
 		//  --  CONTENT TYPE  --  //
 		if( !array_key_exists( $format, $this->contentTypes ) )
-			throw new InvalidArgumentException( 'Content Type for Response Format "'.$format.'" is not defined.' );
+			throw new InvalidArgumentException( 'Content Type for Response Format "'.$format.'" is not defined' );
 		$contentType	= $this->contentTypes[$format];
 		if( $this->charset )
 			$contentType	.= "; charset=".$this->charset;

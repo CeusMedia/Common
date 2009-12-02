@@ -121,10 +121,12 @@ class UI_HTML_Service_Index extends Net_Service_Handler
 		$services	= array();
 		$list		= $this->servicePoint->getServices();
 		natcasesort( $list );
+
 		foreach( $list as $entry )
 		{
 			$parameterList	= array();
 			$parameters	= $this->servicePoint->getServiceParameters( $entry );
+			
 			foreach( $parameters as $parameter => $rules )
 			{
 				$ruleList	= array();
@@ -134,6 +136,8 @@ class UI_HTML_Service_Index extends Net_Service_Handler
 					{
 						if( $ruleKey == "mandatory" )
 							$ruleValue = $ruleValue ? "yes" : "no";
+						if( $ruleKey == "filters" )
+							$ruleValue = implode( ", ", $ruleValue );
 						$ruleList[]	= $ruleKey.": ".htmlspecialchars( $ruleValue );
 					}
 				}

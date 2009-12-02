@@ -18,7 +18,6 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@category		cmClasses
  *	@package		adt.php
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2009 Christian Würker
@@ -29,7 +28,6 @@
 import( 'de.ceus-media.adt.php.Function' );
 /**
  *	Class Method Data Class.
- *	@category		cmClasses
  *	@category		cmClasses
  *	@package		adt.php
  *	@extends		ADT_PHP_Function
@@ -142,9 +140,9 @@ class ADT_PHP_Method extends ADT_PHP_Function
 		$this->final	= (bool) $isFinal;
 	}
 	
-	public function setParent( ADT_PHP_Class $class )
+	public function setParent( ADT_PHP_Interface $classOrInterface )
 	{
-		$this->parent	= $class;
+		$this->parent	= $classOrInterface;
 	}
 	
 	/**
