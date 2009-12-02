@@ -130,14 +130,15 @@ class UI_HTML_MonthCalendar extends ADT_OptionObject
 					$cells[]	= $this->buildCell( $d, $cell_class );
 					$d++;
 				}
-				$line	= implode( "\n\t\t", $cells );
+				$line	= implode( "", $cells );
 			}
-			$lines[]	= "<tr>\n\t\t".$line."\n\t  </tr>";
+			$lines[]	= UI_HTML_Tag::create( "div", $line, array( 'class' => 'day-week' ) );
 		}
 		$lines		= implode( "\n\t  ", $lines );
+		$days		= UI_HTML_Tag::create( "div", $lines, array( 'class' => "days" ) );
 		$heading	= $this->buildHeading( $heading_span );
-		$days		= $this->buildWeekDays();
-		$code		= $this->getCode( $heading, $days, $lines );
+		$weekdays	= $this->buildWeekDays();
+		$code		= $this->getCode( $heading, $weekdays, $days );
 		return $code;
 	}
 	
@@ -150,7 +151,7 @@ class UI_HTML_MonthCalendar extends ADT_OptionObject
 	 */
 	protected function buildCell( $day, $class = "")
 	{
-		$classes	= array();
+		$classes	= array( 'day' );
 		if(	$this->getOption( 'current_year' ) == $this->getOption( 'show_year' ) &&
 			$this->getOption( 'current_month' ) == $this->getOption( 'show_month' ) &&
 			$this->getOption( 'current_day' ) == $day )
@@ -159,7 +160,6 @@ class UI_HTML_MonthCalendar extends ADT_OptionObject
 			$classes[]	= $class;
 		if( $day )
 		{
-			$classes[]	= 'day';
 			$content	= $this->modifyDay( $day );
 			$day		= $content['day'];
 			if( isset( $content['class'] ) && $content['class'] )
@@ -167,8 +167,7 @@ class UI_HTML_MonthCalendar extends ADT_OptionObject
 		}
 		else
 			$day	= "&nbsp;";
-		$class	= implode( " ", $classes );
-		$code	= UI_HTML_Tag::create( "td", $day, array( 'class' => $class ) );
+		$code	= UI_HTML_Tag::create( "div", $day, array( 'class' => implode( " ", $classes ) ) );
 		return $code;
 	}
 	
@@ -202,15 +201,14 @@ class UI_HTML_MonthCalendar extends ADT_OptionObject
 		if( $span )
 			$colspan	= " colspan='5'";
 		$url	= $this->getOption( 'url' )."&".$this->getOption( 'carrier_year' )."=".$prev_year."&".$this->getOption( 'carrier_month' )."=".$prev_month;
-		$prev	= $this->html->Link( $url, "&lt;" );
+		$prev	= UI_HTML_Elements::Link( $url, "&lt;" );
 		$url	= $this->getOption( 'url' )."&".$this->getOption( 'carrier_year' )."=".$next_year."&".$this->getOption( 'carrier_month' )."=".$next_month;
-		$next	= $this->html->Link( $url, "&gt;" );
-		$code	= '
-				<tr>
-					<th width="14%">'.$prev.'</th>
-					<th width="72%"'.$colspan.'>'.htmlspecialchars( $month ).' '.$year.'</th>
-					<th width="14%">'.$next.'</th>
-				</tr>';
+		$next	= UI_HTML_Elements::Link( $url, "&gt;" );
+
+		$left	= UI_HTML_Tag::create( "div", $prev, array( 'class' => "go-left" ) );
+		$right	= UI_HTML_Tag::create( "div", $next, array( 'class' => "go-right" ) );
+		$label	= UI_HTML_Tag::create( "div", htmlspecialchars( $month ).' '.$year, array( 'class' => "label" ) );
+		$code	= UI_HTML_Tag::create( "div", $left.$label.$right, array( 'class' => 'month' ) );
 		return $code;
 	}
 	
@@ -222,9 +220,9 @@ class UI_HTML_MonthCalendar extends ADT_OptionObject
 	protected function buildWeekDays()
 	{
 		foreach( $this->days as $day )
-			$days[]	= UI_HTML_Tag::create( "td", $day );
-		$days	= "\n\t\t\t\t\t".implode( "\n\t\t\t\t\t", $days )."\n\t\t\t\t";
-		$code	= UI_HTML_Tag::create( "tr", $days );
+			$days[]	= UI_HTML_Tag::create( "div", $day, array( 'class' => "weekday" ) );
+		$days	= implode( "", $days );
+		$code	= UI_HTML_Tag::create( "div", $days, array( 'class' => "weekdays" ) );
 		return $code;
 	}
 	
@@ -244,31 +242,10 @@ class UI_HTML_MonthCalendar extends ADT_OptionObject
 			require( $template );
 		}
 		else
-			$content	= '
-<table class="calendar" cellspacing="0">
-	<tr>
-		<th>
-			<table class="selector" cellspacing="0" width="100%">
-				'.$heading.'
-			</table>
-		</th>
-	</tr>
-	<tr>
-		<td>
-			<table class="days" cellspacing="0" width="100%">
-				'.$weekdays.'
-			</table>
-		</td>
-	</tr>
-	<tr>
-		<td>
-			<table class="weeks" cellspacing="0" width="100%">
-				'.$weeks.'
-			</table>
-		</td>
-	</tr>
-</table>
-';
+		{
+			$clearFix	= UI_HTML_Tag::create( 'div', "", array( 'style' => 'clear: both' ) );
+			$content	= UI_HTML_Tag::create( 'div', $heading.$weekdays.$weeks.$clearFix, array( 'class' => 'calendar' ) );
+		}
 		return $content;
 	}
 	

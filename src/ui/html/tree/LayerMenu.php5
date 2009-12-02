@@ -67,7 +67,7 @@ class UI_HTML_Tree_LayerMenu
 	 */
 	public function buildMenuFromOpmlFile( $fileName )
 	{
-		$list	= Alg_Tree_Menu_Converter::convertFromOpmlFile( $fileName, $this->rootLabel );;
+		$list	= Alg_Tree_Menu_Converter::convertFromOpmlFile( $fileName, $this->rootLabel );
 		return $this->buildMenuFromMenuList( $list );
 	}
 	
@@ -155,7 +155,10 @@ class UI_HTML_Tree_LayerMenu
 			"id"	=> "layer_".$parent,
 			"class"	=> "stepLayer".$nested
 		);
-		$list	= UI_HTML_Tag::create( "div", $backlinks.$list, $attributes );
+
+		$heading	= '<div class="heading">'.$tree->label.'</div>';
+
+		$list	= UI_HTML_Tag::create( "div", $backlinks.$heading.$list, $attributes );
 
 		foreach( $tree->getChildren() as $id => $item )
 		{

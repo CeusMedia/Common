@@ -18,7 +18,6 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@category		cmClasses
  *	@package		adt.php
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2009 Christian Würker
@@ -31,7 +30,6 @@ import( 'de.ceus-media.adt.php.Package' );
 /**
  *	...
  *	@category		cmClasses
- *	@category		cmClasses
  *	@package		adt.php
  *	@uses			ADT_PHP_Category
  *	@uses			ADT_PHP_Package
@@ -43,26 +41,28 @@ import( 'de.ceus-media.adt.php.Package' );
  */
 class ADT_PHP_Container
 {
-	protected $files			= array();
-	protected $classIdList		= array();
-	protected $classNameList	= array();
+	protected $files				= array();
+	protected $classIdList			= array();
+	protected $classNameList		= array();
+	protected $interfaceIdList		= array();
+	protected $interfacesNameList	= array();
 
 	/**
 	 *	Searches for a Class by its Name in same Category and Package.
 	 *	Otherwise is searches in different Packages and finally in different Categories.
 	 *	@access		public
-	 *	@param		string				$className		Name of Class to find Data Object for
-	 *	@param		ADT_PHP_Interface	$relatedClass	A related Class (for Package and Category Information)
-	 *	@return		ADT_PHP_Interface
+	 *	@param		string				$className			Name of Class to find Data Object for
+	 *	@param		ADT_PHP_Interface	$relatedArtefact	A related Class or Interface (for Package and Category Information)
+	 *	@return		ADT_PHP_Class
 	 *	@throws		Exception			if Class is not known
 	 */
-	public function getClassFromClassName( $className, ADT_PHP_Interface $relatedClass )
+	public function getClassFromClassName( $className, ADT_PHP_Interface $relatedArtefact )
 	{
 		if( !isset( $this->classNameList[$className] ) )
 			throw new Exception( 'Unknown class "'.$className.'"' );
 		$list	= $this->classNameList[$className];
-		$category	= $relatedClass->getCategory();
-		$package	= $relatedClass->getPackage();
+		$category	= $relatedArtefact->getCategory();
+		$package	= $relatedArtefact->getPackage();
 
 		if( isset( $list[$category][$package] ) )													//  found Class in same Category same Package
 			return $list[$category][$package];														//  return Data Object of Class
@@ -78,6 +78,39 @@ class ADT_PHP_Container
 		if( !isset( $this->classIdList[$id] ) )
 			throw new Exception( 'Class with ID '.$id.' is unknown' );
 		return $this->classIdList[$id];
+	}
+
+	/**
+	 *	Searches for an Interface by its Name in same Category and Package.
+	 *	Otherwise is searches in different Packages and finally in different Categories.
+	 *	@access		public
+	 *	@param		string				$interfaceName		Name of Interface to find Data Object for
+	 *	@param		ADT_PHP_Interface	$relatedArtefact	A related Class or Interface (for Package and Category Information)
+	 *	@return		ADT_PHP_Interface
+	 *	@throws		Exception			if Interface is not known
+	 */
+	public function getInterfaceFromInterfaceName( $interfaceName, ADT_PHP_Interface $relatedArtefact )
+	{
+		if( !isset( $this->interfaceNameList[$interfaceName] ) )
+			throw new Exception( 'Unknown interface "'.$interfaceName.'"' );
+		$list		= $this->interfaceNameList[$interfaceName];
+		$category	= $relatedArtefact->getCategory();
+		$package	= $relatedArtefact->getPackage();
+
+		if( isset( $list[$category][$package] ) )													//  found Interface in same Category same Package
+			return $list[$category][$package];														//  return Data Object of Interface
+
+		if( isset( $list[$category] ) )																//  found Interface in same Category but different Package
+			return array_shift( $list[$category] );													//  this is a Guess: return Data Object of guessed Interface
+
+		return array_shift( array_shift( $list ) );
+	}
+
+	public function & getInterfaceFromId( $id )
+	{
+		if( !isset( $this->interfaceIdList[$id] ) )
+			throw new Exception( 'Interface with ID '.$id.' is unknown' );
+		return $this->interfaceIdList[$id];
 	}
 
 	public function & getFile( $name )
@@ -103,7 +136,7 @@ class ADT_PHP_Container
 	}
 
 	/**
-	 *	Builds internal index of classes for direct access bypassing the tree.
+	 *	Builds internal index of Classes for direct access bypassing the tree.
 	 *	Afterwards the methods getClassFromClassName() and getClassFromId() can be used.
 	 *	@access		public
 	 *	@param		string		$defaultCategory		Default Category Name
@@ -122,6 +155,30 @@ class ADT_PHP_Container
 				$name		= $class->getName();
 				$this->classNameList[$name][$category][$package]	= $class;
 				$this->classIdList[$class->getId()]	= $class;
+			}
+		}
+	}
+
+	/**
+	 *	Builds internal index of Interfaces for direct access bypassing the tree.
+	 *	Afterwards the methods getInterfaceFromInterfaceName() and getInterfaceFromId() can be used.
+	 *	@access		public
+	 *	@param		string		$defaultCategory		Default Category Name
+	 *	@param		string		$defaultPackage			Default Package Name
+	 *	@return		void
+	 *	@todo		move to Environment
+	 */
+	public function indexInterfaces( $defaultCategory = 'default', $defaultPackage = 'default' )
+	{
+		foreach( $this->files as $fileName => $file )
+		{
+			foreach( $file->getInterfaces() as $interface )
+			{
+				$category	= $interface->getCategory() ? $interface->getCategory() : $defaultCategory;
+				$package	= $interface->getPackage() ? $interface->getPackage() : $defaultPackage;
+				$name		= $interface->getName();
+				$this->interfaceNameList[$name][$category][$package]	= $interface;
+				$this->interfaceIdList[$interface->getId()]	= $interface;
 			}
 		}
 	}

@@ -18,7 +18,6 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@category		cmClasses
  *	@package		adt.php
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2009 Christian Würker
@@ -29,7 +28,6 @@
 import( 'de.ceus-media.adt.php.Category' );
 /**
  *	...
- *	@category		cmClasses
  *	@category		cmClasses
  *	@package		adt.php
  *	@extends		ADT_PHP_Category
@@ -42,8 +40,11 @@ import( 'de.ceus-media.adt.php.Category' );
 class ADT_PHP_Package extends ADT_PHP_Category
 {
 	protected $files	= array();
-		
-	public function & getFile( $name )
+
+	/**
+	 *	@deprecated	seems to be unused
+	 */
+	public function & getFileByName( $name )
 	{
 		if( isset( $this->files[$name] ) )
 			return $this->files[$name];

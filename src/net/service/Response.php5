@@ -26,11 +26,11 @@
  *	@since			18.06.2007
  *	@version		0.6.5
  */
+import( 'de.ceus-media.StopWatch' );
 /**
  *	Basic Response Class for a Service.
  *	@category		cmClasses
  *	@package		net.service
- *	@uses			Alg_Time_Clock
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -44,7 +44,7 @@ class Net_Service_Response
 
 	public function __construct()
 	{
-		$this->watch	= new Alg_Time_Clock;	
+		$this->watch	= new StopWatch;	
 	}
 
 	/**
@@ -159,8 +159,8 @@ class Net_Service_Response
 	 */
 	protected function getJson( $content, $status = "data" )
 	{
-		$data	= $this->buildResponseStructure( $content, $status );
-		return json_encode( $data );		
+		$content	= $this->buildResponseStructure( $content, $status );
+		return json_encode( $content );		
 	}
 
 	/**
@@ -172,8 +172,8 @@ class Net_Service_Response
 	 */
 	protected function getPhp( $content, $status = "data" )
 	{
-		$data	= $this->buildResponseStructure( $content, $status );
-		return serialize( $data );
+		$content	= $this->buildResponseStructure( $content, $status );
+		return serialize( $content );
 	}
 
 	/**
@@ -212,8 +212,8 @@ class Net_Service_Response
 	 */
 	protected function getWddx( $content, $status = "data" )
 	{
-		$data	= $this->buildResponseStructure( $content, $status );
-		return wddx_serialize_value( $data );
+		$content	= $this->buildResponseStructure( $content, $status );
+		return wddx_serialize_value( $content );
 	}
 
 	/**

@@ -59,11 +59,6 @@ class ADT_PHP_Class extends ADT_PHP_Interface
 		return $this->extendedBy;
 	}
 	
-	public function getImplementingClasses()
-	{
-		return $this->implementedBy;	
-	}
-	
 	public function getImplementedInterfaces()
 	{
 		return $this->implements;	
@@ -164,7 +159,7 @@ class ADT_PHP_Class extends ADT_PHP_Interface
 
 	public function setExtendingClass( ADT_PHP_Class $class )
 	{
-		$this->extendedBy[$class->name]	= $class;
+		$this->extendedBy[$class->getName()]	= $class;
 	}
 
 	public function setExtendedInterface( $interface )

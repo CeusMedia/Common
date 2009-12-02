@@ -21,7 +21,7 @@
  *	@package		ui.image
  *	@extends		UI_Image_Drawer
  *	@uses			Math_CompactInterval
- *	@uses			StopWatch
+ *	@uses			Alg_Time_Clock
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -29,15 +29,15 @@
  *	@version		0.5
  */
 import( 'de.ceus-media.ui.image.Drawer' );
-import( 'de.ceus-media.math.analysis.CompactInterval' );
-import( 'de.ceus-media.StopWatch' );
+import( 'de.ceus-media.math.CompactInterval' );
+import( 'de.ceus-media.alg.time.Clock' );
 /**
  *	Paints Formula Diagram
  *	@category		cmClasses
  *	@package		ui.image
  *	@extends		UI_Image_Drawer
  *	@uses			Math_CompactInterval
- *	@uses			StopWatch
+ *	@uses			Alg_Time_Clock
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@version		0.5
  *	@copyright		2007-2009 Christian Würker
@@ -92,7 +92,7 @@ class UI_Image_FormulaDiagram extends UI_Image_Drawer
 	public function draw( $stop = false )
 	{
 		if( $stop )
-			$st = new StopWatch ();
+			$clock = new Alg_Time_Clock ();
 		$xStart		= $this->intervalX->getStart();
 		$xEnd		= $this->intervalX->getEnd();
 		$xDiam		= $this->intervalX->getDiam();
@@ -145,7 +145,7 @@ class UI_Image_FormulaDiagram extends UI_Image_Drawer
 		
 		$this->drawString( 15, $yDiam-15, "f(x)=".$this->formula->getExpression(), 2, $col1 );	
 		if( $stop )
-			$this->drawString( $xDiam-50, $yDiam-15, round( $st->stop(), 0 )."ms", 2, $col1 );	
+			$this->drawString( $xDiam-50, $yDiam-15, round( $clock->stop(), 0 )."ms", 2, $col1 );	
 		$this->show();
 	}
 

@@ -48,8 +48,8 @@ class Exception_Template extends RuntimeException
 {
 	/**	@var		string		$messages		Map of Exception Messages, can be overwritten statically */
 	public static $messages	= array(
-		EXCEPTION_TEMPLATE_LABELS_NOT_USED	=> 'Template "%1$s" is missing %2$s.',
-		EXCEPTION_TEMPLATE_FILE_NOT_FOUND	=> 'Template File "%1$s" is missing.',
+		EXCEPTION_TEMPLATE_LABELS_NOT_USED	=> 'Template "%1$s" is missing %2$s',
+		EXCEPTION_TEMPLATE_FILE_NOT_FOUND	=> 'Template File "%1$s" is missing',
 	);
 
 	/**	@var		array		$labels			Holds all not used and non optional labels */

@@ -18,7 +18,6 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@category		cmClasses
  *	@package		adt.php
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2009 Christian Würker
@@ -29,13 +28,13 @@
 /**
  *	Function/Method Parameter Data Class.
  *	@category		cmClasses
- *	@category		cmClasses
  *	@package		adt.php
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id: Parameter.php5 725 2009-10-20 05:41:39Z christian.wuerker $
  *	@since			0.3
+ *	@todo			Code Doc
  */
 class ADT_PHP_Parameter
 {
@@ -146,7 +145,6 @@ class ADT_PHP_Parameter
 	{
 		return (bool) $this->reference;
 	}
-
 
 	public function merge( ADT_PHP_Parameter $parameter )
 	{

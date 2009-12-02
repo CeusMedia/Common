@@ -234,7 +234,7 @@ class Framework_Xenon_Core_Language
 
 	public function loadModuleLanguage( $module, $fileName, $section = FALSE, $verbose = FALSE )
 	{
-#		if( $verbose )
+		if( $verbose )
 	 	   remark( "<b>Load Language: </b> File: ".$fileName." -> Section: ".$section );
 		$config		= $this->registry->get( 'config' );
 		$language	= $this->getLanguage();

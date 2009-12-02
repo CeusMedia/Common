@@ -88,11 +88,23 @@ class UI_HTML_Service_Test
 		$description	= $this->servicePoint->getServiceDescription( $service );	//  Service Description
 		$defaultFormat	= $this->servicePoint->getDefaultServiceFormat( $service );	//  Service Format by default
 		$parameters		= $this->getParameterFields( $service, $format, $request );
+		$filters		= $this->servicePoint->getServiceFilters( $service );		//  Service Filter List
 
 		$trace		= "";
 		$data		= "";
 		$exception	= "";
 		$this->evaluateResponse( $format, $response, $data, $exception, $trace );
+
+
+		if( strlen( $data ) > ( 1024 * 1024 ) )
+			$data	= "<em><small>Response larger than 1MB</small></em>";
+
+		if( strlen( $response ) > ( 1024 * 1024 ) )
+		{
+			$response	= Alg_StringTrimmer::trimCentric(  $response, 200 );
+			$response	= "Response larger than 1MB\n".$response;
+		}
+
 
 		$tabs	= array();
 		if( $data )
@@ -195,6 +207,10 @@ class UI_HTML_Service_Test
 		{
 			if( $ruleKey == "title" )
 				continue;
+			if( $ruleKey == "filters" )
+				$ruleValue	= implode( ", ", $ruleValue );
+			if( $ruleKey == "preg" )
+				$ruleValue	= $ruleValue ? $ruleValue : "-";
 			if( $ruleKey == "mandatory" )
 			{
 				$mandatory	= $ruleValue;
