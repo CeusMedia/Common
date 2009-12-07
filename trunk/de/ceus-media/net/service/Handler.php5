@@ -116,6 +116,10 @@ class Net_Service_Handler extends Net_Service_Response
 		$format		= empty( $requestData['format'] ) ? NULL : $requestData['format'];
 		try
 		{
+			$this->servicePoint->checkServiceDefinition( $service );
+			$formats	= $this->servicePoint->getServiceFormats( $service );
+			if( !in_array( $format, $formats ) )
+				$format	= $this->servicePoint->getDefaultServiceFormat( $service);
 			ob_start();
 			
 			if( isset( $requestData['argumentsGivenByServiceCaller'] ) )

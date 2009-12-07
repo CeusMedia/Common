@@ -95,35 +95,39 @@ class UI_Image_FormulaDiagram extends UI_Image_Drawer
 			$clock = new Alg_Time_Clock ();
 		$xStart		= $this->intervalX->getStart();
 		$xEnd		= $this->intervalX->getEnd();
-		$xDiam		= $this->intervalX->getDiam();
+		$xDiam		= $this->intervalX->getDiameter();
 		$yStart		= $this->intervalY->getStart();
 		$yEnd		= $this->intervalY->getEnd();
-		$yDiam		= $this->intervalY->getDiam();
+		$yDiam		= $this->intervalY->getDiameter();
 
-		$this->create ($xDiam, $yDiam);
-
-#		$col	= $this->allocateColor( $this->backRed, $this->backGreen, $this->backBlue );
-		$col1	= $this->allocateColor( $this->arcRed, $this->arcGreen, $this->arcBlue );
-		$grcol	= $this->allocateColor( $this->gridRed, $this->gridGreen, $this->gridBlue );
+		$image		= new UI_Image_Creator();
+		$image->create ($xDiam, $yDiam);
+	
+		parent::__construct( $image->getResource() );
+		
+		$colorBackground	= $this->getColor( $this->backRed, $this->backGreen, $this->backBlue );
+		$this->fill( $colorBackground );
+		$colorGraph	= $this->getColor( $this->arcRed, $this->arcGreen, $this->arcBlue );
+		$colorGrid	= $this->getColor( $this->gridRed, $this->gridGreen, $this->gridBlue );
 		
 		if( $this->grid )
 		{
 			for( $i=0; $i<$xDiam; $i+=$this->grid )									//  horizontal Grid Lines
-				$this->drawLine( $i, 0, $i, $yDiam, $grcol );
+				$this->drawLine( $i, 0, $i, $yDiam, $colorGrid );
 			for( $i=0; $i<$yDiam; $i+=$this->grid )									//  vertical Grid Lines
-				$this->drawLine( 0, $i, $xDiam, $i,$grcol );
+				$this->drawLine( 0, $i, $xDiam, $i,$colorGrid );
 		}
 		if( $xStart <= 0 && 0 < $xEnd )
 		{
-			$this->drawLine( abs( $xStart ), 0, abs( $xStart ), $yDiam, $col1 );
+			$this->drawLine( abs( $xStart ), 0, abs( $xStart ), $yDiam, $colorGraph );
 			for( $i=50; $i<$yDiam-1; $i+=50 )
-				$this->drawString( abs( $xStart )+5, $i - ( ( strlen( $i ) - 1 ) * 5 ), ( $i + $yStart ) / $this->zoomY, 1, $col1 );	
+				$this->drawString( abs( $xStart )+5, $i - ( ( strlen( $i ) - 1 ) * 5 ), ( $i + $yStart ) / $this->zoomY, 1, $colorGraph );	
 		}			
 		if( $yStart <= 0 && 0 < $yEnd )
 		{
-			$this->drawLine( 0, abs( $yStart ), $xDiam, abs( $yStart ), $col1 );
+			$this->drawLine( 0, abs( $yStart ), $xDiam, abs( $yStart ), $colorGraph );
 			for( $i=50; $i<$xDiam-1; $i+=50 )
-				$this->drawString( $i - ( ( strlen( $i ) - 1 ) * 5 ), abs( $yStart ) + 5, ( $i + $xStart ) / $this->zoomX, 1, $col1 );	
+				$this->drawString( $i - ( ( strlen( $i ) - 1 ) * 5 ), abs( $yStart ) + 5, ( $i + $xStart ) / $this->zoomX, 1, $colorGraph );	
 		}			
 		ob_start();
 		$j=0;
@@ -135,7 +139,7 @@ class UI_Image_FormulaDiagram extends UI_Image_Drawer
 				$x_points[$j] = $x + abs( $xStart );
 				$y_points[$j] = ( ( -1 ) * $this->yscale() * $value * $this->zoomY ) + abs( $yStart );
 				if( 0 <= $y_points[$j] && $y_points[$j] <= $yDiam )
-					$this->drawPixel( $x_points[$j], $y_points[$j] , $col1 );
+					$this->drawPixel( $x_points[$j], $y_points[$j] , $colorGraph );
 				else
 					print_m( "not drawn: ".$x_points[$j].":".$y_points[$j]." I[".$yStart.";".$yEnd."]" );
 			}
@@ -143,9 +147,9 @@ class UI_Image_FormulaDiagram extends UI_Image_Drawer
 		}
 		ob_end_clean();
 		
-		$this->drawString( 15, $yDiam-15, "f(x)=".$this->formula->getExpression(), 2, $col1 );	
+		$this->drawString( 15, $yDiam-15, "f(x)=".$this->formula->getExpression(), 2, $colorGraph );	
 		if( $stop )
-			$this->drawString( $xDiam-50, $yDiam-15, round( $clock->stop(), 0 )."ms", 2, $col1 );	
+			$this->drawString( $xDiam-50, $yDiam-15, round( $clock->stop(), 0 )."ms", 2, $colorGraph );	
 		$this->show();
 	}
 

@@ -144,11 +144,11 @@ class Net_Service_Point implements Net_Service_Interface_Point
 
 	/**
 	 *	Checks Service and throws Exception if Service is not existing.
-	 *	@access		protected
+	 *	@access		public
 	 *	@param		string			$serviceName		Name of Service to call 
 	 *	@return		void	
 	 */
-	protected function checkServiceDefinition( $serviceName )
+	public function checkServiceDefinition( $serviceName )
 	{
 		if( !isset( $this->services['services'][$serviceName] ) )
 			throw new BadFunctionCallException( 'Service "'.$serviceName.'" is not existing' );
