@@ -155,5 +155,19 @@ class Framework_Neon_Language extends ADT_OptionObject
 		$file	= new File_Writer( $url, 0750 );
 		$file->writeString( $content );
 	}
+	
+	public function setCachePath( $path )
+	{
+		$session	= $this->ref->get( 'session' );
+		$language	= $session->get( 'language' );
+		$this->setOption( 'path_cache', $path.$language."/" );
+	}
+	
+	public function setFilePath( $path )
+	{
+		$session	= $this->ref->get( 'session' );
+		$language	= $session->get( 'language' );
+		$this->setOption( 'path_files', $path.$language."/" );
+	}
 }
 ?>
