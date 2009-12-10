@@ -80,12 +80,12 @@ class UI_HTML_Panel
 	 *	Builds HTML Code of Panel statically.
 	 *	@access		public
 	 *	@static
-	 *	@param		string		$id				Tag ID of Panel
-	 *	@param		string		$header			Content of Header
-	 *	@param		string		$content		Content of Panel
-	 *	@param		string		$footer			Content of Footer
-	 *	@param		string		$theme			Theme / additional CSS Class of Panel
-	 *	@param		array		$attributes		Map of Attributes of Panel DIV
+	 *	@param		string		$id					Tag ID of Panel
+	 *	@param		string		$header				Content of Header
+	 *	@param		string		$content			Content of Panel
+	 *	@param		string		$footer				Content of Footer
+	 *	@param		string		$theme				Theme / additional CSS Class of Panel
+	 *	@param		array		$attributes			Map of Attributes of Panel DIV
 	 *	@return		string
 	 */
 	public static function create( $id, $header, $content, $footer = NULL, $theme= "default", $attributes = array() )
@@ -115,8 +115,8 @@ class UI_HTML_Panel
 	/**
 	 *	Set an Attributes of Panel DIV.
 	 *	@access		public
-	 *	@param		string		$key			Key of Attribute
-	 *	@param		string		$value			Value of Attribute
+	 *	@param		string		$key				Key of Attribute
+	 *	@param		string		$value				Value of Attribute
 	 *	@return		void
 	 */
 	public function setAttribute( $key, $value )
@@ -127,7 +127,7 @@ class UI_HTML_Panel
 	/**
 	 *	Sets a Map of Attributes of Panel DIV.
 	 *	@access		public
-	 *	@param		array		$attributes		Map of Attribute
+	 *	@param		array		$attributes			Map of Attribute
 	 *	@return		void
 	 */
 	public function setAttributes( $attributes )
@@ -139,7 +139,7 @@ class UI_HTML_Panel
 	/**
 	 *	Sets Content of Panel.
 	 *	@access		public
-	 *	@param		string		$content		Content of Panel
+	 *	@param		string		$content			Content of Panel
 	 *	@return		void
 	 */
 	public function setContent( $content )
@@ -150,7 +150,7 @@ class UI_HTML_Panel
 	/**
 	 *	Sets Footer Content of Panel.
 	 *	@access		public
-	 *	@param		string		$content		Footer Content of Panel
+	 *	@param		string		$content			Footer Content of Panel
 	 *	@return		void
 	 */
 	public function setFooter( $footer )
@@ -161,7 +161,7 @@ class UI_HTML_Panel
 	/**
 	 *	Sets Header Content of Panel.
 	 *	@access		public
-	 *	@param		string		$content		Header Content of Panel
+	 *	@param		string		$content			Header Content of Panel
 	 *	@return		void
 	 */
 	public function setHeader( $header )
@@ -173,9 +173,9 @@ class UI_HTML_Panel
 	 *	Wraps Content in DIV.
 	 *	@access		protected
 	 *	@static
-	 *	@param		string		$content		...
-	 *	@param		string		$class			CSS Class of DIV
-	 *	@param		array		$attributes		Array of Attributes
+	 *	@param		string		$content			...
+	 *	@param		string		$class				CSS Class of DIV
+	 *	@param		array		$attributes			Array of Attributes
 	 *	@return		string
 	 */
 	protected static function wrap( $content, $class, $attributes = array() )
