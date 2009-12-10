@@ -72,7 +72,7 @@ class Exception_Template extends RuntimeException
 			case EXCEPTION_TEMPLATE_LABELS_NOT_USED:
 				$this->labels	= $data;
 				$message		= self::$messages[EXCEPTION_TEMPLATE_LABELS_NOT_USED];
-				$message		= sprintf( $message, $fileName, implode( ", ", $data ) );
+				$message		= sprintf( $message, $fileName, implode( ", ", array_unique( $data ) ) );
 				parent::__construct( $message, EXCEPTION_TEMPLATE_LABELS_NOT_USED );
 				break;
 			case EXCEPTION_TEMPLATE_FILE_NOT_FOUND:
