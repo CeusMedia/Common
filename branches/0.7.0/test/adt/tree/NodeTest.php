@@ -1,26 +1,25 @@
 <?php
 /**
- *	TestUnit of ADT_Tree_Node.
+ *	TestUnit of Test_ADT_Tree_Node.
  *	@package		Tests.adt.tree
  *	@extends		PHPUnit_Framework_TestCase
- *	@uses			ADT_Tree_Node
+ *	@uses			Test_ADT_Tree_Node
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			12.07.2008
  *	@version		0.1
  */
-require_once( 'PHPUnit/Framework/TestCase.php' ); 
-require_once '../autoload.php5';
-import( 'de.ceus-media.adt.tree.Node' );
+require_once 'PHPUnit/Framework/TestCase.php';
+require_once 'test/initLoaders.php5';
 /**
- *	TestUnit of ADT_Tree_Node.
+ *	TestUnit of Test_ADT_Tree_Node.
  *	@package		Tests.adt.tree
  *	@extends		PHPUnit_Framework_TestCase
- *	@uses			ADT_Tree_Node
+ *	@uses			Test_ADT_Tree_Node
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			12.07.2008
  *	@version		0.1
  */
-class ADT_Tree_NodeTest extends PHPUnit_Framework_TestCase
+class Test_ADT_Tree_NodeTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 *	Constructor.

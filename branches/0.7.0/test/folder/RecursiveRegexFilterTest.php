@@ -2,24 +2,21 @@
 /**
  *	TestUnit of recursive RegexFilter for Folders.
  *	@package		Tests.folder
- *	@extends		Folder_TestCase
- *	@uses			Folder_RecursiveRegexFilter
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			21.04.2008
  *	@version		0.1
  */
-require_once( 'folder/TestCase.php' );
-import( 'de.ceus-media.folder.RecursiveRegexFilter' );
+require_once 'test/initLoaders.php5';
 /**
  *	TestUnit of recursive RegexFilter for Folders.
  *	@package		Tests.folder
- *	@extends		Folder_TestCase
+ *	@extends		Test_Folder_TestCase
  *	@uses			Folder_RecursiveRegexFilter
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			21.04.2008
  *	@version		0.1
  */
-class Folder_RecursiveRegexFilterTest extends Folder_TestCase
+class Test_Folder_RecursiveRegexFilterTest extends Test_Folder_TestCase
 {
 	/**
 	 *	Constructor.

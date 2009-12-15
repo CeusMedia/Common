@@ -8,9 +8,8 @@
  *	@since			19.06.2008
  *	@version		0.1
  */
-require_once( 'PHPUnit/Framework/TestCase.php' ); 
-require_once '../autoload.php5';
-import( 'de.ceus-media.alg.validation.LanguageValidator' );
+require_once 'PHPUnit/Framework/TestCase.php';
+require_once 'test/initLoaders.php5';
 /**
  *	TestUnit of Alg_Validation_LanguageValidator.
  *	@package		Tests.alg.validation
@@ -20,7 +19,7 @@ import( 'de.ceus-media.alg.validation.LanguageValidator' );
  *	@since			19.06.2008
  *	@version		0.1
  */
-class Alg_Validation_LanguageValidatorTest extends PHPUnit_Framework_TestCase
+class Test_Alg_Validation_LanguageValidatorTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 *	Constructor.

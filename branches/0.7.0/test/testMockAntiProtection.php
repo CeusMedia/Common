@@ -40,7 +40,7 @@ catch( MockBadVarCallException $e )
 
 //  --  STATIC ACCESS  --  //
 MockAntiProtection::createMockClass( 'A' );
-$value	= A_MockAntiProtection::getProtectedStaticVar( 'valueStatic' );
+$value	= Test_A_MockAntiProtection::getProtectedStaticVar( 'valueStatic' );
 remark( "getProtectedStaticVar( 'valueStatic' ): ".$value );
 try
 {

@@ -9,11 +9,8 @@
  *	@since			02.07.2008
  *	@version		0.1
  */
-require_once( 'PHPUnit/Framework/TestCase.php' ); 
-require_once '../autoload.php5';
-require_once( 'TestObject.php5' );
-import( 'de.ceus-media.database.pdo.Connection' );
-import( 'de.ceus-media.database.pdo.TableReader' );
+require_once 'PHPUnit/Framework/TestCase.php'; 
+require_once 'test/initLoaders.php5';
 /**
  *	TestUnit of Database_PDO_TableReader.
  *	@package		Tests.database.pdo
@@ -24,7 +21,7 @@ import( 'de.ceus-media.database.pdo.TableReader' );
  *	@since			02.07.2008
  *	@version		0.1
  */
-class Database_PDO_TableReaderTest extends PHPUnit_Framework_TestCase
+class Test_Database_PDO_TableReaderTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 *	Constructor.
@@ -1056,7 +1053,7 @@ class Database_PDO_TableReaderTest extends PHPUnit_Framework_TestCase
 	public function testSetDBConnection2()
 	{
 		$this->setExpectedException( 'InvalidArgumentException' );
-		$this->reader->setDBConnection( new TestObject );
+		$this->reader->setDBConnection( new Test_Object );
 	}
 
 	/**

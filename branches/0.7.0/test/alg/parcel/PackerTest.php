@@ -8,9 +8,8 @@
  *	@since			08.07.2008
  *	@version		0.1
  */
-require_once( 'PHPUnit/Framework/TestCase.php' ); 
-require_once '../autoload.php5';
-import( 'de.ceus-media.alg.parcel.Packer' );
+require_once 'PHPUnit/Framework/TestCase.php';
+require_once 'test/initLoaders.php5';
 /**
  *	TestUnit of Alg_Parcel_Packer.
  *	@package		Tests.alg.parcel
@@ -20,7 +19,7 @@ import( 'de.ceus-media.alg.parcel.Packer' );
  *	@since			08.07.2008
  *	@version		0.1
  */
-class Alg_Parcel_PackerTest extends PHPUnit_Framework_TestCase
+class Test_Alg_Parcel_PackerTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 *	Constructor.

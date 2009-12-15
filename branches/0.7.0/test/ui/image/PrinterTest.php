@@ -2,24 +2,23 @@
 /**
  *	TestUnit of UI_Image_Printer.
  *	@package		Tests.ui.image
- *	@extends		PHPUnit_Framework_TestCase
- *	@uses			UI_Image_Printer
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			16.06.2008
  *	@version		0.1
  */
-require_once '../autoload.php5';
-require_once( 'PHPUnit/Framework/TestCase.php' ); 
+require_once 'PHPUnit/Framework/TestCase.php';
+require_once 'test/initLoaders.php5';
 /**
  *	TestUnit of Inverter.
  *	@package		Tests.ui.image
  *	@extends		PHPUnit_Framework_TestCase
  *	@uses			UI_Image_Printer
+ *	@uses			File_Reader
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			16.06.2008
  *	@version		0.1
  */
-class UI_Image_PrinterTest extends PHPUnit_Framework_TestCase
+class Test_UI_Image_PrinterTest extends PHPUnit_Framework_TestCase
 {
 	public function __construct()
 	{
@@ -95,9 +94,8 @@ class UI_Image_PrinterTest extends PHPUnit_Framework_TestCase
 		$printer	= new UI_Image_Printer( $resource );
 		$printer->save( $this->path."targetPrinter.png", UI_Image_Printer::TYPE_PNG, 0 );
 				
-		$assertion	= file_get_contents( $this->path."sourceCreator.png" );
-		$creation	= file_get_contents( $this->path."targetPrinter.png" );
-		$this->assertEquals( $assertion, $creation );
+		$file		= new File_Reader( $this->path."targetPrinter.png" );
+		$this->assertTrue( $file->equals( $this->path."sourceCreator.png" ) );
 	}
 		
 	public function testSaveJpeg()
@@ -116,10 +114,9 @@ class UI_Image_PrinterTest extends PHPUnit_Framework_TestCase
 		$resource	= imagecreatefromgif( $this->path."sourceCreator.gif" );
 		$printer	= new UI_Image_Printer( $resource );
 		$printer->save( $this->path."targetPrinter.gif", UI_Image_Printer::TYPE_GIF, 0 );
-				
-		$assertion	= file_get_contents( $this->path."sourceCreator.gif" );
-		$creation	= file_get_contents( $this->path."targetPrinter.gif" );
-		$this->assertEquals( $assertion, $creation );
+
+		$file		= new File_Reader( $this->path."targetPrinter.gif" );
+		$this->assertTrue( $file->equals( $this->path."sourceCreator.gif" ) );
 	}
 
 	public function testSaveException()

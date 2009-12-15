@@ -2,15 +2,12 @@
 /**
  *	TestUnit of XML Element.
  *	@package		Tests.xml
- *	@extends		PHPUnit_Framework_TestCase
- *	@uses			XML_Element
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			20.02.2008
  *	@version		0.1
  */
-require_once( 'PHPUnit/Framework/TestCase.php' ); 
-require_once '../autoload.php5';
-import( 'de.ceus-media.xml.Element' );
+require_once 'PHPUnit/Framework/TestCase.php';
+require_once 'test/initLoaders.php5';
 /**
  *	TestUnit of XML Element.
  *	@package		Tests.xml
@@ -20,7 +17,7 @@ import( 'de.ceus-media.xml.Element' );
  *	@since			20.02.2008
  *	@version		0.1
  */
-class XML_ElementTest extends PHPUnit_Framework_TestCase
+class Test_XML_ElementTest extends PHPUnit_Framework_TestCase
 {
 	protected $fileRead		= "xml/element_read.xml";
 	protected $fileWrite	= "xml/element_write.xml";

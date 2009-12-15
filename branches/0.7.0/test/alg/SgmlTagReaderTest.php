@@ -2,15 +2,12 @@
 /**
  *	TestUnit of Alg_SgmlTagReader.
  *	@package		Tests.alg
- *	@extends		PHPUnit_Framework_TestCase
- *	@uses			Alg_SgmlTagReader
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			03.08.2008
  *	@version		0.1
  */
-require_once( 'PHPUnit/Framework/TestCase.php' ); 
-require_once '../autoload.php5';
-import( 'de.ceus-media.alg.SgmlTagReader' );
+require_once 'PHPUnit/Framework/TestCase.php';
+require_once 'test/initLoaders.php5';
 /**
  *	TestUnit of Alg_SgmlTagReader.
  *	@package		Tests.alg
@@ -20,7 +17,7 @@ import( 'de.ceus-media.alg.SgmlTagReader' );
  *	@since			03.08.2008
  *	@version		0.1
  */
-class Alg_SgmlTagReaderTest extends PHPUnit_Framework_TestCase
+class Test_Alg_SgmlTagReaderTest extends PHPUnit_Framework_TestCase
 {
 	public $tag1	= '<a href="http://google.com/" target="_blank" class=\'test-class other\'>Google</a>';
 	public $tag2	= '<body font-color="#FF0000" onFocus="this.blur()">';

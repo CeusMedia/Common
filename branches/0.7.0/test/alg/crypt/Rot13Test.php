@@ -2,15 +2,12 @@
 /**
  *	TestUnit of Rot13.
  *	@package		Tests.alg.crypt
- *	@extends		PHPUnit_Framework_TestCase
- *	@uses			Alg_Crypt_Rot13
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			14.02.2008
  *	@version		0.1
  */
 require_once 'PHPUnit/Framework/TestCase.php'; 
-require_once '../autoload.php5';
-import( 'de.ceus-media.alg.crypt.Rot13' );
+require_once 'test/initLoaders.php5';
 /**
  *	TestUnit of Rot13.
  *	@package		Tests.alg.crypt
@@ -20,7 +17,7 @@ import( 'de.ceus-media.alg.crypt.Rot13' );
  *	@since			14.02.2008
  *	@version		0.1
  */
-class Alg_Crypt_Rot13Test extends PHPUnit_Framework_TestCase
+class Test_Alg_Crypt_Rot13Test extends PHPUnit_Framework_TestCase
 {
 	public function testEncrypt()
 	{

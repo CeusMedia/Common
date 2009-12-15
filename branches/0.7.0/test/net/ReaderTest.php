@@ -2,15 +2,12 @@
 /**
  *	TestUnit of Net Reader.
  *	@package		Tests.net
- *	@extends		PHPUnit_Framework_TestCase
- *	@uses			Net_Reader
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			21.02.2008
  *	@version		0.1
  */
-require_once( 'PHPUnit/Framework/TestCase.php' ); 
-require_once '../autoload.php5';
-import( 'de.ceus-media.net.Reader' );
+require_once 'PHPUnit/Framework/TestCase.php';
+require_once 'test/initLoaders.php5';
 /**
  *	TestUnit of Net Reader.
  *	@package		Tests.net
@@ -20,7 +17,7 @@ import( 'de.ceus-media.net.Reader' );
  *	@since			21.02.2008
  *	@version		0.1
  */
-class Net_ReaderTest extends PHPUnit_Framework_TestCase
+class Test_Net_ReaderTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 *	Constructor.

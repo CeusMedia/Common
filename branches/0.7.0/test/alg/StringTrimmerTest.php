@@ -2,15 +2,12 @@
 /**
  *	TestUnit of Alg_StringTrimmer.
  *	@package		Tests.alg
- *	@extends		PHPUnit_Framework_TestCase
- *	@uses			Alg_StringTrimmer
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			27.10.2008
  *	@version		0.1
  */
-require_once( 'PHPUnit/Framework/TestCase.php' ); 
-require_once '../autoload.php5';
-import( 'de.ceus-media.alg.StringTrimmer' );
+require_once 'PHPUnit/Framework/TestCase.php';
+require_once 'test/initLoaders.php5';
 /**
  *	TestUnit of Alg_StringTrimmer.
  *	@package		Tests.alg
@@ -20,7 +17,7 @@ import( 'de.ceus-media.alg.StringTrimmer' );
  *	@since			27.10.2008
  *	@version		0.1
  */
-class Alg_StringTrimmerTest extends PHPUnit_Framework_TestCase
+class Test_Alg_StringTrimmerTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 *	Constructor.

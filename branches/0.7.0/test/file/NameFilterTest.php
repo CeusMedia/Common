@@ -2,15 +2,12 @@
 /**
  *	TestUnit of File_NameFilter.
  *	@package		Tests.file
- *	@extends		PHPUnit_Framework_TestCase
- *	@uses			File_NameFilter
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			15.06.2008
  *	@version		0.1
  */
-require_once( 'PHPUnit/Framework/TestCase.php' ); 
-require_once '../autoload.php5';
-import( 'de.ceus-media.file.NameFilter' );
+require_once 'PHPUnit/Framework/TestCase.php';
+require_once 'test/initLoaders.php5';
 /**
  *	TestUnit of File_NameFilter.
  *	@package		Tests.file
@@ -20,7 +17,7 @@ import( 'de.ceus-media.file.NameFilter' );
  *	@since			15.06.2008
  *	@version		0.1
  */
-class File_NameFilterTest extends PHPUnit_Framework_TestCase
+class Test_File_NameFilterTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 *	Constructor.

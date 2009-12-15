@@ -2,17 +2,12 @@
 /**
  *	TestUnit of Math_FormulaProduct.
  *	@package		Tests.math
- *	@extends		PHPUnit_Framework_TestCase
- *	@uses			Math_FormulaProduct
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			17.06.2008
  *	@version		0.1
  */
-require_once( 'PHPUnit/Framework/TestCase.php' ); 
-require_once '../autoload.php5';
-import( 'de.ceus-media.math.Formula' );
-import( 'de.ceus-media.math.CompactInterval' );
-import( 'de.ceus-media.math.FormulaProduct' );
+require_once 'PHPUnit/Framework/TestCase.php';
+require_once 'test/initLoaders.php5';
 /**
  *	TestUnit of Math_FormulaProduct.
  *	@package		Tests.math
@@ -22,7 +17,7 @@ import( 'de.ceus-media.math.FormulaProduct' );
  *	@since			17.06.2008
  *	@version		0.1
  */
-class Math_FormulaProductTest extends PHPUnit_Framework_TestCase
+class Test_Math_FormulaProductTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 *	Constructor.

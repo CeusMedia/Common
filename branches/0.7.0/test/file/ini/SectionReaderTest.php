@@ -2,14 +2,11 @@
 /**
  *	TestUnit of Section INI Reader.
  *	@package		Tests.file.ini
- *	@extends		PHPUnit_Framework_TestCase
- *	@uses			File_INI_SectionReader
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.1
  */
 require_once 'PHPUnit/Framework/TestCase.php'; 
-require_once '../autoload.php5';
-import( 'de.ceus-media.file.ini.SectionReader' );
+require_once 'test/initLoaders.php5';
 /**
  *	TestUnit of Section INI Reader.
  *	@package		Tests.file.ini
@@ -18,14 +15,14 @@ import( 'de.ceus-media.file.ini.SectionReader' );
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.1
  */
-class File_INI_SectionReaderTest extends PHPUnit_Framework_TestCase
+class Test_File_INI_SectionReaderTest extends PHPUnit_Framework_TestCase
 {
-	/**	@var	string		$fileName		URL of Archive File Name */
-	private $fileName		= "file/ini/section.reader.ini";
-
+	/**	@var	string		$fileName		File Name of Test File */
+	private $fileName;
 
 	public function __construct()
 	{
+		$this->fileName	= dirname( __FILE__ )."/section.reader.ini";
 		$this->reader	= new File_INI_SectionReader( $this->fileName );
 	}
 

@@ -2,15 +2,12 @@
 /**
  *	TestUnit of XML_Atom_Validator.
  *	@package		Tests.xml.atom
- *	@extends		PHPUnit_Framework_TestCase
- *	@uses			XML_Atom_Validator
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			14.05.2008
  *	@version		0.1
  */
-require_once( 'PHPUnit/Framework/TestCase.php' ); 
-require_once '../autoload.php5';
-import( 'de.ceus-media.xml.atom.Validator' );
+require_once 'PHPUnit/Framework/TestCase.php';
+require_once 'test/initLoaders.php5';
 /**
  *	TestUnit of XML_Atom_Validator.
  *	@package		Tests.xml.atom
@@ -20,7 +17,7 @@ import( 'de.ceus-media.xml.atom.Validator' );
  *	@since			14.05.2008
  *	@version		0.1
  */
-class XML_Atom_ValidatorTest extends PHPUnit_Framework_TestCase
+class Test_XML_Atom_ValidatorTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 *	Constructor.

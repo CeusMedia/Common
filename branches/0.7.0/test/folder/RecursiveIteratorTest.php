@@ -2,36 +2,22 @@
 /**
  *	TestUnit of recursive Folder Iterator.
  *	@package		Tests.folder
- *	@extends		Folder_TestCase
- *	@uses			Folder_RecursiveIterator
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			21.04.2008
  *	@version		0.1
  */
-require_once( 'folder/TestCase.php' );
-import( 'de.ceus-media.folder.RecursiveIterator' );
+require_once 'test/initLoaders.php5';
 /**
  *	TestUnit of recursive Folder Iterator.
  *	@package		Tests.folder
- *	@extends		Folder_TestCase
+ *	@extends		Test_Folder_TestCase
  *	@uses			Folder_RecursiveIterator
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			21.04.2008
  *	@version		0.1
  */
-class Folder_RecursiveIteratorTest extends Folder_TestCase
+class Test_Folder_RecursiveIteratorTest extends Test_Folder_TestCase
 {
-	/**
-	 *	Constructor.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function __construct()
-	{
-		parent::__construct();
-		$this->path	= dirname( __FILE__ )."/";
-	}
-
 	/**
 	 *	Tests Method '__construct'.
 	 *	@access		public

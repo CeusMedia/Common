@@ -2,36 +2,22 @@
 /**
  *	TestUnit of Folder Indexer.
  *	@package		Tests.folder
- *	@extends		Folder_TestCase
- *	@uses			Folder_Lister
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			21.04.2008
  *	@version		0.1
  */
-require_once( 'folder/TestCase.php' );
-import( 'de.ceus-media.folder.Lister' );
+require_once 'test/initLoaders.php5';
 /**
  *	TestUnit of Folder Indexer.
  *	@package		Tests.folder
- *	@extends		Folder_TestCase
+ *	@extends		Test_Folder_TestCase
  *	@uses			Folder_Lister
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			21.04.2008
  *	@version		0.1
  */
-class Folder_ListerTest extends Folder_TestCase
+class Test_Folder_ListerTest extends Test_Folder_TestCase
 {
-	/**
-	 *	Constructor.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function __construct()
-	{
-		parent::__construct();
-		$this->path	= dirname( __FILE__ )."/folder";
-	}
-	
 	/**
 	 *	Setup for every Test.
 	 *	@access		public
@@ -39,7 +25,7 @@ class Folder_ListerTest extends Folder_TestCase
 	 */
 	public function setUp()
 	{
-		$this->lister1	= new Folder_Lister( $this->path );
+		$this->lister1	= new Folder_Lister( $this->folder );
 		$this->lister2	= new Folder_Lister( "not_existing" );
 	}
 
@@ -121,7 +107,7 @@ class Folder_ListerTest extends Folder_TestCase
 	 */
 	public function testGetFileList()
 	{
-		$index	= Folder_Lister::getFileList( $this->path );
+		$index	= Folder_Lister::getFileList( $this->folder );
 		$list	= $this->getListFromIndex( $index );
 
 		$assertion	= array();
@@ -154,7 +140,7 @@ class Folder_ListerTest extends Folder_TestCase
 	 */
 	public function testGetFileListPatterns()
 	{
-		$index	= Folder_Lister::getFileList( $this->path, "@^file@" );
+		$index	= Folder_Lister::getFileList( $this->folder, "@^file@" );
 		$list	= $this->getListFromIndex( $index );
 		$assertion	= array(
 			'file1.txt',
@@ -163,7 +149,7 @@ class Folder_ListerTest extends Folder_TestCase
 		$creation	= $list['files'];
 		$this->assertEquals( $assertion, $creation );
 
-		$index	= Folder_Lister::getFileList( $this->path, "@^file$@" );
+		$index	= Folder_Lister::getFileList( $this->folder, "@^file$@" );
 		$list	= $this->getListFromIndex( $index );
 		$assertion	= array();
 		$creation	= $list['files'];
@@ -177,7 +163,7 @@ class Folder_ListerTest extends Folder_TestCase
 	 */
 	public function testGetFolderList()
 	{
-		$index	= Folder_Lister::getFolderList( $this->path );
+		$index	= Folder_Lister::getFolderList( $this->folder );
 		$list	= $this->getListFromIndex( $index );
 
 		$assertion	= array( 'sub1', 'sub2' );
@@ -207,13 +193,13 @@ class Folder_ListerTest extends Folder_TestCase
 	 */
 	public function testGetFolderListPatterns()
 	{
-		$index	= Folder_Lister::getFolderList( $this->path, "@sub@" );
+		$index	= Folder_Lister::getFolderList( $this->folder, "@sub@" );
 		$list	= $this->getListFromIndex( $index );
 		$assertion	= array( 'sub1', 'sub2' );
 		$creation	= $list['folders'];
 		$this->assertEquals( $assertion, $creation );
 
-		$index	= Folder_Lister::getFolderList( $this->path, "@^sub1$@" );
+		$index	= Folder_Lister::getFolderList( $this->folder, "@^sub1$@" );
 		$list	= $this->getListFromIndex( $index );
 		$assertion	= array( 'sub1' );
 		$creation	= $list['folders'];
@@ -227,7 +213,7 @@ class Folder_ListerTest extends Folder_TestCase
 	 */
 	public function testGetMixedList()
 	{
-		$index	= Folder_Lister::getMixedList( $this->path );
+		$index	= Folder_Lister::getMixedList( $this->folder );
 		$list	= $this->getListFromIndex( $index );
 
 		$assertion	= array(
@@ -263,7 +249,7 @@ class Folder_ListerTest extends Folder_TestCase
 	 */
 	public function testGetMixedListPatterns()
 	{
-		$index	= Folder_Lister::getMixedList( $this->path, "@sub@" );
+		$index	= Folder_Lister::getMixedList( $this->folder, "@sub@" );
 		$list	= $this->getListFromIndex( $index );
 
 		$assertion	= array( 'sub1', 'sub2' );
@@ -274,7 +260,7 @@ class Folder_ListerTest extends Folder_TestCase
 		$creation	= $list['files'];
 		$this->assertEquals( $assertion, $creation );
 
-		$index	= Folder_Lister::getMixedList( $this->path, "@^sub1$@" );
+		$index	= Folder_Lister::getMixedList( $this->folder, "@^sub1$@" );
 		$list	= $this->getListFromIndex( $index );
 
 		$assertion	= array( 'sub1' );
@@ -285,7 +271,7 @@ class Folder_ListerTest extends Folder_TestCase
 		$creation	= $list['files'];
 		$this->assertEquals( $assertion, $creation );
 
-		$index	= Folder_Lister::getMixedList( $this->path, "@^file@" );
+		$index	= Folder_Lister::getMixedList( $this->folder, "@^file@" );
 		$list	= $this->getListFromIndex( $index );
 
 		$assertion	= array();
@@ -299,7 +285,7 @@ class Folder_ListerTest extends Folder_TestCase
 		$creation	= $list['files'];
 		$this->assertEquals( $assertion, $creation );
 
-		$index	= Folder_Lister::getMixedList( $this->path, "@^file$@" );
+		$index	= Folder_Lister::getMixedList( $this->folder, "@^file$@" );
 		$list	= $this->getListFromIndex( $index );
 
 		$assertion	= array();
@@ -318,7 +304,7 @@ class Folder_ListerTest extends Folder_TestCase
 	 */
 	public function testGetMixedListShowHidden()
 	{
-		$index	= Folder_Lister::getMixedList( $this->path, NULL, FALSE );
+		$index	= Folder_Lister::getMixedList( $this->folder, NULL, FALSE );
 		$list	= $this->getListFromIndex( $index );
 
 		$assertion	= array(
@@ -341,7 +327,7 @@ class Folder_ListerTest extends Folder_TestCase
 		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
 
-		$index	= Folder_Lister::getMixedList( $this->path, "@sub3$@", FALSE );
+		$index	= Folder_Lister::getMixedList( $this->folder, "@sub3$@", FALSE );
 		$list	= $this->getListFromIndex( $index );
 
 		$assertion	= array( '.sub3' );

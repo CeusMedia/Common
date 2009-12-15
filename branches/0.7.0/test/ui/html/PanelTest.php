@@ -2,13 +2,11 @@
 /**
  *	TestUnit of UI_HTML_Panel.
  *	@package		Tests.
- *	@extends		PHPUnit_Framework_TestCase
- *	@uses			UI_HTML_Panel
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			07.09.2008
  *	@version		0.1
  */
-require_once( 'PHPUnit/Framework/TestCase.php' ); 
+require_once 'PHPUnit/Framework/TestCase.php';
 /**
  *	TestUnit of UI_HTML_Panel.
  *	@package		Tests.
@@ -18,7 +16,7 @@ require_once( 'PHPUnit/Framework/TestCase.php' );
  *	@since			07.09.2008
  *	@version		0.1
  */
-class UI_HTML_PanelTest extends PHPUnit_Framework_TestCase
+class Test_UI_HTML_PanelTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 *	Constructor.
@@ -160,7 +158,7 @@ class UI_HTML_PanelTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-class UI_HTML_PanelInstance extends UI_HTML_Panel
+class Test_UI_HTML_PanelInstance extends UI_HTML_Panel
 {
 	public function getProtectedVar( $varName )
 	{

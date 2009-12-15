@@ -8,9 +8,8 @@
  *	@since			22.10.2008
  *	@version		0.1
  */
-require_once( 'PHPUnit/Framework/TestCase.php' ); 
-require_once '../autoload.php5';
-import( 'de.ceus-media.alg.CamelCase' );
+require_once 'PHPUnit/Framework/TestCase.php';
+require_once 'test/initLoaders.php5';
 /**
  *	TestUnit of Alg_CamelCase.
  *	@package		Tests.alg
@@ -20,7 +19,7 @@ import( 'de.ceus-media.alg.CamelCase' );
  *	@since			22.10.2008
  *	@version		0.1
  */
-class Alg_CamelCaseTest extends PHPUnit_Framework_TestCase
+class Test_Alg_CamelCaseTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 *	Constructor.

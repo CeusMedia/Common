@@ -2,13 +2,11 @@
 /**
  *	TestUnit of File Writer.
  *	@package		Tests.file
- *	@extends		PHPUnit_Framework_TestCase
- *	@uses			File_Writer
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.1
  */
 require_once 'PHPUnit/Framework/TestCase.php'; 
-require_once '../autoload.php5';
+require_once 'test/initLoaders.php5';
 /**
  *	TestUnit of File Writer.
  *	@package		Tests.file
@@ -17,7 +15,7 @@ require_once '../autoload.php5';
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.1
  */
-class File_WriterTest extends PHPUnit_Framework_TestCase
+class Test_File_WriterTest extends PHPUnit_Framework_TestCase
 {
 	/**	@var	string		$fileName		File Name of Test File */
 	private $fileName;

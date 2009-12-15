@@ -1,18 +1,11 @@
 <?php
 if( !defined( 'PHPUnit_MAIN_METHOD' ) )
-	define( 'PHPUnit_MAIN_METHOD', 'Folder_AllTests::main' );
+	define( 'PHPUnit_MAIN_METHOD', 'Test_Folder_AllTests::main' );
 
 require_once( 'PHPUnit/Framework/TestSuite.php' );
 require_once( 'PHPUnit/TextUI/TestRunner.php' );
-require_once( 'folder/IteratorTest.php' );
-require_once( 'folder/ListerTest.php' );
-require_once( 'folder/RegexFilterTest.php' );
-require_once( 'folder/RecursiveIteratorTest.php' );
-require_once( 'folder/RecursiveListerTest.php' );
-require_once( 'folder/RecursiveRegexFilterTest.php' );
-require_once( 'folder/ReaderTest.php' );
-require_once( 'folder/EditorTest.php' );
-class Folder_AllTests
+require_once 'test/initLoaders.php5';
+class Test_Folder_AllTests
 {
 	public static function main()
 	{
@@ -22,17 +15,17 @@ class Folder_AllTests
 	public static function suite()
 	{
 		$suite = new PHPUnit_Framework_TestSuite( 'cmClasses/Folder' );
-		$suite->addTestSuite( 'Folder_IteratorTest' ); 
-		$suite->addTestSuite( 'Folder_ListerTest' ); 
-		$suite->addTestSuite( 'Folder_RegexFilterTest' );
-		$suite->addTestSuite( 'Folder_RecursiveIteratorTest' ); 
-		$suite->addTestSuite( 'Folder_RecursiveListerTest' ); 
-		$suite->addTestSuite( 'Folder_RecursiveRegexFilterTest' );
-		$suite->addTestSuite( 'Folder_ReaderTest' ); 
-		$suite->addTestSuite( 'Folder_EditorTest' ); 
+		$suite->addTestSuite( 'Test_Folder_IteratorTest' ); 
+		$suite->addTestSuite( 'Test_Folder_ListerTest' ); 
+		$suite->addTestSuite( 'Test_Folder_RegexFilterTest' );
+		$suite->addTestSuite( 'Test_Folder_RecursiveIteratorTest' ); 
+		$suite->addTestSuite( 'Test_Folder_RecursiveListerTest' ); 
+		$suite->addTestSuite( 'Test_Folder_RecursiveRegexFilterTest' );
+		$suite->addTestSuite( 'Test_Folder_ReaderTest' ); 
+		$suite->addTestSuite( 'Test_Folder_EditorTest' ); 
 		return $suite;
 	}
 }
-if( PHPUnit_MAIN_METHOD == 'Folder_AllTests::main' )
-	Folder_AllTests::main();
+if( PHPUnit_MAIN_METHOD == 'Test_Folder_AllTests::main' )
+	Test_Folder_AllTests::main();
 ?>

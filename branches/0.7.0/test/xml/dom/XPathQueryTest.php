@@ -2,15 +2,12 @@
 /**
  *	TestUnit of XML DOM XPath.
  *	@package		Tests.xml.dom
- *	@extends		PHPUnit_Framework_TestCase
- *	@uses			XML_DOM_XPathQuery
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			17.02.2008
  *	@version		0.1
  */
-require_once( 'PHPUnit/Framework/TestCase.php' ); 
-require_once '../autoload.php5';
-import( 'de.ceus-media.xml.dom.XPathQuery' );
+require_once 'PHPUnit/Framework/TestCase.php';
+require_once 'test/initLoaders.php5';
 /**
  *	TestUnit of XML DOM XPath.
  *	@package		Tests.xml.dom
@@ -20,9 +17,8 @@ import( 'de.ceus-media.xml.dom.XPathQuery' );
  *	@since			17.02.2008
  *	@version		0.1
  */
-class XML_DOM_XPathQueryTest extends PHPUnit_Framework_TestCase
+class Test_XML_DOM_XPathQueryTest extends PHPUnit_Framework_TestCase
 {
-	protected $xmlFile	= "xml/dom/books.xml";
 	protected $xmlUrl	= "http://www.w3schools.com/xquery/books.xml";
 
 	/**
@@ -32,6 +28,7 @@ class XML_DOM_XPathQueryTest extends PHPUnit_Framework_TestCase
 	 */
 	public function setUp()
 	{
+		$this->xmlFile	= dirname( __FILE__ ).'/books.xml';
 		$this->xPath	= new XML_DOM_XPathQuery();
 	}
 

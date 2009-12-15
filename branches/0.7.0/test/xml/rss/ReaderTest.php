@@ -2,15 +2,12 @@
 /**
  *	TestUnit of XML RSS Reader.
  *	@package		Tests.xml.rss
- *	@extends		PHPUnit_Framework_TestCase
- *	@uses			XML_RSS_Reader
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			20.02.2008
  *	@version		0.1
  */
 require_once 'PHPUnit/Framework/TestCase.php'; 
-require_once '../autoload.php5';
-import( 'de.ceus-media.xml.rss.Reader' );
+require_once 'test/initLoaders.php5';
 /**
  *	TestUnit of XML RSS Reader.
  *	@package		Tests.xml.rss
@@ -20,12 +17,10 @@ import( 'de.ceus-media.xml.rss.Reader' );
  *	@since			20.02.2008
  *	@version		0.1
  */
-class XML_RSS_ReaderTest extends PHPUnit_Framework_TestCase
+class Test_XML_RSS_ReaderTest extends PHPUnit_Framework_TestCase
 {
 	
 	protected $url		= "http://www.rssboard.org/files/sample-rss-2.xml";
-	protected $file		= "xml/rss/reader.xml";
-	protected $serial	= "xml/rss/reader.serial";
 
 	/**
 	 *	Sets up Leaf.
@@ -34,6 +29,8 @@ class XML_RSS_ReaderTest extends PHPUnit_Framework_TestCase
 	 */
 	public function setUp()
 	{
+		$this->file		= dirname( __FILE__ )."/reader.xml";
+		$this->serial	= dirname( __FILE__ )."/reader.serial";
 		$this->reader	= new XML_RSS_Reader();
 	}
 

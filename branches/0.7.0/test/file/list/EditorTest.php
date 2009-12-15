@@ -2,14 +2,11 @@
 /**
  *	TestUnit of List Editor
  *	@package		Tests.file.list
- *	@extends		PHPUnit_Framework_TestCase
- *	@uses			File_List_Editor
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.1
  */
 require_once 'PHPUnit/Framework/TestCase.php'; 
-require_once '../autoload.php5'; 
-import( 'de.ceus-media.file.list.Editor' );
+require_once 'test/initLoaders.php5'; 
 /**
  *	TestUnit of List Editor.
  *	@package		Tests.file.list
@@ -18,10 +15,9 @@ import( 'de.ceus-media.file.list.Editor' );
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.1
  */
-class File_List_EditorTest extends PHPUnit_Framework_TestCase
+class Test_File_List_EditorTest extends PHPUnit_Framework_TestCase
 {
 	/**	@var	string		$fileName		URL of Archive File Name */
-	private $fileName		= "file/list/edit.list";
 	
 	/**
 	 *	Set up for every Test.
@@ -30,6 +26,7 @@ class File_List_EditorTest extends PHPUnit_Framework_TestCase
 	 */
 	public function setUp()
 	{
+		$this->fileName	= dirname( __FILE__ )."/edit.list";
 		File_List_Writer::save( $this->fileName, array( "line1", "line2" ) );
 		$this->editor	= new File_List_Editor( $this->fileName );
 	}

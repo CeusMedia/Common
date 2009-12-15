@@ -9,8 +9,7 @@
  *	@version		0.1
  */
 require_once( 'PHPUnit/Framework/TestCase.php' ); 
-require_once '../autoload.php5';
-import( 'de.ceus-media.database.BaseConnection' );
+require_once 'test/initLoaders.php5';
 /**
  *	TestUnit of Database_BaseConnection.
  *	@package		Tests.database
@@ -20,7 +19,7 @@ import( 'de.ceus-media.database.BaseConnection' );
  *	@since			04.05.2008
  *	@version		0.1
  */
-class Database_BaseConnectionTest extends PHPUnit_Framework_TestCase
+class Test_Database_BaseConnectionTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 *	Constructor.
@@ -38,7 +37,7 @@ class Database_BaseConnectionTest extends PHPUnit_Framework_TestCase
 	 */
 	public function setUp()
 	{
-		$this->connection	= new Database_BaseConnectionInstance();
+		$this->connection	= new Test_Database_BaseConnectionInstance();
 	}
 	
 	/**
@@ -57,7 +56,7 @@ class Database_BaseConnectionTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testConstruct()
 	{
-		$connection	= new Database_BaseConnectionInstance( "test" );
+		$connection	= new Test_Database_BaseConnectionInstance( "test" );
 
 		$assertion	= "test";
 		$creation	= $connection->getProtectedVar( 'logFile' );
@@ -134,7 +133,7 @@ class Database_BaseConnectionTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-class Database_BaseConnectionInstance extends Database_BaseConnection
+class Test_Database_BaseConnectionInstance extends Database_BaseConnection
 {
 	function getProtectedVar( $key )
 	{

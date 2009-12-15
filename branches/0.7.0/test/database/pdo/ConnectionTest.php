@@ -9,8 +9,7 @@
  *	@version		0.1
  */
 require_once( 'PHPUnit/Framework/TestCase.php' ); 
-require_once '../autoload.php5';
-import( 'de.ceus-media.database.pdo.Connection' );
+require_once 'test/initLoaders.php5';
 /**
  *	TestUnit of Database_PDO_Connection.
  *	@package		Tests.database.pdo
@@ -20,7 +19,7 @@ import( 'de.ceus-media.database.pdo.Connection' );
  *	@since			02.07.2008
  *	@version		0.1
  */
-class Database_PDO_ConnectionTest extends PHPUnit_Framework_TestCase
+class Test_Database_PDO_ConnectionTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 *	Constructor.

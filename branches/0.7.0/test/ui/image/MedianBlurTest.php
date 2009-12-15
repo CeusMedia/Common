@@ -2,24 +2,23 @@
 /**
  *	TestUnit of Median Blur.
  *	@package		Tests.ui.image
- *	@extends		PHPUnit_Framework_TestCase
- *	@uses			UI_Image_MedianBlur
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			16.02.2008
  *	@version		0.1
  */
-require_once '../autoload.php5';
-require_once( 'PHPUnit/Framework/TestCase.php' ); 
+require_once 'PHPUnit/Framework/TestCase.php';
+require_once 'test/initLoaders.php5';
 /**
  *	TestUnit of Median Blur.
  *	@package		Tests.ui.image
  *	@extends		PHPUnit_Framework_TestCase
  *	@uses			UI_Image_MedianBlur
+ *	@uses			File_Reader
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			16.02.2008
  *	@version		0.1
  */
-class UI_Image_MedianBlurTest extends PHPUnit_Framework_TestCase
+class Test_UI_Image_MedianBlurTest extends PHPUnit_Framework_TestCase
 {
 	public function __construct()
 	{
@@ -48,9 +47,8 @@ class UI_Image_MedianBlurTest extends PHPUnit_Framework_TestCase
 		$creation	= file_exists( $targetFile );
 		$this->assertEquals( $assertion, $creation );
 
-		$assertion	= file_get_contents( $assertFile );
-		$creation	= file_get_contents( $targetFile );
-		$this->assertEquals( $assertion, $creation );
+		$file		= new File_Reader( $assertFile );
+		$this->assertTrue( $file->equals( $targetFile ) );
 	}
 
 	public function testBlurJpg()
@@ -68,9 +66,8 @@ class UI_Image_MedianBlurTest extends PHPUnit_Framework_TestCase
 		$creation	= file_exists( $targetFile );
 		$this->assertEquals( $assertion, $creation );
 
-		$assertion	= file_get_contents( $assertFile );
-		$creation	= file_get_contents( $targetFile );
-		$this->assertEquals( $assertion, $creation );
+		$file		= new File_Reader( $assertFile );
+		$this->assertTrue( $file->equals( $targetFile ) );
 	}
 
 	public function testBlurPng()
@@ -88,9 +85,8 @@ class UI_Image_MedianBlurTest extends PHPUnit_Framework_TestCase
 		$creation	= file_exists( $targetFile );
 		$this->assertEquals( $assertion, $creation );
 
-		$assertion	= file_get_contents( $assertFile );
-		$creation	= file_get_contents( $targetFile );
-		$this->assertEquals( $assertion, $creation );
+		$file		= new File_Reader( $assertFile );
+		$this->assertTrue( $file->equals( $targetFile ) );
 	}
 
 	public function testBlurExceptions()

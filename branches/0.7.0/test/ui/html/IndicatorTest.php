@@ -2,14 +2,12 @@
 /**
  *	TestUnit of UI_HTML_Indicator.
  *	@package		Tests.ui.html
- *	@extends		PHPUnit_Framework_TestCase
- *	@uses			UI_HTML_Indicator
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			09.07.2008
  *	@version		0.1
  */
-require_once '../autoload.php5';
-require_once( 'PHPUnit/Framework/TestCase.php' ); 
+require_once 'PHPUnit/Framework/TestCase.php';
+require_once 'test/initLoaders.php5';
 /**
  *	TestUnit of UI_HTML_Indicator.
  *	@package		Tests.ui.html
@@ -19,7 +17,7 @@ require_once( 'PHPUnit/Framework/TestCase.php' );
  *	@since			09.07.2008
  *	@version		0.1
  */
-class UI_HTML_IndicatorTest extends PHPUnit_Framework_TestCase
+class Test_UI_HTML_IndicatorTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 *	Constructor.

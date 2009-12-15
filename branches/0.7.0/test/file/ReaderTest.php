@@ -2,13 +2,11 @@
 /**
  *	TestUnit of File Reader.
  *	@package		Tests.file
- *	@extends		PHPUnit_Framework_TestCase
- *	@uses			File_Reader
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.1
  */
 require_once 'PHPUnit/Framework/TestCase.php'; 
-require_once '../autoload.php5';
+require_once 'test/initLoaders.php5';
 /**
  *	TestUnit of File Reader.
  *	@package		Tests.file
@@ -17,10 +15,10 @@ require_once '../autoload.php5';
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.1
  */
-class File_ReaderTest extends PHPUnit_Framework_TestCase
+class Test_File_ReaderTest extends PHPUnit_Framework_TestCase
 {
 	/**	@var	string		$fileName		File Name of Test File */
-	private $fileName		= "file/reader.test";
+	private $fileName;
 	/**	@var	string		$fileContent	Content of Test File */
 	private $fileContent	= "line1\nline2\n";
 
@@ -31,6 +29,7 @@ class File_ReaderTest extends PHPUnit_Framework_TestCase
 	 */
 	public function __construct()
 	{
+		$this->fileName	= dirname( __FILE__ )."/reader.test";
 		$this->reader	= new File_Reader( $this->fileName );
 	}
 

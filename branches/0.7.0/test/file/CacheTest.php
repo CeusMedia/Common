@@ -2,15 +2,12 @@
 /**
  *	TestUnit of File_Cache.
  *	@package		Tests.file
- *	@extends		PHPUnit_Framework_TestCase
- *	@uses			File_Cache
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			19.04.2009
  *	@version		0.1
  */
 require_once 'PHPUnit/Framework/TestCase.php'; 
-require_once '../autoload.php5';
-require_once 'MockAntiProtection.php';
+require_once 'test/initLoaders.php5';
 /**
  *	TestUnit of File_Cache.
  *	@package		Tests.file
@@ -20,7 +17,7 @@ require_once 'MockAntiProtection.php';
  *	@since			19.04.2009
  *	@version		0.1
  */
-final class File_CacheTest extends PHPUnit_Framework_TestCase
+final class Test_File_CacheTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 *	Constructor.
@@ -29,7 +26,7 @@ final class File_CacheTest extends PHPUnit_Framework_TestCase
 	 */
 	public function __construct()
 	{
-		MockAntiProtection::createMockClass( 'File_Cache' );
+		Test_MockAntiProtection::createMockClass( 'File_Cache' );
 		$this->path			= dirname( __FILE__ )."/";
 		$this->pathCache	= $this->path."__cacheTestPath/";
 	}
@@ -71,7 +68,7 @@ final class File_CacheTest extends PHPUnit_Framework_TestCase
 	 */
 	public function test__construct1()
 	{
-		$mock		= new File_Cache_MockAntiProtection( $this->pathCache );
+		$mock		= new Test_File_Cache_MockAntiProtection( $this->pathCache );
 		$assertion	= $this->pathCache;
 		$creation	= $mock->getProtectedVar( 'path' );
 		$this->assertEquals( $assertion, $creation );
@@ -85,7 +82,7 @@ final class File_CacheTest extends PHPUnit_Framework_TestCase
 	public function test__construct2()
 	{
 		$path		= substr( $this->pathCache, 0, -1 ); 
-		$mock		= new File_Cache_MockAntiProtection( $path );
+		$mock		= new Test_File_Cache_MockAntiProtection( $path );
 		$assertion	= $this->pathCache;
 		$creation	= $mock->getProtectedVar( 'path' );
 		$this->assertEquals( $assertion, $creation );
@@ -270,7 +267,7 @@ final class File_CacheTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGet5()
 	{
-		$mock	= new File_Cache_MockAntiProtection( $this->pathCache );
+		$mock	= new Test_File_Cache_MockAntiProtection( $this->pathCache );
 		$mock->setProtectedVar( 'data', array( 'testKey' => 'testValue' ) );
 
 		$assertion	= NULL;
@@ -351,7 +348,7 @@ final class File_CacheTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testHas5()
 	{
-		$mock	= new File_Cache_MockAntiProtection( $this->pathCache );
+		$mock	= new Test_File_Cache_MockAntiProtection( $this->pathCache );
 		$mock->setProtectedVar( 'data', array( 'testKey' => 'testValue' ) );
 
 		$assertion	= FALSE;
@@ -385,7 +382,7 @@ final class File_CacheTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testSet()
 	{
-		$mock	= new File_Cache_MockAntiProtection( $this->pathCache );
+		$mock	= new Test_File_Cache_MockAntiProtection( $this->pathCache );
 		$mock->set( 'testKey', "testValue" );
 
 		$assertion	= array( 'testKey' => "testValue" );

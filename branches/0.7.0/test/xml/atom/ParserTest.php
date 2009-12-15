@@ -2,15 +2,12 @@
 /**
  *	TestUnit of XML_Atom_Parser.
  *	@package		Tests.xml.atom
- *	@extends		PHPUnit_Framework_TestCase
- *	@uses			XML_Atom_Parser
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			14.05.2008
  *	@version		0.1
  */
-require_once( 'PHPUnit/Framework/TestCase.php' ); 
-require_once '../autoload.php5';
-import( 'de.ceus-media.xml.atom.Parser' );
+require_once 'PHPUnit/Framework/TestCase.php';
+require_once 'test/initLoaders.php5';
 /**
  *	TestUnit of XML_Atom_Parser.
  *	@package		Tests.xml.atom
@@ -20,7 +17,7 @@ import( 'de.ceus-media.xml.atom.Parser' );
  *	@since			14.05.2008
  *	@version		0.1
  */
-class XML_Atom_ParserTest extends PHPUnit_Framework_TestCase
+class Test_XML_Atom_ParserTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 *	Constructor.
@@ -56,7 +53,7 @@ class XML_Atom_ParserTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testConstruct()
 	{
-		$parser	= new XML_Atom_ParserInstance;
+		$parser	= new Test_XML_Atom_ParserInstance;
 		
 		$entry		= $parser->getProtectedVar( 'emptyEntry' );
 		$assertion	= $parser->getProtectedVar( 'emptyText' );
@@ -104,7 +101,7 @@ class XML_Atom_ParserTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-class XML_Atom_ParserInstance extends XML_Atom_Parser
+class Test_XML_Atom_ParserInstance extends XML_Atom_Parser
 {
 	public function getProtectedVar( $varName )
 	{

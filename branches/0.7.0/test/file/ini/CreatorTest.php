@@ -2,15 +2,12 @@
 /**
  *	TestUnit of File_INI_Creator.
  *	@package		Tests.file.ini
- *	@extends		PHPUnit_Framework_TestCase
- *	@uses			File_INI_Creator
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			03.11.2008
  *	@version		0.1
  */
-require_once( 'PHPUnit/Framework/TestCase.php' ); 
-require_once '../autoload.php5';
-import( 'de.ceus-media.file.ini.Creator' );
+require_once 'PHPUnit/Framework/TestCase.php';
+require_once 'test/initLoaders.php5';
 /**
  *	TestUnit of File_INI_Creator.
  *	@package		Tests.file.ini
@@ -20,7 +17,7 @@ import( 'de.ceus-media.file.ini.Creator' );
  *	@since			03.11.2008
  *	@version		0.1
  */
-class File_INI_CreatorTest extends PHPUnit_Framework_TestCase
+class Test_File_INI_CreatorTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 *	Constructor.

@@ -1,18 +1,16 @@
 <?php
 /**
- *	TestUnit of ADT_Object.
+ *	TestUnit of Test_ADT_Object.
  *	@package		Tests.{classPackage}
  *	@extends		PHPUnit_Framework_TestCase
- *	@uses			ADT_Object
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			03.05.2008
  *	@version		0.1
  */
-require_once( 'PHPUnit/Framework/TestCase.php' ); 
-require_once '../autoload.php5';
-import( 'de.ceus-media.adt.Object' );
+require_once 'PHPUnit/Framework/TestCase.php';
+require_once 'test/initLoaders.php5';
 /**
- *	TestUnit of ADT_Object.
+ *	TestUnit of Test_ADT_Object.
  *	@package		Tests.{classPackage}
  *	@extends		PHPUnit_Framework_TestCase
  *	@uses			ADT_Object
@@ -20,7 +18,7 @@ import( 'de.ceus-media.adt.Object' );
  *	@since			03.05.2008
  *	@version		0.1
  */
-class ADT_ObjectTest extends PHPUnit_Framework_TestCase
+class Test_ADT_ObjectTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 *	Constructor.

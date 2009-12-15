@@ -1,26 +1,15 @@
 <?php
 if( !defined('PHPUnit_MAIN_METHOD' ) )
-	define( 'PHPUnit_MAIN_METHOD', 'AllTests::main' );
+	define( 'PHPUnit_MAIN_METHOD', 'Test_AllTests::main' );
 
 error_reporting( E_ALL ^ E_NOTICE );
 
 require_once( 'PHPUnit/Framework/TestSuite.php' );
 require_once( 'PHPUnit/TextUI/TestRunner.php' );
-require_once( 'adt/AllTests.php' );
-require_once( 'alg/AllTests.php' );
-require_once( 'console/AllTests.php' );
-require_once( 'database/AllTests.php' );
-require_once( 'file/AllTests.php' );
-require_once( 'folder/AllTests.php' );
-require_once( 'framework/AllTests.php' );
-require_once( 'math/AllTests.php' );
-require_once( 'net/AllTests.php' );
-require_once( 'ui/AllTests.php' );
-require_once( 'xml/AllTests.php' );
-
+require_once 'test/initLoaders.php5';
 PHPUnit_Util_Filter::addDirectoryToFilter( dirname( __FILE__ ) );
 
-class AllTests
+class Test_AllTests
 {
 	public static function main()
 	{
@@ -30,21 +19,21 @@ class AllTests
 	public static function suite()
 	{
 		$suite = new PHPUnit_Framework_TestSuite( 'cmClasses' );
-		$suite->addTest( ADT_AllTests::suite() );
-		$suite->addTest( Alg_AllTests::suite() );
-		$suite->addTest( Console_AllTests::suite() );
-		$suite->addTest( Database_AllTests::suite() );
-		$suite->addTest( File_AllTests::suite() );
-		$suite->addTest( Folder_AllTests::suite() );
-		$suite->addTest( Framework_AllTests::suite() );
-		$suite->addTest( Math_AllTests::suite() );
-		$suite->addTest( Net_AllTests::suite() );
-		$suite->addTest( UI_AllTests::suite() );
-		$suite->addTest( XML_AllTests::suite() );
+		$suite->addTest( Test_ADT_AllTests::suite() );
+		$suite->addTest( Test_Alg_AllTests::suite() );
+		$suite->addTest( Test_Console_AllTests::suite() );
+		$suite->addTest( Test_Database_AllTests::suite() );
+		$suite->addTest( Test_File_AllTests::suite() );
+		$suite->addTest( Test_Folder_AllTests::suite() );
+//		$suite->addTest( Test_Framework_AllTests::suite() );
+		$suite->addTest( Test_Math_AllTests::suite() );
+		$suite->addTest( Test_Net_AllTests::suite() );
+		$suite->addTest( Test_UI_AllTests::suite() );
+		$suite->addTest( Test_XML_AllTests::suite() );
 		return $suite;
 	}
 }
 
-if( PHPUnit_MAIN_METHOD == 'AllTests::main' )
-	AllTests::main();
+if( PHPUnit_MAIN_METHOD == 'Test_AllTests::main' )
+	Test_AllTests::main();
 ?>

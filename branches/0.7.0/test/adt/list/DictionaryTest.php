@@ -3,22 +3,21 @@
  *	TestUnit of Dictionary
  *	@package		Tests.adt.list
  *	@extends		PHPUnit_Framework_TestCase
- *	@uses			ADT_List_Dictionay
+ *	@uses			Test_ADT_List_Dictionay
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.1
  */
-require_once 'PHPUnit/Framework/TestCase.php'; 
-require_once '../autoload.php5';
-import( 'de.ceus-media.adt.list.Dictionary' );
+require_once 'PHPUnit/Framework/TestCase.php';
+require_once 'test/initLoaders.php5';
 /**
  *	TestUnit of Dictionary
  *	@package		Tests.adt.list
  *	@extends		PHPUnit_Framework_TestCase
- *	@uses			ADT_List_Dictionay
+ *	@uses			Test_ADT_List_Dictionay
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.1
  */
-class ADT_List_DictionaryTest extends PHPUnit_Framework_TestCase
+class Test_ADT_List_DictionaryTest extends PHPUnit_Framework_TestCase
 {
 	/**	@var	array		$list		Instance of Dictionary */
 	private $dictionary;

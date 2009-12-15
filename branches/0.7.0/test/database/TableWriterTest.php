@@ -10,9 +10,7 @@
  *	@version		0.1
  */
 require_once( 'PHPUnit/Framework/TestCase.php' ); 
-require_once '../autoload.php5';
-import( 'de.ceus-media.database.mysql.Connection' );
-import( 'de.ceus-media.database.TableWriter' );
+require_once 'test/initLoaders.php5';
 /**
  *	TestUnit of Database_TableWriter.
  *	@package		Tests.database
@@ -23,7 +21,7 @@ import( 'de.ceus-media.database.TableWriter' );
  *	@since			02.05.2008
  *	@version		0.1
  */
-class Database_TableWriterTest extends PHPUnit_Framework_TestCase
+class Test_Database_TableWriterTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 *	Constructor.

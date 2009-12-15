@@ -3,22 +3,21 @@
  *	Unit Test of Binary Node.
  *	@package		Tests.adt.list
  *	@extends		PHPUnit_Framework_TestCase
- *	@uses			ADT_Tree_BinaryNode
+ *	@uses			Test_ADT_Tree_BinaryNode
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.2
  */
-require_once 'PHPUnit/Framework/TestCase.php'; 
-require_once '../autoload.php5';
-import( 'de.ceus-media.adt.tree.BinaryNode' );
+require_once 'PHPUnit/Framework/TestCase.php';
+require_once 'test/initLoaders.php5';
 /**
  *	Unit Test of Binary Node.
  *	@package		Tests.adt.list
  *	@extends		PHPUnit_Framework_TestCase
- *	@uses			ADT_Tree_BinaryNode
+ *	@uses			Test_ADT_Tree_BinaryNode
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.2
  */
-class ADT_Tree_BinaryNodeTest extends PHPUnit_Framework_TestCase
+class Test_ADT_Tree_BinaryNodeTest extends PHPUnit_Framework_TestCase
 {
 	/**	@var	array		$list		Instance of BinaryTree */
 	private $tree;
@@ -36,6 +35,7 @@ class ADT_Tree_BinaryNodeTest extends PHPUnit_Framework_TestCase
 		$this->tree->add( 1 );
 		$this->tree->add( 4 );
 		$this->tree->add( 5 );
+		$this->path	= dirname( __FILE__ ).'/';
 	}
 
 	/**
@@ -205,10 +205,10 @@ class ADT_Tree_BinaryNodeTest extends PHPUnit_Framework_TestCase
 		$this->tree->add( 5 );
 		$this->tree->add( -1 );
 	
-		$assertion	= file_get_contents( "adt/tree/binary.html" );
+		$assertion	= file_get_contents( $this->path.'binary.html' );
 		$creation	= $this->tree->toTable( true );
-#		file_put_contents( "adt/tree/binary.html", $creation );
+#		file_put_contents( $this->path.'binary.html', $creation );
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>
+?>	

@@ -2,13 +2,11 @@
 /**
  *	TestUnit of Yaml Reader.
  *	@package		Tests.file.list
- *	@extends		PHPUnit_Framework_TestCase
- *	@uses			YamlReader
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.1
  */
 require_once 'PHPUnit/Framework/TestCase.php'; 
-import( 'de.ceus-media.file.list.SectionReader' );
+require_once 'test/initLoaders.php5';
 /**
  *	TestUnit of Yaml Reader.
  *	@package		Tests.file.list
@@ -17,10 +15,11 @@ import( 'de.ceus-media.file.list.SectionReader' );
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.1
  */
-class File_List_SectionReaderTest extends PHPUnit_Framework_TestCase
+class Test_File_List_SectionReaderTest extends PHPUnit_Framework_TestCase
 {
-	/**	@var	string		$fileName		URL of Archive File Name */
-	private $fileName		= "file/list/section.read.list";
+	/**	@var	string		$fileName		File Name of Test File */
+	private $fileName;
+
 	private $sectionList	= array(
 		"section1"	=> array(
 			"line1",
@@ -31,6 +30,11 @@ class File_List_SectionReaderTest extends PHPUnit_Framework_TestCase
 			"line4",
 		),
 	);
+	
+	public function __construct()
+	{
+		$this->fileName		= dirname( __FILE__ )."/section.read.list";
+	}
 
 	public function testRead()
 	{

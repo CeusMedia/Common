@@ -2,14 +2,12 @@
 /**
  *	TestUnit of Tag.
  *	@package		Tests.ui.html
- *	@extends		PHPUnit_Framework_TestCase
- *	@uses			UI_HTML_FormElements
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			22.04.2008
  *	@version		0.1
  */
-require_once '../autoload.php5';
-require_once( 'PHPUnit/Framework/TestCase.php' ); 
+require_once 'PHPUnit/Framework/TestCase.php';
+require_once 'test/initLoaders.php5';
 /**
  *	TestUnit of Gauss Blur.
  *	@package		Tests.ui.html
@@ -19,7 +17,7 @@ require_once( 'PHPUnit/Framework/TestCase.php' );
  *	@since			22.04.2008
  *	@version		0.1
  */
-class UI_HTML_FormElementsTest extends PHPUnit_Framework_TestCase
+class Test_UI_HTML_FormElementsTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 *	Tests Method 'Button'.

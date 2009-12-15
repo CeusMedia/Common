@@ -1,12 +1,13 @@
 <?php
+require_once( dirname( __FILE__ )."/../autoload.php5" );
+
+$loaderLib	= new CMC_Loader( TRUE );																//  get new Loader Instance
+$loaderLib->setExtensions( 'php,php5' );																	//  set allowed Extension
+$loaderLib->setPath( dirname( __FILE__ )."/test/" );													//  set fixed Library Path
+
+
 //  --  LOADERS  --  //
-/*function __autoload( $classname )
-{
-	$filename	= "classes/".str_replace( "_", "/", $classname ).".php5";
-	require_once( $filename );
-}
-*/
-function import( $class )
+/*function import( $class )
 {
 	while( preg_match( "@^-@", $class ) )
 		$class	= preg_replace( "@^(-)*-@", "\\1../", $class ); 
@@ -17,5 +18,6 @@ function import( $class )
 }
 import( 'de.ceus-media.ui.DevOutput' );
 import( 'de.ceus-media.throwException' );
-require_once( 'Tests/MockAntiProtection.php' );
+require_once( 'test/MockAntiProtection.php' );
+*/
 ?>

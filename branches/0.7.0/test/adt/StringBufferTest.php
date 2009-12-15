@@ -1,18 +1,16 @@
 <?php
 /**
- *	TestUnit of ADT_StringBuffer.
+ *	TestUnit of Test_ADT_StringBuffer.
  *	@package		Tests.adt
  *	@extends		PHPUnit_Framework_TestCase
- *	@uses			ADT_StringBuffer
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			21.07.2008
  *	@version		0.1
  */
 require_once( 'PHPUnit/Framework/TestCase.php' ); 
-require_once '../autoload.php5';
-import( 'de.ceus-media.adt.StringBuffer' );
+require_once 'test/initLoaders.php5';
 /**
- *	TestUnit of ADT_StringBuffer.
+ *	TestUnit of Test_ADT_StringBuffer.
  *	@package		Tests.adt
  *	@extends		PHPUnit_Framework_TestCase
  *	@uses			ADT_StringBuffer
@@ -20,7 +18,7 @@ import( 'de.ceus-media.adt.StringBuffer' );
  *	@since			21.07.2008
  *	@version		0.1
  */
-class ADT_StringBufferTest extends PHPUnit_Framework_TestCase
+class Test_ADT_StringBufferTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 *	Constructor.

@@ -2,17 +2,12 @@
 /**
  *	TestUnit of Net_FTP_Reader.
  *	@package		Tests.
- *	@extends		PHPUnit_Framework_TestCase
- *	@uses			Net_FTP_Connection
- *	@uses			Net_FTP_Reader
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			01.07.2008
  *	@version		0.1
  */
-require_once( 'PHPUnit/Framework/TestCase.php' ); 
-require_once '../autoload.php5';
-import( 'de.ceus-media.net.ftp.Connection' );
-import( 'de.ceus-media.net.ftp.Reader' );
+require_once 'PHPUnit/Framework/TestCase.php';
+require_once 'test/initLoaders.php5';
 /**
  *	TestUnit of Net_FTP_Reader.
  *	@package		Tests.
@@ -23,7 +18,7 @@ import( 'de.ceus-media.net.ftp.Reader' );
  *	@since			01.07.2008
  *	@version		0.1
  */
-class Net_FTP_ReaderTest extends PHPUnit_Framework_TestCase
+class Test_Net_FTP_ReaderTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 *	Constructor.

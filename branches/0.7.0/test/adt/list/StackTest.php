@@ -1,26 +1,25 @@
 <?php
 /**
- *	TestUnit of ADT_List_Stack.
+ *	TestUnit of Test_ADT_List_Stack.
  *	@package		Tests.adt.list
  *	@extends		PHPUnit_Framework_TestCase
- *	@uses			ADT_List_Stack
+ *	@uses			Test_ADT_List_Stack
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			04.06.2008
  *	@version		0.1
  */
-require_once( 'PHPUnit/Framework/TestCase.php' ); 
-require_once '../autoload.php5';
-import( 'de.ceus-media.adt.list.Stack' );
+require_once 'PHPUnit/Framework/TestCase.php'; 
+require_once 'test/initLoaders.php5';
 /**
- *	TestUnit of ADT_List_Stack.
+ *	TestUnit of Test_ADT_List_Stack.
  *	@package		Tests.adt.list
  *	@extends		PHPUnit_Framework_TestCase
- *	@uses			ADT_List_Stack
+ *	@uses			Test_ADT_List_Stack
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			04.06.2008
  *	@version		0.1
  */
-class ADT_List_StackTest extends PHPUnit_Framework_TestCase
+class Test_ADT_List_StackTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 *	Constructor.

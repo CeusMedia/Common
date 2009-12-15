@@ -2,15 +2,11 @@
 /**
  *	TestUnit of List Writer.
  *	@package		Tests.file.list
- *	@extends		PHPUnit_Framework_TestCase
- *	@uses			File_List_Writer
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.1
  */
 require_once 'PHPUnit/Framework/TestCase.php'; 
-require_once '../autoload.php5'; 
-import( 'de.ceus-media.file.list.Reader' );
-import( 'de.ceus-media.file.list.Writer' );
+require_once 'test/initLoaders.php5'; 
 /**
  *	TestUnit of List Writer.
  *	@package		Tests.file.list
@@ -19,10 +15,10 @@ import( 'de.ceus-media.file.list.Writer' );
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.1
  */
-class File_List_WriterTest extends PHPUnit_Framework_TestCase
+class Test_File_List_WriterTest extends PHPUnit_Framework_TestCase
 {
-	/**	@var	string		$fileName		URL of Archive File Name */
-	private $fileName		= "file/list/writer.list";
+	/**	@var	string		$fileName		File Name of Test File */
+	private $fileName;
 	
 	/**
 	 *	Set up for every Test.
@@ -31,6 +27,7 @@ class File_List_WriterTest extends PHPUnit_Framework_TestCase
 	 */
 	public function setUp()
 	{
+		$this->fileName	= dirname( __FILE__ )."/writer.list";
 		$this->writer	= new File_List_Writer( $this->fileName );
 	}
 

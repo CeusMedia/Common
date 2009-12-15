@@ -2,15 +2,12 @@
 /**
  *	TestUnit of XML RSS Builder.
  *	@package		Tests.xml.dom
- *	@extends		PHPUnit_Framework_TestCase
- *	@uses			XML_RSS_Builder
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			20.02.2008
  *	@version		0.1
  */
-require_once( 'PHPUnit/Framework/TestCase.php' ); 
-require_once '../autoload.php5';
-import( 'de.ceus-media.xml.rss.Builder' );
+require_once 'PHPUnit/Framework/TestCase.php';
+require_once 'test/initLoaders.php5';
 /**
  *	TestUnit of XML RSS Builder.
  *	@package		Tests.xml.dom
@@ -20,7 +17,7 @@ import( 'de.ceus-media.xml.rss.Builder' );
  *	@since			20.02.2008
  *	@version		0.1
  */
-class XML_RSS_BuilderTest extends PHPUnit_Framework_TestCase
+class Test_XML_RSS_BuilderTest extends PHPUnit_Framework_TestCase
 {
 	protected $file		= "xml/rss/reader.xml";
 	protected $serial	= "xml/rss/reader.serial";

@@ -9,8 +9,7 @@
  *	@version		0.1
  */
 require_once( 'PHPUnit/Framework/TestCase.php' ); 
-require_once '../autoload.php5';
-import( 'de.ceus-media.database.mysql.Connection' );
+require_once 'test/initLoaders.php5';
 /**
  *	TestUnit of Database_mySQL_Connection.
  *	@package		Tests.database.mysql
@@ -20,7 +19,7 @@ import( 'de.ceus-media.database.mysql.Connection' );
  *	@since			04.05.2008
  *	@version		0.1
  */
-class Database_mySQL_ConnectionTest extends PHPUnit_Framework_TestCase
+class Test_Database_mySQL_ConnectionTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 *	Constructor.

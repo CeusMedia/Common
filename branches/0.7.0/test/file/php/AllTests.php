@@ -1,13 +1,11 @@
 <?php
 if( !defined( 'PHPUnit_MAIN_METHOD' ) )
-	define( 'PHPUnit_MAIN_METHOD', 'File_PHP_AllTests::main' );
+	define( 'PHPUnit_MAIN_METHOD', 'Test_File_PHP_AllTests::main' );
 
 require_once 'PHPUnit/Framework/TestSuite.php';
 require_once 'PHPUnit/TextUI/TestRunner.php';
-require_once '../autoload.php5';
-require_once 'file/php/ParserTest.php';
-require_once 'file/php/MethodVisibilityCheckTest.php';
-class File_PHP_AllTests
+require_once 'test/initLoaders.php5';
+class Test_File_PHP_AllTests
 {
 	public static function main()
 	{
@@ -17,11 +15,11 @@ class File_PHP_AllTests
 	public static function suite()
 	{
 		$suite = new PHPUnit_Framework_TestSuite( 'cmClasses/File/PHP' );
-		$suite->addTestSuite( 'File_PHP_ParserTest' ); 
-		$suite->addTestSuite( 'File_PHP_MethodVisibilityCheckTest' ); 
+		$suite->addTestSuite( 'Test_File_PHP_ParserTest' ); 
+		$suite->addTestSuite( 'Test_File_PHP_MethodVisibilityCheckTest' ); 
 		return $suite;
 	}
 }
-if( PHPUnit_MAIN_METHOD == 'File_PHP_AllTests::main' )
-	File_PHP_AllTests::main();
+if( PHPUnit_MAIN_METHOD == 'Test_File_PHP_AllTests::main' )
+	Test_File_PHP_AllTests::main();
 ?>
