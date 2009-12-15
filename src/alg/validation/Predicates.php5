@@ -19,8 +19,6 @@
  *
  *	@category		cmClasses
  *	@package		alg.validation
- *	@uses			Alg_TimeConverter
- *	@uses			Alg_Crypt_PasswordStrength
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -28,12 +26,12 @@
  *	@since			14.02.2007
  *	@version		0.6
  */
-import( 'de.ceus-media.alg.TimeConverter' );
+import( 'de.ceus-media.alg.time.Converter' );
 /**
  *	Class holding Predicates for String Validation.
  *	@category		cmClasses
  *	@package		alg.validation
- *	@uses			Alg_TimeConverter
+ *	@uses			Alg_Time_Converter
  *	@uses			Alg_Crypt_PasswordStrength
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2009 Christian Würker
@@ -117,7 +115,7 @@ class Alg_Validation_Predicates
 	 */
 	public static function isAfter( $string, $point )
 	{
-		$string	= Alg_TimeConverter::complementMonthDate( $string );
+		$string	= Alg_Time_Converter::complementMonthDate( $string );
 		$time	= strtotime( $string );
 		if( $time === false )
 			throw new InvalidArgumentException( 'Given Date "'.$string.'" could not been parsed.' );
@@ -170,7 +168,7 @@ class Alg_Validation_Predicates
 	 */
 	public static function isBefore( $string, $point )
 	{
-		$string	= Alg_TimeConverter::complementMonthDate( $string, 1 );
+		$string	= Alg_Time_Converter::complementMonthDate( $string, 1 );
 		$time	= strtotime( $string );
 		if( $time === false )
 			throw new InvalidArgumentException( 'Given Date "'.$string.'" could not been parsed.' );
@@ -188,7 +186,7 @@ class Alg_Validation_Predicates
 	{
 		try
 		{
-			$string	= Alg_TimeConverter::complementMonthDate( $string );
+			$string	= Alg_Time_Converter::complementMonthDate( $string );
 			$date	= strtotime( $string );
 			return (bool) $date;
 		}
@@ -269,7 +267,7 @@ class Alg_Validation_Predicates
 	 */
 	public static function isFuture( $string )
 	{
-		$string	= Alg_TimeConverter::complementMonthDate( $string );
+		$string	= Alg_Time_Converter::complementMonthDate( $string );
 		$time	= strtotime( $string );
 		if( $time === false )
 			throw new InvalidArgumentException( 'Given Date "'.$string.'" could not been parsed.' );
@@ -398,7 +396,7 @@ class Alg_Validation_Predicates
 	 */
 	public static function isPast( $string )
 	{
-		$date	= Alg_TimeConverter::complementMonthDate( $string, 1 );
+		$date	= Alg_Time_Converter::complementMonthDate( $string, 1 );
 		$time	= strtotime( $date );
 		if( $time === FALSE )
 			throw new InvalidArgumentException( 'Given Date "'.$string.'" could not been parsed.' );

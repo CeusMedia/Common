@@ -69,7 +69,7 @@ class Net_HTTP_MimeTypeSniffer
 				{
 					if( $mime_quality > $curr_qual )
 					{
-						$curr_mime	= strtolower( join( '-', $mime_code ) );
+						$curr_mime	= strtolower( join( '/', $mime_code ) );
 						$curr_qual	= $mime_quality;
 						break;
 					}

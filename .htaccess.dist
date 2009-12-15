@@ -1,1 +1,1 @@
-php_value auto_prepend_file "c:/.mirror/lib/cmClasses/0.7.0/autoload.php5"
+php_value auto_prepend_file "/path/to/cmClasses/version/autoload.php5"
