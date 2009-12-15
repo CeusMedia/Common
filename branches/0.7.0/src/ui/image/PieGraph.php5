@@ -18,20 +18,19 @@ require_once( JPGRAPH_PATH.'jpgraph_pie3d.php' );
  */
 class UI_Image_PieGraph
 {
-	protected $shadow			= FALSE;
 	protected $antialias		= TRUE;
+	protected $centerX			= 0.43;
+	protected $centerY			= 0.58;
 	protected $heading			= NULL;
-		
+	protected $height			= 400;
 	protected $legendMarginX	= 0.008;
 	protected $legendMarginY	= 0.005;
 	protected $legendAlignX		= 'right';
 	protected $legendAlignY		= 'top';
 	protected $legendShadow		= FALSE;
-	
-	protected $centerX	= 0.43;
-	protected $centerY	= 0.58;
-	protected $width	= 600;
-	protected $height	= 400;
+	protected $width			= 600;
+	protected $shadow			= FALSE;
+		
 	
 	protected $colors	= array(
 		'#07077F',

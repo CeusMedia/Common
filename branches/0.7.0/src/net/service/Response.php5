@@ -26,10 +26,11 @@
  *	@since			18.06.2007
  *	@version		0.6.5
  */
-import( 'de.ceus-media.StopWatch' );
+import( 'de.ceus-media.alg.time.Clock' );
 /**
  *	Basic Response Class for a Service.
  *	@category		cmClasses
+ *	@uses			Alg_Time_Clock
  *	@package		net.service
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2009 Christian Würker
@@ -44,7 +45,7 @@ class Net_Service_Response
 
 	public function __construct()
 	{
-		$this->watch	= new StopWatch;	
+		$this->watch	= new Alg_Time_Clock;	
 	}
 
 	/**

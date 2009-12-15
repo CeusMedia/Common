@@ -43,9 +43,9 @@ tests				= test/
 #	Options for Unit Testing using PHPUnit
 #
 [unitTestOptions]
-coverage-html			= Reports
+coverage-html			= doc/coverage
 log-json			= test/results.json
-log-xml				= test/results.xml
+log-junit			= test/results.xml
 
 
 #
