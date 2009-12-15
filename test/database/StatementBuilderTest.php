@@ -9,8 +9,7 @@
  *	@version		0.1
  */
 require_once( 'PHPUnit/Framework/TestCase.php' ); 
-require_once '../autoload.php5';
-import( 'de.ceus-media.database.StatementBuilder' );
+require_once 'test/initLoaders.php5';
 /**
  *	TestUnit of Database_StatementBuilder.
  *	@package		Tests.database
@@ -20,7 +19,7 @@ import( 'de.ceus-media.database.StatementBuilder' );
  *	@since			04.05.2008
  *	@version		0.1
  */
-class Database_StatementBuilderTest extends PHPUnit_Framework_TestCase
+class Test_Database_StatementBuilderTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 *	Setup for every Test.
@@ -29,7 +28,7 @@ class Database_StatementBuilderTest extends PHPUnit_Framework_TestCase
 	 */
 	public function setUp()
 	{
-		$this->builder	= new Database_StatementBuilderInstance( "prefix_" );
+		$this->builder	= new Test_Database_StatementBuilderInstance( "prefix_" );
 	}
 
 	/**
@@ -44,7 +43,7 @@ class Database_StatementBuilderTest extends PHPUnit_Framework_TestCase
 		$tables		= array( "table1 as t1", "table2 as t2" );
 		$conditions	= array( "t1.key1=t2.key2", "field1>1" );
 		$groupings	= array( "key1", "key3" );
-		$builder	= new Database_StatementBuilderInstance( $prefix, $keys, $tables, $conditions, $groupings );
+		$builder	= new Test_Database_StatementBuilderInstance( $prefix, $keys, $tables, $conditions, $groupings );
 
 		$assertion	= $prefix;
 		$creation	= $builder->getProtectedVar( 'prefix' );
@@ -469,7 +468,7 @@ FROM
 	}
 }
 
-class Database_StatementBuilderInstance extends Database_StatementBuilder
+class Test_Database_StatementBuilderInstance extends Database_StatementBuilder
 {
 	public function getProtectedVar( $varName )
 	{

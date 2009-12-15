@@ -2,15 +2,12 @@
 /**
  *	TestUnit of Alg_Parcel_Factory.
  *	@package		Tests.alg.parcel
- *	@extends		PHPUnit_Framework_TestCase
- *	@uses			Alg_Parcel_Factory
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			08.07.2008
  *	@version		0.1
  */
-require_once( 'PHPUnit/Framework/TestCase.php' ); 
-require_once '../autoload.php5';
-import( 'de.ceus-media.alg.parcel.Factory' );
+require_once 'PHPUnit/Framework/TestCase.php'; 
+require_once 'test/initLoaders.php5';
 /**
  *	TestUnit of Alg_Parcel_Factory.
  *	@package		Tests.alg.parcel
@@ -20,7 +17,7 @@ import( 'de.ceus-media.alg.parcel.Factory' );
  *	@since			08.07.2008
  *	@version		0.1
  */
-class Alg_Parcel_FactoryTest extends PHPUnit_Framework_TestCase
+class Test_Alg_Parcel_FactoryTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 *	Constructor.

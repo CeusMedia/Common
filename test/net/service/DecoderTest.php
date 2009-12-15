@@ -2,15 +2,12 @@
 /**
  *	TestUnit of Net_Service_Decoder.
  *	@package		Tests.net.service
- *	@extends		PHPUnit_Framework_TestCase
- *	@uses			Net_Service_Decoder
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			06.04.2009
  *	@version		0.1
  */
-require_once( 'PHPUnit/Framework/TestCase.php' ); 
-require_once '../autoload.php5';
-import( 'de.ceus-media.net.service.Decoder' );
+require_once 'PHPUnit/Framework/TestCase.php';
+require_once 'test/initLoaders.php5';
 /**
  *	TestUnit of Net_Service_Decoder.
  *	@package		Tests.net.service
@@ -20,7 +17,7 @@ import( 'de.ceus-media.net.service.Decoder' );
  *	@since			06.04.2009
  *	@version		0.1
  */
-class Net_Service_DecoderTest extends PHPUnit_Framework_TestCase
+class Test_Net_Service_DecoderTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 *	Constructor.

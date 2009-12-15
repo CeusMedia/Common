@@ -7,18 +7,17 @@
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.1
  */
-require_once 'PHPUnit/Framework/TestCase.php'; 
-require_once '../autoload.php5';
-import( 'de.ceus-media.adt.OptionObject' );
+require_once 'PHPUnit/Framework/TestCase.php';
+require_once 'test/initLoaders.php5';
 /**
  *	TestUnit of LinkList
  *	@package		Tests.adt.list
  *	@extends		PHPUnit_Framework_TestCase
- *	@uses			BinaryTree
+ *	@uses			ADT_OptionObject
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.1
  */
-class ADT_OptionObjectTest extends PHPUnit_Framework_TestCase
+class Test_ADT_OptionObjectTest extends PHPUnit_Framework_TestCase
 {
 	public function setUp()
 	{

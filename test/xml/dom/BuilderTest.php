@@ -2,17 +2,12 @@
 /**
  *	TestUnit of XML DOM Builder.
  *	@package		Tests.xml.dom
- *	@extends		PHPUnit_Framework_TestCase
- *	@uses			XML_DOM_Builder
- *	@uses			XML_DOM_Node
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			11.12.2007
  *	@version		0.1
  */
 require_once 'PHPUnit/Framework/TestCase.php'; 
-require_once '../autoload.php5';
-import( 'de.ceus-media.xml.dom.Builder' );
-import( 'de.ceus-media.xml.dom.Node' );
+require_once 'test/initLoaders.php5';
 /**
  *	TestUnit of XML DOM Builder.
  *	@package		Tests.xml.dom
@@ -23,7 +18,7 @@ import( 'de.ceus-media.xml.dom.Node' );
  *	@since			11.12.2007
  *	@version		0.1
  */
-class XML_DOM_BuilderTest extends PHPUnit_Framework_TestCase
+class Test_XML_DOM_BuilderTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 *	Sets up Builder.
@@ -32,7 +27,7 @@ class XML_DOM_BuilderTest extends PHPUnit_Framework_TestCase
 	 */
 	public function setUp()
 	{
-		$this->builder	= new XML_DOM_Builder();
+		$this->builder		= new XML_DOM_Builder();
 		$this->fileName		= dirname( __FILE__ )."/builder.xml";
 
 	}

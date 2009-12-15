@@ -1,13 +1,11 @@
 <?php
 if( !defined( 'PHPUnit_MAIN_METHOD' ) )
-	define( 'PHPUnit_MAIN_METHOD', 'File_Block_AllTests::main' );
+	define( 'PHPUnit_MAIN_METHOD', 'Test_File_Block_AllTests::main' );
 
-require_once( 'PHPUnit/Framework/TestSuite.php' );
-require_once( 'PHPUnit/TextUI/TestRunner.php' );
-require_once '../autoload.php5';
-require_once( 'file/block/ReaderTest.php' );
-require_once( 'file/block/WriterTest.php' );
-class File_Block_AllTests
+require_once 'PHPUnit/Framework/TestSuite.php';
+require_once 'PHPUnit/TextUI/TestRunner.php';
+require_once 'test/initLoaders.php5';
+class Test_File_Block_AllTests
 {
 	public static function main()
 	{
@@ -17,11 +15,11 @@ class File_Block_AllTests
 	public static function suite()
 	{
 		$suite = new PHPUnit_Framework_TestSuite( 'cmClasses/File/Block' );
-		$suite->addTestSuite('File_Block_ReaderTest'); 
-		$suite->addTestSuite('File_Block_WriterTest'); 
+		$suite->addTestSuite( 'Test_File_Block_ReaderTest' ); 
+		$suite->addTestSuite( 'Test_File_Block_WriterTest' ); 
 		return $suite;
 	}
 }
-if( PHPUnit_MAIN_METHOD == 'File_Block_AllTests::main' )
-	File_Block_AllTests::main();
+if( PHPUnit_MAIN_METHOD == 'Test_File_Block_AllTests::main' )
+	Test_File_Block_AllTests::main();
 ?>

@@ -2,15 +2,12 @@
 /**
  *	TestUnit of XML_DOM_PEAR_PackageReader.
  *	@package		Tests....
- *	@extends		PHPUnit_Framework_TestCase
- *	@uses			XML_DOM_PEAR_PackageReader
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			25.10.2008
  *	@version		0.1
  */
-require_once( 'PHPUnit/Framework/TestCase.php' ); 
-require_once '../autoload.php5';
-import( 'de.ceus-media.xml.dom.pear.PackageReader' );
+require_once 'PHPUnit/Framework/TestCase.php';
+require_once 'test/initLoaders.php5';
 /**
  *	TestUnit of XML_DOM_PEAR_PackageReader.
  *	@package		Tests....
@@ -20,7 +17,7 @@ import( 'de.ceus-media.xml.dom.pear.PackageReader' );
  *	@since			25.10.2008
  *	@version		0.1
  */
-class XML_DOM_PEAR_PackageReaderTest extends PHPUnit_Framework_TestCase
+class Test_XML_DOM_PEAR_PackageReaderTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 *	Constructor.

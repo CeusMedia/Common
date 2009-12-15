@@ -2,14 +2,11 @@
 /**
  *	TestUnit of Yaml Reader.
  *	@package		Tests.file.yaml
- *	@extends		PHPUnit_Framework_TestCase
- *	@uses			YamlReader
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.1
  */
 require_once 'PHPUnit/Framework/TestCase.php'; 
-require_once '../autoload.php5';
-import( 'de.ceus-media.file.yaml.Reader' );
+require_once 'test/initLoaders.php5';
 /**
  *	TestUnit of Yaml Reader.
  *	@package		Tests.file.yaml
@@ -18,10 +15,15 @@ import( 'de.ceus-media.file.yaml.Reader' );
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.1
  */
-class File_Yaml_ReaderTest extends PHPUnit_Framework_TestCase
+class Test_File_Yaml_ReaderTest extends PHPUnit_Framework_TestCase
 {
-	/**	@var	string		$fileName		URL of Archive File Name */
-	private $fileName		= "file/yaml/reader.yaml";
+	/**	@var	string		$fileName		File Name of Test File */
+	private $fileName;
+
+	public function __construct()
+	{
+		$this->fileName		= dirname( __FILE__ )."/reader.yaml";
+	}
 
 	/**
 	 *	Tests Method 'load'.

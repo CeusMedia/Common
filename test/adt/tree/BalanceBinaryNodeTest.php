@@ -3,22 +3,21 @@
  *	TestUnit of LinkList
  *	@package		Tests.adt.list
  *	@extends		PHPUnit_Framework_TestCase
- *	@uses			ADT_Tree_BalanceBinaryNode
+ *	@uses			Test_ADT_Tree_BalanceBinaryNode
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.1
  */
-require_once 'PHPUnit/Framework/TestCase.php'; 
-require_once '../autoload.php5';
-import( 'de.ceus-media.adt.tree.BalanceBinaryNode' );
+require_once 'PHPUnit/Framework/TestCase.php';
+require_once 'test/initLoaders.php5';
 /**
  *	TestUnit of LinkList
  *	@package		Tests.adt.list
  *	@extends		PHPUnit_Framework_TestCase
- *	@uses			ADT_Tree_BalanceBinaryNode
+ *	@uses			Test_ADT_Tree_BalanceBinaryNode
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.1
  */
-class ADT_Tree_BalanceBinaryNodeTest extends PHPUnit_Framework_TestCase
+class Test_ADT_Tree_BalanceBinaryNodeTest extends PHPUnit_Framework_TestCase
 {
 	/**	@var	array		$list		Instance of BinaryTree */
 	private $tree;
@@ -30,6 +29,7 @@ class ADT_Tree_BalanceBinaryNodeTest extends PHPUnit_Framework_TestCase
 		$this->tree->add( 2 );
 		$this->tree->add( 3 );
 		$this->tree->add( 4 );
+		$this->path	= dirname( __FILE__ ).'/';
 	}
 
 	public function testAdd()
@@ -126,9 +126,9 @@ class ADT_Tree_BalanceBinaryNodeTest extends PHPUnit_Framework_TestCase
 		$tree->add( 1 );
 		$tree->add( 5 );
 
-		$assertion	= file_get_contents( "adt/tree/balanceBinary.html" );
+		$assertion	= file_get_contents( $this->path.'balanceBinary.html' );
 		$creation	= $tree->toTable( true );
-#		file_put_contents( "adt/tree/balanceBinary.html", $creation );
+#		file_put_contents( $this->path.'balanceBinary.html', $creation );
 		$this->assertEquals( $assertion, $creation );
 	}
 }

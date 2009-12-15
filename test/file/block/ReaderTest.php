@@ -2,15 +2,12 @@
 /**
  *	TestUnit of File_Block_Reader.
  *	@package		Tests.file
- *	@extends		PHPUnit_Framework_TestCase
- *	@uses			File_Block_Reader
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			19.06.2008
  *	@version		0.1
  */
-require_once( 'PHPUnit/Framework/TestCase.php' ); 
-require_once '../autoload.php5';
-import( 'de.ceus-media.file.block.Reader' );
+require_once 'PHPUnit/Framework/TestCase.php';
+require_once 'test/initLoaders.php5';
 /**
  *	TestUnit of File_Block_Reader.
  *	@package		Tests.file
@@ -20,7 +17,7 @@ import( 'de.ceus-media.file.block.Reader' );
  *	@since			19.06.2008
  *	@version		0.1
  */
-class File_Block_ReaderTest extends PHPUnit_Framework_TestCase
+class Test_File_Block_ReaderTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 *	Constructor.

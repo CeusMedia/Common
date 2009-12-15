@@ -10,9 +10,7 @@
  *	@version		0.1
  */
 require_once( 'PHPUnit/Framework/TestCase.php' ); 
-require_once '../autoload.php5';
-import( 'de.ceus-media.database/StatementCollection' );
-import( 'de.ceus-media.database/StatementBuilder' );
+require_once 'test/initLoaders.php5';
 /**
  *	TestUnit of Database_StatementCollection.
  *	@package		Tests.{classPackage}
@@ -23,17 +21,8 @@ import( 'de.ceus-media.database/StatementBuilder' );
  *	@since			02.05.2008
  *	@version		0.1
  */
-class Database_StatementCollectionTest extends PHPUnit_Framework_TestCase
+class Test_Database_StatementCollectionTest extends PHPUnit_Framework_TestCase
 {
-	/**
-	 *	Constructor.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function __construct()
-	{
-	}
-	
 	/**
 	 *	Setup for every Test.
 	 *	@access		public
@@ -41,8 +30,8 @@ class Database_StatementCollectionTest extends PHPUnit_Framework_TestCase
 	 */
 	public function setUp()
 	{
-		$this->builder		= new Database_StatementBuilderInStatementCollectionInstance( "prefix_" );
-		$this->collection	= new Database_StatementCollectionInstance( $this->builder );
+		$this->builder		= new Test_Database_StatementBuilderInStatementCollectionInstance( "prefix_" );
+		$this->collection	= new Test_Database_StatementCollectionInstance( $this->builder );
 	}
 	
 	/**
@@ -61,7 +50,7 @@ class Database_StatementCollectionTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testConstruct()
 	{
-		$collection	= new Database_StatementCollectionInstance( $this->builder );
+		$collection	= new Test_Database_StatementCollectionInstance( $this->builder );
 		$assertion	= $this->builder;
 		$creation	= $this->collection->getProtectedVar( 'builder' );
 		$this->assertEquals( $assertion, $creation );
@@ -156,7 +145,7 @@ class Database_StatementCollectionTest extends PHPUnit_Framework_TestCase
 	}
 }
 
-class Database_StatementCollectionInstance extends Database_StatementCollection
+class Test_Database_StatementCollectionInstance extends Database_StatementCollection
 {
 	public function getProtectedVar( $varName )
 	{
@@ -166,7 +155,7 @@ class Database_StatementCollectionInstance extends Database_StatementCollection
 	}
 }
 
-class Database_StatementBuilderInStatementCollectionInstance extends Database_StatementBuilder
+class Test_Database_StatementBuilderInStatementCollectionInstance extends Database_StatementBuilder
 {
 	public function getProtectedVar( $varName )
 	{

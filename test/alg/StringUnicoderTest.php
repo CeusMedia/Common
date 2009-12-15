@@ -2,15 +2,12 @@
 /**
  *	TestUnit of Alg_StringUnicoder.
  *	@package		Tests.
- *	@extends		PHPUnit_Framework_TestCase
- *	@uses			Alg_StringUnicoder
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			19.06.2008
  *	@version		0.1
  */
-require_once( 'PHPUnit/Framework/TestCase.php' ); 
-require_once '../autoload.php5';
-import( 'de.ceus-media.alg.StringUnicoder' );
+require_once 'PHPUnit/Framework/TestCase.php';
+require_once 'test/initLoaders.php5';
 /**
  *	TestUnit of Alg_StringUnicoder.
  *	@package		Tests.
@@ -20,7 +17,7 @@ import( 'de.ceus-media.alg.StringUnicoder' );
  *	@since			19.06.2008
  *	@version		0.1
  */
-class Alg_StringUnicoderTest extends PHPUnit_Framework_TestCase
+class Test_Alg_StringUnicoderTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 *	Constructor.

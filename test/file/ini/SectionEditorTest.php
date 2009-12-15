@@ -2,14 +2,11 @@
 /**
  *	TestUnit of Section INI Editor.
  *	@package		Tests.file.ini
- *	@extends		PHPUnit_Framework_TestCase
- *	@uses			File_INI_SectionEditor
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.1
  */
-require_once( 'PHPUnit/Framework/TestCase.php' ); 
-require_once '../autoload.php5';
-import( 'de.ceus-media.file.ini.SectionEditor' );
+require_once 'PHPUnit/Framework/TestCase.php';
+require_once 'test/initLoaders.php5';
 /**
  *	TestUnit of Section INI Reader.
  *	@package		Tests.file.ini
@@ -18,14 +15,14 @@ import( 'de.ceus-media.file.ini.SectionEditor' );
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.1
  */
-class File_INI_SectionEditorTest extends PHPUnit_Framework_TestCase
+class Test_File_INI_SectionEditorTest extends PHPUnit_Framework_TestCase
 {
-	/**	@var	string		$fileName		URL of Archive File Name */
-	private $fileName		= "file/ini/section.editor.ini";
-
+	/**	@var	string		$fileName		File Name of Test File */
+	private $fileName;
 
 	public function __construct()
 	{
+		$this->fileName		= dirname( __FILE__ )."/section.editor.ini";
 		$this->setUp();
 		$this->editor	= new File_INI_SectionEditor( $this->fileName );
 	}

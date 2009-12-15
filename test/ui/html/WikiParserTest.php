@@ -2,14 +2,12 @@
 /**
  *	TestUnit of UI_HTML_WikiParser.
  *	@package		Tests.{classPackage}
- *	@extends		PHPUnit_Framework_TestCase
- *	@uses			UI_HTML_WikiParser
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			03.05.2008
  *	@version		0.1
  */
-require_once '../autoload.php5';
-require_once( 'PHPUnit/Framework/TestCase.php' ); 
+require_once 'PHPUnit/Framework/TestCase.php';
+require_once 'test/initLoaders.php5';
 /**
  *	TestUnit of UI_HTML_WikiParser.
  *	@package		Tests.{classPackage}
@@ -19,7 +17,7 @@ require_once( 'PHPUnit/Framework/TestCase.php' );
  *	@since			03.05.2008
  *	@version		0.1
  */
-class UI_HTML_WikiParserTest extends PHPUnit_Framework_TestCase
+class Test_UI_HTML_WikiParserTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 *	Constructor.

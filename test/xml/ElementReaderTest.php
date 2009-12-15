@@ -2,15 +2,12 @@
 /**
  *	TestUnit of XML Element Reader.
  *	@package		Tests.xml
- *	@extends		PHPUnit_Framework_TestCase
- *	@uses			XML_ElementReader
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			20.02.2008
  *	@version		0.1
  */
 require_once 'PHPUnit/Framework/TestCase.php'; 
-require_once '../autoload.php5';
-import( 'de.ceus-media.xml.ElementReader' );
+require_once 'test/initLoaders.php5';
 /**
  *	TestUnit of XML Element Reader.
  *	@package		Tests.xml
@@ -20,7 +17,7 @@ import( 'de.ceus-media.xml.ElementReader' );
  *	@since			20.02.2008
  *	@version		0.1
  */
-class XML_ElementReaderTest extends PHPUnit_Framework_TestCase
+class Test_XML_ElementReaderTest extends PHPUnit_Framework_TestCase
 {
 	
 	protected $url	= "http://www.rssboard.org/files/sample-rss-2.xml";

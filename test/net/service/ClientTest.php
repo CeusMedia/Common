@@ -2,16 +2,12 @@
 /**
  *	TestUnit of Net Service Client.
  *	@package		Tests.net.service
- *	@extends		PHPUnit_Framework_TestCase
- *	@uses			Net_Service_Client
- *	@uses			ADT_OptionObject
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			02.05.2008
  *	@version		0.1
  */
 require_once 'PHPUnit/Framework/TestCase.php'; 
-require_once '../autoload.php5';
-require_once 'MockAntiProtection.php';
+require_once 'test/initLoaders.php5';
 /**
  *	TestUnit of Net Service Client.
  *	@package		Tests.net.service
@@ -22,7 +18,7 @@ require_once 'MockAntiProtection.php';
  *	@since			02.05.2008
  *	@version		0.1
  */
-class Net_Service_ClientTest extends PHPUnit_Framework_TestCase
+class Test_Net_Service_ClientTest extends PHPUnit_Framework_TestCase
 {
 	protected $client;
 
@@ -33,9 +29,9 @@ class Net_Service_ClientTest extends PHPUnit_Framework_TestCase
 	 */
 	public function __construct()
 	{
-		MockAntiProtection::createMockClass( 'Net_Service_Client' );
+		Test_MockAntiProtection::createMockClass( 'Net_Service_Client' );
 		$this->path		= dirname( __FILE__ )."/";
-		$this->client	= new Net_Service_Client_MockAntiProtection( "http://services.ceus-media.de/public/" );
+		$this->client	= new Test_Net_Service_Client_MockAntiProtection( "http://services.ceus-media.de/public/" );
 	}
 	
 	/**
@@ -63,7 +59,7 @@ class Net_Service_ClientTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testConstruct()
 	{
-		$client		= new Net_Service_Client_MockAntiProtection();
+		$client		= new Test_Net_Service_Client_MockAntiProtection();
 
 		$assertion	= 32;
 		$creation	= strlen( $client->getId() );
@@ -74,7 +70,7 @@ class Net_Service_ClientTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals( $assertion, $creation );
 
 
-		$client		= new Net_Service_Client_MockAntiProtection( "http//sub.test.tld", "services.log" );
+		$client		= new Test_Net_Service_Client_MockAntiProtection( "http//sub.test.tld", "services.log" );
 
 		$assertion	= 32;
 		$creation	= strlen( $client->getId() );

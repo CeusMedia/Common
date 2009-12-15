@@ -2,16 +2,12 @@
 /**
  *	TestUnit of UI_Template
  *	@package		tests.ui
- *	@extends		PHPUnit_Framework_TestCase
- *	@uses			UI_Template
  *	@author			David Seebacher <dseebacher@gmail.com>
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.2
  */
-require_once '../autoload.php5';
 require_once 'PHPUnit/Framework/TestCase.php'; 
-require_once 'MockAntiProtection.php';
-
+require_once 'test/initLoaders.php5';
 /**
  *	TestUnit of UI_Template
  *	@package		tests.ui
@@ -21,14 +17,13 @@ require_once 'MockAntiProtection.php';
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.2
  */
-
-class UI_TemplateTest extends PHPUnit_Framework_TestCase
+class Test_UI_TemplateTest extends PHPUnit_Framework_TestCase
 {
 	private $template;
 	
 	public function setUp()
 	{
-		$this->mock			= MockAntiProtection::getInstance( 'UI_Template' );
+		$this->mock			= Test_MockAntiProtection::getInstance( 'UI_Template' );
 		$this->path			= dirname( __FILE__ )."/";
 		$this->template		= new UI_Template( $this->path.'template_testcase1.html' );
 		$this->mockElements	= array(

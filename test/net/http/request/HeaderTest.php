@@ -2,14 +2,12 @@
 /**
  *	UnitTest for Request Header.
  *	@package		net.http.request
- *	@uses			Net_HTTP_Request_Header
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			16.02.2008
  *	@version		0.6
  */
-require_once( 'PHPUnit/Framework/TestCase.php' ); 
-require_once '../autoload.php5';
-import( 'de.ceus-media.net.http.request.Header' );
+require_once 'PHPUnit/Framework/TestCase.php';
+require_once 'test/initLoaders.php5';
 /**
  *	UnitTest for Request Sender.
  *	@package		net.http.request
@@ -18,7 +16,7 @@ import( 'de.ceus-media.net.http.request.Header' );
  *	@since			16.02.2008
  *	@version		0.6
  */
-class Net_HTTP_Request_HeaderTest extends PHPUnit_Framework_TestCase
+class Test_Net_HTTP_Request_HeaderTest extends PHPUnit_Framework_TestCase
 {
 	public function testConstruct()
 	{

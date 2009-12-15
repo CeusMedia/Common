@@ -2,14 +2,12 @@
 /**
  *	TestUnit of UI_Image_Error.
  *	@package		Tests.ui.image
- *	@extends		PHPUnit_Framework_TestCase
- *	@uses			UI_Image_Error
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			16.06.2008
  *	@version		0.1
  */
-require_once '../autoload.php5';
-require_once( 'PHPUnit/Framework/TestCase.php' ); 
+require_once 'PHPUnit/Framework/TestCase.php';
+require_once 'test/initLoaders.php5';
 /**
  *	TestUnit of Inverter.
  *	@package		Tests.ui.image
@@ -19,7 +17,7 @@ require_once( 'PHPUnit/Framework/TestCase.php' );
  *	@since			16.06.2008
  *	@version		0.1
  */
-class UI_Image_ErrorTest extends PHPUnit_Framework_TestCase
+class Test_UI_Image_ErrorTest extends PHPUnit_Framework_TestCase
 {
 	public function testConstruct()
 	{

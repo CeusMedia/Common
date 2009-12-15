@@ -1,19 +1,11 @@
 <?php
 if( !defined( 'PHPUnit_MAIN_METHOD' ) )
-	define( 'PHPUnit_MAIN_METHOD', 'Database_AllTests::main' );
+	define( 'PHPUnit_MAIN_METHOD', 'Test_Database_AllTests::main' );
 
 require_once( 'PHPUnit/Framework/TestSuite.php' );
 require_once( 'PHPUnit/TextUI/TestRunner.php' );
-require_once( 'database/pdo/AllTests.php' );
-require_once( 'database/mysql/AllTests.php' );
-require_once( 'database/BaseConnectionTest.php' );
-require_once( 'database/ResultTest.php' );
-require_once( 'database/RowTest.php' );
-require_once( 'database/StatementBuilderTest.php' );
-require_once( 'database/StatementCollectionTest.php' );
-require_once( 'database/TableReaderTest.php' );
-require_once( 'database/TableWriterTest.php' );
-class Database_AllTests
+require_once dirname( __FILE__ ).'/../initLoaders.php5';
+class Test_Database_AllTests
 {	
 	public static function main()
 	{
@@ -23,18 +15,18 @@ class Database_AllTests
 	public static function suite()
 	{
 		$suite = new PHPUnit_Framework_TestSuite( 'cmClasses/Database' );
-		$suite->addTest( Database_PDO_AllTests::suite() );
-		$suite->addTest( Database_mySQL_AllTests::suite() );
-		$suite->addTestSuite( 'Database_BaseConnectionTest' ); 
-		$suite->addTestSuite( 'Database_ResultTest' ); 
-		$suite->addTestSuite( 'Database_RowTest' ); 
-		$suite->addTestSuite( 'Database_StatementBuilderTest' ); 
-		$suite->addTestSuite( 'Database_StatementCollectionTest' ); 
-		$suite->addTestSuite( 'Database_TableReaderTest' ); 
-		$suite->addTestSuite( 'Database_TableWriterTest' ); 
+		$suite->addTest( Test_Database_PDO_AllTests::suite() );
+		$suite->addTest( Test_Database_mySQL_AllTests::suite() );
+		$suite->addTestSuite( 'Test_Database_BaseConnectionTest' ); 
+		$suite->addTestSuite( 'Test_Database_ResultTest' ); 
+		$suite->addTestSuite( 'Test_Database_RowTest' ); 
+		$suite->addTestSuite( 'Test_Database_StatementBuilderTest' ); 
+		$suite->addTestSuite( 'Test_Database_StatementCollectionTest' ); 
+		$suite->addTestSuite( 'Test_Database_TableReaderTest' ); 
+		$suite->addTestSuite( 'Test_Database_TableWriterTest' ); 
 		return $suite;
 	}
 }
-if( PHPUnit_MAIN_METHOD == 'Databas_AllTests::main' )
-	Database_AllTests::main();
+if( PHPUnit_MAIN_METHOD == 'Test_Databas_AllTests::main' )
+	Test_Database_AllTests::main();
 ?>

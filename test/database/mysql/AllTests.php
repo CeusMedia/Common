@@ -1,11 +1,11 @@
 <?php
 if( !defined( 'PHPUnit_MAIN_METHOD' ) )
-	define( 'PHPUnit_MAIN_METHOD', 'Database_mySQL_AllTests::main' );
+	define( 'PHPUnit_MAIN_METHOD', 'Test_Database_mySQL_AllTests::main' );
 
-require_once( 'PHPUnit/Framework/TestSuite.php' );
-require_once( 'PHPUnit/TextUI/TestRunner.php' );
-require_once( 'database/mysql/ConnectionTest.php' );
-class Database_mySQL_AllTests
+require_once 'PHPUnit/Framework/TestSuite.php';
+require_once 'PHPUnit/TextUI/TestRunner.php';
+require_once 'test/initLoaders.php5';
+class Test_Database_mySQL_AllTests
 {
 	public static function main()
 	{
@@ -15,10 +15,10 @@ class Database_mySQL_AllTests
 	public static function suite()
 	{
 		$suite = new PHPUnit_Framework_TestSuite( 'cmClasses/Database/mySQL' );
-		$suite->addTestSuite( 'Database_mySQL_ConnectionTest' ); 
+		$suite->addTestSuite( 'Test_Database_mySQL_ConnectionTest' ); 
 		return $suite;
 	}
 }
-if( PHPUnit_MAIN_METHOD == 'Database_mySQL_AllTests::main' )
-	Database_mySQL_AllTests::main();
+if( PHPUnit_MAIN_METHOD == 'Test_Database_mySQL_AllTests::main' )
+	Test_Database_mySQL_AllTests::main();
 ?>

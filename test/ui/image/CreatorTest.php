@@ -2,24 +2,23 @@
 /**
  *	TestUnit of UI_Image_Creator.
  *	@package		Tests.ui.image
- *	@extends		PHPUnit_Framework_TestCase
- *	@uses			UI_Image_Creator
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			16.06.2008
  *	@version		0.1
  */
-require_once '../autoload.php5';
-require_once( 'PHPUnit/Framework/TestCase.php' ); 
+require_once 'PHPUnit/Framework/TestCase.php';
+require_once 'test/initLoaders.php5';
 /**
  *	TestUnit of Inverter.
  *	@package		Tests.ui.image
  *	@extends		PHPUnit_Framework_TestCase
  *	@uses			UI_Image_Creator
+ *	@uses			File_Reader
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			16.06.2008
  *	@version		0.1
  */
-class UI_Image_CreatorTest extends PHPUnit_Framework_TestCase
+class Test_UI_Image_CreatorTest extends PHPUnit_Framework_TestCase
 {
 	public function __construct()
 	{
@@ -35,20 +34,20 @@ class UI_Image_CreatorTest extends PHPUnit_Framework_TestCase
 
 	public function tearDown()
 	{
-		@unlink( $this->path."targetCreator.png" );
 		@unlink( $this->path."targetCreator.jpg" );
 		@unlink( $this->path."targetCreator.gif" );
+		@unlink( $this->path."targetCreator.png" );
+		@unlink( $this->path."targetCreator1.png" );
 	}
 
 	public function testCreate()
 	{
 		$image	= new UI_Image_Creator();
 		$image->create( 100, 200 );
-		imagepng( $image->getResource(), $this->path."targetCreator.png" );
+		imagepng( $image->getResource(), $this->path."targetCreator1.png" );
 		
-		$assertion	= file_get_contents( $this->path."assertCreator.png" );
-		$creation	= file_get_contents( $this->path."targetCreator.png" );
-		$this->assertEquals( $assertion, $creation );
+		$file		= new File_Reader( $this->path."assertCreator1.png" );
+		$this->assertTrue( $file->equals( $this->path."targetCreator1.png" ) );
 	}
 	
 	public function testLoadImagePng()
@@ -57,9 +56,8 @@ class UI_Image_CreatorTest extends PHPUnit_Framework_TestCase
 		$image->loadImage( $this->path."sourceCreator.png" );
 		imagepng( $image->getResource(), $this->path."targetCreator.png" );
 		
-		$assertion	= file_get_contents( $this->path."sourceCreator.png" );
-		$creation	= file_get_contents( $this->path."targetCreator.png" );
-		$this->assertEquals( $assertion, $creation );
+		$file		= new File_Reader( $this->path."sourceCreator.png" );
+		$this->assertTrue( $file->equals( $this->path."targetCreator.png" ) );
 	}
 
 	public function testLoadImageJpeg()
@@ -78,9 +76,8 @@ class UI_Image_CreatorTest extends PHPUnit_Framework_TestCase
 		$image->loadImage( $this->path."sourceCreator.gif" );
 		imagegif( $image->getResource(), $this->path."targetCreator.gif" );
 		
-		$assertion	= file_get_contents( $this->path."sourceCreator.gif" );
-		$creation	= file_get_contents( $this->path."targetCreator.gif" );
-		$this->assertEquals( $assertion, $creation );
+		$file		= new File_Reader( $this->path."sourceCreator.gif" );
+		$this->assertTrue( $file->equals( $this->path."targetCreator.gif" ) );
 	}
 
 	public function testLoadImageException1()

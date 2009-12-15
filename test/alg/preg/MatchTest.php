@@ -2,15 +2,12 @@
 /**
  *	TestUnit of Alg_Preg_Match.
  *	@package		Tests.
- *	@extends		PHPUnit_Framework_TestCase
- *	@uses			Alg_Preg_Match
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			22.12.2008
  *	@version		0.1
  */
-require_once( 'PHPUnit/Framework/TestCase.php' ); 
-require_once '../autoload.php5';
-import( 'de.ceus-media.alg.preg.Match' );
+require_once 'PHPUnit/Framework/TestCase.php';
+require_once 'test/initLoaders.php5';
 /**
  *	TestUnit of Alg_Preg_Match.
  *	@package		Tests.
@@ -20,35 +17,8 @@ import( 'de.ceus-media.alg.preg.Match' );
  *	@since			22.12.2008
  *	@version		0.1
  */
-class Alg_Preg_MatchTest extends PHPUnit_Framework_TestCase
+class Test_Alg_Preg_MatchTest extends PHPUnit_Framework_TestCase
 {
-	/**
-	 *	Constructor.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function __construct()
-	{
-	}
-	
-	/**
-	 *	Setup for every Test.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function setUp()
-	{
-	}
-	
-	/**
-	 *	Cleanup after every Test.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function tearDown()
-	{
-	}
-
 	/**
 	 *	Tests Exception of Method 'accept'.
 	 *	@access		public

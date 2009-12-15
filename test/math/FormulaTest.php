@@ -2,15 +2,12 @@
 /**
  *	TestUnit of Math_Formula.
  *	@package		Tests.math
- *	@extends		PHPUnit_Framework_TestCase
- *	@uses			Math_Formula
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			17.06.2008
  *	@version		0.1
  */
-require_once( 'PHPUnit/Framework/TestCase.php' ); 
-require_once '../autoload.php5';
-import( 'de.ceus-media.math.Formula' );
+require_once 'PHPUnit/Framework/TestCase.php';
+require_once 'test/initLoaders.php5';
 /**
  *	TestUnit of Math_Formula.
  *	@package		Tests.math
@@ -20,7 +17,7 @@ import( 'de.ceus-media.math.Formula' );
  *	@since			17.06.2008
  *	@version		0.1
  */
-class Math_FormulaTest extends PHPUnit_Framework_TestCase
+class Test_Math_FormulaTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 *	Constructor.

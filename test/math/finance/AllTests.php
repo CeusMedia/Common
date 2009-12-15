@@ -1,11 +1,11 @@
 <?php
 if( !defined( 'PHPUnit_MAIN_METHOD' ) )
-	define( 'PHPUnit_MAIN_METHOD', 'Math_Finance_AllTests::main' );
+	define( 'PHPUnit_MAIN_METHOD', 'Test_Math_Finance_AllTests::main' );
 
 require_once 'PHPUnit/Framework/TestSuite.php';
 require_once 'PHPUnit/TextUI/TestRunner.php';
-require_once 'math/finance/CompoundInterestTest.php';
-class Math_Finance_AllTests
+require_once 'test/initLoaders.php5';
+class Test_Math_Finance_AllTests
 {
 	public static function main()
 	{
@@ -15,10 +15,10 @@ class Math_Finance_AllTests
 	public static function suite()
 	{
 		$suite = new PHPUnit_Framework_TestSuite( 'cmClasses/Math/Finance' );
-		$suite->addTestSuite( 'Math_Finance_CompoundInterestTest' );
+		$suite->addTestSuite( 'Test_Math_Finance_CompoundInterestTest' );
 		return $suite;
 	}
 }
-if( PHPUnit_MAIN_METHOD == 'Math_Finance_AllTests::main' )
-	Math_Finance_AllTests::main();
+if( PHPUnit_MAIN_METHOD == 'Test_Math_Finance_AllTests::main' )
+	Test_Math_Finance_AllTests::main();
 ?>

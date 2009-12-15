@@ -2,15 +2,12 @@
 /**
  *	TestUnit of Request Response.
  *	@package		Tests.net.http.request
- *	@extends		PHPUnit_Framework_TestCase
- *	@uses			Net_HTTP_Request_Response
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			16.02.2008
  *	@version		0.1
  */
-require_once( 'PHPUnit/Framework/TestCase.php' ); 
-require_once '../autoload.php5';
-import( 'de.ceus-media.net.http.request.Response' );
+require_once 'PHPUnit/Framework/TestCase.php';
+require_once 'test/initLoaders.php5';
 /**
  *	TestUnit of Request Response.
  *	@package		Tests.net.http.request
@@ -20,7 +17,7 @@ import( 'de.ceus-media.net.http.request.Response' );
  *	@since			16.02.2008
  *	@version		0.1
  */
-class Net_HTTP_Request_ResponseTest extends PHPUnit_Framework_TestCase
+class Test_Net_HTTP_Request_ResponseTest extends PHPUnit_Framework_TestCase
 {
 	/**	@var	array		$list		Instance of Request Response */
 	private $receiver;

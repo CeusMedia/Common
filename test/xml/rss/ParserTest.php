@@ -2,15 +2,12 @@
 /**
  *	TestUnit of XML RSS 2 Parser.
  *	@package		Tests.xml.rss
- *	@extends		PHPUnit_Framework_TestCase
- *	@uses			XML_RSS_Parser
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			20.02.2008
  *	@version		0.1
  */
 require_once 'PHPUnit/Framework/TestCase.php'; 
-require_once '../autoload.php5';
-import( 'de.ceus-media.xml.rss.Parser' );
+require_once 'test/initLoaders.php5';
 /**
  *	TestUnit of XML RSS 2 Parser.
  *	@package		Tests.xml.rss
@@ -20,10 +17,8 @@ import( 'de.ceus-media.xml.rss.Parser' );
  *	@since			20.02.2008
  *	@version		0.1
  */
-class XML_RSS_ParserTest extends PHPUnit_Framework_TestCase
+class Test_XML_RSS_ParserTest extends PHPUnit_Framework_TestCase
 {
-	protected $file		= "xml/rss/parser.xml";
-	protected $serial	= "xml/rss/parser.serial";
 
 	/**
 	 *	Tests Method 'parse'.
@@ -32,6 +27,9 @@ class XML_RSS_ParserTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testParse()
 	{
+		$this->file		= dirname( __FILE__ )."/parser.xml";
+		$this->serial	= dirname( __FILE__ )."/parser.serial";
+
 		$xml		= file_get_contents( $this->file );
 
 		$assertion	= unserialize( file_get_contents( $this->serial ) );

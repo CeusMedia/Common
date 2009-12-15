@@ -7,19 +7,17 @@
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.1
  */
-require_once 'PHPUnit/Framework/TestCase.php'; 
-require_once '../autoload.php5';
-require_once( 'TestObject.php5' );
-import( 'de.ceus-media.adt.json.Builder' );
+require_once 'PHPUnit/Framework/TestCase.php';
+require_once 'test/initLoaders.php5';
 /**
  *	TestUnit of LinkList
  *	@package		Tests.adt.json
  *	@extends		PHPUnit_Framework_TestCase
- *	@uses			ADT_JSON_Builder
+ *	@uses			Test_ADT_JSON_Builder
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.1
  */
-class ADT_JSON_BuilderTest extends PHPUnit_Framework_TestCase
+class Test_ADT_JSON_BuilderTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 *	Constructor.
@@ -28,7 +26,7 @@ class ADT_JSON_BuilderTest extends PHPUnit_Framework_TestCase
 	 */
 	public function __construct()
 	{
-		$this->object		= new TestObject();
+		$this->object		= new Test_Object();
 		$this->object->a	= "test";
 	}
 

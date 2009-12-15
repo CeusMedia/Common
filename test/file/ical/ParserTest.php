@@ -8,9 +8,8 @@
  *	@since			19.06.2008
  *	@version		0.1
  */
-require_once( 'PHPUnit/Framework/TestCase.php' ); 
-require_once '../autoload.php5';
-import( 'de.ceus-media.file.ical.Parser' );
+require_once 'PHPUnit/Framework/TestCase.php';
+require_once 'test/initLoaders.php5';
 /**
  *	TestUnit of File_iCal_Parser.
  *	@package		Tests.file_ical.file
@@ -20,7 +19,7 @@ import( 'de.ceus-media.file.ical.Parser' );
  *	@since			19.06.2008
  *	@version		0.1
  */
-class File_iCal_ParserTest extends PHPUnit_Framework_TestCase
+class Test_File_iCal_ParserTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 *	Constructor.

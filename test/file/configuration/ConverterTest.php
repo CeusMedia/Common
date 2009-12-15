@@ -2,15 +2,12 @@
 /**
  *	TestUnit of File_Configuration_Converter.
  *	@package		Tests.file.configuration
- *	@extends		PHPUnit_Framework_TestCase
- *	@uses			File_Configuration_Converter
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			08.05.2008
  *	@version		0.1
  */
-require_once( 'PHPUnit/Framework/TestCase.php' ); 
-require_once '../autoload.php5';
-import( 'de.ceus-media.file.configuration.Converter' );
+require_once 'PHPUnit/Framework/TestCase.php';
+require_once 'test/initLoaders.php5';
 /**
  *	TestUnit of File_Configuration_Converter.
  *	@package		Tests.file.configuration
@@ -20,7 +17,7 @@ import( 'de.ceus-media.file.configuration.Converter' );
  *	@since			08.05.2008
  *	@version		0.1
  */
-class File_Configuration_ConverterTest extends PHPUnit_Framework_TestCase
+class Test_File_Configuration_ConverterTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 *	Constructor.

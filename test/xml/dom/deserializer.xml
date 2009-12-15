@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<object class="TestObject">
+<object class="Test_Object">
   <null name="null"/>
   <boolean name="boolean">1</boolean>
   <integer name="integer">1</integer>
@@ -13,7 +13,7 @@
   <array name="array">
     <string name="key">value</string>
   </array>
-  <object name="child" class="TestObject">
+  <object name="child" class="Test_Object">
     <integer name="integer">2</integer>
   </object>
 </object>

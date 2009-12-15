@@ -1,26 +1,25 @@
 <?php
 /**
- *	TestUnit of ADT_List_Queue.
+ *	TestUnit of Test_ADT_List_Queue.
  *	@package		Tests.adt.list
  *	@extends		PHPUnit_Framework_TestCase
- *	@uses			ADT_List_Queue
+ *	@uses			Test_ADT_List_Queue
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			04.06.2008
  *	@version		0.1
  */
-require_once( 'PHPUnit/Framework/TestCase.php' ); 
-require_once '../autoload.php5';
-import( 'de.ceus-media.adt.list.Queue' );
+require_once 'PHPUnit/Framework/TestCase.php';
+require_once 'test/initLoaders.php5';
 /**
- *	TestUnit of ADT_List_Queue.
+ *	TestUnit of Test_ADT_List_Queue.
  *	@package		Tests.adt.list
  *	@extends		PHPUnit_Framework_TestCase
- *	@uses			ADT_List_Queue
+ *	@uses			Test_ADT_List_Queue
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			04.06.2008
  *	@version		0.1
  */
-class ADT_List_QueueTest extends PHPUnit_Framework_TestCase
+class Test_ADT_List_QueueTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 *	Constructor.

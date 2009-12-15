@@ -2,36 +2,22 @@
 /**
  *	TestUnit of Folder Reader.
  *	@package		Tests.folder
- *	@extends		Folder_TestCase
- *	@uses			Folder_Reader
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			21.04.2008
  *	@version		0.1
  */
-require_once( 'folder/TestCase.php' );
-import( 'de.ceus-media.folder.Reader' );
+require_once 'test/initLoaders.php5';
 /**
  *	TestUnit of Folder Reader.
  *	@package		Tests.folder
- *	@extends		Folder_TestCase
+ *	@extends		Test_Folder_TestCase
  *	@uses			Folder_Reader
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			21.04.2008
  *	@version		0.1
  */
-class Folder_ReaderTest extends Folder_TestCase
+class Test_Folder_ReaderTest extends Test_Folder_TestCase
 {
-	/**
-	 *	Constructor.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function __construct()
-	{
-		parent::__construct();
-		$this->path	= dirname( __FILE__ )."/";
-	}
-
 	/**
 	 *	Setup for every Test.
 	 *	@access		public

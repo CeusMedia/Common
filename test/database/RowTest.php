@@ -9,8 +9,7 @@
  *	@version		0.1
  */
 require_once( 'PHPUnit/Framework/TestCase.php' ); 
-require_once '../autoload.php5';
-import( 'de.ceus-media.database.Row' );
+require_once 'test/initLoaders.php5';
 /**
  *	TestUnit of Database_Row.
  *	@package		Tests.database
@@ -20,7 +19,7 @@ import( 'de.ceus-media.database.Row' );
  *	@since			15.05.2008
  *	@version		0.1
  */
-class Database_RowTest extends PHPUnit_Framework_TestCase
+class Test_Database_RowTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 *	Constructor.

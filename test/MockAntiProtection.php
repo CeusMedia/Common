@@ -1,13 +1,13 @@
 <?php
 require_once( "MockExceptions.php" );
-class MockAntiProtection
+class Test_MockAntiProtection
 {
 	public static function createMockClass( $className )
 	{
-		if( class_exists( ''.$className.'_MockAntiProtection' ) )
+		if( class_exists( 'Test_'.$className.'_MockAntiProtection' ) )
 			return;
 		$classCode	= '
-			class '.$className.'_MockAntiProtection extends '.$className.'
+			class Test_'.$className.'_MockAntiProtection extends '.$className.'
 			{
 				public function executeProtectedMethod( $method, $content, $comment = NULL )
 				{
@@ -58,7 +58,7 @@ class MockAntiProtection
 	public static function getInstance( $className )
 	{
 		self::createMockClass( $className );
-		$mockClass	= "".$className."_MockAntiProtection";
+		$mockClass	= "Test_".$className."_MockAntiProtection";
 		return new $mockClass;
 	}
 }

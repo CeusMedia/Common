@@ -2,15 +2,12 @@
 /**
  *	TestUnit of Charset Sniffer.
  *	@package		Tests.net.http
- *	@extends		PHPUnit_Framework_TestCase
- *	@uses			Net_HTTP_CharsetSniffer
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			16.02.2008
  *	@version		0.1
  */
-require_once( 'PHPUnit/Framework/TestCase.php' ); 
-require_once '../autoload.php5';
-import( 'de.ceus-media.net.http.CharsetSniffer' );
+require_once 'PHPUnit/Framework/TestCase.php';
+require_once 'test/initLoaders.php5';
 /**
  *	TestUnit of Charset Sniffer.
  *	@package		Tests.net.http
@@ -20,7 +17,7 @@ import( 'de.ceus-media.net.http.CharsetSniffer' );
  *	@since			16.02.2008
  *	@version		0.1
  */
-class Net_HTTP_CharsetSnifferTest extends PHPUnit_Framework_TestCase
+class Test_Net_HTTP_CharsetSnifferTest extends PHPUnit_Framework_TestCase
 {
 	private $session;
 	private $allowed	= array(

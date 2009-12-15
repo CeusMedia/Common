@@ -2,38 +2,22 @@
 /**
  *	TestUnit of Folder Editor.
  *	@package		Tests.folder
- *	@extends		Folder_TestCase
- *	@uses			Folder_Editor
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			21.04.2008
  *	@version		0.1
  */
-require_once( 'folder/TestCase.php' );
-import( 'de.ceus-media.folder.Editor' );
+require_once 'test/initLoaders.php5';
 /**
  *	TestUnit of Folder Editor.
  *	@package		Tests.folder
- *	@extends		Folder_TestCase
+ *	@extends		Test_Folder_TestCase
  *	@uses			Folder_Editor
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			21.04.2008
  *	@version		0.1
  */
-class Folder_EditorTest extends Folder_TestCase
+class Test_Folder_EditorTest extends Test_Folder_TestCase
 {
-	/**
-	 *	Constructor.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function __construct()
-	{
-		parent::__construct();
-		$this->path		= dirname( __FILE__ )."/";
-		$this->path		= "folder/";
-		$this->folder	= $this->path."folder";
-	}
-	
 	/**
 	 *	Setup for every Test.
 	 *	@access		public

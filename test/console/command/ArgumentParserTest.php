@@ -2,15 +2,12 @@
 /**
  *	TestUnit of Console_Command_ArgumentParser.
  *	@package		Tests.
- *	@extends		PHPUnit_Framework_TestCase
- *	@uses			Console_Command_ArgumentParser
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			24.10.2008
  *	@version		0.1
  */
-require_once( 'PHPUnit/Framework/TestCase.php' ); 
-require_once '../autoload.php5';
-import( 'de.ceus-media.console.command.ArgumentParser' );
+require_once 'PHPUnit/Framework/TestCase.php';
+require_once 'test/initLoaders.php5';
 /**
  *	TestUnit of Console_Command_ArgumentParser.
  *	@package		Tests.
@@ -20,7 +17,7 @@ import( 'de.ceus-media.console.command.ArgumentParser' );
  *	@since			24.10.2008
  *	@version		0.1
  */
-class Console_Command_ArgumentParserTest extends PHPUnit_Framework_TestCase
+class Test_Console_Command_ArgumentParserTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 *	Constructor.
@@ -38,7 +35,7 @@ class Console_Command_ArgumentParserTest extends PHPUnit_Framework_TestCase
 	 */
 	public function setUp()
 	{
-		$this->parser	= new Console_Command_ArgumentParserInstance();
+		$this->parser	= new Test_Console_Command_ArgumentParserInstance();
 	}
 	
 	/**
@@ -265,7 +262,7 @@ class Console_Command_ArgumentParserTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-class Console_Command_ArgumentParserInstance extends Console_Command_ArgumentParser
+class Test_Console_Command_ArgumentParserInstance extends Console_Command_ArgumentParser
 {
 	public function getProtectedVar( $varName )
 	{

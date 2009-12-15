@@ -2,25 +2,22 @@
 /**
  *	TestUnit of StopWatch.
  *	@package		Tests.
- *	@extends		PHPUnit_Framework_TestCase
- *	@uses			StopWatch
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			19.06.2008
  *	@version		0.1
  */
-require_once '../autoload.php5';
 require_once 'PHPUnit/Framework/TestCase.php'; 
-require_once 'MockAntiProtection.php'; 
+require_once 'test/initLoaders.php5';
 /**
  *	TestUnit of StopWatch.
  *	@package		Tests.
  *	@extends		PHPUnit_Framework_TestCase
- *	@uses			StopWatch
+ *	@uses			Alg_Time_Clock
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			19.06.2008
  *	@version		0.1
  */
-final class Alg_Time_ClockTest extends PHPUnit_Framework_TestCase
+final class Test_Alg_Time_ClockTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 *	Constructor.
@@ -29,7 +26,7 @@ final class Alg_Time_ClockTest extends PHPUnit_Framework_TestCase
 	 */
 	public function __construct()
 	{
-		MockAntiProtection::createMockClass( "Alg_Time_Clock" );
+		Test_MockAntiProtection::createMockClass( "Alg_Time_Clock" );
 	}
 	
 	/**
@@ -57,7 +54,7 @@ final class Alg_Time_ClockTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testConstruct()
 	{
-		$watch	= new Alg_Time_Clock_MockAntiProtection();
+		$watch	= new Test_Alg_Time_Clock_MockAntiProtection();
 		$assertion	= 1;
 		$creation	= preg_match( "@^0\.[0-9]+ [0-9]+$@", $watch->getProtectedVar( 'microtimeStart' ) );
 		$this->assertEquals( $assertion, $creation );
@@ -70,7 +67,7 @@ final class Alg_Time_ClockTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testStart()
 	{
-		$watch	= new Alg_Time_Clock_MockAntiProtection();
+		$watch	= new Test_Alg_Time_Clock_MockAntiProtection();
 		$assertion	= 1;
 		$creation	= preg_match( "@^0\.[0-9]+ [0-9]+$@", $watch->getProtectedVar( 'microtimeStart' ) );
 		$this->assertEquals( $assertion, $creation );
@@ -83,7 +80,7 @@ final class Alg_Time_ClockTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testStop()
 	{
-		$watch	= new Alg_Time_Clock_MockAntiProtection();
+		$watch	= new Test_Alg_Time_Clock_MockAntiProtection();
 		$watch->stop();
 		$assertion	= 1;
 		$creation	= preg_match( "@^[0-9]+\.[0-9]+$@", $watch->stop() );
@@ -97,7 +94,7 @@ final class Alg_Time_ClockTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetTime()
 	{
-		$watch	= new Alg_Time_Clock_MockAntiProtection();
+		$watch	= new Test_Alg_Time_Clock_MockAntiProtection();
 
 		$watch->setProtectedVar( 'microtimeStart', "0.00000000 ".time() );
 		$watch->setProtectedVar( 'microtimeStop', "0.12345678 ".time() );

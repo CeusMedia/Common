@@ -1,14 +1,11 @@
 <?php
 if( !defined( 'PHPUnit_MAIN_METHOD' ) )
-	define( 'PHPUnit_MAIN_METHOD', 'Net_Service_Definition_AllTests::main' );
+	define( 'PHPUnit_MAIN_METHOD', 'Test_Net_Service_Definition_AllTests::main' );
 
-require_once( 'PHPUnit/Framework/TestSuite.php' );
-require_once( 'PHPUnit/TextUI/TestRunner.php' );
-require_once( 'net/service/definition/ConverterTest.php' );
-require_once( 'net/service/definition/LoaderTest.php' );
-require_once( 'net/service/definition/XmlReaderTest.php' );
-require_once( 'net/service/definition/XmlWriterTest.php' );
-class Net_Service_Definition_AllTests
+require_once 'PHPUnit/Framework/TestSuite.php';
+require_once 'PHPUnit/TextUI/TestRunner.php';
+require_once 'test/initLoaders.php5';
+class Test_Net_Service_Definition_AllTests
 {
 	public static function main()
 	{
@@ -18,13 +15,13 @@ class Net_Service_Definition_AllTests
 	public static function suite()
 	{
 		$suite = new PHPUnit_Framework_TestSuite( 'cmClasses/Net/Service/Definition' );
-		$suite->addTestSuite( 'Net_Service_Definition_ConverterTest' );
-		$suite->addTestSuite( 'Net_Service_Definition_LoaderTest' );
-		$suite->addTestSuite( 'Net_Service_Definition_XmlReaderTest' );
-		$suite->addTestSuite( 'Net_Service_Definition_XmlWriterTest' );
+		$suite->addTestSuite( 'Test_Net_Service_Definition_ConverterTest' );
+		$suite->addTestSuite( 'Test_Net_Service_Definition_LoaderTest' );
+		$suite->addTestSuite( 'Test_Net_Service_Definition_XmlReaderTest' );
+		$suite->addTestSuite( 'Test_Net_Service_Definition_XmlWriterTest' );
 		return $suite;
 	}
 }
-if( PHPUnit_MAIN_METHOD == 'Net_Service_Definition_AllTests::main' )
-	Net_Service_Definition_AllTests::main();
+if( PHPUnit_MAIN_METHOD == 'Test_Net_Service_Definition_AllTests::main' )
+	Test_Net_Service_Definition_AllTests::main();
 ?>

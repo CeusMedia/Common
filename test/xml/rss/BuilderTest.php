@@ -2,15 +2,12 @@
 /**
  *	TestUnit of XML_RSS_Builder.
  *	@package		Tests.xml.rss
- *	@extends		PHPUnit_Framework_TestCase
- *	@uses			XML_RSS_Builder
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			08.05.2008
  *	@version		0.1
  */
-require_once( 'PHPUnit/Framework/TestCase.php' ); 
-require_once '../autoload.php5';
-import( 'de.ceus-media.xml.rss.Builder' );
+require_once 'PHPUnit/Framework/TestCase.php';
+require_once 'test/initLoaders.php5';
 /**
  *	TestUnit of XML_RSS_Builder.
  *	@package		Tests.xml.rss
@@ -20,7 +17,7 @@ import( 'de.ceus-media.xml.rss.Builder' );
  *	@since			08.05.2008
  *	@version		0.1
  */
-class XML_RSS_BuilderTest extends PHPUnit_Framework_TestCase
+class Test_XML_RSS_BuilderTest extends PHPUnit_Framework_TestCase
 {
 	protected $file;
 	protected $serial;
@@ -43,7 +40,7 @@ class XML_RSS_BuilderTest extends PHPUnit_Framework_TestCase
 	 */
 	public function setUp()
 	{
-		$this->builder	= new XML_RSS_BuilderInstance();
+		$this->builder	= new Test_XML_RSS_BuilderInstance();
 		$this->setup	= array(
 			'channel'	=> array(
 				'title'				=> "UnitTest created Feed",
@@ -85,7 +82,7 @@ class XML_RSS_BuilderTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testConstruct()
 	{
-		$builder	= new XML_RSS_BuilderInstance();
+		$builder	= new Test_XML_RSS_BuilderInstance();
 	
 		$assertion	= new XML_DOM_Builder();
 		$creation	= $this->builder->getProtectedVar( 'builder' );
@@ -205,7 +202,7 @@ class XML_RSS_BuilderTest extends PHPUnit_Framework_TestCase
 	}
 }
 
-class XML_RSS_BuilderInstance extends XML_RSS_Builder
+class Test_XML_RSS_BuilderInstance extends XML_RSS_Builder
 {
 	public function getProtectedVar( $varName )
 	{

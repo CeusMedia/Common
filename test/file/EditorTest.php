@@ -2,15 +2,12 @@
 /**
  *	TestUnit of File_Editor.
  *	@package		Tests.file
- *	@extends		PHPUnit_Framework_TestCase
- *	@uses			File_Editor
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			04.07.2008
  *	@version		0.1
  */
-require_once( 'PHPUnit/Framework/TestCase.php' ); 
-require_once '../autoload.php5';
-import( 'de.ceus-media.file.Editor' );
+require_once 'PHPUnit/Framework/TestCase.php';
+require_once 'test/initLoaders.php5';
 /**
  *	TestUnit of File_Editor.
  *	@package		Tests.file
@@ -20,7 +17,7 @@ import( 'de.ceus-media.file.Editor' );
  *	@since			04.07.2008
  *	@version		0.1
  */
-class File_EditorTest extends PHPUnit_Framework_TestCase
+class Test_File_EditorTest extends PHPUnit_Framework_TestCase
 {
 	/**	@var	File_Editor	$editor			Instance of File Editor */
 	private $editor			= NULL;

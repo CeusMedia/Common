@@ -2,15 +2,12 @@
 /**
  *	TestUnit of XML_Atom_Reader.
  *	@package		Tests.
- *	@extends		PHPUnit_Framework_TestCase
- *	@uses			XML_Atom_Reader
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			14.05.2008
  *	@version		0.1
  */
-require_once( 'PHPUnit/Framework/TestCase.php' ); 
-require_once '../autoload.php5';
-import( 'de.ceus-media.xml.atom.Reader' );
+require_once 'PHPUnit/Framework/TestCase.php';
+require_once 'test/initLoaders.php5';
 /**
  *	TestUnit of XML_Atom_Reader.
  *	@package		Tests.
@@ -20,7 +17,7 @@ import( 'de.ceus-media.xml.atom.Reader' );
  *	@since			14.05.2008
  *	@version		0.1
  */
-class XML_Atom_ReaderTest extends PHPUnit_Framework_TestCase
+class Test_XML_Atom_ReaderTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 *	Constructor.

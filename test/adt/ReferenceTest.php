@@ -8,8 +8,7 @@
  *	@version		0.1
  */
 require_once 'PHPUnit/Framework/TestCase.php'; 
-require_once '../autoload.php5';
-import( 'de.ceus-media.adt.Reference' );
+require_once 'test/initLoaders.php5';
 /**
  *	TestUnit of Reference
  *	@package		Tests.adt
@@ -18,7 +17,7 @@ import( 'de.ceus-media.adt.Reference' );
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.1
  */
-class ADT_ReferenceTest extends PHPUnit_Framework_TestCase
+class Test_ADT_ReferenceTest extends PHPUnit_Framework_TestCase
 {
 	public function setUp()
 	{

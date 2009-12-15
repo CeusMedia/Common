@@ -2,14 +2,12 @@
 /**
  *	TestUnit of UI_Image_Watermark.
  *	@package		Tests.ui.image
- *	@extends		PHPUnit_Framework_TestCase
- *	@uses			UI_Image_Watermark
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			21.07.2008
  *	@version		0.1
  */
-require_once '../autoload.php5';
-require_once( 'PHPUnit/Framework/TestCase.php' ); 
+require_once 'PHPUnit/Framework/TestCase.php';
+require_once 'test/initLoaders.php5';
 /**
  *	TestUnit of UI_Image_Watermark.
  *	@package		Tests.ui.image
@@ -19,7 +17,7 @@ require_once( 'PHPUnit/Framework/TestCase.php' );
  *	@since			21.07.2008
  *	@version		0.1
  */
-class UI_Image_WatermarkTest extends PHPUnit_Framework_TestCase
+class Test_UI_Image_WatermarkTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 *	Constructor.
@@ -38,7 +36,7 @@ class UI_Image_WatermarkTest extends PHPUnit_Framework_TestCase
 	 */
 	public function setUp()
 	{
-		$this->mark	= new UI_Image_WatermarkInstance( $this->path."mark.png" );
+		$this->mark	= new Test_UI_Image_WatermarkInstance( $this->path."mark.png" );
 	}
 	
 	/**
@@ -58,7 +56,7 @@ class UI_Image_WatermarkTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testConstruct()
 	{
-		$mark	= new UI_Image_WatermarkInstance( $this->path."sourceWatermark.jpg", 99, 98 );
+		$mark	= new Test_UI_Image_WatermarkInstance( $this->path."sourceWatermark.jpg", 99, 98 );
 				
 		$assertion	= 99;
 		$creation	= $mark->getProtectedVar( 'alpha' );
@@ -199,7 +197,7 @@ class UI_Image_WatermarkTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-class UI_Image_WatermarkInstance extends UI_Image_Watermark
+class Test_UI_Image_WatermarkInstance extends UI_Image_Watermark
 {
 	public function getProtectedVar( $varName )
 	{

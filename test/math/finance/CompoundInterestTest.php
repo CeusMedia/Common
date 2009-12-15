@@ -2,15 +2,12 @@
 /**
  *	TestUnit of Math_Finance_CompoundInterest.
  *	@package		Tests.math.finance
- *	@extends		PHPUnit_Framework_TestCase
- *	@uses			Math_Finance_CompoundInterest
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			17.06.2008
  *	@version		0.1
  */
-require_once( 'PHPUnit/Framework/TestCase.php' ); 
-require_once '../autoload.php5';
-import( 'de.ceus-media.math.finance.CompoundInterest' );
+require_once 'PHPUnit/Framework/TestCase.php';
+require_once 'test/initLoaders.php5';
 /**
  *	TestUnit of Math_Finance_CompoundInterest.
  *	@package		Tests.math.finance
@@ -20,7 +17,7 @@ import( 'de.ceus-media.math.finance.CompoundInterest' );
  *	@since			17.06.2008
  *	@version		0.1
  */
-class Math_Finance_CompoundInterestTest extends PHPUnit_Framework_TestCase
+class Test_Math_Finance_CompoundInterestTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 *	Constructor.

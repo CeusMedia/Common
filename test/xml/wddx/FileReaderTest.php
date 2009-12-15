@@ -2,15 +2,12 @@
 /**
  *	TestUnit of XML_WDDX_FileReader.
  *	@package		Tests.{classPackage}
- *	@extends		PHPUnit_Framework_TestCase
- *	@uses			XML_WDDX_FileReader
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			03.05.2008
  *	@version		0.1
  */
-require_once( 'PHPUnit/Framework/TestCase.php' ); 
-require_once '../autoload.php5';
-import( 'de.ceus-media.xml.wddx/FileReader' );
+require_once 'PHPUnit/Framework/TestCase.php';
+require_once 'test/initLoaders.php5';
 /**
  *	TestUnit of XML_WDDX_FileReader.
  *	@package		Tests.{classPackage}
@@ -20,7 +17,7 @@ import( 'de.ceus-media.xml.wddx/FileReader' );
  *	@since			03.05.2008
  *	@version		0.1
  */
-class XML_WDDX_FileReaderTest extends PHPUnit_Framework_TestCase
+class Test_XML_WDDX_FileReaderTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 *	Constructor.

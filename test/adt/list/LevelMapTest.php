@@ -3,24 +3,23 @@
  *	TestUnit of Level Map.
  *	@package		Tests.adt.list
  *	@extends		PHPUnit_Framework_TestCase
- *	@uses			ADT_List_LevelMap
+ *	@uses			Test_ADT_List_LevelMap
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			08.05.2008
  *	@version		0.1
  */
-require_once( 'PHPUnit/Framework/TestCase.php' ); 
-require_once '../autoload.php5';
-import( 'de.ceus-media.adt.list.LevelMap' );
+require_once 'PHPUnit/Framework/TestCase.php';
+require_once 'test/initLoaders.php5';
 /**
  *	TestUnit of Level Map.
  *	@package		Tests.adt.list
  *	@extends		PHPUnit_Framework_TestCase
- *	@uses			ADT_List_LevelMap
+ *	@uses			Test_ADT_List_LevelMap
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			08.05.2008
  *	@version		0.1
  */
-class ADT_List_LevelMapTest extends PHPUnit_Framework_TestCase
+class Test_ADT_List_LevelMapTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 *	Setup for every Test.

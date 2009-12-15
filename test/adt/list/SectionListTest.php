@@ -1,26 +1,25 @@
 <?php
 /**
- *	TestUnit of ADT_List_SectionList.
+ *	TestUnit of Test_ADT_List_SectionList.
  *	@package		Tests.adt.list
  *	@extends		PHPUnit_Framework_TestCase
- *	@uses			ADT_List_SectionList
+ *	@uses			Test_ADT_List_SectionList
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			21.07.2008
  *	@version		0.1
  */
-require_once( 'PHPUnit/Framework/TestCase.php' ); 
-require_once '../autoload.php5';
-import( 'de.ceus-media.adt.list.SectionList' );
+require_once 'PHPUnit/Framework/TestCase.php';
+require_once 'test/initLoaders.php5';
 /**
- *	TestUnit of ADT_List_SectionList.
+ *	TestUnit of Test_ADT_List_SectionList.
  *	@package		Tests.adt.list
  *	@extends		PHPUnit_Framework_TestCase
- *	@uses			ADT_List_SectionList
+ *	@uses			Test_ADT_List_SectionList
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			21.07.2008
  *	@version		0.1
  */
-class ADT_List_SectionListTest extends PHPUnit_Framework_TestCase
+class Test_ADT_List_SectionListTest extends PHPUnit_Framework_TestCase
 {
 	/**	@var	array		$list		Instance of SectionList */
 	private $list;

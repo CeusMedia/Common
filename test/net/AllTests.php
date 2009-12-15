@@ -1,14 +1,11 @@
 <?php
 if( !defined( 'PHPUnit_MAIN_METHOD' ) )
-	define( 'PHPUnit_MAIN_METHOD', 'Net_AllTests::main' );
+	define( 'PHPUnit_MAIN_METHOD', 'Test_Net_AllTests::main' );
 
-require_once( 'PHPUnit/Framework/TestSuite.php' );
-require_once( 'PHPUnit/TextUI/TestRunner.php' );
-require_once( 'net/ftp/AllTests.php' );
-require_once( 'net/http/AllTests.php' );
-require_once( 'net/service/AllTests.php' );
-require_once( 'net/ReaderTest.php' );
-class Net_AllTests
+require_once 'PHPUnit/Framework/TestSuite.php';
+require_once 'PHPUnit/TextUI/TestRunner.php';
+require_once 'test/initLoaders.php5';
+class Test_Net_AllTests
 {
 	public static function main()
 	{
@@ -18,13 +15,13 @@ class Net_AllTests
 	public static function suite()
 	{
 		$suite = new PHPUnit_Framework_TestSuite( 'cmClasses/Net' );
-		$suite->addTest( Net_FTP_AllTests::suite() );
-		$suite->addTest( Net_HTTP_AllTests::suite() );
-		$suite->addTest( Net_Service_AllTests::suite() );
-		$suite->addTestSuite( 'Net_ReaderTest' );
+		$suite->addTest( Test_Net_FTP_AllTests::suite() );
+		$suite->addTest( Test_Net_HTTP_AllTests::suite() );
+		$suite->addTest( Test_Net_Service_AllTests::suite() );
+		$suite->addTestSuite( 'Test_Net_ReaderTest' );
 		return $suite;
 	}
 }
-if( PHPUnit_MAIN_METHOD == 'Net_AllTests::main' )
-	Net_AllTests::main();
+if( PHPUnit_MAIN_METHOD == 'Test_Net_AllTests::main' )
+	Test_Net_AllTests::main();
 ?>

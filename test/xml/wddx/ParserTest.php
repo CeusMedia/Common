@@ -2,14 +2,12 @@
 /**
  *	TestUnit of XML_WDDX_Parser.
  *	@package		Tests.xml.wddx
- *	@extends		PHPUnit_Framework_TestCase
- *	@uses			XML_WDDX_Parser
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			02.05.2008
  *	@version		0.1
  */
-require_once( 'PHPUnit/Framework/TestCase.php' ); 
-require_once '../autoload.php5';
+require_once 'PHPUnit/Framework/TestCase.php';
+require_once 'test/initLoaders.php5';
 import( 'de.ceus-media.xml.wddx.Parser' );
 /**
  *	TestUnit of XML_WDDX_Parser.
@@ -20,7 +18,7 @@ import( 'de.ceus-media.xml.wddx.Parser' );
  *	@since			02.05.2008
  *	@version		0.1
  */
-class XML_WDDX_ParserTest extends PHPUnit_Framework_TestCase
+class Test_XML_WDDX_ParserTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 *	Constructor.

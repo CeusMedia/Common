@@ -2,13 +2,10 @@
 /**
  *	TestUnit of Folder Editor.
  *	@package		Tests.folder
- *	@extends		PHPUnit_Framework_TestCase
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			21.04.2008
  *	@version		0.1
  */
-require_once( 'PHPUnit/Framework/TestCase.php' ); 
-require_once '../autoload.php5';
+require_once 'PHPUnit/Framework/TestCase.php';
 /**
  *	TestUnit of Folder Editor.
  *	@package		Tests.folder
@@ -50,7 +47,7 @@ require_once '../autoload.php5';
  *	      ° file3_2_1
  *	      ° .file3_2_2
  */
-class Folder_TestCase extends PHPUnit_Framework_TestCase
+class Test_Folder_TestCase extends PHPUnit_Framework_TestCase
 {
 	/**
 	 *	Constructor, creates File Structure.
@@ -59,39 +56,40 @@ class Folder_TestCase extends PHPUnit_Framework_TestCase
 	 */
 	public function __construct()
 	{
-		$this->path		= $path	= dirname( __FILE__ )."/";
+		$this->path		= $path		= dirname( __FILE__ )."/";
+		$this->folder	= $folder	= $path."folder/";
 		
-		@mkDir( $path."folder" );
-		@mkDir( $path."folder/sub1" );
-		@mkDir( $path."folder/sub1/sub1sub1" );
-		@mkDir( $path."folder/sub1/sub1sub2" );
-		@mkDir( $path."folder/sub2" );
-		@mkDir( $path."folder/sub2/sub2sub1" );
-		@mkDir( $path."folder/sub2/.sub2sub2" );
-		@mkDir( $path."folder/.sub3" );
-		@mkDir( $path."folder/.sub3/sub3sub1" );
-		@mkDir( $path."folder/.sub3/.sub3sub2" );
-		@file_put_contents( $path."folder/file1.txt", "test" );
-		@file_put_contents( $path."folder/file2.txt", "test" );
-		@file_put_contents( $path."folder/.file3.txt", "test" );
-		@file_put_contents( $path."folder/sub1/file1_1.txt", "test" );
-		@file_put_contents( $path."folder/sub1/file1_2.txt", "test" );
-		@file_put_contents( $path."folder/sub1/sub1sub1/file1_1_1.txt", "test" );
-		@file_put_contents( $path."folder/sub1/sub1sub1/file1_1_2.txt", "test" );
-		@file_put_contents( $path."folder/sub1/sub1sub2/file1_2_1.txt", "test" );
-		@file_put_contents( $path."folder/sub1/sub1sub2/file1_2_2.txt", "test" );
-		@file_put_contents( $path."folder/sub2/file2_1.txt", "test" );
-		@file_put_contents( $path."folder/sub2/.file2_2.txt", "test" );
-		@file_put_contents( $path."folder/sub2/sub2sub1/file2_1_1.txt", "test" );
-		@file_put_contents( $path."folder/sub2/sub2sub1/.file2_1_2.txt", "test" );
-		@file_put_contents( $path."folder/sub2/.sub2sub2/file2_2_1.txt", "test" );
-		@file_put_contents( $path."folder/sub2/.sub2sub2/.file2_2_2.txt", "test" );
-		@file_put_contents( $path."folder/.sub3/file3_1.txt", "test" );
-		@file_put_contents( $path."folder/.sub3/.file3_2.txt", "test" );
-		@file_put_contents( $path."folder/.sub3/sub3sub1/file3_1_1.txt", "test" );
-		@file_put_contents( $path."folder/.sub3/sub3sub1/.file3_1_2.txt", "test" );
-		@file_put_contents( $path."folder/.sub3/.sub3sub2/file3_2_1.txt", "test" );
-		@file_put_contents( $path."folder/.sub3/.sub3sub2/.file3_2_2.txt", "test" );
+		@mkDir( $folder );
+		@mkDir( $folder."sub1" );
+		@mkDir( $folder."sub1/sub1sub1" );
+		@mkDir( $folder."sub1/sub1sub2" );
+		@mkDir( $folder."sub2" );
+		@mkDir( $folder."sub2/sub2sub1" );
+		@mkDir( $folder."sub2/.sub2sub2" );
+		@mkDir( $folder.".sub3" );
+		@mkDir( $folder.".sub3/sub3sub1" );
+		@mkDir( $folder.".sub3/.sub3sub2" );
+		@file_put_contents( $folder."file1.txt", "test" );
+		@file_put_contents( $folder."file2.txt", "test" );
+		@file_put_contents( $folder.".file3.txt", "test" );
+		@file_put_contents( $folder."sub1/file1_1.txt", "test" );
+		@file_put_contents( $folder."sub1/file1_2.txt", "test" );
+		@file_put_contents( $folder."sub1/sub1sub1/file1_1_1.txt", "test" );
+		@file_put_contents( $folder."sub1/sub1sub1/file1_1_2.txt", "test" );
+		@file_put_contents( $folder."sub1/sub1sub2/file1_2_1.txt", "test" );
+		@file_put_contents( $folder."sub1/sub1sub2/file1_2_2.txt", "test" );
+		@file_put_contents( $folder."sub2/file2_1.txt", "test" );
+		@file_put_contents( $folder."sub2/.file2_2.txt", "test" );
+		@file_put_contents( $folder."sub2/sub2sub1/file2_1_1.txt", "test" );
+		@file_put_contents( $folder."sub2/sub2sub1/.file2_1_2.txt", "test" );
+		@file_put_contents( $folder."sub2/.sub2sub2/file2_2_1.txt", "test" );
+		@file_put_contents( $folder."sub2/.sub2sub2/.file2_2_2.txt", "test" );
+		@file_put_contents( $folder.".sub3/file3_1.txt", "test" );
+		@file_put_contents( $folder.".sub3/.file3_2.txt", "test" );
+		@file_put_contents( $folder.".sub3/sub3sub1/file3_1_1.txt", "test" );
+		@file_put_contents( $folder.".sub3/sub3sub1/.file3_1_2.txt", "test" );
+		@file_put_contents( $folder.".sub3/.sub3sub2/file3_2_1.txt", "test" );
+		@file_put_contents( $folder.".sub3/.sub3sub2/.file3_2_2.txt", "test" );
 	}
 
 	/**
@@ -101,8 +99,8 @@ class Folder_TestCase extends PHPUnit_Framework_TestCase
 	 */
 	public function __destruct()
 	{
-		if( file_exists( $this->path."folder" ) )
-			$this->removeFolder( $this->path."folder", true );
+		if( 0 && file_exists( $this->folder ) )
+			$this->removeFolder( $this->folder, true );
 	}
 
 	/**
@@ -116,7 +114,7 @@ class Folder_TestCase extends PHPUnit_Framework_TestCase
 		$files		= array();
 		foreach( $index as $entry )
 		{
-			if( $entry->getFileName() == "." || $entry->getFileName() == ".." )
+			if( $entry->getFilename() == "." || $entry->getFilename() == ".." )
 				continue;
 			$name	= $entry->getFilename();
 			if( $entry->isDir() )

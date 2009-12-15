@@ -2,15 +2,12 @@
 /**
  *	TestUnit of Alg_Randomizer.
  *	@package		Tests.alg
- *	@extends		PHPUnit_Framework_TestCase
- *	@uses			Alg_Randomizer
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			05.05.2008
  *	@version		0.1
  */
-require_once( 'PHPUnit/Framework/TestCase.php' ); 
-require_once '../autoload.php5';
-import( 'de.ceus-media.alg.Randomizer' );
+require_once 'PHPUnit/Framework/TestCase.php';
+require_once 'test/initLoaders.php5';
 /**
  *	TestUnit of Alg_Randomizer.
  *	@package		Tests.alg
@@ -20,7 +17,7 @@ import( 'de.ceus-media.alg.Randomizer' );
  *	@since			05.05.2008
  *	@version		0.1
  */
-class Alg_RandomizerTest extends PHPUnit_Framework_TestCase
+class Test_Alg_RandomizerTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 *	Setup for every Test.

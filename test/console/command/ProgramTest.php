@@ -2,15 +2,12 @@
 /**
  *	TestUnit of Console_Command_Program.
  *	@package		Tests.console.command
- *	@extends		PHPUnit_Framework_TestCase
- *	@uses			Console_Command_Program
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			12.01.2009
  *	@version		0.1
  */
-require_once( 'PHPUnit/Framework/TestCase.php' ); 
-require_once '../autoload.php5';
-import( 'de.ceus-media.console.command.Program' );
+require_once 'PHPUnit/Framework/TestCase.php';
+require_once 'test/initLoaders.php5';
 /**
  *	TestUnit of Console_Command_Program.
  *	@package		Tests.console.command
@@ -20,7 +17,7 @@ import( 'de.ceus-media.console.command.Program' );
  *	@since			12.01.2009
  *	@version		0.1
  */
-class Console_Command_ProgramTest extends PHPUnit_Framework_TestCase
+class Test_Console_Command_ProgramTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 *	Constructor.
@@ -67,7 +64,7 @@ class Console_Command_ProgramTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-class Console_Command_TestProgram extends Console_Command_Program
+class Test_Console_Command_TestProgram extends Console_Command_Program
 {
 	
 	public function __construct( $argumentString )

@@ -2,24 +2,21 @@
 /**
  *	TestUnit of RegexFilter for Folders.
  *	@package		Tests.folder
- *	@extends		Folder_TestCase
- *	@uses			Folder_RegexFilter
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			21.04.2008
  *	@version		0.1
  */
-require_once( 'folder/TestCase.php' );
-import( 'de.ceus-media.folder.RegexFilter' );
+require_once 'test/initLoaders.php5';
 /**
  *	TestUnit of RegexFilter for Folders.
  *	@package		Tests.folder
- *	@extends		Folder_TestCase
+ *	@extends		Test_Folder_TestCase
  *	@uses			Folder_RegexFilter
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			21.04.2008
  *	@version		0.1
  */
-class Folder_RegexFilterTest extends Folder_TestCase
+class Test_Folder_RegexFilterTest extends Test_Folder_TestCase
 {
 	/**
 	 *	Constructor.

@@ -1,12 +1,11 @@
 <?php
 if( !defined( 'PHPUnit_MAIN_METHOD' ) )
-	define( 'PHPUnit_MAIN_METHOD', 'XML_XSL_AllTests::main' );
+	define( 'PHPUnit_MAIN_METHOD', 'Test_XML_XSL_AllTests::main' );
 
 require_once 'PHPUnit/Framework/TestSuite.php';
 require_once 'PHPUnit/TextUI/TestRunner.php';
-require_once '../autoload.php5';
-require_once 'xml/xsl/TransformatorTest.php';
-class XML_XSL_AllTests
+require_once 'test/initLoaders.php5';
+class Test_XML_XSL_AllTests
 {
 	public static function main()
 	{
@@ -16,10 +15,10 @@ class XML_XSL_AllTests
 	public static function suite()
 	{
 		$suite = new PHPUnit_Framework_TestSuite( 'cmClasses/XML/XSL' );
-		$suite->addTestSuite('XML_XSL_TransformatorTest'); 
+		$suite->addTestSuite( 'Test_XML_XSL_TransformatorTest' ); 
 		return $suite;
 	}
 }
-if( PHPUnit_MAIN_METHOD == 'XML_XSL_AllTests::main' )
-	XML_DOM_AllTests::main();
+if( PHPUnit_MAIN_METHOD == 'Test_XML_XSL_AllTests::main' )
+	Test_XML_XSL_AllTests::main();
 ?>

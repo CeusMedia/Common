@@ -10,9 +10,7 @@
  *	@version		0.1
  */
 require_once 'PHPUnit/Framework/TestCase.php'; 
-require_once '../autoload.php5';
-import( 'de.ceus-media.alg.validation.Predicates' );
-import( 'de.ceus-media.alg.crypt.PasswordStrength' );
+require_once 'test/initLoaders.php5';
 /**
  *	TestUnit of Predicates.
  *	@package		Tests.alg.validation
@@ -23,7 +21,7 @@ import( 'de.ceus-media.alg.crypt.PasswordStrength' );
  *	@since			14.02.2008
  *	@version		0.1
  */
-class Alg_Validation_PredicatesTest extends PHPUnit_Framework_TestCase
+class Test_Alg_Validation_PredicatesTest extends PHPUnit_Framework_TestCase
 {
 	function setUp()
 	{

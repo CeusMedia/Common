@@ -1,21 +1,16 @@
 <?php
 /**
  *	TestUnit of File_Yaml_Writer.
- *	@package		Tests.{classPackage}
- *	@extends		PHPUnit_Framework_TestCase
- *	@uses			File_Yaml_Writer
- *	@uses			File_Yaml_Reader
+ *	@package		Tests.File
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			02.05.2008
  *	@version		0.1
  */
-require_once( 'PHPUnit/Framework/TestCase.php' ); 
-require_once '../autoload.php5';
-import( 'de.ceus-media.file.yaml/Writer' );
-import( 'de.ceus-media.file.yaml/Reader' );
+require_once 'PHPUnit/Framework/TestCase.php';
+require_once 'test/initLoaders.php5';
 /**
  *	TestUnit of File_Yaml_Writer.
- *	@package		Tests.{classPackage}
+ *	@package		Tests.File
  *	@extends		PHPUnit_Framework_TestCase
  *	@uses			File_Yaml_Writer
  *	@uses			File_Yaml_Reader
@@ -23,7 +18,7 @@ import( 'de.ceus-media.file.yaml/Reader' );
  *	@since			02.05.2008
  *	@version		0.1
  */
-class File_Yaml_WriterTest extends PHPUnit_Framework_TestCase
+class Test_File_Yaml_WriterTest extends PHPUnit_Framework_TestCase
 {
 	/**	@var	string		$fileName		URL of Archive File Name */
 	private $fileName;

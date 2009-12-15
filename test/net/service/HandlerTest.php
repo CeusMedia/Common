@@ -2,15 +2,12 @@
 /**
  *	TestUnit of Net Service Handler.
  *	@package		Tests.net.service
- *	@extends		PHPUnit_Framework_TestCase
- *	@uses			Net_Service_Handler
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			02.05.2008
  *	@version		0.1
  */
-require_once( 'PHPUnit/Framework/TestCase.php' ); 
-require_once '../autoload.php5';
-import( 'de.ceus-media.net.service.Handler' );
+require_once 'PHPUnit/Framework/TestCase.php';
+require_once 'test/initLoaders.php5';
 /**
  *	TestUnit of Net Service Handler.
  *	@package		Tests.net.service
@@ -20,7 +17,7 @@ import( 'de.ceus-media.net.service.Handler' );
  *	@since			02.05.2008
  *	@version		0.1
  */
-class Net_Service_HandlerTest extends PHPUnit_Framework_TestCase
+class Test_Net_Service_HandlerTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 *	Constructor.
