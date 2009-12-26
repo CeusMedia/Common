@@ -41,6 +41,10 @@ import( 'de.ceus-media.ui.html.Tag' );
  */
 class UI_HTML_Panel
 {
+	/**	@var		string		$classAbstract		CSS Class of Abstract DIV */
+	public static $classAbstract					= "panelAbstract";
+	/**	@var		string		$classAbstractInner	CSS Class of inner Abstract DIV */
+	public static $classAbstractInner				= "panelAbstractInner";
 	/**	@var		string		$classContent		CSS Class of Content DIV */
 	public static $classContent						= "panelContent";
 	/**	@var		string		$classContentInner	CSS Class of inner Content DIV */
@@ -56,6 +60,8 @@ class UI_HTML_Panel
 	/**	@var		string		$classPanel			CSS Class of Panel DIV */
 	public static $classPanel						= "panel";
 
+	/** @var		string		$abstract			Abstract of Panel */
+	protected $abstract			= NULL;
 	/** @var		array		$attributes			Map of Attributes of Panel DIV */
 	protected $attributes		= array();
 	/** @var		string		$content			Content of Panel */
@@ -73,28 +79,35 @@ class UI_HTML_Panel
 	 */
 	public function build( $id, $theme = "default" )
 	{
-		return $this->create( $id, $this->header, $this->content, $this->footer, $theme, $this->attributes );
+		return $this->create( $id, $this->content, $this->header, $this->abstract, $this->footer, $theme, $this->attributes );
 	}
 
 	/**
 	 *	Builds HTML Code of Panel statically.
 	 *	@access		public
 	 *	@static
-	 *	@param		string		$id				Tag ID of Panel
-	 *	@param		string		$header			Content of Header
-	 *	@param		string		$content		Content of Panel
-	 *	@param		string		$footer			Content of Footer
-	 *	@param		string		$theme			Theme / additional CSS Class of Panel
-	 *	@param		array		$attributes		Map of Attributes of Panel DIV
+	 *	@param		string		$id					Tag ID of Panel
+	 *	@param		string		$content			Content of Panel
+	 *	@param		string		$header				Content of Header
+	 *	@param		string		$abstract			Content of Abstract
+	 *	@param		string		$footer				Content of Footer
+	 *	@param		string		$theme				Theme / additional CSS Class of Panel
+	 *	@param		array		$attributes			Map of Attributes of Panel DIV
 	 *	@return		string
 	 */
-	public static function create( $id, $header, $content, $footer = NULL, $theme= "default", $attributes = array() )
+	public static function create( $id, $content, $header, $abstract, $footer = NULL, $theme= "default", $attributes = array() )
 	{
 		$divContInner	= self::wrap( (string) $content, self::$classContentInner );
 		$divCont		= self::wrap( $divContInner, self::$classContent );
+		$divAbstract	= "";
 		$divHead		= "";
 		$divFoot		= "";
 		
+		if( !is_null( $abstract ) )
+		{
+			$divAbstractInner	= self::wrap( $abstract, self::$classAbstractInner );
+			$divAbstract		= self::wrap( $divAbstractInner, self::$classAbstract );
+		}
 		if( !is_null( $footer ) )
 		{
 			$divFootInner	= self::wrap( $footer, self::$classFooterInner );
@@ -108,15 +121,26 @@ class UI_HTML_Panel
 
 		$classes		= $theme ? self::$classPanel." ".$theme : self::$classPanel;
 		$attributes		= array_merge( array( "id" => $id ), $attributes );
-		$divPanel		= self::wrap( $divHead.$divCont.$divFoot, $classes, $attributes );
+		$divPanel		= self::wrap( $divHead.$divAbstract.$divCont.$divFoot, $classes, $attributes );
 		return $divPanel;
+	}
+	
+	/**
+	 *	Sets Abstract of Panel.
+	 *	@access		public
+	 *	@param		string		$abstract			Abstract of Panel
+	 *	@return		void
+	 */
+	public function setAbstract( $abstract )
+	{
+		$this->abstract	= $abstract;
 	}
 
 	/**
 	 *	Set an Attributes of Panel DIV.
 	 *	@access		public
-	 *	@param		string		$key			Key of Attribute
-	 *	@param		string		$value			Value of Attribute
+	 *	@param		string		$key				Key of Attribute
+	 *	@param		string		$value				Value of Attribute
 	 *	@return		void
 	 */
 	public function setAttribute( $key, $value )
@@ -127,7 +151,7 @@ class UI_HTML_Panel
 	/**
 	 *	Sets a Map of Attributes of Panel DIV.
 	 *	@access		public
-	 *	@param		array		$attributes		Map of Attribute
+	 *	@param		array		$attributes			Map of Attribute
 	 *	@return		void
 	 */
 	public function setAttributes( $attributes )
@@ -139,7 +163,7 @@ class UI_HTML_Panel
 	/**
 	 *	Sets Content of Panel.
 	 *	@access		public
-	 *	@param		string		$content		Content of Panel
+	 *	@param		string		$content			Content of Panel
 	 *	@return		void
 	 */
 	public function setContent( $content )
@@ -150,7 +174,7 @@ class UI_HTML_Panel
 	/**
 	 *	Sets Footer Content of Panel.
 	 *	@access		public
-	 *	@param		string		$content		Footer Content of Panel
+	 *	@param		string		$content			Footer Content of Panel
 	 *	@return		void
 	 */
 	public function setFooter( $footer )
@@ -161,7 +185,7 @@ class UI_HTML_Panel
 	/**
 	 *	Sets Header Content of Panel.
 	 *	@access		public
-	 *	@param		string		$content		Header Content of Panel
+	 *	@param		string		$content			Header Content of Panel
 	 *	@return		void
 	 */
 	public function setHeader( $header )
@@ -173,9 +197,9 @@ class UI_HTML_Panel
 	 *	Wraps Content in DIV.
 	 *	@access		protected
 	 *	@static
-	 *	@param		string		$content		...
-	 *	@param		string		$class			CSS Class of DIV
-	 *	@param		array		$attributes		Array of Attributes
+	 *	@param		string		$content			...
+	 *	@param		string		$class				CSS Class of DIV
+	 *	@param		array		$attributes			Array of Attributes
 	 *	@return		string
 	 */
 	protected static function wrap( $content, $class, $attributes = array() )

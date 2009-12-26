@@ -44,6 +44,7 @@ class UI_HTML_PageFrame
 	protected $styles	= array();
 	protected $scripts	= array();
 	protected $metaTags	= array();
+	protected $baseHref	= NULL;
 	protected $head		= "";
 	protected $body		= "";
 	protected $profile	= NULL;
@@ -89,6 +90,8 @@ class UI_HTML_PageFrame
 
 		if( $this->title )
 			$tagsHead[]	= UI_HTML_Tag::create( 'title', $this->title );
+		if( $this->baseHref )
+			$tagsHead[]	= UI_HTML_Tag::create( 'base', NULL, array( 'href' => $this->baseHref ) );
 
 		if( $this->heading )
 			$tagsBody[]	= UI_HTML_Tag::create( 'h1', $this->heading );
@@ -211,6 +214,17 @@ class UI_HTML_PageFrame
 			'href'		=> $uri,
 		);
 		$this->styles[]	= $styleData;
+	}
+
+	/**
+	 *	...
+	 *	@access		public
+	 *	@param		string		$uri			Application Heading
+	 *	@return		void
+	 */
+	public function setBaseHref( $uri )
+	{
+		$this->baseHref	= $uri;
 	}
 	
 	/**
