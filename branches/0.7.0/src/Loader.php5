@@ -30,19 +30,29 @@ class CMC_Loader
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		bool		$registerAutoloader		Flag: register as Autoloader automatically
+	 *	@param		array|string	$extensions			List of possible File Extensions
+	 *	@param		string			$prefix				Allowed Class Name Prefix
+	 *	@param		string			$path				Path to load Files from, empty to remove set Path
+	 *	@param		string			$logFile			Path Name of Log File
 	 *	@return		void
 	 */
-	public function __construct( $registerAutoloader = FALSE )
+	public function __construct( $extensions = NULL, $prefix = NULL, $path = NULL, $logFile = NULL )
 	{
-		if( $registerAutoloader )
-			$this->registerAutoloader();
+		if( is_string( $extensions ) && !empty( $extensions ) )
+			$this->setExtensions( $extensions );
+		if( is_string( $prefix ) && !empty( $prefix ) )
+			$this->setPrefix( $prefix );
+		if( is_string( $path ) && !empty( $path ) )
+			$this->setPath( $path );
+		if( !empty( $logFile ) )
+			$this->setLogFile( $logFile );
+		$this->registerAutoloader();
 	}
 
 	/**
 	 *	Try to load a Class by its Class Name.
 	 *	@access		public
-	 *	@param		string		$className				Class Name with encoded Path
+	 *	@param		string			$className			Class Name with encoded Path
 	 *	@return		bool
 	 */
 	public function loadClass( $className )
@@ -52,6 +62,7 @@ class CMC_Loader
 			$prefix	= strtolower( substr( $className, 0, strlen( $this->prefix ) ) );
 			if( $prefix != $this->prefix )
 				return FALSE;
+			$className	= str_ireplace( $this->prefix, '', $className );
 		}
 		$path		= $this->path ? $this->path : "";
 		$fileName	= str_replace( "_","/", $className );
@@ -70,8 +81,8 @@ class CMC_Loader
 	/**
 	 *	Try to load a File by its File Name.
 	 *	@access		public
-	 *	@param		string		$fileName				File Name, absolute or relative
-	 *	@param		bool		$once					Flag: Load once only
+	 *	@param		string			$fileName			File Name, absolute or relative
+	 *	@param		bool			$once				Flag: Load once only
 	 *	@return		void
 	 */
 	public function loadFile( $fileName, $once = FALSE )
@@ -86,7 +97,7 @@ class CMC_Loader
 	/**
 	 *	...
 	 *	@access		public
-	 *	@param		string		$fileName				Name of loaded File
+	 *	@param		string			$fileName			Name of loaded File
 	 *	@return		void
 	 */
 	public function logLoadedFile( $fileName )
@@ -129,7 +140,7 @@ class CMC_Loader
 	/**
 	 *	Sets Log File Name.
 	 *	@access		public
-	 *	@param		string		$pathName				Path Name of Log File
+	 *	@param		string			$pathName			Path Name of Log File
 	 *	@return		void
 	 */
 	public function setLogFile( $pathName )
@@ -140,7 +151,7 @@ class CMC_Loader
 	/**
 	 *	Sets Path to load Files from to force absolute File Names.
 	 *	@access		public
-	 *	@param		string		$path					Path to load Files from, empty to remove set Path
+	 *	@param		string			$path				Path to load Files from, empty to remove set Path
 	 *	@return		void
 	 *	@throws		RuntimeException if Path is not existing
 	 */
@@ -154,7 +165,7 @@ class CMC_Loader
 	
 	/**
 	 *	@access		public
-	 *	@param		string		$prefix		Allowed Class Name Prefix
+	 *	@param		string			$prefix				Allowed Class Name Prefix
 	 *	@return		void
 	 */
 	public function setPrefix( $prefix )
