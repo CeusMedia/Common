@@ -47,26 +47,27 @@ class UI_HTML_CollapsePanel extends UI_HTML_Panel
 	 *	Builds HTML Code of Panel.
 	 *	@access		public
 	 *	@static
-	 *	@param		string		$id				Tag ID of Panel
-	 *	@param		string		$header			Content of Header
-	 *	@param		string		$content		Content of Panel
-	 *	@param		string		$footer			Content of Footer
-	 *	@param		string		$class			CSS Class of Panel
-	 *	@param		array		$attributes		Map of Attributes of Panel DIV
+	 *	@param		string		$id					Tag ID of Panel
+	 *	@param		string		$content			Content of Panel
+	 *	@param		string		$header				Content of Header
+	 *	@param		string		$abstract			Content of Abstract
+	 *	@param		string		$footer				Content of Footer
+	 *	@param		string		$class				CSS Class of Panel
+	 *	@param		array		$attributes			Map of Attributes of Panel DIV
 	 *	@return		string
 	 */
-	public static function create( $id, $header, $content, $footer = NULL, $theme = "default", $attributes = array() )
+	public static function create( $id, $content, $header, $abstract, $footer = NULL, $theme = "default", $attributes = array() )
 	{
 		$classes	= $theme ? self::$classPanel." ".$theme : self::$classPanel;
-		return parent::create( $id, $header, $content, $footer, $classes, $attributes );
+		return parent::create( $id, $content, $header, $abstract, $footer, $classes, $attributes );
 	}
 
 	/**
 	 *	Builds JQuery Plugin Call for Panel.
 	 *	@access		public
 	 *	@static
-	 *	@param		string		$selector		CSS Selector of Panel
-	 *	@param		array		$options		JQuery Plugin Options
+	 *	@param		string		$selector			CSS Selector of Panel
+	 *	@param		array		$options			JQuery Plugin Options
 	 *	@return		string
 	 *	@todo		change selector to id
 	 */
