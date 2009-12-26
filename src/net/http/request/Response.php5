@@ -126,6 +126,11 @@ class Net_HTTP_Request_Response
 	{
 		$this->status	= $status;
 	}
+
+	public function setContentType( $mimeType )
+	{
+		$this->addHeader( 'Content-type', $mimeType );
+	}
 	
 	/**
 	 *	Writes Data to Response.
