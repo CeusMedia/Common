@@ -1,6 +1,6 @@
 <?php
 /**
- *	Registry Pattern Implementation to store Objects.
+ *	Registry Pattern Singleton Implementation to store Objects.
  *
  *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
  *
@@ -27,7 +27,7 @@
  *	@version		0.6
  */
 /**
- *	Registry Pattern Implementation to store Objects.
+ *	Registry Pattern Singleton Implementation to store Objects.
  *	@category		cmClasses
  *	@package		framework.krypton.core
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
@@ -60,6 +60,17 @@ class ADT_Registry
 	 *	@return		void
 	 */
 	private function __clone() {}
+	
+	/**
+	 *	Cleares registered Object.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function clear()
+	{
+		foreach( $GLOBALS[$this->poolKey] as $key => $value )
+			unset( $GLOBALS[$this->poolKey][$key] );
+	}
 
 	/**
 	 *	Returns Instance of Registry.

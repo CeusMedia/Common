@@ -19,7 +19,7 @@
  *
  *	@category		cmClasses
  *	@package		file.log
- *	@uses			TimeConverter
+ *	@uses			Alg_Time_Converter
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -31,7 +31,7 @@ import ("de.ceus-media.alg.TimeConverter");
  *	Writer for Log File.
  *	@category		cmClasses
  *	@package		file.log
- *	@uses			TimeConverter
+ *	@uses			Alg_Time_Converter
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -63,7 +63,7 @@ class File_Log_Writer
 	 */
 	public function note( $line, $format = "datetime" )
 	{
-		$converter 	= new Alg_TimeConverter();
+		$converter 	= new Alg_Time_Converter();
 		$time		= $format ? " [".$converter->convertToHuman( time(), $format )."]" : "";
 		$message	= time().$time." ".$line."\n";
 		return error_log( $message, 3, $this->uri );
