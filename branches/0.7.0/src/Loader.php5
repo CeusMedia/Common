@@ -26,6 +26,8 @@ class CMC_Loader
 	protected $logFile		= NULL;
 	protected $path			= NULL;
 	protected $prefix		= NULL;
+	protected $lowerPath	= FALSE;
+	protected $verbose		= FALSE;
 
 	/**
 	 *	Constructor.
@@ -46,7 +48,11 @@ class CMC_Loader
 			$this->setPath( $path );
 		if( !empty( $logFile ) )
 			$this->setLogFile( $logFile );
+		$this->lineBreak		= "<br/>";
+		if( getEnv( 'PROMPT' ) || getEnv( 'SHELL' ) )
+			$this->lineBreak		= "\n";
 		$this->registerAutoloader();
+
 	}
 
 	/**
@@ -64,13 +70,24 @@ class CMC_Loader
 				return FALSE;
 			$className	= str_ireplace( $this->prefix, '', $className );
 		}
-		$path		= $this->path ? $this->path : "";
-		$fileName	= str_replace( "_","/", $className );
+		$basePath		= $this->path ? $this->path : "";
+		if( $this->lowerPath )
+		{
+			$matches	= array();
+			preg_match_all( '/^(.*)([a-z]+)$/iU', $className, $matches );
+			$fileName	= $matches[2][0];
+			$pathName	= str_replace( "_","/", strtolower( $matches[1][0] ) );
+			$fileName	= $pathName.$fileName;
+		}
+		else
+			$fileName	= str_replace( "_","/", $className );
 		foreach( $this->extensions as $extension )
 		{
-			$filePath	= $path.$fileName.".".$extension;
-#			echo "<br/>autoload: ".$filePath;
-			if( !@fopen( $filePath, "r", TRUE ) )
+			$filePath	= $basePath.$fileName.".".$extension;
+			if( $this->verbose )
+				echo $this->lineBreak."autoload: ".$filePath;
+#			if( !@fopen( $filePath, "r", TRUE ) )
+			if( !file_exists( $filePath ) )
 				continue;
 			self::loadFile( $filePath );
 			return TRUE;
@@ -103,7 +120,7 @@ class CMC_Loader
 	public function logLoadedFile( $fileName )
 	{
 		if( $this->logFile )
-			error_log( $fileName."\n", 3, $this->logFile );
+			error_log( time()." ".$fileName."\n", 3, $this->logFile );
 	}
 	
 	/**
@@ -137,6 +154,16 @@ class CMC_Loader
 			$this->extensions[]	= trim( $extension );
 	}
 
+	public function setLowerPath( $bool )
+	{
+		$this->lowerPath	= (bool) $bool;	
+	}
+
+	public function setVerbose( $bool )
+	{
+		$this->verbose	= (bool) $bool;	
+	}
+
 	/**
 	 *	Sets Log File Name.
 	 *	@access		public
@@ -145,7 +172,7 @@ class CMC_Loader
 	 */
 	public function setLogFile( $pathName )
 	{
-		$this->fileLog	= $pathName;
+		$this->logFile	= $pathName;
 	}
 	
 	/**
@@ -160,6 +187,7 @@ class CMC_Loader
 #		if( $path && !file_exists( $path ) )
 #			throw new RuntimeException( 'Invalid path' );
 		$path	= str_replace( DIRECTORY_SEPARATOR, "/", $path );
+		$path	= preg_replace( "@(.+)/$@", "\\1", $path )."/";
 		$this->path	= $path;
 	}
 	
