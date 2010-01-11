@@ -119,7 +119,6 @@ class UI_Image_Drawer
 	public function show( $quality = 100 )
 	{
 		UI_Image_Printer::showImage( $this->image, $this->type, $quality );
-		die;
 	}
 }
 ?>
