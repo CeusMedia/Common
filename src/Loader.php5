@@ -40,7 +40,7 @@ class CMC_Loader
 	 */
 	public function __construct( $extensions = NULL, $prefix = NULL, $path = NULL, $logFile = NULL )
 	{
-		if( is_string( $extensions ) && !empty( $extensions ) )
+		if( !empty( $extensions ) )
 			$this->setExtensions( $extensions );
 		if( is_string( $prefix ) && !empty( $prefix ) )
 			$this->setPrefix( $prefix );
