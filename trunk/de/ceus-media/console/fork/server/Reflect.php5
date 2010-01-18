@@ -1,6 +1,6 @@
 <?php
-require_once( "Abstract.php5" );
-class Fork_Server_Reflect extends Server_Fork_Abstract
+import( 'de.ceus-media.console.fork.server.Abstract' );
+class Fork_Server_Reflect extends Console_Fork_Server_Abstract
 {
 	protected function handleRequest( $request )
 	{

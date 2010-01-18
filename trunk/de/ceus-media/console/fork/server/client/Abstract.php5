@@ -6,7 +6,7 @@ abstract class Fork_Server_Client_Abstract
 	public function __construct( $port = NULL )
 	{
 		if( !is_null( $port ) );
-			$this->setPort( $port )
+			$this->setPort( $port );
 	}
 	
 	abstract function getRequest();
