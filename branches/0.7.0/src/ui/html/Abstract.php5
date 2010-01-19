@@ -25,7 +25,8 @@ abstract class UI_HTML_Abstract implements Renderable
 					$this->addClass( $class );
 				continue;
 			}
-			$this->attributes[$key]	= $value;
+			else
+				$this->attributes[$key]	= $value;
 		}
 	}
 
@@ -47,9 +48,8 @@ abstract class UI_HTML_Abstract implements Renderable
 	
 	public function setAttributes( $attributes = array() )
 	{
-		$this->attributes	= array(
-			'class'	=> array()
-		);
+		if( !empty( $attributes['class'] ) && is_string( $attributes['class'] ) )
+			$attributes['class']	= explode( ' ', $attributes['class'] );
 		$this->addAttributes( $attributes );
 	}
 
