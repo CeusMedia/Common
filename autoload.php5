@@ -10,6 +10,7 @@ $__loaderLib->setPath( PATH_CMCLASSES );															//  lower Class Path
 $__loaderLib->setLowerPath( TRUE );
 $__loaderLib->setVerbose( FALSE );
 #$__loaderLib->setPrefix( 'CMC' );																	//  later: set Class Name Prefix (classes are not prefixed yet) || NOTE: kriss:this is not working at the moment because the autoloader needs to remove the pending underscore aswell. 
+$__loaderLib->registerAutoloader();
 define( 'CMC_LOADED', TRUE );
 
 /*  --  Standard Local AutoLoader  -- */

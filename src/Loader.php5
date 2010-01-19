@@ -28,6 +28,7 @@ class CMC_Loader
 	protected $prefix		= NULL;
 	protected $lowerPath	= FALSE;
 	protected $verbose		= FALSE;
+	protected $lineBreak	= NULL;
 
 	/**
 	 *	Constructor.
@@ -51,8 +52,13 @@ class CMC_Loader
 		$this->lineBreak		= "<br/>";
 		if( getEnv( 'PROMPT' ) || getEnv( 'SHELL' ) )
 			$this->lineBreak		= "\n";
-		$this->registerAutoloader();
+	}
 
+	public static function registerNew( $extensions = NULL, $prefix = NULL, $path = NULL, $logFile = NULL )
+	{
+		$loader	= new CMC_Loader( $extensions, $prefix, $path, $logFile );
+		$loader->registerAutoloader();
+		return $loader;
 	}
 
 	/**
@@ -98,8 +104,8 @@ class CMC_Loader
 	/**
 	 *	Try to load a File by its File Name.
 	 *	@access		public
-	 *	@param		string			$fileName			File Name, absolute or relative
-	 *	@param		bool			$once				Flag: Load once only
+	 *	@param		string		$fileName				File Name, absolute or relative
+	 *	@param		bool		$once					Flag: Load once only
 	 *	@return		void
 	 */
 	public function loadFile( $fileName, $once = FALSE )
@@ -114,13 +120,13 @@ class CMC_Loader
 	/**
 	 *	...
 	 *	@access		public
-	 *	@param		string			$fileName			Name of loaded File
+	 *	@param		string		$fileName				Name of loaded File
 	 *	@return		void
 	 */
 	public function logLoadedFile( $fileName )
 	{
 		if( $this->logFile )
-			error_log( time()." ".$fileName."\n", 3, $this->logFile );
+			error_log( $fileName."\n", 3, $this->logFile );
 	}
 	
 	/**
