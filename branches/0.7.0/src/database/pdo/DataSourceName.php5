@@ -63,14 +63,44 @@ class Database_PDO_DataSourceName
 	 *	@param		string		$password		Password
 	 *	@return		void
 	 */
-	public function __construct( $type, $hostname = NULL, $port = NULL, $database, $username = NULL, $password = NULL )
+	public function __construct( $type, $hostname = NULL, $port = NULL, $database = NULL, $username = NULL, $password = NULL )
 	{
 		$this->type		= strtolower( $type );
-		$this->hostname	= $hostname;
-		$this->port		= $port;
+		if( $hostname )
+			$this->setHostname( $hostname );
+		if( $port )
+			$this->setPort( $port );
+		if( $database )
+			$this->setDatabase( $database );
+		if( $username )
+			$this->setUsername( $username );
+		if( $password )
+			$this->setPassword( $password );
+	}
+
+	public function setDatabase( $database )
+	{
 		$this->database	= $database;
-		$this->username	= $username;
+	}
+
+	public function setHostname( $hostname )
+	{
+		$this->hostname	= $hostname;
+	}
+
+	public function setPassword( $password )
+	{
 		$this->password	= $password;
+	}
+
+	public function setPort( $port )
+	{
+		$this->port	= $port;
+	}
+
+	public function setUsername( $username )
+	{
+		$this->username	= $username;
 	}
 
 	/**
