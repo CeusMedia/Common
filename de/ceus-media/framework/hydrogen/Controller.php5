@@ -55,21 +55,21 @@ class Framework_Hydrogen_Controller
 		'action',
 		);
 	/**	@var		Database_MySQL_Connection		$dbc			Database Connection */
-	var $dbc;
+	protected $dbc;
 	/**	@var		array							$config			Configuration Settings */
-	var $config;
+	protected $config;
 	/**	@var		Net_HTTP_PartitionSession		$session		Partition Session */
-	var $session;
+	protected $session;
 	/**	@var		Net_HTTP_Request_Receiver		$request		Receiver of Request Parameters */
-	var $request;
+	protected $request;
 	/**	@var		Framework_Hydrogen_Language		$language		Language Support */
-	var $language;
+	protected $language;
 	/**	@var		Framework_Hydrogen_Messenger	$messenger		UI Messenger */
-	var $messenger;
+	protected $messenger;
 	/**	@var		string							$controller		Name of called Controller */
-	var $controller	= "";
+	protected $controller	= "";
 	/**	@var		string							$action			Name of called Action */
-	var $action	= "";
+	protected $action	= "";
 	/**	@var		bool							$redirect		Flag for Redirection */
 	var $redirect	= FALSE;
 
@@ -133,6 +133,7 @@ class Framework_Hydrogen_Controller
 		{
 			$this->view->{$this->action}();
 			$this->view->setData( $this->getData() );
+			$this->view->setData( array( 'words' => $this->language->getWords( $this->controller ) ) );
 			return $this->view->loadTemplate();
 		}
 		else
@@ -163,7 +164,7 @@ class Framework_Hydrogen_Controller
 	{
 		$base	= dirname( getEnv( 'SCRIPT_NAME' ) )."/";
 		$this->dbc->close();
-		$this->session->close();
+	#	$this->session->close();
 		header( "Location: ".$base.$uri );
 		die;
 	}
@@ -176,7 +177,7 @@ class Framework_Hydrogen_Controller
 	 */
 	protected function getFilenameOfModel( $controller )
 	{
-		$filename	= $this->config['paths']['models'].ucfirst( $controller)."Model.php5";
+		$filename	= $this->config['paths']['models'].ucfirst( $controller).".php5";
 		return $filename;
 	}
 
@@ -188,7 +189,7 @@ class Framework_Hydrogen_Controller
 	 */
 	protected function getFilenameOfView( $controller )
 	{
-		$filename	= $this->config['paths']['views'].ucfirst( $controller)."View.php5";
+		$filename	= $this->config['paths']['views'].ucfirst( $controller).".php5";
 		return $filename;
 	}
 	
@@ -197,16 +198,16 @@ class Framework_Hydrogen_Controller
 	 *	@access		protected
 	 *	@return		void
 	 */
-	protected function loadModel()
+	protected function loadModel( $force = FALSE )
 	{
 		$filename	= $this->getFilenameOfModel( ucfirst( $this->controller ) );
 		if( file_exists( $filename ) )
 		{
 			require_once( $filename );
-			$class	= ucfirst( $this->controller )."Model";
-			$this->model	= new $class( $this );
+			$class	= "Model_".ucfirst( $this->controller );
+			$this->model	= new $class( $this->application );
 		}
-		else
+		else if( $force )
 			$this->messenger->noteFailure( "Model '".ucfirst( $this->controller )."' not defined yet." );
 	}
 
@@ -221,8 +222,8 @@ class Framework_Hydrogen_Controller
 		if( file_exists( $filename ) )
 		{
 			require_once( $filename );
-			$class	= ucfirst( $this->controller )."View";
-			$this->view	= new $class( $this );
+			$class	= "View_".ucfirst( $this->controller );
+			$this->view	= new $class( $this->application );
 		}
 		else
 			$this->messenger->noteFailure( "View '".ucfirst( $this->controller )."' not defined yet." );
@@ -231,10 +232,10 @@ class Framework_Hydrogen_Controller
 	/**
 	 *	Sets Environment of Controller by copying Framework Member Variables.
 	 *	@access		protected
-	 *	@param		Framework_Hydrogen_Framework	$application		Instance of Framework
+	 *	@param		Framework_Hydrogen_Base	$application		Instance of Framework
 	 *	@return		void
 	 */
-	protected function setEnv( &$application )
+	protected function setEnv( Framework_Hydrogen_Base &$application )
 	{
 		$this->application	=& $application;
 		foreach( $this->envKeys as $key )

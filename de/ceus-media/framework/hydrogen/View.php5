@@ -46,11 +46,11 @@ import( 'de.ceus-media.alg.TimeConverter' );
 class Framework_Hydrogen_View
 {
 	/**	@var		Framework_Hydrogen_Framework	$application	Instance of Framework */
-	var $application;
+	protected $application;
 	/**	@var		array							$data			Collected Data for View */
-	var $data	= array();
+	protected $data	= array();
 	/**	@var		array							$envKeys		Keys of Environment */
-	var $envKeys	= array(
+	protected $envKeys	= array(
 		'dbc',
 		'config',
 		'session',
@@ -62,21 +62,21 @@ class Framework_Hydrogen_View
 		'action',
 		);
 	/**	@var		Database_MySQL_Connection		$dbc			Database Connection */
-	var $dbc;
+	protected $dbc;
 	/**	@var		array							$config			Configuration Settings */
-	var $config;
+	protected $config;
 	/**	@var		Net_HTTP_PartitionSession		$session		Partition Session */
-	var $session;
+	protected $session;
 	/**	@var		Net_HTTP_Request_Receiver		$request		Receiver of Request Parameters */
-	var $request;
+	protected $request;
 	/**	@var		Framework_Hydrogen_Language		$language		Language Support */
-	var $language;
+	protected $language;
 	/**	@var		Framework_Hydrogen_Messenger	$messenger		UI Messenger */
-	var $messenger;
+	protected $messenger;
 	/**	@var		string							$controller		Name of called Controller */
-	var $controller	= "";
+	protected $controller	= "";
 	/**	@var		string							$action			Name of called Action */
-	var $action	= "";
+	protected $action	= "";
 
 	/**
 	 *	Constructor.
@@ -130,7 +130,7 @@ class Framework_Hydrogen_View
 			$content	= require( $filename );
 		}
 		else
-			$this->messenger->noteFailure( "Template '".$controller.".".$action."' is not existing." );
+			$this->messenger->noteFailure( "Template '".$this->controller."/".$this->action."' is not existing." );
 		return $content;
 	}
 	
@@ -150,10 +150,10 @@ class Framework_Hydrogen_View
 	/**
 	 *	Sets Environment of Controller by copying Framework Member Variables.
 	 *	@access		protected
-	 *	@param		Framework_Hydrogen_Framework	$application		Instance of Framework
+	 *	@param		Framework_Hydrogen_Base	$application		Instance of Framework
 	 *	@return		void
 	 */
-	protected function setEnv( $application )
+	protected function setEnv( Framework_Hydrogen_Base $application )
 	{
 		$this->application	=& $application;
 		foreach( $this->envKeys as $key )

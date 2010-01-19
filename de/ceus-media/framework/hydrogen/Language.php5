@@ -92,11 +92,11 @@ class Framework_Hydrogen_Language
 	 *	@param		string		$topic			Topic of Language
 	 *	@return		array
 	 */
-	public function getWords( $topic )
+	public function getWords( $topic, $force = FALSE )
 	{
 		if( isset( $this->_data[$topic] ) )
 			return $this->_data[$topic];
-		else
+		else if( $force )
 			$this->messenger->noteFailure( "Language Topic '".$topic."' is not defined yet." );
 	}
 	
@@ -106,7 +106,7 @@ class Framework_Hydrogen_Language
 	 *	@param		string		$topic			Topic of Language
 	 *	@return		void
 	 */
-	public function load( $topic )
+	public function load( $topic, $force = FALSE )
 	{
 		$filename	= $this->getFilenameOfLanguage( $topic );
 		if( file_exists( $filename ) )
@@ -114,8 +114,8 @@ class Framework_Hydrogen_Language
 			$data	= parse_ini_file( $filename, true );
 			$this->_data[$topic]	= $data;
 		}
-		else
-			$this->messenger->noteFailure( "Language Topic '".$topic."' is not defined yet." );
+		else if( $force )
+			$this->messenger->noteFailure( "Language File '".$topic."' is not defined yet." );
 	}
 
 	/**

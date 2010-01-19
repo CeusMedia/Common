@@ -43,19 +43,19 @@ import( 'de.ceus-media.database.TableWriter' );
 class Framework_Hydrogen_Model
 {
 	/**	@var		string						$name			Name of Model */
-	var $name		= "";
+	protected $name		= "";
 	/**	@var		array						$field			Array of Table Field */
-	var $fields		= array();
+	protected $fields		= array();
 	/**	@var		array						$name			Array of foreign Keys of Table */
- 	var $foreign_keys	= array();
+ 	protected $foreign_keys	= array();
 	/**	@var		string						$primary_key	Primary Key of Table*/
-	var $primary_key	= "";
+	protected $primary_key	= "";
 	/**	@var		Database_TableWriter		$table			TableWriter for accessing Database Table */
-	var $table;
+	protected $table;
 	/**	@var		Database_MySQL_Connection	$dbc			Database Connection  */
-	var $_dbc;
+	protected $_dbc;
 	/**	@var		string						$_prefix		Table Prefix */
-	var $_prefix;
+	protected $_prefix;
 
 
 	/**
@@ -186,7 +186,7 @@ class Framework_Hydrogen_Model
 	{
 		foreach( $keys as $key => $value )
 			$this->table->focusForeign( $key, $value );
-		$data	= $this->table->getData( array(), $conditions, $orders, $limits );
+		$data	= $this->table->getAllData( array(), $conditions, $orders, $limits );
 		$this->table->defocus();
 		return $data;
 	}
@@ -231,13 +231,13 @@ class Framework_Hydrogen_Model
 	/**
 	 *	Sets Environment of Controller by copying Framework Member Variables.
 	 *	@access		protected
-	 *	@param		Framework_Hydrogen_Framework	$application		Instance of Framework
+	 *	@param		Framework_Hydrogen_Base	$application		Instance of Framework
 	 *	@return		void
 	 */
-	protected function setEnv( $application )
+	protected function setEnv( Framework_Hydrogen_Base $application )
 	{
 		$this->_prefix	= $application->config['config']['table_prefix'];
-		$this->_dbc	= $application->dbc;
+		$this->_dbc		= $application->dbc;
 		$this->_table	= $this->_prefix.$this->name;
 	}
 }
