@@ -19,17 +19,6 @@
  *
  *	@category		cmClasses
  *	@package		framework.hydrogen
- *	@uses			Database_MySQL_Connection
- *	@uses			File_INI_Reader
- *	@uses			Net_HTTP_PartitionSession
- *	@uses			Net_HTTP_Request_Receiver
- *	@uses			StopWatch
- *	@uses			FieldDefinition
- *	@uses			Framework_Hydrogen_Messenger
- *	@uses			Framework_Hydrogen_Model
- *	@uses			Framework_Hydrogen_View
- *	@uses			Framework_Hydrogen_Controller
- *	@uses			Framework_Hydrogen_Language
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -41,7 +30,7 @@ import( 'de.ceus-media.database.MySQL.Connection' );
 import( 'de.ceus-media.file.ini.Reader' );
 import( 'de.ceus-media.net.http.PartitionSession' );
 import( 'de.ceus-media.net.http.request.Receiver' );
-import( 'de.ceus-media.StopWatch' );
+import( 'de.ceus-media.alg.time.Clock' );
 import( 'de.ceus-media.framework.hydrogen.FieldDefinition' );
 import( 'de.ceus-media.framework.hydrogen.Messenger' );
 import( 'de.ceus-media.framework.hydrogen.Model' );
@@ -56,7 +45,7 @@ import( 'de.ceus-media.framework.hydrogen.Language' );
  *	@uses			File_INI_Reader
  *	@uses			Net_HTTP_PartitionSession
  *	@uses			Net_HTTP_Request_Receiver
- *	@uses			StopWatch
+ *	@uses			Alg_Time_Clock
  *	@uses			Framework_Hydrogen_FieldDefinition
  *	@uses			Framework_Hydrogen_Messenger
  *	@uses			Framework_Hydrogen_Model
@@ -73,7 +62,7 @@ import( 'de.ceus-media.framework.hydrogen.Language' );
  */
 class Framework_Hydrogen_Base
 {
-	var $config;
+	public $config;
 	var $dbc;
 	var $session;
 	var $request;
@@ -87,7 +76,7 @@ class Framework_Hydrogen_Base
 	
 	var $_components;
 	var $_dev;
-	var $_sw;
+	var $clock;
 	
 	/**
 	 *	Constructor.
@@ -115,7 +104,7 @@ class Framework_Hydrogen_Base
 				'messages'		=> $this->messenger->buildMessages( $this->config['layout']['format_timestamp'] ),
 				'language'		=> $this->config['languages']['default'],
 				'words'			=> $this->language->getWords( 'main' ),
-				'stopwatch'		=> $this->_sw->stop(),
+				'stopwatch'		=> $this->clock->stop(),
 				'dev'			=> $this->_dev,
 			)
 		);
@@ -127,10 +116,15 @@ class Framework_Hydrogen_Base
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function control()
+	public function control( $defaultController = 'index', $defaultAction = 'index' )
 	{
+		if( !$this->request->get( 'controller' ) )
+			$this->request->set( 'controller', $defaultController );
+		if( !$this->request->get( 'action' ) )
+			$this->request->set( 'action', $defaultAction );
 		$this->controller	= $this->request->get( 'controller' );
 		$this->action		= $this->request->get( 'action' );
+		
 #		remark( "controller: ".$this->controller );
 #		remark( "action: ".$this->action );
 		
@@ -139,7 +133,7 @@ class Framework_Hydrogen_Base
 		if( file_exists( $filename ) )
 		{
 			require_once( $filename );
-			$class		= ucfirst( $this->controller )."Controller";
+			$class		= "Controller_".ucfirst( $this->controller );
 			$controller	= new $class( $this );
 			if( method_exists( $controller, $this->action ) )
 			{
@@ -158,7 +152,7 @@ class Framework_Hydrogen_Base
 	}
 
 	/**
-	 *	Sets collated View Components for Master View.
+	 *	Sets collacted View Components for Master View.
 	 *	@access		public
 	 *	@return		void
 	 */
@@ -175,6 +169,7 @@ class Framework_Hydrogen_Base
 	public function view()
 	{
 		extract( $this->_components );
+		$words	= $this->language->getWords( 'main' );
 		require_once( $this->config['paths']['templates']."master.php" );
 		unset( $this->session );			//		->close();
 		$this->dbc->close();
@@ -201,7 +196,7 @@ class Framework_Hydrogen_Base
 	 */
 	protected function getFilenameOfController( $controller )
 	{
-		$filename	= $this->config['paths']['controllers'].ucfirst( $controller)."Controller.php5";
+		$filename	= $this->config['paths']['controllers'].ucfirst( $controller).".php5";
 		return $filename;
 	}
 	
@@ -212,7 +207,7 @@ class Framework_Hydrogen_Base
 	 */
 	private function init()
 	{
-		$this->_sw	= new StopWatch();
+		$this->clock	= new Alg_Time_Clock();
 		
 		//  --  CONFIGURATION  --  //
 		$ir_conf		= new File_INI_Reader( "config/config.ini", TRUE );
@@ -227,8 +222,8 @@ class Framework_Hydrogen_Base
 
 		//  --  DATABASE CONNECTION  --  //
 		$data		= parse_ini_file( "config/db_access.ini" );
-		$this->dbc	= new Database_MySQL_Connection ( $data['type'], $data['logfile'] );
-		$this->dbc->connect( $data['hostname'], $data['username'], $data['password'], $data['database'] );
+		$this->dbc	= new Database_MySQL_Connection( $data['type'], $data['logfile'] );
+		$this->dbc->connect( $data['hostname'], $data['username'], $data['password'], $data['database'], (bool) $data['lazy'] );
 		$this->config['config']['table_prefix']	= $data['prefix'];
 		
 		//  --  LANGUAGE SUPPORT  --  //
