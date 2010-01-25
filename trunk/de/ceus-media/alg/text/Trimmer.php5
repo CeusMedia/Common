@@ -37,7 +37,7 @@
  *	@since			0.6.8
  *	@version		$Id$
  */
-class Alg_StringTrimmer
+class Alg_Text_Trimmer
 {
 	/**
 	 *	Trims String and cuts to the right if too long, also adding a mask string.
@@ -50,10 +50,11 @@ class Alg_StringTrimmer
 	 */
 	public static function trim( $string, $length = 0, $mask = "..." )
 	{
+		$maskLength	= preg_match( '/^&.*;$/', $mask ) ? 1 : strlen( $mask );
 		$string	= trim( $string );
 		if( !( $length && strlen( $string ) > $length ) )
 			return $string;
-		$string	= substr( $string, 0, $length - strlen( $mask ) );
+		$string	= substr( $string, 0, $length - $maskLength );
 		$string	.= $mask;
 		return $string;
 	}
@@ -69,13 +70,14 @@ class Alg_StringTrimmer
 	 */
 	public static function trimCentric( $string, $length = 0, $mask = "..." )
 	{
-		if( strlen( $mask ) >= $length )
-			throw new InvalidArgumentException( 'Lenght must be greater than '.strlen( $mask ) );
+		$maskLength	= preg_match( '/^&.*;$/', $mask ) ? 1 : strlen( $mask );
+		if( $maskLength >= $length )
+			throw new InvalidArgumentException( 'Lenght must be greater than '.$maskLength );
 
 		if( !( $length && strlen( $string ) > $length ) )
 			return $string;
 
-		$range	= ( $length - strlen( $mask ) ) / 2;
+		$range	= ( $length - $maskLength ) / 2;
 		$left	= substr( $string, 0, ceil( $range ) );
 		$right	= substr( $string, -floor( $range ) );
 
