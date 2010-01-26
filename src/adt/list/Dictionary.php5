@@ -107,6 +107,11 @@ class ADT_List_Dictionary implements ArrayAccess, Countable, Iterator
 	{
 		return $this->pairs;
 	}
+
+	public function getKeys()
+	{
+		return array_keys( $this->pairs );
+	}
 	
 	/**
 	 *	Returns corresponding Key of a Value if Value is in Dictionary, otherwise NULL.

@@ -39,10 +39,10 @@ abstract class UI_HTML_Abstract implements Renderable
 		return $attributes;
 	}
 
-	protected function renderInner( $content )
+	protected function renderInner()
 	{
-		if( $content instanceof Renderable )
-			$content	= $content->render();
+		if( $this->content instanceof Renderable )
+			$content	= $this->content->render();
 		return $content;
 	}
 	
