@@ -194,13 +194,12 @@ abstract class Framework_Krypton_Base
 				$options[constant( "PDO::".$key )]	= eval( "return ".$value.";" );
 
 		//  --  DATA SOURCE NAME  --  //
-		$dsn	= new Database_PDO_DataSourceName(
-			$config['database.access.type'],
-			$config['database.access.hostname'],
-			$config['database.access.port'],
-			$config['database.access.database'],
-			$config['database.access.username'],
-			$config['database.access.password']
+		$dsn	= new Database_PDO_DataSourceName( $config['database.access.type'] );
+		$dsn->setDatabase( $config['database.access.database'] );
+		$dsn->setHost( $config['database.access.hostname'] );
+		$dsn->setPort( $config['database.access.port'] );
+		$dsn->setUsername( $config['database.access.username'] );
+		$dsn->setPassword( $config['database.access.password'] );
 		);
 
 		//  --  DATABASE CONNECTION  --  //
