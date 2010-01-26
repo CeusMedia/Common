@@ -27,10 +27,12 @@
  *	@version		0.1
  *	@link			http://www.ietf.org/rfc/rfc2426.txt
  */
+import( 'de.ceus-media.file.vcard.Builder' );
 /**
  *	Data Object for vCard.
  *	@category		cmClasses
  *	@package		adt
+ *	@uses			File_VCard_Builder
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -48,9 +50,18 @@ class ADT_VCard
 		'email'		=> array(),
 		'fn'		=> NULL,
 		'geo'		=> array(),
-		'n'			=> array(),
+		'n'			=> array(
+			'familyName'		=> NULL,
+			'givenName'			=> NULL,
+			'additionalNames'	=> NULL,
+			'honorificPrefixes'	=> NULL,
+			'honorificSuffixes'	=> NULL,
+		),
 		'nickname'	=> array(),
-		'org'		=> array(),
+		'org'		=> array(
+			'name' => NULL,
+			'unit' => NULL
+		),
 		'role'		=> NULL,
 		'tel'		=> array(),
 		'title'		=> NULL,
@@ -232,6 +243,19 @@ class ADT_VCard
 	}
 
 	/**
+	 *	Returns a specific Organisation Field by its Key.
+	 *	@access		public
+	 *	@param		string		$key		Field Key
+	 *	@return		string
+	 */
+	public function getOrganisationField( $key )
+	{
+		if( !array_key_exists( $key, $this->types['org'] ) )
+			throw new InvalidArgumentException( 'Organisation Key "'.$key.'" is invalid.' );
+		return $this->types['org'][$key];
+	}
+
+	/**
 	 *	...
 	 *	@access		public
 	 *	@return		array
@@ -320,7 +344,7 @@ class ADT_VCard
 	 *	@param		string		$unit					Organisation Unit
 	 *	@return		void
 	 */
-	public function setOrganisation( $name, $unit )
+	public function setOrganisation( $name, $unit = NULL )
 	{
 		$this->types['org']	= array(
 			'name'		=> $name,
@@ -348,6 +372,35 @@ class ADT_VCard
 	public function setTitle( $title )
 	{
 		$this->types['title']	= $title;
+	}
+
+	public function toArray()
+	{
+		return array(
+			'address'		=> $this->types['adr'],
+			'email'			=> $this->types['email'],
+			'formatedName'	=> $this->types['fn'],
+			'geo'			=> $this->types['geo'],
+			'name'			=> $this->types['n'],
+			'nickname'		=> $this->types['nickname'],
+			'organisation'	=> $this->types['org'],
+			'role'			=> $this->types['role'],
+			'telephone'		=> $this->types['tel'],
+			'title'			=> $this->types['title'],
+			'url'			=> $this->types['url'],
+		);
+	}
+
+	public function toString( $charsetIn = NULL, $charsetOut = NULL )
+	{
+		$builder	= new File_VCard_Builder();
+		return $builder->build( $this, $charsetIn, $charsetOut );
+	}
+
+	public function toJson( $charsetIn = NULL, $charsetOut = NULL )
+	{
+		$array	= $this->toArray();
+		return json_encode( $array );
 	}
 }
 ?>

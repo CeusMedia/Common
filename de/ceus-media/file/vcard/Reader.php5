@@ -23,7 +23,7 @@
  *	@copyright		2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
- *	@since			0.6.7
+ *	@since			0.6.8
  *	@version		$Id$
  */
 import( 'de.ceus-media.file.Reader' );
@@ -37,17 +37,26 @@ import( 'de.ceus-media.file.vcard.Parser' );
  *	@copyright		2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
- *	@since			0.6.7
+ *	@since			0.6.8
  *	@version		$Id$
  *	@todo			Code Doc
  */
 class File_VCard_Reader
 {
-	public function readFile( $fileName )
+	/**
+	 *	Reads and parses vCard File to vCard Object and converts between Charsets.
+	 *	@access		public
+	 *	@static
+	 *	@param		string		$vcard			VCard String
+	 *	@param		string		$charsetIn		Charset to convert from
+	 *	@param		string		$charsetOut		Charset to convert to
+	 *	@return		string
+	 */
+	public function readFile( $fileName, $charsetIn = NULL, $charsetOut = NULL )
 	{
 		$text	= File_Reader::load( $fileName );
 		$parser	= new File_VCard_Parser;
-		return $parser->parse( $text );
+		return $parser->parse( $text, $charsetIn, $charsetOut );
 	}
 }
 ?>

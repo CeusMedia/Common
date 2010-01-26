@@ -32,6 +32,7 @@
  *
  *	@category		cmClasses
  *	@package		file.vcard
+ *	@uses			Alg_Text_EncodingConverter
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -51,12 +52,12 @@ class File_VCard_Builder
 	 *	Builds vCard String from vCard Object and converts between Charsets.
 	 *	@access		public
 	 *	@static
-	 *	@param		ADT_VCard	$card
+	 *	@param		ADT_VCard	$card			VCard Data Object
 	 *	@param		string		$charsetIn		Charset to convert from
 	 *	@param		string		$charsetOut		Charset to convert to
 	 *	@return		string
 	 */
-	public static function build( ADT_VCard $card, $charsetIn, $charsetOut )
+	public static function build( ADT_VCard $card, $charsetIn = NULL, $charsetOut = NULL )
 	{
 		$lines		= array();
 
@@ -100,8 +101,11 @@ class File_VCard_Builder
 		array_unshift( $lines, "BEGIN:VCARD" );
 		array_push( $lines, "END:VCARD" );
 		$lines	= implode( "\n", $lines );
-		if( $charsetIn && $charsetOut && function_exists( 'iconv' ) )
-			$lines	= iconv( $charsetIn, $charsetOut, $lines );
+		if( $charsetIn && $charsetOut )
+		{
+			import( 'de.ceus-media.alg.text.EncodingConverter' );
+			$lines	= Alg_Text_EncodingConverter::convert( $lines, $charsetIn, $charsetOut );
+		}
 		return $lines;
 	}
 	
