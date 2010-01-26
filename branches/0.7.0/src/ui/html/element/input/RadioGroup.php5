@@ -52,7 +52,7 @@ class UI_HTML_Element_Input_RadioGroup extends UI_HTML_Element_Abstract
 		$this->name	= $name;	
 	}
 	
-	public function addRadio( UI_HTML_Element_Input $radio, $label = NULL )
+	public function addRadio( UI_HTML_Element_Input_Radio $radio, $label = NULL )
 	{
 		if( $radio->getValue() && $radio->getValue() == $this->value )
 			$radio->setSelected();
