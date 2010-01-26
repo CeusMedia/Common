@@ -200,7 +200,6 @@ abstract class Framework_Krypton_Base
 		$dsn->setPort( $config['database.access.port'] );
 		$dsn->setUsername( $config['database.access.username'] );
 		$dsn->setPassword( $config['database.access.password'] );
-		);
 
 		//  --  DATABASE CONNECTION  --  //
 		$dbc	= new Database_PDO_Connection(
