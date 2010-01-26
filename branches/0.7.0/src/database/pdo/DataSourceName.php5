@@ -2,7 +2,7 @@
 /**
  *	Builder for Data Source Name Strings.
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2007-2010 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,105 +20,68 @@
  *	@category		cmClasses
  *	@package		database.pdo
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
- *	@since			02.08.2008
- *	@version		0.1
+ *	@since			0.6.8
+ *	@version		$Id$
  */
 /**
  *	Builder for Data Source Name Strings.
  *	@category		cmClasses
  *	@package		database.pdo
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
- *	@since			02.08.2008
- *	@version		0.1
+ *	@since			0.6.8
+ *	@version		$Id$
  */
 class Database_PDO_DataSourceName
 {
-	/**	@var		string		$type			Database Type */
-	protected $type;
+	/**	@var		string		$driver			Database Driver */
+	protected $driver;
 	/**	@var		string		$database		Database Name */
 	protected $database;
 	/**	@var		string		$username		Database Username */
 	protected $username	;
 	/**	@var		string		$password		Database Password */
 	protected $password;
-	/**	@var		string		$hostname		Host Name */
-	protected $hostname;
+	/**	@var		string		$host			Host Name or URI*/
+	protected $host;
 	/**	@var		int			$port			Host Port */
 	protected $port;
+
+	protected $drivers	= array(
+		'dblib',
+		'firebird',
+		'informix',
+		'mssql',
+		'mysql',
+		'oci',
+		'odbc',
+		'pgsql',
+		'sqlite',
+		'sybase',
+	);
 
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		string		$type			Database Type (mysql|mssql|pgsql|sqlite|sybyse|dblib)
-	 *	@param		string		$hostname		Host Name
+	 *	@param		string		$driver			Database Driver (dblib|firebird|informix|mysql|mssql|oci|odbc|pgsql|sqlite|sybase)
+	 *	@param		string		$host			Host Name or URI
 	 *	@param		int			$port			Host Port
 	 *	@param		string		$database		Database Name
 	 *	@param		string		$username		Username
 	 *	@param		string		$password		Password
 	 *	@return		void
 	 */
-	public function __construct( $type, $hostname = NULL, $port = NULL, $database = NULL, $username = NULL, $password = NULL )
+	public function __construct( $driver, $database = NULL )
 	{
-		$this->type		= strtolower( $type );
-		if( $hostname )
-			$this->setHostname( $hostname );
-		if( $port )
-			$this->setPort( $port );
+		$this->checkDriverSupport( $driver );
+		$this->driver		= strtolower( $driver );
 		if( $database )
 			$this->setDatabase( $database );
-		if( $username )
-			$this->setUsername( $username );
-		if( $password )
-			$this->setPassword( $password );
-	}
-
-	public function setDatabase( $database )
-	{
-		$this->database	= $database;
-	}
-
-	public function setHostname( $hostname )
-	{
-		$this->hostname	= $hostname;
-	}
-
-	public function setPassword( $password )
-	{
-		$this->password	= $password;
-	}
-
-	public function setPort( $port )
-	{
-		$this->port	= $port;
-	}
-
-	public function setUsername( $username )
-	{
-		$this->username	= $username;
-	}
-
-	/**
-	 *	Returns Data Source Name String.
-	 *	@access		public
-	 *	@static
-	 *	@param		string		$type			Database Type (mysql|mssql|pgsql|sqlite|sybyse|dblib)
-	 *	@param		string		$hostname		Host Name
-	 *	@param		int			$port			Host Port
-	 *	@param		string		$database		Database Name
-	 *	@param		string		$username		Username
-	 *	@param		string		$password		Password
-	 *	@return		string
-	 */
-	public static function getDSN( $type, $hostname = NULL, $port = NULL, $database, $username = NULL, $password = NULL )
-	{
-		$dsn	= new Database_PDO_DataSourceName( $type, $hostname, $port, $database, $username, $password );
-		return $dsn->__toString();
 	}
 
 	/**
@@ -128,25 +91,221 @@ class Database_PDO_DataSourceName
 	 */
 	public function __toString()
 	{
-		$dsn	= $this->type.":";
-		switch( $this->type )
+		return $this->render();
+	}
+
+	/**
+	 *	Checks whether current Driver is installed with PHP and supported by Class.
+	 *	@access		protected
+	 *	@param		string		$driver			Driver Name to check (lowercase)
+	 *	@return		void
+	 *	@throws		RuntimeException			if PDO Driver is not supported
+	 *	@throws		RuntimeException			if PDO Driver is not loaded
+	 */
+	protected function checkDriverSupport( $driver )
+	{
+		if( !in_array( $driver, $this->drivers ) )
+			throw new RuntimeException( 'PDO driver "'.$driver.' is no supported' );
+		if( !in_array( $driver, PDO::getAvailableDrivers() ) )
+			throw new RuntimeException( 'PDO driver "'.$driver.' is no loaded' );
+	}
+
+	/**
+	 *	Sets Database, a String or File URI.
+	 *	@access		public
+	 *	@param		string		$database		Database Name
+	 *	@return		void
+	 */
+	public function setDatabase( $database )
+	{
+		$this->database	= $database;
+	}
+
+	/**
+	 *	Sets Host Name or URI if Database Server is using HTTP.
+	 *	@access		public
+	 *	@param		string		$host 			Host Name or URI
+	 *	@return		void
+	 */
+	public function setHost( $host )
+	{
+		$this->host	= $host;
+	}
+
+	/**
+	 *	Sets Password.
+	 *	@access		public
+	 *	@param		string		$password		Password
+	 *	@return		void
+	 */
+	public function setPassword( $password )
+	{
+		$this->password	= $password;
+	}
+
+	/**
+	 *	Sets Port if Database Server is using HTTP.
+	 *	@access		public
+	 *	@param		int			$port			Host Port
+	 *	@return		void
+	 */
+	public function setPort( $port )
+	{
+		$this->port	= $port;
+	}
+
+	/**
+	 *	Sets Username.
+	 *	@access		public
+	 *	@param		string		$username		Username
+	 *	@return		void
+	 */
+	public function setUsername( $username )
+	{
+		$this->username	= $username;
+	}
+
+	public function render()
+	{
+		$drv	= $this->driver.':';
+	
+		switch( $this->driver )
 		{
-			case 'pgsql':														//  PORT should be 5432
-				$port	= isset( $this->port ) ? $this->port : 5432;
-				$dsn	.= "host=".$this->hostname.";port=".$this->port.";dbname=".$this->database.";user=".$this->username.";password=".$this->password;
-				break;
+			case 'firebird':
+				return $drv.$this->renderDsnForFirebird();
+			case 'informix':
+				return $drv.$this->renderDsnForInformix();
+			case 'oci':
+				return $drv.$this->renderDsnForOci();
+			case 'odbc':
+				return $drv.$this->renderDsnForOdbc();
+			case 'pgsql':
+				return $drv.$this->renderDsnForPgsql();
 			case 'sqlite':
-				$dsn	.= $this->database.".sqlite3";
-				break;
+				return $drv.$this->renderDsnForSqlite();
 			case 'mysql':
 			case 'mssql':
 			case 'sybase':
 			case 'dblib':
 			default:
-				$dsn	.= "host=".$this->hostname.";dbname=".$this->database;
-				break; 
+				return $drv.$this->renderDsnForDefault();
 		}
-		return $dsn;
+	}
+
+	protected function renderDsnForDefault()
+	{
+		$port	= !empty( $this->port ) ? $this->port : NULL;
+		$map	= array(
+			'host'		=> $this->host,
+			'port'		=> $port,
+			'dbname'	=> $this->database,
+		);
+		return $this->renderDsnParts( $map );
+	}
+
+	protected function renderDsnForFirebird()
+	{
+		$host	= !empty( $this->host ) ? $this->host : NULL;
+		$port	= !empty( $this->port ) ? $this->port : NULL;
+		$map	= array(
+			'DataSource'	=> $host,
+			'Port'			=> $port,
+			'Database'		=> $this->database,
+			'User'			=> $this->username,
+			'Password'		=> $this->password
+		);
+		return $this->renderDsnParts( $map );
+	}
+
+	protected function renderDsnForInformix()
+	{
+		$delim	= '; ';
+		$host	= !empty( $this->host ) ? $this->host : NULL;
+		$port	= !empty( $this->port ) ? $this->port : NULL;
+		$map	= array(
+			'host'		=> $host,
+			'service'	=> $port,
+			'database'	=> $this->database
+		);
+		return $this->renderDsnParts( $map, $delim );
+	}
+
+	/**
+	 *	@todo	implement 'charset'
+	 */
+	protected function renderDsnForOci()
+	{
+		$dbname	= $this->database;
+		$port	= $this->port ? ':'.$this->port : '';
+		if( $this->host )
+			$dbname	= '//'.$this->host.$port.'/'.$this->database;
+		return 'dbname='.$dbname;
+	}
+			
+	/**
+	 *	@todo	implement
+	 */
+	protected function renderDsnForOdbc()
+	{
+		throw new Exception( 'Not yet implemented' );
+	}
+
+	protected function renderDsnForPgsql()
+	{
+		$delim	= ' ';
+		$host	= !empty( $this->host ) ? $this->host : NULL;
+		$port	= !empty( $this->port ) ? $this->port : NULL;
+		$map	= array(
+			'host'		=> $host,
+			'port'		=> $port,
+			'dbname'	=> $this->database,
+			'user'		=> $this->username,
+			'password'	=> $this->password
+		);
+		return $this->renderDsnParts( $map, $delim );
+	}
+		
+	protected function renderDsnForSqlite()
+	{
+		return $this->database;
+	}
+
+	/**
+	 *	Flattens Map of DSN Parts using a Delimiter.
+	 *	@access		public
+	 *	@param		array		$map			DSN Parts Map
+	 *	@param		string		$delimiter		Delimiter between DSN Parts
+	 *	@return		string
+	 */
+	protected function renderDsnParts( $map, $delimiter = ';' )
+	{
+		$list	= array();
+		foreach( $map as $key => $value )
+			if( !is_null( $value ) )
+				$list[]	= $key.'='.$value;
+		return implode( $delimiter, $list );
+	}
+
+	/**
+	 *	Returns Data Source Name String.
+	 *	@access		public
+	 *	@static
+	 *	@param		string		$driver			Database Driver (dblib|firebird|informix|mysql|mssql|oci|odbc|pgsql|sqlite|sybase)
+	 *	@param		string		$database		Database Name
+	 *	@param		string		$host			Host Name or URI
+	 *	@param		int			$port			Host Port
+	 *	@param		string		$username		Username
+	 *	@param		string		$password		Password
+	 *	@return		string
+	 */
+	public static function renderStatic( $driver, $database, $host = NULL, $port = NULL, $username = NULL, $password = NULL )
+	{
+		$dsn	= new self( $driver, $database );
+		$dsn->setHost( $host );
+		$dsn->setPort( $port );
+		$dsn->setUsername( $username );
+		$dsn->setPassword( $password );
+		return $dsn->render();
 	}
 }
 ?>
