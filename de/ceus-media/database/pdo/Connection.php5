@@ -44,8 +44,8 @@ class Database_PDO_Connection extends PDO
 {
 	public $numberExecutes			= 0;
 	public $numberStatements		= 0;
-	public $logFileErrors			= "logs/db_error.log";
-	public $logFileStatements		= "logs/queries.log";
+	public $logFileErrors			= NULL;
+	public $logFileStatements		= NULL;
 	protected $openTransactions		= 0;
 	public static $errorTemplate	= "{time}: PDO:{pdoCode} SQL:{sqlCode} {sqlError} ({statement})\n";
 	
