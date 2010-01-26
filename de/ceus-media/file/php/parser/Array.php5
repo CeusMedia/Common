@@ -1,6 +1,6 @@
 <?php
 /**
- *	Parses PHP Files containing a Class or Methods.
+ *	Parses PHP Files containing a Class or Methods to Array using regular expressions (slow).
  *
  *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
  *
@@ -18,7 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		file.php
+ *	@package		file.php.parser
  *	@uses			File_Reader
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2009 Christian Würker
@@ -30,9 +30,9 @@
 import( 'de.ceus-media.file.Reader' );
 import( 'de.ceus-media.alg.StringUnicoder' );
 /**
- *	Parses PHP Files containing a Class or Methods.
+ *	Parses PHP Files containing a Class or Methods to Array using regular expressions (slow).
  *	@category		cmClasses
- *	@package		file.php
+ *	@package		file.php.parser
  *	@uses			File_Reader
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2009 Christian Würker
