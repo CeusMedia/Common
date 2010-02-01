@@ -2,7 +2,7 @@
 /**
  *	Data Object for vCard.
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2007-2010 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,11 +20,11 @@
  *	@category		cmClasses
  *	@package		adt
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
- *	@since			02.09.2008
- *	@version		0.1
+ *	@since			0.6.8
+ *	@version		$Id$
  *	@link			http://www.ietf.org/rfc/rfc2426.txt
  */
 import( 'de.ceus-media.file.vcard.Builder' );
@@ -32,41 +32,52 @@ import( 'de.ceus-media.file.vcard.Builder' );
  *	Data Object for vCard.
  *	@category		cmClasses
  *	@package		adt
+ *	@implements		Serializable
  *	@uses			File_VCard_Builder
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
- *	@since			02.09.2008
- *	@version		0.1
+ *	@since			0.6.8
+ *	@version		$Id$
  *	@link			http://www.ietf.org/rfc/rfc2426.txt
  *	@todo			PHOTO,BDAY,NOTE,LABEL,KEY,PRODID,MAILER,TZ
  */
-class ADT_VCard
+class ADT_VCard implements Serializable
 {
 	/**	@var		array		$types					Array of VCard Types (Entities) */
-	private $types	= array(
-		'adr'		=> array(),
-		'email'		=> array(),
-		'fn'		=> NULL,
-		'geo'		=> array(),
-		'n'			=> array(
-			'familyName'		=> NULL,
-			'givenName'			=> NULL,
-			'additionalNames'	=> NULL,
-			'honorificPrefixes'	=> NULL,
-			'honorificSuffixes'	=> NULL,
-		),
-		'nickname'	=> array(),
-		'org'		=> array(
-			'name' => NULL,
-			'unit' => NULL
-		),
-		'role'		=> NULL,
-		'tel'		=> array(),
-		'title'		=> NULL,
-		'url'		=> array(),
-	);
+	private $types	= array();
+
+	/**
+	 *	Constructor.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function __construct()
+	{
+		$this->types	= array(
+			'adr'		=> array(),
+			'email'		=> array(),
+			'fn'		=> NULL,
+			'geo'		=> array(),
+			'n'			=> array(
+				'familyName'		=> NULL,
+				'givenName'			=> NULL,
+				'additionalNames'	=> NULL,
+				'honorificPrefixes'	=> NULL,
+				'honorificSuffixes'	=> NULL,
+			),
+			'nickname'	=> array(),
+			'org'		=> array(
+				'name'		=> NULL,
+				'unit'		=> NULL
+			),
+			'role'		=> NULL,
+			'tel'		=> array(),
+			'title'		=> NULL,
+			'url'		=> array(),
+		);
+	}
 
 	/**
 	 *	Adds an Address.
@@ -170,6 +181,45 @@ class ADT_VCard
 	}
 
 	/**
+	 *	Creates and returns a new VCard from a Serial.
+	 *	@access		public
+	 *	@static
+	 *	@param		string		$string					Serialized VCard String
+	 *	@return		ADT_VCard
+	 */
+	public static function createFromString( $string )
+	{
+		return File_VCard_Parser::parse( $string );
+	}
+
+	/**
+	 *	Imports VCard from JSON String.
+	 *	@access		public
+	 *	@param		string		$json					JSON String
+	 *	@return		void
+	 */
+	public function fromJson( $json )
+	{
+		$this->__construct();
+		$data	= json_decode( $json, TRUE );
+		foreach( $this->types as $key => $value )
+			if( isset( $data[$key] ) )
+				$this->types[$key]	= $data[$key];
+	}
+
+	/**
+	 *	Imports VCard from Serial String.
+	 *	@access		public
+	 *	@param		string		$string			Serialized VCard String
+	 *	@return		void
+	 */
+	public function fromString( $string )
+	{
+		$this->__construct();
+		File_VCard_Parser::parseInto( $string, $this );
+	}
+
+	/**
 	 *	Returns a List of stored Addresses.
 	 *	@access		public
 	 *	@return		array
@@ -212,7 +262,7 @@ class ADT_VCard
 	/**
 	 *	Returns a specific Name Field by its Key.
 	 *	@access		public
-	 *	@param		string		$key		Field Key
+	 *	@param		string		$key					Field Key
 	 *	@return		string
 	 */
 	public function getNameField( $key )
@@ -245,7 +295,7 @@ class ADT_VCard
 	/**
 	 *	Returns a specific Organisation Field by its Key.
 	 *	@access		public
-	 *	@param		string		$key		Field Key
+	 *	@param		string		$key					Field Key
 	 *	@return		string
 	 */
 	public function getOrganisationField( $key )
@@ -303,6 +353,17 @@ class ADT_VCard
 	public function getUrls()
 	{
 		return $this->types['url'];
+	}
+
+	/**
+	 *	Exports VCard to a Serial String.
+	 *	Alias for toString().
+	 *	@access		public
+	 *	@return		string
+	 */
+	public function serialize()
+	{
+		return $this->toString();
 	}
 
 	/**
@@ -374,6 +435,11 @@ class ADT_VCard
 		$this->types['title']	= $title;
 	}
 
+	/**
+	 *	Exports VCard to an Array.
+	 *	@access		public
+	 *	@return		string
+	 */
 	public function toArray()
 	{
 		return array(
@@ -391,16 +457,38 @@ class ADT_VCard
 		);
 	}
 
-	public function toString( $charsetIn = NULL, $charsetOut = NULL )
+	/**
+	 *	Exports VCard to a JSON String.
+	 *	@access		public
+	 *	@return		string
+	 */
+	public function toJson()
 	{
-		$builder	= new File_VCard_Builder();
-		return $builder->build( $this, $charsetIn, $charsetOut );
+		return json_encode( $this->types );
 	}
 
-	public function toJson( $charsetIn = NULL, $charsetOut = NULL )
+	/**
+	 *	Exports VCard to a String.
+	 *	@access		public
+	 *	@param		string		$charsetIn				Charset to convert from
+	 *	@param		string		$charsetOut				Charset to convert to
+	 *	@return		string
+	 */
+	public function toString( $charsetIn = NULL, $charsetOut = NULL )
 	{
-		$array	= $this->toArray();
-		return json_encode( $array );
+		return File_VCard_Builder::build( $this, $charsetIn, $charsetOut );
+	}
+
+	/**
+	 *	Imports VCard from Serial String.
+	 *	Alias for fromString().
+	 *	@access		public
+	 *	@param		string		$string					Serialized VCard String
+	 *	@return		void
+	 */
+	public function unserialize( $string )
+	{
+		$this->fromString( $string );
 	}
 }
 ?>
