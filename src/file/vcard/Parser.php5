@@ -48,32 +48,47 @@ import( 'de.ceus-media.adt.VCard' );
 class File_VCard_Parser
 {
 	/**
-	 *	Parses vCard String to vCard Object and converts between Charsets.
+	 *	Parses vCard String to new vCard Object and converts between Charsets.
 	 *	@access		public
 	 *	@static
-	 *	@param		string		$vcard			VCard String
+	 *	@param		string		$string			VCard String
 	 *	@param		string		$charsetIn		Charset to convert from
 	 *	@param		string		$charsetOut		Charset to convert to
 	 *	@return		string
 	 */
-	public function parse( $vcard, $charsetIn = NULL, $charsetOut = NULL )
+	public static function parse( $string, $charsetIn = NULL, $charsetOut = NULL )
 	{
-		if( !$vcard )
+		$vcard	= new ADT_VCard;
+		return self::parseInto( $string, $vcard, $charsetIn, $charsetOut );
+	}
+
+	/**
+	 *	Parses vCard String to an given vCard Object and converts between Charsets.
+	 *	@access		public
+	 *	@static
+	 *	@param		string		$string			VCard String
+	 *	@param		ADT_VCard	$vcard			VCard Data Object
+	 *	@param		string		$charsetIn		Charset to convert from
+	 *	@param		string		$charsetOut		Charset to convert to
+	 *	@return		string
+	 */
+	public static function parseInto( $string, ADT_VCard $vcard, $charsetIn = NULL, $charsetOut = NULL )
+	{
+		if( !$string )
 			throw new InvalidArgumentException( 'String is empty ' );
 		if( $charsetIn && $charsetOut && function_exists( 'iconv' ) )
 		{
 			import( 'de.ceus-media.alg.text.EncodingConverter' );
-			$vcard	= Alg_Text_EncodingConverter::convert( $vcard, $charsetIn, $charsetOut );
+			$string	= Alg_Text_EncodingConverter::convert( $string, $charsetIn, $charsetOut );
 		}
 
-		$data	= new ADT_VCard;
-		$lines	= explode( "\n", $vcard );
+		$lines	= explode( "\n", $string );
 		foreach( $lines as $line )
-			$this->parseLine( $data, $line );
-		return $data;
+			self::parseLine( $vcard, $line );
+		return $vcard;
 	}
 
-	protected function parseAttributes( $string )
+	protected static function parseAttributes( $string )
 	{
 		$parts	= explode( ";", $string );
 		foreach( $parts as $part )
@@ -87,7 +102,7 @@ class File_VCard_Parser
 		return $list;
 	}
 
-	protected function parseLine( $data, $line )
+	protected static function parseLine( $vcard, $line )
 	{
 		$partsLine	= explode( ":", $line );
 		$keyFull	= array_shift( $partsLine );
@@ -98,7 +113,7 @@ class File_VCard_Parser
 
 		//  --  GET KEY ATTRIBUTES  --  //
 		$attributes	= implode( ";", $partsKey );
-		$attributes	= $this->parseAttributes( $attributes );	
+		$attributes	= self::parseAttributes( $attributes );	
 
 		//  --  GET VALUES  --  //
 		$values		= implode( ":", $partsLine );
@@ -116,7 +131,7 @@ class File_VCard_Parser
 		switch( strtolower( $key ) )
 		{
 			case 'n':
-				$data->setName(
+				$vcard->setName(
 					$values[0],
 					$values[1],
 					$values[2],
@@ -125,34 +140,34 @@ class File_VCard_Parser
 				);
 				break;
 			case 'fn':
-				$data->setFormatedName( $values[0] );
+				$vcard->setFormatedName( $values[0] );
 				break;
 			case 'email':
-				$data->addEmail( $values[0], $attributes );
+				$vcard->addEmail( $values[0], $attributes );
 				break;
 			case 'geo':
-				$data->addGeoTag( $values[0], $values[1], $attributes );
+				$vcard->addGeoTag( $values[0], $values[1], $attributes );
 				break;
 			case 'org':
-				$data->setOrganisation( $values[0], $values[1] );
+				$vcard->setOrganisation( $values[0], $values[1] );
 				break;
 			case 'title':
-				$data->setTitle( $values[0] );
+				$vcard->setTitle( $values[0] );
 				break;
 			case 'nickname':
-				$data->addNickname( $values[0] );
+				$vcard->addNickname( $values[0] );
 				break;
 			case 'role':
-				$data->setRole( $values[0] );
+				$vcard->setRole( $values[0] );
 				break;
 			case 'url':
-				$data->addUrl( $values[0], $attributes );
+				$vcard->addUrl( $values[0], $attributes );
 				break;
 			case 'tel':
-				$data->addPhone( $values[0], $attributes );
+				$vcard->addPhone( $values[0], $attributes );
 				break;
 			case 'adr':
-				$data->addAddress(
+				$vcard->addAddress(
 					$values[2],
 					$values[1],
 					$values[3],
