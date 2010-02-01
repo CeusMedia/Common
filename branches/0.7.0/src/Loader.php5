@@ -95,7 +95,7 @@ class CMC_Loader
 #			if( !@fopen( $filePath, "r", TRUE ) )
 			if( !file_exists( $filePath ) )
 				continue;
-			self::loadFile( $filePath );
+			$this->loadFile( $filePath );
 			return TRUE;
 		}
 		return FALSE;
