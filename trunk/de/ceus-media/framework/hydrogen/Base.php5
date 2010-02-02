@@ -78,6 +78,9 @@ class Framework_Hydrogen_Base
 	var $_dev;
 	var $clock;
 	
+	public $fileConfig			= "config/config.ini";
+	public $fileDatabase		= "config/db_access.ini";
+	
 	/**
 	 *	Constructor.
 	 *	@access		public
@@ -210,7 +213,7 @@ class Framework_Hydrogen_Base
 		$this->clock	= new Alg_Time_Clock();
 		
 		//  --  CONFIGURATION  --  //
-		$ir_conf		= new File_INI_Reader( "config/config.ini", TRUE );
+		$ir_conf		= new File_INI_Reader( $this->fileConfig, TRUE );
 		$this->config	= $ir_conf->toArray();
 		error_reporting( $this->config['config']['error_reporting'] );
 
@@ -221,7 +224,7 @@ class Framework_Hydrogen_Base
 		$this->messenger	=& new Framework_Hydrogen_Messenger( $this->session );
 
 		//  --  DATABASE CONNECTION  --  //
-		$data		= parse_ini_file( "config/db_access.ini" );
+		$data		= parse_ini_file( $this->fileDatabase );
 		$this->dbc	= new Database_MySQL_Connection( $data['type'], $data['logfile'] );
 		$this->dbc->connect( $data['hostname'], $data['username'], $data['password'], $data['database'], (bool) $data['lazy'] );
 		$this->config['config']['table_prefix']	= $data['prefix'];
