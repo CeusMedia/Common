@@ -42,7 +42,7 @@ class Framework_Hydrogen_Controller
 	/**	@var		Framework_Hydrogen_Base			$application	Instance of Framework */
 	var $application;
 	/**	@var		array							$_data			Collected Data for View */
-	var $_data	= array();
+	var $_data		= array();
 	/**	@var		array							$envKeys		Keys of Environment */
 	var $envKeys	= array(
 		'dbc',
@@ -96,7 +96,9 @@ class Framework_Hydrogen_Controller
 	 */
 	public function setData( $data, $topic = "" )
 	{
-		if( $topic )
+		if( !is_array( $data ) )
+			throw new InvalidArgumentException( 'Must be array' );
+		if( is_string( $topic) && !empty( $topic ) )
 		{
 			if( !isset( $this->_data[$topic] ) )
 				$this->_data[$topic]	= array();
@@ -131,9 +133,9 @@ class Framework_Hydrogen_Controller
 		$this->loadView();
 		if( method_exists( $this->view, $this->action ) )
 		{
-			$this->view->{$this->action}();
 			$this->view->setData( $this->getData() );
 			$this->view->setData( array( 'words' => $this->language->getWords( $this->controller ) ) );
+			$this->view->{$this->action}();
 			return $this->view->loadTemplate();
 		}
 		else

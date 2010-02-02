@@ -126,8 +126,11 @@ class Framework_Hydrogen_View
 		$filename	= $this->getFilenameOfTemplate( $this->controller, $this->action );
 		if( file_exists( $filename ) )
 		{
+			ob_start();
 			extract( $this->data );
-			$content	= require( $filename );
+			$result		= require( $filename );
+			$buffer		= ob_get_clean();
+			$content	= is_string( $result ) ? $result : $buffer;
 		}
 		else
 			$this->messenger->noteFailure( "Template '".$this->controller."/".$this->action."' is not existing." );
