@@ -190,9 +190,10 @@ class UI_Template
 	public function create()
 	{
 		$out	= $this->template;
- 		$out	= preg_replace( '/<%--.*--%>/sU', '', $out );	
+		$out	= $this->loadNestedTemplates($out);
+ 		$out	= preg_replace( '/<%--.*--%>/sU', '', $out );
  		if( self::$removeComments )
-			$out	= preg_replace( '/<!--.+-->/sU', '', $out );	
+			$out	= preg_replace( '/<!--.+-->/sU', '', $out );
 
 		foreach( $this->elements as $label => $labelElements )
 		{
@@ -302,6 +303,21 @@ class UI_Template
 	public function getTemplate()
 	{
 		return $this->template;
+	}
+
+	protected function loadNestedTemplates($template)
+	{
+		$matches	= array();
+		preg_match_all( '/<(\?)?%load\((.*)\)%>/U', $template, $matches );
+		if( !$matches[0] )
+			return $template;
+		for( $i=0; $i<count( $matches ); $i++ )
+		{
+			$filePath	= dirname( $this->fileName ).'/'.$matches[2][$i];
+			$nested		= UI_Template::render( $filePath, $this->elements );
+			$template	= str_replace( $matches[0][$i], $nested, $template );
+		}
+		return $template;
 	}
 
 	/**
