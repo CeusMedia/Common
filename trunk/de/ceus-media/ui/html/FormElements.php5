@@ -103,8 +103,9 @@ class UI_HTML_FormElements
 			'value'		=> 1,
 			'class'		=> $class,
 			'onclick'	=> $confirm		? "return confirm('".$confirm."');" : NULL,
-			'disabled'	=> $disabled	? "disabled" : NULL,
 		);
+		if( $disabled )
+			self::addReadonlyAttributes( $attributes, $disabled);
 		return UI_HTML_Tag::create( "button", UI_HTML_Tag::create( "span", (string) $label ), $attributes );
 	}
 
@@ -131,7 +132,7 @@ class UI_HTML_FormElements
 			'disabled'	=> $readOnly	? "disabled"	: NULL,
 		);
 		if( $readOnly )
-			self::addReadOnlyAttributes( $attributes, $readOnly );
+			self::addReadonlyAttributes( $attributes, $readOnly );
 		return UI_HTML_Tag::create( "input", NULL, $attributes );
 	}
 
@@ -380,7 +381,7 @@ class UI_HTML_FormElements
 			'maxlength'	=> $maxLength,
 		);
 		if( $readOnly )
-			self::addReadOnlyAttributes( $attributes, $readOnly );
+			self::addReadonlyAttributes( $attributes, $readOnly );
 		return UI_HTML_Tag::create( "input", NULL, $attributes );
 	}
 
@@ -407,7 +408,7 @@ class UI_HTML_FormElements
 			'disabled'	=> $readOnly	? "disabled" : NULL,
 		);
 		if( $readOnly )
-			self::addReadOnlyAttributes( $attributes, $readOnly );
+			self::addReadonlyAttributes( $attributes, $readOnly );
 		return UI_HTML_Tag::create( "input", NULL, $attributes );
 	}
 
@@ -463,7 +464,7 @@ class UI_HTML_FormElements
 			'onchange'	=> $focus.$submit.$change ? $focus.$submit.$change : NULL,
 		);
 		if( $readOnly )
-			self::addReadOnlyAttributes( $attributes, $readOnly );
+			self::addReadonlyAttributes( $attributes, $readOnly );
 		return UI_HTML_Tag::create( "select", $options, $attributes );
 	}
 
@@ -487,7 +488,7 @@ class UI_HTML_FormElements
 			'onkeyup'	=> $validator	? "allowOnly(this,'".$validator."');" : NULL,
 		);
 		if( $readOnly )
-			self::addReadOnlyAttributes( $attributes, $readOnly );
+			self::addReadonlyAttributes( $attributes, $readOnly );
 		return UI_HTML_Tag::create( "textarea", (string) $content, $attributes );
 	}
 }
