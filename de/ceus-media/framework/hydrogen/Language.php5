@@ -39,6 +39,9 @@
  */
 class Framework_Hydrogen_Language
 {
+	/**	@var		Framework_Hydrogen_Environment	$env			Application Environment Object */
+	protected $env;
+
 	/**	@var		string							$language		Set Language */
 	var $language;
 	/**	@var		array							$envKeys		Keys of Environment */
@@ -46,21 +49,17 @@ class Framework_Hydrogen_Language
 		'config',
 		'messenger',
 		);
-	/**	@var		array							$config			Configuration Settings */
-	var $config;
-	/**	@var		Framework_Hydrogen_Messenger	$messenger		UI Messenger */
-	var $messenger;
 	
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		Framework_Hydrogen_Framework	$application	Instance of Framework
+	 *	@param		Framework_Hydrogen_Environment	$env			Application Environment Object
 	 *	@param		string							$language		Language to select
 	 *	@return		void
 	 */
-	public function __construct( &$application, $language = "" )
+	public function __construct( Framework_Hydrogen_Environment $env, $language = "" )
 	{
-		$this->setIn( $application );
+		$this->env	= $env;
 		if( $language )
 			$this->setLanguage( $language );
 	}
@@ -97,7 +96,7 @@ class Framework_Hydrogen_Language
 		if( isset( $this->_data[$topic] ) )
 			return $this->_data[$topic];
 		else if( $force )
-			$this->messenger->noteFailure( "Language Topic '".$topic."' is not defined yet." );
+			$this->env->getMessenger()->noteFailure( 'Language Topic "'.$topic.'" is not defined yet' );
 	}
 	
 	/**
@@ -115,7 +114,7 @@ class Framework_Hydrogen_Language
 			$this->_data[$topic]	= $data;
 		}
 		else if( $force )
-			$this->messenger->noteFailure( "Language File '".$topic."' is not defined yet." );
+			$this->env->getMessenger()->noteFailure( 'Language File "'.$topic.'" is not defined yet' );
 	}
 
 	/**
@@ -126,19 +125,8 @@ class Framework_Hydrogen_Language
 	 */
 	protected function getFilenameOfLanguage( $topic )
 	{
-		$filename	= $this->config['paths']['languages'].$this->language."/".$topic.".ini";	
+		$config		= $this->env->getConfig();
+		$filename	= $config['paths']['languages'].$this->language."/".$topic.".ini";	
 		return $filename;
-	}
-
-	/**
-	 *	Sets Environment of Controller by copying Framework Member Variables.
-	 *	@access		private
-	 *	@param		Framework_Hydrogen_Framework	$application		Instance of Framework
-	 *	@return		void
-	 */
-	protected function setIn( &$application )
-	{
-		foreach( $this->envKeys as $key )
-			$this->$key	=& $application->$key;
 	}
 }

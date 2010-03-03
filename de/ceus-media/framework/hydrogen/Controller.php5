@@ -39,8 +39,8 @@
  */
 class Framework_Hydrogen_Controller
 {
-	/**	@var		Framework_Hydrogen_Base			$application	Instance of Framework */
-	var $application;
+	/**	@var		Framework_Hydrogen_Environment	$env			Application Environment Object */
+	protected $env;
 	/**	@var		array							$_data			Collected Data for View */
 	var $_data		= array();
 	/**	@var		array							$envKeys		Keys of Environment */
@@ -73,17 +73,19 @@ class Framework_Hydrogen_Controller
 	/**	@var		bool							$redirect		Flag for Redirection */
 	var $redirect	= FALSE;
 
+	protected $prefixModel		= "Model_";
+	protected $prefixView		= "View_";
+
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		Framework_Hydrogen_Framework	$application	Instance of Framework
+	 *	@param		Framework_Hydrogen_Environment	$env			Application Environment Object
 	 *	@return		void
 	 */
-	public function __construct( &$application )
+	public function __construct( Framework_Hydrogen_Environment &$env )
 	{
-		$this->setEnv( $application );
-		$this->loadModel();
-		$this->language->load( $this->controller );
+		$this->setEnv( $env );
+		$this->env->getLanguage()->load( $this->controller );
 	}
 	
 	//  --  SETTERS & GETTERS  --  //
@@ -133,13 +135,14 @@ class Framework_Hydrogen_Controller
 		$this->loadView();
 		if( method_exists( $this->view, $this->action ) )
 		{
-			$this->view->setData( $this->getData() );
-			$this->view->setData( array( 'words' => $this->language->getWords( $this->controller ) ) );
-			$this->view->{$this->action}();
+			$data			= $this->getData();
+			$data['words']	= $this->env->getLanguage()->getWords( $this->controller );
+			$this->view->setData( $data );
+			Alg_Object_MethodFactory::callObjectMethod( $this->view, $this->action );
 			return $this->view->loadTemplate();
 		}
 		else
-			$this->messenger->noteFailure( "View Action '".$this->action."' not defined yet." );
+			$this->env->getMessenger()->noteFailure( "View Action '".$this->action."' not defined yet." );
 	}
 	
 	/**
@@ -147,12 +150,16 @@ class Framework_Hydrogen_Controller
 	 *	@access		public
 	 *	@param		string		$controller		Controller to be called
 	 *	@param		string		$action			Action to be called
+	 *	@param		array		$parameters		Map of additional parameters to set in request
 	 *	@return		void
 	 */
-	public function redirect( $controller, $action = "index" )
+	public function redirect( $controller, $action = "index", $parameters = array() )
 	{
-		$this->request->set( 'controller', $controller );
-		$this->request->set( 'action', $action );
+		$this->env->getRequest()->set( 'controller', $controller );
+		$this->env->getRequest()->set( 'action', $action );
+		foreach( $parameters as $key => $value )
+			if( !empty( $key ) )
+				$this->env->getRequest()->set( $key, $value );
 		$this->redirect = TRUE;
 	}
 	
@@ -165,52 +172,10 @@ class Framework_Hydrogen_Controller
 	public function restart( $uri )
 	{
 		$base	= dirname( getEnv( 'SCRIPT_NAME' ) )."/";
-		$this->dbc->close();
+	#	$this->dbc->close();
 	#	$this->session->close();
 		header( "Location: ".$base.$uri );
 		die;
-	}
-
-	/**
-	 *	Returns File Name of selected Model.
-	 *	@access		protected
-	 *	@param		string		$controller		Name of called Controller
-	 *	@return		string
-	 */
-	protected function getFilenameOfModel( $controller )
-	{
-		$filename	= $this->config['paths']['models'].ucfirst( $controller).".php5";
-		return $filename;
-	}
-
-	/**
-	 *	Returns File Name of selected View.
-	 *	@access		protected
-	 *	@param		string		$controller		Name of called Controller
-	 *	@return		string
-	 */
-	protected function getFilenameOfView( $controller )
-	{
-		$filename	= $this->config['paths']['views'].ucfirst( $controller).".php5";
-		return $filename;
-	}
-	
-	/**
-	 *	Loads Modul Class of called Controller.
-	 *	@access		protected
-	 *	@return		void
-	 */
-	protected function loadModel( $force = FALSE )
-	{
-		$filename	= $this->getFilenameOfModel( ucfirst( $this->controller ) );
-		if( file_exists( $filename ) )
-		{
-			require_once( $filename );
-			$class	= "Model_".ucfirst( $this->controller );
-			$this->model	= new $class( $this->application );
-		}
-		else if( $force )
-			$this->messenger->noteFailure( "Model '".ucfirst( $this->controller )."' not defined yet." );
 	}
 
 	/**
@@ -220,28 +185,23 @@ class Framework_Hydrogen_Controller
 	 */
 	protected function loadView()
 	{
-		$filename	= $this->getFilenameOfView( ucfirst( $this->controller ) );
-		if( file_exists( $filename ) )
-		{
-			require_once( $filename );
-			$class	= "View_".ucfirst( $this->controller );
-			$this->view	= new $class( $this->application );
-		}
-		else
-			$this->messenger->noteFailure( "View '".ucfirst( $this->controller )."' not defined yet." );
+		$class	= $this->prefixView.ucfirst( $this->controller );
+		if( !class_exists( $class, TRUE ) )
+			return $this->env->getMessenger()->noteFailure( 'View "'.ucfirst( $this->controller ).'" is missing' );
+		$this->view	= Alg_Object_Factory::createObject( $class, array( &$this->env ) );
 	}
 
 	/**
 	 *	Sets Environment of Controller by copying Framework Member Variables.
 	 *	@access		protected
-	 *	@param		Framework_Hydrogen_Base	$application		Instance of Framework
+	 *	@param		Framework_Hydrogen_Environment	$env			Framework Resource Environment Object
 	 *	@return		void
 	 */
-	protected function setEnv( Framework_Hydrogen_Base &$application )
+	protected function setEnv( Framework_Hydrogen_Environment &$env )
 	{
-		$this->application	=& $application;
-		foreach( $this->envKeys as $key )
-			$this->$key	=& $this->application->$key;
+		$this->env			= $env;
+		$this->controller	= $env->getRequest()->get( 'controller' );
+		$this->action		= $env->getRequest()->get( 'action' );
 	}
 }
 ?>

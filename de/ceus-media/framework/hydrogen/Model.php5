@@ -42,32 +42,34 @@ import( 'de.ceus-media.database.TableWriter' );
  */
 class Framework_Hydrogen_Model
 {
-	/**	@var		string						$name			Name of Model */
+	/**	@var		Framework_Hydrogen_Environment	$env			Application Environment Object */
+	protected $env;
+	/**	@var		string							$name			Name of Model */
 	protected $name		= "";
-	/**	@var		array						$field			Array of Table Field */
+	/**	@var		array							$field			Array of Table Field */
 	protected $fields		= array();
-	/**	@var		array						$name			Array of foreign Keys of Table */
+	/**	@var		array							$name			Array of foreign Keys of Table */
  	protected $foreign_keys	= array();
-	/**	@var		string						$primary_key	Primary Key of Table*/
+	/**	@var		string							$primary_key	Primary Key of Table*/
 	protected $primary_key	= "";
-	/**	@var		Database_TableWriter		$table			TableWriter for accessing Database Table */
+	/**	@var		Database_TableWriter			$table			TableWriter for accessing Database Table */
 	protected $table;
-	/**	@var		Database_MySQL_Connection	$dbc			Database Connection  */
+	/**	@var		Database_MySQL_Connection		$dbc			Database Connection  */
 	protected $_dbc;
-	/**	@var		string						$_prefix		Table Prefix */
+	/**	@var		string							$_prefix		Table Prefix */
 	protected $_prefix;
 
 
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		Framework_Hydrogen_Framework	$application		Instance of Framework
+	 *	@param		Framework_Hydrogen_Environment	$env			Application Environment Object
 	 *	@param		int								$id				ID to focus on
 	 *	@return		void
 	 */
-	public function __construct( $application, $id = FALSE )
+	public function __construct( Framework_Hydrogen_Environment $env, $id = FALSE )
 	{
-		$this->setEnv( $application );
+		$this->setEnv( $env );
 		$this->table	= new Database_TableWriter( $this->_dbc, $this->_table, $this->fields, $this->primary_key, $id );
 		$this->table->setForeignKeys( $this->foreign_keys );
 	}
@@ -76,7 +78,7 @@ class Framework_Hydrogen_Model
 	/**
 	 *	Returns Data of single Line by ID.
 	 *	@access		public
-	 *	@param		array		$data			Data to add to Table
+	 *	@param		array			$data			Data to add to Table
 	 *	@return		int
 	 */
 	public function add( $data )
@@ -88,8 +90,8 @@ class Framework_Hydrogen_Model
 	/**
 	 *	Returns Data of single Line by ID.
 	 *	@access		public
-	 *	@param		int			$id				ID to focus on
-	 *	@param		array		$data			Data to edit
+	 *	@param		int				$id				ID to focus on
+	 *	@param		array			$data			Data to edit
 	 *	@return		bool
 	 */
 	public function edit( $id, $data )
@@ -108,7 +110,7 @@ class Framework_Hydrogen_Model
 	/**
 	 *	Returns Data of single Line by ID.
 	 *	@access		public
-	 *	@param		int			$id				ID to focus on
+	 *	@param		int				$id				ID to focus on
 	 *	@return		bool
 	 */
 	public function remove( $id )
@@ -127,8 +129,8 @@ class Framework_Hydrogen_Model
 	/**
 	 *	Returns Data of single Line by ID.
 	 *	@access		public
-	 *	@param		int			$id				ID to focus on
-	 *	@param		string		$field			Single Field to return
+	 *	@param		int				$id				ID to focus on
+	 *	@param		string			$field			Single Field to return
 	 *	@return		mixed
 	 */
 	public function get( $id, $field = "" )
@@ -144,9 +146,9 @@ class Framework_Hydrogen_Model
 	/**
 	 *	Returns Data of all Lines.
 	 *	@access		public
-	 *	@param		array		$conditions		Array of Conditions to include in SQL Query
-	 *	@param		array		$orders			Array of Orders to include in SQL Query
-	 *	@param		array		$limits			Array of Limits to include in SQL Query
+	 *	@param		array			$conditions		Array of Conditions to include in SQL Query
+	 *	@param		array			$orders			Array of Orders to include in SQL Query
+	 *	@param		array			$limits			Array of Limits to include in SQL Query
 	 *	@return		array
 	 */
 	public function getAll( $conditions = array(), $orders = array(), $limits = array() )
@@ -158,11 +160,11 @@ class Framework_Hydrogen_Model
 	/**
 	 *	Returns Data of all Lines selected by Foreign Key.
 	 *	@access		public
-	 *	@param		string		$key			Field Name of Foreign Key
-	 *	@param		string		$value			Value of Foreign Key
-	 *	@param		array		$conditions		Array of Conditions to include in SQL Query
-	 *	@param		array		$orders			Array of Orders to include in SQL Query
-	 *	@param		array		$limits			Array of Limits to include in SQL Query
+	 *	@param		string			$key			Field Name of Foreign Key
+	 *	@param		string			$value			Value of Foreign Key
+	 *	@param		array			$conditions		Array of Conditions to include in SQL Query
+	 *	@param		array			$orders			Array of Orders to include in SQL Query
+	 *	@param		array			$limits			Array of Limits to include in SQL Query
 	 *	@return		array
 	 */
 	public function getAllByForeignKey( $key, $value, $conditions = array(), $orders = array(), $limits = array() )
@@ -176,10 +178,10 @@ class Framework_Hydrogen_Model
 	/**
 	 *	Returns Data of all Lines selected by Foreign Keys.
 	 *	@access		public
-	 *	@param		array		$keys			Array of Foreign Keys
-	 *	@param		array		$conditions		Array of Conditions to include in SQL Query
-	 *	@param		array		$orders			Array of Orders to include in SQL Query
-	 *	@param		array		$limits			Array of Limits to include in SQL Query
+	 *	@param		array			$keys			Array of Foreign Keys
+	 *	@param		array			$conditions		Array of Conditions to include in SQL Query
+	 *	@param		array			$orders			Array of Orders to include in SQL Query
+	 *	@param		array			$limits			Array of Limits to include in SQL Query
 	 *	@return		array
 	 */
 	public function getAllByForeignKeys( $keys = array(), $conditions = array(), $orders = array(), $limits = array() )
@@ -194,9 +196,9 @@ class Framework_Hydrogen_Model
 	/**
 	 *	Returns Data of single Line by ID selected by Foreign Key.
 	 *	@access		public
-	 *	@param		string		$key			Field Name of Foreign Key
-	 *	@param		string		$value			Value of Foreign Key
-	 *	@param		string		$field			Single Field to return
+	 *	@param		string			$key			Field Name of Foreign Key
+	 *	@param		string			$value			Value of Foreign Key
+	 *	@param		string			$field			Single Field to return
 	 *	@return		mixed
 	 */
 	public function getByForeignKey( $key, $value, $field = "" )
@@ -212,8 +214,8 @@ class Framework_Hydrogen_Model
 	/**
 	 *	Returns Data of single Line selected by Foreign Keys.
 	 *	@access		public
-	 *	@param		array		$keys			Array of Foreign Keys
-	 *	@param		string		$field			Single Field to return
+	 *	@param		array			$keys			Array of Foreign Keys
+	 *	@param		string			$field			Single Field to return
 	 *	@return		mixed
 	 */
 	public function getByForeignKeys( $keys = array(), $field = "" )
@@ -231,13 +233,14 @@ class Framework_Hydrogen_Model
 	/**
 	 *	Sets Environment of Controller by copying Framework Member Variables.
 	 *	@access		protected
-	 *	@param		Framework_Hydrogen_Base	$application		Instance of Framework
+	 *	@param		Framework_Hydrogen_Environment	$env			Application Environment Object
 	 *	@return		void
 	 */
-	protected function setEnv( Framework_Hydrogen_Base $application )
+	protected function setEnv( Framework_Hydrogen_Environment $env )
 	{
-		$this->_prefix	= $application->config['config']['table_prefix'];
-		$this->_dbc		= $application->dbc;
+		$config			= $env->getConfig();
+		$this->_prefix	= $config['config']['table_prefix'];
+		$this->_dbc		= $env->getDatabase();
 		$this->_table	= $this->_prefix.$this->name;
 	}
 }
