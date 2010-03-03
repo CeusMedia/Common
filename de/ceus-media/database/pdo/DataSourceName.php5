@@ -69,11 +69,7 @@ class Database_PDO_DataSourceName
 	 *	Constructor.
 	 *	@access		public
 	 *	@param		string		$driver			Database Driver (dblib|firebird|informix|mysql|mssql|oci|odbc|pgsql|sqlite|sybase)
-	 *	@param		string		$host			Host Name or URI
-	 *	@param		int			$port			Host Port
 	 *	@param		string		$database		Database Name
-	 *	@param		string		$username		Username
-	 *	@param		string		$password		Password
 	 *	@return		void
 	 */
 	public function __construct( $driver, $database = NULL )

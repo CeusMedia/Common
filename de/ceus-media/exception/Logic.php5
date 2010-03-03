@@ -64,7 +64,7 @@ class Exception_Logic extends Exception
 	 *	@param		array		$errorMessages	Array of Exception Messages
 	 *	@return		string
 	 */
-	public function getMessage( $errorMessages )
+/*	public function getMessage( $errorMessages )
 	{
 		if( !array_key_exists( $this->messageKey, $errorMessages ) )
 			return $this->messageKey;
@@ -72,7 +72,7 @@ class Exception_Logic extends Exception
 		$message	= sprintf( $message, $this->subjectValue );
 		return $message;
 	}
-		
+*/		
 	/**
 	 *	Returns Name of Source which was not fully accessible.
 	 *	@access		public
