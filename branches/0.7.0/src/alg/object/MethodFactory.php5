@@ -92,7 +92,7 @@ class Alg_Object_MethodFactory
 		$reflection	= new ReflectionObject( $object );												//  get Object Reflection
 		if( !$reflection->hasMethod( $methodName ) )												//  called Method is not existing
 		{
-			$message	= 'Method '.$object->getName().'::'.$methodName.' is not existing';			//  prepare Exception Message
+			$message	= 'Method '.$reflection->getName().'::'.$methodName.' is not existing';			//  prepare Exception Message
 			throw new BadMethodCallException( $message );											//  throw Exception
 		}
 

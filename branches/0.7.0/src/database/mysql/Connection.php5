@@ -2,7 +2,7 @@
 /**
  *	Wrapper for mySQL Database Connection with Transaction Support.
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2007-2010 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -23,10 +23,10 @@
  *	@uses			Database_Result
  *	@uses			Database_Row
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
- *	@version 		0.6
+ *	@version 		$Id$
  */
 import( 'de.ceus-media.database.BaseConnection' );
 import( 'de.ceus-media.database.Result' );
@@ -39,10 +39,10 @@ import( 'de.ceus-media.database.Row' );
  *	@uses			Database_Result
  *	@uses			Database_Row
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
- *	@version 		0.6
+ *	@version 		$Id$
  *	@todo			Code Documentation
  */
 class Database_mySQL_Connection extends Database_BaseConnection
@@ -51,6 +51,7 @@ class Database_mySQL_Connection extends Database_BaseConnection
 	public $countTime;
 	/**	@var		int			$countQueries		Counter of Queries */	
 	public $countQueries;
+
 	/**	@var		string		$data				Name of currently selected Database */	
 	protected $database;
 	/**	@var		resource	$dbc				Database Connection Resource */	
@@ -71,7 +72,7 @@ class Database_mySQL_Connection extends Database_BaseConnection
 	public function __construct( $logFile = FALSE )
 	{
 		parent::__construct( $logFile );
-		$this->insertId = false;
+		$this->insertId	= FALSE;
 	}
 
 	/**
@@ -81,16 +82,15 @@ class Database_mySQL_Connection extends Database_BaseConnection
 	 */
 	public function beginTransaction()
 	{
+		if( !$this->dbc )
+			throw new RuntimeException( 'Database not conntected' );
+
 		$this->openTransactions ++;
 		if( $this->openTransactions == 1 )
 		{
 			if( self::$autoCommit )
-			{
-				$query = "SET AUTOCOMMIT=0";
-			}
-			$this->Execute( $query );
-			$query = "START TRANSACTION";
-			$this->Execute ($query);
+				$this->execute( 'SET AUTOCOMMIT=0' );
+			$this->execute( 'START TRANSACTION' );
 		}
 	}
 
@@ -101,7 +101,8 @@ class Database_mySQL_Connection extends Database_BaseConnection
 	 */
 	public function close()
 	{
-		mysql_close( $this->dbc );
+		if( $this->dbc )
+			mysql_close( $this->dbc );
 	}
 	
 	/**
@@ -111,41 +112,47 @@ class Database_mySQL_Connection extends Database_BaseConnection
 	 */
 	public function commit()
 	{
+		if( $this->openTransactions < 1 )
+			throw new RuntimeException( 'Transaction not opened' );
+
 		if( $this->openTransactions == 1 )
 		{
-			$query = "COMMIT";
-			$this->Execute( $query );
+			$this->execute( 'COMMIT' );
+			$this->openTransactions--;
 			if( self::$autoCommit )
-				$this->Execute( "SET AUTOCOMMIT=1" );
+				$this->execute( 'SET AUTOCOMMIT=1' );
 		}
-		$this->openTransactions--;
-		if( $this->openTransactions < 0 )
-			$this->openTransactions = 0;
 	}
 
-	public function connectDatabase( $type, $host, $user, $pass, $database = false )
+	/**
+	 *	Sets up a Database Connection.
+	 *	@access		public
+	 *	@param		string		$type		Connection Type (connect|pconnect)
+	 *	@param		string		$host		Database Host Name
+	 *	@param		string		$user		Database User Name
+	 *	@param		string		$pass		Database User Password
+	 *	@param		string		$database	Database to select
+	 *	@return		bool		Flag: Database Connection established
+	 */
+	public function connectDatabase( $type, $host, $user, $pass, $database = NULL )
 	{
-		if( $type == "connect" )
+		switch( $type )
 		{
-			$resource	= mysql_connect( $host, $user, $pass );
-			if( !$resource )
-				throw new Exception( 'Database Connection failed for User "'.$user.'" on Host "'.$host.'".' );
-			$this->dbc = $resource;
-			if( $database )
-				if( $this->selectDB( $database ) )
-					return $this->connected = true;
+			case 'connect':
+				$resource	= mysql_connect( $host, $user, $pass );
+				break;
+			case 'pconnect':
+				$resource	= mysql_pconnect( $host, $user, $pass );
+				break;
+			default:
+				throw new InvalidArgumentException( 'Database Connection Type "'.$type.'" is invalid' );
 		}
-		else if( $type == "pconnect" )
-		{
-			$resource	= mysql_pconnect( $host, $user, $pass );
-			if( !$resource )
-				throw new Exception( 'Database Connection failed for User "'.$user.'" on Host "'.$host.'".' );
-			$this->dbc = $resource;
-			if( $database )
-				if( $this->selectDB( $database ) )
-					return $this->connected = true;
-		}
-		return false;
+		if( !$resource )
+			throw new Exception( 'Database Connection failed for User "'.$user.'@'.$host.'"' );
+		$this->dbc			= $resource;
+		if( $database )
+			return $this->selectDB( $database );
+		return TRUE;
 	}
 
 	/**
@@ -155,7 +162,10 @@ class Database_mySQL_Connection extends Database_BaseConnection
 	 */
 	public function execute( $query, $debug = 1 )
 	{
-		$result = false;
+		if( !$this->dbc )
+			throw new RuntimeException( 'Database not conntected' );
+
+		$result = FALSE;
 		if( $query )
 		{
 			if( $debug > 0 )
@@ -173,7 +183,7 @@ class Database_mySQL_Connection extends Database_BaseConnection
 				if( $bits[3] )
 					die();
 			}
-			if( eregi( "^( |\n|\r|\t)*(INSERT)", $query ) )
+			if( eregi( '^( |\n|\r|\t)*(INSERT)', $query ) )
 			{
 				if( mysql_query( $query, $this->dbc ) )
 				{
@@ -181,7 +191,7 @@ class Database_mySQL_Connection extends Database_BaseConnection
 					$result	= $this->insertId;
 				}
 			}
-			else if( eregi( "^( |\n|\r|\t)*(SELECT|SHOW)", $query ) )
+			else if( eregi( '^( |\n|\r|\t)*(SELECT|SHOW)', $query ) )
 			{
 				$result = new Database_Result();
 				if( $q = mysql_query( $query, $this->dbc ) )
@@ -214,16 +224,21 @@ class Database_mySQL_Connection extends Database_BaseConnection
 
 	public function getAffectedRows()
 	{
+		if( !$this->dbc )
+			throw new RuntimeException( 'Database not conntected' );
 		return mysql_affected_rows();
 	}
 
 	public function getDatabases()
 	{
-		$db_list = mysql_list_dbs( $this->dbc );
-		$databases	= array();
-		while( $row = mysql_fetch_object( $db_list ) )
-			$databases[]	= $row->Database . "\n";
-		return $databases;
+		if( !$this->dbc )
+			throw new RuntimeException( 'Database not conntected' );
+
+		$list		= array();
+		$databases	= mysql_list_dbs( $this->dbc );
+		while( $row = mysql_fetch_object( $databases ) )
+			$list[]	= $row->Database . "\n";
+		return $list;
 	}
 
 	/**
@@ -233,6 +248,8 @@ class Database_mySQL_Connection extends Database_BaseConnection
 	 */
 	public function getErrNo()
 	{
+		if( !$this->dbc )
+			throw new RuntimeException( 'Database not conntected' );
 		return mysql_errno( $this->dbc );
 	}
 
@@ -243,8 +260,9 @@ class Database_mySQL_Connection extends Database_BaseConnection
 	 */
 	public function getError()
 	{
+		if( !$this->dbc )
+			throw new RuntimeException( 'Database not conntected' );
 		return mysql_error( $this->dbc );
-	
 	}
 
 	/**
@@ -259,6 +277,8 @@ class Database_mySQL_Connection extends Database_BaseConnection
 	
 	public function getTables()
 	{
+		if( !$this->dbc )
+			throw new RuntimeException( 'Database not conntected' );
 		$tab_list = mysql_list_tables( $this->database, $this->dbc );
 		while( $table	= mysql_fetch_row( $tab_list ) )
 			$tables[]	= $table['0'];
@@ -272,24 +292,25 @@ class Database_mySQL_Connection extends Database_BaseConnection
 	 */
 	public function rollback()
 	{
-		if( $this->openTransactions == 0 )
-			return FALSE;
-		$query = "ROLLBACK";
-		$this->Execute( $query );
-		$this->openTransactions = 0;
-		if( self::$autoCommit )
-			$this->Execute( "SET AUTOCOMMIT=1" );
-		return true;
+		if( $this->openTransactions < 1 )
+			throw new RuntimeException( 'Transaction not opened' );
+
+		if( $this->openTransactions == 1 )
+		{
+			$this->execute( 'ROLLBACK' );
+			if( self::$autoCommit )
+				$this->execute( 'SET AUTOCOMMIT=1' );
+		}
+		$this->openTransactions--;
+		return TRUE;
 	}
 
 	public function selectDB( $database )
 	{
-		if( $this->Execute( "use ".$database ) )
-		{
-			$this->database = $database;
-			return true;
-		}
-		return false;
+		if( !$this->execute( 'use '.$database ) )
+			return FALSE;
+		$this->database	= $database;
+		return TRUE;
 	}
 }
 ?>
