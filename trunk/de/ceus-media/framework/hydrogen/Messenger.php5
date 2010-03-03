@@ -20,7 +20,7 @@
  *	@category		cmClasses
  *	@package		framework.hydrogen
  *	@extends		ADT_OptionObject
- *	@uses			Alg_TimeConverter
+ *	@uses			Alg_Time_Converter
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -29,13 +29,13 @@
  *	@version		0.5
  */
 import( 'de.ceus-media.adt.OptionObject' );
-import( 'de.ceus-media.alg.TimeConverter' );
+import( 'de.ceus-media.alg.time.Converter' );
 /**
  *	Message Output Handler of Framework Hydrogen.
  *	@category		cmClasses
  *	@package		framework.hydrogen
  *	@extends		ADT_OptionObject
- *	@uses			Alg_TimeConverter
+ *	@uses			Alg_Time_Converter
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -45,8 +45,10 @@ import( 'de.ceus-media.alg.TimeConverter' );
  */
 class Framework_Hydrogen_Messenger extends ADT_OptionObject
 {
-	/**	@var		array		$classes			CSS Classes of Message Types */
-	var $classes	= array(
+	/**	@var		Net_HTTP_Session				$session			Instance of any Session Handler */
+	protected $session;
+	/**	@var		array							$classes			CSS Classes of Message Types */
+	protected $classes	= array(
 		'0'	=> 'failure',
 		'1'	=> 'error',
 		'2'	=> 'notice',
@@ -55,18 +57,19 @@ class Framework_Hydrogen_Messenger extends ADT_OptionObject
 
 	/**
 	 *	Constructor.
+	 *	Needs Session Handler of Net_HTTP_Session.
 	 *	@access		public
-	 *	@param		Net_HTTP_PartitionSession		$session			Instance of any Session Handler
+	 *	@param		Net_HTTP_Session				$session			Instance of any Session Handler
 	 *	@param		string							$key_messages		Key of Messages within Session
 	 *	@return		void
 	 */
-	public function __construct( &$session, $key_messages = "messenger_messages" )
+	public function __construct( Net_HTTP_Session $session, $key_messages = "messenger_messages" )
 	{
 		parent::__construct();
 		$this->setOption( 'key_headings', "messenger_headings" );
 		$this->setOption( 'key_messages', $key_messages );
 		$this->setOption( 'heading_separator', " / " );
-		$this->_session	=& $session;
+		$this->session	= $session;
 	}
 
 	/**
@@ -77,11 +80,11 @@ class Framework_Hydrogen_Messenger extends ADT_OptionObject
 	 */
 	public function addHeading( $heading )
 	{
-		$headings	= $this->_session->get( $this->getOption( 'key_headings' ) );
+		$headings	= $this->session->get( $this->getOption( 'key_headings' ) );
 		if( !is_array( $headings ) )
 			$headings	= array();
 		$headings[]	= $heading;
-		$this->_session->set( $this->getOption( 'key_headings' ), $headings );
+		$this->session->set( $this->getOption( 'key_headings' ), $headings );
 	}
 	
 	/**
@@ -91,7 +94,7 @@ class Framework_Hydrogen_Messenger extends ADT_OptionObject
 	 */
 	public function buildHeadings()
 	{
-		$headings	= $this->_session->get( $this->getOption( 'key_headings' ) );
+		$headings	= $this->session->get( $this->getOption( 'key_headings' ) );
 		$heading		= implode( $this->getOption( 'heading_separator' ), $headings );
 		return $heading;
 	}
@@ -103,8 +106,8 @@ class Framework_Hydrogen_Messenger extends ADT_OptionObject
 	 */
 	public function buildMessages( $format_time = false, $auto_clear = true )
 	{
-		$tc		= new Alg_TimeConverter;
-		$messages	= (array) $this->_session->get( $this->getOption( 'key_messages' ) );
+		$tc		= new Alg_Time_Converter;
+		$messages	= (array) $this->session->get( $this->getOption( 'key_messages' ) );
 		$list	= "";
 		if( count( $messages ) )
 		{
@@ -129,8 +132,8 @@ class Framework_Hydrogen_Messenger extends ADT_OptionObject
 	 */
 	public function clear()
 	{
-		$this->_session->set( $this->getOption( 'key_headings' ), array() );
-		$this->_session->set( $this->getOption( 'key_messages' ), array() );
+		$this->session->set( $this->getOption( 'key_headings' ), array() );
+		$this->session->set( $this->getOption( 'key_messages' ), array() );
 	}
 
 	/**
@@ -231,9 +234,9 @@ class Framework_Hydrogen_Messenger extends ADT_OptionObject
 	 */
 	protected function noteMessage( $type, $message)
 	{
-		$messages	= (array) $this->_session->get( $this->getOption( 'key_messages' ) );
+		$messages	= (array) $this->session->get( $this->getOption( 'key_messages' ) );
 		$messages[]	= array( "message" => $message, "type" => $type, "timestamp" => time() );
-		$this->_session->set( $this->getOption( 'key_messages' ), $messages );
+		$this->session->set( $this->getOption( 'key_messages' ), $messages );
 	}
 }
 ?>

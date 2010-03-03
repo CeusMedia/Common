@@ -20,7 +20,7 @@
  *	@category		cmClasses
  *	@package		framework.hydrogen
  *	@uses			UI_HTML_Elements
- *	@uses			Alg_TimeConverter
+ *	@uses			Alg_Time_Converter
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -28,14 +28,12 @@
  *	@since			01.09.2006
  *	@version		0.1
  */
-import( 'de.ceus-media.ui.html.Elements' );
-import( 'de.ceus-media.alg.TimeConverter' );
 /**
  *	Generic View Class of Framework Hydrogen.
  *	@category		cmClasses
  *	@package		framework.hydrogen
  *	@uses			UI_HTML_Elements
- *	@uses			Alg_TimeConverter
+ *	@uses			Alg_Time_Converter
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -81,17 +79,22 @@ class Framework_Hydrogen_View
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		Framework_Hydrogen_Framework	$application		Instance of Framework
+	 *	@param		Framework_Hydrogen_Environment	$env			Framework Resource Environment Object
 	 *	@return		void
 	 */
-	public function __construct( $application )
+	public function __construct( Framework_Hydrogen_Environment $env )
 	{
-		$this->setEnv( $application );
+		$this->setEnv( $env );
 		$this->html	= new UI_HTML_Elements;
-		$this->time	= new Alg_TimeConverter();
+		$this->time	= new Alg_Time_Converter();
 	}
 	
 	//  --  SETTERS & GETTERS  --  //
+	public function & getData()
+	{
+		return $this->data;
+	}
+
 	/**
 	 *	Sets Data of View.
 	 *	@access		public
@@ -114,7 +117,7 @@ class Framework_Hydrogen_View
 				$this->data[$key]	= $value;
 		}
 	}
-	
+
 	/**
 	 *	Loads Template of View and returns Content.
 	 *	@access		public
@@ -122,18 +125,28 @@ class Framework_Hydrogen_View
 	 */
 	public function loadTemplate()
 	{
-		$content	= "";
+		$content	= '';
 		$filename	= $this->getFilenameOfTemplate( $this->controller, $this->action );
 		if( file_exists( $filename ) )
 		{
 			ob_start();
 			extract( $this->data );
+			$config		= $this->env->getConfig();
+			$request	= $this->env->getRequest();
+			$session	= $this->env->getSession();
 			$result		= require( $filename );
 			$buffer		= ob_get_clean();
-			$content	= is_string( $result ) ? $result : $buffer;
+			$content	= $result;
+			if( $buffer )
+			{
+				if( !is_string( $content ) )
+					$content	= $buffer;
+				else
+					$this->env->getMessenger()->noteFailure($buffer);
+			}
 		}
 		else
-			$this->messenger->noteFailure( "Template '".$this->controller."/".$this->action."' is not existing." );
+			$this->env->getMessenger()->noteFailure( 'Template "'.$this->controller.'/'.$this->action.'" is not existing' );
 		return $content;
 	}
 	
@@ -146,21 +159,22 @@ class Framework_Hydrogen_View
 	 */
 	protected function getFilenameOfTemplate( $controller, $action )
 	{
-		$filename	= $this->config['paths']['templates'].$controller."/".$action.".php";
+		$config		= $this->env->getConfig();
+		$filename	= $config['paths']['templates'].$controller."/".$action.".php";
 		return $filename;
 	}
 	
 	/**
 	 *	Sets Environment of Controller by copying Framework Member Variables.
 	 *	@access		protected
-	 *	@param		Framework_Hydrogen_Base	$application		Instance of Framework
+	 *	@param		Framework_Hydrogen_Environment	$env			Framework Resource Environment Object
 	 *	@return		void
 	 */
-	protected function setEnv( Framework_Hydrogen_Base $application )
+	protected function setEnv( Framework_Hydrogen_Environment $env )
 	{
-		$this->application	=& $application;
-		foreach( $this->envKeys as $key )
-			$this->$key	=& $this->application->$key;
+		$this->env			= $env;
+		$this->controller	= $this->env->getRequest()->get( 'controller' );
+		$this->action		= $this->env->getRequest()->get( 'action' );
 	}
 }
 ?>
