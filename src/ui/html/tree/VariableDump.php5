@@ -23,7 +23,7 @@
  *	@copyright		2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
- *	@version		$id$
+ *	@version		0.1
  */
 import( 'de.ceus-media.ui.html.Elements' );
 /**
@@ -34,9 +34,9 @@ import( 'de.ceus-media.ui.html.Elements' );
  *	@copyright		2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
- *	@version		$id$
+ *	@version		0.1
  */
-class UI_HTML_VarTree
+class UI_HTML_Tree_VariableDump
 {
 	/**	@var		string		$noteOpen		Sign for opening Notes */
 	public static $noteOpen		= "<em>";

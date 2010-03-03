@@ -1,6 +1,6 @@
 <?php
 /**
- *	Builds Tree View of Directory.
+ *	Builds Tree View of a Folders content for JQuery Plugin Treeview.
  *
  *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
  *
@@ -18,8 +18,8 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		ui.html
- *	@uses			UI_HTML_TreeView
+ *	@package		ui.html.tree
+ *	@uses			UI_HTML_Tree_ArrayView
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -27,12 +27,12 @@
  *	@since			01.08.2008
  *	@version		0.1
  */
-import( 'de.ceus-media.ui.html.TreeView' );
+import( 'de.ceus-media.ui.html.tree.ArrayView' );
 /**
- *	Builds Tree View of Directory.
+ *	Builds Tree View of a Folders content for JQuery Plugin Treeview.
  *	@category		cmClasses
- *	@package		ui.html
- *	@uses			UI_HTML_TreeView
+ *	@package		ui.html.tree
+ *	@uses			UI_HTML_Tree_ArrayView
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2009 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -40,11 +40,11 @@ import( 'de.ceus-media.ui.html.TreeView' );
  *	@since			01.08.2008
  *	@version		0.1
  */
-class UI_HTML_DirectoryTreeView
+class UI_HTML_Tree_FolderView
 {
 	/**	@var		string		$path				Path to Folder to index */
 	protected $path;
-	/**	@var		UI_HTML_TreeView	$view		Instance of Tree View */
+	/**	@var		UI_HTML_Tree_ArrayView	$view	Instance of Tree View */
 	protected $view;
 
 	/**
@@ -58,7 +58,7 @@ class UI_HTML_DirectoryTreeView
 	public function __construct( $path, $baseUrl, $queryKey )
 	{
 		$this->path		= $path;
-		$this->view		= new UI_HTML_TreeView( $baseUrl, $queryKey );
+		$this->view		= new UI_HTML_Tree_ArrayView( $baseUrl, $queryKey );
 	}
 	
 	/**

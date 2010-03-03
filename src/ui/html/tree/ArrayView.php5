@@ -1,6 +1,6 @@
 <?php
 /**
- *	Builds HTML Tree with nested Lists for JQuery Plugin Treeview.
+ *	Builds HTML Tree with nested Lists for JQuery Plugin Treeview from a Array of Nodes.
  *
  *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
  *
@@ -18,7 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		ui.html
+ *	@package		ui.html.tree
  *	@uses			UI_HTML_Elements
  *	@uses			UI_HTML_JQuery
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
@@ -31,9 +31,9 @@
 import( 'de.ceus-media.ui.html.Elements' );
 import( 'de.ceus-media.ui.html.JQuery' );
 /**
- *	Builds HTML Tree with nested Lists for JQuery Plugin Treeview.
+ *	Builds HTML Tree with nested Lists for JQuery Plugin Treeview from a Array of Nodes.
  *	@category		cmClasses
- *	@package		ui.html
+ *	@package		ui.html.tree
  *	@uses			UI_HTML_Elements
  *	@uses			UI_HTML_JQuery
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
@@ -43,7 +43,7 @@ import( 'de.ceus-media.ui.html.JQuery' );
  *	@since			18.06.2008
  *	@version		0.1
  */
-class UI_HTML_TreeView
+class UI_HTML_Tree_ArrayView
 {
 	/**	@var		string		$baseUrl			Base URL for linked Items */
 	protected $baseUrl;
