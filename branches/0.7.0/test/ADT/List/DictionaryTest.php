@@ -4,17 +4,17 @@
  *	@package		Tests.adt.list
  *	@extends		PHPUnit_Framework_TestCase
  *	@uses			Test_ADT_List_Dictionay
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian Wï¿½rker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.1
  */
 require_once 'PHPUnit/Framework/TestCase.php';
-require_once 'test/initLoaders.php5';
+require_once 'Test/initLoaders.php5';
 /**
  *	TestUnit of Dictionary
  *	@package		Tests.adt.list
  *	@extends		PHPUnit_Framework_TestCase
  *	@uses			Test_ADT_List_Dictionay
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian Wï¿½rker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.1
  */
 class Test_ADT_List_DictionaryTest extends PHPUnit_Framework_TestCase

@@ -7,7 +7,7 @@
  *	@version		0.6
  */
 require_once 'PHPUnit/Framework/TestCase.php';
-require_once 'test/initLoaders.php5';
+require_once 'Test/initLoaders.php5';
 /**
  *	UnitTest for Request Sender.
  *	@package		net.http.request

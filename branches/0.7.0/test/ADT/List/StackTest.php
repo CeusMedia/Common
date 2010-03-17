@@ -1,25 +1,25 @@
 <?php
 /**
- *	TestUnit of Test_ADT_List_Queue.
+ *	TestUnit of Test_ADT_List_Stack.
  *	@package		Tests.adt.list
  *	@extends		PHPUnit_Framework_TestCase
- *	@uses			Test_ADT_List_Queue
+ *	@uses			Test_ADT_List_Stack
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			04.06.2008
  *	@version		0.1
  */
-require_once 'PHPUnit/Framework/TestCase.php';
-require_once 'test/initLoaders.php5';
+require_once 'PHPUnit/Framework/TestCase.php'; 
+require_once 'Test/initLoaders.php5';
 /**
- *	TestUnit of Test_ADT_List_Queue.
+ *	TestUnit of Test_ADT_List_Stack.
  *	@package		Tests.adt.list
  *	@extends		PHPUnit_Framework_TestCase
- *	@uses			Test_ADT_List_Queue
+ *	@uses			Test_ADT_List_Stack
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			04.06.2008
  *	@version		0.1
  */
-class Test_ADT_List_QueueTest extends PHPUnit_Framework_TestCase
+class Test_ADT_List_StackTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 *	Constructor.
@@ -28,8 +28,6 @@ class Test_ADT_List_QueueTest extends PHPUnit_Framework_TestCase
 	 */
 	public function __construct()
 	{
-		$this->array	= array( 1, 2, 3 );
-		$this->queue	= new ADT_List_Queue( $this->array );
 	}
 	
 	/**
@@ -39,6 +37,8 @@ class Test_ADT_List_QueueTest extends PHPUnit_Framework_TestCase
 	 */
 	public function setUp()
 	{
+		$this->array	= array( 1, 2, 3 );
+		$this->stack	= new ADT_List_Stack( $this->array );
 	}
 	
 	/**
@@ -58,14 +58,14 @@ class Test_ADT_List_QueueTest extends PHPUnit_Framework_TestCase
 	public function testConstruct()
 	{
 		$array		= $this->array;
-		$queue		= new ADT_List_Queue( $array );
+		$stack		= new ADT_List_Stack( $array );
 		$assertion	= $array;
-		$creation	= $queue->toArray();
+		$creation	= $stack->toArray();
 		$this->assertEquals( $assertion, $creation );
 
-		$queue		= new ADT_List_Queue( 1 );
+		$stack		= new ADT_List_Stack( 1 );
 		$assertion	= array();
-		$creation	= $queue->toArray();
+		$creation	= $stack->toArray();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -76,8 +76,8 @@ class Test_ADT_List_QueueTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testBottom()
 	{
-		$assertion	= 3;
-		$creation	= $this->queue->bottom();
+		$assertion	= 1;
+		$creation	= $this->stack->bottom();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -88,11 +88,11 @@ class Test_ADT_List_QueueTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testBottomException()
 	{
-		$creation	= $this->queue->bottom();
-		$creation	= $this->queue->bottom();
-		$creation	= $this->queue->bottom();
+		$creation	= $this->stack->bottom();
+		$creation	= $this->stack->bottom();
+		$creation	= $this->stack->bottom();
 		$this->setExpectedException( "RuntimeException" );
-		$creation	= $this->queue->bottom();
+		$creation	= $this->stack->bottom();
 	}
 
 	/**
@@ -103,58 +103,12 @@ class Test_ADT_List_QueueTest extends PHPUnit_Framework_TestCase
 	public function testCount()
 	{
 		$assertion	= 3;
-		$creation	= $this->queue->count();
+		$creation	= $this->stack->count();
 		$this->assertEquals( $assertion, $creation );
 
-		$assertion	= 3;
-		$creation	= count( $this->queue );
-		$this->assertEquals( $assertion, $creation );
-
-		$queue		= new ADT_List_Queue();
+		$stack		= new ADT_List_Stack();
 		$assertion	= 0;
-		$creation	= count( $queue );
-		$this->assertEquals( $assertion, $creation );
-	}
-
-	/**
-	 *	Tests Method 'pop'.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function testPop()
-	{
-		$assertion	= 1;
-		$creation	= $this->queue->pop();
-		$this->assertEquals( $assertion, $creation );
-	}
-
-	/**
-	 *	Tests Exception of Method 'pop'.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function testPopException()
-	{
-		$creation	= $this->queue->pop();
-		$creation	= $this->queue->pop();
-		$creation	= $this->queue->pop();
-		$this->setExpectedException( "RuntimeException" );
-		$creation	= $this->queue->pop();
-	}
-
-	/**
-	 *	Tests Method 'push'.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function testPush()
-	{
-		$assertion	= 4;
-		$creation	= $this->queue->push( 4 );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= 4;
-		$creation	= $this->queue->bottom();
+		$creation	= $stack->count();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -166,11 +120,11 @@ class Test_ADT_List_QueueTest extends PHPUnit_Framework_TestCase
 	public function testHas()
 	{
 		$assertion	= TRUE;
-		$creation	= $this->queue->has( 1 );
+		$creation	= $this->stack->has( 1 );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= FALSE;
-		$creation	= $this->queue->has( 4 );
+		$creation	= $this->stack->has( 5 );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -182,12 +136,63 @@ class Test_ADT_List_QueueTest extends PHPUnit_Framework_TestCase
 	public function testIsEmpty()
 	{
 		$assertion	= FALSE;
-		$creation	= $this->queue->isEmpty();
+		$creation	= $this->stack->isEmpty();
 		$this->assertEquals( $assertion, $creation );
 
-		$queue		= new ADT_List_Queue();
+		$stack		= new ADT_List_Stack();
 		$assertion	= TRUE;
-		$creation	= $queue->isEmpty();
+		$creation	= $stack->isEmpty();
+		$this->assertEquals( $assertion, $creation );
+	}
+
+	/**
+	 *	Tests Method 'pop'.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testPop()
+	{
+		$assertion	= 3;
+		$creation	= $this->stack->pop();
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= 2;
+		$creation	= $this->stack->pop();
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= 1;
+		$creation	= $this->stack->pop();
+		$this->assertEquals( $assertion, $creation );
+	}
+
+	/**
+	 *	Tests Exception of Method 'pop'.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testPopException()
+	{
+		$this->stack->pop();	
+		$this->stack->pop();	
+		$this->stack->pop();	
+		$this->setExpectedException( "RuntimeException" );
+		$this->stack->pop();	
+	}
+
+
+	/**
+	 *	Tests Method 'push'.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testPush()
+	{
+		$assertion	= 4;
+		$creation	= $this->stack->push( 4 );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= 4;
+		$creation	= $this->stack->pop();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -199,7 +204,7 @@ class Test_ADT_List_QueueTest extends PHPUnit_Framework_TestCase
 	public function testToArray()
 	{
 		$assertion	= $this->array;
-		$creation	= $this->queue->toArray();
+		$creation	= $this->stack->toArray();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -210,8 +215,8 @@ class Test_ADT_List_QueueTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testTop()
 	{
-		$assertion	= 1;
-		$creation	= $this->queue->top();
+		$assertion	= 3;
+		$creation	= $this->stack->top();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -223,7 +228,7 @@ class Test_ADT_List_QueueTest extends PHPUnit_Framework_TestCase
 	public function testToString()
 	{
 		$assertion	= "(1|2|3)";
-		$creation	= (string) $this->queue;
+		$creation	= (string) $this->stack;
 		$this->assertEquals( $assertion, $creation );
 	}
 }
