@@ -64,7 +64,7 @@ import( 'de.ceus-media.adt.php.Throws' );
  *	@since			04.08.08
  *	@todo			Code Doc
  */
-class DocCreator_Core_Parser
+class File_PHP_Parser_Regular
 {
 	protected $regexClass		= '@^(abstract )?(final )?(interface |class )([\w]+)( extends ([\w]+))?( implements ([\w]+)(, ([\w]+))*)?(\s*{)?@i';
 	protected $regexMethod		= '@^(abstract )?(final )?(protected |private |public )?(static )?function ([\w]+)\((.*)\)(\s*{\s*)?;?\s*$@';
