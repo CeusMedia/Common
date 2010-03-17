@@ -1,11 +1,11 @@
 <?php
 if( !defined( 'PHPUnit_MAIN_METHOD' ) )
-	define( 'PHPUnit_MAIN_METHOD', 'Test_File_Yaml_AllTests::main' );
+	define( 'PHPUnit_MAIN_METHOD', 'Test_File_YAML_AllTests::main' );
 
 require_once 'PHPUnit/Framework/TestSuite.php';
 require_once 'PHPUnit/TextUI/TestRunner.php';
 require_once 'Test/initLoaders.php5';
-class Test_File_Yaml_AllTests
+class Test_File_YAML_AllTests
 {
 	public static function main()
 	{
@@ -14,12 +14,12 @@ class Test_File_Yaml_AllTests
 
 	public static function suite()
 	{
-		$suite = new PHPUnit_Framework_TestSuite( 'cmClasses/File/Yaml' );
-		$suite->addTestSuite( 'Test_File_Yaml_ReaderTest' ); 
-		$suite->addTestSuite( 'Test_File_Yaml_WriterTest' ); 
+		$suite = new PHPUnit_Framework_TestSuite( 'cmClasses/File/YAML' );
+		$suite->addTestSuite( 'Test_File_YAML_ReaderTest' );
+		$suite->addTestSuite( 'Test_File_YAML_WriterTest' );
 		return $suite;
 	}
 }
-if( PHPUnit_MAIN_METHOD == 'Test_File_Yaml_AllTests::main' )
-	Test_File_Yaml_AllTests::main();
+if( PHPUnit_MAIN_METHOD == 'Test_File_YAML_AllTests::main' )
+	Test_File_YAML_AllTests::main();
 ?>

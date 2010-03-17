@@ -19,13 +19,16 @@ require_once 'Test/initLoaders.php5';
  */
 class Test_XML_ElementTest extends PHPUnit_Framework_TestCase
 {
-	protected $fileRead		= "xml/element_read.xml";
-	protected $fileWrite	= "xml/element_write.xml";
-	protected $fileSerial	= "xml/element_write_test.serial";
+	protected $fileRead;
+	protected $fileWrite;
+	protected $fileSerial;
 
 	public function setUp()
 	{
-		$this->xml	= file_get_contents( $this->fileRead );
+		$this->fileRead		= dirname( __FILE ).'element_read.xml';
+		$this->fileWrite	= dirname( __FILE ).'element_write.xml';
+		$this->fileSerial	= dirname( __FILE ).'element_write_test.serial';
+		$this->xml			= file_get_contents( $this->fileRead );
 	}
 	
 	public function testAddChild()

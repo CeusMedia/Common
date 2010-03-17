@@ -1,11 +1,11 @@
 <?php
 if( !defined( 'PHPUnit_MAIN_METHOD' ) )
-	define( 'PHPUnit_MAIN_METHOD', 'Test_Alg_Preg_AllTests::main' );
+	define( 'PHPUnit_MAIN_METHOD', 'Test_Alg_PREG_AllTests::main' );
 
 require_once 'PHPUnit/Framework/TestSuite.php';
 require_once 'PHPUnit/TextUI/TestRunner.php';
 require_once 'Test/initLoaders.php5';
-class Test_Alg_Preg_AllTests
+class Test_Alg_PREG_AllTests
 {
 	public static function main()
 	{
@@ -14,11 +14,11 @@ class Test_Alg_Preg_AllTests
 
 	public static function suite()
 	{
-		$suite = new PHPUnit_Framework_TestSuite( 'cmClasses/Alg/Preg' );
-		$suite->addTestSuite( 'Test_Alg_Preg_MatchTest' ); 
+		$suite = new PHPUnit_Framework_TestSuite( 'cmClasses/Alg/PREG' );
+		$suite->addTestSuite( 'Test_Alg_PREG_MatchTest' ); 
 		return $suite;
 	}
 }
-if( PHPUnit_MAIN_METHOD == 'Test_Alg_Preg_AllTests::main' )
-	Test_Alg_Preg_AllTests::main();
+if( PHPUnit_MAIN_METHOD == 'Test_Alg_PREG_AllTests::main' )
+	Test_Alg_PREG_AllTests::main();
 ?>

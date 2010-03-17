@@ -19,11 +19,13 @@ require_once 'Test/initLoaders.php5';
  */
 class Test_XML_RSS_BuilderTest extends PHPUnit_Framework_TestCase
 {
-	protected $file		= "xml/rss/reader.xml";
-	protected $serial	= "xml/rss/reader.serial";
+	protected $file;
+	protected $serial;
 
 	public function setUp()
 	{
+		$this->file		= dirname( __FILE__ ).'rss/reader.xml';
+		$this->serial	= dirname( __FILE__ ).'reader.serial';
 		$this->builder	= new XML_RSS_Builder();
 
 		$this->setup	= array(

@@ -20,8 +20,8 @@ class Test_XML_AllTests
 		$suite->addTest( Test_XML_RSS_AllTests::suite() );
 		$suite->addTest( Test_XML_WDDX_AllTests::suite() );
 		$suite->addTest( Test_XML_XSL_AllTests::suite() );
-		$suite->addTestSuite( 'Test_XML_ElementTest' ); 
-		$suite->addTestSuite( 'Test_XML_ElementReaderTest' ); 
+		$suite->addTestSuite( 'Test_XML_ElementTest' );
+		$suite->addTestSuite( 'Test_XML_ElementReaderTest' );
 		return $suite;
 	}
 }
