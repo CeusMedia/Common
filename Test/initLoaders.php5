@@ -5,7 +5,7 @@ $loaderLib	= new CMC_Loader();																//  get new Loader Instance
 $loaderLib->setExtensions( 'php,php5' );																	//  set allowed Extension
 $loaderLib->setPath( dirname( __FILE__ ) );													//  set fixed Library Path
 $loaderLib->setLogFile( TRUE );
-$loaderLib->setVerbose( TRUE );
+#$loaderLib->setVerbose( TRUE );
 $loaderLib->setPrefix( 'Test_' );
 $loaderLib->registerAutoloader();
 

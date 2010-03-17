@@ -20,6 +20,8 @@ require_once 'Test/initLoaders.php5';
 class Test_XML_DOM_XPathQueryTest extends PHPUnit_Framework_TestCase
 {
 	protected $xmlUrl	= "http://www.w3schools.com/xquery/books.xml";
+	protected $xmlFile;
+	protected $xPath;
 
 	/**
 	 *	Sets up XPath Query.

@@ -19,12 +19,12 @@ class Test_File_AllTests
 		$suite->addTest( Test_File_Arc_AllTests::suite() );
 		$suite->addTest( Test_File_Block_AllTests::suite() );
 		$suite->addTest( Test_File_Configuration_AllTests::suite() );
-		$suite->addTest( Test_File_iCal_AllTests::suite() );
+		$suite->addTest( Test_File_ICal_AllTests::suite() );
 		$suite->addTest( Test_File_INI_AllTests::suite() );
 		$suite->addTest( Test_File_List_AllTests::suite() );
 		$suite->addTest( Test_File_PHP_AllTests::suite() );
 #		$suite->addTest( Test_File_Log_AllTests::suite() );
-		$suite->addTest( Test_File_Yaml_AllTests::suite() );
+		$suite->addTest( Test_File_YAML_AllTests::suite() );
 		$suite->addTestSuite( 'Test_File_ReaderTest' ); 
 		$suite->addTestSuite( 'Test_File_EditorTest' ); 
 		$suite->addTestSuite( 'Test_File_WriterTest' ); 

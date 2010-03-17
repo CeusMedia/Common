@@ -1,9 +1,9 @@
 <?php
 /**
- *	TestUnit of File_iCal_Parser.
+ *	TestUnit of File_ICal_Parser.
  *	@package		Tests.file_ical.file
  *	@extends		PHPUnit_Framework_TestCase
- *	@uses			File_iCal_Parser
+ *	@uses			File_ICal_Parser
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			19.06.2008
  *	@version		0.1
@@ -11,15 +11,15 @@
 require_once 'PHPUnit/Framework/TestCase.php';
 require_once 'Test/initLoaders.php5';
 /**
- *	TestUnit of File_iCal_Parser.
+ *	TestUnit of File_ICal_Parser.
  *	@package		Tests.file_ical.file
  *	@extends		PHPUnit_Framework_TestCase
- *	@uses			File_iCal_Parser
+ *	@uses			File_ICal_Parser
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			19.06.2008
  *	@version		0.1
  */
-class Test_File_iCal_ParserTest extends PHPUnit_Framework_TestCase
+class Test_File_ICal_ParserTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 *	Constructor.
@@ -57,7 +57,7 @@ class Test_File_iCal_ParserTest extends PHPUnit_Framework_TestCase
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= File_iCal_Parser::__construct();
+		$creation	= File_ICal_Parser::__construct();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -70,7 +70,7 @@ class Test_File_iCal_ParserTest extends PHPUnit_Framework_TestCase
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= File_iCal_Parser::parse();
+		$creation	= File_ICal_Parser::parse();
 		$this->assertEquals( $assertion, $creation );
 	}
 }

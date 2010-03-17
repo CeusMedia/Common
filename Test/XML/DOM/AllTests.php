@@ -16,17 +16,17 @@ class Test_XML_DOM_AllTests
 	{
 		$suite = new PHPUnit_Framework_TestSuite( 'cmClasses/XML/DOM' );
 		$suite->addTest( Test_XML_DOM_PEAR_AllTests::suite() );
-		$suite->addTestSuite( 'Test_XML_DOM_NodeTest' ); 
-		$suite->addTestSuite( 'Test_XML_DOM_BuilderTest' ); 
-		$suite->addTestSuite( 'Test_XML_DOM_ParserTest' ); 
-		$suite->addTestSuite( 'Test_XML_DOM_FileReaderTest' ); 
-		$suite->addTestSuite( 'Test_XML_DOM_FileWriterTest' ); 
-		$suite->addTestSuite( 'Test_XML_DOM_ObjectSerializerTest' ); 
-		$suite->addTestSuite( 'Test_XML_DOM_ObjectDeserializerTest' ); 
-		$suite->addTestSuite( 'Test_XML_DOM_StorageTest' ); 
-		$suite->addTestSuite( 'Test_XML_DOM_XpathQueryTest' ); 
-		$suite->addTestSuite( 'Test_XML_DOM_GoogleSitemapBuilderTest' ); 
-		$suite->addTestSuite( 'Test_XML_DOM_GoogleSitemapWriterTest' ); 
+		$suite->addTestSuite( 'Test_XML_DOM_NodeTest' );
+		$suite->addTestSuite( 'Test_XML_DOM_BuilderTest' );
+		$suite->addTestSuite( 'Test_XML_DOM_ParserTest' );
+		$suite->addTestSuite( 'Test_XML_DOM_FileReaderTest' );
+		$suite->addTestSuite( 'Test_XML_DOM_FileWriterTest' );
+		$suite->addTestSuite( 'Test_XML_DOM_ObjectSerializerTest' );
+		$suite->addTestSuite( 'Test_XML_DOM_ObjectDeserializerTest' );
+		$suite->addTestSuite( 'Test_XML_DOM_StorageTest' );
+		$suite->addTestSuite( 'Test_XML_DOM_XPathQueryTest' );
+		$suite->addTestSuite( 'Test_XML_DOM_GoogleSitemapBuilderTest' );
+		$suite->addTestSuite( 'Test_XML_DOM_GoogleSitemapWriterTest' );
 		return $suite;
 	}
 }

@@ -18,7 +18,7 @@ class Test_Alg_AllTests
 		$suite = new PHPUnit_Framework_TestSuite( 'cmClasses/Alg' );
 		$suite->addTest( Test_Alg_Crypt_AllTests::suite() );
 		$suite->addTest( Test_Alg_Parcel_AllTests::suite() );
-		$suite->addTest( Test_Alg_Preg_AllTests::suite() );
+		$suite->addTest( Test_Alg_PREG_AllTests::suite() );
 		$suite->addTest( Test_Alg_Validation_AllTests::suite() );
 		$suite->addTest( Test_Alg_Time_AllTests::suite() );
 		$suite->addTestSuite( 'Test_Alg_HtmlParserTest' ); 

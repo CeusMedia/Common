@@ -1,6 +1,6 @@
 <?php
 /**
- *	TestUnit of File_PHP_Parser.
+ *	TestUnit of File_PHP_Parser_Regular.
  *	@package		Tests.file.php
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			10.08.2008
@@ -9,15 +9,15 @@
 require_once 'PHPUnit/Framework/TestCase.php';
 require_once 'Test/initLoaders.php5';
 /**
- *	TestUnit of File_PHP_Parser.
+ *	TestUnit of File_PHP_Parser_Regular.
  *	@package		Tests.file.php
  *	@extends		PHPUnit_Framework_TestCase
- *	@uses			File_PHP_Parser
+ *	@uses			File_PHP_Parser_Regular
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			10.08.2008
  *	@version		0.1
  */
-class Test_File_PHP_ParserTest extends PHPUnit_Framework_TestCase
+class Test_File_PHP_Parser_RegularTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 *	Constructor.
@@ -37,13 +37,13 @@ class Test_File_PHP_ParserTest extends PHPUnit_Framework_TestCase
 	 */
 	public function setUp()
 	{
-		$parser	= new File_PHP_Parser();
+		$parser	= new File_PHP_Parser_Regular();
 		$this->data		= $parser->parseFile( $this->fileName, $this->path );
-		$this->file		= $this->data['file'];
-		$this->class	= $this->data['class'];
-		$this->function	= array_shift( array_slice( $this->file['functions'], 0, 1 ) );
-		$this->method1	= array_shift( array_slice( $this->class['methods'], 0, 1 ) );
-		$this->method2	= array_shift( array_slice( $this->class['methods'], 1, 1 ) );
+		$this->file		= $this->data->getUri();
+		$this->class	= array_shift( array_slice( $this->data->getClasses(), 0, 1 ) );
+		$this->function	= array_shift( array_slice( $this->data->getFunctions(), 0, 1 ) );
+		$this->method1	= array_shift( array_slice( $this->class->getMethods(), 0, 1 ) );
+		$this->method2	= array_shift( array_slice( $this->class->getMethods(), 1, 1 ) );
 	}
 	
 	/**
@@ -62,9 +62,9 @@ class Test_File_PHP_ParserTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testParseFile1()
 	{
-		$parser	= new File_PHP_Parser();
+		$parser	= new File_PHP_Parser_Regular();
 		$data		= $parser->parseFile( $this->fileName, $this->path );
-		
+return;
 		$this->assertTrue( is_array( $data ) );
 
 		$assertion	= array(
@@ -87,7 +87,7 @@ class Test_File_PHP_ParserTest extends PHPUnit_Framework_TestCase
 		$fileName	= $this->path."parser.php";
 		file_put_contents( $fileName, $string );
 		
-		$parser		= new File_PHP_Parser();
+		$parser		= new File_PHP_Parser_Regular();
 		$data		= $parser->parseFile( $fileName, $this->path );
 		@unlink( $fileName );
 

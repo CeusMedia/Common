@@ -20,8 +20,13 @@ require_once 'Test/initLoaders.php5';
 class Test_XML_ElementReaderTest extends PHPUnit_Framework_TestCase
 {
 	
-	protected $url	= "http://www.rssboard.org/files/sample-rss-2.xml";
-	protected $file	= "xml/element_reader.xml";
+	protected $url		= 'http://www.rssboard.org/files/sample-rss-2.xml';
+	protected $file;
+
+	public function setUp()
+	{
+		$this->file		= dirname( __FILE__ ).'element_reader.xml';
+	}
 
 	/**
 	 *	Tests Method 'readUrl'.
@@ -32,11 +37,11 @@ class Test_XML_ElementReaderTest extends PHPUnit_Framework_TestCase
 	{
 		$element	= XML_ElementReader::readUrl( $this->url );
 		
-		$assertion	= "Liftoff News";
+		$assertion	= 'Liftoff News';
 		$creation	= (string) $element->channel->title;
 		$this->assertEquals( $assertion, $creation );
 
-		$assertion	= "http://liftoff.msfc.nasa.gov/";
+		$assertion	= 'http://liftoff.msfc.nasa.gov/';
 		$creation	= (string )$element->channel->link;
 		$this->assertEquals( $assertion, $creation );
 	}
@@ -50,11 +55,11 @@ class Test_XML_ElementReaderTest extends PHPUnit_Framework_TestCase
 	{
 		$element	= XML_ElementReader::readFile( $this->file );
 		
-		$assertion	= "Liftoff News";
+		$assertion	= 'Liftoff News';
 		$creation	= (string) $element->channel->title;
 		$this->assertEquals( $assertion, $creation );
 
-		$assertion	= "http://liftoff.msfc.nasa.gov/";
+		$assertion	= 'http://liftoff.msfc.nasa.gov/';
 		$creation	= (string )$element->channel->link;
 		$this->assertEquals( $assertion, $creation );
 	}
