@@ -39,7 +39,7 @@
  *	@version		0.1
  *	@see			http://de.php.net/preg_match
  */
-class ALG_Preg_Match
+class ALG_PREG_Match
 {
 	/**
 	 *	Indicates whether a String matches a regular expression.
