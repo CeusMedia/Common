@@ -6,7 +6,7 @@
  *	@since			21.04.2008
  *	@version		0.1
  */
-require_once 'test/initLoaders.php5';
+require_once 'Test/initLoaders.php5';
 /**
  *	TestUnit of recursive Folder Iterator.
  *	@package		Tests.folder

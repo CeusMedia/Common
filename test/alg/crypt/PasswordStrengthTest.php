@@ -2,18 +2,18 @@
 /**
  *	TestUnit of Dictionay
  *	@package		Tests.alg.crypt
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian Wï¿½rker <Christian.Wuerker@CeuS-Media.de>
  *	@since			14.02.2008
  *	@version		0.1
  */
 require_once 'PHPUnit/Framework/TestCase.php'; 
-require_once 'test/initLoaders.php5';
+require_once 'Test/initLoaders.php5';
 /**
  *	TestUnit of Dictionay
  *	@package		Tests.alg.crypt
  *	@extends		PHPUnit_Framework_TestCase
  *	@uses			Alg_Crypt_PasswordStrengthTest
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian Wï¿½rker <Christian.Wuerker@CeuS-Media.de>
  *	@since			14.02.2008
  *	@version		0.1
  */

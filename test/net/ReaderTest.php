@@ -2,18 +2,18 @@
 /**
  *	TestUnit of Net Reader.
  *	@package		Tests.net
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian Wï¿½rker <Christian.Wuerker@CeuS-Media.de>
  *	@since			21.02.2008
  *	@version		0.1
  */
 require_once 'PHPUnit/Framework/TestCase.php';
-require_once 'test/initLoaders.php5';
+require_once 'Test/initLoaders.php5';
 /**
  *	TestUnit of Net Reader.
  *	@package		Tests.net
  *	@extends		PHPUnit_Framework_TestCase
  *	@uses			Net_Reader
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian Wï¿½rker <Christian.Wuerker@CeuS-Media.de>
  *	@since			21.02.2008
  *	@version		0.1
  */

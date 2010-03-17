@@ -2,17 +2,17 @@
 /**
  *	TestUnit of Yaml Reader.
  *	@package		Tests.file.yaml
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian Wï¿½rker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.1
  */
 require_once 'PHPUnit/Framework/TestCase.php'; 
-require_once 'test/initLoaders.php5';
+require_once 'Test/initLoaders.php5';
 /**
  *	TestUnit of Yaml Reader.
  *	@package		Tests.file.yaml
  *	@extends		PHPUnit_Framework_TestCase
  *	@uses			File_Yaml_Reader
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian Wï¿½rker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.1
  */
 class Test_File_Yaml_ReaderTest extends PHPUnit_Framework_TestCase

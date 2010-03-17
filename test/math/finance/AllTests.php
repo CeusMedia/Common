@@ -4,7 +4,7 @@ if( !defined( 'PHPUnit_MAIN_METHOD' ) )
 
 require_once 'PHPUnit/Framework/TestSuite.php';
 require_once 'PHPUnit/TextUI/TestRunner.php';
-require_once 'test/initLoaders.php5';
+require_once 'Test/initLoaders.php5';
 class Test_Math_Finance_AllTests
 {
 	public static function main()

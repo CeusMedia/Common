@@ -7,7 +7,7 @@
  *	@version		0.1
  */
 require_once 'PHPUnit/Framework/TestCase.php';
-require_once 'test/initLoaders.php5';
+require_once 'Test/initLoaders.php5';
 import( 'de.ceus-media.xml.wddx.Parser' );
 /**
  *	TestUnit of XML_WDDX_Parser.

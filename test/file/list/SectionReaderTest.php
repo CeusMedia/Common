@@ -2,17 +2,17 @@
 /**
  *	TestUnit of Yaml Reader.
  *	@package		Tests.file.list
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian Wï¿½rker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.1
  */
 require_once 'PHPUnit/Framework/TestCase.php'; 
-require_once 'test/initLoaders.php5';
+require_once 'Test/initLoaders.php5';
 /**
  *	TestUnit of Yaml Reader.
  *	@package		Tests.file.list
  *	@extends		PHPUnit_Framework_TestCase
  *	@uses			File_List_SectionReader
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian Wï¿½rker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.1
  */
 class Test_File_List_SectionReaderTest extends PHPUnit_Framework_TestCase

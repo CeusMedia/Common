@@ -10,7 +10,7 @@
  *	@version		0.1
  */
 require_once 'PHPUnit/Framework/TestCase.php'; 
-require_once 'test/initLoaders.php5';
+require_once 'Test/initLoaders.php5';
 /**
  *	TestUnit of Database_PDO_TableWriter.
  *	@package		Tests.{classPackage}

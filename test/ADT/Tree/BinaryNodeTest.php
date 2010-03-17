@@ -4,17 +4,17 @@
  *	@package		Tests.adt.list
  *	@extends		PHPUnit_Framework_TestCase
  *	@uses			Test_ADT_Tree_BinaryNode
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian Wï¿½rker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.2
  */
 require_once 'PHPUnit/Framework/TestCase.php';
-require_once 'test/initLoaders.php5';
+require_once 'Test/initLoaders.php5';
 /**
  *	Unit Test of Binary Node.
  *	@package		Tests.adt.list
  *	@extends		PHPUnit_Framework_TestCase
  *	@uses			Test_ADT_Tree_BinaryNode
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian Wï¿½rker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.2
  */
 class Test_ADT_Tree_BinaryNodeTest extends PHPUnit_Framework_TestCase

@@ -1,10 +1,13 @@
 <?php
 require_once( dirname( __FILE__ )."/../autoload.php5" );
 
-$loaderLib	= new CMC_Loader( TRUE );																//  get new Loader Instance
+$loaderLib	= new CMC_Loader();																//  get new Loader Instance
 $loaderLib->setExtensions( 'php,php5' );																	//  set allowed Extension
-$loaderLib->setPath( dirname( __FILE__ )."/test/" );													//  set fixed Library Path
-
+$loaderLib->setPath( dirname( __FILE__ ) );													//  set fixed Library Path
+$loaderLib->setLogFile( TRUE );
+$loaderLib->setVerbose( TRUE );
+$loaderLib->setPrefix( 'Test_' );
+$loaderLib->registerAutoloader();
 
 //  --  LOADERS  --  //
 /*function import( $class )
