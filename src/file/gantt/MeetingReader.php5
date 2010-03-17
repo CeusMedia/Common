@@ -112,7 +112,7 @@ class File_Gantt_MeetingReader
 	 */
 	protected function readProjectDates()
 	{
-		$node	= $this->xpath->evaluate( "//project/tasks/task[@id=0]" );
+		$node	= $this->xpath->evaluate( "//project/tasks/task" );
 
 		if( $node->length == 0 )
 			throw new Exception( 'Task Node not found. No Task defined in Project.' );

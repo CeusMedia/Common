@@ -322,6 +322,11 @@ class UI_HTML_Elements extends UI_HTML_FormElements
 		return $code;
 	}
 
+	public static function Heading( $label, $level, $class = NULL )
+	{
+		return UI_HTML_Tag::create( 'h'.$level, $label, array( 'class' => $class ) );
+	}
+
 	/**
 	 *	Erzeugt HTML-Code einer Grafik.
 	 *	@access		public

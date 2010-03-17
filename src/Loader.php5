@@ -80,7 +80,7 @@ class CMC_Loader
 		if( $this->lowerPath )
 		{
 			$matches	= array();
-			preg_match_all( '/^(.*)([a-z]+)$/iU', $className, $matches );
+			preg_match_all( '/^(.*)([a-z0-9]+)$/iU', $className, $matches );
 			$fileName	= $matches[2][0];
 			$pathName	= str_replace( "_","/", strtolower( $matches[1][0] ) );
 			$fileName	= $pathName.$fileName;
