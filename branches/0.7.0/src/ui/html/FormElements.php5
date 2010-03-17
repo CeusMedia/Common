@@ -353,7 +353,7 @@ class UI_HTML_FormElements
 		foreach( $options as $value => $label )
 		{
 			$value		= (string) $value;
-			$isSelected	= is_array( $selected ) ? in_array( $value, $selected ) : (string) $selected == $value; 
+			$isSelected	= is_array( $selected ) ? in_array( $value, $selected ) : (string) $selected == (string) $value;
 			$list[]		= self::Option( $value, $label, $isSelected );
 		}
 		return implode( "", $list );

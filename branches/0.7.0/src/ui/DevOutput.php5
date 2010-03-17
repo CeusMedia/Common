@@ -2,7 +2,7 @@
 /**
  *	Output Methods for Developement.
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2007-2009 Christian Wï¿½rker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -19,8 +19,8 @@
  *
  *	@category		cmClasses
  *	@package		ui
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Wï¿½rker <christian.wuerker@ceus-media.de>
+ *	@copyright		2007-2009 Christian Wï¿½rker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		0.1
@@ -29,8 +29,8 @@
  *	Output Methods for Developement.
  *	@category		cmClasses
  *	@package		ui
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Wï¿½rker <christian.wuerker@ceus-media.de>
+ *	@copyright		2007-2009 Christian Wï¿½rker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		0.1
@@ -395,6 +395,19 @@ class UI_DevOutput
 function code( $string )
 {
 	echo "<code>".$string."</code>";
+}
+
+/**
+ *	Prints given content only if flag CM_SHOW_DEV is on (or if forced).
+ *	@access		public
+ *	@param		string		$content	Dev Info to show
+ *	@param		bool		$force		Flag: force display
+ *	@return		void
+ */
+function dev( $content, $force = FALSE, $flagKey = 'CM_SHOW_DEV' )
+{
+	if( !( !$force && !( defined( $flagKey ) && constant( $flagKey ) ) ) )
+		echo $content;
 }
 
 /**

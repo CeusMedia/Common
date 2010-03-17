@@ -103,9 +103,23 @@ class ADT_List_Dictionary implements ArrayAccess, Countable, Iterator
 	 *	@access		public
 	 *	@return		array
 	 */
-	public function getAll()
+	public function getAll( $prefix = NULL )
 	{
-		return $this->pairs;
+		if( !$prefix )
+			return $this->pairs;
+		$list	= array();
+		$length	= strlen( $prefix );
+		foreach( $this->pairs as $key => $value )
+		{
+			if( strlen( $key ) <= $length )
+				continue;
+			if( substr( $key, 0, $length ) == $prefix )
+			{
+				$key	= substr( $key, $length );
+				$list[$key]	= $value;
+			}
+		}
+		return $list;
 	}
 
 	public function getKeys()
