@@ -2,7 +2,7 @@
 /**
  *	TableWriter.
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2007-2009 Christian Wï¿½rker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,8 +20,8 @@
  *	@category		cmClasses
  *	@package		database
  *	@extends		Database_TableReader
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian Wï¿½rker <christian.wuerker@ceus-media.de>
+ *	@copyright		2007-2009 Christian Wï¿½rker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		0.6
@@ -32,8 +32,8 @@ import( 'de.ceus-media.database.TableReader' );
  *	@category		cmClasses
  *	@package		database
  *	@extends		TableReader
- *	@author			Database_Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Database_Christian Wï¿½rker <christian.wuerker@ceus-media.de>
+ *	@copyright		2007-2009 Christian Wï¿½rker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		0.6
@@ -57,29 +57,11 @@ class Database_TableWriter extends Database_TableReader
 			$vals	= array();
 			foreach( $this->fields as $field )
 			{
-//				if( $field != $this->primaryKey )
-//				{
-					if( isset( $data[$field] ) )
-						$value = $data[$field];
-					else if( isset( $_POST["set_".$field] ) )
-						$value = $_POST["set_".$field];
-					else unset( $value );
-					if( isset( $value ) )
-					{
-						if( $stripTags )
-							$value = strip_tags( $value );
-						$value = str_replace( '"', "'", $value );
-						if ($value == "on")
-							$value = 1;
-						if( !ini_get( 'magic_quotes_gpc' ) )
-						{
-							$field = addslashes( $field );
-							$value = addslashes( $value );
-						}
-						$keys[$field] = '`'.$field.'`';
-						$vals[$field] = '"'.$value.'"';
-					}
-//				}
+				if( !isset( $data[$field] ) )
+					continue;
+				$value	= $this->secureValue( $data[$field], $stripTags );
+				$keys[$field] = '`'.$field.'`';
+				$vals[$field] = '"'.$value.'"';
 			}
 			if( $this->isFocused() && in_array( $this->focusKey, $this->getForeignKeys() ) && !in_array( $this->focusKey, $keys ) )
 			{
@@ -165,28 +147,10 @@ class Database_TableWriter extends Database_TableReader
 					$updates	= array();
 					foreach( $this->fields as $field )
 					{
-						if( isset( $data[$field] ) )
-							$value	= $data[$field];
-						else if( isset( $data["set_".$field] ) )
-							$value	= $data["set_".$field];
-						else if( isset( $_POST["set_".$field] ) )
-							$value	= $_POST["set_".$field];
-						else unset( $value );
-					//	echo "field: $field -> $value<br>";
-						if( isset( $value ) )
-						{
-							if( $stripTags )
-								$value	= strip_tags( $value );
-							if( !ini_get( 'magic_quotes_gpc' ) )
-							{
-								$field = addslashes( $field );
-								$value = addslashes( $value );
-							}
-							$value	= str_replace( '"', "'", $value );
-							if( $value == "on" )
-								$value = 1;
-							$updates[] = "`".$field."`".'="'.$value.'"';
-						}
+						if( !isset( $data[$field] ) )
+							continue;
+						$value	= $this->secureValue( $data[$field], $stripTags );
+						$updates[] = "`".$field."`".'="'.$value.'"';
 					}
 					if( sizeof( $updates ) )
 					{
@@ -222,10 +186,8 @@ class Database_TableWriter extends Database_TableReader
 		{
 			if( array_key_exists( $field, $data ) )
 			{
-				$data[$field]	= strip_tags( $data[$field] );
-				if( $data[$field] == "on" )
-					$data[$field] = 1;
-				$sets[]	= $field."='".$data[$field]."'";
+				$value	= $this->secureValue( $data[$field], TRUE );
+				$sets[]	= $field."='".$value."'";
 			}
 		}
 		if( sizeof( $sets ) && $conditions )
@@ -235,6 +197,18 @@ class Database_TableWriter extends Database_TableReader
 			$result	= $this->dbc->Execute( $query, $debug );
 		}
 		return $result;
+	}
+
+	protected function secureValue( $value, $stripTags = NULL )
+	{
+		if( $stripTags )
+			$value	= strip_tags( $value );
+#		if( $data[$field] == "on" )
+#			$data[$field] = 1;
+		$value	= stripslashes( $value );
+		$value	= htmlentities( $value, ENT_QUOTES );
+		$value	= mysql_real_escape_string( $value, $this->dbc->getResource() );
+		return $value;
 	}
 }
 ?>
