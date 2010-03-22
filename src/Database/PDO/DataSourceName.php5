@@ -101,9 +101,9 @@ class Database_PDO_DataSourceName
 	protected function checkDriverSupport( $driver )
 	{
 		if( !in_array( $driver, $this->drivers ) )
-			throw new RuntimeException( 'PDO driver "'.$driver.' is no supported' );
+			throw new RuntimeException( 'PDO driver "'.$driver.'" is no supported' );
 		if( !in_array( $driver, PDO::getAvailableDrivers() ) )
-			throw new RuntimeException( 'PDO driver "'.$driver.' is no loaded' );
+			throw new RuntimeException( 'PDO driver "'.$driver.'" is no loaded' );
 	}
 
 	/**
