@@ -59,7 +59,7 @@ class Database_PDO_Connection extends PDO
 	 *	@return		void
 	 *	@see		http://php.net/manual/en/pdo.drivers.php
 	 */
-	public function __construct( $dsn, $username, $password, $driverOptions = array() )
+	public function __construct( $dsn, $username = NULL, $password = NULL, $driverOptions = array() )
 	{
 		parent::__construct( $dsn, $username, $password, $driverOptions );
 		$this->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );

@@ -20,6 +20,7 @@
 class CMC_Loader
 {
 	protected $extensions	= array(
+		'php5',
 		'php',
 		'inc'
 	);
@@ -52,8 +53,20 @@ class CMC_Loader
 		$this->lineBreak		= "<br/>";
 		if( getEnv( 'PROMPT' ) || getEnv( 'SHELL' ) )
 			$this->lineBreak		= "\n";
+		return spl_autoload_register( array( $this, 'loadClass' ) );
 	}
 
+	/**
+	 *	Register new Autoloader statically.
+	 *	@static
+	 *	@access		public
+	 *	@param		mixed		$extensions		String or List of supported Class File Extensions
+	 *	@param		string		$prefix			Prefix of Classes
+	 *	@param		string		$path			Path to Classes
+	 *	@param		string		$logFile
+	 *	@return		CMC_Loader
+	 *	@deprecated	not working in PHP 5.2
+	 */
 	public static function registerNew( $extensions = NULL, $prefix = NULL, $path = NULL, $logFile = NULL )
 	{
 		$loader	= new CMC_Loader( $extensions, $prefix, $path, $logFile );
@@ -93,9 +106,10 @@ class CMC_Loader
 			if( $this->verbose )
 				echo $this->lineBreak."autoload: ".$filePath;
 #			if( !@fopen( $filePath, "r", TRUE ) )
-			if( !file_exists( $filePath ) )
+#			if( !file_exists( $filePath ) )
+			if( !is_readable( $filePath ) )
 				continue;
-			$this->loadFile( $filePath );
+			$this->loadFile( $filePath, TRUE );
 			return TRUE;
 		}
 		return FALSE;
@@ -136,7 +150,7 @@ class CMC_Loader
 	 */
 	public function registerAutoloader()
 	{
-		return spl_autoload_register( array( $this, 'loadClass' ) );
+	#	return spl_autoload_register( array( $this, 'loadClass' ) );
 	}
 
 	/**
