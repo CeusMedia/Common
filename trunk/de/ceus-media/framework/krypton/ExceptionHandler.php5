@@ -195,6 +195,7 @@ class Framework_Krypton_ExceptionHandler
 		import( 'de.ceus-media.net.mail.PlainMail' );
 		import( 'de.ceus-media.net.mail.Sender' );
 		$mail	= new Net_Mail_PlainMail();
+		$mail->setHeader( 'Content-type', 'text/html; charset=UTF-8' );
 		$mail->setSender( self::$mailReceiver );
 		$mail->setReceiver( self::$mailReceiver );
 		$mail->setSubject( "[".getEnv( 'HTTP_HOST' )."] Exception: ".$e->getMessage() );
