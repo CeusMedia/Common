@@ -2,7 +2,7 @@
 /**
  *	Wrapper for mySQL Database Connection with Transaction Support.
  *
- *	Copyright (c) 2007-2009 Christian W�rker (ceus-media.de)
+ *	Copyright (c) 2010 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -22,11 +22,12 @@
  *	@extends		Database_BaseConnection
  *	@uses			Database_Result
  *	@uses			Database_Row
- *	@author			Christian W�rker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian W�rker
+ *	@author			Christian Würker <christian.wuerker@ceus-media.de>
+ *	@copyright		2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
- *	@version 		0.6
+ *	@since			0.6.8
+ *	@version 		$Id$
  */
 import( 'de.ceus-media.database.BaseConnection' );
 import( 'de.ceus-media.database.Result' );
@@ -38,14 +39,15 @@ import( 'de.ceus-media.database.Row' );
  *	@extends		Database_BaseConnection
  *	@uses			Database_Result
  *	@uses			Database_Row
- *	@author			Christian W�rker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian W�rker
+ *	@author			Christian W?Würker <christian.wuerker@ceus-media.de>
+ *	@copyright		2010 Christian W?rker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
- *	@version 		0.6
+ *	@since			0.6.8
+ *	@version 		$Id$
  *	@todo			Code Documentation
  */
-class Database_Mysql_LazyConnection extends Database_Mysql_Connection
+class Database_MySQL_LazyConnection extends Database_MySQL_Connection
 {
 	protected $dataForConnectOnDemand		= array();
 
