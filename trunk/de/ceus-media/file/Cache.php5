@@ -2,7 +2,7 @@
 /**
  *	Cache to store Data in Files.
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2007-2010 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,11 +20,11 @@
  *	@category		cmClasses
  *	@package		file
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			13.04.2009
- *	@version		0.1
+ *	@version		$Id$
  */
 import( 'de.ceus-media.file.Editor' );
 import( 'de.ceus-media.adt.cache.Store' );
@@ -36,11 +36,11 @@ import( 'de.ceus-media.adt.cache.Store' );
  *	@implements		Countable
  *	@uses			File_Editor
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			13.04.2009
- *	@version		0.1
+ *	@version		$Id$
  */
 class File_Cache extends ADT_Cache_Store implements Countable
 {
@@ -145,6 +145,20 @@ class File_Cache extends ADT_Cache_Store implements Countable
 		return $value;
 	}
 
+	public function getAll()
+	{
+		import( 'de.ceus-media.file.RegexFilter' );
+		$list	= array();
+		$index	= new File_RegexFilter( $this->path, '/\.serial/' );
+		foreach( $index as $entry )
+		{
+			$fileName	= $entry->getFilename();
+			$key		= preg_replace( '/\.serial$/', '', $fileName );
+			$list[$fileName]	= base64_decode( $key );
+		}
+		return $list;
+	}
+
 	/**
 	 *	Returns URI of Cache File from its Key.
 	 *	@access		protected
@@ -154,6 +168,11 @@ class File_Cache extends ADT_Cache_Store implements Countable
 	protected function getUriForKey( $key )
 	{
 		return $this->path.base64_encode( $key ).".serial";
+	}
+
+	public function getPath()
+	{
+		return $this->path;
 	}
 
 	/**

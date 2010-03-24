@@ -2,7 +2,7 @@
 /**
  *	Reader for Contents from the Net.
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2007-2010 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,11 +21,11 @@
  *	@package		net
  *	@uses			Net_cURL
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			20.02.2008
- *	@version		0.6
+ *	@version		$Id$
  */
 import( 'de.ceus-media.net.cURL' );
 /**
@@ -35,11 +35,11 @@ import( 'de.ceus-media.net.cURL' );
  *	@package		net
  *	@uses			Net_cURL
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			20.02.2008
- *	@version		0.6
+ *	@version		$Id$
  */
 class Net_Reader
 {
@@ -151,7 +151,7 @@ class Net_Reader
 		$response		= $curl->exec();
 		$this->status	= $curl->getStatus();
 		$this->headers	= $curl->getHeader();
-		$code			= $curl->getStatus( CURL_STATUS_HTTP_CODE );
+		$code			= $curl->getStatus( Net_cURL::STATUS_HTTP_CODE );
 	
 		if( !in_array( $code, array( '200', '301', '303', '304', '307' ) ) )
 			throw new RuntimeException( 'URL "'.$this->url.'" can not be accessed (HTTP Code '.$code.').', $code );

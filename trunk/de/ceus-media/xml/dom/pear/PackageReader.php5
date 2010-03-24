@@ -2,7 +2,7 @@
 /**
  *	Reader for PEAR Package Description Files in XML.
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2007-2010 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,11 +21,11 @@
  *	@package		xml.dom.pear
  *	@uses			File_Reader
  *	@author			Christian Würker
- *	@copyright		2007-2009 Christian Würker
+ *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			20.10.2008
- *	@version		0.1
+ *	@version		$Id$
  */
 import( 'de.ceus-media.file.Reader' );
 /**
@@ -34,11 +34,11 @@ import( 'de.ceus-media.file.Reader' );
  *	@package		xml.dom.pear
  *	@uses			File_Reader
  *	@author			Christian Würker
- *	@copyright		2007-2009 Christian Würker
+ *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			20.10.2008
- *	@version		0.1
+ *	@version		$Id$
  */
 class XML_DOM_PEAR_PackageReader
 {

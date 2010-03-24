@@ -2,7 +2,7 @@
 /**
  *	Randomizer supporting different sign types.
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2007-2010 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,22 +20,22 @@
  *	@category		cmClasses
  *	@package		alg
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			18.01.2006
- *	@version		0.5
+ *	@version		$Id$
  */
 /**
  *	Randomizer supporting different sign types.
  *	@category		cmClasses
  *	@package		alg
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			18.01.2006
- *	@version		0.5
+ *	@version		$Id$
  */
 class Alg_Randomizer
 {
@@ -50,7 +50,7 @@ class Alg_Randomizer
 	/**	@var		int			$strength		Strength randomized String should have at least (-100 <= x <= 100) */
 	public $strength			= 0;
 	/**	@var		int			$turns			Number of Turns to try to create a strong String */
-	public $turns				= 10;
+	public $maxTurns			= 10;
 	/**	@var		bool		$unique			Flag: every Sign may only appear once in randomized String */
 	public $unique				= TRUE;
 	/**	@var		bool		$useDigits		Flag: use Digits */
@@ -169,7 +169,7 @@ class Alg_Randomizer
 			$random	= $this->createString( $length, $pool );								//  randomize again
 			$turn++;																		//  count turn
 		}
-		while( $turn < $this->turns );														//  break if to much turns
+		while( $turn < $this->maxTurns );													//  break if to much turns
 		throw new RuntimeException( 'Strength Score '.$strength.' not reached after '.$turn.' Turns.' );
 	}
 }
