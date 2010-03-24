@@ -5,7 +5,7 @@
  *	If a different Validator Class should be used, it needs to be imported before.
  *	A different Service Definition Loader Class can be used by setting static Member "loaderClass".
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2007-2010 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -28,11 +28,11 @@
  *	@uses			Net_Service_Parameter_Filter
  *	@uses			Net_Service_Definition_Loader
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
- *	@since			18.06.2007
- *	@version		0.3
+ *	@since			0.6.3
+ *	@version		$Id$
  */
 import( 'de.ceus-media.net.service.interface.Point' );
 /**
@@ -48,11 +48,11 @@ import( 'de.ceus-media.net.service.interface.Point' );
  *	@uses			Net_Service_Parameter_Filter
  *	@uses			Net_Service_Definition_Loader
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
- *	@since			18.06.2007
- *	@version		0.3
+ *	@since			0.6.3
+ *	@version		$Id$
  */
 class Net_Service_Point implements Net_Service_Interface_Point
 {
@@ -82,12 +82,13 @@ class Net_Service_Point implements Net_Service_Interface_Point
 	 */
 	public function __construct( $fileName, $cacheFile = NULL )
 	{
-		$this->loadServices( $fileName, $cacheFile );
-		if( self::$filterClass == $this->defaultFilter )
-			import( 'de.ceus-media.net.service.parameter.Filter' );
-		if( self::$validatorClass == $this->defaultValidator )
-			import( 'de.ceus-media.net.service.parameter.Validator' );
-		$this->validator	= new self::$validatorClass;
+		$this->loadServices( $fileName, $cacheFile );												//  load Service Definition from File
+		if( self::$filterClass == $this->defaultFilter )											//  no custom Folder Class was defined
+			import( 'de.ceus-media.net.service.parameter.Filter' );									//  load default Filter Class
+		$this->filter	= new self::$filterClass;													//  create Filter Object
+		if( self::$validatorClass == $this->defaultValidator )										//  no custom Validator Class was defined
+			import( 'de.ceus-media.net.service.parameter.Validator' );								//  load default Validator Class
+		$this->validator	= new self::$validatorClass;											//  create Validator Object
 	}
 
 	/**
@@ -114,24 +115,30 @@ class Net_Service_Point implements Net_Service_Interface_Point
 			$names	= $this->services['services'][$serviceName]['parameters'];
 			foreach( $names as $name => $rules )
 			{
-				if( empty( $requestData[$name] ) )														//  no Value given by Request
+				if( empty( $requestData[$name] ) )													//  no Value given by Request
 				{
-					$default	= empty( $rules['default'] ) ? NULL : $rules['default'];				//  get Default Value
+					$default	= empty( $rules['default'] ) ? NULL : $rules['default'];			//  get Default Value
 					$value		= $default;
 				}
 				else
 				{
-					$type		= empty( $rules['type'] ) ? "string" : $rules['type'];					//  get Type of Parameter
+					$type		= empty( $rules['type'] ) ? "string" : $rules['type'];				//  get Type of Parameter
 					$value		= $requestData[$name];
 					if( $type == "array" && is_string( $value ) )
-						$value	= parse_str( $value );													//  realise Request Value
+						$value	= parse_str( $value );												//  realise Request Value
 				}
-				$serviceFilters	= $this->services['services'][$serviceName]['filters'];					//  global Service Filters
-				foreach( array_keys( $serviceFilters ) as $filterMethod )								//  iterate
-					$value	= Net_Service_Parameter_Filter::applyFilter( $filterMethod, $value );		//  apply Filter to Paramater Value
-				if( !empty( $rules['filters'] ) )														//  local Parameter Filters
-					foreach( $rules['filters'] as $filter )												//  iterate
-						$value	= Net_Service_Parameter_Filter::applyFilter( $filter, $value );			//  apply to Paramater Value
+				$serviceFilters	= $this->services['services'][$serviceName]['filters'];				//  global Service Filters
+				foreach( array_keys( $serviceFilters ) as $filterMethod )							//  iterate
+				{
+					$value	= $this->filter->applyFilter( $filterMethod, $value );					//  apply Filter to Paramater Value
+				}
+				if( !empty( $rules['filters'] ) )													//  local Parameter Filters
+				{
+					foreach( $rules['filters'] as $filter )											//  iterate
+					{
+						$value	= $this->filter->applyFilter( $filter, $value );					//  apply Filter to Paramater Value
+					}
+				}
 				$parameters[$name]	= $value;
 			}
 		}
@@ -209,8 +216,8 @@ class Net_Service_Point implements Net_Service_Interface_Point
 			if( !$rules )
 				continue;
 
-			$type	= empty( $rules['type'] ) ? "string" : $rules['type'];				//  get Type of Parameter
-			$value	= empty( $rules['default'] ) ? NULL : $rules['default'];			//  get Default Value
+			$type	= empty( $rules['type'] ) ? "string" : $rules['type'];							//  get Type of Parameter
+			$value	= empty( $rules['default'] ) ? NULL : $rules['default'];						//  get Default Value
 			if( isset( $parameters[$name] ) )
 			{
 				$value	= $parameters[$name];
