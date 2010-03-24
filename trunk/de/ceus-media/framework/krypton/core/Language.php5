@@ -182,8 +182,6 @@ class Framework_Krypton_Core_Language
 			$language	= $request->get( 'switchLanguageTo' );
 			$language	= Alg_Validation_LanguageValidator::validate( $language, $this->allowed, $this->default );
 			$this->setLanguage( $language );
-			if( getEnv( 'HTTP_REFERER' ) && getEnv( "HTTP_USER_AGENT" ) != "Motrada Office" )
-				die( header( "Location: ".getEnv( 'HTTP_REFERER' ) ) );
 		}
 
 		//  --  SESSION PRESET  --  //
