@@ -3,7 +3,7 @@
  *	Decompresses and decodes Service Response Strings in several Formats.
  *	Can be overwritten to extend with further Formats or Compression Methods.
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2007-2010 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,11 +21,11 @@
  *	@category		cmClasses
  *	@package		net.service
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
- *	@since			04.04.2009
- *	@version		0.1
+ *	@since			0.6.6
+ *	@version		$Id$
  */
 /**
  *	Decompresses and decodes Service Response Strings in several Formats.
@@ -33,11 +33,11 @@
  *	@category		cmClasses
  *	@package		net.service
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
- *	@since			04.04.2009
- *	@version		0.1
+ *	@since			0.6.6
+ *	@version		$Id$
  *	@todo			fix: not reproducable errors using gzuncompress on format 'txt'
  */
 class Net_Service_Decoder
@@ -67,22 +67,22 @@ class Net_Service_Decoder
 		if( !array_key_exists( $format, $this->formats ) )						//  other Formats like Text or HTML
 			return $response;													//  bypass Response Content undecoded
 
-		ob_start();																		//  open Buffer for PHP Error Messages
+		ob_start();																//  open Buffer for PHP Error Messages
 		$method		= $this->formats[$format];									//  get Name of Method to decode Response
 		$structure	= $this->$method( $response );								//  call Method to decode Response
 		$data		= $structure['data'];										//  Extract Response Data
 
 		if( $structure['status'] == "exception" )								//  Response contains an Exception
 		{
-			if( empty( $data['serial'] ) )
-				throw new Exception( $data['message'] );
-			$object	= unserialize( $data['serial'] );
-			if( !( $object instanceof __PHP_Incomplete_Class ) )
+			if( empty( $data['serial'] ) )										//  does not carry a serialized Exception
+				throw new Exception( $data['message'] );						//  forward Exception
+			$object	= unserialize( $data['serial'] );							//  try to unserialize carried Exception
+			if( $object instanceof __PHP_Incomplete_Class )
 			{
 				$name	= $object->__PHP_Incomplete_Class_Name;
 				throw new RuntimeException( 'Class "'.$name.'" is not loaded.' );
 			}
-			else if( $object instanceof Exception )
+			else if( $object instanceof Exception )								//  unserialized Object is an Exception
 				throw $object;													//  throw responded Exception
 		}
 

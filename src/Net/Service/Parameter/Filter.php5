@@ -2,7 +2,7 @@
 /**
  *	Filter for Service Parameters.
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2007-2010 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,22 +20,22 @@
  *	@category		cmClasses
  *	@package		net.service.parameter
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			0.6.7
- *	@version		0.1
+ *	@version		$Id$
  */
 /**
  *	Filter for Service Parameters.
  *	@category		cmClasses
  *	@package		net.service.parameter
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			0.6.7
- *	@version		0.1
+ *	@version		$Id$
  *	@todo			Code Doc
  */
 class Net_Service_Parameter_Filter
@@ -47,7 +47,7 @@ class Net_Service_Parameter_Filter
 	 *	@param		string		$value			Parameter Value from Request
 	 *	@return		void
 	 */
-	public static function applyFilter( $filterKey, $parameterValue )
+	public function applyFilter( $filterKey, $parameterValue )
 	{
 		if( !method_exists( __CLASS__, $filterKey ) )
 			throw new BadMethodCallException( 'Filter "'.$filterKey.'" is not existing' );

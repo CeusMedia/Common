@@ -182,6 +182,7 @@ class Net_CURL
 #			if( count( $parts ) < 2 )																//  no Header Blocks splitted
 #				throw new Exception( 'Error while splitting HTTP Response String.' );
 
+			$header	= "";
 			while( $parts && preg_match( "@^HTTP/@", trim( $parts[0] ) ) )							//  another Header Block found
 				$header	= array_shift( $parts );													//  Header Blocks is first Part
 
