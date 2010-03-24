@@ -2,7 +2,7 @@
 /**
  *	Basic Response Class for a Service.
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2007-2010 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,32 +20,36 @@
  *	@category		cmClasses
  *	@package		net.service
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
- *	@since			18.06.2007
- *	@version		0.6.5
+ *	@since			0.6.3
+ *	@version		$Id$
  */
 import( 'de.ceus-media.alg.time.Clock' );
 /**
  *	Basic Response Class for a Service.
  *	@category		cmClasses
- *	@uses			Alg_Time_Clock
  *	@package		net.service
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
- *	@since			18.06.2007
- *	@version		0.6.5
+ *	@since			0.6.3
+ *	@version		$Id$
  */
 class Net_Service_Response
 {
-	protected $watch	= NULL;
+	protected $clock	= NULL;
 
+	/**
+	 *	Constructor.
+	 *	@access		public
+	 *	@return		void
+	 */
 	public function __construct()
 	{
-		$this->watch	= new Alg_Time_Clock;	
+		$this->clock	= new Alg_Time_Clock;	
 	}
 
 	/**
@@ -98,7 +102,15 @@ class Net_Service_Response
 		{
 #			import( 'de.ceus-media.ui.html.exception.TraceViewer' );
 #			$trace	= UI_HTML_Exception_TraceViewer::buildTrace( $content, 2 );
-			$serial		= ( $content instanceof PDOException ) ? serialize( $content ) : NULL;
+
+			$serial	= NULL;
+			try
+			{
+				if( !( $content instanceof PDOException ) )
+					$serial		= serialize( $content );
+			}
+			catch( Exception $e ){}
+
 			$content	= array(
 				'type'		=> get_class( $content ),
 				'message'	=> $content->getMessage(),
@@ -106,7 +118,7 @@ class Net_Service_Response
 				'file'		=> $content->getFile(),
 				'line'		=> $content->getLine(),
 				'trace'		=> $content->getTraceAsString(),
-				'serial'	=> $serial
+				'serial'	=> $serial,
 			);
 			$status	= "exception";
 		}
@@ -114,7 +126,7 @@ class Net_Service_Response
 			'status'	=> $status,
 			'data'		=> $content,
 			'timestamp'	=> time(),
-			'duration'	=> $this->watch === NULL ? NULL : $this->watch->stop( 6, 0 ),
+			'duration'	=> $this->clock === NULL ? NULL : $this->clock->stop( 6, 0 ),
 		
 		);
 		return $structure;
