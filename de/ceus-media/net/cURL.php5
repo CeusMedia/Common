@@ -2,7 +2,7 @@
 /**
  *	cURL Wrapper
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2007-2010 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,46 +20,47 @@
  *	@category		cmClasses
  *	@package		net
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			16.06.2005
- *	@version		0.6
+ *	@version		$Id$
  */
-define( 'CURL_STATUS_CONTENT_TYPE',				'content_type' );
-define( 'CURL_STATUS_CONTENT_LENGTH_DOWNLOAD',	'download_content_length' );
-define( 'CURL_STATUS_CONTENT_LENGTH_UPLOAD',	'upload_content_length' );
-define( 'CURL_STATUS_ERRNO',					'errno' );
-define( 'CURL_STATUS_ERROR',					'error' );
-define( 'CURL_STATUS_HTTP_CODE',				'http_code' );
-define( 'CURL_STATUS_HTTP_URL',					'url' );
-define( 'CURL_STATUS_REDIRECT_COUNT',			'redirect_count' );
-define( 'CURL_STATUS_REDIRECT_TIME',			'redirect_time' );
-define( 'CURL_STATUS_SIZE_HEADER',				'header_size' );
-define( 'CURL_STATUS_SIZE_DOWNLOAD',			'size_download' );
-define( 'CURL_STATUS_SIZE_REQUEST',				'request_size' );
-define( 'CURL_STATUS_SIZE_UPLOAD',				'size_upload' );
-define( 'CURL_STATUS_SPEED_DOWNLOAD',			'speed_download' );
-define( 'CURL_STATUS_SPEED_UPLOAD',				'speed_upload' );
-define( 'CURL_STATUS_SSL_VERIFY_RESULT',		'ssl_verify_result' );
-define( 'CURL_STATUS_TIME_CONNECT',				'connect_time' );
-define( 'CURL_STATUS_TIME_NAMELOOKUP',			'namelookup_time' );
-define( 'CURL_STATUS_TIME_PRETRANSFER',			'pretransfer_time' );
-define( 'CURL_STATUS_TIME_STARTTRANSFER',		'starttransfer_time' );
-define( 'CURL_STATUS_TIME_TOTAL',				'total_time' );
 /**
  *	cURL Wrapper
  *	@category		cmClasses
  *	@package		net
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			16.06.2005
- *	@version		0.6
+ *	@version		$Id$
  */
 class Net_cURL
 {
+	const STATUS_CONTENT_TYPE				= 'content_type';
+	const STATUS_CONTENT_LENGTH_DOWNLOAD	= 'download_content_length';
+	const STATUS_CONTENT_LENGTH_UPLOAD		= 'upload_content_length';
+	const STATUS_ERRNO						= 'errno';
+	const STATUS_ERROR						= 'error';
+	const STATUS_HTTP_CODE					= 'http_code';
+	const STATUS_HTTP_URL					= 'url';
+	const STATUS_REDIRECT_COUNT				= 'redirect_count';
+	const STATUS_REDIRECT_TIME				= 'redirect_time';
+	const STATUS_SIZE_HEADER				= 'header_size';
+	const STATUS_SIZE_DOWNLOAD				= 'size_download';
+	const STATUS_SIZE_REQUEST				= 'request_size';
+	const STATUS_SIZE_UPLOAD				= 'size_upload';
+	const STATUS_SPEED_DOWNLOAD				= 'speed_download';
+	const STATUS_SPEED_UPLOAD				= 'speed_upload';
+	const STATUS_SSL_VERIFY_RESULT			= 'ssl_verify_result';
+	const STATUS_TIME_CONNECT				= 'connect_time';
+	const STATUS_TIME_NAMELOOKUP			= 'namelookup_time';
+	const STATUS_TIME_PRETRANSFER			= 'pretransfer_time';
+	const STATUS_TIME_STARTTRANSFER			= 'starttransfer_time';
+	const STATUS_TIME_TOTAL					= 'total_time';
+
 	/**
 	 *	Array of caseless header names.
 	 *	@access private

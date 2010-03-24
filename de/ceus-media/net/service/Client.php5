@@ -108,7 +108,7 @@ class Net_Service_Client
 		$response['status']		= $request->getStatus();
 		$response['headers']	= $request->getHeader();
 	
-		$code		= $request->getStatus( CURL_STATUS_HTTP_CODE );
+		$code		= $request->getStatus( Net_cURL::STATUS_HTTP_CODE );
 		if( !in_array( $code, array( '200', '304' ) ) )
 			throw new RuntimeException( 'URL "'.$request->getOption( CURLOPT_URL ).'" can not be accessed (HTTP Code '.$code.').', $code );
 
@@ -269,7 +269,7 @@ class Net_Service_Client
 	}
 
 	/**
-	 *	Sets Option CURL_USERAGENT.
+	 *	Sets Option CURLOPT_USERAGENT.
 	 *	@access		public
 	 *	@param		int			$userAgent			User Agent to set
 	 *	@return		void
@@ -280,7 +280,7 @@ class Net_Service_Client
 	}
 
 	/**
-	 *	Sets Option CURL_SSL_VERIFYHOST.
+	 *	Sets Option CURLOPT_SSL_VERIFYHOST.
 	 *	@access		public
 	 *	@param		bool		$verify				Flag: verify Host
 	 *	@return		void
@@ -291,7 +291,7 @@ class Net_Service_Client
 	}
 
 	/**
-	 *	Sets Option CURL_SSL_VERIFYPEER.
+	 *	Sets Option CURLOPT_SSL_VERIFYPEER.
 	 *	@access		public
 	 *	@param		bool		$verify				Flag: verify Peer
 	 *	@return		void

@@ -4,6 +4,7 @@
  *	@package		file.csv
  *	@author			mortanon@gmail.com
  *	@link			http://uk.php.net/manual/en/function.fgetcsv.php
+ *	@version		$Id$
  */
 class File_CSV_Iterator implements Iterator
 {

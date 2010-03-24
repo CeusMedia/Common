@@ -2,7 +2,7 @@
 /**
  *	Logic Base Class with Validation
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2007-2010 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -25,11 +25,11 @@
  *	@uses			Framework_Krypton_Exception_Validation
  *	@uses			Framework_Krypton_Exception_IO
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			21.02.2007
- *	@version		0.6
+ *	@version		$Id$
  */
 import( 'de.ceus-media.framework.krypton.core.Registry' );
 /**
@@ -42,32 +42,18 @@ import( 'de.ceus-media.framework.krypton.core.Registry' );
  *	@uses			Framework_Krypton_Exception_Validation
  *	@uses			Framework_Krypton_Exception_IO
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			21.02.2007
- *	@version		0.6
+ *	@version		$Id$
  */
 class Framework_Krypton_Core_Logic
-{
-	/**	@var		Registry	$registry		Registry for Objects */
-	protected $registry;
-	
+{	
 	public static $pathLogic		= "classes.logic.category.";
 	public static $pathCollection	= "classes.collection.category.";
 	public static $classLogic		= "Logic_Category_";
 	public static $classCollection	= "Collection_Category_";
-
-	/**
-	 *	Constructor, loads Definition Validator and Field Definition.
-	 *	@access		public
-	 *	@param		string		$predicateClass		Class holding Validation Predicates
-	 *	@return		void
-	 */
-	public function __construct()
-	{
-		$this->registry			= Framework_Krypton_Core_Registry::getInstance();
-	}
 
 	/**
 	 *	Logic Factory for Categories.

@@ -28,7 +28,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			01.03.2010
- *	@version		0.1
+ *	@version		$Id$
  */
 /**
  *	Setup for Resource Environment for Hydrogen Applications.
@@ -43,7 +43,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			01.03.2010
- *	@version		0.1
+ *	@version		$Id$
  */
 class Framework_Hydrogen_Environment
 {

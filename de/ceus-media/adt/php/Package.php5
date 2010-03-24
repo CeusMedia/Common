@@ -2,7 +2,7 @@
 /**
  *	...
  *
- *	Copyright (c) 2008-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2008-2010 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,9 +20,9 @@
  *	@category		cmClasses
  *	@package		adt.php
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2009 Christian Würker
+ *	@copyright		2009-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: Package.php5 718 2009-10-19 01:34:14Z christian.wuerker $
+ *	@version		$Id$
  *	@since			0.3
  */
 import( 'de.ceus-media.adt.php.Category' );
@@ -32,9 +32,9 @@ import( 'de.ceus-media.adt.php.Category' );
  *	@package		adt.php
  *	@extends		ADT_PHP_Category
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2009 Christian Würker
+ *	@copyright		2009-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: Package.php5 718 2009-10-19 01:34:14Z christian.wuerker $
+ *	@version		$Id$
  *	@since			0.3
  */
 class ADT_PHP_Package extends ADT_PHP_Category

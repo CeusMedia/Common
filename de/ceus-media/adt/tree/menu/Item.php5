@@ -2,7 +2,7 @@
 /**
  *	Tree Menu List Item Data Object used by UI_HTML_Tree_Menu.
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2007-2010 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,11 +20,11 @@
  *	@category		cmClasses
  *	@package		adt.tree.menu
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			08.11.2008
- *	@version		0.1
+ *	@version		$Id$
  */
 import( 'de.ceus-media.adt.tree.menu.List' );
 import( 'de.ceus-media.adt.list.Dictionary' );
@@ -35,11 +35,11 @@ import( 'de.ceus-media.adt.list.Dictionary' );
  *	@extends		ADT_Tree_Menu_List
  *	@uses			ADT_List_Dictionary
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			08.11.2008
- *	@version		0.1
+ *	@version		$Id$
  */
 class ADT_Tree_Menu_Item extends ADT_Tree_Menu_List
 {

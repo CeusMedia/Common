@@ -2,7 +2,7 @@
 /**
  *	Message Output Handler within a Session.
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2007-2010 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,11 +20,11 @@
  *	@category		cmClasses
  *	@package		framework.neon
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			01.12.2005
- *	@version		0.2
+ *	@version		$Id$
  */
 import( 'de.ceus-media.adt.OptionObject' );
 import( 'de.ceus-media.adt.Reference' );
@@ -37,11 +37,11 @@ import( 'de.ceus-media.alg.TimeConverter' );
  *	@uses			ADT_Reference
  *	@uses			Alg_TimeConverter
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			01.12.2005
- *	@version		0.2
+ *	@version		$Id$
  */
 class Framework_Neon_Messenger extends ADT_OptionObject
 {

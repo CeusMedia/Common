@@ -5,7 +5,7 @@
  *	If the Exception Handling fails itself, the resulting Exception with be shown with an Exception Trace Viewer.
  *	This class is abstract and needs to be extended in run().
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2007-2010 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -23,11 +23,11 @@
  *	@category		cmClasses
  *	@package		framework.krypton
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			29.03.2009
- *	@version		0.1
+ *	@version		$Id$
  */
 /**
  *	Runs an Krypton Application within a Container secured by an Exception Handler for uncatched Exceptions.
@@ -43,11 +43,11 @@
  *	@uses			Framework_Krypton_FatalExceptionHandler
  *	@uses			UI_HTML_Exception_TraceViewer
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			29.03.2009
- *	@version		0.1
+ *	@version		$Id$
  */
 abstract class Framework_Krypton_ApplicationRunner
 {

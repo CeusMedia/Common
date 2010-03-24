@@ -2,7 +2,7 @@
 /**
  *	Parser for RSS 2 Feed using XPath.
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2007-2010 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,11 +21,11 @@
  *	@package		xml.rss
  *	@uses			XML_DOM_XPathQuery
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			30.01.2006
- *	@version		0.1
+ *	@version		$Id$
  *	@see			http://blogs.law.harvard.edu/tech/rss
  */
 import( 'de.ceus-media.xml.dom.XPathQuery' );
@@ -35,11 +35,11 @@ import( 'de.ceus-media.xml.dom.XPathQuery' );
  *	@package		xml.rss
  *	@uses			XML_DOM_XPathQuery
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			30.01.2006
- *	@version		0.1
+ *	@version		$Id$
  *	@see			http://blogs.law.harvard.edu/tech/rss
  *	@todo			Code Doc
  */
