@@ -52,6 +52,8 @@ class Net_Service_ParameterValidator
 	{
 		try
 		{
+			if( $value === NULL && empty( $rules['mandatory'] ) )
+				return;
 			foreach( $rules as $ruleName => $ruleValue )
 			{
 				if( $ruleName == "title" )
