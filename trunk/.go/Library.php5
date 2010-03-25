@@ -78,7 +78,7 @@ class Go_Library
 				echo " ".$count."/".count( $files )."\n";
 			try
 			{
-				@require_once( $relative );
+				require_once( $relative );
 				echo ".";
 			}
 			catch( Exception $e )
