@@ -56,7 +56,7 @@ class Tests_Net_ReaderTest extends PHPUnit_Framework_TestCase
 	{
 		$response	= $this->reader->read();
 		$assertion	= "200";
-		$creation	= $this->reader->getStatus( CURL_STATUS_HTTP_CODE );
+		$creation	= $this->reader->getStatus( Net_cURL::STATUS_HTTP_CODE );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= true;

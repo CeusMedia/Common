@@ -11,7 +11,7 @@
  */
 require_once( 'PHPUnit/Framework/TestCase.php' ); 
 require_once( 'Tests/initLoaders.php5' );
-import( 'de.ceus-media.net.cUrl' );
+import( 'de.ceus-media.net.cURL' );
 import( 'de.ceus-media.net.service.Client' );
 import( 'de.ceus-media.adt.OptionObject' );
 /**
@@ -117,7 +117,7 @@ class Tests_Net_Service_ClientTest extends PHPUnit_Framework_TestCase
 		$assertion	= array(
 			'content'	=> $request->response,
 			'status'	=> array(
-				CURL_STATUS_HTTP_CODE	=> 200,
+				Net_cURL::STATUS_HTTP_CODE	=> 200,
 			),
 			'headers'	=> array(
 				'testKey'	=> 'testValue'
@@ -129,7 +129,7 @@ class Tests_Net_Service_ClientTest extends PHPUnit_Framework_TestCase
 		$assertion	= array(
 			'content'	=> gzcompress( $request->response ),
 			'status'	=> array(
-				CURL_STATUS_HTTP_CODE	=> 200,
+				Net_cURL::STATUS_HTTP_CODE	=> 200,
 			),
 			'headers'	=> array(
 				'testKey'	=> 'testValue'
@@ -320,7 +320,7 @@ class Test_Net_Service_ClientRequestMock extends ADT_OptionObject
 	public function getStatus( $key = NULL )
 	{
 		$status	= array(
-			CURL_STATUS_HTTP_CODE	=> $this->httpCode,
+			Net_cURL::STATUS_HTTP_CODE	=> $this->httpCode,
 		);
 		if( $key && array_key_exists( $key, $status ) )
 			return $status[$key];

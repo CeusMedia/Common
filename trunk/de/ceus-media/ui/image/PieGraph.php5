@@ -7,9 +7,10 @@
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version		$Id$
  */
-require_once( JPGRAPH_PATH.'jpgraph.php' );
+/*require_once( JPGRAPH_PATH.'jpgraph.php' );
 require_once( JPGRAPH_PATH.'jpgraph_pie.php');
 require_once( JPGRAPH_PATH.'jpgraph_pie3d.php' );
+*/
 import( 'de.ceus-media.ui.Template' );
 /**
  *	...
