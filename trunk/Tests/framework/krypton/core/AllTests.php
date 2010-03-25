@@ -24,7 +24,6 @@ require_once( 'Tests/framework/krypton/core/PageDefinitionReaderTest.php' );
 require_once( 'Tests/framework/krypton/core/RegistryTest.php' );
 #require_once( 'Tests/framework/krypton/core/SessionTest.php' );
 #require_once( 'Tests/framework/krypton/core/SessionRegistryTest.php' );
-#require_once( 'Tests/framework/krypton/core/StopWatchTest.php' );
 require_once( 'Tests/framework/krypton/core/ViewTest.php' );
 
 
