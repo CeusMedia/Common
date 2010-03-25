@@ -11,7 +11,7 @@
 #
 [project]
 name				= cmClasses							
-version				= 0.6.8a
+version				= 0.6.8
 author				= "Christian Würker <christian.wuerker@ceus-media.de>"
 company				= "CeuS Media (ceus-media.de)"
 link				= http://code.google.com/p/cmclasses/
@@ -34,8 +34,8 @@ tutorial			=
 [paths]
 php				= 
 phpDocumentor			= 
-code_coverage			= Reports/
-documentations			= References/
+code_coverage			= doc/coverage
+documentations			= doc/api/
 tests				= Tests/
 
 
@@ -43,9 +43,9 @@ tests				= Tests/
 #	Options for Unit Testing using PHPUnit
 #
 [unitTestOptions]
-coverage-html			= Reports
+coverage-html			= doc/coverage
 log-json			= Tests/results.json
-log-junit			= Tests/results.xml
+log-xml				= Tests/results.xml
 
 
 #
@@ -53,19 +53,19 @@ log-junit			= Tests/results.xml
 #
 [docCreator]
 pathTool			= "/path/to/DocCreator/"
-pathClasses			= "/path/to/cmClasses/version/"
-pathTarget			= "/path/to/cmClasses/version/"
+pathClasses			= "de/ceus-media/"
+pathTarget			= "doc/api/creator/"
 language			= en
 theme				= cm1
 title				= cmClasses API
 
 extensions			= php5
 ignoreFiles			= "*/_*.php5"
-ignoreFolders			= "*/.svn/*,Reports/,References/,Tests/"
+ignoreFolders			= "*/.svn/*,doc/,Tests/"
 upperCasePackages		= adt,cs*,dom,*tp,*ml,imap,ini,pdo,php,rss,ui,wddx,xsl
 upperCasePackages		= adt,css,csv,dom,ftp,html,http,imap,ini,pdo,php,opml,rss,ui,wddx,xml,xsl,yaml
-fileDataSerial			= "data.serial"
-timeLimit			= 120
+fileDataSerial			= "doc.data.serial"
+timeLimit			= 300
 skipParser			= no
 skipCreator			= no
 skipInfo			= no
@@ -84,7 +84,7 @@ target				= References/phpDoc/
 output				= HTML:frames:earthli,HTML:Smarty:PHP,PDF:default:default,XML:DocBook/peardoc2:default,HTML:frames:phphtmllib,HTML:frames:phpedit
 output				= HTML:frames:earthli,XML:DocBook/peardoc2:default,HTML:frames:phphtmllib,HTML:frames:phpedit
 output				= HTML:frames:phpedit
-ignore				= .svn/,Tests/,References/,Reports/,createTest.php5,index.php5,*.bat,*.sh,cmClasses.ini,*/_*.php5
+ignore				= .svn/,Tests/,doc/,createTest.php5,index.php5,*.bat,*.sh,cmClasses.ini,*/_*.php5
 
 title				= cmClasses
 defaultcategoryname		= cmClasses
