@@ -43,25 +43,25 @@ import( 'de.ceus-media.net.cURL' );
  */
 class Net_Reader
 {
-	/**	@var		array		$status			Status Array of last Request */
+	/**	@var		array		$status				Status Array of last Request */
 	protected $status			= array();
-	/**	@var		string		$url			URL to read */
+	/**	@var		string		$url				URL to read */
 	protected $url;
-	/**	@var		string		$agent			User Agent */
+	/**	@var		string		$agent				User Agent */
 	protected static $userAgent	= "cmClasses:Net_Reader/0.6";
-	/**	@var		string		$username		Username for Basic Authentication */
+	/**	@var		string		$username			Username for Basic Authentication */
 	private $username			= "";
-	/**	@var		string		$password		Password for Basic Authentication */
+	/**	@var		string		$password			Password for Basic Authentication */
 	private $password			= "";
-	/**	@var		bool		$verifyHost		Flag: verify Host */
+	/**	@var		bool		$verifyHost			Flag: verify Host */
 	private $verifyHost 		= FALSE;
-	/**	@var		bool		$verifyPeer		Flag: verify Peer */
+	/**	@var		bool		$verifyPeer			Flag: verify Peer */
 	private $verifyPeer			= FALSE;
 
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		string		$url			URL to read
+	 *	@param		string		$url				URL to read
 	 *	@return		void
 	 */
 	public function __construct( $url = NULL )
@@ -73,7 +73,7 @@ class Net_Reader
 	/**
 	 *	Returns Headers Array or a specified Header from last Request.
 	 *	@access		public
-	 *	@param		string		$key		Header Key
+	 *	@param		string		$key				Header Key
 	 *	@return		mixed
 	 */
 	public function getHeader( $key = NULL )
@@ -90,7 +90,7 @@ class Net_Reader
 	/**
 	 *	Returns Status Array or single Status Information from last Request.
 	 *	@access		public
-	 *	@param		string		$key		Status Information Key
+	 *	@param		string		$key				Status Information Key
 	 *	@return		mixed
 	 */
 	public function getStatus( $key = NULL )
@@ -163,7 +163,7 @@ class Net_Reader
 	 *	Requests URL and returns Response statically.
 	 *	@access		public
 	 *	@static
-	 *	@param		string		$url		URL to request
+	 *	@param		string		$url			URL to request
 	 *	@param		array		$curlOptions	Array of cURL Options
 	 *	@return		string
 	 *	@todo		Auth
@@ -177,8 +177,8 @@ class Net_Reader
 	/**
 	 *	Set Username and Password for Basic Auth.
 	 *	@access		public
-	 *	@param		string		$username	Basic Auth Username
-	 *	@param		string		$password	Basic Auth Password
+	 *	@param		string		$username		Basic Auth Username
+	 *	@param		string		$password		Basic Auth Password
 	 *	@return		void
 	 */
 	public function setBasicAuth( $username, $password )
@@ -190,7 +190,7 @@ class Net_Reader
 	/**
 	 *	Sets User Agent.
 	 *	@access		public
-	 *	@param		string		$title		User Agent to set
+	 *	@param		string		$title			User Agent to set
 	 *	@return		void
 	 */
 	public function setUserAgent( $title )
@@ -201,7 +201,7 @@ class Net_Reader
 	/**
 	 *	Set URL to request.
 	 *	@access		public
-	 *	@param		string		$url		URL to request
+	 *	@param		string		$url			URL to request
 	 *	@return		void
 	 */
 	public function setUrl( $url )
@@ -212,9 +212,9 @@ class Net_Reader
 	}
 
 	/**
-	 *	Sets Option CURL_SSL_VERIFYHOST.
+	 *	Sets Option CURLOPT_SSL_VERIFYHOST.
 	 *	@access		public
-	 *	@param		bool		$verify		Flag: verify Host
+	 *	@param		bool		$verify			Flag: verify Host
 	 *	@return		void
 	 */
 	public function setVerifyHost( $verify )
@@ -223,9 +223,9 @@ class Net_Reader
 	}
 
 	/**
-	 *	Sets Option CURL_SSL_VERIFYPEER.
+	 *	Sets Option CURLOPT_SSL_VERIFYPEER.
 	 *	@access		public
-	 *	@param		bool		$verify		Flag: verify Peer
+	 *	@param		bool		$verify			Flag: verify Peer
 	 *	@return		void
 	 */
 	public function setVerifyPeer( $verify )
