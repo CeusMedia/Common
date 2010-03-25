@@ -25,9 +25,9 @@ class Test_XML_ElementTest extends PHPUnit_Framework_TestCase
 
 	public function setUp()
 	{
-		$this->fileRead		= dirname( __FILE ).'element_read.xml';
-		$this->fileWrite	= dirname( __FILE ).'element_write.xml';
-		$this->fileSerial	= dirname( __FILE ).'element_write_test.serial';
+		$this->fileRead		= dirname( __FILE__ ).'/element_read.xml';
+		$this->fileWrite	= dirname( __FILE__ ).'/element_write.xml';
+		$this->fileSerial	= dirname( __FILE__ ).'/element_write_test.serial';
 		$this->xml			= file_get_contents( $this->fileRead );
 	}
 	

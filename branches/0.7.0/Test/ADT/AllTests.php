@@ -19,7 +19,6 @@ class Test_ADT_AllTests
 		$suite->addTest(Test_ADT_Tree_AllTests::suite());
 		$suite->addTest(Test_ADT_JSON_AllTests::suite());
 		$suite->addTestSuite( "Test_ADT_OptionObjectTest" ); 
-		$suite->addTestSuite( "Test_ADT_ReferenceTest" ); 
 		$suite->addTestSuite( "Test_ADT_RegistryTest" ); 
 		$suite->addTestSuite( "Test_ADT_ObjectTest" );
 		$suite->addTestSuite( "Test_ADT_StringBufferTest" );

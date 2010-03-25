@@ -25,7 +25,7 @@ class Test_XML_ElementReaderTest extends PHPUnit_Framework_TestCase
 
 	public function setUp()
 	{
-		$this->file		= dirname( __FILE__ ).'element_reader.xml';
+		$this->file		= dirname( __FILE__ ).'/element_reader.xml';
 	}
 
 	/**
