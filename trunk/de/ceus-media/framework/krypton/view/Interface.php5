@@ -242,13 +242,13 @@ class Framework_Krypton_View_Interface extends Framework_Krypton_Core_View
 	protected function buildSubFooter()
 	{
 		$request	= $this->registry->get( 'request' );
-		$stopwatch	= $this->registry->get( 'stopwatch' );
+		$clock		= $this->registry->get( 'stopwatch' );
 		$dbc		= $this->registry->get( 'dbc' );
 		$words		= $this->words['main']['footer'];
 
 		$ui			= $this->getUserInterfaceData();
 		$ui['link']				= $request->get( 'link' );
-		$ui['time']				= $stopwatch->stop( 0, 3 )."s";
+		$ui['time']				= $clock->stop( 0, 3 )."s";
 		$ui['db_executes']		= $dbc->numberExecutes;
 		$ui['db_statements']	= $dbc->numberStatements;
 		$ui['words']			= $words;

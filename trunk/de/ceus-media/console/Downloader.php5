@@ -20,7 +20,7 @@
  *	@category		cmClasses
  *	@package		console
  *	@uses			Alg_UnitFormater
- *	@uses			Stopwatch
+ *	@uses			Alg_Time_Clock
  *	@author			Keyvan Minoukadeh
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
@@ -30,13 +30,13 @@
  *	@version		$Id$
  */
 import( 'de.ceus-media.alg.UnitFormater' );
-import( 'de.ceus-media.Stopwatch' );
+import( 'de.ceus-media.alg.time.Clock' );
 /**
  *	Downloads a File from an URL while showing Progress in Console.
  *	@category		cmClasses
  *	@package		console
  *	@uses			Alg_UnitFormater
- *	@uses			Stopwatch
+ *	@uses			Alg_Time_Clock
  *	@author			Keyvan Minoukadeh
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
@@ -74,7 +74,7 @@ class Console_Downloader
 	public $templateHeader		= "%s: %s\n";
 	/**	@var		string		$templateHeader		Template for Header Line */
 	public $templateRedirect	= "Redirected to \"%s\"\n";
-	/**	@var		Stopwatch	$watch				Stopwatch Instance */
+	/**	@var		Alg_Time_Clock	$watch			Clock Instance */
 	private $watch;
 
 	/**
@@ -121,7 +121,7 @@ class Console_Downloader
 		if( $this->showFileName && $this->templateFileName )								//  show extraced File Name
 			printf( $this->templateFileName, $fileName );									//  use Template
 		
-		$this->watch	= new StopWatch;													//  start Stopwatch
+		$this->watch	= new Alg_Time_Clock;												//  start Clock
 		$ch = curl_init();																	//  start cURL
 		curl_setopt( $ch, CURLOPT_URL, $url );												//  set URL in cURL Handle
 		curl_setopt( $ch, CURLOPT_HEADERFUNCTION, array( $this, 'readHeader' ) );			//  set Callback Method for Headers

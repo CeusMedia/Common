@@ -181,8 +181,8 @@ class Framework_Krypton_WebApplication extends Framework_Krypton_Base
 	 */
 	protected function logPerformance( $fileName = "logs/performance.log" )
 	{
-		$watch	= $this->registry->get( 'stopwatch' );
-		$time	= $watch->stop( 6, 0 );
+		$clock	= $this->registry->get( 'stopwatch' );
+		$time	= $clock->stop( 6, 0 );
 		$line	= time()." [".$time."] ".getEnv( "REQUEST_URI" )." ".getEnv( "HTTP_REFERER" )."\n";
 		return error_log( $line, 3, $fileName );
 	}
