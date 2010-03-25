@@ -21,7 +21,6 @@ class Go_PhpDocumentor
 			$command	.= " > ".$reportFile;											//  redirect Output into Report File
 			@unlink( $reportFile );														//  remove old Report File
 		}
-		die( $command );
 		passthru( $command );															//  run phpDocumentor
 	}
 }
