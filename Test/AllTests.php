@@ -7,7 +7,8 @@ error_reporting( E_ALL ^ E_NOTICE );
 require_once( 'PHPUnit/Framework/TestSuite.php' );
 require_once( 'PHPUnit/TextUI/TestRunner.php' );
 require_once 'Test/initLoaders.php5';
-#PHPUnit_Util_Filter::addDirectoryToFilter( dirname( __FILE__ ) );
+PHPUnit_Util_Filter::addDirectoryToFilter( dirname( __FILE__ ) );
+PHPUnit_Util_Filter::addDirectoryToFilter( dirname( dirname( __FILE__ ) ).'/Go' );
 
 class Test_AllTests
 {
