@@ -2,7 +2,7 @@
 /**
  *	Data Model of Projects.
  *
- *	Copyright (c) 2007-2010 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2007-2010 Christian WÃ¼rker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,8 +20,8 @@
  *	@category		cmClasses
  *	@package		framework.neon.models
  *	@extends		Framework_Neon_Model
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2010 Christian Würker
+ *	@author			Christian WÃ¼rker <christian.wuerker@ceus-media.de>
+ *	@copyright		2007-2010 Christian WÃ¼rker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			26.03.2007
@@ -33,8 +33,8 @@ import( 'de.ceus-media.framework.neon.Model' );
  *	@category		cmClasses
  *	@package		framework.neon.models
  *	@extends		Framework_Neon_Model
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2010 Christian Würker
+ *	@author			Christian WÃ¼rker <christian.wuerker@ceus-media.de>
+ *	@copyright		2007-2010 Christian WÃ¼rker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			26.03.2007
@@ -47,7 +47,7 @@ class Framework_Neon_Models_Project extends Framework_Neon_Model
 	 *	@access		public
 	 *	@param		int		$projectId		ID of Project
 	 *	@return		void
-	 *	@author		Christian Würker <christian.wuerker@ceus-media.de>
+	 *	@author		Christian WÃ¼rker <christian.wuerker@ceus-media.de>
 	 *	@since		26.03.2007
 	 */
 	public function __construct( $projectId = false )

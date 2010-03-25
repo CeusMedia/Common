@@ -2,7 +2,7 @@
 /**
  *	Builds HTML Components.
  *
- *	Copyright (c) 2007-2010 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2007-2010 Christian WÃ¼rker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,8 +20,8 @@
  *	@category		cmClasses
  *	@package		ui.html
  *	@extends		UI_HTML_FormElements
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2010 Christian Würker
+ *	@author			Christian WÃ¼rker <christian.wuerker@ceus-media.de>
+ *	@copyright		2007-2010 Christian WÃ¼rker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		0.6
@@ -32,8 +32,8 @@ import( 'de.ceus-media.ui.html.FormElements' );
  *	@category		cmClasses
  *	@package		ui.html
  *	@extends		UI_HTML_FormElements
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2010 Christian Würker
+ *	@author			Christian WÃ¼rker <christian.wuerker@ceus-media.de>
+ *	@copyright		2007-2010 Christian WÃ¼rker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		0.6
@@ -215,7 +215,7 @@ class UI_HTML_Elements extends UI_HTML_FormElements
 
 	//  --  BETA / TEST  --  //
 	/**
-	 *	Erzeugt HTML Box for Hover über HTML-Elementen.
+	 *	Erzeugt HTML Box for Hover Ã¼ber HTML-Elementen.
 	 *	@access		public
 	 *	@static
 	 *	@param		string		$html		HTML of linked Element
@@ -230,7 +230,7 @@ class UI_HTML_Elements extends UI_HTML_FormElements
 	}
 
 	/**
-	 *	Erzeugt HTML Box for ToolTip über HTML-Elementen.
+	 *	Erzeugt HTML Box for ToolTip Ã¼ber HTML-Elementen.
 	 *	@access		public
 	 *	@static
 	 *	@param		string		$html		HTML of linked Element
@@ -272,7 +272,7 @@ class UI_HTML_Elements extends UI_HTML_FormElements
 	}
 
 	/**
-	 *	Spaltenangaben in Prozent für eine Tabelle.
+	 *	Spaltenangaben in Prozent fÃ¼r eine Tabelle.
 	 *	@access		public
 	 *	@static
 	 *	@return		string
@@ -304,7 +304,7 @@ class UI_HTML_Elements extends UI_HTML_FormElements
 	 *	@param		string		$field_element		HTML-Code des Eingabeelements
 	 *	@param		string		$class			CSS-Klasse
 	 *	@param		string		$suffix			Textausgabe hinter dem Eingabefeld
-	 *	@param		string		$colspan			Anzahl der überstreckten Spalten
+	 *	@param		string		$colspan			Anzahl der Ã¼berstreckten Spalten
 	 *	@return		string
 	 */
 	public static function Field( $field_id, $field_element, $class = "field", $suffix = "", $colspan = 1 )
@@ -400,7 +400,7 @@ class UI_HTML_Elements extends UI_HTML_FormElements
 	 *	@param		string		$name			Name des Links
 	 *	@param		string		$class			CSS-Klasse des Links
 	 *	@param		string		$target			Zielframe des Links
-	 *	@param		string		$confirm		Bestätigungstext des Links
+	 *	@param		string		$confirm		BestÃ¤tigungstext des Links
 	 *	@param		int			$tabindex		Tabulatur-Index
 	 *	@param		string		$key			Access Key (eindeutiger Buchstabe)
 	 *	@param		bool		$relation		Relation (nofollow,licence,...)
@@ -465,7 +465,7 @@ class UI_HTML_Elements extends UI_HTML_FormElements
 	 *	@static
 	 *	@param		int			$colspan			Name des Formulars
 	 *	@param		int			$rowspan		URL der Aktion
-	 *	@param		int			$strength		Stärke der Linie
+	 *	@param		int			$strength		StÃ¤rke der Linie
 	 *	@param		string		$class			CSS-Klasse
 	 *	@return		string
 	 */
@@ -502,10 +502,10 @@ class UI_HTML_Elements extends UI_HTML_FormElements
 	}
 
 	/**
-	 *	Erzeugt eine Überschriftzeile für Tabellen als HTML-Code.
+	 *	Erzeugt eine Ãœberschriftzeile fÃ¼r Tabellen als HTML-Code.
 	 *	@access		public
 	 *	@static
-	 *	@param		string		$caption 			Inhalt der Überschrift
+	 *	@param		string		$caption 			Inhalt der Ãœberschrift
 	 *	@param		string		$class 			CSS Style Klasse
 	 *	@param		string		$checktable_id	ID der CheckTable
 	 *	@return		string
@@ -520,10 +520,10 @@ class UI_HTML_Elements extends UI_HTML_FormElements
 	}
 
 	/**
-	 *	Erzeugt eine Überschriftzeile für Tabellen als HTML-Code.
+	 *	Erzeugt eine Ãœberschriftzeile fÃ¼r Tabellen als HTML-Code.
 	 *	@access		public
 	 *	@static
-	 *	@param		string		$heading 		Inhalt der Überschrift
+	 *	@param		string		$heading 		Inhalt der Ãœberschrift
 	 *	@param		int			$colspan 			Spaltenanzahl der Tabelle
 	 *	@param		string		$class 			CSS Style Klasse
 	 *	@return		string
@@ -541,10 +541,10 @@ class UI_HTML_Elements extends UI_HTML_FormElements
 	}
 
 	/**
-	 *	Erzeugt eine Überschriftzeile für Tabellen als HTML-Code.
+	 *	Erzeugt eine Ãœberschriftzeile fÃ¼r Tabellen als HTML-Code.
 	 *	@access		public
 	 *	@static
-	 *	@param		array		$heads 		Inhalte der Überschriften
+	 *	@param		array		$heads 		Inhalte der Ãœberschriften
 	 *	@param		string		$class 		CSS Style Klasse
 	 *	@return		string
 	 */

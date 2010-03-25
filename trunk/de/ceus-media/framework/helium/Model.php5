@@ -2,7 +2,7 @@
 /**
  *	Generic Model for Database Structures.
  *
- *	Copyright (c) 2007-2010 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2007-2010 Christian WÃ¼rker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,8 +21,8 @@
  *	@package		framework.helium
  *	@extends		Database_TableWriter
  *	@uses			ADT_Reference
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2010 Christian Würker
+ *	@author			Christian WÃ¼rker <christian.wuerker@ceus-media.de>
+ *	@copyright		2007-2010 Christian WÃ¼rker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			01.11.2005
@@ -36,8 +36,8 @@ import( 'de.ceus-media.adt.Reference' );
  *	@package		framework.helium
  *	@extends		Database_TableWriter
  *	@uses			ADT_Reference
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2010 Christian Würker
+ *	@author			Christian WÃ¼rker <christian.wuerker@ceus-media.de>
+ *	@copyright		2007-2010 Christian WÃ¼rker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			01.11.2005
@@ -128,12 +128,12 @@ class Framework_Helium_Model extends Database_TableWriter
 	 *	Callback for Prefix Removal.
 	 *	@access		private
 	 *	@param		string		$string		String to be cleared of Prefix
-	 *	@param		string		$prefix		Prefix to be removed, must not include '°'
+	 *	@param		string		$prefix		Prefix to be removed, must not include 'Â°'
 	 *	@return		string
 	 */
 	private function removeRequestPrefix( $string, $prefix )
 	{
-		return preg_replace( "°^".$prefix."°", "", $string );
+		return preg_replace( "Â°^".$prefix."Â°", "", $string );
 	}
 }
 ?>

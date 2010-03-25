@@ -2,7 +2,7 @@
 /**
  *	Randomizer supporting different sign types.
  *
- *	Copyright (c) 2007-2010 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2007-2010 Christian WÃ¼rker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -19,8 +19,8 @@
  *
  *	@category		cmClasses
  *	@package		alg
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2010 Christian Würker
+ *	@author			Christian WÃ¼rker <christian.wuerker@ceus-media.de>
+ *	@copyright		2007-2010 Christian WÃ¼rker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			18.01.2006
@@ -30,8 +30,8 @@
  *	Randomizer supporting different sign types.
  *	@category		cmClasses
  *	@package		alg
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2010 Christian Würker
+ *	@author			Christian WÃ¼rker <christian.wuerker@ceus-media.de>
+ *	@copyright		2007-2010 Christian WÃ¼rker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			18.01.2006
@@ -46,7 +46,7 @@ class Alg_Randomizer
 	/**	@var		string		$smalls			String with small Letters */
 	public $smalls				= "abcdefghijklmnopqrstuvwxyz";
 	/**	@var		string		$signs			String with Signs */
-	public $signs				= '.:_-+*=/\!§$%&(){}[]#@?~';
+	public $signs				= '.:_-+*=/\!Â§$%&(){}[]#@?~';
 	/**	@var		int			$strength		Strength randomized String should have at least (-100 <= x <= 100) */
 	public $strength			= 0;
 	/**	@var		int			$turns			Number of Turns to try to create a strong String */

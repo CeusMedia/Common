@@ -4,7 +4,7 @@
  *	@category		cmClasses
  *	@package		ui.image
  *	@uses			UI_Template
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian WÃ¼rker <Christian.Wuerker@CeuS-Media.de>
  *	@version		$Id$
  */
 require_once( JPGRAPH_PATH.'jpgraph.php' );
@@ -16,7 +16,7 @@ import( 'de.ceus-media.ui.Template' );
  *	@category		cmClasses
  *	@package		ui.image
  *	@uses			UI_Template
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian WÃ¼rker <Christian.Wuerker@CeuS-Media.de>
  *	@version		$Id$
  */
 class UI_Image_PieGraph
@@ -111,7 +111,7 @@ class UI_Image_PieGraph
 /**
  *	Builds different Graphs with Configuration.
  *	@package		tools.BugTracker
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian WÃ¼rker <Christian.Wuerker@CeuS-Media.de>
  *	@version		$Id$
  */
 import( 'de.ceus-media.net.http.request.Receiver' );
@@ -121,7 +121,7 @@ import( 'de.ceus-media.ui.Template' );
  *	@package		tools.BugTracker
  *	@uses			Net_HTTP_Request_Receiver
  *	@uses			UI_Template
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian WÃ¼rker <Christian.Wuerker@CeuS-Media.de>
  *	@version		$Id$
  */
 class GraphViews
