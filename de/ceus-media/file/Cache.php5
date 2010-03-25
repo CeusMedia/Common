@@ -223,6 +223,8 @@ class File_Cache extends ADT_Cache_Store implements Countable
 	 */
 	public function remove( $key )
 	{
+		if( !$this->has( $key ) )
+			return FALSE;
 		$uri	= $this->getUriForKey( $key );
 		unset( $this->data[$key] );
 		return @unlink( $uri );
