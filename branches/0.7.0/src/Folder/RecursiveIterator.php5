@@ -2,7 +2,7 @@
 /**
  *	Iterates all Folders and Files recursive within a Folder.
  *
- *	Copyright (c) 2008 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2008-2010 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -23,11 +23,11 @@
  *	@uses			RecursiveIteratorIterator
  *	@uses			RecursiveDirectoryIterator
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@copyright		2008 Christian Würker
+ *	@copyright		2008-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			15.04.2008
- *	@version		0.6
+ *	@version		$Id$
  */
 /**
  *	Iterates all Folders and Files recursive within a Folder.
@@ -37,11 +37,11 @@
  *	@uses			RecursiveIteratorIterator
  *	@uses			RecursiveDirectoryIterator
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@copyright		2008 Christian Würker
+ *	@copyright		2008-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			15.04.2008
- *	@version		0.6
+ *	@version		$Id$
  */
 class Folder_RecursiveIterator extends FilterIterator
 {

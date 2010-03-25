@@ -1,9 +1,10 @@
 <?php
 /**
  *	...
+ *	@category		cmClasses
  *	@package		ui.image
  *	@uses			UI_Template
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian WÃ¼rker <Christian.Wuerker@CeuS-Media.de>
  *	@version		$Id$
  */
 /*
@@ -13,9 +14,10 @@ require_once( JPGRAPH_PATH.'jpgraph_pie3d.php' );
 */
 /**
  *	...
+ *	@category		cmClasses
  *	@package		ui.image
  *	@uses			UI_Template
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian WÃ¼rker <Christian.Wuerker@CeuS-Media.de>
  *	@version		$Id$
  */
 class UI_Image_PieGraph

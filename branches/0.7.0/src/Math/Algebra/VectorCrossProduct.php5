@@ -2,7 +2,7 @@
 /**
  *	Cross Product of two Vectors with 3 Dimensions.
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2007-2010 Christian WÃ¼rker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,11 +20,11 @@
  *	@category		cmClasses
  *	@package		math.algebra
  *	@uses			Math_Algebra_Vector
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian WÃ¼rker <christian.wuerker@ceus-media.de>
+ *	@copyright		2007-2010 Christian WÃ¼rker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
- *	@version		0.6
+ *	@version		$Id$
  */
 import( 'de.ceus-media.math.algebra.Vector' );
 /**
@@ -32,11 +32,11 @@ import( 'de.ceus-media.math.algebra.Vector' );
  *	@category		cmClasses
  *	@package		math.algebra
  *	@uses			Math_Algebra_Vector
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian WÃ¼rker <christian.wuerker@ceus-media.de>
+ *	@copyright		2007-2010 Christian WÃ¼rker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
- *	@version		0.6
+ *	@version		$Id$
  */
 class Math_Algebra_VectorCrossProduct
 {

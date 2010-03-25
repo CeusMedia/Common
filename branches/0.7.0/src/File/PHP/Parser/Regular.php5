@@ -17,12 +17,12 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- *	@category		cmTools
- *	@package		DocCreator_Core
+ *	@category		cmClasses
+ *	@package		file.php.parser
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2008-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: Parser.php5 739 2009-10-22 03:49:27Z christian.wuerker $
+ *	@version		$Id$
  *	@since			04.08.08
  *	@todo			support multiple return types separated with |
  */
@@ -42,8 +42,8 @@ import( 'de.ceus-media.adt.php.Return' );
 import( 'de.ceus-media.adt.php.Throws' );
 /**
  *	Parses PHP Files containing a Class or Methods using regular expressions (slow).
- *	@category		cmTools
- *	@package		DocCreator_Core
+ *	@category		cmClasses
+ *	@package		file.php.parser
  *	@uses			File_Reader
  *	@uses			ADT_PHP_File
  *	@uses			ADT_PHP_Interface
@@ -60,7 +60,7 @@ import( 'de.ceus-media.adt.php.Throws' );
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2008-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id: Parser.php5 739 2009-10-22 03:49:27Z christian.wuerker $
+ *	@version		$Id$
  *	@since			04.08.08
  *	@todo			Code Doc
  */
