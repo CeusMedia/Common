@@ -2,7 +2,7 @@
 /**
  *	...
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2007-2010 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,11 +20,11 @@
  *	@category		cmClasses
  *	@package		ui.html.css
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			16.02.2009
- *	@version		0.1
+ *	@version		$Id$
  *	@link			http://www.grc.com/menudemo.htm
  */
 import( 'de.ceus-media.adt.tree.menu.List' );
@@ -38,11 +38,11 @@ import( 'de.ceus-media.ui.html.css.TreeMenu' );
  *	@uses			ADT_Tree_Menu_Item
  *	@uses			UI_HTML_CSS_TreeMenu
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			16.02.2009
- *	@version		0.1
+ *	@version		$Id$
  */
 class UI_HTML_CSS_LinkSelect
 {

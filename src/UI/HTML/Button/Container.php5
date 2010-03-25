@@ -1,16 +1,20 @@
 <?php
 /**
  *	HTML Button Container (for CSS).
- *	@package	APL.UI.HTML.Button
- *	@author		Christian Würker <christian.wuerker@ceus-media.de>
- *	@since		0.0.2
+ *	@category		cmClasses
+ *	@package		APL.UI.HTML.Button
+ *	@author			Christian Würker <christian.wuerker@ceus-media.de>
+ *	@since			0.0.2
+ *	@version		$Id$
  */
 /**
  *	HTML Button Container (for CSS).
- *	@package	APL.UI.HTML.Button
- *	@extends	UI_HTML_Abstract
- *	@author		Christian Würker <christian.wuerker@ceus-media.de>
- *	@since		0.0.2
+ *	@category		cmClasses
+ *	@package		APL.UI.HTML.Button
+ *	@extends		UI_HTML_Abstract
+ *	@author			Christian Würker <christian.wuerker@ceus-media.de>
+ *	@since			0.0.2
+ *	@version		$Id$
  */
 class UI_HTML_Button_Container extends UI_HTML_Abstract
 {

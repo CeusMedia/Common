@@ -2,7 +2,7 @@
 /**
  *	Cache to store Data in Files statically.
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2007-2010 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,11 +20,11 @@
  *	@category		cmClasses
  *	@package		file
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			13.04.2009
- *	@version		0.1
+ *	@version		$Id$
  */
 import( 'de.ceus-media.adt.cache.StaticStore' );
 import( 'de.ceus-media.file.Cache' );
@@ -36,11 +36,11 @@ import( 'de.ceus-media.file.Cache' );
  *	@implements		Countable
  *	@uses			File_Cache
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			13.04.2009
- *	@version		0.1
+ *	@version		$Id$
  */
 class File_StaticCache extends ADT_Cache_StaticStore
 {

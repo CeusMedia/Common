@@ -2,7 +2,7 @@
 /**
  *	Paints Formula Diagram
  *
- *	Copyright (c) 2007-2009 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2007-2010 Christian WÃ¼rker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -22,11 +22,11 @@
  *	@extends		UI_Image_Drawer
  *	@uses			Math_CompactInterval
  *	@uses			Alg_Time_Clock
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian WÃ¼rker <christian.wuerker@ceus-media.de>
+ *	@copyright		2007-2010 Christian WÃ¼rker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
- *	@version		0.5
+ *	@version		$Id$
  */
 import( 'de.ceus-media.ui.image.Drawer' );
 import( 'de.ceus-media.math.CompactInterval' );
@@ -38,9 +38,9 @@ import( 'de.ceus-media.alg.time.Clock' );
  *	@extends		UI_Image_Drawer
  *	@uses			Math_CompactInterval
  *	@uses			Alg_Time_Clock
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@version		0.5
- *	@copyright		2007-2009 Christian Würker
+ *	@author			Christian WÃ¼rker <christian.wuerker@ceus-media.de>
+ *	@version		$Id$
+ *	@copyright		2007-2010 Christian WÃ¼rker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@todo			Code Doc

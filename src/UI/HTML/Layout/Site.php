@@ -1,16 +1,20 @@
 <?php
 /**
  *	Grid Layout.
- *	@package		APL.UI.HTML.Layout
+ *	@category		cmClasses
+ *	@package		ui.html.layout
  *	@author			martin
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
+ *	@version		$Id$
  */
 /**
  *	Grid Layout.
- *	@package		APL.UI.HTML.Layout
+ *	@category		cmClasses
+ *	@package		ui.html.layout
  *	@extends		UI_HTML_Element_Abstract
  *	@author			martin
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
+ *	@version		$Id$
  */
 class UI_HTML_Layout_Site extends UI_HTML_Element_Abstract
 {
