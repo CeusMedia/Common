@@ -3,7 +3,7 @@
  *	Language Support with sniffing of Browser Language and Language Validation.
  *	Loads Language Files direct or from Cache if enabled.
  *
- *	Copyright (c) 2007-2010 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2007-2010 Christian WÃ¼rker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,8 +20,8 @@
  *
  *	@category		cmClasses
  *	@package		framework.neon
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2010 Christian Würker
+ *	@author			Christian WÃ¼rker <christian.wuerker@ceus-media.de>
+ *	@copyright		2007-2010 Christian WÃ¼rker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			05.12.2006
@@ -42,8 +42,8 @@ import( 'de.ceus-media.file.block.Reader' );
  *	@uses			Alg_Validation_LanguageValidator
  *	@uses			File_Writer
  *	@uses			File_Block_Reader
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2010 Christian Würker
+ *	@author			Christian WÃ¼rker <christian.wuerker@ceus-media.de>
+ *	@copyright		2007-2010 Christian WÃ¼rker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			05.12.2006
