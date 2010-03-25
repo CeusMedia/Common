@@ -80,7 +80,7 @@ timezone			= "Europe/Berlin"
 #
 [phpDocumentor]
 directory			= de/ceus-media/
-target				= References/phpDoc/
+target				= doc/api/phpDoc/
 output				= HTML:frames:earthli,HTML:Smarty:PHP,PDF:default:default,XML:DocBook/peardoc2:default,HTML:frames:phphtmllib,HTML:frames:phpedit
 output				= HTML:frames:earthli,XML:DocBook/peardoc2:default,HTML:frames:phphtmllib,HTML:frames:phpedit
 output				= HTML:frames:phpedit
