@@ -22,7 +22,7 @@
  *	@uses			File_SyntaxChecker
  *	@uses			Folder_RecursiveRegexFilter
  *	@uses			UI_DevOutput
- *	@uses			Stopwatch
+ *	@uses			Alg_Time_Clock
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -33,7 +33,7 @@
 import( 'de.ceus-media.file.SyntaxChecker' );
 import( 'de.ceus-media.folder.RecursiveRegexFilter' );
 import( 'de.ceus-media.ui.DevOutput' );
-import( 'de.ceus-media.Stopwatch' );
+import( 'de.ceus-media.alg.time.Clock' );
 /**
  *	Checks Syntax of all PHP Classes and Scripts within a Folder.
  *	@category		cmClasses
@@ -41,7 +41,7 @@ import( 'de.ceus-media.Stopwatch' );
  *	@uses			File_SyntaxChecker
  *	@uses			Folder_RecursiveRegexFilter
  *	@uses			UI_DevOutput
- *	@uses			Stopwatch
+ *	@uses			Alg_Time_Clock
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -79,7 +79,7 @@ class Folder_SyntaxChecker
 	{
 		$counter	= 0;
 		$invalid	= array();
-		$watch		= new Stopwatch;
+		$clock		= new Alg_Time_Clock;
 		$this->failures	= array();
 		$index		= new Folder_RecursiveRegexFilter( $pathName, "@\.".self::$phpExtension."$@" );
 		foreach( $index as $file )
@@ -94,7 +94,7 @@ class Folder_SyntaxChecker
 				remark( $shortName.": ".( $valid ? "valid." : $error ) );
 		}
 		if( $verbose )
-			$this->printResults( $invalid, $counter, $watch->stop( 0, 1 ) );
+			$this->printResults( $invalid, $counter, $clock->stop( 0, 1 ) );
 		$result	= array(
 			'numberFiles'	=> $counter,
 			'numberErrors'	=> count( $invalid ),

@@ -20,7 +20,7 @@
  *	@category		cmClasses
  *	@package		net.site
  *	@uses			Net_Reader
- *	@uses			StopWatch
+ *	@uses			Alg_Time_Clock
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -28,7 +28,7 @@
  *	@since			10.12.2006
  *	@version		$Id$
  */
-import( 'de.ceus-media.StopWatch' );
+import( 'de.ceus-media.alg.time.Clock' );
 import( 'de.ceus-media.net.Reader' );
 import( 'de.ceus-media.adt.list.Dictionary' );
 import( 'de.ceus-media.adt.StringBuffer' );
@@ -38,7 +38,7 @@ import( 'de.ceus-media.alg.UnitFormater' );
  *	@category		cmClasses
  *	@package		net.site
  *	@uses			Net_Reader
- *	@uses			StopWatch
+ *	@uses			Alg_Time_Clock
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3

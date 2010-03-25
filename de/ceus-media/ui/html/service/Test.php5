@@ -70,10 +70,10 @@ class UI_HTML_Service_Test
 		$format		= isset( $request['parameter_format'] ) ? $request['parameter_format'] : $preferred;
 
 		
-		$requestUrl		= $this->getRequestUrl( $request );
-		$testUrl		= $this->getTestUrl( $request );
+		$requestUrl	= $this->getRequestUrl( $request );
+		$testUrl	= $this->getTestUrl( $request );
 
-		$stopwatch	= new StopWatch();
+		$clock		= new Alg_Time_Clock();
 		try
 		{
 			$response	= $this->getResponse( $requestUrl, $format );
@@ -82,7 +82,7 @@ class UI_HTML_Service_Test
 		{
 			$response	= UI_HTML_Exception_TraceViewer::buildTrace( $e, 2 );
 		}
-		$time			= $stopwatch->stop( 6, 0 );
+		$time			= $clock->stop( 6, 0 );
 
 		//  --  INFORMATION FOR TEMPLATE  --  //
 		$title			= $this->servicePoint->getTitle();							//  Service Title

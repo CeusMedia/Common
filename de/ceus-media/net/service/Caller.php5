@@ -21,7 +21,7 @@
  *	@package		net.service
  *	@uses			Net_Service_Client
  *	@uses			Net_Service_Decoder
- *	@uses			StopWatch
+ *	@uses			Alg_Time_Clock
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -31,13 +31,13 @@
  */
 import( 'de.ceus-media.net.service.Client' );
 import( 'de.ceus-media.net.service.Decoder' );
-import( 'de.ceus-media.StopWatch' );
+import( 'de.ceus-media.alg.time.Clock' );
 /**
  *	@category		cmClasses
  *	@package		net.service
  *	@uses			Net_Service_Client
  *	@uses			Net_Service_Decoder
- *	@uses			StopWatch
+ *	@uses			Alg_Time_Clock
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -71,14 +71,14 @@ class Net_Service_Caller
 	 */
 	public function __call( $key, $arguments )
 	{
-		$watch		= new StopWatch();
+		$clock		= new Alg_Time_Clock();
 		$arguments	= $this->buildArgumentsForRequest( $arguments );
 		$response	= $this->client->post( $key, "php", $arguments );
 		$this->calls[]	= array(
 			'service'	=> $key,
 			'arguments'	=> $arguments,
 			'response'	=> serialize( $response ),
-			'time'		=> $watch->stop( 6, 0 ),
+			'time'		=> $clock->stop( 6, 0 ),
 		);
 		return $response;
 	}

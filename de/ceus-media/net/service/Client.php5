@@ -20,7 +20,7 @@
  *	@category		cmClasses
  *	@package		net.service
  *	@uses			Net_cURL
- *	@uses			StopWatch
+ *	@uses			Alg_Time_Clock
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -34,7 +34,7 @@ import( 'de.ceus-media.net.service.Decoder' );
  *	@category		cmClasses
  *	@package		net.service
  *	@uses			Net_cURL
- *	@uses			StopWatch
+ *	@uses			Alg_Time_Clock
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -132,7 +132,7 @@ class Net_Service_Client
 	public function get( $service, $format = NULL, $parameters = array(), $verbose = FALSE )
 	{
 		import( 'de.ceus-media.net.cURL' );
-		import( 'de.ceus-media.StopWatch' );
+		import( 'de.ceus-media.alg.time.Clock' );
 		$baseUrl	= $this->host."?service=".$service."&format=".$format;
 		$compress	= isset( $parameters['compressResponse'] ) ? strtolower( $parameters['compressResponse'] ) : "";
 		$parameters	= array_merge( $parameters, array( 'clientRequestSessionId' => $this->id ) );
@@ -141,12 +141,12 @@ class Net_Service_Client
 		if( $verbose )
 			remark( "GET: ".$serviceUrl );
 
-		$st			= new StopWatch;
+		$clock		= new Alg_Time_Clock;
 		$request	= new Net_cURL( $serviceUrl );
 		$response	= $this->executeRequest( $request, $compress );
 		if( $this->logFile )
 		{
-			$message	= time()." ".strlen( $response['content'] )." ".$st->stop( 6, 0 )." ".$service."\n";
+			$message	= time()." ".strlen( $response['content'] )." ".$clock->stop( 6, 0 )." ".$service."\n";
 			error_log( $message, 3, $this->logFile );
 		}
 		
@@ -156,7 +156,7 @@ class Net_Service_Client
 			'headers'	=> $response['headers'],
 			'status'	=> $response['status'],
 			'response'	=> $response['content'],
-			'time'		=> $st->stop(),
+			'time'		=> $clock->stop(),
 		);
 		$response['content']	= $this->decoder->decodeResponse( $response['content'], $format, $verbose );
 		return $response['content'];
@@ -194,7 +194,7 @@ class Net_Service_Client
 	public function post( $service, $format = NULL, $data = array(), $verbose = FALSE )
 	{
 		import( 'de.ceus-media.net.cURL' );
-		import( 'de.ceus-media.StopWatch' );
+		import( 'de.ceus-media.alg.time.Clock' );
 		$baseUrl	= $this->host."?service=".$service."&format=".$format;
 		if( $verbose )
 			remark( "POST: ".$baseUrl );
@@ -208,14 +208,14 @@ class Net_Service_Client
 
 		$data['clientRequestSessionId']	= $this->id;							//  adding Client Request Session ID
 
-		$st			= new StopWatch;
+		$clock		= new Alg_Time_Clock;
 		$request	= new Net_cURL( $baseUrl );
 		$request->setOption( CURLOPT_POST, TRUE );
 		$request->setOption( CURLOPT_POSTFIELDS, $data );
 		$response	= $this->executeRequest( $request );
 		if( $this->logFile )
 		{
-			$message	= time()." ".strlen( $response['content'] )." ".$st->stop( 6, 0 )." ".$service."\n";
+			$message	= time()." ".strlen( $response['content'] )." ".$clock->stop( 6, 0 )." ".$service."\n";
 			error_log( $message, 3, $this->logFile );
 		}
 		$this->requests[]	= array(
@@ -225,7 +225,7 @@ class Net_Service_Client
 			'headers'	=> $response['headers'],
 			'status'	=> $response['status'],
 			'response'	=> $response['content'],
-			'time'		=> $st->stop(),
+			'time'		=> $clock->stop(),
 			);
 		if( $verbose )
 			xmp( $response['content'] );

@@ -20,7 +20,7 @@
  *	@category		cmClasses
  *	@package		net.http
  *	@uses			File_Log_Writer
- *	@uses			StopWatch
+ *	@uses			Alg_Time_Clock
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -28,13 +28,13 @@
  *	@version		$Id$
  */
 import( 'de.ceus-media.file.log.Writer' );
-import( 'de.ceus-media.StopWatch' );
+import( 'de.ceus-media.alg.time.Clock' );
 /**
  *	Compresses and sends HTTP Output.
  *	@category		cmClasses
  *	@package		net.http
  *	@uses			File_Log_Writer
- *	@uses			StopWatch
+ *	@uses			Alg_Time_Clock
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -130,7 +130,7 @@ class Net_HTTP_Compression
 			print( $content );															//  send uncompressed Content
 			return $sizeBefore;															//  return Length of uncompressed Content
 		}
-		$watch	= new Stopwatch;														//  start Stopwatch
+		$clock	= new Alg_Time_Clock;													//  start Clock
 		switch( self::$method )															//  switch for Compression Method
 		{
 			case 'deflate':																//  DEFLATE
@@ -149,7 +149,7 @@ class Net_HTTP_Compression
 		ob_start();																		//  open Output Buffer to avoid Problems
 		if( $logFile )																	//  Logging is enabled
 		{
-			$time	= $watch->stop( 6, 0 );												//  get Compression Time
+			$time	= $clock->stop( 6, 0 );												//  get Compression Time
 			@self::log( $logFile, $sizeBefore, $sizeAfter, $time, $precision );			//  log statistical Data
 		}
 		while( ob_get_level() )															//  all open Output Buffers

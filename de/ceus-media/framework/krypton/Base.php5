@@ -19,7 +19,7 @@
  *
  *	@category		cmClasses
  *	@package		framework.krypton
- *	@uses			StopWatch
+ *	@uses			Alg_Time_Clock
  *	@uses			Database_PDO_Connection
  *	@uses			Net_HTTP_PartitionSession
  *	@uses			Net_HTTP_Request_Receiver
@@ -44,7 +44,7 @@
  *	@category		cmClasses
  *	@package		framework.krypton
  *	@abstract
- *	@uses			StopWatch
+ *	@uses			Alg_Time_Clock
  *	@uses			Database_PDO_Connection
  *	@uses			Net_HTTP_PartitionSession
  *	@uses			Net_HTTP_Request_Response
@@ -238,9 +238,9 @@ abstract class Framework_Krypton_Base
 	 */
 	protected function initEnvironment()
 	{
-		import( 'de.ceus-media.StopWatch' );
+		import( 'de.ceus-media.alg.time.Clock' );
 		import( 'de.ceus-media.framework.krypton.core.Messenger' );
-		$this->registry->set( "stopwatch", new StopWatch, TRUE );
+		$this->registry->set( "stopwatch", new Alg_Time_Clock, TRUE );
 		$this->registry->set( "messenger", new Framework_Krypton_Core_Messenger, TRUE );
 	}
 
