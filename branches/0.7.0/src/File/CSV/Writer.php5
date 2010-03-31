@@ -60,6 +60,17 @@ class File_CSV_Writer
 	}
 
 	/**
+	 *	Sets separating Sign.
+	 *	@access		public
+	 *	@param		string		$separator		Separator sign
+	 *	@return		void
+	 */
+	public function setSeparator( $separator )
+	{
+		$this->separator	= $separator;
+	}
+
+	/**
 	 *	Saves an 2 dimensional array with or without column headers.
 	 *	@access		public
 	 *	@param		array		$data			2 dimensional array of data

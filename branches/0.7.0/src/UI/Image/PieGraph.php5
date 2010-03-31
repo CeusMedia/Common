@@ -7,11 +7,6 @@
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version		$Id$
  */
-/*
-require_once( JPGRAPH_PATH.'jpgraph.php' );
-require_once( JPGRAPH_PATH.'jpgraph_pie.php');
-require_once( JPGRAPH_PATH.'jpgraph_pie3d.php' );
-*/
 /**
  *	...
  *	@category		cmClasses
@@ -34,7 +29,7 @@ class UI_Image_PieGraph
 	protected $legendShadow		= FALSE;
 	protected $width			= 600;
 	protected $shadow			= FALSE;
-		
+	protected $map;
 	
 	protected $colors	= array(
 		'#07077F',

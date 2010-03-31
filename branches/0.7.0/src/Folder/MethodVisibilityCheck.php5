@@ -70,7 +70,7 @@ class Folder_MethodVisibilityCheck
 			$this->found++;
 			$this->list[$entry->getPathname()]	= $checker->getMethods();
 		}
-		$this->count	= $finder->getFiles();
+		$this->count	= $finder->getNumberScanned();
 	}
 }
 ?>
