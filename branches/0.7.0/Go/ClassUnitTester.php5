@@ -15,6 +15,7 @@ class Go_ClassUnitTester
 		if( !file_exists( $testFile ) )
 			throw new RuntimeException( 'Test Class File "'.$testFile.'" is not existing.' );
 		echo "\nTesting Class: ".$classKey."\n\n";
+		
 		passthru( "phpunit ".$testClass, $return );
 	}
 }
