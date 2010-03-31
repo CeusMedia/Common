@@ -84,6 +84,16 @@ class Net_Memory_Cache extends ADT_Cache_Store
 	}
 	
 	/**
+	 *	Removes all stored Pairs.
+	 *	@access		public
+	 *	@return		bool
+	 */
+	public function flush()
+	{
+		return $this->store->flush();
+	}
+	
+	/**
 	 *	Returns a stored Value by its Key.
 	 *	@access		public
 	 *	@param		string		$key		Key of Cache Pair
@@ -92,6 +102,16 @@ class Net_Memory_Cache extends ADT_Cache_Store
 	public function get( $key )
 	{
 		return $this->store->get( $key );
+	}
+
+	/**
+	 *	Returns statistical information of all Servers.
+	 *	@access		public
+	 *	@return		array
+	 */
+	public function getStats()
+	{
+		return $this->store->getExtendedStats();
 	}
 	
 	/**
@@ -121,18 +141,6 @@ class Net_Memory_Cache extends ADT_Cache_Store
 	}
 	
 	/**
-	 *	Stores or replaces a Pair.
-	 *	@access		public
-	 *	@param		string		$key		Key of Cache Pair
-	 *	@param		int			$value		Value to store
-	 *	@return		bool
-	 */
-	public function set( $key, $value )
-	{
-		return $this->store->set( $key, $value, 0, $this->expires );
-	}
-	
-	/**
 	 *	Removes a stored Pair by its Key.
 	 *	@access		public
 	 *	@param		string		$key		Key of Cache Pair
@@ -144,23 +152,15 @@ class Net_Memory_Cache extends ADT_Cache_Store
 	}
 	
 	/**
-	 *	Removes all stored Pairs.
+	 *	Stores or replaces a Pair.
 	 *	@access		public
+	 *	@param		string		$key		Key of Cache Pair
+	 *	@param		int			$value		Value to store
 	 *	@return		bool
 	 */
-	public function flush()
+	public function set( $key, $value )
 	{
-		return $this->store->flush();
-	}
-
-	/**
-	 *	Returns statistical information of all Servers.
-	 *	@access		public
-	 *	@return		array
-	 */
-	public function getStats()
-	{
-		return $this->store->getExtendedStats();
+		return $this->store->set( $key, $value, 0, $this->expires );
 	}
 }
 ?>

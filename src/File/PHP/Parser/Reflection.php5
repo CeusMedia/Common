@@ -40,6 +40,74 @@
  */
 class File_PHP_Parser_Reflection
 {
+	/**
+	 *	Parses a PHP File and returns nested Array of collected Information.
+	 *	@access		public
+	 *	@param		string		$fileName		File Name of PHP File to parse
+	 *	@param		string		$innerPath		Base Path to File to be removed in Information
+	 *	@return		array
+	 */
+	public function parseFile( $fileName, $innerPath )
+	{
+		$content		= File_Reader::load( $fileName );
+		if( !Alg_StringUnicoder::isUnicode( $content ) )
+			$content		= Alg_StringUnicoder::convertToUnicode( $content );
+
+		$listClasses	= get_declared_classes();													//  list builtin Classes
+		$listInterfaces	= get_declared_interfaces();												//  list builtin Interfaces
+		require_once( $fileName );
+		$listClasses	= array_diff( get_declared_classes(), $listClasses );						//  get only own Classes
+		$listInterfaces	= array_diff( get_declared_interfaces(), $listInterfaces );					//  get only own Interfaces
+
+		$file			= new ADT_PHP_File;
+		$file->setBasename( basename( $fileName ) );
+		$file->setPathname( substr( str_replace( "\\", "/", $fileName ), strlen( $innerPath ) ) );
+		$file->setUri( str_replace( "\\", "/", $fileName ) );
+		$file->setSourceCode( $content );
+
+		//  --  READING CLASSES  --  //
+		$countClasses	= count( $listClasses );													//  count own Classes
+		if( $countClasses )
+		{
+			if( $this->verbose )
+				remark( 'Parsing Classes ('.$countClasses.'):'.PHP_EOL );
+			$listClasses	= $this->readFromClassList( $listClasses );
+			$this->application->updateStatus( 'Done.', $countClasses, $countClasses );
+		}
+		foreach( $listClasses as $class )
+			if( $class instanceof ADT_PHP_Class )
+				$file->addClass( $class );
+
+		//  --  READING INTERFACES  --  //
+		$countInterfaces	= count( $listInterfaces );												//  count own Interfaces
+		if( $countInterfaces )
+		{
+			if( $this->verbose )
+				remark( 'Parsing Interfaces ('.$countInterfaces.'):'.PHP_EOL );
+			$listInterfaces	= $this->readFromClassList( $listInterfaces );
+			$this->application->updateStatus( 'Done.', $countInterfaces, $countInterfaces );
+		}
+		foreach( $listInterfaces as $interface )
+			if( $interface instanceof ADT_PHP_Interface )
+				$file->addInterface( $interface );
+
+/*		$functionBody	= array();
+		$lines			= explode( "\n", $content );
+		$fileBlock		= NULL;
+		$openClass		= FALSE;
+		$function		= NULL;
+	
+		$level	= 0;
+		$class	= NULL;
+		if( $class )
+		{
+			foreach( $class->getMethods() as $methodName => $method )
+				if( isset( $functionBody[$methodName] ) )
+					$method->setSourceCode( $functionBody[$methodName] );
+		}*/
+		return $file;
+	}
+
 	public function readClass( ReflectionClass $class )
 	{
 

@@ -90,7 +90,7 @@ class Folder_CodeLineCounter
 
 		$path	= preg_replace( "@^(.+)/?$@", "\\1/", $path );
 
-		$st	= new StopWatch();
+		$st		= new Alg_Time_Clock();
 		$lister	= new Folder_RecursiveLister( $path );
 		$lister->setExtensions( $extensions );
 		$list	= $lister->getList();

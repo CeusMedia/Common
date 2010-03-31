@@ -212,7 +212,7 @@ class Net_Reader
 	}
 
 	/**
-	 *	Sets Option CURL_SSL_VERIFYHOST.
+	 *	Sets Option CURLOPT_SSL_VERIFYHOST.
 	 *	@access		public
 	 *	@param		bool		$verify		Flag: verify Host
 	 *	@return		void
@@ -223,7 +223,7 @@ class Net_Reader
 	}
 
 	/**
-	 *	Sets Option CURL_SSL_VERIFYPEER.
+	 *	Sets Option CURLOPT_SSL_VERIFYPEER.
 	 *	@access		public
 	 *	@param		bool		$verify		Flag: verify Peer
 	 *	@return		void
