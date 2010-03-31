@@ -37,7 +37,7 @@ class Go_Library
 				continue;
 			if( $entry->isDir() )
 			{
-	#			echo "Path: ".$entry->getPath()."\n";
+		#		echo "Path: ".$entry->getPath()."\n";
 				self::listClassesRecursive( $pathName, $list, $count, $size );
 			}
 			else if( $entry->isFile() )

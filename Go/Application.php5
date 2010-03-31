@@ -108,10 +108,22 @@ class Go_Application
 						new Go_SelfTester( $arguments );
 						break;						
 					case 'units':
+
+						require_once( $this->basePath.'Library.php5' );
+		
+		remark( "Reading Class Files:\n" );
+		$data	= Go_Library::listClasses( dirname( dirname ( __FILE__ ) ).'/src/' );
+		foreach( $data['files'] as $file )
+		{
+			require_once( $file );
+			echo '.';
+		}
+		remark( "\n" );
+
 						$command	= "phpunit";
 						foreach( $config['unitTestOptions'] as $key => $value )
 							$command	.= " --".$key." ".$value;
-						print( "\nRunning Unit Tests:\n" );
+						print( "\nRunning Unit Tests:\n\r" );
 						$command	.= " Test_AllTests";
 						passthru( $command );
 						break;
