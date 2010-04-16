@@ -3,52 +3,63 @@ class Go_Application
 {
 	private $basePath;
 	private	$messages	= array(
-		'title'						=> " > > GO > >   -  get & organize cmClasses\n",
-		'config_missing'			=> "No Config File '%s' found.\n       cmClasses must be installed and configured.\n       GO must be within installation path.",
-		'command_invalid'			=> "No valid command set (install,configure,update,create,test,run)",
+		'title'						=> " > >  GO  > >   -  get & organize cmClasses\n",
+		'config_missing'			=> "No Config File '%s' found.\ncmClasses must be installed and configured.\nGO must be within installation path.",
+		'command_invalid'			=> "No valid command set.\nPlease append 'help' for further information!\n",
 		'subject_create_invalid'	=> "No valid creator subject set (doc,test).",
-		'subject_test_invalid'		=> "No valid test subject set (self,units).",
+		'subject_test_invalid'		=> "No valid test subject set (benchmark,classes,self,units).",
 		'tool_create_doc'			=> "No documentation tool set (creator,phpdoc).",
 	);
+	private $configFile				= 'cmClasses.ini';
 
-	public function __construct()
+	public function autoload( $className )
 	{
+		if( preg_match( '/^Go_/', $className ) )													//  is it a GO class ?
+			require_once $this->basePath . preg_replace( '/^Go_/', '', $className ).'.php5';		//  then require it
+	}
+
+	public function __construct( $clearScreen = FALSE )
+	{
+		spl_autoload_register( array( $this, 'autoload' ) );
 		if( !empty( $_SERVER['SERVER_ADDR'] ) )
-			die( "This tool is for console only." );
-		isset( $_SERVER['SHELL'] ) ? passthru( "clear" ) : exec( "command /C cls" );					//  try to clear screen (not working on Windows!?)
-		print( "\n".$this->messages['title'] );															//  print tool title
-		$this->basePath	= dirname( __FILE__ ).'/';
-		$configFile	= dirname( dirname( __FILE__ ) )."/cmClasses.ini";									//  Configuration File
-		$arguments	= array_slice( $_SERVER['argv'], 1 );												//  get given arguments
-		if( !$arguments )																				//  no arguments given
-			die( $this->showUsage( $this->messages['command_invalid'] ) );
-		$command	= strtolower( $arguments[0] );														//  extract command
+			die( "This tool is for console use only." );
+		if( $clearScreen )
+			isset( $_SERVER['SHELL'] ) ? passthru( "clear" ) : exec( "command /C cls" );			//  try to clear screen (not working on Windows!?)
+		print( "\n".$this->messages['title'] );														//  print tool title
+
+		$this->basePath		= dirname( __FILE__ ).'/';
+		$this->configFile	= dirname( dirname( __FILE__ ) ).'/'.$this->configFile;					//  point to Configuration File
+
+		$arguments	= array_slice( $_SERVER['argv'], 1 );											//  get given arguments
 
 		try
 		{
-			if( file_exists( $configFile ) )															//  cmClasses installed and configured
+			if( !$arguments )																		//  no arguments given
+				throw new InvalidArgumentException( $this->messages['command_invalid'] );
+			$command	= strtolower( $arguments[0] );												//  extract command
+			if( file_exists( $this->configFile ) )													//  cmClasses installed and configured
 			{
-				require_once( 'autoload.php5' );														//  enable cmClasses
-				import( 'de.ceus-media.ui.DevOutput' );													//  load output methods
+				require_once( 'autoload.php5' );													//  enable cmClasses
+				import( 'de.ceus-media.ui.DevOutput' );												//  load output methods
 			}
-			else if( !( $command == "install" || $command == "configure" ) )							//  anything else but installation is impossible
+			else if( !( $command == "install" || $command == "configure" ) )						//  anything else but installation is impossible
 			{
-				$message	= sprintf( $this->messages['config_missing'], $configFile );
+				$message	= sprintf( $this->messages['config_missing'], $this->configFile );
 				throw new RuntimeException( $message );
 			}
-			$this->run( $configFile, $arguments, $command );											//  run tool component switch
+			$this->handle( $this->configFile, $command, $arguments );								//  run tool component switch
 		}
-		catch( InvalidArgumentException $e )															//  catch argument exception
+#		catch( InvalidArgumentException $e )														//  catch argument exception
+#		{
+#			$this->showUsage( $e->getMessage() );													//  show usage and message
+#		}
+		catch( Exception $e )																		//  catch any other exception
 		{
-			$this->showUsage( $e->getMessage() );														//  show usage and message
-		}
-		catch( Exception $e )																			//  catch any other exception
-		{
-			print( "\nERROR: ".$e->getMessage()."\n" );													//  show message only
+			print( "\nERROR: ".$e->getMessage()."\n" );												//  show message only
 		}
 	}
-		
-	private function run( $configFile, $arguments, $command )
+
+	private function handle( $configFile, $command, $arguments )
 	{
 		switch( $command )
 		{
@@ -60,7 +71,7 @@ class Go_Application
 				$this->showUsage();
 				break;
 			case 'create':
-				$config		= parse_ini_file( $configFile, TRUE );
+				$config		= parse_ini_file( $this->configFile, TRUE );
 				if( count( $arguments ) < 2 )
 					throw new InvalidArgumentException( $this->messages['subject_create_invalid'] );
 				$subject	= strtolower( $arguments[1] );
@@ -73,90 +84,60 @@ class Go_Application
 						switch( $tool )
 						{
 							case 'creator':
-								require_once( $this->basePath.'DocCreator.php5' );
-								new Go_DocCreator( array_slice( $arguments, 3 ), $configFile, $config );
+								new Go_DocCreator( array_slice( $arguments, 3 ), $this->configFile, $config );
 								break;
 							case 'phpdoc':
-								require_once( $this->basePath.'PhpDocumentor.php5' );
-								new Go_PhpDocumentor( array_slice( $arguments, 3 ), $configFile, $config );
+								new Go_PhpDocumentor( array_slice( $arguments, 3 ), $this->configFile, $config );
 								break;
 							default:
 								throw new InvalidArgumentException( $this->messages['tool_create_doc'] );
 						}
 						break;
 					case 'test':
-						require_once( $this->basePath.'ClassUnitTestCreator.php5' );
-						new Go_ClassUnitTestCreator( array_slice( $arguments, 2 ) );
+						new Go_UnitTestClassCreator( array_slice( $arguments, 2 ) );
 						break;
 					default:
 						throw new InvalidArgumentException( $this->messages['subject_create_invalid'] );
 				}
 				break;
 			case 'test':
-				$config		= parse_ini_file( $configFile, TRUE );
+				$config		= parse_ini_file( $this->configFile, TRUE );
 				if( count( $arguments ) < 2 )
 					throw new InvalidArgumentException( $this->messages['subject_test_invalid'] );
 				$subject	= strtolower( $arguments[1] );
 				switch( $subject )
 				{
+					case 'benchmark':
+						new Go_Benchmark();
+						break;						
 					case 'classes':
-						require_once( $this->basePath.'ClassSyntaxTester.php5' );
 						new Go_ClassSyntaxTester( $arguments );
 						break;						
 					case 'self':
-						require_once( $this->basePath.'SelfTester.php5' );
 						new Go_SelfTester( $arguments );
 						break;						
 					case 'units':
-
-						require_once( $this->basePath.'Library.php5' );
-		
-		remark( "Reading Class Files:\n" );
-		$data	= Go_Library::listClasses( dirname( dirname ( __FILE__ ) ).'/src/' );
-		foreach( $data['files'] as $file )
-		{
-			require_once( $file );
-			echo '.';
-		}
-		remark( "\n" );
-
-						$command	= "phpunit";
-						foreach( $config['unitTestOptions'] as $key => $value )
-							$command	.= " --".$key." ".$value;
-						print( "\nRunning Unit Tests:\n\r" );
-						$command	.= " Test_AllTests";
-						passthru( $command );
+						$className	= empty( $arguments[2] ) ? NULL : $arguments[2];
+						new Go_UnitTester( $className );
 						break;
 					default:
-						require_once( $this->basePath.'ClassUnitTester.php5' );
-						new Go_ClassUnitTester( $arguments );
-#						throw new InvalidArgumentException( $this->messages['subject_test_invalid'] );
+						throw new InvalidArgumentException( $this->messages['subject_test_invalid'] );
 				}
-			case 'run':
 				break;
 			case 'install':
-				require_once( $this->basePath.'Installer.php5' );
 				new Go_Installer( array_slice( $arguments, 1 ) );
 				break;
 			case 'configure':
-				require_once( $this->basePath.'Configurator.php5' );
 				new Go_Configurator( array_slice( $arguments, 1 ) );
 				break;
 			case 'update':
-				require_once( $this->basePath.'Updater.php5' );
 				new Go_Updater( array_slice( $arguments, 1 ) );
 				break;
 			case 'moo':
-				print( '
-         (__)
-        ~(..)~
-   ,----\(oo)
-  /|____|,\'
- * /"\ /\
-' );
+				print Go_Animal::getCow(); 
 				break;
 			default:
-				$this->showUsage( $this->messages['command_invalid'] );
+				throw new InvalidArgumentException( $this->messages['command_invalid'] );
 		}
 	}
 

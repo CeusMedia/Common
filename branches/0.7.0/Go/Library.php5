@@ -17,12 +17,46 @@ class Go_Library
 
 	public function ensureSvnSupport()
 	{
-		$results	= array();
-		@exec( "svn", $results, $return );
-		print_m( $return );
-		die;
-		if( $return !== 1 )
-			throw new RuntimeException( "SVN seems to be not installed." );
+		echo "checking svn... ";
+		$command	= 'svn --version --quiet';
+		$method		= 'system';
+		switch( $method )
+		{
+			case 'system':
+				@system( $command, $return );
+				$support = $return === 0;
+				break;
+			case 'exec':
+				$results	= array();
+				@exec( $command, $results, $return );
+				print_m( $return );
+				$support = $return === 0;
+				break;
+			case 'passthru':
+				$return		= 0;
+				@passthru( $command, $return );
+				$support = $return === 0;
+				break;
+			default:
+				throw new InvalidArgumentException( 'Method "'.$method.'" not implemented' );
+		}
+		if( !$support )
+			throw new RuntimeException( "Subversion Client (svn) seems to be missing." );
+	}
+
+	public static function getGoPath()
+	{
+		return dirname( __FILE__ ).'/';
+	}
+
+	public static function getLibraryPath()
+	{
+		return dirname( dirname( __FILE__ ) ).'/';
+	}
+
+	public static function getSourcePath()
+	{
+		return self::getLibraryPath().'/src/';
 	}
 
 	protected static function listClassesRecursive( $path, &$list, &$count , &$size )
