@@ -1,12 +1,9 @@
 <?php
-class Go_ClassUnitTestCreator
+class Go_UnitTestCreator
 {
 	public function __construct( $arguments )
 	{
-		require_once( "useClasses.php5" );
-		import( 'de.ceus-media.alg.TestCaseCreator' );
-		import( 'de.ceus-media.console.ArgumentParser' );
-		import( 'de.ceus-media.ui.DevOutput' );
+		require_once dirname( dirname( __FILE__ ).'/autoload.php5';
 
 		$force	= in_array( "-f", $arguments ) || in_array( "--force", $arguments );
 		if( in_array( "-f", $arguments ) )
@@ -16,7 +13,7 @@ class Go_ClassUnitTestCreator
 		if( !$arguments )
 			throw new InvalidArgumentException( 'No class name given to create test class for.' );
 		$class	= array_shift( $arguments );
-		$creator	= new Alg_TestCaseCreator();
+		$creator	= new File_PHP_Test_Creator();
 		$creator->createForFile( $class, $force );
 		remark( 'Created test class "Tests_'.$class.'Test".' );
 	}

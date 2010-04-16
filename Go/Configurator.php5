@@ -30,9 +30,11 @@ class Go_Configurator
 			if( !$force && file_exists( $pwd.$targetFile ) )
 				$status	= "already existing, use --force to overwrite";
 			else
+			{
+				file_put_contents( $pwd.$targetFile, $content );
 				$status	= "done.";
+			}
 			print( $status );
-			file_put_contents( $pwd.$targetFile, $content );
 		}
 		if( in_array( "--clean-up", $arguments ) )
 		{

@@ -1,5 +1,5 @@
 <?php
-require_once( dirname( __FILE__ ).'/Library.php5' );
+require_once dirname( __FILE__ ).'/Library.php5';
 class Go_SelfTester
 {
 	public function __construct( $arguments )
