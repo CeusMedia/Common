@@ -26,7 +26,7 @@
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		$Id$
  */
-import ("de.ceus-media.alg.TimeConverter"); 
+import ("de.ceus-media.alg.time.Converter");
 /**
  *	Writer for Log File.
  *	@category		cmClasses

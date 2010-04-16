@@ -18,8 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		file.log
- *	@extends		ShortLogReader
+ *	@package		file.log.tracker
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -27,12 +26,12 @@
  *	@since			27.12.2006
  *	@version		$Id$
  */
-import( 'de.ceus-media.file.log.ShortLogReader' );
+import( 'de.ceus-media.file.log.ShortReader' );
 /**
  *	Reader and Parser for Tracker Log File.
  *	@category		cmClasses
- *	@package		file.log
- *	@extends		ShortLogReader
+ *	@package		file.log.tracker
+ *	@extends		File_Log_ShortReader
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -40,7 +39,7 @@ import( 'de.ceus-media.file.log.ShortLogReader' );
  *	@since			27.12.2006
  *	@version		$Id$
  */
-class TrackerShortLogReader extends ShortLogReader
+class File_Log_Tracker_ShortReader extends File_Log_ShortReader
 {
 	/*	@var		array		$data			Array of Data from parsed Lines */
 	protected $data	= array();

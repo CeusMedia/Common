@@ -37,10 +37,10 @@
  *	@since			27.12.2006
  *	@version		$Id$
  */
-class ShortLogWriter
+class File_Log_ShortWriter
 {
-	/*	@var		string		$patterns	Pattern Array filled with Logging Information */
-	protected $patterns	= array();
+	/**	@var		string		$patterns	Pattern Array filled with Logging Information */
+	protected $patterns			= array();
 	/**	@var		string		$uri		URI of Log File */
 	protected $uri;
 
@@ -54,12 +54,12 @@ class ShortLogWriter
 	{
 		$this->uri	= $uri;
 		$patterns	= array(
-				time(),
-				getEnv( 'REMOTE_ADDR'),
-				getEnv( 'REQUEST_URI' ),
-				getEnv( 'HTTP_REFERER' ),
-				getEnv( 'HTTP_USER_AGENT' )
-				);
+			time(),
+			getEnv( 'REMOTE_ADDR'),
+			getEnv( 'REQUEST_URI' ),
+			getEnv( 'HTTP_REFERER' ),
+			getEnv( 'HTTP_USER_AGENT' )
+		);
 		$this->setPatterns( $patterns );
 	}
 
@@ -69,7 +69,7 @@ class ShortLogWriter
 	 *	@param		string		$line		Entry to add to Log File
 	 *	@return		bool
 	 */
-	public function note( $line = false)
+	public function note( $line = FALSE )
 	{
 		if( is_array( $line ) )
 			$line	= implode( "|", $line );
@@ -83,14 +83,13 @@ class ShortLogWriter
 		{
 			@fwrite( $fp, $entry );
 			@fclose( $fp );
-			return true;
+			return TRUE;
 		}
-		return false;
+		return FALSE;
 	}
 	
 	/**
 	 *	Sets Pattern Array filled with Logging Information.
-	 *
 	 *	@access		public
 	 *	@param		array		$array		Pattern Array filled with Logging Information
 	 *	@return		void
