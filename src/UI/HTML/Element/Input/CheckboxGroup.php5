@@ -35,24 +35,17 @@ class UI_HTML_Element_Input_CheckboxGroup extends UI_HTML_Element_Abstract
 		if( !is_null( $label ) )
 			$this->setLabel( $label );
 	}
-	
-	public function setCurrentValue( $value )
+
+	public function add( $value, $label )
 	{
-		$this->value	= $value;
+		$checkbox	= new UI_HTML_Element_Input_Checkbox( $this->name, $value );
+		if( $this->compareValue( $value ) )
+			$checkbox->setChecked();
+		$label		= new UI_HTML_Element_Input_Label( $checkbox->render().$label );
+		$this->checkboxes[]	= $label;
+		return $this;
 	}
-	
-	public function setLabel( $label )
-	{
-		$this->fieldset->setLegendLabel( $label );	
-	}
-	
-	public function setName( $name )
-	{
-		if( !preg_match( '/\[\]$/', $name ) )
-			$name	.= '[]';
-		$this->name	= $name;	
-	}
-	
+
 	public function addCheckbox( UI_HTML_Element_Input_Checkbox $checkbox, $label = NULL )
 	{
 		if( $checkbox->getValue() && $this->compareValue( $checkbox->getValue() ) )
@@ -60,6 +53,7 @@ class UI_HTML_Element_Input_CheckboxGroup extends UI_HTML_Element_Abstract
 		if( !is_null( $label ) )
 			$checkbox			= new UI_HTML_Element_Input_Label( $checkbox->render().$label );
 		$this->checkboxes[]	= $checkbox;
+		return $this;
 	}
 
 	protected function compareValue( $value )
@@ -69,16 +63,7 @@ class UI_HTML_Element_Input_CheckboxGroup extends UI_HTML_Element_Abstract
 		else
 			return $this->value === $value;
 	}
-	
-	public function add( $value, $label )
-	{
-		$checkbox	= new UI_HTML_Element_Input_Checkbox( $this->name, $value );
-		if( $this->compareValue( $value ) )
-			$checkbox->setChecked();
-		$label		= new UI_HTML_Element_Input_Label( $checkbox->render().$label );
-		$this->checkboxes[]	= $label;
-	}
-	
+
 	public function render()
 	{
 		$list	= array();
@@ -86,6 +71,26 @@ class UI_HTML_Element_Input_CheckboxGroup extends UI_HTML_Element_Abstract
 			$list[]	= $checkbox->render();
 		$this->fieldset->setContent( join( $list ) );
 		return $this->fieldset->render();
+	}
+	
+	public function setCurrentValue( $value )
+	{
+		$this->value	= $value;
+		return $this;
+	}
+	
+	public function setLabel( $label )
+	{
+		$this->fieldset->setLegendLabel( $label );	
+		return $this;
+	}
+	
+	public function setName( $name )
+	{
+		if( !preg_match( '/\[\]$/', $name ) )
+			$name	.= '[]';
+		$this->name	= $name;	
+		return $this;
 	}
 }
 ?>

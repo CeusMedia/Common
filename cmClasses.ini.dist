@@ -36,7 +36,7 @@ php				=
 phpDocumentor			= 
 code_coverage			= doc/coverage/
 documentations			= doc/
-tests				= test/
+tests				= Test/
 
 
 #
@@ -44,8 +44,8 @@ tests				= test/
 #
 [unitTestOptions]
 coverage-html			= doc/coverage
-log-json			= test/results.json
-log-junit			= test/results.xml
+log-json			= Test/results.json
+log-xml				= Test/results.xml
 
 
 #

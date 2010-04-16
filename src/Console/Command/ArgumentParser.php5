@@ -169,11 +169,11 @@ class Console_Command_ArgumentParser
 		if( in_array( $sign, array( " ", ":", "=" ) ) )
 		{
 			if( !array_key_exists( $option, $this->possibleOptions ) )
-				throw new InvalidArgumentException( 'Invalid option: '.$option.'.' );
+				throw new InvalidArgumentException( 'Invalid option "'.$option.'"' );
 			if( !$this->possibleOptions[$option] )
 			{
 				if( $sign !== " " )
-					throw new InvalidArgumentException( 'Option "'.$option.'" cannot receive a value.' );
+					throw new InvalidArgumentException( 'Option "'.$option.'" cannot receive a value' );
 				$this->foundOptions[$option]	= NULL;
 				$status	= self::STATUS_START;
 			}
@@ -199,14 +199,14 @@ class Console_Command_ArgumentParser
 	protected function onReadOptionValue( $sign, &$status, &$buffer, &$option )
 	{
 		if( $sign == "-" )																//  illegal Option following
-			throw new RuntimeException( 'Missing value of option "'.$option.'".' );
+			throw new RuntimeException( 'Missing value of option "'.$option.'"' );
 		if( $sign == " " )																//  closing value...
 		{
 			if( !$buffer )																//  ...only if has value
 				return;
 			if( $this->possibleOptions[$option] !== TRUE )								//  must match regexp
 				if( !preg_match( $this->possibleOptions[$option], $buffer ) )			//  not matching
-					throw new InvalidArgumentException( 'Argument "'.$option.'" has invalid value.' );
+					throw new InvalidArgumentException( 'Argument "'.$option.'" has invalid value' );
 			$this->foundOptions[$option]	= $buffer;
 			$buffer	= "";
 			$status	= self::STATUS_START;
@@ -247,7 +247,7 @@ class Console_Command_ArgumentParser
 	public function parse( $string )
 	{
 		if( !is_string( $string ) )														//  no String given
-			throw new InvalidArgumentException( 'Given argument is not a string.' );	//  throw Exception
+			throw new InvalidArgumentException( 'Given argument is not a string' );		//  throw Exception
 
 		$this->extendPossibleOptionsWithShortcuts();									//  realize Shortcuts
 
@@ -289,7 +289,7 @@ class Console_Command_ArgumentParser
 	public function setNumberOfMandatoryArguments( $number = 0 )
 	{
 		if( !is_int( $number ) )														//  no Integer given
-			throw new InvalidArgument( 'No integer given.' );							//  throw Exception
+			throw new InvalidArgument( 'No integer given' );							//  throw Exception
 		if( $number === $this->numberArguments )										//  this Number is already set
 			return FALSE;																//  do nothing
 		$this->numberArguments	= $number;												//  set new Argument Number
@@ -297,7 +297,7 @@ class Console_Command_ArgumentParser
 	}
 
 	/**
-	 *	Sets List of Options with optional Regex Patterns.
+	 *	Sets Map of Options with optional Regex Patterns.
 	 *	@access		public
 	 *	@param		array		$options		Map of Options and their Regex Patterns (or empty for a Non-Value-Option)
 	 *	@return		bool
@@ -324,7 +324,7 @@ class Console_Command_ArgumentParser
 			throw InvalidArgumentException( 'No array given.' );						//  throw Exception
 		foreach( $shortcuts as $short => $long )										//  iterate Shortcuts
 			if( !array_key_exists( $long, $this->possibleOptions ) )					//  related Option is not set
-				throw new OutOfBoundsException( 'Option "'.$long.'" not set.' );		//  throw Exception
+				throw new OutOfBoundsException( 'Option "'.$long.'" not set' );			//  throw Exception
 		if( $shortcuts === $this->shortcuts )											//  these Shortcuts are already set
 			return FALSE;																//  do nothing
 		$this->shortcuts	= $shortcuts;												//  set new Shortcuts

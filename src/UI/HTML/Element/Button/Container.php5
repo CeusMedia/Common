@@ -34,6 +34,7 @@ class UI_HTML_Element_Button_Container extends UI_HTML_Element_Abstract
 	public function addButton( $button )
 	{
 		$this->addContent( $button );
+		return $this;
 	}
 
 	public function render()

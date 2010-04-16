@@ -69,6 +69,90 @@ class UI_HTML_Element_Page extends UI_HTML_Element_Abstract
 		$this->addMetaTag( "http-equiv", "Content-Style-Type", $styleType );
 	}
 
+	/** 
+	 *	Adds further HTML to Body.
+	 *	@access		public
+	 *	@param		string		$string			HTML String for Head
+	 *	@return		void
+	 */
+	public function addBody( $string )
+	{
+		$this->body	.= "\n".$string;
+		return $this;
+	}
+
+	/** 
+	 *	Adds further HTML to Head.
+	 *	@access		public
+	 *	@param		string		$string			HTML String for Head
+	 *	@return		void
+	 */
+	public function addHead( $string )
+	{
+		$this->head	.= "\n".$string;
+		return $this;
+	}
+
+	/**
+	 *	Adds a Java Script Link to Head.
+	 *	@access		public
+	 *	@param		string		$uri			URI to Script 
+	 *	@param		string		$type			MIME Type of Script
+	 *	@param		string		$charset		Charset of Script
+	 *	@return		void
+	 */
+	public function addJavaScript( $uri, $type = NULL, $charset = NULL )
+	{
+		$typeDefault	= isset( $this->metaTags["http-equiv:content-script-type"] ) ? NULL : "text/javascript";
+		$scriptData	= array(
+			'type'		=> $type ? $type : $typeDefault,
+			'charset'	=> $charset ? $charset : NULL,
+			'src'		=> $uri,
+		);
+		$this->scripts[]	= $scriptData;
+		return $this;
+	}
+
+	/**
+	 *	Adds a Meta Tag to Head.
+	 *	@access		public
+	 *	@param		string		$type			Meta Tag Key Type (name|http-equiv) 
+	 *	@param		string		$key			Meta Tag Key Name
+	 *	@param		string		$value			Meta Tag Value
+	 *	@return		void
+	 */
+	public function addMetaTag( $type, $key, $value )
+	{
+		$metaData	= array(
+			$type		=> $key,
+			'content'	=> $value,
+		);
+		$this->metaTags[strtolower( $type.":".$key )]	= $metaData;
+		return $this;
+	}
+
+	/**
+	 *	Adds a Stylesheet Link to Head.
+	 *	@access		public
+	 *	@param		string		$uri			URI to CSS File
+	 *	@param		string		$media			Media Type (all|screen|print|...), default: screen
+	 *	@param		string		$type			Content Type, by default 'text/css'
+	 *	@return		void
+	 *	@see		http://www.w3.org/TR/html4/types.html#h-6.13
+	 */
+	public function addStylesheet( $uri, $media = "all", $type = NULL )
+	{
+		$typeDefault	= isset( $this->metaTags["http-equiv:content-style-type"] ) ? NULL : "text/css";
+		$styleData	= array(
+			'rel'		=> "stylesheet",
+			'type'		=> $type ? $type : $typeDefault,
+			'media'		=> $media,
+			'href'		=> $uri,
+		);
+		$this->styles[]	= $styleData;
+		return $this;
+	}
+
 	/**
 	 *	Builds Page Frame HTML.
 	 *	@access		public
@@ -107,85 +191,6 @@ class UI_HTML_Element_Page extends UI_HTML_Element_Abstract
 		$doctype	= '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//'.strtoupper( $this->language ).'" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">';
 		return $doctype."\n".$html;
 	}
-
-	/** 
-	 *	Adds further HTML to Body.
-	 *	@access		public
-	 *	@param		string		$string			HTML String for Head
-	 *	@return		void
-	 */
-	public function addBody( $string )
-	{
-		$this->body	.= "\n".$string;
-	}
-
-	/** 
-	 *	Adds further HTML to Head.
-	 *	@access		public
-	 *	@param		string		$string			HTML String for Head
-	 *	@return		void
-	 */
-	public function addHead( $string )
-	{
-		$this->head	.= "\n".$string;
-	}
-
-	/**
-	 *	Adds a Java Script Link to Head.
-	 *	@access		public
-	 *	@param		string		$uri			URI to Script 
-	 *	@param		string		$type			MIME Type of Script
-	 *	@param		string		$charset		Charset of Script
-	 *	@return		void
-	 */
-	public function addJavaScript( $uri, $type = NULL, $charset = NULL )
-	{
-		$typeDefault	= isset( $this->metaTags["http-equiv:content-script-type"] ) ? NULL : "text/javascript";
-		$scriptData	= array(
-			'type'		=> $type ? $type : $typeDefault,
-			'charset'	=> $charset ? $charset : NULL,
-			'src'		=> $uri,
-		);
-		$this->scripts[]	= $scriptData;
-	}
-
-	/**
-	 *	Adds a Meta Tag to Head.
-	 *	@access		public
-	 *	@param		string		$type			Meta Tag Key Type (name|http-equiv) 
-	 *	@param		string		$key			Meta Tag Key Name
-	 *	@param		string		$value			Meta Tag Value
-	 *	@return		void
-	 */
-	public function addMetaTag( $type, $key, $value )
-	{
-		$metaData	= array(
-			$type		=> $key,
-			'content'	=> $value,
-		);
-		$this->metaTags[strtolower( $type.":".$key )]	= $metaData;
-	}
-
-	/**
-	 *	Adds a Stylesheet Link to Head.
-	 *	@access		public
-	 *	@param		string		$uri			URI to CSS File
-	 *	@param		string		$media			Media Type (all|screen|print|...), default: screen
-	 *	@param		string		$type			Content Type, by default 'text/css'
-	 *	@return		void
-	 *	@see		http://www.w3.org/TR/html4/types.html#h-6.13
-	 */
-	public function addStylesheet( $uri, $media = "all", $type = NULL )
-	{
-		$typeDefault	= isset( $this->metaTags["http-equiv:content-style-type"] ) ? NULL : "text/css";
-		$styleData	= array(
-			'rel'		=> "stylesheet",
-			'type'		=> $type ? $type : $typeDefault,
-			'media'		=> $media,
-			'href'		=> $uri,
-		);
-		$this->styles[]	= $styleData;
-	}
 	
 	/**
 	 *	Sets Application Heading in Body.
@@ -196,6 +201,7 @@ class UI_HTML_Element_Page extends UI_HTML_Element_Abstract
 	public function setHeading( $heading )
 	{
 		$this->heading	= $heading;
+		return $this;
 	}
 
 	/**
@@ -207,6 +213,7 @@ class UI_HTML_Element_Page extends UI_HTML_Element_Abstract
 	public function setTitle( $title )
 	{
 		$this->title	= $title;
+		return $this;
 	}
 }
 ?>

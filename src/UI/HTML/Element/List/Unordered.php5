@@ -38,6 +38,7 @@ class UI_HTML_Element_List_Unordered extends UI_HTML_Element_Abstract
 		if( !is_string( $item ) )
 			throw new InvalidArgumentException( 'Has to be string or UI_HTML_Element_ListItem' );
 		$this->items[] = $item;
+		return $this;
 	}
 
 	public function render()

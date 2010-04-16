@@ -39,6 +39,20 @@
  */
 class XML_Element extends SimpleXMLElement
 {
+
+	/**
+	 *	Writes current XML Element as XML File.
+	 *	@access		public
+	 *	@param		string		$fileName		File Name for XML File
+	 *	@return		int
+	 */
+	public function asFile( $fileName )
+	{
+		import( 'de.ceus-media.file.Writer' );
+		$xml	= $this->asXml();
+		return File_Writer::save( $fileName, $xml );
+	}
+
 	/**
 	 *	Returns count of Attributes.
 	 *	@access		public
@@ -123,19 +137,6 @@ class XML_Element extends SimpleXMLElement
 	{
 		$keys	= $this->getAttributeKeys( $nameSpace );
 		return in_array( $key, $keys );
-	}
-
-	/**
-	 *	Writes current XML Element as XML File.
-	 *	@access		public
-	 *	@param		string		$fileName		File Name for XML File
-	 *	@return		int
-	 */
-	public function asFile( $fileName )
-	{
-		import( 'de.ceus-media.file.Writer' );
-		$xml	= $this->asXml();
-		return File_Writer::save( $fileName, $xml );
 	}
 }
 ?>

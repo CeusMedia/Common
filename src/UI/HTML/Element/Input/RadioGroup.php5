@@ -36,31 +36,7 @@ class UI_HTML_Element_Input_RadioGroup extends UI_HTML_Element_Abstract
 		if( !is_null( $label ) )
 			$this->setLabel( $label );
 	}
-	
-	public function setCurrentValue( $value )
-	{
-		$this->value	= $value;
-	}
-	
-	public function setLabel( $label )
-	{
-		$this->fieldset->setLegendLabel( $label );	
-	}
-	
-	public function setName( $name )
-	{
-		$this->name	= $name;	
-	}
-	
-	public function addRadio( UI_HTML_Element_Input_Radio $radio, $label = NULL )
-	{
-		if( $radio->getValue() && $radio->getValue() == $this->value )
-			$radio->setSelected();
-		if( !is_null( $label ) )
-			$radio			= new UI_HTML_Element_Input_Label( $radio->render().$label );
-		$this->radios[]	= $radio;
-	}
-	
+
 	public function add( $value, $label )
 	{
 		$radio		= new UI_HTML_Element_Input_Radio( $this->name, $value );
@@ -68,8 +44,19 @@ class UI_HTML_Element_Input_RadioGroup extends UI_HTML_Element_Abstract
 			$radio->setChecked();
 		$label		= new UI_HTML_Element_Input_Label( $radio->render().$label );
 		$this->radios[]	= $label;
+		return $this;
 	}
-	
+
+	public function addRadio( UI_HTML_Element_Input_Radio $radio, $label = NULL )
+	{
+		if( $radio->getValue() && $radio->getValue() == $this->value )
+			$radio->setSelected();
+		if( !is_null( $label ) )
+			$radio			= new UI_HTML_Element_Input_Label( $radio->render().$label );
+		$this->radios[]	= $radio;
+		return $this;
+	}
+
 	public function render()
 	{
 		$list	= array();
@@ -77,6 +64,24 @@ class UI_HTML_Element_Input_RadioGroup extends UI_HTML_Element_Abstract
 			$list[]	= $label->render();
 		$this->fieldset->setContent( join( $list ) );
 		return $this->fieldset->render();
+	}
+	
+	public function setCurrentValue( $value )
+	{
+		$this->value	= $value;
+		return $this;
+	}
+	
+	public function setLabel( $label )
+	{
+		$this->fieldset->setLegendLabel( $label );	
+		return $this;
+	}
+	
+	public function setName( $name )
+	{
+		$this->name	= $name;	
+		return $this;
 	}
 }
 ?>

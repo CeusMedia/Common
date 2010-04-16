@@ -50,6 +50,7 @@ class UI_HTML_Element_Link extends UI_HTML_Element_Abstract
 	public function setUrl( $url )
 	{
 		$this->url	= $url;
+		return $this;
 	}
 	
 	public function setContent( $content )
@@ -57,11 +58,13 @@ class UI_HTML_Element_Link extends UI_HTML_Element_Abstract
 		if( $content instanceof UI_HTML_Element_Abstract )
 			$content	= $content->render();
 		$this->content	= $content;
+		return $this;
 	}
 
 	public function setRelation( $relation )
 	{
 		$this->relation	= $relation;	
+		return $this;
 	}
 }
 ?>

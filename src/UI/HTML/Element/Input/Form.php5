@@ -25,7 +25,7 @@
 class UI_HTML_Element_Input_Form extends UI_HTML_Element_Abstract
 {
 	protected $action		= './';
-	protected $method		= "post";
+	protected $method		= 'post';
 	protected $encType		= NULL;
 
 	public function __construct( $id = NULL )
@@ -67,11 +67,13 @@ class UI_HTML_Element_Input_Form extends UI_HTML_Element_Abstract
 	public function setAction( $action )
 	{
 		$this->action = $action;
+		return $this;
 	}
 
 	public function setEncodingType( $type )
 	{
 		$this->encType = $type;
+		return $this;
 	}
 
 	public function setMethod( $method )
@@ -80,6 +82,7 @@ class UI_HTML_Element_Input_Form extends UI_HTML_Element_Abstract
 		if( !in_array( $method, array( 'get', 'post', 'put', 'delete' ) ) )
 			throw new InvalidArgumentException( 'Invalid method "'.$method.'"' );
 		$this->method = $method;
+		return $this;
 	}
 }
 ?>

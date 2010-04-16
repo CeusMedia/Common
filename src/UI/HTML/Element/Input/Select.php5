@@ -54,6 +54,7 @@ class UI_HTML_Element_Input_Select extends UI_HTML_Element_Abstract
 			'selected'	=> $selected
 		);
 		$this->options[]	= $this->renderTag( 'option', $label, $attributes );
+		return $this;
 	}
 
 	public function render()
@@ -64,6 +65,9 @@ class UI_HTML_Element_Input_Select extends UI_HTML_Element_Abstract
 			'name'		=> $this->name,
 			'multiple'	=> $this->multiple,
 		);
+		foreach( $this->events as $event => $action )
+			$attributes[$event]	= $action;
+
 		$options	= implode( $this->options );
 		$select		= $this->renderTag( 'select', $options, $attributes );
 		if( $this->labelText )
@@ -80,16 +84,19 @@ class UI_HTML_Element_Input_Select extends UI_HTML_Element_Abstract
 	public function setCurrentValue( $value )
 	{
 		$this->value	= $value;
+		return $this;
 	}
 
 	public function setLabelAlign( $align )
 	{
 		$this->labelAlign	= $align;
+		return $this;
 	}
 
 	public function setLabelClass( $class )
 	{
 		$this->labelClass	= $class;
+		return $this;
 	}
 
 	public function setLabelText( $text )
@@ -97,6 +104,7 @@ class UI_HTML_Element_Input_Select extends UI_HTML_Element_Abstract
 		if( $text instanceof UI_HTML_Element_Abstract )
 			$text	= $text->render();
 		$this->labelText	= $text;
+		return $this;
 	}
 
 	public function setMultiple( $state = TRUE )
@@ -106,11 +114,13 @@ class UI_HTML_Element_Input_Select extends UI_HTML_Element_Abstract
 			$this->name	.= '[]';
 		else if( !(bool) $state )
 			$this->name	= preg_replace( '/\[\]$/', '', $this->name );
+		return $this;
 	}
 
 	public function setName( $name )
 	{
 		$this->name	= $name;
+		return $this;
 	}
 }
 ?>
