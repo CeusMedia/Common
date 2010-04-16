@@ -18,8 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		file.log
- *	@extends		LogFileReader
+ *	@package		file.log.tracker
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -27,12 +26,12 @@
  *	@since			01.09.2006
  *	@version		$Id$
  */
-import( 'de.ceus-media.file.log.LogFileReader' );
+import( 'de.ceus-media.file.log.Reader' );
 /**
  *	Reader and Parser for Tracker Log File.
  *	@category		cmClasses
- *	@package		file.log
- *	@extends		LogFileReader
+ *	@package		file.log.tracker
+ *	@extends		File_Log_Reader
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -40,7 +39,7 @@ import( 'de.ceus-media.file.log.LogFileReader' );
  *	@since			01.09.2006
  *	@version		$Id$
  */
-class TrackerLogReader extends LogFileReader
+class File_Log_Tracker_Reader extends File_Log_Reader
 {
 	/*	@var		string		$patterns		RegEx Patterns to parse Line */
 	protected $patterns;
@@ -48,7 +47,7 @@ class TrackerLogReader extends LogFileReader
 	protected $skip;
 	/*	@var		array		$data			Array of Data from parsed Lines */
 	protected $data	= array();
-	
+
 	/**
 	 *	Constructor.
 	 *	@access		public

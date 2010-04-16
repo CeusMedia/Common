@@ -18,8 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		file
- *	@subpackage		log
+ *	@package		file.log
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -30,8 +29,7 @@
 /**
  *	Reader for short Log Files.
  *	@category		cmClasses
- *	@package		file
- *	@subpackage		log
+ *	@package		file.log
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -40,17 +38,16 @@
  *	@version		$Id$
  *	@todo			Prove File for Existence
  */
-class ShortLogReader
+class File_Log_ShortReader
 {
 	/*	@var		array		$data		Array of Data in Lines */
-	protected $data	= false;
+	protected $data	= FALSE;
 	/*	@var		bool		$open		Status: Log File is read */
-	protected $open	= false;
+	protected $open	= FALSE;
 	/*	@var		string		$patterns	Pattern Array filled with Logging Information */
 	protected $patterns	= array();
 	/**	@var		string		$uri		URI of Log File */
 	protected $uri;
-	
 
 	/**
 	 *	Constructor.
@@ -62,12 +59,12 @@ class ShortLogReader
 	{
 		$this->uri	= $uri;
 		$patterns	= array(
-				'timestamp',
-				'remote_addr',
-				'request_uri',
-				'http_referer',
-				'http_user_agent'
-				);
+			'timestamp',
+			'remote_addr',
+			'request_uri',
+			'http_referer',
+			'http_user_agent'
+		);
 		$this->setPatterns( $patterns );
 	}
 	
