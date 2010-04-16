@@ -60,11 +60,13 @@ class UI_HTML_Element_Button_Submit extends UI_HTML_Element_Abstract
 	public function setName( $name )
 	{
 		$this->name	= $name;
+		return $this;
 	}
 	
 	public function setValue( $value )
 	{
 		$this->value	= $value;
+		return $this;
 	}
 }
 ?>

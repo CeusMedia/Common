@@ -30,6 +30,7 @@ class UI_HTML_Element_Fieldset extends UI_HTML_Element_Abstract
 	public function addContent( $content )
 	{
 		$this->content[]	= $content;
+		return $this;
 	}
 
 	public function render()
@@ -55,6 +56,7 @@ class UI_HTML_Element_Fieldset extends UI_HTML_Element_Abstract
 	public function setLegendLabel( $label )
 	{
 		$this->legend	= $label;
+		return $this;
 	}
 }
 ?>

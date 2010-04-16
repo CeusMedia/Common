@@ -29,16 +29,9 @@ class UI_HTML_Element_Input_Label extends UI_HTML_Element_Abstract
 	public function __construct( $content = NULL, $relatedId = NULL )
 	{
 		if( !is_null( $content ) )
-			$this->setContent( $content );
+			$this->addContent( $content );
 		if( !is_null( $relatedId ) )
 			$this->setFor( $relatedId );
-	}
-
-	public function setContent( $content )
-	{
-		if( !is_string( $content ) )
-			throw new InvalidArgumentException( 'Has to be string' );
-		$this->content	= $content;
 	}
 
 	public function setFor( $relatedId )
@@ -46,6 +39,7 @@ class UI_HTML_Element_Input_Label extends UI_HTML_Element_Abstract
 		if( !is_string( $relatedId ) )
 			throw new InvalidArgumentException( 'Has to be string' );
 		$this->for	= $relatedId;
+		return $this;
 	}
 
 	public function render()

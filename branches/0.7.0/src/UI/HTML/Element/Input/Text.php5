@@ -71,16 +71,19 @@ class UI_HTML_Element_Input_Text extends UI_HTML_Element_Abstract
 	public function setDisabled( $state = TRUE )
 	{
 		$this->disabled	= (bool) $state;
+		return $this;
 	}
 
 	public function setLabelAlign( $align )
 	{
 		$this->labelAlign	= $align;
+		return $this;
 	}
 
 	public function setLabelClass( $class )
 	{
 		$this->labelClass	= $class;
+		return $this;
 	}
 
 	public function setLabelText( $text )
@@ -88,6 +91,7 @@ class UI_HTML_Element_Input_Text extends UI_HTML_Element_Abstract
 		if( $text instanceof UI_HTML_Element_Abstract )
 			$text	= $text->render();
 		$this->labelText	= $text;
+		return $this;
 	}
 
 	public function setMaxLength( $maxLength )
@@ -95,21 +99,25 @@ class UI_HTML_Element_Input_Text extends UI_HTML_Element_Abstract
 		if( !is_int( $maxLength) )
 			throw new InvalidArgumentException( 'Has to be integer' );
 		$this->maxLength = $maxLength;
+		return $this;
 	}
 
 	public function setName( $name )
 	{
 		$this->name	= $name;
+		return $this;
 	}
 
 	public function setReadonly( $state = TRUE )
 	{
 		$this->readonly	= (bool) $state;
+		return $this;
 	}
 
 	public function setValue( $value )
 	{
 		$this->value	= addslashes( $value );
+		return $this;
 	}
 }
 ?>

@@ -33,11 +33,13 @@ class UI_HTML_Element_Input_Radio extends UI_HTML_Element_Input_Text
 	public function getValue()
 	{
 		return $this->value;
+		return $this;
 	}
 	
 	public function setChecked( $state = TRUE )
 	{
 		$this->checked = (bool) $state;
+		return $this;
 	}
 }
 ?>

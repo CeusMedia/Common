@@ -54,16 +54,19 @@ class UI_HTML_Element_Image extends UI_HTML_Element_Abstract
 	public function setWidth( $width )
 	{
 		$this->width	= $width;
+		return $this;
 	}
 	
 	public function setHeight( $height)
 	{
 		$this->height	= $height;
+		return $this;
 	}
 	
 	public function setUrl( $url )
 	{
 		$this->url	= $url;
+		return $this;
 	}
 	
 	public function setLabel( $label )
@@ -71,6 +74,7 @@ class UI_HTML_Element_Image extends UI_HTML_Element_Abstract
 		if( $label instanceof UI_HTML_Element_Abstract )
 			$label	= $label->render();
 		$this->label	= $label;
+		return $this;
 	}
 }
 ?>

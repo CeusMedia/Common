@@ -26,6 +26,12 @@ abstract class UI_HTML_Element_Abstract
 	protected $id		= NULL;
 	protected $class	= NULL;
 	protected $content	= array();
+	protected $events	= array();
+
+	public function __toString()
+	{
+		return $this->render();
+	}
 
 	public function addClass( $class )
 	{
@@ -33,6 +39,26 @@ abstract class UI_HTML_Element_Abstract
 			$class	= implode( ' ', $class );
 		$this->class	.= $this->class ? ' ' : '';
 		$this->class	.= $class;
+		return $this;
+	}
+
+	public function addContent( $content, $emptyBefore = FALSE )
+	{
+		if( $emptyBefore )
+			$this->content	= array();
+		$this->content[]	= $content;
+		return $this;
+	}
+
+	public function addEvent( $name, $content )
+	{
+		$key		= 'on'.strtolower( $name );
+		$content	= trim( $content );
+		if( $this->events[$key] )
+			$this->events[$key]	.= '; '.$content;
+		else
+			$this->events[$key]	= $content;
+		return $this;
 	}
 
 	public function removeClass( $class )
@@ -42,21 +68,9 @@ abstract class UI_HTML_Element_Abstract
 			if( $current !== $class )
 				$list[]	= $current;
 		$this->setClass( $list );
+		return $this;
 	}
 
-	public function addContent( $content, $emptyBefore = FALSE )
-	{
-		if( $emptyBefore )
-			$this->content	= array();
-		$this->content[]	= $content;
-	}
-
-#	public function addEvent( $name, $content )
-#	{
-#		$key	= 'on'.$name;
-#		$this->attributes[$key]	.= $this->attributes[$key] ? ';'.$content : $content;
-#	}
-	
 	abstract public function render();
 
 	public function renderContent()
@@ -73,7 +87,7 @@ abstract class UI_HTML_Element_Abstract
 		return join( $list );
 	}
 
-	protected function renderAttributes()
+/*	protected function renderAttributes()
 	{
 		$list		= array();
 		$members	= get_object_vars( $this );
@@ -92,29 +106,25 @@ abstract class UI_HTML_Element_Abstract
 		}
 		$list	= implode( " ", $list );
 		return " ".$list;
-	}
+	}*/
+
+/*	protected function renderEvents()
+	{
+		$list		= array();
+		foreach( $this->events as $key => $value )
+		{
+			if( is_array( $value ) )
+				$value	= implode( ' ', $value );
+			$value	= addslashes( (string) $value );
+			$list[]	= $key.'="'.$value.'"';
+		}
+		$list	= implode( ' ', $list );
+		return ' '.$list;
+	}*/
 
 	protected static function renderTag( $tagName, $content, $attributes = array() )
 	{
 		return UI_HTML_Tag::create( $tagName, $content, $attributes );
-/*		if( !is_null( $attributes ) && !is_array( $attributes ) )
-			throw new InvalidArgumentException( 'Parameter "attributes" must be an Array.' );
-		$tagName	= strtolower( $tagName );
-		$list	= array();
-		if( !is_null( $attributes ) && is_array( $attributes ) )
-			foreach( $attributes as $key => $value )
-				if( $value !== NULL && $value !== FALSE )
-	#			if( !empty( $value ) )
-					$list[]	= strtolower( $key ).'="'.$value.'"';
-		$attributes	= implode( " ", $list );
-		if( $attributes )
-			$attributes	= " ".$attributes;
-		$unsetContent	= !( $content !== NULL && $content !== FALSE );
-		if( $unsetContent && $tagName !== "style" )
-			$tag	= "<".$tagName.$attributes."/>";
-		else
-			$tag	= "<".$tagName.$attributes.">".$content."</".$tagName.">";
-		return $tag;*/
 	}
 
 	public function setClass( $class )
@@ -122,11 +132,13 @@ abstract class UI_HTML_Element_Abstract
 		if( is_array( $class ) )
 			$class	= implode( ' ', $class );
 		$this->class	= $class;
+		return $this;
 	}
 
 	public function setContent( $content )
 	{
 		$this->addContent( $content, TRUE );
+		return $this;
 	}
 	
 	public function setId( $id )
@@ -134,6 +146,7 @@ abstract class UI_HTML_Element_Abstract
 		if( !is_string( $id ) )
 			throw new InvalidArgumentException( 'Has to be string' );
 		$this->id	= $id;
+		return $this;
 	}
 }
 ?>

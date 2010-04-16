@@ -62,6 +62,7 @@ class UI_HTML_Element_Button_Link extends UI_HTML_Element_Abstract
 	public function setUrl( $url )
 	{
 		$this->url	= $url;
+		return $this;
 	}
 }
 ?>
