@@ -39,7 +39,7 @@ import( 'de.ceus-media.console.fork.server.Abstract' );
  *	@since			0.6.8
  *	@version		$Id: Reflect.php5 607 2010-03-24 23:39:16Z christian.wuerker $
  */
-class Fork_Server_Reflect extends Console_Fork_Server_Abstract
+class Console_Fork_Server_Reflect extends Console_Fork_Server_Abstract
 {
 	protected function handleRequest( $request )
 	{
