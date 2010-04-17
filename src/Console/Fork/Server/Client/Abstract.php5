@@ -38,7 +38,7 @@
  *	@since			0.6.8
  *	@version		$Id: Abstract.php5 607 2010-03-24 23:39:16Z christian.wuerker $
  */
-abstract class Fork_Server_Client_Abstract
+abstract class Console_Fork_Server_Client_Abstract
 {
 	protected $port		= NULL;
 
