@@ -1,6 +1,6 @@
 <?php
 /**
- *	Checks visibility of methods in a PHP file.
+ *	Checks visibility of methods within a PHP file.
  *
  *	Copyright (c) 2007-2010 Christian Würker (ceus-media.de)
  *
@@ -18,7 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		file.php
+ *	@package		file.php.check
  *	@uses			File_Reader
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
@@ -29,9 +29,9 @@
  */
 import( 'de.ceus-media.file.Reader' );
 /**
- *	Checks visibility of methods in a PHP file.
+ *	Checks visibility of methods within a PHP file.
  *	@category		cmClasses
- *	@package		file.php
+ *	@package		file.php.check
  *	@uses			File_Reader
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
@@ -40,7 +40,7 @@ import( 'de.ceus-media.file.Reader' );
  *	@since			03.12.2009
  *	@version		$Id$
  */
-class File_PHP_MethodVisibilityCheck
+class File_PHP_Check_MethodVisibility
 {
 	protected $fileName		= "";
 	protected $methods		= array();

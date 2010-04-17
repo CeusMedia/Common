@@ -18,10 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		alg
- *	@uses			UI_ClassParser
- *	@uses			Folder_Editor
- *	@uses			Folder_RecursiveRegexFilter
+ *	@package		file.php.test
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -35,7 +32,7 @@ import( 'de.ceus-media.folder.RecursiveRegexFilter' );
 /**
  *	Created Test Class for PHP Unit Tests using Class Parser and two Templates.
  *	@category		cmClasses
- *	@package		alg
+ *	@package		file.php.test
  *	@uses			UI_ClassParser
  *	@uses			Folder_Editor
  *	@uses			Folder_RecursiveRegexFilter
@@ -45,7 +42,7 @@ import( 'de.ceus-media.folder.RecursiveRegexFilter' );
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		$Id$
  */
-class Alg_TestCaseCreator
+class File_PHP_Test_Creator
 {
 	/**	@var		string			$className			Class Name, eg. Package_Class */
 	protected $className			= "";
@@ -57,94 +54,22 @@ class Alg_TestCaseCreator
 	protected $fileName				= "";
 	/**	@var		array			$pathParts			Splitted Path Parts in lower Case */
 	protected $pathParts			= array();
+	/**	@var		array			$pathParts			Splitted Path Parts in lower Case */
+	protected $pathTemplates		= array();
 	/**	@var		string			$templateClass		File Name of Test Class Template */
-	protected $templateClass		= "TestCaseCreator_class.tmpl";
+	protected $templateClass		= "Creator_class.tmpl";
 	/**	@var		string			$templateClass		File Name of Exception Test Method Template */
-	protected $templateException	= "TestCaseCreator_exception.tmpl";
+	protected $templateException	= "Creator_exception.tmpl";
 	/**	@var		string			$templateClass		File Name of Test Method Template */
-	protected $templateMethod		= "TestCaseCreator_method.tmpl";
+	protected $templateMethod		= "Creator_method.tmpl";
 
 	/**
-	 *	Constructor, reads and stores all Class Information and creates Test Class.
+	 *	Constructor.
 	 *	@access		public
-	 *	@param		string		$className		Name of Class to create Test Class for.
-	 *	@param		bool		$force			Flag: overwrite Test Class File if already existing
 	 *	@return		void
 	 */
-	public function createForFile( $className, $force = FALSE )
-	{
-		$this->templateClass		= dirname( __FILE__ )."/".$this->templateClass;
-		$this->templateException	= dirname( __FILE__ )."/".$this->templateException;
-		$this->templateMethod		= dirname( __FILE__ )."/".$this->templateMethod;
-			
-		$this->className	= $className;
-		$this->readPath();
-		$this->classFile	= "de/ceus-media/".$this->getPath( "/" ).".php5";
-		$this->classPath	= "de.ceus-media.".$this->getPath( "." );
-		$this->targetFile	= "Tests/".$this->getPath( "/" )."Test.php";
-		
-		if( file_exists( $this->targetFile ) && !$force )
-			throw new RuntimeException( 'Test Class for Class "'.$this->className.'" is already existing.' );
-		
-		$parser	= new File_PHP_Parser();
-		$data	= $parser->parseFile( $this->classFile, "" );
-		$this->data	= $data['class'];
-		
-#		$parser				= new ClassParser( $this->classFile );
-#		$this->data			= $parser->getClassData();
-#		print_m( $data );
-#		die;
-		$this->dumpClassData();
-		$this->buildTestClass();
-	}
-
-	/**
-	 *	Indexes a Path and calls Test Case Creator for all found Classes.
-	 *	@access		public
-	 *	@param		string		$path		Path to index
-	 *	@param		string		$force		Flag: overwrite Test Class if already existing
-	 *	@return		void
-	 */
-	public function createForFolder( $path, $force )
-	{
-		$counter	= 0;
-		$fullPath	= "de/ceus-media/".str_replace( "_", "/", $path )."/";		
-		if( file_exists( $fullPath ) && is_dir( $fullPath ) )
-		{
-			$filter	= new Folder_RecursiveRegexFilter( $fullPath, "@\.php5$@i", TRUE, FALSE );
-			foreach( $filter as $entry )
-			{
-				$counter++;
-				$className	= $entry->getPathname();
-				$className	= substr( $className, strlen( $fullPath ) );
-				$className	= preg_replace( "@\.php5$@i", "", $className );
-				$className	= str_replace( "/", "_", $className );
-				$creator	= new TestCaseCreator();
-				$creator->createForFile( $path."_".$className, $force );
-			}
-		}
-		return $counter;
-	}
-	
-	/**
-	 *	Creates Test Class from Class Data and a Template.
-	 *	@access		protected
-	 *	@return		void
-	 */
-	protected function buildTestClass()
-	{
-		$methods	= $this->buildTestMethods();
-
-		$template	= file_get_contents( $this->templateClass );
-		$template	= str_replace( "{methodTests}", implode( "", $methods ), $template );
-		$template	= str_replace( "{className}", $this->className, $template );
-		$template	= str_replace( "{classFile}", $this->classFile, $template );
-		$template	= str_replace( "{classPath}", $this->classPath, $template );
-		$template	= str_replace( "{classPackage}", $this->data['package'], $template );
-		$template	= str_replace( "{date}", date( "d.m.Y" ), $template );
-
-		Folder_Editor::createFolder( dirname( $this->targetFile ) );
-		file_put_contents( $this->targetFile, $template );
+	public function  __construct() {
+		$this->pathTemplates	= dirname( __FILE__ ).'/';
 	}
 
 	/**
@@ -169,6 +94,27 @@ class Alg_TestCaseCreator
 			$methods[]	= $template;
 		}
 		return $methods;
+	}
+
+	/**
+	 *	Creates Test Class from Class Data and a Template.
+	 *	@access		protected
+	 *	@return		void
+	 */
+	protected function buildTestClass()
+	{
+		$methods	= $this->buildTestMethods();
+
+		$template	= file_get_contents( $this->templateClass );
+		$template	= str_replace( "{methodTests}", implode( "", $methods ), $template );
+		$template	= str_replace( "{className}", $this->className, $template );
+		$template	= str_replace( "{classFile}", $this->classFile, $template );
+		$template	= str_replace( "{classPath}", $this->classPath, $template );
+		$template	= str_replace( "{classPackage}", $this->data['package'], $template );
+		$template	= str_replace( "{date}", date( "d.m.Y" ), $template );
+
+		Folder_Editor::createFolder( dirname( $this->targetFile ) );
+		file_put_contents( $this->targetFile, $template );
 	}
 
 	/**
@@ -212,6 +158,68 @@ class Alg_TestCaseCreator
 			$lastMethod	= $methodName;
 		}
 		return $methods;
+	}
+
+	/**
+	 *	Reads and stores all Class Information and creates Test Class.
+	 *	@access		public
+	 *	@param		string		$className		Name of Class to create Test Class for.
+	 *	@param		bool		$force			Flag: overwrite Test Class File if already existing
+	 *	@return		void
+	 */
+	public function createForFile( $className, $force = FALSE )
+	{
+		$this->templateClass		= $this->pathTemplates.$this->templateClass;
+		$this->templateException	= $this->pathTemplates.$this->templateException;
+		$this->templateMethod		= $this->pathTemplates.$this->templateMethod;
+			
+		$this->className	= $className;
+		$this->readPath();
+		$this->classFile	= "src/".$this->getPath( "/" ).".php5";
+		$this->classPath	= $this->getPath( "." );
+		$this->targetFile	= "Test/".$this->getPath( "/" )."Test.php";
+		
+		if( file_exists( $this->targetFile ) && !$force )
+			throw new RuntimeException( 'Test Class for Class "'.$this->className.'" is already existing.' );
+		
+		$parser	= new File_PHP_Parser_Array();
+		$data	= $parser->parseFile( $this->classFile, "" );
+		$this->data	= $data['class'];
+		
+#		$parser				= new ClassParser( $this->classFile );
+#		$this->data			= $parser->getClassData();
+#		print_m( $data );
+#		die;
+		$this->dumpClassData();
+		$this->buildTestClass();
+	}
+
+	/**
+	 *	Indexes a Path and calls Test Case Creator for all found Classes.
+	 *	@access		public
+	 *	@param		string		$path		Path to index
+	 *	@param		string		$force		Flag: overwrite Test Class if already existing
+	 *	@return		void
+	 */
+	public function createForFolder( $path, $force )
+	{
+		$counter	= 0;
+		$fullPath	= "de/ceus-media/".str_replace( "_", "/", $path )."/";		
+		if( file_exists( $fullPath ) && is_dir( $fullPath ) )
+		{
+			$filter	= new Folder_RecursiveRegexFilter( $fullPath, "@\.php5$@i", TRUE, FALSE );
+			foreach( $filter as $entry )
+			{
+				$counter++;
+				$className	= $entry->getPathname();
+				$className	= substr( $className, strlen( $fullPath ) );
+				$className	= preg_replace( "@\.php5$@i", "", $className );
+				$className	= str_replace( "/", "_", $className );
+				$creator	= new File_PHP_Test_Creator();
+				$creator->createForFile( $path."_".$className, $force );
+			}
+		}
+		return $counter;
 	}
 
 	/**
@@ -270,7 +278,51 @@ class Alg_TestCaseCreator
 		$this->pathParts	= explode( "_", $this->className );
 		$this->fileName		= array_pop( $this->pathParts );
 		for( $i=0; $i<count( $this->pathParts ); $i++ )
-			$this->pathParts[$i]	= strtolower( $this->pathParts[$i] );
+			$this->pathParts[$i]	= $this->pathParts[$i];
+	}
+
+	/**
+	 *	Sets individual Test Class Template.
+	 *	@access		public
+	 *	@param		string		$fileName		File Name of Test Class Template
+	 *	@return		void
+	 */
+	public function setClassTemplate( $fileName )
+	{
+		$this->templateClass	= $fileName;
+	}
+
+	/**
+	 *	Sets individual Test Class Exception Template.
+	 *	@access		public
+	 *	@param		string		$fileName		File Name of Test Class Exception Template
+	 *	@return		void
+	 */
+	public function setExceptionTemplate( $fileName )
+	{
+		$this->templateException	= $fileName;
+	}
+
+	/**
+	 *	Sets individual Test Class Method Template.
+	 *	@access		public
+	 *	@param		string		$fileName		File Name of Test Class Method Template
+	 *	@return		void
+	 */
+	public function setMethodTemplate( $fileName )
+	{
+		$this->templateMethod	= $fileName;
+	}
+
+	/**
+	 *	Sets Path to individual Templates.
+	 *	@access		public
+	 *	@param		string		$pathTemplates		Path to Templates.
+	 *	@return		void
+	 */
+	public function setTemplatePath( $pathTemplates )
+	{
+		$this->pathTemplates	= $pathTemplates;
 	}
 }
 ?>

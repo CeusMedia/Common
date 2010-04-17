@@ -29,18 +29,14 @@
  *	@since			0.6.8
  *	@version 		$Id$
  */
-import( 'de.ceus-media.database.BaseConnection' );
-import( 'de.ceus-media.database.Result' );
-import( 'de.ceus-media.database.Row' );
+import( 'de.ceus-media.database.MySQL.Connection' );
 /**
  *	Wrapper for mySQL Database Connection with Transaction Support.
  *	@category		cmClasses
  *	@package		database.mysql
- *	@extends		Database_BaseConnection
- *	@uses			Database_Result
- *	@uses			Database_Row
- *	@author			Christian W?Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2010 Christian W?rker
+ *	@extends		Database_MySQL_Connection
+ *	@author			Christian Würker <christian.wuerker@ceus-media.de>
+ *	@copyright		2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			0.6.8

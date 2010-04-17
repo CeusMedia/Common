@@ -1,6 +1,6 @@
 <?php
 /**
- *	Checks order of methods in a PHP File.
+ *	Checks order of methods within a PHP File.
  *
  *	Copyright (c) 2007-2010 Christian Würker (ceus-media.de)
  *
@@ -18,7 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		file.php
+ *	@package		file.php.check
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -27,9 +27,9 @@
  *	@version		$Id$
  */
 /**
- *	Checks order of methods in a PHP File.
+ *	Checks order of methods within a PHP File.
  *	@category		cmClasses
- *	@package		file.php
+ *	@package		file.php.check
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -37,7 +37,7 @@
  *	@since			04.09.2008
  *	@version		$Id$
  */
-class File_PHP_MethodSortCheck
+class File_PHP_Check_MethodOrder
 {
 	private $fileName		= "";
 	private $originalList	= array();
