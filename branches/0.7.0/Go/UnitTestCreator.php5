@@ -3,7 +3,7 @@ class Go_UnitTestCreator
 {
 	public function __construct( $arguments )
 	{
-		require_once dirname( dirname( __FILE__ ).'/autoload.php5';
+		require_once dirname( dirname( __FILE__ ) ).'/autoload.php5';
 
 		$force	= in_array( "-f", $arguments ) || in_array( "--force", $arguments );
 		if( in_array( "-f", $arguments ) )
@@ -15,7 +15,7 @@ class Go_UnitTestCreator
 		$class	= array_shift( $arguments );
 		$creator	= new File_PHP_Test_Creator();
 		$creator->createForFile( $class, $force );
-		remark( 'Created test class "Tests_'.$class.'Test".' );
+		remark( 'Created test class "Test_'.$class.'Test".'."\n" );
 	}
 }
 ?>
