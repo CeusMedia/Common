@@ -34,7 +34,7 @@ class Go_UnitTester
 		$fileKey	= array_pop( $parts );
 		$suffix		= $fileKey == "All" ? "Tests" : "Test";
 		while( $parts )
-			$fileKey	= strtolower( array_pop( $parts ) )."/".$fileKey;
+			$fileKey	= array_pop( $parts )."/".$fileKey;
 
 		$testClass	= "Test_".$className.$suffix;
 		$testFile	= "Test/".$fileKey.$suffix.".php";
