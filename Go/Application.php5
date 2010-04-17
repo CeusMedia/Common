@@ -94,7 +94,7 @@ class Go_Application
 						}
 						break;
 					case 'test':
-						new Go_UnitTestClassCreator( array_slice( $arguments, 2 ) );
+						new Go_UnitTestCreator( array_slice( $arguments, 2 ) );
 						break;
 					default:
 						throw new InvalidArgumentException( $this->messages['subject_create_invalid'] );
