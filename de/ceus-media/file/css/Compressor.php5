@@ -65,8 +65,8 @@ class File_CSS_Compressor
 	public function compressString( $content )
 	{
 		$content	= preg_replace( '!/\*.*\*/!sU', '', $content );									// remove comments (single or multi line)
-		$content	= preg_replace( '!//.*(\r)?\n!', '\n', $content );										// remove comments (single line)
-		$toRemove	= array( "\r\n", "\r", "\n", "\t", '  ', '    ', '    ' );
+		$content	= preg_replace( '!\s//.*(\r)?\n!U', "\n", $content );										// remove comments (single line)
+		$toRemove	= array( "\r", "\n", "\t", '  ', '    ', '    ' );
 		$content	= str_replace( $toRemove, '', $content );										// remove tabs, spaces, newlines, etc.
 		$content	= preg_replace( '@( +):@', ':', $content );
 		$content	= preg_replace( '@:( +)@', ':', $content );
