@@ -2,18 +2,18 @@
 /**
  *	HTML Button Container (for CSS).
  *	@category		cmClasses
- *	@package		APL.UI.HTML.Button
+ *	@package		ui.html.button
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@since			0.0.2
+ *	@since			0.7.0
  *	@version		$Id$
  */
 /**
  *	HTML Button Container (for CSS).
  *	@category		cmClasses
- *	@package		APL.UI.HTML.Button
+ *	@package		ui.html.button
  *	@extends		UI_HTML_Abstract
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@since			0.0.2
+ *	@since			0.7.0
  *	@version		$Id$
  */
 class UI_HTML_Button_Container extends UI_HTML_Abstract
