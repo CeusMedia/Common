@@ -28,14 +28,12 @@
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		$Id$
  */
-import( 'de.ceus-media.database.BaseConnection' );
-import( 'de.ceus-media.database.Result' );
-import( 'de.ceus-media.database.Row' );
+import( 'de.ceus-media.database.mysql.Connection' );
 /**
  *	Wrapper for mySQL Database Connection with Transaction Support.
  *	@category		cmClasses
  *	@package		database.mysql
- *	@extends		Database_BaseConnection
+ *	@extends		Database_MySQL_Connection
  *	@uses			Database_Result
  *	@uses			Database_Row
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
@@ -45,7 +43,7 @@ import( 'de.ceus-media.database.Row' );
  *	@version		$Id$
  *	@todo			Code Documentation
  */
-class Database_Mysql_LazyConnection extends Database_Mysql_Connection
+class Database_MySQL_LazyConnection extends Database_MySQL_Connection
 {
 	protected $dataForConnectOnDemand		= array();
 

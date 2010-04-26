@@ -38,7 +38,7 @@
  *	@since			0.6.8
  *	@version		$Id$
  */
-abstract class Fork_Server_Client_Abstract
+abstract class Console_Fork_Server_Client_Abstract
 {
 	protected $port		= NULL;
 
