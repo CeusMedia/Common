@@ -45,7 +45,7 @@ import( 'de.ceus-media.database.Row' );
  *	@version 		$Id$
  *	@todo			Code Documentation
  */
-class Database_mySQL_Connection extends Database_BaseConnection
+class Database_MySQL_Connection extends Database_BaseConnection
 {
 	/**	@var		double		$countTime			Counter of Query Times */	
 	public $countTime;
