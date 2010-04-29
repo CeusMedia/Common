@@ -132,10 +132,10 @@ class Database_TableReader
 		if( sizeof( $this->fields ) )
 		{
 			$conditions	= $this->getConditionQuery( $conditions, FALSE, FALSE );
-			$conditions 	= $conditions ? " WHERE ".$conditions : "";
-			$query = "SELECT COUNT(".$this->primaryKey.") FROM ".$this->getTableName().$conditions;
+			$conditions 	= $conditions ? ' WHERE '.$conditions : '';
+			$query = 'SELECT COUNT('.$this->primaryKey.') FROM '.$this->getTableName().$conditions;
 			if( $verbose )
-				echo "<br/>".$query;
+				echo '<br/>'.$query;
 			$q	= $this->dbc->Execute( $query );
 			$d	= $q->FetchRow();
 			return $d[0];
@@ -147,33 +147,33 @@ class Database_TableReader
 	 *	Returns all entries of this Table in an array.
 	 *	@access		public
 	 *	@param		array		$keys			Array of Table Keys
-	 *	@param		array		$conditions		Array of Condition Strings
-	 *	@param		array		$orders			Array of Order Relations
-	 *	@param		array		$limit			Array of Limit Conditions
+	 *	@param		array		$conditions		Array of Condition Strings (field*)
+	 *	@param		array		$orders			Array of Order Relations (field => ASC|DESC)*
+	 *	@param		array		$limits			Array of Limit Conditions (offset, max)?
 	 *	@param		bool		$verbose		Flag: print Query
 	 *	@return		array
 	 */
-	public function getAllData( $keys = array(), $conditions = array(), $orders = array(), $limit = array(), $verbose = FALSE )
+	public function getAllData( $keys = array(), $conditions = array(), $orders = array(), $limits = array(), $verbose = FALSE )
 	{
 		if( sizeof( $this->fields ) )
 		{
 			if( ( is_array( $keys ) && !count( $keys ) ) || ( is_string( $keys ) && !$keys ) )
-				$keys	= array( "*" );
+				$keys	= array( '*' );
 			$conditions	= $this->getConditionQuery( $conditions, FALSE, FALSE );
-			$conditions 	= $conditions ? " WHERE ".$conditions : "";
+			$conditions = $conditions ? ' WHERE '.$conditions : '';
 			$orders		= $this->getOrderQuery( $orders );
-			$limit		= $this->getLimitQuery( $limit );
+			$limits		= $this->getLimitQuery( $limits );
 		
 			$list	= array();
-			$query = "SELECT ".implode( ", ", $keys )." FROM ".$this->getTableName().$conditions.$orders.$limit;
+			$query = 'SELECT '.implode( ', ', $keys ).' FROM '.$this->getTableName().$conditions.$orders.$limits;
 			if( $verbose )
-				echo "<br/>".$query;
+				echo '<br/>'.$query;
 			$q	= $this->dbc->Execute( $query );
 			while( $d = $q->FetchNextObject( FALSE ) )
 			{
 				$data	= array();
 				foreach( $this->fields as $field )
-					if( in_array( "*", $keys ) || in_array( $field, $keys ) )
+					if( in_array( '*', $keys ) || in_array( $field, $keys ) )
 						$data[$field] = $d->$field;
 				$list[] = $data;
 			}
@@ -199,21 +199,21 @@ class Database_TableReader
 			foreach( $this->foreignFocuses as $key => $value )				//  iterate focused Foreign Keys & is focused Foreign
 				$new[$key] = $value; 										//  note foreign Key Pair
 
-		if( $usePrimary && $this->isFocused() == "primary" )				//  if using foreign Keys & is focused primary
+		if( $usePrimary && $this->isFocused() == 'primary' )				//  if using foreign Keys & is focused primary
 			$new[$this->focusKey] = $this->focus;							//  note primary Key Pair
 
-		$pattern	= "/^(<=|>=|<|>|!=)(.+)/";
+		$pattern	= '/^(<=|>=|<|>|!=)(.+)/';
 		$conditions = array();
 		foreach( $new as $key => $value )									//  iterate all noted Pairs
 		{
-			$operation	= " = ";
-			if( preg_match( "/%/", $value ) )
-				$operation	= " LIKE ";
+			$operation	= ' = ';
+			if( preg_match( '/%/', $value ) )
+				$operation	= ' LIKE ';
 			else if( preg_match( $pattern, $value ) )
 			{
 				$matches	= array();
 				preg_match_all( $pattern, $value, $matches );
-				$operation	= " ".$matches[1][0]." ";
+				$operation	= ' '.$matches[1][0].' ';
 				$value		= $matches[2][0];
 			}
 			if( !ini_get( 'magic_quotes_gpc' ) )							
@@ -221,9 +221,9 @@ class Database_TableReader
 				$key	= addslashes( $key );
 				$value	= addslashes( $value );
 			}
-			$conditions[] = "`".$key."`".$operation."'".$value."'";			//  create SQL WHERE Condition
+			$conditions[] = '`'.$key.'`'.$operation."'".$value."'";			//  create SQL WHERE Condition
 		}
-		$conditions = implode( " AND ", $conditions );						//  combine Conditions with AND
+		$conditions = implode( ' AND ', $conditions );						//  combine Conditions with AND
 		return $conditions;
 	}
 
@@ -242,9 +242,9 @@ class Database_TableReader
 			$orders		= $this->getOrderQuery( $orders );
 			$limit		= $this->getLimitQuery( $limit );
 
-		 	$query = "SELECT * FROM ".$this->getTableName()." WHERE ".$conditions.$orders.$limit;
+		 	$query = 'SELECT * FROM '.$this->getTableName().' WHERE '.$conditions.$orders.$limit;
 			if( $verbose )
-				echo "<br/>".$query;
+				echo '<br/>'.$query;
 			$q	= $this->dbc->Execute( $query );
 			if( $q->RecordCount() )
 			{
@@ -289,9 +289,9 @@ class Database_TableReader
 	 */
 	public function getFocus()
 	{
-		if( $this->isFocused() == "primary" )
+		if( $this->isFocused() == 'primary' )
 			return $this->focus;
-		else if( $this->isFocused() == "foreign" )
+		else if( $this->isFocused() == 'foreign' )
 			return $this->foreignFocuses;
 		return FALSE;
 	}
@@ -309,22 +309,24 @@ class Database_TableReader
 	/**
 	 *	Builds Query Limit.
 	 *	@access		protected
-	 *	@param		array		$limit			Array of Offet and Limit
+	 *	@param		array|int	$limits			Array of Offet and Limit or just Limit as int, else ignored
 	 *	@return		string
 	 */
-	protected function getLimitQuery( $limit = array() )
+	protected function getLimitQuery( $limits = array() )
 	{
-		if( is_array( $limit ) && count( $limit ) == 2 ) 
-			$limit = " LIMIT ".$limit[0].", ".$limit[1];
+		if( is_array( $limits ) && count( $limits ) == 2 )
+			$limits	= ' LIMIT '.$limits[0].', '.$limits[1];
+		else if( is_int( $limits ) && $limits )
+			$limits	= ' LIMIT 0, '.$limits;
 		else
-			$limit = "";
-		return $limit;
+			$limits	= '';
+		return $limits;
 	}
 
 	/**
 	 *	Builds Query Order.
 	 *	@access		protected
-	 *	@param		array		$orders			Array of Orders, like array('field1'=>"ASC",'field'=>"DESC") 
+	 *	@param		array		$orders			Array of Orders, like array('field1'=>'ASC','field'=>'DESC')
 	 *	@return		string
 	 */
 	protected function getOrderQuery( $orders = array() )
@@ -333,11 +335,11 @@ class Database_TableReader
 		{
 			$order = array();
 			foreach( $orders as $key => $value )
-				$order[] = $key." ".$value;
-			$orders = " ORDER BY ".implode( ", ", $order );
+				$order[] = $key.' '.$value;
+			$orders = ' ORDER BY '.implode( ', ', $order );
 		}
 		else
-			$orders = "";
+			$orders = '';
 		return $orders;
 	}
 	
@@ -369,9 +371,9 @@ class Database_TableReader
 	public function isFocused()
 	{
 		if( $this->focus !== FALSE && $this->focusKey )
-			return "primary";
+			return 'primary';
 		if( count( $this->foreignFocuses ) )
-			return "foreign";
+			return 'foreign';
 		return FALSE;
 	}
 
@@ -397,7 +399,7 @@ class Database_TableReader
 		if( is_array( $fields ) && count( $fields ) )
 			$this->fields = $fields;
 		else
-			trigger_error( "Field Array of Table Definition must no be empty.", E_USER_ERROR );
+			trigger_error( 'Field Array of Table Definition must no be empty.', E_USER_ERROR );
 	}
 
 	/**

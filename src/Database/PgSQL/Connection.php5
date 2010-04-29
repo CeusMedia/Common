@@ -162,7 +162,7 @@ class Database_pgSQL_Connection extends Database_BaseConnection
 				if( $bits[3] )
 					die();
 			}
-			if( eregi( "^( |\n|\r|\t)*(INSERT)", $query ) )
+			if( preg_match( '/^INSERT/i', ltrim( $query ) ) )
 			{
 				if( $result = pg_query( $this->dbc, $query ) )
 				{
@@ -170,7 +170,7 @@ class Database_pgSQL_Connection extends Database_BaseConnection
 					$result	= $this->insertId;
 				}
 			}
-			else if( eregi( "^( |\n|\r|\t)*(SELECT|SHOW)", $query ) )
+			else if( preg_match( '/^(SELECT|SHOW)/i', ltrim( $query ) ) )
 			{
 				$result = new Database_Result();
 				if( $q = pg_query( $this->dbc, $query ) )
