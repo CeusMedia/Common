@@ -1,6 +1,6 @@
 <?php
 /**
- *	Table with Column Definition and Keys.
+ *	Table with column definition and indices.
  *
  *	Copyright (c) 2007-2010 Christian Würker (ceus-media.de)
  *
@@ -23,47 +23,47 @@
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
- *	@version		0.6
+ *	@version		$Id$
  */
 /**
- *	Table with column definition and keys.
+ *	Table with column definition and indices.
  *	@category		cmClasses
  *	@package		database.pdo
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
- *	@version		0.6
+ *	@version		$Id$
  */
 class Database_PDO_TableReader
 {
-	/**	@var	BaseConnection	$dbc			Database Connection */
+	/**	@var	BaseConnection	$dbc			Database connection resource object */
 	protected $dbc;
-	/**	@var	array			$columns		List of Table Columns */
+	/**	@var	array			$columns		List of table columns */
 	protected $columns			= array();
-	/**	@var	array			$indices		List of Indices of Table */
+	/**	@var	array			$indices		List of indices of table */
 	protected $indices			= array();
-	/**	@var	string			$focusedIndices	List of focused Index Keys */
+	/**	@var	string			$focusedIndices	List of focused indices */
 	protected $focusedIndices	= array();
-	/**	@var	string			$primaryKey		Primary Key of this Table */
+	/**	@var	string			$primaryKey		Primary key of this table */
 	protected $primaryKey;
-	/**	@var	string			$tableName		Name of this Table */
+	/**	@var	string			$tableName		Name of this table */
 	protected $tableName;
 
 	/**
 	 *	Constructor.
 	 *
 	 *	@access		public
-	 *	@param		Object		$dbc			Database Connection
-	 *	@param		string		$tableName		Table Name
-	 *	@param		array		$columns		All Columns of this Table
-	 *	@param		string		$primaryKey		Name of the Primary Keys of this Table
-	 *	@param		int			$focus			Focused Primary Key of this Table
+	 *	@param		PDO			$dbc			Database connection resource object
+	 *	@param		string		$tableName		Table name
+	 *	@param		array		$columns		List of table columns
+	 *	@param		string		$primaryKey		Name of the primary key of this table
+	 *	@param		int			$focus			Focused primary key on start up
 	 *	@return		void
 	 */
-	public function __construct( &$dbc, $tableName, $columns, $primaryKey, $focus = FALSE )
+	public function __construct( &$dbc, $tableName, $columns, $primaryKey, $focus = NULL )
 	{
-		$this->setDBConnection( $dbc );
+		$this->setDbConnection( $dbc );
 		$this->setTableName( $tableName );
 		$this->setColumns( $columns );
 		$this->setPrimaryKey( $primaryKey );
@@ -73,24 +73,25 @@ class Database_PDO_TableReader
 	}
 
 	/**
-	 *	Returns count of all entries of this Table covered by conditions.
+	 *	Returns count of all entries of this table covered by conditions.
 	 *	@access		public
-	 *	@param		array		$conditions		Array of Condition Strings
+	 *	@param		array		$conditions		Array of condition strings
 	 *	@return		int
 	 */
 	public function count( $conditions = array() )
 	{
 		$conditions	= $this->getConditionQuery( $conditions, FALSE, TRUE );
-		$conditions	= $conditions ? " WHERE ".$conditions : "";
-		$query	= "SELECT COUNT(`".$this->primaryKey."`) as count FROM ".$this->getTableName().$conditions;
+		$conditions	= $conditions ? ' WHERE '.$conditions : '';
+		$query	= 'SELECT COUNT(`'.$this->primaryKey.'`) as count FROM '.$this->getTableName().$conditions;
 		$result	= $this->dbc->query( $query );
 		$count	= $result->fetch( PDO::FETCH_ASSOC );
 		return $count['count'];
 	}
 
 	/**
-	 *	Deleting current focus on a primary Key/Index.
+	 *	Deleting current focus on indices (including primary key).
 	 *	@access		public
+	 *	@param		bool		$primaryOnly		Flag: delete focus on primary key only
 	 *	@return		bool
 	 */
 	public function defocus( $primaryOnly = FALSE )
@@ -109,52 +110,52 @@ class Database_PDO_TableReader
 	}
 
 	/**
-	 *	Returns all entries of this Table in an array.
+	 *	Returns all entries of this table in an array.
 	 *	@access		public
-	 *	@param		array		$keys			Array of Table Keys
-	 *	@param		array		$conditions		Array of Condition Pairs additional to focuses Indices
-	 *	@param		array		$orders			Array of Order Relations
-	 *	@param		array		$limit			Array of Limit Conditions
+	 *	@param		array		$columns		Array of table columns
+	 *	@param		array		$conditions		Array of condition pairs additional to focuses indices
+	 *	@param		array		$orders			Array of order relations
+	 *	@param		array		$limit			Array of limit conditions
 	 *	@return		array
 	 */
-	public function find( $keys = array(), $conditions = array(), $orders = array(), $limit = array() )
+	public function find( $columns = array(), $conditions = array(), $orders = array(), $limit = array() )
 	{
-		$this->validateKeys( $keys );
+		$this->validateColumns( $columns );
 			
 		$conditions	= $this->getConditionQuery( $conditions, FALSE, FALSE );		
-		$conditions = $conditions ? " WHERE ".$conditions : "";
+		$conditions = $conditions ? ' WHERE '.$conditions : '';
 		$orders		= $this->getOrderCondition( $orders );
 		$limit		= $this->getLimitCondition( $limit );
-		$query		= "SELECT ".implode( ", ", $keys )." FROM ".$this->getTableName().$conditions.$orders.$limit;
+		$query		= 'SELECT '.implode( ', ', $columns ).' FROM '.$this->getTableName().$conditions.$orders.$limit;
 		$resultSet	= $this->dbc->query( $query );
 
 		return $resultSet->fetchAll( PDO::FETCH_ASSOC );
 	}
 	
-	public function findWhereIn( $keys = array(), $column, $values, $orders = array(), $limit = array() )
+	public function findWhereIn( $columns = array(), $column, $values, $orders = array(), $limit = array() )
 	{
-		$this->validateKeys( $keys );
+		$this->validateColumns( $columns );
 
 		if( $column != $this->getPrimaryKey() && !in_array( $column, $this->getIndices() ) )
-			throw new InvalidArgumentException( "Field of WHERE IN-Statement must be an Index." );
+			throw new InvalidArgumentException( 'Field of WHERE IN-statement must be an index' );
 
 		$orders		= $this->getOrderCondition( $orders );
 		$limit		= $this->getLimitCondition( $limit );
 		for( $i=0; $i<count( $values ); $i++ )
 			$values[$i]	= $this->secureValue( $values[$i] );
 
-		$query		= "SELECT ".implode( ", ", $keys )." FROM ".$this->getTableName()." WHERE ".$column." IN (".implode( ", ", $values ).") ".$orders.$limit;
+		$query		= 'SELECT '.implode( ', ', $columns ).' FROM '.$this->getTableName().' WHERE '.$column.' IN ('.implode( ', ', $values ).') '.$orders.$limit;
 		$resultSet	= $this->dbc->query( $query );
 
 		return $resultSet->fetchAll( PDO::FETCH_ASSOC );
 	}
 
-	public function findWhereInAnd( $keys = array(), $column, $values, $conditions = array(), $orders = array(), $limit = array() )
+	public function findWhereInAnd( $columns = array(), $column, $values, $conditions = array(), $orders = array(), $limit = array() )
 	{
-		$this->validateKeys( $keys );
+		$this->validateColumns( $columns );
 
 		if( $column != $this->getPrimaryKey() && !in_array( $column, $this->getIndices() ) )
-			throw new InvalidArgumentException( "Field of WHERE IN-Statement must be an Index." );
+			throw new InvalidArgumentException( 'Field of WHERE IN-statement must be an index' );
 
 		$conditions	= $this->getConditionQuery( $conditions, FALSE, FALSE );
 		$orders		= $this->getOrderCondition( $orders );
@@ -163,32 +164,32 @@ class Database_PDO_TableReader
 			$values[$i]	= $this->secureValue( $values[$i] );
 		
 		if( $conditions )
-			$conditions	.= " AND ";
-		$query		= "SELECT ".implode( ", ", $keys )." FROM ".$this->getTableName()." WHERE ".$conditions.$column." IN (".implode( ", ", $values ).") ".$orders.$limit;
+			$conditions	.= ' AND ';
+		$query		= 'SELECT '.implode( ', ', $columns ).' FROM '.$this->getTableName().' WHERE '.$conditions.$column.' IN ('.implode( ', ', $values ).') '.$orders.$limit;
 		$resultSet	= $this->dbc->query( $query );
 
 		return $resultSet->fetchAll( PDO::FETCH_ASSOC );
 	}
 
 	/**
-	 *	Setting focus on an Index.
+	 *	Setting focus on an index.
 	 *	@access		public
-	 *	@param		string		$key			Index Key Name
+	 *	@param		string		$column			Index column name
 	 *	@param		int			$value			Index to focus on
 	 *	@return		void
 	 */
-	public function focusIndex( $key, $value )
+	public function focusIndex( $column, $value )
 	{
-		if( !in_array( $key, $this->indices ) && $key != $this->primaryKey )					//  check Column Name
-			throw new InvalidArgumentException( 'Column "'.$key.'" is neither an Index not primary Key and cannot be focused.' );
-		$this->focusedIndices[$key] = $value;													//  set Focus
+		if( !in_array( $column, $this->indices ) && $column != $this->primaryKey )				//  check column name
+			throw new InvalidArgumentException( 'Column "'.$column.'" is neither an index not primary key and cannot be focused' );
+		$this->focusedIndices[$column] = $value;													//  set Focus
 	}
 
 	/**
 	 *	Setting focus on a primary key ID.
 	 *	@access		public
-	 *	@param		int			$id				Primary Key ID to focus on
-	 *	@param		bool		$clearIndices	Flag: clear all previously focuses Indices
+	 *	@param		int			$id				Primary key ID to focus on
+	 *	@param		bool		$clearIndices	Flag: clear all previously focuses indices
 	 *	@return		void
 	 */
 	public function focusPrimary( $id, $clearIndices = TRUE )
@@ -201,9 +202,9 @@ class Database_PDO_TableReader
 	/**
 	 *	Returns data of focused keys.
 	 *	@access		public
-	 *	@param		bool	$first		Extract first entry of Result
-	 *	@param		array	$orders		Associative Array of Orders
-	 *	@param		array	$limit		Array of Offset and Limit
+	 *	@param		bool	$first		Extract first entry of result
+	 *	@param		array	$orders		Associative array of orders
+	 *	@param		array	$limit		Array of offset and limit
 	 *	@return		array
 	 */
 	public function get( $first = TRUE, $orders = array(), $limit = array() )
@@ -213,7 +214,7 @@ class Database_PDO_TableReader
 		$conditions	= $this->getConditionQuery( array() );
 		$orders		= $this->getOrderCondition( $orders );
 		$limit		= $this->getLimitCondition( $limit );
-		$query = "SELECT * FROM ".$this->getTableName()." WHERE ".$conditions.$orders.$limit;
+		$query = 'SELECT * FROM '.$this->getTableName().' WHERE '.$conditions.$orders.$limit;
 
 		$resultSet	= $this->dbc->query( $query );
 		$resultList	= $resultSet->fetchAll( PDO::FETCH_ASSOC );
@@ -238,7 +239,7 @@ class Database_PDO_TableReader
 	}
 
 	/**
-	 *	Returns all Columns of the Table.
+	 *	Returns a list of all table columns.
 	 *	@access		public
 	 *	@return		array
 	 */
@@ -248,9 +249,9 @@ class Database_PDO_TableReader
 	}
 
 	/**
-	 *	Builds and returns WHERE Statement Component.
+	 *	Builds and returns WHERE statement component.
 	 *	@access		protected
-	 *	@param		array		$conditions		Array of Conditions
+	 *	@param		array		$conditions		Array of conditions
 	 *	@param		bool		$usePrimary		Flag: use focused primary key
 	 *	@param		bool		$useIndices		Flag: use focused indices
 	 *	@return		string
@@ -258,38 +259,38 @@ class Database_PDO_TableReader
 	protected function getConditionQuery( $conditions, $usePrimary = TRUE, $useIndices = TRUE )
 	{
 		$new = array();
-		foreach( $this->columns as $column )								//  iterate all Columns
-			if( isset( $conditions[$column] ) )								//  if Condition given
-				$new[$column] = $conditions[$column];						//  note Condition Pair
+		foreach( $this->columns as $column )														//  iterate all columns
+			if( isset( $conditions[$column] ) )														//  if condition given
+				$new[$column] = $conditions[$column];												//  note condition pair
 
-		if( $usePrimary && $this->isFocused( $this->primaryKey ) )			//  if using primary Key & is focused primary
+		if( $usePrimary && $this->isFocused( $this->primaryKey ) )									//  if using primary key & is focused primary
 		{
-			if( !array_key_exists( $this->primaryKey, $new ) )				//  if primary Key is not already in Conditions
-				$new = $this->getFocus();									//  note primary Key Pair
+			if( !array_key_exists( $this->primaryKey, $new ) )										//  if primary key is not already in conditions
+				$new = $this->getFocus();															//  note primary key pair
 		}
-		if( $useIndices && count( $this->focusedIndices ) )					//  if using Indices
+		if( $useIndices && count( $this->focusedIndices ) )											//  if using indices
 		{
-			foreach( $this->focusedIndices as $key => $value )				//  iterate focused Indices
-				if( $key != $this->primaryKey )								//  skip primary Key
-					if( !array_key_exists( $key, $new ) )					//  if Index Key is not already in Conditions
-						$new[$key] = $value; 								//  note Index Pair
+			foreach( $this->focusedIndices as $index => $value )									//  iterate focused indices
+				if( $index != $this->primaryKey )													//  skip primary key
+					if( !array_key_exists( $index, $new ) )											//  if index column is not already in conditions
+						$new[$index] = $value;														//  note index pair
 		}
 
 		$conditions = array();
 		
-		$pattern	= "/^(<=|>=|<|>|!=)(.+)/";
-		foreach( $new as $key => $value )									//  iterate all noted Pairs
+		$pattern	= '/^(<=|>=|<|>|!=)(.+)/';
+		foreach( $new as $column => $value )															//  iterate all noted Pairs
 		{
-			if( preg_match( "/^%/", $value ) || preg_match( "/%$/", $value ) )
+			if( preg_match( '/^%/', $value ) || preg_match( '/%$/', $value ) )
 			{
-				$operation	= " LIKE ";
+				$operation	= ' LIKE ';
 				$value		= $this->secureValue( $value );
 			}
 			else if( preg_match( $pattern, $value, $result ) )
 			{
 				$matches	= array();
 				preg_match_all( $pattern, $value, $matches );
-				$operation	= " ".$matches[1][0]." ";
+				$operation	= ' '.$matches[1][0].' ';
 				$value		= $this->secureValue( $matches[2][0] );
 			}
 			else
@@ -298,19 +299,19 @@ class Database_PDO_TableReader
 					$operation	= ' ';
 				else if( $value === NULL )
 				{
-					$operation	= " is ";
-					$value		= "NULL";
+					$operation	= ' is ';
+					$value		= 'NULL';
 				}
 				else
 				{
-					$operation	= " = ";
+					$operation	= ' = ';
 					$value		= $this->secureValue( $value );
 				}
 			}
-			$key	= '`'.$key.'`';
-			$conditions[]	= $key.$operation.$value;
+			$column	= '`'.$column.'`';
+			$conditions[]	= $column.$operation.$value;
 		}
-		$conditions = implode( " AND ", $conditions );						//  combine Conditions with AND
+		$conditions = implode( ' AND ', $conditions );												//  combine Conditions with AND
 		return $conditions;
 	}
 
@@ -352,9 +353,9 @@ class Database_PDO_TableReader
 	 */
 	protected function getLimitCondition( $limit = array() )
 	{
-		$condition	= "";
+		$condition	= '';
 		if( is_array( $limit ) && count( $limit ) == 2 ) 
-			$condition = " LIMIT ".$limit[0].", ".$limit[1];
+			$condition = ' LIMIT '.$limit[0].', '.$limit[1];
 		return $condition;
 	}
 	
@@ -366,19 +367,19 @@ class Database_PDO_TableReader
 	 */
 	protected function getOrderCondition( $orders = array() )
 	{
-		$order	= "";
+		$order	= '';
 		if( is_array( $orders ) && count( $orders ) )
 		{
 			$list	= array();
-			foreach( $orders as $key => $value )
-				$list[] = $key." ".strtoupper( $value );
-			$order	= " ORDER BY ".implode( ", ", $list );
+			foreach( $orders as $column => $direction )
+				$list[] = $column.' '.strtoupper( $direction );
+			$order	= ' ORDER BY '.implode( ', ', $list );
 		}
 		return $order;
 	}
 
 	/**
-	 *	Returns the Name of the primary key.
+	 *	Returns the name of the primary key column.
 	 *	@access		public
 	 *	@return		string
 	 */
@@ -388,7 +389,7 @@ class Database_PDO_TableReader
 	}
 
 	/**
-	 *	Returns the Name of the Table.
+	 *	Returns the name of the table.
 	 *	@access		public
 	 *	@return		string
 	 */
@@ -398,7 +399,7 @@ class Database_PDO_TableReader
 	}
 
 	/**
-	 *	Indicates wheter the focus on a key is set.
+	 *	Indicates wheter the focus on a index (including primary key) is set.
 	 *	@access		public
 	 *	@return		string
 	 */
@@ -412,7 +413,7 @@ class Database_PDO_TableReader
 	}
 	
 	/**
-	 *	Secures Conditions Value by adding Slashes or quoting.
+	 *	Secures Conditions Value by adding slashes or quoting.
 	 *	@access		protected
 	 *	@param		string		$value		String to be secured
 	 *	@return		string
@@ -427,70 +428,70 @@ class Database_PDO_TableReader
 	}
 				
 	/**
-	 *	Setting all Columns of the Table.
+	 *	Setting all columns of the table.
 	 *	@access		public
-	 *	@param		array		$columns	all Columns of the Table
+	 *	@param		array		$columns	List of table columns
 	 *	@return		void
 	 *	@throws		Exception
 	 */
 	public function setColumns( $columns )
 	{
 		if( !( is_array( $columns ) && count( $columns ) ) )
-			throw new InvalidArgumentException( 'Column Array must not be empty.' );
+			throw new InvalidArgumentException( 'Column array must not be empty' );
 		$this->columns = $columns;
 	}
 
 	/**
 	 *	Setting a reference to a database connection.
 	 *	@access		public
-	 *	@param		Object		$dbc		Database Connection
+	 *	@param		PDO		$dbc		Database connection resource object
 	 *	@return		void
 	 */
-	public function setDBConnection( $dbc )
+	public function setDbConnection( $dbc )
 	{
 		if( !is_object( $dbc ) )
-			throw new InvalidArgumentException( 'Database Connection Resource must be an Object' );
+			throw new InvalidArgumentException( 'Database connection resource must be an object' );
 		if( !is_a( $dbc, 'PDO' ) )
-			throw new InvalidArgumentException( 'Database Connection Resource must be a direct or inherited PDO Object' );
+			throw new InvalidArgumentException( 'Database connection resource must be a direct or inherited PDO object' );
 		$this->dbc = $dbc;
 	}
 
 	/**
-	 *	Setting all indices of this Table.
+	 *	Setting all indices of this table.
 	 *	@access		public
-	 *	@param		array		$keys		all indices of the Table
+	 *	@param		array		$indices		List of table indices
 	 *	@return		bool
 	 */
-	public function setIndices( $keys )
+	public function setIndices( $indices )
 	{
-		foreach( $keys as $key )
+		foreach( $indices as $index )
 		{
-			if( !in_array( $key, $this->columns ) )
-				throw new InvalidArgumentException( 'Column "'.$key.'" is not existing in Table "'.$this->tableName.'" and cannot be an Index.' );
-			if( $key === $this->primaryKey )
-				throw new InvalidArgumentException( 'Column "'.$key.'" is already primary Key and cannot be an Index.' );
+			if( !in_array( $index, $this->columns ) )
+				throw new InvalidArgumentException( 'Column "'.$index.'" is not existing in table "'.$this->tableName.'" and cannot be an index' );
+			if( $index === $this->primaryKey )
+				throw new InvalidArgumentException( 'Column "'.$index.'" is already primary key and cannot be an index' );
 		}
-		$this->indices	= $keys;
+		$this->indices	= $indices;
 		array_unique( $this->indices );
 	}
 
 	/**
 	 *	Setting the name of the primary key.
 	 *	@access		public
-	 *	@param		string		$key		primary Key of this Table
+	 *	@param		string		$column		Pimary key column of this table
 	 *	@return		void
 	 */
-	public function setPrimaryKey( $key )
+	public function setPrimaryKey( $column )
 	{
-		if( !in_array( $key, $this->columns ) )
-			throw new InvalidArgumentException( 'Column "'.$key.'" is not existing and can not be primary Key.' );
-		$this->primaryKey = $key;
+		if( !in_array( $column, $this->columns ) )
+			throw new InvalidArgumentException( 'Column "'.$column.'" is not existing and can not be primary key' );
+		$this->primaryKey = $column;
 	}
 
 	/**
-	 *	Setting the name of the Table.
+	 *	Setting the name of the table.
 	 *	@access		public
-	 *	@param		string		$tableName		Database Connection
+	 *	@param		string		$tableName		Name of this table
 	 *	@return		void
 	 */
 	public function setTableName( $tableName )
@@ -499,7 +500,7 @@ class Database_PDO_TableReader
 	}
 
 	/**
-	 *	Checks if a Focus is set for following Operation and throws an Exception if not.
+	 *	Checks if a focus is set for following operation and throws an exception if not.
 	 *	@access		protected
 	 *	@throws		RuntimeException
 	 *	@return		void
@@ -507,29 +508,29 @@ class Database_PDO_TableReader
 	protected function validateFocus()
 	{
 		if( !$this->isFocused() )
-			throw new RuntimeException( "No Primary Key or Index focused for Table '".$this->tableName."'." );
+			throw new RuntimeException( 'No Primary Key or Index focused for Table "'.$this->tableName.'"' );
 	}
 
 	/**
-	 *	Checks Columns Keys for querying Methods (find,get), sets Wildcard if empty or throws an Exception if inacceptable.
+	 *	Checks columns names for querying methods (find,get), sets wildcard if empty or throws an exception if inacceptable.
 	 *	@access		protected
-	 *	@param		mixed		$keys			String or Array of Column Names
+	 *	@param		mixed		$columns			String or array of column names to validate
 	 *	@return		void
 	 */
-	protected function validateKeys( &$keys )
+	protected function validateColumns( &$columns )
 	{
-		if( is_string( $keys ) && $keys )
-			$keys	= array( $keys );
-		else if( is_array( $keys ) && !count( $keys ) )
-			$keys	= array( "*" );
-		else if( $keys === NULL || $keys == FALSE )
-			$keys	= array( "*" );
+		if( is_string( $columns ) && $columns )
+			$columns	= array( $columns );
+		else if( is_array( $columns ) && !count( $columns ) )
+			$columns	= array( '*' );
+		else if( $columns === NULL || $columns == FALSE )
+			$columns	= array( '*' );
 
-		if( !is_array( $keys ) )
-			throw new InvalidArgumentException( 'Column Keys must be an Array of Column Names, a Column Name String or "*".' );
-		foreach( $keys as $key )
-			if( $key != "*" && !in_array( $key, $this->columns ) )
-				throw new InvalidArgumentException( 'Column Key "'.$key.'" is not a valid Column of Table "'.$this->tableName.'".' );
+		if( !is_array( $columns ) )
+			throw new InvalidArgumentException( 'Column keys must be an array of column names, a column name string or "*"' );
+		foreach( $columns as $column )
+			if( $column != '*' && !in_array( $column, $this->columns ) )
+				throw new InvalidArgumentException( 'Column key "'.$column.'" is not a valid column of table "'.$this->tableName.'"' );
 	}
 }
 ?>
