@@ -310,7 +310,7 @@ class Folder_Reader
 	{
 		$path	= realpath( $this->folderName );
 		if( FALSE === $path )
-			throw new RuntimeException( 'Folder "'.$this->folderName.'" is not existing and therefore has no Path.' );
+			throw new RuntimeException( 'Folder "'.$this->folderName.'" is not existing and therefore has no Path' );
 		return dirname( $path )."/";
 	}
 
