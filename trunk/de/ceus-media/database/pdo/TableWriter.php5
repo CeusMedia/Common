@@ -19,12 +19,11 @@
  *
  *	@category		cmClasses
  *	@package		database.pdo
- *	@extends		Database_PDO_TableReader
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
- *	@version		0.6
+ *	@version		$Id$
  */
 import( 'de.ceus-media.database.pdo.TableReader' );
 /**
@@ -36,7 +35,7 @@ import( 'de.ceus-media.database.pdo.TableReader' );
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
- *	@version		0.6
+ *	@version		$Id$
  */
 class Database_PDO_TableWriter extends Database_PDO_TableReader
 {
@@ -49,7 +48,7 @@ class Database_PDO_TableWriter extends Database_PDO_TableReader
 	{
 		$this->validateFocus();
 		$conditions	= $this->getConditionQuery( array() );
-		$query	= "DELETE FROM ".$this->getTableName()." WHERE ".$conditions;
+		$query	= 'DELETE FROM '.$this->getTableName().' WHERE '.$conditions;
 #		$has	= $this->get( FALSE );
 #		if( !$has )
 #			throw new InvalidArgumentException( 'Focused Indices are not existing.' );
@@ -65,7 +64,7 @@ class Database_PDO_TableWriter extends Database_PDO_TableReader
 	public function deleteByConditions( $where = array() )
 	{
 		$conditions	= $this->getConditionQuery( $where );
-		$query	= "DELETE FROM ".$this->getTableName()." WHERE ".$conditions;
+		$query	= 'DELETE FROM '.$this->getTableName().' WHERE '.$conditions;
 		$result	= $this->dbc->exec( $query );
 		$this->defocus();
 		return $result;
@@ -76,58 +75,57 @@ class Database_PDO_TableWriter extends Database_PDO_TableReader
 	 *	@access		public
 	 *	@param		array		$data			associative array of data to store
 	 *	@param		bool		$stripTags		Flag: strip HTML Tags from values
-	 *	@return		int
+	 *	@return		int			ID of inserted row
 	 */
 	public function insert( $data = array(), $stripTags = TRUE )
 	{
-		$keys	= array();
-		$vals	= array();
-		foreach( $this->columns as $column )										//  iterate Columns
+		$columns	= array();
+		$values		= array();
+		foreach( $this->columns as $column )														//  iterate Columns
 		{
-			if( !isset( $data[$column] ) )											//  no Data given for Column
+			if( !isset( $data[$column] ) )															//  no Data given for Column
 				continue;
 			$value = $data[$column];
 			if( $stripTags )
 				$value = strip_tags( $value );
-			$keys[$column] = '`'.$column.'`';
-			$vals[$column] = $this->secureValue( $value );
+			$columns[$column]	= '`'.$column.'`';
+			$values[$column]	= $this->secureValue( $value );
 		}
-		if( $this->isFocused() )													//  add focused Indices to Data
+		if( $this->isFocused() )																	//  add focused indices to data
 		{
-			foreach( $this->focusedIndices as $key => $value )						//  iterate focused Indices
+			foreach( $this->focusedIndices as $index => $value )									//  iterate focused indices
 			{
-				if( isset( $keys[$key] ) )											//  Column is already set
+				if( isset( $columns[$index] ) )														//  Column is already set
 					continue;
-				if( $key == $this->primaryKey )										//  skip primary Key
+				if( $index == $this->primaryKey )													//  skip primary key
 					continue;
-				$keys[$key]	= '`'.$key.'`';													//  add Key
-				$vals[$key]	= $this->secureValue( $value );							//  add Value
+				$columns[$index]	= '`'.$index.'`';												//  add key
+				$values[$index]		= $this->secureValue( $value );									//  add value
 			}
 		}
-		$keys	= implode( ", ", array_values( $keys ) );
-		$vals	= implode( ", ", array_values( $vals ) );
-		$query	= "INSERT INTO ".$this->getTableName()." (".$keys.") VALUES (".$vals.")";
+		$columns	= implode( ', ', array_values( $columns ) );
+		$values		= implode( ', ', array_values( $values ) );
+		$query		= 'INSERT INTO '.$this->getTableName().' ('.$columns.') VALUES ('.$values.')';
 		$this->dbc->exec( $query );
-		$id	= $this->dbc->lastInsertId();
-		return $id;
+		return $this->dbc->lastInsertId();
 	}
 
 	/**
 	 *	Updating data of focused primary key in this table.
 	 *	@access		public
-	 *	@param		array		$data			associative array of data to store
-	 *	@param		bool		$stripTags		Flag: strip HTML Tags from values
+	 *	@param		array		$data			Map of data to store
+	 *	@param		bool		$stripTags		Flag: strip HTML tags from values
 	 *	@return		bool
 	 */
 	public function update( $data = array(), $stripTags = TRUE )
 	{
 		if( !( is_array( $data ) && $data ) )
-			throw new InvalidArgumentException( 'Data for Update must be an Array and have atleast 1 Pair.' );
+			throw new InvalidArgumentException( 'Data for update must be an array and have atleast 1 pair' );
 
 		$this->validateFocus();
 		$has	= $this->get( FALSE );
 		if( !$has )
-			throw new InvalidArgumentException( 'No Data Sets found for Update. Focused Indices are not existing.' );
+			throw new InvalidArgumentException( 'No data sets focused for update' );
 		$updates	= array();
 		foreach( $this->columns as $column )
 		{
@@ -141,8 +139,8 @@ class Database_PDO_TableWriter extends Database_PDO_TableReader
 		}
 		if( sizeof( $updates ) )
 		{
-			$updates	= implode( ", ", $updates );
-			$query	= "UPDATE ".$this->getTableName()." SET $updates WHERE ".$this->getConditionQuery( array() );
+			$updates	= implode( ', ', $updates );
+			$query	= 'UPDATE '.$this->getTableName().' SET '.$updates.' WHERE '.$this->getConditionQuery( array() );
 			$result	= $this->dbc->exec( $query );
 			return $result;
 		}
@@ -151,18 +149,19 @@ class Database_PDO_TableWriter extends Database_PDO_TableReader
 	/**
 	 *	Updates data in table where conditions are given for.
 	 *	@access		public
-	 *	@param		array		$data			Array of Data to store
-	 *	@param		array		$conditions		Array of Condition Pairs
-	 *	@param		bool		$stripTags		Flag: strip HTML Tags from Values
+	 *	@param		array		$data			Array of data to store
+	 *	@param		array		$conditions		Array of condition pairs
+	 *	@param		bool		$stripTags		Flag: strip HTML tags from values
 	 *	@return		bool
 	 */
 	public function updateByConditions( $data = array(), $conditions = array(), $stripTags = FALSE )
 	{
 		if( !( is_array( $data ) && $data ) )
-			throw new InvalidArgumentException( 'Data for Update must be an Array and have atleast 1 Pair.' );
+			throw new InvalidArgumentException( 'Data for update must be an array and have atleast 1 pair' );
 		if( !( is_array( $conditions ) && $conditions ) )
-			throw new InvalidArgumentException( 'Conditions for Update must be an Array and have atleast 1 Pair.' );
+			throw new InvalidArgumentException( 'Conditions for update must be an array and have atleast 1 pair' );
 
+		$updates	= array();
 		$conditions	= $this->getConditionQuery( $conditions, FALSE, FALSE );
 		foreach( $this->columns as $column )
 		{
@@ -170,22 +169,23 @@ class Database_PDO_TableWriter extends Database_PDO_TableReader
 			{
 				if( $stripTags )
 					$data[$column]	= strip_tags( $data[$column] );
-				if( $data[$column] == "on" )
+				if( $data[$column] == 'on' )
 					$data[$column] = 1;
-				$sets[]	= '`'.$column.'`'."='".$data[$column]."'";
+				$data[$column]	= $this->secureValue( $data[$column] );
+				$updates[] = '`'.$column.'`='.$data[$column];
 			}
 		}
-		if( sizeof( $sets ) )
+		if( sizeof( $updates ) )
 		{
-			$ins_sets	= implode( ", ", $sets );
-			$query	= "UPDATE ".$this->getTableName()." SET $ins_sets WHERE ".$conditions;
-			$result	= $this->dbc->exec( $query );
+			$updates	= implode( ', ', $updates );
+			$query		= 'UPDATE '.$this->getTableName().' SET '.$updates.' WHERE '.$conditions;
+			$result		= $this->dbc->exec( $query );
 			return $result;
 		}
 	}
 
 	/**
-	 *	Removes all Data and resets incremental counter.
+	 *	Removes all data and resets incremental counter.
 	 *	Note: This method does not return the number of removed rows.
 	 *	@access		public
 	 *	@return		void
@@ -193,7 +193,7 @@ class Database_PDO_TableWriter extends Database_PDO_TableReader
 	 */
 	public function truncate()
 	{
-		$query	= "TRUNCATE ".$this->getTableName();
+		$query	= 'TRUNCATE '.$this->getTableName();
 		$this->dbc->exec( $query );
 	}
 }
