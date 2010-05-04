@@ -81,7 +81,7 @@ class Folder_Editor extends Folder_Reader
 		if( self::isFolder( $folderName ) )
 			return FALSE;
 		if( false === @mkdir( $folderName, $mode, TRUE ) )									//  create Folder recursive
-			throw new RuntimeException( "Folder '".$folderName."' could not be created." );
+			throw new RuntimeException( 'Folder "'.$folderName.'" could not be created' );
 		if( $userName )																		//  User is set
 			chown( $folderName, $userName );												//  change Owner to User
 		if( $groupName )																	//  Group is set
@@ -102,13 +102,13 @@ class Folder_Editor extends Folder_Reader
 	public static function copyFolder( $sourceFolder, $targetFolder, $force = FALSE, $skipDotEntries = TRUE )
 	{
 		if( !self::isFolder( $sourceFolder ) )												//  Source Folder not existing
-			throw new RuntimeException( 'Folder "'.$sourceFolder.'" cannot be copied because it is not existing.' );
+			throw new RuntimeException( 'Folder "'.$sourceFolder.'" cannot be copied because it is not existing' );
 
 		$count			= 0;																//  initialize Object Counter 
 		$sourceFolder	= self::correctPath( $sourceFolder );								//  add Slash to Source Folder
 		$targetFolder	= self::correctPath( $targetFolder );								//  add Slash to Target Folder
 		if( self::isFolder( $targetFolder ) && !$force )									//  Target Folder is existing, not forced
-			throw new RuntimeException( 'Folder "'.$targetFolder.'" is already existing. See Option "force".' );
+			throw new RuntimeException( 'Folder "'.$targetFolder.'" is already existing. See Option "force"' );
 		else if( !self::isFolder( $targetFolder ) )											//  Target Folder is not existing
 			$count	+= (int) self::createFolder( $targetFolder );							//  create TargetFolder and count
 
@@ -128,7 +128,7 @@ class Folder_Editor extends Folder_Reader
 			{
 				$targetFile	= $targetFolder.$entry->getFilename();
 				if( file_exists( $targetFile ) && !$force )
-					throw new RuntimeException( 'File "'.$targetFile.'" is already existing. See Option "force".' );
+					throw new RuntimeException( 'File "'.$targetFile.'" is already existing. See Option "force"' );
 				$count	+= (int) copy( $entry->getPathname(), $targetFile );				//  copy File and count
 			}
 		}
@@ -168,15 +168,15 @@ class Folder_Editor extends Folder_Reader
 		$sourceFolder	= self::correctPath( $sourceFolder );								//  add Slash to Source Path
 		$targetPath		= self::correctPath( $targetPath );									//  add Slash to Target Path
 		if( !self::isFolder( $sourcePath ) )												//  Path of Source Folder not existing
-			throw new RuntimeException( 'Folder "'.$sourceFolder.'" cannot be moved since it is not existing.' );
+			throw new RuntimeException( 'Folder "'.$sourceFolder.'" cannot be moved since it is not existing' );
 		if( self::isFolder( $targetPath.$sourceName ) && !$force )							//  Path of Target Folder is already existing
-			throw new RuntimeException( 'Folder "'.$targetPath.$sourceName.'" is already existing.' );
+			throw new RuntimeException( 'Folder "'.$targetPath.$sourceName.'" is already existing' );
 		if( !self::isFolder( $targetPath ) )												//  Path to Target Folder not existing
 			self::createFolder( $targetPath );												//  
 		if( $sourceFolder == $targetPath )													//  Source and Target Path are equal
 			return FALSE;																	//  do nothing and return
 		if( FALSE === @rename( $sourceFolder, $targetPath.$sourceName ) )					//  move Source Folder to Target Path
-			throw new RuntimeException( 'Folder "'.$sourceFolder.'" cannot be moved to "'.$targetPath.'".' );
+			throw new RuntimeException( 'Folder "'.$sourceFolder.'" cannot be moved to "'.$targetPath.'"' );
 		return TRUE;
 	}
 	
@@ -221,15 +221,15 @@ class Folder_Editor extends Folder_Reader
 	{
 		$targetName	= basename( $targetName );
 		if( !self::isFolder( $sourceFolder ) )												//  Source Folder not existing
-			throw new RuntimeException( 'Folder "'.$sourceFolder.'" is not existing.' );
+			throw new RuntimeException( 'Folder "'.$sourceFolder.'" is not existing' );
 
 		$sourcePath	= self::correctPath( dirname( $sourceFolder ) );						//  Path to Source Folder
 		if( basename( $sourceFolder ) == $targetName )										//  Source Name and Target name is equal
 			return FALSE;
 		if( self::isFolder( $sourcePath.$targetName ) )										//  Target Folder is already existing
-			throw new RuntimeException( 'Folder "'.$sourcePath.$targetName.'" is already existing.' );
+			throw new RuntimeException( 'Folder "'.$sourcePath.$targetName.'" is already existing' );
 		if( FALSE === @rename( $sourceFolder, $sourcePath.$targetName ) )					//  rename Source Folder to Target Folder
-			throw new RuntimeException( 'Folder "'.$sourceFolder.'" cannot be renamed to "'.$sourcePath.$targetName.'".' );
+			throw new RuntimeException( 'Folder "'.$sourceFolder.'" cannot be renamed to "'.$sourcePath.$targetName.'"' );
 		return TRUE;
 	}
 
@@ -264,11 +264,11 @@ class Folder_Editor extends Folder_Reader
 				continue;																	//  continue
 			$pathName	= $folderName.$entry;												//  Name of nested Object
 			if( !$force )																	//  nested Files or Folders found
-				throw new RuntimeException( 'Folder '.$folderName.' is not empty. See Option "force".' );
+				throw new RuntimeException( 'Folder '.$folderName.' is not empty. See Option "force"' );
 			if( is_file( $pathName ) )														//  is nested File
 			{
 				if( FALSE === @unlink( $pathName ) )										//  remove File and count
-					throw new RuntimeException( 'File "'.$pathName.'" is not removable.' );	//  throw Exception for File
+					throw new RuntimeException( 'File "'.$pathName.'" is not removable' );	//  throw Exception for File
 				$count	++;
 			}
 			if( is_dir( $pathName ) )														//  is nested Folder
