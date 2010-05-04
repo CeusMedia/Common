@@ -3,12 +3,22 @@ class Go_Application
 {
 	private	$messages	= array(
 		'title'						=> " > > GO > >   -  get & organize cmClasses\n",
+		'install_invalid'			=> 'cmClasses is not installed properly',
 		'config_missing'			=> "No Config File '%s' found.\n       cmClasses must be installed and configured.\n       GO must be within installation path.",
 		'command_invalid'			=> "No valid command set (install,configure,update,create,test,run)",
 		'subject_create_invalid'	=> "No valid creator subject set (doc,test).",
 		'subject_test_invalid'		=> "No valid test subject set (self,units).",
 		'tool_create_doc'			=> "No documentation tool set (creator,phpdoc).",
 	);
+
+	public function checkSetUp()
+	{
+		$pathLib	= dirname( dirname( __FILE__ ) ).'/';
+		$hasScript	= file_exists( $pathLib.'useClasses.php5' );
+		$hasConfig	= file_exists( $pathLib.'cmClasses.ini' );
+		
+		return $hasScript && $hasConfig;
+	}
 
 	public function __construct()
 	{
@@ -17,13 +27,22 @@ class Go_Application
 		isset( $_SERVER['SHELL'] ) ? passthru( "clear" ) : exec( "command /C cls" );					//  try to clear screen (not working on Windows!?)
 		print( "\n".$this->messages['title'] );															//  print tool title
 		$configFile	= dirname( dirname( __FILE__ ) )."/cmClasses.ini";									//  Configuration File
+
+		$command	= NULL;
 		$arguments	= array_slice( $_SERVER['argv'], 1 );												//  get given arguments
-		if( !$arguments )																				//  no arguments given
-			die( $this->showUsage( $this->messages['command_invalid'] ) );
-		$command	= strtolower( $arguments[0] );														//  extract command
+		if( !empty( $arguments[0] ) )
+			$command	= strtolower( $arguments[0] );														//  extract command
 
 		try
 		{
+			$isSetUp	= $this->checkSetUp();
+			$cmdSetUp	= array( 'install', 'configure' );
+			if( !( $isSetUp || in_array( $command, $cmdSetUp ) ) )
+				$this->showError( $this->messages['install_invalid'] );
+
+			if( !$arguments )																				//  no arguments given
+				$this->showError( $this->messages['command_invalid'] );
+
 			if( file_exists( $configFile ) )															//  cmClasses installed and configured
 			{
 				require_once( "useClasses.php5" );														//  enable cmClasses
@@ -142,6 +161,7 @@ class Go_Application
 ' );
 				break;
 			default:
+				die( "-" );
 				$this->showUsage( $this->messages['command_invalid'] );
 		}
 	}
@@ -150,8 +170,20 @@ class Go_Application
 	{
 		if( $message )
 			$message	= "\nERROR: ".$message."\n";
-		$text	= file_get_contents( dirname( __FILE__ )."/usage.txt" );
+		$fileUri	= dirname( __FILE__ )."/usage.txt";
+		$text		= file_get_contents( $fileUri );
 		print( "\n".$text."\n".$message );
+	}
+
+	public function showError( $message )
+	{
+		$message	= "\nError: ".$message."\n";
+		die( $message );
+	}
+
+	public function showException( Exception $exception )
+	{
+		$message	= "\nException: ".$exception->getMessage()."\n";
 	}
 }
 ?>

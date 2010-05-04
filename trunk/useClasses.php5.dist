@@ -5,7 +5,7 @@
  *	@version		0.6
  */
 
-define( 'CMC_VERSION',	"0.6.6" );
+define( 'CMC_VERSION',	"0.6.8a" );
 define( 'CMC_PATH',	"/path/to/cmClasses/version/" );		//  EDIT THIS PATH FOR YOUR INSTALLATION
 
 set_include_path( CMC_PATH.PATH_SEPARATOR.get_include_path() );		//  prepend cmClasses in PHP's include path
