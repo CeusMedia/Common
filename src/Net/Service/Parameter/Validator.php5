@@ -56,7 +56,6 @@ class Net_Service_Parameter_Validator
 				return;
 			foreach( $rules as $ruleName => $ruleValue )
 			{
-#				remark( "Rule: ".$ruleName );
 				if( $ruleName == "title" )
 					continue;
 				if( $ruleName == "filters" )
