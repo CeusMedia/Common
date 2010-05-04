@@ -116,7 +116,8 @@ class UI_HTML_Tabs
 	 */
 	public function buildTabs( $id, $class = NULL )
 	{
-		return self::createTabs( $id, $this->tabs, $this->divs, $this->options['navClass'] );
+		$class	= empty( $class ) ? $this->options['navClass'] : $class;
+		return self::createTabs( $id, $this->tabs, $this->divs, $class );
 	}
 
 	/**
@@ -165,7 +166,7 @@ class UI_HTML_Tabs
 			$divs[]		= UI_HTML_Tag::create( 'div', $contents[$index], $attributes );
 			self::$counter++;
 		}
-		$tabs		= UI_HTML_Tag::create( 'ul', implode( "\n", $tabs ) );
+		$tabs		= UI_HTML_Tag::create( 'ul', implode( "\n", $tabs ), array( 'class' => $class ) );
 		$divs		= implode( "\n", $divs );
 		$content	= UI_HTML_Tag::create( 'div', $tabs.$divs, array( 'id' => $id ) );
 		return $content;
