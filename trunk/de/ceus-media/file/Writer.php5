@@ -66,8 +66,8 @@ class File_Writer
 	 */
 	public function create( $mode = NULL, $user = NULL, $group = NULL )
 	{
-		if( false === @file_put_contents( $this->fileName, "" ) )
-			throw new RuntimeException( "File '".$this->fileName."' could not been created." );
+		if( false === @file_put_contents( $this->fileName, '' ) )
+			throw new RuntimeException( 'File "'.$this->fileName.'" could not been created' );
 			
 		if( $mode )
 			chmod( $this->fileName, $mode );
@@ -150,10 +150,10 @@ class File_Writer
 		if( !file_exists( $this->fileName ) )
 			$this->create();
 		if( !$this->isWritable( $this->fileName ) )			
-			throw new RuntimeException( "File '".$this->fileName."' is not writable." );
+			throw new RuntimeException( 'File "'.$this->fileName.'" is not writable' );
 		$count	= file_put_contents( $this->fileName, $string );
 		if( $count === false )	
-			throw new RuntimeException( 'File "'.$fileName.'" could not been written.' );
+			throw new RuntimeException( 'File "'.$fileName.'" could not been written' );
 		return $count;
 	}
 }

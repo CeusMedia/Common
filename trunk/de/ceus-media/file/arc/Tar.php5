@@ -495,21 +495,19 @@ class File_Arc_Tar
 	/**
 	 *	Write down the currently loaded Tar Archive.
 	 *	@access		public
-	 *	@param		string	fileName 	Name of Tar Archive to save
-	 *	@return		bool
+	 *	@param		string	$fileName 	Name of Tar Archive to save
+	 *	@return		int					Number of written bytes
 	 */
-	public function save( $fileName = FALSE )
+	public function save( $fileName = NULL )
 	{
-		if( !$fileName )
+		if( empty( $fileName ) )
 		{
-			if( !$this->fileName )
+			if( empty( $this->fileName ) )
 				throw new Exception( 'No TAR file name for saving given' );
 			$fileName = $this->fileName;
 		}
-		$this->generateTar();												// Encode processed files into TAR file format
-		$f = new File_Writer( $fileName );
-		$f->writeString( $this->content );
-		return TRUE;
+		$this->generateTar();																		// Encode processed files into TAR file format
+		return File_Writer::save( $fileName, $this->content );										//  write archive file
 	}
 }
 ?>
