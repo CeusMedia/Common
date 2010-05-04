@@ -6,7 +6,6 @@
  *	@version		0.6.5
  */
 //$__c	= parse_ini_file( dirname( __FILE__ )."/cmClasses.ini", TRUE );
-
 $constants	= array(																			//  Array of Constants to be set
 	'CM_CLASSES_IMPORT_EXTENSION'		=> 'php5',												//  Extension of PHP Classes (default 'php5')
 	'CM_CLASSES_IMPORT_SEPARATOR'		=> '.',													//  Separator in Import Path (default '.')
