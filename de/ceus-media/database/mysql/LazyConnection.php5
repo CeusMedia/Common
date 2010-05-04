@@ -143,6 +143,13 @@ class Database_MySQL_LazyConnection extends Database_MySQL_Connection
 			throw new RuntimeException( 'Database has not been used' );
 		return mysql_error( $this->dbc );
 	}
+
+	public function getResource()
+	{
+		if( !$this->dbc )
+			$this->openConnection();
+		return parent::getResource();
+	}
 	
 	public function getTables()
 	{

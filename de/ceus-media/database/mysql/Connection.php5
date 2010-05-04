@@ -183,7 +183,7 @@ class Database_MySQL_Connection extends Database_BaseConnection
 				if( $bits[3] )
 					die();
 			}
-			if( eregi( '^( |\n|\r|\t)*(INSERT)', $query ) )
+			if( preg_match( '/^INSERT/i', ltrim( $query ) ) )
 			{
 				if( mysql_query( $query, $this->dbc ) )
 				{
@@ -191,7 +191,7 @@ class Database_MySQL_Connection extends Database_BaseConnection
 					$result	= $this->insertId;
 				}
 			}
-			else if( eregi( '^( |\n|\r|\t)*(SELECT|SHOW)', $query ) )
+			else if( preg_match( '/^(SELECT|SHOW)/i', ltrim( $query ) ) )
 			{
 				$result = new Database_Result();
 				if( $q = mysql_query( $query, $this->dbc ) )
@@ -275,6 +275,13 @@ class Database_MySQL_Connection extends Database_BaseConnection
 		return $this->insertId;
 	}
 	
+	public function getResource()
+	{
+		if( !$this->dbc )
+			throw new RuntimeException( 'Database not conntected' );
+		return $this->dbc;
+	}
+
 	public function getTables()
 	{
 		if( !$this->dbc )

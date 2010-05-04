@@ -66,16 +66,7 @@ class Database_TableWriter extends Database_TableReader
 					else unset( $value );
 					if( isset( $value ) )
 					{
-						if( $stripTags )
-							$value = strip_tags( $value );
-						$value = str_replace( '"', "'", $value );
-						if ($value == "on")
-							$value = 1;
-						if( !ini_get( 'magic_quotes_gpc' ) )
-						{
-							$field = addslashes( $field );
-							$value = addslashes( $value );
-						}
+						$value	= $this->secureValue( $data[$field], $stripTags );
 						$keys[$field] = '`'.$field.'`';
 						$vals[$field] = '"'.$value.'"';
 					}
@@ -172,19 +163,9 @@ class Database_TableWriter extends Database_TableReader
 						else if( isset( $_POST["set_".$field] ) )
 							$value	= $_POST["set_".$field];
 						else unset( $value );
-					//	echo "field: $field -> $value<br>";
 						if( isset( $value ) )
 						{
-							if( $stripTags )
-								$value	= strip_tags( $value );
-							if( !ini_get( 'magic_quotes_gpc' ) )
-							{
-								$field = addslashes( $field );
-								$value = addslashes( $value );
-							}
-							$value	= str_replace( '"', "'", $value );
-							if( $value == "on" )
-								$value = 1;
+							$value	= $this->secureValue( $data[$field], $stripTags );
 							$updates[] = "`".$field."`".'="'.$value.'"';
 						}
 					}
@@ -222,9 +203,7 @@ class Database_TableWriter extends Database_TableReader
 		{
 			if( array_key_exists( $field, $data ) )
 			{
-				$data[$field]	= strip_tags( $data[$field] );
-				if( $data[$field] == "on" )
-					$data[$field] = 1;
+				$value	= $this->secureValue( $data[$field], TRUE );
 				$sets[]	= $field."='".$data[$field]."'";
 			}
 		}
@@ -235,6 +214,18 @@ class Database_TableWriter extends Database_TableReader
 			$result	= $this->dbc->Execute( $query, $debug );
 		}
 		return $result;
+	}
+
+	protected function secureValue( $value, $stripTags = NULL )
+	{
+		if( $stripTags )
+			$value	= strip_tags( $value );
+#		if( $value === "on" )
+#			$value	= 1;
+		$value	= stripslashes( $value );
+		$value	= htmlentities( $value, ENT_QUOTES );
+		$value	= mysql_real_escape_string( $value, $this->dbc->getResource() );
+		return $value;
 	}
 }
 ?>
