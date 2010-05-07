@@ -58,8 +58,7 @@ class Framework_Neon_DefinitionAction extends Framework_Neon_Action
 	{
 		parent::__construct();
 		$this->validator	= new Alg_Validation_DefinitionValidator;
-		$this->loadLanguage( 'validator', false, false );
-		$this->validator->setMessages( $this->words['validator']['messages'] );
+#		$this->validator->setMessages( $this->words['validator']['messages'] );
 		$this->definition	=& $this->ref->get( 'definition' );
 	}
 
@@ -86,13 +85,14 @@ class Framework_Neon_DefinitionAction extends Framework_Neon_Action
 	 *	@param		string		$lan_section		Section in Language File (e.g. 'add')
 	 *	@return		bool
 	 */
-	public function validateForm( $file , $form, $lan_file, $lan_section )
+	public function validateForm( $file, $form, $lan_file, $lan_section )
 	{
 		$request	= $this->ref->get( 'request' );
 		$labels		= $this->words[$lan_file][$lan_section];
+		$this->loadLanguage( 'validator', false, false );
+		$messages	= $this->words['validator']['messages'];
 
-		$this->validator->setLabels( $labels );
-		$errors	= array();
+		$valid		= TRUE;
 		$this->loadDefinition( $file , $form, $this->prefix );
 		$fields	= $this->definition->getFields();
 		foreach( $fields as $field )
@@ -105,17 +105,36 @@ class Framework_Neon_DefinitionAction extends Framework_Neon_Action
 //			{
 			if( !is_array( $value ) )
 			{
-				$_errors	= $this->validator->validate( $field, $data, $value );
-				foreach( $_errors as $error )
-					$errors[]	= $error;
+				$errors	= $this->validator->validate( $data, $value, $data['input']['name'] );
+				if( $errors )
+				{
+					$valid		= FALSE;
+					foreach( $errors as $error )
+					{
+						$label		= $labels[$field];
+						$message	= $messages[$error[0]];
+						$message	= sprintf(
+							$message,
+							$data['input']['name'],
+							$label,
+							$value,
+							$error[1],
+							$error[0]
+						);
+						//  --  OLD SOLUTION  --  //
+						$message	= str_replace( '%validator%', $error[0], $message );
+						$message	= str_replace( '%label%', $label, $message );
+						$message	= str_replace( '%field%', $field, $message );
+						$message	= str_replace( '%value%', $value, $message );
+						$message	= str_replace( '%edge%', $error[1], $message );
+						$this->messenger->noteError( $message );
+					}
+				}
 			}
 //			else 
 //				$this->messenger->noteError( "Skipped Validation of Field '".$field."'" );
 		}
-		if( count( $errors ) )
-			foreach( $errors as $error )
-				$this->messenger->noteError( $error );
-		return !count( $errors );
+		return $valid;
 	}
 }
 ?>

@@ -66,7 +66,7 @@ class Database_TableWriter extends Database_TableReader
 					else unset( $value );
 					if( isset( $value ) )
 					{
-						$value	= $this->secureValue( $data[$field], $stripTags );
+						$value	= $this->secureValue( $value, $stripTags );
 						$keys[$field] = '`'.$field.'`';
 						$vals[$field] = '"'.$value.'"';
 					}
@@ -166,7 +166,7 @@ class Database_TableWriter extends Database_TableReader
 						else unset( $value );
 						if( isset( $value ) )
 						{
-							$value	= $this->secureValue( $data[$field], $stripTags );
+							$value	= $this->secureValue( $value, $stripTags );
 							$updates[] = "`".$field."`".'="'.$value.'"';
 						}
 					}
