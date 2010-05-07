@@ -155,7 +155,8 @@ class Database_TableWriter extends Database_TableReader
 				{
 					$updates	= array();
 					foreach( $this->fields as $field )
-					{
+
+{
 						if( isset( $data[$field] ) )
 							$value	= $data[$field];
 						else if( isset( $data["set_".$field] ) )
@@ -223,7 +224,7 @@ class Database_TableWriter extends Database_TableReader
 #		if( $value === "on" )
 #			$value	= 1;
 		$value	= stripslashes( $value );
-		$value	= htmlentities( $value, ENT_QUOTES );
+#		$value	= htmlentities( $value, ENT_COMPAT );
 		$value	= mysql_real_escape_string( $value, $this->dbc->getResource() );
 		return $value;
 	}
