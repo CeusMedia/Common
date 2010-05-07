@@ -174,7 +174,6 @@ class Framework_Neon_Base
 			$words[$i] = $class;
 		}
 		$link		= implode( "", $words );
-
 		return $link;
 	}
 }
