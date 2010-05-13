@@ -42,38 +42,38 @@ import( 'de.ceus-media.file.Reader' );
  */
 class File_INI_Reader extends File_Reader
 {
-	/**	@var		string		$fileName				URI of Ini File */
-	protected $fileName			= array();
-	/**	@var		array		$comments				List of collected Comments */
-	protected $comments			= array();
-	/**	@var		array		$lines					List of collected Lines */
-	protected $lines			= array();
-	/**	@var		array		$properties				List of collected Properties */
-	protected $properties		= array();
-	/**	@var		array		$sections				List of collected Sections */
-	protected $sections			= array();
-	/**	@var		array		$disabled				List of disabled Properties */
-	protected $disabled			= array();
-	/**	@var		bool		$usesSections			Flag: use Sections */
-	protected $usesSections		= false;
-	/**	@var		string		$disableSign			Sign( string) of disabled Properties */
-	protected $disableSign;
-	/**	@var		string		$disablePattern			Pattern( regex) of disabled Properties */
-	protected $disablePattern;
-	/**	@var		string		$propertyPattern		Pattern( regex) of Properties */
-	protected $propertyPattern;
-	/**	@var		string		$descriptionPattern		Pattern( regex) of Descriptions */
-	protected $descriptionPattern;
-	/**	@var		string		$sectionPattern			Pattern( regex) of Sections */
-	protected $sectionPattern;
-	/**	@var		string		$lineCommentPattern		Pattern( regex) of Line Comments */
-	protected $lineCommentPattern;
+	/**	@var		string			$fileName				URI of Ini File */
+	protected $fileName				= array();
+	/**	@var		array			$comments				List of collected Comments */
+	protected $comments				= array();
+	/**	@var		array			$lines					List of collected Lines */
+	protected $lines				= array();
+	/**	@var		array			$properties				List of collected Properties */
+	protected $properties			= array();
+	/**	@var		array			$sections				List of collected Sections */
+	protected $sections				= array();
+	/**	@var		array			$disabled				List of disabled Properties */
+	protected $disabled				= array();
+	/**	@var		bool			$usesSections			Flag: use Sections */
+	protected $usesSections			= FALSE;
+	/**	@var		string			$signDisabled			Sign( string) of disabled Properties */
+	protected $signDisabled			= ';';
+	/**	@var		string			$patternDisabled		Pattern( regex) of disabled Properties */
+	protected $patternDisabled 		= '/^;/';
+	/**	@var		string			$patternProperty		Pattern( regex) of Properties */
+	protected $patternProperty		= '/^(;|[a-z0-9-])+([a-z0-9#.:@\/\\|_-]*[ |\t]*=)/';
+	/**	@var		string			$patternDescription		Pattern( regex) of Descriptions */
+	protected $patternDescription	= '/^[;|#|:|\/|=]{1,2}/';
+	/**	@var		string			$patternSection			Pattern( regex) of Sections */
+	protected $patternSection		= '/^([){1}([a-z0-9_=.,:;#@-])+(]){1}$/';
+	/**	@var		string			$patternLineComment		Pattern( regex) of Line Comments */
+	protected $patternLineComment	= '/([\t| ]+([\/]{2}|[;])+[\t| ]*)/';
 
 	/**
 	 *	Constructor, reads Property File.
 	 *	@access		public
 	 *	@param		string		$fileName		File Name of Property File, absolute or relative URI
-	 *	@param		bool		$usesSections	Flag: Property File containts Sections
+	 *	@param		bool		$usesSections	Flag: Property File contains Sections
 	 *	@param		bool		$reservedWords	Flag: interprete reserved Words like yes,no,true,false,null
 	 *	@return		void
 	 */
@@ -81,12 +81,6 @@ class File_INI_Reader extends File_Reader
 	{
 		parent::__construct( $fileName );
 		$this->usesSections			= $usesSections;
-		$this->disableSign 			= ";";
-		$this->disablePattern 		= "^[".$this->disableSign."]{1}";
-		$this->propertyPattern		= "^(".$this->disableSign."|[a-z0-9-])+([a-z0-9#.:@/\|_-]*[ |\t]*=)";
-		$this->descriptionPattern	= "^[;|#|:|/|=]{1,2}";
-		$this->sectionPattern		= "^([){1}([a-z0-9_=.,:;#@-])+(]){1}$";
-		$this->lineCommentPattern	= "([\t| ]+([/]{2}|[;])+[\t| ]*)";
 		$this->reservedWords		= $reservedWords;
 		$this->read();
 	}
@@ -102,19 +96,16 @@ class File_INI_Reader extends File_Reader
 	{
 		if( $this->usesSections() )
 		{
-			if( !$section )
-				throw new InvalidArgumentException( 'No Section given.' );
+			if( empty( $section ) )
+				throw new InvalidArgumentException( 'No section given' );
 			if( !$this->hasSection( $section ) )
-				throw new InvalidArgumentException( 'Section "'.$section.'" is not existing.' );
-			if( isset( $this->comments[$section][$key] ) )
+				throw new InvalidArgumentException( 'Section "'.$section.'" is not existing' );
+			if( !empty( $this->comments[$section][$key] ) )
 				return $this->comments[$section][$key];
 		}
-		else
-		{
-			if( isset( $this->comments[$key] ) )
-				return $this->comments[$key];
-		}
-		return "";
+		else if( !empty( $this->comments[$key] ) )
+			return $this->comments[$key];
+		return '';
 	}
 
 	/**
@@ -170,14 +161,11 @@ class File_INI_Reader extends File_Reader
 	 */
 	public function getComments( $section = NULL )
 	{
-		if( $this->usesSections() )
+		if( $this->usesSections() && $section )
 		{
-			if( $section )
-			{
-				if( !$this->hasSection( $section ) )
-					throw new InvalidArgumentException( 'Section "'.$section.'" is not existing.' );
+			if( $this->hasSection( $section ) )
 				return $this->comments[$section];
-			}
+			throw new InvalidArgumentException( 'Section "'.$section.'" is not existing' );
 		}
 		return $this->comments;
 	}
@@ -244,16 +232,15 @@ class File_INI_Reader extends File_Reader
 		if( $this->usesSections() )
 		{
 			if( !$section )
-				throw new InvalidArgumentException( 'No Section given.' );
+				throw new InvalidArgumentException( 'No section given' );
 			if( $activeOnly && !$this->isActiveProperty( $key, $section ) )
-				throw new InvalidArgumentException( 'Property "'.$key.'" is not set or inactive.' );
+				throw new InvalidArgumentException( 'Property "'.$key.'" is not set or inactive' );
 			return $this->properties[$section][$key];
-			
 		}
 		else
 		{
 			if( $activeOnly && !$this->isActiveProperty( $key ) )
-				throw new InvalidArgumentException( 'Property "'.$key.'" is not set or inactive.' );
+				throw new InvalidArgumentException( 'Property "'.$key.'" is not set or inactive' );
 			return $this->properties[$key];
 		}
 	}
@@ -299,7 +286,7 @@ class File_INI_Reader extends File_Reader
 	public function getSections()
 	{
 		if( !$this->usesSections() )
-			throw new RuntimeException( 'Sections are not used.' );
+			throw new RuntimeException( 'Sections are disabled' );
 		return $this->sections;
 	}
 
@@ -314,10 +301,10 @@ class File_INI_Reader extends File_Reader
 	{
 		if( $this->usesSections() )
 		{
-			if( !$section )
-				throw new InvalidArgumentException( 'No Section given.' );
+			if( empty( $section ) )
+				throw new InvalidArgumentException( 'No section given' );
 			if( !$this->hasSection( $section ) )
-				throw new InvalidArgumentException( 'Section "'.$section.'" is not existing.' );
+				throw new InvalidArgumentException( 'Section "'.$section.'" is not existing' );
 			return isset( $this->properties[$section][$key] );
 		}
 		else
@@ -333,7 +320,7 @@ class File_INI_Reader extends File_Reader
 	public function hasSection( $section )
 	{
 		if( !$this->usesSections() )
-			throw new RuntimeException( 'Sections are not used.' );
+			throw new RuntimeException( 'Sections are disabled' );
 		return in_array( $section, $this->sections );
 	}
 
@@ -349,21 +336,17 @@ class File_INI_Reader extends File_Reader
 	{
 		if( $this->usesSections() )
 		{
-			if( !$section )
-				throw new InvalidArgumentException( 'No Section given.' );
-			if( isset( $this->disabled[$section] ) && is_array( $this->disabled[$section] ) )
-			{
-				if( in_array( $key, $this->disabled[$section] ) )
-					return false;
-			}
+			if( empty( $section ) )
+				throw new InvalidArgumentException( 'No Section given' );
+			if( isset( $this->disabled[$section] ) )
+				if( is_array( $this->disabled[$section] ) )
+					if( in_array( $key, $this->disabled[$section] ) )
+						return FALSE;
 			return $this->hasProperty( $key, $section );
 		}
-		else
-		{
-			if( in_array( $key, $this->disabled ) )
-				return FALSE;
-			return $this->hasProperty( $key );
-		}
+		else if( in_array( $key, $this->disabled ) )
+			return FALSE;
+		return $this->hasProperty( $key );
 	}
 
 	/**
@@ -420,7 +403,7 @@ class File_INI_Reader extends File_Reader
 			if( $commentOpen )
 				continue;
 
-			if( $this->usesSections() && eregi( $this->sectionPattern, $line ) )
+			if( $this->usesSections() && preg_match( $this->patternSection, $line ) )
 			{
 				$currentSection		= substr( trim( $line ), 1, -1 );
 				$this->sections[]	= $currentSection;
@@ -428,7 +411,7 @@ class File_INI_Reader extends File_Reader
 				$this->properties[$currentSection]	= array();
 				$this->comments[$currentSection]	= array();
 			}
-			else if( eregi( $this->propertyPattern, $line ) )
+			else if( preg_match( $this->patternProperty, $line ) )
 			{
 				if( !count( $this->sections ) )
 					$this->usesSections	= false;
@@ -436,18 +419,18 @@ class File_INI_Reader extends File_Reader
 				$key	= trim( substr( $line, 0, $pos ) );
 				$value	= trim( substr( $line, ++$pos ) );
 
-				if( ereg( $this->disablePattern, $key ) )
+				if( preg_match( $this->patternDisabled, $key ) )
 				{
-					$key = ereg_replace( $this->disablePattern, "", $key );
+					$key = preg_replace( $this->patternDisabled, "", $key );
 					if( $this->usesSections() )
 						$this->disabled[$currentSection][] = $key;
 					$this->disabled[] = $key;
 				}
 
-				//  --  CUT COMMENT  --  //
-				if( eregi( $this->lineCommentPattern, $value ) )
+				//  --  EXTRACT COMMENT  --  //
+				if( preg_match( $this->patternLineComment, $value ) )
 				{
-					$newValue		= spliti( $this->lineCommentPattern, $value );
+					$newValue		= preg_split( $this->patternLineComment, $value, 2 );
 					$value			= trim( $newValue[0] );
 					$inlineComment	= trim( $newValue[1] );
 					if( $this->usesSections() )
