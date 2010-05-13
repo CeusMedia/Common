@@ -21,18 +21,12 @@
  *
  *	@category		cmClasses
  *	@package		file.ini
- *	@extends		File_INI_Reader
- *	@uses			File_Reader
- *	@uses			File_Writer
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		$Id$
  */
-import( 'de.ceus-media.file.ini.Reader' );
-import( 'de.ceus-media.file.Reader' );
-import( 'de.ceus-media.file.Writer' );
 /**
  *	Property File Editor.
  *	This Implementation keeps the File Structure of original File completely alive.
@@ -70,18 +64,18 @@ class File_INI_Editor extends File_INI_Reader
 		if( $this->usesSections() )
 		{
 			if( !$this->hasProperty( $key, $section ) )
-				throw new InvalidArgumentException( 'Key "'.$key.'" is not existing in Section "'.$section.'".' );
+				throw new InvalidArgumentException( 'Key "'.$key.'" is not existing in section "'.$section.'"' );
 			if( $this->isActiveProperty( $key, $section ) )
-				throw new LogicException( 'Key "'.$key.'" is already active.' );
+				throw new LogicException( 'Key "'.$key.'" is already active' );
 			unset( $this->disabled[$section][array_search( $key, $this->disabled[$section] )] );
 			return is_int( $this->write() );
 		}
 		else
 		{
 			if( !$this->hasProperty( $key ) )
-				throw new InvalidArgumentException( 'Key "'.$key.'" is not existing.' );
+				throw new InvalidArgumentException( 'Key "'.$key.'" is not existing' );
 			if( $this->isActiveProperty( $key ) )
-				throw new LogicException( 'Key "'.$key.'" is already active.' );
+				throw new LogicException( 'Key "'.$key.'" is already active' );
 			unset( $this->disabled[array_search( $key, $this->disabled )] );
 			return is_int( $this->write() );
 		}
@@ -92,22 +86,22 @@ class File_INI_Editor extends File_INI_Reader
 	 *	@access		public
 	 *	@param		string		$key			Key of new Property
 	 *	@param		string		$value			Value of new Property
-	 *	@param		bool		$state			Activity state of new Property
 	 *	@param		string		$comment		Comment of new Property
+	 *	@param		bool		$state			Activity state of new Property
+	 *	@param		string		$section		Section to add Property to
 	 *	@return		bool
-	 *	@todo		rework params
 	 */
-	public function addProperty( $key, $value, $comment = "", $state = true, $section = NULL )
+	public function addProperty( $key, $value, $comment = '', $state = TRUE, $section = NULL )
 	{
 		if( $section && !in_array( $section, $this->sections ) )
 			$this->addSection( $section );
-		$key = ( $state ? "" : $this->disableSign ).$key;
+		$key = ( $state ? "" : $this->signDisabled ).$key;
 		$this->added[] = array(
 			"key"		=> $key,
 			"value"		=> $value,
 			"comment"	=> $comment,
 			"section"	=> $section,
-			);
+		);
 		return is_int( $this->write() );
 	}
 
@@ -120,7 +114,7 @@ class File_INI_Editor extends File_INI_Reader
 	public function addSection( $sectionName )
 	{
 		if( !$this->usesSections() )
-			throw new RuntimeException( 'Sections are not used.' );
+			throw new RuntimeException( 'Sections are disabled' );
 		$lines		= File_Reader::loadArray( $this->fileName );
 		$lines[]	= "[".$sectionName."]";
 		if( !in_array( $sectionName, $this->sections ) )
@@ -140,16 +134,15 @@ class File_INI_Editor extends File_INI_Reader
 	 */
 	private function buildLine( $key, $value, $comment )
 	{
-		$keyBreaks		= 4 - floor( strlen( $key ) / 8 );
-		$valueBreaks	= 4 - floor( strlen( $value ) / 8 );
-		if( $keyBreaks < 1 )
-			$keyBreaks = 1;
-		if( $valueBreaks < 1 )
-			$valueBreaks = 1;
+		$breaksKey		= 4 - floor( strlen( $key ) / 8 );
+		$breaksValue	= 4 - floor( strlen( $value ) / 8 );
+		if( $breaksKey < 1 )
+			$breaksKey = 1;
+		if( $breaksValue < 1 )
+			$breaksValue = 1;
+		$line	= $key.str_repeat( "\t", $breaksKey )."=".$value;
 		if( $comment )
-			$line = $key.str_repeat( "\t", $keyBreaks )."=".$value.str_repeat( "\t", $valueBreaks )."; ".$comment."\n";
-		else
-			$line = $key.str_repeat( "\t", $keyBreaks )."=".$value;
+			$line	.= str_repeat( "\t", $breaksValue )."; ".$comment;
 		return $line;
 	}
 
@@ -165,18 +158,18 @@ class File_INI_Editor extends File_INI_Reader
 		if( $this->usesSections() )
 		{
 			if( !$this->hasProperty( $key, $section ) )
-				throw new InvalidArgumentException( 'Key "'.$key.'" is not existing in Section "'.$section.'".' );
+				throw new InvalidArgumentException( 'Key "'.$key.'" is not existing in section "'.$section.'"' );
 			if( !$this->isActiveProperty( $key, $section ) )
-				throw new LogicException( 'Key "'.$key.'" is already inactive.' );
+				throw new LogicException( 'Key "'.$key.'" is already inactive' );
 			$this->disabled[$section][] = $key;
 			return is_int( $this->write() );
 		}
 		else
 		{
 			if( !$this->hasProperty( $key ) )
-				throw new InvalidArgumentException( 'Key "'.$key.'" is not existing.' );
+				throw new InvalidArgumentException( 'Key "'.$key.'" is not existing' );
 			if( !$this->isActiveProperty( $key ) )
-				throw new LogicException( 'Key "'.$key.'" is already inactive.' );
+				throw new LogicException( 'Key "'.$key.'" is already inactive' );
 			$this->disabled[] = $key;
 			return is_int( $this->write() );
 		}
@@ -193,13 +186,13 @@ class File_INI_Editor extends File_INI_Reader
 		if( $this->usesSections() )
 		{
 			if( !$this->hasProperty( $key, $section ) )
-				throw new InvalidArgumentException( 'Key "'.$key.'" is not existing in Section "'.$section.'".' );
+				throw new InvalidArgumentException( 'Key "'.$key.'" is not existing in section "'.$section.'"' );
 			$this->deleted[$section][] = $key;
 		}
 		else
 		{
 			if( !$this->hasProperty( $key ) )
-				throw new InvalidArgumentException( 'Key "'.$key.'" is not existing.' );
+				throw new InvalidArgumentException( 'Key "'.$key.'" is not existing' );
 			$this->deleted[] = $key;
 		}
 		return is_int( $this->write() );
@@ -218,7 +211,7 @@ class File_INI_Editor extends File_INI_Reader
 		if( $this->usesSections() )
 		{
 			if( !$this->hasProperty( $key, $section ) )
-				throw new InvalidArgumentException( 'Key "'.$key.'" is not existing in Section "'.$section.'".' );
+				throw new InvalidArgumentException( 'Key "'.$key.'" is not existing in section "'.$section.'"' );
 			$this->properties[$section][$new]	= $this->properties[$section][$key];
 			if( isset( $this->disabled[$section][$key] ) )
 				$this->disabled [$section][$new]		= $this->disabled[$section][$key];
@@ -230,7 +223,7 @@ class File_INI_Editor extends File_INI_Reader
 		else
 		{
 			if( !$this->hasProperty( $key ) )
-				throw new InvalidArgumentException( 'Key "'.$key.'" is not existing.' );
+				throw new InvalidArgumentException( 'Key "'.$key.'" is not existing' );
 			$this->properties[$new]	= $this->properties[$key];
 			if( isset( $this->disabled[$key] ) )
 				$this->disabled[$new]		= $this->disabled[$key];
@@ -251,7 +244,7 @@ class File_INI_Editor extends File_INI_Reader
 	public function renameSection( $oldSection, $newSection )
 	{
 		if( !$this->usesSections() )
-			throw new RuntimeException( 'Sections are not used.' );
+			throw new RuntimeException( 'Sections are disabled' );
 		$content	= File_Reader::load( $this->fileName );
 		$content	= preg_replace( "/(.*)(\[".$oldSection."\])(.*)/si", "$1[".$newSection."]$3", $content );
 		$result		= File_Writer::save( $this->fileName, $content );
@@ -271,9 +264,9 @@ class File_INI_Editor extends File_INI_Reader
 	public function removeSection( $section )
 	{
 		if( !$this->usesSections() )
-			throw new RuntimeException( 'Sections are not used.' );
+			throw new RuntimeException( 'Sections are disabled' );
 		if( !$this->hasSection( $section ) )
-			throw new InvalidArgumentException( 'Section "'.$section.'" is not existing.' );
+			throw new InvalidArgumentException( 'Section "'.$section.'" is not existing' );
 		$index	= array_search( $section, $this->sections);
 		unset( $this->sections[$index] );
 		return is_int( $this->write() );
@@ -319,7 +312,7 @@ class File_INI_Editor extends File_INI_Reader
 			if( $this->hasSection( $section ) && $this->hasProperty( $key, $section ) )
 				$this->properties[$section][$key] = $value;
 			else
-				$this->addProperty( $key, $value, false, true, $section );
+				$this->addProperty( $key, $value, FALSE, TRUE, $section );
 		}
 		else
 		{
@@ -334,7 +327,7 @@ class File_INI_Editor extends File_INI_Reader
 	/**
 	 *	Writes manipulated Content to File.
 	 *	@access		protected
-	 *	@return		int
+	 *	@return		int			Number of written bytes
 	 */
 	protected function write()
 	{
@@ -343,7 +336,7 @@ class File_INI_Editor extends File_INI_Reader
 		$currentSection	= "";
 		foreach( $this->lines as $line )
 		{
-			if( $this->usesSections() && eregi( $this->sectionPattern, $line ) )
+			if( $this->usesSections() && preg_match( $this->patternSection, $line ) )
 			{
 				$lastSection = $currentSection;
 				$newAdded = array();
@@ -366,11 +359,11 @@ class File_INI_Editor extends File_INI_Reader
 				if( !in_array( $currentSection, $this->sections ) )
 					continue;
 			}
-			else if( eregi( $this->propertyPattern, $line ) )
+			else if( preg_match( $this->patternProperty, $line ) )
 			{
 				$pos		= strpos( $line, "=" );
 				$key		= trim( substr( $line, 0, $pos ) );
-				$pureKey	= eregi_replace( $this->disablePattern, "", $key );
+				$pureKey	= preg_replace( $this->patternDisabled, "", $key );
 				$parts		= explode(  "//", trim( substr( $line, $pos+1 ) ) );
 				if( count( $parts ) > 1 )
 					$comment = trim( $parts[1] );
@@ -384,16 +377,16 @@ class File_INI_Editor extends File_INI_Reader
 						{
 							$newKey	= $key	= $this->renamed[$currentSection][$pureKey];
 							if( !$this->isActiveProperty( $newKey, $currentSection) )
-								$key = $this->disableSign.$key;
+								$key = $this->signDisabled.$key;
 							$comment	= isset( $this->comments[$currentSection][$newKey] ) ? $this->comments[$currentSection][$newKey] : "";
 							$line = $this->buildLine( $key, $this->properties[$currentSection][$newKey], $comment );
 						}
 						else
 						{
-							if( $this->isActiveProperty( $pureKey, $currentSection ) && eregi( $this->disablePattern, $key ) )
+							if( $this->isActiveProperty( $pureKey, $currentSection ) && preg_match( $this->patternDisabled, $key ) )
 								$key = substr( $key, 1 );
-							else if( !$this->isActiveProperty( $pureKey, $currentSection ) && !eregi( $this->disablePattern, $key ) )
-								$key = $this->disableSign.$key;
+							else if( !$this->isActiveProperty( $pureKey, $currentSection ) && !preg_match( $this->patternDisabled, $key ) )
+								$key = $this->signDisabled.$key;
 							$comment	= isset( $this->comments[$currentSection][$pureKey] ) ? $this->comments[$currentSection][$pureKey] : "";
 							$line = $this->buildLine( $key, $this->properties[$currentSection][$pureKey], $comment );
 						}
@@ -409,15 +402,15 @@ class File_INI_Editor extends File_INI_Reader
 					{
 						$newKey	= $key	= $this->renamed[$pureKey];
 						if( !$this->isActiveProperty( $newKey ) )
-							$key = $this->disableSign.$key;
+							$key = $this->signDisabled.$key;
 						$line = $this->buildLine( $newKey, $this->properties[$newKey], $this->comments[$newKey] );
 					}
 					else
 					{
-						if( $this->isActiveProperty( $pureKey ) && eregi( $this->disablePattern, $key ) )
+						if( $this->isActiveProperty( $pureKey ) && preg_match( $this->patternDisabled, $key ) )
 							$key = substr( $key, 1 );
-						else if( !$this->isActiveProperty( $pureKey) && !eregi( $this->disablePattern, $key ) )
-							$key = $this->disableSign.$key;
+						else if( !$this->isActiveProperty( $pureKey) && !preg_match( $this->patternDisabled, $key ) )
+							$key = $this->signDisabled.$key;
 						$line = $this->buildLine( $key, $this->properties[$pureKey], $this->getComment( $pureKey ) );
 					}
 				}

@@ -19,7 +19,6 @@
  *
  *	@category		cmClasses
  *	@package		file.ini
- *	@uses			File_Writer
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -27,7 +26,6 @@
  *	@since			18.07.2005
  *	@version		$Id$
  */
-import( 'de.ceus-media.file.Writer' );
 /**
  *	Builder for File in .ini-Format.
  *	@category		cmClasses
@@ -80,7 +78,7 @@ class File_INI_Creator
 		else if( $this->currentSection )
 			$this->addPropertyToSection( $key, $value, $this->currentSection, $comment );
 		else
-			throw new InvalidArgumentException( 'No section given.' );
+			throw new InvalidArgumentException( 'No section given' );
 	}
 	
 	/**
@@ -122,16 +120,15 @@ class File_INI_Creator
 	 */
 	protected function buildLine( $key, $value, $comment )
 	{
-		$key_breaks	= 4 - floor( strlen( $key ) / 8 );
-		$value_breaks	= 4 - floor( strlen( $value ) / 8 );
-		if( $key_breaks < 1 )
-			$key_breaks = 1;
-		if( $value_breaks < 1 )
-			$value_breaks = 1;
+		$breaksKey		= 4 - floor( strlen( $key ) / 8 );
+		$breaksValue	= 4 - floor( strlen( $value ) / 8 );
+		if( $breaksKey < 1 )
+			$breaksKey = 1;
+		if( $breaksValue < 1 )
+			$breaksValue = 1;
+		$line = $key.str_repeat( "\t", $breaksKey )."=".$value;
 		if( $comment )
-			$line = $key.str_repeat( "\t", $key_breaks )."=".$value.str_repeat( "\t", $value_breaks )."; ".$comment;
-		else
-			$line = $key.str_repeat( "\t", $key_breaks )."=".$value;
+			$line .= str_repeat( "\t", $breaksValue )."; ".$comment;
 		return $line;
 	}
 	
@@ -146,7 +143,7 @@ class File_INI_Creator
 		$lines	= array();
 		if( $this->useSections )
 		{
-			foreach ( $this->data as $section => $sectionPairs )
+			foreach( $this->data as $section => $sectionPairs )
 			{
 				$lines[]	= "[".$section."]";
 				foreach ( $sectionPairs as $key => $data )
@@ -160,7 +157,7 @@ class File_INI_Creator
 		}
 		else
 		{
-			foreach ( $this->data as $key => $data )
+			foreach( $this->data as $key => $data )
 			{
 				$value		= $data['value'];
 				$comment	= $data['comment'];
@@ -168,7 +165,7 @@ class File_INI_Creator
 			}
 			$lines[]	= "";
 		}
-		$file		= new File_Writer( $fileName, 0777 );
+		$file		= new File_Writer( $fileName, 0664 );
 		return $file->writeArray( $lines );
 	}
 }
