@@ -18,8 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		net.http
- *	@uses			Net_cURL
+ *	@package		Net.HTTP
  *	@author			Emir Plicanic
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
@@ -28,13 +27,12 @@
  *	@since			18.01.2007
  *	@version		$Id$
  */
-import( 'de.ceus-media.net.cURL' );
 define( 'GOOGLE_MAGIC', 0xE6359A60 );
 /**
  *	Google PageRank.
  *	@category		cmClasses
- *	@package		net.http
- *	@uses			Net_cURL
+ *	@package		Net.HTTP
+ *	@uses			Net_CURL
  *	@author			Emir Plicanic
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
@@ -102,7 +100,7 @@ class Net_HTTP_PageRank
 	{
 		$checksum	= "6".self::calculateChecksum( self::strord( "info:".$url ) );
 		$googleUrl	= "www.google.com/search?client=navclient-auto&ch=".$checksum."&features=Rank&q=info:".$url;
-		$curl		= new Net_cURL( $googleUrl );
+		$curl		= new Net_CURL( $googleUrl );
 		$response	= $curl->exec();
 		$position	= strpos( $response, "Rank_" );
 		if( $position === FALSE )

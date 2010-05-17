@@ -18,7 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		net.http
+ *	@package		Net.HTTP.Sniffer
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -29,7 +29,7 @@
 /**
  *	Sniffer for Character Sets accepted by a HTTP Request.
  *	@category		cmClasses
- *	@package		net.http
+ *	@package		Net.HTTP.Sniffer
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -37,7 +37,7 @@
  *	@since			12.08.2005
  *	@version		$Id$
  */
-class Net_HTTP_CharsetSniffer
+class Net_HTTP_Sniffer_Charset
 {
 	/**	@var		$pattern	Reg Ex Pattern */
 	protected static $pattern	= '/^([0-9a-z-]+)(?:;\s*q=(0(?:\.[0-9]{1,3})?|1(?:\.0{1,3})?))?$/i';
