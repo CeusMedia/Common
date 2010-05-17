@@ -70,56 +70,6 @@ class UI_HTML_PageFrame
 		$this->addMetaTag( "http-equiv", "Content-Style-Type", $styleType );
 	}
 
-	public function setHeadProfileUrl( $url )
-	{
-		$this->profile	= $url;
-	}
-
-	/**
-	 *	Builds Page Frame HTML.
-	 *	@access		public
-	 *	@return		string
-	 */
-	public function build( $bodyAttributes = array() )
-	{
-		$tagsHead	= array();
-		$tagsBody	= array();
-
-		foreach( $this->metaTags as $attributes )
-			$tagsHead[]	= UI_HTML_Tag::create( 'meta', NULL, $attributes );
-
-		if( $this->title )
-			$tagsHead[]	= UI_HTML_Tag::create( 'title', $this->title );
-		if( $this->baseHref )
-			$tagsHead[]	= UI_HTML_Tag::create( 'base', NULL, array( 'href' => $this->baseHref ) );
-
-		if( $this->heading )
-			$tagsBody[]	= UI_HTML_Tag::create( 'h1', $this->heading );
-
-		foreach( $this->styles as $attributes )
-			$tagsHead[]	= UI_HTML_Tag::create( "link", NULL, $attributes );
-
-		foreach( $this->scripts as $attributes )
-			$tagsHead[]	= UI_HTML_Tag::create( "script", "", $attributes );
-
-		$headAttributes	= array(
-			'profile'	=> $this->profile
-		);
-
-		$tagsHead	= implode( "\n    ", $tagsHead ).$this->head;
-		$tagsBody	= implode( "\n    ", $tagsBody ).$this->body;
-		$head		= UI_HTML_Tag::create( "head", "\n    ".$tagsHead."\n  ", $headAttributes );
-		$body		= UI_HTML_Tag::create( "body", "\n    ".$tagsBody."\n  ", $bodyAttributes );
-		$attributes	= array(
-			'xmlns'		=> "http://www.w3.org/1999/xhtml",
-			'xml:lang'	=> $this->language,
-			'lang'		=> $this->language,
-		);
-		$html		= UI_HTML_Tag::create( "html", "\n  ".$head."\n  ".$body."\n", $attributes );
-		$doctype	= '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//'.strtoupper( $this->language ).'" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">';
-		return $doctype."\n".$html;
-	}
-
 	/** 
 	 *	Adds further HTML to Body.
 	 *	@access		public
@@ -217,6 +167,51 @@ class UI_HTML_PageFrame
 	}
 
 	/**
+	 *	Builds Page Frame HTML.
+	 *	@access		public
+	 *	@return		string
+	 */
+	public function build( $bodyAttributes = array() )
+	{
+		$tagsHead	= array();
+		$tagsBody	= array();
+
+		foreach( $this->metaTags as $attributes )
+			$tagsHead[]	= UI_HTML_Tag::create( 'meta', NULL, $attributes );
+
+		if( $this->title )
+			$tagsHead[]	= UI_HTML_Tag::create( 'title', $this->title );
+		if( $this->baseHref )
+			$tagsHead[]	= UI_HTML_Tag::create( 'base', NULL, array( 'href' => $this->baseHref ) );
+
+		if( $this->heading )
+			$tagsBody[]	= UI_HTML_Tag::create( 'h1', $this->heading );
+
+		foreach( $this->styles as $attributes )
+			$tagsHead[]	= UI_HTML_Tag::create( "link", NULL, $attributes );
+
+		foreach( $this->scripts as $attributes )
+			$tagsHead[]	= UI_HTML_Tag::create( "script", "", $attributes );
+
+		$headAttributes	= array(
+			'profile'	=> $this->profile
+		);
+
+		$tagsHead	= implode( "\n    ", $tagsHead ).$this->head;
+		$tagsBody	= implode( "\n    ", $tagsBody ).$this->body;
+		$head		= UI_HTML_Tag::create( "head", "\n    ".$tagsHead."\n  ", $headAttributes );
+		$body		= UI_HTML_Tag::create( "body", "\n    ".$tagsBody."\n  ", $bodyAttributes );
+		$attributes	= array(
+			'xmlns'		=> "http://www.w3.org/1999/xhtml",
+			'xml:lang'	=> $this->language,
+			'lang'		=> $this->language,
+		);
+		$html		= UI_HTML_Tag::create( "html", "\n  ".$head."\n  ".$body."\n", $attributes );
+		$doctype	= '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//'.strtoupper( $this->language ).'" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">';
+		return $doctype."\n".$html;
+	}
+
+	/**
 	 *	...
 	 *	@access		public
 	 *	@param		string		$uri			Application Heading
@@ -236,6 +231,11 @@ class UI_HTML_PageFrame
 	public function setHeading( $heading )
 	{
 		$this->heading	= $heading;
+	}
+
+	public function setHeadProfileUrl( $url )
+	{
+		$this->profile	= $url;
 	}
 
 	/**

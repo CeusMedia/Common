@@ -1,25 +1,25 @@
 <?php
 /**
  *	Abstract HTML Tag Base.
- *	@category	cmClasses
- *	@package	ui.html.element
- *	@author		Christian Würker <christian.wuerker@ceus-media.de>
+ *	@category		cmClasses
+ *	@package		ui.html.element
+ *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2009-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
- *	@since		0.7.0
- *	@version	$Id$
+ *	@since			0.7.0
+ *	@version		$Id$
  */
 /**
  *	Abstract HTML Tag Base.
- *	@category	cmClasses
- *	@package	ui.html.element
- *	@author		Christian Würker <christian.wuerker@ceus-media.de>
+ *	@category		cmClasses
+ *	@package		ui.html.element
+ *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2009-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
- *	@since		0.7.0
- *	@version	$Id$
+ *	@since			0.7.0
+ *	@version		$Id$
  */
 abstract class UI_HTML_Element_Abstract
 {
@@ -54,7 +54,7 @@ abstract class UI_HTML_Element_Abstract
 	{
 		$key		= 'on'.strtolower( $name );
 		$content	= trim( $content );
-		if( $this->events[$key] )
+		if( !empty( $this->events[$key] ) )
 			$this->events[$key]	.= '; '.$content;
 		else
 			$this->events[$key]	= $content;

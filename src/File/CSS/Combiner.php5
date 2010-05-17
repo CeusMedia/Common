@@ -63,6 +63,7 @@ class File_CSS_Combiner
 		$this->statistics['numberFiles']	= 0;
 		$this->statistics['filesFound']		= array();
 		$this->statistics['filesSkipped']	= array();
+		$content	= preg_replace( '/\/\*.+\*\//sU', '', $content );
 		$lines		= explode( "\n", $content );
 		foreach( $lines as $line )
 		{
