@@ -62,8 +62,8 @@ class Net_Mail_Sender
 	 */
 	protected function checkForInjection( $value )
 	{
-		if( eregi( "(\r|\n)", $value ) )
-			throw new InvalidArgumentException( "Mail Injection detected." );
+		if( preg_match( '/(\r|\n)/', $value ) )
+			throw new InvalidArgumentException( 'Mail injection attempt detected' );
 	}
 
 	/**
@@ -102,7 +102,7 @@ class Net_Mail_Sender
 	 *	@return		void
 	 *	@throws		RuntimeException|InvalidArgumentException
 	 */
-	public static function sendMail( $mail, $mailer = "PHP" )
+	public static function sendMail( $mail, $mailer = 'PHP' )
 	{
 		$headers	= $mail->getHeaders();
 		$receiver	= $mail->getReceiver();
@@ -114,13 +114,13 @@ class Net_Mail_Sender
 		self::checkForInjection( $receiver );
 		self::checkForInjection( $subject );
 		if( !array_key_exists( "From", $headers ) )
-			throw new InvalidArgumentException( "No mail sender defined." );
+			throw new InvalidArgumentException( 'No mail sender defined' );
 		if( !$receiver )
-			throw new InvalidArgumentException( "No mail receiver defined." );
+			throw new InvalidArgumentException( 'No mail receiver defined' );
 		if( !$subject )
-			throw new InvalidArgumentException( "No mail subject defined." );
+			throw new InvalidArgumentException( 'No mail subject defined' );
 		if( !$body )
-			throw new InvalidArgumentException( "No mail body defined." );
+			throw new InvalidArgumentException( 'No mail body defined' );
 		foreach( $headers as $key => $value )
 		{
 			self::checkForInjection( $key );
@@ -147,7 +147,7 @@ class Net_Mail_Sender
 		}
 
 		if( !mail( $receiver, $subject, $body, $headers ) )
-			throw new RuntimeException( "Mail could not been sent." );
+			throw new RuntimeException( 'Mail could not been sent' );
 	}
 }
 ?>

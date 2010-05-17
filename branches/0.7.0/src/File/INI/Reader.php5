@@ -61,11 +61,11 @@ class File_INI_Reader extends File_Reader
 	/**	@var		string			$patternDisabled		Pattern( regex) of disabled Properties */
 	protected $patternDisabled 		= '/^;/';
 	/**	@var		string			$patternProperty		Pattern( regex) of Properties */
-	protected $patternProperty		= '/^(;|[a-z0-9-])+([a-z0-9#.:@\/\\|_-]*[ |\t]*=)/';
+	protected $patternProperty		= '/^(;|[a-z0-9-])+([a-z0-9#.:@\/\\|_-]*[ |\t]*=)/i';
 	/**	@var		string			$patternDescription		Pattern( regex) of Descriptions */
 	protected $patternDescription	= '/^[;|#|:|\/|=]{1,2}/';
 	/**	@var		string			$patternSection			Pattern( regex) of Sections */
-	protected $patternSection		= '/^([){1}([a-z0-9_=.,:;#@-])+(]){1}$/';
+	protected $patternSection		= '/^([){1}([a-z0-9_=.,:;#@-])+(]){1}$/i';
 	/**	@var		string			$patternLineComment		Pattern( regex) of Line Comments */
 	protected $patternLineComment	= '/([\t| ]+([\/]{2}|[;])+[\t| ]*)/';
 
