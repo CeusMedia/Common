@@ -18,7 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		net.http
+ *	@package		Net.HTTP.Sniffer
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -29,7 +29,7 @@
 /**
  *	Sniffer for browsing HTTP Clients via User Agents.
  *	@category		cmClasses
- *	@package		net.http
+ *	@package		Net.HTTP.Sniffer
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -37,7 +37,7 @@
  *	@since			12.08.2005
  *	@version		$Id$
  */
-class Net_HTTP_BrowserSniffer
+class Net_HTTP_Sniffer_Browser
 {
 	/**	@var		string		$browser			Browser */
 	protected $browser;

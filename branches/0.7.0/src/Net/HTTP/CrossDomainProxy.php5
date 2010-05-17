@@ -18,7 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		net.http
+ *	@package		Net.HTTP
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -29,7 +29,7 @@
 /**
  *	Proxy for Cross Domain Requests to bypass JavaScript's same origin policy.
  *	@category		cmClasses
- *	@package		net.http
+ *	@package		Net.HTTP
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3

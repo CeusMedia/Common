@@ -18,13 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		net.http
- *	@uses			Net_HTTP_BrowserSniffer
- *	@uses			Net_HTTP_CharsetSniffer
- *	@uses			Net_HTTP_EncodingSniffer
- *	@uses			Net_HTTP_LanguageSniffer
- *	@uses			Net_HTTP_MimeTypeSniffer
- *	@uses			Net_HTTP_OperatingSystemSniffer
+ *	@package		Net.HTTP.Sniffer
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -32,22 +26,16 @@
  *	@since			12.08.2005
  *	@version		$Id$
  */
-import( 'de.ceus-media.net.http.BrowserSniffer' );
-import( 'de.ceus-media.net.http.CharsetSniffer' );
-import( 'de.ceus-media.net.http.EncodingSniffer' );
-import( 'de.ceus-media.net.http.LanguageSniffer' );
-import( 'de.ceus-media.net.http.MimeTypeSniffer' );
-import( 'de.ceus-media.net.http.OperatingSystemSniffer' );
 /**
  *	Combination of different Sniffers for HTTP Request to determine all information about the Client.
  *	@category		cmClasses
- *	@package		net.http
- *	@uses			Net_HTTP_BrowserSniffer
- *	@uses			Net_HTTP_CharsetSniffer
- *	@uses			Net_HTTP_EncodingSniffer
- *	@uses			Net_HTTP_LanguageSniffer
- *	@uses			Net_HTTP_MimeTypeSniffer
- *	@uses			Net_HTTP_OperatingSystemSniffer
+ *	@package		Net.HTTP.Sniffer
+ *	@uses			Net_HTTP_Sniffer_Browser
+ *	@uses			Net_HTTP_Sniffer_Charset
+ *	@uses			Net_HTTP_Sniffer_Encoding
+ *	@uses			Net_HTTP_Sniffer_Language
+ *	@uses			Net_HTTP_Sniffer_MimeType
+ *	@uses			Net_HTTP_Sniffer_OperatingSystem
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -55,19 +43,19 @@ import( 'de.ceus-media.net.http.OperatingSystemSniffer' );
  *	@since			12.08.2005
  *	@version		$Id$
  */
-class Net_HTTP_ClientSniffer
+class Net_HTTP_Sniffer_Client
 {
-	/**	@var		object		$browserSniffer		Object of Net_HTTP_BrowserSniffer */
-	protected $browserSniffer;
-	/**	@var		object		$charsetSniffer		Object of Net_HTTP_CharsetSniffer */
-	protected $charsetSniffer;
-	/**	@var		object		$encodingSniffer	Object of Net_HTTP_EncodingSniffer */
-	protected $encodingSniffer;
-	/**	@var		object		$languageSniffer	Object of Net_HTTP_LanguageSniffer */
-	protected $languageSniffer;
-	/**	@var		object		$mimeTypeSniffer	Object of Net_HTTP_MimeTypeSniffer */
-	protected $mimeTypeSniffer;
-	/**	@var		object		$osSniffer			Object of Net_HTTP_OperatingSystemSniffer */
+	/**	@var		object		$browser		Instance of Net_HTTP_Sniffer_Browser */
+	protected $browser;
+	/**	@var		object		$charset		Instance of Net_HTTP_Sniffer_Charset */
+	protected $charset;
+	/**	@var		object		$encoding		Instance of Net_HTTP_Sniffer_Encoding */
+	protected $encoding;
+	/**	@var		object		$language		Instance of Net_HTTP_Sniffer_Language */
+	protected $language;
+	/**	@var		object		$mimeType		Instance of Net_HTTP_Sniffer_MimeType */
+	protected $mimeType;
+	/**	@var		object		$osSniffer		Instance of Net_HTTP_Sniffer_OperatingSystem */
 	protected $osSniffer;
 
 	/**
@@ -77,12 +65,12 @@ class Net_HTTP_ClientSniffer
 	 */
 	public function __construct()
 	{
-		$this->browserSniffer	= new Net_HTTP_BrowserSniffer();
-		$this->charsetSniffer	= new Net_HTTP_CharsetSniffer();
-		$this->encodingSniffer	= new Net_HTTP_EncodingSniffer();
-		$this->languageSniffer	= new Net_HTTP_LanguageSniffer();
-		$this->mimeSniffer		= new Net_HTTP_MimeTypeSniffer();
-		$this->systemSniffer	= new Net_HTTP_OperatingSystemSniffer();
+		$this->browser	= new Net_HTTP_Sniffer_Browser();
+		$this->charSet	= new Net_HTTP_Sniffer_Charset();
+		$this->encoding	= new Net_HTTP_Sniffer_Encoding();
+		$this->language	= new Net_HTTP_Sniffer_Language();
+		$this->mimeType	= new Net_HTTP_Sniffer_MimeType();
+		$this->system	= new Net_HTTP_Sniffer_OS();
 	}
 	
 	/**
@@ -103,7 +91,7 @@ class Net_HTTP_ClientSniffer
 	 */
 	public function getLanguage( $allowed )
 	{
-		return $this->languageSniffer->getLanguage( $allowed  );
+		return $this->language->getLanguage( $allowed  );
 	}
 
 	/**
@@ -114,7 +102,7 @@ class Net_HTTP_ClientSniffer
 	 */
 	public function getCharset( $allowed )
 	{
-		return $this->charsetSniffer->getCharset( $allowed  );
+		return $this->charSet->getCharset( $allowed  );
 	}
 
 	/**
@@ -125,7 +113,7 @@ class Net_HTTP_ClientSniffer
 	 */
 	public function getMimeType( $allowed )
 	{
-		return $this->mimeTypeSniffer->getMimeType( $allowed  );
+		return $this->mimeType->getMimeType( $allowed  );
 	}
 
 	/**
@@ -136,7 +124,7 @@ class Net_HTTP_ClientSniffer
 	 */
 	public function getEncoding( $allowed )
 	{
-		return $this->encodingSniffer->getEncoding( $allowed  );
+		return $this->encoding->getEncoding( $allowed  );
 	}
 
 	/**
@@ -146,7 +134,7 @@ class Net_HTTP_ClientSniffer
 	 */
 	public function getOS()
 	{
-		return $this->osSniffer->getOS();
+		return $this->system->getOS();
 	}
 
 	/**
@@ -156,7 +144,7 @@ class Net_HTTP_ClientSniffer
 	 */
 	public function getBrowser()
 	{
-		return $this->browserSniffer->getBrowser();
+		return $this->browser->getBrowser();
 	}
 	
 	/**
@@ -166,7 +154,7 @@ class Net_HTTP_ClientSniffer
 	 */
 	public function isRobot()
 	{
-		return $this->browserSniffer->isRobot();
+		return $this->browser->isRobot();
 	}
 
 	/**
@@ -176,7 +164,7 @@ class Net_HTTP_ClientSniffer
 	 */
 	public function isBrowser()
 	{
-		return $this->browserSniffer->isBrowser();
+		return $this->browser->isBrowser();
 	}
 }
 ?>

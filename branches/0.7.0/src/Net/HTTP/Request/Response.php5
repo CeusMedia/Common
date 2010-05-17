@@ -18,7 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		net.http.request
+ *	@package		Net.HTTP.Request
  *	@uses			Net_HTTP_Compression
  *	@uses			Net_HTTP_EncodingSniffer
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
@@ -31,7 +31,7 @@
 /**
  *	Handler for HTTP Responses with HTTP Compression Support.
  *	@category		cmClasses
- *	@package		net.http.request
+ *	@package		Net.HTTP.Request
  *	@uses			Net_HTTP_Compression
  *	@uses			Net_HTTP_EncodingSniffer
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>

@@ -18,19 +18,17 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		net.http.request
+ *	@package		Net.HTTP.Request
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		$Id$
  */
-import( 'de.ceus-media.net.http.request.Header' );
-import( 'de.ceus-media.net.http.request.Headers' );
 /**
  *	Request for HTTP Protocol.
  *	@category		cmClasses
- *	@package		net.http.request
+ *	@package		Net.HTTP.Request
  *	@uses			Net_HTTP_Header
  *	@uses			Net_HTTP_Headers
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
@@ -46,7 +44,7 @@ class Net_HTTP_Request_Sender
 	/**	@var		string		$uri			URI to request to */
 	protected $uri;
 	/**	@var		string		$port			Service Port of Host */
-	protected $port;
+	protected $port				= -1;
 	/**	@var		string		$method			Method of Request (GET or POST) */
 	protected $method;
 	/**	@var		Net_HTTP_Headers	$headers	Object of collected HTTP Headers */
@@ -88,7 +86,15 @@ class Net_HTTP_Request_Sender
 	{
 		$this->contentType	= $mimeType;
 	}
-	
+
+	public function setMethod( $method )
+	{
+		$method	= strtoupper( $method );
+		if( !in_array( $method, array( 'GET', 'POST', 'DELETE', 'PUT', 'HEAD' ) ) )
+			throw new InvalidArgumentException( 'Invalid HTTP method "'.$method.'"' );
+		$this->method	= $method;
+	}
+
 	public function setVersion( $version )
 	{
 		if( !preg_match( '/^[0-9](\.[0-9])?$/', $version ) )
@@ -111,28 +117,33 @@ class Net_HTTP_Request_Sender
 			throw new InvalidArgumentException( 'Data must be String or Array' );
 	
 		$this->addHeaderPair( 'Host', $this->host );
-		$this->addHeaderPair( 'Content-Type', $this->conentType );
+#		$this->addHeaderPair( 'Content-Type', $this->contentType );
 		if( getEnv( "SERVER_ADDR" ) )
 			$this->addHeaderPair( 'Referer', getEnv( "SERVER_ADDR" ) );
 
 		if( $data )
 			$this->addHeaderPair( "Content-Length", strlen( $data ) );
-		$headers[] = new Net_HTTP_Request_Header( "Connection", "close\r\n" );
+#		$headers[] = new Net_HTTP_Header( "Connection", "close\r\n" );
 
 		$result	= "";
-		$fp = fsockopen( $this->host, $this->port );
-		if( $fp )
-		{
-			fputs( $fp, $this->method." ".$this->uri." HTTP/".$this->version."\r\n" );				//  send Request
-			foreach( $this->headers->getHeaders() as $header )										//  iterate Headers
-				fputs( $fp, $header->toString()."\r\n" );											//  send Header
-			fputs( $fp, "\r\n" );																	//  close Headers
-			fputs( $fp, $data );																	//  send Data
-			while( !feof( $fp ) )																	//  receive Response
-				$result .= fgets( $fp, 128 );														//  collect Response chunks
-			fclose( $fp );																			//  close Connection
-			return $result;																			//  return Response String
-		}
+		$fp = fsockopen( $this->host, $this->port, $errno, $errstr );
+		if( !$fp )
+			throw new RuntimeException( $errstr.' ('.$errno.')' );
+remark( $this->method." ".$this->uri." HTTP/".$this->version."\r\n" );
+foreach( $this->headers->getHeaders() as $h )
+		var_dump(  $h );
+die;
+
+
+		fputs( $fp, $this->method." ".$this->uri." HTTP/".$this->version."\r\n" );					//  send Request
+		foreach( $this->headers->getHeaders() as $header )											//  iterate Headers
+			fputs( $fp, $header->toString()."\r\n" );												//  send Header
+		fputs( $fp, "\r\n" );																		//  close Headers
+		fputs( $fp, $data );																		//  send Data
+		while( !feof( $fp ) )																		//  receive Response
+			$result .= fgets( $fp, 128 );															//  collect Response chunks
+		fclose( $fp );																				//  close Connection
+		return $result;																				//  return Response String
 	}
 }
 ?>

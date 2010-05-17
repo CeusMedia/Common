@@ -18,7 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		net.http.request
+ *	@package		Net.HTTP.Request
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -26,12 +26,10 @@
  *	@since			27.03.2006
  *	@version		$Id$
  */
-import( 'de.ceus-media.adt.list.Dictionary' );
-import( 'de.ceus-media.net.http.Headers' );
 /**
  *	Collects and Manages Request Data.
  *	@category		cmClasses
- *	@package		net.http.request
+ *	@package		Net.HTTP.Request
  *	@extends		ADT_List_Dictionary
  *	@uses			Net_HTTP_Headers
  *	@uses			Net_HTTP_Header
