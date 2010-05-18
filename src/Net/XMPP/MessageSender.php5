@@ -18,8 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		net.jabber
- *	@uses			XMPP
+ *	@package		Net.XMPP
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -27,11 +26,10 @@
  *	@since			25.04.2008
  *	@version		$Id$
  */
-import( 'com.google.code.xmpphp.xmpp' );
 /**
  *	Sender for Messages via Jabber.
  *	@category		cmClasses
- *	@package		net.jabber
+ *	@package		Net.XMPP
  *	@uses			XMPP
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker

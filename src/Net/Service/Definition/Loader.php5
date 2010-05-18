@@ -18,10 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		net.service.definition
- *	@uses			ADT_JSON_Converter
- *	@uses			Service_Definition_XmlReader
- *	@uses			File_Yaml_Reader
+ *	@package		Net.Service.Definition
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -32,7 +29,7 @@
 /**
  *	Loader for Service Defintions in JSON, XML or YAML.
  *	@category		cmClasses
- *	@package		net.service.definition
+ *	@package		Net.Service.Definition
  *	@uses			ADT_JSON_Converter
  *	@uses			Service_Definition_XmlReader
  *	@uses			File_Yaml_Reader

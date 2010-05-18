@@ -18,10 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		net.service
- *	@extends		Net_Service_Response
- *	@uses			Net_HTTP_Request_Response
- *	@uses			UI_HTML_Exception_TraceViewer
+ *	@package		Net.Service
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -29,12 +26,10 @@
  *	@since			0.6.3
  *	@version		$Id$
  */
-import( 'de.ceus-media.net.service.Response' );
-import( 'de.ceus-media.net.http.request.Response' );
 /**
  *	Service Handlers for HTTP Requests.
  *	@category		cmClasses
- *	@package		net.service
+ *	@package		Net.Service
  *	@extends		Net_Service_Response
  *	@uses			Net_HTTP_Request_Response
  *	@uses			UI_HTML_Exception_TraceViewer

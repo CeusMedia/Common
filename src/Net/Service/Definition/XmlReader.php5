@@ -18,8 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		net.service.definition
- *	@uses			XML_ElementReader
+ *	@package		Net.Service.Definition
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -27,11 +26,10 @@
  *	@since			0.6.3
  *	@version		$Id$
  */
-import( 'de.ceus-media.xml.ElementReader' );
 /**
  *	Parser and Reader for XML Service Definitions.
  *	@category		cmClasses
- *	@package		net.service.definition
+ *	@package		Net.Service.Definition
  *	@uses			XML_ElementReader
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker

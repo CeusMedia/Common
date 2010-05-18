@@ -18,8 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		net.ftp
- *	@uses			Net_FTP_Reader
+ *	@package		Net.FTP
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -27,11 +26,10 @@
  *	@since			01.07.2008
  *	@version		$Id$
  */
-import( 'de.ceus-media.net.ftp.Reader' );
 /**
  *	Writer for FTP Connections.
  *	@category		cmClasses
- *	@package		net.ftp
+ *	@package		Net.FTP
  *	@uses			Net_FTP_Reader
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker

@@ -18,7 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		net.service.definition
+ *	@package		Net.Service.Definition
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -26,18 +26,10 @@
  *	@since			0.6.3
  *	@version		$Id$
  */
-import( 'de.ceus-media.net.service.definition.XmlReader' );
-import( 'de.ceus-media.net.service.definition.XmlWriter' );
-import( 'de.ceus-media.file.yaml.Reader' );
-import( 'de.ceus-media.file.yaml.Writer' );
-import( 'de.ceus-media.file.Reader' );
-import( 'de.ceus-media.file.Writer' );
-import( 'de.ceus-media.adt.json.Converter' );
-import( 'de.ceus-media.adt.json.Formater' );
 /**
  *	Converts Service Definitions between JSON, XML and YAML.
  *	@category		cmClasses
- *	@package		net.service.definition
+ *	@package		Net.Service.Definition
  *	@uses			Net_Serivce_Definition_Reader
  *	@uses			Net_Service_Definition_Writer
  *	@uses			File_YAML_Reader

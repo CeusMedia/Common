@@ -18,11 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		net.service.definition
- *	@uses			XML_DOM_Builder
- *	@uses			XML_DOM_Node
- *	@uses			XML_DOM_Parser
- *	@uses			File_Writer
+ *	@package		Net.Service.Definition
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -30,14 +26,10 @@
  *	@since			0.6.3
  *	@version		$Id$
  */
-import( 'de.ceus-media.xml.dom.Builder' );
-import( 'de.ceus-media.xml.dom.Node' );
-import( 'de.ceus-media.xml.dom.Parser' );
-import( 'de.ceus-media.file.Writer' );
 /**
  *	Builder and Writer for XML Service Definitions.
  *	@category		cmClasses
- *	@package		net.service.definition
+ *	@package		Net.Service.Definition
  *	@uses			XML_DOM_Builder
  *	@uses			XML_DOM_Node
  *	@uses			XML_DOM_Parser

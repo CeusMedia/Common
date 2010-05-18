@@ -18,11 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		net.site
- *	@uses			Net_Site_MapapWriter
- *	@uses			Net_Site_Crawler
- *	@uses			File_Block_Writer
- *	@uses			File_Reader
+ *	@package		Net.Site
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -30,14 +26,10 @@
  *	@since			10.12.2006
  *	@version		$Id$
  */
-import( 'de.ceus-media.net.site.MapWriter' );
-import( 'de.ceus-media.net.site.Crawler' );
-import( 'de.ceus-media.file.block.Writer' );
-import( 'de.ceus-media.file.Writer' );
 /**
  *	Google Sitemap XML Creator, crawls a Web Site and writes a Sitemap XML File.
  *	@category		cmClasses
- *	@package		net.site
+ *	@package		Net.Site
  *	@uses			Net_Site_MapapWriter
  *	@uses			Net_Site_Crawler
  *	@uses			File_Block_Writer

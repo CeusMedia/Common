@@ -19,8 +19,6 @@
  *
  *	@category		cmClasses
  *	@package		Net.HTTP.Request
- *	@uses			Net_HTTP_Compression
- *	@uses			Net_HTTP_EncodingSniffer
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -32,8 +30,6 @@
  *	Handler for HTTP Responses with HTTP Compression Support.
  *	@category		cmClasses
  *	@package		Net.HTTP.Request
- *	@uses			Net_HTTP_Compression
- *	@uses			Net_HTTP_EncodingSniffer
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -41,15 +37,14 @@
  *	@since			20.02.2007
  *	@version		$Id$
  *	@todo			add Filter Support
+ *	@deprecated		use Net_HTTP_Response_Sender and Net_HTTP_Response instead
  */
 class Net_HTTP_Request_Response
 {
-	/** @var		string		$status				Status of Response */
-	private $status				= "200 OK";
-	/** @var		array		$headers			Array of Headers */
-	private $headers			= array();
-	/** @var		string		$body				Body of Response */
-	private $body				= "";
+	public function __construct()
+	{
+		$this->response	= new Net_HTTP_Response();
+	}
 
 	/**
 	 *	Sets a Header.
@@ -60,9 +55,7 @@ class Net_HTTP_Request_Response
 	 */
 	public function addHeader( $name, $value )
 	{
-		if( !isset( $this->headers[$name] ) )
-			$this->headers[$name]	= array();
-		$this->headers[$name][]	= $value;
+		$this->response->addHeader( new Net_HTTP_Header( $name, $value ) );
 	}
 
 	/**
@@ -75,9 +68,9 @@ class Net_HTTP_Request_Response
 	 */
 	public static function sendContent( $content, $compression = FALSE, $compressionLogFile = NULL  )
 	{
-		$response	= new Net_HTTP_Request_Response();
-		$response->write( $content );
-		return $response->send( $compression, $compressionLogFile );
+		$response	= new Net_HTTP_Response();
+		$response->setBody( $content );
+		return $response->send( $useCompression, $compressionLogFile );
 	}
 	
 	/**
@@ -89,31 +82,7 @@ class Net_HTTP_Request_Response
 	 */
 	public function send( $useCompression = FALSE, $compressionLogFile = NULL )
 	{
-		header( "HTTP/1.0 ".$this->status );
-		foreach( $this->headers as $name => $headers )
-			foreach( $headers as $header )
-				header( $name.": ".$header );
-		if( $useCompression )
-		{
-			import( 'de.ceus-media.net.http.Compression' );			
-			import( 'de.ceus-media.net.http.EncodingSniffer' );			
-			$compressionMethods	= Net_HTTP_Compression::getMethods();
-			$compressionMethod	= Net_HTTP_Compression::getMethod();
-			$compressionMethod	= Net_HTTP_EncodingSniffer::getEncoding( $compressionMethods, $compressionMethod );
-			Net_HTTP_Compression::setMethod( $compressionMethod, $compressionLogFile );
-			$length	= Net_HTTP_Compression::sendContent( $this->body );
-			$this->headers	= array();
-			$this->body		= "";
-			return $length;
-		}
-		flush();
-		$length	= strlen( $this->body );
-#		header( "Content-Length: ".$length );
-		print( $this->body );
-		flush();
-		$this->headers	= array();
-		$this->body		= "";
-		return $length;
+		$this->response->send( $useCompression, $compressionLogFile );
 	}
 	
 	/**
@@ -124,23 +93,23 @@ class Net_HTTP_Request_Response
 	 */
 	public function setStatus( $status )
 	{
-		$this->status	= $status;
+		$this->response->setStatus(	$status );
 	}
 
 	public function setContentType( $mimeType )
 	{
-		$this->addHeader( 'Content-type', $mimeType );
+		$this->response->addHeaderPair( 'Content-type', $mimeType );
 	}
 	
 	/**
 	 *	Writes Data to Response.
 	 *	@access		public
-	 *	@param		string		$data				Data to be responsed
+	 *	@param		string		$body				Body string to be responsed
 	 *	@return		void
 	 */
-	public function write( $data )
+	public function write( $body )
 	{
-		$this->body	.= $data;
+		$this->response->setBody( $this->response->getBody().$body );								//  append body string
 	}	
 }
 ?>

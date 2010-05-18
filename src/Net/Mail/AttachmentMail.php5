@@ -18,8 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		net.mail
- *	@extends		Net_Mail_PlainMail
+ *	@package		Net.Mail
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -27,11 +26,10 @@
  *	@since			01.01.2008
  *	@version		$Id$
  */
-import( 'de.ceus-media.net.mail.PlainMail' );
 /**
  *	Sends Mails with Attachment.
  *	@category		cmClasses
- *	@package		net.mail
+ *	@package		Net.Mail
  *	@extends		Net_Mail_PlainMail
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
