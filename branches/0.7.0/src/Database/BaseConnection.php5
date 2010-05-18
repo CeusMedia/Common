@@ -18,7 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		database
+ *	@package		Database
  *	@uses			File_Log_Writer
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
@@ -30,7 +30,7 @@ import( "de.ceus-media.file.log.Writer" );
 /**
  *	Abstract Database Connection.
  *	@category		cmClasses
- *	@package		database
+ *	@package		Database
  *	@abstract
  *	@uses			File_Log_Writer
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>

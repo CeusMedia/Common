@@ -18,7 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		database 
+ *	@package		Database 
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@author			Michael Martin <Michael.Martin@CeuS-Media.de>
  *	@copyright		2007-2010 Christian Würker
@@ -30,7 +30,7 @@
 /**
  *	Build SQL Statement from given Statement Component.
  *	@category		cmClasses
- *	@package		database 
+ *	@package		Database 
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@author			Michael Martin <Michael.Martin@CeuS-Media.de>
  *	@copyright		2007-2010 Christian Würker
