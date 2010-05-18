@@ -20,7 +20,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		ui.svg
+ *	@package		UI.SVG
  *	@author			Jonas Schneider <JonasSchneider@gmx.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -32,7 +32,7 @@
  *	You shouldn´t use this class alone, but you can.
  *	You should only use it in corporation with the {@link Chart} class.
  *	@category		cmClasses
- *	@package		ui.svg
+ *	@package		UI.SVG
  *	@author			Jonas Schneider <JonasSchneider@gmx.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3

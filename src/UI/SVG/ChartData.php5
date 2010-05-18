@@ -19,7 +19,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		ui.svg
+ *	@package		UI.SVG
  *	@author			Jonas Schneider <JonasSchneider@gmx.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -30,7 +30,7 @@
  *	This class represents an object in a chart, i.e. a line in a line diagram, a piece of pie in a 
  *	pie chart and so on.
  *	@category		cmClasses
- *	@package		ui.svg
+ *	@package		UI.SVG
  *	@author			Jonas Schneider <JonasSchneider@gmx.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
