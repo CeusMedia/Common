@@ -18,8 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		math.analysis
- *	@uses			Math_Factorial
+ *	@package		Math.Analysis
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -27,11 +26,10 @@
  *	@since			24.04.2006
  *	@version		$Id$
  */
-import( 'de.ceus-media.math.Factorial' );
 /**
  *	Calculation of Factorial for Integers.
  *	@category		cmClasses
- *	@package		math.analysis
+ *	@package		Math.Analysis
  *	@uses			Math_Factorial
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker

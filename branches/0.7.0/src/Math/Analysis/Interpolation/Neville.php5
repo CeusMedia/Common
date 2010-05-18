@@ -1,6 +1,6 @@
 <?php
 /**
- *	Integration with Simpsons Algorithm within a compact Interval.
+ *	Neville Interpolation.
  *
  *	Copyright (c) 2007-2010 Christian Würker (ceus-media.de)
  *
@@ -18,61 +18,59 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		math.analysis
- *	@extends		Math_Analysis_Integration 
+ *	@package		Math.Analysis.Interpolation
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
+ *	@since			03.02.2006
  *	@version		$Id$
  */
-import( 'de.ceus-media.math.analysis.Integration' );
 /**
- *	Integration with Simpsons Algorithm within a compact Interval.
+ *	Neville Interpolation.
  *	@category		cmClasses
- *	@package		math.analysis
- *	@extends		Math_Analysis_Integration 
+ *	@package		Math.Analysis.Interpolation
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
+ *	@since			03.02.2006
  *	@version		$Id$
  */
-class Math_Analysis_SimpsonIntegration extends Math_Analysis_Integration
+class Math_Analysis_Interpolation_Neville
 {
+	/**	@var		array		$data		Array of x and y values (Xi->Fi) */
+	protected $data				= array();
+
 	/**
-	 *	Constructor.
+	 *	Sets Data.
 	 *	@access		public
-	 *	@param		Math_Formula			$formula		Formula to integrate
-	 *	@param		Math_CompactInterval	$interval		Interval to integrate within
-	 *	@param		int						$nodes			Amount of Sampling Nodes to use
+	 *	@param		array		$data		Array of x and y values (Xi->Fi)
 	 *	@return		void
 	 */
-	public function __construct( $formula, $interval, $nodes )
+	protected function setData( $data )
 	{
-		parent::__construct( $formula, $interval, $nodes );
+		$this->data	= $data;
 	}
-	
+
 	/**
-	 *	Calculates integrational sum of Formula within the Interval by using Sampling Nodes.
+	 *	Interpolates for a specific x value and returns P(x).
 	 *	@access		public
-	 *	@return		mixed
+	 *	@param		double		$x			Value to interpolate for
+	 *	@return		double
 	 */
-	public function integrate()
+	protected function interpolate( $x )
 	{
-		$sum		= 0;
-		$factor		= 0;
-		$nodes		= $this->getSamplingNodes();
-		$distance	= $this->getNodeDistance();
-		$sum		+= $this->formula->getValue( array_pop( $nodes ) );
-		$sum		+= $this->formula->getValue( array_shift( $nodes ) );
-		foreach( $nodes as $node )
+		$t		= array();
+		$keys	= array_keys( $this->data );
+		$values	= array_values( $this->data );
+		for( $i=0; $i<count( $keys ); $i++ )
 		{
-			$factor	= ( $factor == 4 ) ? 2 : 4;
-			$sum	+= $factor * $this->formula->getValue( $node );
+			$t[$i]	= $values[$i];
+			for( $j=$i-1; $j>=0; $j-- )
+				$t[$j]	= $t[$j+1] + ( $t[$j+1] - $t[$j] ) * ( $x - $keys[$i] ) / ( $keys[$i] - $keys[$j] );			
 		}
-		$sum = $sum * $distance / 3;
-		return $sum;			
+		return $t[0];
 	}
 }
 ?>

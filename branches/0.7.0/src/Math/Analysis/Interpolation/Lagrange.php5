@@ -18,8 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		math.analysis
- *	@uses			Math_Formula
+ *	@package		Math.Analysis.Interpolation
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -27,11 +26,10 @@
  *	@since			03.02.2006
  *	@version		$Id$
  */
-import( 'de.ceus-media.math.Formula' );
 /**
  *	Lagrange Interpolation.
  *	@category		cmClasses
- *	@package		math.analysis
+ *	@package		Math.Analysis.Interpolation
  *	@uses			Math_Formula
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
@@ -40,7 +38,7 @@ import( 'de.ceus-media.math.Formula' );
  *	@since			03.02.2006
  *	@version		$Id$
  */
-class Math_Analysis_LagrangeInterpolation
+class Math_Analysis_Interpolation_Lagrange
 {
 	/**	@var		array		$data			Array of x and y values (Xi->Fi) */
 	protected $data				= array();
