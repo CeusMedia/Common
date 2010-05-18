@@ -18,9 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		math.analysis
- *	@uses			Math_Formula
- *	@uses			Math_CompactInterval
+ *	@package		Math.Analysis.Interpolation
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -28,12 +26,10 @@
  *	@since			03.02.2006
  *	@version		$Id$
  */
-import( 'de.ceus-media.math.Formula' );
-import( 'de.ceus-media.math.CompactInterval' );
 /**
  *	RegulaFalsi Interpolation within a compact Interval.
  *	@category		cmClasses
- *	@package		math.analysis
+ *	@package		Math.Analysis.Interpolation
  *	@uses			Math_Formula
  *	@uses			Math_CompactInterval
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
@@ -43,7 +39,7 @@ import( 'de.ceus-media.math.CompactInterval' );
  *	@since			03.02.2006
  *	@version		$Id$
  */
-class Math_Analysis_RegulaFalsi
+class Math_Analysis_Interpolation_RegulaFalsi
 {
 	/**	@var		array					$data		Array of x and y values (Xi->Fi) */
 	protected $data							= array();

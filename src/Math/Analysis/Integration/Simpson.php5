@@ -1,6 +1,6 @@
 <?php
 /**
- *	Scalar Product of two Vectors.
+ *	Integration with Simpsons Algorithm within a compact Interval.
  *
  *	Copyright (c) 2007-2010 Christian Würker (ceus-media.de)
  *
@@ -18,7 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		math.algebra
+ *	@package		Math.Analysis.Integration
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -26,33 +26,38 @@
  *	@version		$Id$
  */
 /**
- *	Scalar Product of two Vectors.
+ *	Integration with Simpsons Algorithm within a compact Interval.
  *	@category		cmClasses
- *	@package		math.algebra
+ *	@package		Math.Analysis.Integration
+ *	@extends		Math_Analysis_Integration 
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		$Id$
  */
-class Math_Algebra_VectorScalarProduct
+class Math_Analysis_Integration_Simpson extends Math_Analysis_Integration
 {
 	/**
-	 *	Returns Scalar Product of two Vectors
+	 *	Calculates integrational sum of Formula within the Interval by using Sampling Nodes.
 	 *	@access		public
-	 *	@param		Math_Algebra_Vector		$vector1		Vector 1
-	 *	@param		Math_Algebra_Vector		$vector2		Vector 2
 	 *	@return		mixed
 	 */
-	public function produce( $vector1, $vector2 )
+	public function integrate()
 	{
-		$sum = 0;
-		if( $vector1->getDimension() != $vector2->getDimension() )
-			throw new Exception( 'Dimensions of Vectors are not compatible.' );
-
-		for( $i=0; $i<$vector1->getDimension(); $i++)
-			$sum += $vector1->getValueFromIndex( $i ) * $vector2->getValueFromIndex( $i );
-		return $sum;
+		$sum		= 0;
+		$factor		= 0;
+		$nodes		= $this->getSamplingNodes();
+		$distance	= $this->getNodeDistance();
+		$sum		+= $this->formula->getValue( array_pop( $nodes ) );
+		$sum		+= $this->formula->getValue( array_shift( $nodes ) );
+		foreach( $nodes as $node )
+		{
+			$factor	= ( $factor == 4 ) ? 2 : 4;
+			$sum	+= $factor * $this->formula->getValue( $node );
+		}
+		$sum = $sum * $distance / 3;
+		return $sum;			
 	}
 }
 ?>

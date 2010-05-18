@@ -1,6 +1,6 @@
 <?php
 /**
- *	Integration with Trapezoid Algorithm within a compact Interval.
+ *	Scalar Product of two Vectors.
  *
  *	Copyright (c) 2007-2010 Christian Würker (ceus-media.de)
  *
@@ -18,57 +18,41 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		math.analysis
- *	@extends		Math_Analysis_Integration 
+ *	@package		Math.Algebra.Vector
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		$Id$
  */
-import( 'de.ceus-media.math.analysis.Integration' );
 /**
- *	Integration with Trapezoid Algorithm within a compact Interval.
+ *	Scalar Product of two Vectors.
  *	@category		cmClasses
- *	@package		math.analysis
- *	@extends		Math_Analysis_Integration
+ *	@package		Math.Algebra.Vector
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		$Id$
  */
-class Math_Analysis_TrapezoidIntegration extends Math_Analysis_Integration
+class Math_Algebra_Vector_ScalarProduct
 {
 	/**
-	 *	Constructor.
+	 *	Returns Scalar Product of two Vectors
 	 *	@access		public
-	 *	@param		Math_Formula			$formula		Formula to integrate
-	 *	@param		Math_CompanctInterval	$interval		Interval to integrate within
-	 *	@param		int						$nodes			Amount of Sampling Nodes to use
-	 *	@return		void
-	 */
-	public function __construct( $formula, $interval, $nodes )
-	{
-		parent::__construct( $formula, $interval, $nodes );
-	}
-	
-	/**
-	 *	Calculates integrational sum of Formula within the Interval by using Sampling Nodes.
-	 *	@access		public
+	 *	@param		Math_Algebra_Vector		$vector1		Vector 1
+	 *	@param		Math_Algebra_Vector		$vector2		Vector 2
 	 *	@return		mixed
 	 */
-	public function integrate()
+	public function produce( $vector1, $vector2 )
 	{
-		$sum		= 0;
-		$nodes		= $this->getSamplingNodes();
-		$distance	= $this->getNodeDistance();
-		$sum		+= $this->formula->getValue( array_pop( $nodes ) );
-		$sum		+= $this->formula->getValue( array_shift ( $nodes ) );
-		foreach( $nodes as $node )
-			$sum += 2 * $this->formula->getValue( $node );
-		$sum = $sum * $distance / 2;
-		return $sum;			
+		$sum = 0;
+		if( $vector1->getDimension() != $vector2->getDimension() )
+			throw new Exception( 'Dimensions of Vectors are not compatible.' );
+
+		for( $i=0; $i<$vector1->getDimension(); $i++)
+			$sum += $vector1->getValueFromIndex( $i ) * $vector2->getValueFromIndex( $i );
+		return $sum;
 	}
 }
 ?>

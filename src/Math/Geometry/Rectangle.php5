@@ -18,7 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		math.geometry
+ *	@package		Math.Geometry
  *	@uses			Math_Geometry_Triangle
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
@@ -30,7 +30,7 @@ import( 'de.ceus-media.math.geometry.Triangle' );
 /**
  *	...
  *	@category		cmClasses
- *	@package		math.geometry
+ *	@package		Math.Geometry
  *	@uses			Math_Geometry_Triangle
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker

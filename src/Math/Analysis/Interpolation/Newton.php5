@@ -18,8 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		math.analysis
- *	@uses			Math_Polynomial
+ *	@package		Math.Analysis.Interpolation
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -30,8 +29,7 @@
 /**
  *	Newton Interpolation.
  *	@category		cmClasses
- *	@package		math.analysis
- *	@uses			Math_Polynomial
+ *	@package		Math.Analysis.Interpolation
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -39,7 +37,7 @@
  *	@since			03.02.2006
  *	@version		$Id$
  */
-class Math_Analysis_NewtonInterpolation
+class Math_Analysis_Interpolation_Newton
 {
 	/**	@var		array		$data			Array of x and y values (Xi->Fi) */
 	protected $data				= array();
