@@ -2,7 +2,7 @@
 /**
  *	...
  *	@category		cmClasses
- *	@package		ui.image
+ *	@package		UI.Image
  *	@uses			UI_Template
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version		$Id$
@@ -10,7 +10,7 @@
 /**
  *	...
  *	@category		cmClasses
- *	@package		ui.image
+ *	@package		UI.Image
  *	@uses			UI_Template
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version		$Id$

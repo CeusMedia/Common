@@ -18,7 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		ui.image
+ *	@package		UI.Image
  *	@extends		UI_Image_Creator
  *	@extends		UI_Image_Printer
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
@@ -33,7 +33,7 @@ import( 'de.ceus-media.ui.image.Printer' );
 /**
  *	Mark Image with another Image.
  *	@category		cmClasses
- *	@package		ui.image
+ *	@package		UI.Image
  *	@extends		UI_Image_Creator
  *	@extends		UI_Image_Printer
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>

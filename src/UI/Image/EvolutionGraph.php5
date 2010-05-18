@@ -18,7 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		ui.image
+ *	@package		UI.Image
  *	@extends		ADT_OptionObject
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
@@ -31,7 +31,7 @@ import( 'de.ceus-media.adt.OptionObject' );
 /**
  *	Generator for Evolution Graph Images.
  *	@category		cmClasses
- *	@package		ui.image
+ *	@package		UI.Image
  *	@extends		ADT_OptionObject
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
