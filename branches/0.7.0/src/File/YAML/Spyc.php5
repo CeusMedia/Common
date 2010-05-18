@@ -23,7 +23,7 @@
  *		$array  = $parser->load($file);
  *	</code>
  *	@category		cmClasses
- *	@package			file.yaml
+ *	@package		File.YAML
  */
 class File_YAML_Spyc {
 
