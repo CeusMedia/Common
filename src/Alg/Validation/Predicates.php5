@@ -18,7 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		alg.validation
+ *	@package		Alg.Validation
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -30,7 +30,7 @@ import( 'de.ceus-media.alg.time.Converter' );
 /**
  *	Class holding Predicates for String Validation.
  *	@category		cmClasses
- *	@package		alg.validation
+ *	@package		Alg.Validation
  *	@uses			Alg_Time_Converter
  *	@uses			Alg_Crypt_PasswordStrength
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>

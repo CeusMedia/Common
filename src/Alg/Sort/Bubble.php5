@@ -1,6 +1,6 @@
 <?php
 /**
- *	Strange Search Algorithm.
+ *	Bubble Sort.
  *
  *	Copyright (c) 2007-2010 Christian Würker (ceus-media.de)
  *
@@ -18,7 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		alg.search
+ *	@package		Alg.Sort
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -26,53 +26,48 @@
  *	@version		$Id$
  */
 /**
- *	Strange Search Algorithm.
+ *	Bubble Sort.
  *	@category		cmClasses
- *	@package		alg.search
+ *	@package		Alg.Sort
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		$Id$
  */
-class Alg_Search_StrangeSearch
+class Alg_Sort_Bubble
 {
-	/**	@var		int			$counter		internal counter of steps */
-	protected $counter;
-	
+
 	/**
-	 *	Searches in List and returns position if found.
+	 *	Sorts List with Bubble Sort.
 	 *	@access		public
-	 *	@param		array		$ist			List to search in
-	 *	@param		mixed		$search			Element to search
-	 *	@param		int			$left			Left bound
-	 *	@param		int			$right			Right bound
-	 *	@return 	int
+	 *	@static
+	 *	@param		array		$list		List to sort
+	 *	@return		array
 	 */
-	public function search( $array, $key, $left = FALSE, $right = FALSE )
+	public static function sort($list)
 	{
-		if( !$right )
-		{
-			$left	= 0;
-			$right	= sizeof( $array ) - 1;
-			$this->counter = 0;
-		}
-		$this->counter++;
-		$index1	= round( $left + ( $right - $left ) / 3, 0 );
-		$index2	= round( $left + ( ( $right-$left ) / 3 ) * 2, 0 );
-		//echo "searching from $left to $right [$index1 - $index2]<br>";
-		if( $key == $array[$index1] )
-			return ":".$index1;
-		if( $key == $array[$index2] )
-			return ":".$index2;
-		if( $left == $right )
-			return false;
-		if( $key < $array[$index1] )
-			return $this->search( $array, $key, $left, $index1 );
-		else if( $key >= $array[$index2] )
-			return $this->search( $array, $key, $index2, $right );
-		else
-			return $this->search( $array, $key, $index1 + 1, $index2 - 1 );
+		for( $i=sizeof( $list ) - 1; $i>=1; $i-- )
+			for( $j=0; $j<$i; $j++ )
+				if( $list[$j] > $list[$j+1] ) 
+					self::swap( $list, $j, $j + 1 );
+		return $list;
+	}
+
+	/**
+	 *	Swaps two Elements in List.
+	 *	@access		protected
+	 *	@static
+	 *	@param		array		$list		Reference to List
+	 *	@param		int			$pos1		Position of first Element
+	 *	@param		int			$pos1		Position of second Element
+	 *	@return		void
+	 */
+	protected static function swap( &$list, $pos1, $pos2 )
+	{
+		$memory	= $list[$pos1];
+		$list[$pos1] = $list[$pos2];
+		$list[$pos2] = $memory;
 	}
 }
 ?>

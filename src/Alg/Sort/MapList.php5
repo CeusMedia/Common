@@ -18,7 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		alg.sort
+ *	@package		Alg.Sort
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -28,7 +28,7 @@
 /**
  *	Sorts a List of Maps (=associative Arrays) by one Column or many Columns.
  *	@category		cmClasses
- *	@package		alg.sort
+ *	@package		Alg.Sort
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -64,7 +64,7 @@ class Alg_Sort_MapList
 	 */
 	public static function sortByMultipleColumns( $data, $orders )
 	{
-		$key		= array_pop( array_keys( $orders ) );						//  get first Column
+		$key		= array_shift( array_keys( $orders ) );						//  get first Column
 		$direction	= $orders[$key];											//  get first Diection
 		$orders		= array_slice( $orders, 1 );								//  remove Order from Order Map
 		$list		= array();													//  prepare Index List
@@ -75,7 +75,6 @@ class Alg_Sort_MapList
 			ksort( $list );														//  sort Index List
 		else																	//  descending
 			krsort( $list );													//  reverse sort Index List
-
 		$array	= array();														//  prepare new Data Array
 		foreach( $list as $entries )											//  iterate Index List
 		{

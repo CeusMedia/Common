@@ -20,7 +20,7 @@
  *	@license		LGPL
  *	@copyright		(c) 2005 by Christian Würker <christian.wuerker@ceus-media.de>
  *	@category		cmClasses
- *	@package		alg.sort
+ *	@package		Alg.Sort
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -30,14 +30,14 @@
 /**
  *	Sorting numeric arrays with the Quicksort algorithm.
  *	@category		cmClasses
- *	@package		alg.sort
+ *	@package		Alg.Sort
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		$Id$
  */
-class Alg_Sort_Quicksort
+class Alg_Sort_Quick
 {
 
 	/**

@@ -18,7 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		alg.parcel
+ *	@package		Alg.Parcel
  *	@uses			Alg_Parcel_Packet
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
@@ -31,7 +31,7 @@ import( 'de.ceus-media.alg.parcel.Packet' );
 /**
  *	...
  *	@category		cmClasses
- *	@package		alg.parcel
+ *	@package		Alg.Parcel
  *	@uses			Alg_Parcel_Packet
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker

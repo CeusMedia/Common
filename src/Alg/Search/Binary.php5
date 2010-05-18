@@ -1,6 +1,6 @@
 <?php
 /**
- *	Bubble Sort.
+ *	Binary Search Algorithm.
  *
  *	Copyright (c) 2007-2010 Christian Würker (ceus-media.de)
  *
@@ -18,7 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		alg.sort
+ *	@package		Alg.Search
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -26,48 +26,53 @@
  *	@version		$Id$
  */
 /**
- *	Bubble Sort.
+ *	Binary Search Algorithm.
  *	@category		cmClasses
- *	@package		alg.sort
+ *	@package		Alg.Search
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		$Id$
  */
-class Alg_Sort_BubbleSort
+class Alg_Search_Binary
 {
-
+	/**	@var		int		$counter	internal counter of steps */
+	protected $counter;
+	
 	/**
-	 *	Sorts List with Bubble Sort.
+	 *	Searches in List and returns position if found, else 0.
 	 *	@access		public
-	 *	@static
-	 *	@param		array		$list		List to sort
-	 *	@return		array
+	 *	@param		array		$list		List to search in
+	 *	@param		mixed		$search		Element to search
+	 *	@param		int			$pos		Position (initial = 0)
+	 *	@return 	int
 	 */
-	public static function sort($list)
+	public function search( $list, $search, $pos = 0 )
 	{
-		for( $i=sizeof( $list ) - 1; $i>=1; $i-- )
-			for( $j=0; $j<$i; $j++ )
-				if( $list[$j] > $list[$j+1] ) 
-					self::swap( $list, $j, $j + 1 );
-		return $list;
-	}
-
-	/**
-	 *	Swaps two Elements in List.
-	 *	@access		protected
-	 *	@static
-	 *	@param		array		$list		Reference to List
-	 *	@param		int			$pos1		Position of first Element
-	 *	@param		int			$pos1		Position of second Element
-	 *	@return		void
-	 */
-	protected static function swap( &$list, $pos1, $pos2 )
-	{
-		$memory	= $list[$pos1];
-		$list[$pos1] = $list[$pos2];
-		$list[$pos2] = $memory;
+		$size = sizeof( $list );
+		if( $size == 1 )
+		{
+			if( $list[0] == $search )
+				return $list[0];
+			else
+				return -1;
+		}
+		else
+		{
+			$this->counter++;
+			$mid = floor( $size / 2 );
+			if( $search < $list[$mid] )
+			{
+				$list = array_slice( $list, 0, $mid );
+				return $this->search( $list, $search, $pos );
+			}
+			else
+			{
+				$list = array_slice( $list, $mid );
+				return $this->search( $list, $search, $pos );
+			}
+		}
 	}
 }
 ?>
