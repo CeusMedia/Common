@@ -22,9 +22,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		folder
- *	@uses			Folder_RegexFilter
- *	@uses			Folder_Iterator
+ *	@package		Folder
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -32,7 +30,6 @@
  *	@since			15.04.2008
  *	@version		$Id$
  */
-import( 'de.ceus-media.folder.RegexFilter' );
 /**
  *	Lists Folders and Files within a Folder.
  *	Entries can be filtered with a RegEx Pattern or allowed Extensions.
@@ -40,7 +37,7 @@ import( 'de.ceus-media.folder.RegexFilter' );
  *	It is possible to hide Folders or Files from the List.
  *	Folders starting with a Dot can be stripped from the List.
  *	@category		cmClasses
- *	@package		folder
+ *	@package		Folder
  *	@uses			Folder_RegexFilter
  *	@uses			Folder_Iterator
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>

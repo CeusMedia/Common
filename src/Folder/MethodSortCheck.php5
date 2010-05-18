@@ -18,7 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		folder
+ *	@package		Folder
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -26,12 +26,10 @@
  *	@since			04.09.2008
  *	@version		$Id$
  */
-import( 'de.ceus-media.file.php.MethodSortCheck' );
-import( 'de.ceus-media.file.RecursiveRegexFilter' );
 /**
  *	Checks order of methods in a several PHP Files within a Folder.
  *	@category		cmClasses
- *	@package		folder
+ *	@package		Folder
  *	@uses			File_PHP_MethodSortCheck
  *	@uses			File_RecursiveRegexFilter
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>

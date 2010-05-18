@@ -18,7 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		folder
+ *	@package		Folder
  *	@uses			File_RecursiveRegexFilter
  *	@uses			File_PHP_MethodVisibilityCheck
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
@@ -28,12 +28,10 @@
  *	@since			03.12.2009
  *	@version		$Id$
  */
-import( 'de.ceus-media.file.RecursiveRegexFilter' );
-import( 'de.ceus-media.file.php.MethodVisibilityCheck' );
 /**
  *	Checks visibility of methods in a folder containing PHP files.
  *	@category		cmClasses
- *	@package		folder
+ *	@package		Folder
  *	@uses			File_RecursiveRegexFilter
  *	@uses			File_PHP_MethodVisibilityCheck
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>

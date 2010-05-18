@@ -18,10 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		folder
- *	@uses			File_Reader
- *	@uses			Folder_RecursiveLister
- *	@uses			UI_HTML_Elements
+ *	@package		Folder
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -29,13 +26,10 @@
  *	@since			15.04.2008
  *	@version		$Id$
  */
-import( 'de.ceus-media.file.CodeLineCounter' );
-import( 'de.ceus-media.folder.RecursiveLister' );
-import( 'de.ceus-media.ui.html.Elements' );
 /**
  *	Counter for Lines of Code.
  *	@category		cmClasses
- *	@package		folder
+ *	@package		Folder
  *	@uses			File_Reader
  *	@uses			Folder_RecursiveLister
  *	@uses			UI_HTML_Elements
