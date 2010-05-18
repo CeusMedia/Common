@@ -18,8 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		ui
- *	@uses			Exception_Template
+ *	@package		UI
  *	@author			David Seebacher <dseebacher@gmail.com>
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
@@ -28,11 +27,10 @@
  *	@since			03.03.2007
  *	@version		$Id$
  */
-import( 'de.ceus-media.exception.Template' );
 /**
  *	Template Class.
  *	@category		cmClasses
- *	@package		ui
+ *	@package		UI
  *	@uses			Exception_Template
  *	@author			David Seebacher <dseebacher@gmail.com>
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
