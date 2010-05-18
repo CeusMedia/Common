@@ -18,8 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		framework.krypton.exception
- *	@extends		RuntimeException
+ *	@package		Exception
  *	@author			David Seebacher <dseebacher@gmail.com>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -35,7 +34,7 @@ if( !defined( 'EXCEPTION_TEMPLATE_FILE_NOT_FOUND' ) )
 /**
  *	Exception for Templates.
  *	@category		cmClasses
- *	@package		framework.krypton.exception
+ *	@package		Exception
  *	@extends		RuntimeException
  *	@author			David Seebacher <dseebacher@gmail.com>
  *	@copyright		2007-2010 Christian Würker
