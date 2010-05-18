@@ -18,11 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		xml.wddx
- *	@uses			XML_WDDX_FileReader
- *	@uses			XML_WDDX_File_Writer
- *	@uses			File_Reader
- *	@uses			File_Writer
+ *	@package		XML.WDDX
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -30,15 +26,10 @@
  *	@since			18.07.02005
  *	@version		$Id$
  */
-import( 'de.ceus-media.adt.OptionObject' );
-import( 'de.ceus-media.file.Reader' );
-import( 'de.ceus-media.file.Writer' );
-import( 'de.ceus-media.xml.wddx.FileReader' );
-import( 'de.ceus-media.xml.wddx.FileWriter' );
 /**
  *	Reads and writes Configurations via WDDX.
  *	@category		cmClasses
- *	@package		xml.wddx
+ *	@package		XML.WDDX
  *	@uses			File_Reader
  *	@uses			File_Writer
  *	@uses			XML_WDDX_FileReader

@@ -18,19 +18,17 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		xml
- *	@uses			XML_DOM_Node
+ *	@package		XML
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		$Id$
  */
-import( 'de.ceus-media.xml.dom.Node' );
 /**
  *	Parses XML String and returns Array or Object Structure.
  *	@category		cmClasses
- *	@package		xml
+ *	@package		XML
  *	@uses			XML_DOM_Node
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
@@ -183,7 +181,6 @@ class XML_Parser
 	 */
 	public function toObject( $xml )
 	{
-		import( 'de.ceus-media.xml.dom.Node' );
 		$this->data	= new XML_DOM_Node( "root" );
 		$this->xml	= xml_parser_create();
 		xml_set_object( $this->xml, $this );

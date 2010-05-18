@@ -18,21 +18,17 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		xml.opml
- *	@uses			XML_DOM_Builder
- *	@uses			File_Writer
+ *	@package		XML.OMPL
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		$Id$
  */
-import( 'de.ceus-media.file.Writer' );
-import( 'de.ceus-media.xml.dom.Builder' );
 /**
  *	Writes XML Files from Trees build with XML_Node.
  *	@category		cmClasses
- *	@package		xml.opml
+ *	@package		XML.OMPL
  *	@uses			XML_DOM_Builder
  *	@uses			File_Writer
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>

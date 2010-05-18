@@ -18,8 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		xml.dom.pear
- *	@uses			File_Reader
+ *	@package		XML.DOM.PEAR
  *	@author			Christian Würker
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -27,11 +26,10 @@
  *	@since			20.10.2008
  *	@version		$Id$
  */
-import( 'de.ceus-media.file.Reader' );
 /**
  *	Reader for PEAR Package Description Files in XML.
  *	@category		cmClasses
- *	@package		xml.dom.pear
+ *	@package		XML.DOM.PEAR
  *	@uses			File_Reader
  *	@author			Christian Würker
  *	@copyright		2007-2010 Christian Würker

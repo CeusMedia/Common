@@ -19,10 +19,7 @@ import( 'de.ceus-media.xml.rss.SimpleParser' );
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		xml.rss
- *	@uses			File_Reader
- *	@uses			Net_Reader
- *	@uses			XML_RSS_SimpleParser
+ *	@package		XML.RSS
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -33,9 +30,7 @@ import( 'de.ceus-media.xml.rss.SimpleParser' );
 /**
  *	Reader for RSS 2.0 Feeds.
  *	@category		cmClasses
- *	@package		xml.rss
- *	@uses			File_Reader
- *	@uses			XML_RSS_SimpleParser
+ *	@package		XML.RSS
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3

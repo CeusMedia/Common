@@ -1,7 +1,6 @@
 <?php
 /**
- *	@category		cmClasses
- *	@package		xml.opml
+ *	...
  *
  *	Copyright (c) 2007-2010 Christian Würker (ceus-media.de)
  *
@@ -18,19 +17,17 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- *	@uses			XML_OPML_Parser
- *	@uses			File_Reader
+ *	@category		cmClasses
+ *	@package		XML.OMPL
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		$Id$
  */
-import( 'de.ceus-media.file.Reader' );
-import( 'de.ceus-media.xml.opml.Parser' );
 /**
  *	@category		cmClasses
- *	@package		xml.opml
+ *	@package		XML.OMPL
  *	@uses			XML_OPML_Parser
  *	@uses			File_Reader
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>

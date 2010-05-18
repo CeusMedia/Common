@@ -18,7 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		xml.atom
+ *	@package		XML.Atom
  *	@see			http://www.atomenabled.org/developers/syndication/atom-format-spec.php#element.entry
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
@@ -30,7 +30,7 @@
 /**
  *	Validates a XML Element built form an Atom XML String against most of the ATOM Rules.
  *	@category		cmClasses
- *	@package		xml.atom
+ *	@package		XML.Atom
  *	@see			http://www.atomenabled.org/developers/syndication/atom-format-spec.php#element.entry
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker

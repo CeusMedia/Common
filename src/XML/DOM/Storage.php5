@@ -18,25 +18,17 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		xml.dom
- *	@extends		ADT_OptionObject
- *	@uses			XML_DOM_Node
- *	@uses			XML_DOM_FileReader
- *	@uses			XML_DOM_FileWriter
+ *	@package		XML.DOM
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		$Id$
  */
-import( 'de.ceus-media.adt.OptionObject' );
-import( 'de.ceus-media.xml.dom.Node' );
-import( 'de.ceus-media.xml.dom.FileReader' );
-import( 'de.ceus-media.xml.dom.FileWriter' );
 /**
  *	Storage with unlimited depth to store pairs of data in XML Files.
  *	@category		cmClasses
- *	@package		xml.dom
+ *	@package		XML.DOM
  *	@extends		ADT_OptionObject
  *	@uses			XML_DOM_Node
  *	@uses			XML_DOM_FileReader
