@@ -18,10 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		xml.dom
- *	@uses			File_Reader
- *	@uses			Net_Reader
- *	@uses			XML_DOM_SyntaxValidator
+ *	@package		XML
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -29,11 +26,10 @@
  *	@since			24.01.2006
  *	@version		$Id$
  */
-import( 'de.ceus-media.xml.dom.SyntaxValidator' );
 /**
  *	Identifies Type and Version of RSS and ATOM Feeds.
  *	@category		cmClasses
- *	@package		xml.dom
+ *	@package		XML
  *	@uses			File_Reader
  *	@uses			Net_Reader
  *	@uses			XML_DOM_SyntaxValidator
@@ -147,7 +143,6 @@ class XML_FeedIdentifier
 	 */
 	public static function identifyFromFile( $file )
 	{
-		import( 'de.ceus-media.file.Reader' );
 		$xml	= File_Reader::load( $filename );
 		return $this->identify( $xml );
 	}
@@ -161,7 +156,6 @@ class XML_FeedIdentifier
 	 */
 	public function identifyFromUrl( $url, $timeout = 5 )
 	{
-		import( 'de.ceus-media.net.Reader' );
 		Net_cURL::setTimeOut( $timeout );
 		$xml	= Net_Reader::readUrl( $url );
 		return $this->identify( $xml );

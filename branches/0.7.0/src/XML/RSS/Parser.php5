@@ -18,8 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		xml.rss
- *	@uses			XML_DOM_XPathQuery
+ *	@package		XML.RSS
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -28,11 +27,10 @@
  *	@version		$Id$
  *	@see			http://blogs.law.harvard.edu/tech/rss
  */
-import( 'de.ceus-media.xml.dom.XPathQuery' );
 /**
  *	Parser for RSS 2 Feed using XPath.
  *	@category		cmClasses
- *	@package		xml.rss
+ *	@package		XML.RSS
  *	@uses			XML_DOM_XPathQuery
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker

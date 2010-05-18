@@ -18,9 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		xml.opml
- *	@extends		XML_DOM_Node
- *	@uses			XML_DOM_Builder
+ *	@package		XML.OMPL
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -28,12 +26,10 @@
  *	@since			01.02.2006
  *	@version		$Id$
  */
-import( 'de.ceus-media.xml.dom.Node' );
-import( 'de.ceus-media.xml.dom.Builder' );
 /**
  *	Builder for OPML Files.
  *	@category		cmClasses
- *	@package		xml.opml
+ *	@package		XML.OMPL
  *	@extends		XML_DOM_Node
  *	@uses			XML_DOM_Builder
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>

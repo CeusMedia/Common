@@ -18,7 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		xml.dom
+ *	@package		XML.DOM
  *	@uses			XML_DOM_GoogleSitemapBuilder
  *	@uses			File_Writer
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
@@ -28,12 +28,10 @@
  *	@since			14.02.2008
  *	@version		$Id$
  */
-import( 'de.ceus-media.xml.dom.GoogleSitemapBuilder' );
-import( 'de.ceus-media.file.Writer' );
 /**
  *	Builds and writes Google Sitemap.
  *	@category		cmClasses
- *	@package		xml.dom
+ *	@package		XML.DOM
  *	@uses			XML_DOM_GoogleSitemapBuilder
  *	@uses			File_Writer
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>

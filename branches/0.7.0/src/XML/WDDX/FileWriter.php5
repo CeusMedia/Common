@@ -1,6 +1,4 @@
 <?php
-import( 'de.ceus-media.xml.wddx.Builder' );
-import( 'de.ceus-media.file.Writer' );
 /**
  *	Writes a WDDX File.
  *
@@ -20,9 +18,7 @@ import( 'de.ceus-media.file.Writer' );
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		xml.wddx
- *	@uses			XML_WDDX_Builder
- *	@uses			File_Writer
+ *	@package		XML.WDDX
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -32,7 +28,7 @@ import( 'de.ceus-media.file.Writer' );
 /**
  *	Writes a WDDX File.
  *	@category		cmClasses
- *	@package		xml.wddx
+ *	@package		XML.WDDX
  *	@uses			XML_WDDX_Builder
  *	@uses			File_Writer
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>

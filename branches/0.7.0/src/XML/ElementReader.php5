@@ -18,10 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		xml
- *	@uses			File_Reader
- *	@uses			Net_Reader
- *	@uses			XML_Element
+ *	@package		XML
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -29,11 +26,10 @@
  *	@since			20.02.2008
  *	@version		$Id$
  */
-import( 'de.ceus-media.xml.Element' );
 /**
  *	Reader for XML Elements from File or URL.
  *	@category		cmClasses
- *	@package		xml
+ *	@package		XML
  *	@uses			File_Reader
  *	@uses			Net_Reader
  *	@uses			XML_Element
@@ -55,7 +51,6 @@ class XML_ElementReader
 	 */
 	public static function readFile( $fileName )
 	{
-		import( 'de.ceus-media.file.Reader' );
 		$xml	= File_Reader::load( $fileName );
 		return new XML_Element( $xml );
 	}
@@ -69,7 +64,6 @@ class XML_ElementReader
 	 */
 	public static function readUrl( $url )
 	{
-		import( 'de.ceus-media.net.Reader' );
 		$xml	= Net_Reader::readUrl( $url );
 		return new XML_Element( $xml );
 	}

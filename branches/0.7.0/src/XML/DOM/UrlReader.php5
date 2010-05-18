@@ -18,9 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		xml.dom
- *	@uses			XML_DOM_Parser
- *	@uses			Net_Reader
+ *	@package		XML.DOM
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -28,12 +26,10 @@
  *	@since			15.04.2008
  *	@version		$Id$
  */
-import( 'de.ceus-media.xml.dom.Parser' );
-import( 'de.ceus-media.net.Reader' );
 /**
  *	Loads XML from an URL and parses to a Tree of XML_DOM_Nodes.
  *	@category		cmClasses
- *	@package		xml.dom
+ *	@package		XML.DOM
  *	@uses			XML_DOM_Parser
  *	@uses			Net_Reader
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
@@ -53,6 +49,7 @@ class XML_DOM_UrlReader
 		'application/xslt+xml',
 		'text/xml',
 	);
+	public static $userAgent	= 'cmClasses:XML_DOM_UrlReader/0.7';
 	
 	/**
 	 *	Constructor.
@@ -76,7 +73,7 @@ class XML_DOM_UrlReader
 	public static function load( $url, $curlOptions = array() )
 	{
 		$reader	= new Net_Reader( $url );
-		$reader->setUserAgent( "cmClasses:XML_DOM_UrlReader/0.6" );
+		$reader->setUserAgent( self::$userAgent );
 		$xml	= $reader->read( $curlOptions );
 		$type	= array_shift( explode( ";", $reader->getStatus( Net_cURL::STATUS_CONTENT_TYPE ) ) );
 		

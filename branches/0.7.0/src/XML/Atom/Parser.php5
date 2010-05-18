@@ -18,9 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		xml.atom
- *	@uses			XML_Element
- *	@uses			XML_Atom_Validator
+ *	@package		XML.Atom
  *	@see			http://www.atomenabled.org/developers/syndication/atom-format-spec.php
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
@@ -29,11 +27,10 @@
  *	@since			13.05.2008
  *	@version		$Id$
  */
-import( 'de.ceus-media.xml.Element' );
 /**
  *	Parser for Atom Feeds.
  *	@category		cmClasses
- *	@package		xml.atom
+ *	@package		XML.Atom
  *	@uses			XML_Element
  *	@uses			XML_Atom_Validator
  *	@see			http://www.atomenabled.org/developers/syndication/atom-format-spec.php

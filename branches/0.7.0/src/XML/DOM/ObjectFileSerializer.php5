@@ -18,7 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		xml.dom
+ *	@package		XML.DOM
  *	@extends		XML_DOM_ObjectSerializer
  *	@uses			File_Writer
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
@@ -28,12 +28,10 @@
  *	@since			26.12.2005
  *	@version		$Id$
  */
-import( 'de.ceus-media.xml.dom.ObjectSerializer' );
-import( 'de.ceus-media.file.Writer' );
 /**
  *	Serializer for Data Object into a XML File.
  *	@category		cmClasses
- *	@package		xml.dom
+ *	@package		XML.DOM
  *	@extends		XML_DOM_ObjectSerializer
  *	@uses			File_Writer
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>

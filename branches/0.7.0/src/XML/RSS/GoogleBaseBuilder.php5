@@ -18,8 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		xml.rss
- *	@extends		XML_RSS_Builder
+ *	@package		XML.RSS
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -27,11 +26,10 @@
  *	@since			19.02.02008
  *	@version		$Id$
  */
-import( 'de.ceus-media.xml.rss.Builder' );
 /**
  *	Builds RSS for Google Base - Froogle.
  *	@category		cmClasses
- *	@package		xml.rss
+ *	@package		XML.RSS
  *	@extends		XML_RSS_Builder
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker

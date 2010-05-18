@@ -1,5 +1,4 @@
 <?php
-import( 'de.ceus-media.xml.ElementReader' );
 /**
  *	Reader for XML Result File written by PHPUnit.
  *
@@ -19,8 +18,7 @@ import( 'de.ceus-media.xml.ElementReader' );
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		xml
- *	@uses			XML_ElementReader
+ *	@package		XML
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -31,7 +29,7 @@ import( 'de.ceus-media.xml.ElementReader' );
 /**
  *	Reader for XML Result File written by PHPUnit.
  *	@category		cmClasses
- *	@package		xml
+ *	@package		XML
  *	@uses			XML_ElementReader
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
