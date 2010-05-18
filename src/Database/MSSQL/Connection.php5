@@ -18,7 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		database.mssql
+ *	@package		Database.MSSQL
  *	@extends		Database_BaseConnection
  *	@uses			Database_Result
  *	@uses			Database_Row
@@ -28,16 +28,10 @@
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		$Id$
  */
-import( 'de.ceus-media.database.BaseConnection' );
-import( 'de.ceus-media.database.Result' );
-import( 'de.ceus-media.database.Row' );
 /**
  *	Wrapper for MS SQL Database Connection with Transaction Support.
  *	@category		cmClasses
- *	@package		database.mssql
- *	@extends		Database_BaseConnection
- *	@uses			Database_Result
- *	@uses			Database_Row
+ *	@package		Database.MSSQL
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
