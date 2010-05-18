@@ -22,8 +22,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		folder
- *	@extends	 	Folder_Reader
+ *	@package		Folder
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -31,7 +30,6 @@
  *	@since			15.04.2008
  *	@version		$Id$
  */
-import( 'de.ceus-media.folder.Reader' );
 /**
  *	Editor for Folders.
  *	All Methods to create, copy, move or remove a Folder are working recursive.
@@ -39,7 +37,7 @@ import( 'de.ceus-media.folder.Reader' );
  *	By default copy, move and remove are not overwriting existing Files or deleting Folders containing Files or Folders.
  *	It can be forced to overwrite or remove everything with Option 'force'.
  *	@category		cmClasses
- *	@package		folder
+ *	@package		Folder
  *	@extends	 	Folder_Reader
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker

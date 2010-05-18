@@ -22,10 +22,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		folder
- *	@extends		Folder_Lister
- *	@uses			Folder_RecursiveRegexFilter
- *	@uses			Folder_RecursiveIterator
+ *	@package		Folder
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -33,7 +30,6 @@
  *	@since			15.04.2008
  *	@version		$Id$
  */
-import( 'de.ceus-media.folder.Lister' );
 /**
  *	Lists Folders and Files within a Folder recursive.
  *	Entries can be filtered with a RegEx Pattern or allowed Extensions.
@@ -41,7 +37,7 @@ import( 'de.ceus-media.folder.Lister' );
  *	It is possible to hide Folders or Files from the List.
  *	Folders starting with a Dot can be stripped from the List.
  *	@category		cmClasses
- *	@package		folder
+ *	@package		Folder
  *	@extends		Folder_Lister
  *	@uses			Folder_RecursiveRegexFilter
  *	@uses			Folder_RecursiveIterator

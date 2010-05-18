@@ -18,10 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		folder
- *	@extends		FilterIterator
- *	@uses			RecursiveIteratorIterator
- *	@uses			RecursiveDirectoryIterator
+ *	@package		Folder
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@copyright		2008-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -32,7 +29,7 @@
 /**
  *	Iterates all Folders and Files recursive within a Folder.
  *	@category		cmClasses
- *	@package		folder
+ *	@package		Folder
  *	@extends		FilterIterator
  *	@uses			RecursiveIteratorIterator
  *	@uses			RecursiveDirectoryIterator

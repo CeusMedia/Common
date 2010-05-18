@@ -18,11 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		folder
- *	@uses			File_SyntaxChecker
- *	@uses			Folder_RecursiveRegexFilter
- *	@uses			UI_DevOutput
- *	@uses			Stopwatch
+ *	@package		Folder
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -30,18 +26,14 @@
  *	@since			12.05.2008
  *	@version		$Id$
  */
-import( 'de.ceus-media.file.SyntaxChecker' );
-import( 'de.ceus-media.folder.RecursiveRegexFilter' );
-import( 'de.ceus-media.ui.DevOutput' );
-import( 'de.ceus-media.Stopwatch' );
 /**
  *	Checks Syntax of all PHP Classes and Scripts within a Folder.
  *	@category		cmClasses
- *	@package		folder
+ *	@package		Folder
  *	@uses			File_SyntaxChecker
  *	@uses			Folder_RecursiveRegexFilter
  *	@uses			UI_DevOutput
- *	@uses			Stopwatch
+ *	@uses			Alg_Time_Clock
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
