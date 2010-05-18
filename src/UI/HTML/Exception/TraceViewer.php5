@@ -18,7 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		ui.html.exception
+ *	@package		UI.HTML.Exception
  *	@author			Romain Boisnard
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
@@ -30,7 +30,7 @@
 /**
  *	Visualisation of Exception Stack Trace.
  *	@category		cmClasses
- *	@package		ui.html.exception
+ *	@package		UI.HTML.Exception
  *	@author			Romain Boisnard
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker

@@ -18,7 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		ui.html
+ *	@package		UI.HTML
  *	@extends		ADT_OptionObject
  *	@uses			UI_HTML_Tag
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
@@ -32,7 +32,7 @@ import( 'de.ceus-media.ui.html.Tag' );
 /**
  *	Builds HTML of Bar Indicator.
  *	@category		cmClasses
- *	@package		ui.html
+ *	@package		UI.HTML
  *	@extends		ADT_OptionObject
  *	@uses			UI_HTML_Tag
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>

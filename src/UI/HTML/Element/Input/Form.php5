@@ -2,7 +2,7 @@
 /**
  *	...
  *	@category		cmClasses
- *	@package		ui.html.element
+ *	@package		UI.HTML.Element.Input
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2009-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -13,7 +13,7 @@
 /**
  *	...
  *	@category		cmClasses
- *	@package		ui.html.element
+ *	@package		UI.HTML.Element.Input
  *	@extends		UI_HTML_Element_Abstract
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2009-2010 Christian Würker
@@ -26,6 +26,7 @@ class UI_HTML_Element_Input_Form extends UI_HTML_Element_Abstract
 {
 	protected $action		= './';
 	protected $method		= 'post';
+	protected $name			= NULL;
 	protected $encType		= NULL;
 
 	public function __construct( $id = NULL )
@@ -52,7 +53,16 @@ class UI_HTML_Element_Input_Form extends UI_HTML_Element_Abstract
 
 	public function render()
 	{
-		$attributes	= $this->renderAttributes();
+		$attributes	= array(
+			'id'		=> $this->id,
+			'class'		=> $this->class,
+			'name'		=> $this->name,
+			'method'	=> $this->method,
+			'enctype'	=> $this->encType ? $this->encType : NULL,
+		);
+		foreach( $this->events as $event => $action )
+			$attributes[$event]	= $action;
+
 		$list		= array();
 		foreach( $this->content as $content )
 		{
@@ -61,7 +71,7 @@ class UI_HTML_Element_Input_Form extends UI_HTML_Element_Abstract
 			$list[]	= $content;
 		}
 		$content	= join( $list );
-		return '<form'.$attributes.'>'.$content.'</form>';
+		return $this->renderTag( 'form', $content, $attributes );
 	}
 
 	public function setAction( $action )
@@ -82,6 +92,12 @@ class UI_HTML_Element_Input_Form extends UI_HTML_Element_Abstract
 		if( !in_array( $method, array( 'get', 'post', 'put', 'delete' ) ) )
 			throw new InvalidArgumentException( 'Invalid method "'.$method.'"' );
 		$this->method = $method;
+		return $this;
+	}
+
+	public function setName( $name )
+	{
+		$this->name	= $name;
 		return $this;
 	}
 }

@@ -2,7 +2,7 @@
 /**
  *	Liquid Grid Layout.
  *	@category		cmClasses
- *	@package		ui.html.layout
+ *	@package		UI.HTML.Layout
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@since			0.7.0
  *	@version		$Id$
@@ -10,7 +10,7 @@
 /**
  *	Liquid Grid Layout.
  *	@category		cmClasses
- *	@package		ui.html.layout
+ *	@package		UI.HTML.Layout
  *	@extends		UI_HTML_Element_Abstract
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@since			0.7.0

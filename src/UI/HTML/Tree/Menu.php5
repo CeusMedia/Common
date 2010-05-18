@@ -18,7 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		ui.html.tree
+ *	@package		UI.HTML.Tree
  *	@uses			Alg_Tree_Menu_Converter
  *	@uses			UI_HTML_Tag
  *	@uses			UI_HTML_Elements
@@ -35,7 +35,7 @@ import( 'de.ceus-media.ui.html.Elements' );
 /**
  *	Builder for Tree Menu.
  *	@category		cmClasses
- *	@package		ui.html.tree
+ *	@package		UI.HTML.Tree
  *	@uses			Alg_Tree_Menu_Converter
  *	@uses			UI_HTML_Tag
  *	@uses			UI_HTML_Elements

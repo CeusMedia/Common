@@ -18,7 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		ui.html.tree
+ *	@package		UI.HTML.Tree
  *	@uses			UI_HTML_Elements
  *	@uses			UI_HTML_JQuery
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
@@ -33,7 +33,7 @@ import( 'de.ceus-media.ui.html.JQuery' );
 /**
  *	Builds HTML Tree with nested Lists for JQuery Plugin Treeview from a Array of Nodes.
  *	@category		cmClasses
- *	@package		ui.html.tree
+ *	@package		UI.HTML.Tree
  *	@uses			UI_HTML_Elements
  *	@uses			UI_HTML_JQuery
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>

@@ -2,7 +2,7 @@
 /**
  *	Grid Layout.
  *	@category		cmClasses
- *	@package		ui.html.layout
+ *	@package		UI.HTML.Layout
  *	@author			martin
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@version		$Id$
@@ -10,7 +10,7 @@
 /**
  *	Grid Layout.
  *	@category		cmClasses
- *	@package		ui.html.layout
+ *	@package		UI.HTML.Layout
  *	@extends		UI_HTML_Element_Abstract
  *	@author			martin
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>

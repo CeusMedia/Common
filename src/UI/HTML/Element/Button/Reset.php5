@@ -2,7 +2,7 @@
 /**
  *	HTML Reset Button.
  *	@category		cmClasses
- *	@package		ui.html.element
+ *	@package		UI.HTML.Element.Button
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2009-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -13,7 +13,7 @@
 /**
  *	HTML Reset Button.
  *	@category		cmClasses
- *	@package		ui.html.element
+ *	@package		UI.HTML.Element.Button
  *	@extends		UI_HTML_Abstract
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2009-2010 Christian Würker

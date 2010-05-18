@@ -18,7 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		ui.html
+ *	@package		UI.HTML
  *	@uses			UI_HTML_Elements
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
@@ -39,7 +39,7 @@ import( 'de.ceus-media.ui.html.Elements' );
  *	If you slow down our Image Server the community will suffer from your traffic.
  *
  *	@category		cmClasses
- *	@package		ui.html
+ *	@package		UI.HTML
  *	@uses			UI_HTML_Elements
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker

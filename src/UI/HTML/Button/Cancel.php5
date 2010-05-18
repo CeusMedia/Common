@@ -18,7 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		ui.html.button
+ *	@package		UI.HTML.Button
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -29,7 +29,7 @@
 /**
  *	Builds HTML Cancel Link Button.
  *	@category		cmClasses
- *	@package		ui.html.button
+ *	@package		UI.HTML.Button
  *	@extends		UI_HTML_Button_Link
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2010 Christian Würker

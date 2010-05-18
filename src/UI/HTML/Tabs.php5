@@ -19,7 +19,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		ui.html
+ *	@package		UI.HTML
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -33,7 +33,7 @@ import( 'de.ceus-media.ui.html.JQuery' );
  *	Tabbed Content Builder - builds Tab List and Content Divs and applies JavaScript 'tabs.js'.
  *	The Script is a jQuery Plugin and must be loaded within the surrounding HTML.
  *	@category		cmClasses
- *	@package		ui.html
+ *	@package		UI.HTML
  *	@uses			UI_HTML_Tag
  *	@uses			UI_HTML_JQuery
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>

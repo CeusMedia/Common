@@ -2,7 +2,7 @@
 /**
  *	HTML Label Tag.
  *	@category		cmClasses
- *	@package		ui.html.element
+ *	@package		UI.HTML.Element.Input
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2009-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -13,7 +13,7 @@
 /**
  *	HTML Label Tag.
  *	@category		cmClasses
- *	@package		ui.html.element
+ *	@package		UI.HTML.Element.Input
  *	@extends		UI_HTML_Element_Abstract
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2009-2010 Christian Würker
@@ -49,7 +49,15 @@ class UI_HTML_Element_Input_Label extends UI_HTML_Element_Abstract
 			'class'		=> $this->class,
 			'for'		=> $this->for,
 		);
-		return $this->renderTag( 'label', $this->content, $attributes );
+		$list		= array();
+		foreach( $this->content as $content )
+		{
+			if( $content instanceof UI_HTML_Element_Abstract )
+				$content	= $content->render();
+			$list[]	= $content;
+		}
+		$content	= join( $list );
+		return $this->renderTag( 'label', $content, $attributes );
 	}
 }
 ?>

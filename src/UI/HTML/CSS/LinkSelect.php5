@@ -18,7 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		ui.html.css
+ *	@package		UI.HTML.CSS
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -33,7 +33,7 @@ import( 'de.ceus-media.ui.html.css.TreeMenu' );
 /**
  *	...
  *	@category		cmClasses
- *	@package		ui.html.css
+ *	@package		UI.HTML.CSS
  *	@uses			ADT_Tree_Menu_List
  *	@uses			ADT_Tree_Menu_Item
  *	@uses			UI_HTML_CSS_TreeMenu
