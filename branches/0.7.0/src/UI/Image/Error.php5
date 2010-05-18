@@ -18,7 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		ui.image
+ *	@package		UI.Image
  *	@uses			UI_Image_Creator
  *	@uses			UI_Image_Drawer
  *	@uses			UI_Image_Printer
@@ -35,7 +35,7 @@ import( 'de.ceus-media.ui.image.Printer' );
 /**
  *	Creates and displays Error Image with Message.
  *	@category		cmClasses
- *	@package		ui.image
+ *	@package		UI.Image
  *	@uses			UI_Image_Creator
  *	@uses			UI_Image_Drawer
  *	@uses			UI_Image_Printer

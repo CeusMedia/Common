@@ -18,7 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		ui.image
+ *	@package		UI.Image
  *	@extends		UI_Image_Drawer
  *	@uses			Math_CompactInterval
  *	@uses			Alg_Time_Clock
@@ -34,7 +34,7 @@ import( 'de.ceus-media.alg.time.Clock' );
 /**
  *	Paints Formula Diagram
  *	@category		cmClasses
- *	@package		ui.image
+ *	@package		UI.Image
  *	@extends		UI_Image_Drawer
  *	@uses			Math_CompactInterval
  *	@uses			Alg_Time_Clock

@@ -5,8 +5,7 @@
  *	Last change: 2004-04-16
  *
  *	@category		cmClasses
- *	@package		ui
- *	@subpackage		image
+ *	@package		UI.Image
  *	@author			Lionel Micault <lionel.micault@laposte.net>
  *	@version		1.01
  */
@@ -23,8 +22,7 @@ define ("transparentWatermarkOnRight", 10);
  *	Last change: 2004-04-16
  *
  *	@category		cmClasses
- *	@package		ui
- *	@subpackage		image
+ *	@package		UI.Image
  *	@author			Lionel Micault <lionel.micault@laposte.net>
  *	@version		1.01
  *	@todo			check Integration
