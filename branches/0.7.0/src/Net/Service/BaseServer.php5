@@ -18,10 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		net.service
- *	@extends		UI_HTML_Service_Index
- *	@uses			Net_HTTP_Request_Receiver
- *	@uses			Net_Service_Point
+ *	@package		Net.Service
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -29,14 +26,11 @@
  *	@since			0.6.5
  *	@version		$Id$
  */
-import( 'de.ceus-media.ui.html.service.Index' );
-import( 'de.ceus-media.net.http.request.Receiver' );
-import( 'de.ceus-media.net.service.Point' );
 /**
  *	Basic Server for Net Services.
  *
  *	@category		cmClasses
- *	@package		net.service
+ *	@package		Net.Service
  *	@extends		UI_HTML_Service_Index
  *	@uses			Net_HTTP_Request_Receiver
  *	@uses			Net_Service_Point

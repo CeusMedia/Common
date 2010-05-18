@@ -22,11 +22,7 @@
  *
  *	If a different Loader Class should be used, it needs to be imported before.
  *	@category		cmClasses
- *	@package		net.service
- *	@implements		Net_Service_Interface_Point
- *	@uses			Net_Service_Parameter_Validator
- *	@uses			Net_Service_Parameter_Filter
- *	@uses			Net_Service_Definition_Loader
+ *	@package		Net.Service
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -34,7 +30,6 @@
  *	@since			0.6.3
  *	@version		$Id$
  */
-import( 'de.ceus-media.net.service.interface.Point' );
 /**
  *	Access Point for Service Calls.
  *	A different Service Parameter Validator Class can be used by setting static Member "validatorClass".
@@ -42,7 +37,7 @@ import( 'de.ceus-media.net.service.interface.Point' );
  *	A different Service Definition Loader Class can be used by setting static Member "loaderClass".
  *	If a different Loader Class should be used, it needs to be imported before.
  *	@category		cmClasses
- *	@package		net.service
+ *	@package		Net.Service
  *	@implements		Net_Service_Interface_Point
  *	@uses			Net_Service_Parameter_Validator
  *	@uses			Net_Service_Parameter_Filter

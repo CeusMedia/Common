@@ -18,10 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		net
- *	@uses			Net_AtomTime
- *	@uses			File_Reader
- *	@uses			File_Writer
+ *	@package		Net
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -29,13 +26,10 @@
  *	@since			13.07.2005
  *	@version		$Id$
  */
-import ("de.ceus-media.net.AtomTime");
-import ("de.ceus-media.file.Reader");
-import ("de.ceus-media.file.Writer");
 /**
  *	Calculates real Time by Server time and synchronised Atom time.
  *	@category		cmClasses
- *	@package		net
+ *	@package		Net
  *	@uses			Net_AtomTime
  *	@uses			File_Reader
  *	@uses			File_Writer

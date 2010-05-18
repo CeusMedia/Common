@@ -18,7 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		net
+ *	@package		Net
  *	@uses			Net_cURL
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
@@ -27,11 +27,10 @@
  *	@since			13.07.2005
  *	@version		$Id$
  */
-import ("de.ceus-media.net.cURL");
 /**
  *	Connects Server to request Atom Time.
  *	@category		cmClasses
- *	@package		net
+ *	@package		Net
  *	@uses			Net_cURL
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker

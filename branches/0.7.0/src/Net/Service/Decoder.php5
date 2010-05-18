@@ -19,7 +19,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		net.service
+ *	@package		Net.Service
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -31,7 +31,7 @@
  *	Decompresses and decodes Service Response Strings in several Formats.
  *	Can be overwritten to extend with further Formats or Compression Methods.
  *	@category		cmClasses
- *	@package		net.service
+ *	@package		Net.Service
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3

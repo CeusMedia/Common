@@ -94,7 +94,7 @@ class Net_HTTP_Header
 	 */
 	public function toString()
 	{
-		return $this->name.": ".$this->value;
+		return ucFirst( $this->name ).": ".$this->value;
 	}
 }
 ?>

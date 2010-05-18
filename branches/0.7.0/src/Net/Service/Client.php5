@@ -18,9 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		net.service
- *	@uses			Net_cURL
- *	@uses			StopWatch
+ *	@package		Net.Service
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -28,11 +26,10 @@
  *	@since			0.6.4
  *	@version		$Id$
  */
-import( 'de.ceus-media.net.service.Decoder' );
 /**
  *	Client for interaction with Frontend Services.
  *	@category		cmClasses
- *	@package		net.service
+ *	@package		Net.Service
  *	@uses			Net_cURL
  *	@uses			StopWatch
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>

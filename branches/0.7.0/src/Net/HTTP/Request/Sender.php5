@@ -36,23 +36,24 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		$Id$
+ *	@todo			fix: 400 Bad Request
  */
 class Net_HTTP_Request_Sender
 {
-	/**	@var		string		$host			Host IP to be connected to */
+	/**	@var	string				$host			Host IP to be connected to */
 	protected $host;
-	/**	@var		string		$uri			URI to request to */
+	/**	@var	string				$uri			URI to request to */
 	protected $uri;
-	/**	@var		string		$port			Service Port of Host */
-	protected $port				= -1;
-	/**	@var		string		$method			Method of Request (GET or POST) */
+	/**	@var	string				$port			Service Port of Host */
+	protected $port					= -1;
+	/**	@var	string				$method			Method of Request (GET or POST) */
 	protected $method;
-	/**	@var		Net_HTTP_Headers	$headers	Object of collected HTTP Headers */
-	protected $headers			= NULL;
-	/**	@var		string		$contentType	Default Content Type of Request */
-	protected $contentType		= "application/x-www-form-urlencoded";
-	
-	protected $version			= "1.0";
+	/**	@var	Net_HTTP_Headers	$headers		Object of collected HTTP Headers */
+	protected $headers				= NULL;
+	/**	@var	string				$version		HTTP version (1.0 or 1.1) */
+	protected $version				= '1.1';
+	/**	@var	string				$data			Raw POST data */
+	protected $data;
 
 	/**
 	 *	Constructor.
@@ -63,13 +64,14 @@ class Net_HTTP_Request_Sender
 	 *	@param		string		$method			Method of Request (GET or POST)
 	 *	@return		void
 	 */
-	public function __construct( $host, $uri, $port = 80, $method = "POST" )
+	public function __construct( $host, $uri, $port = 80, $method = 'GET' )
 	{
-		$this->host 	= $host;
-		$this->uri  	= $uri;
-		$this->port 	= $port;
-		$this->method	= strtoupper( $method );
 		$this->headers	= new Net_HTTP_Headers;
+		$this->headers->addHeaderPair( 'Host', $host );
+		$this->host		= $host;
+		$this->setUri( $uri );
+		$this->setPort( $port );
+		$this->setMethod( $method );
 	}
 
 	public function addHeader( Net_HTTP_Header $header )
@@ -87,12 +89,40 @@ class Net_HTTP_Request_Sender
 		$this->contentType	= $mimeType;
 	}
 
+	public function setData( $data )
+	{
+		if( !is_array( $data ) )
+			throw new InvalidArgumentException( 'Must be an array' );
+		$this->data	= http_build_query( $data, NULL, '&' );
+	}
+
 	public function setMethod( $method )
 	{
 		$method	= strtoupper( $method );
 		if( !in_array( $method, array( 'GET', 'POST', 'DELETE', 'PUT', 'HEAD' ) ) )
 			throw new InvalidArgumentException( 'Invalid HTTP method "'.$method.'"' );
 		$this->method	= $method;
+	}
+
+	public function setPort( $port )
+	{
+		$this->port	= $port;
+	}
+
+	public function setRawData( $data )
+	{
+		if( !is_string( $data ) )
+			throw new InvalidArgumentException( 'Must be a string' );
+		$this->data	= $data;
+	}
+
+	public function setUri( $uri )
+	{
+		if( !is_string( $uri ) )
+			throw new InvalidArgumentException( 'Must be a string' );
+		if( !trim( $uri ) )
+			throw new InvalidArgumentException( 'Must be a URI' );
+		$this->uri	= $uri;
 	}
 
 	public function setVersion( $version )
@@ -105,45 +135,32 @@ class Net_HTTP_Request_Sender
 	/**
 	 *	Sends data via prepared Request.
 	 *	@access		public
-	 *	@param		array		$headers		Array of HTTP Headers
-	 *	@param		string		$data			Data to be sent
-	 *	@return		bool
+	 *	@return		Net_HTTP_Response
 	 */
-	public function send( $headers, $data = "" )
+	public function send()
 	{
-		if( is_array( $data ) )
-			$data	= http_build_query( $data );
-		else if( !is_string( $data ) )
-			throw new InvalidArgumentException( 'Data must be String or Array' );
-	
-		$this->addHeaderPair( 'Host', $this->host );
-#		$this->addHeaderPair( 'Content-Type', $this->contentType );
-		if( getEnv( "SERVER_ADDR" ) )
-			$this->addHeaderPair( 'Referer', getEnv( "SERVER_ADDR" ) );
-
-		if( $data )
+		if( trim( $this->data ) )
 			$this->addHeaderPair( "Content-Length", strlen( $data ) );
-#		$headers[] = new Net_HTTP_Header( "Connection", "close\r\n" );
+		if( !$this->headers->getHeadersByName( 'connection' ) )
+			$this->addHeaderPair( 'Connection', 'close' );
 
 		$result	= "";
-		$fp = fsockopen( $this->host, $this->port, $errno, $errstr );
+		$fp = fsockopen( $this->host, $this->port, $errno, $errstr, 2 );
 		if( !$fp )
 			throw new RuntimeException( $errstr.' ('.$errno.')' );
-remark( $this->method." ".$this->uri." HTTP/".$this->version."\r\n" );
-foreach( $this->headers->getHeaders() as $h )
-		var_dump(  $h );
-die;
 
-
-		fputs( $fp, $this->method." ".$this->uri." HTTP/".$this->version."\r\n" );					//  send Request
-		foreach( $this->headers->getHeaders() as $header )											//  iterate Headers
-			fputs( $fp, $header->toString()."\r\n" );												//  send Header
-		fputs( $fp, "\r\n" );																		//  close Headers
-		fputs( $fp, $data );																		//  send Data
+		$lines	= array(
+			$this->method." ".$this->uri." HTTP/".$this->version,
+			$this->headers->toString(),
+			''
+		);
+		fwrite( $fp, join( "\r\n", $lines ) );																		//  send Request
+		if( trim( $this->data ) )
+			fwrite( $fp, $this->data );																//  send Request
 		while( !feof( $fp ) )																		//  receive Response
 			$result .= fgets( $fp, 128 );															//  collect Response chunks
 		fclose( $fp );																				//  close Connection
-		return $result;																				//  return Response String
+		return Net_HTTP_Response_Parser::fromString( $result );
 	}
 }
 ?>

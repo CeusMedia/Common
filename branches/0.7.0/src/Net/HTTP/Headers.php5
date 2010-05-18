@@ -164,7 +164,7 @@ class Net_HTTP_Headers
 				if( $headers )
 					foreach( $headers as $header )
 						$list[]	= $header->toString();
-		$list	= implode( "\r\n", $list );
+		$list	= implode( "\r\n", $list )."\r\n";
 		return $list;
 	}
 }

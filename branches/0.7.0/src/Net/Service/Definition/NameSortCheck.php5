@@ -18,7 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		net.service.definition
+ *	@package		Net.Service.Definition
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -29,7 +29,7 @@
 /**
  *	Checks order of Services in a Service Definition File (YAML and XML).
  *	@category		cmClasses
- *	@package		net.service.definition
+ *	@package		Net.Service.Definition
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@since			0.6.3
  *	@version		$Id$
