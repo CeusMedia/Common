@@ -18,7 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		file.php.parser
+ *	@package		File.PHP.Parser
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2008-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -27,24 +27,10 @@
  *	@since			04.08.08
  *	@todo			support multiple return types separated with |
  */
-import( 'de.ceus-media.file.Reader' );
-import( 'de.ceus-media.alg.StringUnicoder' );
-import( 'de.ceus-media.adt.php.File' );
-import( 'de.ceus-media.adt.php.Interface' );
-import( 'de.ceus-media.adt.php.Class' );
-import( 'de.ceus-media.adt.php.Variable' );
-import( 'de.ceus-media.adt.php.Member' );
-import( 'de.ceus-media.adt.php.Function' );
-import( 'de.ceus-media.adt.php.Method' );
-import( 'de.ceus-media.adt.php.Parameter' );
-import( 'de.ceus-media.adt.php.Author' );
-import( 'de.ceus-media.adt.php.License' );
-import( 'de.ceus-media.adt.php.Return' );
-import( 'de.ceus-media.adt.php.Throws' );
 /**
  *	Parses PHP Files containing a Class or Methods using regular expressions (slow).
  *	@category		cmClasses
- *	@package		file.php.parser
+ *	@package		File.PHP.Parser
  *	@uses			File_Reader
  *	@uses			ADT_PHP_File
  *	@uses			ADT_PHP_Interface

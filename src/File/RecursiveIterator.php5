@@ -18,7 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		folder
+ *	@package		File
  *	@extends		FilterIterator
  *	@uses			RecursiveIteratorIterator
  *	@uses			RecursiveDirectoryIterator
@@ -32,7 +32,7 @@
 /**
  *	Iterates all Folders and Files recursive within a Folder.
  *	@category		cmClasses
- *	@package		folder
+ *	@package		File
  *	@extends		FilterIterator
  *	@uses			RecursiveIteratorIterator
  *	@uses			RecursiveDirectoryIterator

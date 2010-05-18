@@ -18,7 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		file.yaml
+ *	@package		File.YAML
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -26,12 +26,10 @@
  *	@since			18.06.2007
  *	@version		$Id$
  */
-import( 'de.ceus-media.file.Writer' );
-import( 'net.sourceforge.spyc.Spyc' );
 /**
  *	YAML Writer based on Spyc.
  *	@category		cmClasses
- *	@package		file.yaml
+ *	@package		File.YAML
  *	@uses			File_Writer
  *	@uses			File_YAML_Spyc
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>

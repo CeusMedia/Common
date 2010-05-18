@@ -18,7 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		file
+ *	@package		File
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -28,7 +28,7 @@
 /**
  *	Base File Writer.
  *	@category		cmClasses
- *	@package		file
+ *	@package		File
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -103,11 +103,15 @@ class File_Writer
 	 *	@static
 	 *	@param		string		$fileName 		URI of File
 	 *	@param		string		$content		Content to save in File
+	 *	@param		string		$mode			UNIX rights for chmod()
+	 *	@param		string		$user			User Name for chown()
+	 *	@param		string		$group			Group Name for chgrp()
+	 *	@return		void
 	 *	@return		int
 	 */
-	public static function save( $fileName, $content )
+	public static function save( $fileName, $content, $mode = NULL, $user = NULL, $group = NULL )
 	{
-		$writer	= new File_Writer( $fileName );
+		$writer	= new File_Writer( $fileName, $mode, $user, $group );
 		return $writer->writeString( $content );
 	}
 

@@ -18,8 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		file.php.parser
- *	@uses			File_Reader
+ *	@package		File.PHP.Parser
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -27,12 +26,10 @@
  *	@since			04.08.08
  *	@version		$Id$
  */
-import( 'de.ceus-media.file.Reader' );
-import( 'de.ceus-media.alg.StringUnicoder' );
 /**
  *	Parses PHP Files containing a Class or Methods to Array using regular expressions (slow).
  *	@category		cmClasses
- *	@package		file.php.parser
+ *	@package		File.PHP.Parser
  *	@uses			File_Reader
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker

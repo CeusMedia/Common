@@ -18,7 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		file.list
+ *	@package		File.List
  *	@extends		File_List_Reader
  *	@uses			File_List_Writer
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
@@ -33,7 +33,7 @@ import( 'de.ceus-media.file.list.Writer' );
 /**
  *	Editor for List Files.
  *	@category		cmClasses
- *	@package		file.list
+ *	@package		File.List
  *	@extends		File_List_Reader
  *	@uses			File_List_Writer
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>

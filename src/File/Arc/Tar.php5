@@ -18,21 +18,17 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		file.arc
- *	@uses			File_Reader
- *	@uses			File_Writer
+ *	@package		File.Arc
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		$Id$.7
  */
-import( 'de.ceus-media.file.Reader' );
-import( 'de.ceus-media.file.Writer' );
 /**
  *	Tar File allows creation and manipulation of tar archives.
  *	@category		cmClasses
- *	@package		file.arc
+ *	@package		File.Arc
  *	@uses			File_Reader
  *	@uses			File_Writer
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>

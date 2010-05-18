@@ -18,9 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		file.vcard
- *	@uses			File_Writer
- *	@uses			File_VCard_Builder
+ *	@package		File.VCard
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -28,12 +26,10 @@
  *	@since			03.09.2008
  *	@version		$Id$
  */
-import( 'de.ceus-media.file.Writer' );
-import( 'de.ceus-media.file.vcard.Builder' );
 /**
  *	Writes vCard String from vCard Data Object to a File.
  *	@category		cmClasses
- *	@package		file.vcard
+ *	@package		File.VCard
  *	@uses			File_Writer
  *	@uses			File_VCard_Builder
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>

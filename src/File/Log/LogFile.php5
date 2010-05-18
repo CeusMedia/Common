@@ -18,22 +18,18 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		file
- *	@subpackage		log
- *	@uses			Alg_TimeConverter
+ *	@package		File.Log
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		$Id$
  */
-import ("de.ceus-media.alg.TimeConverter"); 
 /**
  *	Writer for Log File.
  *	@category		cmClasses
- *	@package		file
- *	@subpackage		log
- *	@uses			Alg_TimeConverter
+ *	@package		File.Log
+ *	@uses			Alg_Time_Converter
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -65,7 +61,7 @@ class LogFile
 	 */
 	public function addEntry( $line )
 	{
-		$tc = new Alg_TimeConverter();
+		$tc = new Alg_Time_Converter();
 		$entry = time()." [".$tc->convertToHuman( time(), "datetime" )."] ".$line."\n";
 
 		$fp = @fopen( $this->uri, "ab" );

@@ -18,8 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		file.block
- *	@uses			File_Writer
+ *	@package		File.Block
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -27,12 +26,10 @@
  *	@since			19.12.2006
  *	@version		$Id$
  */
-import( 'de.ceus-media.file.Writer' );
 /**
  *	Writer for Files with Text Block Contents, named by Section.
  *	@category		cmClasses
- *	@package		file.block
- *	@uses			File_Writer
+ *	@package		File.Block
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3

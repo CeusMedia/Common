@@ -8,7 +8,7 @@
  *	@copyright		Copyright 2005-2006 Chris Wanstrath
  *	@license		http://www.opensource.org/licenses/mit-license.php MIT License
  *	@category		cmClasses
- *	@package		file.yaml
+ *	@package		File.YAML
  */
 /**
  * The Simple PHP YAML Class.
