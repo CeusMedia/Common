@@ -18,18 +18,17 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		adt.graph
+ *	@package		ADT.Graph
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		$Id$
  */
-import( "de.ceus-media.adt.graph.Edge");
 /**
  *	EdgeSet to store and manipulate edges in a graph.
  *	@category		cmClasses
- *	@package		adt.graph
+ *	@package		ADT.Graph
  *	@implements		Countable
  *	@uses			ADT_Graph_Edge
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>

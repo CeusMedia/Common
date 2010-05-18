@@ -18,8 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		adt.list
- *	@implements		Countable
+ *	@package		ADT.List
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -29,7 +28,7 @@
 /**
  *	Stack Implementation based on an Array. LIFO - last in first out.
  *	@category		cmClasses
- *	@package		adt.list
+ *	@package		ADT.List
  *	@implements		Countable
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker

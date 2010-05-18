@@ -18,19 +18,17 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		adt.tree
- *	@extends		ADT_Tree_BalanceBinaryNode
+ *	@package		ADT.Tree
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		$Id$
  */
-import ("de.ceus-media.adt.tree.BalanceBinaryNode");
 /**
  *	AVL Tree.
  *	@category		cmClasses
- *	@package		adt.tree
+ *	@package		ADT.Tree
  *	@extends		ADT_Tree_BalanceBinaryNode
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker

@@ -18,7 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		adt.list
+ *	@package		ADT.List
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -29,7 +29,10 @@
 /**
  *	Dictionary is a simple Pair Structure similar to an associative Array but implementing some Interfaces.
  *	@category		cmClasses
- *	@package		adt.list
+ *	@package		ADT.List
+ *	@implements		ArrayAccess
+ *	@implements		Countable
+ *	@implements		Iterator
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -64,7 +67,7 @@ class ADT_List_Dictionary implements ArrayAccess, Countable, Iterator
 		settype( $value, $type );
 		return $value;
 	}
-	
+
 	/**
 	 *	Returns Size of Dictionary.
 	 *	@access		public
@@ -74,7 +77,7 @@ class ADT_List_Dictionary implements ArrayAccess, Countable, Iterator
 	{
 		return count( $this->pairs );
 	}
-	
+
 	/**
 	 *	Returns current Value.
 	 *	@access		public
@@ -82,9 +85,9 @@ class ADT_List_Dictionary implements ArrayAccess, Countable, Iterator
 	 */
 	public function current()
 	{
-		return $this->pairs[$this->key()];		
+		return $this->pairs[$this->key()];
 	}
-	
+
 	/**
 	 *	Return a Value of Dictionary by its Key.
 	 *	@access		public
@@ -97,7 +100,7 @@ class ADT_List_Dictionary implements ArrayAccess, Countable, Iterator
 			return $this->pairs[$key];
 		return NULL;
 	}
-	
+
 	/**
 	 *	Returns all Pairs of Dictionary as an Array.
 	 *	@access		public
@@ -126,7 +129,7 @@ class ADT_List_Dictionary implements ArrayAccess, Countable, Iterator
 	{
 		return array_keys( $this->pairs );
 	}
-	
+
 	/**
 	 *	Returns corresponding Key of a Value if Value is in Dictionary, otherwise NULL.
 	 *	@access		public
@@ -150,7 +153,7 @@ class ADT_List_Dictionary implements ArrayAccess, Countable, Iterator
 	{
 		return isset( $this->pairs[$key] );
 	}
-	
+
 	/**
 	 *	Returns current Key.
 	 *	@access		public
@@ -161,7 +164,7 @@ class ADT_List_Dictionary implements ArrayAccess, Countable, Iterator
 		$keys	= array_keys( $this->pairs	);
 		return $keys[$this->position];
 	}
-	
+
 	/**
 	 *	Selects next Pair.
 	 *	@access		public
@@ -171,7 +174,7 @@ class ADT_List_Dictionary implements ArrayAccess, Countable, Iterator
 	{
 		$this->position++;
 	}
-	
+
 	/**
 	 *	Indicates whether a Key is existing.
 	 *	@access		public
@@ -182,7 +185,7 @@ class ADT_List_Dictionary implements ArrayAccess, Countable, Iterator
 	{
 		return $this->has( $key );
 	}
-	
+
 	/**
 	 *	Return a Value of Dictionary by its Key.
 	 *	@access		public
@@ -193,7 +196,7 @@ class ADT_List_Dictionary implements ArrayAccess, Countable, Iterator
 	{
 		return $this->get( $key );
 	}
-	
+
 	/**
 	 *	Sets Value of Key in Dictionary.
 	 *	@access		public
@@ -205,7 +208,7 @@ class ADT_List_Dictionary implements ArrayAccess, Countable, Iterator
 	{
 		return $this->set( $key, $value );
 	}
-	
+
 	/**
 	 *	Removes a Value from Dictionary by its Key.
 	 *	@access		public
@@ -216,7 +219,7 @@ class ADT_List_Dictionary implements ArrayAccess, Countable, Iterator
 	{
 		return $this->remove( $key );
 	}
-	
+
 	/**
 	 *	Removes a Value from Dictionary by its Key.
 	 *	@access		public
@@ -225,12 +228,15 @@ class ADT_List_Dictionary implements ArrayAccess, Countable, Iterator
 	 */
 	public function remove( $key )
 	{
-		if( !isset( $this->pairs[$key] ) )
+		if( !isset( $this->pairs[$key] ) )															//  pair key is not existing
 			return FALSE;
-		unset( $this->pairs[$key] );
+		$index	= array_search( $key, array_keys( $this->pairs ) );									//  index of pair to be removed
+		if( $this->position >= $index )																//  iterator position is beyond pair
+			$this->position--;																		//  decrease iterator position since pair is removed
+		unset( $this->pairs[$key] );																//
 		return TRUE;
 	}
-	
+
 	/**
 	 *	Resets Pair Pointer.
 	 *	@access		public
@@ -240,7 +246,7 @@ class ADT_List_Dictionary implements ArrayAccess, Countable, Iterator
 	{
 		$this->position	= 0;
 	}
-	
+
 	/**
 	 *	Sets Value of Key in Dictionary.
 	 *	@access		public
@@ -255,7 +261,7 @@ class ADT_List_Dictionary implements ArrayAccess, Countable, Iterator
 		$this->pairs[$key]		= $value;
 		return TRUE;
 	}
-	
+
 	/**
 	 *	Indicates whether Pair Pointer is valid.
 	 *	@access		public
@@ -265,7 +271,7 @@ class ADT_List_Dictionary implements ArrayAccess, Countable, Iterator
 	{
 		return $this->position < $this->count();
 	}
-	
+
 	public function __toString()
 	{
 		$list	= array();
