@@ -18,8 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		console.server
- *	@extends		Console_Application
+ *	@package		Console.Server
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -27,11 +26,10 @@
  *	@since			20.01.2006
  *	@version		$Id$
  */
-import( 'de.ceus-media.console.Application' );
 /**
  *	Base Implementation of a Unix Demon.
  *	@category		cmClasses
- *	@package		console.server
+ *	@package		Console.Server
  *	@extends		Console_Application
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker

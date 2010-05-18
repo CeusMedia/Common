@@ -18,7 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		console.fork.server
+ *	@package		Console.Fork.Server
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -26,12 +26,12 @@
  *	@since			0.6.8
  *	@version		$Id: Reflect.php5 607 2010-03-24 23:39:16Z christian.wuerker $
  */
-import( 'de.ceus-media.console.fork.server.Abstract' );
 /**
  *	...
  *
  *	@category		cmClasses
- *	@package		console.fork.server
+ *	@package		Console.Fork.Server
+ *	@extends		Console_Fork_Server_Abstract
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3

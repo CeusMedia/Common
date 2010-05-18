@@ -18,7 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		console.fork.server.client
+ *	@package		Console.Fork.Server.Client
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -30,7 +30,7 @@
  *	...
  *
  *	@category		cmClasses
- *	@package		console.fork.server.client
+ *	@package		Console.Fork.Server.Client
  *	@extends		Console_Fork_Server_Client_Abstract
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2010 Christian Würker

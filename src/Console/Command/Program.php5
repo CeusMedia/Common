@@ -18,18 +18,17 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		console.command
+ *	@package		Console.Command
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		$Id$
  */
-import( 'de.ceus-media.console.command.ArgumentParser' );
 /**
  *	Basic Program to implement Console Application using Automaton Argument Parser.
  *	@category		cmClasses
- *	@package		console.command
+ *	@package		Console.Command
  *	@abstract
  *	@uses			Console_Command_ArgumentParser
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>

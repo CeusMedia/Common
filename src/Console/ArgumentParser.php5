@@ -18,9 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		console
- *	@extends		ADT_OptionObject
- *	@uses			Console_RequestReceiver
+ *	@package		Console
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -28,12 +26,10 @@
  *	@since			11.01.2006
  *	@version		$Id$
  */
-import( 'de.ceus-media.adt.list.Dictionary' );
-import( 'de.ceus-media.console.RequestReceiver' );
 /**
  *	Argument Parser for Console Applications.
  *	@category		cmClasses
- *	@package		console
+ *	@package		Console
  *	@extends		ADT_List_Dictionary
  *	@uses			Console_RequestReceiver
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>

@@ -18,8 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		console.server.cron
- *	@extends		ADT_OptionObject
+ *	@package		Console.Server.Cron
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -27,11 +26,10 @@
  *	@since			20.01.2006
  *	@version		$Id$
  */
-import( 'de.ceus-media.adt.OptionObject' );
 /**
  *	CronParser.
  *	@category		cmClasses
- *	@package		console.server.cron
+ *	@package		Console.Server.Cron
  *	@extends		ADT_OptionObject
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker

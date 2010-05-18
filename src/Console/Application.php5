@@ -18,8 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		console
- *	@extends		Console_ArgumentParser
+ *	@package		Console
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -27,11 +26,10 @@
  *	@since			11.01.2006
  *	@version		$Id$
  */
-import( 'de.ceus-media.console.ArgumentParser' );
 /**
  *	Generic Console Application.
  *	@category		cmClasses
- *	@package		console
+ *	@package		Console
  *	@extends		Console_ArgumentParser
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
