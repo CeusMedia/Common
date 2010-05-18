@@ -18,9 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		ui
- *	@extends		Object
- *	@uses			File_Reader
+ *	@package		UI
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -28,11 +26,10 @@
  *	@since			22.06.2005
  *	@version		$Id$
  */
-import( 'de.ceus-media.file.Reader' );
 /**
  *	Parses Class and creates UML Diagram.
  *	@category		cmClasses
- *	@package		ui
+ *	@package		UI
  *	@extends		Object
  *	@uses			File_Reader
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
