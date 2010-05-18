@@ -18,7 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		alg.tree.menu
+ *	@package		Alg.Tree.Menu
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -26,13 +26,10 @@
  *	@since			02.12.2008
  *	@version		$Id$
  */
-import( 'de.ceus-media.file.Reader' );
-import( 'de.ceus-media.xml.opml.Parser' );
-import( 'de.ceus-media.adt.tree.menu.Item' );
 /**
  *	Converter between OPML and Tree Menu Structure.
  *	@category		cmClasses
- *	@package		alg.tree.menu
+ *	@package		Alg.Tree.Menu
  *	@uses			File_Reader
  *	@uses			XML_OPML_Parser
  *	@uses			ADT_Tree_Menu_List

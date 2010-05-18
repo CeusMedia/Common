@@ -1,6 +1,6 @@
 <?php
 /**
- *	Binary Search Algorithm.
+ *	Strange Search Algorithm.
  *
  *	Copyright (c) 2007-2010 Christian Würker (ceus-media.de)
  *
@@ -18,7 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		alg.search
+ *	@package		Alg.Search
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -26,53 +26,53 @@
  *	@version		$Id$
  */
 /**
- *	Binary Search Algorithm.
+ *	Strange Search Algorithm.
  *	@category		cmClasses
- *	@package		alg.search
+ *	@package		Alg.Search
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		$Id$
  */
-class Alg_Search_BinarySearch
+class Alg_Search_Strange
 {
-	/**	@var		int		$counter	internal counter of steps */
+	/**	@var		int			$counter		internal counter of steps */
 	protected $counter;
 	
 	/**
-	 *	Searches in List and returns position if found, else 0.
+	 *	Searches in List and returns position if found.
 	 *	@access		public
-	 *	@param		array		$list		List to search in
-	 *	@param		mixed		$search		Element to search
-	 *	@param		int			$pos		Position (initial = 0)
+	 *	@param		array		$ist			List to search in
+	 *	@param		mixed		$search			Element to search
+	 *	@param		int			$left			Left bound
+	 *	@param		int			$right			Right bound
 	 *	@return 	int
 	 */
-	public function search( $list, $search, $pos = 0 )
+	public function search( $array, $key, $left = FALSE, $right = FALSE )
 	{
-		$size = sizeof( $list );
-		if( $size == 1 )
+		if( !$right )
 		{
-			if( $list[0] == $search )
-				return $list[0];
-			else
-				return -1;
+			$left	= 0;
+			$right	= sizeof( $array ) - 1;
+			$this->counter = 0;
 		}
+		$this->counter++;
+		$index1	= round( $left + ( $right - $left ) / 3, 0 );
+		$index2	= round( $left + ( ( $right-$left ) / 3 ) * 2, 0 );
+		//echo "searching from $left to $right [$index1 - $index2]<br>";
+		if( $key == $array[$index1] )
+			return ":".$index1;
+		if( $key == $array[$index2] )
+			return ":".$index2;
+		if( $left == $right )
+			return false;
+		if( $key < $array[$index1] )
+			return $this->search( $array, $key, $left, $index1 );
+		else if( $key >= $array[$index2] )
+			return $this->search( $array, $key, $index2, $right );
 		else
-		{
-			$this->counter++;
-			$mid = floor( $size / 2 );
-			if( $search < $list[$mid] )
-			{
-				$list = array_slice( $list, 0, $mid );
-				return $this->search( $list, $search, $pos );
-			}
-			else
-			{
-				$list = array_slice( $list, $mid );
-				return $this->search( $list, $search, $pos );
-			}
-		}
+			return $this->search( $array, $key, $index1 + 1, $index2 - 1 );
 	}
 }
 ?>

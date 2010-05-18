@@ -18,7 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		alg.preg
+ *	@package		Alg.PREG
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -30,7 +30,7 @@
 /**
  *	Matches String against regular expression.
  *	@category		cmClasses
- *	@package		alg.preg
+ *	@package		Alg.PREG
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -39,7 +39,7 @@
  *	@version		$Id$
  *	@see			http://de.php.net/preg_match
  */
-class ALG_PREG_Match
+class Alg_PREG_Match
 {
 	/**
 	 *	Indicates whether a String matches a regular expression.
