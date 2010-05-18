@@ -19,15 +19,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		file.configuration
- *	@uses			File_Writer
- *	@uses			File_INI_Creator
- *	@uses			File_INI_Reader
- *	@uses			ADT_JSON_Converter
- *	@uses			ADT_JSON_Formater
- *	@uses			XML_ElementReader
- *	@uses			XML_DOM_Node
- *	@uses			XML_DOM_FileWriter
+ *	@package		File.Configuration
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -35,19 +27,11 @@
  *	@since			06.05.2008
  *	@version		$Id$
  */
-import( 'de.ceus-media.file.Writer' );
-import( 'de.ceus-media.file.ini.Creator' );
-import( 'de.ceus-media.file.ini.Reader' );
-import( 'de.ceus-media.adt.json.Formater' );
-import( 'de.ceus-media.adt.json.Converter' );
-import( 'de.ceus-media.xml.ElementReader' );
-import( 'de.ceus-media.xml.dom.Node' );
-import( 'de.ceus-media.xml.dom.FileWriter' );
 /**
  *	Converter for Configuration to translate between INI, JSON and XML.
  *	YAML will be supported if Spyc is improved.
  *	@category		cmClasses
- *	@package		file.configuration
+ *	@package		File.Configuration
  *	@uses			File_Writer
  *	@uses			File_INI_Creator
  *	@uses			File_INI_Reader

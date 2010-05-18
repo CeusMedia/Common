@@ -18,7 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		file
+ *	@package		File
  *	@extends		File_Reader
  *	@uses			File_Writer
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
@@ -33,7 +33,7 @@ import( 'de.ceus-media.file.Writer' );
 /**
  *	Editor for Files.
  *	@category		cmClasses
- *	@package		file
+ *	@package		File
  *	@extends		File_Reader
  *	@uses			File_Writer
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>

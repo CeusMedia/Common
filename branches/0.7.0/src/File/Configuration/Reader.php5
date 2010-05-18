@@ -19,13 +19,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		file.configuration
- *	@extends		ADT_List_LevelMap
- *	@uses			ADT_JSON_Converter
- *	@uses			File_Writer
- *	@uses			File_INI_Reader
- *	@uses			File_YAML_Reader
- *	@uses			XML_ElementReader
+ *	@package		File.Configuration
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -33,13 +27,11 @@
  *	@since			06.05.2008
  *	@version		$Id$
  */
-#import( 'de.ceus-media.adt.list.LevelMap' );
-import( 'de.ceus-media.adt.list.Dictionary' );
 /**
  *	Reader for Configuration Files of different Types.
  *	Supported File Types are CONF, INI, JSON, YAML and XML.
  *	@category		cmClasses
- *	@package		file.configuration
+ *	@package		File.Configuration
  *	@extends		ADT_List_LevelMap
  *	@uses			ADT_JSON_Converter
  *	@uses			File_Writer

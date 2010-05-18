@@ -20,7 +20,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		file.ini
+ *	@package		File.INI
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -32,7 +32,7 @@
  *	This Implementation keeps the File Structure of original File completely alive.
  *	All Line Feeds and Comments will be kept.
  *	@category		cmClasses
- *	@package		file.ini
+ *	@package		File.INI
  *	@extends		File_INI_Reader
  *	@uses			File_Reader
  *	@uses			File_Writer

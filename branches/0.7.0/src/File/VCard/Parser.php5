@@ -18,7 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		file.vcard
+ *	@package		File.VCard
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -27,12 +27,10 @@
  *	@version		$Id$
  *	@link			http://www.ietf.org/rfc/rfc2426.txt
  */
-import( 'de.ceus-media.adt.VCard' );
 /**
  *	Parses vCard String to vCard Data Object.
- *
  *	@category		cmClasses
- *	@package		file.vcard
+ *	@package		File.VCard
  *	@uses			ADT_VCard
  *	@uses			Alg_Text_EncodingConverter
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>

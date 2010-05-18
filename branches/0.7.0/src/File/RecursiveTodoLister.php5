@@ -18,7 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		file
+ *	@package		File
  *	@extends		File_TodoLister
  *	@uses			File_RecursiveRegexFilter
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
@@ -33,7 +33,7 @@ import( 'de.ceus-media.file.RecursiveRegexFilter' );
 /**
  *	Class to find all Files with ToDos inside.
  *	@category		cmClasses
- *	@package		file
+ *	@package		File
  *	@extends		File_TodoLister
  *	@uses			File_RecursiveRegexFilter
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>

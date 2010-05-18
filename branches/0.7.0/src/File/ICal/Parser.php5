@@ -18,8 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		file.ical
- *	@uses			XML_DOM_Node
+ *	@package		File.ICal
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -29,11 +28,10 @@
  *	@see			RFC2445
  *	@link			http://www.w3.org/2002/12/cal/rfc2445
  */
-import( 'de.ceus-media.xml.dom.Node' );
 /**
  *	Parser for iCalendar Files.
  *	@category		cmClasses
- *	@package		file.ical
+ *	@package		File.ICal
  *	@uses			XML_DOM_Node
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker

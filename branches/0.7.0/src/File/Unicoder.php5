@@ -18,7 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		file
+ *	@package		File
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -31,7 +31,7 @@ import( 'de.ceus-media.file.Editor' );
 /**
  *	Converts a File into UTF-8.
  *	@category		cmClasses
- *	@package		file
+ *	@package		File
  *	@uses			Alg_StringUnicoder
  *	@uses			File_Editor
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>

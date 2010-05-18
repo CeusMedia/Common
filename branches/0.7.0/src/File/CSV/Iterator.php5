@@ -1,7 +1,13 @@
 <?php
 /**
  *	@category		cmClasses
- *	@package		file.csv
+ *	@package		File.CSV
+ *	@author			mortanon@gmail.com
+ *	@link			http://uk.php.net/manual/en/function.fgetcsv.php
+ */
+/**
+ *	@category		cmClasses
+ *	@package		File.CSV
  *	@author			mortanon@gmail.com
  *	@link			http://uk.php.net/manual/en/function.fgetcsv.php
  */

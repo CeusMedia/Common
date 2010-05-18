@@ -18,7 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		file.gantt
+ *	@package		File.Gantt
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -26,11 +26,10 @@
  *	@since			12.03.2008
  *	@version		$Id$
  */
-import( 'de.ceus-media.file.gantt.MeetingReader' );
 /**
  *	Reads for several "Gantt Project" XML Files and extracts Project Information and Meeting Dates.
  *	@category		cmClasses
- *	@package		file.gantt
+ *	@package		File.Gantt
  *	@uses			File_Gantt_MeetingReader
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@since			12.03.2008

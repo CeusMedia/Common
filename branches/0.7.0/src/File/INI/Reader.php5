@@ -18,7 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		file.ini
+ *	@package		File.INI
  *	@uses			File_Reader
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
@@ -31,7 +31,7 @@ import( 'de.ceus-media.file.Reader' );
 /**
  *	Reader for Property Files or typical .ini Files with Key, Values and optional Sections and Comments.
  *	@category		cmClasses
- *	@package		file.ini
+ *	@package		File.INI
  *	@uses			File_Reader
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker

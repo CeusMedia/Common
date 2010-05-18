@@ -18,8 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		file.php.check
- *	@uses			File_Reader
+ *	@package		File.PHP.Check
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -27,11 +26,10 @@
  *	@since			03.12.2009
  *	@version		$Id$
  */
-import( 'de.ceus-media.file.Reader' );
 /**
  *	Checks visibility of methods within a PHP file.
  *	@category		cmClasses
- *	@package		file.php.check
+ *	@package		File.PHP.Check
  *	@uses			File_Reader
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker

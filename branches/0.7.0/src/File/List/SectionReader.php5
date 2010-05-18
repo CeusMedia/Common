@@ -18,7 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		file.list
+ *	@package		File.List
  *	@uses			File_Reader
  *	@author			Chistian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
@@ -30,7 +30,7 @@ import ("de.ceus-media.file.Reader");
 /**
  *	A Class for reading Section List Files.
  *	@category		cmClasses
- *	@package		file.list
+ *	@package		File.List
  *	@uses			File_Reader
  *	@author			Chistian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker

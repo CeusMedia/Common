@@ -18,7 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		file.css.theme
+ *	@package		File.CSS.Theme
  *	@uses			File_CSS_Combiner
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
@@ -26,11 +26,10 @@
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		$Id$
  */
-import( 'de.ceus-media.file.css.Combiner' );
 /**
  *	Combines Stylesheet Files of a cmFramework Theme to one single File.
  *	@category		cmClasses
- *	@package		file.css.theme
+ *	@package		File.CSS.Theme
  *	@uses			File_CSS_Combiner
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
