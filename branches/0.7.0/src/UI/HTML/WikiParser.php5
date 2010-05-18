@@ -19,7 +19,6 @@
  *
  *	@category		cmClasses
  *	@package		UI.HTML
- *	@extends		ADT_OptionObject
  *	@license		GPL 2 (http://www.gnu.org/licenses/gpl.html)
  *	@author			Andreas Gohr <andi@splitbrain.org>
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
@@ -29,7 +28,6 @@
  *	@since			20.03.2006
  *	@version		0.1
  */
-import( 'de.ceus-media.adt.OptionObject' );
 /**
  *	The DokuWiki parser.
  *	@category		cmClasses
