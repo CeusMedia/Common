@@ -18,7 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		adt.tree.menu
+ *	@package		ADT.Tree.Menu
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -26,12 +26,10 @@
  *	@since			08.11.2008
  *	@version		$Id$
  */
-import( 'de.ceus-media.adt.tree.menu.List' );
-import( 'de.ceus-media.adt.list.Dictionary' );
 /**
  *	Tree Menu List Item Data Object used by UI_HTML_Tree_Menu.
  *	@category		cmClasses
- *	@package		adt.tree.menu
+ *	@package		ADT.Tree.Menu
  *	@extends		ADT_Tree_Menu_List
  *	@uses			ADT_List_Dictionary
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>

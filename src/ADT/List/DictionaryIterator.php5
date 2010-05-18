@@ -18,11 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		adt.list
- *	@implements		ArrayAccess
- *	@implements		Countable
- *	@implements		Iterator
- *	@implements		IteratorAggregate
+ *	@package		ADT.List
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -33,7 +29,7 @@
 /**
  *	Dictionary is a simple Pair Structure similar to an associative Array but implementing some Interfaces.
  *	@category		cmClasses
- *	@package		adt.list
+ *	@package		ADT.List
  *	@implements		ArrayAccess
  *	@implements		Countable
  *	@implements		Iterator

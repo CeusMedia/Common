@@ -18,7 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		adt.json
+ *	@package		ADT.JSON
  *	@author			Umbrae <umbrae@gmail.com>
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
@@ -30,7 +30,7 @@
 /**
  *	Formats JSON String.
  *	@category		cmClasses
- *	@package		adt.json
+ *	@package		ADT.JSON
  *	@author			Umbrae <umbrae@gmail.com>
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
