@@ -18,10 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		ui.html
- *	@extends		UI_HTML_WikiParser
- *	@uses			File_Reader
- *	@uses			File_Writer
+ *	@package		File
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -29,13 +26,10 @@
  *	@since			01.04.2006
  *	@version		0.6
  */
-import( 'de.ceus-media.file.Reader' );
-import( 'de.ceus-media.file.Writer' );
-import( 'de.ceus-media.ui.html.WikiParser' );
 /**
  *	File Reader and Writer for Wiki Pages.
  *	@category		cmClasses
- *	@package		ui.html
+ *	@package		File
  *	@extends		UI_HTML_WikiParser
  *	@uses			File_Reader
  *	@uses			File_Writer
