@@ -19,7 +19,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		ui.html
+ *	@package		UI.HTML
  *	@uses			UI_HTML_Tag
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
@@ -33,7 +33,7 @@ import( 'de.ceus-media.ui.html.Tag' );
  *	User Interface Component for Panels with Header, Footer and Content.
  *	Base Implementation for further Panel Systems.
  *	@category		cmClasses
- *	@package		ui.html
+ *	@package		UI.HTML
  *	@uses			UI_HTML_Tag
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@since			21.11.2008

@@ -18,7 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		ui.html.tree
+ *	@package		UI.HTML.Tree
  *	@uses			UI_HTML_Tree_ArrayView
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
@@ -31,7 +31,7 @@ import( 'de.ceus-media.ui.html.tree.ArrayView' );
 /**
  *	Builds Tree View of a Folders content for JQuery Plugin Treeview.
  *	@category		cmClasses
- *	@package		ui.html.tree
+ *	@package		UI.HTML.Tree
  *	@uses			UI_HTML_Tree_ArrayView
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
