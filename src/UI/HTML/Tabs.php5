@@ -101,7 +101,7 @@ class UI_HTML_Tabs
 		else
 		{
 			if( isset( $this->tabs[$fragmentKey] ) )
-				throw Exception( 'Tab with Fragment ID "'.$fragmentKey.'" is already set' );
+				throw new Exception( 'Tab with Fragment ID "'.$fragmentKey.'" is already set' );
 			$this->tabs[$fragmentKey]	= $label;
 			$this->divs[$fragmentKey]	= $content;
 		}
@@ -149,6 +149,7 @@ class UI_HTML_Tabs
 		if( count( $labels ) != count( $contents ) )
 			throw new Exception( 'Number of labels and contents is not equal.' );
 
+		$urlPrefix	= getEnv( 'REDIRECT_URL' );
 		$tabs		= array();
 		$divs		= array();
 		$labels		= $labels;
@@ -158,7 +159,7 @@ class UI_HTML_Tabs
 			$tabKey		= is_int( $index ) ? 'tab-'.$index : $index;
 			$divKey		= $index."-container";
 			$label		= UI_HTML_Tag::create( 'span', $label );
-			$link		= UI_HTML_Tag::create( 'a', $label, array( 'href' => "#".$divKey ) );
+			$link		= UI_HTML_Tag::create( 'a', $label, array( 'href' => $urlPrefix."#".$divKey ) );
 			$tabs[]		= UI_HTML_Tag::create( 'li', $link, array( 'id' => $tabKey ) );
 
 			$divClass	= $class ? $class."-container" : NULL;
