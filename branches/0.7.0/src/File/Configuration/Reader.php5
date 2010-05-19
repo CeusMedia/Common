@@ -170,10 +170,9 @@ class File_Configuration_Reader extends ADT_List_Dictionary
 				throw new InvalidArgumentException( 'File Type "'.$info['extension'].'" is not supported.' );
 		}
 		ksort( $this->pairs );
-		if( is_string( $cachePath ) )
+		if( !empty( $cachePath ) )
 		{
-			import( 'de.ceus-media.file.Writer' );
-			File_Writer::save( $cacheFile, serialize( $this->pairs ) );
+			File_Writer::save( $cacheFile, serialize( $this->pairs ), 640 );
 		}
 		return $info['extension'];
 	}

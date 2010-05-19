@@ -62,11 +62,11 @@ class Net_HTTP_Request_Response
 	 *	Sends Contents and returns Length of sent Response Content.
 	 *	@access		public
 	 *	@static
-	 *	@param		string		$compression		Compression Method (deflate|gzip)
+	 *	@param		string		$useCompression		Flag: use HTTP compression
 	 *	@param		string		$compressionLogFile	File Name of Compression Log
 	 *	@return		int
 	 */
-	public static function sendContent( $content, $compression = FALSE, $compressionLogFile = NULL  )
+	public static function sendContent( $content, $useCompression = FALSE, $compressionLogFile = NULL  )
 	{
 		$response	= new Net_HTTP_Response();
 		$response->setBody( $content );
@@ -76,7 +76,7 @@ class Net_HTTP_Request_Response
 	/**
 	 *	Sends complete Response and returns Length of sent Response Content.
 	 *	@access		public
-	 *	@param		string		$compressionMethod	Compression Method (deflate|gzip)
+	 *	@param		string		$useCompression		Flag: use HTTP compression
 	 *	@param		string		$compressionLogFile	File Name of Compression Log
 	 *	@return		int
 	 */
