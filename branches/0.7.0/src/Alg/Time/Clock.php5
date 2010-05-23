@@ -56,6 +56,27 @@ class Alg_Time_Clock
 		$this->start();
 	}
 
+	protected static function calculateTimeSpan( $microtimeStart, $microtimeStop )
+	{
+		$time	= (float) $sec + $msec;
+		return $time;
+	}
+
+	/**
+	 *	Calculates the time difference between start and stop in microseconds.
+	 *	@access		public
+	 *	@param		int		$base		Time Base ( 0 - sec | 3 - msec | 6 - µsec)
+	 *	@param		int		$round		Numbers after dot
+	 *	@return		string
+	 */
+	public function getTime( $base = 3, $round = 3 )
+	{
+		$time	= $this->microtimeStop - $this->microtimeStart;
+		$time	= $time * pow( 10, $base );
+		$time	= round( $time, $round );
+		return $time;
+	}
+
 	public function getLaps()
 	{
 		return $this->laps;	
@@ -68,7 +89,7 @@ class Alg_Time_Clock
 	 */
 	public function start()
 	{
-		$this->microtimeStart = microtime();
+		$this->microtimeStart = microtime( TRUE );
 	}
 
 	/**
@@ -80,17 +101,17 @@ class Alg_Time_Clock
 	 */
 	public function stop( $base = 3, $round = 3 )
 	{
-		$this->microtimeStop 	= microtime();
+		$this->microtimeStop 	= microtime( TRUE );
 		return $this->getTime( $base, $round );
 	}
 
 	public function stopLap( $base = 3, $round = 3, $label = NULL )
 	{
 		$microtimeLast	= $this->microtimeLap ? $this->microtimeLap : $this->microtimeStart;
-		$microtimeNow	= microtime();
+		$microtimeNow	= microtime( TRUE );
 
-		$totalMicro		= round( $this->calculateTimeSpan( $this->microtimeStart, $microtimeNow ) * 1000000 );
-		$timeMicro		= round( $this->calculateTimeSpan( $microtimeLast, $microtimeNow ) * 1000000 );
+		$totalMicro		= round( ( $microtimeNow - $this->microtimeStart ) * 1000000 );
+		$timeMicro		= round( ( $microtimeNow - $microtimeLast ) * 1000000 );
 		
 		$total			= round( $totalMicro * pow( 10, $base - 6 ), $round );
 		$time			= round( $timeMicro * pow( 10, $base - 6 ), $round );
@@ -106,29 +127,27 @@ class Alg_Time_Clock
 		return $time;
 	}
 
-	/**
-	 *	Calculates the time difference between start and stop in microseconds.
-	 *	@access		public
-	 *	@param		int		$base		Time Base ( 0 - sec | 3 - msec | 6 - µsec)
-	 *	@param		int		$round		Numbers after dot
-	 *	@return		string
-	 */
-	public function getTime( $base = 3, $round = 3 )
+
+	public function sleep( $seconds )
 	{
-		$time	= $this->calculateTimeSpan( $this->microtimeStart, $this->microtimeStop );
-		$time	= $time * pow( 10, $base );
-		$time	= round( $time, $round );
-		return $time;
+		$this->usleep( (float) $seconds * 1000000 );
 	}
-	
-	protected function calculateTimeSpan( $microtimeStart, $microtimeStop )
+
+	public function speed( $seconds )
 	{
-		$start	= explode( ' ', $microtimeStart );
-		$end	= explode( ' ', $microtimeStop );
-		$sec	= $end[1] - $start[1];
-		$msec	= $end[0] - $start[0];
-		$time	= (float) $sec + $msec;
-		return $time;
+		$this->uspeed( (float) $seconds * 1000000 );
+	}
+
+	public function usleep( $microseconds )
+	{
+		$seconds	= $microseconds / 1000000;
+		if( ( microtime( TRUE ) - $this->microtimeStart ) >= $seconds )
+			$this->microtimeStart	+= $seconds;
+	}
+
+	public function uspeed( $microseconds )
+	{
+		$this->microtimeStart	-= $microseconds / 1000000;
 	}
 }
 ?>
