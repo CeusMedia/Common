@@ -1,6 +1,6 @@
 <?php
 /**
- *	TestUnit of StopWatch.
+ *	TestUnit of Clock.
  *	@package		Tests.
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			19.06.2008
@@ -9,7 +9,7 @@
 require_once 'PHPUnit/Framework/TestCase.php'; 
 require_once 'Test/initLoaders.php5';
 /**
- *	TestUnit of StopWatch.
+ *	TestUnit of Clock.
  *	@package		Tests.
  *	@extends		PHPUnit_Framework_TestCase
  *	@uses			Alg_Time_Clock
@@ -56,7 +56,61 @@ final class Test_Alg_Time_ClockTest extends PHPUnit_Framework_TestCase
 	{
 		$watch	= new Test_Alg_Time_Clock_MockAntiProtection();
 		$assertion	= 1;
-		$creation	= preg_match( "@^0\.[0-9]+ [0-9]+$@", $watch->getProtectedVar( 'microtimeStart' ) );
+		$creation	= preg_match( "@^[0-9]+\.[0-9]+$@", $watch->getProtectedVar( 'microtimeStart' ) );
+		$this->assertEquals( $assertion, $creation );
+	}
+
+	/**
+	 *	Tests Method 'sleep' when enough time to sleep has elapsed.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testSleep1()
+	{
+		$time	= microtime( TRUE );
+
+		$watch	= new Test_Alg_Time_Clock_MockAntiProtection();
+		$watch->setProtectedVar( 'microtimeStart', $time - 2 );
+		$watch->sleep( 1 );
+
+		$assertion	= $time - 1;
+		$creation	= $watch->getProtectedVar( 'microtimeStart' );
+		$this->assertEquals( $assertion, $creation );
+	}
+
+	/**
+	 *	Tests Method 'sleep' when not enough time to sleep has elapsed.
+	 *	@access		public
+	 *	@return		void
+	 */
+/*	public function testSleep2()
+	{
+		$time	= microtime( TRUE );
+
+		$watch	= new Test_Alg_Time_Clock_MockAntiProtection();
+		$watch->setProtectedVar( 'microtimeStart', $time );
+		$watch->sleep( 1 );
+
+		$assertion	= $time;
+		$creation	= $watch->getProtectedVar( 'microtimeStart' );
+		$this->assertEquals( $assertion, $creation );
+	}*/
+
+	/**
+	 *	Tests Method 'speed'.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testSpeed()
+	{
+		$time	= microtime( TRUE );
+
+		$watch	= new Test_Alg_Time_Clock_MockAntiProtection();
+		$watch->setProtectedVar( 'microtimeStart', $time );
+		$watch->speed( 1 );
+
+		$assertion	= $time - 1;
+		$creation	= $watch->getProtectedVar( 'microtimeStart' );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -69,7 +123,7 @@ final class Test_Alg_Time_ClockTest extends PHPUnit_Framework_TestCase
 	{
 		$watch	= new Test_Alg_Time_Clock_MockAntiProtection();
 		$assertion	= 1;
-		$creation	= preg_match( "@^0\.[0-9]+ [0-9]+$@", $watch->getProtectedVar( 'microtimeStart' ) );
+		$creation	= preg_match( "@^[0-9]+\.[0-9]+$@", $watch->getProtectedVar( 'microtimeStart' ) );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -88,6 +142,42 @@ final class Test_Alg_Time_ClockTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 *	Tests Method 'usleep' when enough time to sleep has elapsed.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testUsleep1()
+	{
+		$time	= microtime( TRUE );
+
+		$watch	= new Test_Alg_Time_Clock_MockAntiProtection();
+		$watch->setProtectedVar( 'microtimeStart', $time - 2 );
+		$watch->usleep( 1000000 );
+
+		$assertion	= $time - 1;
+		$creation	= $watch->getProtectedVar( 'microtimeStart' );
+		$this->assertEquals( $assertion, $creation );
+	}
+
+	/**
+	 *	Tests Method 'speed'.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testUspeed()
+	{
+		$time	= microtime( TRUE );
+
+		$watch	= new Test_Alg_Time_Clock_MockAntiProtection();
+		$watch->setProtectedVar( 'microtimeStart', $time );
+		$watch->uspeed( 1000 );
+
+		$assertion	= $time - 0.001;
+		$creation	= $watch->getProtectedVar( 'microtimeStart' );
+		$this->assertEquals( $assertion, $creation );
+	}
+
+	/**
 	 *	Tests Method 'getTime'.
 	 *	@access		public	
 	 *	@return		void
@@ -96,8 +186,8 @@ final class Test_Alg_Time_ClockTest extends PHPUnit_Framework_TestCase
 	{
 		$watch	= new Test_Alg_Time_Clock_MockAntiProtection();
 
-		$watch->setProtectedVar( 'microtimeStart', "0.00000000 ".time() );
-		$watch->setProtectedVar( 'microtimeStop', "0.12345678 ".time() );
+		$watch->setProtectedVar( 'microtimeStart', (float) time().".00000000" );
+		$watch->setProtectedVar( 'microtimeStop', (float) time().".12345678" );
 		
 		$assertion	= 123.457;
 		$creation	= $watch->getTime( 3, 3 );
