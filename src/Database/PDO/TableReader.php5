@@ -278,41 +278,55 @@ class Database_PDO_TableReader
 
 		$conditions = array();
 		
-		$pattern	= '/^(<=|>=|<|>|!=)(.+)/';
 		foreach( $new as $column => $value )															//  iterate all noted Pairs
 		{
-			if( preg_match( '/^%/', $value ) || preg_match( '/%$/', $value ) )
+			if( is_array( $value ) )
 			{
-				$operation	= ' LIKE ';
-				$value		= $this->secureValue( $value );
-			}
-			else if( preg_match( $pattern, $value, $result ) )
-			{
-				$matches	= array();
-				preg_match_all( $pattern, $value, $matches );
-				$operation	= ' '.$matches[1][0].' ';
-				$value		= $this->secureValue( $matches[2][0] );
+				foreach( $value as $nr => $part )
+					$value[$nr]	= $this->realizeConditionQueryPart( $column, $part );
+				$part	= '('.implode( ' OR ', $value ).')';
 			}
 			else
-			{
-				if( strtolower( $value ) == 'is null' || strtolower( $value ) == 'is not null')
-					$operation	= ' ';
-				else if( $value === NULL )
-				{
-					$operation	= ' is ';
-					$value		= 'NULL';
-				}
-				else
-				{
-					$operation	= ' = ';
-					$value		= $this->secureValue( $value );
-				}
-			}
-			$column	= '`'.$column.'`';
-			$conditions[]	= $column.$operation.$value;
+				$part	= $this->realizeConditionQueryPart( $column, $value );
+			$conditions[]	= $part;
+
 		}
 		$conditions = implode( ' AND ', $conditions );												//  combine Conditions with AND
 		return $conditions;
+	}
+
+	protected function realizeConditionQueryPart( $column, $value )
+	{
+		$pattern	= '/^(<=|>=|<|>|!=)(.+)/';
+		if( preg_match( '/^%/', $value ) || preg_match( '/%$/', $value ) )
+		{
+			$operation	= ' LIKE ';
+			$value		= $this->secureValue( $value );
+		}
+		else if( preg_match( $pattern, $value, $result ) )
+		{
+			$matches	= array();
+			preg_match_all( $pattern, $value, $matches );
+			$operation	= ' '.$matches[1][0].' ';
+			$value		= $this->secureValue( $matches[2][0] );
+		}
+		else
+		{
+			if( strtolower( $value ) == 'is null' || strtolower( $value ) == 'is not null')
+				$operation	= ' ';
+			else if( $value === NULL )
+			{
+				$operation	= ' is ';
+				$value		= 'NULL';
+			}
+			else
+			{
+				$operation	= ' = ';
+				$value		= $this->secureValue( $value );
+			}
+		}
+		$column	= '`'.$column.'`';
+		return $column.$operation.$value;
 	}
 
 	/**
