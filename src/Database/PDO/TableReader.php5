@@ -37,18 +37,22 @@
  */
 class Database_PDO_TableReader
 {
-	/**	@var	BaseConnection	$dbc			Database connection resource object */
+	/**	@var	BaseConnection	$dbc				Database connection resource object */
 	protected $dbc;
-	/**	@var	array			$columns		List of table columns */
+	/**	@var	array			$columns			List of table columns */
 	protected $columns			= array();
-	/**	@var	array			$indices		List of indices of table */
+	/**	@var	array			$indices			List of indices of table */
 	protected $indices			= array();
-	/**	@var	string			$focusedIndices	List of focused indices */
+	/**	@var	string			$focusedIndices		List of focused indices */
 	protected $focusedIndices	= array();
-	/**	@var	string			$primaryKey		Primary key of this table */
+	/**	@var	string			$primaryKey			Primary key of this table */
 	protected $primaryKey;
-	/**	@var	string			$tableName		Name of this table */
+	/**	@var	string			$tableName			Name of this table */
 	protected $tableName;
+	/**	@var	int				$fetchMode			Name of this table */
+	protected $fetchMode;
+	/**	@var	int				$defaultFetchMode	Default fetch mode, can be set statically */
+	public static $defaultFetchMode	= PDO::FETCH_ASSOC;
 
 	/**
 	 *	Constructor.
@@ -84,7 +88,7 @@ class Database_PDO_TableReader
 		$conditions	= $conditions ? ' WHERE '.$conditions : '';
 		$query	= 'SELECT COUNT(`'.$this->primaryKey.'`) as count FROM '.$this->getTableName().$conditions;
 		$result	= $this->dbc->query( $query );
-		$count	= $result->fetch( PDO::FETCH_ASSOC );
+		$count	= $result->fetch( $this->getFetchMode() );
 		return $count['count'];
 	}
 
@@ -129,7 +133,7 @@ class Database_PDO_TableReader
 		$query		= 'SELECT '.implode( ', ', $columns ).' FROM '.$this->getTableName().$conditions.$orders.$limit;
 		$resultSet	= $this->dbc->query( $query );
 
-		return $resultSet->fetchAll( PDO::FETCH_ASSOC );
+		return $resultSet->fetchAll( $this->getFetchMode() );
 	}
 	
 	public function findWhereIn( $columns = array(), $column, $values, $orders = array(), $limit = array() )
@@ -147,7 +151,7 @@ class Database_PDO_TableReader
 		$query		= 'SELECT '.implode( ', ', $columns ).' FROM '.$this->getTableName().' WHERE '.$column.' IN ('.implode( ', ', $values ).') '.$orders.$limit;
 		$resultSet	= $this->dbc->query( $query );
 
-		return $resultSet->fetchAll( PDO::FETCH_ASSOC );
+		return $resultSet->fetchAll( $this->getFetchMode() );
 	}
 
 	public function findWhereInAnd( $columns = array(), $column, $values, $conditions = array(), $orders = array(), $limit = array() )
@@ -168,7 +172,7 @@ class Database_PDO_TableReader
 		$query		= 'SELECT '.implode( ', ', $columns ).' FROM '.$this->getTableName().' WHERE '.$conditions.$column.' IN ('.implode( ', ', $values ).') '.$orders.$limit;
 		$resultSet	= $this->dbc->query( $query );
 
-		return $resultSet->fetchAll( PDO::FETCH_ASSOC );
+		return $resultSet->fetchAll( $this->getFetchMode() );
 	}
 
 	/**
@@ -217,25 +221,11 @@ class Database_PDO_TableReader
 		$query = 'SELECT * FROM '.$this->getTableName().' WHERE '.$conditions.$orders.$limit;
 
 		$resultSet	= $this->dbc->query( $query );
-		$resultList	= $resultSet->fetchAll( PDO::FETCH_ASSOC );
+		$resultList	= $resultSet->fetchAll( $this->getFetchMode() );
 
 		if( count( $resultList ) && $first )
 			return $resultList[0];
 		return $resultList;
-		
-		if( $q->columnCount() )
-		{
-			while( $d = $q->fetch( PDO::FETCH_OBJ ) )
-			{
-				$line = array();
-				foreach( $this->columns as $column )
-					$line[$column] = stripslashes( $d->$column );
-				$data[] = $line;
-			}
-		}
-		if( count( $data ) && $first )
-			$data	= $data[0];
-		return $data;
 	}
 
 	/**
@@ -295,40 +285,6 @@ class Database_PDO_TableReader
 		return $conditions;
 	}
 
-	protected function realizeConditionQueryPart( $column, $value )
-	{
-		$pattern	= '/^(<=|>=|<|>|!=)(.+)/';
-		if( preg_match( '/^%/', $value ) || preg_match( '/%$/', $value ) )
-		{
-			$operation	= ' LIKE ';
-			$value		= $this->secureValue( $value );
-		}
-		else if( preg_match( $pattern, $value, $result ) )
-		{
-			$matches	= array();
-			preg_match_all( $pattern, $value, $matches );
-			$operation	= ' '.$matches[1][0].' ';
-			$value		= $this->secureValue( $matches[2][0] );
-		}
-		else
-		{
-			if( strtolower( $value ) == 'is null' || strtolower( $value ) == 'is not null')
-				$operation	= ' ';
-			else if( $value === NULL )
-			{
-				$operation	= ' is ';
-				$value		= 'NULL';
-			}
-			else
-			{
-				$operation	= ' = ';
-				$value		= $this->secureValue( $value );
-			}
-		}
-		$column	= '`'.$column.'`';
-		return $column.$operation.$value;
-	}
-
 	/**
 	 *	Returns reference the database connection.
 	 *	@access		public
@@ -337,6 +293,16 @@ class Database_PDO_TableReader
 	public function & getDBConnection()
 	{
 		return $this->dbc;
+	}
+
+	/**
+	 *	Returns set fetch mode.
+	 *	@access		public
+	 *	@return		int			$fetchMode		Currently set fetch mode
+	 */
+	protected function getFetchMode()
+	{
+		return $this->fetchMode ? $this->fetchMode : self::$defaultFetchMode;
 	}
 
 	/**
@@ -425,6 +391,40 @@ class Database_PDO_TableReader
 			return FALSE;
 		return TRUE;
 	}
+
+	protected function realizeConditionQueryPart( $column, $value )
+	{
+		$pattern	= '/^(<=|>=|<|>|!=)(.+)/';
+		if( preg_match( '/^%/', $value ) || preg_match( '/%$/', $value ) )
+		{
+			$operation	= ' LIKE ';
+			$value		= $this->secureValue( $value );
+		}
+		else if( preg_match( $pattern, $value, $result ) )
+		{
+			$matches	= array();
+			preg_match_all( $pattern, $value, $matches );
+			$operation	= ' '.$matches[1][0].' ';
+			$value		= $this->secureValue( $matches[2][0] );
+		}
+		else
+		{
+			if( strtolower( $value ) == 'is null' || strtolower( $value ) == 'is not null')
+				$operation	= ' ';
+			else if( $value === NULL )
+			{
+				$operation	= ' is ';
+				$value		= 'NULL';
+			}
+			else
+			{
+				$operation	= ' = ';
+				$value		= $this->secureValue( $value );
+			}
+		}
+		$column	= '`'.$column.'`';
+		return $column.$operation.$value;
+	}
 	
 	/**
 	 *	Secures Conditions Value by adding slashes or quoting.
@@ -468,6 +468,18 @@ class Database_PDO_TableReader
 		if( !is_a( $dbc, 'PDO' ) )
 			throw new InvalidArgumentException( 'Database connection resource must be a direct or inherited PDO object' );
 		$this->dbc = $dbc;
+	}
+
+	/**
+	 *	Sets fetch mode.
+	 *	@access		public
+	 *	@param		inst		$mode			Fetch mode
+	 *	@see		http://www.php.net/manual/en/pdo.constants.php
+	 *	@return		void
+	 */
+	public function setFetchMode( $mode )
+	{
+		$this->fetchMode	= $mode;
 	}
 
 	/**

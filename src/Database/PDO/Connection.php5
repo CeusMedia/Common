@@ -209,24 +209,6 @@ class Database_PDO_Connection extends PDO
 	}
 
 	/**
-	 *	Alias for setErrorLogFile.
-	 *	@deprecated		in 0.7
-	 */
-	public function setLogFile( $file )
-	{
-		return $this->setErrorLogFile( $file );
-	}
-
-	/**
-	 *	Alias for setStatementLogFile.
-	 *	@deprecated		in 0.7
-	 */
-	public function setQueryLogFile( $file )
-	{
-		return $this->setStatementLogFile( $file );
-	}
-
-	/**
 	 *	Sets File Name of Statement Log.
 	 *	@access		public
 	 *	@param		string		$fileName		File Name of Statement Log File
