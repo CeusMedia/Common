@@ -44,6 +44,7 @@ class Net_HTTP_Request extends ADT_List_Dictionary
 {
 	protected $body;
 	public $headers;
+	protected $method		= 'GET';
 	protected $protocol		= 'HTTP';
 	protected $status		= '200 OK';
 	protected $version		= '1.0';
@@ -92,7 +93,7 @@ class Net_HTTP_Request extends ADT_List_Dictionary
 		if( $useCookie )
 			$sources['cookie']	=& $_COOKIE;
 
-#		$this->ip	= getEnv( 'REMOTE_ADDR' );
+#		$this->ip	= getEnv( 'REMOTE_ADDR' );														//  store IP of requesting client
 		foreach( $sources as $key => $values )
 			$this->pairs	= array_merge( $this->pairs, $values );
 
@@ -103,9 +104,11 @@ class Net_HTTP_Request extends ADT_List_Dictionary
 				continue;
 			$key	= preg_replace( '/^HTTP_/', '', $key );											//  strip HTTP prefix
 			$key	= preg_replace( '/_/', '-', $key );												//  replace underscore by dash
-			$this->headers->addHeader( new Net_HTTP_Header( $key, $value ) );						//
+			$this->headers->addHeader( new Net_HTTP_Header( $key, $value ) );						//  store header
 		}
-		$this->body	= file_get_contents( "php://input" );
+
+		$this->setMethod( strtoupper( getEnv( 'REQUEST_METHOD' ) ) );								//  store HTTP method
+		$this->body	= file_get_contents( "php://input" );											//  store raw post or file data
 	}
 
 	public function fromString( $request )
@@ -123,6 +126,11 @@ class Net_HTTP_Request extends ADT_List_Dictionary
 		return $this->headers->getHeadersByName( $name );
 	}
 
+	public function getMethod()
+	{
+		return $this->method;
+	}
+
 	public function isAjax()
 	{
 		return $this->headers->hasHeader( 'X-Requested-With' );
@@ -130,7 +138,7 @@ class Net_HTTP_Request extends ADT_List_Dictionary
 
 	public function remove( $key )
 	{
-		remark( 'R:remove: '.$key );
+#		remark( 'R:remove: '.$key );
 		parent::remove( $key );
 		$this->body	= http_build_query( $this->getAll(), NULL, '&' );
 	}
@@ -144,6 +152,11 @@ class Net_HTTP_Request extends ADT_List_Dictionary
 	public function setAjax( $value = 'X-Requested-With' )
 	{
 		$this->headers->addHeader( new Net_HTTP_Header( 'X-Requested-With', $value ) );
+	}
+
+	public function setMethod( $method )
+	{
+		$this->method	= strtoupper( $method );
 	}
 }
 ?>

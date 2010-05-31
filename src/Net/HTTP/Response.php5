@@ -46,6 +46,7 @@ class Net_HTTP_Response
 	protected $protocol		= 'HTTP';
 	protected $status		= '200 OK';
 	protected $version		= '1.0';
+	protected $length		= 0;
 
 	/**
 	 *	Constructor.
@@ -118,6 +119,11 @@ class Net_HTTP_Response
 		return $this->headers->getHeaders();
 	}
 
+	public function getLength()
+	{
+		return $this->length;
+	}
+
 	/**
 	 *	Returns response protocol.
 	 *	@access		public
@@ -166,7 +172,7 @@ class Net_HTTP_Response
 	 *	@param		string			$compressionLog		URI of compression log file
 	 *	@return		int				Number of sent bytes
 	 */
-	public function send( $useCompression = NULL, $compressionLog = NULL )
+	public function send( $useCompression = NULL, $compressionLog = NULL, $sendLengthHeader = FALSE )
 	{
 		header( $this->protocol.'/'.$this->version.' '.$this->status );
 		foreach( $this->headers->getHeaders() as $header )
@@ -177,15 +183,29 @@ class Net_HTTP_Response
 			$compressionMethod	= Net_HTTP_Compression::getMethod();
 			$compressionMethod	= Net_HTTP_Sniffer_Encoding::getEncoding( $compressionMethods, $compressionMethod );
 			Net_HTTP_Compression::setMethod( $compressionMethod, $compressionLogFile );
-			$length	= Net_HTTP_Compression::sendContent( $this->body );
-			return $length;
+			$this->length	= Net_HTTP_Compression::sendContent( $this->body );
+			return $this->length;
 		}
 		flush();
-		$length	= strlen( $this->body );
-#		header( "Content-Length: ".$length );
+		$this->length	= strlen( $this->body );
+		if( $sendLengthHeader )
+			header( "Content-Length: ".$this->length );
 		print( $this->body );
 		flush();
-		return $length;
+		return $this->length;
+	}
+
+	/**
+	 *	Sets response message body.
+	 *	@access		public
+	 *	@param		string		$body			Response message body
+	 *	@return		void
+	 */
+	public function setBody( $body )
+	{
+		if( !is_string( $body ) )
+			throw new InvalidArgumentException( 'Must be string' );
+		$this->body	= $body;
 	}
 
 	/**
@@ -221,19 +241,6 @@ class Net_HTTP_Response
 	public function setVersion( $version )
 	{
 		$this->version	= $version;
-	}
-
-	/**
-	 *	Sets response message body.
-	 *	@access		public
-	 *	@param		string		$body			Response message body
-	 *	@return		void
-	 */
-	public function setBody( $body )
-	{
-		if( !is_string( $body ) )
-			throw new InvalidArgumentException( 'Must be string' );
-		$this->body	= $body;
 	}
 
 	/**
