@@ -42,12 +42,14 @@
  */
 class Net_HTTP_Request_Receiver extends ADT_List_Dictionary
 {
-	/**	@var		string		$ip				IP of Request */
-	protected $ip;
-	/**	@var		array		$sources		Array of Sources of Request Data */
-	protected $sources;
 	/** @var		Net_HTTP_Headers	$headers	Object of collected HTTP Headers */
 	protected $headers			= NULL;
+	/**	@var		string		$ip				IP of Request */
+	protected $ip;
+	/** @var		string		$method			HTTP request method */
+	protected $method			= NULL;
+	/**	@var		array		$sources		Array of Sources of Request Data */
+	protected $sources;
 
 	/**
 	 *	Constructor, reads and stores Data from Sources to internal Dictionary.
@@ -68,7 +70,8 @@ class Net_HTTP_Request_Receiver extends ADT_List_Dictionary
 		if( $useCookie )
 			$this->sources['cookie']	=& $_COOKIE;
 
-		$this->ip	= getEnv( 'REMOTE_ADDR' );
+		$this->ip		= getEnv( 'REMOTE_ADDR' );													//  store IP of requesting client
+		$this->method	= strtoupper( getEnv( 'REQUEST_METHOD' ) );									//  store HTTP method
 		foreach( $this->sources as $key => $values )
 			$this->pairs	= array_merge( $this->pairs, $values );
 
@@ -87,14 +90,38 @@ class Net_HTTP_Request_Receiver extends ADT_List_Dictionary
 	/**
 	 *	Reads and returns Data from Sources.
 	 *	@access		public
-	 *	@param		int			$source			Request Source (get,post,files[,session,cookie])
-	 *	@return		array
+	 *	@param		string		$source		Source key (not case sensitive) (get,post,files[,session,cookie])
+	 *	@param		bool		$strict		Flag: throw exception if not set, otherwise return NULL
+	 *	@throws		InvalidArgumentException if key is not set in source and strict is on
+	 *	@return		array		Pairs in source (or empty array if not set on strict is off)
 	 */
-	public function getAllFromSource( $source )
+	public function getAllFromSource( $source, $strict = FALSE )
 	{
-		if( !in_array( $source, array_keys( $this->sources ) ) )
-			throw new InvalidArgumentException( "No valid source chosen." );
-		return $this->sources[$source];
+		$source	= strtolower( $source );
+		if( isset( $this->sources[$source] ) )
+			return new ADT_List_Dictionary( $this->sources[$source] );
+		if( !$strict )
+			return array();
+		throw new InvalidArgumentException( 'Invalid source "'.$source.'"' );
+	}
+
+	/**
+	 *	Returns value or null by its key in a specified source.
+	 *	@access		public
+	 *	@param		string		$key		...
+	 *	@param		string		$source		Source key (not case sensitive) (get,post,files[,session,cookie])
+	 *	@param		bool		$strict		Flag: throw exception if not set, otherwise return NULL
+	 *	@throws		InvalidArgumentException if key is not set in source and strict is on
+	 *	@return		mixed		Value of key in source or NULL if not set
+	 */
+	public function getFromSource( $key, $source, $strict = FALSE )
+	{
+		$data	= $this->getAllFromSource( $source );
+		if( isset( $data[$key] ) )
+			return $data[$key];
+		if( !$strict )
+			return NULL;
+		throw new InvalidArgumentException( 'Invalid key "'.$key.'" in source "'.$source.'"' );
 	}
 
 	/**
@@ -120,6 +147,11 @@ class Net_HTTP_Request_Receiver extends ADT_List_Dictionary
 		return $this->headers->getHeadersByName( $name );
 	}
 
+	public function getMethod()
+	{
+		return $this->method;
+	}
+
 	/**
 	 *	Indicates whether atleast one HTTP Header with given Header Name is set.
 	 *	@access		public
@@ -141,6 +173,19 @@ class Net_HTTP_Request_Receiver extends ADT_List_Dictionary
 	public function getRawPostData()
 	{
 		return file_get_contents( "php://input" );
+	}
+
+	/**
+	 *	Indicates wheter a pair is existing in a request source by its key.
+	 *	@access		public
+	 *	@param		string		$key		...
+	 *	@param		string		$source		Source key (not case sensitive) (get,post,files[,session,cookie])
+	 *	@return		bool
+	 */
+	public function hasInSource( $key, $source )
+	{
+		$source	= strtolower( $source );
+		return isset( $this->sources[$source][$key] );
 	}
 
 	/**

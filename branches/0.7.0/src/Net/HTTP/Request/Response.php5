@@ -78,11 +78,11 @@ class Net_HTTP_Request_Response
 	 *	@access		public
 	 *	@param		string		$useCompression		Flag: use HTTP compression
 	 *	@param		string		$compressionLogFile	File Name of Compression Log
-	 *	@return		int
+	 *	@return		int			Number of sent bytes
 	 */
 	public function send( $useCompression = FALSE, $compressionLogFile = NULL )
 	{
-		$this->response->send( $useCompression, $compressionLogFile );
+		return $this->response->send( $useCompression, $compressionLogFile );
 	}
 	
 	/**

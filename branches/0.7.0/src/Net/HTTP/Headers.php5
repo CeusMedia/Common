@@ -99,25 +99,16 @@ class Net_HTTP_Headers
 		'others'	=> array(
 		)
 	);
-	
-	public function addHeader( Net_HTTP_Header $header )
+
+	public function addHeader( Net_HTTP_Header $header, $emptyBefore = FALSE )
 	{
-		$name	= $header->getName();
-		foreach( $this->headers as $sectionName => $sectionPairs )
-		{
-			if( array_key_exists( $name, $sectionPairs ) )
-			{
-				$this->headers[$sectionName][$name][]	= $header;
-				return;
-			}
-		}
-		$this->headers['others'][$name]	= array( $header );
+		return $this->setHeader( $header, FALSE );
 	}
-	
-	public function addHeaderPair( $name, $value )
+
+	public function addHeaderPair( $name, $value, $emptyBefore = FALSE )
 	{
 		$header	= new Net_HTTP_Header( $name, $value );
-		$this->addHeader( $header );
+		$this->addHeader( $header, $emptyBefore );
 	}
 
 	public function addHeaders( $headers )
@@ -155,7 +146,32 @@ class Net_HTTP_Headers
 				return (bool) count( $this->headers[$sectionName][$name] );
 		return FALSE;
 	}
-	
+
+	public function setHeader( Net_HTTP_Header $header, $emptyBefore = TRUE )
+	{
+		$name	= $header->getName();
+		foreach( $this->headers as $sectionName => $sectionPairs )
+		{
+			if( array_key_exists( $name, $sectionPairs ) )
+			{
+				if( $emptyBefore )
+					$this->headers[$sectionName][$name]		= array( $header );
+				else
+					$this->headers[$sectionName][$name][]	= $header;
+				return;
+			}
+		}
+		if( $emptyBefore || !isset( $this->headers['others'][$name] ) )
+			$this->headers['others'][$name]	= array( $header );
+		else
+			$this->headers['others'][$name][]	= array( $header );
+	}
+
+	public function setHeaderPair( $name, $value, $emptyBefore = TRUE )
+	{
+		return $this->addHeaderPair( $name, $value, $emptyBefore );
+	}
+
 	public function toString()
 	{
 		$list	= array();
