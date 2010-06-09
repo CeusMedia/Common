@@ -89,7 +89,16 @@ class Test_ADT_List_DictionaryTest extends PHPUnit_Framework_TestCase
 		$creation	= $this->dictionary->has( 'key2' );
 		$this->assertEquals( $assertion, $creation );
 	}
-	
+
+	public function testRemove2()
+	{
+		foreach( $this->dictionary as $key => $value )
+			$this->dictionary->remove( $key );
+		$assertion	= 0;
+		$creation	= $this->dictionary->count();
+		$this->assertEquals( $assertion, $creation );
+	}
+
 	public function testSet()
 	{
 		$this->dictionary->set( 'key4', 'value4' );
@@ -137,7 +146,15 @@ class Test_ADT_List_DictionaryTest extends PHPUnit_Framework_TestCase
 		$creation	= $this->dictionary->has( 'key2' );
 		$this->assertEquals( $assertion, $creation );
 	}
-	
+
+	public function testOffsetUnset2()
+	{
+		foreach( $this->dictionary as $key => $value )
+			unset( $this->dictionary[$key] );
+		$assertion	= 0;
+		$creation	= count( $this->dictionary );
+		$this->assertEquals( $assertion, $creation );
+	}
 
 	//  --  TESTS OF ITERATOR INTERFACE  --  //
 	public function testKey()
