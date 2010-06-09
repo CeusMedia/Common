@@ -4,7 +4,7 @@ class PackageGraphView
 	public $baseCss			= '//css.ceusmedia.com/';
 	public $baseJs			= '//js.ceusmedia.com/';
 	public $regExpFilename	= '/^[A-Z].+\.php5$/';
-	public $regExpPattern	= '/class [a-z]|interface [a-z] /i';
+	public $rexExpSignature	= '/class [a-z]|interface [a-z] /i';
 	public $fileSerial		= 'cache/files.serial';
 
 	public function __construct( $path )
@@ -110,7 +110,6 @@ class PackageGraphView
 	
 	protected function prepareData()
 	{
-		import( 'de.ceus-media.adt.list.LevelMap' );
 		$this->map	= new ADT_List_LevelMap();
 		$files		= unserialize( File_Editor::load( $this->fileSerial ) );
 		foreach( $files as $pathName => $size )
@@ -128,7 +127,7 @@ class PackageGraphView
 		$list		= $key ? $this->map->get( $key ) : $this->map->getAll();
 		foreach( $list as $pathName => $size )
 		{
-			if( !preg_match( '/^[a-z]+/', $pathName ) )
+			if( !preg_match( '/^[a-z]+/i', $pathName ) )
 				continue;
 			$package	= array_shift( explode( ".", $pathName ) );
 			if( !isset( $packages[$package] ) )
