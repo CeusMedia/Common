@@ -185,7 +185,7 @@ class Database_PDO_TableReader
 	public function focusIndex( $column, $value )
 	{
 		if( !in_array( $column, $this->indices ) && $column != $this->primaryKey )				//  check column name
-			throw new InvalidArgumentException( 'Column "'.$column.'" is neither an index not primary key and cannot be focused' );
+			throw new InvalidArgumentException( 'Column "'.$column.'" is neither an index nor primary key and cannot be focused' );
 		$this->focusedIndices[$column] = $value;													//  set Focus
 	}
 
