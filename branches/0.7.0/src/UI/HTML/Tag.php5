@@ -98,7 +98,7 @@ class UI_HTML_Tag
 		if( $attributes )
 			$attributes	= " ".$attributes;
 		$unsetContent	= !( $content !== NULL && $content !== FALSE );
-		if( $unsetContent && $name !== "style" )
+		if( $unsetContent && !in_array( $name, array( 'style', 'div' ) ) )
 			$tag	= "<".$name.$attributes."/>";
 		else
 			$tag	= "<".$name.$attributes.">".$content."</".$name.">";

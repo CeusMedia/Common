@@ -23,10 +23,12 @@ class UI_HTML_Layout_Site extends UI_HTML_Element_Abstract
 	protected $aLeft			= array();
 	protected $aRight			= array();
 	protected $aHeader			= array();
+	protected $aTopNavigation	= array();
+	protected $aHeadNavigation	= array();
 	protected $aMainNavigation	= array();
 	protected $aControl			= array();
 	protected $aContent			= array();
-	protected $aExta			= array();
+	protected $aExtra			= array();
 	protected $aFooter			= array();
 	
 	/**
@@ -80,98 +82,59 @@ class UI_HTML_Layout_Site extends UI_HTML_Element_Abstract
 		$this->aFooter[]	= $mContent;
 	}
 
-/*
+
 	public function render()
 	{
-		$sTop			= $this->renderPart( 'aTop' );
-		$sHeader		= $this->renderPart( 'aHeader' );
-		$sNavigation	= $this->renderPart( 'aNavigation' );
-		$sControl		= $this->renderPart( 'aControl' );
-		$sContent		= $this->renderPart( 'aContent' );
-		$sExtra			= $this->renderPart( 'aExtra' );
-		$sFooter		= $this->renderPart( 'aFooter' );
-		$sBottom		= $this->renderPart( 'aFooter' );
-		
-		$sDivTopNavigation	= $this->renderTag( 'div', $sTopNavigation, array( 'id' => 'layout-top-navigation' ) );
-		$sDivHeadNavigation	= $this->renderTag( 'div', $sHeadNavigation, array( 'id' => 'layout-head-navigation' ) );
-		$sDivMainNavigation	= $this->renderTag( 'div', $sMainNavigation, array( 'id' => 'layout-main-navigation' ) );
-		$sDivHeader			= $this->renderTag( 'div', $sHeader, array( 'id' => 'layout-header' ) );
-		$sDivControl		= $this->renderTag( 'div', $sControl, array( 'id' => 'layout-control' ) );
-		$sDivContent		= $this->renderTag( 'div', $sContent, array( 'id' => 'layout-content' ) );
-		$sDivExtra			= $this->renderTag( 'div', $sExtra, array( 'id' => 'layout-extra' ) );
-		$sDivFooter			= $this->renderTag( 'div', $sFooter, array( 'id' => 'layout-footer' ) );
+		$sTop				= $this->renderPart( 'aTop' );
+		$sHeader			= $this->renderPart( 'aHeader' );
+		$sTopNavigation		= $this->renderPart( 'aTopNavigation' );
+		$sHeadNavigation	= $this->renderPart( 'aHeadNavigation' );
+		$sMainNavigation	= $this->renderPart( 'aMainNavigation' );
+		$sControl			= $this->renderPart( 'aControl' );
+		$sContent			= $this->renderPart( 'aContent' );
+		$sExtra				= $this->renderPart( 'aExtra' );
+		$sFooter			= $this->renderPart( 'aFooter' );
+		$sBottom			= $this->renderPart( 'aFooter' );
+
+		$aDivs	= array();
+		if( $this->aTopNavigation )
+			$aDivs[]	= $this->renderTag( 'div', $sTopNavigation, array( 'id' => 'layout-top-nav' ) );
+		if( $this->aHeader )
+		{
+			if( $this->aHeadNavigation )
+				$sHeader	= $this->renderTag( 'div', $sHeadNavigation, array( 'id' => 'layout-header-nav' ) ).$sHeader;
+			$aDivs[]		= $this->renderTag( 'div', $sHeader, array( 'id' => 'layout-header' ) );
+		}
+		if( $this->aMainNavigation )
+			$aDivs[]	= $this->renderTag( 'div', $sMainNavigation, array( 'id' => 'layout-main-navigation' ) );
+		if( $this->aControl )
+			$aDivs[]	= $this->renderTag( 'div', $sControl, array( 'id' => 'layout-control' ) );
+		if( $this->aContent )
+			$aDivs[]	= $this->renderTag( 'div', $sContent, array( 'id' => 'layout-content' ) );
+		if( $this->aExtra )
+			$aDivs[]	= $this->renderTag( 'div', $sExtra, array( 'id' => 'layout-extra' ) );
+		if( $this->aFooter )
+			$aDivs[]	= $this->renderTag( 'div', $sFooter, array( 'id' => 'layout-footer' ) );
 	
-		$sAll				= $sDivTopNavigation.$sDivHeadNavigation.
-		$sDivContainer		= $this->renderTag( 'div', 
+		$sAll				= join( $aDivs );
+		$sDivContainer		= $this->renderTag( 'div', $sAll, array( 'id' => 'layout-page' ) );
+		return $sDivContainer;
 	}
 
-	protected renderPart( $key )
+	protected function renderPart( $key )
 	{
 		$$key	= array();
+		if( !$this->$key )
+			return;
+
 		foreach( $this->$key as $mContent )
 		{
 			if( $mContent instanceof UI_HTML_Element_Abstract )
 				$mContent	= $mContent->render();
-			$$key[]	= $mContent;
+			${$key}[]	= $mContent;
 		}
 		return join( $$key );
 	}
-*/
 
-	/**
-	 *	Adds another Element to Grid.
-	 *	@access		public
-	 *	@param		mixed		$mElement		String or Instance of UI_HTML_Element_Abstract
-	 *	@return		void
-	 *	@throws		InvalidArgumentException
-	 *	@throws		OutOfBoundsException
-	 */
-	public function add( $mElement )
-	{
-		if( !( $mElement instanceof UI_HTML_Element_Abstract || is_string( $mElement ) ) )
-			throw new InvalidArgumentException( 'Must be String or extend UI_HTML_Element_Abstract' );
-
-		if( $this->iCurrentColumn > $this->iColumns - 1 )
-		{
-			$this->iCurrentColumn	= 0;
-			$this->iCurrentRow++;
-		}
-
-		if( $this->iCurrentRow > $this->iRows - 1 )
-			throw new OutOfBoundsException( 'No space left in Container' );
-	
-		$this->aElements[$this->iCurrentRow][$this->iCurrentColumn] = $mElement;
-		$this->iCurrentColumn++;
-	}
-
-	/**
-	 *	...
-	 *	@access		public
-	 *	@return		string			Rendered Grid Layout
-	 */
-	public function render()
-	{
-		$aList	= array();
-		for( $iRow=0; $iRow<$this->iRows; $iRow++ )
-		{
-			$aInnerList	= array();
-			for( $iColumn=0; $iColumn<$this->iColumns; $iColumn++ )
-			{
-				if( !isset( $this->aElements[$iRow][$iColumn] ) )
-					break;
-				$mElement		= $this->aElements[$iRow][$iColumn];
-				if( $mElement instanceof UI_HTML_Element_Abstract )
-					$mElement	= $mElement->render();
-				$aAttributes	= array( 'class' => self::$sDefaultClassCell );
-				$aInnerList[]	= $this->renderTag( 'div', $mElement, $aAttributes );
-			}
-			$sInnerList		= join( $aInnerList );
-			$aAttributes	= array( 'class' => self::$sDefaultClassRow );
-			$aList[]		= $this->renderTag( 'div', $sInnerList, $aAttributes );
-		}
-		$sList			= join( $aList );
-		$aAttributes	= array( 'class'	=> $this->sClass );
-		return $this->renderTag( 'div', $sList, $aAttributes );
-	}
 }
 ?>
