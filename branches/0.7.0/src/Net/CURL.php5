@@ -118,9 +118,9 @@ class Net_CURL
 		if( !function_exists( 'curl_init' ) )
 			throw new Exception( "No cURL support in PHP available." );
 		$this->handle	= curl_init();
-		$this->caseless	= null;
-		$this->header	= null;
-		$this->status	= null;
+		$this->caseless	= NULL;
+		$this->header	= NULL;
+		$this->status	= NULL;
 		$this->options	= array();
 		if( !empty( $url ) )
 			$this->setOption( CURLOPT_URL, $url ); 
@@ -143,7 +143,7 @@ class Net_CURL
 	public function close()
 	{
 		curl_close( $this->handle );
-		$this->handle = null;
+		$this->handle = NULL;
 	}
 
 	/**
@@ -208,7 +208,7 @@ class Net_CURL
 			if( isset( $this->caseless[$key] ) )
 				return $this->header[$this->caseless[$key]];
 			else
-				return false;
+				return NULL;
 		}
 	}
 
@@ -240,7 +240,7 @@ class Net_CURL
 		else if( isset( $this->status[$key] ) )
 			return $this->status[$key];
 		else
-			return false;
+			return NULL;
 	}
 
 	/**
@@ -251,9 +251,9 @@ class Net_CURL
 	public function hasError()
 	{
 		if( isset( $this->status['error'] ) )
-			return ( empty( $this->status['error'] ) ? false : $this->status['error'] );
+			return ( empty( $this->status['error'] ) ? NULL : $this->status['error'] );
 		else
-			return false;
+			return NULL;
 	}
 
 	/**
