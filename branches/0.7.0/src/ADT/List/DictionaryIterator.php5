@@ -41,7 +41,7 @@
  *	@since			27.03.2006
  *	@version		$Id$
  */
-class Dictionary implements	IteratorAggregate, ArrayAccess, Countable, Iterator
+class Dictionary implements	ArrayAccess, Countable, Iterator
 {
 	/**	@var		array		$pairs		Associative Array of Pairs */
 	protected $pairs	= array();
@@ -103,16 +103,6 @@ class Dictionary implements	IteratorAggregate, ArrayAccess, Countable, Iterator
 	public function getAll()
 	{
 		return $this->pairs;
-	}
-
-	/**
-	 *	Returns Array Iterator.
-	 *	@access		public
-	 *	@return		ArrayIterator
-	 */
-	public function getIterator()
-	{
-		return new ArrayIterator( $this->pairs );
 	}
 
 	/**
