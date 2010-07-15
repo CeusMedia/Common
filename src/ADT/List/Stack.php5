@@ -38,6 +38,8 @@
  */
 class ADT_List_Stack implements Countable
 {
+	public $delimiter	= '|';
+
 	/**	@var		array		$stack			Array to holf Stack Items */
 	protected $stack = array();
 
@@ -58,9 +60,9 @@ class ADT_List_Stack implements Countable
 	 *	@access		public
 	 *	@return		string
 	 */
-	public function __toString( $delimiter = "|" )
+	public function __toString()
 	{
-		return "(".implode( $delimiter, $this->stack ).")";
+		return "(".implode( $this->delimiter, $this->stack ).")";
 	}
 
 	/**
