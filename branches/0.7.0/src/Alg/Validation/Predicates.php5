@@ -219,31 +219,17 @@ class Alg_Validation_Predicates
 	{
 		return self::isPreg( $string, "#^([a-z0-9äöü_.-]+)@([a-z0-9äöü_.-]+)\.([a-z]{2,4})$#i" );
 	}
-	
+
 	/**
-	 *	Indicates whether a String can be matched by a POSIX RegEx.
+	 *	Indicates whether a String is a valid File Name.
 	 *	@access		public
 	 *	@static
 	 *	@param		string		$string		String to be checked
-	 *	@param		string		$pattern	POSIX regular expression
 	 *	@return		bool
 	 */
-	public static function isEreg( $string, $pattern )
+	public static function isFilename( $string )
 	{
-		return (bool) ereg( $pattern, $string );
-	}
-	
-	/**
-	 *	Indicates whether a String can be matched by a case insensitive POSIX RegEx.
-	 *	@access		public
-	 *	@static
-	 *	@param		string		$string		String to be checked
-	 *	@param		string		$pattern	POSIX regular expression
-	 *	@return		bool
-	 */
-	public static function isEregi( $string, $pattern )
-	{
-		return (bool) eregi( $pattern, $string );
+		return self::isPreg( $string, "'^[a-z0-9!§$%&()=²³{[]}_-;,.+#~@µ`´]+$'i" );
 	}
 
 	/**
@@ -275,6 +261,23 @@ class Alg_Validation_Predicates
 	}
 
 	/**
+	 *	Indicates whether a String is time formated and is in future, including the actual month
+	 *	@access		public
+	 *	@static
+	 *	@param		string		$string		String to be checked
+	 *	@return		bool
+	 *	@todo		test this unit
+	 */
+	public static function isFutureOrNow( $string )
+	{
+		$string	= Alg_TimeConverter::complementMonthDate( $string, 1 );
+		$time	= strtotime( $string );
+		if( $time === false )
+			throw new InvalidArgumentException( 'Given Date "'.$string.'" could not been parsed.' );
+		return $time > time();
+	}
+
+	/**
 	 *	Indicates whether a String is larger than a limit.
 	 *	@access		public
 	 *	@static
@@ -297,18 +300,6 @@ class Alg_Validation_Predicates
 	public static function isId( $string )
 	{
 		return self::isPreg( $string, "'^[a-z][a-z0-9:#/@._-]+$'i" );
-	}
-
-	/**
-	 *	Indicates whether a String is a valid File Name.
-	 *	@access		public
-	 *	@static
-	 *	@param		string		$string		String to be checked
-	 *	@return		bool
-	 */
-	public static function isFilename( $string )
-	{
-		return self::isPreg( $string, "'^[a-z0-9!§$%&()=²³{[]}_-;,.+#~@µ`´]+$'i" );
 	}
 
 	/**
@@ -397,6 +388,23 @@ class Alg_Validation_Predicates
 	public static function isPast( $string )
 	{
 		$date	= Alg_Time_Converter::complementMonthDate( $string, 1 );
+		$time	= strtotime( $date );
+		if( $time === FALSE )
+			throw new InvalidArgumentException( 'Given Date "'.$string.'" could not been parsed.' );
+		return $time < time();
+	}
+
+	/**
+	 *	Indicates whether a String is time formated and is in past.
+	 *	@access		public
+	 *	@static
+	 *	@param		string		$string		String to be checked
+	 *	@return		bool
+	 *	@todo		test this unit
+	 */
+	public static function isPastOrNow( $string )
+	{
+		$date	= Alg_TimeConverter::complementMonthDate( $string );
 		$time	= strtotime( $date );
 		if( $time === FALSE )
 			throw new InvalidArgumentException( 'Given Date "'.$string.'" could not been parsed.' );
