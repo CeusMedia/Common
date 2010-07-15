@@ -93,7 +93,7 @@ class XML_DOM_Parser extends ADT_OptionObject
 		while( $root->nodeType == XML_COMMENT_NODE )
 			$root	= $root->nextSibling;
 		
-		$tree	=& new XML_DOM_Node( $root->nodeName );
+		$tree	= new XML_DOM_Node( $root->nodeName );
 		if( $root->hasAttributes())
 		{
 			$attributeNodes	= $root->attributes;
@@ -122,7 +122,7 @@ class XML_DOM_Parser extends ADT_OptionObject
 				switch( $child->nodeType )
 				{
 					case XML_ELEMENT_NODE:
-						$node =& new XML_DOM_Node( $child->nodeName );
+						$node = new XML_DOM_Node( $child->nodeName );
 						if( !$this->parseRecursive( $child, $node ) )
 						{
 	#						$node->setContent( utf8_decode( $child->textContent ) );
