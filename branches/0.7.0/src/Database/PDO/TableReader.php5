@@ -223,7 +223,9 @@ class Database_PDO_TableReader
 		$resultSet	= $this->dbc->query( $query );
 		$resultList	= $resultSet->fetchAll( $this->getFetchMode() );
 
-		if( count( $resultList ) && $first )
+		if( $first && !$resultList )
+			return NULL;
+		if( $first )
 			return $resultList[0];
 		return $resultList;
 	}
@@ -472,8 +474,9 @@ class Database_PDO_TableReader
 
 	/**
 	 *	Sets fetch mode.
+	 *	Mode is a mandatory integer representing a PDO fetch mode.
 	 *	@access		public
-	 *	@param		inst		$mode			Fetch mode
+	 *	@param		int			$mode			PDO fetch mode
 	 *	@see		http://www.php.net/manual/en/pdo.constants.php
 	 *	@return		void
 	 */
