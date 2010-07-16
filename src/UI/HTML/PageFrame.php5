@@ -106,7 +106,7 @@ class UI_HTML_PageFrame
 	 */
 	public function addHead( $string )
 	{
-		$this->head	.= "\n".$string;
+		$this->head	.= "\n\t\t".$string;
 	}
 
 	/**
@@ -197,16 +197,16 @@ class UI_HTML_PageFrame
 			'profile'	=> $this->profile
 		);
 
-		$tagsHead	= implode( "\n    ", $tagsHead ).$this->head;
-		$tagsBody	= implode( "\n    ", $tagsBody ).$this->body;
-		$head		= UI_HTML_Tag::create( "head", "\n    ".$tagsHead."\n  ", $headAttributes );
-		$body		= UI_HTML_Tag::create( "body", "\n    ".$tagsBody."\n  ", $bodyAttributes );
+		$tagsHead	= implode( "\n\t\t", $tagsHead ).$this->head;
+		$tagsBody	= implode( "\n\t\t", $tagsBody ).$this->body;
+		$head		= UI_HTML_Tag::create( "head", "\n\t\t".$tagsHead."\n\t", $headAttributes );
+		$body		= UI_HTML_Tag::create( "body", "\n\t\t".$tagsBody."\n\t", $bodyAttributes );
 		$attributes	= array(
 			'xmlns'		=> "http://www.w3.org/1999/xhtml",
 			'xml:lang'	=> $this->language,
 			'lang'		=> $this->language,
 		);
-		$html		= UI_HTML_Tag::create( "html", "\n  ".$head."\n  ".$body."\n", $attributes );
+		$html		= UI_HTML_Tag::create( "html", "\n\t".$head."\n\t".$body."\n", $attributes );
 		$doctype	= '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//'.strtoupper( $this->language ).'" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">';
 		return $doctype."\n".$html;
 	}
