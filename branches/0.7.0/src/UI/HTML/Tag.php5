@@ -46,6 +46,12 @@ class UI_HTML_Tag
 	/**	@var		array		$content		Content of Tag */
 	protected $content;
 
+	public static $shortTagExcludes	= array(
+		'style',
+		'script',
+		'div'
+	);
+
 	/**
 	 *	Constructor.
 	 *	@access		public
@@ -86,23 +92,44 @@ class UI_HTML_Tag
 	 */
 	public static function create( $name, $content = NULL, $attributes = array() )
 	{
+		$name		= strtolower( $name );
+		try{
+			$attributes	= self::renderAttributes( $attributes );
+
+		}
+		catch( InvalidArgumentException $e ) {
+			throw new RuntimeException( 'Invalid attributes', NULL, $e );
+		}
+		if( $content == NULL || $content == FALSE )													//  no node content defined, not even an empty string
+			if( !in_array( $name, self::$shortTagExcludes ) )										//  node name is allowed to be a short tag
+				return "<".$name.$attributes."/>";													//  build and return short tag
+		return "<".$name.$attributes.">".$content."</".$name.">";									//  build and return full tag
+	}
+
+	protected static function renderAttributes( $attributes = array(), $allowOverride = FALSE )
+	{
 		if( !is_array( $attributes ) )
 			throw new InvalidArgumentException( 'Parameter "attributes" must be an Array.' );
-		$name	= strtolower( $name );
 		$list	= array();
 		foreach( $attributes as $key => $value )
-			if( $value !== NULL && $value !== FALSE )
-#			if( !empty( $value ) )
-				$list[]	= strtolower( $key ).'="'.$value.'"';
-		$attributes	= implode( " ", $list );
-		if( $attributes )
-			$attributes	= " ".$attributes;
-		$unsetContent	= !( $content !== NULL && $content !== FALSE );
-		if( $unsetContent && !in_array( $name, array( 'style', 'div' ) ) )
-			$tag	= "<".$name.$attributes."/>";
-		else
-			$tag	= "<".$name.$attributes.">".$content."</".$name.">";
-		return $tag;
+		{
+			if( empty( $key ) )																		//  no valid attribute key defined
+				continue;																			//  skip this pair
+			$key	= strtolower( $key );
+			if( array_key_exists( $key, $list ) && !$allowOverride )								//  attribute is already defined
+				throw new InvalidArgumentException( 'Attribute "'.$key.'" is already set' );		//  throw exception
+			if( !is_string( $value ) )																//  attribute value has is not even a string
+				continue;																			//  skip this pair
+			if( !preg_match( '/^[a-z0-9:_-]+$/', $key ) )
+				throw new InvalidArgumentException( 'Invalid attribute key' );
+			if( preg_match( '/[^\\\]"/', $value ) )
+				throw new InvalidArgumentException( 'Invalid attribute value' );
+			$list[$key]	= strtolower( $key ).'="'.$value.'"';
+		}
+		$list	= implode( " ", $list );
+		if( $list )
+			$list	= " ".$list;
+		return $list;
 	}
 
 	/**
@@ -112,11 +139,24 @@ class UI_HTML_Tag
 	 *	@param		string		$value			Value of Attribute
 	 *	@return		void
 	 */
-	public function setAttribute( $key, $value = NULL )
+	public function setAttribute( $key, $value = NULL, $strict = TRUE )
 	{
-		if( isset( $this->attributes[$key] ) )
-			unset( $this->attributes[$key] );
-		$this->attributes[$key]	= $value;	
+		if( empty( $key ) )																			//  no valid attribute key defined
+			throw new InvalidArgumentException( 'Key must have content' );							//  throw exception
+		$key	= strtolower( $key );
+		if( array_key_exists( $key, $this->attributes ) && $strict )								//  attribute key already has a value
+			throw new RuntimeException( 'Attribute "'.$key.'" is already set' );			//  throw exception
+		if( !preg_match( '/^[a-z0-9:_-]+$/', $key ) )
+			throw new InvalidArgumentException( 'Invalid key' );
+
+		if( $value == NULL || $value == FALSE )														//  no value available
+			unset( $this->attributes[$key] );														//  remove attribute
+		else
+		{
+			if( preg_match( '/[^\\\]"/', $value ) )													//  detect injection
+				throw new InvalidArgumentException( 'Invalid attribute value' );					//  throw exception
+			$this->attributes[$key]	= $value;														//  set attribute
+		}
 	}
 	
 	/**
