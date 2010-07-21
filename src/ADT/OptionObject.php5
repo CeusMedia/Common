@@ -48,6 +48,9 @@ class ADT_OptionObject implements ArrayAccess, Countable
 	 *	Constructor.
 	 *	@access		public
 	 *	@param		array		$options		Associative Array of options
+	 *	@throws		InvalidArgumentException	if given map is not an array
+	 *	@throws		InvalidArgumentException	if map key is an integer since associative arrays are prefered
+	 *	@todo		allow integer map keys for eg. options defined by constants (which point to integer values, of course)
 	 *	@return		void
 	 */
 	public function __construct( $options = array() )
@@ -112,6 +115,8 @@ class ADT_OptionObject implements ArrayAccess, Countable
 	 *	Returns an Option Value by Option Key.
 	 *	@access		public
 	 *	@param		string		$key			Option Key
+	 *	@param		bool		$throwException	Flag: throw Exception is key is not set, NULL otherwise
+	 *	@throws		OutOfRangeException			if key is not set and $throwException is true
 	 *	@return		mixed
 	 */
 	public function getOption( $key, $throwException = TRUE )
@@ -119,9 +124,8 @@ class ADT_OptionObject implements ArrayAccess, Countable
 		if( !$this->hasOption( $key ) )
 		{
 			if( $throwException )
-				throw new OutOfRangeException( 'Option "'.$key.'" is not defined.' );
-			else
-				return NULL;
+				throw new OutOfRangeException( 'Option "'.$key.'" is not defined' );
+			return NULL;
 		}
 		return $this->options[$key];
 	}

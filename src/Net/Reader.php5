@@ -153,7 +153,7 @@ class Net_Reader
 		$code			= $curl->getStatus( Net_CURL::STATUS_HTTP_CODE );
 	
 		if( !in_array( $code, array( '200', '301', '303', '304', '307' ) ) )
-			throw new RuntimeException( 'URL "'.$this->url.'" can not be accessed (HTTP Code '.$code.').', $code );
+			throw new RuntimeException( 'URL "'.$this->url.'" can not be accessed (HTTP Code '.$code.')', $code );
 
 		return $response;
 	}

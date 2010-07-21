@@ -47,11 +47,32 @@ class ADT_List_Dictionary implements ArrayAccess, Countable, Iterator
 	/**	@var		array		$position	Iterator Position */
 	private $position	= 0;
 
+	/**
+	 *	Constructor.
+	 *	@access		public
+	 *	@param		array		$array		Map if initial pairs
+	 *	@return		void
+	 */
 	public function __construct( $array = array() )
 	{
 		if( is_array( $array ) && count( $array ) )
 			foreach( $array as $key => $value )
 				$this->set( $key, $value );
+	}
+
+	/**
+	 *	Return session pairs as string.
+	 *	@access		public
+	 *	@return		string
+	 */
+	public function __toString()
+	{
+		$list	= array();
+		foreach( $this->pairs as $key => $value )
+			$list[]	= "(".$key."=>".$value.")";
+		$list	= implode( ", ", $list );
+		$list	= "{".$list."}";
+		return $list;
 	}
 
 	/**
@@ -270,18 +291,6 @@ class ADT_List_Dictionary implements ArrayAccess, Countable, Iterator
 	public function valid()
 	{
 		return $this->position < $this->count();
-	}
-
-	public function __toString()
-	{
-		$list	= array();
-		foreach( $this->pairs as $key => $value )
-		{
-			$list[]	= "(".$key."=>".$value.")";
-		}
-		$list	= implode( ", ", $list );
-		$list	= "{".$list."}";
-		return $list;
 	}
 }
 ?>
