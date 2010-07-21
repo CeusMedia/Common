@@ -1,0 +1,229 @@
+<?php
+/**
+ *	Visualisation of Exception.
+ *
+ *	Copyright (c) 2010 Christian Würker (ceus-media.de)
+ *
+ *	This program is free software: you can redistribute it and/or modify
+ *	it under the terms of the GNU General Public License as published by
+ *	the Free Software Foundation, either version 3 of the License, or
+ *	(at your option) any later version.
+ *
+ *	This program is distributed in the hope that it will be useful,
+ *	but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *	GNU General Public License for more details.
+ *
+ *	You should have received a copy of the GNU General Public License
+ *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ *	@category		cmClasses
+ *	@package		UI.HTML.Exception
+ *	@author			Christian Würker <christian.wuerker@ceus-media.de>
+ *	@copyright		2010 Christian Würker
+ *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@link			http://code.google.com/p/cmclasses/
+ *	@since			0.7.0
+ *	@version		$Id$
+ */
+/**
+ *	Visualisation of Exception Stack Trace.
+ *	@category		cmClasses
+ *	@package		UI.HTML.Exception
+ *	@author			Christian Würker <christian.wuerker@ceus-media.de>
+ *	@copyright		2010 Christian Würker
+ *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@link			http://code.google.com/p/cmclasses/
+ *	@since			0.7.0
+ *	@version		$Id$
+ */
+class UI_HTML_Exception_View
+{
+	/**
+	 *	Prints exception view.
+	 *	@access		public
+	 *	@param		Exception	$exception		Exception
+	 *	@return		void
+	 */
+	public static function display( Exception $e )
+	{
+		print self::render( $e );
+	}
+
+	public static function render( Exception $e )
+	{
+		$list	= new UI_HTML_Element_List_Definition();
+		$list->setClass( 'exception' );
+		$list->add( 'Type', get_class( $e ) );
+		$list->add( 'Message', $e->getMessage() );
+		$list->add( 'Code', $e->getCode() );
+		$list->add( 'File', self::trimRootPath( $e->getFile() ) );
+		$list->add( 'Line', $e->getLine() );
+		$list->add( 'Trace', self::renderTrace( $e ) );
+		if( $e->getPrevious() )
+			$list->add( 'Previous', self::render( $e->getPrevious() ) );
+		return $list->render();
+	}
+
+	/**
+	 *	Renders an argument.
+	 *	@access		protected
+	 *	@static
+	 *	@param		array		$argument		Array to render
+	 *	@return		string
+	 */
+	protected static function renderArgument( $argument )
+	{
+		switch( gettype( $argument ) )
+		{
+			case 'NULL':																			//  handle NULL
+				return '<em>NULL</em>';
+			case 'boolean':																			//  handle boolean
+				return $argument ? "<em>TRUE</em>" : "<em>FALSE</em>";
+			case 'array':																			//  handle array
+				return self::renderArgumentArray( $argument );
+			case 'object':																			//  handle object
+				return get_class( $argument );
+			default:																				//  handle integer/double/float/real/resource/string
+				return self::secureString( (string) $argument );
+		}
+	}
+
+	/**
+	 *	Renders an argument array.
+	 *	@access		protected
+	 *	@static
+	 *	@param		array		$array			Array to render
+	 *	@return		string
+	 */
+	protected static function renderArgumentArray( $array )
+	{
+		$list	= new UI_HTML_Element_List_Definition();
+		$block	= new UI_HTML_Element_Blockquote( $list );
+		foreach( $array as $key => $value )
+		{
+			$type	= self::renderArgumentType( $value );
+			$string	= self::renderArgument( $value );
+			$list->add( $type." ".$key, $string );
+		}
+		return '{'.$block->render().'}';
+	}
+
+	/**
+	 *	Renders formatted argument type.
+	 *	@access		protected
+	 *	@static
+	 *	@param		string		$argument		Argument to render type for
+	 *	@return		string
+	 */
+	protected static function renderArgumentType( $argument )
+	{
+		$type	= gettype( $argument );
+		$type	= ucFirst( strtolower( $type ) );
+		$type	= new UI_HTML_Element_Span( $type );
+		$type->addClass( 'type' );
+		return $type->render();
+	}
+
+	/**
+	 *	Renders exception trace HTML code.
+	 *	@access		private
+	 *	@static
+	 *	@param		Exception	$exception		Exception
+	 *	@return		string
+	 */
+	public static function renderTrace( Exception $exception )
+	{
+		$i	= 0;
+		$j	= 0;
+		$list	= new UI_HTML_Element_List_Ordered();
+		foreach( $exception->getTrace() as $key => $trace )
+		{
+			$step	= self::renderTraceStep( $trace, $i++, $j );
+			if( !$step )
+				continue;
+			$list->add( new UI_HTML_Element_List_Item( $step ) );
+			$j++;
+		}
+		$list->addClass( 'trace' );
+		return $list->render();
+	}
+
+	/**
+	 *	Builds HTML Code of one Trace Step.
+	 *	@access		private
+	 *	@static
+	 *	@param		array		$trace		Trace Step Data
+	 *	@param		int			$i			Trace Step Number
+	 *	@return		string
+	 */
+	private static function renderTraceStep( $trace, $i, $j )
+	{
+		if( $j == 0 )
+			if( isset( $trace['function'] ) )
+				if( in_array( $trace['function'], array( "eval", "throwException" ) ) )				//  Exception was thrown using throwException
+					return "";
+
+		$content	= "";
+		if( isset( $trace["file"] ) )
+			$content	.= self::trimRootPath( $trace["file"] )."(".$trace["line"]."): ";
+		if( array_key_exists( "class", $trace ) && array_key_exists( "type", $trace ) )
+			$content	.= $trace["class"].$trace["type"];
+		if( array_key_exists( "function", $trace ) )
+		{
+			$block	= NULL;
+			if( array_key_exists( "args", $trace ) && count( $trace['args'] ) )
+			{
+				$argList	= new UI_HTML_Element_List_Definition();
+				$block		= new UI_HTML_Element_Blockquote( $argList );
+				foreach( $trace["args"] as $argument )
+				{
+					$type	= self::renderArgumentType( $argument );
+					$string	= self::renderArgument( $argument );
+					$argList->add( $type, $string );
+				}
+				$block	= $block->render();
+			}
+			$content	.= $trace["function"]."(".$block.')';
+		}
+		return $content;
+	}
+
+	/**
+	 *	Applies filters on content string to avoid injections.
+	 *	@access		public
+	 *	@static
+	 *	@param		string		$string			String to secure
+	 *	@param		integer		$maxLength		Number of characters to show at most
+	 *	@param		string		$mask			Mask to show for cutted content
+	 *	@return		string
+	 */
+	protected function secureString( $string, $maxLength = 0, $mask = '&hellip;' )
+	{
+		if( $maxLength && strlen( $string ) > $maxLength )
+			$value	= Alg_StringTrimmer::trimCentric( $string, $maxLength, $mask );
+//		$string	= addslashes( $string );
+		$string	= htmlentities( $string );
+		return $string;
+	}
+
+	/**
+	 *	Removes Document Root in File Names.
+	 *	@access		protected
+	 *	@static
+	 *	@param		string		$fileName		File Name to clear
+	 *	@return		string
+	 */
+	protected static function trimRootPath( $fileName )
+	{
+		$rootPath	= isset( $_SERVER['DOCUMENT_ROOT'] ) ? $_SERVER['DOCUMENT_ROOT'] : "";
+		if( !$rootPath || !$fileName )
+			return;
+		$fileName	= str_replace( '\\', "/", $fileName );
+		$cut		= substr( $fileName, 0, strlen( $rootPath ) );
+		if( $cut == $rootPath )
+			$fileName	= substr( $fileName, strlen( $rootPath ) );
+		return $fileName;
+	}
+}
+?>
