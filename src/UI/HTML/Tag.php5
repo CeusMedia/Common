@@ -49,7 +49,8 @@ class UI_HTML_Tag
 	public static $shortTagExcludes	= array(
 		'style',
 		'script',
-		'div'
+		'div',
+		'textarea'
 	);
 
 	/**
@@ -95,7 +96,6 @@ class UI_HTML_Tag
 		$name		= strtolower( $name );
 		try{
 			$attributes	= self::renderAttributes( $attributes );
-
 		}
 		catch( InvalidArgumentException $e ) {
 			throw new RuntimeException( 'Invalid attributes', NULL, $e );
@@ -118,7 +118,7 @@ class UI_HTML_Tag
 			$key	= strtolower( $key );
 			if( array_key_exists( $key, $list ) && !$allowOverride )								//  attribute is already defined
 				throw new InvalidArgumentException( 'Attribute "'.$key.'" is already set' );		//  throw exception
-			if( !is_string( $value ) )																//  attribute value has is not even a string
+			if( !( is_string( $value ) || is_int( $value ) ) )										//  attribute is neither string nor integer
 				continue;																			//  skip this pair
 			if( !preg_match( '/^[a-z0-9:_-]+$/', $key ) )
 				throw new InvalidArgumentException( 'Invalid attribute key' );

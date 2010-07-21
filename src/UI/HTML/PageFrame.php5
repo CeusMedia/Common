@@ -119,7 +119,9 @@ class UI_HTML_PageFrame
 	 */
 	public function addJavaScript( $uri, $type = NULL, $charset = NULL )
 	{
-		$typeDefault	= isset( $this->metaTags["http-equiv:content-script-type"] ) ? NULL : "text/javascript";
+		$typeDefault	= 'text/javascript';
+		if( isset( $this->metaTags["http-equiv:content-script-type"] ) )
+			$typeDefault	= $this->metaTags["http-equiv:content-script-type"]['content'];
 		$scriptData	= array(
 			'type'		=> $type ? $type : $typeDefault,
 			'charset'	=> $charset ? $charset : NULL,
@@ -156,7 +158,9 @@ class UI_HTML_PageFrame
 	 */
 	public function addStylesheet( $uri, $media = "all", $type = NULL )
 	{
-		$typeDefault	= isset( $this->metaTags["http-equiv:content-style-type"] ) ? NULL : "text/css";
+		$typeDefault	= 'text/css';
+		if( isset( $this->metaTags["http-equiv:content-style-type"] ) )
+			$typeDefault	= $this->metaTags["http-equiv:content-style-type"]['content'];
 		$styleData	= array(
 			'rel'		=> "stylesheet",
 			'type'		=> $type ? $type : $typeDefault,
@@ -176,13 +180,13 @@ class UI_HTML_PageFrame
 		$tagsHead	= array();
 		$tagsBody	= array();
 
+		if( $this->baseHref )
+			$tagsHead[]	= UI_HTML_Tag::create( 'base', NULL, array( 'href' => $this->baseHref ) );
 		foreach( $this->metaTags as $attributes )
 			$tagsHead[]	= UI_HTML_Tag::create( 'meta', NULL, $attributes );
 
 		if( $this->title )
 			$tagsHead[]	= UI_HTML_Tag::create( 'title', $this->title );
-		if( $this->baseHref )
-			$tagsHead[]	= UI_HTML_Tag::create( 'base', NULL, array( 'href' => $this->baseHref ) );
 
 		if( $this->heading )
 			$tagsBody[]	= UI_HTML_Tag::create( 'h1', $this->heading );
