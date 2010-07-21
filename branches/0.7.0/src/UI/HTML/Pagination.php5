@@ -52,6 +52,8 @@ class UI_HTML_Pagination extends ADT_OptionObject
 	 */
 	public function __construct( $options = array() )
 	{
+		if( !is_array( $options ) )
+			throw new InvalidArgumentException( 'Option map is not an array' );
 		$defaultOptions	= array(
 			'uri'			=> "./",
 			'param'			=> array(),
@@ -76,11 +78,8 @@ class UI_HTML_Pagination extends ADT_OptionObject
 			'textMore'		=> "&minus;"
 		);
 		$options	= array_merge( $defaultOptions, $options );
-		
 		foreach( $options as $key => $value )
 			$this->setOption( $key, $value );
-		
-	
 	}
 	
 	/**
