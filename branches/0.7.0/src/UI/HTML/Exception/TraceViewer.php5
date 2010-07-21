@@ -71,13 +71,11 @@ class UI_HTML_Exception_TraceViewer
 	 */
 	public static function buildTrace( Exception $exception, $breakMode = 0 )
 	{
-
-		$content	= '<p style="font-family: monospace;"><span style="font-weight: bold; color: #000000;">An exception was thrown.<br/></span>';
-		$content	.= "Type: ".get_class( $exception )."<br/>";
-		$content	.= "Message: ".$exception->getMessage()."<br/>";
-		$content	.= "Code: ".$exception->getCode()."<br/>";
-		$content	.= "File: ".self::trimRootPath( $exception->getFile() )."<br/>";
-		$content	.= "Line: ".$exception->getLine()."<br/>";
+		$content	= 'Type: '.get_class( $exception ).'<br/>';
+		$content	.= 'Message: '.$exception->getMessage().'<br/>';
+		$content	.= 'Code: '.$exception->getCode()."<br/>";
+		$content	.= 'File: '.self::trimRootPath( $exception->getFile() ).'<br/>';
+		$content	.= 'Line: '.$exception->getLine().'<br/>';
 		$content	.= 'Trace:<br/><span style="color: #0000FF;">';
 		$i	= 0;
 		$j	= 0;
@@ -90,9 +88,15 @@ class UI_HTML_Exception_TraceViewer
 				$j++;
 			}
 		}
-		$content	.= "#$j {main}<br/>";
-		$content	.= "</span></p>";
-		return $content;
+		$content	.= '#'.$j.' {main}<br/></span>';
+		if( $exception->getPrevious() )
+		{
+			$view	= self::buildTrace( $exception->getPrevious(), $breakMode );
+			$block	= UI_HTML_Tag::create( 'blockquote', $view );
+			$content	.= 'Previous: '.$block.'<br/>';
+		}
+		return UI_HTML_Tag::create( 'p', $content, array( 'style' => "font-family: monospace" ) );
+		 $content;
 	}
 	
 	/**
@@ -118,6 +122,10 @@ class UI_HTML_Exception_TraceViewer
 			$indent		= str_repeat( "&nbsp;", 2 + strlen( $j ) );
 			$break		= "<br/>".$indent;
 		}
+		if( $breakMode == 3 )
+		{
+			$break		= "";#_2_<br/>";
+		}
 		$funcBreak	= $break;
 		if( $breakMode == 1 )
 			$funcBreak	= "<br/>";
@@ -137,72 +145,86 @@ class UI_HTML_Exception_TraceViewer
 					$argList	= array();
 					foreach( $trace["args"] as $argument )
 					{
-						$type	= gettype( $argument );
-						$value	= $argument;
-						$arg	= ucFirst( $type ).": ";
-						switch( $type )
-						{
-							case 'boolean':
-								$arg	.= $type ? "TRUE" : "FALSE";
-								break;
-							case 'integer':
-							case 'double':
-							case 'float':
-								if( settype( $value, "string" ) )
-									$arg	.= strlen( $value ) <= 78 ? $value : substr( $value, 0, 75 )."...";
-								else
-									$arg	.= $type == "integer" ? "? integer ?" : "? double or float ?";
-								break;
-							case 'string':
-								$arg	.= strlen( $value ) <= 78 ? '"'.$value.'"' : '"'.substr( $value, 0, 75 ).'..."';
-								break;
-							case 'array':
-								$arg	.= "Array";#self::convertArrayToString( $argument, $breakMode );
-								break;
-							case 'object':
-								$arg	.= get_class( $argument );
-								break;
-							case 'NULL':
-								break;
-							case 'resource':
-								$arg	.= (string) $value;
-							default:
-								$arg	.= (string) $value;
-								break;
-						}
-						$argList[]	= $arg;
+						$type	= ucFirst( gettype( $argument ) );
+						$string	= self::convertArgumentToString( $argument, $breakMode );
+						$argList[]	= $type.": ".$string;
 					}
 					$argBreak	= $breakMode ? $break.$indent.$indent : " ";
 					$arguments	= implode( ",".$argBreak, $argList );
+					if( $breakMode == 3 )
+					{
+						$arguments	= self::blockquote( implode( ",<br/>", $argList ) );
+					}
 					$content	.= $argBreak.$arguments.$break;
 				}
-			}			
+			}
 			$content	.= ")<br/>";
 		}
 		return $content;
 	}
-	
+
+	protected static function blockquote( $content )
+	{
+		return UI_HTML_Tag::create( 'blockquote', $content, array( 'style' => 'margin: 0px 30px' ) );
+	}
+
+	protected static function convertArgumentToString( $argument, $breakMode, $level = 0 )
+	{
+		$type	= gettype( $argument );
+		$value	= $argument;
+		switch( $type )
+		{
+			case 'boolean':
+				return $type ? "TRUE" : "FALSE";
+			case 'integer':
+			case 'double':
+			case 'float':
+			case 'real':
+				return htmlentities( (string) $value );
+			case 'string':
+				if( strlen( $value ) > 70 )
+					$value	= Alg_StringTrimmer::trimCentric( $string, 70, '...' );
+				return '"'.htmlentities($value ).'"';
+			case 'array':
+				return self::convertArrayToString( $argument, $breakMode, $level );
+			case 'object':
+				return get_class( $argument );
+			case 'NULL':
+				break;
+			case 'resource':
+				return htmlentities( (string) $value );
+			default:
+				return htmlentities( (string) $value );
+		}
+	}
+
 	/**
 	 *	Converts Array to String.
-	 *	@access		private
+	 *	@access		protected
 	 *	@static
 	 *	@param		array		$array			Array to convert to String
 	 *	@return		string
 	 */
-	private static function convertArrayToString( $array, $breakMode )
+	protected static function convertArrayToString( $array, $breakMode, $level = 1 )
 	{
 		foreach( $array as $key => $value )
 		{
-			if( is_array( $value ) )
-				$value	= self::convertArrayToString( $value );
-			$list[]	= $key.":".$value;
+			$string	= self::convertArgumentToString( $value, $breakMode, $level+1 );
+			$list[]	= $key.":".$string;
 		}
-#		if( $breakMode == 2 )
-#		{
-#			$indent	= str_repeat( "&nbsp;", 3 );
-#			return "(<br/>".$indent.$indent.$indent.$indent.implode( ",<br/>".$indent.$indent.$indent.$indent, $list )."<br/>".$indent.$indent.$indent.")";
-#		}
-		return "(".implode( ", ", $list ).")";
+		$block	= implode( ", ", $list );
+		if( $breakMode == 2 )
+		{
+			$level	= str_repeat( "&nbsp;", 3 * $level );
+			$indent	= str_repeat( "&nbsp;", 3 );
+			$list	= implode( ",<br/>".$level.$indent.$indent.$indent.$indent, $list );
+			$block	= "<br/>".$level.$indent.$indent.$indent.$indent.$list."<br/>".$level.$indent.$indent.$indent;
+		}
+		if( $breakMode == 3 )
+		{
+			$block	= self::blockquote( implode( ',<br/>', $list ) );
+		}
+		return '{'.$block.'}';
 	}
 
 	/**
