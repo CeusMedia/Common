@@ -79,8 +79,8 @@ class Database_PDO_TableReader
 	/**
 	 *	Returns count of all entries of this table covered by conditions.
 	 *	@access		public
-	 *	@param		array		$conditions		Array of condition strings
-	 *	@return		int
+	 *	@param		array		$conditions		Map of columns and values to filter by
+	 *	@return		integer
 	 */
 	public function count( $conditions = array() )
 	{
@@ -89,7 +89,22 @@ class Database_PDO_TableReader
 		$query	= 'SELECT COUNT(`'.$this->primaryKey.'`) as count FROM '.$this->getTableName().$conditions;
 		$result	= $this->dbc->query( $query );
 		$count	= $result->fetch( $this->getFetchMode() );
-		return $count['count'];
+		switch( $this->fetchMode )
+		{
+			case PDO::FETCH_NUM:
+			case PDO::FETCH_BOTH:
+				return $count[0];
+			case PDO::FETCH_INTO:
+			case PDO::FETCH_LAZY:
+			case PDO::FETCH_OBJ:
+			case PDO::FETCH_SERIALIZE:
+				return $count->count;
+			case PDO::FETCH_ASSOC:
+			case PDO::FETCH_NAMED:
+				return $count['count'];
+			default:
+				throw new RuntimeException( 'Unsupported fetch mode' );
+		}
 	}
 
 	/**
