@@ -27,8 +27,12 @@ class UI_HTML_Element_List_Unordered extends UI_HTML_Element_Abstract
 	protected $items		= array();
 	protected $nodeName		= 'ul';
 
-	public function __construct()
+	public function __construct( $items = array() )
 	{
+		if( !is_array( $items ) )
+			throw new InvalidArgumentException( 'Must be an array' );
+		foreach( $items as $item )
+			$this->add( $item );
 	}
 
 	public function add( $item )

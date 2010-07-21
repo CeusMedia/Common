@@ -80,7 +80,7 @@ abstract class UI_HTML_Element_Abstract
 		{
 			if( $item instanceof UI_HTML_Element_Abstract )
 				$item	= $item->render();
-			if( !is_string( $item ) )
+			if( !( is_string( $item ) || is_int( $item ) || is_float( $item ) ) )
 				throw new InvalidArgumentException( 'Must be String or extend UI_HTML_Element_Abstract' );
 			$list[]	= $item;
 		}

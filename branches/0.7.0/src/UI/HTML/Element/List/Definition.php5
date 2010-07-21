@@ -38,7 +38,11 @@ class UI_HTML_Element_List_Definition extends UI_HTML_Element_Abstract
 	public function __construct( $map = array() )
 	{
 		foreach( $map as $key => $value )
+		{
+			if( is_array( $value ) )
+				$value	= (string) new ADT_List_Dictionary( $value );
 			$this->add( $key, $value );
+		}
 	}
 
 	/**
@@ -55,15 +59,14 @@ class UI_HTML_Element_List_Definition extends UI_HTML_Element_Abstract
 	{
 		if( empty( $term ) )
 			throw new InvalidArgumentException( 'Term cannot be empty' );
-		if( is_string( $term ) )
+		if( is_string( $term ) || is_int( $term ) || is_float( $term ) )
 			$term	= new UI_HTML_Element_List_Definition_Term( $term );
 		if( !( $term instanceof UI_HTML_Element_List_Definition_Term ) )
 			throw new InvalidArgumentException( 'Term has to be UI_HTML_Element_List_Definition_Term or string' );
-		if( is_string( $definition ) )
+		if( is_string( $definition ) || is_int( $definition ) || is_float( $definition ) )
 			$definition	= new UI_HTML_Element_List_Definition_Definition( $definition );
 		if( !( $definition instanceof UI_HTML_Element_List_Definition_Definition ) )
-			throw new InvalidArgumentException( 'Definition has to be UI_HTML_Element_List_Definition_Definition or string' );
-
+			throw new InvalidArgumentException( 'Definition has to be UI_HTML_Element_List_Definition_Definition or string, ' );
 		$this->items[] = $term->render().$definition->render();
 		return $this;
 	}
