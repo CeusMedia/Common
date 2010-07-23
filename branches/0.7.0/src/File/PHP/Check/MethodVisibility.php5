@@ -53,7 +53,7 @@ class File_PHP_Check_MethodVisibility
 	public function __construct( $fileName )
 	{
 		if( !file_exists( $fileName ) )
-			throw new RuntimeException( "File '".$fileName."' is not existing." );
+			throw new RuntimeException( 'File "'.$fileName.'" is not existing' );
 		$this->fileName	= $fileName;
 		$this->checked	= FALSE;
 	}
@@ -84,7 +84,7 @@ class File_PHP_Check_MethodVisibility
 	public function getMethods()
 	{
 		if( !$this->checked )
-			throw new Exception( "Not checked yet." );
+			throw new Exception( 'Not checked yet' );
 		return $this->methods;
 	}
 }

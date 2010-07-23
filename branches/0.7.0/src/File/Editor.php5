@@ -46,6 +46,9 @@ import( 'de.ceus-media.file.Writer' );
  */
 class File_Editor extends File_Reader
 {
+	/**	@var		File_Writer	$writer			Instance of file writer class */
+	protected $writer;
+
 	/**
 	 *	Constructor. Creates File if not existing and Creation Mode is set.
 	 *	@access		public
@@ -71,7 +74,12 @@ class File_Editor extends File_Reader
 	{
 		if( !$groupName )
 			throw new InvalidArgumentException( 'No Group Name given.' );
-		return chGrp( $this->fileName, $groupName );
+		if( !$this->exists( $this->fileName ) )
+			throw new RuntimeException( 'File "'.$this->fileName.'" is not existing' );
+		if( !$this->writer->isWritable( $this->fileName ) )
+			throw new RuntimeException( 'File "'.$this->fileName.'" is not writable' );
+		if( !@chGrp( $this->fileName, $groupName ) )
+			throw new RuntimeException( 'Only a superuser can change file group' );
 	}
 	
 	/**
@@ -90,9 +98,13 @@ class File_Editor extends File_Reader
 			throw new InvalidArgumentException( 'Mode must be at most 4 Digits.' );
 		if( strlen( $mode ) == 3 )
 			$mode	= (int) "0".$mode;
+		if( !$this->exists( $this->fileName ) )
+			throw new RuntimeException( 'File "'.$this->fileName.'" is not existing' );
+		if( !$this->writer->isWritable( $this->fileName ) )
+			throw new RuntimeException( 'File "'.$this->fileName.'" is not writable' );
 		return chMod( $this->fileName, $mode );
 	}
-	
+
 	/**
 	 *	Sets Owner of current File.
 	 *	@access		public
@@ -103,7 +115,14 @@ class File_Editor extends File_Reader
 	{
 		if( !$userName )
 			throw new InvalidArgumentException( 'No User Name given.' );
-		return chOwn( $this->fileName, $userName );
+		if( !$this->exists( $this->fileName ) )
+			throw new RuntimeException( 'File "'.$this->fileName.'" is not existing' );
+#		if( !$this->isOwner() )
+#			throw new RuntimeException( 'File "'.$this->fileName.'" is not owned by current user' );
+		if( !$this->writer->isWritable( $this->fileName ) )
+			throw new RuntimeException( 'File "'.$this->fileName.'" is not writable' );
+		if( !@chOwn( $this->fileName, $userName ) )
+			throw new RuntimeException( 'Only a superuser can change file owner' );
 	}
 	
 	/**

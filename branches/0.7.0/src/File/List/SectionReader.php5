@@ -41,8 +41,8 @@ import ("de.ceus-media.file.Reader");
 class File_List_SectionReader
 {
 	protected $list	= array();
-	public static $commentPattern	= '^[#|-|*|:|;]{1}';
-	public static $sectionPattern	= '^([){1}([a-z0-9_=.,:;# ])+(]){1}$';
+	public static $commentPattern	= '/^[#|-|*|:|;]/';
+	public static $sectionPattern	= '/^\[([a-z0-9_=.,:;# ])+\]$/i';
 
 	/**
 	 *	Constructor.
@@ -81,19 +81,17 @@ class File_List_SectionReader
 			$line = trim( $line );
 			if( !$line )
 				continue;
-			if( ereg( self::$commentPattern, $line ) )
+			if( preg_match( self::$commentPattern, $line ) )
 				continue;
 					
-			if( ereg( self::$sectionPattern, $line ) )
+			if( preg_match( self::$sectionPattern, $line ) )
 			{
 				$section = substr( $line, 1, -1 );
 				if( !isset( $list[$section] ) )
 					$list[$section]	= array();
 			}
 			else if( $section )
-			{
 				$list[$section][]	= $line;
-			}
 		}
 		return $list;
 	}
