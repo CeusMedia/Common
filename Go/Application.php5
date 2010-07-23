@@ -27,8 +27,9 @@ class Go_Application
 			isset( $_SERVER['SHELL'] ) ? passthru( "clear" ) : exec( "command /C cls" );			//  try to clear screen (not working on Windows!?)
 		print( "\n".$this->messages['title'] );														//  print tool title
 
+#		Go_Library::$configFile	= $this->configFile;
 		$this->basePath		= dirname( __FILE__ ).'/';
-		$this->configFile	= dirname( dirname( __FILE__ ) ).'/'.$this->configFile;					//  point to Configuration File
+		$this->configFile	= Go_Library::getConfigFile();											//  point to Configuration File
 
 		$arguments	= array_slice( $_SERVER['argv'], 1 );											//  get given arguments
 
@@ -71,7 +72,6 @@ class Go_Application
 				$this->showUsage();
 				break;
 			case 'create':
-				$config		= parse_ini_file( $this->configFile, TRUE );
 				if( count( $arguments ) < 2 )
 					throw new InvalidArgumentException( $this->messages['subject_create_invalid'] );
 				$subject	= strtolower( $arguments[1] );
@@ -84,10 +84,10 @@ class Go_Application
 						switch( $tool )
 						{
 							case 'creator':
-								new Go_DocCreator( array_slice( $arguments, 3 ), $this->configFile, $config );
+								new Go_DocCreator( array_slice( $arguments, 3 ) );
 								break;
 							case 'phpdoc':
-								new Go_PhpDocumentor( array_slice( $arguments, 3 ), $this->configFile, $config );
+								new Go_PhpDocumentor( array_slice( $arguments, 3 ) );
 								break;
 							default:
 								throw new InvalidArgumentException( $this->messages['tool_create_doc'] );
@@ -101,7 +101,6 @@ class Go_Application
 				}
 				break;
 			case 'test':
-				$config		= parse_ini_file( $this->configFile, TRUE );
 				if( count( $arguments ) < 2 )
 					throw new InvalidArgumentException( $this->messages['subject_test_invalid'] );
 				$subject	= strtolower( $arguments[1] );

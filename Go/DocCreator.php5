@@ -1,8 +1,9 @@
 <?php
 class Go_DocCreator
 {
-	public function __construct( $arguments, $configFile, $config )
+	public function __construct( $arguments )
 	{
+		$config		= Go_Library::getConfigData();
 		require_once dirname( dirname( __FILE__ ) ).'/autoload.php5';
 		$path	= $config['docCreator']['pathTool'];
 		if( !file_exists( $path ) )

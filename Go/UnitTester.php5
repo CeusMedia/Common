@@ -6,7 +6,7 @@ class Go_UnitTester
 	{
 		if( !empty( $className ) )
 			return $this->runTestOfClass( trim( $className ) );
-		 $this->runnAllTests();
+		 $this->runAllTests();
 	}
 
 	protected function runAllTests()
@@ -21,6 +21,7 @@ class Go_UnitTester
 		remark( "\n" );
 
 		$command	= "phpunit";
+		$config		= Go_Library::getConfigData();
 		foreach( $config['unitTestOptions'] as $key => $value )
 			$command	.= " --".$key." ".$value;
 		print( "\nRunning Unit Tests:\n\r" );

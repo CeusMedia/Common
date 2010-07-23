@@ -1,6 +1,18 @@
 <?php
 class Go_Library
 {
+	public static $configFile	= 'cmClasses.ini';
+
+	public function getConfigData()
+	{
+		return parse_ini_file( self::getConfigFile(), TRUE );
+	}
+
+	public static function getConfigFile()
+	{
+		return dirname( dirname( __FILE__ ) ).'/'.self::$configFile;
+	}
+
 	public function listClasses( $path )
 	{
 		$count	= 0;
