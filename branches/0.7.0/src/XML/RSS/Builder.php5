@@ -121,7 +121,7 @@ class XML_RSS_Builder
 
 		$tree = new XML_DOM_Node( 'rss' );
 		$tree->setAttribute( 'version', '2.0' );
-		$channel	=& new XML_DOM_Node( 'channel' );
+		$channel	= new XML_DOM_Node( 'channel' );
 		
 		//  --  CHANNEL  ELEMENTS  --  //
 		foreach( $this->channelElements as $element => $required )
@@ -133,7 +133,7 @@ class XML_RSS_Builder
 
 		if( isset( $this->channel['imageUrl'] ) )
 		{
-			$image	=& new XML_DOM_Node( 'image' );
+			$image	= new XML_DOM_Node( 'image' );
 			$image->addChild( new XML_DOM_Node( 'url', $this->channel['imageUrl'] ) );
 			if( isset( $this->channel['imageTitle'] ) )
 				$image->addChild( new XML_DOM_Node( 'title', $this->channel['imageTitle'] ) );
@@ -150,7 +150,7 @@ class XML_RSS_Builder
 		}			
 		if( isset( $this->channel['textInputTitle'] ) )
 		{
-			$image	=& new XML_DOM_Node( 'textInput' );
+			$image	= new XML_DOM_Node( 'textInput' );
 			$image->addChild( new XML_DOM_Node( 'title', $this->channel['textInputTitle'] ) );
 			if( isset( $this->channel['textInputDescription'] ) )
 				$image->addChild( new XML_DOM_Node( 'description', $this->channel['textInputDescription'] ) );
@@ -164,7 +164,7 @@ class XML_RSS_Builder
 		//  --  ITEMS  --  //
 		foreach( $this->items as $item )
 		{
-			$node	=& new XML_DOM_Node( 'item' );
+			$node	= new XML_DOM_Node( 'item' );
 			foreach( $this->itemElements as $element => $required )
 			{
 				$value	= isset( $item[$element] ) ? $item[$element] : NULL;
