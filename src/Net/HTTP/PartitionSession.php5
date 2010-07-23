@@ -53,7 +53,7 @@ class Net_HTTP_PartitionSession extends ADT_List_Dictionary
 	public function __construct( $partitionName, $sessionName = "sid" )
 	{
 		session_name( $sessionName );
-		session_start();
+		@session_start();
 		$this->session	=& $_SESSION;
 		$ip = getEnv( 'REMOTE_ADDR' );
 		if( !isset( $this->session['ip'] ) )
