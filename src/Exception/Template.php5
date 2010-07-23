@@ -26,11 +26,6 @@
  *	@since			03.03.2007
  *	@version		$Id$
  */
-/**   not all labels used constant */
-if( !defined( 'EXCEPTION_TEMPLATE_LABELS_NOT_USED' ) )
-	define( 'EXCEPTION_TEMPLATE_LABELS_NOT_USED', 100 );
-if( !defined( 'EXCEPTION_TEMPLATE_FILE_NOT_FOUND' ) )
-	define( 'EXCEPTION_TEMPLATE_FILE_NOT_FOUND', 101 );
 /**
  *	Exception for Templates.
  *	@category		cmClasses
@@ -45,10 +40,15 @@ if( !defined( 'EXCEPTION_TEMPLATE_FILE_NOT_FOUND' ) )
  */
 class Exception_Template extends RuntimeException
 {
+	const FILE_NOT_FOUND		= 0;
+	const FILE_LABELS_MISSING	= 1;
+	const LABELS_MISSING		= 2;
+
 	/**	@var		string		$messages		Map of Exception Messages, can be overwritten statically */
 	public static $messages	= array(
-		EXCEPTION_TEMPLATE_LABELS_NOT_USED	=> 'Template "%1$s" is missing %2$s',
-		EXCEPTION_TEMPLATE_FILE_NOT_FOUND	=> 'Template File "%1$s" is missing',
+		self::FILE_NOT_FOUND		=> 'Template File "%1$s" is missing',
+		self::FILE_LABELS_MISSING	=> 'Template "%1$s" is missing %2$s',
+		self::LABELS_MISSING		=> 'Template is missing %1$s',
 	);
 
 	/**	@var		array		$labels			Holds all not used and non optional labels */
@@ -64,21 +64,28 @@ class Exception_Template extends RuntimeException
 	 *	@param		mixed		$data			Some additional data
 	 *	@return		void
 	 */
-	public function __construct( $code, $fileName, $data = NULL )
+	public function __construct( $code, $fileName, $data = array() )
 	{
+		$tagList	= '{'.implode( ', ', $data ).'}';
 		switch( $code )
 		{
-			case EXCEPTION_TEMPLATE_LABELS_NOT_USED:
-				$this->labels	= $data;
-				$message		= self::$messages[EXCEPTION_TEMPLATE_LABELS_NOT_USED];
-				$message		= sprintf( $message, $fileName, implode( ", ", $data ) );
-				parent::__construct( $message, EXCEPTION_TEMPLATE_LABELS_NOT_USED );
-				break;
-			case EXCEPTION_TEMPLATE_FILE_NOT_FOUND:
+			case self::FILE_NOT_FOUND:
 				$this->filePath	= $data;
-				$message		= self::$messages[EXCEPTION_TEMPLATE_FILE_NOT_FOUND];
-				$message		= sprintf( $message, $fileName, $data );
-				parent::__construct( $message, EXCEPTION_TEMPLATE_FILE_NOT_FOUND );
+				$message		= self::$messages[self::FILE_NOT_FOUND];
+				$message		= sprintf( $message, $fileName );
+				parent::__construct( $message, self::FILE_NOT_FOUND );
+				break;
+			case self::FILE_LABELS_MISSING:
+				$this->labels	= $data;
+				$message		= self::$messages[self::FILE_LABELS_MISSING];
+				$message		= sprintf( $message, $fileName, $tagList );
+				parent::__construct( $message, self::FILE_LABELS_MISSING );
+				break;
+			case self::LABELS_MISSING:
+				$this->labels	= $data;
+				$message		= self::$messages[self::LABELS_MISSING];
+				$message		= sprintf( $message, $tagList );
+				parent::__construct( $message, self::LABELS_MISSING );
 				break;
 		}
 	}
