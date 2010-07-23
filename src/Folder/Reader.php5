@@ -277,7 +277,7 @@ class Folder_Reader
 	 *	@param		int			$precision		Precision of rounded Size (only if unit is set)
 	 *	@return		int
 	 */
-	public function getNestedSize( $pattern = NULL, $unit = SIZE_BYTE, $precision = NULL )
+	public function getNestedSize( $pattern = NULL, $unit = NULL, $precision = NULL )
 	{
 		$size	= 0;
 		foreach( $this->getNestedFileList( $pattern ) as $entry )
@@ -318,7 +318,7 @@ class Folder_Reader
 	 *	@param		int			$precision		Precision of rounded Size (only if unit is set)
 	 *	@return		int
 	 */
-	public function getSize( $pattern = NULL, $unit = SIZE_BYTE, $precision = NULL )
+	public function getSize( $pattern = NULL, $unit = NULL, $precision = NULL )
 	{
 		$size	= 0;
 		foreach( $this->getFileList( $pattern ) as $entry )
