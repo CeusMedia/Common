@@ -1,8 +1,10 @@
 <?php
 class Go_PhpDocumentor
 {
-	public function __construct( $arguments, $configFile, $config )
+	public function __construct( $arguments )
 	{
+		$config		= Go_Library::getConfigData();
+		$configFile	= Go_Library::getConfigFile();
 		$reportFile	= $config['phpDocumentor']['outputLog'];							//  phpDocumentor Report File
 		$command	= "phpdoc -c ".$configFile;											//  Shell Command to run phpDocumentor
 
