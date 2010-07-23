@@ -67,6 +67,8 @@ class Alg_Validation_DefinitionValidator
 	 */
 	public function validate( $definition, $value )
 	{
+		if( !is_array( $definition ) )
+			throw new InvalidArgumentException( 'Definition must be an array, '.gettype( $definition ).' given' );
 		$errors		= array();
 		if( !empty( $definition['syntax'] ) )
 		{
