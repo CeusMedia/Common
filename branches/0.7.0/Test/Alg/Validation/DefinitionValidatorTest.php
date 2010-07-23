@@ -53,7 +53,7 @@ class Test_Alg_Validation_DefinitionValidatorTest extends PHPUnit_Framework_Test
 	public function setUp()
 	{
 		$this->validator	= new Alg_Validation_DefinitionValidator();
-		$this->validator->setLabels( $this->labels );
+#		$this->validator->setLabels( $this->labels );
 	}
 
 	public function testConstruct()
@@ -71,7 +71,7 @@ class Test_Alg_Validation_DefinitionValidatorTest extends PHPUnit_Framework_Test
 		$creation	= substr_count( $dump, "Alg_Validation_Predicates" );
 		$this->assertEquals( $assertion, $creation );
 	}
-
+/*
 	public function testSetLabels()
 	{
 		$labels		= array(
@@ -91,8 +91,8 @@ class Test_Alg_Validation_DefinitionValidatorTest extends PHPUnit_Framework_Test
 		);
 		$creation	= $this->validator->validate( "test1", $this->definition['test1'], "" );
 		$this->assertEquals( $assertion, $creation );
-	}
-
+	}*/
+/*
 	public function testSetMessages()
 	{
 		$messages	= array(
@@ -104,38 +104,37 @@ class Test_Alg_Validation_DefinitionValidatorTest extends PHPUnit_Framework_Test
 		);
 		$creation	= $this->validator->validate( "test1", $this->definition['test1'], "" );
 		$this->assertEquals( $assertion, $creation );
-	}
+	}*/
 	
 	public function testValidatePass1()
 	{
 		$assertion	= array();
-		$creation	= $this->validator->validate( "test1", $this->definition['test1'], "abc123" );
+		$creation	= $this->validator->validate( $this->definition['test1'], "abc123" );
 		$this->assertEquals( $assertion, $creation );
 	}
 
 	public function testValidateFail1()
 	{
 		$assertion	= array(
-			"Field 'Test Field 1' must only contain letters and digits.",
-			"Field 'Test Field 1' must be at most 6 characters long.",
-			"Field 'Test Field 1' must be a valid ID.",
-			"Field 'Test Field 1' is not valid.",
+			array( 'isClass', $this->definition['test1']['syntax']['class'] ),
+			array( 'hasMaxLength', $this->definition['test1']['syntax']['maxlength'] ),
+			array( 'isId', NULL ),
+			array( 'isPreg', $this->definition['test1']['semantic'][1]['edge'] )
 		);
-		$creation	= $this->validator->validate( "test1", $this->definition['test1'], "123abc#" );
+		$creation	= $this->validator->validate( $this->definition['test1'], "123abc#" );
 		$this->assertEquals( $assertion, $creation );
 	}
 
 	public function testValidateFail2()
 	{
 		$definition	= $this->definition;
-		$definition['test1']['semantic'][]	= array(
+		$semanticRule	= array(
 			'predicate'	=> "hasPasswordStrength",
 			'edge'		=> "30",
 		);
-		$assertion	= array(
-			"Field 'Test Field 1' must have a stronger password.",
-		);
-		$creation	= $this->validator->validate( "test1", $definition['test1'], "test" );
+		$definition['test1']['semantic'][]	= $semanticRule;
+		$assertion	= array( array_values( $semanticRule ) );
+		$creation	= $this->validator->validate( $definition['test1'], "test" );
 		$this->assertEquals( $assertion, $creation );
 	}
 }

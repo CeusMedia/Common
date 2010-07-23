@@ -50,6 +50,7 @@ class Test_Folder_RecursiveRegexFilterTest extends Test_Folder_TestCase
 			'sub2sub1',
 		);
 		$creation	= $folders;
+		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= array(
@@ -94,6 +95,7 @@ class Test_Folder_RecursiveRegexFilterTest extends Test_Folder_TestCase
 
 		$assertion	= array();
 		$creation	= $folders;
+		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= array(
@@ -127,6 +129,7 @@ class Test_Folder_RecursiveRegexFilterTest extends Test_Folder_TestCase
 
 		$assertion	= array();
 		$creation	= $folders;
+		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= array(
@@ -186,10 +189,12 @@ class Test_Folder_RecursiveRegexFilterTest extends Test_Folder_TestCase
 			'sub2sub1',
 		);
 		$creation	= $folders;
+		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= array();
 		$creation	= $files;
+		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
 	}
 

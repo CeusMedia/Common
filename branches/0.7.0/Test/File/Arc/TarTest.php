@@ -41,7 +41,7 @@ class Test_File_Arc_TarTest extends PHPUnit_Framework_TestCase
 		$arc->addFile( $this->path."AllTests.php" );
 		$arc->addFile( $this->path."TarTest.php" );
 
-		$assertion	= TRUE;
+		$assertion	= 4096;
 		$creation	= $arc->save( $this->fileName );
 		$this->assertEquals( $assertion, $creation );
 

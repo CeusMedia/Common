@@ -1,23 +1,23 @@
 <?php
 /**
- *	TestUnit of File_PHP_MethodVisibilityCheck.
+ *	TestUnit of File_PHP_Check_MethodVisibility.
  *	@package		Tests.file.php
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			04.01.2009
- *	@version		0.1
+ *	@version		$Id$
  */
 require_once 'PHPUnit/Framework/TestCase.php';
 require_once 'Test/initLoaders.php5';
 /**
- *	TestUnit of File_PHP_MethodVisibilityCheck.
+ *	TestUnit of File_PHP_Check_MethodVisibility.
  *	@package		Tests.file.php
  *	@extends		PHPUnit_Framework_TestCase
- *	@uses			File_PHP_MethodVisibilityCheck
+ *	@uses			File_PHP_Check_MethodVisibility
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			04.01.2009
- *	@version		0.1
+ *	@version		$Id$
  */
-class Test_File_PHP_MethodVisibilityCheckTest extends PHPUnit_Framework_TestCase
+class Test_File_PHP_Check_MethodVisibilityTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 *	Constructor.
@@ -27,8 +27,8 @@ class Test_File_PHP_MethodVisibilityCheckTest extends PHPUnit_Framework_TestCase
 	public function __construct()
 	{
 		$this->path			= dirname( __FILE__ )."/";
-		$this->fileTemp		= $this->path."Test.class.tmp.php5";
-		$this->fileClass	= $this->path."TestClass.php5";
+		$this->fileTemp1	= $this->path."Test.class1.tmp.php5";
+		$this->fileTemp2	= dirname( __FILE__ ).'/AllTests.php';
 	}
 	
 	/**
@@ -57,7 +57,7 @@ class Test
 	{
 	}
 }";
-		file_put_contents( $this->fileTemp, $class );
+		File_Writer::save( $this->fileTemp1, $class );
 	}
 	
 	/**
@@ -67,7 +67,7 @@ class Test
 	 */
 	public function tearDown()
 	{
-		@unlink( $this->fileTemp );
+		@unlink( $this->fileTemp1 );
 	}
 
 	/**
@@ -78,7 +78,7 @@ class Test
 	public function testConstruct()
 	{
 		$fileName	= __FILE__;
-		$checker	= new Test_File_PHP_MethodVisibilityCheckInstance( $fileName );
+		$checker	= Test_MockAntiProtection::getInstance( 'File_PHP_Check_MethodVisibility', $fileName );
 		
 		$assertion	= $fileName;
 		$creation	= $checker->getProtectedVar( 'fileName' );
@@ -97,7 +97,7 @@ class Test
 	public function testConstructException()
 	{
 		$this->setExpectedException( 'RuntimeException' );
-		$index	= new File_PHP_MethodVisibilityCheck( "not_existing" );
+		$index	= new File_PHP_Check_MethodVisibility( "not_existing" );
 	}
 
 	/**
@@ -107,7 +107,7 @@ class Test
 	 */
 	public function testCheck1()
 	{
-		$checker	= new File_PHP_MethodVisibilityCheck( $this->fileClass );
+		$checker	= new File_PHP_Check_MethodVisibility( $this->fileTemp2 );
 		$assertion	= TRUE;
 		$creation	= $checker->check();
 		$this->assertEquals( $assertion, $creation );
@@ -120,7 +120,7 @@ class Test
 	 */
 	public function testCheck2()
 	{
-		$checker	= new File_PHP_MethodVisibilityCheck( $this->fileTemp );
+		$checker	= new File_PHP_Check_MethodVisibility( $this->fileTemp1 );
 		$assertion	= FALSE;
 		$creation	= $checker->check();
 		$this->assertEquals( $assertion, $creation );
@@ -133,7 +133,7 @@ class Test
 	 */
 	public function testGetMethods1()
 	{
-		$checker	= new File_PHP_MethodVisibilityCheck( $this->fileClass );
+		$checker	= new File_PHP_Check_MethodVisibility( $this->fileTemp2 );
 		$checker->check();
 		$assertion	= array();
 		$creation	= $checker->getMethods();
@@ -147,7 +147,7 @@ class Test
 	 */
 	public function testGetMethods2()
 	{
-		$checker	= new File_PHP_MethodVisibilityCheck( $this->fileTemp );
+		$checker	= new File_PHP_Check_MethodVisibility( $this->fileTemp1 );
 		$checker->check();
 		$assertion	= array(
 			'alpha',
@@ -156,15 +156,6 @@ class Test
 		);
 		$creation	= $checker->getMethods();
 		$this->assertEquals( $assertion, $creation );
-	}
-}
-class Test_File_PHP_MethodVisibilityCheckInstance extends File_PHP_MethodVisibilityCheck
-{
-	public function getProtectedVar( $varName )
-	{
-		if( !in_array( $varName, array_keys( get_object_vars( $this ) ) ) )
-			throw new Exception( 'Var "'.$varName.'" is not declared.' );
-		return $this->$varName;
 	}
 }
 ?>

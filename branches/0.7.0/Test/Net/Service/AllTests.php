@@ -19,7 +19,6 @@ class Test_Net_Service_AllTests
 		$suite->addTestSuite( 'Test_Net_Service_ClientTest' );
 		$suite->addTestSuite( 'Test_Net_Service_DecoderTest' );
 		$suite->addTestSuite( 'Test_Net_Service_HandlerTest' );
-		$suite->addTestSuite( 'Test_Net_Service_ParameterValidatorTest' );
 		$suite->addTestSuite( 'Test_Net_Service_ResponseTest' );
 		return $suite;
 	}

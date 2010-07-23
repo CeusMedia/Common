@@ -47,7 +47,7 @@ class Test_Net_Service_ResponseTest extends PHPUnit_Framework_TestCase
 	{
 		$instance	= new Test_Net_Service_ResponseInstance();
 		$assertion	= "Alg_Time_Clock";
-		$creation	= get_class( $instance->getProtectedVar( 'watch' ) );
+		$creation	= get_class( $instance->getProtectedVar( 'clock' ) );
 		$this->assertEquals( $assertion, $creation );
 	}
 	

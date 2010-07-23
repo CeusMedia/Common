@@ -130,6 +130,7 @@ class Test_Folder_ReaderTest extends Test_Folder_TestCase
 			'file2.txt',
 		);
 		$creation	= $list['files'];
+		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -158,12 +159,14 @@ class Test_Folder_ReaderTest extends Test_Folder_TestCase
 			'file2.txt',
 		);
 		$creation	= $list['files'];
+		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
 	
 		$index	= $this->reader1->getFileListByExtensions( array( 'php' ) );
 		$list	= $this->getListFromIndex( $index );		
 		$assertion	= array();
 		$creation	= $list['files'];
+		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -216,6 +219,7 @@ class Test_Folder_ReaderTest extends Test_Folder_TestCase
 		$list	= $this->getListFromIndex( $index );		
 		$assertion	= array( 'sub1', 'sub2' );
 		$creation	= $list['folders'];
+		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
 	}
 		
@@ -258,6 +262,7 @@ class Test_Folder_ReaderTest extends Test_Folder_TestCase
 
 		$assertion	= array( 'sub1', 'sub2' );
 		$creation	= $list['folders'];
+		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= array(
@@ -265,6 +270,7 @@ class Test_Folder_ReaderTest extends Test_Folder_TestCase
 			'file2.txt',
 		);
 		$creation	= $list['files'];
+		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
 
 		$index	= $this->reader1->getList( "@xyz@" );
@@ -272,10 +278,12 @@ class Test_Folder_ReaderTest extends Test_Folder_TestCase
 
 		$assertion	= array();
 		$creation	= $list['folders'];
+		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= array();
 		$creation	= $list['files'];
+		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -487,12 +495,14 @@ class Test_Folder_ReaderTest extends Test_Folder_TestCase
 			'sub2sub1',
 		);
 		$creation	= $list['folders'];
+		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
 
 		$index	= $this->reader1->getNestedFolderList( "@not_existing@" );
 		$list	= $this->getListFromIndex( $index );
 		$assertion	= array();
 		$creation	= $list['folders'];
+		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
 	}
 	
@@ -524,6 +534,7 @@ class Test_Folder_ReaderTest extends Test_Folder_TestCase
 			'sub2sub1',
 		);
 		$creation	= $list['folders'];
+		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= array(
@@ -598,7 +609,7 @@ class Test_Folder_ReaderTest extends Test_Folder_TestCase
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= 0.008;
-		$creation	= $this->reader1->getSize( "", SIZE_KILOBYTE, 3 );
+		$creation	= $this->reader1->getSize( "", pow( 2, 10 ), 3 );
 		$this->assertEquals( $assertion, $creation );
 	}
 

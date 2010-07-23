@@ -16,7 +16,7 @@ class Test_File_PHP_AllTests
 	{
 		$suite = new PHPUnit_Framework_TestSuite( 'cmClasses/File/PHP' );
 		$suite->addTest( Test_File_PHP_Parser_AllTests::suite() );
-		$suite->addTestSuite( 'Test_File_PHP_MethodVisibilityCheckTest' ); 
+		$suite->addTest( Test_File_PHP_Check_AllTests::suite() );
 		return $suite;
 	}
 }

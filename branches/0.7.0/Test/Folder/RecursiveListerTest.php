@@ -47,6 +47,7 @@ class Test_Folder_RecursiveListerTest extends Test_Folder_TestCase
 			'sub2sub1',
 		);
 		$creation	= $list['folders'];
+		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= array(
@@ -207,10 +208,12 @@ class Test_Folder_RecursiveListerTest extends Test_Folder_TestCase
 			'sub2sub1',
 		);
 		$creation	= $list['folders'];
+		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= array();
 		$creation	= $list['files'];
+		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
 	}
 	
@@ -241,10 +244,12 @@ class Test_Folder_RecursiveListerTest extends Test_Folder_TestCase
 			'sub2sub1',
 		);
 		$creation	= $list['folders'];
+		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= array();
 		$creation	= $list['files'];
+		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
 
 		$index	= Folder_RecursiveLister::getFolderList( $this->folder, "@^sub2$@" );
@@ -258,6 +263,7 @@ class Test_Folder_RecursiveListerTest extends Test_Folder_TestCase
 
 		$assertion	= array();
 		$creation	= $list['files'];
+		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
 	}
 	
@@ -279,6 +285,7 @@ class Test_Folder_RecursiveListerTest extends Test_Folder_TestCase
 			'sub2sub1',
 		);
 		$creation	= $list['folders'];
+		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= array(
@@ -327,10 +334,12 @@ class Test_Folder_RecursiveListerTest extends Test_Folder_TestCase
 			'sub2sub1',
 		);
 		$creation	= $list['folders'];
+		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= array();
 		$creation	= $list['files'];
+		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
 
 		$index	= Folder_RecursiveLister::getMixedList( $this->folder, "@^sub1$@" );
@@ -340,10 +349,12 @@ class Test_Folder_RecursiveListerTest extends Test_Folder_TestCase
 			'sub1',
 		);
 		$creation	= $list['folders'];
+		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= array();
 		$creation	= $list['files'];
+		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
 
 		$index	= Folder_RecursiveLister::getMixedList( $this->folder, "@^file@" );
@@ -351,6 +362,7 @@ class Test_Folder_RecursiveListerTest extends Test_Folder_TestCase
 
 		$assertion	= array();
 		$creation	= $list['folders'];
+		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= array(
@@ -375,10 +387,12 @@ class Test_Folder_RecursiveListerTest extends Test_Folder_TestCase
 
 		$assertion	= array();
 		$creation	= $list['folders'];
+		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= array();
 		$creation	= $list['files'];
+		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
 	}
 

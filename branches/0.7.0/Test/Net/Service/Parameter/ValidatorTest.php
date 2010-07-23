@@ -12,12 +12,12 @@ require_once 'Test/initLoaders.php5';
  *	TestUnit of Service Parameter Validator.
  *	@package		Tests.net.service
  *	@extends		PHPUnit_Framework_TestCase
- *	@uses			Net_Service_ParameterValidator
+ *	@uses			Net_Service_Parameter_Validator
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			02.05.2008
  *	@version		0.1
  */
-class Test_Net_Service_ParameterValidatorTest extends PHPUnit_Framework_TestCase
+class Test_Net_Service_Parameter_ValidatorTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 *	Constructor.
@@ -26,7 +26,7 @@ class Test_Net_Service_ParameterValidatorTest extends PHPUnit_Framework_TestCase
 	 */
 	public function __construct()
 	{
-		$this->validator	= new Net_Service_ParameterValidator();
+		$this->validator	= new Net_Service_Parameter_Validator();
 		$this->rules		= array(
 			'mandatory'	=> TRUE,
 			'minLength'	=> 3,

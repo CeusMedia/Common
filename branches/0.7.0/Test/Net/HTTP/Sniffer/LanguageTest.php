@@ -12,12 +12,12 @@ require_once 'Test/initLoaders.php5';
  *	TestUnit of Language Sniffer.
  *	@package		Tests.net.http
  *	@extends		PHPUnit_Framework_TestCase
- *	@uses			Net_HTTP_LanguageSniffer
+ *	@uses			Net_HTTP_Sniffer_Language
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			16.02.2008
  *	@version		0.1
  */
-class Test_Net_HTTP_LanguageSnifferTest extends PHPUnit_Framework_TestCase
+class Test_Net_HTTP_Sniffer_LanguageTest extends PHPUnit_Framework_TestCase
 {
 	private $session;
 	private $allowed	= array(
@@ -31,12 +31,12 @@ class Test_Net_HTTP_LanguageSnifferTest extends PHPUnit_Framework_TestCase
 	{
 		$accept		= "de-de,de-at;q=0.8,de;q=0.6,en-us;q=0.4,en;q=0.2";
 		$assertion	= "de";
-		$creation	= Net_HTTP_LanguageSniffer::getLanguageFromString( $accept, $this->allowed, $this->default );
+		$creation	= Net_HTTP_Sniffer_Language::getLanguageFromString( $accept, $this->allowed, $this->default );
 		$this->assertEquals( $assertion, $creation );
 
 		$accept		= "da, en-gb;q=0.8, en;q=0.7";
 		$assertion	= "en";
-		$creation	= Net_HTTP_LanguageSniffer::getLanguageFromString( $accept, $this->allowed, $this->default );
+		$creation	= Net_HTTP_Sniffer_Language::getLanguageFromString( $accept, $this->allowed, $this->default );
 		$this->assertEquals( $assertion, $creation );
 	}
 }

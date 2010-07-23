@@ -11,16 +11,16 @@ require_once 'Test/initLoaders.php5';
 /**
  *	UnitTest for Request Sender.
  *	@package		net.http.request
- *	@uses			Net_HTTP_Request_Header
+ *	@uses			Net_HTTP_Header
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			16.02.2008
  *	@version		0.6
  */
-class Test_Net_HTTP_Request_HeaderTest extends PHPUnit_Framework_TestCase
+class Test_Net_HTTP_HeaderTest extends PHPUnit_Framework_TestCase
 {
 	public function testConstruct()
 	{
-		$header	= new Net_HTTP_Request_Header( "key", "value" );
+		$header	= new Net_HTTP_Header( "key", "value" );
 		$assertion	= true;
 		$creation	= (bool) count( $header->toString() );
 		$this->assertEquals( $assertion, $creation );
@@ -28,13 +28,13 @@ class Test_Net_HTTP_Request_HeaderTest extends PHPUnit_Framework_TestCase
 
 	public function testToString()
 	{
-		$header	= new Net_HTTP_Request_Header( "key", "value" );
-		$assertion	= "Key: value\r\n";
+		$header	= new Net_HTTP_Header( "key", "value" );
+		$assertion	= "Key: value";
 		$creation	= $header->toString();
 		$this->assertEquals( $assertion, $creation );
 
-		$header	= new Net_HTTP_Request_Header( "key-with-more-words", "value" );
-		$assertion	= "Key-With-More-Words: value\r\n";
+		$header	= new Net_HTTP_Header( "key-with-more-words", "value" );
+		$assertion	= "Key-with-more-words: value";
 		$creation	= $header->toString();
 		$this->assertEquals( $assertion, $creation );
 	}

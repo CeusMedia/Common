@@ -568,40 +568,6 @@ class Test_Alg_Validation_PredicatesTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 *	Tests method 'isEreg'.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function testIsEreg()
-	{
-		$creation	= Alg_Validation_Predicates::isEreg( "1", "^[[:digit:]]+$" );
-		$this->assertTrue( $creation );
-
-		$creation	= Alg_Validation_Predicates::isEreg( "a", "^[[:lower:]]+$" );
-		$this->assertTrue( $creation );
-
-		$creation	= Alg_Validation_Predicates::isEreg( "a", "^[[:upper:]]+$" );
-		$this->assertFalse( $creation );
-	}
-
-	/**
-	 *	Tests method 'isEregi'.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function testIsEregi()
-	{
-		$creation	= Alg_Validation_Predicates::isEregi( "1", "^[[:digit:]]+$" );
-		$this->assertTrue( $creation );
-
-		$creation	= Alg_Validation_Predicates::isEregi( "a", "^[[:lower:]]+$" );
-		$this->assertTrue( $creation );
-
-		$creation	= Alg_Validation_Predicates::isEregi( "a", "^[[:upper:]]+$" );
-		$this->assertTrue( $creation );
-	}
-
-	/**
 	 *	Tests method 'isFloat'.
 	 *	@access		public
 	 *	@return		void

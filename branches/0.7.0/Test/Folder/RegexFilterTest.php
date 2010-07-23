@@ -47,6 +47,7 @@ class Test_Folder_RegexFilterTest extends Test_Folder_TestCase
 			'sub2'
 		);
 		$creation	= $folders;
+		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= array(
@@ -54,6 +55,7 @@ class Test_Folder_RegexFilterTest extends Test_Folder_TestCase
 			'file2.txt'
 		);
 		$creation	= $files;
+		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -81,6 +83,7 @@ class Test_Folder_RegexFilterTest extends Test_Folder_TestCase
 
 		$assertion	= array();
 		$creation	= $folders;
+		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= array(
@@ -88,6 +91,7 @@ class Test_Folder_RegexFilterTest extends Test_Folder_TestCase
 			'file2.txt'
 		);
 		$creation	= $files;
+		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -104,6 +108,7 @@ class Test_Folder_RegexFilterTest extends Test_Folder_TestCase
 
 		$assertion	= array();
 		$creation	= $folders;
+		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= array(
@@ -111,6 +116,7 @@ class Test_Folder_RegexFilterTest extends Test_Folder_TestCase
 			'file2.txt'
 			);
 		$creation	= $files;
+		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -147,10 +153,12 @@ class Test_Folder_RegexFilterTest extends Test_Folder_TestCase
 
 		$assertion	= array( 'sub1', 'sub2' );
 		$creation	= $folders;
+		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= array();
 		$creation	= $files;
+		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -167,10 +175,12 @@ class Test_Folder_RegexFilterTest extends Test_Folder_TestCase
 
 		$assertion	= array( 'sub1', 'sub2' );
 		$creation	= $folders;
+		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= array();
 		$creation	= $files;
+		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -197,6 +207,7 @@ class Test_Folder_RegexFilterTest extends Test_Folder_TestCase
 
 		$assertion	= array();
 		$creation	= $files;
+		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
 	}
 }
