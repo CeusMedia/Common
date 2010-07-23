@@ -24,16 +24,18 @@ class Test_Net_HTTP_Request_SenderTest extends PHPUnit_Framework_TestCase
 		$url		= "/";
 		$needle		= "@RFC\s+2606@i";
 		
-		$host		= "ceus-media.de";
-		$url		= "/site/";
+/*		$host		= "ceus-media.de";
+		$url		= "/";
 		$needle		= "@ceus media@i";
-
+*/
 		$sender		= new Net_HTTP_Request_Sender( $host, $url );
 		$response	= $sender->send( array(), "test" );
 
-		$assertion	= true;
-		$creation	= (bool) preg_match( $needle, $response );
-		$this->assertEquals( $assertion, $creation );
+		$creation	= is_object( $response );
+		$this->assertTrue( $creation );
+
+		$creation	= (bool) preg_match( $needle, $response->getBody() );
+		$this->assertTrue( $creation );
 	}
 }
 ?>

@@ -38,6 +38,7 @@ class Test_Folder_RecursiveIteratorTest extends Test_Folder_TestCase
 		);
 
 		$creation	= $list['folders'];
+		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
 		
 		$assertion	= array(
@@ -121,10 +122,12 @@ class Test_Folder_RecursiveIteratorTest extends Test_Folder_TestCase
 			'sub2sub1',
 		);
 		$creation	= $list['folders'];
+		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
 		
 		$assertion	= array();
 		$creation	= $list['files'];
+		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
 	}
 

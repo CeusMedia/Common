@@ -57,7 +57,7 @@ class Test_Alg_Validation_LanguageValidatorTest extends PHPUnit_Framework_TestCa
 	public function testConstructException1()
 	{
 		$this->setExpectedException( 'InvalidArgumentException' );
-		Alg_Validation_LanguageValidator::__construct( "string" );
+		new Alg_Validation_LanguageValidator( "string" );
 	}
 
 	/**
@@ -68,7 +68,7 @@ class Test_Alg_Validation_LanguageValidatorTest extends PHPUnit_Framework_TestCa
 	public function testConstructException2()
 	{
 		$this->setExpectedException( 'RangeException' );
-		Alg_Validation_LanguageValidator::__construct( array() );
+		new Alg_Validation_LanguageValidator( array() );
 	}
 
 	/**
@@ -79,7 +79,7 @@ class Test_Alg_Validation_LanguageValidatorTest extends PHPUnit_Framework_TestCa
 	public function testConstructException3()
 	{
 		$this->setExpectedException( 'Exception' );
-		Alg_Validation_LanguageValidator::__construct( array( "de" ), "fr" );
+		new Alg_Validation_LanguageValidator( array( "de" ), "fr" );
 	}
 
 	/**

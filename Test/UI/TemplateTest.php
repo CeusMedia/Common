@@ -3,7 +3,7 @@
  *	TestUnit of UI_Template
  *	@package		tests.ui
  *	@author			David Seebacher <dseebacher@gmail.com>
- *	@author			Christian W�rker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.2
  */
 require_once 'PHPUnit/Framework/TestCase.php'; 
@@ -14,7 +14,7 @@ require_once 'Test/initLoaders.php5';
  *	@extends		PHPUnit_Framework_TestCase
  *	@uses			UI_Template
  *	@author			David Seebacher <dseebacher@gmail.com>
- *	@author			Christian W�rker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@version		0.2
  */
 class Test_UI_TemplateTest extends PHPUnit_Framework_TestCase
@@ -99,15 +99,6 @@ class Test_UI_TemplateTest extends PHPUnit_Framework_TestCase
 		$creation	= $this->mock->getProtectedVar( 'elements' );
 		$this->assertEquals( $assertion, $creation );
 	}
-
-	public function testGetElements()
-	{
-		$data		= array( 'key' => 'value' );
-		$this->mock->setProtectedVar( 'elements', $data );
-		$assertion	= $data;
-		$creation	= $this->mock->getElements();
-		$this->assertEquals( $assertion, $creation );
-	}
 	
 	public function testAddElement()
 	{
@@ -118,6 +109,56 @@ class Test_UI_TemplateTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals( 'name', $elements['tag'][0] );
 	}
 	
+	public function testAddObject1()
+	{
+		$object	= new Test_UI_TemplateTestDataObject();
+		$object->setData1( 'test1' );
+		$this->template->addObject( 'dataObject', $object );
+		$size	= sizeof( $this->template->getElements() );
+		$this->assertEquals( 2, $size );
+
+		$assertion	= array(
+			'dataObject.public'	=> array( 'test' ),
+			'dataObject.data1'	=> array( 'test1' )
+		);
+		$elements = $this->template->getElements();
+		$this->assertEquals( $assertion, $elements );
+	}
+
+	public function testAddObject2()
+	{
+		$object	= new Test_UI_TemplateTestDataObject();
+		$object->setData1( new ArrayObject( array( 'first', 'second' ) ) );
+		$this->template->addObject( 'dataObject', $object );
+		$size	= sizeof( $this->template->getElements() );
+		$this->assertEquals( 3, $size );
+
+		$assertion	= array(
+			'dataObject.public'		=> array( 'test' ),
+			'dataObject.data1.0'	=> array( 'first' ),
+			'dataObject.data1.1'	=> array( 'second' )
+		);
+		$elements = $this->template->getElements();
+		$this->assertEquals( $assertion, $elements );
+	}
+
+	public function testAddObject3()
+	{
+		$object	= new Test_UI_TemplateTestDataObject();
+		$object->setData1( new ADT_List_Dictionary( array( 'key1' => 'val1', 'key2' => 'val2' ) ) );
+		$this->template->addObject( 'dataObject', $object );
+		$size	= sizeof( $this->template->getElements() );
+		$this->assertEquals( 3, $size );
+
+		$assertion	= array(
+			'dataObject.public'		=> array( 'test' ),
+			'dataObject.data1.key1'	=> array( 'val1' ),
+			'dataObject.data1.key2'	=> array( 'val2' )
+		);
+		$elements = $this->template->getElements();
+		$this->assertEquals( $assertion, $elements );
+	}
+
 	/**
 	 *	Tests Tags only
 	 */
@@ -167,6 +208,15 @@ class Test_UI_TemplateTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals( $assertion, $creation );
 	}
 
+	public function testGetElements()
+	{
+		$data		= array( 'key' => 'value' );
+		$this->mock->setProtectedVar( 'elements', $data );
+		$assertion	= $data;
+		$creation	= $this->mock->getElements();
+		$this->assertEquals( $assertion, $creation );
+	}
+
 	public function testRender()
 	{
 		$data		= array(
@@ -176,6 +226,19 @@ class Test_UI_TemplateTest extends PHPUnit_Framework_TestCase
 		$assertion	= file_get_contents( $this->path.'template_testcase4_result.html' );
 		$creation	= UI_Template::render( $this->path.'template_testcase4.html', $data );
 		$this->assertEquals( $assertion, $creation );
+	}
+}
+class Test_UI_TemplateTestDataObject
+{
+	public $public		= "test";
+	protected $data1	= NULL;
+	public function getData1()
+	{
+		return $this->data1;
+	}
+	public function setData1( $value )
+	{
+		$this->data1	= $value;
 	}
 }
 ?>

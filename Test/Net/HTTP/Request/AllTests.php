@@ -18,7 +18,6 @@ class Test_Net_HTTP_Request_AllTests
 		$suite->addTestSuite( 'Test_Net_HTTP_Request_ReceiverTest' ); 
 		$suite->addTestSuite( 'Test_Net_HTTP_Request_ResponseTest' ); 
 		$suite->addTestSuite( 'Test_Net_HTTP_Request_SenderTest' ); 
-		$suite->addTestSuite( 'Test_Net_HTTP_Request_HeaderTest' ); 
 		$suite->addTestSuite( 'Test_Net_HTTP_Request_QueryParserTest' ); 
 		return $suite;
 	}

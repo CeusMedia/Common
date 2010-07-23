@@ -44,6 +44,7 @@ class Test_Folder_ListerTest extends Test_Folder_TestCase
 			'sub2'
 		);
 		$creation	= $list['folders'];
+		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= array(
@@ -51,6 +52,7 @@ class Test_Folder_ListerTest extends Test_Folder_TestCase
 			'file2.txt',
 		);
 		$creation	= $list['files'];
+		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
 	}
 	
@@ -78,6 +80,7 @@ class Test_Folder_ListerTest extends Test_Folder_TestCase
 
 		$assertion	= array();
 		$creation	= $list['folders'];
+		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= array(
@@ -85,6 +88,7 @@ class Test_Folder_ListerTest extends Test_Folder_TestCase
 			'file2.txt',
 		);
 		$creation	= $list['files'];
+		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
 
 		$this->lister1->setExtensions( array( "php" ) );
@@ -93,10 +97,12 @@ class Test_Folder_ListerTest extends Test_Folder_TestCase
 
 		$assertion	= array();
 		$creation	= $list['folders'];
+		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= array();
 		$creation	= $list['files'];
+		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
 	}
 	
@@ -112,6 +118,7 @@ class Test_Folder_ListerTest extends Test_Folder_TestCase
 
 		$assertion	= array();
 		$creation	= $list['folders'];
+		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= array(
@@ -119,6 +126,7 @@ class Test_Folder_ListerTest extends Test_Folder_TestCase
 			'file2.txt',
 		);
 		$creation	= $list['files'];
+		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -147,12 +155,14 @@ class Test_Folder_ListerTest extends Test_Folder_TestCase
 			'file2.txt',
 		);
 		$creation	= $list['files'];
+		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
 
 		$index	= Folder_Lister::getFileList( $this->folder, "@^file$@" );
 		$list	= $this->getListFromIndex( $index );
 		$assertion	= array();
 		$creation	= $list['files'];
+		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
 	}
 	
@@ -168,10 +178,12 @@ class Test_Folder_ListerTest extends Test_Folder_TestCase
 
 		$assertion	= array( 'sub1', 'sub2' );
 		$creation	= $list['folders'];
+		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= array();
 		$creation	= $list['files'];
+		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
 	}
 	
@@ -197,12 +209,14 @@ class Test_Folder_ListerTest extends Test_Folder_TestCase
 		$list	= $this->getListFromIndex( $index );
 		$assertion	= array( 'sub1', 'sub2' );
 		$creation	= $list['folders'];
+		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
 
 		$index	= Folder_Lister::getFolderList( $this->folder, "@^sub1$@" );
 		$list	= $this->getListFromIndex( $index );
 		$assertion	= array( 'sub1' );
 		$creation	= $list['folders'];
+		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
 	}
 	
@@ -221,6 +235,7 @@ class Test_Folder_ListerTest extends Test_Folder_TestCase
 			'sub2'
 		);
 		$creation	= $list['folders'];
+		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= array(
@@ -228,6 +243,7 @@ class Test_Folder_ListerTest extends Test_Folder_TestCase
 			'file2.txt',
 		);
 		$creation	= $list['files'];
+		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
 	}
 		
@@ -254,10 +270,12 @@ class Test_Folder_ListerTest extends Test_Folder_TestCase
 
 		$assertion	= array( 'sub1', 'sub2' );
 		$creation	= $list['folders'];
+		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= array();
 		$creation	= $list['files'];
+		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
 
 		$index	= Folder_Lister::getMixedList( $this->folder, "@^sub1$@" );
@@ -265,6 +283,7 @@ class Test_Folder_ListerTest extends Test_Folder_TestCase
 
 		$assertion	= array( 'sub1' );
 		$creation	= $list['folders'];
+		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= array();
@@ -276,6 +295,7 @@ class Test_Folder_ListerTest extends Test_Folder_TestCase
 
 		$assertion	= array();
 		$creation	= $list['folders'];
+		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= array(
@@ -283,6 +303,7 @@ class Test_Folder_ListerTest extends Test_Folder_TestCase
 			'file2.txt',
 		);
 		$creation	= $list['files'];
+		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
 
 		$index	= Folder_Lister::getMixedList( $this->folder, "@^file$@" );
@@ -290,10 +311,12 @@ class Test_Folder_ListerTest extends Test_Folder_TestCase
 
 		$assertion	= array();
 		$creation	= $list['folders'];
+		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= array();
 		$creation	= $list['files'];
+		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
 	}
 

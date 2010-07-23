@@ -186,7 +186,7 @@ class Test_Net_HTTP_Request_ReceiverTest extends PHPUnit_Framework_TestCase
 	{
 		$_GET['key1']	= "value2";
 		$assertion	= array( 'key1' => "value2" );
-		$creation	= $this->receiver->getAllFromSource( 'get' );
+		$creation	= $this->receiver->getAllFromSource( 'get' )->getAll();
 		$this->assertEquals( $assertion, $creation );
 	}
 }

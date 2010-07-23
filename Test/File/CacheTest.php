@@ -234,10 +234,10 @@ final class Test_File_CacheTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGet3()
 	{
-		$cache	= new File_Cache( $this->pathCache, 1 );
+		$cache	= new File_Cache( $this->pathCache, 10 );
 		$cache->set( 'testKey', "testValue" );
 
-		$cache	= new File_Cache( $this->pathCache, 1 );
+		$cache	= new File_Cache( $this->pathCache, 10 );
 		$assertion	= "testValue";
 		$creation	= $cache->get( 'testKey' );
 		$this->assertEquals( $assertion, $creation );
@@ -295,7 +295,7 @@ final class Test_File_CacheTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testHas2()
 	{
-		$cache	= new File_Cache( $this->pathCache, 1 );
+		$cache	= new File_Cache( $this->pathCache, 10 );
 		$cache->set( 'testKey', "testValue" );
 
 		$assertion	= TRUE;
@@ -316,10 +316,10 @@ final class Test_File_CacheTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testHas3()
 	{
-		$cache	= new File_Cache( $this->pathCache, 1 );
+		$cache	= new File_Cache( $this->pathCache, 10 );
 		$cache->set( 'testKey', "testValue" );
 
-		$cache	= new File_Cache( $this->pathCache, 1 );
+		$cache	= new File_Cache( $this->pathCache, 10 );
 		$assertion	= TRUE;
 		$creation	= $cache->has( 'testKey' );
 		$this->assertEquals( $assertion, $creation );
