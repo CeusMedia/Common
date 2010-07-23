@@ -37,6 +37,8 @@
  */
 class File_Writer
 {
+	public static $minFreeDiskSpace	= 10485760;
+	
 	/**	@var		string		$fileName		File Name of List, absolute or relative URI */
 	protected $fileName;
 
@@ -66,15 +68,21 @@ class File_Writer
 	 */
 	public function create( $mode = NULL, $user = NULL, $group = NULL )
 	{
-		if( false === file_put_contents( $this->fileName, '' ) )
+		if( !@touch( $this->fileName ) )
 			throw new RuntimeException( 'File "'.$this->fileName.'" could not been created' );
-			
+		if( disk_free_space(  $this->fileName  ) < self::$minFreeDiskSpace )
+		{
+			$this->remove();
+			throw new RuntimeException( 'Disk is full' );
+		}
+
+		$editor	= new File_Editor( $this->fileName );
 		if( $mode )
-			chmod( $this->fileName, $mode );
+			$editor->changeMode( $mode );
 		if( $user )
-			chown( $this->fileName, $user );
+			$editor->changeOwner( $user );
 		if( $group )
-			chgrp( $this->fileName, $group );
+			$editor->changeGroup( $group );
 	}
 
 	/**
@@ -106,8 +114,7 @@ class File_Writer
 	 *	@param		string		$mode			UNIX rights for chmod()
 	 *	@param		string		$user			User Name for chown()
 	 *	@param		string		$group			Group Name for chgrp()
-	 *	@return		void
-	 *	@return		int
+	 *	@return		integer		Number of written bytes
 	 */
 	public static function save( $fileName, $content, $mode = NULL, $user = NULL, $group = NULL )
 	{
@@ -122,7 +129,7 @@ class File_Writer
 	 *	@param		string		$fileName		URI of File
 	 *	@param		array		$array			Array to save
 	 *	@param		string		$lineBreak		Line Break
-	 *	@return		int
+	 *	@return		integer		Number of written bytes
 	 */
 	public static function saveArray( $fileName, $array, $lineBreak = "\n" )
 	{
@@ -135,7 +142,7 @@ class File_Writer
 	 *	@access		public
 	 *	@param		array		$array			List of String to write to File
 	 *	@param		string		$lineBreak		Line Break
-	 *	@return		int
+	 *	@return		integer		Number of written bytes
 	 */
 	public function writeArray( $array, $lineBreak = "\n" )
 	{
@@ -147,7 +154,7 @@ class File_Writer
 	 *	Writes a String into the File and returns Length.
 	 *	@access		public
 	 *	@param		string		string		string to write to file
-	 *	@return		int
+	 *	@return		integer		Number of written bytes
 	 */
 	public function writeString( $string )
 	{

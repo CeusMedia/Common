@@ -48,9 +48,13 @@ class File_Reader
 	 *	@param		string		$fileName		File Name or URI of File
 	 *	@return		void
 	 */
-	public function __construct( $fileName )
+	public function __construct( $fileName, $check = FALSE )
 	{
 		$this->fileName = $fileName;
+		if( $check && !$this->exists( $fileName ) )
+			throw new RuntimeException( 'File "'.$fileName.'" is not existing' );
+		if( $check && !$this->isReadable( $fileName ) )
+			throw new RuntimeException( 'File "'.$fileName.'" is not readable' );
 	}
 
 	/**
@@ -153,6 +157,28 @@ class File_Reader
 	}
 
 	/**
+	 *	Indicates whether a given user is owner of current file.
+	 *	On Windows this method always returns TRUE.
+	 *	@access		public
+	 *	@param		string		$user		Name of user to check ownership for, current user by default
+	 *	@return		boolean
+	 */
+	public function isOwner( $user = NULL )
+	{
+		$user	= $user ? $user : get_current_user();
+		if( !function_exists( 'posix_getpwuid' ) )
+			return TRUE;
+		$uid	= fileowner( $this->fileName );
+		if( !$uid )
+			return TRUE;
+		$owner	= posix_getpwuid( $uid );
+		if( !$owner )
+			return TRUE;
+		print_m( $owner );
+		return $user == $owner['name'];
+	}
+
+	/**
 	 *	Indicates whether a file is readable.
 	 *	@access		public
 	 *	@return		bool
@@ -198,9 +224,9 @@ class File_Reader
  	public function readString()
 	{
 		if( !$this->exists( $this->fileName ) )
-			throw new RuntimeException( 'File "'.$this->fileName.'" is not existing.' );
+			throw new RuntimeException( 'File "'.$this->fileName.'" is not existing' );
 		if( !$this->isReadable( $this->fileName ) )
-			throw new RuntimeException( 'File "'.$this->fileName.'" is not readable.' );
+			throw new RuntimeException( 'File "'.$this->fileName.'" is not readable' );
 		return file_get_contents( $this->fileName );
 	}
 
@@ -209,10 +235,10 @@ class File_Reader
 	 *	@access		public
 	 *	@return		array
 	 */
- 	public function readArray( $lineBreak = "\n" )
+ 	public function readArray()
 	{
 		$content	= $this->readString();
-		return explode( $lineBreak, $content );
+		return preg_split( '/\r?\n/', $content );
 	}
 }
 ?>
