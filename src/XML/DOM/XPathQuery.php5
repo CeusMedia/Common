@@ -31,7 +31,7 @@
  *	@category		cmClasses
  *	@package		XML.DOM
  *	@extends		ADT_OptionObject
- *	@uses			Net_cURL
+ *	@uses			Net_CURL
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -54,9 +54,9 @@ class XML_DOM_XPathQuery extends ADT_OptionObject
 	public function __construct()
 	{
 		parent::__construct();
-		$this->setOption( "followlocation", true );
-		$this->setOption( "header", false );
-		$this->setOption( "ssl_verifypeer", true );
+		$this->setOption( "followlocation", 1 );
+		$this->setOption( "header", 1 );
+		$this->setOption( "ssl_verifypeer", 1 );
 	}
 	
 	/**
@@ -111,7 +111,7 @@ class XML_DOM_XPathQuery extends ADT_OptionObject
 	 */
 	public function loadUrl( $url )
 	{
-		$cURL	= new Net_cURL( $url );
+		$cURL	= new Net_CURL( $url );
 		foreach( $this->getOptions() as $key => $value )
 			$cURL->setOption( "CURLOPT_".strtoupper( $key ), $value ) ;
 		$xml = $cURL->exec();
