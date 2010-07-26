@@ -43,7 +43,7 @@ class File_List_Reader
 	/**	@var		array		$list			List */	
 	protected $list						= array();
 	/**	@var		string		$commentPattern	RegEx Pattern of Comments */	
-	protected static $commentPattern	= "^[#:;/*-]{1}";
+	protected static $commentPattern	= '/^[#:;\/*-]/';
 	
 	/**
 	 *	Constructor.
@@ -127,7 +127,7 @@ class File_List_Reader
 		$lines	= $reader->readArray();
 		foreach( $lines as $line )
 			if( $line = trim( $line ) )
-				if( !ereg( self::$commentPattern, $line ) )
+				if( !preg_match( self::$commentPattern, $line ) )
 					$list[]	= $line;
 		return $list;
 	}
