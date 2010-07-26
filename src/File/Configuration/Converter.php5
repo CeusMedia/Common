@@ -297,12 +297,12 @@ class File_Configuration_Converter
 		$root	= new XML_DOM_Node( "configuration" );
 		foreach( $data as $sectionName => $sectionData )
 		{
-			$sectionNode	=& new XML_DOM_Node( "section" );
+			$sectionNode	= new XML_DOM_Node( "section" );
 			$sectionNode->setAttribute( 'name', $sectionName );			
 			foreach( $sectionData as $pair )
 			{
 				$comment	= isset( $pair['comment'] ) ? $pair['comment'] : NULL;
-				$valueNode	=& new XML_DOM_Node( "value", $pair['value'] );
+				$valueNode	= new XML_DOM_Node( "value", $pair['value'] );
 				$valueNode->setAttribute( 'type', $pair['type'] );
 				$valueNode->setAttribute( 'name', $pair['key'] );
 				if( isset( $pair['comment'] ) )
