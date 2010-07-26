@@ -75,38 +75,38 @@ class XML_DOM_ObjectSerializer
 			switch( gettype( $value ) )
 			{
 				case 'NULL':
-					$child	=& new XML_DOM_Node( "null" );
+					$child	= new XML_DOM_Node( "null" );
 					$child->setAttribute( "name", $key );
 					$node->addChild( $child );
 					break;
 				case 'boolean':
-					$child	=& new XML_DOM_Node( "boolean", (int) $value );
+					$child	= new XML_DOM_Node( "boolean", (int) $value );
 					$child->setAttribute( "name", $key );
 					$node->addChild( $child );
 					break;
 				case 'string':
-					$child	=& new XML_DOM_Node( "string", $value );
+					$child	= new XML_DOM_Node( "string", $value );
 					$child->setAttribute( "name", $key );
 					$node->addChild( $child );
 					break;
 				case 'integer':
-					$child	=& new XML_DOM_Node( "integer", $value );
+					$child	= new XML_DOM_Node( "integer", $value );
 					$child->setAttribute( "name", $key );
 					$node->addChild( $child );
 					break;
 				case 'double':
-					$child	=& new XML_DOM_Node( "double", $value );
+					$child	= new XML_DOM_Node( "double", $value );
 					$child->setAttribute( "name", $key );
 					$node->addChild( $child );
 					break;
 				case 'array':
-					$child	=& new XML_DOM_Node( "array" );
+					$child	= new XML_DOM_Node( "array" );
 					$child->setAttribute( "name", $key );
 					self::serializeVarsRec( $value, $child );
 					$node->addChild( $child );
 					break;
 				case 'object':
-					$child	=& new XML_DOM_Node( "object" );
+					$child	= new XML_DOM_Node( "object" );
 					$child->setAttribute( "name", $key );
 					$child->setAttribute( "class", get_class( $value ) );
 					$vars	= get_object_vars( $value );
