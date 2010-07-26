@@ -193,7 +193,7 @@ class Database_PDO_TableWriter extends Database_PDO_TableReader
 	public function truncate()
 	{
 		$query	= 'TRUNCATE '.$this->getTableName();
-		$this->dbc->exec( $query );
+		return $this->dbc->exec( $query );
 	}
 }
 ?>
