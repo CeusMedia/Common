@@ -234,14 +234,14 @@ class XML_DOM_Storage extends ADT_OptionObject
 		{
 			if( is_array( $value ) )
 			{
-				$child	=& new XML_DOM_Node( $this->getOption( 'tag_level' ) );
+				$child	= new XML_DOM_Node( $this->getOption( 'tag_level' ) );
 				$child->setAttribute( 'name', $key );
 				$this->writeRecursive( $child, $array[$key] );
 				$node->addChild( $child );
 			}
 			else
 			{
-				$child	=& new XML_DOM_Node( $this->getOption( 'tag_pair' ) );
+				$child	= new XML_DOM_Node( $this->getOption( 'tag_pair' ) );
 				$child->setAttribute( 'name', $key );
 				$child->setAttribute( 'type', gettype( $value ) );
 				$child->setContent( utf8_encode( $value ) );

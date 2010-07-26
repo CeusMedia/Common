@@ -80,8 +80,8 @@ class XML_DOM_GoogleSitemapBuilder
 		$root->setAttribute( 'xmlns', "http://www.google.com/schemas/sitemap/0.84" );
 		foreach( $links as $link )
 		{
-			$child	=& new XML_DOM_Node( "url" );
-			$loc	=& new XML_DOM_Node( "loc", $baseUrl.$link );
+			$child	= new XML_DOM_Node( "url" );
+			$loc	= new XML_DOM_Node( "loc", $baseUrl.$link );
 			$child->addChild( $loc );
 			$root->addChild( $child );
 		}
