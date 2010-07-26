@@ -71,6 +71,7 @@ class Database_PDO_TableReader
 		$this->setTableName( $tableName );
 		$this->setColumns( $columns );
 		$this->setPrimaryKey( $primaryKey );
+		$this->fetchMode	= self::$defaultFetchMode;
 		$this->defocus();
 		if( $focus )
 			$this->focusPrimary( $focus );
@@ -319,7 +320,7 @@ class Database_PDO_TableReader
 	 */
 	protected function getFetchMode()
 	{
-		return $this->fetchMode ? $this->fetchMode : self::$defaultFetchMode;
+		return $this->fetchMode;
 	}
 
 	/**
