@@ -1,9 +1,9 @@
 <?php
 /**
- *	TestUnit of Database_mySQL_Connection.
+ *	TestUnit of Database_MySQL_Connection.
  *	@package		Tests.database.mysql
  *	@extends		PHPUnit_Framework_TestCase
- *	@uses			Database_mySQL_Connection
+ *	@uses			Database_MySQL_Connection
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			04.05.2008
  *	@version		0.1
@@ -11,15 +11,15 @@
 require_once( 'PHPUnit/Framework/TestCase.php' ); 
 require_once 'Test/initLoaders.php5';
 /**
- *	TestUnit of Database_mySQL_Connection.
+ *	TestUnit of Database_MySQL_Connection.
  *	@package		Tests.database.mysql
  *	@extends		PHPUnit_Framework_TestCase
- *	@uses			Database_mySQL_Connection
+ *	@uses			Database_MySQL_Connection
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			04.05.2008
  *	@version		0.1
  */
-class Test_Database_mySQL_ConnectionTest extends PHPUnit_Framework_TestCase
+class Test_Database_MySQL_ConnectionTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 *	Constructor.
@@ -57,7 +57,7 @@ class Test_Database_mySQL_ConnectionTest extends PHPUnit_Framework_TestCase
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= Database_mySQL_Connection::__construct();
+		$creation	= Database_MySQL_Connection::__construct();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -70,7 +70,7 @@ class Test_Database_mySQL_ConnectionTest extends PHPUnit_Framework_TestCase
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= Database_mySQL_Connection::close();
+		$creation	= Database_MySQL_Connection::close();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -83,7 +83,7 @@ class Test_Database_mySQL_ConnectionTest extends PHPUnit_Framework_TestCase
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= Database_mySQL_Connection::getError();
+		$creation	= Database_MySQL_Connection::getError();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -96,7 +96,7 @@ class Test_Database_mySQL_ConnectionTest extends PHPUnit_Framework_TestCase
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= Database_mySQL_Connection::getErrNo();
+		$creation	= Database_MySQL_Connection::getErrNo();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -109,7 +109,7 @@ class Test_Database_mySQL_ConnectionTest extends PHPUnit_Framework_TestCase
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= Database_mySQL_Connection::connect();
+		$creation	= Database_MySQL_Connection::connect();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -122,7 +122,7 @@ class Test_Database_mySQL_ConnectionTest extends PHPUnit_Framework_TestCase
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= Database_mySQL_Connection::connectDatabase();
+		$creation	= Database_MySQL_Connection::connectDatabase();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -135,7 +135,7 @@ class Test_Database_mySQL_ConnectionTest extends PHPUnit_Framework_TestCase
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= Database_mySQL_Connection::selectDB();
+		$creation	= Database_MySQL_Connection::selectDB();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -148,7 +148,7 @@ class Test_Database_mySQL_ConnectionTest extends PHPUnit_Framework_TestCase
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= Database_mySQL_Connection::execute();
+		$creation	= Database_MySQL_Connection::execute();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -161,7 +161,7 @@ class Test_Database_mySQL_ConnectionTest extends PHPUnit_Framework_TestCase
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= Database_mySQL_Connection::getInsertId();
+		$creation	= Database_MySQL_Connection::getInsertId();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -174,7 +174,7 @@ class Test_Database_mySQL_ConnectionTest extends PHPUnit_Framework_TestCase
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= Database_mySQL_Connection::getDatabases();
+		$creation	= Database_MySQL_Connection::getDatabases();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -187,7 +187,7 @@ class Test_Database_mySQL_ConnectionTest extends PHPUnit_Framework_TestCase
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= Database_mySQL_Connection::getTables();
+		$creation	= Database_MySQL_Connection::getTables();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -200,7 +200,7 @@ class Test_Database_mySQL_ConnectionTest extends PHPUnit_Framework_TestCase
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= Database_mySQL_Connection::connectPersistant();
+		$creation	= Database_MySQL_Connection::connectPersistant();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -213,7 +213,7 @@ class Test_Database_mySQL_ConnectionTest extends PHPUnit_Framework_TestCase
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= Database_mySQL_Connection::getAffectedRows();
+		$creation	= Database_MySQL_Connection::getAffectedRows();
 		$this->assertEquals( $assertion, $creation );
 	}
 }

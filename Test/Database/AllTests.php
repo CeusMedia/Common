@@ -16,7 +16,7 @@ class Test_Database_AllTests
 	{
 		$suite = new PHPUnit_Framework_TestSuite( 'cmClasses/Database' );
 		$suite->addTest( Test_Database_PDO_AllTests::suite() );
-		$suite->addTest( Test_Database_mySQL_AllTests::suite() );
+		$suite->addTest( Test_Database_MySQL_AllTests::suite() );
 		$suite->addTestSuite( 'Test_Database_BaseConnectionTest' ); 
 		$suite->addTestSuite( 'Test_Database_ResultTest' ); 
 		$suite->addTestSuite( 'Test_Database_RowTest' ); 

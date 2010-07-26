@@ -358,6 +358,10 @@ class Test_Database_PDO_TableWriterTest extends PHPUnit_Framework_TestCase
 		$this->connection->query( "INSERT INTO transactions (label) VALUES ('truncateTest');" );
 
 		$assertion	= 2;
+		$creation	= $this->writer->count();
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= 0;
 		$creation	= $this->writer->truncate();
 		$this->assertEquals( $assertion, $creation );
 		

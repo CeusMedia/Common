@@ -15,7 +15,7 @@ class Test_Database_mySQL_AllTests
 	public static function suite()
 	{
 		$suite = new PHPUnit_Framework_TestSuite( 'cmClasses/Database/mySQL' );
-		$suite->addTestSuite( 'Test_Database_mySQL_ConnectionTest' ); 
+		$suite->addTestSuite( 'Test_Database_MySQL_ConnectionTest' );
 		return $suite;
 	}
 }
