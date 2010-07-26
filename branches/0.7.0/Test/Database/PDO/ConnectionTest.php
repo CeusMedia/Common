@@ -250,44 +250,6 @@ class Test_Database_PDO_ConnectionTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 *	Tests Method 'setLogFile'.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function testSetLogFile()
-	{
-		$logFile	= $this->path."error_log";
-		$this->connection->setLogFile( $logFile );
-		try{
-			$this->connection->query( "SELECT none FROM nowhere" );
-		}catch( Exception_SQL $e ){}
-
-		$assertion	= TRUE;
-		$creation	= file_exists( $logFile );
-		$this->assertEquals( $assertion, $creation );
-		@unlink( $logFile );
-	}
-
-	/**
-	 *	Tests Method 'setQueryLogFile'.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function testSetQueryLogFile()
-	{
-		$logFile	= $this->path."statement_log";
-		$this->connection->setQueryLogFile( $logFile );
-		try{
-			$this->connection->query( "SELECT none FROM nowhere" );
-		}catch( Exception_SQL $e ){}
-
-		$assertion	= TRUE;
-		$creation	= file_exists( $logFile );
-		$this->assertEquals( $assertion, $creation );
-		@unlink( $logFile );
-	}
-
-	/**
 	 *	Tests Method 'setStatementLogFile'.
 	 *	@access		public
 	 *	@return		void
