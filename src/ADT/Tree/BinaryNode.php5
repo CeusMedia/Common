@@ -73,14 +73,14 @@ class ADT_Tree_BinaryNode
 			if( $this->left )
 				$this->left->add( $value );
 			else
-				$this->left =& new ADT_Tree_BinaryNode( $value );
+				$this->left = new ADT_Tree_BinaryNode( $value );
 		}
 		else if( $value > $this->value )
 		{
 			if( $this->right )
 				$this->right->add( $value );
 			else
-				$this->right =& new ADT_Tree_BinaryNode( $value );
+				$this->right = new ADT_Tree_BinaryNode( $value );
 		}
 	}
 	

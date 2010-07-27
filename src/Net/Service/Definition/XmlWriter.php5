@@ -67,7 +67,7 @@ class Net_Service_Definition_XmlWriter
 	 */
 	protected static function buildService( $serviceName, $serviceData )
 	{
-		$node	=& new XML_DOM_Node( 'service' );												//  new Service Node
+		$node	= new XML_DOM_Node( 'service' );												//  new Service Node
 		$node->setAttribute( 'name', $serviceName );											//  set Service Name Attribute
 		$node->setAttribute( 'class', $serviceData['class'] );									//  set Service Class Attribute
 		$node->setAttribute( 'format', $serviceData['preferred'] );								//  set preferred Service Format Attribute
@@ -135,7 +135,7 @@ class Net_Service_Definition_XmlWriter
 			return;
 		foreach( $serviceData['parameters'] as $parameterName => $parameterProperties )			//  iterate Parameters
 		{
-			$node	=& new XML_DOM_Node( 'parameter', $parameterName );							//  builds new Parameter Node
+			$node	= new XML_DOM_Node( 'parameter', $parameterName );							//  builds new Parameter Node
 			foreach( $parameterProperties as $propertyName => $propertyValue )					//  iterate Parameter Attributes
 			{
 				if( is_bool( $propertyValue ) )													//  boolean Value
@@ -201,7 +201,7 @@ class Net_Service_Definition_XmlWriter
 			return;
 		foreach( $serviceData['roles'] as $role )												//  iterate Roles
 		{
-			$node	=& new XML_DOM_Node( 'role', $role ); 										//  new Role Node
+			$node	= new XML_DOM_Node( 'role', $role ); 										//  new Role Node
 			$serviceNode->addChild( $node );													//  append Role Node to Service Node
 		}
 	}
