@@ -75,102 +75,42 @@ class Test_File_EditorTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 *	Tests Method 'changeGroup'.
+	 *	Tests Method 'setGroup'.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testChangeGroup()
+	public function testSetGroup()
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= $this->editor->changeGroup();
+		$creation	= $this->editor->setGroup();
 		$this->assertEquals( $assertion, $creation );
 	}
 
 	/**
-	 *	Tests Exception of Method 'changeGroup'.
+	 *	Tests Method 'setOwner'.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testChangeGroupException()
-	{
-		$this->markTestIncomplete( 'Incomplete Test' );
-		$this->setExpectedException( 'InvalidArgumentException' );
-		$this->editor->changeGroup();
-	}
-
-	/**
-	 *	Tests Method 'changeMode'.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function testChangeMode()
+	public function testSetOwner()
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= $this->editor->changeMode();
+		$creation	= $this->editor->setOwner();
 		$this->assertEquals( $assertion, $creation );
 	}
 
 	/**
-	 *	Tests Exception of Method 'changeMode'.
+	 *	Tests Method 'setPermissions'.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testChangeModeException1()
-	{
-		$this->markTestIncomplete( 'Incomplete Test' );
-		$this->setExpectedException( 'InvalidArgumentException' );
-		$this->editor->changeMode();
-	}
-
-	/**
-	 *	Tests Exception of Method 'changeMode'.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function testChangeModeException2()
-	{
-		$this->markTestIncomplete( 'Incomplete Test' );
-		$this->setExpectedException( 'InvalidArgumentException' );
-		$this->editor->changeMode();
-	}
-
-	/**
-	 *	Tests Exception of Method 'changeMode'.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function testChangeModeException3()
-	{
-		$this->markTestIncomplete( 'Incomplete Test' );
-		$this->setExpectedException( 'InvalidArgumentException' );
-		$this->editor->changeMode();
-	}
-
-	/**
-	 *	Tests Method 'changeOwner'.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function testChangeOwner()
+	public function testSetPermissions()
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= $this->editor->changeOwner();
+		$creation	= $this->editor->setPermissions();
 		$this->assertEquals( $assertion, $creation );
-	}
-
-	/**
-	 *	Tests Exception of Method 'changeOwner'.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function testChangeOwnerException()
-	{
-		$this->markTestIncomplete( 'Incomplete Test' );
-		$this->setExpectedException( 'InvalidArgumentException' );
-		$this->editor->changeOwner();
 	}
 
 	/**
