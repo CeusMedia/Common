@@ -38,8 +38,8 @@ class Test_XML_DOM_ObjectSerializerTest extends PHPUnit_Framework_TestCase
 	 */
 	public function setUp()
 	{
-		$this->serializer	= new XML_DOM_ObjectSerializer();
-		$this->object		= new Test_Object();
+		$this->serializer		= new XML_DOM_ObjectSerializer();
+		$this->object			= new Test_Object();
 		$this->object->string	= "content";
 		$this->object->integer	= 1;
 		$this->object->boolean	= true;
