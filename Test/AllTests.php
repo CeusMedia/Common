@@ -23,13 +23,12 @@ class Test_AllTests
 		$suite->addTest( Test_ADT_AllTests::suite() );
 		$suite->addTest( Test_Alg_AllTests::suite() );
 		$suite->addTest( Test_Console_AllTests::suite() );
-#		$suite->addTest( Test_Database_AllTests::suite() );
+		$suite->addTest( Test_Database_AllTests::suite() );
 		$suite->addTest( Test_File_AllTests::suite() );
-#		$suite->addTest( Test_Folder_AllTests::suite() );
-//		$suite->addTest( Test_Framework_AllTests::suite() );
+		$suite->addTest( Test_Folder_AllTests::suite() );
 		$suite->addTest( Test_Math_AllTests::suite() );
-#		$suite->addTest( Test_Net_AllTests::suite() );
-#		$suite->addTest( Test_UI_AllTests::suite() );
+		$suite->addTest( Test_Net_AllTests::suite() );
+		$suite->addTest( Test_UI_AllTests::suite() );
 		$suite->addTest( Test_XML_AllTests::suite() );
 		return $suite;
 	}

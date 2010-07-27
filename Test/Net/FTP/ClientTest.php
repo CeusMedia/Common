@@ -26,11 +26,20 @@ class Test_Net_FTP_ClientTest extends PHPUnit_Framework_TestCase
 	 */
 	public function __construct()
 	{
-		$this->host		= "localhost";
-		$this->port		= 21;
-		$this->username	= "ftp_user";
-		$this->password	= "ftp_pass";
-		$this->ftpPath	= dirname( __FILE__ )."/upload/";
+		$config	= parse_ini_file( CMC_PATH.'../cmClasses.ini', TRUE );
+		$this->config	= $config['unitTest-FTP'];
+		$this->host		= $this->config['host'];
+		$this->port		= $this->config['port'];
+		$this->username	= $this->config['user'];
+		$this->password	= $this->config['pass'];
+		$this->path		= $this->config['path'];
+		$this->local	= $this->config['local'];
+	}
+
+	protected function login() {
+		$this->connection->login( $this->username, $this->password );
+		if( $this->path )
+			$this->connection->setPath( $this->path );
 	}
 
 	/**
@@ -40,17 +49,21 @@ class Test_Net_FTP_ClientTest extends PHPUnit_Framework_TestCase
 	 */
 	public function setUp()
 	{
-		@mkDir( $this->ftpPath );
-		@mkDir( $this->ftpPath."folder" );
-		@mkDir( $this->ftpPath."folder/nested" );
-		@file_put_contents( $this->ftpPath."test1.txt", "test1" );
-		@file_put_contents( $this->ftpPath."test2.txt", "test2" );
-		@file_put_contents( $this->ftpPath."folder/test3.txt", "test3" );
-		@file_put_contents( $this->ftpPath."folder/test4.txt", "test4" );
-		@file_put_contents( $this->ftpPath."source.txt", "source file" );
-		@file_put_contents( $this->ftpPath."folder/source.txt", "source file" );
+		if( !$this->local )
+			return;
+		@mkDir( $this->local );
+		@mkDir( $this->local."folder" );
+		@mkDir( $this->local."folder/nested" );
+		@file_put_contents( $this->local."test1.txt", "test1" );
+		@file_put_contents( $this->local."test2.txt", "test2" );
+		@file_put_contents( $this->local."folder/test3.txt", "test3" );
+		@file_put_contents( $this->local."folder/test4.txt", "test4" );
+		@file_put_contents( $this->local."source.txt", "source file" );
+		@file_put_contents( $this->local."folder/source.txt", "source file" );
 
 		$this->client	= new Net_FTP_Client( $this->host, $this->port, $this->username, $this->password );
+		if( $this->path )
+			$this->client->setPath( $this->path );
 	}
 
 	/**
@@ -60,30 +73,32 @@ class Test_Net_FTP_ClientTest extends PHPUnit_Framework_TestCase
 	 */
 	public function tearDown()
 	{
-		@unlink( $this->ftpPath."test1.txt" );
-		@unlink( $this->ftpPath."test2.txt" );
-		@unlink( $this->ftpPath."folder/test3.txt" );
-		@unlink( $this->ftpPath."folder/test4.txt" );
-		@unlink( $this->ftpPath."source.txt" );
-		@unlink( $this->ftpPath."target.txt" );
-		@unlink( $this->ftpPath."renamed.txt" );
-		@unlink( $this->ftpPath."folder/source.txt" );
-		@unlink( $this->ftpPath."folder/target.txt" );
-		@unlink( $this->ftpPath."copy/source.txt" );
-		@unlink( $this->ftpPath."copy/test3.txt" );
-		@unlink( $this->ftpPath."copy/test4.txt" );
-		@unlink( $this->ftpPath."moved/source.txt" );
-		@unlink( $this->ftpPath."moved/test3.txt" );
-		@unlink( $this->ftpPath."moved/test4.txt" );
-		@unlink( $this->ftpPath."rightsTest" );
-		@rmDir( $this->ftpPath."copy/nested" );
-		@rmDir( $this->ftpPath."copy" );
-		@rmDir( $this->ftpPath."created" );
-		@rmDir( $this->ftpPath."moved/nested" );
-		@rmDir( $this->ftpPath."moved" );
-		@rmDir( $this->ftpPath."folder/nested" );
-		@rmDir( $this->ftpPath."folder" );
-		@rmDir( $this->ftpPath );
+		if( $this->local )
+			return;
+		@unlink( $this->local."test1.txt" );
+		@unlink( $this->local."test2.txt" );
+		@unlink( $this->local."folder/test3.txt" );
+		@unlink( $this->local."folder/test4.txt" );
+		@unlink( $this->local."source.txt" );
+		@unlink( $this->local."target.txt" );
+		@unlink( $this->local."renamed.txt" );
+		@unlink( $this->local."folder/source.txt" );
+		@unlink( $this->local."folder/target.txt" );
+		@unlink( $this->local."copy/source.txt" );
+		@unlink( $this->local."copy/test3.txt" );
+		@unlink( $this->local."copy/test4.txt" );
+		@unlink( $this->local."moved/source.txt" );
+		@unlink( $this->local."moved/test3.txt" );
+		@unlink( $this->local."moved/test4.txt" );
+		@unlink( $this->local."rightsTest" );
+		@rmDir( $this->local."copy/nested" );
+		@rmDir( $this->local."copy" );
+		@rmDir( $this->local."created" );
+		@rmDir( $this->local."moved/nested" );
+		@rmDir( $this->local."moved" );
+		@rmDir( $this->local."folder/nested" );
+		@rmDir( $this->local."folder" );
+		@rmDir( $this->local );
 	}
 
 	/**
@@ -93,7 +108,9 @@ class Test_Net_FTP_ClientTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testChangeRights()
 	{
-		file_put_contents( $this->ftpPath."rightsTest", "this file will be removed" );
+		if( $this->local )
+			$this->markTestIncomplete( 'No FTP data set in cmClasses.ini' );
+		file_put_contents( $this->local."rightsTest", "this file will be removed" );
 		if( strtoupper( substr( PHP_OS, 0, 3 ) ) != "WIN" )
 		{
 			$assertion	= TRUE;
@@ -114,12 +131,14 @@ class Test_Net_FTP_ClientTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testCopyFile()
 	{
+		if( $this->local )
+			$this->markTestIncomplete( 'No FTP data set in cmClasses.ini' );
 		$assertion	= TRUE;
 		$creation	= $this->client->copyFile( "source.txt", "target.txt" );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= TRUE;
-		$creation	= file_exists( $this->ftpPath."target.txt" );
+		$creation	= file_exists( $this->local."target.txt" );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= TRUE;
@@ -127,7 +146,7 @@ class Test_Net_FTP_ClientTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= TRUE;
-		$creation	= file_exists( $this->ftpPath."folder/target.txt" );
+		$creation	= file_exists( $this->local."folder/target.txt" );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -138,6 +157,8 @@ class Test_Net_FTP_ClientTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testCopyFileException1()
 	{
+		if( $this->local )
+			$this->markTestIncomplete( 'No FTP data set in cmClasses.ini' );
 		$this->setExpectedException( 'RuntimeException' );
 		$this->client->copyFile( "not_existing", "not_relevant" );
 	}
@@ -149,6 +170,8 @@ class Test_Net_FTP_ClientTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testCopyFileException2()
 	{
+		if( $this->local )
+			$this->markTestIncomplete( 'No FTP data set in cmClasses.ini' );
 		$this->setExpectedException( 'RuntimeException' );
 		$this->client->copyFile( "source.txt", "not_existing/not_relevant.txt" );
 	}
@@ -160,12 +183,14 @@ class Test_Net_FTP_ClientTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testCopyFolder()
 	{
+		if( $this->local )
+			$this->markTestIncomplete( 'No FTP data set in cmClasses.ini' );
 		$assertion	= TRUE;
 		$creation	= $this->client->copyFolder( "folder", "copy" );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= TRUE;
-		$creation	= file_exists( $this->ftpPath."copy" );
+		$creation	= file_exists( $this->local."copy" );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= 3;
@@ -180,12 +205,14 @@ class Test_Net_FTP_ClientTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testCreateFolder()
 	{
+		if( $this->local )
+			$this->markTestIncomplete( 'No FTP data set in cmClasses.ini' );
 		$assertion	= TRUE;
 		$creation	= $this->client->createFolder( "created" );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= TRUE;
-		$creation	= file_exists( $this->ftpPath."created" );
+		$creation	= file_exists( $this->local."created" );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -196,6 +223,8 @@ class Test_Net_FTP_ClientTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetFile()
 	{
+		if( $this->local )
+			$this->markTestIncomplete( 'No FTP data set in cmClasses.ini' );
 		$assertion	= TRUE;
 		$creation	= $this->client->getFile( "test1.txt", "test_getFile" );
 		$this->assertEquals( $assertion, $creation );
@@ -224,6 +253,8 @@ class Test_Net_FTP_ClientTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetFileList()
 	{
+		if( $this->local )
+			$this->markTestIncomplete( 'No FTP data set in cmClasses.ini' );
 		$files		= $this->client->getFileList( "folder" );
 		$assertion	= 3;
 		$creation	= count( $files );
@@ -254,6 +285,8 @@ class Test_Net_FTP_ClientTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetFolderList()
 	{
+		if( $this->local )
+			$this->markTestIncomplete( 'No FTP data set in cmClasses.ini' );
 		$folders	= $this->client->getFolderList();
 		$assertion	= 1;
 		$creation	= count( $folders );
@@ -285,6 +318,8 @@ class Test_Net_FTP_ClientTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetList()
 	{
+		if( $this->local )
+			$this->markTestIncomplete( 'No FTP data set in cmClasses.ini' );
 		$files		= array();
 		$list		= $this->client->getList();
 		foreach( $list as $entry )
@@ -318,6 +353,8 @@ class Test_Net_FTP_ClientTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetPath()
 	{
+		if( $this->local )
+			$this->markTestIncomplete( 'No FTP data set in cmClasses.ini' );
 		$assertion	= "/";
 		$creation	= $this->client->getPath();
 		$this->assertEquals( $assertion, $creation );
@@ -336,6 +373,8 @@ class Test_Net_FTP_ClientTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetPermissionsAsOctal()
 	{
+		if( $this->local )
+			$this->markTestIncomplete( 'No FTP data set in cmClasses.ini' );
 		$assertion	= 777;
 		$creation	= $this->client->getPermissionsAsOctal( "drwxrwxrwx" );
 		$this->assertEquals( $assertion, $creation );
@@ -360,16 +399,18 @@ class Test_Net_FTP_ClientTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testMoveFile()
 	{
+		if( $this->local )
+			$this->markTestIncomplete( 'No FTP data set in cmClasses.ini' );
 		$assertion	= TRUE;
 		$creation	= $this->client->moveFile( "source.txt", "target.txt" );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= FALSE;
-		$creation	= file_exists( $this->ftpPath."source.txt" );
+		$creation	= file_exists( $this->local."source.txt" );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= TRUE;
-		$creation	= file_exists( $this->ftpPath."target.txt" );
+		$creation	= file_exists( $this->local."target.txt" );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -380,16 +421,18 @@ class Test_Net_FTP_ClientTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testMoveFolder()
 	{
+		if( $this->local )
+			$this->markTestIncomplete( 'No FTP data set in cmClasses.ini' );
 		$assertion	= TRUE;
 		$creation	= $this->client->moveFolder( "folder", "moved" );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= FALSE;
-		$creation	= file_exists( $this->ftpPath."folder" );
+		$creation	= file_exists( $this->local."folder" );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= TRUE;
-		$creation	= file_exists( $this->ftpPath."moved" );
+		$creation	= file_exists( $this->local."moved" );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= FALSE;
@@ -404,16 +447,18 @@ class Test_Net_FTP_ClientTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testPutFile()
 	{
+		if( $this->local )
+			$this->markTestIncomplete( 'No FTP data set in cmClasses.ini' );
 		$assertion	= TRUE;
-		$creation	= $this->client->putFile( $this->ftpPath."source.txt", "target.txt" );
+		$creation	= $this->client->putFile( $this->local."source.txt", "target.txt" );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= TRUE;
-		$creation	= file_exists( $this->ftpPath."target.txt" );
+		$creation	= file_exists( $this->local."target.txt" );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= "source file";
-		$creation	= file_get_contents( $this->ftpPath."target.txt" );
+		$creation	= file_get_contents( $this->local."target.txt" );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -424,12 +469,14 @@ class Test_Net_FTP_ClientTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testRemoveFile()
 	{
+		if( $this->local )
+			$this->markTestIncomplete( 'No FTP data set in cmClasses.ini' );
 		$assertion	= TRUE;
 		$creation	= $this->client->removeFile( "folder/source.txt" );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= FALSE;
-		$creation	= file_exists( $this->ftpPath."folder/source.txt" );
+		$creation	= file_exists( $this->local."folder/source.txt" );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -440,12 +487,14 @@ class Test_Net_FTP_ClientTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testRemoveFolder()
 	{
+		if( $this->local )
+			$this->markTestIncomplete( 'No FTP data set in cmClasses.ini' );
 		$assertion	= TRUE;
 		$creation	= $this->client->removeFolder( "folder" );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= FALSE;
-		$creation	= file_exists( $this->ftpPath."folder" );
+		$creation	= file_exists( $this->local."folder" );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -456,12 +505,14 @@ class Test_Net_FTP_ClientTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testRenameFile()
 	{
+		if( $this->local )
+			$this->markTestIncomplete( 'No FTP data set in cmClasses.ini' );
 		$assertion	= TRUE;
 		$creation	= $this->client->renameFile( "source.txt", "renamed.txt" );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= TRUE;
-		$creation	= file_exists( $this->ftpPath."renamed.txt" );
+		$creation	= file_exists( $this->local."renamed.txt" );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -472,6 +523,8 @@ class Test_Net_FTP_ClientTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testSearchFile()
 	{
+		if( $this->local )
+			$this->markTestIncomplete( 'No FTP data set in cmClasses.ini' );
 		$files		= $this->client->searchFile( "test1.txt" );
 		$assertion	= 1;
 		$creation	= count( $files );
@@ -494,6 +547,8 @@ class Test_Net_FTP_ClientTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testSearchFolder()
 	{
+		if( $this->local )
+			$this->markTestIncomplete( 'No FTP data set in cmClasses.ini' );
 		$folders	= $this->client->searchFolder( "folder" );
 		$assertion	= 1;
 		$creation	= count( $folders );
@@ -523,6 +578,8 @@ class Test_Net_FTP_ClientTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testSetPath()
 	{
+		if( $this->local )
+			$this->markTestIncomplete( 'No FTP data set in cmClasses.ini' );
 		$assertion	= FALSE;
 		$creation	= $this->client->setPath( "not_existing" );
 		$this->assertEquals( $assertion, $creation );
