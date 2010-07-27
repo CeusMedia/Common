@@ -1,21 +1,21 @@
 <?php
 /**
  *	TestUnit of File_NameFilter.
- *	@package		Tests.file
+ *	@package		Tests.File
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			15.06.2008
- *	@version		0.1
+ *	@version		$Id$
  */
 require_once 'PHPUnit/Framework/TestCase.php';
 require_once 'Test/initLoaders.php5';
 /**
  *	TestUnit of File_NameFilter.
- *	@package		Tests.file
+ *	@package		Tests.File
  *	@extends		PHPUnit_Framework_TestCase
  *	@uses			File_NameFilter
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			15.06.2008
- *	@version		0.1
+ *	@version		$Id$
  */
 class Test_File_NameFilterTest extends PHPUnit_Framework_TestCase
 {

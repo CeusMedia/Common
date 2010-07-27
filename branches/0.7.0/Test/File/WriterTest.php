@@ -86,6 +86,81 @@ class Test_File_WriterTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
+	 *	Tests Method 'setGroup'.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testSetGroup()
+	{
+		$this->markTestIncomplete( 'Incomplete Test' );
+		$assertion	= TRUE;
+		$creation	= $this->writer->setGroup();
+		$this->assertEquals( $assertion, $creation );
+	}
+
+	/**
+	 *	Tests Exception of Method 'setGroup'.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testSetGroupException()
+	{
+		$this->markTestIncomplete( 'Incomplete Test' );
+		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->writer->setGroup();
+	}
+
+	/**
+	 *	Tests Method 'setOwner'.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testSetOwner()
+	{
+		$this->markTestIncomplete( 'Incomplete Test' );
+		$assertion	= TRUE;
+		$creation	= $this->writer->setOwner();
+		$this->assertEquals( $assertion, $creation );
+	}
+
+	/**
+	 *	Tests Exception of Method 'setOwner'.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testSetOwnerException()
+	{
+		$this->markTestIncomplete( 'Incomplete Test' );
+		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->writer->setOwner();
+	}
+
+	/**
+	 *	Tests Method 'setPermissions'.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testSetPermissions()
+	{
+		$this->markTestIncomplete( 'Incomplete Test' );
+		$assertion	= TRUE;
+		$creation	= $this->writer->setPermissions();
+		$this->assertEquals( $assertion, $creation );
+	}
+
+	/**
+	 *	Tests Exception of Method 'setPermissions'.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testSetPermissionsException()
+	{
+		$this->markTestIncomplete( 'Incomplete Test' );
+		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->writer->setPermissions();
+	}
+
+	/**
 	 *	Tests Method 'remove'.
 	 *	@access		public
 	 *	@return		void

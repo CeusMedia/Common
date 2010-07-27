@@ -102,6 +102,22 @@ class Test_File_ReaderTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals( $assertion, $creation );
 	}
 
+	public function testGetGroup()
+	{
+		$this->markTestIncomplete( 'Incomplete Test' );
+		$assertion	= TRUE;
+		$creation	= $this->reader->getGroup();
+		$this->assertEquals( $assertion, $creation );
+	}
+
+	public function testGetOwner()
+	{
+		$this->markTestIncomplete( 'Incomplete Test' );
+		$assertion	= TRUE;
+		$creation	= $this->reader->getOwner();
+		$this->assertEquals( $assertion, $creation );
+	}
+
 	/**
 	 *	Tests Method 'getPath'.
 	 *	@access		public
@@ -116,6 +132,14 @@ class Test_File_ReaderTest extends PHPUnit_Framework_TestCase
 		$reader		= new File_Reader( "test" );
 		$assertion	= str_replace( "\\", "/", dirname( __FILE__ ) )."/";
 		$creation	= $this->reader->getPath();
+		$this->assertEquals( $assertion, $creation );
+	}
+
+	public function testGetPermissions()
+	{
+		$this->markTestIncomplete( 'Incomplete Test' );
+		$assertion	= TRUE;
+		$creation	= $this->reader->getPermissions();
 		$this->assertEquals( $assertion, $creation );
 	}
 
