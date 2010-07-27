@@ -246,19 +246,19 @@ class Test_Net_FTP_ReaderTest extends PHPUnit_Framework_TestCase
 	{
 		if( !$this->local )
 			$this->markTestIncomplete( 'No FTP data set in cmClasses.ini' );
-		$assertion	= 777;
+		$assertion	= '0777';
 		$creation	= $this->reader->getPermissionsAsOctal( "drwxrwxrwx" );
 		$this->assertEquals( $assertion, $creation );
 
-		$assertion	= 000;
+		$assertion	= '0000';
 		$creation	= $this->reader->getPermissionsAsOctal( "d---------" );
 		$this->assertEquals( $assertion, $creation );
 
-		$assertion	= 751;
+		$assertion	= '0751';
 		$creation	= $this->reader->getPermissionsAsOctal( "drwxr-x--x" );
 		$this->assertEquals( $assertion, $creation );
 
-		$assertion	= 642;
+		$assertion	= '0642';
 		$creation	= $this->reader->getPermissionsAsOctal( "drw-r---w-" );
 		$this->assertEquals( $assertion, $creation );
 	}

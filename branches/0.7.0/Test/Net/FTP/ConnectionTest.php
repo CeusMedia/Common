@@ -334,6 +334,10 @@ class Test_Net_FTP_ConnectionTest extends PHPUnit_Framework_TestCase
 
 		$this->login();
 
+		$assertion	= FALSE;
+		$creation	= $this->connection->setPath( "not_existing" );
+		$this->assertEquals( $assertion, $creation );
+
 		$assertion	= TRUE;
 		$creation	= $this->connection->setPath( "folder" );
 		$this->assertEquals( $assertion, $creation );

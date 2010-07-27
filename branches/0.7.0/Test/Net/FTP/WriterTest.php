@@ -279,7 +279,7 @@ class Test_Net_FTP_WriterTest extends PHPUnit_Framework_TestCase
 		$creation	= file_exists( $this->local."moved" );
 		$this->assertEquals( $assertion, $creation );
 
-		$assertion	= FALSE;
+		$assertion	= TRUE;
 		$creation	= $this->writer->moveFolder( "moved", "moved" );
 		$this->assertEquals( $assertion, $creation );
 	}
@@ -387,10 +387,6 @@ class Test_Net_FTP_WriterTest extends PHPUnit_Framework_TestCase
 
 		$assertion	= "/".$this->path."folder";
 		$creation	= $this->writer->getPath();
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= FALSE;
-		$creation	= $this->writer->setPath( "not_existing" );
 		$this->assertEquals( $assertion, $creation );
 	}
 }

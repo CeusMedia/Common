@@ -180,7 +180,7 @@ class Net_FTP_Reader
 		if( $permissions[9] == 'x' ) $mode += 01;
 		else if( $permissions[9] == 't' ) $mode += 01001;
 		else if( $permissions[9] == 'T' ) $mode += 01000;
-		return sprintf( '%o', $mode );
+		return sprintf( '0%o', $mode );
 	}
 
 	/**
