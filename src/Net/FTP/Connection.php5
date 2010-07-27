@@ -40,23 +40,23 @@
  */
 class Net_FTP_Connection
 {
-	/**	@var		bool		$auth			Indicator of Authentification */
+	/**	@var		boolean		$auth			Indicator of Authentification */
 	protected $auth				= FALSE;
 	/**	@var		resource	$resource		Resource ID of Connection (Stream in PHP5) */
 	protected $resource			= NULL;
 	/**	@var		string		$host			Host Name */
 	protected $host				= "";
-	/**	@var		int			$port			Protocol Port */
+	/**	@var		integer		$port			Protocol Port */
 	protected $port				= 21;
-	/**	@var		int			$mode			FTP Transfer Mode */
+	/**	@var		integer		$mode			FTP Transfer Mode */
 	public $mode				= FTP_BINARY;
 
 	/**
 	 *	Constructor, connects to FTP Server.
 	 *	@access		public
 	 *	@param		string		$host			Host Name
-	 *	@param		int			$port			Service Port
-	 *	@param		int			$timeout		Timeout in Seconds
+	 *	@param		integer		$port			Service Port
+	 *	@param		integer		$timeout		Timeout in Seconds
 	 *	@return		void
 	 */
 	public function __construct( $host, $port = 21, $timeout = 90 )
@@ -77,16 +77,16 @@ class Net_FTP_Connection
 	/**
 	 *	Indicated State of Connection and Authentification.
 	 *	@access		public
-	 *	@param		bool		$checkResource			Flag: Check Connection
-	 *	@param		bool		$checkAuthentication	Flag: Check Authentification
+	 *	@param		boolean		$checkResource			Flag: Check Connection
+	 *	@param		boolean		$checkAuthentication	Flag: Check Authentification
 	 *	@return		void
 	 */
 	public function checkConnection( $checkResource = TRUE, $checkAuthentication = TRUE )
 	{
 		if( $checkResource && !$this->resource )
-			throw new RuntimeException( "No Connection to FTP Server established." );
+			throw new RuntimeException( "No Connection to FTP Server established" );
 		if( $checkAuthentication && !$this->auth )
-			throw new RuntimeException( "Not authenticated onto FTP Server." );
+			throw new RuntimeException( "Not authenticated onto FTP Server" );
 	}
 	
 	/**
@@ -109,9 +109,9 @@ class Net_FTP_Connection
 	 *	Opens Connection to FTP Server.
 	 *	@access		public
 	 *	@param		string		$host			Host Name
-	 *	@param		int			$port			Service Port
-	 *	@param		int			$timeout		Timeout in Seconds
-	 *	@return		bool
+	 *	@param		integer		$port			Service Port
+	 *	@param		integer		$timeout		Timeout in Seconds
+	 *	@return		boolean
 	 */
 	public function connect( $host, $port = 21, $timeout = 10 )
 	{
@@ -169,7 +169,7 @@ class Net_FTP_Connection
 	/**
 	 *	Returns current set Timeout in Seconds.
 	 *	@access		public
-	 *	@return		int
+	 *	@return		integer
 	 */
 	public function getTimeout()
 	{
@@ -181,7 +181,7 @@ class Net_FTP_Connection
 	 *	@access		public
 	 *	@param		string		$username		Username
 	 *	@param		string		$password		Password
-	 *	@return		bool
+	 *	@return		boolean
 	 */
 	public function login( $username, $password )
 	{
@@ -193,19 +193,16 @@ class Net_FTP_Connection
 	}
 
 	/**
-	 *	Set Transfer Mode between binary and ascii.
-	 *	@access		public
-	 *	@param		int			$mode			Transfer Mode (FTP_BINARY|FTP_ASCII)
-	 *	@return		bool
+	 *	Sets passive mode.
+	 *	@param		boolean		$boolean		Enable or disable passive mode
+	 *	@return		boolean
+	 *	@see		http://www.php.net/manual/en/function.ftp-pasv.php
 	 */
-	public function setMode( $mode )
+	public function setPassiveMode( $boolean )
 	{
-		if( $mode != FTP_BINARY && $mode != FTP_ASCII )
-			return FALSE;
-		$this->mode	= $mode;
-		return TRUE;
+		return @ftp_pasv( $this->resource, $boolean );
 	}
-	
+
 	/**
 	 *	Set current Path.
 	 *	@access		public
@@ -221,12 +218,26 @@ class Net_FTP_Connection
 	/**
 	 *	Sets Timeout for all following Operations.
 	 *	@access		public
-	 *	@param		int			$seconds		Timeout in Seconds
-	 *	@return		bool
+	 *	@param		integer		$seconds		Timeout in seconds
+	 *	@return		boolean
 	 */
 	public function setTimeout( $seconds )
 	{
 		return @ftp_set_option( $this->resource, FTP_TIMEOUT_SEC, $seconds );
+	}
+
+	/**
+	 *	Set Transfer Mode between binary and ascii.
+	 *	@access		public
+	 *	@param		integer		$mode			Transfer Mode (FTP_BINARY|FTP_ASCII)
+	 *	@return		boolean
+	 */
+	public function setTransferMode( $mode )
+	{
+		if( $mode != FTP_BINARY && $mode != FTP_ASCII )
+			return FALSE;
+		$this->mode	= $mode;
+		return TRUE;
 	}
 }	
 ?>

@@ -40,45 +40,51 @@
  */
 class Net_FTP_Writer
 {
-	/**	@var		Net_FTP_Connection	$connection		FTP Connection Object */
-	protected $ftp;
+	/**	@var		Net_FTP_Connection	$connection		FTP connection object */
+	protected $connection;
 
 	/**
 	 *	Constructor
 	 *	@access		public
-	 *	@param		Net_FTP_Connection	$connection		FTP Connection Object
+	 *	@param		Net_FTP_Connection	$connection		FTP connection object
 	 *	@return		void
 	 */
-	public function __construct( $connection )
+	public function __construct( Net_FTP_Connection $connection )
 	{
-		$this->ftp	= $connection;
+		$this->connection	= $connection;
 	}
 
 	/**
 	 *	Changes Rights of File or Folders on FTP Server.
 	 *	@access		public
-	 *	@param		string		$fileName		Name of File to change Rights for
-	 *	@param		int			$mode			Mode of Rights (i.e. 755)	
-	 *	@return		bool
+	 *	@param		string		$fileName		Name of file to change rights for
+	 *	@param		integer		$mode			Mode of rights (i.e. 0755)
+	 *	@return		integer		Set permissions as integer
+	 *	@throws		RuntimeException if impossible to change rights
 	 */
 	public function changeRights( $fileName, $mode )
 	{
-		$this->ftp->checkConnection();
-		return (bool) @ftp_chmod( $this->ftp->getResource(), $mode, $fileName );
+		if( !is_int( $mode ) )
+			throw new InvalidArgumentException( 'Mode must be an integer, recommended to be given as octal value' );
+		$this->connection->checkConnection();
+		$result = @ftp_chmod( $this->connection->getResource(), $mode, $fileName );
+		if( FALSE === $result )
+			throw new RuntimeException( 'Changing rights for "'.$fileName.'" is not possible' );
+		return $result;
 	}
 	
 	/**
 	 *	Copies a File on FTP Server.
 	 *	@access		public
-	 *	@param		string		$from			Name of Source File
-	 *	@param		string		$to				Name of Target File
+	 *	@param		string		$from			Name of source file
+	 *	@param		string		$to				Name of target file
 	 *	@return		bool
 	 */
 	public function copyFile( $from, $to )
 	{
-		$this->ftp->checkConnection();
+		$this->connection->checkConnection();
 		$temp	= uniqid( time() ).".temp";
-		$reader	= new Net_FTP_Reader( $this->ftp );
+		$reader	= new Net_FTP_Reader( $this->connection );
 		$reader->setPath( $this->getPath() );
 		if( !$reader->getFile( $from, $temp ) )
 			throw new RuntimeException( 'File "'.$from.'" could not be received.' );
@@ -94,15 +100,15 @@ class Net_FTP_Writer
 	/**
 	 *	Copies a Folder on FTP Server [recursive].
 	 *	@access		public
-	 *	@param		string		$from			Name of Source File
-	 *	@param		string		$to				Name of Target File
+	 *	@param		string		$from			Name of source file
+	 *	@param		string		$to				Name of target file
 	 *	@return		bool
 	 */
 	public function copyFolder( $from, $to )
 	{
-		$this->ftp->checkConnection();
+		$this->connection->checkConnection();
 		$this->createFolder( $to );
-		$reader	= new Net_FTP_Reader( $this->ftp );
+		$reader	= new Net_FTP_Reader( $this->connection );
 		$list	= $reader->getList( $from, TRUE );
 		foreach( $list as $entry )
 		{
@@ -117,13 +123,13 @@ class Net_FTP_Writer
 	/**
 	 *	Creates a Folder on FTP Server.
 	 *	@access		public
-	 *	@param		string		$folderName		Name of Folder to be created
+	 *	@param		string		$folderName		Name of folder to be created
 	 *	@return		bool
 	 */
 	public function createFolder( $folderName )
 	{
-		$this->ftp->checkConnection();
-		return (bool) @ftp_mkdir( $this->ftp->getResource(), $folderName );
+		$this->connection->checkConnection();
+		return (bool) @ftp_mkdir( $this->connection->getResource(), $folderName );
 	}
 	
 	/**
@@ -133,72 +139,72 @@ class Net_FTP_Writer
 	 */
 	public function getPath()
 	{
-		return $this->ftp->getPath();
+		return $this->connection->getPath();
 	}
 
 	/**
 	 *	Copies a File on FTP Server.
 	 *	@access		public
-	 *	@param		string		$from			Name of Source File
-	 *	@param		string		$to				Name of Target File
+	 *	@param		string		$from			Name of source file
+	 *	@param		string		$to				Name of target file
 	 *	@return		bool
 	 */
 	public function moveFile( $from, $to )
 	{
-		$this->ftp->checkConnection();
-		return @ftp_rename( $this->ftp->getResource(), $from, $to );
+		$this->connection->checkConnection();
+		return @ftp_rename( $this->connection->getResource(), $from, $to );
 	}
 	
 	/**
 	 *	Copies a Folder on FTP Server [recursive].
 	 *	@access		public
-	 *	@param		string		$from			Name of Source File
-	 *	@param		string		$to				Name of Target File
+	 *	@param		string		$from			Name of source folder
+	 *	@param		string		$to				Name of target folder
 	 *	@return		bool
 	 */
 	public function moveFolder( $from, $to )
 	{
-		$this->ftp->checkConnection();
-		if( ftp_size( $this->ftp->getResource(), $from ) != -1 )
+		$this->connection->checkConnection();
+		if( ftp_size( $this->connection->getResource(), $from ) != -1 )
 			throw new RuntimeException( 'Folder "'.$from.'" is not existing.' );
-		return @ftp_rename( $this->ftp->getResource(), $from, $to );
+		return @ftp_rename( $this->connection->getResource(), $from, $to );
 	}
 	
 	/**
 	 *	Transferes a File onto FTP Server.
 	 *	@access		public
-	 *	@param		string		$fileName		Name of Local File
-	 *	@param		string		$target			Name of Target File
+	 *	@param		string		$fileName		Name of local file
+	 *	@param		string		$target			Name of target file
 	 *	@return		bool
 	 */
 	public function putFile( $fileName, $target )
 	{
-		$this->ftp->checkConnection();
-		return @ftp_put( $this->ftp->getResource(), $target, $fileName, $this->ftp->mode );
+		$this->connection->checkConnection();
+		return @ftp_put( $this->connection->getResource(), $target, $fileName, $this->connection->mode );
 	}
 	
 	/**
 	 *	Removes a File.
 	 *	@access		public
-	 *	@param		string		$fileName		Name of File to be removed
+	 *	@param		string		$fileName		Name of file to be removed
 	 *	@return		bool
 	 */
 	public function removeFile( $fileName )
 	{
-		$this->ftp->checkConnection();
-		return @ftp_delete( $this->ftp->getResource(), $fileName );
+		$this->connection->checkConnection();
+		return @ftp_delete( $this->connection->getResource(), $fileName );
 	}
 	
 	/**
 	 *	Removes a Folder.
 	 *	@access		public
-	 *	@param		string		$folderName		Name of Folder to be removed
+	 *	@param		string		$folderName		Name of folder to be removed
 	 *	@return		bool
 	 */
 	public function removeFolder( $folderName )
 	{
-		$this->ftp->checkConnection();
-		$reader	= new Net_FTP_Reader( $this->ftp );
+		$this->connection->checkConnection();
+		$reader	= new Net_FTP_Reader( $this->connection );
 		$list	= $reader->getList( $folderName );
 		foreach( $list as $entry )
 		{
@@ -210,20 +216,20 @@ class Net_FTP_Writer
 					$this->removeFile( $folderName."/".$entry['name'] );
 			}
 		}
-		return @ftp_rmdir( $this->ftp->getResource(), $folderName );
+		return @ftp_rmdir( $this->connection->getResource(), $folderName );
 	}
 
 	/**
 	 *	Renames a File on FTP Server.
 	 *	@access		public
-	 *	@param		string		$from			Name of Source File
-	 *	@param		string		$to				Name of Target File
+	 *	@param		string		$from			Name of source file
+	 *	@param		string		$to				Name of target file
 	 *	@return		bool
 	 */
 	public function renameFile( $from, $to )
 	{
-		$this->ftp->checkConnection();
-		return @ftp_rename( $this->ftp->getResource(), $from, $to );
+		$this->connection->checkConnection();
+		return @ftp_rename( $this->connection->getResource(), $from, $to );
 	}
 
 	/**
@@ -234,7 +240,7 @@ class Net_FTP_Writer
 	 */
 	public function setPath( $path )
 	{
-		return $this->ftp->setPath( $path );
+		return $this->connection->setPath( $path );
 	}
 }
 ?>
