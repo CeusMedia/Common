@@ -70,39 +70,9 @@ class File_Editor extends File_Reader
 	 *	@param		string		$groupName		OS Group Name of new File Owner
 	 *	@return		bool
 	 */
-	public function changeGroup( $groupName )
+	public function setGroup( $groupName )
 	{
-		if( !$groupName )
-			throw new InvalidArgumentException( 'No Group Name given.' );
-		if( !$this->exists( $this->fileName ) )
-			throw new RuntimeException( 'File "'.$this->fileName.'" is not existing' );
-		if( !$this->writer->isWritable( $this->fileName ) )
-			throw new RuntimeException( 'File "'.$this->fileName.'" is not writable' );
-		if( !@chGrp( $this->fileName, $groupName ) )
-			throw new RuntimeException( 'Only a superuser can change file group' );
-	}
-	
-	/**
-	 *	Sets Mode of current File.
-	 *	@access		public
-	 *	@param		int			$mode			OS User Name of new File Owner
-	 *	@return		bool
-	 */
-	public function changeMode( $mode )
-	{
-		if( !is_int( $mode ) )
-			throw new InvalidArgumentException( 'Mode must be an Integer.' );
-		if( strlen( $mode ) < 3 )
-			throw new InvalidArgumentException( 'Mode must be at least 3 Digits.' );
-		if( strlen( $mode ) > 4 )
-			throw new InvalidArgumentException( 'Mode must be at most 4 Digits.' );
-		if( strlen( $mode ) == 3 )
-			$mode	= (int) "0".$mode;
-		if( !$this->exists( $this->fileName ) )
-			throw new RuntimeException( 'File "'.$this->fileName.'" is not existing' );
-		if( !$this->writer->isWritable( $this->fileName ) )
-			throw new RuntimeException( 'File "'.$this->fileName.'" is not writable' );
-		return chMod( $this->fileName, $mode );
+		return $this->writer->setOwner( $groupName );
 	}
 
 	/**
@@ -111,18 +81,20 @@ class File_Editor extends File_Reader
 	 *	@param		string		$userName		OS User Name of new File Owner
 	 *	@return		bool
 	 */
-	public function changeOwner( $userName )
+	public function setOwner( $userName )
 	{
-		if( !$userName )
-			throw new InvalidArgumentException( 'No User Name given.' );
-		if( !$this->exists( $this->fileName ) )
-			throw new RuntimeException( 'File "'.$this->fileName.'" is not existing' );
-#		if( !$this->isOwner() )
-#			throw new RuntimeException( 'File "'.$this->fileName.'" is not owned by current user' );
-		if( !$this->writer->isWritable( $this->fileName ) )
-			throw new RuntimeException( 'File "'.$this->fileName.'" is not writable' );
-		if( !@chOwn( $this->fileName, $userName ) )
-			throw new RuntimeException( 'Only a superuser can change file owner' );
+		return $this->writer->setOwner( $userName );
+	}
+
+	/**
+	 *	Sets permissions of current File.
+	 *	@access		public
+	 *	@param		integer		$mode			OCTAL value of new rights (eg. 0750)
+	 *	@return		bool
+	 */
+	public function setPermissions( $mode )
+	{
+		return $this->writer->setPermissions( $mode );
 	}
 	
 	/**
