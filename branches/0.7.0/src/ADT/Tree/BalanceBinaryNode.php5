@@ -71,14 +71,14 @@ class ADT_Tree_BalanceBinaryNode extends ADT_Tree_BinaryNode
 			if( $this->left )
 				$this->left->add( $value );
 			else
-				$this->left =& new ADT_Tree_BalanceBinaryNode( $this->balance, $value );
+				$this->left = new ADT_Tree_BalanceBinaryNode( $this->balance, $value );
 		}
 		else if( $value > $this->value )
 		{
 			if( $this->right )
 				$this->right->add( $value );
 			else
-				$this->right =& new ADT_Tree_BalanceBinaryNode( $this->balance, $value );
+				$this->right = new ADT_Tree_BalanceBinaryNode( $this->balance, $value );
 		}
 		if ($this->balance)
 		{
