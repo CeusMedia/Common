@@ -76,13 +76,12 @@ class File_Writer
 			throw new RuntimeException( 'Disk is full' );
 		}
 
-		$editor	= new File_Editor( $this->fileName );
 		if( $mode )
-			$editor->changeMode( $mode );
+			$this->setPermissions( $mode );
 		if( $user )
-			$editor->changeOwner( $user );
+			$this->setOwner( $user );
 		if( $group )
-			$editor->changeGroup( $group );
+			$this->setGroup( $group );
 	}
 
 	/**
@@ -93,6 +92,56 @@ class File_Writer
 	public function isWritable()
 	{
 		return is_writable( $this->fileName );
+	}
+
+	/**
+	 *	Sets Group of current File.
+	 *	@access		public
+	 *	@param		string		$groupName		OS Group Name of new File Owner
+	 *	@return		bool
+	 */
+	public function setGroup( $groupName )
+	{
+		if( !$groupName )
+			throw new InvalidArgumentException( 'No Group Name given.' );
+		if( !$this->exists( $this->fileName ) )
+			throw new RuntimeException( 'File "'.$this->fileName.'" is not existing' );
+		if( !$this->writer->isWritable( $this->fileName ) )
+			throw new RuntimeException( 'File "'.$this->fileName.'" is not writable' );
+		if( !@chGrp( $this->fileName, $groupName ) )
+			throw new RuntimeException( 'Only a superuser can change file group' );
+	}
+
+	/**
+	 *	Sets Owner of current File.
+	 *	@access		public
+	 *	@param		string		$userName		OS User Name of new File Owner
+	 *	@return		bool
+	 */
+	public function setOwner( $userName )
+	{
+		if( !$userName )
+			throw new InvalidArgumentException( 'No User Name given.' );
+		if( !$this->exists( $this->fileName ) )
+			throw new RuntimeException( 'File "'.$this->fileName.'" is not existing' );
+#		if( !$this->isOwner() )
+#			throw new RuntimeException( 'File "'.$this->fileName.'" is not owned by current user' );
+		if( !$this->writer->isWritable( $this->fileName ) )
+			throw new RuntimeException( 'File "'.$this->fileName.'" is not writable' );
+		if( !@chOwn( $this->fileName, $userName ) )
+			throw new RuntimeException( 'Only a superuser can change file owner' );
+	}
+
+	/**
+	 *	Sets permissions of current File.
+	 *	@access		public
+	 *	@param		integer		$mode			OCTAL value of new rights (eg. 0750)
+	 *	@return		bool
+	 */
+	public function setPermissions( $mode )
+	{
+		$permissions	= new File_Permissions( $this->fileName );
+		return $permissions->setByOctal( $mode );
 	}
 
 	/**

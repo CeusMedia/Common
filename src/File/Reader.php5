@@ -93,13 +93,13 @@ class File_Reader
 	}
 
 	/**
-	 *	Returns File Name of current File.
+	 *	Returns the file date as timestamp.
 	 *	@access		public
-	 *	@return		string
+	 *	@return		int
 	 */
-	public function getFileName()
+	public function getDate()
 	{
-		return $this->fileName;
+		return filemtime( $this->fileName );
 	}
 
 	/**
@@ -115,6 +115,32 @@ class File_Reader
 	}
 
 	/**
+	 *	Returns File Name of current File.
+	 *	@access		public
+	 *	@return		string
+	 */
+	public function getFileName()
+	{
+		return $this->fileName;
+	}
+
+	public function getGroup()
+	{
+		$group	= filegroup( $this->fileName );
+		if( FALSE === $group )
+			throw new RuntimeException( 'Could not get group of file "'.$this->fileName.'"' );
+		return $group;
+	}
+
+	public function getOwner()
+	{
+		$user	= fileowner( $this->fileName );
+		if( FALSE === $user )
+			throw new RuntimeException( 'Could not get owner of file "'.$this->fileName.'"' );
+		return $user;
+	}
+
+	/**
 	 *	Returns canonical Path to the current File.
 	 *	@access		public
 	 *	@return		string
@@ -126,6 +152,16 @@ class File_Reader
 		$path	= str_replace( "\\", "/", $path );
 		$path	.= "/";
 		return	$path;
+	}
+
+	/**
+	 *	Returns OS permissions of current file as octal value.
+	 *	@access		public
+	 *	@return		File_Permissions		File permissions object
+	 */
+	public function getPermissions()
+	{
+		return new File_Permissions( $this->fileName );
 	}
 
 	/**
@@ -144,16 +180,6 @@ class File_Reader
 			$size	= Alg_UnitFormater::formatNumber( $size, $unit, $precision );
 		}
 		return $size;
-	}
-	
-	/**
-	 *	Returns the file date as timestamp.
-	 *	@access		public
-	 *	@return		int
-	 */
-	public function getDate()
-	{
-		return filemtime( $this->fileName );
 	}
 
 	/**
