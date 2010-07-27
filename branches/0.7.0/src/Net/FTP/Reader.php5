@@ -47,7 +47,7 @@ class Net_FTP_Reader
 	);
 
 	/**	@var		Net_FTP_Connection	$connection		FTP Connection Object */
-	protected $ftp;
+	protected $connection;
 
 	/**
 	 *	Constructor
@@ -55,9 +55,9 @@ class Net_FTP_Reader
 	 *	@param		Net_FTP_Connection	$connection		FTP Connection Object
 	 *	@return		void
 	 */
-	public function __construct( $connection )
+	public function __construct( Net_FTP_Connection $connection )
 	{
-		$this->ftp	= $connection;
+		$this->connection	= $connection;
 	}
 	
 	/**
@@ -69,10 +69,10 @@ class Net_FTP_Reader
 	 */
 	public function getFile( $fileName, $target = "" )
 	{
-		$this->ftp->checkConnection();
+		$this->connection->checkConnection();
 		if( !$target )
 			$target	= $fileName;
-		return @ftp_get( $this->ftp->getResource(), $target, $fileName, $this->ftp->mode );
+		return @ftp_get( $this->connection->getResource(), $target, $fileName, $this->connection->mode );
 	}
 	
 	/**
@@ -84,7 +84,7 @@ class Net_FTP_Reader
 	 */
 	public function getFileList( $path = "", $recursive = FALSE )
 	{
-		$this->ftp->checkConnection();
+		$this->connection->checkConnection();
 		$results	= array();
 		$list		= $this->getList( $path, $recursive );
 		foreach( $list as $entry )
@@ -103,7 +103,7 @@ class Net_FTP_Reader
 	 */
 	public function getFolderList( $path = "", $recursive = FALSE )
 	{
-		$this->ftp->checkConnection();
+		$this->connection->checkConnection();
 		$results	= array();
 		$list		= $this->getList( $path, $recursive );
 		foreach( $list as $entry )
@@ -122,11 +122,11 @@ class Net_FTP_Reader
 	 */
 	public function getList( $path = "", $recursive = FALSE )
 	{
-		$this->ftp->checkConnection();
+		$this->connection->checkConnection();
 		$parsed	= array();
 		if( !$path )
 			$path	= $this->getPath();
-		$list	= ftp_rawlist( $this->ftp->getResource(), $path );
+		$list	= ftp_rawlist( $this->connection->getResource(), $path );
 		if( is_array( $list ) )
 		{
 			foreach( $list as $current )
@@ -157,7 +157,7 @@ class Net_FTP_Reader
 	 */
 	public function getPath()
 	{
-		return $this->ftp->getPath();
+		return $this->connection->getPath();
 	}
 
 	public function getPermissionsAsOctal( $permissions )
@@ -233,7 +233,7 @@ class Net_FTP_Reader
 	 */
 	public function searchFile( $fileName = "", $recursive = FALSE, $regular = FALSE )
 	{
-		$this->ftp->checkConnection();
+		$this->connection->checkConnection();
 		$results	= array();
 		$list		= $this->getFileList( $this->getPath(), $recursive );
 		foreach( $list as $entry )
@@ -262,7 +262,7 @@ class Net_FTP_Reader
 	 */
 	public function searchFolder( $folderName = "", $recursive = FALSE, $regular = FALSE )
 	{
-		$this->ftp->checkConnection();
+		$this->connection->checkConnection();
 		$results	= array();
 		$list		= $this->getFolderList( $this->getPath(), $recursive );
 		foreach( $list as $entry )
@@ -289,7 +289,7 @@ class Net_FTP_Reader
 	 */
 	public function setPath( $path )
 	{
-		return $this->ftp->setPath( $path );
+		return $this->connection->setPath( $path );
 	}
 }
 ?>

@@ -42,18 +42,37 @@
  */
 class Net_FTP_Client
 {
+	/**	@var		Net_FTP_Connection	$connection		FTP Connection Object */
+	protected $connection;
+	/**	@var		Net_FTP_Reader		$reader			FTP Reader Object */
+	protected $reader;
+	/**	@var		Net_FTP_Writer		$writer			FTP Writer Object */
+	protected $writer;
+
 	/**
 	 *	Constructor, opens FTP Connection.
 	 *	@access		public
 	 *	@param		Net_FTP_Connection	$connection		FTP Connection Object
 	 *	@return		void
 	 */
-	public function __construct( $host, $port, $username, $password )
+	public function __construct( $host, $port, $username, $password, $path = NULL )
 	{
-		$this->ftp		= new Net_FTP_Connection( $host, $port );
-		$this->ftp->login( $username, $password );
-		$this->reader	= new Net_FTP_Reader( $this->ftp );
-		$this->writer	= new Net_FTP_Writer( $this->ftp );
+		try
+		{
+			$this->connection	= new Net_FTP_Connection( $host, $port );
+			$this->connection->checkConnection( TRUE, FALSE );
+			$this->connection->login( $username, $password );
+			$this->connection->checkConnection();
+			if( $path )
+				if( !$this->connection->setPath( $path ) )
+					throw new InvalidArgumentException( 'Path "'.$path.'" not existing' );
+			$this->reader		= new Net_FTP_Reader( $this->connection );
+			$this->writer		= new Net_FTP_Writer( $this->connection );
+		}
+		catch( Exception $e )
+		{
+			throw new RuntimeException( 'FTP connection failed ', 0, $e );
+		}
 	}
 
 	/**
@@ -63,7 +82,7 @@ class Net_FTP_Client
 	 */
 	public function __destruct()
 	{
-		$this->ftp->close( TRUE );
+		$this->connection->close( TRUE );
 	}
 
 	/**
@@ -168,7 +187,7 @@ class Net_FTP_Client
 	 */
 	public function getPath()
 	{
-		return $this->ftp->getPath();
+		return $this->connection->getPath();
 	}
 
 	public function getPermissionsAsOctal( $permissions )
@@ -280,7 +299,7 @@ class Net_FTP_Client
 	 */
 	public function setPath( $path )
 	{
-		return $this->ftp->setPath( $path );
+		return $this->connection->setPath( $path );
 	}
 }
 ?>
