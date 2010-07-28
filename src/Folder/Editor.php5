@@ -65,6 +65,79 @@ class Folder_Editor extends Folder_Reader
 	}
 
 	/**
+	 *	Sets group of current folder.
+	 *	@access		public
+	 *	@param		string		$groupName		Group to set
+	 *	@param		bool		$recursive		Flag: change nested files and folders,too
+	 *	@return		bool
+	 */
+	public function changeGroup( $groupName, $recursive = FALSE )
+	{
+		if( !$groupName )
+			throw new InvalidArgumentException( 'Group is missing' );
+		$number	= (int) chgrp( $this->folderName, $groupName );
+
+		if( !$recursive )
+			return $number;
+		$iterator = new RecursiveIteratorIterator(
+			new RecursiveDirectoryIterator( $this->folderName ),
+			RecursiveIteratorIterator::SELF_FIRST
+		);
+		foreach( $iterator as $item )
+			$number += (int) chgrp( $item, $groupName );
+		return $number;
+	}
+
+	/**
+	 *	Sets permissions on current folder and its containing files and folders.
+	 *	@access		public
+	 *	@param		int			$mode			Permission mode, like 0750, 01770, 02755
+	 *	@param		bool		$recursive		Flag: change nested files and folders,too
+	 *	@return		int			Number of affected files and folders
+	 */
+	public function changeMode( $mode, $recursive = FALSE )
+	{
+		if( !is_int( $mode ) )
+			throw new InvalidArgumentException( 'Mode must be of integer' );
+
+		$number	= (int) chmod( $this->folderName, $mode );
+		if( !$recursive )
+			return $number;
+
+		$iterator = new RecursiveIteratorIterator(
+			new RecursiveDirectoryIterator( $this->folderName ),
+			RecursiveIteratorIterator::SELF_FIRST
+		);
+		foreach( $iterator as $item )
+			$number += (int) chmod( $item, $mode );
+		return $number;
+ 	}
+
+	/**
+	 *	Sets owner of current folder.
+	 *	@access		public
+	 *	@param		string		$userName		User to set
+	 *	@param		bool		$recursive		Flag: change nested files and folders,too
+	 *	@return		bool
+	 */
+	public function changeOwner( $userName, $recursive = FALSE )
+	{
+		if( !$userName )
+			throw new InvalidArgumentException( 'User missing' );
+		$number	= (int) chown( $this->folderName, $userName );
+
+		if( !$recursive )
+			return $number;
+		$iterator = new RecursiveIteratorIterator(
+			new RecursiveDirectoryIterator( $this->folderName ),
+			RecursiveIteratorIterator::SELF_FIRST
+		);
+		foreach( $iterator as $item )
+			$number += (int) chown( $item, $userName );
+		return $number;
+	}
+
+	/**
 	 *	Creates a Folder by creating all Folders in Path recursive.
 	 *	@access		public
 	 *	@static
@@ -276,40 +349,5 @@ class Folder_Editor extends Folder_Reader
 		rmDir( $folderName );																//  remove Folder
 		return $count;																		//  return counted Objects
 	}
-
-	/**
-	 *	Removes a Folder recursive and returns Number of removed Folders and Files.
-	 *	@access		public
-	 *	@static
-	 *	@param		string		$folderName		Folder to be removed
-	 *	@param		bool		$force			Flag: force to remove nested Files and Folders
-	 *	@return		int
-	 */
-/*	public static function removeFolder( $folderName, $force = false )
-	{
-		$count	= 1;																		//  current Folder is first Object
-		$dir	= new DirectoryIterator( $folderName );										//  index Folder
-		foreach( $dir as $entry )															//  iterate Objects
-		{
-			if( $entry->isDot() )															//  continue if is Dot Object
-				continue;
-			if( $entry->isDir() )															//  is nested Folder
-				$count += self::removeFolder( $entry->getPathname(), $force );				//  call Method with nested Folder
-			else																			//  is nested File
-			{
-				$fileName	= $entry->getFilename();
-				if( !$force )																//  Files found and force flag not set
-					throw new RuntimeException( 'Folder "'.$folderName.'" is not empty.' );
-				$fileName	= $entry->getFilename();										//  get File Name
-				$filePath	= $entry->getPathname();										//  get File Path
-				if( FALSE === @unlink( $filePath ) )
-					throw new RuntimeException( 'File "'.$fileName.'" is not removable.' );	//  throw Exception for File
-				$count++;																	//  count removed File
-			}
-		}
-		if( FALSE === @rmdir( $folderName ) )												//  remove Folder
-			throw new Exception( 'Folder "'.$folderName.'" is not removable.' );			//  throw Exception with Warning
-		return $count;																		//  return counted Objects
-	}*/
 }
 ?>
