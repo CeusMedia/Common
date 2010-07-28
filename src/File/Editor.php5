@@ -96,7 +96,7 @@ class File_Editor extends File_Reader
 	{
 		return $this->writer->setPermissions( $mode );
 	}
-	
+
 	/**
 	 *	Removes current File.
 	 *	@access		public
@@ -106,7 +106,7 @@ class File_Editor extends File_Reader
 	{
 		return $this->writer->remove();
 	}
-	
+
 	/**
 	 *	Renames current File.
 	 *	@access		public
@@ -123,7 +123,7 @@ class File_Editor extends File_Reader
 		$this->__construct( $fileName );
 		return $result;
 	}
-	
+
 	/**
 	 *	Saves a String into the File statically and returns Length.
 	 *	@access		public
@@ -136,7 +136,7 @@ class File_Editor extends File_Reader
 	{
 		return File_Writer::save( $fileName, $string );
 	}
-	
+
 	/**
 	 *	Writes an Array into the File statically and returns Length.
 	 *	@access		public
@@ -149,7 +149,7 @@ class File_Editor extends File_Reader
 	{
 		return File_Writer::saveArray( $fileName, $array, $lineBreak );
 	}
-	
+
 	/**
 	 *	Writes an Array into the File and returns Length.
 	 *	@access		public
@@ -161,7 +161,7 @@ class File_Editor extends File_Reader
 	{
 		return $this->writer->writeArray( $array, $lineBreak );
 	}
-	
+
 	/**
 	 *	Writes a String into the File and returns Length.
 	 *	@access		public

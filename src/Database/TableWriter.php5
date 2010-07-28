@@ -203,10 +203,10 @@ class Database_TableWriter extends Database_TableReader
 	{
 		if( $stripTags )
 			$value	= strip_tags( $value );
-#		if( $data[$field] == "on" )
-#			$data[$field] = 1;
+#		if( $value == "on" )
+#			$value = 1;
 		$value	= stripslashes( $value );
-		$value	= htmlentities( $value, ENT_QUOTES );
+#		$value	= htmlentities( $value, ENT_COMPAT );
 		$value	= mysql_real_escape_string( $value, $this->dbc->getResource() );
 		return $value;
 	}
