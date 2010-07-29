@@ -78,7 +78,8 @@ class DB_OSQL_Query_Select extends DB_OSQL_Query_Abstract
 		$offset		= $this->renderOffset( $parameters );
 		$group		= $this->renderGrouping();
 		$query		= 'SELECT '.$this->fields.$from.$conditions.$limit.$offset.$group;
-		return array( $query, $parameters, $clock->stop( 6, 0 ) );
+		$this->timeRender	= $clock->stop( 6, 0 );
+		return array( $query, $parameters );
 	}
 }
 ?>

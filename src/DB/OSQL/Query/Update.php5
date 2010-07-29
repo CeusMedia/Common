@@ -5,11 +5,6 @@ class DB_OSQL_Query_Update extends DB_OSQL_Query_Abstract
 	protected $fields		= array();
 	protected $table		= NULL;
 	
-	public function __construct( Database $dbc )
-	{
-		$this->dbc	= $dbc;
-	}
-	
 	public function in( DB_OSQL_Table $table )
 	{
 		$this->table	= $table;
@@ -47,7 +42,8 @@ class DB_OSQL_Query_Update extends DB_OSQL_Query_Abstract
 		$limit		= $this->renderLimit( $parameters );
 		$offset		= $this->renderOffset( $parameters );
 		$query		= 'UPDATE '.$table.$fields.$conditions.$limit.$offset;
-		return array( $query, $parameters, $clock->stop( 6, 0 ) );
+		$this->timeRender	= $clock->stop( 6, 0 );
+		return array( $query, $parameters );
 	}
 
 	public function set( $name, $value )

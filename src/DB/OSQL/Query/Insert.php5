@@ -37,7 +37,6 @@ class DB_OSQL_Query_Insert extends DB_OSQL_Query_Abstract
 
 	public function render()
 	{
-		$clock	= new Alg_Time_Clock();
 		$this->checkSetup();
 		$parameters	= array();
 		$table		= $this->table->render();
@@ -46,7 +45,7 @@ class DB_OSQL_Query_Insert extends DB_OSQL_Query_Abstract
 		$limit		= $this->renderLimit( $parameters );
 		$offset		= $this->renderOffset( $parameters );
 		$query		= 'INSERT INTO '.$table.$fields.$conditions.$limit.$offset;
-		return array( $query, $parameters, $clock->stop( 6, 0 ) );
+		return array( $query, $parameters );
 	}
 
 	public function set( $name, $value )

@@ -26,7 +26,8 @@ class DB_OSQL_Query_Delete extends DB_OSQL_Query_Abstract
 		$limit		= $this->renderLimit( $parameters );
 		$offset		= $this->renderOffset( $parameters );
 		$query		= 'DELETE FROM '.$table.$conditions.$limit.$offset;
-		return array( $query, $parameters, $clock->stop( 6, 0 ) );
+		$this->timeRender	= $clock->stop( 6, 0 );
+		return array( $query, $parameters );
 	}
 }
 ?>
