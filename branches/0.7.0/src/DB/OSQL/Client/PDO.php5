@@ -1,35 +1,49 @@
 <?php
 class DB_OSQL_Client_PDO extends DB_OSQL_Client_Abstract
 {
-	public function getLastInsertId()
-	{
-		return $this->dbc->lastInsertId();
-	}
+	protected $fetchMode;
+	public static $defaultFetchMode	= PDO::FETCH_OBJ;
 
-	public function getStringFromQuery( $query )
+	public function __construct( $dbc )
 	{
-		$query	= $query->render();
-		return $query[0];
+		parent::__construct( $dbc );
+		$this->setFetchMode( self::$defaultFetchMode );
 	}
 
 	public function execute( DB_OSQL_Query $query )
 	{
+		$clock	= new Alg_Time_Clock();
 		$parts	= $query->render();
+		$query->timeRender	= $clock->stop( 6, 0 );
+
+		$clock->start();
 		$stmt	= $this->dbc->prepare( $parts[0] );
-		remark( 'Query Render Time ('.get_class( $query ).'): '.round( $parts[2] / 1000, 1 ).'ms' );
 		foreach( $parts[1] as $name => $parameter )
 			$stmt->bindParam( $name, $parameter['value'], $parameter['type'] );
-		$clock	= new Alg_Time_Clock;
+		$query->timePrepare	= $clock->stop( 6, 0 );
+
+		$clock->start();
 		$result	= $stmt->execute();
 		if( !$result )
 		{
 			$info	= $stmt->errorInfo();
 			throw new Exception( $info[2], $info[1] );
 		}
-		remark( 'DB Query Time: '.$clock->stop( 3, 1 ).'ms' );
+		$query->timeExecute	= $clock->stop( 6, 0 );
+
 		if( $query instanceof DB_OSQL_Query_Select )
-			return $stmt->fetchAll( PDO::FETCH_ASSOC );
+			return $stmt->fetchAll( $this->fetchMode );
 		return $result;
+	}
+
+	public function getLastInsertId()
+	{
+		return $this->dbc->lastInsertId();
+	}
+
+	public function setFetchMode( $mode )
+	{
+		$this->fetchMode	= $mode;
 	}
 }
 ?>

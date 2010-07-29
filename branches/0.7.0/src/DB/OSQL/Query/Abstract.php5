@@ -1,18 +1,21 @@
 <?php
 abstract class DB_OSQL_Query_Abstract implements DB_OSQL_Query
 {
+	protected $conditions	= array();
 	protected $fields;
 	protected $limit;
 	protected $offset;
 	protected $query;
-	protected $conditions	= array();
+	public $timeExecute	= NULL;
+	public $timePrepare	= NULL;
+	public $timeRender	= NULL;
 
 	
-	public function __construct( Database $dbc )
+	public function __construct( DB_OSQL_Client_Abstract $dbc )
 	{
 		$this->dbc	= $dbc;
 	}
-	
+
 	public function execute()
 	{
 		return $this->dbc->execute( $this );
