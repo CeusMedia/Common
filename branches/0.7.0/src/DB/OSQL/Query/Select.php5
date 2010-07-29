@@ -14,7 +14,18 @@ class DB_OSQL_Query_Select extends DB_OSQL_Query_Abstract
 			$fields	= $field;
 		else
 			throw new InvalidArgumentException( 'Must be array or string' );
-		$this->fields	= implode( ', ', $fields );
+		foreach( $fields as $field )
+		{
+			if( trim( $field ) === '*' )
+			{
+				$this->fields	= '*';
+				break;
+			}
+			else if( $this->fields	== '*' )
+				$this->fields	= array( trim( $field ) );
+			else
+				$this->fields[]	= trim( $field );
+		}
 		return $this;
 	}
 
@@ -72,12 +83,13 @@ class DB_OSQL_Query_Select extends DB_OSQL_Query_Abstract
 		$clock	= new Alg_Time_Clock();
 		$this->checkSetup();
 		$parameters	= array();
+		$fields		= is_array( $this->fields ) ? implode( ',', $this->fields ) : $this->fields;
 		$from		= $this->renderFrom();
 		$conditions	= $this->renderConditions( $parameters );
 		$limit		= $this->renderLimit( $parameters );
 		$offset		= $this->renderOffset( $parameters );
 		$group		= $this->renderGrouping();
-		$query		= 'SELECT '.$this->fields.$from.$conditions.$limit.$offset.$group;
+		$query		= 'SELECT '.$fields.$from.$conditions.$limit.$offset.$group;
 		$this->timeRender	= $clock->stop( 6, 0 );
 		return array( $query, $parameters );
 	}
