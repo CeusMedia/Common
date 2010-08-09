@@ -61,6 +61,8 @@
  */
 class UI_Template
 {
+	/**	@var		string		$className		Name of template class */
+	protected $className;
 	/**	@var		array		the first dimension holds all added labels, the second dimension holds elements for each label */
 	protected $elements;
 	/**	@var		string		content of a specified templatefile */
@@ -101,27 +103,54 @@ class UI_Template
 		$number	= 0;
 		foreach( $elements as $key => $value )
 		{
+			if( !( is_string( $key ) || is_int( $key ) || is_float( $key ) ) )
+				throw new InvalidArgumentException( 'Invalid key type "'.gettype( $key ).'"' );
+			if( !strlen( trim( $key ) ) )
+				throw new InvalidArgumentException( 'Key cannot be empty' );
+
 			$isListObject	= $value instanceof ArrayObject || $value instanceof ADT_List_Dictionary;
-			if( is_array( $value ) || $isListObject )
-			{
+			$isPrimitive	= is_string( $value ) || is_int( $value ) || is_float( $value ) || is_bool( $value );
+			$isTemplate		= $value instanceof $this->className;
+			if( is_null( $value ) )
+				continue;
+			else if( is_array( $value ) || $isListObject )
 				$number	+= $this->addArrayRecursive( $key, $value, array(), $overwrite );
-			}
-			else
+			else if( $isPrimitive || $isTemplate )
 			{
-				$validKey	= is_string( $key ) || is_int( $key ) || is_float( $key );
-				$validValue	= is_string( $value ) || is_int( $value ) || is_float( $value ) || $value instanceof $this->className;
-				if( $validKey && $validValue )
-				{
-					if( $overwrite == TRUE )
-						$this->elements[$key] = NULL;
-					$this->elements[$key][] = $value;
-				}
+				if( $overwrite == TRUE )
+					$this->elements[$key] = NULL;
+				$this->elements[$key][] = $value;
 				$number	++;
 			}
+			else if( is_object( $value ) )
+				$this->addObject( $key, $value, array(), $overwrite );
+			else
+				throw new InvalidArgumentException( 'Unsupported type '.gettype( $value ).' for "'.$key.'"' );
 		}
 		return $number;
 	}
 
+	public function addObject( $name, $object, $steps = array(), $overwrite = FALSE )
+	{
+		$number		= 0;
+		$steps[]	= $name;
+		$reflection	= new ReflectionObject( $object );
+		foreach( $reflection->getProperties() as $property )
+		{
+			$key		= $property->getName();
+			$methodName	= 'get'.ucFirst( $key );
+			if( $property->isPublic() )
+				$value	= $property->getValue( $object );
+			else if( $reflection->hasMethod( $methodName ) )
+				$value	= Alg_Object_MethodFactory::callObjectMethod( $object, $methodName );
+			else
+				continue;
+			$label	= implode( ".", $steps ).".".$key;
+			$this->addElement( $label, $value, $overwrite );
+			$number ++;
+		}
+		return $number;
+	}
 	/**
 	 *	Adds an array recursive and returns number of added elements.
 	 *	@access		public
@@ -145,9 +174,7 @@ class UI_Template
 			else
 			{
 				$key	= implode( ".", $steps ).".".$key;
-				if( $overwrite == TRUE )
-					$this->elements[$key] = NULL;
-				$this->elements[$key][] = $value;
+				$this->addElement( $key, $value );
 				$number ++;
 			}
 		}
@@ -200,9 +227,9 @@ class UI_Template
 			{
 	 			if( is_object( $element ) )
 	 			{
-	 				if( !( $element instanceof $this->className ) )
-	 					continue;
-					$element = $element->create();
+	 				if( $element instanceof $this->className )
+						$element = $element->create();
+					continue;
 	 			}
 				$tmp	.= $element;
 			}
@@ -217,7 +244,9 @@ class UI_Template
 		$tags	= array_shift( $tags );
 		foreach( $tags as $key => $value )
 			$tags[$key]	= preg_replace( '@(<%\??)|%>@', "", $value );
-		throw new Exception_Template( EXCEPTION_TEMPLATE_LABELS_NOT_USED, $this->fileName, $tags );
+		if( $this->fileName )
+			throw new Exception_Template( Exception_Template::FILE_LABELS_MISSING, $this->fileName, $tags );
+		throw new Exception_Template( Exception_Template::LABELS_MISSING, NULL, $tags );
 	}
 
 	/**
@@ -329,7 +358,7 @@ class UI_Template
 			return FALSE;
 			
 		if( !file_exists( $fileName ) )
-			throw new Exception_Template( EXCEPTION_TEMPLATE_FILE_NOT_FOUND, $fileName );
+			throw new Exception_Template( Exception_Template::FILE_NOT_FOUND, $fileName );
 
 		$this->fileName	= $fileName;
 		$this->template = file_get_contents( $fileName );
