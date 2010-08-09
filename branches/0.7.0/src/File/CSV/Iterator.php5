@@ -15,58 +15,43 @@ class File_CSV_Iterator implements Iterator
 {
 	const ROW_SIZE = 4096;
 
-	/**
-	 *	The pointer to the cvs file.
-	 *	@var resource
-	 *	@access private
-	 */
-	private $filePointer = NULL;
+	/**	@var	resource	$filePointer		The pointer to the cvs file. */
+	protected $filePointer	= NULL;
+
+	/**	@var	integer		$rowCounter			The row counter. */
+	protected $rowCounter		= 0;
+
+	/**	@var	string		$delimiter			The delimiter for the csv file. */
+	protected $delimiter		= ",";
+
+	/**	@var	string		$enclosure			The delimiter for the csv file. */
+	protected $enclosure		= '"';
 
 	/**
-	 *	The current element, which will
-	 *	be returned on each iteration.
-	 *	@var array
-	 *	@access private
+	 *	Constructor.
+	 *	It tries to open the csv file and throws an exception on failure.
+	 *	@access		public
+	 *	@param		string		$file			CSV file
+	 *	@param		string		$delimiter		Delimiter sign
+	 *	@param		string		$enclosure		Enclosure sign
+	 *	@return		void
+	 *	@throws		Exception
 	 */
-	private $currentElement = NULL;
-
-	/**
-	 * The row counter.
-	 * @var int
-	 * @access private
-	 */
-	private $rowCounter = NULL;
-
-	/**
-	 * The delimiter for the csv file.
-	 * @var str
-	 * @access private
-	 */
-	private $delimiter	= ",";
-
-	/**
-	 * This is the constructor.It try to open the csv file.The method throws an exception
-	 * on failure.
-	 *
-	 * @access public
-	 * @param str $file The csv file.
-	 * @param str $delimiter The delimiter.
-	 *
-	 * @throws Exception
-	 */
-	public function __construct( $file, $delimiter = NULL )
+	public function __construct( $file, $delimiter = NULL, $enclosure = NULL )
 	{
-		if( $delimiter )
+		if( !is_null( $delimiter ) )
 			$this->delimiter	= $delimiter;
+		if( !is_null( $enclosure ) )
+			$this->enclosure	= $enclosure;
 		$this->filePointer	= @fopen( $file, 'r' );
-		if( $this->filePointer === false )
-			throw new Exception( 'The file "'.$file.'" cannot be read.' );
+		if( $this->filePointer === FALSE )
+			throw new RuntimeException( 'File "'.$file.'" not existing and readable' );
 	}
 
 	/**
-	 * This method resets the file pointer.
-	 *
-	 * @access public
+	 *	Resets the file pointer.
+	 *	@access		public
+	 *	@return		void
 	 */
 	public function rewind()
 	{
@@ -75,10 +60,9 @@ class File_CSV_Iterator implements Iterator
 	}
 
 	/**
-	 * This method returns the current csv row as a 2 dimensional array
-	 *
-	 * @access public
-	 * @return array The current csv row as a 2 dimensional array
+	 *	Returns the current csv row as a 2 dimensional array.
+	 *	@access		public
+	 *	@return		array		The current csv row as a 2 dimensional array
 	 */
 	public function current()
 	{
@@ -86,10 +70,9 @@ class File_CSV_Iterator implements Iterator
 	}
 
 	/**
-	 * This method returns the current row number.
-	 *
-	 * @access public
-	 * @return int The current row number
+	 *	Returns the current row number.
+	 *	@access		public
+	 *	@return		integer		The current row number
 	 */
 	public function key()
 	{
@@ -97,10 +80,9 @@ class File_CSV_Iterator implements Iterator
 	}
 
 	/**
-	 * This method checks if the end of file is reached.
-	 *
-	 * @access public
-	 * @return boolean Returns true on EOF reached, false otherwise.
+	 *	Indicates whether the end of file is not reached.
+	 *	@access		public
+	 *	@return		boolean		FALSE on EOF reached, TRUE otherwise
 	 */
 	public function next()
 	{
@@ -108,35 +90,35 @@ class File_CSV_Iterator implements Iterator
 		{
 			if( !feof( $this->filePointer ) )
 			{
-				$this->rowCounter++;
-				$data = fgetcsv( $this->filePointer, self::ROW_SIZE, $this->delimiter );
+				$data = fgetcsv(
+					$this->filePointer,
+					self::ROW_SIZE,
+					$this->delimiter,
+					$this->enclosure
+				);
 				if( $data )
 				{
 					$this->currentElement	= $data;	
-					return $this->current();
+					$this->rowCounter++;
+					return TRUE;
 				}
 			}
 		}
-		return false;
+		return FALSE;
 	}
 
 	/**
-	 * This method checks if the next row is a valid row.
-	 *
-	 * @access public
-	 * @return boolean If the next row is a valid row.
+	 *	Indicates whether the next row is a valid row.
+	 *	@access		public
+	 *	@return		boolean
 	 */
 	public function valid()
 	{
-		if( !$this->next() )
-		{
-			if( is_resource( $this->filePointer ) )
-			{
-				fclose( $this->filePointer );
-			}
-			return false;
-		}
-		return true;
+		if( $this->next() )
+			return TRUE;
+		if( is_resource( $this->filePointer ) )
+			fclose( $this->filePointer );
+		return FALSE;
 	}
 }
 ?>

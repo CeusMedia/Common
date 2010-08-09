@@ -19,6 +19,7 @@ class Test_File_AllTests
 		$suite->addTest( Test_File_Arc_AllTests::suite() );
 		$suite->addTest( Test_File_Block_AllTests::suite() );
 		$suite->addTest( Test_File_Configuration_AllTests::suite() );
+		$suite->addTest( Test_File_CSV_AllTests::suite() );
 		$suite->addTest( Test_File_ICal_AllTests::suite() );
 		$suite->addTest( Test_File_INI_AllTests::suite() );
 		$suite->addTest( Test_File_List_AllTests::suite() );
