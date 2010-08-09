@@ -18,26 +18,26 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		Alg
+ *	@package		Alg.Text
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
- *	@since			01.07.2007
+ *	@since			0.6.4
  *	@version		$Id$
  */
 /**
  *	Filters HTML Content by stripping out unwanted Content Types like Scripts or Styles.
  *	@category		cmClasses
- *	@package		Alg
+ *	@package		Alg.Text
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
- *	@since			01.07.2007
+ *	@since			0.6.4
  *	@version		$Id$
  */
-class Alg_InputFilter
+class Alg_Text_Filter
 {
 	/**
 	 *	Strips all Comments from String.
