@@ -20,7 +20,7 @@ import( 'File.CSV.Iterator' );
  *	@since			09.08.2010
  *	@version		0.1
  */
-class Tests_File_CSV_IteratorTest extends PHPUnit_Framework_TestCase
+class Test_File_CSV_IteratorTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 *	Constructor.

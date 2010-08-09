@@ -13,7 +13,7 @@ class Go_Library
 		return dirname( dirname( __FILE__ ) ).'/'.self::$configFile;
 	}
 
-	public function listClasses( $path )
+	public static function listClasses( $path )
 	{
 		$count	= 0;
 		$size	= 0;
@@ -27,7 +27,7 @@ class Go_Library
 		);
 	}
 
-	public function ensureSvnSupport()
+	public static function ensureSvnSupport()
 	{
 		echo "checking svn... ";
 		$command	= 'svn --version --quiet';
@@ -100,18 +100,18 @@ class Go_Library
 		}
 	}	
 	
-	public function runSvn( $command )
+	public static function runSvn( $command )
 	{
 		passthru( "svn ".$command, $return );
 	}
  	
-	public function showMemoryUsage()
+	public static function showMemoryUsage()
 	{
 		$number	= ceil( memory_get_usage() / 1024 );
 		print( "\nmemory: ".$number."KB" );
 	}
 	
-	public function testImports( $files )
+	public static function testImports( $files )
 	{
 		remark( "Checking nested imports\n" );
 		$count	= 0;
@@ -149,7 +149,7 @@ class Go_Library
 		}
 	}
 
-	public function testSyntax( $files )
+	public static function testSyntax( $files )
 	{
 		remark( "Checking file syntax\n" );
 		$count	= 0;
