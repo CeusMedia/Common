@@ -62,7 +62,7 @@ abstract class Console_Command_Program
 	 *			'a'	=> "anything",
 	 *			's'	=> "something",
 	 *		);
-	 *		parent::__construct( $options, $shortcuts, 0 );
+	 *		parent::__construct( $options, $shortcuts, $numberArguments );
 	 *	}
 	 *  </code>
 	 *

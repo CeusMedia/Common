@@ -39,16 +39,16 @@
  */
 class UI_OutputBuffer
 {
-	/**	@var		bool		$isOpen		Flag: Buffer opened */
-	protected $isOpen = false;
+	/**	@var		boolean		$isOpen		Flag: Buffer opened */
+	protected $isOpen = FALSE;
 	
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		bool		$open		Flag: open Buffer with Instance
+	 *	@param		boolean		$open		Flag: open Buffer with Instance
 	 *	@return		void
 	 */
-	public function __construct ( $open = true )
+	public function __construct ( $open = TRUE )
 	{
 		if( $open )
 			$this->open();
@@ -72,7 +72,7 @@ class UI_OutputBuffer
 	public function close()
 	{
 		ob_end_clean();
-		$this->isOpen = false;
+		$this->isOpen = FALSE;
 	}
 
 	/**
@@ -88,10 +88,10 @@ class UI_OutputBuffer
 	/**
 	 *	Returns Content of Output Buffer.
 	 *	@access		public
-	 *	@param		bool		$clear		Flag: clear Output Buffer afterwards		
+	 *	@param		boolean		$clear		Flag: clear Output Buffer afterwards
 	 *	@return		string
 	 */
-	public function get( $clear = false )
+	public function get( $clear = FALSE )
 	{
 		if( !$this->isOpen() )
 			throw new RuntimeException( 'Output Buffer is not open.' );
@@ -105,7 +105,7 @@ class UI_OutputBuffer
 	 */
 	public function isOpen()
 	{
-		return (bool) $this->isOpen;
+		return (boolean) $this->isOpen;
 	}
 	
 	/**
@@ -118,7 +118,7 @@ class UI_OutputBuffer
 		if( $this->isOpen() )
 			throw new RuntimeException( 'Output Buffer is already open.' );
 		ob_start();
-		$this->isOpen = true;
+		$this->isOpen = TRUE;
 	}
 }
 ?>
