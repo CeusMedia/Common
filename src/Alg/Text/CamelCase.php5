@@ -18,26 +18,26 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		Alg
+ *	@package		Alg.Text
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2010 Christian Würker
+ *	@copyright		2008-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
- *	@since			20.10.2008
+ *	@since			0.6.6
  *	@version		$Id$
  */
 /**
  *	Converter for Strings using different ways of Camel Case.
  *	@category		cmClasses
- *	@package		Alg
+ *	@package		Alg.Text
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2010 Christian Würker
+ *	@copyright		2008-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
- *	@since			20.10.2008
+ *	@since			0.6.6
  *	@version		$Id$
  */
-class Alg_CamelCase
+class Alg_Text_CamelCase
 {
 	protected static $regExp	= '/^(.*)[\-\_ ](.*)$/';
 	public static $lowercaseFirst	= NULL;
