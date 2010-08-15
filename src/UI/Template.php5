@@ -40,7 +40,7 @@
  *	@since			03.03.2007
  *	@version		$Id$
  * 
- *	<b>Syntax of a Templatefile</b>
+ *	<b>Syntax of a template file</b>
  *	- comment <%--comment--%>
  *	- optional tag <%?tagname%>
  *	- non optional tag <%tagname%>
@@ -48,14 +48,16 @@
  *	<b>Exmaple</b>
  *	<code>
  *	<html>
- *	<head>
- *	<title><%?pagetitle%>
- *	</title>
- *	<body> <%-- this is a comment --%>
- *	<h1><%title%></h1>
- *	<p><%text%></p><%-- just an
- *	other comment --%>
- *	</body>
+ *		<head>
+ *			<title><%?pagetitle%></title>
+ *			<%load(meta.html)%>
+ *		</head>
+ *		<body>
+ *			<%-- this is a comment --%>
+ *			<h1><%title%></h1>
+ *			<p><%text%></p>
+ *			<%-- just an other comment --%>
+ *		</body>
  *	</html>
  *	</code>
  */
@@ -93,8 +95,8 @@ class UI_Template
 	 *							float and is the <b>label</b>. The <b>value</b> can be a 
 	 *							string, integer, float or a template object and represents
 	 *							the element to add.
-	 *	@param		bool		if TRUE an a tag is already used, it will overwrite it 
-	 *	@return		int
+	 *	@param		boolean		if TRUE an a tag is already used, it will overwrite it
+	 *	@return		integer
 	 */
 	public function add( $elements, $overwrite = FALSE )
 	{
@@ -183,9 +185,9 @@ class UI_Template
 	
 	/**
 	 *	Adds one Element.
-	 *	@param		string		tagname
-	 *	@param		string|int|float|Template
-	 *	@param		bool		if set to TRUE, it will overwrite an existing element with the same label
+	 *	@param		string		$tag		Tag name
+	 *	@param		string|integer|float|UI_Template
+	 *	@param		boolean		if set to TRUE, it will overwrite an existing element with the same label
 	 *	@return		void
 	 */
 	public function addElement( $tag, $element, $overwrite = FALSE )
@@ -198,7 +200,7 @@ class UI_Template
 	 *	@param		string		tagname
 	 *	@param		string		template file
 	 *	@param		array		array containing elements {@link add()}
-	 *	@param		bool		if set to TRUE, it will overwrite an existing element with the same label
+	 *	@param		boolean		if set to TRUE, it will overwrite an existing element with the same label
 	 *	@return		void
 	 */
 	public function addTemplate( $tag, $fileName, $element = NULL, $overwrite = FALSE )
@@ -262,7 +264,7 @@ class UI_Template
 	/**
 	 *	Returns all marked elements from a comment.
 	 *	@param		string		$comment		Comment Tag
-	 *	@param		bool		$unique			Flag: unique Keys only
+	 *	@param		boolean		$unique			Flag: unique Keys only
 	 *	@return		array						containing Elements or empty
 	 */
 	public function getElementsFromComment( $comment, $unique = TRUE )
@@ -289,7 +291,7 @@ class UI_Template
 	/**
 	 *	Returns all defined labels.
 	 *	@param		int			$type		Label Type: 0=all, 1=mandatory, 2=optional
-	 *	@param		bool		$xml		Flag: with or without delimiter
+	 *	@param		boolean		$xml		Flag: with or without delimiter
 	 *	@return		array					Array of Labels
 	 */
 	public function getLabels( $type = 0, $xml = TRUE )
@@ -312,7 +314,7 @@ class UI_Template
 	/**
 	 *	Returns a tagged comment.
 	 *	@param		string		$tag		Comment Tag
-	 *	@param		bool		$xml		Flag: with or without Delimiter
+	 *	@param		boolean		$xml		Flag: with or without Delimiter
 	 *	@return		string					Comment or NULL
 	 *	@todo		quote specialchars in tagname
 	 */
@@ -332,7 +334,14 @@ class UI_Template
 		return $this->template;
 	}
 
-	protected function loadNestedTemplates($template)
+	/**
+	 *	Tries to load nested templates with same context data.
+	 *	Syntax: <%?load(FILENAME)%> while FILENAME is related to current templates file.
+	 *	@access		protected
+	 *	@param		string		$template		Template content
+	 *	@return		string		Template string with loaded nested templates.
+	 */
+	protected function loadNestedTemplates( $template)
 	{
 		$matches	= array();
 		preg_match_all( '/<(\?)?%load\((.*)\)%>/U', $template, $matches );
@@ -350,7 +359,7 @@ class UI_Template
 	/**
 	 *	Loads a new template file if it exists. Otherwise it will throw an Exception.
 	 *	@param		string		$fileName 	File Name of Template
-	 *	@return		bool
+	 *	@return		boolean
 	 */
 	public function setTemplate( $fileName )
 	{
