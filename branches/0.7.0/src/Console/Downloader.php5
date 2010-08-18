@@ -32,7 +32,7 @@
  *	@category		cmClasses
  *	@package		Console
  *	@uses			Alg_UnitFormater
- *	@uses			Stopwatch
+ *	@uses			Alg_Time_Clock
  *	@author			Keyvan Minoukadeh
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
@@ -55,23 +55,23 @@ class Console_Downloader
 	/**	@var		bool		$showHeaders		Flag: show Headers */
 	public $showFileName		= TRUE;
 	/**	@var		bool		$showHeaders		Flag: show Headers */
-	public $showHeaders			= FALSE;
-	/**	@var		bool		$showProgress		Flag: show Progress */
-	public $showProgress		= TRUE;
-	/**	@var		string		$templateBodyDone	Template for Progress Line after having finished File Download */
-	public $templateBodyDone	= "\rLoaded %1\$s (%2\$s) with %3\$s.\n";
-	/**	@var		string		$templateBodyRatio	Template for Progress Line with Ratio (File Size muste be known) */
-	public $templateBodyRatio	= "\r[%3\$s%%] %1\$s loaded (%2\$s)   ";
-	/**	@var		string		$templateBody		Template for Progress Line without Ratio */
-	public $templateBody		= "\r%1\$s loaded (%2\$s)   ";
-	/**	@var		string		$templateFileName	Template for File Name Line */
-	public $templateFileName	= "Downloading File \"%s\":\n";
-	/**	@var		string		$templateHeader		Template for Header Line */
-	public $templateHeader		= "%s: %s\n";
-	/**	@var		string		$templateHeader		Template for Header Line */
-	public $templateRedirect	= "Redirected to \"%s\"\n";
-	/**	@var		Stopwatch	$watch				Stopwatch Instance */
-	private $watch;
+	public $showHeaders				= FALSE;
+	/**	@var		bool			$showProgress		Flag: show Progress */
+	public $showProgress			= TRUE;
+	/**	@var		string			$templateBodyDone	Template for Progress Line after having finished File Download */
+	public $templateBodyDone		= "\rLoaded %1\$s (%2\$s) with %3\$s.\n";
+	/**	@var		string			$templateBodyRatio	Template for Progress Line with Ratio (File Size muste be known) */
+	public $templateBodyRatio		= "\r[%3\$s%%] %1\$s loaded (%2\$s)   ";
+	/**	@var		string			$templateBody		Template for Progress Line without Ratio */
+	public $templateBody			= "\r%1\$s loaded (%2\$s)   ";
+	/**	@var		string			$templateFileName	Template for File Name Line */
+	public $templateFileName		= "Downloading File \"%s\":\n";
+	/**	@var		string			$templateHeader		Template for Header Line */
+	public $templateHeader			= "%s: %s\n";
+	/**	@var		string			$templateHeader		Template for Header Line */
+	public $templateRedirect		= "Redirected to \"%s\"\n";
+	/**	@var		Alg_Time_Clock	$clock				Clock Instance */
+	private $clock;
 
 	/**
 	 *	Loads a File from an URL, saves it using Callback Methods and returns Number of loaded Bytes.
@@ -117,7 +117,7 @@ class Console_Downloader
 		if( $this->showFileName && $this->templateFileName )								//  show extraced File Name
 			printf( $this->templateFileName, $fileName );									//  use Template
 		
-		$this->watch	= new StopWatch;													//  start Stopwatch
+		$this->clock	= new Alg_Time_Clock;												//  start clock
 		$ch = curl_init();																	//  start cURL
 		curl_setopt( $ch, CURLOPT_URL, $url );												//  set URL in cURL Handle
 		curl_setopt( $ch, CURLOPT_HEADERFUNCTION, array( $this, 'readHeader' ) );			//  set Callback Method for Headers
@@ -148,7 +148,7 @@ class Console_Downloader
 
 		if( $this->showProgress && $this->showProgress )									//  show Progress
 		{
-			$time	= $this->watch->stop( 6, 0 );											//  get current Duration
+			$time	= $this->clock->stop( 6, 0 );											//  get current Duration
 			$rate	= $this->loadSize / $time * 1000000;									//  calculate Rate of Bytes per Second
 			$rate	= Alg_UnitFormater::formatBytes( $rate, 1 )."/s";						//  format Rate
 			if( $this->fileSize )															//  File Size is known
