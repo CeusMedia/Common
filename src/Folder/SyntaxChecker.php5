@@ -71,7 +71,7 @@ class Folder_SyntaxChecker
 	{
 		$counter	= 0;
 		$invalid	= array();
-		$watch		= new Stopwatch;
+		$clock		= new Alg_Time_Clock;
 		$this->failures	= array();
 		$index		= new Folder_RecursiveRegexFilter( $pathName, "@\.".self::$phpExtension."$@" );
 		foreach( $index as $file )
@@ -86,7 +86,7 @@ class Folder_SyntaxChecker
 				remark( $shortName.": ".( $valid ? "valid." : $error ) );
 		}
 		if( $verbose )
-			$this->printResults( $invalid, $counter, $watch->stop( 0, 1 ) );
+			$this->printResults( $invalid, $counter, $clock->stop( 0, 1 ) );
 		$result	= array(
 			'numberFiles'	=> $counter,
 			'numberErrors'	=> count( $invalid ),

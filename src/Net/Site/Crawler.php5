@@ -30,8 +30,9 @@
  *	Crawls and counts all internal Links of an URL.
  *	@category		cmClasses
  *	@package		Net.Site
+ *	@uses			ADT_StringBuffer
+ *	@uses			ADT_List_Dictionary
  *	@uses			Net_Reader
- *	@uses			StopWatch
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
