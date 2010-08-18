@@ -183,7 +183,7 @@ class UI_HTML_Exception_TraceViewer
 				return htmlentities( (string) $value );
 			case 'string':
 				if( strlen( $value ) > 70 )
-					$value	= Alg_StringTrimmer::trimCentric( $string, 70, '...' );
+					$value	= Alg_Text_Trimmer::trimCentric( $value, 70, '...' );
 				return '"'.htmlentities($value ).'"';
 			case 'array':
 				return self::convertArrayToString( $argument, $breakMode, $level );

@@ -25,21 +25,15 @@
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		$Id$
  */
-import( 'de.ceus-media.StopWatch' );
-import( 'de.ceus-media.net.Reader' );
-import( 'de.ceus-media.adt.json.Formater' );
-import( 'de.ceus-media.alg.StringTrimmer' );
-import( 'de.ceus-media.ui.html.Elements' );
-import( 'de.ceus-media.ui.html.Tabs' );
-import( 'de.ceus-media.ui.DevOutput' );
-import( 'de.ceus-media.ui.VariableDumper' );
-import( 'de.ceus-media.ui.html.exception.TraceViewer' );
-import( 'de.ceus-media.xml.Element' );
-import( 'de.ceus-media.xml.dom.Formater' );
 /**
  *	...
  *	@category		cmClasses
  *	@package		UI.HTML.Service
+ *	@uses			Alg_Text_Trimmer
+ *	@uses			Alg_Time_Clock
+ *	@uses			Net_Reader
+ *	@uses			UI_HTML_Tabs
+ *	@uses			XML_Element
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -73,7 +67,7 @@ class UI_HTML_Service_Test
 		$requestUrl		= $this->getRequestUrl( $request );
 		$testUrl		= $this->getTestUrl( $request );
 
-		$stopwatch	= new StopWatch();
+		$clock			= new Alg_Time_Clock();
 		try
 		{
 			$response	= $this->getResponse( $requestUrl, $format );
@@ -82,7 +76,7 @@ class UI_HTML_Service_Test
 		{
 			$response	= UI_HTML_Exception_TraceViewer::buildTrace( $e, 2 );
 		}
-		$time			= $stopwatch->stop( 6, 0 );
+		$time			= $clock->stop( 6, 0 );
 
 		//  --  INFORMATION FOR TEMPLATE  --  //
 		$title			= $this->servicePoint->getTitle();							//  Service Title
@@ -103,7 +97,7 @@ class UI_HTML_Service_Test
 
 		if( strlen( $response ) > ( 1024 * 1024 ) )
 		{
-			$response	= Alg_StringTrimmer::trimCentric(  $response, 200 );
+			$response	= Alg_Text_Trimmer::trimCentric(  $response, 200 );
 			$response	= "Response larger than 1MB\n".$response;
 		}
 
@@ -337,7 +331,7 @@ class UI_HTML_Service_Test
 	{
 		$lines	= array();
 		foreach( explode( "\n", $response ) as $line )
-			$lines[]	= Alg_StringTrimmer::trimCentric( $line, $length );
+			$lines[]	= Alg_Text_Trimmer::trimCentric( $line, $length );
 		return implode( "\n", $lines );
 	}
 

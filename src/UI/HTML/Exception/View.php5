@@ -30,6 +30,12 @@
  *	Visualisation of Exception Stack Trace.
  *	@category		cmClasses
  *	@package		UI.HTML.Exception
+ *	@uses			UI_HTML_Element_List_Definition
+ *	@uses			UI_HTML_Element_Blockquote
+ *	@uses			UI_HTML_Element_Span
+ *	@uses			UI_HTML_Element_List_Ordered
+ *	@uses			UI_HTML_Element_List_Item
+ *	@uses			Alg_Text_Trimmer
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -201,7 +207,7 @@ class UI_HTML_Exception_View
 	protected function secureString( $string, $maxLength = 0, $mask = '&hellip;' )
 	{
 		if( $maxLength && strlen( $string ) > $maxLength )
-			$value	= Alg_StringTrimmer::trimCentric( $string, $maxLength, $mask );
+			$value	= Alg_Text_Trimmer::trimCentric( $string, $maxLength, $mask );
 //		$string	= addslashes( $string );
 		$string	= htmlentities( $string );
 		return $string;
