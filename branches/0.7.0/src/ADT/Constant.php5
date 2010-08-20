@@ -44,6 +44,7 @@ class ADT_Constant
 	/**
 	 *	Returns the Value of a set Constant, throws Exception otherwise.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$key		Name of Constant to return
 	 *	@return		mixed
 	 *	@todo		finish impl
@@ -59,9 +60,10 @@ class ADT_Constant
 	/**
 	 *	Returns a Map of defined Constants.
 	 *	@access		public
+	 *	@static
 	 *	@return		array
 	 */
-	public function getAll( $prefix = NULL )
+	public static function getAll( $prefix = NULL )
 	{
 		if( !$prefix )
 			return get_defined_constants();
@@ -86,6 +88,7 @@ class ADT_Constant
 	/**
 	 *	Indicates whether a Constant has been set by its Name.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$key		Name of Constant to check
 	 *	@return		bool
 	 */
