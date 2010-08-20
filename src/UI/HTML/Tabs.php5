@@ -116,7 +116,8 @@ class UI_HTML_Tabs
 	 */
 	public function buildTabs( $id, $class = NULL )
 	{
-		$class	= empty( $class ) ? $this->options['navClass'] : $class;
+		if( empty( $class ) && !empty( $this->options['navClass'] ) )
+			$class	= $this->options['navClass'];
 		return self::createTabs( $id, $this->tabs, $this->divs, $class );
 	}
 
@@ -159,7 +160,7 @@ class UI_HTML_Tabs
 			$tabKey		= is_int( $index ) ? 'tab-'.$index : $index;
 			$divKey		= $index."-container";
 			$label		= UI_HTML_Tag::create( 'span', $label );
-			$link		= UI_HTML_Tag::create( 'a', $label, array( 'href' => $urlPrefix."#".$divKey ) );
+			$link		= UI_HTML_Tag::create( 'a', $label, array( 'href' => "#".$divKey ) );
 			$tabs[]		= UI_HTML_Tag::create( 'li', $link, array( 'id' => $tabKey ) );
 
 			$divClass	= $class ? $class."-container" : NULL;
@@ -202,7 +203,10 @@ class UI_HTML_Tabs
 	 */
 	public function setOption( $key, $value )
 	{
-		$this->options[$key]	= $value;
+		if( is_null( $value ) )
+			unset( $this->options[$key] );
+		else
+			$this->options[$key]	= $value;
 	}
 }
 ?>

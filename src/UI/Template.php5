@@ -85,6 +85,7 @@ class UI_Template
 	{
 		$this->elements		= array();
 		$this->className	= get_class( $this );
+		$this->fileName		= $fileName;
 		$this->setTemplate( $fileName );
 		$this->add( $elements ); 
 	}

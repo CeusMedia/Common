@@ -49,6 +49,7 @@ class UI_HTML_JQuery
 	 *	@param		array		$options		Array of Plugin Constructor Options
 	 *	@param		int			$spaces			Number of indenting Whitespaces
 	 *	@return		string
+	 *	@deprecated	broken (on simple arrays) and not used anymore
 	 */
 	protected static function buildOptions( $options, $spaces = 2 )
 	{
@@ -98,7 +99,7 @@ class UI_HTML_JQuery
 	{
 		$innerIndent	= str_repeat( " ", $spaces + 2 );
 		$outerIndent	= str_repeat( " ", $spaces );
-		$options		= self::buildOptions( $options, $spaces + 2 );
+		$options		= json_encode( $options );#self::buildOptions( $options, $spaces + 2 );
 		$show			= $selector ? '.show()' : "";
 		$selector		= $selector ? '("'.$selector.'")' : "";
 		return $outerIndent.self::$jQueryFunctionName.'(document).ready(function(){
