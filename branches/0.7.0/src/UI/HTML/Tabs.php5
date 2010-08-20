@@ -159,8 +159,9 @@ class UI_HTML_Tabs
 		{
 			$tabKey		= is_int( $index ) ? 'tab-'.$index : $index;
 			$divKey		= $index."-container";
+			$url		= $urlPrefix."#".$divKey;
 			$label		= UI_HTML_Tag::create( 'span', $label );
-			$link		= UI_HTML_Tag::create( 'a', $label, array( 'href' => "#".$divKey ) );
+			$link		= UI_HTML_Tag::create( 'a', $label, array( 'href' => $url ) );
 			$tabs[]		= UI_HTML_Tag::create( 'li', $link, array( 'id' => $tabKey ) );
 
 			$divClass	= $class ? $class."-container" : NULL;
