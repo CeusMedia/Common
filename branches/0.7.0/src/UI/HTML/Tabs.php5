@@ -150,7 +150,7 @@ class UI_HTML_Tabs
 		if( count( $labels ) != count( $contents ) )
 			throw new Exception( 'Number of labels and contents is not equal.' );
 
-		$urlPrefix	= getEnv( 'REDIRECT_URL' );
+		$urlPrefix	= getEnv( 'REDIRECT_URL' ) ? getEnv( 'REDIRECT_URL' ) : '';
 		$tabs		= array();
 		$divs		= array();
 		$labels		= $labels;
