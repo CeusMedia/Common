@@ -192,6 +192,9 @@ class UI_HTML_Exception_View
 			}
 			$content	.= $trace["function"]."(".$block.')';
 		}
+#		else
+#			die( print_m( $trace ) );
+#			$content	.= $trace["function"]."(".$block.')';
 		return $content;
 	}
 

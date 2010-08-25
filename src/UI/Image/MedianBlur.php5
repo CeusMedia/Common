@@ -38,6 +38,7 @@ import( 'de.ceus-media.ui.image.Modifier' );
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			16.12.2005
  *	@version		$Id$
+ *	@deprecated		user UI_Image_Filter instead
  */
 class UI_Image_MedianBlur extends UI_Image_Modifier
 {
