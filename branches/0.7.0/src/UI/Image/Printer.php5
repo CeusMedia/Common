@@ -99,20 +99,20 @@ class UI_Image_Printer
 	{
 		switch( $type )
 		{
-			case 0:
+			case IMAGETYPE_GIF:
 				if( $sendHeader )
-					header( "Content-type: image/png" );
-				ImagePNG( $resource );
+					header( "Content-type: image/gif" );
+				ImageGIF( $resource );
 				break;
-			case 1:
+			case IMAGETYPE_JPEG:
 				if( $sendHeader )
 					header( "Content-type: image/jpeg" );
 				ImageJPEG( $resource, "", $quality );
 				break;
-			case 2:
+			case IMAGETYPE_PNG:
 				if( $sendHeader )
-					header( "Content-type: image/gif" );
-				ImageGIF( $resource );
+					header( "Content-type: image/png" );
+				ImagePNG( $resource );
 				break;
 			default:
 				throw new InvalidArgumentException( 'Invalid Image Type' );
