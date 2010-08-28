@@ -39,10 +39,6 @@
  */
 class UI_Image_Printer
 {
-	const TYPE_PNG	= 0;
-	const TYPE_JPEG	= 1;
-	const TYPE_GIF	= 2;
-
 	/**	@var		resource		$resource		Image Resource */
 	protected $resource;
 
@@ -67,7 +63,7 @@ class UI_Image_Printer
 	 *	@param		bool		$showHeader		Flag: set Image MIME Type Header
 	 *	@return		void
 	 */
-	public function show( $type = self::TYPE_PNG, $quality = 100, $sendHeader = TRUE )
+	public function show( $type = IMAGETYPE_PNG, $quality = 100, $sendHeader = TRUE )
 	{
 		$this->showImage( $this->resource, $type, $quality, $sendHeader );
 	}
@@ -80,7 +76,7 @@ class UI_Image_Printer
 	 *	@param		int			$quality		JPEG Quality (1-100)
 	 *	@return		void
 	 */
-	public function save( $fileName, $type = self::TYPE_PNG, $quality = 100 )
+	public function save( $fileName, $type = IMAGETYPE_PNG, $quality = 100 )
 	{
 		$this->saveImage( $fileName, $this->resource, $type, $quality );
 	}
@@ -95,7 +91,7 @@ class UI_Image_Printer
 	 *	@param		bool		$showHeader		Flag: set Image MIME Type Header
 	 *	@return		void
 	 */
-	public static function showImage( $resource, $type = self::TYPE_PNG, $quality = 100, $sendHeader = TRUE )
+	public static function showImage( $resource, $type = IMAGETYPE_PNG, $quality = 100, $sendHeader = TRUE )
 	{
 		switch( $type )
 		{
@@ -129,7 +125,7 @@ class UI_Image_Printer
 	 *	@param		int			$quality		JPEG Quality (1-100)
 	 *	@return		void
 	 */
-	public static function saveImage( $fileName, $resource, $type = self::TYPE_PNG, $quality = 100 )
+	public static function saveImage( $fileName, $resource, $type = IMAGETYPE_PNG, $quality = 100 )
 	{
 		switch( $type )
 		{
