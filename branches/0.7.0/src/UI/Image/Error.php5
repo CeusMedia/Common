@@ -71,7 +71,7 @@ class UI_Image_Error
 		$color	= $image->getColor( 255, 0, 0 );
 		$image->drawBorder( $color, self::$borderWidth );
 		$image->drawString( $posX, $posY, $message, 3, $color ); 
-		UI_Image_Printer::showImage( $image->getImage(), 0, 100, self::$sendHeader );
+		UI_Image_Printer::showImage( $image->getImage(), IMAGETYPE_PNG, 100, self::$sendHeader );
 	}
 }
 ?>
