@@ -65,7 +65,11 @@ class UI_HTML_Exception_View
 		$list->add( 'Code', $e->getCode() );
 		$list->add( 'File', self::trimRootPath( $e->getFile() ) );
 		$list->add( 'Line', $e->getLine() );
-		$list->add( 'Trace', self::renderTrace( $e ) );
+
+		$trace	= self::renderTrace( $e );
+		if( $trace )
+			$list->add( 'Trace', $trace );
+
 		if( $e->getPrevious() )
 			$list->add( 'Previous', self::render( $e->getPrevious() ) );
 		return $list->render();
