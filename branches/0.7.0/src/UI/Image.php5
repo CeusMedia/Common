@@ -38,28 +38,78 @@
  */
 class UI_Image
 {
+	protected $resource	= NULL;
+	protected $type		= IMAGETYPE_PNG;
 	protected $width	= 0;
 	protected $height	= 0;
 	protected $quality	= 100;
-	protected $resource	= NULL;
 	protected $fileName	= NULL;
-	protected $type		= IMAGETYPE_PNG;
+	public $colorTransparent;
 
-	public function __construct(){}
-
-	public function  __destruct()
+	public function __construct( $fileName = NULL )
 	{
-		if( $this->resource )
-			imagedestroy( $this->resource );
+		if( !is_null( $fileName ) )
+			$this->load( $fileName );
 	}
 
+	/**
+	 *	Creates a new image resource.
+	 *	@access		public
+	 *	@param		integer		$width		Width of image
+	 *	@param		integer		$height		Height of image
+	 *	@param		double		$alpha		Alpha channel value (0-100)
+	 *	@return		void
+	 *	@todo		is alpha needed ?
+	 */
 	public function create( $width, $height, $alpha = 0 )
 	{
-		if( $this->resource )
-			imagedestroy( $this->resource );
-		$this->resource	= imagecreatetruecolor( $width, $height );
-		$this->width	= $width;
-		$this->height	= $height;
+		$resource	= imagecreatetruecolor( $width, $height );
+		$this->setResource( $resource, $alpha );
+	}
+
+	public function getColor( $red, $green, $blue, $alpha = 0 )
+	{
+		return imagecolorallocatealpha( $this->resource, $red, $green, $blue, $alpha );
+	}
+
+	public function display( $sendHeaders = TRUE )
+	{
+		/*
+ 0 - UNKNOWN:".IMAGETYPE_UNKNOWN',
+ 1 - GIF:".IMAGETYPE_GIF );
+ 2 - JPEG:".IMAGETYPE_JPEG );
+ 3 - PNG:".IMAGETYPE_PNG );
+ 4 - SWF:".IMAGETYPE_SWF );
+ 5 - PSD:".IMAGETYPE_PSD );
+ 6 - BMP:".IMAGETYPE_BMP );
+ 7 - TIFF_II:".IMAGETYPE_TIFF_II );
+ 8 - TIFF_MM:".IMAGETYPE_TIFF_MM );
+ 9 - JPC:".IMAGETYPE_JPC );
+ 9 - JPEG2000:".IMAGETYPE_JPEG2000 );
+10 - JP2:".IMAGETYPE_JP2 );
+11 -JPX:".IMAGETYPE_JPX );
+12 - JB2:".IMAGETYPE_JB2 );
+14 - IFF:".IMAGETYPE_IFF );
+15 - WBMP:".IMAGETYPE_WBMP );
+16 - XBM:".IMAGETYPE_XBM );
+17 - ICO:".IMAGETYPE_ICO );
+		die;
+*/
+		header( 'Content-type: '.$this->getMimeType() );
+		switch( $this->getType() )
+		{
+			case IMAGETYPE_GIF:
+				imagegif( $this->resource );
+			case IMAGETYPE_JPEG:
+				imagejpeg( $this->resource, NULL, $this->quality );
+			case IMAGETYPE_PNG:
+				imagepng( $this->resource );
+			case IMAGETYPE_PNG:
+				imagepng( $this->resource );
+			default:
+				header_remove( 'Content-type' );
+				new UI_Image_Error( 'invalid type' );
+		}
 	}
 
 	/**
@@ -156,22 +206,20 @@ class UI_Image
 		switch( $info[2] )
 		{
 			case IMAGETYPE_GIF:
-				$this->resource	= imagecreatefromgif( $fileName );
+				$resource	= imagecreatefromgif( $fileName );
 				break;
 			case IMAGETYPE_JPEG:
-				$this->resource	= imagecreatefromjpeg( $fileName );
+				$resource	= imagecreatefromjpeg( $fileName );
 				break;
 			case IMAGETYPE_PNG:
-				$this->resource	= imagecreatefrompng( $fileName );
+				$resource	= imagecreatefrompng( $fileName );
 				break;
 			default:
 				throw new Exception( 'Image type "'.$info['mime'].'" is no supported, detected '.$info[2] );
 		}
+		$this->setResource( $resource );
 		$this->fileName	= $fileName;
-		$this->width	= $info[0];
-		$this->height	= $info[1];
 		$this->type		= $info[2];
-		$this->mimeType	= $info['mime'];
 	}
 
 	/**
@@ -202,6 +250,41 @@ class UI_Image
 			default:
 				throw new Exception( 'Image type "'.$type.'" is no supported' );
 		}
+	}
+
+	public function setResource( $resource )
+	{
+		if( !is_resource( $resource ) )
+			throw new InvalidArgumentException( 'Must be a valid image resource' );
+		if( $this->resource )
+			imagedestroy( $this->resource );
+
+		$this->resource	= $resource;
+		$this->width	= imagesx( $resource );
+		$this->height	= imagesy( $resource );
+
+		imagealphablending( $this->resource, TRUE );												//  enable blending for added image resources
+
+		if( function_exists( 'imageantialias' ) )
+			imageantialias( $this->resource, TRUE );
+
+#		$this->colorTransparent	= imagecolorallocate( $this->resource, 0, 255, 255 );
+#		imagecolortransparent( $this->resource, $this->colorTransparent );
+	}
+
+	public function setType( $type )
+	{
+		if( !( ImageTypes() & $type ) )
+			throw new InvalidArgumentException( 'Invalid type' );
+		$this->type	= $type;
+		if( $this->fileName )
+		{
+			$baseName	= pathinfo( $this->fileName, PATHINFO_FILENAME );
+			$pathName	= pathinfo( $this->fileName, PATHINFO_DIRNAME );
+			$extension	= image_type_to_extension( $this->type );
+			$this->fileName	= $pathName.'/'.$baseName.$extension;
+		}
+
 	}
 }
 ?>
