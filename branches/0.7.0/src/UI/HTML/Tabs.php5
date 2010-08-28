@@ -56,6 +56,8 @@ class UI_HTML_Tabs
 	/**	@var		array		$tabs		List of Tab Labels */
 	protected $tabs	= array();
 
+	public static $version	= 2;
+
 	/**
 	 *	Constructor, can set Tabs.
 	 *	@access		public
@@ -68,6 +70,11 @@ class UI_HTML_Tabs
 			$this->addTabs( $tabs );
 		if( $class )
 			$this->setOption( 'navClass', $class );
+	}
+
+	public function setVersion( $version )
+	{
+		$this->version	= $version;
 	}
 
 	/**
@@ -150,7 +157,8 @@ class UI_HTML_Tabs
 		if( count( $labels ) != count( $contents ) )
 			throw new Exception( 'Number of labels and contents is not equal.' );
 
-		$urlPrefix	= getEnv( 'REDIRECT_URL' ) ? getEnv( 'REDIRECT_URL' ) : '';
+		$belowV3	= version_compare( 3, self::$version );
+		$urlPrefix	= ( $belowV3 && getEnv( 'REDIRECT_URL' ) ) ? getEnv( 'REDIRECT_URL' ) : '';
 		$tabs		= array();
 		$divs		= array();
 		$labels		= $labels;

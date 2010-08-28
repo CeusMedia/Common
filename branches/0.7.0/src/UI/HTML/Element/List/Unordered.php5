@@ -47,6 +47,8 @@ class UI_HTML_Element_List_Unordered extends UI_HTML_Element_Abstract
 
 	public function render()
 	{
+		if( !$this->items )
+			return "";
     	$attributes	= array(
     		'id'		=> $this->id,
     		'class'		=> $this->class
