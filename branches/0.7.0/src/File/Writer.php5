@@ -104,9 +104,9 @@ class File_Writer
 	{
 		if( !$groupName )
 			throw new InvalidArgumentException( 'No Group Name given.' );
-		if( !$this->exists( $this->fileName ) )
+		if( !file_exists( $this->fileName ) )
 			throw new RuntimeException( 'File "'.$this->fileName.'" is not existing' );
-		if( !$this->writer->isWritable( $this->fileName ) )
+		if( !$this->isWritable( $this->fileName ) )
 			throw new RuntimeException( 'File "'.$this->fileName.'" is not writable' );
 		if( !@chGrp( $this->fileName, $groupName ) )
 			throw new RuntimeException( 'Only a superuser can change file group' );
@@ -122,11 +122,11 @@ class File_Writer
 	{
 		if( !$userName )
 			throw new InvalidArgumentException( 'No User Name given.' );
-		if( !$this->exists( $this->fileName ) )
+		if( !file_exists( $this->fileName ) )
 			throw new RuntimeException( 'File "'.$this->fileName.'" is not existing' );
 #		if( !$this->isOwner() )
 #			throw new RuntimeException( 'File "'.$this->fileName.'" is not owned by current user' );
-		if( !$this->writer->isWritable( $this->fileName ) )
+		if( !$this->isWritable( $this->fileName ) )
 			throw new RuntimeException( 'File "'.$this->fileName.'" is not writable' );
 		if( !@chOwn( $this->fileName, $userName ) )
 			throw new RuntimeException( 'Only a superuser can change file owner' );
