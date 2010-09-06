@@ -49,13 +49,19 @@ class Net_Reader
 	/**	@var		string		$agent			User Agent */
 	protected static $userAgent	= "cmClasses:Net_Reader/0.7";
 	/**	@var		string		$username		Username for Basic Authentication */
-	private $username			= "";
+	protected $username			= "";
 	/**	@var		string		$password		Password for Basic Authentication */
-	private $password			= "";
-	/**	@var		bool		$verifyHost		Flag: verify Host */
-	private $verifyHost 		= FALSE;
-	/**	@var		bool		$verifyPeer		Flag: verify Peer */
-	private $verifyPeer			= FALSE;
+	protected $password			= "";
+	/**	@var		boolean		$verifyHost		Flag: verify Host */
+	protected $verifyHost 		= FALSE;
+	/**	@var		boolean		$verifyPeer		Flag: verify Peer */
+	protected $verifyPeer		= FALSE;
+	/**	@var		string		$proxyAddress	Domain or IP (and port) of proxy server */
+	protected $proxyAddress		= NULL;
+	/**	@var		string		$proxyAuth		Username and password for proxy server authentification */
+	protected $proxyAuth		= 80;
+	/**	@var		integer		$proxyType		Type of proxy server (CURLPROXY_HTTP | CURLPROXY_SOCKS5) */
+	protected $proxyType		= CURLPROXY_HTTP;
 
 	/**
 	 *	Constructor.
@@ -139,22 +145,36 @@ class Net_Reader
 			$curl->setOption( CURLOPT_USERAGENT, self::$userAgent );
 		if( $this->username )
 			$curl->setOption( CURLOPT_USERPWD, $this->username.":".$this->password );
+		if( $this->proxyAddress ){
+			$curl->setOption( CURLOPT_HTTPPROXYTUNNEL, TRUE);
+			$curl->setOption( CURLOPT_PROXY, $this->proxyAddress );
+			$curl->setOption( CURLOPT_PROXYTYPE, $this->proxyType );
+			if( $this->proxyAuth )
+				$curl->setOption( CURLOPT_PROXYUSERPWD, $this->proxyAuth );
+		}
 
 		foreach( $curlOptions as $key => $value )
 		{
-			if( !( is_string( $key ) && preg_match( "@^CURLOPT_@", $key ) && defined( $key ) ) )
-				throw new InvalidArgumentException( 'Invalid constant "'.$key.'"' );
-			$key	= constant( $key );
+			if( is_string( $key ) )
+			{
+				if( !( preg_match( "@^CURLOPT_@", $key ) && defined( $key ) ) )
+					throw new InvalidArgumentException( 'Invalid option constant key "'.$key.'"' );
+				$key	= constant( $key );
+			}
+			if( !is_int( $key ) )
+				throw new InvalidArgumentException( 'Option must be given as integer or string' );
 			$curl->setOption( $key, $value );
 		}
 		$response		= $curl->exec();
 		$this->status	= $curl->getStatus();
 		$this->headers	= $curl->getHeader();
 		$code			= $curl->getStatus( Net_CURL::STATUS_HTTP_CODE );
-	
+		$error			= $curl->getStatus( Net_CURL::STATUS_ERROR );
+		$errno			= $curl->getStatus( Net_CURL::STATUS_ERRNO );
+		if( $errno )
+			throw new RuntimeException( 'Reading "'.$this->url.'" failed: '.$error, $errno );
 		if( !in_array( $code, array( '200', '301', '303', '304', '307' ) ) )
-			throw new RuntimeException( 'URL "'.$this->url.'" can not be accessed (HTTP Code '.$code.')', $code );
-
+			throw new RuntimeException( 'Reading "'.$this->url.'" returned code '.$code, $code );
 		return $response;
 	}
 
@@ -184,6 +204,21 @@ class Net_Reader
 	{
 		$this->username	= $username;
 		$this->password	= $password;
+	}
+
+	/**
+	 *	Sets proxy domain or IP.
+	 *	@access		public
+	 *	@param		string		$address	Domain or IP (and Port) of proxy server
+	 *	@param		integer		$type		Type of proxy server (CURLPROXY_HTTP | CURLPROXY_SOCKS5 )
+	 *	@param		string		$auth		Username and password for proxy authentification
+	 *	@return		void
+	 */
+	public function setProxy( $address, $type = CURLPROXY_HTTP, $auth = NULL )
+	{
+		$this->proxyAddress	= $address;
+		$this->proxyType	= $type;
+		$this->proxyAuth	= $auth;
 	}
 
 	/**
