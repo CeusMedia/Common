@@ -70,8 +70,9 @@ class UI_HTML_Exception_View
 		if( $trace )
 			$list->add( 'Trace', $trace );
 
-		if( $e->getPrevious() )
-			$list->add( 'Previous', self::render( $e->getPrevious() ) );
+		if( method_exists( $e, 'getPrevious' ) )
+			if( $e->getPrevious() )
+				$list->add( 'Previous', self::render( $e->getPrevious() ) );
 		return $list->render();
 	}
 
