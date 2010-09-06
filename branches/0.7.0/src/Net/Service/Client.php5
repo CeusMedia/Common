@@ -52,7 +52,7 @@ class Net_Service_Client
 	/**	@var		string		$password			Password for Basic Authentication */
 	protected $password			= "";
 	/**	@var		string		$userAgent			User Agent to sent to Service Point */
-	protected $userAgent;
+	protected $userAgent		= "NetServiceClient/0.7";
 	/**	@var		bool		$verifyHost			Flag: verify Host */
 	protected $verifyHost 		= FALSE;
 	/**	@var		bool		$verifyPeer			Flag: verify Peer */
