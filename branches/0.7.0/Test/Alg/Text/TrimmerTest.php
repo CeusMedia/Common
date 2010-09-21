@@ -1,6 +1,6 @@
 <?php
 /**
- *	TestUnit of Alg_StringTrimmer.
+ *	TestUnit of Alg_Text_Trimmer.
  *	@package		Tests.alg
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			27.10.2008
@@ -9,15 +9,15 @@
 require_once 'PHPUnit/Framework/TestCase.php';
 require_once 'Test/initLoaders.php5';
 /**
- *	TestUnit of Alg_StringTrimmer.
+ *	TestUnit of Alg_Text_Trimmer.
  *	@package		Tests.alg
  *	@extends		PHPUnit_Framework_TestCase
- *	@uses			Alg_StringTrimmer
+ *	@uses			Alg_Text_Trimmer
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			27.10.2008
  *	@version		0.1
  */
-class Test_Alg_StringTrimmerTest extends PHPUnit_Framework_TestCase
+class Test_Alg_Text_TrimmerTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 *	Constructor.
@@ -56,7 +56,7 @@ class Test_Alg_StringTrimmerTest extends PHPUnit_Framework_TestCase
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= Alg_StringTrimmer::trim();
+		$creation	= Alg_Text_Trimmer::trim();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -68,7 +68,7 @@ class Test_Alg_StringTrimmerTest extends PHPUnit_Framework_TestCase
 	public function testTrimCentricException1()
 	{
 		$this->setExpectedException( 'InvalidArgumentException' );
-		Alg_StringTrimmer::trimCentric( "not_relevant", 2 );
+		Alg_Text_Trimmer::trimCentric( "not_relevant", 2 );
 	}
 
 	/**
@@ -79,7 +79,7 @@ class Test_Alg_StringTrimmerTest extends PHPUnit_Framework_TestCase
 	public function testTrimCentricException2()
 	{
 		$this->setExpectedException( 'InvalidArgumentException' );
-		Alg_StringTrimmer::trimCentric( "not_relevant", 3 );
+		Alg_Text_Trimmer::trimCentric( "not_relevant", 3 );
 	}
 
 	/**
@@ -90,7 +90,7 @@ class Test_Alg_StringTrimmerTest extends PHPUnit_Framework_TestCase
 	public function testTrimCentricException3()
 	{
 		$this->setExpectedException( 'InvalidArgumentException' );
-		Alg_StringTrimmer::trimCentric( "not_relevant", 4, "1234" );
+		Alg_Text_Trimmer::trimCentric( "not_relevant", 4, "1234" );
 	}
 
 	/**
@@ -101,15 +101,15 @@ class Test_Alg_StringTrimmerTest extends PHPUnit_Framework_TestCase
 	public function testTrimCentric()
 	{
 		$assertion	= "a...p";
-		$creation	= Alg_StringTrimmer::trimCentric( $this->string, 5 );
+		$creation	= Alg_Text_Trimmer::trimCentric( $this->string, 5 );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= "ab...p";
-		$creation	= Alg_StringTrimmer::trimCentric( $this->string, 6 );
+		$creation	= Alg_Text_Trimmer::trimCentric( $this->string, 6 );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= "ab...op";
-		$creation	= Alg_StringTrimmer::trimCentric( $this->string, 7 );
+		$creation	= Alg_Text_Trimmer::trimCentric( $this->string, 7 );
 		$this->assertEquals( $assertion, $creation );
 	}
 }

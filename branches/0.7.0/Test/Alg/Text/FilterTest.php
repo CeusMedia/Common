@@ -1,6 +1,6 @@
 <?php
 /**
- *	TestUnit of Alg_InputFilter.
+ *	TestUnit of Alg_Text_Filter.
  *	@package		Tests.alg
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			07.07.2008
@@ -9,15 +9,15 @@
 require_once 'PHPUnit/Framework/TestCase.php';
 require_once 'Test/initLoaders.php5';
 /**
- *	TestUnit of Alg_InputFilter.
+ *	TestUnit of Alg_Text_Filter.
  *	@package		Tests.alg
  *	@extends		PHPUnit_Framework_TestCase
- *	@uses			Alg_InputFilter
+ *	@uses			Alg_Text_Filter
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			07.07.2008
  *	@version		0.1
  */
-class Test_Alg_InputFilterTest extends PHPUnit_Framework_TestCase
+class Test_Alg_Text_FilterTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 *	Tests Method 'stripComments'.
@@ -41,7 +41,7 @@ class Test_Alg_InputFilterTest extends PHPUnit_Framework_TestCase
 			/*<!--Comment-->*/
 			/*<!--Comment//-->*/";
 		$assertion	= "This is plain Text.";
-		$creation	= trim( Alg_InputFilter::stripComments( $text ) );
+		$creation	= trim( Alg_Text_Filter::stripComments( $text ) );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -57,7 +57,7 @@ class Test_Alg_InputFilterTest extends PHPUnit_Framework_TestCase
 			This is plain Text.
 			<script>alert("hello");</script>';
 		$assertion	= "This is plain Text.";
-		$creation	= trim( Alg_InputFilter::stripScripts( $text ) );
+		$creation	= trim( Alg_Text_Filter::stripScripts( $text ) );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -81,7 +81,7 @@ class Test_Alg_InputFilterTest extends PHPUnit_Framework_TestCase
 			</style>
 			';
 		$assertion	= "This is plain Text.";
-		$creation	= trim( Alg_InputFilter::stripStyles( $text ) );
+		$creation	= trim( Alg_Text_Filter::stripStyles( $text ) );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -99,7 +99,7 @@ This is plain Text.
 <br/>
 ';
 		$assertion	= "Hello\nThis is plain Text.\nTest";
-		$creation	= trim( Alg_InputFilter::stripTags( $text ) );
+		$creation	= trim( Alg_Text_Filter::stripTags( $text ) );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -120,7 +120,7 @@ This is plain Text.
 			<tag/>
 			<tag name="test" attribute="value"></tag>
 			<tag name="test" attribute="value">This is plain Text.</tag>';
-		$creation	= Alg_InputFilter::stripEventAttributes( $text );
+		$creation	= Alg_Text_Filter::stripEventAttributes( $text );
 		$this->assertEquals( $assertion, $creation );
 	}
 }

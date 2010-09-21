@@ -1,9 +1,9 @@
 <?php
 /**
- *	TestUnit of Alg_CamelCase.
+ *	TestUnit of Alg_Text_CamelCase.
  *	@package		Tests.alg
  *	@extends		PHPUnit_Framework_TestCase
- *	@uses			Alg_CamelCase
+ *	@uses			Alg_Text_CamelCase
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			22.10.2008
  *	@version		0.1
@@ -11,15 +11,15 @@
 require_once 'PHPUnit/Framework/TestCase.php';
 require_once 'Test/initLoaders.php5';
 /**
- *	TestUnit of Alg_CamelCase.
+ *	TestUnit of Alg_Text_CamelCase.
  *	@package		Tests.alg
  *	@extends		PHPUnit_Framework_TestCase
- *	@uses			Alg_CamelCase
+ *	@uses			Alg_Text_CamelCase
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			22.10.2008
  *	@version		0.1
  */
-class Test_Alg_CamelCaseTest extends PHPUnit_Framework_TestCase
+class Test_Alg_Text_CamelCaseTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 *	Constructor.
@@ -48,8 +48,8 @@ class Test_Alg_CamelCaseTest extends PHPUnit_Framework_TestCase
 	 */
 	public function tearDown()
 	{
-		Alg_CamelCase::$lowercaseFirst	= NULL;
-		Alg_CamelCase::$lowercaseLetter	= NULL;
+		Alg_Text_CamelCase::$lowercaseFirst	= NULL;
+		Alg_Text_CamelCase::$lowercaseLetter	= NULL;
 	}
 
 	/**
@@ -60,46 +60,46 @@ class Test_Alg_CamelCaseTest extends PHPUnit_Framework_TestCase
 	public function testConvertWithString1()
 	{
 		$assertion	= "testAlphaTestRDFString";
-		$creation	= Alg_CamelCase::convert( $this->string1 );
+		$creation	= Alg_Text_CamelCase::convert( $this->string1 );
 		$this->assertEquals( $assertion, $creation );
 
 
 		$assertion	= "testAlphaTestRDFString";
-		$creation	= Alg_CamelCase::convert( $this->string1, NULL );
+		$creation	= Alg_Text_CamelCase::convert( $this->string1, NULL );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= "TestAlphaTestRDFString";
-		$creation	= Alg_CamelCase::convert( $this->string1, FALSE );
+		$creation	= Alg_Text_CamelCase::convert( $this->string1, FALSE );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= "testAlphaTestRDFString";
-		$creation	= Alg_CamelCase::convert( $this->string1, TRUE );
+		$creation	= Alg_Text_CamelCase::convert( $this->string1, TRUE );
 		$this->assertEquals( $assertion, $creation );
 
 
 		$assertion	= "testAlphaTestRdfString";
-		$creation	= Alg_CamelCase::convert( $this->string1, NULL, TRUE );
+		$creation	= Alg_Text_CamelCase::convert( $this->string1, NULL, TRUE );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= "TestAlphaTestRdfString";
-		$creation	= Alg_CamelCase::convert( $this->string1, FALSE, TRUE );
+		$creation	= Alg_Text_CamelCase::convert( $this->string1, FALSE, TRUE );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= "testAlphaTestRdfString";
-		$creation	= Alg_CamelCase::convert( $this->string1, TRUE, TRUE );
+		$creation	= Alg_Text_CamelCase::convert( $this->string1, TRUE, TRUE );
 		$this->assertEquals( $assertion, $creation );
 
 
 		$assertion	= "testAlphaTestRDFString";
-		$creation	= Alg_CamelCase::convert( $this->string1, NULL, FALSE  );
+		$creation	= Alg_Text_CamelCase::convert( $this->string1, NULL, FALSE  );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= "TestAlphaTestRDFString";
-		$creation	= Alg_CamelCase::convert( $this->string1, FALSE, FALSE  );
+		$creation	= Alg_Text_CamelCase::convert( $this->string1, FALSE, FALSE  );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= "testAlphaTestRDFString";
-		$creation	= Alg_CamelCase::convert( $this->string1, TRUE, FALSE  );
+		$creation	= Alg_Text_CamelCase::convert( $this->string1, TRUE, FALSE  );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -111,46 +111,46 @@ class Test_Alg_CamelCaseTest extends PHPUnit_Framework_TestCase
 	public function testConvertWithString2()
 	{
 		$assertion	= "TestAlphaTestRDFString";
-		$creation	= Alg_CamelCase::convert( $this->string2 );
+		$creation	= Alg_Text_CamelCase::convert( $this->string2 );
 		$this->assertEquals( $assertion, $creation );
 
 
 		$assertion	= "TestAlphaTestRDFString";
-		$creation	= Alg_CamelCase::convert( $this->string2, NULL );
+		$creation	= Alg_Text_CamelCase::convert( $this->string2, NULL );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= "TestAlphaTestRDFString";
-		$creation	= Alg_CamelCase::convert( $this->string2, FALSE );
+		$creation	= Alg_Text_CamelCase::convert( $this->string2, FALSE );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= "testAlphaTestRDFString";
-		$creation	= Alg_CamelCase::convert( $this->string2, TRUE );
+		$creation	= Alg_Text_CamelCase::convert( $this->string2, TRUE );
 		$this->assertEquals( $assertion, $creation );
 
 
 		$assertion	= "testAlphaTestRdfString";
-		$creation	= Alg_CamelCase::convert( $this->string2, NULL, TRUE );
+		$creation	= Alg_Text_CamelCase::convert( $this->string2, NULL, TRUE );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= "TestAlphaTestRdfString";
-		$creation	= Alg_CamelCase::convert( $this->string2, FALSE, TRUE );
+		$creation	= Alg_Text_CamelCase::convert( $this->string2, FALSE, TRUE );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= "testAlphaTestRdfString";
-		$creation	= Alg_CamelCase::convert( $this->string2, TRUE, TRUE );
+		$creation	= Alg_Text_CamelCase::convert( $this->string2, TRUE, TRUE );
 		$this->assertEquals( $assertion, $creation );
 
 
 		$assertion	= "TestAlphaTestRDFString";
-		$creation	= Alg_CamelCase::convert( $this->string2, NULL, FALSE  );
+		$creation	= Alg_Text_CamelCase::convert( $this->string2, NULL, FALSE  );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= "TestAlphaTestRDFString";
-		$creation	= Alg_CamelCase::convert( $this->string2, FALSE, FALSE  );
+		$creation	= Alg_Text_CamelCase::convert( $this->string2, FALSE, FALSE  );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= "testAlphaTestRDFString";
-		$creation	= Alg_CamelCase::convert( $this->string2, TRUE, FALSE  );
+		$creation	= Alg_Text_CamelCase::convert( $this->string2, TRUE, FALSE  );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -162,66 +162,66 @@ class Test_Alg_CamelCaseTest extends PHPUnit_Framework_TestCase
 	public function testConvertWithString1AndStaticSettings()
 	{
 		$assertion	= "testAlphaTestRDFString";
-		$creation	= Alg_CamelCase::convert( $this->string1 );
+		$creation	= Alg_Text_CamelCase::convert( $this->string1 );
 		$this->assertEquals( $assertion, $creation );
 
-		Alg_CamelCase::$lowercaseFirst	= FALSE;
-		Alg_CamelCase::$lowercaseLetter	= NULL;
+		Alg_Text_CamelCase::$lowercaseFirst	= FALSE;
+		Alg_Text_CamelCase::$lowercaseLetter	= NULL;
 
 		$assertion	= "TestAlphaTestRDFString";
-		$creation	= Alg_CamelCase::convert( $this->string1 );
+		$creation	= Alg_Text_CamelCase::convert( $this->string1 );
 		$this->assertEquals( $assertion, $creation );
 
-		Alg_CamelCase::$lowercaseFirst	= TRUE;
-		Alg_CamelCase::$lowercaseLetter	= NULL;
+		Alg_Text_CamelCase::$lowercaseFirst	= TRUE;
+		Alg_Text_CamelCase::$lowercaseLetter	= NULL;
 
 		$assertion	= "testAlphaTestRDFString";
-		$creation	= Alg_CamelCase::convert( $this->string1 );
+		$creation	= Alg_Text_CamelCase::convert( $this->string1 );
 		$this->assertEquals( $assertion, $creation );
 
 
-		Alg_CamelCase::$lowercaseFirst	= NULL;
-		Alg_CamelCase::$lowercaseLetter	= FALSE;
+		Alg_Text_CamelCase::$lowercaseFirst	= NULL;
+		Alg_Text_CamelCase::$lowercaseLetter	= FALSE;
 
 		$assertion	= "testAlphaTestRDFString";
-		$creation	= Alg_CamelCase::convert( $this->string1 );
+		$creation	= Alg_Text_CamelCase::convert( $this->string1 );
 		$this->assertEquals( $assertion, $creation );
 
-		Alg_CamelCase::$lowercaseFirst	= NULL;
-		Alg_CamelCase::$lowercaseLetter	= TRUE;
+		Alg_Text_CamelCase::$lowercaseFirst	= NULL;
+		Alg_Text_CamelCase::$lowercaseLetter	= TRUE;
 
 		$assertion	= "testAlphaTestRdfString";
-		$creation	= Alg_CamelCase::convert( $this->string1 );
+		$creation	= Alg_Text_CamelCase::convert( $this->string1 );
 		$this->assertEquals( $assertion, $creation );
 
 
-		Alg_CamelCase::$lowercaseFirst	= FALSE;
-		Alg_CamelCase::$lowercaseLetter	= FALSE;
+		Alg_Text_CamelCase::$lowercaseFirst	= FALSE;
+		Alg_Text_CamelCase::$lowercaseLetter	= FALSE;
 
 		$assertion	= "TestAlphaTestRDFString";
-		$creation	= Alg_CamelCase::convert( $this->string1 );
+		$creation	= Alg_Text_CamelCase::convert( $this->string1 );
 		$this->assertEquals( $assertion, $creation );
 
-		Alg_CamelCase::$lowercaseFirst	= FALSE;
-		Alg_CamelCase::$lowercaseLetter	= TRUE;
+		Alg_Text_CamelCase::$lowercaseFirst	= FALSE;
+		Alg_Text_CamelCase::$lowercaseLetter	= TRUE;
 
 		$assertion	= "TestAlphaTestRdfString";
-		$creation	= Alg_CamelCase::convert( $this->string1 );
+		$creation	= Alg_Text_CamelCase::convert( $this->string1 );
 		$this->assertEquals( $assertion, $creation );
 
 
-		Alg_CamelCase::$lowercaseFirst	= TRUE;
-		Alg_CamelCase::$lowercaseLetter	= FALSE;
+		Alg_Text_CamelCase::$lowercaseFirst	= TRUE;
+		Alg_Text_CamelCase::$lowercaseLetter	= FALSE;
 
 		$assertion	= "testAlphaTestRDFString";
-		$creation	= Alg_CamelCase::convert( $this->string1  );
+		$creation	= Alg_Text_CamelCase::convert( $this->string1  );
 		$this->assertEquals( $assertion, $creation );
 
-		Alg_CamelCase::$lowercaseFirst	= TRUE;
-		Alg_CamelCase::$lowercaseLetter	= TRUE;
+		Alg_Text_CamelCase::$lowercaseFirst	= TRUE;
+		Alg_Text_CamelCase::$lowercaseLetter	= TRUE;
 
 		$assertion	= "testAlphaTestRdfString";
-		$creation	= Alg_CamelCase::convert( $this->string1 );
+		$creation	= Alg_Text_CamelCase::convert( $this->string1 );
 		$this->assertEquals( $assertion, $creation );
 	}
 }
