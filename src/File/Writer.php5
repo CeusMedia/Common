@@ -70,7 +70,8 @@ class File_Writer
 	{
 		if( !@touch( $this->fileName ) )
 			throw new RuntimeException( 'File "'.$this->fileName.'" could not been created' );
-		if( disk_free_space(  $this->fileName  ) < self::$minFreeDiskSpace )
+		$pathName	= dirname( realpath( $this->fileName ) );
+		if( disk_free_space( $pathName ) < self::$minFreeDiskSpace )
 		{
 			$this->remove();
 			throw new RuntimeException( 'Disk is full' );
