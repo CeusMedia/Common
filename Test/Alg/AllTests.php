@@ -20,15 +20,11 @@ class Test_Alg_AllTests
 		$suite->addTest( Test_Alg_Parcel_AllTests::suite() );
 		$suite->addTest( Test_Alg_PREG_AllTests::suite() );
 		$suite->addTest( Test_Alg_Validation_AllTests::suite() );
+#		$suite->addTest( Test_Alg_Text_AllTests::suite() );
 		$suite->addTest( Test_Alg_Time_AllTests::suite() );
 		$suite->addTestSuite( 'Test_Alg_HtmlParserTest' ); 
-		$suite->addTestSuite( 'Test_Alg_InputFilterTest' ); 
 		$suite->addTestSuite( 'Test_Alg_RandomizerTest' ); 
-		$suite->addTestSuite( 'Test_Alg_StringUnicoderTest' ); 
-		$suite->addTestSuite( 'Test_Alg_TermExtractorTest' ); 
 		$suite->addTestSuite( 'Test_Alg_UnitFormaterTest' ); 
-		$suite->addTestSuite( 'Test_Alg_CamelCaseTest' ); 
-		$suite->addTestSuite( 'Test_Alg_StringTrimmerTest' ); 
 		return $suite;
 	}
 }
