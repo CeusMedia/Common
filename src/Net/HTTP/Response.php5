@@ -186,10 +186,10 @@ class Net_HTTP_Response
 			$this->length	= Net_HTTP_Compression::sendContent( $this->body );
 			return $this->length;
 		}
-		flush();
 		$this->length	= strlen( $this->body );
 		if( $sendLengthHeader )
 			header( "Content-Length: ".$this->length );
+		flush();
 		print( $this->body );
 		flush();
 		return $this->length;

@@ -148,8 +148,8 @@ class Database_PDO_TableReader
 		$limit		= $this->getLimitCondition( $limit );
 		$query		= 'SELECT '.implode( ', ', $columns ).' FROM '.$this->getTableName().$conditions.$orders.$limit;
 		$resultSet	= $this->dbc->query( $query );
-
-		return $resultSet->fetchAll( $this->getFetchMode() );
+		if( $resultSet )
+			return $resultSet->fetchAll( $this->getFetchMode() );
 	}
 	
 	public function findWhereIn( $columns = array(), $column, $values, $orders = array(), $limit = array() )
