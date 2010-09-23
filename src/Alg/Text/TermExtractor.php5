@@ -79,9 +79,9 @@ class Alg_Text_TermExtractor
 	public static function loadBlacklist( $fileName )
 	{
 		$string	= File_Editor::load( $fileName );
-		if( !Alg_StringUnicoder::isUnicode( $string ) )
+		if( !Alg_Text_Unicoder::isUnicode( $string ) )
 		{
-			$string	= Alg_StringUnicoder::convertToUnicode( $string );
+			$string	= Alg_Text_Unicoder::convertToUnicode( $string );
 			File_Editor::save( $fileName, $string );
 		}
 		$list	= File_Editor::loadArray( $fileName );
