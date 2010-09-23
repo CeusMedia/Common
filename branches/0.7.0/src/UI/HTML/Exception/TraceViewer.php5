@@ -89,7 +89,7 @@ class UI_HTML_Exception_TraceViewer
 			}
 		}
 		$content	.= '#'.$j.' {main}<br/></span>';
-		if( $exception->getPrevious() )
+		if( method_exists( $exception, 'getPrevious' ) && $exception->getPrevious() )
 		{
 			$view	= self::buildTrace( $exception->getPrevious(), $breakMode );
 			$block	= UI_HTML_Tag::create( 'blockquote', $view );
