@@ -44,7 +44,7 @@ class Test_UI_Image_PrinterTest extends PHPUnit_Framework_TestCase
 		$printer	= new UI_Image_Printer( $resource );
 		
 		ob_start();
-		$printer->show( UI_Image_Printer::TYPE_PNG, 0, FALSE );
+		$printer->show( IMAGETYPE_PNG, 0, FALSE );
 		$creation	= ob_get_clean();
 				
 		$assertion	= TRUE;
@@ -58,7 +58,7 @@ class Test_UI_Image_PrinterTest extends PHPUnit_Framework_TestCase
 		$printer	= new UI_Image_Printer( $resource );
 		
 		ob_start();
-		$printer->show( UI_Image_Printer::TYPE_JPEG, 100, FALSE );
+		$printer->show( IMAGETYPE_JPEG, 100, FALSE );
 		$creation	= ob_get_clean();
 				
 		$assertion	= TRUE;
@@ -72,7 +72,7 @@ class Test_UI_Image_PrinterTest extends PHPUnit_Framework_TestCase
 		$printer	= new UI_Image_Printer( $resource );
 		
 		ob_start();
-		$printer->show( UI_Image_Printer::TYPE_GIF, 0, FALSE );
+		$printer->show( IMAGETYPE_GIF, 0, FALSE );
 		$creation	= ob_get_clean();
 				
 		$assertion	= TRUE;
@@ -92,7 +92,7 @@ class Test_UI_Image_PrinterTest extends PHPUnit_Framework_TestCase
 	{
 		$resource	= imagecreatefrompng( $this->path."sourceCreator.png" );
 		$printer	= new UI_Image_Printer( $resource );
-		$printer->save( $this->path."targetPrinter.png", UI_Image_Printer::TYPE_PNG, 0 );
+		$printer->save( $this->path."targetPrinter.png", IMAGETYPE_PNG, 0 );
 				
 		$file		= new File_Reader( $this->path."targetPrinter.png" );
 		$this->assertTrue( $file->equals( $this->path."sourceCreator.png" ) );
@@ -102,7 +102,7 @@ class Test_UI_Image_PrinterTest extends PHPUnit_Framework_TestCase
 	{
 		$resource	= imagecreatefromjpeg( $this->path."sourceCreator.jpg" );
 		$printer	= new UI_Image_Printer( $resource );
-		$printer->save( $this->path."targetPrinter.jpg", UI_Image_Printer::TYPE_JPEG, 100 );
+		$printer->save( $this->path."targetPrinter.jpg", IMAGETYPE_JPEG, 100 );
 				
 		$assertion	= TRUE;
 		$creation	= file_exists( $this->path."targetPrinter.jpg" );
@@ -113,7 +113,7 @@ class Test_UI_Image_PrinterTest extends PHPUnit_Framework_TestCase
 	{
 		$resource	= imagecreatefromgif( $this->path."sourceCreator.gif" );
 		$printer	= new UI_Image_Printer( $resource );
-		$printer->save( $this->path."targetPrinter.gif", UI_Image_Printer::TYPE_GIF, 0 );
+		$printer->save( $this->path."targetPrinter.gif", IMAGETYPE_GIF, 0 );
 
 		$file		= new File_Reader( $this->path."targetPrinter.gif" );
 		$this->assertTrue( $file->equals( $this->path."sourceCreator.gif" ) );

@@ -2,7 +2,7 @@
 /**
  *	TestUnit of Net Reader.
  *	@package		Tests.net
- *	@author			Christian W�rker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			21.02.2008
  *	@version		0.1
  */
@@ -13,7 +13,7 @@ require_once 'Test/initLoaders.php5';
  *	@package		Tests.net
  *	@extends		PHPUnit_Framework_TestCase
  *	@uses			Net_Reader
- *	@author			Christian W�rker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			21.02.2008
  *	@version		0.1
  */
