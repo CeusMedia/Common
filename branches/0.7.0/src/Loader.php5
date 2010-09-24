@@ -105,9 +105,11 @@ class CMC_Loader
 			$filePath	= $basePath.$fileName.".".$extension;
 			if( $this->verbose )
 				echo $this->lineBreak."autoload: ".$filePath;
+			if( defined( 'CMC_LOADER_LOG' ) && CMC_LOADER_LOG )
+				error_log( $filePath."\n", 3, CMC_LOADER_LOG );
 #			if( !@fopen( $filePath, "r", TRUE ) )
-#			if( !file_exists( $filePath ) )
-			if( !is_readable( $filePath ) )
+			if( !file_exists( $filePath ) )
+#			if( !is_readable( $filePath ) )
 				continue;
 			$this->loadFile( $filePath, TRUE );
 			return TRUE;
