@@ -50,8 +50,8 @@ class File_PHP_Parser_Reflection
 	public function parseFile( $fileName, $innerPath )
 	{
 		$content		= File_Reader::load( $fileName );
-		if( !Alg_StringUnicoder::isUnicode( $content ) )
-			$content		= Alg_StringUnicoder::convertToUnicode( $content );
+		if( !Alg_Text_Unicoder::isUnicode( $content ) )
+			$content		= Alg_Text_Unicoder::convertToUnicode( $content );
 
 		$listClasses	= get_declared_classes();													//  list builtin Classes
 		$listInterfaces	= get_declared_interfaces();												//  list builtin Interfaces

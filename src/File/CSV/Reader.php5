@@ -30,7 +30,7 @@
  *	@category		cmClasses
  *	@package		File.CSV
  *	@extends		File_Reader
- *	@uses			Alg_StringUnicoder
+ *	@uses			Alg_Text_Unicoder
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3

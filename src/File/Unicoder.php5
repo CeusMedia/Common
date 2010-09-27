@@ -26,13 +26,11 @@
  *	@since			18.10.2007
  *	@version		$Id$
  */
-import( 'de.ceus-media.alg.StringUnicoder' );
-import( 'de.ceus-media.file.Editor' );
 /**
  *	Converts a File into UTF-8.
  *	@category		cmClasses
  *	@package		File
- *	@uses			Alg_StringUnicoder
+ *	@uses			Alg_Text_Unicoder
  *	@uses			File_Editor
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
@@ -67,7 +65,7 @@ class File_Unicoder
 		if( !file_exists( $fileName ) )
 			throw new Exception( 'File "'.$fileName.'" is not existing.' );
 		$string		= File_Editor::load( $fileName );
-		$unicoded	= Alg_StringUnicoder::convertToUnicode( $string );
+		$unicoded	= Alg_Text_Unicoder::convertToUnicode( $string );
 		return $unicoded == $string;
 	}
 
@@ -84,7 +82,7 @@ class File_Unicoder
 		if( !(!$force && self::isUnicode( $fileName ) ) )
 		{
 			$string		= File_Editor::load( $fileName );
-			$unicoded	= Alg_StringUnicoder::convertToUnicode( $string );
+			$unicoded	= Alg_Text_Unicoder::convertToUnicode( $string );
 			return (bool) File_Editor::save( $fileName, $unicoded );
 		}
 		return FALSE;
