@@ -19,8 +19,6 @@
  *
  *	@category		cmClasses
  *	@package		Folder
- *	@uses			File_RecursiveRegexFilter
- *	@uses			File_PHP_MethodVisibilityCheck
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -33,7 +31,7 @@
  *	@category		cmClasses
  *	@package		Folder
  *	@uses			File_RecursiveRegexFilter
- *	@uses			File_PHP_MethodVisibilityCheck
+ *	@uses			File_PHP_Check_MethodVisibility
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -62,13 +60,13 @@ class Folder_MethodVisibilityCheck
 		$finder	= new File_RecursiveRegexFilter( $path, '@^[^_].*\.'.$extension.'$@', "@function @" );
 		foreach( $finder as $entry )
 		{
-			$checker	= new File_PHP_MethodVisibilityCheck( $entry->getPathname() );
+			$checker	= new File_PHP_Check_MethodVisibility( $entry->getPathname() );
 			if( $checker->check() )
 				continue;
 			$this->found++;
 			$this->list[$entry->getPathname()]	= $checker->getMethods();
 		}
-		$this->count	= $finder->getNumberScanned();
+		$this->count	= $finder->getNumberFound();
 	}
 }
 ?>

@@ -135,7 +135,7 @@ class File_PHP_Parser_Array
 		do
 		{
 			$line	= trim( array_shift( $lines ) );
-			$line	= Alg_StringUnicoder::convertToUnicode( $line );
+			$line	= Alg_Text_Unicoder::convertToUnicode( $line );
 			if( preg_match( "@^(<\?(php)?)|((php)?\?>)$@", $line ) )
 				continue;
 			
