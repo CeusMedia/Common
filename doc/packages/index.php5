@@ -1,7 +1,7 @@
 <?php
 require_once( "../../autoload.php5" );
 
-$pathJpgraph	= '../../../../jpgraph/3.0.7/src/';
+$pathJpgraph	= 'jpgraph/3.0.7/';
 $pathClasses	= '../../src/';
 $refresh		= isset( $_GET['refresh'] );
 

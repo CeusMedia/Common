@@ -32,7 +32,7 @@ class PackageGraphView
 		$page->addBody( '<h2>cmClasses Packages</h2>' );
 	
 		$samples	= $this->getPackages();
-		
+
 		$data	= array(
 			'values'	=> array(),
 			'uris'		=> array(),
@@ -49,6 +49,7 @@ class PackageGraphView
 			$data['total']		+= $sampleData['count'];
 		}
 		$view->setHeading( 'Packages by file count' );
+		@unlink( 'cache/PackageFileCount.png' );
 		$page->addBody( $view->build( "test1", $data, 'cache/PackageFileCount.png' ) );
 
 
@@ -69,6 +70,7 @@ class PackageGraphView
 			$data['total']		+= $sampleData['count'];
 		}
 		$view->setHeading( 'Packages by file size' );
+		@unlink( 'cache/PackageFileSize.png' );
 		$page->addBody( $view->build( "test2", $data, 'cache/PackageFileSize.png' ) );
 		$page->addBody( '<div style="clear: both"></div>' );
 
@@ -102,6 +104,7 @@ class PackageGraphView
 		$index	= new File_RecursiveRegexFilter( $this->path, $this->regExpFilename, $this->rexExpSignature );
 		foreach( $index as $entry )
 		{
+			
 			$pathName	= substr( $entry->getPathname(), strlen( $this->path ) );
 			$files[$pathName]	= filesize( $entry->getPathname() );
 		}
