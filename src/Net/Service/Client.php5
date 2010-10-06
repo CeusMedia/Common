@@ -30,7 +30,7 @@
  *	Client for interaction with Frontend Services.
  *	@category		cmClasses
  *	@package		Net.Service
- *	@uses			Net_cURL
+ *	@uses			Net_CURL
  *	@uses			Alg_Time_Clock
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
@@ -89,7 +89,7 @@ class Net_Service_Client
 	/**
 	 *	Executes Request, logs statistical Information and returns Response.
 	 *	@access		protected
-	 *	@param		Net_cURL	$request			Request Object
+	 *	@param		Net_CURL	$request			Request Object
 	 *	@param		bool		$compression		Type of Compression of Content (deflate,gzip)
 	 *	@return		string
 	 */
@@ -139,7 +139,7 @@ class Net_Service_Client
 			remark( "GET: ".$serviceUrl );
 
 		$clock		= new Alg_Time_Clock;
-		$request	= new Net_cURL( $serviceUrl );
+		$request	= new Net_CURL( $serviceUrl );
 		$response	= $this->executeRequest( $request, $compress );
 		if( $this->logFile )
 		{
@@ -204,7 +204,7 @@ class Net_Service_Client
 		$data['clientRequestSessionId']	= $this->id;							//  adding Client Request Session ID
 
 		$clock			= new Alg_Time_Clock;
-		$request	= new Net_cURL( $baseUrl );
+		$request	= new Net_CURL( $baseUrl );
 		$request->setOption( CURLOPT_POST, TRUE );
 		$request->setOption( CURLOPT_POSTFIELDS, $data );
 		$response	= $this->executeRequest( $request );
