@@ -135,24 +135,24 @@ class Database_PDO_TableReader
 	 *	@param		array		$columns		Array of table columns
 	 *	@param		array		$conditions		Array of condition pairs additional to focuses indices
 	 *	@param		array		$orders			Array of order relations
-	 *	@param		array		$limit			Array of limit conditions
+	 *	@param		array		$limits			Array of limit conditions
 	 *	@return		array
 	 */
-	public function find( $columns = array(), $conditions = array(), $orders = array(), $limit = array() )
+	public function find( $columns = array(), $conditions = array(), $orders = array(), $limits = array() )
 	{
 		$this->validateColumns( $columns );
 			
 		$conditions	= $this->getConditionQuery( $conditions, FALSE, FALSE );		
 		$conditions = $conditions ? ' WHERE '.$conditions : '';
 		$orders		= $this->getOrderCondition( $orders );
-		$limit		= $this->getLimitCondition( $limit );
-		$query		= 'SELECT '.implode( ', ', $columns ).' FROM '.$this->getTableName().$conditions.$orders.$limit;
+		$limits		= $this->getLimitCondition( $limits );
+		$query		= 'SELECT '.implode( ', ', $columns ).' FROM '.$this->getTableName().$conditions.$orders.$limits;
 		$resultSet	= $this->dbc->query( $query );
 		if( $resultSet )
 			return $resultSet->fetchAll( $this->getFetchMode() );
 	}
 	
-	public function findWhereIn( $columns = array(), $column, $values, $orders = array(), $limit = array() )
+	public function findWhereIn( $columns = array(), $column, $values, $orders = array(), $limits = array() )
 	{
 		$this->validateColumns( $columns );
 
@@ -160,7 +160,7 @@ class Database_PDO_TableReader
 			throw new InvalidArgumentException( 'Field of WHERE IN-statement must be an index' );
 
 		$orders		= $this->getOrderCondition( $orders );
-		$limit		= $this->getLimitCondition( $limit );
+		$limits		= $this->getLimitCondition( $limits );
 		for( $i=0; $i<count( $values ); $i++ )
 			$values[$i]	= $this->secureValue( $values[$i] );
 
@@ -170,7 +170,7 @@ class Database_PDO_TableReader
 		return $resultSet->fetchAll( $this->getFetchMode() );
 	}
 
-	public function findWhereInAnd( $columns = array(), $column, $values, $conditions = array(), $orders = array(), $limit = array() )
+	public function findWhereInAnd( $columns = array(), $column, $values, $conditions = array(), $orders = array(), $limits = array() )
 	{
 		$this->validateColumns( $columns );
 
@@ -179,7 +179,7 @@ class Database_PDO_TableReader
 
 		$conditions	= $this->getConditionQuery( $conditions, FALSE, FALSE );
 		$orders		= $this->getOrderCondition( $orders );
-		$limit		= $this->getLimitCondition( $limit );
+		$limits		= $this->getLimitCondition( $limits );
 		for( $i=0; $i<count( $values ); $i++ )
 			$values[$i]	= $this->secureValue( $values[$i] );
 		
@@ -224,17 +224,17 @@ class Database_PDO_TableReader
 	 *	@access		public
 	 *	@param		bool	$first		Extract first entry of result
 	 *	@param		array	$orders		Associative array of orders
-	 *	@param		array	$limit		Array of offset and limit
+	 *	@param		array	$limits		Array of offset and limit
 	 *	@return		array
 	 */
-	public function get( $first = TRUE, $orders = array(), $limit = array() )
+	public function get( $first = TRUE, $orders = array(), $limits = array() )
 	{
 		$this->validateFocus();
 		$data = array();
 		$conditions	= $this->getConditionQuery( array() );
 		$orders		= $this->getOrderCondition( $orders );
-		$limit		= $this->getLimitCondition( $limit );
-		$query = 'SELECT * FROM '.$this->getTableName().' WHERE '.$conditions.$orders.$limit;
+		$limits		= $this->getLimitCondition( $limits );
+		$query = 'SELECT * FROM '.$this->getTableName().' WHERE '.$conditions.$orders.$limits;
 
 		$resultSet	= $this->dbc->query( $query );
 		$resultList	= $resultSet->fetchAll( $this->getFetchMode() );
@@ -346,15 +346,17 @@ class Database_PDO_TableReader
 	/**
 	 *	Builds and returns ORDER BY Statement Component.
 	 *	@access		protected
-	 *	@param		array		$limit			Array of Offset and Limit
+	 *	@param		array		$limits			Array of Offset and Limit
 	 *	@return		string
 	 */
-	protected function getLimitCondition( $limit = array() )
+	protected function getLimitCondition( $limits = array() )
 	{
-		$condition	= '';
-		if( is_array( $limit ) && count( $limit ) == 2 ) 
-			$condition = ' LIMIT '.$limit[0].', '.$limit[1];
-		return $condition;
+		if( !is_array( $limits ) )
+			return;
+		$limit		= !isset( $limits[1] ) ? 0 : abs( $limits[1] );
+		$offset		= !isset( $limits[0] ) ? 0 : abs( $limits[0] );
+		if( $limit )
+			return ' LIMIT '.$limit.' OFFSET '.$offset;
 	}
 	
 	/**
