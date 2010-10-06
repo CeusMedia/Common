@@ -42,11 +42,12 @@ class Net_HTTP_Sniffer_MimeType
 	/**
 	 *	Returns prefered allowed and accepted Mime Types.
 	 *	@access		public
+	 *	@static
 	 *	@param		array	$allowed		Array of Mime Types supported and allowed by the Application
 	 *	@param		string	$default		Default Mime Types supported and allowed by the Application
 	 *	@return		string
 	 */
-	public function getMimeType( $allowed, $default = false )
+	public static function getMimeType( $allowed, $default = false )
 	{
 		if( !$default)
 			$default = $allowed[0];
