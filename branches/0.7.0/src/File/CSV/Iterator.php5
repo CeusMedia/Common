@@ -13,7 +13,7 @@
  */
 class File_CSV_Iterator implements Iterator
 {
-	const ROW_SIZE = 4096;
+	public static $maxRowSize = 4096;
 
 	/**	@var	resource	$filePointer		The pointer to the cvs file. */
 	protected $filePointer	= NULL;
@@ -92,7 +92,7 @@ class File_CSV_Iterator implements Iterator
 			{
 				$data = fgetcsv(
 					$this->filePointer,
-					self::ROW_SIZE,
+					self::$maxRowSize,
 					$this->delimiter,
 					$this->enclosure
 				);
