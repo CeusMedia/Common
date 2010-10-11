@@ -122,7 +122,7 @@ class UI_HTML_Tag
 				throw new InvalidArgumentException( 'Attribute "'.$key.'" is already set' );		//  throw exception
 			if( !( is_string( $value ) || is_int( $value ) ) )										//  attribute is neither string nor integer
 				continue;																			//  skip this pair
-			if( !preg_match( '/^[a-z][a-z0-9:_-]+$/', $key ) )										//  key is not a valid lowercase ID (namespaces supported)
+			if( !preg_match( '/^[a-z][a-z0-9:_-]*$/', $key ) )										//  key is not a valid lowercase ID (namespaces supported)
 				throw new InvalidArgumentException( 'Invalid attribute key' );						//  throw exception
 			if( preg_match( '/[^\\\]"/', $value ) )													//  value contains unescaped (double) quotes
 				throw new InvalidArgumentException( 'Invalid attribute value "'.$value.'"' );		//  throw exception
