@@ -37,19 +37,110 @@
  *	@since			0.7.0
  *	@version		$Id$
  */
-class ADT_Null
+class ADT_Null implements Countable, Renderable, ArrayAccess
 {
+	/**	@var	ADT_Null		$instance		Singleton instance of ADT_Null */
 	protected static $instance	= NULL;
 	
+	/**
+	 *	Cloning is disabled.
+	 *	@access		private
+	 *	@return		void
+	 */
 	private function __clone() {}
 	
+	/**
+	 *	Constructor, disabled.
+	 *	@access		protected
+	 *	@return		void
+	 */
 	protected function __construct() {}
-	
+
+	/**
+	 *	Returns an empty string.
+	 *	@access		public
+	 *	@return		string		Empty string, always
+	 */
+
+	public function __toString()
+	{
+		return '';
+	}
+
+	/**
+	 *	Returns single instance statically.
+	 *	@access		public
+	 *	@static
+	 *	@return		ADT_Null	Single instance
+	 */
 	public static function getInstance()
 	{
 		if( !self::$instance )
 			self::$instance	= new ADT_Null;
 		return self::$instance;
+	}
+
+	/**
+	 *	Implements interface Countable and returns always 0.
+	 *	@access		public
+	 *	@return		integer		0, always
+	 */
+	public function count()
+	{
+		return 0;
+	}
+
+	/**
+	 *	Implements interface ArrayAccess and returns always FALSE.
+	 *	@access		public
+	 *	@return		boolean			FALSE, always
+	 */
+	public function offsetExists( $key )
+	{
+		return FALSE;
+	}
+
+
+	/**
+	 *	Implements interface ArrayAccess and returns always self instance.
+	 *	@access		public
+	 *	@return		ADT_Null		Null object, infact self
+	 */
+	public function offsetGet( $key )
+	{
+		return self;
+	}
+
+
+	/**
+	 *	Implements interface ArrayAccess and returns always FALSE.
+	 *	@access		public
+	 *	@return		boolean			FALSE, always
+	 */
+	public function offsetSet( $key, $value )
+	{
+		return FALSE;
+	}
+
+
+	/**
+	 *	Implements interface ArrayAccess and returns always FALSE.
+	 *	@access		public
+	 *	@return		boolean			FALSE, always
+	 */
+	public function offsetUnset( $key )
+	{
+		return FALSE;
+	}
+
+	/**
+	 *	Implements interface Renderable and returns always NULL.
+	 *	@access		public
+	 *	@return		string			Empty string, always
+	 */
+	public function render()
+	{
+		return '';
 	}
 }
 ?>
