@@ -106,6 +106,8 @@ class Net_Service_Client
 		$response['headers']	= $request->getHeader();
 	
 		$code		= $request->getStatus( Net_CURL::STATUS_HTTP_CODE );
+		if( $code == 0 )
+			throw new RuntimeException( 'URL "'.$request->getOption( CURLOPT_URL ).'" can not be accessed: ' . $response['status']['error'], $code );
 		if( !in_array( $code, array( '200', '304' ) ) )
 			throw new RuntimeException( 'URL "'.$request->getOption( CURLOPT_URL ).'" can not be accessed (HTTP Code '.$code.').', $code );
 
