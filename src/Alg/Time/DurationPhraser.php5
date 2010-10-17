@@ -45,7 +45,9 @@ class Alg_Time_DurationPhraser
 	
 	public function __construct( $ranges = array() )
 	{
-		$this->ranges	= new Alg_Time_DurationPhraseRanges( $ranges );
+		if( !( $ranges instanceof Alg_Time_DurationPhraseRanges ) )
+			$ranges	= new Alg_Time_DurationPhraseRanges( $ranges );
+		$this->ranges	= $ranges;
 	}
 	
 	public function getPhraseFromSeconds( $seconds )
@@ -63,7 +65,7 @@ class Alg_Time_DurationPhraser
 			$label	= preg_replace( $this->patternData, "", $label );
 			return $label;
 		}
-		throw new OutOfBoundException( 'No range defined for '.$seconds.' seconds' );
+		throw new OutOfBoundsException( 'No range defined for '.$seconds.' seconds' );
 	}
 	
 	public function getPhraseFromTimestamp( $timestamp )
