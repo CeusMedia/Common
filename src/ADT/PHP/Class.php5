@@ -18,7 +18,6 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@category		cmClasses
  *	@package		ADT.PHP
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2009 Christian Würker
@@ -26,10 +25,8 @@
  *	@version		$Id$
  *	@since			0.3
  */
-import( 'de.ceus-media.adt.php.Interface' );
 /**
  *	Class Data Class.
- *	@category		cmClasses
  *	@category		cmClasses
  *	@package		ADT.PHP
  *	@extends		ADT_PHP_Interface

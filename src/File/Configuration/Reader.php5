@@ -194,7 +194,6 @@ class File_Configuration_Reader extends ADT_List_Dictionary
 		}
 		else
 		{
-			import( 'de.ceus-media.file.ini.Reader' );
 			$pattern	= '@^(string|integer|int|double|boolean|bool).*$@';
 			$reader		= new File_INI_Reader( $fileName, TRUE );
 			$comments	= $reader->getComments();
@@ -225,8 +224,6 @@ class File_Configuration_Reader extends ADT_List_Dictionary
 	 */
 	protected function loadJsonFile( $fileName )
 	{
-		import( 'de.ceus-media.adt.json.Converter' );
-		import( 'de.ceus-media.file.Writer' );
 		$json	= File_Reader::load( $fileName );
 		$array	= ADT_JSON_Converter::convertToArray( $json );
 		foreach( $array as $sectionName => $sectionData )
@@ -242,7 +239,6 @@ class File_Configuration_Reader extends ADT_List_Dictionary
 	 */
 	protected function loadWddxFile( $fileName )
 	{
-		import( 'de.ceus-media.xml.wddx.FileReader' );
 		$array	= XML_WDDX_FileReader::load( $fileName );
 		foreach( $array as $sectionName => $sectionData )
 			foreach( $sectionData as $key => $value )
@@ -257,7 +253,6 @@ class File_Configuration_Reader extends ADT_List_Dictionary
 	 */
 	protected function loadYamlFile( $fileName )
 	{
-		import( 'de.ceus-media.file.yaml.Reader' );
 		$array	= File_YAML_Reader::load( $fileName );
 		foreach( $array as $sectionName => $sectionData )
 			foreach( $sectionData as $key => $value )
@@ -272,7 +267,6 @@ class File_Configuration_Reader extends ADT_List_Dictionary
 	 */
 	protected function loadXmlFile( $fileName )
 	{
-		import( 'de.ceus-media.xml.ElementReader' );
 		$root	= XML_ElementReader::readFile( $fileName );
 		foreach( $root as $sectionNode )
 		{

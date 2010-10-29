@@ -25,7 +25,6 @@
  *	@version		$Id$
  *	@since			0.3
  */
-import( 'de.ceus-media.adt.php.Function' );
 /**
  *	Class Method Data Class.
  *	@category		cmClasses

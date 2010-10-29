@@ -19,15 +19,11 @@
  *
  *	@category		cmClasses
  *	@package		UI.SVG
- *	@uses			UI_HTML_Tag
- *	@uses			File_Writer
  *	@author			Jonas Schneider <JonasSchneider@gmx.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  */
-import( 'de.ceus-media.ui.html.Tag' );
-import( 'de.ceus-media.file.Writer' );
 /**
  *	The main Chart class. Base class for all subtypes of charts, like Pie, Bar, Line and so on.
  *	@category		cmClasses
@@ -138,7 +134,6 @@ class UI_SVG_Chart
 	 */
 	public function buildPieGraph( $options = false )
 	{
-		import( 'de.ceus-media.ui.svg.PieGraph' );
 		$chart = new UI_SVG_PieGraph;
 		$chart->chart = &$this;
 		$this->content	.= $this->buildComponent( $chart, $options );
@@ -152,7 +147,6 @@ class UI_SVG_Chart
 	 */
 	public function buildBarAcross( $options = false )
 	{
-		import( 'de.ceus-media.ui.svg.BarAcross' );
 		$chart = new UI_SVG_BarAcross;
 		$chart->chart = &$this;
 		$this->content	.= $this->buildComponent( $chart, $options );

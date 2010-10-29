@@ -160,7 +160,6 @@ class XML_Atom_Parser
 		$root		= new XML_Element( $xml );
 		if( $validateRules )
 		{
-			import( 'de.ceus-media.xml.atom.Validator' );
 			$validator	= new XML_Atom_Validator();
 			if( !$validator->isValid( $root ) )	
 				throw new Exception( $validator->getFirstError() );

@@ -76,7 +76,6 @@ class File_VCard_Parser
 			throw new InvalidArgumentException( 'String is empty ' );
 		if( $charsetIn && $charsetOut && function_exists( 'iconv' ) )
 		{
-			import( 'de.ceus-media.alg.text.EncodingConverter' );
 			$string	= Alg_Text_EncodingConverter::convert( $string, $charsetIn, $charsetOut );
 		}
 

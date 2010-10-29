@@ -130,8 +130,6 @@ class Net_Service_Client
 	 */
 	public function get( $service, $format = NULL, $parameters = array(), $verbose = FALSE )
 	{
-		import( 'de.ceus-media.net.cURL' );
-		import( 'de.ceus-media.Alg_Time_Clock' );
 		$baseUrl	= $this->host."?service=".$service."&format=".$format;
 		$compress	= isset( $parameters['compressResponse'] ) ? strtolower( $parameters['compressResponse'] ) : "";
 		$parameters	= array_merge( $parameters, array( 'clientRequestSessionId' => $this->id ) );

@@ -25,7 +25,6 @@
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		$Id$
  */
-import( 'de.ceus-media.ui.html.Elements' );
 /**
  *	...
  *	@category		cmClasses

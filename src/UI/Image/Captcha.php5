@@ -19,8 +19,6 @@
  *
  *	@category		cmClasses
  *	@package		UI.Image
- *	@uses			Alg_Randomizer
- *	@uses			File_Writer
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -28,8 +26,6 @@
  *	@since			01.05.2005
  *	@version		$Id$
  */
-import( 'de.ceus-media.alg.Randomizer' );
-import( 'de.ceus-media.file.Writer' );
 /**
  *	Simple CAPTCHA Generator.
  *	@category		cmClasses

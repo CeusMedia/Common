@@ -19,18 +19,12 @@
  *
  *	@category		cmClasses
  *	@package		UI.Image
- *	@extends		UI_Image_Drawer
- *	@uses			Math_CompactInterval
- *	@uses			Alg_Time_Clock
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		$Id$
  */
-import( 'de.ceus-media.ui.image.Drawer' );
-import( 'de.ceus-media.math.CompactInterval' );
-import( 'de.ceus-media.alg.time.Clock' );
 /**
  *	Paints Formula Diagram
  *	@category		cmClasses

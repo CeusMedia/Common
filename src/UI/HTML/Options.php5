@@ -26,8 +26,6 @@
  *	@since			0.6.8
  *	@version		$Id$
  */
-import( 'de.ceus-media.ui.html.Elements' );
-import( 'de.ceus-media.ui.html.JQuery' );
 /**
  *	Wrapper of jQuery plugin 'cmOptions' to create HTML and JavaScript.
  *	@category		cmClasses

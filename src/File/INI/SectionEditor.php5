@@ -19,8 +19,6 @@
  *
  *	@category		cmClasses
  *	@package		File.INI
- *	@extends		File_INI_SectionReader
- *	@uses			File_Writer
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -28,8 +26,6 @@
  *	@since			01.11.2005
  *	@version		$Id$
  */
-import( 'de.ceus-media.file.ini.SectionReader' );
-import( 'de.ceus-media.file.Writer' );
 /**
  *	Editor for sectioned Ini Files using parse_ini_file.
  *	@category		cmClasses

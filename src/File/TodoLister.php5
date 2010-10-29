@@ -19,7 +19,6 @@
  *
  *	@category		cmClasses
  *	@package		File
- *	@uses			File_RegexFilter
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -27,7 +26,6 @@
  *	@since			11.06.2008
  *	@version		$Id$
  */
-import( 'de.ceus-media.file.RegexFilter' );
 /**
  *	Class to find all Files with ToDos inside.
  *	@category		cmClasses

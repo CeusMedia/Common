@@ -19,7 +19,6 @@
  *
  *	@category		cmClasses
  *	@package		Alg.Parcel
- *	@uses			Alg_Parcel_Packet
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -27,7 +26,6 @@
  *	@since			08.05.2008
  *	@version		$Id$
  */
-import( 'de.ceus-media.alg.parcel.Packet' );
 /**
  *	...
  *	@category		cmClasses

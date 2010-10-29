@@ -27,7 +27,6 @@
  *	@version		$Id$
  *	@link			http://www.grc.com/menudemo.htm
  */
-import( 'de.ceus-media.ui.html.Elements' );
 /**
  *	Implementation of CSS Menu, a dynamic Tree Navigation without JavaScript.
  *	@category		cmClasses

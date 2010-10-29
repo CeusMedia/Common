@@ -19,8 +19,6 @@
  *
  *	@category		cmClasses
  *	@package		File.List
- *	@extends		File_List_Reader
- *	@uses			File_List_Writer
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -28,8 +26,6 @@
  *	@since			25.04.2008
  *	@version		$Id$
  */
-import( 'de.ceus-media.file.list.Reader' );
-import( 'de.ceus-media.file.list.Writer' );
 /**
  *	Editor for List Files.
  *	@category		cmClasses

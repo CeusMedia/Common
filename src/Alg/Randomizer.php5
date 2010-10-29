@@ -159,7 +159,6 @@ class Alg_Randomizer
 		if( !$strength )																	//  no Strength needed
 			return $random;
 
-		import( 'de.ceus-media.alg.crypt.PasswordStrength' );
 		$turn	= 0;
 		do
 		{

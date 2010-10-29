@@ -26,8 +26,6 @@
  *	@since			0.6.7
  *	@version		0.1
  */
-import( 'de.ceus-media.ui.html.Tag' );
-import( 'de.ceus-media.ui.html.JQuery' );
 /**
  *	...
  *	@category		cmClasses

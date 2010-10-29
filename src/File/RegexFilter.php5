@@ -26,7 +26,6 @@
  *	@since			09.06.2007
  *	@version		$Id$
  */
-import( 'de.ceus-media.file.Reader' );
 /**
  *	Searchs for Files by given RegEx Pattern (as File Name) in Folder.
  *	@category		cmClasses

@@ -19,9 +19,6 @@
  *
  *	@category		cmClasses
  *	@package		UI.Image
- *	@uses			UI_Image_Creator
- *	@uses			UI_Image_Drawer
- *	@uses			UI_Image_Printer
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -29,9 +26,6 @@
  *	@since			16.06.2008
  *	@version		$Id$
  */
-import( 'de.ceus-media.ui.image.Creator' );
-import( 'de.ceus-media.ui.image.Drawer' );
-import( 'de.ceus-media.ui.image.Printer' );
 /**
  *	Creates and displays Error Image with Message.
  *	@category		cmClasses

@@ -137,7 +137,6 @@ class Net_Service_Server
 	 */
 	protected function loadServicePoint()
 	{
-		import( 'de.ceus-media.net.service.Point' );									//  load Standard Service Point Class
 		$fileName	= $this->basePath.$this->pointPath.$this->fileName;					//  File Path of Service Definition
 		$fileCache	= $this->basePath.$this->pointPath.$this->cacheFile;				//  File Path of Service Definition Cache File
 		$this->servicePoint	= new Net_Service_Point( $fileName, $fileCache );			//  start Service Point
@@ -150,7 +149,6 @@ class Net_Service_Server
 	 */
 	protected function runIndex( $subfolderLevel )
 	{
-		import( 'de.ceus-media.ui.html.service.Index' );
 		$index		= new UI_HTML_Service_Index( $this->servicePoint, $this->formats );
 		$index->setTableClass( 'services list' );
 		$index->setTemplate( $this->basePath.$this->templateIndex );
@@ -164,7 +162,6 @@ class Net_Service_Server
 	 */
 	protected function runService( $requestHandler )
 	{
-		import( 'de.ceus-media.net.service.Handler' );
 		$handler	= new Net_Service_Handler( $this->servicePoint, $this->formats );
 		return $handler->handle( $requestHandler );
 	}
@@ -176,7 +173,6 @@ class Net_Service_Server
 	 */
 	protected function runTest( $requestHandler, $subfolderLevel )
 	{
-		import( 'de.ceus-media.ui.html.service.Test' );
 		$test		= new UI_HTML_Service_Test( $this->servicePoint );
 #		$test->setTableClass( 'services list' );
 		$test->setTemplate( $this->basePath.$this->templateTest );

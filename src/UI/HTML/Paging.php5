@@ -19,8 +19,6 @@
  *
  *	@category		cmClasses
  *	@package		UI.HTML
- *	@extends		ADT_OptionObject
- *	@uses			UI_HTML_Elements
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -28,8 +26,6 @@
  *	@since			01.12.2005
  *	@version		$Id$
  */
-import( 'de.ceus-media.adt.OptionObject' );
-import( 'de.ceus-media.ui.html.Elements' );
 /**
  *	Paging System for Lists.
  *	@category		cmClasses

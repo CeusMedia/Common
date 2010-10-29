@@ -19,18 +19,12 @@
  *
  *	@category		cmClasses
  *	@package		UI.HTML.Tree
- *	@uses			Alg_Tree_Menu_Converter
- *	@uses			UI_HTML_Tag
- *	@uses			UI_HTML_Elements
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		0.2
  */
-import( 'de.ceus-media.alg.tree.menu.Converter' );
-import( 'de.ceus-media.ui.html.Tag' );
-import( 'de.ceus-media.ui.html.Elements' );
 /**
  *	Builder for Layer Menu.
  *	@category		cmClasses

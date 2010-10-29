@@ -99,7 +99,6 @@ class Net_Service_Response
 	{
 		if( $content instanceof Exception )
 		{
-#			import( 'de.ceus-media.ui.html.exception.TraceViewer' );
 #			$trace	= UI_HTML_Exception_TraceViewer::buildTrace( $content, 2 );
 
 			$serial	= NULL;
@@ -238,8 +237,6 @@ class Net_Service_Response
 	protected function getXml( $content, $status = "data" )
 	{
 		$data	= $this->buildResponseStructure( $content, $status );
-		import( 'de.ceus-media.xml.Element' );
-		import( 'de.ceus-media.xml.dom.Formater' );
 		$root	= new XML_Element( "<response/>" );
 		$this->addArrayToXmlNode( $root, $data, "item" );
 		$xml	= $root->asXml();

@@ -25,8 +25,6 @@
  *	@version		$Id$
  *	@since			0.3
  */
-import( 'de.ceus-media.adt.php.Category' );
-import( 'de.ceus-media.adt.php.Package' );
 /**
  *	...
  *	@category		cmClasses

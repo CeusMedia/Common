@@ -26,7 +26,6 @@
  *	@since			0.6.5
  *	@version		$Id$
  */
-import( 'de.ceus-media.net.Reader' );
 /**
  *	Base class for request to Google APIs.
  *	@category		cmClasses

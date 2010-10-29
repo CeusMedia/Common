@@ -27,8 +27,6 @@
  *	@since			14.11.2008
  *	@version		0.1
  */
-import( 'de.ceus-media.ui.html.Tag' );
-import( 'de.ceus-media.ui.html.JQuery' );
 /**
  *	Tabbed Content Builder - builds Tab List and Content Divs and applies JavaScript 'tabs.js'.
  *	The Script is a jQuery Plugin and must be loaded within the surrounding HTML.
