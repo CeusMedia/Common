@@ -59,23 +59,38 @@ class File_Writer
 	}
 
 	/**
+	 *	Writes a String into the File and returns Length.
+	 *	@access		public
+	 *	@param		string		string		string to write to file
+	 *	@return		integer		Number of written bytes
+	 *	@throws		RuntimeException if file is not writable
+	 *	@throws		RuntimeException if written length is unequal to string length
+	 */
+	public function appendString( $string )
+	{
+		if( !file_exists( $this->fileName ) )
+			$this->create();
+		if( !$this->isWritable( $this->fileName ) )			
+			throw new RuntimeException( 'File "'.$this->fileName.'" is not writable' );
+		return error_log( $string, 3, $this->fileName );
+	}
+	/**
 	 *	Create a file and sets Rights, Owner and Group.
 	 *	@access		public
 	 *	@param		string		$mode			UNIX rights for chmod()
 	 *	@param		string		$user			User Name for chown()
 	 *	@param		string		$group			Group Name for chgrp()
+	 *	@throws		RuntimeException if no space is left on file system
+	 *	@throws		RuntimeException if file could not been created
 	 *	@return		void
 	 */
 	public function create( $mode = NULL, $user = NULL, $group = NULL )
 	{
+		if( self::$minFreeDiskSpace && self::$minFreeDiskSpace > disk_free_space( getcwd() ) )
+			throw new RuntimeException( 'No space left' );
+
 		if( !@touch( $this->fileName ) )
 			throw new RuntimeException( 'File "'.$this->fileName.'" could not been created' );
-		$pathName	= dirname( realpath( $this->fileName ) );
-		if( disk_free_space( $pathName ) < self::$minFreeDiskSpace )
-		{
-			$this->remove();
-			throw new RuntimeException( 'Disk is full' );
-		}
 
 		if( $mode )
 			$this->setPermissions( $mode );
@@ -205,6 +220,8 @@ class File_Writer
 	 *	@access		public
 	 *	@param		string		string		string to write to file
 	 *	@return		integer		Number of written bytes
+	 *	@throws		RuntimeException if file is not writable
+	 *	@throws		RuntimeException if written length is unequal to string length
 	 */
 	public function writeString( $string )
 	{
@@ -213,7 +230,7 @@ class File_Writer
 		if( !$this->isWritable( $this->fileName ) )			
 			throw new RuntimeException( 'File "'.$this->fileName.'" is not writable' );
 		$count	= file_put_contents( $this->fileName, $string );
-		if( $count === false )	
+		if( $count != strlen( $string ) )
 			throw new RuntimeException( 'File "'.$fileName.'" could not been written' );
 		return $count;
 	}
