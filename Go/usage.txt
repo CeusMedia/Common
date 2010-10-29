@@ -24,7 +24,7 @@ Usage: go COMMAND [OPTION]...
 
   test                         run several tests:
     self                         very basic self test
-    classes                      check syntax and relations of all classes
+    syntax                       check syntax of all class files
     units                        run available unit tests
       [PACKAGE_CLASS]            run unit tests of one specified class
 

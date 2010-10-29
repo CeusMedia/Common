@@ -7,7 +7,7 @@ class Go_Application
 		'config_missing'			=> "No Config File '%s' found.\ncmClasses must be installed and configured.\nGO must be within installation path.",
 		'command_invalid'			=> "No valid command set.\nPlease append 'help' for further information!\n",
 		'subject_create_invalid'	=> "No valid creator subject set (doc,test).",
-		'subject_test_invalid'		=> "No valid test subject set (benchmark,classes,self,units).",
+		'subject_test_invalid'		=> "No valid test subject set (benchmark,syntax,self,units).",
 		'tool_create_doc'			=> "No documentation tool set (creator,phpdoc).",
 	);
 	private $configFile				= 'cmClasses.ini';
@@ -109,7 +109,7 @@ class Go_Application
 					case 'benchmark':
 						new Go_Benchmark();
 						break;						
-					case 'classes':
+					case 'syntax':
 						new Go_ClassSyntaxTester( $arguments );
 						break;						
 					case 'self':

@@ -4,15 +4,13 @@ class Go_ClassSyntaxTester
 {
 	public function __construct( $arguments )
 	{
-		remark( "GO Class File Test\n" );
+		remark( "GO Class File Syntax Test\n" );
 
 		$path	= dirname( dirname( __FILE__ ) )."/src";
 		$data	= Go_Library::listClasses( $path );
 		
 		remark( "found ".$data['count']." class files\n" );
 		Go_Library::testSyntax( $data['files'] );
-		Go_Library::testImports( $data['files'] );
-		Go_Library::showMemoryUsage();
 	}
 }
 ?>
