@@ -20,7 +20,7 @@ class Test_UI_HTML_AllTests
 		$suite->addTestSuite( 'Test_UI_HTML_IndicatorTest' ); 
 		$suite->addTestSuite( 'Test_UI_HTML_TagTest' ); 
 		$suite->addTestSuite( 'Test_UI_HTML_FormElementsTest' ); 
-		$suite->addTestSuite( 'Test_UI_HTML_WikiParserTest' ); 
+#		$suite->addTestSuite( 'Test_UI_HTML_WikiParserTest' );					// @todo te be removed in 0.7.1
 		return $suite;
 	}
 }

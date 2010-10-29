@@ -164,7 +164,7 @@ class Database_PDO_TableReader
 		for( $i=0; $i<count( $values ); $i++ )
 			$values[$i]	= $this->secureValue( $values[$i] );
 
-		$query		= 'SELECT '.implode( ', ', $columns ).' FROM '.$this->getTableName().' WHERE '.$column.' IN ('.implode( ', ', $values ).') '.$orders.$limit;
+		$query		= 'SELECT '.implode( ', ', $columns ).' FROM '.$this->getTableName().' WHERE '.$column.' IN ('.implode( ', ', $values ).') '.$orders.$limits;
 		$resultSet	= $this->dbc->query( $query );
 
 		return $resultSet->fetchAll( $this->getFetchMode() );
@@ -185,7 +185,7 @@ class Database_PDO_TableReader
 		
 		if( $conditions )
 			$conditions	.= ' AND ';
-		$query		= 'SELECT '.implode( ', ', $columns ).' FROM '.$this->getTableName().' WHERE '.$conditions.$column.' IN ('.implode( ', ', $values ).') '.$orders.$limit;
+		$query		= 'SELECT '.implode( ', ', $columns ).' FROM '.$this->getTableName().' WHERE '.$conditions.$column.' IN ('.implode( ', ', $values ).') '.$orders.$limits;
 		$resultSet	= $this->dbc->query( $query );
 
 		return $resultSet->fetchAll( $this->getFetchMode() );

@@ -15,7 +15,8 @@ class Test_File_PHP_Parser_AllTests
 	public static function suite()
 	{
 		$suite = new PHPUnit_Framework_TestSuite( 'cmClasses/File/PHP/Parser' );
-		$suite->addTestSuite( 'Test_File_PHP_Parser_ArrayTest' ); 
+//		$suite->addTestSuite( 'Test_File_PHP_Parser_ArrayTest' );
+//		$suite->addTestSuite( 'Test_File_PHP_Parser_RegularTest' );
 		return $suite;
 	}
 }

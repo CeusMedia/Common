@@ -36,6 +36,28 @@
  *	@version		$Id$
  *	@todo			Code Doc
  */
+/*
+ Types:
+ ------
+ 0 - UNKNOWN:".IMAGETYPE_UNKNOWN',
+ 1 - GIF:".IMAGETYPE_GIF );
+ 2 - JPEG:".IMAGETYPE_JPEG );
+ 3 - PNG:".IMAGETYPE_PNG );
+ 4 - SWF:".IMAGETYPE_SWF );
+ 5 - PSD:".IMAGETYPE_PSD );
+ 6 - BMP:".IMAGETYPE_BMP );
+ 7 - TIFF_II:".IMAGETYPE_TIFF_II );
+ 8 - TIFF_MM:".IMAGETYPE_TIFF_MM );
+ 9 - JPC:".IMAGETYPE_JPC );
+ 9 - JPEG2000:".IMAGETYPE_JPEG2000 );
+10 - JP2:".IMAGETYPE_JP2 );
+11 -JPX:".IMAGETYPE_JPX );
+12 - JB2:".IMAGETYPE_JB2 );
+14 - IFF:".IMAGETYPE_IFF );
+15 - WBMP:".IMAGETYPE_WBMP );
+16 - XBM:".IMAGETYPE_XBM );
+17 - ICO:".IMAGETYPE_ICO );
+*/
 class UI_Image
 {
 	protected $resource	= NULL;
@@ -74,27 +96,6 @@ class UI_Image
 
 	public function display( $sendHeaders = TRUE )
 	{
-		/*
- 0 - UNKNOWN:".IMAGETYPE_UNKNOWN',
- 1 - GIF:".IMAGETYPE_GIF );
- 2 - JPEG:".IMAGETYPE_JPEG );
- 3 - PNG:".IMAGETYPE_PNG );
- 4 - SWF:".IMAGETYPE_SWF );
- 5 - PSD:".IMAGETYPE_PSD );
- 6 - BMP:".IMAGETYPE_BMP );
- 7 - TIFF_II:".IMAGETYPE_TIFF_II );
- 8 - TIFF_MM:".IMAGETYPE_TIFF_MM );
- 9 - JPC:".IMAGETYPE_JPC );
- 9 - JPEG2000:".IMAGETYPE_JPEG2000 );
-10 - JP2:".IMAGETYPE_JP2 );
-11 -JPX:".IMAGETYPE_JPX );
-12 - JB2:".IMAGETYPE_JB2 );
-14 - IFF:".IMAGETYPE_IFF );
-15 - WBMP:".IMAGETYPE_WBMP );
-16 - XBM:".IMAGETYPE_XBM );
-17 - ICO:".IMAGETYPE_ICO );
-		die;
-*/
 		header( 'Content-type: '.$this->getMimeType() );
 		switch( $this->getType() )
 		{

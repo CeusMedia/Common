@@ -28,14 +28,17 @@ class Test_UI_Image_ErrorTest extends PHPUnit_Framework_TestCase
 	public function testConstruct()
 	{
 		$fileName	= $this->path."assertError.png";
-		
+		@unlink( $this->path."targetError.png" );
+
 		ob_start();
 		UI_Image_Error::$sendHeader = FALSE;
 		new UI_Image_Error( "Test Text" );
 		file_put_contents( $this->path."targetError.png", ob_get_clean() );
 
-		$file	= new File_Reader( $this->path."targetError.png" );
-		$this->assertTrue( $file->equals( $this->path."assertError.png" ) );
+
+		$image	= imagecreatefrompng( $this->path."targetError.png" );
+		$this->assertEquals( 200, imagesx( $image ) );
+		$this->assertEquals( 20, imagesy( $image ) );
 		
 		@unlink( $this->path."targetError.png" );
 	}
