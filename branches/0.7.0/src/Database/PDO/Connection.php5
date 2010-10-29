@@ -141,7 +141,6 @@ class Database_PDO_Connection extends PDO
 		$note	= str_replace( "{statement}", $statement, $note );
 				
 		error_log( $note, 3, $this->logFileErrors );
-		import( 'de.ceus-media.exception.SQL' );
 		throw new Exception_SQL( $info[2], $info[1], $info[0] );
 	}
 

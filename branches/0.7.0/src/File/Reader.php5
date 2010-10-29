@@ -176,7 +176,6 @@ class File_Reader
 		$size	= filesize( $this->fileName );
 		if( $unit )
 		{
-			import( 'de.ceus-media.alg.UnitFormater' );
 			$size	= Alg_UnitFormater::formatNumber( $size, $unit, $precision );
 		}
 		return $size;

@@ -103,7 +103,6 @@ class File_VCard_Builder
 		$lines	= implode( "\n", $lines );
 		if( $charsetIn && $charsetOut )
 		{
-			import( 'de.ceus-media.alg.text.EncodingConverter' );
 			$lines	= Alg_Text_EncodingConverter::convert( $lines, $charsetIn, $charsetOut );
 		}
 		return $lines;

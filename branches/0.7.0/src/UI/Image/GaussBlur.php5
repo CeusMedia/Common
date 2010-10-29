@@ -26,7 +26,6 @@
  *	@since			16.12.2005
  *	@version		$Id$
  */
-import( 'de.ceus-media.ui.image.Modifier' );
 /**
  *	Gaussian Blur with 3x3 Matrix.
  *	@category		cmClasses

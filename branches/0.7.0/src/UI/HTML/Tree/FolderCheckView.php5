@@ -28,9 +28,6 @@
  *	@version		0.1
  *
  */
-import( 'de.ceus-media.folder.Lister' );
-import( 'de.ceus-media.ui.html.Elements' );
-import( 'de.ceus-media.ui.html.JQuery' );
 /**
  *	Builds HTML Tree of Folder Entries with Checkboxes for Selection.
  *	If an ID is set the JQuery Plugins 'cmCheckTree' and 'treeview' can be bound.

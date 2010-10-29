@@ -26,8 +26,6 @@
  *	@since			13.04.2009
  *	@version		$Id$
  */
-import( 'de.ceus-media.adt.cache.StaticStore' );
-import( 'de.ceus-media.file.Cache' );
 /**
  *	Cache to store Data in Files statically.
  *	@category		cmClasses

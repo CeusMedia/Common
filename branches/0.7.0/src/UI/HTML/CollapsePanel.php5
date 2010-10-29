@@ -25,8 +25,6 @@
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		0.1
  */
-import( 'de.ceus-media.ui.html.Panel' );
-import( 'de.ceus-media.ui.html.JQuery' );
 /**
  *	User Interface Component to build a Panel which can be expanded and collapsed.
  *	@category		cmClasses

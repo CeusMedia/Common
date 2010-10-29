@@ -27,9 +27,6 @@
  *	@version		$Id$
  *	@link			http://www.grc.com/menudemo.htm
  */
-import( 'de.ceus-media.adt.tree.menu.List' );
-import( 'de.ceus-media.adt.tree.menu.Item' );
-import( 'de.ceus-media.ui.html.css.TreeMenu' );
 /**
  *	...
  *	@category		cmClasses

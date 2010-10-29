@@ -26,7 +26,6 @@
  *	@since			04.08.2009
  *	@version		$Id$
  */
-import( 'de.ceus-media.ui.image.Modifier' );
 /**
  *	Rotates an Image.
  *	@category		cmClasses

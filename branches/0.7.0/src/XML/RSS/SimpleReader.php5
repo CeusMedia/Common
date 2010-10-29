@@ -1,5 +1,4 @@
 <?php
-import( 'de.ceus-media.xml.rss.SimpleParser' );
 /**
  *	Reader for RSS 2.0 Feeds.
  *
@@ -49,7 +48,6 @@ class XML_RSS_SimpleReader
 	 */
 	public static function readFile( $fileName )
 	{
-		import( 'de.ceus-media.file.Reader' );
 		$xml	= File_Reader::load( $fileName );
 		return XML_RSS_SimpleParser::parse( $xml );
 	}
@@ -63,7 +61,6 @@ class XML_RSS_SimpleReader
 	 */
 	public static function readUrl( $url )
 	{
-		import( 'de.ceus-media.net.Reader' );
 		$xml	= Net_Reader::readUrl( $url );
 		return XML_RSS_SimpleParser::parse( $xml );
 	}

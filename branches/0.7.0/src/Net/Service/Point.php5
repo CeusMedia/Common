@@ -78,11 +78,7 @@ class Net_Service_Point implements Net_Service_Interface_Point
 	public function __construct( $fileName, $cacheFile = NULL )
 	{
 		$this->loadServices( $fileName, $cacheFile );												//  load Service Definition from File
-		if( self::$filterClass == $this->defaultFilter )											//  no custom Folder Class was defined
-			import( 'de.ceus-media.net.service.parameter.Filter' );									//  load default Filter Class
 		$this->filter	= new self::$filterClass;													//  create Filter Object
-		if( self::$validatorClass == $this->defaultValidator )										//  no custom Validator Class was defined
-			import( 'de.ceus-media.net.service.parameter.Validator' );								//  load default Validator Class
 		$this->validator	= new self::$validatorClass;											//  create Validator Object
 	}
 
@@ -451,8 +447,6 @@ class Net_Service_Point implements Net_Service_Interface_Point
 	 */
 	protected function loadServices( $fileName, $cacheFile = NULL )
 	{
-		if( self::$loaderClass == $this->defaultLoader )
-			import( 'de.ceus-media.net.service.definition.Loader' );
 		$this->loader	= new self::$loaderClass;
 		$this->services	= $this->loader->loadServices( $fileName, $cacheFile );
 	}

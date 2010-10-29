@@ -79,12 +79,19 @@ class Folder_Lister
 	public function getList()
 	{
 		if( $this->pattern )
-		{
-			import( 'de.ceus-media.folder.RegexFilter' );
-			return new Folder_RegexFilter( $this->path, $this->pattern, $this->showFiles, $this->showFolders, $this->stripDotEntries );
-		}
-		import( 'de.ceus-media.folder.Iterator' );
-		return new Folder_Iterator( $this->path, $this->showFiles, $this->showFolders, $this->stripDotEntries );
+			return new Folder_RegexFilter(
+				$this->path,
+				$this->pattern,
+				$this->showFiles,
+				$this->showFolders,
+				$this->stripDotEntries
+			);
+		return new Folder_Iterator(
+			$this->path,
+			$this->showFiles,
+			$this->showFolders,
+			$this->stripDotEntries
+		);
 	}
 
 	/**

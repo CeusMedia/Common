@@ -26,7 +26,6 @@
  *	@since			14.02.2007
  *	@version		$Id$
  */
-import( 'de.ceus-media.alg.time.Converter' );
 /**
  *	Class holding Predicates for String Validation.
  *	@category		cmClasses
@@ -76,7 +75,6 @@ class Alg_Validation_Predicates
 	 */
 	public static function hasPasswordStrength( $string, $strength )
 	{
-		import( 'de.ceus-media.alg.crypt.PasswordStrength' );
 		return Alg_Crypt_PasswordStrength::getStrength( $string ) >= $strength;
 	}
 	

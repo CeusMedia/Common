@@ -19,7 +19,6 @@
  *
  *	@category		cmClasses
  *	@package		UI.HTML
- *	@uses			UI_HTML_Elements
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -27,7 +26,6 @@
  *	@since			03.02.2009
  *	@version		$Id$
  */
-import( 'de.ceus-media.ui.html.Elements' );
 /**
  *	Builder for HTML Code of Country Flag Icon.
  *

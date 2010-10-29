@@ -19,7 +19,6 @@
  *
  *	@category		cmClasses
  *	@package		UI.HTML
- *	@extends		UI_HTML_MonthCalendar
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -27,7 +26,6 @@
  *	@since			20.03.06
  *	@version		$Id$
  */
-import( 'de.ceus-media.ui.html.MonthCalendar' );
 /**
  *	Generator for Month Calendar with Events.
  *	@category		cmClasses

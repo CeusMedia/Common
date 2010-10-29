@@ -19,7 +19,6 @@
  *
  *	@category		cmClasses
  *	@package		UI.HTML.Service
- *	@extends		Net_Service_Handler
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -27,7 +26,6 @@
  *	@since			18.06.2007
  *	@version		$Id$
  */
-import( 'de.ceus-media.net.service.Handler' );
 /**
  *	Service Handler which indexes with HTML Output.
  *	@category		cmClasses
@@ -76,7 +74,6 @@ class UI_HTML_Service_Index extends Net_Service_Handler
 		
 	protected function buildTest( $requestData )
 	{
-		import( 'de.ceus-media.ui.html.service.Test' );
 		$test	= new UI_HTML_Service_Test( $this->servicePoint, $this->availableFormats, $this->tableClass );
 		echo $test->buildContent( $requestData );
 		return;		
@@ -167,7 +164,6 @@ class UI_HTML_Service_Index extends Net_Service_Handler
 	 */
 	protected function getServiceTable()
 	{
-		import( 'de.ceus-media.ui.html.service.Table' );
 		$table	= new UI_HTML_Service_Table( $this->servicePoint, $this->availableFormats, $this->tableClass );
 		return $table->buildContent();
 	}

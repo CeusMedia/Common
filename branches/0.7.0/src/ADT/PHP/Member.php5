@@ -25,7 +25,6 @@
  *	@version		$Id$
  *	@since			0.3
  */
-import( 'de.ceus-media.adt.php.Variable' );
 /**
  *	Class Member Data Class.
  *	@category		cmClasses

@@ -26,7 +26,6 @@
  *	@since			16.12.2005
  *	@version		$Id$
  */
-import( 'de.ceus-media.ui.image.Modifier' );
 /**
  *	Inverting Images.
  *	@category		cmClasses

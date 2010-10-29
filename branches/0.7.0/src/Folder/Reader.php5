@@ -114,7 +114,6 @@ class Folder_Reader
 	 */
 	public function getFileList( $pattern = NULL )
 	{
-		import( 'de.ceus-media.folder.Lister' );
 		return Folder_Lister::getFileList( $this->folderName, $pattern );
 	}
 	
@@ -126,7 +125,6 @@ class Folder_Reader
 	 */
 	public function getFileListByExtensions( $extensions )
 	{
-		import( 'de.ceus-media.folder.Lister' );
 		$lister	= new Folder_Lister( $this->folderName );
 		$lister->setExtensions( $extensions );
 		$lister->showFolders( FALSE );
@@ -155,7 +153,6 @@ class Folder_Reader
 	 */
 	public function getFolderList( $pattern = NULL )
 	{
-		import( 'de.ceus-media.folder.Lister' );
 		return Folder_Lister::getFolderList( $this->folderName, $pattern );
 	}
 	
@@ -177,7 +174,6 @@ class Folder_Reader
 	 */
 	public function getList( $pattern = NULL )
 	{
-		import( 'de.ceus-media.folder.Lister' );
 		return Folder_Lister::getMixedList( $this->folderName, $pattern );
 	}
 
@@ -227,7 +223,6 @@ class Folder_Reader
 	 */
 	public function getNestedFileList( $pattern = NULL )
 	{
-		import( 'de.ceus-media.folder.RecursiveLister' );
 		return Folder_RecursiveLister::getFileList( $this->folderName, $pattern );
 	}
 
@@ -253,7 +248,6 @@ class Folder_Reader
 	 */
 	public function getNestedFolderList( $pattern = NULL )
 	{
-		import( 'de.ceus-media.folder.RecursiveLister' );
 		return Folder_RecursiveLister::getFolderList( $this->folderName, $pattern );
 	}
 
@@ -265,7 +259,6 @@ class Folder_Reader
 	 */
 	public function getNestedList( $pattern = NULL)
 	{
-		import( 'de.ceus-media.folder.RecursiveLister' );
 		return Folder_RecursiveLister::getMixedList( $this->folderName, $pattern );
 	}
 

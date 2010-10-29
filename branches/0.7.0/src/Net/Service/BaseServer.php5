@@ -87,6 +87,7 @@ class Net_Service_BaseServer extends UI_HTML_Service_Index
 	 *	@param		array			$allowedFormats		Allowed Response Formats
 	 *	@return		void
 	 *	@deprecated	seems to be unused
+	 *	@todo		to be removed in 0.7.1
 	 */
 	protected function loadServiceClass( $className )
 	{

@@ -85,7 +85,6 @@ class Net_Service_Definition_Loader
 	 */
 	protected function loadServicesFromJson( $fileName )
 	{
-		import( 'de.ceus-media.adt.json.Converter' );
 		$jsonString		= file_get_contents( $fileName );
 		$definition		= ADT_JSON_Converter::convertToArray( $jsonString );
 		$this->completeDefinition( $definition );
@@ -100,7 +99,6 @@ class Net_Service_Definition_Loader
 	 */
 	protected function loadServicesFromXml( $fileName )
 	{
-		import( 'de.ceus-media.net.service.definition.XmlReader' );
 		$definition	= Net_Service_Definition_XmlReader::load( $fileName );
 		$this->completeDefinition( $definition );
 		return $definition;
@@ -114,7 +112,6 @@ class Net_Service_Definition_Loader
 	 */
 	protected function loadServicesFromYaml( $fileName )
 	{
-		import( 'de.ceus-media.file.yaml.Reader' );
 		$definition	= File_YAML_Reader::load( $fileName );
 		$this->completeDefinition( $definition );
 		return $definition;

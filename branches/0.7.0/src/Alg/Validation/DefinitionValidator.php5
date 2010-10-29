@@ -26,7 +26,6 @@
  *	@since			28.08.2006
  *	@version		$Id$
  */
-import( 'de.ceus-media.alg.validation.PredicateValidator' );
 /**
  *	Validator for defined Fields.
  *	@category		cmClasses

@@ -20,7 +20,6 @@
  *
  *	@category		cmClasses
  *	@package		UI.HTML
- *	@uses			UI_HTML_Tag
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -28,7 +27,6 @@
  *	@since			21.11.2008
  *	@version		0.7
  */
-import( 'de.ceus-media.ui.html.Tag' );
 /**
  *	User Interface Component for Panels with Header, Footer and Content.
  *	Base Implementation for further Panel Systems.

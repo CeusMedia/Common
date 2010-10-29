@@ -26,7 +26,6 @@
  *	@since			16.04.2008
  *	@version		$Id$
  */
-import( 'de.ceus-media.ui.image.graph.Components' );
 /**
  *	Builds a Graph based on Configuration and Graph Data.
  *	@category		cmClasses
@@ -95,7 +94,6 @@ class UI_Image_Graph_Builder
 	protected static function createPlot( $config, $data, $prefix )
 	{
 		$plotClass	= $config[$prefix.'type'];
-		import( 'de.ceus-media.ui.image.graph.'.$plotClass );
 		$plotClass	= 'UI_Image_Graph_'.$plotClass;
 		$plotObject	= new $plotClass;
 		$plotConf	= self::getSubConfig( $config, $prefix );

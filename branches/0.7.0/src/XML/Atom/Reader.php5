@@ -53,14 +53,12 @@ class XML_Atom_Reader
 
 	public function readUrl( $url )
 	{
-		import( 'de.ceus-media.net.Reader' );
 		$xml	= Net_Reader::readUrl( $url );
 		$this->parser->parse( $xml );
 	}
 
 	public function readFile( $fileName )
 	{
-		import( 'de.ceus-media.file.Reader' );
 		$xml	= File_Reader::load( $fileName );
 		$this->parser->parse( $xml );
 	}

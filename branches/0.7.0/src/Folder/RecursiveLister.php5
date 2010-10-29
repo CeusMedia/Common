@@ -58,12 +58,19 @@ class Folder_RecursiveLister extends Folder_Lister
 	public function getList()
 	{
 		if( $this->pattern )
-		{
-			import( 'de.ceus-media.folder.RecursiveRegexFilter' );
-			return new Folder_RecursiveRegexFilter( $this->path, $this->pattern, $this->showFiles, $this->showFolders, $this->stripDotEntries );
-		}
-		import( 'de.ceus-media.folder.RecursiveIterator' );
-		return new Folder_RecursiveIterator( $this->path, $this->showFiles, $this->showFolders, $this->stripDotEntries );
+			return new Folder_RecursiveRegexFilter(
+				$this->path,
+				$this->pattern,
+				$this->showFiles,
+				$this->showFolders,
+				$this->stripDotEntries
+			);
+		return new Folder_RecursiveIterator(
+			$this->path,
+			$this->showFiles,
+			$this->showFolders,
+			$this->stripDotEntries
+		);
 	}
 
 	/**

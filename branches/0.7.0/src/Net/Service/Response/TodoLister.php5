@@ -73,7 +73,6 @@ class Net_Service_Response_TodoLister extends Net_Service_Response
 	
 	public function getTodoIndicator( $format, $paths, $refresh = FALSE, $additionalPatterns = array() )
 	{
-		import( 'de.ceus-media.ui.html.Indicator' );
 		$lister	= $this->getLister( $path, $refresh, $additionalPatterns );
 		$count		= $lister->getNumberScanned();
 		$found		= $lister->getNumberFound();

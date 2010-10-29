@@ -26,8 +26,6 @@
  *	@since			16.04.2008
  *	@version		$Id$
  */
-import( 'de.ceus-media.ui.Template' );
-import( 'de.ceus-media.ui.image.graph.Builder' );
 /**
  *	Abstract Generator Class for several Graph Generator Appications.
  *	@category		cmClasses

@@ -26,8 +26,6 @@
  *	@since			0.6.8
  *	@version		$Id$
  */
-import( 'de.ceus-media.adt.list.Dictionary' );
-import( 'de.ceus-media.ui.html.Tag' );
 /**
  *	...
  *

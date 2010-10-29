@@ -26,8 +26,6 @@
  *	@since			13.04.2009
  *	@version		$Id$
  */
-import( 'de.ceus-media.file.Editor' );
-import( 'de.ceus-media.adt.cache.Store' );
 /**
  *	Cache to store Data in Files.
  *	@category		cmClasses
