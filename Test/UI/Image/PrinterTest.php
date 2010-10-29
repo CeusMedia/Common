@@ -44,7 +44,7 @@ class Test_UI_Image_PrinterTest extends PHPUnit_Framework_TestCase
 		$printer	= new UI_Image_Printer( $resource );
 		
 		ob_start();
-		$printer->show( IMAGETYPE_PNG, 0, FALSE );
+		$printer->show( IMAGETYPE_PNG, 100, FALSE );
 		$creation	= ob_get_clean();
 				
 		$assertion	= TRUE;

@@ -129,13 +129,13 @@ class UI_Image_Printer
 	{
 		switch( $type )
 		{
-			case 0:
+			case IMAGETYPE_PNG:
 				ImagePNG( $resource, $fileName );
 				break;
-			case 1:
+			case IMAGETYPE_JPEG:
 				ImageJPEG( $resource, $fileName, $quality );
 				break;
-			case 2:
+			case IMAGETYPE_GIF:
 				ImageGIF( $resource, $fileName );
 				break;
 			default:

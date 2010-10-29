@@ -39,10 +39,6 @@
  */
 class UI_Image_Creator
 {
-	const TYPE_PNG	= 0;
-	const TYPE_JPEG	= 1;
-	const TYPE_GIF	= 2;
-
 	protected $height		= -1;
 	protected $resource		= NULL;
 	protected $type			= NULL;
@@ -92,17 +88,17 @@ class UI_Image_Creator
 		{
 			case 'png':
 				$this->resource	= imagecreatefrompng( $fileName );
-				$this->type	= self::TYPE_PNG;
+				$this->type	= IMAGETYPE_PNG;
 				break;
 			case 'jpe':
 			case 'jpeg':
 			case 'jpg':
 				$this->resource	= imagecreatefromjpeg( $fileName );
-				$this->type	= self::TYPE_JPEG;
+				$this->type	= IMAGETYPE_JPEG;
 				break;
 			case 'gif':
 				$this->resource	= imagecreatefromgif( $fileName );
-				$this->type	= self::TYPE_GIF;
+				$this->type	= IMAGETYPE_GIF;
 				break;
 			default:
 				throw new InvalidArgumentException( 'Image Type "'.$extension.'" is not supported.' );

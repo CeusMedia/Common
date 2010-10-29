@@ -218,8 +218,8 @@ class File_Cache extends ADT_Cache_Store implements Countable
 	{
 		$uri		= $this->getUriForKey( $key );
 		$content	= serialize( $value );
-		File_Editor::save( $uri, $content );
 		$this->data[$key]	= $value;
+		File_Editor::save( $uri, $content );
 	}
 }
 ?>

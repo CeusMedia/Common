@@ -41,6 +41,7 @@
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			20.03.2006
  *	@version		0.1
+ *	@deprecated		will be removed in 0.7.1
  */
 class UI_HTML_WikiParser extends ADT_OptionObject
 {

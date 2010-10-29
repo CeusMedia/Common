@@ -29,16 +29,16 @@ class Test_Net_HTTP_PartitionSessionTest extends PHPUnit_Framework_TestCase
 	
 	public function testClear()
 	{
-		$_SESSION['partitions']['test']['key1']	= "value1";
+		$this->session->set( 'key1', "value1" );
 		$this->session->clear();
 		$assertion	= array();
-		$creation	= $_SESSION['partitions']['test'];
+		$creation	= $this->session->getAll();
 		$this->assertEquals( $assertion, $creation );
 	}
 	
 	public function testCount()
 	{
-		$_SESSION['partitions']['test']['key1']	= "value1";
+		$this->session->set( 'key1', "value1" );
 		$assertion	= 1;
 		$creation	= $this->session->count();
 		$this->assertEquals( $assertion, $creation );
@@ -46,7 +46,7 @@ class Test_Net_HTTP_PartitionSessionTest extends PHPUnit_Framework_TestCase
 	
 	public function testGet()
 	{
-		$_SESSION['partitions']['test']['key1']	= "value1";
+		$this->session->set( 'key1', "value1" );
 		$assertion	= "value1";
 		$creation	= $this->session->get( 'key1' );
 		$this->assertEquals( $assertion, $creation );
@@ -54,16 +54,16 @@ class Test_Net_HTTP_PartitionSessionTest extends PHPUnit_Framework_TestCase
 	
 	public function testGetAll()
 	{
-		$_SESSION['partitions']['test']['key1']	= "value1";
-		$_SESSION['partitions']['test']['key2']	= "value2";
-		$assertion	= (array) $_SESSION['partitions']['test'];
+		$this->session->set( 'key1', "value1" );
+		$this->session->set( 'key2', "value2" );
+		$assertion	= array( 'key1' => 'value1', 'key2' => 'value2' );
 		$creation	= $this->session->getAll();
 		$this->assertEquals( $assertion, $creation );
 	}
 	
 	public function testHas()
 	{
-		$_SESSION['partitions']['test']['key3']	= "value3";
+		$this->session->set( 'key3', "value3" );
 		$assertion	= "value3";
 		$creation	= $this->session->get( 'key3' );
 		$this->assertEquals( $assertion, $creation );
@@ -71,7 +71,7 @@ class Test_Net_HTTP_PartitionSessionTest extends PHPUnit_Framework_TestCase
 
 	public function testOffsetExists()
 	{
-		$_SESSION['partitions']['test']['key4']	= "value4";
+		$this->session->set( 'key4', "value4" );
 		$assertion	= true;
 		$creation	= isset( $this->session['key4'] );
 		$this->assertEquals( $assertion, $creation );
@@ -80,7 +80,7 @@ class Test_Net_HTTP_PartitionSessionTest extends PHPUnit_Framework_TestCase
 	
 	public function testOffsetGet()
 	{
-		$_SESSION['partitions']['test']['key5']	= "value5";
+		$this->session->set( 'key5', "value5" );
 		$assertion	= "value5";
 		$creation	= $this->session['key5'];
 		$this->assertEquals( $assertion, $creation );
@@ -90,25 +90,25 @@ class Test_Net_HTTP_PartitionSessionTest extends PHPUnit_Framework_TestCase
 	{
 		$this->session['key6']	= "value6";
 		$assertion	= "value6";
-		$creation	= $_SESSION['partitions']['test']['key6'];
+		$creation	= $this->session->get( 'key6' );
 		$this->assertEquals( $assertion, $creation );
 	}
 
 	public function testOffsetUnset()
 	{
-		$_SESSION['partitions']['test']['key7']	= "value7";
+		$this->session->set( 'key7', "value7" );
 		unset( $this->session['key7'] );
-		$assertion	= false;
-		$creation	= isset( $_SESSION['partitions']['test']['key7'] );
+		$assertion	= FALSE;
+		$creation	= $this->session->has( 'key7' );
 		$this->assertEquals( $assertion, $creation );
 	}
 
 	public function testRemove()
 	{
-		$_SESSION['partitions']['test']['key8']	= "value8";
+		$this->session->set( 'key8', "value8" );
 		$this->session->remove( 'key8' );
-		$assertion	= false;
-		$creation	= isset( $_SESSION['partitions']['test']['key8'] );
+		$assertion	= FALSE;
+		$creation	= $this->session->has( 'key8' );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -117,7 +117,7 @@ class Test_Net_HTTP_PartitionSessionTest extends PHPUnit_Framework_TestCase
 		$this->session->clear();
 		$this->session->set( 'key9', "value9" );
 		$assertion	= "value9";
-		$creation	= $_SESSION['partitions']['test']['key9'];
+		$creation	= $this->session->get( 'key9' );
 		$this->assertEquals( $assertion, $creation );
 	}
 }

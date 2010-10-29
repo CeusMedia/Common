@@ -45,9 +45,10 @@ class Test_UI_Image_CreatorTest extends PHPUnit_Framework_TestCase
 		$image	= new UI_Image_Creator();
 		$image->create( 100, 200 );
 		imagepng( $image->getResource(), $this->path."targetCreator1.png" );
-		
-		$file		= new File_Reader( $this->path."assertCreator1.png" );
-		$this->assertTrue( $file->equals( $this->path."targetCreator1.png" ) );
+
+		$image	= imagecreatefrompng( $this->path."targetCreator1.png" );
+		$this->assertEquals( 100, imagesx( $image ) );
+		$this->assertEquals( 200, imagesy( $image ) );
 	}
 	
 	public function testLoadImagePng()
@@ -110,7 +111,7 @@ class Test_UI_Image_CreatorTest extends PHPUnit_Framework_TestCase
 
 	public function testGetType()
 	{
-		$assertion	= UI_Image_Creator::TYPE_PNG;
+		$assertion	= IMAGETYPE_PNG;
 		$creation	= $this->image->getType();
 		$this->assertEquals( $assertion, $creation );
 	}
