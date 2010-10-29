@@ -110,7 +110,10 @@ class Go_Library
 		$number	= ceil( memory_get_usage() / 1024 );
 		print( "\nmemory: ".$number."KB" );
 	}
-	
+
+	/**
+	 *	@deprecated	since CMC_Loader
+	 */
 	public static function testImports( $files )
 	{
 		remark( "Checking nested imports\n" );
@@ -151,7 +154,7 @@ class Go_Library
 
 	public static function testSyntax( $files )
 	{
-		remark( "Checking file syntax\n" );
+		remark( "Checking class file syntax\n" );
 		$count	= 0;
 		$path	= dirname( __FILE__ )."/";
 		$line	= str_repeat( "-", 79 );

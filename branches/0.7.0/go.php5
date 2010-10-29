@@ -5,6 +5,7 @@ $cwd		= getCwd();											//  current working directory
 chDir( dirname( realpath( __FILE__ ) ) );						//  tool working directory
 if( !file_exists( $fileApp ) )
 {
+	remark( "Go not installed." );
 	@exec( "svn", $results, $return );
 	if( $return !== 1 )
 		throw new RuntimeException( "SVN seems to be not installed." );
