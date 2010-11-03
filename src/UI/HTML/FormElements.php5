@@ -100,6 +100,7 @@ class UI_HTML_FormElements
 			'name'		=> $name,
 			'value'		=> 1,
 			'class'		=> $class,
+			'disabled'	=> $disabled	? "disabled" : NULL,
 			'onclick'	=> $confirm		? "return confirm('".$confirm."');" : NULL,
 		);
 		if( $disabled )
