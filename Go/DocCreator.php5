@@ -8,6 +8,7 @@ class Go_DocCreator
 		$path	= $config['docCreator']['pathTool'];
 		if( !file_exists( $path ) )
 			throw new Exception( 'Tool "DocCreator" is not installed' );
+		CMC_Loader::registerNew( 'php5', 'DocCreator_', $path );
 		$file	= dirname( dirname( __FILE__ ) )."/doc.xml";
 		require_once( $path.'/Core/ConsoleRunner.php5' );
 
