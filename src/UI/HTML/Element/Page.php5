@@ -23,6 +23,7 @@
  *	@copyright		2009-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
+ *	@since			0.7.0
  *	@version		$Id$
  */
 /**
@@ -35,6 +36,7 @@
  *	@copyright		2009-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
+ *	@since			0.7.0
  *	@version		$Id$
  */ 
 class UI_HTML_Element_Page extends UI_HTML_Element_Abstract

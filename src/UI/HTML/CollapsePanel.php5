@@ -23,7 +23,8 @@
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
- *	@version		0.1
+ *	@since			0.6
+ *	@version		$Id$
  */
 /**
  *	User Interface Component to build a Panel which can be expanded and collapsed.
@@ -35,7 +36,8 @@
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
- *	@version		0.1
+ *	@since			0.6
+ *	@version		$Id$
  */
 class UI_HTML_CollapsePanel extends UI_HTML_Panel
 {
