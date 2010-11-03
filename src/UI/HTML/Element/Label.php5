@@ -8,7 +8,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			0.7.0
- *	@version		$Id: Div.php5 611 2010-03-25 00:48:23Z christian.wuerker $
+ *	@version		$Id$
  */
 /**
  *
@@ -20,7 +20,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			0.7.0
- *	@version		$Id: Div.php5 611 2010-03-25 00:48:23Z christian.wuerker $
+ *	@version		$Id$
  */
 class UI_HTML_Element_Label extends UI_HTML_Element_Abstract
 {
