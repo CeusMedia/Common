@@ -55,7 +55,7 @@ class UI_HTML_CSS_LinkSelect
 			if( $key === $value && $url )
 			{
 				$label	= $prefix ? $prefix.$link['label'] : $link['label'];
-				$main	= new ADT_Tree_Menu_Item( "#", $label );
+				$main	= new ADT_Tree_Menu_Item( "javascript: void();", $label );
 			}
 		}
 		if( !( isset( $main ) && $main instanceof ADT_Tree_Menu_Item ) )

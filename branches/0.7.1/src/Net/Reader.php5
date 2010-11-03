@@ -42,6 +42,8 @@
  */
 class Net_Reader
 {
+	protected $body				= NULL;
+	protected $headers			= array();
 	/**	@var		array		$status			Status Array of last Request */
 	protected $status			= array();
 	/**	@var		string		$url			URL to read */
@@ -73,6 +75,13 @@ class Net_Reader
 	{
 		if( $url )
 			$this->setUrl( $url );
+	}
+
+	public function getBody()
+	{
+		if( !$this->status )
+			throw new RuntimeException( "No Request has been sent, yet." );
+		return $this->body;
 	}
 
 	/**
@@ -165,7 +174,7 @@ class Net_Reader
 				throw new InvalidArgumentException( 'Option must be given as integer or string' );
 			$curl->setOption( $key, $value );
 		}
-		$response		= $curl->exec();
+		$this->body		= $curl->exec();
 		$this->status	= $curl->getStatus();
 		$this->headers	= $curl->getHeader();
 		$code			= $curl->getStatus( Net_CURL::STATUS_HTTP_CODE );
@@ -175,7 +184,7 @@ class Net_Reader
 			throw new RuntimeException( 'Reading "'.$this->url.'" failed: '.$error, $errno );
 		if( !in_array( $code, array( '200', '301', '303', '304', '307' ) ) )
 			throw new RuntimeException( 'Reading "'.$this->url.'" returned code '.$code, $code );
-		return $response;
+		return $this->body;
 	}
 
 	/**
