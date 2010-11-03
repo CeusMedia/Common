@@ -1,0 +1,97 @@
+<?xml version="1.0"?>
+<config>
+
+  <!--  GENERAL SETTINGS  -->  
+  <creator>
+    <timeLimit>300</timeLimit>
+    <mail></mail>
+    <file type="serial" alt="relative to 'doc.path'">doc.cmc.serial</file>
+    <file type="archive" alt="relative to 'doc.path'">doc.cmc.serial.gz</file>
+    <file type="errors">logs/docCreatorErrors.log</file>
+    <skip parser="FALSE" creator="FALSE" info="FALSE" resources="FALSE"/>
+    <verbose general="TRUE" skip="FALSE" config="FALSE" info="TRUE"/>
+  </creator>
+
+  <!--  READER SETTINGS  -->  
+  <reader>
+    <plugin>Statistics</plugin>
+    <plugin>Unicode</plugin>
+    <plugin>Defaults</plugin>
+    <plugin>Relations</plugin>
+    <plugin>Primitives</plugin>
+<!--    <plugin>Search</plugin>-->
+  </reader>
+
+  <!--  PROJECTS  -->  
+  <projects>
+    <project label="cmClasses" version="0.6.8dev" date="" revision="">
+      <path alt="must be absolute">/path/to/cmClasses/version/de/ceus-media/</path>
+      <extensions>
+        <extension>php5</extension>
+      </extensions>
+      <ignore>
+        <file alt="regular expression">/^(_|[a-z])/</file>
+        <folder alt="regular expression">#^Reports/#</folder>
+        <folder alt="regular expression">#^References/#</folder>
+        <folder alt="regular expression">#^Tests/#</folder>
+      </ignore>
+      <package>
+        <default>unreleased</default>
+        <uppercase alt="comma seperated"></uppercase>
+      </package>
+      <category>
+        <default>cmClasses</default>
+      </category>
+    </project>
+  </projects>
+
+  <!--  BUILDERS -->  
+  <builders>
+    <builder format="html" converter="cm1" theme="plain">
+      <path type="target" alt="absolute">/path/to/cmClasses/version/References/api/</path>
+      <path type="documents" alt="must be absolute">/path/to/cmClasses/version/</path>
+      <language>en</language>
+      <title>cmClasses API</title>
+      <author><![CDATA[Christian Würker <christian.wuerker@ceus-media.de>]]></author>
+      <company>CeuS Media (ceus-media.de)</company>
+      <timezone>Europe/Berlin</timezone>
+      <plugins>
+        <plugin>Home</plugin>
+        <plugin>ClassList</plugin>
+<!--        <plugin>Search</plugin>-->
+        <plugin>About</plugin>
+        <plugin>Installation</plugin>
+        <plugin>History</plugin>
+        <plugin>Changes</plugin>
+        <plugin>Deprecations</plugin>
+        <plugin>Todos</plugin>
+        <plugin>Bugs</plugin>
+        <plugin>ParseErrors</plugin>
+        <plugin>Statistics</plugin>
+        <plugin>UnusedVariables</plugin>
+        <plugin>MethodOrder</plugin>
+        <plugin>MethodAccess</plugin>
+        <plugin>DocHints</plugin>
+      </plugins>
+    </builder>
+  </builders>
+
+  <!--  FEEDS  -->  
+  <feeds>
+    <feed format="rss">´
+      <timezone>+0100</timezone>
+      <title>DocCreator RSS Feed</title>
+      <description>DocCreator</description>
+      <copyright>2008 DocCreator</copyright>
+      <doc>http://blogs.law.harvard.edu/tech/rss</doc>
+      <manager>christian.wuerker@ceus-media.de (Christian Würker)</manager>
+      <webmaster>christian.wuerker@ceus-media.de (Christian Würker)</webmaster>
+      <language>en</language>
+      <ttl>120</ttl>
+      <item>
+        <url/>
+      </item>
+    </feed>
+  </feeds>
+
+</config>
