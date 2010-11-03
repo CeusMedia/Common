@@ -1,0 +1,12 @@
+
+.tabs-office2 { /* auto clear */
+    display: inline-block;
+	}
+.tabs-office2 .tabs-disabled {
+    position: relative; /* fixes opacity */
+    filter: alpha(opacity=40);
+	}
+.tabs-office2 .tabs-disabled a span {
+    _height: 21px; /* for some reason the height is 1px to less with opacity... */
+    min-height: 21px; /* ...in both IE 6 and 7 */
+	}
