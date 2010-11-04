@@ -117,6 +117,15 @@ class Net_HTTP_Headers
 			$this->addHeader( $header );
 	}
 
+	public function getHeader( $name )
+	{
+		$name	= strtolower( $name );
+		foreach( $this->headers as $sectionName => $sectionPairs )
+			if( array_key_exists( $name, $sectionPairs ) )
+				return $this->headers[$sectionName][$name];
+		return NULL;
+	}
+
 	public function getHeaders()
 	{
 		$list	= array();
