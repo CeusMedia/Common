@@ -96,6 +96,12 @@ class Net_HTTP_Response_Parser
 				$data	.= $line."\r\n";
 			}
 		}
+		$encodings	= $response->headers->getHeader( 'content-encoding');
+		while( $encoding = array_pop( $encodings ) )
+		{
+			$method	= $encoding->getValue();
+			$data	= Net_HTTP_Response_Decompressor::decompressString( $data, $method );
+		}
 		$response->setBody( $data );
 		return $response;
 	}
