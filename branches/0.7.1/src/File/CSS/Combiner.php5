@@ -44,7 +44,7 @@ class File_CSS_Combiner
 	/**	@var		string		$suffix			Suffix of combined File Name */
 	var $suffix					= ".combined";
 	/**	@var		string		$importPattern	Pattern of imported CSS Files */
-	var $importPattern			= '#^@import "(.*)";?$#i';
+	var $importPattern			= '#^@import ["\'](.*)["\'];?$#i';
 	/**	@var		array		$statistics		Statistical Data */
 	var $statistics				= array();
 	
