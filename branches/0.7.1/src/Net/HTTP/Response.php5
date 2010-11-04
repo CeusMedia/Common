@@ -42,7 +42,7 @@
 class Net_HTTP_Response
 {
 	protected $body			= NULL;
-	public $headers;
+	public $headers			= NULL;
 	protected $protocol		= 'HTTP';
 	protected $status		= '200 OK';
 	protected $version		= '1.0';
@@ -166,36 +166,6 @@ class Net_HTTP_Response
 	}
 
 	/**
-	 *	Sends response of added headers and message body.
-	 *	@access		public
-	 *	@param		bool			$useCompression		Flag: use HTTP compression
-	 *	@param		string			$compressionLog		URI of compression log file
-	 *	@return		int				Number of sent bytes
-	 */
-	public function send( $useCompression = NULL, $compressionLog = NULL, $sendLengthHeader = FALSE )
-	{
-		header( $this->protocol.'/'.$this->version.' '.$this->status );
-		foreach( $this->headers->getHeaders() as $header )
-			header( $header->toString() );
-		if( $useCompression )
-		{
-			$compressionMethods	= Net_HTTP_Compression::getMethods();
-			$compressionMethod	= Net_HTTP_Compression::getMethod();
-			$compressionMethod	= Net_HTTP_Sniffer_Encoding::getEncoding( $compressionMethods, $compressionMethod );
-			Net_HTTP_Compression::setMethod( $compressionMethod, $compressionLogFile );
-			$this->length	= Net_HTTP_Compression::sendContent( $this->body );
-			return $this->length;
-		}
-		$this->length	= strlen( $this->body );
-		if( $sendLengthHeader )
-			header( "Content-Length: ".$this->length );
-		flush();
-		print( $this->body );
-		flush();
-		return $this->length;
-	}
-
-	/**
 	 *	Sets response message body.
 	 *	@access		public
 	 *	@param		string		$body			Response message body
@@ -255,7 +225,7 @@ class Net_HTTP_Response
 		$lines[]	= $this->headers->toString();
 		$lines[]	= '';
 		if( $this->body )
-			$lines[]	= $body;
+			$lines[]	= $this->body;
 		return join( "\r\n", $lines );
 	}
 }
