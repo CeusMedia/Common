@@ -84,11 +84,11 @@ class Net_HTTP_Request_Sender
 		$this->headers->addHeaderPair( $name, $value );
 	}
 
-	public function setContentType( $mimeType )
+/*	public function setContentType( $mimeType )
 	{
 		$this->contentType	= $mimeType;
 	}
-
+*/
 	public function setData( $data )
 	{
 		if( !is_array( $data ) )

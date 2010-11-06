@@ -47,8 +47,9 @@ class Net_HTTP_Response_Decompressor
 	 */
 	public static function decompressResponse( Net_HTTP_Response $response )
 	{
-		$compression	= array_pop( $response->getHeader( 'Content-Encoding' ) );
-		$body			= self::decompressString( $response->getBody(), $compression );
+		$type	= array_pop( $response->getHeader( 'Content-Encoding' ) );
+		if( $type )
+			$body	= self::decompressString( $response->getBody(), $type );
 		$response->setBody( $body );
 	}
 
@@ -70,7 +71,9 @@ class Net_HTTP_Response_Decompressor
 				$content	= self::inflate( $content );
 				break;
 			case 'gzip':
+				xmp( $content );
 				$content	= self::ungzip( $content );
+				xmp( $content );
 				break;
 			default:
 				ob_end_clean();

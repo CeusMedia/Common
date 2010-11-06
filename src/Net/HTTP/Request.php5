@@ -83,18 +83,23 @@ class Net_HTTP_Request extends ADT_List_Dictionary
 
 	public function fromEnv( $useSession = FALSE, $useCookie = FALSE )
 	{
-		$sources	= array(
+		$this->sources	= array(
 			"get"	=> &$_GET,
 			"post"	=> &$_POST,
 			"files"	=> &$_FILES,
 		);
 		if( $useSession )
-			$sources['session']	=& $_SESSION;
+			$this->sources['session']	=& $_SESSION;
 		if( $useCookie )
-			$sources['cookie']	=& $_COOKIE;
+			$this->sources['cookie']	=& $_COOKIE;
+
+		$this->ip		= getEnv( 'REMOTE_ADDR' );													//  store IP of requesting client
+		$this->method	= strtoupper( getEnv( 'REQUEST_METHOD' ) );									//  store HTTP method
+		foreach( $this->sources as $key => $values )
+			$this->pairs	= array_merge( $this->pairs, $values );
 
 #		$this->ip	= getEnv( 'REMOTE_ADDR' );														//  store IP of requesting client
-		foreach( $sources as $key => $values )
+		foreach( $this->sources as $key => $values )
 			$this->pairs	= array_merge( $this->pairs, $values );
 
 		/*  --  RETRIEVE HTTP HEADERS  --  */
@@ -116,6 +121,43 @@ class Net_HTTP_Request extends ADT_List_Dictionary
 		throw new Exception( 'Not implemented' );
 	}
 
+	/**
+	 *	Reads and returns Data from Sources.
+	 *	@access		public
+	 *	@param		string		$source		Source key (not case sensitive) (get,post,files[,session,cookie])
+	 *	@param		bool		$strict		Flag: throw exception if not set, otherwise return NULL
+	 *	@throws		InvalidArgumentException if key is not set in source and strict is on
+	 *	@return		array		Pairs in source (or empty array if not set on strict is off)
+	 */
+	public function getAllFromSource( $source, $strict = FALSE )
+	{
+		$source	= strtolower( $source );
+		if( isset( $this->sources[$source] ) )
+			return new ADT_List_Dictionary( $this->sources[$source] );
+		if( !$strict )
+			return array();
+		throw new InvalidArgumentException( 'Invalid source "'.$source.'"' );
+	}
+
+	/**
+	 *	Returns value or null by its key in a specified source.
+	 *	@access		public
+	 *	@param		string		$key		...
+	 *	@param		string		$source		Source key (not case sensitive) (get,post,files[,session,cookie])
+	 *	@param		bool		$strict		Flag: throw exception if not set, otherwise return NULL
+	 *	@throws		InvalidArgumentException if key is not set in source and strict is on
+	 *	@return		mixed		Value of key in source or NULL if not set
+	 */
+	public function getFromSource( $key, $source, $strict = FALSE )
+	{
+		$data	= $this->getAllFromSource( $source );
+		if( isset( $data[$key] ) )
+			return $data[$key];
+		if( !$strict )
+			return NULL;
+		throw new InvalidArgumentException( 'Invalid key "'.$key.'" in source "'.$source.'"' );
+	}
+
 	public function getHeaders()
 	{
 		return $this->headers->getHeaders();
@@ -126,9 +168,33 @@ class Net_HTTP_Request extends ADT_List_Dictionary
 		return $this->headers->getHeadersByName( $name );
 	}
 
+	/**
+	 *	Returns received raw POST Data.
+	 *	@access		public
+	 *	@return		string
+	 *	@since		0.6.8
+	 */
+	public function getBody()
+	{
+		return $this->body;
+	}
+
 	public function getMethod()
 	{
 		return $this->method;
+	}
+
+	/**
+	 *	Indicates wheter a pair is existing in a request source by its key.
+	 *	@access		public
+	 *	@param		string		$key		...
+	 *	@param		string		$source		Source key (not case sensitive) (get,post,files[,session,cookie])
+	 *	@return		bool
+	 */
+	public function hasInSource( $key, $source )
+	{
+		$source	= strtolower( $source );
+		return isset( $this->sources[$source][$key] );
 	}
 
 	public function isAjax()

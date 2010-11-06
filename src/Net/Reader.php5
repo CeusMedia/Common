@@ -174,9 +174,12 @@ class Net_Reader
 				throw new InvalidArgumentException( 'Option must be given as integer or string' );
 			$curl->setOption( $key, $value );
 		}
-		$this->body		= $curl->exec();
+		$result			= $curl->exec( TRUE, FALSE );
+		$response		= Net_HTTP_Response_Parser::fromString( $result );
+
+		$this->body		= $response->getBody();
+		$this->headers	= $response->getHeaders();
 		$this->status	= $curl->getStatus();
-		$this->headers	= $curl->getHeader();
 		$code			= $curl->getStatus( Net_CURL::STATUS_HTTP_CODE );
 		$error			= $curl->getStatus( Net_CURL::STATUS_ERROR );
 		$errno			= $curl->getStatus( Net_CURL::STATUS_ERRNO );

@@ -30,8 +30,6 @@
  *	Handler for HTTP Responses with HTTP Compression Support.
  *	@category		cmClasses
  *	@package		Net.HTTP
- *	@uses			Net_HTTP_Compression
- *	@uses			Net_HTTP_Sniffer_Encoding
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3

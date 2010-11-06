@@ -68,11 +68,36 @@ class Net_HTTP_Header
 	/**
 	 *	Returns set Header Value.
 	 *	@access		public
-	 *	@return		string		Header Value
+	 *	@return		string|array	Header Value or Array of qualified Values
 	 */
-	public function getValue()
+	public function getValue( $qualified = FALSE )
 	{
+		if( $qualified )
+			return $this->decodeQualifiedValues ( $this->value );
 		return $this->value;
+	}
+
+	public static function decodeQualifiedValues( $values, $sortByLength = TRUE ){
+		$pattern	= '/^(\S+)(?:;\s*q=(0(?:\.[0-9]{1,3})?|1(?:\.0{1,3})?))?$/iU';
+		$values		= preg_split( '/,\s*/', $values );
+		$codes		= array();
+		foreach( $values as $value )
+			if( preg_match ( $pattern, $value, $matches ) )
+				$codes[$matches[1]]	= isset( $matches[2] ) ? (float) $matches[2] : 1.0;
+		$map	= array();
+		foreach( $codes as $code => $quality ){
+			if( !isset( $map[(string)$quality] ) )
+				$map[(string)$quality]	= array();
+			$map[(string)$quality][strlen( $code)]	= $code;
+			if( $sortByLength )
+				krsort( $map[(string)$quality] );													//  sort inner list by code length
+		}
+		krsort( $map );																				//  sort outer list by quality
+		$list	= array();
+		foreach( $map as $quality => $codes )														//  reduce map to list
+			foreach( $codes as $code )
+				$list[$code]	= (float) $quality;
+		return $list;
 	}
 
 	public function setName( $name )
@@ -94,7 +119,13 @@ class Net_HTTP_Header
 	 */
 	public function toString()
 	{
-		return ucFirst( $this->name ).": ".$this->value;
+		$name	= mb_convert_case( $this->name, MB_CASE_TITLE );
+		return $name.": ".$this->value;
+	}
+
+	public function __toString()
+	{
+		return $this->toString();
 	}
 }
 ?>
