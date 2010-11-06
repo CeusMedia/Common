@@ -181,7 +181,7 @@ class Net_HTTP_Headers
 		return $this->addHeaderPair( $name, $value, $emptyBefore );
 	}
 
-	public function toString()
+	public function toArray()
 	{
 		$list	= array();
 		foreach( $this->headers as $sectionName => $sectionPairs )
@@ -189,6 +189,12 @@ class Net_HTTP_Headers
 				if( $headers )
 					foreach( $headers as $header )
 						$list[]	= $header->toString();
+		return $list;
+	}
+
+	public function toString()
+	{
+		$list	= $this->toArray();
 		$list	= implode( "\r\n", $list )."\r\n";
 		return $list;
 	}

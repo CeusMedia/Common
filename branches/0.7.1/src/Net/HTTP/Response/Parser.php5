@@ -59,17 +59,41 @@ class Net_HTTP_Response_Parser
 	 */
 	public static function fromString( $string )
 	{
-		$string	= trim( $string );
+		$string		= trim( $string );
+		$parts		= explode( "\r\n\r\n", $string );
+		$response	= new Net_HTTP_Response;
+		while( $part = array_shift( $parts ) )
+		{
+			$pattern	= '/^([A-Z]+)\/([0-9.]+) ([0-9]{3}) ?(.+)?/';
+			if( !preg_match( $pattern, $part ) )
+			{
+				array_unshift( $parts, $part );
+				break;
+			}
+			if( !$response->headers->getHeaders() )
+				$response	= self::parseHeadersFromString( $part );
+		};
+		$body	= implode( "\r\n\r\n", $parts );
+
+/*		$encodings	= $response->headers->getHeader( 'content-encoding' );
+		while( $encoding = array_pop( $encodings ) )
+		{
+			$method	= $encoding->getValue();
+			$body	= Net_HTTP_Response_Decompressor::decompressString( $body, $method );
+		}*/
+		$response->setBody( $body );
+		return $response;
+	}
+
+	public static function parseHeadersFromString( $string )
+	{
 		$lines	= explode( "\r\n", $string );
 		$state	= 0;
-		$data	= '';
 		foreach( $lines as $line )
 		{
 			if( !$state )
 			{
 				$pattern	= '/^([A-Z]+)\/([0-9.]+) ([0-9]{3}) ?(.+)?/';
-				if( !preg_match( $pattern, $line ) )
-					throw new Exception( 'Invalid response' );
 				$matches	= array();
 				preg_match_all( $pattern, $line, $matches );
 				$response	= new Net_HTTP_Response( $matches[1][0], $matches[2][0] );
@@ -79,10 +103,7 @@ class Net_HTTP_Response_Parser
 			else if( $state == 1 )
 			{
 				if( !trim( $line ) )
-				{
-					$state	= 2;
 					continue;
-				}
 				$pattern	= '/([a-z-]+):\s(.+)/i';
 				if( !preg_match( $pattern, $line ) )
 					throw new InvalidArgumentException( 'Invalid header: '.$line );
@@ -91,18 +112,7 @@ class Net_HTTP_Response_Parser
 				$value	= trim( implode( ':', $parts ) );
 				$response->headers->addHeader( new Net_HTTP_Header( $key, $value ) );
 			}
-			else if( $state == 2 )
-			{
-				$data	.= $line."\r\n";
-			}
 		}
-		$encodings	= $response->headers->getHeader( 'content-encoding');
-		while( $encoding = array_pop( $encodings ) )
-		{
-			$method	= $encoding->getValue();
-			$data	= Net_HTTP_Response_Decompressor::decompressString( $data, $method );
-		}
-		$response->setBody( $data );
 		return $response;
 	}
 }

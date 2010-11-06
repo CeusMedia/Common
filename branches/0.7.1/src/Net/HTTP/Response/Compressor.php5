@@ -6,10 +6,13 @@ class Net_HTTP_Response_Compressor
 	{
 		if( !$type )
 			return;
-		self::compressString( $content, $type );
-		$response->addHeader( new Net_HTTP_Header( 'Content-Encoding', $type ) );		//  send Encoding Header
+		$response->setBody( self::compressString( $response->getBody(), $type ) );
+		$response->addHeaderPair( 'Content-Encoding', $type );							//  send Encoding Header
 		if( $sendLengthHeader )
-			$response->addHeader( strlen( $response->getBody() ), TRUE );				//  send Content-Length Header
+		{
+			$length		= strlen( $response->getBody() );
+			$response->addHeaderPair( 'Content-Length', $length, TRUE );				//  send Content-Length Header
+		}
 	}
 
 	public static function compressString( $content, $type = NULL )

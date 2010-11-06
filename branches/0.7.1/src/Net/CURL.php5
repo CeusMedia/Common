@@ -120,7 +120,7 @@ class Net_CURL
 		$this->handle	= curl_init();
 		$this->caseless	= NULL;
 		$this->header	= NULL;
-		$this->status	= NULL;
+		$this->info	= NULL;
 		$this->options	= array();
 		if( !empty( $url ) )
 			$this->setOption( CURLOPT_URL, $url ); 
@@ -156,7 +156,7 @@ class Net_CURL
 	 *	@link		http://www.php.net/curl_errno
 	 *	@link		http://www.php.net/curl_error
 	 */
-	public function exec( $breakOnError = FALSE )
+	public function exec( $breakOnError = FALSE, $parseHeaders = TRUE )
 	{
 		$url	= $this->getOption( CURLOPT_URL );
 		if( empty( $url ) )
@@ -165,15 +165,15 @@ class Net_CURL
 			throw new InvalidArgumentException( 'URL "'.$url.'" has no valid Protocol.' );
 
 		$result = curl_exec( $this->handle );
-		$this->status = curl_getinfo( $this->handle );
-		$this->status['errno']	= curl_errno( $this->handle );
-		$this->status['error']	= curl_error( $this->handle );
+		$this->info = curl_getinfo( $this->handle );
+		$this->info['errno']	= curl_errno( $this->handle );
+		$this->info['error']	= curl_error( $this->handle );
 				
-		if( $breakOnError && $this->status['errno'] )
-			throw new RuntimeException( $this->status['error'], $this->status['errno'] );
+		if( $breakOnError && $this->info['errno'] )
+			throw new RuntimeException( $this->info['error'], $this->info['errno'] );
 
 		$this->header = NULL;
-		if( $this->getOption( CURLOPT_HEADER ) )
+		if( $this->getOption( CURLOPT_HEADER ) && $parseHeaders )
 		{
 			$result	= preg_replace( "@^HTTP/1\.1 100 Continue\r\n\r\n@", "", $result );				//  Hack: remove "100 Continue"
 			$result	= trim( $result );																//  trim Result String
@@ -226,19 +226,19 @@ class Net_CURL
 	}
 
 	/**
-	 *	Return the status information of the last cURL request.
+	 *	Return the information of the last cURL request.
 	 *	@access		public
 	 *	@param		string		$key		Key name of Information
 	 *	@return		mixed
 	 */
-	public function getStatus( $key = NULL )
+	public function getInfo( $key = NULL )
 	{
-		if( !$this->status )
+		if( !$this->info )
 			throw new RuntimeException( "No Request has been sent, yet." );
 		if( empty( $key ) )
-			return $this->status;
-		else if( isset( $this->status[$key] ) )
-			return $this->status[$key];
+			return $this->info;
+		else if( isset( $this->info[$key] ) )
+			return $this->info[$key];
 		else
 			return NULL;
 	}
@@ -250,8 +250,8 @@ class Net_CURL
 	 */
 	public function hasError()
 	{
-		if( isset( $this->status['error'] ) )
-			return ( empty( $this->status['error'] ) ? NULL : $this->status['error'] );
+		if( isset( $this->info['error'] ) )
+			return ( empty( $this->info['error'] ) ? NULL : $this->info['error'] );
 		else
 			return NULL;
 	}
