@@ -20,10 +20,7 @@ class Net_HTTP_Response_Sender
 			$compressor->compressResponse( $this->response, $compression, $sendLengthHeader );
 			$lengthNow	= strlen( $this->response->getBody() );
 			$ratio		= round( $lengthNow / $length * 100 );
-			error_log( $compression.':'.$length."->".$lengthNow.":".$ratio."%\n", 3, getCwd().'/NetHttpResponseSender.log' );
 		}
-		else
-			error_log( 'identity:'.$length.":".$this->response->getBody()."\n", 3, getCwd().'/NetHttpResponseSender.log' );
 
 		foreach( $this->response->getHeaders() as $header )
 			header( $header->toString() );
