@@ -298,6 +298,7 @@ class Net_CURL
 	 *	@param		mixed		$value		the value of the cURL option.
 	 *	@return		void
 	 *	@link		http://www.php.net/curl_setopt
+	 *	@link		http://www.php.net/manual/en/function.curl-setopt.php
 	 */
 	public function setOption( $option, $value )
 	{

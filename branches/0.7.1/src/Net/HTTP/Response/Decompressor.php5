@@ -57,7 +57,7 @@ class Net_HTTP_Response_Decompressor
 	 *	Decompresses compressed Response Content.
 	 *	@access		public
 	 *	@param		string		$content			Response Content, compressed
-	 *	@param		string		$type				Compression Type used for compressing Response
+	 *	@param		string		$type				Compression Type used (gzip|deflate)
 	 *	@return		string
 	 */
 	public static function decompressString( $content, $type = NULL )
