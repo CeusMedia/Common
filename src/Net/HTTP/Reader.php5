@@ -1,9 +1,55 @@
 <?php
+/**
+ *	Reader for HTTP Resources.
+ *
+ *	Copyright (c) 2010 Christian Würker (ceus-media.de)
+ *
+ *	This program is free software: you can redistribute it and/or modify
+ *	it under the terms of the GNU General Public License as published by
+ *	the Free Software Foundation, either version 3 of the License, or
+ *	(at your option) any later version.
+ *
+ *	This program is distributed in the hope that it will be useful,
+ *	but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *	GNU General Public License for more details.
+ *
+ *	You should have received a copy of the GNU General Public License
+ *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ *	@category		cmClasses
+ *	@package		Net.HTTP
+ *	@author			Christian Würker <christian.wuerker@ceus-media.de>
+ *	@copyright		2010 Christian Würker
+ *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@link			http://code.google.com/p/cmclasses/
+ *	@since			0.7.1
+ *	@version		$Id$
+ */
+/**
+ *	Handler for HTTP Requests.
+ *	@category		cmClasses
+ *	@package		Net.HTTP
+ *	@extends		ADT_List_Dictionary
+ *	@uses			Net_HTTP_Header
+ *	@uses			Net_HTTP_Headers
+ *	@author			Christian Würker <christian.wuerker@ceus-media.de>
+ *	@copyright		2010 Christian Würker
+ *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@link			http://code.google.com/p/cmclasses/
+ *	@since			0.7.1
+ *	@version		$Id$
+ */
 class Net_HTTP_Reader
 {
 	protected $curl;
 	protected $curlInfo	= array();
 
+	/**
+	 *	Constructor, sets up cURL.
+	 *	@access		public
+	 *	@param		string		$httpVersion		HTTP Version, 1.0 by default
+	 */
 	public function __construct( $httpVersion = NULL )
 	{
 		$this->curl		= new Net_CURL;
@@ -11,6 +57,13 @@ class Net_HTTP_Reader
 		$this->curl->setOption( CURLOPT_HTTP_VERSION, $httpVersion );
 	}
 
+	/**
+	 *	Applied cURL Options to a cURL Object.
+	 *	@access		protected
+	 *	@param		Net_CURL	$curl				cURL Object
+	 *	@param		array		$options			Map of cURL Options
+	 *	@return		void
+	 */
 	protected function applyCurlOptions( Net_CURL $curl, $options = array() )
 	{
 		foreach( $options as $key => $value )
@@ -27,6 +80,14 @@ class Net_HTTP_Reader
 		}
 	}
 
+	/**
+	 *	Returns Resource Response.
+	 *	@access		public
+	 *	@param		string		$url			Resource URL
+	 *	@param		array		$headers		Map of HTTP Headers
+	 *	@param		array		$curlOptions	Map of cURL Options
+	 *	@return		Net_HTTP_Response
+	 */
 	public function get( $url, $headers = array(), $curlOptions = array() )
 	{
 		$curl	= clone( $this->curl );
@@ -53,9 +114,9 @@ class Net_HTTP_Reader
 	}
 
 	/**
-	 *	Returns Status Array or single Status Information from last Request.
+	 *	Returns Info Array or single Information from last cURL Request.
 	 *	@access		public
-	 *	@param		string		$key		Status Information Key
+	 *	@param		string		$key		Information Key
 	 *	@return		mixed
 	 */
 	public function getCurlInfo( $key = NULL )
@@ -69,6 +130,15 @@ class Net_HTTP_Reader
 		return $this->curlInfo[$key];
 	}
 
+	/**
+	 *	Posts Data to Resource and returns Response.
+	 *	@access		public
+	 *	@param		string		$url			Resource URL
+	 *	@param		array		$data			Map of POST Data
+	 *	@param		array		$headers		Map of HTTP Headers
+	 *	@param		array		$curlOptions	Map of cURL Options
+	 *	@return		Net_HTTP_Response
+	 */
 	public function post( $url, $data, $headers, $curlOptions = array() )
 	{
 		$curl	= clone( $this->curl );
@@ -106,11 +176,26 @@ class Net_HTTP_Reader
 		$this->curl->setOption( CURLOPT_USERPWD, $username.":".$password );
 	}
 
+	/**
+	 *	Sets a cURL Option for all Requests.
+	 *	@access		public
+	 *	@param		integer		$key		Constant Value of cURL Option
+	 *	@param		mixed		$value		Option Value
+	 *	@return		void
+	 *	@link		http://www.php.net/manual/en/function.curl-setopt.php
+	 */
 	public function setCurlOption( $key, $value )
 	{
 		$this->curl->setOption( $key, $value );
 	}
 
+	/**
+	 *	Sets Type of HTTP Compression (Encoding).
+	 *	@access		public
+	 *	@return		void
+	 *	@param		string		$method		Compression Type (gzip|deflate)
+	 *	@return		void
+	 */
 	public function setEncoding( $method )
 	{
 		$this->curl->setOption( CURLOPT_ENCODING, $method );
@@ -146,6 +231,15 @@ class Net_HTTP_Reader
 		$this->curl->setOption( CURLOPT_USERAGENT, $string );
 	}
 
+	/**
+	 *	Sets up SSL Verification.
+	 *	@access		public
+	 *	@param		boolean		$host		Flag: verify Host
+	 *	@param		integer		$peer		Flag: verify Peer
+	 *	@param		string		$caPath		Path to certificates
+	 *	@param		string		$caInfo		Certificate File Name
+	 *	@return		void
+	 */
 	public function setVerify( $host = FALSE, $peer = 0, $caPath = NULL, $caInfo = NULL )
 	{
 		$this->curl->setOption( CURLOPT_SSL_VERIFYHOST, $host );

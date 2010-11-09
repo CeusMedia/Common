@@ -24,7 +24,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			20.02.2007
- *	@version		$Id: Response.php5 666 2010-05-17 22:34:19Z christian.wuerker $
+ *	@version		$Id$
  */
 /**
  *	Handler for HTTP Requests.
@@ -38,7 +38,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			20.02.2007
- *	@version		$Id: Response.php5 666 2010-05-17 22:34:19Z christian.wuerker $
+ *	@version		$Id$
  */
 class Net_HTTP_Request extends ADT_List_Dictionary
 {
