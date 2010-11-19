@@ -57,6 +57,7 @@ class File_CSS_Combiner
 	 */
 	public function combineString( $path, $content, $throwException = FALSE )
 	{
+		$list	= array();
 		$this->statistics['sizeOriginal']	= 0;
 		$this->statistics['sizeCombined']	= 0;
 		$this->statistics['sizeCompressed']	= 0;
