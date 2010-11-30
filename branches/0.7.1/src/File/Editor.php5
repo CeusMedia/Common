@@ -60,6 +60,10 @@ class File_Editor extends File_Reader
 		$this->writer	= new File_Writer( $fileName, $creationMode, $creationUser, $creationGroup );
 	}
 
+	public function appendString( $string ){
+		$this->writer->appendString( $string );
+	}
+
 	/**
 	 *	Sets Group of current File.
 	 *	@access		public
