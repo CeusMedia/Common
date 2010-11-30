@@ -54,11 +54,13 @@ class Alg_Time_DurationPhraser
 		if( !count( $this->ranges ) )
 			throw new Exception( 'No ranges defined' );
 		$callback	= array( $this, 'insertDates' );
-		foreach( $this->ranges->getRanges() as $range )
+		$ranges		= $this->ranges->getRanges();
+		krsort( $ranges );
+		foreach( $ranges as $from => $label )
 		{
-			if( !( $range['from'] <= $seconds && $range['to'] > $seconds ) )
+			if( $from > $seconds )
 				continue;
-			$label	= $range['label'];
+			$label	= $label;
 			$value	= $label."::".$seconds;
 			$label	= preg_replace_callback( $this->patternLabel, $callback, $value );
 			$label	= preg_replace( $this->patternData, "", $label );
