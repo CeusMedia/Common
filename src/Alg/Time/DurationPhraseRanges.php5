@@ -50,34 +50,22 @@ class Alg_Time_DurationPhraseRanges implements Countable
 	 */
 	public function __construct( $ranges = array() )
 	{
-		$keys	= array( 'from', 'to', 'label' );
-		foreach( $ranges as $range )
-		{
-			foreach( $keys as $key )
-				if( !isset( $range[$key] ) )
-					throw new InvalidArgumentException( 'Missing attribute "'.$key.'"' );
-			$this->addRange( $range['from'], $range['to'], $range['label'] );
-		}
+		foreach( $ranges as $from => $label )
+			$this->addRange( $from, $label );
 	}
 
 	/**
 	 *	Adds a Range.
 	 *	@access		public
 	 *	@param		string		$from		Start of Range, eg. 0
-	 *	@param		string		$to			End of Range, eg. 10
-	 *	@param		string		$label		Range Label, eg. "less than 10 seconds, exactly: {s} seconds"
+	 *	@param		string		$label		Range Label, eg. "{s} seconds"
 	 *	@return		void
 	 */
-	public function addRange( $from, $to, $label )
+	public function addRange( $from, $label )
 	{
 		$from	= preg_replace_callback( $this->regExp, array( $this, 'calculateSeconds' ), $from );
-		$to		= preg_replace_callback( $this->regExp, array( $this, 'calculateSeconds' ), $to );
-		$this->ranges[]	= array(
-			'from'	=> $from,
-			'to'	=> $to,
-			'label'	=> $label
-		);
-		$this->sortRanges();
+		$this->ranges[(int) $from]	= $label;
+		ksort( $this->ranges );
 	}
 
 	/**
@@ -114,20 +102,6 @@ class Alg_Time_DurationPhraseRanges implements Countable
 	}
 
 	/**
-	 *	Exports collected Ranges to List.
-	 *	@access		public
-	 *	@param		string		$separator		Separator Sign between Range Values
-	 *	@return		array
-	 */
-	public function exportToList( $separator = "|" )
-	{
-		$list	= array();
-		foreach( $this->ranges as $range )
-			$list[]	= $range['from'].$separator.$range['to'].$separator.$range['label'];
-		return $list;
-	}
-
-	/**
 	 *	Returns Array of collected Ranges.
 	 *	@access		public
 	 *	@return		array
@@ -135,56 +109,6 @@ class Alg_Time_DurationPhraseRanges implements Countable
 	public function getRanges()
 	{
 		return $this->ranges;
-	}
-
-	/**
-	 *	Imports Ranges from a List with Entries like "from|to|label" with definable Separator.
-	 *	@access		public
-	 *	@param		array		$list		List of Range Strings like "from|to|label"
-	 *	@param		string		$separator	Separator between 'from', 'to' and 'label'
-	 *	@return		void
-	 */
-	public function importFromList( $list, $separator = "|" )
-	{
-		foreach( $list as $range )
-		{
-			if( substr_count( $range, $separator ) !== 2 )
-				throw new Exception( 'Invalid range "'.$range.'" using separator "'.$separator.'"' );
-			list( $from, $to, $label )	= explode( $separator, $range );
-			$this->addRange( $from, $to, $label );
-		}
-	}
-
-	/**
-	 *	Imports Ranges from an associative Array (=Map) like "from|to => label" with definable Separator.
-	 *	@access		public
-	 *	@param		array		$array		Map of Ranges and Labels, like "from|to => label"
-	 *	@param		string		$separator	Separator between 'from' and 'to' in Map Key
-	 *	@return		void
-	 */
-	public function importFromMap( $array, $separator = "|" )
-	{
-		foreach( $array as $range => $label )
-		{
-			if( substr_count( $range, $separator ) !== 1 )
-				throw new Exception( 'Invalid range "'.$range.'" using separator "'.$separator.'"' );
-			list( $from, $to )	= explode( $separator, $range );
-			$this->addRange( $from, $to, $label );
-		}
-	}
-
-	protected function sortRanges()
-	{
-/*		$ranges	= $this->ranges;
-		$list	= array();
-		while( $ranges )
-		{
-			$lowest	= array();
-			foreach( $ranges as $range )
-			{
-				if( 		
-			}
-		}*/
 	}
 }
 ?>
