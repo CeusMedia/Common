@@ -41,16 +41,16 @@
  */
 class Database_StatementCollection
 {
-	/**	@var	StatementBuilder	$builder		Reference to a Statement Builder Object */		
+	/**	@var	Database_StatementBuilder	$builder		Reference to a Statement Builder Object */
 	protected $builder;
 
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		StatementBuilder	$builder	Reference to a Statement Builder Object
+	 *	@param		Database_StatementBuilder	$builder	Reference to a Statement Builder Object
 	 *	@return		void
 	 */
-	public function __construct( $builder )
+	public function __construct( Database_StatementBuilder $builder )
 	{
 		$this->builder	= $builder;
 	}

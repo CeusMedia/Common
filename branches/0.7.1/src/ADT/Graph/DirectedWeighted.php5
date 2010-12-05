@@ -29,7 +29,7 @@
  *	DirectedGraph.
  *	@category		cmClasses
  *	@package		ADT.Graph
- *	@extends		ADT_Graph_WeightedGraph
+ *	@extends		ADT_Graph_Weighted
  *	@uses			ADT_List_Stack
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
@@ -39,7 +39,7 @@
  *	@todo			prove Implementation( AssocFileMatrix)
  *	@todo			Code Documentation
  */
-class ADT_Graph_DirectedWeightedGraph extends ADT_Graph_WeightedGraph
+class ADT_Graph_DirectedWeighted extends ADT_Graph_Weighted
 {
 	/**
 	 *	 Adds an Edge and returns the reference on the new Edge.
