@@ -100,9 +100,11 @@ abstract class Net_Socket_Stream_Server
 		}
 	}
 
-	protected function sendResponse( $connection, Net_Socket_Stream_Response $response )
+	protected function sendResponse( $connection, Net_Socket_Stream_Package $response )
 	{
-		fwrite( $connection, $response->render() );
+		$serial	= $response->toSerial();
+//		remark( "serial: ".$serial );
+		fwrite( $connection, $serial );
 		fclose( $connection );
 	}
 }

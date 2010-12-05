@@ -28,7 +28,7 @@ class Net_Socket_Stream_Client
 		return $this->port;
 	}
 
-	public function getResponse( Net_Socket_Stream_Request $request )
+	public function getResponse( Net_Socket_Stream_Package $request )
 	{
 		$socket	= stream_socket_client( $this->address, $errno, $errstr, 30 );
 #		stream_set_blocking( $socket, 0 );
@@ -36,11 +36,14 @@ class Net_Socket_Stream_Client
 			throw new RuntimeException( $errstr.' ('.$errno.')' );
 
 		$buffer		= "";
-		fwrite( $socket, $request );
+		$serial		= $request->toSerial();
+		fwrite( $socket, $serial );
 		while( !feof( $socket ) )
 			$buffer	.= fgets( $socket, 1024 );
 		fclose( $socket );
-		return $buffer;
+		$response	= new Net_Socket_Stream_Package();
+		$response->fromSerial( $buffer );
+		return $response;
 	}
 }
 ?>
