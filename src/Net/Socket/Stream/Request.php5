@@ -7,14 +7,13 @@
  */
 class Net_Socket_Stream_Request
 {
-	public $data			= NULL;
-	public $formatRequest	= 0;
-	public $formatResponse	= 0;
+	public $data		= NULL;
+	public $format		= 'json';
 
 	public function __construct( $format = NULL, $data = NULL )
 	{
 		if( !is_null( $format ) )
-			$this->setResponseFormat( $format );
+			$this->setFormat( $format );
 		if( !is_null( $data ) )
 			$this->setData( $data );
 	}
