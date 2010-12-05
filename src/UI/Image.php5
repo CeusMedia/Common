@@ -268,9 +268,11 @@ class UI_Image
 
 		if( function_exists( 'imageantialias' ) )
 			imageantialias( $this->resource, TRUE );
+	}
 
-#		$this->colorTransparent	= imagecolorallocate( $this->resource, 0, 255, 255 );
-#		imagecolortransparent( $this->resource, $this->colorTransparent );
+	public function setTransparentColor( $red, $green, $blue, $alpha = 0 ){
+		$color	= imagecolorallocatealpha( $this->resource, $red, $green, $blue, $alpha );
+		imagecolortransparent( $this->resource, $color );
 	}
 
 	public function setType( $type )
