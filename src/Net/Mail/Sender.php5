@@ -93,6 +93,42 @@ class Net_Mail_Sender
 		$this->sendMail( $mail, $this->mailer );
 	}
 
+	public function setSmtp( $host, $port = 25, $auth = NULL, $username = NULL, $password = NULL )
+	{
+		$this->smtpHost		= $host;
+		$this->smtpPort		= $port;
+		$this->smtpAuth		= $auth;
+		$this->smtpUsername	= $username;
+		$this->smtpPassword	= $password;
+	}
+	protected function sendToExternal( Net_Mail $mail )
+	{
+		$tid = time();
+		$date = date("D, d M Y H:i:s O",$tid);
+		print $dato;
+		$conn	= fsockopen( $this->smtpHost, $this->smtpPort, $errno, $errstr, 30);
+		if( !$conn )
+			throw new RuntimeException( 'Connection to SMTP server "'.$this->smtpHost.':'.$this->smtpPort.'" failed' );
+		fputs( $conn, "HELO ".$_SERVER['SERVER_NAME']."\r\n" );
+		fgets( $conn, 1024 );
+		fputs( $conn, "MAIL FROM: ".$mail->getSender()."\r\n" );
+		fgets( $conn, 1024);
+		fputs( $conn, "RCPT TO: ".$mail-getReceiver()."\r\n");
+		fgets( $conn, 1024);
+		fputs( $conn, "DATA\r\n");
+		fgets( $conn, 1024);
+		fputs( $conn, "Date: ".$date."\r\n");
+		fputs( $conn, "From: ".$mail->getSender()."\r\n");
+		fputs( $conn, "Subject: ".$mail->getSubject()."\r\n");
+		fputs( $conn, "To: ".$mail-getReceiver()."\r\n");
+		foreach( $mail->getHeaders() as $key => $value )
+			fputs( $conn, $key.": ".$value."\r\n");
+		fputs( $conn, $mail->getBody()."\r\n");
+		fputs( $conn, ".\r\nQUIT\r\n");
+		fgets( $conn, 1024);
+		fclose( $conn );
+	}
+
 	/**
 	 *	Sends Mail statically.
 	 *	@access		public
