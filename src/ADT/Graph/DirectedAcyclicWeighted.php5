@@ -29,14 +29,14 @@
  *	Directed Acyclic Graph.
  *	@category		cmClasses
  *	@package		ADT.Graph
- *	@extends		ADT_Graph_DirectedWeightedGraph
+ *	@extends		ADT_Graph_DirectedWeighted
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		$Id$
  */
-class ADT_Graph_DirectedAcyclicWeightedGraph extends ADT_Graph_DirectedWeightedGraph
+class ADT_Graph_DirectedAcyclicWeighted extends ADT_Graph_DirectedWeighted
 {
 	/**
 	 *	Adds an Edge and returns the reference on the new Edge.

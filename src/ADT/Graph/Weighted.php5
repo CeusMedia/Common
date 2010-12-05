@@ -40,7 +40,7 @@
  *	@todo			prove Implementation( AssocFileMatrix)
  *	@todo			Code Documentation
  */
-class ADT_Graph_WeightedGraph
+class ADT_Graph_Weighted
 {
 	/**	@var	NodeSet		$nodeSet		Set of Nodes */
 	protected $nodeSet;
