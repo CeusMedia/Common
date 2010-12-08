@@ -18,31 +18,89 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		Net.HTTP
+ *	@package		Net.HTTP.Header
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
- *	@since			0.6.8
+ *	@since			0.7.1
  *	@version		$Id$
  */
 /**
  *	...
  *
  *	@category		cmClasses
- *	@package		Net.HTTP
+ *	@package		Net.HTTP.Header
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
- *	@since			0.6.8
+ *	@since			0.7.1
  *	@version		$Id$
- *	@deprecated		use Net_HTTP_Header_Section instead
- *	@todo			to be removed in 0.7.2
+ *	@see			http://www.w3.org/Protocols/rfc2616/rfc2616-sec4.html#sec4.2 RFC 2616 HTTP Message Headers
+ *
+ *	GENERAL
+ *	-------
+ *	Cache-Control
+ *	Connection
+ *	Date
+ *	Pragma
+ *	Trailer
+ *	Transfer-Encoding
+ *	Upgrade
+ *	Via
+ *	Warning
+ *
+ *	REQUEST
+ *	-------
+ *	Accept
+ *	Accept-Charset
+ *	Accept-Encoding
+ *	Accept-Language
+ *	Authorization
+ *	Expect
+ *	From
+ *	Host
+ *	If-Match
+ *	If-Modified-Since
+ *	If-None-Match
+ *	If-Range
+ *	If-Unmodified-Since
+ *	Max-Forwards
+ *	Proxy-Authorization
+ *	Range
+ *	Referer
+ *	TE
+ *	User-Agent
+ *
+ *	RESPONSE
+ *	--------
+ *	Accept-Ranges
+ *	Age
+ *	ETag
+ *	Location
+ *	Proxy-Authenticate
+ *	Retry-After
+ *	Server
+ *	Vary
+ *	WWW-Authenticate
+ *
+ *	ENTITY
+ *	------
+ *	Allow
+ *	Content-Encoding
+ *	Content-Language
+ *	Content-Length
+ *	Content-Location
+ *	Content-MD5
+ *	Content-Range
+ *	Content-Type
+ *	Expires
+ *	Last-Modified
  */
-class Net_HTTP_Headers
+class Net_HTTP_Header_Section
 {
-	protected $headers	= array(
+	protected $fields	= array(
 		'general'	=> array(
 			'cache-control'			=> array(),
 			'connection'			=> array(),
@@ -102,95 +160,95 @@ class Net_HTTP_Headers
 		)
 	);
 
-	public function addHeader( Net_HTTP_Header $header, $emptyBefore = FALSE )
+	public function addField( Net_HTTP_Header_Field $field )
 	{
-		return $this->setHeader( $header, FALSE );
+		return $this->setField( $field, FALSE );
 	}
 
-	public function addHeaderPair( $name, $value, $emptyBefore = FALSE )
+	public function addFieldPair( $name, $value )
 	{
-		$header	= new Net_HTTP_Header( $name, $value );
-		$this->addHeader( $header, $emptyBefore );
+		$field	= new Net_HTTP_Header_Field( $name, $value );
+		$this->addField( $field );
 	}
 
-	public function addHeaders( $headers )
+	public function addFields( $fields )
 	{
-		foreach( $headers as $header )
-			$this->addHeader( $header );
+		foreach( $fields as $field )
+			$this->addField( $field );
 	}
 
-	public function getHeader( $name )
+	public function getField( $name )
 	{
 		$name	= strtolower( $name );
-		foreach( $this->headers as $sectionName => $sectionPairs )
+		foreach( $this->fields as $sectionName => $sectionPairs )
 			if( array_key_exists( $name, $sectionPairs ) )
-				return $this->headers[$sectionName][$name];
+				return $this->fields[$sectionName][$name];
 		return NULL;
 	}
 
-	public function getHeaders()
+	public function getFields()
 	{
 		$list	= array();
-		foreach( $this->headers as $sectionName => $sectionPairs )
-			foreach( $sectionPairs as $name => $headerList )
-				if( count( $headerList ) )
-					foreach( $headerList as $header )
-						$list[]	= $header;
+		foreach( $this->fields as $sectionName => $sectionPairs )
+			foreach( $sectionPairs as $name => $fieldList )
+				if( count( $fieldList ) )
+					foreach( $fieldList as $field )
+						$list[]	= $field;
 		return $list;
 	}
-	
-	public function getHeadersByName( $name )
+
+	public function getFieldsByName( $name )
 	{
 		$name	= strtolower( $name );
-		foreach( $this->headers as $sectionName => $sectionPairs )
+		foreach( $this->fields as $sectionName => $sectionPairs )
 			if( array_key_exists( $name, $sectionPairs ) )
-				if( $this->headers[$sectionName][$name] )
-					return $this->headers[$sectionName][$name];
+				if( $this->fields[$sectionName][$name] )
+					return $this->fields[$sectionName][$name];
 		return array();
 	}
 
-	public function hasHeader( $name )
+	public function hasField( $name )
 	{
 		$name	= strtolower( $name );
-		foreach( $this->headers as $sectionName => $sectionPairs )
+		foreach( $this->fields as $sectionName => $sectionPairs )
 			if( array_key_exists( $name, $sectionPairs ) )
-				return (bool) count( $this->headers[$sectionName][$name] );
+				return (bool) count( $this->fields[$sectionName][$name] );
 		return FALSE;
 	}
 
-	public function setHeader( Net_HTTP_Header $header, $emptyBefore = TRUE )
+	public function setField( Net_HTTP_Header_Field $field, $emptyBefore = TRUE )
 	{
-		$name	= $header->getName();
-		foreach( $this->headers as $sectionName => $sectionPairs )
+		$name	= $field->getName();
+		foreach( $this->fields as $sectionName => $sectionPairs )
 		{
 			if( array_key_exists( $name, $sectionPairs ) )
 			{
 				if( $emptyBefore )
-					$this->headers[$sectionName][$name]		= array( $header );
+					$this->fields[$sectionName][$name]		= array( $field );
 				else
-					$this->headers[$sectionName][$name][]	= $header;
+					$this->fields[$sectionName][$name][]	= $field;
 				return;
 			}
 		}
-		if( $emptyBefore || !isset( $this->headers['others'][$name] ) )
-			$this->headers['others'][$name]	= array( $header );
+		if( $emptyBefore || !isset( $this->fields['others'][$name] ) )
+			$this->fields['others'][$name]	= array( $field );
 		else
-			$this->headers['others'][$name][]	= array( $header );
+			$this->fields['others'][$name][]	= array( $field );
 	}
 
-	public function setHeaderPair( $name, $value, $emptyBefore = TRUE )
+	public function setFieldPair( $name, $value, $emptyBefore = TRUE )
 	{
-		return $this->addHeaderPair( $name, $value, $emptyBefore );
+		return $this->setField( new Net_HTTP_Header_Field( $name, $value ), $emptyBefore );
 	}
 
 	public function toArray()
 	{
 		$list	= array();
-		foreach( $this->headers as $sectionName => $sectionPairs )
-			foreach( $sectionPairs as $name => $headers )
-				if( $headers )
-					foreach( $headers as $header )
-						$list[]	= $header->toString();
+		foreach( $this->fields as $sectionName => $sectionPairs )
+			foreach( $sectionPairs as $name => $fields )
+				if( $fields )
+					foreach( $fields as $field )
+						$list[]	= $field->toString();
 		return $list;
 	}
 
@@ -201,69 +259,4 @@ class Net_HTTP_Headers
 		return $list;
 	}
 }
-/*
-
-GENERAL
--------
-Cache-Control
-Connection
-Date
-Pragma
-Trailer
-Transfer-Encoding
-Upgrade
-Via
-Warning
-
-
-REQUEST
--------
-Accept
-Accept-Charset
-Accept-Encoding
-Accept-Language
-Authorization
-Expect
-From
-Host
-If-Match
-
-If-Modified-Since
-If-None-Match
-If-Range
-If-Unmodified-Since
-Max-Forwards
-Proxy-Authorization
-Range
-Referer
-TE
-User-Agent
-
-
-RESPONSE
---------
-Accept-Ranges
-Age
-ETag
-Location
-Proxy-Authenticate
-Retry-After
-Server
-Vary
-WWW-Authenticate
-
-
-ENTITY
-------
-Allow
-Content-Encoding
-Content-Language
-Content-Length
-Content-Location
-Content-MD5
-Content-Range
-Content-Type
-Expires
-Last-Modified
-*/
 ?>

@@ -29,8 +29,8 @@
  *	Request for HTTP Protocol.
  *	@category		cmClasses
  *	@package		Net.HTTP.Request
- *	@uses			Net_HTTP_Header
- *	@uses			Net_HTTP_Headers
+ *	@uses			Net_HTTP_Header_Field
+ *	@uses			Net_HTTP_Header_Section
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -40,19 +40,19 @@
  */
 class Net_HTTP_Request_Sender
 {
-	/**	@var	string				$host			Host IP to be connected to */
+	/**	@var	string					$host			Host IP to be connected to */
 	protected $host;
-	/**	@var	string				$uri			URI to request to */
+	/**	@var	string					$uri			URI to request to */
 	protected $uri;
-	/**	@var	string				$port			Service Port of Host */
-	protected $port					= -1;
-	/**	@var	string				$method			Method of Request (GET or POST) */
+	/**	@var	string					$port			Service Port of Host */
+	protected $port						= -1;
+	/**	@var	string					$method			Method of Request (GET or POST) */
 	protected $method;
-	/**	@var	Net_HTTP_Headers	$headers		Object of collected HTTP Headers */
-	protected $headers				= NULL;
-	/**	@var	string				$version		HTTP version (1.0 or 1.1) */
-	protected $version				= '1.1';
-	/**	@var	string				$data			Raw POST data */
+	/**	@var	Net_HTTP_Header_Section	$headers		Object of collected HTTP Headers */
+	protected $headers					= NULL;
+	/**	@var	string					$version		HTTP version (1.0 or 1.1) */
+	protected $version					= '1.1';
+	/**	@var	string					$data			Raw POST data */
 	protected $data;
 
 	/**
@@ -66,7 +66,7 @@ class Net_HTTP_Request_Sender
 	 */
 	public function __construct( $host, $uri, $port = 80, $method = 'GET' )
 	{
-		$this->headers	= new Net_HTTP_Headers;
+		$this->headers	= new Net_HTTP_Header_Section;
 		$this->headers->addHeaderPair( 'Host', $host );
 		$this->host		= $host;
 		$this->setUri( $uri );
@@ -74,14 +74,14 @@ class Net_HTTP_Request_Sender
 		$this->setMethod( $method );
 	}
 
-	public function addHeader( Net_HTTP_Header $header )
+	public function addHeader( Net_HTTP_Header_Field $field )
 	{
-		$this->headers->addHeader( $header );
+		$this->headers->addField( $field );
 	}
 	
 	public function addHeaderPair( $name, $value )
 	{
-		$this->headers->addHeaderPair( $name, $value );
+		$this->headers->addField( new Net_HTTP_Header_Field( $name, $value ) );
 	}
 
 /*	public function setContentType( $mimeType )
@@ -141,7 +141,7 @@ class Net_HTTP_Request_Sender
 	{
 		if( trim( $this->data ) )
 			$this->addHeaderPair( "Content-Length", strlen( $data ) );
-		if( !$this->headers->getHeadersByName( 'connection' ) )
+		if( !$this->headers->getFieldsByName( 'connection' ) )
 			$this->addHeaderPair( 'Connection', 'close' );
 
 		$result	= "";

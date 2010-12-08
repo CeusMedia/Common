@@ -31,8 +31,8 @@
  *	@category		cmClasses
  *	@package		Net.HTTP
  *	@extends		ADT_List_Dictionary
- *	@uses			Net_HTTP_Header
- *	@uses			Net_HTTP_Headers
+ *	@uses			Net_HTTP_Header_Field
+ *	@uses			Net_HTTP_Header_Section
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -51,7 +51,7 @@ class Net_HTTP_Request extends ADT_List_Dictionary
 
 	public function __construct( $protocol = NULL, $version = NULL )
 	{
-		$this->headers	= new Net_HTTP_Headers();
+		$this->headers	= new Net_HTTP_Header_Section();
 		if( !empty( $protocol ) )
 			$this->setProtocol( $protocol );
 		if( !empty( $version ) )
@@ -61,12 +61,12 @@ class Net_HTTP_Request extends ADT_List_Dictionary
 	/**
 	 *	Adds an HTTP header object.
 	 *	@access		public
-	 *	@param		Net_HTTP_Header	$header		HTTP header object
+	 *	@param		Net_HTTP_Header_Field	$header		HTTP Header Field Object
 	 *	@return		void
 	 */
-	public function addHeader( Net_HTTP_Header $header )
+	public function addHeader( Net_HTTP_Header_Field $field )
 	{
-		$this->headers->addHeader( $header );
+		$this->headers->addField( $field );
 	}
 
 	/**
@@ -78,7 +78,7 @@ class Net_HTTP_Request extends ADT_List_Dictionary
 	 */
 	public function addHeaderPair( $name, $value )
 	{
-		$this->headers->addHeader( new Net_HTTP_Header( $name, $value ) );
+		$this->headers->addField( new Net_HTTP_Header_Field( $name, $value ) );
 	}
 
 	public function fromEnv( $useSession = FALSE, $useCookie = FALSE )
@@ -109,7 +109,7 @@ class Net_HTTP_Request extends ADT_List_Dictionary
 				continue;
 			$key	= preg_replace( '/^HTTP_/', '', $key );											//  strip HTTP prefix
 			$key	= preg_replace( '/_/', '-', $key );												//  replace underscore by dash
-			$this->headers->addHeader( new Net_HTTP_Header( $key, $value ) );						//  store header
+			$this->headers->addHeader( new Net_HTTP_Header_Field( $key, $value ) );						//  store header
 		}
 
 		$this->setMethod( strtoupper( getEnv( 'REQUEST_METHOD' ) ) );								//  store HTTP method
@@ -160,12 +160,12 @@ class Net_HTTP_Request extends ADT_List_Dictionary
 
 	public function getHeaders()
 	{
-		return $this->headers->getHeaders();
+		return $this->headers->getFields();
 	}
 
 	public function getHeadersByName( $name )
 	{
-		return $this->headers->getHeadersByName( $name );
+		return $this->headers->getFieldsByName( $name );
 	}
 
 	/**
@@ -217,7 +217,7 @@ class Net_HTTP_Request extends ADT_List_Dictionary
 
 	public function setAjax( $value = 'X-Requested-With' )
 	{
-		$this->headers->addHeader( new Net_HTTP_Header( 'X-Requested-With', $value ) );
+		$this->headers->addHeader( new Net_HTTP_Header_Field( 'X-Requested-With', $value ) );
 	}
 
 	public function setMethod( $method )

@@ -31,8 +31,8 @@
  *	@category		cmClasses
  *	@package		Net.HTTP
  *	@extends		ADT_List_Dictionary
- *	@uses			Net_HTTP_Header
- *	@uses			Net_HTTP_Headers
+ *	@uses			Net_HTTP_Header_Field
+ *	@uses			Net_HTTP_Header_Section
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -83,9 +83,9 @@ class Net_HTTP_Reader
 	/**
 	 *	Returns Resource Response.
 	 *	@access		public
-	 *	@param		string		$url			Resource URL
-	 *	@param		array		$headers		Map of HTTP Headers
-	 *	@param		array		$curlOptions	Map of cURL Options
+	 *	@param		string							$url			Resource URL
+	 *	@param		array|Net_HTTP_Header_Section	$headers		Map of HTTP Header Fields or Header Section Object
+	 *	@param		array							$curlOptions	Map of cURL Options
 	 *	@return		Net_HTTP_Response
 	 */
 	public function get( $url, $headers = array(), $curlOptions = array() )
@@ -94,7 +94,7 @@ class Net_HTTP_Reader
 		$curl->setOption( CURLOPT_URL, $url );
 		if( $headers )
 		{
-			if( $headers instanceof Net_HTTP_Headers )
+			if( $headers instanceof Net_HTTP_Header_Section )
 				$headers	= $headers->toArray();
 			$curlOptions[CURLOPT_HTTPHEADER]	= $headers;
 		}
@@ -102,7 +102,7 @@ class Net_HTTP_Reader
 		$response		= $curl->exec( TRUE, FALSE );
 		$this->curlInfo	= $curl->getInfo();
 		$response		= Net_HTTP_Response_Parser::fromString( $response );
-/*		$encodings	= $response->headers->getHeader( 'content-encoding' );
+/*		$encodings	= $response->headers->getField( 'content-encoding' );
 		while( $encoding = array_pop( $encodings ) )
 		{
 			$decompressor	= new Net_HTTP_Response_Decompressor;
@@ -133,10 +133,10 @@ class Net_HTTP_Reader
 	/**
 	 *	Posts Data to Resource and returns Response.
 	 *	@access		public
-	 *	@param		string		$url			Resource URL
-	 *	@param		array		$data			Map of POST Data
-	 *	@param		array		$headers		Map of HTTP Headers
-	 *	@param		array		$curlOptions	Map of cURL Options
+	 *	@param		string							$url			Resource URL
+	 *	@param		array							$data			Map of POST Data
+	 *	@param		array|Net_HTTP_Header_Section	$headers		Map of HTTP Header Fields or Header Section Object
+	 *	@param		array							$curlOptions	Map of cURL Options
 	 *	@return		Net_HTTP_Response
 	 */
 	public function post( $url, $data, $headers, $curlOptions = array() )
@@ -145,7 +145,7 @@ class Net_HTTP_Reader
 		$curl->setOption( CURLOPT_URL, $url );
 		if( $headers )
 		{
-			if( $headers instanceof Net_HTTP_Headers )
+			if( $headers instanceof Net_HTTP_Header_Section )
 				$headers	= $headers->toArray();
 			$curlOptions[CURLOPT_HTTPHEADER]	= $headers;
 		}

@@ -30,6 +30,7 @@
  *	Parser for HTTP Response containing Headers and Body.
  *	@category		cmClasses
  *	@package		Net.HTTP.Response
+ *	@uses			Net_HTTP_Header_Field
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -70,12 +71,12 @@ class Net_HTTP_Response_Parser
 				array_unshift( $parts, $part );
 				break;
 			}
-			if( !$response->headers->getHeaders() )
+			if( !$response->headers->getFields() )
 				$response	= self::parseHeadersFromString( $part );
 		};
 		$body	= implode( "\r\n\r\n", $parts );
 
-/*		$encodings	= $response->headers->getHeader( 'content-encoding' );
+/*		$encodings	= $response->headers->getField( 'content-encoding' );
 		while( $encoding = array_pop( $encodings ) )
 		{
 			$method	= $encoding->getValue();
@@ -106,11 +107,11 @@ class Net_HTTP_Response_Parser
 					continue;
 				$pattern	= '/([a-z-]+):\s(.+)/i';
 				if( !preg_match( $pattern, $line ) )
-					throw new InvalidArgumentException( 'Invalid header: '.$line );
+					throw new InvalidArgumentException( 'Invalid header field: '.$line );
 				$parts	= explode( ":", $line );
 				$key	= array_shift( $parts );
 				$value	= trim( implode( ':', $parts ) );
-				$response->headers->addHeader( new Net_HTTP_Header( $key, $value ) );
+				$response->headers->addField( new Net_HTTP_Header_Field( $key, $value ) );
 			}
 		}
 		return $response;

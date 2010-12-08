@@ -55,7 +55,7 @@ class Net_HTTP_Request_Response
 	 */
 	public function addHeader( $name, $value )
 	{
-		$this->response->addHeader( new Net_HTTP_Header( $name, $value ) );
+		$this->response->addHeader( new Net_HTTP_Header_Field( $name, $value ) );
 	}
 
 	/**
