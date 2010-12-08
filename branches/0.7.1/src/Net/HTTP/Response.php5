@@ -30,6 +30,8 @@
  *	Handler for HTTP Responses with HTTP Compression Support.
  *	@category		cmClasses
  *	@package		Net.HTTP
+ *	@uses			Net_HTTP_Header_Section
+ *	@uses			Net_HTTP_Header_Field
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -55,7 +57,7 @@ class Net_HTTP_Response
 	 */
 	public function __construct( $protocol = NULL, $version = NULL )
 	{
-		$this->headers	= new Net_HTTP_Headers();
+		$this->headers	= new Net_HTTP_Header_Section();
 		if( !empty( $protocol ) )
 			$this->setProtocol( $protocol );
 		if( !empty( $version ) )
@@ -64,14 +66,14 @@ class Net_HTTP_Response
 	}
 
 	/**
-	 *	Adds an HTTP header object.
+	 *	Adds an HTTP header field object.
 	 *	@access		public
-	 *	@param		Net_HTTP_Header	$header		HTTP header object
+	 *	@param		Net_HTTP_Header_Field	$field		HTTP header field object
 	 *	@return		void
 	 */
-	public function addHeader( Net_HTTP_Header $header )
+	public function addHeader( Net_HTTP_Header_Field $field )
 	{
-		$this->headers->addHeader( $header );
+		$this->headers->addField( $field );
 	}
 
 	/**
@@ -83,7 +85,7 @@ class Net_HTTP_Response
 	 */
 	public function addHeaderPair( $name, $value )
 	{
-		$this->headers->addHeaderPair( $name, $value );
+		$this->headers->addField( new Net_HTTP_Header_Field( $name, $value ) );
 	}
 
 	/**
@@ -104,17 +106,17 @@ class Net_HTTP_Response
 	 */
 	public function getHeader( $key )
 	{
-		return $this->headers->getHeadersByName( $key );
+		return $this->headers->getFieldsByName( $key );
 	}
 
 	/**
 	 *	Returns response headers.
 	 *	@access		public
-	 *	@return		array			List of response HTTP headers
+	 *	@return		array			List of response HTTP header fields
 	 */
 	public function getHeaders()
 	{
-		return $this->headers->getHeaders();
+		return $this->headers->getFields();
 	}
 
 	public function getLength()
@@ -160,7 +162,7 @@ class Net_HTTP_Response
 	 */
 	public function hasHeader( $key )
 	{
-		return $this->headers->hasHeader( $key );
+		return $this->headers->hasField( $key );
 	}
 
 	/**

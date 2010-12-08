@@ -34,6 +34,8 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		$Id$.8
+ *	@deprecated		use Net_HTTP_Header_Field instead
+ *	@todo			to be removed in 0.7.2
  */
 class Net_HTTP_Header
 {

@@ -31,8 +31,8 @@
  *	@category		cmClasses
  *	@package		Net.HTTP.Request
  *	@extends		ADT_List_Dictionary
- *	@uses			Net_HTTP_Headers
- *	@uses			Net_HTTP_Header
+ *	@uses			Net_HTTP_Header_Section
+ *	@uses			Net_HTTP_Header_Field
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -42,13 +42,13 @@
  */
 class Net_HTTP_Request_Receiver extends ADT_List_Dictionary
 {
-	/** @var		Net_HTTP_Headers	$headers	Object of collected HTTP Headers */
-	protected $headers			= NULL;
-	/**	@var		string		$ip				IP of Request */
+	/** @var		Net_HTTP_Header_Section	$headers		Object of collected HTTP Headers */
+	protected $headers						= NULL;
+	/**	@var		string					$ip				IP of Request */
 	protected $ip;
-	/** @var		string		$method			HTTP request method */
-	protected $method			= NULL;
-	/**	@var		array		$sources		Array of Sources of Request Data */
+	/** @var		string					$method			HTTP request method */
+	protected $method						= NULL;
+	/**	@var		array					$sources		Array of Sources of Request Data */
 	protected $sources;
 
 	/**
@@ -76,14 +76,14 @@ class Net_HTTP_Request_Receiver extends ADT_List_Dictionary
 			$this->pairs	= array_merge( $this->pairs, $values );
 
 		/*  --  RETRIEVE HTTP HEADERS  --  */
-		$this->headers	= new Net_HTTP_Headers;
+		$this->headers	= new Net_HTTP_Header_Section;
 		foreach( $_SERVER as $key => $value )
 		{
 			if( strpos( $key, "HTTP_" ) !== 0 )
 				continue;
 			$key	= preg_replace( '/^HTTP_/', '', $key );											//  strip HTTP prefix
 			$key	= preg_replace( '/_/', '-', $key );												//  replace underscore by dash
-			$this->headers->addHeader( new Net_HTTP_Header( $key, $value ) );						//  
+			$this->headers->addHeader( new Net_HTTP_Header_Field( $key, $value ) );					//
 		}
 	}
 	
@@ -132,7 +132,7 @@ class Net_HTTP_Request_Receiver extends ADT_List_Dictionary
 	 */
 	public function getHeaders()
 	{
-		return $this->headers->getHeaders();
+		return $this->headers->getFields();
 	}
 
 	/**
@@ -144,7 +144,7 @@ class Net_HTTP_Request_Receiver extends ADT_List_Dictionary
 	 */
 	public function getHeadersByName( $name )
 	{
-		return $this->headers->getHeadersByName( $name );
+		return $this->headers->getFieldsByName( $name );
 	}
 
 	public function getMethod()
@@ -161,7 +161,7 @@ class Net_HTTP_Request_Receiver extends ADT_List_Dictionary
 	 */
 	public function hasHeader( $name )
 	{
-		return $this->headers->hasHeader( $name );
+		return $this->headers->hasField( $name );
 	}
 
 	/**
@@ -197,7 +197,7 @@ class Net_HTTP_Request_Receiver extends ADT_List_Dictionary
 	 */
 	public function isAjax()
 	{
-		return $this->headers->hasHeader( 'X-Requested-With' );
+		return $this->headers->hasField( 'X-Requested-With' );
 		return getEnv( 'HTTP_X_REQUESTED_WITH' ) == "HTTP_X_REQUESTED_WITH";
 	}
 }

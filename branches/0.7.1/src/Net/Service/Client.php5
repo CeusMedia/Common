@@ -102,10 +102,10 @@ class Net_Service_Client
 		if( $this->username )
 			$request->setOption( CURLOPT_USERPWD, $this->username.":".$this->password );
 		$response['content']	= $request->exec();
-		$response['status']		= $request->getStatus();
+		$response['info']		= $request->getInfo();
 		$response['headers']	= $request->getHeader();
 	
-		$code		= $request->getStatus( Net_CURL::STATUS_HTTP_CODE );
+		$code		= $request->getInfo( Net_CURL::STATUS_HTTP_CODE );
 		if( $code == 0 )
 			throw new RuntimeException( 'URL "'.$request->getOption( CURLOPT_URL ).'" can not be accessed: ' . $response['status']['error'], $code );
 		if( !in_array( $code, array( '200', '304' ) ) )
@@ -218,7 +218,7 @@ class Net_Service_Client
 			'url'		=> $baseUrl,
 			'data'		=> serialize( $data ),
 			'headers'	=> $response['headers'],
-			'status'	=> $response['status'],
+			'info'	=> $response['info'],
 			'response'	=> $response['content'],
 			'time'		=> $clock->stop(),
 			);
