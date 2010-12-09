@@ -59,7 +59,7 @@ class Net_Mail_Body
 	{
 		$this->headers	= new Net_Mail_Header_Section();
 		$this->setContent( $content );
-		if( $type )
+		if( $mimeType )
 			$this->setContentType( $mimeType );
 		$this->setContentEncoding( '8bit' );
 	}
