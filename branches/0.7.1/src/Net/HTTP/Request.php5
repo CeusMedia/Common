@@ -199,7 +199,7 @@ class Net_HTTP_Request extends ADT_List_Dictionary
 
 	public function isAjax()
 	{
-		return $this->headers->hasHeader( 'X-Requested-With' );
+		return $this->headers->hasField( 'X-Requested-With' );
 	}
 
 	public function remove( $key )
