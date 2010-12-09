@@ -67,7 +67,7 @@ class Net_HTTP_Request_Sender
 	public function __construct( $host, $uri, $port = 80, $method = 'GET' )
 	{
 		$this->headers	= new Net_HTTP_Header_Section;
-		$this->headers->addHeaderPair( 'Host', $host );
+		$this->headers->addFieldPair( 'Host', $host );
 		$this->host		= $host;
 		$this->setUri( $uri );
 		$this->setPort( $port );
