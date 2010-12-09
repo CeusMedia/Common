@@ -83,7 +83,7 @@ class Net_HTTP_Request_Receiver extends ADT_List_Dictionary
 				continue;
 			$key	= preg_replace( '/^HTTP_/', '', $key );											//  strip HTTP prefix
 			$key	= preg_replace( '/_/', '-', $key );												//  replace underscore by dash
-			$this->headers->addHeader( new Net_HTTP_Header_Field( $key, $value ) );					//
+			$this->headers->addField( new Net_HTTP_Header_Field( $key, $value ) );					//
 		}
 	}
 	

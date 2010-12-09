@@ -109,7 +109,7 @@ class Net_HTTP_Request extends ADT_List_Dictionary
 				continue;
 			$key	= preg_replace( '/^HTTP_/', '', $key );											//  strip HTTP prefix
 			$key	= preg_replace( '/_/', '-', $key );												//  replace underscore by dash
-			$this->headers->addHeader( new Net_HTTP_Header_Field( $key, $value ) );						//  store header
+			$this->headers->addField( new Net_HTTP_Header_Field( $key, $value ) );						//  store header
 		}
 
 		$this->setMethod( strtoupper( getEnv( 'REQUEST_METHOD' ) ) );								//  store HTTP method
@@ -217,7 +217,7 @@ class Net_HTTP_Request extends ADT_List_Dictionary
 
 	public function setAjax( $value = 'X-Requested-With' )
 	{
-		$this->headers->addHeader( new Net_HTTP_Header_Field( 'X-Requested-With', $value ) );
+		$this->headers->addField( new Net_HTTP_Header_Field( 'X-Requested-With', $value ) );
 	}
 
 	public function setMethod( $method )
