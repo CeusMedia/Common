@@ -150,6 +150,7 @@ class Database_PDO_TableReader
 		$resultSet	= $this->dbc->query( $query );
 		if( $resultSet )
 			return $resultSet->fetchAll( $this->getFetchMode() );
+		return array();
 	}
 	
 	public function findWhereIn( $columns = array(), $column, $values, $orders = array(), $limits = array() )
@@ -166,8 +167,9 @@ class Database_PDO_TableReader
 
 		$query		= 'SELECT '.implode( ', ', $columns ).' FROM '.$this->getTableName().' WHERE '.$column.' IN ('.implode( ', ', $values ).') '.$orders.$limits;
 		$resultSet	= $this->dbc->query( $query );
-
-		return $resultSet->fetchAll( $this->getFetchMode() );
+		if( $resultSet )
+			return $resultSet->fetchAll( $this->getFetchMode() );
+		return array();
 	}
 
 	public function findWhereInAnd( $columns = array(), $column, $values, $conditions = array(), $orders = array(), $limits = array() )
@@ -187,8 +189,9 @@ class Database_PDO_TableReader
 			$conditions	.= ' AND ';
 		$query		= 'SELECT '.implode( ', ', $columns ).' FROM '.$this->getTableName().' WHERE '.$conditions.$column.' IN ('.implode( ', ', $values ).') '.$orders.$limits;
 		$resultSet	= $this->dbc->query( $query );
-
-		return $resultSet->fetchAll( $this->getFetchMode() );
+		if( $resultSet )
+			return $resultSet->fetchAll( $this->getFetchMode() );
+		return array();
 	}
 
 	/**
@@ -237,8 +240,9 @@ class Database_PDO_TableReader
 		$query = 'SELECT * FROM '.$this->getTableName().' WHERE '.$conditions.$orders.$limits;
 
 		$resultSet	= $this->dbc->query( $query );
+		if( !$resultSet )
+			return NULL;
 		$resultList	= $resultSet->fetchAll( $this->getFetchMode() );
-
 		if( $first && !$resultList )
 			return NULL;
 		if( $first )

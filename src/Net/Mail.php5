@@ -39,15 +39,18 @@
  */
 class Net_Mail
 {
-	/**	@var	string			$body			Body of Mail */
-	protected $body;
-	/**	@var	array			$headers		Headers of Mail */
-	protected $headers			= array();
-	/**	@var	string			$receiver		Receiver Address of Mail */
+	/**	@var	string					$parts			Mail Parts: Bodies and Attachments  */
+	protected $parts					= array();
+	/**	@var	Net_Mail_Header_Section	$headers		Mail Header Section */
+	protected $headers;
+	/**	@var	string					$sender			Sender Mail Address */
+	protected $sender;
+	/**	@var	string					$receiver		Receiver Mail Address */
 	protected $receiver;
-	/**	@var	string			$subject		Subject of Mail */
+	/**	@var	string					$subject		Mail Subject */
 	protected $subject;
 
+	protected $mimeBoundary;
 
 	/**
 	 *	Constructor
@@ -58,13 +61,33 @@ class Net_Mail
 	 */
 	public function __construct( $encoding = "UTF-8" )
 	{
-		$this->setHeader( "MIME-Version", "1.0" );
-		$this->setHeader( "Content-Type", "text/plain; charset=".$encoding );
+		$this->headers		= new Net_Mail_Header_Section();
+		$this->mimeBoundary	= md5( microtime( TRUE ) );
+		$this->headers->setFieldPair( 'MIME-Version', '1.0' );
+		$this->headers->setFieldPair( 'Content-Transfer-Encoding', '7bit' );
+		$type	= 'multipart/mixed; boundary="'.$this->mimeBoundary.'"';
+		$this->headers->setFieldPair( 'Content-Type', $type, TRUE );
 	}
 
-	public function addAttachment( $fileName, $mimeType )
+	public function addAttachment( Net_Mail_Attachment $attachment )
 	{
-		$this->attachments[]	= array( $fileName, $mimeType );
+		$this->parts[]	= $attachment;
+	}
+
+	public function addAttachmentFile( $fileName, $mimeType )
+	{
+		$this->addAttachment( new Net_Mail_Attachment( $fileName, $mimeType ) );
+	}
+
+	/**
+	 *	Sets Mail Body.
+	 *	@access		public
+	 *	@param		Net_Mail_Body			$body		Body of Mail
+	 *	@return		void
+	 */
+	public function addBody( Net_Mail_Body $body )
+	{
+		$this->parts[]	= $body;
 	}
 
 	/**
@@ -72,9 +95,18 @@ class Net_Mail
 	 *	@access		public
 	 *	@return		string
 	 */
+
 	public function getBody()
 	{
-		return $this->body;
+		$number		= count( $this->parts );
+		if( !$number )
+			return '';
+
+		$contents	= array( 'This is a multi-part message in MIME format.');
+		foreach( $this->parts as $part )
+			$contents[]	= "--".$this->mimeBoundary."\r\n".$part->render();
+		$contents[]	= "--".$this->mimeBoundary."--\r\n\r\n";
+		return join( "\r\n", $contents );
 	}
 
 	/**
@@ -97,6 +129,11 @@ class Net_Mail
 		return $this->receiver;
 	}
 
+	public function getSender()
+	{
+		return $this->sender;
+	}
+
 	/**
 	 *	Returns Mail Subject.
 	 *	@access		public
@@ -108,14 +145,14 @@ class Net_Mail
 	}
 
 	/**
-	 *	Sets Mail Body.
+	 *	Sets a Header.
 	 *	@access		public
-	 *	@param		string		$body		Body of Mail
+	 *	@param		Net_Mail_Header_Field	$field		Mail Header Field Object
 	 *	@return		void
 	 */
-	public function setBody( $body )
+	public function setHeader( Net_Mail_Header_Field $field )
 	{
-		$this->body	= $body;
+		$this->headers->setField( $field );
 	}
 
 	/**
@@ -125,9 +162,9 @@ class Net_Mail
 	 *	@param		string		$value		Value of Header
 	 *	@return		void
 	 */
-	public function setHeader( $key, $value )
+	public function setHeaderPair( $key, $value )
 	{
-		$this->headers[$key]	= $value;
+		$this->headers->setField( new Net_Mail_Header_Field( $key, $value ) );
 	}
 
 	/**
@@ -150,7 +187,8 @@ class Net_Mail
 	 */
 	public function setSender( $sender )
 	{
-		$this->setHeader( "From", $sender );
+		$this->sender	= $sender;
+		$this->setHeaderPair( "From", $sender );
 	}
 
 	/**

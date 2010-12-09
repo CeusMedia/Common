@@ -44,7 +44,7 @@ class File_CSS_Combiner
 	/**	@var		string		$suffix			Suffix of combined File Name */
 	var $suffix					= ".combined";
 	/**	@var		string		$importPattern	Pattern of imported CSS Files */
-	var $importPattern			= '#^@import ["\'](.*)["\'];?$#i';
+	var $importPattern			= '#^@import (url\(\s*)?["\'](.*)["\'](\s*\))?;?$#i';
 	/**	@var		array		$statistics		Statistical Data */
 	var $statistics				= array();
 	
@@ -57,7 +57,8 @@ class File_CSS_Combiner
 	 */
 	public function combineString( $path, $content, $throwException = FALSE )
 	{
-		$list	= array();
+		$listLines	= array();
+		$listImport	= array();
 		$this->statistics['sizeOriginal']	= 0;
 		$this->statistics['sizeCombined']	= 0;
 		$this->statistics['sizeCompressed']	= 0;
@@ -71,32 +72,35 @@ class File_CSS_Combiner
 			$line	= trim( $line );
 			if( !$line )
 				continue;
-			if( !preg_match( $this->importPattern, $line ) )
-				continue;
-			preg_match_all( $this->importPattern, $line, $matches );
-			$fileName	= $matches[1][0];
-			$this->statistics['filesFound'][]	= $fileName;
-			
-			if( !file_exists( $path.$fileName ) )
+			if( preg_match( $this->importPattern, $line ) )
 			{
-				if( $throwException )
-					throw new RuntimeException( 'CSS File "'.$fileName.'" is not existing.' );
-				$this->statistics['filesSkipped'][] = $fileName;
-				continue;
-			}
+				preg_match_all( $this->importPattern, $line, $matches );
+				$fileName	= $matches[2][0];
+				remark( "import: ".$fileName );
+				$this->statistics['filesFound'][]	= $fileName;
 
-			$content	= file_get_contents( $path.$fileName );
-			$content	= $this->reviseStyle( $content );
-			$this->statistics['numberFiles']	++;
-			$this->statistics['sizeOriginal']	+= strlen( $content );
+				if( !file_exists( $path.$fileName ) )
+				{
+					if( $throwException )
+						throw new RuntimeException( 'CSS File "'.$fileName.'" is not existing.' );
+					$this->statistics['filesSkipped'][] = $fileName;
+					continue;
+				}
+
+				$content	= file_get_contents( $path.$fileName );
+				$content	= $this->reviseStyle( $content );
+				$this->statistics['numberFiles']	++;
+				$this->statistics['sizeOriginal']	+= strlen( $content );
 //			$depth	= substr
-			if( substr_count( $fileName, "/" ) )
-				$content	= preg_replace( "@(\.\./){1}([^\.])@i", "\\2", $content );
-			$list[]	= "";
-			$list[]	= "/*  --  ".$fileName."  --  */";
-			$list[]	= $content;
+				if( substr_count( $fileName, "/" ) )
+					$content	= preg_replace( "@(\.\./){1}([^\.])@i", "\\2", $content );
+				$listImport[]	= "/*  --  ".$fileName."  --  */";
+				$listImport[]	= $content."\n";
+			}
+			else
+				$listLines[]	= $line;
 		}
-		$content	= implode( "\n", $list );
+		$content	= implode( "\n", $listImport ).implode( "\n", $listLines );
 		$this->statistics['sizeCombined']	= strlen( $content );
 		return $content;
 	}
