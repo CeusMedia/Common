@@ -278,7 +278,6 @@ class Database_StatementBuilder
 			$groupings	= "\nGROUP BY\n\t".implode( ",\n\t", $this->groupings );
 		if( $this->havings )
 			$havings	= "\nHAVING\n\t".implode( ",\n\t", $this->havings );
-		print_m( $this->keys[0] );
 		$column	= preg_replace( '/(.+)( AS .+)/i', '\\1', $this->keys[0] );
 		$statement = "SELECT COUNT(".$column.") as rowcount".$tables.$conditions.$groupings.$havings;
 		return $statement;
