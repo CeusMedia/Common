@@ -38,6 +38,7 @@
  *	@version		$Id$
  *	@todo			add Filter Support
  *	@deprecated		use Net_HTTP_Response_Sender and Net_HTTP_Response instead
+ *	@todo			to be removed in 0.7.2
  */
 class Net_HTTP_Request_Response
 {
@@ -70,7 +71,8 @@ class Net_HTTP_Request_Response
 	{
 		$response	= new Net_HTTP_Response();
 		$response->setBody( $content );
-		return $response->send( $useCompression, $compressionLogFile );
+		$sender		= new Net_HTTP_Response_Sender( $response );
+		return $sender->send( $useCompression/*, $compressionLogFile*/ );
 	}
 	
 	/**
@@ -82,7 +84,8 @@ class Net_HTTP_Request_Response
 	 */
 	public function send( $useCompression = FALSE, $compressionLogFile = NULL )
 	{
-		return $this->response->send( $useCompression, $compressionLogFile );
+		$sender	= new Net_HTTP_Response_Sender( $this->response );
+		return $sender->send( $useCompression/*, $compressionLogFile*/ );
 	}
 	
 	/**

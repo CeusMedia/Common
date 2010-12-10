@@ -79,7 +79,7 @@ class Net_Reader
 
 	public function getBody()
 	{
-		if( !$this->status )
+		if( !$this->info )
 			throw new RuntimeException( "No Request has been sent, yet." );
 		return $this->body;
 	}
@@ -92,7 +92,7 @@ class Net_Reader
 	 */
 	public function getHeader( $key = NULL )
 	{
-		if( !$this->status )
+		if( !$this->info )
 			throw new RuntimeException( "No Request has been sent, yet." );
 		if( !$key )
 			return $this->headers;
@@ -109,13 +109,13 @@ class Net_Reader
 	 */
 	public function getStatus( $key = NULL )
 	{
-		if( !$this->status )
+		if( !$this->info )
 			throw new RuntimeException( "No Request has been sent, yet." );
 		if( !$key )
-			return $this->status;
-		if( !array_key_exists( $key, $this->status ) )
+			return $this->info;
+		if( !array_key_exists( $key, $this->info ) )
 			throw new InvalidArgumentException( 'Status Key "'.$key.'" is invalid.' );
-		return $this->status[$key];
+		return $this->info[$key];
 	}
 
 	/**
@@ -179,10 +179,10 @@ class Net_Reader
 
 		$this->body		= $response->getBody();
 		$this->headers	= $response->getHeaders();
-		$this->status	= $curl->getStatus();
-		$code			= $curl->getStatus( Net_CURL::STATUS_HTTP_CODE );
-		$error			= $curl->getStatus( Net_CURL::STATUS_ERROR );
-		$errno			= $curl->getStatus( Net_CURL::STATUS_ERRNO );
+		$this->info		= $curl->getInfo();
+		$code			= $curl->getInfo( Net_CURL::STATUS_HTTP_CODE );
+		$error			= $curl->getInfo( Net_CURL::STATUS_ERROR );
+		$errno			= $curl->getInfo( Net_CURL::STATUS_ERRNO );
 		if( $errno )
 			throw new RuntimeException( 'Reading "'.$this->url.'" failed: '.$error, $errno );
 		if( !in_array( $code, array( '200', '301', '303', '304', '307' ) ) )

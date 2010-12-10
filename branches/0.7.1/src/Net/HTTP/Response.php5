@@ -174,7 +174,7 @@ class Net_HTTP_Response
 	public function setBody( $body )
 	{
 		if( !is_string( $body ) )
-			throw new InvalidArgumentException( 'Must be string' );
+			throw new InvalidArgumentException( 'Body must be string' );
 		$this->body	= $body;
 	}
 
