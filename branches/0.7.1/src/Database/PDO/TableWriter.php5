@@ -39,7 +39,7 @@
 class Database_PDO_TableWriter extends Database_PDO_TableReader
 {
 	/**
-	 *	Deletes focused Rows in this Table and returns Number of Rows.
+	 *	Deletes focused Rows in this Table and returns number of affected Rows.
 	 *	@access		public
 	 *	@return		int
 	 */
