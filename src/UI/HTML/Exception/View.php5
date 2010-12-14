@@ -66,160 +66,18 @@ class UI_HTML_Exception_View
 		$list->add( 'File', self::trimRootPath( $e->getFile() ) );
 		$list->add( 'Line', $e->getLine() );
 
-		$trace	= self::renderTrace( $e );
+		$trace	= new UI_HTML_Exception_Trace( $e );
 		if( $trace )
-			$list->add( 'Trace', $trace );
+			$list->add( 'Trace', $trace->render() );
 
-		if( method_exists( $e, 'getPrevious' ) )
-			if( $e->getPrevious() )
-				$list->add( 'Previous', self::render( $e->getPrevious() ) );
+		if( method_exists( $e, 'getPrevious' ) && $e->getPrevious() )
+		{
+			$trace	= new UI_HTML_Exception_Trace( $e->getPrevious() );
+			$list->add( 'Previous', $trace->render() );
+		}
 		return $list->render();
 	}
 
-	/**
-	 *	Renders an argument.
-	 *	@access		protected
-	 *	@static
-	 *	@param		array		$argument		Array to render
-	 *	@return		string
-	 */
-	protected static function renderArgument( $argument )
-	{
-		switch( gettype( $argument ) )
-		{
-			case 'NULL':																			//  handle NULL
-				return '<em>NULL</em>';
-			case 'boolean':																			//  handle boolean
-				return $argument ? "<em>TRUE</em>" : "<em>FALSE</em>";
-			case 'array':																			//  handle array
-				return self::renderArgumentArray( $argument );
-			case 'object':																			//  handle object
-				return get_class( $argument );
-			default:																				//  handle integer/double/float/real/resource/string
-				return self::secureString( (string) $argument );
-		}
-	}
-
-	/**
-	 *	Renders an argument array.
-	 *	@access		protected
-	 *	@static
-	 *	@param		array		$array			Array to render
-	 *	@return		string
-	 */
-	protected static function renderArgumentArray( $array )
-	{
-		$list	= new UI_HTML_Element_List_Definition();
-		$block	= new UI_HTML_Element_Blockquote( $list );
-		foreach( $array as $key => $value )
-		{
-			$type	= self::renderArgumentType( $value );
-			$string	= self::renderArgument( $value );
-			$list->add( $type." ".$key, $string );
-		}
-		return '{'.$block->render().'}';
-	}
-
-	/**
-	 *	Renders formatted argument type.
-	 *	@access		protected
-	 *	@static
-	 *	@param		string		$argument		Argument to render type for
-	 *	@return		string
-	 */
-	protected static function renderArgumentType( $argument )
-	{
-		$type	= gettype( $argument );
-		$type	= ucFirst( strtolower( $type ) );
-		$type	= new UI_HTML_Element_Span( $type );
-		$type->addClass( 'type' );
-		return $type->render();
-	}
-
-	/**
-	 *	Renders exception trace HTML code.
-	 *	@access		private
-	 *	@static
-	 *	@param		Exception	$exception		Exception
-	 *	@return		string
-	 */
-	public static function renderTrace( Exception $exception )
-	{
-		$i	= 0;
-		$j	= 0;
-		$list	= new UI_HTML_Element_List_Ordered();
-		foreach( $exception->getTrace() as $key => $trace )
-		{
-			$step	= self::renderTraceStep( $trace, $i++, $j );
-			if( !$step )
-				continue;
-			$list->add( new UI_HTML_Element_List_Item( $step ) );
-			$j++;
-		}
-		$list->addClass( 'trace' );
-		return $list->render();
-	}
-
-	/**
-	 *	Builds HTML Code of one Trace Step.
-	 *	@access		private
-	 *	@static
-	 *	@param		array		$trace		Trace Step Data
-	 *	@param		int			$i			Trace Step Number
-	 *	@return		string
-	 */
-	private static function renderTraceStep( $trace, $i, $j )
-	{
-		if( $j == 0 )
-			if( isset( $trace['function'] ) )
-				if( in_array( $trace['function'], array( "eval", "throwException" ) ) )				//  Exception was thrown using throwException
-					return "";
-
-		$content	= "";
-		if( isset( $trace["file"] ) )
-			$content	.= self::trimRootPath( $trace["file"] )."(".$trace["line"]."): ";
-		if( array_key_exists( "class", $trace ) && array_key_exists( "type", $trace ) )
-			$content	.= $trace["class"].$trace["type"];
-		if( array_key_exists( "function", $trace ) )
-		{
-			$block	= NULL;
-			if( array_key_exists( "args", $trace ) && count( $trace['args'] ) )
-			{
-				$argList	= new UI_HTML_Element_List_Definition();
-				$block		= new UI_HTML_Element_Blockquote( $argList );
-				foreach( $trace["args"] as $argument )
-				{
-					$type	= self::renderArgumentType( $argument );
-					$string	= self::renderArgument( $argument );
-					$argList->add( $type, $string );
-				}
-				$block	= $block->render();
-			}
-			$content	.= $trace["function"]."(".$block.')';
-		}
-#		else
-#			die( print_m( $trace ) );
-#			$content	.= $trace["function"]."(".$block.')';
-		return $content;
-	}
-
-	/**
-	 *	Applies filters on content string to avoid injections.
-	 *	@access		public
-	 *	@static
-	 *	@param		string		$string			String to secure
-	 *	@param		integer		$maxLength		Number of characters to show at most
-	 *	@param		string		$mask			Mask to show for cutted content
-	 *	@return		string
-	 */
-	protected function secureString( $string, $maxLength = 0, $mask = '&hellip;' )
-	{
-		if( $maxLength && strlen( $string ) > $maxLength )
-			$value	= Alg_Text_Trimmer::trimCentric( $string, $maxLength, $mask );
-//		$string	= addslashes( $string );
-		$string	= htmlentities( $string );
-		return $string;
-	}
 
 	/**
 	 *	Removes Document Root in File Names.
