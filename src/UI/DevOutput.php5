@@ -330,6 +330,8 @@ class UI_DevOutput
 		{
 			$key = ( $key !== NULL ) ? $key." => " : "";
 			$space = $this->indentSign( $offset, $sign, $factor );
+			if( $this->lineBreak != "\n" )
+				$string	= htmlspecialchars( $string );
 			echo $space."[S] ".$key.$string.$this->lineBreak;
 		}
 		else
