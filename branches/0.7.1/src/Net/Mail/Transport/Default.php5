@@ -35,7 +35,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			19.02.2007
- *	@version		$Id: Sender.php5 796 2010-12-05 17:49:53Z christian.wuerker $
+ *	@version		$Id$
  */
 class Net_Mail_Transport_Default
 {
@@ -115,6 +115,7 @@ class Net_Mail_Transport_Default
 		//  --  HEADERS  --  //
 		if( $mailer )
 	 		$headers->setFieldPair( 'X-Mailer', $mailer, TRUE );
+	 	$headers->setFieldPair( 'Date', date( 'r' ), TRUE );	 		
 
 		if( !mail( $receiver, $subject, $body, $headers->toString() ) )
 			throw new RuntimeException( 'Mail could not been sent' );

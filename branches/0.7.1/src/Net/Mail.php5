@@ -23,8 +23,8 @@
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
- *	@since			19.02.2007
- *	@version		$Id: PlainMail.php5 667 2010-05-18 15:16:09Z christian.wuerker $
+ *	@since			0.7.1
+ *	@version		$Id$
  */
 /**
  *	Sends Mails.
@@ -34,8 +34,9 @@
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
- *	@since			19.02.2007
- *	@version		$Id: PlainMail.php5 667 2010-05-18 15:16:09Z christian.wuerker $
+ *	@see			http://tools.ietf.org/html/rfc5322#section-3.3
+ *	@since			0.7.1
+ *	@version		$Id$
  */
 class Net_Mail
 {
