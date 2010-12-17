@@ -83,7 +83,7 @@ class Net_Mail_Body
 	 */
 	public function setContent( $content )
 	{
-		$this->content	= wordwrap( $content, 998, "\r\n" );
+		$this->content	= wordwrap( $content, 998, Net_Mail::$delimiter );
 	}
 
 	/**
@@ -120,7 +120,7 @@ class Net_Mail_Body
 	 */
 	public function wrapWords( $maxLineLength = 78 )
 	{
-		$this->content	= wordwrap( $this->content, $maxLineLength, "\r\n" );
+		$this->content	= wordwrap( $this->content, $maxLineLength, Net_Mail::$delimiter );
 	}
 
 	/**
@@ -130,7 +130,7 @@ class Net_Mail_Body
 	 */
 	public function render()
 	{
-		return $this->headers->toString()."\r\n".$this->content."\r\n";
+		return $this->headers->toString().Net_Mail::$delimiter.$this->content.Net_Mail::$delimiter;
 	}
 }
 ?>

@@ -107,26 +107,26 @@ class Net_Mail_Transport_SMTP
 	 */
 	public function send( Net_Mail $mail )
 	{
-		$tid = time();
-		$date = date( "D, d M Y H:i:s O", $tid );
+		$delim	= Net_Mail::$delimiter;
+		$date	= date( "D, d M Y H:i:s O", time() );
 		$conn	= fsockopen( $this->host, $this->port, $errno, $errstr, 30 );
 		if( !$conn )
 			throw new RuntimeException( 'Connection to SMTP server "'.$this->host.':'.$this->port.'" failed' );
-		fputs( $conn, "HELO ".$_SERVER['SERVER_NAME']."\r\n" );
+		fputs( $conn, "HELO ".$_SERVER['SERVER_NAME'].$delim );
 		fgets( $conn, 1024 );
-		fputs( $conn, "MAIL FROM: ".$mail->getSender()."\r\n" );
-		fgets( $conn, 1024);
-		fputs( $conn, "RCPT TO: ".$mail->getReceiver()."\r\n");
-		fgets( $conn, 1024);
-		fputs( $conn, "DATA\r\n");
-		fgets( $conn, 1024);
-		fputs( $conn, "Date: ".$date."\r\n");
-		fputs( $conn, "Subject: ".$mail->getSubject()."\r\n");
-		fputs( $conn, "To: ".$mail->getReceiver()."\r\n");
-		fputs( $conn, $mail->getHeaders()->toString()."\r\n" );
-		fputs( $conn, $mail->getBody()."\r\n");
-		fputs( $conn, ".\r\nQUIT\r\n");
-		fgets( $conn, 1024);
+		fputs( $conn, "MAIL FROM: ".$mail->getSender().$delim );
+		fgets( $conn, 1024 );
+		fputs( $conn, "RCPT TO: ".$mail->getReceiver().$delim );
+		fgets( $conn, 1024 );
+		fputs( $conn, "DATA".$delim );
+		fgets( $conn, 1024 );
+		fputs( $conn, "Date: ".$date.$delim );
+		fputs( $conn, "Subject: ".$mail->getSubject().$delim );
+		fputs( $conn, "To: ".$mail->getReceiver().$delim );
+		fputs( $conn, $mail->getHeaders()->toString().$delim );
+		fputs( $conn, $mail->getBody().$delim );
+		fputs( $conn, ".".$delim."QUIT".$delim );
+		fgets( $conn, 1024 );
 		fclose( $conn );
 	}
 }

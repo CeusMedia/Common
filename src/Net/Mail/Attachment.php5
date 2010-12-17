@@ -95,7 +95,7 @@ class Net_Mail_Attachment
 	 */
 	public function render()
 	{
-		return $this->headers->toString()."\r\n".$this->content."\r\n";
+		return $this->headers->toString().Net_Mail::$delimiter.$this->content.Net_Mail::$delimiter;
 	}
 
 	/**
