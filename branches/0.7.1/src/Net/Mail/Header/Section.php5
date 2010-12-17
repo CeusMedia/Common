@@ -1,6 +1,6 @@
 <?php
 /**
- *	...
+ *	Container for Mail Header Fields.
  *
  *	Copyright (c) 2010 Christian Würker (ceus-media.de)
  *
@@ -27,7 +27,7 @@
  *	@version		$Id$
  */
 /**
- *	...
+ *	Container for Mail Header Fields.
  *
  *	@category		cmClasses
  *	@package		Net.Mail.Header
@@ -41,32 +41,63 @@
  */
 class Net_Mail_Header_Section
 {
-	protected $fields	= array();
+	protected $fields			= array();
 
+	/**
+	 *	Add a Header Field Object.
+	 *	@access		public
+	 *	@param		Net_Mail_Header_Field	$field		Header Field Object
+	 *	@return		void
+	 */
 	public function addField( Net_Mail_Header_Field $field )
 	{
 		return $this->setField( $field, FALSE );
 	}
 
+	/**
+	 *	Add a Header Field by pair.
+	 *	@access		public
+	 *	@param		string		$name		Header Field Name
+	 *	@param		string		$value		Header Field Value
+	 *	@return		void
+	 */
 	public function addFieldPair( $name, $value )
 	{
 		$field	= new Net_Mail_Header_Field( $name, $value );
 		$this->addField( $field );
 	}
 
+	/**
+	 *	Add several Header Field Objects.
+	 *	@access		public
+	 *	@param		array		$fields		List of Header Field Objects
+	 *	@return		void
+	 */
 	public function addFields( $fields )
 	{
 		foreach( $fields as $field )
 			$this->addField( $field );
 	}
 
+	/**
+	 *	Returns a Header Field Object by its Name if set.
+	 *	@access		public
+	 *	@param		string		$name		Header Field Name
+	 *	@return		Net_Mail_Header_Field
+	 */
 	public function getField( $name )
 	{
 		if( !$this->hasField( $name ) )
 			return NULL;
-		return array_shift( $this->getFieldsByName( $name ) );
+		$values	= $this->getFieldsByName( $name );
+		return array_shift( $values );
 	}
 
+	/**
+	 *	Returns a List of all set Header Field Objects.
+	 *	@access		public
+	 *	@return		array
+	 */
 	public function getFields()
 	{
 		$list	= array();
@@ -77,6 +108,12 @@ class Net_Mail_Header_Section
 		return $list;
 	}
 
+	/**
+	 *	Returns a List of set Header Field Objects for a Header Field Name.
+	 *	@access		public
+	 *	@param		string		$name		Header Field Name
+	 *	@return		array
+	 */
 	public function getFieldsByName( $name )
 	{
 		$name	= strtolower( $name );
@@ -85,6 +122,12 @@ class Net_Mail_Header_Section
 		return array();
 	}
 
+	/**
+	 *	Indicates whether a Header Field is set by its Name.
+	 *	@access		public
+	 *	@param		string		$name		Header Field Name
+	 *	@return		boolean
+	 */
 	public function hasField( $name )
 	{
 		$name	= strtolower( $name );
@@ -92,6 +135,13 @@ class Net_Mail_Header_Section
 			return (bool) count( $this->fields[$name] );
 	}
 
+	/**
+	 *	Sets an Header Field Object.
+	 *	@access		public
+	 *	@param		Net_Mail_Header_Field	$field			Header Field Object to set
+	 *	@param		boolean					$emptyBefore	Flag: TRUE - set | FALSE - append
+	 *	@return		void
+	 */
 	public function setField( Net_Mail_Header_Field $field, $emptyBefore = TRUE )
 	{
 		$name	= strtolower( $field->getName() );
@@ -100,11 +150,24 @@ class Net_Mail_Header_Section
 		$this->fields[$name][]	= $field;
 	}
 
+	/**
+	 *	Sets an Header Field by Name and Value.
+	 *	@access		public
+	 *	@param		string		$name			Header Field Name
+	 *	@param		string		$value			Header Field Value
+	 *	@param		boolean		$emptyBefore	Flag: TRUE - set | FALSE - append
+	 *	@return		void
+	 */
 	public function setFieldPair( $name, $value, $emptyBefore = TRUE )
 	{
 		return $this->setField( new Net_Mail_Header_Field( $name, $value ), $emptyBefore );
 	}
 
+	/**
+	 *	Returns all Header Fields as List.
+	 *	@access		public
+	 *	@return		array
+	 */
 	public function toArray()
 	{
 		$list	= array();
@@ -114,10 +177,15 @@ class Net_Mail_Header_Section
 		return $list;
 	}
 
+	/**
+	 *	Returns all set Header Fields as String.
+	 *	@access		public
+	 *	@return		string
+	 */
 	public function toString()
 	{
 		$list	= $this->toArray();
-		$list	= implode( "\r\n", $list )."\r\n";
+		$list	= implode( Net_Mail::$delimiter, $list ).Net_Mail::$delimiter;
 		return $list;
 	}
 }

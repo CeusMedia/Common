@@ -78,6 +78,12 @@ class Net_Mail_Header_Field
 		return $this->value;
 	}
 
+	/**
+	 *	Sets Header Name.
+	 *	@access		public
+	 *	@param		string		$name		Header Field Name
+	 *	@return		void
+	 */
 	public function setName( $name )
 	{
 		if( !trim( $name ) )
@@ -85,6 +91,13 @@ class Net_Mail_Header_Field
 		$this->name	= strtolower( $name );
 	}
 
+
+	/**
+	 *	Sets Header Value.
+	 *	@access		public
+	 *	@param		string		$name		Header Field Value
+	 *	@return		void
+	 */
 	public function setValue( $value )
 	{
 		$this->value	= $value;
@@ -101,6 +114,11 @@ class Net_Mail_Header_Field
 		return $name.": ".$this->value;
 	}
 
+	/**
+	 *	Alias for toString().
+	 *	@access		public
+	 *	@return		string
+	 */
 	public function __toString()
 	{
 		return $this->toString();

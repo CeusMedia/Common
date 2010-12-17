@@ -40,7 +40,9 @@
  */
 class Net_Mail
 {
-	/**	@var	string					$parts			Mail Parts: Bodies and Attachments  */
+	/**	@var	string					$delimiter		Line Separator, for some reasons only \n must be possible */
+	public static $delimiter			= "\r\n";
+	/**	@var	string					$parts			Mail Parts: Bodies and Attachments */
 	protected $parts					= array();
 	/**	@var	Net_Mail_Header_Section	$headers		Mail Header Section */
 	protected $headers;
@@ -52,6 +54,7 @@ class Net_Mail
 	protected $subject;
 
 	protected $mimeBoundary;
+
 
 	/**
 	 *	Constructor
@@ -65,7 +68,7 @@ class Net_Mail
 		$this->headers		= new Net_Mail_Header_Section();
 		$this->mimeBoundary	= md5( microtime( TRUE ) );
 		$this->headers->setFieldPair( 'MIME-Version', '1.0' );
-		$this->headers->setFieldPair( 'Content-Transfer-Encoding', '7bit' );
+		$this->headers->setFieldPair( 'Content-Transfer-Encoding', '8bit' );
 		$type	= 'multipart/mixed; boundary="'.$this->mimeBoundary.'"';
 		$this->headers->setFieldPair( 'Content-Type', $type, TRUE );
 	}
@@ -105,9 +108,9 @@ class Net_Mail
 
 		$contents	= array( 'This is a multi-part message in MIME format.');
 		foreach( $this->parts as $part )
-			$contents[]	= "--".$this->mimeBoundary."\r\n".$part->render();
-		$contents[]	= "--".$this->mimeBoundary."--\r\n\r\n";
-		return join( "\r\n", $contents );
+			$contents[]	= '--'.$this->mimeBoundary.self::$delimiter.$part->render();
+		$contents[]	= '--'.$this->mimeBoundary.'--'.self::$delimiter.self::$delimiter;
+		return join( self::$delimiter, $contents );
 	}
 
 	/**
