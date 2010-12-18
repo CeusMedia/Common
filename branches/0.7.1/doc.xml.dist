@@ -24,16 +24,13 @@
 
   <!--  PROJECTS  -->  
   <projects>
-    <project label="cmClasses" version="0.6.8dev" date="" revision="">
-      <path alt="must be absolute">/path/to/cmClasses/version/de/ceus-media/</path>
+    <project label="cmClasses" version="0.7.1" date="" revision="">
+      <path alt="must be absolute">/path/to/cmClasses/version/src/</path>
       <extensions>
         <extension>php5</extension>
       </extensions>
       <ignore>
         <file alt="regular expression">/^(_|[a-z])/</file>
-        <folder alt="regular expression">#^Reports/#</folder>
-        <folder alt="regular expression">#^References/#</folder>
-        <folder alt="regular expression">#^Tests/#</folder>
       </ignore>
       <package>
         <default>unreleased</default>
@@ -47,13 +44,13 @@
 
   <!--  BUILDERS -->  
   <builders>
-    <builder format="html" converter="cm1" theme="plain">
-      <path type="target" alt="absolute">/path/to/cmClasses/version/References/api/</path>
+    <builder format="HTML" converter="CM1" theme="plain">
+      <path type="target" alt="absolute">/path/to/cmClasses/version/doc/api/</path>
       <path type="documents" alt="must be absolute">/path/to/cmClasses/version/</path>
       <language>en</language>
       <title>cmClasses API</title>
-      <author><![CDATA[Christian Würker <christian.wuerker@ceus-media.de>]]></author>
-      <company>CeuS Media (ceus-media.de)</company>
+      <author><![CDATA[Christian Würker <christian.wuerker@ceusmedia.de>]]></author>
+      <company>Ceus Media (ceusmedia.de)</company>
       <timezone>Europe/Berlin</timezone>
       <plugins>
         <plugin>Home</plugin>

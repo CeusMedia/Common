@@ -11,9 +11,9 @@
 ;
 [project]
 name				= "cmClasses"
-version				= "0.7.0"
-author				= "Christian Würker <christian.wuerker@ceus-media.de>"
-company				= "CeuS Media (ceus-media.de)"
+version				= "0.7.1"
+author				= "Christian Würker <christian.wuerker@ceusmedia.de>"
+company				= "Ceus Media (ceusmedia.de)"
 link				= "http://code.google.com/p/cmclasses/"
 
 
@@ -21,7 +21,7 @@ link				= "http://code.google.com/p/cmclasses/"
 ;	This section holds URLs for Project Index
 ;
 [links]
-company				= "http://ceus-media.de/"
+company				= "http://ceusmedia.de/"
 project				= "http://code.google.com/p/cmclasses/"
 download			= "http://code.google.com/p/cmclasses/downloads/list"
 source				= "http://code.google.com/p/cmclasses/source/checkout"
@@ -62,10 +62,8 @@ local				= ""
 ;
 [docCreator]
 pathTool			= "/path/to/DocCreator/"
-pathClasses			= "/path/to/cmClasses/version/src/"
-pathTarget			= "/path/to/cmClasses/version/doc/doc/"
 language			= "en"
-theme				= "cm1"
+theme				= "CM1"
 title				= "cmClasses API"
 
 extensions			= php5
