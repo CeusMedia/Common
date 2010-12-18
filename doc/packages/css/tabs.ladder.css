@@ -1,0 +1,103 @@
+/* Caution! Ensure accessibility in print and other media types... */
+@media projection, screen { /* Use class for showing/hiding tab content, so that visibility can be better controlled in different media types... */
+	.tabs-hide {
+		display: none;
+		}
+	}
+
+/* Hide useless elements in print layouts... */
+@media print {
+	.tabs-ladder {
+		display: none;
+		}
+	}
+
+
+/*  --  TABS  --  */
+.tabs-ladder {
+	display: block;
+	list-style: none;
+	margin: 0px;
+	padding: 0px;
+	display: block;
+	float: left;
+	width: 200px;
+	margin: 0px;
+	padding: 0px;
+	}
+.tabs-ladder:after { /* clearing without presentational markup, IE gets extra treatment */
+	display: block;
+	clear: both;
+	content: " ";
+	}
+.tabs-ladder li {
+	}
+.tabs-ladder a, .tabs-ladder a span {
+	}
+.tabs-ladder a {
+	display: block;
+	list-style: none;
+	background: #eee;
+	margin: 0px;
+	color: #333;
+	border-right: 0px;
+	text-decoration: none;
+	}
+
+.tabs-ladder li.tabs-selected {
+	}
+
+.tabs-ladder .tabs-selected a {
+	display: block;
+	list-style: none;
+	background: #FFF;
+	border: 1px solid gray;
+	border-right: 0px;
+	width: 100%;
+	color: #000;
+	}
+.tabs-ladder .tabs-selected a, .tabs-ladder a:hover, .tabs-ladder a:focus, .tabs-ladder a:active {
+	outline: 0px; /* prevent dotted border in Firefox */
+	}
+.tabs-ladder a, .tabs-ladder .tabs-disabled a:hover, .tabs-ladder .tabs-disabled a:focus, .tabs-ladder .tabs-disabled a:active {
+	}
+.tabs-ladder a span {
+	padding: 4px 10px 4px 10px;
+	font-weight: bold;
+	font-style: italic;
+	display: block;
+	cursor: pointer;
+	}
+.tabs-ladder .tabs-selected a span {
+	}
+.tabs-ladder .tabs-selected a span, .tabs-ladder a:hover span, .tabs-ladder a:focus span, .tabs-ladder a:active span {
+	}
+.tabs-ladder a span, .tabs-ladder .tabs-disabled a:hover span, .tabs-ladder .tabs-disabled a:focus span, .tabs-ladder .tabs-disabled a:active span {
+	}
+.tabs-ladder .tabs-selected a:link, .tabs-ladder .tabs-selected a:visited, .tabs-ladder .tabs-disabled a:link, .tabs-ladder .tabs-disabled a:visited { /* @ Opera, use pseudo classes otherwise it confuses cursor... */
+	cursor: text;
+	}
+.tabs-ladder a:hover, .tabs-ladder a:focus, .tabs-ladder a:active { /* @ Opera, we need to be explicit again here now... */
+	cursor: pointer;
+	}
+.tabs-ladder .tabs-disabled {
+	opacity: .4;
+	}
+.tabs-ladder-container {
+	margin-left: 200px;
+	border: 1px solid gray;
+	background: #FFF;
+	padding: 4px 10px 4px 10px;
+	min-height: 30px;
+	}
+.tabs-loading em {
+	padding: 0 0 0 20px;
+	background: url(loading.gif) no-repeat 0 50%;
+	}
+.tabs-ladder .tabs-disabled {
+	position: relative; /* fixes opacity */
+	}
+.tabs-ladder .tabs-disabled a span {
+	min-height: 19px; /* ...in both IE 6 and 7 */
+	}
+

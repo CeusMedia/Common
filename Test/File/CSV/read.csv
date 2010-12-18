@@ -1,0 +1,3 @@
+id;col1;col2
+1;"test1";"string without semicolon"
+2;"test2";"string with ; semicolon"

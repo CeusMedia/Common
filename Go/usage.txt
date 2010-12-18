@@ -1,0 +1,30 @@
+Usage: go COMMAND [OPTION]...
+
+  install                      install cmClasses via SVN
+    VERSION                      eg. trunk, tags/0.6.8, branches/0.7.0
+
+  configure                    auto-configure paths in config files
+   -f, --force                   override if existing
+
+  update                       update cmClasses via SVN
+    [REVISION]                   revision to update to
+
+  create                       create...
+    test                         test class
+      PACKAGE_CLASS                for class in cmClasses
+      -f, --force                  override if existing
+    doc                        documentations
+      creator                    using DocCreator
+        -sp, --skip-parser        skip to parse class files
+        -sc, --skip-creator       skip to write doc file
+        -sr, --skip-resources     skip to copy resource files
+        -si, --skip-info          skip to create informational sites
+      phpdoc                     using PhpDocumentor
+        --show-config-only         show settings and abort
+
+  test                         run several tests:
+    self                         very basic self test
+    syntax                       check syntax of all class files
+    units                        run available unit tests
+      [PACKAGE_CLASS]            run unit tests of one specified class
+
