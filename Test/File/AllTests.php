@@ -37,6 +37,7 @@ class Test_File_AllTests
 		$suite->addTestSuite( 'Test_File_CacheTest' ); 
 		$suite->addTestSuite( 'Test_File_StaticCacheTest' ); 
 		$suite->addTestSuite( 'Test_File_PermissionsTest' );
+		$suite->addTestSuite( 'Test_File_INITest' );
 		return $suite;
 	}
 }
