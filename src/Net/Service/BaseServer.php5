@@ -40,6 +40,8 @@
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			0.6.5
  *	@version		$Id$
+ *	@deprecated		moved to cmModules::ENS
+ *	@todo			to be removed in 0.7.3
  */
 class Net_Service_BaseServer extends UI_HTML_Service_Index
 {
