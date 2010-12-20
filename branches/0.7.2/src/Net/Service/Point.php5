@@ -48,6 +48,8 @@
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			0.6.3
  *	@version		$Id$
+ *	@deprecated		moved to cmModules::ENS
+ *	@todo			to be removed in 0.7.3
  */
 class Net_Service_Point implements Net_Service_Interface_Point
 {
@@ -108,7 +110,7 @@ class Net_Service_Point implements Net_Service_Interface_Point
 			{
 				if( !isset( $requestData[$name] ) )													//  no Value given by Request
 				{
-					$default	= empty( $rules['default'] ) ? NULL : $rules['default'];			//  get Default Value
+					$default	= !isset( $rules['default'] ) ? NULL : $rules['default'];			//  get Default Value
 					$value		= $default;
 				}
 				else

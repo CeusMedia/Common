@@ -34,6 +34,8 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		$Id$
+ *	@deprecated		moved to cmModules::ENS
+ *	@todo			to be removed in 0.7.3
  */
 class Net_Service_Response_TodoLister extends Net_Service_Response
 {

@@ -39,6 +39,8 @@
  *	@since			0.6.6
  *	@version		$Id$
  *	@todo			fix: not reproducable errors using gzuncompress on format 'txt'
+ *	@deprecated		moved to cmModules::ENS
+ *	@todo			to be removed in 0.7.3
  */
 class Net_Service_Decoder
 {

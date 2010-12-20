@@ -36,6 +36,8 @@
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			0.6.3
  *	@version		$Id$
+ *	@deprecated		moved to cmModules::ENS
+ *	@todo			to be removed in 0.7.3
  */
 interface Net_Service_Interface_Point
 {
