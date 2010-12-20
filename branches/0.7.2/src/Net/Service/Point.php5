@@ -106,7 +106,7 @@ class Net_Service_Point implements Net_Service_Interface_Point
 			$names	= $this->services['services'][$serviceName]['parameters'];
 			foreach( $names as $name => $rules )
 			{
-				if( empty( $requestData[$name] ) )													//  no Value given by Request
+				if( !isset( $requestData[$name] ) )													//  no Value given by Request
 				{
 					$default	= empty( $rules['default'] ) ? NULL : $rules['default'];			//  get Default Value
 					$value		= $default;
