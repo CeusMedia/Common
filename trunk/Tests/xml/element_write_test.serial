@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
-<root>
-	<image name="Banner 1" file="pic1.jpg"/>
-	<image name="Banner 2" file="pic2.jpg"/>
-	<image name="Banner 3" file="pic3.jpg"/>
-	<image name="Banner 4" file="pic4.jpg"/>
-</root>
