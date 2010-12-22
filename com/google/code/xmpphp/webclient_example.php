@@ -1,4 +1,0 @@
-<?php
-	#example coming soon
-
-?>

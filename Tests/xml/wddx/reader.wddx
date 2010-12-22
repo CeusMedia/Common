@@ -1,1 +1,0 @@
-<wddxPacket version='1.0'><header><comment>test</comment></header><data><struct><var name='data'><struct><var name='test_string'><string>data to be passed by WDDX</string></var><var name='test_bool'><boolean value='true'/></var><var name='test_int'><number>12</number></var><var name='test_double'><number>3.1415926</number></var></struct></var></struct></data></wddxPacket>
