@@ -229,6 +229,7 @@ class Alg_Validation_Predicates
 	 *	@param		string		$string		String to be checked
 	 *	@param		string		$pattern	POSIX regular expression
 	 *	@return		bool
+	 *	@deprecated	will be removed in 0.7.0
 	 */
 	public static function isEreg( $string, $pattern )
 	{
@@ -242,6 +243,7 @@ class Alg_Validation_Predicates
 	 *	@param		string		$string		String to be checked
 	 *	@param		string		$pattern	POSIX regular expression
 	 *	@return		bool
+	 *	@deprecated	will be removed in 0.7.0
 	 */
 	public static function isEregi( $string, $pattern )
 	{
@@ -270,6 +272,23 @@ class Alg_Validation_Predicates
 	public static function isFuture( $string )
 	{
 		$string	= Alg_TimeConverter::complementMonthDate( $string );
+		$time	= strtotime( $string );
+		if( $time === false )
+			throw new InvalidArgumentException( 'Given Date "'.$string.'" could not been parsed.' );
+		return $time > time();
+	}
+
+	/**
+	 *	Indicates whether a String is time formated and is in future, including the actual month
+	 *	@access		public
+	 *	@static
+	 *	@param		string		$string		String to be checked
+	 *	@return		bool
+	 *	@todo		test this unit
+	 */
+	public static function isFutureOrNow( $string )
+	{
+		$string	= Alg_TimeConverter::complementMonthDate( $string, 1 );
 		$time	= strtotime( $string );
 		if( $time === false )
 			throw new InvalidArgumentException( 'Given Date "'.$string.'" could not been parsed.' );
@@ -399,6 +418,23 @@ class Alg_Validation_Predicates
 	public static function isPast( $string )
 	{
 		$date	= Alg_TimeConverter::complementMonthDate( $string, 1 );
+		$time	= strtotime( $date );
+		if( $time === FALSE )
+			throw new InvalidArgumentException( 'Given Date "'.$string.'" could not been parsed.' );
+		return $time < time();
+	}
+
+	/**
+	 *	Indicates whether a String is time formated and is in past.
+	 *	@access		public
+	 *	@static
+	 *	@param		string		$string		String to be checked
+	 *	@return		bool
+	 *	@todo		test this unit
+	 */
+	public static function isPastOrNow( $string )
+	{
+		$date	= Alg_TimeConverter::complementMonthDate( $string );
 		$time	= strtotime( $date );
 		if( $time === FALSE )
 			throw new InvalidArgumentException( 'Given Date "'.$string.'" could not been parsed.' );

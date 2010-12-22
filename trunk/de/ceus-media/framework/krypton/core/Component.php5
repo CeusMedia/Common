@@ -460,19 +460,33 @@ abstract class Framework_Krypton_Core_Component
 		}
 		$labels		= $this->words[$languageKey][$languageSection];
 		$messages	= $this->words['validator']['messages'];
+
 		foreach( $exception->getErrors() as $error )
 		{
 			if( $error instanceOf Framework_Krypton_Logic_ValidationError )
 			{
-				$msg	= $messages[$error->key];
-				if( $error->key == "isClass" )
+				$message	= $messages[$error->validator];
+				if( $error->fieldKey == "isClass" )
 					if( isset( $messages["is".ucfirst( $error->edge )] ) )
-						$msg	= $messages["is".ucfirst( $error->edge )];
-				$msg	= preg_replace( "@%label%@", $labels[$error->field], $msg );
-				$msg	= preg_replace( "@%edge%@", $error->edge, $msg );
-				$msg	= preg_replace( "@%field%@", $error->field, $msg );
-				$msg	= preg_replace( "@%prefix%@", $error->prefix, $msg );
-				$this->messenger->noteError( $msg );
+						$message	= $messages["is".ucfirst( $error->edge )];
+
+				//  --  OLD SOLUTION  --  //
+				$message	= preg_replace( "@%label%@", $labels[$error->fieldKey], $message );
+				$message	= preg_replace( "@%edge%@", $error->edge, $message );
+				$message	= preg_replace( "@%field%@", $error->fieldName, $message );
+				$message	= preg_replace( "@%prefix%@", "", $message );
+
+				//  --  NEW SOLUTION  --  //
+				$label		= $labels[$error->fieldKey];
+				$message	= sprintf(
+					$message,
+					$error->fieldName,
+					$label,
+					$error->fieldValue,
+					$error->validator,
+					$error->edge
+				);
+				$this->messenger->noteError( $message );
 			}
 		}
 	}

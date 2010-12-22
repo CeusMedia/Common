@@ -83,7 +83,7 @@ class Net_Service_Definition_XmlReader
 		);
 		if( $element->hasAttribute( "status" ) )
 			$service['status']	= $element->getAttribute( "status" );
-		self::readServiceFilters( $element, &$service );
+		self::readServiceFilters( $element, $service );
 		self::readServiceFormats( $element, $service );
 		self::readServiceParameters( $element, $service );
 		self::readServiceRoles( $element, $service );

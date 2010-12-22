@@ -62,6 +62,7 @@ class XML_RSS_GoogleBaseBuilder extends XML_RSS_Builder
 		'g:veröffentlichungs_datum'	=> false,
 		'g:herstellungsjahr'		=> false,
 		'g:veröffentlichung_band'	=> false,
+		'g:name_der_veröffentlichung'	=> TRUE,
 	);
 	/**	@var		string		$namespaceUri		URI of Google Base Namespace */
 	public static $namespaceUri	= "http://base.google.com/ns/1.0";

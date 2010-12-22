@@ -69,18 +69,37 @@ class Framework_Krypton_Core_DefinitionValidator extends Alg_Validation_Definiti
 	 *	@param		string		$prefix	 	Prefix of Input Field
 	 *	@return		array
 	 */
-	public function validate( $field, $definition, $value, $prefix = "" )
+	public function validate( $field, $definition, $value )
 	{
-		$errors	= parent::validate( $field, $definition, $value, $prefix );
+		$errors	= parent::validate( $definition, $value );
+		$list	= array();
+
 		foreach( $errors as $error )
-			if( $error->key == "isMandatory" )
+			$list[]	= new Framework_Krypton_Logic_ValidationError(
+				$field,
+				$definition['input']['name'],
+				$value,
+				$error[0],
+				$error[1]
+			);
+		$errors	= $list;
+
+		foreach( $errors as $error )
+			if( $error->fieldKey == "isMandatory" )
 				return $errors;
 
 		if( isset( $definition['syntax']['mandatory'] ) && $definition['syntax']['mandatory'] )
 			if( $definition['input']['type'] == "select" )
 				if( !$this->validator->validate( $value, 'isNotZero' ) )
-					$errors[]	= $this->handleError( $field, 'isMandatory', $value, NULL, $prefix );
+					$errors[]	= new Framework_Krypton_Logic_ValidationError(
+						$field,
+						$definition['input']['name'],
+						$value,
+						'isMandatory',
+						NULL
+					);
 		return $errors;
 	}
+
 }
 ?>
