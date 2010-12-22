@@ -325,8 +325,8 @@ class UI_HTML_WikiParser extends ADT_OptionObject
 		$link	= array();														//prepare variables for the formaters
 		$link['url']		= $match;
 		$link['name']	= $match;
-		if( substr_count( $match, "|" ) )
-			list( $link['url'], $link['name'] )	= split( '\|', $match, 2 );
+#		if( substr_count( $match, "|" ) )
+#			list( $link['url'], $link['name'] )	= split( '\|', $match, 2 );
 		$link['url']		= str_replace( " ", "_", trim( $link['url'] ) );
 		$link['name']	= trim( $link['name'] );
 		$link['class']	= '';

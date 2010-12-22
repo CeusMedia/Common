@@ -89,7 +89,7 @@ class Framework_Neon_DefinitionAction extends Framework_Neon_Action
 	{
 		$request	= $this->ref->get( 'request' );
 		$labels		= $this->words[$lan_file][$lan_section];
-		$this->loadLanguage( 'validator', false, false );
+		$this->loadLanguage( 'validator' );
 		$messages	= $this->words['validator']['messages'];
 
 		$valid		= TRUE;

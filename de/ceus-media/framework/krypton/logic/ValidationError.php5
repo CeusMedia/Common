@@ -39,35 +39,34 @@
  */
 class Framework_Krypton_Logic_ValidationError
 {
-	/**	@var	string		$edge		Edge for semantic validation */
+	/**	@var	string			$edge			Edge for semantic validation */
 	public $edge;
-	/**	@var	string		$field		Name of Field */
-	public $field;
-	/**	@var	string		$key		Message Key */
-	public $key;
-	/**	@var	string		$value		Value of Field */
-	public $value;
-	/**	@var	string		$prefix		Prefix of Field Name */
-	public $prefix;
+	/**	@var	string			$fieldKey		Definition Key of Field */
+	public $fieldKey;
+	/**	@var	string			$fieldName		Name of Field in Form */
+	public $fieldName;
+	/**	@var	string			$fieldValue		Value of Field */
+	public $fieldValue;
+	/**	@var	string			$validator		Validator Class */
+	public $validator;
 
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		string		$type		Validation Type were Error occured (syntax|sematic)
-	 *	@param		string		$field		Name of Field
-	 *	@param		string		$key		Message Key
-	 *	@param		string		$value		Situation to be filled in
-	 *	@param		string		$edge		Edge for semantic validation
-	 *	@param		string		$edge		Field Prefix
+	 *	@param		string		$fieldKey		Definition Key of Field
+	 *	@param		string		$fieldName		Name of Field in Form
+	 *	@param		string		$value			Value of Field
+	 *	@param		string		$validator		Validator Class
+	 *	@param		string		$edge			Edge for semantic validation
 	 *	@return		void
 	 */
-	public function __construct( $field, $key, $value, $edge = false, $prefix = "" )
+	public function __construct( $fieldKey, $fieldName, $value, $validator, $edge = NULL )
 	{
-		$this->key		= $key;
-		$this->field	= $field;
-		$this->value	= $value;
-		$this->edge		= $edge;
-		$this->prefix	= $prefix;
+		$this->fieldKey		= $fieldKey;
+		$this->fieldName	= $fieldName;
+		$this->fieldValue	= $value;
+		$this->validator	= $validator;
+		$this->edge			= $edge;
 	}
 }
 ?>
