@@ -77,7 +77,7 @@ class Net_HTTP_Response_Compressor
 			case 'gzip':
 				return gzencode( $content );											//  compress Content
 			default:																	//  no valid Compression Method set
-				throw new InvaligArgumentException( 'Compression "'.$type.'" is not supported' );
+				throw new InvalidArgumentException( 'Compression "'.$type.'" is not supported' );
 		}
 	}
 }

@@ -60,6 +60,8 @@ class Net_HTTP_Response_Sender
 	public function send( $compression = NULL, $sendLengthHeader = TRUE )
 	{
 		$length		= strlen( $this->response->getBody() );
+
+		/*  --  COMPRESSION  --  */
 		if( $compression )
 		{
 			$compressor	= new Net_HTTP_Response_Compressor;
@@ -68,8 +70,16 @@ class Net_HTTP_Response_Sender
 			$ratio		= round( $lengthNow / $length * 100 );
 		}
 
+		/*  --  HTTP BASIC INFORMATION  --  */
+		$status	= $this->response->getStatus();
+		header( $this->response->getProtocol().'/'.$this->response->getVersion().' '.$status );
+		header( 'Status: '.$status );
+	
+		/*  --  HTTP HEADER FIELDS  --  */
 		foreach( $this->response->getHeaders() as $header )
 			header( $header->toString() );
+
+		/*  --  SEND BODY  --  */
 		print( $this->response->getBody() );
 		flush();
 		return strlen( $this->response->getBody() );
