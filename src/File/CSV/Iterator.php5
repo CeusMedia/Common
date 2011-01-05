@@ -96,6 +96,9 @@ class File_CSV_Iterator implements Iterator
 					$this->delimiter,
 					$this->enclosure
 				);
+				//A blank line in a CSV file will be returned as an array comprising a single null field, and will not be treated as an error. 
+				if( count( $data ) == 1 && !isset( $data[0] ) )
+					return $this->next();				
 				if( $data )
 				{
 					$this->currentElement	= $data;	
