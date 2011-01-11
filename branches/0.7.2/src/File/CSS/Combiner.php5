@@ -76,7 +76,6 @@ class File_CSS_Combiner
 			{
 				preg_match_all( $this->importPattern, $line, $matches );
 				$fileName	= $matches[2][0];
-				remark( "import: ".$fileName );
 				$this->statistics['filesFound'][]	= $fileName;
 
 				if( !file_exists( $path.$fileName ) )
