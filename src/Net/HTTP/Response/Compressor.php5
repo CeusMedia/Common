@@ -73,7 +73,7 @@ class Net_HTTP_Response_Compressor
 			case NULL:
 				return $content;
 			case 'deflate':
-				return gzcompress( $content );											//  compress Content
+				return gzdeflate( $content );											//  compress Content
 			case 'gzip':
 				return gzencode( $content );											//  compress Content
 			default:																	//  no valid Compression Method set
