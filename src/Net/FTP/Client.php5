@@ -71,7 +71,9 @@ class Net_FTP_Client
 		}
 		catch( Exception $e )
 		{
-			throw new RuntimeException( 'FTP connection failed ', 0, $e );
+			if( version_compare( PHP_VERSION, '5.3.0', '>=' ) )
+				throw new RuntimeException( 'FTP connection failed ', 0, $e );						//  throw exception and transport inner exception
+			throw new RuntimeException( 'FTP connection failed ', 0 );								//  throw exception
 		}
 	}
 
