@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<testRoot>
+  <testNode1 testKeyNode1="testValueNode1">
+    <testLeaf11 testKeyLeaf11="testValueLeaf11">testContentLeaf11</testLeaf11>
+    <testLeaf12 testKeyLeaf12="testValueLeaf12">testContentLeaf12</testLeaf12>
+  </testNode1>
+  <testNode2 testKeyNode2="testValueNode2">
+    <testLeaf21 testKeyLeaf21="testValueLeaf21">testContentLeaf21</testLeaf21>
+    <testLeaf22 testKeyLeaf22="testValueLeaf22">testContentLeaf22</testLeaf22>
+  </testNode2>
+  <testLeaf31 testKeyLeaf31="testValueLeaf31">testContentLeaf31</testLeaf31>
+  <testLeaf32 testKeyLeaf32="testValueLeaf32">testContentLeaf32</testLeaf32>
+</testRoot>
