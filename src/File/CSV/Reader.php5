@@ -165,13 +165,17 @@ class File_CSV_Reader
 		$data		= array();
 		$iterator	= new File_CSV_Iterator( $this->fileName, $this->delimiter );
 		$keys		= $this->getColumnHeaders( $headerMap );
+		$line		= 0;
 		if( $this->withHeaders )
+		{
 			$iterator->next();
+			$line++;
+		}
 		while( $iterator->valid() )
 		{
 			$values	= $iterator->current();
 			if( count( $keys ) != count( $values ) )
-				throw new RuntimeException( 'Invalid line' );
+				throw new RuntimeException( 'Invalid line '.$line.' in file "'.$this->fileName.'"' );
 			$data[]	= array_combine( $keys, $values );
 		}
 		return $data;

@@ -84,7 +84,7 @@ class Net_HTTP_CrossDomainProxy
 		curl_setopt( $curl, CURLOPT_URL, $url );												//  set Service Request URL
 		curl_setopt( $curl, CURLOPT_RETURNTRANSFER, TRUE );										//  catch Response
 		curl_setopt( $curl, CURLOPT_HEADER, FALSE );											//  don't receiver headers
-		curl_setopt( $curl, CURLOPT_FOLLOW_LOCATION, TRUE );									//  follow redirects
+		curl_setopt( $curl, CURLOPT_FOLLOWLOCATION, TRUE );									//  follow redirects
 		if( $username )																			//  Basic Authentication Username is set
 			curl_setopt( $curl, CURLOPT_USERPWD, $username.":".$password );						//  set HTTP Basic Authentication
 		$method	= getEnv( 'REQUEST_METHOD' );													//  get Request Method
