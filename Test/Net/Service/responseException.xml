@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<response>
+  <status>exception</status> 
+  <data>
+    <type>Exception</type>
+    <message>Test Exception (responded)</message>
+    <code>0</code>
+    <file>/var/www/vhosts/ceus-media.de/subdomains/services/httpdocs/classes/Public.php5</file>
+    <line>96</line>
+    <trace></trace>
+  </data>
+  <timestamp>1239029442</timestamp>
+  <duration>229</duration>
+</response>
