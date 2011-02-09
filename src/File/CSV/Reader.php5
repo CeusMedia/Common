@@ -173,6 +173,7 @@ class File_CSV_Reader
 		}
 		while( $iterator->valid() )
 		{
+			$line++;
 			$values	= $iterator->current();
 			if( count( $keys ) != count( $values ) )
 				throw new RuntimeException( 'Invalid line '.$line.' in file "'.$this->fileName.'"' );
