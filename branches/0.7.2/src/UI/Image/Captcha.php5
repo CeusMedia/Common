@@ -73,6 +73,12 @@ class UI_Image_Captcha
 	public $background			= array( 255, 255, 255 );
 	/**	@var		int			$quality		Quality of JPEG Image in % */
 	public $quality				= 90;
+	/**	@var		array		$noiseColor		List of RGB Values of Noise Background. It will be used if $useNoisyBackground is TRUE*/
+	public $noiseColor			= array( 100, 120, 180 );
+	/**	@var		bool		$useNoisyBackground		 Instead of single color background, create a random noisy background. Uses the variable $noiseColor*/
+	public $useNoisyBackground			= FALSE;
+	/**	@var		string		$backgroundImage		A image for the background of the captcha */
+	public $backgroundImage		= "";
 
 	/**
 	 *	Generates CAPTCHA Word.
@@ -99,13 +105,32 @@ class UI_Image_Captcha
 	 */
 	public function generateImage( $word, $fileName )
 	{
+		if ( !empty( $this->backgroundImage ) && !file_exists( $this->backgroundImage ) )
+			throw new InvalidArgumentException("Background image file $backgroundImage does not exist");
 		if( !( is_array( $this->textColor ) && count( $this->textColor ) == 3 ) )
 			throw new InvalidArgumentException( 'Text Color must be an Array of 3 decimal Values.' );
-		if( !( is_array( $this->background ) && count( $this->background ) == 3 ) )
+		if( empty($this->backgroundImage) && !( is_array( $this->background ) && count( $this->background ) == 3 ) )
 			throw new InvalidArgumentException( 'Background Color must be an Array of 3 decimal Values.' );
 
-		$image		= imagecreate( $this->width, $this->height );
-		$backColor	= imagecolorallocate( $image, $this->background[0], $this->background[1], $this->background[2] );
+		if (!empty( $this->backgroundImage ))
+			$image = imagecreatefrompng( $this->backgroundImage );
+		else
+		{
+			$image			= imagecreate( $this->width, $this->height );
+			$backColor		= imagecolorallocate( $image, $this->background[0], $this->background[1], $this->background[2] );
+			if ( $this->useNoisyBackground )
+			{
+				$noiseColor		= imagecolorallocate($image, $this->noiseColor[0], $this->noiseColor[1], $this->noiseColor[2]);
+				/* generate random dots in background */
+				for( $i=0; $i<($this->width*$this->height)/3; $i++ ) {
+				 imagefilledellipse($image, mt_rand(0,$this->width), mt_rand(0,$this->height), 1, 1, $noiseColor);
+				}
+				/* generate random lines in background */
+				for( $i=0; $i<($this->width*$this->height)/100; $i++ ) {
+				 imageline($image, mt_rand(0,$this->width), mt_rand(0,$this->height), mt_rand(0,$this->width), mt_rand(0,$this->height), $noiseColor);
+				}
+			}			
+		}
 		$frontColor	= imagecolorallocate( $image, $this->textColor[0], $this->textColor[1], $this->textColor[2] );
 	
 		for( $i=0; $i<strlen( $word ); $i++ )
