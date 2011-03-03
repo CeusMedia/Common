@@ -46,6 +46,7 @@ class Database_PDO_Connection extends PDO
 	public $logFileErrors			= NULL;															//  eg. logs/db/pdo/error.log
 	public $logFileStatements		= NULL;															//  eg. logs/db/pdo/query.log
 	protected $openTransactions		= 0;
+	protected $innerTransactionFail	= FALSE;
 	public static $errorTemplate	= "{time}: PDO:{pdoCode} SQL:{sqlCode} {sqlError} ({statement})\n";
 	
 	/**
@@ -87,7 +88,15 @@ class Database_PDO_Connection extends PDO
 		if( !$this->openTransactions )												//  there has been an inner RollBack or no Transaction was opened
 			return FALSE;															//  ignore Commit
 		if( $this->openTransactions == 1)											//  commit of an outer Transaction
-			parent::commit();														//  commit Transaction
+		{
+			if( $this->innerTransactionFail )										//  remember about failed inner Transaction
+			{
+				$this->rollBack();													//  rollback outer Transaction instead of committing
+				return FALSE;														//  indicated that the Transaction has failed
+			}
+			else																	//  no failed inner Transaction
+				parent::commit();													//  commit Transaction
+		}
 		$this->openTransactions--;													//  decrease Transaction Counter
 		return TRUE;	
 	}
@@ -189,8 +198,14 @@ class Database_PDO_Connection extends PDO
 	{
 		if( !$this->openTransactions )												//  there has been an inner RollBack or no Transaction was opened
 			return FALSE;															//  ignore Commit
-		parent::rollBack();															//  roll back Transaction
-		$this->openTransactions = 0;												//  reset Transaction Counter
+		if( $this->openTransactions == 1 )											//  only 1 Transaction open
+		{
+			parent::rollBack();														//  roll back Transaction
+			$this->innerTransactionFail	= FALSE;									//  forget about failed inner Transactions
+		}
+		else
+			$this->innerTransactionFail	= TRUE;										//  note about failed inner Transactions
+		$this->openTransactions--;													//  decrease Transaction Counter
 		return TRUE;
 	}
 
