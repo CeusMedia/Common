@@ -132,6 +132,62 @@ class File_Reader
 		return $group;
 	}
 
+	/**
+	 *	Returns the encoding (character set) of current File.
+	 *	@access		public
+	 *	@return		string
+	 *	@throws		RuntimeException	if Fileinfo is not installed
+	 */
+	public function getEncoding()
+	{
+		if( function_exists( 'finfo_open' ) )
+		{
+			$magicFile	= ini_get( 'mime_magic.magicfile' );
+//			$magicFile	= str_replace( "\\", "/", $magicFile );
+//			$magicFile	= preg_replace( "@\.mime$@", "", $magicFile );
+			$fileInfo	= finfo_open( FILEINFO_MIME_ENCODING, $magicFile );
+			$mimeType	= finfo_file( $fileInfo, realpath( $this->fileName ) );
+			finfo_close( $fileInfo );
+			return $mimeType;
+		}
+		else if( substr( PHP_OS, 0, 3 ) != "WIN" )
+		{
+			$command	= 'file -b --mime-encoding '.escapeshellarg( $this->fileName );
+			return trim( exec( $command ) );
+		}
+		throw new RuntimeException( 'PHP extension Fileinfo is missing' );
+	}
+
+	/**
+	 *	Returns the MIME type of current File.
+	 *	@access		public
+	 *	@return		string
+	 *	@throws		RuntimeException	if Fileinfo is not installed
+	 */
+	public function getMimeType()
+	{
+		if( function_exists( 'finfo_open' ) )
+		{
+			$magicFile	= ini_get( 'mime_magic.magicfile' );
+//			$magicFile	= str_replace( "\\", "/", $magicFile );
+//			$magicFile	= preg_replace( "@\.mime$@", "", $magicFile );
+			$fileInfo	= finfo_open( FILEINFO_MIME_TYPE, $magicFile );
+			$mimeType	= finfo_file( $fileInfo, realpath( $this->fileName ) );
+			finfo_close( $fileInfo );
+			return $mimeType;
+		}
+		else if( substr( PHP_OS, 0, 3 ) != "WIN" )
+		{
+			$command	= 'file -b --mime-type '.escapeshellarg( $this->fileName );
+			return trim( exec( $command ) );
+		}
+		else if( function_exists( 'mime_content_type' ) && $mimeType = mime_content_type( $this->fileName ) )
+		{
+			return $mimeType;
+		}
+		throw new RuntimeException( 'PHP extension Fileinfo is missing' );
+	}
+
 	public function getOwner()
 	{
 		$user	= fileowner( $this->fileName );
