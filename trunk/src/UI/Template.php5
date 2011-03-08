@@ -2,7 +2,7 @@
 /**
  *	Template Class.
  *
- *	Copyright (c) 2007-2010 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2007-2011 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,7 +21,7 @@
  *	@package		UI
  *	@author			David Seebacher <dseebacher@gmail.com>
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2010 Christian Würker
+ *	@copyright		2007-2011 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			03.03.2007
@@ -34,18 +34,20 @@
  *	@uses			Exception_Template
  *	@author			David Seebacher <dseebacher@gmail.com>
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2010 Christian Würker
+ *	@copyright		2007-2011 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			03.03.2007
  *	@version		$Id$
  * 
  *	<b>Syntax of a template file</b>
- *	- comment <%--comment--%>
- *	- optional tag <%?tagname%>
- *	- non optional tag <%tagname%>
- * 
- *	<b>Exmaple</b>
+ *	- comment <%--comment--%>				 | will be removed on render
+ *	- optional tag <%?tagname%>              | will be replaced, even with empty string
+ *	- non optional tag <%tagname%>           | will be replaced but must be defined and have content
+ *	- optional content <%?--optional--%>     | content will be shown or removed depending on ::$removeOptional
+ *  - load(file.html)                        | load another template relatively to this one an insert here
+ *
+ *	<b>Example</b>
  *	<code>
  *	<html>
  *		<head>
@@ -57,6 +59,7 @@
  *			<h1><%title%></h1>
  *			<p><%text%></p>
  *			<%-- just an other comment --%>
+ *			<%?-- this content is optional and will be show if $removeOptional is not set to true --%>
  *		</body>
  *	</html>
  *	</code>
@@ -73,7 +76,7 @@ class UI_Template
 	protected $template;
 	
 	public static $removeComments	= FALSE;
-	public static $removeOptions	= FALSE;
+	public static $removeOptional	= FALSE;
 	
 	/**
 	 *	Constructor
@@ -218,21 +221,20 @@ class UI_Template
 	 */
 	public function create()
 	{
-		$out	= $this->template;
-		$out	= $this->loadNestedTemplates($out);
- 		$out	= preg_replace( '/<%--.*--%>/sU', '', $out );
- 		if( self::$removeComments )
-			$out	= preg_replace( '/<!--.+-->/sU', '', $out );
- 		if( self::$removeOptions )																	//  optional parts should be removed
+		$out	= $this->template;																	//  local copy of set template
+		$out	= $this->loadNestedTemplates($out);													//  search for nested templates and load them
+ 		$out	= preg_replace( '/<%--.*--%>/sU', '', $out );										//  remove template engine style comments
+ 		if( self::$removeComments )																	//  HTML comments should be removed
+			$out	= preg_replace( '/<!--.+-->/sU', '', $out );									//  find and remove all HTML comments 
+ 		if( self::$removeOptional )																	//  optional parts should be removed
 			$out	= preg_replace( '/<%\?--.+--%>/sU', '', $out );									//  find and remove optional parts
 		else																						//  otherwise
 			$out	= preg_replace( '/<%\?--(.+)--%>/sU', '\\1', $out );							//  find, remove markup but keep content
-			
 
-		foreach( $this->elements as $label => $labelElements )
+		foreach( $this->elements as $label => $labelElements )										//  iterate over all registered element containers
 		{
-			$tmp = '';
-			foreach( $labelElements as $element )
+			$tmp = '';																				//  
+			foreach( $labelElements as $element )													//  iterate over all elements with current element container
 			{
 	 			if( is_object( $element ) )															//  element is an object
 	 			{
@@ -242,15 +244,16 @@ class UI_Template
 	 			}
 				$tmp	.= $element;
 			}
-			$out	= preg_replace( '/<%(\?)?' . $label . '%>/', $tmp, $out );
+			$out	= preg_replace( '/<%(\?)?' . $label . '%>/', $tmp, $out );						//  find placeholder and set in content
  		}
-		$out = preg_replace( '/<%\?.*%>/U', '', $out );    
-        $out = preg_replace( '/\n\s+\n/', "\n", $out );
-		$tags = array();
-		if( preg_match_all( '/<%.*%>/U', $out, $tags ) === 0 )
-		    return $out; 				
+		$out = preg_replace( '/<%\?.*%>/U', '', $out );    											//  remove left over optional placeholders
+        $out = preg_replace( '/\n\s+\n/', "\n", $out );												//  remove double line breaks
 
-		$tags	= array_shift( $tags );
+		$tags = array();																			//  create container for left over placeholders
+		if( preg_match_all( '/<%.*%>/U', $out, $tags ) === 0 )										//  no more placeholders left over
+		    return $out; 																			//  return final result
+
+		$tags	= array_shift( $tags );																//  
 		foreach( $tags as $key => $value )
 			$tags[$key]	= preg_replace( '@(<%\??)|%>@', "", $value );
 		if( $this->fileName )
@@ -303,7 +306,7 @@ class UI_Template
 	 */
 	public function getLabels( $type = 0, $xml = TRUE )
 	{
- 		$content = preg_replace( '/<%--.*--%>/sU', '', $this->template );	
+ 		$content = preg_replace( '/<%\??--.*--%>/sU', '', $this->template );	
 		switch( $type )
 		{
 			case 2:
