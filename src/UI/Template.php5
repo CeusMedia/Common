@@ -73,6 +73,7 @@ class UI_Template
 	protected $template;
 	
 	public static $removeComments	= FALSE;
+	public static $removeOptions	= FALSE;
 	
 	/**
 	 *	Constructor
@@ -222,17 +223,22 @@ class UI_Template
  		$out	= preg_replace( '/<%--.*--%>/sU', '', $out );
  		if( self::$removeComments )
 			$out	= preg_replace( '/<!--.+-->/sU', '', $out );
+ 		if( self::$removeOptions )																	//  optional parts should be removed
+			$out	= preg_replace( '/<%\?--.+--%>/sU', '', $out );									//  find and remove optional parts
+		else																						//  otherwise
+			$out	= preg_replace( '/<%\?--(.+)--%>/sU', '\\1', $out );							//  find, remove markup but keep content
+			
 
 		foreach( $this->elements as $label => $labelElements )
 		{
 			$tmp = '';
 			foreach( $labelElements as $element )
 			{
-	 			if( is_object( $element ) )
+	 			if( is_object( $element ) )															//  element is an object
 	 			{
-	 				if( $element instanceof $this->className )
-						$element = $element->create();
-					continue;
+	 				if( !( $element instanceof $this->className ) )									//  object is not an template of this template engine
+						continue;																	//  skip this one
+					$element = $element->create();													//  render template before concat
 	 			}
 				$tmp	.= $element;
 			}
