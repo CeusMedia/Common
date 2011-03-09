@@ -2,7 +2,7 @@
 /**
  *	Sends Mail using PHPs mail function and local SMTP server.
  *
- *	Copyright (c) 2007-2010 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2007-2011 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -40,7 +40,7 @@
 class Net_Mail_Transport_Default
 {
 	/**	@var		string		$mailer		Mailer Agent */
-	protected $mailer;
+	public static $mailer		= 'cmClasses::Net_Mail/0.7.3';
 
 	/**
 	 *	Constructor.
@@ -48,9 +48,10 @@ class Net_Mail_Transport_Default
 	 *	@param		string		$mailer		Mailer Agent
 	 *	@return		void
 	 */
-	public function __construct( $mailer = "PHP" )
+	public function __construct( $mailer = NULL )
 	{
-		$this->mailer	= $mailer;
+		if( $mailer )
+			$this->mailer	= $mailer;
 	}
 
 	/**
@@ -88,7 +89,7 @@ class Net_Mail_Transport_Default
 	 *	@return		void
 	 *	@throws		RuntimeException|InvalidArgumentException
 	 */
-	public static function sendMail( $mail, $mailer = 'CMC::Net_Mail_Sender/0.7.1' )
+	public static function sendMail( $mail, $parameters = array() )
 	{
 		$body		= $mail->getBody();
 		$headers	= $mail->getHeaders();
@@ -113,11 +114,14 @@ class Net_Mail_Transport_Default
 		}
 */
 		//  --  HEADERS  --  //
-		if( $mailer )
-	 		$headers->setFieldPair( 'X-Mailer', $mailer, TRUE );
-	 	$headers->setFieldPair( 'Date', date( 'r' ), TRUE );	 		
-
-		if( !mail( $receiver, $subject, $body, $headers->toString() ) )
+		if( self::$mailer )
+	 		$headers->setFieldPair( 'X-Mailer', self::$mailer, TRUE );
+	 	$headers->setFieldPair( 'Date', date( 'r' ), TRUE );
+	 	
+	 	if( $parameters && is_array( $parameters ) )
+	 		$parameters	= implode( Net_Mail::$delimiter, $parameters );
+	 	
+		if( !mail( $receiver, $subject, $body, $headers->toString(), $parameters ) )
 			throw new RuntimeException( 'Mail could not been sent' );
 	}
 }
