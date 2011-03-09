@@ -93,6 +93,16 @@ class Database_StatementCollection
 	}
 
 	/**
+	 *	Returns the Statement Builder.
+	 *	@access		public
+	 *	@return		Builder
+	 */
+	public function getBuilder()
+	{
+		return $this->builder;
+	}
+	
+	/**
 	 *	Add a parameterized Component to Statement Builder.
 	 *	@access		public
 	 *	@return		string
