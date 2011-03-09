@@ -39,7 +39,7 @@
  *	@since			09.03.2007
  *	@version		$Id$
  */
-class Exception_Validation extends RuntimeException
+class Exception_Validation extends RuntimeException implements Serializable
 {
 	/**	@var		array		$errors			List of Validation Errors */
 	protected $errors	= array();
@@ -79,5 +79,27 @@ class Exception_Validation extends RuntimeException
 	{
 		return $this->form;
 	}
+
+	/**
+	 *	Returns serial of exception.
+	 *	@access		public
+	 *	@return		string
+	 */
+	public function serialize()
+	{
+		return serialize( array( $this->message, $this->code, $this->file, $this->line, $this->errors, $this->form ) );
+	}
+
+	/**
+	 *	Recreates an exception from its serial.
+	 *	@access		public
+	 *	@param		string		$serial			Serial string of an validation exception 
+	 *	@return		void
+	 */
+	public function unserialize( $serialized )
+	{
+		list( $this->message, $this->code, $this->file, $this->line, $this->errors, $this->form ) = unserialize( $serial );
+	}
+
 }
 ?>

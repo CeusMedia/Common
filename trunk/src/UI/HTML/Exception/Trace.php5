@@ -207,7 +207,7 @@ class UI_HTML_Exception_Trace
 	 *	@param		string		$mask			Mask to show for cutted content
 	 *	@return		string
 	 */
-	protected function secureString( $string, $maxLength = 0, $mask = '&hellip;' )
+	protected static function secureString( $string, $maxLength = 0, $mask = '&hellip;' )
 	{
 		if( $maxLength && strlen( $string ) > $maxLength )
 			$value	= Alg_Text_Trimmer::trimCentric( $string, $maxLength, $mask );

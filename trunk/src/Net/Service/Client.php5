@@ -153,7 +153,7 @@ class Net_Service_Client
 			'method'	=> "GET",
 			'url'		=> $serviceUrl,
 			'headers'	=> $response['headers'],
-			'status'	=> $response['status'],
+			'status'	=> $response['info'],
 			'response'	=> $response['content'],
 			'time'		=> $clock->stop(),
 		);

@@ -2,7 +2,7 @@
 /**
  *	Enhanced PDO Connection.
  *
- *	Copyright (c) 2007-2010 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2007-2011 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
  *	@category		cmClasses
  *	@package		Database.PDO
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2010 Christian Würker
+ *	@copyright		2007-2011 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			09.03.2007
@@ -32,7 +32,7 @@
  *	@package		Database.PDO
  *	@uses			Exception_SQL
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2010 Christian Würker
+ *	@copyright		2007-2011 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			09.03.2007
@@ -46,7 +46,7 @@ class Database_PDO_Connection extends PDO
 	public $logFileErrors			= NULL;															//  eg. logs/db/pdo/error.log
 	public $logFileStatements		= NULL;															//  eg. logs/db/pdo/query.log
 	protected $openTransactions		= 0;
-	protected $innerTransactionFail	= FALSE;
+	protected $innerTransactionFail	= FALSE;														//  Flag: inner (nested) Transaction has failed
 	public static $errorTemplate	= "{time}: PDO:{pdoCode} SQL:{sqlCode} {sqlError} ({statement})\n";
 	
 	/**
@@ -92,13 +92,13 @@ class Database_PDO_Connection extends PDO
 			if( $this->innerTransactionFail )										//  remember about failed inner Transaction
 			{
 				$this->rollBack();													//  rollback outer Transaction instead of committing
+//				throw new RuntimeException( 'Commit failed due to a nested transaction failed' );
 				return FALSE;														//  indicated that the Transaction has failed
 			}
 			else																	//  no failed inner Transaction
 				parent::commit();													//  commit Transaction
 		}
 		$this->openTransactions--;													//  decrease Transaction Counter
-		return TRUE;	
 	}
 
 	/**
