@@ -184,6 +184,32 @@ class UI_Image
 	}
 
 	/**
+	 *	Indicates whether an Image File is an animated GIF.
+	 *	@access		public
+	 *	@static
+	 *	@param		string		$filePath	Path Name of Image File
+	 *	@return		boolean		TRUE if Image File is an animated GIF
+	 */
+	public static function isAnimated( $filePath ){
+		$content	= file_get_contents( $filePath );
+		$pos1		= 0;
+		$count		= 0;
+		while( $count < 2 ) # There is no point in continuing after we find a 2nd frame
+		{
+			$pos1	= strpos( $content, "\x00\x21\xF9\x04", $pos1 );
+			if( $pos1 === FALSE )
+				break;
+			$pos2	= strpos( $content, "\x00\x2C", $pos1 );
+			if( $pos2 === FALSE )
+				break;
+			else if( $pos1 + 8 == $pos2 )
+				$count++;
+			$pos1 = $pos2;
+		}
+		return $count > 1;
+	}
+
+	/**
 	 *	Reads an image from file, supporting several file types.
 	 *	@access		public
 	 *	@param		string		$fileName		Name of image file
@@ -191,6 +217,7 @@ class UI_Image
 	 *	@throws		RuntimeException if file is not existing
 	 *	@throws		RuntimeException if file is not readable
 	 *	@throws		RuntimeException if file is not an image
+	 *	@throws		RuntimeException if 
 	 *	@throws		Exception if image type is not supported for reading
 	 */
 	public function load( $fileName )
@@ -202,6 +229,8 @@ class UI_Image
 		$info = getimagesize( $fileName );
 		if( !$info )
 			throw new Exception( 'Image "'.$fileName.'" is not of a supported type' );
+		if( self::isAnimated( $fileName ) )
+			throw new RuntimeException( 'Animated GIFs are not supported' );
 		if( $this->resource )
 			imagedestroy( $this->resource );
 		switch( $info[2] )
@@ -264,7 +293,13 @@ class UI_Image
 		$this->width	= imagesx( $resource );
 		$this->height	= imagesy( $resource );
 
-		imagealphablending( $this->resource, TRUE );												//  enable blending for added image resources
+		if( 0 && $this->type == IMAGETYPE_GIF )													//  GIF with one transparent color
+			imagealphablending( $this->resource, TRUE );											//  enable blending for added image resources
+		else																	//  for all other formats
+		{
+			imagealphablending( $this->resource, FALSE );											//  disable alpha blending in favour to
+			imagesavealpha( $this->resource, TRUE );											//  copying the complete alpha channel
+		}
 
 		if( function_exists( 'imageantialias' ) )
 			imageantialias( $this->resource, TRUE );
