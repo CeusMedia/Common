@@ -461,6 +461,8 @@ class Database_PDO_TableReader
 #		if( !ini_get( 'magic_quotes_gpc' ) )
 #			$value = addslashes( $value );
 #		$value	= htmlentities( $value );
+		if ( $value === NULL )
+			return "NULL";
 		$value	= $this->dbc->quote( $value );
 		return $value;
 	}
