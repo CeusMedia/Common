@@ -120,7 +120,6 @@ class Database_PDO_TableWriter extends Database_PDO_TableReader
 	{
 		if( !( is_array( $data ) && $data ) )
 			throw new InvalidArgumentException( 'Data for update must be an array and have atleast 1 pair' );
-
 		$this->validateFocus();
 		$has	= $this->get( FALSE );
 		if( !$has )
@@ -128,10 +127,10 @@ class Database_PDO_TableWriter extends Database_PDO_TableReader
 		$updates	= array();
 		foreach( $this->columns as $column )
 		{
-			if( !isset( $data[$column] ) )
+			if( !array_key_exists($column, $data) )
 				continue;
 			$value	= $data[$column];
-			if( $stripTags )
+			if( $stripTags && $value !== NULL )
 				$value	= strip_tags( $value );
 			$value	= $this->secureValue( $value );
 			$updates[] = '`'.$column.'`='.$value;
