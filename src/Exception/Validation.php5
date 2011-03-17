@@ -96,7 +96,7 @@ class Exception_Validation extends RuntimeException implements Serializable
 	 *	@param		string		$serial			Serial string of an validation exception 
 	 *	@return		void
 	 */
-	public function unserialize( $serialized )
+	public function unserialize( $serial )
 	{
 		list( $this->message, $this->code, $this->file, $this->line, $this->errors, $this->form ) = unserialize( $serial );
 	}
