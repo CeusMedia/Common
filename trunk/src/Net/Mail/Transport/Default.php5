@@ -115,12 +115,12 @@ class Net_Mail_Transport_Default
 */
 		//  --  HEADERS  --  //
 		if( self::$mailer )
-	 		$headers->setFieldPair( 'X-Mailer', self::$mailer, TRUE );
-	 	$headers->setFieldPair( 'Date', date( 'r' ), TRUE );
-	 	
-	 	if( $parameters && is_array( $parameters ) )
-	 		$parameters	= implode( Net_Mail::$delimiter, $parameters );
-	 	
+			$headers->setFieldPair( 'X-Mailer', self::$mailer, TRUE );
+		$headers->setFieldPair( 'Date', date( 'r' ), TRUE );
+		
+		if( is_array( $parameters ) )
+			$parameters	= implode( Net_Mail::$delimiter, $parameters );
+		
 		if( !mail( $receiver, $subject, $body, $headers->toString(), $parameters ) )
 			throw new RuntimeException( 'Mail could not been sent' );
 	}
