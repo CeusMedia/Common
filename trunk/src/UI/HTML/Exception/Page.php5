@@ -40,6 +40,18 @@
 class UI_HTML_Exception_Page
 {
 	/**
+	 *	Displays rendered Exception Page.
+	 *	@access		public
+	 *	@param		Exception				$e			Exception to render View for
+	 *	@return		string
+	 *	@static
+	 */
+	public static function display( Exception $e )
+	{
+		$view	= UI_HTML_Exception_View::render( $e );
+		print( self::wrapExceptionView( $view ) );
+	}
+	/**
 	 *	Returns rendered Exception Page.
 	 *	@access		public
 	 *	@param		Exception				$e			Exception to render View for

@@ -79,13 +79,15 @@ class UI_Image
 	 *	@access		public
 	 *	@param		integer		$width		Width of image
 	 *	@param		integer		$height		Height of image
+	 *	@param		boolean		$trueColor	Flag: create an TrueColor Image (24-bit depth and without fixed palette)
 	 *	@param		double		$alpha		Alpha channel value (0-100)
 	 *	@return		void
 	 *	@todo		is alpha needed ?
 	 */
-	public function create( $width, $height, $alpha = 0 )
+	public function create( $width, $height, $trueColor = TRUE, $alpha = 0 )
 	{
-		$resource	= imagecreatetruecolor( $width, $height );
+		$resource	= $trueColor ? imagecreatetruecolor( $width, $height ) : imagecreate( $width, $height );
+		$this->type	= $trueColor ? IMAGETYPE_PNG : IMAGETYPE_GIF;
 		$this->setResource( $resource, $alpha );
 	}
 
@@ -247,9 +249,9 @@ class UI_Image
 			default:
 				throw new Exception( 'Image type "'.$info['mime'].'" is no supported, detected '.$info[2] );
 		}
+		$this->type		= $info[2];
 		$this->setResource( $resource );
 		$this->fileName	= $fileName;
-		$this->type		= $info[2];
 	}
 
 	/**
@@ -293,16 +295,11 @@ class UI_Image
 		$this->width	= imagesx( $resource );
 		$this->height	= imagesy( $resource );
 
-		if( 0 && $this->type == IMAGETYPE_GIF )													//  GIF with one transparent color
-			imagealphablending( $this->resource, TRUE );											//  enable blending for added image resources
-		else																	//  for all other formats
-		{
-			imagealphablending( $this->resource, FALSE );											//  disable alpha blending in favour to
-			imagesavealpha( $this->resource, TRUE );											//  copying the complete alpha channel
-		}
-
 		if( function_exists( 'imageantialias' ) )
 			imageantialias( $this->resource, TRUE );
+
+		imagealphablending( $this->resource, FALSE );											//  disable alpha blending in favour to
+		imagesavealpha( $this->resource, TRUE );											//  copying the complete alpha channel
 	}
 
 	public function setTransparentColor( $red, $green, $blue, $alpha = 0 ){

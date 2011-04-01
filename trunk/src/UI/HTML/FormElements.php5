@@ -38,6 +38,21 @@
  */
 class UI_HTML_FormElements
 {
+
+	/**
+	 *	Adds Disabled Attributes directly to Attributes Array, inserts JavaScript Alert if String given.
+	 *	@access		public
+	 *	@param		array		$attributes		Reference to Attributes Array
+	 *	@param		mixed		$disabled		Bool or String, String will be set in mit JavaScript Alert
+	 *	@return		void
+	 */
+	private function addDisabledAttributes( &$attributes, $disabled )
+	{
+		$attributes['disabled']	= "disabled";
+		if( is_string( $disabled ) )
+			$attributes['onclick']	= "alert('".$disabled."');";
+	}
+
 	/**
 	 *	Adds Readonly Attributes directly to Attributes Array, inserts JavaScript Alert if String given.
 	 *	@access		public
@@ -45,7 +60,7 @@ class UI_HTML_FormElements
 	 *	@param		mixed		$readOnly		Bool or String, String will be set in mit JavaScript Alert
 	 *	@return		void
 	 */
-	private function addReadOnlyAttributes( &$attributes, $readOnly )
+	private function addReadonlyAttributes( &$attributes, $readOnly )
 	{
 		$attributes['readonly']	= "readonly";
 		if( is_string( $readOnly ) )
@@ -104,7 +119,7 @@ class UI_HTML_FormElements
 			'onclick'	=> $confirm		? "return confirm('".$confirm."');" : NULL,
 		);
 		if( $disabled )
-			self::addReadonlyAttributes( $attributes, $disabled);
+			self::addDisabledAttributes( $attributes, $disabled );
 		return UI_HTML_Tag::create( "button", UI_HTML_Tag::create( "span", (string) $label ), $attributes );
 	}
 
@@ -158,7 +173,7 @@ class UI_HTML_FormElements
 			'maxlength'	=> $maxLength,
 		);
 		if( $readOnly )
-			self::addReadOnlyAttributes( $attributes, $readOnly );
+			self::addReadonlyAttributes( $attributes, $readOnly );
 		return UI_HTML_Tag::create( "input", NULL, $attributes );
 	}
 	
@@ -214,7 +229,7 @@ class UI_HTML_FormElements
 			'onkeyup'	=> $validator	? "allowOnly(this,'".$validator."');" : NULL,
 		);
 		if( $readOnly )
-			self::addReadOnlyAttributes( $attributes, $readOnly );
+			self::addReadonlyAttributes( $attributes, $readOnly );
 		return UI_HTML_Tag::create( "input", NULL, $attributes );
 	}
 
@@ -277,7 +292,7 @@ class UI_HTML_FormElements
 			'onclick'	=> $confirm		? "if(confirm('".$confirm."')){".$action."};" : $action,
 		);
 		if( $disabled )
-			self::addReadOnlyAttributes( $attributes, $disabled );
+			self::addReadonlyAttributes( $attributes, $disabled );
 		return UI_HTML_Tag::create( "button", UI_HTML_Tag::create( "span", $label ), $attributes );
 	}
 
@@ -429,7 +444,7 @@ class UI_HTML_FormElements
 			'onclick'	=> $confirm		? "return confirm('".$confirm."');" : NULL,
 		);
 		if( $disabled )
-			self::addReadOnlyAttributes( $attributes, $disabled );
+			self::addReadonlyAttributes( $attributes, $disabled );
 		return UI_HTML_Tag::create( "button", $label, $attributes );
 	}
 
@@ -444,9 +459,10 @@ class UI_HTML_FormElements
 	 *	@param		string		$submit			ID of Form to submit on Change
 	 *	@param		string		$focus			ID of Element to focus on Change
 	 *	@param		string		$change			JavaScript to execute on Change
+	 *	@param		string		$disabled		Field is not editableJavaScript to execute on Change
 	 *	@return		string
 	 */
-	public static function Select( $name, $options, $class = NULL, $readOnly = NULL, $submit = NULL, $focus = NULL, $change = NULL )
+	public static function Select( $name, $options, $class = NULL, $readOnly = NULL, $submit = NULL, $focus = NULL, $change = NULL, $disabled = NULL )
 	{
 		if( is_array( $options ) )
 		{
@@ -464,6 +480,8 @@ class UI_HTML_FormElements
 		);
 		if( $readOnly )
 			self::addReadonlyAttributes( $attributes, $readOnly );
+		if( $disabled )
+			self::addDisabledAttributes( $attributes, $disabled );
 		return UI_HTML_Tag::create( "select", $options, $attributes );
 	}
 

@@ -98,6 +98,7 @@ class UI_Image_Processing
 		$reflection	= new ReflectionFunction( $function );											//  reflect function
 		$reflection->invokeArgs( $parameters );														//  call function with parameters
 
+		$this->image->setType( $image->getType() );
 		$this->image->setResource( $image->getResource() );											//  replace held image resource object by result
 		return TRUE;
 	}
