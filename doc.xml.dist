@@ -24,13 +24,14 @@
 
   <!--  PROJECTS  -->  
   <projects>
-    <project label="cmClasses" version="0.7.2" date="" revision="">
+    <project label="cmClasses" version="0.7.3" date="" revision="">
       <path alt="must be absolute">/path/to/cmClasses/version/src/</path>
       <extensions>
         <extension>php5</extension>
       </extensions>
       <ignore>
         <file alt="regular expression">/^(_|[a-z])/</file>
+        <folder alt="regular expression">/^DB/</folder>
       </ignore>
       <package>
         <default>unreleased</default>
@@ -52,6 +53,9 @@
       <author><![CDATA[Christian Würker <christian.wuerker@ceusmedia.de>]]></author>
       <company>Ceus Media (ceusmedia.de)</company>
       <timezone>Europe/Berlin</timezone>
+      <options>
+        <option name="showSourceCode">1</option>
+      </options>
       <plugins>
         <plugin>Home</plugin>
         <plugin>ClassList</plugin>
