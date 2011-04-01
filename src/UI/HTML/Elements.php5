@@ -228,6 +228,7 @@ class UI_HTML_Elements extends UI_HTML_FormElements
 	}
 
 	/**
+
 	 *	Erzeugt HTML Box for ToolTip über HTML-Elementen.
 	 *	@access		public
 	 *	@static
