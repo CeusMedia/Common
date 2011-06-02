@@ -56,7 +56,9 @@ abstract class Net_Socket_Stream_Server
 		while( 1 )
 		{
 			$read	= $this->connections;
-			$mod_fd	= stream_select( $read, $_w = NULL, $_e = NULL, 5 );
+			$_w		= NULL;
+			$_e		= NULL;
+			$mod_fd	= stream_select( $read, $_w, $_e, 5 );
 			if( $mod_fd === FALSE )
 				break;
 
