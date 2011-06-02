@@ -46,7 +46,7 @@ class UI_HTML_FormElements
 	 *	@param		mixed		$disabled		Bool or String, String will be set in mit JavaScript Alert
 	 *	@return		void
 	 */
-	private function addDisabledAttributes( &$attributes, $disabled )
+	private static function addDisabledAttributes( &$attributes, $disabled )
 	{
 		$attributes['disabled']	= "disabled";
 		if( is_string( $disabled ) )
@@ -60,7 +60,7 @@ class UI_HTML_FormElements
 	 *	@param		mixed		$readOnly		Bool or String, String will be set in mit JavaScript Alert
 	 *	@return		void
 	 */
-	private function addReadonlyAttributes( &$attributes, $readOnly )
+	private static function addReadonlyAttributes( &$attributes, $readOnly )
 	{
 		$attributes['readonly']	= "readonly";
 		if( is_string( $readOnly ) )

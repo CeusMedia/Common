@@ -64,6 +64,7 @@ class Net_Socket_Stream_Package
 			case 'double':
 			case 'string':
 			case 'array':
+			case NULL:
 				$this->data	= $data;
 				break;
 			case 'object':
