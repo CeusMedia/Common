@@ -89,9 +89,9 @@ class Net_HTTP_Download
 	private static function setMimeType()
 	{
 		$UserBrowser = '';
-		if( ereg( 'Opera(/| )([0-9].[0-9]{1,2})', $_SERVER['HTTP_USER_AGENT'] ) )
+		if( preg_match( '@Opera(/| )([0-9].[0-9]{1,2})@', $_SERVER['HTTP_USER_AGENT'] ) )
 			$UserBrowser = "Opera";
-		elseif( ereg( 'MSIE ([0-9].[0-9]{1,2})', $_SERVER['HTTP_USER_AGENT'] ) )
+		elseif( ereg( '@MSIE ([0-9].[0-9]{1,2})@', $_SERVER['HTTP_USER_AGENT'] ) )
 			$UserBrowser = "IE";
 		$mime_type = ( $UserBrowser == 'IE' || $UserBrowser == 'Opera' ) ? 'application/octetstream' : 'application/octet-stream';
 		header( "Content-Type: ". $mime_type);
