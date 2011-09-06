@@ -56,6 +56,45 @@ class UI_Image_Processing
 	}
 
 	/**
+	 *	Crop image.
+	 *	@access		public
+	 *	@param		integer		$startX			Left margin
+	 *	@param		integer		$startY			Top margin
+	 *	@param		integer		$width			New width
+	 *	@param		integer		$height			New height
+	 *	@return		boolean		Image has been copped
+	 *	@throws		InvalidArgumentException if left margin is not an integer value
+	 *	@throws		InvalidArgumentException if top margin is not an integer value
+	 *	@throws		InvalidArgumentException if width is not an integer value
+	 *	@throws		InvalidArgumentException if height is not an integer value
+	 *	@throws		OutOfRangeException if width is lower than 1
+	 *	@throws		OutOfRangeException if height is lower than 1
+	 *	@throws		OutOfRangeException if resulting image has more mega pixels than allowed
+	 */
+	public function crop( $startX, $startY, $width, $height )
+	{
+		if( !is_int( $startX ) )
+			throw new InvalidArgumentException( 'X start value must be integer' );
+		if( !is_int( $startY ) )
+			throw new InvalidArgumentException( 'Y start value must be integer' );
+		if( !is_int( $width ) )
+			throw new InvalidArgumentException( 'Width must be integer' );
+		if( !is_int( $height ) )
+			throw new InvalidArgumentException( 'Height must be integer' );
+		if( $width < 1 )
+			throw new OutOfRangeException( 'Width must be atleast 1' );
+		if( $height < 1 )
+			throw new OutOfRangeException( 'Height must be atleast 1' );
+		$image	= new UI_Image;
+		$image->create( $width, $height );
+		imagecopy( $image->getResource(), $this->image->getResource(), 0, 0, $startX, $startY, $width, $height );
+
+		$this->image->setType( $image->getType() );
+		$this->image->setResource( $image->getResource() );											//  replace held image resource object by result
+		return TRUE;
+	}
+
+	/**
 	 *	Resizes image.
 	 *	@access		public
 	 *	@param		integer		$width			New width
@@ -76,9 +115,9 @@ class UI_Image_Processing
 		if( !is_int( $height ) )
 			throw new InvalidArgumentException( 'Height must be integer' );
 		if( $width < 1 )
-			throw new OutOfRangeException( 'X value must be atleast 1' );
+			throw new OutOfRangeException( 'Width must be atleast 1' );
 		if( $height < 1 )
-			throw new OutOfRangeException( 'Y value must be atleast 1' );
+			throw new OutOfRangeException( 'Height must be atleast 1' );
 		if( $this->image->getWidth() == $width && $this->image->getHeight() == $height )
 			return FALSE;
 		if( $maxMegaPixel && $width * $height > $maxMegaPixel * 1024 * 1024 )
