@@ -82,7 +82,7 @@ class ADT_PHP_Member extends ADT_PHP_Variable
 		return (bool) $this->static;
 	}
 
-	public function merge( ADT_PHP_Member $member )
+	public function merge( ADT_PHP_Variable $member )
 	{
 		parent::merge( $member );
 #		remark( 'merging member: '.$member->getName() );
@@ -121,11 +121,13 @@ class ADT_PHP_Member extends ADT_PHP_Variable
 	/**
 	 *	Sets parent Class or Interface Data Object.
 	 *	@access		public
-	 *	@param		ADT_PHP_Interface	$parent			Parent Class or Interface Data Object
+	 *	@param		ADT_PHP_Class	$parent			Parent Class Data Object
 	 *	@return		void
 	 */
-	public function setParent( ADT_PHP_Interface $parent )
+	public function setParent( $parent )
 	{
+		if( !( $parent instanceof ADT_PHP_Class ) )
+			throw new InvalidArgumentException( 'Parent must be of ADT_PHP_Class' );
 		$this->parent	= $parent;
 	}
 

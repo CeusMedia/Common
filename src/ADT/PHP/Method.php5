@@ -90,7 +90,7 @@ class ADT_PHP_Method extends ADT_PHP_Function
 		return (bool) $this->static;
 	}
 	
-	public function merge( ADT_PHP_Method $method )
+	public function merge( ADT_PHP_Function $method )
 	{
 		if( $this->name != $method->getName() )
 			throw new Exception( 'Not mergable' );
@@ -139,8 +139,10 @@ class ADT_PHP_Method extends ADT_PHP_Function
 		$this->final	= (bool) $isFinal;
 	}
 	
-	public function setParent( ADT_PHP_Interface $classOrInterface )
+	public function setParent( $classOrInterface )
 	{
+		if( !( $classOrInterface instanceof ADT_PHP_Interface ) )
+			throw new InvalidArgumentException( 'Parent must be of ADT_PHP_Class' );
 		$this->parent	= $classOrInterface;
 	}
 	

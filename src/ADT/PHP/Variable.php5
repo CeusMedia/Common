@@ -279,7 +279,7 @@ class ADT_PHP_Variable
 	 *	@param		ADT_PHP_File		$parent		Parent File Data Object
 	 *	@return		void
 	 */
-	public function setParent( ADT_PHP_File $parent )
+	public function setParent( $parent )
 	{
 		$this->parent	= $parent;
 	}
