@@ -375,8 +375,10 @@ class ADT_PHP_Function
 	 *	@param		ADT_PHP_File		$file		Function's parent file data object
 	 *	@return		void
 	 */
-	public function setParent( ADT_PHP_File $file )
+	public function setParent( $file )
 	{
+		if( !( $file instanceof ADT_PHP_File ) )
+			throw new InvalidArgumentException( 'Parent must be of ADT_PHP_File' );
 		$this->parent	= $file;
 	}
 

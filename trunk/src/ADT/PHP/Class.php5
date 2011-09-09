@@ -89,21 +89,21 @@ class ADT_PHP_Class extends ADT_PHP_Interface
 		return $this->uses;	
 	}
 
-	public function merge( ADT_PHP_Class $class )
+	public function merge( ADT_PHP_Interface $artefact )
 	{
-		if( $this->name != $class->getName() )
+		if( $this->name != $artefact->getName() )
 			throw new Exception( 'Not mergable' );
-		if( $class->isAbstract() )
-			$this->setAbstract( $class->isAbstract() );
-		if( $class->getDefault() )
-			$this->setDefault( $class->getDefault() );
-		if( $class->isStatic() )
-			$this->setAbstract( $class->isStatic() );
+		if( $artefact->isAbstract() )
+			$this->setAbstract( $artefact->isAbstract() );
+		if( $artefact->getDefault() )
+			$this->setDefault( $artefact->getDefault() );
+		if( $artefact->isStatic() )
+			$this->setAbstract( $artefact->isStatic() );
 
-		foreach( $variable->getUsedClasses() as $class )
-			$this->setUsedClass( $class );
-		foreach( $variable->getUsedClasses() as $class )
-			$this->setUsedClass( $class );
+		foreach( $variable->getUsedClasses() as $artefact )
+			$this->setUsedClass( $artefact );
+		foreach( $variable->getUsedClasses() as $artefact )
+			$this->setUsedClass( $artefact );
 
 		//	@todo		members and interfaces missing
 	}
@@ -118,10 +118,10 @@ class ADT_PHP_Class extends ADT_PHP_Interface
 		return (bool) $this->final;
 	}
 
-	public function isImplementingInterface( ADT_PHP_Interface $interface  )
+	public function isImplementingInterface( ADT_PHP_Interface $interface )
 	{
-		foreach( $this->implements as $interfaceName => $interface )
-			if( $class == $class )
+		foreach( $this->implements as $interfaceName => $interfaceObject )
+			if( $interface == $interfaceObject )
 				return TRUE;
 		return FALSE;
 	}
@@ -149,7 +149,7 @@ class ADT_PHP_Class extends ADT_PHP_Interface
 		$this->extends	= $class;	
 	}
 
-	public function setExtendingInterface( $interface )
+	public function setExtendingInterface( ADT_PHP_Interface $interface )
 	{
 		throw new RuntimeException( 'Interface cannot extend class' );
 	}
@@ -159,7 +159,7 @@ class ADT_PHP_Class extends ADT_PHP_Interface
 		$this->extendedBy[$class->getName()]	= $class;
 	}
 
-	public function setExtendedInterface( $interface )
+	public function setExtendedInterface( ADT_PHP_Interface $interface )
 	{
 		throw new RuntimeException( 'Class cannot extend an interface' );
 	}

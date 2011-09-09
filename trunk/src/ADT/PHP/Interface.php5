@@ -316,20 +316,20 @@ class ADT_PHP_Interface
 		return (bool) $this->final;
 	}
 
-	public function merge( ADT_PHP_Interface $interface )
+	public function merge( ADT_PHP_Interface $artefact )
 	{
-		if( $this->name != $interface->getName() )
+		if( $this->name != $artefact->getName() )
 			throw new Exception( 'Not mergable' );
-		if( $interface->getDescription() )
-			$this->setDescription( $interface->getDescription() );
-		if( $interface->getSince() )
-			$this->setSince( $interface->getSince() );
-		if( $interface->getVersion() )
-			$this->setVersion( $interface->getVersion() );
-		if( $interface->getCopyright() )
-			$this->setCopyright( $interface->getCopyright() );
-		if( $interface->getReturn() )
-			$this->setReturn( $interface->getReturn() );
+		if( $artefact->getDescription() )
+			$this->setDescription( $artefact->getDescription() );
+		if( $artefact->getSince() )
+			$this->setSince( $artefact->getSince() );
+		if( $artefact->getVersion() )
+			$this->setVersion( $artefact->getVersion() );
+		if( $artefact->getCopyright() )
+			$this->setCopyright( $artefact->getCopyright() );
+		if( $artefact->getReturn() )
+			$this->setReturn( $artefact->getReturn() );
 
 		foreach( $function->getAuthors() as $author )
 			$this->setAuthor( $author );
@@ -395,7 +395,7 @@ class ADT_PHP_Interface
 		$this->description		= $string;
 	}
 
-	public function setExtendedInterface( $interface )
+	public function setExtendedInterface( ADT_PHP_Interface $interface )
 	{
 		$this->extends	= $interface;	
 	}
