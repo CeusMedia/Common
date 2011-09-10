@@ -30,11 +30,6 @@
  *	Visualisation of Exception Stack Trace.
  *	@category		cmClasses
  *	@package		UI.HTML.Exception
- *	@uses			UI_HTML_Element_List_Definition
- *	@uses			UI_HTML_Element_Blockquote
- *	@uses			UI_HTML_Element_Span
- *	@uses			UI_HTML_Element_List_Ordered
- *	@uses			UI_HTML_Element_List_Item
  *	@uses			Alg_Text_Trimmer
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2010 Christian Würker
@@ -77,22 +72,18 @@ class UI_HTML_Exception_Trace
 	 */
 	public function render()
 	{
-		$list	= new UI_HTML_Element_List_Definition();
-		$list->setClass( 'exception' );
-
 		$i	= 0;
 		$j	= 0;
-		$list	= new UI_HTML_Element_List_Ordered();
+		$list	= array();
 		foreach( $this->exception->getTrace() as $key => $trace )
 		{
 			$step	= self::renderTraceStep( $trace, $i++, $j );
 			if( !$step )
 				continue;
-			$list->add( new UI_HTML_Element_List_Item( $step ) );
+			$list[]	= UI_HTML_Tag::create( 'li', $step );
 			$j++;
 		}
-		$list->addClass( 'trace' );
-		return $list->render();
+		return UI_HTML_Tag::create( 'ol', implode( $list ), array( 'class' => 'trace' ) );
 	}
 
 	/**
@@ -128,15 +119,17 @@ class UI_HTML_Exception_Trace
 	 */
 	protected static function renderArgumentArray( $array )
 	{
-		$list	= new UI_HTML_Element_List_Definition();
-		$block	= new UI_HTML_Element_Blockquote( $list );
+		$list	= array();
 		foreach( $array as $key => $value )
 		{
 			$type	= self::renderArgumentType( $value );
 			$string	= self::renderArgument( $value );
-			$list->add( $type." ".$key, $string );
+			$list[]	= UI_HTML_Tag::create( 'dt', $type." ".$key );
+			$list[]	= UI_HTML_Tag::create( 'dd', $string );
 		}
-		return '{'.$block->render().'}';
+		$list	= UI_HTML_Tag::create( 'dl', implode( $list ) );
+		$block	= UI_HTML_Tag::create( 'blockquote', $list );
+		return '{'.$block.'}';
 	}
 
 	/**
@@ -148,11 +141,8 @@ class UI_HTML_Exception_Trace
 	 */
 	protected static function renderArgumentType( $argument )
 	{
-		$type	= gettype( $argument );
-		$type	= ucFirst( strtolower( $type ) );
-		$type	= new UI_HTML_Element_Span( $type );
-		$type->addClass( 'type' );
-		return $type->render();
+		$type	= ucFirst( strtolower( gettype( $argument ) ) );
+		return UI_HTML_Tag::create( 'span', $type, 'class' => 'type' ) );
 	}
 
 	/**
@@ -180,15 +170,16 @@ class UI_HTML_Exception_Trace
 			$block	= NULL;
 			if( array_key_exists( "args", $trace ) && count( $trace['args'] ) )
 			{
-				$argList	= new UI_HTML_Element_List_Definition();
-				$block		= new UI_HTML_Element_Blockquote( $argList );
+				$argList	= array();
 				foreach( $trace["args"] as $argument )
 				{
 					$type	= self::renderArgumentType( $argument );
 					$string	= self::renderArgument( $argument );
-					$argList->add( $type, $string );
+					$argList[]	= UI_HTML_Tag::create( 'dt', $type );
+					$argList[]	= UI_HTML_Tag::create( 'dd', $string );
 				}
-				$block	= $block->render();
+				$argList	= UI_HTML_Tag::create( 'dl', implode( $argList ) );
+				$block		= UI_HTML_Tag::create( 'blockquote', $argList );
 			}
 			$content	.= $trace["function"]."(".$block.')';
 		}

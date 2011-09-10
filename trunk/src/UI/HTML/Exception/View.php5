@@ -30,11 +30,6 @@
  *	Visualisation of Exception Stack Trace.
  *	@category		cmClasses
  *	@package		UI.HTML.Exception
- *	@uses			UI_HTML_Element_List_Definition
- *	@uses			UI_HTML_Element_Blockquote
- *	@uses			UI_HTML_Element_Span
- *	@uses			UI_HTML_Element_List_Ordered
- *	@uses			UI_HTML_Element_List_Item
  *	@uses			Alg_Text_Trimmer
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2010 Christian Würker
@@ -58,24 +53,35 @@ class UI_HTML_Exception_View
 
 	public static function render( Exception $e )
 	{
-		$list	= new UI_HTML_Element_List_Definition();
-		$list->setClass( 'exception' );
-		$list->add( 'Type', get_class( $e ) );
-		$list->add( 'Message', $e->getMessage() );
-		$list->add( 'Code', $e->getCode() );
-		$list->add( 'File', self::trimRootPath( $e->getFile() ) );
-		$list->add( 'Line', $e->getLine() );
+		$list	= array();
+		$list[]	= UI_HTML_Tag::create( 'dt', 'Type' );
+		$list[]	= UI_HTML_Tag::create( 'dd', get_class( $e ) );
+
+		$list[]	= UI_HTML_Tag::create( 'dt', 'Message' );
+		$list[]	= UI_HTML_Tag::create( 'dd', $e->getMessage() );
+
+		$list[]	= UI_HTML_Tag::create( 'dt', 'code' );
+		$list[]	= UI_HTML_Tag::create( 'dd', $e->getCode() );
+
+		$list[]	= UI_HTML_Tag::create( 'dt', 'File' );
+		$list[]	= UI_HTML_Tag::create( 'dd', self::trimRootPath( $e->getFile() ) );
+
+		$list[]	= UI_HTML_Tag::create( 'dt', 'Line' );
+		$list[]	= UI_HTML_Tag::create( 'dd', $e->getLine() );
 
 		$trace	= new UI_HTML_Exception_Trace( $e );
 		if( $trace )
-			$list->add( 'Trace', $trace->render() );
-
+		{
+			$list[]	= UI_HTML_Tag::create( 'dt', 'Trace' );
+			$list[]	= UI_HTML_Tag::create( 'dd', $trace->render() );
+		}
 		if( method_exists( $e, 'getPrevious' ) && $e->getPrevious() )
 		{
 			$trace	= new UI_HTML_Exception_Trace( $e->getPrevious() );
-			$list->add( 'Previous', $trace->render() );
+			$list[]	= UI_HTML_Tag::create( 'dt', 'Previous' );
+			$list[]	= UI_HTML_Tag::create( 'dd', $trace->render() );
 		}
-		return $list->render();
+		return UI_HTML_Tag::create( 'dl', join( $list ), array( 'class' => 'exception' ) );
 	}
 
 
