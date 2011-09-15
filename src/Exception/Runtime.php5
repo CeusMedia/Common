@@ -1,8 +1,8 @@
 <?php
 /**
- *	Exception for Logic Errors, which can be serialized e.G. for NetServices.
+ *	Exception for Runtime Errors, which can be serialized e.G. for NetServices.
  *
- *	Copyright (c) 2007-2011 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2011 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,25 +20,25 @@
  *	@category		cmClasses
  *	@package		Exception
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2011 Christian Würker
+ *	@copyright		2011 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
- *	@since			22.02.2007
- *	@version		$Id$
+ *	@since			15.09.2011
+ *	@version		0.1
  */
 /**
- *	Exception for Logic Errors, which can be serialized e.G. for NetServices.
+ *	Exception for Runtime Errors, which can be serialized e.G. for NetServices.
  *	@category		cmClasses
  *	@package		Exception
- *	@extends		Exception_Runtime
+ *	@extends		Exception_Serializable
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2011 Christian Würker
+ *	@copyright		2011 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
- *	@since			22.02.2007
- *	@version		$Id$
+ *	@since			15.09.2011
+ *	@version		0.1
  */
-class Exception_Logic extends Exception_Runtime
+class Exception_Runtime extends Exception_Serializable
 {
 }
 ?>
