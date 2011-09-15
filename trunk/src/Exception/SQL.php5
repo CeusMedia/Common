@@ -1,6 +1,6 @@
 <?php
 /**
- *	Exception for SQL Errors.
+ *	Exception for SQL Errors. Stores SQLSTATE if PDO is used.
  *
  *	Copyright (c) 2007-2010 Christian Würker (ceus-media.de)
  *
@@ -27,7 +27,7 @@
  *	@version		$Id$
  */
 /**
- *	Exception for SQL Errors.
+ *	Exception for SQL Errors. Stores SQLSTATE if PDO is used.
  *	@category		cmClasses
  *	@package		Exception
  *	@extends		RuntimeException
@@ -40,35 +40,38 @@
  */
 class Exception_SQL extends RuntimeException
 {
-	/**	@var		string		$error				Error Message from SQL */
-	protected $pdoCode;
 	/**	@var		string		$defaultMessage		Default Message if SQL Info Message is empty */
 	public static $default		= "Unknown SQL Error.";
+
+	/**	@var		string		$SQLSTATE			SQLSTATE Code */
+	protected $SQLSTATE;
 
 	/**
 	 *	Constructor.
 	 *	@access		public
 	 *	@param		int			$sqlCode		SQL Error Code
 	 *	@param		string		$sqlMessage		SQL Error Message
-	 *	@param		int			$pdoCode		PDO Error Code
+	 *	@param		int			$SQLSTATE 		SQLSTATE Code
 	 *	@return		void
 	 */
-	public function __construct( $message, $code, $pdoCode = 0 )
+	public function __construct( $message, $code, $SQLSTATE  = NULL )
 	{
 		if( !$message )
 			$message	= self::$default;
 		parent::__construct( $message, $code );
-		$this->pdoCode		= $pdoCode;
+		$this->SQLSTATE		= $SQLSTATE;
 	}
 
 	/**
-	 *	Returns SQL Error Message.
+	 *	Returns SQLSTATE Code delivered by PDO.
 	 *	@access		public
 	 *	@return		string
+	 *	@see		http://developer.mimer.com/documentation/html_92/Mimer_SQL_Mobile_DocSet/App_Return_Codes2.html
+	 *	@see		http://publib.boulder.ibm.com/infocenter/idshelp/v10/index.jsp?topic=/com.ibm.sqls.doc/sqls520.htm
 	 */
-	public function getPdoErrorCode()
+	public function getSQLSTATE()
 	{
-		return $this->pdoCode;
+		return $this->SQLSTATE;
 	}
 }
 ?>
