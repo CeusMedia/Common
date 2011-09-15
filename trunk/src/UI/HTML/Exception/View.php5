@@ -51,23 +51,55 @@ class UI_HTML_Exception_View
 		print self::render( $e );
 	}
 
+	/**
+	 *	Resolves SQLSTATE Code and returns its Meaning.
+	 *	@access		protected
+	 *	@static
+	 *	@return		string
+	 *	@see		http://developer.mimer.com/documentation/html_92/Mimer_SQL_Mobile_DocSet/App_Return_Codes2.html
+	 *	@see		http://publib.boulder.ibm.com/infocenter/idshelp/v10/index.jsp?topic=/com.ibm.sqls.doc/sqls520.htm
+	 */
+	protected static function getMeaningOfSQLSTATE( $SQLSTATE )
+	{
+		$class1	= substr( $SQLSTATE, 0, 2 );
+		$class2	= substr( $SQLSTATE, 2, 3 );
+		$root	= XML_ElementReader::readFile( dirname( __FILE__ ).'/SQLSTATE.xml' );
+
+		$query	= 'class[@id="'.$class1.'"]/subclass[@id="000"]';
+		$class	= array_pop( $root->xpath( $query ) );
+		if( $class ){
+			$query		= 'class[@id="'.$class1.'"]/subclass[@id="'.$class2.'"]';
+			$subclass	= array_pop( $root->xpath( $query ) );
+			if( $subclass )
+				return $class->getAttribute( 'meaning' ).' - '.$subclass->getAttribute( 'meaning' );	
+			return $class->getAttribute( 'meaning' );	
+		}
+		return '';
+	}
+
 	public static function render( Exception $e )
 	{
 		$list	= array();
-		$list[]	= UI_HTML_Tag::create( 'dt', 'Type' );
-		$list[]	= UI_HTML_Tag::create( 'dd', get_class( $e ) );
+		$list[]	= UI_HTML_Tag::create( 'dt', 'Message', array( 'class' => 'exception-message' ) );
+		$list[]	= UI_HTML_Tag::create( 'dd', $e->getMessage(), array( 'class' => 'exception-message' ) );
 
-		$list[]	= UI_HTML_Tag::create( 'dt', 'Message' );
-		$list[]	= UI_HTML_Tag::create( 'dd', $e->getMessage() );
+		$list[]	= UI_HTML_Tag::create( 'dt', 'code', array( 'class' => 'exception-code' ) );
+		$list[]	= UI_HTML_Tag::create( 'dd', $e->getCode(), array( 'class' => 'exception-code' ) );
 
-		$list[]	= UI_HTML_Tag::create( 'dt', 'code' );
-		$list[]	= UI_HTML_Tag::create( 'dd', $e->getCode() );
+		if( $e instanceof Exception_SQL && $e->getSQLSTATE() ){
+			$meaning	= self::getMeaningOfSQLSTATE( $e->getSQLSTATE() );
+			$list[]	= UI_HTML_Tag::create( 'dt', 'SQLSTATE', array( 'class' => 'exception-code-sqlstate' ) );
+			$list[]	= UI_HTML_Tag::create( 'dd', $e->getSQLSTATE().': '.$meaning, array( 'class' => 'exception-code-sqlstate' ) );
+		}
 
-		$list[]	= UI_HTML_Tag::create( 'dt', 'File' );
-		$list[]	= UI_HTML_Tag::create( 'dd', self::trimRootPath( $e->getFile() ) );
+		$list[]	= UI_HTML_Tag::create( 'dt', 'Type', array( 'class' => 'exception-type' ) );
+		$list[]	= UI_HTML_Tag::create( 'dd', get_class( $e ), array( 'class' => 'exception-type' ) );
 
-		$list[]	= UI_HTML_Tag::create( 'dt', 'Line' );
-		$list[]	= UI_HTML_Tag::create( 'dd', $e->getLine() );
+		$list[]	= UI_HTML_Tag::create( 'dt', 'File', array( 'class' => 'exception-file' ) );
+		$list[]	= UI_HTML_Tag::create( 'dd', self::trimRootPath( $e->getFile() ), array( 'class' => 'exception-file' ) );
+
+		$list[]	= UI_HTML_Tag::create( 'dt', 'Line', array( 'class' => 'exception-line' ) );
+		$list[]	= UI_HTML_Tag::create( 'dd', $e->getLine(), array( 'class' => 'exception-line' ) );
 
 		$trace	= new UI_HTML_Exception_Trace( $e );
 		if( $trace )
