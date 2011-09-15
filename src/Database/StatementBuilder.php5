@@ -228,15 +228,17 @@ class Database_StatementBuilder
 	 *	Adds a table to search in.
 	 *	@access		public
 	 *	@param		string		$table			Table to search in
+	 *	@param		string		$prefix			Prefix to override default prefix
 	 *	@return		void
 	 */
-	public function addTable( $table )
+	public function addTable( $table, $prefix = NULL )
 	{
+		$prefix	= $prefix === NULL ? $this->prefix : $prefix;
 		if( is_array( $table ) )
-			return $this->addTables( $table );
-		if( in_array( $this->prefix.$table, $this->tables ) )
+			return $this->addTables( $table, $prefix );
+		if( in_array( $prefix.$table, $this->tables ) )
 			return FALSE;
-		$this->tables[] = $this->prefix.$table;	
+		$this->tables[] = $prefix.$table;	
 		return TRUE;
 	}
 
@@ -244,15 +246,16 @@ class Database_StatementBuilder
 	 *	Adds tables to search in.
 	 *	@access		public
 	 *	@param		array		$tables			Tables to search in
+	 *	@param		string		$prefix			Prefix to override default prefix
 	 *	@return		void
 	 */
-	public function addTables( $tables )
+	public function addTables( $tables, $prefix = NULL )
 	{
 		if( !is_array( $tables ) )
 			throw new InvalidArgumentException( 'An Array should be given.' );
 		$tables	= (array) $tables;
 		foreach( $tables as $table )
-			$this->addTable( $table );
+			$this->addTable( $table, $prefix );
 	}
 
 	/**
