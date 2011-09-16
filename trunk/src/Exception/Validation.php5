@@ -1,8 +1,8 @@
 <?php
 /**
- *	Exception for Input Validations.
+ *	Exception for Input Validation Errors, which can be serialized e.G. for NetServices.
  *
- *	Copyright (c) 2007-2010 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2007-2011 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,25 +21,25 @@
  *	@package		Exception
  *	@extends		RuntimeException
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2010 Christian Würker
+ *	@copyright		2007-2011 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			09.03.2007
  *	@version		$Id$
  */
 /**
- *	Exception for Input Validations.
+ *	Exception for Input Validation Errors, which can be serialized e.G. for NetServices.
  *	@category		cmClasses
  *	@package		Exception
- *	@extends		RuntimeException
+ *	@extends		Exception_Runtime
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2010 Christian Würker
+ *	@copyright		2007-2011 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			09.03.2007
  *	@version		$Id$
  */
-class Exception_Validation extends RuntimeException implements Serializable
+class Exception_Validation extends Exception_Runtime
 {
 	/**	@var		array		$errors			List of Validation Errors */
 	protected $errors	= array();

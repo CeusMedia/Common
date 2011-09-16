@@ -25,6 +25,7 @@
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			15.09.2011
  *	@version		0.1
+ *	@see			http://fabien.potencier.org/article/9/php-serialization-stack-traces-and-exceptions
  */
 /**
  *	Base Exception which can be serialized e.G. for NetServices.
