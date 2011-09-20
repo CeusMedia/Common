@@ -91,6 +91,7 @@ class Console_Application
 	/**
 	 *	Prints Usage Message to Console and exits Script, to be overwritten.
 	 *	@access		protected
+	 *	@param		string		$message		Message to show below usage lines
 	 *	@return		void
 	 */
 	protected function showUsage( $message = NULL )
