@@ -55,13 +55,15 @@ class Net_FTP_Client
 	 *	@param		Net_FTP_Connection	$connection		FTP Connection Object
 	 *	@return		void
 	 */
-	public function __construct( $host, $port, $username, $password, $path = NULL )
+	public function __construct( $host, $port, $path = NULL, $username = NULL, $password = NULL )
 	{
 		try
 		{
+			$port	= $port ? $port : 21;
 			$this->connection	= new Net_FTP_Connection( $host, $port );
 			$this->connection->checkConnection( TRUE, FALSE );
-			$this->connection->login( $username, $password );
+			if( $username && $password )
+				$this->connection->login( $username, $password );
 			$this->connection->checkConnection();
 			if( $path )
 				if( !$this->connection->setPath( $path ) )
