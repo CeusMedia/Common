@@ -83,13 +83,17 @@ class UI_HTML_Exception_View
 		$list[]	= UI_HTML_Tag::create( 'dt', 'Message', array( 'class' => 'exception-message' ) );
 		$list[]	= UI_HTML_Tag::create( 'dd', $e->getMessage(), array( 'class' => 'exception-message' ) );
 
-		$list[]	= UI_HTML_Tag::create( 'dt', 'code', array( 'class' => 'exception-code' ) );
+		$list[]	= UI_HTML_Tag::create( 'dt', 'Code', array( 'class' => 'exception-code' ) );
 		$list[]	= UI_HTML_Tag::create( 'dd', $e->getCode(), array( 'class' => 'exception-code' ) );
 
 		if( $e instanceof Exception_SQL && $e->getSQLSTATE() ){
 			$meaning	= self::getMeaningOfSQLSTATE( $e->getSQLSTATE() );
 			$list[]	= UI_HTML_Tag::create( 'dt', 'SQLSTATE', array( 'class' => 'exception-code-sqlstate' ) );
 			$list[]	= UI_HTML_Tag::create( 'dd', $e->getSQLSTATE().': '.$meaning, array( 'class' => 'exception-code-sqlstate' ) );
+		}
+		if( $e instanceof Exception_IO && $e->getResource() ){
+			$list[]	= UI_HTML_Tag::create( 'dt', 'Resource', array( 'class' => 'exception-resource' ) );
+			$list[]	= UI_HTML_Tag::create( 'dd', $e->getResource(), array( 'class' => 'exception-resource' ) );
 		}
 
 		$list[]	= UI_HTML_Tag::create( 'dt', 'Type', array( 'class' => 'exception-type' ) );
@@ -109,9 +113,8 @@ class UI_HTML_Exception_View
 		}
 		if( method_exists( $e, 'getPrevious' ) && $e->getPrevious() )
 		{
-			$trace	= new UI_HTML_Exception_Trace( $e->getPrevious() );
 			$list[]	= UI_HTML_Tag::create( 'dt', 'Previous' );
-			$list[]	= UI_HTML_Tag::create( 'dd', $trace->render() );
+			$list[]	= UI_HTML_Tag::create( 'dd', UI_HTML_Exception_View::render( $e->getPrevious() ) );
 		}
 		return UI_HTML_Tag::create( 'dl', join( $list ), array( 'class' => 'exception' ) );
 	}
