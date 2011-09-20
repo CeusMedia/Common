@@ -78,7 +78,7 @@ class Net_FTP_Writer
 	 *	@access		public
 	 *	@param		string		$from			Name of source file
 	 *	@param		string		$to				Name of target file
-	 *	@return		bool
+	 *	@return		boolean
 	 */
 	public function copyFile( $from, $to )
 	{
@@ -102,7 +102,7 @@ class Net_FTP_Writer
 	 *	@access		public
 	 *	@param		string		$from			Name of source file
 	 *	@param		string		$to				Name of target file
-	 *	@return		bool
+	 *	@return		boolean
 	 */
 	public function copyFolder( $from, $to )
 	{
@@ -124,7 +124,7 @@ class Net_FTP_Writer
 	 *	Creates a Folder on FTP Server.
 	 *	@access		public
 	 *	@param		string		$folderName		Name of folder to be created
-	 *	@return		bool
+	 *	@return		boolean
 	 */
 	public function createFolder( $folderName )
 	{
@@ -147,7 +147,7 @@ class Net_FTP_Writer
 	 *	@access		public
 	 *	@param		string		$from			Name of source file
 	 *	@param		string		$to				Name of target file
-	 *	@return		bool
+	 *	@return		boolean
 	 */
 	public function moveFile( $from, $to )
 	{
@@ -160,7 +160,7 @@ class Net_FTP_Writer
 	 *	@access		public
 	 *	@param		string		$from			Name of source folder
 	 *	@param		string		$to				Name of target folder
-	 *	@return		bool
+	 *	@return		boolean
 	 */
 	public function moveFolder( $from, $to )
 	{
@@ -175,7 +175,7 @@ class Net_FTP_Writer
 	 *	@access		public
 	 *	@param		string		$fileName		Name of local file
 	 *	@param		string		$target			Name of target file
-	 *	@return		bool
+	 *	@return		boolean
 	 */
 	public function putFile( $fileName, $target )
 	{
@@ -187,7 +187,7 @@ class Net_FTP_Writer
 	 *	Removes a File.
 	 *	@access		public
 	 *	@param		string		$fileName		Name of file to be removed
-	 *	@return		bool
+	 *	@return		boolean
 	 */
 	public function removeFile( $fileName )
 	{
@@ -199,7 +199,7 @@ class Net_FTP_Writer
 	 *	Removes a Folder.
 	 *	@access		public
 	 *	@param		string		$folderName		Name of folder to be removed
-	 *	@return		bool
+	 *	@return		boolean
 	 */
 	public function removeFolder( $folderName )
 	{
@@ -224,7 +224,7 @@ class Net_FTP_Writer
 	 *	@access		public
 	 *	@param		string		$from			Name of source file
 	 *	@param		string		$to				Name of target file
-	 *	@return		bool
+	 *	@return		boolean
 	 */
 	public function renameFile( $from, $to )
 	{
@@ -236,7 +236,7 @@ class Net_FTP_Writer
 	 *	Sets current Path on Server.
 	 *	@access		public
 	 *	@param		string		$path			Path to go to
-	 *	@return		bool
+	 *	@return		boolean
 	 */
 	public function setPath( $path )
 	{
