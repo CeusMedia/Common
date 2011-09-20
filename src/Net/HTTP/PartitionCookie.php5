@@ -54,15 +54,7 @@ class Net_HTTP_PartitionCookie extends Net_HTTP_Cookie
 		$this->partition = $partition;
 		$pairs	= array();
 		if( isset( $_COOKIE[$partition] ) )
-			$pairs = explode( "@", $_COOKIE[$partition] );
-		foreach( $pairs as $pair )
-		{
-			if( trim( $pair ) )
-			{
-				$parts = explode( ":", $pair );
-				$this->data[$parts[0]] = $parts[1];
-			}
-		}
+			$this->data	= json_decode( $_COOKIE[$partition], TRUE );
 	}
 
 	/**
@@ -88,6 +80,11 @@ class Net_HTTP_PartitionCookie extends Net_HTTP_Cookie
 		return $this->data;
 	}
 
+	public function has( $key )
+	{
+		return isset( $this->data[$key] );	
+	}
+
 	/**
 	 *	Sets a Cookie to this PartitionCookie.
 	 *	@access		public
@@ -108,11 +105,7 @@ class Net_HTTP_PartitionCookie extends Net_HTTP_Cookie
 	 */
 	protected function saveCake()
 	{
-		$cake	= array();
-		foreach( $this->data as $key => $value )
-		$cake[]	= $key.":".$value;
-		$cake	= implode( "@", $cake );
-		setCookie( $this->partition, $cake );
+		setCookie( $this->partition, json_encode( $this->data ) );
 	}
 		
 	/**
