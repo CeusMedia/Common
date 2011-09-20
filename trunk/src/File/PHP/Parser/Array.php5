@@ -165,12 +165,14 @@ class File_PHP_Parser_Array
 				if( preg_match( $this->regexClass, $line, $matches ) )
 				{
 					$class	= $this->classData;
-					if( trim( array_pop( array_slice( $matches, -1 ) ) ) == "{" )
+					$slice	= array_slice( $matches, -1 );
+					if( trim( array_pop( $slice ) ) == "{" )
 					{
 						array_pop( $matches );
 						$level++;
 					}
-					while( !trim( array_pop( array_slice( $matches, -1 ) ) ) )
+					$slice	= array_slice( $matches, -1 );
+					while( !trim( array_pop( $slice ) ) )
 						array_pop( $matches );
 					$class	= $this->parseClass( $class, $matches, $openBlocks );
 					if( $openBlocks )
