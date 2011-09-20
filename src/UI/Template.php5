@@ -77,6 +77,9 @@ class UI_Template
 	
 	public static $removeComments	= FALSE;
 	public static $removeOptional	= FALSE;
+
+	/**	@var		array		$plugins		List of Template Plugin Instances */
+	protected $plugins			= array();
 	
 	/**
 	 *	Constructor
@@ -124,9 +127,10 @@ class UI_Template
 				$number	+= $this->addArrayRecursive( $key, $value, array(), $overwrite );
 			else if( $isPrimitive || $isTemplate )
 			{
-				if( $overwrite == TRUE )
-					$this->elements[$key] = NULL;
-				$this->elements[$key][] = $value;
+//				if( $overwrite == TRUE )
+//					$this->elements[$key] = array();
+//				$this->elements[$key][] = $value;
+				$this->elements[$key] = $value;
 				$number	++;
 			}
 			else if( is_object( $value ) )
@@ -222,7 +226,12 @@ class UI_Template
 	public function create()
 	{
 		$out	= $this->template;																	//  local copy of set template
-		$out	= $this->loadNestedTemplates($out);													//  search for nested templates and load them
+		$out	= $this->loadNestedTemplates( $out );												//  search for nested templates and load them
+		
+		foreach( $this->plugins as $plugin )
+			if( $plugin->type == 'pre' )
+				$out	= $plugin->work( $out );
+
  		$out	= preg_replace( '/<%--.*--%>/sU', '', $out );										//  remove template engine style comments
  		if( self::$removeComments )																	//  HTML comments should be removed
 			$out	= preg_replace( '/<!--.+-->/sU', '', $out );									//  find and remove all HTML comments 
@@ -231,11 +240,11 @@ class UI_Template
 		else																						//  otherwise
 			$out	= preg_replace( '/<%\?--(.+)--%>/sU', '\\1', $out );							//  find, remove markup but keep content
 
-		foreach( $this->elements as $label => $labelElements )										//  iterate over all registered element containers
+		foreach( $this->elements as $label => $element )										//  iterate over all registered element containers
 		{
 			$tmp = '';																				//  
-			foreach( $labelElements as $element )													//  iterate over all elements with current element container
-			{
+//			foreach( $labelElements as $element )													//  iterate over all elements with current element container
+//			{
 	 			if( is_object( $element ) )															//  element is an object
 	 			{
 	 				if( !( $element instanceof $this->className ) )									//  object is not an template of this template engine
@@ -243,11 +252,16 @@ class UI_Template
 					$element = $element->create();													//  render template before concat
 	 			}
 				$tmp	.= $element;
-			}
+//			}
 			$out	= preg_replace( '/<%(\?)?' . $label . '%>/', $tmp, $out );						//  find placeholder and set in content
  		}
 		$out = preg_replace( '/<%\?.*%>/U', '', $out );    											//  remove left over optional placeholders
         $out = preg_replace( '/\n\s+\n/', "\n", $out );												//  remove double line breaks
+
+		foreach( $this->plugins as $plugin )
+			if( $plugin->type == 'post' )
+				$out	= $plugin->work( $out );
+
 
 		$tags = array();																			//  create container for left over placeholders
 		if( preg_match_all( '/<%.*%>/U', $out, $tags ) === 0 )										//  no more placeholders left over
@@ -350,17 +364,17 @@ class UI_Template
 	 *	@access		protected
 	 *	@param		string		$template		Template content
 	 *	@return		string		Template string with loaded nested templates.
+	 *	@todo		kriss: handle security issues
 	 */
-	protected function loadNestedTemplates( $template)
+	protected function loadNestedTemplates( $template )
 	{
 		$matches	= array();
-		preg_match_all( '/<(\?)?%load\((.*)\)%>/U', $template, $matches );
+		preg_match_all( '/<(\?)?%load\((.+)\)%>/U', $template, $matches );
 		if( !$matches[0] )
 			return $template;
-		for( $i=0; $i<count( $matches ); $i++ )
+		for( $i=0; $i<count( $matches[0] ); $i++ )
 		{
-			$filePath	= dirname( $this->fileName ).'/'.$matches[2][$i];
-			$nested		= UI_Template::render( $filePath, $this->elements );
+			$nested		= UI_Template::render( $matches[2][$i], $this->elements );
 			$template	= str_replace( $matches[0][$i], $nested, $template );
 		}
 		return $template;

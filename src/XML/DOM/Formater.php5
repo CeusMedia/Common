@@ -54,7 +54,8 @@ class XML_DOM_Formater
 		if( !$validator->validate( $xml ) )
 			throw new InvalidArgumentException( 'XML String is not valid XML.' ); 
 
-		$document	= DOMDocument::loadXml( $xml );
+		$document	= new DOMDocument();
+		$document->loadXml( $xml );
 		$document->formatOutput = TRUE;
 		return $document->saveXml();
 	}
@@ -75,7 +76,9 @@ class XML_DOM_Formater
 			throw new InvalidArgumentException( 'XML String is not valid XML.' ); 
 
 		$encodeTo	= strtoupper( $encodeTo );
-		$document	= DOMDocument::loadXml( $xml );
+		
+		$document	= new DOMDocument();
+		$document->loadXml( $xml );
 		$encoding	= strtoupper( $document->actualEncoding );
 #		remark( "Encoding: ".$encoding );
 		if( $encoding == $encodeTo )
