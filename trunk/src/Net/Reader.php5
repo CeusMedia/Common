@@ -184,9 +184,9 @@ class Net_Reader
 		$error			= $curl->getInfo( Net_CURL::STATUS_ERROR );
 		$errno			= $curl->getInfo( Net_CURL::STATUS_ERRNO );
 		if( $errno )
-			throw new RuntimeException( 'Reading "'.$this->url.'" failed: '.$error, $errno );
+			throw new Exception_IO( 'HTTP request failed: '.$error, $errno, $this->url );
 		if( !in_array( $code, array( '200', '301', '303', '304', '307' ) ) )
-			throw new RuntimeException( 'Reading "'.$this->url.'" returned code '.$code, $code );
+			throw new Exception_IO( 'HTTP request failed', $code, $this->url );
 		return $this->body;
 	}
 
