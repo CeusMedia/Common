@@ -65,6 +65,12 @@ class Database_PDO_Connection extends PDO
 		$this->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
 	}
 
+/*	for PHP 5.3.6+
+	public function __destruct(){
+		if( $this->openTransactions )
+			throw new Exception_Runtime( 'Transaction not closed' );
+	}*/
+
 	/**
 	 *	Starts a Transaction.
 	 *	@access		public
@@ -121,7 +127,11 @@ class Database_PDO_Connection extends PDO
 			$this->logError( $e, $statement );										//  logs Error and throws SQL Exception
 		}
 	}
-	
+
+	public function getOpenTransactions(){
+		return $this->openTransactions;
+	}
+
 	/**
 	 *	Notes Information from PDO Exception in Error Log File and throw SQL Exception.
 	 *	@access		protected
@@ -133,6 +143,7 @@ class Database_PDO_Connection extends PDO
 	{
 		if( !$this->logFileErrors )
 			return;
+//			throw $exception;
 		$info		= $exception->errorInfo;
 		$sqlError	= $info[2];
 		$sqlCode	= $info[1];
