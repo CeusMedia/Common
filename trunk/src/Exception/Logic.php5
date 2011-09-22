@@ -40,5 +40,30 @@
  */
 class Exception_Logic extends Exception_Runtime
 {
+	/**	@var		string		$subject		Subject on which this logic exception happened */
+	protected $subject	= NULL;
+
+	/**
+	 *	Constructor.
+	 *	@access		public
+	 *	@param		string		$message		Error Message
+	 *	@param		string		$subject		Subject on which this logic exception happened */
+	 *	@return		void
+	 */
+	public function __construct( $message, $subject = "" )
+	{
+		parent::__construct( $message );
+		$this->subject	= $subject;
+	}
+
+	/**
+	 *	Returns subject on which this logic exception happened if set.
+	 *	@access		public
+	 *	@return		string
+	 */
+	public function getSubject()
+	{
+		return $this->subject;
+	}
 }
 ?>
