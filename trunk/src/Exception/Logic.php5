@@ -47,7 +47,7 @@ class Exception_Logic extends Exception_Runtime
 	 *	Constructor.
 	 *	@access		public
 	 *	@param		string		$message		Error Message
-	 *	@param		string		$subject		Subject on which this logic exception happened */
+	 *	@param		string		$subject		Subject on which this logic exception happened
 	 *	@return		void
 	 */
 	public function __construct( $message, $subject = "" )

@@ -43,7 +43,7 @@
 class Exception_IO extends Exception_Runtime
 {
 	/**	@var		string		$resource		Name or Value of resource which was not fully accessible */
-	private $resource			= "";
+	protected $resource			= "";
 
 	/**
 	 *	Constructor.
