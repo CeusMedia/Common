@@ -66,7 +66,7 @@ class Exception_Template extends RuntimeException
 	 */
 	public function __construct( $code, $fileName, $data = array() )
 	{
-		$tagList	= '{'.implode( ', ', $data ).'}';
+		$tagList	= '"'.implode( '", "', $data ).'"';
 		switch( $code )
 		{
 			case self::FILE_NOT_FOUND:

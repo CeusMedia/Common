@@ -95,7 +95,7 @@ class Net_HTTP_PartitionCookie extends Net_HTTP_Cookie
 	public function set( $key, $value )
 	{
 		$this->data[$key] = $value;
-		$this->saveCake();
+		$this->save();
 	}
 
 	/**
@@ -103,8 +103,9 @@ class Net_HTTP_PartitionCookie extends Net_HTTP_Cookie
 	 *	@access		protected
 	 *	@return		void
 	 */
-	protected function saveCake()
+	protected function save()
 	{
+		error_log( json_encode( $this->data )."\n", 3, 'cookie.log' );
 		setCookie( $this->partition, json_encode( $this->data ) );
 	}
 		
@@ -116,9 +117,10 @@ class Net_HTTP_PartitionCookie extends Net_HTTP_Cookie
 	 */
 	public function remove ($key )
 	{
-		if( isset( $this->data[$key] ) )
-			unset( $this->data[$key] );	
-		$this->saveCake();
+		if( !isset( $this->data[$key] ) )
+			return;
+		unset( $this->data[$key] );	
+		$this->save();
 	}
 }
 ?>
