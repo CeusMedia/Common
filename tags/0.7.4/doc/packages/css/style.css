@@ -1,0 +1,8 @@
+body {
+	width: 1200px;
+	margin: 0px auto;
+	}
+
+area:hover {
+	border: 1px solid red;
+	}
