@@ -95,6 +95,10 @@ class UI_HTML_Exception_View
 			$list[]	= UI_HTML_Tag::create( 'dt', 'Resource', array( 'class' => 'exception-resource' ) );
 			$list[]	= UI_HTML_Tag::create( 'dd', $e->getResource(), array( 'class' => 'exception-resource' ) );
 		}
+		if( $e instanceof Exception_Logic && $e->getResource() ){
+			$list[]	= UI_HTML_Tag::create( 'dt', 'Subject', array( 'class' => 'exception-subject' ) );
+			$list[]	= UI_HTML_Tag::create( 'dd', $e->getSubject(), array( 'class' => 'exception-subject' ) );
+		}
 
 		$list[]	= UI_HTML_Tag::create( 'dt', 'Type', array( 'class' => 'exception-type' ) );
 		$list[]	= UI_HTML_Tag::create( 'dd', get_class( $e ), array( 'class' => 'exception-type' ) );

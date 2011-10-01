@@ -72,7 +72,7 @@ class UI_HTML_Tabs
 
 	public function setVersion( $version )
 	{
-		$this->version	= $version;
+		self::$version	= $version;
 	}
 
 	/**
