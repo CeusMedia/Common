@@ -172,7 +172,7 @@ class File_Configuration_Reader extends ADT_List_Dictionary
 		ksort( $this->pairs );
 		if( !empty( $cachePath ) )
 		{
-			File_Writer::save( $cacheFile, serialize( $this->pairs ), 640 );
+			File_Writer::save( $cacheFile, serialize( $this->pairs ), 0640 );
 		}
 		return $info['extension'];
 	}
@@ -267,17 +267,41 @@ class File_Configuration_Reader extends ADT_List_Dictionary
 	 */
 	protected function loadXmlFile( $fileName )
 	{
-		$root	= XML_ElementReader::readFile( $fileName );
-		foreach( $root as $sectionNode )
+		$root	= XML_ElementReader::readFile( $fileName );											//  get root element of XML file
+		$this->pairs	= array();
+		foreach( $root as $sectionNode )															//  iterate sections
 		{
-			$sectionName	= $sectionNode->getAttribute( 'name' );
-			foreach( $sectionNode as $valueNode )
-			{
-				$key	= $sectionName.".".$valueNode->getAttribute( 'name' );
-				$type	= $valueNode->hasAttribute( 'type' ) ? $valueNode->getAttribute( 'type' ) : "string";
-				$value	= (string) $valueNode;
-				settype( $value, $type );
-				$this->pairs[$key]	= $value;
+			$sectionName	= $sectionNode->getAttribute( 'name' );									//  get section name
+			$this->loadXmlSection( $sectionNode, $sectionName );									//  read section
+		}
+		ksort( $this->pairs );																		//  sort resulting pairs by key
+	}
+
+	/**
+	 *	Reads sections and values of a XML file node, recursivly, and stores pairs in-situ.
+	 *	@access		protected
+	 *	@param		XML_Element	$node			Section XML node to read
+	 *	@param		string		$path			Path to this section
+	 *	@return		void
+	 */
+	protected function loadXmlSection( $node, $path = NULL )
+	{
+		$path	.= $path ? '.' : '';																//  extend path by delimiter
+		foreach( $node as $child )																	//  iterate node children
+		{
+			$name	= $child->getAttribute( 'name' );												//  get node name of child
+			switch( $child->getName() ){															//  dispatch on node name
+				case 'section':																		//  section node
+					$this->loadXmlSection( $child, $path.$name );									//  load child section
+					break;
+				case 'value':																		//  pair node
+					$type	= 'string';																//  default type: string
+					if( $child->hasAttribute( 'type' ) )											//  type attribute is set
+						$type	= $child->getAttribute( 'type' );									//  realize type attribute
+					$value	= (string) $child;														//  convert node content to value string
+					settype( $value, $type );														//  apply type to value
+					$this->pairs[$path.$name]	= $value;											//  register pair
+					break;
 			}
 		}
 	}

@@ -68,6 +68,7 @@ class Exception_IO extends Exception_Runtime
 	{
 		return $this->resource;	
 	}
+
 	/**
 	 *	Returns serial of exception.
 	 *	@access		public
