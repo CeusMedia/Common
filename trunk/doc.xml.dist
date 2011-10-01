@@ -24,7 +24,7 @@
 
   <!--  PROJECTS  -->  
   <projects>
-    <project label="cmClasses" version="0.7.3" date="" revision="">
+    <project label="cmClasses" version="0.7.4" date="" revision="">
       <path alt="must be absolute">/path/to/cmClasses/version/src/</path>
       <extensions>
         <extension>php5</extension>
