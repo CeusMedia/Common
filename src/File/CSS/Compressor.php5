@@ -77,7 +77,7 @@ class File_CSS_Compressor
 			$content	= preg_replace( $pattern, $replacement, $content );		// replace pattern if found
 
 		$toRemove	= array( "\r", "\n", "\t", '  ', '    ', '    ' );
-		$content	= str_replace( $toRemove, '', $content );					// remove tabs, spaces, newlines, etc.
+		$content	= str_replace( $toRemove, ' ', $content );					// remove tabs, spaces, newlines, etc.
 		return $content;
 	}
 	
