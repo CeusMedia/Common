@@ -2,7 +2,7 @@
 /**
  *	Compresses CSS Files..
  *
- *	Copyright (c) 2007-2010 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2007-2011 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
  *	@category		cmClasses
  *	@package		File.CSS
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2010 Christian Würker
+ *	@copyright		2007-2011 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			26.09.2007
@@ -46,7 +46,28 @@ class File_CSS_Compressor
 	/**	@var		string			$suffix			Suffix of compressed File Name */
 	var $suffix		= ".min";
 
+/*	static public function compressFile( $fileName, $oneLine = FALSE ){
+		return self::compressString( File_Reader::load( $fileName ), $oneLine );
+	}
+*/
+	static public function compressSheet( ADT_CSS_Sheet $sheet, $oneLine = FALSE ){
+		$converter	= new File_CSS_Converter( $sheet );
+		return self::compressString( $converter->toString(), $oneLine );
+	}
 
+	static public function compressString( $string, $oneLine = FALSE ){
+		$string	= preg_replace( '@/\*.*\*/@sU', '', $string );											//  remove code doc blocks
+		$string	= preg_replace( '@(\S),\n(\S)@sU', "\\1,\\2", $string );								//  remove break in selector lists
+		$string	= preg_replace( '@\n\s+@sU', "\n", $string );											//  remove spaces after breaks
+		$string	= preg_replace( '@;\s+(\S)@s', ";\\1", $string );										//  remove breaks and spaces between properties
+		$string	= preg_replace( '@\s*\{\s*@s', "{", $string );											//  @todo: may be slow
+		$string	= preg_replace( '@\s*;?\}'.( $oneLine ? '\s*' : '' ).'@s', "}", $string );				//  @todo: may be slow
+		$string	= preg_replace( '@\n+@s', "\n", $string );												//  compact breaks
+		$string	= preg_replace( '@\s*:\s*@', ':', $string );											//  remove space after property key and before property value
+		$string	= preg_replace( '@\.\./@', '', $string );												//  rewrite resource path
+		$string	= trim( $string );
+		return $string;
+	}
 
 	/**
 	 *	Returns statistical Data of last Combination.
@@ -56,29 +77,6 @@ class File_CSS_Compressor
 	public function getStatistics()
 	{
 		return $this->statistics;
-	}
-	
-	/**
-	 *	Compresses a CSS String.
-	 *	@access		public
-	 *	@param		string		$content		Content of CSS
-	 *	@return		string
-	 */
-	public function compressString( $content )
-	{
-		$map	= array(
-			'!/\*[^*]*\*+([^/][^*]*\*+)*/!'	=> '',								// remove comments
-			'!\s//.*(\r)?\n!U'				=> "\n",							// remove comments (single line)
-			'@( +):@'						=> ':',
-			'@:( +)@'						=> ':',
-			'@( +){@'						=> '{',
-		);
-		foreach( $map as $pattern => $replacement )
-			$content	= preg_replace( $pattern, $replacement, $content );		// replace pattern if found
-
-		$toRemove	= array( "\r", "\n", "\t", '  ', '    ', '    ' );
-		$content	= str_replace( $toRemove, ' ', $content );					// remove tabs, spaces, newlines, etc.
-		return $content;
 	}
 	
 	/**
@@ -96,7 +94,7 @@ class File_CSS_Compressor
 
 		$content	= file_get_contents( $fileUri );
 		$this->statistics['before']	= strlen( $content );
-		$content	= $this->compressString( $content );
+		$content	= self::compressString( $content );
 		$this->statistics['after']	= strlen( $content );
 		
 		$pathName	= dirname( $fileUri );
