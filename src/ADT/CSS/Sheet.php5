@@ -53,15 +53,13 @@ class ADT_CSS_Sheet{
 	}
 
 	public function remove( $selector, $property = NULL ){
-		$rule	= $this->getRule( $selector );
+		$rule	= $this->getRuleBySelector( $selector );
 		if( !$rule )
 			return FALSE;
 		if( $property ){
-			$rule	= $this->getRule( $selector );
-			if( $rule )
-				$rule->removeProperty( $propery );
+			$rule->removePropertyByKey( $property );
 		}
-		if( !$rule->getAll() )
+		if( !$rule->getProperties() )
 			$this->removeRule( $selector );
 	}
 
@@ -76,10 +74,10 @@ class ADT_CSS_Sheet{
 	}
 
 	public function set( $selector, $key, $value = NULL ){
-		$rule = $this->getRule( $selector );
+		$rule = $this->getRuleBySelector( $selector );
 		if( !$rule )
 			$rule	= $this->add( $selector );
-		$rule->setProperty( $key, $value );
+		$rule->setPropertyByKey( $key, $value );
 	}
 }
 ?>
