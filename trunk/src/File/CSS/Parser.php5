@@ -33,7 +33,7 @@ class File_CSS_Parser{
 	 *	@return		ADT_CSS_Sheet
 	 */
 	static public function parseString( $string ){
-		if( substr_count( "{", $string ) !== substr_count( "}", $string ) )							//  
+		if( substr_count( $string, "{" ) !== substr_count( $string, "}" ) )							//  
 			throw Exception( 'Invalid paranthesis' );
 		$string	= preg_replace( '/\/\*.+\*\//sU', '', $string );
 		$string	= preg_replace( '/(\t|\r|\n)/s', '', $string );

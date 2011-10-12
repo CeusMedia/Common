@@ -49,7 +49,7 @@ class File_CSS_Reader{
 	 */
 	public function getRules(){
 		if( !$this->fileName )
-			throw new RuntimeException( 'No CSS file set yet' )
+			throw new RuntimeException( 'No CSS file set yet' );
 		return File_CSS_Converter::convertSheetToArray( $this->sheet );
 	}
 
@@ -61,7 +61,7 @@ class File_CSS_Reader{
 	 */
 	public function getSheet(){
 		if( !$this->fileName )
-			throw new RuntimeException( 'No CSS file set yet' )
+			throw new RuntimeException( 'No CSS file set yet' );
 		return $this->sheet;
 	}
 
