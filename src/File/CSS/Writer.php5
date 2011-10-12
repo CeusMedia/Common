@@ -56,7 +56,7 @@ class File_CSS_Writer{
 	 */
 	public function write( ADT_CSS_Sheet $sheet ){
 		if( !$this->fileName )
-			throw new RuntimeException( 'No CSS file set yet' )
+			throw new RuntimeException( 'No CSS file set yet' );
 		return self::save( $this->fileName, $sheet );
 	}
 
