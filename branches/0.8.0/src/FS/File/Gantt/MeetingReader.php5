@@ -18,7 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		File.Gantt
+ *	@package		FS.File.Gantt
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -29,7 +29,7 @@
 /**
  *	Reads "Gantt Project" XML File and extracts basic Project Information and Meeting Dates.
  *	@category		cmClasses
- *	@package		File.Gantt
+ *	@package		FS.File.Gantt
  *	@uses			XML_DOM_XPathQuery
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
@@ -43,7 +43,7 @@ class FS_File_Gantt_MeetingReader
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		string		$fileName		File Name of Gantt Project XML File
+	 *	@param		string		$fileName		FS.File Name of Gantt Project XML File
 	 *	@return		void
 	 */
 	public function __construct( $fileName )

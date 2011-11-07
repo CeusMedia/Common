@@ -9,7 +9,7 @@ class FS_File_INI {
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		string		$fileName		File Name
+	 *	@param		string		$fileName		FS.File Name
 	 *	@param		boolean		$useSections	Flag: use Sections
 	 *	@return		void
 	 */

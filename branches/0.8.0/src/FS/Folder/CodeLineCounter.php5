@@ -18,7 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		Folder
+ *	@package		FS.Folder
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -29,7 +29,7 @@
 /**
  *	Counter for Lines of Code.
  *	@category		cmClasses
- *	@package		Folder
+ *	@package		FS.Folder
  *	@uses			FS_File_Reader
  *	@uses			FS_Folder_RecursiveLister
  *	@uses			UI_HTML_Elements
@@ -68,7 +68,7 @@ class FS_Folder_CodeLineCounter
 	/**
 	 *	Counts Files, Folders, Lines of Code and other statistical Information.
 	 *	@access		public
-	 *	@param		string		$path			Folder to count within
+	 *	@param		string		$path			FS.Folder to count within
 	 *	@param		array		$extensions		List of Code File Extensions
 	 *	@return		array
 	 */

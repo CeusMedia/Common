@@ -18,7 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		File.CSV
+ *	@package		FS.File.CSV
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -28,7 +28,7 @@
 /**
  *	Writing comma separatad values (CSV) data with or without column headers to File. 
  *	@category		cmClasses
- *	@package		File.CSV
+ *	@package		FS.File.CSV
  *	@uses			FS_File_Writer
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
@@ -46,7 +46,7 @@ class FS_File_CSV_Writer
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		string		$fileName		File name of CSV File
+	 *	@param		string		$fileName		FS.File name of CSV File
 	 *	@param		string		$separator		Separator sign
 	 *	@return		void
 	 */

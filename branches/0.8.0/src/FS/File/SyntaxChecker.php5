@@ -18,7 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		File
+ *	@package		FS.File
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -29,7 +29,7 @@
 /**
  *	Checks Syntax of PHP Classes and Scripts.
  *	@category		cmClasses
- *	@package		File
+ *	@package		FS.File
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -42,7 +42,7 @@ class FS_File_SyntaxChecker
 	/**
 	 *	Returns whether a PHP Class or Script has valid Syntax.
 	 *	@access		public
-	 *	@param		string		$fileName		File Name of PHP File to check
+	 *	@param		string		$fileName		FS.File Name of PHP File to check
 	 *	@return		bool
 	 */
 	public function checkFile( $fileName )

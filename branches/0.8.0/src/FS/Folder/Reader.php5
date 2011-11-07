@@ -18,7 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		Folder
+ *	@package		FS.Folder
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -28,7 +28,7 @@
 /**
  *	Reader for Folders.
  *	@category		cmClasses
- *	@package		Folder
+ *	@package		FS.Folder
  *	@uses			FS_Folder_Lister
  *	@uses			FS_Folder_RecursiveLister
  *	@uses			Alg_UnitFormater
@@ -41,13 +41,13 @@
  */
 class FS_Folder_Reader
 {
-	/**	@var		string		$folderName		Folder Name, relative or absolute */
+	/**	@var		string		$folderName		FS.Folder Name, relative or absolute */
 	protected $folderName;
 
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		string		$folderName		Folder Name, relative or absolute
+	 *	@param		string		$folderName		FS.Folder Name, relative or absolute
 	 *	@return		void
 	 */
 	public function __construct( $folderName )

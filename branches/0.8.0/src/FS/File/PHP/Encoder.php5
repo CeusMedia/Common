@@ -18,7 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		File.PHP
+ *	@package		FS.File.PHP
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -29,7 +29,7 @@
 /**
  *	Class for encoding PHP File.
  *	@category		cmClasses
- *	@package		File.PHP
+ *	@package		FS.File.PHP
  *	@uses			FS_File_Editor
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
@@ -168,7 +168,7 @@ class FS_File_PHP_Encoder
 	/**
 	 *	Indicated whether a PHP File ist encoded.
 	 *	@access		public
-	 *	@param		string		$fileName		File Name of PHP File to be checked
+	 *	@param		string		$fileName		FS.File Name of PHP File to be checked
 	 * 	@return		bool
 	 */
 	public function isEncoded( $fileName )

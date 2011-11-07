@@ -18,7 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		Database.PDO
+ *	@package		DB
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -29,7 +29,7 @@
 /**
  *	Builder for Data Source Name Strings.
  *	@category		cmClasses
- *	@package		Database.PDO
+ *	@package		DB
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -39,13 +39,13 @@
  */
 class DB_DataSourceName
 {
-	/**	@var		string		$driver			Database Driver */
+	/**	@var		string		$driver			DB Driver */
 	protected $driver;
-	/**	@var		string		$database		Database Name */
+	/**	@var		string		$database		DB Name */
 	protected $database;
-	/**	@var		string		$username		Database Username */
+	/**	@var		string		$username		DB Username */
 	protected $username	;
-	/**	@var		string		$password		Database Password */
+	/**	@var		string		$password		DB Password */
 	protected $password;
 	/**	@var		string		$host			Host Name or URI*/
 	protected $host;
@@ -68,8 +68,8 @@ class DB_DataSourceName
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		string		$driver			Database Driver (dblib|firebird|informix|mysql|mssql|oci|odbc|pgsql|sqlite|sybase)
-	 *	@param		string		$database		Database Name
+	 *	@param		string		$driver			DB Driver (dblib|firebird|informix|mysql|mssql|oci|odbc|pgsql|sqlite|sybase)
+	 *	@param		string		$database		DB Name
 	 *	@return		void
 	 */
 	public function __construct( $driver, $database = NULL )
@@ -109,7 +109,7 @@ class DB_DataSourceName
 	/**
 	 *	Sets Database, a String or File URI.
 	 *	@access		public
-	 *	@param		string		$database		Database Name
+	 *	@param		string		$database		DB Name
 	 *	@return		void
 	 */
 	public function setDatabase( $database )
@@ -286,8 +286,8 @@ class DB_DataSourceName
 	 *	Returns Data Source Name String.
 	 *	@access		public
 	 *	@static
-	 *	@param		string		$driver			Database Driver (dblib|firebird|informix|mysql|mssql|oci|odbc|pgsql|sqlite|sybase)
-	 *	@param		string		$database		Database Name
+	 *	@param		string		$driver			DB Driver (dblib|firebird|informix|mysql|mssql|oci|odbc|pgsql|sqlite|sybase)
+	 *	@param		string		$database		DB Name
 	 *	@param		string		$host			Host Name or URI
 	 *	@param		int			$port			Host Port
 	 *	@param		string		$username		Username

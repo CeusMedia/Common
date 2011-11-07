@@ -18,7 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		File.PHP.Test
+ *	@package		FS.File.PHP.Test
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -28,7 +28,7 @@
 /**
  *	Created Test Class for PHP Unit Tests using Class Parser and two Templates.
  *	@category		cmClasses
- *	@package		File.PHP.Test
+ *	@package		FS.File.PHP.Test
  *	@uses			UI_ClassParser
  *	@uses			FS_Folder_Editor
  *	@uses			FS_Folder_RecursiveRegexFilter
@@ -46,17 +46,17 @@ class FS_File_PHP_Test_Creator
 	protected $classFile			= "";
 	/**	@var		string			$classPath			Class Path, eg. de.ceus-media.package.Class */
 	protected $classPath			= "";
-	/**	@var		string			$fileName			File Name of Class */
+	/**	@var		string			$fileName			FS.File Name of Class */
 	protected $fileName				= "";
 	/**	@var		array			$pathParts			Splitted Path Parts in lower Case */
 	protected $pathParts			= array();
 	/**	@var		array			$pathParts			Splitted Path Parts in lower Case */
 	protected $pathTemplates		= array();
-	/**	@var		string			$templateClass		File Name of Test Class Template */
+	/**	@var		string			$templateClass		FS.File Name of Test Class Template */
 	protected $templateClass		= "Creator_class.tmpl";
-	/**	@var		string			$templateClass		File Name of Exception Test Method Template */
+	/**	@var		string			$templateClass		FS.File Name of Exception Test Method Template */
 	protected $templateException	= "Creator_exception.tmpl";
-	/**	@var		string			$templateClass		File Name of Test Method Template */
+	/**	@var		string			$templateClass		FS.File Name of Test Method Template */
 	protected $templateMethod		= "Creator_method.tmpl";
 
 	/**
@@ -280,7 +280,7 @@ class FS_File_PHP_Test_Creator
 	/**
 	 *	Sets individual Test Class Template.
 	 *	@access		public
-	 *	@param		string		$fileName		File Name of Test Class Template
+	 *	@param		string		$fileName		FS.File Name of Test Class Template
 	 *	@return		void
 	 */
 	public function setClassTemplate( $fileName )
@@ -291,7 +291,7 @@ class FS_File_PHP_Test_Creator
 	/**
 	 *	Sets individual Test Class Exception Template.
 	 *	@access		public
-	 *	@param		string		$fileName		File Name of Test Class Exception Template
+	 *	@param		string		$fileName		FS.File Name of Test Class Exception Template
 	 *	@return		void
 	 */
 	public function setExceptionTemplate( $fileName )
@@ -302,7 +302,7 @@ class FS_File_PHP_Test_Creator
 	/**
 	 *	Sets individual Test Class Method Template.
 	 *	@access		public
-	 *	@param		string		$fileName		File Name of Test Class Method Template
+	 *	@param		string		$fileName		FS.File Name of Test Class Method Template
 	 *	@return		void
 	 */
 	public function setMethodTemplate( $fileName )

@@ -18,7 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		Folder
+ *	@package		FS.Folder
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -29,7 +29,7 @@
 /**
  *	Checks Syntax of all PHP Classes and Scripts within a Folder.
  *	@category		cmClasses
- *	@package		Folder
+ *	@package		FS.Folder
  *	@uses			FS_File_SyntaxChecker
  *	@uses			FS_Folder_RecursiveRegexFilter
  *	@uses			UI_DevOutput

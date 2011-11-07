@@ -18,7 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		File.Log.JSON
+ *	@package		FS.File.Log.JSON
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -29,7 +29,7 @@
 /**
  *	Reader for Log Files containing JSON Serials.
  *	@category		cmClasses
- *	@package		File.Log.JSON
+ *	@package		FS.File.Log.JSON
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -39,13 +39,13 @@
  */
 class FS_File_Log_JSON_Reader
 {
-	/**	@var		string		$fileName		File Name of Log File */
+	/**	@var		string		$fileName		FS.File Name of Log File */
 	protected $fileName;
 
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		string		$fileName		File Name of Log File
+	 *	@param		string		$fileName		FS.File Name of Log File
 	 *	@return		void
 	 */
 	public function __construct( $fileName )
@@ -69,7 +69,7 @@ class FS_File_Log_JSON_Reader
 	 *	Reads and returns List of parsed Lines statically.
 	 *	@access		public
 	 *	@static
-	 *	@param		string		$fileName		File Name of Log File
+	 *	@param		string		$fileName		FS.File Name of Log File
 	 *	@param		bool		$reverse		Flag: revert List
 	 *	@param		int			$limit			Optional: limit List
 	 *	@return		array

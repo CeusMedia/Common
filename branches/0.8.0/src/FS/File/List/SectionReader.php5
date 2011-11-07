@@ -18,7 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		File.List
+ *	@package		FS.File.List
  *	@uses			FS_File_Reader
  *	@author			Chistian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
@@ -30,7 +30,7 @@ import ("de.ceus-media.file.Reader");
 /**
  *	A Class for reading Section List Files.
  *	@category		cmClasses
- *	@package		File.List
+ *	@package		FS.File.List
  *	@uses			FS_File_Reader
  *	@author			Chistian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
@@ -47,7 +47,7 @@ class FS_File_List_SectionReader
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		string		$fileName		File Name of sectioned List
+	 *	@param		string		$fileName		FS.File Name of sectioned List
 	 *	@return		void
 	 */
 	public function __construct( $fileName )
@@ -64,7 +64,7 @@ class FS_File_List_SectionReader
 	 *	Reads the List.
 	 *	@access		public
 	 *	@static
-	 *	@param		string		$fileName		File Name of sectioned List
+	 *	@param		string		$fileName		FS.File Name of sectioned List
 	 *	@return		array
 	 */
 	public static function load( $fileName )

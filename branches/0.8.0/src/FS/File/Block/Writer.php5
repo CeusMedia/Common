@@ -18,7 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		File.Block
+ *	@package		FS.File.Block
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -29,7 +29,7 @@
 /**
  *	Writer for Files with Text Block Contents, named by Section.
  *	@category		cmClasses
- *	@package		File.Block
+ *	@package		FS.File.Block
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -45,7 +45,7 @@ class FS_File_Block_Writer
 	/**
 	 *	Constructor, reads Block File.
 	 *	@access		public
-	 *	@param		string		$fileName		File Name of Block File
+	 *	@param		string		$fileName		FS.File Name of Block File
 	 *	@return		void
 	 */
 	public function __construct( $fileName )

@@ -18,7 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		File.PHP.Parser
+ *	@package		FS.File.PHP.Parser
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -29,7 +29,7 @@
 /**
  *	Parses PHP Files containing a Class or Methods to Array using regular expressions (slow).
  *	@category		cmClasses
- *	@package		File.PHP.Parser
+ *	@package		FS.File.PHP.Parser
  *	@uses			FS_File_Reader
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
@@ -115,7 +115,7 @@ class FS_File_PHP_Parser_Array
 	/**
 	 *	Parses a PHP File and returns nested Array of collected Information.
 	 *	@access		public
-	 *	@param		string		$fileName		File Name of PHP File to parse
+	 *	@param		string		$fileName		FS.File Name of PHP File to parse
 	 *	@param		string		$innerPath		Base Path to File to be removed in Information
 	 *	@return		array
 	 */

@@ -18,7 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		File
+ *	@package		FS.File
  *	@uses			Alg_UnitFormater
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
@@ -29,7 +29,7 @@
 /**
  *	Basic File Reader.
  *	@category		cmClasses
- *	@package		File
+ *	@package		FS.File
  *	@uses			Alg_UnitFormater
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
@@ -39,13 +39,13 @@
  */
 class FS_File_Reader
 {
-	/**	@var		string		$fileName		File Name or URI of File */
+	/**	@var		string		$fileName		FS.File Name or URI of File */
 	protected $fileName;
 
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		string		$fileName		File Name or URI of File
+	 *	@param		string		$fileName		FS.File Name or URI of File
 	 *	@return		void
 	 */
 	public function __construct( $fileName, $check = FALSE )
@@ -213,7 +213,7 @@ class FS_File_Reader
 	/**
 	 *	Returns OS permissions of current file as octal value.
 	 *	@access		public
-	 *	@return		FS_File_Permissions		File permissions object
+	 *	@return		FS_File_Permissions		FS.File permissions object
 	 */
 	public function getPermissions()
 	{

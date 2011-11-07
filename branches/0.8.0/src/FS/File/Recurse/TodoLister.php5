@@ -18,7 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		File
+ *	@package		FS.File
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -29,7 +29,7 @@
 /**
  *	Class to find all Files with ToDos inside.
  *	@category		cmClasses
- *	@package		File
+ *	@package		FS.File
  *	@extends		FS_File_TodoLister
  *	@uses			FS_File_RecursiveRegexFilter
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>

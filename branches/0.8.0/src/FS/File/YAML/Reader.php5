@@ -18,7 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		File.YAML
+ *	@package		FS.File.YAML
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -29,7 +29,7 @@
 /**
  *	YAML Reader based on Spyc.
  *	@category		cmClasses
- *	@package		File.YAML
+ *	@package		FS.File.YAML
  *	@uses			FS_File_Reader
  *	@uses			FS_File_YAML_Spyc
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
@@ -44,7 +44,7 @@ class FS_File_YAML_Reader
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		string		$fileName		File Name of YAML File.
+	 *	@param		string		$fileName		FS.File Name of YAML File.
 	 *	@return		void
 	 */
 	public function __construct( $fileName )
@@ -66,7 +66,7 @@ class FS_File_YAML_Reader
 	 *	Loads YAML File statically.
 	 *	@access		public
 	 *	@static
-	 *	@param		string		$fileName		File Name of YAML File.
+	 *	@param		string		$fileName		FS.File Name of YAML File.
 	 *	@return		array
 	 */
 	public static function load( $fileName )

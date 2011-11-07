@@ -18,7 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		File
+ *	@package		FS.File
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -29,7 +29,7 @@
 /**
  *	Editor for Files.
  *	@category		cmClasses
- *	@package		File
+ *	@package		FS.File
  *	@extends		FS_File_Reader
  *	@uses			FS_File_Writer
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
@@ -48,7 +48,7 @@ class FS_File_Editor extends FS_File_Reader
 	/**
 	 *	Constructor. Creates File if not existing and Creation Mode is set.
 	 *	@access		public
-	 *	@param		string		$fileName		File Name or URI of File
+	 *	@param		string		$fileName		FS.File Name or URI of File
 	 *	@param		string		$creationMode	UNIX rights for chmod()
 	 *	@param		string		$creationUser	User Name for chown()
 	 *	@param		string		$creationGroup	Group Name for chgrp()
@@ -110,7 +110,7 @@ class FS_File_Editor extends FS_File_Reader
 	/**
 	 *	Renames current File.
 	 *	@access		public
-	 *	@param		string		$fileName		File Name to rename to
+	 *	@param		string		$fileName		FS.File Name to rename to
 	 *	@return		bool
 	 */
 	public function rename( $fileName )
