@@ -43,7 +43,7 @@
  *	@todo			PHOTO,BDAY,NOTE,LABEL,KEY,PRODID,MAILER,TZ
  *	@todo			Code Doc
  */
-class File_VCard_Builder
+class FS_File_VCard_Builder
 {
 	public static $version	= "3.0";
 	public static $prodId	= "";

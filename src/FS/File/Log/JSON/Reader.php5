@@ -37,7 +37,7 @@
  *	@since			01.12.2008
  *	@version		$Id$
  */
-class File_Log_JSON_Reader
+class FS_File_Log_JSON_Reader
 {
 	/**	@var		string		$fileName		File Name of Log File */
 	protected $fileName;

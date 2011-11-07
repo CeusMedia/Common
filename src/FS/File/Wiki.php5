@@ -31,8 +31,8 @@
  *	@category		cmClasses
  *	@package		File
  *	@extends		UI_HTML_WikiParser
- *	@uses			File_Reader
- *	@uses			File_Writer
+ *	@uses			FS_File_Reader
+ *	@uses			FS_File_Writer
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -40,7 +40,7 @@
  *	@since			01.04.2006
  *	@version		0.6
  */
-class File_Wiki extends UI_HTML_WikiParser
+class FS_File_Wiki extends UI_HTML_WikiParser
 {
 	/**
 	 *	Construcor.
@@ -100,7 +100,7 @@ class File_Wiki extends UI_HTML_WikiParser
 	public function hasPage( $id )
 	{
 		$filename	= $this->getFilenameFromPage( $id );
-		return file_exists( $filename );
+		return FS_File_exists( $filename );
 	}
 
 	/**
@@ -114,9 +114,9 @@ class File_Wiki extends UI_HTML_WikiParser
 		if( $this->getOption( 'use_cache' ) )
 		{
 			$cachefile	= $this->_getCacheFilenameFromPage( $id );
-			if( file_exists( $cachefile ) )
+			if( FS_File_exists( $cachefile ) )
 			{
-				$file	= new File_Reader( $cachefile );
+				$file	= new FS_File_Reader( $cachefile );
 				$text	= $file->readString();
 				if( $this->getOption( 'compress_cache' ) )
 					$text	= gzuncompress( $text );
@@ -125,10 +125,10 @@ class File_Wiki extends UI_HTML_WikiParser
 			else
 			{
 				$filename	= $this->getFilenameFromPage( $id );
-				$file	= new File_Reader( $filename );
+				$file	= new FS_File_Reader( $filename );
 				$text	= $file->readString();
 				$text	= $this->parse( $text );
-				$file	= new File_Writer( $cachefile, 0755 );
+				$file	= new FS_File_Writer( $cachefile, 0755 );
 				if( $this->getOption( 'compress_cache' ) )
 					$file->writeString( gzcompress( $text ) );
 				else
@@ -139,9 +139,9 @@ class File_Wiki extends UI_HTML_WikiParser
 		else
 		{
 			$filename	= $this->getFilenameFromPage( $id );
-			if( file_exists( $filename ) )
+			if( FS_File_exists( $filename ) )
 			{
-				$file	= new File_Reader( $filename );
+				$file	= new FS_File_Reader( $filename );
 				$text	= $file->readString();
 				return $this->parse( $text );
 			}
@@ -162,20 +162,20 @@ class File_Wiki extends UI_HTML_WikiParser
 	public function writePage( $id, $content )
 	{
 		$filename	= $this->getFilenameFromPage( $id );
-		if( file_exists( $filename ) )
+		if( FS_File_exists( $filename ) )
 		{
-			$file	= new File_Writer( $filename );
+			$file	= new FS_File_Writer( $filename );
 			$file->writeString( $content );
 		}
 		else
 		{
-			$file	= new File_Writer( $filename, 0755 );
+			$file	= new FS_File_Writer( $filename, 0755 );
 			$file->writeString( $content );
 		}
 		if( $this->getOption( 'use_cache' ) )
 		{
 			$cachefile	= $this->_getCacheFilenameFromPage( $id );
-			if( file_exists( $cachefile ) )
+			if( FS_File_exists( $cachefile ) )
 				unlink( $cachefile );
 		}
 	}

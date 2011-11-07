@@ -38,7 +38,7 @@
  *	It can be forced to overwrite or remove everything with Option 'force'.
  *	@category		cmClasses
  *	@package		Folder
- *	@extends	 	Folder_Reader
+ *	@extends	 	FS_Folder_Reader
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -46,7 +46,7 @@
  *	@since			15.04.2008
  *	@version		$Id$
  */
-class Folder_Editor extends Folder_Reader
+class FS_Folder_Editor extends FS_Folder_Reader
 {
 	/**
 	 *	Constructor, Creates Folder if not existing and Creation Mode is set.
@@ -183,7 +183,7 @@ class Folder_Editor extends Folder_Reader
 		else if( !self::isFolder( $targetFolder ) )											//  Target Folder is not existing
 			$count	+= (int) self::createFolder( $targetFolder );							//  create TargetFolder and count
 
-		$index	= new Folder_Iterator( $sourceFolder, TRUE, TRUE, $skipDotEntries );		//  Index of Source Folder
+		$index	= new FS_Folder_Iterator( $sourceFolder, TRUE, TRUE, $skipDotEntries );		//  Index of Source Folder
 		foreach( $index as $entry )														
 		{
 			if( $entry->isDot() )															//  Dot Folders
@@ -197,7 +197,7 @@ class Folder_Editor extends Folder_Reader
 			else if( $entry->isFile() )														//  nested File
 			{
 				$targetFile	= $targetFolder.$entry->getFilename();
-				if( file_exists( $targetFile ) && !$force )
+				if( FS_File_exists( $targetFile ) && !$force )
 					throw new RuntimeException( 'File "'.$targetFile.'" is already existing. See Option "force"' );
 				$count	+= (int) copy( $entry->getPathname(), $targetFile );				//  copy File and count
 			}

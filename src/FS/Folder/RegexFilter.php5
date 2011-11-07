@@ -39,7 +39,7 @@
  *	@version		$Id$
  *	@todo			Fix Error while comparing File Name to Current File with Path
  */
-class Folder_RegexFilter extends RegexIterator
+class FS_Folder_RegexFilter extends RegexIterator
 {
 	/**	@var		 bool		$showFiles			Flag: show Files */
 	protected $showFiles;

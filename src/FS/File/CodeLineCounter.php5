@@ -30,7 +30,7 @@
  *	Counter for Lines of Code of a File.
  *	@category		cmClasses
  *	@package		File
- *	@uses			File_Reader
+ *	@uses			FS_File_Reader
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -38,7 +38,7 @@
  *	@since			15.04.2008
  *	@version		$Id$
  */
-class File_CodeLineCounter
+class FS_File_CodeLineCounter
 {
 	/**
 	 *	Reads File and counts Code Lines, Documentation Lines and unimportant Lines and returns a Data Array.
@@ -49,7 +49,7 @@ class File_CodeLineCounter
 	 */
 	public static function countLines( $fileName )
 	{
-		$content	= File_Reader::load( $fileName );
+		$content	= FS_File_Reader::load( $fileName );
 		return self::countLinesFromSource( $content );
 	}
 

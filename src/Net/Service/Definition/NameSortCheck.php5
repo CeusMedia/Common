@@ -65,7 +65,7 @@ class Net_Service_Definition_NameSortCheck
 	{
 		$this->originalList	= array();
 		$this->compared		= TRUE;
-		$content	= file_get_contents( $this->fileName );
+		$content	= FS_File_get_contents( $this->fileName );
 		$info	= pathinfo( $this->fileName );
 		switch( $info['extension'] )
 		{

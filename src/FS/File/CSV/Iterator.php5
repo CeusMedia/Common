@@ -11,7 +11,7 @@
  *	@author			mortanon@gmail.com
  *	@link			http://uk.php.net/manual/en/function.fgetcsv.php
  */
-class File_CSV_Iterator implements Iterator
+class FS_File_CSV_Iterator implements Iterator
 {
 	public static $maxRowSize = 4096;
 

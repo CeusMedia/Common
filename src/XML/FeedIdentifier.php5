@@ -30,7 +30,7 @@
  *	Identifies Type and Version of RSS and ATOM Feeds.
  *	@category		cmClasses
  *	@package		XML
- *	@uses			File_Reader
+ *	@uses			FS_File_Reader
  *	@uses			Net_Reader
  *	@uses			XML_DOM_SyntaxValidator
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
@@ -143,7 +143,7 @@ class XML_FeedIdentifier
 	 */
 	public static function identifyFromFile( $file )
 	{
-		$xml	= File_Reader::load( $filename );
+		$xml	= FS_File_Reader::load( $filename );
 		return $this->identify( $xml );
 	}
 

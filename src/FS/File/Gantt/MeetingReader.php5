@@ -38,7 +38,7 @@
  *	@since			12.03.2008
  *	@version		$Id$
  */
-class File_Gantt_MeetingReader
+class FS_File_Gantt_MeetingReader
 {
 	/**
 	 *	Constructor.

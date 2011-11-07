@@ -30,7 +30,7 @@
  *	Reader for Property Files or typical .ini Files with Key, Values and optional Sections and Comments.
  *	@category		cmClasses
  *	@package		File.INI
- *	@uses			File_Reader
+ *	@uses			FS_File_Reader
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -38,7 +38,7 @@
  *	@since			01.01.2001
  *	@version		$Id$
  */
-class File_INI_Reader extends File_Reader
+class FS_File_INI_Reader extends FS_File_Reader
 {
 	/**	@var		string			$fileName				URI of Ini File */
 	protected $fileName				= array();
@@ -389,7 +389,7 @@ class File_INI_Reader extends File_Reader
 		$this->lines		= array();
 		$this->comments		= array();
 		$commentOpen		= 0;
-		$lines				= File_Reader::loadArray( $this->fileName );
+		$lines				= FS_File_Reader::loadArray( $this->fileName );
 		foreach( $lines as $line )
 		{
 			$line			= trim( $line );

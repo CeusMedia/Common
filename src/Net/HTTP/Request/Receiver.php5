@@ -172,7 +172,7 @@ class Net_HTTP_Request_Receiver extends ADT_List_Dictionary
 	 */
 	public function getRawPostData()
 	{
-		return file_get_contents( "php://input" );
+		return FS_File_get_contents( "php://input" );
 	}
 
 	/**

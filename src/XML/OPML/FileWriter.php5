@@ -30,7 +30,7 @@
  *	@category		cmClasses
  *	@package		XML.OMPL
  *	@uses			XML_DOM_Builder
- *	@uses			File_Writer
+ *	@uses			FS_File_Writer
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -66,7 +66,7 @@ class XML_OPML_FileWriter
 	{
 		$builder	= new XML_DOM_Builder();
 		$xml		= $builder->build( $tree, $encoding );
-		$file		= new File_Writer( $fileName, 0777 );
+		$file		= new FS_File_Writer( $fileName, 0777 );
 		return $file->writeString( $xml );
 	}
 	

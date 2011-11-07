@@ -186,7 +186,7 @@ class ADT_PHP_Container
 		if( !empty( $config['creator.file.data.archive'] ) )
 		{
 			$uri	= $config['doc.path'].$config['creator.file.data.archive'];
-			if( file_exists( $uri ) )
+			if( FS_File_exists( $uri ) )
 			{
 				$serial	= "";
 				if( $fp = gzopen( $uri, "r" ) )
@@ -202,9 +202,9 @@ class ADT_PHP_Container
 		if( !empty( $config['creator.file.data.serial'] ) )
 		{
 			$uri	= $config['doc.path'].$config['creator.file.data.serial'];
-			if( file_exists( $uri ) )
+			if( FS_File_exists( $uri ) )
 			{
-				$serial	= file_get_contents( $uri );
+				$serial	= FS_File_get_contents( $uri );
 				$data	= unserialize( $serial );
 				return $data;
 			}
@@ -233,7 +233,7 @@ class ADT_PHP_Container
 		else if( !empty( $config['creator.file.data.serial'] ) )
 		{
 			$uri	= $config['doc.path'].$config['creator.file.data.serial'];
-			file_put_contents( $uri, $serial );
+			FS_File_put_contents( $uri, $serial );
 		}
 	}
 	

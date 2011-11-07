@@ -30,7 +30,7 @@
  *	Reader for PEAR Package Description Files in XML.
  *	@category		cmClasses
  *	@package		XML.DOM.PEAR
- *	@uses			File_Reader
+ *	@uses			FS_File_Reader
  *	@author			Christian Würker
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -57,7 +57,7 @@ class XML_DOM_PEAR_PackageReader
 			'changes'		=> array(),
 		);
 
-		$xml	= File_Reader::load( $fileName );
+		$xml	= FS_File_Reader::load( $fileName );
 		$doc	= new DOMDocument();
 		$doc->preserveWhiteSpace	= FALSE;
 		$doc->validateOnParse		= !TRUE;

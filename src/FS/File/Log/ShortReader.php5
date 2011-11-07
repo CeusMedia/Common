@@ -38,7 +38,7 @@
  *	@version		$Id$
  *	@todo			Prove File for Existence
  */
-class File_Log_ShortReader
+class FS_File_Log_ShortReader
 {
 	/*	@var		array		$data		Array of Data in Lines */
 	protected $data	= FALSE;

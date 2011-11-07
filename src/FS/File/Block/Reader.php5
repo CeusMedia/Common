@@ -30,7 +30,7 @@
  *	Reader for Files with Text Block Contents, named by Section.
  *	@category		cmClasses
  *	@package		File.Block
- *	@uses			File_Reader
+ *	@uses			FS_File_Reader
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -38,7 +38,7 @@
  *	@since			19.12.2006
  *	@version		$Id$
  */
-class File_Block_Reader
+class FS_File_Block_Reader
 {
 	protected $blocks			= array();
 	protected $fileName;
@@ -113,7 +113,7 @@ class File_Block_Reader
 	protected function readBlocks()
 	{
 		$open	= false;
-		$file	= new File_Reader( $this->fileName );
+		$file	= new FS_File_Reader( $this->fileName );
 		$lines	= $file->readArray();
 		foreach( $lines as $line )
 		{

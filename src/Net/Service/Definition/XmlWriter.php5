@@ -33,7 +33,7 @@
  *	@uses			XML_DOM_Builder
  *	@uses			XML_DOM_Node
  *	@uses			XML_DOM_Parser
- *	@uses			File_Writer
+ *	@uses			FS_File_Writer
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -219,7 +219,7 @@ class Net_Service_Definition_XmlWriter
 	public static function save( $fileName, $data )
 	{
 		$xml	= self::build( $data );															//  build XML String
-		$bytes	= File_Writer::save( $fileName, $xml );											//  write XML String to File
+		$bytes	= FS_File_Writer::save( $fileName, $xml );											//  write XML String to File
 		return $bytes;																			//  return Number of written Bytes
 	}
 }

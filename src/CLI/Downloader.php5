@@ -103,14 +103,14 @@ class Console_Downloader
 
 		$this->fileUri	= $savePath.$fileName;												//  store full File Name
 		$this->tempUri	= sys_get_temp_dir().$fileName.".part";								//  store Temp File Name
-		if( file_exists( $this->fileUri ) )													//  File already exists
+		if( FS_File_exists( $this->fileUri ) )													//  File already exists
 		{
 			if( !$force )																	//  force not set
 				throw new RuntimeException( 'File "'.$this->fileUri.'" is already existing.' );
 			if( !@unlink( $this->fileUri ) )												//  remove File, because forced
 				throw new RuntimeException( 'File "'.$this->fileUri.'" could not been cleared.' );
 		}
-		if( file_exists( $this->tempUri ) )													//  Temp File exists
+		if( FS_File_exists( $this->tempUri ) )													//  Temp File exists
 			if( !@unlink( $this->tempUri ) )												//  remove Temp File
 				throw new RuntimeException( 'Temp File "'.$this->tempUri.'" could not been cleared.' );
 

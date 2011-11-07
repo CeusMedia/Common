@@ -72,7 +72,7 @@ class XML_Validator
 	 */
 	public function validateFile( $fileName )
 	{
-		$xml = File_Reader::load( $fileName );
+		$xml = FS_File_Reader::load( $fileName );
 		return $this->validateXML( $xml );
 	}
 

@@ -30,8 +30,8 @@
  *	YAML Writer based on Spyc.
  *	@category		cmClasses
  *	@package		File.YAML
- *	@uses			File_Writer
- *	@uses			File_YAML_Spyc
+ *	@uses			FS_File_Writer
+ *	@uses			FS_File_YAML_Spyc
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -39,7 +39,7 @@
  *	@since			18.06.2007
  *	@version		$Id$
  */
-class File_YAML_Writer
+class FS_File_YAML_Writer
 {
 	/**	@var		string		$fileName		File Name of YAML File */
 	protected $fileName;
@@ -75,8 +75,8 @@ class File_YAML_Writer
 	 */
 	public static function save( $fileName, $data )
 	{
-		$yaml	= File_YAML_Spyc::YAMLDump( $data );
-		return File_Writer::save( $fileName, $yaml );
+		$yaml	= FS_File_YAML_Spyc::YAMLDump( $data );
+		return FS_File_Writer::save( $fileName, $yaml );
 	}
 }
 ?>

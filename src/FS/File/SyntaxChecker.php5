@@ -37,7 +37,7 @@
  *	@since			12.05.2008
  *	@version		$Id$
  */
-class File_SyntaxChecker
+class FS_File_SyntaxChecker
 {
 	/**
 	 *	Returns whether a PHP Class or Script has valid Syntax.

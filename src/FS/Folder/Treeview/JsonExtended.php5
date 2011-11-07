@@ -36,7 +36,7 @@
  *	@version		$Id$
  *	@todo			Code Doc
  */
-class Folder_Treeview_JsonExtended extends Folder_Treeview_Json
+class FS_Folder_Treeview_JsonExtended extends FS_Folder_Treeview_Json
 {
 	protected function buildFileItem( $entry )
 	{

@@ -394,7 +394,7 @@ class UI_Template
 			throw new Exception_Template( Exception_Template::FILE_NOT_FOUND, $fileName );
 
 		$this->fileName	= $fileName;
-		$this->template = file_get_contents( $fileName );
+		$this->template = FS_File_get_contents( $fileName );
 		return TRUE;
 	}
 	

@@ -30,8 +30,8 @@
  *	Editor for Files.
  *	@category		cmClasses
  *	@package		File
- *	@extends		File_Reader
- *	@uses			File_Writer
+ *	@extends		FS_File_Reader
+ *	@uses			FS_File_Writer
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -40,9 +40,9 @@
  *	@version		$Id$a
  *	@todo			finish Writer Methods (create, isWritable)
  */
-class File_Editor extends File_Reader
+class FS_File_Editor extends FS_File_Reader
 {
-	/**	@var		File_Writer	$writer			Instance of file writer class */
+	/**	@var		FS_File_Writer	$writer			Instance of file writer class */
 	protected $writer;
 
 	/**
@@ -57,7 +57,7 @@ class File_Editor extends File_Reader
 	public function __construct( $fileName, $creationMode = NULL, $creationUser = NULL, $creationGroup = NULL )
 	{
 		parent::__construct( $fileName );
-		$this->writer	= new File_Writer( $fileName, $creationMode, $creationUser, $creationGroup );
+		$this->writer	= new FS_File_Writer( $fileName, $creationMode, $creationUser, $creationGroup );
 	}
 
 	public function appendString( $string ){
@@ -134,7 +134,7 @@ class File_Editor extends File_Reader
 	 */
 	public static function save( $fileName, $string )
 	{
-		return File_Writer::save( $fileName, $string );
+		return FS_File_Writer::save( $fileName, $string );
 	}
 
 	/**
@@ -147,7 +147,7 @@ class File_Editor extends File_Reader
 	 */
 	public static  function saveArray( $fileName, $array, $lineBreak = "\n" )
 	{
-		return File_Writer::saveArray( $fileName, $array, $lineBreak );
+		return FS_File_Writer::saveArray( $fileName, $array, $lineBreak );
 	}
 
 	/**

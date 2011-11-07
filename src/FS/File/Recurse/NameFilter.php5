@@ -38,7 +38,7 @@
  *	@version		$Id$
  *	@todo			Fix Error while comparing File Name to Current File with Path
  */
-class File_RecursiveNameFilter extends FilterIterator
+class FS_File_RecursiveNameFilter extends FilterIterator
 {
 	/**	@var	string		$fileName		Name of File to be found */
 	private $fileName;

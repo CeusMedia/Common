@@ -59,7 +59,7 @@ class XML_Atom_Reader
 
 	public function readFile( $fileName )
 	{
-		$xml	= File_Reader::load( $fileName );
+		$xml	= FS_File_Reader::load( $fileName );
 		$this->parser->parse( $xml );
 	}
 

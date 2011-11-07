@@ -37,7 +37,7 @@
  *	@since			27.12.2006
  *	@version		$Id$
  */
-class File_Log_ShortWriter
+class FS_File_Log_ShortWriter
 {
 	/**	@var		string		$patterns	Pattern Array filled with Logging Information */
 	protected $patterns			= array();

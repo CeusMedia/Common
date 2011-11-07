@@ -390,7 +390,7 @@ class Alg_HtmlParser
 	 */
 	public function parseHtmlFile( $fileName )
 	{
-		$html	= file_get_contents( $fileName );
+		$html	= FS_File_get_contents( $fileName );
 		$this->parseHtml( $html );
 	}
 }

@@ -29,15 +29,15 @@
  *	Tar File allows creation and manipulation of tar archives.
  *	@category		cmClasses
  *	@package		File.Arc
- *	@uses			File_Reader
- *	@uses			File_Writer
+ *	@uses			FS_File_Reader
+ *	@uses			FS_File_Writer
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		$Id$.7
  */
-class File_Arc_Tar
+class FS_File_Arc_Tar
 {
 	// Unprocessed Archive Information
 	protected $fileName;
@@ -103,7 +103,7 @@ class File_Arc_Tar
 		$fileName	= str_replace( "\\", "/", $fileName );
 		$fileName	= str_replace( "./", "", $fileName );
 		$fileInfo	= stat( $fileName );												// Get file information
-		$file		= new File_Reader( $fileName );
+		$file		= new FS_File_Reader( $fileName );
 
 		$this->numFiles++;																// Add file to processed data
 		$activeFile					= &$this->files[];
@@ -215,16 +215,16 @@ class File_Arc_Tar
 		if( $targetPath )
 		{
 			$cwd	= getCwd();
-			Folder_Editor::createFolder( $targetPath );
+			FS_Folder_Editor::createFolder( $targetPath );
 			chdir( $targetPath );
 		}
 		foreach( $this->folders as $folder )
-			Folder_Editor::createFolder( $folder['name'] );
+			FS_Folder_Editor::createFolder( $folder['name'] );
 		foreach( $this->files as $file )
 		{
 			if( $folder = dirname( $file['name'] ) )
-				Folder_Editor::createFolder( $folder );
-			$counter	+= (int)(bool) File_Writer::save( $file['name'], $file['file'] );
+				FS_Folder_Editor::createFolder( $folder );
+			$counter	+= (int)(bool) FS_File_Writer::save( $file['name'], $file['file'] );
 		}
 		if( $targetPath )
 			chDir( $cwd );
@@ -443,7 +443,7 @@ class File_Arc_Tar
 	 */
 	protected function readTar( $fileName )
 	{
- 		$file	= new File_Reader( $fileName );
+ 		$file	= new FS_File_Reader( $fileName );
 		$this->content = $file->readString(); 		
 		return $this->parseTar();																					// Parse the TAR file
 	}
@@ -503,7 +503,7 @@ class File_Arc_Tar
 			$fileName = $this->fileName;
 		}
 		$this->generateTar();																		// Encode processed files into TAR file format
-		return File_Writer::save( $fileName, $this->content );										//  write archive file
+		return FS_File_Writer::save( $fileName, $this->content );										//  write archive file
 	}
 }
 ?>

@@ -32,9 +32,9 @@
  *	YAML will be supported if Spyc is improved.
  *	@category		cmClasses
  *	@package		File.Configuration
- *	@uses			File_Writer
- *	@uses			File_INI_Creator
- *	@uses			File_INI_Reader
+ *	@uses			FS_File_Writer
+ *	@uses			FS_File_INI_Creator
+ *	@uses			FS_File_INI_Reader
  *	@uses			ADT_JSON_Converter
  *	@uses			ADT_JSON_Formater
  *	@uses			XML_ElementReader
@@ -47,7 +47,7 @@
  *	@since			06.05.2008
  *	@version		$Id$
  */
-class File_Configuration_Converter
+class FS_File_Configuration_Converter
 {
 	/**	@var		string		$iniTypePattern		Pattern for Types in INI Comments */
 	public static $iniTypePattern = '@^(string|integer|int|double|boolean|bool)[ \t]*[:-]*[ \t]*(.*)$@';
@@ -145,7 +145,7 @@ class File_Configuration_Converter
 	 */
 	protected static function loadIni( $fileName )
 	{
-		$reader	= new File_INI_Reader( $fileName, TRUE );
+		$reader	= new FS_File_INI_Reader( $fileName, TRUE );
 		$ini	= $reader->getCommentedProperties();
 		foreach( $ini as $sectionName => $sectionData )
 		{
@@ -184,7 +184,7 @@ class File_Configuration_Converter
 	 */
 	protected static function loadJson( $fileName )
 	{
-		$json	= File_Reader::load( $fileName );
+		$json	= FS_File_Reader::load( $fileName );
 		$json	= ADT_JSON_Converter::convertToArray( $json );
 		foreach( $json as $sectionName => $sectionData )
 		{
@@ -237,7 +237,7 @@ class File_Configuration_Converter
 	 */
 	protected static function saveIni( $fileName, $data )
 	{
-		$creator	= new File_INI_Creator( TRUE );
+		$creator	= new FS_File_INI_Creator( TRUE );
 		foreach( $data as $sectionName => $sectionData )
 		{
 			$creator->addSection( $sectionName );
@@ -281,7 +281,7 @@ class File_Configuration_Converter
 			}
 		}
 		$json	= ADT_JSON_Formater::format( $json, TRUE );
-		return File_Writer::save( $fileName, $json );
+		return FS_File_Writer::save( $fileName, $json );
 	}
 
 	/**

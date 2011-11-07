@@ -30,8 +30,8 @@
  *	Checks order of methods in a several PHP Files within a Folder.
  *	@category		cmClasses
  *	@package		Folder
- *	@uses			File_PHP_MethodSortCheck
- *	@uses			File_RecursiveRegexFilter
+ *	@uses			FS_File_PHP_MethodSortCheck
+ *	@uses			FS_File_RecursiveRegexFilter
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -39,7 +39,7 @@
  *	@since			04.09.2008
  *	@version		$Id$
  */
-class Folder_MethodSortCheck
+class FS_Folder_MethodSortCheck
 {
 	protected $count	= 0;
 	protected $found	= 0;
@@ -70,13 +70,13 @@ class Folder_MethodSortCheck
 		$this->files	= array();
 		$extensions		= implode( "|", $this->extensions );
 		$pattern		= "@^[A-Z].*\.(".$extensions.")$@";
-		$filter			=  new File_RecursiveRegexFilter( $this->path, $pattern );
+		$filter			=  new FS_File_RecursiveRegexFilter( $this->path, $pattern );
 		foreach( $filter as $entry )
 		{
 			if( preg_match( "@^(_|\.)@", $entry->getFilename() ) )
 				continue;
 			$this->count++;
-			$check	= new File_PHP_MethodSortCheck( $entry->getPathname() );
+			$check	= new FS_File_PHP_MethodSortCheck( $entry->getPathname() );
 			if( $check->compare() )
 				continue;
 			$this->found++;

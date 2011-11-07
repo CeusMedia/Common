@@ -32,8 +32,8 @@
  *	@package		Net.Site
  *	@uses			Net_Site_MapapWriter
  *	@uses			Net_Site_Crawler
- *	@uses			File_Block_Writer
- *	@uses			File_Reader
+ *	@uses			FS_File_Block_Writer
+ *	@uses			FS_File_Reader
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -113,7 +113,7 @@ class Net_Site_MapCreator
 	 */
 	public function saveErrors( $uri )
 	{
-		$writer	= new File_Block_Writer( $uri );
+		$writer	= new FS_File_Block_Writer( $uri );
 		return $writer->writeBlocks( $this->errors );
 	}
 	
@@ -125,7 +125,7 @@ class Net_Site_MapCreator
 	 */
 	public function saveUrls( $uri )
 	{
-		$list	= new File_Writer( $uri );
+		$list	= new FS_File_Writer( $uri );
 		$list->writeArray( $this->urls );
 	}
 }

@@ -30,15 +30,15 @@
  *	@category		cmClasses
  *	@package		File.PHP.Test
  *	@uses			UI_ClassParser
- *	@uses			Folder_Editor
- *	@uses			Folder_RecursiveRegexFilter
+ *	@uses			FS_Folder_Editor
+ *	@uses			FS_Folder_RecursiveRegexFilter
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		$Id$
  */
-class File_PHP_Test_Creator
+class FS_File_PHP_Test_Creator
 {
 	/**	@var		string			$className			Class Name, eg. Package_Class */
 	protected $className			= "";
@@ -81,7 +81,7 @@ class File_PHP_Test_Creator
 		foreach( $exceptions as $exception )
 		{
 			$counter	= count( $exceptions ) > 1 ? $counter + 1 : "";
-			$template	= file_get_contents( $this->templateException );
+			$template	= FS_File_get_contents( $this->templateException );
 			$template	= str_replace( "{methodName}", $methodName, $template );
 			$template	= str_replace( "{MethodName}", ucFirst( $methodName ), $template );
 			$template	= str_replace( "{className}", $this->className, $template );
@@ -101,7 +101,7 @@ class File_PHP_Test_Creator
 	{
 		$methods	= $this->buildTestMethods();
 
-		$template	= file_get_contents( $this->templateClass );
+		$template	= FS_File_get_contents( $this->templateClass );
 		$template	= str_replace( "{methodTests}", implode( "", $methods ), $template );
 		$template	= str_replace( "{className}", $this->className, $template );
 		$template	= str_replace( "{classFile}", $this->classFile, $template );
@@ -109,8 +109,8 @@ class File_PHP_Test_Creator
 		$template	= str_replace( "{classPackage}", $this->data['package'], $template );
 		$template	= str_replace( "{date}", date( "d.m.Y" ), $template );
 
-		Folder_Editor::createFolder( dirname( $this->targetFile ) );
-		file_put_contents( $this->targetFile, $template );
+		FS_Folder_Editor::createFolder( dirname( $this->targetFile ) );
+		FS_File_put_contents( $this->targetFile, $template );
 	}
 
 	/**
@@ -131,7 +131,7 @@ class File_PHP_Test_Creator
 			if( $lastMethod )
 			{
 				$pattern	= "@.*function ".$lastMethod."(.*)function ".$methodName.".*@si";
-				$content	= file_get_contents( $this->classFile );
+				$content	= FS_File_get_contents( $this->classFile );
 				$content	= preg_replace( $pattern, "\\1", $content );
 				$exceptions	= $this->buildExceptionTestMethod( $lastMethod, $content );
 				foreach( $exceptions as $exception )
@@ -140,13 +140,13 @@ class File_PHP_Test_Creator
 			if( $methodName == array_pop( array_slice( array_keys( $this->data['methods'] ), -1 ) ) )
 			{
 				$pattern	= "@.*function ".$methodName."(.*)$@si";
-				$content	= file_get_contents( $this->classFile );
+				$content	= FS_File_get_contents( $this->classFile );
 				$content	= preg_replace( $pattern, "\\1", $content );
 				$exceptions	= $this->buildExceptionTestMethod( $methodName, $content );
 				foreach( $exceptions as $exception )
 					$methods[]	= $exception;
 			}
-			$template	= file_get_contents( $this->templateMethod );
+			$template	= FS_File_get_contents( $this->templateMethod );
 			$template	= str_replace( "{methodName}", $methodName, $template );
 			$template	= str_replace( "{MethodName}", ucFirst( $methodName ), $template );
 			$template	= str_replace( "{className}", $this->className, $template );
@@ -175,10 +175,10 @@ class File_PHP_Test_Creator
 		$this->classPath	= $this->getPath( "." );
 		$this->targetFile	= "Test/".$this->getPath( "/" )."Test.php";
 		
-		if( file_exists( $this->targetFile ) && !$force )
+		if( FS_File_exists( $this->targetFile ) && !$force )
 			throw new RuntimeException( 'Test Class for Class "'.$this->className.'" is already existing.' );
 		
-		$parser	= new File_PHP_Parser_Array();
+		$parser	= new FS_File_PHP_Parser_Array();
 		$data	= $parser->parseFile( $this->classFile, "" );
 		$this->data	= $data['class'];
 		
@@ -201,9 +201,9 @@ class File_PHP_Test_Creator
 	{
 		$counter	= 0;
 		$fullPath	= "de/ceus-media/".str_replace( "_", "/", $path )."/";		
-		if( file_exists( $fullPath ) && is_dir( $fullPath ) )
+		if( FS_File_exists( $fullPath ) && is_dir( $fullPath ) )
 		{
-			$filter	= new Folder_RecursiveRegexFilter( $fullPath, "@\.php5$@i", TRUE, FALSE );
+			$filter	= new FS_Folder_RecursiveRegexFilter( $fullPath, "@\.php5$@i", TRUE, FALSE );
 			foreach( $filter as $entry )
 			{
 				$counter++;
@@ -211,7 +211,7 @@ class File_PHP_Test_Creator
 				$className	= substr( $className, strlen( $fullPath ) );
 				$className	= preg_replace( "@\.php5$@i", "", $className );
 				$className	= str_replace( "/", "_", $className );
-				$creator	= new File_PHP_Test_Creator();
+				$creator	= new FS_File_PHP_Test_Creator();
 				$creator->createForFile( $path."_".$className, $force );
 			}
 		}
@@ -228,7 +228,7 @@ class File_PHP_Test_Creator
 		ob_start();
 		print_m( $this->data );
 		$data	= ob_get_clean();
-		file_put_contents( "lastCreatedTest.cache", "<xmp>".$data."</xmp>" );
+		FS_File_put_contents( "lastCreatedTest.cache", "<xmp>".$data."</xmp>" );
 	}
 	
 	/**

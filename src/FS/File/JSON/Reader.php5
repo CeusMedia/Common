@@ -37,7 +37,7 @@
  *	@since			0.7.0
  *	@version		$Id$
  */
-class File_JSON_Reader
+class FS_File_JSON_Reader
 {
 	protected $filePath;
 
@@ -60,7 +60,7 @@ class File_JSON_Reader
 	 */
 	public function read( $asArray = NULL )
 	{
-		$json	= File_Reader::load( $this->filePath );
+		$json	= FS_File_Reader::load( $this->filePath );
 		return json_decode( $json, $asArray );
 	}
 
@@ -73,7 +73,7 @@ class File_JSON_Reader
 	 */
 	public static function load( $filePath, $asArray = NULL )
 	{
-		$reader	= new File_JSON_Reader( $filePath );
+		$reader	= new FS_File_JSON_Reader( $filePath );
 		return $reader->read( $asArray );
 	}
 }

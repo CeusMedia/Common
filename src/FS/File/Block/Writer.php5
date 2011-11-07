@@ -37,7 +37,7 @@
  *	@since			19.12.2006
  *	@version		$Id$
  */
-class File_Block_Writer
+class FS_File_Block_Writer
 {
 	protected $fileName;
 	protected $patternSection;
@@ -68,7 +68,7 @@ class File_Block_Writer
 			$list[]	= $content;
 			$list[]	= "";
 		}
-		$file	= new File_Writer( $this->fileName );
+		$file	= new FS_File_Writer( $this->fileName );
 		return $file->writeArray( $list );
 	}
 }

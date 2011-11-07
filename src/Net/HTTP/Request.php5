@@ -113,7 +113,7 @@ class Net_HTTP_Request extends ADT_List_Dictionary
 		}
 
 		$this->setMethod( strtoupper( getEnv( 'REQUEST_METHOD' ) ) );								//  store HTTP method
-		$this->body	= file_get_contents( "php://input" );											//  store raw post or file data
+		$this->body	= FS_File_get_contents( "php://input" );											//  store raw post or file data
 	}
 
 	public function fromString( $request )

@@ -31,7 +31,7 @@
  *	@category		cmClasses
  *	@package		Console.Server.Cron
  *	@uses			Console_Server_Cron_Job
- *	@uses			File_Reader
+ *	@uses			FS_File_Reader
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -123,7 +123,7 @@ class Console_Server_Cron_Parser
 	{
 		if( !file_exists( $fileName ) )
 			throw new Exception( "Cron Tab File '".$fileName."' is not existing." );
-		$reader	= new File_Reader( $fileName );
+		$reader	= new FS_File_Reader( $fileName );
 		$lines	= $reader->readArray();
 		$lines	= file( $fileName );
 		foreach( $lines as $line )

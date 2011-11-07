@@ -43,7 +43,7 @@
  *	@todo			PHOTO,BDAY,NOTE,LABEL,KEY,PRODID,MAILER,TZ
  *	@todo			Code Doc
  */
-class File_VCard_Parser
+class FS_File_VCard_Parser
 {
 	/**
 	 *	Parses vCard String to new vCard Object and converts between Charsets.

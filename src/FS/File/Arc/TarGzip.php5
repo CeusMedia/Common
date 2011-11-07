@@ -29,15 +29,15 @@
  *	Tar Gzip File allows creation and manipulation of gzipped tar archives.
  *	@category		cmClasses
  *	@package		File.Arc
- *	@extends		File_Arc_Tar
- *	@uses			File_Arc_Gzip
+ *	@extends		FS_File_Arc_Tar
+ *	@uses			FS_File_Arc_Gzip
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		$Id$
  */
-class File_Arc_TarGzip extends File_Arc_Tar
+class FS_File_Arc_TarGzip extends FS_File_Arc_Tar
 {
 	/**
 	 *	Constructor.
@@ -73,7 +73,7 @@ class File_Arc_TarGzip extends File_Arc_Tar
 	 */
 	private function readGzipTar( $fileName )
 	{
-		$f = new File_Arc_Gzip( $fileName );
+		$f = new FS_File_Arc_Gzip( $fileName );
 		$this->content = $f->readString();
 		$this->parseTar();																			// Parse the TAR file
 		return true;
@@ -94,7 +94,7 @@ class File_Arc_TarGzip extends File_Arc_Tar
 			$fileName = $this->fileName;
 		}
 		$this->generateTar();												// Encode processed files into TAR file format
-		$f = new File_Arc_Gzip( $fileName );
+		$f = new FS_File_Arc_Gzip( $fileName );
 		$f->writeString( $this->content);
 		return true;
 	}

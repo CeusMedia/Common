@@ -79,7 +79,7 @@ class Net_Site_MapWriter
 	public static function save( $fileName, $urls, $mode = 0777 )
 	{
 		$builder	= new Net_Site_MapBuilder();
-		$file		= new File_Writer( $fileName, $mode );
+		$file		= new FS_File_Writer( $fileName, $mode );
 		$xml		= $builder->build( $urls );
 		return $file->writeString( $xml );
 	}

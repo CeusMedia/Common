@@ -91,7 +91,7 @@ abstract class Console_Fork_Server_Abstract
 	{
 		if( !$this->isRunning() )
 			throw new Console_Fork_ServerException( 'Server is not running' );
-		return trim( file_get_contents( $this->filePid ) );
+		return trim( FS_File_get_contents( $this->filePid ) );
 	}
 
 	abstract protected function handleRequest( $request );
@@ -174,7 +174,7 @@ abstract class Console_Fork_Server_Abstract
 
 		else if( $pid )
 		{
-			file_put_contents( $this->filePid, $pid );
+			FS_File_put_contents( $this->filePid, $pid );
 			exit();
 		}
 

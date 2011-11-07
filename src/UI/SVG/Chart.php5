@@ -29,7 +29,7 @@
  *	@category		cmClasses
  *	@package		UI.SVG
  *	@uses			UI_HTML_Tag
- *	@uses			File_Writer
+ *	@uses			FS_File_Writer
  *	@author			Jonas Schneider <JonasSchneider@gmx.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -252,7 +252,7 @@ class UI_SVG_Chart
 		$doc->formatOutput = true;
 		$doc->loadXml( $svg );
 		$svg	= $doc->saveXml();
-		return File_Writer::save( $fileName, $svg );
+		return FS_File_Writer::save( $fileName, $svg );
 	}
 }
 ?>

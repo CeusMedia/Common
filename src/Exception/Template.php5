@@ -40,8 +40,8 @@
  */
 class Exception_Template extends RuntimeException
 {
-	const FILE_NOT_FOUND		= 0;
-	const FILE_LABELS_MISSING	= 1;
+	const FS_File_NOT_FOUND		= 0;
+	const FS_File_LABELS_MISSING	= 1;
 	const LABELS_MISSING		= 2;
 
 	/**	@var		string		$messages		Map of Exception Messages, can be overwritten statically */

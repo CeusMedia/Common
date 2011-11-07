@@ -40,7 +40,7 @@
  *	@version		$Id$
  *	@todo			Fix Error while comparing File Name to Current File with Path
  */
-class File_RecursiveRegexFilter extends RegexIterator
+class FS_File_RecursiveRegexFilter extends RegexIterator
 {
 	/**	@var	int				$numberFound			Number of found Files */
 	protected $numberFound		= 0;
@@ -95,7 +95,7 @@ class File_RecursiveRegexFilter extends RegexIterator
 		$realPath	= realpath( $this->current()->getPathname() );
 		if( $realPath )
 			$filePath	= $realPath;
-		$content	= file_get_contents( $filePath );
+		$content	= FS_File_get_contents( $filePath );
 		$found		= preg_match( $this->contentPattern, $content );
 		return $found;
 	}
