@@ -31,7 +31,7 @@
  *	@category		cmClasses
  *	@package		Console.Server.Cron
  *	@uses			Console_Server_Cron_Parser
- *	@uses			File_Log_Writer
+ *	@uses			FS_File_Log_Writer
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
@@ -56,7 +56,7 @@ class Console_Server_Cron_Daemon
 	public function __construct( $cronTab, $logFile = "cron.log" )
 	{
 		$this->cronTab	= $cronTab;
-		$this->logFile	= new File_Log_Writer( $logFile );
+		$this->logFile	= new FS_File_Log_Writer( $logFile );
 		ob_implicit_flush();
 		set_time_limit( 0 );
 	}

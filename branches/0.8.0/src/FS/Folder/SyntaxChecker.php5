@@ -30,8 +30,8 @@
  *	Checks Syntax of all PHP Classes and Scripts within a Folder.
  *	@category		cmClasses
  *	@package		Folder
- *	@uses			File_SyntaxChecker
- *	@uses			Folder_RecursiveRegexFilter
+ *	@uses			FS_File_SyntaxChecker
+ *	@uses			FS_Folder_RecursiveRegexFilter
  *	@uses			UI_DevOutput
  *	@uses			Alg_Time_Clock
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
@@ -41,9 +41,9 @@
  *	@since			12.05.2008
  *	@version		$Id$
  */
-class Folder_SyntaxChecker
+class FS_Folder_SyntaxChecker
 {
-	/**	@var		object		$checker		Instance of File_SyntaxChecker */
+	/**	@var		object		$checker		Instance of FS_File_SyntaxChecker */
 	protected $checker;
 	/**	@var		string		$phpExtension	Extension of PHP Files, by default 'php5' */
 	public static $phpExtension	= "php5";
@@ -56,7 +56,7 @@ class Folder_SyntaxChecker
 	public function __construct()
 	{
 		$this->lineBreak	= getEnv( 'HTTP_HOST' ) ? "<br/>" : "\n";
-		$this->checker		= new File_SyntaxChecker;
+		$this->checker		= new FS_File_SyntaxChecker;
 	}
 
 	/**
@@ -73,7 +73,7 @@ class Folder_SyntaxChecker
 		$invalid	= array();
 		$clock		= new Alg_Time_Clock;
 		$this->failures	= array();
-		$index		= new Folder_RecursiveRegexFilter( $pathName, "@\.".self::$phpExtension."$@" );
+		$index		= new FS_Folder_RecursiveRegexFilter( $pathName, "@\.".self::$phpExtension."$@" );
 		foreach( $index as $file )
 		{
 			$counter++;

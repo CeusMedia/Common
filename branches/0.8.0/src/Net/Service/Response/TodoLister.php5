@@ -93,11 +93,11 @@ class Net_Service_Response_TodoLister extends Net_Service_Response
 	{
 		$hash		= md5( $path );
 		$fileName	= $hash.".cache";
-		if( !$refresh && file_exists( $fileName ) )
-			return unserialize( file_get_contents( $fileName ) );
-		$lister	= new File_RecursiveTodoLister( array(), $additionalPatterns );
+		if( !$refresh && FS_File_exists( $fileName ) )
+			return unserialize( FS_File_get_contents( $fileName ) );
+		$lister	= new FS_File_RecursiveTodoLister( array(), $additionalPatterns );
 		$lister->scan( $path );
-		file_put_contents( $fileName, serialize( $lister ) );
+		FS_File_put_contents( $fileName, serialize( $lister ) );
 		return $lister;
 	}	
 }

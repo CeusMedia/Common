@@ -37,7 +37,7 @@
  *	@since			04.09.2008
  *	@version		$Id$
  */
-class File_PHP_Check_MethodOrder
+class FS_File_PHP_Check_MethodOrder
 {
 	private $fileName		= "";
 	private $originalList	= array();
@@ -65,7 +65,7 @@ class File_PHP_Check_MethodOrder
 	public function compare()
 	{
 		$this->compared	= TRUE;
-		$content	= file_get_contents( $this->fileName );
+		$content	= FS_File_get_contents( $this->fileName );
 		$content	= preg_replace( "@/\*.+\*/@sU", "", $content );
 		$lines		= explode( "\n", $content );
 		foreach( $lines as $line )

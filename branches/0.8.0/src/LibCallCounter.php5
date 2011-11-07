@@ -66,8 +66,8 @@ class LibCallCounter
 	{
 		$fileName	= self::getFileName();
 		$data	= array( 0, 0, time(), time(), array() );
-		if( file_exists( $fileName ) )
-			$data	= json_decode( file_get_contents( self::$logScheme.$fileName ), TRUE );
+		if( FS_File_exists( $fileName ) )
+			$data	= json_decode( FS_File_get_contents( self::$logScheme.$fileName ), TRUE );
 		return $data;
 	}
 
@@ -80,7 +80,7 @@ class LibCallCounter
 	protected static function writeData( $data )
 	{
 		$fileName	= self::getFileName();
-		return file_put_contents( self::$logScheme.$fileName, json_encode( $data ) );
+		return FS_File_put_contents( self::$logScheme.$fileName, json_encode( $data ) );
 	}
 	
 	protected static function report()

@@ -29,7 +29,7 @@
  *	@category		cmClasses
  *	@package		XML.OMPL
  *	@uses			XML_OPML_Parser
- *	@uses			File_Reader
+ *	@uses			FS_File_Reader
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -61,7 +61,7 @@ class XML_OPML_FileReader
 	 */
 	public static function load( $fileName )
 	{
-		$file	= new File_Reader( $fileName );
+		$file	= new FS_File_Reader( $fileName );
 		if( !$file->exists() )
 			throw new Exception( "File '".$fileName."' is not existing." );
 		$xml	= $file->readString();

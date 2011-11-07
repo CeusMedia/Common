@@ -32,10 +32,10 @@
  *	@package		Net.Service.Definition
  *	@uses			Net_Serivce_Definition_Reader
  *	@uses			Net_Service_Definition_Writer
- *	@uses			File_YAML_Reader
- *	@uses			File_YAML_Writer
- *	@uses			File_Reader
- *	@uses			File_Writer
+ *	@uses			FS_File_YAML_Reader
+ *	@uses			FS_File_YAML_Writer
+ *	@uses			FS_File_Reader
+ *	@uses			FS_File_Writer
  *	@uses			ADT_JSON_Converter
  *	@uses			ADT_JSON_Formater
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
@@ -60,7 +60,7 @@ class Net_Service_Definition_Converter
 	 */
 	public static function convertJsonFileToXmlFile( $jsonFile, $xmlFile )
 	{
-		$json	= File_Reader::load( $jsonFile );
+		$json	= FS_File_Reader::load( $jsonFile );
 		$data	= ADT_JSON_Converter::convertToArray( $json );
 		return Net_Service_Definition_XmlWriter::save( $xmlFile, $data );
 	}
@@ -75,9 +75,9 @@ class Net_Service_Definition_Converter
 	 */
 	public static function convertJsonFileToYamlFile( $jsonFile, $yamlFile )
 	{
-		$json	= File_Reader::load( $jsonFile );
+		$json	= FS_File_Reader::load( $jsonFile );
 		$data	= ADT_JSON_Converter::convertToArray( $json );
-		return File_YAML_Writer::save( $yamlFile, $data );
+		return FS_File_YAML_Writer::save( $yamlFile, $data );
 	}
 
 	/**
@@ -94,7 +94,7 @@ class Net_Service_Definition_Converter
 		self::reduceDefinition( $data );
 		$json	= json_encode( $data );
 		$json	= ADT_JSON_Formater::format( $json );
-		return File_Writer::save( $jsonFile, $json );
+		return FS_File_Writer::save( $jsonFile, $json );
 	}
 
 	
@@ -110,7 +110,7 @@ class Net_Service_Definition_Converter
 	{
 		$data	= Net_Service_Definition_XmlReader::load( $xmlFile );
 		self::reduceDefinition( $data );
-		return File_YAML_Writer::save( $yamlFile, $data );
+		return FS_File_YAML_Writer::save( $yamlFile, $data );
 	}
 
 	/**
@@ -123,11 +123,11 @@ class Net_Service_Definition_Converter
 	 */
 	public static function convertYamlFileToJsonFile( $yamlFile, $jsonFile )
 	{
-		$data	= File_YAML_Reader::load( $yamlFile );
+		$data	= FS_File_YAML_Reader::load( $yamlFile );
 		self::reduceDefinition( $data );
 		$json	= json_encode( $data );
 		$json	= ADT_JSON_Formater::format( $json );
-		return File_Writer::save( $jsonFile, $json );
+		return FS_File_Writer::save( $jsonFile, $json );
 	}
 	
 	/**
@@ -140,7 +140,7 @@ class Net_Service_Definition_Converter
 	 */
 	public static function convertYamlFileToXmlFile( $yamlFile, $xmlFile )
 	{
-		$data	= File_YAML_Reader::load( $yamlFile );
+		$data	= FS_File_YAML_Reader::load( $yamlFile );
 		self::reduceDefinition( $data );
 		return Net_Service_Definition_XmlWriter::save( $xmlFile, $data );
 	}

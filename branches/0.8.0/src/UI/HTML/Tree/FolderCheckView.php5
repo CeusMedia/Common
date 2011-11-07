@@ -34,7 +34,7 @@
  *
  *	@category		cmClasses
  *	@package		UI.HTML.Tree
- *	@uses			Folder_Lister
+ *	@uses			FS_Folder_Lister
  *	@uses			UI_HTML_Elements
  *	@uses			UI_HTML_JQuery
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
@@ -90,7 +90,7 @@ class UI_HTML_Tree_FolderCheckView
 		if( !$pathRoot )
 			$pathRoot	= $path;
 		$list	= array();																			//  empty Array for current Level Items
-		$lister	= new Folder_Lister( $path );														//  create Lister for Folder Contents
+		$lister	= new FS_Folder_Lister( $path );														//  create Lister for Folder Contents
 		$lister->showFolders( $this->showFolders );													//  switch Folders Visibility
 		$lister->showFiles( $this->showFiles );														//  switch Files Visibility
 		$index	= $lister->getList();																//  get Iterator

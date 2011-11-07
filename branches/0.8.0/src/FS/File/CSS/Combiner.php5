@@ -37,7 +37,7 @@
  *	@since			26.09.2007
  *	@version		$Id$
  */
-class File_CSS_Combiner
+class FS_File_CSS_Combiner
 {
 	/**	@var		string		$prefix			Prefix of combined File Name */
 	var $prefix					= "";
@@ -86,7 +86,7 @@ class File_CSS_Combiner
 					continue;
 				}
 
-				$content	= file_get_contents( $path.$fileName );
+				$content	= FS_File_get_contents( $path.$fileName );
 				$content	= $this->reviseStyle( $content );
 				$this->statistics['numberFiles']	++;
 				$this->statistics['sizeOriginal']	+= strlen( $content );
@@ -131,14 +131,14 @@ class File_CSS_Combiner
 			throw new Exception( "Style File '".$fileUri."' is not existing." );
 			
 		$this->statistics	= array();
-		$content	= file_get_contents( $fileUri );
+		$content	= FS_File_get_contents( $fileUri );
 	
 		$content	= $this->combineString( $pathName, $content );
 		$fileName	= $this->prefix.$fileBase.$this->suffix.".css";
 		$fileUri	= $pathName.$fileName;
 		$fileUri	= str_replace( "\\", "/", $fileUri );
 
-		file_put_contents( $fileUri, $content );
+		FS_File_put_contents( $fileUri, $content );
 		return $fileUri;
 	}
 

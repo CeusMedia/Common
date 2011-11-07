@@ -30,8 +30,8 @@
  *	YAML Reader based on Spyc.
  *	@category		cmClasses
  *	@package		File.YAML
- *	@uses			File_Reader
- *	@uses			File_YAML_Spyc
+ *	@uses			FS_File_Reader
+ *	@uses			FS_File_YAML_Spyc
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -39,7 +39,7 @@
  *	@since			18.06.2007
  *	@version		$Id$
  */
-class File_YAML_Reader
+class FS_File_YAML_Reader
 {
 	/**
 	 *	Constructor.
@@ -71,8 +71,8 @@ class File_YAML_Reader
 	 */
 	public static function load( $fileName )
 	{
-		$yaml	= File_Reader::load( $fileName );
-		$array	= File_YAML_Spyc::YAMLLoad( $yaml );
+		$yaml	= FS_File_Reader::load( $fileName );
+		$array	= FS_File_YAML_Spyc::YAMLLoad( $yaml );
 		return $array;
 	}
 }

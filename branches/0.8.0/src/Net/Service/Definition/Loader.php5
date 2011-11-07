@@ -32,7 +32,7 @@
  *	@package		Net.Service.Definition
  *	@uses			ADT_JSON_Converter
  *	@uses			Service_Definition_XmlReader
- *	@uses			File_Yaml_Reader
+ *	@uses			FS_File_Yaml_Reader
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -64,7 +64,7 @@ class Net_Service_Definition_Loader
 		if( !file_exists( $fileName ) )
 			throw new RuntimeException( 'Service Definition File "'.$fileName.'" is not existing.' );
 		if( $cacheFile && filemtime( $fileName ) <= @filemtime( $cacheFile ) )
-			return $this->services	= unserialize( file_get_contents( $cacheFile ) );
+			return $this->services	= unserialize( FS_File_get_contents( $cacheFile ) );
 
 		$info	= pathinfo( $fileName );
 		$ext	= strtoupper( $info['extension'] );
@@ -75,7 +75,7 @@ class Net_Service_Definition_Loader
 		$method		= $this->sourceTypes[$ext];
 		$services	= $this->$method( $fileName, $cacheFile );
 		if( $cacheFile )
-			file_put_contents( $cacheFile, serialize( $services ) );
+			FS_File_put_contents( $cacheFile, serialize( $services ) );
 		return $services;
 	}
 	
@@ -87,7 +87,7 @@ class Net_Service_Definition_Loader
 	 */
 	protected function loadServicesFromJson( $fileName )
 	{
-		$jsonString		= file_get_contents( $fileName );
+		$jsonString		= FS_File_get_contents( $fileName );
 		$definition		= ADT_JSON_Converter::convertToArray( $jsonString );
 		$this->completeDefinition( $definition );
 		return $definition;
@@ -114,7 +114,7 @@ class Net_Service_Definition_Loader
 	 */
 	protected function loadServicesFromYaml( $fileName )
 	{
-		$definition	= File_YAML_Reader::load( $fileName );
+		$definition	= FS_File_YAML_Reader::load( $fileName );
 		$this->completeDefinition( $definition );
 		return $definition;
 	}	

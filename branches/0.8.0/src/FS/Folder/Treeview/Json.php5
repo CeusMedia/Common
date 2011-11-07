@@ -38,7 +38,7 @@
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		$Id$
  */
-class Folder_Treeview_Json
+class FS_Folder_Treeview_Json
 {
 	protected $logFile;
 	protected $path;

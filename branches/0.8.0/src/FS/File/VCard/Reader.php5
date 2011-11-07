@@ -38,7 +38,7 @@
  *	@version		$Id$
  *	@todo			Code Doc
  */
-class File_VCard_Reader
+class FS_File_VCard_Reader
 {
 	/**
 	 *	Reads and parses vCard File to vCard Object and converts between Charsets.
@@ -51,8 +51,8 @@ class File_VCard_Reader
 	 */
 	public function readFile( $fileName, $charsetIn = NULL, $charsetOut = NULL )
 	{
-		$text	= File_Reader::load( $fileName );
-		$parser	= new File_VCard_Parser;
+		$text	= FS_File_Reader::load( $fileName );
+		$parser	= new FS_File_VCard_Parser;
 		return $parser->parse( $text, $charsetIn, $charsetOut );
 	}
 }

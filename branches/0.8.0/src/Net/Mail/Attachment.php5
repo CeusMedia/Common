@@ -63,7 +63,7 @@ class Net_Mail_Attachment
 		$this->headers->setFieldPair( 'Content-Description', $baseName );
 		$this->headers->setFieldPair( 'Content-Disposition', 'attachment; filename="'.$baseName.'"' );
 		$this->fileName	= $fileName;
-		$this->content	= chunk_split( base64_encode( file_get_contents( $fileName ) ) );
+		$this->content	= chunk_split( base64_encode( FS_File_get_contents( $fileName ) ) );
 		if( $mimeType )
 			$this->setMimeType( $mimeType );
 	}

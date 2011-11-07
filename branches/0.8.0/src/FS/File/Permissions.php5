@@ -35,7 +35,7 @@
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		$Id$
  */
-class File_Permissions
+class FS_File_Permissions
 {
 	/**	@var	string		$pathName			Path name of current file */
 	protected $pathName		= NULL;
@@ -98,7 +98,7 @@ class File_Permissions
 
 	public static function getIntegerFromFile( $pathName )
 	{
-		$object	= new File_Permissions( $pathName );
+		$object	= new FS_File_Permissions( $pathName );
 		return $object->getAsInteger();
 	}
 
@@ -120,7 +120,7 @@ class File_Permissions
 
 	public static function getOctalFromFile( $pathName )
 	{
-		$object	= new File_Permissions( $pathName );
+		$object	= new FS_File_Permissions( $pathName );
 		return $object->getAsOctal();
 	}
 
@@ -161,7 +161,7 @@ class File_Permissions
 
 	public static function getStringFromFile( $pathName )
 	{
-		$object	= new File_Permissions( $pathName );
+		$object	= new FS_File_Permissions( $pathName );
 		return $object->getAsString();
 	}
 

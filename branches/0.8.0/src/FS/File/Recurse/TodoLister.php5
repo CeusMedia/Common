@@ -30,8 +30,8 @@
  *	Class to find all Files with ToDos inside.
  *	@category		cmClasses
  *	@package		File
- *	@extends		File_TodoLister
- *	@uses			File_RecursiveRegexFilter
+ *	@extends		FS_File_TodoLister
+ *	@uses			FS_File_RecursiveRegexFilter
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -39,11 +39,11 @@
  *	@since			11.06.2008
  *	@version		$Id$
  */
-class File_RecursiveTodoLister extends File_TodoLister
+class FS_File_RecursiveTodoLister extends FS_File_TodoLister
 {
 	protected function getIndexIterator( $path, $filePattern, $contentPattern = NULL )
 	{
-		return new File_RecursiveRegexFilter( $path, $filePattern, $contentPattern );
+		return new FS_File_RecursiveRegexFilter( $path, $filePattern, $contentPattern );
 	}
 }
 ?>

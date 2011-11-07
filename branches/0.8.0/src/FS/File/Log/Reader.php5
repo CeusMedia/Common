@@ -30,7 +30,7 @@
  *	Reader for Log File.
  *	@category		cmClasses
  *	@package		File.Log
- *	@uses			File_Reader
+ *	@uses			FS_File_Reader
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -38,7 +38,7 @@
  *	@since			28.11.2007
  *	@version		$Id$
  */
-class File_Log_Reader
+class FS_File_Log_Reader
 {
 	/**	@var		string		$fileName		URI of file with absolute path */
 	protected $fileName;
@@ -65,7 +65,7 @@ class File_Log_Reader
 	 */
 	public static function load( $fileName, $offset = NULL, $limit = NULL )
 	{
-		$file	= new File_Reader( $fileName );
+		$file	= new FS_File_Reader( $fileName );
 		$lines	= $file->readArray();
 		if( $offset !== NULL && $limit !== NULL && (int) $limit !==  0 )
 			$lines	= array_slice( $lines, abs( (int) $offset ), (int) $limit );

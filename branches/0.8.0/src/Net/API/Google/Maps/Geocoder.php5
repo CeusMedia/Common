@@ -32,7 +32,7 @@
  *	@package		Net.API.Google.Maps
  *	@extends		Net_API_Google_Request
  *	@uses			XML_Element
- *	@uses			File_Editor
+ *	@uses			FS_File_Editor
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2008-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -59,12 +59,12 @@ class Net_API_Google_Maps_Geocoder extends Net_API_Google_Request
 		if( $this->pathCache )
 		{
 			$cacheFile	= $this->pathCache.$address.".xml.cache";
-			if( file_exists( $cacheFile ) && !$force )
-				return File_Editor::load( $cacheFile );
+			if( FS_File_exists( $cacheFile ) && !$force )
+				return FS_File_Editor::load( $cacheFile );
 		}
 		$xml	= $this->sendQuery( $query );
 		if( $this->pathCache )
-			File_Editor::save( $cacheFile, $xml );
+			FS_File_Editor::save( $cacheFile, $xml );
 		return $xml;
 	}
 

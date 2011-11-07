@@ -38,7 +38,7 @@
  *	@since			0.6.8
  *	@version		$Id$
  */
-class File_PHP_Parser_Reflection
+class FS_File_PHP_Parser_Reflection
 {
 	/**
 	 *	Parses a PHP File and returns nested Array of collected Information.
@@ -49,7 +49,7 @@ class File_PHP_Parser_Reflection
 	 */
 	public function parseFile( $fileName, $innerPath )
 	{
-		$content		= File_Reader::load( $fileName );
+		$content		= FS_File_Reader::load( $fileName );
 		if( !Alg_Text_Unicoder::isUnicode( $content ) )
 			$content		= Alg_Text_Unicoder::convertToUnicode( $content );
 
@@ -137,9 +137,9 @@ class File_PHP_Parser_Reflection
 			$object->setMethod( $this->readMethod( $method ) );
 			
 			
-		$parser		= new File_PHP_Parser_Doc_Regular;
+		$parser		= new FS_File_PHP_Parser_Doc_Regular;
 		$docData	= $parser->parseDocBlock( $class->getDocComment() );
-		$decorator	= new File_PHP_Parser_DocDecorator();
+		$decorator	= new FS_File_PHP_Parser_DocDecorator();
 		$decorator->decorateCodeDataWithDocData( $object, $docData );
 		return $object;
 	}

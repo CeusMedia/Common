@@ -30,8 +30,8 @@
  *	Reads and writes Configurations via WDDX.
  *	@category		cmClasses
  *	@package		XML.WDDX
- *	@uses			File_Reader
- *	@uses			File_Writer
+ *	@uses			FS_File_Reader
+ *	@uses			FS_File_Writer
  *	@uses			XML_WDDX_FileReader
  *	@uses			XML_WDDX_File_Writer
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
@@ -108,7 +108,7 @@ class XML_WDDX_Configuration
 		if( $this->useCache )
 		{
 			$fileName	= $this->pathCache.basename( $this->fileName ).".cache";
-			if( file_exists( $fileName ) && file_exists( $this->fileName ) && filemtime( $fileName ) == filemtime( $this->pathConfig.$this->fileName ) )
+			if( FS_File_exists( $fileName ) && FS_File_exists( $this->fileName ) && filemtime( $fileName ) == filemtime( $this->pathConfig.$this->fileName ) )
 			{
 				return $this->readCache( $fileName );
 			}
@@ -130,7 +130,7 @@ class XML_WDDX_Configuration
 	 */
 	protected function readCache( $fileName )
 	{
-		$file			= new File_Reader( $fileName );
+		$file			= new FS_File_Reader( $fileName );
 		$content		= $file->readString();
 		$this->config	= unserialize( $content );
 	}
@@ -183,7 +183,7 @@ class XML_WDDX_Configuration
 	 */
 	protected function writeCache( $fileName )
 	{
-		$file		= new File_Writer( $fileName, 0777 );
+		$file		= new FS_File_Writer( $fileName, 0777 );
 		$content	= serialize( $this->getConfigValues() );
 		$file->writeString( $content );
 		touch( $fileName, filemtime( $this->pathConfig.$this->fileName ) );

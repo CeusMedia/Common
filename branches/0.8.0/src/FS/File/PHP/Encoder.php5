@@ -30,7 +30,7 @@
  *	Class for encoding PHP File.
  *	@category		cmClasses
  *	@package		File.PHP
- *	@uses			File_Editor
+ *	@uses			FS_File_Editor
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -38,7 +38,7 @@
  *	@since			11.10.2006
  *	@version		$Id$
  */
-class File_PHP_Encoder
+class FS_File_PHP_Encoder
 {
 	/**	@var		string		$incodePrefix		Prefix of inner Code Wrapper */
 	protected $incodePrefix		= "";
@@ -87,11 +87,11 @@ class File_PHP_Encoder
 	 */
 	public function decodeFile( $fileName, $overwrite = FALSE )
 	{
-		if( file_exists( $fileName ) )
+		if( FS_File_exists( $fileName ) )
 		{
 			if( $this->isEncoded( $fileName ) )
 			{
-				$file	= new File_Editor( $fileName );
+				$file	= new FS_File_Editor( $fileName );
 				$php	= $file->readString();
 				$code	= $this->encode( $php );
 				$dirname	= dirname( $fileName );
@@ -143,7 +143,7 @@ class File_PHP_Encoder
 			return FALSE;
 		if( $this->isEncoded( $fileName ) )
 			return TRUE;
-		$php		= File_Reader::load( $fileName );
+		$php		= FS_File_Reader::load( $fileName );
 		$code		= $this->encode( $php );
 		$dirname	= dirname( $fileName );
 		$basename	= basename( $fileName );
@@ -151,7 +151,7 @@ class File_PHP_Encoder
 		if( $fileName == $target && !$overwrite )
 			throw new RuntimeException( 'File cannot be overwritten, use Parameter "overwrite".' );
 //		copy( $fileName, "#".$fileName );
-		return (bool) File_Writer::save( $target, $code );
+		return (bool) FS_File_Writer::save( $target, $code );
 	}
 	
 	/**
@@ -173,7 +173,7 @@ class File_PHP_Encoder
 	 */
 	public function isEncoded( $fileName )
 	{
-		if( file_exists( $fileName ) )
+		if( FS_File_exists( $fileName ) )
 		{
 			$fp	= fopen( $fileName, "r" );
 			$code	= fgets( $fp, strlen( $this->outcodePrefix ) );

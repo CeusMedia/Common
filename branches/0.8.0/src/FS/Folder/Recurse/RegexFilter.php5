@@ -39,7 +39,7 @@
  *	@version		$Id$
  *	@todo			Fix Error while comparing File Name to Current File with Path
  */
-class Folder_RecursiveRegexFilter extends RegexIterator
+class FS_Folder_RecursiveRegexFilter extends RegexIterator
 {
 	/**	@var		string		$pattern			Regular Expression to match with File Name */
 	protected $pattern;

@@ -30,8 +30,8 @@
  *	Counter for Lines of Code.
  *	@category		cmClasses
  *	@package		Folder
- *	@uses			File_Reader
- *	@uses			Folder_RecursiveLister
+ *	@uses			FS_File_Reader
+ *	@uses			FS_Folder_RecursiveLister
  *	@uses			UI_HTML_Elements
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
@@ -41,7 +41,7 @@
  *	@version		$Id$
  *	@todo			Code Doc
  */
-class Folder_CodeLineCounter
+class FS_Folder_CodeLineCounter
 {
 	protected $data	= array();
 	
@@ -85,7 +85,7 @@ class Folder_CodeLineCounter
 		$path	= preg_replace( "@^(.+)/?$@", "\\1/", $path );
 
 		$st		= new Alg_Time_Clock();
-		$lister	= new Folder_RecursiveLister( $path );
+		$lister	= new FS_Folder_RecursiveLister( $path );
 		$lister->setExtensions( $extensions );
 		$list	= $lister->getList();
 		foreach( $list as $entry )
@@ -98,7 +98,7 @@ class Folder_CodeLineCounter
 			if( preg_match( "@/_@", $pathName ) )
 				continue;
 
-			$countData	= File_CodeLineCounter::countLines( $pathName );
+			$countData	= FS_File_CodeLineCounter::countLines( $pathName );
 			
 			unset( $countData['linesCodes'] );
 			unset( $countData['linesDocs'] );

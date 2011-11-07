@@ -193,7 +193,7 @@ class UI_Image
 	 *	@return		boolean		TRUE if Image File is an animated GIF
 	 */
 	public static function isAnimated( $filePath ){
-		$content	= file_get_contents( $filePath );
+		$content	= FS_File_get_contents( $filePath );
 		$pos1		= 0;
 		$count		= 0;
 		while( $count < 2 ) # There is no point in continuing after we find a 2nd frame

@@ -30,7 +30,7 @@
  *	Reader for XML Elements from File or URL.
  *	@category		cmClasses
  *	@package		XML
- *	@uses			File_Reader
+ *	@uses			FS_File_Reader
  *	@uses			Net_Reader
  *	@uses			XML_Element
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
@@ -51,7 +51,7 @@ class XML_ElementReader
 	 */
 	public static function readFile( $fileName )
 	{
-		$xml	= File_Reader::load( $fileName );
+		$xml	= FS_File_Reader::load( $fileName );
 		return new XML_Element( $xml );
 	}
 	

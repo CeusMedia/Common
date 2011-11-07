@@ -87,7 +87,7 @@ class XML_DOM_FeedIdentifier
 	 */
 	public function identifyFromFile( $fileName )
 	{
-		$file	= new File_Reader( $fileName );
+		$file	= new FS_File_Reader( $fileName );
 		$xml	= $file->readString();
 		return $this->identify( $xml );
 	}

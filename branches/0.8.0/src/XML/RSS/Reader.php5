@@ -30,7 +30,7 @@
  *	Reader for RSS 2.0 Feeds.
  *	@category		cmClasses
  *	@package		XML.RSS
- *	@uses			File_Reader
+ *	@uses			FS_File_Reader
  *	@uses			XML_RSS_Parser
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
@@ -50,7 +50,7 @@ class XML_RSS_Reader
 	 */
 	public static function readFile( $fileName )
 	{
-		$xml	= File_Reader::load( $fileName );
+		$xml	= FS_File_Reader::load( $fileName );
 		return XML_RSS_Parser::parse( $xml );
 	}
 	

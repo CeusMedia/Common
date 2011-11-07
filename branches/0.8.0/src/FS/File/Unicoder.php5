@@ -31,7 +31,7 @@
  *	@category		cmClasses
  *	@package		File
  *	@uses			Alg_Text_Unicoder
- *	@uses			File_Editor
+ *	@uses			FS_File_Editor
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -39,7 +39,7 @@
  *	@since			18.10.2007
  *	@version		$Id$
  */
-class File_Unicoder
+class FS_File_Unicoder
 {
 	/**
 	 *	Constructor.
@@ -64,7 +64,7 @@ class File_Unicoder
 	{
 		if( !file_exists( $fileName ) )
 			throw new Exception( 'File "'.$fileName.'" is not existing.' );
-		$string		= File_Editor::load( $fileName );
+		$string		= FS_File_Editor::load( $fileName );
 		$unicoded	= Alg_Text_Unicoder::convertToUnicode( $string );
 		return $unicoded == $string;
 	}
@@ -81,9 +81,9 @@ class File_Unicoder
 	{
 		if( !(!$force && self::isUnicode( $fileName ) ) )
 		{
-			$string		= File_Editor::load( $fileName );
+			$string		= FS_File_Editor::load( $fileName );
 			$unicoded	= Alg_Text_Unicoder::convertToUnicode( $string );
-			return (bool) File_Editor::save( $fileName, $unicoded );
+			return (bool) FS_File_Editor::save( $fileName, $unicoded );
 		}
 		return FALSE;
 	}

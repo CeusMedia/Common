@@ -37,7 +37,7 @@
  *	@since			26.09.2007
  *	@version		$Id$
  */
-class File_CSS_Compressor
+class FS_File_CSS_Compressor
 {
 	/**	@var		string			$prefix			Prefix of compressed File Name */
 	var $prefix		= "";
@@ -47,11 +47,11 @@ class File_CSS_Compressor
 	var $suffix		= ".min";
 
 /*	static public function compressFile( $fileName, $oneLine = FALSE ){
-		return self::compressString( File_Reader::load( $fileName ), $oneLine );
+		return self::compressString( FS_File_Reader::load( $fileName ), $oneLine );
 	}
 */
 	static public function compressSheet( ADT_CSS_Sheet $sheet, $oneLine = FALSE ){
-		$converter	= new File_CSS_Converter( $sheet );
+		$converter	= new FS_File_CSS_Converter( $sheet );
 		return self::compressString( $converter->toString(), $oneLine );
 	}
 
@@ -92,7 +92,7 @@ class File_CSS_Compressor
 
 		$this->statistics	= array();
 
-		$content	= file_get_contents( $fileUri );
+		$content	= FS_File_get_contents( $fileUri );
 		$this->statistics['before']	= strlen( $content );
 		$content	= self::compressString( $content );
 		$this->statistics['after']	= strlen( $content );
@@ -104,7 +104,7 @@ class File_CSS_Compressor
 		$fileUri	= $pathName."/".$fileName;
 		$fileUri	= str_replace( "\\", "/", $fileUri );
 		
-		file_put_contents( $fileUri, $content );
+		FS_File_put_contents( $fileUri, $content );
 		return $fileUri;
 	}
 

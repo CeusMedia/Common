@@ -25,7 +25,7 @@
  *	@category		cmClasses
  *	@package		File.YAML
  */
-class File_YAML_Spyc {
+class FS_File_YAML_Spyc {
 
 	/**#@+
 	* @access private
@@ -62,7 +62,7 @@ class File_YAML_Spyc {
 	 *	simple.
 	 *	 Usage:
 	 *	 <code>
-	 *		$array = File_YAML_Spyc::YAMLLoad('lucky.yaml');
+	 *		$array = FS_File_YAML_Spyc::YAMLLoad('lucky.yaml');
 	 *		print_r($array);
 	 *	 </code>
 	 *	@access public
@@ -70,7 +70,7 @@ class File_YAML_Spyc {
 	 *	@param string $input Path of YAML file or string containing YAML
 	 */
 	public static function YAMLLoad($input) {
-		$Spyc = new File_YAML_Spyc;
+		$Spyc = new FS_File_YAML_Spyc;
 		return $Spyc->load($input);
 	}
 
@@ -95,7 +95,7 @@ class File_YAML_Spyc {
 	 *	@param int $wordwrap Pass in 0 for no wordwrap, false for default (40)
 	 */
 	public static function YAMLDump($array,$indent = FALSE,$wordwrap = FALSE) {
-		$spyc = new File_YAML_Spyc;
+		$spyc = new FS_File_YAML_Spyc;
 		return $spyc->dump($array,$indent,$wordwrap);
 	}
 
@@ -297,7 +297,7 @@ class File_YAML_Spyc {
 	}
 
 	private function loadFromSource ($input) {
-		if (!empty($input) && strpos($input, "\n") === FALSE && file_exists($input))
+		if (!empty($input) && strpos($input, "\n") === FALSE && FS_File_exists($input))
 		return file($input);
 
 		$foo = explode("\n",$input);

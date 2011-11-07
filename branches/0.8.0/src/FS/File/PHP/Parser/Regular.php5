@@ -31,7 +31,7 @@
  *	Parses PHP Files containing a Class or Methods using regular expressions (slow).
  *	@category		cmClasses
  *	@package		File.PHP.Parser
- *	@uses			File_Reader
+ *	@uses			FS_File_Reader
  *	@uses			ADT_PHP_File
  *	@uses			ADT_PHP_Interface
  *	@uses			ADT_PHP_Class
@@ -52,7 +52,7 @@
  *	@since			04.08.08
  *	@todo			Code Doc
  */
-class File_PHP_Parser_Regular
+class FS_File_PHP_Parser_Regular
 {
 	protected $regexClass		= '@^(abstract )?(final )?(interface |class )([\w]+)( extends ([\w]+))?( implements ([\w]+)(, ([\w]+))*)?(\s*{)?@i';
 	protected $regexMethod		= '@^(abstract )?(final )?(protected |private |public )?(static )?function ([\w]+)\((.*)\)(\s*{\s*)?;?\s*$@';
@@ -392,7 +392,7 @@ class File_PHP_Parser_Regular
 	 */
 	public function parseFile( $fileName, $innerPath )
 	{
-		$content		= File_Reader::load( $fileName );
+		$content		= FS_File_Reader::load( $fileName );
 		if( !Alg_Text_Unicoder::isUnicode( $content ) )
 			$content		= Alg_Text_Unicoder::convertToUnicode( $content );
 

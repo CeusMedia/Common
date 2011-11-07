@@ -48,7 +48,7 @@ class XML_RSS_SimpleReader
 	 */
 	public static function readFile( $fileName )
 	{
-		$xml	= File_Reader::load( $fileName );
+		$xml	= FS_File_Reader::load( $fileName );
 		return XML_RSS_SimpleParser::parse( $xml );
 	}
 	

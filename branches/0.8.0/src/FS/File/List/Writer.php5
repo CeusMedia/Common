@@ -29,14 +29,14 @@
  *	A Class for reading and writing List Files.
  *	@category		cmClasses
  *	@package		File.List
- *	@uses			File_Writer
+ *	@uses			FS_File_Writer
  *	@author			Chistian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		$Id$
  */
-class File_List_Writer
+class FS_File_List_Writer
 {
 	/**	@var		array		$list			List **/
 	protected $list				= array();
@@ -111,7 +111,7 @@ class File_List_Writer
 	 */
 	public static function save( $fileName, $list, $mode = 0755, $user = NULL, $group = NULL )
 	{
-		$file	= new File_Writer( $fileName, $mode, $user, $group );
+		$file	= new FS_File_Writer( $fileName, $mode, $user, $group );
 		return $file->writeArray( $list ) !== FALSE;
 	}
 	

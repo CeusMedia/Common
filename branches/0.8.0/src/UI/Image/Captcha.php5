@@ -31,7 +31,7 @@
  *	@category		cmClasses
  *	@package		UI.Image
  *	@uses			Alg_Randomizer
- *	@uses			File_Writer
+ *	@uses			FS_File_Writer
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -141,7 +141,7 @@ class UI_Image_Captcha
 		}
 		ob_start();
 		imagejpeg( $image, NULL, $this->quality );
-		return File_Writer::save( $fileName, ob_get_clean() );
+		return FS_File_Writer::save( $fileName, ob_get_clean() );
 	}
 }
 ?>
