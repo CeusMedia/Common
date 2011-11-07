@@ -29,14 +29,14 @@
  *	Write Access for Database Tables.
  *	@category		cmClasses
  *	@package		Database.PDO
- *	@extends		Database_PDO_TableReader
+ *	@extends		DB_TableReader
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		$Id$
  */
-class Database_PDO_TableWriter extends Database_PDO_TableReader
+class DB_TableWriter extends DB_TableReader
 {
 	/**
 	 *	Deletes focused Rows in this Table and returns number of affected Rows.

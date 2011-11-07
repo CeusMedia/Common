@@ -39,7 +39,7 @@
  *	@version		$Id$
  *	@todo			Code Documentation
  */
-class Database_PDO_Connection extends PDO 
+class DB_Connection extends PDO 
 {
 	public $numberExecutes			= 0;
 	public $numberStatements		= 0;

@@ -37,7 +37,7 @@
  *	@since			0.6.8
  *	@version		$Id$
  */
-class Database_PDO_DataSourceName
+class DB_DataSourceName
 {
 	/**	@var		string		$driver			Database Driver */
 	protected $driver;
