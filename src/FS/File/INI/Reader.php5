@@ -18,7 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		File.INI
+ *	@package		FS.File.INI
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -29,7 +29,7 @@
 /**
  *	Reader for Property Files or typical .ini Files with Key, Values and optional Sections and Comments.
  *	@category		cmClasses
- *	@package		File.INI
+ *	@package		FS.File.INI
  *	@uses			FS_File_Reader
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
@@ -70,7 +70,7 @@ class FS_File_INI_Reader extends FS_File_Reader
 	/**
 	 *	Constructor, reads Property File.
 	 *	@access		public
-	 *	@param		string		$fileName		File Name of Property File, absolute or relative URI
+	 *	@param		string		$fileName		FS.File Name of Property File, absolute or relative URI
 	 *	@param		bool		$usesSections	Flag: Property File contains Sections
 	 *	@param		bool		$reservedWords	Flag: interprete reserved Words like yes,no,true,false,null
 	 *	@return		void
@@ -350,7 +350,7 @@ class FS_File_INI_Reader extends FS_File_Reader
 	/**
 	 *	Loads an INI File and returns an Array statically.
 	 *	@access		public
-	 *	@param		string		$fileName		File Name of Property File, absolute or relative URI
+	 *	@param		string		$fileName		FS.File Name of Property File, absolute or relative URI
 	 *	@param		bool		$usesSections	Flag: Property File containts Sections
 	 *	@param		bool		$activeOnly		Flag: return only active Properties
 	 *	@return		array
@@ -364,7 +364,7 @@ class FS_File_INI_Reader extends FS_File_Reader
 	/**
 	 *	Loads an INI File and returns an Array Object statically.
 	 *	@access		public
-	 *	@param		string		$fileName		File Name of Property File, absolute or relative URI
+	 *	@param		string		$fileName		FS.File Name of Property File, absolute or relative URI
 	 *	@param		bool		$usesSections	Flag: Property File containts Sections
 	 *	@param		bool		$activeOnly		Flag: return only active Properties
 	 *	@return		ArrayObject

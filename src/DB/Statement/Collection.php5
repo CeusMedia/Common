@@ -18,7 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		Database 
+ *	@package		DB 
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@author			Michael Martin <Michael.Martin@CeuS-Media.de>
  *	@copyright		2007-2010 Christian Würker
@@ -30,7 +30,7 @@
 /**
  *	Collection of Statement Components for Statement Builder.
  *	@category		cmClasses
- *	@package		Database 
+ *	@package		DB 
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@author			Michael Martin <Michael.Martin@CeuS-Media.de>
  *	@copyright		2007-2010 Christian Würker
@@ -47,7 +47,7 @@ class Database_StatementCollection
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		Database_StatementBuilder	$builder	Reference to a Statement Builder Object
+	 *	@param		DB_StatementBuilder	$builder	Reference to a Statement Builder Object
 	 *	@return		void
 	 */
 	public function __construct( Database_StatementBuilder $builder )

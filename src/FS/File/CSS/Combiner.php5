@@ -18,7 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		File.CSS
+ *	@package		FS.File.CSS
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -29,7 +29,7 @@
 /**
  *	Combines CSS Files imported in one CSS File.
  *	@category		cmClasses
- *	@package		File.CSS
+ *	@package		FS.File.CSS
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -52,7 +52,7 @@ class FS_File_CSS_Combiner
 	 *	Combines all CSS Files imported in CSS String and returns Combination String;
 	 *	@access		public
 	 *	@param		string		$path			Style Path
-	 *	@param		string		$styleFile		File Name of Style without Extension (iE. style.css,import.css,default.css)
+	 *	@param		string		$styleFile		FS.File Name of Style without Extension (iE. style.css,import.css,default.css)
 	 *	@return		string
 	 */
 	public function combineString( $path, $content, $throwException = FALSE )
@@ -118,7 +118,7 @@ class FS_File_CSS_Combiner
 	/**
 	 *	Combines all CSS Files imported in Style File, saves Combination File and returns File URI of Combination File.
 	 *	@access		public
-	 *	@param		string		$styleFile		File Name of Style without Extension (iE. style.css,import.css,default.css)
+	 *	@param		string		$styleFile		FS.File Name of Style without Extension (iE. style.css,import.css,default.css)
 	 *	@param		bool		$verbose		Flag: list loaded CSS Files
 	 *	@return		string		
 	 */

@@ -18,7 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		File.CSS.Theme
+ *	@package		FS.File.CSS.Theme
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -28,7 +28,7 @@
 /**
  *	Combines and compresses Stylesheet Files of cmFramework Themes.
  *	@category		cmClasses
- *	@package		File.CSS.Theme
+ *	@package		FS.File.CSS.Theme
  *	@uses			FS_File_CSS_Combiner
  *	@uses			FS_File_CSS_Compressor
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
@@ -91,7 +91,7 @@ class FS_File_CSS_Theme_Minimizer
 	/**
 	 *	Combines (and compresses) Theme (Medium).
 	 *	@access		public
-	 *	@param		string		$styleFile		File Name of main Theme Style File (iE. style.css,import.css,default.css)
+	 *	@param		string		$styleFile		FS.File Name of main Theme Style File (iE. style.css,import.css,default.css)
 	 *	@param		bool		$compress		Flag: compress combined File
 	 */
 	public function minimize( $styleFile, $compress = FALSE )

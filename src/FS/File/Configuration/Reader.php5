@@ -19,7 +19,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		File.Configuration
+ *	@package		FS.File.Configuration
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -31,7 +31,7 @@
  *	Reader for Configuration Files of different Types.
  *	Supported File Types are CONF, INI, JSON, YAML and XML.
  *	@category		cmClasses
- *	@package		File.Configuration
+ *	@package		FS.File.Configuration
  *	@extends		ADT_List_LevelMap
  *	@uses			ADT_JSON_Converter
  *	@uses			FS_File_Writer
@@ -54,7 +54,7 @@ class FS_File_Configuration_Reader extends ADT_List_Dictionary
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		string		$fileName		File Name of Configuration File
+	 *	@param		string		$fileName		FS.File Name of Configuration File
 	 *	@param		string		$cachePath		Path to Cache File
 	 *	@return		void
 	 */
@@ -131,7 +131,7 @@ class FS_File_Configuration_Reader extends ADT_List_Dictionary
 	/**
 	 *	Loads Configuration File directly or from Cache and returns Source (cache|ini|conf|xml|...).
 	 *	@access		protected
-	 *	@param		string		$fileName		File Name of Configuration File
+	 *	@param		string		$fileName		FS.File Name of Configuration File
 	 *	@param		string		$cachePath		Path to Cache File
 	 *	@return		string
 	 */
@@ -180,7 +180,7 @@ class FS_File_Configuration_Reader extends ADT_List_Dictionary
 	/**
 	 *	Loads Configuration from INI File.
 	 *	@access		protected
-	 *	@param		string		$fileName		File Name of Configuration File
+	 *	@param		string		$fileName		FS.File Name of Configuration File
 	 *	@return		void
 	 */
 	protected function loadIniFile( $fileName )
@@ -219,7 +219,7 @@ class FS_File_Configuration_Reader extends ADT_List_Dictionary
 	/**
 	 *	Loads Configuration from JSON File.
 	 *	@access		protected
-	 *	@param		string		$fileName		File Name of Configuration File
+	 *	@param		string		$fileName		FS.File Name of Configuration File
 	 *	@return		void
 	 */
 	protected function loadJsonFile( $fileName )
@@ -234,7 +234,7 @@ class FS_File_Configuration_Reader extends ADT_List_Dictionary
 	/**
 	 *	Loads Configuration from WDDX File.
 	 *	@access		protected
-	 *	@param		string		$fileName		File Name of Configuration File
+	 *	@param		string		$fileName		FS.File Name of Configuration File
 	 *	@return		void
 	 */
 	protected function loadWddxFile( $fileName )
@@ -248,7 +248,7 @@ class FS_File_Configuration_Reader extends ADT_List_Dictionary
 	/**
 	 *	Loads Configuration from YAML File.
 	 *	@access		protected
-	 *	@param		string		$fileName		File Name of Configuration File
+	 *	@param		string		$fileName		FS.File Name of Configuration File
 	 *	@return		void
 	 */
 	protected function loadYamlFile( $fileName )
@@ -262,7 +262,7 @@ class FS_File_Configuration_Reader extends ADT_List_Dictionary
 	/**
 	 *	Loads Configuration from XML File.
 	 *	@access		protected
-	 *	@param		string		$fileName		File Name of Configuration File
+	 *	@param		string		$fileName		FS.File Name of Configuration File
 	 *	@return		void
 	 */
 	protected function loadXmlFile( $fileName )
@@ -309,7 +309,7 @@ class FS_File_Configuration_Reader extends ADT_List_Dictionary
 	/**
 	 *	Gernates Cache File Name and tries to load Configuration from Cache File.
 	 *	@access		protected
-	 *	@param		string		$cacheFile		File Name of Cache File
+	 *	@param		string		$cacheFile		FS.File Name of Cache File
 	 *	@param		int			$lastChange		Last Change of Configuration File
 	 *	@return		bool
 	 */

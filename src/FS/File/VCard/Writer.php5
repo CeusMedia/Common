@@ -18,7 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		File.VCard
+ *	@package		FS.File.VCard
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -29,7 +29,7 @@
 /**
  *	Writes vCard String from vCard Data Object to a File.
  *	@category		cmClasses
- *	@package		File.VCard
+ *	@package		FS.File.VCard
  *	@uses			FS_File_Writer
  *	@uses			FS_File_VCard_Builder
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
@@ -41,13 +41,13 @@
  */
 class FS_File_VCard_Writer
 {
-	/**	@var		string		$fileName		File Name of VCard File */
+	/**	@var		string		$fileName		FS.File Name of VCard File */
 	protected $fileName;
 
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		string		$fileName		File Name of VCard File.
+	 *	@param		string		$fileName		FS.File Name of VCard File.
 	 *	@return		void
 	 */
 	public function __construct( $fileName )

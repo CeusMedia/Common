@@ -22,7 +22,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		Folder
+ *	@package		FS.Folder
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -37,7 +37,7 @@
  *	By default copy, move and remove are not overwriting existing Files or deleting Folders containing Files or Folders.
  *	It can be forced to overwrite or remove everything with Option 'force'.
  *	@category		cmClasses
- *	@package		Folder
+ *	@package		FS.Folder
  *	@extends	 	FS_Folder_Reader
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
@@ -51,7 +51,7 @@ class FS_Folder_Editor extends FS_Folder_Reader
 	/**
 	 *	Constructor, Creates Folder if not existing and Creation Mode is set.
 	 *	@access		public
-	 *	@param		string		$folderName		Folder Name, relative or absolute
+	 *	@param		string		$folderName		FS.Folder Name, relative or absolute
 	 *	@param		string		$creationMode	UNIX rights for chmod()
 	 *	@param		string		$creationUser	User Name for chown()
 	 *	@param		string		$creationGroup	Group Name for chgrp()
@@ -141,7 +141,7 @@ class FS_Folder_Editor extends FS_Folder_Reader
 	 *	Creates a Folder by creating all Folders in Path recursive.
 	 *	@access		public
 	 *	@static
-	 *	@param		string		$folderName		Folder to create
+	 *	@param		string		$folderName		FS.Folder to create
 	 *	@param		int			$mode			Permission Mode, default: 0755
 	 *	@param		string		$userName		User Name
 	 *	@param		string		$groupName		Group Name
@@ -227,7 +227,7 @@ class FS_Folder_Editor extends FS_Folder_Reader
 	 *	@access		public
 	 *	@static
 	 *	@param		string		$sourceFolder	Folder Name of Source Folder, eg. /path/to/source/folder
-	 *	@param		string		$targetPath		Folder Path of Target Folder, eg. /path/to/target
+	 *	@param		string		$targetPath		FS.Folder Path of Target Folder, eg. /path/to/target
 	 *	@param		string		$force			Flag: continue if Target Folder is already existing, otherwise break
 	 *	@return		bool
 	 */
@@ -253,7 +253,7 @@ class FS_Folder_Editor extends FS_Folder_Reader
 	/**
 	 *	Moves current Folder to another Path.
 	 *	@access		public
-	 *	@param		string		$folderPath		Folder Path of Target Folder
+	 *	@param		string		$folderPath		FS.Folder Path of Target Folder
 	 *	@param		string		$force			Flag: continue if Target Folder is already existing, otherwise break
 	 *	@return		bool
 	 */
@@ -268,7 +268,7 @@ class FS_Folder_Editor extends FS_Folder_Reader
 	/**
 	 *	Renames current Folder.
 	 *	@access		public
-	 *	@param		string		$folderName		Folder Name to rename to
+	 *	@param		string		$folderName		FS.Folder Name to rename to
 	 *	@return		bool
 	 */
 	public function rename( $folderName )
@@ -319,7 +319,7 @@ class FS_Folder_Editor extends FS_Folder_Reader
 	 *	Because there where Permission Issues with DirectoryIterator it uses the old 'dir' command.
 	 *	@access		public
 	 *	@static
-	 *	@param		string		$folderName		Folder to be removed
+	 *	@param		string		$folderName		FS.Folder to be removed
 	 *	@param		bool		$force			Flag: force to remove nested Files and Folders
 	 *	@return		int
 	 */

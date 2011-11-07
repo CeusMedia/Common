@@ -18,7 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		Database.PDO
+ *	@package		DB
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -28,7 +28,7 @@
 /**
  *	Table with column definition and indices.
  *	@category		cmClasses
- *	@package		Database.PDO
+ *	@package		DB
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -37,7 +37,7 @@
  */
 class DB_TableReader
 {
-	/**	@var	BaseConnection	$dbc				Database connection resource object */
+	/**	@var	BaseConnection	$dbc				DB connection resource object */
 	protected $dbc;
 	/**	@var	array			$columns			List of table columns */
 	protected $columns			= array();
@@ -58,7 +58,7 @@ class DB_TableReader
 	 *	Constructor.
 	 *
 	 *	@access		public
-	 *	@param		PDO			$dbc			Database connection resource object
+	 *	@param		PDO			$dbc			DB connection resource object
 	 *	@param		string		$tableName		Table name
 	 *	@param		array		$columns		List of table columns
 	 *	@param		string		$primaryKey		Name of the primary key of this table
@@ -484,7 +484,7 @@ class DB_TableReader
 	/**
 	 *	Setting a reference to a database connection.
 	 *	@access		public
-	 *	@param		PDO		$dbc		Database connection resource object
+	 *	@param		PDO		$dbc		DB connection resource object
 	 *	@return		void
 	 */
 	public function setDbConnection( $dbc )

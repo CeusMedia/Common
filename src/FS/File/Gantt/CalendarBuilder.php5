@@ -18,7 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		File.Gantt
+ *	@package		FS.File.Gantt
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -29,7 +29,7 @@
 /**
  *	Builds iCal File with Meeting Dates from "Gantt Project" File.
  *	@category		cmClasses
- *	@package		File.Gantt
+ *	@package		FS.File.Gantt
  *	@uses			XML_DOM_Node
  *	@uses			FS_File_iCal_Builder
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>

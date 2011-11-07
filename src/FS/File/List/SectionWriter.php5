@@ -18,7 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		File.List
+ *	@package		FS.File.List
  *	@uses			FS_File_Writer
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
@@ -30,7 +30,7 @@ import ("de.ceus-media.file.Writer");
 /**
  *	Writer for Section List.
  *	@category		cmClasses
- *	@package		File.List
+ *	@package		FS.File.List
  *	@uses			FS_File_Writer
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
@@ -40,13 +40,13 @@ import ("de.ceus-media.file.Writer");
  */
 class FS_File_List_SectionWriter
 {
-	/**	@var		string		$fileName		File Name of Section List */
+	/**	@var		string		$fileName		FS.File Name of Section List */
 	protected $fileName;
 	
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		string		$fileName		File Name of Section List
+	 *	@param		string		$fileName		FS.File Name of Section List
 	 *	@return		void
 	 */
 	public function __construct( $fileName )
@@ -69,7 +69,7 @@ class FS_File_List_SectionWriter
 	 *	Saves a Section List to a File.
 	 *	@access		public
 	 *	@static
-	 *	@param		string		$fileName		File Name of Section List
+	 *	@param		string		$fileName		FS.File Name of Section List
 	 *	@param		array		$list			Section List to write
 	 *	@return		void
 	 */

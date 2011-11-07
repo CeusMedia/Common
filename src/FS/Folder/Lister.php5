@@ -22,7 +22,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		Folder
+ *	@package		FS.Folder
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -37,7 +37,7 @@
  *	It is possible to hide Folders or Files from the List.
  *	Folders starting with a Dot can be stripped from the List.
  *	@category		cmClasses
- *	@package		Folder
+ *	@package		FS.Folder
  *	@uses			FS_Folder_RegexFilter
  *	@uses			FS_Folder_Iterator
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>

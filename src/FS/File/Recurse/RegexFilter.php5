@@ -18,7 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		File
+ *	@package		FS.File
  *	@extends		RegexIterator
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
@@ -30,7 +30,7 @@
 /**
  *	Searchs for Files by given RegEx Pattern (as File Name) in Folder.
  *	@category		cmClasses
- *	@package		File
+ *	@package		FS.File
  *	@extends		RegexIterator
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
@@ -46,7 +46,7 @@ class FS_File_RecursiveRegexFilter extends RegexIterator
 	protected $numberFound		= 0;
 	/**	@var	int				$numberScanned	Number of scanned Files */
 	protected $numberScanned	= 0;
-	/**	@var	string			filePattern		Regular Expression to match with File Name */
+	/**	@var	string			FS.FilePattern		Regular Expression to match with File Name */
 	private $filePattern;
 	/**	@var	string			$contentPattern	Regular Expression to match with File Content */
 	private $contentPattern;

@@ -19,7 +19,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		File.Configuration
+ *	@package		FS.File.Configuration
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -31,7 +31,7 @@
  *	Converter for Configuration to translate between INI, JSON and XML.
  *	YAML will be supported if Spyc is improved.
  *	@category		cmClasses
- *	@package		File.Configuration
+ *	@package		FS.File.Configuration
  *	@uses			FS_File_Writer
  *	@uses			FS_File_INI_Creator
  *	@uses			FS_File_INI_Reader
@@ -56,8 +56,8 @@ class FS_File_Configuration_Converter
 	 *	Converts Configuration File from INI to JSON and returns Length of Target File.
 	 *	@access		public
 	 *	@static
-	 *	@param		string		$sourceFile			File Name of Source File
-	 *	@param		string		$targetFile			File Name of Target File
+	 *	@param		string		$sourceFile			FS.File Name of Source File
+	 *	@param		string		$targetFile			FS.File Name of Target File
 	 *	@return		int
 	 */
 	public static function convertIniToJson( $sourceFile, $targetFile )
@@ -70,8 +70,8 @@ class FS_File_Configuration_Converter
 	 *	Converts Configuration File from INI to XML and returns Length of Target File.
 	 *	@access		public
 	 *	@static
-	 *	@param		string		$sourceFile			File Name of Source File
-	 *	@param		string		$targetFile			File Name of Target File
+	 *	@param		string		$sourceFile			FS.File Name of Source File
+	 *	@param		string		$targetFile			FS.File Name of Target File
 	 *	@return		int
 	 */
 	public static function convertIniToXml( $sourceFile, $targetFile )
@@ -84,8 +84,8 @@ class FS_File_Configuration_Converter
 	 *	Converts Configuration File from JSON to INI and returns Length of Target File.
 	 *	@access		public
 	 *	@static
-	 *	@param		string		$sourceFile			File Name of Source File
-	 *	@param		string		$targetFile			File Name of Target File
+	 *	@param		string		$sourceFile			FS.File Name of Source File
+	 *	@param		string		$targetFile			FS.File Name of Target File
 	 *	@return		int
 	 */
 	public static function convertJsonToIni( $sourceFile, $targetFile )
@@ -98,8 +98,8 @@ class FS_File_Configuration_Converter
 	 *	Converts Configuration File from JSON to XML and returns Length of Target File.
 	 *	@access		public
 	 *	@static
-	 *	@param		string		$sourceFile			File Name of Source File
-	 *	@param		string		$targetFile			File Name of Target File
+	 *	@param		string		$sourceFile			FS.File Name of Source File
+	 *	@param		string		$targetFile			FS.File Name of Target File
 	 *	@return		int
 	 */
 	public static function convertJsonToXml( $sourceFile, $targetFile )
@@ -112,8 +112,8 @@ class FS_File_Configuration_Converter
 	 *	Converts Configuration File from XML to INI and returns Length of Target File.
 	 *	@access		public
 	 *	@static
-	 *	@param		string		$sourceFile			File Name of Source File
-	 *	@param		string		$targetFile			File Name of Target File
+	 *	@param		string		$sourceFile			FS.File Name of Source File
+	 *	@param		string		$targetFile			FS.File Name of Target File
 	 *	@return		int
 	 */
 	public static function convertXmlToIni( $sourceFile, $targetFile )
@@ -126,8 +126,8 @@ class FS_File_Configuration_Converter
 	 *	Converts Configuration File from XML to JSON and returns Length of Target File.
 	 *	@access		public
 	 *	@static
-	 *	@param		string		$sourceFile			File Name of Source File
-	 *	@param		string		$targetFile			File Name of Target File
+	 *	@param		string		$sourceFile			FS.File Name of Source File
+	 *	@param		string		$targetFile			FS.File Name of Target File
 	 *	@return		int
 	 */
 	public static function convertXmlToJson( $sourceFile, $targetFile )
@@ -140,7 +140,7 @@ class FS_File_Configuration_Converter
 	 *	Loads Configuration Data from INI File.
 	 *	@access		protected
 	 *	@static
-	 *	@param		string		$fileName		File Name of INI File.
+	 *	@param		string		$fileName		FS.File Name of INI File.
 	 *	@return		array
 	 */
 	protected static function loadIni( $fileName )
@@ -179,7 +179,7 @@ class FS_File_Configuration_Converter
 	 *	Loads Configuration Data from JSON File.
 	 *	@access		protected
 	 *	@static
-	 *	@param		string		$fileName		File Name of JSON File.
+	 *	@param		string		$fileName		FS.File Name of JSON File.
 	 *	@return		array
 	 */
 	protected static function loadJson( $fileName )
@@ -201,7 +201,7 @@ class FS_File_Configuration_Converter
 	 *	Loads Configuration Data from XML File.
 	 *	@access		protected
 	 *	@static
-	 *	@param		string		$fileName		File Name of XML File.
+	 *	@param		string		$fileName		FS.File Name of XML File.
 	 *	@return		array
 	 */
 	protected static function loadXml( $fileName )
@@ -231,7 +231,7 @@ class FS_File_Configuration_Converter
 	 *	Saves Configuration Data as INI File and returns Number of written Bytes.
 	 *	@access		protected
 	 *	@static
-	 *	@param		string		$fileName		File Name of INI File
+	 *	@param		string		$fileName		FS.File Name of INI File
 	 *	@param		array		$data			Configuration Data as Array
 	 *	@return		int
 	 */
@@ -264,7 +264,7 @@ class FS_File_Configuration_Converter
 	 *	Saves Configuration Data as JSON File and returns Number of written Bytes.
 	 *	@access		protected
 	 *	@static
-	 *	@param		string		$fileName		File Name of JSON File
+	 *	@param		string		$fileName		FS.File Name of JSON File
 	 *	@param		array		$data			Configuration Data as Array
 	 *	@return		int
 	 */
@@ -288,7 +288,7 @@ class FS_File_Configuration_Converter
 	 *	Saves Configuration Data as XML File and returns Number of written Bytes.
 	 *	@access		protected
 	 *	@static
-	 *	@param		string		$fileName		File Name of XML File
+	 *	@param		string		$fileName		FS.File Name of XML File
 	 *	@param		array		$data			Configuration Data as Array
 	 *	@return		int
 	 */

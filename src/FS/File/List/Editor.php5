@@ -18,7 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		File.List
+ *	@package		FS.File.List
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -29,7 +29,7 @@
 /**
  *	Editor for List Files.
  *	@category		cmClasses
- *	@package		File.List
+ *	@package		FS.File.List
  *	@extends		FS_File_List_Reader
  *	@uses			FS_File_List_Writer
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
@@ -41,12 +41,12 @@
  */
 class FS_File_List_Editor extends FS_File_List_Reader
 {
-	/**	@var		string		$fileName		File Name of List, absolute or relative URI **/
+	/**	@var		string		$fileName		FS.File Name of List, absolute or relative URI **/
 	protected $fileName;
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		string		$fileName		File Name of List, absolute or relative URI
+	 *	@param		string		$fileName		FS.File Name of List, absolute or relative URI
 	 *	@return		void
 	 */
 	public function __construct( $fileName )

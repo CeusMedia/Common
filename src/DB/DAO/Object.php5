@@ -37,7 +37,7 @@ class DB_DAO_Object
 	/**
 	 *	Set Data Access Table.
 	 *	@access		public
-	 *	@param		DataAccess_Table	$table		Database Access Table
+	 *	@param		DataAccess_Table	$table		DB Access Table
 	 *	@return		void
 	 */
 	public function setTable( DB_DAO_Table $table )

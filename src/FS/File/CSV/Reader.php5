@@ -18,7 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		File.CSV
+ *	@package		FS.File.CSV
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -28,7 +28,7 @@
 /**
  *	Reading comma separated values with or without column headers.
  *	@category		cmClasses
- *	@package		File.CSV
+ *	@package		FS.File.CSV
  *	@extends		FS_File_Reader
  *	@uses			Alg_Text_Unicoder
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
@@ -39,7 +39,7 @@
  */
 class FS_File_CSV_Reader
 {
-	/**	@var		string		$fileName		File Name of CSV File */
+	/**	@var		string		$fileName		FS.File Name of CSV File */
 	protected $fileName;
 	/**	@var		bool		$withHeaders	Flag: use Column Headers in first line */
 	protected $withHeaders			= false;
@@ -51,7 +51,7 @@ class FS_File_CSV_Reader
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		string		$fileName		File Name of CSV File
+	 *	@param		string		$fileName		FS.File Name of CSV File
 	 *	@param		bool		$withHeaders	Flag: use Column Headers in first line
 	 *	@param		string		$delimiter		Delimiter Sign
 	 *	@return		void

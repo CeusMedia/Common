@@ -18,7 +18,7 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		File
+ *	@package		FS.File
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -28,7 +28,7 @@
 /**
  *	Base File Writer.
  *	@category		cmClasses
- *	@package		File
+ *	@package		FS.File
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -39,13 +39,13 @@ class FS_File_Writer
 {
 	public static $minFreeDiskSpace	= 10485760;
 	
-	/**	@var		string		$fileName		File Name of List, absolute or relative URI */
+	/**	@var		string		$fileName		FS.File Name of List, absolute or relative URI */
 	protected $fileName;
 
 	/**
 	 *	Constructor. Creates if File if not existing and Creation Mode is set.
 	 *	@access		public
-	 *	@param		string		$fileName		File Name, absolute or relative URI
+	 *	@param		string		$fileName		FS.File Name, absolute or relative URI
 	 *	@param		string		$creationMode	UNIX rights for chmod()
 	 *	@param		string		$creationUser	User Name for chown()
 	 *	@param		string		$creationGroup	Group Name for chgrp()
