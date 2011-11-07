@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+  <section name="section1">
+    <value type="string" name="string" comment="Comment String">name@domain.tld</value>
+    <value type="integer" name="integer" comment="Comment Integer">1</value>
+    <value type="double" name="double" comment="Comment Double">3.14</value>
+    <value type="boolean" name="bool" comment="Comment Boolean">1</value>
+  </section>
+  <section name="section2">
+    <value type="string" name="string">http://sub.domain.tld/application/</value>
+    <value type="integer" name="integer">12</value>
+    <value type="double" name="double">-5.12</value>
+    <value type="boolean" name="bool"/>
+  </section>
+</configuration>
