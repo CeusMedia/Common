@@ -1,5 +1,5 @@
 <?php
-class DB_OSQL_Connection extends Database_PDO_Connection
+class DB_OSQL_Connection extends DB_Connection
 {
 	public function select( $fields = NULL )
 	{
