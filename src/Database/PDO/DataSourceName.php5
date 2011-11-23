@@ -107,6 +107,15 @@ class Database_PDO_DataSourceName
 	}
 
 	/**
+	 *	Returns set PDO driver.
+	 *	@access		public
+	 *	@return		string		Database Driver (dblib|firebird|informix|mysql|mssql|oci|odbc|pgsql|sqlite|sybase)
+	 */ 
+	public function getDriver(){
+		return $this->driver;
+	}
+
+	/**
 	 *	Sets Database, a String or File URI.
 	 *	@access		public
 	 *	@param		string		$database		Database Name
