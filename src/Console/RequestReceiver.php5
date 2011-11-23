@@ -52,6 +52,8 @@ class Console_RequestReceiver extends ADT_List_Dictionary
 		$count	= 0;
 		global $argv;
 		//$argv = array("runJob.php5", "Job_SaleTermination" , "cmd=");	
+		if( !is_array( $argv ) )
+			throw new RuntimeException( 'Missing arguments' );
 		if( !$fallBackOnEmptyPair && in_array( 'fallBackOnEmptyPair', $argv ) )
 			$fallBackOnEmptyPair	= TRUE;
 		foreach( $argv as $argument )

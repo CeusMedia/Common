@@ -126,7 +126,7 @@ class Console_Command_ArgumentParser
 				throw new InvalidArgumentException( 'Invalid option: '.$option.'.' );
 			if( $this->possibleOptions[$option] )
 				throw new RuntimeException( 'Missing value of option "'.$option.'".' );
-			$this->foundOptions[$option]	= NULL;
+			$this->foundOptions[$option]	= TRUE;
 		}
 		if( count( $this->foundArguments ) < $this->numberArguments )
 			throw new RuntimeException( 'Missing argument.' );
@@ -135,7 +135,7 @@ class Console_Command_ArgumentParser
 	}
 
 	/**
-	 *	Handles current Sign in for STATUS_READ_ARGUMENT.
+	 *	Handles current Sign in STATUS_READ_ARGUMENT.
 	 *	@access		protected
 	 *	@param		string		$sign		Sign to handle
 	 *	@param		int			$status		Status Reference
@@ -156,7 +156,7 @@ class Console_Command_ArgumentParser
 	}
 
 	/**
-	 *	Handles current Sign in for STATUS_READ_OPTION_KEY.
+	 *	Handles current Sign in STATUS_READ_OPTION_KEY.
 	 *	@access		protected
 	 *	@param		string		$sign		Sign to handle
 	 *	@param		int			$status		Status Reference
@@ -174,7 +174,7 @@ class Console_Command_ArgumentParser
 			{
 				if( $sign !== " " )
 					throw new InvalidArgumentException( 'Option "'.$option.'" cannot receive a value' );
-				$this->foundOptions[$option]	= NULL;
+				$this->foundOptions[$option]	= TRUE;
 				$status	= self::STATUS_START;
 			}
 			else
@@ -188,7 +188,7 @@ class Console_Command_ArgumentParser
 	}
 
 	/**
-	 *	Handles current Sign in for STATUS_READ_OPTION_VALUE.
+	 *	Handles current Sign in STATUS_READ_OPTION_VALUE.
 	 *	@access		protected
 	 *	@param		string		$sign		Sign to handle
 	 *	@param		int			$status		Status Reference
@@ -202,8 +202,11 @@ class Console_Command_ArgumentParser
 			throw new RuntimeException( 'Missing value of option "'.$option.'"' );
 		if( $sign == " " )																//  closing value...
 		{
-			if( !$buffer )																//  ...only if has value
-				return;
+			if( !$buffer ){																//  no value
+				if( !$this->possibleOptions[$option] )									//  no value required/defined
+					$this->foundOptions[$option]	= TRUE;								//  assign true for existance
+				return;																	//  
+			}
 			if( $this->possibleOptions[$option] !== TRUE )								//  must match regexp
 				if( !preg_match( $this->possibleOptions[$option], $buffer ) )			//  not matching
 					throw new InvalidArgumentException( 'Argument "'.$option.'" has invalid value' );
@@ -216,7 +219,7 @@ class Console_Command_ArgumentParser
 	}
 
 	/**
-	 *	Handles current Sign in for STATUS_READY.
+	 *	Handles current Sign in STATUS_READY.
 	 *	@access		protected
 	 *	@param		string		$sign		Sign to handle
 	 *	@param		int			$status		Status Reference
