@@ -79,6 +79,8 @@ class UI_Image_Exif extends ADT_List_Dictionary
 	public function getThumbnailImage()
 	{
 		$content	= exif_thumbnail( $this->imageUri, $width, $height, $type );
+		if( !$content )
+			throw new Exception( 'No thumbnail available' );
 		$attributes	= array(
 			'width'		=> $width,
 			'height'	=> $height,
