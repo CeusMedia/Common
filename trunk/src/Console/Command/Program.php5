@@ -91,11 +91,6 @@ abstract class Console_Command_Program
 			$this->handleParserException( $e );
 		}
 	}
-	
-	protected function handleParserException( Exception $e )
-	{
-			$this->showError( $e->getMessage() );								//  just show Exception Message
-	}
 
 	/**
 	 *	Returns Program Call Argument String, in this case from PHP's Variables, but can be overwritten.
@@ -108,6 +103,11 @@ abstract class Console_Command_Program
 		array_shift( $arguments );												//  remove Programm Call itself
 		$string		= implode( " ", $arguments );								//  build Argument String
 		return $string;
+	}
+	
+	protected function handleParserException( Exception $e )
+	{
+			$this->showError( $e->getMessage() );								//  just show Exception Message
 	}
 
 	/**
