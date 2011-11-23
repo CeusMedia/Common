@@ -41,6 +41,7 @@
  */
 class Database_PDO_Connection extends PDO 
 {
+	protected $driver				= NULL;
 	public $numberExecutes			= 0;
 	public $numberStatements		= 0;
 	public $logFileErrors			= NULL;															//  eg. logs/db/pdo/error.log
@@ -61,6 +62,8 @@ class Database_PDO_Connection extends PDO
 	 */
 	public function __construct( $dsn, $username = NULL, $password = NULL, $driverOptions = array() )
 	{
+		if( $dsn instanceof Database_PDO_DataSourceName )
+			$this->driver	= $dsn->getDriver();
 		parent::__construct( $dsn, $username, $password, $driverOptions );
 		$this->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
 	}
@@ -126,6 +129,15 @@ class Database_PDO_Connection extends PDO
 		{
 			$this->logError( $e, $statement );										//  logs Error and throws SQL Exception
 		}
+	}
+
+	/**
+	 *	Returns PDO driver used for connection, detected only if the DSN was given as object.
+	 *	@access		public
+	 *	@return		string|NULL		Database Driver (dblib|firebird|informix|mysql|mssql|oci|odbc|pgsql|sqlite|sybase)
+	 */ 
+	public function getDriver(){
+		return $this->driver;
 	}
 
 	public function getOpenTransactions(){
