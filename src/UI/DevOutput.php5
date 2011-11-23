@@ -37,39 +37,54 @@
  */
 class UI_DevOutput
 {
-	/**	@var		string		$lineBreak		Sign for Line Break */
-	public $lineBreak			= "<br/>";
-	/**	@var		string		$indentSign		Sign for Spaces */
-	public $indentSign			= "&nbsp;";
-	/**	@var		string		$noteOpen		Sign for opening Notes */
-	public $noteOpen			= "<em>";
-	/**	@var		string		$noteClose		Sign for closing Notes */
-	public $noteClose			= "</em>";
-	/**	@var		string		$highlightOpen	Sign for opening Highlights */
-	public $highlightOpen		= "<b>";
-	/**	@var		string		$highlightClose	Sign for closing Highlights */
-	public $highlightClose		= "</b>";
-	/**	@var		int			$indentFactor	Factor of Spaces for Indents */
-	public $indentFactor		= 6;
-
+	static public $channels	= array(
+		'html'	=> array(
+			'lineBreak'			=> "<br/>",															// Sign for Line Break
+			'indentSign'		=> "&nbsp;",														// Sign for Spaces
+			'noteOpen'			=> "<em>",															// Sign for opening Notes
+			'noteClose'			=> "</em>",															// Sign for closing Notes
+			'booleanOpen'		=> "<em>",															// Sign for opening boolean values and null
+			'booleanClose'		=> "</em>",															// Sign for closing boolean values and null
+			'highlightOpen'		=> "<b>",															// Sign for opening Highlights
+			'highlightClose'	=> "</b>",															// Sign for closing Highlights
+			'indentFactor'		=> 6,																// Factor of Spaces for Indents
+			'stringTrimMask'	=> '&hellip;',
+			'stringMaxLength'	=> 1500
+		),
+		'console'	=> array(
+			'lineBreak'			=> "\n",															// Sign for Line Break
+			'indentSign'		=> " ",																// Sign for Spaces
+			'noteOpen'			=> "'",																// Sign for opening Notes
+			'noteClose'			=> "'",																// Sign for closing Notes
+			'booleanOpen'		=> "",																// Sign for opening boolean values and null
+			'booleanClose'		=> "",																// Sign for closing boolean values and null
+			'highlightOpen'		=> "",																// Sign for opening Highlights
+			'highlightClose'	=> "",																// Sign for closing Highlights
+			'indentFactor'		=> 2,																// Factor of Spaces for Indents
+			'stringTrimMask'	=> '...',
+			'stringMaxLength'	=> 50
+		)
+	);
+	
 	/**
 	 *	Constructur.
 	 *	@access		public
 	 *	@param		string		$channel		Selector for Channel of Output
 	 *	@return		void
 	 */
-	public function __construct( $channel = "html" )
+	public function __construct( $channel = NULL )
 	{
-		if( getEnv( 'PROMPT' ) || getEnv( 'SHELL' ) || $channel == "console" )
-		{
-			$this->lineBreak		= "\n";
-			$this->indentSign		= " ";
-			$this->noteOpen			= "'";
-			$this->noteClose		= "'";
-			$this->highlightOpen	= "";
-			$this->highlightClose	= "";
-			$this->indentFactor		= 2;
+		$channels	= array( 'console', 'html' );
+		if( $channel !== NULL ){
+			if( !in_array( $channel, $channels ) )
+				$channel	= NULL;
 		}
+		if( $channel === NULL ){
+			$channel	= 'html';
+			if( getEnv( 'PROMPT' ) || getEnv( 'SHELL' ) || $channel == "console" )
+				$channel	= 'console';
+		}
+		$this->channel	= $channel;
 	}
 
 	/**
@@ -82,8 +97,9 @@ class UI_DevOutput
 	 */
 	public function indentSign( $offset, $sign = NULL, $factor = NULL )
 	{
-		$sign	= $sign ? $sign : $this->indentSign;
-		$factor	= $factor ? $factor : $this->indentFactor;
+		extract( self::$channels[$this->channel] );
+		$sign	= $sign ? $sign : $indentSign;
+		$factor	= $factor ? $factor : $indentFactor;
 		return str_repeat( $sign, $offset * $factor );
 	}
 
@@ -101,9 +117,10 @@ class UI_DevOutput
 	{
 		if( is_resource( $resource ) )
 		{
+			extract( self::$channels[$this->channel] );
 			$key	= ( $key !== NULL ) ? $key." => " : "";
 			$space	= $this->indentSign( $offset, $sign, $factor );
-			echo $space."[R] ".$key.$resource.$this->lineBreak;
+			echo $space."[R] ".$key.$resource.$lineBreak;
 		}
 		else
 			$this->printMixed( $object, $offset, $key, $sign, $factor );
@@ -123,9 +140,10 @@ class UI_DevOutput
 	{
 		if( is_object( $object ) || gettype( $object ) == "object" )
 		{
+			extract( self::$channels[$this->channel] );
 			$ins_key	= ( $key !== NULL ) ? $key." -> " : "";
 			$space		= $this->indentSign( $offset, $sign, $factor );
-			echo $space."[O] ".$ins_key."".$this->highlightOpen.get_class( $object ).$this->highlightClose.$this->lineBreak;
+			echo $space."[O] ".$ins_key."".$highlightOpen.get_class( $object ).$highlightClose.$lineBreak;
 			$vars		= get_object_vars( $object );
 			foreach( $vars as $key => $value )
 			{
@@ -155,9 +173,10 @@ class UI_DevOutput
 	{
 		if( is_array( $array ) )
 		{
+			extract( self::$channels[$this->channel] );
 			$space = $this->indentSign( $offset, $sign, $factor );
 			if( $key !== NULL )
-				echo $space."[A] ".$key.$this->lineBreak;
+				echo $space."[A] ".$key.$lineBreak;
 			foreach( $array as $key => $value )
 			{
 				if( is_array( $value ) && count( $value ) )
@@ -200,8 +219,10 @@ class UI_DevOutput
 			$this->printBoolean( $mixed, $offset, $key, $sign, $factor );
 		else if( $mixed === NULL )
 			$this->printNull( $mixed, $offset, $key, $sign, $factor );
-		else
-			echo "No implementation in UI_DevOutput to put out a var of type ".$this->noteOpen.gettype( $mixed ).$this->noteClose.$this->lineBreak;
+		else{
+			extract( self::$channels[$this->channel] );
+			echo "No implementation in UI_DevOutput to put out a var of type ".$noteOpen.gettype( $mixed ).$noteClose.$lineBreak;
+		}
 	}
 
 	/**
@@ -218,9 +239,10 @@ class UI_DevOutput
 	{
 		if( is_bool( $bool ) )
 		{
+			extract( self::$channels[$this->channel] );
 			$key = ( $key !== NULL ) ? $key." => " : "";
 			$space = $this->indentSign( $offset, $sign, $factor );
-			echo $space."[B] ".$key.$this->noteOpen.( $bool ? "TRUE" : "FALSE" ).$this->noteClose.$this->lineBreak;
+			echo $space."[B] ".$key.$booleanOpen.( $bool ? "TRUE" : "FALSE" ).$booleanClose.$lineBreak;
 		}
 		else
 			$this->printMixed( $bool, $offset, $key, $sign, $factor );
@@ -240,9 +262,10 @@ class UI_DevOutput
 	{
 		if( is_float( $float ) )
 		{
+			extract( self::$channels[$this->channel] );
 			$key = ( $key !== NULL ) ? $key." => " : "";
 			$space = $this->indentSign( $offset, $sign, $factor );
-			echo $space."[F] ".$key.$float.$this->lineBreak;
+			echo $space."[F] ".$key.$float.$lineBreak;
 		}
 		else
 			$this->printMixed( $float, $offset, $key, $sign, $factor );
@@ -262,9 +285,10 @@ class UI_DevOutput
 	{
 		if( is_double( $double ) )
 		{
+			extract( self::$channels[$this->channel] );
 			$key = ( $key !== NULL ) ? $key." => " : "";
 			$space = $this->indentSign( $offset, $sign, $factor );
-			echo $space."[D] ".$key.$double.$this->lineBreak;
+			echo $space."[D] ".$key.$double.$lineBreak;
 		}
 		else
 			$this->printMixed( $double, $offset, $key, $sign, $factor );
@@ -284,9 +308,10 @@ class UI_DevOutput
 	{
 		if( is_int( $integer ) )
 		{
+			extract( self::$channels[$this->channel] );
 			$key = ( $key !== NULL ) ? $key." => " : "";
 			$space = $this->indentSign( $offset, $sign, $factor );
-			echo $space."[I] ".$key.$integer.$this->lineBreak;
+			echo $space."[I] ".$key.$integer.$lineBreak;
 		}
 		else
 			$this->printMixed( $integer, $offset, $key, $sign, $factor );
@@ -306,9 +331,10 @@ class UI_DevOutput
 	{
 		if( $null === NULL )
 		{
+			extract( self::$channels[$this->channel] );
 			$key = ( $key !== NULL ) ? $key." => " : "";
 			$space = $this->indentSign( $offset, $sign, $factor );
-			echo $space."[N] ".$key.$this->noteOpen."NULL".$this->noteClose.$this->lineBreak;
+			echo $space."[N] ".$key.$booleanOpen."NULL".$booleanClose.$lineBreak;
 		}
 		else
 			$this->printMixed( $null, $offset, $key, $sign, $factor );
@@ -328,11 +354,14 @@ class UI_DevOutput
 	{
 		if( is_string( $string ) )
 		{
+			extract( self::$channels[$this->channel] );
 			$key = ( $key !== NULL ) ? $key." => " : "";
 			$space = $this->indentSign( $offset, $sign, $factor );
-			if( $this->lineBreak != "\n" )
+			if( $lineBreak != "\n" )
 				$string	= htmlspecialchars( $string );
-			echo $space."[S] ".$key.$string.$this->lineBreak;
+			if( strlen( $string > $stringMaxLength ) )
+				$string	= Alg_Text_Trimmer::trimCentric( $string, $stringMaxLength, $stringTrimMask );
+			echo $space."[S] ".$key.$string.$lineBreak;
 		}
 		else
 			$this->printMixed( $string, $offset, $key, $sign, $factor );
@@ -436,7 +465,7 @@ function dump( $variable )
 function print_m( $mixed, $sign = NULL, $factor = NULL )
 {
 	$o = new UI_DevOutput();
-	echo $o->lineBreak;
+	echo UI_DevOutput::$channels[$o->channel]['lineBreak'];
 	$o->printMixed( $mixed, 0, NULL, $sign, $factor );
 }
 
@@ -466,7 +495,7 @@ function remark( $text = "", $parameters = array(), $break = TRUE )
 {
 	$o = new UI_DevOutput();
 	if( $break )
-		echo $o->lineBreak;
+		echo UI_DevOutput::$channels[$o->channel]['lineBreak'];
 	$o->remark( $text, $parameters );
 }
 
