@@ -90,5 +90,13 @@ class Net_API_Google_Maps_Geocoder extends Net_API_Google_Request
 		);
 		return $data;
 	}
+
+	public function getAddress( $address, $force = FALSE ){
+		$xml	= $this->getGeoCode( $address, $force );
+		$xml	= new XML_Element( $xml );
+		if( !@$xml->Response->Placemark->Point->coordinates )
+			throw new RuntimeException( 'Address not found.' );
+		return (string) $xml->Response->Placemark->address;
+	}
 }
 ?>

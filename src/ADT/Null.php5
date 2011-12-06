@@ -1,6 +1,6 @@
 <?php
 /**
- *	Null Object (Design Pattern) Implementation.
+ *	Null Object (Design Pattern) Implementation as Singleton.
  *
  *	Copyright (c) 2010 Christian Würker (ceus-media.de)
  *
@@ -27,7 +27,7 @@
  *	@version		$Id$
  */
 /**
- *	Null Object (Design Pattern) Implementation.
+ *	Null Object (Design Pattern) Implementation as Singleton.
  *	@category		cmClasses
  *	@package		ADT
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
@@ -41,6 +41,18 @@ class ADT_Null implements Countable, Renderable, ArrayAccess
 {
 	/**	@var	ADT_Null		$instance		Singleton instance of ADT_Null */
 	protected static $instance	= NULL;
+
+	/**
+	 *	Answers all undefined method calls by returning this null object again.
+	 *	@access		public
+	 *	@param		string		$name			Method name - doesn't matter at all
+	 *	@param		array		$arguments		List of argments - also doesn't matter
+	 *	@return		ADT_Null
+	 */
+	public function __call( $name, $arguments )
+	{
+		return $this;
+	}
 	
 	/**
 	 *	Cloning is disabled.
@@ -55,6 +67,26 @@ class ADT_Null implements Countable, Renderable, ArrayAccess
 	 *	@return		void
 	 */
 	protected function __construct() {}
+
+	/**
+	 *	Answers all undefined members reads by returning this null object again.
+	 *	@param		string		$name			Member name - doesn't matter
+	 *	@return		ADT_Null
+	 */
+	public function __get( $name )
+	{
+		return $this;
+	}
+
+	/**
+	 *	Answers all undefined members writes by just returning FALSE without storing anything.
+	 *	@param		string		$name			Member name - doesn't matter
+	 *	@return		boolean		Always FALSE
+	 */
+	public function __set( $name, $value )
+	{
+		return FALSE;
+	}
 
 	/**
 	 *	Returns an empty string.
@@ -76,7 +108,7 @@ class ADT_Null implements Countable, Renderable, ArrayAccess
 	public static function getInstance()
 	{
 		if( !self::$instance )
-			self::$instance	= new ADT_Null;
+			self::$instance	= new self;
 		return self::$instance;
 	}
 
@@ -108,7 +140,7 @@ class ADT_Null implements Countable, Renderable, ArrayAccess
 	 */
 	public function offsetGet( $key )
 	{
-		return self;
+		return $this;
 	}
 
 
@@ -119,7 +151,6 @@ class ADT_Null implements Countable, Renderable, ArrayAccess
 	 */
 	public function offsetSet( $key, $value )
 	{
-		return FALSE;
 	}
 
 
