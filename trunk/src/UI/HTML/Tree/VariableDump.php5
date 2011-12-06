@@ -95,6 +95,23 @@ class UI_HTML_Tree_VariableDump
 			$classes[]	= "closed";
 		return UI_HTML_Elements::ListItem( $label.$children, $level, array( 'class' => implode( " ", $classes ) ) );
 	}
+	
+	/**
+	 *	Global Call Method for UI_HTML_VarTree::buildTree.
+	 *	@access		public
+	 *	@param		mixed		$mixed		Variable to build Tree for
+	 *	@param		string		$print		Flag: print directly to screen or return
+	 *	@param		int			$closed		Flag: start with closed Nodes
+	 *	@return		void|string				String if print is disabled, else void
+	 */
+	public static function dumpVar( $mixed, $print = TRUE, $closed = FALSE ){
+		$tree	= self::buildTree( $mixed, NULL, $closed, 1 );
+		$list	= UI_HTML_Elements::unorderedList( array( $tree ), 1 );
+		$code	= '<div class="varTree">'."\n".$list.'</div>';
+		if( !$print )
+			return $code;
+		print $code;
+	}
 }
 
 /**
@@ -107,11 +124,6 @@ class UI_HTML_Tree_VariableDump
  */
 function treeVar( $mixed, $print = TRUE, $closed = FALSE )
 {
-	$tree	= UI_HTML_VarTree::buildTree( $mixed, NULL, $closed, 1 );
-	$list	= UI_HTML_Elements::unorderedList( array( $tree ), 1 );
-	$code	= '<div class="varTree">'."\n".$list.'</div>';
-	if( !$print )
-		return $code;
-	print $code;
+	return UI_HTML_VarTree::dumpVar( $mixed, $print, $closed );
 }
 ?>
