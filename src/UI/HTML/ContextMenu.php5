@@ -51,9 +51,9 @@ class UI_HTML_ContextMenu
 		return $html;
 	}
 	
-	public static function buildScript( $selector )
+	public static function buildScript( $selector, $options	= array() )
 	{
-		return UI_HTML_JQuery::buildPluginCall( 'cmContextMenu', $selector );
+		return UI_HTML_JQuery::buildPluginCall( 'cmContextMenu', $selector, $options );
 	}
 	
 }
