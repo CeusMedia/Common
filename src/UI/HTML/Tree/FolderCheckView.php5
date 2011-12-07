@@ -50,9 +50,9 @@ class UI_HTML_Tree_FolderCheckView
 	protected $path				= NULL;
 	protected $showFolders		= TRUE;
 	protected $showFiles		= TRUE;
-	protected $fieldName		= "items";
 	protected $selected			= array();
 	protected $ignorePatterns	= array();
+	protected $inputName		= "items";
 
 	/**
 	 *	Constructor.
@@ -104,16 +104,17 @@ class UI_HTML_Tree_FolderCheckView
 					$ignore	= TRUE;
 			if( $ignore	)
 				continue;
-
+			$label		= $item->getFilename();
 			$sublist	= "";																		//  empty Sublist
 			if( $item->isDir() )																	//  current Path has Folders
 				$sublist	= $this->buildRecursive( $item->getPathname(), $level + 1, $pathRoot );	//  call Method for nested Folder
 			$state		= $this->selected ? in_array( $path, $this->selected ) : TRUE;				//  current Item is set to be selected or no presets at all 
-			$check		= UI_HTML_FormElements::CheckBox( 'folders[]', $path, $state );				//  build Checkbox
-			$span		= UI_HTML_Tag::create( 'span', $check.$item->getFilename() );				//  build Label
+			$check		= UI_HTML_FormElements::CheckBox( $this->inputName.'[]', $path, $state );				//  build Checkbox
+			$span		= UI_HTML_Tag::create( 'span', $check.$label );				//  build Label
 			$item		= UI_HTML_Elements::ListItem( $span.$sublist, $level );						//  build List Item
-			$list[]		= $item;																	//  append to List
+			$list[$label]		= $item;																	//  append to List
 		}
+		ksort( $list );
 		$list	= $list ? UI_HTML_Elements::unorderedList( $list, $level ) : "";					//  build List
 		return $list;																				//  return List of this Level
 	}
@@ -163,14 +164,14 @@ class UI_HTML_Tree_FolderCheckView
 	}
 
 	/**
-	 *	Sets the Field Name of all Checkboxes which are arranged to submit an Array.
+	 *	Sets the Input Field Name of all Checkboxes which are arranged to submit an Array.
 	 *	@access		public
-	 *	@param		string		$name			Field Name of the Checkboxes
+	 *	@param		string		$name			Input Field Name of the Checkboxes, default: items
 	 *	@return		void
 	 */
-	public function setFieldName( $name )
+	public function setInputName( $name )
 	{
-		$this->fieldName	= $name;
+		$this->inputName	= $name;
 	}
 
 	/**
