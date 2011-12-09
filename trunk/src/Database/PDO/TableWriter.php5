@@ -44,9 +44,25 @@ class Database_PDO_TableWriter extends Database_PDO_TableReader
 	 *	@return		int
 	 */
 	public function delete()
-	{
+	{	  
 		$this->validateFocus();
-		$conditions	= $this->getConditionQuery( array() );
+		$conditions	= $this->getConditionQuery( array() );		
+		//saeid	{
+		global $sw_log_edit;
+		if($sw_log_edit){
+			global $log_edit;
+			$dataP['TableName']=$this->getTableName();
+			$query	= 'SELECT * FROM '.$this->getTableName().' WHERE '.$conditions;
+			$resultSet	= $this->dbc->query( $query );
+			if( $resultSet )
+				$dataP['data'] = $resultSet->fetchAll( $this->getFetchMode() );
+			else 
+				$dataP['data'] = array();
+			$dataP['columns']=$this->columns;
+			$dataP['mode']='delete';
+			array_push($log_edit,$dataP);
+		}
+		//}			
 		$query	= 'DELETE FROM '.$this->getTableName().' WHERE '.$conditions;
 #		$has	= $this->get( FALSE );
 #		if( !$has )
@@ -63,6 +79,22 @@ class Database_PDO_TableWriter extends Database_PDO_TableReader
 	public function deleteByConditions( $where = array() )
 	{
 		$conditions	= $this->getConditionQuery( $where );
+		//saeid	{
+		global $sw_log_edit;
+		if($sw_log_edit){
+			global $log_edit;
+			$dataP['TableName']=$this->getTableName();
+			$query	= 'SELECT * FROM '.$this->getTableName().' WHERE '.$conditions;
+			$resultSet	= $this->dbc->query( $query );
+			if( $resultSet )
+				$dataP['data'] = $resultSet->fetchAll( $this->getFetchMode() );
+			else 
+				$dataP['data'] = array();
+			$dataP['columns']=$this->columns;
+			$dataP['mode']='deleteByConditions';
+			array_push($log_edit,$dataP);
+		}
+		//}	
 		$query	= 'DELETE FROM '.$this->getTableName().' WHERE '.$conditions;
 		$result	= $this->dbc->exec( $query );
 		$this->defocus();
@@ -78,6 +110,17 @@ class Database_PDO_TableWriter extends Database_PDO_TableReader
 	 */
 	public function insert( $data = array(), $stripTags = TRUE )
 	{
+		//saeid	{
+		global $sw_log_edit;
+		global $log_edit;
+		if($sw_log_edit){
+			$dataP['TableName']=$this->getTableName();
+			$dataP['data']=$data;
+			$dataP['columns']=$this->columns;
+			$dataP['mode']='insert';
+		}
+		//}
+
 		$columns	= array();
 		$values		= array();
 		foreach( $this->columns as $column )														//  iterate Columns
@@ -92,21 +135,30 @@ class Database_PDO_TableWriter extends Database_PDO_TableReader
 		}
 		if( $this->isFocused() )																	//  add focused indices to data
 		{
+			//saeid:{ for double fuckus
 			foreach( $this->focusedIndices as $index => $value )									//  iterate focused indices
 			{
-				if( isset( $columns[$index] ) )														//  Column is already set
+				if( isset( $columns[$value[0]] ) )														//  Column is already set
 					continue;
-				if( $index == $this->primaryKey )													//  skip primary key
+				if( $value[0] == $this->primaryKey )													//  skip primary key
 					continue;
-				$columns[$index]	= '`'.$index.'`';												//  add key
-				$values[$index]		= $this->secureValue( $value );									//  add value
+				$columns[$value[0]]	= '`'.$value[0].'`';												//  add key
+				$values[$value[0]]		= $this->secureValue( $value[1] );									//  add value
 			}
+			//}
 		}
 		$columns	= implode( ', ', array_values( $columns ) );
 		$values		= implode( ', ', array_values( $values ) );
 		$query		= 'INSERT INTO '.$this->getTableName().' ('.$columns.') VALUES ('.$values.')';
 		$this->dbc->exec( $query );
-		return $this->dbc->lastInsertId();
+		$id=$this->dbc->lastInsertId();
+		//saeid {
+		if($sw_log_edit){
+			$dataP['id']=$id;
+			array_push($log_edit,$dataP);
+		}	
+		//}
+		return $id;
 	}
 
 	/**
@@ -118,6 +170,7 @@ class Database_PDO_TableWriter extends Database_PDO_TableReader
 	 */
 	public function update( $data = array(), $stripTags = TRUE )
 	{
+		
 		if( !( is_array( $data ) && $data ) )
 			throw new InvalidArgumentException( 'Data for update must be an array and have atleast 1 pair' );
 		$this->validateFocus();
@@ -137,6 +190,21 @@ class Database_PDO_TableWriter extends Database_PDO_TableReader
 		}
 		if( sizeof( $updates ) )
 		{
+			//saeid	{
+			global $sw_log_edit;
+			if($sw_log_edit){
+				global $log_edit;
+				$dataP['TableName']=$this->getTableName();
+				$query	= 'SELECT * FROM '.$this->getTableName().' WHERE '.$this->getConditionQuery( array() );				
+				$resultSet	= $this->dbc->query( $query );
+				if( $resultSet )
+					$dataP['data'] = $resultSet->fetchAll( $this->getFetchMode() );
+				else $dataP['data'] = array();
+				$dataP['columns']=$this->columns;
+				$dataP['mode']='update';
+				array_push($log_edit,$dataP);
+			}
+			//}			
 			$updates	= implode( ', ', $updates );
 			$query	= 'UPDATE '.$this->getTableName().' SET '.$updates.' WHERE '.$this->getConditionQuery( array() );
 			$result	= $this->dbc->exec( $query );
@@ -153,7 +221,7 @@ class Database_PDO_TableWriter extends Database_PDO_TableReader
 	 *	@return		bool
 	 */
 	public function updateByConditions( $data = array(), $conditions = array(), $stripTags = FALSE )
-	{
+	{	
 		if( !( is_array( $data ) && $data ) )
 			throw new InvalidArgumentException( 'Data for update must be an array and have atleast 1 pair' );
 		if( !( is_array( $conditions ) && $conditions ) )
@@ -174,7 +242,22 @@ class Database_PDO_TableWriter extends Database_PDO_TableReader
 			}
 		}
 		if( sizeof( $updates ) )
-		{
+		{			
+			//saeid	{
+			global $sw_log_edit;
+			if($sw_log_edit){
+				global $log_edit;
+				$dataP['TableName']=$this->getTableName();
+				$query	= 'SELECT * FROM '.$this->getTableName().' WHERE '.$conditions;			
+				$resultSet	= $this->dbc->query( $query );
+				if( $resultSet )
+					$dataP['data'] = $resultSet->fetchAll( $this->getFetchMode() );
+				else $dataP['data'] = array();
+				$dataP['columns']=$this->columns;
+				$dataP['mode']='updateByConditions';
+				array_push($log_edit,$dataP);
+			}
+			//}	
 			$updates	= implode( ', ', $updates );
 			$query		= 'UPDATE '.$this->getTableName().' SET '.$updates.' WHERE '.$conditions;
 			$result		= $this->dbc->exec( $query );
