@@ -35,3 +35,20 @@ CREATE TABLE IF NOT EXISTS `transactions` (
 
 INSERT INTO `transactions` (`id`, `topic`, `label`, `timestamp`) VALUES 
 (1, 'start', '1210847252', '2008-05-15 12:27:32');
+
+DROP TABLE IF EXISTS `transactions2`;
+CREATE TABLE IF NOT EXISTS `transactions2` (
+  `id2` int(11) NOT NULL auto_increment,
+  `topic2` varchar(10) collate utf8_unicode_ci NOT NULL,
+  `label2` text collate utf8_unicode_ci NOT NULL,
+  `timestamp2` timestamp NOT NULL default CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP,
+  PRIMARY KEY  (`id2`),
+  KEY `key` (`topic2`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- 
+-- Daten für Tabelle `transactions2`
+-- 
+
+INSERT INTO `transactions2` (`id2`, `topic2`, `label2`, `timestamp2`) VALUES 
+(1, 'start', '1210847252', '2008-05-15 12:27:32');
