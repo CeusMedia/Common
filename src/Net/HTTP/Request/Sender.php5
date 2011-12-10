@@ -140,7 +140,7 @@ class Net_HTTP_Request_Sender
 	public function send()
 	{
 		if( trim( $this->data ) )
-			$this->addHeaderPair( "Content-Length", strlen( $data ) );
+			$this->addHeaderPair( "Content-Length", strlen( $this->data ) );
 		if( !$this->headers->getFieldsByName( 'connection' ) )
 			$this->addHeaderPair( 'Connection', 'close' );
 
