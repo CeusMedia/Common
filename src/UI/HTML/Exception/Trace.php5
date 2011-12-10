@@ -141,8 +141,12 @@ class UI_HTML_Exception_Trace
 	 */
 	protected static function renderArgumentType( $argument )
 	{
+		$type		= gettype( $argument );
+		$length		= '';
+		if( in_array( $type, array( 'string', 'array' ) ) || $argument instanceof Countable )
+			$length	= '('.count( $argument ).')';
 		$type	= ucFirst( strtolower( gettype( $argument ) ) );
-		return UI_HTML_Tag::create( 'span', $type, array( 'class' => 'type' ) );
+		return UI_HTML_Tag::create( 'span', $type.$length, array( 'class' => 'type' ) );
 	}
 
 	/**
