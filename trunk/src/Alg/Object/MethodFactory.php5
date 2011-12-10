@@ -48,13 +48,14 @@ class Alg_Object_MethodFactory
 	 *	@param		string			$methodName			Name of Method to call
 	 *	@param		array			$methodParameters	List of Parameters for Method Call
 	 *	@param		array			$classParameters	List of Parameters for Object Construction if Class is given
+	 *	@param		boolean			$checkMethod		Flag: check if methods exists by default, disable for classes using __call
 	 *	@return		mixed			Result of called Method
 	 */
-	public static function call( $mixed, $methodName, $methodParameters = array(), $classParameters = array() )
+	public static function call( $mixed, $methodName, $methodParameters = array(), $classParameters = array(), $checkMethod = TRUE )
 	{
 		if( is_object( $mixed ) )
-			return self::callObjectMethod( $mixed, $methodName, $methodParameters );
-		return self::callClassMethod( $mixed, $methodName, $classParameters, $methodParameters );
+			return self::callObjectMethod( $mixed, $methodName, $methodParameters, $checkMethod );
+		return self::callClassMethod( $mixed, $methodName, $classParameters, $methodParameters, $checkMethod );
 	}
 
 	/**
@@ -65,14 +66,15 @@ class Alg_Object_MethodFactory
 	 *	@param		string			$methodName			Name of Method to call
 	 *	@param		array			$classParameters	List of Parameters for Object Construction
 	 *	@param		array			$methodParameters	List of Parameters for Method Call
+	 *	@param		boolean			$checkMethod		Flag: check if methods exists by default, disable for classes using __call
 	 *	@return		mixed			Result of called Method
 	 */
-	public static function callClassMethod( $className, $methodName, $classParameters = array(), $methodParameters = array() )
+	public static function callClassMethod( $className, $methodName, $classParameters = array(), $methodParameters = array(), $checkMethod = TRUE )
 	{
 		if( !class_exists( $className ) )
 			throw new RuntimeException( 'Class "'.$className.'" has not been loaded' );
 		$object		= Alg_Object_Factory::createObject( $className, $classParameters );
-		return self::callObjectMethod( $object, $methodName, $methodParameters );
+		return self::callObjectMethod( $object, $methodName, $methodParameters, $checkMethod );
 	}
 
 	/**
@@ -82,17 +84,18 @@ class Alg_Object_MethodFactory
 	 *	@param		object			$object				Object to call Method of
 	 *	@param		string			$methodName			Name of Method to call
 	 *	@param		array			$parameters			List of Parameters for Method Call
+	 *	@param		boolean			$checkMethod		Flag: check if methods exists by default, disable for classes using __call
 	 *	@return		mixed			Result of called Method
 	 *	@throws		InvalidArgumentException			if no object is given
 	 *	@throws		BadMethodCallException				if an invalid Method is called
 	 */
-	public static function callObjectMethod( $object, $methodName, $parameters = array() )
+	public static function callObjectMethod( $object, $methodName, $parameters = array(), $checkMethod = TRUE )
 	{
 		if( !is_object( $object ) )
 			throw new InvalidArgumentException( 'Invalid object' );
 
 		$reflection	= new ReflectionObject( $object );												//  get Object Reflection
-		if( !$reflection->hasMethod( $methodName ) )												//  called Method is not existing
+		if( $checkMethod && !$reflection->hasMethod( $methodName ) )												//  called Method is not existing
 		{
 			$message	= 'Method '.$reflection->getName().'::'.$methodName.' is not existing';			//  prepare Exception Message
 			throw new BadMethodCallException( $message );											//  throw Exception
