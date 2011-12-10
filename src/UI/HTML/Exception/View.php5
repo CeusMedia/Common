@@ -77,7 +77,7 @@ class UI_HTML_Exception_View
 		return '';
 	}
 
-	public static function render( Exception $e )
+	public static function render( Exception $e, $showTrace = TRUE, $showPrevious = TRUE )
 	{
 		$list	= array();
 		$list[]	= UI_HTML_Tag::create( 'dt', 'Message', array( 'class' => 'exception-message' ) );
@@ -109,16 +109,22 @@ class UI_HTML_Exception_View
 		$list[]	= UI_HTML_Tag::create( 'dt', 'Line', array( 'class' => 'exception-line' ) );
 		$list[]	= UI_HTML_Tag::create( 'dd', $e->getLine(), array( 'class' => 'exception-line' ) );
 
-		$trace	= new UI_HTML_Exception_Trace( $e );
-		if( $trace )
+		if( $showTrace )
 		{
-			$list[]	= UI_HTML_Tag::create( 'dt', 'Trace' );
-			$list[]	= UI_HTML_Tag::create( 'dd', $trace->render() );
+			$trace	= new UI_HTML_Exception_Trace( $e );
+			if( $trace )
+			{
+				$list[]	= UI_HTML_Tag::create( 'dt', 'Trace' );
+				$list[]	= UI_HTML_Tag::create( 'dd', $trace->render() );
+			}
 		}
-		if( method_exists( $e, 'getPrevious' ) && $e->getPrevious() )
+		if( $showPrevious )
 		{
-			$list[]	= UI_HTML_Tag::create( 'dt', 'Previous' );
-			$list[]	= UI_HTML_Tag::create( 'dd', UI_HTML_Exception_View::render( $e->getPrevious() ) );
+			if( method_exists( $e, 'getPrevious' ) && $e->getPrevious() )
+			{
+				$list[]	= UI_HTML_Tag::create( 'dt', 'Previous' );
+				$list[]	= UI_HTML_Tag::create( 'dd', UI_HTML_Exception_View::render( $e->getPrevious() ) );
+			}
 		}
 		return UI_HTML_Tag::create( 'dl', join( $list ), array( 'class' => 'exception' ) );
 	}

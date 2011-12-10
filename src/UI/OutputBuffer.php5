@@ -98,6 +98,10 @@ class UI_OutputBuffer
 		return $clear ? ob_get_clean() : ob_get_contents();
 	}
 
+	public function has(){
+		return strlen( $this->get() );
+	}
+	
 	/**
 	 *	Indicates whether Output Buffer is open.
 	 *	@access		public
