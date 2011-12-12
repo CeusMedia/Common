@@ -40,19 +40,23 @@ class Database_PDO_TableReader
 	/**	@var	BaseConnection	$dbc				Database connection resource object */
 	protected $dbc;
 	/**	@var	array			$columns			List of table columns */
-	protected $columns			= array();
+	protected $columns = array( );
 	/**	@var	array			$indices			List of indices of table */
-	protected $indices			= array();
+	protected $indices = array( );
 	/**	@var	string			$focusedIndices		List of focused indices */
-	protected $focusedIndices	= array();
+	protected $focusedIndices = array( );
 	/**	@var	string			$primaryKey			Primary key of this table */
 	protected $primaryKey;
 	/**	@var	string			$tableName			Name of this table */
 	protected $tableName;
-	/**	@var	int				$fetchMode			Name of this table */
+	/** 	@var 	string 			$Alias				Alias name fur Table*/
+	protected $alias = Null;
+	/**	@var	int			$fetchMode			Name of this table */
 	protected $fetchMode;
+	/**	@var 	array			list of (Model,TableLink=array(file1,file2),Mode=string(Join ,LeftJoin,RightJoin))						*/
+	protected $JoinList = Null;
 	/**	@var	int				$defaultFetchMode	Default fetch mode, can be set statically */
-	public static $defaultFetchMode	= PDO::FETCH_ASSOC;
+	public static $defaultFetchMode = PDO::FETCH_ASSOC;
 
 	/**
 	 *	Constructor.
