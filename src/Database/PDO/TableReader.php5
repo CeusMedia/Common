@@ -35,6 +35,7 @@
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		$Id$
  */
+
 class Database_PDO_TableReader
 {
 	/**	@var	BaseConnection	$dbc				Database connection resource object */
@@ -148,7 +149,10 @@ class Database_PDO_TableReader
 			foreach ( $this->focusedIndices as $key => $value )
 			{
 				//$obj->focusedIndices[ $obj->getAlias( ) . '.' . $key ] = $value;
-				$obj->focusedIndices[  $key ] = array($obj->getAlias( ) . '.' . $value[0],$value[1]);
+				$obj->focusedIndices[ $key ] = array(
+						$obj->getAlias( ) . '.' . $value[ 0 ],
+						$value[ 1 ]
+				);
 			}
 		}
 
@@ -191,7 +195,10 @@ class Database_PDO_TableReader
 			foreach ( $this->focusedIndices as $key => $value )
 			{
 				//$Bobj[ str_replace( $this->getTableName( ) . '.', '', $key ) ] = $value;
-				$Bobj[$key] = array(str_replace( $this->getTableName( ) . '.', '', $value[0] ),$value[1]);
+				$Bobj[ $key ] = array(
+						str_replace( $this->getTableName( ) . '.', '', $value[ 0 ] ),
+						$value[ 1 ]
+				);
 			}
 			$this->focusedIndices = $Bobj;
 		}
@@ -238,7 +245,6 @@ class Database_PDO_TableReader
 		else
 			$query = 'SELECT COUNT(`' . $this->primaryKey . '`) as count FROM ' . $this->getTables( ) . $conditions;
 
-
 		$result = $this->dbc->query( $query );
 
 		$count = $result->fetch( $this->getFetchMode( ) );
@@ -277,11 +283,13 @@ class Database_PDO_TableReader
 			//	return FALSE;
 			//unset( $this->focusedIndices[ $key ] );
 			//return TRUE;
-			foreach ($this->focusedIndices as $key => $value){
-				if($this->primaryKey == $value[0]){
+			foreach ( $this->focusedIndices as $key => $value )
+			{
+				if ( $this->primaryKey == $value[ 0 ] )
+				{
 					unset( $this->focusedIndices[ $key ] );
 					return TRUE;
-				}	
+				}
 			}
 			return FALSE;
 		}
@@ -309,6 +317,7 @@ class Database_PDO_TableReader
 		$query = 'SELECT ' . implode( ', ', $columns ) . ' FROM ' . $this->getTables( ) . $Conditions . $orders . $limits;
 
 		$resultSet = $this->dbc->query( $query );
+
 		if ( $resultSet )
 			return $resultSet->fetchAll( $this->getFetchMode( ) );
 		return array( );
@@ -389,12 +398,12 @@ class Database_PDO_TableReader
 	 *	@return		void
 	 */
 
-	public function focusIndex( $column, $value , $duplicate = false)
+	public function focusIndex( $column, $value, $duplicate = false )
 	{
 
 		if ( $this->getAlias( ) && !stripos( $column, '.' ) )
 			$columnB = $this->getAlias( ) . '.' . $column;
-		else 
+		else
 			$columnB = $column;
 		//  set Focus
 
@@ -405,12 +414,21 @@ class Database_PDO_TableReader
 				$sw = false;
 				foreach ( $this->JoinList as $join )
 				{
-					$columnB = str_replace($join[ 'ObjTableReader' ]->getAlias(true ) . '.', '', $column);
-					if ( in_array( $columnB, $join[ 'ObjTableReader' ]->indices ) || $columnB == $join[ 'ObjTableReader' ]->primaryKey )
+					$columnB = str_replace( $join[ 'ObjTableReader' ]->getAlias( true ) . '.', '', $column );
+					if ( !$join[ 'ObjTableReader' ]->getAlias() )
 					{
-						$columnB = $join[ 'ObjTableReader' ]->getAlias(true ) . '.' . $columnB ;
-						$sw = true;
-						break;
+						if ( in_array( $columnB, $join[ 'ObjTableReader' ]->indices ) || $columnB == $join[ 'ObjTableReader' ]->primaryKey )
+						{
+							$columnB = $join[ 'ObjTableReader' ]->getAlias( true ) . '.' . $columnB;
+							$sw = true;
+							break;
+						}
+					}else{
+						$columnB = $join[ 'ObjTableReader' ]->getAlias().'.'.$columnB;
+						if(in_array( $columnB, $join[ 'ObjTableReader' ]->indices ) || $columnB == $join[ 'ObjTableReader' ]->primaryKey){
+							$sw = true;
+							break;
+						}
 					}
 				}
 				if ( !$sw )
@@ -419,13 +437,21 @@ class Database_PDO_TableReader
 			else
 				throw new InvalidArgumentException( 'Column "' . $column . '" is neither an index nor primary key and cannot be focused');
 		}
-		if (!$duplicate){
-			if(!is_null($key = $this->array_search_column_Key($columnB, $this->focusedIndices))){
-				$this->focusedIndices[ $key ] = array($columnB , $value); //  set Focus
-				return ;
+		if ( !$duplicate )
+		{
+			if ( !is_null( $key = $this->array_search_column_Key( $columnB, $this->focusedIndices ) ) )
+			{
+				$this->focusedIndices[ $key ] = array(
+						$columnB,
+						$value
+				); //  set Focus
+				return;
 			}
-		}	
-		$this->focusedIndices[ ] = array($columnB , $value); //  set Focus
+		}
+		$this->focusedIndices[ ] = array(
+				$columnB,
+				$value
+		); //  set Focus
 	}
 
 	/**
@@ -440,7 +466,10 @@ class Database_PDO_TableReader
 	{
 		if ( $clearIndices )
 			$this->focusedIndices = array( );
-		$this->focusedIndices[ ] = array( $this->primaryKey, $id);
+		$this->focusedIndices[ ] = array(
+				$this->primaryKey,
+				$id
+		);
 	}
 
 	/**	saeid
@@ -500,22 +529,28 @@ class Database_PDO_TableReader
 		foreach ( $this->columns as $column )
 		{ //  iterate all columns
 			if ( isset( $conditions[ $column ] ) ) //  if condition given
-				$new[ ] = array( $column , $conditions[ $column ] );
+				$new[ ] = array(
+						$column,
+						$conditions[ $column ]
+				);
 			//  note condition pair		
 			else if ( $alias && isset( $conditions[ substr( stristr( $column, '.' ), 1 ) ] ) )
-				$new[ ] = array($column, $conditions[ substr( stristr( $column, '.' ), 1 ) ]);
+				$new[ ] = array(
+						$column,
+						$conditions[ substr( stristr( $column, '.' ), 1 ) ]
+				);
 		}
 		if ( $usePrimary && $this->isFocused( $this->primaryKey ) ) //  if using primary key & is focused primary
 		{
-			if ( !$this-> array_search_column( $this->primaryKey, $new ) ) //  if primary key is not already in conditions
-				$new = $this->getFocus( );	
+			if ( !$this->array_search_column( $this->primaryKey, $new ) ) //  if primary key is not already in conditions
+				$new = $this->getFocus( );
 			//  note primary key pair
 		}
 		if ( $useIndices && count( $this->focusedIndices ) ) //  if using indices
 		{
 			foreach ( $this->focusedIndices as $index => $value ) //  iterate focused indices
-				if ( $value[0] != $this->primaryKey ) //  skip primary key
-					if ( !array_search( $value , $new ) ) //  if index column is not already in conditions
+				if ( $value[ 0 ] != $this->primaryKey ) //  skip primary key
+					if ( !array_search( $value, $new ) ) //  if index column is not already in conditions
 						$new[ ] = $value;
 			//  note index pair
 		}
@@ -523,15 +558,15 @@ class Database_PDO_TableReader
 		$conditions = array( );
 		foreach ( $new as $column => $value ) //  iterate all noted Pairs
 		{
-			
-			if ( is_array( $value[1] ) )
+
+			if ( is_array( $value[ 1 ] ) )
 			{
-				foreach ( $value[1] as $nr => $part )
-					$value[1][ $nr ] = $this->realizeConditionQueryPart( $column, $part );
-				$part = '(' . implode( ' OR ', $value[1] ) . ')';
+				foreach ( $value[ 1 ] as $nr => $part )
+					$value[ 1 ][ $nr ] = $this->realizeConditionQueryPart( $column, $part );
+				$part = '(' . implode( ' OR ', $value[ 1 ] ) . ')';
 			}
 			else
-				$part = $this->realizeConditionQueryPart( $value[0], $value[1] );
+				$part = $this->realizeConditionQueryPart( $value[ 0 ], $value[ 1 ] );
 			$conditions[ ] = $part;
 
 		}
@@ -540,6 +575,8 @@ class Database_PDO_TableReader
 		{
 			foreach ( $this->JoinList as $Join )
 			{
+				if ( !$Join[ 'ObjTableReader' ]->getAlias( ) )
+					$Join[ 'ObjTableReader' ]->setAlias( $Join[ 'ObjTableReader' ]->getTableName( ) );
 				$joincondition = $Join[ 'ObjTableReader' ]->getConditionQuery( $inputconditions, FALSE, FALSE );
 				if ( $joincondition )
 				{
@@ -553,7 +590,6 @@ class Database_PDO_TableReader
 		}
 		return $conditions;
 	}
-	
 
 	/**
 	 *	Returns reference the database connection.
@@ -667,10 +703,10 @@ class Database_PDO_TableReader
 	 *	@return		string
 	 */
 
-	public function getTables( )
+	public function getTables( $withLink = TRUE )
 	{
 		$tablesNames = '';
-		if ( !$this->getAlias( ) )
+		if ( !$this->alias )
 			$tablesNames = $this->getTableName( );
 		else
 			$tablesNames = $this->getTableName( ) . ' AS ' . $this->getAlias( );
@@ -678,14 +714,19 @@ class Database_PDO_TableReader
 		{
 			foreach ( $this->JoinList as $join )
 			{
-				$tablesNames .= ' ' . $join[ 'Mode' ] . ' ';
+				if ( $withLink )
+					$tablesNames .= ' ' . $join[ 'Mode' ] . ' ';
+				else
+					$tablesNames .= ' , ';
 				$ObjTableReader = $join[ 'ObjTableReader' ];
 				$tablesNames .= $ObjTableReader->getTableName( );
 				if ( $join[ 'ObjTableReader' ]->getAlias( ) )
 				{
 					$tablesNames .= ' AS ' . $ObjTableReader->getAlias( );
 				}
-				$tablesNames .= ' ON ' . $this->getTableLink( $ObjTableReader, $join[ 'TableLink' ] );
+				if ( $withLink )
+					$tablesNames .= ' ON ' . $this->getTableLink( $ObjTableReader, $join[ 'TableLink' ] );
+
 			}
 		}
 		return $tablesNames;
@@ -703,6 +744,9 @@ class Database_PDO_TableReader
 	{
 		return $TableLink[ 0 ] . ' = ' . $TableLink[ 1 ];
 	}
+
+	protected function getTableLinks( )
+	{}
 
 	/**
 	 *	@author		Saeid
@@ -747,7 +791,10 @@ class Database_PDO_TableReader
 		$Bobj = array( );
 		foreach ( $this->focusedIndices as $key => $value )
 		{
-			$Bobj[ ] = array( $alias ? str_replace( $alias . '.', $AliasName . '.', $value[0] ) : $AliasName . '.' . $value[0], $value[1]);
+			$Bobj[ ] = array(
+					$alias ? str_replace( $alias . '.', $AliasName . '.', $value[ 0 ] ) : $AliasName . '.' . $value[ 0 ],
+					$value[ 1 ]
+			);
 		}
 		$this->focusedIndices = $Bobj;
 		if ( $this->JoinList )
@@ -786,7 +833,10 @@ class Database_PDO_TableReader
 		$Bobj = array( );
 		foreach ( $this->focusedIndices as $key => $value )
 		{
-			$Bobj[$key ] =array( str_replace( $alias . '.', '', $value[0] ), $value[1]);
+			$Bobj[ $key ] = array(
+					str_replace( $alias . '.', '', $value[ 0 ] ),
+					$value[ 1 ]
+			);
 		}
 		$this->focusedIndices = $Bobj;
 
@@ -822,15 +872,18 @@ class Database_PDO_TableReader
 	 * @param 	array 	$new	  	haystack array
 	 * @return	bool 	
 	 */
-	private function array_search_column( $value ,$new ){
-		if( $new && $value )
-			foreach ($new as $values){
-				if( $values[0] == $value )
-					return  true;
+
+	private function array_search_column( $value, $new )
+	{
+		if ( $new && $value )
+			foreach ( $new as $values )
+			{
+				if ( $values[ 0 ] == $value )
+					return true;
 			}
 		return false;
 	}
-	
+
 	/**
 	 * @author	saeid
 	 * @since	10.10.2011
@@ -839,16 +892,18 @@ class Database_PDO_TableReader
 	 * @param 	array 	$new	  	haystack array
 	 * @return	string				key
 	 */
-	private function array_search_column_Key( $value ,$new ){
-		if( $new && $value )
-			foreach ($new as $key => $values){
-				if( $values[0] == $value )
-					return  $key;	
+
+	private function array_search_column_Key( $value, $new )
+	{
+		if ( $new && $value )
+			foreach ( $new as $key => $values )
+			{
+				if ( $values[ 0 ] == $value )
+					return $key;
 			}
 		return NULL;
 	}
-	
-	
+
 	protected function realizeConditionQueryPart( $column, $value )
 	{
 		$pattern = '/^(<=|>=|<|>|!=)(.+)/';
@@ -975,11 +1030,11 @@ class Database_PDO_TableReader
 		$this->indices = array( );
 		foreach ( $indices as $index )
 		{
-			$this->validateColumns($index);
-			if(!$index || $index == array() )
-				throw new InvalidArgumentException( 'Column "' . $index[0] . '" is not existing in table "' . $this->tableName . '" and cannot be an index');
-			$index = $index[0];	
-	
+			$this->validateColumns( $index );
+			if ( !$index || $index == array( ) )
+				throw new InvalidArgumentException( 'Column "' . $index[ 0 ] . '" is not existing in table "' . $this->tableName . '" and cannot be an index');
+			$index = $index[ 0 ];
+
 			if ( $index === $this->primaryKey || $this->getAlias( ) . '.' . $index === $this->primaryKey )
 				throw new InvalidArgumentException( 'Column "' . $index . '" is already primary key and cannot be an index');
 			if ( $Alias && !stripos( $index, '.' ) )
@@ -1078,11 +1133,12 @@ class Database_PDO_TableReader
 				if ( $this->JoinList )
 					foreach ( $this->JoinList as $Join )
 					{
-						if ( $column != $Join[ 'ObjTableReader' ]->getAlias( true ) . '.*' && !in_array( str_replace( $Join[ 'ObjTableReader' ]->getAlias( true ) . '.', '', $column ), $Join[ 'ObjTableReader' ]->columns ) )
+						if ( $column == $Join[ 'ObjTableReader' ]->getAlias( true ) . '.*' )
 						{
-							$sw = false;
+							$sw = true;
+							break;
 						}
-						else
+						else if ( in_array( str_replace( $Join[ 'ObjTableReader' ]->getAlias( true ) . '.', '', $column ), $Join[ 'ObjTableReader' ]->columns ) )
 						{
 							if ( !stripos( $column, '.' ) )
 							{
@@ -1090,6 +1146,19 @@ class Database_PDO_TableReader
 							}
 							$sw = true;
 							break;
+						}
+						else if ( $Join[ 'ObjTableReader' ]->getAlias( ) )
+						{
+							if ( !stripos( $column, '.' ) )
+							{
+								$column = $Join[ 'ObjTableReader' ]->getAlias( ) . '.' . $column;
+							}
+							if ( in_array( $column, $Join[ 'ObjTableReader' ]->columns ) )
+							{
+								$columns[ $key ] = $column;
+								$sw = true;
+								break;
+							}
 						}
 					}
 				if ( !$sw )
