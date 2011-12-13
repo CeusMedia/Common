@@ -2051,7 +2051,7 @@ class Test_Database_PDO_TableReaderTest extends PHPUnit_Framework_TestCase
 
 		$assertion	= array( 'transactions.topic', 'transactions2.timestamp2' );
 		$creation	= $this->readerJoin->getIndices();
-		//print_m($creation);
+
 		$this->assertEquals( $assertion, $creation );
 
 		$indices	= array( 'topic' );
