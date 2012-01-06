@@ -17,7 +17,7 @@ require_once 'Test/initLoaders.php5';
  *	@since			16.06.2008
  *	@version		0.1
  */
-class Test_UI_Image_ErrorTest extends PHPUnit_Framework_TestCase
+/*class Test_UI_Image_ErrorTest extends PHPUnit_Framework_TestCase
 {
 	public function testConstruct()
 	{
@@ -31,5 +31,5 @@ class Test_UI_Image_ErrorTest extends PHPUnit_Framework_TestCase
 		$creation	= ob_get_clean();
 		$this->assertEquals( $assertion, $creation );
 	}
-}
+}*/
 ?>

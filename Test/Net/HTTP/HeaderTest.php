@@ -34,7 +34,7 @@ class Test_Net_HTTP_HeaderTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals( $assertion, $creation );
 
 		$header	= new Net_HTTP_Header( "key-with-more-words", "value" );
-		$assertion	= "Key-with-more-words: value";
+		$assertion	= "Key-With-More-Words: value";
 		$creation	= $header->toString();
 		$this->assertEquals( $assertion, $creation );
 	}
