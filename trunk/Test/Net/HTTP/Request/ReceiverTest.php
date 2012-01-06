@@ -111,14 +111,14 @@ class Test_Net_HTTP_Request_ReceiverTest extends PHPUnit_Framework_TestCase
 	public function testOffsetExists()
 	{
 		$assertion	= true;
-		$creation	=$this->receiver['key2'];
+		$creation	= isset( $this->receiver['key2'] );
 		$this->assertEquals( $assertion, $creation );
 	}
 	
 	public function testOffsetGet()
 	{
 		$assertion	= "value2";
-		$creation	=$this->receiver['key2'];
+		$creation	= $this->receiver['key2'];
 		$this->assertEquals( $assertion, $creation );
 	}
 	

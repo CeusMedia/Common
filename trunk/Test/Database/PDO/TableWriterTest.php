@@ -30,11 +30,12 @@ class Test_Database_PDO_TableWriterTest extends PHPUnit_Framework_TestCase
 	 */
 	public function __construct()
 	{
-		$this->host		= "localhost";
-		$this->port		= 3306;
-		$this->username	= "root";
-		$this->password	= "motrada123";
-		$this->database	= "test";
+		global $__config;
+		$this->host		= $__config['unitTest-Database']['host'];
+		$this->port		= $__config['unitTest-Database']['port'];
+		$this->username	= $__config['unitTest-Database']['username'];
+		$this->password	= $__config['unitTest-Database']['password'];
+		$this->database	= $__config['unitTest-Database']['database'];
 		$this->path		= dirname( __FILE__ )."/";
 		$this->errorLog	= $this->path."errors.log";
 		$this->queryLog	= $this->path."queries.log";

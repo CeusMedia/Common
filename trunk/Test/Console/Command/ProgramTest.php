@@ -53,12 +53,12 @@ class Test_Console_Command_ProgramTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testConstruct1()
 	{
-		$program	= new Console_Command_Program;
+		$program	= new Test_Console_Command_TestProgram;
 		$assertion	= 2;
 		$creation	= $program->exitCode;
 		$this->assertEquals( $assertion, $creation );
 
-		$program	= new Console_Command_Program;
+		$program	= new Test_Console_Command_TestProgram;
 		$assertion	= 2;
 		$creation	= $program->exitCode;
 		$this->assertEquals( $assertion, $creation );

@@ -86,5 +86,29 @@ class Test_Alg_PREG_MatchTest extends PHPUnit_Framework_TestCase
 		$creation	= Alg_PREG_Match::accept( '\S+', "12/ab", "i" );
 		$this->assertEquals( $assertion, $creation );
 	}
+
+	/**
+	 *	Tests Method 'accept'.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testGet()
+	{
+		$assertion	= "es";
+		$creation	= Alg_PREG_Match::get( "es", "test" );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= FALSE;
+		$creation	= Alg_PREG_Match::get( "^es", "test" );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= "TEST";
+		$creation	= Alg_PREG_Match::get( '^[a-z]+$', "TEST", "i" );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= "12/ab";
+		$creation	= Alg_PREG_Match::get( '\S+', "12/ab", "i" );
+		$this->assertEquals( $assertion, $creation );
+	}
 }
 ?>

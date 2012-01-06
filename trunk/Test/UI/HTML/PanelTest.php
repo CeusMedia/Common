@@ -105,7 +105,7 @@ class Test_UI_HTML_PanelTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testSetContent()
 	{
-		$panel		= new UI_HTML_PanelInstance();
+		$panel		= new Test_UI_HTML_PanelInstance();
 
 		$panel->setContent( "1" );
 		$assertion	= "1";
@@ -125,7 +125,7 @@ class Test_UI_HTML_PanelTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testSetHeader()
 	{
-		$panel		= new UI_HTML_PanelInstance();
+		$panel		= new Test_UI_HTML_PanelInstance();
 
 		$panel->setHeader( "1" );
 		$assertion	= "1";
@@ -145,7 +145,7 @@ class Test_UI_HTML_PanelTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testSetFooter()
 	{
-		$panel		= new UI_HTML_PanelInstance();
+		$panel		= new Test_UI_HTML_PanelInstance();
 
 		$panel->setFooter( "1" );
 		$assertion	= "1";

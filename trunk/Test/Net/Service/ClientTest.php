@@ -111,7 +111,7 @@ class Test_Net_Service_ClientTest extends PHPUnit_Framework_TestCase
 
 		$assertion	= array(
 			'content'	=> $request->response,
-			'status'	=> array(
+			'info'		=> array(
 				Net_CURL::STATUS_HTTP_CODE	=> 200,
 			),
 			'headers'	=> array(
@@ -123,7 +123,7 @@ class Test_Net_Service_ClientTest extends PHPUnit_Framework_TestCase
 
 		$assertion	= array(
 			'content'	=> gzcompress( $request->response ),
-			'status'	=> array(
+			'info'		=> array(
 				Net_CURL::STATUS_HTTP_CODE	=> 200,
 			),
 			'headers'	=> array(
@@ -312,7 +312,7 @@ class Test_Net_Service_ClientRequestMock extends ADT_OptionObject
 		}
 	}
 	
-	public function getStatus( $key = NULL )
+	public function getInfo( $key = NULL )
 	{
 		$status	= array(
 			Net_CURL::STATUS_HTTP_CODE	=> $this->httpCode,

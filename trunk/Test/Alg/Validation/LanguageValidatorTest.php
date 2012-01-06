@@ -78,7 +78,7 @@ class Test_Alg_Validation_LanguageValidatorTest extends PHPUnit_Framework_TestCa
 	 */
 	public function testConstructException3()
 	{
-		$this->setExpectedException( 'Exception' );
+		$this->setExpectedException( 'OutOfRangeException' );
 		new Alg_Validation_LanguageValidator( array( "de" ), "fr" );
 	}
 

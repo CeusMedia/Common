@@ -120,7 +120,7 @@ class Test_ADT_List_DictionaryTest extends PHPUnit_Framework_TestCase
 	public function testOffsetExists()
 	{
 		$assertion	= true;
-		$creation	=$this->dictionary['key2'];
+		$creation	= isset( $this->dictionary['key2'] );
 		$this->assertEquals( $assertion, $creation );
 	}
 	
