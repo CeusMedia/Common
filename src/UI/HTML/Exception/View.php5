@@ -91,11 +91,11 @@ class UI_HTML_Exception_View
 			$list[]	= UI_HTML_Tag::create( 'dt', 'SQLSTATE', array( 'class' => 'exception-code-sqlstate' ) );
 			$list[]	= UI_HTML_Tag::create( 'dd', $e->getSQLSTATE().': '.$meaning, array( 'class' => 'exception-code-sqlstate' ) );
 		}
-		if( $e instanceof Exception_IO && $e->getResource() ){
+		if( $e instanceof Exception_IO  ){
 			$list[]	= UI_HTML_Tag::create( 'dt', 'Resource', array( 'class' => 'exception-resource' ) );
 			$list[]	= UI_HTML_Tag::create( 'dd', $e->getResource(), array( 'class' => 'exception-resource' ) );
 		}
-		if( $e instanceof Exception_Logic && $e->getResource() ){
+		if( $e instanceof Exception_Logic ){
 			$list[]	= UI_HTML_Tag::create( 'dt', 'Subject', array( 'class' => 'exception-subject' ) );
 			$list[]	= UI_HTML_Tag::create( 'dd', $e->getSubject(), array( 'class' => 'exception-subject' ) );
 		}
