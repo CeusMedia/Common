@@ -90,8 +90,10 @@ class ADT_Graph_NodeSet implements Countable
 	 */
 	public function getNode( $node )
 	{
-		$index = $this->getNodeIndex( $node );
-		return $this->nodes[$index];
+		for( $i=0; $i<$this->count(); $i++ )
+			if( $this->nodes[$i]->getNodeName() == $node )
+				return $this->nodes[$i];
+		return NULL;
 	}
 
 	/**
@@ -102,12 +104,10 @@ class ADT_Graph_NodeSet implements Countable
 	 */
 	private function getNodeIndex( $node )
 	{
-		for( $i=0; $i<$this->getNodeSize(); $i++ )
-		{
+		for( $i=0; $i<$this->count(); $i++ )
 			if( $this->nodes[$i] == $node )
 				return $i;
-		}
-		return false;
+		return NULL;
 	}
 
 	/**
