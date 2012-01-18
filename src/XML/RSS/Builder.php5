@@ -115,7 +115,7 @@ class XML_RSS_Builder
 	{
 		foreach( $this->channelElements as $element => $required )
 			if( $required && !isset( $this->channel[$element] ) )
-				throw new Exception( 'RSS Channel Element "'.$element.'" is required.' );
+				throw new DomainException( 'RSS Channel Element "'.$element.'" is required.' );
 //		if( count( $this->items ) < 1 )
 //			trigger_error( "RSS items are required.", E_USER_WARNING );
 

@@ -120,7 +120,7 @@ class File_List_Reader
 	{
 		$list	= array();
 		if( !file_exists( $fileName ) )
-			throw new Exception( 'File "'.$fileName.'" is not existing.' );
+			throw new RuntimeException( 'File "'.$fileName.'" is not existing' );
 		$reader	= new File_Reader( $fileName );
 		$lines	= $reader->readArray();
 		foreach( $lines as $line )
