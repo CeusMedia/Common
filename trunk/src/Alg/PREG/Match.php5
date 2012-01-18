@@ -52,6 +52,19 @@ class Alg_PREG_Match
 	 */
 	public static function accept( $pattern, $string, $modifiers = NULL )
 	{
+		return self::get( $pattern, $string, $modifiers ) !== FALSE;
+	}
+	/**
+	 *	Indicates whether a String matches a regular expression.
+	 *	@access		public
+	 *	@static
+	 *	@param		string		$pattern		Regular expression, pattern String
+	 *	@param		string		$string			String to test
+	 *	@param		array		$modifiers		String, Array of Dictionary or Modifiers
+	 *	@return		bool
+	 */
+	public static function get( $pattern, $string, $modifiers = NULL )
+	{
 		if( !is_string( $pattern ) )
 			throw new InvalidArgumentException( 'First parameter must be a String ('.gettype( $pattern ).' given).' );
 		if( !is_string( $string ) )

@@ -101,7 +101,18 @@ class Alg_Object_MethodFactory
 			throw new BadMethodCallException( $message );											//  throw Exception
 		}
 
-		$method		= $reflection->getMethod( $methodName );
+		if( $reflection->hasMethod( $methodName ) )
+		{
+			$method		= $reflection->getMethod( $methodName );
+		}
+		else{
+			$method		= $reflection->getMethod( '__call' );
+			$parameters	= array(
+				$methodName,
+				$parameters
+			);
+		}
+			
 		if( $parameters )																			//  if Method Parameters are set
 			return $method->invokeArgs( $object, $parameters );										//  invoke Method with Parameters
 		return $method->invoke( $object );															//  else invoke Method without Parameters

@@ -83,6 +83,7 @@ class Alg_SgmlTagReader
 	public static function getContent( $string )
 	{
 		$data	= self::getTagData( $string );
+		return $data['content'];
 	}
 
 	/**
