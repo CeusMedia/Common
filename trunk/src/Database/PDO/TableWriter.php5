@@ -69,7 +69,7 @@ class Database_PDO_TableWriter extends Database_PDO_TableReader
 		}
 		//}	
 
-		$query = 'DELETE ' . $this->getTables( FALSE ) . ' FROM ' . $this->getTables( FALSE ) . ' WHERE ' . $conditions;
+		$query = 'DELETE FROM ' . $this->getTables( FALSE ) . ' WHERE ' . $conditions;
 		#		$has	= $this->get( FALSE );
 		#		if( !$has )
 		#			throw new InvalidArgumentException( 'Focused Indices are not existing.' );
