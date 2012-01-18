@@ -56,11 +56,10 @@ class Alg_Time_DurationPhraser
 		$callback	= array( $this, 'insertDates' );
 		$ranges		= $this->ranges->getRanges();
 		krsort( $ranges );
-		foreach( $ranges as $range )
+		foreach( $ranges as $from => $label )
 		{
-			if( $range['from'] > $seconds )
+			if( $from > $seconds )
 				continue;
-			$label	= $range['label'];
 			$value	= $label."::".$seconds;
 			$label	= preg_replace_callback( $this->patternLabel, $callback, $value );
 			$label	= preg_replace( $this->patternData, "", $label );

@@ -61,7 +61,7 @@ class Alg_Validation_LanguageValidator
 		if( $default )
 		{
 			if( !in_array( $default, $allowed ) )
-				throw new Exception( 'Default Language must be an allowed Language.' );
+				throw new OutOfRangeException( 'Default Language must be an allowed Language.' );
 			$this->default	= $default;
 		}
 		else
