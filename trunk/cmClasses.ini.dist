@@ -11,7 +11,7 @@
 ;
 [project]
 name				= "cmClasses"
-version				= "0.7.4"
+version				= "0.7.5a"
 author				= "Christian Würker <christian.wuerker@ceusmedia.de>"
 company				= "Ceus Media (ceusmedia.de)"
 link				= "http://code.google.com/p/cmclasses/"
@@ -45,7 +45,7 @@ tests				= "Test/"
 [unitTestOptions]
 coverage-html			= "doc/coverage"
 log-json			= "Test/results.json"
-log-xml				= "Test/results.xml"
+log-junit			= "Test/results.xml"
 
 [unitTest-FTP]
 ;	Must be set (including path) to enable tests.
