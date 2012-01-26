@@ -109,38 +109,6 @@ class Test_File_List_EditorTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 *	Tests Method 'read'.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function testRead()
-	{
-		$assertion	= array(
-			"line1",
-			"line2",
-		);
-		$creation	= File_List_Editor::read( $this->fileName );
-		$this->assertEquals( $assertion, $creation );
-	
-		$fileName	= dirname( $this->fileName )."/empty.list";
-		file_put_contents( $fileName, "" );
-		$assertion	= array();
-		$creation	= File_List_Editor::read( $fileName );
-		unlink( $fileName );
-	}
-
-	/**
-	 *	Tests Exception of Method 'read'.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function testReadException()
-	{
-		$this->setExpectedException( 'Exception' );
-		File_List_Editor::read( "not_existing" );
-	}
-
-	/**
 	 *	Tests Method 'remove'.
 	 *	@access		public
 	 *	@return		void
