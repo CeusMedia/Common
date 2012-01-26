@@ -133,7 +133,7 @@ class Test_File_List_ReaderTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testReadException()
 	{
-		$this->setExpectedException( 'Exception' );
+		$this->setExpectedException( 'RuntimeException' );
 		File_List_Reader::read( "not_existing" );
 	}
 
