@@ -45,7 +45,10 @@ class Net_SVN_Client{
 	
 	public function info( $path = '' ){
 		$path	= $this->path.$path;
-		return new XML_Element( `svn info $path --xml 2>&1` );
+		if( !strlen( `svn info $path` ) )
+			throw new Exception( 'Path '.$path.' is not under SVN conrol' );
+		$xml	= `svn info $path --xml 2>&1`;
+		return new XML_Element( $xml );
 	}
 
 	public function ls( $path, $revision = SVN_REVISION_HEAD, $recurse = FALSE ){
