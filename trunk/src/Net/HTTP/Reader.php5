@@ -43,22 +43,27 @@
 class Net_HTTP_Reader
 {
 	protected $curl;
-	protected $curlInfo	= array();
+	protected $curlInfo		= array();
+	protected $userAgent	= "cmClasses:Net_HTTP_Reader/0.7";										//  default user agent to report to server, can be overriden by constructor or given CURL options on get or post
 
 	/**
 	 *	Constructor, sets up cURL.
 	 *	@access		public
 	 *	@param		string		$httpVersion		HTTP Version, 1.0 by default
+	 *	@param		string		$userAgent			User Agent to report to server
 	 */
-	public function __construct( $httpVersion = NULL )
+	public function __construct( $httpVersion = NULL, $userAgent = NULL )
 	{
 		$this->curl		= new Net_CURL;
 		$this->curl->setOption( CURLOPT_ENCODING, '' );
 		$this->curl->setOption( CURLOPT_HTTP_VERSION, $httpVersion );
+		if( $userAgent )
+			$this->userAgent	= $userAgent;
+		$this->curl->setOption( CURLOPT_USERAGENT, $this->userAgent );
 	}
 
 	/**
-	 *	Applied cURL Options to a cURL Object.
+	 *	Applies cURL Options to a cURL Object.
 	 *	@access		protected
 	 *	@param		Net_CURL	$curl				cURL Object
 	 *	@param		array		$options			Map of cURL Options
