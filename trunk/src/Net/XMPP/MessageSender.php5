@@ -43,7 +43,7 @@ class Net_XMPP_MessageSender
 	/**	@var	bool		$encryption			Flag: use TLS Encryption */
 	protected $encryption	= TRUE;
 	/**	@var	int			$logLevel			Log Level */
-	protected $logLevel		= LOGGING_INFO;
+	protected $logLevel		= XMPPHP_Log::LEVEL_INFO;
 	/**	@var	int			$port				Server Port */
 	protected $port			= 5222;
 	/**	@var	bool		$printLog			Flag: use Logging */
@@ -59,7 +59,7 @@ class Net_XMPP_MessageSender
 	 *	@param		int			$port			Server Port
 	 *	@param		bool		$encryption		Flag: use TLS Encryption
 	 *	@param		bool		$printLog		Flag: use Logging
-	 *	@param		int			$logLevel		Log Level (LOGGING_ERROR|LOGGING_WARNING|LOGGING_INFO|LOGGING_DEBUG|LOGGING_VERBOSE)
+	 *	@param		int			$logLevel		Log Level (XMPPHP_Log::LEVEL_ERROR|XMPPHP_Log::LEVEL_WARNING|XMPPHP_Log::LEVEL_INFO|XMPPHP_Log::LEVEL_DEBUG|XMPPHP_Log::LEVEL_VERBOSE)
 	 *	@return		void
 	 */
 	public function __construct( $port = NULL, $encryption = NULL, $printLog = NULL, $logLevel = NULL )
@@ -96,7 +96,7 @@ class Net_XMPP_MessageSender
 	public function connect( $username, $password, $server, $port = NULL )
 	{
 		$port	= $port ? $port : $this->port;
-		$this->xmpp		= new XMPP( $server, $port, $username, $password, $this->resource, $server, $this->printLog, $this->logLevel );
+		$this->xmpp		= new XMPPHP_XMPP( $server, $port, $username, $password, $this->resource, $server, $this->printLog, $this->logLevel );
 		$this->xmpp->use_encyption	= $this->encryption;
 		$this->xmpp->connect();
 		$this->xmpp->processUntil( 'session_start' );
@@ -114,7 +114,7 @@ class Net_XMPP_MessageSender
 			if( $this->printLog )
 				echo $this->xmpp->log->printout();
 			$this->xmpp->disconnect();
-			unset( $this->xmpp );
+			$this->xmpp = NULL;
 			return TRUE;
 		}
 		return FALSE;
@@ -161,7 +161,7 @@ class Net_XMPP_MessageSender
 	/**
 	 *	Sets Log Level.
 	 *	@access		public
-	 *	@param		int			$logLevel		Log Level (LOGGING_ERROR|LOGGING_WARNING|LOGGING_INFO|LOGGING_DEBUG|LOGGING_VERBOSE)
+	 *	@param		int			$logLevel		Log Level (XMPPHP_Log::LEVEL_ERROR|XMPPHP_Log::LEVEL_WARNING|XMPPHP_Log::LEVEL_INFO|XMPPHP_Log::LEVEL_DEBUG|XMPPHP_Log::LEVEL_VERBOSE)
 	 *	@return		void
 	 */
 	public function setLogLevel( $level )
