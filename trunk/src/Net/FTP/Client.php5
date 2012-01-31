@@ -52,10 +52,13 @@ class Net_FTP_Client
 	/**
 	 *	Constructor, opens FTP Connection.
 	 *	@access		public
-	 *	@param		Net_FTP_Connection	$connection		FTP Connection Object
+	 *	@param		string		$host			Host Name
+	 *	@param		integer		$port			Service Port
+	 *	@param		string		$username		Username
+	 *	@param		string		$password		Password
 	 *	@return		void
 	 */
-	public function __construct( $host, $port, $path = NULL, $username = NULL, $password = NULL )
+	public function __construct( $host, $port = 21, $path = NULL, $username = NULL, $password = NULL )
 	{
 		try
 		{
