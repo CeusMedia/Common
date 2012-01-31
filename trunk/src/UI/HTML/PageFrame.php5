@@ -146,6 +146,10 @@ class UI_HTML_PageFrame
 		$this->metaTags[strtolower( $type.":".$key )]	= $metaData;
 	}
 
+	public function addScript( $script, $type = "text/javascript" ){
+		$this->addHead( UI_HTML_Tag::create( 'script', $script, array( 'type' => $type ) ) );
+	}
+
 	/**
 	 *	Adds a Stylesheet Link to Head.
 	 *	@access		public
