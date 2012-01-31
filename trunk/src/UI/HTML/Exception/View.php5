@@ -103,8 +103,16 @@ class UI_HTML_Exception_View
 		$list[]	= UI_HTML_Tag::create( 'dt', 'Type', array( 'class' => 'exception-type' ) );
 		$list[]	= UI_HTML_Tag::create( 'dd', get_class( $e ), array( 'class' => 'exception-type' ) );
 
+		
+		$pathName	= self::trimRootPath(  $e->getFile() );
+		$fileName	= '<span class="file">'.pathinfo( $pathName, PATHINFO_FILENAME ).'</span>';
+		$extension	= pathinfo( $pathName, PATHINFO_EXTENSION );
+		$extension	= '<span class="ext">'.( $extension ? '.'.$extension : '' ).'</span>';
+		$path		= '<span class="path">'.dirname( $pathName ).'/</span>';
+		$file		= $path.$fileName.$extension;
+		
 		$list[]	= UI_HTML_Tag::create( 'dt', 'File', array( 'class' => 'exception-file' ) );
-		$list[]	= UI_HTML_Tag::create( 'dd', self::trimRootPath( $e->getFile() ), array( 'class' => 'exception-file' ) );
+		$list[]	= UI_HTML_Tag::create( 'dd',$file, array( 'class' => 'exception-file' ) );
 
 		$list[]	= UI_HTML_Tag::create( 'dt', 'Line', array( 'class' => 'exception-line' ) );
 		$list[]	= UI_HTML_Tag::create( 'dd', $e->getLine(), array( 'class' => 'exception-line' ) );

@@ -165,12 +165,23 @@ class UI_HTML_Exception_Trace
 					return "";
 
 		$content	= "";
-		if( isset( $trace["file"] ) )
-			$content	.= self::trimRootPath( $trace["file"] )."(".$trace["line"]."): ";
-		if( array_key_exists( "class", $trace ) && array_key_exists( "type", $trace ) )
-			$content	.= $trace["class"].$trace["type"];
-		if( array_key_exists( "function", $trace ) )
-		{
+		if( isset( $trace["file"] ) ){
+			$pathName	= self::trimRootPath( $trace["file"] );
+			$fileName	= '<span class="file">'.pathinfo( $pathName, PATHINFO_FILENAME ).'</span>';
+			$extension	= pathinfo( $pathName, PATHINFO_EXTENSION );
+			$extension	= '<span class="ext">'.( $extension ? '.'.$extension : '' ).'</span>';
+			$path		= '<span class="path">'.dirname( $pathName ).'/</span>';
+			$line		= '<span class="line">['.$trace["line"].']</span>';
+			$separator	= '<span class="sep1">: </span>';
+			$content	.= $path.$fileName.$extension.$line.$separator;
+			
+		}
+		if( array_key_exists( "class", $trace ) && array_key_exists( "type", $trace ) ){
+			$class		= '<span class="class">'.$trace["class"].'</span>';
+			$type		= '<span class="type">'.$trace["type"].'</span>';
+			$content	.= $class.$type;
+		}
+		if( array_key_exists( "function", $trace ) ){
 			$block	= NULL;
 			if( array_key_exists( "args", $trace ) && count( $trace['args'] ) )
 			{
@@ -185,7 +196,9 @@ class UI_HTML_Exception_Trace
 				$argList	= UI_HTML_Tag::create( 'dl', implode( $argList ) );
 				$block		= UI_HTML_Tag::create( 'blockquote', $argList );
 			}
-			$content	.= $trace["function"]."(".$block.')';
+			$function	= '<span class="func">'.$trace["function"].'</span>';
+			$arguments	= '<span class="args">('.$block.')</span>';
+			$content	.= $function.$arguments;
 		}
 #		else
 #			die( print_m( $trace ) );
