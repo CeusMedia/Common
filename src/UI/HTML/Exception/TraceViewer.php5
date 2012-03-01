@@ -207,6 +207,7 @@ class UI_HTML_Exception_TraceViewer
 	 */
 	protected static function convertArrayToString( $array, $breakMode, $level = 1 )
 	{
+		$list = array();
 		foreach( $array as $key => $value )
 		{
 			$string	= self::convertArgumentToString( $value, $breakMode, $level+1 );
