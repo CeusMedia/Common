@@ -47,19 +47,19 @@ class Alg_Randomizer
 	public $smalls				= "abcdefghijklmnopqrstuvwxyz";
 	/**	@var		string		$signs			String with Signs */
 	public $signs				= '.:_-+*=/\!§$%&(){}[]#@?~';
-	/**	@var		int			$strength		Strength randomized String should have at least (-100 <= x <= 100) */
+	/**	@var		integer		$strength		Strength randomized String should have at least (-100 <= x <= 100) */
 	public $strength			= 0;
-	/**	@var		int			$maxTurns		Number of Turns to try to create a strong String */
+	/**	@var		integer		$maxTurns		Number of Turns to try to create a strong String */
 	public $maxTurns			= 10;
-	/**	@var		bool		$unique			Flag: every Sign may only appear once in randomized String */
+	/**	@var		boolean		$unique			Flag: every Sign may only appear once in randomized String */
 	public $unique				= TRUE;
-	/**	@var		bool		$useDigits		Flag: use Digits */
+	/**	@var		boolean		$useDigits		Flag: use Digits */
 	public $useDigits			= TRUE;
-	/**	@var		bool		$useSmalls		Flag: use small Letters */
+	/**	@var		boolean		$useSmalls		Flag: use small Letters */
 	public $useSmalls			= TRUE;
-	/**	@var		bool		$useLarges		Flag: use large Letters */
+	/**	@var		boolean		$useLarges		Flag: use large Letters */
 	public $useLarges			= TRUE;
-	/**	@var		bool		$useSigns		Flag: use Signs */
+	/**	@var		boolean		$useSigns		Flag: use Signs */
 	public $useSigns			= TRUE;
 
 	/**
@@ -83,13 +83,24 @@ class Alg_Randomizer
 		return $pool;
 	}
 
-	public function configure( $useDigits, $useSmalls, $useLarges, $useSigns ){
+	/**
+	 *	Defines characters to be used for string generation.
+	 *	@access		public
+	 *	@param		boolean		$useDigits		Flag: use Digits
+	 *	@param		boolean		$useSmalls		Flag: use small Letters
+	 *	@param		boolean		$useLarges		Flag: use large Letters
+	 *	@param		boolean		$useSigns		Flag: use Signs
+	 *	@param		integer		$strength		Strength randomized String should have at least (-100 <= x <= 100)
+	 *	@return		void
+	 */
+	public function configure( $useDigits, $useSmalls, $useLarges, $useSigns, $strength ){
 		if( !( $useDigits || $useSmalls || $useLarges || $useSigns ) )
 			throw InvalidArgumentException( 'Atleast one type of characters must be enabled' );
 		$this->useDigits	= $useDigits;
 		$this->useSmalls	= $useSmalls;
 		$this->useLarges	= $useLarges;
 		$this->useSigns		= $useSigns;
+		$this->strength		= $strength;
 	}
 	
 	/**
