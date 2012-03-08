@@ -41,12 +41,12 @@ class UI_HTML_FormElements
 
 	/**
 	 *	Adds Disabled Attributes directly to Attributes Array, inserts JavaScript Alert if String given.
-	 *	@access		public
+	 *	@access		protected
 	 *	@param		array		$attributes		Reference to Attributes Array
 	 *	@param		mixed		$disabled		Bool or String, String will be set in mit JavaScript Alert
 	 *	@return		void
 	 */
-	private static function addDisabledAttributes( &$attributes, $disabled )
+	protected static function addDisabledAttributes( &$attributes, $disabled )
 	{
 		$attributes['disabled']	= "disabled";
 		if( is_string( $disabled ) )
@@ -55,12 +55,12 @@ class UI_HTML_FormElements
 
 	/**
 	 *	Adds Readonly Attributes directly to Attributes Array, inserts JavaScript Alert if String given.
-	 *	@access		public
+	 *	@access		protected
 	 *	@param		array		$attributes		Reference to Attributes Array
 	 *	@param		mixed		$readOnly		Bool or String, String will be set in mit JavaScript Alert
 	 *	@return		void
 	 */
-	private static function addReadonlyAttributes( &$attributes, $readOnly )
+	protected static function addReadonlyAttributes( &$attributes, $readOnly )
 	{
 		$attributes['readonly']	= "readonly";
 		if( is_string( $readOnly ) )

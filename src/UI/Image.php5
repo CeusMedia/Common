@@ -68,10 +68,10 @@ class UI_Image
 	protected $fileName	= NULL;
 	public $colorTransparent;
 
-	public function __construct( $fileName = NULL )
+	public function __construct( $fileName = NULL, $tolerateAnimatedGif = FALSE )
 	{
 		if( !is_null( $fileName ) )
-			$this->load( $fileName );
+			$this->load( $fileName, $tolerateAnimatedGif );
 	}
 
 	/**
@@ -218,11 +218,11 @@ class UI_Image
 	 *	@return		void
 	 *	@throws		RuntimeException if file is not existing
 	 *	@throws		RuntimeException if file is not readable
-	 *	@throws		RuntimeException if file is not an image
-	 *	@throws		RuntimeException if 
+	 *	@throws		RuntimeException if file is not a image
+	 *	@throws		Exception if detected image type is not supported
 	 *	@throws		Exception if image type is not supported for reading
 	 */
-	public function load( $fileName )
+	public function load( $fileName, $tolerateAnimatedGif = FALSE )
 	{
 		if( !file_exists( $fileName ) )
 			throw new RuntimeException( 'Image "'.$fileName.'" is not existing' );
@@ -231,7 +231,7 @@ class UI_Image
 		$info = getimagesize( $fileName );
 		if( !$info )
 			throw new Exception( 'Image "'.$fileName.'" is not of a supported type' );
-		if( self::isAnimated( $fileName ) )
+		if( !$tolerateAnimatedGif && self::isAnimated( $fileName ) )
 			throw new RuntimeException( 'Animated GIFs are not supported' );
 		if( $this->resource )
 			imagedestroy( $this->resource );
