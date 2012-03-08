@@ -83,6 +83,15 @@ class Alg_Randomizer
 		return $pool;
 	}
 
+	public function configure( $useDigits, $useSmalls, $useLarges, $useSigns ){
+		if( !( $useDigits || $useSmalls || $useLarges || $useSigns ) )
+			throw InvalidArgumentException( 'Atleast one type of characters must be enabled' );
+		$this->useDigits	= $useDigits;
+		$this->useSmalls	= $useSmalls;
+		$this->useLarges	= $useLarges;
+		$this->useSigns		= $useSigns;
+	}
+	
 	/**
 	 *	Creates and returns randomized String.
 	 *	@access		protected
