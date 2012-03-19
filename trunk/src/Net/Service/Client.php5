@@ -220,7 +220,7 @@ class Net_Service_Client
 			'url'		=> $baseUrl,
 			'data'		=> serialize( $data ),
 			'headers'	=> $response['headers'],
-			'info'	=> $response['info'],
+			'info'		=> $response['info'],
 			'response'	=> $response['content'],
 			'time'		=> $clock->stop(),
 			);
