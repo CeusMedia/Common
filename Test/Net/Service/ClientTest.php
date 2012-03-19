@@ -323,6 +323,12 @@ class Test_Net_Service_ClientRequestMock extends ADT_OptionObject
 		
 	}
 
+	public function getInfo(){
+		return array(
+			'test'	=> 'info'
+		);
+	}
+
 	public function getHeader()
 	{
 		$status	= array(

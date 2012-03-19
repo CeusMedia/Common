@@ -19,8 +19,8 @@
  *
  *	@category		cmClasses
  *	@package		UI.Image
- *	@author			Christian WÃ¼rker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2010 Christian WÃ¼rker
+ *	@author			Christian Würker <christian.wuerker@ceus-media.de>
+ *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			13.09.2006
@@ -31,8 +31,8 @@
  *	@category		cmClasses
  *	@package		UI.Image
  *	@extends		ADT_OptionObject
- *	@author			Christian WÃ¼rker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2010 Christian WÃ¼rker
+ *	@author			Christian Würker <christian.wuerker@ceus-media.de>
+ *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			13.09.2006
@@ -74,18 +74,20 @@ class UI_Image_EvolutionGraph extends ADT_OptionObject
 	 *	@access		public
 	 *	@return		void
 	 */	 
-	public function __construct()
+	public function __construct( $options = array() )
 	{
 		parent::__construct();
 		$this->setDefaults();
+		foreach( $options as $key => $value )
+			$this->setOption( $key, $value );
 	}
 	
 	/**
 	 *	Adds another Graph with Legend, Line Color and Values.
 	 *	@access		public
-	 *	@param		string		legend		Legend Label of Graph
-	 *	@param		array		color		Array of RGB-Values
-	 *	@param		array		data			Array of Values of Graph
+	 *	@param		string		$legend		Legend Label of Graph
+	 *	@param		array		$color		Array of RGB-Values
+	 *	@param		array		$data		Array of Values of Graph
 	 *	@return		void
 	 */
 	public function addGraph( $legend, $color, $data )
@@ -93,7 +95,7 @@ class UI_Image_EvolutionGraph extends ADT_OptionObject
 		$position	= count( $this->graphs );
 		$this->graphs[$position]	= array(
 			'legend'	=> $legend,
-			'color'	=> $color,
+			'color'		=> $color,
 			'values'	=> $data,
 		);
 	}

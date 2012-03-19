@@ -219,9 +219,9 @@ class UI_HTML_PageFrame
 	}
 
 	/**
-	 *	...
+	 *	Sets base URI for all referencing resources.
 	 *	@access		public
-	 *	@param		string		$uri			Application Heading
+	 *	@param		string		$uri			Base URI for all referencing resources
 	 *	@return		void
 	 */
 	public function setBaseHref( $uri )
