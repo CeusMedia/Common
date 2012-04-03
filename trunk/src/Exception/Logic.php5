@@ -46,13 +46,14 @@ class Exception_Logic extends Exception_Runtime
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		string		$message		Error Message
+	 *	@param		string		$message		Exception message
 	 *	@param		string		$subject		Subject on which this logic exception happened
+	 *	@param		integer		$code			Exception code
 	 *	@return		void
 	 */
-	public function __construct( $message, $subject = "" )
+	public function __construct( $message, $subject = "", $code = 0 )
 	{
-		parent::__construct( $message );
+		parent::__construct( $message, $code );
 		$this->subject	= $subject;
 	}
 
