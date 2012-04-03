@@ -120,6 +120,15 @@ class UI_HTML_Tag
 			$key	= strtolower( $key );
 			if( array_key_exists( $key, $list ) && !$allowOverride )								//  attribute is already defined
 				throw new InvalidArgumentException( 'Attribute "'.$key.'" is already set' );		//  throw exception
+			if( is_array( $value ) ){																//  attribute is an array
+				$valueList	= join( ' ', $value );														//  just combine value items with whitespace
+				if( $key == 'style' ){																//  special case: style attribute
+					$valueList	= '';																	//  reset list
+					foreach( $value as $k => $v )													//  iterate value items
+						$valueList	.= ( $valueList ? '; ' : '' ).( $k.': '.$v );					//  extend list with style definition
+				}
+				$value	= $valueList;
+			}
 			if( !( is_string( $value ) || is_int( $value ) ) )										//  attribute is neither string nor integer
 				continue;																			//  skip this pair
 			if( !preg_match( '/^[a-z][a-z0-9:_-]*$/', $key ) )										//  key is not a valid lowercase ID (namespaces supported)
