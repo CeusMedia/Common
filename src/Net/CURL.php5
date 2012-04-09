@@ -162,7 +162,7 @@ class Net_CURL
 		if( empty( $url ) )
 			throw new RuntimeException( 'No URL set.' );
 		if( !preg_match( "@[a-z]+://[a-z0-9]+.+@i", $url ) )
-			throw new InvalidArgumentException( 'URL "'.$url.'" has no valid Protocol.' );
+			throw new InvalidArgumentException( 'URL "'.$url.'" has no valid protocol' );
 
 		$result = curl_exec( $this->handle );
 		$this->info = curl_getinfo( $this->handle );
