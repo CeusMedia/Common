@@ -39,6 +39,31 @@
  */
 class XML_Element extends SimpleXMLElement
 {
+	protected $attributes	= array();
+
+	/** 
+	 *	Add CDATA text in a node 
+	 *	@param		string		$cdata_text		The CDATA value  to add 
+	 */ 
+	private function addCData( $text ) 
+	{ 
+		$node		= dom_import_simplexml( $this ); 
+		$document	= $node->ownerDocument; 
+		$node->appendChild( $document->createCDATASection( $text ) ); 
+	} 
+
+	/** 
+	 *	Create a child with CDATA value 
+	 *	@param		string		$name			The name of the child element to add. 
+	 *	@param		string		$cdata_text		The CDATA value of the child element. 
+	 *	@param		string		$namespace		Namespace of node
+	 */ 
+	public function addChildCData( $name, $text, $namespace = NULL ) 
+	{ 
+		$child	= $this->addChild( $name, NULL, $namespace ); 
+		$child->addCData( $text ); 
+		return $child;
+	}
 
 	/**
 	 *	Writes current XML Element as XML File.
@@ -79,11 +104,12 @@ class XML_Element extends SimpleXMLElement
 	 *	Returns the Value of an Attribute from its' Key.
 	 *	@access		public
 	 *	@param		string		$key		Key of Attribute
+	 *	@param		string		$namespace	Namespace of attribute
 	 *	@return		bool
 	 */
-	public function getAttribute( $key, $nameSpace = "" )
+	public function getAttribute( $key, $namespace = "" )
 	{
-		$data	= $nameSpace ? $this->attributes( $nameSpace, 1 ) : $this->attributes();
+		$data	= $namespace ? $this->attributes( $namespace, 1 ) : $this->attributes();
 		if( !isset( $data[$key] ) )
 			throw new Exception( 'Attribute "'.$key.'" is not set.' );
 		return (string) $data[$key];
@@ -92,12 +118,13 @@ class XML_Element extends SimpleXMLElement
 	/**
 	 *	Returns List of Attribute Keys.
 	 *	@access		public
+	 *	@param		string		$namespace	Namespace of attribute
 	 *	@return		array
 	 */
-	public function getAttributeKeys( $nameSpace = "" )
+	public function getAttributeKeys( $namespace = "" )
 	{
 		$list	= array();
-		$data	= $nameSpace ? $this->attributes( $nameSpace, 1 ) : $this->attributes();
+		$data	= $namespace ? $this->attributes( $namespace, 1 ) : $this->attributes();
 		foreach( $data as $key => $value )
 			$list[] = $key;
 		return $list;
@@ -106,12 +133,13 @@ class XML_Element extends SimpleXMLElement
 	/**
 	 *	Returns Array of Attributes.
 	 *	@access		public
+	 *	@param		string		$namespace	Namespace of attributes
 	 *	@return		array
 	 */
-	public function getAttributes()
+	public function getAttributes( $namespace = NULL )
 	{
 		$list	= array();
-		foreach( $this->attributes() as $key => $value )
+		foreach( $this->attributes( $namespace ) as $key => $value )
 			$list[$key]	= (string) $value;
 		return $list;
 	}
@@ -130,12 +158,17 @@ class XML_Element extends SimpleXMLElement
 	 *	Indicates whether an Attribute is existing by it's Key.
 	 *	@access		public
 	 *	@param		string		$key		Key of Attribute
+	 *	@param		string		$namespace	Namespace of attribute
 	 *	@return		bool
 	 */
-	public function hasAttribute( $key, $nameSpace = ""  )
+	public function hasAttribute( $key, $namespace = ""  )
 	{
-		$keys	= $this->getAttributeKeys( $nameSpace );
+		$keys	= $this->getAttributeKeys( $namespace );
 		return in_array( $key, $keys );
+	}
+
+	public function setValue( $value ){
+		
 	}
 }
 ?>
