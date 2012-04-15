@@ -102,12 +102,21 @@ class UI_HTML_Tag
 				throw new RuntimeException( 'Invalid attributes', NULL, $e );						//  throw exception and transport inner exception
 			throw new RuntimeException( 'Invalid attributes', NULL );								//  throw exception
 		}
-		if( $content === NULL || $content === FALSE )													//  no node content defined, not even an empty string
+		if( $content === NULL || $content === FALSE )												//  no node content defined, not even an empty string
 			if( !in_array( $name, self::$shortTagExcludes ) )										//  node name is allowed to be a short tag
 				return "<".$name.$attributes."/>";													//  build and return short tag
+		if( is_array( $content ) )																	//  content is array, may be nested
+			$content	= self::flattenArray( $content );
 		return "<".$name.$attributes.">".$content."</".$name.">";									//  build and return full tag
 	}
 
+	static protected function flattenArray( $array, $delimiter = " ", $path = NULL ){
+		foreach( $array as $key => $value )
+			if( is_array( $value ) )
+				$array[$key]	= self::flattenArray( $value );
+		return join( $delimiter, $array );
+	}	
+	
 	protected static function renderAttributes( $attributes = array(), $allowOverride = FALSE )
 	{
 		if( !is_array( $attributes ) )
