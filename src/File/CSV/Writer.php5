@@ -84,6 +84,10 @@ class File_CSV_Writer
 		}
 		foreach( $data as $line )
 		{
+			foreach( $line as $nr => $value )														//  iterate line values
+				if( substr_count( $value, $this->separator ) > 0 )									//  separator found in value
+					if( substr( $value, 0, 1 ).substr( $value, -1 ) != '""' )						//  value is not masked
+						$line[$nr]	= '"'.addslashes( $value ).'"';									//  mask value
 			$line = implode( $this->separator, $line );
 			$output[] = $line;
 		}
