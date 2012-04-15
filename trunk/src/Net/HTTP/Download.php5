@@ -46,7 +46,7 @@ class Net_HTTP_Download
 	 *	@param		string		$url			File to send
 	 *	@return		void
 	 */
-	public static function sendFile( $url )
+	static public function sendFile( $url )
 	{
 		self::clearOutputBuffers();
 		self::setMimeType();	
@@ -65,11 +65,12 @@ class Net_HTTP_Download
 	/**
 	 *	Sends String for Download.
 	 *	@access		public
+	 *	@static
 	 *	@param		string		$string			String to send
 	 *	@param		string		$filename		Filename of Download
 	 *	@return		void
 	 */
-	public function sendString( $string, $filename )
+	static public function sendString( $string, $filename )
 	{
 		self::clearOutputBuffers();
 		self::setMimeType();	
@@ -86,7 +87,7 @@ class Net_HTTP_Download
 	 *	@static
 	 *	@return		void
 	 */
-	private static function setMimeType()
+	static private function setMimeType()
 	{
 		$UserBrowser = '';
 		if( preg_match( '@Opera(/| )([0-9].[0-9]{1,2})@', $_SERVER['HTTP_USER_AGENT'] ) )
@@ -103,7 +104,7 @@ class Net_HTTP_Download
 	 *	@static
 	 *	@return		void
 	 */
-	private static function clearOutputBuffers()
+	static private function clearOutputBuffers()
 	{
 		while( ob_get_level() )
 			ob_end_clean();
