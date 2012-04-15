@@ -1,6 +1,6 @@
 <?php
 /**
- *	XML Element based on SimpleXMLElement with improved Attribute Handling.
+ *	XML element based on SimpleXMLElement with improved attribute Handling.
  *
  *	Copyright (c) 2007-2010 Christian Würker (ceus-media.de)
  *
@@ -27,7 +27,7 @@
  *	@version		$Id$
  */
 /**
- *	XML Element based on SimpleXMLElement with improved Attribute Handling.
+ *	XML element based on SimpleXMLElement with improved attribute Handling.
  *	@category		cmClasses
  *	@package		XML
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
@@ -36,11 +36,28 @@
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			21.02.2008
  *	@version		$Id$
+ *	@todo			namespace handling: check current usage (URI vs. prefix?) and finish implementation
  */
 class XML_Element extends SimpleXMLElement
 {
 	protected $attributes	= array();
 
+	/**
+	 *	Adds an attributes.
+	 *	@access		public
+	 *	@param		string		$name		Name of attribute
+	 *	@param		string		$value		Value of attribute
+	 *	@param		string		$namespace	Namespace URI of attribute
+	 *	@return		void
+	 *	@throws		Exception	if attribute is already set
+	 */
+	public function addAttribute( $name, $value, $namespace = NULL )
+	{
+		$names	= $this->getAttributeNames();
+		if( $this->hasAttribute( $name ) )
+			throw new Exception( 'Attribute "'.$name.'" is already set' );
+		parent::addAttribute( $name, $value, $namespace );
+	}
 	/** 
 	 *	Add CDATA text in a node 
 	 *	@param		string		$cdata_text		The CDATA value  to add 
@@ -68,7 +85,7 @@ class XML_Element extends SimpleXMLElement
 	/**
 	 *	Writes current XML Element as XML File.
 	 *	@access		public
-	 *	@param		string		$fileName		File Name for XML File
+	 *	@param		string		$fileName		File name for XML file
 	 *	@return		int
 	 */
 	public function asFile( $fileName )
@@ -84,7 +101,7 @@ class XML_Element extends SimpleXMLElement
 	 */
 	public function countAttributes()
 	{
-		return count( $this->getAttributeKeys() );
+		return count( $this->getAttributeNames() );
 	}
 
 	/**
@@ -101,18 +118,18 @@ class XML_Element extends SimpleXMLElement
 	}
 
 	/**
-	 *	Returns the Value of an Attribute from its' Key.
+	 *	Returns the value of an Attribute from it's name.
 	 *	@access		public
-	 *	@param		string		$key		Key of Attribute
+	 *	@param		string		$name		Name of attribute
 	 *	@param		string		$namespace	Namespace of attribute
 	 *	@return		bool
 	 */
-	public function getAttribute( $key, $namespace = "" )
+	public function getAttribute( $name, $namespace = NULL )
 	{
 		$data	= $namespace ? $this->attributes( $namespace, 1 ) : $this->attributes();
-		if( !isset( $data[$key] ) )
-			throw new Exception( 'Attribute "'.$key.'" is not set.' );
-		return (string) $data[$key];
+		if( !isset( $data[$name] ) )
+			throw new Exception( 'Attribute "'.$name.'" is not set.' );
+		return (string) $data[$name];
 	}
 
 	/**
@@ -121,12 +138,12 @@ class XML_Element extends SimpleXMLElement
 	 *	@param		string		$namespace	Namespace of attribute
 	 *	@return		array
 	 */
-	public function getAttributeKeys( $namespace = "" )
+	public function getAttributeNames( $namespace = NULL )
 	{
 		$list	= array();
 		$data	= $namespace ? $this->attributes( $namespace, 1 ) : $this->attributes();
-		foreach( $data as $key => $value )
-			$list[] = $key;
+		foreach( $data as $name => $value )
+			$list[] = $name;
 		return $list;
 	}
 
@@ -139,8 +156,8 @@ class XML_Element extends SimpleXMLElement
 	public function getAttributes( $namespace = NULL )
 	{
 		$list	= array();
-		foreach( $this->attributes( $namespace ) as $key => $value )
-			$list[$key]	= (string) $value;
+		foreach( $this->attributes( $namespace ) as $name => $value )
+			$list[$name]	= (string) $value;
 		return $list;
 	}
 	
@@ -155,20 +172,16 @@ class XML_Element extends SimpleXMLElement
 	}
 
 	/**
-	 *	Indicates whether an Attribute is existing by it's Key.
+	 *	Indicates whether an attribute is existing by it's name.
 	 *	@access		public
-	 *	@param		string		$key		Key of Attribute
+	 *	@param		string		$name		Name of attribute
 	 *	@param		string		$namespace	Namespace of attribute
 	 *	@return		bool
 	 */
-	public function hasAttribute( $key, $namespace = ""  )
+	public function hasAttribute( $name, $namespace = NULL  )
 	{
-		$keys	= $this->getAttributeKeys( $namespace );
-		return in_array( $key, $keys );
-	}
-
-	public function setValue( $value ){
-		
+		$names	= $this->getAttributeNames( $namespace );
+		return in_array( $name, $names );
 	}
 }
 ?>
