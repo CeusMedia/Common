@@ -36,6 +36,7 @@
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			0.6.8
  *	@version		$Id$
+ *	@todo			code doc
  */
 class Net_HTTP_UploadErrorHandler
 {
@@ -49,6 +50,12 @@ class Net_HTTP_UploadErrorHandler
 		UPLOAD_ERR_EXTENSION	=> 'File upload stopped by extension',
 	);
 
+	public function getErrorMessage( $code ){
+		if( !isset( $this->messages[(string)$code] ) )
+			throw new InvalidArgumentException( 'Invalid Error Code ('.$code.')' );
+		return $this->messages[$code];
+	}
+	
 	public function handleErrorCode( $code )
 	{
 		if( !isset( $this->messages[(string)$code] ) )
