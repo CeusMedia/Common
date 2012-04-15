@@ -106,7 +106,7 @@ class Net_HTTP_Request_Sender
 
 	public function setPort( $port )
 	{
-		$this->port	= $port;
+		$this->port	= (int) $port ? $port : 80;
 	}
 
 	public function setRawData( $data )
@@ -160,7 +160,15 @@ class Net_HTTP_Request_Sender
 		while( !feof( $fp ) )																		//  receive Response
 			$result .= fgets( $fp, 128 );															//  collect Response chunks
 		fclose( $fp );																				//  close Connection
-		return Net_HTTP_Response_Parser::fromString( $result );
+		$response	= Net_HTTP_Response_Parser::fromString( $result );
+		if( count( $response->getHeader( 'Location' ) ) ){
+			$location	= array_shift( $response->getHeader( 'Location' ) );
+			$this->host		= parse_url( $location->getValue(), PHP_URL_HOST );
+			$this->setPort( parse_url( $location->getValue(), PHP_URL_PORT ) );
+			$this->setUri( parse_url( $location->getValue(), PHP_URL_PATH ) );
+			return $this->send();
+		}
+		return $response;
 	}
 }
 ?>
