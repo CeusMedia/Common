@@ -52,7 +52,7 @@ class XML_DOM_Formater
 	{
 		$validator	= new XML_DOM_SyntaxValidator();
 		if( !$validator->validate( $xml ) )
-			throw new InvalidArgumentException( 'XML String is not valid XML.' ); 
+			throw new InvalidArgumentException( 'String is no valid XML' ); 
 
 		$document	= new DOMDocument();
 		$document->loadXml( $xml );
@@ -73,7 +73,7 @@ class XML_DOM_Formater
 	{
 		$validator	= new XML_DOM_SyntaxValidator();
 		if( !$validator->validate( $xml ) )
-			throw new InvalidArgumentException( 'XML String is not valid XML.' ); 
+			throw new InvalidArgumentException( 'String is no valid XML' ); 
 
 		$encodeTo	= strtoupper( $encodeTo );
 		
