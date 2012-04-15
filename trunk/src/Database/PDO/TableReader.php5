@@ -540,25 +540,22 @@ class Database_PDO_TableReader
 						$conditions[ substr( stristr( $column, '.' ), 1 ) ]
 				);
 		}
-		if ( $usePrimary && $this->isFocused( $this->primaryKey ) ) //  if using primary key & is focused primary
+		if ( $usePrimary && $this->isFocused( $this->primaryKey ) )									//  if using primary key & is focused primary
 		{
-			if ( !$this->array_search_column( $this->primaryKey, $new ) ) //  if primary key is not already in conditions
-				$new = $this->getFocus( );
-			//  note primary key pair
+			if ( !$this->array_search_column( $this->primaryKey, $new ) )							//  if primary key is not already in conditions
+				$new = $this->getFocus( );															//  note primary key pair
 		}
-		if ( $useIndices && count( $this->focusedIndices ) ) //  if using indices
+		if ( $useIndices && count( $this->focusedIndices ) )										//  if using indices
 		{
-			foreach ( $this->focusedIndices as $index => $value ) //  iterate focused indices
-				if ( $value[ 0 ] != $this->primaryKey ) //  skip primary key
-					if ( !array_search( $value, $new ) ) //  if index column is not already in conditions
-						$new[ ] = $value;
-			//  note index pair
+			foreach ( $this->focusedIndices as $index => $value )									//  iterate focused indices
+				if ( $value[ 0 ] != $this->primaryKey )												//  skip primary key
+					if ( array_search( $value, $new ) === FALSE )									//  if index column is not already in conditions
+						$new[ ] = $value;															//  note index pair
 		}
 
 		$conditions = array( );
-		foreach ( $new as $column => $value ) //  iterate all noted Pairs
+		foreach ( $new as $column => $value )														//  iterate all noted Pairs
 		{
-
 			if ( is_array( $value[ 1 ] ) )
 			{
 				foreach ( $value[ 1 ] as $nr => $part )
@@ -568,9 +565,9 @@ class Database_PDO_TableReader
 			else
 				$part = $this->realizeConditionQueryPart( $value[ 0 ], $value[ 1 ] );
 			$conditions[ ] = $part;
-
 		}
-		$conditions = implode( ' AND ', $conditions ); //  combine Conditions with AND
+		$conditions = implode( ' AND ', $conditions );												//  combine Conditions with AND
+		
 		if ( $this->JoinList )
 		{
 			foreach ( $this->JoinList as $Join )
