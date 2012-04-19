@@ -42,7 +42,7 @@
  *	@see			RFC2445
  *	@link			http://www.w3.org/2002/12/cal/rfc2445
  */
-class File_iCal_Parser
+class File_ICal_Parser
 {
 	/**	@var	string		$lineBreak		Line Break String */
 	protected static $lineBreak;

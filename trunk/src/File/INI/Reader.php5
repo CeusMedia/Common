@@ -63,7 +63,7 @@ class File_INI_Reader extends File_Reader
 	/**	@var		string			$patternDescription		Pattern( regex) of Descriptions */
 	protected $patternDescription	= '/^[;|#|:|\/|=]{1,2}/';
 	/**	@var		string			$patternSection			Pattern( regex) of Sections */
-	protected $patternSection		= '/^([){1}([a-z0-9_=.,:;#@-])+(]){1}$/i';
+	protected $patternSection		= '/^\s*\[([a-z0-9_=.,:;#@-]+)\]\s*$/i';
 	/**	@var		string			$patternLineComment		Pattern( regex) of Line Comments */
 	protected $patternLineComment	= '/([\t| ]+([\/]{2}|[;])+[\t| ]*)/';
 
@@ -403,7 +403,8 @@ class File_INI_Reader extends File_Reader
 
 			if( $this->usesSections() && preg_match( $this->patternSection, $line ) )
 			{
-				$currentSection		= substr( trim( $line ), 1, -1 );
+#				$currentSection		= substr( trim( $line ), 1, -1 );								//  @todo remove this line in 0.8.0
+				$currentSection		= preg_replace( $this->patternSection, '\\1', $line );
 				$this->sections[]	= $currentSection;
 				$this->disabled[$currentSection]	= array();
 				$this->properties[$currentSection]	= array();

@@ -177,25 +177,14 @@ class File_INI_Editor extends File_INI_Reader
 
 	/**
 	 *	Deletes a  Property.
+	 *	Alias for removeProperty.
 	 *	@access		public
 	 *	@param		string		$key			Key of Property to be deleted
 	 *	@return		bool
 	 */
 	public function deleteProperty( $key, $section = NULL )
 	{
-		if( $this->usesSections() )
-		{
-			if( !$this->hasProperty( $key, $section ) )
-				throw new InvalidArgumentException( 'Key "'.$key.'" is not existing in section "'.$section.'"' );
-			$this->deleted[$section][] = $key;
-		}
-		else
-		{
-			if( !$this->hasProperty( $key ) )
-				throw new InvalidArgumentException( 'Key "'.$key.'" is not existing' );
-			$this->deleted[] = $key;
-		}
-		return is_int( $this->write() );
+		return $this->removeProperty( $key, $section );
 	}
 
 	/**
@@ -253,6 +242,29 @@ class File_INI_Editor extends File_INI_Reader
 		$this->renamed	= array();
 		$this->read();
 		return is_int( $result );
+	}
+
+	/**
+	 *	Removes a  Property.
+	 *	@access		public
+	 *	@param		string		$key			Key of Property to be removed
+	 *	@return		bool
+	 */
+	public function removeProperty( $key, $section = NULL )
+	{
+		if( $this->usesSections() )
+		{
+			if( !$this->hasProperty( $key, $section ) )
+				throw new InvalidArgumentException( 'Key "'.$key.'" is not existing in section "'.$section.'"' );
+			$this->deleted[$section][] = $key;
+		}
+		else
+		{
+			if( !$this->hasProperty( $key ) )
+				throw new InvalidArgumentException( 'Key "'.$key.'" is not existing' );
+			$this->deleted[] = $key;
+		}
+		return is_int( $this->write() );
 	}
 
 	/**

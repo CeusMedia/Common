@@ -41,7 +41,7 @@
  *	@see			RFC2445
  *	@link			http://www.w3.org/2002/12/cal/rfc2445
  */
-class File_iCal_Builder
+class File_Ical_Builder
 {
 	/**	@var	string		$lineBreak		Line Break String */
 	protected static $lineBreak;
