@@ -266,9 +266,9 @@ class Database_StatementBuilder
 	public function buildCountStatement()
 	{
 		if( !$this->keys )
-			throw new Exception( 'No Columns defined.' );
+			throw new RuntimeException( 'No Columns defined.' );
 		if( !$this->tables )
-			throw new Exception( 'No Tables defined.' );
+			throw new RuntimeException( 'No Tables defined.' );
 
 		$tables		= array();
 		$tables		= "\nFROM\n\t".implode( ",\n\t", $this->tables );
@@ -294,9 +294,9 @@ class Database_StatementBuilder
 	public function buildSelectStatement()
 	{
 		if( !$this->keys )
-			throw new Exception( 'No Columns defined.' );
+			throw new RuntimeException( 'No Columns defined.' );
 		if( !$this->tables )
-			throw new Exception( 'No Tables defined.' );
+			throw new RuntimeException( 'No Tables defined.' );
 
 		$tables		= array();
 		$keys		= "SELECT\n\t".implode( ",\n\t", $this->keys );

@@ -108,6 +108,7 @@ class Database_PDO_Connection extends PDO
 				parent::commit();													//  commit Transaction
 		}
 		$this->openTransactions--;													//  decrease Transaction Counter
+		return TRUE;
 	}
 
 	/**
