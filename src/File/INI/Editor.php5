@@ -140,9 +140,9 @@ class File_INI_Editor extends File_INI_Reader
 			$breaksKey = 1;
 		if( $breaksValue < 1 )
 			$breaksValue = 1;
-		$line	= $key.str_repeat( "\t", $breaksKey )."=".$value;
+		$line	= $key.str_repeat( "\t", $breaksKey ).'= "'.addslashes( $value ).'"';
 		if( $comment )
-			$line	.= str_repeat( "\t", $breaksValue )."; ".$comment;
+			$line	.= str_repeat( "\t", $breaksValue ).'; '.$comment;
 		return $line;
 	}
 
