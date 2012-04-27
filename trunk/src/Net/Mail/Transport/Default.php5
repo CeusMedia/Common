@@ -51,7 +51,7 @@ class Net_Mail_Transport_Default
 	public function __construct( $mailer = NULL )
 	{
 		if( $mailer )
-			$this->mailer	= $mailer;
+			self::$mailer	= $mailer;
 	}
 
 	/**
@@ -76,7 +76,7 @@ class Net_Mail_Transport_Default
 	 */
 	public function send( $mail )
 	{
-		$this->sendMail( $mail, $this->mailer );
+		$this->sendMail( $mail );
 	}
 
 

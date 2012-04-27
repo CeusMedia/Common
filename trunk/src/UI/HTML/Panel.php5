@@ -93,7 +93,7 @@ class UI_HTML_Panel
 	 *	@param		array		$attributes			Map of Attributes of Panel DIV
 	 *	@return		string
 	 */
-	public static function create( $id, $content, $header, $abstract, $footer = NULL, $theme= "default", $attributes = array() )
+	public static function create( $id, $content, $header, $abstract = NULL, $footer = NULL, $theme= "default", $attributes = array() )
 	{
 		$divContInner	= self::wrap( (string) $content, self::$classContentInner );
 		$divCont		= self::wrap( $divContInner, self::$classContent );

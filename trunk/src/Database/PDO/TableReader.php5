@@ -54,6 +54,8 @@ class Database_PDO_TableReader
 	/**	@var	int				$defaultFetchMode	Default fetch mode, can be set statically */
 	public static $defaultFetchMode	= PDO::FETCH_ASSOC;
 
+	public $undoStorage;
+
 	/**
 	 *	Constructor.
 	 *
@@ -153,8 +155,10 @@ class Database_PDO_TableReader
 		return array();
 	}
 	
-	public function findWhereIn( $columns = array(), $column, $values, $orders = array(), $limits = array() )
+	public function findWhereIn( $columns, $column, $values, $orders = array(), $limits = array() )
 	{
+		if( !is_string( $columns ) && !is_array( $columns ) )										//  columns attribute needs to of string or array
+			$columns	= array();																	//  otherwise use empty array
 		$this->validateColumns( $columns );
 
 		if( $column != $this->getPrimaryKey() && !in_array( $column, $this->getIndices() ) )
@@ -172,8 +176,10 @@ class Database_PDO_TableReader
 		return array();
 	}
 
-	public function findWhereInAnd( $columns = array(), $column, $values, $conditions = array(), $orders = array(), $limits = array() )
+	public function findWhereInAnd( $columns, $column, $values, $conditions = array(), $orders = array(), $limits = array() )
 	{
+		if( !is_string( $columns ) && !is_array( $columns ) )										//  columns attribute needs to of string or array
+			$columns	= array();																	//  otherwise use empty array
 		$this->validateColumns( $columns );
 
 		if( $column != $this->getPrimaryKey() && !in_array( $column, $this->getIndices() ) )
@@ -550,6 +556,17 @@ class Database_PDO_TableReader
 	public function setTableName( $tableName )
 	{
 		$this->tableName = $tableName;
+	}
+
+	/**
+	 *	Setting the name of the table.
+	 *	@access		public
+	 *	@param		string		$tableName		Name of this table
+	 *	@return		void
+	 */
+	public function setUndoStorage( $storage )
+	{
+		$this->undoStorage = $storage;
 	}
 
 	/**

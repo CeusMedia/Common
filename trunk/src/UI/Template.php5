@@ -240,28 +240,24 @@ class UI_Template
 		else																						//  otherwise
 			$out	= preg_replace( '/<%\?--(.+)--%>/sU', '\\1', $out );							//  find, remove markup but keep content
 
-		foreach( $this->elements as $label => $element )										//  iterate over all registered element containers
+		foreach( $this->elements as $label => $element )											//  iterate over all registered element containers
 		{
 			$tmp = '';																				//  
-//			foreach( $labelElements as $element )													//  iterate over all elements with current element container
-//			{
-	 			if( is_object( $element ) )															//  element is an object
-	 			{
-	 				if( !( $element instanceof $this->className ) )									//  object is not an template of this template engine
-						continue;																	//  skip this one
-					$element = $element->create();													//  render template before concat
-	 			}
-				$tmp	.= $element;
-//			}
+			if( is_object( $element ) )															//  element is an object
+			{
+				if( !( $element instanceof $this->className ) )									//  object is not an template of this template engine
+					continue;																	//  skip this one
+				$element = $element->create();													//  render template before concat
+			}
+			$tmp	.= $element;
 			$out	= preg_replace( '/<%(\?)?' . $label . '%>/', $tmp, $out );						//  find placeholder and set in content
  		}
 		$out = preg_replace( '/<%\?.*%>/U', '', $out );    											//  remove left over optional placeholders
-        $out = preg_replace( '/\n\s+\n/', "\n", $out );												//  remove double line breaks
+#        $out = preg_replace( '/\n\s+\n/', "\n", $out );												//  remove double line breaks
 
 		foreach( $this->plugins as $plugin )
 			if( $plugin->type == 'post' )
 				$out	= $plugin->work( $out );
-
 
 		$tags = array();																			//  create container for left over placeholders
 		if( preg_match_all( '/<%.*%>/U', $out, $tags ) === 0 )										//  no more placeholders left over
