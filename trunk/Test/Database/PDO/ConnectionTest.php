@@ -19,7 +19,7 @@ require_once 'Test/initLoaders.php5';
  *	@since			02.07.2008
  *	@version		0.1
  */
-class Test_Database_PDO_ConnectionTest extends PHPUnit_Framework_TestCase
+class Test_Database_PDO_ConnectionTest extends Test_Case
 {
 	/**
 	 *	Constructor.
@@ -28,11 +28,11 @@ class Test_Database_PDO_ConnectionTest extends PHPUnit_Framework_TestCase
 	 */
 	public function __construct()
 	{
-		$this->host		= "localhost";
-		$this->port		= 3306;
-		$this->username	= "ceus";
-		$this->password	= "ceus";
-		$this->database	= "test";
+		$this->host		= self::$config['unitTest-Database']['host'];
+		$this->port		= self::$config['unitTest-Database']['port'];
+		$this->username	= self::$config['unitTest-Database']['username'];
+		$this->password	= self::$config['unitTest-Database']['password'];
+		$this->database	= self::$config['unitTest-Database']['database'];
 		$this->path		= dirname( __FILE__ )."/";
 		$this->errorLog	= $this->path."errors.log";
 		$this->queryLog	= $this->path."queries.log";

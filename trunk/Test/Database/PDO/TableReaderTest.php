@@ -9,7 +9,7 @@
  *	@since			02.07.2008
  *	@version		0.1
  */
-require_once 'Test/Case.php'; 
+require_once 'PHPUnit/Framework/TestCase.php'; 
 require_once 'Test/initLoaders.php5';
 /**
  *	TestUnit of Database_PDO_TableReader.
@@ -18,8 +18,8 @@ require_once 'Test/initLoaders.php5';
  *	@uses			Database_PDO_Connection
  *	@uses			Database_PDO_TableReader
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
- *	@since			02.07.2008/11.10.2011
- *	@version		0.1.1
+ *	@since			02.07.2008
+ *	@version		0.1
  */
 class Test_Database_PDO_TableReaderTest extends Test_Case
 {
@@ -61,18 +61,6 @@ class Test_Database_PDO_TableReaderTest extends Test_Case
 			'topic',
 			'label'
 		);
-		$this->tableName2	= "transactions2";
-		$this->columns2	= array(
-			'id2',
-			'topic2',
-			'label2',
-			'timestamp2',
-		);
-		$this->primaryKey2	= $this->columns2[0];
-		$this->indices2	= array(
-			'topic2',
-			'label2'
-		);
 	}
 	
 	/**
@@ -91,9 +79,6 @@ class Test_Database_PDO_TableReaderTest extends Test_Case
 
 		$this->reader	= new Database_PDO_TableReader( $this->connection, $this->tableName, $this->columns, $this->primaryKey );
 		$this->reader->setIndices( $this->indices );
-		$this->reader2	= new Database_PDO_TableReader( $this->connection, $this->tableName2, $this->columns2, $this->primaryKey2 );
-		$this->reader2->setIndices( $this->indices2 );
-		$this->readerJoin = $this->reader->Join($this->reader2,array('id','id2'));
 	}
 	
 	/**
@@ -106,7 +91,6 @@ class Test_Database_PDO_TableReaderTest extends Test_Case
 		@unlink( $this->errorLog );
 		@unlink( $this->queryLog );
 		mysql_query( "DROP TABLE transactions" );
-		mysql_query( "DROP TABLE transactions2" );
 	}
 
 	/**
@@ -130,7 +114,7 @@ class Test_Database_PDO_TableReaderTest extends Test_Case
 		$creation	= $reader->getPrimaryKey();
 		$this->assertEquals( $assertion, $creation );
 
-		$assertion	= array(array( 'col2' , 1 ));
+		$assertion	= array( 'col2' => 1 );
 		$creation	= $reader->getFocus();
 		$this->assertEquals( $assertion, $creation );
 	}
@@ -148,85 +132,7 @@ class Test_Database_PDO_TableReaderTest extends Test_Case
 		$creation	= array_slice( $reader->get(), 0, 1 );
 		$this->assertEquals( $assertion, $creation );
 	}
-	
-	/**
-	 *	Tests Method '__construct' for Alias.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function testConstruct3()
-	{
-		$reader		= new Database_PDO_TableReader( $this->connection, $this->tableName, $this->columns, $this->primaryKey, 1 , 'sa' );
-	
-		$assertion	= array( 'id' => 1 );
-		$creation	= array_slice( $reader->get(), 0, 1 );
-		$this->assertEquals( $assertion, $creation );
-		$this->assertEquals($reader->getColumns(),array(
-			'sa.id',
-			'sa.topic',
-			'sa.label',
-			'sa.timestamp',
-		));
-	}
-	
-	/**
-	 *	Test Method Join
-	 *	@access		public
-	 *	@return		void 
-	 */
-	public function testJoin1(){
-		$reader1		= new Database_PDO_TableReader( $this->connection, $this->tableName, $this->columns, $this->primaryKey, 1 );
-		$reader2		= new Database_PDO_TableReader( $this->connection, $this->tableName2, $this->columns2, $this->primaryKey2, 1 );
-		$reader1 = $reader1->Join($reader2,array('id','id2'));
-		$this->assertEquals($reader1->getColumns(),array(
-			'transactions.id',
-			'transactions.topic',
-			'transactions.label',
-			'transactions.timestamp',
-		));
-		$this->assertEquals($reader1->getAlias(),'transactions');
-		$this->assertEquals($reader1->getPrimaryKey(),'transactions.id');
-		$this->assertEquals($reader1->isJoin(),true);
-	}
-	/**
-	 *	Test Method Join
-	 *	@access		public
-	 *	@return		void 
-	 */
-	public function testJoin2(){
-		$reader1		= new Database_PDO_TableReader( $this->connection, $this->tableName, $this->columns, $this->primaryKey, 1 ,'sa');
-		$reader2		= new Database_PDO_TableReader( $this->connection, $this->tableName2, $this->columns2, $this->primaryKey2, 1 );
-		$reader1 = $reader1->Join($reader2,array('id','id2'));
-		$this->assertEquals($reader1->getColumns(),array(
-			'sa.id',
-			'sa.topic',
-			'sa.label',
-			'sa.timestamp',
-		));
-		$this->assertEquals($reader1->getAlias(),'sa');
-		$this->assertEquals($reader1->getPrimaryKey(),'sa.id');
-		$this->assertEquals($reader1->isJoin(),true);
-	}
-	
-	/**
-	 *	Test Method dejoin
-	 *	@access		public
-	 *	@return		void 
-	 */
-	public function testDejoin(){
-		$readerJoin = $this->reader->Join( $this->reader2 , array('id','id2') );
-		$readerJoin->dejoin();
-		$this->assertEquals($readerJoin->getColumns(),array(
-			'id',
-			'topic',
-			'label',
-			'timestamp',
-		));
-		$this->assertEquals($readerJoin->getAlias(),null);
-		$this->assertEquals($readerJoin->getPrimaryKey(),'id');
-		$this->assertEquals($readerJoin->isJoin(),false);
-	}
-	
+
 	/**
 	 *	Tests Method 'count'.
 	 *	@access		public
@@ -254,35 +160,6 @@ class Test_Database_PDO_TableReaderTest extends Test_Case
 	}
 
 	/**
-	 *	Tests Method 'count' for Join
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function testCountJoin()
-	{
-		$readerJoin = $this->reader->Join( $this->reader2 , array('id','id2') );
-		$assertion	= 1;
-		$creation	= $readerJoin->count();
-		$this->assertEquals( $assertion, $creation );
-
-		$this->connection->query( "INSERT INTO transactions (label) VALUES ('countTest');" );
-		$this->connection->query( "INSERT INTO transactions2 (label2) VALUES ('countTest');" );
-
-		$assertion	= 2;
-		$creation	= $readerJoin->count();
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= 1;
-		$creation	= $readerJoin->count( array( 'label' => 'countTest' ) );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= 0;
-		$creation	= $readerJoin->count( array( 'label' => 'not_existing' ) );
-		$this->assertEquals( $assertion, $creation );
-	}
-	
-	
-	/**
 	 *	Tests Method 'defocus'.
 	 *	@access		public
 	 *	@return		void
@@ -293,7 +170,7 @@ class Test_Database_PDO_TableReaderTest extends Test_Case
 		$this->reader->focusIndex( 'topic', 'test' );
 		$this->reader->defocus( TRUE );
 		
-		$assertion[1]  = array( 'topic' , 'test' );
+		$assertion	= array( 'topic' => 'test' );
 		$creation	= $this->reader->getFocus();
 		$this->assertEquals( $assertion, $creation );
 
@@ -301,98 +178,6 @@ class Test_Database_PDO_TableReaderTest extends Test_Case
 
 		$assertion	= array();
 		$creation	= $this->reader->getFocus();
-		$this->assertEquals( $assertion, $creation );
-	}
-	
-	/**
-	 *	Tests Method 'defocus' for Join.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function testDefocusAlias()
-	{
-		$reader1		= new Database_PDO_TableReader( $this->connection, $this->tableName, $this->columns, $this->primaryKey, 1 ,'sa');
-		$reader1->setIndices( $this->indices );
-		$reader1->focusPrimary( 2 );
-		$reader1->focusIndex( 'sa.topic', 'test' );
-		
-		$reader1->defocus( TRUE );
-		
-		$assertion[1]	= array( 'sa.topic' , 'test' ) ;
-		$creation	= $reader1->getFocus();
-		$this->assertEquals( $assertion, $creation );
-
-		$reader1->defocus();
-
-		$assertion	= array();
-		$creation	= $reader1->getFocus();
-		$this->assertEquals( $assertion, $creation );
-		
-		$reader1->focusIndex( 'topic', 'test' );
-		
-		$reader1->defocus( TRUE );
-		
-		$assertion	= array( array( 'sa.topic' , 'test' ) );
-		$creation	= $reader1->getFocus();
-		$this->assertEquals( $assertion, $creation );
-
-		$reader1->defocus();
-
-		$assertion	= array();
-		$creation	= $reader1->getFocus();
-		$this->assertEquals( $assertion, $creation );
-
-	}
-	
-	/**
-	 *	Tests Method 'defocus' for Join.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function testDefocusJoin1()
-	{
-		$reader1		= new Database_PDO_TableReader( $this->connection, $this->tableName, $this->columns, $this->primaryKey, 1 ,'sa');
-		$reader1->setIndices( $this->indices );
-		$reader1->focusPrimary( 2 );
-		$reader1->focusIndex( 'topic', 'test' );
-		
-		$readerJoin = $reader1->Join( $this->reader2 , array('id','id2') );
-		$readerJoin->defocus( TRUE );
-		
-		$assertion[1]	= array( 'sa.topic' , 'test' ) ;
-		$creation	= $readerJoin->getFocus();
-		$this->assertEquals( $assertion, $creation );
-
-		$readerJoin->defocus();
-
-		$assertion	= array();
-		$creation	= $readerJoin->getFocus();
-		$this->assertEquals( $assertion, $creation );
-
-	}
-	
-	/**
-	 *	Tests Method 'defocus' for Join.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function testDefocusJoin2()
-	{
-		
-		$this->reader->focusPrimary( 2 );
-		$this->reader->focusIndex( 'topic', 'test' );
-		
-		$readerJoin = $this->reader->Join( $this->reader2 , array('id','id2') );
-		$readerJoin->defocus( TRUE );
-		
-		$assertion[1]	= array( 'transactions.topic' , 'test' ) ;
-		$creation	= $readerJoin->getFocus();
-		$this->assertEquals( $assertion, $creation );
-
-		$readerJoin->defocus();
-
-		$assertion	= array();
-		$creation	= $readerJoin->getFocus();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -505,172 +290,6 @@ class Test_Database_PDO_TableReaderTest extends Test_Case
 	}
 
 	/**
-	 *	Tests Method 'find' for Join
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function testFindJoin1()
-	{
-		$this->connection->query( "INSERT INTO transactions (topic,label) VALUES ('test','findTest');" );
-		$this->connection->query( "INSERT INTO transactions2 (topic2,label2) VALUES ('test','findTest');" );
-
-		$result		= $this->readerJoin->find();
-
-		$assertion	= 2;
-		$creation	= count( $result );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= 8;
-		$creation	= count( $result[0] );
-		$this->assertEquals( $assertion, $creation );
-	}
-	
-	/**
-	 *	Tests Method 'find' for Join.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function testFindJoin2()
-	{
-		$this->connection->query( "INSERT INTO transactions (topic,label) VALUES ('test','findTest');" );
-		$this->connection->query( "INSERT INTO transactions2 (topic2,label2) VALUES ('test','findTest');" );
-
-		$result		= $this->readerJoin->find( array( "*" ) );
-
-		$assertion	= 2;
-		$creation	= count( $result );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= 8;
-		$creation	= count( $result[0] );
-		$this->assertEquals( $assertion, $creation );
-	}
-
-	/**
-	 *	Tests Method 'find' for Join.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function testFindJoin3()
-	{
-		$this->connection->query( "INSERT INTO transactions (topic,label) VALUES ('test','findTest');" );
-		$this->connection->query( "INSERT INTO transactions2 (topic2,label2) VALUES ('test','findTest');" );
-
-		$result		= $this->readerJoin->find( "*" );
-
-		$assertion	= 2;
-		$creation	= count( $result );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= 8;
-		$creation	= count( $result[0] );
-		$this->assertEquals( $assertion, $creation );
-	}
-
-	/**
-	 *	Tests Method 'find' for Join.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function testFindJoin4()
-	{
-		$this->connection->query( "INSERT INTO transactions (topic,label) VALUES ('test','findTest');" );
-		$this->connection->query( "INSERT INTO transactions2 (topic2,label2) VALUES ('test','findTest');" );
-
-		$result		= $this->readerJoin->find( array( "id" ) );
-
-		$assertion	= 2;
-		$creation	= count( $result );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= 1;
-		$creation	= count( $result[0] );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= array( 'id' );
-		$creation	= array_keys( $result[0] );
-		$this->assertEquals( $assertion, $creation );
-		
-		$result		= $this->readerJoin->find( array( "id2" ) );
-
-		$assertion	= 2;
-		$creation	= count( $result );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= 1;
-		$creation	= count( $result[0] );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= array( 'id2' );
-		$creation	= array_keys( $result[0] );
-		$this->assertEquals( $assertion, $creation );
-	}
-	
-	/**
-	 *	Tests Method 'find' for Join.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function testFindJoin5()
-	{
-		$this->connection->query( "INSERT INTO transactions (topic,label) VALUES ('test','findTest');" );
-		$this->connection->query( "INSERT INTO transactions2 (topic2,label2) VALUES ('test','findTest');" );
-
-		$result		= $this->readerJoin->find( array( "transactions.id" ) );
-
-		$assertion	= 2;
-		$creation	= count( $result );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= 1;
-		$creation	= count( $result[0] );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= array( 'id' );
-		$creation	= array_keys( $result[0] );
-		$this->assertEquals( $assertion, $creation );
-		
-		$result		= $this->readerJoin->find( array( "transactions2.id2" ) );
-
-		$assertion	= 2;
-		$creation	= count( $result );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= 1;
-		$creation	= count( $result[0] );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= array( 'id2' );
-		$creation	= array_keys( $result[0] );
-		$this->assertEquals( $assertion, $creation );
-	}
-
-	/**
-	 *	Tests Method 'find' for Join.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function testFindJoin6()
-	{
-		$this->connection->query( "INSERT INTO transactions (topic,label) VALUES ('test','findTest');" );
-		$this->connection->query( "INSERT INTO transactions2 (topic2,label2) VALUES ('test','findTest');" );
-
-		$result		= $this->readerJoin->find( array( "transactions.id","id2" ) );
-
-		$assertion	= 2;
-		$creation	= count( $result );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= 2;
-		$creation	= count( $result[0] );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= array( 'id','id2' );
-		$creation	= array_keys( $result[0] );
-		$this->assertEquals( $assertion, $creation );
-	}
-	
-	/**
 	 *	Tests Method 'find'.
 	 *	@access		public
 	 *	@return		void
@@ -680,34 +299,6 @@ class Test_Database_PDO_TableReaderTest extends Test_Case
 		$this->connection->query( "INSERT INTO transactions (topic,label) VALUES ('test','findTest');" );
 
 		$result		= $this->reader->find( array( 'id' ), array(), array( 'id' => 'ASC' ) );
-
-		$assertion	= 2;
-		$creation	= count( $result );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= 1;
-		$creation	= count( $result[0] );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= array(
-			array( 'id' => 1 ),
-			array( 'id' => 2 ),
-		);
-		$creation	= $result;
-		$this->assertEquals( $assertion, $creation );
-	}
-	
-	/**
-	 *	Tests Method 'find' ofr Join.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function testFindWithOrderJoin()
-	{
-		$this->connection->query( "INSERT INTO transactions (topic,label) VALUES ('test','findTest');" );
-		$this->connection->query( "INSERT INTO transactions2 (topic2,label2) VALUES ('test','findTest');" );	
-
-		$result		= $this->readerJoin->find( array( 'id' ), array(), array( 'id' => 'ASC' ) );
 
 		$assertion	= 2;
 		$creation	= count( $result );
@@ -745,31 +336,6 @@ class Test_Database_PDO_TableReaderTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= array( array( 'id' => 2 ) );
-		$creation	= $result;
-		$this->assertEquals( $assertion, $creation );
-	}
-	
-	/**
-	 *	Tests Method 'find' for Join.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function testFindWithLimitJoin()
-	{
-		$this->connection->query( "INSERT INTO transactions (topic,label) VALUES ('test','findTest');" );
-		$this->connection->query( "INSERT INTO transactions2 (topic2,label2) VALUES ('test','findTest');" );	
-
-		$result		= $this->readerJoin->find( array( 'id2' ), array(), array( 'transactions2.id2' => 'DESC' ), array( 0, 1 ) );
-
-		$assertion	= 1;
-		$creation	= count( $result );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= 1;
-		$creation	= count( $result[0] );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= array( array( 'id2' => 2 ) );
 		$creation	= $result;
 		$this->assertEquals( $assertion, $creation );
 	}
@@ -840,134 +406,6 @@ class Test_Database_PDO_TableReaderTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 
-
-	/**
-	 *	Tests Method 'find' for join.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function testFindWithFocusJoin1()
-	{
-		$this->connection->query( "INSERT INTO transactions (topic,label) VALUES ('test','findTest');" );
-		$this->connection->query( "INSERT INTO transactions2 (topic2,label2) VALUES ('test','findTest');" );	
-		
-		$this->readerJoin->focusIndex( 'topic', 'start' );							//  will be ignored
-		$result		= $this->reader->find( array( 'id' ) );
-
-		$assertion	= 2;
-		$creation	= count( $result );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= 1;
-		$creation	= count( $result[0] );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= 1;
-		$creation	= $result[0]['id'];
-		$this->assertEquals( $assertion, $creation );
-		
-		$this->readerJoin->focusIndex( 'topic2', 'start' );							//  will be ignored
-		$result		= $this->reader->find( array( 'id' ) );
-
-		$assertion	= 2;
-		$creation	= count( $result );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= 1;
-		$creation	= count( $result[0] );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= 1;
-		$creation	= $result[0]['id'];
-		$this->assertEquals( $assertion, $creation );
-	}
-
-	/**
-	 *	Tests Method 'find' for join.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function testFindWithFocusJoin2()
-	{
-		$this->connection->query( "INSERT INTO transactions (topic,label) VALUES ('test','findTest');" );
-		$this->connection->query( "INSERT INTO transactions2 (topic2,label2) VALUES ('test','findTest');" );
-		
-		$this->readerJoin->focusPrimary( 1 );										//  will be ignored
-		$result		= $this->readerJoin->find( array( 'id' ) );
-
-		$assertion	= 2;
-		$creation	= count( $result );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= 1;
-		$creation	= count( $result[0] );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= 1;
-		$creation	= $result[0]['id'];
-		$this->assertEquals( $assertion, $creation );
-	}
-
-	/**
-	 *	Tests Method 'find' for join.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function testFindWithFocusJoin3()
-	{
-		$this->connection->query( "INSERT INTO transactions (topic,label) VALUES ('test','findTest');" );
-		$this->connection->query( "INSERT INTO transactions2 (topic2,label2) VALUES ('test','findTest');" );
-
-		$this->readerJoin->focusIndex( 'topic', 'test' );							//  will be ignored
-		$this->readerJoin->focusPrimary( 1, FALSE );								//  will be ignored
-		$result		= $this->readerJoin->find( array( 'id' ) );
-
-		$assertion	= 2;
-		$creation	= count( $result );
-		$this->assertEquals( $assertion, $creation );
-	}
-	
-	/**
-	 *	Tests Method 'find' for join.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function testFindWithFocusJoin4()
-	{
-		$this->connection->query( "INSERT INTO transactions (topic,label) VALUES ('test','findTest');" );
-		$this->connection->query( "INSERT INTO transactions2 (topic2,label2) VALUES ('test','findTest');" );	
-		
-		$this->readerJoin->focusIndex( 'transactions.topic', 'start' );							//  will be ignored
-		$result		= $this->reader->find( array( 'id' ) );
-
-		$assertion	= 2;
-		$creation	= count( $result );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= 1;
-		$creation	= count( $result[0] );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= 1;
-		$creation	= $result[0]['id'];
-		$this->assertEquals( $assertion, $creation );
-		
-		$this->readerJoin->focusIndex( 'transactions2.topic2', 'start' );							//  will be ignored
-		$result		= $this->reader->find( array( 'id' ) );
-
-		$assertion	= 2;
-		$creation	= count( $result );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= 1;
-		$creation	= count( $result[0] );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= 1;
-		$creation	= $result[0]['id'];
-		$this->assertEquals( $assertion, $creation );
-	}
-	
 	/**
 	 *	Tests Method 'findWhereIn'.
 	 *	@access		public
@@ -1005,73 +443,6 @@ class Test_Database_PDO_TableReaderTest extends Test_Case
 		$creation	= $result[0]['id'];
 		$this->assertEquals( $assertion, $creation );
 	}
-	
-	/**
-	 *	Tests Method 'findWhereIn' for Join.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function testFindWhereInJoin()
-	{
-		$this->connection->query( "INSERT INTO transactions (topic,label) VALUES ('test','findWhereInTest');" );
-		$this->connection->query( "INSERT INTO transactions2 (topic2,label2) VALUES ('test','findTest');" );	
-
-		$result		= $this->readerJoin->findWhereIn( array( 'id' ), "topic", array( 'start', 'test' ), array( 'id' => 'ASC' ) ); 
-
-		$assertion	= 2;
-		$creation	= count( $result );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= 1;
-		$creation	= count( $result[0] );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= 1;
-		$creation	= $result[0]['id'];
-		$this->assertEquals( $assertion, $creation );
-
-		$result		= $this->readerJoin->findWhereIn( array( 'id' ), "topic2", array( 'test' ) ); 
-
-		$assertion	= 1;
-		$creation	= count( $result );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= 1;
-		$creation	= count( $result[0] );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= 2;
-		$creation	= $result[0]['id'];
-		$this->assertEquals( $assertion, $creation );
-		
-		$result		= $this->readerJoin->findWhereIn( array( 'id' ), "transactions2.topic2", array( 'test' ) ); 
-
-		$assertion	= 1;
-		$creation	= count( $result );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= 1;
-		$creation	= count( $result[0] );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= 2;
-		$creation	= $result[0]['id'];
-		$this->assertEquals( $assertion, $creation );
-		
-		$result		= $this->readerJoin->findWhereIn( array( 'id' ), "transactions.topic", array( 'test' ) ); 
-
-		$assertion	= 1;
-		$creation	= count( $result );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= 1;
-		$creation	= count( $result[0] );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= 2;
-		$creation	= $result[0]['id'];
-		$this->assertEquals( $assertion, $creation );
-	}
 
 	/**
 	 *	Tests Method 'findWhereIn'.
@@ -1096,32 +467,7 @@ class Test_Database_PDO_TableReaderTest extends Test_Case
 		$creation	= $result[0]['id'];
 		$this->assertEquals( $assertion, $creation );
 	}
-	
-	/**
-	 *	Tests Method 'findWhereIn' for join.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function testFindWhereInWithLimitJoin()
-	{
-		$this->connection->query( "INSERT INTO transactions (topic,label) VALUES ('test','findWhereInTest');" );
-		$this->connection->query( "INSERT INTO transactions2 (topic2,label2) VALUES ('test','findWhereInTest');" );
 
-		$result		= $this->readerJoin->findWhereIn( array( 'id' ), "topic2", array( 'start', 'test' ), array( 'id' => "DESC" ), array( 0, 1 ) ); 
-
-		$assertion	= 1;
-		$creation	= count( $result );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= 1;
-		$creation	= count( $result[0] );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= 2;
-		$creation	= $result[0]['id'];
-		$this->assertEquals( $assertion, $creation );
-	}
-	
 	/**
 	 *	Tests Exception of Method 'findWhereInAnd'.
 	 *	@access		public
@@ -1132,7 +478,7 @@ class Test_Database_PDO_TableReaderTest extends Test_Case
 		$this->setExpectedException( 'InvalidArgumentException' );
 		$this->reader->findWhereIn( array( 'not_valid' ), "id", 1 );
 	}
-	
+
 	/**
 	 *	Tests Exception of Method 'findWhereInAnd'.
 	 *	@access		public
@@ -1143,29 +489,6 @@ class Test_Database_PDO_TableReaderTest extends Test_Case
 		$this->setExpectedException( 'InvalidArgumentException' );
 		$this->reader->findWhereIn( "*", "not_valid", 1 );
 	}
-	
-	/**
-	 *	Tests Exception of Method 'findWhereInAnd'.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function testFindWhereInExceptionJoin1()
-	{
-		$this->setExpectedException( 'InvalidArgumentException' );
-		$this->readerJoin->findWhereIn( array( 'transactions2.id' ), "id",array(1) );
-	}
-	
-	/**
-	 *	Tests Exception of Method 'findWhereInAnd'.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function testFindWhereInExceptionJoin2()
-	{
-		$this->setExpectedException( 'InvalidArgumentException' );
-		$this->readerJoin->findWhereIn( "*", "transactions.id2", array(1) ); //transactions.id2 is not valid
-	}
-	
 
 	/**
 	 *	Tests Method 'findWhereInAnd'.
@@ -1244,88 +567,7 @@ class Test_Database_PDO_TableReaderTest extends Test_Case
 		$creation	= count( $result );
 		$this->assertEquals( $assertion, $creation );
 	}
-	
-	/**
-	 *	Tests Method 'findWhereInAnd'.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function testFindWhereInAndJoin()
-	{
-		$this->connection->query( "INSERT INTO transactions (topic,label) VALUES ('test','findWhereInAndTest');" );
-		$this->connection->query( "INSERT INTO transactions2 (topic2,label2) VALUES ('test','findWhereInAndTest');" );
-		
-		$result		= $this->readerJoin->findWhereInAnd( array( 'id' ), "topic2", array( 'test' ), array( "label" => "findWhereInAndTest" ) ); 
 
-		$assertion	= 1;
-		$creation	= count( $result );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= 1;
-		$creation	= count( $result[0] );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= 2;
-		$creation	= $result[0]['id'];
-		$this->assertEquals( $assertion, $creation );
-
-		$result		= $this->readerJoin->findWhereInAnd( array( 'id2' ), "topic", array( 'start' ), array( "label" => "findWhereInAndTest" ) ); 
-
-		$assertion	= 0;
-		$creation	= count( $result );
-		$this->assertEquals( $assertion, $creation );
-	}
-
-	/**
-	 *	Tests Method 'findWhereIn'.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function testFindWhereInAndWithFocusJoin()
-	{
-		$this->connection->query( "INSERT INTO transactions (topic,label) VALUES ('test','findWhereInAndTest');" );
-		$this->connection->query( "INSERT INTO transactions2 (topic2,label2) VALUES ('test','findWhereInAndTest');" );
-
-		$this->readerJoin->focusIndex( 'topic', 'test' );								//  will be ignored
-		$result		= $this->readerJoin->findWhereInAnd( array( 'id' ), "topic2", array( 'start', 'test' ), array( "label" => "findWhereInAndTest" ), array( 'id' => 'ASC' ) ); 
-
-		$assertion	= 1;
-		$creation	= count( $result );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= 1;
-		$creation	= count( $result[0] );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= 2;
-		$creation	= $result[0]['id'];
-		$this->assertEquals( $assertion, $creation );
-
-		$result		= $this->readerJoin->findWhereInAnd( array( 'id2' ), "topic", array( 'start', 'test' ) ); 
-
-		$assertion	= 2;
-		$creation	= count( $result );
-		$this->assertEquals( $assertion, $creation );
-
-		$result		= $this->readerJoin->findWhereInAnd( array( 'id' ), "transactions.topic", array( 'start', 'test' ), array( "label" => "findWhereInAndTest" ), array( 'transactions.id' => 'ASC' ) ); 
-
-		$assertion	= 1;
-		$creation	= count( $result );
-		$this->assertEquals( $assertion, $creation );
-
-		$result		= $this->readerJoin->findWhereInAnd( array( 'transactions2.id2' ), "topic", array( 'test' ), array( "label" => "findWhereInAndTest" ), array( 'transactions2.id2' => 'ASC' ) ); 
-
-		$assertion	= 1;
-		$creation	= count( $result );
-		$this->assertEquals( $assertion, $creation );
-
-		$result		= $this->readerJoin->findWhereInAnd( array( 'id' ), "transactions2.topic2", array( 'start' ), array( "label" => "findWhereInAndTest" ), array( 'id2' => 'ASC' ) ); 
-
-		$assertion	= 0;
-		$creation	= count( $result );
-		$this->assertEquals( $assertion, $creation );
-	}
-	
 	/**
 	 *	Tests Method 'focusIndex'.
 	 *	@access		public
@@ -1334,100 +576,27 @@ class Test_Database_PDO_TableReaderTest extends Test_Case
 	public function testFocusIndex()
 	{
 		$this->reader->focusIndex( 'topic', 'test' );
-		$assertion[]	= array(
-			'topic' , 'test'
+		$assertion	= array(
+			'topic' => 'test'
 			);
 		$creation	= $this->reader->getFocus();
 		$this->assertEquals( $assertion, $creation );
 
 		$this->reader->focusIndex( 'label', 'text' );
-		$assertion	= array(array('topic' , 'test'),
-							array('label' , 'text'));
+		$assertion	= array(
+			'topic' => 'test',
+			'label'	=> 'text'
+		);
 		$creation	= $this->reader->getFocus();
 		$this->assertEquals( $assertion, $creation );
 
 		$this->reader->focusIndex( 'id', 1 );
-		$assertion	= array(array('topic' , 'test'),
-							array('label' , 'text'),
-							array('id' , 1));
-		$creation	= $this->reader->getFocus();
-		$this->assertEquals( $assertion, $creation );
-	}
-	
-	/**
-	 *	Tests Method 'focusIndex'.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function testFocusIndex2()
-	{
-		$this->reader->focusIndex( 'topic', 'test' );
-		$assertion[]	= array(
-			'topic' , 'test'
-			);
-		$creation	= $this->reader->getFocus();
-		$this->assertEquals( $assertion, $creation );
-
-		$this->reader->focusIndex( 'topic', 'test1' );
-		$assertion	= array(array('topic' , 'test1'));
-		$creation	= $this->reader->getFocus();
-
-		$this->assertEquals( $assertion, $creation );
-
-		$this->reader->focusIndex( 'topic', 'test2',true );
-		$assertion	= array(array('topic' , 'test1'),array('topic' , 'test2'));
-		$creation	= $this->reader->getFocus();
-		$this->assertEquals( $assertion, $creation );
-		
-		
-		$this->reader->focusIndex( 'id', 1 );
-		$this->reader->focusIndex( 'id', 2 , true);
-		$assertion[]	 =  array('id' , 1);
-		$assertion[]	 =  array('id' , 2);
-		$creation	= $this->reader->getFocus();
-		$this->assertEquals( $assertion, $creation );
-	}
-	
-	/**
-	 *	Tests Method 'focusIndex' for join.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function testFocusIndexJoin()
-	{
-		$this->readerJoin->focusIndex( 'topic', 'test' );
-		$assertion[]	= array(
-			'transactions.topic' , 'test'
-			);
-		$creation	= $this->readerJoin->getFocus();
-		$this->assertEquals( $assertion, $creation );
-
-		$this->readerJoin->focusIndex( 'label', 'text' );
-		$assertion[]	= array(
-			'transactions.label'	, 'text'
+		$assertion	= array(
+			'topic' => 'test',
+			'label'	=> 'text',
+			'id'	=> 1
 		);
-		$creation	= $this->readerJoin->getFocus();
-		$this->assertEquals( $assertion, $creation );
-
-		$this->readerJoin->focusIndex( 'id', 1 );
-		$assertion[]	= array(
-			'transactions.id'	, 1
-		);
-		$creation	= $this->readerJoin->getFocus();
-		$this->assertEquals( $assertion, $creation );
-		
-		$this->readerJoin->focusIndex( 'id2', 1 );
-		$assertion[]	= array(
-			'transactions2.id2'	, 1
-		);
-		$creation	= $this->readerJoin->getFocus();
-		$this->assertEquals( $assertion, $creation );
-		
-		$this->readerJoin->focusIndex( 'transactions2.label2', 'test' );
-		$assertion[]	= array(
-			'transactions2.label2' , 'test'
-		);
-		$creation	= $this->readerJoin->getFocus();
+		$creation	= $this->reader->getFocus();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -1441,17 +610,6 @@ class Test_Database_PDO_TableReaderTest extends Test_Case
 		$this->setExpectedException( 'InvalidArgumentException' );
 		$this->reader->focusIndex( 'not_an_index', 'not_relevant' );
 	}
-	
-	/**
-	 *	Tests Exception of Method 'focusIndex'.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function testFocusIndexExceptionJoin()
-	{
-		$this->setExpectedException( 'InvalidArgumentException' );
-		$this->readerJoin->focusIndex( 'transactions.label2', 'not_relevant' ); //not an index
-	}
 
 	/**
 	 *	Tests Method 'focusPrimary'.
@@ -1461,12 +619,12 @@ class Test_Database_PDO_TableReaderTest extends Test_Case
 	public function testFocusPrimary()
 	{
 		$this->reader->focusPrimary( 2 );
-		$assertion[]	= array( 'id' , 2 );
+		$assertion	= array( 'id' => 2 );
 		$creation	= $this->reader->getFocus();
 		$this->assertEquals( $assertion, $creation );
 
 		$this->reader->focusPrimary( 1 );
-		$assertion	=array(array( 'id' , 1 ));
+		$assertion	= array( 'id' => 1 );
 		$creation	= $this->reader->getFocus();
 		$this->assertEquals( $assertion, $creation );
 	}
@@ -1542,80 +700,6 @@ class Test_Database_PDO_TableReaderTest extends Test_Case
 	}
 
 	/**
-	 *	Tests Method 'get' for Join1.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function testGetWithPrimaryJoin1()
-	{
-		$this->connection->query( "INSERT INTO transactions (topic,label) VALUES ('test','findWhereInAndTest');" );
-		$this->connection->query( "INSERT INTO transactions2 (topic2,label2) VALUES ('test','findWhereInAndTest');" );
-		
-		$this->readerJoin->focusPrimary( 1 );
-		$result		= $this->readerJoin->get( FALSE );
-				
-		$assertion	= 1;
-		$creation	= count( $result );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= 8;
-		$creation	= count( $result[0] );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= 1;
-		$creation	= count( $result[0]['id'] );
-		$this->assertEquals( $assertion, $creation );
-
-		$this->readerJoin->focusPrimary( 2 );
-		$result		= $this->readerJoin->get();
-		
-		$assertion	= 8;
-		$creation	= count( $result );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= 2;
-		$creation	= $result['id'];
-		$this->assertEquals( $assertion, $creation );
-	}
-
-	/**
-	 *	Tests Method 'get' for Join.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function testGetWithPrimaryJoin2()
-	{
-		$this->connection->query( "INSERT INTO transactions (topic,label) VALUES ('test','findWhereInAndTest');" );
-		$this->connection->query( "INSERT INTO transactions2 (topic2,label2) VALUES ('test','findWhereInAndTest');" );
-		
-		$this->readerJoin->focusIndex( $this->primaryKey, 1 );
-		$result		= $this->readerJoin->get( FALSE );
-				
-		$assertion	= 1;
-		$creation	= count( $result );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= 8;
-		$creation	= count( $result[0] );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= 1;
-		$creation	= count( $result[0]['id'] );
-		$this->assertEquals( $assertion, $creation );
-
-		$this->readerJoin->focusPrimary( 2 );
-		$result		= $this->readerJoin->get();
-		
-		$assertion	= 8;
-		$creation	= count( $result );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= 2;
-		$creation	= $result['id'];
-		$this->assertEquals( $assertion, $creation );
-	}
-	
-	/**
 	 *	Tests Method 'get'.
 	 *	@access		public
 	 *	@return		void
@@ -1648,56 +732,6 @@ class Test_Database_PDO_TableReaderTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= 4;
-		$creation	= count( $result[0] );
-		$this->assertEquals( $assertion, $creation );
-	}
-	
-	/**
-	 *	Tests Method 'get' for Join.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function testGetWithIndexJoin()
-	{
-		$this->connection->query( "INSERT INTO transactions (topic,label) VALUES ('start','getWithIndexTest');" );
-		$this->connection->query( "INSERT INTO transactions2 (topic2,label2) VALUES ('start','getWithIndexTest');" );
-		
-		$this->readerJoin->focusIndex( 'topic', 'start' );
-		$result		= $this->readerJoin->get();
-
-		$assertion	= 8;
-		$creation	= count( $result );
-		$this->assertEquals( $assertion, $creation );
-
-		$result		= $this->readerJoin->get( FALSE );
-
-		$assertion	= 2;
-		$creation	= count( $result );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= 8;
-		$creation	= count( $result[0] );
-		$this->assertEquals( $assertion, $creation );
-
-		$this->readerJoin->focusIndex( 'label2', 'getWithIndexTest' );
-		$result		= $this->readerJoin->get( FALSE );
-
-		$assertion	= 1;
-		$creation	= count( $result );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= 8;
-		$creation	= count( $result[0] );
-		$this->assertEquals( $assertion, $creation );
-		
-		$this->readerJoin->focusIndex( 'transactions2.topic2', 'start' );
-		$result		= $this->readerJoin->get( FALSE );
-
-		$assertion	= 1;
-		$creation	= count( $result );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= 8;
 		$creation	= count( $result[0] );
 		$this->assertEquals( $assertion, $creation );
 	}
@@ -1747,54 +781,6 @@ class Test_Database_PDO_TableReaderTest extends Test_Case
 		$creation	= $result[1]['id'];
 		$this->assertEquals( $assertion, $creation );
 	}
-	
-	/**
-	 *	Tests Method 'get' for Join.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function testGetWithOrdersJoin()
-	{
-		$this->connection->query( "INSERT INTO transactions (topic,label) VALUES ('start','getWithOrderTest');" );
-		$this->connection->query( "INSERT INTO transactions2 (topic2,label2) VALUES ('start','getWithOrderTest');" );
-				
-		$this->readerJoin->focusIndex( 'topic2', 'start' );
-		$result		= $this->readerJoin->get( FALSE, array( 'id' => "ASC" ) );
-
-		$assertion	= 2;
-		$creation	= count( $result );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= 8;
-		$creation	= count( $result[0] );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= 1;
-		$creation	= $result[0]['id'];
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= 2;
-		$creation	= $result[1]['id'];
-		$this->assertEquals( $assertion, $creation );
-
-		$result		= $this->readerJoin->get( FALSE, array( 'id2' => "DESC" ) );
-
-		$assertion	= 2;
-		$creation	= count( $result );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= 8;
-		$creation	= count( $result[0] );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= 2;
-		$creation	= $result[0]['id'];
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= 1;
-		$creation	= $result[1]['id'];
-		$this->assertEquals( $assertion, $creation );
-	}
 
 	/**
 	 *	Tests Method 'get'.
@@ -1825,38 +811,6 @@ class Test_Database_PDO_TableReaderTest extends Test_Case
 		$creation	= $result[0]['id'];
 		$this->assertEquals( $assertion, $creation );
 	}
-	
-	/**
-	 *	Tests Method 'get' for Join.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function testGetWithLimitJoin()
-	{
-		$this->connection->query( "INSERT INTO transactions (topic,label) VALUES ('start','getWithLimitTest');" );
-		$this->connection->query( "INSERT INTO transactions2 (topic2,label2) VALUES ('start','getWithLimitTest');" );
-		
-		$this->readerJoin->focusIndex( 'topic', 'start' );
-		$result		= $this->readerJoin->get( FALSE, array( 'transactions2.id2' => "ASC" ), array( 0, 1 ) );
-
-		$assertion	= 1;
-		$creation	= count( $result );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= 1;
-		$creation	= $result[0]['id'];
-		$this->assertEquals( $assertion, $creation );
-
-		$result		= $this->readerJoin->get( FALSE, array( 'transactions.id' => "ASC" ), array( 1, 1 ) );
-
-		$assertion	= 1;
-		$creation	= count( $result );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= 2;
-		$creation	= $result[0]['id'];
-		$this->assertEquals( $assertion, $creation );
-	}
 
 	/**
 	 *	Tests Exception of Method 'get'.
@@ -1867,17 +821,6 @@ class Test_Database_PDO_TableReaderTest extends Test_Case
 	{
 		$this->setExpectedException( 'RuntimeException' );
 		$this->reader->get();
-	}
-	
-	/**
-	 *	Tests Exception of Method 'get' for Join.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function testGetWithNoFocusExceptionJoin()
-	{
-		$this->setExpectedException( 'RuntimeException' );
-		$this->readerJoin->get();
 	}
 
 	/**
@@ -1893,42 +836,6 @@ class Test_Database_PDO_TableReaderTest extends Test_Case
 	}
 
 	/**
-	 *	Tests Method 'getColumns' for Join.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function testGetColumnsJoin()
-	{
-		$assertion	= array(
-			'transactions.id',
-			'transactions.topic',
-			'transactions.label',
-			'transactions.timestamp',
-		);
-		$creation	= $this->readerJoin->getColumns();
-		$this->assertEquals( $assertion, $creation );
-	}
-	
-	/**
-	 *	Tests Method 'getColumns' for Join.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function testGetColumnsAlias()
-	{
-		$reader = $this->reader;
-		$reader -> setAlias('sa');
-		$assertion	= array(
-			'sa.id',
-			'sa.topic',
-			'sa.label',
-			'sa.timestamp',
-		);
-		$creation	= $reader->getColumns();
-		$this->assertEquals( $assertion, $creation );
-	}
-	
-	/**
 	 *	Tests Method 'getDBConnection'.
 	 *	@access		public
 	 *	@return		void
@@ -1939,7 +846,6 @@ class Test_Database_PDO_TableReaderTest extends Test_Case
 		$creation	= $this->reader->getDBConnection();
 		$this->assertEquals( $assertion, $creation );
 	}
-	
 
 	/**
 	 *	Tests Method 'getFocus'.
@@ -1949,67 +855,36 @@ class Test_Database_PDO_TableReaderTest extends Test_Case
 	public function testGetFocus()
 	{
 		$this->reader->focusPrimary( 1 );
-		$assertion[] = array(
-			'id' , 1
+		$assertion	= array(
+			'id' => 1
 		);
 		$creation	= $this->reader->getFocus();
 		$this->assertEquals( $assertion, $creation );
 
 		$this->reader->focusIndex( 'topic', 'start' );
-		$assertion[] = array(
-			'topic' , 'start'
+		$assertion	= array(
+			'id'	=> 1,
+			'topic' => 'start'
 		);
 		$creation	= $this->reader->getFocus();
 		$this->assertEquals( $assertion, $creation );
 
 		$this->reader->focusPrimary( 2, FALSE );
-		$assertion[]	=  array('id' , 2) ;
-		
+		$assertion	= array(
+			'topic' => 'start',
+			'id' => 2
+		);
 		$creation	= $this->reader->getFocus();
 		$this->assertEquals( $assertion, $creation );
 
 		$this->reader->focusPrimary( 2, TRUE );
-		$assertion	=array(array('id' , 2));
+		$assertion	= array(
+			'id' => 2
+		);
 		$creation	= $this->reader->getFocus();
 		$this->assertEquals( $assertion, $creation );
 	}
-	
-	/**
-	 *	Tests Method 'getFocus' for Join.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function testGetFocusJoin()
-	{
-		$this->readerJoin->focusPrimary( 1 );
-		$assertion[]	= array(
-			'transactions.id', 1
-		);
-		$creation	= $this->readerJoin->getFocus();
-		$this->assertEquals( $assertion, $creation );
 
-		$this->readerJoin->focusIndex( 'topic2', 'start' );
-		$assertion[]	= array(
-			'transactions2.topic2' , 'start'
-		);
-		$creation	= $this->readerJoin->getFocus();
-		$this->assertEquals( $assertion, $creation );
-
-		$this->readerJoin->focusPrimary( 2, FALSE );
-		$assertion[]	= array(
-			'transactions.id' , 2
-		);
-		$creation	= $this->readerJoin->getFocus();
-		$this->assertEquals( $assertion, $creation );
-
-		$this->readerJoin->focusPrimary( 2, TRUE );
-		$assertion	= array(array(
-			'transactions.id' , 2
-		));
-		$creation	= $this->readerJoin->getFocus();
-		$this->assertEquals( $assertion, $creation );
-	}
-	
 	/**
 	 *	Tests Method 'getIndices'.
 	 *	@access		public
@@ -2040,36 +915,6 @@ class Test_Database_PDO_TableReaderTest extends Test_Case
 	}
 
 	/**
-	 *	Tests Method 'getIndices' for Join.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function testGetIndicesJoin()
-	{
-		$indices	= array( 'topic', 'timestamp2' );
-		$this->readerJoin->setIndices( $indices );
-
-		$assertion	= array( 'transactions.topic', 'transactions2.timestamp2' );
-		$creation	= $this->readerJoin->getIndices();
-
-		$this->assertEquals( $assertion, $creation );
-
-		$indices	= array( 'topic' );
-		$this->readerJoin->setIndices( $indices );
-
-		$assertion	= array( 'transactions.topic' );
-		$creation	= $this->readerJoin->getIndices();
-		$this->assertEquals( $assertion, $creation );
-
-		$indices	= array();
-		$this->readerJoin->setIndices( $indices );
-
-		$assertion	= $indices;
-		$creation	= $this->readerJoin->getIndices();
-		$this->assertEquals( $assertion, $creation );
-	}
-	
-	/**
 	 *	Tests Method 'getPrimaryKey'.
 	 *	@access		public
 	 *	@return		void
@@ -2087,23 +932,6 @@ class Test_Database_PDO_TableReaderTest extends Test_Case
 	}
 
 	/**
-	 *	Tests Method 'getPrimaryKey' for Join.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function testGetPrimaryKeyJoin()
-	{
-		$assertion	= 'transactions.id';
-		$creation	= $this->readerJoin->getPrimaryKey();
-		$this->assertEquals( $assertion, $creation );
-
-		$this->readerJoin->setPrimaryKey( 'timestamp' );
-		$assertion	= 'transactions.timestamp';
-		$creation	= $this->readerJoin->getPrimaryKey();
-		$this->assertEquals( $assertion, $creation );
-	}
-	
-	/**
 	 *	Tests Method 'getTableName'.
 	 *	@access		public
 	 *	@return		void
@@ -2120,43 +948,6 @@ class Test_Database_PDO_TableReaderTest extends Test_Case
 		$creation	= $this->reader->getTableName();
 		$this->assertEquals( $assertion, $creation );
 	}
-	
-	/**
-	 *	Tests Method 'getTableName' for Join.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function testGetTableNameJoin()
-	{
-		$assertion	= "transactions";
-		$creation	= $this->readerJoin->getTableName();
-		$this->assertEquals( $assertion, $creation );
-
-		$this->readerJoin->setTableName( "other_table" );
-
-		$assertion	= "other_table";
-		$creation	= $this->readerJoin->getTableName();
-		$this->assertEquals( $assertion, $creation );
-	}
-	
-	/**
-	 *	Tests Method 'getAlias'.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function testGetAlias()
-	{
-		$assertion	= null;
-		$this->reader->setAlias($assertion);
-		$creation	= $this->reader->getAlias();
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= 'sa';
-		$this->reader->setAlias($assertion);
-		$creation	= $this->reader->getAlias();
-		$this->assertEquals( $assertion, $creation );
-	}
-	
 
 	/**
 	 *	Tests Method 'isFocused'.
@@ -2189,43 +980,6 @@ class Test_Database_PDO_TableReaderTest extends Test_Case
 		$creation	= $this->reader->isFocused();
 		$this->assertEquals( $assertion, $creation );
 	}
-	
-	/**
-	 *	Tests Method 'isFocused' for Join.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function testIsFocusedJoin()
-	{
-		$assertion	= FALSE;
-		$creation	= $this->readerJoin->isFocused();
-		$this->assertEquals( $assertion, $creation );
-
-		$this->readerJoin->focusPrimary( 2 );
-		$assertion	= TRUE;
-		$creation	= $this->readerJoin->isFocused();
-		$this->assertEquals( $assertion, $creation );
-
-		$this->readerJoin->focusIndex( 'topic2', 'start' );
-		$assertion	= TRUE;
-		$creation	= $this->readerJoin->isFocused();
-		$this->assertEquals( $assertion, $creation );
-		
-		$this->readerJoin->focusIndex( 'topic', 'start' );
-		$assertion	= TRUE;
-		$creation	= $this->readerJoin->isFocused();
-		$this->assertEquals( $assertion, $creation );
-
-		$this->readerJoin->focusPrimary( 1, FALSE );
-		$assertion	= TRUE;
-		$creation	= $this->readerJoin->isFocused();
-		$this->assertEquals( $assertion, $creation );
-
-		$this->readerJoin->focusPrimary( 1 );
-		$assertion	= TRUE;
-		$creation	= $this->readerJoin->isFocused();
-		$this->assertEquals( $assertion, $creation );
-	}
 
 	/**
 	 *	Tests Method 'setColumns'.
@@ -2241,29 +995,6 @@ class Test_Database_PDO_TableReaderTest extends Test_Case
 		$assertion	= $columns;
 		$creation	= $this->reader->getColumns();
 		$this->assertEquals( $assertion, $creation );
-	}
-	
-	/**
-	 *	Tests Method 'setColumns' for Alias.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function testSetColumnsAlias()
-	{
-		$columns	= array( 'col1', 'col2', 'col3' );
-		
-		$this->reader->setAlias('sa');
-		$this->reader->setColumns( $columns );
-		
-		$assertion	= array( 'sa.col1', 'sa.col2', 'sa.col3' );
-		$creation	= $this->reader->getColumns();
-		$this->assertEquals( $assertion, $creation );
-		
-		$this->reader->deAlias();
-		$assertion	= $columns;
-		$creation	= $this->reader->getColumns();
-		$this->assertEquals( $assertion, $creation );
-		
 	}
 
 	/**
@@ -2351,47 +1082,6 @@ class Test_Database_PDO_TableReaderTest extends Test_Case
 
 		$assertion	= $indices;
 		$creation	= $this->reader->getIndices();
-		$this->assertEquals( $assertion, $creation );
-	}
-	
-	/**
-	 *	Tests Method 'setIndices' for Join.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function testSetIndicesJoin()
-	{
-		$indices	= array( 'topic', 'timestamp2' );
-		$this->readerJoin->setIndices( $indices );
-
-		$assertion	= array( 'transactions.topic', 'transactions2.timestamp2' );
-		$creation	= $this->readerJoin->getIndices();
-		$this->assertEquals( $assertion, $creation );
-
-		$indices	= array( 'topic' );
-		$this->readerJoin->setIndices( $indices );
-
-		$assertion	= array( 'transactions.topic' );
-		$creation	= $this->readerJoin->getIndices();
-		$this->assertEquals( $assertion, $creation );
-
-		$indices	= array( 'transactions.topic' );
-		$this->readerJoin->setIndices( $indices );
-		$assertion	= array( 'transactions.topic' );
-		$creation	= $this->readerJoin->getIndices();
-		$this->assertEquals( $assertion, $creation );
-		
-		$indices	= array( 'transactions2.topic2' );
-		$this->readerJoin->setIndices( $indices );
-		$assertion	= array( 'transactions2.topic2' );
-		$creation	= $this->readerJoin->getIndices();
-		$this->assertEquals( $assertion, $creation );
-		
-		$indices	= array();
-		$this->readerJoin->setIndices( $indices );
-
-		$assertion	= $indices;
-		$creation	= $this->readerJoin->getIndices();
 		$this->assertEquals( $assertion, $creation );
 	}
 

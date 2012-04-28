@@ -34,11 +34,11 @@ class Test_UI_HTML_FormElementsTest extends PHPUnit_Framework_TestCase
 		$creation	= UI_HTML_FormElements::Button( "testButton", "testLabel", "testClass", "testConfirm" );
 		$this->assertEquals( $assertion, $creation );
 
-		$assertion	= '<button type="submit" name="testButton" value="1" class="testClass" readonly="readonly"><span>testLabel</span></button>';
+		$assertion	= '<button type="submit" name="testButton" value="1" class="testClass" disabled="disabled"><span>testLabel</span></button>';
 		$creation	= UI_HTML_FormElements::Button( "testButton", "testLabel", "testClass", FALSE, TRUE );
 		$this->assertEquals( $assertion, $creation );
 
-		$assertion	= '<button type="submit" name="testButton" value="1" class="testClass" onclick="alert(\'testDisabled\');" readonly="readonly"><span>testLabel</span></button>';
+		$assertion	= '<button type="submit" name="testButton" value="1" class="testClass" disabled="disabled" onclick="alert(\'testDisabled\');"><span>testLabel</span></button>';
 		$creation	= UI_HTML_FormElements::Button( "testButton", "testLabel", "testClass", NULL, "testDisabled" );
 		$this->assertEquals( $assertion, $creation );
 	}

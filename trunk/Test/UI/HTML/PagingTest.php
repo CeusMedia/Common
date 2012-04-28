@@ -205,7 +205,7 @@ class Test_UI_HTML_PagingTest extends PHPUnit_Framework_TestCase
 		$this->paging->setOption( 'key_assign', "/" );
 
 		$assertion	= preg_replace( "@\r?\n *@s", "", file_get_contents( $this->path."paging4.html" ) );
-		$creation	= preg_replace( "@\r?\n *@s", "", $this->paging->build( 100, 10, 50, $options ) );
+		$creation	= preg_replace( "@\r?\n *@s", "", $this->paging->build( 100, 10, 50 ) );
 		$this->assertEquals( $assertion, $creation );
 	}
 
