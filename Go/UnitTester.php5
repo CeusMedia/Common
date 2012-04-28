@@ -13,9 +13,16 @@ class Go_UnitTester
 	{
 		remark( "Reading Class Files:\n" );
 		$data	= Go_Library::listClasses( dirname( dirname ( __FILE__ ) ).'/src/' );
-		foreach( $data['files'] as $file )
+		$number	= count( $data['files'] );
+		$length	= strlen( $number );
+		for( $i=0; $i<$number; $i++ )
 		{
-			require_once( $file );
+			require_once( $data['files'][$i] );
+			if( !( $i % 60 ) ){
+				$percent	= str_pad( round( $i / $number * 100 ), 3, ' ', STR_PAD_LEFT );
+				$current	= str_pad( $i, $length, ' ', STR_PAD_LEFT );
+				echo " ".$current." / ".$number." (".$percent."%)\n";
+			}
 			echo '.';
 		}
 		remark( "\n" );
@@ -25,7 +32,7 @@ class Go_UnitTester
 		foreach( $config['unitTestOptions'] as $key => $value )
 			$command	.= " --".$key." ".$value;
 		print( "\nRunning Unit Tests:\n\r" );
-		$command	.= " Test_AllTests";
+		$command	.= " Test";
 		passthru( $command );
 	}
 
