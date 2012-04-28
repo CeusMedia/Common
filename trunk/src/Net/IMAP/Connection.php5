@@ -41,20 +41,27 @@
 class Net_IMAP_Connection
 {
 	protected $flags	= array();
+	protected $options	= array();
 	protected $folder;
 	protected $host;
 	protected $port;
 	protected $stream;
+	protected $username;
+	protected $password;
+	protected $status	= 0;
 	
-	public function __construct( $host, $port = 143 )
+	
+	public function __construct( $host, $port = 143, $flags = array() )
 	{
 		$this->host		= $host;
 		$this->port		= $port;
+		$this->flags	= $flags;
 	}
 	
 	public function close()
 	{
-		imap_close( $this->stream );	
+		if( $this->status == 2 )
+			imap_close( $this->stream );	
 	}
 	
 	public function getAddress( $folder = NULL )
@@ -64,42 +71,58 @@ class Net_IMAP_Connection
 		else
 			$folder	= $this->folder;
 			
-		if( !$folder && !$this->hasFlag( OP_HALFOPEN ) )
-			$this->setFlag( OP_HALFOPEN );
-		$address	= "{".$this->host.":".$this->port."}".$folder;
+		if( !$folder && !$this->hasOption( OP_HALFOPEN ) )
+			$this->setOption( OP_HALFOPEN );
+		$flags		= $this->flags ? '/'.join( '/', $this->flags ) : "";
+		$address	= "{".$this->host.":".$this->port.$flags."}".$folder;
 		return $address;
 	}
 
 	public function getStream()
 	{
+		if( $this->status == 1 )
+			$this->open( $this->username, $this->password, $this->folder );
+		if( $this->status != 2 )
+			throw new RuntimeException( 'Not connected' );
 		return $this->stream;
 	}
 	
-	public function hasFlag( $flag )
+	public function hasOption( $option )
 	{
-		if( in_array( $flag, $this->flags ) )
+		if( in_array( $option, $this->options ) )
 			return TRUE;
+	}
+	
+	public function openLazy( $username, $password, $folder = "" )
+	{
+		$this->username	= $username;
+		$this->password	= $password;
+		$this->folder	= $folder;
+		$this->status	= 1;
 	}
 	
 	public function open( $username, $password, $folder = "" )
 	{
-		$this->resetFlags();
+		if( $this->status == 2 )
+			throw new RuntimeException( 'Connection already established' );
+		$this->resetOptions();
 		$this->folder	= $folder;
 		$address		= $this->getAddress();
-		$this->stream	= @imap_open( $address, $username, $password );
+		$this->stream	= imap_open( $address, $username, $password );
 		if( false === $this->stream )
-			throw new Exception( 'Connection could not be established.' );
+			throw new RuntimeException( 'Connection could not be established' );
+		$this->status	= 2;
 	}		
 	
-	public function resetFlags()
+	public function resetOptions()
 	{
-		$this->flags	= array();
+		$this->options	= array();
 	}
 
-	public function setFlag( $flag )
+	public function setOption( $option )
 	{
-		if( !in_array( $flag, $this->flags ) )
-			$this->flags[]	= $flag;
+		if( !in_array( $option, $this->options ) )
+			$this->options[]	= $option;
 	}
 }
 ?>
