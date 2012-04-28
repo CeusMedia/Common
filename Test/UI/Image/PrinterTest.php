@@ -38,7 +38,7 @@ class Test_UI_Image_PrinterTest extends PHPUnit_Framework_TestCase
 		new UI_Image_Printer( "not_a_resource" );
 	}
 		
-	public function testShowPng()
+	public function _testShowPng()
 	{
 		$resource	= imagecreatefrompng( $this->path."sourceCreator.png" );
 		$printer	= new UI_Image_Printer( $resource );
@@ -47,12 +47,11 @@ class Test_UI_Image_PrinterTest extends PHPUnit_Framework_TestCase
 		$printer->show( IMAGETYPE_PNG, 100, FALSE );
 		$creation	= ob_get_clean();
 				
-		$assertion	= TRUE;
-		$creation	= file_get_contents( $this->path."sourceCreator.png" );
+		$assertion	= file_get_contents( $this->path."sourceCreator.png" );
 		$this->assertEquals( $assertion, $creation );
 	}
 		
-	public function testShowJpeg()
+	public function _testShowJpeg()
 	{
 		$resource	= imagecreatefromjpeg( $this->path."sourceCreator.jpg" );
 		$printer	= new UI_Image_Printer( $resource );
@@ -61,12 +60,11 @@ class Test_UI_Image_PrinterTest extends PHPUnit_Framework_TestCase
 		$printer->show( IMAGETYPE_JPEG, 100, FALSE );
 		$creation	= ob_get_clean();
 				
-		$assertion	= TRUE;
-		$creation	= file_get_contents( $this->path."sourceCreator.jpg" );
+		$assertion	= file_get_contents( $this->path."sourceCreator.jpg" );
 		$this->assertEquals( $assertion, $creation );
 	}
 		
-	public function testShowGif()
+	public function _testShowGif()
 	{
 		$resource	= imagecreatefromgif( $this->path."sourceCreator.gif" );
 		$printer	= new UI_Image_Printer( $resource );

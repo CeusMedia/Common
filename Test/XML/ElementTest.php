@@ -98,14 +98,14 @@ class Test_XML_ElementTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals( $assertion, $creation );
 	}
 
-	public function testGetAttributeKeys()
+	public function testGetAttributeNames()
 	{
 		$element	= new XML_Element( $this->xml );
 		$assertion	= array(
 			'name',
 			'file',
 		);
-		$creation	= $element->image[2]->getAttributeKeys();
+		$creation	= $element->image[2]->getAttributeNames();
 		$this->assertEquals( $assertion, $creation );
 	}
 	

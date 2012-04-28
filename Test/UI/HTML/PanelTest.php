@@ -94,7 +94,7 @@ class Test_UI_HTML_PanelTest extends PHPUnit_Framework_TestCase
 	public function testCreate2()
 	{
 		$assertion	= '<div id="a1" class="panel default"><div class="panelHead"><div class="panelHeadInner">header1</div></div><div class="panelContent"><div class="panelContentInner">content1</div></div><div class="panelFoot"><div class="panelFootInner">footer1</div></div></div>';
-		$creation	= UI_HTML_Panel::create( "a1", "header1", "content1", "footer1" );
+		$creation	= UI_HTML_Panel::create( "a1", "content1", "header1", NULL, "footer1" );
 		$this->assertEquals( $assertion, $creation );
 	}
 

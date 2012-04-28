@@ -77,8 +77,8 @@ class Test_UI_TemplateTest extends PHPUnit_Framework_TestCase
 			),
 		);
 		$assertion	= array(
-			'step1.key1'	=> array( "value1" ),
-			'step1.key2'	=> array( "value2" ),
+			'step1.key1'	=> "value1",
+			'step1.key2'	=> "value2",
 		);
 		$this->mock->add( $tags );
 		$creation	= $this->mock->getProtectedVar( 'elements' );
@@ -92,8 +92,8 @@ class Test_UI_TemplateTest extends PHPUnit_Framework_TestCase
 			'step1.key2'	=> "value2",
 		);
 		$assertion	= array(
-			'step1.key1'	=> array( "value1" ),
-			'step1.key2'	=> array( "value2" ),
+			'step1.key1'	=> "value1",
+			'step1.key2'	=> "value2",
 		);
 		$this->mock->add( $tags );
 		$creation	= $this->mock->getProtectedVar( 'elements' );
@@ -106,7 +106,7 @@ class Test_UI_TemplateTest extends PHPUnit_Framework_TestCase
 		$size	= sizeof( $this->template->getElements() );
 		$this->assertEquals( 1, $size );
 		$elements = $this->template->getElements();
-		$this->assertEquals( 'name', $elements['tag'][0] );
+		$this->assertEquals( 'name', $elements['tag'] );
 	}
 	
 	public function testAddObject1()
@@ -118,8 +118,8 @@ class Test_UI_TemplateTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals( 2, $size );
 
 		$assertion	= array(
-			'dataObject.public'	=> array( 'test' ),
-			'dataObject.data1'	=> array( 'test1' )
+			'dataObject.public'	=> 'test',
+			'dataObject.data1'	=> 'test1'
 		);
 		$elements = $this->template->getElements();
 		$this->assertEquals( $assertion, $elements );
@@ -134,9 +134,9 @@ class Test_UI_TemplateTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals( 3, $size );
 
 		$assertion	= array(
-			'dataObject.public'		=> array( 'test' ),
-			'dataObject.data1.0'	=> array( 'first' ),
-			'dataObject.data1.1'	=> array( 'second' )
+			'dataObject.public'		=> 'test',
+			'dataObject.data1.0'	=> 'first',
+			'dataObject.data1.1'	=> 'second'
 		);
 		$elements = $this->template->getElements();
 		$this->assertEquals( $assertion, $elements );
@@ -151,9 +151,9 @@ class Test_UI_TemplateTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals( 3, $size );
 
 		$assertion	= array(
-			'dataObject.public'		=> array( 'test' ),
-			'dataObject.data1.key1'	=> array( 'val1' ),
-			'dataObject.data1.key2'	=> array( 'val2' )
+			'dataObject.public'		=> 'test',
+			'dataObject.data1.key1'	=> 'val1',
+			'dataObject.data1.key2'	=> 'val2'
 		);
 		$elements = $this->template->getElements();
 		$this->assertEquals( $assertion, $elements );

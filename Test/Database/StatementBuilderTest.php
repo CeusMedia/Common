@@ -312,7 +312,7 @@ GROUP BY
 	 */
 	public function testBuildCountStatementException1()
 	{
-		$this->setExpectedException( 'Exception' );
+		$this->setExpectedException( 'RuntimeException' );
 		$this->builder->buildCountStatement();
 	}
 	
@@ -323,7 +323,7 @@ GROUP BY
 	 */
 	public function testBuildCountStatementException2()
 	{
-		$this->setExpectedException( 'Exception' );
+		$this->setExpectedException( 'RuntimeException' );
 		$this->builder->addKeys( array( 'key1', 'key2' ) );
 		$this->builder->buildCountStatement();
 	}
@@ -371,7 +371,7 @@ OFFSET 20";
 	 */
 	public function testBuildSelectStatementException1()
 	{
-		$this->setExpectedException( 'Exception' );
+		$this->setExpectedException( 'RuntimeException' );
 		$this->builder->buildSelectStatement();
 	}
 	
@@ -382,7 +382,7 @@ OFFSET 20";
 	 */
 	public function testBuildSelectStatementException2()
 	{
-		$this->setExpectedException( 'Exception' );
+		$this->setExpectedException( 'RuntimeException' );
 		$this->builder->addKeys( array( 'key1', 'key2' ) );
 		$this->builder->buildSelectStatement();
 	}
@@ -411,7 +411,7 @@ FROM
 	 */
 	public function testBuildStatementException1()
 	{
-		$this->setExpectedException( 'Exception' );
+		$this->setExpectedException( 'RuntimeException' );
 		$this->builder->buildStatement();
 	}
 	
@@ -422,7 +422,7 @@ FROM
 	 */
 	public function testBuildStatementException2()
 	{
-		$this->setExpectedException( 'Exception' );
+		$this->setExpectedException( 'RuntimeException' );
 		$this->builder->addKeys( array( 'key1', 'key2' ) );
 		$this->builder->buildStatement();
 	}
