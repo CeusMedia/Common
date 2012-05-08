@@ -1,6 +1,6 @@
 <?php
 /**
- *	XML element based on SimpleXMLElement with improved attribute Handling.
+ *	XML element based on SimpleXMLElement with improved attribute and content handling.
  *
  *	Copyright (c) 2007-2010 Christian Würker (ceus-media.de)
  *
@@ -36,31 +36,45 @@
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			21.02.2008
  *	@version		$Id$
- *	@todo			namespace handling: check current usage (URI vs. prefix?) and finish implementation
+ *	@todo			namespace handling: implement detection "Prefix or URI?", see http://www.w3.org/TR/REC-xml/#NT-Name
  */
 class XML_Element extends SimpleXMLElement
 {
 	protected $attributes	= array();
-
+	
 	/**
 	 *	Adds an attributes.
 	 *	@access		public
 	 *	@param		string		$name		Name of attribute
 	 *	@param		string		$value		Value of attribute
-	 *	@param		string		$namespace	Namespace URI of attribute
+	 *	@param		string		$nsPrefix	Namespace prefix of attribute
+	 *	@param		string		$nsURI		Namespace URI of attribute
 	 *	@return		void
-	 *	@throws		Exception	if attribute is already set
+	 *	@throws		RuntimeException		if attribute is already set
+	 *	@throws		RuntimeException		if namespace prefix is neither registered nor given
 	 */
-	public function addAttribute( $name, $value, $namespace = NULL )
+	public function addAttribute( $name, $value, $nsPrefix = NULL, $nsURI = NULL )
 	{
-		$names	= $this->getAttributeNames();
+		$key	= $nsPrefix ? $nsPrefix.':'.$name : $name;
+		if( $nsPrefix ){
+			$namespaces	= $this->getDocNamespaces();
+			$key		= $nsPrefix ? $nsPrefix.':'.$name : $name;
+			if( $this->hasAttribute( $name, $nsPrefix ) )
+				throw new RuntimeException( 'Attribute "'.$key.'" is already set' );
+			if( array_key_exists( $nsPrefix, $namespaces ) )
+				return parent::addAttribute( $key, $value, $namespaces[$nsPrefix] );
+			if( $nsURI )
+				return parent::addAttribute( $key, $value, $nsURI );
+			throw new RuntimeException( 'Namespace prefix is not registered and namespace URI is missing' );
+		}
 		if( $this->hasAttribute( $name ) )
-			throw new Exception( 'Attribute "'.$name.'" is already set' );
-		parent::addAttribute( $name, $value, $namespace );
+			throw new RuntimeException( 'Attribute "'.$name.'" is already set' );
+		parent::addAttribute( $name, $value );
 	}
+
 	/** 
 	 *	Add CDATA text in a node 
-	 *	@param		string		$cdata_text		The CDATA value  to add 
+	 *	@param		string		$cdata_text		The CDATA value to add 
 	 */ 
 	private function addCData( $text ) 
 	{ 
@@ -69,15 +83,40 @@ class XML_Element extends SimpleXMLElement
 		$node->appendChild( $document->createCDATASection( $text ) ); 
 	} 
 
+	/**
+	 *	Adds a child element.
+	 *	@access		public
+	 *	@param		string		$name		Name of child element
+	 *	@param		string		$value		Value of child element
+	 *	@param		string		$nsPrefix	Namespace prefix of child element
+	 *	@param		string		$nsURI		Namespace URI of child element
+	 *	@return		XML_Element
+	 *	@throws		RuntimeException		if namespace prefix is neither registered nor given
+	 */
+	public function addChild( $name, $value = NULL, $nsPrefix = NULL, $nsURI = NULL ){
+		if( $nsPrefix ){
+			$namespaces	= $this->getDocNamespaces();
+			$key		= $nsPrefix ? $nsPrefix.':'.$name : $name;
+			if( array_key_exists( $nsPrefix, $namespaces ) )
+				return parent::addChild( $name, $value, $namespaces[$nsPrefix] );
+			if( $nsURI )
+				return parent::addChild( $key, $value, $nsURI );
+			throw new RuntimeException( 'Namespace prefix is not registered and namespace URI is missing' );
+		}
+		return parent::addChild( $name, $value );
+	}
+
 	/** 
-	 *	Create a child with CDATA value 
+	 *	Create a child element with CDATA value 
 	 *	@param		string		$name			The name of the child element to add. 
 	 *	@param		string		$cdata_text		The CDATA value of the child element. 
-	 *	@param		string		$namespace		Namespace of node
+	 *	@param		string		$nsPrefix		Namespace prefix of child element
+	 *	@param		string		$nsURI			Namespace URI of child element
+	 *	@return		XML_Element
 	 */ 
-	public function addChildCData( $name, $text, $namespace = NULL ) 
+	public function addChildCData( $name, $text, $nsPrefix = NULL, $nsURI = NULL ) 
 	{ 
-		$child	= $this->addChild( $name, NULL, $namespace ); 
+		$child	= $this->addChild( $name, NULL, $nsPrefix, $nsURI ); 
 		$child->addCData( $text ); 
 		return $child;
 	}
@@ -95,68 +134,70 @@ class XML_Element extends SimpleXMLElement
 	}
 
 	/**
-	 *	Returns count of Attributes.
+	 *	Returns count of attributes.
 	 *	@access		public
+	 *	@param		string		$nsPrefix		Namespace prefix of attributes
 	 *	@return		int
 	 */
-	public function countAttributes()
+	public function countAttributes( $nsPrefix = NULL )
 	{
-		return count( $this->getAttributeNames() );
+		return count( $this->getAttributeNames( $nsPrefix ) );
 	}
 
 	/**
-	 *	Returns count of Children.
+	 *	Returns count of children.
 	 *	@access		public
 	 *	@return		int
 	 */
-	public function countChildren()
+	public function countChildren( $nsPrefix = NULL )
 	{
 		$i = 0;
-		foreach( $this->children() as $node )
+		foreach( $this->children( $nsPrefix, TRUE ) as $node )
 			$i++;
 		return $i;
 	}
 
 	/**
-	 *	Returns the value of an Attribute from it's name.
+	 *	Returns the value of an attribute by it's name.
 	 *	@access		public
 	 *	@param		string		$name		Name of attribute
-	 *	@param		string		$namespace	Namespace of attribute
+	 *	@param		string		$nsPrefix	Namespace prefix of attribute
 	 *	@return		bool
+	 *	@throws		RuntimeException		if attribute is not set
 	 */
-	public function getAttribute( $name, $namespace = NULL )
+	public function getAttribute( $name, $nsPrefix = NULL )
 	{
-		$data	= $namespace ? $this->attributes( $namespace, 1 ) : $this->attributes();
+		$data	= $nsPrefix ? $this->attributes( $nsPrefix, TRUE ) : $this->attributes();
 		if( !isset( $data[$name] ) )
-			throw new Exception( 'Attribute "'.$name.'" is not set.' );
+			throw new RuntimeException( 'Attribute "'.( $nsPrefix ? $nsPrefix.':'.$name : $name ).'" is not set' );
 		return (string) $data[$name];
 	}
-
+	
 	/**
-	 *	Returns List of Attribute Keys.
+	 *	Returns List of attribute names.
 	 *	@access		public
-	 *	@param		string		$namespace	Namespace of attribute
+	 *	@param		string		$nsPrefix	Namespace prefix of attribute
 	 *	@return		array
 	 */
-	public function getAttributeNames( $namespace = NULL )
+	public function getAttributeNames( $nsPrefix = NULL )
 	{
 		$list	= array();
-		$data	= $namespace ? $this->attributes( $namespace, 1 ) : $this->attributes();
+		$data	= $nsPrefix ? $this->attributes( $nsPrefix, TRUE ) : $this->attributes();
 		foreach( $data as $name => $value )
 			$list[] = $name;
 		return $list;
 	}
 
 	/**
-	 *	Returns Array of Attributes.
+	 *	Returns map of attributes.
 	 *	@access		public
-	 *	@param		string		$namespace	Namespace of attributes
+	 *	@param		string		$nsPrefix	Namespace prefix of attributes
 	 *	@return		array
 	 */
-	public function getAttributes( $namespace = NULL )
+	public function getAttributes( $nsPrefix = NULL )
 	{
 		$list	= array();
-		foreach( $this->attributes( $namespace ) as $name => $value )
+		foreach( $this->attributes( $nsPrefix, TRUE ) as $name => $value )
 			$list[$name]	= (string) $value;
 		return $list;
 	}
@@ -168,20 +209,81 @@ class XML_Element extends SimpleXMLElement
 	 */
 	public function getValue()
 	{
-		return (string) $this;
+		return $this[0];
 	}
 
 	/**
 	 *	Indicates whether an attribute is existing by it's name.
 	 *	@access		public
 	 *	@param		string		$name		Name of attribute
-	 *	@param		string		$namespace	Namespace of attribute
+	 *	@param		string		$nsPrefix	Namespace prefix of attribute
 	 *	@return		bool
 	 */
-	public function hasAttribute( $name, $namespace = NULL  )
+	public function hasAttribute( $name, $nsPrefix = NULL  )
 	{
-		$names	= $this->getAttributeNames( $namespace );
+		$names	= $this->getAttributeNames( $nsPrefix );
 		return in_array( $name, $names );
+	}
+
+	/**
+	 *	Removes an attribute by it's name.
+	 *	@access		public
+	 *	@param		string		$name		Name of attribute
+	 *	@param		string		$nsPrefix	Namespace prefix of attribute
+	 *	@return		boolean
+	 */
+	public function removeAttribute( $name, $nsPrefix = NULL ){
+		$data	= $nsPrefix ? $this->attributes( $nsPrefix, TRUE ) : $this->attributes();
+		foreach( $data as $key => $attributeNode ){
+			if( $key == $name ){
+				unset( $data[$key] );
+				return TRUE;
+			}
+		}
+		return FALSE;
+	}
+	
+	/**
+	 *	Sets an attribute from by it's name.
+	 *	Adds attribute if not existing.
+	 *	Removes attribute if value is NULL.
+	 *	@access		public
+	 *	@param		string		$name		Name of attribute
+	 *	@param		string		$value		Value of attribute, NULL means removal
+	 *	@param		string		$nsPrefix	Namespace prefix of attribute
+	 *	@param		string		$nsURI		Namespace URI of attribute
+	 *	@return		void
+	 */
+	public function setAttribute( $name, $value, $nsPrefix = NULL, $nsURI = NULL ){
+		if( $value !== NULL ){
+			if( !$this->hasAttribute( $name, $nsPrefix ) )
+				return $this->addAttribute( $name, $value, $nsPrefix, $nsURI );
+			$this->removeAttribute( $name, $nsPrefix );
+			$this->addAttribute( $name, $value, $nsPrefix, $nsURI );
+		}
+		else if( $this->hasAttribute( $name, $nsPrefix ) ){
+			$this->removeAttribute( $name, $nsPrefix );
+		}
+	}
+	
+	/**
+	 *	Returns Text Value.
+	 *	@access		public
+	 *	@return		string
+	 */
+	public function setValue( $value, $cdata = FALSE )
+	{
+		if( !is_string( $value ) && $value !== NULL )
+			throw new InvalidArgumentException( 'Value must be a string or NULL' );
+
+		$value	= preg_replace( "/(.*)<!\[CDATA\[(.*)\]\]>(.*)/iU", "\\1\\2\\3", $value );
+		if( $cdata || preg_match( '/&|</', $value ) ){												//  string is known or detected to be CDATA
+			$dom	= dom_import_simplexml( $this );												//  import node in DOM
+			$cdata	= $dom->ownerDocument->createCDATASection( $value );							//  create a new CDATA section
+			$dom->appendChild( $cdata );															//  replace node with CDATA section
+		}
+		else
+			$this[0]	= $value;
 	}
 }
 ?>
