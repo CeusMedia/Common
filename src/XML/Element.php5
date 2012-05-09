@@ -242,6 +242,24 @@ class XML_Element extends SimpleXMLElement
 		}
 		return FALSE;
 	}
+
+	public function remove(){
+		$dom	= dom_import_simplexml( $this );
+		$dom->parentNode->removeChild( $dom );
+	}
+
+	public function removeChild( $name, $number = NULL ){
+		$nr		= 0;
+		foreach( $this->children() as $nodeName => $child ){
+			if( $nodeName == $name ){
+				if( $number === NULL || $nr === (int) $number ){
+					$dom	= dom_import_simplexml( $child );
+					$dom->parentNode->removeChild( $dom );
+				}
+				$nr++;
+			}
+		}
+	}
 	
 	/**
 	 *	Sets an attribute from by it's name.

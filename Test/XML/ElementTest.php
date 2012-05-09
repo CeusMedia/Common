@@ -389,6 +389,29 @@ class Test_XML_ElementTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals( $assertion, $creation );
 	}
 
+	public function testRemove(){
+		$element	= new XML_Element( $this->xml );
+		$element->image[3]->remove();
+
+		$assertion	= 3;
+		$creation	= $element->countChildren();
+		$this->assertEquals( $assertion, $creation );
+	}
+
+	public function testRemoveChild(){
+		$element	= new XML_Element( $this->xml );
+
+		$assertion	= 4;
+		$creation	= $element->countChildren();
+		$this->assertEquals( $assertion, $creation );
+
+		$element->removeChild( 'image', 3 );
+
+		$assertion	= 3;
+		$creation	= $element->countChildren();
+		$this->assertEquals( $assertion, $creation );
+	}
+
 	public function testSetAttribute(){
 		$element	= new XML_Element( $this->xml );
 
