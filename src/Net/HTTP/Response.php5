@@ -79,8 +79,8 @@ class Net_HTTP_Response
 	/**
 	 *	Adds an HTTP header.
 	 *	@access		public
-	 *	@param		string			$name		HTTP header name
-	 *	@param		string			$value		HTTP header value
+	 *	@param		string		$name		HTTP header name
+	 *	@param		string		$value		HTTP header value
 	 *	@return		void
 	 */
 	public function addHeaderPair( $name, $value )
@@ -91,7 +91,7 @@ class Net_HTTP_Response
 	/**
 	 *	Returns response message body.
 	 *	@access		public
-	 *	@return		string			Response message body
+	 *	@return		string		Response message body
 	 */
 	public function getBody()
 	{
@@ -101,18 +101,24 @@ class Net_HTTP_Response
 	/**
 	 *	Returns response headers.
 	 *	@access		public
-	 *	@param		string			Header name
-	 *	@return		array			List of Header values
+	 *	@param		string		$string			Header name
+	 *	@param		bool		$first			Flag: return first header only
+	 *	@return		array|Net_HTTP_Header_Field		List of header fields or only one header field if requested so
 	 */
-	public function getHeader( $key )
+	public function getHeader( $key, $first = NULL )
 	{
-		return $this->headers->getFieldsByName( $key );
+		$fields	= $this->headers->getFieldsByName( $key );											//  get all header fields with this header name
+		if( !$first )																				//  all header fields shall be returned
+			return $fields;																			//  return all header fields
+		if( $fields )																				//  otherwise: header fields (atleat one) are set
+			return $fields[0];																		//  return first header field
+		return new Net_HTTP_Header_Field( $key, NULL );												//  otherwise: return empty fake header field
 	}
 
 	/**
 	 *	Returns response headers.
 	 *	@access		public
-	 *	@return		array			List of response HTTP header fields
+	 *	@return		array		List of response HTTP header fields
 	 */
 	public function getHeaders()
 	{
@@ -127,7 +133,7 @@ class Net_HTTP_Response
 	/**
 	 *	Returns response protocol.
 	 *	@access		public
-	 *	@return		string			Response protocol
+	 *	@return		string		Response protocol
 	 */
 	public function getProtocol()
 	{
@@ -137,7 +143,7 @@ class Net_HTTP_Response
 	/**
 	 *	Returns response status code.
 	 *	@access		public
-	 *	@return		string			Response HTTP status code
+	 *	@return		string		Response HTTP status code
 	 */
 	public function getStatus()
 	{
@@ -147,7 +153,7 @@ class Net_HTTP_Response
 	/**
 	 *	Returns response protocol version.
 	 *	@access		public
-	 *	@return		string			Response protocol version
+	 *	@return		string		Response protocol version
 	 */
 	public function getVersion()
 	{
@@ -157,7 +163,7 @@ class Net_HTTP_Response
 	/**
 	 *	Indicates whether an HTTP header is set.
 	 *	@access		public
-	 *	@param		string			$key				Header name
+	 *	@param		string		$key			Header name
 	 *	@return		bool
 	 */
 	public function hasHeader( $key )

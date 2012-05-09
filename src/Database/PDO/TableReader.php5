@@ -247,12 +247,10 @@ class Database_PDO_TableReader
 
 		$resultSet	= $this->dbc->query( $query );
 		if( !$resultSet )
-			return NULL;
+			return $first ? NULL : array();
 		$resultList	= $resultSet->fetchAll( $this->getFetchMode() );
-		if( $first && !$resultList )
-			return NULL;
 		if( $first )
-			return $resultList[0];
+			return $resultList ? $resultList[0] : NULL;
 		return $resultList;
 	}
 
