@@ -2,7 +2,7 @@
 /**
  *	Builder for Data Source Name Strings.
  *
- *	Copyright (c) 2007-2010 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2007-2012 Christian Würker (ceus-media.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
  *	@category		cmClasses
  *	@package		Database.PDO
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2010 Christian Würker
+ *	@copyright		2007-2012 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			0.6.8
@@ -31,7 +31,7 @@
  *	@category		cmClasses
  *	@package		Database.PDO
  *	@author			Christian Würker <christian.wuerker@ceus-media.de>
- *	@copyright		2007-2010 Christian Würker
+ *	@copyright		2007-2012 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			0.6.8
@@ -53,6 +53,7 @@ class Database_PDO_DataSourceName
 	protected $port;
 
 	protected $drivers	= array(
+		'cubrid',
 		'dblib',
 		'firebird',
 		'informix',
@@ -68,7 +69,7 @@ class Database_PDO_DataSourceName
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		string		$driver			Database Driver (dblib|firebird|informix|mysql|mssql|oci|odbc|pgsql|sqlite|sybase)
+	 *	@param		string		$driver			Database Driver (cubrid,dblib|firebird|informix|mysql|mssql|oci|odbc|pgsql|sqlite|sybase)
 	 *	@param		string		$database		Database Name
 	 *	@return		void
 	 */
@@ -101,15 +102,15 @@ class Database_PDO_DataSourceName
 	protected function checkDriverSupport( $driver )
 	{
 		if( !in_array( $driver, $this->drivers ) )
-			throw new RuntimeException( 'PDO driver "'.$driver.'" is no supported' );
+			throw new RuntimeException( 'PDO driver "'.$driver.'" is not supported' );
 		if( !in_array( $driver, PDO::getAvailableDrivers() ) )
-			throw new RuntimeException( 'PDO driver "'.$driver.'" is no loaded' );
+			throw new RuntimeException( 'PDO driver "'.$driver.'" is not loaded' );
 	}
 
 	/**
 	 *	Returns set PDO driver.
 	 *	@access		public
-	 *	@return		string		Database Driver (dblib|firebird|informix|mysql|mssql|oci|odbc|pgsql|sqlite|sybase)
+	 *	@return		string		Database Driver (cubrid,dblib|firebird|informix|mysql|mssql|oci|odbc|pgsql|sqlite|sybase)
 	 */ 
 	public function getDriver(){
 		return $this->driver;
@@ -172,28 +173,23 @@ class Database_PDO_DataSourceName
 
 	public function render()
 	{
-		$drv	= $this->driver.':';
-	
+		$prefix	= $this->driver.':';
 		switch( $this->driver )
 		{
 			case 'firebird':
-				return $drv.$this->renderDsnForFirebird();
+				return $prefix.$this->renderDsnForFirebird();
 			case 'informix':
-				return $drv.$this->renderDsnForInformix();
+				return $prefix.$this->renderDsnForInformix();
 			case 'oci':
-				return $drv.$this->renderDsnForOci();
+				return $prefix.$this->renderDsnForOci();
 			case 'odbc':
-				return $drv.$this->renderDsnForOdbc();
+				return $prefix.$this->renderDsnForOdbc();
 			case 'pgsql':
-				return $drv.$this->renderDsnForPgsql();
+				return $prefix.$this->renderDsnForPgsql();
 			case 'sqlite':
-				return $drv.$this->renderDsnForSqlite();
-			case 'mysql':
-			case 'mssql':
-			case 'sybase':
-			case 'dblib':
-			default:
-				return $drv.$this->renderDsnForDefault();
+				return $prefix.$this->renderDsnForSqlite();
+			default:																				//  cubrid, dblib, mssql, mysql, sybase 
+				return $prefix.$this->renderDsnForDefault();
 		}
 	}
 
@@ -295,7 +291,7 @@ class Database_PDO_DataSourceName
 	 *	Returns Data Source Name String.
 	 *	@access		public
 	 *	@static
-	 *	@param		string		$driver			Database Driver (dblib|firebird|informix|mysql|mssql|oci|odbc|pgsql|sqlite|sybase)
+	 *	@param		string		$driver			Database Driver (cubrid|dblib|firebird|informix|mysql|mssql|oci|odbc|pgsql|sqlite|sybase)
 	 *	@param		string		$database		Database Name
 	 *	@param		string		$host			Host Name or URI
 	 *	@param		int			$port			Host Port

@@ -49,6 +49,9 @@ class Database_PDO_Connection extends PDO
 	protected $openTransactions		= 0;
 	protected $innerTransactionFail	= FALSE;														//  Flag: inner (nested) Transaction has failed
 	public static $errorTemplate	= "{time}: PDO:{pdoCode} SQL:{sqlCode} {sqlError} ({statement})\n";
+	public static $defaultOptions	= array(
+		PDO::ATTR_ERRMODE	=> PDO::ERRMODE_EXCEPTION,
+	);
 	
 	/**
 	 *	Constructor, establishs Database Connection using a DSN. Set Error Handling to use Exceptions.
@@ -62,10 +65,9 @@ class Database_PDO_Connection extends PDO
 	 */
 	public function __construct( $dsn, $username = NULL, $password = NULL, $driverOptions = array() )
 	{
-		if( $dsn instanceof Database_PDO_DataSourceName )
-			$this->driver	= $dsn->getDriver();
-		parent::__construct( $dsn, $username, $password, $driverOptions );
-		$this->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
+		$options	= $driverOptions + self::$defaultOptions;										//  extend given options by default options
+		parent::__construct( $dsn, $username, $password, $options );
+		$this->driver	= $this->getAttribute( PDO::ATTR_DRIVER_NAME );								//  note name of used driver
 	}
 
 /*	for PHP 5.3.6+
