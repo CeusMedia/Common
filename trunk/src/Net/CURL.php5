@@ -39,27 +39,27 @@
  */
 class Net_CURL
 {
-	const STATUS_CONTENT_TYPE				= 'content_type';
-	const STATUS_CONTENT_LENGTH_DOWNLOAD	= 'download_content_length';
-	const STATUS_CONTENT_LENGTH_UPLOAD		= 'upload_content_length';
-	const STATUS_ERRNO						= 'errno';
-	const STATUS_ERROR						= 'error';
-	const STATUS_HTTP_CODE					= 'http_code';
-	const STATUS_HTTP_URL					= 'url';
-	const STATUS_REDIRECT_COUNT				= 'redirect_count';
-	const STATUS_REDIRECT_TIME				= 'redirect_time';
-	const STATUS_SIZE_HEADER				= 'header_size';
-	const STATUS_SIZE_DOWNLOAD				= 'size_download';
-	const STATUS_SIZE_REQUEST				= 'request_size';
-	const STATUS_SIZE_UPLOAD				= 'size_upload';
-	const STATUS_SPEED_DOWNLOAD				= 'speed_download';
-	const STATUS_SPEED_UPLOAD				= 'speed_upload';
-	const STATUS_SSL_VERIFY_RESULT			= 'ssl_verify_result';
-	const STATUS_TIME_CONNECT				= 'connect_time';
-	const STATUS_TIME_NAMELOOKUP			= 'namelookup_time';
-	const STATUS_TIME_PRETRANSFER			= 'pretransfer_time';
-	const STATUS_TIME_STARTTRANSFER			= 'starttransfer_time';
-	const STATUS_TIME_TOTAL					= 'total_time';
+	const INFO_CONTENT_TYPE				= 'content_type';
+	const INFO_CONTENT_LENGTH_DOWNLOAD	= 'download_content_length';
+	const INFO_CONTENT_LENGTH_UPLOAD		= 'upload_content_length';
+	const INFO_ERRNO						= 'errno';
+	const INFO_ERROR						= 'error';
+	const INFO_HTTP_CODE					= 'http_code';
+	const INFO_HTTP_URL					= 'url';
+	const INFO_REDIRECT_COUNT				= 'redirect_count';
+	const INFO_REDIRECT_TIME				= 'redirect_time';
+	const INFO_SIZE_HEADER				= 'header_size';
+	const INFO_SIZE_DOWNLOAD				= 'size_download';
+	const INFO_SIZE_REQUEST				= 'request_size';
+	const INFO_SIZE_UPLOAD				= 'size_upload';
+	const INFO_SPEED_DOWNLOAD				= 'speed_download';
+	const INFO_SPEED_UPLOAD				= 'speed_upload';
+	const INFO_SSL_VERIFY_RESULT			= 'ssl_verify_result';
+	const INFO_TIME_CONNECT				= 'connect_time';
+	const INFO_TIME_NAMELOOKUP			= 'namelookup_time';
+	const INFO_TIME_PRETRANSFER			= 'pretransfer_time';
+	const INFO_TIME_STARTTRANSFER			= 'starttransfer_time';
+	const INFO_TIME_TOTAL					= 'total_time';
 
 	/**
 	 *	Array of caseless header names.
@@ -120,7 +120,7 @@ class Net_CURL
 		$this->handle	= curl_init();
 		$this->caseless	= NULL;
 		$this->header	= NULL;
-		$this->info	= NULL;
+		$this->info		= NULL;
 		$this->options	= array();
 		if( !empty( $url ) )
 			$this->setOption( CURLOPT_URL, $url ); 

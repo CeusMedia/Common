@@ -44,8 +44,8 @@ class Net_Reader
 {
 	protected $body				= NULL;
 	protected $headers			= array();
-	/**	@var		array		$status			Status Array of last Request */
-	protected $status			= array();
+	/**	@var		array		$info			Map of information of last request */
+	protected $info				= array();
 	/**	@var		string		$url			URL to read */
 	protected $url;
 	/**	@var		string		$agent			User Agent */
@@ -85,9 +85,9 @@ class Net_Reader
 	}
 
 	/**
-	 *	Returns Headers Array or a specified Header from last Request.
+	 *	Returns Headers Array or a specified header from last request.
 	 *	@access		public
-	 *	@param		string		$key		Header Key
+	 *	@param		string		$key		Header key
 	 *	@return		mixed
 	 */
 	public function getHeader( $key = NULL )
@@ -102,12 +102,12 @@ class Net_Reader
 	}
 
 	/**
-	 *	Returns Status Array or single Status Information from last Request.
+	 *	Returns information map or single information from last request.
 	 *	@access		public
-	 *	@param		string		$key		Status Information Key
+	 *	@param		string		$key		Information key
 	 *	@return		mixed
 	 */
-	public function getStatus( $key = NULL )
+	public function getInfo( $key = NULL )
 	{
 		if( !$this->info )
 			throw new RuntimeException( "No Request has been sent, yet." );
@@ -129,7 +129,7 @@ class Net_Reader
 	}
 
 	/**
-	 *	Returns set User Agent.
+	 *	Returns set user agent.
 	 *	@access		public
 	 *	@return		string
 	 */
@@ -139,9 +139,9 @@ class Net_Reader
 	}
 
 	/**
-	 *	Requests set URL and returns Response.
+	 *	Requests set URL and returns response.
 	 *	@access		public
-	 *	@return		string		$curlOptions		Array of cURL Options
+	 *	@return		string		$curlOptions		Map of cURL options
 	 *	@todo		Auth
 	 */
 	public function read( $curlOptions = array() )
@@ -180,9 +180,9 @@ class Net_Reader
 		$this->body		= $response->getBody();
 		$this->headers	= $response->getHeaders();
 		$this->info		= $curl->getInfo();
-		$code			= $curl->getInfo( Net_CURL::STATUS_HTTP_CODE );
-		$error			= $curl->getInfo( Net_CURL::STATUS_ERROR );
-		$errno			= $curl->getInfo( Net_CURL::STATUS_ERRNO );
+		$code			= $curl->getInfo( Net_CURL::INFO_HTTP_CODE );
+		$error			= $curl->getInfo( Net_CURL::INFO_ERROR );
+		$errno			= $curl->getInfo( Net_CURL::INFO_ERRNO );
 		if( $errno )
 			throw new Exception_IO( 'HTTP request failed: '.$error, $errno, $this->url );
 		if( !in_array( $code, array( '200', '301', '303', '304', '307' ) ) )
