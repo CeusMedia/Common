@@ -48,9 +48,12 @@ class UI_HTML_FormElements
 	 */
 	protected static function addDisabledAttributes( &$attributes, $disabled )
 	{
-		$attributes['disabled']	= "disabled";
-		if( is_string( $disabled ) )
+		if( is_string( $disabled ) ){
+			$attributes['readonly']	= "readonly";
 			$attributes['onclick']	= "alert('".$disabled."');";
+		}
+		else
+			$attributes['disabled']	= "disabled";
 	}
 
 	/**
@@ -115,7 +118,6 @@ class UI_HTML_FormElements
 			'name'		=> $name,
 			'value'		=> 1,
 			'class'		=> $class,
-			'disabled'	=> $disabled	? "disabled" : NULL,
 			'onclick'	=> $confirm		? "return confirm('".$confirm."');" : NULL,
 		);
 		if( $disabled )
@@ -143,7 +145,7 @@ class UI_HTML_FormElements
 			'value'		=> $value,
 			'class'		=> $class,
 			'checked'	=> $checked		? "checked"		: NULL,
-			'disabled'	=> $readOnly	? "disabled"	: NULL,
+			'disabled'	=> $readOnly && !is_string( $readOnly ) ? "disabled" : NULL,
 		);
 		if( $readOnly )
 			self::addReadonlyAttributes( $attributes, $readOnly );
@@ -288,11 +290,10 @@ class UI_HTML_FormElements
 			'id'		=> "button_".md5( $label ),
 			'type'		=> "button",
 			'class'		=> $class,
-			'disabled'	=> $disabled	? "disabled" : NULL,
-			'onclick'	=> $confirm		? "if(confirm('".$confirm."')){".$action."};" : $action,
+			'onclick'	=> $confirm	? "if(confirm('".$confirm."')){".$action."};" : $action,
 		);
 		if( $disabled )
-			self::addReadonlyAttributes( $attributes, $disabled );
+			self::addDisabledAttributes( $attributes, $disabled );
 		return UI_HTML_Tag::create( "button", UI_HTML_Tag::create( "span", $label ), $attributes );
 	}
 
