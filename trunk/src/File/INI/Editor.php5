@@ -351,10 +351,10 @@ class File_INI_Editor extends File_INI_Reader
 			if( $this->usesSections() && preg_match( $this->patternSection, $line ) )
 			{
 				$lastSection = $currentSection;
-				$newAdded = array();
+#				$newAdded = array();
 				if( $lastSection )
 				{
-					foreach( $this->added as $property )
+					foreach( $this->added as $nr => $property )
 					{
 						if( $property['section'] == $lastSection )
 						{
@@ -362,10 +362,10 @@ class File_INI_Editor extends File_INI_Reader
 								array_pop( $newLines );
 							$newLines[]	= $this->buildLine( $property['key'], $property['value'], $property['comment'] );
 							$newLines[]	= "";
+							unset( $this->added[$nr] );
 						}
-						else $newAdded[] = $property;
+#						else $newAdded[] = $property;
 					}
-					$this->added = $newAdded;
 				}
 				$currentSection =  substr( trim( $line ), 1, -1 );
 				if( !in_array( $currentSection, $this->sections ) )

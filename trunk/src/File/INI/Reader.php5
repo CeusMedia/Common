@@ -449,7 +449,7 @@ class File_INI_Reader extends File_Reader
 						$value	= NULL;
 				}
 				if( preg_match( '@^".*"$@', $value ) )
-					$value	= substr( $value, 1, -1 );			
+					$value	= substr( stripslashes( $value ), 1, -1 );			
 				if( $this->usesSections() )
 					$this->properties[$currentSection][$key] = $value;
 				else
