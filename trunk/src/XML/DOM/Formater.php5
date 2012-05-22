@@ -45,19 +45,30 @@ class XML_DOM_Formater
 	 *	Formats a XML String with Line Breaks and Indention and returns it.
 	 *	@access		public
 	 *	@static
-	 *	@param		string		$xml		XML String to format
+	 *	@param		string		$xml			XML String to format
+	 *	@param		boolean		$leadingTabs	Flag: replace leading spaces by tabs
 	 *	@return		string
 	 */
-	public static function format( $xml  )
+	public static function format( $xml, $leadingTabs = FALSE )
 	{
 		$validator	= new XML_DOM_SyntaxValidator();
 		if( !$validator->validate( $xml ) )
 			throw new InvalidArgumentException( 'String is no valid XML' ); 
 
 		$document	= new DOMDocument();
+		$document->preserveWhiteSpace	= FALSE;
 		$document->loadXml( $xml );
 		$document->formatOutput = TRUE;
-		return $document->saveXml();
+		$xml	= $document->saveXml();
+
+		if( $leadingTabs ){
+			$lines	= explode( "\n", $xml );
+			foreach( $lines as $nr => $line )
+				while( preg_match( "/^\t*  /", $lines[$nr] ) )
+					$lines[$nr]	= preg_replace( "/^(\t*)  /", "\\1\t", $lines[$nr] );
+			$xml	= implode( "\n", $lines );
+		}
+		return $xml;
 	}
 
 	/**

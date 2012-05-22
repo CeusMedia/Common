@@ -84,7 +84,7 @@ class XML_Element extends SimpleXMLElement
 	} 
 
 	/**
-	 *	Adds a child element.
+	 *	Adds a child element. Sets node content as CDATA section if necessary.
 	 *	@access		public
 	 *	@param		string		$name		Name of child element
 	 *	@param		string		$value		Value of child element
@@ -94,16 +94,22 @@ class XML_Element extends SimpleXMLElement
 	 *	@throws		RuntimeException		if namespace prefix is neither registered nor given
 	 */
 	public function addChild( $name, $value = NULL, $nsPrefix = NULL, $nsURI = NULL ){
+		$child		= NULL;
 		if( $nsPrefix ){
 			$namespaces	= $this->getDocNamespaces();
 			$key		= $nsPrefix ? $nsPrefix.':'.$name : $name;
 			if( array_key_exists( $nsPrefix, $namespaces ) )
-				return parent::addChild( $name, $value, $namespaces[$nsPrefix] );
-			if( $nsURI )
-				return parent::addChild( $key, $value, $nsURI );
-			throw new RuntimeException( 'Namespace prefix is not registered and namespace URI is missing' );
+				$child	= parent::addChild( $name, NULL, $namespaces[$nsPrefix] );
+			else if( $nsURI )
+				$child	= parent::addChild( $key, NULL, $nsURI );
+			else 
+				throw new RuntimeException( 'Namespace prefix is not registered and namespace URI is missing' );
 		}
-		return parent::addChild( $name, $value );
+		else
+			$child	= parent::addChild( $name );
+		if( $value !== NULL )
+			$child->setValue( $value );
+		return $child;
 	}
 
 	/** 
@@ -113,6 +119,7 @@ class XML_Element extends SimpleXMLElement
 	 *	@param		string		$nsPrefix		Namespace prefix of child element
 	 *	@param		string		$nsURI			Namespace URI of child element
 	 *	@return		XML_Element
+	 *	@reprecated	use addChild instead
 	 */ 
 	public function addChildCData( $name, $text, $nsPrefix = NULL, $nsURI = NULL ) 
 	{ 
