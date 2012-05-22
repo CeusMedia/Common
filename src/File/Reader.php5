@@ -50,11 +50,13 @@ class File_Reader
 	 */
 	public function __construct( $fileName, $check = FALSE )
 	{
-		$this->fileName = $fileName;
+		if( !is_string( $fileName ) )
+			throw new InvalidArgumentException( 'File name must a string' );
 		if( $check && !$this->exists( $fileName ) )
-			throw new RuntimeException( 'File "'.$fileName.'" is not existing' );
+			throw new RuntimeException( 'File "'.addslashes( $fileName ).'" is not existing' );
 		if( $check && !$this->isReadable( $fileName ) )
 			throw new RuntimeException( 'File "'.$fileName.'" is not readable' );
+		$this->fileName = $fileName;
 	}
 
 	/**

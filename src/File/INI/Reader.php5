@@ -389,7 +389,7 @@ class File_INI_Reader extends File_Reader
 		$this->lines		= array();
 		$this->comments		= array();
 		$commentOpen		= 0;
-		$lines				= File_Reader::loadArray( $this->fileName );
+		$lines				= $this->readArray();
 		foreach( $lines as $line )
 		{
 			$line			= trim( $line );
