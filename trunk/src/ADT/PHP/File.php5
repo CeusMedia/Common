@@ -48,7 +48,7 @@ class ADT_PHP_File
 	protected $since		= NULL;
 	protected $version		= NULL;
 	protected $licenses		= array();
-	protected $copyright	= NULL;
+	protected $copyright	= array();
 	
 	protected $authors		= array();
 	protected $links		= array();
@@ -194,6 +194,11 @@ class ADT_PHP_File
 		return $this->sourceCode;
 	}
 
+	public function getSubpackage()
+	{
+		return $this->subpackage;
+	}
+
 	/**
 	 *	Returns list of todos.
 	 *	@access		public
@@ -251,7 +256,7 @@ class ADT_PHP_File
 	
 	public function setCopyright( $string )
 	{
-		$this->copyright	= $string;
+		$this->copyright[]	= $string;
 	}
 
 	public function setDeprecation( $string )
@@ -302,6 +307,11 @@ class ADT_PHP_File
 	public function setSourceCode( $string )
 	{
 		$this->sourceCode	= $string;
+	}
+	
+	public function setSubpackage( $string )
+	{
+		$this->subpackage	= $string;
 	}
 
 	public function setTodo( $string )
