@@ -102,6 +102,7 @@ class File_PHP_Parser_Regular
 				{
 					case 'category':	$codeData->setCategory( $value ); break;					//  extend category
 					case 'package':		$codeData->setPackage( $value ); break;						//  extend package
+					case 'subpackage':	$codeData->setSubpackage( $value ); break;					//  extend subpackage
 					case 'version':		$codeData->setVersion( $value ); break;						//  extend version
 					case 'since':		$codeData->setSince( $value ); break;						//  extend since
 					case 'description':	$codeData->setDescription( $value ); break;					//  extend description
@@ -139,8 +140,9 @@ class File_PHP_Parser_Regular
 						{
 							case 'param':
 								foreach( $codeData->getParameters() as $parameter )
-									if( $parameter->getName() == $itemKey )
+									if( $parameter->getName() == $itemKey ){
 										$parameter->merge( $itemValue );
+									}
 								break;
 						}
 					}
@@ -267,6 +269,8 @@ class File_PHP_Parser_Regular
 					case 'link':
 						$data[$matches[1]][]	= $matches[2];			
 						break;
+					case 'since':
+					case 'version':
 					case 'access':
 					case 'category':
 					case 'package':
@@ -459,6 +463,7 @@ class File_PHP_Parser_Regular
 				}
 				else if( preg_match( $this->regexMethod, $line, $matches ) )
 				{
+						$openClass	= FALSE;
 					$function	= $this->parseFunction( $file, $matches );
 					if( isset( $matches[8] ) )
 						$level++;
@@ -467,6 +472,8 @@ class File_PHP_Parser_Regular
 			}
 			else
 			{
+				if( $level == 0 )
+					$openClass	= FALSE;
 				if( preg_match( $this->regexClass, $line, $matches ) )
 				{
 					if( $class instanceof ADT_PHP_Class )
