@@ -58,7 +58,7 @@ class ADT_PHP_Interface
 	protected $since			= NULL;
 	protected $version			= NULL;
 	protected $licenses			= array();
-	protected $copyright		= NULL;
+	protected $copyright		= array();
 	
 	protected $authors			= array();
 	protected $links			= array();
@@ -126,6 +126,10 @@ class ADT_PHP_Interface
 		return $this->composedBy;
 	}
 
+	/**
+	 *	Returns copyright notes.
+	 *	@return		array 
+	 */
 	public function getCopyright()
 	{
 		return $this->copyright;
@@ -281,6 +285,11 @@ class ADT_PHP_Interface
 		return $this->since;
 	}
 
+	public function getSubpackage()
+	{
+		return $this->subpackage;
+	}
+
 	/**
 	 *	Returns list of todos.
 	 *	@access		public
@@ -382,7 +391,7 @@ class ADT_PHP_Interface
 	
 	public function setCopyright( $string )
 	{
-		$this->copyright	= $string;
+		$this->copyright[]	= $string;
 	}
 
 	public function setDeprecation( $string )
@@ -498,6 +507,16 @@ class ADT_PHP_Interface
 	public function setSince( $string )
 	{
 		$this->since	= $string;
+	}
+
+	/**
+	 *	Sets subpackage.
+	 *	@param		string			$string		Subpackage name
+	 *	@return		void
+	 */
+	public function setSubpackage( $string )
+	{
+		$this->subpackage	= $string;
 	}
 
 	/**

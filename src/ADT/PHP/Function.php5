@@ -45,7 +45,7 @@ class ADT_PHP_Function
 	protected $since		= NULL;
 	protected $version		= NULL;
 	protected $licenses		= array();
-	protected $copyright	= NULL;
+	protected $copyright	= array();
 	
 	protected $authors		= array();
 	protected $links		= array();
@@ -78,11 +78,11 @@ class ADT_PHP_Function
 	/**
 	 *	Returns copyright notes.
 	 *	@access		public
-	 *	@return		mixed			Copyright notes
+	 *	@return		array			Copyright notes
 	 */
 	public function getCopyright()
 	{
-		return $this->description;
+		return $this->copyright;
 	}
 
 	/**
@@ -289,7 +289,7 @@ class ADT_PHP_Function
 	 */
 	public function setCopyright( $string )
 	{
-		$this->copyright	= $string;
+		$this->copyright[]	= $string;
 	}
 
 	/**
