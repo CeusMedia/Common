@@ -74,24 +74,33 @@ abstract class Console_Command_Program
 	 */
 	public function __construct( $options, $shortcuts, $numberArguments = 0 )
 	{
-		$parser	= new Console_Command_ArgumentParser();							//  load Argument Parser
-		$parser->setNumberOfMandatoryArguments( $numberArguments );				//  set minimum Number of Arguments										//  
-		$parser->setPossibleOptions( $options );								//  set Map of Options and Patterns
-		$parser->setShortcuts( $shortcuts );									//  set Map of Shortcuts for Options
+		$this->parser	= new Console_Command_ArgumentParser();					//  load Argument Parser
+		$this->parser->setNumberOfMandatoryArguments( $numberArguments );		//  set minimum Number of Arguments										//  
+		$this->parser->setPossibleOptions( $options );							//  set Map of Options and Patterns
+		$this->parser->setShortcuts( $shortcuts );								//  set Map of Shortcuts for Options
+	}
+
+	public function run( $argumentString = NULL ){
+		if( is_null( $argumentString ) )
+			$argumentString	= $this->getArgumentString();						//  get Argument String
 		try
 		{
-			$string	= $this->getArgumentString();								//  get Argument String
-			$parser->parse( $string );											//  parses Argument String
-			$this->arguments	= $parser->getArguments();						//  get parsed Arguments
-			$this->options		= $parser->getOptions();						//  get parsed Options
+			$this->parser->parse( $argumentString );							//  parses Argument String
+			$this->arguments	= $this->parser->getArguments();				//  get parsed Arguments
+			$this->options		= $this->parser->getOptions();					//  get parsed Options
 			$this->exitCode		= $this->main();								//  run Program and store exit code
+			return $this->exitCode;
 		}
 		catch( Exception $e )													//  handle uncatched Exceptions
 		{
 			$this->handleParserException( $e );
 		}
+		
 	}
 
+	public function getLastExitCode(){
+		return $this->exitCode;
+	}
 	/**
 	 *	Returns Program Call Argument String, in this case from PHP's Variables, but can be overwritten.
 	 *	@access		protected
@@ -107,7 +116,7 @@ abstract class Console_Command_Program
 	
 	protected function handleParserException( Exception $e )
 	{
-			$this->showError( $e->getMessage() );								//  just show Exception Message
+		$this->showError( $e->getMessage() );									//  just show Exception Message
 	}
 
 	/**
