@@ -64,16 +64,16 @@ class Test_File_PHP_Parser_RegularTest extends PHPUnit_Framework_TestCase
 	{
 		$parser	= new File_PHP_Parser_Regular();
 		$data		= $parser->parseFile( $this->fileName, $this->path );
-return;
-		$this->assertTrue( is_array( $data ) );
+		$this->assertTrue( $data instanceof ADT_PHP_File );
 
-		$assertion	= array(
-			'file',
-			'class',
-			'source',
-		);
-		$creation	= array_keys( $data );
-		$this->assertEquals( $assertion, $creation );
+		$creation	= is_array( $data->getClasses() );
+		$this->assertTrue(  $creation );
+
+		$creation	= is_array( $data->getFunctions() );
+		$this->assertTrue( $creation );
+
+		$creation	= is_array( $data->getTodos() );
+		$this->assertTrue( $creation );
 	}
 
 	/**
@@ -91,29 +91,7 @@ return;
 		$data		= $parser->parseFile( $fileName, $this->path );
 		@unlink( $fileName );
 
-		$this->assertTrue( is_array( $data ) );
-
-		$assertion	= array(
-			'class'	=> NULL,
-			'file'	=> array(
-				'name'			=> "parser.php",
-				'uri'			=> $fileName,
-				'uses'			=> array(),
-				'description'	=> "",
-				'package'		=> "",
-				'subpackage'	=> "",
-				'see'			=> array(),
-				'link'			=> array(),
-				'license'		=> array(),
-				'copyright'		=> array(),
-				'author'		=> array(),
-				'version'		=> "",
-				'since'			=> "",
-				'functions'		=> array(),
-			),
-			'source'	=> $string,
-		);
-		$this->assertEquals( $assertion, $data );
+		$this->assertTrue( $data instanceof ADT_PHP_File );
 	}
 
 
@@ -127,11 +105,7 @@ return;
 	 */
 	public function testParseFileFileData()
 	{
-		$creation	= isset( $this->file );
-		$this->assertTrue( $creation );
-
-		$creation	= is_array( $this->file );
-		$this->assertTrue( $creation );
+		$this->assertTrue( $this->data instanceof ADT_PHP_File );
 	}
 
 	/**
@@ -141,11 +115,8 @@ return;
 	 */
 	public function testParseFileFileDataName()
 	{
-		$creation	= isset( $this->file['name'] );
-		$this->assertTrue( $creation );
-
 		$assertion	= "TestClass.php5";
-		$creation	= $this->file['name'];
+		$creation	= $this->data->getBasename();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -156,11 +127,8 @@ return;
 	 */
 	public function testParseFileFileDataUri()
 	{
-		$creation	= isset( $this->file['uri'] );
-		$this->assertTrue( $creation );
-
 		$assertion	= $this->fileName;
-		$creation	= $this->file['uri'];
+		$creation	= $this->data->getUri();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -171,11 +139,8 @@ return;
 	 */
 	public function testParseFileFileDataDescription()
 	{
-		$creation	= isset( $this->file['description'] );
-		$this->assertTrue( $creation );
-		
 		$assertion	= "Test Class File.\n\nThis is a Description.";
-		$creation	= $this->file['description'];
+		$creation	= $this->data->getDescription();
 		$this->assertEquals( $assertion, $creation );
 	}
 	
@@ -186,49 +151,9 @@ return;
 	 */
 	public function testParseFileFileDataPackage()
 	{
-		$creation	= isset( $this->file['package'] );
-		$this->assertTrue( $creation );
-
 		$assertion	= "TestPackage";
-		$creation	= $this->file['package'];
+		$creation	= $this->data->getPackage();
 		$this->assertEquals( $assertion, $creation );
-	}
-	
-	/**
-	 *	Tests Method 'parseFile'.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function testParseFileFileDataSubPackage()
-	{
-		$creation	= isset( $this->file['subpackage'] );
-		$this->assertTrue( $creation );
-
-		$assertion	= "TestSubPackage";
-		$creation	= $this->file['subpackage'];
-		$this->assertEquals( $assertion, $creation );
-	}
-	
-	/**
-	 *	Tests Method 'parseFile'.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function testParseFileFileDataNoExtends()
-	{
-		$creation	= isset( $this->file['extends'] );
-		$this->assertFalse( $creation );
-	}
-	
-	/**
-	 *	Tests Method 'parseFile'.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function testParseFileFileDataNoImplements()
-	{
-		$creation	= isset( $this->file['implements'] );
-		$this->assertFalse( $creation );
 	}
 	
 	/**
@@ -238,23 +163,14 @@ return;
 	 */
 	public function testParseFileFileDataAuthor()
 	{
-		$creation	= isset( $this->file['author'] );
-		$this->assertTrue( $creation );
-
-		$creation	= is_array( $this->file['author'] );
+		$creation	= is_array( $this->data->getAuthors() );
 		$this->assertTrue( $creation );
 
 		$assertion	= array(
-			array(
-				'name'	=> "Test Writer 1",
-				'mail'	=> "test1@writer.tld",
-			),
-			array(
-				'name'	=> "Test Writer 2",
-				'mail'	=> "test2@writer.tld",
-			),
+			new ADT_PHP_Author( "Test Writer 1", "test1@writer.tld" ),
+			new ADT_PHP_Author( "Test Writer 2", "test2@writer.tld" ),
 		);
-		$creation	= $this->file['author'];
+		$creation	= $this->data->getAuthors();
 		$this->assertEquals( $assertion, $creation );
 	}
 	
@@ -265,11 +181,8 @@ return;
 	 */
 	public function testParseFileFileDataSince()
 	{
-		$creation	= isset( $this->file['since'] );
-		$this->assertTrue( $creation );
-
 		$assertion	= "today";
-		$creation	= $this->file['since'];
+		$creation	= $this->data->getSince();
 		$this->assertEquals( $assertion, $creation );
 	}
 	
@@ -280,11 +193,8 @@ return;
 	 */
 	public function testParseFileFileDataVersion()
 	{
-		$creation	= isset( $this->file['version'] );
-		$this->assertTrue( $creation );
-
 		$assertion	= "0.0.1";
-		$creation	= $this->file['version'];
+		$creation	= $this->data->getVersion();
 		$this->assertEquals( $assertion, $creation );
 	}
 	
@@ -295,17 +205,14 @@ return;
 	 */
 	public function testParseFileFileDataCopyright()
 	{
-		$creation	= isset( $this->file['copyright'] );
-		$this->assertTrue( $creation );
-
-		$creation	= is_array( $this->file['copyright'] );
+		$creation	= is_array( $this->data->getCopyright() );
 		$this->assertTrue( $creation );
 
 		$assertion	= array(
 			"2007 Test Writer 1",
 			"2008 Test Writer 2",
 		);
-		$creation	= $this->file['copyright'];
+		$creation	= $this->data->getCopyright();
 		$this->assertEquals( $assertion, $creation );
 	}
 	
@@ -316,23 +223,14 @@ return;
 	 */
 	public function testParseFileFileDataLicense()
 	{
-		$creation	= isset( $this->file['license'] );
-		$this->assertTrue( $creation );
-
-		$creation	= is_array( $this->file['license'] );
+		$creation	= is_array( $this->data->getLicenses() );
 		$this->assertTrue( $creation );
 
 		$assertion	= array(
-			array(
-				'url'	=> "http://test.licence.org/test1.txt",
-				'name'	=> "TestLicense 1",
-			),
-			array(
-				'url'	=> "http://test.licence.org/test2.txt",
-				'name'	=> "TestLicense 2",
-			)
+			new ADT_PHP_License( "TestLicense 1", "http://test.licence.org/test1.txt" ),
+			new ADT_PHP_License( "TestLicense 2", "http://test.licence.org/test2.txt" ),
 		);
-		$creation	= $this->file['license'];
+		$creation	= $this->data->getLicenses();
 		$this->assertEquals( $assertion, $creation );
 	}
 	
@@ -343,17 +241,14 @@ return;
 	 */
 	public function testParseFileFileDataSee()
 	{
-		$creation	= isset( $this->file['see'] );
-		$this->assertTrue( $creation );
-
-		$creation	= is_array( $this->file['see'] );
+		$creation	= is_array( $this->data->getSees() );
 		$this->assertTrue( $creation );
 
 		$assertion	= array(
 			'http://sub.domain.tld/1',
 			'http://sub.domain.tld/2',
 		);
-		$creation	= $this->file['see'];
+		$creation	= $this->data->getSees();
 		$this->assertEquals( $assertion, $creation );
 	}
 	
@@ -364,21 +259,16 @@ return;
 	 */
 	public function testParseFileFileDataLink()
 	{
-		$creation	= isset( $this->file['link'] );
-		$this->assertTrue( $creation );
-
-		$creation	= is_array( $this->file['link'] );
+		$creation	= is_array( $this->data->getLinks() );
 		$this->assertTrue( $creation );
 
 		$assertion	= array(
 			'http://sub.domain.tld/test1',
 			'http://sub.domain.tld/test2',
 		);
-		$creation	= $this->file['link'];
+		$creation	= $this->data->getLinks();
 		$this->assertEquals( $assertion, $creation );
 	}
-
-
 
 
 
@@ -391,14 +281,11 @@ return;
 	 */
 	public function testParseFileFileDataFunction()
 	{
-		$creation	= isset( $this->file['functions'] );
-		$this->assertTrue( $creation );
-
-		$creation	= is_array( $this->file['functions'] );
+		$creation	= is_array( $this->data->getFunctions() );
 		$this->assertTrue( $creation );
 
 		$assertion	= "doSomething";
-		$creation	= $this->function['name'];
+		$creation	= $this->function->getName();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -409,11 +296,8 @@ return;
 	 */
 	public function testParseFileFileDataFunctionDescription()
 	{
-		$creation	= isset( $this->function['description'] );
-		$this->assertTrue( $creation );
-
 		$assertion	= "Do something.";
-		$creation	= $this->function['description'];
+		$creation	= $this->function->getDescription();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -424,52 +308,44 @@ return;
 	 */
 	public function testParseFileFileDataFunctionParam()
 	{
-		$creation	= isset( $this->function['param'] );
+		$creation	= is_array( $this->function->getParameters() );
 		$this->assertTrue( $creation );
 
-		$creation	= is_array( $this->function['param'] );
-		$this->assertTrue( $creation );
-
-
-#		print_m( $this->function['param'] );
-#		die;
-
-		$assertion	= 2;
-		$creation	= count( $this->function['param'] );
+		$assertion	= 3;
+		$creation	= count( $this->function->getParameters() );
 		$this->assertEquals( $assertion, $creation );
 		
 		
-		$param1	= array_shift( array_slice( $this->function['param'], 0, 1 ) );
+		$param1	= array_shift( array_slice( $this->function->getParameters(), 0, 1 ) );
+		$param2	= array_shift( array_slice( $this->function->getParameters(), 1, 1 ) );
+		$param3	= array_shift( array_slice( $this->function->getParameters(), 2, 1 ) );
 
-		$creation	= is_array( $param1 );
-		$this->assertTrue( $creation );
+		$this->assertTrue( is_object( $param1 ) );
+		$this->assertTrue( $param1 instanceof ADT_PHP_Parameter );
+		$this->assertEquals( "StringBuffer", $param1->getCast() );
+		$this->assertEquals( "StringBuffer", $param1->getType() );
+		$this->assertFalse( $param1->isReference() );
+		$this->assertEquals( "buffer", $param1->getName() );
+		$this->assertEquals( NULL, $param1->getDefault() );
+		$this->assertEquals( "A String Buffer", $param1->getDescription() );
 
-		$assertion	= array(
-			'cast'			=> "StringBuffer",
-			'type'			=> "string",
-			'reference'		=> FALSE,
-			'name'			=> "string",
-			'default'		=> '"text"',
-			'description'	=> "A String",
-		);
-		$creation	= ( $param1 );
-		$this->assertEquals( $assertion, $creation );
-		
-		$param2	= array_shift( array_slice( $this->function['param'], 1, 1 ) );
+		$this->assertTrue( is_object( $param2 ) );
+		$this->assertTrue( $param2 instanceof ADT_PHP_Parameter );
+		$this->assertEquals( "", $param2->getCast() );
+		$this->assertEquals( "string", $param2->getType() );
+		$this->assertFalse( $param2->isReference() );
+		$this->assertEquals( "string", $param2->getName() );
+		$this->assertEquals( '"text"', $param2->getDefault() );
+		$this->assertEquals( "A String", $param2->getDescription() );
 
-		$creation	= is_array( $param2 );
-		$this->assertTrue( $creation );
-
-		$assertion	= array(
-			'cast'			=> "",
-			'type'			=> "bool",
-			'reference'		=> FALSE,
-			'name'			=> "bool",
-			'default'		=> "TRUE",
-			'description'	=> "A Boolean",
-		);
-		$creation	= ( $param2 );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( is_object( $param3 ) );
+		$this->assertTrue( $param3 instanceof ADT_PHP_Parameter );
+		$this->assertEquals( "", $param3->getCast() );
+		$this->assertEquals( "bool", $param3->getType() );
+		$this->assertFalse( $param3->isReference() );
+		$this->assertEquals( "bool", $param3->getName() );
+		$this->assertEquals( "TRUE", $param3->getDefault() );
+		$this->assertEquals( "A Boolean", $param3->getDescription() );
 	}
 
 	/**
@@ -479,15 +355,9 @@ return;
 	 */
 	public function testParseFileFileDataFunctionReturn()
 	{
-		$creation	= isset( $this->function['return'] );
-		$this->assertTrue( $creation );
-
-		$assertion	= array(
-			'type'			=> "mixed",
-			'desdcription'	=> ""
-		);
-		$creation	= isset( $this->function['return'] );
-		$this->assertTrue( $creation );
+		$this->assertTrue( $this->function->getReturn() instanceof ADT_PHP_Return );
+		$assertion	= new ADT_PHP_Return( "mixed", "" );
+		$this->assertEquals( $assertion, $this->function->getReturn() );
 	}
 	
 	/**
@@ -497,17 +367,14 @@ return;
 	 */
 	public function testParseFileFileDataFunctionThrows()
 	{
-		$creation	= isset( $this->function['throws'] );
-		$this->assertTrue( $creation );
-
-		$creation	= is_array( $this->function['throws'] );
+		$creation	= is_array( $this->function->getThrows() );
 		$this->assertTrue( $creation );
 
 		$assertion	= array(
-			"Exception",
-			"RuntimeException"
+			new ADT_PHP_Throws( "Exception", "if something went unexpectedly wrong" ),
+			new ADT_PHP_Throws( "RuntimeException", "if something went wrong" )
 		);
-		$creation	= $this->function['throws'];
+		$creation	= $this->function->getThrows();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -518,23 +385,14 @@ return;
 	 */
 	public function testParseFileFileDataFunctionAuthor()
 	{
-		$creation	= isset( $this->function['author'] );
-		$this->assertTrue( $creation );
-
-		$creation	= is_array( $this->function['author'] );
+		$creation	= is_array( $this->function->getAuthors() );
 		$this->assertTrue( $creation );
 
 		$assertion	= array(
-			array(
-				'name'	=> "Test Writer 3",
-				'mail'	=> "test3@writer.tld",
-			),
-			array(
-				'name'	=> "Test Writer 4",
-				'mail'	=> "test4@writer.tld",
-			),
+			new ADT_PHP_Author( "Test Writer 3", "test3@writer.tld" ),
+			new ADT_PHP_Author( "Test Writer 4", "test4@writer.tld" ),
 		);
-		$creation	= $this->function['author'];
+		$creation	= $this->function->getAuthors();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -545,11 +403,8 @@ return;
 	 */
 	public function testParseFileFileDataFunctionSince()
 	{
-		$creation	= isset( $this->function['since'] );
-		$this->assertTrue( $creation );
-
 		$assertion	= "01.02.03";
-		$creation	= $this->function['since'];
+		$creation	= $this->function->getSince();
 		$this->assertEquals( $assertion, $creation );
 	}
 	
@@ -560,40 +415,13 @@ return;
 	 */
 	public function testParseFileFileDataFunctionVersion()
 	{
-		$creation	= isset( $this->function['version'] );
-		$this->assertTrue( $creation );
-
 		$assertion	= "1.2.3";
-		$creation	= $this->function['version'];
+		$creation	= $this->function->getVersion();
 		$this->assertEquals( $assertion, $creation );
 	}
 
-	/**
-	 *	Tests Method 'parseFile'.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function testParseFileFileDataFunctionNoAccess()
-	{
-		$creation	= isset( $this->function['access'] );
-		$this->assertFalse( $creation );
-	}
 
-	/**
-	 *	Tests Method 'parseFile'.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function testParseFileFileDataFunctionNoStuff()
-	{
-		$creation	= isset( $this->function['stuff'] );
-		$this->assertFalse( $creation );
-	}
-
-
-
-
-
+	
 	
 	//  --  CLASS DATA  --  //
 
@@ -604,10 +432,7 @@ return;
 	 */
 	public function testParseFileClassData()
 	{
-		$creation	= isset( $this->data['class'] );
-		$this->assertTrue( $creation );
-
-		$creation	= is_array( $this->data['class'] );
+		$creation	= is_array( $this->data->getClasses() );
 		$this->assertTrue( $creation );
 	}
 
@@ -618,11 +443,8 @@ return;
 	 */
 	public function testParseFileClassDataName()
 	{
-		$creation	= isset( $this->class['name'] );
-		$this->assertTrue( $creation );
-
 		$assertion	= "TestClass";
-		$creation	= $this->class['name'];
+		$creation	= $this->class->getName();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -633,11 +455,8 @@ return;
 	 */
 	public function testParseFileClassDataDescription()
 	{
-		$creation	= isset( $this->class['description'] );
-		$this->assertTrue( $creation );
-
 		$assertion	= "Test Class.\n\nThis is a Description.";
-		$creation	= $this->class['description'];
+		$creation	= $this->class->getDescription();
 		$this->assertEquals( $assertion, $creation );
 	}
 	
@@ -648,11 +467,8 @@ return;
 	 */
 	public function testParseFileClassDataPackage()
 	{
-		$creation	= isset( $this->class['package'] );
-		$this->assertTrue( $creation );
-
 		$assertion	= "TestPackage";
-		$creation	= $this->class['package'];
+		$creation	= $this->class->getPackage();
 		$this->assertEquals( $assertion, $creation );
 	}
 	
@@ -663,11 +479,8 @@ return;
 	 */
 	public function testParseFileClassDataSubPackage()
 	{
-		$creation	= isset( $this->class['subpackage'] );
-		$this->assertTrue( $creation );
-
 		$assertion	= "TestSubPackage";
-		$creation	= $this->class['subpackage'];
+		$creation	= $this->class->getSubpackage();
 		$this->assertEquals( $assertion, $creation );
 	}
 	
@@ -678,10 +491,7 @@ return;
 	 */
 	public function testParseFileClassDataAbstract()
 	{
-		$creation	= isset( $this->class['abstract'] );
-		$this->assertTrue( $creation );
-
-		$creation	= $this->class['abstract'];
+		$creation	= $this->class->isAbstract();
 		$this->assertTrue( $creation );
 	}
 	
@@ -692,11 +502,7 @@ return;
 	 */
 	public function testParseFileClassDataFinal()
 	{
-		$creation	= isset( $this->class['final'] );
-		$this->assertTrue( $creation );
-
-		$creation	= $this->class['final'];
-		$this->assertTrue( $creation );
+		$this->assertFalse( $this->class->isFinal() );
 	}
 	
 	/**
@@ -706,11 +512,8 @@ return;
 	 */
 	public function testParseFileClassDataExtends()
 	{
-		$creation	= isset( $this->class['extends'] );
-		$this->assertTrue( $creation );
-
-		$assertion	= "Alpha";
-		$creation	= $this->class['extends'];
+		$assertion	= 'Alpha';
+		$creation	= $this->class->getExtendedClass();
 		$this->assertEquals( $assertion, $creation );
 	}
 	
@@ -721,17 +524,11 @@ return;
 	 */
 	public function testParseFileClassDataImplements()
 	{
-		$creation	= isset( $this->class['implements'] );
+		$creation	= is_array( $this->class->getImplementedInterfaces() );
 		$this->assertTrue( $creation );
 
-		$creation	= is_array( $this->class['implements'] );
-		$this->assertTrue( $creation );
-
-		$assertion	= array(
-			'Beta',
-			'Gamma'
-		);
-		$creation	= $this->class['implements'];
+		$assertion	= array_combine( array( 'Beta', 'Gamma' ), array( 'Beta', 'Gamma' ) );
+		$creation	= $this->class->getImplementedInterfaces();
 		$this->assertEquals( $assertion, $creation );
 	}
 	
@@ -742,23 +539,14 @@ return;
 	 */
 	public function testParseFileClassDataAuthor()
 	{
-		$creation	= isset( $this->class['author'] );
-		$this->assertTrue( $creation );
-
-		$creation	= is_array( $this->class['author'] );
+		$creation	= is_array( $this->class->getAuthors() );
 		$this->assertTrue( $creation );
 
 		$assertion	= array(
-			array(
-				'name'	=> "Test Writer 1",
-				'mail'	=> "test1@writer.tld",
-			),
-			array(
-				'name'	=> "Test Writer 2",
-				'mail'	=> "test2@writer.tld",
-			),
+			new ADT_PHP_Author( "Test Writer 1", "test1@writer.tld" ),
+			new ADT_PHP_Author( "Test Writer 2", "test2@writer.tld" ),
 		);
-		$creation	= $this->class['author'];
+		$creation	= $this->class->getAuthors();
 		$this->assertEquals( $assertion, $creation );
 	}
 	
@@ -769,11 +557,8 @@ return;
 	 */
 	public function testParseFileClassDataSince()
 	{
-		$creation	= isset( $this->class['since'] );
-		$this->assertTrue( $creation );
-
 		$assertion	= "today";
-		$creation	= $this->class['since'];
+		$creation	= $this->class->getSince();
 		$this->assertEquals( $assertion, $creation );
 	}
 	
@@ -784,11 +569,8 @@ return;
 	 */
 	public function testParseFileClassDataVersion()
 	{
-		$creation	= isset( $this->class['version'] );
-		$this->assertTrue( $creation );
-
 		$assertion	= "0.0.1";
-		$creation	= $this->class['version'];
+		$creation	= $this->class->getVersion();
 		$this->assertEquals( $assertion, $creation );
 	}
 	
@@ -799,17 +581,14 @@ return;
 	 */
 	public function testParseFileClassDataCopyright()
 	{
-		$creation	= isset( $this->class['copyright'] );
-		$this->assertTrue( $creation );
-
-		$creation	= is_array( $this->class['copyright'] );
+		$creation	= is_array( $this->class->getCopyright() );
 		$this->assertTrue( $creation );
 
 		$assertion	= array(
 			"2007 Test Writer 1",
 			"2008 Test Writer 2",
 		);
-		$creation	= $this->class['copyright'];
+		$creation	= $this->class->getCopyright();
 		$this->assertEquals( $assertion, $creation );
 	}
 	
@@ -820,23 +599,14 @@ return;
 	 */
 	public function testParseFileClassDataLicense()
 	{
-		$creation	= isset( $this->class['license'] );
-		$this->assertTrue( $creation );
-
-		$creation	= is_array( $this->class['license'] );
+		$creation	= is_array( $this->class->getLicenses() );
 		$this->assertTrue( $creation );
 
 		$assertion	= array(
-			array(
-				'url'	=> "http://test.licence.org/test1.txt",
-				'name'	=> "TestLicense 1",
-			),
-			array(
-				'url'	=> "http://test.licence.org/test2.txt",
-				'name'	=> "TestLicense 2",
-			)
+			new ADT_PHP_License( "TestLicense 1", "http://test.licence.org/test1.txt" ),
+			new ADT_PHP_License( "TestLicense 2", "http://test.licence.org/test2.txt" ),
 		);
-		$creation	= $this->class['license'];
+		$creation	= $this->class->getLicenses();
 		$this->assertEquals( $assertion, $creation );
 	}
 	
@@ -847,17 +617,14 @@ return;
 	 */
 	public function testParseFileClassDataSee()
 	{
-		$creation	= isset( $this->class['see'] );
-		$this->assertTrue( $creation );
-
-		$creation	= is_array( $this->class['see'] );
+		$creation	= is_array( $this->class->getSees() );
 		$this->assertTrue( $creation );
 
 		$assertion	= array(
 			'http://sub.domain.tld/1',
 			'http://sub.domain.tld/2',
 		);
-		$creation	= $this->class['see'];
+		$creation	= $this->class->getSees();
 		$this->assertEquals( $assertion, $creation );
 	}
 	
@@ -868,17 +635,14 @@ return;
 	 */
 	public function testParseFileClassDataLink()
 	{
-		$creation	= isset( $this->class['link'] );
-		$this->assertTrue( $creation );
-
-		$creation	= is_array( $this->class['link'] );
+		$creation	= is_array( $this->class->getLinks() );
 		$this->assertTrue( $creation );
 
 		$assertion	= array(
 			'http://sub.domain.tld/test1',
 			'http://sub.domain.tld/test2',
 		);
-		$creation	= $this->class['link'];
+		$creation	= $this->class->getLinks();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -896,14 +660,11 @@ return;
 	 */
 	public function testParseFileClassDataMethod()
 	{
-		$creation	= isset( $this->class['methods'] );
-		$this->assertTrue( $creation );
-
-		$creation	= is_array( $this->class['methods'] );
+		$creation	= is_array( $this->class->getMethods() );
 		$this->assertTrue( $creation );
 
 		$assertion	= "__construct";
-		$creation	= $this->method1['name'];
+		$creation	= $this->method1->getName();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -914,10 +675,7 @@ return;
 	 */
 	public function testParseFileClassDataMethodAbstract()
 	{
-		$creation	= isset( $this->method1['abstract'] );
-		$this->assertTrue( $creation );
-
-		$creation	= $this->method1['abstract'];
+		$creation	= $this->method1->isAbstract();
 		$this->assertTrue( $creation );
 	}
 
@@ -928,16 +686,10 @@ return;
 	 */
 	public function testParseFileClassDataMethodFinal()
 	{
-		$creation	= isset( $this->method1['final'] );
-		$this->assertTrue( $creation );
-
-		$creation	= $this->method1['final'];
+		$creation	= $this->method1->isFinal();
 		$this->assertFalse( $creation );
 
-		$creation	= isset( $this->method2['final'] );
-		$this->assertTrue( $creation );
-
-		$creation	= $this->method2['final'];
+		$creation	= $this->method2->isFinal();
 		$this->assertTrue( $creation );
 	}
 
@@ -948,17 +700,11 @@ return;
 	 */
 	public function testParseFileClassDataMethodStatic()
 	{
-		$creation	= isset( $this->method1['static'] );
-		$this->assertTrue( $creation );
-
-		$creation	= $this->method1['static'];
-		$this->assertTrue( $creation );
-
-		$creation	= isset( $this->method2['static'] );
-		$this->assertTrue( $creation );
-
-		$creation	= $this->method2['static'];
+		$creation	= $this->method1->isStatic();
 		$this->assertFalse( $creation );
+
+		$creation	= $this->method2->isStatic();
+		$this->assertTrue( $creation );
 	}
 
 	/**
@@ -968,11 +714,8 @@ return;
 	 */
 	public function testParseFileClassDataMethodDescription()
 	{
-		$creation	= isset( $this->method1['description'] );
-		$this->assertTrue( $creation );
-
 		$assertion	= "Description Line 1.\n\nDescription Line 2.\nDescription Line 3.";
-		$creation	= $this->method1['description'];
+		$creation	= $this->method1->getDescription();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -983,11 +726,8 @@ return;
 	 */
 	public function testParseFileClassDataMethodAccess()
 	{
-		$creation	= isset( $this->method1['access'] );
-		$this->assertTrue( $creation );
-
 		$assertion	= "public";
-		$creation	= isset( $this->method1['access'] );
+		$creation	= $this->method1->getAccess();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -998,47 +738,53 @@ return;
 	 */
 	public function testParseFileClassDataMethodParam()
 	{
-		$creation	= isset( $this->method1['param'] );
+		$creation	= is_array( $this->method1->getParameters() );
 		$this->assertTrue( $creation );
 
-		$creation	= is_array( $this->method1['param'] );
-		$this->assertTrue( $creation );
-
-		$assertion	= 2;
-		$creation	= count( $this->method1['param'] );
+		$assertion	= 4;
+		$creation	= count( $this->method1->getParameters() );
 		$this->assertEquals( $assertion, $creation );
 		
-		$param1	= array_shift( array_slice( $this->method1['param'], 0, 1 ) );
+		$param1	= array_shift( array_slice( $this->method1->getParameters(), 0, 1 ) );
+		$param2	= array_shift( array_slice( $this->method1->getParameters(), 1, 1 ) );
+		$param3	= array_shift( array_slice( $this->method1->getParameters(), 2, 1 ) );
+		$param4	= array_shift( array_slice( $this->method1->getParameters(), 3, 1 ) );
 
-		$creation	= is_array( $param1 );
-		$this->assertTrue( $creation );
-
-		$assertion	= array(
-			'cast'			=> "ArrayObject",
-			'type'			=> "array",
-			'reference'		=> TRUE,
-			'name'			=> "param1",
-			'default'		=> 'array()',
-			'description'	=> "An Array or something...",
-		);
-		$creation	= ( $param1 );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( is_object( $param1 ) );
+		$this->assertTrue( $param1 instanceof ADT_PHP_Parameter );
+		$this->assertFalse( $param1->isReference() );
+		$this->assertEquals( "object", $param1->getName() );
+		$this->assertEquals( "ArrayObject", $param1->getType() );
+		$this->assertEquals( "ArrayObject", $param1->getCast() );
+		$this->assertEquals( NULL, $param1->getDefault() );
+		$this->assertEquals( "An Array Object", $param1->getDescription() );
 		
-		$param2	= array_shift( array_slice( $this->method1['param'], 1, 1 ) );
+		$this->assertTrue( is_object( $param2 ) );
+		$this->assertTrue( $param2 instanceof ADT_PHP_Parameter );
+		$this->assertTrue( $param2->isReference() );
+		$this->assertEquals( "reference", $param2->getName() );
+		$this->assertEquals( "mixed", $param2->getType() );
+		$this->assertEquals( NULL, $param2->getCast() );
+		$this->assertEquals( NULL, $param2->getDefault() );
+		$this->assertEquals( "Reference of unknown Type", $param2->getDescription() );
 
-		$creation	= is_array( $param2 );
-		$this->assertTrue( $creation );
+		$this->assertTrue( is_object( $param3 ) );
+		$this->assertTrue( $param3 instanceof ADT_PHP_Parameter );
+		$this->assertFalse( $param3->isReference() );
+		$this->assertEquals( "array", $param3->getName() );
+		$this->assertEquals( "array", $param3->getType() );
+		$this->assertEquals( NULL, $param3->getCast() );
+		$this->assertEquals( "array()", $param3->getDefault() );
+		$this->assertEquals( "An Array", $param3->getDescription() );
 
-		$assertion	= array(
-			'cast'			=> "",
-			'type'			=> "mixed",
-			'reference'		=> TRUE,
-			'name'			=> "param2",
-			'default'		=> "NULL",
-			'description'	=> "unknown Type",
-		);
-		$creation	= ( $param2 );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( is_object( $param4 ) );
+		$this->assertTrue( $param4 instanceof ADT_PHP_Parameter );
+		$this->assertFalse( $param4->isReference() );
+		$this->assertEquals( "null", $param4->getName() );
+		$this->assertEquals( "mixed", $param4->getType() );
+		$this->assertEquals( NULL, $param4->getCast() );
+		$this->assertEquals( "NULL", $param4->getDefault() );
+		$this->assertEquals( "Always NULL", $param4->getDescription() );
 	}
 
 	/**
@@ -1048,15 +794,9 @@ return;
 	 */
 	public function testParseFileClassDataMethodReturn()
 	{
-		$creation	= isset( $this->method1['return'] );
-		$this->assertTrue( $creation );
-
-		$assertion	= array(
-			'type'			=> "void",
-			'desdcription'	=> "nothing"
-		);
-		$creation	= isset( $this->method1['return'] );
-		$this->assertTrue( $creation );
+		$assertion	= new ADT_PHP_Return( "void", "nothing" );
+		$creation	= $this->method1->getReturn();
+		$this->assertEquals( $assertion, $creation );
 	}
 	
 	/**
@@ -1066,17 +806,14 @@ return;
 	 */
 	public function testParseFileClassDataMethodThrows()
 	{
-		$creation	= isset( $this->method1['throws'] );
-		$this->assertTrue( $creation );
-
-		$creation	= is_array( $this->method1['throws'] );
+		$creation	= is_array( $this->method1->getThrows() );
 		$this->assertTrue( $creation );
 
 		$assertion	= array(
-			"LogicException",
-			"BadMethodCallException"
+			new ADT_PHP_Throws( 'LogicException', 'if something without logic is happening' ),
+			new ADT_PHP_Throws( 'BadMethodCallException', 'if a bad method is called' ),
 		);
-		$creation	= $this->method1['throws'];
+		$creation	= $this->method1->getThrows();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -1087,23 +824,14 @@ return;
 	 */
 	public function testParseFileClassDataMethodAuthor()
 	{
-		$creation	= isset( $this->method1['author'] );
-		$this->assertTrue( $creation );
-
-		$creation	= is_array( $this->method1['author'] );
+		$creation	= is_array( $this->method1->getAuthors() );
 		$this->assertTrue( $creation );
 
 		$assertion	= array(
-			array(
-				'name'	=> "Test Writer 5",
-				'mail'	=> "test5@writer.tld",
-			),
-			array(
-				'name'	=> "Test Writer 6",
-				'mail'	=> "test6@writer.tld",
-			),
+			new ADT_PHP_Author( "Test Writer 5", "test5@writer.tld" ),
+			new ADT_PHP_Author( "Test Writer 6", "test6@writer.tld" )
 		);
-		$creation	= $this->method1['author'];
+		$creation	= $this->method1->getAuthors();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -1114,11 +842,8 @@ return;
 	 */
 	public function testParseFileClassDataMethodSince()
 	{
-		$creation	= isset( $this->method1['since'] );
-		$this->assertTrue( $creation );
-
 		$assertion	= "03.02.01";
-		$creation	= $this->method1['since'];
+		$creation	= $this->method1->getSince();
 		$this->assertEquals( $assertion, $creation );
 	}
 	
@@ -1129,11 +854,8 @@ return;
 	 */
 	public function testParseFileClassDataMethodVersion()
 	{
-		$creation	= isset( $this->method1['version'] );
-		$this->assertTrue( $creation );
-
 		$assertion	= "3.2.1";
-		$creation	= $this->method1['version'];
+		$creation	= $this->method1->getVersion();
 		$this->assertEquals( $assertion, $creation );
 	}
 }

@@ -112,7 +112,7 @@ class Test_Net_Service_ClientTest extends PHPUnit_Framework_TestCase
 		$assertion	= array(
 			'content'	=> $request->response,
 			'info'		=> array(
-				Net_CURL::STATUS_HTTP_CODE	=> 200,
+				Net_CURL::INFO_HTTP_CODE	=> 200,
 			),
 			'headers'	=> array(
 				'testKey'	=> 'testValue'
@@ -124,7 +124,7 @@ class Test_Net_Service_ClientTest extends PHPUnit_Framework_TestCase
 		$assertion	= array(
 			'content'	=> gzcompress( $request->response ),
 			'info'		=> array(
-				Net_CURL::STATUS_HTTP_CODE	=> 200,
+				Net_CURL::INFO_HTTP_CODE	=> 200,
 			),
 			'headers'	=> array(
 				'testKey'	=> 'testValue'
@@ -315,7 +315,7 @@ class Test_Net_Service_ClientRequestMock extends ADT_OptionObject
 	public function getInfo( $key = NULL )
 	{
 		$status	= array(
-			Net_CURL::STATUS_HTTP_CODE	=> $this->httpCode,
+			Net_CURL::INFO_HTTP_CODE	=> $this->httpCode,
 		);
 		if( $key && array_key_exists( $key, $status ) )
 			return $status[$key];
@@ -323,11 +323,11 @@ class Test_Net_Service_ClientRequestMock extends ADT_OptionObject
 		
 	}
 
-	public function getInfo(){
+/*	public function getInfo(){
 		return array(
 			'test'	=> 'info'
 		);
-	}
+	}*/
 
 	public function getHeader()
 	{

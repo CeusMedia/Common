@@ -29,7 +29,7 @@ class Test_Net_ReaderTest extends PHPUnit_Framework_TestCase
 		$this->url		= "http://www.example.com";
 		$this->needle	= "@RFC\s+2606@i";
 		
-		$this->url		= "http://ceus-media.de/";
+		$this->url		= "http://ceusmedia.de/";
 		$this->needle	= "@ceus media@i";
 	}
 
@@ -45,43 +45,43 @@ class Test_Net_ReaderTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 *	Tests Method 'getStatus'.
+	 *	Tests Method 'getInfo'.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testGetStatus()
+	public function testGetInfo()
 	{
 		$response	= $this->reader->read();
 		$assertion	= "200";
-		$creation	= $this->reader->getStatus( Net_CURL::STATUS_HTTP_CODE );
+		$creation	= $this->reader->getInfo( Net_CURL::INFO_HTTP_CODE );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= true;
-		$creation	= (bool) count( $this->reader->getStatus() );
+		$creation	= (bool) count( $this->reader->getInfo() );
 		$this->assertEquals( $assertion, $creation );
 	}
 
 	/**
-	 *	Tests Method 'getStatus'.
+	 *	Tests Method 'getInfo'.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testGetStatusException1()
+	public function testGetInfoException1()
 	{
 		$this->setExpectedException( "RuntimeException" );
-		$this->reader->getStatus();
+		$this->reader->getInfo();
 	}
 
 	/**
-	 *	Tests Method 'getStatus'.
+	 *	Tests Method 'getInfo'.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testGetStatusException2()
+	public function testGetInfoException2()
 	{
 		$this->reader->read();
 		$this->setExpectedException( "InvalidArgumentException" );
-		$this->reader->getStatus( "invalid_key" );
+		var_dump( $this->reader->getInfo( "invalid_key" ) );
 	}
 
 	/**

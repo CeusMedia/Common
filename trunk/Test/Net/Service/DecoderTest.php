@@ -120,7 +120,7 @@ class Test_Net_Service_DecoderTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testDecodeResponseExceptionJson1()
 	{
-		$this->setExpectedException( 'Exception' );
+		$this->setExpectedException( 'RuntimeException' );
 		$json	= file_get_contents( $this->path."responseException.json" );
 		$this->decoder->decodeResponse( $json, "json" );
 	}
@@ -152,7 +152,7 @@ class Test_Net_Service_DecoderTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testDecodeResponseExceptionPhp1()
 	{
-		$this->setExpectedException( 'Exception' );
+		$this->setExpectedException( 'RuntimeException' );
 		$serial	= file_get_contents( $this->path."responseException.serial" );
 		$this->decoder->decodeResponse( $serial, "php" );
 	}
@@ -197,7 +197,7 @@ class Test_Net_Service_DecoderTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testDecodeResponseExceptionWddx1()
 	{
-		$this->setExpectedException( 'Exception' );
+		$this->setExpectedException( 'RuntimeException' );
 		$wddx	= file_get_contents( $this->path."responseException.wddx" );
 		$this->decoder->decodeResponse( $wddx, "wddx" );
 	}
@@ -229,7 +229,7 @@ class Test_Net_Service_DecoderTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testDecodeResponseExceptionXml1()
 	{
-		$this->setExpectedException( 'Exception' );
+		$this->setExpectedException( 'RuntimeException' );
 		$xml		= file_get_contents( $this->path."responseException.xml" );
 		$creation	= $this->decoder->decodeResponse( $xml, "xml" );
 	}
