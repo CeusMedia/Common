@@ -139,7 +139,7 @@ class Test_File_INI_EditorTest extends PHPUnit_Framework_TestCase
 		$assertion	= TRUE;
 		$creation	= $this->sections->addProperty( 'key6', "new_value6", 'section2' );
 		$this->assertEquals( $assertion, $creation );
-
+		
 		$assertion	= TRUE;
 		$creation	= in_array( 'key6', array_keys( $this->sections->getProperties( TRUE, 'section2' ) ) );
 		$this->assertEquals( $assertion, $creation );
@@ -467,6 +467,14 @@ class Test_File_INI_EditorTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals( $assertion, $creation );
 		
 		$assertion	= "new_value_of KEY 2";
+		$creation	= $this->list->getProperty( 'key2' );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= TRUE;
+		$creation	= $this->list->setProperty( 'key2', "new_value_of KEY '2'" );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= "new_value_of KEY '2'";
 		$creation	= $this->list->getProperty( 'key2' );
 		$this->assertEquals( $assertion, $creation );
 
