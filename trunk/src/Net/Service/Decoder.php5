@@ -77,7 +77,7 @@ class Net_Service_Decoder
 		if( $structure['status'] == "exception" )								//  Response contains an Exception
 		{
 			if( empty( $data['serial'] ) )										//  does not carry a serialized Exception
-				throw new Exception( $data['message'] );						//  forward Exception
+				throw new RuntimeException( $data['message'], $data['code'] );	//  forward Exception
 			$object	= unserialize( $data['serial'] );							//  try to unserialize carried Exception
 			if( $object instanceof __PHP_Incomplete_Class )
 			{
@@ -158,7 +158,7 @@ class Net_Service_Decoder
 	{
 		$doc	= new SimpleXmlElement( $response );
 		if( strtolower( $doc->status ) == "exception" )
-			throw new Exception( $doc->data->message );
+			throw new RuntimeException( $doc->data->message );
 		$structure	= array(
 			'status'	=> $doc->status,
 			'data'		=> $doc->data,
