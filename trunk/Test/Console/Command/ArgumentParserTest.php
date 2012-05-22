@@ -146,7 +146,7 @@ class Test_Console_Command_ArgumentParserTest extends PHPUnit_Framework_TestCase
 		$assertion	= array(
 			'alpha'	=> "xyz",
 			'beta'	=> "123",
-			'force'	=> NULL,
+			'force'	=> TRUE,
 		);
 		$creation	= $parser->getOptions();
 		ksort( $creation );

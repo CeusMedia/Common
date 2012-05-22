@@ -27,8 +27,8 @@ class Test_File_PHP_Check_MethodVisibilityTest extends PHPUnit_Framework_TestCas
 	public function __construct()
 	{
 		$this->path			= dirname( __FILE__ )."/";
-		$this->fileTemp1	= $this->path."Test.class1.tmp.php5";
-		$this->fileTemp2	= dirname( __FILE__ ).'/AllTests.php';
+		$this->fileTemp1	= __FILE__;
+		$this->fileTemp2	= $this->path."TestClass_Bad.php";
 	}
 	
 	/**
@@ -38,26 +38,6 @@ class Test_File_PHP_Check_MethodVisibilityTest extends PHPUnit_Framework_TestCas
 	 */
 	public function setUp()
 	{
-		$class	= "
-class Test
-{
-	function alpha()
-	{
-	}
-
-	function beta()
-	{
-	}
-
-	public function gamma()
-	{
-	}
-
-	function & delta()
-	{
-	}
-}";
-		File_Writer::save( $this->fileTemp1, $class );
 	}
 	
 	/**
@@ -67,7 +47,6 @@ class Test
 	 */
 	public function tearDown()
 	{
-		@unlink( $this->fileTemp1 );
 	}
 
 	/**
@@ -107,7 +86,7 @@ class Test
 	 */
 	public function testCheck1()
 	{
-		$checker	= new File_PHP_Check_MethodVisibility( $this->fileTemp2 );
+		$checker	= new File_PHP_Check_MethodVisibility( $this->fileTemp1 );
 		$assertion	= TRUE;
 		$creation	= $checker->check();
 		$this->assertEquals( $assertion, $creation );
@@ -120,7 +99,7 @@ class Test
 	 */
 	public function testCheck2()
 	{
-		$checker	= new File_PHP_Check_MethodVisibility( $this->fileTemp1 );
+		$checker	= new File_PHP_Check_MethodVisibility( $this->fileTemp2 );
 		$assertion	= FALSE;
 		$creation	= $checker->check();
 		$this->assertEquals( $assertion, $creation );
@@ -133,7 +112,7 @@ class Test
 	 */
 	public function testGetMethods1()
 	{
-		$checker	= new File_PHP_Check_MethodVisibility( $this->fileTemp2 );
+		$checker	= new File_PHP_Check_MethodVisibility( $this->fileTemp1 );
 		$checker->check();
 		$assertion	= array();
 		$creation	= $checker->getMethods();
@@ -147,7 +126,7 @@ class Test
 	 */
 	public function testGetMethods2()
 	{
-		$checker	= new File_PHP_Check_MethodVisibility( $this->fileTemp1 );
+		$checker	= new File_PHP_Check_MethodVisibility( $this->fileTemp2 );
 		$checker->check();
 		$assertion	= array(
 			'alpha',
