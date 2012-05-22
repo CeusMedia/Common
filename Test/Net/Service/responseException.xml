@@ -2,7 +2,7 @@
 <response>
   <status>exception</status> 
   <data>
-    <type>Exception</type>
+    <type>RuntimeException</type>
     <message>Test Exception (responded)</message>
     <code>0</code>
     <file>/var/www/vhosts/ceus-media.de/subdomains/services/httpdocs/classes/Public.php5</file>

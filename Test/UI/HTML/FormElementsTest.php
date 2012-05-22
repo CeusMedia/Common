@@ -38,7 +38,7 @@ class Test_UI_HTML_FormElementsTest extends PHPUnit_Framework_TestCase
 		$creation	= UI_HTML_FormElements::Button( "testButton", "testLabel", "testClass", FALSE, TRUE );
 		$this->assertEquals( $assertion, $creation );
 
-		$assertion	= '<button type="submit" name="testButton" value="1" class="testClass" disabled="disabled" onclick="alert(\'testDisabled\');"><span>testLabel</span></button>';
+		$assertion	= '<button type="submit" name="testButton" value="1" class="testClass" onclick="alert(\'testDisabled\');" readonly="readonly"><span>testLabel</span></button>';
 		$creation	= UI_HTML_FormElements::Button( "testButton", "testLabel", "testClass", NULL, "testDisabled" );
 		$this->assertEquals( $assertion, $creation );
 	}
@@ -67,7 +67,7 @@ class Test_UI_HTML_FormElementsTest extends PHPUnit_Framework_TestCase
 		$creation	= UI_HTML_FormElements::CheckBox( "testName", "testValue", NULL, "testClass", TRUE );
 		$this->assertEquals( $assertion, $creation );
 
-		$assertion	= '<input id="testName" type="checkbox" name="testName" value="testValue" class="testClass" disabled="disabled" readonly="readonly" onclick="alert(\'testDisabled\');"/>';
+		$assertion	= '<input id="testName" type="checkbox" name="testName" value="testValue" class="testClass" readonly="readonly" onclick="alert(\'testDisabled\');"/>';
 		$creation	= UI_HTML_FormElements::CheckBox( "testName", "testValue", NULL, "testClass", "testDisabled" );
 		$this->assertEquals( $assertion, $creation );
 	}
@@ -171,7 +171,7 @@ class Test_UI_HTML_FormElementsTest extends PHPUnit_Framework_TestCase
 		$creation	= UI_HTML_FormElements::LinkButton( "testURL", "testLabel", "testClass", "testConfirm" );
 		$this->assertEquals( $assertion, $creation );
 
-		$assertion	= '<button id="button_423d7f72ed90277acca9dab9098f12a7" type="button" disabled="disabled" onclick="alert(\'testDisabled\');" readonly="readonly"><span>testLabel</span></button>';
+		$assertion	= '<button id="button_423d7f72ed90277acca9dab9098f12a7" type="button" onclick="alert(\'testDisabled\');" readonly="readonly"><span>testLabel</span></button>';
 		$creation	= UI_HTML_FormElements::LinkButton( "testURL", "testLabel", NULL, "testConfirm", "testDisabled" );
 		$this->assertEquals( $assertion, $creation );
 	}

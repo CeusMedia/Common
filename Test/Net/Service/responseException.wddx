@@ -9,7 +9,7 @@
       <var name="data">
         <struct>
           <var name="type">
-            <string>Exception</string>
+            <string>RuntimeException</string>
           </var>
           <var name="message">
             <string>Test Exception (responded)</string>
