@@ -216,7 +216,7 @@ class XML_Element extends SimpleXMLElement
 	 */
 	public function getValue()
 	{
-		return $this[0];
+		return (string) $this;
 	}
 
 	/**
@@ -308,7 +308,7 @@ class XML_Element extends SimpleXMLElement
 			$dom->appendChild( $cdata );															//  replace node with CDATA section
 		}
 		else
-			$this[0]	= $value;
+			dom_import_simplexml( $this )->nodeValue	= $value;
 	}
 }
 ?>

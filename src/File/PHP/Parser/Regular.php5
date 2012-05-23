@@ -192,12 +192,14 @@ class File_PHP_Parser_Regular
 		{
 			case 'interface':
 				$artefact	= new ADT_PHP_Interface( $matches[4] );
-				$artefact->setExtendedInterface( isset( $matches[5] ) ? $matches[6] : NULL );
+				if( isset( $matches[5] ) )
+					$artefact->setExtendedInterface( $matches[6] );
 				$artefact->setFinal( (bool) $matches[2] );
 				break;
 			default:
 				$artefact	= new ADT_PHP_Class( $matches[4] );
-				$artefact->setExtendedClassName( isset( $matches[5] ) ? $matches[6] : NULL );
+				if( isset( $matches[5] ) )
+					$artefact->setExtendedClassName( $matches[6] );
 				$artefact->setFinal( (bool) $matches[2] );
 				$artefact->setAbstract( (bool) $matches[1] );
 				if( isset( $matches[7] ) )
