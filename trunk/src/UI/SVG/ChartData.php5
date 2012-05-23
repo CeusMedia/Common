@@ -3,7 +3,7 @@
  *	This class represents an object in a chart, i.e. a line in a line diagram, a piece of pie in a 
  *	pie chart and so on.
  *
- *	Copyright (c) 2007-2010 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2007-2010 Christian Würker (ceusmedia.com)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by

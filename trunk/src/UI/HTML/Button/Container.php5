@@ -3,7 +3,7 @@
  *	HTML Button Container (for CSS).
  *	@category		cmClasses
  *	@package		UI.HTML.Button
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			0.7.0
  *	@version		$Id$
  */
@@ -12,7 +12,7 @@
  *	@category		cmClasses
  *	@package		UI.HTML.Button
  *	@extends		UI_HTML_Abstract
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			0.7.0
  *	@version		$Id$
  */

@@ -2,7 +2,7 @@
 /**
  *	A configured Loader for Classes and Scripts, which can be registered as Autoloader.
  *	@category		cmClasses
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			0.7.0
@@ -11,7 +11,7 @@
 /**
  *	A configured Loader for Classes and Scripts, which can be registered as Autoloader.
  *	@category		cmClasses
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			0.7.0
