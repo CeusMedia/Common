@@ -99,7 +99,7 @@ class Test_Folder_TestCase extends PHPUnit_Framework_TestCase
 	 */
 	public function __destruct()
 	{
-		if( 0 && file_exists( $this->folder ) )
+		if( file_exists( $this->folder ) )
 			$this->removeFolder( $this->folder, true );
 	}
 
