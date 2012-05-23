@@ -2,7 +2,7 @@
 /**
  *	Checks order of Services in a Service Definition File (YAML and XML).
  *
- *	Copyright (c) 2007-2010 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2007-2010 Christian Würker (ceusmedia.com)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -19,7 +19,7 @@
  *
  *	@category		cmClasses
  *	@package		Net.Service.Definition
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
@@ -30,7 +30,7 @@
  *	Checks order of Services in a Service Definition File (YAML and XML).
  *	@category		cmClasses
  *	@package		Net.Service.Definition
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			0.6.3
  *	@version		$Id$
  *	@deprecated		moved to cmModules::ENS

@@ -2,7 +2,7 @@
 /**
  *	Gnome Sort.
  *
- *	Copyright (c) 2010 Christian Würker (ceus-media.de)
+ *	Copyright (c) 2010 Christian Würker (ceusmedia.com)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -19,22 +19,22 @@
  *
  *	@category		cmClasses
  *	@package		Alg.Sort
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
- *	@version		$Id: Selection.php5 677 2010-05-18 16:40:07Z christian.wuerker $
+ *	@version		$Id$
  */
 /**
  *	Gnome Sort.
  *	@category		cmClasses
  *	@package		Alg.Sort
- *	@author			Christian Würker <christian.wuerker@ceus-media.de>
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2010 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@link			http://www.cs.vu.nl/~dick/gnomesort.html
- *	@version		$Id: Selection.php5 677 2010-05-18 16:40:07Z christian.wuerker $
+ *	@version		$Id$
  */
 class Alg_Sort_Gnome
 {

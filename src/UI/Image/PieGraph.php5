@@ -4,7 +4,7 @@
  *	@category		cmClasses
  *	@package		UI.Image
  *	@uses			UI_Template
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@version		$Id$
  */
 /**
@@ -12,7 +12,7 @@
  *	@category		cmClasses
  *	@package		UI.Image
  *	@uses			UI_Template
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@version		$Id$
  */
 class UI_Image_PieGraph
