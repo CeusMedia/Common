@@ -3,7 +3,7 @@
  *	Result Row Object for Database Result Sets.
  *	All Rows Pairs can be iterated or accessed like an Array.
  *
- *	Copyright (c) 2007-2010 Christian Würker (ceusmedia.com)
+ *	Copyright (c) 2007-2012 Christian Würker (ceusmedia.com)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,7 +21,7 @@
  *	@category		cmClasses
  *	@package		Database
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2010 Christian Würker
+ *	@copyright		2007-2012 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		$Id$.6
@@ -32,7 +32,7 @@
  *	@category		cmClasses
  *	@package		Database
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2010 Christian Würker
+ *	@copyright		2007-2012 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		$Id$.6

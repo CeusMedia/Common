@@ -3,7 +3,7 @@
  *	Reader for Configuration Files of different Types.
  *	Supported File Types are CONF, INI, JSON, YAML and XML.
  *
- *	Copyright (c) 2007-2010 Christian Würker (ceusmedia.com)
+ *	Copyright (c) 2007-2012 Christian Würker (ceusmedia.com)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,7 +21,7 @@
  *	@category		cmClasses
  *	@package		File.Configuration
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2010 Christian Würker
+ *	@copyright		2007-2012 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			06.05.2008
@@ -39,7 +39,7 @@
  *	@uses			File_YAML_Reader
  *	@uses			XML_ElementReader
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2010 Christian Würker
+ *	@copyright		2007-2012 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			06.05.2008

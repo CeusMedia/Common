@@ -2,7 +2,7 @@
 /**
  *	Exception for Runtime Errors, which can be serialized e.G. for NetServices.
  *
- *	Copyright (c) 2011 Christian Würker (ceusmedia.com)
+ *	Copyright (c) 2011-2012 Christian Würker (ceusmedia.com)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
  *	@category		cmClasses
  *	@package		Exception
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2011 Christian Würker
+ *	@copyright		2011-2012 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			15.09.2011
@@ -32,7 +32,7 @@
  *	@package		Exception
  *	@extends		Exception_Serializable
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2011 Christian Würker
+ *	@copyright		2011-2012 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			15.09.2011

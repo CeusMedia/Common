@@ -2,7 +2,7 @@
 /**
  *	XML element based on SimpleXMLElement with improved attribute and content handling.
  *
- *	Copyright (c) 2007-2010 Christian Würker (ceusmedia.com)
+ *	Copyright (c) 2007-2012 Christian Würker (ceusmedia.com)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
  *	@category		cmClasses
  *	@package		XML
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2010 Christian Würker
+ *	@copyright		2007-2012 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			21.02.2008
@@ -31,7 +31,7 @@
  *	@category		cmClasses
  *	@package		XML
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2010 Christian Würker
+ *	@copyright		2007-2012 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			21.02.2008
@@ -56,7 +56,8 @@ class XML_Element extends SimpleXMLElement
 	public function addAttribute( $name, $value, $nsPrefix = NULL, $nsURI = NULL )
 	{
 		$key	= $nsPrefix ? $nsPrefix.':'.$name : $name;
-		if( $nsPrefix ){
+		if( $nsPrefix )
+		{
 			$namespaces	= $this->getDocNamespaces();
 			$key		= $nsPrefix ? $nsPrefix.':'.$name : $name;
 			if( $this->hasAttribute( $name, $nsPrefix ) )
@@ -93,9 +94,11 @@ class XML_Element extends SimpleXMLElement
 	 *	@return		XML_Element
 	 *	@throws		RuntimeException		if namespace prefix is neither registered nor given
 	 */
-	public function addChild( $name, $value = NULL, $nsPrefix = NULL, $nsURI = NULL ){
+	public function addChild( $name, $value = NULL, $nsPrefix = NULL, $nsURI = NULL )
+	{
 		$child		= NULL;
-		if( $nsPrefix ){
+		if( $nsPrefix )
+		{
 			$namespaces	= $this->getDocNamespaces();
 			$key		= $nsPrefix ? $nsPrefix.':'.$name : $name;
 			if( array_key_exists( $nsPrefix, $namespaces ) )
@@ -239,10 +242,13 @@ class XML_Element extends SimpleXMLElement
 	 *	@param		string		$nsPrefix	Namespace prefix of attribute
 	 *	@return		boolean
 	 */
-	public function removeAttribute( $name, $nsPrefix = NULL ){
+	public function removeAttribute( $name, $nsPrefix = NULL )
+	{
 		$data	= $nsPrefix ? $this->attributes( $nsPrefix, TRUE ) : $this->attributes();
-		foreach( $data as $key => $attributeNode ){
-			if( $key == $name ){
+		foreach( $data as $key => $attributeNode )
+		{
+			if( $key == $name )
+			{
 				unset( $data[$key] );
 				return TRUE;
 			}
@@ -250,16 +256,21 @@ class XML_Element extends SimpleXMLElement
 		return FALSE;
 	}
 
-	public function remove(){
+	public function remove()
+	{
 		$dom	= dom_import_simplexml( $this );
 		$dom->parentNode->removeChild( $dom );
 	}
 
-	public function removeChild( $name, $number = NULL ){
+	public function removeChild( $name, $number = NULL )
+	{
 		$nr		= 0;
-		foreach( $this->children() as $nodeName => $child ){
-			if( $nodeName == $name ){
-				if( $number === NULL || $nr === (int) $number ){
+		foreach( $this->children() as $nodeName => $child )
+		{
+			if( $nodeName == $name )
+			{
+				if( $number === NULL || $nr === (int) $number )
+				{
 					$dom	= dom_import_simplexml( $child );
 					$dom->parentNode->removeChild( $dom );
 				}
@@ -279,14 +290,17 @@ class XML_Element extends SimpleXMLElement
 	 *	@param		string		$nsURI		Namespace URI of attribute
 	 *	@return		void
 	 */
-	public function setAttribute( $name, $value, $nsPrefix = NULL, $nsURI = NULL ){
-		if( $value !== NULL ){
+	public function setAttribute( $name, $value, $nsPrefix = NULL, $nsURI = NULL )
+	{
+		if( $value !== NULL )
+		{
 			if( !$this->hasAttribute( $name, $nsPrefix ) )
 				return $this->addAttribute( $name, $value, $nsPrefix, $nsURI );
 			$this->removeAttribute( $name, $nsPrefix );
 			$this->addAttribute( $name, $value, $nsPrefix, $nsURI );
 		}
-		else if( $this->hasAttribute( $name, $nsPrefix ) ){
+		else if( $this->hasAttribute( $name, $nsPrefix ) )
+		{
 			$this->removeAttribute( $name, $nsPrefix );
 		}
 	}
@@ -302,7 +316,8 @@ class XML_Element extends SimpleXMLElement
 			throw new InvalidArgumentException( 'Value must be a string or NULL' );
 
 		$value	= preg_replace( "/(.*)<!\[CDATA\[(.*)\]\]>(.*)/iU", "\\1\\2\\3", $value );
-		if( $cdata || preg_match( '/&|</', $value ) ){												//  string is known or detected to be CDATA
+		if( $cdata || preg_match( '/&|</', $value ) )												//  string is known or detected to be CDATA
+		{
 			$dom	= dom_import_simplexml( $this );												//  import node in DOM
 			$cdata	= $dom->ownerDocument->createCDATASection( $value );							//  create a new CDATA section
 			$dom->appendChild( $cdata );															//  replace node with CDATA section

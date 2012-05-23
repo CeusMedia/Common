@@ -2,7 +2,7 @@
 /**
  *	Build SQL Statement from given Statement Component.
  *
- *	Copyright (c) 2007-2010 Christian Würker (ceusmedia.com)
+ *	Copyright (c) 2007-2012 Christian Würker (ceusmedia.com)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,7 +21,7 @@
  *	@package		Database 
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@author			Michael Martin <Michael.Martin@CeuS-Media.de>
- *	@copyright		2007-2010 Christian Würker
+ *	@copyright		2007-2012 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			26.11.2004
@@ -33,7 +33,7 @@
  *	@package		Database 
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@author			Michael Martin <Michael.Martin@CeuS-Media.de>
- *	@copyright		2007-2010 Christian Würker
+ *	@copyright		2007-2012 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			26.11.2004
