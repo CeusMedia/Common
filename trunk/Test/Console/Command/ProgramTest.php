@@ -64,7 +64,7 @@ class Test_Console_Command_ProgramTest extends PHPUnit_Framework_TestCase
 	{
 		$program	= new Test_Console_Command_TestProgram;
 		$assertion	= 2;
-		$creation	= $program->run();
+		$creation	= $program->run( "arg1" );
 		$this->assertEquals( $assertion, $creation );
 	}
 }
