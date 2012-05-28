@@ -134,13 +134,17 @@ class File_INI_Editor extends File_INI_Reader
 	 */
 	private function buildLine( $key, $value, $comment )
 	{
+		$content	= '"'.addslashes( $value ).'"';
+		if( $this->reservedWords && is_bool( $value ) )
+			$content	= $value ? "yes" : "no";
+		
 		$breaksKey		= 4 - floor( strlen( $key ) / 8 );
-		$breaksValue	= 4 - floor( strlen( $value ) / 8 );
+		$breaksValue	= 4 - floor( strlen( $content ) / 8 );
 		if( $breaksKey < 1 )
 			$breaksKey = 1;
 		if( $breaksValue < 1 )
 			$breaksValue = 1;
-		$line	= $key.str_repeat( "\t", $breaksKey ).'= "'.addslashes( $value ).'"';
+		$line	= $key.str_repeat( "\t", $breaksKey ).'= '.$content;
 		if( $comment )
 			$line	.= str_repeat( "\t", $breaksValue ).'; '.$comment;
 		return $line;
