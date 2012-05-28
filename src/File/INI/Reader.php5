@@ -54,6 +54,8 @@ class File_INI_Reader extends File_Reader
 	protected $disabled				= array();
 	/**	@var		bool			$usesSections			Flag: use Sections */
 	protected $usesSections			= FALSE;
+	/**	@var		boolean			$reservedWords			Flag: use reserved words */
+	protected $reservedWords		= TRUE;
 	/**	@var		string			$signDisabled			Sign( string) of disabled Properties */
 	protected $signDisabled			= ';';
 	/**	@var		string			$patternDisabled		Pattern( regex) of disabled Properties */
