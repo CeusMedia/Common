@@ -1,1 +1,1 @@
-php_value auto_prepend_file "/var/www/lib/cmClasses/0.7.4/autoload.php5"
+php_value auto_prepend_file "/var/www/lib/cmClasses/trunk/autoload.php5"
