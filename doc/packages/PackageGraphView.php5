@@ -80,10 +80,21 @@ class PackageGraphView
 		$tabs->setOption( 'navClass', 'tabs-office2' );
 		foreach( $this->getPackages() as $package => $data )
 		{
+			$list	= array();
+			foreach( $data['files'] as $fileName ){
+				$ext	= pathinfo( $fileName, PATHINFO_EXTENSION );
+				$fileName	= str_replace( '.', '_', $fileName );
+				$className	= substr( $fileName, strlen( $package ) + 1 );
+				$className	= substr( $className, 0, - strlen( $ext ) - 1 );
+				$fileName	=  $package.'/'.str_replace( '_', '/', $className ).'.'.$ext;
+#				$list[]		= '<a href="../../src/'.$fileName.'">'.$className.'</a>';
+				$list[]		= $className;
+			}
 			$data		= array(
 				'label'	=> $package,
 				'count'	=> $data['count'],
 				'size'	=> Alg_UnitFormater::formatBytes( $data['size'] ),
+				'list'	=> '<ul><li>'.join( '</li><li>', $list ).'</li></ul>',
 			);
 			$content	= UI_Template::render( 'templates/package.html', $data );
 			$tabs->addTab( $package, $content, 'package_'.$package );
@@ -143,6 +154,7 @@ class PackageGraphView
 			{
 				$packages[$package]['count'] ++;
 				$packages[$package]['size'] += $size;
+				$packages[$package]['files'][]	= $pathName;
 			}
 		}
 		return $packages;
