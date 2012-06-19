@@ -50,7 +50,9 @@ class Net_Mail_Transport_SMTP
 	protected $username;
 	/**	@var		string		$password	SMTP Auth Password */
 	protected $password;
-
+	
+	protected $isSecure;
+	
 	/**
 	 *	Constructor.
 	 *	@access		public
@@ -68,6 +70,10 @@ class Net_Mail_Transport_SMTP
 		$this->setAuthPassword( $password );
 	}
 
+	public function setSecure( $secure ){
+		$this->isSecure = (bool) $secure;
+	}
+	
 	/**
 	 *	Sets Username for SMTP Auth.
 	 *	@access		public
@@ -111,25 +117,62 @@ class Net_Mail_Transport_SMTP
 	{
 		$delim	= Net_Mail::$delimiter;
 		$date	= date( "D, d M Y H:i:s O", time() );
-		$conn	= fsockopen( $this->host, $this->port, $errno, $errstr, 30 );
+		$conn	= fsockopen( $this->host, $this->port, $errno, $errstr, 5 );
 		if( !$conn )
 			throw new RuntimeException( 'Connection to SMTP server "'.$this->host.':'.$this->port.'" failed' );
-		fputs( $conn, "HELO ".$_SERVER['SERVER_NAME'].$delim );
-		fgets( $conn, 1024 );
-		fputs( $conn, "MAIL FROM: ".$mail->getSender().$delim );
-		fgets( $conn, 1024 );
-		fputs( $conn, "RCPT TO: ".$mail->getReceiver().$delim );
-		fgets( $conn, 1024 );
-		fputs( $conn, "DATA".$delim );
-		fgets( $conn, 1024 );
-		fputs( $conn, "Date: ".$date.$delim );
-		fputs( $conn, "Subject: ".$mail->getSubject().$delim );
-		fputs( $conn, "To: ".$mail->getReceiver().$delim );
-		fputs( $conn, $mail->getHeaders()->toString().$delim );
-		fputs( $conn, $mail->getBody().$delim );
-		fputs( $conn, ".".$delim."QUIT".$delim );
-		fgets( $conn, 1024 );
-		fclose( $conn );
+		try{
+			$this->checkResponse( $conn );
+			$this->sendChunk( $conn, "HELO ".$_SERVER['SERVER_NAME'] );	
+			$this->checkResponse( $conn );
+			if( $this->isSecure ){
+				$this->sendChunk( $conn, "STARTTLS" );	
+				$this->checkResponse( $conn );
+			}
+			if( $this->username && $this->password ){
+				$this->sendChunk( $conn, "AUTH LOGIN" );
+				$this->checkResponse( $conn );
+				$this->sendChunk( $conn, base64_encode( $this->username ) );
+				$this->checkResponse( $conn );
+				$this->sendChunk( $conn, base64_encode( $this->password ) );
+				$this->checkResponse( $conn );
+			}
+			$this->sendChunk( $conn, "MAIL FROM: ".$mail->getSender() );
+			$this->sendChunk( $conn, "RCPT TO: ".$mail->getReceiver() );
+			$this->sendChunk( $conn, "DATA" );
+			$this->checkResponse( $conn );
+			$this->sendChunk( $conn, "Date: ".$date );
+			$this->sendChunk( $conn, "Subject: ".$mail->getSubject() );
+			$this->sendChunk( $conn, "To: ".$mail->getReceiver() );
+			$this->sendChunk( $conn, $mail->getHeaders()->toString() );
+			$this->sendChunk( $conn, $mail->getBody() );
+			$this->checkResponse( $conn );
+			$this->sendChunk( $conn, '.' );
+			$this->checkResponse( $conn );
+			$this->checkResponse( $conn );
+			$this->sendChunk( $conn, "QUIT" );
+			$this->checkResponse( $conn );
+			fclose( $conn );
+		}
+		catch( Exception $e ){
+			fclose( $conn );
+			throw new RuntimeException( $e->getMessage, $e->getCode(), $e->getPrevious() );
+		}
+	}
+
+	protected function sendChunk( $connection, $message ){
+#		xmp( ' < '.$message );
+		fputs( $connection, $message.Net_Mail::$delimiter );
+	}
+	
+	
+	protected function checkResponse( $connection ){
+		$response	= fgets( $connection, 1024 );
+#		xmp( ' > '.$response );
+		$matches	= array();
+		preg_match( '/^([0-9]{3}) (.+)$/', trim( $response ), $matches );
+		if( $matches )
+			if( (int) $matches[1] >= 400 )
+				throw new RuntimeException( 'SMTP error: '.$matches[2], (int) $matches[1] );
 	}
 }
 ?>
