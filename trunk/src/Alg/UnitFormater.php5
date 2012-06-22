@@ -49,6 +49,11 @@ class Alg_UnitFormater
 		"KB",
 		"MB",
 		"GB",
+		"TB",
+		"PB",
+		"EB",
+		"ZB",
+		"YB"
 	);
 	
 	/**	@var		array		$unitBytes		List of Second Units */
