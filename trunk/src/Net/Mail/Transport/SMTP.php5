@@ -155,7 +155,7 @@ class Net_Mail_Transport_SMTP
 		}
 		catch( Exception $e ){
 			fclose( $conn );
-			throw new RuntimeException( $e->getMessage, $e->getCode(), $e->getPrevious() );
+			throw new RuntimeException( $e->getMessage(), $e->getCode(), $e->getPrevious() );
 		}
 	}
 
