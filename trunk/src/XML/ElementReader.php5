@@ -47,7 +47,7 @@ class XML_ElementReader
 	 *	@access		public
 	 *	@static
 	 *	@param		string		$fileName	File Name to XML File
-	 *	@return		array
+	 *	@return		XML_Element
 	 */
 	public static function readFile( $fileName )
 	{
@@ -60,7 +60,7 @@ class XML_ElementReader
 	 *	@access		public
 	 *	@static
 	 *	@param		string		$url		URL to read XML from
-	 *	@return		array
+	 *	@return		XML_Element
 	 */
 	public static function readUrl( $url )
 	{
