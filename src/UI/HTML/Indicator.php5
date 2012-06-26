@@ -81,7 +81,8 @@ class UI_HTML_Indicator extends ADT_OptionObject
 	 */
 	public function build( $found, $count, $length = 100 )
 	{
-		$ratio	= $found / $count;
+		$found	= min( $found, $count );
+		$ratio	= $count ? $found / $count : 0;
 		$length	= floor( $ratio * $length );
 
 		$divBar			= $this->renderBar( $ratio, $length );

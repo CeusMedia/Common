@@ -183,7 +183,7 @@ class File_TodoLister
 			$this->numberScanned++;
 			$content	= file_get_contents( $entry->getPathname() );
 			$lines		= explode( "\n", $content );
-			$i			=0;
+			$i			= 0;
 			$list		= array();
 			foreach( $lines as $line )
 			{
@@ -192,7 +192,7 @@ class File_TodoLister
 				if( !preg_match( $pattern, $line ) )
 					continue;
 				$this->numberTodos++;
-				$list[$i]	= trim( $line );
+				$list[$i]	= $line;#trim( $line );
 			}
 			if( !$list )
 				continue;
