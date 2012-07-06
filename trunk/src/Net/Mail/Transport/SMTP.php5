@@ -123,6 +123,9 @@ class Net_Mail_Transport_SMTP
 	{
 		$delim	= Net_Mail::$delimiter;
 		$date	= date( "D, d M Y H:i:s O", time() );
+		$server	= 'localhost';
+		if( !empty( $_SERVER['SERVER_NAME'] ) )
+			$server	= $_SERVER['SERVER_NAME'];
 		$conn	= fsockopen( $this->host, $this->port, $errno, $errstr, 5 );
 		if( !$conn )
 			throw new RuntimeException( 'Connection to SMTP server "'.$this->host.':'.$this->port.'" failed' );
@@ -134,7 +137,7 @@ class Net_Mail_Transport_SMTP
 			throw new RuntimeException( 'No mail body set' );
 		try{
 			$this->checkResponse( $conn );
-			$this->sendChunk( $conn, "HELO ".$_SERVER['SERVER_NAME'] );	
+			$this->sendChunk( $conn, "HELO ".$server );
 			$this->checkResponse( $conn );
 			if( $this->isSecure ){
 				$this->sendChunk( $conn, "STARTTLS" );	
