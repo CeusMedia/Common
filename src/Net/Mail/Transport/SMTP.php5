@@ -51,7 +51,9 @@ class Net_Mail_Transport_SMTP
 	/**	@var		string		$password	SMTP Auth Password */
 	protected $password;
 	
-	protected $isSecure;
+	protected $isSecure			= FALSE;
+	
+	protected $verbose			= FALSE;
 	
 	/**
 	 *	Constructor.
@@ -72,6 +74,10 @@ class Net_Mail_Transport_SMTP
 
 	public function setSecure( $secure ){
 		$this->isSecure = (bool) $secure;
+	}
+
+	public function setVerbose( $verbose ){
+		$this->verbose = (bool) $verbose;
 	}
 	
 	/**
@@ -120,6 +126,12 @@ class Net_Mail_Transport_SMTP
 		$conn	= fsockopen( $this->host, $this->port, $errno, $errstr, 5 );
 		if( !$conn )
 			throw new RuntimeException( 'Connection to SMTP server "'.$this->host.':'.$this->port.'" failed' );
+		if( !$mail->getSender() )
+			throw new RuntimeException( 'No mail sender set' );
+		if( !$mail->getReceiver() )
+			throw new RuntimeException( 'No mail receiver set' );
+		if( !$mail->getBody() )
+			throw new RuntimeException( 'No mail body set' );
 		try{
 			$this->checkResponse( $conn );
 			$this->sendChunk( $conn, "HELO ".$_SERVER['SERVER_NAME'] );	
@@ -160,14 +172,15 @@ class Net_Mail_Transport_SMTP
 	}
 
 	protected function sendChunk( $connection, $message ){
-#		xmp( ' < '.$message );
+		if( $this->verbose )
+			xmp( ' < '.$message );
 		fputs( $connection, $message.Net_Mail::$delimiter );
 	}
-	
-	
+
 	protected function checkResponse( $connection ){
 		$response	= fgets( $connection, 1024 );
-#		xmp( ' > '.$response );
+		if( $this->verbose )
+			xmp( ' > '.$response );
 		$matches	= array();
 		preg_match( '/^([0-9]{3}) (.+)$/', trim( $response ), $matches );
 		if( $matches )
