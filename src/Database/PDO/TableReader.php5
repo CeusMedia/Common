@@ -352,6 +352,16 @@ class Database_PDO_TableReader
 	}
 
 	/**
+	 *	Returns all Indices of this Table.
+	 *	@access		public
+	 *	@return		array
+	 */
+	public function getLastQuery()
+	{
+		return $this->dbc->lastQuery;
+	}
+
+	/**
 	 *	Builds and returns ORDER BY Statement Component.
 	 *	@access		protected
 	 *	@param		array		$limits			Array of Offset and Limit
