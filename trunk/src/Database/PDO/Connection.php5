@@ -47,6 +47,7 @@ class Database_PDO_Connection extends PDO
 	public $logFileErrors			= NULL;															//  eg. logs/db/pdo/error.log
 	public $logFileStatements		= NULL;															//  eg. logs/db/pdo/query.log
 	protected $openTransactions		= 0;
+	public $lastQuery				= NULL;
 	protected $innerTransactionFail	= FALSE;														//  Flag: inner (nested) Transaction has failed
 	public static $errorTemplate	= "{time}: PDO:{pdoCode} SQL:{sqlCode} {sqlError} ({statement})\n";
 	public static $defaultOptions	= array(
@@ -204,6 +205,7 @@ class Database_PDO_Connection extends PDO
 	public function query( $statement, $fetchMode = PDO::FETCH_ASSOC )
 	{
 		$this->logStatement( $statement );
+		$this->lastQuery	= $statement;
 		$this->numberStatements++;
 		try
 		{
