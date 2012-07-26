@@ -96,19 +96,21 @@ class UI_Image
 		return imagecolorallocatealpha( $this->resource, $red, $green, $blue, $alpha );
 	}
 
-	public function display( $sendHeaders = TRUE )
+	public function display( $sendContentType = TRUE )
 	{
-		header( 'Content-type: '.$this->getMimeType() );
+		if( $sendContentType )
+			header( 'Content-type: '.$this->getMimeType() );
 		switch( $this->getType() )
 		{
 			case IMAGETYPE_GIF:
 				imagegif( $this->resource );
+				break;
 			case IMAGETYPE_JPEG:
 				imagejpeg( $this->resource, NULL, $this->quality );
+				break;
 			case IMAGETYPE_PNG:
 				imagepng( $this->resource );
-			case IMAGETYPE_PNG:
-				imagepng( $this->resource );
+				break;
 			default:
 				header_remove( 'Content-type' );
 				new UI_Image_Error( 'invalid type' );
