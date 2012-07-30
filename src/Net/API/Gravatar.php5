@@ -97,7 +97,7 @@ class Net_API_Gravatar{
 	 *	@return		void
 	 */
 	public function setRate( $rate ){
-		if( !in_array( $rate, array( array( 'g', 'pg', 'r', 'x' ) ) ) )
+		if( !in_array( $rate, array( 'g', 'pg', 'r', 'x' ) ) )
 			throw new InvalidArgumentException( 'Rate must of one of [g,pg,r,x]' );
 		$this->rate	= $rate;
 	}
