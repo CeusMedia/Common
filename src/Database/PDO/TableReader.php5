@@ -96,15 +96,15 @@ class Database_PDO_TableReader
 		{
 			case PDO::FETCH_NUM:
 			case PDO::FETCH_BOTH:
-				return $count[0];
+				return (int) $count[0];
 			case PDO::FETCH_INTO:
 			case PDO::FETCH_LAZY:
 			case PDO::FETCH_OBJ:
 			case PDO::FETCH_SERIALIZE:
-				return $count->count;
+				return (int) $count->count;
 			case PDO::FETCH_ASSOC:
 			case PDO::FETCH_NAMED:
-				return $count['count'];
+				return (int) $count['count'];
 			default:
 				throw new RuntimeException( 'Unsupported fetch mode' );
 		}
