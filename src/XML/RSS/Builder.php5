@@ -109,9 +109,11 @@ class XML_RSS_Builder
 	 *	Returns built RSS Feed.
 	 *	@access		public
 	 *	@param		string		$encoding		Encoding Type
+	 *	@param		string		$version		RSS version, default: 2.0
 	 *	@return		string
+	 *	@todo		recheck RSS versions and perhaps set default to 0.92
 	 */
-	public function build( $encoding = "utf-8" )
+	public function build( $encoding = "utf-8", $version = "2.0" )
 	{
 		foreach( $this->channelElements as $element => $required )
 			if( $required && !isset( $this->channel[$element] ) )
@@ -120,7 +122,7 @@ class XML_RSS_Builder
 //			trigger_error( "RSS items are required.", E_USER_WARNING );
 
 		$tree = new XML_DOM_Node( 'rss' );
-		$tree->setAttribute( 'version', '2.0' );
+		$tree->setAttribute( 'version', $version );
 		$channel	= new XML_DOM_Node( 'channel' );
 		
 		//  --  CHANNEL  ELEMENTS  --  //
@@ -170,6 +172,14 @@ class XML_RSS_Builder
 				$value	= isset( $item[$element] ) ? $item[$element] : NULL;
 				if( $required || $value )
 				{
+					if( $element == "source" && $value ){
+						$node->addChild( new XML_DOM_Node( $element, $this->channel['title'], array( 'url' => $value ) ) );
+						continue;
+					}
+					if( $element == "guid" && $value ){
+						$node->addChild( new XML_DOM_Node( $element, $value, array( 'isPermaLink' => 'true' ) ) );
+						continue;
+					}
 					if( $element == "pubDate" && $value )
 						$value	= $this->getDate( $value );
 					$node->addChild( new XML_DOM_Node( $element, $value ) );
