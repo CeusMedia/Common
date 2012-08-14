@@ -89,8 +89,8 @@ class Net_API_Gravatar{
 	 */
 	public function renderImage( $email, $attributes = array() ){
 		$attributes['src']		= $this->getUrl( $email );
-		$attributes['width']	= $this->size.'px';
-		$attributes['height']	= $this->size.'px';
+		$attributes['width']	= $this->size;
+		$attributes['height']	= $this->size;
 		return UI_HTML_Tag::create( 'img', NULL, $attributes );
 	}
 
