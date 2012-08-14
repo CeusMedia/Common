@@ -11,7 +11,7 @@
 ;
 [project]
 name				= "cmClasses"
-version				= "0.7.5a"
+version				= "0.7.6a"
 author				= "Christian Würker <christian.wuerker@ceusmedia.de>"
 company				= "Ceus Media (ceusmedia.de)"
 link				= "http://code.google.com/p/cmclasses/"
@@ -47,13 +47,20 @@ coverage-html			= "doc/coverage"
 log-json			= "Test/results.json"
 log-junit			= "Test/results.xml"
 
+[unitTest-Database]
+host				= "localhost"
+port				= 3306
+database			= "test"
+username			= "username"
+password			= "password"
+
 [unitTest-FTP]
 ;	Must be set (including path) to enable tests.
 ;	The user running the tests must have write access to path.
 host				= "localhost"
 port				= 21
-user				= "ftp_user"
-pass				= "ftp_pass"
+user				= "username"
+pass				= "password"
 path				= ""
 local				= ""
 
@@ -90,7 +97,7 @@ target				= "doc/phpDoc/"
 output				= "HTML:frames:earthli,HTML:Smarty:PHP,PDF:default:default,XML:DocBook/peardoc2:default,HTML:frames:phphtmllib,HTML:frames:phpedit"
 output				= "HTML:frames:earthli,XML:DocBook/peardoc2:default,HTML:frames:phphtmllib,HTML:frames:phpedit"
 output				= "HTML:frames:phpedit"
-ignore				= ".svn/,createTest.php5,index.php5,*.bat,*.sh,cmClasses.ini,*/_*.php5"
+ignore				= ".svn/,go.php5,index.php5,*.bat,*.sh,cmClasses.ini,*/_*.php5"
 
 title				= "cmClasses"
 defaultcategoryname		= "cmClasses"
