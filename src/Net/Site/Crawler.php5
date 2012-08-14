@@ -154,7 +154,7 @@ class Net_Site_Crawler
 			
 			if( !preg_match( "@^".$this->baseUrl."@", $url ) )
 				if( !$followExternalLinks )
-					continue;	
+					continue;
 			$url		= $this->buildUrl( $parts );
 			if( array_key_exists( base64_encode( $url ), $this->links ) )
 				continue;
@@ -180,7 +180,7 @@ class Net_Site_Crawler
 				{
 					$info	= pathinfo( $url );
 					if( isset( $info['extension'] ) )
-						if( in_array( $info['extension'], $this->denied ) )
+						if( in_array( strtolower( $info['extension'] ), $this->denied ) )
 							continue;
 					$urlList[]	= $url;
 				}
@@ -207,7 +207,7 @@ class Net_Site_Crawler
 	{
 		$doc = new DOMDocument();
 		ob_start();
-		if( !$doc->loadHTML( $content ) )
+		if( !@$doc->loadHTML( $content ) )
 		{
 			$content	= ob_get_clean();
 			if( $content )
@@ -297,7 +297,7 @@ class Net_Site_Crawler
 	 */
 	protected function handleVerbose( $url, $number )
 	{
-		$speed	= Alg_UnitFormater::formatBytes( $this->reader->getStatus( 'speed_download' ) );
+		$speed	= Alg_UnitFormater::formatBytes( $this->reader->getInfo( 'speed_download' ) );
 		remark( "[".$number."] ".str_replace( "http://".$this->host, "", $url )." | ".$speed."/s" );
 #		print_m( $this->reader->getStatus() );
 	}
