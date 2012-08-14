@@ -56,7 +56,7 @@ class Net_Site_MapCreator
 	 */
 	public function __construct( $depth = 10 )
 	{
-		$this->crawler	= new Net_Site_Crawler( $depth );
+		$this->depth	= $depth;
 	}
 
 	/**
@@ -70,10 +70,16 @@ class Net_Site_MapCreator
 	 */
 	public function createSitemap( $url, $sitemapUri, $errorsLogUri = NULL, $urlListUri = NULL )
 	{
-		$this->crawler->crawl( $url, FALSE, TRUE );
-		$this->errors	= $this->crawler->getErrors();
-		$this->urls		= array_keys( $this->crawler->getLinks() );
-		$writtenBytes	= Net_Site_MapWriter::save( $sitemapUri, $this->urls );
+		$crawler	= new Net_Site_Crawler( $url, $this->depth );
+		$crawler->crawl( $url, FALSE, TRUE );
+		$this->errors	= $crawler->getErrors();
+		$this->links	= $crawler->getLinks();
+		$list	= array();
+		foreach( $this->links as $link ){
+			remark( $link['url'].' => '.$link['references'] );
+			$list[]	= $link['url'];
+		}
+		$writtenBytes	= Net_Site_MapWriter::save( $sitemapUri, $list );
 		if( $errorsLogUri )
 		{
 			@unlink( $errorsLogUri );
@@ -100,9 +106,9 @@ class Net_Site_MapCreator
 	 *	@access		public
 	 *	@return		array
 	 */
-	public function getUrls()
+	public function getLinks()
 	{
-		return $this->urls();
+		return $this->links();
 	}
 
 	/**
@@ -126,7 +132,7 @@ class Net_Site_MapCreator
 	public function saveUrls( $uri )
 	{
 		$list	= new File_Writer( $uri );
-		$list->writeArray( $this->urls );
+		$list->writeArray( $this->links );
 	}
 }
 ?>
