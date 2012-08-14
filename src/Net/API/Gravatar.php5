@@ -72,8 +72,12 @@ class Net_API_Gravatar{
 	 */
 	public function getUrl( $email ){
 		$email	= md5( strtolower( trim( $email ) ) );
-		$query	= '?s='.$this->size.'&d='.$this->default.'&r='.$this->rate;
-		return $this->url.$email.$query;
+		$query	= array(
+			's'	=> $this->size,
+			'd'	=> $this->default,
+			'r'	=> $this->rate,
+		);
+		return $this->url.$email.'?'.http_build_query( $query, NULL, '&amp;' );
 	}
 
 	/**
