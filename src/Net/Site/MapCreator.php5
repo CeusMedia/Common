@@ -75,10 +75,8 @@ class Net_Site_MapCreator
 		$this->errors	= $crawler->getErrors();
 		$this->links	= $crawler->getLinks();
 		$list	= array();
-		foreach( $this->links as $link ){
-			remark( $link['url'].' => '.$link['references'] );
+		foreach( $this->links as $link )
 			$list[]	= $link['url'];
-		}
 		$writtenBytes	= Net_Site_MapWriter::save( $sitemapUri, $list );
 		if( $errorsLogUri )
 		{
