@@ -77,12 +77,12 @@ class XML_RSS_Parser
 		"link",
 		"description",
 		"author",
-//		"category",
+		"category",
 		"comments",
-//		"enclosure",
+		"enclosure",
 		"guid",
 		"pubDate",
-//		"source",
+		"source",
 	);
 		
 	public static function parse( $xml )
@@ -114,10 +114,18 @@ class XML_RSS_Parser
 			{
 				$nodes	= $xPath->query( $itemKey."/text()", $item );
 				$value	= $nodes->length ? $nodes->item( 0 )->nodeValue : NULL;
+				if( $itemKey == "source" )
+				{
+					$nodes	= $xPath->query( $itemKey, $item );
+					foreach( $nodes->item( 0 )->attributes as $attributeName => $attribute )
+						if( $attributeName == "url" )
+							$value	= $attribute->nodeValue;
+				}
 				$array[$itemKey]	= $value;
 			}
 			$itemList[]	= $array;
 		}
+		
 		$data	= array(
 			'encoding'		=> $encoding,
 			'version'		=> $version,
