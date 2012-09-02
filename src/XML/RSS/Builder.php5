@@ -50,8 +50,8 @@ class XML_RSS_Builder
 	/**	@var	array			$channelElements	Array of Elements of Channel */
 	protected $channelElements	= array(
 		"title"				=> TRUE,
-		"description"		=> TRUE,
 		"link"				=> TRUE,
+		"description"		=> TRUE,
 		"pubDate"			=> FALSE,
 		"lastBuildDate"		=> FALSE,
 		"language"			=> FALSE,
@@ -68,8 +68,8 @@ class XML_RSS_Builder
 	/**	@var	array			$itemElements		Array of Elements of Items */
 	protected $itemElements	= array(
 		"title"				=> true,
-		"description"		=> FALSE,
 		"link"				=> FALSE,
+		"description"		=> FALSE,
 		"author"			=> FALSE,
 		"category"			=> FALSE,
 		"comments"			=> FALSE,
@@ -142,8 +142,8 @@ class XML_RSS_Builder
 			if( isset( $this->channel['imageLink'] ) )
 				$image->addChild( new XML_DOM_Node( 'link', $this->channel['imageLink'] ) );
 
-			if( isset( $this->channel['imageWith'] ) )
-				$image->addChild( new XML_DOM_Node( 'width', $this->channel['imageWith'] ) );
+			if( isset( $this->channel['imageWidth'] ) )
+				$image->addChild( new XML_DOM_Node( 'width', $this->channel['imageWidth'] ) );
 			if( isset( $this->channel['imageHeight'] ) )
 				$image->addChild( new XML_DOM_Node( 'height', $this->channel['imageHeight'] ) );
 			if( isset( $this->channel['imageDescription'] ) )
