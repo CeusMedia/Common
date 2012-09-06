@@ -124,26 +124,31 @@ class ADT_List_Dictionary implements ArrayAccess, Countable, Iterator
 
 	/**
 	 *	Returns all Pairs of Dictionary as an Array.
+	 *	Using a filter prefix, all pairs with keys starting with prefix are returned.
+	 *	Attention: A given prefix will be cut from pair keys.
+	 *	By default an array is returned. Alternatively another dictionary can be returned.
 	 *	@access		public
-	 *	@return		array
+	 *	@param		string		$prefix			Prefix to filter keys, e.g. "mail." for all pairs starting with "mail."
+	 *	@param		boolean		$asDictionary	Flag: return list as dictionary object instead of an array
+	 *	@return		array|ADT_List_Dictionary	Map or dictionary object containing all or filtered pairs
 	 */
-	public function getAll( $prefix = NULL )
+	public function getAll( $prefix = NULL, $asDictionary = FALSE )
 	{
-		if( !$prefix )
-			return $this->pairs;
-		$list	= array();
-		$length	= strlen( $prefix );
-		foreach( $this->pairs as $key => $value )
-		{
-			if( strlen( $key ) <= $length )
-				continue;
-			if( substr( $key, 0, $length ) == $prefix )
+		$list	= $this->pairs;																		//  assume all pairs by default
+		if( strlen( $prefix ) ){																	//  a prefix to filter keys has been given
+			$list	= array();																		//  create empty list
+			$length	= strlen( $prefix );															//  get prefix length
+			foreach( $this->pairs as $key => $value )												//  iterate all pairs
 			{
-				$key	= substr( $key, $length );
-				$list[$key]	= $value;
+				if( strlen( $key ) <= $length )														//  pair key is shorter than prefix
+					continue;																		//  skip this pair
+				if( substr( $key, 0, $length ) == $prefix )											//  key starts with prefix
+					$list[substr( $key, $length )]	= $value;										//  enlist pair
 			}
 		}
-		return $list;
+		if( $asDictionary )																			//  a dictionary object is to be returned
+			$list	= new ADT_List_Dictionary( $list );												//  create dictionary for pair list
+		return $list;																				//  return pair list as array or dictionary
 	}
 
 	public function getKeys()
