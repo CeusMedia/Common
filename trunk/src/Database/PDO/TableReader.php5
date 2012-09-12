@@ -134,21 +134,27 @@ class Database_PDO_TableReader
 	/**
 	 *	Returns all entries of this table in an array.
 	 *	@access		public
-	 *	@param		array		$columns		Array of table columns
-	 *	@param		array		$conditions		Array of condition pairs additional to focuses indices
-	 *	@param		array		$orders			Array of order relations
+	 *	@param		array		$columns		List of columns to deliver
+	 *	@param		array		$conditions		Map of condition pairs additional to focuses indices
+	 *	@param		array		$orders			Map of order relations
 	 *	@param		array		$limits			Array of limit conditions
-	 *	@return		array
+	 *	@param		array		$groupings		List of columns to group by
+	 *	@param		array		$havings		List of conditions to apply after grouping
+	 *	@return		array		List of fetched table rows
 	 */
-	public function find( $columns = array(), $conditions = array(), $orders = array(), $limits = array() )
+	public function find( $columns = array(), $conditions = array(), $orders = array(), $limits = array(), $groupings = array(), $havings = array() )
 	{
 		$this->validateColumns( $columns );
 			
-		$conditions	= $this->getConditionQuery( $conditions, FALSE, FALSE );		
+		$conditions	= $this->getConditionQuery( $conditions, FALSE, FALSE );						//  render WHERE clause if needed		
 		$conditions = $conditions ? ' WHERE '.$conditions : '';
-		$orders		= $this->getOrderCondition( $orders );
-		$limits		= $this->getLimitCondition( $limits );
-		$query		= 'SELECT '.implode( ', ', $columns ).' FROM '.$this->getTableName().$conditions.$orders.$limits;
+		$orders		= $this->getOrderCondition( $orders );											//  render ORDER BY clause if needed
+		$limits		= $this->getLimitCondition( $limits );											//  render LIMIT BY clause if needed
+		$groupings	= !empty( $groupings ) ? ' GROUP BY '.join( ', ', $groupings ) : '';			//  render GROUP BY clause if needed
+		$havings 	= !empty( $havings ) ? ' HAVING '.join( ' AND ', $havings ) : '';				//  render HAVING clause if needed
+		$query		= 'SELECT '.implode( ', ', $columns ).' FROM '.$this->getTableName();			//  render base query
+		
+		$query		= $query.$conditions.$groupings.$havings.$orders.$limits;						//  append rendered conditions, orders, limits, groupings and havings
 		$resultSet	= $this->dbc->query( $query );
 		if( $resultSet )
 			return $resultSet->fetchAll( $this->getFetchMode() );
