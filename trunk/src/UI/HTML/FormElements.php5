@@ -109,9 +109,10 @@ class UI_HTML_FormElements
 	 *	@param		string		$class			CSS Class
 	 *	@param		string		$confirm 		Confirmation Message
 	 *	@param		mixed		$disabled		Button is not pressable, JavaScript Alert if String is given
+	 *	@param		string		$title			Titel text on mouse hover
 	 *	@return		string
 	 */
-	public static function Button( $name, $label, $class = NULL, $confirm = NULL, $disabled = NULL)
+	public static function Button( $name, $label, $class = NULL, $confirm = NULL, $disabled = NULL, $title = NULL )
 	{
 		$attributes	= array(
 			'type'		=> "submit",
@@ -119,6 +120,7 @@ class UI_HTML_FormElements
 			'value'		=> 1,
 			'class'		=> $class,
 			'onclick'	=> $confirm		? "return confirm('".$confirm."');" : NULL,
+			'title'		=> $title,
 		);
 		if( $disabled )
 			self::addDisabledAttributes( $attributes, $disabled );
@@ -281,9 +283,10 @@ class UI_HTML_FormElements
 	 *	@param		string		$class			CSS Class
 	 *	@param		string		$confirm 		Confirmation Message
 	 *	@param		mixed		$disabled		Button is not pressable, JavaScript Alert if String is given
+	 *	@param		string		$title			Title text on mouse hove
 	 *	@return		string
 	 */
-	public static function LinkButton( $url, $label, $class = NULL, $confirm = NULL, $disabled = NULL )
+	public static function LinkButton( $url, $label, $class = NULL, $confirm = NULL, $disabled = NULL, $title = NULL )
 	{
 		$action			= "document.location.href='".$url."';";
 		$attributes	= array(
@@ -291,6 +294,7 @@ class UI_HTML_FormElements
 			'type'		=> "button",
 			'class'		=> $class,
 			'onclick'	=> $confirm	? "if(confirm('".$confirm."')){".$action."};" : $action,
+			'title'		=> $title,
 		);
 		if( $disabled )
 			self::addDisabledAttributes( $attributes, $disabled );
@@ -435,14 +439,16 @@ class UI_HTML_FormElements
 	 *	@param		string		$class			CSS Class
 	 *	@param		string		$confirm 		Confirmation Message
 	 *	@param		mixed		$disabled		Button is not pressable, JavaScript Alert if String is given
+	 *	@param		string		$title			Title text on mouse hover
 	 *	@return		string
 	 */
-	public static function ResetButton( $label, $class = NULL, $confirm = NULL, $disabled = NULL )
+	public static function ResetButton( $label, $class = NULL, $confirm = NULL, $disabled = NULL, $title = NULL )
 	{
 		$attributes	= array(
 			'type'		=> "reset",
 			'class'		=> $class,
 			'onclick'	=> $confirm		? "return confirm('".$confirm."');" : NULL,
+			'title'		=> $title,
 		);
 		if( $disabled )
 			self::addReadonlyAttributes( $attributes, $disabled );
