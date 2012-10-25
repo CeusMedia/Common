@@ -70,7 +70,7 @@ class File_Ical_Builder
 		foreach( $children as $child )
 			foreach( self::buildRecursive( $child ) as $line )
 				$lines[]	= $line;
-		return implode( "\n", $lines );
+		return implode( self::$lineBreak, $lines );
 	}
 	
 	//  --  PRIVATE METHODS  --  //
