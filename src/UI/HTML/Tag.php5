@@ -93,6 +93,8 @@ class UI_HTML_Tag
 	 */
 	public static function create( $name, $content = NULL, $attributes = array() )
 	{
+		if( !strlen( $name	= trim( $name ) ) )
+			throw new InvalidArgumentException( 'Missing tag name' );
 		$name		= strtolower( $name );
 		try{
 			$attributes	= self::renderAttributes( $attributes );
@@ -110,7 +112,8 @@ class UI_HTML_Tag
 		return "<".$name.$attributes.">".$content."</".$name.">";									//  build and return full tag
 	}
 
-	static protected function flattenArray( $array, $delimiter = " ", $path = NULL ){
+	static protected function flattenArray( $array, $delimiter = " ", $path = NULL )
+	{
 		foreach( $array as $key => $value )
 			if( is_array( $value ) )
 				$array[$key]	= self::flattenArray( $value );
