@@ -1,20 +1,27 @@
 <?php
 /*  --  cmClasses AutoLoader  -- */
-define( 'CMC_PATH', dirname( __FILE__ )."/src/" );
+if( !defined( 'CMC_PATH' ) )
+	define( 'CMC_PATH', dirname( __FILE__ )."/src/" );
 
 require_once( CMC_PATH.'Loader.php5' );
 
 $__config	= dirname( __FILE__ ).'/cmClasses.ini';
 if( file_exists( $__config ) ){
 	$__config	= parse_ini_file( $__config, TRUE );
-	define( 'CMC_VERSION', $__config['project']['version'] );
-	define( 'CMC_AUTHOR', $__config['project']['author'] );
-	define( 'CMC_COMPANY', $__config['project']['company'] );
-	define( 'CMC_TITLE', $__config['project']['name'] );
-	define( 'CMC_URL', $__config['project']['link'] );
+	$constants	= array(
+		'CMC_VERSION'	=> 'version',
+		'CMC_AUTHOR'	=> 'author',
+		'CMC_COMPANY'	=> 'company',
+		'CMC_TITLE	'	=> 'name',
+		'CMC_URL'		=> 'link',
+	);
+	foreach( $constants as $constantName => $configProjectKey )
+		if( !defined( $constantName ) )
+			define( $constantName, $__config['project'][$configProjectKey] );
 }
 else
-	define( 'CMC_VERSION', basename( dirname( __FILE__ ) ) );
+	if( !defined( 'CMC_VERSION' ) )
+		define( 'CMC_VERSION', basename( dirname( __FILE__ ) ) );
 
 
 $__loaderLib	= new CMC_Loader();																	//  get new loader instance
