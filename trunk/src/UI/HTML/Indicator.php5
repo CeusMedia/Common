@@ -39,21 +39,19 @@
  */
 class UI_HTML_Indicator extends ADT_OptionObject
 {
-	/**	@var		string		$classIndicator			CSS Class of Indicator Block */
-	public $classIndicator		= "indicator";
-	/**	@var		string		$classIndicator			CSS Class of inner Block */
-	public $classInner			= "indicator-inner";
-	/**	@var		string		$classIndicator			CSS Class of outer Block */
-	public $classOuter			= "indicator-outer";
-	/**	@var		string		$classPercentage		CSS Class of Percentage Block */
-	public $classPercentage		= "indicator-percentage";
-	/**	@var		string		$classRatio				CSS Class of Ratio Block */
-	public $classRatio			= "indicator-ratio";
-	/**	@var		array		$optionKeys				List of Indicator Option Keys */
-	public $optionKeys			= array(
-		'useColor',
-		'usePercentage',
-		'useRatio'
+	/**	@var		array		$defaultOptions			Map of default options */
+	public $defaultOptions		= array(
+		'id'					=> NULL,
+		'classIndicator'		=> 'indicator',
+		'classInner'			=> 'indicator-inner',
+		'classOuter'			=> 'indicator-outer',
+		'classPercentage'		=> 'indicator-percentage',
+		'classRatio'			=> 'indicator-ratio',
+		'length'				=> 100,
+		'useColor'				=> TRUE,
+		'useData'				=> TRUE,
+		'usePercentage'			=> FALSE,
+		'useRatio'				=> FALSE,
 	);
 
 	/**
@@ -61,14 +59,9 @@ class UI_HTML_Indicator extends ADT_OptionObject
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function __construct()
+	public function __construct( $options = array() )
 	{
-		$default	= array(
-			'useColor'		=> TRUE,
-			'usePercentage'	=> TRUE,
-			'useRatio'		=> FALSE,
-		);
-		parent::__construct( $default );
+		parent::__construct( $this->defaultOptions, $options );
 	}
 
 	/**
@@ -79,18 +72,27 @@ class UI_HTML_Indicator extends ADT_OptionObject
 	 *	@param		int			$length		Length of inner Indicator Bar
 	 *	@return		string
 	 */
-	public function build( $found, $count, $length = 100 )
+	public function build( $found, $count, $length = NULL )
 	{
-		$found	= min( $found, $count );
-		$ratio	= $count ? $found / $count : 0;
-		$length	= floor( $ratio * $length );
-
+		$length			= is_null( $length ) ? $this->getOption( 'length' ) : $length;
+		$found			= min( $found, $count );
+		$ratio			= $count ? $found / $count : 0;
 		$divBar			= $this->renderBar( $ratio, $length );
 		$divRatio		= $this->renderRatio( $found, $count );
 		$divPercentage	= $this->renderPercentage( $ratio );
 		$divIndicator	= new UI_HTML_Tag( "div" );
 		$divIndicator->setContent( $divBar.$divPercentage.$divRatio );
-		$divIndicator->setAttribute( 'class', $this->classIndicator );
+		$divIndicator->setAttribute( 'class', $this->getOption( 'classIndicator' ) );
+		if( $this->getOption( 'id' ) )
+			$divIndicator->setAttribute( 'id', $this->getOption( 'id' ) );
+		if( $this->getOption( 'useData' ) ){
+			$divIndicator->setAttribute( 'data-total', $count );
+			$divIndicator->setAttribute( 'data-value', $found );
+			foreach( $this->getOptions() as $key => $value )
+//				if( strlen( $value ) )
+//				if( preg_match( "/^use/", $key ) )
+					$divIndicator->setAttribute( 'data-option-'.$key, (string) $value );
+		}
 		return $divIndicator->build();
 	}
 
@@ -101,7 +103,7 @@ class UI_HTML_Indicator extends ADT_OptionObject
 	 */
 	public function getIndicatorClass()
 	{
-		return $this->classIndicator;
+		return $this->getOption( 'classIndicator' );
 	}
 
 	/**
@@ -111,7 +113,7 @@ class UI_HTML_Indicator extends ADT_OptionObject
 	 */
 	public function getInnerClass()
 	{
-		return $this->classInner;
+		return $this->getOption( 'classInner' );
 	}
 
 	/**
@@ -121,7 +123,7 @@ class UI_HTML_Indicator extends ADT_OptionObject
 	 */
 	public function getOuterClass()
 	{
-		return $this->classOuter;
+		return $this->getOption( 'classOuter' );
 	}
 
 	/**
@@ -131,7 +133,7 @@ class UI_HTML_Indicator extends ADT_OptionObject
 	 */
 	public function getPercentageClass()
 	{
-		return $this->classPercentage;
+		return $this->getOption( 'classPercentage' );
 	}
 
 	/**
@@ -141,20 +143,26 @@ class UI_HTML_Indicator extends ADT_OptionObject
 	 */
 	public function getRatioClass()
 	{
-		return $this->classRatio;
+		return $this->getOption( 'classRatio' );
+	}
+
+	static public function render( $count, $found, $options = array() ){
+		$indicator	= new UI_HTML_Indicator( $options );
+		return $indicator->build( $count, $found );
 	}
 
 	/**
 	 *	Builds HTML Code of Indicator Bar.
 	 *	@access		protected
 	 *	@param		float		$ratio		Ratio (between 0 and 1)
-	 *	@param		int			$length		Length of inner Indicator Bar
+	 *	@param		int			$length		Length of Indicator
 	 *	@return		string
 	 */
 	protected function renderBar( $ratio, $length = 100 )
 	{
 		$css			= array();
-		$css['width']	= $length.'px';
+		$width			= floor( $ratio * $length );
+		$css['width']	= $width.'px';
 		if( $this->getOption( 'useColor' ) )
 		{
 			$colorR	= ( 1 - $ratio ) > 0.5 ? 255 : round( ( 1 - $ratio ) * 2 * 255 );
@@ -163,17 +171,16 @@ class UI_HTML_Indicator extends ADT_OptionObject
 			$css['background-color']	= "rgb(".$colorR.",".$colorG.",".$colorB.")";
 		}
 
-		$style	= array();		
-		foreach( $css as $key => $value )
-			$style[]	= $key.": ".$value;
-		$style	= implode( "; ", $style );
-
 		$attributes	= array(
-			'class'	=> $this->classInner,
-			'style'	=> $style,
+			'class'	=> $this->getOption( 'classInner' ),
+			'style'	=> $css,
 		);
-		$bar	= UI_HTML_Tag::create( 'div', "", $attributes );
-		$div	= UI_HTML_Tag::create( "span", $bar, array( 'class' => $this->classOuter ) );
+		$bar		= UI_HTML_Tag::create( 'div', "", $attributes );
+		
+		$attributes	= array( 'class' => $this->getOption( 'classOuter' ) );
+		if( $length != 100 )
+			$attributes['style']	= array( 'width' => $length.'px' );
+		$div		= UI_HTML_Tag::create( "span", $bar, $attributes );
 		return $div;
 	}
 
@@ -188,7 +195,7 @@ class UI_HTML_Indicator extends ADT_OptionObject
 		if( !$this->getOption( 'usePercentage' ) )
 			return "";
 		$value		= floor( $ratio * 100 )."&nbsp;%";
-		$attributes	= array( 'class' => $this->classPercentage );
+		$attributes	= array( 'class' => $this->getOption( 'classPercentage' ) );
 		$div		= UI_HTML_Tag::create( "span", $value, $attributes );
 		return $div;
 	}
@@ -205,7 +212,7 @@ class UI_HTML_Indicator extends ADT_OptionObject
 		if( !$this->getOption( 'useRatio' ) )
 			return "";
 		$content	= $found."/".$count;
-		$attributes	= array( 'class' => $this->classRatio );
+		$attributes	= array( 'class' => $this->getOption( 'classRatio' ) );
 		$div		= UI_HTML_Tag::create( "span", $content, $attributes );
 		return $div;
 	}
@@ -218,7 +225,7 @@ class UI_HTML_Indicator extends ADT_OptionObject
 	 */
 	public function setIndicatorClass( $class )
 	{
-		$this->classIndicator	= $class;
+		$this->setOption( 'classIndicator', $class );
 	}
 
 	/**
@@ -229,7 +236,7 @@ class UI_HTML_Indicator extends ADT_OptionObject
 	 */
 	public function setInnerClass( $class )
 	{
-		$this->classInner	= $class;
+		$this->setOption( 'classInner', $class );
 	}
 
 	/**
@@ -241,7 +248,7 @@ class UI_HTML_Indicator extends ADT_OptionObject
 	 */
 	public function setOption( $key, $value )
 	{
-		if( !in_array( $key, $this->optionKeys ) )
+		if( !array_key_exists( $key, $this->defaultOptions ) )
 			throw new OutOfRangeException( 'Option "'.$key.'" is not a valid Indicator Option.' );
 		return parent::setOption( $key, $value );
 	}
@@ -254,7 +261,7 @@ class UI_HTML_Indicator extends ADT_OptionObject
 	 */
 	public function setOuterClass( $class )
 	{
-		$this->classOuter	= $class;
+		$this->setOption( 'classOuter', $class );
 	}
 
 	/**
@@ -265,7 +272,7 @@ class UI_HTML_Indicator extends ADT_OptionObject
 	 */
 	public function setPercentageClass( $class )
 	{
-		$this->classPercentage	= $class;
+		$this->setOption( 'classPercentage', $class );
 	}
 
 	/**
@@ -276,7 +283,7 @@ class UI_HTML_Indicator extends ADT_OptionObject
 	 */
 	public function setRatioClass( $class )
 	{
-		$this->classRatio	= $class;
+		$this->setOption( 'classRatio', $class );
 	}
 }
 ?>
