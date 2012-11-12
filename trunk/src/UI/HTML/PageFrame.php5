@@ -44,13 +44,26 @@ class UI_HTML_PageFrame
 	protected $scripts	= array();
 	protected $metaTags	= array();
 	protected $baseHref	= NULL;
-	protected $head		= "";
-	protected $body		= "";
+	protected $head		= array();
+	protected $body		= array();
 	protected $profile	= NULL;
 	
 	protected $charset	= NULL;
 	protected $language	= NULL;
+	protected $doctype	= 'XHTML_10_STRICT';
+	protected $doctypes	= array(
+		'HTML5'						=> '<!DOCTYPE html>',
+		'XHTML_11'					=> '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">',
+		'XHTML_10_STRICT'			=> '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">',
+		'XHTML_10_TRANSITIONAL'		=> '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">',
+		'XHTML_10_FRAMESET'			=> '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">',
+		'XHTML_401_STRICT'			=> '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">',
+		'XHTML_401_TRANSITIONAL'	=> '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">',
+		'XHTML_401_FRAMESET'		=> '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN" "http://www.w3.org/TR/html4/frameset.dtd">',
+	);
 
+	
+	
 	/**
 	 *	Constructor.
 	 *	@access		public
@@ -77,7 +90,7 @@ class UI_HTML_PageFrame
 	 */
 	public function addBody( $string )
 	{
-		$this->body	.= "\n".$string;
+		$this->body[]	= $string;
 	}
 
 	/**
@@ -105,7 +118,7 @@ class UI_HTML_PageFrame
 	 */
 	public function addHead( $string )
 	{
-		$this->head	.= "\n\t\t".$string;
+		$this->head[]	= $string;
 	}
 
 	/**
@@ -178,7 +191,7 @@ class UI_HTML_PageFrame
 	 *	@access		public
 	 *	@return		string
 	 */
-	public function build( $bodyAttributes = array() )
+	public function build( $bodyAttributes = array(), $htmlAttributes = array() )
 	{
 		$tagsHead	= array();
 		$tagsBody	= array();
@@ -204,17 +217,19 @@ class UI_HTML_PageFrame
 			'profile'	=> $this->profile
 		);
 
-		$tagsHead	= implode( "\n\t\t", $tagsHead ).$this->head;
-		$tagsBody	= implode( "\n\t\t", $tagsBody ).$this->body;
+		$tagsHead	= implode( "\n\t\t", $tagsHead ).implode( "\n\t\t", $this->head );
+		$tagsBody	= implode( "\n\t\t", $tagsBody ).implode( "\n\t\t", $this->body );
 		$head		= UI_HTML_Tag::create( "head", "\n\t\t".$tagsHead."\n\t", $headAttributes );
 		$body		= UI_HTML_Tag::create( "body", "\n\t\t".$tagsBody."\n\t", $bodyAttributes );
-		$attributes	= array(
-			'xmlns'		=> "http://www.w3.org/1999/xhtml",
-			'xml:lang'	=> $this->language,
-			'lang'		=> $this->language,
-		);
+		
+		$doctype	= $this->doctypes[$this->doctype];
+		$attributes	= array( 'lang' => $this->language );
+		if( is_int( strpos( $doctype, 'xhtml' ) ) || $this->doctype == 'HTML5' ){
+			$attributes	= array( 'xml:lang' => $this->language ) + $attributes;
+			$attributes	= array( 'xmlns' => "http://www.w3.org/1999/xhtml" ) + $attributes;
+		}
+		$attributes	+= $htmlAttributes;
 		$html		= UI_HTML_Tag::create( "html", "\n\t".$head."\n\t".$body."\n", $attributes );
-		$doctype	= '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">';
 		return $doctype."\n".$html;
 	}
 
@@ -228,7 +243,19 @@ class UI_HTML_PageFrame
 	{
 		$this->baseHref	= $uri;
 	}
-	
+
+	public function setDocType( $doctype )
+	{
+		$doctypes	= array_keys( $this->doctypes );
+		$key		= str_replace( array( ' ', '-' ), '_', trim( $doctype ) );
+		$key		= preg_replace( "/[^A-Z0-9_]/", '', strtoupper( $key ) );
+		if( !strlen( trim( $key ) ) )
+			throw new InvalidArgumentException( 'No doctype given' );
+		if( !array_key_exists( $key, $this->doctypes ) )
+			throw new OutOfRangeException( 'Doctype "'.$doctype.'" (understood as '.$key.') is invalid' );
+		$this->doctype	= $key;
+	}
+
 	/**
 	 *	Sets Application Heading in Body.
 	 *	@access		public
@@ -251,8 +278,12 @@ class UI_HTML_PageFrame
 	 *	@param		string		$title			Page Title
 	 *	@return		void
 	 */
-	public function setTitle( $title )
+	public function setTitle( $title, $mode = 'set', $separator = ' | ' )
 	{
+		if( $mode == 'append' || $mode === 1 )
+			$title	= $this->title.$separator.$title;
+		else if( $mode == 'prepend' || $mode === -1 )
+			$title	= $title.$separator.$this->title;
 		$this->title	= $title;
 	}
 }
