@@ -53,21 +53,22 @@ class ADT_OptionObject implements ArrayAccess, Countable
 	 *	@todo		allow integer map keys for eg. options defined by constants (which point to integer values, of course)
 	 *	@return		void
 	 */
-	public function __construct( $options = array() )
+	public function __construct( $defaults = array(), $settings = array() )
 	{
-		if( !is_array( $options ) )
-			throw new InvalidArgumentException( 'Initial Options must be an Array or Pairs.' );
+		if( !is_array( $defaults ) )
+			throw new InvalidArgumentException( 'Default options must be an array map.' );
+		if( !is_array( $settings ) )
+			throw new InvalidArgumentException( 'Settings must be an array map.' );
 
-		foreach( $options as $key => $value )
-		{
+
+		foreach( $defaults as $key => $value )
 			if( is_int( $key ) )
-			{
-				throw new InvalidArgumentException( 'Initial Options must be an associative Array of Pairs.' );
-			}
-		}
-		$this->options	= array();
-		foreach( $options as $key => $value )
-			$this->options[$key] = $value;
+				throw new InvalidArgumentException( 'Default options must be an associative array of pairs.' );
+		foreach( $settings as $key => $value )
+			if( is_int( $key ) )
+				throw new InvalidArgumentException( 'Settings must be an associative array of pairs.' );
+
+		$this->options	= array_merge( $defaults, $settings );
 	}
 
 	/**
@@ -82,7 +83,7 @@ class ADT_OptionObject implements ArrayAccess, Countable
 		$this->options	= array();
 		return TRUE;
 	}
-	
+
 	/**
 	 *	Returns the Number of Options.
 	 *	@access		public
@@ -92,7 +93,7 @@ class ADT_OptionObject implements ArrayAccess, Countable
 	{
 		return count( $this->options );
 	}
-	
+
 	/**
 	 *	Declares a Set of Options.
 	 *	@access		public
@@ -150,7 +151,7 @@ class ADT_OptionObject implements ArrayAccess, Countable
 	{
 		return array_key_exists( (string) $key, $this->options );
 	}
-	
+
 	/**
 	 *	Indicates whether a Key is existing.
 	 *	@access		public
@@ -161,7 +162,7 @@ class ADT_OptionObject implements ArrayAccess, Countable
 	{
 		return $this->hasOption( $key );
 	}
-	
+
 	/**
 	 *	Return a Value of Dictionary by its Key.
 	 *	@access		public
@@ -172,7 +173,7 @@ class ADT_OptionObject implements ArrayAccess, Countable
 	{
 		return $this->getOption( $key );
 	}
-	
+
 	/**
 	 *	Sets Value of Key in Dictionary.
 	 *	@access		public
@@ -184,7 +185,7 @@ class ADT_OptionObject implements ArrayAccess, Countable
 	{
 		return $this->setOption( $key, $value );
 	}
-	
+
 	/**
 	 *	Removes a Value from Dictionary by its Key.
 	 *	@access		public
@@ -209,7 +210,7 @@ class ADT_OptionObject implements ArrayAccess, Countable
 		unset( $this->options[$key] );
 		return TRUE;
 	}
-	
+
 	/**
 	 *	Sets an options.
 	 *	@access		public
