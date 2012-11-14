@@ -123,7 +123,7 @@ class Net_CURL
 		$this->info		= NULL;
 		$this->options	= array();
 		if( !empty( $url ) )
-			$this->setOption( CURLOPT_URL, $url ); 
+			$this->setUrl( $url );
 //		$this->setOption( CURLOPT_FOLLOWLOCATION, TRUE );
 		$this->setOption( CURLOPT_HEADER, TRUE );
 		$this->setOption( CURLOPT_RETURNTRANSFER, TRUE );
@@ -168,7 +168,7 @@ class Net_CURL
 		$this->info = curl_getinfo( $this->handle );
 		$this->info['errno']	= curl_errno( $this->handle );
 		$this->info['error']	= curl_error( $this->handle );
-				
+
 		if( $breakOnError && $this->info['errno'] )
 			throw new RuntimeException( $this->info['error'], $this->info['errno'] );
 
@@ -177,7 +177,6 @@ class Net_CURL
 		{
 			$result	= preg_replace( "@^HTTP/1\.1 100 Continue\r\n\r\n@", "", $result );				//  Hack: remove "100 Continue"
 			$result	= trim( $result );																//  trim Result String
-			
 			$parts	= preg_split( "/(\r\n){2}/", $result );											//  split Headers Blocks
 #			if( count( $parts ) < 2 )																//  no Header Blocks splitted
 #				throw new Exception( 'Error while splitting HTTP Response String.' );
@@ -256,6 +255,10 @@ class Net_CURL
 			return NULL;
 	}
 
+	static public function isSupported(){
+		return defined( 'CURLOPT_POST' );
+	}
+
 	/**
 	 *	Parse an HTTP header.
 	 *
@@ -313,7 +316,17 @@ class Net_CURL
 			throw new InvalidArgumentException( "Option could not been set." );
 		$this->options[$option]	= $value;
 	}
-	
+
+	public function setUrl( $url )
+	{
+		if( parse_url( $url, PHP_URL_PORT ) ){
+			$parts	= (object) parse_url( $url );
+#			$url	= $parts->scheme.'://'.$parts->host.$parts->path;
+			$this->setOption( CURLOPT_PORT, $parts->port );
+		}
+		$this->setOption( CURLOPT_URL, $url );
+	}
+
 	/**
 	 *	Set Time Out in Seconds.
 	 *	@access		public
