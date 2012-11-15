@@ -5,24 +5,20 @@ if( !defined( 'CMC_PATH' ) )
 
 require_once( CMC_PATH.'Loader.php5' );
 
-$__config	= dirname( __FILE__ ).'/cmClasses.ini';
-if( file_exists( $__config ) ){
-	$__config	= parse_ini_file( $__config, TRUE );
-	$constants	= array(
-		'CMC_VERSION'	=> 'version',
-		'CMC_AUTHOR'	=> 'author',
-		'CMC_COMPANY'	=> 'company',
-		'CMC_TITLE	'	=> 'name',
-		'CMC_URL'		=> 'link',
-	);
-	foreach( $constants as $constantName => $configProjectKey )
-		if( !defined( $constantName ) )
-			define( $constantName, $__config['project'][$configProjectKey] );
-}
-else
-	if( !defined( 'CMC_VERSION' ) )
-		define( 'CMC_VERSION', basename( dirname( __FILE__ ) ) );
-
+$___configFile	= dirname( __FILE__ ).'/cmClasses.ini';
+$___constants	= array(
+	'CMC_VERSION'	=> 'version',
+	'CMC_AUTHOR'	=> 'author',
+	'CMC_COMPANY'	=> 'company',
+	'CMC_TITLE	'	=> 'name',
+	'CMC_URL'		=> 'link',
+);
+if( !file_exists( $___configFile ) )
+	throw new RuntimeException( 'Please configure cmClasses first' );
+$___config		= parse_ini_file( $___configFile, TRUE );
+foreach( $___constants as $___constantKey => $___constantValue )
+	if( !defined( strtoupper( $___constantKey ) ) )
+		define( strtoupper( $___constantKey ), $___config['project'][$___constantValue] );
 
 $__loaderLib	= new CMC_Loader();																	//  get new loader instance
 $__loaderLib->setExtensions( 'php5' );																//  set allowed fiel extension
