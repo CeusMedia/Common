@@ -233,6 +233,11 @@ class UI_HTML_PageFrame
 		return $doctype."\n".$html;
 	}
 
+	public function getBody( $separator = "\n" )
+	{
+		return join( $separator, $this->body );
+	}
+
 	/**
 	 *	Sets base URI for all referencing resources.
 	 *	@access		public
@@ -242,6 +247,11 @@ class UI_HTML_PageFrame
 	public function setBaseHref( $uri )
 	{
 		$this->baseHref	= $uri;
+	}
+
+	public function setBody( $string )
+	{
+		$this->body		= $string;
 	}
 
 	public function setDocType( $doctype )
