@@ -50,6 +50,15 @@ class File_CSS_Compressor
 		return self::compressString( File_Reader::load( $fileName ), $oneLine );
 	}
 */
+
+	public function compress( $string, $oneLine = FALSE ){
+		$this->statistics	= array();
+		$this->statistics['before']	= strlen( $string );
+		$string	= self::compressString( $string, $oneLine );
+		$this->statistics['after']	= strlen( $string );
+		return $string;
+	}
+
 	static public function compressSheet( ADT_CSS_Sheet $sheet, $oneLine = FALSE ){
 		$converter	= new File_CSS_Converter( $sheet );
 		return self::compressString( $converter->toString(), $oneLine );
@@ -90,12 +99,9 @@ class File_CSS_Compressor
 		if( !file_exists( $fileUri ) )
 			throw new Exception( "Style File '".$fileUri."' is not existing." );
 
-		$this->statistics	= array();
 
 		$content	= file_get_contents( $fileUri );
-		$this->statistics['before']	= strlen( $content );
 		$content	= self::compressString( $content );
-		$this->statistics['after']	= strlen( $content );
 		
 		$pathName	= dirname( $fileUri );
 		$styleFile	= basename( $fileUri );
