@@ -130,7 +130,7 @@ class Net_API_Gravatar{
 		$attributes['src']		= $this->getUrl( $email );
 		$attributes['width']	= $this->size;
 		$attributes['height']	= $this->size;
-		return self::makeNode( 'img', NULL, $attributes );
+		return UI_HTML_Tag::create( 'img', NULL, $attributes );
 	}
 
 	/**
