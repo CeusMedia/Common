@@ -193,7 +193,7 @@ class File_PHP_Parser_Regular
 			case 'interface':
 				$artefact	= new ADT_PHP_Interface( $matches[4] );
 				if( isset( $matches[5] ) )
-					$artefact->setExtendedInterface( $matches[6] );
+					$artefact->setExtendedInterfaceName( $matches[6] );
 				$artefact->setFinal( (bool) $matches[2] );
 				break;
 			default:
