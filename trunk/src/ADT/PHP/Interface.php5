@@ -406,7 +406,11 @@ class ADT_PHP_Interface
 
 	public function setExtendedInterface( ADT_PHP_Interface $interface )
 	{
-		$this->extends	= $interface;	
+		$this->extends	= $interface;
+	}
+
+	public function setExtendedInterfaceName( $interace ){
+		$this->extends	= $interface;
 	}
 
 	public function setExtendingInterfaceName( $interface )
