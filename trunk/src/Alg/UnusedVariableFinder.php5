@@ -2,7 +2,7 @@
 /**
  *	Finds not used Variables in Methods of a Class.
  *
- *	Copyright (c) 2007-2012 Christian Würker (ceusmedia.com)
+ *	Copyright (c) 2007 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
  *	@category		cmClasses
  *	@package		Alg
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2012 Christian Würker
+ *	@copyright		2007 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			14.01.2008
@@ -31,7 +31,7 @@
  *	@category		cmClasses
  *	@package		Alg
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2012 Christian Würker
+ *	@copyright		2007 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			14.01.2008
@@ -96,6 +96,12 @@ class Alg_UnusedVariableFinder
 	{
 		$open		= FALSE;
 		$content	= preg_replace( "@/\*.*\*/@Us", "", $content );
+		$content	= preg_replace( '@".*"@Us', "", $content );
+		$content	= preg_replace( "@'.*'@Us", "", $content );
+		$content	= preg_replace( "@#.+\n@U", "", $content );
+		$content	= preg_replace( "@\s+\n@U", "\n", $content );
+		$content	= preg_replace( "@\n\n@U", "\n", $content );
+		$content	= preg_replace( "@//\s*[\w|\s]*\n@U", "\n", $content );
 		$lines		= explode( "\n", $content );
 		$matches	= array();
 		$count		= 0;
@@ -120,24 +126,25 @@ class Alg_UnusedVariableFinder
 							$matches[$open]['params'][]	= preg_replace( '@^([a-z0-9_]+ )?&?\$(.*)( ?= ?.*)?$@Ui', "\\2", $param );
 						}
 					}
+					if( preg_match( "/\{$/", $line ) )
+						$count++;
 				}
 			}
 			else
 			{
-				if( preg_match( "@^{.*$@", $line ) )
+				$matches[$open]['lines'][]	= $line;
+				if( preg_match( "/^\{$/", $line ) || preg_match( "/\{$/", $line ) )
 				{
 					$count++;
 				}
-				if( preg_match( "@^}.*$@", $line ) )
+				else if( preg_match( "/^\}/", $line ) || preg_match( "/\}$/", $line ) )
 				{
 					$count--;
 					if( !$count )
 						$open	= FALSE;
 				}
-				$line	= trim( $line );
-				if( $line && !preg_match( "@^\}|\{$@", $line ) )
-					$matches[$open]['lines'][]	= $line;
 			}
+			$lastLine	= $line;
 		}
 		$this->methods	= $matches;
 	}
@@ -158,7 +165,7 @@ class Alg_UnusedVariableFinder
 		
 			foreach( $data['lines'] as $line )
 			{
-				$var	= "";
+				$var		= "";
 				$pattern	= "@^ *\t*[$]([^ ]+)(\t| )+=[^>].*@";
 				if( preg_match( $pattern, $line ) )
 				{
@@ -182,6 +189,7 @@ class Alg_UnusedVariableFinder
 						$this->vars[$method][$name]++;
 					}
 				}
+				
 			}
 		}
 	}
