@@ -51,7 +51,7 @@ class Alg_Text_CamelCase
 	 *	@param		bool		$startLow	Flag: convert first Word also to uppercase, use static default if NULL
 	 *	@return		string
 	 */
-	public static function convert( $string, $lowercaseFirst = NULL, $lowercaseLetter = NULL )
+	static public function convert( $string, $lowercaseFirst = NULL, $lowercaseLetter = NULL )
 	{
 		$lowercaseFirst		= is_null( $lowercaseFirst ) ? self::$lowercaseFirst : $lowercaseFirst;
 		$lowercaseLetter	= is_null( $lowercaseLetter ) ? self::$lowercaseLetter : $lowercaseLetter;
@@ -67,6 +67,58 @@ class Alg_Text_CamelCase
 		while( preg_match( self::$regExp, $string, $matches ) )
 		  $string	= $matches[1].ucfirst( $matches[2] );
 		return $string;
+	}
+
+	static public function decode( $string )
+	{
+		if( !function_exists( 'mb_substr' ) )
+			throw new RuntimeException( 'PHP module "mb" is not installed but needed' );
+		$state  = 0;
+		$pos    = 0;
+		while( $pos < mb_strlen( $string, "UTF-8" ) )
+		{
+			$char		= mb_substr( $string, $pos, 1, "UTF-8" );
+			$isUpper	= self::isUpperCharacter( $string, $pos );
+			switch( $state )
+			{
+				case 0:
+					$state	= $isUpper ? 2 : 1;
+					break;
+				case 1:
+					if( $isUpper )
+					{
+						$length	= mb_strlen( $string, "UTF-8" );
+						$string	= mb_substr( $string, 0, $pos, "UTF-8" ).'-'.mb_substr( $string, $pos, $length, "UTF-8" );
+						$state	= 2;
+						$pos++;
+					}
+					break;
+				case 2:
+					if( !$isUpper )
+					{
+						$length	= mb_strlen( $string, "UTF-8" );
+						$string	= mb_substr( $string, 0, $pos - 1, "UTF-8" ).'-'.mb_substr( $string, $pos - 1, $length, "UTF-8" );
+						$state	= 1;
+						$pos++;
+					}
+					break;
+			}
+			$pos++;
+		}
+		$string	= preg_replace( "/-+/", "-", $string );
+		$parts	= explode( '-', $string );
+		foreach( $parts as $nr => $part )
+		{
+			if( !( strlen( $part ) > 1 && self::isUpperCharacter( $part, 1 ) ) )
+				$parts[$nr]	= mb_strtolower( $part, "UTF-8" );
+		}
+		return join( " ", $parts );
+	}
+
+	static protected function isUpperCharacter( $string, $pos )
+	{
+		$char	= mb_substr( $string, $pos, 1, "UTF-8" );
+		return mb_strtolower( $char, "UTF-8") != $char;
 	}
 }
 ?>
