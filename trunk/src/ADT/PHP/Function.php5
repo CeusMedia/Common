@@ -53,6 +53,7 @@ class ADT_PHP_Function
 	protected $todos		= array();
 	protected $deprecations	= array();
 	protected $throws		= array();
+	protected $triggers		= array();
 
 	protected $param		= array();
 	protected $return		= NULL;
@@ -229,6 +230,16 @@ class ADT_PHP_Function
 	}
 
 	/**
+	 *	Returns list of triggers.
+	 *	@access		public
+	 *	@return		array			List of triggers
+	 */
+	public function getTriggers()
+	{
+		return $this->triggers;
+	}
+
+	/**
 	 *	Returns date of current version.
 	 *	@access		public
 	 *	@return		mixed			Date of current version
@@ -265,6 +276,8 @@ class ADT_PHP_Function
 			$this->setDeprecation( $deprecation );
 		foreach( $function->getThrows() as $throws )
 			$this->setThrows( $throws );
+		foreach( $function->getTriggers() as $trigger )
+			$this->setTrigger( $trigger );
 		foreach( $function->getLicenses() as $license )
 			$this->setLicense( $license );
 
@@ -280,6 +293,8 @@ class ADT_PHP_Function
 	{
 		$this->authors[]	= $author;
 	}
+
+	public function setCategory(){}
 
 	/**
 	 *	Sets copyright notes.
@@ -346,6 +361,8 @@ class ADT_PHP_Function
 	{
 		$this->links[]	= $string;
 	}
+
+	public function setPackage(){}
 
 	/**
 	 *	Sets function name.
@@ -440,6 +457,11 @@ class ADT_PHP_Function
 	public function setTodo( $string )
 	{
 		$this->todos[]	= $string;
+	}
+
+	public function setTrigger( ADT_PHP_Trigger $trigger )
+	{
+		$this->triggers[]	= $trigger;
 	}
 
 	/**

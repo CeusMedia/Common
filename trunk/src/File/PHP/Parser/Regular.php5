@@ -115,7 +115,7 @@ class File_PHP_Parser_Regular
 						case 'access':
 							if( !$codeData->getAccess() )											//  only if no access type given by signature
 								$codeData->setAccess( $value );										//  extend access type
-							break;								
+							break;
 						case 'extends':		$codeData->setExtendedClassName( $value ); break;		//  extend extends
 					}
 				}
@@ -171,6 +171,7 @@ class File_PHP_Parser_Regular
 							switch( $key )
 							{
 								case 'throws':		$codeData->setThrows( $itemValue ); break;
+								case 'trigger':		$codeData->setTrigger( $itemValue ); break;
 							}
 						}
 					}
@@ -178,7 +179,7 @@ class File_PHP_Parser_Regular
 			}
 		}
 	}
-	
+
 	/**
 	 *	Parses a Class Signature and returns collected Information.
 	 *	@access		protected
@@ -246,6 +247,10 @@ class File_PHP_Parser_Regular
 			else if( preg_match( "@\*\s+\@throws\s+(\w+)\s*(.+)?$@i", $line, $matches ) )
 			{
 				$data['throws'][]	= $this->parseDocThrows( $matches );
+			}
+			else if( preg_match( "@\*\s+\@trigger\s+(\w+)\s*(.+)?$@i", $line, $matches ) )
+			{
+				$data['trigger'][]	= $this->parseDocTrigger( $matches );
 			}
 			else if( preg_match( "@\*\s+\@author\s+(.+)\s*(<(.+)>)?$@iU", $line, $matches ) )
 			{
@@ -378,6 +383,20 @@ class File_PHP_Parser_Regular
 	}
 
 	/**
+	 *	Parses a Function/Method Trigger Doc Tag and returns collected Information.
+	 *	@access		protected
+	 *	@param		array		$matches		Matches of RegEx
+	 *	@return		ADT_PHP_Trigger
+	 */
+	protected function parseDocTrigger( $matches )
+	{
+		$trigger	= new ADT_PHP_Trigger( trim( $matches[1] ) );
+		if( isset( $matches[2] ) )
+			$trigger->setCondition( trim( $matches[2] ) );
+		return $trigger;
+	}
+
+	/**
 	 *	Parses a Class Varible Doc Tag and returns collected Information.
 	 *	@access		protected
 	 *	@param		array		$matches		Matches of RegEx
@@ -402,6 +421,7 @@ class File_PHP_Parser_Regular
 		if( !Alg_Text_Unicoder::isUnicode( $content ) )
 			$content		= Alg_Text_Unicoder::convertToUnicode( $content );
 
+
 		$lines			= explode( "\n", $content );
 		$fileBlock		= NULL;
 		$openClass		= FALSE;
@@ -421,10 +441,14 @@ class File_PHP_Parser_Regular
 			if( preg_match( "@^(<\?(php)?)|((php)?\?>)$@", $line ) )
 				continue;
 			
-			if( preg_match( '@^\s*{ ?}?$@', $line ) )
+//			if( preg_match( '@^\s*{ ?}?$@', $line ) )
+//				$level++;
+			if( preg_match( '@{$@', $line ) )
 				$level++;
 			if( preg_match( '@}$@', $line ) )
 				$level--;
+
+//remark( $level.' : '.$line );
 
 			if( $line == "/**" && $level < 2 )
 			{
