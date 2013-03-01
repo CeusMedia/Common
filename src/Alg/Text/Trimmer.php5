@@ -58,7 +58,7 @@ class Alg_Text_Trimmer
 		$string	.= $mask;
 		return $string;
 	}
-	
+
 	/**
 	 *	Trims String and cuts to the right if too long, also adding a mask string.
 	 *	@access		public
@@ -78,9 +78,20 @@ class Alg_Text_Trimmer
 			return $string;
 
 		$range	= ( $length - $maskLength ) / 2;
-		$left	= substr( $string, 0, ceil( $range ) );
-		$right	= substr( $string, -floor( $range ) );
 
+		if( function_exists( 'mb_substr' ) )
+		{
+			$mbEnc	= mb_internal_encoding();
+			mb_internal_encoding( 'UTF-8' );
+			$left	= mb_substr( $string, 0, ceil( $range ) );
+			$right	= mb_substr( $string, -floor( $range ) );
+			mb_internal_encoding( $mbEnc );
+		}
+		else
+		{
+			$left	= substr( $string, 0, ceil( $range ) );
+			$right	= substr( $string, -floor( $range ) );
+		}
 		return $left.$mask.$right;
 	}
 }
