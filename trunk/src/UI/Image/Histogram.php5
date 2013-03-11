@@ -39,11 +39,13 @@
  *	@version		$Id$
  *	@todo			Code Doc
  */
-class UI_Image_Histogram{
-
-	public function getData( UI_Image $image ){
+class UI_Image_Histogram
+{
+	static public function getData( UI_Image $image )
+	{
 		$pixels		= $image->getWidth() * $image->getHeight();
-		if( $pixels > 2 * 1000 * 1000 ){
+		if( $pixels > 2 * 1000 * 1000 )
+		{
 			$tempFile	= uniqid().'.image';
 			$thumb	= new UI_Image_ThumbnailCreator( $image->getFileName(), $tempFile, 100 );
 			$thumb->thumbizeByLimit( 1000, 1000 );
@@ -58,8 +60,10 @@ class UI_Image_Histogram{
 			'b'	=> array_fill( 0, 256, 0 ),
 		);
 		$resource	= $image->getResource();
-		for( $x=0; $x<$image->getWidth(); $x++ ){
-			for( $y=0; $y<$image->getHeight(); $y++ ){
+		for( $x=0; $x<$image->getWidth(); $x++ )
+		{
+			for( $y=0; $y<$image->getHeight(); $y++ )
+			{
 				$rgb	= imagecolorat( $resource, $x, $y );
 				$r		= ($rgb >> 16) & 0xFF;
 				$g		= ($rgb >> 8) & 0xFF;
@@ -74,7 +78,8 @@ class UI_Image_Histogram{
 		return $values;
 	}
 
-	public function drawChannels( $data ){
+	static public function drawChannels( $data )
+	{
 		$image	= new UI_Image();
 		$image->create( 256, 100 );
 		$drawer	= new UI_Image_Drawer( $image->getResource() );
@@ -87,7 +92,9 @@ class UI_Image_Histogram{
 		$max	= 0;
 		for( $i=0; $i<256; $i++ )
 			$max	= max( $max, $data['r'][$i] + $data['g'][$i] + $data['b'][$i] );
-		for( $i=0; $i<256; $i++ ){
+		$max	*= 1.05;
+		for( $i=0; $i<256; $i++ )
+		{
 			$x1	= $i;
 			if( $b = floor( $data['b'][$i] / $max * 100 ) )
 				$drawer->drawLine( $i, 0, $x1, $b, $blue );
@@ -101,10 +108,11 @@ class UI_Image_Histogram{
 		return $image;
 	}
 
-	public function drawHistrogram( $data, $colorR = 0, $colorG = 0, $colorB = 0 ){
+	static public function drawHistrogram( $data, $colorR = 0, $colorG = 0, $colorB = 0 ){
 		$max	= max( $data );
 		if( !$max )
 			throw new Exception( "Error: max 0" );
+		$max	*= 1.05;
 		for( $i=0; $i<256; $i++ )
 			$data[$i]	= round( $data[$i] / $max * 100 );
 		$image	= new UI_Image();
