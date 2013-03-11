@@ -2,7 +2,7 @@
 /**
  *	Simple CAPTCHA Generator.
  *
- *	Copyright (c) 2007-2012 Christian Würker (ceusmedia.com)
+ *	Copyright (c) 2007-2013 Christian Würker (ceusmedia.com)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
  *	@category		cmClasses
  *	@package		UI.Image
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2012 Christian Würker
+ *	@copyright		2007-2013 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			01.05.2005
@@ -33,7 +33,7 @@
  *	@uses			Alg_Randomizer
  *	@uses			File_Writer
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2012 Christian Würker
+ *	@copyright		2007-2013 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			01.05.2005
@@ -47,14 +47,12 @@ class UI_Image_Captcha
 	public $useLarges			= FALSE;
 	/**	@var		bool		$useSmalls		Flag: use small Letters */
 	public $useSmalls			= TRUE;
-	/**	@var		bool		$useSigns		Flag: use Signs */
-	public $useSigns			= FALSE;
 	/**	@var		bool		$unique			Flag: every Sign may only appear once in randomized String */
 	public $unique				= FALSE;
 	/**	@var		int			$length			Number of CAPTCHA Signs */
 	public $length				= 4;
-	/**	@var		string		$font			File Name of True Type Font to use */
-	public $font				= "tahoma.ttf";
+	/**	@var		string		$font			File Path of True Type Font to use */
+	public $font				= "";
 	/**	@var		int			$fontSize		Font Size */
 	public $fontSize			= 14;
 	/**	@var		int			$width			Width of CAPTCHA Image */
@@ -75,6 +73,18 @@ class UI_Image_Captcha
 	public $quality				= 90;
 
 	/**
+	 *	Generates CAPTCHA image file and returns generated and used CAPTCHA word.
+	 *	@access		public
+	 *	@param		string		$fileName		Name of CAPTCHA image file to create
+	 *	@return		string		CAPTCHA word rendered in image file
+	 */
+	public function generate( $fileName ){
+		$word	= $this->generateWord();
+		$this->generateImage( $word, $fileName );
+		return $word;
+	}
+
+	/**
 	 *	Generates CAPTCHA Word.
 	 *	@access		public
 	 *	@return		string
@@ -85,7 +95,7 @@ class UI_Image_Captcha
 		$rand->useSmalls	= $this->useSmalls;
 		$rand->useLarges	= $this->useLarges;
 		$rand->useDigits	= $this->useDigits;
-		$rand->useSigns		= $this->useSigns;
+		$rand->useSigns		= FALSE;
 		$rand->unique		= $this->unique;
 		return $rand->get( $this->length );
 	}
@@ -99,6 +109,8 @@ class UI_Image_Captcha
 	 */
 	public function generateImage( $word, $fileName )
 	{
+		if( !$this->font )
+			throw new RuntimeException( 'No font defined' );
 		if( !( is_array( $this->textColor ) && count( $this->textColor ) == 3 ) )
 			throw new InvalidArgumentException( 'Text Color must be an Array of 3 decimal Values.' );
 		if( !( is_array( $this->background ) && count( $this->background ) == 3 ) )
