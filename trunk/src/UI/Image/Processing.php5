@@ -2,7 +2,7 @@
 /**
  *	Processor for resizing, scaling and rotating an image.
  *
- *	Copyright (c) 2010-2012 Christian Würker (ceusmedia.com)
+ *	Copyright (c) 2010-2013 Christian Würker (ceusmedia.com)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
  *	@category		cmClasses
  *	@package		UI.Image
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2010-2012 Christian Würker
+ *	@copyright		2010-2013 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			0.7.0
@@ -32,7 +32,7 @@
  *	@package		UI.Image
  *	@uses			UI_Image
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2010-2012 Christian Würker
+ *	@copyright		2010-2013 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			0.7.0
@@ -40,19 +40,24 @@
  */
 class UI_Image_Processing
 {
-	/**	@var	UI_Image			$image		Image resource object */
+	/**	@var		UI_Image		$image			Image resource object */
 	protected $image;
+	
+	/**	@param		integer			$maxMegaPixel	Maxiumum megapixels */
+	public $maxMegaPixels			= 0;
 
 	/**
 	 *	Constructor.
 	 *	Sets initial image resource object.
 	 *	@access		public
-	 *	@param		UI_Image		$image		Image resource object
+	 *	@param		UI_Image		$image			Image resource object
+	 *	@param		integer			$maxMegaPixel	Maxiumum megapixels, default: 0 - unlimited
 	 *	@return		void
 	 */
-	public function __construct( UI_Image $image )
+	public function __construct( UI_Image $image, $maxMegaPixels = 0 )
 	{
-		$this->image	= $image;
+		$this->image			= $image;
+		$this->maxMegaPixels	= $maxMegaPixels;
 	}
 
 	/**
@@ -95,12 +100,44 @@ class UI_Image_Processing
 	}
 
 	/**
+	 *	Flips image horizontally or vertically.
+	 *	@access		public
+	 *	@param		integer		$mode		0: horizontally, 1: vertically
+	 *	@return		boolean		Image has been flipped
+	 */
+	public function flip( $mode = 0 ){
+		$image	= new UI_Image;
+		$width	= $this->image->getWidth();
+		$height	= $this->image->getHeight();
+		$image->create( $width, $height );
+		if( $mode == 0 ){
+			imagecopyresampled(
+				$image->getResource(),	$this->image->getResource(),
+				0, 0,
+				0, ( $height - 1),
+				$width, $height,
+				$width, 0 - $height
+			);
+		}
+		else{
+			imagecopyresampled(
+				$image->getResource(),	$this->image->getResource(),
+				0, 0,
+				( $width - 1), 0,
+				$width, $height,
+				0 - $width, $height
+			);
+		}
+		$this->image->setResource( $image->getResource() );											//  replace held image resource object by result
+		return TRUE;
+	}
+
+	/**
 	 *	Resizes image.
 	 *	@access		public
 	 *	@param		integer		$width			New width
 	 *	@param		integer		$height			New height
 	 *	@param		boolean		$interpolate	Flag: use interpolation
-	 *	@param		integer		$maxMegaPixel	Maxiumum megapixels
 	 *	@return		boolean		Image has been resized
 	 *	@throws		InvalidArgumentException if width is not an integer value
 	 *	@throws		InvalidArgumentException if height is not an integer value
@@ -108,7 +145,7 @@ class UI_Image_Processing
 	 *	@throws		OutOfRangeException if height is lower than 1
 	 *	@throws		OutOfRangeException if resulting image has more mega pixels than allowed
 	 */
-	public function resize( $width, $height, $interpolate = TRUE, $maxMegaPixel = 50 )
+	public function resize( $width, $height, $interpolate = TRUE )
 	{
 		if( !is_int( $width ) )
 			throw new InvalidArgumentException( 'Width must be integer' );
@@ -120,8 +157,8 @@ class UI_Image_Processing
 			throw new OutOfRangeException( 'Height must be atleast 1' );
 		if( $this->image->getWidth() == $width && $this->image->getHeight() == $height )
 			return FALSE;
-		if( $maxMegaPixel && $width * $height > $maxMegaPixel * 1024 * 1024 )
-			throw new OutOfRangeException( 'Larger than '.$maxMegaPixel.'MP ('.$width.'x'.$heigth.')' );
+		if( $this->maxMegaPixels && $width * $height > $this->maxMegaPixels * 1024 * 1024 )
+			throw new OutOfRangeException( 'Larger than '.$this->maxMegaPixels.'MP ('.$width.'x'.$heigth.')' );
 
 		$image	= new UI_Image;
 		$image->create( $width, $height );
@@ -164,10 +201,10 @@ class UI_Image_Processing
 	 *	@param		integer		$width			Factor for width
 	 *	@param		integer		$height			Factor for height
 	 *	@param		boolean		$interpolate	Flag: use interpolation
-	 *	@param		integer		$maxMegaPixel	Maxiumum megapixels
 	 *	@return		boolean		Image has been scaled
+	 *	@throws		OutOfRangeException if resulting image has more mega pixels than allowed
 	 */
-	public function scale( $width, $height = NULL, $interpolate = TRUE, $maxMegaPixel = 50 )
+	public function scale( $width, $height = NULL, $interpolate = TRUE )
 	{
 		if( is_null( $height ) )
 			$height	= $width;
@@ -175,6 +212,8 @@ class UI_Image_Processing
 			return FALSE;
 		$width	= (int) round( $this->image->getWidth() * $width );
 		$height	= (int) round( $this->image->getHeight() * $height );
+		if( $this->maxMegaPixels && $width * $height > $this->maxMegaPixels * 1024 * 1024 )
+			throw new OutOfRangeException( 'Larger than '.$this->maxMegaPixels.'MP ('.$width.'x'.$heigth.')' );
 		return $this->resize( $width, $height, $interpolate, $maxMegaPixel );
 	}
 
@@ -215,6 +254,7 @@ class UI_Image_Processing
 	 *	@param		boolean		$interpolate	Flag: use interpolation
 	 *	@param		integer		$maxMegaPixel	Maxiumum megapixels
 	 *	@return		boolean		Image has been scaled
+	 *	@throws		OutOfRangeException if resulting image has more mega pixels than allowed
 	 */
 	public function scaleUpToLimit( $width, $height, $interpolate = TRUE, $maxMegaPixel = 50 )
 	{
@@ -233,6 +273,8 @@ class UI_Image_Processing
 			$scale	*= $height / ( $sourceHeight * $scale );
 		$width	= (int) round( $sourceWidth * $scale );
 		$height	= (int) round( $sourceHeight * $scale );
+		if( $this->maxMegaPixels && $width * $height > $this->maxMegaPixels * 1024 * 1024 )
+			throw new OutOfRangeException( 'Larger than '.$this->maxMegaPixels.'MP ('.$width.'x'.$heigth.')' );
 		return $this->resize( $width, $height, $interpolate, $maxMegaPixel );
 	}
 
