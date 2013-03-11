@@ -48,8 +48,9 @@ class UI_HTML_Indicator extends ADT_OptionObject
 		'classPercentage'		=> 'indicator-percentage',
 		'classRatio'			=> 'indicator-ratio',
 		'length'				=> 100,
+		'invertColor'			=> FALSE,
 		'useColor'				=> TRUE,
-		'useData'				=> TRUE,
+  		'useData'				=> TRUE,
 		'usePercentage'			=> FALSE,
 		'useRatio'				=> FALSE,
 	);
@@ -94,6 +95,33 @@ class UI_HTML_Indicator extends ADT_OptionObject
 					$divIndicator->setAttribute( 'data-option-'.$key, (string) $value );
 		}
 		return $divIndicator->build();
+	}
+
+	/**
+	 *	Returns RGB list of calculated color
+	 *	@access		public
+	 *	@param		int			$found		Amount of positive Cases
+	 *	@param		int			$count		Amount of all Cases
+	 *	@return		array		List of RGB values
+	 */
+	public function getColor( $found, $count ){
+		$ratio			= $count ? $found / $count : 0;
+		return $this->getColorFromRatio( $ratio );
+	}
+
+	/**
+	 *	Returns RGB list of color calculated by ratio.
+	 *	@access		public
+	 *	@param		float		$ratio		Ratio (between 0 and 1)
+	 *	@return		array		List of RGB values
+	 */
+	public function getColorFromRatio( $ratio ){
+		if( $this->getOption( 'invertColor' ) )
+			$ratio	= 1 - $ratio;
+		$colorR	= ( 1 - $ratio ) > 0.5 ? 255 : round( ( 1 - $ratio ) * 2 * 255 );
+		$colorG	= $ratio > 0.5 ? 255 : round( $ratio * 2 * 255 );
+		$colorB	= "0";
+		return array( $colorR, $colorG, $colorB );
 	}
 
 	/**
@@ -165,10 +193,8 @@ class UI_HTML_Indicator extends ADT_OptionObject
 		$css['width']	= $width.'px';
 		if( $this->getOption( 'useColor' ) )
 		{
-			$colorR	= ( 1 - $ratio ) > 0.5 ? 255 : round( ( 1 - $ratio ) * 2 * 255 );
-			$colorG	= $ratio > 0.5 ? 255 : round( $ratio * 2 * 255 );
-			$colorB	= "0";
-			$css['background-color']	= "rgb(".$colorR.",".$colorG.",".$colorB.")";
+			$color	= $this->getColorFromRatio( $ratio );
+			$css['background-color']	= "rgb(".$color[0].",".$color[1].",".$color[2].")";
 		}
 
 		$attributes	= array(
