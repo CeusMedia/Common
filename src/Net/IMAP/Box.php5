@@ -124,7 +124,7 @@ class Net_IMAP_Box
 	public function getHeadersByUid( $uid ){
 		$cacheKey	= 'mail_header_'.$uid;
 		if( $this->cache->has( $cacheKey ) )
-			$message	= $this->cache->get( $cacheKey );
+			$message	= json_decode( $this->cache->get( $cacheKey ) );
 		else
 		{
 			$msgNo		= $this->getNrFromUid( $uid );
@@ -142,7 +142,7 @@ class Net_IMAP_Box
 			$message		= (object) array(
 				"uid"			=> $uid,
 				"number"		=> trim( $headers->Msgno ),
-				"messageId"		=> trim( $headers->message_id ),
+//				"messageId"		=> trim( $headers->message_id ),
 				"timestamp"		=> $headers->udate,
 				"date"			=> date( "Y-m-d H:i:s", strtotime( $headers->date ) ),
 				"size"			=> (int) $headers->Size,
@@ -161,7 +161,7 @@ class Net_IMAP_Box
 				"recent"		=> (bool) trim( $headers->Recent ),
 				"unseen"		=> (bool) trim( $headers->Unseen ),
 			);
-			$this->cache->set( $cacheKey, $message );
+			$this->cache->set( $cacheKey, json_encode( $message ) );
 		}
 		return $message;
 		
