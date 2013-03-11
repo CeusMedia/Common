@@ -53,7 +53,7 @@ class XML_Element extends SimpleXMLElement
 	 *	@throws		RuntimeException		if attribute is already set
 	 *	@throws		RuntimeException		if namespace prefix is neither registered nor given
 	 */
-	public function addAttribute( $name, $value, $nsPrefix = NULL, $nsURI = NULL )
+	public function addAttribute( $name, $value = NULL, $nsPrefix = NULL, $nsURI = NULL )
 	{
 		$key	= $nsPrefix ? $nsPrefix.':'.$name : $name;
 		if( $nsPrefix )
