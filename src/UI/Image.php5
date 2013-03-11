@@ -2,7 +2,7 @@
 /**
  *	Image resource reader and writer.
  *
- *	Copyright (c) 2010-2012 Christian Würker (ceusmedia.com)
+ *	Copyright (c) 2010-2013 Christian Würker (ceusmedia.com)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
  *	@category		cmClasses
  *	@package		UI
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2010-2012 Christian Würker
+ *	@copyright		2010-2013 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		$Id$
@@ -30,7 +30,7 @@
  *	@category		cmClasses
  *	@package		UI
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2010-2012 Christian Würker
+ *	@copyright		2010-2013 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		$Id$
@@ -290,6 +290,12 @@ class UI_Image
 		$this->quality = max( 0, min( 100, $quality ) );
 	}
 
+	/**
+	 *	Binds image resource to this image object.
+	 *	@access		public
+	 *	@param		resource	$resource		Image resource
+	 *	@return		void
+	 */
 	public function setResource( $resource )
 	{
 		if( !is_resource( $resource ) )
