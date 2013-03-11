@@ -1,6 +1,7 @@
 <?php
 /**
- *	Session Management.
+ *	Management for session data with partitions.
+ *	Helpful and more secure if several applications are storing data with same session.
  *
  *	Copyright (c) 2007-2012 Christian Würker (ceusmedia.com)
  *
@@ -27,7 +28,8 @@
  *	@version		$Id$
  */
 /**
- *	Session Management.
+ *	Management for session data with partitions.
+ *	Helpful and more secure if several applications are storing data with same session.
  *	@category		cmClasses
  *	@package		Net.HTTP
  *	@extends		ADT_List_Dictionary
