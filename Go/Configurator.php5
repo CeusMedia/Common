@@ -9,9 +9,9 @@ class Go_Configurator
 		if( !defined( 'CM_CLASS_PATH' ) )
 			define( 'CM_CLASS_PATH',	$pwd );
 		ini_set( 'include_path', CM_CLASS_PATH.PATH_SEPARATOR.ini_get( "include_path" ) );
-		if( !@include_once( "autoload.php5" ) )
-			die( 'Installation of "cmClasses" seems to be corrupt: '.$pwd.'import.php5 is missing.' );
-		import( 'de.ceus-media.ui.DevOutput' );
+#		if( !@include_once( "autoload.php5" ) )
+#			die( 'Installation of "cmClasses" seems to be corrupt: '.$pwd.'import.php5 is missing.' );
+		require_once( dirname( dirname( __FILE__ ) ).'/src/UI/DevOutput.php5' );
 
 		$files	= array(
 			"cmClasses.ini.dist"	=> "cmClasses.ini",
