@@ -45,6 +45,14 @@
  */
 class ADT_List_LevelMap extends ADT_List_Dictionary
 {
+	protected $divider		= ".";
+	
+	public function __construct( $array = array(), $divider = "." )
+	{
+		parent::__construct( $array );
+		$this->divider	= $divider;
+	}
+
 	/**
 	 *	Return a Value or Pair Map of Dictionary by its Key.
 	 *	@access		public
@@ -59,7 +67,7 @@ class ADT_List_LevelMap extends ADT_List_Dictionary
 			return $this->pairs[$key];															//  return Value
 		else																					//  Key has not been found
 		{
-			$key		.= ".";																	//  prepare Prefix Key to seach for
+			$key		.= $this->divider;														//  prepare Prefix Key to seach for
 			$list		= array();																//  define empty Map
 			$length		= strlen( $key );														//  get Length of Prefix Key outside the Loop
 			foreach( $this->pairs as $pairKey => $pairValue )									//  iterate all stores Pairs
@@ -74,7 +82,30 @@ class ADT_List_LevelMap extends ADT_List_Dictionary
 		}
 		return NULL;																			//  nothing found
 	}
-	
+
+	/**
+	 *	@todo	kriss: test + rename + code doc + inline doc
+	 */ 
+	public function getKeySections( $prefix = NULL ){
+		if( is_array( $prefix ) )
+			$prefix	= join( $this->divider, $prefix ).$this->divider;
+		$keys		= array_keys( $this->getAll( $prefix ) );
+		natcasesort( $keys );
+		$sections		= array();
+		$lastSection	= NULL;
+		foreach( $keys as $key ){
+			if( !substr_count( $key, $this->divider ) )
+				continue;
+			$parts		= explode( $this->divider, $key );
+			$section	= array_shift( $parts );
+			if( $section !== $lastSection ){
+				$lastSection	= $section;
+				$sections[]		= $section;
+			}
+		}
+		return $sections;
+	}
+
 	/**
 	 *	Indicates whether a Key or Key Prefix is existing.
 	 *	@access		public
@@ -89,7 +120,7 @@ class ADT_List_LevelMap extends ADT_List_Dictionary
 			return TRUE;
 		else																					//  Key has not been found
 		{
-			$key		.= ".";																	//  prepare Prefix Key to seach for
+			$key		.= $this->divider;														//  prepare Prefix Key to seach for
 			foreach( $this->pairs as $pairKey => $pairValue )									//  iterate all stores Pairs
 			{
 				if( $pairKey[0] !== $key[0] )													//  precheck for Performance
@@ -115,7 +146,7 @@ class ADT_List_LevelMap extends ADT_List_Dictionary
 			unset( $this->pairs[$key] );														//  remove Pair
 		else																					//  Key has not been found
 		{
-			$key		.= ".";																	//  prepare Prefix Key to seach for
+			$key		.= $this->divider;														//  prepare Prefix Key to seach for
 			foreach( $this->pairs as $pairKey => $pairValue )									//  iterate all stores Pairs
 			{
 				if( $pairKey[0] !== $key[0] )													//  precheck for Performance
@@ -140,7 +171,7 @@ class ADT_List_LevelMap extends ADT_List_Dictionary
 			throw new InvalidArgumentException( 'Key must not be empty.' );						//  throw Exception
 		if( is_array( $value ) )																//  Pair Map given
 			foreach( $value as $pairKey => $pairValue )											//  iterate given Pair Map
-				$this->pairs[$key.".".$pairKey]	= $pairValue;									//  add Pair to stores Pairs
+				$this->pairs[$key.$this->divider.$pairKey]	= $pairValue;						//  add Pair to stores Pairs
 		else																					//  single Value given
 			$this->pairs[$key]	= $value;														//  set Pair
 		if( $sort )																				//  sort after Insertion is active
