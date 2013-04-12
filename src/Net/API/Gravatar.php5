@@ -51,6 +51,7 @@ class Net_API_Gravatar{
 	protected $size		= 80;
 	protected $default	= 'mm';
 	protected $rate		= 'g';
+	protected $defaults	= array( '404', 'mm', 'identicon', 'monsterid', 'wavatar', 'retro', 'blank' );
 
 	/**
 	 *	Constructor.
@@ -152,7 +153,7 @@ class Net_API_Gravatar{
 	 *	@return		void
 	 */
 	public function setDefault( $default ){
-		if( !in_array( $default, array( '404', 'mm', 'identicon', 'monsterid', 'wavatar' ) ) )
+		if( !in_array( $default, $this->defaults ) )
 			throw new InvalidArgumentException( 'Default set must of one of [404,mm,identicon,monsterid,wavatar]' );
 		$this->default	= $default;
 	}
