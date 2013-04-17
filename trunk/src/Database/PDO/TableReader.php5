@@ -67,7 +67,7 @@ class Database_PDO_TableReader
 	 *	@param		int			$focus			Focused primary key on start up
 	 *	@return		void
 	 */
-	public function __construct( &$dbc, $tableName, $columns, $primaryKey, $focus = NULL )
+	public function __construct( $dbc, $tableName, $columns, $primaryKey, $focus = NULL )
 	{
 		$this->setDbConnection( $dbc );
 		$this->setTableName( $tableName );
