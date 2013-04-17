@@ -54,6 +54,10 @@ class Net_Mail_Transport_SMTP
 	protected $isSecure			= FALSE;
 	
 	protected $verbose			= FALSE;
+
+	/**	@var		string		$mailer		Mailer Agent */
+	protected $mailer			= 'cmClasses::Net_Mail/0.7.3';
+
 	
 	/**
 	 *	Constructor.
@@ -70,6 +74,16 @@ class Net_Mail_Transport_SMTP
 		$this->setPort( $port );
 		$this->setAuthUsername( $username );
 		$this->setAuthPassword( $password );
+	}
+
+	/**
+	 *	Sets Mail Agend for Mailer Header.
+	 *	@access		public
+	 *	@param		string		$mailer		Mailer Agent
+	 *	@return		void
+	 */
+	public function setMailer( $mailer ){
+		$this->mailer = $mailer;
 	}
 
 	public function setSecure( $secure ){
@@ -121,6 +135,7 @@ class Net_Mail_Transport_SMTP
 	 */
 	public function send( Net_Mail $mail )
 	{
+		$mail->setHeaderPair( 'X-Mailer', $this->mailer );
 		$delim	= Net_Mail::$delimiter;
 		$date	= date( "D, d M Y H:i:s O", time() );
 		$server	= 'localhost';
