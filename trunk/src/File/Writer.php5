@@ -211,6 +211,8 @@ class File_Writer
 	 */
 	public function writeArray( $array, $lineBreak = "\n" )
 	{
+		if( !is_array( $array ) )
+			throw new InvalidArgumentException( 'List must be an array' );
 		$string	= implode( $lineBreak, $array );
 		return $this->writeString( $string );
 	}
