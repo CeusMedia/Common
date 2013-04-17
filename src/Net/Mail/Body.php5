@@ -54,15 +54,16 @@ class Net_Mail_Body
 	 *	@access		public
 	 *	@param		string		$content		Body Content
 	 *	@param		string		$mimeType		Content MIME Type
+	 *	@param		string		$encoding		Content Transfer Encoding, default: 8bit
 	 *	@return		void
 	 */
-	public function __construct( $content, $mimeType = self::TYPE_PLAIN )
+	public function __construct( $content, $mimeType = self::TYPE_PLAIN, $encoding = "8bit" )
 	{
 		$this->headers	= new Net_Mail_Header_Section();
 		$this->setContent( $content );
 		if( $mimeType )
 			$this->setContentType( $mimeType );
-		$this->setContentEncoding( '8bit' );
+		$this->setContentEncoding( $encoding );
 	}
 
 	/**
