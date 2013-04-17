@@ -57,19 +57,20 @@ class Net_Mail
 
 
 	/**
-	 *	Constructor
+	 *	Constructor.
 	 *	@access		public
 	 *	@param		string		$encoding		Character Set Encoding
 	 *	@param		string		$mailer			Mailer
+	 *	@param		string		$encoding		Content Transfer Encoding, default: 8bit
 	 *	@return		void
 	 */
-	public function __construct( $encoding = "UTF-8" )
+	public function __construct( $encoding = "UTF-8", $encoding = "8bit" )
 	{
 		$this->headers		= new Net_Mail_Header_Section();
 		$this->mimeBoundary	= md5( microtime( TRUE ) );
 		$this->headers->setFieldPair( 'MIME-Version', '1.0' );
-		$this->headers->setFieldPair( 'Content-Transfer-Encoding', '8bit' );
-		$type	= 'multipart/mixed; boundary="'.$this->mimeBoundary.'"';
+//		$this->headers->setFieldPair( 'Content-Transfer-Encoding', $encoding );
+		$type	= 'multipart/alternative; boundary="'.$this->mimeBoundary.'"';
 		$this->headers->setFieldPair( 'Content-Type', $type, TRUE );
 	}
 
