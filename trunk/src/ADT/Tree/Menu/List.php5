@@ -60,7 +60,7 @@ class ADT_Tree_Menu_List
 	 */
 	public function __construct( $label = NULL, $attributes = array() )
 	{
-		$this->label		= $label;
+		$this->setLabel( $label );
 		$attributes			= array_merge( $this->defaultAttributes, $attributes );
 		$this->attributes	= new ADT_List_Dictionary( $attributes );
 	}
@@ -154,6 +154,15 @@ class ADT_Tree_Menu_List
 			$array	= $array->getAll();
 		foreach( $array as $key => $value )
 			$this->attributes->set( $key, $value );
+	}
+	/**
+	 *	Sets Label of Tree Menu List.
+	 *	@access		public
+	 *	@return		string
+	 */
+	public function setLabel( $label )
+	{
+		$this->label	= $label;
 	}
 
 	/**
