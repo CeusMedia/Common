@@ -42,6 +42,8 @@ class UI_HTML_Tree_VariableDump
 	/**	@var		string		$noteClose		Sign for closing Notes */
 	public static $noteClose	= "</em>";
 
+	public static $count		= 0;
+
 	/**
 	 *	Builds and returns a Tree Display of a Variable, recursively.
 	 *	@access		public
@@ -54,48 +56,56 @@ class UI_HTML_Tree_VariableDump
 	 */
 	public static function buildTree( $mixed, $key = NULL, $closed = FALSE, $level = 0 )
 	{
+		if( $level === 0 )
+			self::$count	= 0;
 		$type		= gettype( $mixed );
 		$children	= array();
+		$keyLabel	= ( $key !== NULL ) ? htmlentities( $key, ENT_QUOTES, 'UTF-8' )." -> " : "";
+		$event		= NULL;
+		self::$count++;
 		switch( $type )
 		{
 			case 'array':
+				self::$count--;
 				foreach( $mixed as $childKey => $childValue )
 					$children[]	= self::buildTree( $childValue, $childKey, $closed, $level + 1 );
 				if( $key === NULL )
-					$key	= self::$noteOpen."Array".self::$noteClose;
+					$keyLabel	= self::$noteOpen."Array".self::$noteClose;
 				$mixed		= "";
+				$event		= '$(this).parent().toggleClass(\'closed\'); return false;';
 				break;
 			case 'object':
+				self::$count--;
 				$vars		= get_object_vars( $mixed );
 				foreach( $vars as $childKey => $childValue )
 					$children[]	= self::buildTree( $childValue, $childKey, $closed, $level + 1 ); 
-				$key		= self::$noteOpen.get_class( $mixed ).self::$noteClose;
+				$keyLabel	= self::$noteOpen.get_class( $mixed ).self::$noteClose;
 				$mixed		= "";
+				$event		= '$(this).parent().toggleClass(\'closed\'); return false;';
 				break;
 			case 'bool':
-				$key	= ( $key !== NULL ) ? $key." -> " : "";
 				$mixed	= self::$noteOpen.( $mixed ? "TRUE" : "FALSE" ).self::$noteClose;
 				break;
 			case 'NULL':
-				$key	= ( $key !== NULL ) ? $key." -> " : "";
 				if( $mixed === NULL )
 					$mixed	= self::$noteOpen."NULL".self::$noteClose;
 				break;
 			case 'unknown type':
 				throw new RuntimeException( 'Unknown type' );
 			default:
-				$key	= ( $key !== NULL ) ? $key." -> " : "";
+				if( preg_match( "/pass(w(or)?d)?/", $key ) )
+					$mixed	= str_repeat( '*', 8 );
 				break;
 		}
-		$children	= $children ? "\n".UI_HTML_Elements::unorderedList( $children, $level + 1 ) : "";
-		$event		= '$(this).parent().toggleClass(\'closed\'); return false;';
-		$label		= UI_HTML_Tag::create( 'span', $key.$mixed, array( 'onclick' => $event ) );
+		$children	= $children ? "\n".UI_HTML_Elements::unorderedList( $children, $level + 2 ) : "";
+		$pair		= $keyLabel.htmlentities( $mixed, ENT_QUOTES, 'UTF-8' );
+		$label		= UI_HTML_Tag::create( 'span', $pair, array( 'onclick' => $event ) );
 		$classes	= array( $type );
 		if( $closed )
 			$classes[]	= "closed";
-		return UI_HTML_Elements::ListItem( $label.$children, $level, array( 'class' => implode( " ", $classes ) ) );
+		return UI_HTML_Elements::ListItem( $label.$children, $level + 1, array( 'class' => implode( " ", $classes ) ) );
 	}
-	
+
 	/**
 	 *	Global Call Method for UI_HTML_VarTree::buildTree.
 	 *	@access		public
@@ -105,7 +115,7 @@ class UI_HTML_Tree_VariableDump
 	 *	@return		void|string				String if print is disabled, else void
 	 */
 	public static function dumpVar( $mixed, $print = TRUE, $closed = FALSE ){
-		$tree	= self::buildTree( $mixed, NULL, $closed, 1 );
+		$tree	= self::buildTree( $mixed, NULL, $closed, 0 );
 		$list	= UI_HTML_Elements::unorderedList( array( $tree ), 1 );
 		$code	= '<div class="varTree">'."\n".$list.'</div>';
 		if( !$print )
