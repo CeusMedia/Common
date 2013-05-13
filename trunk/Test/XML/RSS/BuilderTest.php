@@ -129,8 +129,7 @@ class Test_XML_RSS_BuilderTest extends PHPUnit_Framework_TestCase
 
 		$assertion	= file_get_contents( $this->file );
 		$creation	= $this->builder->build();
-		file_put_contents( $this->path."builder2.xml", $creation );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertXmlFileEqualsXmlFile( $this->file, $this->path."builder2.xml" );
 	}
 
 	/**

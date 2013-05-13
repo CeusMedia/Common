@@ -34,6 +34,7 @@ class Test_XML_RSS_ParserTest extends PHPUnit_Framework_TestCase
 
 		$assertion	= unserialize( file_get_contents( $this->serial ) );
 		$creation	= XML_RSS_Parser::parse( $xml );
+
 #		file_put_contents( $this->serial, serialize( $creation ) );
 		$this->assertEquals( $assertion, $creation );
 	}
