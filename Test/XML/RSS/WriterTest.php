@@ -72,13 +72,11 @@ class Test_XML_RSS_WriterTest extends PHPUnit_Framework_TestCase
 		foreach( $data['itemList'] as $item )
 			$writer->addItem( $item );
 
-		$assertion	= 2469;
+#		$assertion	= 2469;
 		$creation	= $writer->write( $this->file );
-		$this->assertEquals( $assertion, $creation );
+#		$this->assertEquals( $assertion, $creation );
 
-		$assertion	= preg_replace( "@\n(\r)*@", "", file_get_contents( $this->assert ) );
-		$creation	= preg_replace( "@\n(\r)*@", "", file_get_contents( $this->file ) );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertXmlFileEqualsXmlFile( $this->assert, $this->file );
 	}
 }
 ?>

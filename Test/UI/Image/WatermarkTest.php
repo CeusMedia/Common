@@ -28,7 +28,7 @@ class Test_UI_Image_WatermarkTest extends PHPUnit_Framework_TestCase
 	{
 		$this->path	= dirname( __FILE__ )."/";
 	}
-	
+
 	/**
 	 *	Setup for every Test.
 	 *	@access		public
@@ -38,7 +38,7 @@ class Test_UI_Image_WatermarkTest extends PHPUnit_Framework_TestCase
 	{
 		$this->mark	= new Test_UI_Image_WatermarkInstance( $this->path."mark.png" );
 	}
-	
+
 	/**
 	 *	Cleanup after every Test.
 	 *	@access		public
@@ -46,7 +46,7 @@ class Test_UI_Image_WatermarkTest extends PHPUnit_Framework_TestCase
 	 */
 	public function tearDown()
 	{
-		@unlink( $this->path."targetWatermark.jpg" );
+		@unlink( $this->path."targetWatermark.png" );
 	}
 
 	/**
@@ -56,17 +56,17 @@ class Test_UI_Image_WatermarkTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testConstruct()
 	{
-		$mark	= new Test_UI_Image_WatermarkInstance( $this->path."sourceWatermark.jpg", 99, 98 );
-				
+		$mark	= new Test_UI_Image_WatermarkInstance( $this->path."sourceWatermark.png", 99, 98 );
+
 		$assertion	= 99;
 		$creation	= $mark->getProtectedVar( 'alpha' );
 		$this->assertEquals( $assertion, $creation );
-				
+
 		$assertion	= 98;
 		$creation	= $mark->getProtectedVar( 'quality' );
 		$this->assertEquals( $assertion, $creation );
-				
-		$assertion	= 599;
+
+		$assertion	= 100;
 		$creation	= $mark->getProtectedVar( 'stamp' )->getHeight();
 		$this->assertEquals( $assertion, $creation );
 	}
@@ -80,11 +80,8 @@ class Test_UI_Image_WatermarkTest extends PHPUnit_Framework_TestCase
 	{
 		$mark	= new UI_Image_Watermark( $this->path."mark.png", 50, 100 );
 		$mark->setMargin( 10, 10 );
-		$mark->markImage( $this->path."sourceWatermark.jpg", $this->path."targetWatermark.jpg" );
-		
-		$creation	= file_get_contents( $this->path."targetWatermark.jpg" );
-		$assertion	= file_get_contents( $this->path."assertWatermark.jpg" );
-		$this->assertEquals( $assertion, $creation );
+		$mark->markImage( $this->path."sourceWatermark.png", $this->path."targetWatermark.png" );
+		$this->assertFileEquals( $this->path."targetWatermark.png", $this->path."assertWatermark.png", "Watermark file not identical." );
 	}
 
 	/**

@@ -86,7 +86,7 @@ class Test_XML_RSS_ReaderTest extends PHPUnit_Framework_TestCase
 	public function testReadXml()
 	{
 		$xml		= file_get_contents( $this->file );
-
+		
 		$assertion	= unserialize( file_get_contents( $this->serial ) );
 		$creation	= $this->reader->readXml( $xml );
 		$this->assertEquals( $assertion, $creation );
