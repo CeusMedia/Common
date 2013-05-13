@@ -114,12 +114,14 @@ class XML_RSS_Parser
 			{
 				$nodes	= $xPath->query( $itemKey."/text()", $item );
 				$value	= $nodes->length ? $nodes->item( 0 )->nodeValue : NULL;
-				if( $itemKey == "source" )
+				if( $itemKey == "source" || $itemKey == "guid" )
 				{
 					$nodes	= $xPath->query( $itemKey, $item );
-					foreach( $nodes->item( 0 )->attributes as $attributeName => $attribute )
-						if( $attributeName == "url" )
-							$value	= $attribute->nodeValue;
+					if( $nodes->length ){
+						foreach( $nodes->item( 0 )->attributes as $attributeName => $attribute )
+							if( $attributeName == "url" )
+								$value	= $attribute->nodeValue;
+					}
 				}
 				$array[$itemKey]	= $value;
 			}

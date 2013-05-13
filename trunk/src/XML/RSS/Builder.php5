@@ -50,8 +50,8 @@ class XML_RSS_Builder
 	/**	@var	array			$channelElements	Array of Elements of Channel */
 	protected $channelElements	= array(
 		"title"				=> TRUE,
-		"link"				=> TRUE,
 		"description"		=> TRUE,
+		"link"				=> TRUE,
 		"pubDate"			=> FALSE,
 		"lastBuildDate"		=> FALSE,
 		"language"			=> FALSE,
@@ -68,8 +68,8 @@ class XML_RSS_Builder
 	/**	@var	array			$itemElements		Array of Elements of Items */
 	protected $itemElements	= array(
 		"title"				=> true,
-		"link"				=> FALSE,
 		"description"		=> FALSE,
+		"link"				=> FALSE,
 		"author"			=> FALSE,
 		"category"			=> FALSE,
 		"comments"			=> FALSE,
