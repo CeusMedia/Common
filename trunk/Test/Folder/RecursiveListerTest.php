@@ -181,6 +181,7 @@ class Test_Folder_RecursiveListerTest extends Test_Folder_TestCase
 			'file2_1_1.txt',
 		);
 		$creation	= $list['files'];
+		sort( $creation );
 		$this->assertEquals( $assertion, $creation );
 
 		$index	= Folder_RecursiveLister::getFileList( $this->folder, "@^file$@" );
