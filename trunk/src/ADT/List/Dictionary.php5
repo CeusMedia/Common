@@ -177,7 +177,7 @@ class ADT_List_Dictionary implements ArrayAccess, Countable, Iterator
 	 */
 	public function has( $key )
 	{
-		return isset( $this->pairs[$key] );
+		return array_key_exists( $key, $this->pairs );
 	}
 
 	/**
@@ -254,13 +254,13 @@ class ADT_List_Dictionary implements ArrayAccess, Countable, Iterator
 	 */
 	public function remove( $key )
 	{
-		if( !isset( $this->pairs[$key] ) )															//  pair key is not existing
-			return FALSE;
+		if( !$this->has( $key ) )																	//  pair key is not existing
+			return FALSE;																			//  indicate miss
 		$index	= array_search( $key, array_keys( $this->pairs ) );									//  index of pair to be removed
 		if( $this->position >= $index )																//  iterator position is beyond pair
 			$this->position--;																		//  decrease iterator position since pair is removed
-		unset( $this->pairs[$key] );																//
-		return TRUE;
+		unset( $this->pairs[$key] );																//  remove pair by its key
+		return TRUE;																				//  indicate hit
 	}
 
 	/**
@@ -282,7 +282,7 @@ class ADT_List_Dictionary implements ArrayAccess, Countable, Iterator
 	 */
 	public function set( $key, $value )
 	{
-		if( isset( $this->pairs[$key] ) && $this->pairs[$key] === $value )
+		if( $this->has( $key ) && $this->pairs[$key] === $value )
 			return FALSE;
 		$this->pairs[$key]		= $value;
 		return TRUE;
