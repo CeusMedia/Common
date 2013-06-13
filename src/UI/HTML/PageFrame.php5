@@ -233,9 +233,24 @@ class UI_HTML_PageFrame
 		return $doctype."\n".$html;
 	}
 
+	/**
+	 *	Returns set page body.
+	 *	@access		public
+	 *	@param		string		$separator		Glue between added body blocks	
+	 *	@return		string
+	 */
 	public function getBody( $separator = "\n" )
 	{
 		return join( $separator, $this->body );
+	}
+
+	/**
+	 *	Returns set page title.
+	 *	@access		public
+	 *	@return		string
+	 */
+	public function getTitle(){
+		return $this->title;
 	}
 
 	/**
