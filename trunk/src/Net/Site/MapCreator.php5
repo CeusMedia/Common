@@ -66,12 +66,13 @@ class Net_Site_MapCreator
 	 *	@param		string		$sitemapUri		File Name of Sitemap XML File
 	 *	@param		string		$errorsLogUri	File Name of Error Log File
 	 *	@param		string		$urlLogUri		File Name of URL Log File
+	 *	@param		boolean		$verbose		Flag: show crawled URLs 
 	 *	@return		int
 	 */
-	public function createSitemap( $url, $sitemapUri, $errorsLogUri = NULL, $urlListUri = NULL )
+	public function createSitemap( $url, $sitemapUri, $errorsLogUri = NULL, $urlListUri = NULL, $verbose = FALSE )
 	{
 		$crawler	= new Net_Site_Crawler( $url, $this->depth );
-		$crawler->crawl( $url, FALSE, TRUE );
+		$crawler->crawl( $url, FALSE, $verbose );
 		$this->errors	= $crawler->getErrors();
 		$this->links	= $crawler->getLinks();
 		$list	= array();
@@ -129,8 +130,11 @@ class Net_Site_MapCreator
 	 */
 	public function saveUrls( $uri )
 	{
-		$list	= new File_Writer( $uri );
-		$list->writeArray( $this->links );
+		$list	= array();
+		foreach( $this->links as $link )
+			$list[]	= $link['url'];
+		$writer	= new File_Writer( $uri );
+		$writer->writeArray( $list );
 	}
 }
 ?>
