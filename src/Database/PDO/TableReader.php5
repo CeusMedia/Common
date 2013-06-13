@@ -87,7 +87,7 @@ class Database_PDO_TableReader
 	 */
 	public function count( $conditions = array() )
 	{
-		$conditions	= $this->getConditionQuery( $conditions, FALSE, TRUE );
+		$conditions	= $this->getConditionQuery( $conditions, FALSE, TRUE, TRUE );					//  render WHERE clause if needed, foreign cursored, allow functions
 		$conditions	= $conditions ? ' WHERE '.$conditions : '';
 		$query	= 'SELECT COUNT(`'.$this->primaryKey.'`) as count FROM '.$this->getTableName().$conditions;
 		$result	= $this->dbc->query( $query );
@@ -145,8 +145,7 @@ class Database_PDO_TableReader
 	public function find( $columns = array(), $conditions = array(), $orders = array(), $limits = array(), $groupings = array(), $havings = array() )
 	{
 		$this->validateColumns( $columns );
-			
-		$conditions	= $this->getConditionQuery( $conditions, FALSE, FALSE );						//  render WHERE clause if needed		
+		$conditions	= $this->getConditionQuery( $conditions, FALSE, FALSE, TRUE );					//  render WHERE clause if needed, uncursored, allow functions
 		$conditions = $conditions ? ' WHERE '.$conditions : '';
 		$orders		= $this->getOrderCondition( $orders );											//  render ORDER BY clause if needed
 		$limits		= $this->getLimitCondition( $limits );											//  render LIMIT BY clause if needed
@@ -191,7 +190,7 @@ class Database_PDO_TableReader
 		if( $column != $this->getPrimaryKey() && !in_array( $column, $this->getIndices() ) )
 			throw new InvalidArgumentException( 'Field of WHERE IN-statement must be an index' );
 
-		$conditions	= $this->getConditionQuery( $conditions, FALSE, FALSE );
+		$conditions	= $this->getConditionQuery( $conditions, FALSE, FALSE, TRUE );					//  render WHERE clause if needed, uncursored, allow functions
 		$orders		= $this->getOrderCondition( $orders );
 		$limits		= $this->getLimitCondition( $limits );
 		for( $i=0; $i<count( $values ); $i++ )
@@ -246,7 +245,7 @@ class Database_PDO_TableReader
 	{
 		$this->validateFocus();
 		$data = array();
-		$conditions	= $this->getConditionQuery( array() );
+		$conditions	= $this->getConditionQuery( array(), TRUE, TRUE, FALSE );						//  render WHERE clause if needed, cursored, without functions
 		$orders		= $this->getOrderCondition( $orders );
 		$limits		= $this->getLimitCondition( $limits );
 		$query = 'SELECT * FROM '.$this->getTableName().' WHERE '.$conditions.$orders.$limits;
@@ -278,29 +277,38 @@ class Database_PDO_TableReader
 	 *	@param		bool		$useIndices		Flag: use focused indices
 	 *	@return		string
 	 */
-	protected function getConditionQuery( $conditions, $usePrimary = TRUE, $useIndices = TRUE )
+	protected function getConditionQuery( $conditions, $usePrimary = TRUE, $useIndices = TRUE, $allowFunctions = FALSE )
 	{
-		$new = array();
+		$columnConditions = array();
 		foreach( $this->columns as $column )														//  iterate all columns
+		{
 			if( isset( $conditions[$column] ) )														//  if condition given
-				$new[$column] = $conditions[$column];												//  note condition pair
+			{
+				$columnConditions[$column] = $conditions[$column];									//  note condition pair
+				unset( $conditions[$column] );
+			}
+		}
+		$functionConditions = array();
+		foreach( $conditions as $key => $value )													//  iterate remaining conditions
+			if( preg_match( "/^[a-z]+\(.+\)$/i", $key ) )											//  column key is a aggregate function
+				$functionConditions[$key]	= $value;
 
 		if( $usePrimary && $this->isFocused( $this->primaryKey ) )									//  if using primary key & is focused primary
 		{
-			if( !array_key_exists( $this->primaryKey, $new ) )										//  if primary key is not already in conditions
-				$new = $this->getFocus();															//  note primary key pair
+			if( !array_key_exists( $this->primaryKey, $columnConditions ) )							//  if primary key is not already in conditions
+				$columnConditions = $this->getFocus();												//  note primary key pair
 		}
 		if( $useIndices && count( $this->focusedIndices ) )											//  if using indices
 		{
 			foreach( $this->focusedIndices as $index => $value )									//  iterate focused indices
 				if( $index != $this->primaryKey )													//  skip primary key
-					if( !array_key_exists( $index, $new ) )											//  if index column is not already in conditions
-						$new[$index] = $value;														//  note index pair
+					if( !array_key_exists( $index, $columnConditions ) )							//  if index column is not already in conditions
+						$columnConditions[$index] = $value;											//  note index pair
 		}
 
-		$conditions = array();
+		$conditions = array();																		//  restart with fresh conditions array
 		
-		foreach( $new as $column => $value )															//  iterate all noted Pairs
+		foreach( $columnConditions as $column => $value )											//  iterate noted column conditions
 		{
 			if( is_array( $value ) )
 			{
@@ -313,8 +321,14 @@ class Database_PDO_TableReader
 			$conditions[]	= $part;
 
 		}
-		$conditions = implode( ' AND ', $conditions );												//  combine Conditions with AND
-		return $conditions;
+
+		/*  --  THIS IS NEW, UNDER DEVELOPMENT, UNSECURE AND UNSTABLE  --  */
+		if( $allowFunctions )																		//  function are allowed
+			foreach( $functionConditions as $function => $value ){									//  iterate noted functions
+				$conditions[]	= $this->realizeConditionQueryPart( $function, $value, FALSE );		//  extend conditions
+			}
+
+		return implode( ' AND ', $conditions );														//  return AND combined conditions
 	}
 
 	/**
@@ -436,7 +450,7 @@ class Database_PDO_TableReader
 		return TRUE;
 	}
 
-	protected function realizeConditionQueryPart( $column, $value )
+	protected function realizeConditionQueryPart( $column, $value, $maskColumn = TRUE )
 	{
 		$pattern	= '/^(<=|>=|<|>|!=)(.+)/';
 		if( preg_match( '/^%/', $value ) || preg_match( '/%$/', $value ) )
@@ -466,7 +480,7 @@ class Database_PDO_TableReader
 				$value		= $this->secureValue( $value );
 			}
 		}
-		$column	= '`'.$column.'`';
+		$column	= $maskColumn ? '`'.$column.'`' : $column;
 		return $column.$operation.$value;
 	}
 	

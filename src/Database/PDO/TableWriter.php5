@@ -62,7 +62,7 @@ class Database_PDO_TableWriter extends Database_PDO_TableReader
 	 */
 	public function deleteByConditions( $where = array() )
 	{
-		$conditions	= $this->getConditionQuery( $where );
+		$conditions	= $this->getConditionQuery( $where, FALSE, FALSE, FALSE );						//  render WHERE conditions, uncursored, without functions
 		$query	= 'DELETE FROM '.$this->getTableName().' WHERE '.$conditions;
 		$result	= $this->dbc->exec( $query );
 		$this->defocus();
@@ -160,7 +160,7 @@ class Database_PDO_TableWriter extends Database_PDO_TableReader
 			throw new InvalidArgumentException( 'Conditions for update must be an array and have atleast 1 pair' );
 
 		$updates	= array();
-		$conditions	= $this->getConditionQuery( $conditions, FALSE, FALSE );
+		$conditions	= $this->getConditionQuery( $conditions, FALSE, FALSE, FALSE );					//  render WHERE conditions, uncursored, without functions
 		foreach( $this->columns as $column )
 		{
 			if( isset( $data[$column] ) )
