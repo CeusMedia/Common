@@ -85,7 +85,7 @@ class Test_UI_HTML_IndicatorTest extends PHPUnit_Framework_TestCase
 
 		$this->indicator->setOption( 'useColor', TRUE );
 		$this->indicator->setOption( 'useRatio', TRUE );
-		$this->indicator->setOption( 'usePercentage', FALSE );
+		$this->indicator->setOption( 'usePercentage', TRUE );
 		$this->indicator->setInnerClass( 'testInnerClass' );
 		$this->indicator->setOuterClass( 'testOuterClass' );
 		$this->indicator->setIndicatorClass( 'testIndicatorClass' );
