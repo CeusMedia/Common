@@ -48,17 +48,33 @@ class Alg_Text_Trimmer
 	 *	@param		string		$mask		Mask String to append after cut.
 	 *	@return		string
 	 */
-	public static function trim( $string, $length = 0, $mask = "..." )
+	static public function trim( $string, $length = 0, $mask = "...", $encoding = "UTF-8" )
 	{
-		$maskLength	= preg_match( '/^&.*;$/', $mask ) ? 1 : strlen( $mask );
-		$string	= trim( $string );
-		if( !( $length && strlen( $string ) > $length ) )
+		$string		= trim( (string) $string );
+		if( (int) $length < 1 || self::strlen( $string, $encoding ) <= $length )
 			return $string;
-		$string	= substr( $string, 0, $length - $maskLength );
+		$maskLength	= preg_match( '/^&.*;$/', $mask ) ? 1 : self::strlen( $mask, $encoding );
+		if( $length < $maskLength )
+			throw new InvalidArgumentException( 'Max length must be greater than mask length' );
+		$string	= self::substr( $string, 0, $length - $maskLength, $encoding );
 		$string	.= $mask;
 		return $string;
 	}
 
+	static protected function strlen( $string, $encoding = NULL ){
+		if( !function_exists( 'mb_strlen' ) )
+			return strlen( $string );
+		$encoding	= $encoding ? $encoding : mb_internal_encoding();
+		return mb_strlen( $string, $encoding );
+	}
+
+	static protected function substr( $string, $start, $length = NULL, $encoding = NULL ){
+		if( !function_exists( 'mb_substr' ) )
+			return substr( $string, $start, $length );
+		$encoding	= $encoding ? $encoding : mb_internal_encoding();
+		return mb_substr( $string, $start, $length, $encoding );
+	}
+	
 	/**
 	 *	Trims String and cuts to the right if too long, also adding a mask string.
 	 *	@access		public
@@ -68,30 +84,18 @@ class Alg_Text_Trimmer
 	 *	@param		string		$mask		Mask String to append after cut.
 	 *	@return		string
 	 */
-	public static function trimCentric( $string, $length = 0, $mask = "..." )
+	static public function trimCentric( $string, $length = 0, $mask = "...", $encoding = "UTF-8" )
 	{
-		$maskLength	= preg_match( '/^&.*;$/', $mask ) ? 1 : strlen( $mask );
+		$string	= trim( (string) $string );
+		if( (int) $length < 1 || self::strlen( $string, $encoding ) <= $length )
+			return $string;
+		$maskLength	= preg_match( '/^&.*;$/', $mask ) ? 1 : self::strlen( $mask, $encoding );
 		if( $maskLength >= $length )
 			throw new InvalidArgumentException( 'Lenght must be greater than '.$maskLength );
-
-		if( !( $length && strlen( $string ) > $length ) )
-			return $string;
-
 		$range	= ( $length - $maskLength ) / 2;
-
-		if( function_exists( 'mb_substr' ) )
-		{
-			$mbEnc	= mb_internal_encoding();
-			mb_internal_encoding( 'UTF-8' );
-			$left	= mb_substr( $string, 0, ceil( $range ) );
-			$right	= mb_substr( $string, -floor( $range ) );
-			mb_internal_encoding( $mbEnc );
-		}
-		else
-		{
-			$left	= substr( $string, 0, ceil( $range ) );
-			$right	= substr( $string, -floor( $range ) );
-		}
+		$length	= self::strlen( $string, $encoding ) - floor( $range );
+		$left	= self::substr( $string, 0, ceil( $range ), $encoding );
+		$right	= self::substr( $string, -floor( $range ), $length, $encoding );
 		return $left.$mask.$right;
 	}
 }
