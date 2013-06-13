@@ -21,6 +21,26 @@ require_once 'Test/initLoaders.php5';
  */
 class Test_Alg_UnitFormaterTest extends PHPUnit_Framework_TestCase
 {
+	public function testFormatPixels()
+	{
+		$assertion	= "256 P";
+		$creation	= Alg_UnitFormater::formatPixels( 256 );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= "0.5 KP";
+		$creation	= Alg_UnitFormater::formatPixels( 500 );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= "1 KP";
+		$creation	= Alg_UnitFormater::formatPixels( 512, 0 );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= "1 MP";
+		$creation	= Alg_UnitFormater::formatPixels( 1024 * 1024 );
+		$this->assertEquals( $assertion, $creation );
+	}
+
+
 	public function testFormatBytes()
 	{
 		$assertion	= "256 B";

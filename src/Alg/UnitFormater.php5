@@ -45,26 +45,39 @@ class Alg_UnitFormater
 {
 	/**	@var		array		$unitBytes		List of Byte Units */
 	public static $unitBytes	= array(
-		"B",
-		"KB",
-		"MB",
-		"GB",
-		"TB",
-		"PB",
-		"EB",
-		"ZB",
-		"YB"
+		'B',
+		'KB',
+		'MB',
+		'GB',
+		'TB',
+		'PB',
+		'EB',
+		'ZB',
+		'YB'
 	);
-	
+
+	/**	@var		array		$unitPixels		List of Pixel Units */
+	public static $unitPixels	= array(
+		'P',
+		'KP',
+		'MP',
+		'GP',
+		'TP',
+		'PP',
+		'EP',
+		'ZP',
+		'YP'
+	);
+
 	/**	@var		array		$unitBytes		List of Second Units */
 	public static $unitSeconds	= array(
-		"µs",
-		"ms",
-		"s",
-		"m",
-		"h",
-		"d",
-		"a"
+		'µs',
+		'ms',
+		's',
+		'm',
+		'h',
+		'd',
+		'a'
 	);
 
 	/**
@@ -79,6 +92,7 @@ class Alg_UnitFormater
 	 */
 	public static function formatNumber( $float, $unit = 1, $precision = 0 )
 	{
+		throw new Exception( 'Method is deprecated and will be removed in v0.8' );
 		if( (int) $unit )
 		{
 			$float	= $float / $unit;
@@ -87,9 +101,9 @@ class Alg_UnitFormater
 		}
 		return $float;
 	}
-	
+
 	/**
-	 *	Formats Number of Bytes Seconds by switching to next higher Unit if an set Edge is reached.
+	 *	Formats Number of Bytes by switching to next higher Unit if an set Edge is reached.
 	 *	Edge is a Factor when to switch to ne next higher Unit, eG. 0.5 means 50% of 1024.
 	 *	If you enter 512 (B) it will return 0.5 KB.
 	 *	Caution! With Precision at 0 you may have Errors from rounding.
@@ -119,6 +133,39 @@ class Alg_UnitFormater
 		if( is_string( $indent ) )													//  Indention is set
 			$float	= $float.$indent.self::$unitBytes[$unitKey];					//  append Unit
 		return $float;																//  return resultung Value
+	}
+
+	/**
+	 *	Formats Number of Pixels by switching to next higher Unit if an set Edge is reached.
+	 *	Edge is a Factor when to switch to ne next higher Unit, eG. 0.5 means 50% of 1000.
+	 *	If you enter 500 (P) it will return 0.5 KP.
+	 *	Caution! With Precision at 0 you may have Errors from rounding.
+	 *	To avoid the Units to be appended, enter FALSE or NULL for indent.
+	 *	@access		public
+	 *	@static
+	 *	@param		float		$number			Number of Pixels
+	 *	@param		int			$precision		Number of Floating Point Digits
+	 *	@param		string		$indent			Space between Number and Unit
+	 *	@param		float		$edge			Factor of next higher Unit when to break
+	 *	@return		string
+	 */
+	public static function formatPixels( $number, $precision = 1, $indent = " ", $edge = 0.5 )
+	{
+		$unitKey	= 0;															//  step to first Unit
+		$divider	= 1000;															//  1000 Pixels are 1 Kilo Pixel
+		$edge		= abs( $edge );													//  avoid negative Edges
+		$edge		= $edge > 1 ? 1 : $edge;										//  avoid senseless Edges
+		$edgeValue	= $divider * $edge;												//  calculate Edge Value
+		while( $number >= $edgeValue )												//  Value is larger than Edge
+		{
+			$unitKey ++;															//  step to next Unit
+			$number	/= $divider;													//  calculate Value in new Unit
+		}
+		if( is_int( $precision ) )													//  Precision is set
+			$number	= round( $number, $precision );									//  round Value
+		if( is_string( $indent ) )													//  Indention is set
+			$number	= $number.$indent.self::$unitPixels[$unitKey];					//  append Unit
+		return $number;																//  return resultung Value
 	}
 
 	/**
@@ -152,7 +199,7 @@ class Alg_UnitFormater
 	{
 		return self::formatBytes( $float * 1024 * 1024, $precision, $indent, $edge );
 	}
-	
+
 	/**
 	 *	Formats Micro Seconds by switching to next higher Unit if an set Edge is reached.
 	 *	Edge is a Factor when to switch to ne next higher Unit, eG. 0.5 means 50% of 1000.
@@ -171,7 +218,7 @@ class Alg_UnitFormater
 	{
 		$unitKey	= 0;															//  step to first Unit
 		$divider	= 1000;															//  1000 Micro Seconds are 1 Milli Second
-		$edge		= abs( $edge );													//  avoid negative Edges											
+		$edge		= abs( $edge );													//  avoid negative Edges
 		$edge		= $edge > 1 ? 1 : $edge;										//  avoid senseless Edges
 		$edgeValue	= $divider * $edge;												//  calculate Edge Value
 
@@ -217,7 +264,7 @@ class Alg_UnitFormater
 	{
 		return self::formatMicroSeconds( $float * 1000, $precision, $indent, $edge );
 	}
-	
+
 	/**
 	 *	Formats Minutes like formatMicroSeconds.
 	 *	You can also enter 0.1 (m) and it will return 6 s.
@@ -233,7 +280,7 @@ class Alg_UnitFormater
 	{
 		return self::formatMicroSeconds( $float * 60000000, $precision, $indent, $edge );
 	}
-	
+
 	/**
 	 *	Formats Seconds like formatMicroSeconds.
 	 *	You can also enter 0.1 (s) and it will return 100 ms.
