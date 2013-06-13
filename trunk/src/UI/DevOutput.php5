@@ -74,12 +74,26 @@ class UI_DevOutput
 	 */
 	public function __construct( $channel = NULL )
 	{
-		$channels	= array( 'console', 'html' );
-		if( $channel !== NULL ){
-			if( !in_array( $channel, $channels ) )
-				$channel	= NULL;
-		}
-		if( $channel === NULL ){
+		$this->setChannel( $channel );
+	}
+	
+
+	/**
+	 *	Sets output channel type.
+	 *	Auto mode assumes HTML at first and will fall back to Console if detected.
+	 *	@access		public
+	 *	@param		string		$channel		Type of channel (auto, console, html);
+	 *	@return		void
+	 *	@throws		OutOfRangeException			if an invalid channel type is to be set
+	 */
+	public function setChannel( $channel = NULL )
+	{
+		if( !is_string( $channel ) )
+			$channel	= 'auto';
+		$channel	= strtolower( $channel );
+		if( !in_array( $channel, array( 'auto', 'console', 'html' ) ) )
+			throw new OutOfRangeException( 'Channel type "'.$channel.'" is not supported' );
+		if( $channel === "auto" ){
 			$channel	= 'html';
 			if( getEnv( 'PROMPT' ) || getEnv( 'SHELL' ) || $channel == "console" )
 				$channel	= 'console';
@@ -199,8 +213,10 @@ class UI_DevOutput
 	 *	@param		int			$factor		Space Factor
 	 *	@return		void
 	 */
-	public function printMixed( $mixed, $offset = 0, $key = NULL, $sign = NULL, $factor = NULL )
+	public function printMixed( $mixed, $offset = 0, $key = NULL, $sign = NULL, $factor = NULL, $return = FALSE )
 	{
+		if( $return )
+			ob_start();
 		if( is_object( $mixed ) || gettype( $mixed ) == "object" )
 			$this->printObject( $mixed, $offset, $key, $sign, $factor );
 		else if( is_array( $mixed ) )
@@ -209,20 +225,18 @@ class UI_DevOutput
 			$this->printString( $mixed, $offset, $key, $sign, $factor );
 		else if( is_int($mixed ) )
 			$this->printInteger( $mixed, $offset, $key, $sign, $factor );
-		else if( is_double( $mixed ) )
-			$this->printDouble( $mixed, $offset, $key, $sign, $factor );
 		else if( is_float($mixed ) )
 			$this->printFloat( $mixed, $offset, $key, $sign, $factor );
+		else if( is_double( $mixed ) )
+			$this->printDouble( $mixed, $offset, $key, $sign, $factor );
 		else if( is_resource( $mixed ) )
 			$this->printResource( $mixed, $offset, $key, $sign, $factor );
 		else if( is_bool($mixed ) )
 			$this->printBoolean( $mixed, $offset, $key, $sign, $factor );
 		else if( $mixed === NULL )
 			$this->printNull( $mixed, $offset, $key, $sign, $factor );
-		else{
-			extract( self::$channels[$this->channel] );
-			echo "No implementation in UI_DevOutput to put out a var of type ".$noteOpen.gettype( $mixed ).$noteClose.$lineBreak;
-		}
+		if( $return )
+			return ob_get_clean();
 	}
 
 	/**
@@ -283,15 +297,7 @@ class UI_DevOutput
 	 */
 	public function printDouble( $double, $offset = 0, $key = NULL, $sign = NULL, $factor = NULL )
 	{
-		if( is_double( $double ) )
-		{
-			extract( self::$channels[$this->channel] );
-			$key = ( $key !== NULL ) ? $key." => " : "";
-			$space = $this->indentSign( $offset, $sign, $factor );
-			echo $space."[D] ".$key.$double.$lineBreak;
-		}
-		else
-			$this->printMixed( $double, $offset, $key, $sign, $factor );
+		return $this->printFloat( $double, $offset, $key, $sign,$factor );
 	}
 	
 	/**
@@ -444,15 +450,20 @@ function dev( $content, $force = FALSE, $flagKey = 'CM_SHOW_DEV' )
 /**
  *	Prints out any variable with print_r in xmp
  *	@access		public
- *	@param		mixed		$mixed		variable to print out
+ *	@param		mixed		$variable	Variable to print dump of
+ *	@param		boolean		$return		Flag: Return output instead of printing it
  *	@return		void
  */
-function dump( $variable )
+function dump( $variable, $return = FALSE )
 {
 	ob_start();
 	print_r( $variable );
+	if( $return )
+		ob_start();
 	xmp( ob_get_clean() );
-}
+	if( $return )
+		return ob_get_clean();
+	}
 
 /**
  *	Global Call Method for UI_DevOutput::print_m
@@ -460,13 +471,19 @@ function dump( $variable )
  *	@param		mixed		$mixed		variable to print out
  *	@param		string		$sign		Space Sign
  *	@param		int			$factor		Space Factor
+ *	@param		boolean		$return		Flag: Return output instead of printing it
  *	@return		void
  */
-function print_m( $mixed, $sign = NULL, $factor = NULL )
+function print_m( $mixed, $sign = NULL, $factor = NULL, $return = FALSE, $channel = NULL )
 {
-	$o = new UI_DevOutput();
-	echo UI_DevOutput::$channels[$o->channel]['lineBreak'];
-	$o->printMixed( $mixed, 0, NULL, $sign, $factor );
+	$o		= new UI_DevOutput();
+	if( $channel )
+		$o->setChannel( $channel );
+	$break	= UI_DevOutput::$channels[$o->channel]['lineBreak'];
+	if( $return )
+		return $break.$o->printMixed( $mixed, 0, NULL, $sign, $factor, $return );
+	echo $break;
+	$o->printMixed( $mixed, 0, NULL, $sign, $factor, $return );
 }
 
 /**
