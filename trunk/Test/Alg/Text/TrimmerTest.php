@@ -19,6 +19,9 @@ require_once 'Test/initLoaders.php5';
  */
 class Test_Alg_Text_TrimmerTest extends PHPUnit_Framework_TestCase
 {
+	/**	@var		string		Default test string */
+	protected $string;
+
 	/**
 	 *	Constructor.
 	 *	@access		public
@@ -54,9 +57,18 @@ class Test_Alg_Text_TrimmerTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testTrim()
 	{
-		$this->markTestIncomplete( 'Incomplete Test' );
-		$assertion	= TRUE;
-		$creation	= Alg_Text_Trimmer::trim();
+		$this->assertEquals( $this->string, Alg_Text_Trimmer::trim( $this->string ) );
+
+		$assertion	= "abc...";
+		$creation	= Alg_Text_Trimmer::trim( $this->string, 6 );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= "abc---";
+		$creation	= Alg_Text_Trimmer::trim( $this->string, 6, '---' );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= "ÄÄ-";
+		$creation	= Alg_Text_Trimmer::trim( "ÄÄÖÖÜÜ", 3, '-' );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -100,6 +112,13 @@ class Test_Alg_Text_TrimmerTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testTrimCentric()
 	{
+		$this->assertEquals( $this->string, Alg_Text_Trimmer::trimCentric( $this->string ) );
+
+		$assertion	= "ab...p";
+		$creation	= Alg_Text_Trimmer::trimCentric( $this->string, 6 );
+		$this->assertEquals( $assertion, $creation );
+
+		
 		$assertion	= "a...p";
 		$creation	= Alg_Text_Trimmer::trimCentric( $this->string, 5 );
 		$this->assertEquals( $assertion, $creation );
@@ -108,8 +127,16 @@ class Test_Alg_Text_TrimmerTest extends PHPUnit_Framework_TestCase
 		$creation	= Alg_Text_Trimmer::trimCentric( $this->string, 6 );
 		$this->assertEquals( $assertion, $creation );
 
+		$assertion	= "ab---p";
+		$creation	= Alg_Text_Trimmer::trimCentric( $this->string, 6, '---' );
+		$this->assertEquals( $assertion, $creation );
+
 		$assertion	= "ab...op";
 		$creation	= Alg_Text_Trimmer::trimCentric( $this->string, 7 );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= "Ä-Ü";
+		$creation	= Alg_Text_Trimmer::trimCentric( "ÄÄÖÖÜÜ", 3, '-' );
 		$this->assertEquals( $assertion, $creation );
 	}
 }
