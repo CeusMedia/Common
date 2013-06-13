@@ -105,7 +105,8 @@ class Net_Site_Crawler
 			$url->append( $parts['user'].":".$parts['pass']."@" );
 		if( substr( $parts['path'], 0, 1 ) != "/" )
 			$parts['path']	= "/".$parts['path'];
-		$url->append( $parts['host'].$parts['path'] );
+		$host	= $parts['host'].( isset( $parts['port'] ) ? ":".$parts['port'] : "" );
+		$url->append( $host.$parts['path'] );
 		if( isset( $parts['query'] ) )
 			$url->append( "?".$parts['query'] );
 		$url	= str_replace( "//", "/", $url->toString() );
@@ -298,7 +299,9 @@ class Net_Site_Crawler
 	protected function handleVerbose( $url, $number )
 	{
 		$speed	= Alg_UnitFormater::formatBytes( $this->reader->getInfo( 'speed_download' ) );
-		remark( "[".$number."] ".str_replace( "http://".$this->host, "", $url )." | ".$speed."/s" );
+		$url	= str_replace( "http://".$this->host.":".$this->port, "", $url );
+		$url	= str_replace( "http://".$this->host, "", $url );
+		remark( "[".$number."] ".$url." | ".$speed."/s" );
 #		print_m( $this->reader->getStatus() );
 	}
 
