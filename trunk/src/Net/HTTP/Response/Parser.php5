@@ -60,7 +60,7 @@ class Net_HTTP_Response_Parser
 	 */
 	public static function fromString( $string )
 	{
-		$string		= trim( $string );
+#		$string		= trim( $string );
 		$parts		= explode( "\r\n\r\n", $string );
 		$response	= new Net_HTTP_Response;
 		while( $part = array_shift( $parts ) )
