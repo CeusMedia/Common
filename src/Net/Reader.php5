@@ -150,6 +150,7 @@ class Net_Reader
 
 		$curl->setOption( CURLOPT_SSL_VERIFYHOST, $this->verifyHost );
 		$curl->setOption( CURLOPT_SSL_VERIFYPEER, $this->verifyPeer );
+		$curl->setOption( CURLOPT_HEADER, TRUE );
 		if( self::$userAgent )
 			$curl->setOption( CURLOPT_USERAGENT, self::$userAgent );
 		if( $this->username )

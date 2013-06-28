@@ -43,23 +43,23 @@ class Net_CURL
 	const INFO_CONTENT_LENGTH_DOWNLOAD	= 'download_content_length';
 	const INFO_CONTENT_LENGTH_UPLOAD		= 'upload_content_length';
 	const INFO_ERRNO						= 'errno';
-	const INFO_ERROR						= 'error';
-	const INFO_HTTP_CODE					= 'http_code';
+	const INFO_ERROR					= 'error';
+	const INFO_HTTP_CODE				= 'http_code';
 	const INFO_HTTP_URL					= 'url';
-	const INFO_REDIRECT_COUNT				= 'redirect_count';
-	const INFO_REDIRECT_TIME				= 'redirect_time';
+	const INFO_REDIRECT_COUNT			= 'redirect_count';
+	const INFO_REDIRECT_TIME			= 'redirect_time';
 	const INFO_SIZE_HEADER				= 'header_size';
 	const INFO_SIZE_DOWNLOAD				= 'size_download';
 	const INFO_SIZE_REQUEST				= 'request_size';
 	const INFO_SIZE_UPLOAD				= 'size_upload';
-	const INFO_SPEED_DOWNLOAD				= 'speed_download';
+	const INFO_SPEED_DOWNLOAD			= 'speed_download';
 	const INFO_SPEED_UPLOAD				= 'speed_upload';
-	const INFO_SSL_VERIFY_RESULT			= 'ssl_verify_result';
+	const INFO_SSL_VERIFY_RESULT		= 'ssl_verify_result';
 	const INFO_TIME_CONNECT				= 'connect_time';
 	const INFO_TIME_NAMELOOKUP			= 'namelookup_time';
 	const INFO_TIME_PRETRANSFER			= 'pretransfer_time';
-	const INFO_TIME_STARTTRANSFER			= 'starttransfer_time';
-	const INFO_TIME_TOTAL					= 'total_time';
+	const INFO_TIME_STARTTRANSFER		= 'starttransfer_time';
+	const INFO_TIME_TOTAL				= 'total_time';
 
 	/**
 	 *	Array of caseless header names.
@@ -171,21 +171,11 @@ class Net_CURL
 
 		if( $breakOnError && $this->info['errno'] )
 			throw new RuntimeException( $this->info['error'], $this->info['errno'] );
-
-		$this->header = NULL;
 		if( $this->getOption( CURLOPT_HEADER ) && $parseHeaders )
 		{
-			$result	= preg_replace( "@^HTTP/1\.1 100 Continue\r\n\r\n@", "", $result );				//  Hack: remove "100 Continue"
-			$result	= trim( $result );																//  trim Result String
-			$parts	= preg_split( "/(\r\n){2}/", $result );											//  split Headers Blocks
-#			if( count( $parts ) < 2 )																//  no Header Blocks splitted
-#				throw new Exception( 'Error while splitting HTTP Response String.' );
-
-			$header	= "";
-			while( $parts && preg_match( "@^HTTP/@", trim( $parts[0] ) ) )							//  another Header Block found
-				$header	= array_shift( $parts );													//  Header Blocks is first Part
-
-			$result	= implode( "\r\n\r", $parts );													//  implode other Blocks
+#			$result	= preg_replace( "@^HTTP/1\.1 100 Continue\r\n\r\n@", "", $result );				//  Hack: remove "100 Continue"
+			$header	= mb_substr( $result, 0, $this->info['header_size'] );
+			$result	= mb_substr( $result, $this->info['header_size'] );
 			$this->parseHeader( $header );															//  parse Header Block
 		}
 		return $result;
@@ -279,6 +269,7 @@ class Net_CURL
 	 */
 	public function parseHeader( $header )
 	{
+		$this->header	= NULL;
 		$this->caseless = array();
 		$headers	= preg_split( "/(\r\n)+/", $header );
 		foreach( $headers as $header )
