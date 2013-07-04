@@ -41,6 +41,8 @@ class Test_XML_XSL_TransformatorTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testTransform()
 	{
+		if( !class_exists( 'XSLTProcessor' ) )
+			$this->markTestSkipped( 'The XSL extension is not available.' );
 		$assertion	= $this->result;
 		$creation	= $this->transformator->transform();
 		$this->assertEquals( $assertion, $creation );
@@ -53,6 +55,8 @@ class Test_XML_XSL_TransformatorTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testTransformToFile()
 	{
+		if( !class_exists( 'XSLTProcessor' ) )
+			$this->markTestSkipped( 'The XSL extension is not available.' );
 		$this->transformator->transformToFile( $this->path."output.html" );
 		$assertion	= $this->result;
 		$creation	= file_get_contents( $this->path."output.html" );
