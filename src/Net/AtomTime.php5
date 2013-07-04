@@ -19,7 +19,7 @@
  *
  *	@category		cmClasses
  *	@package		Net
- *	@uses			Net_cURL
+ *	@uses			Net_CURL
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2012 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -31,7 +31,7 @@
  *	Connects Server to request Atom Time.
  *	@category		cmClasses
  *	@package		Net
- *	@uses			Net_cURL
+ *	@uses			Net_CURL
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2012 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -53,7 +53,7 @@ class Net_AtomTime
 	 */
 	public static function getTimestamp()
 	{
-		$curl	= new Net_cURL( self::$url );
+		$curl	= new Net_CURL( self::$url );
 		$result	= $curl->exec();
 		$status	= $curl->getStatus();
 		if( $status['http_code'] != 200 )

@@ -156,7 +156,7 @@ class XML_FeedIdentifier
 	 */
 	public function identifyFromUrl( $url, $timeout = 5 )
 	{
-		Net_cURL::setTimeOut( $timeout );
+		Net_CURL::setTimeOut( $timeout );
 		$xml	= Net_Reader::readUrl( $url );
 		return $this->identify( $xml );
 	}
