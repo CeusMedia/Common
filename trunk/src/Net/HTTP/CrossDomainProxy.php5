@@ -36,7 +36,7 @@
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			14.06.2008
  *	@version		$Id$
- *	@todo			use Net_Reader or Net_cURL
+ *	@todo			use Net_Reader or Net_CURL
  *	@todo			implement time out and http status code check
  */
 class Net_HTTP_CrossDomainProxy

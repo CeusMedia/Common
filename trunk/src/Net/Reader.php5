@@ -42,7 +42,9 @@
  */
 class Net_Reader
 {
+	/**	@var		string		$body			Result content of response */
 	protected $body				= NULL;
+	/**	@var		array		$headers		Map of response headers */
 	protected $headers			= array();
 	/**	@var		array		$info			Map of information of last request */
 	protected $info				= array();
@@ -99,6 +101,10 @@ class Net_Reader
 		if( !array_key_exists( $key, $this->headers ) )
 			throw new InvalidArgumentException( 'Header Key "'.$key.'" is invalid.' );
 		return $this->headers[$key];
+	}
+
+	public function getHeaders(){
+		return $this->headers;
 	}
 
 	/**

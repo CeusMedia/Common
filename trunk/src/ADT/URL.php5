@@ -58,6 +58,20 @@ class ADT_URL
 		$this->setAddress( $address );
 	}
 
+	static public function fromUrl( $url, $defaultScheme = "http", $defaultPort = NULL ){
+		$parts		= parse_url( $url );
+		$scheme		= isset( $parts['scheme'] ) ? $parts['scheme'] : $defaultScheme;
+		if( !isset( $parts['host'] ) )
+			throw new InvalidArgumentException( 'URL is missing host' );
+		$port		= !is_null( $defaultPort ) ? ":".$defaultPort : "";
+		$port		= isset( $parts['port'] ) ? ':'.$parts['port'] : $port;
+		$auth		= isset( $parts['user'] ) ? ( isset( $parts['pass'] ) ? $parts['user'].':'.$parts['pass'].'@' : $parts['user'].'@' ) : "";
+		$path		= isset( $parts['path'] ) ? $parts['path'] : "";
+		$query		= isset( $parts['query'] ) ? '?'.$parts['query'] : "";
+		$fragment	= isset( $parts['fragment'] ) ? '#'.$parts['fragment'] : "";
+		return new ADT_URL( $scheme, $parts['host'].$path.$query.$fragment );
+	}
+
 	public function getScheme()
 	{
 		return $this->scheme;
