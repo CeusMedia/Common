@@ -36,18 +36,16 @@
  *	@version		$Id$
  */
 class XML_DOM_Builder
-{
-	/**	@var	DOMDocument			$document		DOM Document */
-	protected $document;
-	
+{	
 	/**
 	 *	Builds XML and returns XML as string.
+	 *	@static
 	 *	@access		public
 	 *	@param		XML_DOM_Node	$tree			XML Tree
 	 *	@param		string			$encoding		Encoding Character Set (utf-8 etc.)
 	 *	@return		string
 	 */
-	public function build( XML_DOM_Node $tree, $encoding = "utf-8", $namespaces = array() )
+	static public function build( XML_DOM_Node $tree, $encoding = "utf-8", $namespaces = array() )
 	{
 		$document	= new DOMDocument( "1.0", $encoding );
 		$document->formatOutput = TRUE;
@@ -62,6 +60,7 @@ class XML_DOM_Builder
 
 	/**
 	 *	Writes XML Tree to XML File recursive.
+	 *	@static
 	 *	@access		protected
 	 *	@param		DOMElement		$document	DOM Document
 	 *	@param		DOMElement		$root		DOM Element
@@ -69,7 +68,7 @@ class XML_DOM_Builder
 	 *	@param		string			$encoding	Encoding Character Set (utf-8 etc.)
 	 *	@return		void
 	 */
-	protected function buildRecursive( DOMDocument $document, DOMElement $root, XML_DOM_Node $tree, $encoding )
+	static protected function buildRecursive( DOMDocument $document, DOMElement $root, XML_DOM_Node $tree, $encoding )
 	{
 		foreach( $tree->getAttributes() as $key => $value )
 		{
