@@ -83,12 +83,7 @@ class Net_HTTP_Request_Sender
 	{
 		$this->headers->addField( new Net_HTTP_Header_Field( $name, $value ) );
 	}
-
-/*	public function setContentType( $mimeType )
-	{
-		$this->contentType	= $mimeType;
-	}
-*/
+	
 	public function setData( $data )
 	{
 		if( !is_array( $data ) )
@@ -149,8 +144,9 @@ class Net_HTTP_Request_Sender
 		if( !$fp )
 			throw new RuntimeException( $errstr.' ('.$errno.')' );
 
+		$uri	= $this->uri.( $this->port ? ':'.$this->port : "" );
 		$lines	= array(
-			$this->method." ".$this->uri." HTTP/".$this->version,
+			$this->method." ".$uri." HTTP/".$this->version,
 			$this->headers->toString(),
 			''
 		);
@@ -163,7 +159,7 @@ class Net_HTTP_Request_Sender
 		$response	= Net_HTTP_Response_Parser::fromString( $result );
 		if( count( $response->getHeader( 'Location' ) ) ){
 			$location	= array_shift( $response->getHeader( 'Location' ) );
-			$this->host		= parse_url( $location->getValue(), PHP_URL_HOST );
+			$this->host	= parse_url( $location->getValue(), PHP_URL_HOST );
 			$this->setPort( parse_url( $location->getValue(), PHP_URL_PORT ) );
 			$this->setUri( parse_url( $location->getValue(), PHP_URL_PATH ) );
 			return $this->send();
