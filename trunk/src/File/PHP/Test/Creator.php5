@@ -108,6 +108,7 @@ class File_PHP_Test_Creator
 		$template	= str_replace( "{classPath}", $this->classPath, $template );
 		$template	= str_replace( "{classPackage}", $this->data['package'], $template );
 		$template	= str_replace( "{date}", date( "d.m.Y" ), $template );
+		$template	= "<?php\n".$template."\n?>";
 
 		Folder_Editor::createFolder( dirname( $this->targetFile ) );
 		file_put_contents( $this->targetFile, $template );
