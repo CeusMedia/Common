@@ -55,7 +55,7 @@
 class File_PHP_Parser_Regular
 {
 	protected $regexClass		= '@^(abstract )?(final )?(interface |class )([\w]+)( extends ([\w]+))?( implements ([\w]+)(, ([\w]+))*)?(\s*{)?@i';
-	protected $regexMethod		= '@^(abstract )?(final )?(protected |private |public )?(static )?function ([\w]+)\((.*)\)(\s*{\s*)?;?\s*$@';
+	protected $regexMethod		= '@^(abstract )?(final )?(static )?(protected |private |public )?(static )?function ([\w]+)\((.*)\)(\s*{\s*)?;?\s*$@';
 	protected $regexParam		= '@^(([\w]+) )?((&\s*)?\$([\w]+))( ?= ?([\S]+))?$@';
 	protected $regexDocParam	= '@^\*\s+\@param\s+(([\S]+)\s+)?(\$?([\S]+))\s*(.+)?$@';
 	protected $regexDocVariable	= '@^/\*\*\s+\@var\s+(\w+)\s+\$(\w+)(\s(.+))?\*\/$@s';
@@ -577,14 +577,14 @@ class File_PHP_Parser_Regular
 	 */
 	protected function parseFunction( ADT_PHP_File $parent, $matches )
 	{
-		$function	= new ADT_PHP_Function( $matches[5] );
+		$function	= new ADT_PHP_Function( $matches[6] );
 		$function->setParent( $parent );
 		$function->setLine( $this->lineNumber );
 
-		if( trim( $matches[6] ) )
+		if( trim( $matches[7] ) )
 		{
 			$paramList	= array();
-			foreach( explode( ",", $matches[6] ) as $param )
+			foreach( explode( ",", $matches[7] ) as $param )
 			{
 				$param	 = trim( $param );
 				if( !preg_match( $this->regexParam, $param, $matches ) )
@@ -636,23 +636,23 @@ class File_PHP_Parser_Regular
 	 */
 	protected function parseMethod( ADT_PHP_Interface $parent, $matches )
 	{
-		$method	= new ADT_PHP_Method( $matches[5] );
+		$method	= new ADT_PHP_Method( $matches[6] );
 		$method->setParent( $parent );
 		$method->setLine( $this->lineNumber );
 		if( !empty( $matches[3] ) )
-			$method->setAccess( trim( $matches[3] ) );
+			$method->setAccess( trim( $matches[4] ) );
 		$method->setAbstract( (bool) $matches[1] );
-		$method->setFinal( (bool) $matches[2] );
-		$method->setStatic( (bool) $matches[4] );
+		$method->setFinal( (bool) $matches[3] );
+		$method->setStatic( (bool) $matches[5] );
 
 		$return		= new ADT_PHP_Return( "unknown" );
 		$return->setParent( $method );
 		$method->setReturn( $return );
 
-		if( trim( $matches[6] ) )
+		if( trim( $matches[7] ) )
 		{
 			$paramList	= array();
-			foreach( explode( ",", $matches[6] ) as $param )
+			foreach( explode( ",", $matches[7] ) as $param )
 			{
 				$param	 = trim( $param );
 				if( !preg_match( $this->regexParam, $param, $matches ) )
