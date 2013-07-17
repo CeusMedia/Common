@@ -43,10 +43,22 @@
 class XML_ElementReader
 {
 	/**
+	 *	Reads XML from string.
+	 *	@access		public
+	 *	@static
+	 *	@param		string		$xml		XML string to read
+	 *	@return		XML_Element
+	 */
+	public static function read( $xml )
+	{
+		return new XML_Element( $xml );
+	}
+
+	/**
 	 *	Reads XML from File.
 	 *	@access		public
 	 *	@static
-	 *	@param		string		$fileName	File Name to XML File
+	 *	@param		string		$fileName	File name to XML file
 	 *	@return		XML_Element
 	 */
 	public static function readFile( $fileName )
@@ -54,7 +66,7 @@ class XML_ElementReader
 		$xml	= File_Reader::load( $fileName );
 		return new XML_Element( $xml );
 	}
-	
+
 	/**
 	 *	Reads XML from URL.
 	 *	@access		public
