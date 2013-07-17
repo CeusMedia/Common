@@ -212,9 +212,7 @@ class UI_Image_Processing
 			return FALSE;
 		$width	= (int) round( $this->image->getWidth() * $width );
 		$height	= (int) round( $this->image->getHeight() * $height );
-		if( $this->maxMegaPixels && $width * $height > $this->maxMegaPixels * 1024 * 1024 )
-			throw new OutOfRangeException( 'Larger than '.$this->maxMegaPixels.'MP ('.$width.'x'.$heigth.')' );
-		return $this->resize( $width, $height, $interpolate, $maxMegaPixel );
+		return $this->resize( $width, $height, $interpolate );
 	}
 
 	/**
@@ -223,10 +221,9 @@ class UI_Image_Processing
 	 *	@param		integer		$width			Maximum width
 	 *	@param		integer		$height			Maximum height
 	 *	@param		boolean		$interpolate	Flag: use interpolation
-	 *	@param		integer		$maxMegaPixel	Maxiumum megapixels
 	 *	@return		boolean		Image has been scaled
 	 */
-	public function scaleDownToLimit( $width, $height, $interpolate = TRUE, $maxMegaPixel = 50 )
+	public function scaleDownToLimit( $width, $height, $interpolate = TRUE )
 	{
 		if( !is_int( $width ) )
 			throw new InvalidArgumentException( 'Width must be integer' );
@@ -243,7 +240,7 @@ class UI_Image_Processing
 			$scale	*= $height / ( $sourceHeight * $scale );
 		$width	= (int) round( $sourceWidth * $scale );
 		$height	= (int) round( $sourceHeight * $scale );
-		return $this->resize( $width, $height, $interpolate, $maxMegaPixel );
+		return $this->resize( $width, $height, $interpolate );
 	}
 
 	/**
@@ -252,11 +249,10 @@ class UI_Image_Processing
 	 *	@param		integer		$width		Minimum width
 	 *	@param		integer		$height		Minimum height
 	 *	@param		boolean		$interpolate	Flag: use interpolation
-	 *	@param		integer		$maxMegaPixel	Maxiumum megapixels
 	 *	@return		boolean		Image has been scaled
 	 *	@throws		OutOfRangeException if resulting image has more mega pixels than allowed
 	 */
-	public function scaleUpToLimit( $width, $height, $interpolate = TRUE, $maxMegaPixel = 50 )
+	public function scaleUpToLimit( $width, $height, $interpolate = TRUE )
 	{
 		if( !is_int( $width ) )
 			throw new InvalidArgumentException( 'Width must be integer' );
@@ -273,9 +269,7 @@ class UI_Image_Processing
 			$scale	*= $height / ( $sourceHeight * $scale );
 		$width	= (int) round( $sourceWidth * $scale );
 		$height	= (int) round( $sourceHeight * $scale );
-		if( $this->maxMegaPixels && $width * $height > $this->maxMegaPixels * 1024 * 1024 )
-			throw new OutOfRangeException( 'Larger than '.$this->maxMegaPixels.'MP ('.$width.'x'.$heigth.')' );
-		return $this->resize( $width, $height, $interpolate, $maxMegaPixel );
+		return $this->resize( $width, $height, $interpolate, $this->maxMegaPixel );
 	}
 
 	/**
@@ -289,17 +283,16 @@ class UI_Image_Processing
 	 *	@param		integer		$maxWidth		Maximum width
 	 *	@param		integer		$maxHeight		Maximum height
 	 *	@param		boolean		$interpolate	Flag: use interpolation
-	 *	@param		integer		$maxMegaPixel	Maxiumum megapixels
 	 *	@return		boolean		Image has been scaled
 	 */
-	public function scaleToRange( $minWidth, $minHeight, $maxWidth, $maxHeight, $interpolate, $maxMegaPixel = 50 )
+	public function scaleToRange( $minWidth, $minHeight, $maxWidth, $maxHeight, $interpolate )
 	{
 		$width	= $this->image->getWidth();
 		$height	= $this->image->getHeight();
 		if( $width < $minWidth || $height < $minHeight )
-			return $this->scaleUpToLimit( $minWidth, $minHeight, $interpolate, $maxMegaPixel );
+			return $this->scaleUpToLimit( $minWidth, $minHeight, $interpolate );
 		else if( $width > $maxWidth || $height > $maxHeight )
-			return $this->scaleDownToLimit( $maxWidth, $maxHeight, $interpolate, $maxMegaPixel );
+			return $this->scaleDownToLimit( $maxWidth, $maxHeight, $interpolate );
 		return FALSE;
 	}
 }
