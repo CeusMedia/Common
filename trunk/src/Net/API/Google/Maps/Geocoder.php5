@@ -43,7 +43,7 @@
 class Net_API_Google_Maps_Geocoder extends Net_API_Google_Request
 {
 	/** @var		string		$apiUrl			Google Maps API URL */
-	public $apiUrl				= "http://maps.google.com/maps/geo";
+	public $apiUrl				= "http://maps.googleapis.com/maps/api/geocode/xml";
 
 	/**
 	 *	Returns KML data for an address.
@@ -55,7 +55,7 @@ class Net_API_Google_Maps_Geocoder extends Net_API_Google_Request
 	public function getGeoCode( $address, $force = FALSE )
 	{
 		$address	= urlencode( $address );
-		$query		= "?q=".$address."&sensor=false&output=xml";
+		$query		= "?address=".$address."&sensor=false";
 		if( $this->pathCache )
 		{
 			$cacheFile	= $this->pathCache.$address.".xml.cache";
@@ -79,14 +79,14 @@ class Net_API_Google_Maps_Geocoder extends Net_API_Google_Request
 	{
 		$xml	= $this->getGeoCode( $address, $force );
 		$xml	= new XML_Element( $xml );
-		if( !@$xml->Response->Placemark->Point->coordinates )
-			throw new RuntimeException( 'Address not found.' );
-		$coordinates	= (string) $xml->Response->Placemark->Point->coordinates;
+		if( !@$xml->result->geometry->location )
+			throw new RuntimeException( 'Address not found' );
+		$coordinates	= (string) $xml->result->geometry->location;
 		$parts			= explode( ",", $coordinates );
 		$data			= array(
-			'longitude'	=> $parts[0],
-			'latitude'	=> $parts[1],
-			'accuracy'	=> $parts[2],
+			'longitude'	=> (string) $xml->result->geometry->location->lng,
+			'latitude'	=> (string) $xml->result->geometry->location->lat,
+			'accuracy'	=> NULL,
 		);
 		return $data;
 	}
