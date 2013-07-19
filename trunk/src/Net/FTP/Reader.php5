@@ -59,7 +59,7 @@ class Net_FTP_Reader
 	{
 		$this->connection	= $connection;
 	}
-	
+
 	/**
 	 *	Transferes a File from FTP Server.
 	 *	@access		public
@@ -74,7 +74,7 @@ class Net_FTP_Reader
 			$target	= $fileName;
 		return @ftp_get( $this->connection->getResource(), $target, $fileName, $this->connection->mode );
 	}
-	
+
 	/**
 	 *	Returns Array of Files in Path [and nested Folders].
 	 *	@access		public
@@ -93,7 +93,7 @@ class Net_FTP_Reader
 					$results[]	= $entry;
 		return $results;
 	}
-	
+
 	/**
 	 *	Returns Array of Folders in Path [and nested Folders].
 	 *	@access		public
@@ -112,7 +112,7 @@ class Net_FTP_Reader
 					$results[]	= $entry;
 		return $results;
 	}
-	
+
 	/**
 	 *	Returns a List of all Folders an Files of a Path on FTP Server.
 	 *	@access		public
@@ -149,7 +149,7 @@ class Net_FTP_Reader
 		}
 		return $parsed;
 	}
-	
+
 	/**
 	 *	Returns current Path on Server.
 	 *	@access		public
