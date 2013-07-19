@@ -202,6 +202,10 @@ class Net_FTP_Client
 		return $this->reader->getPermissionsAsOctal( $permissions );
 	}
 
+	public function getResource(){
+		return $this->connection->getResource();
+	}
+	
 	/**
 	 *	Copies a File on FTP Server.
 	 *	@access		public
