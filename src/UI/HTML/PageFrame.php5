@@ -46,8 +46,9 @@ class UI_HTML_PageFrame
 	protected $baseHref	= NULL;
 	protected $head		= array();
 	protected $body		= array();
+	protected $prefixes	= array();
 	protected $profile	= NULL;
-	
+	public $indent	= "  ";
 	protected $charset	= NULL;
 	protected $language	= NULL;
 	protected $doctype	= 'XHTML_10_STRICT';
@@ -62,8 +63,6 @@ class UI_HTML_PageFrame
 		'XHTML_401_FRAMESET'		=> '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN" "http://www.w3.org/TR/html4/frameset.dtd">',
 	);
 
-	
-	
 	/**
 	 *	Constructor.
 	 *	@access		public
@@ -159,6 +158,11 @@ class UI_HTML_PageFrame
 		$this->metaTags[strtolower( $type.":".$key )]	= $metaData;
 	}
 
+	public function addPrefix( $prefix, $namespace )
+	{
+		$this->prefixes[$prefix]	= $namespace;
+	}
+
 	public function addScript( $script, $type = "text/javascript" ){
 		$this->addHead( UI_HTML_Tag::create( 'script', $script, array( 'type' => $type ) ) );
 	}
@@ -217,10 +221,16 @@ class UI_HTML_PageFrame
 			'profile'	=> $this->profile
 		);
 
-		$tagsHead	= implode( "\n\t\t", $tagsHead ).implode( "\n\t\t", $this->head );
-		$tagsBody	= implode( "\n\t\t", $tagsBody ).implode( "\n\t\t", $this->body );
-		$head		= UI_HTML_Tag::create( "head", "\n\t\t".$tagsHead."\n\t", $headAttributes );
-		$body		= UI_HTML_Tag::create( "body", "\n\t\t".$tagsBody."\n\t", $bodyAttributes );
+		$tagsHead	= implode( "\n".$this->indent.$this->indent, $tagsHead );
+		$tagsHead	.= implode( "\n".$this->indent.$this->indent, $this->head );
+		$tagsBody	= implode( "\n".$this->indent.$this->indent, $tagsBody );
+		$tagsBody	.= implode( "\n".$this->indent.$this->indent, $this->body );
+		if( $tagsBody )
+			$tagsBody	= "\n".$this->indent.$this->indent.$tagsBody."\n".$this->indent;
+		if( $tagsHead )
+			$tagsHead	= "\n".$this->indent.$this->indent.$tagsHead."\n".$this->indent;
+		$head		= UI_HTML_Tag::create( "head", $tagsHead, $headAttributes );
+		$body		= UI_HTML_Tag::create( "body", $tagsBody, $bodyAttributes );
 		
 		$doctype	= $this->doctypes[$this->doctype];
 		$attributes	= array( 'lang' => $this->language );
@@ -228,8 +238,20 @@ class UI_HTML_PageFrame
 			$attributes	= array( 'xml:lang' => $this->language ) + $attributes;
 			$attributes	= array( 'xmlns' => "http://www.w3.org/1999/xhtml" ) + $attributes;
 		}
-		$attributes	+= $htmlAttributes;
-		$html		= UI_HTML_Tag::create( "html", "\n\t".$head."\n\t".$body."\n", $attributes );
+		if( $this->prefixes ){
+			$list	= array();
+			foreach( $this->prefixes as $prefix => $namespace )
+				$list[]	= $prefix.": ".$namespace;
+			$attributes['prefix']	= join( " ", $list );
+		}
+		foreach( $htmlAttributes as $key => $value ){
+			if( isset( $attributes[$key] ) && $key == "prefix" )
+				$attributes['prefix']	.= " ".$value;
+			else
+				$attributes[$key]	= $value;
+		}
+		$content	= "\n".$this->indent.$head."\n".$this->indent.$body."\n";
+		$html		= UI_HTML_Tag::create( "html", $content, $attributes );
 		return $doctype."\n".$html;
 	}
 
