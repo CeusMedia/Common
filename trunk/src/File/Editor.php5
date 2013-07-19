@@ -64,6 +64,11 @@ class File_Editor extends File_Reader
 		$this->writer->appendString( $string );
 	}
 
+	public static function delete( $fileName )
+	{
+		return File_Writer::delete( $fileName );
+	}
+
 	/**
 	 *	Sets Group of current File.
 	 *	@access		public

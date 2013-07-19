@@ -74,6 +74,7 @@ class File_Writer
 			throw new RuntimeException( 'File "'.$this->fileName.'" is not writable' );
 		return error_log( $string, 3, $this->fileName );
 	}
+
 	/**
 	 *	Create a file and sets Rights, Owner and Group.
 	 *	@access		public
@@ -98,6 +99,12 @@ class File_Writer
 			$this->setOwner( $user );
 		if( $group )
 			$this->setGroup( $group );
+	}
+
+	public static function delete( $fileName )
+	{
+		$writer	= new File_Writer( $fileName );
+		return $writer->remove();
 	}
 
 	/**
