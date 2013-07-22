@@ -50,15 +50,15 @@ class Net_Mail_Transport_SMTP
 	protected $username;
 	/**	@var		string		$password	SMTP Auth Password */
 	protected $password;
-	
+
 	protected $isSecure			= FALSE;
-	
+
 	protected $verbose			= FALSE;
 
 	/**	@var		string		$mailer		Mailer Agent */
 	protected $mailer			= 'cmClasses::Net_Mail/0.7.3';
 
-	
+
 	/**
 	 *	Constructor.
 	 *	@access		public
@@ -93,7 +93,7 @@ class Net_Mail_Transport_SMTP
 	public function setVerbose( $verbose ){
 		$this->verbose = (bool) $verbose;
 	}
-	
+
 	/**
 	 *	Sets Username for SMTP Auth.
 	 *	@access		public
