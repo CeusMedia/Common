@@ -185,7 +185,7 @@ class Net_Mail_Header_Section
 	public function toString()
 	{
 		$list	= $this->toArray();
-		$list	= implode( Net_Mail::$delimiter, $list ).Net_Mail::$delimiter;
+		$list	= implode( PHP_EOL, $list )/*.Net_Mail::$delimiter*/;
 		return $list;
 	}
 }

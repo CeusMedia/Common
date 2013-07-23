@@ -95,7 +95,7 @@ class Net_Mail_Attachment
 	 */
 	public function render()
 	{
-		return $this->headers->toString().Net_Mail::$delimiter.$this->content.Net_Mail::$delimiter;
+		return $this->headers->toString().PHP_EOL.$this->content.PHP_EOL;
 	}
 
 	/**
