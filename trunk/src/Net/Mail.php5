@@ -41,7 +41,7 @@
 class Net_Mail
 {
 	/**	@var	string					$delimiter		Line Separator, for some reasons only \n must be possible */
-	public static $delimiter			= "\r\n";
+	public static $delimiter				= "\r\n";
 	/**	@var	string					$parts			Mail Parts: Bodies and Attachments */
 	protected $parts					= array();
 	/**	@var	Net_Mail_Header_Section	$headers		Mail Header Section */
@@ -59,17 +59,13 @@ class Net_Mail
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		string		$encoding		Character Set Encoding
-	 *	@param		string		$mailer			Mailer
-	 *	@param		string		$encoding		Content Transfer Encoding, default: 8bit
 	 *	@return		void
 	 */
-	public function __construct( $encoding = "UTF-8", $encoding = "8bit" )
+	public function __construct()
 	{
 		$this->headers		= new Net_Mail_Header_Section();
 		$this->mimeBoundary	= md5( microtime( TRUE ) );
 		$this->headers->setFieldPair( 'MIME-Version', '1.0' );
-//		$this->headers->setFieldPair( 'Content-Transfer-Encoding', $encoding );
 		$type	= 'multipart/alternative; boundary='.$this->mimeBoundary.'';
 		$this->headers->setFieldPair( 'Content-Type', $type, TRUE );
 	}
