@@ -136,7 +136,7 @@ class Net_Mail_Transport_SMTP
 	public function send( Net_Mail $mail )
 	{
 		$mail->setHeaderPair( 'X-Mailer', $this->mailer );
-		$delim	= Net_Mail::$delimiter;
+		$delim	= PHP_EOL;
 		$date	= date( "D, d M Y H:i:s O", time() );
 		$server	= 'localhost';
 		if( !empty( $_SERVER['SERVER_NAME'] ) )
@@ -192,7 +192,7 @@ class Net_Mail_Transport_SMTP
 	protected function sendChunk( $connection, $message ){
 		if( $this->verbose )
 			xmp( ' < '.$message );
-		fputs( $connection, $message.Net_Mail::$delimiter );
+		fputs( $connection, $message.PHP_EOL );
 	}
 
 	protected function checkResponse( $connection ){

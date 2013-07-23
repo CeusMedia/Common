@@ -105,7 +105,7 @@ class Net_Mail_Transport_Default
 		$headers->setFieldPair( 'Date', date( 'r' ), TRUE );
 
 		if( is_array( $parameters ) )
-			$parameters	= implode( Net_Mail::$delimiter, $parameters );
+			$parameters	= implode( PHP_EOL, $parameters );
 
 		if( !mail( $receiver, $subject, $body, $headers->toString(), $parameters ) )
 			throw new RuntimeException( 'Mail could not been sent' );
