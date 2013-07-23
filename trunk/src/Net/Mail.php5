@@ -70,7 +70,7 @@ class Net_Mail
 		$this->mimeBoundary	= md5( microtime( TRUE ) );
 		$this->headers->setFieldPair( 'MIME-Version', '1.0' );
 //		$this->headers->setFieldPair( 'Content-Transfer-Encoding', $encoding );
-		$type	= 'multipart/alternative; boundary="'.$this->mimeBoundary.'"';
+		$type	= 'multipart/alternative; boundary='.$this->mimeBoundary.'';
 		$this->headers->setFieldPair( 'Content-Type', $type, TRUE );
 	}
 
@@ -109,9 +109,9 @@ class Net_Mail
 
 		$contents	= array( 'This is a multi-part message in MIME format.');
 		foreach( $this->parts as $part )
-			$contents[]	= '--'.$this->mimeBoundary.self::$delimiter.$part->render();
-		$contents[]	= '--'.$this->mimeBoundary.'--'.self::$delimiter.self::$delimiter;
-		return join( self::$delimiter, $contents );
+			$contents[]	= '--'.$this->mimeBoundary.PHP_EOL.$part->render();
+		$contents[]	= '--'.$this->mimeBoundary.'--'.PHP_EOL.PHP_EOL;
+		return join( PHP_EOL, $contents );
 	}
 
 	/**
