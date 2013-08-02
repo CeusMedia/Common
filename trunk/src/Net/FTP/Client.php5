@@ -107,8 +107,8 @@ class Net_FTP_Client
 	/**
 	 *	Copies a File on FTP Server.
 	 *	@access		public
-	 *	@param		string		$from			Name of Source File
-	 *	@param		string		$to				Name of Target File
+	 *	@param		string		$from			Path of source file
+	 *	@param		string		$to				Path of target file
 	 *	@return		bool
 	 */
 	public function copyFile( $from, $to )
@@ -119,8 +119,8 @@ class Net_FTP_Client
 	/**
 	 *	Copies a Folder on FTP Server [recursive].
 	 *	@access		public
-	 *	@param		string		$from			Name of Source File
-	 *	@param		string		$to				Name of Target File
+	 *	@param		string		$from			Path of source file
+	 *	@param		string		$to				Path of target file
 	 *	@return		bool
 	 */
 	public function copyFolder( $from, $to )
@@ -131,7 +131,7 @@ class Net_FTP_Client
 	/**
 	 *	Creates a Folder on FTP Server.
 	 *	@access		public
-	 *	@param		string		$folderName		Name of Folder to be created
+	 *	@param		string		$folderName		Path of folder to be created
 	 *	@return		bool
 	 */
 	public function createFolder( $folderName )
@@ -142,8 +142,8 @@ class Net_FTP_Client
 	/**
 	 *	Transferes a File from FTP Server.
 	 *	@access		public
-	 *	@param		string		$globalFile		Name of Remove File
-	 *	@param		string		$localFile		Name of Target File
+	 *	@param		string		$globalFile		Path of remote file
+	 *	@param		string		$localFile		Path of local target file
 	 *	@return		bool
 	 */
 	public function getFile( $globalFile, $localFile = "" )
@@ -205,7 +205,10 @@ class Net_FTP_Client
 	public function getResource(){
 		return $this->connection->getResource();
 	}
-	
+
+	public function isConnected(){
+		return $this->connection->checkConnection( TRUE );
+	}
 	/**
 	 *	Copies a File on FTP Server.
 	 *	@access		public

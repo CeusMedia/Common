@@ -180,7 +180,7 @@ class Net_FTP_Writer
 	public function putFile( $fileName, $target )
 	{
 		$this->connection->checkConnection();
-		return @ftp_put( $this->connection->getResource(), $target, $fileName, $this->connection->mode );
+		return ftp_put( $this->connection->getResource(), $target, $fileName, $this->connection->mode );
 	}
 	
 	/**
