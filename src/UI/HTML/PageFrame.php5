@@ -20,7 +20,7 @@
  *	@category		cmClasses
  *	@package		UI.HTML
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2012 Christian Würker
+ *	@copyright		2007-2013 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		$Id$
@@ -31,52 +31,60 @@
  *	@package		UI.HTML
  *	@uses			UI_HTML_Tag
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2012 Christian Würker
+ *	@copyright		2007-2013 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		$Id$
  */ 
 class UI_HTML_PageFrame
 {
-	protected $title	= NULL;
-	protected $heading	= NULL;
-	protected $styles	= array();
-	protected $scripts	= array();
-	protected $metaTags	= array();
-	protected $baseHref	= NULL;
-	protected $head		= array();
-	protected $body		= array();
-	protected $prefixes	= array();
-	protected $profile	= NULL;
-	public $indent	= "  ";
-	protected $charset	= NULL;
-	protected $language	= NULL;
-	protected $doctype	= 'XHTML_10_STRICT';
-	protected $doctypes	= array(
-		'HTML5'						=> '<!DOCTYPE html>',
+	protected $title		= NULL;
+	protected $heading		= NULL;
+	protected $styles		= array();
+	protected $scripts		= array();
+	protected $metaTags		= array();
+	protected $baseHref		= NULL;
+	protected $head			= array();
+	protected $body			= array();
+	protected $prefixes		= array();
+	protected $profile		= NULL;
+	public $indent			= "  ";
+	protected $charset		= NULL;
+	protected $language		= NULL;
+	protected $doctype		= 'XHTML_10_STRICT';
+	protected $doctypes		= array(
+		'HTML_5'					=> '<!DOCTYPE html>',
 		'XHTML_11'					=> '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">',
 		'XHTML_10_STRICT'			=> '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">',
 		'XHTML_10_TRANSITIONAL'		=> '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">',
 		'XHTML_10_FRAMESET'			=> '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Frameset//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd">',
-		'XHTML_401_STRICT'			=> '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">',
-		'XHTML_401_TRANSITIONAL'	=> '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">',
-		'XHTML_401_FRAMESET'		=> '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN" "http://www.w3.org/TR/html4/frameset.dtd">',
+		'HTML_401_STRICT'			=> '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">',
+		'HTML_401_TRANSITIONAL'		=> '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">',
+		'HTML_401_FRAMESET'			=> '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN" "http://www.w3.org/TR/html4/frameset.dtd">',
 	);
 
 	/**
 	 *	Constructor.
 	 *	@access		public
+	 *	@param		string		$docType		Document type key
 	 *	@param		string		$language		Language of Page
 	 *	@param		string		$charset		Default Charset Encoding
 	 *	@param		string		$scriptType		Default JavaScript MIME-Type
 	 *	@param		string		$styleType		Default Stylesheet MIME-Type
 	 *	@return		void
 	 */
-	public function __construct( $language = "en", $charset = "UTF-8", $scriptType = "text/javascript", $styleType = "text/css" )
+	public function __construct( $docType = "XHTML_10_STRICT", $language = "en", $charset = "UTF-8", $scriptType = "text/javascript", $styleType = "text/css" )
 	{
-		$this->language	= $language;
+		$this->setDocType( $docType );
+		$this->setLanguage( $language );
 		$this->charset	= $charset;
-		$this->addMetaTag( "http-equiv", "Content-Type", "text/html; charset=".strtoupper( $charset ) );
+		if( $docType == "HTML_5" ){
+			$this->metaTags["charset"]	= array( 'charset' => $charset );
+			$this->addMetaTag( "http-equiv", "Content-Type", "text/html" );
+		}
+		else{
+			$this->addMetaTag( "http-equiv", "Content-Type", "text/html; charset=".strtoupper( $charset ) );
+		}
 		$this->addMetaTag( "http-equiv", "Content-Script-Type", $scriptType );
 		$this->addMetaTag( "http-equiv", "Content-Style-Type", $styleType );
 	}
@@ -234,7 +242,7 @@ class UI_HTML_PageFrame
 		
 		$doctype	= $this->doctypes[$this->doctype];
 		$attributes	= array( 'lang' => $this->language );
-		if( is_int( strpos( $doctype, 'xhtml' ) ) || $this->doctype == 'HTML5' ){
+		if( is_int( strpos( $doctype, 'xhtml' ) )/* || $this->doctype == 'HTML_5'*/ ){
 			$attributes	= array( 'xml:lang' => $this->language ) + $attributes;
 			$attributes	= array( 'xmlns' => "http://www.w3.org/1999/xhtml" ) + $attributes;
 		}
@@ -266,6 +274,10 @@ class UI_HTML_PageFrame
 		return join( $separator, $this->body );
 	}
 
+	public function getLanguage(){
+		return $this->language;
+	}
+
 	/**
 	 *	Returns set page title.
 	 *	@access		public
@@ -291,7 +303,7 @@ class UI_HTML_PageFrame
 		$this->body		= $string;
 	}
 
-	public function setDocType( $doctype )
+	protected function setDocType( $doctype )
 	{
 		$doctypes	= array_keys( $this->doctypes );
 		$key		= str_replace( array( ' ', '-' ), '_', trim( $doctype ) );
@@ -317,6 +329,10 @@ class UI_HTML_PageFrame
 	public function setHeadProfileUrl( $url )
 	{
 		$this->profile	= $url;
+	}
+
+	public function setLanguage( $language ){
+		$this->language	= $language;
 	}
 
 	/**
