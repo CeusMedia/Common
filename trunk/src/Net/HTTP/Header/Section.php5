@@ -224,16 +224,14 @@ class Net_HTTP_Header_Section
 			if( array_key_exists( $name, $sectionPairs ) )
 			{
 				if( $emptyBefore )
-					$this->fields[$sectionName][$name]		= array( $field );
-				else
-					$this->fields[$sectionName][$name][]	= $field;
+					$this->fields[$sectionName][$name]		= array();
+				$this->fields[$sectionName][$name][]	= $field;
 				return;
 			}
 		}
 		if( $emptyBefore || !isset( $this->fields['others'][$name] ) )
-			$this->fields['others'][$name]	= array( $field );
-		else
-			$this->fields['others'][$name][]	= array( $field );
+			$this->fields['others'][$name]	= array();
+		$this->fields['others'][$name][]	= array( $field );
 	}
 
 	public function setFieldPair( $name, $value, $emptyBefore = TRUE )
@@ -254,9 +252,8 @@ class Net_HTTP_Header_Section
 
 	public function toString()
 	{
-		$list	= $this->toArray();
-		$list	= implode( "\r\n", $list )."\r\n";
-		return $list;
+		$list = implode( "\r\n", $this->toArray() );												//  collect fields with line breaks inbetween
+		return $list ? $list."\r\n" : $list;														//  return field list with line break or empty string
 	}
 }
 ?>

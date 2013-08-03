@@ -20,7 +20,7 @@
  *	@category		cmClasses
  *	@package		Net.HTTP
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2012 Christian Würker
+ *	@copyright		2007-2013 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			20.02.2007
@@ -33,7 +33,7 @@
  *	@uses			Net_HTTP_Header_Section
  *	@uses			Net_HTTP_Header_Field
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2012 Christian Würker
+ *	@copyright		2007-2013 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			20.02.2007
@@ -46,7 +46,6 @@ class Net_HTTP_Response
 	protected $protocol		= 'HTTP';
 	protected $status		= '200 OK';
 	protected $version		= '1.0';
-	protected $length		= 0;
 
 	/**
 	 *	Constructor.
@@ -71,9 +70,9 @@ class Net_HTTP_Response
 	 *	@param		Net_HTTP_Header_Field	$field		HTTP header field object
 	 *	@return		void
 	 */
-	public function addHeader( Net_HTTP_Header_Field $field )
+	public function addHeader( Net_HTTP_Header_Field $field, $emptyBefore = NULL )
 	{
-		$this->headers->addField( $field );
+		$this->headers->setField( $field, $emptyBefore );
 	}
 
 	/**
@@ -83,9 +82,9 @@ class Net_HTTP_Response
 	 *	@param		string		$value		HTTP header value
 	 *	@return		void
 	 */
-	public function addHeaderPair( $name, $value )
+	public function addHeaderPair( $name, $value, $emptyBefore = NULL )
 	{
-		$this->headers->addField( new Net_HTTP_Header_Field( $name, $value ) );
+		$this->headers->setField( new Net_HTTP_Header_Field( $name, $value ), $emptyBefore );
 	}
 
 	/**
@@ -123,11 +122,6 @@ class Net_HTTP_Response
 	public function getHeaders()
 	{
 		return $this->headers->getFields();
-	}
-
-	public function getLength()
-	{
-		return $this->length;
 	}
 
 	/**
@@ -171,6 +165,11 @@ class Net_HTTP_Response
 		return $this->headers->hasField( $key );
 	}
 
+	public function send( $compression = NULL, $sendLengthHeader = TRUE, $exit = TRUE ){
+		$sender	= new Net_HTTP_Response_Sender( $this );
+		return $sender->send( $compression, $sendLengthHeader, $exit );
+	}
+	
 	/**
 	 *	Sets response message body.
 	 *	@access		public
@@ -181,7 +180,8 @@ class Net_HTTP_Response
 	{
 		if( !is_string( $body ) )
 			throw new InvalidArgumentException( 'Body must be string' );
-		$this->body	= $body;
+		$this->body		= trim( $body );
+		$this->headers->setFieldPair( "Content-Length", strlen( $this->body ), TRUE );
 	}
 
 	/**
@@ -220,19 +220,18 @@ class Net_HTTP_Response
 	}
 
 	/**
-	 *	Renders complete request string.
+	 *	Renders complete response string.
 	 *	@access		public
 	 *	@return		string
 	 */
 	public function toString()
 	{
 		$lines	= array();
-		$lines[]	= $this->protocol.'/'.$this->version.' '.$this->status;
-		$lines[]	= $this->headers->toString();
-		$lines[]	= '';
-		if( $this->body )
-			$lines[]	= $this->body;
-		return join( "\r\n", $lines );
+		$lines[]	= $this->protocol.'/'.$this->version.' '.$this->status;							//  add main protocol header
+		$lines[]	= $this->headers->toString();													//  add header fields and line break
+		if( strlen( $this->body ) )																	//  response body is set
+			$lines[]	= $this->body;																//  add response body
+		return join( "\r\n", $lines );																//  glue parts with line break and return result
 	}
 }
 ?>
