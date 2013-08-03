@@ -146,7 +146,8 @@ class UI_HTML_Tag
 			if( !preg_match( '/^[a-z][a-z0-9.:_-]*$/', $key ) )										//  key is not a valid lowercase ID (namespaces supported)
 				throw new InvalidArgumentException( 'Invalid attribute key' );						//  throw exception
 			if( preg_match( '/[^\\\]"/', $value ) )													//  value contains unescaped (double) quotes
-				throw new InvalidArgumentException( 'Invalid attribute value "'.$value.'"' );		//  throw exception
+				$value	= addslashes( $value );
+#				throw new InvalidArgumentException( 'Invalid attribute value "'.$value.'"' );		//  throw exception
 			$list[$key]	= strtolower( $key ).'="'.$value.'"';
 		}
 		return $list ? " ".implode( " ", $list ) : "";
