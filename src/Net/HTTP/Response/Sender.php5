@@ -55,34 +55,37 @@ class Net_HTTP_Response_Sender
 	 *	@access		public
 	 *	@param		string		$compression		Type of compression (gzip|deflate)
 	 *	@param		boolean		$sendLengthHeader	Send Content-Length Header
-	 *	@return		integer		Number of sent Bytes
+	 *	@return		integer		Number of sent Bytes or exits if wished so
 	 */
-	public function send( $compression = NULL, $sendLengthHeader = TRUE )
+	public function send( $compression = NULL, $sendLengthHeader = TRUE, $exit = FALSE )
 	{
-		$length		= strlen( $this->response->getBody() );
+		$response	= clone( $this->response );
+		$length		= strlen( $response->getBody() );
 
 		/*  --  COMPRESSION  --  */
 		if( $compression )
 		{
 			$compressor	= new Net_HTTP_Response_Compressor;
-			$compressor->compressResponse( $this->response, $compression, $sendLengthHeader );
-			$lengthNow	= strlen( $this->response->getBody() );
+			$compressor->compressResponse( $response, $compression, $sendLengthHeader );
+			$lengthNow	= strlen( $response->getBody() );
 			$ratio		= round( $lengthNow / $length * 100 );
 		}
 
 		/*  --  HTTP BASIC INFORMATION  --  */
-		$status	= $this->response->getStatus();
-		header( $this->response->getProtocol().'/'.$this->response->getVersion().' '.$status );
+		$status	= $response->getStatus();
+		header( $response->getProtocol().'/'.$response->getVersion().' '.$status );
 		header( 'Status: '.$status );
-	
+
 		/*  --  HTTP HEADER FIELDS  --  */
-		foreach( $this->response->getHeaders() as $header )
+		foreach( $response->getHeaders() as $header )
 			header( $header->toString() );
 
 		/*  --  SEND BODY  --  */
-		print( $this->response->getBody() );
+		print( $response->getBody() );
 		flush();
-		return strlen( $this->response->getBody() );
+		if( $exit )
+			exit;
+		return strlen( $response->getBody() );
 	}
 
 	/**
@@ -93,10 +96,10 @@ class Net_HTTP_Response_Sender
 	 *	@param		boolean				$sendLengthHeader	Send Content-Length Header
 	 *	@return		integer				Number of sent Bytes
 	 */
-	public static function sendResponse( Net_HTTP_Response $response, $compression = NULL, $sendLengthHeader = NULL )
+	public static function sendResponse( Net_HTTP_Response $response, $compression = NULL, $sendLengthHeader = TRUE, $exit = TRUE )
 	{
 		$sender	= new Net_HTTP_Response_Sender( $response );
-		return $sender->send( $compression, $sendLengthHeader );
+		return $sender->send( $compression, $sendLengthHeader, $exit );
 	}
 }
 ?>
