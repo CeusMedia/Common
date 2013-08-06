@@ -75,6 +75,21 @@ class ADT_List_Dictionary implements ArrayAccess, Countable, Iterator
 		return $list;
 	}
 
+	public function flush(){
+		foreach( $this->getKeys() as $key )
+			$this->remove( $key );
+		$this->rewind();
+	}
+	
+	public function append( $key, $value ){
+		$current	= $this->get( $key );
+		if( is_array( $current ) )
+			$current[]	= $value;
+		else
+			$current	= (string)$current.$value;
+		$this->set( $key, $value );
+	}
+
 	/**
 	 *	Casts a Value by the Type of the current Value by its Key.
 	 *	@access		public
