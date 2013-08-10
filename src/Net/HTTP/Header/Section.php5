@@ -231,7 +231,7 @@ class Net_HTTP_Header_Section
 		}
 		if( $emptyBefore || !isset( $this->fields['others'][$name] ) )
 			$this->fields['others'][$name]	= array();
-		$this->fields['others'][$name][]	= array( $field );
+		$this->fields['others'][$name][]	= $field;
 	}
 
 	public function setFieldPair( $name, $value, $emptyBefore = TRUE )
