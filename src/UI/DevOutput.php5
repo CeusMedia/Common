@@ -463,7 +463,20 @@ function dump( $variable, $return = FALSE )
 	xmp( ob_get_clean() );
 	if( $return )
 		return ob_get_clean();
-	}
+}
+
+/**
+ *	Prints out Code formatted with Tag "pre".
+ *	@access		public
+ *	@param		string		$string		Code to print out
+ *	@return		mixed		String for Dump Mode or void
+ */
+function pre( $string, $dump = FALSE )
+{
+	ob_start();
+	echo "<pre>".htmlentities( $string, ENT_QUOTES, 'UTF-8' )."</pre>";
+	return $dump ? ob_get_clean() : print( ob_get_clean() );
+}
 
 /**
  *	Global Call Method for UI_DevOutput::print_m
