@@ -80,11 +80,15 @@ class UI_HTML_Exception_View
 	public static function render( Exception $e, $showTrace = TRUE, $showPrevious = TRUE )
 	{
 		$list	= array();
+
+		$msg	= htmlentities( $e->getMessage(), ENT_COMPAT, 'UTF-8' );
+		$code	= htmlentities( $e->getCode(), ENT_COMPAT, 'UTF-8' );
+
 		$list[]	= UI_HTML_Tag::create( 'dt', 'Message', array( 'class' => 'exception-message' ) );
-		$list[]	= UI_HTML_Tag::create( 'dd', $e->getMessage(), array( 'class' => 'exception-message' ) );
+		$list[]	= UI_HTML_Tag::create( 'dd', $msg, array( 'class' => 'exception-message' ) );
 
 		$list[]	= UI_HTML_Tag::create( 'dt', 'Code', array( 'class' => 'exception-code' ) );
-		$list[]	= UI_HTML_Tag::create( 'dd', $e->getCode(), array( 'class' => 'exception-code' ) );
+		$list[]	= UI_HTML_Tag::create( 'dd', $code, array( 'class' => 'exception-code' ) );
 
 		if( $e instanceof Exception_SQL && $e->getSQLSTATE() ){
 			$meaning	= self::getMeaningOfSQLSTATE( $e->getSQLSTATE() );

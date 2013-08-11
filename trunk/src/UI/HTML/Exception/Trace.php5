@@ -143,7 +143,9 @@ class UI_HTML_Exception_Trace
 	{
 		$type		= gettype( $argument );
 		$length		= '';
-		if( in_array( $type, array( 'string', 'array' ) ) || $argument instanceof Countable )
+		if( $type == 'string' )
+			$length	= '('.strlen( $argument ).')';
+		else if( $type == 'array' || $argument instanceof Countable )
 			$length	= '('.count( $argument ).')';
 		$type	= ucFirst( strtolower( gettype( $argument ) ) );
 		return UI_HTML_Tag::create( 'span', $type.$length, array( 'class' => 'type' ) );
@@ -220,7 +222,8 @@ class UI_HTML_Exception_Trace
 		if( $maxLength && strlen( $string ) > $maxLength )
 			$value	= Alg_Text_Trimmer::trimCentric( $string, $maxLength, $mask );
 //		$string	= addslashes( $string );
-		$string	= htmlentities( $string );
+		$string	= htmlentities( $string, ENT_QUOTES, 'UTF-8' );
+		$string	= nl2br( $string );
 		return $string;
 	}
 
