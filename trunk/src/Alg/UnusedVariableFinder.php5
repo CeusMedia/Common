@@ -169,9 +169,9 @@ class Alg_UnusedVariableFinder
 				if( preg_match( $regExp, $line ) )													//  line is method/function signature
 				{
 					$regExp	= "@^.*function ([^(]+) ?\((.*)\).*$@i";								//  prepare regular expression for method/function name and parameters
-					$name	= preg_replace( $regExp, "\\1____\\2", $line );							//  find method/function name and parameters
-					$parts	= explode( "____", $name );												//  split name and parameters
-					$open	= $parts[0];															//  note found method/function
+					$name	= preg_replace( $regExp, "\\1@@\\2", $line );							//  find method/function name and parameters
+					$parts	= explode( "@@", $name );												//  split name and parameters
+					$open	= trim( $parts[0] );															//  note found method/function
 					$matches[$open]['variables']	= array();										//  prepare empty method/function parameter list
 					$matches[$open]['lines']		= array();										//  prepare empty method/function line list
 					if( isset( $parts[1] ) && trim( $parts[1] ) )									//  parameters are defined
