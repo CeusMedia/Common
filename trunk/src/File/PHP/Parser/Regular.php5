@@ -448,8 +448,6 @@ class File_PHP_Parser_Regular
 			if( preg_match( '@}$@', $line ) )
 				$level--;
 
-//remark( $level.' : '.$line );
-
 			if( $line == "/**" && $level < 2 )
 			{
 				$list	= array();
@@ -515,35 +513,37 @@ class File_PHP_Parser_Regular
 				if( preg_match( $this->regexMethod, $line, $matches ) )
 				{
 					$method		= $this->parseMethod( $class, $matches );
-					$function	= $matches[5];
+					$function	= $matches[6];
 					$class->setMethod( $method );
 					if( isset( $matches[8] ) )
 						$level++;
 				}
-				else if( preg_match( $this->regexDocVariable, $line, $matches ) )
+				else if( $level <= 1 )
 				{
-					if( $openClass && $class )
-						$this->varBlocks[$class->getName()."::".$matches[2]]	= $this->parseDocMember( $matches );
-					else
-						$this->varBlocks[$matches[2]]	= $this->parseDocVariable( $matches );
-				}
-				else if( preg_match( $this->regexVariable, $line, $matches ) )
-				{
-					$name		= $matches[3];
-					if( $openClass && $class )
+					if( preg_match( $this->regexDocVariable, $line, $matches ) )
 					{
-						$key		= $class->getName()."::".$name;
-						$varBlock	= isset( $this->varBlocks[$key] ) ? $this->varBlocks[$key] : NULL;
-						$variable	= $this->parseMember( $class, $matches, $varBlock ); 
-						$class->setMember( $variable );
-					
+						if( $openClass && $class )
+							$this->varBlocks[$class->getName()."::".$matches[2]]	= $this->parseDocMember( $matches );
+						else
+							$this->varBlocks[$matches[2]]	= $this->parseDocVariable( $matches );
 					}
-					else
+					else if( preg_match( $this->regexVariable, $line, $matches ) )
 					{
-						remark( "Parser Error: found var after class -> not handled yet" );
-/*						$key		= $name;
-						$varBlock	= isset( $this->varBlocks[$key] ) ? $this->varBlocks[$key] : NULL;
-						$variable	= $this->parseMember( $matches, $varBlock );*/
+						$name		= $matches[3];
+						if( $openClass && $class )
+						{
+							$key		= $class->getName()."::".$name;
+							$varBlock	= isset( $this->varBlocks[$key] ) ? $this->varBlocks[$key] : NULL;
+							$variable	= $this->parseMember( $class, $matches, $varBlock ); 
+							$class->setMember( $variable );
+						}
+						else
+						{
+							remark( "Parser Error: found var after class -> not handled yet" );
+/*							$key		= $name;
+							$varBlock	= isset( $this->varBlocks[$key] ) ? $this->varBlocks[$key] : NULL;
+							$variable	= $this->parseMember( $matches, $varBlock );*/
+						}
 					}
 				}
 				else if( $level > 1 && $function )
