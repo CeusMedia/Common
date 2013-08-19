@@ -152,14 +152,14 @@ class Database_PDO_TableReader
 		$groupings	= !empty( $groupings ) ? ' GROUP BY '.join( ', ', $groupings ) : '';			//  render GROUP BY clause if needed
 		$havings 	= !empty( $havings ) ? ' HAVING '.join( ' AND ', $havings ) : '';				//  render HAVING clause if needed
 		$query		= 'SELECT '.implode( ', ', $columns ).' FROM '.$this->getTableName();			//  render base query
-		
+
 		$query		= $query.$conditions.$groupings.$havings.$orders.$limits;						//  append rendered conditions, orders, limits, groupings and havings
 		$resultSet	= $this->dbc->query( $query );
 		if( $resultSet )
 			return $resultSet->fetchAll( $this->getFetchMode() );
 		return array();
 	}
-	
+
 	public function findWhereIn( $columns, $column, $values, $orders = array(), $limits = array() )
 	{
 		if( !is_string( $columns ) && !is_array( $columns ) )										//  columns attribute needs to of string or array
@@ -195,7 +195,7 @@ class Database_PDO_TableReader
 		$limits		= $this->getLimitCondition( $limits );
 		for( $i=0; $i<count( $values ); $i++ )
 			$values[$i]	= $this->secureValue( $values[$i] );
-		
+
 		if( $conditions )
 			$conditions	.= ' AND ';
 		$query		= 'SELECT '.implode( ', ', $columns ).' FROM '.$this->getTableName().' WHERE '.$conditions.$column.' IN ('.implode( ', ', $values ).') '.$orders.$limits;
@@ -307,7 +307,7 @@ class Database_PDO_TableReader
 		}
 
 		$conditions = array();																		//  restart with fresh conditions array
-		
+
 		foreach( $columnConditions as $column => $value )											//  iterate noted column conditions
 		{
 			if( is_array( $value ) )
@@ -396,7 +396,7 @@ class Database_PDO_TableReader
 		if( $limit )
 			return ' LIMIT '.$limit.' OFFSET '.$offset;
 	}
-	
+
 	/**
 	 *	Builds and returns ORDER BY Statement Component.
 	 *	@access		protected
@@ -483,7 +483,7 @@ class Database_PDO_TableReader
 		$column	= $maskColumn ? '`'.$column.'`' : $column;
 		return $column.$operation.$value;
 	}
-	
+
 	/**
 	 *	Secures Conditions Value by adding slashes or quoting.
 	 *	@access		protected
@@ -500,7 +500,7 @@ class Database_PDO_TableReader
 		$value	= $this->dbc->quote( $value );
 		return $value;
 	}
-				
+
 	/**
 	 *	Setting all columns of the table.
 	 *	@access		public
