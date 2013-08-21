@@ -51,21 +51,11 @@ class UI_Image_Drawer
 	{
 		$this->setImage( $image );
 	}
-	
-	public function getColor( $red, $green, $blue, $alpha = 0 )
-	{
-		return imagecolorallocatealpha( $this->image, $red, $green, $blue, $alpha );
-	}
 
 	public function drawBorder( $color, $width = 1 )
 	{
 		for( $i = 0; $i < $width; $i++ )
 			$this->drawRectangle( 0 + $i, 0 + $i, imagesx( $this->image ) - $i - 1, imagesy( $this->image ) - $i - 1, $color );
-	}
-	
-	public function drawRectangle( $x0, $y0, $x1, $y1, $color )
-	{
-		return imagerectangle( $this->image, $x0, $y0, $x1, $y1, $color );
 	}
 
 	public function drawLine( $x0, $y0, $x1, $y1, $color )
@@ -76,6 +66,11 @@ class UI_Image_Drawer
 	public function drawPixel( $x, $y, $color )
 	{
 		return imagesetpixel( $this->image, $x, $y, $color );		
+	}
+	
+	public function drawRectangle( $x0, $y0, $x1, $y1, $color )
+	{
+		return imagerectangle( $this->image, $x0, $y0, $x1, $y1, $color );
 	}
 	
 	public function drawString( $x, $y, $text, $size, $color )
@@ -93,6 +88,16 @@ class UI_Image_Drawer
 		return imagefilledrectangle( $this->image, $x0, $y0, $x1, $y1, $color );		
 	}
 	
+	public function getColor( $red, $green, $blue, $alpha = 0 )
+	{
+		return imagecolorallocatealpha( $this->image, $red, $green, $blue, $alpha );
+	}
+	
+	public function getImage()
+	{
+		return $this->image;
+	}
+	
 /*	public function isSet()
 	{
 		return isset( $this->image );
@@ -107,11 +112,6 @@ class UI_Image_Drawer
 	public function setImage( $image )
 	{
 		$this->image = $image;
-	}
-	
-	public function getImage()
-	{
-		return $this->image;
 	}
 	
 	public function show( $quality = 100 )

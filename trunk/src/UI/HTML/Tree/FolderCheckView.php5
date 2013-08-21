@@ -164,17 +164,6 @@ class UI_HTML_Tree_FolderCheckView
 	}
 
 	/**
-	 *	Sets the Input Field Name of all Checkboxes which are arranged to submit an Array.
-	 *	@access		public
-	 *	@param		string		$name			Input Field Name of the Checkboxes, default: items
-	 *	@return		void
-	 */
-	public function setInputName( $name )
-	{
-		$this->inputName	= $name;
-	}
-
-	/**
 	 *	Sets ID of Tree to bind JQuery Plugin 'cmCheckTree' Events. No Events of not set.
 	 *	@access		public
 	 *	@param		string		$id				Tree ID for binding Jquery Plugin cmCheckTree, no Events if set to NULL|FALSE
@@ -197,6 +186,17 @@ class UI_HTML_Tree_FolderCheckView
 		$this->ignorePatterns	= array();
 		foreach( array_value( $list ) as $pattern)
 			$this->addIgnorePattern( $pattern );	
+	}
+
+	/**
+	 *	Sets the Input Field Name of all Checkboxes which are arranged to submit an Array.
+	 *	@access		public
+	 *	@param		string		$name			Input Field Name of the Checkboxes, default: items
+	 *	@return		void
+	 */
+	public function setInputName( $name )
+	{
+		$this->inputName	= $name;
 	}
 
 	/**

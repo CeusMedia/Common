@@ -83,22 +83,6 @@ class UI_Image_Captcha
 		$this->generateImage( $word, $fileName );
 		return $word;
 	}
-
-	/**
-	 *	Generates CAPTCHA Word.
-	 *	@access		public
-	 *	@return		string
-	 */
-	public function generateWord()
-	{
-		$rand	= new Alg_Randomizer();
-		$rand->useSmalls	= $this->useSmalls;
-		$rand->useLarges	= $this->useLarges;
-		$rand->useDigits	= $this->useDigits;
-		$rand->useSigns		= FALSE;
-		$rand->unique		= $this->unique;
-		return $rand->get( $this->length );
-	}
 	
 	/**
 	 *	Generates Captcha Image for Captcha Word.
@@ -154,6 +138,22 @@ class UI_Image_Captcha
 		ob_start();
 		imagejpeg( $image, NULL, $this->quality );
 		return File_Writer::save( $fileName, ob_get_clean() );
+	}
+
+	/**
+	 *	Generates CAPTCHA Word.
+	 *	@access		public
+	 *	@return		string
+	 */
+	public function generateWord()
+	{
+		$rand	= new Alg_Randomizer();
+		$rand->useSmalls	= $this->useSmalls;
+		$rand->useLarges	= $this->useLarges;
+		$rand->useDigits	= $this->useDigits;
+		$rand->useSigns		= FALSE;
+		$rand->unique		= $this->unique;
+		return $rand->get( $this->length );
 	}
 }
 ?>

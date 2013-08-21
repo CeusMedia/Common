@@ -217,10 +217,10 @@ class File_PHP_Parser_Regular
 			$this->decorateCodeDataWithDocData( $artefact, array_pop( $this->openBlocks ) );
 			$this->openBlocks	= array();
 		}
-#		if( !$artefact->getCategory() && $parent->getCategory() )
-#			$artefact->setCategory( $parent->getCategory() );
-#		if( !$artefact->getPackage() && $parent->getPackage() )
-#			$artefact->setPackage( $parent->getPackage() );
+		if( !$artefact->getCategory() && $parent->getCategory() )
+			$artefact->setCategory( $parent->getCategory() );
+		if( !$artefact->getPackage() && $parent->getPackage() )
+			$artefact->setPackage( $parent->getPackage() );
 		return $artefact;
 	}
 
@@ -437,7 +437,7 @@ class File_PHP_Parser_Regular
 		do
 		{
 			$line	= trim( array_shift( $lines ) );
-#			remark( $level." :: ".$this->lineNumber." :: ".$line );
+#			remark( ( $openClass ? "I" : "O" )." :: ".$level." :: ".$this->lineNumber." :: ".$line );
 			$this->lineNumber ++;
 			if( preg_match( "@^(<\?(php)?)|((php)?\?>)$@", $line ) )
 				continue;
@@ -539,6 +539,8 @@ class File_PHP_Parser_Regular
 			}
 			if( preg_match( '@{$@', $line ) )
 				$level++;
+			if( $level < 1 && !preg_match( $this->regexClass, $line, $matches ) )
+				$openClass	= FALSE;
 		}
 		while( $lines );
 
@@ -627,10 +629,10 @@ class File_PHP_Parser_Regular
 		$method	= new ADT_PHP_Method( $matches[6] );
 		$method->setParent( $parent );
 		$method->setLine( $this->lineNumber );
-		if( !empty( $matches[3] ) )
+		if( !empty( $matches[4] ) )
 			$method->setAccess( trim( $matches[4] ) );
 		$method->setAbstract( (bool) $matches[1] );
-		$method->setFinal( (bool) $matches[3] );
+		$method->setFinal( (bool) $matches[2] );
 		$method->setStatic( (bool) $matches[5] );
 
 		$return		= new ADT_PHP_Return( "unknown" );

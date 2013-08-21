@@ -38,23 +38,6 @@
  */
 class UI_HTML_Elements extends UI_HTML_FormElements
 {
-	public static function Preview( $html, $url, $title, $zoom = false )
-	{
-		$id	= uniqid( "" );
-		$class	= $zoom ? "preview_zoom" : "preview";
-		$ins_zoom	= "";
-		if( $zoom )
-			$ins_zoom	= "
-  <a href=\"#\" onclick=\"ImagePreview.zoomIn('img_".$id."');\">[+]</a>&nbsp;
-  <a href=\"#\" onclick=\"ImagePreview.zoomOut('img_".$id."');\">[-]</a><br/>";
-		$code	= "
-<span onclick=\"ImagePreview.change('div_".$id."');\">".$html."</span>
-<div id=\"div_".$id."\" class=\"".$class."\">".$ins_zoom."
-  <img id=\"img_".$id."\" class=\"".$class."\" src=\"".$url."\" alt=\"".$title."\" title=\"".$title."\" onclick=\"ImagePreview.hide('div_".$id."');\"/>
-</div>";
-		return $code;
-	}
-
 	public static function CheckboxLabel( $name, $value, $checked, $text, $class = 'checklabel' )
 	{
 		$checkBox	= self::CheckBox( $name, $value, $checked );
@@ -207,9 +190,6 @@ class UI_HTML_Elements extends UI_HTML_FormElements
 		$code	= "<a name='".$name."'></a>";
 		return $code;
 	}
-
-
-
 
 	//  --  BETA / TEST  --  //
 	/**
@@ -460,6 +440,23 @@ class UI_HTML_Elements extends UI_HTML_FormElements
 		$indent		= str_repeat( "	", 2 * abs( (int) $level ) );
 		$tag		= UI_HTML_Tag::create( "ol", $content, $attributes );
 		$code		= $indent.$tag;
+		return $code;
+	}
+
+	public static function Preview( $html, $url, $title, $zoom = false )
+	{
+		$id	= uniqid( "" );
+		$class	= $zoom ? "preview_zoom" : "preview";
+		$ins_zoom	= "";
+		if( $zoom )
+			$ins_zoom	= "
+  <a href=\"#\" onclick=\"ImagePreview.zoomIn('img_".$id."');\">[+]</a>&nbsp;
+  <a href=\"#\" onclick=\"ImagePreview.zoomOut('img_".$id."');\">[-]</a><br/>";
+		$code	= "
+<span onclick=\"ImagePreview.change('div_".$id."');\">".$html."</span>
+<div id=\"div_".$id."\" class=\"".$class."\">".$ins_zoom."
+  <img id=\"img_".$id."\" class=\"".$class."\" src=\"".$url."\" alt=\"".$title."\" title=\"".$title."\" onclick=\"ImagePreview.hide('div_".$id."');\"/>
+</div>";
 		return $code;
 	}
 

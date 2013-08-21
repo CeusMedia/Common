@@ -54,48 +54,6 @@ class UI_HTML_Tree_LayerMenu
 	}
 
 	/**
-	 *	Builds Layer Menu from OPML File.
-	 *	@access		public
-	 *	@param		string		$fileName		URL of OPML File
-	 *	@return
-	 */
-	public function buildMenuFromOpmlFile( $fileName )
-	{
-		$list	= Alg_Tree_Menu_Converter::convertFromOpmlFile( $fileName, $this->rootLabel );
-		return $this->buildMenuFromMenuList( $list );
-	}
-	
-	/**
-	 *	Builds Layer Menu from OPML String.
-	 *	@access		public
-	 *	@param		string		$opml			OPML String
-	 *	@return
-	 */
-	public function buildMenuFromOpml( $opml )
-	{
-		$list		= Alg_Tree_Menu_Converter::convertFromOpml( $opml, $this->rootLabel );
-		return $this->buildMenuFromMenuList( $list );
-	}
-
-	/**
-	 *	Builds Layer Menu from Tree Menu Structure.
-	 *	@access		public
-	 *	@param		ADT_Tree_Menu_List	$list	Tree Menu Structure
-	 *	@return
-	 */
-	public function buildMenuFromMenuList( ADT_Tree_Menu_List $list )
-	{
-		$root	= array(
-			array(
-				'id' 	=> $this->rootId,
-				'level' => 0,
-				'label' => $this->rootLabel
-			)
-		);
-		return self::buildLayersRecursive( $list, $this->rootId, $root );
-	}
-
-	/**
 	 *	Builds Layer Menu from Tree Menu Structure.
 	 *	@access		protected
 	 *	@static
@@ -168,6 +126,48 @@ class UI_HTML_Tree_LayerMenu
 			}
 		}
 		return $list;
+	}
+
+	/**
+	 *	Builds Layer Menu from Tree Menu Structure.
+	 *	@access		public
+	 *	@param		ADT_Tree_Menu_List	$list	Tree Menu Structure
+	 *	@return
+	 */
+	public function buildMenuFromMenuList( ADT_Tree_Menu_List $list )
+	{
+		$root	= array(
+			array(
+				'id' 	=> $this->rootId,
+				'level' => 0,
+				'label' => $this->rootLabel
+			)
+		);
+		return self::buildLayersRecursive( $list, $this->rootId, $root );
+	}
+	
+	/**
+	 *	Builds Layer Menu from OPML String.
+	 *	@access		public
+	 *	@param		string		$opml			OPML String
+	 *	@return
+	 */
+	public function buildMenuFromOpml( $opml )
+	{
+		$list		= Alg_Tree_Menu_Converter::convertFromOpml( $opml, $this->rootLabel );
+		return $this->buildMenuFromMenuList( $list );
+	}
+
+	/**
+	 *	Builds Layer Menu from OPML File.
+	 *	@access		public
+	 *	@param		string		$fileName		URL of OPML File
+	 *	@return
+	 */
+	public function buildMenuFromOpmlFile( $fileName )
+	{
+		$list	= Alg_Tree_Menu_Converter::convertFromOpmlFile( $fileName, $this->rootLabel );
+		return $this->buildMenuFromMenuList( $list );
 	}
 }
 ?>

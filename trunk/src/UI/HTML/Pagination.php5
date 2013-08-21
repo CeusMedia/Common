@@ -215,6 +215,22 @@ class UI_HTML_Pagination extends ADT_OptionObject
 #			$spanClass	.= " page";
 		return $this->buildItem( $label, NULL );
 	}
+	
+	/**
+	 *	Builds List Item of Pagination Link.
+	 *	@access		protected
+	 *	@param		string		$text			Text or HTML of Paging Button Span
+	 *	@param		string		$class			Additive Style Class of Paging Button Span
+	 *	@return		string
+	 */
+	protected function buildItem( $text, $class = NULL )
+	{
+		$list	= array();
+		if( $class )
+			$list[]	= $class;
+		$item	= UI_HTML_Elements::ListItem( $text, 0, array( 'class' => $class ) );
+		return $item;
+	}
 
 	/**
 	 *	Builds Link URL of Paging Button.
@@ -232,22 +248,6 @@ class UI_HTML_Pagination extends ADT_OptionObject
 		$param	= implode( $this->getOption( 'keyParam' ), $list );
 		$link	= $this->getOption( 'uri' ).$this->getOption( 'keyRequest' ).$param;
 		return $link;
-	}
-	
-	/**
-	 *	Builds List Item of Pagination Link.
-	 *	@access		protected
-	 *	@param		string		$text			Text or HTML of Paging Button Span
-	 *	@param		string		$class			Additive Style Class of Paging Button Span
-	 *	@return		string
-	 */
-	protected function buildItem( $text, $class = NULL )
-	{
-		$list	= array();
-		if( $class )
-			$list[]	= $class;
-		$item	= UI_HTML_Elements::ListItem( $text, 0, array( 'class' => $class ) );
-		return $item;
 	}
 }
 ?>

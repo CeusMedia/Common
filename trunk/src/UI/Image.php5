@@ -91,11 +91,6 @@ class UI_Image
 		$this->setResource( $resource, $alpha );
 	}
 
-	public function getColor( $red, $green, $blue, $alpha = 0 )
-	{
-		return imagecolorallocatealpha( $this->resource, $red, $green, $blue, $alpha );
-	}
-
 	public function display( $sendContentType = TRUE )
 	{
 		if( $sendContentType )
@@ -115,6 +110,11 @@ class UI_Image
 				header_remove( 'Content-type' );
 				new UI_Image_Error( 'invalid type' );
 		}
+	}
+
+	public function getColor( $red, $green, $blue, $alpha = 0 )
+	{
+		return imagecolorallocatealpha( $this->resource, $red, $green, $blue, $alpha );
 	}
 
 	/**

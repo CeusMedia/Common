@@ -55,22 +55,17 @@ class UI_HTML_Tree_Menu
 	{
 	}
 
-	public function setTarget( $target )
-	{
-		$this->target	= $target;
-	}
-
 	/**
-	 *	Builds Layer Menu from OPML File.
+	 *	Builds Layer Menu from Tree Menu Structure.
 	 *	@access		public
-	 *	@param		string		$fileName		URL of OPML File
-	 *	@param		string		$rootClass		CSS Class of root node
+	 *	@param		ADT_Tree_Menu_List	$list	Tree Menu Structure
 	 *	@return
 	 */
-	public function buildMenuFromOpmlFile( $fileName, $rootClass = NULL )
+	public function buildMenuFromMenuList( ADT_Tree_Menu_List $list )
 	{
-		$list	= Alg_Tree_Menu_Converter::convertFromOpmlFile( $fileName, NULL, $rootClass );
-		return $this->buildMenuFromMenuList( $list );
+		$tree		= $this->buildMenuRecursive( $list );
+		$code		= UI_HTML_Tag::create( 'div', $tree, $list->getAttributes( TRUE ) );
+		return $code;
 	}
 	
 	/**
@@ -87,16 +82,16 @@ class UI_HTML_Tree_Menu
 	}
 
 	/**
-	 *	Builds Layer Menu from Tree Menu Structure.
+	 *	Builds Layer Menu from OPML File.
 	 *	@access		public
-	 *	@param		ADT_Tree_Menu_List	$list	Tree Menu Structure
+	 *	@param		string		$fileName		URL of OPML File
+	 *	@param		string		$rootClass		CSS Class of root node
 	 *	@return
 	 */
-	public function buildMenuFromMenuList( ADT_Tree_Menu_List $list )
+	public function buildMenuFromOpmlFile( $fileName, $rootClass = NULL )
 	{
-		$tree		= $this->buildMenuRecursive( $list );
-		$code		= UI_HTML_Tag::create( 'div', $tree, $list->getAttributes( TRUE ) );
-		return $code;
+		$list	= Alg_Tree_Menu_Converter::convertFromOpmlFile( $fileName, NULL, $rootClass );
+		return $this->buildMenuFromMenuList( $list );
 	}
 
 	/**
@@ -132,6 +127,11 @@ class UI_HTML_Tree_Menu
 		}
 		$list	= UI_HTML_Elements::unorderedList( $list, $level );
 		return $list;
+	}
+
+	public function setTarget( $target )
+	{
+		$this->target	= $target;
 	}
 }
 ?>

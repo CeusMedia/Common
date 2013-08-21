@@ -119,6 +119,103 @@ class UI_HTML_Service_Test
 		return require_once( $this->template );
 	}
 
+	private function buildExceptionTab( $type, $message )
+	{
+		$type		= preg_replace( "@([a-z])([A-Z])@", "\\1 \\2", $type );
+		$message	= $message;
+		$exception	= "<em>".$type."</em>: <b>".$message."</b>";
+		return $exception;
+	}
+
+	protected function buildParameterRuleList( $rules )
+	{
+		$ruleList	= array();
+		foreach( $rules as $ruleKey => $ruleValue )
+		{
+			if( $ruleKey == "title" )
+				continue;
+			if( $ruleKey == "filters" )
+				$ruleValue	= implode( ", ", $ruleValue );
+			if( $ruleKey == "preg" )
+				$ruleValue	= $ruleValue ? $ruleValue : "-";
+			if( $ruleKey == "mandatory" )
+			{
+				$mandatory	= $ruleValue;
+				$ruleValue	= $ruleValue ? "yes" : "no";
+			}
+			$spanKey	= UI_HTML_Tag::create( "span", $ruleKey.":", array( 'class' => "key" ) );
+			$spanValue	= UI_HTML_Tag::create( "span", htmlspecialchars( $ruleValue ), array( 'class' => "value" ) );
+			$ruleList[]	= $spanKey." ".$spanValue;
+		}
+		return $ruleList;
+	}
+	
+	private function evaluateResponse( $format, &$response, &$data, &$exception, &$trace  )
+	{
+		switch( $format )
+		{
+			case "json":
+				$structure	= json_decode( $response, TRUE );
+				if( $structure['status'] == "exception" )
+				{
+					$e			= $structure['data'];
+					$trace		= isset( $e['trace'] ) ? $e['trace'] : "";
+					$exception	= $this->buildExceptionTab( $e['type'], $e['message'] );
+				}
+				else
+					$data	= dumpVar( $structure['data'], 1, 0 );
+				$response	= ADT_JSON_Formater::format( $response );
+				$response	= $this->trimResponseLines( $response, 120 );
+				break;
+			case 'php':
+				$structure	= unserialize( $response );
+				if( $structure['status'] == "exception" )
+				{
+					$e			= $structure['data'];
+					$trace		= isset( $e['trace'] ) ? $e['trace'] : "";
+					$exception	= $this->buildExceptionTab( $e['type'], $e['message'] );
+				}
+				else
+					$data	= dumpVar( $structure['data'], 1, 0 );
+				break;
+			case "wddx":
+				$structure	= wddx_deserialize( $response );
+				if( $structure['status'] == "exception" )
+				{
+					$e			= $structure['data'];
+					$trace		= isset( $e['trace'] ) ? $e['trace'] : "";
+					$exception	= $this->buildExceptionTab( $e['type'], $e['message'] );
+				}
+				else
+					$data	= dumpVar( $structure['data'] );
+				$response	= XML_DOM_Formater::format( $response );
+				$response	= $this->trimResponseLines( $response, 120 );
+				break;
+			case "xml":
+				$xml	= new XML_Element( $response );
+				if( $xml->status->getValue() == "exception" )
+				{
+					$trace		= $xml->data->trace->getValue();
+					$type		= $xml->data->type->getValue();
+					$message	= $xml->data->message->getValue();
+					$exception	= $this->buildExceptionTab( $type, $message );
+				}
+				else
+					$data	= UI_VariableDumper::dump( $xml->data, 1, 1 );
+				$response	= $this->trimResponseLines( $response, 120 );
+				break;
+			case "atom":
+			case "rss":
+				break;
+			case "txt":
+				$data	= nl2br( $response );
+				break;
+			case "html":
+				$data	= $response;
+				break;
+		}
+	}
+
 	private function getBaseUrl()
 	{
 		if( $referrer = getEnv( 'HTTP_REFERER' ) )
@@ -196,29 +293,6 @@ class UI_HTML_Service_Test
 		return $list;
 	}
 
-	protected function buildParameterRuleList( $rules )
-	{
-		$ruleList	= array();
-		foreach( $rules as $ruleKey => $ruleValue )
-		{
-			if( $ruleKey == "title" )
-				continue;
-			if( $ruleKey == "filters" )
-				$ruleValue	= implode( ", ", $ruleValue );
-			if( $ruleKey == "preg" )
-				$ruleValue	= $ruleValue ? $ruleValue : "-";
-			if( $ruleKey == "mandatory" )
-			{
-				$mandatory	= $ruleValue;
-				$ruleValue	= $ruleValue ? "yes" : "no";
-			}
-			$spanKey	= UI_HTML_Tag::create( "span", $ruleKey.":", array( 'class' => "key" ) );
-			$spanValue	= UI_HTML_Tag::create( "span", htmlspecialchars( $ruleValue ), array( 'class' => "value" ) );
-			$ruleList[]	= $spanKey." ".$spanValue;
-		}
-		return $ruleList;
-	}
-
 	private function getParametersFromRequest( $request )
 	{
 		$pairs		= is_a( $request, "ADT_List_Dictionary" ) ? $request->getAll() : $request;
@@ -253,88 +327,6 @@ class UI_HTML_Service_Test
 		return $response;
 	}
 
-	private function buildExceptionTab( $type, $message )
-	{
-		$type		= preg_replace( "@([a-z])([A-Z])@", "\\1 \\2", $type );
-		$message	= $message;
-		$exception	= "<em>".$type."</em>: <b>".$message."</b>";
-		return $exception;
-	}
-	
-	private function evaluateResponse( $format, &$response, &$data, &$exception, &$trace  )
-	{
-		switch( $format )
-		{
-			case "json":
-				$structure	= json_decode( $response, TRUE );
-				if( $structure['status'] == "exception" )
-				{
-					$e			= $structure['data'];
-					$trace		= isset( $e['trace'] ) ? $e['trace'] : "";
-					$exception	= $this->buildExceptionTab( $e['type'], $e['message'] );
-				}
-				else
-					$data	= dumpVar( $structure['data'], 1, 0 );
-				$response	= ADT_JSON_Formater::format( $response );
-				$response	= $this->trimResponseLines( $response, 120 );
-				break;
-			case 'php':
-				$structure	= unserialize( $response );
-				if( $structure['status'] == "exception" )
-				{
-					$e			= $structure['data'];
-					$trace		= isset( $e['trace'] ) ? $e['trace'] : "";
-					$exception	= $this->buildExceptionTab( $e['type'], $e['message'] );
-				}
-				else
-					$data	= dumpVar( $structure['data'], 1, 0 );
-				break;
-			case "wddx":
-				$structure	= wddx_deserialize( $response );
-				if( $structure['status'] == "exception" )
-				{
-					$e			= $structure['data'];
-					$trace		= isset( $e['trace'] ) ? $e['trace'] : "";
-					$exception	= $this->buildExceptionTab( $e['type'], $e['message'] );
-				}
-				else
-					$data	= dumpVar( $structure['data'] );
-				$response	= XML_DOM_Formater::format( $response );
-				$response	= $this->trimResponseLines( $response, 120 );
-				break;
-			case "xml":
-				$xml	= new XML_Element( $response );
-				if( $xml->status->getValue() == "exception" )
-				{
-					$trace		= $xml->data->trace->getValue();
-					$type		= $xml->data->type->getValue();
-					$message	= $xml->data->message->getValue();
-					$exception	= $this->buildExceptionTab( $type, $message );
-				}
-				else
-					$data	= UI_VariableDumper::dump( $xml->data, 1, 1 );
-				$response	= $this->trimResponseLines( $response, 120 );
-				break;
-			case "atom":
-			case "rss":
-				break;
-			case "txt":
-				$data	= nl2br( $response );
-				break;
-			case "html":
-				$data	= $response;
-				break;
-		}
-	}
-
-	private function trimResponseLines( $response, $length = 100 )
-	{
-		$lines	= array();
-		foreach( explode( "\n", $response ) as $line )
-			$lines[]	= Alg_Text_Trimmer::trimCentric( $line, $length );
-		return implode( "\n", $lines );
-	}
-
 	private function getTestUrl( $request )
 	{
 		$parameters	= is_a( $request, "ADT_List_Dictionary" ) ? $request->getAll() : $request;
@@ -346,16 +338,24 @@ class UI_HTML_Service_Test
 		$url	.= "?test=".$request['test']."&".$query;
 		return $url;
 	}
-	
-	public function setTemplate( $fileName )
-	{
-		$this->template	= $fileName;
-	}
-	
+
 	public function setAuth( $username, $password )
 	{
 		$this->username	= $username;
 		$this->password	= $password;
+	}
+
+	public function setTemplate( $fileName )
+	{
+		$this->template	= $fileName;
+	}
+
+	private function trimResponseLines( $response, $length = 100 )
+	{
+		$lines	= array();
+		foreach( explode( "\n", $response ) as $line )
+			$lines[]	= Alg_Text_Trimmer::trimCentric( $line, $length );
+		return implode( "\n", $lines );
 	}
 }
 ?>

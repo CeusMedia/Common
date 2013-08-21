@@ -259,7 +259,7 @@ class ADT_String
 	{
 		$count			= 0;
 		$method			= $caseSense ? "str_replace" : "str_ireplace";
-		$this->string	= call_user_func( $method, $search, $replace, $this->string, &$count );
+		$this->string	= call_user_func( $method, $search, $replace, $this->string, $count );
 		return $count;
 	}
 

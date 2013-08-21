@@ -49,6 +49,43 @@ class UI_Image_TransparentWatermark  {
 	public function __construct( $stampFile="") {
 		return( $this->setStamp( $stampFile));
 	}
+
+	/**
+	* send image to stdout
+	*
+	* @param resource $image  image 
+	* @param int $type  image type (2:JPEG or 3:PNG)
+	* @return void
+	* @access protected
+	* @uses errorMsg
+	*/
+	public function displayImage( $image, $type) {
+		switch ($type) {
+			case 2:	//JPEG
+			header("Content-Type: image/jpeg");
+			Imagejpeg( $image);
+			break;
+			
+			case 3:	//PNG
+			header("Content-Type: image/png");
+			Imagepng( $image);
+			break;
+			
+			default:
+			$this->errorMsg="File format not supported.";
+		}
+	}
+
+	/**
+	* retrieve last error message
+	*
+	* @return string
+	* @access public
+	* @uses errorMsg
+	*/
+	public function getLastError() {
+		return($this->errorMsg);
+	}
 	
 	/**
 	* mark an image file and  display/save it
@@ -167,30 +204,27 @@ class UI_Image_TransparentWatermark  {
 	}
 	
 	/**
-	* set stamp position on image
+	* read image from file 
 	*
-	* @access	public
-	* @param	int $Xposition x position
-	* @param	int $Yposition y position
-	* @return	void
-	* @uses	errorMsg
+	* @param string $file  image file (JPEG or PNG)
+	* @param int $type  file type (2:JPEG or 3:PNG)
+	* @return resource
+	* @access protected
+	* @uses errorMsg
 	*/
-	public function setStampPosition ( $Xposition, $Yposition) {
-		// set X position
-		switch ($Xposition) {
-			case transparentWatermarkOnLeft: 
-			case transparentWatermarkOnCenter:
-			case transparentWatermarkOnRight:
-			$this->stampPositionX=$Xposition;
+	public function readImage( $file, $type) {
+		switch ($type) {
+			case 2:	//JPEG
+			return(ImageCreateFromJPEG($file));
 			break;
-		}
-		// set Y position
-		switch ($Yposition) {
-			case transparentWatermarkOnTop:
-			case transparentWatermarkOnMiddle:
-			case transparentWatermarkOnBottom:
-			$this->stampPositionY=$Yposition;
+			
+			case 3:	//PNG
+			return(ImageCreateFromPNG($file));
 			break;
+			
+			default:
+			$this->errorMsg="File format not supported.";
+			return(false);
 		}
 	}
 	
@@ -226,45 +260,35 @@ class UI_Image_TransparentWatermark  {
 			return(true);
 		}
 	}
-
-
-	
 	
 	/**
-	* retrieve last error message
+	* set stamp position on image
 	*
-	* @return string
-	* @access public
-	* @uses errorMsg
+	* @access	public
+	* @param	int $Xposition x position
+	* @param	int $Yposition y position
+	* @return	void
+	* @uses	errorMsg
 	*/
-	public function getLastError() {
-		return($this->errorMsg);
-	}
-	
-	/**
-	* read image from file 
-	*
-	* @param string $file  image file (JPEG or PNG)
-	* @param int $type  file type (2:JPEG or 3:PNG)
-	* @return resource
-	* @access protected
-	* @uses errorMsg
-	*/
-	public function readImage( $file, $type) {
-		switch ($type) {
-			case 2:	//JPEG
-			return(ImageCreateFromJPEG($file));
+	public function setStampPosition ( $Xposition, $Yposition) {
+		// set X position
+		switch ($Xposition) {
+			case transparentWatermarkOnLeft: 
+			case transparentWatermarkOnCenter:
+			case transparentWatermarkOnRight:
+			$this->stampPositionX=$Xposition;
 			break;
-			
-			case 3:	//PNG
-			return(ImageCreateFromPNG($file));
+		}
+		// set Y position
+		switch ($Yposition) {
+			case transparentWatermarkOnTop:
+			case transparentWatermarkOnMiddle:
+			case transparentWatermarkOnBottom:
+			$this->stampPositionY=$Yposition;
 			break;
-			
-			default:
-			$this->errorMsg="File format not supported.";
-			return(false);
 		}
 	}
+
 	/**
 	* write image to file 
 	*
@@ -283,31 +307,6 @@ class UI_Image_TransparentWatermark  {
 			
 			case 3:	//PNG
 			Imagepng( $image, $file);
-			break;
-			
-			default:
-			$this->errorMsg="File format not supported.";
-		}
-	}
-	/**
-	* send image to stdout
-	*
-	* @param resource $image  image 
-	* @param int $type  image type (2:JPEG or 3:PNG)
-	* @return void
-	* @access protected
-	* @uses errorMsg
-	*/
-	public function displayImage( $image, $type) {
-		switch ($type) {
-			case 2:	//JPEG
-			header("Content-Type: image/jpeg");
-			Imagejpeg( $image);
-			break;
-			
-			case 3:	//PNG
-			header("Content-Type: image/png");
-			Imagepng( $image);
 			break;
 			
 			default:

@@ -43,17 +43,6 @@ abstract class UI_HTML_Abstract implements Renderable
 		'class'	=> array()
 	);
 	protected $content		= NULL;
-
-	/**
-	 *	Adds another Class Attribute of Element.
-	 *	@access		public
-	 *	@param		string		$class		Class Name
-	 *	@return		void
-	 */
-	public function addClass( $class )
-	{
-		$this->attributes['class'][]	= $class;	
-	}
 	
 	/**
 	 *	Adds Attributes of Element.
@@ -78,6 +67,17 @@ abstract class UI_HTML_Abstract implements Renderable
 			else
 				$this->attributes[$key]	= $value;
 		}
+	}
+
+	/**
+	 *	Adds another Class Attribute of Element.
+	 *	@access		public
+	 *	@param		string		$class		Class Name
+	 *	@return		void
+	 */
+	public function addClass( $class )
+	{
+		$this->attributes['class'][]	= $class;	
 	}
 
 	/**

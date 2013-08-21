@@ -151,16 +151,6 @@ abstract class UI_Image_Graph_Generator
 	}
 
 	/**
-	 *	Sets Path to JpGraph.
-	 *	@param		string		$path			Path to JpGraph
-	 *	@return		void
-	 */
-	public function setJpGraphPath( $path )
-	{
-		$this->pathJpGraph	= $path;
-	}
-
-	/**
 	 *	Sets Graph Data instead of using self::prepare.
 	 *	@access		public
 	 *	@param		array		$data			Graph Data
@@ -169,6 +159,16 @@ abstract class UI_Image_Graph_Generator
 	public function setData( $data )
 	{
 		$this->data	= $data;
+	}
+
+	/**
+	 *	Sets Path to JpGraph.
+	 *	@param		string		$path			Path to JpGraph
+	 *	@return		void
+	 */
+	public function setJpGraphPath( $path )
+	{
+		$this->pathJpGraph	= $path;
 	}
 }
 ?>

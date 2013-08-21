@@ -76,30 +76,6 @@ class UI_DevOutput
 	{
 		$this->setChannel( $channel );
 	}
-	
-
-	/**
-	 *	Sets output channel type.
-	 *	Auto mode assumes HTML at first and will fall back to Console if detected.
-	 *	@access		public
-	 *	@param		string		$channel		Type of channel (auto, console, html);
-	 *	@return		void
-	 *	@throws		OutOfRangeException			if an invalid channel type is to be set
-	 */
-	public function setChannel( $channel = NULL )
-	{
-		if( !is_string( $channel ) )
-			$channel	= 'auto';
-		$channel	= strtolower( $channel );
-		if( !in_array( $channel, array( 'auto', 'console', 'html' ) ) )
-			throw new OutOfRangeException( 'Channel type "'.$channel.'" is not supported' );
-		if( $channel === "auto" ){
-			$channel	= 'html';
-			if( getEnv( 'PROMPT' ) || getEnv( 'SHELL' ) || $channel == "console" )
-				$channel	= 'console';
-		}
-		$this->channel	= $channel;
-	}
 
 	/**
 	 *	Returns whitespaces.
@@ -396,6 +372,29 @@ class UI_DevOutput
 			$param	= ": ".implode( " | ", $param );
 		}
 		echo $text.$param;
+	}
+
+	/**
+	 *	Sets output channel type.
+	 *	Auto mode assumes HTML at first and will fall back to Console if detected.
+	 *	@access		public
+	 *	@param		string		$channel		Type of channel (auto, console, html);
+	 *	@return		void
+	 *	@throws		OutOfRangeException			if an invalid channel type is to be set
+	 */
+	public function setChannel( $channel = NULL )
+	{
+		if( !is_string( $channel ) )
+			$channel	= 'auto';
+		$channel	= strtolower( $channel );
+		if( !in_array( $channel, array( 'auto', 'console', 'html' ) ) )
+			throw new OutOfRangeException( 'Channel type "'.$channel.'" is not supported' );
+		if( $channel === "auto" ){
+			$channel	= 'html';
+			if( getEnv( 'PROMPT' ) || getEnv( 'SHELL' ) || $channel == "console" )
+				$channel	= 'console';
+		}
+		$this->channel	= $channel;
 	}
 
 	public function showDOM( $node, $offset = 0 )

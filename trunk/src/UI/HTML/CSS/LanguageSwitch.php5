@@ -41,16 +41,6 @@
 class UI_HTML_CSS_LanguageSwitch
 {
 	protected $languages	= array();
-	
-	public function setLanguages( $array )
-	{
-		$this->languages	= $array;
-	}
-
-	protected static function getFlag( $isoCode )
-	{
-		return UI_HTML_CountryFlagIcon::build( $isoCode );
-	}
 
 	public function build( $currentLanguage )
 	{
@@ -73,6 +63,16 @@ class UI_HTML_CSS_LanguageSwitch
 		$code	= UI_HTML_Tree_Menu::buildMenu( $list );
 		$code	= UI_HTML_Tag::create( "span", $code, array( 'class' => "menu select" ) );
 		return $code;
+	}
+
+	protected static function getFlag( $isoCode )
+	{
+		return UI_HTML_CountryFlagIcon::build( $isoCode );
+	}
+	
+	public function setLanguages( $array )
+	{
+		$this->languages	= $array;
 	}
 }
 ?>
