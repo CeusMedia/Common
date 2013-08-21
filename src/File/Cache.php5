@@ -167,6 +167,19 @@ class File_Cache extends ADT_Cache_Store implements Countable
 	}
 
 	/**
+	 *	Indicates whether a Cache File is expired.
+	 *	@access		protected
+	 *	@param		string		$uri			URI of Cache File
+	 *	@return		bool
+	 */
+	protected function isExpired( $uri, $expires )
+	{
+		$edge	= time() - $expires;
+		clearstatcache();
+		return filemtime( $uri ) <= $edge;
+	}
+
+	/**
 	 *	Indicates whether a Cache File is existing and not expired.
 	 *	@access		protected
 	 *	@param		string		$uri			URI of Cache File
@@ -179,19 +192,6 @@ class File_Cache extends ADT_Cache_Store implements Countable
 		if( !$this->expires )
 			return TRUE;
 		return !$this->isExpired( $uri, $this->expires );
-	}
-
-	/**
-	 *	Indicates whether a Cache File is expired.
-	 *	@access		protected
-	 *	@param		string		$uri			URI of Cache File
-	 *	@return		bool
-	 */
-	protected function isExpired( $uri, $expires )
-	{
-		$edge	= time() - $expires;
-		clearstatcache();
-		return filemtime( $uri ) <= $edge;
 	}
 
 	/**

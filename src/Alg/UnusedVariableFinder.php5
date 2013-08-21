@@ -133,9 +133,12 @@ class Alg_UnusedVariableFinder
 				{
 					if( !$countCalls && $count )													//  variable is used and count mode is off
 						continue;																	//  skip to next line
-					$line		= preg_replace( '/\$'.$name.'\s*=/', "", $line );					//  remove variable assignment if found
-					if( preg_match( '@\$'.$name.'[^a-z0-9_]@i', $line ) )							//  if variable is used in this line
+					if( preg_match( "/\(/", $name ) || preg_match( "/\)/", $name ) )
+						xmp( $method."::".$name.' ('.join( ",", array_keys( $this->methods ) ).')' );
+					$line		= preg_replace( "/\$".addslashes( $name )."\s*=/", "", $line );					//  remove variable assignment if found
+					if( preg_match( '@\$'.addslashes( $name ).'[^a-z0-9_]@i', $line ) ){							//  if variable is used in this line
 						$this->methods[$method]['variables'][$name]++;								//  increate variable's use counter
+					}
 				}
 			}
 		}
@@ -152,7 +155,7 @@ class Alg_UnusedVariableFinder
 		$this->methods	= array();																	//  reset list of found methods
 		$open		= FALSE;																		//  initial: no method found, yet
 		$content	= preg_replace( "@/\*.*\*/@Us", "", $content );									//  remove all slash-star-comments
-		$content	= preg_replace( '@".*"@Us', "", $content );										//  remove all strings
+//		$content	= preg_replace( '@".*"@Us', "", $content );										//  remove all strings
 		$content	= preg_replace( "@'.*'@Us", "", $content );										//  remove all strings
 		$content	= preg_replace( "@#.+\n@U", "", $content );										//  remove all hash-comments
 		$content	= preg_replace( "@\s+\n@U", "\n", $content );									//  trailing white space
@@ -174,12 +177,13 @@ class Alg_UnusedVariableFinder
 					$open	= trim( $parts[0] );															//  note found method/function
 					$matches[$open]['variables']	= array();										//  prepare empty method/function parameter list
 					$matches[$open]['lines']		= array();										//  prepare empty method/function line list
+					$parts[1]	= preg_replace( '@\(.*\)@U', "", $parts[1] );										//  remove all strings
 					if( isset( $parts[1] ) && trim( $parts[1] ) )									//  parameters are defined
 					{
 						$params	= explode( ",", $parts[1] );										//  split parameters
 						foreach( $params as $param )												//  iterate parameters
 						{
-							$regExp		= '@^([a-z0-9_]+ )?&?\$(.+)(\s?=\s?\S+)?$@Ui';				//  prepare regular expression for parameter name
+							$regExp		= '@^([a-z0-9_]+ )?&?\$(.+)(\s?=\s?.*)?$@Ui';				//  prepare regular expression for parameter name
 							$param		= preg_replace( $regExp, "\\2", trim( $param ) );			//  get clean parameter name
 							$matches[$open]['variables'][$param]	= 0;							//  note parameter in method variable list
 						}

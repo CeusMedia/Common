@@ -192,6 +192,46 @@ class File_INI_Editor extends File_INI_Reader
 	}
 
 	/**
+	 *	Removes a  Property.
+	 *	@access		public
+	 *	@param		string		$key			Key of Property to be removed
+	 *	@return		bool
+	 */
+	public function removeProperty( $key, $section = NULL )
+	{
+		if( $this->usesSections() )
+		{
+			if( !$this->hasProperty( $key, $section ) )
+				throw new InvalidArgumentException( 'Key "'.$key.'" is not existing in section "'.$section.'"' );
+			$this->deleted[$section][] = $key;
+		}
+		else
+		{
+			if( !$this->hasProperty( $key ) )
+				throw new InvalidArgumentException( 'Key "'.$key.'" is not existing' );
+			$this->deleted[] = $key;
+		}
+		return is_int( $this->write() );
+	}
+
+	/**
+	 *	Removes a Section
+	 *	@access		public
+	 *	@param		string		$section		Key of Section to remove
+	 *	@return		bool
+	 */
+	public function removeSection( $section )
+	{
+		if( !$this->usesSections() )
+			throw new RuntimeException( 'Sections are disabled' );
+		if( !$this->hasSection( $section ) )
+			throw new InvalidArgumentException( 'Section "'.$section.'" is not existing' );
+		$index	= array_search( $section, $this->sections);
+		unset( $this->sections[$index] );
+		return is_int( $this->write() );
+	}
+
+	/**
 	 *	Renames a Property Key.
 	 *	@access		public
 	 *	@param		string		$key			Key of Property to rename
@@ -246,46 +286,6 @@ class File_INI_Editor extends File_INI_Reader
 		$this->renamed	= array();
 		$this->read();
 		return is_int( $result );
-	}
-
-	/**
-	 *	Removes a  Property.
-	 *	@access		public
-	 *	@param		string		$key			Key of Property to be removed
-	 *	@return		bool
-	 */
-	public function removeProperty( $key, $section = NULL )
-	{
-		if( $this->usesSections() )
-		{
-			if( !$this->hasProperty( $key, $section ) )
-				throw new InvalidArgumentException( 'Key "'.$key.'" is not existing in section "'.$section.'"' );
-			$this->deleted[$section][] = $key;
-		}
-		else
-		{
-			if( !$this->hasProperty( $key ) )
-				throw new InvalidArgumentException( 'Key "'.$key.'" is not existing' );
-			$this->deleted[] = $key;
-		}
-		return is_int( $this->write() );
-	}
-
-	/**
-	 *	Removes a Section
-	 *	@access		public
-	 *	@param		string		$section		Key of Section to remove
-	 *	@return		bool
-	 */
-	public function removeSection( $section )
-	{
-		if( !$this->usesSections() )
-			throw new RuntimeException( 'Sections are disabled' );
-		if( !$this->hasSection( $section ) )
-			throw new InvalidArgumentException( 'Section "'.$section.'" is not existing' );
-		$index	= array_search( $section, $this->sections);
-		unset( $this->sections[$index] );
-		return is_int( $this->write() );
 	}
 
 	/**

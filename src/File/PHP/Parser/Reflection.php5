@@ -144,12 +144,6 @@ class File_PHP_Parser_Reflection
 		return $object;
 	}
 
-	public function readProperty( ReflectionProperty $property )
-	{
-		$object	= new ADT_PHP_Member( $property->name );
-		return $object;
-	}
-
 	public function readMethod( ReflectionMethod $method )
 	{
 		$object	= new ADT_PHP_Method( $method->name );
@@ -175,6 +169,12 @@ class File_PHP_Parser_Reflection
 			$object->setCast( $parameter->getClass()->name );
 		if( $parameter->isDefaultValueAvailable() )
 			$object->setDefault( $parameter->getDefaultValue() );
+		return $object;
+	}
+
+	public function readProperty( ReflectionProperty $property )
+	{
+		$object	= new ADT_PHP_Member( $property->name );
 		return $object;
 	}
 }

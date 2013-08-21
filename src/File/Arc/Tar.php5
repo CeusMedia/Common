@@ -62,32 +62,6 @@ class File_Arc_Tar
 	}
 
 	/**
-	 *	Returns a List of Files within Archive.
-	 *	@access		public
-	 *	@return		array
-	 */
-	public function getFileList()
-	{
-		$list	= array();
-		foreach( $this->files as $file )
-			$list[$file['name']]	= $file['size'];
-		return $list;
-	}
-
-	/**
-	 *	Returns a List of Folders within Archive.
-	 *	@access		public
-	 *	@return		array
-	 */
-	public function getFolderList()
-	{
-		$list	= array();
-		foreach( $this->folders as $folder )
-			$list[]	= $folder['name'];
-		return $list;
-	}
-
-	/**
 	 *	Adds a File to the TAR Archive by its Path, depending on current working Directory.
 	 *	@access		public
 	 *	@param		stromg		$fileName			Path of File to add
@@ -326,6 +300,19 @@ class File_Arc_Tar
 	}
 
 	/**
+	 *	Returns a List of Files within Archive.
+	 *	@access		public
+	 *	@return		array
+	 */
+	public function getFileList()
+	{
+		$list	= array();
+		foreach( $this->files as $file )
+			$list[$file['name']]	= $file['size'];
+		return $list;
+	}
+
+	/**
 	 *	Retrieves information about a Folder in the current TAR Archive.
 	 *	@access		public
 	 *	@param		string		$dirName			Folder Name to get Information for
@@ -338,6 +325,38 @@ class File_Arc_Tar
 		foreach( $this->folders as $key => $information )
 			if( $information['name'] == $dirName )
 				return $information;
+	}
+
+	/**
+	 *	Returns a List of Folders within Archive.
+	 *	@access		public
+	 *	@return		array
+	 */
+	public function getFolderList()
+	{
+		$list	= array();
+		foreach( $this->folders as $folder )
+			$list[]	= $folder['name'];
+		return $list;
+	}
+
+	/**
+	 *	Opens and reads a TAR File.
+	 *	@access		public
+	 *	@param		string		$fileName		File Name of TAR Archive
+	 *	@return		bool
+	 */
+	public function open( $fileName )
+	{
+		if( !file_exists( $fileName ) )																		// If the tar file doesn't exist...
+			throw new Exception( 'TAR File "'.$fileName.'" is not existing' );
+		unset( $this->content );
+		$this->files		= array();
+		$this->folders		= array();
+		$this->numFiles		= 0;
+		$this->numFolders	= 0;
+		$this->fileName		= $fileName;
+		return $this->readTar( $fileName );
 	}
 
 	/**
@@ -414,25 +433,6 @@ class File_Arc_Tar
 			$mainOffset += 512 + ( ceil( $fileSize / 512 ) * 512 );												// Move our offset the number of blocks we have processed
 		}
 		return true;
-	}
-
-	/**
-	 *	Opens and reads a TAR File.
-	 *	@access		public
-	 *	@param		string		$fileName		File Name of TAR Archive
-	 *	@return		bool
-	 */
-	public function open( $fileName )
-	{
-		if( !file_exists( $fileName ) )																		// If the tar file doesn't exist...
-			throw new Exception( 'TAR File "'.$fileName.'" is not existing' );
-		unset( $this->content );
-		$this->files		= array();
-		$this->folders		= array();
-		$this->numFiles		= 0;
-		$this->numFolders	= 0;
-		$this->fileName		= $fileName;
-		return $this->readTar( $fileName );
 	}
 
 	/**

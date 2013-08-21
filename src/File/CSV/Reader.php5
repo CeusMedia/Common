@@ -82,22 +82,6 @@ class File_CSV_Reader
 	}
 
 	/**
-	 *	Returns the count of data rows.
-	 *	@access		public
-	 *	@return		int
-	 */
-	public function getRowCount()
-	{
-		$iterator	= new File_CSV_Iterator( $this->fileName, $this->delimiter );
-		$counter	= 0;
-		while( $iterator->next() )
-			$counter++;
-		if( $counter && $this->withHeaders )
-			$counter--;
-		return $counter;
-	}
-
-	/**
 	 *	Returns the set delimiter.
 	 *	@access		public
 	 *	@return		string
@@ -115,6 +99,22 @@ class File_CSV_Reader
 	public function getEnclosure()
 	{
 		return $this->enclosure;
+	}
+
+	/**
+	 *	Returns the count of data rows.
+	 *	@access		public
+	 *	@return		int
+	 */
+	public function getRowCount()
+	{
+		$iterator	= new File_CSV_Iterator( $this->fileName, $this->delimiter );
+		$counter	= 0;
+		while( $iterator->next() )
+			$counter++;
+		if( $counter && $this->withHeaders )
+			$counter--;
+		return $counter;
 	}
 
 	/**

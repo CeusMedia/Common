@@ -60,6 +60,20 @@ class File_VCard_Parser
 		return self::parseInto( $string, $vcard, $charsetIn, $charsetOut );
 	}
 
+	protected static function parseAttributes( $string )
+	{
+		$parts	= explode( ";", $string );
+		foreach( $parts as $part )
+		{
+			$parts1	= explode( "=", $part );
+			$key	= array_shift( $parts1 );
+			$values	= explode( ",", array_shift( $parts1 ) );
+			foreach( $values as $value )
+				$list[]	= $value;
+		}
+		return $list;
+	}
+
 	/**
 	 *	Parses vCard String to an given vCard Object and converts between Charsets.
 	 *	@access		public
@@ -83,20 +97,6 @@ class File_VCard_Parser
 		foreach( $lines as $line )
 			self::parseLine( $vcard, $line );
 		return $vcard;
-	}
-
-	protected static function parseAttributes( $string )
-	{
-		$parts	= explode( ";", $string );
-		foreach( $parts as $part )
-		{
-			$parts1	= explode( "=", $part );
-			$key	= array_shift( $parts1 );
-			$values	= explode( ",", array_shift( $parts1 ) );
-			foreach( $values as $value )
-				$list[]	= $value;
-		}
-		return $list;
 	}
 
 	protected static function parseLine( $vcard, $line )

@@ -97,6 +97,27 @@ class File_TodoLister
 		return $this->getExtendedPattern( "extension" );
 	}
 
+	protected function getIndexIterator( $path, $filePattern )
+	{
+		return new File_RegexFilter( $path, $filePattern );
+	}
+	
+	/**
+	 *	Returns Array of numberFound Files.
+	 *	@access		public
+	 *	@param		bool		$full		Flag: Return Path Name, File Name and Content also
+	 *	@return		array
+	 */
+	public function getList( $full = NULL )
+	{
+		if( $full )
+			return $this->list;
+		$list	= array();
+		foreach( $this->list as $pathName => $fileData )
+			$list[$pathName]	= $fileData['fileName'];
+		return $list;
+	}
+
 	/**
 	 *	Returns Number of matching Files.
 	 *	@access		public
@@ -140,27 +161,6 @@ class File_TodoLister
 	protected function getPattern()
 	{
 		return $this->getExtendedPattern();
-	}
-	
-	/**
-	 *	Returns Array of numberFound Files.
-	 *	@access		public
-	 *	@param		bool		$full		Flag: Return Path Name, File Name and Content also
-	 *	@return		array
-	 */
-	public function getList( $full = NULL )
-	{
-		if( $full )
-			return $this->list;
-		$list	= array();
-		foreach( $this->list as $pathName => $fileData )
-			$list[$pathName]	= $fileData['fileName'];
-		return $list;
-	}
-
-	protected function getIndexIterator( $path, $filePattern )
-	{
-		return new File_RegexFilter( $path, $filePattern );
 	}
 
 	/**

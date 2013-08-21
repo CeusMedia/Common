@@ -50,7 +50,26 @@ class File_CSS_Parser{
 		$content	= File_Reader::load( $fileName );
 		return self::parseString( $content );
 	}
-	
+
+	/**
+	 *	Parses CSS properties inside a rule and returns a list of property objects.
+	 *	@access		protected
+	 *	@param		string			$string		String of CSS rule properties 
+	 *	@return		array			List of property objects
+	 */
+	static protected function parseProperties( $string ){
+		$list	= array();
+		foreach( explode( ';', trim( $string ) ) as $line ){
+			if( !trim( $line ) )
+				continue;
+			$parts	= explode( ':', $line );
+			$key	= array_shift( $parts );
+			$value	= trim( implode( ':', $parts ) );
+			$list[]	= new ADT_CSS_Property( $key, $value );
+		}
+		return $list;
+	}
+
 	/**
 	 *	Parses a CSS string and returns sheet structure statically.
 	 *	@access		public
@@ -80,25 +99,6 @@ class File_CSS_Parser{
 				$buffer	.= $char;
 		}
 		return $sheet;
-	}
-
-	/**
-	 *	Parses CSS properties inside a rule and returns a list of property objects.
-	 *	@access		protected
-	 *	@param		string			$string		String of CSS rule properties 
-	 *	@return		array			List of property objects
-	 */
-	static protected function parseProperties( $string ){
-		$list	= array();
-		foreach( explode( ';', trim( $string ) ) as $line ){
-			if( !trim( $line ) )
-				continue;
-			$parts	= explode( ':', $line );
-			$key	= array_shift( $parts );
-			$value	= trim( implode( ':', $parts ) );
-			$list[]	= new ADT_CSS_Property( $key, $value );
-		}
-		return $list;
 	}
 }
 ?>

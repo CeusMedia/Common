@@ -108,6 +108,14 @@ class File_VCard_Builder
 		return $lines;
 	}
 	
+	protected static function escape( $value )
+	{
+		$value	= str_replace( ",", "\,", $value );
+		$value	= str_replace( ";", "\;", $value );
+		$value	= str_replace( ":", "\:", $value );
+		return $value;
+	}
+	
 	protected static function renderLine( $name, $values, $types = NULL, $escape = TRUE, $delimiter = ";" )
 	{
 		$type	= $types ? ";TYPE=".implode( ",", $types ) : "";
@@ -128,14 +136,6 @@ class File_VCard_Builder
 			$values	= self::escape( $values );
 		$line	= $name.$type.":".$values;
 		return $line;
-	}
-	
-	protected static function escape( $value )
-	{
-		$value	= str_replace( ",", "\,", $value );
-		$value	= str_replace( ";", "\;", $value );
-		$value	= str_replace( ":", "\:", $value );
-		return $value;
 	}
 }
 ?>

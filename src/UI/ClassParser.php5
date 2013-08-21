@@ -249,7 +249,7 @@ class ClassParser
 						$method = str_replace( "&", "", $method );
 						$method = trim( $method );
 						$this->methods[$method] = $func_data;
-						$func_data = array ();
+						$func_data = array();
 					}
 				}
 				if( $doc_open )

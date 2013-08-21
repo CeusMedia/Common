@@ -54,22 +54,6 @@ class File_Unicoder
 	}
 
 	/**
-	 *	Check whether a String is encoded into UTF-8.
-	 *	@access		public
-	 *	@static
-	 *	@param		string		$fileName	Name of File to unicode
-	 *	@return		bool
-	 */
-	public static function isUnicode( $fileName )
-	{
-		if( !file_exists( $fileName ) )
-			throw new Exception( 'File "'.$fileName.'" is not existing.' );
-		$string		= File_Editor::load( $fileName );
-		$unicoded	= Alg_Text_Unicoder::convertToUnicode( $string );
-		return $unicoded == $string;
-	}
-
-	/**
 	 *	Converts a String to UTF-8.
 	 *	@access		public
 	 *	@static
@@ -86,6 +70,22 @@ class File_Unicoder
 			return (bool) File_Editor::save( $fileName, $unicoded );
 		}
 		return FALSE;
+	}
+
+	/**
+	 *	Check whether a String is encoded into UTF-8.
+	 *	@access		public
+	 *	@static
+	 *	@param		string		$fileName	Name of File to unicode
+	 *	@return		bool
+	 */
+	public static function isUnicode( $fileName )
+	{
+		if( !file_exists( $fileName ) )
+			throw new Exception( 'File "'.$fileName.'" is not existing.' );
+		$string		= File_Editor::load( $fileName );
+		$unicoded	= Alg_Text_Unicoder::convertToUnicode( $string );
+		return $unicoded == $string;
 	}
 }
 ?>

@@ -48,7 +48,7 @@ class Math_Prime
 	 */
 	public static function getPrimes( $max )
 	{
-		$primes = $numbers = array ();
+		$primes = $numbers = array();
 		for( $i=2; $i<=$max; $i++ )
 			$numbers[$i] = true;
 
@@ -93,7 +93,7 @@ class Math_Prime
 	 *	@param		array		$list
 	 *	@return		array
 	 */
-	public static function getPrimeFactors( $number, $list = array () )
+	public static function getPrimeFactors( $number, $list = array() )
 	{
 		$edge	= floor( sqrt( $number ) );
 		$primes	= self::getPrimes( $edge );

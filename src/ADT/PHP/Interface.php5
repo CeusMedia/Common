@@ -376,7 +376,7 @@ class ADT_PHP_Interface
 	 */
 	public function setCategory( $string )
 	{
-		$this->category	= $string;
+		$this->category	= trim( $string );
 	}
 
 	public function setComposingClass( ADT_PHP_Class $class )

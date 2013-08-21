@@ -46,7 +46,7 @@ class File_ICal_Parser
 {
 	/**	@var	string		$lineBreak		Line Break String */
 	protected static $lineBreak;
-	
+
 	/**
 	 *	Constructor.
 	 *	@access		public
@@ -57,7 +57,7 @@ class File_ICal_Parser
 	{
 		self::$lineBreak	= $lineBreak;
 	}
-	
+
 	/**
 	 *	Parses iCal Lines and returns a XML Tree.
 	 *	@access		public
@@ -81,7 +81,37 @@ class File_ICal_Parser
 		}
 		return $root;
 	}
-	
+
+	/**
+	 *	Parses a single iCal Lines.
+	 *	@access		protected
+	 *	@static
+	 *	@param		string		$line		Line to parse
+	 *	@return 	array
+	 */
+	protected static function parseLine( $line )
+	{
+		$pos	= strpos( $line, ":" );
+		$name	= substr( $line, 0, $pos );
+		$value	= substr( $line, $pos+1 );
+		
+		$params	= array();
+		if( substr_count( $name, ";" ) )
+		{
+			$pos	= strpos( $name, ";" );
+			$params	= substr( $name, $pos+1 );
+			$name	= substr( $name, 0, $pos );
+			$params	= explode( ",", utf8_decode( $params ) );
+		}
+		
+		$parsed	= array(
+			"name"	=> trim( $name ),
+			"param"	=> $params,
+			"value"	=> utf8_decode( $value ),
+		);
+		return $parsed;
+	}
+
 	/**
 	 *	Parses iCal Lines and returns a XML Tree recursive.
 	 *	@access		protected
@@ -129,36 +159,6 @@ class File_ICal_Parser
 		$string	= str_replace( self::$lineBreak." :", ":", $string );
 		$string	= str_replace( self::$lineBreak." ", "", $string );
 		return $string;	
-	}
-	
-	/**
-	 *	Parses a single iCal Lines.
-	 *	@access		protected
-	 *	@static
-	 *	@param		string		$line		Line to parse
-	 *	@return 	array
-	 */
-	protected static function parseLine( $line )
-	{
-		$pos	= strpos( $line, ":" );
-		$name	= substr( $line, 0, $pos );
-		$value	= substr( $line, $pos+1 );
-		
-		$params	= array();
-		if( substr_count( $name, ";" ) )
-		{
-			$pos	= strpos( $name, ";" );
-			$params	= substr( $name, $pos+1 );
-			$name	= substr( $name, 0, $pos );
-			$params	= explode( ",", utf8_decode( $params ) );
-		}
-		
-		$parsed	= array(
-			"name"	=> trim( $name ),
-			"param"	=> $params,
-			"value"	=> utf8_decode( $value ),
-		);
-		return $parsed;
 	}
 }
 ?>

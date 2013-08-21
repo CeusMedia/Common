@@ -1,4 +1,24 @@
 <?php
+/**
+ *	...
+ *	@category		cmClasses
+ *	@package		File
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ *	@copyright		2013 Christian Würker
+ *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@link			http://code.google.com/p/cmclasses/
+ *	@version		$Id$
+ */
+/**
+ *	...
+ *	@category		cmClasses
+ *	@package		File
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ *	@copyright		2007-2012 Christian Würker
+ *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@link			http://code.google.com/p/cmclasses/
+ *	@version		$Id: Builder.php5 961 2012-05-23 11:58:00Z christian.wuerker $
+ */
 class File_BackupCleaner{
 
 	protected $path;
@@ -10,40 +30,6 @@ class File_BackupCleaner{
 		$this->path			= $path;
 		$this->prefix		= $prefix;
 		$this->ext			= preg_replace( "/^\.+/", "", $ext );
-	}
-
-	public function setVault( $path ){
-		$this->vault	= $path;
-	}
-
-	public function index(){
-		$dates	= array();
-		$regExp	= "/^".$this->prefix.".+\.".$this->ext."$/";
-		$index	= new File_RegexFilter( $this->path, $regExp );
-		foreach( $index as $entry ){
-			$regExp		= "/^".$this->prefix."([0-9-]+)\.".$this->ext."$/";
-			$dates[]	= preg_replace( $regExp, "\\1", $entry->getFilename() );
-		}
-		return $dates;
-	}
-
-	public function getDateTree(){
-		$dates	= array();
-		foreach( $this->index() as $date ){
-			$time	= strtotime( $date );
-			$year	= (int) date( "Y", $time );
-			$month	= (int)	date( "m", $time );
-			$day	= (int) date( "d", $time );
-			if( !isset( $dates[$year] ) )
-				$dates[$year]	= array();
-			if( !isset( $dates[$year][$month] ) )
-				$dates[$year][$month]	= array();
-			$dates[$year][$month][$day]	= $date;
-			ksort( $dates[$year][$month] );
-			ksort( $dates[$year] );
-			ksort( $dates );
-		}
-		return $dates;
 	}
 
 	/**
@@ -73,6 +59,36 @@ class File_BackupCleaner{
 					}
 				}
 			}
+		}
+		return $dates;
+	}
+
+	public function getDateTree(){
+		$dates	= array();
+		foreach( $this->index() as $date ){
+			$time	= strtotime( $date );
+			$year	= (int) date( "Y", $time );
+			$month	= (int)	date( "m", $time );
+			$day	= (int) date( "d", $time );
+			if( !isset( $dates[$year] ) )
+				$dates[$year]	= array();
+			if( !isset( $dates[$year][$month] ) )
+				$dates[$year][$month]	= array();
+			$dates[$year][$month][$day]	= $date;
+			ksort( $dates[$year][$month] );
+			ksort( $dates[$year] );
+			ksort( $dates );
+		}
+		return $dates;
+	}
+
+	public function index(){
+		$dates	= array();
+		$regExp	= "/^".$this->prefix.".+\.".$this->ext."$/";
+		$index	= new File_RegexFilter( $this->path, $regExp );
+		foreach( $index as $entry ){
+			$regExp		= "/^".$this->prefix."([0-9-]+)\.".$this->ext."$/";
+			$dates[]	= preg_replace( $regExp, "\\1", $entry->getFilename() );
 		}
 		return $dates;
 	}
@@ -115,6 +131,10 @@ class File_BackupCleaner{
 				}
 			}
 		}
+	}
+
+	public function setVault( $path ){
+		$this->vault	= $path;
 	}
 }
 ?>

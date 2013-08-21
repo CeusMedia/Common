@@ -57,17 +57,7 @@ class File_Block_Reader
 		$this->readBlocks();	
 		
 	}
-	
-	/**
-	 *	Returns Array with Names of all Blocks.
-	 *	@access		public
-	 *	@return		array
-	 */
-	public function getBlockNames()
-	{
-		return array_keys( $this->blocks );
-	}
-	
+
 	/**
 	 *	Returns Block Content.
 	 *	@access		public
@@ -79,7 +69,28 @@ class File_Block_Reader
 		if( $this->hasBlock( $section ) )
 			return $this->blocks[$section];
 	}
-	
+
+	/**
+	 *	Returns Array with Names of all Blocks.
+	 *	@access		public
+	 *	@return		array
+	 */
+	public function getBlockNames()
+	{
+		return array_keys( $this->blocks );
+	}
+
+	/**
+	 *	Returns Array of all Blocks.
+	 *	@access		public
+	 *	@param		string		$section		Name of Block
+	 *	@return		bool
+	 */
+	public function getBlocks()
+	{
+		return $this->blocks;
+	}
+
 	/**
 	 *	Indicates whether a Block is existing by its Name.
 	 *	@access		public
@@ -93,18 +104,7 @@ class File_Block_Reader
 		$return	= is_int( $result );
 		return $return;
 	}
-	
-	/**
-	 *	Returns Array of all Blocks.
-	 *	@access		public
-	 *	@param		string		$section		Name of Block
-	 *	@return		bool
-	 */
-	public function getBlocks()
-	{
-		return $this->blocks;
-	}
-	
+
 	/**
 	 *	Reads Block File.
 	 *	@access		protected

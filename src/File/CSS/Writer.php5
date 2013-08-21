@@ -63,6 +63,19 @@ class File_CSS_Writer{
 	}
 
 	/**
+	 *	Save a sheet structure into a file statically.
+	 *	@access		public
+	 *	@static
+	 *	@param		string			$fileName	Relative or absolute file URI
+	 *	@param		ADT_CSS_Sheet	$sheet		Sheet structure
+	 *	@return		void
+	 */
+	static public function save( $fileName, ADT_CSS_Sheet $sheet ){
+		$css	= File_CSS_Converter::convertSheetToString( $sheet );								//  
+		return File_Writer::save( $fileName, $css );												//  
+	}
+
+	/**
 	 *	Set name of CSS file.
 	 *	@access		public
 	 *	@param		string		$fileName		Relative or absolute file URI
@@ -83,19 +96,6 @@ class File_CSS_Writer{
 		if( !$this->fileName )
 			throw new RuntimeException( 'No CSS file set yet' );
 		return self::save( $this->fileName, $sheet );
-	}
-
-	/**
-	 *	Save a sheet structure into a file statically.
-	 *	@access		public
-	 *	@static
-	 *	@param		string			$fileName	Relative or absolute file URI
-	 *	@param		ADT_CSS_Sheet	$sheet		Sheet structure
-	 *	@return		void
-	 */
-	static public function save( $fileName, ADT_CSS_Sheet $sheet ){
-		$css	= File_CSS_Converter::convertSheetToString( $sheet );								//  
-		return File_Writer::save( $fileName, $css );												//  
 	}
 }
 ?>

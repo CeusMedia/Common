@@ -53,18 +53,6 @@ class File_JSON_Reader
 	}
 
 	/**
-	 *	Reads the JSON file to an object or array.
-	 *	@access		public
-	 *	@param		bool		$asArray		Flag: read into an array
-	 *	@return		object|array
-	 */
-	public function read( $asArray = NULL )
-	{
-		$json	= File_Reader::load( $this->filePath );
-		return json_decode( $json, $asArray );
-	}
-
-	/**
 	 *	Reads a JSON file to an object or array statically.
 	 *	@access		public
 	 *	@param		string		$filePath		Path to JSON file
@@ -75,6 +63,18 @@ class File_JSON_Reader
 	{
 		$reader	= new File_JSON_Reader( $filePath );
 		return $reader->read( $asArray );
+	}
+
+	/**
+	 *	Reads the JSON file to an object or array.
+	 *	@access		public
+	 *	@param		bool		$asArray		Flag: read into an array
+	 *	@return		object|array
+	 */
+	public function read( $asArray = NULL )
+	{
+		$json	= File_Reader::load( $this->filePath );
+		return json_decode( $json, $asArray );
 	}
 }
 ?>

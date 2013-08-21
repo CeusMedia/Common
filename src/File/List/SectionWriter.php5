@@ -53,17 +53,6 @@ class File_List_SectionWriter
 	{
 		$this->fileName = $fileName;
 	}
-
-	/**
-	 *	Writes Section List.
-	 *	@access		public
-	 *	@param		array		$list			Section List to write
-	 *	@return		void
-	 */
-	public function write( $list )
-	{
-		return self::save( $this->fileName, $list );
-	}
 	
 	/**
 	 *	Saves a Section List to a File.
@@ -86,6 +75,17 @@ class File_List_SectionWriter
 		}
 		$writer	= new File_Writer( $fileName, 0755 );
 		return $writer->writeArray( $lines );
+	}
+
+	/**
+	 *	Writes Section List.
+	 *	@access		public
+	 *	@param		array		$list			Section List to write
+	 *	@return		void
+	 */
+	public function write( $list )
+	{
+		return self::save( $this->fileName, $list );
 	}
 }
 ?>

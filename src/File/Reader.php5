@@ -105,6 +105,32 @@ class File_Reader
 	}
 
 	/**
+	 *	Returns the encoding (character set) of current File.
+	 *	@access		public
+	 *	@return		string
+	 *	@throws		RuntimeException	if Fileinfo is not installed
+	 */
+	public function getEncoding()
+	{
+		if( function_exists( 'finfo_open' ) )
+		{
+			$magicFile	= ini_get( 'mime_magic.magicfile' );
+//			$magicFile	= str_replace( "\\", "/", $magicFile );
+//			$magicFile	= preg_replace( "@\.mime$@", "", $magicFile );
+			$fileInfo	= finfo_open( FILEINFO_MIME_ENCODING, $magicFile );
+			$mimeType	= finfo_file( $fileInfo, realpath( $this->fileName ) );
+			finfo_close( $fileInfo );
+			return $mimeType;
+		}
+		else if( substr( PHP_OS, 0, 3 ) != "WIN" )
+		{
+			$command	= 'file -b --mime-encoding '.escapeshellarg( $this->fileName );
+			return trim( exec( $command ) );
+		}
+		throw new RuntimeException( 'PHP extension Fileinfo is missing' );
+	}
+
+	/**
 	 *	Returns Extension of current File.
 	 *	@access		public
 	 *	@return		string
@@ -132,32 +158,6 @@ class File_Reader
 		if( FALSE === $group )
 			throw new RuntimeException( 'Could not get group of file "'.$this->fileName.'"' );
 		return $group;
-	}
-
-	/**
-	 *	Returns the encoding (character set) of current File.
-	 *	@access		public
-	 *	@return		string
-	 *	@throws		RuntimeException	if Fileinfo is not installed
-	 */
-	public function getEncoding()
-	{
-		if( function_exists( 'finfo_open' ) )
-		{
-			$magicFile	= ini_get( 'mime_magic.magicfile' );
-//			$magicFile	= str_replace( "\\", "/", $magicFile );
-//			$magicFile	= preg_replace( "@\.mime$@", "", $magicFile );
-			$fileInfo	= finfo_open( FILEINFO_MIME_ENCODING, $magicFile );
-			$mimeType	= finfo_file( $fileInfo, realpath( $this->fileName ) );
-			finfo_close( $fileInfo );
-			return $mimeType;
-		}
-		else if( substr( PHP_OS, 0, 3 ) != "WIN" )
-		{
-			$command	= 'file -b --mime-encoding '.escapeshellarg( $this->fileName );
-			return trim( exec( $command ) );
-		}
-		throw new RuntimeException( 'PHP extension Fileinfo is missing' );
 	}
 
 	/**
@@ -298,6 +298,17 @@ class File_Reader
 	}
 
 	/**
+	 *	Reads file and returns it as array.
+	 *	@access		public
+	 *	@return		array
+	 */
+ 	public function readArray()
+	{
+		$content	= $this->readString();
+		return preg_split( '/\r?\n/', $content );
+	}
+
+	/**
 	 *	Reads file and returns it as string.
 	 *	@access		public
 	 *	@return		string
@@ -311,17 +322,6 @@ class File_Reader
 		if( !$this->isReadable( $this->fileName ) )
 			throw new RuntimeException( 'File "'.$this->fileName.'" is not readable' );
 		return file_get_contents( $this->fileName );
-	}
-
-	/**
-	 *	Reads file and returns it as array.
-	 *	@access		public
-	 *	@return		array
-	 */
- 	public function readArray()
-	{
-		$content	= $this->readString();
-		return preg_split( '/\r?\n/', $content );
 	}
 }
 ?>

@@ -53,16 +53,6 @@ class File_YAML_Reader
 	}
 
 	/**
-	 *	Reads YAML File.
-	 *	@access		public
-	 *	@return		array
-	 */
-	public function read()
-	{
-		return self::load( $this->fileName );
-	}
-
-	/**
 	 *	Loads YAML File statically.
 	 *	@access		public
 	 *	@static
@@ -74,6 +64,16 @@ class File_YAML_Reader
 		$yaml	= File_Reader::load( $fileName );
 		$array	= File_YAML_Spyc::YAMLLoad( $yaml );
 		return $array;
+	}
+
+	/**
+	 *	Reads YAML File.
+	 *	@access		public
+	 *	@return		array
+	 */
+	public function read()
+	{
+		return self::load( $this->fileName );
 	}
 }
 ?>

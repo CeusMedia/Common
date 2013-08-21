@@ -54,51 +54,6 @@ class File_YAML_Spyc {
 	*/
 	public $_nodeId;
 
-	/**
-	 *	Load YAML into a PHP array statically
-	 *
-	 *	The load method, when supplied with a YAML stream (string or file),
-	 *	will do its best to convert YAML in a file into a PHP array.  Pretty
-	 *	simple.
-	 *	 Usage:
-	 *	 <code>
-	 *		$array = File_YAML_Spyc::YAMLLoad('lucky.yaml');
-	 *		print_r($array);
-	 *	 </code>
-	 *	@access public
-	 *	@return array
-	 *	@param string $input Path of YAML file or string containing YAML
-	 */
-	public static function YAMLLoad($input) {
-		$Spyc = new File_YAML_Spyc;
-		return $Spyc->load($input);
-	}
-
-	/**
-	 *	Dump YAML from PHP array statically
-	 *
-	 *	The dump method, when supplied with an array, will do its best
-	 *	to convert the array into friendly YAML.  Pretty simple.  Feel free to
-	 *	save the returned string as nothing.yaml and pass it around.
-	 *
-	 *	Oh, and you can decide how big the indent is and what the wordwrap
-	 *	for folding is.  Pretty cool -- just pass in 'false' for either if
-	 *	you want to use the default.
-	 *
-	 *	Indent's default is 2 spaces, wordwrap's default is 40 characters.  And
-	 *	you can turn off wordwrap by passing in 0.
-	 *
-	 *	@access public
-	 *	@return string
-	 *	@param array $array PHP array
-	 *	@param int $indent Pass in false to use the default, which is 2
-	 *	@param int $wordwrap Pass in 0 for no wordwrap, false for default (40)
-	 */
-	public static function YAMLDump($array,$indent = FALSE,$wordwrap = FALSE) {
-		$spyc = new File_YAML_Spyc;
-		return $spyc->dump($array,$indent,$wordwrap);
-	}
-
 
 	/**
 	 *	Dump PHP array to YAML
@@ -732,6 +687,51 @@ class File_YAML_Spyc {
 	private function stripGroup ($line, $group) {
 		$line = trim(str_replace($group, '', $line));
 		return $line;
+	}
+
+	/**
+	 *	Dump YAML from PHP array statically
+	 *
+	 *	The dump method, when supplied with an array, will do its best
+	 *	to convert the array into friendly YAML.  Pretty simple.  Feel free to
+	 *	save the returned string as nothing.yaml and pass it around.
+	 *
+	 *	Oh, and you can decide how big the indent is and what the wordwrap
+	 *	for folding is.  Pretty cool -- just pass in 'false' for either if
+	 *	you want to use the default.
+	 *
+	 *	Indent's default is 2 spaces, wordwrap's default is 40 characters.  And
+	 *	you can turn off wordwrap by passing in 0.
+	 *
+	 *	@access public
+	 *	@return string
+	 *	@param array $array PHP array
+	 *	@param int $indent Pass in false to use the default, which is 2
+	 *	@param int $wordwrap Pass in 0 for no wordwrap, false for default (40)
+	 */
+	public static function YAMLDump($array,$indent = FALSE,$wordwrap = FALSE) {
+		$spyc = new File_YAML_Spyc;
+		return $spyc->dump($array,$indent,$wordwrap);
+	}
+
+	/**
+	 *	Load YAML into a PHP array statically
+	 *
+	 *	The load method, when supplied with a YAML stream (string or file),
+	 *	will do its best to convert YAML in a file into a PHP array.  Pretty
+	 *	simple.
+	 *	 Usage:
+	 *	 <code>
+	 *		$array = File_YAML_Spyc::YAMLLoad('lucky.yaml');
+	 *		print_r($array);
+	 *	 </code>
+	 *	@access public
+	 *	@return array
+	 *	@param string $input Path of YAML file or string containing YAML
+	 */
+	public static function YAMLLoad($input) {
+		$Spyc = new File_YAML_Spyc;
+		return $Spyc->load($input);
 	}
 }
 ?>

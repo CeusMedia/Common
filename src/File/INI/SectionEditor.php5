@@ -54,23 +54,23 @@ class File_INI_SectionEditor extends File_INI_SectionReader
 		$this->data[$section] = array();
 		return is_int( $this->write() );
 	}
-	
+
 	/**
-	 *	Sets a Property.
-	 *	@access		public
-	 *	@param		string		$section		Section of Property
+	 *	Builds uniformed indent between Keys and Values.
+	 *	@access		protected
 	 *	@param		string		$key			Key of Property
-	 *	@param		string		$value			Value of Property
-	 *	@return		bool
+	 *	@param		int			$tabs			Amount to Tabs to indent
+	 *	@return		string
 	 */
-	public function setProperty( $section, $key, $value )
+	protected function fillUp( $key, $tabs = 5 )
 	{
-		if( !$this->hasSection( $section ) )
-			$this->addSection( $section );
-		$this->data[$section][$key]	= $value;
-		return is_int( $this->write() );
+		$key_breaks	= $tabs - floor( strlen( $key ) / 8 );
+		if( $key_breaks < 1 )
+			$key_breaks = 1;
+		$key	= $key.str_repeat( "\t", $key_breaks );
+		return $key;
 	}
-	
+
 	/**
 	 *	Removes a Property.
 	 *	@access		public
@@ -85,7 +85,7 @@ class File_INI_SectionEditor extends File_INI_SectionReader
 		unset( $this->data[$section][$key] );
 		return is_int( $this->write() );
 	}
-	
+
 	/**
 	 *	Removes a Section.
 	 *	@access		public
@@ -97,6 +97,22 @@ class File_INI_SectionEditor extends File_INI_SectionReader
 		if( !$this->hasSection( $section ) )
 			throw new InvalidArgumentException( 'Section "'.$section.'" is not existing.' ); 
 		unset( $this->data[$section] );
+		return is_int( $this->write() );
+	}
+
+	/**
+	 *	Sets a Property.
+	 *	@access		public
+	 *	@param		string		$section		Section of Property
+	 *	@param		string		$key			Key of Property
+	 *	@param		string		$value			Value of Property
+	 *	@return		bool
+	 */
+	public function setProperty( $section, $key, $value )
+	{
+		if( !$this->hasSection( $section ) )
+			$this->addSection( $section );
+		$this->data[$section][$key]	= $value;
 		return is_int( $this->write() );
 	}
 
@@ -117,22 +133,6 @@ class File_INI_SectionEditor extends File_INI_SectionReader
 		}
 		return File_Writer::saveArray( $this->fileName, $lines );
 		$this->read();
-	}
-	
-	/**
-	 *	Builds uniformed indent between Keys and Values.
-	 *	@access		protected
-	 *	@param		string		$key			Key of Property
-	 *	@param		int			$tabs			Amount to Tabs to indent
-	 *	@return		string
-	 */
-	protected function fillUp( $key, $tabs = 5 )
-	{
-		$key_breaks	= $tabs - floor( strlen( $key ) / 8 );
-		if( $key_breaks < 1 )
-			$key_breaks = 1;
-		$key	= $key.str_repeat( "\t", $key_breaks );
-		return $key;
 	}
 }
 ?>

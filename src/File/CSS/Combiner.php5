@@ -47,6 +47,33 @@ class File_CSS_Combiner
 	var $importPattern			= '#^@import (url\(\s*)?["\'](.*)["\'](\s*\))?;?$#i';
 	/**	@var		array		$statistics		Statistical Data */
 	var $statistics				= array();
+
+	/**
+	 *	Combines all CSS Files imported in Style File, saves Combination File and returns File URI of Combination File.
+	 *	@access		public
+	 *	@param		string		$styleFile		File Name of Style without Extension (iE. style.css,import.css,default.css)
+	 *	@param		bool		$verbose		Flag: list loaded CSS Files
+	 *	@return		string		
+	 */
+	public function combineFile( $fileUri )
+	{
+		$pathName	= dirname( realpath( $fileUri ) )."/";
+		$fileBase	= preg_replace( "@\.css@", "", basename( $fileUri  ));
+		
+		if( !file_exists( $fileUri ) )
+			throw new Exception( "Style File '".$fileUri."' is not existing." );
+			
+		$this->statistics	= array();
+		$content	= file_get_contents( $fileUri );
+	
+		$content	= $this->combineString( $pathName, $content );
+		$fileName	= $this->prefix.$fileBase.$this->suffix.".css";
+		$fileUri	= $pathName.$fileName;
+		$fileUri	= str_replace( "\\", "/", $fileUri );
+
+		file_put_contents( $fileUri, $content );
+		return $fileUri;
+	}
 	
 	/**
 	 *	Combines all CSS Files imported in CSS String and returns Combination String;
@@ -103,6 +130,16 @@ class File_CSS_Combiner
 		$this->statistics['sizeCombined']	= strlen( $content );
 		return $content;
 	}
+
+	/**
+	 *	Returns statistical Data of last Combination.
+	 *	@access		public
+	 *	@return		array	
+	 */
+	public function getStatistics()
+	{
+		return $this->statistics;
+	}
 	
 	/**
 	 *	Callback Method for additional Modifikations before Combination.
@@ -113,43 +150,6 @@ class File_CSS_Combiner
 	protected function reviseStyle( $content )
 	{
 		return $content;
-	}
-
-	/**
-	 *	Combines all CSS Files imported in Style File, saves Combination File and returns File URI of Combination File.
-	 *	@access		public
-	 *	@param		string		$styleFile		File Name of Style without Extension (iE. style.css,import.css,default.css)
-	 *	@param		bool		$verbose		Flag: list loaded CSS Files
-	 *	@return		string		
-	 */
-	public function combineFile( $fileUri )
-	{
-		$pathName	= dirname( realpath( $fileUri ) )."/";
-		$fileBase	= preg_replace( "@\.css@", "", basename( $fileUri  ));
-		
-		if( !file_exists( $fileUri ) )
-			throw new Exception( "Style File '".$fileUri."' is not existing." );
-			
-		$this->statistics	= array();
-		$content	= file_get_contents( $fileUri );
-	
-		$content	= $this->combineString( $pathName, $content );
-		$fileName	= $this->prefix.$fileBase.$this->suffix.".css";
-		$fileUri	= $pathName.$fileName;
-		$fileUri	= str_replace( "\\", "/", $fileUri );
-
-		file_put_contents( $fileUri, $content );
-		return $fileUri;
-	}
-
-	/**
-	 *	Returns statistical Data of last Combination.
-	 *	@access		public
-	 *	@return		array	
-	 */
-	public function getStatistics()
-	{
-		return $this->statistics;
 	}
 
 	/**

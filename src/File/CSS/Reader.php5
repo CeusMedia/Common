@@ -38,7 +38,8 @@
  *	@since			10.10.2011
  *	@version		$Id$
  */
-class File_CSS_Reader{
+class File_CSS_Reader
+{
 
 	protected $fileName;
 
@@ -53,17 +54,6 @@ class File_CSS_Reader{
 	public function __construct( $fileName = NULL ){
 		if( $fileName )
 			$this->setFileName( $fileName );
-	}
-
-	/**
-	 *	Points reader to a CSS file which will be parsed and stored internally.
-	 *	@access		public
-	 *	@param		string		$fileName		Relative or absolute file URI
-	 *	@return		void
-	 */
-	public function setFileName( $fileName ){
-		$this->fileName	= $fileName;
-		$this->sheet	= self::load( $fileName );
 	}
 
 	/**
@@ -98,6 +88,17 @@ class File_CSS_Reader{
 	 */
 	static public function load( $fileName ){
 		return File_CSS_Parser::parseFile( $fileName );
+	}
+
+	/**
+	 *	Points reader to a CSS file which will be parsed and stored internally.
+	 *	@access		public
+	 *	@param		string		$fileName		Relative or absolute file URI
+	 *	@return		void
+	 */
+	public function setFileName( $fileName ){
+		$this->fileName	= $fileName;
+		$this->sheet	= self::load( $fileName );
 	}
 }
 ?>
