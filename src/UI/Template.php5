@@ -141,27 +141,6 @@ class UI_Template
 		return $number;
 	}
 
-	public function addObject( $name, $object, $steps = array(), $overwrite = FALSE )
-	{
-		$number		= 0;
-		$steps[]	= $name;
-		$reflection	= new ReflectionObject( $object );
-		foreach( $reflection->getProperties() as $property )
-		{
-			$key		= $property->getName();
-			$methodName	= 'get'.ucFirst( $key );
-			if( $property->isPublic() )
-				$value	= $property->getValue( $object );
-			else if( $reflection->hasMethod( $methodName ) )
-				$value	= Alg_Object_MethodFactory::callObjectMethod( $object, $methodName );
-			else
-				continue;
-			$label	= implode( ".", $steps ).".".$key;
-			$this->addElement( $label, $value, $overwrite );
-			$number ++;
-		}
-		return $number;
-	}
 	/**
 	 *	Adds an array recursive and returns number of added elements.
 	 *	@access		public
@@ -202,6 +181,28 @@ class UI_Template
 	public function addElement( $tag, $element, $overwrite = FALSE )
 	{
 		$this->add( array( $tag => $element ), $overwrite );
+	}
+
+	public function addObject( $name, $object, $steps = array(), $overwrite = FALSE )
+	{
+		$number		= 0;
+		$steps[]	= $name;
+		$reflection	= new ReflectionObject( $object );
+		foreach( $reflection->getProperties() as $property )
+		{
+			$key		= $property->getName();
+			$methodName	= 'get'.ucFirst( $key );
+			if( $property->isPublic() )
+				$value	= $property->getValue( $object );
+			else if( $reflection->hasMethod( $methodName ) )
+				$value	= Alg_Object_MethodFactory::callObjectMethod( $object, $methodName );
+			else
+				continue;
+			$label	= implode( ".", $steps ).".".$key;
+			$this->addElement( $label, $value, $overwrite );
+			$number ++;
+		}
+		return $number;
 	}
 	
 	/**
@@ -375,24 +376,6 @@ class UI_Template
 		}
 		return $template;
 	}
-
-	/**
-	 *	Loads a new template file if it exists. Otherwise it will throw an Exception.
-	 *	@param		string		$fileName 	File Name of Template
-	 *	@return		boolean
-	 */
-	public function setTemplate( $fileName )
-	{
-		if( empty( $fileName ) )
-			return FALSE;
-			
-		if( !file_exists( $fileName ) )
-			throw new Exception_Template( Exception_Template::FILE_NOT_FOUND, $fileName );
-
-		$this->fileName	= $fileName;
-		$this->template = file_get_contents( $fileName );
-		return TRUE;
-	}
 	
 	/**
 	 *	Renders a Template with given Elements statically.
@@ -422,6 +405,24 @@ class UI_Template
 		$template->template	= $string;
 		$template->add( $elements );
 		return $template->create();
+	}
+
+	/**
+	 *	Loads a new template file if it exists. Otherwise it will throw an Exception.
+	 *	@param		string		$fileName 	File Name of Template
+	 *	@return		boolean
+	 */
+	public function setTemplate( $fileName )
+	{
+		if( empty( $fileName ) )
+			return FALSE;
+			
+		if( !file_exists( $fileName ) )
+			throw new Exception_Template( Exception_Template::FILE_NOT_FOUND, $fileName );
+
+		$this->fileName	= $fileName;
+		$this->template = file_get_contents( $fileName );
+		return TRUE;
 	}
 }
 ?>

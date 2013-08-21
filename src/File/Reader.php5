@@ -225,16 +225,15 @@ class File_Reader
 	/**
 	 *	Returns Size of current File.
 	 *	@access		public
-	 *	@param		int			$unit			Unit (SIZE_BYTE|SIZE_KILOBYTE|SIZE_MEGABYTE|SIZE_GIGABYTE)
 	 *	@param		int			$precision		Precision of rounded Size (only if unit is set)
 	 *	@return		int
 	 */
-	public function getSize( $unit = 1, $precision = NULL )
+	public function getSize( $precision = NULL )
 	{
 		$size	= filesize( $this->fileName );
-		if( $unit )
+		if( $precision )
 		{
-			$size	= Alg_UnitFormater::formatNumber( $size, $unit, $precision );
+			$size	= Alg_UnitFormater::formatBytes( $size, $precision );
 		}
 		return $size;
 	}

@@ -41,43 +41,6 @@
  */
 class UI_Image_Histogram
 {
-	static public function getData( UI_Image $image )
-	{
-		$pixels		= $image->getWidth() * $image->getHeight();
-		if( $pixels > 2 * 1000 * 1000 )
-		{
-			$tempFile	= uniqid().'.image';
-			$thumb	= new UI_Image_ThumbnailCreator( $image->getFileName(), $tempFile, 100 );
-			$thumb->thumbizeByLimit( 1000, 1000 );
-			$image	= new UI_Image( $tempFile );
-			$pixels		= $image->getWidth() * $image->getHeight();
-			unlink( $tempFile );
-		}
-		$values		= array(
-			'w'	=> array_fill( 0, 256, 0 ),
-			'r'	=> array_fill( 0, 256, 0 ),
-			'g'	=> array_fill( 0, 256, 0 ),
-			'b'	=> array_fill( 0, 256, 0 ),
-		);
-		$resource	= $image->getResource();
-		for( $x=0; $x<$image->getWidth(); $x++ )
-		{
-			for( $y=0; $y<$image->getHeight(); $y++ )
-			{
-				$rgb	= imagecolorat( $resource, $x, $y );
-				$r		= ($rgb >> 16) & 0xFF;
-				$g		= ($rgb >> 8) & 0xFF;
-				$b		= $rgb & 0xFF;			
-				$w		= round( ( $r + $g + $b ) / 3 );
-				$values['w'][$w]++;
-				$values['r'][$r]++;
-				$values['g'][$g]++;
-				$values['b'][$b]++;
-			}
-		}
-		return $values;
-	}
-
 	static public function drawChannels( $data )
 	{
 		$image	= new UI_Image();
@@ -128,6 +91,43 @@ class UI_Image_Histogram
 		$processor	= new UI_Image_Processing( $image );
 		$processor->flip();
 		return $image;
+	}
+
+	static public function getData( UI_Image $image )
+	{
+		$pixels		= $image->getWidth() * $image->getHeight();
+		if( $pixels > 2 * 1000 * 1000 )
+		{
+			$tempFile	= uniqid().'.image';
+			$thumb	= new UI_Image_ThumbnailCreator( $image->getFileName(), $tempFile, 100 );
+			$thumb->thumbizeByLimit( 1000, 1000 );
+			$image	= new UI_Image( $tempFile );
+			$pixels		= $image->getWidth() * $image->getHeight();
+			unlink( $tempFile );
+		}
+		$values		= array(
+			'w'	=> array_fill( 0, 256, 0 ),
+			'r'	=> array_fill( 0, 256, 0 ),
+			'g'	=> array_fill( 0, 256, 0 ),
+			'b'	=> array_fill( 0, 256, 0 ),
+		);
+		$resource	= $image->getResource();
+		for( $x=0; $x<$image->getWidth(); $x++ )
+		{
+			for( $y=0; $y<$image->getHeight(); $y++ )
+			{
+				$rgb	= imagecolorat( $resource, $x, $y );
+				$r		= ($rgb >> 16) & 0xFF;
+				$g		= ($rgb >> 8) & 0xFF;
+				$b		= $rgb & 0xFF;			
+				$w		= round( ( $r + $g + $b ) / 3 );
+				$values['w'][$w]++;
+				$values['r'][$r]++;
+				$values['g'][$g]++;
+				$values['b'][$b]++;
+			}
+		}
+		return $values;
 	}
 }
 ?>

@@ -56,11 +56,6 @@ class UI_HTML_Fieldset extends UI_HTML_Abstract
 		if( !is_null( $content ) )
 			$this->setContent( $content );
 	}
-	
-	public function setLegend( $legend )
-	{
-		$this->legend	= $legend;
-	}
 
 	/**
 	 *	Returns rendered Fieldset Element.
@@ -78,6 +73,11 @@ class UI_HTML_Fieldset extends UI_HTML_Abstract
 			throw new InvalidArgumentException( 'Fieldset content is neither rendered nor renderable' );
 
 		return UI_HTML_Tag::create( "fieldset", $legend.$content, $this->getAttributes() );
+	}
+	
+	public function setLegend( $legend )
+	{
+		$this->legend	= $legend;
 	}
 }
 ?>

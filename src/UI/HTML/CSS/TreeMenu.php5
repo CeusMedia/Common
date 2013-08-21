@@ -45,7 +45,7 @@ class UI_HTML_CSS_TreeMenu
 	protected $contentDrop;
 	/**	@var		string				$contentDrop		Indicator HTML Code for Items containing further Items */
 	public static $contentDropDefault	= "&nbsp;";
-	
+
 	/**
 	 *	Constructor, sets Indicator HTML Code for Items containing further Items.
 	 *	@access		public
@@ -79,39 +79,6 @@ class UI_HTML_CSS_TreeMenu
 	public static function buildFromArray( $tree )
 	{
 		return self::buildMenuFromArray( $tree, $this->contentDrop );
-	}
-	
-	/**
-	 *	Builds HTML of Tree Menu from Tree Menu List Data Object statically.
-	 *	@access		public
-	 *	@static
-	 *	@param		ADT_Tree_Menu_List	$tree				Tree Menu List Data Object
-	 *	@param		string				$contentDrop		Indicator HTML Code for Items containing further Items
-	 *	@param		array				$attributes			Map of HTML Attributes of List Tag
-	 *	@return		string
-	 */
-	public static function buildMenu( ADT_Tree_Menu_List $tree, $contentDrop = NULL, $attributes = array() )
-	{
-		$list	= array();
-		foreach( $tree->getChildren() as $child )
-			$list[]	= self::buildItemWithChildren( $child, 1, $contentDrop );
-		return UI_HTML_Elements::unorderedList( $list, 1, $attributes );
-	}
-
-	/**
-	 *	Builds HTML of Tree Menu from Data Array statically.
-	 *	@access		public
-	 *	@static
-	 *	@param		array				$tree				Data Array with Tree Menu Structure 
-	 *	@param		string				$contentDrop		Indicator HTML Code for Items containing further Items
-	 *	@return		string
-	 */
-	public static function buildMenuFromArray( $tree, $contentDrop = NULL )
-	{
-		$list	= array();
-		foreach( $tree['children'] as $child )
-			$list[]	= self::buildItemWithChildrenFromArray( $child, 1, $contentDrop );
-		return UI_HTML_Elements::unorderedList( $list, 1 );
 	}
 
 	/**
@@ -206,6 +173,39 @@ class UI_HTML_CSS_TreeMenu
 		$attributes['class']	= implode( " ", $attributes['class'] );
 		$label		= UI_HTML_Tag::create( "span", $label, $attributes );
 		return $label;
+	}
+
+	/**
+	 *	Builds HTML of Tree Menu from Tree Menu List Data Object statically.
+	 *	@access		public
+	 *	@static
+	 *	@param		ADT_Tree_Menu_List	$tree				Tree Menu List Data Object
+	 *	@param		string				$contentDrop		Indicator HTML Code for Items containing further Items
+	 *	@param		array				$attributes			Map of HTML Attributes of List Tag
+	 *	@return		string
+	 */
+	public static function buildMenu( ADT_Tree_Menu_List $tree, $contentDrop = NULL, $attributes = array() )
+	{
+		$list	= array();
+		foreach( $tree->getChildren() as $child )
+			$list[]	= self::buildItemWithChildren( $child, 1, $contentDrop );
+		return UI_HTML_Elements::unorderedList( $list, 1, $attributes );
+	}
+
+	/**
+	 *	Builds HTML of Tree Menu from Data Array statically.
+	 *	@access		public
+	 *	@static
+	 *	@param		array				$tree				Data Array with Tree Menu Structure 
+	 *	@param		string				$contentDrop		Indicator HTML Code for Items containing further Items
+	 *	@return		string
+	 */
+	public static function buildMenuFromArray( $tree, $contentDrop = NULL )
+	{
+		$list	= array();
+		foreach( $tree['children'] as $child )
+			$list[]	= self::buildItemWithChildrenFromArray( $child, 1, $contentDrop );
+		return UI_HTML_Elements::unorderedList( $list, 1 );
 	}
 }
 ?>

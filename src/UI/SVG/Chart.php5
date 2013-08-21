@@ -76,26 +76,20 @@ class UI_SVG_Chart
 		$this->colors = $colors;
 		$this->setData( $data );
 	}
-	
+
 	/**
-	 *	This function sets the {@link Chart::$data} array to a new value.
+	 *	Builds Bar Graph and appends it to SVG Document.
 	 *	@access		public
-	 *	@param		array		New Value for {@link Chart::$data}
-	 *	@return		array		Old Value of {@link Chart::$data}
+	 *	@param		array		$options		Options of Graph
+	 *	@return		void
 	 */
-	public function setData( $data )
+	public function buildBarAcross( $options = false )
 	{
-		$sum = 0;
-		foreach( $data as $obj )
-			$sum += $obj->value;
-		
-		foreach( $data as $key => $obj )
-		{
-			$obj->percent = $obj->value / $sum * 100;
-			$this->data[$key] = $obj;
-		}
+		$chart = new UI_SVG_BarAcross;
+		$chart->chart = &$this;
+		$this->content	.= $this->buildComponent( $chart, $options );
 	}
-	
+
 	/**
 	 *	This function returns the svg code for the visualized form of the internal data.
 	 *	It receives the name of the visualization class to use.
@@ -140,29 +134,32 @@ class UI_SVG_Chart
 	}
 
 	/**
-	 *	Builds Bar Graph and appends it to SVG Document.
+	 *	This function simply enclosoures the received svg code with the beginning- and ending <svg> or </svg> tags.
+	 *	Also it includes an <?xml ... ?> header.
 	 *	@access		public
-	 *	@param		array		$options		Options of Graph
-	 *	@return		void
+	 *	@param		string		SVG code to encapsulate
+	 *	@return		string		The encapsulated SVG code
 	 */
-	public function buildBarAcross( $options = false )
+	public function encapsulate( $svg )
 	{
-		$chart = new UI_SVG_BarAcross;
-		$chart->chart = &$this;
-		$this->content	.= $this->buildComponent( $chart, $options );
+		$data = '<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">';
+		$data .= $svg;
+		$data .= "</svg>";
+		
+		return $data;
 	}
-
 	
 	/**
-	 * 	This function does the same as {@link get()}, with one difference:
-	 *	The returned svg code is capsulated in a <svg>....</svg> element structure, so it returns a completely SVG document.
+	 *	This function simply returns a color from the internal coller palette.
+	 *	Supplied is a number.
 	 *	@access		public
-	 *	@param		string		Class to use
-	 *	@param		array		Options, passed to the chart visulaization class
+	 *	@param		integer		The id of the color
+	 *	@return		string		color name or hexadeciaml triplet
 	 */
-	public function makeSVG( $name = false, $options = false )
+	public function getColor( $id )
 	{
-		return encapsulate( $this->get( $name, $options ) );
+		$color = $this->colors[$id % count( $this->colors )];
+		return $color;
 	}
 	
 	/**
@@ -208,34 +205,17 @@ class UI_SVG_Chart
 		$graph	= UI_HTML_Tag::create( "g", $tags );
 		$this->content	.= $graph;		
 	}
-	
+
 	/**
-	 *	This function simply returns a color from the internal coller palette.
-	 *	Supplied is a number.
+	 * 	This function does the same as {@link get()}, with one difference:
+	 *	The returned svg code is capsulated in a <svg>....</svg> element structure, so it returns a completely SVG document.
 	 *	@access		public
-	 *	@param		integer		The id of the color
-	 *	@return		string		color name or hexadeciaml triplet
+	 *	@param		string		Class to use
+	 *	@param		array		Options, passed to the chart visulaization class
 	 */
-	public function getColor( $id )
+	public function makeSVG( $name = false, $options = false )
 	{
-		$color = $this->colors[$id % count( $this->colors )];
-		return $color;
-	}
-	
-	/**
-	 *	This function simply enclosoures the received svg code with the beginning- and ending <svg> or </svg> tags.
-	 *	Also it includes an <?xml ... ?> header.
-	 *	@access		public
-	 *	@param		string		SVG code to encapsulate
-	 *	@return		string		The encapsulated SVG code
-	 */
-	public function encapsulate( $svg )
-	{
-		$data = '<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">';
-		$data .= $svg;
-		$data .= "</svg>";
-		
-		return $data;
+		return encapsulate( $this->get( $name, $options ) );
 	}
 	
 	/**
@@ -253,6 +233,25 @@ class UI_SVG_Chart
 		$doc->loadXml( $svg );
 		$svg	= $doc->saveXml();
 		return File_Writer::save( $fileName, $svg );
+	}
+	
+	/**
+	 *	This function sets the {@link Chart::$data} array to a new value.
+	 *	@access		public
+	 *	@param		array		New Value for {@link Chart::$data}
+	 *	@return		array		Old Value of {@link Chart::$data}
+	 */
+	public function setData( $data )
+	{
+		$sum = 0;
+		foreach( $data as $obj )
+			$sum += $obj->value;
+		
+		foreach( $data as $key => $obj )
+		{
+			$obj->percent = $obj->value / $sum * 100;
+			$this->data[$key] = $obj;
+		}
 	}
 }
 ?>

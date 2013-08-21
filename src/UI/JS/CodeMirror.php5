@@ -31,12 +31,12 @@ $("'.$textareaSelector.'").each(function(){
 		return $script;
 	}
 
-	public function setMode( $mode ){
-		$this->setOption( 'mode', $mode );
-	}
-
 	public function getOptions(){
 		return $this->options;
+	}
+
+	public function setMode( $mode ){
+		$this->setOption( 'mode', $mode );
 	}
 
 	public function setOption( $key, $value ){

@@ -70,35 +70,6 @@ class UI_HTML_FormElements
 			$attributes['onclick']	= "alert('".$readOnly."');";
 	}
 
-	/**
-	 *	Builds HTML for a Group of Radio Buttons, behaving like a Select.
-	 *	@access		public
-	 *	@static
-	 *	@param		string		$name			Field Name
-	 *	@param		array		$options		Array of Options
-	 *	@param		string		$class			CSS Class
-	 *	@param		mixed		$readOnly		Field is not writable, JavaScript Alert if String is given
-	 *	@return		string
-	 */
-	public static function RadioGroup( $name, $options, $class = NULL, $readOnly = NULL )
-	{
-		$radios	= array();
-		foreach( $options as $value => $label )
-		{
-			if( (string) $value == '_selected' )
-				continue;
-			$selected	= isset( $options['_selected'] ) ? (string) $value == (string) $options['_selected'] : NULL;
-			$radio		= self::Radio( $name, $value, $selected, $class, $readOnly );
-			$spanRadio	= UI_HTML_Tag::create( "span", $radio, array( 'class' => 'radio' ) );
-			$label		= UI_HTML_Tag::create( "label", $label, array( 'for' => $name."_".$value ) );
-			$spanLabel	= UI_HTML_Tag::create( "span", $label, array( 'class' => 'label' ) );
-			$content	= UI_HTML_Tag::create( "span", $spanRadio.$spanLabel, array( 'class' => 'radiolabel' ) );
-			$radios[]	= $content;
-		}
-		$group	= implode( "", $radios );
-		return $group;
-	}
-
 	//  --  STABLE  --  //
 	/**
 	 *	Builds HTML Code for a Button to submit a Form.
@@ -208,6 +179,25 @@ class UI_HTML_FormElements
 	}
 
 	/**
+	 *	Builds HTML Code for a hidden Input Field. It is not advised to work with hidden Fields.
+	 *	@access		public
+	 *	@static
+	 *	@param		string		$name			Field Name
+	 *	@param		string		$value			Field Value
+	 *	@return 	string
+	 */
+	public static function HiddenField( $name, $value )
+	{
+		$attributes	= array(
+			'id'		=> $name,
+			'type'		=> "hidden",
+			'name'		=> $name,
+			'value'		=> $value,
+		);
+		return UI_HTML_Tag::create( "input", NULL, $attributes );
+	}
+
+	/**
 	 *	Builds HTML Code for an Input Field. Validation is possible using Validator Classes from UI.validateInput.js.
 	 *	@access		public
 	 *	@static
@@ -234,25 +224,6 @@ class UI_HTML_FormElements
 		);
 		if( $readOnly )
 			self::addReadonlyAttributes( $attributes, $readOnly );
-		return UI_HTML_Tag::create( "input", NULL, $attributes );
-	}
-
-	/**
-	 *	Builds HTML Code for a hidden Input Field. It is not advised to work with hidden Fields.
-	 *	@access		public
-	 *	@static
-	 *	@param		string		$name			Field Name
-	 *	@param		string		$value			Field Value
-	 *	@return 	string
-	 */
-	public static function HiddenField( $name, $value )
-	{
-		$attributes	= array(
-			'id'		=> $name,
-			'type'		=> "hidden",
-			'name'		=> $name,
-			'value'		=> $value,
-		);
 		return UI_HTML_Tag::create( "input", NULL, $attributes );
 	}
 
@@ -429,6 +400,35 @@ class UI_HTML_FormElements
 		if( $readOnly )
 			self::addReadonlyAttributes( $attributes, $readOnly );
 		return UI_HTML_Tag::create( "input", NULL, $attributes );
+	}
+
+	/**
+	 *	Builds HTML for a Group of Radio Buttons, behaving like a Select.
+	 *	@access		public
+	 *	@static
+	 *	@param		string		$name			Field Name
+	 *	@param		array		$options		Array of Options
+	 *	@param		string		$class			CSS Class
+	 *	@param		mixed		$readOnly		Field is not writable, JavaScript Alert if String is given
+	 *	@return		string
+	 */
+	public static function RadioGroup( $name, $options, $class = NULL, $readOnly = NULL )
+	{
+		$radios	= array();
+		foreach( $options as $value => $label )
+		{
+			if( (string) $value == '_selected' )
+				continue;
+			$selected	= isset( $options['_selected'] ) ? (string) $value == (string) $options['_selected'] : NULL;
+			$radio		= self::Radio( $name, $value, $selected, $class, $readOnly );
+			$spanRadio	= UI_HTML_Tag::create( "span", $radio, array( 'class' => 'radio' ) );
+			$label		= UI_HTML_Tag::create( "label", $label, array( 'for' => $name."_".$value ) );
+			$spanLabel	= UI_HTML_Tag::create( "span", $label, array( 'class' => 'label' ) );
+			$content	= UI_HTML_Tag::create( "span", $spanRadio.$spanLabel, array( 'class' => 'radiolabel' ) );
+			$radios[]	= $content;
+		}
+		$group	= implode( "", $radios );
+		return $group;
 	}
 
 	/**

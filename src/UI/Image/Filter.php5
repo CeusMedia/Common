@@ -104,11 +104,6 @@ class UI_Image_Filter
 		return imagefilter( $this->image->getResource(), IMG_FILTER_CONTRAST, $level );
 	}
 
-	public function gamma( $level )
-	{
-		return imagegammacorrect( $this->image->getResource(), 1.0, (double) $level );
-	}
-
 	/**
 	 *	Uses edge detection to highlight the edges in the image.
 	 *	@access		public
@@ -127,6 +122,11 @@ class UI_Image_Filter
 	public function emboss()
 	{
 		return imagefilter( $this->image->getResource(), IMG_FILTER_EMBOSS );
+	}
+
+	public function gamma( $level )
+	{
+		return imagegammacorrect( $this->image->getResource(), 1.0, (double) $level );
 	}
 
 	/**

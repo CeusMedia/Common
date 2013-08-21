@@ -161,12 +161,12 @@ class Test_File_ReaderTest extends PHPUnit_Framework_TestCase
 		$creation	= $reader->getSize();
 		$this->assertEquals( $assertion, $creation );
 
-		$assertion	= round( $size / 1024, 3 );
-		$creation	= $reader->getSize( SIZE_KILOBYTE, 3 );
+		$assertion	= round( $size / 1024, 3 )." KB";
+		$creation	= $reader->getSize( 3 );
 		$this->assertEquals( $assertion, $creation );
 
-		$assertion	= round( $size / 1048576, 6 );
-		$creation	= $reader->getSize( SIZE_MEGABYTE, 6 );
+		$assertion	= round( $size / 1024, 1 )." KB";
+		$creation	= $reader->getSize( 1 );
 		$this->assertEquals( $assertion, $creation );
 	}
 

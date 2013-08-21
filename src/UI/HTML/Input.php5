@@ -59,6 +59,17 @@ class UI_HTML_Input extends UI_HTML_Abstract
 	}
 
 	/**
+	 *	Returns rendered Input Element.
+	 *	@access		public
+	 *	@return		string
+	 */
+	public function render()
+	{
+		$attributes	= $this->getAttributes();
+		return UI_HTML_Tag::create( "input", NULL, $attributes );
+	}
+
+	/**
 	 *	Sets Name of Input Element.
 	 *	@access		public
 	 *	@param		string		$name		Name
@@ -79,17 +90,6 @@ class UI_HTML_Input extends UI_HTML_Abstract
 	public function setValue( $value )
 	{
 		$this->attributes['value']	= $value;
-	}
-
-	/**
-	 *	Returns rendered Input Element.
-	 *	@access		public
-	 *	@return		string
-	 */
-	public function render()
-	{
-		$attributes	= $this->getAttributes();
-		return UI_HTML_Tag::create( "input", NULL, $attributes );
 	}
 }
 ?>

@@ -97,28 +97,28 @@ class UI_Image_Graphviz_Graph{
 		return $this->id;
 	}
 
-	public function getNodes(){
-		return $this->nodes;
-	}
-
 	public function getNodeOptions( $name ){
 		if( !$this->hasNode( $name ) )
 			return NULL;
 		return $this->nodes[$this->sanitizeNodeName( $name )];
 	}
 
-	public function getType(){
-		return $this->type;
+	public function getNodes(){
+		return $this->nodes;
 	}
 
-	public function hasNode( $name ){
-		return isset( $this->nodes[$this->sanitizeNodeName( $name )] );
+	public function getType(){
+		return $this->type;
 	}
 
 	public function hasEdge( $nameSource, $nameTarget ){
 		$idSource	= $this->sanitizeNodeName( $nameSource );
 		$idTarget	= $this->sanitizeNodeName( $nameTarget );
 		return isset( $this->edges[$idSource][$idTarget] );
+	}
+
+	public function hasNode( $name ){
+		return isset( $this->nodes[$this->sanitizeNodeName( $name )] );
 	}
 
 	public function render( $options = array() ){

@@ -70,25 +70,6 @@ class UI_HTML_Tabs
 			$this->setOption( 'navClass', $class );
 	}
 
-	public function setVersion( $version )
-	{
-		self::$version	= $version;
-	}
-
-	/**
-	 *	Constructor, can set Tabs.
-	 *	@access		public
-	 *	@param		array		$tabs		Array of Labels and Contents
-	 *	@return		void
-	 */
-	public function addTabs( $tabs = array() )
-	{
-		if( !is_array( $tabs ) )
-			throw new InvalidArgumentException( 'Tabs must be given as array of labels and contents.' );
-		foreach( $tabs as $label => $content )
-			$this->addTab( $label, $content );
-	}
-
 	/**
 	 *	Adds a new Tab by its Label and Content.
 	 *	@access		public
@@ -113,17 +94,17 @@ class UI_HTML_Tabs
 	}
 
 	/**
-	 *	Builds HTML Code of Tabbed Content.
+	 *	Constructor, can set Tabs.
 	 *	@access		public
-	 *	@param		string		$id			ID of whole Tabbed Content Block
-	 *	@param		string		$class		CSS Class of Tabs DIV (main container)
-	 *	@return		string
+	 *	@param		array		$tabs		Array of Labels and Contents
+	 *	@return		void
 	 */
-	public function buildTabs( $id, $class = NULL )
+	public function addTabs( $tabs = array() )
 	{
-		if( empty( $class ) && !empty( $this->options['navClass'] ) )
-			$class	= $this->options['navClass'];
-		return self::createTabs( $id, $this->tabs, $this->divs, $class );
+		if( !is_array( $tabs ) )
+			throw new InvalidArgumentException( 'Tabs must be given as array of labels and contents.' );
+		foreach( $tabs as $label => $content )
+			$this->addTab( $label, $content );
 	}
 
 	/**
@@ -138,6 +119,34 @@ class UI_HTML_Tabs
 	{
 		$options	= array_merge( $this->options, $options );
 		return self::createScript( $selector, $options );
+	}
+
+	/**
+	 *	Builds HTML Code of Tabbed Content.
+	 *	@access		public
+	 *	@param		string		$id			ID of whole Tabbed Content Block
+	 *	@param		string		$class		CSS Class of Tabs DIV (main container)
+	 *	@return		string
+	 */
+	public function buildTabs( $id, $class = NULL )
+	{
+		if( empty( $class ) && !empty( $this->options['navClass'] ) )
+			$class	= $this->options['navClass'];
+		return self::createTabs( $id, $this->tabs, $this->divs, $class );
+	}
+
+	/**
+	 *	Creates JavaScript Call statically.
+	 *	@access		public
+	 *	@static
+	 *	@param		string		$selector		jQuery Selector of Tabs DIV (mostly '#' + ID)
+	 *	@param		array		$options		Tabs Options Array
+	 *	@return 	string
+	 *	@link		http://stilbuero.de/jquery/tabs/
+	 */
+	public static function createScript( $selector, $options = array() )
+	{
+		return UI_HTML_JQuery::buildPluginCall( "tabs", $selector, $options );	
 	}
 	
 	/**
@@ -182,20 +191,6 @@ class UI_HTML_Tabs
 	}
 
 	/**
-	 *	Creates JavaScript Call statically.
-	 *	@access		public
-	 *	@static
-	 *	@param		string		$selector		jQuery Selector of Tabs DIV (mostly '#' + ID)
-	 *	@param		array		$options		Tabs Options Array
-	 *	@return 	string
-	 *	@link		http://stilbuero.de/jquery/tabs/
-	 */
-	public static function createScript( $selector, $options = array() )
-	{
-		return UI_HTML_JQuery::buildPluginCall( "tabs", $selector, $options );	
-	}
-
-	/**
 	 *	Sets an Option for the jQuery Tabs Plugin Call.
 	 *	Attention: To set a String it must be quoted, iE setOption( 'stringKey', '"stringValue"' ).
 	 *	Numbers (Integer, Double, Float) and Booleans can be set directly.
@@ -214,6 +209,11 @@ class UI_HTML_Tabs
 			unset( $this->options[$key] );
 		else
 			$this->options[$key]	= $value;
+	}
+
+	public function setVersion( $version )
+	{
+		self::$version	= $version;
 	}
 }
 ?>

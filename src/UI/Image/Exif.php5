@@ -64,6 +64,11 @@ class UI_Image_Exif extends ADT_List_Dictionary
 				$this->set( $key, $value );
 		}
 	}
+	
+	public function getRawData()
+	{
+		return $this->raw;
+	}
 
 	public function getThumbnailData()
 	{
@@ -87,11 +92,6 @@ class UI_Image_Exif extends ADT_List_Dictionary
 			'src'		=> 'data:image/gif;base64,'.base64_encode( $content )
 		);
 		return UI_HTML_Tag::create( 'img', NULL, $attributes );
-	}
-	
-	public function getRawData()
-	{
-		return $this->raw;
 	}
 }
 ?>

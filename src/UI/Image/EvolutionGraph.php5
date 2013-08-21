@@ -143,28 +143,6 @@ class UI_Image_EvolutionGraph extends ADT_OptionObject
 	}
 
 	/**
-	 *	Sets Labels of X-Axis.
-	 *	@access		public
-	 *	@param		array		labels		Array of Labels of X-Axis
-	 *	@return		void
-	 */
-	public function setLabels( $labels )
-	{
-		$this->labels	= $labels;
-	}
-
-	/**
-	 *	Sets Title of Graph.
-	 *	@access		public
-	 *	@param		string		title			Title of Graph
-	 *	@return		void
-	 */
-	public function setTitle( $title )
-	{
-		$this->setOption( 'title_text', $title );
-	}
-
-	/**
 	 *	Generates Graph Image and returns Resource.
 	 *	@access		public
 	 *	@return		resource
@@ -250,6 +228,28 @@ class UI_Image_EvolutionGraph extends ADT_OptionObject
 	{
 		foreach( $this->defaults as $key => $value )
 			$this->setOption( $key, $value );
+	}
+
+	/**
+	 *	Sets Labels of X-Axis.
+	 *	@access		public
+	 *	@param		array		labels		Array of Labels of X-Axis
+	 *	@return		void
+	 */
+	public function setLabels( $labels )
+	{
+		$this->labels	= $labels;
+	}
+
+	/**
+	 *	Sets Title of Graph.
+	 *	@access		public
+	 *	@param		string		title			Title of Graph
+	 *	@return		void
+	 */
+	public function setTitle( $title )
+	{
+		$this->setOption( 'title_text', $title );
 	}
 }
 ?>

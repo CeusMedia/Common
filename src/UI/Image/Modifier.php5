@@ -69,46 +69,6 @@ abstract class UI_Image_Modifier
 		$this->setQuality( $quality );	
 	}
 
-	/**
-	 *	Sets the Quality of resulting Image.
-	 *	@access		public
-	 *	@param		int			$quality 		Quality of resulting Image
-	 *	@return		void
-	 */
-	public function setQuality( $quality )
-	{
-		$this->quality	= $quality;
-	}
-
-	/**
-	 *	Sets the File Name of Source Image.
-	 *	@access		public
-	 *	@param		string		$sourceUri 		File URI of Source Image
-	 *	@return		void
-	 */
-	public function setSourceUri( $sourceUri )
-	{
-		if( !file_exists( $sourceUri ) )
-			throw new InvalidArgumentException( 'Image source "'.$sourceUri.'" is not existing' );
-		$info = @getimagesize( $sourceUri );
-		if( !$info )
-			throw new Exception( 'Image source "'.$sourceUri.'" is not of a supported type' );
-		$this->sourceUri	= $sourceUri;
-		$this->sourceInfo	= $info;
-		$this->loadImage();
-	}
-
-	/**
-	 *	Sets the File Name of Target Image.
-	 *	@access		public
-	 *	@param		string		$targetUri 		File URI of resulting Target Image
-	 *	@return		void
-	 */
-	public function setTargetUri( $targetUri )
-	{
-		$this->targetUri	= $targetUri;
-	}
-
 	public function loadImage()
 	{
 		if( !$this->sourceUri )
@@ -155,6 +115,46 @@ abstract class UI_Image_Modifier
 			default:
 				throw new Exception( 'Image Type "'.$type.'" is no supported' );
 		}
+	}
+
+	/**
+	 *	Sets the Quality of resulting Image.
+	 *	@access		public
+	 *	@param		int			$quality 		Quality of resulting Image
+	 *	@return		void
+	 */
+	public function setQuality( $quality )
+	{
+		$this->quality	= $quality;
+	}
+
+	/**
+	 *	Sets the File Name of Source Image.
+	 *	@access		public
+	 *	@param		string		$sourceUri 		File URI of Source Image
+	 *	@return		void
+	 */
+	public function setSourceUri( $sourceUri )
+	{
+		if( !file_exists( $sourceUri ) )
+			throw new InvalidArgumentException( 'Image source "'.$sourceUri.'" is not existing' );
+		$info = @getimagesize( $sourceUri );
+		if( !$info )
+			throw new Exception( 'Image source "'.$sourceUri.'" is not of a supported type' );
+		$this->sourceUri	= $sourceUri;
+		$this->sourceInfo	= $info;
+		$this->loadImage();
+	}
+
+	/**
+	 *	Sets the File Name of Target Image.
+	 *	@access		public
+	 *	@param		string		$targetUri 		File URI of resulting Target Image
+	 *	@return		void
+	 */
+	public function setTargetUri( $targetUri )
+	{
+		$this->targetUri	= $targetUri;
 	}
 }
 ?>

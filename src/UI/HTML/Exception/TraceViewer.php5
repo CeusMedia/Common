@@ -57,6 +57,11 @@ class UI_HTML_Exception_TraceViewer
 		print( $this->buildTrace( $e, $breakMode ) );
 	}
 
+	protected static function blockquote( $content )
+	{
+		return UI_HTML_Tag::create( 'blockquote', $content, array( 'style' => 'margin: 0px 30px' ) );
+	}
+
 	/**
 	 *	Builds Trace HTML Code from an Exception.
 	 *	Break Modes:
@@ -161,11 +166,6 @@ class UI_HTML_Exception_TraceViewer
 			$content	.= ")<br/>";
 		}
 		return $content;
-	}
-
-	protected static function blockquote( $content )
-	{
-		return UI_HTML_Tag::create( 'blockquote', $content, array( 'style' => 'margin: 0px 30px' ) );
 	}
 
 	protected static function convertArgumentToString( $argument, $breakMode, $level = 0 )

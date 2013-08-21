@@ -244,6 +244,30 @@ class UI_Image_Processing
 	}
 
 	/**
+	 *	Scale image to fit into a size range.
+	 *	Reduces to maximum size after possibly enlarging to minimum size.
+	 *	Range maximum has higher priority.
+	 *	For better resolution this method will first maximize and than minimize if both is needed.
+	 *	@access		public
+	 *	@param		integer		$minWidth		Minimum width
+	 *	@param		integer		$minHeight		Minimum height
+	 *	@param		integer		$maxWidth		Maximum width
+	 *	@param		integer		$maxHeight		Maximum height
+	 *	@param		boolean		$interpolate	Flag: use interpolation
+	 *	@return		boolean		Image has been scaled
+	 */
+	public function scaleToRange( $minWidth, $minHeight, $maxWidth, $maxHeight, $interpolate )
+	{
+		$width	= $this->image->getWidth();
+		$height	= $this->image->getHeight();
+		if( $width < $minWidth || $height < $minHeight )
+			return $this->scaleUpToLimit( $minWidth, $minHeight, $interpolate );
+		else if( $width > $maxWidth || $height > $maxHeight )
+			return $this->scaleDownToLimit( $maxWidth, $maxHeight, $interpolate );
+		return FALSE;
+	}
+
+	/**
 	 *	Scales image up to a minimum size if smaller than limit.
 	 *	@access		public
 	 *	@param		integer		$width		Minimum width
@@ -270,30 +294,6 @@ class UI_Image_Processing
 		$width	= (int) round( $sourceWidth * $scale );
 		$height	= (int) round( $sourceHeight * $scale );
 		return $this->resize( $width, $height, $interpolate, $this->maxMegaPixel );
-	}
-
-	/**
-	 *	Scale image to fit into a size range.
-	 *	Reduces to maximum size after possibly enlarging to minimum size.
-	 *	Range maximum has higher priority.
-	 *	For better resolution this method will first maximize and than minimize if both is needed.
-	 *	@access		public
-	 *	@param		integer		$minWidth		Minimum width
-	 *	@param		integer		$minHeight		Minimum height
-	 *	@param		integer		$maxWidth		Maximum width
-	 *	@param		integer		$maxHeight		Maximum height
-	 *	@param		boolean		$interpolate	Flag: use interpolation
-	 *	@return		boolean		Image has been scaled
-	 */
-	public function scaleToRange( $minWidth, $minHeight, $maxWidth, $maxHeight, $interpolate )
-	{
-		$width	= $this->image->getWidth();
-		$height	= $this->image->getHeight();
-		if( $width < $minWidth || $height < $minHeight )
-			return $this->scaleUpToLimit( $minWidth, $minHeight, $interpolate );
-		else if( $width > $maxWidth || $height > $maxHeight )
-			return $this->scaleDownToLimit( $maxWidth, $maxHeight, $interpolate );
-		return FALSE;
 	}
 }
 ?>
