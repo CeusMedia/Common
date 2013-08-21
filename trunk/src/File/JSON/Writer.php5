@@ -55,6 +55,20 @@ class File_JSON_Writer
 	/**
 	 *	Constructor.
 	 *	@access		public
+	 *	@param		string		$filePath		Path to JSON file
+	 *	@param		mixed		$value			Value to write into JSON file
+	 *	@param		bool		$format			Flag: format JSON serial
+	 *	@return		int			Number of written bytes
+	 */
+	public static function save( $filePath, $value, $format = FALSE )
+	{
+		$writer	= new File_JSON_Writer( $filePath );
+		return $writer->write( $value, $format );
+	}
+
+	/**
+	 *	Constructor.
+	 *	@access		public
 	 *	@param		mixed		$value			Value to write into JSON file
 	 *	@param		bool		$format			Flag: format JSON serial
 	 *	@return		int			Number of written bytes
@@ -65,20 +79,6 @@ class File_JSON_Writer
 		if( $format )
 			$json	= ADT_JSON_Formater::format( $json );
 		return File_Writer::save( $this->filePath, $json );
-	}
-
-	/**
-	 *	Constructor.
-	 *	@access		public
-	 *	@param		string		$filePath		Path to JSON file
-	 *	@param		mixed		$value			Value to write into JSON file
-	 *	@param		bool		$format			Flag: format JSON serial
-	 *	@return		int			Number of written bytes
-	 */
-	public static function save( $filePath, $value, $format = FALSE )
-	{
-		$writer	= new File_JSON_Writer( $filePath );
-		return $writer->write( $value, $format );
 	}
 }
 ?>

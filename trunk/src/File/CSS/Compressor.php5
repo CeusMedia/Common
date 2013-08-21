@@ -1,6 +1,6 @@
 <?php
 /**
- *	Compresses CSS Files..
+ *	Compresses CSS Files.
  *
  *	Copyright (c) 2007-2012 Christian Würker (ceusmedia.com)
  *
@@ -27,7 +27,7 @@
  *	@version		$Id$
  */
 /**
- *	Compresses CSS Files..
+ *	Compresses CSS Files.
  *	@category		cmClasses
  *	@package		File.CSS
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
@@ -58,6 +58,30 @@ class File_CSS_Compressor
 		$this->statistics['after']	= strlen( $string );
 		return $string;
 	}
+	
+	/**
+	 *	Reads and compresses a CSS File and returns Length of compressed File.
+	 *	@access		public
+	 *	@param		string		$fileUri		Full URI of CSS File
+	 *	@return		string
+	 */
+	public function compressFile( $fileUri )
+	{
+		if( !file_exists( $fileUri ) )
+			throw new Exception( "Style File '".$fileUri."' is not existing." );
+
+		$content	= self::compressString( file_get_contents( $fileUri ) );
+		
+		$pathName	= dirname( $fileUri );
+		$styleFile	= basename( $fileUri );
+		$styleName	= preg_replace( "@\.css$@", "", $styleFile );
+		$fileName	= $this->prefix.$styleName.$this->suffix.".css";
+		$fileUri	= $pathName."/".$fileName;
+		$fileUri	= str_replace( "\\", "/", $fileUri );
+		
+		file_put_contents( $fileUri, $content );
+		return $fileUri;
+	}
 
 	static public function compressSheet( ADT_CSS_Sheet $sheet, $oneLine = FALSE ){
 		$converter	= new File_CSS_Converter( $sheet );
@@ -86,32 +110,6 @@ class File_CSS_Compressor
 	public function getStatistics()
 	{
 		return $this->statistics;
-	}
-	
-	/**
-	 *	Reads and compresses a CSS File and returns Length of compressed File.
-	 *	@access		public
-	 *	@param		string		$fileUri		Full URI of CSS File
-	 *	@return		string
-	 */
-	public function compressFile( $fileUri )
-	{
-		if( !file_exists( $fileUri ) )
-			throw new Exception( "Style File '".$fileUri."' is not existing." );
-
-
-		$content	= file_get_contents( $fileUri );
-		$content	= self::compressString( $content );
-		
-		$pathName	= dirname( $fileUri );
-		$styleFile	= basename( $fileUri );
-		$styleName	= preg_replace( "@\.css$@", "", $styleFile );
-		$fileName	= $this->prefix.$styleName.$this->suffix.".css";
-		$fileUri	= $pathName."/".$fileName;
-		$fileUri	= str_replace( "\\", "/", $fileUri );
-		
-		file_put_contents( $fileUri, $content );
-		return $fileUri;
 	}
 
 	/**

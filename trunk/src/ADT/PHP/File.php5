@@ -251,7 +251,7 @@ class ADT_PHP_File
 	
 	public function setCategory( $string )
 	{
-		$this->category	= $string;
+		$this->category	= trim( $string );
 	}
 	
 	public function setCopyright( $string )

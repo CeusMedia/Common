@@ -122,14 +122,14 @@ class File_PHP_Lister extends FilterIterator
 		return $this->skippedFolders;
 	}
 
-	private function logSkippedFolder( $path )
-	{
-		$this->skippedFolders[]	= $path;
-	}
-
 	private function logSkippedFile( $file )
 	{
 		$this->skippedFiles[]	= $file;
+	}
+
+	private function logSkippedFolder( $path )
+	{
+		$this->skippedFolders[]	= $path;
 	}
 
 	public function setExtensions( $extensions )

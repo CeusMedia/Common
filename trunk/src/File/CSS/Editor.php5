@@ -51,16 +51,6 @@ class File_CSS_Editor{
 		return $this->save();
 	}
 
-	public function changeRuleSelector( $selectorOld, $selectorNew ){
-		if( !$this->sheet )
-			throw new RuntimeException( 'No CSS sheet loaded' );
-		$rule	= $this->sheet->getRuleBySelector( $selectorOld );
-		if( !$rule )
-			throw new OutOfRangeException( 'Rule with selector "'.$selectorOld.'" is not existing' );
-		$rule->setSelector( $selectorNew );
-		$this->save();
-	}
-
 	public function changePropertyKey( $selector, $keyOld, $keyNew ){
 		if( !$this->sheet )
 			throw new RuntimeException( 'No CSS sheet loaded' );
@@ -69,6 +59,16 @@ class File_CSS_Editor{
 			throw new OutOfRangeException( 'Property with key "'.$keyOld.'" is not existing' );
 		$property	= $rule->getPropertyByKey( $keyOld );
 		$property->setKey( $keyNew );
+		$this->save();
+	}
+
+	public function changeRuleSelector( $selectorOld, $selectorNew ){
+		if( !$this->sheet )
+			throw new RuntimeException( 'No CSS sheet loaded' );
+		$rule	= $this->sheet->getRuleBySelector( $selectorOld );
+		if( !$rule )
+			throw new OutOfRangeException( 'Rule with selector "'.$selectorOld.'" is not existing' );
+		$rule->setSelector( $selectorNew );
 		$this->save();
 	}
 
@@ -84,6 +84,22 @@ class File_CSS_Editor{
 		if( !$this->sheet )
 			throw new RuntimeException( 'No CSS sheet loaded' );
 		return $this->sheet->get( $selector, $key );
+	}
+
+	/**
+	 *	Returns a list of CSS property objects by a rule selector.
+	 *	@access		public
+	 *	@param		string		$selector		Rule selector
+	 *	@return		array
+	 *	@throws		RuntimeException	if no CSS sheet is loaded, yet.
+	 */
+	public function getProperties( $selector ){
+		if( !$this->sheet )
+			throw new RuntimeException( 'No CSS sheet loaded' );
+		$rule	= $this->sheet->getRuleBySelector( $selector );
+		if( !$rule )
+			return array();
+		return $rule->getProperties();
 	}
 
 	/**
@@ -108,34 +124,6 @@ class File_CSS_Editor{
 	}
 
 	/**
-	 *	Returns a list of CSS property objects by a rule selector.
-	 *	@access		public
-	 *	@param		string		$selector		Rule selector
-	 *	@return		array
-	 *	@throws		RuntimeException	if no CSS sheet is loaded, yet.
-	 */
-	public function getProperties( $selector ){
-		if( !$this->sheet )
-			throw new RuntimeException( 'No CSS sheet loaded' );
-		$rule	= $this->sheet->getRuleBySelector( $selector );
-		if( !$rule )
-			return array();
-		return $rule->getProperties();
-	}
-
-	/**
-	 *	Writes current sheet to CSS file and returns number of written bytes.
-	 *	@access		protected
-	 *	@return		integer		Number of written bytes
-	 *	@throws		RuntimeException	if no CSS file is set, yet.
-	 */
-	protected function save(){
-		if( !$this->fileName )
-			throw new RuntimeException( 'No CSS file set yet' );
-		return File_CSS_Writer::save( $this->fileName, $this->sheet );
-	}
-
-	/**
 	 *	Removes a rule property by rule selector and property key.
 	 *	@access		public
 	 *	@param		string		$selector		Rule selector
@@ -149,6 +137,18 @@ class File_CSS_Editor{
 		$result	= $this->sheet->remove( $selector, $key );
 		$this->save();
 		return $result;
+	}
+
+	/**
+	 *	Writes current sheet to CSS file and returns number of written bytes.
+	 *	@access		protected
+	 *	@return		integer		Number of written bytes
+	 *	@throws		RuntimeException	if no CSS file is set, yet.
+	 */
+	protected function save(){
+		if( !$this->fileName )
+			throw new RuntimeException( 'No CSS file set yet' );
+		return File_CSS_Writer::save( $this->fileName, $this->sheet );
 	}
 
 	public function set( $selector, $key, $value ){

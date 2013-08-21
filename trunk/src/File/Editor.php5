@@ -70,39 +70,6 @@ class File_Editor extends File_Reader
 	}
 
 	/**
-	 *	Sets Group of current File.
-	 *	@access		public
-	 *	@param		string		$groupName		OS Group Name of new File Owner
-	 *	@return		bool
-	 */
-	public function setGroup( $groupName )
-	{
-		return $this->writer->setOwner( $groupName );
-	}
-
-	/**
-	 *	Sets Owner of current File.
-	 *	@access		public
-	 *	@param		string		$userName		OS User Name of new File Owner
-	 *	@return		bool
-	 */
-	public function setOwner( $userName )
-	{
-		return $this->writer->setOwner( $userName );
-	}
-
-	/**
-	 *	Sets permissions of current File.
-	 *	@access		public
-	 *	@param		integer		$mode			OCTAL value of new rights (eg. 0750)
-	 *	@return		bool
-	 */
-	public function setPermissions( $mode )
-	{
-		return $this->writer->setPermissions( $mode );
-	}
-
-	/**
 	 *	Removes current File.
 	 *	@access		public
 	 *	@return		bool
@@ -153,6 +120,39 @@ class File_Editor extends File_Reader
 	public static  function saveArray( $fileName, $array, $lineBreak = "\n" )
 	{
 		return File_Writer::saveArray( $fileName, $array, $lineBreak );
+	}
+
+	/**
+	 *	Sets Group of current File.
+	 *	@access		public
+	 *	@param		string		$groupName		OS Group Name of new File Owner
+	 *	@return		bool
+	 */
+	public function setGroup( $groupName )
+	{
+		return $this->writer->setOwner( $groupName );
+	}
+
+	/**
+	 *	Sets Owner of current File.
+	 *	@access		public
+	 *	@param		string		$userName		OS User Name of new File Owner
+	 *	@return		bool
+	 */
+	public function setOwner( $userName )
+	{
+		return $this->writer->setOwner( $userName );
+	}
+
+	/**
+	 *	Sets permissions of current File.
+	 *	@access		public
+	 *	@param		integer		$mode			OCTAL value of new rights (eg. 0750)
+	 *	@return		bool
+	 */
+	public function setPermissions( $mode )
+	{
+		return $this->writer->setPermissions( $mode );
 	}
 
 	/**

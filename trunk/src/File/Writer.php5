@@ -118,6 +118,48 @@ class File_Writer
 	}
 
 	/**
+	 *	Removing the file.
+	 *	@access		public
+	 *	@return		bool
+	 */
+	public function remove()
+	{
+		return @unlink( $this->fileName );
+	}
+	
+	/**
+	 *	Saves Content into a File statically and returns Length.
+	 *	@access		public
+	 *	@static
+	 *	@param		string		$fileName 		URI of File
+	 *	@param		string		$content		Content to save in File
+	 *	@param		string		$mode			UNIX rights for chmod()
+	 *	@param		string		$user			User Name for chown()
+	 *	@param		string		$group			Group Name for chgrp()
+	 *	@return		integer		Number of written bytes
+	 */
+	public static function save( $fileName, $content, $mode = NULL, $user = NULL, $group = NULL )
+	{
+		$writer	= new File_Writer( $fileName, $mode, $user, $group );
+		return $writer->writeString( $content );
+	}
+
+	/**
+	 *	Saves an Array into a File statically and returns Length.
+	 *	@access		public
+	 *	@static
+	 *	@param		string		$fileName		URI of File
+	 *	@param		array		$array			Array to save
+	 *	@param		string		$lineBreak		Line Break
+	 *	@return		integer		Number of written bytes
+	 */
+	public static function saveArray( $fileName, $array, $lineBreak = "\n" )
+	{
+		$writer	= new File_Writer( $fileName );
+		return $writer->writeArray( $array, $lineBreak );
+	}
+
+	/**
 	 *	Sets Group of current File.
 	 *	@access		public
 	 *	@param		string		$groupName		OS Group Name of new File Owner
@@ -165,48 +207,6 @@ class File_Writer
 	{
 		$permissions	= new File_Permissions( $this->fileName );
 		return $permissions->setByOctal( $mode );
-	}
-
-	/**
-	 *	Removing the file.
-	 *	@access		public
-	 *	@return		bool
-	 */
-	public function remove()
-	{
-		return @unlink( $this->fileName );
-	}
-	
-	/**
-	 *	Saves Content into a File statically and returns Length.
-	 *	@access		public
-	 *	@static
-	 *	@param		string		$fileName 		URI of File
-	 *	@param		string		$content		Content to save in File
-	 *	@param		string		$mode			UNIX rights for chmod()
-	 *	@param		string		$user			User Name for chown()
-	 *	@param		string		$group			Group Name for chgrp()
-	 *	@return		integer		Number of written bytes
-	 */
-	public static function save( $fileName, $content, $mode = NULL, $user = NULL, $group = NULL )
-	{
-		$writer	= new File_Writer( $fileName, $mode, $user, $group );
-		return $writer->writeString( $content );
-	}
-
-	/**
-	 *	Saves an Array into a File statically and returns Length.
-	 *	@access		public
-	 *	@static
-	 *	@param		string		$fileName		URI of File
-	 *	@param		array		$array			Array to save
-	 *	@param		string		$lineBreak		Line Break
-	 *	@return		integer		Number of written bytes
-	 */
-	public static function saveArray( $fileName, $array, $lineBreak = "\n" )
-	{
-		$writer	= new File_Writer( $fileName );
-		return $writer->writeArray( $array, $lineBreak );
 	}
 
 	/**

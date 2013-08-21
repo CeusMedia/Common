@@ -156,7 +156,7 @@ class UI_HTML_Table
 		}
 	}
 	
-	public function addRow( $cells = array () )
+	public function addRow( $cells = array() )
 	{
 		$this->bodyRows[]	= array();
 		foreach( $cells as $key => $value )

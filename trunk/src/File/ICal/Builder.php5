@@ -73,34 +73,6 @@ class File_Ical_Builder
 		return implode( self::$lineBreak, $lines );
 	}
 	
-	//  --  PRIVATE METHODS  --  //
-	/**
-	 *	Builds Array of iCal Lines from XML Tree recursive.
-	 *	@access		protected
-	 *	@static
-	 *	@param		XML_DOM_Node	node	XML Node
-	 *	@return 	array
-	 */
-	protected static function buildRecursive( $node  )
-	{
-		$lines	= array();
-		$name	= $node->getNodeName();
-		$value	= $node->getContent();
-		$param	= $node->getAttributes();
-		if( NULL === $value )
-		{
-			$lines[]	= "BEGIN:".strtoupper( $name );
-			$children	= $node->getChildren();
-			foreach( $children as $child )
-				foreach( self::buildRecursive( $child ) as $line )
-					$lines[]	= $line;
-			$lines[]	= "END:".strtoupper( $name );
-		}
-		else
-			$lines[]	= self::buildLine( $name, $param, $value );
-		return $lines;
-	}
-	
 	/**
 	 *	Builds iCal Line.
 	 *	@access		protected
@@ -147,6 +119,33 @@ class File_Ical_Builder
 		$line	= strtoupper( $name ).$param.$content;
 		$line	= $line;
 		return $line;
+	}
+
+	/**
+	 *	Builds Array of iCal Lines from XML Tree recursive.
+	 *	@access		protected
+	 *	@static
+	 *	@param		XML_DOM_Node	node	XML Node
+	 *	@return 	array
+	 */
+	protected static function buildRecursive( $node  )
+	{
+		$lines	= array();
+		$name	= $node->getNodeName();
+		$value	= $node->getContent();
+		$param	= $node->getAttributes();
+		if( NULL === $value )
+		{
+			$lines[]	= "BEGIN:".strtoupper( $name );
+			$children	= $node->getChildren();
+			foreach( $children as $child )
+				foreach( self::buildRecursive( $child ) as $line )
+					$lines[]	= $line;
+			$lines[]	= "END:".strtoupper( $name );
+		}
+		else
+			$lines[]	= self::buildLine( $name, $param, $value );
+		return $lines;
 	}
 }
 ?>

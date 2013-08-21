@@ -59,7 +59,7 @@ class File_PHP_Parser_Regular
 	protected $regexParam		= '@^(([\w]+) )?((&\s*)?\$([\w]+))( ?= ?([\S]+))?$@';
 	protected $regexDocParam	= '@^\*\s+\@param\s+(([\S]+)\s+)?(\$?([\S]+))\s*(.+)?$@';
 	protected $regexDocVariable	= '@^/\*\*\s+\@var\s+(\w+)\s+\$(\w+)(\s(.+))?\*\/$@s';
-	protected $regexVariable	= '@^(protected|private|public|var)\s+(static\s+)?\$(\w+)(\s+=\s+([^(]+))?.*$@';
+	protected $regexVariable	= '@^(static\s+)?(protected|private|public|var)\s+(static\s+)?\$(\w+)(\s+=\s+([^(]+))?.*$@';
 	protected $varBlocks		= array();
 
 	protected $openBlocks		= array();
@@ -217,10 +217,10 @@ class File_PHP_Parser_Regular
 			$this->decorateCodeDataWithDocData( $artefact, array_pop( $this->openBlocks ) );
 			$this->openBlocks	= array();
 		}
-		if( !$artefact->getCategory() && $parent->getCategory() )
-			$artefact->setCategory( $parent->getCategory() );
-		if( !$artefact->getPackage() && $parent->getPackage() )
-			$artefact->setPackage( $parent->getPackage() );
+#		if( !$artefact->getCategory() && $parent->getCategory() )
+#			$artefact->setCategory( $parent->getCategory() );
+#		if( !$artefact->getPackage() && $parent->getPackage() )
+#			$artefact->setPackage( $parent->getPackage() );
 		return $artefact;
 	}
 
@@ -437,14 +437,11 @@ class File_PHP_Parser_Regular
 		do
 		{
 			$line	= trim( array_shift( $lines ) );
+#			remark( $level." :: ".$this->lineNumber." :: ".$line );
 			$this->lineNumber ++;
 			if( preg_match( "@^(<\?(php)?)|((php)?\?>)$@", $line ) )
 				continue;
 			
-//			if( preg_match( '@^\s*{ ?}?$@', $line ) )
-//				$level++;
-			if( preg_match( '@{$@', $line ) )
-				$level++;
 			if( preg_match( '@}$@', $line ) )
 				$level--;
 
@@ -475,11 +472,6 @@ class File_PHP_Parser_Regular
 			{
 				if( preg_match( $this->regexClass, $line, $matches ) )
 				{
-					if( trim( array_pop( array_slice( $matches, -1 ) ) ) == "{" )
-					{
-						array_pop( $matches );
-						$level++;
-					}
 					while( !trim( array_pop( array_slice( $matches, -1 ) ) ) )
 						array_pop( $matches );
 					$class	= $this->parseClassOrInterface( $file, $matches );
@@ -487,17 +479,13 @@ class File_PHP_Parser_Regular
 				}
 				else if( preg_match( $this->regexMethod, $line, $matches ) )
 				{
-						$openClass	= FALSE;
+					$openClass	= FALSE;
 					$function	= $this->parseFunction( $file, $matches );
-					if( isset( $matches[8] ) )
-						$level++;
 					$file->setFunction( $function );
 				}
 			}
 			else
 			{
-				if( $level == 0 )
-					$openClass	= FALSE;
 				if( preg_match( $this->regexClass, $line, $matches ) )
 				{
 					if( $class instanceof ADT_PHP_Class )
@@ -515,8 +503,6 @@ class File_PHP_Parser_Regular
 					$method		= $this->parseMethod( $class, $matches );
 					$function	= $matches[6];
 					$class->setMethod( $method );
-					if( isset( $matches[8] ) )
-						$level++;
 				}
 				else if( $level <= 1 )
 				{
@@ -529,7 +515,7 @@ class File_PHP_Parser_Regular
 					}
 					else if( preg_match( $this->regexVariable, $line, $matches ) )
 					{
-						$name		= $matches[3];
+						$name		= $matches[4];
 						if( $openClass && $class )
 						{
 							$key		= $class->getName()."::".$name;
@@ -551,6 +537,8 @@ class File_PHP_Parser_Regular
 					$functionBody[$function][]	= $line;
 				}
 			}
+			if( preg_match( '@{$@', $line ) )
+				$level++;
 		}
 		while( $lines );
 
@@ -611,14 +599,14 @@ class File_PHP_Parser_Regular
 	 */
 	protected function parseMember( $parent, $matches, $docBlock = NULL )
 	{
-		$variable			= new ADT_PHP_Member( $matches[3], NULL, NULL );
+		$variable			= new ADT_PHP_Member( $matches[4], NULL, NULL );
 		$variable->setParent( $parent );
 		$variable->setLine( $this->lineNumber );
-		if( isset( $matches[4] ) )
-			$variable->setDefault( preg_replace( "@;$@", "", $matches[5] ) );
-		if( !empty( $matches[1] ) )
-			$variable->setAccess( $matches[1] == "var" ? NULL : $matches[1] );
-		$variable->setStatic( (bool) trim( $matches[2] ) );
+		if( isset( $matches[5] ) )
+			$variable->setDefault( preg_replace( "@;$@", "", $matches[6] ) );
+		if( !empty( $matches[2] ) )
+			$variable->setAccess( $matches[2] == "var" ? NULL : $matches[2] );
+		$variable->setStatic( (bool) trim( $matches[3] ) );
 
 		if( $docBlock )
 			if( $docBlock instanceof ADT_PHP_Variable )

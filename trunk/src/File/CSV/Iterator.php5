@@ -49,17 +49,6 @@ class File_CSV_Iterator implements Iterator
 	}
 
 	/**
-	 *	Resets the file pointer.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function rewind()
-	{
-		$this->rowCounter	= 0;
-		rewind( $this->filePointer );
-	}
-
-	/**
 	 *	Returns the current csv row as a 2 dimensional array.
 	 *	@access		public
 	 *	@return		array		The current csv row as a 2 dimensional array
@@ -108,6 +97,17 @@ class File_CSV_Iterator implements Iterator
 			}
 		}
 		return FALSE;
+	}
+
+	/**
+	 *	Resets the file pointer.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function rewind()
+	{
+		$this->rowCounter	= 0;
+		rewind( $this->filePointer );
 	}
 
 	/**

@@ -81,7 +81,7 @@ class Math_Analysis_Sequence
 	 *	@access		public
 	 *	@return		bool
 	 */
-	public function isConvergent ()
+	public function isConvergent()
 	{
 		for ($i=$this->interval->getStart(); $i<$this->interval->getEnd(); $i++)
 		{
@@ -101,7 +101,7 @@ class Math_Analysis_Sequence
 	 *	@access		public
 	 *	@return		bool
 	 */
-	public function isDivergent ()
+	public function isDivergent()
 	{
 		return !$this->isConvergent ();
 	}
@@ -111,7 +111,7 @@ class Math_Analysis_Sequence
 	 *	@access		public
 	 *	@return		array
 	 */
-	public function toArray ()
+	public function toArray()
 	{
 		$array = array ();
 		for ($i=$this->interval->getStart(); $i<$this->interval->getEnd(); $i++)
@@ -127,9 +127,9 @@ class Math_Analysis_Sequence
 	 *	@access		public
 	 *	@return		array
 	 */
-	public function toTable ()
+	public function toTable()
 	{
-		$array = $this->toArray ();
+		$array = $this->toArray();
 		$code = "<table cellpadding=2 cellspacing=0 border=1>";
 		foreach ($array as $key => $value) $code .= "<tr><td>".$key."</td><td>".round($value,8)."</td></tr>";
 		$code .= "</table>";

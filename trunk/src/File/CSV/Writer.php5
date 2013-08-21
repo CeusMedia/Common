@@ -77,7 +77,7 @@ class File_CSV_Writer
 	 */
 	public function write( $data, $headers = array() )
 	{
-		$output = array ();
+		$output = array();
 		if( $headers )
 		{
 			$output[] = implode( $this->separator, $headers );

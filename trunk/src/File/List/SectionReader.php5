@@ -26,7 +26,6 @@
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		$Id$
  */
-import ("de.ceus-media.file.Reader");
 /**
  *	A Class for reading Section List Files.
  *	@category		cmClasses
@@ -53,11 +52,6 @@ class File_List_SectionReader
 	public function __construct( $fileName )
 	{
 		$this->list	= self::load( $fileName );
-	}
-
-	public function read()
-	{
-		return $this->list;
 	}
 	
 	/**
@@ -94,6 +88,11 @@ class File_List_SectionReader
 				$list[$section][]	= $line;
 		}
 		return $list;
+	}
+
+	public function read()
+	{
+		return $this->list;
 	}
 }
 ?>

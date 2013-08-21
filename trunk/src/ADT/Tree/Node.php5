@@ -38,7 +38,7 @@
 class ADT_Tree_Node
 {
 	/**	@var	array		$children		Array of Children */
-	protected $children		= array ();
+	protected $children		= array();
 	
 	/**
 	 *	Adds a child to Tree.

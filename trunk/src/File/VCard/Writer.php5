@@ -54,19 +54,6 @@ class File_VCard_Writer
 	{
 		$this->fileName	= $fileName;
 	}
-
-	/**
-	 *	Writes a vCard Object to the set up File and returns Number of written Bytes.
-	 *	@access		public
-	 *	@param		ADT_VCard	$card			vCard Object
-	 *	@param		string		$charsetIn		Charset to convert from
-	 *	@param		string		$charsetOut		Charset to convert to
-	 *	@return		int
-	 */
-	public function write( $card, $charsetIn = NULL, $charsetOut = NULL )
-	{
-		return $this->save( $this->fileName, $card, $charsetIn, $charsetOut );
-	}
 	
 	/**
 	 *	Saves a vCard Object to a File statically and returns Number of written Bytes.
@@ -81,6 +68,19 @@ class File_VCard_Writer
 	{
 		$string	= File_VCard_Builder::build( $card, $charsetIn, $charsetOut );
 		return File_Writer::save( $fileName, $string );
+	}
+
+	/**
+	 *	Writes a vCard Object to the set up File and returns Number of written Bytes.
+	 *	@access		public
+	 *	@param		ADT_VCard	$card			vCard Object
+	 *	@param		string		$charsetIn		Charset to convert from
+	 *	@param		string		$charsetOut		Charset to convert to
+	 *	@return		int
+	 */
+	public function write( $card, $charsetIn = NULL, $charsetOut = NULL )
+	{
+		return $this->save( $this->fileName, $card, $charsetIn, $charsetOut );
 	}
 }
 ?>

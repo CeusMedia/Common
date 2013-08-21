@@ -56,16 +56,6 @@ class File_YAML_Writer
 	}
 
 	/**
-	 *	Writes Data into YAML File.
-	 *	@access		public
-	 *	@return		bool
-	 */
-	public function write( $data )
-	{
-		return self::save( $this->fileName, $data );
-	}
-
-	/**
 	 *	Writes Data into YAML File statically.
 	 *	@access		public
 	 *	@static
@@ -77,6 +67,16 @@ class File_YAML_Writer
 	{
 		$yaml	= File_YAML_Spyc::YAMLDump( $data );
 		return File_Writer::save( $fileName, $yaml );
+	}
+
+	/**
+	 *	Writes Data into YAML File.
+	 *	@access		public
+	 *	@return		bool
+	 */
+	public function write( $data )
+	{
+		return self::save( $this->fileName, $data );
 	}
 }
 ?>

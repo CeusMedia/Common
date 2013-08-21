@@ -59,67 +59,6 @@ class File_Log_Tracker_ShortReader extends File_Log_ShortReader
 	}
 	
 	/**
-	 *	Returns parsed Log Data as Array.
-	 *	@access		public
-	 *	@return		array
-	 */
-	public function getData()
-	{
-		if( $this->_open )
-			return $this->data;
-//		print_m( debug_backtrace() );
-		trigger_error( "Log File not read", E_USER_ERROR );
-		return array();
-	}
-	
-	/**
-	 *	Counts tracked Visits.
-	 *	@access		public
-	 *	@return		int
-	 */
-	public function getVisits()
-	{
-		if( $this->_open )
-			return count( $this->data );
-		trigger_error( "Log File not read", E_USER_ERROR );
-		return array();
-	}
-	
-	/**
-	 *	Counts tracked unique Visitors.
-	 *	@access		public
-	 *	@return		int
-	 */
-	public function getVisitors()
-	{
-		if( !$this->_open )
-		{
-			trigger_error( "Log File not read", E_USER_ERROR );
-			return 0;
-		}
-		$remote_addrs	= array();	
-		$counter	= 0;
-		foreach( $this->data as $entry )
-		{
-			if( $entry['remote_addr'] != $this->skip )
-			{
-				if( isset( $remote_addrs[$entry['remote_addr']] ) )
-				{
-					if( $remote_addrs[$entry['remote_addr']] < $entry['timestamp'] - 30 * 60 )
-						$counter ++;
-					$remote_addrs[$entry['remote_addr']]	= $entry['timestamp'];
-				}
-				else
-				{
-					$counter ++;
-					$remote_addrs[$entry['remote_addr']]	= $entry['timestamp'];
-				}
-			}
-		}
-		return $counter;
-	}
-	
-	/**
 	 *	Returns used Browsers of unique Visitors.
 	 *	@access		public
 	 *	@return 	array
@@ -168,38 +107,17 @@ class File_Log_Tracker_ShortReader extends File_Log_ShortReader
 	}
 	
 	/**
-	 *	Returns Referers of unique Visitors.
+	 *	Returns parsed Log Data as Array.
 	 *	@access		public
-	 *	@return 	array
+	 *	@return		array
 	 */
-	public function getReferers( $skip )
+	public function getData()
 	{
-		if( !$this->_open )
-		{
-			trigger_error( "Log File not read", E_USER_ERROR );
-			return array();
-		}
-		$referers		= array();
-		foreach( $this->data as $entry )
-		{
-			if( $entry['remote_addr'] != $this->skip )
-			{
-				if( $entry['http_referer'] && !preg_match( "#.*".$skip.".*#si", $entry['http_referer'] ) )
-				{
-					if( isset( $referers[$entry['http_referer']] ) )
-						$referers[$entry['http_referer']] ++;
-					else
-						$referers[$entry['http_referer']]	= 1;
-				}
-			}
-		}
-		arsort( $referers );
-		$lines	= array();
-		foreach( $referers as $referer => $count )
-			$lines[]	= "<tr><td>".$referer."</td><td>".$count."</td></tr>";
-		$lines	= implode( "\n\t", $lines );
-		$content	= "<table>".$lines."</table>";
-		return $content;
+		if( $this->_open )
+			return $this->data;
+//		print_m( debug_backtrace() );
+		trigger_error( "Log File not read", E_USER_ERROR );
+		return array();
 	}
 
 	/**
@@ -244,6 +162,41 @@ class File_Log_Tracker_ShortReader extends File_Log_ShortReader
 		$pages	= round( $total / count( $visitors ), 1 );
 		return $pages;
 	}
+	
+	/**
+	 *	Returns Referers of unique Visitors.
+	 *	@access		public
+	 *	@return 	array
+	 */
+	public function getReferers( $skip )
+	{
+		if( !$this->_open )
+		{
+			trigger_error( "Log File not read", E_USER_ERROR );
+			return array();
+		}
+		$referers		= array();
+		foreach( $this->data as $entry )
+		{
+			if( $entry['remote_addr'] != $this->skip )
+			{
+				if( $entry['http_referer'] && !preg_match( "#.*".$skip.".*#si", $entry['http_referer'] ) )
+				{
+					if( isset( $referers[$entry['http_referer']] ) )
+						$referers[$entry['http_referer']] ++;
+					else
+						$referers[$entry['http_referer']]	= 1;
+				}
+			}
+		}
+		arsort( $referers );
+		$lines	= array();
+		foreach( $referers as $referer => $count )
+			$lines[]	= "<tr><td>".$referer."</td><td>".$count."</td></tr>";
+		$lines	= implode( "\n\t", $lines );
+		$content	= "<table>".$lines."</table>";
+		return $content;
+	}
 
 	/**
 	 *	Returns HTML of all tracked Requests.
@@ -279,6 +232,53 @@ class File_Log_Tracker_ShortReader extends File_Log_ShortReader
 		$lines	= implode( "\n\t", $lines );
 		$content	= "<table>".$lines."</table>";
 		return $content;
+	}
+	
+	/**
+	 *	Counts tracked unique Visitors.
+	 *	@access		public
+	 *	@return		int
+	 */
+	public function getVisitors()
+	{
+		if( !$this->_open )
+		{
+			trigger_error( "Log File not read", E_USER_ERROR );
+			return 0;
+		}
+		$remote_addrs	= array();	
+		$counter	= 0;
+		foreach( $this->data as $entry )
+		{
+			if( $entry['remote_addr'] != $this->skip )
+			{
+				if( isset( $remote_addrs[$entry['remote_addr']] ) )
+				{
+					if( $remote_addrs[$entry['remote_addr']] < $entry['timestamp'] - 30 * 60 )
+						$counter ++;
+					$remote_addrs[$entry['remote_addr']]	= $entry['timestamp'];
+				}
+				else
+				{
+					$counter ++;
+					$remote_addrs[$entry['remote_addr']]	= $entry['timestamp'];
+				}
+			}
+		}
+		return $counter;
+	}
+	
+	/**
+	 *	Counts tracked Visits.
+	 *	@access		public
+	 *	@return		int
+	 */
+	public function getVisits()
+	{
+		if( $this->_open )
+			return count( $this->data );
+		trigger_error( "Log File not read", E_USER_ERROR );
+		return array();
 	}
 
 	/**

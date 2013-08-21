@@ -113,130 +113,6 @@ class File_PHP_Parser_Array
 	protected $regexVariable	= '@^(protected|private|public|var)\s+(static\s+)?\$(\w+)(\s+=\s+([^(]+))?.*$@';
 
 	/**
-	 *	Parses a PHP File and returns nested Array of collected Information.
-	 *	@access		public
-	 *	@param		string		$fileName		File Name of PHP File to parse
-	 *	@param		string		$innerPath		Base Path to File to be removed in Information
-	 *	@return		array
-	 */
-	public function parseFile( $fileName, $innerPath )
-	{
-		$content		= File_Reader::load( $fileName );
-		$lines			= explode( "\n", $content );
-		$openBlocks		= array();
-		$fileBlock		= NULL;
-		$openClass		= FALSE;
-		$file			= $this->fileData;
-		$file['name']	= substr( str_replace( "\\", "/", $fileName ), strlen( $innerPath ) );
-		$file['uri']	= str_replace( "\\", "/", $fileName );
-	
-		$level	= 0;
-		$class	= NULL;
-		do
-		{
-			$line	= trim( array_shift( $lines ) );
-			$line	= Alg_Text_Unicoder::convertToUnicode( $line );
-			if( preg_match( "@^(<\?(php)?)|((php)?\?>)$@", $line ) )
-				continue;
-			
-			if( preg_match( '@{ ?}?$@', $line ) )
-				$level++;
-			else if( preg_match( '@}$@', $line ) )
-				$level--;
-
-			if( $line == "/**" )
-			{
-				$list	= array();
-				do
-				{
-					$line	= trim( array_shift( $lines ) );
-					$list[]	= $line;
-				}
-				while( !preg_match( "@^\*?\*/$@", $line ) );
-				$openBlocks[]	= $this->parseDocBlock( $list );
-				if( !$fileBlock )
-				{
-					$fileBlock	= array_shift( $openBlocks );
-					$this->overwriteCodeDataWithDocData( $file, $fileBlock );
-				}
-			}
-			if( !$openClass )
-			{
-				if( preg_match( $this->regexClass, $line, $matches ) )
-				{
-					$class	= $this->classData;
-					$slice	= array_slice( $matches, -1 );
-					if( trim( array_pop( $slice ) ) == "{" )
-					{
-						array_pop( $matches );
-						$level++;
-					}
-					$slice	= array_slice( $matches, -1 );
-					while( !trim( array_pop( $slice ) ) )
-						array_pop( $matches );
-					$class	= $this->parseClass( $class, $matches, $openBlocks );
-					if( $openBlocks )
-						$this->overwriteCodeDataWithDocData( $class, array_pop( $openBlocks ) );
-					$openClass	= TRUE;
-				}
-				else if( preg_match( $this->regexMethod, $line, $matches ) )
-				{
-					$function	= $this->parseMethod( $matches, $openBlocks );
-					if( isset( $matches[8] ) )
-						$level++;
-					unset( $function['access'] );
-					$file['functions'][$function['name']]	= $function;
-				}
-			}
-			else
-			{
-				if( $level == 0 && $openClass )
-					$openClass	= FALSE;
-				if( preg_match( $this->regexMethod, $line, $matches ) )
-				{
-					$method	= $this->parseMethod( $matches, $openBlocks );
-					$class['methods'][$method['name']]	= $method;
-					if( isset( $matches[8] ) )
-						$level++;
-				}
-				else if( preg_match( $this->regexDocVariable, $line, $matches ) )
-				{
-					$this->varBlocks[$matches[2]]	= array(
-						'type'			=> $matches[1],
-						'name'			=> $matches[2],
-						'description'	=> trim( $matches[4] ),
-					);
-				}
-				else if( preg_match( $this->regexVariable, $line, $matches ) )
-				{
-					$name	= $matches[3];
-					$default	= NULL;
-					if( isset( $matches[4] ) )
-						$default	= preg_replace( "@;$@", "", $matches[5] );
-					$data	= array(
-						'access'		=> $matches[1] == "var" ? "public" : $matches[1],
-						'static'		=> (bool) trim( $matches[2] ),
-						'type'			=> NULL,
-						'name'			=> $name,
-						'description'	=> NULL,
-						'default'		=> $default,
-					);
-					if( isset( $this->varBlocks[$name] ) )
-						$data	= array_merge( $data, $this->varBlocks[$name] );
-					$class['members'][$name]	= $data;
-				}
-			}
-		}
-		while( $lines );
-		$data	= array(
-			'file'		=> $file,
-			'class'		=> $class,
-			'source'	=> $content,
-		);
-		return $data;
-	}
-
-	/**
 	 *	Appends all collected Documentation Information to already collected Code Information.
 	 *	@access		private
 	 *	@param		array		$codeData		Data collected by parsing Code
@@ -408,6 +284,130 @@ class File_PHP_Parser_Array
 				$list[]	= trim( $part );
 			$data['throws']	= $list;
 		}
+		return $data;
+	}
+
+	/**
+	 *	Parses a PHP File and returns nested Array of collected Information.
+	 *	@access		public
+	 *	@param		string		$fileName		File Name of PHP File to parse
+	 *	@param		string		$innerPath		Base Path to File to be removed in Information
+	 *	@return		array
+	 */
+	public function parseFile( $fileName, $innerPath )
+	{
+		$content		= File_Reader::load( $fileName );
+		$lines			= explode( "\n", $content );
+		$openBlocks		= array();
+		$fileBlock		= NULL;
+		$openClass		= FALSE;
+		$file			= $this->fileData;
+		$file['name']	= substr( str_replace( "\\", "/", $fileName ), strlen( $innerPath ) );
+		$file['uri']	= str_replace( "\\", "/", $fileName );
+	
+		$level	= 0;
+		$class	= NULL;
+		do
+		{
+			$line	= trim( array_shift( $lines ) );
+			$line	= Alg_Text_Unicoder::convertToUnicode( $line );
+			if( preg_match( "@^(<\?(php)?)|((php)?\?>)$@", $line ) )
+				continue;
+			
+			if( preg_match( '@{ ?}?$@', $line ) )
+				$level++;
+			else if( preg_match( '@}$@', $line ) )
+				$level--;
+
+			if( $line == "/**" )
+			{
+				$list	= array();
+				do
+				{
+					$line	= trim( array_shift( $lines ) );
+					$list[]	= $line;
+				}
+				while( !preg_match( "@^\*?\*/$@", $line ) );
+				$openBlocks[]	= $this->parseDocBlock( $list );
+				if( !$fileBlock )
+				{
+					$fileBlock	= array_shift( $openBlocks );
+					$this->overwriteCodeDataWithDocData( $file, $fileBlock );
+				}
+			}
+			if( !$openClass )
+			{
+				if( preg_match( $this->regexClass, $line, $matches ) )
+				{
+					$class	= $this->classData;
+					$slice	= array_slice( $matches, -1 );
+					if( trim( array_pop( $slice ) ) == "{" )
+					{
+						array_pop( $matches );
+						$level++;
+					}
+					$slice	= array_slice( $matches, -1 );
+					while( !trim( array_pop( $slice ) ) )
+						array_pop( $matches );
+					$class	= $this->parseClass( $class, $matches, $openBlocks );
+					if( $openBlocks )
+						$this->overwriteCodeDataWithDocData( $class, array_pop( $openBlocks ) );
+					$openClass	= TRUE;
+				}
+				else if( preg_match( $this->regexMethod, $line, $matches ) )
+				{
+					$function	= $this->parseMethod( $matches, $openBlocks );
+					if( isset( $matches[8] ) )
+						$level++;
+					unset( $function['access'] );
+					$file['functions'][$function['name']]	= $function;
+				}
+			}
+			else
+			{
+				if( $level == 0 && $openClass )
+					$openClass	= FALSE;
+				if( preg_match( $this->regexMethod, $line, $matches ) )
+				{
+					$method	= $this->parseMethod( $matches, $openBlocks );
+					$class['methods'][$method['name']]	= $method;
+					if( isset( $matches[8] ) )
+						$level++;
+				}
+				else if( preg_match( $this->regexDocVariable, $line, $matches ) )
+				{
+					$this->varBlocks[$matches[2]]	= array(
+						'type'			=> $matches[1],
+						'name'			=> $matches[2],
+						'description'	=> trim( $matches[4] ),
+					);
+				}
+				else if( preg_match( $this->regexVariable, $line, $matches ) )
+				{
+					$name	= $matches[3];
+					$default	= NULL;
+					if( isset( $matches[4] ) )
+						$default	= preg_replace( "@;$@", "", $matches[5] );
+					$data	= array(
+						'access'		=> $matches[1] == "var" ? "public" : $matches[1],
+						'static'		=> (bool) trim( $matches[2] ),
+						'type'			=> NULL,
+						'name'			=> $name,
+						'description'	=> NULL,
+						'default'		=> $default,
+					);
+					if( isset( $this->varBlocks[$name] ) )
+						$data	= array_merge( $data, $this->varBlocks[$name] );
+					$class['members'][$name]	= $data;
+				}
+			}
+		}
+		while( $lines );
+		$data	= array(
+			'file'		=> $file,
+			'class'		=> $class,
+			'source'	=> $content,
+		);
 		return $data;
 	}
 

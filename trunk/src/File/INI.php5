@@ -1,4 +1,24 @@
 <?php
+/**
+ *	...
+ *	@category		cmClasses
+ *	@package		File
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ *	@copyright		2007-2012 Christian Würker
+ *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@link			http://code.google.com/p/cmclasses/
+ *	@version		$Id$
+ */
+/**
+ *	...
+ *	@category		cmClasses
+ *	@package		File
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ *	@copyright		2007-2012 Christian Würker
+ *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@link			http://code.google.com/p/cmclasses/
+ *	@version		$Id$
+ */
 class File_INI {
 
 	protected $sections		= NULL;

@@ -89,6 +89,16 @@ class File_CSS_Theme_Minimizer
 	}
 
 	/**
+	 *	Returns statistical Data of last Combination.
+	 *	@access		public
+	 *	@return		array	
+	 */
+	public function getStatistics()
+	{
+		return $this->statistics;
+	}
+
+	/**
 	 *	Combines (and compresses) Theme (Medium).
 	 *	@access		public
 	 *	@param		string		$styleFile		File Name of main Theme Style File (iE. style.css,import.css,default.css)
@@ -121,16 +131,6 @@ class File_CSS_Theme_Minimizer
 		$this->statistics['fileSource']		= realpath( $pathName.$styleFile );		//  note Source File Path
 		$this->statistics['fileCombined']	= realpath( $fileUri );					//  note combined Target File Path
 		return TRUE;
-	}
-
-	/**
-	 *	Returns statistical Data of last Combination.
-	 *	@access		public
-	 *	@return		array	
-	 */
-	public function getStatistics()
-	{
-		return $this->statistics;
 	}
 	
 	/**

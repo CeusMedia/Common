@@ -63,56 +63,26 @@ class File_Log_Tracker_Reader extends File_Log_Reader
 		if( $autoParse )
 			$this->parse();
 	}
-	
+
 	/**
-	 *	Returns parsed Log Data as Array.
-	 *	@access		public
-	 *	@return		array
+	 *	Callback for Line Parser.
+	 *	@access		protected
+	 *	@return		string
 	 */
-	public function getData()
+	protected function callback( $matches )
 	{
-		return $this->data;
+//		print_m( $matches );
+		$data	= array(
+			'timestamp'		=> $matches[1],
+			'datetime'		=> $matches[2],
+			'remote_addr'	=> $matches[3],
+			'request_uri'	=> $matches[4],
+			'referer_uri'	=> $matches[5],
+			'useragent'		=> $matches[6],
+		);
+		return serialize( $data );
 	}
-	
-	/**
-	 *	Counts tracked Visits.
-	 *	@access		public
-	 *	@return		int
-	 */
-	public function getVisits()
-	{
-		return count( $this->data );
-	}
-	
-	/**
-	 *	Counts tracked unique Visitors.
-	 *	@access		public
-	 *	@return		int
-	 */
-	public function getVisitors()
-	{
-		$remote_addrs	= array();	
-		$counter	= 0;
-		foreach( $this->data as $entry )
-		{
-			if( $entry['remote_addr'] != $this->skip )
-			{
-				if( isset( $remote_addrs[$entry['remote_addr']] ) )
-				{
-					if( $remote_addrs[$entry['remote_addr']] < $entry['timestamp'] - 30 * 60 )
-						$counter ++;
-					$remote_addrs[$entry['remote_addr']]	= $entry['timestamp'];
-				}
-				else
-				{
-					$counter ++;
-					$remote_addrs[$entry['remote_addr']]	= $entry['timestamp'];
-				}
-			}
-		}
-		return $counter;
-	}
-	
+
 	/**
 	 *	Returns used Browsers of unique Visitors.
 	 *	@access		public
@@ -154,34 +124,15 @@ class File_Log_Tracker_Reader extends File_Log_Reader
 		$content	= "<table>".$lines."</table>";
 		return $content;
 	}
-	
+
 	/**
-	 *	Returns Referers of unique Visitors.
+	 *	Returns parsed Log Data as Array.
 	 *	@access		public
-	 *	@return 	array
+	 *	@return		array
 	 */
-	public function getReferers( $skip )
+	public function getData()
 	{
-		$referers		= array();
-		foreach( $this->data as $entry )
-		{
-			if( $entry['remote_addr'] != $this->skip )
-			{
-				if( $entry['referer_uri'] && !preg_match( "#.*".$skip.".*#si", $entry['referer_uri'] ) )
-				{
-					if( isset( $referers[$entry['referer_uri']] ) )
-						$referers[$entry['referer_uri']] ++;
-					else
-						$referers[$entry['referer_uri']]	= 1;
-				}
-			}
-		}
-		arsort( $referers );
-		foreach( $referers as $referer => $count )
-			$lines[]	= "<tr><td>".$referer."</td><td>".$count."</td></tr>";
-		$lines	= implode( "\n\t", $lines );
-		$content	= "<table>".$lines."</table>";
-		return $content;
+		return $this->data;
 	}
 
 	/**
@@ -223,6 +174,35 @@ class File_Log_Tracker_Reader extends File_Log_Reader
 	}
 
 	/**
+	 *	Returns Referers of unique Visitors.
+	 *	@access		public
+	 *	@return 	array
+	 */
+	public function getReferers( $skip )
+	{
+		$referers		= array();
+		foreach( $this->data as $entry )
+		{
+			if( $entry['remote_addr'] != $this->skip )
+			{
+				if( $entry['referer_uri'] && !preg_match( "#.*".$skip.".*#si", $entry['referer_uri'] ) )
+				{
+					if( isset( $referers[$entry['referer_uri']] ) )
+						$referers[$entry['referer_uri']] ++;
+					else
+						$referers[$entry['referer_uri']]	= 1;
+				}
+			}
+		}
+		arsort( $referers );
+		foreach( $referers as $referer => $count )
+			$lines[]	= "<tr><td>".$referer."</td><td>".$count."</td></tr>";
+		$lines	= implode( "\n\t", $lines );
+		$content	= "<table>".$lines."</table>";
+		return $content;
+	}
+
+	/**
 	 *	Returns HTML of all tracked Requests.
 	 *	@access		public
 	 *	@param		int			$max		List Entries (0-all)
@@ -248,6 +228,45 @@ class File_Log_Tracker_Reader extends File_Log_Reader
 	}
 
 	/**
+	 *	Counts tracked unique Visitors.
+	 *	@access		public
+	 *	@return		int
+	 */
+	public function getVisitors()
+	{
+		$remote_addrs	= array();	
+		$counter	= 0;
+		foreach( $this->data as $entry )
+		{
+			if( $entry['remote_addr'] != $this->skip )
+			{
+				if( isset( $remote_addrs[$entry['remote_addr']] ) )
+				{
+					if( $remote_addrs[$entry['remote_addr']] < $entry['timestamp'] - 30 * 60 )
+						$counter ++;
+					$remote_addrs[$entry['remote_addr']]	= $entry['timestamp'];
+				}
+				else
+				{
+					$counter ++;
+					$remote_addrs[$entry['remote_addr']]	= $entry['timestamp'];
+				}
+			}
+		}
+		return $counter;
+	}
+
+	/**
+	 *	Counts tracked Visits.
+	 *	@access		public
+	 *	@return		int
+	 */
+	public function getVisits()
+	{
+		return count( $this->data );
+	}
+
+	/**
 	 *	Parses Log File.
 	 *	@access		public
 	 *	@return		void	 
@@ -258,17 +277,6 @@ class File_Log_Tracker_Reader extends File_Log_Reader
 		$lines	= $this->read();
 		foreach( $lines as $line )
 			$this->data[]	= $this->parseLine( $line );
-	}
-	
-	/**
-	 *	Set already parsed Log Data (i.E. from serialized Cache File).
-	 *	@access		public
-	 *	@param		array		data			Parsed Log Data
-	 *	@return		void
-	 */
-	public function setData( $data )
-	{
-		$this->data	= $data;
 	}
 
 	/**
@@ -283,22 +291,14 @@ class File_Log_Tracker_Reader extends File_Log_Reader
 	}
 
 	/**
-	 *	Callback for Line Parser.
-	 *	@access		protected
-	 *	@return		string
+	 *	Set already parsed Log Data (i.E. from serialized Cache File).
+	 *	@access		public
+	 *	@param		array		data			Parsed Log Data
+	 *	@return		void
 	 */
-	protected function callback( $matches )
+	public function setData( $data )
 	{
-//		print_m( $matches );
-		$data	= array(
-			'timestamp'		=> $matches[1],
-			'datetime'		=> $matches[2],
-			'remote_addr'	=> $matches[3],
-			'request_uri'	=> $matches[4],
-			'referer_uri'	=> $matches[5],
-			'useragent'		=> $matches[6],
-		);
-		return serialize( $data );
+		$this->data	= $data;
 	}
 }
 ?>
