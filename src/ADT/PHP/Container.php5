@@ -47,7 +47,7 @@ class ADT_PHP_Container
 
 	/**
 	 *	Searches for a Class by its Name in same Category and Package.
-	 *	Otherwise is searches in different Packages and finally in different Categories.
+	 *	Otherwise searches in different Packages and finally in different Categories.
 	 *	@access		public
 	 *	@param		string				$className			Name of Class to find Data Object for
 	 *	@param		ADT_PHP_Interface	$relatedArtefact	A related Class or Interface (for Package and Category Information)

@@ -168,7 +168,7 @@ class Alg_UnusedVariableFinder
 			$line	= trim( $line );																//  remove leading and trailing white space
 			if( !$open )																			//  if no method found, yet
 			{
-				$regExp		= "@^(final )?(private |protected |public )?(static )?function @";		//  prepare regular expression for method/function signature
+				$regExp	= '@^(abstract )?(final )?(static )?(protected |private |public )?(static )?function ([\w]+)\((.*)\)(\s*{\s*)?;?\s*$@s';	//  prepare regular expression for method/function signature
 				if( preg_match( $regExp, $line ) )													//  line is method/function signature
 				{
 					$regExp	= "@^.*function ([^(]+) ?\((.*)\).*$@i";								//  prepare regular expression for method/function name and parameters
