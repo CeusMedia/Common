@@ -1,9 +1,11 @@
 <?php
 /**
- *	@package		APL.IO.Socket.Stream
+ *	@category		cmClasses
+ *	@package		Net.Socket.Stream
  */
 /**
- *	@package		APL.IO.Socket.Stream
+ *	@category		cmClasses
+ *	@package		Net.Socket.Stream
  */
 class Net_Socket_Stream_Request
 {

@@ -472,7 +472,8 @@ class File_PHP_Parser_Regular
 			{
 				if( preg_match( $this->regexClass, $line, $matches ) )
 				{
-					while( !trim( array_pop( array_slice( $matches, -1 ) ) ) )
+					$parts	= array_slice( $matches, -1 );
+					while( !trim( array_pop( $parts ) ) )
 						array_pop( $matches );
 					$class	= $this->parseClassOrInterface( $file, $matches );
 					$openClass	= TRUE;

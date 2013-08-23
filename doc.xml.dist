@@ -24,7 +24,7 @@
 
   <!--  PROJECTS  -->  
   <projects>
-    <project label="cmClasses" version="0.7.4" date="" revision="">
+    <project label="cmClasses" version="0.7.6" date="" revision="">
       <path alt="must be absolute">/path/to/cmClasses/version/src/</path>
       <extensions>
         <extension>php5</extension>
@@ -33,19 +33,14 @@
         <file alt="regular expression">/^(_|[a-z])/</file>
         <folder alt="regular expression">/^DB/</folder>
       </ignore>
-      <package>
-        <default>unreleased</default>
-        <uppercase alt="comma seperated"></uppercase>
-      </package>
-      <category>
-        <default>cmClasses</default>
-      </category>
+      <package>unreleased</package>
+      <category>cmClasses</category>
     </project>
   </projects>
 
   <!--  BUILDERS -->  
   <builders>
-    <builder format="HTML" converter="CM1" theme="plain">
+    <builder format="HTML" converter="CM1" theme="HTML">
       <path type="target" alt="absolute">/path/to/cmClasses/version/doc/api/</path>
       <path type="documents" alt="must be absolute">/path/to/cmClasses/version/</path>
       <language>en</language>
