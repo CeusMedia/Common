@@ -55,8 +55,8 @@
 class File_PHP_Parser_Regular
 {
 	protected $regexClass		= '@^(abstract )?(final )?(interface |class )([\w]+)( extends ([\w]+))?( implements ([\w]+)(, ([\w]+))*)?(\s*{)?@i';
-	protected $regexMethod		= '@^(abstract )?(final )?(static )?(protected |private |public )?(static )?function ([\w]+)\((.*)\)(\s*{\s*)?;?\s*$@';
-	protected $regexParam		= '@^(([\w]+) )?((&\s*)?\$([\w]+))( ?= ?([\S]+))?$@';
+	protected $regexMethod		= '@^(abstract )?(final )?(static )?(protected |private |public )?(static )?function ([\w]+)\((.*)\)(\s*{\s*)?;?\s*$@s';
+	protected $regexParam		= '@^(([\w]+) )?((&\s*)?\$([\w]+))( ?= ?([\S]+))?$@s';
 	protected $regexDocParam	= '@^\*\s+\@param\s+(([\S]+)\s+)?(\$?([\S]+))\s*(.+)?$@';
 	protected $regexDocVariable	= '@^/\*\*\s+\@var\s+(\w+)\s+\$(\w+)(\s(.+))?\*\/$@s';
 	protected $regexVariable	= '@^(static\s+)?(protected|private|public|var)\s+(static\s+)?\$(\w+)(\s+=\s+([^(]+))?.*$@';
