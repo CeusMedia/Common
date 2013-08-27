@@ -43,6 +43,9 @@ class UI_VariableDumper
 	const MODE_PRINT	= 0;
 	const MODE_DUMP		= 1;
 
+	static public $modePrintIndentSign	= ". ";
+	static public $modePrintIndentSize	= 2;
+	
 	/**
 	 *	Creates readable Dump of a Variable, either with print_m or var_dump, depending on printMode and installed XDebug Extension
 	 *
@@ -83,7 +86,7 @@ class UI_VariableDumper
 				}
 				break;
 			case self::MODE_PRINT:
-				print_m( $variable, ". ", 2 );										//  print Dump with 2 Dots as Indent Space
+				print_m( $variable, self::$modePrintIndentSign, self::$modePrintIndentSize );		//  print Dump with indent
 				break;
 		}
 		return ob_get_clean();														//  return buffered Dump
