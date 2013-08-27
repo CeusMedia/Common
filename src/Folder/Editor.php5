@@ -142,7 +142,7 @@ class Folder_Editor extends Folder_Reader
 	 *	@access		public
 	 *	@static
 	 *	@param		string		$folderName		Folder to create
-	 *	@param		int			$mode			Permission Mode, default: 0755
+	 *	@param		int			$mode			Permission Mode, default: 0770
 	 *	@param		string		$userName		User Name
 	 *	@param		string		$groupName		Group Name
 	 *	@return		bool
@@ -323,10 +323,40 @@ class Folder_Editor extends Folder_Reader
 	 *	@param		bool		$force			Flag: force to remove nested Files and Folders
 	 *	@return		int
 	 */
-	public static function removeFolder( $folderName, $force = false )
+	public static function removeFolder( $folderName, $force = FALSE, $strict = TRUE )
 	{
 		$folderName	= self::correctPath( $folderName);
 		$count	= 1;																		//  current Folder is first Object
+		if( file_exists( $folderName ) )
+		{
+			if( $strict )
+				throw new RuntimeException( 'Folder "'.$folderName.'" is not existing' );
+			else
+				return 0;
+		}
+		$index	= new DirectoryIterator( $folderName );
+		foreach( $index as $entry )
+		{
+			if( !$entry->isDot() )
+			{
+				if( !$force )																	//  nested Files or Folders found
+					throw new RuntimeException( 'Folder '.$folderName.' is not empty. See Option "force"' );
+				if( $entry->isFile() || $entry->isLink() )
+				{
+					if( FALSE === @unlink( $entry->getPathname() ) )								//  remove File and count
+						throw new RuntimeException( 'File "'.$folderName.$entry->getFilename().'" is not removable' );	//  throw Exception for File
+					$count	++;
+				}
+				else if( $entry->isDir() )
+				{
+					$count	+= self::removeFolder( $entry->getPathname(), $force );					//  call Method with nested Folder
+				}
+			}
+		}
+		rmdir( $folderName );																//  remove Folder
+		return $count;
+		
+		
 		$dir	= dir( $folderName );														//  index Folder
 		while( $entry = $dir->read() )														//  iterate Objects
 		{
@@ -337,7 +367,7 @@ class Folder_Editor extends Folder_Reader
 				throw new RuntimeException( 'Folder '.$folderName.' is not empty. See Option "force"' );
 			if( is_file( $pathName ) )														//  is nested File
 			{
-				if( FALSE === @unlink( $pathName ) )										//  remove File and count
+				if( FALSE === unlink( $pathName ) )										//  remove File and count
 					throw new RuntimeException( 'File "'.$pathName.'" is not removable' );	//  throw Exception for File
 				$count	++;
 			}
