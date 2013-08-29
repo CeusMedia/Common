@@ -60,7 +60,7 @@ class UI_HTML_FormElements
 	 *	Adds Readonly Attributes directly to Attributes Array, inserts JavaScript Alert if String given.
 	 *	@access		protected
 	 *	@param		array		$attributes		Reference to Attributes Array
-	 *	@param		mixed		$readOnly		Bool or String, String will be set in mit JavaScript Alert
+	 *	@param		mixed		$readOnly		Bool or String, String will be set in with JavaScript Alert
 	 *	@return		void
 	 */
 	protected static function addReadonlyAttributes( &$attributes, $readOnly )
@@ -466,10 +466,9 @@ class UI_HTML_FormElements
 	 *	@param		string		$submit			ID of Form to submit on Change
 	 *	@param		string		$focus			ID of Element to focus on Change
 	 *	@param		string		$change			JavaScript to execute on Change
-	 *	@param		string		$disabled		Field is not editableJavaScript to execute on Change
 	 *	@return		string
 	 */
-	public static function Select( $name, $options, $class = NULL, $readOnly = NULL, $submit = NULL, $focus = NULL, $change = NULL, $disabled = NULL )
+	public static function Select( $name, $options, $class = NULL, $readOnly = NULL, $submit = NULL, $focus = NULL, $change = NULL )
 	{
 		if( is_array( $options ) )
 		{
@@ -485,10 +484,13 @@ class UI_HTML_FormElements
 			'multiple'	=> substr( trim( $name ), -2 ) == "[]"	? "multiple" : NULL,
 			'onchange'	=> $focus.$submit.$change ? $focus.$submit.$change : NULL,
 		);
-		if( $readOnly )
-			self::addReadonlyAttributes( $attributes, $readOnly );
-		if( $disabled )
-			self::addDisabledAttributes( $attributes, $disabled );
+		if( $readOnly ){
+			$attributes['readonly']		= "readonly";
+			if( is_string( $readOnly ) && strlen( trim( $readOnly ) ) )
+				$attributes['onmousedown']		= "alert('".htmlentities( $readOnly, ENT_QUOTES, 'UTF-8' )."'); return false;";
+			else
+				self::addDisabledAttributes( $attributes, TRUE );
+		}
 		return UI_HTML_Tag::create( "select", $options, $attributes );
 	}
 
