@@ -22,7 +22,7 @@ class Test_Net_HTTP_Request_SenderTest extends PHPUnit_Framework_TestCase
 	{
 		$host		= "www.example.com";
 		$url		= "/";
-		$needle		= "@RFC\s+2606@i";
+		$needle		= "@Example Domain@i";
 		
 /*		$host		= "ceus-media.de";
 		$url		= "/";
