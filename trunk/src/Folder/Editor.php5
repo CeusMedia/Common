@@ -327,7 +327,7 @@ class Folder_Editor extends Folder_Reader
 	{
 		$folderName	= self::correctPath( $folderName);
 		$count	= 1;																		//  current Folder is first Object
-		if( file_exists( $folderName ) )
+		if( !file_exists( $folderName ) )
 		{
 			if( $strict )
 				throw new RuntimeException( 'Folder "'.$folderName.'" is not existing' );
