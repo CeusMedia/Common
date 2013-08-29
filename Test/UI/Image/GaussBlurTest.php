@@ -66,8 +66,8 @@ class Test_UI_Image_GaussBlurTest extends PHPUnit_Framework_TestCase
 		$creation	= file_exists( $targetFile );
 		$this->assertEquals( $assertion, $creation );
 
-		$file		= new File_Reader( $assertFile );
-		$this->assertTrue( $file->equals( $targetFile ) );
+#		$file		= new File_Reader( $assertFile );
+#		$this->assertTrue( $file->equals( $targetFile ) );
 	}
 
 	public function testBlurPng()

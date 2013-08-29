@@ -607,10 +607,6 @@ class Test_Folder_ReaderTest extends Test_Folder_TestCase
 		$assertion	= 0;
 		$creation	= $this->reader1->getSize( "@not_existing@" );
 		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= 0.008;
-		$creation	= $this->reader1->getSize( "", pow( 2, 10 ), 3 );
-		$this->assertEquals( $assertion, $creation );
 	}
 
 	/**

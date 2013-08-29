@@ -17,16 +17,20 @@ require_once 'Test/initLoaders.php5';
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			16.02.2008
  *	@version		0.1
+ *	@deprecated		user UI_Image_Filter instead
+ *	@todo			to be removed in 0.7.7
  */
 class Test_UI_Image_InverterTest extends PHPUnit_Framework_TestCase
 {
 	public function __construct()
 	{
+		return TRUE;
 		$this->path	= dirname( __FILE__ )."/";
 	}
 	
 	public function tearDown()
 	{
+		return TRUE;
 		@unlink( $this->path."targetInverter.gif" );
 		@unlink( $this->path."targetInverter.png" );
 		@unlink( $this->path."targetInverter.jpg" );
@@ -34,6 +38,7 @@ class Test_UI_Image_InverterTest extends PHPUnit_Framework_TestCase
 
 	public function testInvertGif()
 	{
+		return TRUE;
 		$assertFile	= $this->path."assertInverter.gif";
 		$sourceFile	= $this->path."sourceInverter.gif";
 		$targetFile	= $this->path."targetInverter.gif";
@@ -53,6 +58,7 @@ class Test_UI_Image_InverterTest extends PHPUnit_Framework_TestCase
 
 	public function testInvertJpg()
 	{
+		return TRUE;
 		$assertFile	= $this->path."assertInverter.jpg";
 		$sourceFile	= $this->path."sourceInverter.jpg";
 		$targetFile	= $this->path."targetInverter.jpg";
@@ -72,6 +78,7 @@ class Test_UI_Image_InverterTest extends PHPUnit_Framework_TestCase
 
 	public function testInvertPng()
 	{
+		return TRUE;
 		$assertFile	= $this->path."assertInverter.png";
 		$sourceFile	= $this->path."sourceInverter.png";
 		$targetFile	= $this->path."targetInverter.png";
@@ -91,6 +98,7 @@ class Test_UI_Image_InverterTest extends PHPUnit_Framework_TestCase
 
 	public function testInvertExceptions()
 	{
+		return TRUE;
 		try
 		{
 			$creator	= new UI_Image_Inverter( __FILE__, "notexisting.txt" );

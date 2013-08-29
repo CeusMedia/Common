@@ -392,7 +392,11 @@ class Test_UI_HTML_FormElementsTest extends PHPUnit_Framework_TestCase
 		$creation	= UI_HTML_FormElements::Select( "testName", $options, NULL, NULL, "testSubmit", "testFocus", "testChange" );
 		$this->assertEquals( $assertion, $creation );
 
-		$assertion	= '<select id="testName" name="testName" readonly="readonly" onclick="alert(\'testDisabled\');"><option value="value1">label1</option></select>';
+		$assertion	= '<select id="testName" name="testName" readonly="readonly" disabled="disabled"><option value="value1">label1</option></select>';
+		$creation	= UI_HTML_FormElements::Select( "testName", $options, NULL, TRUE );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= '<select id="testName" name="testName" readonly="readonly" onmousedown="alert(\'testDisabled\'); return false;"><option value="value1">label1</option></select>';
 		$creation	= UI_HTML_FormElements::Select( "testName", $options, NULL, "testDisabled" );
 		$this->assertEquals( $assertion, $creation );
 	}

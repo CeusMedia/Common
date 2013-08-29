@@ -177,19 +177,18 @@ class Test_UI_Image_WatermarkTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testSetStamp()
 	{
-		$this->mark->setStamp( $this->path."sourceWatermark.jpg" );
+		$this->mark->setStamp( $this->path."sourceWatermark.png" );
 		$stamp		= $this->mark->getProtectedVar( 'stamp' );
 
 		$assertion	= TRUE;
 		$creation	= is_resource( $stamp->getResource() );
 		$this->assertEquals( $assertion, $creation );
 
-
-		$assertion	= 864;
+		$assertion	= 100;
 		$creation	= $stamp->getWidth();
 		$this->assertEquals( $assertion, $creation );
 
-		$assertion	= 599;
+		$assertion	= 100;
 		$creation	= $stamp->getHeight();
 		$this->assertEquals( $assertion, $creation );
 	}
