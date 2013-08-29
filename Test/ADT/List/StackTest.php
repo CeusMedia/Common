@@ -172,11 +172,11 @@ class Test_ADT_List_StackTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testPopException()
 	{
-		$this->stack->pop();	
-		$this->stack->pop();	
-		$this->stack->pop();	
+		$this->stack->pop();
+		$this->stack->pop();
+		$this->stack->pop();
 		$this->setExpectedException( "RuntimeException" );
-		$this->stack->pop();	
+		$this->stack->pop();
 	}
 
 

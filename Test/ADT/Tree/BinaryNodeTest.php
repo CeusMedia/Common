@@ -211,4 +211,4 @@ class Test_ADT_Tree_BinaryNodeTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>	
+?>
