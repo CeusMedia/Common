@@ -38,6 +38,7 @@
  *	@since			16.12.2005
  *	@version		$Id$
  *	@deprecated		user UI_Image_Filter instead
+ *	@todo			to be removed in 0.7.7
  */
 class UI_Image_Inverter extends UI_Image_Modifier
 {	
@@ -48,6 +49,7 @@ class UI_Image_Inverter extends UI_Image_Modifier
 	 */
 	public function invert( $type = NULL )
 	{
+		return Deprecation::notify( "Please use CMM_IMG_Filter:negate() from cmModules instead" );
 		if( !$this->sourceUri )
 			throw new RuntimeException( 'No source image set' );
 
