@@ -317,7 +317,7 @@ class Folder_Reader
 		foreach( $this->getFileList( $pattern ) as $entry )
 			$size	+= $entry->getSize();
 		if( $unit )
-			$size	= Alg_UnitFormater::formatNumber( $size, $unit, $precision );
+			$size	= Alg_UnitFormater::formatBytes( $size, $precision );
 		return $size;
 	}
 
