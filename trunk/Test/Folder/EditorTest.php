@@ -328,18 +328,13 @@ class Test_Folder_EditorTest extends Test_Folder_TestCase
 	public function testRemoveFolder()
 	{
 		$this->editor->copyFolder( $this->path."folder", $this->path."remove" );
-
-		$assertion	= TRUE;
-		$creation	= file_exists( $this->path."remove" );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertTrue( file_exists( $this->path."remove" ) );
 		
 		$assertion	= 16;
 		$creation	= Folder_Editor::removeFolder( $this->path."remove", TRUE );
 		$this->assertEquals( $assertion, $creation );
 
-		$assertion	= FALSE;
-		$creation	= file_exists( $this->path."remove" );
-		$this->assertEquals( $assertion, $creation );
+		$this->assertFalse( file_exists( $this->path."remove" ) );
 	}
 
 	/**

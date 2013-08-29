@@ -17,16 +17,20 @@ require_once 'Test/initLoaders.php5';
  *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
  *	@since			16.02.2008
  *	@version		0.1
+ *	@deprecated		user UI_Image_Filter instead
+ *	@todo			to be removed in 0.7.7
  */
 class Test_UI_Image_MedianBlurTest extends PHPUnit_Framework_TestCase
 {
 	public function __construct()
 	{
+		return TRUE;
 		$this->path	= dirname( __FILE__ )."/";
 	}
 	
 	public function tearDown()
 	{
+		return TRUE;
 		@unlink( $this->path."targetMedian.gif" );
 		@unlink( $this->path."targetMedian.png" );
 		@unlink( $this->path."targetMedian.jpg" );
@@ -34,6 +38,7 @@ class Test_UI_Image_MedianBlurTest extends PHPUnit_Framework_TestCase
 
 	public function testBlurGif()
 	{
+		return TRUE;
 		$assertFile	= $this->path."assertMedian.gif";
 		$sourceFile	= $this->path."sourceMedian.gif";
 		$targetFile	= $this->path."targetMedian.gif";
@@ -53,6 +58,7 @@ class Test_UI_Image_MedianBlurTest extends PHPUnit_Framework_TestCase
 
 	public function testBlurJpg()
 	{
+		return TRUE;
 		$assertFile	= $this->path."assertMedian.jpg";
 		$sourceFile	= $this->path."sourceMedian.jpg";
 		$targetFile	= $this->path."targetMedian.jpg";
@@ -72,6 +78,7 @@ class Test_UI_Image_MedianBlurTest extends PHPUnit_Framework_TestCase
 
 	public function testBlurPng()
 	{
+		return TRUE;
 		$assertFile	= $this->path."assertMedian.png";
 		$sourceFile	= $this->path."sourceMedian.png";
 		$targetFile	= $this->path."targetMedian.png";
@@ -91,6 +98,7 @@ class Test_UI_Image_MedianBlurTest extends PHPUnit_Framework_TestCase
 
 	public function testBlurExceptions()
 	{
+		return TRUE;
 		try
 		{
 			$creator	= new UI_Image_MedianBlur( __FILE__, "notexisting.txt" );
