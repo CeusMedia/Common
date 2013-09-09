@@ -292,15 +292,20 @@ class ADT_List_Dictionary implements ArrayAccess, Countable, Iterator
 	 *	Sets Value of Key in Dictionary.
 	 *	@access		public
 	 *	@param		string		$key		Key in Dictionary
-	 *	@param		string		$value		Value of Key
+	 *	@param		string		$value		Value of Key, NULL will remove pair from list
 	 *	@return		bool
 	 */
 	public function set( $key, $value )
 	{
-		if( $this->has( $key ) && $this->pairs[$key] === $value )
-			return FALSE;
-		$this->pairs[$key]		= $value;
-		return TRUE;
+		if( $this->has( $key ) )																	//  check if pair is already existing
+		{
+			if( is_null( $value ) )																	//  given value is NULL, which means: remove this pair
+				return $this->remove( $key );														//  remove pair and return result of sub operation
+			else if( $this->pairs[$key] === $value )												//  value of pair did not change
+				return FALSE;																		//  quit and return negative because no change has taken place
+		}
+		$this->pairs[$key]		= $value;															//  set new value of current pair
+		return TRUE;																				//  indicate success
 	}
 
 	/**
