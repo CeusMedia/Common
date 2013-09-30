@@ -105,9 +105,9 @@ class Net_Mail
 
 		$contents	= array( 'This is a multi-part message in MIME format.');
 		foreach( $this->parts as $part )
-			$contents[]	= '--'.$this->mimeBoundary.PHP_EOL.$part->render();
-		$contents[]	= '--'.$this->mimeBoundary.'--'.PHP_EOL.PHP_EOL;
-		return join( PHP_EOL, $contents );
+			$contents[]	= '--'.$this->mimeBoundary.Net_Mail::$delimiter.$part->render();
+		$contents[]	= '--'.$this->mimeBoundary.'--'.Net_Mail::$delimiter.Net_Mail::$delimiter;
+		return join( Net_Mail::$delimiter, $contents );
 	}
 
 	/**

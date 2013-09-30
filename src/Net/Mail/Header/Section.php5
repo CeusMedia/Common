@@ -186,7 +186,7 @@ class Net_Mail_Header_Section
 	{
 		$list	= $this->toArray();
 		if( $list )
-			return implode( PHP_EOL, $list )/*.Net_Mail::$delimiter*/;
+			return implode( Net_Mail::$delimiter, $list )/*.Net_Mail::$delimiter*/;
 		return "";
 	}
 }
