@@ -84,7 +84,7 @@ class Net_Mail_Body
 	 */
 	public function setContent( $content )
 	{
-		$this->content	= wordwrap( $content, 998, PHP_EOL );
+		$this->content	= wordwrap( $content, 998, Net_Mail::$delimiter, TRUE );
 	}
 
 	/**
@@ -121,7 +121,7 @@ class Net_Mail_Body
 	 */
 	public function wrapWords( $maxLineLength = 78 )
 	{
-		$this->content	= wordwrap( $this->content, $maxLineLength, PHP_EOL );
+		$this->content	= chunk_split( $this->content, $maxLineLength, Net_Mail::$delimiter );
 	}
 
 	/**
@@ -131,7 +131,7 @@ class Net_Mail_Body
 	 */
 	public function render()
 	{
-		return $this->headers->toString().PHP_EOL.PHP_EOL.$this->content/*.PHP_EOL*/;
+		return $this->headers->toString().Net_Mail::$delimiter.Net_Mail::$delimiter.$this->content/*.PHP_EOL*/;
 	}
 }
 ?>

@@ -136,7 +136,7 @@ class Net_Mail_Transport_SMTP
 	public function send( Net_Mail $mail )
 	{
 		$mail->setHeaderPair( 'X-Mailer', $this->mailer );
-		$delim	= PHP_EOL;
+		$delim	= Net_Mail::$delimiter;
 		$date	= date( "D, d M Y H:i:s O", time() );
 		$server	= 'localhost';
 		if( !empty( $_SERVER['SERVER_NAME'] ) )
@@ -172,9 +172,10 @@ class Net_Mail_Transport_SMTP
 			$this->checkResponse( $conn );
 			$this->sendChunk( $conn, "Date: ".$date );
 			$this->sendChunk( $conn, "Subject: ".$mail->getSubject() );
-			$this->sendChunk( $conn, "To: ".$mail->getReceiver() );
-			$this->sendChunk( $conn, $mail->getHeaders()->toString() );
-			$this->sendChunk( $conn, $mail->getBody() );
+			$this->sendChunk( $conn, "To: <".$mail->getReceiver().">" );
+			foreach( $mail->getHeaders()->getFields() as $header )
+				$this->sendChunk( $conn, $header->toString() );
+			$this->sendChunk( $conn, trim( $mail->getBody() ) );
 			$this->checkResponse( $conn );
 			$this->sendChunk( $conn, '.' );
 			$this->checkResponse( $conn );
@@ -192,7 +193,7 @@ class Net_Mail_Transport_SMTP
 	protected function sendChunk( $connection, $message ){
 		if( $this->verbose )
 			xmp( ' < '.$message );
-		fputs( $connection, $message.PHP_EOL );
+		fputs( $connection, $message.Net_Mail::$delimiter );
 	}
 
 	protected function checkResponse( $connection ){
