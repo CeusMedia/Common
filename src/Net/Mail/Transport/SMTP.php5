@@ -155,7 +155,7 @@ class Net_Mail_Transport_SMTP
 			$this->sendChunk( $conn, "HELO ".$server );
 			$this->checkResponse( $conn );
 			if( $this->isSecure ){
-				$this->sendChunk( $conn, "STARTTLS" );	
+				$this->sendChunk( $conn, "STARTTLS" );
 				$this->checkResponse( $conn );
 			}
 			if( $this->username && $this->password ){
@@ -175,7 +175,7 @@ class Net_Mail_Transport_SMTP
 			$this->sendChunk( $conn, "To: <".$mail->getReceiver().">" );
 			foreach( $mail->getHeaders()->getFields() as $header )
 				$this->sendChunk( $conn, $header->toString() );
-			$this->sendChunk( $conn, trim( $mail->getBody() ) );
+			$this->sendChunk( $conn, $delim.$mail->getBody() );
 			$this->checkResponse( $conn );
 			$this->sendChunk( $conn, '.' );
 			$this->checkResponse( $conn );
