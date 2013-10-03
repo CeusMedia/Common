@@ -58,7 +58,7 @@ class File_CSS_Compressor
 		$this->statistics['after']	= strlen( $string );
 		return $string;
 	}
-	
+
 	/**
 	 *	Reads and compresses a CSS File and returns Length of compressed File.
 	 *	@access		public
@@ -71,14 +71,12 @@ class File_CSS_Compressor
 			throw new Exception( "Style File '".$fileUri."' is not existing." );
 
 		$content	= self::compressString( file_get_contents( $fileUri ) );
-		
 		$pathName	= dirname( $fileUri );
 		$styleFile	= basename( $fileUri );
 		$styleName	= preg_replace( "@\.css$@", "", $styleFile );
 		$fileName	= $this->prefix.$styleName.$this->suffix.".css";
 		$fileUri	= $pathName."/".$fileName;
 		$fileUri	= str_replace( "\\", "/", $fileUri );
-		
 		file_put_contents( $fileUri, $content );
 		return $fileUri;
 	}
@@ -89,23 +87,23 @@ class File_CSS_Compressor
 	}
 
 	static public function compressString( $string, $oneLine = FALSE ){
-		$string	= preg_replace( '@/\*.*\*/@sU', '', $string );											//  remove code doc blocks
-		$string	= preg_replace( '@(\S),\n(\S)@sU', "\\1,\\2", $string );								//  remove break in selector lists
-		$string	= preg_replace( '@\n\s+@sU', "\n", $string );											//  remove spaces after breaks
-		$string	= preg_replace( '@;\s+(\S)@s', ";\\1", $string );										//  remove breaks and spaces between properties
-		$string	= preg_replace( '@\s*\{\s*@s', "{", $string );											//  @todo: may be slow
-		$string	= preg_replace( '@\s*;?\}'.( $oneLine ? '\s*' : '' ).'@s', "}", $string );				//  @todo: may be slow
-		$string	= preg_replace( '@\n+@s', "\n", $string );												//  compact breaks
-		$string	= preg_replace( '@\s*:\s*@', ':', $string );											//  remove space after property key and before property value
-		$string	= preg_replace( '@\.\./@', '', $string );												//  rewrite resource path
-		$string	= trim( $string );
+		$string	= preg_replace( '!/\*[^*]*\*+([^/][^*]*\*+)*/!', '', $string );							//  remove comments
+		$string	= str_replace( ': ', ':', $string );													//  remove space after colons
+		$string	= str_replace( array( "\r\n", "\r", "\n", "\t", '  ', '    ' ), '', $string );			//  remove whitespace
+		$string	= preg_replace( '@\s*\{\s*@s', "{", $string );											//  remove spaces after selectors
+		$string	= preg_replace( '@\s*\}@s', "}", $string );											//  remove spaces after selectors
+		$string	= trim( $string );																		//  remove leading and trailing space
 		return $string;
+
+		$string	= trim( $string );																		//  remove leading and trailing space
+		
+		
 	}
 
 	/**
 	 *	Returns statistical Data of last Combination.
 	 *	@access		public
-	 *	@return		array	
+	 *	@return		array
 	 */
 	public function getStatistics()
 	{
@@ -122,8 +120,8 @@ class File_CSS_Compressor
 	{
 		if( trim( $prefix ) )
 			$this->prefix	= $prefix;
-	}	
-	
+	}
+
 	/**
 	 *	Sets Suffix of compressed File Name.
 	 *	@access		public
@@ -134,6 +132,6 @@ class File_CSS_Compressor
 	{
 		if( trim( $suffix ) )
 			$this->suffix	= $suffix;
-	}	
+	}
 }
 ?>
