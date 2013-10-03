@@ -153,6 +153,7 @@ class Folder_Editor extends Folder_Reader
 			return FALSE;
 		if( false === @mkdir( $folderName, $mode, TRUE ) )									//  create Folder recursive
 			throw new RuntimeException( 'Folder "'.$folderName.'" could not be created' );
+		chmod( $folderName, $mode );
 		if( $userName )																		//  User is set
 			chown( $folderName, $userName );												//  change Owner to User
 		if( $groupName )																	//  Group is set
