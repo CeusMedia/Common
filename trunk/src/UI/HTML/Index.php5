@@ -90,11 +90,11 @@ class UI_HTML_Index{
 	 *	@access		public
 	 *	@return		string		HTML of list containing heading structure.
 	 */
-	public function renderList(){
+	public function renderList( $itemClassPrefix = "level-" ){
 		$list	= array();																			//  
 		foreach( $this->headings as $item ){														//  
 			$link	= UI_HTML_Tag::create( 'a', $item->label, array( 'href' => "#".$item->id ) );	//  
-			$attributes		= array( 'class' => 'level-'.$item->level );							//  
+			$attributes		= array( 'class' => $itemClassPrefix.$item->level );							//  
 			$list[]	= UI_HTML_Elements::ListItem( $link, 0, $attributes );							//  
 		}
 		return UI_HTML_Tag::create( 'ul', $list, array( 'class' => 'index-list' ) );				//  
