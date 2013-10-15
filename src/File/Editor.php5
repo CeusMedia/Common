@@ -60,8 +60,14 @@ class File_Editor extends File_Reader
 		$this->writer	= new File_Writer( $fileName, $creationMode, $creationUser, $creationGroup );
 	}
 
-	public function appendString( $string ){
+	public function appendString( $string )
+	{
 		$this->writer->appendString( $string );
+	}
+
+	public function copy( $fileName )
+	{
+		return @copy( $this->fileName, $fileName );
 	}
 
 	public static function delete( $fileName )
