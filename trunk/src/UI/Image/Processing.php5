@@ -92,9 +92,9 @@ class UI_Image_Processing
 			throw new OutOfRangeException( 'Height must be atleast 1' );
 		$image	= new UI_Image;
 		$image->create( $width, $height );
-		imagecopy( $image->getResource(), $this->image->getResource(), 0, 0, $startX, $startY, $width, $height );
+		$image->setType( $this->image->getType() );
 
-		$this->image->setType( $image->getType() );
+		imagecopy( $image->getResource(), $this->image->getResource(), 0, 0, $startX, $startY, $width, $height );
 		$this->image->setResource( $image->getResource() );											//  replace held image resource object by result
 		return TRUE;
 	}
@@ -162,6 +162,7 @@ class UI_Image_Processing
 
 		$image	= new UI_Image;
 		$image->create( $width, $height );
+		$image->setType( $this->image->getType() );
 
 		$parameters	= array_merge(																	//  combine parameters from:
 			array( $image->getResource(), $this->image->getResource() ),							//  target and source resources
@@ -174,7 +175,6 @@ class UI_Image_Processing
 		$reflection	= new ReflectionFunction( $function );											//  reflect function
 		$reflection->invokeArgs( $parameters );														//  call function with parameters
 
-//		$this->image->setType( $image->getType() );
 		$this->image->setResource( $image->getResource() );											//  replace held image resource object by result
 		return TRUE;
 	}
