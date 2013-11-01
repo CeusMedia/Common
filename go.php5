@@ -1,3 +1,4 @@
+#!/usr/bin/env php
 <?php
 $url		= "http://cmtools.googlecode.com/svn/trunk/Go/";
 $fileApp	= "Go/Application.php5";
