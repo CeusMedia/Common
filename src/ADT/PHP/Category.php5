@@ -37,6 +37,7 @@
  */
 class ADT_PHP_Category
 {
+	protected $categories	= array();
 	protected $classes		= array();
 	protected $interfaces	= array();
 	protected $packages		= array();
