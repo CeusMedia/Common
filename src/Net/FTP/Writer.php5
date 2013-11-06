@@ -129,7 +129,7 @@ class Net_FTP_Writer
 	public function createFolder( $folderName )
 	{
 		$this->connection->checkConnection();
-		return (bool) @ftp_mkdir( $this->connection->getResource(), $folderName );
+		return (bool) ftp_mkdir( $this->connection->getResource(), $folderName );
 	}
 	
 	/**
