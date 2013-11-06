@@ -50,6 +50,7 @@ class UI_HTML_Indicator extends ADT_OptionObject
 		'length'				=> 100,
 		'invertColor'			=> FALSE,
 		'useColor'				=> TRUE,
+		'useColorAtBorder'		=> FALSE,
   		'useData'				=> TRUE,
 		'usePercentage'			=> FALSE,
 		'useRatio'				=> FALSE,
@@ -93,6 +94,10 @@ class UI_HTML_Indicator extends ADT_OptionObject
 //				if( strlen( $value ) )
 //				if( preg_match( "/^use/", $key ) )
 					$divIndicator->setAttribute( 'data-option-'.$key, (string) $value );
+		}
+		if( $this->getOption( 'useColorAtBorder' ) ){
+			$color	= $this->getColorFromRatio( $ratio );
+			$divIndicator->setAttribute( 'style', "border-color: rgb(".$color[0].",".$color[1].",".$color[2].")" );
 		}
 		return $divIndicator->build();
 	}
@@ -204,10 +209,13 @@ class UI_HTML_Indicator extends ADT_OptionObject
 		$bar		= UI_HTML_Tag::create( 'div', "", $attributes );
 		
 		$attributes	= array( 'class' => $this->getOption( 'classOuter' ) );
+		$style		= array();
 		if( $length != 100 )
-			$attributes['style']	= array( 'width' => $length.'px' );
-		$div		= UI_HTML_Tag::create( "span", $bar, $attributes );
-		return $div;
+			$style[]	= 'width: '.$length.'px';
+		if( $this->getOption( 'useColor' ) && $this->getOption( 'useColorAtBorder' ) )
+			$style[]	= "border-color: rgb(".$color[0].",".$color[1].",".$color[2].")";
+		$attributes['style']	= join( "; ", $style );
+		return UI_HTML_Tag::create( "span", $bar, $attributes );
 	}
 
 	/**
