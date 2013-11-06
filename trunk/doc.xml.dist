@@ -9,7 +9,7 @@
 		<package by="default">unreleased</package>
 	</project>
 	<builder format="HTML" theme="Default-SilverFire">
-		<path type="target">/path/to/cmClasses/version/doc/api/</path>
+		<path type="target">/path/to/cmClasses/version/docs/api/</path>
 		<path type="documents">/path/to/cmClasses/version/</path>
 		<title version="">cmClasses</title>
 		<author email="christian.wuerker@ceusmedia.de">Christian Würker</author>
@@ -45,8 +45,8 @@
 	</reader>
 	<creator timelimit="120">
 		<mail></mail>
-		<file type="serial" alt="relative to 'doc.path'">tmp/doc.cmc.serial</file>
-		<file type="archive" alt="relative to 'doc.path'">tmp/doc.cmc.serial.gz</file>
+		<file type="serial">tmp/doc.cmc.serial</file>
+		<file type="archive">tmp/doc.cmc.serial.gz</file>
 		<file type="errors">logs/docCreatorErrors.log</file>
 		<skip parser="FALSE" creator="FALSE" info="FALSE" resources="FALSE"/>
 		<verbose general="TRUE" skip="FALSE" config="FALSE" info="TRUE"/>

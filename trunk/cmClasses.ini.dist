@@ -34,8 +34,8 @@ tutorial			= ""
 [paths]
 php				= ""
 phpDocumentor			= ""
-code_coverage			= "doc/coverage/"
-documentations			= "doc/"
+code_coverage			= "docs/coverage/"
+documentations			= "docs/"
 tests				= "Test/"
 
 
@@ -43,7 +43,7 @@ tests				= "Test/"
 ;	Options for Unit Testing using PHPUnit
 ;
 [unitTestOptions]
-coverage-html			= "doc/coverage"
+coverage-html			= "docs/coverage"
 log-json			= "Test/results.json"
 log-junit			= "Test/results.xml"
 
@@ -93,7 +93,7 @@ timezone			= "Europe/Berlin"
 ;
 [phpDocumentor]
 directory			= "src/"
-target				= "doc/phpDoc/"
+target				= "docs/phpDoc/"
 output				= "HTML:frames:earthli,HTML:Smarty:PHP,PDF:default:default,XML:DocBook/peardoc2:default,HTML:frames:phphtmllib,HTML:frames:phpedit"
 output				= "HTML:frames:earthli,XML:DocBook/peardoc2:default,HTML:frames:phphtmllib,HTML:frames:phpedit"
 output				= "HTML:frames:phpedit"
