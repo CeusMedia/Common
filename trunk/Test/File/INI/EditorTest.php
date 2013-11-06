@@ -19,6 +19,14 @@ require_once 'Test/initLoaders.php5';
  */
 class Test_File_INI_EditorTest extends PHPUnit_Framework_TestCase
 {
+	protected $fileList;
+	protected $fileSections;
+
+	/**	@var		File_INI_Editor		$list			Editor for INI file without sections */
+	protected $list;
+	/**	@var		File_INI_Editor		$sections		Editor for INI file with sections */
+	protected $sections;
+
 	/**
 	 *	Constructor.
 	 *	@access		public
@@ -27,8 +35,10 @@ class Test_File_INI_EditorTest extends PHPUnit_Framework_TestCase
 	public function __construct()
 	{
 		$this->path	= dirname( __FILE__ )."/";
+		$this->fileList		= $this->path."editor.list.ini";
+		$this->fileSections	= $this->path."editor.sections.ini";
 	}
-	
+
 	/**
 	 *	Setup for every Test.
 	 *	@access		public
@@ -36,12 +46,12 @@ class Test_File_INI_EditorTest extends PHPUnit_Framework_TestCase
 	 */
 	public function setUp()
 	{
-		copy( $this->path."reader.ini", $this->path."editor.list.ini" );
-		copy( $this->path."reader.ini", $this->path."editor.sections.ini" );
-		$this->list		= new File_INI_Editor( $this->path."editor.list.ini", FALSE );
-		$this->sections	= new File_INI_Editor( $this->path."editor.sections.ini", TRUE );
+		copy( $this->path."reader.ini", $this->fileList );
+		copy( $this->path."reader.ini", $this->fileSections );
+		$this->list		= new File_INI_Editor( $this->fileList, FALSE );
+		$this->sections	= new File_INI_Editor( $this->fileSections, TRUE );
 	}
-	
+
 	/**
 	 *	Cleanup after every Test.
 	 *	@access		public
@@ -49,8 +59,26 @@ class Test_File_INI_EditorTest extends PHPUnit_Framework_TestCase
 	 */
 	public function tearDown()
 	{
-		@unlink( $this->path."editor.list.ini" );
-		@unlink( $this->path."editor.sections.ini" );
+		@unlink( $this->fileList );
+		@unlink( $this->fileSections );
+	}
+
+	/**
+	 *	At first test protected write method.
+	 *	Check that the write result of an "unchanged" data set still looks the same.
+	 *	The idempotency of the write method is elementary for all other tests.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testWriteIdempotency()
+	{
+		$assertion	= File_Reader::load( $this->fileList );
+		$this->list->setProperty( "key1", "value1", "not_important" );
+		$creation	= File_Reader::load( $this->fileList );
+
+		$assertion	= File_Reader::load( $this->fileSections );
+		$this->sections->setProperty( "key1", "value1", "section1" );
+		$creation	= File_Reader::load( $this->fileSections );
 	}
 
 	/**
@@ -63,7 +91,7 @@ class Test_File_INI_EditorTest extends PHPUnit_Framework_TestCase
 		$assertion	= TRUE;
 		$creation	= $this->list->activateProperty( 'key5' );
 		$this->assertEquals( $assertion, $creation );
-		
+
 		$assertion	= TRUE;
 		$creation	= in_array( 'key5', array_keys( $this->list->getProperties( TRUE ) ) );
 		$this->assertEquals( $assertion, $creation );
@@ -71,7 +99,7 @@ class Test_File_INI_EditorTest extends PHPUnit_Framework_TestCase
 		$assertion	= TRUE;
 		$creation	= $this->sections->activateProperty( 'key5', 'section2' );
 		$this->assertEquals( $assertion, $creation );
-		
+
 		$assertion	= TRUE;
 		$creation	= in_array( 'key5', array_keys( $this->sections->getProperties( TRUE, 'section2' ) ) );
 		$this->assertEquals( $assertion, $creation );
@@ -137,11 +165,19 @@ class Test_File_INI_EditorTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= TRUE;
-		$creation	= $this->sections->addProperty( 'key6', "new_value6", 'section2' );
+		$creation	= $this->sections->addProperty( 'key6', "new_value6", NULL, TRUE, 'section1' );
 		$this->assertEquals( $assertion, $creation );
-		
+
 		$assertion	= TRUE;
-		$creation	= in_array( 'key6', array_keys( $this->sections->getProperties( TRUE, 'section2' ) ) );
+		$creation	= in_array( 'key6', array_keys( $this->sections->getProperties( TRUE, 'section1' ) ) );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= TRUE;
+		$creation	= $this->sections->addProperty( 'key7', "new_value7", 'section2' );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= TRUE;
+		$creation	= in_array( 'key7', array_keys( $this->sections->getProperties( TRUE, 'section2' ) ) );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -456,11 +492,11 @@ class Test_File_INI_EditorTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 *	Tests Method 'setProperty'.
+	 *	Tests list mode of method 'setProperty'.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testSetProperty()
+	public function testSetProperty_List()
 	{
 		$assertion	= TRUE;
 		$creation	= $this->list->setProperty( 'key2', "new_value_of KEY 2" );
@@ -481,10 +517,21 @@ class Test_File_INI_EditorTest extends PHPUnit_Framework_TestCase
 		$assertion	= TRUE;
 		$creation	= $this->list->setProperty( 'key_x', "new_value_of KEY 'x'" );
 		$this->assertEquals( $assertion, $creation );
+
+#remark( );
 		
 		$assertion	= "new_value_of KEY 'x'";
 		$creation	= $this->list->getProperty( 'key_x' );
 		$this->assertEquals( $assertion, $creation );
+	}
+
+	/**
+	 *	Tests section mode of method 'setProperty'.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testSetProperty_Section()
+	{
 
 		$assertion	= TRUE;
 		$creation	= $this->sections->setProperty( 'key3', "new_value_of KEY 3", 'section2' );
@@ -497,7 +544,7 @@ class Test_File_INI_EditorTest extends PHPUnit_Framework_TestCase
 		$assertion	= TRUE;
 		$creation	= $this->sections->setProperty( 'key_x', "new_value_of KEY 'x'", 'section2' );
 		$this->assertEquals( $assertion, $creation );
-		
+
 		$assertion	= "new_value_of KEY 'x'";
 		$creation	= $this->sections->getProperty( 'key_x', 'section2' );
 		$this->assertEquals( $assertion, $creation );

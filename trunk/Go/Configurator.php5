@@ -27,6 +27,11 @@ class Go_Configurator
 			remark( 'Setting up "'.$targetFile.'"... ' );
 			$content	= file_get_contents( $pwd.$sourceFile );
 			$content	= str_replace( "/path/to/cmClasses/version/", $pwd, $content );
+			if( file_exists( $pwd."cmClasses.ini" ) ){
+				$config		= parse_ini_file( $pwd."cmClasses.ini", TRUE );
+				$version	= $config['project']['version'];
+				$content	= str_replace( 'title version=""', 'title version="'.$version.'"', $content );
+			}
 			if( !$force && file_exists( $pwd.$targetFile ) )
 				$status	= "already existing, use --force to overwrite";
 			else
