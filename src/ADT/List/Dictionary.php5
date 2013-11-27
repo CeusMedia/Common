@@ -55,6 +55,10 @@ class ADT_List_Dictionary implements ArrayAccess, Countable, Iterator
 	 */
 	public function __construct( $array = array() )
 	{
+		if( $array instanceof ADT_List_Dictionary )
+			$array	= $array->getAll();
+		if( is_object( $array ) )
+			$array	= (array) $array;
 		if( is_array( $array ) && count( $array ) )
 			foreach( $array as $key => $value )
 				$this->set( $key, $value );
