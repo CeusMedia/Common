@@ -42,6 +42,7 @@ class Net_IMAP_Box
 {
 	protected $connection;
 	protected $cache;
+	protected $folder;
 
 	/**
 	 *	Constructor.
@@ -63,7 +64,7 @@ class Net_IMAP_Box
 	 */
 	public function getBoxInfo( $folder = NULL )
 	{
-		$address	= $this->connection->getAddress( $folder );
+		$address	= $this->connection->getAddress( $this->folder.$folder );
 		$info		= imap_mailboxmsginfo( $this->connection->getStream() );
 		if( !$info )
 			throw new Exception( "imap_mailboxmsginfo() failed: ". imap_lasterror() );
@@ -101,13 +102,19 @@ class Net_IMAP_Box
 	public function decode( $matches ){
 		$string	= $matches[3];
 		switch( strtoupper( $matches[2] ) ){
-			case 'Q': $string	= quoted_printable_decode( $string ); break;
-			default: break;
+			case 'Q':
+			case 'QUOTED-PRINTABLE':
+				$string	= quoted_printable_decode( $string );
+				break;
+			case 'B':
+			case 'BASE64':
+				$string	= base64_decode( $string );
+				break;
 		}
 		switch( strtoupper( $matches[1] ) ){
-			case 'cp866':
-			case 'cp1251':
-			case 'cp1252':
+			case 'CP866':
+			case 'CP1251':
+			case 'CP1252':
 			case 'ISO-8859-1':
 			case 'ISO-8859-2':
 			case 'ISO-8859-15':
@@ -115,8 +122,12 @@ class Net_IMAP_Box
 			case 'BIG5':
 			case 'GB2312':
 			case 'Shift_JIS':
-			case 'EUC-JP': $string	= iconv( $matches[1], 'UTF-8//TRANSLIT', $string ); break;
-			default: $string	= utf8_encode( $string ); break;
+			case 'EUC-JP':
+				$string	= iconv( $matches[1], 'UTF-8//TRANSLIT', $string );
+				break;
+			default:
+				$string	= utf8_encode( $string );
+				break;
 		}
 		return $string;
 	}
