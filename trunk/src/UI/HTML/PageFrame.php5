@@ -205,6 +205,10 @@ class UI_HTML_PageFrame
 	 */
 	public function build( $bodyAttributes = array(), $htmlAttributes = array() )
 	{
+		if( !is_array( $bodyAttributes ) )
+			throw new InvalidArgumentException( 'Parameter "bodyAttributes" need to be an array or empty' );
+		if( !is_array( $htmlAttributes ) )
+			throw new InvalidArgumentException( 'Parameter "htmlAttributes" need to be an array or empty' );
 		$tagsHead	= array();
 		$tagsBody	= array();
 
