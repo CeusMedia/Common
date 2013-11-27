@@ -258,8 +258,10 @@ class ADT_String
 	public function replace( $search, $replace, $caseSense = TRUE )
 	{
 		$count			= 0;
-		$method			= $caseSense ? "str_replace" : "str_ireplace";
-		$this->string	= call_user_func( $method, $search, $replace, $this->string, $count );
+		if( $caseSense )
+			$this->string	= str_replace( $search, $replace, $this->string, $count );
+		else
+			$this->string	= str_ireplace( $search, $replace, $this->string, $count );
 		return $count;
 	}
 
@@ -305,7 +307,7 @@ class ADT_String
 		$this->capitalizeWords();
 		$this->replace( " ", "" );
 		if( !$startUpperCase )
-			$this->toLowerCase( TRUE );
+			$this->string[0]	= strtolower( $this->string[0] );
 		return $this->string !== $oldString;
 	}
 
