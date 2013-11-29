@@ -4,7 +4,7 @@
  *	@package		Tests.adt.list
  *	@extends		PHPUnit_Framework_TestCase
  *	@uses			Test_ADT_List_Dictionay
- *	@author			Christian W�rker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@version		0.1
  */
 require_once 'PHPUnit/Framework/TestCase.php';
@@ -14,7 +14,7 @@ require_once 'Test/initLoaders.php5';
  *	@package		Tests.adt.list
  *	@extends		PHPUnit_Framework_TestCase
  *	@uses			Test_ADT_List_Dictionay
- *	@author			Christian W�rker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@version		0.1
  */
 class Test_ADT_List_DictionaryTest extends PHPUnit_Framework_TestCase
@@ -46,8 +46,19 @@ class Test_ADT_List_DictionaryTest extends PHPUnit_Framework_TestCase
 		$assertion	= "value3";
 		$creation	= $this->dictionary->get( 'key3' );
 		$this->assertEquals( $assertion, $creation );
-		$assertion	= null;
+		$assertion	= NULL;
 		$creation	= $this->dictionary->get( 'key4' );
+		$this->assertEquals( $assertion, $creation );
+	}
+
+	public function testGetWithDefault()
+	{
+		$assertion	= "value3";
+		$creation	= $this->dictionary->get( 'key3', -1 );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= -1;
+		$creation	= $this->dictionary->get( 'key4', -1 );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -67,6 +78,7 @@ class Test_ADT_List_DictionaryTest extends PHPUnit_Framework_TestCase
 		$assertion	= 'key2';
 		$creation	= $this->dictionary->getKeyOf( 'value2' );
 		$this->assertEquals( $assertion, $creation );
+
 		$assertion	= null;
 		$creation	= $this->dictionary->getKeyOf( 'value4' );
 		$this->assertEquals( $assertion, $creation );
@@ -77,6 +89,7 @@ class Test_ADT_List_DictionaryTest extends PHPUnit_Framework_TestCase
 		$assertion	= true;
 		$creation	= $this->dictionary->has( 'key2' );
 		$this->assertEquals( $assertion, $creation );
+
 		$assertion	= false;
 		$creation	= $this->dictionary->has( 'key4' );
 		$this->assertEquals( $assertion, $creation );
