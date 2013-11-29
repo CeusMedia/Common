@@ -130,9 +130,13 @@ class UI_HTML_Tag
 			if( empty( $key ) )																		//  no valid attribute key defined
 				continue;																			//  skip this pair
 			$key	= strtolower( $key );
+			if( !preg_match( '/^[a-z][a-z0-9.:_-]*$/', $key ) )										//  key is not a valid lowercase ID (namespaces supported)
+				throw new InvalidArgumentException( 'Invalid attribute key' );						//  throw exception
 			if( array_key_exists( $key, $list ) && !$allowOverride )								//  attribute is already defined
 				throw new InvalidArgumentException( 'Attribute "'.$key.'" is already set' );		//  throw exception
 			if( is_array( $value ) ){																//  attribute is an array
+				if( !count( $value ) )
+					continue;
 				$valueList	= join( ' ', $value );													//  just combine value items with whitespace
 				if( $key == 'style' ){																//  special case: style attribute
 					$valueList	= '';																//  reset list
@@ -143,12 +147,11 @@ class UI_HTML_Tag
 			}
 			if( !( is_string( $value ) || is_numeric( $value ) ) )									//  attribute is neither string nor numeric
 				continue;																			//  skip this pair
-			if( !preg_match( '/^[a-z][a-z0-9.:_-]*$/', $key ) )										//  key is not a valid lowercase ID (namespaces supported)
-				throw new InvalidArgumentException( 'Invalid attribute key' );						//  throw exception
 			if( preg_match( '/[^\\\]"/', $value ) )													//  value contains unescaped (double) quotes
 				$value	= addslashes( $value );
 #				throw new InvalidArgumentException( 'Invalid attribute value "'.$value.'"' );		//  throw exception
-			$list[$key]	= strtolower( $key ).'="'.$value.'"';
+			if( strlen( trim( $value ) ) )
+				$list[$key]	= strtolower( $key ).'="'.$value.'"';
 		}
 		return $list ? " ".implode( " ", $list ) : "";
 	}

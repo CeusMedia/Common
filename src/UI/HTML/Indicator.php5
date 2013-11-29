@@ -209,12 +209,12 @@ class UI_HTML_Indicator extends ADT_OptionObject
 		$bar		= UI_HTML_Tag::create( 'div', "", $attributes );
 		
 		$attributes	= array( 'class' => $this->getOption( 'classOuter' ) );
-		$style		= array();
+		$css		= array();
 		if( $length != 100 )
-			$style[]	= 'width: '.$length.'px';
+			$css['width']	= $length.'px';
 		if( $this->getOption( 'useColor' ) && $this->getOption( 'useColorAtBorder' ) )
-			$style[]	= "border-color: rgb(".$color[0].",".$color[1].",".$color[2].")";
-		$attributes['style']	= join( "; ", $style );
+			$css['border-color']	= "rgb(".$color[0].",".$color[1].",".$color[2].")";
+		$attributes['style']	= $css;
 		return UI_HTML_Tag::create( "span", $bar, $attributes );
 	}
 
