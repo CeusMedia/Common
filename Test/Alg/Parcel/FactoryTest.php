@@ -2,7 +2,7 @@
 /**
  *	TestUnit of Alg_Parcel_Factory.
  *	@package		Tests.alg.parcel
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			08.07.2008
  *	@version		0.1
  */
@@ -13,7 +13,7 @@ require_once 'Test/initLoaders.php5';
  *	@package		Tests.alg.parcel
  *	@extends		PHPUnit_Framework_TestCase
  *	@uses			Alg_Parcel_Factory
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			08.07.2008
  *	@version		0.1
  */

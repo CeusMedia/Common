@@ -2,7 +2,7 @@
 /**
  *	UnitTest for Request Header.
  *	@package		net.http.request
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			16.02.2008
  *	@version		0.6
  */
@@ -12,7 +12,7 @@ require_once 'Test/initLoaders.php5';
  *	UnitTest for Request Sender.
  *	@package		net.http.request
  *	@uses			Net_HTTP_Header
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			16.02.2008
  *	@version		0.6
  */

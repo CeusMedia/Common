@@ -2,7 +2,7 @@
 /**
  *	TestUnit of File_Configuration_Converter.
  *	@package		Tests.file.configuration
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			08.05.2008
  *	@version		0.1
  */
@@ -13,7 +13,7 @@ require_once 'Test/initLoaders.php5';
  *	@package		Tests.file.configuration
  *	@extends		PHPUnit_Framework_TestCase
  *	@uses			File_Configuration_Converter
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			08.05.2008
  *	@version		0.1
  */

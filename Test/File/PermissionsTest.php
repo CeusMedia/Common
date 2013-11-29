@@ -2,7 +2,7 @@
 /**
  *	TestUnit of File_Permissions.
  *	@package		Tests.File
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			0.7.0
  *	@version		$Id$
  */
@@ -13,7 +13,7 @@ require_once( 'Test/initLoaders.php5' );
  *	@package		Tests.File
  *	@extends		PHPUnit_Framework_TestCase
  *	@uses			File_Permissions
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			0.7.0
  *	@version		$Id$
  */

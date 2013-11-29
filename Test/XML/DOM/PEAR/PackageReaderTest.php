@@ -2,7 +2,7 @@
 /**
  *	TestUnit of XML_DOM_PEAR_PackageReader.
  *	@package		Tests....
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			25.10.2008
  *	@version		0.1
  */
@@ -13,7 +13,7 @@ require_once 'Test/initLoaders.php5';
  *	@package		Tests....
  *	@extends		PHPUnit_Framework_TestCase
  *	@uses			XML_DOM_PEAR_PackageReader
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			25.10.2008
  *	@version		0.1
  */

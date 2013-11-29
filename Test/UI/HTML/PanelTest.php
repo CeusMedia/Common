@@ -2,7 +2,7 @@
 /**
  *	TestUnit of UI_HTML_Panel.
  *	@package		Tests.
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			07.09.2008
  *	@version		0.1
  */
@@ -12,7 +12,7 @@ require_once 'PHPUnit/Framework/TestCase.php';
  *	@package		Tests.
  *	@extends		PHPUnit_Framework_TestCase
  *	@uses			UI_HTML_Panel
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			07.09.2008
  *	@version		0.1
  */

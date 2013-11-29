@@ -3,7 +3,7 @@
  *	TestUnit of Test_ADT_StringBuffer.
  *	@package		Tests.adt
  *	@extends		PHPUnit_Framework_TestCase
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			21.07.2008
  *	@version		0.1
  */
@@ -14,7 +14,7 @@ require_once 'Test/initLoaders.php5';
  *	@package		Tests.adt
  *	@extends		PHPUnit_Framework_TestCase
  *	@uses			ADT_StringBuffer
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			21.07.2008
  *	@version		0.1
  */

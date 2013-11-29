@@ -2,7 +2,7 @@
 /**
  *	TestUnit of XML_WDDX_Parser.
  *	@package		Tests.xml.wddx
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			02.05.2008
  *	@version		0.1
  */
@@ -14,7 +14,7 @@ import( 'de.ceus-media.xml.wddx.Parser' );
  *	@package		Tests.xml.wddx
  *	@extends		PHPUnit_Framework_TestCase
  *	@uses			XML_WDDX_Parser
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			02.05.2008
  *	@version		0.1
  */

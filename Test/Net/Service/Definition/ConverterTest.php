@@ -2,7 +2,7 @@
 /**
  *	TestUnit of Net Service Definition Converter.
  *	@package		Tests.net.service.definition
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			02.05.2008
  *	@version		0.1
  */
@@ -13,7 +13,7 @@ require_once 'Test/initLoaders.php5';
  *	@package		Tests.net.service.definition
  *	@extends		PHPUnit_Framework_TestCase
  *	@uses			Net_Service_Definition_Converter
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			02.05.2008
  *	@version		0.1
  */

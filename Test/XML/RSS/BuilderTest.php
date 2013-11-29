@@ -2,7 +2,7 @@
 /**
  *	TestUnit of XML_RSS_Builder.
  *	@package		Tests.xml.rss
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			08.05.2008
  *	@version		0.1
  */
@@ -13,7 +13,7 @@ require_once 'Test/initLoaders.php5';
  *	@package		Tests.xml.rss
  *	@extends		PHPUnit_Framework_TestCase
  *	@uses			XML_RSS_Builder
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			08.05.2008
  *	@version		0.1
  */

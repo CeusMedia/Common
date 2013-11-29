@@ -2,7 +2,7 @@
 /**
  *	TestUnit of XML DOM File Writer.
  *	@package		Tests.xml.dom
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			11.12.2007
  *	@version		0.1
  */
@@ -14,7 +14,7 @@ require_once 'Test/initLoaders.php5';
  *	@extends		PHPUnit_Framework_TestCase
  *	@uses			XML_DOM_FileWriter
  *	@uses			XML_DOM_Node
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			11.12.2007
  *	@version		0.1
  */

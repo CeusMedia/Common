@@ -2,7 +2,7 @@
 /**
  *	TestUnit of Dictionay
  *	@package		Tests.alg.crypt
- *	@author			Christian W�rker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			14.02.2008
  *	@version		0.1
  */
@@ -13,7 +13,7 @@ require_once 'Test/initLoaders.php5';
  *	@package		Tests.alg.crypt
  *	@extends		PHPUnit_Framework_TestCase
  *	@uses			Alg_Crypt_PasswordStrengthTest
- *	@author			Christian W�rker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			14.02.2008
  *	@version		0.1
  */

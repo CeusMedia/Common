@@ -2,7 +2,7 @@
 /**
  *	TestUnit of INI Reader.
  *	@package		Tests.file.yaml
- *	@author			Christian W�rker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@version		0.1
  */
 require_once 'PHPUnit/Framework/TestCase.php'; 
@@ -12,7 +12,7 @@ require_once 'Test/initLoaders.php5';
  *	@package		Tests.file.yaml
  *	@extends		PHPUnit_Framework_TestCase
  *	@uses			File_INI_Reader
- *	@author			Christian W�rker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@version		0.1
  */
 class Test_File_INI_ReaderTest extends PHPUnit_Framework_TestCase

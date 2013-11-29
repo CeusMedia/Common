@@ -10,7 +10,7 @@ require_once 'PHPUnit/Framework/TestCase.php';
  *	TestUnit of Folder Editor.
  *	@package		Tests.folder
  *	@extends		PHPUnit_Framework_TestCase
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			21.04.2008
  *	@version		0.1
  *

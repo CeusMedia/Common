@@ -4,7 +4,7 @@
  *	@package		Tests.adt.tree
  *	@extends		PHPUnit_Framework_TestCase
  *	@uses			Test_ADT_Tree_Node
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			12.07.2008
  *	@version		0.1
  */
@@ -15,7 +15,7 @@ require_once 'Test/initLoaders.php5';
  *	@package		Tests.adt.tree
  *	@extends		PHPUnit_Framework_TestCase
  *	@uses			Test_ADT_Tree_Node
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			12.07.2008
  *	@version		0.1
  */

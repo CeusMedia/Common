@@ -4,7 +4,7 @@
  *	@package		adt
  *	@extends		PHPUnit_Framework_TestCase
  *	@uses			ADT_OptionObject
- *	@author			Christian W�rker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@version		0.1
  */
 require_once 'PHPUnit/Framework/TestCase.php';
@@ -14,7 +14,7 @@ require_once 'Test/initLoaders.php5';
  *	@package		Tests.adt.list
  *	@extends		PHPUnit_Framework_TestCase
  *	@uses			ADT_OptionObject
- *	@author			Christian W�rker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@version		0.1
  */
 class Test_ADT_OptionObjectTest extends PHPUnit_Framework_TestCase

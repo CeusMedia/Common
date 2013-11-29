@@ -2,7 +2,7 @@
 /**
  *	TestUnit of Session.
  *	@package		Tests.net.http
- *	@author			Christian W�rker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			16.02.2008
  *	@version		0.1
  */
@@ -13,7 +13,7 @@ require_once 'Test/initLoaders.php5';
  *	@package		Tests.net.http
  *	@extends		PHPUnit_Framework_TestCase
  *	@uses			Net_HTTP_Session
- *	@author			Christian W�rker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			16.02.2008
  *	@version		0.1
  */

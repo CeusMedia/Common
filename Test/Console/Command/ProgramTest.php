@@ -2,7 +2,7 @@
 /**
  *	TestUnit of Console_Command_Program.
  *	@package		Tests.console.command
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			12.01.2009
  *	@version		0.1
  */
@@ -13,7 +13,7 @@ require_once 'Test/initLoaders.php5';
  *	@package		Tests.console.command
  *	@extends		PHPUnit_Framework_TestCase
  *	@uses			Console_Command_Program
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			12.01.2009
  *	@version		0.1
  */

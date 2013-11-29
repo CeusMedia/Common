@@ -2,7 +2,7 @@
 /**
  *	TestUnit of Google Sitemap Builder.
  *	@package		Tests.xml.dom
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			18.02.2008
  *	@version		0.1
  */
@@ -13,7 +13,7 @@ require_once 'Test/initLoaders.php5';
  *	@package		Tests.xml.dom
  *	@extends		PHPUnit_Framework_TestCase
  *	@uses			XML_DOM_GoogleSitemapBuilder
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			18.02.2008
  *	@version		0.1
  */
