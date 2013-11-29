@@ -132,13 +132,14 @@ class ADT_List_Dictionary implements ArrayAccess, Countable, Iterator
 	 *	Return a Value of Dictionary by its Key.
 	 *	@access		public
 	 *	@param		string		$key		Key in Dictionary
+	 *	@param		mixed		$default	Value to return if key is not set
 	 *	@return		mixed
 	 */
-	public function get( $key )
+	public function get( $key, $default = NULL )
 	{
 		if( $this->has( $key ) )
 			return $this->pairs[$key];
-		return NULL;
+		return $default;
 	}
 
 	/**
