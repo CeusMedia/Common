@@ -150,8 +150,7 @@ class UI_HTML_Tag
 			if( preg_match( '/[^\\\]"/', $value ) )													//  value contains unescaped (double) quotes
 				$value	= addslashes( $value );
 #				throw new InvalidArgumentException( 'Invalid attribute value "'.$value.'"' );		//  throw exception
-			if( strlen( trim( $value ) ) )
-				$list[$key]	= strtolower( $key ).'="'.$value.'"';
+			$list[$key]	= strtolower( $key ).'="'.$value.'"';
 		}
 		return $list ? " ".implode( " ", $list ) : "";
 	}
