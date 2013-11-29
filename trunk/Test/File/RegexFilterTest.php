@@ -2,7 +2,7 @@
 /**
  *	TestUnit of File_NameFilter.
  *	@package		Tests.file
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			15.06.2008
  *	@version		0.1
  */
@@ -13,7 +13,7 @@ require_once 'Test/initLoaders.php5';
  *	@package		Tests.file
  *	@extends		PHPUnit_Framework_TestCase
  *	@uses			File_RegexFilter
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			15.06.2008
  *	@version		0.1
  */

@@ -2,7 +2,7 @@
 /**
  *	TestUnit of File_PHP_Check_MethodVisibility.
  *	@package		Tests.file.php
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			04.01.2009
  *	@version		$Id$
  */
@@ -13,7 +13,7 @@ require_once 'Test/initLoaders.php5';
  *	@package		Tests.file.php
  *	@extends		PHPUnit_Framework_TestCase
  *	@uses			File_PHP_Check_MethodVisibility
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			04.01.2009
  *	@version		$Id$
  */

@@ -2,7 +2,7 @@
 /**
  *	TestUnit of UI_Image_Creator.
  *	@package		Tests.ui.image
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			16.06.2008
  *	@version		0.1
  */
@@ -14,7 +14,7 @@ require_once 'Test/initLoaders.php5';
  *	@extends		PHPUnit_Framework_TestCase
  *	@uses			UI_Image_Creator
  *	@uses			File_Reader
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			16.06.2008
  *	@version		0.1
  */

@@ -2,7 +2,7 @@
 /**
  *	TestUnit of Tag.
  *	@package		Tests.ui.html
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			22.04.2008
  *	@version		0.1
  */
@@ -13,7 +13,7 @@ require_once 'Test/initLoaders.php5';
  *	@package		Tests.ui.html
  *	@extends		PHPUnit_Framework_TestCase
  *	@uses			UI_HTML_FormElements
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			22.04.2008
  *	@version		0.1
  */

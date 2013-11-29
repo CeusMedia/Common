@@ -2,7 +2,7 @@
 /**
  *	TestUnit of Alg_Text_Filter.
  *	@package		Tests.alg
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			07.07.2008
  *	@version		0.1
  */
@@ -13,7 +13,7 @@ require_once 'Test/initLoaders.php5';
  *	@package		Tests.alg
  *	@extends		PHPUnit_Framework_TestCase
  *	@uses			Alg_Text_Filter
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			07.07.2008
  *	@version		0.1
  */

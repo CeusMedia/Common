@@ -2,7 +2,7 @@
 /**
  *	TestUnit of File Reader.
  *	@package		Tests.file
- *	@author			Christian W?rker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian W?rker <christian.wuerker@ceusmedia.de>
  *	@version		0.1
  */
 require_once 'PHPUnit/Framework/TestCase.php'; 
@@ -12,7 +12,7 @@ require_once 'Test/initLoaders.php5';
  *	@package		Tests.file
  *	@extends		PHPUnit_Framework_TestCase
  *	@uses			File_Reader
- *	@author			Christian W?rker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian W?rker <christian.wuerker@ceusmedia.de>
  *	@version		0.1
  */
 class Test_File_ReaderTest extends PHPUnit_Framework_TestCase

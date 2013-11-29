@@ -2,7 +2,7 @@
 /**
  *	TestUnit of XML_Atom_Parser.
  *	@package		Tests.xml.atom
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			14.05.2008
  *	@version		0.1
  */
@@ -13,7 +13,7 @@ require_once 'Test/initLoaders.php5';
  *	@package		Tests.xml.atom
  *	@extends		PHPUnit_Framework_TestCase
  *	@uses			XML_Atom_Parser
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			14.05.2008
  *	@version		0.1
  */

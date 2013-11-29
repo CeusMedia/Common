@@ -2,7 +2,7 @@
 /**
  *	TestUnit of Math_Finance_CompoundInterest.
  *	@package		Tests.math.finance
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			17.06.2008
  *	@version		0.1
  */
@@ -13,7 +13,7 @@ require_once 'Test/initLoaders.php5';
  *	@package		Tests.math.finance
  *	@extends		PHPUnit_Framework_TestCase
  *	@uses			Math_Finance_CompoundInterest
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			17.06.2008
  *	@version		0.1
  */

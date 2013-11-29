@@ -2,7 +2,7 @@
 /**
  *	TestUnit of XML Element.
  *	@package		Tests.xml
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			20.02.2008
  *	@version		0.1
  */
@@ -13,7 +13,7 @@ require_once 'Test/initLoaders.php5';
  *	@package		Tests.xml
  *	@extends		PHPUnit_Framework_TestCase
  *	@uses			XML_Element
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			20.02.2008
  *	@version		0.1
  */

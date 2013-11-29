@@ -2,7 +2,7 @@
 /**
  *	TestUnit of XML DOM Object Deserializer.
  *	@package		Tests.xml.dom
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			11.12.2007
  *	@version		0.1
  */
@@ -15,7 +15,7 @@ require_once 'Test/initLoaders.php5';
  *	@uses			XML_DOM_ObjectDeserializer
  *	@uses			XML_DOM_ObjectSerializer
  *	@uses			Test_Object
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			11.12.2007
  *	@version		0.1
  */

@@ -2,7 +2,7 @@
 /**
  *	TestUnit of XML DOM XPath.
  *	@package		Tests.xml.dom
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			17.02.2008
  *	@version		0.1
  */
@@ -13,7 +13,7 @@ require_once 'Test/initLoaders.php5';
  *	@package		Tests.xml.dom
  *	@extends		PHPUnit_Framework_TestCase
  *	@uses			XML_DOM_XPathQuery
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			17.02.2008
  *	@version		0.1
  */

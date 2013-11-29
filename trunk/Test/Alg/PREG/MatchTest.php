@@ -2,7 +2,7 @@
 /**
  *	TestUnit of Alg_PREG_Match.
  *	@package		Tests.
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			22.12.2008
  *	@version		0.1
  */
@@ -13,7 +13,7 @@ require_once 'Test/initLoaders.php5';
  *	@package		Tests.
  *	@extends		PHPUnit_Framework_TestCase
  *	@uses			Alg_Preg_Match
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			22.12.2008
  *	@version		0.1
  */

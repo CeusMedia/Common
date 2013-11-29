@@ -2,7 +2,7 @@
 /**
  *	TestUnit of File_Log_Writer.
  *	@package		Tests.file.log
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			08.05.2008
  *	@version		0.1
  */
@@ -13,7 +13,7 @@ require_once 'Test/initLoaders.php5';
  *	@package		Tests.file.log
  *	@extends		PHPUnit_Framework_TestCase
  *	@uses			File_Log_Writer
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			08.05.2008
  *	@version		0.1
  */

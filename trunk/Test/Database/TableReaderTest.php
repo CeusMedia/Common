@@ -5,7 +5,7 @@
  *	@extends		PHPUnit_Framework_TestCase
  *	@uses			Database_MySQL_Connection
  *	@uses			Database_TableReader
- *	@author			Christian WÃ¼rker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian WÃ¼rker <christian.wuerker@ceusmedia.de>
  *	@since			02.05.2008
  *	@version		0.1
  */
@@ -17,7 +17,7 @@ require_once 'Test/initLoaders.php5';
  *	@extends		PHPUnit_Framework_TestCase
  *	@uses			Database_MySQL_Connection
  *	@uses			Database_TableReader
- *	@author			Christian WÃ¼rker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian WÃ¼rker <christian.wuerker@ceusmedia.de>
  *	@since			02.05.2008
  *	@version		0.1
  */

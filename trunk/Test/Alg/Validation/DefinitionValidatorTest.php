@@ -6,7 +6,7 @@
  *	@uses			Alg_Validation_DefinitionValidator
  *	@uses			Alg_Validation_PredicateValidator
  *	@uses			Alg_Validation_Predicates
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			14.02.2008
  *	@version		0.1
  */
@@ -19,7 +19,7 @@ require_once 'Test/initLoaders.php5';
  *	@uses			Alg_Validation_DefinitionValidator
  *	@uses			Alg_Validation_PredicateValidator
  *	@uses			Alg_Validation_Predicates
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			14.02.2008
  *	@version		0.1
  */

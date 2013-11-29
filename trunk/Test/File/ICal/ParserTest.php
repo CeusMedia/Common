@@ -4,7 +4,7 @@
  *	@package		Tests.file_ical.file
  *	@extends		PHPUnit_Framework_TestCase
  *	@uses			File_ICal_Parser
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			19.06.2008
  *	@version		0.1
  */
@@ -15,7 +15,7 @@ require_once 'Test/initLoaders.php5';
  *	@package		Tests.file_ical.file
  *	@extends		PHPUnit_Framework_TestCase
  *	@uses			File_ICal_Parser
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			19.06.2008
  *	@version		0.1
  */

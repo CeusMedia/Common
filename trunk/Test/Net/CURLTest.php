@@ -4,7 +4,7 @@
  *	@package		Tests.Net
  *	@extends		PHPUnit_Framework_TestCase
  *	@uses			Net_CURL
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			29.10.2010
  *	@version		0.1
  */
@@ -15,7 +15,7 @@ require_once( 'Test/initLoaders.php5' );
  *	@package		Tests.Net
  *	@extends		PHPUnit_Framework_TestCase
  *	@uses			Net_CURL
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			29.10.2010
  *	@version		0.1
  */

@@ -4,7 +4,7 @@
  *	@package		Tests.File.CSV
  *	@extends		PHPUnit_Framework_TestCase
  *	@uses			File_CSV_Iterator
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			09.08.2010
  *	@version		0.1
  */
@@ -16,7 +16,7 @@ import( 'File.CSV.Iterator' );
  *	@package		Tests.File.CSV
  *	@extends		PHPUnit_Framework_TestCase
  *	@uses			File_CSV_Iterator
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			09.08.2010
  *	@version		0.1
  */

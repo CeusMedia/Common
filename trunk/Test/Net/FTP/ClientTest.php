@@ -2,7 +2,7 @@
 /**
  *	TestUnit of Net_FTP_Client.
  *	@package		Tests.net.ftp
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			02.07.2008
  *	@version		0.1
  */
@@ -13,7 +13,7 @@ require_once 'Test/initLoaders.php5';
  *	@package		Tests.net.ftp
  *	@extends		PHPUnit_Framework_TestCase
  *	@uses			Net_FTP_Client
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			02.07.2008
  *	@version		0.1
  */

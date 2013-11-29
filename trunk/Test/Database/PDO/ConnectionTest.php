@@ -4,7 +4,7 @@
  *	@package		Tests.database.pdo
  *	@extends		PHPUnit_Framework_TestCase
  *	@uses			Database_PDO_Connection
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			02.07.2008
  *	@version		0.1
  */
@@ -15,7 +15,7 @@ require_once 'Test/initLoaders.php5';
  *	@package		Tests.database.pdo
  *	@extends		PHPUnit_Framework_TestCase
  *	@uses			Database_PDO_Connection
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			02.07.2008
  *	@version		0.1
  */

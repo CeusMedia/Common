@@ -2,7 +2,7 @@
 /**
  *	TestUnit of recursive Folder Iterator.
  *	@package		Tests.folder
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			21.04.2008
  *	@version		0.1
  */
@@ -12,7 +12,7 @@ require_once 'Test/initLoaders.php5';
  *	@package		Tests.folder
  *	@extends		Test_Folder_TestCase
  *	@uses			Folder_RecursiveIterator
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			21.04.2008
  *	@version		0.1
  */

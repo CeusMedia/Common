@@ -4,7 +4,7 @@
  *	@package		Tests.alg.validation
  *	@extends		PHPUnit_Framework_TestCase
  *	@uses			Alg_Validation_PredicateValidator
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			14.02.2008
  *	@version		0.1
  */
@@ -15,7 +15,7 @@ require_once 'Test/initLoaders.php5';
  *	@package		Tests.alg.validation
  *	@extends		PHPUnit_Framework_TestCase
  *	@uses			Alg_Validation_PredicateValidator
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			14.02.2008
  *	@version		0.1
  */

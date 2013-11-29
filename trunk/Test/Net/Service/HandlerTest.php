@@ -2,7 +2,7 @@
 /**
  *	TestUnit of Net Service Handler.
  *	@package		Tests.net.service
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			02.05.2008
  *	@version		0.1
  */
@@ -13,7 +13,7 @@ require_once 'Test/initLoaders.php5';
  *	@package		Tests.net.service
  *	@extends		PHPUnit_Framework_TestCase
  *	@uses			Net_Service_Handler
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			02.05.2008
  *	@version		0.1
  */

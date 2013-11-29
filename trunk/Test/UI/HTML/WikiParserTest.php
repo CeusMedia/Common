@@ -2,7 +2,7 @@
 /**
  *	TestUnit of UI_HTML_WikiParser.
  *	@package		Tests.{classPackage}
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			03.05.2008
  *	@version		0.1
  */
@@ -13,7 +13,7 @@ require_once 'Test/initLoaders.php5';
  *	@package		Tests.{classPackage}
  *	@extends		PHPUnit_Framework_TestCase
  *	@uses			UI_HTML_WikiParser
- *	@author			Christian Würker <Christian.Wuerker@CeuS-Media.de>
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			03.05.2008
  *	@version		0.1
  */
