@@ -29,7 +29,7 @@ class Test_File_Log_WriterTest extends PHPUnit_Framework_TestCase
 		$this->path		= dirname( __FILE__ );
 		$this->fileName	= $this->path."/writer.log";
 	}
-	
+
 	/**
 	 *	Setup for every Test.
 	 *	@access		public
@@ -38,7 +38,7 @@ class Test_File_Log_WriterTest extends PHPUnit_Framework_TestCase
 	public function setUp()
 	{
 	}
-	
+
 	/**
 	 *	Cleanup after every Test.
 	 *	@access		public
@@ -58,7 +58,7 @@ class Test_File_Log_WriterTest extends PHPUnit_Framework_TestCase
 	{
 		$writer	= new File_Log_Writer( $this->path."writer.test" );
 		$writer->note( 1 );
-		
+
 		$assertion	= TRUE;
 		$creation	= file_exists( $this->path."writer.test" );
 		$this->assertEquals( $assertion, $creation );
@@ -72,7 +72,7 @@ class Test_File_Log_WriterTest extends PHPUnit_Framework_TestCase
 	public function testNote()
 	{
 		$writer	= new File_Log_Writer( $this->fileName );
-		
+
 		$assertion	= TRUE;
 		$creation	= $writer->note( 1 );
 		$this->assertEquals( $assertion, $creation );
