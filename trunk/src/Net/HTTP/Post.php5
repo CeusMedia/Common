@@ -1,8 +1,8 @@
 <?php
 /**
- *	...
+ *	Sender for HTTP POST requests.
  *
- *	Copyright (c) 2007-2012 Christian Würker (ceusmedia.com)
+ *	Copyright (c) 2013 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -18,20 +18,20 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		cmClasses
- *	@package		Database.DAO
+ *	@package		Net.HTTP
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2012 Christian Würker
+ *	@copyright		2013 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		$Id$
  */
 /**
- *	...
+ *	Sender for HTTP POST requests.
  *
  *	@category		cmClasses
- *	@package		Database.DAO
+ *	@package		Net.HTTP
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2012 Christian Würker
+ *	@copyright		2013 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		$Id$
@@ -41,11 +41,11 @@ class Net_HTTP_Post {
 	const TRANSPORT_NONE		= 0;
 	const TRANSPORT_FOPEN		= 1;
 	const TRANSPORT_CURL			= 2;
-	
+
 	protected $transport		= FALSE;
 	protected $dataMaxLength	= 600000;
 	static protected $userAgent	= "cmClasses:Net_HTTP_Post/0.7";									//  default user agent to report to server, can be overriden by constructor or given CURL options on get or post
-	
+
 	public function __construct(){
         $allowUrlFopen	= preg_match( '/1|yes|on|true/i', ini_get( 'allow_url_fopen' ) );
 		if( Net_CURL::isSupported() )
@@ -54,11 +54,6 @@ class Net_HTTP_Post {
 			$this->transport	= self::TRANSPORT_FOPEN;
 	}
 
-	static public function sendData( $url, $data = array(), $curlOptions = array() ){
-		$post	= new self();
-		return $post->send( $url, $data, $curlOptions = array() );
-	}
-	
 	public function send( $url, $data = array(), $curlOptions = array() ){
 		if( is_array( $data ) )
 			$data	= http_build_query( $data, NULL, '&' );
@@ -96,6 +91,11 @@ class Net_HTTP_Post {
 			default:
 				throw new RuntimeException( 'Could not make HTTP request: allow_url_open is false and cURL not available' );
 		}
+	}
+
+	static public function sendData( $url, $data = array(), $curlOptions = array() ){
+		$post	= new self();
+		return $post->send( $url, $data, $curlOptions = array() );
 	}
 }
 ?>
