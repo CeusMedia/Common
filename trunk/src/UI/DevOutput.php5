@@ -37,6 +37,8 @@
  */
 class UI_DevOutput
 {
+	public $channel;
+
 	static public $channels	= array(
 		'html'	=> array(
 			'lineBreak'			=> "<br/>",															// Sign for Line Break
@@ -65,7 +67,7 @@ class UI_DevOutput
 			'stringMaxLength'	=> 50
 		)
 	);
-	
+
 	/**
 	 *	Constructur.
 	 *	@access		public
@@ -374,6 +376,11 @@ class UI_DevOutput
 		echo $text.$param;
 	}
 
+	public function getChannel()
+	{
+		return $this->channel;
+	}
+
 	/**
 	 *	Sets output channel type.
 	 *	Auto mode assumes HTML at first and will fall back to Console if detected.
@@ -555,9 +562,13 @@ function showDOM( $node )
  */
 function xmp( $string, $dump = FALSE )
 {
+	$dev	= new UI_DevOutput();
 	if( $dump )
 		ob_start();
-	echo "<xmp>".$string."</xmp>";
+	if( $dev->channel === "console" )
+		echo $string."\n";
+	else
+		echo "<xmp>".$string."</xmp>";
 	if( $dump )
 		return ob_get_clean();
 }
