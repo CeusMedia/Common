@@ -205,6 +205,8 @@ class Net_HTTP_Response
 	 */
 	public function setStatus( $status )
 	{
+		if( (int) $status == $status )
+			$status	= $status.' '.Net_HTTP_Status::getText( (int) $status );
 		$this->status	= $status;
 	}
 
