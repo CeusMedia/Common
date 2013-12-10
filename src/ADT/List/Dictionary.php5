@@ -64,21 +64,6 @@ class ADT_List_Dictionary implements ArrayAccess, Countable, Iterator
 				$this->set( $key, $value );
 	}
 
-	/**
-	 *	Return session pairs as string.
-	 *	@access		public
-	 *	@return		string
-	 */
-	public function __toString()
-	{
-		$list	= array();
-		foreach( $this->pairs as $key => $value )
-			$list[]	= "(".$key."=>".$value.")";
-		$list	= implode( ", ", $list );
-		$list	= "{".$list."}";
-		return $list;
-	}
-
 	public function flush(){
 		foreach( $this->getKeys() as $key )
 			$this->remove( $key );
