@@ -21,7 +21,7 @@ class Test_ADT_List_DictionaryTest extends PHPUnit_Framework_TestCase
 {
 	/**	@var	array		$list		Instance of Dictionary */
 	private $dictionary;
-	
+
 	public function setUp()
 	{
 		$this->dictionary	= new ADT_List_Dictionary();
@@ -99,7 +99,7 @@ class Test_ADT_List_DictionaryTest extends PHPUnit_Framework_TestCase
 		$creation	= $this->dictionary->has( 'key4' );
 		$this->assertEquals( $assertion, $creation );
 	}
-	
+
 	public function testRemove()
 	{
 		$this->dictionary->remove( 'key2' );
@@ -132,14 +132,14 @@ class Test_ADT_List_DictionaryTest extends PHPUnit_Framework_TestCase
 		$creation	= isset( $this->dictionary['key2'] );
 		$this->assertEquals( $assertion, $creation );
 	}
-	
+
 	public function testOffsetGet()
 	{
 		$assertion	= "value2";
 		$creation	=$this->dictionary['key2'];
 		$this->assertEquals( $assertion, $creation );
 	}
-	
+
 	public function testOffsetSet()
 	{
 		$this->dictionary['key4']	= "value4";
@@ -147,7 +147,7 @@ class Test_ADT_List_DictionaryTest extends PHPUnit_Framework_TestCase
 		$creation	= $this->dictionary['key4'];;
 		$this->assertEquals( $assertion, $creation );
 	}
-	
+
 	public function testOffsetUnset()
 	{
 		unset( $this->dictionary['key2'] );
