@@ -229,7 +229,7 @@ class Test_File_BackupTest extends PHPUnit_Framework_TestCase{
 		$this->assertEquals( "change-1", file_get_contents( $this->filePath ) );
 	}
 
-	public function testRestore4(){
+	public function testRestoreWithRemoveForwards(){
 		file_put_contents( $this->filePath, "change-0" );
 		$this->file->store();
 		file_put_contents( $this->filePath, "change-1" );
@@ -241,12 +241,26 @@ class Test_File_BackupTest extends PHPUnit_Framework_TestCase{
 
 		$this->file->restore( 0, TRUE );
 		$this->assertEquals( "change-0", file_get_contents( $this->filePath ) );
+		$this->assertTrue( file_exists( $this->filePath.'~' ) );
 
 		$this->file->restore( 0, TRUE );
 		$this->assertEquals( "change-1", file_get_contents( $this->filePath ) );
+		$this->assertTrue( file_exists( $this->filePath.'~' ) );
 
 		$this->file->restore( 0, TRUE );
 		$this->assertEquals( "change-2", file_get_contents( $this->filePath ) );
+		$this->assertFalse( file_exists( $this->filePath.'~' ) );
+	}
+
+	public function testRestoreWithPreservedTimestamp(){
+		$timestamp	= filemtime( $this->filePath ) - 5;
+		touch( $this->filePath, $timestamp );
+		clearstatcache();
+		$this->file->store();
+		$this->assertEquals( $timestamp, filemtime( $this->filePath.'~' ) );
+
+		$this->file->restore();
+		$this->assertEquals( filemtime( $this->filePath ), $timestamp );
 	}
 
 	/**
@@ -310,6 +324,7 @@ class Test_File_BackupTest extends PHPUnit_Framework_TestCase{
 		$this->file->store();
 		$this->assertTrue( file_exists( $this->filePath.'~' ) );
 		$this->assertEquals( $this->time, file_get_contents( $this->filePath.'~' ) );
+		$this->assertEquals( filemtime( $this->filePath ), filemtime( $this->filePath.'~' ) );
 
 		$this->file->store();
 		$this->assertTrue( file_exists( $this->filePath.'.~1~' ) );
@@ -318,6 +333,14 @@ class Test_File_BackupTest extends PHPUnit_Framework_TestCase{
 		$this->file->store();
 		$this->assertTrue( file_exists( $this->filePath.'.~2~' ) );
 		$this->assertEquals( $this->time, file_get_contents( $this->filePath.'.~2~' ) );
+	}
+
+	public function testStoreWithPreservedTimestamp(){
+		$timestamp	= filemtime( $this->filePath ) + 10;
+		$result		= touch( $this->filePath, $timestamp );
+		clearstatcache();
+		$this->assertTrue( $result );
+		$this->assertEquals( $timestamp, filemtime( $this->filePath ) );
 	}
 
 	/**

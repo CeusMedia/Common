@@ -132,6 +132,7 @@ class File_Backup{
 			throw new RuntimeException( 'Restoring backup to file '.$this->filePath.' failed' );
 		}
 		if( $this->preserveTimestamp ){
+			clearstatcache();
 			touch( $this->filePath, filemtime( $filePath ) );
 		}
 		if( $removeBackup ){
@@ -166,6 +167,10 @@ class File_Backup{
 		$filePath	= $this->getVersionFilename( $version );
 		if( !@copy( $this->filePath, $filePath ) ){
 			throw new RuntimeException( 'Storing backup into file '.$filePath.' failed' );
+		}
+		if( $this->preserveTimestamp ){
+			clearstatcache();
+			touch( realpath( $filePath ), filemtime( $this->filePath ) );
 		}
 		if( $removeOriginal ){
 			if( !@unlink( $this->filePath ) ){
