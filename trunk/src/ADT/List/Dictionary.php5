@@ -2,7 +2,7 @@
 /**
  *	Dictionary is a simple Pair Structure similar to an associative Array but implementing some Interfaces.
  *
- *	Copyright (c) 2007-2012 Christian Würker (ceusmedia.com)
+ *	Copyright (c) 2006-2013 Christian Würker (ceusmedia.com)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
  *	@category		cmClasses
  *	@package		ADT.List
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2012 Christian Würker
+ *	@copyright		2006-2013 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			27.03.2006
@@ -34,7 +34,7 @@
  *	@implements		Countable
  *	@implements		Iterator
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2012 Christian Würker
+ *	@copyright		2006-2013 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			27.03.2006
@@ -165,13 +165,12 @@ class ADT_List_Dictionary implements ArrayAccess, Countable, Iterator
 	 *	Returns corresponding Key of a Value if Value is in Dictionary, otherwise NULL.
 	 *	@access		public
 	 *	@param		string		$value		Value to get Key of
-	 *	@return		mixed
+	 *	@return		mixed|NULL				Key of value if found, otherwise NULL
 	 */
 	public function getKeyOf( $value )
 	{
-		if( $key = array_search( $value, $this->pairs ) )
-			return $key;
-		return NULL;
+		$key = array_search( $value, $this->pairs );
+		return $key !== FALSE ? $key : NULL;
 	}
 
 	/**

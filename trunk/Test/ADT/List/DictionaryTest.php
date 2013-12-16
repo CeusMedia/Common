@@ -82,6 +82,11 @@ class Test_ADT_List_DictionaryTest extends PHPUnit_Framework_TestCase
 		$assertion	= null;
 		$creation	= $this->dictionary->getKeyOf( 'value4' );
 		$this->assertEquals( $assertion, $creation );
+
+		$dict		= new ADT_List_Dictionary( array( 0, 1, 2 ) );
+		$assertion	= 0;
+		$creation	= $dict->getKeyOf( 0 );
+		$this->assertEquals( $assertion, $creation );
 	}
 
 	public function testHas()
@@ -119,15 +124,6 @@ class Test_ADT_List_DictionaryTest extends PHPUnit_Framework_TestCase
 		$creation	= $this->dictionary->get( 'key4' );
 		$this->assertEquals( $assertion, $creation );
 	}
-
-	public function testToString()
-	{
-		$this->dictionary->remove( 'key3' );
-		$assertion	= "{(key1=>value1), (key2=>value2)}";
-		$creation	= $this->dictionary->__toString();
-		$this->assertEquals( $assertion, $creation );
-	}
-
 
 	//  --  TESTS OF ARRAY ACCESS INTERFACE  --  //
 	public function testOffsetExists()
