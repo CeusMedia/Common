@@ -21,7 +21,7 @@ class Test_Net_HTTP_Request_ReceiverTest extends PHPUnit_Framework_TestCase
 {
 	/**	@var	array		$list		Instance of Request Receiver */
 	private $receiver;
-	
+
 	public function setUp()
 	{
 		$this->receiver	= new Net_HTTP_Request_Receiver();
@@ -81,7 +81,7 @@ class Test_Net_HTTP_Request_ReceiverTest extends PHPUnit_Framework_TestCase
 		$creation	= $this->receiver->has( 'key4' );
 		$this->assertEquals( $assertion, $creation );
 	}
-	
+
 	public function testRemove()
 	{
 		$this->receiver->remove( 'key2' );
@@ -89,7 +89,7 @@ class Test_Net_HTTP_Request_ReceiverTest extends PHPUnit_Framework_TestCase
 		$creation	= $this->receiver->has( 'key2' );
 		$this->assertEquals( $assertion, $creation );
 	}
-	
+
 	public function testSet()
 	{
 		$this->receiver->set( 'key4', 'value4' );
@@ -98,14 +98,14 @@ class Test_Net_HTTP_Request_ReceiverTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals( $assertion, $creation );
 	}
 
-	public function testToString()
+/*	public function testToString()
 	{
 		$this->receiver->remove( 'key3' );
 		$assertion	= "{(key1=>value1), (key2=>value2)}";
 		$creation	= $this->receiver->__toString();
 		$this->assertEquals( $assertion, $creation );
 	}
-
+*/
 
 	//  --  TESTS OF ARRAY ACCESS INTERFACE  --  //
 	public function testOffsetExists()
@@ -114,14 +114,14 @@ class Test_Net_HTTP_Request_ReceiverTest extends PHPUnit_Framework_TestCase
 		$creation	= isset( $this->receiver['key2'] );
 		$this->assertEquals( $assertion, $creation );
 	}
-	
+
 	public function testOffsetGet()
 	{
 		$assertion	= "value2";
 		$creation	= $this->receiver['key2'];
 		$this->assertEquals( $assertion, $creation );
 	}
-	
+
 	public function testOffsetSet()
 	{
 		$this->receiver['key4']	= "value4";
@@ -129,7 +129,7 @@ class Test_Net_HTTP_Request_ReceiverTest extends PHPUnit_Framework_TestCase
 		$creation	= $this->receiver['key4'];;
 		$this->assertEquals( $assertion, $creation );
 	}
-	
+
 	public function testOffsetUnset()
 	{
 		unset( $this->receiver['key2'] );
@@ -137,7 +137,6 @@ class Test_Net_HTTP_Request_ReceiverTest extends PHPUnit_Framework_TestCase
 		$creation	= $this->receiver->has( 'key2' );
 		$this->assertEquals( $assertion, $creation );
 	}
-	
 
 	//  --  TESTS OF ITERATOR INTERFACE  --  //
 	public function testKey()
@@ -181,7 +180,7 @@ class Test_Net_HTTP_Request_ReceiverTest extends PHPUnit_Framework_TestCase
 		$creation	= $this->receiver->valid();
 		$this->assertEquals( $assertion, $creation );
 	}
-	
+
 	public function testGetAllFromSource()
 	{
 		$_GET['key1']	= "value2";
