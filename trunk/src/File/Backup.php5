@@ -1,4 +1,43 @@
 <?php
+/**
+ *	Handles backup and restore of single files.
+ *
+ *	Copyright (c) 2013 Christian Würker (ceusmedia.de)
+ *
+ *	This program is free software: you can redistribute it and/or modify
+ *	it under the terms of the GNU General Public License as published by
+ *	the Free Software Foundation, either version 3 of the License, or
+ *	(at your option) any later version.
+ *
+ *	This program is distributed in the hope that it will be useful,
+ *	but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *	GNU General Public License for more details.
+ *
+ *	You should have received a copy of the GNU General Public License
+ *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ *	@category		cmClasses
+ *	@package		File
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ *	@copyright		2013 Christian Würker
+ *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@link			http://code.google.com/p/cmclasses/
+ *	@since			0.7.6
+ *	@version		$Id$
+ */
+/**
+ *	Handles backup and restore of single files.
+ *
+ *	@category		cmClasses
+ *	@package		File
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ *	@copyright		2013 Christian Würker
+ *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@link			http://code.google.com/p/cmclasses/
+ *	@since			0.7.6
+ *	@version		$Id$
+ */
 class File_Backup{
 
 	protected $filePath;
@@ -10,21 +49,9 @@ class File_Backup{
 		$this->filePath	= $filePath;
 		$this->preserveTimestamp	= $preserveTimestamp;
 	}
-
+	
 	public function getContent( $version ){
-		if( !is_int( $version ) ){
-			throw new InvalidArgumentException( 'Version must be integer' );
-		}
-		if( $version < -1 ){
-			throw new OutOfBoundsException( 'Version must be a positive zero-based index or -1 for last' );
-		}
-		if( $version === -1 ){
-			$version	= $this->getVersion();
-		}
-		$maxVersion	= $this->getVersion();
-		if( $version > $maxVersion ){
-			throw new OutOfBoundsException( 'Version '.$version.' not existing' );
-		}
+		$version	= $this->sanitizeVersion( $version );
 		$filePath	= $this->getVersionFilename( $version );
 		return file_get_contents( $filePath );
 	}
@@ -51,16 +78,6 @@ class File_Backup{
 		return array_reverse( $list );
 	}
 
-/*	protected function getVersionFromFilename( $fileName ){
-		if( preg_match( "/^.+\.~([0-9]+)~$/", $fileName ) ){
-			return preg_replace( "/^.+\.~([0-9]+)~$/", "\\1", $fileName );
-		}
-		else if( preg_match( "/[a-z0-9]~$/", $fileName ) ){
-			return 0;
-		}
-		return NULL;
-	}
-*/
 	protected function getVersionFilename( $version ){
 		if( (int) $version <= 0 ){
 			return $this->filePath.'~';
@@ -68,17 +85,25 @@ class File_Backup{
 		return $this->filePath.'.~'.( $version ).'~';
 	}
 
-	public function remove( $version = 0 ){
-		if( !is_int( $version ) ){
-			throw new InvalidArgumentException( 'Version must be integer' );
+	public function move( $targetPath ){
+		$files		= array();
+		$version	= $this->getVersion();
+		for( $i=0; $i<=$version; $i++ ){
+			$files[]	= $this->getVersionFilename( $i );
 		}
-		if( $version < -1 ){
-			throw new OutOfBoundsException( 'Version must be a positive zero-based index or -1 for last' );
+		if( !@rename( $this->filePath, $targetPath ) ){
+			throw new RuntimeException( 'Moving original file failed.' );
 		}
-		if( $version === -1 ){
-			$version	= $this->getVersion();
+		$this->filePath	= $targetPath;
+		for( $i=0; $i<=$version; $i++ ){
+			if( !@rename( $files[$i], $this->getVersionFilename( $i ) ) ){
+				throw new RuntimeException( 'Moving '.( $i + 1 ).'. backup file failed.' );
+			}
 		}
+	}
 
+	public function remove( $version = 0 ){
+		$version	= $this->sanitizeVersion( $version );
 		$filePath	= $this->getVersionFilename( $version );
 		if( !file_exists( $filePath ) ){
 			throw new OutOfRangeException( 'No backup version '.$version.' found for file "'.$this->filePath.'"' );
@@ -98,16 +123,7 @@ class File_Backup{
 	}
 
 	public function restore( $version = -1, $removeBackup = FALSE ){
-		if( !is_int( $version ) ){
-			throw new InvalidArgumentException( 'Version must be integer' );
-		}
-		if( $version < -1 ){
-			throw new OutOfBoundsException( 'Version must be a positive zero-based index or -1 for last' );
-		}
-		if( $version === -1 ){
-			$version	= $this->getVersion();
-		}
-
+		$version	= $this->sanitizeVersion( $version );
 		$filePath	= $this->getVersionFilename( $version );
 		if( !file_exists( $filePath) ){
 			throw new RuntimeException( 'No backup version '.$version.' found for file "'.$this->filePath.'"' );
@@ -121,6 +137,27 @@ class File_Backup{
 		if( $removeBackup ){
 			!$this->remove( $version );
 		}
+	}
+
+	protected function sanitizeVersion( $version ){
+		if( !is_int( $version ) ){
+			throw new InvalidArgumentException( 'Version must be integer' );
+		}
+		else if( $version < -1 ){
+			throw new OutOfBoundsException( 'Version must be a positive zero-based index or -1 for last' );
+		}
+		else if( $version === -1 ){
+			$version	= $this->getVersion();
+		}
+		else if( $version > $this->getVersion() ){
+			throw new OutOfRangeException( 'Version '.$version.' not existing' );
+		}
+		return $version;
+	}
+
+	public function setContent( $version, $content ){
+		$version	= $this->sanitizeVersion( $version );
+		return File_Writer::save( $this->getVersionFilename( $version ), $content );
 	}
 
 	public function store( $removeOriginal = FALSE){

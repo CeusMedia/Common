@@ -17,6 +17,10 @@ require_once 'Test/initLoaders.php5';
  */
 class Test_File_BackupTest extends PHPUnit_Framework_TestCase{
 
+	protected $filePath;
+	protected $path;
+	protected $time;
+	
 	public function setUp(){
 		$this->time	= time();
 		$this->path	= "test";
@@ -64,7 +68,7 @@ class Test_File_BackupTest extends PHPUnit_Framework_TestCase{
 	}
 
 	/**
-	 *	@expectedException		OutOfBoundsException
+	 *	@expectedException		OutOfRangeException
 	 */
 	public function testGetContentException3(){
 		$this->file->store();
@@ -84,6 +88,34 @@ class Test_File_BackupTest extends PHPUnit_Framework_TestCase{
 		$this->file->store();
 		$this->file->store();
 		$this->assertEquals( array( 0, 1 ), array_keys( $this->file->getVersions() ) );
+	}
+
+	public function testMove(){
+		$this->file->store();
+		$this->file->store();
+
+		$this->assertTrue( file_exists( $this->filePath ) );
+		$this->assertTrue( file_exists( $this->filePath.'~' ) );
+		$this->assertTrue( file_exists( $this->filePath.'.~1~' ) );
+
+		$target	= $this->path.'text.txt';
+		$this->file->move( $target );
+		$this->assertTrue( file_exists( $target ) );
+		$this->assertTrue( file_exists( $target.'~' ) );
+		$this->assertTrue( file_exists( $target.'.~1~' ) );
+
+		$this->assertFalse( file_exists( $this->filePath ) );
+		$this->assertFalse( file_exists( $this->filePath.'~' ) );
+		$this->assertFalse( file_exists( $this->filePath.'.~1~' ) );
+
+		$this->file->move( $this->filePath );
+	}
+
+	/**
+	 *	@expectedException		RuntimeException
+	 */
+	public function testMoveException(){
+		$this->file->move( $this->path.'notexistingFolder/filename.test' );
 	}
 
 	public function testRemove1(){
@@ -238,6 +270,40 @@ class Test_File_BackupTest extends PHPUnit_Framework_TestCase{
 		$this->file->store();
 		$this->tearDown();
 		$this->file->restore();
+	}
+
+	public function testSetContent(){
+		$this->file->store();
+		$this->file->setContent( 0, 'new content' );
+		$this->assertEquals( 'new content', file_get_contents( $this->filePath.'~' ) );
+
+		$this->file->store();
+		$this->file->setContent( 1, 'even newer content' );
+		$this->assertEquals( 'even newer content', file_get_contents( $this->filePath.'.~1~' ) );
+	}
+
+	/**
+	 *	@expectedException		InvalidArgumentException
+	 */
+	public function testSetContentException1(){
+		$this->file->store();
+		$this->file->setContent( 'wrong', 'new content' );
+	}
+
+	/**
+	 *	@expectedException		OutOfBoundsException
+	 */
+	public function testSetContentException2(){
+		$this->file->store();
+		$this->file->setContent( -2, 'new content' );
+	}
+
+	/**
+	 *	@expectedException		OutOfRangeException
+	 */
+	public function testSetContentException3(){
+		$this->file->store();
+		$this->file->setContent( 2, 'new content' );
 	}
 
 	public function testStore(){
