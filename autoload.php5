@@ -37,5 +37,5 @@ if( defined( 'CMC_AUTOLOAD_LOCAL' ) && CMC_AUTOLOAD_LOCAL ){
 if( !function_exists( 'import' ) ){
 	function import(){}
 }
-new UI_DevOutput;
+class_exists( 'UI_DevOutput' );
 ?>
