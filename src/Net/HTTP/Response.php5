@@ -197,17 +197,21 @@ class Net_HTTP_Response
 
 	/**
 	 *	Sets response protocol.
+	 *	You can set a pure (integer) status code (e.G. 200) and the status message (e.G. OK) will be added automatically.
+	 *	You can also set the complete HTTP status containing code and message (e.G. "200 OK").
 	 *	@access		public
-	 *	@param		string		$status			Response status code
+	 *	@param		int|string		$status			Response status code (as integer) or status code with message (e.G. 404 Not Found)
+	 *	@param		boolean			$strict			Flag: ignore given status message and resolve using Net_HTTP_Status
 	 *	@return		void
 	 *	@see		http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html
 	 *	@see		http://en.wikipedia.org/wiki/List_of_HTTP_status_codes
 	 */
-	public function setStatus( $status )
+	public function setStatus( $status, $strict = FALSE )
 	{
-		if( (int) $status == $status )
-			$status	= $status.' '.Net_HTTP_Status::getText( (int) $status );
-		$this->status	= $status;
+		$status	= $strict ? (int) $status : $status;												//  strict mode: always resolve status message
+		if( is_int( $status ) || !preg_match( "/[a-z]/i", $status ) )								//  only status code given
+			$status	= ( (int) $status ).' '.Net_HTTP_Status::getText( (int) $status );				//  extend status code by status message
+		$this->status	= $status;																	//  store status code and message
 	}
 
 	/**
