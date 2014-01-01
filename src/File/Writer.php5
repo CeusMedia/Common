@@ -38,7 +38,7 @@
 class File_Writer
 {
 	public static $minFreeDiskSpace	= 10485760;
-	
+
 	/**	@var		string		$fileName		File Name of List, absolute or relative URI */
 	protected $fileName;
 
@@ -63,14 +63,17 @@ class File_Writer
 	 *	@access		public
 	 *	@param		string		string		string to write to file
 	 *	@return		integer		Number of written bytes
+	 *	@throws		InvalidArgumentExcpetion if no string is given
 	 *	@throws		RuntimeException if file is not writable
 	 *	@throws		RuntimeException if written length is unequal to string length
 	 */
 	public function appendString( $string )
 	{
+		if( !is_string( $string ) )
+			throw new InvalidArgumentException( ucFirst( gettype( $string ) ).' given instead of string' );
 		if( !file_exists( $this->fileName ) )
 			$this->create();
-		if( !$this->isWritable( $this->fileName ) )			
+		if( !$this->isWritable( $this->fileName ) )
 			throw new RuntimeException( 'File "'.$this->fileName.'" is not writable' );
 		return error_log( $string, 3, $this->fileName );
 	}
@@ -126,7 +129,7 @@ class File_Writer
 	{
 		return @unlink( $this->fileName );
 	}
-	
+
 	/**
 	 *	Saves Content into a File statically and returns Length.
 	 *	@access		public
@@ -137,6 +140,7 @@ class File_Writer
 	 *	@param		string		$user			User Name for chown()
 	 *	@param		string		$group			Group Name for chgrp()
 	 *	@return		integer		Number of written bytes
+	 *	@throws		InvalidArgumentExcpetion if no string is given
 	 */
 	public static function save( $fileName, $content, $mode = NULL, $user = NULL, $group = NULL )
 	{
@@ -152,6 +156,7 @@ class File_Writer
 	 *	@param		array		$array			Array to save
 	 *	@param		string		$lineBreak		Line Break
 	 *	@return		integer		Number of written bytes
+	 *	@throws		InvalidArgumentExcpetion if no array is given
 	 */
 	public static function saveArray( $fileName, $array, $lineBreak = "\n" )
 	{
@@ -215,11 +220,12 @@ class File_Writer
 	 *	@param		array		$array			List of String to write to File
 	 *	@param		string		$lineBreak		Line Break
 	 *	@return		integer		Number of written bytes
+	 *	@throws		InvalidArgumentExcpetion if no array is given
 	 */
 	public function writeArray( $array, $lineBreak = "\n" )
 	{
 		if( !is_array( $array ) )
-			throw new InvalidArgumentException( 'List must be an array' );
+			throw new InvalidArgumentException( ucFirst( gettype( $string ) ).' given instead of array' );
 		$string	= implode( $lineBreak, $array );
 		return $this->writeString( $string );
 	}
@@ -229,14 +235,17 @@ class File_Writer
 	 *	@access		public
 	 *	@param		string		string		string to write to file
 	 *	@return		integer		Number of written bytes
+	 *	@throws		InvalidArgumentExcpetion if no string is given
 	 *	@throws		RuntimeException if file is not writable
 	 *	@throws		RuntimeException if written length is unequal to string length
 	 */
 	public function writeString( $string )
 	{
+		if( !is_string( $string ) )
+			throw new InvalidArgumentException( ucFirst( gettype( $string ) ).' given instead of string' );
 		if( !file_exists( $this->fileName ) )
 			$this->create();
-		if( !$this->isWritable( $this->fileName ) )			
+		if( !$this->isWritable( $this->fileName ) )
 			throw new RuntimeException( 'File "'.$this->fileName.'" is not writable' );
 		$count	= file_put_contents( $this->fileName, $string );
 		if( $count != strlen( $string ) )
