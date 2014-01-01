@@ -92,7 +92,12 @@ class UI_Image_Graphviz_Renderer{
 		$this->saveAsImage( $tempFile, $type, $graphOptions );
 		$image		= File_Reader::load( $tempFile );
 		@unlink( $tempFile );
-		header( 'Content-type: image/png' );
+		$mimeType	= "image/png";
+		if( $type == "jpg" )
+			$mimeType	= "image/jpeg";
+		if( $type == "svg" )
+			$mimeType	= "image/svg+xml";
+		header( 'Content-type: '.$mimeType );
 		print( $image );
 		exit;
 	}
