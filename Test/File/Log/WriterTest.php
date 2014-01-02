@@ -26,8 +26,8 @@ class Test_File_Log_WriterTest extends PHPUnit_Framework_TestCase
 	 */
 	public function __construct()
 	{
-		$this->path		= dirname( __FILE__ );
-		$this->fileName	= $this->path."/writer.log";
+		$this->path		= dirname( __FILE__ )."/";
+		$this->fileName	= $this->path."writer.log";
 	}
 
 	/**
