@@ -304,7 +304,7 @@ class UI_HTML_PageFrame
 
 	public function setBody( $string )
 	{
-		$this->body		= $string;
+		$this->body		= array( $string );
 	}
 
 	protected function setDocType( $doctype )
