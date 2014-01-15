@@ -2,7 +2,7 @@
 /**
  *	Session Management.
  *
- *	Copyright (c) 2007-2012 Christian Würker (ceusmedia.com)
+ *	Copyright (c) 2007-2014 Christian Würker (ceusmedia.com)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
  *	@category		cmClasses
  *	@package		Net.HTTP
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2012 Christian Würker
+ *	@copyright		2007-2014 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		$Id$
@@ -31,7 +31,7 @@
  *	@package		Net.HTTP
  *	@extends		ADT_List_Dictionary
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2012 Christian Würker
+ *	@copyright		2007-2014 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		$Id$
@@ -41,15 +41,19 @@ class Net_HTTP_Session extends ADT_List_Dictionary
 	/**
 	 *	Constructor.
 	 *	@access		public
+	 *	@param		string		$sessionName		Name of Session ID
+	 *	@param		string		$domain				Domain to set cookie for
 	 *	@return		void
 	 */
-	public function __construct( $sessionName = "sid" )
+	public function __construct( $sessionName = "sid", $domain = NULL )
 	{
-		session_name( $sessionName );
-		session_start();
+		session_name( $sessionName );											//  set session cookie name
+		if( strlen( trim( $domain ) ) )											//  a domain has been specified
+			ini_set( 'session.cookie_domain', trim( strtolower( $domain ) ) );	//  set cookie domain
+		@session_start();														//  start cookie handler
 		$this->pairs =& $_SESSION;
 	}
-	
+
 	/**
 	 *	Destructor.
 	 *	@access		public
