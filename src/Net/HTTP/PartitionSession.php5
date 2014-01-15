@@ -50,28 +50,31 @@ class Net_HTTP_PartitionSession extends ADT_List_Dictionary
 	 *	@access		public
 	 *	@param		string		$partitionName		Partition of Session Data
 	 *	@param		string		$sessionName		Name of Session ID
+	 *	@param		string		$domain				Domain to set cookie for
 	 *	@return		void
 	 */
-	public function __construct( $partitionName, $sessionName = "sid" )
+	public function __construct( $partitionName, $sessionName = "sid", $domain = NULL )
 	{
-		session_name( $sessionName );
-		@session_start();
-		$this->session	=& $_SESSION;
-		$ip = getEnv( 'REMOTE_ADDR' );
-		if( !isset( $this->session['ip'] ) )
-			$this->session['ip'] = $ip;
-		else if( $this->session['ip'] != $ip )								//  HiJack Attempt
+		session_name( $sessionName );											//  set session cookie name
+		if( strlen( trim( $domain ) ) )											//  a domain has been specified
+			ini_set( 'session.cookie_domain', trim( strtolower( $domain ) ) );	//  set cookie domain
+		@session_start();														//  start cookie handler
+		$this->session	=& $_SESSION;											//  copy session data resource
+		$ip = getEnv( 'REMOTE_ADDR' );											//  get client IP address
+		if( !isset( $this->session['ip'] ) )									//  IP has not been noted before
+			$this->session['ip'] = $ip;											//  store IP in session
+		else if( $this->session['ip'] != $ip )									//  Session hijacking attempt
 		{
-			session_regenerate_id();
-			$this->session =& $_SESSION;
-			foreach( $this->session as $key => $value )
-				unset( $this->session[$key] );
-			$this->session['ip'] = $ip;
+			session_regenerate_id();											//  generate new session ID
+			$this->session =& $_SESSION;										//  copy new session data resource
+			foreach( array_keys( $this->session ) as $key )						//  iterate session data keys
+				unset( $this->session[$key] );									//  remove all session data
+			$this->session['ip'] = $ip;											//  store IP in session
 		}
-		unset( $this->pairs );
-		if( !isset( $_SESSION['partitions'][$partitionName] ) )
-			$_SESSION['partitions'][$partitionName]	= array();
-		$this->pairs =& $_SESSION['partitions'][$partitionName];
+		unset( $this->pairs );													//  clear local data pair map
+		if( !isset( $_SESSION['partitions'][$partitionName] ) )					//  partition is not opened yet
+			$_SESSION['partitions'][$partitionName]	= array();					//  create new partition in session
+		$this->pairs =& $_SESSION['partitions'][$partitionName];				//  copy session partition reference
 	}
 	
 	/**

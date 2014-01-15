@@ -102,14 +102,14 @@ class Net_HTTP_Headers
 		)
 	);
 
-	public function addHeader( Net_HTTP_Header $header, $emptyBefore = FALSE )
+	public function addHeader( Net_HTTP_Header_Field $header, $emptyBefore = FALSE )
 	{
 		return $this->setHeader( $header, FALSE );
 	}
 
 	public function addHeaderPair( $name, $value, $emptyBefore = FALSE )
 	{
-		$header	= new Net_HTTP_Header( $name, $value );
+		$header	= new Net_HTTP_Header_Field( $name, $value );
 		$this->addHeader( $header, $emptyBefore );
 	}
 
@@ -158,7 +158,7 @@ class Net_HTTP_Headers
 		return FALSE;
 	}
 
-	public function setHeader( Net_HTTP_Header $header, $emptyBefore = TRUE )
+	public function setHeader( Net_HTTP_Header_Field $header, $emptyBefore = TRUE )
 	{
 		$name	= $header->getName();
 		foreach( $this->headers as $sectionName => $sectionPairs )
