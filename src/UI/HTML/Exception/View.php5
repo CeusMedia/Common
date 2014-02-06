@@ -66,10 +66,12 @@ class UI_HTML_Exception_View
 		$root	= XML_ElementReader::readFile( dirname( __FILE__ ).'/SQLSTATE.xml' );
 
 		$query	= 'class[@id="'.$class1.'"]/subclass[@id="000"]';
-		$class	= array_pop( $root->xpath( $query ) );
+		$result	= $root->xpath( $query );
+		$class	= array_pop( $result );
 		if( $class ){
 			$query		= 'class[@id="'.$class1.'"]/subclass[@id="'.$class2.'"]';
-			$subclass	= array_pop( $root->xpath( $query ) );
+			$result		= $root->xpath( $query );
+			$subclass	= array_pop( $result );
 			if( $subclass )
 				return $class->getAttribute( 'meaning' ).' - '.$subclass->getAttribute( 'meaning' );	
 			return $class->getAttribute( 'meaning' );	
