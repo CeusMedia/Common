@@ -174,33 +174,40 @@ class File_TodoLister
 		$this->numberScanned	= 0;
 		$this->numberTodos		= 0;
 		$this->numberLines		= 0;
-		$this->list		= array();
+		$this->list				= array();
 		$extensions		= $this->getExtensionPattern(); 
 		$pattern		= $this->getExtendedPattern();
 		$iterator		= $this->getIndexIterator( $path, $extensions );
-		foreach( $iterator as $entry )
-		{
-			$this->numberScanned++;
-			$content	= file_get_contents( $entry->getPathname() );
-			$lines		= explode( "\n", $content );
-			$i			= 0;
-			$list		= array();
-			foreach( $lines as $line )
+		try{
+			foreach( $iterator as $entry )
 			{
-				$this->numberLines++;
-				$i++;
-				if( !preg_match( $pattern, $line ) )
+				$this->numberScanned++;
+				$content	= file_get_contents( $entry->getPathname() );
+				$lines		= explode( "\n", $content );
+				$i			= 0;
+				$list		= array();
+				foreach( $lines as $line )
+				{
+					$this->numberLines++;
+					$i++;
+					if( !preg_match( $pattern, $line ) )
+						continue;
+					$this->numberTodos++;
+					$list[$i]	= $line;#trim( $line );
+				}
+				if( !$list )
 					continue;
-				$this->numberTodos++;
-				$list[$i]	= $line;#trim( $line );
+				$this->numberFound++;
+				$this->list[$entry->getPathname()]	= array(
+					'fileName'	=> $entry->getFilename(),
+					'lines'		=> $list,
+				);
 			}
-			if( !$list )
-				continue;
-			$this->numberFound++;
-			$this->list[$entry->getPathname()]	= array(
-				'fileName'	=> $entry->getFilename(),
-				'lines'		=> $list,
-			);
+		}
+		catch( UnexpectedValueException $e ){
+		}
+		catch( Exception $e ){
+			throw new RuntimeException( $e->getMessage(), $e->getCode(), $es );
 		}
 	}
 }
