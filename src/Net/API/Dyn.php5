@@ -61,7 +61,8 @@ class Net_API_Dyn{
 				$this->lastCheck	= $data->timestamp;
 			}
 		}
-		Net_Reader::setUserAgent( "CeusMedia - DynUpdateBot - 0.1" );
+		$this->reader	= new Net_Reader();
+		$this->reader->setUserAgent( "CeusMedia - DynUpdateBot - 0.1" );
 	}
 
 	/**
@@ -72,7 +73,8 @@ class Net_API_Dyn{
 	public function getIp(){
 		if( (int) $this->lastCheck > 0 && time() - $this->lastCheck < 10 * 60 )
 			return $this->lastIp;
-		$html	= Net_Reader::readUrl( 'http://checkip.dyndns.org' );
+		$this->reader->setUrl( 'http://checkip.dyndns.org' );
+		$html	= $this->reader->read();
 		$parts	= explode( ": ", strip_tags( $html ) );
 		$ip		= trim( array_pop( $parts ) );
 		$this->save( array( 'ip' => $ip, 'timestamp' => time() ) );
@@ -110,7 +112,8 @@ class Net_API_Dyn{
 			return "noop";
 		$url	= "http://%s:%s@members.dyndns.org/nic/update?hostname=%s&myip=%s&wildcard=NOCHG&mx=NOCHG&backmx=NOCHG";
 		$url	= sprintf( $url, $username, $password, $host, $ip );
-		$parts	= explode( " ", Net_Reader::readUrl( $url ) );
+		$this->reader->setUrl( $url );
+		$parts	= explode( " ", $this->reader->read() );
 		return array_shift( $parts );
 	}
 }
