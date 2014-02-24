@@ -40,28 +40,15 @@
  */
 class UI_HTML_Exception_Trace
 {
-	protected $exception;
-
-	/**
-	 *	Constructor.
-	 *	@access		public
-	 *	@param		Exception	$exception		Exception
-	 *	@return		void
-	 */
-	public function __construct( Exception $exception )
-	{
-		$this->exception	= $exception;
-	}
-
 	/**
 	 *	Prints exception view.
 	 *	@access		public
 	 *	@param		Exception	$exception		Exception
 	 *	@return		void
 	 */
-	public function display()
+	public static function display( Exception $exception )
 	{
-		print self::render( $this->exception );
+		print self::render( $exception );
 	}
 
 	/**
@@ -70,12 +57,12 @@ class UI_HTML_Exception_Trace
 	 *	@param		Exception	$exception		Exception
 	 *	@return		string
 	 */
-	public function render()
+	public static function render( Exception $exception )
 	{
 		$i	= 0;
 		$j	= 0;
 		$list	= array();
-		foreach( $this->exception->getTrace() as $key => $trace )
+		foreach( $exception->getTrace() as $key => $trace )
 		{
 			$step	= self::renderTraceStep( $trace, $i++, $j );
 			if( !$step )

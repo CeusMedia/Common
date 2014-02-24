@@ -125,11 +125,11 @@ class UI_HTML_Exception_View
 
 		if( $showTrace )
 		{
-			$trace	= new UI_HTML_Exception_Trace( $e );
+			$trace	= UI_HTML_Exception_Trace::render( $e );
 			if( $trace )
 			{
 				$list[]	= UI_HTML_Tag::create( 'dt', 'Trace' );
-				$list[]	= UI_HTML_Tag::create( 'dd', $trace->render() );
+				$list[]	= UI_HTML_Tag::create( 'dd', $trace );
 			}
 		}
 		if( $showPrevious )
