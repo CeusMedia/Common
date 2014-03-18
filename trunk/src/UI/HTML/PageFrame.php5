@@ -35,7 +35,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		$Id$
- */ 
+ */
 class UI_HTML_PageFrame
 {
 	protected $title		= NULL;
@@ -243,7 +243,7 @@ class UI_HTML_PageFrame
 			$tagsHead	= "\n".$this->indent.$this->indent.$tagsHead."\n".$this->indent;
 		$head		= UI_HTML_Tag::create( "head", $tagsHead, $headAttributes );
 		$body		= UI_HTML_Tag::create( "body", $tagsBody, $bodyAttributes );
-		
+
 		$doctype	= $this->doctypes[$this->doctype];
 		$attributes	= array( 'lang' => $this->language );
 		if( is_int( strpos( $doctype, 'xhtml' ) )/* || $this->doctype == 'HTML_5'*/ ){
@@ -270,7 +270,7 @@ class UI_HTML_PageFrame
 	/**
 	 *	Returns set page body.
 	 *	@access		public
-	 *	@param		string		$separator		Glue between added body blocks	
+	 *	@param		string		$separator		Glue between added body blocks
 	 *	@return		string
 	 */
 	public function getBody( $separator = "\n" )
@@ -307,7 +307,7 @@ class UI_HTML_PageFrame
 		$this->body		= array( $string );
 	}
 
-	protected function setDocType( $doctype )
+	public function setDocType( $doctype )
 	{
 		$doctypes	= array_keys( $this->doctypes );
 		$key		= str_replace( array( ' ', '-' ), '_', trim( $doctype ) );
