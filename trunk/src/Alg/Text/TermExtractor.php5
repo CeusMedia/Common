@@ -41,12 +41,16 @@
  */
 class Alg_Text_TermExtractor
 {
-	public static $blacklist	= array();
+	public static $blacklist					= array();
+	public static $backlistCaseSensitive		= FALSE;
 
 	public static function getTerms( $text )
 	{
 		$list	= array();
 		$lines	= explode( "\n", $text );
+		$blacklist	= self::$blacklist;
+		if( !self::$backlistCaseSensitive )
+			$blacklist	= array_map( 'strtolower', $blacklist );
 		foreach( $lines as $line )
 		{
 			$words	= explode( " ", trim( $line ) );
@@ -55,12 +59,13 @@ class Alg_Text_TermExtractor
 				$word	= trim( $word );
 				$word	= preg_replace( "@^\(@i", "", $word );
 				$word	= preg_replace( "@\)$@i", "", $word );
-				$word	= preg_replace( "@[,;._-]$@i", "", $word );
+				$word	= preg_replace( "@\p{Po}+$@i", "", $word );
 				$word	= trim( $word );
 				if( strlen( $word ) < 2 )
 					continue;
 				
-				if( in_array( $word, self::$blacklist ) )
+				$search	= !self::$backlistCaseSensitive ? strtolower( $word ) : $word;
+				if( in_array( $search, $blacklist ) )
 					continue;
 				
 				if( $word )
@@ -90,7 +95,7 @@ class Alg_Text_TermExtractor
 	
 	public static function setBlacklist( $list )
 	{
-		self::$blacklist	= array_unique( $list );
+		self::$blacklist		= array_unique( $list );
 	}
 }
 ?>
