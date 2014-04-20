@@ -75,11 +75,13 @@ class Net_Site_Crawler
 	
 	public $deniedUrlParts	= array();
 
+	/**	@var	Net_Reader		$reader */
+	protected $reader;
 
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		int			$depth			Number of Links followed in a Row
+	 *	@param		integer		$depth			Number of Links followed in a Row
 	 *	@return		void
 	 */
 	public function __construct( $baseUrl, $depth = 10 )
@@ -118,11 +120,12 @@ class Net_Site_Crawler
 	 *	Crawls a Web Site, collects Information and returns Number of visited Links.
 	 *	@access		public
 	 *	@param		string		$url					URL of Web Page to start at
-	 *	@param		bool		$followExternalLinks	Flag: follow external Links (on another Domain)
-	 *	@param		bool		$verbose				Flag: show Progression
-	 *	@return		int
+	 *	@param		boolean		$followExternalLinks	Flag: follow external Links (on another Domain)
+	 *	@param		boolean		$followWithLabelOnly	Flag: follow link with label only
+	 *	@param		boolean		$verbose				Flag: show Progression
+	 *	@return		integer
 	 */
-	public function crawl( $url, $followExternalLinks = FALSE, $verbose = FALSE )
+	public function crawl( $url, $followExternalLinks = FALSE, $followWithLabelOnly = FALSE, $verbose = FALSE )
 	{
 		if( $xdebug = ini_get( 'xdebug.profiler_enable' ) )							//  XDebug Profiler is enabled
 			ini_set( 'xdebug.profiler_enable', "0" );								//  disable Profiler
@@ -152,8 +155,8 @@ class Net_Site_Crawler
 			$parts['user']		= $this->user;
 			$parts['pass']		= $this->pass;
 #			$parts['path']		= $this->path.$parts['path'];	
-			
-			if( !preg_match( "@^".$this->baseUrl."@", $url ) )
+
+			if( substr( $url, 0, strlen( $this->baseUrl ) ) !== $this->baseUrl )
 				if( !$followExternalLinks )
 					continue;
 			$url		= $this->buildUrl( $parts );
@@ -171,19 +174,21 @@ class Net_Site_Crawler
 			try
 			{
 				$content	= $this->getHTML( $url );
-				$this->handleRecoveredLink( $url, $content );
-				if( $verbose )
-					$this->handleVerbose( $url, $number );
-				$document	= $this->getDocument( $content, $url );
-
-				$links		= $this->getLinksFromDocument( $document );
-				foreach( $links as $url => $label )
+				if( $content )
 				{
-					$info	= pathinfo( $url );
-					if( isset( $info['extension'] ) )
-						if( in_array( strtolower( $info['extension'] ), $this->denied ) )
-							continue;
-					$urlList[]	= $url;
+					$this->handleRecoveredLink( $url, $content );
+					if( $verbose )
+						$this->handleVerbose( $url, $number );
+					$document	= $this->getDocument( $content, $url );
+					$links		= $this->getLinksFromDocument( $document, $followWithLabelOnly );
+					foreach( $links as $url => $label )
+					{
+						$info	= pathinfo( $url );
+						if( isset( $info['extension'] ) )
+							if( in_array( strtolower( $info['extension'] ), $this->denied ) )
+								continue;
+						$urlList[]	= $url;
+					}
 				}
 			}
 			catch( Exception $e )
@@ -195,6 +200,18 @@ class Net_Site_Crawler
 		if( $xdebug )																//  XDebug Profiler was enabled
 			ini_set( 'xdebug.profiler_enable', "1" );								//  enable Profiler
 		return count( $this->links );
+	}
+
+	protected function getBaseUrl( $document = NULL ){
+		$parts	= parse_url( $this->baseUrl );
+		$url	= $this->buildUrl( $parts );
+		if( $document )
+		{
+			$base	= $document->getElementsByTagName( "base" );
+			if( $base->length )
+				$url	= $base->item( 0 )->getAttribute( 'href' );
+		}
+		return $url;
 	}
 
 	/**
@@ -240,7 +257,13 @@ class Net_Site_Crawler
 		$this->reader->setUrl( $url );
 		try
 		{
-			return $this->reader->read( array( 'CURLOPT_FOLLOWLOCATION' => TRUE ) );		
+			$content	= $this->reader->read( array(
+				'CURLOPT_FOLLOWLOCATION'	=> TRUE,
+				'CURLOPT_COOKIEJAR'			=> 'cookies.txt', 
+				'CURLOPT_COOKIEFILE'		=> 'cookies.txt'
+			) );
+			$contentType	= $this->reader->getInfo( 'content_type' );
+			return $contentType === 'text/html' ? $content : '';
 		}
 		catch( RuntimeException $e )
 		{
@@ -265,27 +288,37 @@ class Net_Site_Crawler
 	 *	Parses a HTML Document and returns extracted Link URLs.
 	 *	@access		protected
 	 *	@param		DOMDocument	$document		DOM Document of HTML Content
+	 *	@param		boolean		$onlyWithLabel	Flag: note only links with label
 	 *	@return		array
 	 */
-	protected function getLinksFromDocument( $document )
+	protected function getLinksFromDocument( $document, $onlyWithLabel = FALSE )
 	{
-		$links	= array();
-		$nodes	= $document->getElementsByTagName( "a" );
+		$baseUrl	= $this->getBaseUrl( $document );
+		$links		= array();
+		$nodes		= $document->getElementsByTagName( "a" );
 		foreach( $nodes as $node )
 		{
 			$ref	= $node->getAttribute( 'href' );
-			if( preg_match( "@^(#|mailto:|javascript:|../)@", $ref ) )
-				continue;
-			if( preg_match( "@^/@", $ref ) )
-			{
-				$parts	= parse_url( $this->baseUrl );
-				$ref	= $parts['scheme']."://".$parts['host'].$ref;
+			$ref	= trim( preg_replace( "@^\./@", "", $ref ) );
+			if( strlen( $ref ) ){
+				$base	= $document->getElementsByTagName( "base" );
+	//			remark( $ref );
+				if( preg_match( "@^(#|mailto:|javascript:)@", $ref ) )
+					continue;
+				if( $base->length && preg_match( "@^\.\./@", $ref ) )
+					continue;
+				if( preg_match( "@^\.?/@", $ref ) )
+					$ref	= $baseUrl.$ref;
+				else if( preg_match( "@^\./@", $ref ) )
+					$ref	= preg_replace( "@^\./@", "", $ref );
+				if( !preg_match( "@^https?://@", $ref ) )
+					$ref	= $baseUrl.$ref;
+				$label	= trim( strip_tags( $node->nodeValue ) );
+				if( $node->hasAttribute( 'title' ) )
+					$label	= trim( strip_tags( $node->getAttribute( 'title' ) ) );
+				if( $onlyWithLabel && strlen( $label ) )
+					$links[$ref]	= $label;
 			}
-			else if( preg_match( "@^\./@", $ref ) )
-				$ref	= preg_replace( "@^\./@", "", $ref );
-			if( !preg_match( "@^https?://@", $ref ) )
-				$ref	= $this->baseUrl.$ref;
-			$links[$ref]	= $node->nodeValue;
 		}
 		return $links;
 	}
@@ -294,7 +327,7 @@ class Net_Site_Crawler
 	 *	Shows Information about downloaded Web Page. This Method is customizable (can be overwritten).
 	 *	@access		protected
 	 *	@param		string		$url			URL of Web Page
-	 *	@param		int			$number			Number of followed Page
+	 *	@param		integer		$number			Number of followed Page
 	 */
 	protected function handleVerbose( $url, $number )
 	{
