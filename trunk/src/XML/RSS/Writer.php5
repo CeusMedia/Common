@@ -59,6 +59,18 @@ class XML_RSS_Writer
 	}
 	
 	/**
+	 *	Sets Information of Channel.
+	 *	@access		public
+	 *	@param		array		$array		Array of Channel Information Pairs
+	 *	@return		void
+	 *	@see		http://cyber.law.harvard.edu/rss/rss.html#requiredChannelElements
+	 */
+	public function setChannelData( $array )
+	{
+		$this->channelData	= $array;
+	}
+	
+	/**
 	 *	Sets an Information Pair of Channel.
 	 *	@access		public
 	 *	@param		string		$key		Key of Channel Information Pair
@@ -69,18 +81,6 @@ class XML_RSS_Writer
 	public function setChannelPair( $key, $value )
 	{
 		$this->channelData[$key]	= $value;
-	}
-	
-	/**
-	 *	Sets Information of Channel.
-	 *	@access		public
-	 *	@param		array		$array		Array of Channel Information Pairs
-	 *	@return		void
-	 *	@see		http://cyber.law.harvard.edu/rss/rss.html#requiredChannelElements
-	 */
-	public function setChannelData( $array )
-	{
-		$this->channelData	= $array;
 	}
 
 	/**

@@ -127,7 +127,7 @@ class File_Writer
 	 */
 	public function remove()
 	{
-		return @unlink( $this->fileName );
+		return unlink( $this->fileName );
 	}
 
 	/**

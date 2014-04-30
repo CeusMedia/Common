@@ -136,7 +136,7 @@ class File_Editor extends File_Reader
 	 */
 	public function setGroup( $groupName )
 	{
-		return $this->writer->setOwner( $groupName );
+		return $this->writer->setGroup( $groupName );
 	}
 
 	/**

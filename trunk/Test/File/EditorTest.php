@@ -62,15 +62,22 @@ class Test_File_EditorTest extends PHPUnit_Framework_TestCase
 	}
 
 	/**
-	 *	Tests Method '__construct'.
+	 *	Tests Method 'setGroup'.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function test__construct()
+	public function testDelete()
 	{
-		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= $this->editor->__construct();
+		$creation	= $this->editor->exists();
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= TRUE;
+		$creation	= File_Editor::delete( $this->fileName );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= FALSE;
+		$creation	= $this->editor->exists();
 		$this->assertEquals( $assertion, $creation );
 	}
 
