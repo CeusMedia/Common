@@ -1,0 +1,70 @@
+<?php
+/**
+ *	Access to DDNSS (ddnss.de) API.
+ *
+ *	Copyright (c) 2014 Christian Würker (ceusmedia.com)
+ *
+ *	This program is free software: you can redistribute it and/or modify
+ *	it under the terms of the GNU General Public License as published by
+ *	the Free Software Foundation, either version 3 of the License, or
+ *	(at your option) any later version.
+ *
+ *	This program is distributed in the hope that it will be useful,
+ *	but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *	GNU General Public License for more details.
+ *
+ *	You should have received a copy of the GNU General Public License
+ *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ *	@category		cmClasses
+ *	@package		Net.API
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ *	@copyright		2014 Christian Würker
+ *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@link			http://code.google.com/p/cmclasses/
+ *	@since			0.7.7
+ *	@version		$Id$
+ */
+/**
+ *	Access to DDNSS (ddnss.de) API.
+ *
+ *	@category		cmClasses
+ *	@package		Net.API
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ *	@copyright		2014 Christian Würker
+ *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@link			http://code.google.com/p/cmclasses/
+ *	@since			0.7.7
+ *	@version		$Id$
+ */
+class Net_API_DDNSS{
+
+	/**	@var		string		Base URL for update */
+	public static $urlUpdate	= "http://www.ddnss.de/upd.php?key=%s&host=%s";
+
+	/**
+	 *	Updated host or hosts.
+	 *	@static
+	 *	@param		string		$key		Auth key from DDNSS
+	 *	@param		string|array	$hosts		Host or list of hosts
+	 *	@return		integer		Number of updated hosts
+	 */
+	static public function update( $key, $hosts ){
+		if( is_array( $hosts ) )
+			$hosts	= implode( ",", $hosts );
+		$url	= sprintf( self::$urlUpdate, $key, $hosts );
+		try{
+			$reader		= new Net_Reader( $url );
+			$response	= strip_tags( $reader->read() );
+			if( !preg_match( "/Updated [0-9]+ /", $response ) )
+				return 0;
+			$number	= preg_replace( "/^.+Updated ([0-9]+) host.+$/s", "\\1", $response );
+			return (int) $number;
+		}
+		catch( Exception $e ){
+			die( $e->getMessage() );
+		}
+	}
+}
+?>
