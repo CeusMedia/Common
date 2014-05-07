@@ -136,9 +136,10 @@ class Net_Mail_Transport_SMTP
 	public function send( Net_Mail $mail )
 	{
 		$mail->setHeaderPair( 'X-Mailer', $this->mailer );
-		$delim	= Net_Mail::$delimiter;
-		$date	= date( "D, d M Y H:i:s O", time() );
-		$server	= 'localhost';
+		$delim		= Net_Mail::$delimiter;
+		$date		= date( "D, d M Y H:i:s O", time() );
+		$server		= 'localhost';
+		$subject	= "=?UTF-8?B?".base64_encode( $mail->getSubject() )."?=";
 		if( !empty( $_SERVER['SERVER_NAME'] ) )
 			$server	= $_SERVER['SERVER_NAME'];
 		$conn	= fsockopen( $this->host, $this->port, $errno, $errstr, 5 );
@@ -171,7 +172,7 @@ class Net_Mail_Transport_SMTP
 			$this->sendChunk( $conn, "DATA" );
 			$this->checkResponse( $conn );
 			$this->sendChunk( $conn, "Date: ".$date );
-			$this->sendChunk( $conn, "Subject: ".$mail->getSubject() );
+			$this->sendChunk( $conn, "Subject: ".$subject );
 			$this->sendChunk( $conn, "To: <".$mail->getReceiver().">" );
 			foreach( $mail->getHeaders()->getFields() as $header )
 				$this->sendChunk( $conn, $header->toString() );

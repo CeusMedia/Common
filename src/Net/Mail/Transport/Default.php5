@@ -92,6 +92,7 @@ class Net_Mail_Transport_Default
 			throw new InvalidArgumentException( 'No mail receiver defined' );
 		if( !$subject )
 			throw new InvalidArgumentException( 'No mail subject defined' );
+		$subject	= "=?UTF-8?B?".base64_encode( $subject )."?=";
 
 /*		foreach( $headers as $key => $value )
 		{

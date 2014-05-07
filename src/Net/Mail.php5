@@ -41,7 +41,7 @@
 class Net_Mail
 {
 	/**	@var	string					$delimiter		Line Separator, for some reasons only \n must be possible */
-	public static $delimiter				= "\r\n";
+	public static $delimiter			= "\n";
 	/**	@var	string					$parts			Mail Parts: Bodies and Attachments */
 	protected $parts					= array();
 	/**	@var	Net_Mail_Header_Section	$headers		Mail Header Section */
