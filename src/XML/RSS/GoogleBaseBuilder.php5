@@ -43,11 +43,9 @@ class XML_RSS_GoogleBaseBuilder extends XML_RSS_Builder
 	protected $itemElements	= array(
 		'title'						=> FALSE,
 		'description'				=> FALSE,
-		'titel'						=> TRUE,
-		'beschreibung'				=> TRUE,
 		'link'						=> TRUE,
 		'g:id'						=> TRUE,
-		'g:preis'					=> TRUE,
+/*		'g:preis'					=> TRUE,
 		'g:autor'					=> TRUE,
 		'g:isbn'					=> FALSE,
 		'g:bild_url'				=> FALSE,
@@ -60,7 +58,7 @@ class XML_RSS_GoogleBaseBuilder extends XML_RSS_Builder
 		'g:herstellungsjahr'		=> FALSE,
 		'g:veröffentlichungs_datum'	=> FALSE,
 		'g:veröffentlichung_band'	=> FALSE,
-		'g:name_der_veröffentlichung'	=> TRUE,
+		'g:name_der_veröffentlichung'	=> TRUE,*/
 	);
 	/**	@var		string		$namespaceUri		URI of Google Base Namespace */
 	public static $namespaceUri	= "http://base.google.com/ns/1.0";
@@ -74,6 +72,10 @@ class XML_RSS_GoogleBaseBuilder extends XML_RSS_Builder
 	{
 		parent::__construct();
 		$this->registerNamespace( 'g', self::$namespaceUri );
+	}
+
+	public function addItemElement( $name, $mandatory = NULL ){
+		$this->itemElements[$name]	= (boolean) $mandatory;
 	}
 }
 ?>

@@ -2,7 +2,7 @@
 /**
  *	Builder for RSS Feeds.
  *
- *	Copyright (c) 2007-2012 Christian Würker (ceusmedia.com)
+ *	Copyright (c) 2007-2014 Christian Würker (ceusmedia.com)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
  *	@category		cmClasses
  *	@package		XML.RSS
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2012 Christian Würker
+ *	@copyright		2007-2014 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			18.07.02005
@@ -33,7 +33,7 @@
  *	@uses			XML_DOM_Node
  *	@uses			XML_DOM_Builder
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2012 Christian Würker
+ *	@copyright		2007-2014 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			18.07.02005
@@ -78,19 +78,25 @@ class XML_RSS_Builder
 		"guid"				=> FALSE,
 		"source"			=> FALSE,
 	);
-	/**	@var	array			$namespaces			Array or RSS Namespaces */
+	/**	@var	array			$namespaces		Array or RSS Namespaces */
 	protected $namespaces	= array();
-	
+
 	/**
 	 *	Constructor.
 	 *	@access		public
+	 *	@param		array		$data			Array of Channel Information Pairs
 	 *	@return		void
 	 */
-	public function __construct()
+	public function __construct( $data = array() )
 	{
 		$this->builder	= new XML_DOM_Builder();
 		$this->channel['timezone']	= '+0000';
 		$this->items	= array();
+
+		if( !is_array( $data ) )
+			throw new Exception( 'Channel Data List must be an Array.' );
+		foreach( $data as $key => $value )
+			$this->setChannelPair( $key, $value );
 	}
 
 	/**
@@ -124,7 +130,7 @@ class XML_RSS_Builder
 		$tree = new XML_DOM_Node( 'rss' );
 		$tree->setAttribute( 'version', $version );
 		$channel	= new XML_DOM_Node( 'channel' );
-		
+
 		//  --  CHANNEL  ELEMENTS  --  //
 		foreach( $this->channelElements as $element => $required )
 			if( $required || isset( $this->channel[$element] ) )
@@ -149,7 +155,7 @@ class XML_RSS_Builder
 			if( isset( $this->channel['imageDescription'] ) )
 				$image->addChild( new XML_DOM_Node( 'description', $this->channel['imageDescription'] ) );
 			$channel->addChild( $image );
-		}			
+		}
 		if( isset( $this->channel['textInputTitle'] ) )
 		{
 			$image	= new XML_DOM_Node( 'textInput' );
@@ -189,7 +195,7 @@ class XML_RSS_Builder
 		}
 		$tree->addChild( $channel );
 		$this->items	= array();
-		return $this->builder->build( $tree, $encoding, $this->namespaces );	
+		return $this->builder->build( $tree, $encoding, $this->namespaces );
 	}
 
 	/**
@@ -204,7 +210,7 @@ class XML_RSS_Builder
 			$time	= date( "r", (int) $time );
 		return $time;
 	}
-	
+
 	/**
 	 *	Sets an Information Pair of Channel.
 	 *	@access		public
@@ -217,7 +223,7 @@ class XML_RSS_Builder
 	{
 		$this->channel[$key]	= $value;
 	}
-	
+
 	/**
 	 *	Sets Information of Channel.
 	 *	@access		public
@@ -248,7 +254,7 @@ class XML_RSS_Builder
 		foreach( $items as $item )
 			$this->addItem( $item );
 	}
-	
+
 	public function registerNamespace( $prefix, $url )
 	{
 		$this->namespaces[$prefix]	= $url;
