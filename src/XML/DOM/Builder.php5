@@ -43,7 +43,7 @@ class XML_DOM_Builder
 	 *	@access		public
 	 *	@param		XML_DOM_Node	$tree			XML Tree
 	 *	@param		string			$encoding		Encoding Character Set (utf-8 etc.)
-	 *	@return		string
+	 *	@return		string							Rendered tree as XML string
 	 */
 	static public function build( XML_DOM_Node $tree, $encoding = "utf-8", $namespaces = array() )
 	{
@@ -54,8 +54,7 @@ class XML_DOM_Builder
 			$root->setAttribute( "xmlns:".$prefix, $namespace );
 		$root		= $document->appendChild( $root );
 		self::buildRecursive( $document, $root, $tree, $encoding );
-		$xml		= $document->saveXML();
-		return $xml;
+		return $document->saveXML();
 	}
 
 	/**
