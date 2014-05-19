@@ -169,7 +169,7 @@ class Net_HTTP_Response
 		$sender	= new Net_HTTP_Response_Sender( $this );
 		return $sender->send( $compression, $sendLengthHeader, $exit );
 	}
-	
+
 	/**
 	 *	Sets response message body.
 	 *	@access		public
@@ -185,7 +185,18 @@ class Net_HTTP_Response
 	}
 
 	/**
-	 *	Sets response protocol.
+	 *	Sets response HTTP header, overriding before set values.
+	 *	@access		public
+	 *	@param		string		$name		HTTP header name
+	 *	@param		string		$value		HTTP header value
+	 *	@return		void
+	 */
+	public function setHeader( $key, $value ){
+		$this->addHeaderPair( $key, $value, TRUE );
+	}
+
+	/**
+	 *	Sets response protocol. Set initially to HTTP.
 	 *	@access		public
 	 *	@param		string		$protocol		Response protocol
 	 *	@return		void
