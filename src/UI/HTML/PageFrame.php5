@@ -2,7 +2,7 @@
 /**
  *	Builds XHTML Page Frame containing Doctype, Meta Tags, Title, Title, JavaScripts, Stylesheets and additional Head and Body.
  *
- *	Copyright (c) 2007-2012 Christian Würker (ceusmedia.com)
+ *	Copyright (c) 2007-2014 Christian Würker (ceusmedia.com)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
  *	@category		cmClasses
  *	@package		UI.HTML
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2013 Christian Würker
+ *	@copyright		2007-2014 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		$Id$
@@ -31,7 +31,7 @@
  *	@package		UI.HTML
  *	@uses			UI_HTML_Tag
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2013 Christian Würker
+ *	@copyright		2007-2014 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		$Id$
@@ -40,9 +40,9 @@ class UI_HTML_PageFrame
 {
 	protected $title		= NULL;
 	protected $heading		= NULL;
-	protected $styles		= array();
 	protected $scripts		= array();
 	protected $metaTags		= array();
+	protected $links		= array();
 	protected $baseHref		= NULL;
 	protected $head			= array();
 	protected $body			= array();
@@ -89,7 +89,7 @@ class UI_HTML_PageFrame
 		$this->addMetaTag( "http-equiv", "Content-Style-Type", $styleType );
 	}
 
-	/** 
+	/**
 	 *	Adds further HTML to Body.
 	 *	@access		public
 	 *	@param		string		$string			HTML String for Head
@@ -103,7 +103,7 @@ class UI_HTML_PageFrame
 	/**
 	 *	Adds a favourite Icon to the Page (supports ICO and other Formats).
 	 *	@access		public
-	 *	@param		string		$url			URL of Icon or Image 
+	 *	@param		string		$url			URL of Icon or Image
 	 *	@return		void
 	 *	@since		0.6.7
 	 */
@@ -114,10 +114,10 @@ class UI_HTML_PageFrame
 			'type'		=> "image/x-icon",
 			'href'		=> $url,
 		);
-		$this->styles[]	= $styleData;
+		$this->links[]	= $styleData;
 	}
 
-	/** 
+	/**
 	 *	Adds further HTML to Head.
 	 *	@access		public
 	 *	@param		string		$string			HTML String for Head
@@ -131,7 +131,7 @@ class UI_HTML_PageFrame
 	/**
 	 *	Adds a Java Script Link to Head.
 	 *	@access		public
-	 *	@param		string		$uri			URI to Script 
+	 *	@param		string		$uri			URI to Script
 	 *	@param		string		$type			MIME Type of Script
 	 *	@param		string		$charset		Charset of Script
 	 *	@return		void
@@ -150,9 +150,25 @@ class UI_HTML_PageFrame
 	}
 
 	/**
+	 *	Adds link to head.
+	 *	@access		public
+	 *	@param		string		$uri			URI to linked resource
+	 *	@param		string		$relation		Relation to resource like stylesheet, canonical etc.
+	 *	@param		string		$type			Type of resource
+	 *	@return		void
+	 */
+	public function addLink( $uri, $relation, $type = NULL ){
+		$this->links[]	= array(
+			'uri'		=> $uri,
+			'rel'		=> $relation,
+			'type'		=> $type
+		);
+	}
+
+	/**
 	 *	Adds a Meta Tag to Head.
 	 *	@access		public
-	 *	@param		string		$type			Meta Tag Key Type (name|http-equiv) 
+	 *	@param		string		$type			Meta Tag Key Type (name|http-equiv)
 	 *	@param		string		$key			Meta Tag Key Name
 	 *	@param		string		$value			Meta Tag Value
 	 *	@return		void
@@ -195,7 +211,7 @@ class UI_HTML_PageFrame
 			'media'		=> $media,
 			'href'		=> $uri,
 		);
-		$this->styles[]	= $styleData;
+		$this->links[]	= $styleData;
 	}
 
 	/**
@@ -223,7 +239,7 @@ class UI_HTML_PageFrame
 		if( $this->heading )
 			$tagsBody[]	= UI_HTML_Tag::create( 'h1', $this->heading );
 
-		foreach( $this->styles as $attributes )
+		foreach( $this->links as $attributes )
 			$tagsHead[]	= UI_HTML_Tag::create( "link", NULL, $attributes );
 
 		foreach( $this->scripts as $attributes )
@@ -302,11 +318,39 @@ class UI_HTML_PageFrame
 		$this->baseHref	= $uri;
 	}
 
+	/**
+	 *	Sets body of HTML page.
+	 *	@access		public
+	 *	@param		string		$string			Body of HTML page
+	 *	@return		void
+	 */
 	public function setBody( $string )
 	{
 		$this->body		= array( $string );
 	}
 
+	/**
+	 *	Sets canonical link.
+	 *	Removes link having been set before.
+	 *	@access		public
+	 *	@param		string		$url			URL of canonical link
+	 *	@return		void
+	 */
+	public function setCanonicalLink( $url )
+	{
+		foreach( $this->links as $nr => $link )
+			if( $link['rel'] === 'canonical' )
+				unset( $this->links[$nr] );
+		$this->addLink( $url, 'canonical' );
+	}
+
+	/**
+	 *	Sets document type of page.
+	 *	@access		public
+	 *	@param		string		$doctype		Document type to set
+	 *	@return		void
+	 *	@see		http://www.w3.org/QA/2002/04/valid-dtd-list.html
+	 */
 	public function setDocType( $doctype )
 	{
 		$doctypes	= array_keys( $this->doctypes );
