@@ -55,7 +55,7 @@ class Net_HTTP_UploadErrorHandler
 			throw new InvalidArgumentException( 'Invalid Error Code ('.$code.')' );
 		return $this->messages[$code];
 	}
-	
+
 	public function handleErrorCode( $code )
 	{
 		if( (int)$code === 0 )
@@ -81,9 +81,8 @@ class Net_HTTP_UploadErrorHandler
 	{
 		$code	= $upload['error'];
 		return $this->handleErrorCode( $code );
-	
 	}
-	
+
 	/**
 	 *	Sets Error Messages.
 	 *	@access		public

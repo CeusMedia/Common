@@ -2,7 +2,7 @@
 /**
  *	Sender for Messages via Jabber.
  *
- *	Copyright (c) 2007-2012 Christian Würker (ceusmedia.com)
+ *	Copyright (c) 2007-2014 Christian Würker (ceusmedia.com)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
  *	@category		cmClasses
  *	@package		Net.XMPP
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2012 Christian Würker
+ *	@copyright		2007-2014 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			25.04.2008
@@ -30,9 +30,9 @@
  *	Sender for Messages via Jabber.
  *	@category		cmClasses
  *	@package		Net.XMPP
- *	@uses			XMPP
+ *	@uses			Net_XMPP_XMPPHP_XMPP
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2012 Christian Würker
+ *	@copyright		2007-2014 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			25.04.2008
@@ -43,7 +43,7 @@ class Net_XMPP_MessageSender
 	/**	@var	bool		$encryption			Flag: use TLS Encryption */
 	protected $encryption	= TRUE;
 	/**	@var	int			$logLevel			Log Level */
-	protected $logLevel		= XMPPHP_Log::LEVEL_INFO;
+	protected $logLevel		= Net_XMPP_XMPPHP_Log::LEVEL_INFO;
 	/**	@var	int			$port				Server Port */
 	protected $port			= 5222;
 	/**	@var	bool		$printLog			Flag: use Logging */
@@ -59,7 +59,7 @@ class Net_XMPP_MessageSender
 	 *	@param		int			$port			Server Port
 	 *	@param		bool		$encryption		Flag: use TLS Encryption
 	 *	@param		bool		$printLog		Flag: use Logging
-	 *	@param		int			$logLevel		Log Level (XMPPHP_Log::LEVEL_ERROR|XMPPHP_Log::LEVEL_WARNING|XMPPHP_Log::LEVEL_INFO|XMPPHP_Log::LEVEL_DEBUG|XMPPHP_Log::LEVEL_VERBOSE)
+	 *	@param		int			$logLevel		Log Level (Net_XMPP_XMPPHP_Log::LEVEL_ERROR|Net_XMPP_XMPPHP_Log::LEVEL_WARNING|Net_XMPP_XMPPHP_Log::LEVEL_INFO|Net_XMPP_XMPPHP_Log::LEVEL_DEBUG|Net_XMPP_XMPPHP_Log::LEVEL_VERBOSE)
 	 *	@return		void
 	 */
 	public function __construct( $port = NULL, $encryption = NULL, $printLog = NULL, $logLevel = NULL )
@@ -96,7 +96,7 @@ class Net_XMPP_MessageSender
 	public function connect( $username, $password, $server, $port = NULL )
 	{
 		$port	= $port ? $port : $this->port;
-		$this->xmpp		= new XMPPHP_XMPP( $server, $port, $username, $password, $this->resource, $server, $this->printLog, $this->logLevel );
+		$this->xmpp		= new Net_XMPP_XMPPHP_XMPP( $server, $port, $username, $password, $this->resource, $server, $this->printLog, $this->logLevel );
 		$this->xmpp->use_encyption	= $this->encryption;
 		$this->xmpp->connect();
 		$this->xmpp->processUntil( 'session_start' );
@@ -161,7 +161,7 @@ class Net_XMPP_MessageSender
 	/**
 	 *	Sets Log Level.
 	 *	@access		public
-	 *	@param		int			$logLevel		Log Level (XMPPHP_Log::LEVEL_ERROR|XMPPHP_Log::LEVEL_WARNING|XMPPHP_Log::LEVEL_INFO|XMPPHP_Log::LEVEL_DEBUG|XMPPHP_Log::LEVEL_VERBOSE)
+	 *	@param		int			$logLevel		Log Level (Net_XMPP_XMPPHP_Log::LEVEL_ERROR|Net_XMPP_XMPPHP_Log::LEVEL_WARNING|Net_XMPP_XMPPHP_Log::LEVEL_INFO|Net_XMPP_XMPPHP_Log::LEVEL_DEBUG|Net_XMPP_XMPPHP_Log::LEVEL_VERBOSE)
 	 *	@return		void
 	 */
 	public function setLogLevel( $level )
