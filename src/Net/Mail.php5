@@ -66,7 +66,7 @@ class Net_Mail
 		$this->headers		= new Net_Mail_Header_Section();
 		$this->mimeBoundary	= md5( microtime( TRUE ) );
 		$this->headers->setFieldPair( 'MIME-Version', '1.0' );
-		$type	= 'multipart/alternative; boundary='.$this->mimeBoundary.'';
+		$type	= 'multipart/mixed; boundary='.$this->mimeBoundary.'';
 		$this->headers->setFieldPair( 'Content-Type', $type, TRUE );
 	}
 
@@ -103,10 +103,21 @@ class Net_Mail
 		if( !$number )
 			return '';
 
+		$innerBoundary	= $this->mimeBoundary.'-1';
+
 		$contents	= array( 'This is a multi-part message in MIME format.');
+		$contents[]	= '--'.$this->mimeBoundary;
+		$contents[]	= 'Content-Type: multipart/alternative;';
+		$contents[]	= ' boundary="'.$innerBoundary.'"'.Net_Mail::$delimiter;
 		foreach( $this->parts as $part )
-			$contents[]	= '--'.$this->mimeBoundary.Net_Mail::$delimiter.$part->render();
-		$contents[]	= '--'.$this->mimeBoundary.'--'.Net_Mail::$delimiter.Net_Mail::$delimiter;
+			if( $part instanceof Net_Mail_Body )
+				$contents[]	= '--'.$innerBoundary.Net_Mail::$delimiter.$part->render();
+		$contents[]	= '--'.$innerBoundary.'--'.Net_Mail::$delimiter;
+
+		foreach( $this->parts as $part )
+			if( $part instanceof Net_Mail_Attachment )
+				$contents[]	= '--'.$this->mimeBoundary.Net_Mail::$delimiter.$part->render();
+		$contents[]	= '--'.$this->mimeBoundary.'--'.Net_Mail::$delimiter;
 		return join( Net_Mail::$delimiter, $contents );
 	}
 
