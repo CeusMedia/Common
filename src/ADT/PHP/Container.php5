@@ -68,7 +68,8 @@ class ADT_PHP_Container
 		if( isset( $list[$category] ) )																//  found Class in same Category but different Package
 			return array_shift( $list[$category] );													//  this is a Guess: return Data Object of guessed Class
 
-		return array_shift( array_shift( $list ) );
+		$firstCategory	= array_shift( $list );
+		return array_shift( $firstCategory );
 	}
 
 	public function & getClassFromId( $id )
