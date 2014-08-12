@@ -72,7 +72,9 @@ class Net_HTTP_Post {
 					CURLOPT_FOLLOWLOCATION		=> FALSE,
 					CURLOPT_USERAGENT			=> self::$userAgent,
 					CURLOPT_CONNECTTIMEOUT		=> 15,
-				) + $curlOptions;
+				);
+				foreach( $curlOptions as $key => $value )
+					$options[$key]	= $value;
 				foreach( $options as $key => $value )
 					$curl->setOption( $key, $value );
 				return trim( $curl->exec( TRUE ) );
@@ -95,7 +97,7 @@ class Net_HTTP_Post {
 
 	static public function sendData( $url, $data = array(), $curlOptions = array() ){
 		$post	= new self();
-		return $post->send( $url, $data, $curlOptions = array() );
+		return $post->send( $url, $data, $curlOptions );
 	}
 }
 ?>

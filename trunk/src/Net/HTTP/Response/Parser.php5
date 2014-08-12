@@ -105,7 +105,7 @@ class Net_HTTP_Response_Parser
 			{
 				if( !trim( $line ) )
 					continue;
-				$pattern	= '/([a-z-]+):\s(.+)/i';
+				$pattern	= '/([a-z-]+):\s(.*)/i';
 				if( !preg_match( $pattern, $line ) )
 					throw new InvalidArgumentException( 'Invalid header field: '.$line );
 				$parts	= explode( ":", $line );
