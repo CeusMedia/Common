@@ -43,7 +43,7 @@ class Net_XMPP_XMPPHP_Roster {
 	 * Contains array with potentially two indexes 'contact' and 'presence'
 	 * @var array
 	 */
-	protected $roster_array = array();
+	public $roster_array = array();
 	/**
 	 * Constructor
 	 * 

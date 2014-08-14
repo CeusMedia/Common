@@ -225,9 +225,9 @@ class Net_XMPP_XMPPHP_XMPP extends Net_XMPP_XMPPHP_XMLStream {
 			$payload['type'] = 'chat';
 		}
 		$payload['from'] = $xml->attrs['from'];
-		$payload['body'] = $xml->sub('body')->data;
+		$payload['body'] = $xml->sub('body') ? $xml->sub('body')->data : NULL;
 		$payload['xml'] = $xml;
-		$this->log->log("Message: {$xml->sub('body')->data}", Net_XMPP_XMPPHP_Log::LEVEL_DEBUG);
+		$this->log->log("Message: {$payload['body']}", Net_XMPP_XMPPHP_Log::LEVEL_DEBUG);
 		$this->event('message', $payload);
 	}
 
@@ -328,6 +328,7 @@ class Net_XMPP_XMPPHP_XMPP extends Net_XMPP_XMPPHP_XMLStream {
 	*/
 	public function getRoster() {
 		$id = $this->getID();
+		$this->addIdHandler($id, 'roster_iq_handler');
 		$this->send("<iq xmlns='jabber:client' type='get' id='$id'><query xmlns='jabber:iq:roster' /></iq>");
 	}
 
@@ -344,7 +345,7 @@ class Net_XMPP_XMPPHP_XMPP extends Net_XMPP_XMPPHP_XMLStream {
 			$groups = array();
 			if ($item->name == 'item') {
 				$jid = $item->attrs['jid']; //REQUIRED
-				$name = $item->attrs['name']; //MAY
+				$name = @$item->attrs['name']; //MAY
 				$subscription = $item->attrs['subscription'];
 				foreach($item->subs as $subitem) {
 					if ($subitem->name == 'group') {
@@ -364,6 +365,7 @@ class Net_XMPP_XMPPHP_XMPP extends Net_XMPP_XMPPHP_XMLStream {
 		if ($xml->attrs['type'] == 'set') {
 			$this->send("<iq type=\"reply\" id=\"{$xml->attrs['id']}\" to=\"{$xml->attrs['from']}\" />");
 		}
+		$this->event( 'roster_received' );
 	}
 
 	/**
