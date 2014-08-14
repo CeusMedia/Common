@@ -136,7 +136,7 @@ class Net_XMPP_XMPPHP_XMLStream {
 	/**
 	 * @var boolean
 	 */
-	protected $reconnect = true;
+	protected $reconnect = false;
 	/**
 	 * @var boolean
 	 */
@@ -168,7 +168,7 @@ class Net_XMPP_XMPPHP_XMLStream {
 	 * @param boolean $is_server
 	 */
 	public function __construct($host = null, $port = null, $printlog = false, $loglevel = null, $is_server = false) {
-		$this->reconnect = !$is_server;
+		$this->reconnect = FALSE;#!$is_server;
 		$this->is_server = $is_server;
 		$this->host = $host;
 		$this->port = $port;
@@ -392,6 +392,7 @@ class Net_XMPP_XMPPHP_XMLStream {
 				} else {
 					fclose($this->socket);
 					$this->socket = NULL;
+					$this->disconnected = TRUE;
 					return false;
 				}
 			} else if ($updated > 0) {
@@ -403,6 +404,7 @@ class Net_XMPP_XMPPHP_XMLStream {
 					} else {
 						fclose($this->socket);
 						$this->socket = NULL;
+						$this->disconnected = TRUE;
 						return false;
 					}
 				}
@@ -700,7 +702,7 @@ class Net_XMPP_XMPPHP_XMLStream {
 			$this->log->log("Socket is not ready; break.", Net_XMPP_XMPPHP_Log::LEVEL_ERROR);
 			return false;
 		}
-		
+		remark( $msg );
 		$sentbytes = @fwrite($this->socket, $msg);
 		$this->log->log("SENT: " . mb_substr($msg, 0, $sentbytes, '8bit'), Net_XMPP_XMPPHP_Log::LEVEL_VERBOSE);
 		if($sentbytes === FALSE) {
