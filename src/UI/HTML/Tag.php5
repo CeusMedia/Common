@@ -42,7 +42,7 @@ class UI_HTML_Tag
 	/**	@var		array		$attributes		Attributes of tag */
 	protected $attributes		= array();
 	/**	@var		array		$data			Data attributes of tag */
-	protected $attributes		= array();
+	protected $data				= array();
 	/**	@var		string		$name			Node name of tag */
 	protected $name;
 	/**	@var		array		$content		Content of tag */
