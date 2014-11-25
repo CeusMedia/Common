@@ -1,6 +1,6 @@
 <?php
 /**
- *	Builder for HTML Tags.
+ *	Builder for HTML tags.
  *
  *	Copyright (c) 2007-2012 Christian Würker (ceusmedia.com)
  *
@@ -27,7 +27,7 @@
  *	@version		$Id$
  */
 /**
- *	Builder for HTML Tags.
+ *	Builder for HTML tags.
  *	@category		cmClasses
  *	@package		UI.HTML
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
@@ -39,11 +39,13 @@
  */
 class UI_HTML_Tag
 {
-	/**	@var		array		$attributes		Attributes of Tag */
+	/**	@var		array		$attributes		Attributes of tag */
 	protected $attributes		= array();
-	/**	@var		string		$name			Name of Tag */
+	/**	@var		array		$data			Data attributes of tag */
+	protected $attributes		= array();
+	/**	@var		string		$name			Node name of tag */
 	protected $name;
-	/**	@var		array		$content		Content of Tag */
+	/**	@var		array		$content		Content of tag */
 	protected $content;
 
 	public static $shortTagExcludes	= array(
@@ -56,20 +58,24 @@ class UI_HTML_Tag
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		string		$name			Name of Tag
-	 *	@param		string		$content		Content of Tag
-	 *	@param		array		$attributes		Attributes of Tag
+	 *	@param		string		$name			Node name of tag
+	 *	@param		string		$content		Content of tag
+	 *	@param		array		$attributes		Attributes of tag
+	 *	@param		array		$data			Data attributes of tag
 	 *	@return		void
 	 */
-	public function __construct( $name, $content = NULL, $attributes = array() )
+	public function __construct( $name, $content = NULL, $attributes = array(), $data = array() )
 	{
 		if( !is_array( $attributes ) )
-			throw new InvalidArgumentException( 'Parameter "attributes" must be an Array.' );
+			throw new InvalidArgumentException( 'Parameter "attributes" must be an array' );
+		if( !is_array( $data ) )
+			throw new InvalidArgumentException( 'Parameter "data" must be an array' );
 		$this->name		= $name;
 		$this->setContent( $content );
-		if( is_array( $attributes ) && count( $attributes ) )
-			foreach( $attributes as $key => $value )
-				$this->setAttribute( $key, $value );
+		foreach( $attributes as $key => $value )
+			$this->setAttribute( $key, $value );
+		foreach( $data as $key => $value )
+			$this->setData( $key, $value );
 	}
 
 	/**
@@ -79,7 +85,7 @@ class UI_HTML_Tag
 	 */
 	public function build()
 	{
-		return $this->create( $this->name, $this->content, $this->attributes );
+		return $this->create( $this->name, $this->content, $this->attributes, $this->data );
 	}
 
 	/**
@@ -91,13 +97,14 @@ class UI_HTML_Tag
 	 *	@param		array		$attributes		Attributes of Tag
 	 *	@return		void
 	 */
-	public static function create( $name, $content = NULL, $attributes = array() )
+	public static function create( $name, $content = NULL, $attributes = array(), $data = array() )
 	{
 		if( !strlen( $name	= trim( $name ) ) )
 			throw new InvalidArgumentException( 'Missing tag name' );
 		$name		= strtolower( $name );
 		try{
 			$attributes	= self::renderAttributes( $attributes );
+			$data		= self::renderData( $data );
 		}
 		catch( InvalidArgumentException $e ) {
 			if( version_compare( PHP_VERSION, '5.3.0', '>=' ) )
@@ -106,10 +113,10 @@ class UI_HTML_Tag
 		}
 		if( $content === NULL || $content === FALSE )												//  no node content defined, not even an empty string
 			if( !in_array( $name, self::$shortTagExcludes ) )										//  node name is allowed to be a short tag
-				return "<".$name.$attributes."/>";													//  build and return short tag
+				return "<".$name.$attributes.$data."/>";											//  build and return short tag
 		if( is_array( $content ) )																	//  content is array, may be nested
 			$content	= self::flattenArray( $content );
-		return "<".$name.$attributes.">".$content."</".$name.">";									//  build and return full tag
+		return "<".$name.$attributes.$data.">".$content."</".$name.">";								//  build and return full tag
 	}
 
 	static protected function flattenArray( $array, $delimiter = " ", $path = NULL )
@@ -118,6 +125,33 @@ class UI_HTML_Tag
 			if( is_array( $value ) )
 				$array[$key]	= self::flattenArray( $value );
 		return join( $delimiter, $array );
+	}
+
+	public function getAttribute( $key ){
+		if( !array_key_exists( $key, $this->attributes ) )
+			return NULL;
+		return $this->attributes[$key];
+	}
+
+	public function getAttributes(){
+		return $this->attributes;
+	}
+
+	public function getData( $key = NULL ){
+		if( is_null( $key ) )
+			return $this->data ;
+		if( !array_key_exists( $key, $this->data ) )
+			return NULL;
+		return $this->data[$key];
+	}
+
+	protected static function renderData( $data = array() ){
+		$list	= array();
+		foreach( $data as $key => $value ){
+			$key	= 'data-'.Alg_Text_CamelCase::decode( $key, '-' );
+			$list[$key]	= (string) $value;
+		}
+		return self::renderAttributes( $list, TRUE );
 	}
 
 	protected static function renderAttributes( $attributes = array(), $allowOverride = FALSE )
@@ -156,10 +190,10 @@ class UI_HTML_Tag
 	}
 
 	/**
-	 *	Sets Attribute of Tag.
+	 *	Sets attribute of tag.
 	 *	@access		public
-	 *	@param		string		$key			Key of Attribute
-	 *	@param		string		$value			Value of Attribute
+	 *	@param		string		$key			Key of attribute
+	 *	@param		string		$value			Value of attribute
 	 *	@param		boolean		$strict			Flag: deny to override attribute
 	 *	@return		void
 	 */
@@ -171,10 +205,12 @@ class UI_HTML_Tag
 		if( array_key_exists( $key, $this->attributes ) && $strict )								//  attribute key already has a value
 			throw new RuntimeException( 'Attribute "'.$key.'" is already set' );					//  throw exception
 		if( !preg_match( '/^[a-z0-9:_-]+$/', $key ) )												//  key is invalid
-			throw new InvalidArgumentException( 'Invalid key' );
+			throw new InvalidArgumentException( 'Invalid attribute key "'.$key.'"' );				//  throw exception
 
-		if( $value == NULL || $value == FALSE )														//  no value available
-			unset( $this->attributes[$key] );														//  remove attribute
+		if( $value === NULL || $value === FALSE ){													//  no value available
+			if( array_key_exists( $key, $this->attributes ) )										//  attribute exists
+				unset( $this->attributes[$key] );													//  remove attribute
+		}
 		else
 		{
 			if( is_string( $value ) || is_numeric( $value ) )										//  value is string or numeric
@@ -198,6 +234,35 @@ class UI_HTML_Tag
 	}
 
 	/**
+	 *	Sets data attribute of tag.
+	 *	@access		public
+	 *	@param		string		$key			Key of data attribute
+	 *	@param		string		$value			Value of data attribute
+	 *	@param		boolean		$strict			Flag: deny to override data
+	 *	@return		void
+	 */
+	public function setData( $key, $value = NULL, $strict = TRUE ){
+		if( empty( $key ) )																			//  no valid data key defined
+			throw new InvalidArgumentException( 'Data key is required' );							//  throw exception
+		if( array_key_exists( $key, $this->data ) && $strict )										//  data key already has a value
+			throw new RuntimeException( 'Data attribute "'.$key.'" is already set' );				//  throw exception
+		if( !preg_match( '/^[a-z0-9:_-]+$/i', $key ) )												//  key is invalid
+			throw new InvalidArgumentException( 'Invalid data key "'.$key.'"' );					//  throw exception
+
+		if( $value === NULL || $value === FALSE ){													//  no value available
+			if( array_key_exists( $key, $this->data ) )												//  data exists
+				unset( $this->data[$key] );															//  remove attribute
+		}
+		else
+		{
+			if( is_string( $value ) || is_numeric( $value ) )										//  value is string or numeric
+				if( preg_match( '/[^\\\]"/', $value ) )												//  detect injection
+					throw new InvalidArgumentException( 'Invalid data attribute value' );			//  throw exception
+			$this->attributes[$key]	= $value;														//  set attribute
+		}
+	}
+
+	/**
 	 *	Sets Content of Tag.
 	 *	@access		public
 	 *	@param		string		$content		Content of Tag
@@ -215,7 +280,8 @@ class UI_HTML_Tag
 	 */
 	public function __toString()
 	{
-		return $this->create( $this->name, $this->content, $this->attributes );
+//		return $this->create( $this->name, $this->content, $this->attributes, $this->data );
+		return $this->build();
 	}
 }
 ?>
