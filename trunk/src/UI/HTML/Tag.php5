@@ -2,7 +2,7 @@
 /**
  *	Builder for HTML tags.
  *
- *	Copyright (c) 2007-2012 Christian Würker (ceusmedia.com)
+ *	Copyright (c) 2007-2014 Christian Würker (ceusmedia.com)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
  *	@category		cmClasses
  *	@package		UI.HTML
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2012 Christian Würker
+ *	@copyright		2007-2014 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			22.04.2008
@@ -31,7 +31,7 @@
  *	@category		cmClasses
  *	@package		UI.HTML
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2012 Christian Würker
+ *	@copyright		2007-2014 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			22.04.2008
@@ -79,7 +79,7 @@ class UI_HTML_Tag
 	}
 
 	/**
-	 *	Builds HTML Tags as String.
+	 *	Builds HTML tags as string.
 	 *	@access		public
 	 *	@return		string
 	 */
@@ -92,9 +92,10 @@ class UI_HTML_Tag
 	 *	Creates Tag statically.
 	 *	@access		public
 	 *	@static
-	 *	@param		string		$name			Name of Tag
-	 *	@param		string		$content		Content of Tag
-	 *	@param		array		$attributes		Attributes of Tag
+	 *	@param		string		$name			Node name of tag
+	 *	@param		string		$content		Content of tag
+	 *	@param		array		$attributes		Attributes of tag
+	 *	@param		array		$data			Data attributes of tag
 	 *	@return		void
 	 */
 	public static function create( $name, $content = NULL, $attributes = array(), $data = array() )
@@ -127,16 +128,33 @@ class UI_HTML_Tag
 		return join( $delimiter, $array );
 	}
 
+	/**
+	 *	Returns value of tag attribute if set.
+	 *	@access		public
+	 *	@param		string		$key		Key of attribute to get
+	 *	@return		mixed|NULL
+	 */
 	public function getAttribute( $key ){
 		if( !array_key_exists( $key, $this->attributes ) )
 			return NULL;
 		return $this->attributes[$key];
 	}
 
+	/**
+	 *	Returns map of tag attributes.
+	 *	@access		public
+	 *	@return		array
+	 */
 	public function getAttributes(){
 		return $this->attributes;
 	}
 
+	/**
+	 *	Returns value of tag data if set or map of all data if not key is set.
+	 *	@access		public
+	 *	@param		string		$key		Key of data to get
+	 *	@return		mixed|array|NULL
+	 */
 	public function getData( $key = NULL ){
 		if( is_null( $key ) )
 			return $this->data ;
