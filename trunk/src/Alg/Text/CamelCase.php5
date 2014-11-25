@@ -69,7 +69,7 @@ class Alg_Text_CamelCase
 		return $string;
 	}
 
-	static public function decode( $string )
+	static public function decode( $string, $delimiter = ' ' )
 	{
 		if( !function_exists( 'mb_substr' ) )
 			throw new RuntimeException( 'PHP module "mb" is not installed but needed' );
@@ -112,7 +112,7 @@ class Alg_Text_CamelCase
 			if( !( strlen( $part ) > 1 && self::isUpperCharacter( $part, 1 ) ) )
 				$parts[$nr]	= mb_strtolower( $part, "UTF-8" );
 		}
-		return join( " ", $parts );
+		return join( $delimiter, $parts );
 	}
 
 	static protected function isUpperCharacter( $string, $pos )
