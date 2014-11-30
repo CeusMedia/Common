@@ -48,18 +48,18 @@ class ADT_PHP_Interface
 
 	protected $extends			= array();
 	protected $implementedBy	= array();
-	protected $extendedBy		= array();	
+	protected $extendedBy		= array();
 	protected $usedBy			= array();
 	protected $composedBy		= array();
 	protected $receivedBy		= array();
 	protected $returnedBy		= array();
-	
+
 	protected $description		= NULL;
 	protected $since			= NULL;
 	protected $version			= NULL;
 	protected $licenses			= array();
 	protected $copyright		= array();
-	
+
 	protected $authors			= array();
 	protected $links			= array();
 	protected $sees				= array();
@@ -67,9 +67,9 @@ class ADT_PHP_Interface
 	protected $deprecations		= array();
 
 	protected $methods			= array();
-	
+
 	protected $line				= 0;
-	
+
 	/**
 	 *	Constructor, binding a ADT_PHP_File.
 	 *	@access		public
@@ -128,7 +128,7 @@ class ADT_PHP_Interface
 
 	/**
 	 *	Returns copyright notes.
-	 *	@return		array 
+	 *	@return		array
 	 */
 	public function getCopyright()
 	{
@@ -154,10 +154,10 @@ class ADT_PHP_Interface
 	{
 		return $this->extendedBy;
 	}
-	
+
 	public function getImplementingClasses()
 	{
-		return $this->implementedBy;	
+		return $this->implementedBy;
 	}
 
 	/**
@@ -299,10 +299,10 @@ class ADT_PHP_Interface
 	{
 		return $this->todos;
 	}
-	
+
 	public function getUsingClasses()
 	{
-		return $this->usedBy;	
+		return $this->usedBy;
 	}
 
 	public function getVersion()
@@ -319,7 +319,7 @@ class ADT_PHP_Interface
 	{
 		return count( $this->methods ) > 0;
 	}
-	
+
 	public function isFinal()
 	{
 		return (bool) $this->final;
@@ -388,7 +388,7 @@ class ADT_PHP_Interface
 	{
 		$this->composedBy[$className]	= $className;
 	}
-	
+
 	public function setCopyright( $string )
 	{
 		$this->copyright[]	= $string;
@@ -489,9 +489,10 @@ class ADT_PHP_Interface
 	 */
 	public function setPackage( $string )
 	{
+		$string			= str_replace( array( "/", "::", ":", "." ), "_", $string );
 		$this->package	= $string;
 	}
-	
+
 	/**
 	 *	Sets parent File Data Object.
 	 *	@access		public

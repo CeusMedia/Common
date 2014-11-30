@@ -63,13 +63,15 @@ class CMC_Loader
 	 *	@param		mixed		$extensions		String or List of supported Class File Extensions
 	 *	@param		string		$prefix			Prefix of Classes
 	 *	@param		string		$path			Path to Classes
-	 *	@param		string		$logFile
+	 *	@param		string		$logFile		Path to autoload log file
+	 *	@param		boolean		$verbose		Verbosity: FALSE - quiet | TRUE - verbose (default: FALSE) 
 	 *	@return		CMC_Loader
 	 *	@deprecated	not working in PHP 5.2
 	 */
-	public static function registerNew( $extensions = NULL, $prefix = NULL, $path = NULL, $logFile = NULL )
+	public static function registerNew( $extensions = NULL, $prefix = NULL, $path = NULL, $logFile = NULL, $verbose = NULL )
 	{
 		$loader	= new CMC_Loader( $extensions, $prefix, $path, $logFile );
+		$loader->setVerbose( (bool) $verbose );
 		$loader->registerAutoloader();
 		return $loader;
 	}
