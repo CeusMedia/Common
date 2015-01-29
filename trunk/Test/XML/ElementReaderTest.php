@@ -36,6 +36,9 @@ class Test_XML_ElementReaderTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testReadUrl()
 	{
+		if( !extension_loaded( 'curl' ) )
+			$this->markTestSkipped( 'The cURL extension is not available.' );
+
 		$element	= XML_ElementReader::readUrl( $this->url );
 		
 		$assertion	= 'Liftoff News';
