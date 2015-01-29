@@ -65,7 +65,7 @@ class Net_Reader
 	/**	@var		string		$proxyAuth		Username and password for proxy server authentification */
 	protected $proxyAuth		= 80;
 	/**	@var		integer		$proxyType		Type of proxy server (CURLPROXY_HTTP | CURLPROXY_SOCKS5) */
-	protected $proxyType		= CURLPROXY_HTTP;
+	protected $proxyType		= 0;
 
 	/**
 	 *	Constructor.
