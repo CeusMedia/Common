@@ -6,7 +6,7 @@
  *	@since			22.04.2008
  *	@version		0.1
  */
-require_once 'PHPUnit/Framework/TestCase.php';
+//require_once 'PHPUnit/Framework/TestCase.php';
 require_once 'Test/initLoaders.php5';
 /**
  *	TestUnit of Gauss Blur.

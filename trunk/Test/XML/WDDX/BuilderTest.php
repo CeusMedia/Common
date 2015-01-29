@@ -6,7 +6,8 @@
  *	@since			02.05.2008
  *	@version		0.1
  */
-require_once 'PHPUnit/Framework/TestCase.php';
+if( !class_exists( 'PHPUnit_Framework_TestCase' ) )
+	require_once 'PHPUnit/Framework/TestCase.php';
 require_once 'Test/initLoaders.php5';
 /**
  *	TestUnit of XML_WDDX_Builder.
@@ -26,6 +27,8 @@ class Test_XML_WDDX_BuilderTest extends PHPUnit_Framework_TestCase
 	 */
 	public function __construct()
 	{
+		if( !function_exists( 'wddx_packet_start' ) )
+			return;
 		$this->builder	= new XML_WDDX_Builder( 'test' );
 	}
 
@@ -36,6 +39,8 @@ class Test_XML_WDDX_BuilderTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testConstruct()
 	{
+		if( !function_exists( 'wddx_packet_start' ) )
+			return;
 		$builder	= new XML_WDDX_Builder( 'constructorTest' );
 		$assertion	= "<wddxPacket version='1.0'><header><comment>constructorTest</comment></header><data><struct></struct></data></wddxPacket>";
 		$creation	= $builder->build();
@@ -54,6 +59,8 @@ class Test_XML_WDDX_BuilderTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testAdd()
 	{
+		if( !function_exists( 'wddx_packet_start' ) )
+			return;
 		$assertion	= TRUE;
 		$creation	= $this->builder->add( 'testKey1', 'testValue1' );
 		$this->assertEquals( $assertion, $creation );
@@ -70,6 +77,8 @@ class Test_XML_WDDX_BuilderTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testBuild()
 	{
+		if( !function_exists( 'wddx_packet_start' ) )
+			return;
 		$assertion	= "<wddxPacket version='1.0'><header><comment>test</comment></header><data><struct></struct></data></wddxPacket>";
 		$creation	= $this->builder->build();
 		$this->assertEquals( $assertion, $creation );
