@@ -111,10 +111,10 @@ class XML_DOM_XPathQuery extends ADT_OptionObject
 	 */
 	public function loadUrl( $url )
 	{
-		$cURL	= new Net_CURL( $url );
+		$options	= array();
 		foreach( $this->getOptions() as $key => $value )
-			$cURL->setOption( "CURLOPT_".strtoupper( $key ), $value ) ;
-		$xml = $cURL->exec();
+			$options["CURLOPT_".strtoupper( $key )]	= $value;
+		$xml	= Net_Reader::readUrl( $url, $options );
 		if( !$xml )
 			throw new Exception( 'No XML found for URL "'.$url.'".' );
 		$this->loadXml( $xml );
@@ -129,6 +129,11 @@ class XML_DOM_XPathQuery extends ADT_OptionObject
 	public function loadXml( $xml )
 	{
 		$this->document	= new DOMDocument();
+		$validator	= new XML_Validator();
+		if( !$validator->validate( $xml ) ){
+			$message	= $validator->getErrorMessage();
+			throw new InvalidArgumentException( 'XML is invalid ('.$message.')' );
+		}
 		$this->document->loadXml( $xml );
 		$this->xPath	= new DOMXPath( $this->document );
 	}
