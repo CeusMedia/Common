@@ -45,6 +45,8 @@ class XML_WDDX_Parser
 	 */
 	public static function parse( $packet )
 	{
+		if( !function_exists( 'wddx_packet_start' ) )
+			throw new RuntimeException( 'WDDX is not supported' );
 		return wddx_deserialize( $packet );
 	}
 }

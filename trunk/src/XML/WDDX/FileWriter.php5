@@ -51,6 +51,8 @@ class XML_WDDX_FileWriter
 	 */
 	public function __construct( $fileName, $packetName = NULL )
 	{
+		if( !function_exists( 'wddx_packet_start' ) )
+			throw new RuntimeException( 'WDDX is not supported' );
 		$this->builder	= new XML_WDDX_Builder( $packetName );
 		$this->fileName	= $fileName;
 	}

@@ -50,6 +50,8 @@ class XML_WDDX_FileReader
 	 */
 	public function __construct( $fileName )
 	{
+		if( !function_exists( 'wddx_packet_start' ) )
+			throw new RuntimeException( 'WDDX is not supported' );
 		$this->fileName	= $fileName;
 	}
 
