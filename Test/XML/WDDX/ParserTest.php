@@ -6,9 +6,9 @@
  *	@since			02.05.2008
  *	@version		0.1
  */
-require_once 'PHPUnit/Framework/TestCase.php';
+if( !class_exists( 'PHPUnit_Framework_TestCase' ) )
+	require_once 'PHPUnit/Framework/TestCase.php';
 require_once 'Test/initLoaders.php5';
-import( 'de.ceus-media.xml.wddx.Parser' );
 /**
  *	TestUnit of XML_WDDX_Parser.
  *	@package		Tests.xml.wddx
@@ -55,6 +55,8 @@ class Test_XML_WDDX_ParserTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testParse()
 	{
+		if( !function_exists( 'wddx_packet_start' ) )
+			return;
 		$content	= file_get_contents( $this->path."reader.wddx" );
 		$data		= array(
 			'data'	=> array(

@@ -6,7 +6,8 @@
  *	@since			17.02.2008
  *	@version		0.1
  */
-require_once 'PHPUnit/Framework/TestCase.php';
+if( !class_exists( 'PHPUnit_Framework_TestCase' ) )
+	require_once 'PHPUnit/Framework/TestCase.php';
 require_once 'Test/initLoaders.php5';
 /**
  *	TestUnit of XML DOM XPath.
@@ -106,6 +107,8 @@ class Test_XML_DOM_XPathQueryTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testLoadUrl()
 	{
+		if( !function_exists( 'curl_init' ) )
+			return;
 		$this->xPath->loadUrl( $this->xmlUrl );
 		
 		$entries	= $this->xPath->query( "//book" );
@@ -118,17 +121,13 @@ class Test_XML_DOM_XPathQueryTest extends PHPUnit_Framework_TestCase
 	 *	Tests Method 'loadUrl'.
 	 *	@access		public
 	 *	@return		void
+	 *	@expectedException	Exception
 	 */
 	public function testLoadUrlException()
 	{
-		try
-		{
-			$entries	= $this->xPath->loadUrl( "notexisting.xml" );
-			$this->fail( 'An expected Exception has not been thrown.' );
-		}
-		catch( Exception $e )
-		{
-		}
+		if( !function_exists( 'curl_init' ) )
+			throw new Exception( '...' );
+		$this->xPath->loadUrl( "notexisting.xml" );
 	}
 
 	/**

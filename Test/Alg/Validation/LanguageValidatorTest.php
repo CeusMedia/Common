@@ -8,7 +8,8 @@
  *	@since			19.06.2008
  *	@version		0.1
  */
-require_once 'PHPUnit/Framework/TestCase.php';
+if( !class_exists( 'PHPUnit_Framework_TestCase' ) )
+	require_once 'PHPUnit/Framework/TestCase.php';
 require_once 'Test/initLoaders.php5';
 /**
  *	TestUnit of Alg_Validation_LanguageValidator.

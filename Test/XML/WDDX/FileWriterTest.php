@@ -6,7 +6,8 @@
  *	@since			03.05.2008
  *	@version		0.1
  */
-require_once 'PHPUnit/Framework/TestCase.php';
+if( !class_exists( 'PHPUnit_Framework_TestCase' ) )
+	require_once 'PHPUnit/Framework/TestCase.php';
 require_once 'Test/initLoaders.php5';
 /**
  *	TestUnit of XML_WDDX_FileWriter.
@@ -26,6 +27,8 @@ class Test_XML_WDDX_FileWriterTest extends PHPUnit_Framework_TestCase
 	 */
 	public function __construct()
 	{
+		if( !function_exists( 'wddx_packet_start' ) )
+			return;
 		$this->path		= dirname( __FILE__ )."/";
 		$this->fileName	= $this->path."writer.wddx";
 		$this->writer	= new XML_WDDX_FileWriter( $this->fileName, "test" );
@@ -46,6 +49,8 @@ class Test_XML_WDDX_FileWriterTest extends PHPUnit_Framework_TestCase
 	 */
 	public function setUp()
 	{
+		if( !function_exists( 'wddx_packet_start' ) )
+			return;
 		@unlink( $this->fileName );
 	}
 	
@@ -56,6 +61,8 @@ class Test_XML_WDDX_FileWriterTest extends PHPUnit_Framework_TestCase
 	 */
 	public function tearDown()
 	{
+		if( !function_exists( 'wddx_packet_start' ) )
+			return;
 		@unlink( $this->fileName );
 	}
 
@@ -66,6 +73,8 @@ class Test_XML_WDDX_FileWriterTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testConstruct()
 	{
+		if( !function_exists( 'wddx_packet_start' ) )
+			return;
 		$writer	= new XML_WDDX_FileWriter( $this->fileName, "constructorTest" );
 		$writer->write();
 		
@@ -81,6 +90,8 @@ class Test_XML_WDDX_FileWriterTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testAdd()
 	{
+		if( !function_exists( 'wddx_packet_start' ) )
+			return;
 		$assertion	= TRUE;
 		$creation	= $this->writer->add( 'key1', 'value1' );
 		$this->assertEquals( $assertion, $creation );
@@ -101,6 +112,8 @@ class Test_XML_WDDX_FileWriterTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testWrite()
 	{
+		if( !function_exists( 'wddx_packet_start' ) )
+			return;
 		foreach( $this->data as $key => $value )
 			$this->writer->add( $key, $value );
 		$result		= $this->writer->write();
@@ -125,6 +138,8 @@ class Test_XML_WDDX_FileWriterTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testSave()
 	{
+		if( !function_exists( 'wddx_packet_start' ) )
+			return;
 		$result		= XML_WDDX_FileWriter::save( $this->fileName, $this->data, 'staticTest' );
 
 		$assertion	= TRUE;
@@ -139,7 +154,6 @@ class Test_XML_WDDX_FileWriterTest extends PHPUnit_Framework_TestCase
 		$creation	= file_get_contents( $this->fileName );
 		$this->assertEquals( $assertion, $creation );
 
-	
 		$result		= XML_WDDX_FileWriter::save( $this->fileName, $this->data );
 
 		$assertion	= TRUE;

@@ -6,7 +6,8 @@
  *	@since			03.05.2008
  *	@version		0.1
  */
-require_once 'PHPUnit/Framework/TestCase.php';
+if( !class_exists( 'PHPUnit_Framework_TestCase' ) )
+	require_once 'PHPUnit/Framework/TestCase.php';
 require_once 'Test/initLoaders.php5';
 /**
  *	TestUnit of XML_WDDX_FileReader.
@@ -26,6 +27,8 @@ class Test_XML_WDDX_FileReaderTest extends PHPUnit_Framework_TestCase
 	 */
 	public function __construct()
 	{
+		if( !function_exists( 'wddx_packet_start' ) )
+			return;
 		$this->path		= dirname( __FILE__ )."/";
 		$this->fileName	= $this->path."reader.wddx";
 		$this->reader	= new XML_WDDX_FileReader( $this->fileName );
@@ -46,6 +49,8 @@ class Test_XML_WDDX_FileReaderTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testConstruct()
 	{
+		if( !function_exists( 'wddx_packet_start' ) )
+			return;
 		$reader	= new XML_WDDX_FileReader( $this->fileName );
 
 		$assertion	= $this->data;
@@ -60,6 +65,8 @@ class Test_XML_WDDX_FileReaderTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testRead()
 	{
+		if( !function_exists( 'wddx_packet_start' ) )
+			return;
 		$assertion	= $this->data;
 		$creation	= $this->reader->read();
 		$this->assertEquals( $assertion, $creation );
@@ -72,6 +79,8 @@ class Test_XML_WDDX_FileReaderTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testLoad()
 	{
+		if( !function_exists( 'wddx_packet_start' ) )
+			return;
 		$assertion	= $this->data;
 		$creation	= XML_WDDX_FileReader::load( $this->fileName );
 		$this->assertEquals( $assertion, $creation );

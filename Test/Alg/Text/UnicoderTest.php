@@ -6,7 +6,8 @@
  *	@since			19.06.2008
  *	@version		0.1
  */
-require_once 'PHPUnit/Framework/TestCase.php';
+if( !class_exists( 'PHPUnit_Framework_TestCase' ) )
+	require_once 'PHPUnit/Framework/TestCase.php';
 require_once 'Test/initLoaders.php5';
 /**
  *	TestUnit of Alg_Text_Unicoder.
@@ -86,10 +87,32 @@ class Test_Alg_Text_UnicoderTest extends PHPUnit_Framework_TestCase
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testIsUnicode()
+	public function testIsUnicode1()
 	{
-		$assertion	= TRUE;
 		$creation	= Alg_Text_Unicoder::isUnicode( "äöüÄÖÜß" );
+		$this->assertEquals( TRUE, $creation );
+	}
+
+	/**
+	 *	Tests Method 'isUnicode'.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testIsUnicode2()
+	{
+		$creation	= Alg_Text_Unicoder::isUnicode( utf8_decode( "äöüÄÖÜß" ) );
+		$this->assertEquals( FALSE, $creation );
+	}
+
+	/**
+	 *	Tests Method 'convertToUnicode'.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testConvertToUnicode1()
+	{
+		$assertion	= "äöüÄÖÜß";
+		$creation	= Alg_Text_Unicoder::convertToUnicode( utf8_decode( "äöüÄÖÜß" ) );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -98,16 +121,20 @@ class Test_Alg_Text_UnicoderTest extends PHPUnit_Framework_TestCase
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testConvertToUnicode()
+	public function testConvertToUnicode2()
 	{
-		$assertion	= "äöüÄÖÜß";
-		$creation	= Alg_Text_Unicoder::convertToUnicode( utf8_decode( "äöüÄÖÜß" ) );
-		$this->assertEquals( $assertion, $creation );
-
 		$assertion	= "äöüÄÖÜß";
 		$creation	= Alg_Text_Unicoder::convertToUnicode( "äöüÄÖÜß" );
 		$this->assertEquals( $assertion, $creation );
+	}
 
+	/**
+	 *	Tests Method 'convertToUnicode'.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testConvertToUnicode3()
+	{
 		$assertion	= utf8_encode( "äöüÄÖÜß" );
 		$creation	= Alg_Text_Unicoder::convertToUnicode( "äöüÄÖÜß", TRUE );
 		$this->assertEquals( $assertion, $creation );

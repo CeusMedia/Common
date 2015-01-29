@@ -6,7 +6,8 @@
  *	@since			16.02.2008
  *	@version		0.6
  */
-require_once 'PHPUnit/Framework/TestCase.php';
+if( !class_exists( 'PHPUnit_Framework_TestCase' ) )
+	require_once 'PHPUnit/Framework/TestCase.php';
 require_once 'Test/initLoaders.php5';
 /**
  *	UnitTest for Request Header Field.
