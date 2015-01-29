@@ -73,11 +73,9 @@ class Alg_Text_Unicoder
 	 */
 	public static function isUnicode( $string )
 	{
-		if( function_exists( 'mb_convert_encoding' ) ){
-			$s1	= mb_convert_encoding( $string, 'UTF-8', 'UTF-8' );
-			$s2	= mb_convert_encoding( $string, 'UTF-8', 'UTF-8' );
-			return $string === $s2;
-		}
+		if( function_exists( 'mb_convert_encoding ') )
+			return mb_check_encoding( $string, 'UTF-8' );
+
 		$length = strlen( $string );
 		for( $i=0; $i < $length; $i++ ){
 			$c = ord( $string[$i] );
@@ -92,7 +90,7 @@ class Alg_Text_Unicoder
 				if( ( ++$i == $length ) || ( ( ord( $string[$i]) & 0xC0 ) != 0x80 ) )
 					return FALSE;
 		}
-		return FALSE;
+		return TRUE;
 	}
 
 	/**
