@@ -57,14 +57,8 @@ class Test_XML_DOM_XPathQueryTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testLoadFileException()
 	{
-		try
-		{
-			$entries	= $this->xPath->loadFile( "http://www.example.com/notexisting.xml" );
-			$this->fail( 'An expected Exception has not been thrown.' );
-		}
-		catch( Exception $e )
-		{
-		}
+		$this->setExpectedException( 'Exception' );
+		$entries	= $this->xPath->loadFile( "http://www.example.com/notexisting.xml" );
 	}
 
 	/**
@@ -90,14 +84,8 @@ class Test_XML_DOM_XPathQueryTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testLoadXmlException()
 	{
-		try
-		{
-			$entries	= $this->xPath->loadXml( "not_valid" );
-			$this->fail( 'An expected Exception has not been thrown.' );
-		}
-		catch( Exception $e )
-		{
-		}
+		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->xPath->loadXml( "not_valid" );
 	}
 
 	/**
@@ -107,8 +95,8 @@ class Test_XML_DOM_XPathQueryTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testLoadUrl()
 	{
-		if( !function_exists( 'curl_init' ) )
-			return;
+		if( !extension_loaded( 'curl' ) )
+			$this->markTestSkipped( 'The cURL extension is not available.' );
 		$this->xPath->loadUrl( $this->xmlUrl );
 		
 		$entries	= $this->xPath->query( "//book" );
@@ -125,8 +113,8 @@ class Test_XML_DOM_XPathQueryTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testLoadUrlException()
 	{
-		if( !function_exists( 'curl_init' ) )
-			throw new Exception( '...' );
+		if( !extension_loaded( 'curl' ) )
+			$this->markTestSkipped( 'The cURL extension is not available.' );
 		$this->xPath->loadUrl( "notexisting.xml" );
 	}
 

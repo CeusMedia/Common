@@ -42,6 +42,8 @@ class Test_XML_RSS_ReaderTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testReadUrl()
 	{
+		if( !extension_loaded( 'curl' ) )
+			$this->markTestSkipped( 'The cURL extension is not available.' );
 		$rss		= $this->reader->readUrl( $this->url );
 
 		$assertion	= "http://liftoff.msfc.nasa.gov/";
