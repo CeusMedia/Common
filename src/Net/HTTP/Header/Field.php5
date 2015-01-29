@@ -121,7 +121,10 @@ class Net_HTTP_Header_Field
 	 */
 	public function toString()
 	{
-		$name	= mb_convert_case( $this->name, MB_CASE_TITLE );
+		if( function_exists( 'mb_convert_case' ) )
+			$name	= mb_convert_case( $this->name, MB_CASE_TITLE );
+		else
+			$name	= ucfirst( $this->name );
 		return $name.": ".$this->value;
 	}
 
