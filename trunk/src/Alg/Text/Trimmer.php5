@@ -63,14 +63,14 @@ class Alg_Text_Trimmer
 
 	static protected function strlen( $string, $encoding = NULL ){
 		if( !function_exists( 'mb_strlen' ) )
-			return strlen( $string );
+			return strlen( utf8_decode( $string ) );
 		$encoding	= $encoding ? $encoding : mb_internal_encoding();
 		return mb_strlen( $string, $encoding );
 	}
 
 	static protected function substr( $string, $start, $length = NULL, $encoding = NULL ){
 		if( !function_exists( 'mb_substr' ) )
-			return substr( $string, $start, $length );
+			return utf8_encode( substr( utf8_decode( $string ), $start, $length ) );
 		$encoding	= $encoding ? $encoding : mb_internal_encoding();
 		return mb_substr( $string, $start, $length, $encoding );
 	}
