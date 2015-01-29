@@ -13,6 +13,9 @@ if( !file_exists( $fileApp ) )
 	passthru( "svn co ".$url." Go" );
 }
 require_once( $fileApp );
+
+date_default_timezone_set( "Europe/Berlin" );					//  set default time zone
+
 new Go_Application;
 chDir( $cwd );
 ?>
