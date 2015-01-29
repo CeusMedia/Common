@@ -48,6 +48,8 @@ class XML_WDDX_Builder
 	 */
 	public function __construct( $packetName = NULL )
 	{
+		if( !function_exists( 'wddx_packet_start' ) )
+			throw new RuntimeException( 'WDDX is not supported' );
 		if( $packetName === NULL )
 			$this->pid	= wddx_packet_start();
 		else
