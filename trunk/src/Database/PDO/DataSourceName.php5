@@ -278,7 +278,7 @@ class Database_PDO_DataSourceName
 	 *	@param		string		$delimiter		Delimiter between DSN Parts
 	 *	@return		string
 	 */
-	protected function renderDsnParts( $map, $delimiter = ';' )
+	protected function renderDsnParts( $map, $delimiter = '; ' )
 	{
 		$list	= array();
 		foreach( $map as $key => $value )
