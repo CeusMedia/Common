@@ -118,7 +118,7 @@ class CMC_Loader
 		}
 		return FALSE;
 	}
-	
+
 	/**
 	 *	Try to load a File by its File Name.
 	 *	@access		public
@@ -146,7 +146,7 @@ class CMC_Loader
 		if( $this->logFile )
 			error_log( $fileName."\n", 3, $this->logFile );
 	}
-	
+
 	/**
 	 *	Registers this Loader as Autoloader using SPL.
 	 *	@access		public
@@ -185,7 +185,7 @@ class CMC_Loader
 
 	public function setVerbose( $bool )
 	{
-		$this->verbose	= (bool) $bool;	
+		$this->verbose	= (bool) $bool;
 	}
 
 	/**
@@ -198,7 +198,7 @@ class CMC_Loader
 	{
 		$this->logFile	= $pathName;
 	}
-	
+
 	/**
 	 *	Sets Path to load Files from to force absolute File Names.
 	 *	@access		public
@@ -214,7 +214,7 @@ class CMC_Loader
 		$path	= preg_replace( "@(.+)/$@", "\\1", $path )."/";
 		$this->path	= $path;
 	}
-	
+
 	/**
 	 *	@access		public
 	 *	@param		string			$prefix				Allowed Class Name Prefix
@@ -224,7 +224,7 @@ class CMC_Loader
 	{
 		$this->prefix	= strtolower( $prefix );
 	}
-	
+
 	/**
 	 *	Unregisters this Loader as Autoloader using SPL.
 	 *	@access		public
