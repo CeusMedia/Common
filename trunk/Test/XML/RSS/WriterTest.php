@@ -20,6 +20,18 @@ require_once 'Test/initLoaders.php5';
  */
 class Test_XML_RSS_WriterTest extends PHPUnit_Framework_TestCase
 {
+	protected $writer;
+
+	/**
+	 *	Constructor.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function __construct()
+	{
+		Test_MockAntiProtection::createMockClass( 'XML_RSS_Writer' );
+		$this->writer	= new Test_XML_RSS_Writer_MockAntiProtection();
+	}
 
 	/**
 	 *	Sets up Builder.
@@ -28,6 +40,7 @@ class Test_XML_RSS_WriterTest extends PHPUnit_Framework_TestCase
 	 */
 	public function setUp()
 	{
+		$this->writer	= new Test_XML_RSS_Writer_MockAntiProtection();
 		$this->path		= dirname( __FILE__ )."/";
 		$this->assert	= $this->path."reader.xml";
 		$this->file		= $this->path."writer.xml";
@@ -46,6 +59,61 @@ class Test_XML_RSS_WriterTest extends PHPUnit_Framework_TestCase
 	{
 		@unlink( $this->file );
 #		date_default_timezone_set( $this->timeZone );
+	} 
+
+	/**
+	 *	Tests Method 'addItem'.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testAddItem()
+	{
+		$data	= array( 'key1' => 'value2' );
+		$this->writer->addItem( $data );
+		$this->assertEquals( array( $data ), $this->writer->getProtectedVar( 'itemList' ) );
+	} 
+
+	/**
+	 *	Tests Method 'setChannelData'.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testSetChannelData()
+	{
+		$data		= array(
+			'key1'	=> 'value1',
+			'key2'	=> 'value2',
+		);
+		$this->writer->setChannelData( $data );
+		$this->assertEquals( $data, $this->writer->getProtectedVar( 'channelData' ) );
+	} 
+
+	/**
+	 *	Tests Method 'setChannelPair'.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testSetChannelPair()
+	{
+		$data		= array(
+			'key1'	=> 'value1',
+			'key2'	=> 'value2',
+		);
+		$this->writer->setChannelPair( 'key1', 'value1' );
+		$this->writer->setChannelPair( 'key2', 'value2' );
+		$this->assertEquals( $data, $this->writer->getProtectedVar( 'channelData' ) );
+	} 
+
+	/**
+	 *	Tests Method 'setItemList'.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testSetItemList()
+	{
+		$data	= array( 'key1', 'key2' );
+		$this->writer->setItemList( $data );
+		$this->assertEquals( $data, $this->writer->getProtectedVar( 'itemList' ) );
 	} 
 
 	/**
