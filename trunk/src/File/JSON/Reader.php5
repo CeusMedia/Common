@@ -49,6 +49,8 @@ class File_JSON_Reader
 	 */
 	public function __construct( $filePath )
 	{
+		if( !file_exists( $filePath ) )
+			throw new RuntimeException( 'File "'.$filePath.'" is not existing' );
 		$this->filePath	= $filePath;
 	}
 
@@ -74,7 +76,14 @@ class File_JSON_Reader
 	public function read( $asArray = NULL )
 	{
 		$json	= File_Reader::load( $this->filePath );
-		return json_decode( $json, $asArray );
+		$data	= json_decode( $json, $asArray );
+		if( $data === NULL ){
+			if( !( strlen( trim( $json ) ) === 0 || trim( $json ) === "null" ) ){
+				$message	= 'JSON file "'.$this->filePath.'" cannot be parsed: '.json_last_error_msg();
+				throw new RuntimeException( $message, json_last_error() );
+			}
+		}
+		return $data;
 	}
 }
 ?>
