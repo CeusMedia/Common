@@ -41,7 +41,7 @@
 class Net_API_DDNSS{
 
 	/**	@var		string		Base URL for update */
-	public static $urlUpdate	= "http://www.ddnss.de/upd.php?key=%s&host=%s";
+	public static $urlUpdate	= "http://ddnss.de/upd.php?key=%s&host=%s";
 
 	/**
 	 *	Updated host or hosts.
@@ -49,6 +49,8 @@ class Net_API_DDNSS{
 	 *	@param		string		$key		Auth key from DDNSS
 	 *	@param		string|array	$hosts		Host or list of hosts
 	 *	@return		integer		Number of updated hosts
+	 *	@todo		parse response header DDNSS-Response
+	 *	@todo		and handle update errors
 	 */
 	static public function update( $key, $hosts ){
 		if( is_array( $hosts ) )
@@ -56,6 +58,7 @@ class Net_API_DDNSS{
 		$url	= sprintf( self::$urlUpdate, $key, $hosts );
 		try{
 			$reader		= new Net_Reader( $url );
+			$reader->setUserAgent( "cURL" );
 			$response	= strip_tags( $reader->read() );
 			if( !preg_match( "/Updated [0-9]+ /", $response ) )
 				return 0;
