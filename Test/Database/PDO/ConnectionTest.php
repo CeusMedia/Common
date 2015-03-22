@@ -2,18 +2,15 @@
 /**
  *	TestUnit of Database_PDO_Connection.
  *	@package		Tests.database.pdo
- *	@extends		PHPUnit_Framework_TestCase
- *	@uses			Database_PDO_Connection
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			02.07.2008
  *	@version		0.1
  */
-require_once( 'PHPUnit/Framework/TestCase.php' ); 
 require_once 'Test/initLoaders.php5';
 /**
  *	TestUnit of Database_PDO_Connection.
  *	@package		Tests.database.pdo
- *	@extends		PHPUnit_Framework_TestCase
+ *	@extends		Test_Case
  *	@uses			Database_PDO_Connection
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			02.07.2008
@@ -45,6 +42,8 @@ class Test_Database_PDO_ConnectionTest extends Test_Case
 	 */
 	public function setUp()
 	{
+		if( !extension_loaded( 'pdo_mysql' ) )
+			$this->markTestSkipped( "PDO driver for MySQL not supported" );
 		$dsn 		= "mysql:host=".$this->host.";dbname=".$this->database;
 		$options	= array();
 		$this->connection	= new Database_PDO_Connection( $dsn, $this->username, $this->password, $options );
@@ -69,7 +68,8 @@ class Test_Database_PDO_ConnectionTest extends Test_Case
 	{
 		@unlink( $this->errorLog );
 		@unlink( $this->queryLog );
-		mysql_query( "DROP TABLE transactions" );
+		if( extension_loaded( 'mysql' ) )
+			mysql_query( "DROP TABLE transactions" );
 	}
 
 	/**

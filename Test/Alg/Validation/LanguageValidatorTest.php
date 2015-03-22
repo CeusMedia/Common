@@ -2,25 +2,21 @@
 /**
  *	TestUnit of Alg_Validation_LanguageValidator.
  *	@package		Tests.alg.validation
- *	@extends		PHPUnit_Framework_TestCase
- *	@uses			Alg_Validation_LanguageValidator
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			19.06.2008
  *	@version		0.1
  */
-if( !class_exists( 'PHPUnit_Framework_TestCase' ) )
-	require_once 'PHPUnit/Framework/TestCase.php';
 require_once 'Test/initLoaders.php5';
 /**
  *	TestUnit of Alg_Validation_LanguageValidator.
  *	@package		Tests.alg.validation
- *	@extends		PHPUnit_Framework_TestCase
+ *	@extends		Test_Case
  *	@uses			Alg_Validation_LanguageValidator
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			19.06.2008
  *	@version		0.1
  */
-class Test_Alg_Validation_LanguageValidatorTest extends PHPUnit_Framework_TestCase
+class Test_Alg_Validation_LanguageValidatorTest extends Test_Case
 {
 	/**
 	 *	Constructor.

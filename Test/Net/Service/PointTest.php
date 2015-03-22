@@ -6,19 +6,17 @@
  *	@since			02.05.2008
  *	@version		0.1
  */
-if( !class_exists( 'PHPUnit_Framework_TestCase' ) )
-	require_once 'PHPUnit/Framework/TestCase.php';
 require_once 'Test/initLoaders.php5';
 /**
  *	TestUnit of Service_Point.
  *	@package		Tests.net.service
- *	@extends		PHPUnit_Framework_TestCase
+ *	@extends		Test_Case
  *	@uses			Net_Service_Point
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			02.05.2008
  *	@version		0.1
  */
-class Test_Net_Service_PointTest extends PHPUnit_Framework_TestCase
+class Test_Net_Service_PointTest extends Test_Case
 {
 	/**
 	 *	Constructor.

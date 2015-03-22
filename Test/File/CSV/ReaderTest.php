@@ -2,25 +2,21 @@
 /**
  *	TestUnit of File_CSV_Reader.
  *	@package		Tests.File.CSV
- *	@extends		PHPUnit_Framework_TestCase
- *	@uses			File_CSV_Reader
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			09.08.2010
  *	@version		0.1
  */
-require_once( 'PHPUnit/Framework/TestCase.php' ); 
 require_once( 'Test/initLoaders.php5' );
-import( 'File.CSV.Reader' );
 /**
  *	TestUnit of File_CSV_Reader.
  *	@package		Tests.File.CSV
- *	@extends		PHPUnit_Framework_TestCase
+ *	@extends		Test_Case
  *	@uses			File_CSV_Reader
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			09.08.2010
  *	@version		0.1
  */
-class Test_File_CSV_ReaderTest extends PHPUnit_Framework_TestCase
+class Test_File_CSV_ReaderTest extends Test_Case
 {
 	/**
 	 *	Constructor.

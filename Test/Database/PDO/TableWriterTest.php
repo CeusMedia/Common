@@ -2,19 +2,15 @@
 /**
  *	TestUnit of Database_PDO_TableWriter.
  *	@package		Tests.{classPackage}
- *	@extends		PHPUnit_Framework_TestCase
- *	@uses			Database_PDO_Connection
- *	@uses			Database_PDO_TableWriter
  *	@author			Christian WÃ¼rker <christian.wuerker@ceusmedia.de>
  *	@since			02.05.2008
  *	@version		0.1
  */
-require_once 'PHPUnit/Framework/TestCase.php'; 
 require_once 'Test/initLoaders.php5';
 /**
  *	TestUnit of Database_PDO_TableWriter.
  *	@package		Tests.{classPackage}
- *	@extends		PHPUnit_Framework_TestCase
+ *	@extends		Test_Case
  *	@uses			Database_PDO_Connection
  *	@uses			Database_PDO_TableWriter
  *	@author			Christian WÃ¼rker <christian.wuerker@ceusmedia.de>
@@ -42,12 +38,6 @@ class Test_Database_PDO_TableWriterTest extends Test_Case
 
 		$this->dsn = "mysql:host=".$this->host.";dbname=".$this->database;
 
-		$this->connection	= new Database_PDO_Connection( $this->dsn, $this->username, $this->password, $options );
-		$this->connection->setAttribute( PDO::ATTR_CASE, PDO::CASE_NATURAL );
-		$this->connection->setAttribute( PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, TRUE );
-		$this->connection->setErrorLogFile( $this->errorLog );
-		$this->connection->setStatementLogFile( $this->queryLog );
-
 		$this->tableName	= "transactions";
 		$this->columns	= array(
 			'id',
@@ -69,6 +59,17 @@ class Test_Database_PDO_TableWriterTest extends Test_Case
 	 */
 	public function setUp()
 	{
+		if( !extension_loaded( 'pdo_mysql' ) )
+			$this->markTestSkipped( "PDO driver for MySQL not supported" );
+		if( !extension_loaded( 'mysql' ) )
+			$this->markTestSkipped( "Support for MySQL is missing" );
+
+		$this->connection	= new Database_PDO_Connection( $this->dsn, $this->username, $this->password, $options );
+		$this->connection->setAttribute( PDO::ATTR_CASE, PDO::CASE_NATURAL );
+		$this->connection->setAttribute( PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, TRUE );
+		$this->connection->setErrorLogFile( $this->errorLog );
+		$this->connection->setStatementLogFile( $this->queryLog );
+
 		$this->mysql	= mysql_connect( $this->host, $this->username, $this->password ) or die( mysql_error() );
 		mysql_select_db( $this->database );
 		$sql	= file_get_contents( $this->path."createTable.sql" );
@@ -89,7 +90,8 @@ class Test_Database_PDO_TableWriterTest extends Test_Case
 	{
 		@unlink( $this->errorLog );
 		@unlink( $this->queryLog );
-		mysql_query( "DROP TABLE transactions" );
+		if( extension_loaded( 'mysql' ) )
+			mysql_query( "DROP TABLE transactions" );
 	}
 
 	/**

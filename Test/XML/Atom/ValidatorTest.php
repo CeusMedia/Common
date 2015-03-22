@@ -6,19 +6,17 @@
  *	@since			14.05.2008
  *	@version		0.1
  */
-if( !class_exists( 'PHPUnit_Framework_TestCase' ) )
-	require_once 'PHPUnit/Framework/TestCase.php';
 require_once 'Test/initLoaders.php5';
 /**
  *	TestUnit of XML_Atom_Validator.
  *	@package		Tests.xml.atom
- *	@extends		PHPUnit_Framework_TestCase
+ *	@extends		Test_Case
  *	@uses			XML_Atom_Validator
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			14.05.2008
  *	@version		0.1
  */
-class Test_XML_Atom_ValidatorTest extends PHPUnit_Framework_TestCase
+class Test_XML_Atom_ValidatorTest extends Test_Case
 {
 	/**
 	 *	Constructor.

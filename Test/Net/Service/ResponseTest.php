@@ -6,19 +6,17 @@
  *	@since			02.05.2008
  *	@version		0.1
  */
-if( !class_exists( 'PHPUnit_Framework_TestCase' ) )
-	require_once 'PHPUnit/Framework/TestCase.php';
 require_once 'Test/initLoaders.php5';
 /**
  *	TestUnit of Service_Response.
  *	@package		Tests.net.service
- *	@extends		PHPUnit_Framework_TestCase
+ *	@extends		Test_Case
  *	@uses			Net_Service_Response
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			02.05.2008
  *	@version		0.1
  */
-class Test_Net_Service_ResponseTest extends PHPUnit_Framework_TestCase
+class Test_Net_Service_ResponseTest extends Test_Case
 {
 	/**
 	 *	Constructor.
@@ -132,6 +130,8 @@ class Test_Net_Service_ResponseTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testConvertToOutputFormatWddx()
 	{
+		if( !extension_loaded( 'wddx' ) )
+			$this->markTestSkipped( 'Missing wddx support' );
 		$assertion	= wddx_serialize_value( $this->data );
 		$creation	= $this->instance->convertToOutputFormat( $this->data['data'], "wddx" ); 
 		$this->assertEquals( $assertion, $creation );

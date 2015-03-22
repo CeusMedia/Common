@@ -5,17 +5,16 @@
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@version		0.1
  */
-require_once 'PHPUnit/Framework/TestCase.php'; 
 require_once 'Test/initLoaders.php5';
 /**
  *	TestUnit of File Writer.
  *	@package		Tests.file
- *	@extends		PHPUnit_Framework_TestCase
+ *	@extends		Test_Case
  *	@uses			File_Writer
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@version		0.1
  */
-class Test_File_WriterTest extends PHPUnit_Framework_TestCase
+class Test_File_WriterTest extends Test_Case
 {
 	/**	@var	string		$fileName		File Name of Test File */
 	private $fileName;

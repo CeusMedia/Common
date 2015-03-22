@@ -6,19 +6,17 @@
  *	@since			03.11.2008
  *	@version		0.1
  */
-if( !class_exists( 'PHPUnit_Framework_TestCase' ) )
-	require_once 'PHPUnit/Framework/TestCase.php';
 require_once 'Test/initLoaders.php5';
 /**
  *	TestUnit of Net_HTTP_Request_QueryParser.
  *	@package		Tests.net.http.request
- *	@extends		PHPUnit_Framework_TestCase
+ *	@extends		Test_Case
  *	@uses			Net_HTTP_Request_QueryParser
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			03.11.2008
  *	@version		0.1
  */
-class Test_Net_HTTP_Request_QueryParserTest extends PHPUnit_Framework_TestCase
+class Test_Net_HTTP_Request_QueryParserTest extends Test_Case
 {
 	/**
 	 *	Constructor.

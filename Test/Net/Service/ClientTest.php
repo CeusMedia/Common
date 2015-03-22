@@ -6,20 +6,18 @@
  *	@since			02.05.2008
  *	@version		0.1
  */
-if( !class_exists( 'PHPUnit_Framework_TestCase' ) )
-	require_once 'PHPUnit/Framework/TestCase.php'; 
 require_once 'Test/initLoaders.php5';
 /**
  *	TestUnit of Net Service Client.
  *	@package		Tests.net.service
- *	@extends		PHPUnit_Framework_TestCase
+ *	@extends		Test_Case
  *	@uses			Net_Service_Client
  *	@uses			ADT_OptionObject
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			02.05.2008
  *	@version		0.1
  */
-class Test_Net_Service_ClientTest extends PHPUnit_Framework_TestCase
+class Test_Net_Service_ClientTest extends Test_Case
 {
 	protected $client;
 
@@ -42,6 +40,8 @@ class Test_Net_Service_ClientTest extends PHPUnit_Framework_TestCase
 	 */
 	public function setUp()
 	{
+		if( !extension_loaded( 'curl' ) )
+			$this->markTestSkipped( 'Missing cURL support' );
 	}
 	
 	/**
@@ -98,7 +98,7 @@ class Test_Net_Service_ClientTest extends PHPUnit_Framework_TestCase
 		$this->client->setVerifyPeer( TRUE );
 		$this->client->setVerifyHost( TRUE );
 		$this->client->setBasicAuth( 'username1', 'password1' );
-		
+
 		$response	= $this->client->executeProtectedMethod( 'executeRequest', $request );
 
 		$assertion	= array(

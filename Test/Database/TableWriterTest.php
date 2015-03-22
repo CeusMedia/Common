@@ -2,22 +2,18 @@
 /**
  *	TestUnit of Database_TableWriter.
  *	@package		Tests.database
- *	@extends		PHPUnit_Framework_TestCase
- *	@uses			Database_MySQL_Connection
- *	@uses			Database_TableWriter
- *	@author			Christian WÃ¼rker <christian.wuerker@ceusmedia.de>
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			02.05.2008
  *	@version		0.1
  */
-require_once( 'PHPUnit/Framework/TestCase.php' ); 
 require_once 'Test/initLoaders.php5';
 /**
  *	TestUnit of Database_TableWriter.
  *	@package		Tests.database
- *	@extends		PHPUnit_Framework_TestCase
+ *	@extends		Test_Case
  *	@uses			Database_MySQL_Connection
  *	@uses			Database_TableWriter
- *	@author			Christian WÃ¼rker <christian.wuerker@ceusmedia.de>
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			02.05.2008
  *	@version		0.1
  */
@@ -39,9 +35,6 @@ class Test_Database_TableWriterTest extends Test_Case
 		$this->logFile	= $this->path."errors.log";
 		$options		= array();
 
-		$this->connection	= new Database_MySQL_Connection( $this->logFile );
-		$this->connection->connect( $this->host, $this->username, $this->password, $options );
-
 		$this->tableName	= "transactions";
 		$this->columns	= array(
 			'id',
@@ -55,7 +48,7 @@ class Test_Database_TableWriterTest extends Test_Case
 			'label'
 		);
 	}
-	
+
 	/**
 	 *	Setup for every Test.
 	 *	@access		public
@@ -63,6 +56,12 @@ class Test_Database_TableWriterTest extends Test_Case
 	 */
 	public function setUp()
 	{
+		if( !extension_loaded( 'mysql' ) )
+			$this->markTestSkipped( 'Missing MySQL support' );
+
+		$this->connection	= new Database_MySQL_Connection( $this->logFile );
+		$this->connection->connect( $this->host, $this->username, $this->password, $options );
+
 		$this->mysql	= mysql_connect( $this->host, $this->username, $this->password ) or die( mysql_error() );
 		mysql_select_db( $this->database );
 		$sql	= file_get_contents( $this->path."createTable.sql" );
@@ -82,7 +81,8 @@ class Test_Database_TableWriterTest extends Test_Case
 	public function tearDown()
 	{
 		@unlink( $this->logFile );
-		mysql_query( "DROP TABLE transactions" );
+		if( extension_loaded( 'mysql' ) )
+			mysql_query( "DROP TABLE transactions" );
 	}
 
 	/**

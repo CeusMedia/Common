@@ -2,22 +2,18 @@
 /**
  *	TestUnit of Database_TableReader.
  *	@package		Tests.database
- *	@extends		PHPUnit_Framework_TestCase
- *	@uses			Database_MySQL_Connection
- *	@uses			Database_TableReader
- *	@author			Christian WÃ¼rker <christian.wuerker@ceusmedia.de>
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			02.05.2008
  *	@version		0.1
  */
-require_once( 'PHPUnit/Framework/TestCase.php' ); 
 require_once 'Test/initLoaders.php5';
 /**
  *	TestUnit of Database_TableReader.
  *	@package		Tests.database
- *	@extends		PHPUnit_Framework_TestCase
+ *	@extends		Test_Case
  *	@uses			Database_MySQL_Connection
  *	@uses			Database_TableReader
- *	@author			Christian WÃ¼rker <christian.wuerker@ceusmedia.de>
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			02.05.2008
  *	@version		0.1
  */
@@ -38,9 +34,6 @@ class Test_Database_TableReaderTest extends Test_Case
 		$this->path		= dirname( __FILE__ )."/";
 		$this->logFile	= $this->path."errors.log";
 
-		$this->connection	= new Database_MySQL_Connection( $this->logFile );
-		$this->connection->connect( $this->host, $this->username, $this->password, $this->database );
-		
 		$this->tableName	= "transactions";
 		$this->columns	= array(
 			'id',
@@ -62,6 +55,12 @@ class Test_Database_TableReaderTest extends Test_Case
 	 */
 	public function setUp()
 	{
+		if( !extension_loaded( 'mysql' ) )
+			$this->markTestSkipped( "Support for MySQL is missing" );
+
+		$this->connection	= new Database_MySQL_Connection( $this->logFile );
+		$this->connection->connect( $this->host, $this->username, $this->password, $this->database );
+		
 		$this->mysql	= mysql_connect( $this->host, $this->username, $this->password ) or die( mysql_error() );
 		mysql_select_db( $this->database );
 		$sql	= file_get_contents( $this->path."createTable.sql" );
@@ -81,7 +80,8 @@ class Test_Database_TableReaderTest extends Test_Case
 	public function tearDown()
 	{
 		@unlink( $this->logFile );
-		mysql_query( "DROP TABLE transactions" );
+		if( extension_loaded( 'mysql' ) )
+			mysql_query( "DROP TABLE transactions" );
 	}
 
 	/**

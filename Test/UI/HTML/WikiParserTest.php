@@ -6,18 +6,17 @@
  *	@since			03.05.2008
  *	@version		0.1
  */
-require_once 'PHPUnit/Framework/TestCase.php';
 require_once 'Test/initLoaders.php5';
 /**
  *	TestUnit of UI_HTML_WikiParser.
  *	@package		Tests.{classPackage}
- *	@extends		PHPUnit_Framework_TestCase
+ *	@extends		Test_Case
  *	@uses			UI_HTML_WikiParser
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			03.05.2008
  *	@version		0.1
  */
-class Test_UI_HTML_WikiParserTest extends PHPUnit_Framework_TestCase
+class Test_UI_HTML_WikiParserTest extends Test_Case
 {
 	/**
 	 *	Constructor.

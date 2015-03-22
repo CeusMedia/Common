@@ -2,24 +2,21 @@
 /**
  *	TestUnit of Database_Result.
  *	@package		Tests.database
- *	@extends		PHPUnit_Framework_TestCase
- *	@uses			Database_Result
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			15.05.2008
  *	@version		0.1
  */
-require_once( 'PHPUnit/Framework/TestCase.php' ); 
 require_once 'Test/initLoaders.php5';
 /**
  *	TestUnit of Database_Result.
  *	@package		Tests.database
- *	@extends		PHPUnit_Framework_TestCase
+ *	@extends		Test_Case
  *	@uses			Database_Result
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			15.05.2008
  *	@version		0.1
  */
-class Test_Database_ResultTest extends PHPUnit_Framework_TestCase
+class Test_Database_ResultTest extends Test_Case
 {
 	/**
 	 *	Constructor.

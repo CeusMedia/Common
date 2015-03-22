@@ -6,18 +6,17 @@
  *	@since			12.01.2009
  *	@version		0.1
  */
-require_once 'PHPUnit/Framework/TestCase.php';
 require_once 'Test/initLoaders.php5';
 /**
  *	TestUnit of Console_Command_Program.
  *	@package		Tests.console.command
- *	@extends		PHPUnit_Framework_TestCase
+ *	@extends		Test_Case
  *	@uses			Console_Command_Program
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			12.01.2009
  *	@version		0.1
  */
-class Test_Console_Command_ProgramTest extends PHPUnit_Framework_TestCase
+class Test_Console_Command_ProgramTest extends Test_Case
 {
 	/**
 	 *	Constructor.

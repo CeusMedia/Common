@@ -6,19 +6,17 @@
  *	@since			21.02.2008
  *	@version		0.1
  */
-if( !class_exists( 'PHPUnit_Framework_TestCase' ) )
-	require_once 'PHPUnit/Framework/TestCase.php';
 require_once 'Test/initLoaders.php5';
 /**
  *	TestUnit of Net Reader.
  *	@package		Tests.net
- *	@extends		PHPUnit_Framework_TestCase
+ *	@extends		Test_Case
  *	@uses			Net_Reader
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			21.02.2008
  *	@version		0.1
  */
-class Test_Net_ReaderTest extends PHPUnit_Framework_TestCase
+class Test_Net_ReaderTest extends Test_Case
 {
 	/**
 	 *	Constructor.
@@ -41,6 +39,8 @@ class Test_Net_ReaderTest extends PHPUnit_Framework_TestCase
 	 */
 	public function setUp()
 	{
+		if( !extension_loaded( 'curl' ) )
+			$this->markTestSkipped( 'Missing cURL support' );
 		$this->reader	= new Net_Reader( $this->url );
 		$this->reader->setUserAgent( "cmClasses:UnitTest/0.1" );
 	}

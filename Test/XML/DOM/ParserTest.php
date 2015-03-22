@@ -6,13 +6,11 @@
  *	@since			11.12.2007
  *	@version		0.1
  */
-if( !class_exists( 'PHPUnit_Framework_TestCase' ) )
-	require_once 'PHPUnit/Framework/TestCase.php'; 
 require_once 'Test/initLoaders.php5';
 /**
  *	TestUnit of XML DOM Parser.
  *	@package		Tests.xml.dom
- *	@extends		PHPUnit_Framework_TestCase
+ *	@extends		Test_Case
  *	@uses			XML_DOM_Parser
  *	@uses			XML_DOM_Builder
  *	@uses			XML_DOM_Node
@@ -20,7 +18,7 @@ require_once 'Test/initLoaders.php5';
  *	@since			11.12.2007
  *	@version		0.1
  */
-class Test_XML_DOM_ParserTest extends PHPUnit_Framework_TestCase
+class Test_XML_DOM_ParserTest extends Test_Case
 {
 	/**
 	 *	Sets up Leaf.

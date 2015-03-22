@@ -6,18 +6,17 @@
  *	@since			15.06.2008
  *	@version		0.1
  */
-require_once 'PHPUnit/Framework/TestCase.php';
 require_once 'Test/initLoaders.php5';
 /**
  *	TestUnit of File_RecursiveNameFilter.
  *	@package		Tests.file
- *	@extends		PHPUnit_Framework_TestCase
+ *	@extends		Test_Case
  *	@uses			File_RecursiveNameFilter
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			15.06.2008
  *	@version		0.1
  */
-class Test_File_RecursiveNameFilterTest extends PHPUnit_Framework_TestCase
+class Test_File_RecursiveNameFilterTest extends Test_Case
 {
 	/**
 	 *	Constructor.

@@ -6,19 +6,17 @@
  *	@since			20.02.2008
  *	@version		0.1
  */
-if( !class_exists( 'PHPUnit_Framework_TestCase' ) )
-	require_once 'PHPUnit/Framework/TestCase.php'; 
 require_once 'Test/initLoaders.php5';
 /**
  *	TestUnit of XML RSS 2 Parser.
  *	@package		Tests.xml.rss
- *	@extends		PHPUnit_Framework_TestCase
+ *	@extends		Test_Case
  *	@uses			XML_RSS_Parser
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			20.02.2008
  *	@version		0.1
  */
-class Test_XML_RSS_ParserTest extends PHPUnit_Framework_TestCase
+class Test_XML_RSS_ParserTest extends Test_Case
 {
 
 	/**

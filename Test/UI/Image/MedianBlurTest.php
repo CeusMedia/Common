@@ -6,12 +6,11 @@
  *	@since			16.02.2008
  *	@version		0.1
  */
-require_once 'PHPUnit/Framework/TestCase.php';
 require_once 'Test/initLoaders.php5';
 /**
  *	TestUnit of Median Blur.
  *	@package		Tests.ui.image
- *	@extends		PHPUnit_Framework_TestCase
+ *	@extends		Test_Case
  *	@uses			UI_Image_MedianBlur
  *	@uses			File_Reader
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
@@ -20,14 +19,19 @@ require_once 'Test/initLoaders.php5';
  *	@deprecated		user UI_Image_Filter instead
  *	@todo			to be removed in 0.7.7
  */
-class Test_UI_Image_MedianBlurTest extends PHPUnit_Framework_TestCase
+class Test_UI_Image_MedianBlurTest extends Test_Case
 {
 	public function __construct()
 	{
 		return TRUE;
 		$this->path	= dirname( __FILE__ )."/";
 	}
-	
+
+	public function setUp(){
+		if( !extension_loaded( 'gd' ) )
+			$this->markTestSkipped( 'Missing gd support' );
+	}
+
 	public function tearDown()
 	{
 		return TRUE;

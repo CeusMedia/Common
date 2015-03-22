@@ -6,18 +6,17 @@
  *	@since			0.7.0
  *	@version		$Id$
  */
-require_once( 'PHPUnit/Framework/TestCase.php' ); 
 require_once( 'Test/initLoaders.php5' );
 /**
  *	TestUnit of File_Permissions.
  *	@package		Tests.File
- *	@extends		PHPUnit_Framework_TestCase
+ *	@extends		Test_Case
  *	@uses			File_Permissions
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			0.7.0
  *	@version		$Id$
  */
-class Test_File_PermissionsTest extends PHPUnit_Framework_TestCase
+class Test_File_PermissionsTest extends Test_Case
 {
 	protected $fileName;
 	protected $pathName;

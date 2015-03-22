@@ -6,18 +6,17 @@
  *	@since			19.06.2008
  *	@version		0.1
  */
-require_once 'PHPUnit/Framework/TestCase.php';
 require_once 'Test/initLoaders.php5';
 /**
  *	TestUnit of File_Block_Writer.
  *	@package		Tests.file.block
- *	@extends		PHPUnit_Framework_TestCase
+ *	@extends		Test_Case
  *	@uses			File_Block_Writer
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			19.06.2008
  *	@version		0.1
  */
-class Test_File_Block_WriterTest extends PHPUnit_Framework_TestCase
+class Test_File_Block_WriterTest extends Test_Case
 {
 	/**
 	 *	Constructor.

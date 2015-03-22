@@ -6,19 +6,18 @@
  *	@since			16.02.2008
  *	@version		0.1
  */
-require_once 'PHPUnit/Framework/TestCase.php';
 require_once 'Test/initLoaders.php5';
 /**
  *	TestUnit of Thumbnail Creator.
  *	@package		Tests.ui.image
- *	@extends		PHPUnit_Framework_TestCase
+ *	@extends		Test_Case
  *	@uses			UI_Image_ThumbnailCreator
  *	@uses			File_Reader
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			16.02.2008
  *	@version		0.1
  */
-class Test_UI_Image_ThumbnailCreatorTest extends PHPUnit_Framework_TestCase
+class Test_UI_Image_ThumbnailCreatorTest extends Test_Case
 {
 	protected $assertFile;
 	protected $sourceFile;
@@ -31,7 +30,12 @@ class Test_UI_Image_ThumbnailCreatorTest extends PHPUnit_Framework_TestCase
 		$this->sourceFile	= $this->path."sourceThumbnail.png";
 		$this->targetFile	= $this->path."targetThumbnail.png";	
 	}
-	
+
+	public function setUp(){
+		if( !extension_loaded( 'gd' ) )
+			$this->markTestSkipped( 'Missing gd support' );
+	}
+
 	public function tearDown()
 	{
 		@unlink( $this->path."targetThumbnail.gif" );

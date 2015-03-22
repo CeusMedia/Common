@@ -2,24 +2,21 @@
 /**
  *	TestUnit of Test_ADT_Object.
  *	@package		Tests.{classPackage}
- *	@extends		PHPUnit_Framework_TestCase
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			03.05.2008
  *	@version		0.1
  */
-if( !class_exists( 'PHPUnit_Framework_TestCase' ) )
-	require_once 'PHPUnit/Framework/TestCase.php';
 require_once 'Test/initLoaders.php5';
 /**
  *	TestUnit of Test_ADT_Object.
  *	@package		Tests.{classPackage}
- *	@extends		PHPUnit_Framework_TestCase
+ *	@extends		Test_Case
  *	@uses			ADT_Object
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			03.05.2008
  *	@version		0.1
  */
-class Test_ADT_ObjectTest extends PHPUnit_Framework_TestCase
+class Test_ADT_ObjectTest extends Test_Case
 {
 	/**
 	 *	Constructor.

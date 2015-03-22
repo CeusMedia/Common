@@ -6,19 +6,17 @@
  *	@since			06.04.2009
  *	@version		0.1
  */
-if( !class_exists( 'PHPUnit_Framework_TestCase' ) )
-	require_once 'PHPUnit/Framework/TestCase.php';
 require_once 'Test/initLoaders.php5';
 /**
  *	TestUnit of Net_Service_Decoder.
  *	@package		Tests.net.service
- *	@extends		PHPUnit_Framework_TestCase
+ *	@extends		Test_Case
  *	@uses			Net_Service_Decoder
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			06.04.2009
  *	@version		0.1
  */
-class Test_Net_Service_DecoderTest extends PHPUnit_Framework_TestCase
+class Test_Net_Service_DecoderTest extends Test_Case
 {
 	/**
 	 *	Constructor.
@@ -38,6 +36,8 @@ class Test_Net_Service_DecoderTest extends PHPUnit_Framework_TestCase
 	 */
 	public function setUp()
 	{
+		if( !extension_loaded( 'curl' ) )
+			$this->markTestSkipped( 'Missing cURL support' );
 	}
 	
 	/**
@@ -96,7 +96,7 @@ class Test_Net_Service_DecoderTest extends PHPUnit_Framework_TestCase
 	public function testDecodeResponseWddx()
 	{
 		if( !function_exists( 'wddx_packet_start' ) )
-			return;
+			$this->markTestSkipped( 'Missing WDDX support' );
 		$wddx		= '<?xml version="1.0"?> <wddxPacket version="1.0">  <header/>  <data>  <struct>  <var name="status">  <string>data</string>  </var>  <var name="data">  <string>2008-12-31T12:34:56+02:00</string>  </var>  <var name="timestamp">  <number>1239028698</number>  </var>  <var name="duration">  <number>211</number>  </var>  </struct>  </data> </wddxPacket>';
 		$assertion	= "2008-12-31T12:34:56+02:00";
 		$creation	= $this->decoder->decodeResponse( $wddx, "wddx");
@@ -201,7 +201,7 @@ class Test_Net_Service_DecoderTest extends PHPUnit_Framework_TestCase
 	public function testDecodeResponseExceptionWddx1()
 	{
 		if( !function_exists( 'wddx_packet_start' ) )
-			return;
+			$this->markTestSkipped( 'Missing WDDX support' );
 		$this->setExpectedException( 'RuntimeException' );
 		$wddx	= file_get_contents( $this->path."responseException.wddx" );
 		$this->decoder->decodeResponse( $wddx, "wddx" );
@@ -215,7 +215,7 @@ class Test_Net_Service_DecoderTest extends PHPUnit_Framework_TestCase
 	public function testDecodeResponseExceptionWddx2()
 	{
 		if( !function_exists( 'wddx_packet_start' ) )
-			return;
+			$this->markTestSkipped( 'Missing WDDX support' );
 		$wddx	= file_get_contents( $this->path."responseException.wddx" );
 		try
 		{
@@ -268,12 +268,11 @@ class Test_Net_Service_DecoderTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testDecompressResponseDeflate()
 	{
+		if( !function_exists( 'gzcompress' ) )
+			$this->markTestSkipped( 'Missing gzip support' );
 		$message	= "this is a uncompressed test text.";
-
-		$compressed	= gzcompress( $message );
-		$assertion	= $message;
-		$creation	= $this->decoder->decompressResponse( $compressed, "deflate" );
-		$this->assertEquals( $assertion, $creation );
+		$creation	= $this->decoder->decompressResponse( gzcompress( $message ), "deflate" );
+		$this->assertEquals( $message, $creation );
 	}
 
 	/**
@@ -294,12 +293,11 @@ class Test_Net_Service_DecoderTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testDecompressResponseGzip()
 	{
+		if( !function_exists( 'gzencode' ) )
+			$this->markTestSkipped( 'Missing gzip support' );
 		$message	= "this is a uncompressed test text.";
-
-		$compressed	= gzencode( $message );
-		$assertion	= $message;
-		$creation	= $this->decoder->decompressResponse( $compressed, "gzip" );
-		$this->assertEquals( $assertion, $creation );
+		$creation	= $this->decoder->decompressResponse( gzencode( $message ), "gzip" );
+		$this->assertEquals( $message, $creation );
 	}
 
 	/**
@@ -313,21 +311,6 @@ class Test_Net_Service_DecoderTest extends PHPUnit_Framework_TestCase
 		$this->decoder->decompressResponse( "this is a uncompressed test text.", "gzip" );
 	}
 	
-	/**
-	 *	Tests Method 'decompressResponse'.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function testDecompressResponseFallback()
-	{
-		$message	= "this is a uncompressed test text.";
-
-		$compressed	= gzcompress( $message );
-		$assertion	= $message;
-		$creation	= $this->decoder->decompressResponse( $compressed, "not_supported", TRUE );
-		$this->assertEquals( $assertion, $creation );
-	}
-
 	/**
 	 *	Tests Method 'decompressResponse'.
 	 *	@access		public

@@ -6,19 +6,17 @@
  *	@since			14.02.2008
  *	@version		0.1
  */
-if( !class_exists( 'PHPUnit_Framework_TestCase' ) )
-	require_once 'PHPUnit/Framework/TestCase.php'; 
 require_once 'Test/initLoaders.php5';
 /**
  *	TestUnit of Rot13.
  *	@package		Tests.alg.crypt
- *	@extends		PHPUnit_Framework_TestCase
+ *	@extends		Test_Case
  *	@uses			Alg_Crypt_Rot13
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			14.02.2008
  *	@version		0.1
  */
-class Test_Alg_Crypt_Rot13Test extends PHPUnit_Framework_TestCase
+class Test_Alg_Crypt_Rot13Test extends Test_Case
 {
 	public function testEncrypt()
 	{

@@ -6,18 +6,17 @@
  *	@since			15.06.2008
  *	@version		0.1
  */
-require_once 'PHPUnit/Framework/TestCase.php';
 require_once 'Test/initLoaders.php5';
 /**
  *	TestUnit of File_NameFilter.
  *	@package		Tests.file
- *	@extends		PHPUnit_Framework_TestCase
+ *	@extends		Test_Case
  *	@uses			File_RegexFilter
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			15.06.2008
  *	@version		0.1
  */
-class Test_File_RegexFilterTest extends PHPUnit_Framework_TestCase
+class Test_File_RegexFilterTest extends Test_Case
 {
 	/**
 	 *	Constructor.

@@ -6,19 +6,17 @@
  *	@since			16.02.2008
  *	@version		0.1
  */
-if( !class_exists( 'PHPUnit_Framework_TestCase' ) )
-	require_once 'PHPUnit/Framework/TestCase.php';
 require_once 'Test/initLoaders.php5';
 /**
  *	TestUnit of Language Sniffer.
  *	@package		Tests.net.http
- *	@extends		PHPUnit_Framework_TestCase
+ *	@extends		Test_Case
  *	@uses			Net_HTTP_Sniffer_Language
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			16.02.2008
  *	@version		0.1
  */
-class Test_Net_HTTP_Sniffer_LanguageTest extends PHPUnit_Framework_TestCase
+class Test_Net_HTTP_Sniffer_LanguageTest extends Test_Case
 {
 	private $session;
 	private $allowed	= array(

@@ -6,19 +6,17 @@
  *	@since			03.08.2008
  *	@version		0.1
  */
-if( !class_exists( 'PHPUnit_Framework_TestCase' ) )
-	require_once 'PHPUnit/Framework/TestCase.php';
 require_once 'Test/initLoaders.php5';
 /**
  *	TestUnit of Alg_SgmlTagReader.
  *	@package		Tests.alg
- *	@extends		PHPUnit_Framework_TestCase
+ *	@extends		Test_Case
  *	@uses			Alg_SgmlTagReader
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			03.08.2008
  *	@version		0.1
  */
-class Test_Alg_SgmlTagReaderTest extends PHPUnit_Framework_TestCase
+class Test_Alg_SgmlTagReaderTest extends Test_Case
 {
 	public $tag1	= '<a href="http://google.com/" target="_blank" class=\'test-class other\'>Google</a>';
 	public $tag2	= '<body font-color="#FF0000" onFocus="this.blur()">';

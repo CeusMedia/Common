@@ -2,25 +2,21 @@
 /**
  *	TestUnit of Test_ADT_Tree_Node.
  *	@package		Tests.adt.tree
- *	@extends		PHPUnit_Framework_TestCase
- *	@uses			Test_ADT_Tree_Node
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			12.07.2008
  *	@version		0.1
  */
-if( !class_exists( 'PHPUnit_Framework_TestCase' ) )
-	require_once 'PHPUnit/Framework/TestCase.php';
 require_once 'Test/initLoaders.php5';
 /**
  *	TestUnit of Test_ADT_Tree_Node.
  *	@package		Tests.adt.tree
- *	@extends		PHPUnit_Framework_TestCase
+ *	@extends		Test_Case
  *	@uses			Test_ADT_Tree_Node
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			12.07.2008
  *	@version		0.1
  */
-class Test_ADT_Tree_NodeTest extends PHPUnit_Framework_TestCase
+class Test_ADT_Tree_NodeTest extends Test_Case
 {
 	/**
 	 *	Constructor.

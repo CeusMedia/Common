@@ -6,20 +6,18 @@
  *	@since			02.05.2008
  *	@version		0.1
  */
-if( !class_exists( 'PHPUnit_Framework_TestCase' ) )
-	require_once 'PHPUnit/Framework/TestCase.php';
 require_once 'Test/initLoaders.php5';
 /**
  *	TestUnit of Net Service Definition XmlReader.
  *	@package		Tests.net.service.definition
- *	@extends		PHPUnit_Framework_TestCase
+ *	@extends		Test_Case
  *	@uses			Net_Service_Definition_XmlReader
  *	@uses			File_YAML_Reader
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			02.05.2008
  *	@version		0.1
  */
-class Test_Net_Service_Definition_XmlReaderTest extends PHPUnit_Framework_TestCase
+class Test_Net_Service_Definition_XmlReaderTest extends Test_Case
 {
 	/**
 	 *	Constructor.

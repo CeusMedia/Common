@@ -6,8 +6,6 @@
  *	@since			16.02.2008
  *	@version		0.6
  */
-if( !class_exists( 'PHPUnit_Framework_TestCase' ) )
-	require_once 'PHPUnit/Framework/TestCase.php';
 require_once 'Test/initLoaders.php5';
 /**
  *	UnitTest for Request Sender.
@@ -17,7 +15,7 @@ require_once 'Test/initLoaders.php5';
  *	@since			16.02.2008
  *	@version		0.6
  */
-class Test_Net_HTTP_Request_SenderTest extends PHPUnit_Framework_TestCase
+class Test_Net_HTTP_Request_SenderTest extends Test_Case
 {
 	public function testSend()
 	{
