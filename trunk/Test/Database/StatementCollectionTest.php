@@ -2,26 +2,22 @@
 /**
  *	TestUnit of Database_StatementCollection.
  *	@package		Tests.{classPackage}
- *	@extends		PHPUnit_Framework_TestCase
- *	@uses			Database_StatementCollection
- *	@uses			Database_StatementBuilder
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			02.05.2008
  *	@version		0.1
  */
-require_once( 'PHPUnit/Framework/TestCase.php' ); 
 require_once 'Test/initLoaders.php5';
 /**
  *	TestUnit of Database_StatementCollection.
  *	@package		Tests.{classPackage}
- *	@extends		PHPUnit_Framework_TestCase
+ *	@extends		Test_Case
  *	@uses			Database_StatementCollection
  *	@uses			Database_StatementBuilder
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			02.05.2008
  *	@version		0.1
  */
-class Test_Database_StatementCollectionTest extends PHPUnit_Framework_TestCase
+class Test_Database_StatementCollectionTest extends Test_Case
 {
 	/**
 	 *	Setup for every Test.

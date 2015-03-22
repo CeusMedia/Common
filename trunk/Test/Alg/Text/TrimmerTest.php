@@ -6,19 +6,17 @@
  *	@since			27.10.2008
  *	@version		0.1
  */
-if( !class_exists( 'PHPUnit_Framework_TestCase' ) )
-	require_once 'PHPUnit/Framework/TestCase.php';
 require_once 'Test/initLoaders.php5';
 /**
  *	TestUnit of Alg_Text_Trimmer.
  *	@package		Tests.alg
- *	@extends		PHPUnit_Framework_TestCase
+ *	@extends		Test_Case
  *	@uses			Alg_Text_Trimmer
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			27.10.2008
  *	@version		0.1
  */
-class Test_Alg_Text_TrimmerTest extends PHPUnit_Framework_TestCase
+class Test_Alg_Text_TrimmerTest extends Test_Case
 {
 	/**	@var		string		Default test string */
 	protected $string;

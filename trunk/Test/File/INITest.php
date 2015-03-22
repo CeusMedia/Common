@@ -2,24 +2,21 @@
 /**
  *	TestUnit of File_INI.
  *	@package		Tests.
- *	@extends		PHPUnit_Framework_TestCase
- *	@uses			File_INI
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			18.12.2010
  *	@version		0.1
  */
-require_once( 'PHPUnit/Framework/TestCase.php' ); 
 require_once( 'Test/initLoaders.php5' );
 /**
  *	TestUnit of File_INI.
  *	@package		Tests.
- *	@extends		PHPUnit_Framework_TestCase
+ *	@extends		Test_Case
  *	@uses			File_INI
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			18.12.2010
  *	@version		0.1
  */
-class Test_File_INITest extends PHPUnit_Framework_TestCase
+class Test_File_INITest extends Test_Case
 {
 	/**
 	 *	Constructor.

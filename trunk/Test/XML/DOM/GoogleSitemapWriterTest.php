@@ -6,19 +6,17 @@
  *	@since			18.02.2008
  *	@version		0.1
  */
-if( !class_exists( 'PHPUnit_Framework_TestCase' ) )
-	require_once 'PHPUnit/Framework/TestCase.php';
 require_once 'Test/initLoaders.php5';
 /**
  *	TestUnit of Google Sitemap Builder.
  *	@package		Tests.xml.dom
- *	@extends		PHPUnit_Framework_TestCase
+ *	@extends		Test_Case
  *	@uses			XML_DOM_GoogleSitemapWriter
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			18.02.2008
  *	@version		0.1
  */
-class Test_XML_DOM_GoogleSitemapWriterTest extends PHPUnit_Framework_TestCase
+class Test_XML_DOM_GoogleSitemapWriterTest extends Test_Case
 {
 	/**
 	 *	Sets up Builder.

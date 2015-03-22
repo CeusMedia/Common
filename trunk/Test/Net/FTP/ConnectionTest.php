@@ -6,19 +6,17 @@
  *	@since			01.07.2008
  *	@version		0.1
  */
-if( !class_exists( 'PHPUnit_Framework_TestCase' ) )
-	require_once 'PHPUnit/Framework/TestCase.php';
 require_once 'Test/initLoaders.php5';
 /**
  *	TestUnit of Net_FTP_Connection.
  *	@package		Tests.net.ftp
- *	@extends		PHPUnit_Framework_TestCase
+ *	@extends		Test_Case
  *	@uses			Net_FTP_Connection
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			01.07.2008
  *	@version		0.1
  */
-class Test_Net_FTP_ConnectionTest extends PHPUnit_Framework_TestCase
+class Test_Net_FTP_ConnectionTest extends Test_Case
 {
 	protected $connection;
 
@@ -53,7 +51,7 @@ class Test_Net_FTP_ConnectionTest extends PHPUnit_Framework_TestCase
 	public function setUp()
 	{
 		if( !$this->local )
-			return;
+			$this->markTestSkipped( 'No FTP data set in cmClasses.ini' );
 		@mkDir( $this->local );
 		$this->connection	= new Net_FTP_Connection( $this->host, $this->port );
 	}
@@ -78,8 +76,6 @@ class Test_Net_FTP_ConnectionTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testConstruct()
 	{
-		if( empty( $this->local ) )
-			$this->markTestIncomplete( 'No FTP data set in cmClasses.ini' );
 		$connection	= new Net_FTP_Connection( $this->host, $this->port );
 		$assertion	= TRUE;
 		$creation	= is_resource( $connection->getResource() );
@@ -97,8 +93,6 @@ class Test_Net_FTP_ConnectionTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testDestruct()
 	{
-		if( empty( $this->local ) )
-			$this->markTestIncomplete( 'No FTP data set in cmClasses.ini' );
 		$this->connection->__destruct();
 
 		$assertion	= NULL;
@@ -113,8 +107,6 @@ class Test_Net_FTP_ConnectionTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testCheckConnection()
 	{
-		if( empty( $this->local ) )
-			$this->markTestIncomplete( 'No FTP data set in cmClasses.ini' );
 		$connection	= new Net_FTP_Connection( $this->host, $this->port );
 		$creation	= $connection->checkConnection( TRUE, FALSE );
 		$connection->login( $this->username, $this->password );
@@ -128,8 +120,6 @@ class Test_Net_FTP_ConnectionTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testCheckConnectionException1()
 	{
-		if( empty( $this->local ) )
-			$this->markTestIncomplete( 'No FTP data set in cmClasses.ini' );
 		$this->connection->close();
 		$this->setExpectedException( 'RuntimeException' );
 		$this->connection->checkConnection( TRUE, FALSE );
@@ -142,8 +132,6 @@ class Test_Net_FTP_ConnectionTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testCheckConnectionException2()
 	{
-		if( empty( $this->local ) )
-			$this->markTestIncomplete( 'No FTP data set in cmClasses.ini' );
 		$this->setExpectedException( 'RuntimeException' );
 		$this->connection->checkConnection( TRUE, TRUE );
 	}
@@ -155,8 +143,6 @@ class Test_Net_FTP_ConnectionTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testClose()
 	{
-		if( empty( $this->local ) )
-			$this->markTestIncomplete( 'No FTP data set in cmClasses.ini' );
 		$assertion	= TRUE;
 		$creation	= $this->connection->close();
 		$this->assertEquals( $assertion, $creation );
@@ -169,8 +155,6 @@ class Test_Net_FTP_ConnectionTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testConnect()
 	{
-		if( empty( $this->local ) )
-			$this->markTestIncomplete( 'No FTP data set in cmClasses.ini' );
 		$connection	= new Net_FTP_Connection( "127.0.0.1", 21, 2 );
 		$assertion	= TRUE;
 		$creation	= is_resource( $connection->getResource() );
@@ -193,8 +177,6 @@ class Test_Net_FTP_ConnectionTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetHost()
 	{
-		if( empty( $this->local ) )
-			$this->markTestIncomplete( 'No FTP data set in cmClasses.ini' );
 		$assertion	= $this->host;
 		$creation	= $this->connection->getHost();
 		$this->assertEquals( $assertion, $creation );
@@ -207,8 +189,6 @@ class Test_Net_FTP_ConnectionTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetPort()
 	{
-		if( empty( $this->local ) )
-			$this->markTestIncomplete( 'No FTP data set in cmClasses.ini' );
 		$assertion	= $this->port;
 		$creation	= $this->connection->getPort();
 		$this->assertEquals( $assertion, $creation );
@@ -221,9 +201,6 @@ class Test_Net_FTP_ConnectionTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetPath()
 	{
-		if( empty( $this->local ) )
-			$this->markTestIncomplete( 'No FTP data set in cmClasses.ini' );
-
 		$this->login();
 
 		$assertion	= preg_replace( '/^(.+)\/$/', '\\1', "/".$this->path );
@@ -248,8 +225,6 @@ class Test_Net_FTP_ConnectionTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetResource()
 	{
-		if( empty( $this->local ) )
-			$this->markTestIncomplete( 'No FTP data set in cmClasses.ini' );
 		$assertion	= TRUE;
 		$creation	= is_resource( $this->connection->getResource() );
 		$this->assertEquals( $assertion, $creation );
@@ -268,8 +243,6 @@ class Test_Net_FTP_ConnectionTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetTimeout()
 	{
-		if( empty( $this->local ) )
-			$this->markTestIncomplete( 'No FTP data set in cmClasses.ini' );
 		$assertion	= 90;
 		$creation	= $this->connection->getTimeout();
 		$this->assertEquals( $assertion, $creation );
@@ -288,8 +261,6 @@ class Test_Net_FTP_ConnectionTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testLogin()
 	{
-		if( empty( $this->local ) )
-			$this->markTestIncomplete( 'No FTP data set in cmClasses.ini' );
 		$assertion	= TRUE;
 		$creation	= $this->connection->login( $this->username, $this->password );
 		$this->assertEquals( $assertion, $creation );
@@ -306,8 +277,6 @@ class Test_Net_FTP_ConnectionTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testSetTransferMode()
 	{
-		if( empty( $this->local ) )
-			$this->markTestIncomplete( 'No FTP data set in cmClasses.ini' );
 		$assertion	= TRUE;
 		$creation	= $this->connection->setTransferMode( FTP_ASCII );
 		$this->assertEquals( $assertion, $creation );
@@ -328,8 +297,6 @@ class Test_Net_FTP_ConnectionTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testSetPath()
 	{
-		if( empty( $this->local ) )
-			$this->markTestIncomplete( 'No FTP data set in cmClasses.ini' );
 		@rmDir( $this->local."folder" );
 		@mkDir( $this->local."folder" );
 
@@ -357,8 +324,6 @@ class Test_Net_FTP_ConnectionTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testSetTimeout()
 	{
-		if( empty( $this->local ) )
-			$this->markTestIncomplete( 'No FTP data set in cmClasses.ini' );
 		$assertion	= FALSE;
 		$creation	= $this->connection->setTimeout( 0 );
 		$this->assertEquals( $assertion, $creation );

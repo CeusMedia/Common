@@ -1,21 +1,20 @@
 <?php
 /**
  *	TestUnit of YAML Reader.
- *	@package		Tests.file.yaml
+ *	@package		Test.File.YAML
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@version		0.1
  */
-require_once 'PHPUnit/Framework/TestCase.php'; 
 require_once 'Test/initLoaders.php5';
 /**
  *	TestUnit of YAML Reader.
- *	@package		Tests.file.yaml
- *	@extends		PHPUnit_Framework_TestCase
+ *	@package		Test.File.YAML
+ *	@extends		Test_Case
  *	@uses			File_YAML_Reader
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@version		0.1
  */
-class Test_File_YAML_ReaderTest extends PHPUnit_Framework_TestCase
+class Test_File_YAML_ReaderTest extends Test_Case
 {
 	/**	@var	string		$fileName		File Name of Test File */
 	private $fileName;

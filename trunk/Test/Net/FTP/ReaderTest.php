@@ -6,20 +6,18 @@
  *	@since			01.07.2008
  *	@version		0.1
  */
-if( !class_exists( 'PHPUnit_Framework_TestCase' ) )
-	require_once 'PHPUnit/Framework/TestCase.php';
 require_once 'Test/initLoaders.php5';
 /**
  *	TestUnit of Net_FTP_Reader.
  *	@package		Tests.
- *	@extends		PHPUnit_Framework_TestCase
+ *	@extends		Test_Case
  *	@uses			Net_FTP_Connection
  *	@uses			Net_FTP_Reader
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			01.07.2008
  *	@version		0.1
  */
-class Test_Net_FTP_ReaderTest extends PHPUnit_Framework_TestCase
+class Test_Net_FTP_ReaderTest extends Test_Case
 {
 	/**
 	 *	Constructor.
@@ -46,7 +44,7 @@ class Test_Net_FTP_ReaderTest extends PHPUnit_Framework_TestCase
 	public function setUp()
 	{
 		if( !$this->local )
-			return;
+			$this->markTestSkipped( 'No FTP data set in cmClasses.ini' );
 		$this->connection	= new Net_FTP_Connection( $this->host, $this->port );
 		$this->connection->login( $this->username, $this->password );
 
@@ -98,8 +96,6 @@ class Test_Net_FTP_ReaderTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetFile()
 	{
-		if( !$this->local )
-			$this->markTestIncomplete( 'No FTP data set in cmClasses.ini' );
 		$assertion	= TRUE;
 		$creation	= $this->reader->getFile( "test1.txt", "test_getFile" );
 		$this->assertEquals( $assertion, $creation );
@@ -128,8 +124,6 @@ class Test_Net_FTP_ReaderTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetFileList()
 	{
-		if( !$this->local )
-			$this->markTestIncomplete( 'No FTP data set in cmClasses.ini' );
 		$files		= $this->reader->getFileList( "folder" );
 		$assertion	= 2;
 		$creation	= count( $files );
@@ -156,8 +150,6 @@ class Test_Net_FTP_ReaderTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetFolderList()
 	{
-		if( !$this->local )
-			$this->markTestIncomplete( 'No FTP data set in cmClasses.ini' );
 		$folders	= $this->reader->getFolderList();
 		$assertion	= 1;
 		$creation	= count( $folders );
@@ -189,8 +181,6 @@ class Test_Net_FTP_ReaderTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetList()
 	{
-		if( !$this->local )
-			$this->markTestIncomplete( 'No FTP data set in cmClasses.ini' );
 		$files		= array();
 		$list		= $this->reader->getList();
 		foreach( $list as $entry )
@@ -224,9 +214,6 @@ class Test_Net_FTP_ReaderTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetPath()
 	{
-		if( !$this->local )
-			$this->markTestIncomplete( 'No FTP data set in cmClasses.ini' );
-
 		$assertion	= preg_replace( '/^(.+)\/$/', '\\1', "/".$this->path );
 		$creation	= $this->reader->getPath();
 		$this->assertEquals( $assertion, $creation );
@@ -245,8 +232,6 @@ class Test_Net_FTP_ReaderTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testGetPermissionsAsOctal()
 	{
-		if( !$this->local )
-			$this->markTestIncomplete( 'No FTP data set in cmClasses.ini' );
 		$assertion	= '0777';
 		$creation	= $this->reader->getPermissionsAsOctal( "drwxrwxrwx" );
 		$this->assertEquals( $assertion, $creation );
@@ -271,8 +256,6 @@ class Test_Net_FTP_ReaderTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testSearchFile()
 	{
-		if( !$this->local )
-			$this->markTestIncomplete( 'No FTP data set in cmClasses.ini' );
 		$files		= $this->reader->searchFile( "test1.txt" );
 		$assertion	= 1;
 		$creation	= count( $files );
@@ -295,8 +278,6 @@ class Test_Net_FTP_ReaderTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testSearchFolder()
 	{
-		if( !$this->local )
-			$this->markTestIncomplete( 'No FTP data set in cmClasses.ini' );
 		$folders	= $this->reader->searchFolder( "folder" );
 		$assertion	= 1;
 		$creation	= count( $folders );
@@ -326,8 +307,6 @@ class Test_Net_FTP_ReaderTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testSetPath()
 	{
-		if( !$this->local )
-			$this->markTestIncomplete( 'No FTP data set in cmClasses.ini' );
 		$assertion	= FALSE;
 		$creation	= $this->reader->setPath( "not_existing" );
 		$this->assertEquals( $assertion, $creation );

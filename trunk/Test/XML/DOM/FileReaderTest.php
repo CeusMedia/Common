@@ -6,20 +6,18 @@
  *	@since			11.12.2007
  *	@version		0.1
  */
-if( !class_exists( 'PHPUnit_Framework_TestCase' ) )
-	require_once 'PHPUnit/Framework/TestCase.php'; 
 require_once 'Test/initLoaders.php5';
 /**
  *	TestUnit of XML DOM File Writer.
  *	@package		Tests.xml.dom
- *	@extends		PHPUnit_Framework_TestCase
+ *	@extends		Test_Case
  *	@uses			XML_DOM_FileReader
  *	@uses			XML_DOM_Node
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			11.12.2007
  *	@version		0.1
  */
-class Test_XML_DOM_FileReaderTest extends PHPUnit_Framework_TestCase
+class Test_XML_DOM_FileReaderTest extends Test_Case
 {
 	/**
 	 *	Constructor.

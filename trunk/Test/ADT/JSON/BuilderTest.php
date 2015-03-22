@@ -2,23 +2,19 @@
 /**
  *	TestUnit of LinkList
  *	@package		Tests.adt.list
- *	@extends		PHPUnit_Framework_TestCase
- *	@uses			BinaryTree
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@version		0.1
  */
-if( !class_exists( 'PHPUnit_Framework_TestCase' ) )
-	require_once 'PHPUnit/Framework/TestCase.php';
 require_once 'Test/initLoaders.php5';
 /**
  *	TestUnit of LinkList
  *	@package		Tests.adt.json
- *	@extends		PHPUnit_Framework_TestCase
+ *	@extends		Test_Case
  *	@uses			Test_ADT_JSON_Builder
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@version		0.1
  */
-class Test_ADT_JSON_BuilderTest extends PHPUnit_Framework_TestCase
+class Test_ADT_JSON_BuilderTest extends Test_Case
 {
 	/**
 	 *	Constructor.

@@ -6,18 +6,17 @@
  *	@since			19.04.2009
  *	@version		0.1
  */
-require_once 'PHPUnit/Framework/TestCase.php';
 require_once 'Test/initLoaders.php5';
 /**
  *	TestUnit of File_StaticCache.
  *	@package		Tests.file
- *	@extends		PHPUnit_Framework_TestCase
+ *	@extends		Test_Case
  *	@uses			File_StaticCache
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			19.04.2009
  *	@version		0.1
  */
-class Test_File_StaticCacheTest extends PHPUnit_Framework_TestCase
+class Test_File_StaticCacheTest extends Test_Case
 {
 	/**
 	 *	Constructor.

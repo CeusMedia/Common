@@ -2,24 +2,21 @@
 /**
  *	TestUnit of UI_DevOutput.
  *	@package		Tests.UI
- *	@extends		PHPUnit_Framework_TestCase
- *	@uses			UI_DevOutput
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			13.06.2013
  *	@version		0.1
  */
-require_once( 'PHPUnit/Framework/TestCase.php' ); 
 require_once( 'Test/initLoaders.php5' );
 /**
  *	TestUnit of UI_DevOutput.
  *	@package		Tests.UI
- *	@extends		PHPUnit_Framework_TestCase
+ *	@extends		Test_Case
  *	@uses			UI_DevOutput
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			13.06.2013
  *	@version		0.1
  */
-class Test_UI_DevOutputTest extends PHPUnit_Framework_TestCase
+class Test_UI_DevOutputTest extends Test_Case
 {
 	/**
 	 *	Constructor.

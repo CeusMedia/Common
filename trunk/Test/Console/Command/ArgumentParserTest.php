@@ -6,18 +6,17 @@
  *	@since			24.10.2008
  *	@version		0.1
  */
-require_once 'PHPUnit/Framework/TestCase.php';
 require_once 'Test/initLoaders.php5';
 /**
  *	TestUnit of Console_Command_ArgumentParser.
  *	@package		Tests.
- *	@extends		PHPUnit_Framework_TestCase
+ *	@extends		Test_Case
  *	@uses			Console_Command_ArgumentParser
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			24.10.2008
  *	@version		0.1
  */
-class Test_Console_Command_ArgumentParserTest extends PHPUnit_Framework_TestCase
+class Test_Console_Command_ArgumentParserTest extends Test_Case
 {
 	/**
 	 *	Constructor.

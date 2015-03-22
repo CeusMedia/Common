@@ -6,19 +6,17 @@
  *	@since			19.06.2008
  *	@version		0.1
  */
-if( !class_exists( 'PHPUnit_Framework_TestCase' ) )
-	require_once 'PHPUnit/Framework/TestCase.php'; 
 require_once 'Test/initLoaders.php5';
 /**
  *	TestUnit of Clock.
  *	@package		Tests.
- *	@extends		PHPUnit_Framework_TestCase
+ *	@extends		Test_Case
  *	@uses			Alg_Time_Clock
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			19.06.2008
  *	@version		0.1
  */
-final class Test_Alg_Time_ClockTest extends PHPUnit_Framework_TestCase
+final class Test_Alg_Time_ClockTest extends Test_Case
 {
 	/**
 	 *	Constructor.

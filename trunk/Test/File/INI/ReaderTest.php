@@ -1,21 +1,20 @@
 <?php
 /**
  *	TestUnit of INI Reader.
- *	@package		Tests.file.yaml
+ *	@package		Tests.file.ini
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@version		0.1
  */
-require_once 'PHPUnit/Framework/TestCase.php'; 
 require_once 'Test/initLoaders.php5';
 /**
  *	TestUnit of INI Reader.
- *	@package		Tests.file.yaml
- *	@extends		PHPUnit_Framework_TestCase
+ *	@package		Tests.file.ini
+ *	@extends		Test_Case
  *	@uses			File_INI_Reader
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@version		0.1
  */
-class Test_File_INI_ReaderTest extends PHPUnit_Framework_TestCase
+class Test_File_INI_ReaderTest extends Test_Case
 {
 	/**	@var	string		$fileName		File Name of Test File */
 	private $fileName;

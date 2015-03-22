@@ -6,18 +6,17 @@
  *	@since			15.06.2008
  *	@version		$Id$
  */
-require_once 'PHPUnit/Framework/TestCase.php';
 require_once 'Test/initLoaders.php5';
 /**
  *	TestUnit of File_NameFilter.
  *	@package		Tests.File
- *	@extends		PHPUnit_Framework_TestCase
+ *	@extends		Test_Case
  *	@uses			File_NameFilter
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			15.06.2008
  *	@version		$Id$
  */
-class Test_File_NameFilterTest extends PHPUnit_Framework_TestCase
+class Test_File_NameFilterTest extends Test_Case
 {
 	/**
 	 *	Constructor.

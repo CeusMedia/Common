@@ -2,25 +2,21 @@
 /**
  *	TestUnit of Test_ADT_List_SectionList.
  *	@package		Tests.adt.list
- *	@extends		PHPUnit_Framework_TestCase
- *	@uses			Test_ADT_List_SectionList
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			21.07.2008
  *	@version		0.1
  */
-if( !class_exists( 'PHPUnit_Framework_TestCase' ) )
-	require_once 'PHPUnit/Framework/TestCase.php';
 require_once 'Test/initLoaders.php5';
 /**
  *	TestUnit of Test_ADT_List_SectionList.
  *	@package		Tests.adt.list
- *	@extends		PHPUnit_Framework_TestCase
+ *	@extends		Test_Case
  *	@uses			Test_ADT_List_SectionList
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			21.07.2008
  *	@version		0.1
  */
-class Test_ADT_List_SectionListTest extends PHPUnit_Framework_TestCase
+class Test_ADT_List_SectionListTest extends Test_Case
 {
 	/**	@var	array		$list		Instance of SectionList */
 	private $list;

@@ -6,18 +6,17 @@
  *	@since			04.01.2009
  *	@version		$Id$
  */
-require_once 'PHPUnit/Framework/TestCase.php';
 require_once 'Test/initLoaders.php5';
 /**
  *	TestUnit of File_PHP_Check_MethodVisibility.
  *	@package		Tests.file.php
- *	@extends		PHPUnit_Framework_TestCase
+ *	@extends		Test_Case
  *	@uses			File_PHP_Check_MethodVisibility
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			04.01.2009
  *	@version		$Id$
  */
-class Test_File_PHP_Check_MethodVisibilityTest extends PHPUnit_Framework_TestCase
+class Test_File_PHP_Check_MethodVisibilityTest extends Test_Case
 {
 	/**
 	 *	Constructor.

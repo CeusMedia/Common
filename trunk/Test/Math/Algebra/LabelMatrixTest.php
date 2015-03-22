@@ -6,19 +6,17 @@
  *	@since			17.06.2008
  *	@version		0.1
  */
-if( !class_exists( 'PHPUnit_Framework_TestCase' ) )
-	require_once 'PHPUnit/Framework/TestCase.php';
 require_once 'Test/initLoaders.php5';
 /**
  *	TestUnit of Math_Algebra_LabelMatrix.
  *	@package		Tests.math.algebra
- *	@extends		PHPUnit_Framework_TestCase
+ *	@extends		Test_Case
  *	@uses			Math_Algebra_LabelMatrix
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			17.06.2008
  *	@version		0.1
  */
-class Test_Math_Algebra_LabelMatrixTest extends PHPUnit_Framework_TestCase
+class Test_Math_Algebra_LabelMatrixTest extends Test_Case
 {
 	/**
 	 *	Constructor.

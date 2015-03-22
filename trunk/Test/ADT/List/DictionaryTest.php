@@ -2,23 +2,19 @@
 /**
  *	TestUnit of Dictionary
  *	@package		Tests.adt.list
- *	@extends		PHPUnit_Framework_TestCase
- *	@uses			Test_ADT_List_Dictionay
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@version		0.1
  */
-if( !class_exists( 'PHPUnit_Framework_TestCase' ) )
-	require_once 'PHPUnit/Framework/TestCase.php';
 require_once 'Test/initLoaders.php5';
 /**
  *	TestUnit of Dictionary
  *	@package		Tests.adt.list
- *	@extends		PHPUnit_Framework_TestCase
+ *	@extends		Test_Case
  *	@uses			Test_ADT_List_Dictionay
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@version		0.1
  */
-class Test_ADT_List_DictionaryTest extends PHPUnit_Framework_TestCase
+class Test_ADT_List_DictionaryTest extends Test_Case
 {
 	/**	@var	ADT_List_Dictionary		$list		Instance of Dictionary */
 	private $dictionary;

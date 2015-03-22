@@ -5,11 +5,11 @@
  *	@since			21.04.2008
  *	@version		0.1
  */
-require_once 'PHPUnit/Framework/TestCase.php';
+require_once 'Test/initLoaders.php5';
 /**
  *	TestUnit of Folder Editor.
  *	@package		Tests.folder
- *	@extends		PHPUnit_Framework_TestCase
+ *	@extends		Test_Case
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			21.04.2008
  *	@version		0.1
@@ -47,7 +47,7 @@ require_once 'PHPUnit/Framework/TestCase.php';
  *	      ° file3_2_1
  *	      ° .file3_2_2
  */
-class Test_Folder_TestCase extends PHPUnit_Framework_TestCase
+class Test_Folder_TestCase extends Test_Case
 {
 	/**
 	 *	Constructor, creates File Structure.

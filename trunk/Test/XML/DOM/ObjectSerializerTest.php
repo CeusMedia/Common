@@ -7,20 +7,18 @@
  *	@since			11.12.2007
  *	@version		0.1
  */
-if( !class_exists( 'PHPUnit_Framework_TestCase' ) )
-	require_once 'PHPUnit/Framework/TestCase.php'; 
 require_once 'Test/initLoaders.php5';
 /**
  *	TestUnit of XML DOM Object Serializer.
  *	@package		Tests.xml.dom
- *	@extends		PHPUnit_Framework_TestCase
+ *	@extends		Test_Case
  *	@uses			XML_DOM_ObjectSerializer
  *	@uses			Test_Object
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			11.12.2007
  *	@version		0.1
  */
-class Test_XML_DOM_ObjectSerializerTest extends PHPUnit_Framework_TestCase
+class Test_XML_DOM_ObjectSerializerTest extends Test_Case
 {
 	/**
 	 *	Constructor.

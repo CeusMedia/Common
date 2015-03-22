@@ -6,19 +6,17 @@
  *	@since			02.05.2008
  *	@version		0.1
  */
-if( !class_exists( 'PHPUnit_Framework_TestCase' ) )
-	require_once 'PHPUnit/Framework/TestCase.php';
 require_once 'Test/initLoaders.php5';
 /**
  *	TestUnit of XML_WDDX_Parser.
  *	@package		Tests.xml.wddx
- *	@extends		PHPUnit_Framework_TestCase
+ *	@extends		Test_Case
  *	@uses			XML_WDDX_Parser
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			02.05.2008
  *	@version		0.1
  */
-class Test_XML_WDDX_ParserTest extends PHPUnit_Framework_TestCase
+class Test_XML_WDDX_ParserTest extends Test_Case
 {
 	/**
 	 *	Constructor.
@@ -29,7 +27,7 @@ class Test_XML_WDDX_ParserTest extends PHPUnit_Framework_TestCase
 	{
 		$this->path	= dirname( __FILE__ )."/";
 	}
-	
+
 	/**
 	 *	Setup for every Test.
 	 *	@access		public
@@ -37,8 +35,10 @@ class Test_XML_WDDX_ParserTest extends PHPUnit_Framework_TestCase
 	 */
 	public function setUp()
 	{
+		if( !extension_loaded( 'wddx' ) )
+			$this->markTestSkipped( 'Missing WDDX support' );
 	}
-	
+
 	/**
 	 *	Cleanup after every Test.
 	 *	@access		public
@@ -55,8 +55,6 @@ class Test_XML_WDDX_ParserTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testParse()
 	{
-		if( !function_exists( 'wddx_packet_start' ) )
-			return;
 		$content	= file_get_contents( $this->path."reader.wddx" );
 		$data		= array(
 			'data'	=> array(
@@ -66,7 +64,7 @@ class Test_XML_WDDX_ParserTest extends PHPUnit_Framework_TestCase
 				'test_double'	=> 3.1415926,
 			)
 		);
-		
+
 		$assertion	= $data;
 		$creation	= XML_WDDX_Parser::parse( $content );
 		$this->assertEquals( $assertion, $creation );

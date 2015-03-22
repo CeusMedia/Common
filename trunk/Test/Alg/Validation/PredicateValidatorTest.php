@@ -2,25 +2,21 @@
 /**
  *	TestUnit of Predicate Validator.
  *	@package		Tests.alg.validation
- *	@extends		PHPUnit_Framework_TestCase
- *	@uses			Alg_Validation_PredicateValidator
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			14.02.2008
  *	@version		0.1
  */
-if( !class_exists( 'PHPUnit_Framework_TestCase' ) )
-	require_once 'PHPUnit/Framework/TestCase.php'; 
 require_once 'Test/initLoaders.php5';
 /**
  *	TestUnit of Predicate Validator.
  *	@package		Tests.alg.validation
- *	@extends		PHPUnit_Framework_TestCase
+ *	@extends		Test_Case
  *	@uses			Alg_Validation_PredicateValidator
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			14.02.2008
  *	@version		0.1
  */
-class Test_Alg_Validation_PredicateValidatorTest extends PHPUnit_Framework_TestCase
+class Test_Alg_Validation_PredicateValidatorTest extends Test_Case
 {
 	public function __construct()
 	{

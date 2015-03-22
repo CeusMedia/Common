@@ -6,19 +6,17 @@
  *	@since			03.05.2008
  *	@version		0.1
  */
-if( !class_exists( 'PHPUnit_Framework_TestCase' ) )
-	require_once 'PHPUnit/Framework/TestCase.php';
 require_once 'Test/initLoaders.php5';
 /**
  *	TestUnit of XML_WDDX_FileReader.
  *	@package		Tests.{classPackage}
- *	@extends		PHPUnit_Framework_TestCase
+ *	@extends		Test_Case
  *	@uses			XML_WDDX_FileReader
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			03.05.2008
  *	@version		0.1
  */
-class Test_XML_WDDX_FileReaderTest extends PHPUnit_Framework_TestCase
+class Test_XML_WDDX_FileReaderTest extends Test_Case
 {
 	/**
 	 *	Constructor.
@@ -27,11 +25,8 @@ class Test_XML_WDDX_FileReaderTest extends PHPUnit_Framework_TestCase
 	 */
 	public function __construct()
 	{
-		if( !function_exists( 'wddx_packet_start' ) )
-			return;
 		$this->path		= dirname( __FILE__ )."/";
 		$this->fileName	= $this->path."reader.wddx";
-		$this->reader	= new XML_WDDX_FileReader( $this->fileName );
 		$this->data		= array(
 			'data'	=> array(
 				'test_string'	=> "data to be passed by WDDX",
@@ -42,6 +37,11 @@ class Test_XML_WDDX_FileReaderTest extends PHPUnit_Framework_TestCase
 		);
 	}
 
+	public function setUp(){
+		if( !extension_loaded( 'wddx' ) )
+			$this->markTestSkipped( 'Missing WDDX support' );
+	}
+
 	/**
 	 *	Tests Method '__construct'.
 	 *	@access		public
@@ -49,8 +49,6 @@ class Test_XML_WDDX_FileReaderTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testConstruct()
 	{
-		if( !function_exists( 'wddx_packet_start' ) )
-			return;
 		$reader	= new XML_WDDX_FileReader( $this->fileName );
 
 		$assertion	= $this->data;
@@ -65,8 +63,6 @@ class Test_XML_WDDX_FileReaderTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testRead()
 	{
-		if( !function_exists( 'wddx_packet_start' ) )
-			return;
 		$assertion	= $this->data;
 		$creation	= $this->reader->read();
 		$this->assertEquals( $assertion, $creation );
@@ -79,8 +75,6 @@ class Test_XML_WDDX_FileReaderTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testLoad()
 	{
-		if( !function_exists( 'wddx_packet_start' ) )
-			return;
 		$assertion	= $this->data;
 		$creation	= XML_WDDX_FileReader::load( $this->fileName );
 		$this->assertEquals( $assertion, $creation );

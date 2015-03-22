@@ -6,18 +6,17 @@
  *	@since			22.04.2008
  *	@version		0.1
  */
-require_once 'PHPUnit/Framework/TestCase.php';
 require_once 'Test/initLoaders.php5';
 /**
  *	TestUnit of Gauss Blur.
  *	@package		Tests.ui.html
- *	@extends		PHPUnit_Framework_TestCase
+ *	@extends		Test_Case
  *	@uses			UI_HTML_FormElements
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			22.04.2008
  *	@version		0.1
  */
-class Test_UI_HTML_FormElementsTest extends PHPUnit_Framework_TestCase
+class Test_UI_HTML_FormElementsTest extends Test_Case
 {
 	/**
 	 *	Tests Method 'Button'.

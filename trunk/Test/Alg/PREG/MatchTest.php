@@ -6,19 +6,17 @@
  *	@since			22.12.2008
  *	@version		0.1
  */
-if( !class_exists( 'PHPUnit_Framework_TestCase' ) )
-	require_once 'PHPUnit/Framework/TestCase.php';
 require_once 'Test/initLoaders.php5';
 /**
  *	TestUnit of Alg_PREG_Match.
  *	@package		Tests.
- *	@extends		PHPUnit_Framework_TestCase
+ *	@extends		Test_Case
  *	@uses			Alg_Preg_Match
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			22.12.2008
  *	@version		0.1
  */
-class Test_Alg_PREG_MatchTest extends PHPUnit_Framework_TestCase
+class Test_Alg_PREG_MatchTest extends Test_Case
 {
 	/**
 	 *	Tests Exception of Method 'accept'.

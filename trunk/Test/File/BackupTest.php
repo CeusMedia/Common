@@ -5,17 +5,16 @@
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@version		0.1
  */
-require_once 'PHPUnit/Framework/TestCase.php';
 require_once 'Test/initLoaders.php5';
 /**
  *	Test class for File_Backup.
  *	@package		Tests.file
- *	@extends		PHPUnit_Framework_TestCase
+ *	@extends		Test_Case
  *	@uses			File_Editor
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@version		0.1
  */
-class Test_File_BackupTest extends PHPUnit_Framework_TestCase{
+class Test_File_BackupTest extends Test_Case{
 
 	protected $filePath;
 	protected $path;

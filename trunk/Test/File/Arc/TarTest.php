@@ -5,17 +5,16 @@
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@version		0.1
  */
-require_once 'PHPUnit/Framework/TestCase.php'; 
 require_once 'Test/initLoaders.php5';
 /**
  *	TestUnit of Tar File.
  *	@package		Tests.file.arc
- *	@extends		PHPUnit_Framework_TestCase
+ *	@extends		Test_Case
  *	@uses			File_Arc_Tar
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@version		0.1
  */
-class Test_File_Arc_TarTest extends PHPUnit_Framework_TestCase
+class Test_File_Arc_TarTest extends Test_Case
 {
 	/**	@var	string		$fileName		URL of Archive File Name */
 	private $fileName;

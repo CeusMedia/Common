@@ -2,25 +2,21 @@
 /**
  *	TestUnit of Alg_Text_CamelCase.
  *	@package		Tests.alg
- *	@extends		PHPUnit_Framework_TestCase
- *	@uses			Alg_Text_CamelCase
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			22.10.2008
  *	@version		0.1
  */
-if( !class_exists( 'PHPUnit_Framework_TestCase' ) )
-	require_once 'PHPUnit/Framework/TestCase.php';
 require_once 'Test/initLoaders.php5';
 /**
  *	TestUnit of Alg_Text_CamelCase.
  *	@package		Tests.alg
- *	@extends		PHPUnit_Framework_TestCase
+ *	@extends		Test_Case
  *	@uses			Alg_Text_CamelCase
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			22.10.2008
  *	@version		0.1
  */
-class Test_Alg_Text_CamelCaseTest extends PHPUnit_Framework_TestCase
+class Test_Alg_Text_CamelCaseTest extends Test_Case
 {
 	/**
 	 *	Constructor.

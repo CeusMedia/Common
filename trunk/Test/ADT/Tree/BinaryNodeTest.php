@@ -2,23 +2,19 @@
 /**
  *	Unit Test of Binary Node.
  *	@package		Tests.adt.list
- *	@extends		PHPUnit_Framework_TestCase
- *	@uses			Test_ADT_Tree_BinaryNode
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@version		0.2
  */
-if( !class_exists( 'PHPUnit_Framework_TestCase' ) )
-	require_once 'PHPUnit/Framework/TestCase.php';
 require_once 'Test/initLoaders.php5';
 /**
  *	Unit Test of Binary Node.
  *	@package		Tests.adt.list
- *	@extends		PHPUnit_Framework_TestCase
+ *	@extends		Test_Case
  *	@uses			Test_ADT_Tree_BinaryNode
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@version		0.2
  */
-class Test_ADT_Tree_BinaryNodeTest extends PHPUnit_Framework_TestCase
+class Test_ADT_Tree_BinaryNodeTest extends Test_Case
 {
 	/**	@var	array		$list		Instance of BinaryTree */
 	private $tree;

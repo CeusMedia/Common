@@ -6,18 +6,17 @@
  *	@since			10.08.2008
  *	@version		0.1
  */
-require_once 'PHPUnit/Framework/TestCase.php';
 require_once 'Test/initLoaders.php5';
 /**
  *	TestUnit of File_PHP_Parser_Regular.
  *	@package		Tests.file.php
- *	@extends		PHPUnit_Framework_TestCase
+ *	@extends		Test_Case
  *	@uses			File_PHP_Parser_Regular
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			10.08.2008
  *	@version		0.1
  */
-class Test_File_PHP_Parser_RegularTest extends PHPUnit_Framework_TestCase
+class Test_File_PHP_Parser_RegularTest extends Test_Case
 {
 	/**
 	 *	Constructor.

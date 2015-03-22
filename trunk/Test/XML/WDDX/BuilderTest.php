@@ -6,19 +6,17 @@
  *	@since			02.05.2008
  *	@version		0.1
  */
-if( !class_exists( 'PHPUnit_Framework_TestCase' ) )
-	require_once 'PHPUnit/Framework/TestCase.php';
 require_once 'Test/initLoaders.php5';
 /**
  *	TestUnit of XML_WDDX_Builder.
  *	@package		Tests.xml.wddx
- *	@extends		PHPUnit_Framework_TestCase
+ *	@extends		Test_Case
  *	@uses			XML_WDDX_Builder
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			02.05.2008
  *	@version		0.1
  */
-class Test_XML_WDDX_BuilderTest extends PHPUnit_Framework_TestCase
+class Test_XML_WDDX_BuilderTest extends Test_Case
 {
 	/**
 	 *	Constructor.
@@ -27,8 +25,11 @@ class Test_XML_WDDX_BuilderTest extends PHPUnit_Framework_TestCase
 	 */
 	public function __construct()
 	{
-		if( !function_exists( 'wddx_packet_start' ) )
-			return;
+	}
+
+	public function setUp(){
+		if( !extension_loaded( 'wddx' ) )
+			$this->markTestSkipped( 'Missing WDDX support' );
 		$this->builder	= new XML_WDDX_Builder( 'test' );
 	}
 
@@ -39,8 +40,6 @@ class Test_XML_WDDX_BuilderTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testConstruct()
 	{
-		if( !function_exists( 'wddx_packet_start' ) )
-			return;
 		$builder	= new XML_WDDX_Builder( 'constructorTest' );
 		$assertion	= "<wddxPacket version='1.0'><header><comment>constructorTest</comment></header><data><struct></struct></data></wddxPacket>";
 		$creation	= $builder->build();
@@ -59,8 +58,6 @@ class Test_XML_WDDX_BuilderTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testAdd()
 	{
-		if( !function_exists( 'wddx_packet_start' ) )
-			return;
 		$assertion	= TRUE;
 		$creation	= $this->builder->add( 'testKey1', 'testValue1' );
 		$this->assertEquals( $assertion, $creation );
@@ -77,8 +74,6 @@ class Test_XML_WDDX_BuilderTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testBuild()
 	{
-		if( !function_exists( 'wddx_packet_start' ) )
-			return;
 		$assertion	= "<wddxPacket version='1.0'><header><comment>test</comment></header><data><struct></struct></data></wddxPacket>";
 		$creation	= $this->builder->build();
 		$this->assertEquals( $assertion, $creation );
