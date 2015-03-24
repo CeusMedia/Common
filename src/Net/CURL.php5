@@ -116,7 +116,7 @@ class Net_CURL
 	public function __construct( $url = NULL )
 	{
 		if( !extension_loaded( 'curl' ) )
-			throw new RuntimeException( "No cURL support in PHP available" );
+			throw new RuntimeException( "Support for cURL is missing" );
 		$this->handle	= curl_init();
 		$this->caseless	= NULL;
 		$this->header	= NULL;
