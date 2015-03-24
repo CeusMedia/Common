@@ -85,7 +85,7 @@ class Net_XMPP_MessageSender
 	{
 		$this->disconnect();
 	}
-	
+
 	/**
 	 *	Establishs Connection to XMPP Server.
 	 *	@access		public
@@ -110,7 +110,7 @@ class Net_XMPP_MessageSender
 		$this->xmpp->connect();
 		$this->xmpp->processUntil( 'session_start' );
 	}
-	
+
 	/**
 	 *	Closes Connection if still open.
 	 *	@access		public
@@ -157,7 +157,7 @@ class Net_XMPP_MessageSender
 			$receiver	= new Net_XMPP_JID( $receiver );
 		if( !$this->xmpp )
 			throw new RuntimeException( 'Not connected to Server.' );
-		$this->xmpp->message( $receiver->get(), $message );	
+		$this->xmpp->message( $receiver->get(), $message );
 	}
 
 	/**
@@ -173,7 +173,7 @@ class Net_XMPP_MessageSender
 			throw new RuntimeException( 'Already connected' );
 		$this->encryption	= $bool;
 	}
-	
+
 	/**
 	 *	Sets Log Level.
 	 *	@access		public
@@ -187,7 +187,7 @@ class Net_XMPP_MessageSender
 			throw new RuntimeException( 'Already connected' );
 		$this->logLevel	= $level;
 	}
-	
+
 	/**
 	 *	Sets Port for XMPP Server of Sender.
 	 *	@access		public
@@ -228,7 +228,7 @@ class Net_XMPP_MessageSender
 			$receiver	= new Net_XMPP_JID( $receiver );
 		$this->receiver	= $receiver;
 	}
-	
+
 	/**
 	 *	Sets Client Resource Name.
 	 *	@access		public
