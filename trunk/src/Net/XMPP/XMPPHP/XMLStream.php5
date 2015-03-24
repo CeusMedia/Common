@@ -3,17 +3,17 @@
  * XMPPHP: The PHP XMPP Library
  * Copyright (C) 2008  Nathanael C. Fritz
  * This file is part of SleekXMPP.
- * 
+ *
  * XMPPHP is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
  * (at your option) any later version.
- * 
+ *
  * XMPPHP is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with XMPPHP; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
@@ -27,7 +27,7 @@
  */
 /**
  * XMPPHP XML Stream
- * 
+ *
  *	@category		cmClasses
  *	@package		Net.XMPP.XMPPHP
  *	@author			Nathanael C. Fritz <JID: fritzy@netflint.net>
@@ -185,7 +185,7 @@ class Net_XMPP_XMPPHP_XMLStream {
 			$this->disconnect();
 		}
 	}
-	
+
 	/**
 	 * Return the log instance
 	 *
@@ -194,7 +194,7 @@ class Net_XMPP_XMPPHP_XMLStream {
 	public function getLog() {
 		return $this->log;
 	}
-	
+
 	/**
 	 * Get next ID
 	 *
@@ -285,7 +285,7 @@ class Net_XMPP_XMPPHP_XMLStream {
 	public function connect($timeout = 30, $persistent = false, $sendinit = true) {
 		$this->sent_disconnect = false;
 		$starttime = time();
-		
+
 		do {
 			$this->disconnected = false;
 			$this->sent_disconnect = false;
@@ -309,7 +309,7 @@ class Net_XMPP_XMPPHP_XMLStream {
 				sleep(min($timeout, 5));
 			}
 		} while (!$this->socket && (time() - $starttime) < $timeout);
-		
+
 		if ($this->socket) {
 			stream_set_blocking($this->socket, 1);
 			if($sendinit) $this->send($this->stream_start);
@@ -333,7 +333,7 @@ class Net_XMPP_XMPPHP_XMLStream {
 	public function setReconnectTimeout($timeout) {
 		$this->reconnectTimeout = $timeout;
 	}
-	
+
 	/**
 	 * Disconnect from XMPP Host
 	 */
@@ -362,13 +362,13 @@ class Net_XMPP_XMPPHP_XMLStream {
 	 * Core reading tool
 	 * 0 -> only read if data is immediately ready
 	 * NULL -> wait forever and ever
-	 * integer -> process for this amount of time 
+	 * integer -> process for this amount of time
 	 */
-	
+
 	private function __process($maximum=5) {
-		
+
 		$remaining = $maximum;
-		
+
 		do {
 			$starttime = (microtime(true) * 1000000);
 			$read = array($this->socket);
@@ -386,7 +386,7 @@ class Net_XMPP_XMPPHP_XMLStream {
 			}
 			$updated = @stream_select($read, $write, $except, $secs, $usecs);
 			if ($updated === false) {
-				$this->log->log("Error on stream_select()",  Net_XMPP_XMPPHP_Log::LEVEL_VERBOSE);				
+				$this->log->log("Error on stream_select()",  Net_XMPP_XMPPHP_Log::LEVEL_VERBOSE);
 				if ($this->reconnect) {
 					$this->doReconnect();
 				} else {
@@ -398,7 +398,7 @@ class Net_XMPP_XMPPHP_XMLStream {
 			} else if ($updated > 0) {
 				# XXX: Is this big enough?
 				$buff = @fread($this->socket, 4096);
-				if(!$buff) { 
+				if(!$buff) {
 					if($this->reconnect) {
 						$this->doReconnect();
 					} else {
@@ -419,7 +419,7 @@ class Net_XMPP_XMPPHP_XMLStream {
 		} while (is_null($maximum) || $remaining > 0);
 		return true;
 	}
-	
+
 	/**
 	 * Process
 	 *
@@ -482,7 +482,7 @@ class Net_XMPP_XMPPHP_XMLStream {
 
 	/**
 	 * XML start callback
-	 * 
+	 *
 	 * @see xml_set_element_handler
 	 *
 	 * @param resource $parser
@@ -523,7 +523,7 @@ class Net_XMPP_XMPPHP_XMLStream {
 
 	/**
 	 * XML end callback
-	 * 
+	 *
 	 * @see xml_set_element_handler
 	 *
 	 * @param resource $parser
@@ -654,7 +654,7 @@ class Net_XMPP_XMPPHP_XMLStream {
 	 */
 	public function read() {
 		$buff = @fread($this->socket, 1024);
-		if(!$buff) { 
+		if(!$buff) {
 			if($this->reconnect) {
 				$this->doReconnect();
 			} else {
@@ -684,13 +684,13 @@ class Net_XMPP_XMPPHP_XMLStream {
 			$usecs = $maximum % 1000000;
 			$secs = floor(($maximum - $usecs) / 1000000);
 		}
-		
+
 		$read = array();
 		$write = array($this->socket);
 		$except = array();
-		
+
 		$select = @stream_select($read, $write, $except, $secs, $usecs);
-		
+
 		if($select === False) {
 			$this->log->log("ERROR sending message; reconnecting.");
 			$this->doReconnect();
@@ -702,7 +702,6 @@ class Net_XMPP_XMPPHP_XMLStream {
 			$this->log->log("Socket is not ready; break.", Net_XMPP_XMPPHP_Log::LEVEL_ERROR);
 			return false;
 		}
-		remark( $msg );
 		$sentbytes = @fwrite($this->socket, $msg);
 		$this->log->log("SENT: " . mb_substr($msg, 0, $sentbytes, '8bit'), Net_XMPP_XMPPHP_Log::LEVEL_VERBOSE);
 		if($sentbytes === FALSE) {
