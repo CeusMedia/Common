@@ -171,17 +171,13 @@ class Net_Service_Decoder
 	 *	@access		public
 	 *	@param		string		$content			Response Content, compressed
 	 *	@param		string		$type				Compression Type used for compressing Response
-	 *	@param		int			$fallback			Flag: use first Method of Type not found
 	 *	@return		string
 	 */
-	public function decompressResponse( $content, $type, $fallback = FALSE )
+	public function decompressResponse( $content, $type )
 	{
 		if( !array_key_exists( $type, $this->compressionTypes ) )
 		{
-			if( $fallback )
-				$type	= array_shift( array_keys( $this->compressionTypes ) );
-			else
-				throw new InvalidArgumentException( 'Decompression Method "'.$type.'" is not supported.' );
+			throw new InvalidArgumentException( 'Decompression Method "'.$type.'" is not supported.' );
 		}
 		ob_start();
 		$method		= $this->compressionTypes[$type];							//  get Name of Method to decompress Response Content
@@ -236,6 +232,8 @@ class Net_Service_Decoder
 	 */
 	protected function gzipUncompress( $content )
 	{
+		if( !function_exists( 'gzuncompress' ) )
+			throw new RuntimeException( 'Support for gzip is missing' );
 		$data	= @gzuncompress( $content );
 		if( FALSE == $data )
 			throw new RuntimeException( "Data not decompressable with gzuncompress." );
