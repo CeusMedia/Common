@@ -256,7 +256,7 @@ class UI_Image_Processing
 	 *	@param		boolean		$interpolate	Flag: use interpolation
 	 *	@return		boolean		Image has been scaled
 	 */
-	public function scaleToRange( $minWidth, $minHeight, $maxWidth, $maxHeight, $interpolate )
+	public function scaleToRange( $minWidth, $minHeight, $maxWidth, $maxHeight, $interpolate = TRUE )
 	{
 		$width	= $this->image->getWidth();
 		$height	= $this->image->getHeight();
@@ -293,7 +293,7 @@ class UI_Image_Processing
 			$scale	*= $height / ( $sourceHeight * $scale );
 		$width	= (int) round( $sourceWidth * $scale );
 		$height	= (int) round( $sourceHeight * $scale );
-		return $this->resize( $width, $height, $interpolate, $this->maxMegaPixel );
+		return $this->resize( $width, $height, $interpolate, $this->maxMegaPixels );
 	}
 }
 ?>
