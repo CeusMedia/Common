@@ -41,7 +41,7 @@ class File_Arc_Tar
 {
 	// Unprocessed Archive Information
 	protected $fileName;
-	protected $content;
+	protected $content		= "";
 
 	// Processed Archive Information
 	protected $files		= array();
@@ -212,9 +212,9 @@ class File_Arc_Tar
 	 */
 	protected function generateTar()
 	{
-		unset( $this->content );																				// Clear any data currently in $this->content	
+		$this->content		= "";																	// Clear any data currently in $this->content	
 		if( $this->numFolders > 0 )
-		{																									// Generate Records for each folder, if we have directories
+		{																							// Generate Records for each folder, if we have directories
 			foreach( $this->folders as $key => $information )
 			{
 				unset( $header );
@@ -350,7 +350,7 @@ class File_Arc_Tar
 	{
 		if( !file_exists( $fileName ) )																		// If the tar file doesn't exist...
 			throw new Exception( 'TAR File "'.$fileName.'" is not existing' );
-		unset( $this->content );
+		$this->content		= "";
 		$this->files		= array();
 		$this->folders		= array();
 		$this->numFiles		= 0;
