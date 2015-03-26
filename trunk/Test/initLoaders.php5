@@ -1,17 +1,18 @@
 <?php
-require_once dirname( __FILE__ )."/../autoload.php5";
+$pathTests		= dirname( __FILE__ ).DIRECTORY_SEPARATOR;
+$pathLibrary	= dirname( $pathTests ).DIRECTORY_SEPARATOR;
+require_once $pathLibrary.'autoload.php5';
 //print( 'init loaders at '.date( 'H:i:s' )."\n" );
 
-$loaderTest	= new CMC_Loader();																//  get new Loader Instance
-$loaderTest->setExtensions( 'php,php5' );																	//  set allowed Extension
-$loaderTest->setPath( dirname( __FILE__ ) );													//  set fixed Library Path
-#$loaderLib->setVerbose( TRUE );
-$loaderTest->setPrefix( 'Test_' );
-$loaderTest->registerAutoloader();
+$loaderTest	= new CMC_Loader();													//  get new Loader Instance
+$loaderTest->setExtensions( 'php5,php' );										//  set allowed Extension
+$loaderTest->setPath( $pathTests );									//  set fixed Library Path
+#$loaderTest->setVerbose( TRUE );												//  show autoload attempts
+$loaderTest->setPrefix( 'Test_' );												//  set prefix class prefix
+$loaderTest->registerAutoloader();												//  apply this autoloader
 
-$__config	= parse_ini_file( dirname( __FILE__ )."/../cmClasses.ini", TRUE );
-#print_m( $__config );
-#die;
+$__config	= parse_ini_file( $pathLibrary.'cmClasses.ini', TRUE );
+//print_m( $__config );die;
 
 Test_Case::$config = $__config;
 ?>
