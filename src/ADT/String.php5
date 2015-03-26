@@ -57,15 +57,45 @@ class ADT_String
 	}
 
 	/**
+	 *	Changes first letter or every delimited word to upper case and returns TRUE of there were changes.
+	 *	@access		public
+	 *	@param		string		$delimiter		Capitalize every word separated by delimiter
+	 *	@return		bool		At least 1 character has been changed
+	 */
+	public function capitalize( $delimiter = NULL )
+	{
+		$oldString		= $this->string;
+		if( $delimiter === NULL ){
+			$this->string	= ucfirst( $this->string );
+			return $this->string !== $oldString;
+		}
+		else{
+			return $this->capitalizeWords( $delimiter );
+		}
+	}
+
+	/**
 	 *	Changes first letter of every word to upper case and returns TRUE of there were changes.
 	 *	@access		public
 	 *	@return		bool		At least 1 character has been changed
+	 *	@param		string		$delimiter		Capitalize every word separated by delimiter
 	 */
-	public function capitalizeWords()
+	public function capitalizeWords( $delimiter = NULL )
 	{
 		$oldString		= $this->string;
-		$this->string	= ucwords( $this->string );
-		return $this->string !== $oldString;
+		if( !$delimiter || preg_match( "/ +/", $delimiter ) ){
+			$this->string	= ucwords( $oldString );
+			return $this->string !== $oldString;
+		}
+		else{
+			$token			= md5( (string) microtime( TRUE ) );
+			$work			= str_replace( " ", "{".$token."}", $oldString );
+			$work			= str_replace( $delimiter, " ", $work );
+			$work			= ucwords( $work );
+			$work			= str_replace( " ", $delimiter, $work );
+			$this->string	= str_replace( "{".$token."}", " ", $work );
+			return $this->string !== $oldString;
+		}
 	}
 
 	/**
