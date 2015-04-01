@@ -199,9 +199,10 @@ class UI_HTML_Tag
 			}
 			if( !( is_string( $value ) || is_numeric( $value ) ) )									//  attribute is neither string nor numeric
 				continue;																			//  skip this pair
-			if( preg_match( '/[^\\\]"/', $value ) )													//  value contains unescaped (double) quotes
-				$value	= addslashes( $value );
+//			if( preg_match( '/[^\\\]"/', $value ) )													//  value contains unescaped (double) quotes
+//				$value	= addslashes( $value );
 #				throw new InvalidArgumentException( 'Invalid attribute value "'.$value.'"' );		//  throw exception
+			$value	= htmlentities( $value, ENT_QUOTES, 'UTF-8', FALSE );							//  encode HTML entities and quotes
 			$list[$key]	= strtolower( $key ).'="'.$value.'"';
 		}
 		return $list ? " ".implode( " ", $list ) : "";
@@ -231,9 +232,9 @@ class UI_HTML_Tag
 		}
 		else
 		{
-			if( is_string( $value ) || is_numeric( $value ) )										//  value is string or numeric
-				if( preg_match( '/[^\\\]"/', $value ) )												//  detect injection
-					throw new InvalidArgumentException( 'Invalid attribute value' );				//  throw exception
+//			if( is_string( $value ) || is_numeric( $value ) )										//  value is string or numeric
+//				if( preg_match( '/[^\\\]"/', $value ) )												//  detect injection
+//					throw new InvalidArgumentException( 'Invalid attribute value' );				//  throw exception
 			$this->attributes[$key]	= $value;														//  set attribute
 		}
 	}
