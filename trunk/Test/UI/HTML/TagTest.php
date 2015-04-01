@@ -216,6 +216,33 @@ class Test_UI_HTML_TagTest extends Test_Case
 	}
 
 	/**
+	 *	Tests Method 'setAttribute'.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testSetAttribute4_1()
+	{
+		$this->tag->setAttribute( "onclick", 'alert("Hello!")' );
+		$assertion	= '<tag key1="Value1" onclick="alert(&quot;Hello!&quot;)">textContent</tag>';
+		$creation	= (string) $this->tag;
+		$this->assertEquals( $assertion, $creation );
+	}
+
+	/**
+	 *	Tests Method 'setAttribute'.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testSetAttribute4_2()
+	{
+		$this->tag->setAttribute( 'key', 'value" inject="true' );
+		$assertion	= '<tag key1="Value1" key="value&quot; inject=&quot;true">textContent</tag>';
+		$creation	= (string) $this->tag;
+		$this->assertEquals( $assertion, $creation );
+	}
+
+
+	/**
 	 *	Tests Exception of Method 'setAttribute'.
 	 *	@access		public
 	 *	@return		void
@@ -295,24 +322,13 @@ class Test_UI_HTML_TagTest extends Test_Case
 	}
 
 	/**
-	 *	Tests Exception of Method 'setAttribute'.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function testSetAttributeException4()
-	{
-		$this->setExpectedException( 'InvalidArgumentException' );
-		$this->tag->setAttribute( 'key', 'value" inject="true' );
-	}
-
-	/**
 	 *	Tests Method 'setContent'.
 	 *	@access		public
 	 *	@return		void
 	 */
 	public function testSetContent()
 	{
-		$this->tag->setContent( "textContent2" );		
+		$this->tag->setContent( "textContent2" );
 		$assertion	= '<tag key1="Value1">textContent2</tag>';
 		$creation	= (string) $this->tag;
 		$this->assertEquals( $assertion, $creation );
