@@ -58,6 +58,19 @@ class Net_HTTP_Request_Response
 	{
 		$this->response->addHeader( new Net_HTTP_Header_Field( $name, $value ) );
 	}
+	
+	/**
+	 *	Sends complete Response and returns Length of sent Response Content.
+	 *	@access		public
+	 *	@param		string		$useCompression		Flag: use HTTP compression
+	 *	@param		string		$compressionLogFile	File Name of Compression Log
+	 *	@return		int			Number of sent bytes
+	 */
+	public function send( $useCompression = FALSE, $compressionLogFile = NULL )
+	{
+		$sender	= new Net_HTTP_Response_Sender( $this->response );
+		return $sender->send( $useCompression/*, $compressionLogFile*/ );
+	}
 
 	/**
 	 *	Sends Contents and returns Length of sent Response Content.
@@ -72,19 +85,6 @@ class Net_HTTP_Request_Response
 		$response	= new Net_HTTP_Response();
 		$response->setBody( $content );
 		$sender		= new Net_HTTP_Response_Sender( $response );
-		return $sender->send( $useCompression/*, $compressionLogFile*/ );
-	}
-	
-	/**
-	 *	Sends complete Response and returns Length of sent Response Content.
-	 *	@access		public
-	 *	@param		string		$useCompression		Flag: use HTTP compression
-	 *	@param		string		$compressionLogFile	File Name of Compression Log
-	 *	@return		int			Number of sent bytes
-	 */
-	public function send( $useCompression = FALSE, $compressionLogFile = NULL )
-	{
-		$sender	= new Net_HTTP_Response_Sender( $this->response );
 		return $sender->send( $useCompression/*, $compressionLogFile*/ );
 	}
 	
