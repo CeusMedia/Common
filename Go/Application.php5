@@ -96,6 +96,9 @@ class Go_Application
 					case 'test':
 						new Go_UnitTestCreator( array_slice( $arguments, 2 ) );
 						break;
+					case 'changelog':
+						new Go_Changelog(); 
+						break;
 					default:
 						throw new InvalidArgumentException( $this->messages['subject_create_invalid'] );
 				}
@@ -134,6 +137,9 @@ class Go_Application
 				break;
 			case 'moo':
 				print Go_Animal::getCow(); 
+				break;
+			case 'changelog':
+				new Go_Changes(); 
 				break;
 			default:
 				throw new InvalidArgumentException( $this->messages['command_invalid'] );

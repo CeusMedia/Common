@@ -25,8 +25,6 @@ class Test_File_Log_WriterTest extends Test_Case
 	 */
 	public function __construct()
 	{
-		$this->path		= dirname( __FILE__ )."/";
-		$this->fileName	= $this->path."writer.log";
 	}
 
 	/**
@@ -36,6 +34,8 @@ class Test_File_Log_WriterTest extends Test_Case
 	 */
 	public function setUp()
 	{
+		$this->path		= dirname( __FILE__ )."/";
+		$this->fileName	= $this->path."writer.log";
 	}
 
 	/**
@@ -55,11 +55,11 @@ class Test_File_Log_WriterTest extends Test_Case
 	 */
 	public function test__construct()
 	{
-		$writer	= new File_Log_Writer( $this->path."writer.test" );
+		$writer	= new File_Log_Writer( $this->fileName );
 		$writer->note( 1 );
 
 		$assertion	= TRUE;
-		$creation	= file_exists( $this->path."writer.test" );
+		$creation	= file_exists( $this->fileName );
 		$this->assertEquals( $assertion, $creation );
 	}
 
