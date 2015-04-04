@@ -60,7 +60,7 @@ class Test_Database_TableWriterTest extends Test_Case
 			$this->markTestSkipped( 'Missing MySQL support' );
 
 		$this->connection	= new Database_MySQL_Connection( $this->logFile );
-		$this->connection->connect( $this->host, $this->username, $this->password, $options );
+		$this->connection->connect( $this->host, $this->username, $this->password );
 
 		$this->mysql	= mysql_connect( $this->host, $this->username, $this->password ) or die( mysql_error() );
 		mysql_select_db( $this->database );
