@@ -45,7 +45,7 @@ class File_Ical_Builder
 {
 	/**	@var	string		$lineBreak		Line Break String */
 	protected static $lineBreak;
-	
+
 	/**
 	 *	Constructor.
 	 *	@access		public
@@ -54,7 +54,7 @@ class File_Ical_Builder
 	 */
 	public function __construct( $lineBreak = "\r\n" )
 	{
-		self::$lineBreak	= $lineBreak;	
+		self::$lineBreak	= $lineBreak;
 	}
 
 	/**
@@ -72,7 +72,7 @@ class File_Ical_Builder
 				$lines[]	= $line;
 		return implode( self::$lineBreak, $lines );
 	}
-	
+
 	/**
 	 *	Builds iCal Line.
 	 *	@access		protected
