@@ -197,13 +197,22 @@ class Net_HTTP_Header_Section
 		return $list;
 	}
 
-	public function getFieldsByName( $name )
+	public function getFieldsByName( $name, $latestOnly = FALSE )
 	{
 		$name	= strtolower( $name );
-		foreach( $this->fields as $sectionName => $sectionPairs )
-			if( array_key_exists( $name, $sectionPairs ) )
-				if( $this->fields[$sectionName][$name] )
+		foreach( $this->fields as $sectionName => $sectionPairs ){
+			if( array_key_exists( $name, $sectionPairs ) ){
+				if( $this->fields[$sectionName][$name] ){
+					if( $latestOnly ){
+						$size	= count( $this->fields[$sectionName][$name] );
+						return $this->fields[$sectionName][$name][$size - 1];
+					}
 					return $this->fields[$sectionName][$name];
+				}
+			}
+		}
+		if( $latestOnly )
+			return NULL;
 		return array();
 	}
 

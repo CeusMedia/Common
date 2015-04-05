@@ -163,16 +163,23 @@ class Net_HTTP_Request extends ADT_List_Dictionary
 		return $this->headers->getFields();
 	}
 
-	public function getHeadersByName( $name )
+	/**
+	 *	Returns list of HTTP header fields with a specified header name.
+	 *	With second parameter only the latest header field will be return, NULL if none.
+	 *	@access		public
+	 *	@param		string		$name		Key name of header
+	 *	@param		boolean		$latestOnly	Flag: return latest header field, only
+	 *	@return		array|null	List of HTTP header fields with given header name
+	 */
+	public function getHeadersByName( $name, $latestOnly = FALSE )
 	{
-		return $this->headers->getFieldsByName( $name );
+		return $this->headers->getFieldsByName( $name, $latestOnly );
 	}
 
 	/**
 	 *	Returns received raw POST Data.
 	 *	@access		public
 	 *	@return		string
-	 *	@since		0.6.8
 	 */
 	public function getBody()
 	{
