@@ -86,7 +86,7 @@ class Net_HTTP_Request_Receiver extends ADT_List_Dictionary
 			$this->headers->addField( new Net_HTTP_Header_Field( $key, $value ) );					//
 		}
 	}
-	
+
 	/**
 	 *	Reads and returns Data from Sources.
 	 *	@access		public
@@ -136,15 +136,17 @@ class Net_HTTP_Request_Receiver extends ADT_List_Dictionary
 	}
 
 	/**
-	 *	Returns List of collection HTTP Headers with a specified Header Name.
+	 *	Returns List of collection HTTP Header Fields with a specified Header Name.
+	 *	With second parameter only the latest Header Field will be return, NULL if none.
 	 *	@access		public
 	 *	@param		string		$name		Header Name
-	 *	@return		array		List of collected HTTP Headers with given Header Name
+	 *	@param		boolean		$latestOnly	Flag: return latest header field, only
+	 *	@return		array|NULL	List of collected HTTP Header Fields with given Header Name
 	 *	@since		0.6.8
 	 */
-	public function getHeadersByName( $name )
+	public function getHeadersByName( $name, $latestOnly = FALSE )
 	{
-		return $this->headers->getFieldsByName( $name );
+		return $this->headers->getFieldsByName( $name, $latestOnly );
 	}
 
 	public function getMethod()
