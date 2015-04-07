@@ -39,11 +39,16 @@
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			20.02.2007
  *	@version		$Id$
+ *	@todo			Finish implementation: this is bastard of request and reponse
  */
 class Net_HTTP_Request extends ADT_List_Dictionary
 {
 	protected $body;
+	/** @var		Net_HTTP_Header_Section	$headers		Object of collected HTTP Headers */
 	public $headers;
+	/**	@var		string					$ip				IP of Request */
+	protected $ip;
+	/** @var		string					$method			HTTP request method */
 	protected $method		= 'GET';
 	protected $protocol		= 'HTTP';
 	protected $status		= '200 OK';
@@ -103,14 +108,19 @@ class Net_HTTP_Request extends ADT_List_Dictionary
 			$this->pairs	= array_merge( $this->pairs, $values );
 
 		/*  --  RETRIEVE HTTP HEADERS  --  */
-		foreach( $_SERVER as $key => $value )
+		foreach( getallheaders() as $key => $value )
+		{
+			$this->headers->addField( new Net_HTTP_Header_Field( $key, $value ) );					//  store header
+		}
+
+/*		foreach( $_SERVER as $key => $value )
 		{
 			if( strpos( $key, "HTTP_" ) !== 0 )
 				continue;
 			$key	= preg_replace( '/^HTTP_/', '', $key );											//  strip HTTP prefix
 			$key	= preg_replace( '/_/', '-', $key );												//  replace underscore by dash
 			$this->headers->addField( new Net_HTTP_Header_Field( $key, $value ) );						//  store header
-		}
+		}*/
 
 		$this->setMethod( strtoupper( getEnv( 'REQUEST_METHOD' ) ) );								//  store HTTP method
 		$this->body	= file_get_contents( "php://input" );											//  store raw post or file data
@@ -158,9 +168,37 @@ class Net_HTTP_Request extends ADT_List_Dictionary
 		throw new InvalidArgumentException( 'Invalid key "'.$key.'" in source "'.$source.'"' );
 	}
 
-	public function getHeaders()
+	/**
+	 *	Returns list of all HTTP headers received.
+	 *	Acts as getHeadersByName if header key name is given.
+	 *	@access		public
+	 *	@param		string		$name		Key name of header (optional)
+	 *	@return		array		List of Net_HTTP_Header_Field instances
+	 */
+	public function getHeaders( $name = NULL )
 	{
+		if( $name )
+			return $this->getHeadersByName( $name );
 		return $this->headers->getFields();
+	}
+
+	/**
+	 *	Return HTTP header field by a specified header name.
+	 *	Returns latest field if more than one.
+	 *	Alias for getHeadersByName with TRUE as seconds parameter.
+	 *	But throws an exception if nothing found and strict mode enabled (enabled by default).
+	 *	@access		public
+	 *	@param		string		$name		Key name of header
+	 *	@param		boolean		$strict		Flag: throw exception if nothing found
+	 *	@return		Net_HTTP_Header_Field|null
+	 *	@throws		RuntimeException		if nothing found and strict mode enabled
+	 */
+	public function getHeader( $name, $strict = TRUE )
+	{
+		$header	= $this->getHeadersByName( $name, TRUE );
+		if( !$header && $strict )
+			throw new RuntimeException( sprintf( 'No header set by name "%s"', $name ) );
+		return NULL;
 	}
 
 	/**
