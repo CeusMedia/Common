@@ -28,7 +28,7 @@ class CMC_Loader
 	protected $path			= NULL;
 	protected $prefix		= NULL;
 	protected $lowerPath	= FALSE;
-	protected $verbose		= FALSE;
+	protected $verbose		= 0;
 	protected $lineBreak	= NULL;
 
 	/**
@@ -64,14 +64,14 @@ class CMC_Loader
 	 *	@param		string		$prefix			Prefix of Classes
 	 *	@param		string		$path			Path to Classes
 	 *	@param		string		$logFile		Path to autoload log file
-	 *	@param		boolean		$verbose		Verbosity: FALSE - quiet | TRUE - verbose (default: FALSE) 
+	 *	@param		boolean		$verbose		Verbosity: 0 - quiet | 1 - show load | 2 - show scan (default: 0 - quiet)
 	 *	@return		CMC_Loader
 	 *	@deprecated	not working in PHP 5.2
 	 */
-	public static function registerNew( $extensions = NULL, $prefix = NULL, $path = NULL, $logFile = NULL, $verbose = NULL )
+	public static function registerNew( $extensions = NULL, $prefix = NULL, $path = NULL, $logFile = NULL, $verbose = 0 )
 	{
 		$loader	= new CMC_Loader( $extensions, $prefix, $path, $logFile );
-		$loader->setVerbose( (bool) $verbose );
+		$loader->setVerbose( (int) $verbose );
 		$loader->registerAutoloader();
 		return $loader;
 	}
@@ -105,7 +105,7 @@ class CMC_Loader
 		foreach( $this->extensions as $extension )
 		{
 			$filePath	= $basePath.$fileName.".".$extension;
-			if( $this->verbose )
+			if( $this->verbose > 1 )
 				echo $this->lineBreak."autoload: ".$filePath;
 			if( defined( 'CMC_LOADER_LOG' ) && CMC_LOADER_LOG )
 				error_log( $filePath."\n", 3, CMC_LOADER_LOG );
@@ -130,9 +130,11 @@ class CMC_Loader
 	{
 		$this->logLoadedFile( $fileName );
 		if( $once )
-			include_once( $fileName );
+			include_once $fileName;
 		else
-			include( $fileName );
+			include $fileName;
+		if( $this->verbose > 0 )
+			echo $this->lineBreak."load: ".$fileName;
 	}
 
 	/**
@@ -183,9 +185,9 @@ class CMC_Loader
 		$this->lowerPath	= (bool) $bool;	
 	}
 
-	public function setVerbose( $bool )
+	public function setVerbose( $verbosity )
 	{
-		$this->verbose	= (bool) $bool;
+		$this->verbose	= (int) $verbosity;
 	}
 
 	/**
