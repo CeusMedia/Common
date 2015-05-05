@@ -2,7 +2,7 @@
 /**
  *	Cookie Management.
  *
- *	Copyright (c) 2007-2012 Christian Würker (ceusmedia.com)
+ *	Copyright (c) 2007-2015 Christian Würker (ceusmedia.com)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
  *	@category		cmClasses
  *	@package		Net.HTTP
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2012 Christian Würker
+ *	@copyright		2007-2015 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			01.07.2005
@@ -31,7 +31,7 @@
  *	@category		cmClasses
  *	@package		Net.HTTP
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2012 Christian Würker
+ *	@copyright		2007-2015 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@since			01.07.2005
@@ -39,34 +39,51 @@
  */
 class Net_HTTP_Cookie
 {
-	/**	@var	array	$cookie_data		reference to Cookie data */
+	/**	@var		array		$data			Reference to cookie data */
 	protected $data;
+	/** @var		string		$path			Default path of cookie */
+	protected $path;
+	/** @var		string		$domain			Domain of cookie */
+	protected $domain			= NULL;
+	/** @var		boolean		$secure			Flag: only with secured HTTPS connection */
+	protected $secure			= FALSE;
+	/** @var		boolean		$httpOnly		Flag: allow access via HTTP protocol only */
+	protected $httpOnly			= FALSE;
 
 	/**
 	 *	Constructor.
 	 *	@access		public
+	 *	@param		string		$path			Default path of cookie
+	 *	@param		string		$domain			Domain of cookie
+	 *	@param		boolean		$secure			Flag: only with secured HTTPS connection
+	 *	@param		boolean		$httponly		Flag: allow access via HTTP protocol only
 	 *	@return		void
 	 */
-	public function __construct()
+	public function __construct( $path = NULL, $domain = NULL, $secure = FALSE, $httpOnly = FALSE )
 	{
-		$this->data =& $_COOKIE;
+		$this->data		=& $_COOKIE;
+		$this->setPath( $path );
+		$this->setDomain( $domain );
+		$this->setSecure( $secure );
+		$this->setHttpOnly( $httpOnly );
 	}
 
 	/**
 	 *	Returns a setting by its key name.
 	 *	@access		public
-	 *	@param		string		$key		Key name of setting
+	 *	@param		string		$key			Key name of cookie
 	 *	@return		mixed
 	 */
 	public function get( $key )
 	{
+		$key	= str_replace( ".", "_", $key );
 		if( isset( $this->data[$key] ) )
 			return $this->data[$key];
 		return NULL;
 	}
-	
+
 	/**
-	 *	Returns all settings of this Cookie.
+	 *	Returns all cookies for this path and domain.
 	 *	@access		public
 	 *	@return		array
 	 */
@@ -76,31 +93,107 @@ class Net_HTTP_Cookie
 	}
 
 	/**
-	 *	Writes a setting to Cookie.
+	 *	Indicates whehter a cookie is set by its name.
 	 *	@access		public
-	 *	@param		string		$key		Key name of setting
-	 *	@param		string		$value		Value of setting
-	 *	@return		void
+	 *	@param		string		$key			Key name of cookie
+	 *	@return		boolean
 	 */
-	public function set( $key, $value )
+	public function has( $key )
 	{
-		$this->data[$key] =& $value;
-		setcookie( $key, $value );
+		$key	= str_replace( ".", "_", $key );
+		return isset( $this->data[$key] );
 	}
-		
+
 	/**
-	 *	Deletes a setting of Cookie.
+	 *	Removes a cookie.
 	 *	@access		public
-	 *	@param		string		$key		Key name of setting
-	 *	@return		void
+	 *	@param		string		$key			Key name of setting
+	 *	@param		string		$path			Default path of cookie
+	 *	@param		string		$domain			Domain of cookie
+	 *	@param		boolean		$secure			Flag: only with secured HTTPS connection
+	 *	@param		boolean		$httponly		Flag: allow access via HTTP protocol only
+	 *	@return		boolean
 	 */
-	public function remove( $key )
+	public function remove( $key, $path = NULL, $domain = NULL, $secure = NULL, $httpOnly = NULL )
 	{
+		$key		= str_replace( ".", "_", $key );
+		$expires	= time() - 1;
+		$path		= $path ? $path : $this->path;
+		$domain		= $domain !== NULL ? $domain : $this->domain;
+		$secure		= $secure !== NULL ? $secure : $this->secure;
+		$httpOnly	= $httpOnly !== NULL ? $httpOnly : $this->httpOnly;
 		if( !isset( $this->data[$key] ) )
 			return FALSE;
-		unset( $this->data[$key] );	
-#		setcookie( $key );
+		unset( $this->data[$key] );
+		setcookie( $key, "", $expires, $path, $domain, $secure, $httpOnly );
 		return TRUE;
+	}
+
+	/**
+	 *	Writes a setting to Cookie.
+	 *	@access		public
+	 *	@param		string		$key			Key name of setting
+	 *	@param		string		$value			Value of setting
+	 *	@param		string		$path			Default path of cookie
+	 *	@param		string		$domain			Domain of cookie
+	 *	@param		boolean		$secure			Flag: only with secured HTTPS connection
+	 *	@param		boolean		$httponly		Flag: allow access via HTTP protocol only
+	 *	@return		boolean
+	 */
+	public function set( $key, $value, $expires = 0, $path = NULL, $domain = NULL, $secure = NULL, $httpOnly = NULL )
+	{
+		$key		= str_replace( ".", "_", $key );
+		$expires	= $expires ? time() + $expires : $expires;
+		$path		= $path !== NULL ? $path : $this->path;
+		$domain		= $domain !== NULL ? $domain : $this->domain;
+		$secure		= $secure !== NULL ? $secure : $this->secure;
+		$httpOnly	= $httpOnly !== NULL ? $httpOnly : $this->httpOnly;
+		$this->data[$key]	=& $value;
+		return setcookie( $key, $value, $expires, $path, $domain, $secure, $httpOnly );
+	}
+
+	/**
+	 *	Set cookie domain.
+	 *	@access		public
+	 *	@param		string		$domain			Domain of cookie
+	 *	@return		void
+	 */
+	public function setDomain( $domain )
+	{
+		$this->domain	= $domain;
+	}
+
+	/**
+	 *	Set cookie domain.
+	 *	@access		public
+	 *	@param		boolean		$httponly		Flag: allow access via HTTP protocol only
+	 *	@return		void
+	 */
+	public function setHttpOnly( $boolean )
+	{
+		$this->httpOnly	= $boolean;
+	}
+
+	/**
+	 *	Set cookie domain.
+	 *	@access		public
+	 *	@param		string		$path			Default path of cookie
+	 *	@return		void
+	 */
+	public function setPath( $path )
+	{
+		$this->path = $path;
+	}
+
+	/**
+	 *	Set cookie domain.
+	 *	@access		public
+	 *	@param		boolean		$secure			Flag: only with secured HTTPS connection
+	 *	@return		void
+	 */
+	public function setSecure( $boolean )
+	{
+		$this->secure = $boolean;
 	}
 }
 ?>
