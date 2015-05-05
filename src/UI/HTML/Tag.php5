@@ -115,8 +115,12 @@ class UI_HTML_Tag
 		if( $content === NULL || $content === FALSE )												//  no node content defined, not even an empty string
 			if( !in_array( $name, self::$shortTagExcludes ) )										//  node name is allowed to be a short tag
 				return "<".$name.$attributes.$data."/>";											//  build and return short tag
-		if( is_array( $content ) )																	//  content is array, may be nested
+		if( is_array( $content ) )																	//  content is an array, may be nested
 			$content	= self::flattenArray( $content );
+		if( is_numeric( $content ) )
+			$content	= (string) $content;
+		if( !is_null( $content ) && !is_string( $content ) )										//  content is neither NULL nor string so far
+			throw new InvalidArgumentException( 'Content is not a string' );						//  which is not acceptable
 		return "<".$name.$attributes.$data.">".$content."</".$name.">";								//  build and return full tag
 	}
 
