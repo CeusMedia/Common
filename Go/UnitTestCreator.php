@@ -3,7 +3,7 @@ class Go_UnitTestCreator
 {
 	public function __construct( $arguments )
 	{
-		require_once dirname( dirname( __FILE__ ) ).'/autoload.php5';
+		require_once dirname( dirname( __FILE__ ) ).'/autoload.php';
 
 		$force	= in_array( "-f", $arguments ) || in_array( "--force", $arguments );
 		if( in_array( "-f", $arguments ) )

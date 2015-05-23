@@ -1,12 +1,12 @@
 <?php
-require_once dirname( __FILE__ ).'/Library.php5';
+require_once dirname( __FILE__ ).'/Library.php';
 class Go_Benchmark
 {
 	public function __construct()
 	{
 		define( 'LB', "\n" );
 		$path	= Go_Library::getLibraryPath();
-		require_once( $path.'autoload.php5' );
+		require_once( $path.'autoload.php' );
 		$path	= Go_Library::getSourcePath();
 
 		echo LB.'Memory Usage on start:';
