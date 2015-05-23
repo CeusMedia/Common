@@ -67,6 +67,6 @@ class UnitTestViewer
 		return implode( "\n", $list );
 	}
 }
-require_once '../../autoload.php5';
+require_once '../../autoload.php';
 new UnitTestViewer( '../../Test/results.xml' );
 ?>

@@ -3,7 +3,7 @@ class PackageGraphView
 {
 	public $baseCss			= '//css.ceusmedia.com/';
 	public $baseJs			= '//js.ceusmedia.com/';
-	public $regExpFilename	= '/^[A-Z].+\.php5$/';
+	public $regExpFilename	= '/^[A-Z].+\.php$/';
 	public $rexExpSignature	= '/class [a-z]|interface [a-z] /i';
 	public $fileSerial		= 'cache/files.serial';
 
@@ -20,17 +20,17 @@ class PackageGraphView
 
 		$view	= new UI_Image_PieGraph( 600, 400 );
 		$page	= new UI_HTML_PageFrame();
-		$page->addStyleSheet( $this->baseCss.'blueprint/reset.css' ); 
-		$page->addStyleSheet( $this->baseCss.'blueprint/typography.css' ); 
+		$page->addStyleSheet( $this->baseCss.'blueprint/reset.css' );
+		$page->addStyleSheet( $this->baseCss.'blueprint/typography.css' );
 		$page->addStyleSheet( $this->baseJs.'jquery/tabs/2.7.4/jquery.tabs.css' );
-		$page->addJavaScript( $this->baseJs.'jquery/1.2.6.pack.js' ); 
-		$page->addJavaScript( $this->baseJs.'jquery/history/1.0.3.pack.js' ); 
-		$page->addJavaScript( $this->baseJs.'jquery/tabs/2.7.4.pack.js' ); 
-		$page->addJavaScript( 'script.js' ); 
-		$page->addStyleSheet( 'css/style.css' ); 
-		$page->addStyleSheet( 'css/tabs.office2.css' ); 
+		$page->addJavaScript( $this->baseJs.'jquery/1.2.6.pack.js' );
+		$page->addJavaScript( $this->baseJs.'jquery/history/1.0.3.pack.js' );
+		$page->addJavaScript( $this->baseJs.'jquery/tabs/2.7.4.pack.js' );
+		$page->addJavaScript( 'script.js' );
+		$page->addStyleSheet( 'css/style.css' );
+		$page->addStyleSheet( 'css/tabs.office2.css' );
 		$page->addBody( '<h2>cmClasses Packages</h2>' );
-	
+
 		$samples	= $this->getPackages();
 
 		$data	= array(
@@ -115,13 +115,12 @@ class PackageGraphView
 		$index	= new File_RecursiveRegexFilter( $this->path, $this->regExpFilename, $this->rexExpSignature );
 		foreach( $index as $entry )
 		{
-			
 			$pathName	= substr( $entry->getPathname(), strlen( $this->path ) );
 			$files[$pathName]	= filesize( $entry->getPathname() );
 		}
 		File_Editor::save( $this->fileSerial, serialize( $files ) );
 	}
-	
+
 	protected function prepareData()
 	{
 		$this->map	= new ADT_List_LevelMap();
@@ -134,7 +133,7 @@ class PackageGraphView
 			$this->map->set( $key, $size );
 		}
 	}
-	
+
 	protected function getPackages( $key = NULL )
 	{
 		$packages	= array();
