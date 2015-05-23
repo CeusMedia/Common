@@ -1,5 +1,5 @@
 <?php
-require_once dirname( __FILE__ ).'/Library.php5';
+require_once dirname( __FILE__ ).'/Library.php';
 class Go_SelfTester
 {
 	public function __construct( $arguments )
@@ -10,10 +10,10 @@ class Go_SelfTester
 
 		$path	= dirname( __FILE__ );
 		$data	= Go_Library::listClasses( $path );
-		
+
 		Go_Library::testSyntax( $data['files'] );
 		Go_Library::testImports( $data['files'] );
-		
+
 		remark( "create random numbers with 3 digits: " );
 		import( 'de.ceus-media.alg.Randomizer' );
 		import( 'de.ceus-media.math.RomanNumbers' );

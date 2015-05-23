@@ -1,5 +1,5 @@
 <?php
-require_once dirname( __FILE__ ).'/Library.php5';
+require_once dirname( __FILE__ ).'/Library.php';
 class Go_UnitTester
 {
 	public function __construct( $className = NULL )

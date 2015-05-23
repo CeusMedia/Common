@@ -89,7 +89,7 @@ class Go_Library
 			else if( $entry->isFile() )
 			{
 				$info	= pathinfo( $pathName );
-				if( $info['extension'] !== "php5" )
+				if( $info['extension'] !== "php" )
 					continue;
 				if( !preg_match( '/^[A-Z]/', $info['basename'] ) )
 					continue;
@@ -98,13 +98,13 @@ class Go_Library
 				$count++;
 			}
 		}
-	}	
-	
+	}
+
 	public static function runSvn( $command )
 	{
 		passthru( "svn ".$command, $return );
 	}
- 	
+
 	public static function showMemoryUsage()
 	{
 		$number	= ceil( memory_get_usage() / 1024 );
@@ -171,7 +171,6 @@ class Go_Library
 			}
 			else
 				echo ".";
-			
 			$count++;
 		}
 		echo "  ".$count."/".count( $files )."\n";

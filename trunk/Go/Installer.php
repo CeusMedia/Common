@@ -1,6 +1,6 @@
 <?php
-require_once dirname( __FILE__ ).'/Library.php5';
-require_once dirname( __FILE__ ).'/Configurator.php5';
+require_once dirname( __FILE__ ).'/Library.php';
+require_once dirname( __FILE__ ).'/Configurator.php';
 class Go_Installer
 {
 	public function __construct( $arguments )
