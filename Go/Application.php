@@ -15,7 +15,7 @@ class Go_Application
 	public function autoload( $className )
 	{
 		if( preg_match( '/^Go_/', $className ) )													//  is it a GO class ?
-			require_once $this->basePath . preg_replace( '/^Go_/', '', $className ).'.php5';		//  then require it
+			require_once $this->basePath . preg_replace( '/^Go_/', '', $className ).'.php';			//  then require it
 	}
 
 	public function __construct( $clearScreen = FALSE )
@@ -40,7 +40,7 @@ class Go_Application
 			$command	= strtolower( $arguments[0] );												//  extract command
 			if( file_exists( $this->configFile ) )													//  cmClasses installed and configured
 			{
-				require_once( 'autoload.php5' );													//  enable cmClasses
+				require_once( 'autoload.php' );														//  enable cmClasses
 				import( 'de.ceus-media.ui.DevOutput' );												//  load output methods
 			}
 			else if( !( $command == "install" || $command == "configure" ) )						//  anything else but installation is impossible
