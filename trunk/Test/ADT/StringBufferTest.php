@@ -6,7 +6,7 @@
  *	@since			21.07.2008
  *	@version		0.1
  */
-require_once 'Test/initLoaders.php5';
+require_once 'Test/initLoaders.php';
 /**
  *	TestUnit of Test_ADT_StringBuffer.
  *	@package		Tests.adt

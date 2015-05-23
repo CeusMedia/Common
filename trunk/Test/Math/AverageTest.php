@@ -6,7 +6,7 @@
  *	@since			17.06.2008
  *	@version		0.1
  */
-require_once 'Test/initLoaders.php5';
+require_once 'Test/initLoaders.php';
 /**
  *	TestUnit of Math_Average.
  *	@package		Tests.math

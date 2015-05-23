@@ -6,7 +6,7 @@
  *	@since			14.02.2008
  *	@version		0.1
  */
-require_once 'Test/initLoaders.php5';
+require_once 'Test/initLoaders.php';
 /**
  *	TestUnit of Caesar Crypt.
  *	@package		Tests.alg.crypt

@@ -6,7 +6,7 @@
  *	@since			0.7.0
  *	@version		$Id$
  */
-require_once( 'Test/initLoaders.php5' );
+require_once( 'Test/initLoaders.php' );
 /**
  *	TestUnit of File_Permissions.
  *	@package		Tests.File

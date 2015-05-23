@@ -6,7 +6,7 @@
  *	@since			08.07.2008
  *	@version		0.1
  */
-require_once 'Test/initLoaders.php5';
+require_once 'Test/initLoaders.php';
 /**
  *	TestUnit of Alg_Parcel_Packet.
  *	@package		Tests.alg.parcel

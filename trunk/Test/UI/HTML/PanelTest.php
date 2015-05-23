@@ -6,7 +6,7 @@
  *	@since			07.09.2008
  *	@version		0.1
  */
-require_once 'Test/initLoaders.php5';
+require_once 'Test/initLoaders.php';
 /**
  *	TestUnit of UI_HTML_Panel.
  *	@package		Tests.

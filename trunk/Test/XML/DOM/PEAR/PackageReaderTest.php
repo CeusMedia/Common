@@ -6,7 +6,7 @@
  *	@since			25.10.2008
  *	@version		0.1
  */
-require_once 'Test/initLoaders.php5';
+require_once 'Test/initLoaders.php';
 /**
  *	TestUnit of XML_DOM_PEAR_PackageReader.
  *	@package		Tests....

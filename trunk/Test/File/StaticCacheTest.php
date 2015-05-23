@@ -6,7 +6,7 @@
  *	@since			19.04.2009
  *	@version		0.1
  */
-require_once 'Test/initLoaders.php5';
+require_once 'Test/initLoaders.php';
 /**
  *	TestUnit of File_StaticCache.
  *	@package		Tests.file

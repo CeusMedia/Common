@@ -6,7 +6,7 @@
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@version		0.2
  */
-require_once 'Test/initLoaders.php5';
+require_once 'Test/initLoaders.php';
 /**
  *	TestUnit of UI_Template
  *	@package		tests.ui

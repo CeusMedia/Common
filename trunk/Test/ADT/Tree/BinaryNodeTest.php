@@ -5,7 +5,7 @@
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@version		0.2
  */
-require_once 'Test/initLoaders.php5';
+require_once 'Test/initLoaders.php';
 /**
  *	Unit Test of Binary Node.
  *	@package		Tests.adt.list
