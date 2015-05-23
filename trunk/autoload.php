@@ -3,7 +3,7 @@
 if( !defined( 'CMC_PATH' ) )
 	define( 'CMC_PATH', dirname( __FILE__ )."/src/" );
 
-require_once( CMC_PATH.'Loader.php5' );
+require_once( CMC_PATH.'Loader.php' );
 
 $___configFile	= dirname( __FILE__ ).'/cmClasses.ini';
 $___constants	= array(
@@ -21,7 +21,7 @@ foreach( $___constants as $___constantKey => $___constantValue )
 		define( strtoupper( $___constantKey ), $___config['project'][$___constantValue] );
 
 $__loaderLib	= new CMC_Loader();																	//  get new loader instance
-$__loaderLib->setExtensions( 'php5' );																//  set allowed fiel extension
+$__loaderLib->setExtensions( 'php' );																//  set allowed fiel extension
 $__loaderLib->setPath( CMC_PATH );																	//  set class path
 $__loaderLib->setVerbose( FALSE );
 #$__loaderLib->setPrefix( 'CMC' );																	//  later: set class name prefix (classes are not prefixed yet) || NOTE: kriss:this is not working at the moment because the autoloader needs to remove the pending underscore aswell.
