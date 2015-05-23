@@ -6,7 +6,7 @@
  *	@since			04.06.2008
  *	@version		0.1
  */
-require_once 'Test/initLoaders.php5';
+require_once 'Test/initLoaders.php';
 /**
  *	TestUnit of Test_ADT_List_Stack.
  *	@package		Tests.adt.list

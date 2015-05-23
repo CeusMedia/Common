@@ -6,7 +6,7 @@
  *	@since			22.12.2008
  *	@version		0.1
  */
-require_once 'Test/initLoaders.php5';
+require_once 'Test/initLoaders.php';
 /**
  *	TestUnit of Alg_PREG_Match.
  *	@package		Tests.

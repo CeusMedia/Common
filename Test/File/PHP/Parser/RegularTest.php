@@ -6,7 +6,7 @@
  *	@since			10.08.2008
  *	@version		0.1
  */
-require_once 'Test/initLoaders.php5';
+require_once 'Test/initLoaders.php';
 /**
  *	TestUnit of File_PHP_Parser_Regular.
  *	@package		Tests.file.php

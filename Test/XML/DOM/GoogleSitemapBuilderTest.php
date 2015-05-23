@@ -6,7 +6,7 @@
  *	@since			18.02.2008
  *	@version		0.1
  */
-require_once 'Test/initLoaders.php5';
+require_once 'Test/initLoaders.php';
 /**
  *	TestUnit of Google Sitemap Builder.
  *	@package		Tests.xml.dom

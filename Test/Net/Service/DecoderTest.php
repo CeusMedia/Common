@@ -6,7 +6,7 @@
  *	@since			06.04.2009
  *	@version		0.1
  */
-require_once 'Test/initLoaders.php5';
+require_once 'Test/initLoaders.php';
 /**
  *	TestUnit of Net_Service_Decoder.
  *	@package		Tests.net.service

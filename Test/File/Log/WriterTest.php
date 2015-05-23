@@ -6,7 +6,7 @@
  *	@since			08.05.2008
  *	@version		0.1
  */
-require_once 'Test/initLoaders.php5';
+require_once 'Test/initLoaders.php';
 /**
  *	TestUnit of File_Log_Writer.
  *	@package		Tests.file.log

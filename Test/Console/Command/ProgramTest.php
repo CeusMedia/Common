@@ -6,7 +6,7 @@
  *	@since			12.01.2009
  *	@version		0.1
  */
-require_once 'Test/initLoaders.php5';
+require_once 'Test/initLoaders.php';
 /**
  *	TestUnit of Console_Command_Program.
  *	@package		Tests.console.command

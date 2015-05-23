@@ -6,7 +6,7 @@
  *	@since			18.12.2010
  *	@version		0.1
  */
-require_once( 'Test/initLoaders.php5' );
+require_once( 'Test/initLoaders.php' );
 /**
  *	TestUnit of File_INI.
  *	@package		Tests.

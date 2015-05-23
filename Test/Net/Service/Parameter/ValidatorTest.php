@@ -8,7 +8,7 @@
  */
 if( !class_exists( 'Test_Case' ) )
 	require_once 'PHPUnit/Framework/TestCase.php';
-require_once 'Test/initLoaders.php5';
+require_once 'Test/initLoaders.php';
 /**
  *	TestUnit of Service Parameter Validator.
  *	@package		Tests.net.service

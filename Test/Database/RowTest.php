@@ -6,7 +6,7 @@
  *	@since			15.05.2008
  *	@version		0.1
  */
-require_once 'Test/initLoaders.php5';
+require_once 'Test/initLoaders.php';
 /**
  *	TestUnit of Database_Row.
  *	@package		Tests.database

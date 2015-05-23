@@ -6,7 +6,7 @@
  *	@since			15.06.2008
  *	@version		$Id$
  */
-require_once 'Test/initLoaders.php5';
+require_once 'Test/initLoaders.php';
 /**
  *	TestUnit of File_NameFilter.
  *	@package		Tests.File

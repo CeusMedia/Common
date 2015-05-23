@@ -7,7 +7,7 @@
  *	@since			21.03.2015
  *	@version		0.1
  */
-require_once( 'Test/initLoaders.php5' );
+require_once( 'Test/initLoaders.php' );
 /**
  *	TestUnit of File_JSON_Reader.
  *	@package		Tests.File.JSON

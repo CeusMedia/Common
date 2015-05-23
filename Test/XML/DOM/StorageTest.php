@@ -6,7 +6,7 @@
  *	@since			13.12.2007
  *	@version		0.1
  */
-require_once 'Test/initLoaders.php5';
+require_once 'Test/initLoaders.php';
 /**
  *	TestUnit of XML DOM Storage.
  *	@package		Tests.xml.dom

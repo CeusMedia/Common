@@ -6,7 +6,7 @@
  *	@since			29.10.2010
  *	@version		0.1
  */
-require_once( 'Test/initLoaders.php5' );
+require_once( 'Test/initLoaders.php' );
 /**
  *	TestUnit of Net_CURL.
  *	@package		Tests.Net

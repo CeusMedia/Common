@@ -5,7 +5,7 @@
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@version		0.1
  */
-require_once 'Test/initLoaders.php5'; 
+require_once 'Test/initLoaders.php'; 
 /**
  *	TestUnit of List Reader.
  *	@package		Tests.file.list

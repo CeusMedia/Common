@@ -6,7 +6,7 @@
  *	@since			04.01.2009
  *	@version		$Id$
  */
-require_once 'Test/initLoaders.php5';
+require_once 'Test/initLoaders.php';
 /**
  *	TestUnit of File_PHP_Check_MethodVisibility.
  *	@package		Tests.file.php

@@ -6,7 +6,7 @@
  *	@since			16.02.2008
  *	@version		0.6
  */
-require_once 'Test/initLoaders.php5';
+require_once 'Test/initLoaders.php';
 /**
  *	UnitTest for Request Header Field.
  *	@package		net.http.request

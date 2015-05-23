@@ -6,7 +6,7 @@
  *	@since			13.06.2013
  *	@version		0.1
  */
-require_once( 'Test/initLoaders.php5' );
+require_once( 'Test/initLoaders.php' );
 /**
  *	TestUnit of UI_DevOutput.
  *	@package		Tests.UI
