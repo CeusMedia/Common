@@ -17,7 +17,7 @@
  *	@copyright		2007-2012 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
- *	@version		$Id: Builder.php5 961 2012-05-23 11:58:00Z christian.wuerker $
+ *	@version		$Id$
  */
 class File_BackupCleaner{
 
