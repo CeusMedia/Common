@@ -20,7 +20,6 @@
 class CMC_Loader
 {
 	protected $extensions	= array(
-		'php5',
 		'php',
 		'inc'
 	);
