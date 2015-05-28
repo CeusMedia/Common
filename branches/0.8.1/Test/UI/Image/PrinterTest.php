@@ -12,7 +12,7 @@ require_once 'Test/initLoaders.php';
  *	@package		Tests.ui.image
  *	@extends		Test_Case
  *	@uses			UI_Image_Printer
- *	@uses			File_Reader
+ *	@uses			FS_File_Reader
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			16.06.2008
  *	@version		0.1
@@ -96,7 +96,7 @@ class Test_UI_Image_PrinterTest extends Test_Case
 		$printer	= new UI_Image_Printer( $resource );
 		$printer->save( $this->path."targetPrinter.png", IMAGETYPE_PNG, 0 );
 				
-		$file		= new File_Reader( $this->path."targetPrinter.png" );
+		$file		= new FS_File_Reader( $this->path."targetPrinter.png" );
 		$this->assertTrue( $file->equals( $this->path."sourceCreator.png" ) );
 	}
 		
@@ -117,7 +117,7 @@ class Test_UI_Image_PrinterTest extends Test_Case
 		$printer	= new UI_Image_Printer( $resource );
 		$printer->save( $this->path."targetPrinter.gif", IMAGETYPE_GIF, 0 );
 
-		$file		= new File_Reader( $this->path."targetPrinter.gif" );
+		$file		= new FS_File_Reader( $this->path."targetPrinter.gif" );
 		$this->assertTrue( $file->equals( $this->path."sourceCreator.gif" ) );
 	}
 

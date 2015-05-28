@@ -27,6 +27,7 @@ class Test_XML_WDDX_FileReaderTest extends Test_Case
 	{
 		$this->path		= dirname( __FILE__ )."/";
 		$this->fileName	= $this->path."reader.wddx";
+		$this->reader	= new XML_WDDX_FileReader( $this->fileName );
 		$this->data		= array(
 			'data'	=> array(
 				'test_string'	=> "data to be passed by WDDX",

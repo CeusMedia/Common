@@ -12,7 +12,7 @@ require_once 'Test/initLoaders.php';
  *	@package		Tests.net.service.definition
  *	@extends		Test_Case
  *	@uses			Net_Service_Definition_XmlReader
- *	@uses			File_YAML_Reader
+ *	@uses			FS_File_YAML_Reader
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			02.05.2008
  *	@version		0.1

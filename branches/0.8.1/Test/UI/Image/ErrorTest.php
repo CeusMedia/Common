@@ -12,7 +12,7 @@ require_once 'Test/initLoaders.php';
  *	@package		Tests.ui.image
  *	@extends		Test_Case
  *	@uses			UI_Image_Error
- *	@uses			File_Reader
+ *	@uses			FS_File_Reader
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			16.06.2008
  *	@version		0.1

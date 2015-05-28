@@ -12,7 +12,7 @@ require_once 'Test/initLoaders.php';
  *	@package		Tests.net.service.definition
  *	@extends		Test_Case
  *	@uses			Net_Service_Definition_XmlWriter
- *	@uses			File_YAML_Reader
+ *	@uses			FS_File_YAML_Reader
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			02.05.2008
  *	@version		0.1
@@ -28,7 +28,7 @@ class Test_Net_Service_Definition_XmlWriterTest extends Test_Case
 	{
 		$this->path		= dirname( __FILE__ )."/";
 		$this->fileName	= $this->path."writer.xml";
-		$this->data		= File_YAML_Reader::load( $this->path."services.yaml" );
+		$this->data		= FS_File_YAML_Reader::load( $this->path."services.yaml" );
 	}
 
 	/**
