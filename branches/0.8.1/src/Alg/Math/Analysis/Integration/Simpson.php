@@ -29,14 +29,14 @@
  *	Integration with Simpsons Algorithm within a compact Interval.
  *	@category		cmClasses
  *	@package		Math.Analysis.Integration
- *	@extends		Math_Analysis_Integration 
+ *	@extends		Alg_Math_Analysis_Integration 
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2012 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		$Id$
  */
-class Math_Analysis_Integration_Simpson extends Math_Analysis_Integration
+class Alg_Math_Analysis_Integration_Simpson extends Alg_Math_Analysis_Integration
 {
 	/**
 	 *	Calculates integrational sum of Formula within the Interval by using Sampling Nodes.

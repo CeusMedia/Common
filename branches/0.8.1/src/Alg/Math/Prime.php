@@ -37,7 +37,7 @@
  *	@since			30.4.2005
  *	@version		$Id$
  */
-class Math_Prime
+class Alg_Math_Prime
 {
 	/**
 	 *	Returns all Primes from 2 to a given Number

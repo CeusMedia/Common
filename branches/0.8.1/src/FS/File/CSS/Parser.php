@@ -38,7 +38,7 @@
  *	@since			10.10.2011
  *	@version		$Id$
  */
-class File_CSS_Parser{
+class FS_File_CSS_Parser{
 
 	/**
 	 *	Parses a CSS file and returns sheet structure statically.
@@ -47,7 +47,7 @@ class File_CSS_Parser{
 	 *	@return		ADT_CSS_Sheet
 	 */
 	static public function parseFile( $fileName ){
-		$content	= File_Reader::load( $fileName );
+		$content	= FS_File_Reader::load( $fileName );
 		return self::parseString( $content );
 	}
 

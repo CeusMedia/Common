@@ -30,7 +30,7 @@
  *	Generic Console Application.
  *	@category		cmClasses
  *	@package		Console
- *	@extends		Console_ArgumentParser
+ *	@extends		CLI_ArgumentParser
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2012 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -38,7 +38,7 @@
  *	@since			11.01.2006
  *	@version		$Id$
  */
-class Console_Application 
+class CLI_Application 
 {
 	/**
 	 *	Constructor.
@@ -48,7 +48,7 @@ class Console_Application
 	 */
 	public function __construct( $shortcuts = array(), $fallBackOnEmptyPair = FALSE )
 	{
-		$this->arguments	= new Console_ArgumentParser();
+		$this->arguments	= new CLI_ArgumentParser();
 		foreach( $shortcuts as $key => $value )
 			$this->arguments->addShortCut( $key, $value );
 		$this->arguments->parseArguments( $fallBackOnEmptyPair );

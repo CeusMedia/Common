@@ -38,7 +38,7 @@ import ("de.ceus-media.ui.DevOutput");
  *	@since			22.06.2005
  *	@version		$Id$
  */
-class Math_RomanNumbers
+class Alg_Math_RomanNumbers
 {
 	/**	@var	array	$roman		Map of roman numbers and shortcut placeholders*/
 	protected static $roman	= array(

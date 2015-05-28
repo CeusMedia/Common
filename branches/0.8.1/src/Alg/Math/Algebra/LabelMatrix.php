@@ -36,13 +36,13 @@
  *	@version		$Id$
  *	@todo			Code Doc
  */
-class Math_Algebra_LabelMatrix
+class Alg_Math_Algebra_LabelMatrix
 {
 	public function __construct( $rows, $columns, $init = 0 )
 	{
 		$this->rows		= $rows;
 		$this->columns	= $columns;
-		$this->matrix	= new Math_Algebra_Matrix( count( $rows ), count( $columns ), $init );
+		$this->matrix	= new Alg_Math_Algebra_Matrix( count( $rows ), count( $columns ), $init );
 	}
 
 	public function __call( $method, $arguments )

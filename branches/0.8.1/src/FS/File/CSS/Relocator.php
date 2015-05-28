@@ -1,6 +1,6 @@
 <?php
 /**
- * Class File_CSS_Relocator  
+ * Class FS_File_CSS_Relocator  
  *
  * @category	cmClasses
  * @package		File.CSS
@@ -14,12 +14,12 @@
  * @package		File.CSS
  * @author		Stephen Clay <steve@mrclay.org>
  */
-class File_CSS_Relocator {
+class FS_File_CSS_Relocator {
     
     /**	@var		string		$debugText		rewrite() and rewriteRelative() append debugging information here */
     public static $debugText = '';
     
-    /**	@var		string		$className		Defines which class to call as part of callbacks, change this if you extend File_CSS_Relocator */
+    /**	@var		string		$className		Defines which class to call as part of callbacks, change this if you extend FS_File_CSS_Relocator */
     protected static $className = 'File_CSS_Relocator';
 
     /**	@var		string		$_currentDir	Directory of this stylesheet */
@@ -125,7 +125,7 @@ class File_CSS_Relocator {
      * Get a root relative URI from a file relative URI
      *
      * <code>
-     * File_CSS_Relocator::rewriteRelative(
+     * FS_File_CSS_Relocator::rewriteRelative(
      *       '../img/hello.gif'
      *     , '/home/user/www/css'  // path of CSS file
      *     , '/home/user/www'      // doc root
@@ -133,7 +133,7 @@ class File_CSS_Relocator {
      * // returns '/img/hello.gif'
      * 
      * // example where static files are stored in a symlinked directory
-     * File_CSS_Relocator::rewriteRelative(
+     * FS_File_CSS_Relocator::rewriteRelative(
      *       'hello.gif'
      *     , '/var/staticFiles/theme'
      *     , '/home/user/www'

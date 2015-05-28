@@ -30,7 +30,7 @@
  *	Lagrange Interpolation.
  *	@category		cmClasses
  *	@package		Math.Analysis.Interpolation
- *	@uses			Math_Formula
+ *	@uses			Alg_Math_Formula
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2012 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -38,7 +38,7 @@
  *	@since			03.02.2006
  *	@version		$Id$
  */
-class Math_Analysis_Interpolation_Lagrange
+class Alg_Math_Analysis_Interpolation_Lagrange
 {
 	/**	@var		array		$data			Array of x and y values (Xi->Fi) */
 	protected $data				= array();
@@ -106,7 +106,7 @@ class Math_Analysis_Interpolation_Lagrange
 		for( $i=0; $i<count( $expressions ); $i++ )
 		{
 			$expression	= $expressions[$i];
-			$formula	= new Math_Formula( $expression, array( "x" ) );
+			$formula	= new Alg_Math_Formula( $expression, array( "x" ) );
 			$value	= $formula->getValue( 2 );
 			$sum	+= $values[$i] * $value;
 		}

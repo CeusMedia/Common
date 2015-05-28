@@ -36,7 +36,7 @@
  *	@version		$Id$
  *	@todo			Code Documentation
  */
-class Math_Geometry_Point
+class Alg_Math_Geometry_Point
 {
 	protected $x;
 	protected $y;

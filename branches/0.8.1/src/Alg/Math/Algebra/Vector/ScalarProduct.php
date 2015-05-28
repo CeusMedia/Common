@@ -35,13 +35,13 @@
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		$Id$
  */
-class Math_Algebra_Vector_ScalarProduct
+class Alg_Math_Algebra_Vector_ScalarProduct
 {
 	/**
 	 *	Returns Scalar Product of two Vectors
 	 *	@access		public
-	 *	@param		Math_Algebra_Vector		$vector1		Vector 1
-	 *	@param		Math_Algebra_Vector		$vector2		Vector 2
+	 *	@param		Alg_Math_Algebra_Vector		$vector1		Vector 1
+	 *	@param		Alg_Math_Algebra_Vector		$vector2		Vector 2
 	 *	@return		mixed
 	 */
 	public function produce( $vector1, $vector2 )

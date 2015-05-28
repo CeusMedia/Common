@@ -30,7 +30,7 @@
  *	Extracts Terms from a Text Document.
  *	@category		cmClasses
  *	@package		Alg.Text
- *	@uses			File_Editor
+ *	@uses			FS_File_Editor
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2009-2012 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -83,13 +83,13 @@ class Alg_Text_TermExtractor
 	
 	public static function loadBlacklist( $fileName )
 	{
-		$string	= File_Editor::load( $fileName );
+		$string	= FS_File_Editor::load( $fileName );
 		if( !Alg_Text_Unicoder::isUnicode( $string ) )
 		{
 			$string	= Alg_Text_Unicoder::convertToUnicode( $string );
-			File_Editor::save( $fileName, $string );
+			FS_File_Editor::save( $fileName, $string );
 		}
-		$list	= File_Editor::loadArray( $fileName );
+		$list	= FS_File_Editor::loadArray( $fileName );
 		self::setBlacklist( array_unique( $list ) );
 	}
 	

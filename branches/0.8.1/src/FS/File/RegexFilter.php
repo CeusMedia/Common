@@ -31,7 +31,7 @@
  *	@category		cmClasses
  *	@package		File
  *	@extends		RegexIterator
- *	@uses			File_Reader
+ *	@uses			FS_File_Reader
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2012 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -40,7 +40,7 @@
  *	@version		$Id$
  *	@todo			Fix Error while comparing File Name to Current File with Path
  */
-class File_RegexFilter extends RegexIterator
+class FS_File_RegexFilter extends RegexIterator
 {
 	/**	@var	int				$numberFound			Number of found Files */
 	protected $numberFound		= 0;
@@ -86,7 +86,7 @@ class File_RegexFilter extends RegexIterator
 		$realPath	= realpath( $this->current()->getPathname() );
 		if( $realPath )
 			$filePath	= $realPath;
-		$content	= File_Reader::load( $filePath );
+		$content	= FS_File_Reader::load( $filePath );
 		$found		= preg_match( $this->contentPattern, $content );
 		return $found;
 	}

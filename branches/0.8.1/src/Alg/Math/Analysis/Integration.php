@@ -35,11 +35,11 @@
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		$Id$
  */
-class Math_Analysis_Integration
+class Alg_Math_Analysis_Integration
 {
-	/**	@var		Math_Formula			$formula		Formula to integrate */
+	/**	@var		Alg_Math_Formula			$formula		Formula to integrate */
 	protected $formula;
-	/**	@var		Math_CompactInterval	$interval		Interval to integrate within */
+	/**	@var		Alg_Math_CompactInterval	$interval		Interval to integrate within */
 	protected $interval;
 	/**	@var		int						$nodes			Amount of Sampling Nodes to use */
 	protected $nodes;
@@ -47,8 +47,8 @@ class Math_Analysis_Integration
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		Math_Formula			$formula		Formula to integrate
-	 *	@param		Math_CompactInterval	$interval		Interval to integrate within
+	 *	@param		Alg_Math_Formula			$formula		Formula to integrate
+	 *	@param		Alg_Math_CompactInterval	$interval		Interval to integrate within
 	 *	@param		int						$nodes			Amount of Sampling Nodes to use
 	 *	@return		void
 	 */
@@ -62,7 +62,7 @@ class Math_Analysis_Integration
 	/**
 	 *	Returns set Formula.
 	 *	@access		public
-	 *	@return		Math_Formula
+	 *	@return		Alg_Math_Formula
 	 */
 	public function getFormula()
 	{
@@ -72,7 +72,7 @@ class Math_Analysis_Integration
 	/**
 	 *	Returns set Interval.
 	 *	@access		public
-	 *	@return		Math_CompactInterval
+	 *	@return		Alg_Math_CompactInterval
 	 */
 	public function getInterval()
 	{
@@ -82,7 +82,7 @@ class Math_Analysis_Integration
 	/**
 	 *	Returns quantity of Sampling Nodes.
 	 *	@access		public
-	 *	@return		Math_Formula
+	 *	@return		Alg_Math_Formula
 	 */
 	public function getNodes()
 	{
@@ -141,7 +141,7 @@ class Math_Analysis_Integration
 	/**
 	 *	Sets Formula.
 	 *	@access		public
-	 *	@param		Math_Formula			$formula		Formula to integrate
+	 *	@param		Alg_Math_Formula			$formula		Formula to integrate
 	 *	@return		void
 	 */
 	public function setFormula( $formula )
@@ -152,7 +152,7 @@ class Math_Analysis_Integration
 	/**
 	 *	Sets Interval.
 	 *	@access		public
-	 *	@param		Math_CompactInterval	$interval		Interval to integrate within
+	 *	@param		Alg_Math_CompactInterval	$interval		Interval to integrate within
 	 *	@return		void
 	 */
 	public function setInterval( $interval )

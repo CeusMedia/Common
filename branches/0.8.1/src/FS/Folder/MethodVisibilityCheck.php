@@ -30,8 +30,8 @@
  *	Checks visibility of methods in a folder containing PHP files.
  *	@category		cmClasses
  *	@package		Folder
- *	@uses			File_RecursiveRegexFilter
- *	@uses			File_PHP_Check_MethodVisibility
+ *	@uses			FS_File_RecursiveRegexFilter
+ *	@uses			FS_File_PHP_Check_MethodVisibility
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2012 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -39,7 +39,7 @@
  *	@since			03.12.2009
  *	@version		$Id$
  */
-class Folder_MethodVisibilityCheck
+class FS_Folder_MethodVisibilityCheck
 {
 	public $count	= 0;
 	public $found	= 0;
@@ -57,10 +57,10 @@ class Folder_MethodVisibilityCheck
 		$this->count	= 0;
 		$this->found	= 0;
 		$this->list		= array();
-		$finder	= new File_RecursiveRegexFilter( $path, '@^[^_].*\.'.$extension.'$@', "@function @" );
+		$finder	= new FS_File_RecursiveRegexFilter( $path, '@^[^_].*\.'.$extension.'$@', "@function @" );
 		foreach( $finder as $entry )
 		{
-			$checker	= new File_PHP_Check_MethodVisibility( $entry->getPathname() );
+			$checker	= new FS_File_PHP_Check_MethodVisibility( $entry->getPathname() );
 			if( $checker->check() )
 				continue;
 			$this->found++;

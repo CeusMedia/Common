@@ -38,7 +38,7 @@
  *	@since			0.7.6
  *	@version		$Id$
  */
-class File_Backup{
+class FS_File_Backup{
 
 	protected $filePath;
 	protected $preserveTimestamp;
@@ -160,7 +160,7 @@ class File_Backup{
 
 	public function setContent( $version, $content ){
 		$version	= $this->sanitizeVersion( $version );
-		return File_Writer::save( $this->getVersionFilename( $version ), $content );
+		return FS_File_Writer::save( $this->getVersionFilename( $version ), $content );
 	}
 
 	public function store( $removeOriginal = FALSE){

@@ -35,7 +35,7 @@
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		$Id$
  */
-class File_JSON_Config{
+class FS_File_JSON_Config{
 
 	/**	@var		string				$fileName		Name of JSON file */
 	protected $fileName;
@@ -58,7 +58,7 @@ class File_JSON_Config{
 		$this->data		= new ADT_Tree_MagicNode();
 		$this->format	= $format;
 		if( file_exists( $fileName ) )
-			$this->data->fromJson( File_Reader::load( $fileName ) );
+			$this->data->fromJson( FS_File_Reader::load( $fileName ) );
 	}
 
 	/**
@@ -91,7 +91,7 @@ class File_JSON_Config{
 		$json	= $this->data->toJson();
 		if( $this->format )
 			$json	= ADT_JSON_Formater::format( $json );
-		return File_Writer::save( $this->fileName, $json );
+		return FS_File_Writer::save( $this->fileName, $json );
 	}
 
 	/**

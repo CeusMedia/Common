@@ -38,7 +38,7 @@
  *	@since			12.02.2007
  *	@version		$Id$
  */
-class Console_RequestReceiver extends ADT_List_Dictionary
+class CLI_RequestReceiver extends ADT_List_Dictionary
 {
 	public static $delimiterAssign	= "=";
 

@@ -1,6 +1,6 @@
 <?php
 /**
- *	Reads CSV Files using the File_CSV_Iterator.
+ *	Reads CSV Files using the FS_File_CSV_Iterator.
  *
  *	Copyright (c) 2007-2012 Christian Würker (ceusmedia.com)
  *
@@ -27,10 +27,10 @@
  *	@version		$Id$
  */
 /**
- *	Reads CSV Files using the File_CSV_Iterator.
+ *	Reads CSV Files using the FS_File_CSV_Iterator.
  *	@category		cmClasses
  *	@package		File.CSV
- *	@uses			File_CSV_Iterator
+ *	@uses			FS_File_CSV_Iterator
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2012 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -38,7 +38,7 @@
  *	@since			10.12.2007
  *	@version		$Id$
  */
-class File_CSV_IteratorReader
+class FS_File_CSV_IteratorReader
 {
 	/**
 	 *	Constructor.
@@ -49,7 +49,7 @@ class File_CSV_IteratorReader
 	 */
 	public function __construct( $fileName, $delimiter = NULL )
 	{
-		$this->iterator	= new File_CSV_Iterator( $fileName, $delimiter );	
+		$this->iterator	= new FS_File_CSV_Iterator( $fileName, $delimiter );	
 	}
 	
 	/**

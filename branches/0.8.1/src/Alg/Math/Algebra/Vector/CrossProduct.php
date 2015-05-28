@@ -29,21 +29,21 @@
  *	Cross Product of two Vectors with 3 Dimensions.
  *	@category		cmClasses
  *	@package		Math.Algebra.Vector
- *	@uses			Math_Algebra_Vector
+ *	@uses			Alg_Math_Algebra_Vector
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2012 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		$Id$
  */
-class Math_Algebra_Vector_CrossProduct
+class Alg_Math_Algebra_Vector_CrossProduct
 {
 	/**
 	 *	Returns Cross Product of two Vectors
 	 *	@access		public
-	 *	@param		Math_Algebra_Vector		$vector1		Vector 1
-	 *	@param		Math_Algebra_Vector		$vector2		Vector 2
-	 *	@return		Math_Algebra_Vector
+	 *	@param		Alg_Math_Algebra_Vector		$vector1		Vector 1
+	 *	@param		Alg_Math_Algebra_Vector		$vector2		Vector 2
+	 *	@return		Alg_Math_Algebra_Vector
 	 */
 	public function produce( $vector1, $vector2 )
 	{
@@ -54,7 +54,7 @@ class Math_Algebra_Vector_CrossProduct
 			$x = $vector1->getValueFromIndex( 1 ) * $vector2->getValueFromIndex( 2 ) - $vector1->getValueFromIndex( 2 ) * $vector2->getValueFromIndex( 1 );
 			$y = $vector1->getValueFromIndex( 2 ) * $vector2->getValueFromIndex( 0 ) - $vector1->getValueFromIndex( 0 ) * $vector2->getValueFromIndex( 2 );
 			$z = $vector1->getValueFromIndex( 0 ) * $vector2->getValueFromIndex( 1 ) - $vector1->getValueFromIndex( 1 ) * $vector2->getValueFromIndex( 0 );
-			$c = new Math_Algebra_Vector( $x, $y, $z );
+			$c = new Alg_Math_Algebra_Vector( $x, $y, $z );
 		}
 		return $c;
 	}

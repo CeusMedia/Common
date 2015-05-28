@@ -34,9 +34,9 @@
  *	@package		File.Configuration
  *	@extends		ADT_List_LevelMap
  *	@uses			ADT_JSON_Converter
- *	@uses			File_Writer
- *	@uses			File_INI_Reader
- *	@uses			File_YAML_Reader
+ *	@uses			FS_File_Writer
+ *	@uses			FS_File_INI_Reader
+ *	@uses			FS_File_YAML_Reader
  *	@uses			XML_ElementReader
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2012 Christian Würker
@@ -45,8 +45,8 @@
  *	@since			06.05.2008
  *	@version		$Id$
  */
-#class File_Configuration_Reader extends ADT_List_LevelMap
-class File_Configuration_Reader extends ADT_List_Dictionary
+#class FS_File_Configuration_Reader extends ADT_List_LevelMap
+class FS_File_Configuration_Reader extends ADT_List_Dictionary
 {
 	/**	@var		bool		$iniQuickLoad	Flag: load INI Files with parse_ini_files, no Type Support */
 	public static $iniQuickLoad		= FALSE;
@@ -142,7 +142,7 @@ class File_Configuration_Reader extends ADT_List_Dictionary
 		ksort( $this->pairs );
 		if( !empty( $cachePath ) )
 		{
-			File_Writer::save( $cacheFile, serialize( $this->pairs ), 0640 );
+			FS_File_Writer::save( $cacheFile, serialize( $this->pairs ), 0640 );
 		}
 		return $info['extension'];
 	}
@@ -165,7 +165,7 @@ class File_Configuration_Reader extends ADT_List_Dictionary
 		else
 		{
 			$pattern	= '@^(string|integer|int|double|boolean|bool).*$@';
-			$reader		= new File_INI_Reader( $fileName, TRUE );
+			$reader		= new FS_File_INI_Reader( $fileName, TRUE );
 			$comments	= $reader->getComments();
 			foreach( $reader->getProperties() as $sectionName => $sectionData )
 			{
@@ -194,7 +194,7 @@ class File_Configuration_Reader extends ADT_List_Dictionary
 	 */
 	protected function loadJsonFile( $fileName )
 	{
-		$json	= File_Reader::load( $fileName );
+		$json	= FS_File_Reader::load( $fileName );
 		$array	= ADT_JSON_Converter::convertToArray( $json );
 		foreach( $array as $sectionName => $sectionData )
 			foreach( $sectionData as $key => $item )
@@ -270,7 +270,7 @@ class File_Configuration_Reader extends ADT_List_Dictionary
 	 */
 	protected function loadYamlFile( $fileName )
 	{
-		$array	= File_YAML_Reader::load( $fileName );
+		$array	= FS_File_YAML_Reader::load( $fileName );
 		foreach( $array as $sectionName => $sectionData )
 			foreach( $sectionData as $key => $value )
 				$this->pairs[$sectionName.".".$key]	= $value;

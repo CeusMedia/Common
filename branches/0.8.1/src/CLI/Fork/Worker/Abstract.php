@@ -38,7 +38,7 @@
  *	@since			0.6.8
  *	@version		$Id$
  */
-abstract class Console_Fork_Worker_Abstract
+abstract class CLI_Fork_Worker_Abstract
 {
 	protected $isWindows	= NULL;
 	/**

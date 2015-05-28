@@ -38,7 +38,7 @@
  *	@since			15.04.2008
  *	@version		$Id$
  */
-class Folder_Iterator extends FilterIterator
+class FS_Folder_Iterator extends FilterIterator
 {
 	/**	@var		 bool		$showFiles			Flag: show Files */
 	protected $showFiles;

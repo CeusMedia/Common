@@ -19,7 +19,7 @@
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		$Id$
  */
-class File_BackupCleaner{
+class FS_File_BackupCleaner{
 
 	protected $path;
 	protected $prefix;
@@ -85,7 +85,7 @@ class File_BackupCleaner{
 	public function index(){
 		$dates	= array();
 		$regExp	= "/^".$this->prefix.".+\.".$this->ext."$/";
-		$index	= new File_RegexFilter( $this->path, $regExp );
+		$index	= new FS_File_RegexFilter( $this->path, $regExp );
 		foreach( $index as $entry ){
 			$regExp		= "/^".$this->prefix."([0-9-]+)\.".$this->ext."$/";
 			$dates[]	= preg_replace( $regExp, "\\1", $entry->getFilename() );

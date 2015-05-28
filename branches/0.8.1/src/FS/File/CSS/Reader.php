@@ -38,7 +38,7 @@
  *	@since			10.10.2011
  *	@version		$Id$
  */
-class File_CSS_Reader
+class FS_File_CSS_Reader
 {
 
 	protected $fileName;
@@ -65,7 +65,7 @@ class File_CSS_Reader
 	public function getRules(){
 		if( !$this->fileName )
 			throw new RuntimeException( 'No CSS file set yet' );
-		return File_CSS_Converter::convertSheetToArray( $this->sheet );
+		return FS_File_CSS_Converter::convertSheetToArray( $this->sheet );
 	}
 
 	/**
@@ -87,7 +87,7 @@ class File_CSS_Reader
 	 *	@return		ADT_CSS_Sheet
 	 */
 	static public function load( $fileName ){
-		return File_CSS_Parser::parseFile( $fileName );
+		return FS_File_CSS_Parser::parseFile( $fileName );
 	}
 
 	/**

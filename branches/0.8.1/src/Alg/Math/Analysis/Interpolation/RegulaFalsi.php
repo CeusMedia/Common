@@ -30,8 +30,8 @@
  *	RegulaFalsi Interpolation within a compact Interval.
  *	@category		cmClasses
  *	@package		Math.Analysis.Interpolation
- *	@uses			Math_Formula
- *	@uses			Math_CompactInterval
+ *	@uses			Alg_Math_Formula
+ *	@uses			Alg_Math_CompactInterval
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2012 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -39,13 +39,13 @@
  *	@since			03.02.2006
  *	@version		$Id$
  */
-class Math_Analysis_Interpolation_RegulaFalsi
+class Alg_Math_Analysis_Interpolation_RegulaFalsi
 {
 	/**	@var		array					$data		Array of x and y values (Xi->Fi) */
 	protected $data							= array();
-	/**	@var		Math_Formula			$formula	Formula */
+	/**	@var		Alg_Math_Formula			$formula	Formula */
 	protected $formula;
-	/**	@var		Math_CompactInterval	$interval	Interval */
+	/**	@var		Alg_Math_CompactInterval	$interval	Interval */
 	protected $interval;
 
 	/**
@@ -88,7 +88,7 @@ class Math_Analysis_Interpolation_RegulaFalsi
 	 */
 	public function setFormula( $formula, $variables )
 	{
-		$this->formula	= new Math_Formula( $formula, $variables );
+		$this->formula	= new Alg_Math_Formula( $formula, $variables );
 	}
 
 	/**
@@ -102,7 +102,7 @@ class Math_Analysis_Interpolation_RegulaFalsi
 	{
 		if( $start * $end > 0 )
 			throw new InvalidArgumentException( 'Interval needs to start below 0.' );
-		$this->interval	= new Math_CompactInterval( $start, $end );
+		$this->interval	= new Alg_Math_CompactInterval( $start, $end );
 	}
 }
 ?>

@@ -38,7 +38,7 @@
  *	@since			0.7.6
  *	@version		$Id$
  */
-class Console_Output{
+class CLI_Output{
 
 	protected $lastLine	= "";
 

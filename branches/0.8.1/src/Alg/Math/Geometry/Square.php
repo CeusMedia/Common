@@ -36,7 +36,7 @@
  *	@version		$Id$
  *	@todo			Code Documentation
  */
-class Math_Geometry_Square
+class Alg_Math_Geometry_Square
 {
 	public function __construct( $a )
 	{

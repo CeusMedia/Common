@@ -39,7 +39,7 @@
  *	@version		$Id$
  *	@todo			test
  */
-class Math_Extrapolation
+class Alg_Math_Extrapolation
 {
 	/**
 	 *	Projects values into a sized container and returns list of range objects.

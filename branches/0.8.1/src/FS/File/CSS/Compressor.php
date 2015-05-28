@@ -37,7 +37,7 @@
  *	@since			26.09.2007
  *	@version		$Id$
  */
-class File_CSS_Compressor
+class FS_File_CSS_Compressor
 {
 	/**	@var		string			$prefix			Prefix of compressed File Name */
 	var $prefix		= "";
@@ -47,7 +47,7 @@ class File_CSS_Compressor
 	var $suffix		= ".min";
 
 /*	static public function compressFile( $fileName, $oneLine = FALSE ){
-		return self::compressString( File_Reader::load( $fileName ), $oneLine );
+		return self::compressString( FS_File_Reader::load( $fileName ), $oneLine );
 	}
 */
 
@@ -82,7 +82,7 @@ class File_CSS_Compressor
 	}
 
 	static public function compressSheet( ADT_CSS_Sheet $sheet, $oneLine = FALSE ){
-		$converter	= new File_CSS_Converter( $sheet );
+		$converter	= new FS_File_CSS_Converter( $sheet );
 		return self::compressString( $converter->toString(), $oneLine );
 	}
 

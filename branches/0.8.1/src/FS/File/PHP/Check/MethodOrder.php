@@ -37,7 +37,7 @@
  *	@since			04.09.2008
  *	@version		$Id$
  */
-class File_PHP_Check_MethodOrder
+class FS_File_PHP_Check_MethodOrder
 {
 	private $fileName		= "";
 	private $originalList	= array();

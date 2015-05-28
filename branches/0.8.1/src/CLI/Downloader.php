@@ -42,7 +42,7 @@
  *	@version		$Id$
  *	@see			http://curl.haxx.se/libcurl/c/curl_easy_setopt.html
  */
-class Console_Downloader
+class CLI_Downloader
 {
 	/**	@var		int			$fileSize			Length of File to download, extracted from Response Headers */	
 	protected $fileSize			= 0;
@@ -213,7 +213,7 @@ class Console_Downloader
 				$this->redirected	= TRUE;
 				if( $this->templateRedirect )
 					printf( $this->templateRedirect, $content );
-				$loader	= new Console_Downloader();
+				$loader	= new CLI_Downloader();
 				$loader->downloadUrl( $content, dirname( $this->fileUri ) );
 			}
 			if( preg_match( "@^Content-Length$@i", $header ) )								//  Header is Content-Length

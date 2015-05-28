@@ -30,14 +30,14 @@
  *	@category		cmClasses
  *	@package		Database
  *	@extends		TableReader
- *	@author			Database_Christian Würker <christian.wuerker@ceusmedia.de>
+ *	@author			DB_Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2012 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		0.6
  *	@todo			finish Code Documentation (@param at methods)
  */
-class Database_TableWriter extends Database_TableReader
+class DB_TableWriter extends DB_TableReader
 {
 	/**
 	 *	Inserting data into this table.

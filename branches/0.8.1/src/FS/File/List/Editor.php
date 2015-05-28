@@ -30,8 +30,8 @@
  *	Editor for List Files.
  *	@category		cmClasses
  *	@package		File.List
- *	@extends		File_List_Reader
- *	@uses			File_List_Writer
+ *	@extends		FS_File_List_Reader
+ *	@uses			FS_File_List_Writer
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2012 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -39,7 +39,7 @@
  *	@since			25.04.2008
  *	@version		$Id$
  */
-class File_List_Editor extends File_List_Reader
+class FS_File_List_Editor extends FS_File_List_Reader
 {
 	/**	@var		string		$fileName		File Name of List, absolute or relative URI **/
 	protected $fileName;
@@ -121,7 +121,7 @@ class File_List_Editor extends File_List_Reader
 	 */
 	protected function write( $mode = 0755, $user = NULL, $group = NULL )
 	{
-		return File_List_Writer::save( $this->fileName, $this->list, $mode, $user, $group );
+		return FS_File_List_Writer::save( $this->fileName, $this->list, $mode, $user, $group );
 	}
 }
 ?>

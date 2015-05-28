@@ -80,7 +80,7 @@ class UI_Image_Graphviz_Renderer{
 		$mapFile	= $tempFile.".".$type;
 		if( !file_exists( $mapFile ) )
 			throw new RuntimeException( 'Map file could not been created' );
-		$map	= File_Reader::load( $mapFile );
+		$map	= FS_File_Reader::load( $mapFile );
 		unlink( $mapFile );
 		return $map;
 	}
@@ -90,7 +90,7 @@ class UI_Image_Graphviz_Renderer{
 			throw new RuntimeException( 'Missing graphViz' );
 		$tempFile	= tempnam( sys_get_temp_dir(), 'CMC_GV_' );
 		$this->saveAsImage( $tempFile, $type, $graphOptions );
-		$image		= File_Reader::load( $tempFile );
+		$image		= FS_File_Reader::load( $tempFile );
 		@unlink( $tempFile );
 		$mimeType	= "image/png";
 		if( $type == "jpg" )
@@ -113,7 +113,7 @@ class UI_Image_Graphviz_Renderer{
 		unlink( $tempFile );
 		if( !file_exists( $tempFile.".".$type ) )
 			throw new RuntimeException( 'Image file could not been created' );
-		$file	= new File_Editor( $tempFile.".".$type );
+		$file	= new FS_File_Editor( $tempFile.".".$type );
 		return $file->rename( $fileName );
 	}
 

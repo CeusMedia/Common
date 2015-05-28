@@ -29,8 +29,8 @@
  *	Reader for Folders.
  *	@category		cmClasses
  *	@package		Folder
- *	@uses			Folder_Lister
- *	@uses			Folder_RecursiveLister
+ *	@uses			FS_Folder_Lister
+ *	@uses			FS_Folder_RecursiveLister
  *	@uses			Alg_UnitFormater
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2012 Christian Würker
@@ -39,7 +39,7 @@
  *	@version		$Id$
  *	@todo			implement getFileTree, getFolderTree, getTree
  */
-class Folder_Reader
+class FS_Folder_Reader
 {
 	/**	@var		string		$folderName		Folder Name, relative or absolute */
 	protected $folderName;
@@ -114,7 +114,7 @@ class Folder_Reader
 	 */
 	public function getFileList( $pattern = NULL )
 	{
-		return Folder_Lister::getFileList( $this->folderName, $pattern );
+		return FS_Folder_Lister::getFileList( $this->folderName, $pattern );
 	}
 	
 	/**
@@ -125,7 +125,7 @@ class Folder_Reader
 	 */
 	public function getFileListByExtensions( $extensions )
 	{
-		$lister	= new Folder_Lister( $this->folderName );
+		$lister	= new FS_Folder_Lister( $this->folderName );
 		$lister->setExtensions( $extensions );
 		$lister->showFolders( FALSE );
 		return $lister->getList();
@@ -153,7 +153,7 @@ class Folder_Reader
 	 */
 	public function getFolderList( $pattern = NULL )
 	{
-		return Folder_Lister::getFolderList( $this->folderName, $pattern );
+		return FS_Folder_Lister::getFolderList( $this->folderName, $pattern );
 	}
 	
 	/**
@@ -174,7 +174,7 @@ class Folder_Reader
 	 */
 	public function getList( $pattern = NULL )
 	{
-		return Folder_Lister::getMixedList( $this->folderName, $pattern );
+		return FS_Folder_Lister::getMixedList( $this->folderName, $pattern );
 	}
 
 	/**
@@ -223,7 +223,7 @@ class Folder_Reader
 	 */
 	public function getNestedFileList( $pattern = NULL )
 	{
-		return Folder_RecursiveLister::getFileList( $this->folderName, $pattern );
+		return FS_Folder_RecursiveLister::getFileList( $this->folderName, $pattern );
 	}
 
 	/**
@@ -248,7 +248,7 @@ class Folder_Reader
 	 */
 	public function getNestedFolderList( $pattern = NULL )
 	{
-		return Folder_RecursiveLister::getFolderList( $this->folderName, $pattern );
+		return FS_Folder_RecursiveLister::getFolderList( $this->folderName, $pattern );
 	}
 
 	/**
@@ -259,7 +259,7 @@ class Folder_Reader
 	 */
 	public function getNestedList( $pattern = NULL)
 	{
-		return Folder_RecursiveLister::getMixedList( $this->folderName, $pattern );
+		return FS_Folder_RecursiveLister::getMixedList( $this->folderName, $pattern );
 	}
 
 	/**

@@ -39,7 +39,7 @@
  *	@since			15.04.2008
  *	@version		$Id$
  */
-class File_Iterator extends FilterIterator
+class FS_File_Iterator extends FilterIterator
 {
 	/**	@var		 bool		$stripDotFiles		Flag: strip Files with leading Dot */
 	protected $stripDotFiles;

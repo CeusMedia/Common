@@ -30,7 +30,7 @@
  *	Checks visibility of methods within a PHP file.
  *	@category		cmClasses
  *	@package		File.PHP.Check
- *	@uses			File_Reader
+ *	@uses			FS_File_Reader
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2012 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -38,7 +38,7 @@
  *	@since			03.12.2009
  *	@version		$Id$
  */
-class File_PHP_Check_MethodVisibility
+class FS_File_PHP_Check_MethodVisibility
 {
 	protected $fileName		= "";
 	protected $methods		= array();
@@ -68,7 +68,7 @@ class File_PHP_Check_MethodVisibility
 		$this->checked	= TRUE;
 		$this->methods	= array();
 		$matches		= array();
-		$content		= File_Reader::load( $this->fileName );
+		$content		= FS_File_Reader::load( $this->fileName );
 		if( preg_match( "@class @i", $content ) )
 			if( preg_match_all( "@\tfunction (& *)?([a-z][a-z0-9]+)@i", $content, $matches ) )
 				foreach( $matches[2] as $match )

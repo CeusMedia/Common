@@ -30,8 +30,8 @@
  *	Writes vCard String from vCard Data Object to a File.
  *	@category		cmClasses
  *	@package		File.VCard
- *	@uses			File_Writer
- *	@uses			File_VCard_Builder
+ *	@uses			FS_File_Writer
+ *	@uses			FS_File_VCard_Builder
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2012 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -39,7 +39,7 @@
  *	@since			03.09.2008
  *	@version		$Id$
  */
-class File_VCard_Writer
+class FS_File_VCard_Writer
 {
 	/**	@var		string		$fileName		File Name of VCard File */
 	protected $fileName;
@@ -66,8 +66,8 @@ class File_VCard_Writer
 	 */
 	public static function save( $fileName, $card, $charsetIn = NULL, $charsetOut = NULL )
 	{
-		$string	= File_VCard_Builder::build( $card, $charsetIn, $charsetOut );
-		return File_Writer::save( $fileName, $string );
+		$string	= FS_File_VCard_Builder::build( $card, $charsetIn, $charsetOut );
+		return FS_File_Writer::save( $fileName, $string );
 	}
 
 	/**

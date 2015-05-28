@@ -34,7 +34,7 @@
  *	@version		$Id$
  *	@todo			Code Documentation
  */
-class Math_NaturalNumbers
+class Alg_Math_NaturalNumbers
 {
 	public function abs( $number )
 	{

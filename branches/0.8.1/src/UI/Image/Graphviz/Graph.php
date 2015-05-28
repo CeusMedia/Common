@@ -154,7 +154,7 @@ class UI_Image_Graphviz_Graph{
 	}
 
 	public function save( $fileName, $options = array() ){
-		return File_Writer::save( $fileName, $this->render( $options ) );
+		return FS_File_Writer::save( $fileName, $this->render( $options ) );
 	}
 
 	public function setDefaultEdgeOptions( $options ){

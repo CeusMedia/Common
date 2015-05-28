@@ -31,7 +31,7 @@
  *
  *	@category		cmClasses
  *	@package		Console.Fork.Server.Client
- *	@extends		Console_Fork_Server_Client_Abstract
+ *	@extends		CLI_Fork_Server_Client_Abstract
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2010-2012 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -39,7 +39,7 @@
  *	@since			0.6.8
  *	@version		$Id$
  */
-class Console_Fork_Server_Client_WebProxy extends Console_Fork_Server_Client_Abstract
+class CLI_Fork_Server_Client_WebProxy extends CLI_Fork_Server_Client_Abstract
 {
 	public function getRequest()
 	{

@@ -29,9 +29,9 @@
  *	Wrapper for mySQL Database Connection with Transaction Support.
  *	@category		cmClasses
  *	@package		Database.PgSQL
- *	@extends		Database_BaseConnection
- *	@uses			Database_Result
- *	@uses			Database_Row
+ *	@extends		DB_BaseConnection
+ *	@uses			DB_Result
+ *	@uses			DB_Row
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2012 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -39,7 +39,7 @@
  *	@version		$Id$
  *	@todo			Code Documentation
  */
-class Database_pgSQL_Connection extends Database_BaseConnection
+class DB_pgSQL_Connection extends DB_BaseConnection
 {
 	/**	@var		double		$countTime			Counter of Query Times */	
 	public $countTime;
@@ -166,12 +166,12 @@ class Database_pgSQL_Connection extends Database_BaseConnection
 			}
 			else if( preg_match( '/^(SELECT|SHOW)/i', ltrim( $query ) ) )
 			{
-				$result = new Database_Result();
+				$result = new DB_Result();
 				if( $q = pg_query( $this->dbc, $query ) )
 				{
 					while( $d = pg_fetch_array( $q ) )
 					{
-						$row = new Database_Row();
+						$row = new DB_Row();
 						foreach( $d as $key => $value )
 							$row->$key = $value;
 						$result->rows[] = $row;

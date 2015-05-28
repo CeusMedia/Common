@@ -42,7 +42,7 @@
  *	@since			10.10.2011
  *	@version		$Id$
  */
-class File_CSS_Converter{
+class FS_File_CSS_Converter{
 
 	protected $sheet	= NULL;
 
@@ -129,7 +129,7 @@ class File_CSS_Converter{
 	 *	@return		array
 	 */
 	static public function convertStringToArray( $css ){
-		$sheet	= File_CSS_Parser::parseString( $css );
+		$sheet	= FS_File_CSS_Parser::parseString( $css );
 		return self::convertSheetToArray( $sheet );
 	} 
 
@@ -141,7 +141,7 @@ class File_CSS_Converter{
 	 *	@return		ADT_CSS_Sheet
 	 */
 	static public function convertStringToSheet( $css ){
-		return File_CSS_Parser::parseString( $css );
+		return FS_File_CSS_Parser::parseString( $css );
 	} 
 
 	/**
@@ -161,7 +161,7 @@ class File_CSS_Converter{
 	 *	@return		void
 	 */
 	public function fromFile( $fileName ){
-		$this->sheet	= File_CSS_Parser::parseFile( $fileName );
+		$this->sheet	= FS_File_CSS_Parser::parseFile( $fileName );
 	}
 	
 	/**
@@ -181,7 +181,7 @@ class File_CSS_Converter{
 	 *	@return		void
 	 */
 	public function fromString( $string ){
-		$this->sheet	= File_CSS_Parser::parseString( $string );
+		$this->sheet	= FS_File_CSS_Parser::parseString( $string );
 	}
 	
 	/**
@@ -190,7 +190,7 @@ class File_CSS_Converter{
 	 *	@return		array
 	 */
 	public function toArray(){
-		return File_CSS_Converter::convertSheetToArray( $this->sheet );
+		return FS_File_CSS_Converter::convertSheetToArray( $this->sheet );
 	}
 
 	/**
@@ -200,8 +200,8 @@ class File_CSS_Converter{
 	 *	@return		integer			Number of bytes written.
 	 */
 	public function toFile( $fileName ){
-		$css	= File_CSS_Converter::convertSheetToString( $this->sheet );
-		return File_Writer::save( $fileName, $css );
+		$css	= FS_File_CSS_Converter::convertSheetToString( $this->sheet );
+		return FS_File_Writer::save( $fileName, $css );
 	}
 
 	/**
@@ -219,7 +219,7 @@ class File_CSS_Converter{
 	 *	@return		string
 	 */
 	public function toString(){
-		return File_CSS_Converter::convertSheetToString( $this->sheet );
+		return FS_File_CSS_Converter::convertSheetToString( $this->sheet );
 	}
 }
 ?>

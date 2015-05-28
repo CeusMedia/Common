@@ -36,7 +36,7 @@
  *	@version		$Id$
  *	@todo			Code Documentation
  */
-class Math_Geometry_Triangle
+class Alg_Math_Geometry_Triangle
 {
 	public function pythagoras( $a = NULL, $b = NULL, $c = NULL )
 	{

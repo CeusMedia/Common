@@ -30,7 +30,7 @@
  *	Progression within a compact Interval.
  *	@category		cmClasses
  *	@package		Math.Analysis
- *	@extends		Math_Analysis_Sequence
+ *	@extends		Alg_Math_Analysis_Sequence
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2012 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -39,13 +39,13 @@
  *	@version		$Id$
  *	@todo			Code Correction
  */
-class Math_Analysis_Progression extends Math_Analysis_Sequence
+class Alg_Math_Analysis_Progression extends Alg_Math_Analysis_Sequence
 {
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		Math_Formula			$formula		Formula of Progression
-	 *	@param		Math_CompactInterval	$interval		Interval of Progression
+	 *	@param		Alg_Math_Formula			$formula		Formula of Progression
+	 *	@param		Alg_Math_CompactInterval	$interval		Interval of Progression
 	 *	@return		void
 	 */
 	public function __construct( $formula, $interval )

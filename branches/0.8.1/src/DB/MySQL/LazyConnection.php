@@ -30,7 +30,7 @@
  *	Wrapper for mySQL Database Connection with Transaction Support.
  *	@category		cmClasses
  *	@package		Database.MySQL
- *	@extends		Database_MySQL_Connection
+ *	@extends		DB_MySQL_Connection
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2010-2012 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -39,7 +39,7 @@
  *	@version 		$Id$
  *	@todo			Code Documentation
  */
-class Database_MySQL_LazyConnection extends Database_MySQL_Connection
+class DB_MySQL_LazyConnection extends DB_MySQL_Connection
 {
 	protected $dataForConnectOnDemand		= array();
 

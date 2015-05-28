@@ -20,7 +20,7 @@
  *	@category		cmClasses
  *	@package		XML.DOM
  *	@uses			XML_DOM_GoogleSitemapBuilder
- *	@uses			File_Writer
+ *	@uses			FS_File_Writer
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2012 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -33,7 +33,7 @@
  *	@category		cmClasses
  *	@package		XML.DOM
  *	@uses			XML_DOM_GoogleSitemapBuilder
- *	@uses			File_Writer
+ *	@uses			FS_File_Writer
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2012 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -81,7 +81,7 @@ class XML_DOM_GoogleSitemapWriter
 	public static function writeSitemap( $links, $fileName = "sitemap.xml", $baseUrl = "" )
 	{
 		$xml	= XML_DOM_GoogleSitemapBuilder::buildSitemap( $links, $baseUrl );
-		$file	= new File_Writer( $fileName );
+		$file	= new FS_File_Writer( $fileName );
 		return $file->writeString( $xml );
 	}
 }

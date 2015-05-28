@@ -37,7 +37,7 @@
  *	@since			0.7.0
  *	@version		$Id$
  */
-class File_JSON_Writer
+class FS_File_JSON_Writer
 {
 	protected $filePath;
 
@@ -62,7 +62,7 @@ class File_JSON_Writer
 	 */
 	public static function save( $filePath, $value, $format = FALSE )
 	{
-		$writer	= new File_JSON_Writer( $filePath );
+		$writer	= new FS_File_JSON_Writer( $filePath );
 		return $writer->write( $value, $format );
 	}
 
@@ -78,7 +78,7 @@ class File_JSON_Writer
 		$json	= json_encode( $value );
 		if( $format )
 			$json	= ADT_JSON_Formater::format( $json );
-		return File_Writer::save( $this->filePath, $json );
+		return FS_File_Writer::save( $this->filePath, $json );
 	}
 }
 ?>

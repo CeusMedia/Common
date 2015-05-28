@@ -37,7 +37,7 @@
  *	@since			22.06.2005
  *	@version		$Id$
  */
-class Math_ComplexNumber
+class Alg_Math_ComplexNumber
 {
 	/**	@var		int		$real		Real part of the complex number */
 	protected $real;

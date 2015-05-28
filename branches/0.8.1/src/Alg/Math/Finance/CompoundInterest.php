@@ -37,7 +37,7 @@
  *	@since			19.12.2007
  *	@version		$Id$
  */
-class Math_Finance_CompoundInterest
+class Alg_Math_Finance_CompoundInterest
 {
 	/**	@var		float		$amount			Amount to calculate with */
 	protected $amount;

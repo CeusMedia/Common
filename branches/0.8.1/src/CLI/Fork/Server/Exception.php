@@ -9,7 +9,7 @@
  *	@category		cmClasses
  *	@package		Console.Fork.Server
  */
-class Console_Fork_Server_Exception extends RuntimeException
+class CLI_Fork_Server_Exception extends RuntimeException
 {
 }
 
@@ -18,7 +18,7 @@ class Console_Fork_Server_Exception extends RuntimeException
  *	@category		cmClasses
  *	@package		Console.Fork.Server
  */
-class Console_Fork_Server_SocketException extends RuntimeException
+class CLI_Fork_Server_SocketException extends RuntimeException
 {
 }
 ?>

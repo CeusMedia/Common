@@ -37,7 +37,7 @@
  *	@since			26.09.2007
  *	@version		$Id$
  */
-class File_CSS_Combiner
+class FS_File_CSS_Combiner
 {
 	/**	@var		string		$prefix			Prefix of combined File Name */
 	var $prefix					= "";

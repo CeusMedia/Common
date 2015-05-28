@@ -19,7 +19,7 @@
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		$Id$
  */
-class File_INI {
+class FS_File_INI {
 
 	protected $sections		= NULL;
 	protected $pairs		= NULL;
@@ -155,7 +155,7 @@ class File_INI {
 				$list[]	= $key.str_repeat( "\t", $indent ).'= '.$value;
 			}
 		}
-		return File_Writer::save( $this->fileName, join( "\n", $list ), $this->mode );
+		return FS_File_Writer::save( $this->fileName, join( "\n", $list ), $this->mode );
 	}
 }
 ?>

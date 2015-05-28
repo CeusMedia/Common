@@ -37,7 +37,7 @@
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		$Id$
  */
-class File_Log_Writer
+class FS_File_Log_Writer
 {
 	/**	@var		string		$uri		URI of Log File */
 	protected $uri;

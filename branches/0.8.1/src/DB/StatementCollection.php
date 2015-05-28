@@ -39,18 +39,18 @@
  *	@since			26.11.04
  *	@version		$Id$
  */
-class Database_StatementCollection
+class DB_StatementCollection
 {
-	/**	@var	Database_StatementBuilder	$builder		Reference to a Statement Builder Object */
+	/**	@var	DB_StatementBuilder	$builder		Reference to a Statement Builder Object */
 	protected $builder;
 
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		Database_StatementBuilder	$builder	Reference to a Statement Builder Object
+	 *	@param		DB_StatementBuilder	$builder	Reference to a Statement Builder Object
 	 *	@return		void
 	 */
-	public function __construct( Database_StatementBuilder $builder )
+	public function __construct( DB_StatementBuilder $builder )
 	{
 		$this->builder	= $builder;
 	}

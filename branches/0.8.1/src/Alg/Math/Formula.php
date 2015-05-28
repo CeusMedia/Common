@@ -35,7 +35,7 @@
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		$Id$
  */
-class Math_Formula
+class Alg_Math_Formula
 {
 	/**	@var		string		$name			Formular Name (default 'f') */
 	protected $name	= "f";

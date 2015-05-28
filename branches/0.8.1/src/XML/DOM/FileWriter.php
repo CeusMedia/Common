@@ -30,7 +30,7 @@
  *	@category		cmClasses
  *	@package		XML.DOM
  *	@uses			XML_DOM_Builder
- *	@uses			File_Writer
+ *	@uses			FS_File_Writer
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2012 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -79,7 +79,7 @@ class XML_DOM_FileWriter
 	{
 		$builder	= new XML_DOM_Builder();
 		$xml		= $builder->build( $tree, $encoding );
-		return File_Writer::save( $fileName, $xml );
+		return FS_File_Writer::save( $fileName, $xml );
 	}
 }
 ?>

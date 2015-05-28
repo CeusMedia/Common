@@ -30,7 +30,7 @@
  *	Class to find all Files with ToDos inside.
  *	@category		cmClasses
  *	@package		File
- *	@uses			File_RegexFilter
+ *	@uses			FS_File_RegexFilter
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2012 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -38,7 +38,7 @@
  *	@since			11.06.2008
  *	@version		$Id$
  */
-class File_TodoLister
+class FS_File_TodoLister
 {
 	/**	@var		int			$numberFound	Number of matching Files */
 	protected $numberFound		= 0;
@@ -99,7 +99,7 @@ class File_TodoLister
 
 	protected function getIndexIterator( $path, $filePattern )
 	{
-		return new File_RegexFilter( $path, $filePattern );
+		return new FS_File_RegexFilter( $path, $filePattern );
 	}
 	
 	/**

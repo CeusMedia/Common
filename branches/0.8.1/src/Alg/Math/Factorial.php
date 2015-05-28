@@ -37,7 +37,7 @@
  *	@since			24.04.2006
  *	@version		$Id$
  */
-class Math_Factorial
+class Alg_Math_Factorial
 {
 	/**
 	 *	Calculates Factorial of Integer recursive and returns Integer or Double.

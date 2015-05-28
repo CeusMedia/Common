@@ -30,7 +30,7 @@
  *	@category		cmClasses
  *	@package		UI.Image
  *	@extends		UI_Image_Drawer
- *	@uses			Math_CompactInterval
+ *	@uses			Alg_Math_CompactInterval
  *	@uses			Alg_Time_Clock
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@version		$Id$
@@ -65,17 +65,17 @@ class UI_Image_FormulaDiagram extends UI_Image_Drawer
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		Math_CompactInterval	Interval on X Axis
-	 *	@param		Math_CompactInterval	Interval on Y Axis
-	 *	@param		Math_Formula			Formula to display
+	 *	@param		Alg_Math_CompactInterval	Interval on X Axis
+	 *	@param		Alg_Math_CompactInterval	Interval on Y Axis
+	 *	@param		Alg_Math_Formula			Formula to display
 	 *	@param		float					Dots between to 2 Points.
 	 *	@param		int						Dots between Grid Lines (0 for 'no Grid')
 	 *	@return		void
 	 */
 	public function __construct( $intervalX, $intervalY, $formula, $step = 1, $grid = 0 )
 	{
-		$this->intervalX	= $grid ? new Math_CompactInterval( $intervalX->getStart(), $intervalX->getEnd() + 1 ) : $intervalX;
-		$this->intervalY	= $grid ? new Math_CompactInterval( $intervalY->getStart(), $intervalY->getEnd() + 1 ) : $intervalY;
+		$this->intervalX	= $grid ? new Alg_Math_CompactInterval( $intervalX->getStart(), $intervalX->getEnd() + 1 ) : $intervalX;
+		$this->intervalY	= $grid ? new Alg_Math_CompactInterval( $intervalY->getStart(), $intervalY->getEnd() + 1 ) : $intervalY;
 		$this->formula		= $formula;
 		$this->step			= (real) $step;
 		$this->grid			= (int) $grid;

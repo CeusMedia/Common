@@ -1,6 +1,5 @@
 <?php
 class Alg_ID{
-
 	static public function uuid(){
 	    if( function_exists( 'com_create_guid' ) === TRUE )
 	        return trim( com_create_guid(), '{}' );
