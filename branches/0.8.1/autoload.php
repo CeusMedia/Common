@@ -1,4 +1,33 @@
 <?php
+
+$pathSrc	= dirname(__FILE__) . "/src/";
+
+if (!defined('CMC_PATH')) {
+	define('CMC_PATH', $pathSrc);
+}
+
+/* PSR-0 */
+require_once $pathSrc . 'FS/Autoloader/Psr0.php';
+
+//$loader = new \CeusMedia\Common\FS\Autoloader\Psr0('CeusMedia\Common', $pathSrc);
+$loader = new \CeusMedia\Common\FS\Autoloader\Psr0();
+//$loader = new FS_Autoloader_Psr0();
+$loader->setIncludePath($pathSrc);
+$loader->register();
+
+
+/* PSR-4 - use this for v0.9
+require_once $pathSrc . 'FS/Autoloader/Psr4.php';
+$loader = new \CeusMedia\Common\FS\Psr4AutoloaderClass;
+$loader->register();
+$loader->addNamespace('CeusMedia\Common', $pathSrc);
+*/
+
+class_exists('UI_DevOutput');
+return;
+
+
+
 /*  --  cmClasses AutoLoader  -- */
 if( !defined( 'CMC_PATH' ) )
 	define( 'CMC_PATH', dirname( __FILE__ )."/src/" );
