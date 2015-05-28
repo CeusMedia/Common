@@ -21,6 +21,7 @@ class CMC_Loader
 {
 	protected $extensions	= array(
 		'php',
+		'php5',
 		'inc'
 	);
 	protected $logFile		= NULL;
