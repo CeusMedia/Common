@@ -1,4 +1,23 @@
 <?php
+$pathLib	= realpath(dirname(dirname(__FILE__)));
+$pathSrc	= realpath(dirname(dirname(__FILE__)) . '/src');
+
+require_once $pathSrc . '/FS/Autoloader/Psr0.php';
+
+$loaderTest	= new \CeusMedia\Common\FS\Autoloader\Psr0;
+$loaderTest->setIncludePath($pathLib);
+$loaderTest->register();
+
+$loaderSrc	= new \CeusMedia\Common\FS\Autoloader\Psr0;
+$loaderSrc->setIncludePath($pathSrc);
+$loaderSrc->register();
+
+$__config	= parse_ini_file($pathLib.'/cmClasses.ini', TRUE);
+//print_m( $__config );die;
+Test_Case::$config = $__config;
+class_exists('UI_DevOutput');
+return;
+
 $pathTests		= dirname( __FILE__ ).DIRECTORY_SEPARATOR;
 $pathLibrary	= dirname( $pathTests ).DIRECTORY_SEPARATOR;
 require_once $pathLibrary.'autoload.php5';

@@ -12,7 +12,7 @@ require_once 'Test/initLoaders.php';
  *	@package		Tests.ui.image
  *	@extends		Test_Case
  *	@uses			UI_Image_Creator
- *	@uses			File_Reader
+ *	@uses			FS_File_Reader
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			16.06.2008
  *	@version		0.1
@@ -58,7 +58,7 @@ class Test_UI_Image_CreatorTest extends Test_Case
 		$image->loadImage( $this->path."sourceCreator.png" );
 		imagepng( $image->getResource(), $this->path."targetCreator.png" );
 		
-		$file		= new File_Reader( $this->path."sourceCreator.png" );
+		$file		= new FS_File_Reader( $this->path."sourceCreator.png" );
 		$this->assertTrue( $file->equals( $this->path."targetCreator.png" ) );
 	}
 
@@ -78,7 +78,7 @@ class Test_UI_Image_CreatorTest extends Test_Case
 		$image->loadImage( $this->path."sourceCreator.gif" );
 		imagegif( $image->getResource(), $this->path."targetCreator.gif" );
 		
-		$file		= new File_Reader( $this->path."sourceCreator.gif" );
+		$file		= new FS_File_Reader( $this->path."sourceCreator.gif" );
 		$this->assertTrue( $file->equals( $this->path."targetCreator.gif" ) );
 	}
 

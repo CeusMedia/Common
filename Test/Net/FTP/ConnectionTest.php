@@ -27,8 +27,7 @@ class Test_Net_FTP_ConnectionTest extends Test_Case
 	 */
 	public function __construct()
 	{
-		$config	= parse_ini_file( CMC_PATH.'../cmClasses.ini', TRUE );
-		$this->config	= $config['unitTest-FTP'];
+		$this->config	= self::$config['unitTest-FTP'];
 		$this->host		= $this->config['host'];
 		$this->port		= $this->config['port'];
 		$this->username	= $this->config['user'];

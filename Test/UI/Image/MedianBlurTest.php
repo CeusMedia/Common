@@ -12,7 +12,7 @@ require_once 'Test/initLoaders.php';
  *	@package		Tests.ui.image
  *	@extends		Test_Case
  *	@uses			UI_Image_MedianBlur
- *	@uses			File_Reader
+ *	@uses			FS_File_Reader
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			16.02.2008
  *	@version		0.1
@@ -56,7 +56,7 @@ class Test_UI_Image_MedianBlurTest extends Test_Case
 		$creation	= file_exists( $targetFile );
 		$this->assertEquals( $assertion, $creation );
 
-		$file		= new File_Reader( $assertFile );
+		$file		= new FS_File_Reader( $assertFile );
 		$this->assertTrue( $file->equals( $targetFile ) );
 	}
 
@@ -76,7 +76,7 @@ class Test_UI_Image_MedianBlurTest extends Test_Case
 		$creation	= file_exists( $targetFile );
 		$this->assertEquals( $assertion, $creation );
 
-		$file		= new File_Reader( $assertFile );
+		$file		= new FS_File_Reader( $assertFile );
 		$this->assertTrue( $file->equals( $targetFile ) );
 	}
 
@@ -96,7 +96,7 @@ class Test_UI_Image_MedianBlurTest extends Test_Case
 		$creation	= file_exists( $targetFile );
 		$this->assertEquals( $assertion, $creation );
 
-		$file		= new File_Reader( $assertFile );
+		$file		= new FS_File_Reader( $assertFile );
 		$this->assertTrue( $file->equals( $targetFile ) );
 	}
 
