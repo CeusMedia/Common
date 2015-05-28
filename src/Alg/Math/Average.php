@@ -38,7 +38,7 @@
  *	@version		$Id$
  *	@todo			finish Implementation
  */
-class Math_Average
+class Alg_Math_Average
 {
 	/**
 	 *	Calculates artithmetic Average.

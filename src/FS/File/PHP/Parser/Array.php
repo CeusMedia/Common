@@ -30,7 +30,7 @@
  *	Parses PHP Files containing a Class or Methods to Array using regular expressions (slow).
  *	@category		cmClasses
  *	@package		File.PHP.Parser
- *	@uses			File_Reader
+ *	@uses			FS_File_Reader
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2012 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -39,7 +39,7 @@
  *	@version		$Id$
  *	@todo			Code Doc
  */
-class File_PHP_Parser_Array
+class FS_File_PHP_Parser_Array
 {
 	protected $fileData	= array(
 		'name'			=> "",
@@ -296,7 +296,7 @@ class File_PHP_Parser_Array
 	 */
 	public function parseFile( $fileName, $innerPath )
 	{
-		$content		= File_Reader::load( $fileName );
+		$content		= FS_File_Reader::load( $fileName );
 		$lines			= explode( "\n", $content );
 		$openBlocks		= array();
 		$fileBlock		= NULL;

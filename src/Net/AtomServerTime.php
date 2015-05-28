@@ -31,8 +31,8 @@
  *	@category		cmClasses
  *	@package		Net
  *	@uses			Net_AtomTime
- *	@uses			File_Reader
- *	@uses			File_Writer
+ *	@uses			FS_File_Reader
+ *	@uses			FS_File_Writer
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2012 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -75,7 +75,7 @@ class Net_AtomServerTime
 	{
 		if( !file_exists( $this->syncFile ) )
 			$this->synchronize();
-		$ir = new File_INI_Reader ($this->syncFile, false);
+		$ir = new FS_File_INI_Reader ($this->syncFile, false);
 		$data = $ir->getProperties (true);
 		$this->syncTime	= $data['time'];
 		$this->syncDiff	= $data['diff'];
@@ -94,13 +94,13 @@ class Net_AtomServerTime
 			if( ( time() - $time ) < $this->refreshTime )
 			{
 				$this->syncTime	= $time;
-				$this->syncDiff	= File_Reader::load( $this->syncFile );
+				$this->syncDiff	= FS_File_Reader::load( $this->syncFile );
 				return;
 			}
 		}
 		$this->syncTime	= time();
 		$this->syncDiff	= $this->syncTime - Net_AtomTime::getTimestamp();
-		File_Writer::save( $this->syncFile, $this->syncDiff );
+		FS_File_Writer::save( $this->syncFile, $this->syncDiff );
 		touch( $this->syncFile );
 	}
 	

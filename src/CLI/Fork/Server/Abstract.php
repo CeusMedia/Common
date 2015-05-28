@@ -39,7 +39,7 @@
  *	@since			0.6.8
  *	@version		$Id$
  */
-abstract class Console_Fork_Server_Abstract
+abstract class CLI_Fork_Server_Abstract
 {
 	const E_LISTEN_FAILED		= 'No sense in creating socket';
 	const E_ACCEPT_FAILED		= 'Miscommunicating';
@@ -90,7 +90,7 @@ abstract class Console_Fork_Server_Abstract
 	public function getPid()
 	{
 		if( !$this->isRunning() )
-			throw new Console_Fork_ServerException( 'Server is not running' );
+			throw new CLI_Fork_ServerException( 'Server is not running' );
 		return trim( file_get_contents( $this->filePid ) );
 	}
 
@@ -154,7 +154,7 @@ abstract class Console_Fork_Server_Abstract
 					unlink( $this->filePid );
 			}
 			else
-				throw new Console_Fork_Server_Exception( 'Server is already running' );
+				throw new CLI_Fork_Server_Exception( 'Server is already running' );
 		}
 
 		//	Set up the basic
@@ -170,7 +170,7 @@ abstract class Console_Fork_Server_Abstract
 
 		$pid = pcntl_fork();																		//	Fork and exit (daemonize)
 		if( $pid == -1 )																			//	Not good.
-			throw new Console_Fork_Server_Exception( 'Could not fork' );
+			throw new CLI_Fork_Server_Exception( 'Could not fork' );
 
 		else if( $pid )
 		{
@@ -186,7 +186,7 @@ abstract class Console_Fork_Server_Abstract
 			{
 				$this->signalHangup = TRUE;
 				$errNo	= socket_last_error();
-				throw new Console_Fork_Server_SocketException( self::E_LISTEN_FAILED, $errNo );
+				throw new CLI_Fork_Server_SocketException( self::E_LISTEN_FAILED, $errNo );
 			}
 			//	Whoop-tee-loop!
 			while( !$this->signalHangup && !$this->signalTerm )										//	Patiently wait until some of our children dies. Make sure we don't use all powers that be.
@@ -221,7 +221,7 @@ abstract class Console_Fork_Server_Abstract
 				{
 					$this->signalHangup = TRUE;
 					$errNo	= socket_last_error();
-					throw new Console_Fork_Server_SocketException( self::E_ACCEPT_FAILED, $errNo );
+					throw new CLI_Fork_Server_SocketException( self::E_ACCEPT_FAILED, $errNo );
 					continue;
 				}
 
@@ -237,7 +237,7 @@ abstract class Console_Fork_Server_Abstract
 				$pid = pcntl_fork();
 				if( $pid == -1 )																	//	Not good.
 				{
-					throw new Console_Fork_Server_Exception( 'Could not fork' );
+					throw new CLI_Fork_Server_Exception( 'Could not fork' );
 				}
 				else if( $pid )																		//	This is the parent. It doesn't do much.
 				{
@@ -255,7 +255,7 @@ abstract class Console_Fork_Server_Abstract
 						if( $tbuf === FALSE )
 						{
 							$errNo	= socket_last_error();
-							throw new Console_Fork_Server_SocketException( self::E_READ_FAILED, $errNo );
+							throw new CLI_Fork_Server_SocketException( self::E_READ_FAILED, $errNo );
 							break;
 						}
 						$rbuf = $tbuf;
@@ -265,7 +265,7 @@ abstract class Console_Fork_Server_Abstract
 							if( $tbuf === FALSE )
 							{
 								$errNo	= socket_last_error();
-								throw new Console_Fork_Server_SocketException( self::E_READ_FAILED, $errNo );
+								throw new CLI_Fork_Server_SocketException( self::E_READ_FAILED, $errNo );
 								break;
 							}
 							$rbuf .= $tbuf;
@@ -277,7 +277,7 @@ abstract class Console_Fork_Server_Abstract
 						if( socket_write( $conn, $wbuf ) === FALSE )
 						{
 							$errNo	= socket_last_error();
-							throw new Console_Fork_Server_SocketException( self::E_WRITE_FAILED, $errNo );
+							throw new CLI_Fork_Server_SocketException( self::E_WRITE_FAILED, $errNo );
 							break;
 						}
 						break;
@@ -297,7 +297,7 @@ abstract class Console_Fork_Server_Abstract
 			if( socket_close( $sock ) === FALSE )													//	Kill the listener.
 			{
 				$errNo	= socket_last_error();
-				throw new Console_Fork_Server_SocketException( self::E_CLOSE_FAILED, $errNo );
+				throw new CLI_Fork_Server_SocketException( self::E_CLOSE_FAILED, $errNo );
 			}
 			$this->signalHangup = FALSE;
 			$this->timeStarted	= time();

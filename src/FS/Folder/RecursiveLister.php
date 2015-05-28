@@ -38,9 +38,9 @@
  *	Folders starting with a Dot can be stripped from the List.
  *	@category		cmClasses
  *	@package		Folder
- *	@extends		Folder_Lister
- *	@uses			Folder_RecursiveRegexFilter
- *	@uses			Folder_RecursiveIterator
+ *	@extends		FS_Folder_Lister
+ *	@uses			FS_Folder_RecursiveRegexFilter
+ *	@uses			FS_Folder_RecursiveIterator
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2012 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -48,7 +48,7 @@
  *	@since			15.04.2008
  *	@version		$Id$
  */
-class Folder_RecursiveLister extends Folder_Lister
+class FS_Folder_RecursiveLister extends FS_Folder_Lister
 {
 	/**
 	 *	Returns List as FilterIterator.
@@ -58,14 +58,14 @@ class Folder_RecursiveLister extends Folder_Lister
 	public function getList()
 	{
 		if( $this->pattern )
-			return new Folder_RecursiveRegexFilter(
+			return new FS_Folder_RecursiveRegexFilter(
 				$this->path,
 				$this->pattern,
 				$this->showFiles,
 				$this->showFolders,
 				$this->stripDotEntries
 			);
-		return new Folder_RecursiveIterator(
+		return new FS_Folder_RecursiveIterator(
 			$this->path,
 			$this->showFiles,
 			$this->showFolders,
@@ -83,7 +83,7 @@ class Folder_RecursiveLister extends Folder_Lister
 	 */	
 	public static function getFileList( $path, $pattern = NULL )
 	{
-		$index	= new Folder_RecursiveLister( $path );
+		$index	= new FS_Folder_RecursiveLister( $path );
 		$index->setPattern( $pattern );
 		$index->showFiles( TRUE );
 		$index->showFolders( FALSE );
@@ -101,7 +101,7 @@ class Folder_RecursiveLister extends Folder_Lister
 	 */	
 	public static function getFolderList( $path, $pattern = NULL, $stripDotEntries = TRUE )
 	{
-		$index	= new Folder_RecursiveLister( $path );
+		$index	= new FS_Folder_RecursiveLister( $path );
 		$index->setPattern( $pattern );
 		$index->showFiles( FALSE );
 		$index->showFolders( TRUE );
@@ -120,7 +120,7 @@ class Folder_RecursiveLister extends Folder_Lister
 	 */	
 	public static function getMixedList( $path, $pattern = NULL, $stripDotEntries = TRUE )
 	{
-		$index	= new Folder_RecursiveLister( $path );
+		$index	= new FS_Folder_RecursiveLister( $path );
 		$index->setPattern( $pattern );
 		$index->showFiles( TRUE );
 		$index->showFolders( TRUE );

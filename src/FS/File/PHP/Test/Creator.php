@@ -30,15 +30,15 @@
  *	@category		cmClasses
  *	@package		File.PHP.Test
  *	@uses			UI_ClassParser
- *	@uses			Folder_Editor
- *	@uses			Folder_RecursiveRegexFilter
+ *	@uses			FS_Folder_Editor
+ *	@uses			FS_Folder_RecursiveRegexFilter
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2012 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		$Id$
  */
-class File_PHP_Test_Creator
+class FS_File_PHP_Test_Creator
 {
 	/**	@var		string			$className			Class Name, eg. Package_Class */
 	protected $className			= "";
@@ -110,7 +110,7 @@ class File_PHP_Test_Creator
 		$template	= str_replace( "{date}", date( "d.m.Y" ), $template );
 		$template	= "<?php\n".$template."\n?>";
 
-		Folder_Editor::createFolder( dirname( $this->targetFile ) );
+		FS_Folder_Editor::createFolder( dirname( $this->targetFile ) );
 		file_put_contents( $this->targetFile, $template );
 	}
 
@@ -179,7 +179,7 @@ class File_PHP_Test_Creator
 		if( file_exists( $this->targetFile ) && !$force )
 			throw new RuntimeException( 'Test Class for Class "'.$this->className.'" is already existing.' );
 		
-		$parser	= new File_PHP_Parser_Array();
+		$parser	= new FS_File_PHP_Parser_Array();
 		$data	= $parser->parseFile( $this->classFile, "" );
 		$this->data	= $data['class'];
 		
@@ -204,7 +204,7 @@ class File_PHP_Test_Creator
 		$fullPath	= "de/ceus-media/".str_replace( "_", "/", $path )."/";		
 		if( file_exists( $fullPath ) && is_dir( $fullPath ) )
 		{
-			$filter	= new Folder_RecursiveRegexFilter( $fullPath, "@\.php5$@i", TRUE, FALSE );
+			$filter	= new FS_Folder_RecursiveRegexFilter( $fullPath, "@\.php5$@i", TRUE, FALSE );
 			foreach( $filter as $entry )
 			{
 				$counter++;
@@ -212,7 +212,7 @@ class File_PHP_Test_Creator
 				$className	= substr( $className, strlen( $fullPath ) );
 				$className	= preg_replace( "@\.php5$@i", "", $className );
 				$className	= str_replace( "/", "_", $className );
-				$creator	= new File_PHP_Test_Creator();
+				$creator	= new FS_File_PHP_Test_Creator();
 				$creator->createForFile( $path."_".$className, $force );
 			}
 		}

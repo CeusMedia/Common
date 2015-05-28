@@ -35,7 +35,7 @@
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		$Id$
  */
-class Math_Algebra_Vector
+class Alg_Math_Algebra_Vector
 {
 	/**	@var		int			$dimension		Dimension of the Vector */
 	protected $dimension		= 0;

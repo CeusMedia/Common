@@ -140,7 +140,7 @@ class XML_Element extends SimpleXMLElement
 	public function asFile( $fileName )
 	{
 		$xml	= $this->asXml();
-		return File_Writer::save( $fileName, $xml );
+		return FS_File_Writer::save( $fileName, $xml );
 	}
 
 	/**

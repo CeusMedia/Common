@@ -40,7 +40,7 @@
  *	@since			15.04.2008
  *	@version		$Id$
  */
-class Folder_RecursiveIterator extends FilterIterator
+class FS_Folder_RecursiveIterator extends FilterIterator
 {
 	/**	@var		 string		$path				Path to iterate */
 	protected $path;

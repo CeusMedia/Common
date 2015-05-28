@@ -37,7 +37,7 @@
  *	@since			11.08.2005
  *	@version		$Id$
  */
-class Console_Shell
+class CLI_Shell
 {
 	/**	@var	array	$skip	Commands to skip */
 	protected $skip	= array(

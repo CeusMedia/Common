@@ -30,8 +30,8 @@
  *	Editor for sectioned Ini Files using parse_ini_file.
  *	@category		cmClasses
  *	@package		File.INI
- *	@extends		File_INI_SectionReader
- *	@uses			File_Writer
+ *	@extends		FS_File_INI_SectionReader
+ *	@uses			FS_File_Writer
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2012 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -39,7 +39,7 @@
  *	@since			01.11.2005
  *	@version		$Id$
  */
-class File_INI_SectionEditor extends File_INI_SectionReader
+class FS_File_INI_SectionEditor extends FS_File_INI_SectionReader
 {
 	/**
 	 *	Adds a Section.
@@ -131,7 +131,7 @@ class File_INI_SectionEditor extends File_INI_SectionReader
 			foreach( $this->data[$section] as $key => $value )
 				$lines[]	= $this->fillUp( $key )."=".$value;
 		}
-		return File_Writer::saveArray( $this->fileName, $lines );
+		return FS_File_Writer::saveArray( $this->fileName, $lines );
 		$this->read();
 	}
 }

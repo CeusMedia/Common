@@ -30,7 +30,7 @@
  *	Writer for RSS 2.0 Feeds.
  *	@category		cmClasses
  *	@package		XML.RSS
- *	@uses			File_Reader
+ *	@uses			FS_File_Reader
  *	@uses			XML_RSS_Builder
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2012 Christian Würker
@@ -111,7 +111,7 @@ class XML_RSS_Writer
 		$builder->setChannelData( $channelData );
 		$builder->setItemList( $itemList );
 		$xml	= $builder->build( $encoding = "utf-8" );
-		return File_Writer::save( $fileName, $xml );
+		return FS_File_Writer::save( $fileName, $xml );
 	}
 
 	/**

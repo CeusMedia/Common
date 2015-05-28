@@ -37,7 +37,7 @@
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		$Id$.6
  */
-class Database_Row implements Countable, Iterator, ArrayAccess
+class DB_Row implements Countable, Iterator, ArrayAccess
 {
 	/**	@var		int			$cursor			Internal Pointer to current Row */
 	protected $____cursor;

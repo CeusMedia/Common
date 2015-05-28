@@ -29,7 +29,7 @@
  *	...
  *	@category		cmClasses
  *	@package		Math.Geometry
- *	@uses			Math_Geometry_Triangle
+ *	@uses			Alg_Math_Geometry_Triangle
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2012 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -37,7 +37,7 @@
  *	@version		$Id$
  *	@todo			Code Documentation
  */
-class Math_Geometry_Rectangle
+class Alg_Math_Geometry_Rectangle
 {
 	public function __construct( $a, $b )
 	{
@@ -57,7 +57,7 @@ class Math_Geometry_Rectangle
 	
 	public function diagonal()
 	{
-		$t = new Math_Geometry_Triangle();
+		$t = new Alg_Math_Geometry_Triangle();
 		$c = $t->pythagoras( $this->a, $this->b );
 		return $c;
 	}

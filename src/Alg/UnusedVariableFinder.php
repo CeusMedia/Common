@@ -225,7 +225,7 @@ class Alg_UnusedVariableFinder
 	 */
 	public function readFile( $fileName )
 	{
-		$code	= File_Reader::load( $fileName );
+		$code	= FS_File_Reader::load( $fileName );
 		$this->readCode( $code );
 	}
 }

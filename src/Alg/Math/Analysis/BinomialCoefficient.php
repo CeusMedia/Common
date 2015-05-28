@@ -30,7 +30,7 @@
  *	Calculation of Factorial for Integers.
  *	@category		cmClasses
  *	@package		Math.Analysis
- *	@uses			Math_Factorial
+ *	@uses			Alg_Math_Factorial
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2012 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -38,7 +38,7 @@
  *	@since			24.04.2006
  *	@version		$Id$
  */
-class Math_Analysis_BinomialCoefficient
+class Alg_Math_Analysis_BinomialCoefficient
 {	
 	/**
 	 *	Calculates Binomial Coefficient of Top and Button Integers.
@@ -57,7 +57,7 @@ class Math_Analysis_BinomialCoefficient
 			throw new InvalidArgumentException( 'Bottom Number must be an Integer.' );
 		else
 		{
-			$result	= Math_Factorial::calculate( $top ) / ( Math_Factorial::calculate( $bottom ) * Math_Factorial::calculate( $top - $bottom ) );
+			$result	= Alg_Math_Factorial::calculate( $top ) / ( Alg_Math_Factorial::calculate( $bottom ) * Alg_Math_Factorial::calculate( $top - $bottom ) );
 			return $result;
 		}
 	}

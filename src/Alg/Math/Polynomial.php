@@ -29,14 +29,14 @@
  *	Polynomial.
  *	@category		cmClasses
  *	@package		Math
- *	@uses			Math_Formula
+ *	@uses			Alg_Math_Formula
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2012 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		$Id$
  */
-class Math_Polynomial
+class Alg_Math_Polynomial
 {
 	/**	@var		array		$_coefficients		Array of coefficients starting with highest potency */
 	protected $coefficients = array();
@@ -125,7 +125,7 @@ class Math_Polynomial
 	/**
 	 *	Returns Formula Object of Polynomial.
 	 *	@access		public
-	 *	@return		Math_Formula
+	 *	@return		Alg_Math_Formula
 	 *	@since		15.09.2006
 	 */
 	public function getFormula()
@@ -152,7 +152,7 @@ class Math_Polynomial
 					$expression	.= $expression ? $sign.abs( $a ) : $a;
 			}
 		}
-		$formula	= new Math_Formula( $expression, "x" );
+		$formula	= new Alg_Math_Formula( $expression, "x" );
 		return $formula;
 	}
 	

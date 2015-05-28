@@ -38,7 +38,7 @@
  *	@since			20.01.2006
  *	@version		$Id$
  */
-class Console_Server_Cron_Job extends ADT_OptionObject
+class CLI_Server_Cron_Job extends ADT_OptionObject
 {
 	/**
 	 *	Constructor.

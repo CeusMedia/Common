@@ -29,15 +29,15 @@
  *	Combines and compresses Stylesheet Files of cmFramework Themes.
  *	@category		cmClasses
  *	@package		File.CSS.Theme
- *	@uses			File_CSS_Combiner
- *	@uses			File_CSS_Compressor
+ *	@uses			FS_File_CSS_Combiner
+ *	@uses			FS_File_CSS_Compressor
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2012 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		$Id$
  */
-class File_CSS_Theme_Minimizer
+class FS_File_CSS_Theme_Minimizer
 {
 	/**	@var		string		$cssFolder		Name of CSS Folder within Theme Path (optional) */
 	protected $cssFolder		= "";
@@ -67,8 +67,8 @@ class File_CSS_Theme_Minimizer
 	public function __construct( $themesPath )
 	{
 		$this->setThemesPath( $themesPath );										//  set Themes Path
-		$this->combiner		= new File_CSS_Combiner;
-		$this->compressor	= new File_CSS_Compressor;								//  get CSS Compressor Instance
+		$this->combiner		= new FS_File_CSS_Combiner;
+		$this->compressor	= new FS_File_CSS_Compressor;								//  get CSS Compressor Instance
 	}
 	
 	/**
@@ -136,10 +136,10 @@ class File_CSS_Theme_Minimizer
 	/**
 	 *	Sets a combiner Object to use.
 	 *	@access		public
-	 *	@param		File_CSS_Combiner	$combiner		Combiner Object
+	 *	@param		FS_File_CSS_Combiner	$combiner		Combiner Object
 	 *	@return		void
 	 */
-	public function setCombinerObject( File_CSS_Combiner $combiner )
+	public function setCombinerObject( FS_File_CSS_Combiner $combiner )
 	{
 		$this->combiner	= $combiner;
 	}
@@ -169,10 +169,10 @@ class File_CSS_Theme_Minimizer
 	/**
 	 *	Sets a Compressor Object to use.
 	 *	@access		public
-	 *	@param		File_CSS_Compressor	$compressor		Compressor Object
+	 *	@param		FS_File_CSS_Compressor	$compressor		Compressor Object
 	 *	@return		void
 	 */
-	public function setCompressorObject( File_CSS_Compressor $compressor )
+	public function setCompressorObject( FS_File_CSS_Compressor $compressor )
 	{
 		$this->compressor	= $compressor;
 	}

@@ -35,7 +35,7 @@
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		$Id$
  */
-class Console_Command_ArgumentParser
+class CLI_Command_ArgumentParser
 {
 	const STATUS_START				= 0; 
 	const STATUS_READ_OPTION_KEY	= 1; 

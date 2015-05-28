@@ -30,8 +30,8 @@
  *	Cron Parser.
  *	@category		cmClasses
  *	@package		Console.Server.Cron
- *	@uses			Console_Server_Cron_Job
- *	@uses			File_Reader
+ *	@uses			CLI_Server_Cron_Job
+ *	@uses			FS_File_Reader
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2012 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -39,7 +39,7 @@
  *	@since			20.01.2006
  *	@version		$Id$
  */
-class Console_Server_Cron_Parser
+class CLI_Server_Cron_Parser
 {
 	/**	@var		array		$jobs			Array of parse Cron Jobs */
 	protected $jobs				= array();
@@ -123,7 +123,7 @@ class Console_Server_Cron_Parser
 	{
 		if( !file_exists( $fileName ) )
 			throw new Exception( "Cron Tab File '".$fileName."' is not existing." );
-		$reader	= new File_Reader( $fileName );
+		$reader	= new FS_File_Reader( $fileName );
 		$lines	= $reader->readArray();
 		$lines	= file( $fileName );
 		foreach( $lines as $line )
@@ -144,7 +144,7 @@ class Console_Server_Cron_Parser
 		{
 			$match	= preg_replace( $pattern, "\\2|||\\4|||\\6|||\\8|||\\10|||\\12", $string );
 			$match	= explode( "|||", $match );
-			$job	= new Console_Server_Cron_Job( $match[5] );
+			$job	= new CLI_Server_Cron_Job( $match[5] );
 			$job->setOption( "minute",	$this->getValues( $match[0], 2 ) );
 			$job->setOption( "hour",	$this->getValues( $match[1], 2 ) );
 			$job->setOption( "day",		$this->getValues( $match[2], 2 ) );

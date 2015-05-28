@@ -56,7 +56,7 @@ class Net_API_Dyn{
 		if( is_string( $cacheFile ) ){
 			$this->cacheFile	= $cacheFile;
 			if( file_exists( $cacheFile ) ){
-				$data	= json_decode( File_Reader::load( $cacheFile ) );
+				$data	= json_decode( FS_File_Reader::load( $cacheFile ) );
 				$this->lastIp		= $data->ip;
 				$this->lastCheck	= $data->timestamp;
 			}
@@ -95,7 +95,7 @@ class Net_API_Dyn{
 			'timestamp'	=> $this->lastCheck
 		);
 		$data	= array_merge( $last,  $data );
-		return File_Writer::save( $this->cacheFile, json_encode( $data ) );
+		return FS_File_Writer::save( $this->cacheFile, json_encode( $data ) );
 	}
 
 	/**

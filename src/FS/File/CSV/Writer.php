@@ -29,14 +29,14 @@
  *	Writing comma separatad values (CSV) data with or without column headers to File. 
  *	@category		cmClasses
  *	@package		File.CSV
- *	@uses			File_Writer
+ *	@uses			FS_File_Writer
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2012 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		$Id$
  */
-class File_CSV_Writer
+class FS_File_CSV_Writer
 {
 	/**	@var		string		$fileName		Flag: use ColumnHeaders in first line */
 	protected $fileName;
@@ -91,7 +91,7 @@ class File_CSV_Writer
 			$line = implode( $this->separator, $line );
 			$output[] = $line;
 		}
-		$file	= new File_Writer( $this->fileName );
+		$file	= new FS_File_Writer( $this->fileName );
 		return $file->writeArray( $output );
 	}
 }

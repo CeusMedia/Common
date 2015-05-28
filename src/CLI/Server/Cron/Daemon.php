@@ -30,8 +30,8 @@
  *	Cron Server.
  *	@category		cmClasses
  *	@package		Console.Server.Cron
- *	@uses			Console_Server_Cron_Parser
- *	@uses			File_Log_Writer
+ *	@uses			CLI_Server_Cron_Parser
+ *	@uses			FS_File_Log_Writer
  *	@copyright		2007-2012 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
@@ -39,7 +39,7 @@
  *	@since			20.01.2006
  *	@version		$Id$
  */
-class Console_Server_Cron_Daemon
+class CLI_Server_Cron_Daemon
 {
 	/**	@var		string		$cronTab		Cron Tab File */
 	protected $cronTab;
@@ -56,7 +56,7 @@ class Console_Server_Cron_Daemon
 	public function __construct( $cronTab, $logFile = "cron.log" )
 	{
 		$this->cronTab	= $cronTab;
-		$this->logFile	= new File_Log_Writer( $logFile );
+		$this->logFile	= new FS_File_Log_Writer( $logFile );
 		ob_implicit_flush();
 		set_time_limit( 0 );
 	}
@@ -74,7 +74,7 @@ class Console_Server_Cron_Daemon
 		{
 			if( $lastminute	!= date( "i", time() ) )
 			{
-				$cp	= new Console_Server_Cron_Parser( $this->cronTab );
+				$cp	= new CLI_Server_Cron_Parser( $this->cronTab );
 				$jobs	= $cp->getJobs();
 				foreach( $jobs as $job )
 				{

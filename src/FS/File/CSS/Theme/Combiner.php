@@ -19,7 +19,7 @@
  *
  *	@category		cmClasses
  *	@package		File.CSS.Theme
- *	@uses			File_CSS_Combiner
+ *	@uses			FS_File_CSS_Combiner
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2012 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -30,14 +30,14 @@
  *	Combines Stylesheet Files of a cmFramework Theme to one single File.
  *	@category		cmClasses
  *	@package		File.CSS.Theme
- *	@uses			File_CSS_Combiner
+ *	@uses			FS_File_CSS_Combiner
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2012 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		$Id$
  */
-class File_CSS_Theme_Combiner extends File_CSS_Combiner
+class FS_File_CSS_Theme_Combiner extends FS_File_CSS_Combiner
 {
 	const PROTOCOL_NONE		= 0;
 	const PROTOCOL_HTTP		= 1;

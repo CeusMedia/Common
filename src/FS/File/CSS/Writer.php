@@ -38,7 +38,7 @@
  *	@since			10.10.2011
  *	@version		$Id$
  */
-class File_CSS_Writer{
+class FS_File_CSS_Writer{
 
 	protected $fileName;
 
@@ -71,8 +71,8 @@ class File_CSS_Writer{
 	 *	@return		void
 	 */
 	static public function save( $fileName, ADT_CSS_Sheet $sheet ){
-		$css	= File_CSS_Converter::convertSheetToString( $sheet );								//  
-		return File_Writer::save( $fileName, $css );												//  
+		$css	= FS_File_CSS_Converter::convertSheetToString( $sheet );								//  
+		return FS_File_Writer::save( $fileName, $css );												//  
 	}
 
 	/**

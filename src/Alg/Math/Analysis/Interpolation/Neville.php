@@ -37,7 +37,7 @@
  *	@since			03.02.2006
  *	@version		$Id$
  */
-class Math_Analysis_Interpolation_Neville
+class Alg_Math_Analysis_Interpolation_Neville
 {
 	/**	@var		array		$data		Array of x and y values (Xi->Fi) */
 	protected $data				= array();

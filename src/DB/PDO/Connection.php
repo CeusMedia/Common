@@ -39,7 +39,7 @@
  *	@version		$Id$
  *	@todo			Code Documentation
  */
-class Database_PDO_Connection extends PDO 
+class DB_PDO_Connection extends PDO 
 {
 	protected $driver				= NULL;
 	public $numberExecutes			= 0;

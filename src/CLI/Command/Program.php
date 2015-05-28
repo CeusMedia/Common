@@ -30,14 +30,14 @@
  *	@category		cmClasses
  *	@package		Console.Command
  *	@abstract
- *	@uses			Console_Command_ArgumentParser
+ *	@uses			CLI_Command_ArgumentParser
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2012 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		$Id$
  */
-abstract class Console_Command_Program
+abstract class CLI_Command_Program
 {
 	/**	@var	array		$arguments		Map of given Arguments */
 	protected $arguments	= NULL;
@@ -74,7 +74,7 @@ abstract class Console_Command_Program
 	 */
 	public function __construct( $options, $shortcuts, $numberArguments = 0 )
 	{
-		$this->parser	= new Console_Command_ArgumentParser();					//  load Argument Parser
+		$this->parser	= new CLI_Command_ArgumentParser();					//  load Argument Parser
 		$this->parser->setNumberOfMandatoryArguments( $numberArguments );		//  set minimum Number of Arguments										//  
 		$this->parser->setPossibleOptions( $options );							//  set Map of Options and Patterns
 		$this->parser->setShortcuts( $shortcuts );								//  set Map of Shortcuts for Options

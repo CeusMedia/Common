@@ -32,7 +32,7 @@
  *	@package		File
  *	@extends		ADT_Cache_StaticStore
  *	@implements		Countable
- *	@uses			File_Cache
+ *	@uses			FS_File_Cache
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2012 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -40,9 +40,9 @@
  *	@since			13.04.2009
  *	@version		$Id$
  */
-class File_StaticCache extends ADT_Cache_StaticStore
+class FS_File_StaticCache extends ADT_Cache_StaticStore
 {
-	/**	@var		File_Cache	$store			Instance of File Cache */
+	/**	@var		FS_File_Cache	$store			Instance of File Cache */
 	protected static $store			= NULL;
 
 	/**
@@ -113,7 +113,7 @@ class File_StaticCache extends ADT_Cache_StaticStore
 	 */
 	public static function init( $path, $expires = 0 )
 	{
-		self::$store	= new File_Cache( $path, $expires );
+		self::$store	= new FS_File_Cache( $path, $expires );
 	}
 
 	/**

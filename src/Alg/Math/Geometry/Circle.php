@@ -36,7 +36,7 @@
  *	@version		$Id$
  *	@todo			Code Documentation
  */
-class Math_Geometry_Circle
+class Alg_Math_Geometry_Circle
 {
 	protected $radius;
 

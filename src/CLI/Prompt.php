@@ -38,7 +38,7 @@
  *	@since			01.06.2012
  *	@version		$Id$
  */
-class Console_Prompt {
+class CLI_Prompt {
 
 	/**	@var	resource		$tty		Terminal (or console) input handler */
 	protected $tty;

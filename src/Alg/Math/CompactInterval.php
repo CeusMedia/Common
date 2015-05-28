@@ -35,7 +35,7 @@
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		$Id$
  */
-class Math_CompactInterval
+class Alg_Math_CompactInterval
 {
 	/**	@var		mixed		$end		End of Interval */
 	protected $end;

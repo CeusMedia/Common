@@ -32,7 +32,7 @@
  *	@package		File
  *	@extends		ADT_Cache_Store
  *	@implements		Countable
- *	@uses			File_Editor
+ *	@uses			FS_File_Editor
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2012 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -40,7 +40,7 @@
  *	@since			13.04.2009
  *	@version		$Id$
  */
-class File_Cache extends ADT_Cache_Store implements Countable
+class FS_File_Cache extends ADT_Cache_Store implements Countable
 {
 	/**	@var		array		$data			Memory Cache */
 	protected $data				= array();
@@ -137,7 +137,7 @@ class File_Cache extends ADT_Cache_Store implements Countable
 			return NULL;
 		if( isset( $this->data[$key] ) )
 			return $this->data[$key];
-		$content	= File_Editor::load( $uri );
+		$content	= FS_File_Editor::load( $uri );
 		$value		= unserialize( $content );
 		$this->data[$key]	= $value;
 		return $value;
@@ -219,7 +219,7 @@ class File_Cache extends ADT_Cache_Store implements Countable
 		$uri		= $this->getUriForKey( $key );
 		$content	= serialize( $value );
 		$this->data[$key]	= $value;
-		File_Editor::save( $uri, $content );
+		FS_File_Editor::save( $uri, $content );
 	}
 }
 ?>

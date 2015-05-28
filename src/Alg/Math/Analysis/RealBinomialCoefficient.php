@@ -30,7 +30,7 @@
  *	Calculation of Factorial for Reals.
  *	@category		cmClasses
  *	@package		Math.Analysis
- *	@uses			Math_Factorial
+ *	@uses			Alg_Math_Factorial
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2012 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -38,7 +38,7 @@
  *	@since			24.04.2006
  *	@version		$Id$
  */
-class Math_Analysis_RealBinomialCoefficient
+class Alg_Math_Analysis_RealBinomialCoefficient
 {
 	/**
 	 *	Calculates Binomial Coefficient of Top and Button Integers.
@@ -59,7 +59,7 @@ class Math_Analysis_RealBinomialCoefficient
 			$product	= 1;
 			for( $i=0; $i<$bottom; $i++ )
 				$product	*= $top - $i;
-			$result	= $product / Math_Factorial::calculate( $bottom );
+			$result	= $product / Alg_Math_Factorial::calculate( $bottom );
 			return $result;
 		}
 	}

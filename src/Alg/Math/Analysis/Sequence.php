@@ -35,18 +35,18 @@
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		$Id$
  */
-class Math_Analysis_Sequence
+class Alg_Math_Analysis_Sequence
 {
-	/**	@var		Math_Formula			$formula		Formula to integrate */
+	/**	@var		Alg_Math_Formula			$formula		Formula to integrate */
 	protected $formula;
-	/**	@var		Math_CompactInterval	$interval		Interval to integrate within */
+	/**	@var		Alg_Math_CompactInterval	$interval		Interval to integrate within */
 	protected $interval;
 
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		Math_Formula			$formula		Formula of Sequence
-	 *	@param		Math_CompactInterval	$interval		Interval of Sequence
+	 *	@param		Alg_Math_Formula			$formula		Formula of Sequence
+	 *	@param		Alg_Math_CompactInterval	$interval		Interval of Sequence
 	 *	@return		void
 	 */
 	public function __construct( $formula, $interval )

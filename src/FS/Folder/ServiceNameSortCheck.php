@@ -31,7 +31,7 @@
  *	@category		cmClasses
  *	@package		Folder
  *	@uses			Net_Service_Definition_NameSortCheck
- *	@uses			File_RecursiveRegexFilter
+ *	@uses			FS_File_RecursiveRegexFilter
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2012 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -39,7 +39,7 @@
  *	@since			04.09.2008
  *	@version		$Id$
  */
-class Folder_ServiceNameSortCheck
+class FS_Folder_ServiceNameSortCheck
 {
 	protected $count	= 0;
 	protected $found	= 0;
@@ -70,7 +70,7 @@ class Folder_ServiceNameSortCheck
 		$this->files	= array();
 		$extensions		= implode( "|", $this->extensions );
 		$pattern		= "@\.(".$extensions.")$@";
-		$filter			=  new File_RecursiveRegexFilter( $this->path, $pattern );
+		$filter			=  new FS_File_RecursiveRegexFilter( $this->path, $pattern );
 		foreach( $filter as $entry )
 		{
 			if( preg_match( "@^(_|\.)@", $entry->getFilename() ) )

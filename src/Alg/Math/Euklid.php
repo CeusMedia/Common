@@ -40,7 +40,7 @@
  *	@version		$Id$
  *	@todo			Code Documentation
  */
-class Math_Euklid
+class Alg_Math_Euklid
 {
 	/**
 	 *	ggT( m, n)

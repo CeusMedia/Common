@@ -30,7 +30,7 @@
  *	Base Implementation of a Unix Demon.
  *	@category		cmClasses
  *	@package		Console.Server
- *	@extends		Console_Application
+ *	@extends		CLI_Application
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2012 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -38,7 +38,7 @@
  *	@since			20.01.2006
  *	@version		$Id$
  */
-class Console_Server_Daemon extends Console_Application
+class CLI_Server_Daemon extends CLI_Application
 {
 	/**
 	 *	Constructor.

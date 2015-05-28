@@ -30,7 +30,7 @@
  *	Converter between OPML and Tree Menu Structure.
  *	@category		cmClasses
  *	@package		Alg.Tree.Menu
- *	@uses			File_Reader
+ *	@uses			FS_File_Reader
  *	@uses			XML_OPML_Parser
  *	@uses			ADT_Tree_Menu_List
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
@@ -53,7 +53,7 @@ class Alg_Tree_Menu_Converter
 	 */
 	public static function convertFromOpmlFile( $fileName, $labelRoot, $rootClass = NULL )
 	{
-		$opml		= File_Reader::load( $fileName );
+		$opml		= FS_File_Reader::load( $fileName );
 		return self::convertFromOpml( $opml, $labelRoot, $rootClass );
 	}
 	

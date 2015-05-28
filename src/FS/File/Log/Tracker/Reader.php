@@ -30,7 +30,7 @@
  *	Reader and Parser for Tracker Log File.
  *	@category		cmClasses
  *	@package		File.Log.Tracker
- *	@extends		File_Log_Reader
+ *	@extends		FS_File_Log_Reader
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2012 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -38,7 +38,7 @@
  *	@since			01.09.2006
  *	@version		$Id$
  */
-class File_Log_Tracker_Reader extends File_Log_Reader
+class FS_File_Log_Tracker_Reader extends FS_File_Log_Reader
 {
 	/*	@var		string		$patterns		RegEx Patterns to parse Line */
 	protected $patterns;

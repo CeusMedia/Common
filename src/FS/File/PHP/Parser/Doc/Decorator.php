@@ -38,7 +38,7 @@
  *	@since			0.6.8
  *	@version		$Id$
  */
-class File_PHP_Parser_Doc_Decorator
+class FS_File_PHP_Parser_Doc_Decorator
 {
 	/**
 	 *	Appends all collected Documentation Information to already collected Code Information.

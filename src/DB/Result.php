@@ -37,7 +37,7 @@
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@version		$Id$
  */
-class Database_Result implements Countable, Iterator
+class DB_Result implements Countable, Iterator
 {
 	/**	@var		int			$cursor			Internal Pointer to current Row */
 	protected $cursor;

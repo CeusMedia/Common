@@ -38,8 +38,8 @@
  *	Folders starting with a Dot can be stripped from the List.
  *	@category		cmClasses
  *	@package		Folder
- *	@uses			Folder_RegexFilter
- *	@uses			Folder_Iterator
+ *	@uses			FS_Folder_RegexFilter
+ *	@uses			FS_Folder_Iterator
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2012 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -47,7 +47,7 @@
  *	@since			15.04.2008
  *	@version		$Id$
  */
-class Folder_Lister
+class FS_Folder_Lister
 {
 	/**	@var		string		$path				Path to Folder */
 	protected $path				= NULL;
@@ -79,14 +79,14 @@ class Folder_Lister
 	public function getList()
 	{
 		if( $this->pattern )
-			return new Folder_RegexFilter(
+			return new FS_Folder_RegexFilter(
 				$this->path,
 				$this->pattern,
 				$this->showFiles,
 				$this->showFolders,
 				$this->stripDotEntries
 			);
-		return new Folder_Iterator(
+		return new FS_Folder_Iterator(
 			$this->path,
 			$this->showFiles,
 			$this->showFolders,
@@ -104,7 +104,7 @@ class Folder_Lister
 	 */	
 	public static function getFileList( $path, $pattern = NULL )
 	{
-		$index	= new Folder_Lister( $path );
+		$index	= new FS_Folder_Lister( $path );
 		$index->setPattern( $pattern );
 		$index->showFiles( TRUE );
 		$index->showFolders( FALSE );
@@ -122,7 +122,7 @@ class Folder_Lister
 	 */	
 	public static function getFolderList( $path, $pattern = NULL, $stripDotEntries = TRUE )
 	{
-		$index	= new Folder_Lister( $path );
+		$index	= new FS_Folder_Lister( $path );
 		$index->setPattern( $pattern );
 		$index->showFiles( FALSE );
 		$index->showFolders( TRUE );
@@ -141,7 +141,7 @@ class Folder_Lister
 	 */	
 	public static function getMixedList( $path, $pattern = NULL, $stripDotEntries = TRUE )
 	{
-		$index	= new Folder_Lister( $path );
+		$index	= new FS_Folder_Lister( $path );
 		$index->setPattern( $pattern );
 		$index->showFiles( TRUE );
 		$index->showFolders( TRUE );

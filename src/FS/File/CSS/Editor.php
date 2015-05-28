@@ -38,7 +38,7 @@
  *	@since			10.10.2011
  *	@version		$Id$
  */
-class File_CSS_Editor{
+class FS_File_CSS_Editor{
 
 	public function __construct( $fileName = NULL ){
 		if( $fileName )
@@ -148,7 +148,7 @@ class File_CSS_Editor{
 	protected function save(){
 		if( !$this->fileName )
 			throw new RuntimeException( 'No CSS file set yet' );
-		return File_CSS_Writer::save( $this->fileName, $this->sheet );
+		return FS_File_CSS_Writer::save( $this->fileName, $this->sheet );
 	}
 
 	public function set( $selector, $key, $value ){
@@ -161,7 +161,7 @@ class File_CSS_Editor{
 
 	public function setFileName( $fileName ){
 		$this->fileName	= $fileName;
-		$this->sheet	= File_CSS_Parser::parseFile( $fileName );
+		$this->sheet	= FS_File_CSS_Parser::parseFile( $fileName );
 	}
 
 	public function setSheet( ADT_CSS_Sheet $sheet ){

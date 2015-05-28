@@ -32,7 +32,7 @@
  *	@package		Net.Service.Definition
  *	@uses			ADT_JSON_Converter
  *	@uses			Service_Definition_XmlReader
- *	@uses			File_Yaml_Reader
+ *	@uses			FS_File_Yaml_Reader
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2012 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -114,7 +114,7 @@ class Net_Service_Definition_Loader
 	 */
 	protected function loadServicesFromYaml( $fileName )
 	{
-		$definition	= File_YAML_Reader::load( $fileName );
+		$definition	= FS_File_YAML_Reader::load( $fileName );
 		$this->completeDefinition( $definition );
 		return $definition;
 	}	

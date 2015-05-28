@@ -39,7 +39,7 @@
  *	@since			26.11.2004
  *	@version		$Id$
  */
-class Database_StatementBuilder
+class DB_StatementBuilder
 {
 	/**	@var		array		$keys 			Array of Keys */	
 	protected $keys				= array();

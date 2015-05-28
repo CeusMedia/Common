@@ -31,7 +31,7 @@
  *	@category		cmClasses
  *	@package		Console
  *	@extends		ADT_List_Dictionary
- *	@uses			Console_RequestReceiver
+ *	@uses			CLI_RequestReceiver
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2012 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -39,7 +39,7 @@
  *	@since			11.01.2006
  *	@version		$Id$
  */
-class Console_ArgumentParser extends ADT_List_Dictionary
+class CLI_ArgumentParser extends ADT_List_Dictionary
 {
 	/**	@var	array		shortcuts		Associative Array of Shortcuts */
 	private $shortcuts	= array();
@@ -53,7 +53,7 @@ class Console_ArgumentParser extends ADT_List_Dictionary
 	 */
 	public function parseArguments( $fallBackOnEmptyPair = FALSE )
 	{
-		$request	= new Console_RequestReceiver( $fallBackOnEmptyPair );
+		$request	= new CLI_RequestReceiver( $fallBackOnEmptyPair );
 		$arguments	= $request->getAll();
 		$script		= key( array_slice( $arguments, 0, 1 ) );
 #		$this->set( "__file", __FILE__ );

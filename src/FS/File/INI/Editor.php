@@ -33,9 +33,9 @@
  *	All Line Feeds and Comments will be kept.
  *	@category		cmClasses
  *	@package		File.INI
- *	@extends		File_INI_Reader
- *	@uses			File_Reader
- *	@uses			File_Writer
+ *	@extends		FS_File_INI_Reader
+ *	@uses			FS_File_Reader
+ *	@uses			FS_File_Writer
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2012 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -43,7 +43,7 @@
  *	@version		$Id$
  *	@todo			Code Documentation
  */
-class File_INI_Editor extends File_INI_Reader
+class FS_File_INI_Editor extends FS_File_INI_Reader
 {
 	/**	@var		array		$added			Added Properties */
 	protected $added			= array();
@@ -115,11 +115,11 @@ class File_INI_Editor extends File_INI_Reader
 	{
 		if( !$this->usesSections() )
 			throw new RuntimeException( 'Sections are disabled' );
-		$lines		= File_Reader::loadArray( $this->fileName );
+		$lines		= FS_File_Reader::loadArray( $this->fileName );
 		$lines[]	= "[".$sectionName."]";
 		if( !in_array( $sectionName, $this->sections ) )
 			$this->sections[] = $sectionName;
-		$result		= File_Writer::saveArray( $this->fileName, $lines );
+		$result		= FS_File_Writer::saveArray( $this->fileName, $lines );
 		$this->read();
 		return is_int( $result );
 	}
@@ -278,9 +278,9 @@ class File_INI_Editor extends File_INI_Reader
 	{
 		if( !$this->usesSections() )
 			throw new RuntimeException( 'Sections are disabled' );
-		$content	= File_Reader::load( $this->fileName );
+		$content	= FS_File_Reader::load( $this->fileName );
 		$content	= preg_replace( "/(.*)(\[".$oldSection."\])(.*)/si", "$1[".$newSection."]$3", $content );
-		$result		= File_Writer::save( $this->fileName, $content );
+		$result		= FS_File_Writer::save( $this->fileName, $content );
 		$this->added	= array();
 		$this->deleted	= array();
 		$this->renamed	= array();
@@ -347,7 +347,7 @@ class File_INI_Editor extends File_INI_Reader
 	 */
 	protected function write()
 	{
-		$file		= new File_Writer( $this->fileName );
+		$file		= new FS_File_Writer( $this->fileName );
 		$newLines	= array();
 		$currentSection	= "";
 		foreach( $this->lines as $line )

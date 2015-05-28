@@ -30,8 +30,8 @@
  *	Reads and writes Configurations via WDDX.
  *	@category		cmClasses
  *	@package		XML.WDDX
- *	@uses			File_Reader
- *	@uses			File_Writer
+ *	@uses			FS_File_Reader
+ *	@uses			FS_File_Writer
  *	@uses			XML_WDDX_FileReader
  *	@uses			XML_WDDX_File_Writer
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
@@ -130,7 +130,7 @@ class XML_WDDX_Configuration
 	 */
 	protected function readCache( $fileName )
 	{
-		$file			= new File_Reader( $fileName );
+		$file			= new FS_File_Reader( $fileName );
 		$content		= $file->readString();
 		$this->config	= unserialize( $content );
 	}
@@ -183,7 +183,7 @@ class XML_WDDX_Configuration
 	 */
 	protected function writeCache( $fileName )
 	{
-		$file		= new File_Writer( $fileName, 0777 );
+		$file		= new FS_File_Writer( $fileName, 0777 );
 		$content	= serialize( $this->getConfigValues() );
 		$file->writeString( $content );
 		touch( $fileName, filemtime( $this->pathConfig.$this->fileName ) );

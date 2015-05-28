@@ -37,7 +37,7 @@
  *	@since			01.11.2005
  *	@version		$Id$
  */
-class File_INI_SectionReader
+class FS_File_INI_SectionReader
 {
 	/**	@var		string		$fileName		Array of parsed Properties from File */
 	protected $data				= array();

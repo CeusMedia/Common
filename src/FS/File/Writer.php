@@ -35,7 +35,7 @@
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		$Id$
  */
-class File_Writer
+class FS_File_Writer
 {
 	public static $minFreeDiskSpace	= 10485760;
 
@@ -106,7 +106,7 @@ class File_Writer
 
 	public static function delete( $fileName )
 	{
-		$writer	= new File_Writer( $fileName );
+		$writer	= new FS_File_Writer( $fileName );
 		return $writer->remove();
 	}
 
@@ -144,7 +144,7 @@ class File_Writer
 	 */
 	public static function save( $fileName, $content, $mode = NULL, $user = NULL, $group = NULL )
 	{
-		$writer	= new File_Writer( $fileName, $mode, $user, $group );
+		$writer	= new FS_File_Writer( $fileName, $mode, $user, $group );
 		return $writer->writeString( $content );
 	}
 
@@ -160,7 +160,7 @@ class File_Writer
 	 */
 	public static function saveArray( $fileName, $array, $lineBreak = "\n" )
 	{
-		$writer	= new File_Writer( $fileName );
+		$writer	= new FS_File_Writer( $fileName );
 		return $writer->writeArray( $array, $lineBreak );
 	}
 
@@ -210,7 +210,7 @@ class File_Writer
 	 */
 	public function setPermissions( $mode )
 	{
-		$permissions	= new File_Permissions( $this->fileName );
+		$permissions	= new FS_File_Permissions( $this->fileName );
 		return $permissions->setByOctal( $mode );
 	}
 

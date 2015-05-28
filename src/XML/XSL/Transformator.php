@@ -30,8 +30,8 @@
  *	Transformator for XML and XSLT.
  *	@category		cmClasses
  *	@package		XML.XSL
- *	@uses			File_Reader
- *	@uses			File_Writer
+ *	@uses			FS_File_Reader
+ *	@uses			FS_File_Writer
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2012 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -54,7 +54,7 @@ class XML_XSL_Transformator
 	 */
 	public function loadXmlFile( $xmlFile )
 	{
-		$reader		= new File_Reader( $xmlFile );
+		$reader		= new FS_File_Reader( $xmlFile );
 		$this->xml	= $reader->readString();
 	}
 
@@ -66,7 +66,7 @@ class XML_XSL_Transformator
 	 */
 	public function loadXslFile( $xslFile )
 	{
-		$reader		= new File_Reader( $xslFile );
+		$reader		= new FS_File_Reader( $xslFile );
 		$this->xsl	= $reader->readString();
 	}
 	
@@ -98,7 +98,7 @@ class XML_XSL_Transformator
 	public function transformToFile( $outFile = false )
 	{
 		$result	= $this->transform();
-		$writer	= new File_Writer( $outFile );
+		$writer	= new FS_File_Writer( $outFile );
 		return $writer->writeString( $result );
 	}
 }

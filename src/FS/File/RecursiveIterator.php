@@ -43,7 +43,7 @@
  *	@since			15.04.2008
  *	@version		$Id$
  */
-class File_RecursiveIterator extends RecursiveIteratorIterator
+class FS_File_RecursiveIterator extends RecursiveIteratorIterator
 {
 	/**	@var		 string		$path				Path to iterate */
 	protected $path;

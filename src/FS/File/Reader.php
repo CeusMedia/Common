@@ -37,7 +37,7 @@
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		$Id$
  */
-class File_Reader
+class FS_File_Reader
 {
 	/**	@var		string		$fileName		File Name or URI of File */
 	protected $fileName;
@@ -67,8 +67,8 @@ class File_Reader
 	 */
 	public function equals( $fileName )
 	{
-		$toCompare	= File_Reader::load( $fileName );
-		$thisFile	= File_Reader::load( $this->fileName );
+		$toCompare	= FS_File_Reader::load( $fileName );
+		$thisFile	= FS_File_Reader::load( $this->fileName );
 		return( $thisFile == $toCompare );
 	}
 
@@ -215,11 +215,11 @@ class File_Reader
 	/**
 	 *	Returns OS permissions of current file as octal value.
 	 *	@access		public
-	 *	@return		File_Permissions		File permissions object
+	 *	@return		FS_File_Permissions		File permissions object
 	 */
 	public function getPermissions()
 	{
-		return new File_Permissions( $this->fileName );
+		return new FS_File_Permissions( $this->fileName );
 	}
 
 	/**
@@ -279,7 +279,7 @@ class File_Reader
 	 */
 	public static function load( $fileName )
 	{
-		$reader	= new File_Reader( $fileName );
+		$reader	= new FS_File_Reader( $fileName );
 		return $reader->readString();
 	}
 	
@@ -292,7 +292,7 @@ class File_Reader
 	 */
 	public static function loadArray( $fileName )
 	{
-		$reader	= new File_Reader( $fileName );
+		$reader	= new FS_File_Reader( $fileName );
 		return $reader->readArray();
 	}
 

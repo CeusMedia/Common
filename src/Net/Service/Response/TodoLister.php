@@ -95,7 +95,7 @@ class Net_Service_Response_TodoLister extends Net_Service_Response
 		$fileName	= $hash.".cache";
 		if( !$refresh && file_exists( $fileName ) )
 			return unserialize( file_get_contents( $fileName ) );
-		$lister	= new File_RecursiveTodoLister( array(), $additionalPatterns );
+		$lister	= new FS_File_RecursiveTodoLister( array(), $additionalPatterns );
 		$lister->scan( $path );
 		file_put_contents( $fileName, serialize( $lister ) );
 		return $lister;

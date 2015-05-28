@@ -30,7 +30,7 @@
  *	@category		cmClasses
  *	@package		XML.WDDX
  *	@uses			XML_WDDX_Builder
- *	@uses			File_Writer
+ *	@uses			FS_File_Writer
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2012 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -78,7 +78,7 @@ class XML_WDDX_FileWriter
 	public function write()
 	{
 		$wddx	= $this->builder->build();
-		$writer	= new File_Writer( $this->fileName );
+		$writer	= new FS_File_Writer( $this->fileName );
 		return $writer->writeString( $wddx );
 	}
 
@@ -97,7 +97,7 @@ class XML_WDDX_FileWriter
 			$wddx	= wddx_serialize_value( $data );
 		else
 			$wddx	= wddx_serialize_value( $data, $packetName );
-		return File_Writer::save( $fileName, $wddx );
+		return FS_File_Writer::save( $fileName, $wddx );
 	}
 }
 ?>

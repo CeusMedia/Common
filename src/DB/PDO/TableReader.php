@@ -35,7 +35,7 @@
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		$Id$
  */
-class Database_PDO_TableReader
+class DB_PDO_TableReader
 {
 	/**	@var	BaseConnection	$dbc				Database connection resource object */
 	protected $dbc;

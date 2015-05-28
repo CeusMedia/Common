@@ -30,14 +30,14 @@
  *	@category		cmClasses
  *	@package		Database
  *	@abstract
- *	@uses			File_Log_Writer
+ *	@uses			FS_File_Log_Writer
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2012 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		$Id$
  */
-abstract class Database_BaseConnection
+abstract class DB_BaseConnection
 {
 	/**	@var		bool		$connected		State of Connection */
 	protected $connected		= FALSE;
@@ -207,7 +207,7 @@ abstract class Database_BaseConnection
 	{
 		if( $this->errorLevel )
 		{
-			$log = new File_Log_Writer( $this->logFile );
+			$log = new FS_File_Log_Writer( $this->logFile );
 			$log->note( "[".$errorCode.": ".$errorMessage." in EXECUTE (\"".$query."\")]" );
 			if( $this->errorLevel == 2 )
 				trigger_error( $errorCode.": ".$errorMessage." in EXECUTE (\"".$query."\")", E_USER_WARNING );

@@ -30,7 +30,7 @@
  *	Implementation of Gauss Eleminiation Algorith with Pivot Search.
  *	@category		cmClasses
  *	@package		Math.Algebra
- *	@uses			Math_Algebra_Vector
+ *	@uses			Alg_Math_Algebra_Vector
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2012 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -38,7 +38,7 @@
  *	@since			18.01.2006
  *	@version		$Id$
  */
-class Math_Algebra_GaussElimination
+class Alg_Math_Algebra_GaussElimination
 {
 	/**	@var	int		$accuracy		Accuracy of calculation */
 	protected	$accuracy;
@@ -57,7 +57,7 @@ class Math_Algebra_GaussElimination
 	/**
 	 *	Returns the advices Privot Row within a Matrix.
 	 *	@access		protected
-	 *	@param		Math_Algebra_Matrix		$matrix		Matrix to eliminate
+	 *	@param		Alg_Math_Algebra_Matrix		$matrix		Matrix to eliminate
 	 *	@param		int						$column		current Column
 	 *	@param		int						$row		Row to start Search
 	 *	@return		int
@@ -80,8 +80,8 @@ class Math_Algebra_GaussElimination
 	/**
 	 *	Eliminates Matrix using Gauss Algorithm.
 	 *	@access		public
-	 *	@param		Math_Algebra_Matrix		$matrix		Matrix to eliminate
-	 *	@return		Math_Algebra_Matrix
+	 *	@param		Alg_Math_Algebra_Matrix		$matrix		Matrix to eliminate
+	 *	@return		Alg_Math_Algebra_Matrix
 	 */
 	public function eliminate( $matrix )
 	{
@@ -107,8 +107,8 @@ class Math_Algebra_GaussElimination
 	/**
 	 *	Resolves eliminated Matrix and return Solution Vector.
 	 *	@access		public
-	 *	@param		Math_Algebra_Matrix		$matrix		Matrix to eliminate
-	 *	@return		Math_Algebra_Vector
+	 *	@param		Alg_Math_Algebra_Matrix		$matrix		Matrix to eliminate
+	 *	@return		Alg_Math_Algebra_Vector
 	 */
 	public function resolve( $matrix )
 	{
@@ -136,7 +136,7 @@ class Math_Algebra_GaussElimination
 			}
 		}
 		ksort( $solution );
-		$solution	= new Math_Algebra_Vector( array_values( $solution ) );
+		$solution	= new Alg_Math_Algebra_Vector( array_values( $solution ) );
 		return $solution;
 	}
 }

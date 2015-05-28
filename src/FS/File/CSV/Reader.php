@@ -29,7 +29,7 @@
  *	Reading comma separated values with or without column headers.
  *	@category		cmClasses
  *	@package		File.CSV
- *	@extends		File_Reader
+ *	@extends		FS_File_Reader
  *	@uses			Alg_Text_Unicoder
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2012 Christian Würker
@@ -37,7 +37,7 @@
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		$Id$
  */
-class File_CSV_Reader
+class FS_File_CSV_Reader
 {
 	/**	@var		string		$fileName		File Name of CSV File */
 	protected $fileName;
@@ -75,7 +75,7 @@ class File_CSV_Reader
 	{
 		if( !$this->withHeaders )
 			throw new RuntimeException( 'Column headers not enabled' );
-		$iterator	= new File_CSV_Iterator( $this->fileName, $this->delimiter );
+		$iterator	= new FS_File_CSV_Iterator( $this->fileName, $this->delimiter );
 		if( !$iterator->valid() )
 			throw new RuntimeException( 'Invalid CSV file' );
 		return $iterator->current();
@@ -108,7 +108,7 @@ class File_CSV_Reader
 	 */
 	public function getRowCount()
 	{
-		$iterator	= new File_CSV_Iterator( $this->fileName, $this->delimiter );
+		$iterator	= new FS_File_CSV_Iterator( $this->fileName, $this->delimiter );
 		$counter	= 0;
 		while( $iterator->next() )
 			$counter++;
@@ -147,7 +147,7 @@ class File_CSV_Reader
 	public function toArray()
 	{
 		$data		= array();
-		$iterator	= new File_CSV_Iterator( $this->fileName, $this->delimiter );
+		$iterator	= new FS_File_CSV_Iterator( $this->fileName, $this->delimiter );
 		while( $iterator->next() )
 			$data[]	= $iterator->current();
 		if( $this->withHeaders )
@@ -163,7 +163,7 @@ class File_CSV_Reader
 	public function toAssocArray( $headerMap = array() )
 	{
 		$data		= array();
-		$iterator	= new File_CSV_Iterator( $this->fileName, $this->delimiter );
+		$iterator	= new FS_File_CSV_Iterator( $this->fileName, $this->delimiter );
 		$keys		= $this->getColumnHeaders( $headerMap );
 		$line		= 0;
 		if( $this->withHeaders )

@@ -37,7 +37,7 @@
  *	@since			03.02.2006
  *	@version		$Id$
  */
-class Math_Analysis_Interpolation_Newton
+class Alg_Math_Analysis_Interpolation_Newton
 {
 	/**	@var		array		$data			Array of x and y values (Xi->Fi) */
 	protected $data				= array();

@@ -19,30 +19,29 @@
  *
  *	@category		cmClasses
  *	@package		File.List
- *	@uses			File_Writer
+ *	@uses			FS_File_Writer
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2012 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		$Id$
  */
-import ("de.ceus-media.file.Writer");
 /**
  *	Writer for Section List.
  *	@category		cmClasses
  *	@package		File.List
- *	@uses			File_Writer
+ *	@uses			FS_File_Writer
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2012 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		$Id$
  */
-class File_List_SectionWriter
+class FS_File_List_SectionWriter
 {
 	/**	@var		string		$fileName		File Name of Section List */
 	protected $fileName;
-	
+
 	/**
 	 *	Constructor.
 	 *	@access		public
@@ -53,7 +52,7 @@ class File_List_SectionWriter
 	{
 		$this->fileName = $fileName;
 	}
-	
+
 	/**
 	 *	Saves a Section List to a File.
 	 *	@access		public
@@ -73,7 +72,7 @@ class File_List_SectionWriter
 			foreach( $data as $entry )
 				$lines[] = $entry;
 		}
-		$writer	= new File_Writer( $fileName, 0755 );
+		$writer	= new FS_File_Writer( $fileName, 0755 );
 		return $writer->writeArray( $lines );
 	}
 

@@ -40,7 +40,7 @@
  *	@version		$Id$
  *	@todo			Fix Error while comparing File Name to Current File with Path
  */
-class File_RecursiveRegexFilter extends RegexIterator
+class FS_File_RecursiveRegexFilter extends RegexIterator
 {
 	/**	@var	int				$numberFound			Number of found Files */
 	protected $numberFound		= 0;

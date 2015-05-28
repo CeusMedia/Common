@@ -35,7 +35,7 @@
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		$Id$
  */
-class File_CSS_Theme_Finder
+class FS_File_CSS_Theme_Finder
 {
 	/**
 	 *	Constructor.

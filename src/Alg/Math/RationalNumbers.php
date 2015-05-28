@@ -29,7 +29,7 @@
  *	...
  *	@category		cmClasses
  *	@package		Math
- *	@uses			Math_NaturalNumbers
+ *	@uses			Alg_Math_NaturalNumbers
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2012 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -37,7 +37,7 @@
  *	@version		$Id$
  *	@todo			Code Documentation
  */
-class Math_RationNumbers
+class Alg_Math_RationNumbers
 {
 
 	public static function inv( $float )
@@ -59,7 +59,7 @@ class Math_RationNumbers
 	{
 		if( $deepth > 10 )
 			trigger_error( "no divisor found.", E_USER_ERROR );
-		if( Math_NaturalNumbers::isNatural( $float ) )
+		if( Alg_Math_NaturalNumbers::isNatural( $float ) )
 			return 1;
 		else
 		{
@@ -67,7 +67,7 @@ class Math_RationNumbers
 			$minor = (float) "0".".".$parts[1];
 			$factor = self::rec ($minor);
 #			echo "<br>[".$deepth."] minor: ".$minor." | factor: ".$factor;
-			return $factor * self::leastDivisor($factor, Math_NaturalNumbers::succ($deepth));
+			return $factor * self::leastDivisor($factor, Alg_Math_NaturalNumbers::succ($deepth));
 		}
 	}
 
@@ -122,7 +122,7 @@ class Math_RationNumbers
 			$max *= 10;
 			$shift++;
 		}
-		if( $gcd = Math_NaturalNumbers::gcd( $sum, $max ) )
+		if( $gcd = Alg_Math_NaturalNumbers::gcd( $sum, $max ) )
 		{
 #			remark( "sum: ".$sum." max: ".$max. " -> gcd: ".$gcd );
 			$sum	/= $gcd;

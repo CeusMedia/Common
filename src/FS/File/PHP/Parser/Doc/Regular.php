@@ -38,7 +38,7 @@
  *	@since			0.6.8
  *	@version		$Id$
  */
-class File_PHP_Parser_Doc_Regular
+class FS_File_PHP_Parser_Doc_Regular
 {
 	protected $regexDocParam	= '@^\*\s+\@param\s+(([\S]+)\s+)?(\$?([\S]+))\s*(.+)?$@';
 	protected $regexDocVariable	= '@^/\*\*\s+\@var\s+(\w+)\s+\$(\w+)(\s(.+))?\*\/$@s';				//  not used

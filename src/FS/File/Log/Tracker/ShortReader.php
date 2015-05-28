@@ -30,7 +30,7 @@
  *	Reader and Parser for Tracker Log File.
  *	@category		cmClasses
  *	@package		File.Log.Tracker
- *	@extends		File_Log_ShortReader
+ *	@extends		FS_File_Log_ShortReader
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2012 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -38,7 +38,7 @@
  *	@since			27.12.2006
  *	@version		$Id$
  */
-class File_Log_Tracker_ShortReader extends File_Log_ShortReader
+class FS_File_Log_Tracker_ShortReader extends FS_File_Log_ShortReader
 {
 	/*	@var		array		$data			Array of Data from parsed Lines */
 	protected $data	= array();

@@ -30,8 +30,8 @@
  *	Bisection Interpolation within a compact Interval.
  *	@category		cmClasses
  *	@package		Math.Analysis
- *	@uses			Math_Formula
- *	@uses			Math_CompactInterval
+ *	@uses			Alg_Math_Formula
+ *	@uses			Alg_Math_CompactInterval
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2012 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -39,9 +39,9 @@
  *	@since			03.02.2006
  *	@version		$Id$
  */
-class Math_Analysis_Bisection
+class Alg_Math_Analysis_Bisection
 {
-	/**	@var		Math_Formula	$formula		Formula Object */
+	/**	@var		Alg_Math_Formula	$formula		Formula Object */
 	protected $formula				= array();
 
 	/**
@@ -53,7 +53,7 @@ class Math_Analysis_Bisection
 	 */
 	public function setFormula( $formula, $vars )
 	{
-		$this->formula	= new Math_Formula( $formula, array( $vars ) );
+		$this->formula	= new Alg_Math_Formula( $formula, array( $vars ) );
 	}
 
 	/**
@@ -65,7 +65,7 @@ class Math_Analysis_Bisection
 	 */
 	public function setInterval( $start, $end )
 	{
-		$this->interval	= new Math_CompactInterval( $start, $end );
+		$this->interval	= new Alg_Math_CompactInterval( $start, $end );
 	}
 
 	/**

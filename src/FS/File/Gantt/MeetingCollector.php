@@ -30,12 +30,12 @@
  *	Reads for several "Gantt Project" XML Files and extracts Project Information and Meeting Dates.
  *	@category		cmClasses
  *	@package		File.Gantt
- *	@uses			File_Gantt_MeetingReader
+ *	@uses			FS_File_Gantt_MeetingReader
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			12.03.2008
  *	@version		$Id$
  */
-class File_Gantt_MeetingCollector
+class FS_File_Gantt_MeetingCollector
 {
 	/**	@var		array		$files			Array of found Gantt Project XML Files */
 	protected $files			= array();
@@ -138,7 +138,7 @@ class File_Gantt_MeetingCollector
 		$projects	= array();
 		foreach( $fileList as $fileName )
 		{
-			$reader		= new File_Gantt_MeetingReader( $fileName );
+			$reader		= new FS_File_Gantt_MeetingReader( $fileName );
 			$projects[]	= $reader->getProjectData();
 		}
 		return $projects;

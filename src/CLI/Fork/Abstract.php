@@ -42,7 +42,7 @@
  *	@version		$Id$
  *	@todo			Code doc
  */
-abstract class Console_Fork_Abstract{
+abstract class CLI_Fork_Abstract{
 
 	protected $pids			= array();
 	protected $isBlocking;

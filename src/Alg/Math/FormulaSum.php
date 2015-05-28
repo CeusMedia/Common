@@ -37,30 +37,30 @@
  *	@since			24.04.2006
  *	@version		$Id$
  */
-class Math_FormulaSum
+class Alg_Math_FormulaSum
 {
-	/**	@var		Math_Formula			$formula	Formula */
+	/**	@var		Alg_Math_Formula			$formula	Formula */
 	protected $formula;
-	/**	@var		Math_CompactInterval	$interval	Interval */
+	/**	@var		Alg_Math_CompactInterval	$interval	Interval */
 	protected $interval;
 
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		Math_Formula			$formula		Formula within Sum
-	 *	@param		Math_CompactInterval	$interval		Interval of Sum
+	 *	@param		Alg_Math_Formula			$formula		Formula within Sum
+	 *	@param		Alg_Math_CompactInterval	$interval		Interval of Sum
 	 *	@return		void
 	 */
 	public function __construct( $formula, $interval )
 	{
-		if( !is_a( $formula, 'Math_Formula' ) )
+		if( !is_a( $formula, 'Alg_Math_Formula' ) )
 			throw new InvalidArgumentException( 'No Formula Object given.' );
-		if( !is_a( $interval, 'Math_CompactInterval' ) )
+		if( !is_a( $interval, 'Alg_Math_CompactInterval' ) )
 			throw new InvalidArgumentException( 'No Interval Object given.' );
 		$this->formula	= $formula;
 		$this->interval	= $interval;
 	}
-	
+
 	/**
 	 *	Calculates Sum of given Formula within given compact Interval and Parameters.
 	 *	@access		public

@@ -39,7 +39,7 @@
  *	@version		$Id$
  *	@todo			Code Doc
  */
-class File_PHP_Lister extends FilterIterator
+class FS_File_PHP_Lister extends FilterIterator
 {
 	public $extensions			= array();
 	public $ignoreFolders		= array();

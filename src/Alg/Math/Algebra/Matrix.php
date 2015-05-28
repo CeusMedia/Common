@@ -29,14 +29,14 @@
  *	Matrix.
  *	@category		cmClasses
  *	@package		Math.Algebra
- *	@uses			Math_Algebra_Vector
+ *	@uses			Alg_Math_Algebra_Vector
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2012 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
  *	@version		$Id$
  */
-class Math_Algebra_Matrix
+class Alg_Math_Algebra_Matrix
 {
 	/**	@var		int			$rowNumber		Number of Rows */
 	protected $rowNumber		= 0;
@@ -101,7 +101,7 @@ class Math_Algebra_Matrix
 	 *	Returns a column as Vector.
 	 *	@access		public
 	 *	@param		int			$column			Column Index
-	 *	@return		Math_Algebra_Vector
+	 *	@return		Alg_Math_Algebra_Vector
 	 */
 	public function getColumn( $column )
 	{
@@ -110,20 +110,20 @@ class Math_Algebra_Matrix
 		$values = array();
 		for( $row = 0; $row < $this->getRowNumber(); $row++ )
 			$values[] = $this->getValue( $row, $column );
-		return new Math_Algebra_Vector( $values );
+		return new Alg_Math_Algebra_Vector( $values );
 	}
 
 	/**
 	 *	Returns a row as Vector.
 	 *	@access		public
 	 *	@param		int			$row			Row Index
-	 *	@return		Math_Algebra_Vector
+	 *	@return		Alg_Math_Algebra_Vector
 	 */
 	public function getRow( $row )
 	{
 		if( $row < 0 || $row >= $this->getRowNumber() )
 			throw new OutOfRangeException( 'Row key "'.$row.'" is not valid.' );
-		return new Math_Algebra_Vector( $this->values[$row] );
+		return new Alg_Math_Algebra_Vector( $this->values[$row] );
 	}
 	
 	/**
@@ -162,7 +162,7 @@ class Math_Algebra_Matrix
 	/**
 	 *	Returns transposed Matrix.
 	 *	@access		public
-	 *	@return		Math_Algebra_Matrix
+	 *	@return		Alg_Math_Algebra_Matrix
 	 */
 	public function transpose()
 	{

@@ -36,7 +36,7 @@
  *	@version		0.6
  *	@todo			finish Code Documentation (@param at methods)
  */
-class Database_TableReader
+class DB_TableReader
 {
 	/**	@var	Object			$dbc			Database Connection */
 	protected $dbc;

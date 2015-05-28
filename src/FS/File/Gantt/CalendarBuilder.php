@@ -31,7 +31,7 @@
  *	@category		cmClasses
  *	@package		File.Gantt
  *	@uses			XML_DOM_Node
- *	@uses			File_iCal_Builder
+ *	@uses			FS_File_iCal_Builder
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2012 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -39,7 +39,7 @@
  *	@since			12.03.2008
  *	@version		$Id$
  */
-class File_Gantt_CalendarBuilder
+class FS_File_Gantt_CalendarBuilder
 {
 	/**	@var		string		$title		Title of iCal Root Node */
 	protected $title;
@@ -96,7 +96,7 @@ class File_Gantt_CalendarBuilder
 		}
 		$tree->addChild( $cal );
 
-		$builder	= new File_iCal_Builder();
+		$builder	= new FS_File_iCal_Builder();
 		$ical		= $builder->build( $tree );
 		return $ical;
 	}
