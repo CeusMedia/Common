@@ -2,7 +2,7 @@
 /**
  *	The main Chart package file. It includes the core of all Chart classes.
  *
- *	Copyright (c) 2007-2012 Christian Würker (ceusmedia.com)
+ *	Copyright (c) 2007-2012 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -22,7 +22,7 @@
  *	@author			Jonas Schneider <JonasSchneider@gmx.de>
  *	@copyright		2007-2012 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@link			http://code.google.com/p/cmclasses/
+ *	@link			https://github.com/CeusMedia/Common
  */
 /**
  *	The main Chart class. Base class for all subtypes of charts, like Pie, Bar, Line and so on.
@@ -33,7 +33,7 @@
  *	@author			Jonas Schneider <JonasSchneider@gmx.de>
  *	@copyright		2007-2012 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@link			http://code.google.com/p/cmclasses/
+ *	@link			https://github.com/CeusMedia/Common
  */
 class UI_SVG_Chart
 {
