@@ -2,7 +2,7 @@
 /**
  *	Dictionary is a simple Pair Structure similar to an associative Array but implementing some Interfaces.
  *
- *	Copyright (c) 2006-2013 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2006-2015 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_ADT_List
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2006-2013 Christian Würker
+ *	@copyright		2006-2015 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			27.03.2006
@@ -34,7 +34,7 @@
  *	@implements		Countable
  *	@implements		Iterator
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2006-2013 Christian Würker
+ *	@copyright		2006-2015 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			27.03.2006

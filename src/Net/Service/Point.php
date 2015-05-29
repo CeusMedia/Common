@@ -5,7 +5,7 @@
  *	If a different Validator Class should be used, it needs to be imported before.
  *	A different Service Definition Loader Class can be used by setting static Member "loaderClass".
  *
- *	Copyright (c) 2007-2012 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2015 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -24,7 +24,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Net_Service
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2012 Christian Würker
+ *	@copyright		2007-2015 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.6.3
@@ -43,7 +43,7 @@
  *	@uses			Net_Service_Parameter_Filter
  *	@uses			Net_Service_Definition_Loader
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2012 Christian Würker
+ *	@copyright		2007-2015 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.6.3
