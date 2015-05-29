@@ -21,8 +21,8 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- *	@category		cmClasses
- *	@package		Folder
+ *	@category		Library
+ *	@package		CeusMedia_Common_FS_Folder
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2012 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -36,8 +36,8 @@
  *	Files and Folders with a leading Dot are ignored if not set otherwise with Option 'skipDotEntries'.
  *	By default copy, move and remove are not overwriting existing Files or deleting Folders containing Files or Folders.
  *	It can be forced to overwrite or remove everything with Option 'force'.
- *	@category		cmClasses
- *	@package		Folder
+ *	@category		Library
+ *	@package		CeusMedia_Common_FS_Folder
  *	@extends	 	FS_Folder_Reader
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2012 Christian Würker

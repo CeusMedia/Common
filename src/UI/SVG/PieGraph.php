@@ -19,8 +19,8 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- *	@category		cmClasses
- *	@package		UI.SVG
+ *	@category		Library
+ *	@package		CeusMedia_Common_UI_SVG
  *	@author			Jonas Schneider <JonasSchneider@gmx.de>
  *	@copyright		2007-2012 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -31,8 +31,8 @@
  *	This is a pie visualization class. 
  *	You shouldn´t use this class alone, but you can.
  *	You should only use it in corporation with the UI_SVG_Chart class.
- *	@category		cmClasses
- *	@package		UI.SVG
+ *	@category		Library
+ *	@package		CeusMedia_Common_UI_SVG
  *	@author			Jonas Schneider <JonasSchneider@gmx.de>
  *	@copyright		2007-2012 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3

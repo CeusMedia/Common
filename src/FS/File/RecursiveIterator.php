@@ -17,8 +17,8 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- *	@category		cmClasses
- *	@package		File
+ *	@category		Library
+ *	@package		CeusMedia_Common_FS_File
  *	@extends		FilterIterator
  *	@uses			RecursiveIteratorIterator
  *	@uses			RecursiveDirectoryIterator
@@ -31,8 +31,8 @@
  */
 /**
  *	Iterates all Folders and Files recursive within a Folder.
- *	@category		cmClasses
- *	@package		File
+ *	@category		Library
+ *	@package		CeusMedia_Common_FS_File
  *	@extends		FilterIterator
  *	@uses			RecursiveIteratorIterator
  *	@uses			RecursiveDirectoryIterator

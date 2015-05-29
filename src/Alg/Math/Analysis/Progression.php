@@ -17,8 +17,8 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- *	@category		cmClasses
- *	@package		Math.Analysis
+ *	@category		Library
+ *	@package		CeusMedia_Common_Alg_Math_Analysis
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2012 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -28,8 +28,8 @@
  */
 /**
  *	Progression within a compact Interval.
- *	@category		cmClasses
- *	@package		Math.Analysis
+ *	@category		Library
+ *	@package		CeusMedia_Common_Alg_Math_Analysis
  *	@extends		Alg_Math_Analysis_Sequence
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2012 Christian Würker

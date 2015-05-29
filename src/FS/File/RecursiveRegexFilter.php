@@ -17,8 +17,8 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- *	@category		cmClasses
- *	@package		File
+ *	@category		Library
+ *	@package		CeusMedia_Common_FS_File
  *	@extends		RegexIterator
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2012 Christian Würker
@@ -29,8 +29,8 @@
  */
 /**
  *	Searchs for Files by given RegEx Pattern (as File Name) in Folder.
- *	@category		cmClasses
- *	@package		File
+ *	@category		Library
+ *	@package		CeusMedia_Common_FS_File
  *	@extends		RegexIterator
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2012 Christian Würker

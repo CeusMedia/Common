@@ -19,8 +19,8 @@
  *
  *	@license		LGPL
  *	@copyright		(c) 2005 by Christian Würker <christian.wuerker@ceusmedia.de>
- *	@category		cmClasses
- *	@package		Alg.Sort
+ *	@category		Library
+ *	@package		CeusMedia_Common_Alg_Sort
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2012 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -29,8 +29,8 @@
  */
 /**
  *	Sorting numeric arrays with the Quicksort algorithm.
- *	@category		cmClasses
- *	@package		Alg.Sort
+ *	@category		Library
+ *	@package		CeusMedia_Common_Alg_Sort
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2012 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3

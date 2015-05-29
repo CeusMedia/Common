@@ -17,8 +17,8 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- *	@category		cmClasses
- *	@package		Console.Fork.Server.Client
+ *	@category		Library
+ *	@package		CeusMedia_Common_CLI_Fork_Server_Client
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2010-2012 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -29,8 +29,8 @@
 /**
  *	...
  *
- *	@category		cmClasses
- *	@package		Console.Fork.Server.Client
+ *	@category		Library
+ *	@package		CeusMedia_Common_CLI_Fork_Server_Client
  *	@extends		CLI_Fork_Server_Client_Abstract
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2010-2012 Christian Würker

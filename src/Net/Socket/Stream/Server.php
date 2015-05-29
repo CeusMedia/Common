@@ -1,11 +1,11 @@
 <?php
 /**
- *	@category		cmClasses
- *	@package		Net.Socket.Stream
+ *	@category		Library
+ *	@package		CeusMedia_Common_Net_Socket_Stream
  */
 /**
- *	@category		cmClasses
- *	@package		Net.Socket.Stream
+ *	@category		Library
+ *	@package		CeusMedia_Common_Net_Socket_Stream
  */
 abstract class Net_Socket_Stream_Server
 {

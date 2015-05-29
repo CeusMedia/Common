@@ -18,8 +18,8 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- *	@category		cmClasses
- *	@package		Database
+ *	@category		Library
+ *	@package		CeusMedia_Common_DB
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2012 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -29,8 +29,8 @@
 /**
  *	Result Object for Database Result.
  *	All Result Rows can be iterated like an Array.
- *	@category		cmClasses
- *	@package		Database
+ *	@category		Library
+ *	@package		CeusMedia_Common_DB
  *	@copyright		2007-2012 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/

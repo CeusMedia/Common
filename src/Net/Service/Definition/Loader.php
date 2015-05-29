@@ -17,8 +17,8 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- *	@category		cmClasses
- *	@package		Net.Service.Definition
+ *	@category		Library
+ *	@package		CeusMedia_Common_Net_Service_Definition
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2012 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -28,8 +28,8 @@
  */
 /**
  *	Loader for Service Defintions in JSON, XML or YAML.
- *	@category		cmClasses
- *	@package		Net.Service.Definition
+ *	@category		Library
+ *	@package		CeusMedia_Common_Net_Service_Definition
  *	@uses			ADT_JSON_Converter
  *	@uses			Service_Definition_XmlReader
  *	@uses			FS_File_Yaml_Reader

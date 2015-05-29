@@ -18,8 +18,8 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- *	@category		cmClasses
- *	@package		Console.Fork
+ *	@category		Library
+ *	@package		CeusMedia_Common_CLI_Fork
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2010-2012 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -31,8 +31,8 @@
  *	Abstract forking application supporting to clone the current process.
  *	Create an application by extending by child and parent code.
  *
- *	@category		cmClasses
- *	@package		Console.Fork
+ *	@category		Library
+ *	@package		CeusMedia_Common_CLI_Fork
  *	@abstract		Extend by child (and parent) code.
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2010-2012 Christian Würker

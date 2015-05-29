@@ -17,8 +17,8 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- *	@category		cmClasses
- *	@package		ADT.List
+ *	@category		Library
+ *	@package		CeusMedia_Common_ADT_List
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2006-2013 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -28,8 +28,8 @@
  */
 /**
  *	Dictionary is a simple Pair Structure similar to an associative Array but implementing some Interfaces.
- *	@category		cmClasses
- *	@package		ADT.List
+ *	@category		Library
+ *	@package		CeusMedia_Common_ADT_List
  *	@implements		ArrayAccess
  *	@implements		Countable
  *	@implements		Iterator

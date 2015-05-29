@@ -18,8 +18,8 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- *	@category		cmClasses
- *	@package		Net.Service
+ *	@category		Library
+ *	@package		CeusMedia_Common_Net_Service
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2012 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -30,8 +30,8 @@
 /**
  *	Generic Server for Service Points.
  *	You can extends this Class to set up your own Service Point / Environment.
- *	@category		cmClasses
- *	@package		Net.Service
+ *	@category		Library
+ *	@package		CeusMedia_Common_Net_Service
  *	@uses			Net_HTTP_Request_Receiver
  *	@uses			Net_Service_Point
  *	@uses			Net_Service_Handler

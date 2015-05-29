@@ -1,7 +1,7 @@
 <?php
 /**
  *	A configured Loader for Classes and Scripts, which can be registered as Autoloader.
- *	@category		cmClasses
+ *	@category		Library
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
@@ -10,7 +10,7 @@
  */
 /**
  *	A configured Loader for Classes and Scripts, which can be registered as Autoloader.
- *	@category		cmClasses
+ *	@category		Library
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/

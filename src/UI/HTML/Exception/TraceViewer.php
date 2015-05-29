@@ -17,8 +17,8 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- *	@category		cmClasses
- *	@package		UI.HTML.Exception
+ *	@category		Library
+ *	@package		CeusMedia_Common_UI_HTML_Exception
  *	@author			Romain Boisnard
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2012 Christian Würker
@@ -29,8 +29,8 @@
  */
 /**
  *	Visualisation of Exception Stack Trace.
- *	@category		cmClasses
- *	@package		UI.HTML.Exception
+ *	@category		Library
+ *	@package		CeusMedia_Common_UI_HTML_Exception
  *	@author			Romain Boisnard
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2012 Christian Würker

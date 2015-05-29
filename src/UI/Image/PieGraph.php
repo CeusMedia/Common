@@ -1,16 +1,16 @@
 <?php
 /**
  *	...
- *	@category		cmClasses
- *	@package		UI.Image
+ *	@category		Library
+ *	@package		CeusMedia_Common_UI_Image
  *	@uses			UI_Template
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@version		$Id$
  */
 /**
  *	...
- *	@category		cmClasses
- *	@package		UI.Image
+ *	@category		Library
+ *	@package		CeusMedia_Common_UI_Image
  *	@uses			UI_Template
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@version		$Id$

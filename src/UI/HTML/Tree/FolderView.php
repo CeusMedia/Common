@@ -17,8 +17,8 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- *	@category		cmClasses
- *	@package		UI.HTML.Tree
+ *	@category		Library
+ *	@package		CeusMedia_Common_UI_HTML_Tree
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2012 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -28,8 +28,8 @@
  */
 /**
  *	Builds Tree View of a Folders content for JQuery Plugin Treeview.
- *	@category		cmClasses
- *	@package		UI.HTML.Tree
+ *	@category		Library
+ *	@package		CeusMedia_Common_UI_HTML_Tree
  *	@uses			UI_HTML_Tree_ArrayView
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2012 Christian Würker

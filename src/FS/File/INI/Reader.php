@@ -17,8 +17,8 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- *	@category		cmClasses
- *	@package		File.INI
+ *	@category		Library
+ *	@package		CeusMedia_Common_FS_File_INI
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2012 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -28,8 +28,8 @@
  */
 /**
  *	Reader for Property Files or typical .ini Files with Key, Values and optional Sections and Comments.
- *	@category		cmClasses
- *	@package		File.INI
+ *	@category		Library
+ *	@package		CeusMedia_Common_FS_File_INI
  *	@uses			FS_File_Reader
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2012 Christian Würker

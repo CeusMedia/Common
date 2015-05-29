@@ -17,8 +17,8 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- *	@category		cmClasses
- *	@package		Net
+ *	@category		Library
+ *	@package		CeusMedia_Common_Net
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2012 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -28,8 +28,8 @@
  */
 /**
  *	Calculates real Time by Server time and synchronised Atom time.
- *	@category		cmClasses
- *	@package		Net
+ *	@category		Library
+ *	@package		CeusMedia_Common_Net
  *	@uses			Net_AtomTime
  *	@uses			FS_File_Reader
  *	@uses			FS_File_Writer

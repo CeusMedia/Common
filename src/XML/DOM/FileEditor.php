@@ -20,8 +20,8 @@
  *	Every Method is working with a Node Path, which is a bit like XPath but without Attribute Selectors.
  *  You can address Nodes with same Node Names with an Index, eg. "node[2]]. Please remember that this Index will start with 0.
  *	To focus on the second Node named 'test' within a Node named 'parent' the Node Path would be "mother/test[1]"
- *	@category		cmClasses
- *	@package		XML.DOM
+ *	@category		Library
+ *	@package		CeusMedia_Common_XML_DOM
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2012 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -34,8 +34,8 @@
  *	Every Method is working with a Node Path, which is a bit like XPath but without Attribute Selectors.
  *  You can address Nodes with same Node Names with an Index, eg. "node[2]]. Please remember that this Index will start with 0.
  *	To focus on the second Node named 'test' within a Node named 'parent' the Node Path would be "mother/test[1]"
- *	@category		cmClasses
- *	@package		XML.DOM
+ *	@category		Library
+ *	@package		CeusMedia_Common_XML_DOM
  *	@uses			XML_DOM_FileReader
  *	@uses			XML_DOM_FileWriter
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>

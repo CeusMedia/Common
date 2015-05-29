@@ -17,8 +17,8 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- *	@category		cmClasses
- *	@package		Net.Mail.Transport
+ *	@category		Library
+ *	@package		CeusMedia_Common_Net_Mail_Transport
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2013 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -28,8 +28,8 @@
  */
 /**
  *	Sends Mails of different Types.
- *	@category		cmClasses
- *	@package		Net.Mail.Transport
+ *	@category		Library
+ *	@package		CeusMedia_Common_Net_Mail_Transport
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2013 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3

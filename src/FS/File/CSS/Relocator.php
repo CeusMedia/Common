@@ -2,16 +2,16 @@
 /**
  * Class FS_File_CSS_Relocator  
  *
- * @category	cmClasses
- * @package		File.CSS
+ * @category	Library
+ * @package		CeusMedia_Common_FS_File_CSS
  * @author		Stephen Clay <steve@mrclay.org>
  */
 
 /**
  * Rewrite file-relative URIs as root-relative in CSS files
  *
- * @category	cmClasses
- * @package		File.CSS
+ * @category	Library
+ * @package		CeusMedia_Common_FS_File_CSS
  * @author		Stephen Clay <steve@mrclay.org>
  */
 class FS_File_CSS_Relocator {

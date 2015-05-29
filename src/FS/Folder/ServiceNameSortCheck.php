@@ -17,8 +17,8 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- *	@category		cmClasses
- *	@package		Folder
+ *	@category		Library
+ *	@package		CeusMedia_Common_FS_Folder
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2012 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -28,8 +28,8 @@
  */
 /**
  *	Checks order of methods in a several PHP Files within a Folder.
- *	@category		cmClasses
- *	@package		Folder
+ *	@category		Library
+ *	@package		CeusMedia_Common_FS_Folder
  *	@uses			Net_Service_Definition_NameSortCheck
  *	@uses			FS_File_RecursiveRegexFilter
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>

@@ -17,8 +17,8 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- *	@category		cmClasses
- *	@package		Net.HTTP.Sniffer
+ *	@category		Library
+ *	@package		CeusMedia_Common_Net_HTTP_Sniffer
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2012 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -28,8 +28,8 @@
  */
 /**
  *	Combination of different Sniffers for HTTP Request to determine all information about the Client.
- *	@category		cmClasses
- *	@package		Net.HTTP.Sniffer
+ *	@category		Library
+ *	@package		CeusMedia_Common_Net_HTTP_Sniffer
  *	@uses			Net_HTTP_Sniffer_Browser
  *	@uses			Net_HTTP_Sniffer_Charset
  *	@uses			Net_HTTP_Sniffer_Encoding

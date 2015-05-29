@@ -17,8 +17,8 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- *	@category		cmClasses
- *	@package		Console
+ *	@category		Library
+ *	@package		CeusMedia_Common_CLI
  *	@author			Keyvan Minoukadeh
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2012 Christian Würker
@@ -29,8 +29,8 @@
  */
 /**
  *	Downloads a File from an URL while showing Progress in Console.
- *	@category		cmClasses
- *	@package		Console
+ *	@category		Library
+ *	@package		CeusMedia_Common_CLI
  *	@uses			Alg_UnitFormater
  *	@uses			Alg_Time_Clock
  *	@author			Keyvan Minoukadeh

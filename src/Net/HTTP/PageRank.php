@@ -17,8 +17,8 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- *	@category		cmClasses
- *	@package		Net.HTTP
+ *	@category		Library
+ *	@package		CeusMedia_Common_Net_HTTP
  *	@author			Emir Plicanic
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2012 Christian Würker
@@ -30,8 +30,8 @@
 define( 'GOOGLE_MAGIC', 0xE6359A60 );
 /**
  *	Google PageRank.
- *	@category		cmClasses
- *	@package		Net.HTTP
+ *	@category		Library
+ *	@package		CeusMedia_Common_Net_HTTP
  *	@uses			Net_CURL
  *	@author			Emir Plicanic
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>

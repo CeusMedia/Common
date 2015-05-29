@@ -17,8 +17,8 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- *	@category		cmClasses
- *	@package		XML.DOM
+ *	@category		Library
+ *	@package		CeusMedia_Common_XML_DOM
  *	@uses			XML_DOM_GoogleSitemapBuilder
  *	@uses			FS_File_Writer
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
@@ -30,8 +30,8 @@
  */
 /**
  *	Builds and writes Google Sitemap.
- *	@category		cmClasses
- *	@package		XML.DOM
+ *	@category		Library
+ *	@package		CeusMedia_Common_XML_DOM
  *	@uses			XML_DOM_GoogleSitemapBuilder
  *	@uses			FS_File_Writer
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>

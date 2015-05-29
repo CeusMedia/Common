@@ -17,8 +17,8 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- *	@category		cmClasses
- *	@package		Exception
+ *	@category		Library
+ *	@package		CeusMedia_Common_Exception
  *	@author			David Seebacher <dseebacher@gmail.com>
  *	@copyright		2007-2012 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -28,8 +28,8 @@
  */
 /**
  *	Exception for Templates.
- *	@category		cmClasses
- *	@package		Exception
+ *	@category		Library
+ *	@package		CeusMedia_Common_Exception
  *	@extends		RuntimeException
  *	@author			David Seebacher <dseebacher@gmail.com>
  *	@copyright		2007-2012 Christian Würker

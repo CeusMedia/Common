@@ -17,8 +17,8 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- *	@category		cmClasses
- *	@package		UI.HTML
+ *	@category		Library
+ *	@package		CeusMedia_Common_UI_HTML
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2012 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -36,8 +36,8 @@
  *	Please keep in mind that this project will help you to start but your production is on your own.
  *	If you slow down our Image Server the community will suffer from your traffic.
  *
- *	@category		cmClasses
- *	@package		UI.HTML
+ *	@category		Library
+ *	@package		CeusMedia_Common_UI_HTML
  *	@uses			UI_HTML_Elements
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2012 Christian Würker

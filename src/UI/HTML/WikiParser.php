@@ -17,8 +17,8 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- *	@category		cmClasses
- *	@package		UI.HTML
+ *	@category		Library
+ *	@package		CeusMedia_Common_UI_HTML
  *	@license		GPL 2 (http://www.gnu.org/licenses/gpl.html)
  *	@author			Andreas Gohr <andi@splitbrain.org>
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
@@ -30,8 +30,8 @@
  */
 /**
  *	The DokuWiki parser.
- *	@category		cmClasses
- *	@package		UI.HTML
+ *	@category		Library
+ *	@package		CeusMedia_Common_UI_HTML
  *	@extends		ADT_OptionObject
  *	@license		GPL 2 (http://www.gnu.org/licenses/gpl.html)
  *	@author			Andreas Gohr <andi@splitbrain.org>

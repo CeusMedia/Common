@@ -17,8 +17,8 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- *	@category		cmClasses
- *	@package		Net.HTTP
+ *	@category		Library
+ *	@package		CeusMedia_Common_Net_HTTP
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2010-2012 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -28,8 +28,8 @@
  */
 /**
  *	Handler for HTTP Requests.
- *	@category		cmClasses
- *	@package		Net.HTTP
+ *	@category		Library
+ *	@package		CeusMedia_Common_Net_HTTP
  *	@extends		ADT_List_Dictionary
  *	@uses			Net_HTTP_Header_Field
  *	@uses			Net_HTTP_Header_Section

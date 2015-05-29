@@ -21,8 +21,8 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	If a different Loader Class should be used, it needs to be imported before.
- *	@category		cmClasses
- *	@package		Net.Service
+ *	@category		Library
+ *	@package		CeusMedia_Common_Net_Service
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2012 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -36,8 +36,8 @@
  *	If a different Validator Class should be used, it needs to be imported before.
  *	A different Service Definition Loader Class can be used by setting static Member "loaderClass".
  *	If a different Loader Class should be used, it needs to be imported before.
- *	@category		cmClasses
- *	@package		Net.Service
+ *	@category		Library
+ *	@package		CeusMedia_Common_Net_Service
  *	@implements		Net_Service_Interface_Point
  *	@uses			Net_Service_Parameter_Validator
  *	@uses			Net_Service_Parameter_Filter

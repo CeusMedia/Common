@@ -17,8 +17,8 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- *	@category		cmClasses
- *	@package		UI.SVG
+ *	@category		Library
+ *	@package		CeusMedia_Common_UI_SVG
  *	@author			Jonas Schneider <JonasSchneider@gmx.de>
  *	@copyright		2007-2012 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -26,8 +26,8 @@
  */
 /**
  *	The main Chart class. Base class for all subtypes of charts, like Pie, Bar, Line and so on.
- *	@category		cmClasses
- *	@package		UI.SVG
+ *	@category		Library
+ *	@package		CeusMedia_Common_UI_SVG
  *	@uses			UI_HTML_Tag
  *	@uses			FS_File_Writer
  *	@author			Jonas Schneider <JonasSchneider@gmx.de>

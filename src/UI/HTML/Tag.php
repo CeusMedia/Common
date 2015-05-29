@@ -17,8 +17,8 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- *	@category		cmClasses
- *	@package		UI.HTML
+ *	@category		Library
+ *	@package		CeusMedia_Common_UI_HTML
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2014 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -28,8 +28,8 @@
  */
 /**
  *	Builder for HTML tags.
- *	@category		cmClasses
- *	@package		UI.HTML
+ *	@category		Library
+ *	@package		CeusMedia_Common_UI_HTML
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2014 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3

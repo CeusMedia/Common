@@ -17,8 +17,8 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- *	@category		cmClasses
- *	@package		XML.OMPL
+ *	@category		Library
+ *	@package		CeusMedia_Common_XML_OPML
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2012 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -26,8 +26,8 @@
  *	@version		$Id$
  */
 /**
- *	@category		cmClasses
- *	@package		XML.OMPL
+ *	@category		Library
+ *	@package		CeusMedia_Common_XML_OPML
  *	@uses			XML_OPML_Parser
  *	@uses			FS_File_Reader
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>

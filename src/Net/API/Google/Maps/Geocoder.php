@@ -17,8 +17,8 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- *	@category		cmClasses
- *	@package		Net.API.Google.Maps
+ *	@category		Library
+ *	@package		CeusMedia_Common_Net_API_Google_Maps
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2008-2012 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -28,8 +28,8 @@
  */
 /**
  *	Resolves an address to geo codes using Google Maps API.
- *	@category		cmClasses
- *	@package		Net.API.Google.Maps
+ *	@category		Library
+ *	@package		CeusMedia_Common_Net_API_Google_Maps
  *	@extends		Net_API_Google_Request
  *	@uses			XML_Element
  *	@uses			FS_File_Editor

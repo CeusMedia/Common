@@ -17,8 +17,8 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- *	@category		cmClasses
- *	@package		Exception
+ *	@category		Library
+ *	@package		CeusMedia_Common_Exception
  *	@extends		RuntimeException
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2012 Christian Würker
@@ -29,8 +29,8 @@
  */
 /**
  *	Exception for Input Validation Errors, which can be serialized e.G. for NetServices.
- *	@category		cmClasses
- *	@package		Exception
+ *	@category		Library
+ *	@package		CeusMedia_Common_Exception
  *	@extends		Exception_Runtime
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2012 Christian Würker

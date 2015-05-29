@@ -17,8 +17,8 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- *	@category		cmClasses
- *	@package		File.CSS.Theme
+ *	@category		Library
+ *	@package		CeusMedia_Common_FS_File_CSS_Theme
  *	@uses			FS_File_CSS_Combiner
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2012 Christian Würker
@@ -28,8 +28,8 @@
  */
 /**
  *	Combines Stylesheet Files of a cmFramework Theme to one single File.
- *	@category		cmClasses
- *	@package		File.CSS.Theme
+ *	@category		Library
+ *	@package		CeusMedia_Common_FS_File_CSS_Theme
  *	@uses			FS_File_CSS_Combiner
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2012 Christian Würker

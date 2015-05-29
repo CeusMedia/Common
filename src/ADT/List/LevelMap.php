@@ -19,8 +19,8 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- *	@category		cmClasses
- *	@package		ADT.List
+ *	@category		Library
+ *	@package		CeusMedia_Common_ADT_List
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2012 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -32,8 +32,8 @@
  *	A Map with Level Support.
  *	It is a Dictionary where Keys can contain Dots.
  *	All Method work with complete Keys and single Values or Prefix Keys and Arrays.
- *	@category		cmClasses
- *	@package		ADT.List
+ *	@category		Library
+ *	@package		CeusMedia_Common_ADT_List
  *	@extends		ADT_List_Dictionary
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2012 Christian Würker

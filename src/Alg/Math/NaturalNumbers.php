@@ -1,7 +1,7 @@
 <?php
 /**
- *	@category		cmClasses
- *	@package		Math
+ *	@category		Library
+ *	@package		CeusMedia_Common_Alg_Math
  *
  *	Copyright (c) 2007-2012 Christian Würker (ceusmedia.com)
  *
@@ -25,8 +25,8 @@
  *	@version		$Id$
  */
 /**
- *	@category		cmClasses
- *	@package		Math
+ *	@category		Library
+ *	@package		CeusMedia_Common_Alg_Math
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2012 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3

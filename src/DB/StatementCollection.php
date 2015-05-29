@@ -17,8 +17,8 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- *	@category		cmClasses
- *	@package		Database 
+ *	@category		Library
+ *	@package		CeusMedia_Common_DB 
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@author			Michael Martin <Michael.Martin@CeuS-Media.de>
  *	@copyright		2007-2012 Christian Würker
@@ -29,8 +29,8 @@
  */
 /**
  *	Collection of Statement Components for Statement Builder.
- *	@category		cmClasses
- *	@package		Database 
+ *	@category		Library
+ *	@package		CeusMedia_Common_DB 
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@author			Michael Martin <Michael.Martin@CeuS-Media.de>
  *	@copyright		2007-2012 Christian Würker

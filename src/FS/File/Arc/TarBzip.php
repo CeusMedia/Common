@@ -17,8 +17,8 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- *	@category		cmClasses
- *	@package		File.Arc
+ *	@category		Library
+ *	@package		CeusMedia_Common_FS_File_Arc
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2012 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -27,8 +27,8 @@
  */
 /**
  *	Tar Bzip File allows creation and manipulation of bzipped tar archives.
- *	@category		cmClasses
- *	@package		File.Arc
+ *	@category		Library
+ *	@package		CeusMedia_Common_FS_File_Arc
  *	@extends		FS_File_Arc_Tar
  *	@uses			FS_File_Arc_Bzip
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>

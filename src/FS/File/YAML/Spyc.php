@@ -7,8 +7,8 @@
  *	@link			http://spyc.sourceforge.net/
  *	@copyright		Copyright 2005-2006 Chris Wanstrath
  *	@license		http://www.opensource.org/licenses/mit-license.php MIT License
- *	@category		cmClasses
- *	@package		File.YAML
+ *	@category		Library
+ *	@package		CeusMedia_Common_FS_File_YAML
  */
 /**
  * The Simple PHP YAML Class.
@@ -22,8 +22,8 @@
  *		$parser = new Spyc;
  *		$array  = $parser->load($file);
  *	</code>
- *	@category		cmClasses
- *	@package		File.YAML
+ *	@category		Library
+ *	@package		CeusMedia_Common_FS_File_YAML
  */
 class FS_File_YAML_Spyc {
 

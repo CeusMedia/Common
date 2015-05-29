@@ -17,8 +17,8 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- *	@category		cmClasses
- *	@package		Net.HTTP.Response
+ *	@category		Library
+ *	@package		CeusMedia_Common_Net_HTTP_Response
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2010-2012 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -28,8 +28,8 @@
  */
 /**
  *	Parser for HTTP Response containing Headers and Body.
- *	@category		cmClasses
- *	@package		Net.HTTP.Response
+ *	@category		Library
+ *	@package		CeusMedia_Common_Net_HTTP_Response
  *	@uses			Net_HTTP_Header_Field
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2010-2012 Christian Würker

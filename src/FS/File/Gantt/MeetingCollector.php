@@ -17,8 +17,8 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- *	@category		cmClasses
- *	@package		File.Gantt
+ *	@category		Library
+ *	@package		CeusMedia_Common_FS_File_Gantt
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2012 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -28,8 +28,8 @@
  */
 /**
  *	Reads for several "Gantt Project" XML Files and extracts Project Information and Meeting Dates.
- *	@category		cmClasses
- *	@package		File.Gantt
+ *	@category		Library
+ *	@package		CeusMedia_Common_FS_File_Gantt
  *	@uses			FS_File_Gantt_MeetingReader
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			12.03.2008
