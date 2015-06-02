@@ -23,7 +23,7 @@
 
 	<!--  BUILDER(S) -->  
 	<builder format="HTML" theme="Default-SilverFire">
-		<path type="target">docs/</path>
+		<path type="target">doc/</path>
 		<path type="documents"></path>
 		<title version="0.8.1">CeusMedia::Common</title>
 		<author email="christian.wuerker@ceusmedia.de">Christian Würker</author>
@@ -52,12 +52,15 @@
 
 	<!--  GENERAL SETTINGS  -->  
 	<creator timeLimit="60">
-		<mail></mail>
-		<file type="serial">tmp/DocCreator.doc.serial</file>
-		<file type="archive">tmp/DocCreator.doc.serial.gz</file>
-		<file type="errors">logs/docCreatorErrors.log</file>
+		<limit name="time">60</limit>
+		<path name="temp">/tmp/</path>
+		<path name="log">/var/log/</path>
+		<file name="serial">DocCreator.doc.serial</file>
+		<file name="archive">DocCreator.doc.serial.gz</file>
+		<file name="errors">docCreatorErrors.log</file>
 		<skip parser="FALSE" creator="FALSE" info="FALSE" resources="FALSE"/>
 		<verbose general="TRUE" skip="TRUE" config="FALSE" info="TRUE" trace="FALSE"/>
+		<mail></mail>
 	</creator>
 
 </config>
