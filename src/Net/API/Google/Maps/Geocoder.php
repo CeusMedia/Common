@@ -73,14 +73,18 @@ class Net_API_Google_Maps_Geocoder extends Net_API_Google_Request
 	 *	@access		public
 	 *	@param		string		$address		Address to get data for
 	 *	@param		bool		$force			Flag: do not use cache
+	 *	@throws		RuntimeException			if query limit is reached
+	 *	@throws		InvalidArgumentException		if address could not been resolved
 	 *	@return		array
 	 */
 	public function getGeoTags( $address, $force = FALSE )
 	{
 		$xml	= $this->getGeoCode( $address, $force );
 		$xml	= new XML_Element( $xml );
+		if( $xml->status->getValue() === "OVER_QUERY_LIMIT" )
+			throw new RuntimeException( 'Query limit reached' );
 		if( !@$xml->result->geometry->location )
-			throw new RuntimeException( 'Address not found' );
+			throw new InvalidArgumentException( 'Address not found' );
 		$coordinates	= (string) $xml->result->geometry->location;
 		$parts			= explode( ",", $coordinates );
 		$data			= array(
