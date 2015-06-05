@@ -119,6 +119,8 @@ class UI_HTML_Tag
 			$content	= self::flattenArray( $content );
 		if( is_numeric( $content ) )
 			$content	= (string) $content;
+		if( is_object( $content ) )
+			$content	= (string) $content;
 		if( !is_null( $content ) && !is_string( $content ) )										//  content is neither NULL nor string so far
 			throw new InvalidArgumentException( 'Content is not a string' );						//  which is not acceptable
 		return "<".$name.$attributes.$data.">".$content."</".$name.">";								//  build and return full tag
