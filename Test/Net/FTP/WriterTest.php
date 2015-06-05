@@ -26,7 +26,7 @@ class Test_Net_FTP_WriterTest extends Test_Case
 	 */
 	public function __construct()
 	{
-		$config	= parse_ini_file( CMC_PATH.'../cmClasses.ini', TRUE );
+		$config	= parse_ini_file( self::$pathLib.'Common.ini', TRUE );
 		$this->config	= $config['unitTest-FTP'];
 		$this->host		= $this->config['host'];
 		$this->port		= $this->config['port'];
@@ -44,7 +44,7 @@ class Test_Net_FTP_WriterTest extends Test_Case
 	public function setUp()
 	{
 		if( !$this->local )
-			$this->markTestSkipped( 'No FTP data set in cmClasses.ini' );
+			$this->markTestSkipped( 'No FTP data set in Common.ini' );
 		$this->connection	= new Net_FTP_Connection( $this->host, $this->port );
 		$this->connection->login( $this->username, $this->password );
 
@@ -68,7 +68,7 @@ class Test_Net_FTP_WriterTest extends Test_Case
 	public function tearDown()
 	{
 		if( !$this->local )
-			$this->markTestSkipped( 'No FTP data set in cmClasses.ini' );
+			$this->markTestSkipped( 'No FTP data set in Common.ini' );
 		@unlink( $this->local."source.txt" );
 		@unlink( $this->local."target.txt" );
 		@unlink( $this->local."renamed.txt" );

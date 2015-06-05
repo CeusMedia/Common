@@ -11,7 +11,7 @@ class Go_DocCreator
 		CMC_Loader::registerNew( 'php5', 'DocCreator_', $path."classes/" );
 		CMC_Loader::registerNew( 'php', 'Michelf\\', '/var/www/lib/php-markdown/Michelf/' );
 
-		$file	= dirname( dirname( __FILE__ ) )."/doc.xml";
+		$file	= dirname( dirname( __FILE__ ) )."/doc-creator.xml";
 		$runner	= new DocCreator_Core_Runner( $file );
 		$runner->main();
 

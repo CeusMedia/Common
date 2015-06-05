@@ -3,14 +3,14 @@ class Go_Application
 {
 	private $basePath;
 	private	$messages	= array(
-		'title'						=> " > >  GO  > >   -  get & organize cmClasses\n",
-		'config_missing'			=> "No Config File '%s' found.\ncmClasses must be installed and configured.\nGO must be within installation path.",
+		'title'						=> " > >  GO  > >   -  get & organize CeusMedia::Common\n",
+		'config_missing'			=> "No Config File '%s' found.\nCeusMedia::Common must be installed and configured.\nGO must be within installation path.",
 		'command_invalid'			=> "No valid command set.\nPlease append 'help' for further information!\n",
 		'subject_create_invalid'	=> "No valid creator subject set (doc,test).",
 		'subject_test_invalid'		=> "No valid test subject set (benchmark,syntax,self,units).",
 		'tool_create_doc'			=> "No documentation tool set (creator,phpdoc).",
 	);
-	private $configFile				= 'cmClasses.ini';
+	private $configFile				= 'Common.ini';
 
 	public function autoload( $className )
 	{
@@ -38,10 +38,9 @@ class Go_Application
 			if( !$arguments )																		//  no arguments given
 				throw new InvalidArgumentException( $this->messages['command_invalid'] );
 			$command	= strtolower( $arguments[0] );												//  extract command
-			if( file_exists( $this->configFile ) )													//  cmClasses installed and configured
+			if( file_exists( $this->configFile ) )													//  Common installed and configured
 			{
-				require_once( 'autoload.php' );														//  enable cmClasses
-				import( 'de.ceus-media.ui.DevOutput' );												//  load output methods
+				require_once( 'autoload.php' );														//  enable autoload of Common
 			}
 			else if( !( $command == "install" || $command == "configure" ) )						//  anything else but installation is impossible
 			{
@@ -78,26 +77,10 @@ class Go_Application
 				switch( $subject )
 				{
 					case 'doc':
-						if( count( $arguments ) < 3 )
-							throw new InvalidArgumentException( $this->messages['tool_create_doc'] );
-						$tool	= strtolower( $arguments[2] );
-						switch( $tool )
-						{
-							case 'creator':
-								new Go_DocCreator( array_slice( $arguments, 3 ) );
-								break;
-							case 'phpdoc':
-								new Go_PhpDocumentor( array_slice( $arguments, 3 ) );
-								break;
-							default:
-								throw new InvalidArgumentException( $this->messages['tool_create_doc'] );
-						}
+						new Go_DocCreator( array_slice( $arguments, 3 ) );
 						break;
 					case 'test':
 						new Go_UnitTestCreator( array_slice( $arguments, 2 ) );
-						break;
-					case 'changelog':
-						new Go_Changelog(); 
 						break;
 					default:
 						throw new InvalidArgumentException( $this->messages['subject_create_invalid'] );
@@ -114,10 +97,10 @@ class Go_Application
 						break;						
 					case 'syntax':
 						new Go_ClassSyntaxTester( $arguments );
-						break;						
+						break;
 					case 'self':
 						new Go_SelfTester( $arguments );
-						break;						
+						break;
 					case 'units':
 						$className	= empty( $arguments[2] ) ? NULL : $arguments[2];
 						new Go_UnitTester( $className );
@@ -125,21 +108,6 @@ class Go_Application
 					default:
 						throw new InvalidArgumentException( $this->messages['subject_test_invalid'] );
 				}
-				break;
-			case 'install':
-				new Go_Installer( array_slice( $arguments, 1 ) );
-				break;
-			case 'configure':
-				new Go_Configurator( array_slice( $arguments, 1 ) );
-				break;
-			case 'update':
-				new Go_Updater( array_slice( $arguments, 1 ) );
-				break;
-			case 'moo':
-				print Go_Animal::getCow(); 
-				break;
-			case 'changelog':
-				new Go_Changes(); 
 				break;
 			default:
 				throw new InvalidArgumentException( $this->messages['command_invalid'] );

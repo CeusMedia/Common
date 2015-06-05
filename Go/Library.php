@@ -1,7 +1,7 @@
 <?php
 class Go_Library
 {
-	public static $configFile	= 'cmClasses.ini';
+	public static $configFile	= 'Common.ini';
 
 	public function getConfigData()
 	{

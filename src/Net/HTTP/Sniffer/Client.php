@@ -2,7 +2,7 @@
 /**
  *	Combination of different Sniffers for HTTP Request to determine all information about the Client.
  *
- *	Copyright (c) 2007-2012 Christian Würker (ceusmedia.com)
+ *	Copyright (c) 2007-2015 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -17,19 +17,19 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- *	@category		cmClasses
- *	@package		Net.HTTP.Sniffer
+ *	@category		Library
+ *	@package		CeusMedia_Common_Net_HTTP_Sniffer
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2012 Christian Würker
+ *	@copyright		2007-2015 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@link			http://code.google.com/p/cmclasses/
+ *	@link			https://github.com/CeusMedia/Common
  *	@since			12.08.2005
  *	@version		$Id$
  */
 /**
  *	Combination of different Sniffers for HTTP Request to determine all information about the Client.
- *	@category		cmClasses
- *	@package		Net.HTTP.Sniffer
+ *	@category		Library
+ *	@package		CeusMedia_Common_Net_HTTP_Sniffer
  *	@uses			Net_HTTP_Sniffer_Browser
  *	@uses			Net_HTTP_Sniffer_Charset
  *	@uses			Net_HTTP_Sniffer_Encoding
@@ -37,9 +37,9 @@
  *	@uses			Net_HTTP_Sniffer_MimeType
  *	@uses			Net_HTTP_Sniffer_OperatingSystem
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2012 Christian Würker
+ *	@copyright		2007-2015 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@link			http://code.google.com/p/cmclasses/
+ *	@link			https://github.com/CeusMedia/Common
  *	@since			12.08.2005
  *	@version		$Id$
  */

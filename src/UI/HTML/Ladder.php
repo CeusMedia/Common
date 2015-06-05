@@ -2,7 +2,7 @@
 /**
  *	Builds HTML and JavaScript code for UI Component 'Ladder'.
  *
- *	Copyright (c) 2009-2012 Christian Würker (ceusmedia.com)
+ *	Copyright (c) 2009-2015 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -17,25 +17,25 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- *	@category		cmClasses
- *	@package		UI.HTML
+ *	@category		Library
+ *	@package		CeusMedia_Common_UI_HTML
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2012 Christian Würker
+ *	@copyright		2007-2015 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@link			http://code.google.com/p/cmclasses/
- *	@see			http://ceusmedia.com/demos/cmClasses/UI_HTML_Ladder
+ *	@link			https://github.com/CeusMedia/Common
+ *	@see			http://ceusmedia.de/demos/cmClasses/UI_HTML_Ladder
  *	@since			0.6.8
  *	@version		$Id$
  */
 /**
  *	Builds HTML and JavaScript code for UI Component 'Ladder'.
- *	@category		cmClasses
- *	@package		UI.HTML
+ *	@category		Library
+ *	@package		CeusMedia_Common_UI_HTML
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2012 Christian Würker
+ *	@copyright		2007-2015 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@link			http://code.google.com/p/cmclasses/
- *	@see			http://ceusmedia.com/demos/cmClasses/UI_HTML_Ladder
+ *	@link			https://github.com/CeusMedia/Common
+ *	@see			http://ceusmedia.de/demos/cmClasses/UI_HTML_Ladder
  *	@uses			UI_HTML_Elements
  *	@uses			UI_HTML_Tag
  *	@uses			UI_HTML_JQuery

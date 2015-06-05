@@ -1,16 +1,16 @@
 <?php
 /**
  *	HTML Button Container (for CSS).
- *	@category		cmClasses
- *	@package		UI.HTML.Button
+ *	@category		Library
+ *	@package		CeusMedia_Common_UI_HTML_Button
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			0.7.0
  *	@version		$Id$
  */
 /**
  *	HTML Button Container (for CSS).
- *	@category		cmClasses
- *	@package		UI.HTML.Button
+ *	@category		Library
+ *	@package		CeusMedia_Common_UI_HTML_Button
  *	@extends		UI_HTML_Abstract
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			0.7.0

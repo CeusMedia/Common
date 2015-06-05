@@ -2,7 +2,7 @@
 /**
  *	Parses PHP Files containing a Class or Methods to Array using regular expressions (slow).
  *
- *	Copyright (c) 2007-2012 Christian Würker (ceusmedia.com)
+ *	Copyright (c) 2007-2015 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -17,24 +17,24 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- *	@category		cmClasses
- *	@package		File.PHP.Parser
+ *	@category		Library
+ *	@package		CeusMedia_Common_FS_File_PHP_Parser
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2012 Christian Würker
+ *	@copyright		2007-2015 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@link			http://code.google.com/p/cmclasses/
+ *	@link			https://github.com/CeusMedia/Common
  *	@since			04.08.08
  *	@version		$Id$
  */
 /**
  *	Parses PHP Files containing a Class or Methods to Array using regular expressions (slow).
- *	@category		cmClasses
- *	@package		File.PHP.Parser
+ *	@category		Library
+ *	@package		CeusMedia_Common_FS_File_PHP_Parser
  *	@uses			FS_File_Reader
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2012 Christian Würker
+ *	@copyright		2007-2015 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@link			http://code.google.com/p/cmclasses/
+ *	@link			https://github.com/CeusMedia/Common
  *	@since			04.08.08
  *	@version		$Id$
  *	@todo			Code Doc

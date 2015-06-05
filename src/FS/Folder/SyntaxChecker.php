@@ -2,7 +2,7 @@
 /**
  *	Checks Syntax of all PHP Classes and Scripts within a Folder.
  *
- *	Copyright (c) 2007-2012 Christian Würker (ceusmedia.com)
+ *	Copyright (c) 2007-2015 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -17,27 +17,27 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- *	@category		cmClasses
- *	@package		Folder
+ *	@category		Library
+ *	@package		CeusMedia_Common_FS_Folder
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2012 Christian Würker
+ *	@copyright		2007-2015 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@link			http://code.google.com/p/cmclasses/
+ *	@link			https://github.com/CeusMedia/Common
  *	@since			12.05.2008
  *	@version		$Id$
  */
 /**
  *	Checks Syntax of all PHP Classes and Scripts within a Folder.
- *	@category		cmClasses
- *	@package		Folder
+ *	@category		Library
+ *	@package		CeusMedia_Common_FS_Folder
  *	@uses			FS_File_SyntaxChecker
  *	@uses			FS_Folder_RecursiveRegexFilter
  *	@uses			UI_DevOutput
  *	@uses			Alg_Time_Clock
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2012 Christian Würker
+ *	@copyright		2007-2015 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@link			http://code.google.com/p/cmclasses/
+ *	@link			https://github.com/CeusMedia/Common
  *	@since			12.05.2008
  *	@version		$Id$
  */

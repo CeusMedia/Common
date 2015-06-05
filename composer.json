@@ -1,5 +1,5 @@
 {
-  "name": "ceus-media/classes",
+  "name": "ceus-media/common",
   "version": "master",
   "license": [
     "GPL-3.0+"
@@ -16,6 +16,7 @@
     "email": "office@ceusmedia.de",
     "jabber": "ceus-media@jabber.org"
   },
+  "minimum-stability": "dev",
   "autoload": {
     "psr-0": {
       "": "src/"

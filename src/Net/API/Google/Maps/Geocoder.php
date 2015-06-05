@@ -2,7 +2,7 @@
 /**
  *	Resolves an address to geo codes using Google Maps API.
  *
- *	Copyright (c) 2007-2012 Christian Würker (ceusmedia.com)
+ *	Copyright (c) 2007-2015 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -17,26 +17,26 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- *	@category		cmClasses
- *	@package		Net.API.Google.Maps
+ *	@category		Library
+ *	@package		CeusMedia_Common_Net_API_Google_Maps
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2012 Christian Würker
+ *	@copyright		2008-2015 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@link			http://code.google.com/p/cmclasses/
+ *	@link			https://github.com/CeusMedia/Common
  *	@since			0.6.5
  *	@version		$Id$
  */
 /**
  *	Resolves an address to geo codes using Google Maps API.
- *	@category		cmClasses
- *	@package		Net.API.Google.Maps
+ *	@category		Library
+ *	@package		CeusMedia_Common_Net_API_Google_Maps
  *	@extends		Net_API_Google_Request
  *	@uses			XML_Element
  *	@uses			FS_File_Editor
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2012 Christian Würker
+ *	@copyright		2008-2015 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@link			http://code.google.com/p/cmclasses/
+ *	@link			https://github.com/CeusMedia/Common
  *	@since			0.6.5
  *	@version		$Id$
  */
@@ -73,14 +73,18 @@ class Net_API_Google_Maps_Geocoder extends Net_API_Google_Request
 	 *	@access		public
 	 *	@param		string		$address		Address to get data for
 	 *	@param		bool		$force			Flag: do not use cache
+	 *	@throws		RuntimeException			if query limit is reached
+	 *	@throws		InvalidArgumentException		if address could not been resolved
 	 *	@return		array
 	 */
 	public function getGeoTags( $address, $force = FALSE )
 	{
 		$xml	= $this->getGeoCode( $address, $force );
 		$xml	= new XML_Element( $xml );
+		if( $xml->status->getValue() === "OVER_QUERY_LIMIT" )
+			throw new RuntimeException( 'Query limit reached' );
 		if( !@$xml->result->geometry->location )
-			throw new RuntimeException( 'Address not found' );
+			throw new InvalidArgumentException( 'Address not found' );
 		$coordinates	= (string) $xml->result->geometry->location;
 		$parts			= explode( ",", $coordinates );
 		$data			= array(

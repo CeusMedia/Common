@@ -2,7 +2,7 @@
 /**
  *	Class Member Data Class.
  *
- *	Copyright (c) 2008-2012 Christian Würker (ceusmedia.com)
+ *	Copyright (c) 2008-2015 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -17,21 +17,21 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- *	@category		cmClasses
- *	@package		ADT.PHP
+ *	@category		Library
+ *	@package		CeusMedia_Common_ADT_PHP
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2009 Christian Würker
+ *	@copyright		2015 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id$
  *	@since			0.3
  */
 /**
  *	Class Member Data Class.
- *	@category		cmClasses
- *	@package		ADT.PHP
+ *	@category		Library
+ *	@package		CeusMedia_Common_ADT_PHP
  *	@extends		ADT_PHP_Variable
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2009 Christian Würker
+ *	@copyright		2015 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id$
  *	@since			0.3

@@ -12,7 +12,7 @@ $loaderSrc	= new \CeusMedia\Common\FS\Autoloader\Psr0;
 $loaderSrc->setIncludePath($pathSrc);
 $loaderSrc->register();
 
-$__config	= parse_ini_file($pathLib.'/cmClasses.ini', TRUE);
+$__config	= parse_ini_file($pathLib.'/Common.ini', TRUE);
 //print_m( $__config );die;
 Test_Case::$config = $__config;
 class_exists('UI_DevOutput');
@@ -30,7 +30,7 @@ $loaderTest->setPath( $pathTests );									//  set fixed Library Path
 $loaderTest->setPrefix( 'Test_' );												//  set prefix class prefix
 $loaderTest->registerAutoloader();												//  apply this autoloader
 
-$__config	= parse_ini_file( $pathLibrary.'cmClasses.ini', TRUE );
+$__config	= parse_ini_file( $pathLibrary.'Common.ini', TRUE );
 //print_m( $__config );die;
 
 Test_Case::$config = $__config;

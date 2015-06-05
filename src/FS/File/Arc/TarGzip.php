@@ -2,7 +2,7 @@
 /**
  *	Tar Gzip File allows creation and manipulation of gzipped tar archives.
  *
- *	Copyright (c) 2007-2012 Christian Würker (ceusmedia.com)
+ *	Copyright (c) 2007-2015 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -17,24 +17,24 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- *	@category		cmClasses
- *	@package		File.Arc
+ *	@category		Library
+ *	@package		CeusMedia_Common_FS_File_Arc
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2012 Christian Würker
+ *	@copyright		2007-2015 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@link			http://code.google.com/p/cmclasses/
+ *	@link			https://github.com/CeusMedia/Common
  *	@version		$Id$
  */
 /**
  *	Tar Gzip File allows creation and manipulation of gzipped tar archives.
- *	@category		cmClasses
- *	@package		File.Arc
+ *	@category		Library
+ *	@package		CeusMedia_Common_FS_File_Arc
  *	@extends		FS_File_Arc_Tar
  *	@uses			FS_File_Arc_Gzip
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2012 Christian Würker
+ *	@copyright		2007-2015 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@link			http://code.google.com/p/cmclasses/
+ *	@link			https://github.com/CeusMedia/Common
  *	@version		$Id$
  */
 class FS_File_Arc_TarGzip extends FS_File_Arc_Tar

@@ -2,7 +2,7 @@
 /**
  *	Visualisation of Exception Stack Trace.
  *
- *	Copyright (c) 2010-2012 Christian Würker (ceusmedia.com)
+ *	Copyright (c) 2010-2015 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -17,24 +17,24 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- *	@category		cmClasses
- *	@package		UI.HTML.Exception
+ *	@category		Library
+ *	@package		CeusMedia_Common_UI_HTML_Exception
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2010-2012 Christian Würker
+ *	@copyright		2010-2015 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@link			http://code.google.com/p/cmclasses/
+ *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.0
  *	@version		$Id$
  */
 /**
  *	Visualisation of Exception Stack Trace.
- *	@category		cmClasses
- *	@package		UI.HTML.Exception
+ *	@category		Library
+ *	@package		CeusMedia_Common_UI_HTML_Exception
  *	@uses			Alg_Text_Trimmer
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2010-2012 Christian Würker
+ *	@copyright		2010-2015 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@link			http://code.google.com/p/cmclasses/
+ *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.1
  *	@version		$Id$
  */

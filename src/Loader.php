@@ -1,19 +1,19 @@
 <?php
 /**
  *	A configured Loader for Classes and Scripts, which can be registered as Autoloader.
- *	@category		cmClasses
+ *	@category		Library
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@link			http://code.google.com/p/cmclasses/
+ *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.0
  *	@version		$Id$
  */
 /**
  *	A configured Loader for Classes and Scripts, which can be registered as Autoloader.
- *	@category		cmClasses
+ *	@category		Library
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@link			http://code.google.com/p/cmclasses/
+ *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.0
  *	@version		$Id$
  */

@@ -2,7 +2,7 @@
 /**
  *	Validates a XML Element built form an Atom XML String against most of the ATOM Rules.
  *
- *	Copyright (c) 2007-2012 Christian Würker (ceusmedia.com)
+ *	Copyright (c) 2007-2015 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -17,25 +17,25 @@
  *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- *	@category		cmClasses
- *	@package		XML.Atom
+ *	@category		Library
+ *	@package		CeusMedia_Common_XML_Atom
  *	@see			http://www.atomenabled.org/developers/syndication/atom-format-spec.php#element.entry
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2012 Christian Würker
+ *	@copyright		2007-2015 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@link			http://code.google.com/p/cmclasses/
+ *	@link			https://github.com/CeusMedia/Common
  *	@since			13.05.2008
  *	@version		0.6
  */
 /**
  *	Validates a XML Element built form an Atom XML String against most of the ATOM Rules.
- *	@category		cmClasses
- *	@package		XML.Atom
+ *	@category		Library
+ *	@package		CeusMedia_Common_XML_Atom
  *	@see			http://www.atomenabled.org/developers/syndication/atom-format-spec.php#element.entry
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2012 Christian Würker
+ *	@copyright		2007-2015 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@link			http://code.google.com/p/cmclasses/
+ *	@link			https://github.com/CeusMedia/Common
  *	@since			13.05.2008
  *	@version		0.6
  */

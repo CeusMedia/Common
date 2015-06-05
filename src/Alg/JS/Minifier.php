@@ -34,8 +34,8 @@
  *	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  *	SOFTWARE.
  *
- *	@category		cmClasses
- *	@package		Alg_JS
+ *	@category		Library
+ *	@package		CeusMedia_Common_Alg_JS
  *	@author			Ryan Grove <ryan@wonko.com>
  *	@copyright		2002 Douglas Crockford <douglas@crockford.com> (jsmin.c)
  *	@copyright		2008 Ryan Grove <ryan@wonko.com> (PHP port)
@@ -46,8 +46,8 @@
  */
 /**
  *	PHP implementation of Douglas Crockford's JSMin.
- *	@category		cmClasses
- *	@package		Alg_JS
+ *	@category		Library
+ *	@package		CeusMedia_Common_Alg_JS
  *	@author			Ryan Grove <ryan@wonko.com>
  *	@copyright		2002 Douglas Crockford <douglas@crockford.com> (jsmin.c)
  *	@copyright		2008 Ryan Grove <ryan@wonko.com> (PHP port)

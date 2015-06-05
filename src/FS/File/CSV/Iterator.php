@@ -1,13 +1,13 @@
 <?php
 /**
- *	@category		cmClasses
- *	@package		File.CSV
+ *	@category		Library
+ *	@package		CeusMedia_Common_FS_File_CSV
  *	@author			mortanon@gmail.com
  *	@link			http://uk.php.net/manual/en/function.fgetcsv.php
  */
 /**
- *	@category		cmClasses
- *	@package		File.CSV
+ *	@category		Library
+ *	@package		CeusMedia_Common_FS_File_CSV
  *	@author			mortanon@gmail.com
  *	@link			http://uk.php.net/manual/en/function.fgetcsv.php
  */
