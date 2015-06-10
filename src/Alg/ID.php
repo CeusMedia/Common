@@ -37,6 +37,10 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.6
  *	@version		$Id$
+ *
+ *	@todo			implement versions
+ *	@see			comment at linked page
+ *	@link			http://php.net/manual/en/function.uniqid.php
  */
 class Alg_ID{
 	static public function uuid(){
