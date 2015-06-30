@@ -129,7 +129,7 @@ class UI_HTML_Tag
 			$content	= self::flattenArray( $content );
 		if( is_numeric( $content ) )
 			$content	= (string) $content;
-		if( is_object( $content ){
+		if( is_object( $content ) ){
 			if( !method_exists( $content, '__toString' ) ){											//  content is a renderable object
 				$message	= 'Object of class "'.get_class( $content ).'" cannot be rendered';		//  prepare message about not renderable object
 				throw new InvalidArgumentException( $message );										//  break with error message
