@@ -79,6 +79,16 @@ class UI_HTML_Tag
 	}
 
 	/**
+	 *	String Representation.
+	 *	@access		public
+	 *	@return		string
+	 */
+	public function __toString()
+	{
+		return $this->build();
+	}
+
+	/**
 	 *	Builds HTML tags as string.
 	 *	@access		public
 	 *	@return		string
@@ -119,10 +129,17 @@ class UI_HTML_Tag
 			$content	= self::flattenArray( $content );
 		if( is_numeric( $content ) )
 			$content	= (string) $content;
-		if( is_object( $content ) )
-			$content	= (string) $content;
-		if( !is_null( $content ) && !is_string( $content ) )										//  content is neither NULL nor string so far
-			throw new InvalidArgumentException( 'Content is not a string' );						//  which is not acceptable
+		if( is_object( $content ){
+			if( !method_exists( $content, '__toString' ) ){											//  content is a renderable object
+				$message	= 'Object of class "'.get_class( $content ).'" cannot be rendered';		//  prepare message about not renderable object
+				throw new InvalidArgumentException( $message );										//  break with error message
+			}
+			$content	= (string) $content;														//  render object to string
+		}
+		if( !is_null( $content ) && !is_string( $content ) ){										//  content is neither NULL nor string so far
+			$message	= 'Content type "'.gettype( $content ).'" is not supported';				//  prepare message about wrong content data type
+			throw new InvalidArgumentException( $message );											//  break with error message
+		}
 		return "<".$name.$attributes.$data.">".$content."</".$name.">";								//  build and return full tag
 	}
 
@@ -167,6 +184,10 @@ class UI_HTML_Tag
 		if( !array_key_exists( $key, $this->data ) )
 			return NULL;
 		return $this->data[$key];
+	}
+
+	public function render(){
+		return $this->build();
 	}
 
 	protected static function renderData( $data = array() ){
@@ -296,17 +317,6 @@ class UI_HTML_Tag
 	public function setContent( $content = NULL )
 	{
 		$this->content	= $content;
-	}
-
-	/**
-	 *	String Representation.
-	 *	@access		public
-	 *	@return		string
-	 */
-	public function __toString()
-	{
-//		return $this->create( $this->name, $this->content, $this->attributes, $this->data );
-		return $this->build();
 	}
 }
 ?>
