@@ -51,6 +51,8 @@ class Net_API_Google_Maps_Geocoder extends Net_API_Google_Request
 	 *	@param		string		$address		Address to get data for
 	 *	@param		bool		$force			Flag: do not use cache
 	 *	@return		string
+	 *	@throws		RuntimeException			if query limit is reached
+	 *	@throws		InvalidArgumentException	if address could not been resolved
 	 */
 	public function getGeoCode( $address, $force = FALSE )
 	{
@@ -60,11 +62,16 @@ class Net_API_Google_Maps_Geocoder extends Net_API_Google_Request
 		{
 			$cacheFile	= $this->pathCache.$address.".xml.cache";
 			if( file_exists( $cacheFile ) && !$force )
-				return FS_File_Editor::load( $cacheFile );
+				return File_Editor::load( $cacheFile );
 		}
 		$xml	= $this->sendQuery( $query );
+		$doc	= new XML_Element( $xml );
+		if( $doc->status->getValue() === "OVER_QUERY_LIMIT" )
+			throw new RuntimeException( 'Query limit reached' );
+		if( !@$doc->result->geometry->location )
+			throw new InvalidArgumentException( 'Address not found' );
 		if( $this->pathCache )
-			FS_File_Editor::save( $cacheFile, $xml );
+			File_Editor::save( $cacheFile, $xml );
 		return $xml;
 	}
 
@@ -73,18 +80,14 @@ class Net_API_Google_Maps_Geocoder extends Net_API_Google_Request
 	 *	@access		public
 	 *	@param		string		$address		Address to get data for
 	 *	@param		bool		$force			Flag: do not use cache
-	 *	@throws		RuntimeException			if query limit is reached
-	 *	@throws		InvalidArgumentException		if address could not been resolved
 	 *	@return		array
+	 *	@throws		RuntimeException			if query limit is reached
+	 *	@throws		InvalidArgumentException	if address could not been resolved
 	 */
 	public function getGeoTags( $address, $force = FALSE )
 	{
 		$xml	= $this->getGeoCode( $address, $force );
 		$xml	= new XML_Element( $xml );
-		if( $xml->status->getValue() === "OVER_QUERY_LIMIT" )
-			throw new RuntimeException( 'Query limit reached' );
-		if( !@$xml->result->geometry->location )
-			throw new InvalidArgumentException( 'Address not found' );
 		$coordinates	= (string) $xml->result->geometry->location;
 		$parts			= explode( ",", $coordinates );
 		$data			= array(
