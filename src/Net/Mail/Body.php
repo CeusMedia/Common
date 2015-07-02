@@ -119,7 +119,7 @@ class Net_Mail_Body
 	 *	@param		integer		$maxLineLength	Maximum Length to force for each Line in Content.
 	 *	@return		string
 	 */
-	public function wrapWords( $maxLineLength = 78 )
+	public function wrapWords( $maxLineLength = 76 )
 	{
 		$this->content	= chunk_split( $this->content, $maxLineLength, Net_Mail::$delimiter );
 	}
