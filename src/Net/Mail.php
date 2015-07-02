@@ -65,8 +65,10 @@ class Net_Mail
 	{
 		$this->headers		= new Net_Mail_Header_Section();
 		$this->mimeBoundary	= md5( microtime( TRUE ) );
-		$this->headers->setFieldPair( 'MIME-Version', '1.0' );
+		$server	= empty( $_SERVER['SERVER_NAME'] ) ? 'localhost' : $_SERVER['SERVER_NAME'];
 		$type	= 'multipart/mixed; boundary='.$this->mimeBoundary.'';
+		$this->headers->setFieldPair( 'MIME-Version', '1.0' );
+		$this->headers->setFieldPair( 'Message-ID', "<".sha1( microtime() )."@".$server.">" )
 		$this->headers->setFieldPair( 'Content-Type', $type, TRUE );
 	}
 
