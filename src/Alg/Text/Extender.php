@@ -47,9 +47,9 @@ class Alg_Text_Extender{
 			return str_pad( $text, $toLength, $withString, $fromLeft ? STR_PAD_LEFT : STR_PAD_RIGHT );
 		$textLength			= mb_strlen( $text, self::$encoding );
 		$withStringLength	= mb_strlen( $withString, self::$encoding );
-		if( !$toLength || !$withStringLength || !$textLength || $toLength <= $textLength )
+		if( !$toLength || !$withStringLength || $toLength <= $textLength )
 			return $text;
-		$repeat	= ceil( $textLength - $withStringLength + $toLength );
+		$repeat	= ceil( max( 0, $textLength - $withStringLength ) + $toLength );
 		if( $fromLeft ){
 			$result	= str_repeat( $withString, $repeat );
 			$pos	= $toLength - ( ( $textLength - $withStringLength ) + $withStringLength );
@@ -67,7 +67,7 @@ class Alg_Text_Extender{
 			return str_pad( $text, $toLength, $withString, STR_PAD_BOTH );
 		$textLength			= mb_strlen( $text );
 		$withStringLength	= mb_strlen( $withString );
-		if( !$toLength || !$withStringLength || !$textLength || $toLength <= $textLength )
+		if( !$toLength || !$withStringLength || $toLength <= $textLength )
 			return $text;
 
 		$length	= ( $toLength - $textLength ) / 2;
