@@ -17,7 +17,7 @@
  *	@since			0.7.0
  *	@version		$Id$
  */
-class CMC_Loader
+class Loader
 {
 	protected $extensions	= array(
 		'php',
@@ -65,12 +65,12 @@ class CMC_Loader
 	 *	@param		string		$path			Path to Classes
 	 *	@param		string		$logFile		Path to autoload log file
 	 *	@param		boolean		$verbose		Verbosity: 0 - quiet | 1 - show load | 2 - show scan (default: 0 - quiet)
-	 *	@return		CMC_Loader
+	 *	@return		Loader
 	 *	@deprecated	not working in PHP 5.2
 	 */
 	public static function registerNew( $extensions = NULL, $prefix = NULL, $path = NULL, $logFile = NULL, $verbose = 0 )
 	{
-		$loader	= new CMC_Loader( $extensions, $prefix, $path, $logFile );
+		$loader	= new Loader( $extensions, $prefix, $path, $logFile );
 		$loader->setVerbose( (int) $verbose );
 		$loader->registerAutoloader();
 		return $loader;
@@ -107,8 +107,8 @@ class CMC_Loader
 			$filePath	= $basePath.$fileName.".".$extension;
 			if( $this->verbose > 1 )
 				echo $this->lineBreak."autoload: ".$filePath;
-			if( defined( 'CMC_LOADER_LOG' ) && CMC_LOADER_LOG )
-				error_log( $filePath."\n", 3, CMC_LOADER_LOG );
+			if( defined( 'LOADER_LOG' ) && LOADER_LOG )
+				error_log( $filePath."\n", 3, LOADER_LOG );
 #			if( !@fopen( $filePath, "r", TRUE ) )
 			if( !file_exists( $filePath ) )
 #			if( !is_readable( $filePath ) )
