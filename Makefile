@@ -20,9 +20,6 @@ git-update:
 	@git fetch
 	@git pull
 
-go-configure:
-    @php go.php configure
-
 go-create-docs:
 	@php go.php create doc
 
