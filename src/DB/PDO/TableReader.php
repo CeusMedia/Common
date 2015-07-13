@@ -570,6 +570,8 @@ class DB_PDO_TableReader
 	 */
 	public function setPrimaryKey( $column )
 	{
+		if( !strlen( trim( $column ) ) )
+			throw new InvalidArgumentException( 'Primary key column cannot be empty' );
 		if( !in_array( $column, $this->columns ) )
 			throw new InvalidArgumentException( 'Column "'.$column.'" is not existing and can not be primary key' );
 		$this->primaryKey = $column;
@@ -583,6 +585,8 @@ class DB_PDO_TableReader
 	 */
 	public function setTableName( $tableName )
 	{
+		if( !strlen( trim( $tableName ) ) )
+			throw new InvalidArgumentException( 'Table name cannot be empty' );
 		$this->tableName = $tableName;
 	}
 
