@@ -45,10 +45,12 @@ class Alg_Text_Trimmer
 	 *	@static
 	 *	@param		string		$string		String to be trimmed
 	 *	@param		int			$length		Length of String to be at most
-	 *	@param		string		$mask		Mask String to append after cut.
+	 *	@param		string		$mask		Mask String to append after cut
+	 *	@param  	boolean		$fromLeft	Flag: trim left instead of right (default)
+	 *	@param  	string		$encoding	Encoding of string
 	 *	@return		string
 	 */
-	static public function trim( $string, $length = 0, $mask = "...", $encoding = "UTF-8" )
+	static public function trim( $string, $length = 0, $mask = "...", $fromLeft = FALSE, $encoding = "UTF-8" )
 	{
 		$string		= trim( (string) $string );
 		if( (int) $length < 1 || self::strlen( $string, $encoding ) <= $length )
@@ -56,32 +58,38 @@ class Alg_Text_Trimmer
 		$maskLength	= preg_match( '/^&.*;$/', $mask ) ? 1 : self::strlen( $mask, $encoding );
 		if( $length < $maskLength )
 			throw new InvalidArgumentException( 'Max length must be greater than mask length' );
-		$string	= self::substr( $string, 0, $length - $maskLength, $encoding );
-		$string	.= $mask;
+		$range	= $length - $maskLength;
+		if( $fromLeft )
+			$string	= $mask.self::substr( $string, -$range, NULL, $encoding );
+		else
+			$string	= self::substr( $string, 0, $range, $encoding ).$mask;
 		return $string;
 	}
 
-	static protected function strlen( $string, $encoding = NULL ){
+	static protected function strlen( $string, $encoding = NULL )
+	{
 		if( !function_exists( 'mb_strlen' ) )
 			return strlen( utf8_decode( $string ) );
 		$encoding	= $encoding ? $encoding : mb_internal_encoding();
 		return mb_strlen( $string, $encoding );
 	}
 
-	static protected function substr( $string, $start, $length = NULL, $encoding = NULL ){
+	static protected function substr( $string, $start, $length = NULL, $encoding = NULL )
+	{
 		if( !function_exists( 'mb_substr' ) )
 			return utf8_encode( substr( utf8_decode( $string ), $start, $length ) );
 		$encoding	= $encoding ? $encoding : mb_internal_encoding();
 		return mb_substr( $string, $start, $length, $encoding );
 	}
-	
+
 	/**
 	 *	Trims String and cuts to the right if too long, also adding a mask string.
 	 *	@access		public
 	 *	@static
 	 *	@param		string		$string		String to be trimmed
 	 *	@param		int			$length		Length of String to be at most
-	 *	@param		string		$mask		Mask String to append after cut.
+	 *	@param		string		$mask		Mask String to append after cut
+	 *	@param  	string		$encoding	Encoding of string
 	 *	@return		string
 	 */
 	static public function trimCentric( $string, $length = 0, $mask = "...", $encoding = "UTF-8" )
@@ -97,6 +105,19 @@ class Alg_Text_Trimmer
 		$left	= self::substr( $string, 0, ceil( $range ), $encoding );
 		$right	= self::substr( $string, -floor( $range ), $length, $encoding );
 		return $left.$mask.$right;
+	}
+
+	/**
+	 *	@access		public
+	 *	@param		string		$string		String to be trimmed
+	 *	@param		int			$length		Length of String to be at most
+	 *	@param		string		$mask		Mask String to append after cut
+	 *	@param  	string		$encoding	Encoding of string
+	 *	@return		string
+	 */
+	static public function trimLeft( $string, $length = 0, $mask = "...", $encoding = "UTF-8" )
+	{
+		return self::trim( $string, $length, $mask, TRUE, $encoding );
 	}
 }
 ?>

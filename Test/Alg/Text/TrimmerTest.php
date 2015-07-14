@@ -30,7 +30,7 @@ class Test_Alg_Text_TrimmerTest extends Test_Case
 	{
 		$this->string	= "abcdefghijklmnop";
 	}
-	
+
 	/**
 	 *	Setup for every Test.
 	 *	@access		public
@@ -39,7 +39,7 @@ class Test_Alg_Text_TrimmerTest extends Test_Case
 	public function setUp()
 	{
 	}
-	
+
 	/**
 	 *	Cleanup after every Test.
 	 *	@access		public
@@ -117,7 +117,6 @@ class Test_Alg_Text_TrimmerTest extends Test_Case
 		$creation	= Alg_Text_Trimmer::trimCentric( $this->string, 6 );
 		$this->assertEquals( $assertion, $creation );
 
-		
 		$assertion	= "a...p";
 		$creation	= Alg_Text_Trimmer::trimCentric( $this->string, 5 );
 		$this->assertEquals( $assertion, $creation );
@@ -136,6 +135,21 @@ class Test_Alg_Text_TrimmerTest extends Test_Case
 
 		$assertion	= "Ä-Ü";
 		$creation	= Alg_Text_Trimmer::trimCentric( "ÄÄÖÖÜÜ", 3, '-' );
+		$this->assertEquals( $assertion, $creation );
+	}
+
+	public function testTrimLeft()
+	{
+		$assertion	= "abcdefghijklmnop";
+		$creation	= Alg_Text_Trimmer::trimLeft( $this->string, 60 );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= "...efghijklmnop";
+		$creation	= Alg_Text_Trimmer::trimLeft( $this->string, 15 );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= "...nop";
+		$creation	= Alg_Text_Trimmer::trimLeft( $this->string, 6 );
 		$this->assertEquals( $assertion, $creation );
 	}
 }
