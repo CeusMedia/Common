@@ -123,7 +123,7 @@ class Net_HTTP_Request extends ADT_List_Dictionary
 		}*/
 
 		$this->setMethod( strtoupper( getEnv( 'REQUEST_METHOD' ) ) );								//  store HTTP method
-		$this->body	= file_get_contents( "php://input" );											//  store raw post or file data
+		$this->body	= file_get_contents( "php://input" );											//  store raw POST, PUT or FILE data
 	}
 
 	public function fromString( $request )
@@ -251,13 +251,15 @@ class Net_HTTP_Request extends ADT_List_Dictionary
 	{
 #		remark( 'R:remove: '.$key );
 		parent::remove( $key );
-		$this->body	= http_build_query( $this->getAll(), NULL, '&' );
+//		if( $this->method === "POST" )
+//			$this->body	= http_build_query( $this->getAll(), NULL, '&' );
 	}
 
 	public function set( $key, $value )
 	{
 		parent::set( $key, $value );
-		$this->body	= http_build_query( $this->getAll(), NULL, '&' );
+//		if( $this->method === "POST" )
+//			$this->body	= http_build_query( $this->getAll(), NULL, '&' );
 	}
 
 	public function setAjax( $value = 'X-Requested-With' )
