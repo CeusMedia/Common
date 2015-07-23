@@ -169,20 +169,6 @@ class Net_HTTP_Request extends ADT_List_Dictionary
 	}
 
 	/**
-	 *	Returns list of all HTTP headers received.
-	 *	Acts as getHeadersByName if header key name is given.
-	 *	@access		public
-	 *	@param		string		$name		Key name of header (optional)
-	 *	@return		array		List of Net_HTTP_Header_Field instances
-	 */
-	public function getHeaders( $name = NULL )
-	{
-		if( $name )
-			return $this->getHeadersByName( $name );
-		return $this->headers->getFields();
-	}
-
-	/**
 	 *	Return HTTP header field by a specified header name.
 	 *	Returns latest field if more than one.
 	 *	Alias for getHeadersByName with TRUE as seconds parameter.
@@ -196,9 +182,26 @@ class Net_HTTP_Request extends ADT_List_Dictionary
 	public function getHeader( $name, $strict = TRUE )
 	{
 		$header	= $this->getHeadersByName( $name, TRUE );
-		if( !$header && $strict )
-			throw new RuntimeException( sprintf( 'No header set by name "%s"', $name ) );
-		return NULL;
+		if( !$header ){
+			if( $strict )
+				throw new RuntimeException( sprintf( 'No header set by name "%s"', $name ) );
+			return NULL;
+		}
+		return $header;
+	}
+
+	/**
+	 *	Returns list of all HTTP headers received.
+	 *	Acts as getHeadersByName if header key name is given.
+	 *	@access		public
+	 *	@param		string		$name		Key name of header (optional)
+	 *	@return		array		List of Net_HTTP_Header_Field instances
+	 */
+	public function getHeaders( $name = NULL )
+	{
+		if( $name )
+			return $this->getHeadersByName( $name );
+		return $this->headers->getFields();
 	}
 
 	/**
