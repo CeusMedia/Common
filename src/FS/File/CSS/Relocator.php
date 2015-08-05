@@ -20,7 +20,7 @@ class FS_File_CSS_Relocator {
     public static $debugText = '';
     
     /**	@var		string		$className		Defines which class to call as part of callbacks, change this if you extend FS_File_CSS_Relocator */
-    protected static $className = 'File_CSS_Relocator';
+    protected static $className = 'FS_File_CSS_Relocator';
 
     /**	@var		string		$_currentDir	Directory of this stylesheet */
     private static $_currentDir = '';
