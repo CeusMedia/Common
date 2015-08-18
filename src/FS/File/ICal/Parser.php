@@ -68,7 +68,7 @@ class FS_File_ICal_Parser
 	public function parse( $name, $string )
 	{
 		$root	= new XML_DOM_Node( $name );
-	
+
 		$string	= self::unfoldString( $string );
 		$lines = explode( self::$lineBreak, $string );
 
@@ -94,7 +94,7 @@ class FS_File_ICal_Parser
 		$pos	= strpos( $line, ":" );
 		$name	= substr( $line, 0, $pos );
 		$value	= substr( $line, $pos+1 );
-		
+
 		$params	= array();
 		if( substr_count( $name, ";" ) )
 		{
@@ -103,7 +103,7 @@ class FS_File_ICal_Parser
 			$name	= substr( $name, 0, $pos );
 			$params	= explode( ",", utf8_decode( $params ) );
 		}
-		
+
 		$parsed	= array(
 			"name"	=> trim( $name ),
 			"param"	=> $params,
@@ -123,7 +123,7 @@ class FS_File_ICal_Parser
 	 */
 	protected static function parseRecursive( $type, &$root, &$lines )
 	{
-		$node =& new XML_DOM_Node( strtolower( $type ) );
+		$node = new XML_DOM_Node( strtolower( $type ) );
 		$root->addChild( $node );
 		while( count( $lines ) )
 		{
@@ -135,7 +135,7 @@ class FS_File_ICal_Parser
 				$lines	= self::parseRecursive( $parsed['value'], $node, $lines );
 			else
 			{
-				$child	=& new XML_DOM_Node( strtolower( $parsed['name'] ), $parsed['value'] );
+				$child	= new XML_DOM_Node( strtolower( $parsed['name'] ), $parsed['value'] );
 				foreach( $parsed['param'] as $param )
 				{
 					$parts	= explode( "=", $param );
@@ -158,7 +158,7 @@ class FS_File_ICal_Parser
 		$string	= str_replace( self::$lineBreak." ;", ";", $string );
 		$string	= str_replace( self::$lineBreak." :", ":", $string );
 		$string	= str_replace( self::$lineBreak." ", "", $string );
-		return $string;	
+		return $string;
 	}
 }
 ?>
