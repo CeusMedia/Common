@@ -182,12 +182,11 @@ class Net_HTTP_Request extends ADT_List_Dictionary
 	public function getHeader( $name, $strict = TRUE )
 	{
 		$header	= $this->getHeadersByName( $name, TRUE );
-		if( !$header ){
-			if( $strict )
-				throw new RuntimeException( sprintf( 'No header set by name "%s"', $name ) );
+		if( $header )
+			return $header;
+		if( !$strict )
 			return NULL;
-		}
-		return $header;
+		throw new RuntimeException( sprintf( 'No header set by name "%s"', $name ) );
 	}
 
 	/**
