@@ -130,15 +130,15 @@ class UI_HTML_Tag
 		if( is_numeric( $content ) )
 			$content	= (string) $content;
 		if( is_object( $content ) ){
-			if( !method_exists( $content, '__toString' ) ){											//  content is a renderable object
+			if( !method_exists( $content, '__toString' ) ){											//  content is not a renderable object
 				$message	= 'Object of class "'.get_class( $content ).'" cannot be rendered';		//  prepare message about not renderable object
-				throw new InvalidArgumentException( $message );										//  break with error message
+				throw new InvalidArgumentException( $message ); 									//  break with error message
 			}
 			$content	= (string) $content;														//  render object to string
 		}
 		if( !is_null( $content ) && !is_string( $content ) ){										//  content is neither NULL nor string so far
 			$message	= 'Content type "'.gettype( $content ).'" is not supported';				//  prepare message about wrong content data type
-			throw new InvalidArgumentException( $message );											//  break with error message
+			throw new InvalidArgumentException( $message ); 										//  break with error message
 		}
 		return "<".$name.$attributes.$data.">".$content."</".$name.">";								//  build and return full tag
 	}
@@ -311,11 +311,19 @@ class UI_HTML_Tag
 	/**
 	 *	Sets Content of Tag.
 	 *	@access		public
-	 *	@param		string		$content		Content of Tag
+	 *	@param		string|object	$content	Content of Tag or stringable object
 	 *	@return		void
+	 *	@throws		InvalidArgumentException	if given object has no __toString method
 	 */
 	public function setContent( $content = NULL )
 	{
+		if( is_object( $content ) ){
+			if( !method_exists( $content, '__toString' ) ){											//  content is not a renderable object
+				$message	= 'Object of class "'.get_class( $content ).'" cannot be rendered';		//  prepare message about not renderable object
+				throw new InvalidArgumentException( $message ); 									//  break with error message
+			}
+			$content	= (string) $content;														//  render object to string
+		}
 		$this->content	= $content;
 	}
 }
