@@ -2,7 +2,7 @@
 /**
  *	Abstract Database Connection.
  *
- *	Copyright (c) 2007-2015 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2004-2015 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_DB
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2015 Christian Würker
+ *	@copyright		2004-2015 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@version		$Id$
@@ -32,7 +32,7 @@
  *	@abstract
  *	@uses			FS_File_Log_Writer
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2015 Christian Würker
+ *	@copyright		2004-2015 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@version		$Id$
@@ -74,7 +74,7 @@ abstract class DB_BaseConnection
 	 *	@return		void
 	 */
 	abstract public function close();
-	
+
 	/**
 	 *	Commits all modifications of Transaction.
 	 *	@abstract
@@ -153,7 +153,7 @@ abstract class DB_BaseConnection
 	 *	@return		int
 	 */
 	abstract public function getInsertId();
-	
+
 	/**
 	 *	Returns Micro Time for Time Counter.
 	 *	@access		protected
@@ -184,7 +184,7 @@ abstract class DB_BaseConnection
 	{
 		return sprintf( "%1.4f", $this->getMicroTime( TRUE ) - $start );
 	}
-	
+
 	/**
 	 *	Indicates whether Database is connected.
 	 *	@access		public
@@ -194,7 +194,7 @@ abstract class DB_BaseConnection
 	{
 		return $this->connected;
 	}
-	
+
 	/**
 	 *	Handles Error.
 	 *	@access		protected

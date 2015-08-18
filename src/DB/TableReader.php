@@ -2,7 +2,7 @@
 /**
  *	Table with Column Definition and Keys.
  *
- *	Copyright (c) 2007-2015 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2004-2015 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_DB
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2015 Christian Würker
+ *	@copyright		2004-2015 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@version		0.6
@@ -30,7 +30,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_DB
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2015 Christian Würker
+ *	@copyright		2004-2015 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@version		0.6
@@ -163,7 +163,7 @@ class DB_TableReader
 			$conditions = $conditions ? ' WHERE '.$conditions : '';
 			$orders		= $this->getOrderQuery( $orders );
 			$limits		= $this->getLimitQuery( $limits );
-		
+
 			$list	= array();
 			$query = 'SELECT '.implode( ', ', $keys ).' FROM '.$this->getTableName().$conditions.$orders.$limits;
 			if( $verbose )
@@ -216,7 +216,7 @@ class DB_TableReader
 				$operation	= ' '.$matches[1][0].' ';
 				$value		= $matches[2][0];
 			}
-			if( !ini_get( 'magic_quotes_gpc' ) )							
+			if( !ini_get( 'magic_quotes_gpc' ) )
 			{
 				$key	= addslashes( $key );
 				$value	= addslashes( $value );
@@ -342,7 +342,7 @@ class DB_TableReader
 			$orders = '';
 		return $orders;
 	}
-	
+
 	/**
 	 *	Returns the name of the primary key.
 	 *	@access		public

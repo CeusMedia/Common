@@ -3,7 +3,7 @@
  *	Result Object for Database Result.
  *	All Result Rows can be iterated like an Array.
  *
- *	Copyright (c) 2007-2015 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2004-2015 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,7 +21,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_DB
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2015 Christian Würker
+ *	@copyright		2004-2015 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@version		$Id$
@@ -31,7 +31,7 @@
  *	All Result Rows can be iterated like an Array.
  *	@category		Library
  *	@package		CeusMedia_Common_DB
- *	@copyright		2007-2015 Christian Würker
+ *	@copyright		2004-2015 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
@@ -43,7 +43,7 @@ class DB_Result implements Countable, Iterator
 	protected $cursor;
 	/**	@var		array		$rows			List of all fetched Rows */
 	public $rows;
-	
+
 	/**
 	 *	Constructor.
 	 *	@access		public
@@ -64,7 +64,7 @@ class DB_Result implements Countable, Iterator
 	{
 		return count( $this->rows );
 	}
-	
+
 	/**
 	 *	Returns current Value.
 	 *	@access		public
@@ -72,7 +72,7 @@ class DB_Result implements Countable, Iterator
 	 */
 	public function current()
 	{
-		return $this->rows[$this->key()];		
+		return $this->rows[$this->key()];
 	}
 
 	/**
@@ -174,7 +174,7 @@ class DB_Result implements Countable, Iterator
 		$keys	= array_keys( $this->rows );
 		return $keys[$this->cursor];
 	}
-	
+
 	/**
 	 *	Selects next Pair.
 	 *	@access		public
@@ -183,7 +183,7 @@ class DB_Result implements Countable, Iterator
 	public function next()
 	{
 		$this->cursor++;
-	}	
+	}
 
 	/**
 	 *	Returns the number found rows in this result.
@@ -204,7 +204,7 @@ class DB_Result implements Countable, Iterator
 	{
 		$this->cursor	= 0;
 	}
-	
+
 	/**
 	 *	Indicates whether Pair Pointer is valid.
 	 *	@access		public
@@ -213,6 +213,6 @@ class DB_Result implements Countable, Iterator
 	public function valid()
 	{
 		return $this->cursor < $this->count();
-	}	
+	}
 }
 ?>

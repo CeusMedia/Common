@@ -2,7 +2,7 @@
 /**
  *	Collection of Statement Components for Statement Builder.
  *
- *	Copyright (c) 2007-2015 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2004-2015 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -18,10 +18,10 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		Library
- *	@package		CeusMedia_Common_DB 
+ *	@package		CeusMedia_Common_DB
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@author			Michael Martin <Michael.Martin@CeuS-Media.de>
- *	@copyright		2007-2015 Christian Würker
+ *	@author			Michael Martin <martin@informatik.uni-leipzig.de>
+ *	@copyright		2004-2015 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			26.11.04
@@ -30,10 +30,10 @@
 /**
  *	Collection of Statement Components for Statement Builder.
  *	@category		Library
- *	@package		CeusMedia_Common_DB 
+ *	@package		CeusMedia_Common_DB
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@author			Michael Martin <Michael.Martin@CeuS-Media.de>
- *	@copyright		2007-2015 Christian Würker
+ *	@author			Michael Martin <martin@informatik.uni-leipzig.de>
+ *	@copyright		2004-2015 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			26.11.04
@@ -83,13 +83,13 @@ class DB_StatementCollection
 	/**
 	 *	Adds Column and Direction to order by.
 	 *	@access		public
-	 *	@param		string		$column		Column to order by	
+	 *	@param		string		$column		Column to order by
 	 *	@param		string		$direction	Direction (ASC|DESC)
 	 *	@return		void
 	 */
 	public function addOrder( $column, $direction )
 	{
-		$this->builder->addOrder( $column, $direction );	
+		$this->builder->addOrder( $column, $direction );
 	}
 
 	/**
@@ -130,8 +130,8 @@ class DB_StatementCollection
 			$offset	= (int) $data[0];
 		if( isset( $data[1] ) && (int) $data[1] && $data[1] == abs( $data[1] ) )
 			$rows	= (int) $data[1];
-		$this->builder->setLimit( $rows );	
-		$this->builder->setOffset( $offset );	
+		$this->builder->setLimit( $rows );
+		$this->builder->setOffset( $offset );
 		return array();
 	}
 
@@ -148,7 +148,7 @@ class DB_StatementCollection
 			throw new InvalidArgumentException( 'Orders must be given as List of Column and Direction.' );
 		$column		= $data[0];
 		$direction	= strtoupper( $data[1] );
-		$this->builder->addOrder( $column, $direction );	
+		$this->builder->addOrder( $column, $direction );
 		return array();
 	}
 
@@ -161,7 +161,7 @@ class DB_StatementCollection
 	 */
 	public function orderBy( $column, $direction )
 	{
-		$this->builder->addOrder( $column, strtoupper( $direction ) );	
+		$this->builder->addOrder( $column, strtoupper( $direction ) );
 		return array();
 	}
 
@@ -181,21 +181,21 @@ class DB_StatementCollection
 	 *	@access		public
 	 *	@param		int			$rowCount		Rows to limit
 	 *	@return		void
- 	 */	
+ 	 */
 	public function setLimit( $rowCount )
 	{
-		$this->builder->setLimit( $rowCount );	
+		$this->builder->setLimit( $rowCount );
 	}
-	
+
 	/**
 	 *	Sets Offset to start at.
 	 *	@access		public
 	 *	@param		int			$offset			Offset to start at
 	 *	@return		void
- 	 */	
+ 	 */
 	public function setOffset( $offset )
 	{
-		$this->builder->setOffset( $offset );	
+		$this->builder->setOffset( $offset );
 	}
 }
 ?>

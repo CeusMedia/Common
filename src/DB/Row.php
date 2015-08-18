@@ -3,7 +3,7 @@
  *	Result Row Object for Database Result Sets.
  *	All Rows Pairs can be iterated or accessed like an Array.
  *
- *	Copyright (c) 2007-2015 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2004-2015 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,7 +21,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_DB
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2015 Christian Würker
+ *	@copyright		2004-2015 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@version		$Id$.6
@@ -32,7 +32,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_DB
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2015 Christian Würker
+ *	@copyright		2004-2015 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@version		$Id$.6
@@ -65,7 +65,7 @@ class DB_Row implements Countable, Iterator, ArrayAccess
 			$this->getPairs();
 		return array_keys( $this->____pairs );
 	}
-	
+
 	/**
 	 *	Returns Pairs of Row.
 	 *	@access		public
@@ -106,7 +106,7 @@ class DB_Row implements Countable, Iterator, ArrayAccess
 			$this->getPairs();
 		return array_values( $this->____pairs );
 	}
-	
+
 	/**
 	 *	Returns Size of Dictionary.
 	 *	@access		public
@@ -116,7 +116,7 @@ class DB_Row implements Countable, Iterator, ArrayAccess
 	{
 		return $this->getColCount();
 	}
-	
+
 	/**
 	 *	Returns current Value.
 	 *	@access		public
@@ -127,7 +127,7 @@ class DB_Row implements Countable, Iterator, ArrayAccess
 		if( !isset( $this->____pairs ) )
 			$this->getPairs();
 		$values	= array_values( $this->____pairs );
-		return $values[$this->____cursor];		
+		return $values[$this->____cursor];
 	}
 
 		/**
@@ -142,7 +142,7 @@ class DB_Row implements Countable, Iterator, ArrayAccess
 		$keys	= array_keys( $this->____pairs );
 		return $keys[$this->____cursor];
 	}
-	
+
 	/**
 	 *	Selects next Pair.
 	 *	@access		public
@@ -151,7 +151,7 @@ class DB_Row implements Countable, Iterator, ArrayAccess
 	public function next()
 	{
 		$this->____cursor++;
-	}	
+	}
 
 	/**
 	 *	Returns a Value by its Key.
@@ -223,7 +223,7 @@ class DB_Row implements Countable, Iterator, ArrayAccess
 	{
 		$this->____cursor	= 0;
 	}
-	
+
 	/**
 	 *	Indicates whether Pair Pointer is valid.
 	 *	@access		public
@@ -232,7 +232,7 @@ class DB_Row implements Countable, Iterator, ArrayAccess
 	public function valid()
 	{
 		return $this->____cursor < $this->count() - 1;
-	}	
+	}
 
 }
 ?>
