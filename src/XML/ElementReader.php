@@ -44,40 +44,40 @@ class XML_ElementReader
 {
 	/**
 	 *	Reads XML from string.
-	 *	@access		public
 	 *	@static
+	 *	@access		public
 	 *	@param		string		$xml		XML string to read
 	 *	@return		XML_Element
 	 */
-	public static function read( $xml )
+	static public function read( $xml )
 	{
 		return new XML_Element( $xml );
 	}
 
 	/**
 	 *	Reads XML from File.
-	 *	@access		public
 	 *	@static
+	 *	@access		public
 	 *	@param		string		$fileName	File name to XML file
 	 *	@return		XML_Element
 	 */
-	public static function readFile( $fileName )
+	static public function readFile( $fileName )
 	{
 		$xml	= FS_File_Reader::load( $fileName );
-		return new XML_Element( $xml );
+		return self::read( $xml );
 	}
 
 	/**
 	 *	Reads XML from URL.
-	 *	@access		public
 	 *	@static
+	 *	@access		public
 	 *	@param		string		$url		URL to read XML from
 	 *	@return		XML_Element
 	 */
-	public static function readUrl( $url )
+	static public function readUrl( $url )
 	{
 		$xml	= Net_Reader::readUrl( $url );
-		return new XML_Element( $xml );
+		return self::read( $xml );
 	}
 }
 ?>
