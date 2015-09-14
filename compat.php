@@ -14,6 +14,7 @@ if( $isComposer && $isFromGithub ){
 	class Folder_Lister extends FS_Folder_Lister{}
 	class Folder_RecursiveLister extends FS_Folder_RecursiveLister{}
 	class CMM_Bootstrap_PageControl extends \CeusMedia\Bootstrap\PageControl{}
+	class CMM_Mail_Parser extends \CeusMedia\Mail\Parser{}
 	class CMM_OSQL_Client{}
 	class CMC_Loader extends Loader{}
 	class Console_RequestReceiver extends CLI_RequestReceiver{}
