@@ -303,8 +303,9 @@ class Net_CURL
 			else
 				throw new InvalidArgumentException( 'Invalid CURL option constant "'.$option.'"' );
 		}
-		if( !curl_setopt( $this->handle, $option, $value ) )
-			throw new InvalidArgumentException( "Option could not been set." );
+//		if( !curl_setopt( $this->handle, $option, $value ) )
+//			throw new InvalidArgumentException( "Option could not been set." );
+		curl_setopt( $this->handle, $option, $value );
 		$this->options[$option]	= $value;
 	}
 
