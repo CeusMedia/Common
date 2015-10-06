@@ -158,6 +158,7 @@ class Net_Mail_Transport_SMTP
 			if( $this->isSecure ){
 				$this->sendChunk( $conn, "STARTTLS" );
 				$this->checkResponse( $conn );
+				stream_socket_enable_crypto( $conn, true, STREAM_CRYPTO_METHOD_TLS_CLIENT );
 			}
 			if( $this->username && $this->password ){
 				$this->sendChunk( $conn, "AUTH LOGIN" );
