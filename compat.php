@@ -6,10 +6,12 @@ if( $isComposer && $isFromGithub ){
     class Database_PDO_Connection extends DB_PDO_Connection{}
     class Database_PDO_DataSourceName extends DB_PDO_DataSourceName{}
 	class File_JSON_Reader extends FS_File_JSON_Reader{}
+	class File_Editor extends FS_File_Editor{}
 	class File_Reader extends FS_File_Reader{}
 	class File_Writer extends FS_File_Writer{}
 	class File_RecursiveRegexFilter extends FS_File_RecursiveRegexFilter{}
 	class File_RegexFilter extends FS_File_RegexFilter{}
+	class File_CSS_Compressor extends FS_File_CSS_Compressor{}
 	class Folder_Editor extends FS_Folder_Editor{}
 	class Folder_Lister extends FS_Folder_Lister{}
 	class Folder_RecursiveLister extends FS_Folder_RecursiveLister{}
