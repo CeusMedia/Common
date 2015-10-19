@@ -15,8 +15,6 @@ class Go_SelfTester
 		Go_Library::testImports( $data['files'] );
 
 		remark( "create random numbers with 3 digits: " );
-		import( 'de.ceus-media.alg.Randomizer' );
-		import( 'de.ceus-media.math.RomanNumbers' );
 
 		$randomizer	= new Alg_Randomizer();
 		$randomizer->useLarges	= FALSE;
@@ -28,7 +26,7 @@ class Go_SelfTester
 
 		remark( "roman date: " );
 		$year	= date( "Y" );
-		print( $year. " is ".Math_RomanNumbers::convertToRoman( $year ) );
+		print( $year. " is ".Alg_Math_RomanNumbers::convertToRoman( $year ) );
 
 		remark( "" );
 	}

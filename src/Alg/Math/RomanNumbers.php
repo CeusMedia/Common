@@ -26,7 +26,6 @@
  *	@since			22.06.2005
  *	@version		$Id$
  */
-import ("de.ceus-media.ui.DevOutput");
 /**
  *	Convertion between roman and arabic number system.
  *	@category		Library
@@ -65,7 +64,7 @@ class Alg_Math_RomanNumbers
 		"N"	=> "QR",				"W"	=> "QS",
 		"Y"	=> "ST",				"Z"	=> "SU"
 	);
-	
+
 	/**
 	 *	Converts and returns an arabian number as roman number.
 	 *	@access		public
@@ -81,14 +80,13 @@ class Alg_Math_RomanNumbers
 		{
 			while( $integer > 0 )
 			{
-				
 				foreach( self::$roman as $key => $value )									//  all roman number starting with biggest
 				{
 					if( $integer >= $value )												//  current roman number is in integer
 					{
 						$roman	.= $key;													//  append roman number
 						$integer	-= $value;												//  decrease integer by current value
-						break;															
+						break;
 					}
 				}
 			}
@@ -100,7 +98,7 @@ class Alg_Math_RomanNumbers
 		else
 			throw new InvalidArgumentException( "Integer '".$integer."' is invalid." );
 	}
-	
+
 	/**
 	 *	Converts and returns a roman number as arabian number.
 	 *	@access		public
