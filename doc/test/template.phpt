@@ -5,7 +5,7 @@ return '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
     <title>UnitTestResultViewer < cmTools</title>
     <link rel="stylesheet" href="base.css"/>
     <link rel="stylesheet" href="style.css"/>
-    <script src="//js.ceusmedia.com/jquery/1.2.3.pack.js"/></script>
+    <script src="//cdn.int1a.net/js/jquery/1.10.2.min.js"/></script>
   </head>
   <body>
     <div id="tables">

@@ -1,7 +1,7 @@
 <?php
 require_once( "../../autoload.php" );
 
-$pathJpgraph	= 'jpgraph/3.0.7/src/';
+$pathJpgraph	= '../../../../jpgraph-3.5.0b1/src/';
 $pathClasses	= '../../src/';
 $refresh		= isset( $_GET['refresh'] );
 
@@ -12,7 +12,7 @@ require_once( JPGRAPH_PATH.'jpgraph_pie3d.php' );
 
 require_once 'PackageGraphView.php';
 $graph	= new PackageGraphView( $pathClasses );
-#$graph->baseCss		= '//localhost/ceusmedia/css/';
-#$graph->baseJs		= '//localhost/ceusmedia/js/';
+$graph->baseCss		= 'http://cdn.int1a.net/css/';
+$graph->baseJs		= 'http://cdn.int1a.net/js/';
 print( $graph->buildView( $refresh ) );
 ?>

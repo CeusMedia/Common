@@ -5,7 +5,7 @@ class PackageGraphView
 	public $baseJs			= '//js.ceusmedia.com/';
 	public $regExpFilename	= '/^[A-Z].+\.php$/';
 	public $rexExpSignature	= '/class [a-z]|interface [a-z] /i';
-	public $fileSerial		= 'cache/files.serial';
+	public $fileSerial		= 'cache.files.serial';
 
 	public function __construct( $path )
 	{
@@ -29,7 +29,7 @@ class PackageGraphView
 		$page->addJavaScript( 'script.js' );
 		$page->addStyleSheet( 'css/style.css' );
 		$page->addStyleSheet( 'css/tabs.office2.css' );
-		$page->addBody( '<h2>cmClasses Packages</h2>' );
+		$page->addBody( '<h2><a href="https://github.com/CeusMedia/Common">CeusMedia/Common</a> Packages</h2>' );
 
 		$samples	= $this->getPackages();
 
@@ -49,8 +49,8 @@ class PackageGraphView
 			$data['total']		+= $sampleData['count'];
 		}
 		$view->setHeading( 'Packages by file count' );
-		@unlink( 'cache/PackageFileCount.png' );
-		$page->addBody( $view->build( "test1", $data, 'cache/PackageFileCount.png' ) );
+		@unlink( 'cache.packageFileCount.png' );
+		$page->addBody( $view->build( "test1", $data, 'cache.packageFileCount.png' ) );
 
 
 
@@ -70,8 +70,8 @@ class PackageGraphView
 			$data['total']		+= $sampleData['count'];
 		}
 		$view->setHeading( 'Packages by file size' );
-		@unlink( 'cache/PackageFileSize.png' );
-		$page->addBody( $view->build( "test2", $data, 'cache/PackageFileSize.png' ) );
+		@unlink( 'cache.packageFileSize.png' );
+		$page->addBody( $view->build( "test2", $data, 'cache.packageFileSize.png' ) );
 		$page->addBody( '<div style="clear: both"></div>' );
 
 		$tabs	= new UI_HTML_Tabs;
@@ -112,19 +112,19 @@ class PackageGraphView
 		if( file_exists( $this->fileSerial ) && !$refresh )
 			return;
 		$files	= array();
-		$index	= new File_RecursiveRegexFilter( $this->path, $this->regExpFilename, $this->rexExpSignature );
+		$index	= new FS_File_RecursiveRegexFilter( $this->path, $this->regExpFilename, $this->rexExpSignature );
 		foreach( $index as $entry )
 		{
 			$pathName	= substr( $entry->getPathname(), strlen( $this->path ) );
 			$files[$pathName]	= filesize( $entry->getPathname() );
 		}
-		File_Editor::save( $this->fileSerial, serialize( $files ) );
+		FS_File_Editor::save( $this->fileSerial, serialize( $files ) );
 	}
 
 	protected function prepareData()
 	{
 		$this->map	= new ADT_List_LevelMap();
-		$files		= unserialize( File_Editor::load( $this->fileSerial ) );
+		$files		= unserialize( FS_File_Editor::load( $this->fileSerial ) );
 		foreach( $files as $pathName => $size )
 		{
 			if( !substr_count( $pathName, DIRECTORY_SEPARATOR ) )
