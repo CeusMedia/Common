@@ -138,11 +138,8 @@ class Net_Mail_Transport_SMTP
 		$mail->setHeaderPair( 'X-Mailer', $this->mailer );
 		$delim		= Net_Mail::$delimiter;
 		$date		= date( "D, d M Y H:i:s O", time() );
-		$server		= 'localhost';
 		$subject	= "=?UTF-8?B?".base64_encode( $mail->getSubject() )."?=";
-		if( !empty( $_SERVER['SERVER_NAME'] ) )
-			$server	= $_SERVER['SERVER_NAME'];
-		$conn	= fsockopen( $this->host, $this->port, $errno, $errstr, 5 );
+		$conn		= fsockopen( $this->host, $this->port, $errno, $errstr, 5 );
 		if( !$conn )
 			throw new RuntimeException( 'Connection to SMTP server "'.$this->host.':'.$this->port.'" failed' );
 		if( !$mail->getSender() )
@@ -153,11 +150,12 @@ class Net_Mail_Transport_SMTP
 			throw new RuntimeException( 'No mail body set' );
 		try{
 			$this->checkResponse( $conn );
-			$this->sendChunk( $conn, "HELO ".$server );
+			$this->sendChunk( $conn, "HELO ".$this->host );
 			$this->checkResponse( $conn );
 			if( $this->isSecure ){
 				$this->sendChunk( $conn, "STARTTLS" );
 				$this->checkResponse( $conn );
+				stream_socket_enable_crypto( $conn, true, STREAM_CRYPTO_METHOD_TLS_CLIENT );
 			}
 			if( $this->username && $this->password ){
 				$this->sendChunk( $conn, "AUTH LOGIN" );
