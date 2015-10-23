@@ -1,17 +1,18 @@
+
 # --  CONFIGURE THIS!  --------------------------
 
-SHELL	:= /bin/bash
-USER	:= kriss
-GROUP	:= www-data
-RIGHTS	:= 775
+SHELL		:= /bin/bash
+USER		:= kriss
+GROUP		:= www-data
+RIGHTS		:= 775
 
 # --  TARGETS  ----------------------------------
-PATH	:= $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
+PATH_SELF	:= $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 
 all: git-update set-rights create-docs git-show-status
 
 git-show-status:
-	git status
+	@git status
 
 git-show-changes:
 	@git diff
@@ -43,7 +44,7 @@ set-rights:
 
 # generate .htaccess file to move to your project, enabling autoloading
 generate-htaccess:
-	@echo 'php_value auto_prepend_file "${PATH}autoload.php5"' > .htaccess
+	@echo 'php_value auto_prepend_file "${PATH_SELF}autoload.php"' > .htaccess
 	@echo ".htaccess generated."
 	@echo "Now you can move this file to your project to enable autoloading."
 

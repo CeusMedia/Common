@@ -54,6 +54,15 @@ class UnitTestViewer
 					'onclick'	=> "$('#".$type.$hash."').toggle();"
 				)
 			);
+#xmp( $message );
+			$message	= preg_replace( "/<(\/)?(ul|li)( .*)?>/Ui", "[\\1\\2\\3]", $message );
+			$message	= preg_replace( '/( class=)"([^"]*)?"/i', "\\1--\\2--", $message );
+#xmp( $message );
+			$message	= htmlentities( $message, ENT_QUOTES, 'UTF-8' );
+			$message	= preg_replace( "/\[(\/)?(ul|li)( .*)?\]/Ui", "<\\1\\2\\3>", $message );
+			$message	= preg_replace( "/( class=)--([^--]*)?--/Ui", '\\1"\\2"', $message );
+#xmp( $message );
+#die;
 			$content	= UI_HTML_Tag::create(
 				'div',
 				$message,
