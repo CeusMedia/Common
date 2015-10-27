@@ -124,7 +124,7 @@ class Net_CURL
 		$this->options	= array();
 		if( !empty( $url ) )
 			$this->setUrl( $url );
-//		$this->setOption( CURLOPT_FOLLOWLOCATION, TRUE );
+//		$this->setOption( CURLOPT_FOLLOWLOCATION, !ini_get( 'safe_mode' ) && !ini_get( 'open_basedir' ) );
 		$this->setOption( CURLOPT_HEADER, TRUE );
 		$this->setOption( CURLOPT_RETURNTRANSFER, TRUE );
 		if( self::$timeOut )
