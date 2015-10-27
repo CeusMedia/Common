@@ -56,7 +56,7 @@ class Net_Mail_Transport_SMTP
 	protected $verbose			= FALSE;
 
 	/**	@var		string		$mailer		Mailer Agent */
-	protected $mailer			= 'cmClasses::Net_Mail/0.7.3';
+	protected $mailer			= 'CeusMedia::Common/0.8.0';
 
 
 	/**

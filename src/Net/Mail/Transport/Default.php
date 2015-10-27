@@ -50,7 +50,7 @@ class Net_Mail_Transport_Default
 	 */
 	public function __construct( $mailer = NULL )
 	{
-		$this->mailer	= 'cmClasses::Net_Mail/'.CMC_VERSION;
+		$this->mailer	= 'CeusMedia::Common/0.8.0';
 		if( is_string( $mailer ) && strlen( trim( $mailer ) ) )
 			$this->mailer	= $mailer;
 	}
