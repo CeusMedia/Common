@@ -6,8 +6,6 @@
  *	@since			20.02.2008
  *	@version		0.1
  */
-if( !class_exists( 'Test_Case' ) )
-	require_once 'PHPUnit/Framework/TestCase.php'; 
 require_once 'Test/initLoaders.php';
 /**
  *	TestUnit of XML Element Reader.
@@ -20,7 +18,7 @@ require_once 'Test/initLoaders.php';
  */
 class Test_XML_ElementReaderTest extends Test_Case
 {
-	
+
 	protected $url		= 'http://www.rssboard.org/files/sample-rss-2.xml';
 	protected $file;
 
@@ -40,7 +38,7 @@ class Test_XML_ElementReaderTest extends Test_Case
 			$this->markTestSkipped( 'The cURL extension is not available.' );
 
 		$element	= XML_ElementReader::readUrl( $this->url );
-		
+
 		$assertion	= 'Liftoff News';
 		$creation	= (string) $element->channel->title;
 		$this->assertEquals( $assertion, $creation );
@@ -58,7 +56,7 @@ class Test_XML_ElementReaderTest extends Test_Case
 	public function testReadFile()
 	{
 		$element	= XML_ElementReader::readFile( $this->file );
-		
+
 		$assertion	= 'Liftoff News';
 		$creation	= (string) $element->channel->title;
 		$this->assertEquals( $assertion, $creation );

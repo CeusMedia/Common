@@ -6,7 +6,7 @@
  *	@since			29.10.2010
  *	@version		0.1
  */
-require_once( 'Test/initLoaders.php' );
+require_once 'Test/initLoaders.php';
 /**
  *	TestUnit of Net_CURL.
  *	@package		Tests.Net
@@ -26,7 +26,7 @@ class Test_Net_CURLTest extends Test_Case
 	public function __construct()
 	{
 	}
-	
+
 	/**
 	 *	Setup for every Test.
 	 *	@access		public
@@ -37,7 +37,7 @@ class Test_Net_CURLTest extends Test_Case
 		if( !extension_loaded( 'curl' ) )
 			$this->markTestSkipped( 'Missing cURL support' );
 	}
-	
+
 	/**
 	 *	Cleanup after every Test.
 	 *	@access		public

@@ -6,8 +6,6 @@
  *	@since			20.02.2008
  *	@version		0.1
  */
-if( !class_exists( 'Test_Case' ) )
-	require_once 'PHPUnit/Framework/TestCase.php';
 require_once 'Test/initLoaders.php';
 /**
  *	TestUnit of XML Element.
@@ -34,51 +32,51 @@ class Test_XML_ElementTest extends Test_Case
 		$this->xml			= file_get_contents( $this->fileRead );
 		$this->xmlNs		= str_replace( '<root>', '<root xmlns:my="http://my.image.ns/">', $this->xml );
 	}
-	
+
 	public function testAddAttribute()
 	{
 		$element	= new XML_Element( $this->xml );
-		
+
 		$element->image[3]->addAttribute( 'testKey', "testValue" );
 		$assertion	= "testValue";
 		$creation	= $element->image[3]->getAttribute( 'testKey' );
 		$this->assertEquals( $assertion, $creation );
-		
+
 		$assertion	= '<image name="Banner 4" file="pic4.jpg" testKey="testValue"/>';
 		$creation	= $element->image[3]->asXml();
 		$this->assertEquals( $assertion, $creation );
 	}
-	
+
 	public function testAddAttributeWithNamespace()
 	{
 		$element	= new XML_Element( $this->xmlNs );
-		
+
 		$element->image[3]->addAttribute( 'testKey', "testValue", 'my' );
 
 		$assertion	= "testValue";
 		$creation	= $element->image[3]->getAttribute( 'testKey', 'my' );
 		$this->assertEquals( $assertion, $creation );
-		
+
 		$assertion	= '<image name="Banner 4" file="pic4.jpg" my:testKey="testValue"/>';
 		$creation	= $element->image[3]->asXml();
 		$this->assertEquals( $assertion, $creation );
 	}
-	
+
 	public function testAddAttributeWithUnregisteredNamespace()
 	{
 		$element	= new XML_Element( $this->xml );
-		
+
 		$element->image[3]->addAttribute( 'testKey', "testValue", 'my', 'http://my.image.ns/' );
 
 		$assertion	= "testValue";
 		$creation	= $element->image[3]->getAttribute( 'testKey', 'my' );
 		$this->assertEquals( $assertion, $creation );
-		
+
 		$assertion	= '<image xmlns:my="http://my.image.ns/" name="Banner 4" file="pic4.jpg" my:testKey="testValue"/>';
 		$creation	= $element->image[3]->asXml();
 		$this->assertEquals( $assertion, $creation );
 	}
-	
+
 	public function testAddChild()
 	{
 		$element	= new XML_Element( $this->xml );
@@ -94,7 +92,7 @@ class Test_XML_ElementTest extends Test_Case
 		$creation	= $element->image[4]->getAttribute( "name" );
 		$this->assertEquals( $assertion, $creation );
 	}
-	
+
 	public function testAddChildWithNamespace()
 	{
 		$element	= new XML_Element( $this->xmlNs );
@@ -121,7 +119,7 @@ class Test_XML_ElementTest extends Test_Case
 		$assertion	= '<my:image name="TestAttribute">TestContent</my:image>';
 		$this->assertEquals( $assertion, $creation );
 	}
-	
+
 	public function testAddChildWithUnregisteredNamespace()
 	{
 		$element	= new XML_Element( $this->xml );
@@ -148,7 +146,7 @@ class Test_XML_ElementTest extends Test_Case
 		$assertion	= '<my:image xmlns:my="http://my.image.ns/" name="TestAttribute">TestContent</my:image>';
 		$this->assertEquals( $assertion, $creation );
 	}
-	
+
 	public function testAddChildCData()
 	{
 		$element	= new XML_Element( $this->xml );
@@ -162,7 +160,7 @@ class Test_XML_ElementTest extends Test_Case
 		$creation	= $element->image[4]->asXml();
 		$this->assertEquals( $assertion, $creation );
 	}
-	
+
 	public function testAddChildCDataWithNamespace()
 	{
 		$element	= new XML_Element( $this->xmlNs );
@@ -176,7 +174,7 @@ class Test_XML_ElementTest extends Test_Case
 		$creation	= $element->children( 'my', TRUE )->asXml();
 		$this->assertEquals( $assertion, $creation );
 	}
-	
+
 	public function testAddChildCDataWithUnregisteredNamespace()
 	{
 		$element	= new XML_Element( $this->xml );
@@ -223,7 +221,7 @@ class Test_XML_ElementTest extends Test_Case
 		$child->addAttribute( 'attr1', 'value1', 'my' );
 		$child->addAttribute( 'attr2', 'value2', 'my' );
 		$child->addAttribute( 'attr3', 'value3', 'my' );
-		
+
 		$assertion	= 0;
 		$creation	= $element->image[4]->countAttributes();
 		$this->assertEquals( $assertion, $creation );
@@ -266,15 +264,15 @@ class Test_XML_ElementTest extends Test_Case
 	{
 		$element	= new XML_Element( $this->xmlNs );
 		$element->image[0]->addAttribute( 'lang', 'de', 'my' );
-		
+
 		$assertion	= FALSE;
 		$creation	= $element->image[0]->hasAttribute( 'lang' );
 		$this->assertEquals( $assertion, $creation );
-		
+
 		$assertion	= TRUE;
 		$creation	= $element->image[0]->hasAttribute( 'lang', 'my' );
 		$this->assertEquals( $assertion, $creation );
-		
+
 		$assertion	= "de";
 		$creation	= $element->image[0]->getAttribute( 'lang', 'my' );
 		$this->assertEquals( $assertion, $creation );
@@ -305,7 +303,7 @@ class Test_XML_ElementTest extends Test_Case
 		$creation	= $element->image[2]->getAttributeNames( 'my' );
 		$this->assertEquals( $assertion, $creation );
 	}
-	
+
 	public function testGetAttributes()
 	{
 		$element	= new XML_Element( $this->xml );
@@ -316,7 +314,7 @@ class Test_XML_ElementTest extends Test_Case
 		$creation	= $element->image[2]->getAttributes();
 		$this->assertEquals( $assertion, $creation );
 	}
-	
+
 	public function testGetAttributesWithNamespace()
 	{
 		$element	= new XML_Element( $this->xmlNs );
@@ -331,7 +329,7 @@ class Test_XML_ElementTest extends Test_Case
 		$creation	= $element->image[2]->getAttributes( 'my' );
 		$this->assertEquals( $assertion, $creation );
 	}
-	
+
 	public function testHasAttribute()
 	{
 		$element	= new XML_Element( $this->xml );
@@ -344,7 +342,7 @@ class Test_XML_ElementTest extends Test_Case
 		$creation	= $element->image[2]->hasAttribute( 'id' );
 		$this->assertEquals( $assertion, $creation );
 	}
-	
+
 	public function testHasAttributeWithNamespace()
 	{
 		$element	= new XML_Element( $this->xmlNs );
@@ -357,7 +355,7 @@ class Test_XML_ElementTest extends Test_Case
 		$creation	= $element->image[2]->hasAttribute( 'name' );
 		$this->assertEquals( $assertion, $creation );
 	}
-	
+
 	public function testRemoveAttribute()
 	{
 		$element	= new XML_Element( $this->xml );
@@ -367,7 +365,7 @@ class Test_XML_ElementTest extends Test_Case
 		$creation	= $element->image[2]->hasAttribute( 'name' );
 		$this->assertEquals( $assertion, $creation );
 	}
-	
+
 	public function testRemoveAttributeWithNamespace()
 	{
 		$element	= new XML_Element( $this->xmlNs );
@@ -463,7 +461,7 @@ class Test_XML_ElementTest extends Test_Case
 		$assertion	= 'value3';
 		$creation	= $element->image[2]->getAttribute( 'attr1', 'my' );
 		$this->assertEquals( $assertion, $creation );
-		
+
 		$element->image[2]->setAttribute( 'attr2', NULL, 'my');
 
 		$assertion	= FALSE;
@@ -473,15 +471,15 @@ class Test_XML_ElementTest extends Test_Case
 
 	public function testSetValue(){
 		$element	= new XML_Element( $this->xml );
-		
+
 		$element->image[2]->setValue( 'Nice one' );
 
 		$assertion	= 'Nice one';
 		$creation	= (string) $element->image[2];
 		$this->assertEquals( $assertion, $creation );
-		
+
 		$element->image[2]->setValue( NULL );
-		
+
 		$assertion	= '';
 		$creation	= (string) $element->image[2];
 		$this->assertEquals( $assertion, $creation );
@@ -489,14 +487,14 @@ class Test_XML_ElementTest extends Test_Case
 
 	public function testSetValueWithCData(){
 		$element	= new XML_Element( $this->xml );
-		
+
 		$element->image[2]->setValue( 'äöü&' );
-		
+
 		$assertion	= 'äöü&';
 		$creation	= (string) $element->image[2];
 		$this->assertEquals( $assertion, $creation );
 
-		
+
 		$assertion	= '<image name="Banner 3" file="pic3.jpg"><![CDATA[äöü&]]></image>';
 		$creation	= (string) $element->image[2]->asXml();
 		$this->assertEquals( $assertion, $creation );
