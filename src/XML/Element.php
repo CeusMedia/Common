@@ -41,7 +41,7 @@
 class XML_Element extends SimpleXMLElement
 {
 	protected $attributes	= array();
-	
+
 	/**
 	 *	Adds an attributes.
 	 *	@access		public
@@ -73,16 +73,16 @@ class XML_Element extends SimpleXMLElement
 		parent::addAttribute( $name, $value );
 	}
 
-	/** 
-	 *	Add CDATA text in a node 
-	 *	@param		string		$cdata_text		The CDATA value to add 
-	 */ 
-	private function addCData( $text ) 
-	{ 
-		$node		= dom_import_simplexml( $this ); 
-		$document	= $node->ownerDocument; 
-		$node->appendChild( $document->createCDATASection( $text ) ); 
-	} 
+	/**
+	 *	Add CDATA text in a node
+	 *	@param		string		$cdata_text		The CDATA value to add
+	 */
+	private function addCData( $text )
+	{
+		$node		= dom_import_simplexml( $this );
+		$document	= $node->ownerDocument;
+		$node->appendChild( $document->createCDATASection( $text ) );
+	}
 
 	/**
 	 *	Adds a child element. Sets node content as CDATA section if necessary.
@@ -105,7 +105,7 @@ class XML_Element extends SimpleXMLElement
 				$child	= parent::addChild( $name, NULL, $namespaces[$nsPrefix] );
 			else if( $nsURI )
 				$child	= parent::addChild( $key, NULL, $nsURI );
-			else 
+			else
 				throw new RuntimeException( 'Namespace prefix is not registered and namespace URI is missing' );
 		}
 		else
@@ -115,19 +115,19 @@ class XML_Element extends SimpleXMLElement
 		return $child;
 	}
 
-	/** 
-	 *	Create a child element with CDATA value 
-	 *	@param		string		$name			The name of the child element to add. 
-	 *	@param		string		$cdata_text		The CDATA value of the child element. 
+	/**
+	 *	Create a child element with CDATA value
+	 *	@param		string		$name			The name of the child element to add.
+	 *	@param		string		$cdata_text		The CDATA value of the child element.
 	 *	@param		string		$nsPrefix		Namespace prefix of child element
 	 *	@param		string		$nsURI			Namespace URI of child element
 	 *	@return		XML_Element
 	 *	@reprecated	use addChild instead
-	 */ 
-	public function addChildCData( $name, $text, $nsPrefix = NULL, $nsURI = NULL ) 
-	{ 
-		$child	= $this->addChild( $name, NULL, $nsPrefix, $nsURI ); 
-		$child->addCData( $text ); 
+	 */
+	public function addChildCData( $name, $text, $nsPrefix = NULL, $nsURI = NULL )
+	{
+		$child	= $this->addChild( $name, NULL, $nsPrefix, $nsURI );
+		$child->addCData( $text );
 		return $child;
 	}
 
@@ -182,7 +182,7 @@ class XML_Element extends SimpleXMLElement
 			throw new RuntimeException( 'Attribute "'.( $nsPrefix ? $nsPrefix.':'.$name : $name ).'" is not set' );
 		return (string) $data[$name];
 	}
-	
+
 	/**
 	 *	Returns List of attribute names.
 	 *	@access		public
@@ -211,7 +211,7 @@ class XML_Element extends SimpleXMLElement
 			$list[$name]	= (string) $value;
 		return $list;
 	}
-	
+
 	/**
 	 *	Returns Text Value.
 	 *	@access		public
@@ -278,7 +278,7 @@ class XML_Element extends SimpleXMLElement
 			}
 		}
 	}
-	
+
 	/**
 	 *	Sets an attribute from by it's name.
 	 *	Adds attribute if not existing.
@@ -304,7 +304,7 @@ class XML_Element extends SimpleXMLElement
 			$this->removeAttribute( $name, $nsPrefix );
 		}
 	}
-	
+
 	/**
 	 *	Returns Text Value.
 	 *	@access		public
@@ -320,10 +320,13 @@ class XML_Element extends SimpleXMLElement
 		{
 			$dom	= dom_import_simplexml( $this );												//  import node in DOM
 			$cdata	= $dom->ownerDocument->createCDATASection( $value );							//  create a new CDATA section
-			$dom->appendChild( $cdata );															//  replace node with CDATA section
+			$dom->nodeValue	= "";																	//  clear node content
+			$dom->appendChild( $cdata );															//  add CDATA section
 		}
-		else
-			dom_import_simplexml( $this )->nodeValue	= $value;
+		else 																						//  normal node content
+		{
+			dom_import_simplexml( $this )->nodeValue	= $value;									//  set node content
+		}
 	}
 }
 ?>
