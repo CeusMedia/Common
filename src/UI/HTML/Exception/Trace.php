@@ -41,7 +41,7 @@
 class UI_HTML_Exception_Trace
 {
 	/**
-	 *	Prints exception view.
+	 *	Prints exception trace HTML code.
 	 *	@access		public
 	 *	@param		Exception	$exception		Exception
 	 *	@return		void
@@ -52,17 +52,21 @@ class UI_HTML_Exception_Trace
 	}
 
 	/**
-	 *	Renders exception trace HTML code.
-	 *	@access		private
-	 *	@param		Exception	$exception		Exception
+	 *	Renders exception trace HTML code from exception trace array.
+	 *	@access		public
+	 *	@param		array		$trace			Trace of exception
 	 *	@return		string
 	 */
-	public static function render( Exception $exception )
+	public static function renderFromTrace( $trace )
 	{
+		if( !is_array( $trace ) )
+			throw new InvalidArgumentException( "Trace must be an array" );
+		if( !count( $trace ) )
+			return '';
 		$i	= 0;
 		$j	= 0;
 		$list	= array();
-		foreach( $exception->getTrace() as $key => $trace )
+		foreach( $trace as $key => $trace )
 		{
 			$step	= self::renderTraceStep( $trace, $i++, $j );
 			if( !$step )
@@ -71,6 +75,18 @@ class UI_HTML_Exception_Trace
 			$j++;
 		}
 		return UI_HTML_Tag::create( 'ol', implode( $list ), array( 'class' => 'trace' ) );
+	}
+
+	/**
+	 *	Renders exception trace HTML code.
+	 *	@access		private
+	 *	@param		Exception	$exception		Exception
+	 *	@return		string
+	 */
+	public static function render( Exception $exception )
+	{
+		$trace	= $exception->getTrace();
+		return self::renderFromTrace( $trace );
 	}
 
 	/**
@@ -163,7 +179,7 @@ class UI_HTML_Exception_Trace
 			$line		= '<span class="line">['.$trace["line"].']</span>';
 			$separator	= '<span class="sep1">: </span>';
 			$content	.= $path.$fileName.$extension.$line.$separator;
-			
+
 		}
 		if( array_key_exists( "class", $trace ) && array_key_exists( "type", $trace ) ){
 			$class		= '<span class="class">'.$trace["class"].'</span>';
@@ -189,9 +205,9 @@ class UI_HTML_Exception_Trace
 			$arguments	= '<span class="args">('.$block.')</span>';
 			$content	.= $function.$arguments;
 		}
-#		else
-#			die( print_m( $trace ) );
-#			$content	.= $trace["function"]."(".$block.')';
+//		else
+//			die( print_m( $trace ) );
+//			$content	.= $trace["function"]."(".$block.')';
 		return $content;
 	}
 
@@ -223,13 +239,9 @@ class UI_HTML_Exception_Trace
 	 */
 	protected static function trimRootPath( $fileName )
 	{
-		$rootPath	= isset( $_SERVER['DOCUMENT_ROOT'] ) ? $_SERVER['DOCUMENT_ROOT'] : "";
-		if( !$rootPath || !$fileName )
-			return;
-		$fileName	= str_replace( '\\', "/", $fileName );
-		$cut		= substr( $fileName, 0, strlen( $rootPath ) );
-		if( $cut == $rootPath )
-			$fileName	= substr( $fileName, strlen( $rootPath ) );
+		$rootPath	= realpath( getEnv( 'DOCUMENT_ROOT' ) );
+		if( strlen( trim( $fileName ) ) && $rootPath )
+			$fileName	= preg_replace( "/^".preg_quote( $rootPath.'/', '/' )."/", "", $fileName );
 		return $fileName;
 	}
 }
