@@ -194,8 +194,9 @@ class UI_HTML_Indicator extends ADT_OptionObject
 	protected function renderBar( $ratio, $length = 100 )
 	{
 		$css			= array();
-		$width			= floor( $ratio * $length );
-		$css['width']	= $width.'px';
+//		$width			= floor( $ratio * $length );
+		$width			= max( 0, min( 100, $ratio * 100 ) );
+		$css['width']	= $width.'%';
 		if( $this->getOption( 'useColor' ) )
 		{
 			$color	= $this->getColorFromRatio( $ratio );
@@ -207,11 +208,11 @@ class UI_HTML_Indicator extends ADT_OptionObject
 			'style'	=> $css,
 		);
 		$bar		= UI_HTML_Tag::create( 'div', "", $attributes );
-		
+
 		$attributes	= array( 'class' => $this->getOption( 'classOuter' ) );
 		$css		= array();
-		if( $length != 100 )
-			$css['width']	= $length.'px';
+		if( $length !== 100 )
+			$css['width']	= preg_match( "/%$/", $length ) ? $length : $length.'px';
 		if( $this->getOption( 'useColor' ) && $this->getOption( 'useColorAtBorder' ) )
 			$css['border-color']	= "rgb(".$color[0].",".$color[1].",".$color[2].")";
 		$attributes['style']	= $css;
