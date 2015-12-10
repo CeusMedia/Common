@@ -362,7 +362,7 @@ class DB_PDO_TableReader
 	}
 
 	/**
-	 *	Returns all Indices of this Table.
+	 *	Returns a list of all table index columns.
 	 *	@access		public
 	 *	@return		array
 	 */
