@@ -59,6 +59,8 @@ class Alg_UnitParser{
 	);
 
 	static public function parse( $string, $exceptedUnit = NULL ){
+		if( !strlen( trim( $string ) ) )
+			throw new InvalidArgumentException( 'String cannot be empty' );
 		$int	= (int) $string;
 		if( $exceptedUnit && strlen( $int ) == strlen( $string ) && $int == $string )
 			$string	.= $exceptedUnit;
@@ -71,7 +73,7 @@ class Alg_UnitParser{
 				break;
 			}
 		}
-		if( $factor !== NULL )																		//  
+		if( $factor !== NULL )																		//
 			return $factor * $string;
 		throw new DomainException( 'Given string is not matching any parser rules' );
 	}
