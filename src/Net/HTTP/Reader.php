@@ -144,7 +144,7 @@ class Net_HTTP_Reader
 	 *	@param		array							$curlOptions	Map of cURL Options
 	 *	@return		Net_HTTP_Response
 	 */
-	public function post( $url, $data, $headers, $curlOptions = array() )
+	public function post( $url, $data, $headers = array(), $curlOptions = array() )
 	{
 		$curl	= clone( $this->curl );
 		$curl->setOption( CURLOPT_URL, $url );
