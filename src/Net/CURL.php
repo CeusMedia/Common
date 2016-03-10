@@ -104,7 +104,7 @@ class Net_CURL
 	 *	@access private
 	 *	@var int
 	 */
-	private static $timeOut		= 0; 
+	private static $timeOut		= 0;
 
 	/**
 	 *	cURL class constructor
@@ -176,7 +176,7 @@ class Net_CURL
 #			$result	= preg_replace( "@^HTTP/1\.1 100 Continue\r\n\r\n@", "", $result );				//  Hack: remove "100 Continue"
 			$header	= mb_substr( $result, 0, $this->info['header_size'] );
 			$result	= mb_substr( $result, $this->info['header_size'] );
-			$this->parseHeader( $header );															//  parse Header Block
+			$this->parseHeaderSection( $header );															//  parse Header Block
 		}
 		return $result;
 	}
@@ -199,6 +199,10 @@ class Net_CURL
 			else
 				return NULL;
 		}
+	}
+
+	public function getHeaders(){
+		return $this->header;
 	}
 
 	/**
@@ -235,7 +239,7 @@ class Net_CURL
 	/**
 	 *	Did the last cURL exec operation have an error?
 	 *	@access		public
-	 *	@return		mixed 
+	 *	@return		mixed
 	 */
 	public function hasError()
 	{
@@ -250,11 +254,11 @@ class Net_CURL
 	}
 
 	/**
-	 *	Parse an HTTP header.
+	 *	Parse an HTTP header section.
 	 *
 	 *	As a side effect it stores the parsed header in the
 	 *	header instance variable.  The header is stored as
-	 *	an associative array and the case of the headers 
+	 *	an associative array and the case of the headers
 	 *	as provided by the server is preserved and all
 	 *	repeated headers (pragma, set-cookie, etc) are grouped
 	 *	with the first spelling for that header
@@ -263,15 +267,15 @@ class Net_CURL
 	 *	All headers are stored as if they COULD be repeated, so
 	 *	the headers are really stored as an array of arrays.
 	 *
-	 *	@access		public
-	 *	@param		string		$header		The HTTP data header
+	 *	@access		protected
+	 *	@param		string		$section		Section of HTTP headers
 	 *	@return		void
 	 */
-	public function parseHeader( $header )
+	protected function parseHeaderSection( $section )
 	{
 		$this->header	= NULL;
 		$this->caseless = array();
-		$headers	= preg_split( "/(\r\n)+/", $header );
+		$headers	= preg_split( "/(\r\n)+/", $section );
 		foreach( $headers as $header )
 		{
 			if( !( trim( $header ) && !preg_match( '/^HTTP/', $header ) ) )
