@@ -79,7 +79,7 @@ class Alg_Time_Clock
 
 	public function getLaps()
 	{
-		return $this->laps;	
+		return $this->laps;
 	}
 
 	/**
@@ -105,23 +105,24 @@ class Alg_Time_Clock
 		return $this->getTime( $base, $round );
 	}
 
-	public function stopLap( $base = 3, $round = 3, $label = NULL )
+	public function stopLap( $base = 3, $round = 3, $label = NULL, $description = NULL )
 	{
 		$microtimeLast	= $this->microtimeLap ? $this->microtimeLap : $this->microtimeStart;
 		$microtimeNow	= microtime( TRUE );
 
 		$totalMicro		= round( ( $microtimeNow - $this->microtimeStart ) * 1000000 );
 		$timeMicro		= round( ( $microtimeNow - $microtimeLast ) * 1000000 );
-		
+
 		$total			= round( $totalMicro * pow( 10, $base - 6 ), $round );
 		$time			= round( $timeMicro * pow( 10, $base - 6 ), $round );
-		
+
 		$this->laps[]	= array(
 			'time'			=> $time,
 			'timeMicro'		=> $timeMicro,
 			'total'			=> $total,
 			'totalMicro'	=> $totalMicro,
-			'label'			=> $label
+			'label'			=> $label,
+			'description'	=> $description,
 		);
 		$this->microtimeLap	= $microtimeNow;
 		return $time;
