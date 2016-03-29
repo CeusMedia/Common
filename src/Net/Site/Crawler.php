@@ -107,7 +107,7 @@ class Net_Site_Crawler
 			$url->append( $parts['user'].":".$parts['pass']."@" );
 		if( substr( $parts['path'], 0, 1 ) != "/" )
 			$parts['path']	= "/".$parts['path'];
-		$host	= $parts['host'].( isset( $parts['port'] ) ? ":".$parts['port'] : "" );
+		$host	= $parts['host'].( !empty( $parts['port'] ) ? ":".$parts['port'] : "" );
 		$url->append( $host.$parts['path'] );
 		if( isset( $parts['query'] ) )
 			$url->append( "?".$parts['query'] );
@@ -235,7 +235,7 @@ class Net_Site_Crawler
 		ob_end_clean();
 		return $doc;
 	}
-	
+
 	/**
 	 *	Returns List of Errors.
 	 *	@access		public
@@ -316,8 +316,9 @@ class Net_Site_Crawler
 				$label	= trim( strip_tags( $node->nodeValue ) );
 				if( $node->hasAttribute( 'title' ) )
 					$label	= trim( strip_tags( $node->getAttribute( 'title' ) ) );
-				if( $onlyWithLabel && strlen( $label ) )
-					$links[$ref]	= $label;
+				if( $onlyWithLabel && !strlen( $label ) )
+					continue;
+				$links[$ref]	= $label;
 			}
 		}
 		return $links;
