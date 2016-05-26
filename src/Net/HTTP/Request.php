@@ -108,20 +108,24 @@ class Net_HTTP_Request extends ADT_List_Dictionary
 			$this->pairs	= array_merge( $this->pairs, $values );
 
 		/*  --  RETRIEVE HTTP HEADERS  --  */
-		foreach( getallheaders() as $key => $value )
+		if( function_exists( 'getallheaders' ) )
 		{
-			$this->headers->addField( new Net_HTTP_Header_Field( $key, $value ) );					//  store header
+			foreach( getallheaders() as $key => $value )
+			{
+				$this->headers->addField( new Net_HTTP_Header_Field( $key, $value ) );					//  store header
+			}
 		}
-
-/*		foreach( $_SERVER as $key => $value )
+		else
 		{
-			if( strpos( $key, "HTTP_" ) !== 0 )
-				continue;
-			$key	= preg_replace( '/^HTTP_/', '', $key );											//  strip HTTP prefix
-			$key	= preg_replace( '/_/', '-', $key );												//  replace underscore by dash
-			$this->headers->addField( new Net_HTTP_Header_Field( $key, $value ) );						//  store header
-		}*/
-
+			foreach( $_SERVER as $key => $value )
+			{
+				if( strpos( $key, "HTTP_" ) !== 0 )
+					continue;
+				$key	= preg_replace( '/^HTTP_/', '', $key );											//  strip HTTP prefix
+				$key	= preg_replace( '/_/', '-', $key );												//  replace underscore by dash
+				$this->headers->addField( new Net_HTTP_Header_Field( $key, $value ) );						//  store header
+			}
+		}
 		$this->setMethod( strtoupper( getEnv( 'REQUEST_METHOD' ) ) );								//  store HTTP method
 		$this->body	= file_get_contents( "php://input" );											//  store raw POST, PUT or FILE data
 	}
