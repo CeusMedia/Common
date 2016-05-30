@@ -5,6 +5,8 @@ class Go_DocCreator
 	{
 		$config		= Go_Library::getConfigData();
 		require_once dirname( dirname( __FILE__ ) ).'/autoload.php';
+		if( !isset( $config['docCreator'] ) )
+			throw new Exception( 'Config file has no section "docCreator"' );
 		$path	= $config['docCreator']['pathTool'];
 		if( !file_exists( $path ) )
 			throw new Exception( 'Tool "DocCreator" is not installed' );
