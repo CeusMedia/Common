@@ -15,11 +15,20 @@ if( $isComposer && $isFromGithub ){
 	class Folder_Editor extends FS_Folder_Editor{}
 	class Folder_Lister extends FS_Folder_Lister{}
 	class Folder_RecursiveLister extends FS_Folder_RecursiveLister{}
-	class CMM_Bootstrap_PageControl extends \CeusMedia\Bootstrap\PageControl{}
-	class CMM_Mail_Parser extends \CeusMedia\Mail\Parser{}
 	class CMM_OSQL_Client{}
 	class CMC_Loader extends Loader{}
 	class Console_RequestReceiver extends CLI_RequestReceiver{}
 	class Console_Command_ArgumentParser extends CLI_Command_ArgumentParser{}
+
+	/*  --  Having library CeusMedia/Mail  --  */
+	if( class_exists( '\CeusMedia\Mail\Parser' ) ){
+		class CMM_Mail_Parser extends \CeusMedia\Mail\Parser{}
+	}
+
+	/*  --  Having library CeusMedia/Bootstrap  --  */
+	if( class_exists( '\CeusMedia\Bootstrap\PageControl' ) ){
+		class CMM_Bootstrap_PageControl extends \CeusMedia\Bootstrap\PageControl{}
+	}
+
 	new UI_DevOutput;
 }
