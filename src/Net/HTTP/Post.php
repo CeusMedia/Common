@@ -43,7 +43,7 @@ class Net_HTTP_Post {
 	const TRANSPORT_CURL			= 2;
 
 	protected $transport		= FALSE;
-	protected $dataMaxLength	= 600000;
+	protected $dataMaxLength	= 0;
 	static protected $userAgent	= "cmClasses:Net_HTTP_Post/0.7";									//  default user agent to report to server, can be overriden by constructor or given CURL options on get or post
 
 	public function __construct(){
@@ -57,7 +57,7 @@ class Net_HTTP_Post {
 	public function send( $url, $data = array(), $curlOptions = array() ){
 		if( is_array( $data ) )
 			$data	= http_build_query( $data, NULL, '&' );
-		if( strlen( $data ) > $this->dataMaxLength )
+		if( $this->dataMaxLength && strlen( $data ) > $this->dataMaxLength )
 			throw new OutOfBoundsException( 'POST content larger than '.$this->dataMaxLength.' bytes' );
 		$contentType	= 'Content-type: application/x-www-form-urlencoded';
 
@@ -98,6 +98,11 @@ class Net_HTTP_Post {
 	static public function sendData( $url, $data = array(), $curlOptions = array() ){
 		$post	= new self();
 		return $post->send( $url, $data, $curlOptions );
+	}
+
+	public function setDataMaxLength( $integer ){
+		if( (int) $integer === 0 || (int) $integer > 1 )
+			$this->dataMaxLength	= (int) $integer;
 	}
 }
 ?>
