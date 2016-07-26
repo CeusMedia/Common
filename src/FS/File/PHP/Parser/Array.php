@@ -104,9 +104,9 @@ class FS_File_PHP_Parser_Array
 		"todo"			=> array(),
 		"deprecated"	=> array(),
 	);
-	
+
 	protected $regexClass		= '@^(abstract )?(final )?(interface |class )([\w]+)( extends ([\w]+))?( implements ([\w]+)(, ([\w]+))*)?(\s*{\s*)?$@i';
-	protected $regexMethod		= '@^(abstract )?(final )?(protected |private |public )?(static )?function ([\w]+)\((.*)\)(\s*{\s*)?$@';
+	protected $regexMethod		= '@^(abstract )?(final )?(protected |private |public )?(static )?function &?\s*([\w]+)\((.*)\)(\s*{\s*)?$@';
 	protected $regexParam		= '@^(([\w]+) )?((&\s*)?\$([\w]+))( ?= ?([\S]+))?$@';
 	protected $regexDocParam	= '@^\*\s+\@param\s+(([\w]+)\s+)?(\$?([\w]+))\s*(.+)?$@';
 	protected $regexDocVariable	= '@^/\*\*\s+\@var\s+(\w+)\s+\$(\w+)(\s(.+))?\*\/$@s';
