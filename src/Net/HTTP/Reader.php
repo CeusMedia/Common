@@ -156,11 +156,15 @@ class Net_HTTP_Reader
 		}
 		$this->applyCurlOptions( $curl, $curlOptions );
 
-		foreach( $data as $key => $value )															//  cURL hack (file upload identifier)
-			if( is_string( $value ) && substr( $value, 0, 1 ) == "@" )								//  leading @ in field values
-				$data[$key]	= "\\".$value;															//  need to be escaped
+		if( is_array( $data ) )
+		{
+			foreach( $data as $key => $value )														//  cURL hack (file upload identifier)
+				if( is_string( $value ) && substr( $value, 0, 1 ) == "@" )							//  leading @ in field values
+					$data[$key]	= "\\".$value;														//  need to be escaped
+			$data	= http_build_query( $data, NULL, "&" );
+		}
 		$curl->setOption( CURLOPT_POST, TRUE );
-		$curl->setOption( CURLOPT_POSTFIELDS, http_build_query( $data ) );
+		$curl->setOption( CURLOPT_POSTFIELDS, (string) $data );
 
 		$response		= $curl->exec( TRUE, FALSE );
 		$this->curlInfo	= $curl->getInfo();
