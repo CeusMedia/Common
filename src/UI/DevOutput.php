@@ -182,6 +182,30 @@ class UI_DevOutput
 	}
 
 	/**
+	 *	Prints out a variable as JSON.
+	 *	@access		public
+	 *	@param		mixed		$mixed		variable of every kind to print out
+	 *	@param		string		$sign		Space Sign
+	 *	@param		int			$factor		Space Factor
+	 *	@return		void
+	 */
+	public function printJson( $mixed, $sign = NULL, $factor = NULL, $return = FALSE )
+	{
+		if( $return )
+			ob_start();
+		extract( self::$channels[$this->channel] );
+		$o	= new UI_DevOutput();
+		echo $lineBreak;
+		$json	= ADT_JSON_Formater::format( $mixed );
+		$json	= str_replace( "\n", $lineBreak, $json );
+		$space	= $this->indentSign( 1, $sign, $factor );
+		$json	= str_replace( "  ", $space, $json );
+		echo $json;
+		if( $return )
+			return ob_get_clean();
+	}
+
+	/**
 	 *	Prints out a variable by getting Type and using a suitable Method.
 	 *	@access		public
 	 *	@param		mixed		$mixed		variable of every kind to print out
@@ -262,7 +286,7 @@ class UI_DevOutput
 		else
 			$this->printMixed( $float, $offset, $key, $sign, $factor );
 	}
-	
+
 	/**
 	 *	Prints out an Double variable.
 	 *	@access		public
@@ -277,7 +301,7 @@ class UI_DevOutput
 	{
 		return $this->printFloat( $double, $offset, $key, $sign,$factor );
 	}
-	
+
 	/**
 	 *	Prints out an Integer variable.
 	 *	@access		public
@@ -300,7 +324,7 @@ class UI_DevOutput
 		else
 			$this->printMixed( $integer, $offset, $key, $sign, $factor );
 	}
-	
+
 	/**
 	 *	Prints out NULL.
 	 *	@access		public
@@ -350,7 +374,7 @@ class UI_DevOutput
 		else
 			$this->printMixed( $string, $offset, $key, $sign, $factor );
 	}
-	
+
 	/**
 	 *	Prints out a String and Parameters.
 	 *	@access		public
@@ -405,7 +429,7 @@ class UI_DevOutput
 	}
 
 	public function showDOM( $node, $offset = 0 )
-	{	
+	{
 	//	remark( $node->nodeType." [".$node->nodeName."]" );
 	//	remark( $node->nodeValue );
 		$o	= str_repeat( "&nbsp;", $offset * 2 );
@@ -482,6 +506,23 @@ function pre( $string, $dump = FALSE )
 	ob_start();
 	echo "<pre>".htmlentities( $string, ENT_QUOTES, 'UTF-8' )."</pre>";
 	return $dump ? ob_get_clean() : print( ob_get_clean() );
+}
+
+/**
+ *	Global Call Method for UI_DevOutput::printJson.
+ *	@access		public
+ *	@param		mixed		$mixed		variable to print out
+ *	@param		string		$sign		Space Sign
+ *	@param		int			$factor		Space Factor
+ *	@param		boolean		$return		Flag: Return output instead of printing it
+ *	@return		void
+ */
+function print_j( $mixed, $sign = NULL, $factor = NULL, $return = FALSE )
+{
+	$o		= new UI_DevOutput();
+	if( $return )
+		return $o->printJson( $mixed, $sign, $factor, TRUE );
+	$o->printJson( $mixed, $sign, $factor );
 }
 
 /**
