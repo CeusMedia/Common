@@ -334,9 +334,9 @@ class DB_PDO_TableReader
 	/**
 	 *	Returns reference the database connection.
 	 *	@access		public
-	 *	@return		Object
+	 *	@return		object
 	 */
-	public function & getDBConnection()
+	public function getDBConnection()
 	{
 		return $this->dbc;
 	}

@@ -48,7 +48,7 @@ class ADT_List_Dictionary implements ArrayAccess, Countable, Iterator
 	private $position			= 0;
 	/**	@var		boolean		$caseSensitive	Flag: be case sensitive on pair keys */
 	protected $caseSensitive	= TRUE;
-	
+
 	/**
 	 *	Constructor.
 	 *	@access		public
@@ -86,7 +86,7 @@ class ADT_List_Dictionary implements ArrayAccess, Countable, Iterator
 
 		$key		= !$this->caseSensitive ? strtolower( $key ) : $key;								//  lowercase key if dictionary is not case sensitive
 		$valueType	= strtolower( gettype( $value ) );
-		$pairType	= strtolower( gettype( $this->get( $key ) ) );	
+		$pairType	= strtolower( gettype( $this->get( $key ) ) );
 
 		$abstracts	= array( 'array', 'object' );
 		if( in_array( $valueType, $abstracts ) !== in_array( $pairType, $abstracts ) )
@@ -103,6 +103,17 @@ class ADT_List_Dictionary implements ArrayAccess, Countable, Iterator
 	public function count()
 	{
 		return count( $this->pairs );
+	}
+
+	/**
+	 *	Create a new instance.
+	 *	@static
+	 *	@access		public
+	 *	@param		array		$array		Map if initial pairs
+	 *	@return		void
+	 */
+	static public function create( $array ){
+		return new ADT_List_Dictionary( $array );
 	}
 
 	/**
