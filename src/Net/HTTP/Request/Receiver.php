@@ -214,5 +214,16 @@ class Net_HTTP_Request_Receiver extends ADT_List_Dictionary
 		return $this->headers->hasField( 'X-Requested-With' );
 		return getEnv( 'HTTP_X_REQUESTED_WITH' ) == "HTTP_X_REQUESTED_WITH";
 	}
+
+	/**
+	 *	Indicates whether this Request is of a specified Method.
+	 *	@access		public
+	 *	@param		string		$method		HTTP method to check for (GET,POST,PUT,DELETE,HEAD,OPTIONS,PATCH)
+	 *	@return		bool
+	 *	@since		0.6.7
+	 */
+	public function isMethod( $method ){
+		return $this->method === strtoupper( $method );
+	}
 }
 ?>
