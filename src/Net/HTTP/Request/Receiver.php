@@ -48,6 +48,8 @@ class Net_HTTP_Request_Receiver extends ADT_List_Dictionary
 	protected $ip;
 	/** @var		string					$method			HTTP request method */
 	protected $method						= NULL;
+	/** @var		string					$path			Requested path */
+	protected $path							= NULL;
 	/**	@var		array					$sources		Array of Sources of Request Data */
 	protected $sources;
 
@@ -72,6 +74,11 @@ class Net_HTTP_Request_Receiver extends ADT_List_Dictionary
 
 		$this->ip		= getEnv( 'REMOTE_ADDR' );													//  store IP of requesting client
 		$this->method	= strtoupper( getEnv( 'REQUEST_METHOD' ) );									//  store HTTP method
+		$this->root		= rtrim( dirname( getEnv( 'SCRIPT_NAME' ) ), '/' ).'/';
+		$this->path		= substr( getEnv( 'REQUEST_URI' ), strlen( $this->root ) );
+		if( strpos( $this->path, '?' ) !== FALSE )
+			$this->path	= substr( $this->path, 0, strpos( $this->path, '?' ) );
+
 		foreach( $this->sources as $key => $values )
 			$this->pairs	= array_merge( $this->pairs, $values );
 
@@ -152,6 +159,11 @@ class Net_HTTP_Request_Receiver extends ADT_List_Dictionary
 	public function getMethod()
 	{
 		return $this->method;
+	}
+
+	public function getPath()
+	{
+		return $this->path;
 	}
 
 	/**
