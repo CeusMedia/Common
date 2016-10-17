@@ -78,7 +78,7 @@ class Net_HTTP_Response_Sender
 
 		/*  --  HTTP HEADER FIELDS  --  */
 		foreach( $response->getHeaders() as $header )
-			header( $header->toString() );
+			header( $header->toString(), false );
 
 		/*  --  SEND BODY  --  */
 		print( $response->getBody() );
