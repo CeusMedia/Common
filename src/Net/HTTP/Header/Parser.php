@@ -1,6 +1,6 @@
 <?php
 /**
- *	Data Object for HTTP Headers.
+ *	Parser for HTTP Headers.
  *
  *	Copyright (c) 2007-2015 Christian Würker (ceusmedia.de)
  *
@@ -20,21 +20,21 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Net_HTTP_Header
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2015 Christian Würker
+ *	@copyright		2016 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.7.1
+ *	@since			0.8.2.5
  *	@version		$Id$
  */
 /**
- *	Data Object of HTTP Headers.
+ *	Parser for HTTP Headers.
  *	@category		Library
  *	@package		CeusMedia_Common_Net_HTTP_Header
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2015 Christian Würker
+ *	@copyright		2016 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.7.1
+ *	@since			0.8.2.5
  *	@version		$Id$
  */
 class Net_HTTP_Header_Parser{
@@ -45,7 +45,7 @@ class Net_HTTP_Header_Parser{
 		foreach( $lines as $line ){
 			$parts	= explode( ":", trim( $line ), 2 );
 			if( count( $parts ) === 2 )
-				$section->addFieldPair( $parts[0], $parts[1] );
+				$section->addFieldPair( trim( $parts[0] ), trim( $parts[1] ) );
 		}
 		return $section;
 	}
