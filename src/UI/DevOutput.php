@@ -96,6 +96,30 @@ class UI_DevOutput
 	}
 
 	/**
+	 *	Prints out a variable as JSON.
+	 *	@access		public
+	 *	@param		mixed		$mixed		variable to print out
+	 *	@param		string		$sign		Space Sign
+	 *	@param		int			$factor		Space Factor
+	 *	@param		boolean		$return		Flag: Return output instead of printing it
+	 *	@return		void
+	 */
+	public function printJson( $mixed, $sign = NULL, $factor = NULL, $return = FALSE )
+	{
+		if( $return )
+			ob_start();
+		$o = new UI_DevOutput();
+		echo $o->lineBreak;
+		$space	= $this->indentSign( 1, $sign, $factor );
+		$json	= ADT_JSON_Formater::format( $mixed );
+		$json	= str_replace( "\n", $o->lineBreak, $json );
+		$json	= str_replace( "  ", $space, $json );
+		echo $json;
+		if( $return )
+			return ob_get_clean();
+	}
+
+	/**
 	 *	Prints out a Resource.
 	 *	@access		public
 	 *	@param		mixed		$object		Object variable to print out
@@ -213,6 +237,7 @@ class UI_DevOutput
 	 *	@param		string		$key		Element Key Name
 	 *	@param		string		$sign		Space Sign
 	 *	@param		int			$factor		Space Factor
+	 *	@param		boolean		$return		Flag: Return output instead of printing it
 	 *	@return		void
 	 */
 	public function printMixed( $mixed, $offset = 0, $key = NULL, $sign = NULL, $factor = NULL, $return = FALSE )
@@ -509,7 +534,7 @@ function pre( $string, $dump = FALSE )
 }
 
 /**
- *	Global Call Method for UI_DevOutput::printJson.
+ *	Global function for UI_DevOutput::printJson.
  *	@access		public
  *	@param		mixed		$mixed		variable to print out
  *	@param		string		$sign		Space Sign
@@ -520,13 +545,15 @@ function pre( $string, $dump = FALSE )
 function print_j( $mixed, $sign = NULL, $factor = NULL, $return = FALSE )
 {
 	$o		= new UI_DevOutput();
+	$break	= UI_DevOutput::$channels[$o->channel]['lineBreak'];
 	if( $return )
 		return $o->printJson( $mixed, $sign, $factor, TRUE );
-	$o->printJson( $mixed, $sign, $factor );
+	echo $break;
+	$o->printJson( $mixed, 0, $sign, $factor );
 }
 
 /**
- *	Global Call Method for UI_DevOutput::print_m
+ *	Global function for UI_DevOutput::printMixed.
  *	@access		public
  *	@param		mixed		$mixed		variable to print out
  *	@param		string		$sign		Space Sign
