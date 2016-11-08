@@ -247,6 +247,25 @@ class ADT_String
 		return (bool) $this->countSubstring( $string, $offset, $limit );
 	}
 
+	/**
+	 *	Detects wheter string is right-to-left or not.
+	 *	Needs file './StringRandALCat.txt' to do so.
+	 *	@access		public
+	 *	@return		bool
+	 */
+	public function isRTL()
+	{
+		$RandALCat	= file( __DIR__.'/StringRandALCat.txt', FILE_IGNORE_NEW_LINES );
+		$codePoints	= unpack( 'V*', iconv( 'UTF-8', 'UTF-32LE', $this->string ) );
+		foreach( $codePoints as $codePoint )
+		{
+			$hexCode	= strtoupper( str_pad( dechex( $codePoint ), 6, '0', STR_PAD_LEFT ) );
+			if( array_search( $hexCode, $RandALCat ) )
+				return true;
+		}
+		return false;
+	}
+
 	public function render()
 	{
 		$arguments	= func_get_args();
