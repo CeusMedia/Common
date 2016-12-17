@@ -12,6 +12,7 @@ if( $isComposer && $isFromGithub ){
 	class File_RecursiveRegexFilter extends FS_File_RecursiveRegexFilter{}
 	class File_RegexFilter extends FS_File_RegexFilter{}
 	class File_CSS_Compressor extends FS_File_CSS_Compressor{}
+	class File_List_SectionReader extends FS_File_List_SectionReader{}
 	class Folder_Editor extends FS_Folder_Editor{}
 	class Folder_Lister extends FS_Folder_Lister{}
 	class Folder_RecursiveLister extends FS_Folder_RecursiveLister{}

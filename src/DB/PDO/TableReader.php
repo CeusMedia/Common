@@ -89,25 +89,22 @@ class DB_PDO_TableReader
 	{
 		$conditions	= $this->getConditionQuery( $conditions, FALSE, TRUE, TRUE );					//  render WHERE clause if needed, foreign cursored, allow functions
 		$conditions	= $conditions ? ' WHERE '.$conditions : '';
-		$query	= 'SELECT COUNT(`'.$this->primaryKey.'`) as count FROM '.$this->getTableName().$conditions;
-		$result	= $this->dbc->query( $query );
-		$count	= $result->fetch( $this->getFetchMode() );
-		switch( $this->fetchMode )
-		{
-			case PDO::FETCH_NUM:
-			case PDO::FETCH_BOTH:
-				return (int) $count[0];
-			case PDO::FETCH_INTO:
-			case PDO::FETCH_LAZY:
-			case PDO::FETCH_OBJ:
-			case PDO::FETCH_SERIALIZE:
-				return (int) $count->count;
-			case PDO::FETCH_ASSOC:
-			case PDO::FETCH_NAMED:
-				return (int) $count['count'];
-			default:
-				throw new RuntimeException( 'Unsupported fetch mode' );
-		}
+		$query		= 'SELECT COUNT(`'.$this->primaryKey.'`) as count FROM '.$this->getTableName().$conditions;
+		return $this->dbc->query( $query )->fetch( PDO::FETCH_OBJ )->count;
+	}
+
+	/**
+	 *	Returns count of all entries of this large table (containing many entries) covered by conditions.
+	 *	Attention: The returned number may be inaccurat, but this is much faster.
+	 *	@access		public
+	 *	@param		array		$conditions		Map of columns and values to filter by
+	 *	@return		integer
+	 */
+	public function countFast( $conditions = array() ){
+		$conditions	= $this->getConditionQuery( $conditions, FALSE, TRUE, TRUE );					//  render WHERE clause if needed, foreign cursored, allow functions
+		$conditions	= $conditions ? ' WHERE '.$conditions : '';
+		$query		= 'EXPLAIN SELECT COUNT(*) FROM '.$this->getTableName().$conditions;
+		return $this->dbc->query( $query )->fetch( PDO::FETCH_OBJ )->rows;
 	}
 
 	/**
