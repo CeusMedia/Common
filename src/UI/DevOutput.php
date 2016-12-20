@@ -96,86 +96,6 @@ class UI_DevOutput
 	}
 
 	/**
-	 *	Prints out a variable as JSON.
-	 *	@access		public
-	 *	@param		mixed		$mixed		variable to print out
-	 *	@param		string		$sign		Space Sign
-	 *	@param		int			$factor		Space Factor
-	 *	@param		boolean		$return		Flag: Return output instead of printing it
-	 *	@return		void
-	 */
-	public function printJson( $mixed, $sign = NULL, $factor = NULL, $return = FALSE )
-	{
-		if( $return )
-			ob_start();
-		$o = new UI_DevOutput();
-		echo $o->lineBreak;
-		$space	= $this->indentSign( 1, $sign, $factor );
-		$json	= ADT_JSON_Formater::format( $mixed );
-		$json	= str_replace( "\n", $o->lineBreak, $json );
-		$json	= str_replace( "  ", $space, $json );
-		echo $json;
-		if( $return )
-			return ob_get_clean();
-	}
-
-	/**
-	 *	Prints out a Resource.
-	 *	@access		public
-	 *	@param		mixed		$object		Object variable to print out
-	 *	@param		int			$offset		Intent Offset Level
-	 *	@param		string		$key		Element Key Name
-	 *	@param		string		$sign		Space Sign
-	 *	@param		int			$factor		Space Factor
-	 *	@return		void
-	 */
-	public function printResource( $resource, $offset = 0, $key = NULL, $sign = NULL, $factor = NULL )
-	{
-		if( is_resource( $resource ) )
-		{
-			extract( self::$channels[$this->channel] );
-			$key	= ( $key !== NULL ) ? $key." => " : "";
-			$space	= $this->indentSign( $offset, $sign, $factor );
-			echo $space."[R] ".$key.$resource.$lineBreak;
-		}
-		else
-			$this->printMixed( $object, $offset, $key, $sign, $factor );
-	}
-
-	/**
-	 *	Prints out a Object.
-	 *	@access		public
-	 *	@param		mixed		$object		Object variable to print out
-	 *	@param		int			$offset		Intent Offset Level
-	 *	@param		string		$key		Element Key Name
-	 *	@param		string		$sign		Space Sign
-	 *	@param		int			$factor		Space Factor
-	 *	@return		void
-	 */
-	public function printObject( $object, $offset = 0, $key = NULL, $sign = NULL, $factor = NULL )
-	{
-		if( is_object( $object ) || gettype( $object ) == "object" )
-		{
-			extract( self::$channels[$this->channel] );
-			$ins_key	= ( $key !== NULL ) ? $key." -> " : "";
-			$space		= $this->indentSign( $offset, $sign, $factor );
-			echo $space."[O] ".$ins_key."".$highlightOpen.get_class( $object ).$highlightClose.$lineBreak;
-			$vars		= get_object_vars( $object );
-			foreach( $vars as $key => $value )
-			{
-				if( is_object( $value ) )
-					$this->printObject( $value, $offset + 1, $key, $sign, $factor );
-				else if( is_array( $value ) )
-					$this->printArray( $value, $offset + 1, $key, $sign, $factor );
-				else
-					$this->printMixed( $value, $offset + 1, $key, $sign, $factor );
-			}
-		}
-		else
-			$this->printMixed( $object, $offset, $key, $sign, $factor );
-	}
-
-	/**
 	 *	Prints out an Array.
 	 *	@access		public
 	 *	@param		array		$array		Array variable to print out
@@ -206,11 +126,96 @@ class UI_DevOutput
 	}
 
 	/**
+	 *	Prints out a boolean variable.
+	 *	@access		public
+	 *	@param		bool		$bool		boolean variable to print out
+	 *	@param		int			$offset		Intent Offset Level
+	 *	@param		string		$key		Element Key Name
+	 *	@param		string		$sign		Space Sign
+	 *	@param		int			$factor		Space Factor
+	 *	@return		void
+	 */
+	public function printBoolean( $bool, $offset = 0, $key = NULL, $sign = NULL, $factor = NULL )
+	{
+		if( is_bool( $bool ) )
+		{
+			extract( self::$channels[$this->channel] );
+			$key = ( $key !== NULL ) ? $key." => " : "";
+			$space = $this->indentSign( $offset, $sign, $factor );
+			echo $space."[B] ".$key.$booleanOpen.( $bool ? "TRUE" : "FALSE" ).$booleanClose.$lineBreak;
+		}
+		else
+			$this->printMixed( $bool, $offset, $key, $sign, $factor );
+	}
+
+	/**
+	 *	Prints out an Double variable.
+	 *	@access		public
+	 *	@param		double		$double		double variable to print out
+	 *	@param		int			$offset		Intent Offset Level
+	 *	@param		string		$key		Element Key Name
+	 *	@param		string		$sign		Space Sign
+	 *	@param		int			$factor		Space Factor
+	 *	@return		void
+	 */
+	public function printDouble( $double, $offset = 0, $key = NULL, $sign = NULL, $factor = NULL )
+	{
+		return $this->printFloat( $double, $offset, $key, $sign,$factor );
+	}
+
+	/**
+	 *	Prints out an Float variable.
+	 *	@access		public
+	 *	@param		float		$float		float variable to print out
+	 *	@param		int			$offset		Intent Offset Level
+	 *	@param		string		$key		Element Key Name
+	 *	@param		string		$sign		Space Sign
+	 *	@param		int			$factor		Space Factor
+	 *	@return		void
+	 */
+	public function printFloat( $float, $offset = 0, $key = NULL, $sign = NULL, $factor = NULL )
+	{
+		if( is_float( $float ) )
+		{
+			extract( self::$channels[$this->channel] );
+			$key = ( $key !== NULL ) ? $key." => " : "";
+			$space = $this->indentSign( $offset, $sign, $factor );
+			echo $space."[F] ".$key.$float.$lineBreak;
+		}
+		else
+			$this->printMixed( $float, $offset, $key, $sign, $factor );
+	}
+
+	/**
+	 *	Prints out an Integer variable.
+	 *	@access		public
+	 *	@param		int			$integer	Integer variable to print out
+	 *	@param		int			$offset		Intent Offset Level
+	 *	@param		string		$key		Element Key Name
+	 *	@param		string		$sign		Space Sign
+	 *	@param		int			$factor		Space Factor
+	 *	@return		void
+	 */
+	public function printInteger( $integer, $offset = 0, $key = NULL, $sign = NULL, $factor = NULL )
+	{
+		if( is_int( $integer ) )
+		{
+			extract( self::$channels[$this->channel] );
+			$key = ( $key !== NULL ) ? $key." => " : "";
+			$space = $this->indentSign( $offset, $sign, $factor );
+			echo $space."[I] ".$key.$integer.$lineBreak;
+		}
+		else
+			$this->printMixed( $integer, $offset, $key, $sign, $factor );
+	}
+
+	/**
 	 *	Prints out a variable as JSON.
 	 *	@access		public
 	 *	@param		mixed		$mixed		variable of every kind to print out
 	 *	@param		string		$sign		Space Sign
 	 *	@param		int			$factor		Space Factor
+	 *	@param		boolean		$return		Flag: Return output instead of printing it
 	 *	@return		void
 	 */
 	public function printJson( $mixed, $sign = NULL, $factor = NULL, $return = FALSE )
@@ -220,9 +225,9 @@ class UI_DevOutput
 		extract( self::$channels[$this->channel] );
 		$o	= new UI_DevOutput();
 		echo $lineBreak;
+		$space	= $this->indentSign( 1, $sign, $factor );
 		$json	= ADT_JSON_Formater::format( $mixed );
 		$json	= str_replace( "\n", $lineBreak, $json );
-		$space	= $this->indentSign( 1, $sign, $factor );
 		$json	= str_replace( "  ", $space, $json );
 		echo $json;
 		if( $return )
@@ -267,90 +272,6 @@ class UI_DevOutput
 	}
 
 	/**
-	 *	Prints out a boolean variable.
-	 *	@access		public
-	 *	@param		bool		$bool		boolean variable to print out
-	 *	@param		int			$offset		Intent Offset Level
-	 *	@param		string		$key		Element Key Name
-	 *	@param		string		$sign		Space Sign
-	 *	@param		int			$factor		Space Factor
-	 *	@return		void
-	 */
-	public function printBoolean( $bool, $offset = 0, $key = NULL, $sign = NULL, $factor = NULL )
-	{
-		if( is_bool( $bool ) )
-		{
-			extract( self::$channels[$this->channel] );
-			$key = ( $key !== NULL ) ? $key." => " : "";
-			$space = $this->indentSign( $offset, $sign, $factor );
-			echo $space."[B] ".$key.$booleanOpen.( $bool ? "TRUE" : "FALSE" ).$booleanClose.$lineBreak;
-		}
-		else
-			$this->printMixed( $bool, $offset, $key, $sign, $factor );
-	}
-
-	/**
-	 *	Prints out an Float variable.
-	 *	@access		public
-	 *	@param		float		$float		float variable to print out
-	 *	@param		int			$offset		Intent Offset Level
-	 *	@param		string		$key		Element Key Name
-	 *	@param		string		$sign		Space Sign
-	 *	@param		int			$factor		Space Factor
-	 *	@return		void
-	 */
-	public function printFloat( $float, $offset = 0, $key = NULL, $sign = NULL, $factor = NULL )
-	{
-		if( is_float( $float ) )
-		{
-			extract( self::$channels[$this->channel] );
-			$key = ( $key !== NULL ) ? $key." => " : "";
-			$space = $this->indentSign( $offset, $sign, $factor );
-			echo $space."[F] ".$key.$float.$lineBreak;
-		}
-		else
-			$this->printMixed( $float, $offset, $key, $sign, $factor );
-	}
-
-	/**
-	 *	Prints out an Double variable.
-	 *	@access		public
-	 *	@param		double		$double		double variable to print out
-	 *	@param		int			$offset		Intent Offset Level
-	 *	@param		string		$key		Element Key Name
-	 *	@param		string		$sign		Space Sign
-	 *	@param		int			$factor		Space Factor
-	 *	@return		void
-	 */
-	public function printDouble( $double, $offset = 0, $key = NULL, $sign = NULL, $factor = NULL )
-	{
-		return $this->printFloat( $double, $offset, $key, $sign,$factor );
-	}
-
-	/**
-	 *	Prints out an Integer variable.
-	 *	@access		public
-	 *	@param		int			$integer	Integer variable to print out
-	 *	@param		int			$offset		Intent Offset Level
-	 *	@param		string		$key		Element Key Name
-	 *	@param		string		$sign		Space Sign
-	 *	@param		int			$factor		Space Factor
-	 *	@return		void
-	 */
-	public function printInteger( $integer, $offset = 0, $key = NULL, $sign = NULL, $factor = NULL )
-	{
-		if( is_int( $integer ) )
-		{
-			extract( self::$channels[$this->channel] );
-			$key = ( $key !== NULL ) ? $key." => " : "";
-			$space = $this->indentSign( $offset, $sign, $factor );
-			echo $space."[I] ".$key.$integer.$lineBreak;
-		}
-		else
-			$this->printMixed( $integer, $offset, $key, $sign, $factor );
-	}
-
-	/**
 	 *	Prints out NULL.
 	 *	@access		public
 	 *	@param		NULL		$null		boolean variable to print out
@@ -371,6 +292,62 @@ class UI_DevOutput
 		}
 		else
 			$this->printMixed( $null, $offset, $key, $sign, $factor );
+	}
+
+	/**
+	 *	Prints out a Object.
+	 *	@access		public
+	 *	@param		mixed		$object		Object variable to print out
+	 *	@param		int			$offset		Intent Offset Level
+	 *	@param		string		$key		Element Key Name
+	 *	@param		string		$sign		Space Sign
+	 *	@param		int			$factor		Space Factor
+	 *	@return		void
+	 */
+	public function printObject( $object, $offset = 0, $key = NULL, $sign = NULL, $factor = NULL )
+	{
+		if( is_object( $object ) || gettype( $object ) == "object" )
+		{
+			extract( self::$channels[$this->channel] );
+			$ins_key	= ( $key !== NULL ) ? $key." -> " : "";
+			$space		= $this->indentSign( $offset, $sign, $factor );
+			echo $space."[O] ".$ins_key."".$highlightOpen.get_class( $object ).$highlightClose.$lineBreak;
+			$vars		= get_object_vars( $object );
+			foreach( $vars as $key => $value )
+			{
+				if( is_object( $value ) )
+					$this->printObject( $value, $offset + 1, $key, $sign, $factor );
+				else if( is_array( $value ) )
+					$this->printArray( $value, $offset + 1, $key, $sign, $factor );
+				else
+					$this->printMixed( $value, $offset + 1, $key, $sign, $factor );
+			}
+		}
+		else
+			$this->printMixed( $object, $offset, $key, $sign, $factor );
+	}
+
+	/**
+	 *	Prints out a Resource.
+	 *	@access		public
+	 *	@param		mixed		$object		Object variable to print out
+	 *	@param		int			$offset		Intent Offset Level
+	 *	@param		string		$key		Element Key Name
+	 *	@param		string		$sign		Space Sign
+	 *	@param		int			$factor		Space Factor
+	 *	@return		void
+	 */
+	public function printResource( $resource, $offset = 0, $key = NULL, $sign = NULL, $factor = NULL )
+	{
+		if( is_resource( $resource ) )
+		{
+			extract( self::$channels[$this->channel] );
+			$key	= ( $key !== NULL ) ? $key." => " : "";
+			$space	= $this->indentSign( $offset, $sign, $factor );
+			echo $space."[R] ".$key.$resource.$lineBreak;
+		}
+		else
+			$this->printMixed( $object, $offset, $key, $sign, $factor );
 	}
 
 	/**
