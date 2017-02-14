@@ -449,16 +449,24 @@ class DB_PDO_TableReader
 
 	protected function realizeConditionQueryPart( $column, $value, $maskColumn = TRUE )
 	{
-		$pattern	= '/^(<=|>=|<|>|!=)(.+)/';
+		$patternOperators	= '/^(<=|>=|<|>|!=)(.+)/';
+		$patternBetween		= '/^(><|!><)([0-9]+)&([0-9]+)$/';
 		if( preg_match( '/^%/', $value ) || preg_match( '/%$/', $value ) )
 		{
 			$operation	= ' LIKE ';
 			$value		= $this->secureValue( $value );
 		}
-		else if( preg_match( $pattern, $value, $result ) )
+		else if( preg_match( $patternBetween, trim( $value ), $result ) )
 		{
 			$matches	= array();
-			preg_match_all( $pattern, $value, $matches );
+			preg_match_all( $patternBetween, $value, $matches );
+			$operation	= $matches[1][0] == '!><' ? ' NOT BETWEEN ' : ' BETWEEN ';
+			$value		= $this->secureValue( $matches[2][0] ).' AND '.$this->secureValue( $matches[3][0] );
+		}
+		else if( preg_match( $patternOperators, $value, $result ) )
+		{
+			$matches	= array();
+			preg_match_all( $patternOperators, $value, $matches );
 			$operation	= ' '.$matches[1][0].' ';
 			$value		= $this->secureValue( $matches[2][0] );
 		}
@@ -468,7 +476,7 @@ class DB_PDO_TableReader
 				$operation	= ' ';
 			else if( $value === NULL )
 			{
-				$operation	= ' is ';
+				$operation	= ' IS ';
 				$value		= 'NULL';
 			}
 			else
