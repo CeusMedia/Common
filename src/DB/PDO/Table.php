@@ -146,6 +146,8 @@ abstract class DB_PDO_Table{
 	 *	@param		integer			$id				ID to focus on
 	 *	@param		string			$field			Single Field to return
 	 *	@return		mixed
+	 *	@todo		add arguments 'fields' using method 'getFieldsFromResult'
+	 *	@todo		note throwable exceptions
 	 */
 	public function get( $id, $field = '' ){
 		$data = $this->cache->get( $this->cacheKey.$id );
@@ -161,8 +163,8 @@ abstract class DB_PDO_Table{
 			if( !in_array( $field, $this->columns ) )
 				throw new \InvalidArgumentException( 'Field "'.$field.'" is not an existing column' );
 			switch( $this->fetchMode ){
-				case PDO::FETCH_CLASS:
-				case PDO::FETCH_OBJ:
+				case \PDO::FETCH_CLASS:
+				case \PDO::FETCH_OBJ:
 					return $data->$field;
 				default:
 					return $data[$field];
@@ -193,6 +195,8 @@ abstract class DB_PDO_Table{
 	 *	@param		array			$orders			Map of Orders to include in SQL Query
 	 *	@param		array			$limits			List of Limits to include in SQL Query
 	 *	@return		array
+	 *	@todo		add arguments 'fields' using method 'getFieldsFromResult'
+	 *	@todo		OR add ...
 	 */
 	public function getAllByIndex( $key, $value, $orders = array(), $limits = array() ){
 		$this->table->focusIndex( $key, $value );
@@ -209,6 +213,8 @@ abstract class DB_PDO_Table{
 	 *	@param		array			$orders			Map of Orders to include in SQL Query
 	 *	@param		array			$limits			List of Limits to include in SQL Query
 	 *	@return		array
+	 *	@todo		add arguments 'fields' using method 'getFieldsFromResult'
+	 *	@todo		note throwable exceptions
 	 */
 	public function getAllByIndices( $indices = array(), $orders = array(), $limits = array() ){
 		if( !is_array( $indices ) )
@@ -223,66 +229,45 @@ abstract class DB_PDO_Table{
 	}
 
 	/**
-	 *	Returns data of single line selected by index.
+	 *	Returns data of first entry selected by index.
 	 *	@access		public
 	 *	@param		string			$key			Key of Index
 	 *	@param		string			$value			Value of Index
 	 *	@param		string			$field			Single Field to return
 	 *	@param		array			$orders			Map of Orders to include in SQL Query
+	 *	@param		boolean			$strict			Flag: throw exception if result is empty (default: FALSE)
 	 *	@return		mixed
+	 *	@todo		change argument order: move fields to end
 	 */
-	public function getByIndex( $key, $value, $field = "", $orders = array() ){
+	public function getByIndex( $key, $value, $fields = array(), $orders = array(), $strict = FALSE ){
 		$this->table->focusIndex( $key, $value );
 		$data	= $this->table->get( TRUE, $orders );
 		$this->table->defocus();
-		if( $field ){
-			if( empty( $data ) )
-				return $data;
-			if( !in_array( $field, $this->columns ) )
-				throw new \InvalidArgumentException( 'Field "'.$field.'" is not an existing column' );
-			switch( $this->fetchMode ){
-				case PDO::FETCH_CLASS:
-				case PDO::FETCH_OBJ:
-					return $data->$field;
-				default:
-					return $data[$field];
-			}
-		}
-		return $data;
+		return $this->getFieldsFromResult( $fields, $data, $strict );
 	}
 
 	/**
 	 *	Returns data of single line selected by indices.
 	 *	@access		public
 	 *	@param		array			$indices		Map of Index Keys and Values
-	 *	@param		string			$field			Single field to return
+	 *	@param		array			$orders			Map of Orders to include in SQL Query
+	 *	@param		string			$fields			List of fields or one field to return from result
+	 *	@param		boolean			$strict			Flag: throw exception if result is empty (default: FALSE)
 	 *	@return		mixed
+	 *	@throws		InvalidArgumentException		if given indices is not an array
+	 *	@throws		InvalidArgumentException		if given indices list is empty
+	 *	@todo  		change default value of argument 'strict' to TRUE
 	 */
-	public function getByIndices( $indices, $field = "" ){
+	public function getByIndices( $indices, $orders = array(), $fields = array(), $strict = FALSE ){
 		if( !is_array( $indices ) )
 			throw new \InvalidArgumentException( 'Index map must be an array' );
 		if( !$indices )
 			throw new \InvalidArgumentException( 'Index map must have atleast one pair' );
-		if( !is_string( $field ) )
-			throw new \InvalidArgumentException( 'Field must be a string' );
 		foreach( $indices as $key => $value )
 			$this->table->focusIndex( $key, $value );
-		$data	= $this->table->get( TRUE );
+		$data	= $this->table->get( TRUE, $orders );
 		$this->table->defocus();
-		if( $field ){
-			if( empty( $data ) )
-				return $data;
-			if( !in_array( $field, $this->columns ) )
-				throw new \InvalidArgumentException( 'Field "'.$field.'" is not an existing column' );
-			switch( $this->fetchMode ){
-				case PDO::FETCH_CLASS:
-				case PDO::FETCH_OBJ:
-					return $data->$field;
-				default:
-					return $data[$field];
-			}
-		}
-		return $data;
+		return $this->getFieldsFromResult( $result, $fields, $strict );
 	}
 
 	/**
@@ -292,6 +277,56 @@ abstract class DB_PDO_Table{
 	 */
 	public function getColumns(){
 		return $this->table->getColumns();
+	}
+
+	/**
+	 *	Returns any fields or one field from a query result.
+	 *	@access		protected
+	 *	@param		mixed			$result			Query result as array or object
+	 *	@param		array|string	$fields			List of fields or one field
+	 *	@param		boolean			$strict			Flag: throw exception if result is empty
+	 */
+	protected function getFieldsFromResult( $result, $fields = array(), $strict = TRUE ){
+		if( is_string( $fields ) )
+			$fields	= strlen( trim( $fields ) ) ? array( trim( $fields ) ) : array();
+		if( !is_array( $fields ) )
+			throw new \InvalidArgumentException( 'Fields must be of array or string' );
+		if( !$result ){
+			if( $strict )
+				throw new \Exception( 'Result is empty' );
+			if( count( $fields ) === 1 )
+				return NULL;
+			return array();
+		}
+		if( count( $fields ) ){
+			foreach( $fields as $field )
+				if( !in_array( $field, $this->columns ) )
+					throw new \InvalidArgumentException( 'Field "'.$field.'" is not an existing column' );
+		}
+		$fields	= $this->columns;
+
+		if( count( $fields ) === 1 ){
+			switch( $this->fetchMode ){
+				case \PDO::FETCH_CLASS:
+				case \PDO::FETCH_OBJ:
+					return $data->$field;
+				default:
+					return $data[$field];
+			}
+		}
+		switch( $this->fetchMode ){
+			case \PDO::FETCH_CLASS:
+			case \PDO::FETCH_OBJ:
+				$map	= (object) array();
+				foreach( $fields as $field )
+					$map->$field	= $data->$field;
+				return $map;
+			default:
+				$list	= array();
+				foreach( $fields as $field )
+					$list[$field]	= $data[$field];
+				return $list;
+		}
 	}
 
 	public function getLastQuery(){
@@ -375,8 +410,8 @@ abstract class DB_PDO_Table{
 			$this->table->delete();
 			foreach( $rows as $row ){
 				switch( $this->fetchMode ){
-					case PDO::FETCH_CLASS:
-					case PDO::FETCH_OBJ:
+					case \PDO::FETCH_CLASS:
+					case \PDO::FETCH_OBJ:
 						$id	= $row->{$this->primaryKey};
 						break;
 					default:
@@ -409,8 +444,8 @@ abstract class DB_PDO_Table{
 			$number	= $this->table->delete();
 			foreach( $rows as $row ){
 				switch( $this->fetchMode ){
-					case PDO::FETCH_CLASS:
-					case PDO::FETCH_OBJ:
+					case \PDO::FETCH_CLASS:
+					case \PDO::FETCH_OBJ:
 						$id	= $row->{$this->primaryKey};
 						break;
 					default:
