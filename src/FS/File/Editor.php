@@ -76,6 +76,16 @@ class FS_File_Editor extends FS_File_Reader
 	}
 
 	/**
+	 *	Return true if File is writable.
+	 *	@access		public
+	 *	@return		bool
+	 */
+	public function isWritable()
+	{
+		return $this->writer->isWritable();
+	}
+
+	/**
 	 *	Removes current File.
 	 *	@access		public
 	 *	@return		bool
