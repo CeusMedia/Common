@@ -243,7 +243,7 @@ abstract class DB_PDO_Table{
 		$this->table->focusIndex( $key, $value );
 		$data	= $this->table->get( TRUE, $orders );
 		$this->table->defocus();
-		return $this->getFieldsFromResult( $fields, $data, $strict );
+		return $this->getFieldsFromResult( $data, $fields, $strict );
 	}
 
 	/**
