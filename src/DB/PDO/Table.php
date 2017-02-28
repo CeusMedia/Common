@@ -298,20 +298,19 @@ abstract class DB_PDO_Table{
 				return NULL;
 			return array();
 		}
-		if( count( $fields ) ){
-			foreach( $fields as $field )
-				if( !in_array( $field, $this->columns ) )
-					throw new \InvalidArgumentException( 'Field "'.$field.'" is not an existing column' );
-		}
-		$fields	= $this->columns;
+		if( !count( $fields ) )
+			return $result;
+		foreach( $fields as $field )
+			if( !in_array( $field, $this->columns ) )
+				throw new \InvalidArgumentException( 'Field "'.$field.'" is not an existing column' );
 
 		if( count( $fields ) === 1 ){
 			switch( $this->fetchMode ){
 				case \PDO::FETCH_CLASS:
 				case \PDO::FETCH_OBJ:
-					return $data->$field;
+					return $result->$field;
 				default:
-					return $data[$field];
+					return $result[$field];
 			}
 		}
 		switch( $this->fetchMode ){
@@ -319,12 +318,12 @@ abstract class DB_PDO_Table{
 			case \PDO::FETCH_OBJ:
 				$map	= (object) array();
 				foreach( $fields as $field )
-					$map->$field	= $data->$field;
+					$map->$field	= $result->$field;
 				return $map;
 			default:
 				$list	= array();
 				foreach( $fields as $field )
-					$list[$field]	= $data[$field];
+					$list[$field]	= $result[$field];
 				return $list;
 		}
 	}
