@@ -265,7 +265,7 @@ abstract class DB_PDO_Table{
 			throw new \InvalidArgumentException( 'Index map must have atleast one pair' );
 		foreach( $indices as $key => $value )
 			$this->table->focusIndex( $key, $value );
-		$data	= $this->table->get( TRUE, $orders );
+		$result		= $this->table->get( TRUE, $orders );
 		$this->table->defocus();
 		return $this->getFieldsFromResult( $result, $fields, $strict );
 	}
