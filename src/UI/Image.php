@@ -91,6 +91,12 @@ class UI_Image
 		$this->setResource( $resource, $alpha );
 	}
 
+	/**
+	 *	Print binary content to standard output.
+	 *	@access		public
+	 *	@param		boolean		$sendContentType		Flag: send HTTP header for image type beforehand, default: yes
+	 *	@return		void
+	 */
 	public function display( $sendContentType = TRUE )
 	{
 		if( $sendContentType )
@@ -254,6 +260,17 @@ class UI_Image
 		}
 		$this->fileName	= $fileName;
 		$this->setResource( $resource );
+	}
+
+	/**
+	 *	Returns binary content.
+	 *	@access		public
+	 *	@return		string
+	 */
+	public function render(){
+		ob_start();
+		$this->display( FALSE );
+		return ob_get_clean();
 	}
 
 	/**
