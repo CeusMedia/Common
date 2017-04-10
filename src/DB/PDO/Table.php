@@ -43,13 +43,13 @@ abstract class DB_PDO_Table{
 	/**	@var		array							$columns		List of Database Table Columns */
 	protected $columns								= array();
 	/**	@var		array							$name			List of foreign Keys of Database Table */
- 	protected $indices								= array();
+	protected $indices								= array();
 	/**	@var		string							$primaryKey		Primary Key of Database Table */
 	protected $primaryKey							= "";
 	/**	@var		Database_PDO_TableWriter		$table			Database Table Writer Object for reading from and writing to Database Table */
 	protected $table;
 	/**	@var		string							$prefix			Database Table Prefix */
- 	protected $prefix;
+	protected $prefix;
 	/**	@var		ADT_List_Dictionary				$cache			Model data cache */
 	protected $cache;
 	/**	@var		integer							$fetchMode		PDO fetch mode */
@@ -83,6 +83,73 @@ abstract class DB_PDO_Table{
 	}
 
 	/**
+	 *	Indicates whether a requested field is a table column.
+	 *	Returns trimmed field key if found, otherwise FALSE if not a string or not a table column.
+	 *	Returns FALSE if empty and mandatory, otherwise NULL.
+	 *	In strict mode exceptions will be thrown if field is not a string, empty but mandatory or not a table column.
+	 *	@access		protected
+	 *	@param		string			$field			Table Column to check for existence
+	 *	@param		string			$mandatory		Force a value, otherwise return NULL or throw exception in strict mode
+	 *	@param		boolean			$strict			Strict mode (default): throw exception instead of returning FALSE or NULL
+	 *	@return		string|NULL		Trimmed Field name if found, NULL otherwise or exception in strict mode
+	 *	@throws		InvalidArgumentException		in strict mode if field is not a string and strict mode is on
+	 *	@throws		InvalidArgumentException		in strict mode if field is empty but mandatory
+	 *	@throws		InvalidArgumentException		in strict mode if field is not a table column
+	 */
+	protected function checkField( $field, $mandatory = FALSE, $strict = TRUE ){
+		if( !is_string( $field ) ){
+			if( !$strict )
+				return FALSE;
+			throw new InvalidArgumentException( 'Field must be a string' );
+		}
+		$field	= trim( $field );
+		if( !strlen( $field ) ){
+			if( $mandatory ){
+				if( !$strict )
+					return FALSE;
+				throw new InvalidArgumentException( 'Field must have a value' );
+			}
+			return NULL;
+		}
+		if( !in_array( $field, $this->columns ) ){
+			if( !$strict )
+				return FALSE;
+			$message	= 'Field "%s" is not an existing column of table %s';
+			throw new InvalidArgumentException( sprintf( $message, $field, $this->getName() ) );
+		}
+		return $field;
+	}
+
+	/**
+	 *	Indicates whether a given map of indices is valid.
+	 *	Returns map if valid or FALSE if not an array or empty but mandatory.
+	 *	In strict mode exceptions will be thrown if map is not an array or empty but mandatory.
+	 *	FYI: The next logical check - if index keys are valid columns and noted indices - is done by used table reader class.
+	 *	@access		protected
+	 *	@param		string			$indices		Map of Index Keys and Values
+	 *	@param		string			$mandatory		Force atleast one pair, otherwise return FALSE or throw exception in strict mode
+	 *	@param		boolean			$strict			Strict mode (default): throw exception instead of returning FALSE
+	 *	@return		array|boolean	Map if valid, FALSE otherwise or exceptions in strict mode
+	 *	@throws		InvalidArgumentException		in strict mode if field is not a string
+	 *	@throws		InvalidArgumentException		in strict mode if field is empty but mandatory
+	 */
+	protected function checkIndices( $indices, $mandatory = FALSE, $strict = TRUE ){
+		if( !is_array( $indices ) ){
+			if( !$strict )
+				return FALSE;
+			throw new InvalidArgumentException( 'Index map must be an array' );
+		}
+		if( !$indices ){
+			if( $mandatory ){
+				if( !$strict )
+					return FALSE;
+				throw new InvalidArgumentException( 'Index map must have atleast one pair' );
+			}
+		}
+		return $indices;
+	}
+
+	/**
 	 *	Returns number of entries at all or for given conditions.
 	 *	@access		public
 	 *	@param		array			$conditions		Map of conditions
@@ -101,7 +168,7 @@ abstract class DB_PDO_Table{
 	 */
 	public function countByIndex( $key, $value ){
 		$conditions	= array( $key => $value );
-		return $this->count( $conditions );
+		return $this->table->count( $conditions );
 	}
 
 	/**
@@ -112,6 +179,17 @@ abstract class DB_PDO_Table{
 	 */
 	public function countByIndices( $indices ){
 		return $this->count( $indices );
+	}
+
+	/**
+	 *	Returns number of entries of a large table by map of conditions.
+	 *	Attention: The returned number may be inaccurat, but this is much faster.
+	 *	@access		public
+	 *	@param		array			$conditions		Map of conditions
+	 *	@return		integer			Number of entries
+	 */
+	public function countFast( $conditions ){
+		return $this->table->countFast( $conditions );
 	}
 
 	/**
@@ -133,10 +211,7 @@ abstract class DB_PDO_Table{
 	}
 
 	public function editByIndices( $indices, $data ){
-		if( !is_array( $indices ) )
-			throw new \InvalidArgumentException( 'Index map must be an array' );
-		if( !$indices )
-			throw new \InvalidArgumentException( 'Index map cannot be empty' );
+		$indices	= $this->checkIndices( $indices, TRUE, TRUE );
 		return $this->table->updateByConditions( $data, $indices );
 	}
 
@@ -146,30 +221,18 @@ abstract class DB_PDO_Table{
 	 *	@param		integer			$id				ID to focus on
 	 *	@param		string			$field			Single Field to return
 	 *	@return		mixed
-	 *	@todo		add arguments 'fields' using method 'getFieldsFromResult'
-	 *	@todo		note throwable exceptions
 	 */
 	public function get( $id, $field = '' ){
-		$data = $this->cache->get( $this->cacheKey.$id );
+		$field	= $this->checkField( $field, FALSE, TRUE );
+		$data	= $this->cache->get( $this->cacheKey.$id );
 		if( !$data ){
 			$this->table->focusPrimary( $id );
 			$data	= $this->table->get( TRUE );
 			$this->table->defocus();
 			$this->cache->set( $this->cacheKey.$id, $data );
 		}
-		if( $field ){
-			if( empty( $data ) )
-				return $data;
-			if( !in_array( $field, $this->columns ) )
-				throw new \InvalidArgumentException( 'Field "'.$field.'" is not an existing column' );
-			switch( $this->fetchMode ){
-				case \PDO::FETCH_CLASS:
-				case \PDO::FETCH_OBJ:
-					return $data->$field;
-				default:
-					return $data[$field];
-			}
-		}
+		if( strlen( trim( $field ) ) )
+			return $this->getFieldsFromResult( $data, array( $field ) );
 		return $data;
 	}
 
@@ -179,12 +242,13 @@ abstract class DB_PDO_Table{
 	 *	@param		array			$conditions		Map of Conditions to include in SQL Query
 	 *	@param		array			$orders			Map of Orders to include in SQL Query
 	 *	@param		array			$limits			Map of Limits to include in SQL Query
+	 *	@param		array			$fields			Map of Columns to include in SQL Query
 	 *	@param		array			$groupings		List of columns to group by
 	 *	@param		array			$havings		List of conditions to apply after grouping
 	 *	@return		array
 	 */
-	public function getAll( $conditions = array(), $orders = array(), $limits = array(), $columns = array(), $groupings = array(), $havings = array() ){
-		return $this->table->find( $columns, $conditions, $orders, $limits, $groupings, $havings );
+	public function getAll( $conditions = array(), $orders = array(), $limits = array(), $fields = array(), $groupings = array(), $havings = array() ){
+		return $this->table->find( $fields, $conditions, $orders, $limits, $groupings, $havings );
 	}
 
 	/**
@@ -217,10 +281,7 @@ abstract class DB_PDO_Table{
 	 *	@todo		note throwable exceptions
 	 */
 	public function getAllByIndices( $indices = array(), $orders = array(), $limits = array() ){
-		if( !is_array( $indices ) )
-			throw new \InvalidArgumentException( 'Index map must be an array' );
-		if( !$indices )
-			throw new \InvalidArgumentException( 'Index map must have atleast one pair' );
+		$indices	= $this->checkIndices( $indices, TRUE, TRUE );
 		foreach( $indices as $key => $value )
 			$this->table->focusIndex( $key, $value );
 		$data	= $this->table->get( FALSE, $orders, $limits );
@@ -233,13 +294,15 @@ abstract class DB_PDO_Table{
 	 *	@access		public
 	 *	@param		string			$key			Key of Index
 	 *	@param		string			$value			Value of Index
-	 *	@param		string			$field			Single Field to return
 	 *	@param		array			$orders			Map of Orders to include in SQL Query
+	 *	@param		string			$fields			List of fields or one field to return from result
 	 *	@param		boolean			$strict			Flag: throw exception if result is empty (default: FALSE)
-	 *	@return		mixed
+	 *	@return		mixed			Structure depending on fetch type, string if field selected, NULL if field selected and no entries
 	 *	@todo		change argument order: move fields to end
 	 */
-	public function getByIndex( $key, $value, $fields = array(), $orders = array(), $strict = FALSE ){
+	public function getByIndex( $key, $value, $orders = array(), $fields = array(), $strict = FALSE ){
+		foreach( $fields as $field )
+			$this->checkField( $field, FALSE, TRUE );
 		$this->table->focusIndex( $key, $value );
 		$data	= $this->table->get( TRUE, $orders );
 		$this->table->defocus();
@@ -253,19 +316,16 @@ abstract class DB_PDO_Table{
 	 *	@param		array			$orders			Map of Orders to include in SQL Query
 	 *	@param		string			$fields			List of fields or one field to return from result
 	 *	@param		boolean			$strict			Flag: throw exception if result is empty (default: FALSE)
-	 *	@return		mixed
-	 *	@throws		InvalidArgumentException		if given indices is not an array
-	 *	@throws		InvalidArgumentException		if given indices list is empty
+	 *	@return		mixed			Structure depending on fetch type, string if field selected, NULL if field selected and no entries
 	 *	@todo  		change default value of argument 'strict' to TRUE
 	 */
 	public function getByIndices( $indices, $orders = array(), $fields = array(), $strict = FALSE ){
-		if( !is_array( $indices ) )
-			throw new \InvalidArgumentException( 'Index map must be an array' );
-		if( !$indices )
-			throw new \InvalidArgumentException( 'Index map must have atleast one pair' );
+		foreach( $fields as $field )
+			$field	= $this->checkField( $field, FALSE, TRUE );
+		$this->checkIndices( $indices, TRUE, TRUE );
 		foreach( $indices as $key => $value )
 			$this->table->focusIndex( $key, $value );
-		$result		= $this->table->get( TRUE, $orders );
+		$result	= $this->table->get( TRUE, $orders );
 		$this->table->defocus();
 		return $this->getFieldsFromResult( $result, $fields, $strict );
 	}
@@ -328,6 +388,15 @@ abstract class DB_PDO_Table{
 		}
 	}
 
+	/**
+	 *	Returns list of table index columns.
+	 *	@access		public
+	 *	@return		array
+	 */
+	public function getIndices(){
+		return $this->table->getIndices();
+	}
+
 	public function getLastQuery(){
 		return $this->table->getLastQuery();
 	}
@@ -342,6 +411,15 @@ abstract class DB_PDO_Table{
 		if( $prefixed )
 			return $this->prefix.$this->name;
 		return $this->name;
+	}
+
+	/**
+	 *	Returns primary key columns name of table.
+	 *	@access		public
+	 *	@return		string			Primary key column name
+	 */
+	public function getPrimaryKey(){
+		return $this->table->getPrimaryKey();
 	}
 
 	/**
@@ -403,10 +481,10 @@ abstract class DB_PDO_Table{
 	 */
 	public function removeByIndex( $key, $value ){
 		$this->table->focusIndex( $key, $value );
-		$result	= FALSE;
+		$number	= 0;
 		$rows	= $this->table->get( FALSE );
 		if( count( $rows ) ){
-			$this->table->delete();
+			$number = $this->table->delete();
 			foreach( $rows as $row ){
 				switch( $this->fetchMode ){
 					case \PDO::FETCH_CLASS:
@@ -421,7 +499,7 @@ abstract class DB_PDO_Table{
 			$result	= TRUE;
 		}
 		$this->table->defocus();
-		return $result;
+		return $number;
 	}
 
 	/**
@@ -431,10 +509,7 @@ abstract class DB_PDO_Table{
 	 *	@return		integer			Number of removed entries
 	 */
 	public function removeByIndices( $indices ){
-		if( !is_array( $indices ) )
-			throw new \InvalidArgumentException( 'Index map must be an array' );
-		if( !$indices )
-			throw new \InvalidArgumentException( 'Index map cannot be empty' );
+		$indices	= $this->checkIndices( $indices, TRUE, TRUE );
 		foreach( $indices as $key => $value )
 			$this->table->focusIndex( $key, $value );
 
