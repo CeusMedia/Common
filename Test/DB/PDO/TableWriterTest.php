@@ -17,15 +17,16 @@ require_once 'Test/initLoaders.php';
  *	@since			02.05.2008
  *	@version		0.1
  */
-class Test_DB_PDO_TableWriterTest extends Test_Case
-{
+class Test_DB_PDO_TableWriterTest extends Test_Case{
+
+	protected $directDbc;
+
 	/**
 	 *	Constructor.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function __construct()
-	{
+	public function __construct(){
 		$this->host		= self::$config['unitTest-Database']['host'];
 		$this->port		= self::$config['unitTest-Database']['port'];
 		$this->username	= self::$config['unitTest-Database']['username'];
@@ -51,18 +52,15 @@ class Test_DB_PDO_TableWriterTest extends Test_Case
 			'label'
 		);
 	}
-	
+
 	/**
 	 *	Setup for every Test.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function setUp()
-	{
+	public function setUp(){
 		if( !extension_loaded( 'pdo_mysql' ) )
 			$this->markTestSkipped( "PDO driver for MySQL not supported" );
-		if( !extension_loaded( 'mysql' ) )
-			$this->markTestSkipped( "Support for MySQL is missing" );
 
 		$this->connection	= new DB_PDO_Connection( $this->dsn, $this->username, $this->password, $this->options );
 		$this->connection->setAttribute( PDO::ATTR_CASE, PDO::CASE_NATURAL );
@@ -70,28 +68,46 @@ class Test_DB_PDO_TableWriterTest extends Test_Case
 		$this->connection->setErrorLogFile( $this->errorLog );
 		$this->connection->setStatementLogFile( $this->queryLog );
 
-		$this->mysql	= mysql_connect( $this->host, $this->username, $this->password ) or die( mysql_error() );
-		mysql_select_db( $this->database );
-		$sql	= file_get_contents( $this->path."createTable.sql" );
-		foreach( explode( ";", $sql ) as $part )
-			if( trim( $part ) )
-				mysql_query( $part ) or die( mysql_error() );
+		if( extension_loaded( 'mysql' ) ){
+			$this->directDbc	= mysql_connect( $this->host, $this->username, $this->password ) or die( mysql_error() );
+			mysql_select_db( $this->database );
+			$sql	= file_get_contents( $this->path."createTable.sql" );
+			foreach( explode( ";", $sql ) as $part )
+				if( trim( $part ) )
+					mysql_query( $part ) or die( mysql_error() );
+		}
+		else if( extension_loaded( 'mysqli' ) ){
+			$this->directDbc	= new mysqli( $this->host, $this->username, $this->password ) or die( mysqli_error() );
+			mysqli_select_db( $this->directDbc, $this->database );
+			$sql	= file_get_contents( $this->path."createTable.sql" );
+			foreach( explode( ";", $sql ) as $part )
+				if( trim( $part ) )
+					mysqli_query( $this->directDbc, $part ) or die( mysqli_error() );
+		}
+		else{
+			$this->markTestSkipped( "Support for MySQL is missing" );
+		}
 
 		$this->writer	= new DB_PDO_TableWriter( $this->connection, $this->tableName, $this->columns, $this->primaryKey );
 		$this->writer->setIndices( $this->indices );
 	}
-	
+
 	/**
 	 *	Cleanup after every Test.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function tearDown()
-	{
+	public function tearDown(){
 		@unlink( $this->errorLog );
 		@unlink( $this->queryLog );
-		if( extension_loaded( 'mysql' ) )
+		if( extension_loaded( 'mysql' ) ){
 			mysql_query( "DROP TABLE transactions" );
+			mysql_close();
+		}
+		else if( extension_loaded( 'mysqli' ) ){
+			mysqli_query( $this->directDbc, "DROP TABLE transactions" );
+			mysqli_close( $this->directDbc );
+		}
 	}
 
 	/**
@@ -99,16 +115,15 @@ class Test_DB_PDO_TableWriterTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testDelete()
-	{
-		$this->connection->query( "INSERT INTO transactions (label) VALUES ('deleteTest');" );
-		$this->connection->query( "INSERT INTO transactions (label) VALUES ('deleteTest');" );
-		$this->connection->query( "INSERT INTO transactions (label) VALUES ('deleteTest');" );
+	public function testDelete(){
+		$this->connection->query( "INSERT INTO transactions (topic, label) VALUES ('test', 'deleteTest');" );
+		$this->connection->query( "INSERT INTO transactions (topic, label) VALUES ('test', 'deleteTest');" );
+		$this->connection->query( "INSERT INTO transactions (topic, label) VALUES ('test', 'deleteTest');" );
 
 		$assertion	= 4;
 		$creation	= $this->writer->count();
 		$this->assertEquals( $assertion, $creation );
-		
+
 		$this->writer->focusPrimary( 4 );
 		$assertion	= 1;
 		$creation	= $this->writer->delete();
@@ -145,8 +160,7 @@ class Test_DB_PDO_TableWriterTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testDeleteException1()
-	{
+	public function testDeleteException1(){
 		$this->setExpectedException( 'RuntimeException' );
 		$this->writer->delete();
 	}
@@ -156,11 +170,10 @@ class Test_DB_PDO_TableWriterTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testDeleteByConditions()
-	{
-		$this->connection->query( "INSERT INTO transactions (label) VALUES ('deleteTest');" );
-		$this->connection->query( "INSERT INTO transactions (label) VALUES ('deleteTest');" );
-		$this->connection->query( "INSERT INTO transactions (label) VALUES ('deleteTest');" );
+	public function testDeleteByConditions(){
+		$this->connection->query( "INSERT INTO transactions (topic, label) VALUES ('test', 'deleteTest');" );
+		$this->connection->query( "INSERT INTO transactions (topic, label) VALUES ('test', 'deleteTest');" );
+		$this->connection->query( "INSERT INTO transactions (topic, label) VALUES ('test', 'deleteTest');" );
 
 		$assertion	= 4;
 		$creation	= $this->writer->count();
@@ -180,8 +193,7 @@ class Test_DB_PDO_TableWriterTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testInsert()
-	{
+	public function testInsert(){
 		$data	= array(
 			'topic'	=> 'insert',
 			'label'	=> 'insertTest',
@@ -200,7 +212,7 @@ class Test_DB_PDO_TableWriterTest extends Test_Case
 		$creation	= array_slice( $this->writer->get( TRUE ), 1, 2 );
 		$this->assertEquals( $assertion, $creation );
 
-		$this->writer->focusIndex( 'topic', 'insert' ); 
+		$this->writer->focusIndex( 'topic', 'insert' );
 		$assertion	= 3;
 		$creation	= $this->writer->insert( array( 'label' => 'insertTest2' ) );
 		$this->assertEquals( $assertion, $creation );
@@ -209,7 +221,7 @@ class Test_DB_PDO_TableWriterTest extends Test_Case
 		$assertion	= 3;
 		$creation	= $this->writer->count();
 		$this->assertEquals( $assertion, $creation );
-		
+
 		$results	= $this->writer->find( array( 'label' ) );
 		$assertion	= array( 'label' => 'insertTest2' );
 		$creation	= array_pop( $results );
@@ -221,8 +233,7 @@ class Test_DB_PDO_TableWriterTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testUpdatePrimary()
-	{
+	public function testUpdatePrimary(){
 		$this->connection->query( "INSERT INTO transactions (topic,label) VALUES ('update','updateTest1');" );
 		$this->connection->query( "INSERT INTO transactions (topic,label) VALUES ('update','updateTest2');" );
 		$this->writer->focusPrimary( 2 );
@@ -235,8 +246,8 @@ class Test_DB_PDO_TableWriterTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= array( 'label' => "updateTest1-changed" );
-		$creation	= array_pop( $this->writer->find( array( 'label' ), array( 'id' => 2 ) ) );
-		$this->assertEquals( $assertion, $creation );
+		$creation	= $this->writer->find( array( 'label' ), array( 'id' => 2 ) );
+		$this->assertEquals( $assertion, array_pop( $creation ) );
 	}
 
 	/**
@@ -244,8 +255,7 @@ class Test_DB_PDO_TableWriterTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testUpdateIndex()
-	{
+	public function testUpdateIndex(){
 		$this->connection->query( "INSERT INTO transactions (topic,label) VALUES ('update','updateTest1');" );
 		$this->connection->query( "INSERT INTO transactions (topic,label) VALUES ('update','updateTest2');" );
 		$this->writer->focusIndex( 'topic', 'update' );
@@ -268,8 +278,7 @@ class Test_DB_PDO_TableWriterTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testUpdateException1()
-	{
+	public function testUpdateException1(){
 		$this->setExpectedException( 'InvalidArgumentException' );
 		$this->writer->updateByConditions( array() );
 	}
@@ -279,8 +288,7 @@ class Test_DB_PDO_TableWriterTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testUpdateException2()
-	{
+	public function testUpdateException2(){
 		$this->setExpectedException( 'InvalidArgumentException' );
 		$this->writer->focusPrimary( 9999 );
 		$this->writer->update( array( 'label' => 'not_relevant' ));
@@ -291,8 +299,7 @@ class Test_DB_PDO_TableWriterTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testUpdateByConditions()
-	{
+	public function testUpdateByConditions(){
 		$this->connection->query( "INSERT INTO transactions (topic,label) VALUES ('update','updateTest1');" );
 		$this->connection->query( "INSERT INTO transactions (topic,label) VALUES ('update','updateTest2');" );
 
@@ -308,8 +315,8 @@ class Test_DB_PDO_TableWriterTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= array( 'label' => "updateTest1-changed" );
-		$creation	= array_pop( $this->writer->find( array( 'label' ), array( 'id' => 2 ) ) );
-		$this->assertEquals( $assertion, $creation );
+		$creation	= $this->writer->find( array( 'label' ), array( 'id' => 2 ) );
+		$this->assertEquals( $assertion, array_pop( $creation ) );
 
 		$conditions	= array(
 			'topic' => "update"
@@ -333,8 +340,7 @@ class Test_DB_PDO_TableWriterTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testUpdateByConditionsException1()
-	{
+	public function testUpdateByConditionsException1(){
 		$this->setExpectedException( 'InvalidArgumentException' );
 		$this->writer->updateByConditions( array(), array( 'label' => 'not_relevant' ) );
 	}
@@ -344,8 +350,7 @@ class Test_DB_PDO_TableWriterTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testUpdateByConditionsException2()
-	{
+	public function testUpdateByConditionsException2(){
 		$this->setExpectedException( 'InvalidArgumentException' );
 		$this->writer->updateByConditions( array( 'label' => 'not_relevant' ), array() );
 	}
@@ -355,9 +360,8 @@ class Test_DB_PDO_TableWriterTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testTruncate()
-	{
-		$this->connection->query( "INSERT INTO transactions (label) VALUES ('truncateTest');" );
+	public function testTruncate(){
+		$this->connection->query( "INSERT INTO transactions (topic, label) VALUES ('test', 'truncateTest');" );
 
 		$assertion	= 2;
 		$creation	= $this->writer->count();
@@ -366,7 +370,7 @@ class Test_DB_PDO_TableWriterTest extends Test_Case
 		$assertion	= 0;
 		$creation	= $this->writer->truncate();
 		$this->assertEquals( $assertion, $creation );
-		
+
 		$assertion	= 0;
 		$creation	= $this->writer->count();
 		$this->assertEquals( $assertion, $creation );

@@ -17,15 +17,16 @@ require_once 'Test/initLoaders.php';
  *	@since			02.07.2008
  *	@version		0.1
  */
-class Test_DB_PDO_TableReaderTest extends Test_Case
-{
+class Test_DB_PDO_TableReaderTest extends Test_Case{
+
+	protected $directDbc;
+
 	/**
 	 *	Constructor.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function __construct()
-	{
+	public function __construct(){
 		$this->host		= self::$config['unitTest-Database']['host'];
 		$this->port		= self::$config['unitTest-Database']['port'];
 		$this->username	= self::$config['unitTest-Database']['username'];
@@ -57,12 +58,9 @@ class Test_DB_PDO_TableReaderTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function setUp()
-	{
+	public function setUp(){
 		if( !extension_loaded( 'pdo_mysql' ) )
 			$this->markTestSkipped( "PDO driver for MySQL not supported" );
-		if( !extension_loaded( 'mysql' ) )
-			$this->markTestSkipped( "Support for MySQL is missing" );
 
 		$options	= array();
 		$this->connection	= new DB_PDO_Connection( $this->dsn, $this->username, $this->password, $this->options );
@@ -70,29 +68,46 @@ class Test_DB_PDO_TableReaderTest extends Test_Case
 		$this->connection->setAttribute( PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, TRUE );
 		$this->connection->setErrorLogFile( $this->errorLog );
 		$this->connection->setStatementLogFile( $this->queryLog );
-
-		$this->mysql	= mysql_connect( $this->host, $this->username, $this->password ) or die( mysql_error() );
-		mysql_select_db( $this->database );
-		$sql	= file_get_contents( $this->path."createTable.sql" );
-		foreach( explode( ";", $sql ) as $part )
-			if( trim( $part ) )
-				mysql_query( $part ) or die( mysql_error() );
+		if( extension_loaded( 'mysql' ) ){
+			$this->directDbc	= mysql_connect( $this->host, $this->username, $this->password ) or die( mysql_error() );
+			mysql_select_db( $this->database );
+			$sql	= file_get_contents( $this->path."createTable.sql" );
+			foreach( explode( ";", $sql ) as $part )
+				if( trim( $part ) )
+					mysql_query( $part ) or die( mysql_error() );
+		}
+		else if( extension_loaded( 'mysqli' ) ){
+			$this->directDbc	= new mysqli( $this->host, $this->username, $this->password ) or die( mysqli_error() );
+			mysqli_select_db( $this->directDbc, $this->database );
+			$sql	= file_get_contents( $this->path."createTable.sql" );
+			foreach( explode( ";", $sql ) as $part )
+				if( trim( $part ) )
+					mysqli_query( $this->directDbc, $part ) or die( mysqli_error() );
+		}
+		else{
+			$this->markTestSkipped( "Support for MySQL is missing" );
+		}
 
 		$this->reader	= new DB_PDO_TableReader( $this->connection, $this->tableName, $this->columns, $this->primaryKey );
 		$this->reader->setIndices( $this->indices );
 	}
-	
+
 	/**
 	 *	Cleanup after every Test.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function tearDown()
-	{
+	public function tearDown(){
 		@unlink( $this->errorLog );
 		@unlink( $this->queryLog );
-		if( extension_loaded( 'mysql' ) )
+		if( extension_loaded( 'mysql' ) ){
 			mysql_query( "DROP TABLE transactions" );
+			mysql_close();
+		}
+		else if( extension_loaded( 'mysqli' ) ){
+			mysqli_query( $this->directDbc, "DROP TABLE transactions" );
+			mysqli_close( $this->directDbc );
+		}
 	}
 
 	/**
@@ -100,8 +115,7 @@ class Test_DB_PDO_TableReaderTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testConstruct1()
-	{
+	public function testConstruct1(){
 		$reader		= new DB_PDO_TableReader( $this->connection, "table", array( 'col1', 'col2' ), 'col2', 1 );
 
 		$assertion	= 'table';
@@ -126,10 +140,9 @@ class Test_DB_PDO_TableReaderTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testConstruct2()
-	{
+	public function testConstruct2(){
 		$reader		= new DB_PDO_TableReader( $this->connection, $this->tableName, $this->columns, $this->primaryKey, 1 );
-	
+
 		$assertion	= array( 'id' => 1 );
 		$creation	= array_slice( $reader->get(), 0, 1 );
 		$this->assertEquals( $assertion, $creation );
@@ -140,13 +153,12 @@ class Test_DB_PDO_TableReaderTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testCount()
-	{
+	public function testCount(){
 		$assertion	= 1;
 		$creation	= $this->reader->count();
 		$this->assertEquals( $assertion, $creation );
 
-		$this->connection->query( "INSERT INTO transactions (label) VALUES ('countTest');" );
+		$this->connection->query( "INSERT INTO transactions (topic, label) VALUES ('test', 'countTest');" );
 
 		$assertion	= 2;
 		$creation	= $this->reader->count();
@@ -166,12 +178,11 @@ class Test_DB_PDO_TableReaderTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testDefocus()
-	{
+	public function testDefocus(){
 		$this->reader->focusPrimary( 2 );
 		$this->reader->focusIndex( 'topic', 'test' );
 		$this->reader->defocus( TRUE );
-		
+
 		$assertion	= array( 'topic' => 'test' );
 		$creation	= $this->reader->getFocus();
 		$this->assertEquals( $assertion, $creation );
@@ -188,8 +199,7 @@ class Test_DB_PDO_TableReaderTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testFind1()
-	{
+	public function testFind1(){
 		$this->connection->query( "INSERT INTO transactions (topic,label) VALUES ('test','findTest');" );
 
 		$result		= $this->reader->find();
@@ -208,8 +218,7 @@ class Test_DB_PDO_TableReaderTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testFind2()
-	{
+	public function testFind2(){
 		$this->connection->query( "INSERT INTO transactions (topic,label) VALUES ('test','findTest');" );
 
 		$result		= $this->reader->find( array( "*" ) );
@@ -228,8 +237,7 @@ class Test_DB_PDO_TableReaderTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testFind3()
-	{
+	public function testFind3(){
 		$this->connection->query( "INSERT INTO transactions (topic,label) VALUES ('test','findTest');" );
 
 		$result		= $this->reader->find( "*" );
@@ -248,8 +256,7 @@ class Test_DB_PDO_TableReaderTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testFind4()
-	{
+	public function testFind4(){
 		$this->connection->query( "INSERT INTO transactions (topic,label) VALUES ('test','findTest');" );
 
 		$result		= $this->reader->find( array( "id" ) );
@@ -272,8 +279,7 @@ class Test_DB_PDO_TableReaderTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testFind5()
-	{
+	public function testFind5(){
 		$this->connection->query( "INSERT INTO transactions (topic,label) VALUES ('test','findTest');" );
 
 		$result		= $this->reader->find( "id" );
@@ -296,8 +302,7 @@ class Test_DB_PDO_TableReaderTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testFindWithOrder()
-	{
+	public function testFindWithOrder(){
 		$this->connection->query( "INSERT INTO transactions (topic,label) VALUES ('test','findTest');" );
 
 		$result		= $this->reader->find( array( 'id' ), array(), array( 'id' => 'ASC' ) );
@@ -323,8 +328,7 @@ class Test_DB_PDO_TableReaderTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testFindWithLimit()
-	{
+	public function testFindWithLimit(){
 		$this->connection->query( "INSERT INTO transactions (topic,label) VALUES ('test','findTest');" );
 
 		$result		= $this->reader->find( array( 'id' ), array(), array( 'id' => 'DESC' ), array( 0, 1 ) );
@@ -347,8 +351,7 @@ class Test_DB_PDO_TableReaderTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testFindWithFocus1()
-	{
+	public function testFindWithFocus1(){
 		$this->connection->query( "INSERT INTO transactions (topic,label) VALUES ('test','findTest');" );
 		$this->reader->focusIndex( 'topic', 'start' );							//  will be ignored
 		$result		= $this->reader->find( array( 'id' ) );
@@ -371,8 +374,7 @@ class Test_DB_PDO_TableReaderTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testFindWithFocus2()
-	{
+	public function testFindWithFocus2(){
 		$this->connection->query( "INSERT INTO transactions (topic,label) VALUES ('test','findTest');" );
 		$this->reader->focusPrimary( 1 );										//  will be ignored
 		$result		= $this->reader->find( array( 'id' ) );
@@ -395,8 +397,7 @@ class Test_DB_PDO_TableReaderTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testFindWithFocus3()
-	{
+	public function testFindWithFocus3(){
 		$this->connection->query( "INSERT INTO transactions (topic,label) VALUES ('test','findTest');" );
 
 		$this->reader->focusIndex( 'topic', 'test' );							//  will be ignored
@@ -413,11 +414,10 @@ class Test_DB_PDO_TableReaderTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testFindWhereIn()
-	{
+	public function testFindWhereIn(){
 		$this->connection->query( "INSERT INTO transactions (topic,label) VALUES ('test','findWhereInTest');" );
 
-		$result		= $this->reader->findWhereIn( array( 'id' ), "topic", array( 'start', 'test' ), array( 'id' => 'ASC' ) ); 
+		$result		= $this->reader->findWhereIn( array( 'id' ), "topic", array( 'start', 'test' ), array( 'id' => 'ASC' ) );
 
 		$assertion	= 2;
 		$creation	= count( $result );
@@ -431,7 +431,7 @@ class Test_DB_PDO_TableReaderTest extends Test_Case
 		$creation	= $result[0]['id'];
 		$this->assertEquals( $assertion, $creation );
 
-		$result		= $this->reader->findWhereIn( array( 'id' ), "topic", array( 'test' ) ); 
+		$result		= $this->reader->findWhereIn( array( 'id' ), "topic", array( 'test' ) );
 
 		$assertion	= 1;
 		$creation	= count( $result );
@@ -451,11 +451,10 @@ class Test_DB_PDO_TableReaderTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testFindWhereInWithLimit()
-	{
+	public function testFindWhereInWithLimit(){
 		$this->connection->query( "INSERT INTO transactions (topic,label) VALUES ('test','findWhereInTest');" );
 
-		$result		= $this->reader->findWhereIn( array( 'id' ), "topic", array( 'start', 'test' ), array( 'id' => "DESC" ), array( 0, 1 ) ); 
+		$result		= $this->reader->findWhereIn( array( 'id' ), "topic", array( 'start', 'test' ), array( 'id' => "DESC" ), array( 0, 1 ) );
 
 		$assertion	= 1;
 		$creation	= count( $result );
@@ -475,8 +474,7 @@ class Test_DB_PDO_TableReaderTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testFindWhereInException1()
-	{
+	public function testFindWhereInException1(){
 		$this->setExpectedException( 'InvalidArgumentException' );
 		$this->reader->findWhereIn( array( 'not_valid' ), "id", 1 );
 	}
@@ -486,8 +484,7 @@ class Test_DB_PDO_TableReaderTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testFindWhereInException2()
-	{
+	public function testFindWhereInException2(){
 		$this->setExpectedException( 'InvalidArgumentException' );
 		$this->reader->findWhereIn( "*", "not_valid", 1 );
 	}
@@ -497,10 +494,9 @@ class Test_DB_PDO_TableReaderTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testFindWhereInAnd()
-	{
+	public function testFindWhereInAnd(){
 		$this->connection->query( "INSERT INTO transactions (topic,label) VALUES ('test','findWhereInAndTest');" );
-		$result		= $this->reader->findWhereInAnd( array( 'id' ), "topic", array( 'test' ), array( "label" => "findWhereInAndTest" ) ); 
+		$result		= $this->reader->findWhereInAnd( array( 'id' ), "topic", array( 'test' ), array( "label" => "findWhereInAndTest" ) );
 
 		$assertion	= 1;
 		$creation	= count( $result );
@@ -514,7 +510,7 @@ class Test_DB_PDO_TableReaderTest extends Test_Case
 		$creation	= $result[0]['id'];
 		$this->assertEquals( $assertion, $creation );
 
-		$result		= $this->reader->findWhereInAnd( array( 'id' ), "topic", array( 'start' ), array( "label" => "findWhereInAndTest" ) ); 
+		$result		= $this->reader->findWhereInAnd( array( 'id' ), "topic", array( 'start' ), array( "label" => "findWhereInAndTest" ) );
 
 		$assertion	= 0;
 		$creation	= count( $result );
@@ -526,12 +522,11 @@ class Test_DB_PDO_TableReaderTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testFindWhereInAndWithFocus()
-	{
+	public function testFindWhereInAndWithFocus(){
 		$this->connection->query( "INSERT INTO transactions (topic,label) VALUES ('test','findWhereInAndTest');" );
 
 		$this->reader->focusIndex( 'topic', 'test' );								//  will be ignored
-		$result		= $this->reader->findWhereInAnd( array( 'id' ), "topic", array( 'start', 'test' ), array( "label" => "findWhereInAndTest" ), array( 'id' => 'ASC' ) ); 
+		$result		= $this->reader->findWhereInAnd( array( 'id' ), "topic", array( 'start', 'test' ), array( "label" => "findWhereInAndTest" ), array( 'id' => 'ASC' ) );
 
 		$assertion	= 1;
 		$creation	= count( $result );
@@ -545,25 +540,25 @@ class Test_DB_PDO_TableReaderTest extends Test_Case
 		$creation	= $result[0]['id'];
 		$this->assertEquals( $assertion, $creation );
 
-		$result		= $this->reader->findWhereInAnd( array( 'id' ), "topic", array( 'start', 'test' ) ); 
+		$result		= $this->reader->findWhereInAnd( array( 'id' ), "topic", array( 'start', 'test' ) );
 
 		$assertion	= 2;
 		$creation	= count( $result );
 		$this->assertEquals( $assertion, $creation );
 
-		$result		= $this->reader->findWhereInAnd( array( 'id' ), "topic", array( 'start', 'test' ), array( "label" => "findWhereInAndTest" ), array( 'id' => 'ASC' ) ); 
+		$result		= $this->reader->findWhereInAnd( array( 'id' ), "topic", array( 'start', 'test' ), array( "label" => "findWhereInAndTest" ), array( 'id' => 'ASC' ) );
 
 		$assertion	= 1;
 		$creation	= count( $result );
 		$this->assertEquals( $assertion, $creation );
 
-		$result		= $this->reader->findWhereInAnd( array( 'id' ), "topic", array( 'test' ), array( "label" => "findWhereInAndTest" ), array( 'id' => 'ASC' ) ); 
+		$result		= $this->reader->findWhereInAnd( array( 'id' ), "topic", array( 'test' ), array( "label" => "findWhereInAndTest" ), array( 'id' => 'ASC' ) );
 
 		$assertion	= 1;
 		$creation	= count( $result );
 		$this->assertEquals( $assertion, $creation );
 
-		$result		= $this->reader->findWhereInAnd( array( 'id' ), "topic", array( 'start' ), array( "label" => "findWhereInAndTest" ), array( 'id' => 'ASC' ) ); 
+		$result		= $this->reader->findWhereInAnd( array( 'id' ), "topic", array( 'start' ), array( "label" => "findWhereInAndTest" ), array( 'id' => 'ASC' ) );
 
 		$assertion	= 0;
 		$creation	= count( $result );
@@ -575,8 +570,7 @@ class Test_DB_PDO_TableReaderTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testFocusIndex()
-	{
+	public function testFocusIndex(){
 		$this->reader->focusIndex( 'topic', 'test' );
 		$assertion	= array(
 			'topic' => 'test'
@@ -607,8 +601,7 @@ class Test_DB_PDO_TableReaderTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testFocusIndexException()
-	{
+	public function testFocusIndexException(){
 		$this->setExpectedException( 'InvalidArgumentException' );
 		$this->reader->focusIndex( 'not_an_index', 'not_relevant' );
 	}
@@ -618,8 +611,7 @@ class Test_DB_PDO_TableReaderTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testFocusPrimary()
-	{
+	public function testFocusPrimary(){
 		$this->reader->focusPrimary( 2 );
 		$assertion	= array( 'id' => 2 );
 		$creation	= $this->reader->getFocus();
@@ -636,12 +628,11 @@ class Test_DB_PDO_TableReaderTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testGetWithPrimary1()
-	{
+	public function testGetWithPrimary1(){
 		$this->connection->query( "INSERT INTO transactions (topic,label) VALUES ('test','findWhereInAndTest');" );
 		$this->reader->focusPrimary( 1 );
 		$result		= $this->reader->get( FALSE );
-				
+
 		$assertion	= 1;
 		$creation	= count( $result );
 		$this->assertEquals( $assertion, $creation );
@@ -656,7 +647,7 @@ class Test_DB_PDO_TableReaderTest extends Test_Case
 
 		$this->reader->focusPrimary( 2 );
 		$result		= $this->reader->get();
-		
+
 		$assertion	= 4;
 		$creation	= count( $result );
 		$this->assertEquals( $assertion, $creation );
@@ -671,12 +662,11 @@ class Test_DB_PDO_TableReaderTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testGetWithPrimary2()
-	{
+	public function testGetWithPrimary2(){
 		$this->connection->query( "INSERT INTO transactions (topic,label) VALUES ('test','findWhereInAndTest');" );
 		$this->reader->focusIndex( $this->primaryKey, 1 );
 		$result		= $this->reader->get( FALSE );
-				
+
 		$assertion	= 1;
 		$creation	= count( $result );
 		$this->assertEquals( $assertion, $creation );
@@ -691,7 +681,7 @@ class Test_DB_PDO_TableReaderTest extends Test_Case
 
 		$this->reader->focusPrimary( 2 );
 		$result		= $this->reader->get();
-		
+
 		$assertion	= 4;
 		$creation	= count( $result );
 		$this->assertEquals( $assertion, $creation );
@@ -706,8 +696,7 @@ class Test_DB_PDO_TableReaderTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testGetWithIndex()
-	{
+	public function testGetWithIndex(){
 		$this->connection->query( "INSERT INTO transactions (topic,label) VALUES ('start','getWithIndexTest');" );
 		$this->reader->focusIndex( 'topic', 'start' );
 		$result		= $this->reader->get();
@@ -743,8 +732,7 @@ class Test_DB_PDO_TableReaderTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testGetWithOrders()
-	{
+	public function testGetWithOrders(){
 		$this->connection->query( "INSERT INTO transactions (topic,label) VALUES ('start','getWithOrderTest');" );
 		$this->reader->focusIndex( 'topic', 'start' );
 		$result		= $this->reader->get( FALSE, array( 'id' => "ASC" ) );
@@ -789,8 +777,7 @@ class Test_DB_PDO_TableReaderTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testGetWithLimit()
-	{
+	public function testGetWithLimit(){
 		$this->connection->query( "INSERT INTO transactions (topic,label) VALUES ('start','getWithLimitTest');" );
 		$this->reader->focusIndex( 'topic', 'start' );
 		$result		= $this->reader->get( FALSE, array( 'id' => "ASC" ), array( 0, 1 ) );
@@ -819,8 +806,7 @@ class Test_DB_PDO_TableReaderTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testGetWithNoFocusException()
-	{
+	public function testGetWithNoFocusException(){
 		$this->setExpectedException( 'RuntimeException' );
 		$this->reader->get();
 	}
@@ -830,8 +816,7 @@ class Test_DB_PDO_TableReaderTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testGetColumns()
-	{
+	public function testGetColumns(){
 		$assertion	= $this->columns;
 		$creation	= $this->reader->getColumns();
 		$this->assertEquals( $assertion, $creation );
@@ -842,8 +827,7 @@ class Test_DB_PDO_TableReaderTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testGetDBConnection()
-	{
+	public function testGetDBConnection(){
 		$assertion	= $this->connection;
 		$creation	= $this->reader->getDBConnection();
 		$this->assertEquals( $assertion, $creation );
@@ -854,8 +838,7 @@ class Test_DB_PDO_TableReaderTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testGetFocus()
-	{
+	public function testGetFocus(){
 		$this->reader->focusPrimary( 1 );
 		$assertion	= array(
 			'id' => 1
@@ -892,8 +875,7 @@ class Test_DB_PDO_TableReaderTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testGetIndices()
-	{
+	public function testGetIndices(){
 		$indices	= array( 'topic', 'timestamp' );
 		$this->reader->setIndices( $indices );
 
@@ -921,8 +903,7 @@ class Test_DB_PDO_TableReaderTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testGetPrimaryKey()
-	{
+	public function testGetPrimaryKey(){
 		$assertion	= 'id';
 		$creation	= $this->reader->getPrimaryKey();
 		$this->assertEquals( $assertion, $creation );
@@ -938,8 +919,7 @@ class Test_DB_PDO_TableReaderTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testGetTableName()
-	{
+	public function testGetTableName(){
 		$assertion	= "transactions";
 		$creation	= $this->reader->getTableName();
 		$this->assertEquals( $assertion, $creation );
@@ -956,8 +936,7 @@ class Test_DB_PDO_TableReaderTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testIsFocused()
-	{
+	public function testIsFocused(){
 		$assertion	= FALSE;
 		$creation	= $this->reader->isFocused();
 		$this->assertEquals( $assertion, $creation );
@@ -988,12 +967,11 @@ class Test_DB_PDO_TableReaderTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testSetColumns()
-	{
+	public function testSetColumns(){
 		$columns	= array( 'col1', 'col2', 'col3' );
 
 		$this->reader->setColumns( $columns );
-		
+
 		$assertion	= $columns;
 		$creation	= $this->reader->getColumns();
 		$this->assertEquals( $assertion, $creation );
@@ -1004,8 +982,7 @@ class Test_DB_PDO_TableReaderTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testSetColumnsException1()
-	{
+	public function testSetColumnsException1(){
 		$this->setExpectedException( 'InvalidArgumentException' );
 		$this->reader->setColumns( "string" );
 	}
@@ -1015,8 +992,7 @@ class Test_DB_PDO_TableReaderTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testSetColumnsException2()
-	{
+	public function testSetColumnsException2(){
 		$this->setExpectedException( 'InvalidArgumentException' );
 		$this->reader->setColumns( array() );
 	}
@@ -1026,8 +1002,7 @@ class Test_DB_PDO_TableReaderTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testSetDBConnection()
-	{
+	public function testSetDBConnection(){
 		$dbc		= new PDO( $this->dsn, $this->username, $this->password );
 		$this->reader->setDBConnection( $dbc );
 
@@ -1041,8 +1016,7 @@ class Test_DB_PDO_TableReaderTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testSetDBConnection1()
-	{
+	public function testSetDBConnection1(){
 		$this->setExpectedException( 'InvalidArgumentException' );
 		$this->reader->setDBConnection( "string" );
 	}
@@ -1052,8 +1026,7 @@ class Test_DB_PDO_TableReaderTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testSetDBConnection2()
-	{
+	public function testSetDBConnection2(){
 		$this->setExpectedException( 'InvalidArgumentException' );
 		$this->reader->setDBConnection( new Test_Object );
 	}
@@ -1063,8 +1036,7 @@ class Test_DB_PDO_TableReaderTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testSetIndices()
-	{
+	public function testSetIndices(){
 		$indices	= array( 'topic', 'timestamp' );
 		$this->reader->setIndices( $indices );
 
@@ -1092,8 +1064,7 @@ class Test_DB_PDO_TableReaderTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testSetIndicesException1()
-	{
+	public function testSetIndicesException1(){
 		$this->setExpectedException( 'InvalidArgumentException' );
 		$this->reader->setIndices( array( 'not_existing' ) );
 	}
@@ -1103,8 +1074,7 @@ class Test_DB_PDO_TableReaderTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testSetIndicesException2()
-	{
+	public function testSetIndicesException2(){
 		$this->setExpectedException( 'InvalidArgumentException' );
 		$this->reader->setIndices( array( 'id' ) );
 	}
@@ -1114,10 +1084,9 @@ class Test_DB_PDO_TableReaderTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testSetPrimaryKey()
-	{
+	public function testSetPrimaryKey(){
 		$this->reader->setPrimaryKey( 'topic' );
-		
+
 		$assertion	= 'topic';
 		$creation	= $this->reader->getPrimaryKey();
 		$this->assertEquals( $assertion, $creation );
@@ -1128,8 +1097,7 @@ class Test_DB_PDO_TableReaderTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testSetPrimaryKeyException()
-	{
+	public function testSetPrimaryKeyException(){
 		$this->setExpectedException( 'InvalidArgumentException' );
 		$this->reader->setPrimaryKey( 'not_existing' );
 	}
@@ -1139,12 +1107,10 @@ class Test_DB_PDO_TableReaderTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testSetTableName()
-	{
+	public function testSetTableName(){
 		$tableName	= "other_table";
 		$this->reader->setTableName( $tableName );
-		
-			
+
 		$assertion	= $tableName;
 		$creation	= $this->reader->getTableName();
 		$this->assertEquals( $assertion, $creation );

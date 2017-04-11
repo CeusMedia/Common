@@ -16,15 +16,16 @@ require_once 'Test/initLoaders.php';
  *	@since			02.07.2008
  *	@version		0.1
  */
-class Test_DB_PDO_ConnectionTest extends Test_Case
-{
+class Test_DB_PDO_ConnectionTest extends Test_Case{
+
+	protected $directDbc;
+
 	/**
 	 *	Constructor.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function __construct()
-	{
+	public function __construct(){
 		$this->host		= self::$config['unitTest-Database']['host'];
 		$this->port		= self::$config['unitTest-Database']['port'];
 		$this->username	= self::$config['unitTest-Database']['username'];
@@ -34,14 +35,13 @@ class Test_DB_PDO_ConnectionTest extends Test_Case
 		$this->errorLog	= $this->path."errors.log";
 		$this->queryLog	= $this->path."queries.log";
 	}
-	
+
 	/**
 	 *	Setup for every Test.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function setUp()
-	{
+	public function setUp(){
 		if( !extension_loaded( 'pdo_mysql' ) )
 			$this->markTestSkipped( "PDO driver for MySQL not supported" );
 		$dsn 		= "mysql:host=".$this->host.";dbname=".$this->database;
@@ -51,25 +51,43 @@ class Test_DB_PDO_ConnectionTest extends Test_Case
 		$this->connection->setAttribute( PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, TRUE );
 		$this->connection->setErrorLogFile( $this->errorLog );
 		$this->connection->setStatementLogFile( $this->queryLog );
-		$this->mysql	= mysql_connect( $this->host, $this->username, $this->password ) or die( mysql_error() );
-		mysql_select_db( $this->database );
-		$sql	= file_get_contents( $this->path."createTable.sql" );
-		foreach( explode( ";", $sql ) as $part )
-			if( trim( $part ) )
-				mysql_query( $part ) or die( mysql_error() );
+		if( extension_loaded( 'mysql' ) ){
+			$this->directDbc	= mysql_connect( $this->host, $this->username, $this->password ) or die( mysql_error() );
+			mysql_select_db( $this->database );
+			$sql	= file_get_contents( $this->path."createTable.sql" );
+			foreach( explode( ";", $sql ) as $part )
+				if( trim( $part ) )
+					mysql_query( $part ) or die( mysql_error() );
+		}
+		else if( extension_loaded( 'mysqli' ) ){
+			$this->directDbc	= new mysqli( $this->host, $this->username, $this->password ) or die( mysqli_error() );
+			mysqli_select_db( $this->directDbc, $this->database );
+			$sql	= file_get_contents( $this->path."createTable.sql" );
+			foreach( explode( ";", $sql ) as $part )
+				if( trim( $part ) )
+					mysqli_query( $this->directDbc, $part ) or die( mysqli_error() );
+		}
+		else{
+			throw new RuntimeException( 'No suitable MySQL connector found' );
+		}
 	}
-	
+
 	/**
 	 *	Cleanup after every Test.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function tearDown()
-	{
+	public function tearDown(){
 		@unlink( $this->errorLog );
 		@unlink( $this->queryLog );
-		if( extension_loaded( 'mysql' ) )
+		if( extension_loaded( 'mysql' ) ){
 			mysql_query( "DROP TABLE transactions" );
+			mysql_close( $this->directDbc );
+		}
+		else if( extension_loaded( 'mysqli' ) ){
+			mysqli_query( $this->directDbc, "DROP TABLE transactions" );
+			mysqli_close( $this->directDbc );
+		}
 	}
 
 	/**
@@ -77,8 +95,7 @@ class Test_DB_PDO_ConnectionTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testBeginTransaction()
-	{
+	public function testBeginTransaction(){
 		$assertion	= TRUE;
 		$creation	= $this->connection->beginTransaction();
 		$this->assertEquals( $assertion, $creation );
@@ -98,8 +115,7 @@ class Test_DB_PDO_ConnectionTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testCommit()
-	{
+	public function testCommit(){
 		$this->connection->beginTransaction();
 
 		$this->connection->query( "INSERT INTO transactions (topic,label) VALUES ('begin','beginTransactionTest');" );
@@ -113,15 +129,15 @@ class Test_DB_PDO_ConnectionTest extends Test_Case
 		$creation	= $result->rowCount();
 		$this->assertEquals( $assertion, $creation );
 	}
+
 	/**
 	 *	Tests Method 'exec'.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testExec()
-	{
+	public function testExec(){
 		for( $i=0; $i<10; $i++ )
-			$this->connection->query( "INSERT INTO transactions (label) VALUES ('".microtime()."');" );
+			$this->connection->query( "INSERT INTO transactions (topic, label) VALUES ('test', '".microtime()."');" );
 
 		$assertion	= 11;
 		$creation	= $this->connection->exec( "UPDATE transactions SET topic='exec' WHERE topic!='exec'" );
@@ -145,8 +161,7 @@ class Test_DB_PDO_ConnectionTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testPrepare()
-	{
+	public function testPrepare(){
 		$statement	= $this->connection->prepare( "SELECT * FROM transactions" );
 
 		$assertion	= TRUE;
@@ -177,8 +192,7 @@ class Test_DB_PDO_ConnectionTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testQuery()
-	{
+	public function testQuery(){
 		$assertion	= FALSE;
 		$creation	= NULL;
 		try
@@ -212,8 +226,7 @@ class Test_DB_PDO_ConnectionTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testRollBack()
-	{
+	public function testRollBack(){
 		$this->connection->beginTransaction();
 		$this->connection->query( "INSERT INTO transactions (topic,label) VALUES ('begin','beginTransactionTest');" );
 
@@ -235,8 +248,7 @@ class Test_DB_PDO_ConnectionTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testSetErrorLogFile()
-	{
+	public function testSetErrorLogFile(){
 		$logFile	= $this->path."error_log";
 		$this->connection->setErrorLogFile( $logFile );
 		try{
@@ -254,8 +266,7 @@ class Test_DB_PDO_ConnectionTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testSetStatementLogFile()
-	{
+	public function testSetStatementLogFile(){
 		$logFile	= $this->path."statement_log";
 		$this->connection->setStatementLogFile( $logFile );
 		try{

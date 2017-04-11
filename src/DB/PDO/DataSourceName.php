@@ -73,8 +73,8 @@ class DB_PDO_DataSourceName
 	 *	@param		string		$database		Database Name
 	 *	@return		void
 	 */
-	public function __construct( $driver, $database = NULL )
-	{
+	public function __construct( $driver, $database = NULL ){
+//		trigger_error( 'Please use CeusMedia/Database (https://packagist.org/packages/ceus-media/database) instead', E_USER_DEPRECATED );
 		$this->checkDriverSupport( $driver );
 		$this->driver		= strtolower( $driver );
 		if( $database )
@@ -86,8 +86,7 @@ class DB_PDO_DataSourceName
 	 *	@access		public
 	 *	@return		string
 	 */
-	public function __toString()
-	{
+	public function __toString(){
 		return $this->render();
 	}
 
@@ -99,19 +98,18 @@ class DB_PDO_DataSourceName
 	 *	@throws		RuntimeException			if PDO Driver is not supported
 	 *	@throws		RuntimeException			if PDO Driver is not loaded
 	 */
-	protected function checkDriverSupport( $driver )
-	{
+	protected function checkDriverSupport( $driver ){
 		if( !in_array( $driver, $this->drivers ) )
-			throw new RuntimeException( 'PDO driver "'.$driver.'" is not supported' );
-		if( !in_array( $driver, PDO::getAvailableDrivers() ) )
-			throw new RuntimeException( 'PDO driver "'.$driver.'" is not loaded' );
+			throw new \RuntimeException( 'PDO driver "'.$driver.'" is not supported' );
+		if( !in_array( $driver, \PDO::getAvailableDrivers() ) )
+			throw new \RuntimeException( 'PDO driver "'.$driver.'" is not loaded' );
 	}
 
 	/**
 	 *	Returns set PDO driver.
 	 *	@access		public
 	 *	@return		string		Database Driver (cubrid,dblib|firebird|informix|mysql|mssql|oci|odbc|pgsql|sqlite|sybase)
-	 */ 
+	 */
 	public function getDriver(){
 		return $this->driver;
 	}
@@ -122,8 +120,7 @@ class DB_PDO_DataSourceName
 	 *	@param		string		$database		Database Name
 	 *	@return		void
 	 */
-	public function setDatabase( $database )
-	{
+	public function setDatabase( $database ){
 		$this->database	= $database;
 	}
 
@@ -133,8 +130,7 @@ class DB_PDO_DataSourceName
 	 *	@param		string		$host 			Host Name or URI
 	 *	@return		void
 	 */
-	public function setHost( $host )
-	{
+	public function setHost( $host ){
 		$this->host	= $host;
 	}
 
@@ -144,8 +140,7 @@ class DB_PDO_DataSourceName
 	 *	@param		string		$password		Password
 	 *	@return		void
 	 */
-	public function setPassword( $password )
-	{
+	public function setPassword( $password ){
 		$this->password	= $password;
 	}
 
@@ -155,8 +150,7 @@ class DB_PDO_DataSourceName
 	 *	@param		int			$port			Host Port
 	 *	@return		void
 	 */
-	public function setPort( $port )
-	{
+	public function setPort( $port ){
 		$this->port	= $port;
 	}
 
@@ -166,16 +160,13 @@ class DB_PDO_DataSourceName
 	 *	@param		string		$username		Username
 	 *	@return		void
 	 */
-	public function setUsername( $username )
-	{
+	public function setUsername( $username ){
 		$this->username	= $username;
 	}
 
-	public function render()
-	{
+	public function render(){
 		$prefix	= $this->driver.':';
-		switch( $this->driver )
-		{
+		switch( $this->driver ){
 			case 'firebird':
 				return $prefix.$this->renderDsnForFirebird();
 			case 'informix':
@@ -188,13 +179,12 @@ class DB_PDO_DataSourceName
 				return $prefix.$this->renderDsnForPgsql();
 			case 'sqlite':
 				return $prefix.$this->renderDsnForSqlite();
-			default:																				//  cubrid, dblib, mssql, mysql, sybase 
+			default:																				//  cubrid, dblib, mssql, mysql, sybase
 				return $prefix.$this->renderDsnForDefault();
 		}
 	}
 
-	protected function renderDsnForDefault()
-	{
+	protected function renderDsnForDefault(){
 		$port	= !empty( $this->port ) ? $this->port : NULL;
 		$map	= array(
 			'host'		=> $this->host,
@@ -204,8 +194,7 @@ class DB_PDO_DataSourceName
 		return $this->renderDsnParts( $map );
 	}
 
-	protected function renderDsnForFirebird()
-	{
+	protected function renderDsnForFirebird(){
 		$host	= !empty( $this->host ) ? $this->host : NULL;
 		$port	= !empty( $this->port ) ? $this->port : NULL;
 		$map	= array(
@@ -218,8 +207,7 @@ class DB_PDO_DataSourceName
 		return $this->renderDsnParts( $map );
 	}
 
-	protected function renderDsnForInformix()
-	{
+	protected function renderDsnForInformix(){
 		$delim	= '; ';
 		$host	= !empty( $this->host ) ? $this->host : NULL;
 		$port	= !empty( $this->port ) ? $this->port : NULL;
@@ -234,25 +222,22 @@ class DB_PDO_DataSourceName
 	/**
 	 *	@todo	implement 'charset'
 	 */
-	protected function renderDsnForOci()
-	{
+	protected function renderDsnForOci(){
 		$dbname	= $this->database;
 		$port	= $this->port ? ':'.$this->port : '';
 		if( $this->host )
 			$dbname	= '//'.$this->host.$port.'/'.$this->database;
 		return 'dbname='.$dbname;
 	}
-			
+
 	/**
 	 *	@todo	implement
 	 */
-	protected function renderDsnForOdbc()
-	{
-		throw new Exception( 'Not yet implemented' );
+	protected function renderDsnForOdbc(){
+		throw new \Exception( 'Not yet implemented' );
 	}
 
-	protected function renderDsnForPgsql()
-	{
+	protected function renderDsnForPgsql(){
 		$delim	= ' ';
 		$host	= !empty( $this->host ) ? $this->host : NULL;
 		$port	= !empty( $this->port ) ? $this->port : NULL;
@@ -265,9 +250,8 @@ class DB_PDO_DataSourceName
 		);
 		return $this->renderDsnParts( $map, $delim );
 	}
-		
-	protected function renderDsnForSqlite()
-	{
+
+	protected function renderDsnForSqlite(){
 		return $this->database;
 	}
 
@@ -278,8 +262,7 @@ class DB_PDO_DataSourceName
 	 *	@param		string		$delimiter		Delimiter between DSN Parts
 	 *	@return		string
 	 */
-	protected function renderDsnParts( $map, $delimiter = '; ' )
-	{
+	protected function renderDsnParts( $map, $delimiter = '; ' ){
 		$list	= array();
 		foreach( $map as $key => $value )
 			if( !is_null( $value ) )
@@ -299,8 +282,7 @@ class DB_PDO_DataSourceName
 	 *	@param		string		$password		Password
 	 *	@return		string
 	 */
-	public static function renderStatic( $driver, $database, $host = NULL, $port = NULL, $username = NULL, $password = NULL )
-	{
+	public static function renderStatic( $driver, $database, $host = NULL, $port = NULL, $username = NULL, $password = NULL ){
 		$dsn	= new self( $driver, $database );
 		$dsn->setHost( $host );
 		$dsn->setPort( $port );

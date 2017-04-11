@@ -34,4 +34,5 @@ $__config	= parse_ini_file( $pathLibrary.'Common.ini', TRUE );
 //print_m( $__config );die;
 
 Test_Case::$config = $__config;
+
 ?>

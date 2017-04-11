@@ -43,14 +43,13 @@ class DB_PDO_TableWriter extends DB_PDO_TableReader
 	 *	@access		public
 	 *	@return		int
 	 */
-	public function delete()
-	{
+	public function delete(){
 		$this->validateFocus();
 		$conditions	= $this->getConditionQuery( array() );
 		$query	= 'DELETE FROM '.$this->getTableName().' WHERE '.$conditions;
 #		$has	= $this->get( FALSE );
 #		if( !$has )
-#			throw new InvalidArgumentException( 'Focused Indices are not existing.' );
+#			throw new \InvalidArgumentException( 'Focused Indices are not existing.' );
 		return $this->dbc->exec( $query );
 	}
 
@@ -60,8 +59,7 @@ class DB_PDO_TableWriter extends DB_PDO_TableReader
 	 *	@param		array	$where		associative Array of Condition Strings
 	 *	@return		bool
 	 */
-	public function deleteByConditions( $where = array() )
-	{
+	public function deleteByConditions( $where = array() ){
 		$conditions	= $this->getConditionQuery( $where, FALSE, FALSE, FALSE );						//  render WHERE conditions, uncursored, without functions
 		$query	= 'DELETE FROM '.$this->getTableName().' WHERE '.$conditions;
 		$result	= $this->dbc->exec( $query );
@@ -76,12 +74,10 @@ class DB_PDO_TableWriter extends DB_PDO_TableReader
 	 *	@param		bool		$stripTags		Flag: strip HTML Tags from values
 	 *	@return		int			ID of inserted row
 	 */
-	public function insert( $data = array(), $stripTags = TRUE )
-	{
+	public function insert( $data = array(), $stripTags = TRUE ){
 		$columns	= array();
 		$values		= array();
-		foreach( $this->columns as $column )														//  iterate Columns
-		{
+		foreach( $this->columns as $column ){														//  iterate Columns
 			if( !isset( $data[$column] ) )															//  no Data given for Column
 				continue;
 			$value = $data[$column];
@@ -90,10 +86,8 @@ class DB_PDO_TableWriter extends DB_PDO_TableReader
 			$columns[$column]	= '`'.$column.'`';
 			$values[$column]	= $this->secureValue( $value );
 		}
-		if( $this->isFocused() )																	//  add focused indices to data
-		{
-			foreach( $this->focusedIndices as $index => $value )									//  iterate focused indices
-			{
+		if( $this->isFocused() ){																	//  add focused indices to data
+			foreach( $this->focusedIndices as $index => $value ){									//  iterate focused indices
 				if( isset( $columns[$index] ) )														//  Column is already set
 					continue;
 				if( $index == $this->primaryKey )													//  skip primary key
@@ -116,17 +110,15 @@ class DB_PDO_TableWriter extends DB_PDO_TableReader
 	 *	@param		bool		$stripTags		Flag: strip HTML tags from values
 	 *	@return		bool
 	 */
-	public function update( $data = array(), $stripTags = TRUE )
-	{
+	public function update( $data = array(), $stripTags = TRUE ){
 		if( !( is_array( $data ) && $data ) )
-			throw new InvalidArgumentException( 'Data for update must be an array and have atleast 1 pair' );
+			throw new \InvalidArgumentException( 'Data for update must be an array and have atleast 1 pair' );
 		$this->validateFocus();
 		$has	= $this->get( FALSE );
 		if( !$has )
-			throw new InvalidArgumentException( 'No data sets focused for update' );
+			throw new \InvalidArgumentException( 'No data sets focused for update' );
 		$updates	= array();
-		foreach( $this->columns as $column )
-		{
+		foreach( $this->columns as $column ){
 			if( !array_key_exists($column, $data) )
 				continue;
 			$value	= $data[$column];
@@ -135,8 +127,7 @@ class DB_PDO_TableWriter extends DB_PDO_TableReader
 			$value	= $this->secureValue( $value );
 			$updates[] = '`'.$column.'`='.$value;
 		}
-		if( sizeof( $updates ) )
-		{
+		if( sizeof( $updates ) ){
 			$updates	= implode( ', ', $updates );
 			$query	= 'UPDATE '.$this->getTableName().' SET '.$updates.' WHERE '.$this->getConditionQuery( array() );
 			$result	= $this->dbc->exec( $query );
@@ -152,19 +143,16 @@ class DB_PDO_TableWriter extends DB_PDO_TableReader
 	 *	@param		bool		$stripTags		Flag: strip HTML tags from values
 	 *	@return		bool
 	 */
-	public function updateByConditions( $data = array(), $conditions = array(), $stripTags = FALSE )
-	{
+	public function updateByConditions( $data = array(), $conditions = array(), $stripTags = FALSE ){
 		if( !( is_array( $data ) && $data ) )
-			throw new InvalidArgumentException( 'Data for update must be an array and have atleast 1 pair' );
+			throw new \InvalidArgumentException( 'Data for update must be an array and have atleast 1 pair' );
 		if( !( is_array( $conditions ) && $conditions ) )
-			throw new InvalidArgumentException( 'Conditions for update must be an array and have atleast 1 pair' );
+			throw new \InvalidArgumentException( 'Conditions for update must be an array and have atleast 1 pair' );
 
 		$updates	= array();
 		$conditions	= $this->getConditionQuery( $conditions, FALSE, FALSE, FALSE );					//  render WHERE conditions, uncursored, without functions
-		foreach( $this->columns as $column )
-		{
-			if( isset( $data[$column] ) )
-			{
+		foreach( $this->columns as $column ){
+			if( isset( $data[$column] ) ){
 				if( $stripTags )
 					$data[$column]	= strip_tags( $data[$column] );
 				if( $data[$column] == 'on' )
@@ -173,8 +161,7 @@ class DB_PDO_TableWriter extends DB_PDO_TableReader
 				$updates[] = '`'.$column.'`='.$data[$column];
 			}
 		}
-		if( sizeof( $updates ) )
-		{
+		if( sizeof( $updates ) ){
 			$updates	= implode( ', ', $updates );
 			$query		= 'UPDATE '.$this->getTableName().' SET '.$updates.' WHERE '.$conditions;
 			$result		= $this->dbc->exec( $query );
@@ -189,8 +176,7 @@ class DB_PDO_TableWriter extends DB_PDO_TableReader
 	 *	@return		void
 	 *	@see		http://dev.mysql.com/doc/refman/4.1/en/truncate.html
 	 */
-	public function truncate()
-	{
+	public function truncate(){
 		$query	= 'TRUNCATE '.$this->getTableName();
 		return $this->dbc->exec( $query );
 	}
