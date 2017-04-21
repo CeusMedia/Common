@@ -45,8 +45,8 @@
  *	@todo			code doc
  */
 class Net_API_Gravatar{
-	
-	protected $url		= 'http://www.gravatar.com/avatar/';
+
+	protected $url		= 'https://secure.gravatar.com/avatar/';
 	protected $urlRpc	= 'https://secure.gravatar.com/xmlrpc';
 	protected $size		= 80;
 	protected $default	= 'mm';
