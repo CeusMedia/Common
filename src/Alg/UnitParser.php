@@ -64,7 +64,7 @@ class Alg_UnitParser{
 		$int	= (int) $string;
 		if( $exceptedUnit && strlen( $int ) == strlen( $string ) && $int == $string )
 			$string	.= $exceptedUnit;
-		$string	= trim( $string );
+		$string	= str_replace( ',', '.', trim( $string ) );
 		$factor	= NULL;
 		foreach( self::$rules as $key => $value ){
 			if( preg_match( $key, $string ) ){
