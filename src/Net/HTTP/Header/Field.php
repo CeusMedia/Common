@@ -58,6 +58,20 @@ class Net_HTTP_Header_Field
 	}
 
 	/**
+	 *	Tries to decode qualified values into a map of values ordered by their quality.
+	 *	Alias for Net_HTTP_Header_Field_Parser::decodeQualifiedValues.
+	 *	@static
+	 *	@access		public
+	 *	@param		string		$string			String of qualified values to decode
+	 *	@param		boolean		$sortByLength	Flag: assume longer key as more qualified for keys with same quality (default: FALSE)
+	 *	@return		array		Map of qualified values ordered by quality
+	 */
+	static public function decodeQualifiedValues( $values, $sortByLength = TRUE )
+	{
+		return Net_HTTP_Header_Field_Parser::decodeQualifiedValues( $values, $sortByLength );
+	}
+
+	/**
 	 *	Returns set Header Name.
 	 *	@access		public
 	 *	@return		string		Header Name
@@ -77,29 +91,6 @@ class Net_HTTP_Header_Field
 		if( $qualified )
 			return $this->decodeQualifiedValues ( $this->value );
 		return $this->value;
-	}
-
-	public static function decodeQualifiedValues( $values, $sortByLength = TRUE ){
-		$pattern	= '/^(\S+)(?:;\s*q=(0(?:\.[0-9]{1,3})?|1(?:\.0{1,3})?))?$/iU';
-		$values		= preg_split( '/,\s*/', $values );
-		$codes		= array();
-		foreach( $values as $value )
-			if( preg_match ( $pattern, $value, $matches ) )
-				$codes[$matches[1]]	= isset( $matches[2] ) ? (float) $matches[2] : 1.0;
-		$map	= array();
-		foreach( $codes as $code => $quality ){
-			if( !isset( $map[(string)$quality] ) )
-				$map[(string)$quality]	= array();
-			$map[(string)$quality][strlen( $code)]	= $code;
-			if( $sortByLength )
-				krsort( $map[(string)$quality] );													//  sort inner list by code length
-		}
-		krsort( $map );																				//  sort outer list by quality
-		$list	= array();
-		foreach( $map as $quality => $codes )														//  reduce map to list
-			foreach( $codes as $code )
-				$list[$code]	= (float) $quality;
-		return $list;
 	}
 
 	public function setName( $name )

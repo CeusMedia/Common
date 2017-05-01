@@ -108,24 +108,9 @@ class Net_HTTP_Request extends ADT_List_Dictionary
 			$this->pairs	= array_merge( $this->pairs, $values );
 
 		/*  --  RETRIEVE HTTP HEADERS  --  */
-		if( function_exists( 'getallheaders' ) )
-		{
-			foreach( getallheaders() as $key => $value )
-			{
-				$this->headers->addField( new Net_HTTP_Header_Field( $key, $value ) );					//  store header
-			}
-		}
-		else
-		{
-			foreach( $_SERVER as $key => $value )
-			{
-				if( strpos( $key, "HTTP_" ) !== 0 )
-					continue;
-				$key	= preg_replace( '/^HTTP_/', '', $key );											//  strip HTTP prefix
-				$key	= preg_replace( '/_/', '-', $key );												//  replace underscore by dash
-				$this->headers->addField( new Net_HTTP_Header_Field( $key, $value ) );						//  store header
-			}
-		}
+		foreach( self::getAllEnvHeaders() as $key => $value )										//  iterate requested HTTP headers
+			$this->headers->addField( new Net_HTTP_Header_Field( $key, $value ) );					//  store header
+
 		$this->setMethod( strtoupper( getEnv( 'REQUEST_METHOD' ) ) );								//  store HTTP method
 		$this->body	= file_get_contents( "php://input" );											//  store raw POST, PUT or FILE data
 	}
@@ -151,6 +136,53 @@ class Net_HTTP_Request extends ADT_List_Dictionary
 		if( !$strict )
 			return array();
 		throw new InvalidArgumentException( 'Invalid source "'.$source.'"' );
+	}
+
+	static public function getAllEnvHeaders(){
+		if( function_exists( 'getallheaders' ) )
+			return getallheaders();
+
+		$headers = array();
+
+		$copy_server = array(
+			'CONTENT_TYPE'   => 'Content-Type',
+			'CONTENT_LENGTH' => 'Content-Length',
+			'CONTENT_MD5'    => 'Content-Md5',
+		);
+
+		foreach( $_SERVER as $key => $value )
+		{
+			if( substr( $key, 0, 5 ) === 'HTTP_' )
+			{
+				$key = substr( $key, 5 );
+				if( !(isset( $copy_server[$key] ) && isset( $_SERVER[$key] ) ) )
+				{
+					$key = str_replace( ' ', '-', ucwords( strtolower( str_replace( '_', ' ', $key ) ) ) );
+					$headers[$key] = $value;
+				}
+			}
+			elseif (isset($copy_server[$key]))
+			{
+				$headers[$copy_server[$key]] = $value;
+			}
+		}
+		if( !isset( $headers['Authorization'] ) )
+		{
+			if( isset( $_SERVER['REDIRECT_HTTP_AUTHORIZATION'] ) )
+			{
+				$headers['Authorization'] = $_SERVER['REDIRECT_HTTP_AUTHORIZATION'];
+			}
+			elseif( isset( $_SERVER['PHP_AUTH_USER'] ) )
+			{
+				$basic_pass = isset( $_SERVER['PHP_AUTH_PW'] ) ? $_SERVER['PHP_AUTH_PW'] : '';
+				$headers['Authorization'] = 'Basic ' . base64_encode( $_SERVER['PHP_AUTH_USER'] . ':' . $basic_pass );
+			}
+			elseif (isset($_SERVER['PHP_AUTH_DIGEST'] ) )
+			{
+				$headers['Authorization'] = $_SERVER['PHP_AUTH_DIGEST'];
+			}
+		}
+		return $headers;
 	}
 
 	/**

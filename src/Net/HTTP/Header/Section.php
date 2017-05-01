@@ -248,6 +248,10 @@ class Net_HTTP_Header_Section
 		return $this->setField( new Net_HTTP_Header_Field( $name, $value ), $emptyBefore );
 	}
 
+	/**
+	 *	@deprecated		use method "getFields" instead, which will provide field objects instead of rendered strings
+	 *	@todo			to be removed in v0.9
+	 */
 	public function toArray()
 	{
 		$list	= array();
@@ -259,8 +263,17 @@ class Net_HTTP_Header_Section
 		return $list;
 	}
 
+	public function render(){
+		return Net_HTTP_Header_Renderer::render( $this );
+	}
+
+	/**
+	 *	@deprecated		use render method instead
+	 *	@todo			to be removed in v0.9
+	 */
 	public function toString()
 	{
+		trigger_error( 'Method "toString" is deprecated and will be remove in verion 0.9. Please use method "render" instead!', E_USER_DEPRECATED );
 		$list = implode( "\r\n", $this->toArray() );												//  collect fields with line breaks inbetween
 		return $list ? $list."\r\n" : $list;														//  return field list with line break or empty string
 	}

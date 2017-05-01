@@ -88,10 +88,12 @@ class Net_HTTP_Request_Receiver extends ADT_List_Dictionary
 		{
 			if( strpos( $key, "HTTP_" ) !== 0 )
 				continue;
+				remark( $key );
 			$key	= preg_replace( '/^HTTP_/', '', $key );											//  strip HTTP prefix
 			$key	= preg_replace( '/_/', '-', $key );												//  replace underscore by dash
 			$this->headers->addField( new Net_HTTP_Header_Field( $key, $value ) );					//
 		}
+		die;
 	}
 
 	/**
@@ -129,6 +131,17 @@ class Net_HTTP_Request_Receiver extends ADT_List_Dictionary
 		if( !$strict )
 			return NULL;
 		throw new InvalidArgumentException( 'Invalid key "'.$key.'" in source "'.$source.'"' );
+	}
+
+	/**
+	 *	Returns Object collected HTTP Headers.
+	 *	@access		public
+	 *	@return		Net_HTTP_Header_Section	List of Header Objects
+	 *	@since		0.8.3.4
+	 */
+	public function getHeader()
+	{
+		return $this->headers;
 	}
 
 	/**

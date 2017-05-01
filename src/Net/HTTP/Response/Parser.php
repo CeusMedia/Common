@@ -103,15 +103,9 @@ class Net_HTTP_Response_Parser
 			}
 			else if( $state == 1 )
 			{
-				if( !trim( $line ) )
+				if( !strlen( trim( $line ) ) )
 					continue;
-				$pattern	= '/([a-z-]+):\s(.*)/i';
-				if( !preg_match( $pattern, $line ) )
-					throw new InvalidArgumentException( 'Invalid header field: '.$line );
-				$parts	= explode( ":", $line );
-				$key	= array_shift( $parts );
-				$value	= trim( implode( ':', $parts ) );
-				$response->headers->addField( new Net_HTTP_Header_Field( $key, $value ) );
+				$response->headers->addField( Net_HTTP_Header_Field_Parser::parse( $line ) );
 			}
 		}
 		return $response;

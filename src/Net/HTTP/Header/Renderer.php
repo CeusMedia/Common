@@ -1,8 +1,8 @@
 <?php
 /**
- *	Parser for HTTP Headers.
+ *	Renderer for HTTP Headers.
  *
- *	Copyright (c) 2007-2015 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2017 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,41 +20,32 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Net_HTTP_Header
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2016 Christian Würker
+ *	@copyright		2017 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.8.2.5
- *	@version		$Id$
+ *	@since			0.8.3.4
  */
 /**
  *	Parser for HTTP Headers.
  *	@category		Library
  *	@package		CeusMedia_Common_Net_HTTP_Header
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2016 Christian Würker
+ *	@copyright		2017 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.8.2.5
- *	@version		$Id$
+ *	@since			0.8.3.4
  */
-class Net_HTTP_Header_Parser
-{
-	/**
-	 *	Parses block of HTTP headers and returns list of HTTP header field objects.
-	 *	@static
-	 *	@access		public
-	 *	@param		$string			HTTP headers encoded as string
-	 *	@return		Net_HTTP_Header_Section
-	 */
-	static public function parse( $string )
-	{
-		$section	= new Net_HTTP_Header_Section();
-		$lines		= explode( PHP_EOL, trim( $string ) );
-		foreach( $lines as $line )
-		{
-			if( strlen( trim( $line ) ) )
-				$section->addField( Net_HTTP_Header_Field_Parser::parse( $line ) );
+class Net_HTTP_Header_Renderer{
+
+	static public function render( Net_HTTP_Header_Section $section ){
+		$fields	= $section->getFields();
+		if( !$fields )
+			return;
+		$list	= array();
+		foreach( $fields as $field ){
+			$list[]	= $field->toString();
 		}
-		return $section;
+		$string	= join( "\r\n", $list )."\r\n";
+		return $string;
 	}
 }
