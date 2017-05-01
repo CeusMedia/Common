@@ -4,7 +4,6 @@
 SHELL		:= /bin/bash
 USER		:= kriss
 GROUP		:= www-data
-RIGHTS		:= 775
 
 # --  TARGETS  ----------------------------------
 PATH_SELF	:= $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
@@ -39,7 +38,10 @@ go-help:
 set-rights:
 	@sudo chown -R ${USER} .
 	@sudo chgrp -R ${GROUP} .
-	@chmod -R ${RIGHTS} .
+	@find . -type d -not -path "./vendor/*" -print0 | xargs -0 xargs sudo chmod 755 >/dev/null 2>&1 || true
+	@find . -type f -not -path "./vendor/*" -print0 | xargs -0 xargs sudo chmod 644 >/dev/null 2>&1 || true
+
+
 
 
 # generate .htaccess file to move to your project, enabling autoloading
