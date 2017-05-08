@@ -42,7 +42,7 @@ class FS_File_PHP_Test_Creator
 {
 	/**	@var		string			$className			Class Name, eg. Package_Class */
 	protected $className			= "";
-	/**	@var		string			$classFile			Class Name, eg. de/ceus-media/package/Class.php5 */
+	/**	@var		string			$classFile			Class Name, eg. de/ceus-media/package/Class.php */
 	protected $classFile			= "";
 	/**	@var		string			$classPath			Class Path, eg. de.ceus-media.package.Class */
 	protected $classPath			= "";
@@ -169,20 +169,20 @@ class FS_File_PHP_Test_Creator
 		$this->templateClass		= $this->pathTemplates.$this->templateClass;
 		$this->templateException	= $this->pathTemplates.$this->templateException;
 		$this->templateMethod		= $this->pathTemplates.$this->templateMethod;
-			
+
 		$this->className	= $className;
 		$this->readPath();
-		$this->classFile	= "src/".$this->getPath( "/" ).".php5";
+		$this->classFile	= "src/".$this->getPath( "/" ).".php";
 		$this->classPath	= $this->getPath( "." );
 		$this->targetFile	= "Test/".$this->getPath( "/" )."Test.php";
-		
+
 		if( file_exists( $this->targetFile ) && !$force )
 			throw new RuntimeException( 'Test Class for Class "'.$this->className.'" is already existing.' );
-		
+
 		$parser	= new FS_File_PHP_Parser_Array();
 		$data	= $parser->parseFile( $this->classFile, "" );
 		$this->data	= $data['class'];
-		
+
 #		$parser				= new ClassParser( $this->classFile );
 #		$this->data			= $parser->getClassData();
 #		print_m( $data );
@@ -201,16 +201,16 @@ class FS_File_PHP_Test_Creator
 	public function createForFolder( $path, $force )
 	{
 		$counter	= 0;
-		$fullPath	= "de/ceus-media/".str_replace( "_", "/", $path )."/";		
+		$fullPath	= "src/".str_replace( "_", "/", $path )."/";
 		if( file_exists( $fullPath ) && is_dir( $fullPath ) )
 		{
-			$filter	= new FS_Folder_RecursiveRegexFilter( $fullPath, "@\.php5$@i", TRUE, FALSE );
+			$filter	= new FS_Folder_RecursiveRegexFilter( $fullPath, "@\.php$@i", TRUE, FALSE );
 			foreach( $filter as $entry )
 			{
 				$counter++;
 				$className	= $entry->getPathname();
 				$className	= substr( $className, strlen( $fullPath ) );
-				$className	= preg_replace( "@\.php5$@i", "", $className );
+				$className	= preg_replace( "@\.php$@i", "", $className );
 				$className	= str_replace( "/", "_", $className );
 				$creator	= new FS_File_PHP_Test_Creator();
 				$creator->createForFile( $path."_".$className, $force );
@@ -231,7 +231,7 @@ class FS_File_PHP_Test_Creator
 		$data	= ob_get_clean();
 		file_put_contents( "lastCreatedTest.cache", "<xmp>".$data."</xmp>" );
 	}
-	
+
 	/**
 	 *	Reads and returns thrown Exception Classes from Method Content.
 	 *	@access		protected
@@ -252,7 +252,7 @@ class FS_File_PHP_Test_Creator
 		}
 		return $exceptions;
 	}
-	
+
 	/**
 	 *	Combines and returns Path Parts and File Nanme with a Delimiter.
 	 *	@access		protected

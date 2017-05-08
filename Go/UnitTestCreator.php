@@ -13,7 +13,7 @@ class Go_UnitTestCreator
 		if( !$arguments )
 			throw new InvalidArgumentException( 'No class name given to create test class for.' );
 		$class	= array_shift( $arguments );
-		$creator	= new File_PHP_Test_Creator();
+		$creator	= new FS_File_PHP_Test_Creator();
 		$creator->createForFile( $class, $force );
 		remark( 'Created test class "Test_'.$class.'Test".'."\n" );
 	}

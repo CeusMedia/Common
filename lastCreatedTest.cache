@@ -1,0 +1,233 @@
+<xmp>
+  [S] type => class 
+  [S] name => FS_File_Lock
+  [B] abstract => FALSE
+  [B] final => FALSE
+  [N] extends => NULL
+  [A] implements
+  [A] uses
+  [S] description => ....
+  [S] category => Library
+  [S] package => CeusMedia_Common_FS_File
+  [S] subpackage => 
+  [A] license
+    [A] 0
+      [S] url => http://www.gnu.org/licenses/gpl-3.0.txt
+      [S] name => GPL 3
+  [A] copyright
+    [S] 0 => 2007-2015 Christian Würker
+  [S] version => $Id$a
+  [S] since => 30.05.2011
+  [A] author
+    [A] 0
+      [S] name => Christian Würker
+      [S] mail => christian.wuerker@ceusmedia.de
+  [A] link
+    [S] 0 => https://github.com/CeusMedia/Common
+  [A] see
+  [A] todo
+    [S] 0 => code doc
+  [A] deprecated
+  [A] methods
+    [A] __construct
+      [S] name => __construct
+      [S] description => 
+      [B] abstract => FALSE
+      [B] final => FALSE
+      [B] static => FALSE
+      [S] access => public
+      [A] param
+        [A] fileName
+          [S] cast => 
+          [B] reference => FALSE
+          [S] name => fileName
+        [A] expiration
+          [S] cast => 
+          [B] reference => FALSE
+          [S] name => expiration
+          [S] default => 0
+        [A] timeout
+          [S] cast => 
+          [B] reference => FALSE
+          [S] name => timeout
+          [S] default => 2
+        [A] sleep
+          [S] cast => 
+          [B] reference => FALSE
+          [S] name => sleep
+          [S] default => 0.1
+      [A] return
+        [S] type => void
+        [N] description => NULL
+      [A] throws
+      [S] version => 
+      [S] since => 
+      [A] author
+      [A] see
+      [A] link
+      [A] todo
+      [A] deprecated
+    [A] lock
+      [S] name => lock
+      [S] description => 
+      [B] abstract => FALSE
+      [B] final => FALSE
+      [B] static => FALSE
+      [S] access => public
+      [A] param
+        [A] strict
+          [S] cast => 
+          [B] reference => FALSE
+          [S] name => strict
+          [S] default => TRUE
+      [A] return
+        [S] type => void
+        [N] description => NULL
+      [A] throws
+      [S] version => 
+      [S] since => 
+      [A] author
+      [A] see
+      [A] link
+      [A] todo
+      [A] deprecated
+    [A] unlock
+      [S] name => unlock
+      [S] description => 
+      [B] abstract => FALSE
+      [B] final => FALSE
+      [B] static => FALSE
+      [S] access => public
+      [A] param
+      [A] return
+        [S] type => void
+        [N] description => NULL
+      [A] throws
+      [S] version => 
+      [S] since => 
+      [A] author
+      [A] see
+      [A] link
+      [A] todo
+      [A] deprecated
+    [A] isLocked
+      [S] name => isLocked
+      [S] description => 
+      [B] abstract => FALSE
+      [B] final => FALSE
+      [B] static => FALSE
+      [S] access => public
+      [A] param
+      [A] return
+        [S] type => void
+        [N] description => NULL
+      [A] throws
+      [S] version => 
+      [S] since => 
+      [A] author
+      [A] see
+      [A] link
+      [A] todo
+      [A] deprecated
+    [A] setExpiration
+      [S] name => setExpiration
+      [S] description => 
+      [B] abstract => FALSE
+      [B] final => FALSE
+      [B] static => FALSE
+      [S] access => public
+      [A] param
+        [A] expiration
+          [S] cast => 
+          [B] reference => FALSE
+          [S] name => expiration
+          [S] default => 0
+      [A] return
+        [S] type => void
+        [N] description => NULL
+      [A] throws
+      [S] version => 
+      [S] since => 
+      [A] author
+      [A] see
+      [A] link
+      [A] todo
+      [A] deprecated
+    [A] setSleep
+      [S] name => setSleep
+      [S] description => 
+      [B] abstract => FALSE
+      [B] final => FALSE
+      [B] static => FALSE
+      [S] access => public
+      [A] param
+        [A] sleep
+          [S] cast => 
+          [B] reference => FALSE
+          [S] name => sleep
+          [S] default => 0.1
+      [A] return
+        [S] type => void
+        [N] description => NULL
+      [A] throws
+      [S] version => 
+      [S] since => 
+      [A] author
+      [A] see
+      [A] link
+      [A] todo
+      [A] deprecated
+    [A] setTimeout
+      [S] name => setTimeout
+      [S] description => 
+      [B] abstract => FALSE
+      [B] final => FALSE
+      [B] static => FALSE
+      [S] access => public
+      [A] param
+        [A] timeout
+          [S] cast => 
+          [B] reference => FALSE
+          [S] name => timeout
+          [S] default => 2
+      [A] return
+        [S] type => void
+        [N] description => NULL
+      [A] throws
+      [S] version => 
+      [S] since => 
+      [A] author
+      [A] see
+      [A] link
+      [A] todo
+      [A] deprecated
+  [A] members
+    [A] fileName
+      [S] access => protected
+      [B] static => FALSE
+      [N] type => NULL
+      [S] name => fileName
+      [N] description => NULL
+      [N] default => NULL
+    [A] expiration
+      [S] access => protected
+      [B] static => FALSE
+      [N] type => NULL
+      [S] name => expiration
+      [N] description => NULL
+      [S] default => 0
+    [A] sleep
+      [S] access => protected
+      [B] static => FALSE
+      [N] type => NULL
+      [S] name => sleep
+      [N] description => NULL
+      [S] default => 0.1
+    [A] timeout
+      [S] access => protected
+      [B] static => FALSE
+      [N] type => NULL
+      [S] name => timeout
+      [N] description => NULL
+      [S] default => 2
+</xmp>
