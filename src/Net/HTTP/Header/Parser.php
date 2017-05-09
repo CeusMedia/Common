@@ -52,6 +52,8 @@ class Net_HTTP_Header_Parser
 		$lines		= explode( PHP_EOL, trim( $string ) );
 		foreach( $lines as $line )
 		{
+			if( preg_match( '@^HTTP/@', $line ) )
+				continue;
 			if( strlen( trim( $line ) ) )
 				$section->addField( Net_HTTP_Header_Field_Parser::parse( $line ) );
 		}
