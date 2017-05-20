@@ -36,7 +36,7 @@
  *	@version		$Id$
  */
 class XML_DOM_Builder
-{	
+{
 	/**
 	 *	Builds XML and returns XML as string.
 	 *	@static
@@ -75,7 +75,7 @@ class XML_DOM_Builder
 		}
 		if( $tree->hasChildren() )
 		{
-			$children =& $tree->getChildren();
+			$children = $tree->getChildren();
 			foreach( $children as $child )
 			{
 				$element = $document->createElement( $child->getNodename() );

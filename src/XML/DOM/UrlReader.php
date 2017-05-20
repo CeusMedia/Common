@@ -47,10 +47,11 @@ class XML_DOM_UrlReader
 	public static $mimeTypes	= array(
 		'application/xml',
 		'application/xslt+xml',
+		'application/rss+xml',
 		'text/xml',
 	);
 	public static $userAgent	= 'cmClasses:XML_DOM_UrlReader/0.7';
-	
+
 	/**
 	 *	Constructor.
 	 *	@access		public
@@ -61,7 +62,7 @@ class XML_DOM_UrlReader
 	{
 		$this->url	= $url;
 	}
-	
+
 	/**
 	 *	Loads a XML File statically and returns parsed Tree.
 	 *	@access		public
@@ -75,16 +76,17 @@ class XML_DOM_UrlReader
 		$reader	= new Net_Reader( $url );
 		$reader->setUserAgent( self::$userAgent );
 		$xml	= $reader->read( $curlOptions );
-		$type	= array_shift( explode( ";", $reader->getInfo( Net_CURL::INFO_CONTENT_TYPE ) ) );
-		
+		$type	= explode( ";",$reader->getInfo( Net_CURL::INFO_CONTENT_TYPE ) );
+		$type	= array_shift( $type );
+
 		if( !in_array( $type, self::$mimeTypes ) )
 			throw new Exception( 'URL "'.$url.'" is not an accepted XML File (MIME Type: '.$type.').' );
-			
+
 		$parser	= new XML_DOM_Parser();
 		$tree	= $parser->parse( $xml );
 		return $tree;
 	}
-	
+
 	/**
 	 *	Reads XML File and returns parsed Tree.
 	 *	@access		public

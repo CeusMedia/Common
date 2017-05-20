@@ -67,13 +67,13 @@ class XML_DOM_Parser extends ADT_OptionObject
 	 *	@access		public
 	 *	@param		string		$xml			XML to be parsed
 	 *	@return		void
-	 */	
+	 */
 	protected function loadXml( $xml )
 	{
 		$xsv	= new XML_DOM_SyntaxValidator;
 		if( !$xsv->validate( $xml ) )
 			throw new Exception( "XML Document is not valid:".$xsv->getErrors() );
-		$this->document	=& $xsv->getDocument();
+		$this->document	= $xsv->getDocument();
 		$this->clearOptions();
 		foreach( $this->attributes as $attribute )
 			if( isset( $this->document->$attribute ) )
@@ -86,13 +86,13 @@ class XML_DOM_Parser extends ADT_OptionObject
 	 *	@param		string		$xml			XML to parse
 	 *	@return		XML_DOM_Node
 	 */
-	public function & parse( $xml )
+	public function parse( $xml )
 	{
 		$this->loadXml( $xml );
 		$root	= $this->document->firstChild;
 		while( $root->nodeType == XML_COMMENT_NODE )
 			$root	= $root->nextSibling;
-		
+
 		$tree	= new XML_DOM_Node( $root->nodeName );
 		if( $root->hasAttributes())
 		{
@@ -102,7 +102,7 @@ class XML_DOM_Parser extends ADT_OptionObject
 		}
 		$this->parseRecursive( $root, $tree );
 		return $tree;
-	}	
+	}
 
 	/**
 	 *	Parses XML File to XML Tree recursive.
@@ -111,7 +111,7 @@ class XML_DOM_Parser extends ADT_OptionObject
 	 *	@param		XML_DOM_Node	$tree		Parent XML Node
 	 *	@return		bool
 	 */
-	protected function parseRecursive( &$root, &$tree )
+	protected function parseRecursive( $root, $tree )
 	{
 		$nodes = array();
 		if( $child = $root->firstChild )

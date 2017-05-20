@@ -120,14 +120,14 @@ class XML_DOM_Node
 	{
 		return $this->attributes;
 	}
-	
+
 	/**
 	 *	Returns a Child Nodes by its name.
 	 *	@access		public
 	 *	@param		string		$nodeName		Name of Child Node
 	 *	@return		XML_DOM_Node
 	 */
-	public function & getChild( $nodeName )
+	public function getChild( $nodeName )
 	{
 		for( $i=0; $i<count( $this->children ); $i++ )
 			if( $this->children[$i]->getNodeName() == $nodeName )
@@ -142,30 +142,30 @@ class XML_DOM_Node
 	 *	@return		XML_DOM_Node
 	 *	@todo		write Unit Test
 	 */
-	public function & getChildByIndex( $index )
+	public function getChildByIndex( $index )
 	{
 		if( $index > count( $this->children ) )
 			throw new InvalidArgumentException( 'Child Node with Index "'.$index.'" is not existing.' );
 		return $this->children[$index];
 	}
-	
+
 	/**
 	 *	Returns all Child Nodes.
 	 *	@access		public
 	 *	@param		string		$nodeName		Name of Child Node
 	 *	@return		array
 	 */
-	public function & getChildren( $nodeName = NULL )
+	public function getChildren( $nodeName = NULL )
 	{
 		if( !$nodeName )
 			return $this->children;
 		$list	= array();
 		for( $i=0; $i<count( $this->children ); $i++ )
 			if( $this->children[$i]->getNodeName() == $nodeName )
-				$list[]	=& $this->children[$i];
+				$list[]	= $this->children[$i];
 		return $list;
 	}
-	
+
 	/**
 	 *	Returns Content if it is set.
 	 *	@access		public
@@ -185,7 +185,7 @@ class XML_DOM_Node
 	{
 		return $this->nodeName;
 	}
-	
+
 	/**
 	 *	Indicates whether XML Node has attributes.
 	 *	@access		public
@@ -195,7 +195,7 @@ class XML_DOM_Node
 	{
 		return (bool) count( $this->attributes );
 	}
-	
+
 	/**
 	 *	Indicates whether XML Node has an attributes by its name.
 	 *	@access		public
@@ -273,7 +273,7 @@ class XML_DOM_Node
 		if( $children == $this->children )
 			return FALSE;
 		$this->children = $children;
-		return TRUE;		
+		return TRUE;
 	}
 
 	/**
@@ -288,7 +288,7 @@ class XML_DOM_Node
 		$this->setContent( "" );
 		return TRUE;
 	}
-	
+
 	/**
 	 *	Sets an attribute.
 	 *	@access		public
@@ -303,7 +303,7 @@ class XML_DOM_Node
 		$this->attributes[$key] = (string) $value;
 		return TRUE;
 	}
-	
+
 	/**
 	 *	Sets content of XML Node.
 	 *	@access		public
