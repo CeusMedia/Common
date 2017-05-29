@@ -126,7 +126,7 @@ class UI_HTML_Tag
 			if( !in_array( $name, self::$shortTagExcludes ) )										//  node name is allowed to be a short tag
 				return "<".$name.$attributes.$data."/>";											//  build and return short tag
 		if( is_array( $content ) )																	//  content is an array, may be nested
-			$content	= self::flattenArray( $content );
+			$content	= self::flattenArray( $content, '' );
 		if( is_numeric( $content ) )
 			$content	= (string) $content;
 		if( is_object( $content ) ){
@@ -147,7 +147,7 @@ class UI_HTML_Tag
 	{
 		foreach( $array as $key => $value )
 			if( is_array( $value ) )
-				$array[$key]	= self::flattenArray( $value );
+				$array[$key]	= self::flattenArray( $value, $delimiter );
 		return join( $delimiter, $array );
 	}
 
@@ -232,7 +232,7 @@ class UI_HTML_Tag
 			$value	= htmlentities( $value, ENT_QUOTES, 'UTF-8', FALSE );							//  encode HTML entities and quotes
 			$list[$key]	= strtolower( $key ).'="'.$value.'"';
 		}
-		return $list ? " ".implode( " ", $list ) : "";
+		return $list ? ' '.join( ' ', $list ) : '';
 	}
 
 	/**
