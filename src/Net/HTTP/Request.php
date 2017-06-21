@@ -226,17 +226,13 @@ class Net_HTTP_Request extends ADT_List_Dictionary
 	}
 
 	/**
-	 *	Returns list of all HTTP headers received.
-	 *	Acts as getHeadersByName if header key name is given.
+	 *	Returns collection of all HTTP headers received.
 	 *	@access		public
-	 *	@param		string		$name		Key name of header (optional)
-	 *	@return		array		List of Net_HTTP_Header_Field instances
+	 *	@return		Net_HTTP_Header_Section		Collection of of Net_HTTP_Header_Field instances
 	 */
-	public function getHeaders( $name = NULL )
+	public function getHeaders()
 	{
-		if( $name )
-			return $this->getHeadersByName( $name );
-		return $this->headers->getFields();
+		return $this->headers;
 	}
 
 	/**
