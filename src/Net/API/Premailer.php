@@ -35,6 +35,8 @@
  *	Primary function is to convert style tags into equivalent inline styles so styling can survive <head> tag removal
  *	Premailer is owned by Dialect Communications group
  *
+ *	Forked from https://github.com/alexdunae/premailer/
+ *
  *	@category		Library
  *	@package		CeusMedia_Common_Net_API
  *	@copyright		2012-2017 Christian Würker
