@@ -2,7 +2,7 @@
 /**
  *	Download Provider for Files and Strings.
  *
- *	Copyright (c) 2007-2015 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2017 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Net_HTTP
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2015 Christian Würker
+ *	@copyright		2007-2017 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			03.02.2006
@@ -28,21 +28,58 @@
  */
 /**
  *	Download Provider for Files and Strings.
+ *	Improved by hints on http://www.media-division.com/the-right-way-to-handle-file-downloads-in-php/
+ *
  *	@category		Library
  *	@package		CeusMedia_Common_Net_HTTP
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2015 Christian Würker
+ *	@copyright		2007-2017 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
+ *	@see			http://www.media-division.com/the-right-way-to-handle-file-downloads-in-php/
  *	@since			03.02.2006
  *	@version		$Id$
+ *	@todo			integrate MIME type detection
+ *	@todo  			support download range
+ *	@todo  			support x-sendfile, @see https://tn123.org/mod_xsendfile/
  */
 class Net_HTTP_Download
 {
 	/**
-	 *	Sends String for Download.
-	 *	@access		public
+	 *	Applies default HTTP headers of download.
+	 *	Also applies content length and last modification date if parameters are set.
 	 *	@static
+	 *	@access		protected
+	 *	@return		void
+	 */
+	static protected function applyDefaultHeaders( $size = NULL, $timestamp = NULL )
+	{
+		header( "Pragma: public" );
+		header( "Expires: -1" );
+		header( "Cache-Control: must-revalidate, post-check=0, pre-check=0" );
+		if( (int) $size > 0 )
+			header( "Content-Length: ".( (int) $size ) );
+		$timestamp	= ( (float) $timestamp ) > 1 ? $timestamp : time();
+		header( "Last-Modified: ".date( 'r', (float) $timestamp ) );
+
+	}
+
+	/**
+	 *	Turn off compression on the server.
+	 *	@static
+	 *	@access		protected
+	 *	@return		void
+	 */
+	static protected function disableCompression()
+	{
+		@apache_setenv( 'no-gzip', 1 );
+		@ini_set( 'zlib.output_compression', 'Off' );
+	}
+
+	/**
+	 *	Sends String for Download.
+	 *	@static
+	 *	@access		public
 	 *	@param		string		$url			File to send
 	 *	@param		string		$filename       Filename of Download
 	 *	@param		boolean		$andExit		Flag: quit execution afterwards, default: yes
@@ -50,15 +87,15 @@ class Net_HTTP_Download
 	 */
 	static public function sendFile( $url, $filename = NULL, $andExit = TRUE )
 	{
-		self::clearOutputBuffers();
-		self::setMimeType();
 		$filename	= strlen( $filename ) ? $filename : basename( $url );
+		$url		= str_replace( '../', '', $url );									//  avoid messing with path
 		if( !file_exists( $url ) )
 			throw new RuntimeException( 'File "'.$url.'" is not existing' );
-		header( "Last-Modified: ".date( 'r',filemtime( $url ) ) );
-		header( "Content-Length: ".filesize( $url ) );
-		header( "Cache-Control: must-revalidate, post-check=0, pre-check=0" );
-		header( "Content-Disposition: attachment; filename=".$filename );
+		self::clearOutputBuffers();
+		self::setMimeType();
+		self::disableCompression();
+		self::applyDefaultHeaders( filesize( $url ), filemtime( $url ) );
+		header( "Content-Disposition: attachment; filename=\"".$filename."\"" );
 		$fp = @fopen( $url, "rb" );
 		if( !$fp )
 			header("HTTP/1.0 500 Internal Server Error");
@@ -69,8 +106,8 @@ class Net_HTTP_Download
 
 	/**
 	 *	Sends String for Download.
-	 *	@access		public
 	 *	@static
+	 *	@access		public
 	 *	@param		string		$string			String to send
 	 *	@param		string		$filename		Filename of Download
 	 *	@param		boolean		$andExit		Flag: quit execution afterwards, default: yes
@@ -80,18 +117,18 @@ class Net_HTTP_Download
 	{
 		self::clearOutputBuffers();
 		self::setMimeType();
-		header( "Last-Modified: ".date( 'r',time() ) );
-		header( "Content-Length: ".strlen( $string ) );
-		header( "Cache-Control: must-revalidate, post-check=0, pre-check=0" );
-		header( "Content-Disposition: attachment; filename=".$filename );
+		self::disableCompression();
+		self::applyDefaultHeaders( strlen( $string ) );
+		header( "Content-Disposition: attachment; filename=\"".$filename."\"" );
 		print( $string );
-		exit;
+		if( $andExit )
+			exit;
 	}
 
 	/**
 	 *	Sends Mime Type Header.
-	 *	@access		private
 	 *	@static
+	 *	@access		private
 	 *	@return		void
 	 */
 	static private function setMimeType()
@@ -107,8 +144,8 @@ class Net_HTTP_Download
 
 	/**
 	 *	Closes active Output Buffers.
-	 *	@access		private
 	 *	@static
+	 *	@access		private
 	 *	@return		void
 	 */
 	static private function clearOutputBuffers()
