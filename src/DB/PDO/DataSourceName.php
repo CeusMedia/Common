@@ -72,9 +72,12 @@ class DB_PDO_DataSourceName
 	 *	@param		string		$driver			Database Driver (cubrid,dblib|firebird|informix|mysql|mssql|oci|odbc|pgsql|sqlite|sybase)
 	 *	@param		string		$database		Database Name
 	 *	@return		void
+	 *	@deprecated	Please use CeusMedia/Database (https://packagist.org/packages/ceus-media/database) instead
+	 *	@todo		remove in version 1.0
 	 */
 	public function __construct( $driver, $database = NULL ){
-//		trigger_error( 'Please use CeusMedia/Database (https://packagist.org/packages/ceus-media/database) instead', E_USER_DEPRECATED );
+		Deprecation::getInstance()->setErrorVersion( '0.8.5' )->setExceptionVersion( '0.9' )
+			->message(  'Please use CeusMedia/Database (https://packagist.org/packages/ceus-media/database) instead' );
 		$this->checkDriverSupport( $driver );
 		$this->driver		= strtolower( $driver );
 		if( $database )

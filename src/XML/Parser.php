@@ -112,7 +112,7 @@ class XML_Parser
 	 *	Callback Method for opening Tags on Array Collection.
 	 *	@access		protected
 	 *	@param		resource	$parser		Resource of XML Parser
-	 *	@param		string		$tag		Name of parsed Tag 
+	 *	@param		string		$tag		Name of parsed Tag
 	 *	@param		array		$attributes	Array of parsed Attributes
 	 *	@return		void
 	 */
@@ -133,7 +133,7 @@ class XML_Parser
 	 *	Callback Method for opening Tags on Object Collection.
 	 *	@access		protected
 	 *	@param		resource	$parser		Resource of XML Parser
-	 *	@param		string		$tag		Name of parsed Tag 
+	 *	@param		string		$tag		Name of parsed Tag
 	 *	@param		array		$attributes	Array of parsed Attributes
 	 *	@return		void
 	 */
@@ -141,11 +141,11 @@ class XML_Parser
 	{
 		$count		= count( $this->last ) - 1;
 		$parentNode	=& $this->last[$count];
-		$childNode	=& new XML_DOM_Node(
+		$childNode	= new XML_DOM_Node(
 			$tag,
 			"",
 			$attributes
-		); 
+		);
 		$parentNode->addChild( $childNode );
 		$this->last[]	=& $childNode;
 	}

@@ -54,8 +54,8 @@ class Net_Site_MapBuilder
 		$set->setAttribute( 'xmlns', "http://www.google.com/schemas/sitemap/0.84" );
 		foreach( $urls as $url )
 		{
-			$node	=& new XML_DOM_Node( "url" );
-			$child	=& new XML_DOM_Node( "loc", $url );
+			$node	= new XML_DOM_Node( "url" );
+			$child	= new XML_DOM_Node( "loc", $url );
 			$node->addChild( $child );
 			$set->addChild( $node );
 		}

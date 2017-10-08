@@ -62,9 +62,12 @@ class DB_PDO_Connection extends \PDO{
 	 *	@param		array		$driverOptions	Array of Driver Options
 	 *	@return		void
 	 *	@see		http://php.net/manual/en/pdo.drivers.php
+	 *	@deprecated	Please use CeusMedia/Database (https://packagist.org/packages/ceus-media/database) instead
+	 *	@todo		remove in version 1.0
 	 */
 	public function __construct( $dsn, $username = NULL, $password = NULL, $driverOptions = array() ){
-//		trigger_error( 'Please use CeusMedia/Database (https://packagist.org/packages/ceus-media/database) instead', E_USER_DEPRECATED );
+		Deprecation::getInstance()->setErrorVersion( '0.8.5' )->setExceptionVersion( '0.9' )
+			->message(  'Please use CeusMedia/Database (https://packagist.org/packages/ceus-media/database) instead' );
 		$options	= $driverOptions + self::$defaultOptions;										//  extend given options by default options
 		parent::__construct( $dsn, $username, $password, $options );
 		$this->driver	= $this->getAttribute( \PDO::ATTR_DRIVER_NAME );							//  note name of used driver

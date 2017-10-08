@@ -64,9 +64,12 @@ abstract class DB_PDO_Table{
 	 *	@param		string				$prefix		Table name prefix
 	 *	@param		integer				$id			ID to focus on
 	 *	@return		void
+	 *	@deprecated	Please use CeusMedia/Database (https://packagist.org/packages/ceus-media/database) instead
+	 *	@todo		remove in version 1.0
 	 */
 	public function __construct( DB_PDO_Connection $dbc, $prefix = NULL, $id = NULL ){
-//		trigger_error( 'Please use CeusMedia/Database (https://packagist.org/packages/ceus-media/database) instead', E_USER_DEPRECATED );
+		Deprecation::getInstance()->setErrorVersion( '0.8.5' )->setExceptionVersion( '0.9' )
+			->message(  'Please use CeusMedia/Database (https://packagist.org/packages/ceus-media/database) instead' );
 		$this->setDatabase( $dbc );
 	}
 

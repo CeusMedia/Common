@@ -41,49 +41,6 @@ class UI_HTML_JQuery
 {
 	/**	@var		string		$jQueryFunctionName		Name of jQuery Function to call, default: $ */
 	public static $jQueryFunctionName	= 'jQuery';
-	
-	/**
-	 *	Builds and returns Plugin Constructor Options.
-	 *	@access		protected
-	 *	@static
-	 *	@param		array		$options		Array of Plugin Constructor Options
-	 *	@param		int			$spaces			Number of indenting Whitespaces
-	 *	@return		string
-	 *	@deprecated	broken (on simple arrays) and not used anymore
-	 */
-	protected static function buildOptions( $options, $spaces = 2 )
-	{
-		$innerIndent	= "";
-		$outerIndent	= "";
-		if( $spaces > 1 )
-		{
-			$innerIndent	= str_repeat( " ", $spaces + 2 );
-			$outerIndent	= str_repeat( " ", $spaces );
-		}
-
-		if( $options )
-		{
-			$list	= array();
-			foreach( $options as $key => $value )
-			{
-				if( is_array( $value ) )
-					$value	= self::buildOptions( $value, $spaces + 2 );
-				else if( is_bool( $value ) )
-					$value	= (int) $value;
-				else if( is_string( $value ) )
-					$value	= '"'.$value.'"';
-				if( is_int( $key ) )
-					$list[]	= $value;
-				else
-					$list[]	= $key.": ".$value;
-			}
-			$options	= implode( ",\n    ", $list );
-			$options	= "{\n".$innerIndent.$options."\n".$outerIndent."}";
-		}
-		else
-			$options	= "";
-		return $options;
-	}
 
 	/**
 	 *	Builds and returns JavaScript Code of jQuery Plugin Call.
@@ -99,7 +56,7 @@ class UI_HTML_JQuery
 	{
 		$innerIndent	= str_repeat( " ", $spaces + 2 );
 		$outerIndent	= str_repeat( " ", $spaces );
-		$options		= json_encode( $options );#self::buildOptions( $options, $spaces + 2 );
+		$options		= json_encode( $options );
 		$show			= $selector ? '.show()' : "";
 		$selector		= $selector ? '("'.$selector.'")' : "";
 		return $outerIndent.self::$jQueryFunctionName.'(document).ready(function(){

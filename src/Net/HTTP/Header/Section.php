@@ -225,6 +225,29 @@ class Net_HTTP_Header_Section
 		return FALSE;
 	}
 
+	public function removeField( Net_HTTP_Header_Field $field )
+	{
+		$name	= $field->getName();
+		foreach( $this->fields as $sectionName => $sectionPairs )
+		{
+			if( !array_key_exists( $name, $sectionPairs ) )
+				continue;
+			foreach( $sectionPairs as $nr => $sectionField )
+				if( $sectionField == $field )
+					unset( $this->fields[$sectionName][$name][$nr] );
+		}
+	}
+
+	public function removeByName( $name )
+	{
+		if( isset( $this->fields['others'][$name] ) )
+			unset( $this->fields['others'][$name] );
+		foreach( $this->fields as $sectionName => $sectionPairs )
+			if( array_key_exists( $name, $sectionPairs ) )
+				$this->fields[$sectionName][$name]		= array();
+		return $this;
+	}
+
 	public function setField( Net_HTTP_Header_Field $field, $emptyBefore = TRUE )
 	{
 		$name	= $field->getName();
@@ -241,19 +264,23 @@ class Net_HTTP_Header_Section
 		if( $emptyBefore || !isset( $this->fields['others'][$name] ) )
 			$this->fields['others'][$name]	= array();
 		$this->fields['others'][$name][]	= $field;
+		return $this;
 	}
 
 	public function setFieldPair( $name, $value, $emptyBefore = TRUE )
 	{
-		return $this->setField( new Net_HTTP_Header_Field( $name, $value ), $emptyBefore );
+		$this->setField( new Net_HTTP_Header_Field( $name, $value ), $emptyBefore );
+		return $this;
 	}
 
 	/**
 	 *	@deprecated		use method "getFields" instead, which will provide field objects instead of rendered strings
-	 *	@todo			to be removed in v0.9
+	 *	@todo			0.9: to be removed
 	 */
 	public function toArray()
 	{
+		Deprecation::getInstance()->setExceptionVersion( '0.9' )
+			->message(  'Use "getFields" instead, which will provide field objects instead of rendered strings' );
 		$list	= array();
 		foreach( $this->fields as $sectionName => $sectionPairs )
 			foreach( $sectionPairs as $name => $fields )
@@ -269,11 +296,12 @@ class Net_HTTP_Header_Section
 
 	/**
 	 *	@deprecated		use render method instead
-	 *	@todo			to be removed in v0.9
+	 *	@todo			0.9: to be removed
 	 */
 	public function toString()
 	{
-		trigger_error( 'Method "toString" is deprecated and will be remove in verion 0.9. Please use method "render" instead!', E_USER_DEPRECATED );
+		Deprecation::getInstance()->setExceptionVersion( '0.9' )
+			->message(  'Use render method instead' );
 		$list = implode( "\r\n", $this->toArray() );												//  collect fields with line breaks inbetween
 		return $list ? $list."\r\n" : $list;														//  return field list with line break or empty string
 	}

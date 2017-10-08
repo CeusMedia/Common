@@ -65,9 +65,12 @@ class DB_PDO_TableReader{
 	 *	@param		string		$primaryKey		Name of the primary key of this table
 	 *	@param		int			$focus			Focused primary key on start up
 	 *	@return		void
+	 *	@deprecated	Please use CeusMedia/Database (https://packagist.org/packages/ceus-media/database) instead
+	 *	@todo		remove in version 1.0
 	 */
 	public function __construct( $dbc, $tableName, $columns, $primaryKey, $focus = NULL ){
-//		trigger_error( 'Please use CeusMedia/Database (https://packagist.org/packages/ceus-media/database) instead', E_USER_DEPRECATED );
+		Deprecation::getInstance()->setErrorVersion( '0.8.5' )->setExceptionVersion( '0.9' )
+			->message(  'Please use CeusMedia/Database (https://packagist.org/packages/ceus-media/database) instead' );
 		$this->setDbConnection( $dbc );
 		$this->setTableName( $tableName );
 		$this->setColumns( $columns );

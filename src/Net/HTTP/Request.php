@@ -54,6 +54,15 @@ class Net_HTTP_Request extends ADT_List_Dictionary
 	protected $status		= '200 OK';
 	protected $version		= '1.0';
 
+	static public $methods	= array(
+		'DELETE',
+		'GET',
+		'HEAD',
+		'OPTIONS',
+		'POST',
+		'PUT'
+	);
+
 	public function __construct( $protocol = NULL, $version = NULL )
 	{
 		$this->headers	= new Net_HTTP_Header_Section();
@@ -88,30 +97,28 @@ class Net_HTTP_Request extends ADT_List_Dictionary
 
 	public function fromEnv( $useSession = FALSE, $useCookie = FALSE )
 	{
+		$this->setMethod( getEnv( 'REQUEST_METHOD' ) );												//  store HTTP method
+		$this->ip		= getEnv( 'REMOTE_ADDR' );													//  store IP of requesting client
 		$this->sources	= array(
-			"get"	=> &$_GET,
-			"post"	=> &$_POST,
-			"files"	=> &$_FILES,
+			"get"		=> &$_GET,
+			"post"		=> &$_POST,
+			"files"		=> &$_FILES,
+			"session"	=> array(),
+			"cookie"	=> array(),
 		);
 		if( $useSession )
 			$this->sources['session']	=& $_SESSION;
 		if( $useCookie )
 			$this->sources['cookie']	=& $_COOKIE;
 
-		$this->ip		= getEnv( 'REMOTE_ADDR' );													//  store IP of requesting client
-		$this->method	= strtoupper( getEnv( 'REQUEST_METHOD' ) );									//  store HTTP method
+		/*  --  APPLY ALL SOURCES TO ONE COLLECTION OF REQUEST ARGUMENT PAIRS  --  */
 		foreach( $this->sources as $key => $values )
 			$this->pairs	= array_merge( $this->pairs, $values );
 
-#		$this->ip	= getEnv( 'REMOTE_ADDR' );														//  store IP of requesting client
-		foreach( $this->sources as $key => $values )
-			$this->pairs	= array_merge( $this->pairs, $values );
-
-		/*  --  RETRIEVE HTTP HEADERS  --  */
+		/*  --  RETRIEVE HTTP HEADERS FROM WEBSERVER ENVIRONMENT  --  */
 		foreach( self::getAllEnvHeaders() as $key => $value )										//  iterate requested HTTP headers
 			$this->headers->addField( new Net_HTTP_Header_Field( $key, $value ) );					//  store header
 
-		$this->setMethod( strtoupper( getEnv( 'REQUEST_METHOD' ) ) );								//  store HTTP method
 		$this->body	= file_get_contents( "php://input" );											//  store raw POST, PUT or FILE data
 	}
 
@@ -130,7 +137,7 @@ class Net_HTTP_Request extends ADT_List_Dictionary
 	 */
 	public function getAllFromSource( $source, $strict = FALSE )
 	{
-		$source	= strtolower( $source );
+		$source	= strtoupper( $source );
 		if( isset( $this->sources[$source] ) )
 			return new ADT_List_Dictionary( $this->sources[$source] );
 		if( !$strict )
@@ -272,7 +279,7 @@ class Net_HTTP_Request extends ADT_List_Dictionary
 	 */
 	public function hasInSource( $key, $source )
 	{
-		$source	= strtolower( $source );
+		$source	= strtoupper( $source );
 		return isset( $this->sources[$source][$key] );
 	}
 
@@ -281,9 +288,43 @@ class Net_HTTP_Request extends ADT_List_Dictionary
 		return $this->headers->hasField( 'X-Requested-With' );
 	}
 
+	public function isMethod( $method )
+	{
+		return $this->method === strtoupper( trim( $method ) );
+	}
+
+	public function isGet()
+	{
+		return $this->isMethod( 'GET' );
+	}
+
+	public function isDelete()
+	{
+		return $this->isMethod( 'DELETE' );
+	}
+
+	public function isHead()
+	{
+		return $this->isMethod( 'HEAD' );
+	}
+
+	public function isOptions()
+	{
+		return $this->isMethod( 'OPTIONS' );
+	}
+
+	public function isPost()
+	{
+		return $this->isMethod( 'POST' );
+	}
+
+	public function isPut()
+	{
+		return $this->isMethod( 'PUT' );
+	}
+
 	public function remove( $key )
 	{
-#		remark( 'R:remove: '.$key );
 		parent::remove( $key );
 //		if( $this->method === "POST" )
 //			$this->body	= http_build_query( $this->getAll(), NULL, '&' );
@@ -296,14 +337,21 @@ class Net_HTTP_Request extends ADT_List_Dictionary
 //			$this->body	= http_build_query( $this->getAll(), NULL, '&' );
 	}
 
-	public function setAjax( $value = 'X-Requested-With' )
+	public function setAjax( $isAjax = TRUE )
 	{
-		$this->headers->addField( new Net_HTTP_Header_Field( 'X-Requested-With', $value ) );
+		$field	= new Net_HTTP_Header_Field( 'X-Requested-With', 'XMLHttpRequest' );
+		if( $isAjax )
+			$this->headers->addField( $field );
+		else
+			$this->headers->removeField( $field );
 	}
 
 	public function setMethod( $method )
 	{
-		$this->method	= strtoupper( $method );
+		$method		= strtoupper( $method );
+		if( !in_array( $method, self::$methods ) )
+			throw new BadMethodCallException( 'HTTP method "%s" is not supported' );
+		$this->method	= $method;
 	}
 }
 ?>

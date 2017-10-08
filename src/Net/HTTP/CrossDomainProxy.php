@@ -38,6 +38,7 @@
  *	@version		$Id$
  *	@todo			use Net_Reader or Net_CURL
  *	@todo			implement time out and http status code check
+ *	@todo			think about forwarding header "X-Requested-With"
  */
 class Net_HTTP_CrossDomainProxy
 {
@@ -47,7 +48,7 @@ class Net_HTTP_CrossDomainProxy
 	protected		$username	= "";
 	/**	@var		string		$password			Password of HTTP Basic Authentication */
 	protected		$password	= "";
-	
+
 	/**
 	 *	Constructor.
 	 *	@access		public
@@ -75,7 +76,7 @@ class Net_HTTP_CrossDomainProxy
 		$url	= $this->url."?".$query;														//  build Service Request URL
 		return self::requestUrl( $url, $this->username, $this->password, $throwException );
 	}
-	
+
 	public static function requestUrl( $url, $username = NULL, $password = NULL, $throwException = FALSE )
 	{
 		$curl	= curl_init();																	//  open cURL Handler
@@ -107,6 +108,6 @@ class Net_HTTP_CrossDomainProxy
 
 		return $response;																		//  return Service Response
 	}
-	
+
 }
 ?>

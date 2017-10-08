@@ -92,7 +92,8 @@ class Alg_UnitFormater
 	 */
 	public static function formatNumber( $float, $unit = 1, $precision = 0 )
 	{
-		return Deprecation::notify( 'Method is deprecated and will be removed in v0.7.7' );
+		Deprecation::getInstance()->setExceptionVersion( '0.8' )
+			->message(  'Use one of the other methods instead' );
 		if( (int) $unit )
 		{
 			$float	= $float / $unit;

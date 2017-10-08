@@ -1,9 +1,12 @@
 <?php
 
-$pathSrc	= dirname(__FILE__) . "/src/";
+$pathSrc	= dirname( __FILE__ ) . "/src/";
 
-if (!defined('CMC_PATH')) {
+if( !defined( 'CMC_PATH' ) )
 	define('CMC_PATH', $pathSrc);
+if( !defined( 'CMC_PATH' ) ){
+	$config 	= parse_ini_file( 'Common.ini', TRUE );
+	define( 'CMC_VERSION', $config['project']['version'] );
 }
 
 /* PSR-0 */
@@ -12,7 +15,7 @@ require_once $pathSrc . 'FS/Autoloader/Psr0.php';
 //$loader = new \CeusMedia\Common\FS\Autoloader\Psr0('CeusMedia\Common', $pathSrc);
 $loader = new \CeusMedia\Common\FS\Autoloader\Psr0();
 //$loader = new FS_Autoloader_Psr0();
-$loader->setIncludePath($pathSrc);
+$loader->setIncludePath( $pathSrc );
 $loader->register();
 
 
@@ -20,10 +23,10 @@ $loader->register();
 require_once $pathSrc . 'FS/Autoloader/Psr4.php';
 $loader = new \CeusMedia\Common\FS\Psr4AutoloaderClass;
 $loader->register();
-$loader->addNamespace('CeusMedia\Common', $pathSrc);
+$loader->addNamespace( 'CeusMedia\Common', $pathSrc );
 */
 
-class_exists('UI_DevOutput');
+class_exists( 'UI_DevOutput' );
 return;
 
 

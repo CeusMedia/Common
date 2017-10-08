@@ -117,11 +117,12 @@ class DB_StatementCollection
 	 *	@access		public
 	 *	@param		array		$data		Pair of Offset and Limit
 	 *	@return		array
-	 *	@deprecated use setLimit and setOffset instead
+	 *	@deprecated	use setLimit and setOffset instead
 	 */
 	public function Limit( $data )
 	{
-		remark( "deprecated: ".__METHOD__.":".__LINE__ );
+		Deprecation::getInstance()->setExceptionVersion( '0.9' )
+			->message(  'use setLimit and setOffset instead' );
 		if( !is_array( $data ) )
 			throw new InvalidArgumentException( 'Limit must be given as List of Offset and Row Limit.' );
 		$offset	= 0;
@@ -140,10 +141,12 @@ class DB_StatementCollection
 	 *	@access		public
 	 *	@param		array		$data		Pair of Column and Direction
 	 *	@return		array
+	 *	@deprecated	Use orderBy instad
 	 */
 	public function Order( $data )
 	{
-		remark( "deprecated: ".__METHOD__.":".__LINE__ );
+		Deprecation::getInstance()->setExceptionVersion( '0.9' )
+			->message(  'Use orderBy instad' );
 		if( !is_array( $data ) )
 			throw new InvalidArgumentException( 'Orders must be given as List of Column and Direction.' );
 		$column		= $data[0];
