@@ -45,6 +45,7 @@ class Alg_Text_CamelCase
 
 	/**
 	 *	Convert a String to Camel Case, removing all spaces and underscores and capitalizing all Words.
+	 *	Alias for encode.
 	 *	@access		public
 	 *	@static
 	 *	@param		string		$string		String to convert
@@ -52,6 +53,19 @@ class Alg_Text_CamelCase
 	 *	@return		string
 	 */
 	static public function convert( $string, $lowercaseFirst = NULL, $lowercaseLetter = NULL )
+	{
+		return static::encode( $string, $lowercaseFirst, $lowercaseLetter );
+	}
+
+	/**
+	 *	Convert a String to Camel Case, removing all spaces and underscores and capitalizing all Words.
+	 *	@access		public
+	 *	@static
+	 *	@param		string		$string		String to convert
+	 *	@param		bool		$startLow	Flag: convert first Word also to uppercase, use static default if NULL
+	 *	@return		string
+	 */
+	static public function encode( $string, $lowercaseFirst = NULL, $lowercaseLetter = NULL )
 	{
 		$lowercaseFirst		= is_null( $lowercaseFirst ) ? self::$lowercaseFirst : $lowercaseFirst;
 		$lowercaseLetter	= is_null( $lowercaseLetter ) ? self::$lowercaseLetter : $lowercaseLetter;
