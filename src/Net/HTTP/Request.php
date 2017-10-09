@@ -100,11 +100,11 @@ class Net_HTTP_Request extends ADT_List_Dictionary
 		$this->setMethod( getEnv( 'REQUEST_METHOD' ) );												//  store HTTP method
 		$this->ip		= getEnv( 'REMOTE_ADDR' );													//  store IP of requesting client
 		$this->sources	= array(
-			"get"		=> &$_GET,
-			"post"		=> &$_POST,
-			"files"		=> &$_FILES,
-			"session"	=> array(),
-			"cookie"	=> array(),
+			"GET"		=> &$_GET,
+			"POST"		=> &$_POST,
+			"FILES"		=> &$_FILES,
+			"SESSION"	=> array(),
+			"COOKIE"	=> array(),
 		);
 		if( $useSession )
 			$this->sources['session']	=& $_SESSION;
