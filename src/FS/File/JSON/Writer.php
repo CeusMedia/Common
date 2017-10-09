@@ -75,9 +75,15 @@ class FS_File_JSON_Writer
 	 */
 	public function write( $value, $format = FALSE )
 	{
-		$json	= json_encode( $value );
 		if( $format )
-			$json	= ADT_JSON_Formater::format( $json );
+		{
+			if( version_compare( phpversion(), '5.4.0' ) >= 0 )
+				$json	= json_encode( $value, JSON_PRETTY_PRINT );
+			else
+				$json	= ADT_JSON_Formater::format( json_encode( $value ) );
+		}
+		else
+			$json	= json_encode( $value );
 		return FS_File_Writer::save( $this->filePath, $json );
 	}
 }
