@@ -100,5 +100,13 @@ class Deprecation{
 		$this->exceptionVersion		= $version;
 		return $this;
 	}
+
+	static public function notify( $message ){
+		if( version_compare( phpversion(), "5.3.0" ) >= 0 )
+			trigger_error( $message, E_USER_DEPRECATED );
+		else
+			trigger_error( 'Deprecated: '.$message, E_USER_NOTICE );
+	}
+
 }
 ?>
