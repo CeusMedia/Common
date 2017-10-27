@@ -93,7 +93,7 @@ class DB_PDO_TableReader{
 		$conditions	= $conditions ? ' WHERE '.$conditions : '';
 		$query	= 'SELECT COUNT(`%s`) as count FROM %s%s';
 		$query	= sprintf( $query, $this->primaryKey, $this->getTableName(), $conditions );
-		return $this->dbc->query( $query )->fetch( \PDO::FETCH_OBJ )->count;
+		return (int) $this->dbc->query( $query )->fetch( \PDO::FETCH_OBJ )->count;
 	}
 
 	/**
@@ -107,7 +107,7 @@ class DB_PDO_TableReader{
 		$conditions	= $this->getConditionQuery( $conditions, FALSE, TRUE, TRUE );					//  render WHERE clause if needed, foreign cursored, allow functions
 		$conditions	= $conditions ? ' WHERE '.$conditions : '';
 		$query		= 'EXPLAIN SELECT COUNT(*) FROM '.$this->getTableName().$conditions;
-		return $this->dbc->query( $query )->fetch( \PDO::FETCH_OBJ )->rows;
+		return (int) $this->dbc->query( $query )->fetch( \PDO::FETCH_OBJ )->rows;
 	}
 
 	/**
