@@ -20,11 +20,9 @@
  *	@category		Library
  *	@package		CeusMedia_Common_UI_Image
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2015 Christian Würker
+ *	@copyright		2007-2018 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			01.05.2005
- *	@version		$Id$
  */
 /**
  *	Simple CAPTCHA Generator.
@@ -33,11 +31,9 @@
  *	@uses			Alg_Randomizer
  *	@uses			FS_File_Writer
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2015 Christian Würker
+ *	@copyright		2007-2018 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			01.05.2005
- *	@version		$Id$
  */
 class UI_Image_Captcha
 {
@@ -83,15 +79,17 @@ class UI_Image_Captcha
 		$this->generateImage( $word, $fileName );
 		return $word;
 	}
-	
+
 	/**
 	 *	Generates Captcha Image for Captcha Word.
+ 	 *	Saves image if file name is set.
+	 *	Otherwise returns binary content of image.
 	 *	@access		public
 	 *	@param		string		$word		Captcha Word
 	 *	@param		string		$fileName	File Name to write Captcha Image to
 	 *	@return		int
 	 */
-	public function generateImage( $word, $fileName )
+	public function generateImage( $word, $fileName = NULL )
 	{
 		if( !$this->font )
 			throw new RuntimeException( 'No font defined' );
@@ -103,7 +101,7 @@ class UI_Image_Captcha
 		$image		= imagecreate( $this->width, $this->height );
 		$backColor	= imagecolorallocate( $image, $this->background[0], $this->background[1], $this->background[2] );
 		$frontColor	= imagecolorallocate( $image, $this->textColor[0], $this->textColor[1], $this->textColor[2] );
-	
+
 		for( $i=0; $i<strlen( $word ); $i++ )
 		{
 			//  --  ANGLE  --  //
@@ -137,7 +135,9 @@ class UI_Image_Captcha
 		}
 		ob_start();
 		imagejpeg( $image, NULL, $this->quality );
-		return FS_File_Writer::save( $fileName, ob_get_clean() );
+		if( $fileName )
+			return FS_File_Writer::save( $fileName, ob_get_clean() );
+		return ob_get_clean();
 	}
 
 	/**
@@ -147,7 +147,10 @@ class UI_Image_Captcha
 	 */
 	public function generateWord()
 	{
-		$rand	= new Alg_Randomizer();
+		$rand				= new Alg_Randomizer();
+		$rand->digits		= "2345678";
+		$rand->larges		= "ABCDEFGHIKLMNPQRSTUVWXYZ";
+		$rand->smalls		= "abcdefghiklmnpqrstuvwxyz";
 		$rand->useSmalls	= $this->useSmalls;
 		$rand->useLarges	= $this->useLarges;
 		$rand->useDigits	= $this->useDigits;
