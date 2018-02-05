@@ -83,7 +83,6 @@ class Net_HTTP_Status{
 		422 => "Unprocessable Entity",
 		423 => "Locked",
 		424 => "Failed Dependency",
-		424 => "Method Failure",
 		425 => "Unordered Collection",
 		426 => "Upgrade Required",
 		428 => "Precondition Required",
