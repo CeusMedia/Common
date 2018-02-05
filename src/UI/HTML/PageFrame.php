@@ -109,12 +109,17 @@ class UI_HTML_PageFrame
 	 */
 	public function addFavouriteIcon( $url )
 	{
-		$styleData	= array(
+		$ext	= strtolower( pathinfo( $url, PATHINFO_EXTENSION ) );
+		$type	= "image/x-icon";
+		if( $ext === 'png' )
+			$type	= "image/png";
+		if( $ext === 'gif' )
+			$type	= "image/gif";
+		$this->links[]	= array(
 			'rel'		=> "icon",
-			'type'		=> "image/x-icon",
+			'type'		=> $type,
 			'href'		=> $url,
 		);
-		$this->links[]	= $styleData;
 	}
 
 	/**
