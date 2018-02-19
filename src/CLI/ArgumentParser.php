@@ -51,7 +51,7 @@ class CLI_ArgumentParser extends ADT_List_Dictionary
 	{
 		$request	= new CLI_RequestReceiver( $fallBackOnEmptyPair );
 		$arguments	= $request->getAll();
-		$options	= array();
+		$commands	= array();
 		$parameters	= array();
 		foreach( $request->getAll() as $key => $value ){
 			if( is_numeric( $key ) )

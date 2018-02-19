@@ -20,11 +20,9 @@
  *	@category		Library
  *	@package		CeusMedia_Common_CLI
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2015 Christian Würker
+ *	@copyright		2007-2018 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			12.02.2007
- *	@version		$Id$
  */
 /**
  *	Handler for Console Requests.
@@ -32,15 +30,14 @@
  *	@package		CeusMedia_Common_CLI
  *	@extends		ADT_List_Dictionary
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2015 Christian Würker
+ *	@copyright		2007-2018 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			12.02.2007
- *	@version		$Id$
  */
 class CLI_RequestReceiver extends ADT_List_Dictionary
 {
 	public static $delimiterAssign	= "=";
+	protected $pairs				= array();
 
 	/**
 	 *	Constructor, receives Console Arguments.
@@ -57,13 +54,12 @@ class CLI_RequestReceiver extends ADT_List_Dictionary
 			$fallBackOnEmptyPair	= TRUE;
 		foreach( $argv as $argument )
 		{
-			if( !( $fallBackOnEmptyPair && !substr_count( $argument, self::$delimiterAssign ) ) )
+			if( substr_count( $argument, self::$delimiterAssign ) || $fallBackOnEmptyPair )
 			{
-				$parts	= explode( self::$delimiterAssign, $argument );
+				$parts	= explode( self::$delimiterAssign, $argument, 2 );
 				$key	= array_shift( $parts );
-				$this->pairs[$key]	= NULL;
-				if( count( $parts ) )
-					$this->pairs[$key]	= (string) implode( "=", $parts );
+				$value	= $parts ? $parts[0] : NULL;
+				$this->pairs[$key]	= $value;
 			}
 			else
 				$this->pairs[$count++]	= $argument;
