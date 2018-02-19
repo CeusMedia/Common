@@ -51,7 +51,6 @@ class CLI_RequestReceiver extends ADT_List_Dictionary
 	{
 		$count	= 0;
 		global $argv;
-		//$argv = array("runJob.php5", "Job_SaleTermination" , "cmd=");	
 		if( !is_array( $argv ) )
 			throw new RuntimeException( 'Missing arguments' );
 		if( !$fallBackOnEmptyPair && in_array( 'fallBackOnEmptyPair', $argv ) )
@@ -62,7 +61,9 @@ class CLI_RequestReceiver extends ADT_List_Dictionary
 			{
 				$parts	= explode( self::$delimiterAssign, $argument );
 				$key	= array_shift( $parts );
-				$this->pairs[$key]	= (string)implode( "=", $parts );
+				$this->pairs[$key]	= NULL;
+				if( count( $parts ) )
+					$this->pairs[$key]	= (string) implode( "=", $parts );
 			}
 			else
 				$this->pairs[$count++]	= $argument;
