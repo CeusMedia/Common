@@ -149,7 +149,8 @@ class DB_PDO_TableReader{
 		$limits		= $this->getLimitCondition( $limits );											//  render LIMIT BY clause if needed
 		$groupings	= !empty( $groupings ) ? ' GROUP BY '.join( ', ', $groupings ) : '';			//  render GROUP BY clause if needed
 		$havings 	= !empty( $havings ) ? ' HAVING '.join( ' AND ', $havings ) : '';				//  render HAVING clause if needed
-		$query		= 'SELECT '.implode( ', ', $columns ).' FROM '.$this->getTableName();			//  render base query
+		$columns	= $this->getColumnEnumeration( $columns );										//  get enumeration of masked column names
+		$query		= 'SELECT '.$columns.' FROM '.$this->getTableName();							//  render base query
 
 		$query		= $query.$conditions.$groupings.$havings.$orders.$limits;						//  append rendered conditions, orders, limits, groupings and havings
 		$resultSet	= $this->dbc->query( $query );
@@ -171,7 +172,8 @@ class DB_PDO_TableReader{
 		for( $i=0; $i<count( $values ); $i++ )
 			$values[$i]	= $this->secureValue( $values[$i] );
 
-		$query		= 'SELECT '.implode( ', ', $columns ).' FROM '.$this->getTableName().' WHERE '.$column.' IN ('.implode( ', ', $values ).') '.$orders.$limits;
+		$columns	= $this->getColumnEnumeration( $columns );										//  get enumeration of masked column names
+		$query		= 'SELECT '.$columns.' FROM '.$this->getTableName().' WHERE '.$column.' IN ('.implode( ', ', $values ).') '.$orders.$limits;
 		$resultSet	= $this->dbc->query( $query );
 		if( $resultSet )
 			return $resultSet->fetchAll( $this->getFetchMode() );
@@ -194,7 +196,8 @@ class DB_PDO_TableReader{
 
 		if( $conditions )
 			$conditions	.= ' AND ';
-		$query		= 'SELECT '.implode( ', ', $columns ).' FROM '.$this->getTableName().' WHERE '.$conditions.$column.' IN ('.implode( ', ', $values ).') '.$orders.$limits;
+		$columns	= $this->getColumnEnumeration( $columns );										//  get enumeration of masked column names
+		$query		= 'SELECT '.$columns.' FROM '.$this->getTableName().' WHERE '.$conditions.$column.' IN ('.implode( ', ', $values ).') '.$orders.$limits;
 		$resultSet	= $this->dbc->query( $query );
 		if( $resultSet )
 			return $resultSet->fetchAll( $this->getFetchMode() );
@@ -241,8 +244,8 @@ class DB_PDO_TableReader{
 		$conditions	= $this->getConditionQuery( array(), TRUE, TRUE, FALSE );						//  render WHERE clause if needed, cursored, without functions
 		$orders		= $this->getOrderCondition( $orders );
 		$limits		= $this->getLimitCondition( $limits );
-		$columns	= "`". join( "`, `", $this->columns )."`";
-		$query = 'SELECT '.$columns.' FROM '.$this->getTableName().' WHERE '.$conditions.$orders.$limits;
+		$columns	= $this->getColumnEnumeration( $this->columns );										//  get enumeration of masked column names
+		$query		= 'SELECT '.$columns.' FROM '.$this->getTableName().' WHERE '.$conditions.$orders.$limits;
 
 		$resultSet	= $this->dbc->query( $query );
 		if( !$resultSet )
@@ -260,6 +263,19 @@ class DB_PDO_TableReader{
 	 */
 	public function getColumns(){
 		return $this->columns;
+	}
+
+	/**
+	 *	Returns a list of comma separated and masked columns.
+	 *	@access		protected
+	 *	@param		array		$columns		List of columns to mask and enumerate
+	 *	@return		string
+	 */
+	protected function getColumnEnumeration( $columns ){
+		$list	= array();
+		foreach( $columns as $column )
+			$list[]	= '`'.$column.'`';
+		return implode( ', ', $list );
 	}
 
 	/**
@@ -389,7 +405,7 @@ class DB_PDO_TableReader{
 		{
 			$list	= array();
 			foreach( $orders as $column => $direction )
-				$list[] = $column.' '.strtoupper( $direction );
+				$list[] = '`'.$column.'` '.strtoupper( $direction );
 			$order	= ' ORDER BY '.implode( ', ', $list );
 		}
 		return $order;
