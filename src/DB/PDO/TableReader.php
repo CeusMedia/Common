@@ -278,7 +278,7 @@ class DB_PDO_TableReader{
 	protected function getColumnEnumeration( $columns ){
 		$list	= array();
 		foreach( $columns as $column )
-			$list[]	= '`'.$column.'`';
+			$list[]	= $column == '*' ? $column : '`'.$column.'`';
 		return implode( ', ', $list );
 	}
 
