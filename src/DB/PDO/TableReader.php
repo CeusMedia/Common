@@ -244,7 +244,7 @@ class DB_PDO_TableReader{
 		$conditions	= $this->getConditionQuery( array(), TRUE, TRUE, FALSE );						//  render WHERE clause if needed, cursored, without functions
 		$orders		= $this->getOrderCondition( $orders );
 		$limits		= $this->getLimitCondition( $limits );
-		$columns	= $this->getColumnEnumeration( $this->columns );										//  get enumeration of masked column names
+		$columns	= $this->getColumnEnumeration( $this->columns );								//  get enumeration of masked column names
 		$query		= 'SELECT '.$columns.' FROM '.$this->getTableName().' WHERE '.$conditions.$orders.$limits;
 
 		$resultSet	= $this->dbc->query( $query );

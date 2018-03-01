@@ -92,7 +92,7 @@ class DB_PDO_TableWriter extends DB_PDO_TableReader
 					continue;
 				if( $index == $this->primaryKey )													//  skip primary key
 					continue;
-				$columns[$index]	= $index;												//  add key
+				$columns[$index]	= $index;														//  add key
 				$values[$index]		= $this->secureValue( $value );									//  add value
 			}
 		}
