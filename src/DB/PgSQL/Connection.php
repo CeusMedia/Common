@@ -2,7 +2,7 @@
 /**
  *	Wrapper for mySQL Database Connection with Transaction Support.
  *
- *	Copyright (c) 2007-2015 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2018 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,10 +20,9 @@
  *	@category		Library
  *	@package		CeusMedia_Common_DB_PgSQL
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2015 Christian Würker
+ *	@copyright		2007-2018 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@version		$Id$
  */
 /**
  *	Wrapper for mySQL Database Connection with Transaction Support.
@@ -33,25 +32,25 @@
  *	@uses			DB_Result
  *	@uses			DB_Row
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2015 Christian Würker
+ *	@copyright		2007-2018 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@version		$Id$
- *	@todo			Code Documentation
+ *	@deprecated		Please use CeusMedia/Database (https://packagist.org/packages/ceus-media/database) instead
+ *	@todo			remove in version 1.0
  */
 class DB_pgSQL_Connection extends DB_BaseConnection
 {
-	/**	@var		double		$countTime			Counter of Query Times */	
+	/**	@var		double		$countTime			Counter of Query Times */
 	public $countTime;
-	/**	@var		int			$countQueries		Counter of Queries */	
+	/**	@var		int			$countQueries		Counter of Queries */
 	public $countQueries;
-	/**	@var		string		$data				Name of currently selected Database */	
+	/**	@var		string		$data				Name of currently selected Database */
 	protected $database;
-	/**	@var		resource	$dbc				Database Connection Resource */	
+	/**	@var		resource	$dbc				Database Connection Resource */
 	protected $dbc;
-	/**	@var		int			$insertId			ID of latest inserted Table Entry */	
+	/**	@var		int			$insertId			ID of latest inserted Table Entry */
 	protected $insertId;
-	/**	@var		int			$openTransactions	Counter for open Transactions */	
+	/**	@var		int			$openTransactions	Counter for open Transactions */
 	protected $openTransactions = 0;
 
 	/**
@@ -90,7 +89,7 @@ class DB_pgSQL_Connection extends DB_BaseConnection
 	{
 		pg_close( $this->dbc );
 	}
-	
+
 	/**
 	 *	Commits all modifications of Transaction.
 	 *	@access		public
@@ -227,7 +226,7 @@ class DB_pgSQL_Connection extends DB_BaseConnection
 	public function getError()
 	{
 		return pg_last_error( $this->dbc );
-	
+
 	}
 
 	/**
@@ -239,7 +238,7 @@ class DB_pgSQL_Connection extends DB_BaseConnection
 	{
 		return $this->insertId;
 	}
-	
+
 	public function getTables()
 	{
 		$tab_list = pg_list_tables( $this->database, $this->dbc );

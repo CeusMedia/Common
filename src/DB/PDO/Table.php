@@ -2,7 +2,7 @@
 /**
  *	Abstract database table.
  *
- *	Copyright (c) 2007-2015 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2018 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2015 Christian Würker
+ *	@copyright		2007-2018 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -30,9 +30,11 @@
  *	@package		CeusMedia_Common
  *	@uses			DB_PDO_TableWriter
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2015 Christian Würker
+ *	@copyright		2007-2018 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
+ *	@deprecated		Please use CeusMedia/Database (https://packagist.org/packages/ceus-media/database) instead
+ *	@todo			remove in version 1.0
  */
 abstract class DB_PDO_Table{
 
@@ -64,12 +66,16 @@ abstract class DB_PDO_Table{
 	 *	@param		string				$prefix		Table name prefix
 	 *	@param		integer				$id			ID to focus on
 	 *	@return		void
-	 *	@deprecated	Please use CeusMedia/Database (https://packagist.org/packages/ceus-media/database) instead
-	 *	@todo		remove in version 1.0
 	 */
 	public function __construct( DB_PDO_Connection $dbc, $prefix = NULL, $id = NULL ){
-		Deprecation::getInstance()->setErrorVersion( '0.8.5' )->setExceptionVersion( '0.9' )
-			->message(  'Please use CeusMedia/Database (https://packagist.org/packages/ceus-media/database) instead' );
+		Deprecation::getInstance()
+			->setErrorVersion( '0.8.5' )
+			->setExceptionVersion( '0.9' )
+			->message( sprintf(
+				'Please use %s (%s) instead',
+				'public library "CeusMedia/Database"',
+			 	'https://packagist.org/packages/ceus-media/database'
+			) );
 		$this->setDatabase( $dbc );
 	}
 

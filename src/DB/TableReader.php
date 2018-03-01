@@ -2,7 +2,7 @@
 /**
  *	Table with Column Definition and Keys.
  *
- *	Copyright (c) 2004-2015 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2004-2018 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,21 +20,20 @@
  *	@category		Library
  *	@package		CeusMedia_Common_DB
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2004-2015 Christian Würker
+ *	@copyright		2004-2018 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@version		0.6
  */
 /**
  *	Table with column definition and keys.
  *	@category		Library
  *	@package		CeusMedia_Common_DB
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2004-2015 Christian Würker
+ *	@copyright		2004-2018 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@version		0.6
- *	@todo			finish Code Documentation (@param at methods)
+ *	@deprecated		Please use CeusMedia/Database (https://packagist.org/packages/ceus-media/database) instead
+ *	@todo			remove in version 1.0
  */
 class DB_TableReader
 {
@@ -68,6 +67,14 @@ class DB_TableReader
 	 */
 	public function __construct( $dbc, $tableName, $fields, $primaryKey, $focus = FALSE )
 	{
+		Deprecation::getInstance()
+			->setErrorVersion( '0.8.5' )
+			->setExceptionVersion( '0.9' )
+			->message( sprintf(
+				'Please use %s (%s) instead',
+				'PDO table reader/writer of public library "CeusMedia/Database"',
+			 	'https://packagist.org/packages/ceus-media/database'
+			) );
 		$this->setDBConnection( $dbc );
 		$this->setTableName( $tableName );
 		$this->setFields( $fields);

@@ -2,7 +2,7 @@
 /**
  *	Abstract Database Connection.
  *
- *	Copyright (c) 2004-2015 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2004-2018 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,10 +20,9 @@
  *	@category		Library
  *	@package		CeusMedia_Common_DB
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2004-2015 Christian Würker
+ *	@copyright		2004-2018 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@version		$Id$
  */
 /**
  *	Abstract Database Connection.
@@ -32,10 +31,11 @@
  *	@abstract
  *	@uses			FS_File_Log_Writer
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2004-2015 Christian Würker
+ *	@copyright		2004-2018 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@version		$Id$
+ *	@deprecated		Please use CeusMedia/Database (https://packagist.org/packages/ceus-media/database) instead
+ *	@todo			remove in version 1.0
  */
 abstract class DB_BaseConnection
 {
@@ -54,6 +54,14 @@ abstract class DB_BaseConnection
 	 */
 	public function __construct( $logFile = FALSE )
 	{
+		Deprecation::getInstance()
+			->setErrorVersion( '0.8.5' )
+			->setExceptionVersion( '0.9' )
+			->message( sprintf(
+				'Please use %s (%s) instead',
+				'PDO connection of public library "CeusMedia/Database"',
+			 	'https://packagist.org/packages/ceus-media/database'
+			) );
 		if( $logFile )
 			$this->logFile	= $logFile;
 		$this->connected = FALSE;
@@ -207,14 +215,14 @@ abstract class DB_BaseConnection
 	{
 		if( $this->errorLevel )
 		{
-			$log = new FS_File_Log_Writer( $this->logFile );
+			$log = new \FS_File_Log_Writer( $this->logFile );
 			$log->note( "[".$errorCode.": ".$errorMessage." in EXECUTE (\"".$query."\")]" );
 			if( $this->errorLevel == 2 )
 				trigger_error( $errorCode.": ".$errorMessage." in EXECUTE (\"".$query."\")", E_USER_WARNING );
 			else if( $this->errorLevel == 3 )
 				trigger_error( $errorCode.": ".$errorMessage." in EXECUTE (\"".$query."\")", E_USER_ERROR );
 			else if( $this->errorLevel == 4 )
-				throw new Exception( $errorCode.": ".$errorMessage." in EXECUTE (\"".$query."\")" );
+				throw new \Exception( $errorCode.": ".$errorMessage." in EXECUTE (\"".$query."\")" );
 		}
 	}
 

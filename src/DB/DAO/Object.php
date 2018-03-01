@@ -2,7 +2,7 @@
 /**
  *	...
  *
- *	Copyright (c) 2007-2015 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2018 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -23,7 +23,6 @@
  *	@copyright		2015 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@version		$Id$
  */
 /**
  *	...
@@ -34,15 +33,27 @@
  *	@copyright		2015 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@version		$Id$
  */
 class DB_DAO_Object
 {
 	protected $table		= NULL;
 	protected $primaryKey	= NULL;
 
-	public function __construct( DataAccess_Table $table )
+	/**
+	 *	Constructor.
+	 *	@deprecated	Please use CeusMedia/Database (https://packagist.org/packages/ceus-media/database) instead
+	 *	@todo		remove in version 1.0
+	 */
+	public function __construct( DB_DAO_Table $table )
 	{
+		Deprecation::getInstance()
+			->setErrorVersion( '0.8.5' )
+			->setExceptionVersion( '0.9' )
+			->message( sprintf(
+				'Please use %s (%s) instead',
+				'public library "CeusMedia/Database"',
+			 	'https://packagist.org/packages/ceus-media/database'
+			) );
 		$this->table	= $table;
 	}
 

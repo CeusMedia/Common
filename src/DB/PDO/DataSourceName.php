@@ -2,7 +2,7 @@
 /**
  *	Builder for Data Source Name Strings.
  *
- *	Copyright (c) 2007-2015 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2018 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,22 +20,20 @@
  *	@category		Library
  *	@package		CeusMedia_Common_DB_PDO
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2015 Christian Würker
+ *	@copyright		2007-2018 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.6.8
- *	@version		$Id$
  */
 /**
  *	Builder for Data Source Name Strings.
  *	@category		Library
  *	@package		CeusMedia_Common_DB_PDO
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2015 Christian Würker
+ *	@copyright		2007-2018 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.6.8
- *	@version		$Id$
+ *	@deprecated		Please use CeusMedia/Database (https://packagist.org/packages/ceus-media/database) instead
+ *	@todo			remove in version 1.0
  */
 class DB_PDO_DataSourceName
 {
@@ -72,12 +70,16 @@ class DB_PDO_DataSourceName
 	 *	@param		string		$driver			Database Driver (cubrid,dblib|firebird|informix|mysql|mssql|oci|odbc|pgsql|sqlite|sybase)
 	 *	@param		string		$database		Database Name
 	 *	@return		void
-	 *	@deprecated	Please use CeusMedia/Database (https://packagist.org/packages/ceus-media/database) instead
-	 *	@todo		remove in version 1.0
 	 */
 	public function __construct( $driver, $database = NULL ){
-		Deprecation::getInstance()->setErrorVersion( '0.8.5' )->setExceptionVersion( '0.9' )
-			->message(  'Please use CeusMedia/Database (https://packagist.org/packages/ceus-media/database) instead' );
+		Deprecation::getInstance()
+			->setErrorVersion( '0.8.5' )
+			->setExceptionVersion( '0.9' )
+			->message( sprintf(
+				'Please use %s (%s) instead',
+				'public library "CeusMedia/Database"',
+			 	'https://packagist.org/packages/ceus-media/database'
+			) );
 		$this->checkDriverSupport( $driver );
 		$this->driver		= strtolower( $driver );
 		if( $database )

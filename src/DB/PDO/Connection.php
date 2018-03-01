@@ -2,7 +2,7 @@
 /**
  *	Enhanced PDO Connection.
  *
- *	Copyright (c) 2007-2015 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2018 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,11 +20,9 @@
  *	@category		Library
  *	@package		CeusMedia_Common_DB_PDO
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2015 Christian Würker
+ *	@copyright		2007-2018 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			09.03.2007
- *	@version		$Id$
  */
 /**
  *	Enhanced PDO Connection.
@@ -32,12 +30,11 @@
  *	@package		CeusMedia_Common_DB_PDO
  *	@uses			Exception_SQL
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2015 Christian Würker
+ *	@copyright		2007-2018 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			09.03.2007
- *	@version		$Id$
- *	@todo			Code Documentation
+ *	@deprecated		Please use CeusMedia/Database (https://packagist.org/packages/ceus-media/database) instead
+ *	@todo			remove in version 1.0
  */
 class DB_PDO_Connection extends \PDO{
 	protected $driver				= NULL;
@@ -62,12 +59,16 @@ class DB_PDO_Connection extends \PDO{
 	 *	@param		array		$driverOptions	Array of Driver Options
 	 *	@return		void
 	 *	@see		http://php.net/manual/en/pdo.drivers.php
-	 *	@deprecated	Please use CeusMedia/Database (https://packagist.org/packages/ceus-media/database) instead
-	 *	@todo		remove in version 1.0
 	 */
 	public function __construct( $dsn, $username = NULL, $password = NULL, $driverOptions = array() ){
-		Deprecation::getInstance()->setErrorVersion( '0.8.5' )->setExceptionVersion( '0.9' )
-			->message(  'Please use CeusMedia/Database (https://packagist.org/packages/ceus-media/database) instead' );
+		Deprecation::getInstance()
+			->setErrorVersion( '0.8.5' )
+			->setExceptionVersion( '0.9' )
+			->message( sprintf(
+				'Please use %s (%s) instead',
+				'public library "CeusMedia/Database"',
+			 	'https://packagist.org/packages/ceus-media/database'
+			) );
 		$options	= $driverOptions + self::$defaultOptions;										//  extend given options by default options
 		parent::__construct( $dsn, $username, $password, $options );
 		$this->driver	= $this->getAttribute( \PDO::ATTR_DRIVER_NAME );							//  note name of used driver
