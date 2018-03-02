@@ -43,7 +43,7 @@ class ADT_PHP_Class extends ADT_PHP_Interface
 
 	protected $members		= array();
 
-	protected $implements	= array();	
+	protected $implements	= array();
 	protected $uses			= array();
 
 	public function getExtendedClass()
@@ -55,12 +55,12 @@ class ADT_PHP_Class extends ADT_PHP_Interface
 	{
 		return $this->extendedBy;
 	}
-	
+
 	public function getImplementedInterfaces()
 	{
-		return $this->implements;	
+		return $this->implements;
 	}
-	
+
 	/**
 	 *	Returns a member data object by its name.
 	 *	@access		public
@@ -83,29 +83,10 @@ class ADT_PHP_Class extends ADT_PHP_Interface
 	{
 		return $this->members;
 	}
-	
+
 	public function getUsedClasses()
 	{
-		return $this->uses;	
-	}
-
-	public function merge( ADT_PHP_Interface $artefact )
-	{
-		if( $this->name != $artefact->getName() )
-			throw new Exception( 'Not mergable' );
-		if( $artefact->isAbstract() )
-			$this->setAbstract( $artefact->isAbstract() );
-		if( $artefact->getDefault() )
-			$this->setDefault( $artefact->getDefault() );
-		if( $artefact->isStatic() )
-			$this->setAbstract( $artefact->isStatic() );
-
-		foreach( $variable->getUsedClasses() as $artefact )
-			$this->setUsedClass( $artefact );
-		foreach( $variable->getUsedClasses() as $artefact )
-			$this->setUsedClass( $artefact );
-
-		//	@todo		members and interfaces missing
+		return $this->uses;
 	}
 
 	public function isAbstract()
@@ -133,7 +114,26 @@ class ADT_PHP_Class extends ADT_PHP_Interface
 				return TRUE;
 		return FALSE;
 	}
-	
+
+	public function merge( ADT_PHP_Interface $artefact )
+	{
+		if( $this->name != $artefact->getName() )
+			throw new Exception( 'Not mergable' );
+		if( $artefact->isAbstract() )
+			$this->setAbstract( $artefact->isAbstract() );
+		if( $artefact->getDefault() )
+			$this->setDefault( $artefact->getDefault() );
+		if( $artefact->isStatic() )
+			$this->setAbstract( $artefact->isStatic() );
+
+		foreach( $variable->getUsedClasses() as $artefact )
+			$this->setUsedClass( $artefact );
+		foreach( $variable->getUsedClasses() as $artefact )
+			$this->setUsedClass( $artefact );
+
+		//	@todo		members and interfaces missing
+	}
+
 	public function setAbstract( $isAbstract = TRUE )
 	{
 		$this->abstract	= (bool) $isAbstract;
@@ -141,17 +141,17 @@ class ADT_PHP_Class extends ADT_PHP_Interface
 
 	public function setExtendedClass( ADT_PHP_Class $class )
 	{
-		$this->extends	= $class;	
+		$this->extends	= $class;
 	}
 
 	public function setExtendedClassName( $class )
 	{
-		$this->extends	= $class;	
+		$this->extends	= $class;
 	}
 
-	public function setExtendingInterface( ADT_PHP_Interface $interface )
+	public function setExtendedInterface( ADT_PHP_Interface $interface )
 	{
-		throw new RuntimeException( 'Interface cannot extend class' );
+		throw new RuntimeException( 'Class cannot extend an interface' );
 	}
 
 	public function setExtendingClass( ADT_PHP_Class $class )
@@ -159,21 +159,21 @@ class ADT_PHP_Class extends ADT_PHP_Interface
 		$this->extendedBy[$class->getName()]	= $class;
 	}
 
-	public function setExtendedInterface( ADT_PHP_Interface $interface )
+	public function setExtendingInterface( ADT_PHP_Interface $interface )
 	{
-		throw new RuntimeException( 'Class cannot extend an interface' );
+		throw new RuntimeException( 'Interface cannot extend class' );
 	}
-	
+
 	public function setFinal( $isFinal = TRUE )
 	{
 		$this->final	= (bool) $isFinal;
 	}
-	
+
 	public function setImplementedInterface( ADT_PHP_Interface $interface )
 	{
-		$this->implements[$interface->name]	= $interface;	
+		$this->implements[$interface->name]	= $interface;
 	}
-	
+
 	public function setImplementedInterfaceName( $interfaceName )
 	{
 		$this->implements[$interfaceName]	= $interfaceName;
@@ -188,7 +188,7 @@ class ADT_PHP_Class extends ADT_PHP_Interface
 	{
 		$this->implementedBy[$className]	= $className;
 	}
-	
+
 	/**
 	 *	Sets a member.
 	 *	@access		public
@@ -200,15 +200,15 @@ class ADT_PHP_Class extends ADT_PHP_Interface
 	{
 		$this->members[$member->getName()]	= $member;
 	}
-	
+
 	public function setUsedClass( ADT_PHP_Class $class )
 	{
-		return $this->uses[$class->getName()]	= $class;	
+		return $this->uses[$class->getName()]	= $class;
 	}
-	
+
 	public function setUsedClassName( $className )
 	{
-		return $this->uses[$className]	= $className;	
+		return $this->uses[$className]	= $className;
 	}
 }
 ?>

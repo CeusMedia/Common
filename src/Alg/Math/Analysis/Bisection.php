@@ -45,6 +45,39 @@ class Alg_Math_Analysis_Bisection
 	protected $formula				= array();
 
 	/**
+	 *	Interpolates for a specific x value and returns P(x).
+	 *	@access		public
+	 *	@param		double		tolerance		Tolerated Difference
+	 *	@return		double
+	 */
+	public function interpolate( $tolerance )
+	{
+		$a	= $this->interval->getStart();
+		$b	= $this->interval->getEnd();
+		$c	= false;
+		while( true )
+		{
+			$ya	= $this->formula->getValue( $a );
+			$yb	= $this->formula->getValue( $b );
+
+			if( $ya * $yb > 0 )
+				throw new RuntimeException( 'Formula has no null in Interval['.$a.','.$b.'].' );
+
+			$c	= ( $a + $b ) / 2;
+
+			if( $b - $a <= $tolerance )
+				return $c;
+			$yc	= $this->formula->getValue( $c );
+
+			if( $ya * $yc <=0 )
+				$b	= $c;
+			else
+				$a	= $c;
+		}
+		return $c;
+	}
+
+	/**
 	 *	Sets Data.
 	 *	@access		public
 	 *	@param		array			$formula		Formula Expression
@@ -66,39 +99,6 @@ class Alg_Math_Analysis_Bisection
 	public function setInterval( $start, $end )
 	{
 		$this->interval	= new Alg_Math_CompactInterval( $start, $end );
-	}
-
-	/**
-	 *	Interpolates for a specific x value and returns P(x).
-	 *	@access		public
-	 *	@param		double		tolerance		Tolerated Difference
-	 *	@return		double
-	 */
-	public function interpolate( $tolerance )
-	{
-		$a	= $this->interval->getStart();
-		$b	= $this->interval->getEnd();
-		$c	= false;
-		while( true )
-		{
-			$ya	= $this->formula->getValue( $a );
-			$yb	= $this->formula->getValue( $b );
-
-			if( $ya * $yb > 0 )
-				throw new RuntimeException( 'Formula has no null in Interval['.$a.','.$b.'].' );
-			
-			$c	= ( $a + $b ) / 2;
-			
-			if( $b - $a <= $tolerance )
-				return $c;
-			$yc	= $this->formula->getValue( $c );
-
-			if( $ya * $yc <=0 )
-				$b	= $c;
-			else
-				$a	= $c;
-		}
-		return $c;
 	}
 }
 ?>

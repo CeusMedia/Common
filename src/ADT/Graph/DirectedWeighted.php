@@ -54,18 +54,6 @@ class ADT_Graph_DirectedWeighted extends ADT_Graph_Weighted
 		return $this->edgeSet->addEdge( $source, $target, $value );
 	}
 
-	/**
-	 *	 Returns an Edge by its source and target Nodes.
-	 *	 @access		public
-	 *	 @param			ADT_Graph_Node		$source		Source Node of the Edge
-	 *	 @param			ADT_Graph_Node		$target		Target Node of the Edge
-	 *	 @return		ADT_Graph_Edge
-	 */
-	public function getEdge( $source, $target)
-	{
-		return $this->edgeSet->getEdge( $source, $target);
-	}
-
 	public function bf( $startNode )
 	{
 		$distance = array();
@@ -86,6 +74,18 @@ class ADT_Graph_DirectedWeighted extends ADT_Graph_Weighted
 			}
 		}
 		return $distance;
+	}
+
+	/**
+	 *	 Returns an Edge by its source and target Nodes.
+	 *	 @access		public
+	 *	 @param			ADT_Graph_Node		$source		Source Node of the Edge
+	 *	 @param			ADT_Graph_Node		$target		Target Node of the Edge
+	 *	 @return		ADT_Graph_Edge
+	 */
+	public function getEdge( $source, $target)
+	{
+		return $this->edgeSet->getEdge( $source, $target);
 	}
 
 	/**
@@ -217,35 +217,6 @@ class ADT_Graph_DirectedWeighted extends ADT_Graph_Weighted
 		}
 		$this->nodeSet->removeNode( $node );												//  remove Node
 	}
-	
-	/**
-	 *	Breitendurchlauf
-	 */
-	public function traverseBreadth( $startNode )
-	{
-		$distance = array();
-		$state = array();
-		$q = new ADT_Queue();
-		foreach( $this->nodeSet->getNodes() as $node )
-		{
-			$state[$node->getNodeName()] = 0;
-		}
-		$state[$startNode->getNodeName()] = 1;
-		$distance[$startNode->getNodeName()] = 0;
-		$q->enqueue( $startNode );
-		while( !$q->isEmpty() )
-		{
-			$current = $q->top();
-			foreach( $this->getTargetNodes($current) as $node )
-			{
-				$state[$node->getNodeName()]	= 0;
-				$distance[$node->getNodeName()]	= $distance[$current->getNodeName()] + $this->getEdgeValue($current, $node);
-				$q->enqueue( $node );
-			}
-			$q->dequeue();
-		}
-		return $distance;
-	}
 
 	/**
 	 *	 Returns all Nodes and Edges of this Graph as an array.
@@ -296,6 +267,35 @@ class ADT_Graph_DirectedWeighted extends ADT_Graph_Weighted
 			}
 		}
 		return $m;
+	}
+
+	/**
+	 *	Breitendurchlauf
+	 */
+	public function traverseBreadth( $startNode )
+	{
+		$distance = array();
+		$state = array();
+		$q = new ADT_Queue();
+		foreach( $this->nodeSet->getNodes() as $node )
+		{
+			$state[$node->getNodeName()] = 0;
+		}
+		$state[$startNode->getNodeName()] = 1;
+		$distance[$startNode->getNodeName()] = 0;
+		$q->enqueue( $startNode );
+		while( !$q->isEmpty() )
+		{
+			$current = $q->top();
+			foreach( $this->getTargetNodes($current) as $node )
+			{
+				$state[$node->getNodeName()]	= 0;
+				$distance[$node->getNodeName()]	= $distance[$current->getNodeName()] + $this->getEdgeValue($current, $node);
+				$q->enqueue( $node );
+			}
+			$q->dequeue();
+		}
+		return $distance;
 	}
 }
 ?>

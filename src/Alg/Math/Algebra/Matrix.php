@@ -63,7 +63,7 @@ class Alg_Math_Algebra_Matrix
 		$this->columnNumber	= $columnNumber;
 		$this->clear( $init );
 	}
-	
+
 	/**
 	 *	Clears Matrix by setting initial value.
 	 *	@access		public
@@ -75,26 +75,6 @@ class Alg_Math_Algebra_Matrix
 		for( $row = 0; $row < $this->getRowNumber(); $row++ )
 			for( $column = 0; $column < $this->getColumnNumber(); $column++ )
 				$this->setValue( $row, $column, $init );
-	}
-	
-	/**
-	 *	Returns Number of Rows.
-	 *	@access		public
-	 *	@return		int
-	 */
-	public function getRowNumber()
-	{
-		return $this->rowNumber;
-	}
-
-	/**
-	 *	Returns Number of Columns.
-	 *	@access		public
-	 *	@return		int
-	 */
-	public function getColumnNumber()
-	{
-		return $this->columnNumber;
 	}
 
 	/**
@@ -114,6 +94,16 @@ class Alg_Math_Algebra_Matrix
 	}
 
 	/**
+	 *	Returns Number of Columns.
+	 *	@access		public
+	 *	@return		int
+	 */
+	public function getColumnNumber()
+	{
+		return $this->columnNumber;
+	}
+
+	/**
 	 *	Returns a row as Vector.
 	 *	@access		public
 	 *	@param		int			$row			Row Index
@@ -125,7 +115,17 @@ class Alg_Math_Algebra_Matrix
 			throw new OutOfRangeException( 'Row key "'.$row.'" is not valid.' );
 		return new Alg_Math_Algebra_Vector( $this->values[$row] );
 	}
-	
+
+	/**
+	 *	Returns Number of Rows.
+	 *	@access		public
+	 *	@return		int
+	 */
+	public function getRowNumber()
+	{
+		return $this->rowNumber;
+	}
+
 	/**
 	 *	Returns a Value.
 	 *	@access		public
@@ -160,43 +160,6 @@ class Alg_Math_Algebra_Matrix
 	}
 
 	/**
-	 *	Returns transposed Matrix.
-	 *	@access		public
-	 *	@return		Alg_Math_Algebra_Matrix
-	 */
-	public function transpose()
-	{
-		$array	= array();
-		$rowNumber		= $this->getRowNumber();
-		$columnNumber	= $this->getColumnNumber();
-		for( $row = 0; $row < $rowNumber; $row++ )
-			for( $column = 0; $column < $columnNumber; $column++ )
-				$array[$column][$row]	= $this->values[$row][$column];
-		$this->rowNumber	= $columnNumber;
-		$this->columnNumber	= $rowNumber;
-		$this->values		= $array;
-	}
-
-	/**
-	 *	Swaps 2 Rows within Matrix.
-	 *	@access		public
-	 *	@param		int			$row1			Index of Source Row 
-	 *	@param		int			$row2			Index of Target Row 
-	 *	@return		void
-	 */
-	public function swapRows( $row1, $row2 )
-	{
-		if( $row1 < 0 || $row1 >= $this->getRowNumber() )
-			throw new OutOfRangeException( 'Source Row key "'.$row1.'" is not valid.' );
-		if( $row2 < 0 || $row2 >= $this->getRowNumber() )
-			throw new OutOfRangeException( 'Target Row key "'.$row2.'" is not valid.' );
-
-		$buffer	= $this->values[$row2];
-		$this->values[$row2]	= $this->values[$row1];
-		$this->values[$row1]	= $buffer;
-	}
-	
-	/**
 	 *	Swaps 2 Columns within Matrix.
 	 *	@access		public
 	 *	@param		int			$column1		Index of Source Column
@@ -217,7 +180,26 @@ class Alg_Math_Algebra_Matrix
 			$this->values[$row][$column2]	= $buffer;
 		}
 	}
-	
+
+	/**
+	 *	Swaps 2 Rows within Matrix.
+	 *	@access		public
+	 *	@param		int			$row1			Index of Source Row
+	 *	@param		int			$row2			Index of Target Row
+	 *	@return		void
+	 */
+	public function swapRows( $row1, $row2 )
+	{
+		if( $row1 < 0 || $row1 >= $this->getRowNumber() )
+			throw new OutOfRangeException( 'Source Row key "'.$row1.'" is not valid.' );
+		if( $row2 < 0 || $row2 >= $this->getRowNumber() )
+			throw new OutOfRangeException( 'Target Row key "'.$row2.'" is not valid.' );
+
+		$buffer	= $this->values[$row2];
+		$this->values[$row2]	= $this->values[$row1];
+		$this->values[$row1]	= $buffer;
+	}
+
 	/**
 	 *	Returns Matrix as Array.
 	 *	@access		public
@@ -225,9 +207,9 @@ class Alg_Math_Algebra_Matrix
 	 */
 	public function toArray()
 	{
-		return $this->values;		
+		return $this->values;
 	}
-	
+
 	/**
 	 *	Returns Matrix as HTML Table.
 	 *	@access		public
@@ -246,5 +228,23 @@ class Alg_Math_Algebra_Matrix
 		$code .= "</table>";
 		return $code;
 	}*/
+
+	/**
+	 *	Returns transposed Matrix.
+	 *	@access		public
+	 *	@return		Alg_Math_Algebra_Matrix
+	 */
+	public function transpose()
+	{
+		$array	= array();
+		$rowNumber		= $this->getRowNumber();
+		$columnNumber	= $this->getColumnNumber();
+		for( $row = 0; $row < $rowNumber; $row++ )
+			for( $column = 0; $column < $columnNumber; $column++ )
+				$array[$column][$row]	= $this->values[$row][$column];
+		$this->rowNumber	= $columnNumber;
+		$this->columnNumber	= $rowNumber;
+		$this->values		= $array;
+	}
 }
 ?>

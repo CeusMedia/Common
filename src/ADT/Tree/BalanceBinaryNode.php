@@ -89,19 +89,6 @@ class ADT_Tree_BalanceBinaryNode extends ADT_Tree_BinaryNode
 	}
 
 	/**
-	 *	Returns  current Balance.
-	 *	@access		public
-	 *	@param		mixed		value		Value of new Node
-	 *	@return		int
-	 */
-	public function getBalance()
-	{
-		$la = $this->left  ? $this->left->getHeight()  : 0;
-		$lb = $this->right ? $this->right->getHeight() : 0;
-		return ( $la - $lb );
-	}
-
-	/**
 	 *	Balances unbalanced Tree with Rotations.
 	 *	@access		public
 	 *	@return		void
@@ -128,20 +115,16 @@ class ADT_Tree_BalanceBinaryNode extends ADT_Tree_BinaryNode
 	}
 
 	/**
-	 *	Rotates Tree.
-	 *	@access		private
-	 *	@return		void
+	 *	Returns  current Balance.
+	 *	@access		public
+	 *	@param		mixed		value		Value of new Node
+	 *	@return		int
 	 */
-	private function rotateRR()
+	public function getBalance()
 	{
-		$value_before		=& $this->value;
-		$left_before		=& $this->left;
-		$this->value		=& $this->right->value;
-		$this->left			=& $this->right;
-		$this->right		=& $this->right->right;
-		$this->left->right	=& $this->left->left;
-		$this->left->left	=& $left_before;
-		$this->left->value	=& $value_before;
+		$la = $this->left  ? $this->left->getHeight()  : 0;
+		$lb = $this->right ? $this->right->getHeight() : 0;
+		return ( $la - $lb );
 	}
 
 	/**
@@ -159,6 +142,23 @@ class ADT_Tree_BalanceBinaryNode extends ADT_Tree_BinaryNode
 		$this->right->left	=& $this->right->right;
 		$this->right->right	=& $right_before;
 		$this->right->value	=& $value_before;
+	}
+
+	/**
+	 *	Rotates Tree.
+	 *	@access		private
+	 *	@return		void
+	 */
+	private function rotateRR()
+	{
+		$value_before		=& $this->value;
+		$left_before		=& $this->left;
+		$this->value		=& $this->right->value;
+		$this->left			=& $this->right;
+		$this->right		=& $this->right->right;
+		$this->left->right	=& $this->left->left;
+		$this->left->left	=& $left_before;
+		$this->left->value	=& $value_before;
 	}
 
 	/**

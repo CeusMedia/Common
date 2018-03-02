@@ -42,7 +42,7 @@ class Alg_Math_Algebra_GaussElimination
 {
 	/**	@var	int		$accuracy		Accuracy of calculation */
 	protected	$accuracy;
-	
+
 	/**
 	 *	Constructor.
 	 *	@access		public
@@ -52,29 +52,6 @@ class Alg_Math_Algebra_GaussElimination
 	public function __construct( $accuracy )
 	{
 		$this->accuracy	= $accuracy;
-	}
-	
-	/**
-	 *	Returns the advices Privot Row within a Matrix.
-	 *	@access		protected
-	 *	@param		Alg_Math_Algebra_Matrix		$matrix		Matrix to eliminate
-	 *	@param		int						$column		current Column
-	 *	@param		int						$row		Row to start Search
-	 *	@return		int
-	 */
-	protected function findPivotRow( $matrix, $column, $row = 0 )
-	{
-		$r	= $row;
-		$a	= abs( $matrix->getValue( $row, $column ) );
-		for( $i=$row+1; $i<$matrix->getRowNumber(); $i++ )
-		{
-			if( abs( $matrix->getValue( $i, $column ) ) > $a )
-			{
-				$a	= abs( $matrix->getValue( $i, $column ) );
-				$r	= $i;
-			}
-		}
-		return $r;
 	}
 
 	/**
@@ -102,6 +79,29 @@ class Alg_Math_Algebra_GaussElimination
 			}
 		}
 		return $matrix;
+	}
+
+	/**
+	 *	Returns the advices Privot Row within a Matrix.
+	 *	@access		protected
+	 *	@param		Alg_Math_Algebra_Matrix		$matrix		Matrix to eliminate
+	 *	@param		int						$column		current Column
+	 *	@param		int						$row		Row to start Search
+	 *	@return		int
+	 */
+	protected function findPivotRow( $matrix, $column, $row = 0 )
+	{
+		$r	= $row;
+		$a	= abs( $matrix->getValue( $row, $column ) );
+		for( $i=$row+1; $i<$matrix->getRowNumber(); $i++ )
+		{
+			if( abs( $matrix->getValue( $i, $column ) ) > $a )
+			{
+				$a	= abs( $matrix->getValue( $i, $column ) );
+				$r	= $i;
+			}
+		}
+		return $r;
 	}
 	
 	/**

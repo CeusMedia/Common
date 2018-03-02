@@ -50,7 +50,31 @@ class ADT_JSON_Builder
 	{
 		return self::get( NULL, $data );
 	}
-	
+
+	/**
+	 *	Escpapes Control Sings in String.
+	 *	@access		private
+	 *	@static
+	 *	@param		string		$string			String to be escaped
+	 *	@return		string
+	 */
+	private static function escape( $string )
+	{
+		$replace	= array(
+			'\\'	=> '\\\\',
+			'"'	=> '\"',
+			'/'	=> '\/',
+			"\b"	=> '\b',
+			"\f"	=> '\f',
+			"\n"	=> '\n',
+			"\r"	=> '\r',
+			"\t"	=> '\t',
+			"\u"	=> '\u'
+			);
+		$string	= str_replace( array_keys( $replace ), array_values( $replace ), $string );
+		return $string;
+	}
+
 	/**
 	 *	Returns a representative String for a Data Pair.
 	 *	@access		public
@@ -117,6 +141,19 @@ class ADT_JSON_Builder
 	}
 
 	/**
+	 *	Indicates whether a array is associative or not.
+	 *	@access		private
+	 *	@static
+	 *	@param		array		$array			Array to be checked
+	 *	@return		bool
+	 */
+	private static function isAssoc( $array )
+	{
+		krsort( $array, SORT_STRING );
+		return !is_numeric( key( $array ) );
+	}
+
+	/**
 	 *	Loops through Data Array and returns a representative String.
 	 *	@access		private
 	 *	@static
@@ -131,43 +168,6 @@ class ADT_JSON_Builder
 			$output	.= self::get( $key, $value, $type ).',';
 		$output	= trim( $output, ',' );
 		return $output;
-	}
-
-	/**
-	 *	Escpapes Control Sings in String.
-	 *	@access		private
-	 *	@static
-	 *	@param		string		$string			String to be escaped
-	 *	@return		string
-	 */
-	private static function escape( $string )
-	{
-		$replace	= array(
-			'\\'	=> '\\\\',
-			'"'	=> '\"',
-			'/'	=> '\/',
-			"\b"	=> '\b',
-			"\f"	=> '\f',
-			"\n"	=> '\n',
-			"\r"	=> '\r',
-			"\t"	=> '\t',
-			"\u"	=> '\u'
-			);
-		$string	= str_replace( array_keys( $replace ), array_values( $replace ), $string );
-		return $string;
-	}
-
-	/**
-	 *	Indicates whether a array is associative or not.
-	 *	@access		private
-	 *	@static
-	 *	@param		array		$array			Array to be checked
-	 *	@return		bool
-	 */
-	private static function isAssoc( $array )
-	{
-		krsort( $array, SORT_STRING );
-		return !is_numeric( key( $array ) );
 	}
 }
 ?>

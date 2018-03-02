@@ -140,26 +140,6 @@ class ADT_Graph_Weighted
 	}
 
 	/**
-	 *	Returns last Node in Graph.
-	 *	@access		public
-	 *	@return		ADT_Graph_Node
-	 */
-	public function getFinalNode()
-	{
-		return $this->nodeSet->getLastNode();
-	}
-
-	/**
-	 *	Returns first Node in Graph.
-	 *	@access		public
-	 *	@return		ADT_Graph_Node
-	 */
-	public function getStartNode()
-	{
-		return $this->nodeSet->getFirstNode();
-	}
-
-	/**
 	 *	Returns entrance grade of this Node.
 	 *	@access		public
 	 *	@param		ADT_Graph_Node	$node		Node
@@ -181,6 +161,16 @@ class ADT_Graph_Weighted
 	{
 		$nodes = $this->getTargetNodes( $node );
 		return sizeof( $nodes );
+	}
+
+	/**
+	 *	Returns last Node in Graph.
+	 *	@access		public
+	 *	@return		ADT_Graph_Node
+	 */
+	public function getFinalNode()
+	{
+		return $this->nodeSet->getLastNode();
 	}
 
 	/**
@@ -247,48 +237,6 @@ class ADT_Graph_Weighted
 	}
 
 	/**
-	 *	Returns all ways between two Nodes as array of Stacks, if way exists.
-	 *	@access		public
-	 *	@param		ADT_Graph_Node	$source		Source Node
-	 *	@param		ADT_Graph_Node	$target		Target Node
-	 *	@param		ADT_ListStack	$stack		Stack to fill with Nodes on path
-	 *	@param		array			$hadNodes	Array of already visited Nodes
-	 *	@return		array
-	 */
-	public function getWays( $source, $target, $stack, $hadNodes = array() )
-	{
-		$ways = $newWays = array();
-		if( !( $stack && is_a( $stack, "ADT_List_Stack" ) ) )
-			$stack = new ADT_List_Stack();
-		if( $this->isEdge( $source, $target ) )
-		{
-			$stack->push( $target );
-			return array( $stack );
-		}
-		$hadNodes[] = $source->getNodeName();
-		$ways = array();
-		$nodes = $this->getTargetNodes( $source );
-		foreach( $nodes as $node )
-		{
-			if( !in_array( $node->getNodeName(), $hadNodes ) )
-			{
-				$ways = $this->getWays( $node, $target, $stack, $hadNodes );
-				if( sizeof( $ways ) )
-				{
-					foreach( $ways as $stack )
-					{
-						$stack->push( $node );
-						$newWays[] = $stack;
-					}
-					$hasnodeSet[] = $node;
-					$ways = $newWays;
-				}
-			}
-		}
-		return $ways;
-	}
-
-	/**
 	 *	Returns value of edges of a path, if way exists.
 	 *	@access		public
 	 *	@param		ADT_Graph_Node	$source		Source Node
@@ -338,6 +286,16 @@ class ADT_Graph_Weighted
 	}
 
 	/**
+	 *	Returns first Node in Graph.
+	 *	@access		public
+	 *	@return		ADT_Graph_Node
+	 */
+	public function getStartNode()
+	{
+		return $this->nodeSet->getFirstNode();
+	}
+
+	/**
 	 *	Returns an array of target Nodes of this Node.
 	 *	@access		public
 	 *	@param		ADT_Graph_Node	$source		Source Node of this Edge
@@ -350,6 +308,48 @@ class ADT_Graph_Weighted
 			if( $this->isEdge( $source, $node ) )
 				$nodes[] = $node;
 		return $nodes;
+	}
+
+	/**
+	 *	Returns all ways between two Nodes as array of Stacks, if way exists.
+	 *	@access		public
+	 *	@param		ADT_Graph_Node	$source		Source Node
+	 *	@param		ADT_Graph_Node	$target		Target Node
+	 *	@param		ADT_ListStack	$stack		Stack to fill with Nodes on path
+	 *	@param		array			$hadNodes	Array of already visited Nodes
+	 *	@return		array
+	 */
+	public function getWays( $source, $target, $stack, $hadNodes = array() )
+	{
+		$ways = $newWays = array();
+		if( !( $stack && is_a( $stack, "ADT_List_Stack" ) ) )
+			$stack = new ADT_List_Stack();
+		if( $this->isEdge( $source, $target ) )
+		{
+			$stack->push( $target );
+			return array( $stack );
+		}
+		$hadNodes[] = $source->getNodeName();
+		$ways = array();
+		$nodes = $this->getTargetNodes( $source );
+		foreach( $nodes as $node )
+		{
+			if( !in_array( $node->getNodeName(), $hadNodes ) )
+			{
+				$ways = $this->getWays( $node, $target, $stack, $hadNodes );
+				if( sizeof( $ways ) )
+				{
+					foreach( $ways as $stack )
+					{
+						$stack->push( $node );
+						$newWays[] = $stack;
+					}
+					$hasnodeSet[] = $node;
+					$ways = $newWays;
+				}
+			}
+		}
+		return $ways;
 	}
 
 	/**
@@ -427,17 +427,6 @@ class ADT_Graph_Weighted
 	}
 
 	/**
-	 *	Indicated whether a Node is existing in this Graph.
-	 *	@access		public
-	 *	@param		ADT_Graph_Node	$node		Node to be proved
-	 *	@return		void
-	 */
-	public function isNode( $node )
-	{
-		return $this->nodeSet->isNode( $node );
-	}
-
-	/**
 	 *	Ist Schlinge ? --> Kante {u,u}
 	 *	@access		public
 	 *	@param		ADT_Graph_Node	$node		Node to be proved for loops
@@ -448,6 +437,17 @@ class ADT_Graph_Weighted
 		if( $this->isEdge( $node, $node ) )
 			return true;
 		return false;
+	}
+
+	/**
+	 *	Indicated whether a Node is existing in this Graph.
+	 *	@access		public
+	 *	@param		ADT_Graph_Node	$node		Node to be proved
+	 *	@return		void
+	 */
+	public function isNode( $node )
+	{
+		return $this->nodeSet->isNode( $node );
 	}
 
 	/**
@@ -523,6 +523,34 @@ class ADT_Graph_Weighted
 	}
 
 	/**
+	 *	Removes an Edge by its source and target Nodes.
+	 *	@access		public
+	 *	@param		ADT_Graph_Node	$source		Source Node of this Edge
+	 *	@param		ADT_Graph_Node	$target		Target Node of this Edge
+	 *	@return		void
+	 */
+	public function removeEdge( $source, $target )
+	{
+		if( $source->getNodeName() < $target->getNodeName() )
+			$this->edgeSet->removeEdge( $source, $target );
+		else
+			$this->edgeSet->removeEdge( $target, $source );
+	}
+
+	/**
+	 *	Removes a Node.
+	 *	@access		public
+	 *	@param		ADT_Graph_Node	$node		Node to be removed
+	 *	@return		void
+	 */
+	public function removeNode( $node )
+	{
+		foreach( $this->getNodes() as $_node )
+			$this->removeEdge( $_node, $node );									//  remove all Edges of Node
+		$this->nodeSet->removeNode( $node );									//  remove Node
+	}
+
+	/**
 	 *	Calculates shortest ways with Warshall algorithm.
 	 *	@access		public
 	 *	@return		void
@@ -553,71 +581,6 @@ class ADT_Graph_Weighted
 				}
 			}
 		}
-	}
-
-	/**
-	 *	Removes an Edge by its source and target Nodes.
-	 *	@access		public
-	 *	@param		ADT_Graph_Node	$source		Source Node of this Edge
-	 *	@param		ADT_Graph_Node	$target		Target Node of this Edge
-	 *	@return		void
-	 */
-	public function removeEdge( $source, $target )
-	{
-		if( $source->getNodeName() < $target->getNodeName() )
-			$this->edgeSet->removeEdge( $source, $target );
-		else
-			$this->edgeSet->removeEdge( $target, $source );
-	}
-
-	/**
-	 *	Removes a Node.
-	 *	@access		public
-	 *	@param		ADT_Graph_Node	$node		Node to be removed
-	 *	@return		void
-	 */
-	public function removeNode( $node )
-	{
-		foreach( $this->getNodes() as $_node )
-			$this->removeEdge( $_node, $node );									//  remove all Edges of Node
-		$this->nodeSet->removeNode( $node );									//  remove Node
-	}
-
-	/**
-	 *	Traverses graph in deepth and build queue of all Nodes.
-	 *	@access		public
-	 *	@param		ADT_Graph_Node	$source		Source Node
-	 *	@param		ADT_List_Queue	$queue		Queue to fill with Nodes
-	 *	@param		array			$hadNodes	Array of already visited Nodes
-	 *	@return		ADT_List_Queue
-	 */
-	public function traverseDeepth( $source, $queue = array(), $hadNodes = false )
-	{
-		$nextnodeSet = array();
-		if( !$hadNodes) $hadNodes = array();
-		$hadNodes[] = $source->getNodeName();
-		array_push($queue, $source );
-		foreach( $this->getSourceNodes( $source) as $node )
-		{
-			if( !in_array( $node->getNodeName(), $hadNodes ) )
-			{
-				$hadNodes[] = $node->getNodeName();
-				$nextnodeSet[] = $node;
-			}
-		}
-		foreach( $this->getTargetNodes( $source) as $node )
-		{
-			if( !in_array( $node->getNodeName(), $hadNodes ) )
-			{
-				$hadNodes[] = $node->getNodeName();
-				$queue = $this->traverseDeepth( $node, $queue, $hadNodes );
-			}
-		}
-		foreach( $nextnodeSet as $node )
-		{
-			$queue = $this->traverseDeepth( $node, $queue, $hadNodes );
-		}
-		return $queue;
 	}
 
 	/**
@@ -723,7 +686,7 @@ class ADT_Graph_Weighted
 				$target = $nodes[$j];
 				if( $this->isEdge( $source, $target ) )
 					$value = $this->getEdgeValue( $source, $target );
-				else if( $showNull ) 
+				else if( $showNull )
 					$value = 0;
 				else
 					$value = "";
@@ -733,6 +696,43 @@ class ADT_Graph_Weighted
 		}
 		$t .= "</table>";
 		return $t;
+	}
+
+	/**
+	 *	Traverses graph in deepth and build queue of all Nodes.
+	 *	@access		public
+	 *	@param		ADT_Graph_Node	$source		Source Node
+	 *	@param		ADT_List_Queue	$queue		Queue to fill with Nodes
+	 *	@param		array			$hadNodes	Array of already visited Nodes
+	 *	@return		ADT_List_Queue
+	 */
+	public function traverseDeepth( $source, $queue = array(), $hadNodes = false )
+	{
+		$nextnodeSet = array();
+		if( !$hadNodes) $hadNodes = array();
+		$hadNodes[] = $source->getNodeName();
+		array_push($queue, $source );
+		foreach( $this->getSourceNodes( $source) as $node )
+		{
+			if( !in_array( $node->getNodeName(), $hadNodes ) )
+			{
+				$hadNodes[] = $node->getNodeName();
+				$nextnodeSet[] = $node;
+			}
+		}
+		foreach( $this->getTargetNodes( $source) as $node )
+		{
+			if( !in_array( $node->getNodeName(), $hadNodes ) )
+			{
+				$hadNodes[] = $node->getNodeName();
+				$queue = $this->traverseDeepth( $node, $queue, $hadNodes );
+			}
+		}
+		foreach( $nextnodeSet as $node )
+		{
+			$queue = $this->traverseDeepth( $node, $queue, $hadNodes );
+		}
+		return $queue;
 	}
 }
 ?>

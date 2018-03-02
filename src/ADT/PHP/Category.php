@@ -66,7 +66,7 @@ class ADT_PHP_Category
 	{
 		$this->classes[$class->getName()]	= $class;
 	}
-	
+
 	/**
 	 *	Relates a Interface Object to this Category.
 	 *	@access		public
@@ -95,25 +95,10 @@ class ADT_PHP_Category
 			return $this->classes[$name];
 		throw new RuntimeException( "Class '$name' is unknown" );
 	}
-	
+
 	public function getClasses()
 	{
 		return $this->classes;
-	}
-
-	/**
-	 *	@deprecated	seems to be unused
-	 */
-	public function & getInterfaceByName( $name )
-	{
-		if( isset( $this->interface[$name] ) )
-			return $this->interface[$name];
-		throw new RuntimeException( "Interface '$name' is unknown" );
-	}
-
-	public function getInterfaces()
-	{
-		return $this->interfaces;
 	}
 
 	public function getId()
@@ -137,11 +122,26 @@ class ADT_PHP_Category
 		return implode( $separator, $parts );
 	}
 
+	/**
+	 *	@deprecated	seems to be unused
+	 */
+	public function & getInterfaceByName( $name )
+	{
+		if( isset( $this->interface[$name] ) )
+			return $this->interface[$name];
+		throw new RuntimeException( "Interface '$name' is unknown" );
+	}
+
+	public function getInterfaces()
+	{
+		return $this->interfaces;
+	}
+
 	public function getLabel()
 	{
 		return $this->label;
 	}
-		
+
 	public function & getPackage( $name )
 	{
 		$parts		= explode( "_", str_replace( ".", "_", $name ) );								//  set underscore as separator
@@ -165,7 +165,7 @@ class ADT_PHP_Category
 	{
 		return $this->packages;
 	}
-	
+
 	/**
 	 *	Indicates whether Classes are registered in this Category.
 	 *	@access		public
@@ -175,7 +175,7 @@ class ADT_PHP_Category
 	{
 		return (bool) count( $this->classes );
 	}
-	
+
 	/**
 	 *	Indicates whether Interfaces are registered in this Category.
 	 *	@access		public
@@ -185,7 +185,7 @@ class ADT_PHP_Category
 	{
 		return (bool) count( $this->interfaces );
 	}
-	
+
 	public function hasPackage( $name )
 	{
 		$parts		= explode( "_", str_replace( ".", "_", $name ) );								//  set underscore as separator
@@ -199,7 +199,7 @@ class ADT_PHP_Category
 		$sub	= implode( "_", array_slice( $parts, 1 ) );											//  Subpackage key
 		return $this->packages[$main]->hasPackage( $sub );											//  ask for Subpackage in Mainpackage
 	}
-	
+
 	/**
 	 *	Indicates whether Packages are registered in this Category.
 	 *	@access		public
@@ -209,12 +209,12 @@ class ADT_PHP_Category
 	{
 		return count( $this->packages ) > 0;
 	}
-	
+
 	public function setLabel( $string )
 	{
 		$this->label	= $string;
 	}
-	
+
 	public function setPackage( $name, ADT_PHP_Category $package )
 	{
 		$parts		= explode( "_", str_replace( ".", "_", $name ) );								//  set underscore as separator
@@ -249,7 +249,7 @@ class ADT_PHP_Category
 #				$this->packages[$name]->setFile( $file->basename, $file );							//  add File to existing Package
 		}
 	}
-	
+
 	public function setParent( ADT_PHP_Category $parent )
 	{
 		$this->parent	= $parent;

@@ -61,6 +61,16 @@ class ADT_Graph_NodeSet implements Countable
 	}
 
 	/**
+	 *	Returns the amount of nodes in this NodeSet.
+	 *	@access		public
+	 *	@return 	int
+	 */
+	public function count()
+	{
+		return count( $this->getNodes() );
+	}
+
+	/**
 	 *	Returns first Node of this NodeSet.
 	 *	@access		public
 	 *	@return 	ADT_Graph_Node
@@ -119,16 +129,6 @@ class ADT_Graph_NodeSet implements Countable
 	public function getNodes()
 	{
 		return $this->nodes;
-	}
-
-	/**
-	 *	Returns the amount of nodes in this NodeSet.
-	 *	@access		public
-	 *	@return 	int
-	 */
-	public function count()
-	{
-		return count( $this->getNodes() );
 	}
 
 	/**

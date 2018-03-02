@@ -44,7 +44,7 @@ class ADT_URL
 	public $separator		= "&";
 	public static $staticUrlScheme	= "";
 	public static $staticUrlAddress	= "./";
-	
+
 	public function __construct( $scheme, $address = NULL )
 	{
 		$scheme	= preg_replace( "/^url:/i", "", $scheme );
@@ -72,16 +72,16 @@ class ADT_URL
 		return new ADT_URL( $scheme, $parts['host'].$path.$query.$fragment );
 	}
 
-	public function getScheme()
-	{
-		return $this->scheme;
-	}
-	
 	public function getAddress()
 	{
 		return $this->address;
 	}
-	
+
+	public function getScheme()
+	{
+		return $this->scheme;
+	}
+
 	public function getUrl( $withPrefix = FALSE )
 	{
 		$url	= (string) $this;
@@ -89,7 +89,7 @@ class ADT_URL
 			$url	= "url:".$url;
 		return $url;
 	}
-	
+
 	/**
 	 *	Builds URL Query String based on current URL Parameters extended by a Map of new Parameters ($mapSet) and reduced by a List of Parameters ($listRemove).
 	 *	Note: You can also remove a Parameter by setting a new Parameter with value NULL.
@@ -107,7 +107,29 @@ class ADT_URL
 		$parameters	.= $fragment ? "#".$fragment : "";
 		return $this->getUrl().$parameters;
 	}
-	
+
+	/**
+	 *	Builds URL based on current URL extended by a Map of new Parameters ($mapSet) and reduced by a List of Parameters ($listRemove).
+	 *	Note: You can also remove a Parameter by setting a new Parameter with value NULL.
+	 *
+	 *	@access		public
+	 *	@param		array		$mapSet			Map of Parameters to append to URL
+	 *	@param		array		$reset			List of Parameters to remove from URL
+	 *	@return		string		New URL.
+	 */
+	public static function inferQueryString( $mapSet = array(), $listRemove = array() )
+	{
+		$mapRequest	= $_GET;
+
+		foreach( $mapSet as $key => $value )											// overwriting vars
+			$mapRequest[$key] = $value;
+
+		foreach( $listRemove as $key )													// unsetting vars
+			unset( $mapRequest[$key] );
+
+		return http_build_query( $mapRequest, "test_", $this->separator );				// making link parameter string
+	}
+
 	/**
 	 *	Builds URL Query String based on current URL Parameters extended by a Map of new Parameters ($mapSet) and reduced by a List of Parameters ($listRemove).
 	 *	Note: You can also remove a Parameter by setting a new Parameter with value NULL.
@@ -126,36 +148,7 @@ class ADT_URL
 		$url		= new ADT_URL( self::$staticUrlScheme, self::$staticUrlAddress );
 		return $url->getUrl().$parameters;
 	}
-		
-	/**
-	 *	Builds URL based on current URL extended by a Map of new Parameters ($mapSet) and reduced by a List of Parameters ($listRemove).
-	 *	Note: You can also remove a Parameter by setting a new Parameter with value NULL.
-	 *
-	 *	@access		public
-	 *	@param		array		$mapSet			Map of Parameters to append to URL
-	 *	@param		array		$reset			List of Parameters to remove from URL
-	 *	@return		string		New URL.
-	 */
-	public static function inferQueryString( $mapSet = array(), $listRemove = array() )
-	{
-		$mapRequest	= $_GET;
 
-		foreach( $mapSet as $key => $value )											// overwriting vars
-			$mapRequest[$key] = $value;
-
-		foreach( $listRemove as $key )													// unsetting vars
-			unset( $mapRequest[$key] );	
-
-		return http_build_query( $mapRequest, "test_", $this->separator );				// making link parameter string
-	}
-
-	public function setScheme( $scheme )
-	{
-		if( !preg_match( '/^([a-z0-9][a-z0-9-]{1,31})?$/i', $scheme ) )
-			throw new InvalidArgumentException( 'Scheme "'.$scheme.'" is invalid.' );
-		$this->scheme	= $scheme;
-	}
-	
 	public function setAddress( $address )
 	{
 		$alpha		= 'a-z0-9';
@@ -167,7 +160,14 @@ class ADT_URL
 			throw new InvalidArgumentException( 'Address "'.$address.'" is invalid.' );
 		$this->address	= $address;
 	}
-	
+
+	public function setScheme( $scheme )
+	{
+		if( !preg_match( '/^([a-z0-9][a-z0-9-]{1,31})?$/i', $scheme ) )
+			throw new InvalidArgumentException( 'Scheme "'.$scheme.'" is invalid.' );
+		$this->scheme	= $scheme;
+	}
+
 	public function __toString()
 	{
 		$prefix	= $this->scheme ? ( $this->scheme.":" ) : "";

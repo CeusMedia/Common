@@ -83,7 +83,7 @@ class ADT_Tree_BinaryNode
 				$this->right = new ADT_Tree_BinaryNode( $value );
 		}
 	}
-	
+
 	/**
 	 *	Returns the amount of Nodes in the Tree.
 	 *	@access		public
@@ -103,13 +103,17 @@ class ADT_Tree_BinaryNode
 	}
 
 	/**
-	 *	Returns value of the Tree.
+	 *	Returns the height of the Tree.
 	 *	@access		public
-	 *	@return		mixed
+	 *	@return		int
 	 */
-	public function getValue()
+	public function getHeight()
 	{
-		return $this->value;
+		$left_height	= $this->left  ? $this->left->getHeight()  : 0;		//  Rekursiver Aufruf des linken Teilbaumes
+		$right_height	= $this->right ? $this->right->getHeight() : 0;		//  Rekursiver Aufruf des rechten Teilbaumes
+		$height = max( $left_height, $right_height ); 						//  Vergleichen welcher der beiden Teilbäume höher ist
+		$height++;															//  Höhe hochzählen
+		return $height;
 	}
 
 	/**
@@ -123,7 +127,7 @@ class ADT_Tree_BinaryNode
 			throw new Exception( 'No left Node available.' );
 		return $this->left;
 	}
-	
+
 	/**
 	 *	Returns right Child Tree.
 	 *	@access		public
@@ -135,19 +139,15 @@ class ADT_Tree_BinaryNode
 			throw new Exception( 'No right Node available.' );
 		return $this->right;
 	}
-	
+
 	/**
-	 *	Returns the height of the Tree.
+	 *	Returns value of the Tree.
 	 *	@access		public
-	 *	@return		int
+	 *	@return		mixed
 	 */
-	public function getHeight()
+	public function getValue()
 	{
-		$left_height	= $this->left  ? $this->left->getHeight()  : 0;		//  Rekursiver Aufruf des linken Teilbaumes
-		$right_height	= $this->right ? $this->right->getHeight() : 0;		//  Rekursiver Aufruf des rechten Teilbaumes
-		$height = max( $left_height, $right_height ); 						//  Vergleichen welcher der beiden Teilbäume höher ist
-		$height++;															//  Höhe hochzählen
-		return $height;
+		return $this->value;
 	}
 
 	/**
@@ -171,32 +171,6 @@ class ADT_Tree_BinaryNode
 				return $this->right->search( $value );
 		}
 		return NULL;
-	}
-
-	/**
-	 *	Returns the Tree as HTML-Table.
-	 *	@access		public
-	 *	@return		string
-	 */
-	public function toTable()
-	{
-		$code = "<table cellspacing=1 cellpadding=0>\n<tr><td colspan=2 align=center><hr>".$this->value."</td></tr>";
-		if( $this->left || $this->right )
-		{
-			$code .= "<tr><td align=center valign=top>";
-			if( $this->left )
-				$code .= $this->left->toTable();
-			else
-				$code .= "&nbsp;";
-			$code .= "</td><td align=center valign=top>";
-			if( $this->right )
-				$code .= $this->right->toTable();
-			else
-				$code .= "&nbsp;";
-			$code .= "</td></tr>\n";
-		}
-		$code .= "</table>\n";
-		return $code;
 	}
 
 	/**
@@ -241,6 +215,32 @@ class ADT_Tree_BinaryNode
 				$array = array_merge( $array, $this->left->toList( $dir ) );
 		}
 		return $array;
+	}
+
+	/**
+	 *	Returns the Tree as HTML-Table.
+	 *	@access		public
+	 *	@return		string
+	 */
+	public function toTable()
+	{
+		$code = "<table cellspacing=1 cellpadding=0>\n<tr><td colspan=2 align=center><hr>".$this->value."</td></tr>";
+		if( $this->left || $this->right )
+		{
+			$code .= "<tr><td align=center valign=top>";
+			if( $this->left )
+				$code .= $this->left->toTable();
+			else
+				$code .= "&nbsp;";
+			$code .= "</td><td align=center valign=top>";
+			if( $this->right )
+				$code .= $this->right->toTable();
+			else
+				$code .= "&nbsp;";
+			$code .= "</td></tr>\n";
+		}
+		$code .= "</table>\n";
+		return $code;
 	}
 }
 ?>

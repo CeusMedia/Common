@@ -52,18 +52,8 @@ class Alg_HtmlParser
 	 */
 	public function __construct()
 	{
-#		DOMDocument::setIdAttribute( 'id', TRUE ); 
+#		DOMDocument::setIdAttribute( 'id', TRUE );
 		$this->document = new DOMDocument();
-	}
-
-	/**
-	 *	Returns current DOM Document.
-	 *	@access		public
-	 *	@return		DOMDocument
-	 */
-	public function getDocument()
-	{
-		return $this->document;
 	}
 
 	/**
@@ -97,6 +87,16 @@ class Alg_HtmlParser
 		if( $throwException )
 			throw new RuntimeException( 'No Description Meta Tag set.' );
 		return "";
+	}
+
+	/**
+	 *	Returns current DOM Document.
+	 *	@access		public
+	 *	@return		DOMDocument
+	 */
+	public function getDocument()
+	{
+		return $this->document;
 	}
 
 	/**
@@ -193,7 +193,7 @@ class Alg_HtmlParser
 			throw new RuntimeException( 'No Language Meta Tag set.' );
 		return "";
 	}
-	
+
 	/**
 	 *	Returns Array of set Meta Tags.
 	 *	@access		public
@@ -266,19 +266,6 @@ class Alg_HtmlParser
 	}
 
 	/**
-	 *	Returns List of HTML Tags by Node Name.
-	 *	@access		public
-	 *	@param		string			$key				Attribute Key
-	 *	@param		string			$value				Attribute Value
-	 *	@param		string			$operator			Attribute Operator (=|!=)
-	 *	@return		array
-	 */
-	public function getTagsByAttribute( $key, $value = NULL, $operator = "=" )
-	{
-		return $this->getTags( "*", $key, $value, $operator );
-	}
-
-	/**
 	 *	Returns HTML Tag by its ID or throws Exception.
 	 *	@access		public
 	 *	@param		string			$id					ID of Tag to return
@@ -296,7 +283,20 @@ class Alg_HtmlParser
 			throw new RuntimeException( 'No Tag with ID "'.$id.'" found.' );
 		return NULL;
 	}
-	
+
+	/**
+	 *	Returns List of HTML Tags by Node Name.
+	 *	@access		public
+	 *	@param		string			$key				Attribute Key
+	 *	@param		string			$value				Attribute Value
+	 *	@param		string			$operator			Attribute Operator (=|!=)
+	 *	@return		array
+	 */
+	public function getTagsByAttribute( $key, $value = NULL, $operator = "=" )
+	{
+		return $this->getTags( "*", $key, $value, $operator );
+	}
+
 	/**
 	 *	Returns List of HTML Tags by Tag Name.
 	 *	@access		public
@@ -331,20 +331,6 @@ class Alg_HtmlParser
 		}
 		return $list;
 	}
-	
-	/**
-	 *	Indicates whether a  HTML Tag is existing by its ID.
-	 *	@access		public
-	 *	@param		string			$id					ID of Tag to return
-	 *	@return		bool
-	 */
-	public function hasTagById( $id )
-	{
-		$xpath	= new DomXPath( $this->document );
-		$query	= "//*[@id = '$id']";
-		$nodes	= $xpath->query( $query );
-		return (bool) $nodes->length;
-	}
 
 	/**
 	 *	Returns Title of HTML Document or throws Exception.
@@ -365,7 +351,21 @@ class Alg_HtmlParser
 			throw new RuntimeException( 'Neither Title Tag not Title Meta Tag found.' );
 		return "";
 	}
-	
+
+	/**
+	 *	Indicates whether a  HTML Tag is existing by its ID.
+	 *	@access		public
+	 *	@param		string			$id					ID of Tag to return
+	 *	@return		bool
+	 */
+	public function hasTagById( $id )
+	{
+		$xpath	= new DomXPath( $this->document );
+		$query	= "//*[@id = '$id']";
+		$nodes	= $xpath->query( $query );
+		return (bool) $nodes->length;
+	}
+
 	/**
 	 *	Creates DOM Document and reads HTML String.
 	 *	@access		public

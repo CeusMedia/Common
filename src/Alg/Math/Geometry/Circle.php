@@ -44,16 +44,16 @@ class Alg_Math_Geometry_Circle
 	{
 		$this->radius = $radius;
 	}
-	
-	public function getVolume()
-	{
-		$value = M_PI * pow( $this->radius, 2 );
-		return $value;
-	}
-	
+
 	public function getOutline()
 	{
 		$value = 2 * M_PI * $this->radius;
+		return $value;
+	}
+
+	public function getVolume()
+	{
+		$value = M_PI * pow( $this->radius, 2 );
 		return $value;
 	}
 }

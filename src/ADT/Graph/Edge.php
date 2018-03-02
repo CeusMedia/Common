@@ -57,6 +57,36 @@ class ADT_Graph_Edge
 	}
 
 	/**
+	 *	Returns the Value of this Edge.
+	 *	@access		public
+	 *	@return		int
+	 */
+	public function getEdgeValue()
+	{
+		return $this->edgeValue;
+	}
+
+	/**
+	 *	Returns the Source Node of this Edge.
+	 *	@access		public
+	 *	@return		ADT_Graph_Node
+	 */
+	public function getSourceNode()
+	{
+		return $this->sourceNode;
+	}
+
+	/**
+	 *	Returns the Target Node of this Edge.
+	 *	@access		public
+	 *	@return		ADT_Graph_Node
+	 */
+	public function getTargetNode()
+	{
+		return $this->targetNode;
+	}
+
+	/**
 	 *	Setting the Value of this Edge.
 	 *	@access		public
 	 *	@param		int					$edgeValue		Value of this Edge
@@ -87,36 +117,6 @@ class ADT_Graph_Edge
 	public function setTargetNode( $targetNode )
 	{
 		$this->targetNode = $targetNode;
-	}
-
-	/**
-	 *	Returns the Value of this Edge.
-	 *	@access		public
-	 *	@return		int
-	 */
-	public function getEdgeValue()
-	{
-		return $this->edgeValue;
-	}
-
-	/**
-	 *	Returns the Source Node of this Edge.
-	 *	@access		public
-	 *	@return		ADT_Graph_Node
-	 */
-	public function getSourceNode()
-	{
-		return $this->sourceNode;
-	}
-
-	/**
-	 *	Returns the Target Node of this Edge.
-	 *	@access		public
-	 *	@return		ADT_Graph_Node
-	 */
-	public function getTargetNode()
-	{
-		return $this->targetNode;
 	}
 }
 ?>

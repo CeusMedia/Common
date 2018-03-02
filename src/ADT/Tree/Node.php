@@ -39,7 +39,7 @@ class ADT_Tree_Node
 {
 	/**	@var	array		$children		Array of Children */
 	protected $children		= array();
-	
+
 	/**
 	 *	Adds a child to Tree.
 	 *	@access		public
@@ -53,7 +53,7 @@ class ADT_Tree_Node
 			throw new InvalidArgumentException( 'A Child with Name "'.$name.'" is already existing.' );
 		$this->children[$name] = $child;
 	}
-	
+
 	/**
 	 *	Removes all children from Tree.
 	 *	@access		public
@@ -65,17 +65,6 @@ class ADT_Tree_Node
 	}
 
 	/**
-	 *	Returns all children from Tree.
-	 *	@access		public
-	 *	@param		string		$name		Child name
-	 *	@return		array
-	 */
-	public function getChildren()
-	{
-		return $this->children;
-	}
-	
-	/**
 	 *	Returns a child from Tree by its name.
 	 *	@access		public
 	 *	@param		string		$name		Child name
@@ -86,6 +75,17 @@ class ADT_Tree_Node
 		if( !array_key_exists( $name, $this->children ) )
 			throw new InvalidArgumentException( 'A Child with Name "'.$name.'" is not existing.' );
 		return $this->children[$name];
+	}
+
+	/**
+	 *	Returns all children from Tree.
+	 *	@access		public
+	 *	@param		string		$name		Child name
+	 *	@return		array
+	 */
+	public function getChildren()
+	{
+		return $this->children;
 	}
 
 	/**
@@ -108,7 +108,7 @@ class ADT_Tree_Node
 	{
 		return (bool) count( $this->children );
 	}
-	
+
 	/**
 	 *	Removes a Child from Tree by its name.
 	 *	@access		public

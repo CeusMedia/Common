@@ -155,11 +155,6 @@ class ADT_PHP_Interface
 		return $this->extendedBy;
 	}
 
-	public function getImplementingClasses()
-	{
-		return $this->implementedBy;
-	}
-
 	/**
 	 *	Returns the full ID of this interface (category_package_file_interface).
 	 *	@access		public
@@ -175,6 +170,11 @@ class ADT_PHP_Interface
 #		$parts[]	= $this->parent->getBasename();
 		$parts[]	= $this->name;
 		return implode( "-", $parts );
+	}
+
+	public function getImplementingClasses()
+	{
+		return $this->implementedBy;
 	}
 
 	public function getLicenses()
@@ -413,14 +413,14 @@ class ADT_PHP_Interface
 		$this->extends	= $interface;
 	}
 
-	public function setExtendingInterfaceName( $interface )
-	{
-		$this->extendedBy[$interface]	= $interface;
-	}
-
 	public function setExtendingInterface( ADT_PHP_Interface $interface )
 	{
 		$this->extendedBy[$interface->getName()]	= $interface;
+	}
+
+	public function setExtendingInterfaceName( $interface )
+	{
+		$this->extendedBy[$interface]	= $interface;
 	}
 
 	public function setFinal( $isFinal = TRUE )
@@ -428,14 +428,14 @@ class ADT_PHP_Interface
 		$this->final	= (bool) $isFinal;
 	}
 
-	public function setImplementingClassByName( $class )
-	{
-		$this->implementedBy[$class]	= $class;
-	}
-
 	public function setImplementingClass( ADT_PHP_Class $class )
 	{
 		$this->implementedBy[$class->getName()]	= $class;
+	}
+
+	public function setImplementingClassByName( $class )
+	{
+		$this->implementedBy[$class]	= $class;
 	}
 
 	public function setLicense( ADT_PHP_License $license )

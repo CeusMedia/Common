@@ -44,22 +44,22 @@ class Alg_Math_Geometry_Rectangle
 		$this->a = $a;
 		$this->b = $b;
 	}
-	
-	public function getVolume()
-	{
-		return $this->a * $this->b;	
-	}
-	
-	public function getOutline()
-	{
-		return 2 *( $this->a + $this->b );
-	}
-	
+
 	public function diagonal()
 	{
 		$t = new Alg_Math_Geometry_Triangle();
 		$c = $t->pythagoras( $this->a, $this->b );
 		return $c;
+	}
+	
+	public function getVolume()
+	{
+		return $this->a * $this->b;
+	}
+
+	public function getOutline()
+	{
+		return 2 *( $this->a + $this->b );
 	}
 }
 ?>

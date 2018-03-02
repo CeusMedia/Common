@@ -41,7 +41,7 @@ class ADT_List_SectionList
 	protected $sections = array();
 	/**	@var		array	$list		List of sectioned  Items */
 	protected $list = array();
-	
+
 	/**
 	 *	Adds an Entry to a Section of the List.
 	 *	@access		public
@@ -67,7 +67,7 @@ class ADT_List_SectionList
 		if( !isset( $this->list[$section] ) )
 			$this->list[$section] = array();
 	}
-		
+
 	/**
 	 *	Clears all Sections and Entries in the List.
 	 *	@access		public
@@ -88,7 +88,7 @@ class ADT_List_SectionList
 	{
 		return count( $this->getEntries( $section ) );
 	}
-	
+
 	/**
 	 *	Returns the amount of Sections in the List.
 	 *	@access		public
@@ -97,6 +97,19 @@ class ADT_List_SectionList
 	public function countSections()
 	{
 		return count( $this->list );
+	}
+
+	/**
+	 *	Returns a list of Entries of a Section in the List.
+	 *	@access		public
+	 *	@param		string		$section		Section to get Entries for
+	 *	@return		array
+	 */
+	public function getEntries( $section )
+	{
+		if( !isset( $this->list[$section] ) )
+			throw new InvalidArgumentException( 'Invalid Section "'.$section.'".' );
+		return array_values( $this->list[$section] );
 	}
 
 	/**
@@ -109,19 +122,6 @@ class ADT_List_SectionList
 		if( !isset( $this->list[$section][$index] ) )
 			throw new InvalidArgumentException( 'No Entry with Index '.$index.' in Section "'.$section.'" found.' );
 		return $this->list[$section][$index];
-	}
-	
-	/**
-	 *	Returns a list of Entries of a Section in the List.
-	 *	@access		public
-	 *	@param		string		$section		Section to get Entries for
-	 *	@return		array
-	 */
-	public function getEntries( $section )
-	{
-		if( !isset( $this->list[$section] ) )
-			throw new InvalidArgumentException( 'Invalid Section "'.$section.'".' );
-		return array_values( $this->list[$section] );
 	}
 
 	/**
@@ -139,7 +139,7 @@ class ADT_List_SectionList
 			throw new InvalidArgumentException( 'Invalid Section "'.$section.'".' );
 		return array_search( $entry, $this->list[$section] );
 	}
-	
+
 	/**
 	 *	Returns the Section List as Array.
 	 *	@access		public
@@ -163,7 +163,7 @@ class ADT_List_SectionList
 				return $section;
 		throw new InvalidArgumentException( 'Entry "'.$entry.'" not found in any Section.' );
 	}
-	
+
 	/**
 	 *	Returns a list of Sections.
 	 *	@access		public

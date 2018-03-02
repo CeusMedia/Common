@@ -79,6 +79,30 @@ class ADT_PHP_Container
 		return $this->classIdList[$id];
 	}
 
+	public function & getFile( $name )
+	{
+		if( isset( $this->files[$name] ) )
+			return $this->files[$name];
+		throw new RuntimeException( "File '$name' is unknown" );
+	}
+
+	public function getFileIterator()
+	{
+		return new ArrayIterator( $this->files );
+	}
+
+	public function & getFiles()
+	{
+		return $this->files;
+	}
+
+	public function & getInterfaceFromId( $id )
+	{
+		if( !isset( $this->interfaceIdList[$id] ) )
+			throw new Exception( 'Interface with ID '.$id.' is unknown' );
+		return $this->interfaceIdList[$id];
+	}
+
 	/**
 	 *	Searches for an Interface by its Name in same Category and Package.
 	 *	Otherwise is searches in different Packages and finally in different Categories.
@@ -103,30 +127,6 @@ class ADT_PHP_Container
 			return array_shift( $list[$category] );													//  this is a Guess: return Data Object of guessed Interface
 
 		return array_shift( array_shift( $list ) );
-	}
-
-	public function & getInterfaceFromId( $id )
-	{
-		if( !isset( $this->interfaceIdList[$id] ) )
-			throw new Exception( 'Interface with ID '.$id.' is unknown' );
-		return $this->interfaceIdList[$id];
-	}
-
-	public function & getFile( $name )
-	{
-		if( isset( $this->files[$name] ) )
-			return $this->files[$name];
-		throw new RuntimeException( "File '$name' is unknown" );
-	}
-
-	public function & getFiles()
-	{
-		return $this->files;	
-	}
-
-	public function getFileIterator()
-	{
-		return new ArrayIterator( $this->files );
 	}
 
 	public function hasFile( $fileName )
@@ -196,7 +196,7 @@ class ADT_PHP_Container
 						$serial	.= gzgets( $fp, 4096 );
 					$data	= unserialize( $serial );
 					gzclose( $fp );
-				}				
+				}
 				return $data;
 			}
 		}
@@ -212,7 +212,7 @@ class ADT_PHP_Container
 		}
 		throw new RuntimeException( 'No data file existing' );
 	}
-	
+
 	/**
 	 *	Stores collected File/Class Data as Serial File or Archive File.
 	 *	@access		protected
@@ -237,7 +237,7 @@ class ADT_PHP_Container
 			file_put_contents( $uri, $serial );
 		}
 	}
-	
+
 	public function setFile( $name, ADT_PHP_File $file )
 	{
 		$this->files[$name]	= $file;

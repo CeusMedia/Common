@@ -45,7 +45,7 @@ class ADT_PHP_Variable
 	protected $description		= NULL;
 	protected $since			= NULL;
 	protected $version			= NULL;
-	
+
 	protected $authors			= array();
 	protected $links			= array();
 	protected $sees				= array();
@@ -69,7 +69,7 @@ class ADT_PHP_Variable
 		if( !is_null( $description ) )
 			$this->setDescription( $description );
 	}
-	
+
 	/**
 	 *	Returns list of author data objects.
 	 *	@access		public
@@ -121,6 +121,16 @@ class ADT_PHP_Variable
 	}
 
 	/**
+	 *	Returns type of parameter.
+	 *	@access		public
+	 *	@return		mixed		Type string or
+	 */
+	public function getName()
+	{
+		return $this->name;
+	}
+
+	/**
 	 *	Returns parent File Data Object.
 	 *	@access		public
 	 *	@return		ADT_PHP_File		Parent File Data Object
@@ -131,16 +141,6 @@ class ADT_PHP_Variable
 		if( !is_object( $this->parent ) )
 			throw new Exception( 'Parser Error: variable has no related file' );
 		return $this->parent;
-	}
-
-	/**
-	 *	Returns type of parameter.
-	 *	@access		public
-	 *	@return		mixed		Type string or 
-	 */
-	public function getName()
-	{
-		return $this->name;
 	}
 
 	/**
@@ -176,7 +176,7 @@ class ADT_PHP_Variable
 	/**
 	 *	Returns type of parameter.
 	 *	@access		public
-	 *	@return		mixed		Type string or 
+	 *	@return		mixed		Type string or
 	 */
 	public function getType()
 	{
@@ -272,17 +272,6 @@ class ADT_PHP_Variable
 	{
 		$this->links[]	= $string;
 	}
-	
-	/**
-	 *	Sets parent File Data Object.
-	 *	@access		public
-	 *	@param		ADT_PHP_File		$parent		Parent File Data Object
-	 *	@return		void
-	 */
-	public function setParent( $parent )
-	{
-		$this->parent	= $parent;
-	}
 
 	/**
 	 *	Sets variable name.
@@ -293,6 +282,17 @@ class ADT_PHP_Variable
 	public function setName( $string )
 	{
 		$this->name	= $string;
+	}
+
+	/**
+	 *	Sets parent File Data Object.
+	 *	@access		public
+	 *	@param		ADT_PHP_File		$parent		Parent File Data Object
+	 *	@return		void
+	 */
+	public function setParent( $parent )
+	{
+		$this->parent	= $parent;
 	}
 
 	/**

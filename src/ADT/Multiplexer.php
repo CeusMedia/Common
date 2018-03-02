@@ -59,7 +59,7 @@ class ADT_Multiplexer
 		$this->setControls();
 		$this->setInputs();
 	}
-	
+
 	/**
 	 *	Returns Controls.
 	 *	@access		public
@@ -69,7 +69,7 @@ class ADT_Multiplexer
 	{
 		return $this->controls;
 	}
-	
+
 	/**
 	 *	Returns Inputs.
 	 *	@access		public
@@ -79,7 +79,7 @@ class ADT_Multiplexer
 	{
 		return $this->inputs;
 	}
-	
+
 	/**
 	 *	Returns Type of Multiplexer.
 	 *	@access		public
@@ -90,35 +90,6 @@ class ADT_Multiplexer
 		return $this->type;
 	}
 
-	/**
-	 *	Sets Controls from Method Arguments.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function setControls()
-	{
-		$this->controls	= array();
-		$args	= func_get_args();
-		for( $i = 0; $i < $this->type; $i ++ )
-			if( isset( $args[$i] ) )
-				$this->controls[$i]	= $args[$i];
-	}
-
-	/**
-	 *	Sets Inputs from Method Arguments.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function setInputs()
-	{
-		$this->inputs	= array();
-		$len	= pow( 2, $this->type );
-		$args	= func_get_args();
-		for( $i = 0; $i < $len; $i ++ )
-			if( isset( $args[$i] ) )
-				$this->inputs[$i] = $args[$i];
-	}
-	
 	/**
 	 *	Runs Multiplexer.
 	 *	@access		public
@@ -159,6 +130,35 @@ class ADT_Multiplexer
 			$output = $mux2->proceed();
 		}
 		return $output;
+	}
+
+	/**
+	 *	Sets Controls from Method Arguments.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function setControls()
+	{
+		$this->controls	= array();
+		$args	= func_get_args();
+		for( $i = 0; $i < $this->type; $i ++ )
+			if( isset( $args[$i] ) )
+				$this->controls[$i]	= $args[$i];
+	}
+
+	/**
+	 *	Sets Inputs from Method Arguments.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function setInputs()
+	{
+		$this->inputs	= array();
+		$len	= pow( 2, $this->type );
+		$args	= func_get_args();
+		for( $i = 0; $i < $len; $i ++ )
+			if( isset( $args[$i] ) )
+				$this->inputs[$i] = $args[$i];
 	}
 }
 ?>

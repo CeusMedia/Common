@@ -53,11 +53,25 @@ class Alg_Math_Algebra_LabelMatrix
 		return call_user_func_array( array( &$this->matrix, $method ), $arguments );
 	}
 
+	public function getColumn( $column )
+	{
+		if( is_string( $column ) )
+			$column	= $this->getColumnIndex( $column );
+		return array_combine( $this->rows, $this->matrix->getColumn( $column )->toArray() );
+	}
+
 	public function getColumnIndex( $column )
 	{
 		if( !in_array( $column, $this->columns ) )
 			throw new InvalidArgumentException( 'Column "'.$column.'" is not existing.' );
 		return array_search( $column, $this->columns );
+	}
+
+	public function getRow( $row )
+	{
+		if( is_string( $row ) )
+			$row	= $this->getRowIndex( $row );
+		return array_combine( $this->columns, $this->matrix->getRow( $row )->toArray() );
 	}
 
 	public function getRowIndex( $row )
@@ -66,21 +80,7 @@ class Alg_Math_Algebra_LabelMatrix
 			throw new InvalidArgumentException( 'Row "'.$row.'" is not existing.' );
 		return array_search( $row, $this->rows );
 	}
-	
-	public function getColumn( $column )
-	{
-		if( is_string( $column ) )
-			$column	= $this->getColumnIndex( $column );
-		return array_combine( $this->rows, $this->matrix->getColumn( $column )->toArray() );
-	}
-	
-	public function getRow( $row )
-	{
-		if( is_string( $row ) )
-			$row	= $this->getRowIndex( $row );
-		return array_combine( $this->columns, $this->matrix->getRow( $row )->toArray() );
-	}
-	
+
 	public function getValue( $row, $column )
 	{
 		if( is_string( $row ) )
@@ -89,7 +89,7 @@ class Alg_Math_Algebra_LabelMatrix
 			$column	= $this->getColumnIndex( $column );
 		return $this->matrix->getValue( $row, $column );
 	}
-	
+
 	public function setValue( $row, $column, $value )
 	{
 		if( is_string( $row ) )
@@ -98,7 +98,7 @@ class Alg_Math_Algebra_LabelMatrix
 			$column	= $this->getColumnIndex( $column );
 		return $this->matrix->setValue( $row, $column, $value );
 	}
-	
+
 	public function swapColumns( $column1, $column2 )
 	{
 		if( is_string( $column1 ) )
@@ -107,7 +107,7 @@ class Alg_Math_Algebra_LabelMatrix
 			$column2	= $this->getColumnIndex( $column2 );
 		$this->matrix->swapColumns( $column1, $column2 );
 	}
-	
+
 	public function swapRows( $row1, $row2 )
 	{
 		if( is_string( $row1 ) )
@@ -117,6 +117,14 @@ class Alg_Math_Algebra_LabelMatrix
 		$this->matrix->swapRows( $row1, $row2 );
 	}
 
+	public function toArray()
+	{
+		$list	= array();
+		foreach( $this->rows as $row )
+			$list[$row]	= $this->getRow( $row );
+		return $list;
+	}
+
 	public function transpose()
 	{
 		$rows		= $this->rows;
@@ -124,14 +132,6 @@ class Alg_Math_Algebra_LabelMatrix
 		$this->matrix->transpose();
 		$this->rows		= $columns;
 		$this->columns	= $rows;
-	}
-	
-	public function toArray()
-	{
-		$list	= array();
-		foreach( $this->rows as $row )
-			$list[$row]	= $this->getRow( $row );
-		return $list;
 	}
 }
 ?>

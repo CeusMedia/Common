@@ -58,22 +58,6 @@ class Alg_ColorConverter
 	}
 
 	/**
-	 *	Converts CMYK to CMY.
-	 *	@access		public
-	 *	@static
-	 *	@param		array	cmyk	CMYK-Color as array
-	 *	@return		array
-	 */
-	public static function cmyk2cmy( $cmyk )
-	{
-		list( $c, $m, $y, $k ) = $cmyk;
-		$c	= min( 1, $c * ( 1 - $k ) + $k );
-		$m	= min( 1, $m * ( 1 - $k ) + $k );
-		$y	= min( 1, $y * ( 1 - $k ) + $k );
-		return array( $c, $m, $y );
-	}
-
-	/**
 	 *	Converts CMY to RGB.
 	 *	@access		public
 	 *	@static
@@ -87,6 +71,22 @@ class Alg_ColorConverter
 		$g	= 255 * ( 1 - $m );
 		$b	= 255 * ( 1 - $y );
 		return array( $r, $g, $b );
+	}
+
+	/**
+	 *	Converts CMYK to CMY.
+	 *	@access		public
+	 *	@static
+	 *	@param		array	cmyk	CMYK-Color as array
+	 *	@return		array
+	 */
+	public static function cmyk2cmy( $cmyk )
+	{
+		list( $c, $m, $y, $k ) = $cmyk;
+		$c	= min( 1, $c * ( 1 - $k ) + $k );
+		$m	= min( 1, $m * ( 1 - $k ) + $k );
+		$y	= min( 1, $y * ( 1 - $k ) + $k );
+		return array( $c, $m, $y );
 	}
 
 	/**
@@ -111,7 +111,7 @@ class Alg_ColorConverter
 	public static function hsv2html( $hsv )
 	{
 		return self::rgb2html( self::hsv2rgb( $hsv ) );
-	}		
+	}
 
 	/**
 	 *	Converts HSV to RGB.
@@ -184,20 +184,7 @@ class Alg_ColorConverter
 		}
 		return $rgb;
 	}
-	
-	/**
-	 *	Converts HTML to RGB.
-	 *	@access		public
-	 *	@static
-	 *	@param		string	html		HTML-Color as string
-	 *	@return		array
-	 */
-	public static function html2rgb( $string )
-	{
-		sscanf( $string, "%2X%2X%2X", $r, $g, $b );
-		return array( $r, $g, $b );
-	}
-	
+
 	/**
 	 *	Converts HTML to hsv.
 	 *	@access		public
@@ -210,7 +197,20 @@ class Alg_ColorConverter
 		sscanf( $string, "%2X%2X%2X", $r, $g, $b );
 		return self::rgb2hsv( array( $r, $g, $b ) );
 	}
-	
+
+	/**
+	 *	Converts HTML to RGB.
+	 *	@access		public
+	 *	@static
+	 *	@param		string	html		HTML-Color as string
+	 *	@return		array
+	 */
+	public static function html2rgb( $string )
+	{
+		sscanf( $string, "%2X%2X%2X", $r, $g, $b );
+		return array( $r, $g, $b );
+	}
+
 	/**
 	 *	Converts RGB to CMY.
 	 *	@access		public
@@ -278,7 +278,7 @@ class Alg_ColorConverter
 		$max	= max( max( $r, $g ), $b );
 		$delta	= $max - $min;
 		$v		= $max;
-	
+
 		if( $delta == 0 )
 		{
 			$h = 0;
@@ -320,9 +320,9 @@ class Alg_ColorConverter
 		list( $r, $g, $b ) = $rgb;
 		$html	= sprintf( "%2X%2X%2X", $r, $g, $b );
 		$html	= str_replace( " ", "0", $html );
-		return	$html; 
+		return	$html;
 	}
-	
+
 	/**
 	 *	Converts RGB to XYZ.
 	 *	@access		public
@@ -341,7 +341,7 @@ class Alg_ColorConverter
 		$z	= 0.020183 * $r + 0.129553 * $g + 0.939180 * $b;
 		return array( $x, $y, $z );
 	}
-	
+
 	/**
 	 *	Converts XYZ to RGB.
 	 *	@access		public
@@ -360,7 +360,7 @@ class Alg_ColorConverter
 		$b	= round( $b * 255 );
 		return array( $r, $g, $b );
 	}
-	
+
 #	/**
 #	 *	Converts XYZ to LUV.
 #	 *	@access		public
@@ -376,7 +376,7 @@ class Alg_ColorConverter
 #		list( $x, $y, $z ) = $xyz;
 #		return array( $l, $u, $v );
 #	}
-#	
+#
 #	/**
 #	 *	Converts LUV to XYZ.
 #	 *	@access		public
@@ -392,7 +392,7 @@ class Alg_ColorConverter
 #		list( $l, $u, $v ) = $luv;
 #		return array( $x, $y, $z );
 #	}
-#	
+#
 #	/**
 #	 *	Converts XYZ to LAB.
 #	 *	@access		public
@@ -408,7 +408,7 @@ class Alg_ColorConverter
 #		list( $x, $y, $z ) = $xyz;
 #		return array( $l, $a, $b );
 #	}
-#	
+#
 #	/**
 #	 *	Converts LAB to XYZ.
 #	 *	@access		public
@@ -440,7 +440,7 @@ class Alg_ColorConverter
 #		list( $l, $a, $b ) = $lab;
 #		return array( $l, $u, $v );
 #	}
-#	
+#
 #	/**
 #	 *	Converts LUV to LAB.
 #	 *	@access		public

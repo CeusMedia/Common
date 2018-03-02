@@ -45,7 +45,7 @@ class ADT_Tree_Menu_List
 	public $attributes			= NULL;
 	/**	@var		array		$children		List of nested Tree Menu Items */
 	public $children			= array();
-	
+
 	public $defaultAttributes	= array(
 		'class'		=> "option",
 		'default'	=> FALSE,
@@ -77,16 +77,6 @@ class ADT_Tree_Menu_List
 	}
 
 	/**
-	 *	Indicated whether there are nested Tree Menu Items.
-	 *	@access		public
-	 *	@return		bool
-	 */
-	public function hasChildren()
-	{
-		return (bool) count( $this->children );
-	}
-
-	/**
 	 *	Returns Value of a set Attribute by its Key.
 	 *	@access		public
 	 *	@param		string		$key			Attribute Key
@@ -96,7 +86,7 @@ class ADT_Tree_Menu_List
 	{
 		return $this->attributes->get( $key );
 	}
-	
+
 	/**
 	 *	Returns all set Attributes as Dictionary or Array.
 	 *	@access		public
@@ -109,7 +99,7 @@ class ADT_Tree_Menu_List
 			return $this->attributes->getAll();
 		return $this->attributes;
 	}
-	
+
 	/**
 	 *	Returns List of nested Tree Menu Items.
 	 *	@access		public
@@ -128,6 +118,16 @@ class ADT_Tree_Menu_List
 	public function getLabel()
 	{
 		return $this->label;
+	}
+
+	/**
+	 *	Indicated whether there are nested Tree Menu Items.
+	 *	@access		public
+	 *	@return		bool
+	 */
+	public function hasChildren()
+	{
+		return (bool) count( $this->children );
 	}
 
 	/**

@@ -58,6 +58,24 @@ class Alg_Math_Euklid
 			return $m;
 	}
 
+	public static function ggTe( $a, $b )
+	{
+		$array	= self::ggTe_rec( $a, $b );
+		return $array[0];
+	}
+
+	public static function ggTe_rec( $a, $b )
+	{
+		if( $b == 0 )
+			$array	= array( $a, 1, 0 );
+		else
+		{
+			$tmp	= self::ggTe_rec( $b, $a % $b );
+			$array	= array( $tmp[0], $tmp[2], $tmp[1] - round( $a / $b ) * $tmp[2] );
+		}
+		return $array;
+	}
+
 	/**
 	 *	kgV( m, n)
 	 *	@access		public
@@ -69,24 +87,6 @@ class Alg_Math_Euklid
 	public static function kgV( $m, $n )
 	{
 		return $m * $n / self::ggT( $m, $n );
-	}
-	
-	public static function ggTe( $a, $b )
-	{
-		$array	= self::ggTe_rec( $a, $b );
-		return $array[0];
-	}
-	
-	public static function ggTe_rec( $a, $b )
-	{
-		if( $b == 0 )
-			$array	= array( $a, 1, 0 );
-		else
-		{
-			$tmp	= self::ggTe_rec( $b, $a % $b );
-			$array	= array( $tmp[0], $tmp[2], $tmp[1] - round( $a / $b ) * $tmp[2] );
-		}
-		return $array;
 	}
 }
 ?>

@@ -50,6 +50,10 @@ class ADT_CSS_Rule{
 			$this->setProperty( $property );
 	}
 
+	public function getProperties(){
+		return $this->properties;
+	}
+
 	public function getPropertyByIndex( $index ){
 		if( !isset( $this->properties[$index] ) )
 			throw new OutOfRangeException( 'Invalid property index' );
@@ -61,10 +65,6 @@ class ADT_CSS_Rule{
 			if( $key == $property->getKey() )
 				return $property;
 		return NULL;
-	}
-
-	public function getProperties(){
-		return $this->properties;
 	}
 
 	public function getSelector(){

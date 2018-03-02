@@ -108,16 +108,6 @@ class ADT_StringBuffer implements Countable
 	}
 
 	/**
-	 *	Returns the current Position of the internal Pointer.
-	 *	@access		public
-	 *	@return		int
-	 */
-	public function getCurrentPos()
-	{
-		return $this->pointer;
-	}
-
-	/**
 	 *	Returns  a Character at the current Position.
 	 *	@access		public
 	 *	@return		string
@@ -126,6 +116,16 @@ class ADT_StringBuffer implements Countable
 	{
 		$character = $this->buffer[$this->pointer];
 		return $character;
+	}
+
+	/**
+	 *	Returns the current Position of the internal Pointer.
+	 *	@access		public
+	 *	@return		int
+	 */
+	public function getCurrentPos()
+	{
+		return $this->pointer;
 	}
 
 	/**
