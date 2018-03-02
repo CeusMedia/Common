@@ -23,8 +23,6 @@
  *	@copyright		2010-2018 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.7.1
- *	@version		$Id$
  */
 /**
  *	Sends Mail using a remote SMTP Server and a Socket Connection.
@@ -35,10 +33,9 @@
  *	@copyright		2010-2018 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.7.1
- *	@version		$Id$
- *	@todo			Auth? username and passwort not used by this implementation
  *	@see			http://www.der-webdesigner.net/tutorials/php/anwendungen/329-php-und-oop-mailversand-via-smtp.html
+ *	@deprecated		Please use CeusMedia/Mail (https://packagist.org/packages/ceus-media/mail) instead
+ *	@todo			remove in version 1.0
  */
 class Net_Mail_Transport_SMTP
 {
@@ -70,61 +67,29 @@ class Net_Mail_Transport_SMTP
 	 */
 	public function __construct( $host, $port = 25, $username = NULL, $password = NULL )
 	{
+		Deprecation::getInstance()
+			->setErrorVersion( '0.8.5' )
+			->setExceptionVersion( '0.9' )
+			->message( sprintf(
+				'Please use %s (%s) instead',
+				'public library "CeusMedia/Mail"',
+			 	'https://packagist.org/packages/ceus-media/mail'
+			) );
 		$this->host		= $host;
 		$this->setPort( $port );
 		$this->setAuthUsername( $username );
 		$this->setAuthPassword( $password );
 	}
 
-	/**
-	 *	Sets Mail Agend for Mailer Header.
-	 *	@access		public
-	 *	@param		string		$mailer		Mailer Agent
-	 *	@return		void
-	 */
-	public function setMailer( $mailer ){
-		$this->mailer = $mailer;
-	}
-
-	public function setSecure( $secure ){
-		$this->isSecure = (bool) $secure;
-	}
-
-	public function setVerbose( $verbose ){
-		$this->verbose = (bool) $verbose;
-	}
-
-	/**
-	 *	Sets Username for SMTP Auth.
-	 *	@access		public
-	 *	@param		string		$username	SMTP Auth Username
-	 *	@return		void
-	 */
-	public function setAuthUsername( $username )
-	{
-		$this->username	= $username;
-	}
-
-	/**
-	 *	Sets Password for SMTP Auth.
-	 *	@access		public
-	 *	@param		string		$password	SMTP Auth Password
-	 *	@return		void
-	 */
-	public function setAuthPassword( $password )
-	{
-		$this->password	= $password;
-	}
-
-	/**
-	 *	Constructor.
-	 *	@access		public
-	 *	@param		integer		$port		SMTP Server Port
-	 *	@return		void
-	 */
-	public function setPort( $port )
-	{
-		$this->port		= $port;
+	protected function checkResponse( $connection ){
+		$response	= fgets( $connection, 1024 );
+		if( $this->verbose )
+			xmp( ' > '.$response );
+		$matches	= array();
+		preg_match( '/^([0-9]{3}) (.+)$/', trim( $response ), $matches );
+		if( $matches )
+			if( (int) $matches[1] >= 400 )
+				throw new RuntimeException( 'SMTP error: '.$matches[2], (int) $matches[1] );
 	}
 
 	/**
@@ -195,15 +160,55 @@ class Net_Mail_Transport_SMTP
 		fputs( $connection, $message.Net_Mail::$delimiter );
 	}
 
-	protected function checkResponse( $connection ){
-		$response	= fgets( $connection, 1024 );
-		if( $this->verbose )
-			xmp( ' > '.$response );
-		$matches	= array();
-		preg_match( '/^([0-9]{3}) (.+)$/', trim( $response ), $matches );
-		if( $matches )
-			if( (int) $matches[1] >= 400 )
-				throw new RuntimeException( 'SMTP error: '.$matches[2], (int) $matches[1] );
+	/**
+	 *	Sets Password for SMTP Auth.
+	 *	@access		public
+	 *	@param		string		$password	SMTP Auth Password
+	 *	@return		void
+	 */
+	public function setAuthPassword( $password )
+	{
+		$this->password	= $password;
+	}
+
+	/**
+	 *	Sets Username for SMTP Auth.
+	 *	@access		public
+	 *	@param		string		$username	SMTP Auth Username
+	 *	@return		void
+	 */
+	public function setAuthUsername( $username )
+	{
+		$this->username	= $username;
+	}
+
+	/**
+	 *	Sets Mail Agend for Mailer Header.
+	 *	@access		public
+	 *	@param		string		$mailer		Mailer Agent
+	 *	@return		void
+	 */
+	public function setMailer( $mailer ){
+		$this->mailer = $mailer;
+	}
+
+	public function setSecure( $secure ){
+		$this->isSecure = (bool) $secure;
+	}
+
+	public function setVerbose( $verbose ){
+		$this->verbose = (bool) $verbose;
+	}
+
+	/**
+	 *	Constructor.
+	 *	@access		public
+	 *	@param		integer		$port		SMTP Server Port
+	 *	@return		void
+	 */
+	public function setPort( $port )
+	{
+		$this->port		= $port;
 	}
 }
 ?>

@@ -23,8 +23,6 @@
  *	@copyright		2010-2018 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.7.1
- *	@version		$Id$
  */
 /**
  *	Mail Body Data Object.
@@ -36,8 +34,8 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@see			http://tools.ietf.org/html/rfc5322#section-3.3
- *	@since			0.7.1
- *	@version		$Id$
+ *	@deprecated		Please use CeusMedia/Mail (https://packagist.org/packages/ceus-media/mail) instead
+ *	@todo			remove in version 1.0
  */
 class Net_Mail_Body
 {
@@ -59,6 +57,14 @@ class Net_Mail_Body
 	 */
 	public function __construct( $content, $mimeType = self::TYPE_PLAIN, $encoding = "8bit" )
 	{
+		Deprecation::getInstance()
+			->setErrorVersion( '0.8.5' )
+			->setExceptionVersion( '0.9' )
+			->message( sprintf(
+				'Please use %s (%s) instead',
+				'public library "CeusMedia/Mail"',
+			 	'https://packagist.org/packages/ceus-media/mail'
+			) );
 		$this->headers	= new Net_Mail_Header_Section();
 		$this->setContent( $content );
 		if( $mimeType )
@@ -74,6 +80,16 @@ class Net_Mail_Body
 	public function getHeaders()
 	{
 		return $this->headers->getFields();
+	}
+
+	/**
+	 *	Returns rendered Mail Part of Body, containing Header Fields and Body Content.
+	 *	@access		public
+	 *	@return		string
+	 */
+	public function render()
+	{
+		return $this->headers->toString().Net_Mail::$delimiter.Net_Mail::$delimiter.$this->content/*.PHP_EOL*/;
 	}
 
 	/**
@@ -122,16 +138,6 @@ class Net_Mail_Body
 	public function wrapWords( $maxLineLength = 76 )
 	{
 		$this->content	= chunk_split( $this->content, $maxLineLength, Net_Mail::$delimiter );
-	}
-
-	/**
-	 *	Returns rendered Mail Part of Body, containing Header Fields and Body Content.
-	 *	@access		public
-	 *	@return		string
-	 */
-	public function render()
-	{
-		return $this->headers->toString().Net_Mail::$delimiter.Net_Mail::$delimiter.$this->content/*.PHP_EOL*/;
 	}
 }
 ?>

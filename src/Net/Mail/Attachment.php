@@ -23,8 +23,6 @@
  *	@copyright		2010-2018 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.7.1
- *	@version		$Id$
  */
 /**
  *	Mail Attachment Data Object.
@@ -36,8 +34,8 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@see			http://tools.ietf.org/html/rfc5322#section-3.3
- *	@since			0.7.1
- *	@version		$Id$
+ *	@deprecated		Please use CeusMedia/Mail (https://packagist.org/packages/ceus-media/mail) instead
+ *	@todo			remove in version 1.0
  */
 class Net_Mail_Attachment
 {
@@ -55,6 +53,14 @@ class Net_Mail_Attachment
 	 */
 	public function __construct( $fileName, $mimeType = NULL )
 	{
+		Deprecation::getInstance()
+			->setErrorVersion( '0.8.5' )
+			->setExceptionVersion( '0.9' )
+			->message( sprintf(
+				'Please use %s (%s) instead',
+				'public library "CeusMedia/Mail"',
+			 	'https://packagist.org/packages/ceus-media/mail'
+			) );
 		if( !file_exists( $fileName ) )
 			throw new InvalidArgumentException( 'Attachment file "'.$fileName.'" is not existing' );
 		$baseName		= basename( $fileName );

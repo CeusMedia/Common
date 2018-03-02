@@ -23,8 +23,6 @@
  *	@copyright		2007-2018 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			19.02.2007
- *	@version		$Id$
  */
 /**
  *	Sends Mails of different Types.
@@ -34,8 +32,8 @@
  *	@copyright		2007-2018 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			19.02.2007
- *	@version		$Id$
+ *	@deprecated		Please use CeusMedia/Mail (https://packagist.org/packages/ceus-media/mail) instead
+ *	@todo			remove in version 1.0
  */
 class Net_Mail_Transport_Default
 {
@@ -50,6 +48,14 @@ class Net_Mail_Transport_Default
 	 */
 	public function __construct( $mailer = NULL )
 	{
+		Deprecation::getInstance()
+			->setErrorVersion( '0.8.5' )
+			->setExceptionVersion( '0.9' )
+			->message( sprintf(
+				'Please use %s (%s) instead',
+				'public library "CeusMedia/Mail"',
+			 	'https://packagist.org/packages/ceus-media/mail'
+			) );
 		$this->mailer	= 'CeusMedia::Common/0.8.0';
 		if( is_string( $mailer ) && strlen( trim( $mailer ) ) )
 			$this->mailer	= $mailer;
