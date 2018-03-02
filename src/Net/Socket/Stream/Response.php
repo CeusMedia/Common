@@ -20,60 +20,6 @@ class Net_Socket_Stream_Response
 			$this->addContent( $content );
 	}
 
-	public function addContent( $content )
-	{
-		switch( gettype( $content ) )
-		{
-			case 'integer':
-			case 'float':
-			case 'real':
-			case 'double':
-			case 'string':
-				$this->contents[]	= $content;
-				break;
-			case 'array':
-				foreach( $content as $block )
-					if( trim( $block ) )
-						$this->addContent( $block );
-				break;
-			case 'object':
-				throw new Exception( 'StreamSocketResponse does not support Objects as content, yet' );
-			default:
-				throw new Exception( 'unknown' );
-		}
-	}
-
-	public function render()
-	{
-		switch( $this->format )
-		{
-			case 'json':
-				return json_encode( $this->contents );
-			case 'php':
-				return serialize( $this->contents );
-			case 'wddx':
-				return wddx_serialize_value( $this->contents );
-			case 'xml':
-				import( 'de.ceus-media.xml.Element' );
-				import( 'de.ceus-media.xml.dom.Formater' );
-				$root	= new XML_Element( "<response/>" );
-				$this->addArrayToXmlNode( $root, $this->contents, "item" );
-				$xml	= $root->asXml();
-				$xml	= XML_DOM_Formater::format( $xml );
-				return $xml;
-			default:
-				return implode( "\n", $this->contents );
-		}
-	}
-
-	public function setFormat( $format )
-	{
-		$this->format	= $format;
-	}
-
-
-
-
 	/**
 	 *	Converts a Data Array to a XML Structure and appends it to the given SimpleXMLElement.
 	 *	@access		protected
@@ -111,6 +57,29 @@ class Net_Socket_Stream_Response
 		}
 	}
 
+	public function addContent( $content )
+	{
+		switch( gettype( $content ) )
+		{
+			case 'integer':
+			case 'float':
+			case 'real':
+			case 'double':
+			case 'string':
+				$this->contents[]	= $content;
+				break;
+			case 'array':
+				foreach( $content as $block )
+					if( trim( $block ) )
+						$this->addContent( $block );
+				break;
+			case 'object':
+				throw new Exception( 'StreamSocketResponse does not support Objects as content, yet' );
+			default:
+				throw new Exception( 'unknown' );
+		}
+	}
+
 	/**
 	 *	Returns Singular of a Word.
 	 *	@access		public
@@ -122,6 +91,34 @@ class Net_Socket_Stream_Response
 		$word	= preg_replace( '@ies$@', "y", $word );
 		$word	= preg_replace( '@(([s|x|h])e)?s$@', "\\2", $word );
 		return $word;
+	}
+
+	public function setFormat( $format )
+	{
+		$this->format	= $format;
+	}
+
+	public function render()
+	{
+		switch( $this->format )
+		{
+			case 'json':
+				return json_encode( $this->contents );
+			case 'php':
+				return serialize( $this->contents );
+			case 'wddx':
+				return wddx_serialize_value( $this->contents );
+			case 'xml':
+				import( 'de.ceus-media.xml.Element' );
+				import( 'de.ceus-media.xml.dom.Formater' );
+				$root	= new XML_Element( "<response/>" );
+				$this->addArrayToXmlNode( $root, $this->contents, "item" );
+				$xml	= $root->asXml();
+				$xml	= XML_DOM_Formater::format( $xml );
+				return $xml;
+			default:
+				return implode( "\n", $this->contents );
+		}
 	}
 }
 ?>

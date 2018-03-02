@@ -50,22 +50,7 @@ class CLI_Server_Cron_Job extends ADT_OptionObject
 	{
 		$this->setOption( "action", $action );
 	}
-	
-	/**
-	 *	Executes Cron Job and returns execution output.
-	 *	@access		public
-	 *	@return		string
-	 */
-	public function execute()
-	{
-		ob_start();
-		passthru( $this->getOption( "action" ) );
-		$content	= ob_get_contents();
-		ob_end_clean();
-		return $content;
-	}
-	
-	//  --  PRIVATE METHODS  --  //
+
 	/**
 	 *	Indicates whether this job is mature.
 	 *	@access		protected
@@ -90,8 +75,22 @@ class CLI_Server_Cron_Job extends ADT_OptionObject
 				if( $j_day[0] == "*" || in_array( $c_day, $j_day ) )
 					if( $j_hour[0] == "*" || in_array( $c_hour, $j_hour ) )
 						if( $j_minute[0] == "*" || in_array( $c_minute, $j_minute ) )
-							return true;	
-		return false;	
+							return true;
+		return false;
+	}
+
+	/**
+	 *	Executes Cron Job and returns execution output.
+	 *	@access		public
+	 *	@return		string
+	 */
+	public function execute()
+	{
+		ob_start();
+		passthru( $this->getOption( "action" ) );
+		$content	= ob_get_contents();
+		ob_end_clean();
+		return $content;
 	}
 }
 ?>

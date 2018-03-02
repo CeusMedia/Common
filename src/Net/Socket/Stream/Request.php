@@ -25,14 +25,9 @@ class Net_Socket_Stream_Request
 		$this->headers[]	= $header;
 	}
 
-	public function render()
+	public function setData( $data )
 	{
-		switch( $this->format )
-		{
-			case Net_Socket_Stream_Server::FORMAT_PHP:
-				
-			
-		}
+		$this->data	= $data;
 	}
 
 	public function setFormat( $format )
@@ -47,14 +42,20 @@ class Net_Socket_Stream_Request
 			$this->addHeader( $header );
 	}
 
-	public function setData( $data )
-	{
-		$this->data	= $data;
-	}
-
 	public function setResponseFormat( $format )
 	{
 		$this->format	= $format;
+	}
+
+	public function render()
+	{
+		switch( $this->format )
+		{
+			case Net_Socket_Stream_Server::FORMAT_PHP:
+			//	@todo		implement
+				break;
+
+		}
 	}
 }
 ?>

@@ -45,30 +45,30 @@ class CLI_Shell
 		"declare",
 		"die",
 		"echo",
-		"exit", 
-		"for", 
-		"foreach", 
-		"function", 
-		"global", 
-		"if", 
-		"include", 
+		"exit",
+		"for",
+		"foreach",
+		"function",
+		"global",
+		"if",
+		"include",
 		"include_once",
 		"print",
-		"require", 
-		"require_once", 
-		"return", 
-		"static", 
-		"switch", 
+		"require",
+		"require_once",
+		"return",
+		"static",
+		"switch",
 		"while"
 	);
 
 	/**	@var	array	$okeq	Valide equation operators */
 	protected $okeq = array(
-		"===", 
-		"!==", 
-		"==", 
-		"!=", 
-		"<=", 
+		"===",
+		"!==",
+		"==",
+		"!=",
+		"<=",
 		">="
 	);
 
@@ -84,7 +84,7 @@ class CLI_Shell
 		ob_implicit_flush( true );
 		ini_set( "html_errors", 0 );
 		error_reporting( 7 );
-		set_time_limit( 0 ); 
+		set_time_limit( 0 );
 		if( !defined( 'STDIN' ) )
 		{
 			define( 'STDIN',	fopen( "php://stdin","r" ) );
@@ -95,7 +95,41 @@ class CLI_Shell
 		}
 		$this->run();
 	}
-	
+
+	/**
+	 *	Indicates whether a line is immediate executable like equations.
+	 *	@access		protected
+	 *	@return 	void
+	 */
+	protected function isImmediate( $line )
+	{
+		$code = "";
+		$sq = $dq = false;
+		for( $i = 0; $i < strlen( $line ); $i++ )
+		{
+			$c = $line{$i};
+			if( $c == "'" )
+				$sq = !$sq;
+			else if( $c == '"')
+				$dq = !$dq;
+			else if( ( $sq ) ||( $dq ) )
+			{
+				if( $c == "\\" )
+					$i++;
+			}
+			else
+				$code .= $c;
+		}
+		$code = str_replace( $this->okeq, "", $code );
+		if( strcspn( $code, ";{=" ) != strlen( $code ) )
+			return false;
+		$kw = split( "[^A-Za-z0-9_]", $code );
+		foreach( $kw as $i )
+			if( in_array( $i, $this->skip ) )
+				return false;
+		return true;
+	}
+
 	/**
 	 *	Reads input line from console.
 	 *	@access		public
@@ -105,7 +139,7 @@ class CLI_Shell
 	{
 		$line = fgets ( STDIN, $length );
 		return trim ($line);
-	}	
+	}
 
 	/**
 	 *	Reads input lines from console and prints out the answer.
@@ -144,40 +178,6 @@ class CLI_Shell
 				fputs( STDOUT, ":> " );
 			}
 		}
-	}
-
-	/**
-	 *	Indicates whether a line is immediate executable like equations.
-	 *	@access		protected
-	 *	@return 	void
-	 */
-	protected function isImmediate( $line )
-	{
-		$code = "";
-		$sq = $dq = false;
-		for( $i = 0; $i < strlen( $line ); $i++ )
-		{
-			$c = $line{$i};
-			if( $c == "'" )
-				$sq = !$sq;
-			else if( $c == '"')
-				$dq = !$dq;
-			else if( ( $sq ) ||( $dq ) )
-			{
-				if( $c == "\\" )
-					$i++;
-			}
-			else
-				$code .= $c;
-		}
-		$code = str_replace( $this->okeq, "", $code );
-		if( strcspn( $code, ";{=" ) != strlen( $code ) )
-			return false;
-		$kw = split( "[^A-Za-z0-9_]", $code );
-		foreach( $kw as $i )
-			if( in_array( $i, $this->skip ) )
-				return false;
-		return true;
 	}
 }
 ?>

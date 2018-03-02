@@ -242,17 +242,6 @@ class Net_Reader
 	}
 
 	/**
-	 *	Sets User Agent.
-	 *	@access		public
-	 *	@param		string		$title		User Agent to set
-	 *	@return		void
-	 */
-	public function setUserAgent( $title )
-	{
-		self::$userAgent	= $title;
-	}
-
-	/**
 	 *	Set URL to request.
 	 *	@access		public
 	 *	@param		string		$url		URL to request
@@ -263,6 +252,17 @@ class Net_Reader
 		if( !( is_string( $url ) && $url ) )
 			throw new InvalidArgumentException( "No URL given." );
 		$this->url	= $url;
+	}
+
+	/**
+	 *	Sets User Agent.
+	 *	@access		public
+	 *	@param		string		$title		User Agent to set
+	 *	@return		void
+	 */
+	public function setUserAgent( $title )
+	{
+		self::$userAgent	= $title;
 	}
 
 	/**

@@ -5,6 +5,12 @@ class CLI_Size{
 
 	static protected $height	= 0;
 
+	static public function getHeight( $force = FALSE ){
+		if( !self::$height || $force )
+			self::$height	= exec( 'tput lines' );
+		return self::$height;
+	}
+
 	static public function getSize( $force = FALSE ){
 /*		preg_match_all("/rows.([0-9]+);.columns.([0-9]+);/", strtolower(exec('stty -a |grep columns')), $output);
 		if(sizeof($output) == 3) {
@@ -15,12 +21,6 @@ class CLI_Size{
 			'width'		=> self::getWidth(),
 			'height'	=> self::getHeight(),
 		);
-	}
-
-	static public function getHeight( $force = FALSE ){
-		if( !self::$height || $force )
-			self::$height	= exec( 'tput lines' );
-		return self::$height;
 	}
 
 	static public function getWidth( $force = FALSE ){

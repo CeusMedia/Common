@@ -56,6 +56,36 @@ class Net_Socket_Stream_Package
 		}
 	}
 
+	public function getData()
+	{
+		return $this->data;
+	}
+
+	/**
+	 *	Returns Singular of a Word.
+	 *	@access		public
+	 *	@param		string			$words			Word in Plural
+	 *	@return		string
+	 */
+	protected function getSingular( $word )
+	{
+		$word	= preg_replace( '@ies$@', "y", $word );
+		$word	= preg_replace( '@(([s|x|h])e)?s$@', "\\2", $word );
+		return $word;
+	}
+
+	public function fromSerial( $serial ){
+		$parts	= preg_split( '/:/', $serial, 2 );
+		switch( $parts[0] ){
+			case 'php':
+				$this->data	= unserialize( $parts[1] );
+				break;
+			case 'json':
+				$this->data	= json_decode( $parts[1] );
+				break;
+		}
+	}
+
 	public function setData( $data )
 	{
 		switch( gettype( $data ) )
@@ -76,17 +106,9 @@ class Net_Socket_Stream_Package
 		}
 	}
 
-	/**
-	 *	Returns Singular of a Word.
-	 *	@access		public
-	 *	@param		string			$words			Word in Plural
-	 *	@return		string
-	 */
-	protected function getSingular( $word )
+	public function setFormat( $format )
 	{
-		$word	= preg_replace( '@ies$@', "y", $word );
-		$word	= preg_replace( '@(([s|x|h])e)?s$@', "\\2", $word );
-		return $word;
+		$this->format = $format;
 	}
 
 	public function toSerial( $format = NULL )
@@ -110,29 +132,6 @@ class Net_Socket_Stream_Package
 				return $format.':'.$xml;
 			default:
 				return $format.':'.implode( "\n", $this->data );
-		}
-
-	}
-
-	public function setFormat( $format )
-	{
-		$this->format = $format;
-	}
-
-	public function getData()
-	{
-		return $this->data;
-	}
-
-	public function fromSerial( $serial ){
-		$parts	= preg_split( '/:/', $serial, 2 );
-		switch( $parts[0] ){
-			case 'php':
-				$this->data	= unserialize( $parts[1] );
-				break;
-			case 'json':
-				$this->data	= json_decode( $parts[1] );
-				break;
 		}
 	}
 }

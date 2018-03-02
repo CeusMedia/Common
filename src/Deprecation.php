@@ -70,11 +70,15 @@ class Deprecation{
 			if( version_compare( $this->version, $this->exceptionVersion ) >= 0 )
 				throw new Exception( 'Deprecated: '.$message );
 		if( version_compare( $this->version, $this->errorVersion ) >= 0 ){
-			if( version_compare( $this->phpVersion, "5.3.0" ) >= 0 )
-				trigger_error( $message, E_USER_DEPRECATED );
-			else
-				trigger_error( 'Deprecated: '.$message, E_USER_NOTICE );
+			self::notify( $message );
 		}
+	}
+
+	static public function notify( $message ){
+		if( version_compare( phpversion(), "5.3.0" ) >= 0 )
+			trigger_error( $message, E_USER_DEPRECATED );
+		else
+			trigger_error( 'Deprecated: '.$message, E_USER_NOTICE );
 	}
 
 	/**
@@ -100,13 +104,5 @@ class Deprecation{
 		$this->exceptionVersion		= $version;
 		return $this;
 	}
-
-	static public function notify( $message ){
-		if( version_compare( phpversion(), "5.3.0" ) >= 0 )
-			trigger_error( $message, E_USER_DEPRECATED );
-		else
-			trigger_error( 'Deprecated: '.$message, E_USER_NOTICE );
-	}
-
 }
 ?>

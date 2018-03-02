@@ -55,7 +55,7 @@ class Exception_Template extends RuntimeException
 	protected $labels			= array();
 	/**	@var		string		$filePath		File Path of Template, set only if not found */
 	protected $filePath			= NULL;
-	
+
 	/**
 	 *	Constructor.
 	 *	@access		public
@@ -89,25 +89,25 @@ class Exception_Template extends RuntimeException
 				break;
 		}
 	}
-	
-	/**
-	 *	Returns not used Labels.
-	 *	@access	  public
-	 *	@return	  array		{@link $labels} 
-	 */
-	public function getNotUsedLabels()
-	{
-		return $this->labels;
-	}
-	
+
 	/**
 	 *	Returns File Path of Template if not found.
 	 *	@access	  public
-	 *	@return	  array		{@link $filePath} 
+	 *	@return	  array		{@link $filePath}
 	 */
 	public function getFilePath()
 	{
 		return $this->filePath;
+	}
+
+	/**
+	 *	Returns not used Labels.
+	 *	@access	  public
+	 *	@return	  array		{@link $labels}
+	 */
+	public function getNotUsedLabels()
+	{
+		return $this->labels;
 	}
 }
 ?>
