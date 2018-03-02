@@ -66,6 +66,16 @@ class ADT_Graph_EdgeSet implements Countable
 	}
 
 	/**
+	 *	Returns the amount of Edges in this EdgeSet.
+	 *	@access		public
+	 *	@return 	int
+	 */
+	public function count()
+	{
+		return count( $this->edges );
+	}
+
+	/**
 	 *	Returns an Edge existing in this EdgeSet.
 	 *	@access		public
 	 *	@param		ADT_Graph_Node		$sourceNode		Source Node of this Edge
@@ -76,16 +86,6 @@ class ADT_Graph_EdgeSet implements Countable
 	{
 		$index = $this->getEdgeIndex( $sourceNode, $targetNode );
 		return $this->edges[$index];
-	}
-
-	/**
-	 *	Returns an Array of all Edges in this EdgeSet.
-	 *	@access		public
-	 *	@return 	ADT_Graph_Node
-	 */
-	public function getEdges()
-	{
-		return $this->edges;
 	}
 
 	/**
@@ -109,13 +109,13 @@ class ADT_Graph_EdgeSet implements Countable
 	}
 
 	/**
-	 *	Returns the amount of Edges in this EdgeSet.
+	 *	Returns an Array of all Edges in this EdgeSet.
 	 *	@access		public
-	 *	@return 	int
+	 *	@return 	ADT_Graph_Node
 	 */
-	public function count()
+	public function getEdges()
 	{
-		return count( $this->edges );
+		return $this->edges;
 	}
 
 	/**

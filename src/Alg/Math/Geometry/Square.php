@@ -43,20 +43,20 @@ class Alg_Math_Geometry_Square
 		$this->a = $a;
 	}
 
-	public function volume()
+	public function diagonal()
 	{
-		return pow( $this->a, 2 );	
+		$c = $this->a * sqrt( 2 );
+		return $c;
 	}
 
 	public function outline()
 	{
 		return 4 * $this->a;
 	}
-	
-	public function diagonal()
+
+	public function volume()
 	{
-		$c = $this->a * sqrt( 2 );
-		return $c;
+		return pow( $this->a, 2 );
 	}
 }
 ?>

@@ -56,6 +56,26 @@ class ADT_Graph_Node
 	}
 
 	/**
+	 *	Returns the Name of this Node.
+	 *	@access		public
+	 *	@return		string
+	 */
+	public function getNodeName()
+	{
+		return $this->nodeName;
+	}
+
+	/**
+	 *	Returns the Value of this Node.
+	 *	@access		public
+	 *	@return		mixed
+	 */
+	public function getNodeValue()
+	{
+		return $this->nodeValue;
+	}
+
+	/**
 	 *	Setting the Name of this Node.
 	 *	@access		public
 	 *	@param		string		$nodeName		Name of this Node
@@ -77,26 +97,6 @@ class ADT_Graph_Node
 		$this->nodeValue = $nodeValue;
 	}
 
-	/**
-	 *	Returns the Name of this Node.
-	 *	@access		public
-	 *	@return		string
-	 */
-	public function getNodeName()
-	{
-		return $this->nodeName;
-	}
-
-	/**
-	 *	Returns the Value of this Node.
-	 *	@access		public
-	 *	@return		mixed
-	 */
-	public function getNodeValue()
-	{
-		return $this->nodeValue;
-	}
-	
 	public function __toString()
 	{
 		return "(".$this->nodeName.":".$this->nodeValue.")";
