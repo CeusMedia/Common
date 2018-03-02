@@ -2,7 +2,7 @@
 /**
  *	Polynomial.
  *
- *	Copyright (c) 2007-2015 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2018 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Math
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2015 Christian Würker
+ *	@copyright		2007-2018 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@version		$Id$
@@ -31,7 +31,7 @@
  *	@package		CeusMedia_Common_Alg_Math
  *	@uses			Alg_Math_Formula
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2015 Christian Würker
+ *	@copyright		2007-2018 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@version		$Id$
@@ -88,41 +88,6 @@ class Alg_Math_Polynomial
 	}
 
 	/**
-	 *	Sets the coefficients.
-	 *	@access		public
-	 *	@param		array		$coefficients		Array of coefficients starting with highest potency
-	 *	@return		void
-	 */
-	public function setCoefficients( $coefficients )
-	{
-		$this->coefficients = $coefficients;
-	}
-
-	/**
-	 *	Calculates value with a given x with Horner-Scheme and returns the value.
-	 *	@access		public
-	 *	@param		mixed		$x				X-Value
-	 *	@return		mixed
-	 */
-	public function getValue( $x )
-	{
-		$y = 0;
-		for( $i = $this->getRank() - 1; $i >= 0; $i-- )
-			$y	= $this->coefficients[$i] + $y * $x;
-		return $y;
-	}
-	
-	/**
-	 *	Returns the Rank of the Polynomial.
-	 *	@access		public
-	 *	@return		int
-	 */
-	public function getRank()
-	{
-		return count( $this->coefficients );
-	}
-	
-	/**
 	 *	Returns Formula Object of Polynomial.
 	 *	@access		public
 	 *	@return		Alg_Math_Formula
@@ -155,7 +120,17 @@ class Alg_Math_Polynomial
 		$formula	= new Alg_Math_Formula( $expression, "x" );
 		return $formula;
 	}
-	
+
+	/**
+	 *	Returns the Rank of the Polynomial.
+	 *	@access		public
+	 *	@return		int
+	 */
+	public function getRank()
+	{
+		return count( $this->coefficients );
+	}
+
 	/**
 	 *	Returns Sign of Coefficient.
 	 *	@access		protected
@@ -168,6 +143,31 @@ class Alg_Math_Polynomial
 		if( (float)$value < 0 )
 			return "-";
 		return "+";
+	}
+
+	/**
+	 *	Calculates value with a given x with Horner-Scheme and returns the value.
+	 *	@access		public
+	 *	@param		mixed		$x				X-Value
+	 *	@return		mixed
+	 */
+	public function getValue( $x )
+	{
+		$y = 0;
+		for( $i = $this->getRank() - 1; $i >= 0; $i-- )
+			$y	= $this->coefficients[$i] + $y * $x;
+		return $y;
+	}
+
+	/**
+	 *	Sets the coefficients.
+	 *	@access		public
+	 *	@param		array		$coefficients		Array of coefficients starting with highest potency
+	 *	@return		void
+	 */
+	public function setCoefficients( $coefficients )
+	{
+		$this->coefficients = $coefficients;
 	}
 }
 ?>

@@ -2,7 +2,7 @@
 /**
  *	Converter for Strings using different ways of Camel Case.
  *
- *	Copyright (c) 2007-2015 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2018 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Text
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2015 Christian Würker
+ *	@copyright		2008-2018 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.6.6
@@ -31,7 +31,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Text
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2015 Christian Würker
+ *	@copyright		2008-2018 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.6.6
@@ -55,32 +55,6 @@ class Alg_Text_CamelCase
 	static public function convert( $string, $lowercaseFirst = NULL, $lowercaseLetter = NULL )
 	{
 		return static::encode( $string, $lowercaseFirst, $lowercaseLetter );
-	}
-
-	/**
-	 *	Convert a String to Camel Case, removing all spaces and underscores and capitalizing all Words.
-	 *	@access		public
-	 *	@static
-	 *	@param		string		$string		String to convert
-	 *	@param		bool		$startLow	Flag: convert first Word also to uppercase, use static default if NULL
-	 *	@return		string
-	 */
-	static public function encode( $string, $lowercaseFirst = NULL, $lowercaseLetter = NULL )
-	{
-		$lowercaseFirst		= is_null( $lowercaseFirst ) ? self::$lowercaseFirst : $lowercaseFirst;
-		$lowercaseLetter	= is_null( $lowercaseLetter ) ? self::$lowercaseLetter : $lowercaseLetter;
-
-		if( $lowercaseLetter === TRUE )
-			$string	= strToLower( $string );
-
-		if( $lowercaseFirst === TRUE )
-			$string[0]	= strToLower( $string[0] );
-		else if( $lowercaseFirst === FALSE )
-			$string	= ucFirst( $string );
-
-		while( preg_match( self::$regExp, $string, $matches ) )
-		  $string	= $matches[1].ucfirst( $matches[2] );
-		return $string;
 	}
 
 	static public function decode( $string, $delimiter = ' ' )
@@ -127,6 +101,32 @@ class Alg_Text_CamelCase
 				$parts[$nr]	= mb_strtolower( $part, "UTF-8" );
 		}
 		return join( $delimiter, $parts );
+	}
+
+	/**
+	 *	Convert a String to Camel Case, removing all spaces and underscores and capitalizing all Words.
+	 *	@access		public
+	 *	@static
+	 *	@param		string		$string		String to convert
+	 *	@param		bool		$startLow	Flag: convert first Word also to uppercase, use static default if NULL
+	 *	@return		string
+	 */
+	static public function encode( $string, $lowercaseFirst = NULL, $lowercaseLetter = NULL )
+	{
+		$lowercaseFirst		= is_null( $lowercaseFirst ) ? self::$lowercaseFirst : $lowercaseFirst;
+		$lowercaseLetter	= is_null( $lowercaseLetter ) ? self::$lowercaseLetter : $lowercaseLetter;
+
+		if( $lowercaseLetter === TRUE )
+			$string	= strToLower( $string );
+
+		if( $lowercaseFirst === TRUE )
+			$string[0]	= strToLower( $string[0] );
+		else if( $lowercaseFirst === FALSE )
+			$string	= ucFirst( $string );
+
+		while( preg_match( self::$regExp, $string, $matches ) )
+		  $string	= $matches[1].ucfirst( $matches[2] );
+		return $string;
 	}
 
 	static protected function isUpperCharacter( $string, $pos )

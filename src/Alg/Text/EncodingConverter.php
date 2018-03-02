@@ -2,7 +2,7 @@
 /**
  *	Converts a String between Encodings using ICONV.
  *
- *	Copyright (c) 2010-2015 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2010-2018 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Text
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2010-2015 Christian Würker
+ *	@copyright		2010-2018 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.6.8
@@ -31,7 +31,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Text
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2010-2015 Christian Würker
+ *	@copyright		2010-2018 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.6.8
@@ -39,6 +39,18 @@
  */
 class Alg_Text_EncodingConverter
 {
+	/**
+	 *	Checks whether PHP Module 'iconv' is installed or not.
+	 *	@access		protected
+	 *	@return		void
+	 *	@throws 	RuntimeException			if Module is not installed.
+	 */
+	protected static function checkIconv()
+	{
+		if( !function_exists( 'iconv' ) )
+			throw new RuntimeException( 'PHP module "iconv" is not installed' );
+	}
+
 	/**
 	 *	@access		public
 	 *	@static
@@ -56,18 +68,6 @@ class Alg_Text_EncodingConverter
 		if( !$buffer )
 			return $string;
 		throw new InvalidArgumentException( 'String cannot be converted from '.$charsetIn.' to '.$charsetOut );
-	}
-
-	/**
-	 *	Checks whether PHP Module 'iconv' is installed or not.
-	 *	@access		protected
-	 *	@return		void
-	 *	@throws 	RuntimeException			if Module is not installed.
-	 */
-	protected static function checkIconv()
-	{
-		if( !function_exists( 'iconv' ) )
-			throw new RuntimeException( 'PHP module "iconv" is not installed' );
 	}
 }
 ?>

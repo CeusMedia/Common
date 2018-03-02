@@ -2,7 +2,7 @@
 /**
  *	Converter between OPML and Tree Menu Structure.
  *
- *	Copyright (c) 2007-2015 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2018 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Tree_Menu
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2015 Christian Würker
+ *	@copyright		2007-2018 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			02.12.2008
@@ -34,7 +34,7 @@
  *	@uses			XML_OPML_Parser
  *	@uses			ADT_Tree_Menu_List
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2015 Christian Würker
+ *	@copyright		2007-2018 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			02.12.2008
@@ -42,41 +42,6 @@
  */
 class Alg_Tree_Menu_Converter
 {
-	/**
-	 *	Converts an OPML File to a Tree Menu List.
-	 *	@access		public
-	 *	@static
-	 *	@param		string		$fileName		File Name of OPML File
-	 *	@param		string		$labelRoot		Label of Top Tree Menu List
-	 *	@param		string		$rootClass		CSS Class of root node
-	 *	@return		ADT_Tree_Menu_List
-	 */
-	public static function convertFromOpmlFile( $fileName, $labelRoot, $rootClass = NULL )
-	{
-		$opml		= FS_File_Reader::load( $fileName );
-		return self::convertFromOpml( $opml, $labelRoot, $rootClass );
-	}
-	
-	/**
-	 *	Converts an OPML String to a Tree Menu List.
-	 *	@access		public
-	 *	@static
-	 *	@param		string		$opml			OPML String
-	 *	@param		string		$labelRoot		Label of Top Tree Menu List
-	 *	@param		string		$rootClass		CSS Class of root node
-	 *	@return		ADT_Tree_Menu_List
-	 */
-	public static function convertFromOpml( $opml, $labelRoot, $rootClass = NULL )
-	{
-		$parser		= new XML_OPML_Parser();
-		$parser->parse( $opml );
-		$lines		= $parser->getOutlines();
-		$list		= new ADT_Tree_Menu_List( $labelRoot, array( 'class' => $rootClass ) );
-
-		self::buildMenuListFromOutlines( $lines, $list );
-		return $list;
-	}
-
 	/**
 	 *	Adds Tree Menu Items from OPML Outlines into a given Tree Menu List recursively.
 	 *	@access		public
@@ -104,6 +69,41 @@ class Alg_Tree_Menu_Converter
 				$container->addChild( $item );
 			}
 		}
+	}
+
+	/**
+	 *	Converts an OPML String to a Tree Menu List.
+	 *	@access		public
+	 *	@static
+	 *	@param		string		$opml			OPML String
+	 *	@param		string		$labelRoot		Label of Top Tree Menu List
+	 *	@param		string		$rootClass		CSS Class of root node
+	 *	@return		ADT_Tree_Menu_List
+	 */
+	public static function convertFromOpml( $opml, $labelRoot, $rootClass = NULL )
+	{
+		$parser		= new XML_OPML_Parser();
+		$parser->parse( $opml );
+		$lines		= $parser->getOutlines();
+		$list		= new ADT_Tree_Menu_List( $labelRoot, array( 'class' => $rootClass ) );
+
+		self::buildMenuListFromOutlines( $lines, $list );
+		return $list;
+	}
+
+	/**
+	 *	Converts an OPML File to a Tree Menu List.
+	 *	@access		public
+	 *	@static
+	 *	@param		string		$fileName		File Name of OPML File
+	 *	@param		string		$labelRoot		Label of Top Tree Menu List
+	 *	@param		string		$rootClass		CSS Class of root node
+	 *	@return		ADT_Tree_Menu_List
+	 */
+	public static function convertFromOpmlFile( $fileName, $labelRoot, $rootClass = NULL )
+	{
+		$opml		= FS_File_Reader::load( $fileName );
+		return self::convertFromOpml( $opml, $labelRoot, $rootClass );
 	}
 }
 ?>

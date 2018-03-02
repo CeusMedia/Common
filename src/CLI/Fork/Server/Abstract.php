@@ -2,7 +2,7 @@
 /**
  *	...
  *
- *	Copyright (c) 2010-2015 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2010-2018 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_CLI_Fork_Server
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2010-2015 Christian Würker
+ *	@copyright		2010-2018 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.6.8
@@ -33,7 +33,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_CLI_Fork_Server
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2010-2015 Christian Würker
+ *	@copyright		2010-2018 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.6.8
@@ -50,7 +50,7 @@ abstract class CLI_Fork_Server_Abstract
 	protected $childrenMap		= array();
 	protected $childrenMax		= 30;
 	protected $childrenOpen		= 0;
-	protected $listenExcept		= NULL;	
+	protected $listenExcept		= NULL;
 	protected $listenWrite		= null;
 	protected $statSeenMax		= 0;
 	protected $statSeenTotal	= 0;
@@ -58,7 +58,7 @@ abstract class CLI_Fork_Server_Abstract
 	protected $signalHangup		= FALSE;
 	protected $sizeBuffer		= 2048;
 	protected $socketPort		= 8000;
-	protected $timeStarted		= NULL;	
+	protected $timeStarted		= NULL;
 	protected $filePid			= "pid";
 
 	public function __construct( $port = NULL, $force = FALSE )
@@ -86,7 +86,7 @@ abstract class CLI_Fork_Server_Abstract
 			die( "!!! Not handled: ".$e->getMessage()."\n" );
 		}
 	}
-	
+
 	public function getPid()
 	{
 		if( !$this->isRunning() )
@@ -117,7 +117,7 @@ abstract class CLI_Fork_Server_Abstract
 				$this->report( 'Funny signal: ' . $signalNumber );
 		}
 	}
-	
+
 	protected function handleSocketException( ServerSocketException $e )
 	{
 		$key		= md5( time() );
@@ -129,7 +129,7 @@ abstract class CLI_Fork_Server_Abstract
 		error_log( "Time:".time()."|".$code."|".$key."|".$message, 3, "error.socket.log" );
 		echo $message;
 	}
-	
+
 	public function isRunning()
 	{
 		if( !file_exists( $this->filePid ) )
@@ -144,27 +144,6 @@ abstract class CLI_Fork_Server_Abstract
 		echo $string."\n";
 	}
 
-	protected function setUp( $force = FALSE )
-	{
-		if( $this->isRunning() )
-		{
-			if( $force )
-			{
-				if( posix_kill( $this->getPid(), 9 ) )
-					unlink( $this->filePid );
-			}
-			else
-				throw new CLI_Fork_Server_Exception( 'Server is already running' );
-		}
-
-		//	Set up the basic
-		declare( ticks = 1 );
-		$this->timeStarted	= time();
-
-		pcntl_signal( SIGTERM, array( &$this, "handleSignal" ) );
-		pcntl_signal( SIGHUP, array( &$this, "handleSignal" ) );
-	}
-	
 	protected function run()
 	{
 
@@ -270,7 +249,7 @@ abstract class CLI_Fork_Server_Abstract
 							}
 							$rbuf .= $tbuf;
 						}
-						
+
 						$wbuf	= $this->handleRequest( $rbuf );									//	Formulating answer
 
 						//	Going postal!
@@ -310,6 +289,27 @@ abstract class CLI_Fork_Server_Abstract
 		if( !is_int( $port ) )
 			throw new InvalidArgumentException( 'Port must be of integer' );
 		$this->socketPort	= $port;
+	}
+
+	protected function setUp( $force = FALSE )
+	{
+		if( $this->isRunning() )
+		{
+			if( $force )
+			{
+				if( posix_kill( $this->getPid(), 9 ) )
+					unlink( $this->filePid );
+			}
+			else
+				throw new CLI_Fork_Server_Exception( 'Server is already running' );
+		}
+
+		//	Set up the basic
+		declare( ticks = 1 );
+		$this->timeStarted	= time();
+
+		pcntl_signal( SIGTERM, array( &$this, "handleSignal" ) );
+		pcntl_signal( SIGHUP, array( &$this, "handleSignal" ) );
 	}
 }
 ?>

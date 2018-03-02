@@ -2,7 +2,7 @@
 /**
  *	Newton Interpolation.
  *
- *	Copyright (c) 2007-2015 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2018 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Math_Analysis_Interpolation
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2015 Christian Würker
+ *	@copyright		2007-2018 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			03.02.2006
@@ -31,7 +31,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Math_Analysis_Interpolation
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2015 Christian Würker
+ *	@copyright		2007-2018 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			03.02.2006
@@ -43,17 +43,6 @@ class Alg_Math_Analysis_Interpolation_Newton
 	protected $data				= array();
 	/**	@var		array		$polynomial		Polynomial coefficients */
 	protected $polynomial		= array();
-
-	/**
-	 *	Sets Data.
-	 *	@access		public
-	 *	@param		array		$data			Array of x and y values (Xi->Fi)
-	 *	@return		void
-	 */
-	public function setData( $data )
-	{
-		$this->data	= $data;
-	}
 
 	/**
 	 *	Build Polynomial for Interpolation.
@@ -90,6 +79,17 @@ class Alg_Math_Analysis_Interpolation_Newton
 		for( $i=$n-2; $i>=0; $i-- )
 			$p	= $p * ( $x - $keys[$i] ) + $this->polynomial[$i];
 		return $p;
+	}
+
+	/**
+	 *	Sets Data.
+	 *	@access		public
+	 *	@param		array		$data			Array of x and y values (Xi->Fi)
+	 *	@return		void
+	 */
+	public function setData( $data )
+	{
+		$this->data	= $data;
 	}
 }
 ?>

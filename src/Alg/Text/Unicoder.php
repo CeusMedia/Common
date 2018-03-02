@@ -2,7 +2,7 @@
 /**
  *	Converts a String into UTF-8.
  *
- *	Copyright (c) 2009-2015 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2009-2018 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Text
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2009-2015 Christian Würker
+ *	@copyright		2009-2018 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.6.8
@@ -31,7 +31,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Text
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2009-2015 Christian Würker
+ *	@copyright		2009-2018 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.6.8
@@ -53,13 +53,38 @@ class Alg_Text_Unicoder
 	{
 		$this->string	= self::convertToUnicode( $string, $force );
 	}
-	
+
 	/**
 	 *	Returns unicoded String.
 	 *	@access		public
 	 *	@return		string
 	 */
 	public function __toString()
+	{
+		return $this->string;
+	}
+
+	/**
+	 *	Converts a String to UTF-8.
+	 *	@access		public
+	 *	@static
+	 *	@param		string		$string		String to be converted
+	 *	@param		bool		$force		Flag: encode into UTF-8 even if UTF-8 Encoding has been detected
+	 *	@return		string
+	 */
+	public static function convertToUnicode( $string, $force = FALSE )
+	{
+		if( !( !$force && self::isUnicode( $string ) ) )
+			$string	= utf8_encode( $string );
+		return $string;
+	}
+
+	/**
+	 *	Returns unicoded String.
+	 *	@access		public
+	 *	@return		string
+	 */
+	public function getString()
 	{
 		return $this->string;
 	}
@@ -91,31 +116,6 @@ class Alg_Text_Unicoder
 					return FALSE;
 		}
 		return TRUE;
-	}
-
-	/**
-	 *	Converts a String to UTF-8.
-	 *	@access		public
-	 *	@static
-	 *	@param		string		$string		String to be converted
-	 *	@param		bool		$force		Flag: encode into UTF-8 even if UTF-8 Encoding has been detected
-	 *	@return		string
-	 */
-	public static function convertToUnicode( $string, $force = FALSE )
-	{
-		if( !( !$force && self::isUnicode( $string ) ) )
-			$string	= utf8_encode( $string );
-		return $string;
-	}
-	
-	/**
-	 *	Returns unicoded String.
-	 *	@access		public
-	 *	@return		string
-	 */
-	public function getString()
-	{
-		return $this->string;
 	}
 }
 ?>

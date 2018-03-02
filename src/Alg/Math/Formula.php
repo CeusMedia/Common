@@ -2,7 +2,7 @@
 /**
  *	...
  *
- *	Copyright (c) 2007-2015 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2018 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Math
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2015 Christian Würker
+ *	@copyright		2007-2018 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@version		$Id$
@@ -30,7 +30,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Math
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2015 Christian Würker
+ *	@copyright		2007-2018 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@version		$Id$
@@ -70,6 +70,20 @@ class Alg_Math_Formula
 	}
 
 	/**
+	 *	Resolves Formula Expression and returns Value.
+	 *	@access		protected
+	 *	@param		string	$exp			Formula Expression with inserted Arguments
+	 *	@param		array	$variables			Array of Arguments
+	 *	@return		mixed
+	 */
+	protected function evaluateExpression( $exp, $args )
+	{
+		if( false  === ( $value = @eval( $exp ) ) )
+			trigger_error( "Formula '".$this->getExpression()."' is incorrect or not defined for (".implode( ", ", $args ).")", E_USER_WARNING );
+		return $value;
+	}
+
+	/**
 	 *	Returns  Formula Expression.
 	 *	@access		public
 	 *	@return		string
@@ -91,7 +105,7 @@ class Alg_Math_Formula
 		$value		= $this->evaluateExpression( $expression, $arguments );
 		return $value;
 	}
-	
+
 	/**
 	 *	Returns Variables Names.
 	 *	@access		public
@@ -100,32 +114,6 @@ class Alg_Math_Formula
 	public function getVariables()
 	{
 		return $this->variables;
-	}
-
-	/**
-	 *	Returns Formula Expression with Varaibles as mathematical String.
-	 *	@access		public
-	 *	@param		string	$name			Name of Formula
-	 *	@return		string
-	 */
-	public function __toString()
-	{
-		$string	= $this->name."(".implode( ", ", $this->variables ).") = ".$this->expression;
-		return $string;
-	}
-
-	/**
-	 *	Resolves Formula Expression and returns Value.
-	 *	@access		protected
-	 *	@param		string	$exp			Formula Expression with inserted Arguments
-	 *	@param		array	$variables			Array of Arguments
-	 *	@return		mixed
-	 */
-	protected function evaluateExpression( $exp, $args )
-	{
-		if( false  === ( $value = @eval( $exp ) ) )
-			trigger_error( "Formula '".$this->getExpression()."' is incorrect or not defined for (".implode( ", ", $args ).")", E_USER_WARNING );
-		return $value;
 	}
 
 	/**
@@ -141,6 +129,18 @@ class Alg_Math_Formula
 		$exp = str_replace( $variables, $args, $this->getExpression() );
 		$eval_code = "return (".$exp.");";
 		return $eval_code;
+	}
+
+	/**
+	 *	Returns Formula Expression with Varaibles as mathematical String.
+	 *	@access		public
+	 *	@param		string	$name			Name of Formula
+	 *	@return		string
+	 */
+	public function __toString()
+	{
+		$string	= $this->name."(".implode( ", ", $this->variables ).") = ".$this->expression;
+		return $string;
 	}
 }
 ?>

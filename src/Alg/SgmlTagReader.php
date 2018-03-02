@@ -2,7 +2,7 @@
 /**
  *	Parses SGML based Tags (also HTML, XHTML and XML).
  *
- *	Copyright (c) 2007-2015 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2018 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Alg
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2015 Christian Würker
+ *	@copyright		2007-2018 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			02.08.2008
@@ -31,7 +31,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Alg
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2015 Christian Würker
+ *	@copyright		2007-2018 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			02.08.2008
@@ -42,24 +42,6 @@ class Alg_SgmlTagReader
 	const TRANSFORM_LOWERCASE	= 1;
 	const TRANSFORM_UPPERCASE	= 2;
 
-	/**
-	 *	Returns Node Name from Tag.
-	 *	@access		public
-	 *	@static
-	 *	@param		string		$string			String containing exactly 1 SGML based Tag
-	 *	@return		string
-	 */
-	public static function getNodeName( $string, $transform = 0 )
-	{
-		$data	= self::getTagData( $string );
-		switch( $transform )
-		{
-			case self::TRANSFORM_LOWERCASE:	return strtolower( $data['nodename'] );
-			case self::TRANSFORM_UPPERCASE:	return strtoupper( $data['nodename'] );
-			default:					return $data['nodename'];
-		}
-	}
-		
 	/**
 	 *	Returns Attributes from a Tag.
 	 *	@access		public
@@ -87,6 +69,24 @@ class Alg_SgmlTagReader
 	}
 
 	/**
+	 *	Returns Node Name from Tag.
+	 *	@access		public
+	 *	@static
+	 *	@param		string		$string			String containing exactly 1 SGML based Tag
+	 *	@return		string
+	 */
+	public static function getNodeName( $string, $transform = 0 )
+	{
+		$data	= self::getTagData( $string );
+		switch( $transform )
+		{
+			case self::TRANSFORM_LOWERCASE:	return strtolower( $data['nodename'] );
+			case self::TRANSFORM_UPPERCASE:	return strtoupper( $data['nodename'] );
+			default:					return $data['nodename'];
+		}
+	}
+
+	/**
 	 *	Returns all Information from a Tag.
 	 *	@access		public
 	 *	@static
@@ -99,7 +99,7 @@ class Alg_SgmlTagReader
 		$attributes	= array();
 		$content	= "";
 		$nodename	= "";
-		
+
 		if( preg_match( "@^<([a-z]+)@", $string, $results ) )
 			$nodename	= $results[1];
 		if( preg_match( "@>([^<]*)<@", $string, $results ) )
@@ -134,7 +134,7 @@ class Alg_SgmlTagReader
 			'attributes'	=> $attributes
 		);
 	}
-	
+
 /*	public static function transformAttributeValues( $attributes, $transform, $keys = array() )
 	{
 		$list	= array();

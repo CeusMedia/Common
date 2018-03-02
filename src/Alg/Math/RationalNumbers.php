@@ -2,7 +2,7 @@
 /**
  *	...
  *
- *	Copyright (c) 2007-2015 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2018 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Math
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2015 Christian Würker
+ *	@copyright		2007-2018 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@version		$Id$
@@ -31,30 +31,28 @@
  *	@package		CeusMedia_Common_Alg_Math
  *	@uses			Alg_Math_NaturalNumbers
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2015 Christian Würker
+ *	@copyright		2007-2018 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@version		$Id$
  *	@todo			Code Documentation
  */
-class Alg_Math_RationNumbers
+class Alg_Math_RationalNumbers
 {
+
+	public static function getNatural( $float )
+	{
+		if( $float < 0 )
+			return (int) ceil( $float );
+		else
+			return (int) floor( $float );
+	}
 
 	public static function inv( $float )
 	{
 		return -1 * $float;
 	}
 
-	/**
-	 * reciprocal
-	 */
-	public static function rec( $float )
-	{
-		if( $float == 0 )
-			throw new InvalidArgumentException( "rec($float): first argument must not be 0" );
-		return 1 / $float;
-	}
-	
 	public static function leastDivisor( $float, $deepth = 0 )
 	{
 		if( $deepth > 10 )
@@ -71,12 +69,14 @@ class Alg_Math_RationNumbers
 		}
 	}
 
-	public static function getNatural( $float )
+	/**
+	 * reciprocal
+	 */
+	protected static function rec( $float )
 	{
-		if( $float < 0 )
-			return (int) ceil( $float );
-		else
-			return (int) floor( $float );
+		if( $float == 0 )
+			throw new InvalidArgumentException( "rec($float): first argument must not be 0" );
+		return 1 / $float;
 	}
 
 	public static function toFraction( $float, $deepth = 20 )

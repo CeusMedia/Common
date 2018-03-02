@@ -1,8 +1,8 @@
 <?php
 /**
- *	Converting Unix Timestamps to Human Time in different formats and backwards.	
+ *	Converting Unix Timestamps to Human Time in different formats and backwards.
  *
- *	Copyright (c) 2007-2015 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2018 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,17 +20,17 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Time
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2015 Christian Würker
+ *	@copyright		2007-2018 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@version		$Id$
  */
 /**
- *	Converting Unix Timestamps to Human Time in different formats and backwards.	
+ *	Converting Unix Timestamps to Human Time in different formats and backwards.
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Time
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2015 Christian Würker
+ *	@copyright		2007-2018 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@version		$Id$
@@ -41,7 +41,7 @@ class Alg_Time_Converter
 
 	/**
 	 *	Complements Month Date Format for Time Predicates with Month Start or Month End for Formats.
-	 *	Allowed Formats are: m.y, m.Y, m/y, m/Y, y-m, Y-m 
+	 *	Allowed Formats are: m.y, m.Y, m/y, m/Y, y-m, Y-m
 	 *	@access		public
 	 *	@static
 	 *	@param		string		$string		String to be complemented
@@ -69,7 +69,7 @@ class Alg_Time_Converter
 		$time	= strtotime( $string );
 		if( $time == false )
 			throw new InvalidArgumentException( 'Given Date "'.$string.'" could not been complemented.' );
-		
+
 		$string		= date( "c", $time );
 		if( $mode )
 		{
@@ -78,6 +78,60 @@ class Alg_Time_Converter
 			$string		= str_replace( "-01T", "-".$complement."T", $string );
 		}
 		return $string;
+	}
+
+	public static function convertTimeToHuman( $seconds )
+	{
+		$_min	= 60;
+		$_hour	= 60 * $_min;
+		$_day	= 24 * $_hour;
+		$_year	= 365.25 * $_day;
+
+		$years	= floor( $seconds / $_year );
+		$seconds	= $seconds - $years * $_year;
+		$days	= floor( $seconds / $_day );
+		$seconds	= $seconds - $days * $_day;
+		$hours	= floor( $seconds / $_hour );
+		$seconds	= $seconds - $hours * $_hour;
+		$mins	= floor( $seconds / $_min );
+		$seconds	= $seconds - $mins * $_min;
+
+		$string	= $years."a ".$days."d ".$hours."h ".$mins."m ".$seconds."s";
+		return $string;
+	}
+
+	/**
+	 *	Converts Unix Timestamp to a human time format.
+	 *	@access		public
+	 *	@static
+	 *	@param		string	$timestamp		Unix Timestamp
+	 *	@param		string	$format			Format of human time (date|monthdate|datetime|duration|custom format)
+	 *	@return		string
+	 */
+	public static function convertToHuman( $timestamp, $format )
+	{
+		$human = "";
+		if( $format == "date" )
+			$human = date( "d.m.Y", (int) $timestamp );
+		else if( $format == "monthdate" )
+			$human = date( "m.Y", (int) $timestamp );
+		else if( $format == "time" )
+			$human = date( "H:i:s", (int) $timestamp );
+		else if( $format == "datetime" )
+			$human = date( "d.m.Y - H:i:s", (int) $timestamp );
+		else if( $format == "duration" )
+		{
+			$hours	= str_pad( floor( $timestamp / 3600 ), 2, 0, STR_PAD_LEFT );
+			$timestamp -= $hours * 3600;
+			$mins	= str_pad( floor( $timestamp / 60 ), 2, 0, STR_PAD_LEFT );
+			$timestamp -= $mins * 60;
+			$secs	= str_pad( $timestamp, 2, 0, STR_PAD_LEFT );
+			$human	= $hours.":".$mins.":".$secs;
+		}
+		else if( $format )
+			$human = date( $format, (int)$timestamp );
+		if( $human )
+			return $human;
 	}
 
 	/**
@@ -160,67 +214,13 @@ class Alg_Time_Converter
 						if( isset( $matches2[array_search( $key, $matches1 )] ) )
 							$$name = $matches2[array_search( $key, $matches1 )];
 				}
-			
+
 				$timestamp = mktime( $hour, $minute, $second, $month, $day, $year );
 				print_m( get_defined_vars() );
 				die;
 			}
 		}
 		return $timestamp;
-	}
-
-	/**
-	 *	Converts Unix Timestamp to a human time format.
-	 *	@access		public
-	 *	@static
-	 *	@param		string	$timestamp		Unix Timestamp	
-	 *	@param		string	$format			Format of human time (date|monthdate|datetime|duration|custom format)
-	 *	@return		string
-	 */
-	public static function convertToHuman( $timestamp, $format )
-	{
-		$human = "";
-		if( $format == "date" )
-			$human = date( "d.m.Y", (int) $timestamp );
-		else if( $format == "monthdate" )
-			$human = date( "m.Y", (int) $timestamp );
-		else if( $format == "time" )
-			$human = date( "H:i:s", (int) $timestamp );
-		else if( $format == "datetime" )
-			$human = date( "d.m.Y - H:i:s", (int) $timestamp );
-		else if( $format == "duration" )
-		{
-			$hours	= str_pad( floor( $timestamp / 3600 ), 2, 0, STR_PAD_LEFT );
-			$timestamp -= $hours * 3600;
-			$mins	= str_pad( floor( $timestamp / 60 ), 2, 0, STR_PAD_LEFT );
-			$timestamp -= $mins * 60;
-			$secs	= str_pad( $timestamp, 2, 0, STR_PAD_LEFT );
-			$human	= $hours.":".$mins.":".$secs;
-		}
-		else if( $format )
-			$human = date( $format, (int)$timestamp );
-		if( $human )
-			return $human;
-	}
-	
-	public static function convertTimeToHuman( $seconds )
-	{
-		$_min	= 60;
-		$_hour	= 60 * $_min;
-		$_day	= 24 * $_hour;
-		$_year	= 365.25 * $_day;
-
-		$years	= floor( $seconds / $_year );
-		$seconds	= $seconds - $years * $_year;
-		$days	= floor( $seconds / $_day );
-		$seconds	= $seconds - $days * $_day;
-		$hours	= floor( $seconds / $_hour );
-		$seconds	= $seconds - $hours * $_hour;
-		$mins	= floor( $seconds / $_min );
-		$seconds	= $seconds - $mins * $_min;
-		
-		$string	= $years."a ".$days."d ".$hours."h ".$mins."m ".$seconds."s";
-		return $string;
 	}
 }
 ?>

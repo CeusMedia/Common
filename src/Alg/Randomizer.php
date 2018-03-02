@@ -2,7 +2,7 @@
 /**
  *	Randomizer supporting different sign types.
  *
- *	Copyright (c) 2007-2015 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2018 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Alg
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2015 Christian Würker
+ *	@copyright		2007-2018 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			18.01.2006
@@ -31,7 +31,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Alg
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2015 Christian Würker
+ *	@copyright		2007-2018 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			18.01.2006
@@ -63,27 +63,6 @@ class Alg_Randomizer
 	public $useSigns			= TRUE;
 
 	/**
-	 *	Creates and returns Sign Pool as String.
-	 *	@access		protected
-	 *	@return		string
-	 */
-	protected function createPool()
-	{
-		$pool	= "";
-		$sets	= array(
-			"useDigits"	=> "digits",
-			"useSmalls"	=> "smalls",
-			"useLarges"	=> "larges",
-			"useSigns"	=> "signs",
-			);
-		
-		foreach( $sets as $key => $value )
-			if( $this->$key )
-				$pool	.= $this->$value;
-		return $pool;
-	}
-
-	/**
 	 *	Defines characters to be used for string generation.
 	 *	@access		public
 	 *	@param		boolean		$useDigits		Flag: use Digits
@@ -102,7 +81,28 @@ class Alg_Randomizer
 		$this->useSigns		= $useSigns;
 		$this->strength		= $strength;
 	}
-	
+
+	/**
+	 *	Creates and returns Sign Pool as String.
+	 *	@access		protected
+	 *	@return		string
+	 */
+	protected function createPool()
+	{
+		$pool	= "";
+		$sets	= array(
+			"useDigits"	=> "digits",
+			"useSmalls"	=> "smalls",
+			"useLarges"	=> "larges",
+			"useSigns"	=> "signs",
+			);
+
+		foreach( $sets as $key => $value )
+			if( $this->$key )
+				$pool	.= $this->$value;
+		return $pool;
+	}
+
 	/**
 	 *	Creates and returns randomized String.
 	 *	@access		protected

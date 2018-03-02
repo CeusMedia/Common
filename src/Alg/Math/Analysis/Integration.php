@@ -2,7 +2,7 @@
 /**
  *	Calculates Integral with Sampling Nodes within a compact Interval.
  *
- *	Copyright (c) 2007-2015 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2018 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Math_Analysis
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2015 Christian Würker
+ *	@copyright		2007-2018 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@version		$Id$
@@ -30,7 +30,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Math_Analysis
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2015 Christian Würker
+ *	@copyright		2007-2018 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@version		$Id$
@@ -68,7 +68,7 @@ class Alg_Math_Analysis_Integration
 	{
 		return $this->formula;
 	}
-	
+
 	/**
 	 *	Returns set Interval.
 	 *	@access		public
@@ -78,7 +78,18 @@ class Alg_Math_Analysis_Integration
 	{
 		return $this->interval;
 	}
-	
+
+	/**
+	 *	Calculates the distance between two Sampling Nodes.
+	 *	@access		public
+	 *	@return		mixed
+	 */
+	public function getNodeDistance()
+	{
+		$distance	= $this->interval->getDiameter() / ( $this->getNodes() - 1 );
+		return $distance;
+	}
+
 	/**
 	 *	Returns quantity of Sampling Nodes.
 	 *	@access		public
@@ -88,7 +99,7 @@ class Alg_Math_Analysis_Integration
 	{
 		return $this->nodes;
 	}
-	
+
 	/**
 	 *	Returns an array of Sampling Nodes.
 	 *	@access		public
@@ -102,20 +113,9 @@ class Alg_Math_Analysis_Integration
 		for( $i = 0; $i<$this->getNodes(); $i++ )
 		{
 			$x = $start + $i * $distance;
-			$nodes[] = $x;		
+			$nodes[] = $x;
 		}
 		return $nodes;
-	}
-	
-	/**
-	 *	Calculates the distance between two Sampling Nodes.
-	 *	@access		public
-	 *	@return		mixed
-	 */
-	public function getNodeDistance()
-	{
-		$distance	= $this->interval->getDiameter() / ( $this->getNodes() - 1 );
-		return $distance;
 	}
 
 	/**
@@ -146,9 +146,9 @@ class Alg_Math_Analysis_Integration
 	 */
 	public function setFormula( $formula )
 	{
-		$this->formula	= $formula;	
+		$this->formula	= $formula;
 	}
-	
+
 	/**
 	 *	Sets Interval.
 	 *	@access		public
@@ -157,9 +157,9 @@ class Alg_Math_Analysis_Integration
 	 */
 	public function setInterval( $interval )
 	{
-		$this->interval	= $interval;	
+		$this->interval	= $interval;
 	}
-	
+
 	/**
 	 *	Sets amount of Sampling Nodes to use.
 	 *	@access		public

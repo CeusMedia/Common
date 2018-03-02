@@ -2,7 +2,7 @@
 /**
  *	Base Implementation of a Unix Demon.
  *
- *	Copyright (c) 2007-2015 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2018 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_CLI_Server
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2015 Christian Würker
+ *	@copyright		2007-2018 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			20.01.2006
@@ -32,7 +32,7 @@
  *	@package		CeusMedia_Common_CLI_Server
  *	@extends		CLI_Application
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2015 Christian Würker
+ *	@copyright		2007-2018 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			20.01.2006
@@ -43,7 +43,7 @@ class CLI_Server_Daemon extends CLI_Application
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		int		$timeLimit		Run Time Limitation in Seconds (for Development), default=10s, set 0 for unlimited Run Time 
+	 *	@param		int		$timeLimit		Run Time Limitation in Seconds (for Development), default=10s, set 0 for unlimited Run Time
 	 *	@return		void
 	 */
 	public function __construct( $timeLimit = 10)
@@ -52,7 +52,7 @@ class CLI_Server_Daemon extends CLI_Application
 		ob_implicit_flush( 1 );
 		parent::__construct();
 	}
-	
+
 	/**
 	 *	Main Loop of Daemon with Sleep Time, to be overwritten.
 	 *	@access		public
@@ -67,27 +67,7 @@ class CLI_Server_Daemon extends CLI_Application
 			$this->sleep();
 		}
 	}
-	
-	/**
-	 *	Main Method for Service, to be overwritten.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function serve()
-	{
-		echo "\n".time();
-	}
-	
-	/**
-	 *	Sleep Method of Service, to be overwritten or used with 1 Second.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function sleep()
-	{
-		sleep(1);
-	}
-	
+
 	/**
 	 *	Stops Daemon.
 	 *	@access		public
@@ -97,7 +77,17 @@ class CLI_Server_Daemon extends CLI_Application
 	{
 		return $return;
 	}
-	
+
+	/**
+	 *	Main Method for Service, to be overwritten.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function serve()
+	{
+		echo "\n".time();
+	}
+
 	/**
 	 *	Sets 'Usage Shortcuts', to be overwritten.
 	 *	@access		protected
@@ -106,7 +96,7 @@ class CLI_Server_Daemon extends CLI_Application
 	protected function setShortcuts()
 	{
 	}
-	
+
 	/**
 	 *	Default 'Usage' Method, to be overwritten.
 	 *	@access		protected
@@ -118,6 +108,16 @@ class CLI_Server_Daemon extends CLI_Application
 		echo "Daemon v0.1\n";
 		echo "Usage: no information given, yet.";
 		die();
+	}
+
+	/**
+	 *	Sleep Method of Service, to be overwritten or used with 1 Second.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function sleep()
+	{
+		sleep(1);
 	}
 }
 ?>

@@ -2,7 +2,7 @@
 /**
  *	Calculator for Compound Interest.
  *
- *	Copyright (c) 2007-2015 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2018 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Math_Finance
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2015 Christian Würker
+ *	@copyright		2007-2018 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			19.12.2007
@@ -31,7 +31,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Math_Finance
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2015 Christian Würker
+ *	@copyright		2007-2018 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			19.12.2007
@@ -72,11 +72,12 @@ class Alg_Math_Finance_CompoundInterest
 	 *	@param		int			$periods		Number of Periods
 	 *	@return		float
 	 */
-	public static function calculatePresentAmount( $amount, $interest, $periods )
+	public static function calculateInterest( $presentAmount, $futureAmount, $periods )
 	{
 		if( (int) $periods < 1 )
 			throw new InvalidArgumentException( "Periods must be at least 1." );
-		$result	= (float) $amount / pow( ( 1 + $interest / 100 ), (int) $periods );
+		$i	= self::root( $futureAmount / $presentAmount, $periods ) - 1;
+		$result	=  $i * 100;
 		return $result;
 	}
 
@@ -89,15 +90,14 @@ class Alg_Math_Finance_CompoundInterest
 	 *	@param		int			$periods		Number of Periods
 	 *	@return		float
 	 */
-	public static function calculateInterest( $presentAmount, $futureAmount, $periods )
+	public static function calculatePresentAmount( $amount, $interest, $periods )
 	{
 		if( (int) $periods < 1 )
 			throw new InvalidArgumentException( "Periods must be at least 1." );
-		$i	= self::root( $futureAmount / $presentAmount, $periods ) - 1;
-		$result	=  $i * 100;
+		$result	= (float) $amount / pow( ( 1 + $interest / 100 ), (int) $periods );
 		return $result;
 	}
-	
+
 	/**
 	 *	Calculates Periods needed to reach Future Amount from Present Amount statically using the 70+x rule.
 	 *	@access		public
@@ -113,7 +113,7 @@ class Alg_Math_Finance_CompoundInterest
 		$periods	= ( 70 + $correct ) / $interest;
 		return $result;
 	}*/
-	
+
 	/**
 	 *	Returns Amount.
 	 *	@access		public
@@ -122,26 +122,6 @@ class Alg_Math_Finance_CompoundInterest
 	public function getAmount()
 	{
 		return $this->amount;
-	}
-
-	/**
-	 *	Returns Interest.
-	 *	@access		public
-	 *	@return		float
-	 */
-	public function getInterest()
-	{
-		return $this->interest;
-	}
-
-	/**
-	 *	Sets Number of Periods.
-	 *	@access		public
-	 *	@return		int
-	 */
-	public function getPeriods()
-	{
-		return $this->periods;
 	}
 
 	/**
@@ -158,6 +138,16 @@ class Alg_Math_Finance_CompoundInterest
 	}
 
 	/**
+	 *	Returns Interest.
+	 *	@access		public
+	 *	@return		float
+	 */
+	public function getInterest()
+	{
+		return $this->interest;
+	}
+
+	/**
 	 *	Calculates and returns Interest from Future Amount.
 	 *	@access		public
 	 *	@return		float
@@ -168,6 +158,16 @@ class Alg_Math_Finance_CompoundInterest
 		if( $change )
 			$this->periods	= round( $result );
 		return $result;
+	}
+
+	/**
+	 *	Sets Number of Periods.
+	 *	@access		public
+	 *	@return		int
+	 */
+	public function getPeriods()
+	{
+		return $this->periods;
 	}
 
 	/**

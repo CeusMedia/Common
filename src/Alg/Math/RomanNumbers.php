@@ -2,7 +2,7 @@
 /**
  *	Convertion between roman and arabic number system.
  *
- *	Copyright (c) 2007-2015 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2018 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Math
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2015 Christian Würker
+ *	@copyright		2007-2018 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			22.06.2005
@@ -31,7 +31,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Math
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2015 Christian Würker
+ *	@copyright		2007-2018 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			22.06.2005
@@ -66,6 +66,30 @@ class Alg_Math_RomanNumbers
 	);
 
 	/**
+	 *	Converts and returns a roman number as arabian number.
+	 *	@access		public
+	 *	@param		string		$roman		Roman number
+	 *	@return		integer
+	 */
+	public function convertFromRoman( $roman )
+	{
+		$_r = str_replace( array_keys( $this->roman ), "", $roman );						//  prove roman number by clearing all valid numbers
+		if( strlen( $_r ) )																	//  some numbers are invalid
+			throw new InvalidArgumentException( "Roman '".$roman."' is invalid." );
+		$integer = 0;																		//  initiating integer
+		$keys	= array_keys( $this->shorts );
+		$values	= array_values( $this->shorts );
+		$roman = str_replace( $values, $keys, $roman );										//  resolve shortcuts
+		foreach( $this->roman as $key => $value )											//  all roman number starting with biggest
+		{
+			$count = substr_count( $roman, $key );											//  amount of roman numbers of current value
+			$integer += $count * $value;													//  increase integer by amount * current value
+			$roman = str_replace( $key, "", $roman );											//  remove current roman numbers
+		}
+		return $integer;
+	}
+
+	/**
 	 *	Converts and returns an arabian number as roman number.
 	 *	@access		public
 	 *	@static
@@ -97,30 +121,6 @@ class Alg_Math_RomanNumbers
 		}
 		else
 			throw new InvalidArgumentException( "Integer '".$integer."' is invalid." );
-	}
-
-	/**
-	 *	Converts and returns a roman number as arabian number.
-	 *	@access		public
-	 *	@param		string		$roman		Roman number
-	 *	@return		integer
-	 */
-	public function convertFromRoman( $roman )
-	{
-		$_r = str_replace( array_keys( $this->roman ), "", $roman );						//  prove roman number by clearing all valid numbers
-		if( strlen( $_r ) )																	//  some numbers are invalid
-			throw new InvalidArgumentException( "Roman '".$roman."' is invalid." );
-		$integer = 0;																		//  initiating integer
-		$keys	= array_keys( $this->shorts );
-		$values	= array_values( $this->shorts );
-		$roman = str_replace( $values, $keys, $roman );										//  resolve shortcuts
-		foreach( $this->roman as $key => $value )											//  all roman number starting with biggest
-		{
-			$count = substr_count( $roman, $key );											//  amount of roman numbers of current value
-			$integer += $count * $value;													//  increase integer by amount * current value
-			$roman = str_replace( $key, "", $roman );											//  remove current roman numbers
-		}
-		return $integer;
 	}
 }
 ?>

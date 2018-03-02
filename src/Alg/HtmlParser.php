@@ -2,7 +2,7 @@
 /**
  *	Parser for HTML Documents.
  *
- *	Copyright (c) 2007-2015 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2018 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Alg
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2015 Christian Würker
+ *	@copyright		2007-2018 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			04.08.2008
@@ -31,7 +31,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Alg
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2015 Christian Würker
+ *	@copyright		2007-2018 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			04.08.2008
@@ -245,6 +245,25 @@ class Alg_HtmlParser
 	}
 
 	/**
+	 *	Returns HTML Tag by its ID or throws Exception.
+	 *	@access		public
+	 *	@param		string			$id					ID of Tag to return
+	 *	@param		bool			$throwException		Flag: throw Exception if not found, otherwise return empty String
+	 *	@return		DOMElement
+	 */
+	public function getTagById( $id, $throwException = TRUE )
+	{
+		$xpath	= new DomXPath( $this->document );
+		$query	= "//*[@id = '$id']";
+		$tags	= $this->getTagsByXPath( $query );
+		if( $tags )
+			return $tags[0];
+		if( $throwException )
+			throw new RuntimeException( 'No Tag with ID "'.$id.'" found.' );
+		return NULL;
+	}
+
+	/**
 	 *	Returns List of HTML Tags with Tag Name, existing Attribute Key or exact Attribute Value.
 	 *	@access		public
 	 *	@param		string			$tagName			Tag Name of Tags to return
@@ -263,25 +282,6 @@ class Alg_HtmlParser
 			$query	.= "[@".$attributeKey.$attributeValue."]";
 		}
 		return $this->getTagsByXPath( $query );
-	}
-
-	/**
-	 *	Returns HTML Tag by its ID or throws Exception.
-	 *	@access		public
-	 *	@param		string			$id					ID of Tag to return
-	 *	@param		bool			$throwException		Flag: throw Exception if not found, otherwise return empty String
-	 *	@return		DOMElement
-	 */
-	public function getTagById( $id, $throwException = TRUE )
-	{
-		$xpath	= new DomXPath( $this->document );
-		$query	= "//*[@id = '$id']";
-		$tags	= $this->getTagsByXPath( $query );
-		if( $tags )
-			return $tags[0];
-		if( $throwException )
-			throw new RuntimeException( 'No Tag with ID "'.$id.'" found.' );
-		return NULL;
 	}
 
 	/**

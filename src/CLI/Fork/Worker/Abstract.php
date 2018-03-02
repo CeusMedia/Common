@@ -2,7 +2,7 @@
 /**
  *	...
  *
- *	Copyright (c) 2010-2015 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2010-2018 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_CLI_Fork_Worker
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2010-2015 Christian Würker
+ *	@copyright		2010-2018 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.6.8
@@ -32,7 +32,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_CLI_Fork_Worker
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2010-2015 Christian Würker
+ *	@copyright		2010-2018 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.6.8
@@ -53,16 +53,6 @@ abstract class CLI_Fork_Worker_Abstract
 			throw new RuntimeException( 'Not possible on Windows' );
 	}
 
-	/**
-	 *	Implement this method to set up or validate settings before forking.
-	 *	Throw an Exception if something is wrong.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function setUp()
-	{
-	}
-	
 	public function forkWorkers( $numberWorkers = 1 )
 	{
 		$numberWorkers	= abs( (int) $numberWorkers );
@@ -75,7 +65,7 @@ abstract class CLI_Fork_Worker_Abstract
 			{
 				$isLast	= $i == $numberWorkers - 1;
 				$this->workParent( $pid, $isLast );														//  do Parent Stuff
-			}	
+			}
 			else
 			{
 				$code	= $this->workChild( $pid, $i );
@@ -84,26 +74,10 @@ abstract class CLI_Fork_Worker_Abstract
 		}
 	}
 
-	/**
-	 *	This method is executed by the Parent Process only.
-	 *	You need to implement this method but it can by empty.
-	 *	@access		protected
-	 *	@param		int			$pid			Parent PID
-	 *	@return		int|string	Error Code or Error Message
-	 */
-	abstract protected function workParent( $pid );
-	
-	/**
-	 *	This method is executed by the Child Process only.
-	 *	Please implement this method and return an Error Code, Error Message or 0 or an empty String.
-	 *	@access		protected
-	 *	@param		int			$pid			Parent PID
-	 *	@param		int			$numberWorker	Worker Number, set by loop in Parent Worker
-	 *	@return		int|string	Error Code or Error Message
-	 */
-	abstract protected function workChild( $pid, $workerNumber );
+	protected function handleHangupSignal()
+	{
+	}
 
-	
 	/**
 	 *	Handle Process Signals.
 	 *	@access		protected
@@ -124,11 +98,7 @@ abstract class CLI_Fork_Worker_Abstract
 				$this->handleUnknownSignal();
 		}
 	}
-	
-	protected function handleHangupSignal()
-	{
-	}
-	
+
 	protected function handleTerminationSignal()
 	{
 	}
@@ -137,10 +107,39 @@ abstract class CLI_Fork_Worker_Abstract
 	{
 //		$this->report( 'Unknown signal: ' . $signalNumber );
 	}
-	
+
 //	protected function report( $message )
 //	{
-//	
+//
 //	}
+
+	/**
+	 *	Implement this method to set up or validate settings before forking.
+	 *	Throw an Exception if something is wrong.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function setUp()
+	{
+	}
+
+	/**
+	 *	This method is executed by the Child Process only.
+	 *	Please implement this method and return an Error Code, Error Message or 0 or an empty String.
+	 *	@access		protected
+	 *	@param		int			$pid			Parent PID
+	 *	@param		int			$numberWorker	Worker Number, set by loop in Parent Worker
+	 *	@return		int|string	Error Code or Error Message
+	 */
+	abstract protected function workChild( $pid, $workerNumber );
+
+	/**
+	 *	This method is executed by the Parent Process only.
+	 *	You need to implement this method but it can by empty.
+	 *	@access		protected
+	 *	@param		int			$pid			Parent PID
+	 *	@return		int|string	Error Code or Error Message
+	 */
+	abstract protected function workParent( $pid );
 }
 ?>

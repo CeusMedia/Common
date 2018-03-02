@@ -2,7 +2,7 @@
 /**
  *	Basic Program to implement Console Application using Automaton Argument Parser.
  *
- *	Copyright (c) 2007-2015 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2018 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_CLI_Command
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2015 Christian Würker
+ *	@copyright		2007-2018 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@version		$Id$
@@ -32,7 +32,7 @@
  *	@abstract
  *	@uses			CLI_Command_ArgumentParser
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2015 Christian Würker
+ *	@copyright		2007-2018 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@version		$Id$
@@ -45,7 +45,7 @@ abstract class CLI_Command_Program
 	protected $options		= NULL;
 	/**	@var	array		$exitCode		Exit Code of Main Application */
 	protected $exitCode		= NULL;
-	
+
 	/**
 	 *	Constructor, parses Console Call String against given Options and calls Main Method.
 	 *	If this class is going to be extended, the constructor must be extend too and the parents constructor must be called
@@ -75,10 +75,40 @@ abstract class CLI_Command_Program
 	public function __construct( $options, $shortcuts, $numberArguments = 0 )
 	{
 		$this->parser	= new CLI_Command_ArgumentParser();					//  load Argument Parser
-		$this->parser->setNumberOfMandatoryArguments( $numberArguments );		//  set minimum Number of Arguments										//  
+		$this->parser->setNumberOfMandatoryArguments( $numberArguments );		//  set minimum Number of Arguments										//
 		$this->parser->setPossibleOptions( $options );							//  set Map of Options and Patterns
 		$this->parser->setShortcuts( $shortcuts );								//  set Map of Shortcuts for Options
 	}
+
+	/**
+	 *	Returns Program Call Argument String, in this case from PHP's Variables, but can be overwritten.
+	 *	@access		protected
+	 *	@return		string
+	 */
+	protected function getArgumentString()
+	{
+		$arguments	= $_SERVER['argv'];											//  get Console Arguments from PHP
+		array_shift( $arguments );												//  remove Programm Call itself
+		$string		= implode( " ", $arguments );								//  build Argument String
+		return $string;
+	}
+
+	public function getLastExitCode(){
+		return $this->exitCode;
+	}
+	
+	protected function handleParserException( Exception $e )
+	{
+		$this->showError( $e->getMessage() );									//  just show Exception Message
+	}
+
+	/**
+	 *	Program, to be implemented by you.
+	 *	@abstract
+	 *	@access		protected
+	 *	@return		mixed			can return a String or an Integer Exit Code.
+	 */
+	abstract protected function main();
 
 	public function run( $argumentString = NULL ){
 		if( is_null( $argumentString ) )
@@ -95,38 +125,9 @@ abstract class CLI_Command_Program
 		{
 			$this->handleParserException( $e );
 		}
-		
+
 	}
 
-	public function getLastExitCode(){
-		return $this->exitCode;
-	}
-	/**
-	 *	Returns Program Call Argument String, in this case from PHP's Variables, but can be overwritten.
-	 *	@access		protected
-	 *	@return		string
-	 */
-	protected function getArgumentString()
-	{
-		$arguments	= $_SERVER['argv'];											//  get Console Arguments from PHP
-		array_shift( $arguments );												//  remove Programm Call itself
-		$string		= implode( " ", $arguments );								//  build Argument String
-		return $string;
-	}
-	
-	protected function handleParserException( Exception $e )
-	{
-		$this->showError( $e->getMessage() );									//  just show Exception Message
-	}
-
-	/**
-	 *	Program, to be implemented by you.
-	 *	@abstract
-	 *	@access		protected
-	 *	@return		mixed			can return a String or an Integer Exit Code.
-	 */
-	abstract protected function main();
-	
 	/**
 	 *	Prints Error Message to Console, can be overwritten.
 	 *	@access		protected

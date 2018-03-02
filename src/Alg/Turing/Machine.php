@@ -1,8 +1,8 @@
 <?php
 /**
- *	Turing Machine with one band.
+ *	Turing Machine with one tape.
  *
- *	Copyright (c) 2007-2015 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2018 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,22 +20,18 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Turing
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2015 Christian Würker
+ *	@copyright		2005-2018 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			30.4.2005
- *	@version		$Id$
  */
 /**
- *	Turing Machine with one band.
+ *	Turing Machine with one tape.
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Turing
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2015 Christian Würker
+ *	@copyright		2005-2018 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			30.4.2005
- *	@version		$Id$
  */
 class Alg_Turing_Machine
 {
@@ -76,54 +72,54 @@ class Alg_Turing_Machine
 		$this->blank		= $blank;
 		$this->finals		= $finals;
 	}
-	
+
 	/**
-	 *	Deletes not needed Blanks at start and end of the Band.
+	 *	Deletes not needed Blanks at start and end of the tape.
 	 *	@access		private
-	 *	@param		string		$band			current Band to be cleaned up
+	 *	@param		string		$tape			current tape to be cleaned up
 	 *	@return		string
 	 */
-	private function cleanBand( &$band )
+	private function cleanTape( &$tape )
 	{
-		while( substr( $band, 0, 1 ) == $this->blank )
-			$band = substr( $band, 1 );
-		while( substr( $band, -1 ) == $this->blank )
-			$band = substr( $band, 0, -1 );
+		while( substr( $tape, 0, 1 ) == $this->blank )
+			$tape = substr( $tape, 1 );
+		while( substr( $tape, -1 ) == $this->blank )
+			$tape = substr( $tape, 0, -1 );
+	}
+
+	/**
+	 *	Checks and extends the pseudo infinite tape.
+	 *	@access		private
+	 *	@param		string		$tape			current tape to be cleaned up
+	 *	@param		string		$pointer		current Position on tape
+	 *	@return		string
+	 */
+	private function extendTape( &$tape, $pointer )
+	{
+		if( $pointer < 0 )
+			$tape = $this->blank.$tape;
+		else if( $pointer >= strlen( $tape ) )
+			$tape .= $this->blank;
 	}
 
 	/**
 	 *	Returns current Sign.
 	 *	@access		private
-	 *	@param		string		$band			current Band to be cleaned up
-	 *	@param		string		$pointer		current Position on Band
+	 *	@param		string		$tape			current tape to be cleaned up
+	 *	@param		string		$pointer		current Position on tape
 	 *	@return		string
 	 */
-	private function getCurrent( &$band, $pointer )
+	private function getCurrent( &$tape, $pointer )
 	{
-		if( $pointer < 0 || $pointer >= strlen( $band ) )
+		if( $pointer < 0 || $pointer >= strlen( $tape ) )
 		{
 			$current = $this->blank;
-			$this->extendBand( $band, $pointer );
+			$this->extendTape( $tape, $pointer );
 		}
-		else $current = substr( $band, $pointer, 1 );
+		else $current = substr( $tape, $pointer, 1 );
 		return $current;
 	}
-	
-	/**
-	 *	Checks and extends the pseudo infinite Band.
-	 *	@access		private
-	 *	@param		string		$band			current Band to be cleaned up
-	 *	@param		string		$pointer		current Position on Band
-	 *	@return		string
-	 */
-	private function extendBand( &$band, $pointer )
-	{
-		if( $pointer < 0 )
-			$band = $this->blank.$band;
-		else if( $pointer >= strlen( $band ) )
-			$band .= $this->blank;
-	}
-	
+
 	/**
 	 *	Runs the Machine.
 	 *	@access		public
@@ -135,7 +131,7 @@ class Alg_Turing_Machine
 		$this->state = $this->start;
 		$this->pointer = 0;
 		$output = $input;
-		$this->wrapBand( $output );
+		$this->wrapTape( $output );
 		while( !in_array( $this->state, $this->finals ) )
 		{
 			if( $_counter > 200 )
@@ -159,49 +155,49 @@ class Alg_Turing_Machine
 						$this->pointer--;
 					else if( $direction == "r" )
 						$this->pointer++;
-					$this->extendBand( $output, $this->pointer );
-					$this->wrapBand( $output );
+					$this->extendTape( $output, $this->pointer );
+					$this->wrapTape( $output );
 					break;
 				}
 			}
-			echo $this->showBand( $output );
+			echo $this->showTape( $output );
 		}
-		$this->cleanBand( $output );
+		$this->cleanTape( $output );
 		return $output;
 	}
 
 	/**
-	 *	Generates HTML Visualisation of current Band.
+	 *	Generates HTML Visualisation of current tape.
 	 *	@access		public
-	 *	@param		string		$band			current Band
+	 *	@param		string		$tape			current tape
 	 *	@return		string
 	 */
-	public function showBand( $band )
+	public function showTape( $tape )
 	{
-		for( $i=0; $i<strlen( $band ); $i++ )
+		for( $i=0; $i<strlen( $tape ); $i++ )
 		{
-			$sign = substr( $band, $i, 1 );
+			$sign = substr( $tape, $i, 1 );
 			if( $i == $this->pointer )
 				$lines[] = "<td style='background: #FF7F7F'>".$sign."</td>";
 			else
 				$lines[] = "<td>".$sign."</td>";
 		}
-//		return "<code>(".$this->state.") ".implode( "", $lines)."</code><br>"; 
-		return "<tr><td>(".$this->state.")</td>".implode( "", $lines )."</tr>"; 
+//		return "<code>(".$this->state.") ".implode( "", $lines)."</code><br>";
+		return "<tr><td>(".$this->state.")</td>".implode( "", $lines )."</tr>";
 	}
 
 	/**
-	 *	Adds Blanks at start and end of the Band.
+	 *	Adds Blanks at start and end of the tape.
 	 *	@access		private
-	 *	@param		string		$band			current Band to be cleaned up
+	 *	@param		string		$tape			current tape to be cleaned up
 	 *	@return		string
 	 */
-	private function wrapBand( &$band )
+	private function wrapTape( &$tape )
 	{
-		if( substr( $band, 0, 1 ) != $this->blank )
-			$band = $this->blank.$band;	
-		if( substr( $band, -1 ) != $this->blank )
-			$band = $band.$this->blank;	
+		if( substr( $tape, 0, 1 ) != $this->blank )
+			$tape = $this->blank.$tape;
+		if( substr( $tape, -1 ) != $this->blank )
+			$tape = $tape.$this->blank;
 	}
 }
 ?>

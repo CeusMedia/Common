@@ -6,12 +6,12 @@ class Alg_Time_Duration{
 	public function __construct(){
 	}
 
-	public function convertSecondsToDuration( $seconds, $space ){
-		return self::render( $seconds, $space, $this->shortMode );
-	}
-
 	public function convertDurationToSeconds( $duration ){
 		return self::parse( $duration );
+	}
+
+	public function convertSecondsToDuration( $seconds, $space ){
+		return self::render( $seconds, $space, $this->shortMode );
 	}
 
 	static public function parse( $duration ){

@@ -2,7 +2,7 @@
 /**
  *	Class holding Predicates for String Validation.
  *
- *	Copyright (c) 2007-2015 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2018 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Validation
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2015 Christian Würker
+ *	@copyright		2007-2018 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			14.02.2007
@@ -33,7 +33,7 @@
  *	@uses			Alg_Time_Converter
  *	@uses			Alg_Crypt_PasswordStrength
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2015 Christian Würker
+ *	@copyright		2007-2018 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			14.02.2007
@@ -52,7 +52,7 @@ class Alg_Validation_Predicates
 	{
 		return strlen( $string ) <= $length;
 	}
-	
+
 	/**
 	 *	Indicates whether a String is long enough.
 	 *	@access		public
@@ -64,7 +64,20 @@ class Alg_Validation_Predicates
 	{
 		return strlen( $string ) >= $length;
 	}
-	
+
+	/**
+	 *	Indicates whether a Password String has a Score.
+	 *	@access		public
+	 *	@static
+	 *	@param		string		$string		String to be checked
+	 *	@param		int			$score		Score to a have at least
+	 *	@return		bool
+	 */
+	public static function hasPasswordScore( $string, $score )
+	{
+		return Alg_Crypt_PasswordStrength::getScore( $string ) >= $score;
+	}
+
 	/**
 	 *	Indicates whether a Password String has a Stength.
 	 *	@access		public
@@ -79,19 +92,6 @@ class Alg_Validation_Predicates
 	}
 	
 	/**
-	 *	Indicates whether a Password String has a Score.
-	 *	@access		public
-	 *	@static
-	 *	@param		string		$string		String to be checked
-	 *	@param		int			$score		Score to a have at least
-	 *	@return		bool
-	 */
-	public static function hasPasswordScore( $string, $score )
-	{
-		return Alg_Crypt_PasswordStrength::getScore( $string ) >= $score;
-	}
-	
-	/**
 	 *	Indicates whether a String has a Value.
 	 *	@access		public
 	 *	@static
@@ -102,7 +102,7 @@ class Alg_Validation_Predicates
 	{
 		return $string != "";
 	}
-	
+
 	/**
 	 *	Indicates whether a String is time formated and is after another point in time.
 	 *	@access		public
@@ -172,7 +172,7 @@ class Alg_Validation_Predicates
 			throw new InvalidArgumentException( 'Given Date "'.$string.'" could not been parsed.' );
 		return $time < $point;
 	}
-	
+
 	/**
 	 *	Indicates whether a String is a valid Date.
 	 *	@access		public

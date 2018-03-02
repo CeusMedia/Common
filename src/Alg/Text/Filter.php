@@ -2,7 +2,7 @@
 /**
  *	Filters HTML Content by stripping out unwanted Content Types like Scripts or Styles.
  *
- *	Copyright (c) 2007-2015 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2018 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Text
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2015 Christian Würker
+ *	@copyright		2007-2018 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.6.4
@@ -31,7 +31,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Text
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2015 Christian Würker
+ *	@copyright		2007-2018 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.6.4
@@ -50,6 +50,20 @@ class Alg_Text_Filter
 	{
 		$string	= preg_replace( "@<![\s\S]*?--[ \t\n\r]*>@", "", $string );
 		$string	= preg_replace( "@/\*.+\*/@siU", "", $string );
+		return $string;
+	}
+
+	/**
+	 *	Strips all JavaScript Event Attributes from HTML String.
+	 *	@access		public
+	 *	@static
+	 *	@param		string		$string			String to cleanse
+	 *	@return		string
+	 */
+	public static function stripEventAttributes( $string )
+	{
+		$string	= preg_replace( '@(<[^>]+)\s+on[a-z]{4,}\s*=".+"@iU', "\\1", $string );
+		$string	= preg_replace( "@(<[^>]+)\s+on[a-z]{4,}\s*='.+'@iU", "\\1", $string );
 		return $string;
 	}
 
@@ -79,7 +93,7 @@ class Alg_Text_Filter
 		$string	= preg_replace( "@<link .*(('|\")\s*stylesheet\s*('|\")|\.css).+(/>|</link>)@siU", "", $string );
 		return $string;
 	}
-	
+
 	/**
 	 *	Strips all Tags (<...>) from String.
 	 *	@access		public
@@ -90,20 +104,6 @@ class Alg_Text_Filter
 	public static function stripTags( $string )
 	{
 		$string	= preg_replace( "@<[\/\!]*?[^<>]*?>@si", "", $string );
-		return $string;
-	}
-	
-	/**
-	 *	Strips all JavaScript Event Attributes from HTML String.
-	 *	@access		public
-	 *	@static
-	 *	@param		string		$string			String to cleanse
-	 *	@return		string
-	 */
-	public static function stripEventAttributes( $string )
-	{
-		$string	= preg_replace( '@(<[^>]+)\s+on[a-z]{4,}\s*=".+"@iU', "\\1", $string );
-		$string	= preg_replace( "@(<[^>]+)\s+on[a-z]{4,}\s*='.+'@iU", "\\1", $string );
 		return $string;
 	}
 }

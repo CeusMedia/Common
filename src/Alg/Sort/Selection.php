@@ -2,7 +2,7 @@
 /**
  *	Selection Sort.
  *
- *	Copyright (c) 2007-2015 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2018 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Sort
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2015 Christian Würker
+ *	@copyright		2007-2018 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@version		$Id$
@@ -30,13 +30,31 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Sort
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2015 Christian Würker
+ *	@copyright		2007-2018 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@version		$Id$
  */
 class Alg_Sort_Selection
 {
+	/**
+	 *	Finds and returns Position of lowest Element in Bounds.
+	 *	@access		protected
+	 *	@static
+	 *	@param		array		$list		List
+	 *	@param		int			$pos1		Position of lower Bound
+	 *	@param		int			$pos1		Position of higher Bound
+	 *	@return		int
+	 */
+	protected static function getLowest( $list, $pos1, $pos2 )
+	{
+		$lowest = $pos1;
+		for( $i=$pos1; $i<$pos2; $i++ )
+			if( $list[$lowest] == $list[$i] )
+				$lowest = $i;
+		return $lowest;
+	}
+
 	/**
 	 *	Sorts List with Selection Sort.
 	 *	@access		public
@@ -56,24 +74,6 @@ class Alg_Sort_Selection
 #			print_m ($list);
 		}
 		return $list;
-	}
-
-	/**
-	 *	Finds and returns Position of lowest Element in Bounds.
-	 *	@access		protected
-	 *	@static
-	 *	@param		array		$list		List
-	 *	@param		int			$pos1		Position of lower Bound
-	 *	@param		int			$pos1		Position of higher Bound
-	 *	@return		int
-	 */
-	protected static function getLowest( $list, $pos1, $pos2 )
-	{
-		$lowest = $pos1;
-		for( $i=$pos1; $i<$pos2; $i++ )
-			if( $list[$lowest] == $list[$i] )
-				$lowest = $i;
-		return $lowest;
 	}
 
 	/**

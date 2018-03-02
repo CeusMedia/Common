@@ -2,7 +2,7 @@
 /**
  *	Complex Number with base operations.
  *
- *	Copyright (c) 2007-2015 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2018 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Math
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2015 Christian Würker
+ *	@copyright		2007-2018 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			22.06.2005
@@ -31,7 +31,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Math
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2015 Christian Würker
+ *	@copyright		2007-2018 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			22.06.2005
@@ -56,27 +56,7 @@ class Alg_Math_ComplexNumber
 		$this->real	= $real;
 		$this->image	= $image;
 	}
-	
-	/**
-	 *	Returns the real party of the complex number.
-	 *	@access		public
-	 *	@return		mixed
-	 */
-	public function getRealPart()
-	{
-		return $this->real;
-	}
-	
-	/**
-	 *	Returns the iimaginary party of the complex number.
-	 *	@access		public
-	 *	@return		mixed
-	 */
-	public function getImagePart()
-	{
-		return $this->image;
-	}
-	
+
 	/**
 	 *	Addition of complex numbers.
 	 *	@access		public
@@ -93,24 +73,44 @@ class Alg_Math_ComplexNumber
 		$image	= $b + $d;
 		return new ComplexNumber( $real, $image );
 	}
-	
+
 	/**
-	 *	Substraction of complex numbers.
+	 *	Division of complex numbers.
 	 *	@access		public
-	 *	@param		ComplexNumber	$complex		Complex number to be subtracted
+	 *	@param		ComplexNumber	$complex		Complex number to be divised by
 	 *	@return		ComplexNumber
 	 */
-	public function sub( $complex )
+	public function div( $complex )
 	{
 		$a	= $this->getRealPart();
 		$b	= $this->getImagePart();
 		$c	= $complex->getRealPart();
 		$d	= $complex->getImagePart();
-		$real	= $a - $c;
-		$image	= $b - $d;
+		$real	= ( $a * $c + $b * $d ) / ( $c * $c + $d * $d );
+		$image	= ( $b * $c - $a * $d ) / ( $c * $c + $d * $d );
 		return new ComplexNumber( $real, $image );
 	}
-	
+
+	/**
+	 *	Returns the iimaginary party of the complex number.
+	 *	@access		public
+	 *	@return		mixed
+	 */
+	public function getImagePart()
+	{
+		return $this->image;
+	}
+
+	/**
+	 *	Returns the real party of the complex number.
+	 *	@access		public
+	 *	@return		mixed
+	 */
+	public function getRealPart()
+	{
+		return $this->real;
+	}
+
 	/**
 	 *	Multiplication of complex numbers.
 	 *	@access		public
@@ -127,21 +127,21 @@ class Alg_Math_ComplexNumber
 		$image	= $a * $d + $b * $c;
 		return new ComplexNumber( $real, $image );
 	}
-	
+
 	/**
-	 *	Division of complex numbers.
+	 *	Substraction of complex numbers.
 	 *	@access		public
-	 *	@param		ComplexNumber	$complex		Complex number to be divised by
+	 *	@param		ComplexNumber	$complex		Complex number to be subtracted
 	 *	@return		ComplexNumber
 	 */
-	public function div( $complex )
+	public function sub( $complex )
 	{
 		$a	= $this->getRealPart();
 		$b	= $this->getImagePart();
 		$c	= $complex->getRealPart();
 		$d	= $complex->getImagePart();
-		$real	= ( $a * $c + $b * $d ) / ( $c * $c + $d * $d );
-		$image	= ( $b * $c - $a * $d ) / ( $c * $c + $d * $d );
+		$real	= $a - $c;
+		$image	= $b - $d;
 		return new ComplexNumber( $real, $image );
 	}
 

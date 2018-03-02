@@ -2,7 +2,7 @@
 /**
  *	Compact Interval (closed on both sides).
  *
- *	Copyright (c) 2007-2015 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2018 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Math
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2015 Christian Würker
+ *	@copyright		2007-2018 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@version		$Id$
@@ -30,7 +30,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Math
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2015 Christian Würker
+ *	@copyright		2007-2018 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@version		$Id$
@@ -42,8 +42,8 @@ class Alg_Math_CompactInterval
 	/**	@var		string		$name		Name of Interval (default I) */
 	protected $name				= "I";
 	/**	@var		mixed		$start		Start of Interval */
-	protected $start;	
-	
+	protected $start;
+
 	/**
 	 *	Constructor.
 	 *	@access		public
@@ -57,7 +57,7 @@ class Alg_Math_CompactInterval
 		if( $name )
 			$this->name	= $name;
 	}
-	
+
 	/**
 	 *	Returns distance between Start and End.
 	 *	@access		public
@@ -66,7 +66,17 @@ class Alg_Math_CompactInterval
 	 */
 	public function getDiameter()
 	{
-		return abs( $this->end - $this->start );	
+		return abs( $this->end - $this->start );
+	}
+
+	/**
+	 *	Returns End of Interval.
+	 *	@access		public
+	 *	@return		mixed
+	 */
+	public function getEnd()
+	{
+		return $this->end;
 	}
 
 	/**
@@ -78,30 +88,7 @@ class Alg_Math_CompactInterval
 	{
 		return $this->start;
 	}
-	
-	/**
-	 *	Returns End of Interval.
-	 *	@access		public
-	 *	@return		mixed
-	 */
-	public function getEnd()
-	{
-		return $this->end;
-	}
-	
-	/**
-	 *	Sets Start of Interval.
-	 *	@access		public
-	 *	@param		mixed		$start		Start of Interval
-	 *	@return		void
-	 */
-	public function setStart( $start )
-	{
-		if( $this->end && $start > $this->end )
-			throw new InvalidArgumentException( 'Start of Interval cannot be greater than End.' );
-		$this->start	= $start;	
-	}
-	
+
 	/**
 	 *	Sets End of Interval.
 	 *	@access		public
@@ -112,7 +99,20 @@ class Alg_Math_CompactInterval
 	{
 		if( $this->start && $end < $this->start )
 			throw new InvalidArgumentException( 'End of Interval cannot be lower than Start.' );
-		$this->end	= $end;	
+		$this->end	= $end;
+	}
+
+	/**
+	 *	Sets Start of Interval.
+	 *	@access		public
+	 *	@param		mixed		$start		Start of Interval
+	 *	@return		void
+	 */
+	public function setStart( $start )
+	{
+		if( $this->end && $start > $this->end )
+			throw new InvalidArgumentException( 'Start of Interval cannot be greater than End.' );
+		$this->start	= $start;
 	}
 
 	/**

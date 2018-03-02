@@ -2,7 +2,7 @@
 /**
  *	Creates instances of Classes using Reflection.
  *
- *	Copyright (c) 2010-2015 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2010-2018 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Object
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2010-2015 Christian Würker
+ *	@copyright		2010-2018 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.6.8
@@ -31,7 +31,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Object
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2010-2015 Christian Würker
+ *	@copyright		2010-2018 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.6.8
@@ -62,18 +62,6 @@ class Alg_Object_Factory
 		return Alg_Object_Factory::createObject( $className, $arguments );
 	}
 
-	public function getArguments()
-	{
-		return $this->arguments;
-	}
-
-	public function setArguments( $arguments = array() )
-	{
-		if( !is_array( $arguments ) )
-			throw new InvalidArgumentException( 'Arguments must be an array' );
-		$this->arguments	= array_values( $arguments );
-	}
-
 	/**
 	 *	Creates an instance of a class using Reflection.
 	 *	@access		public
@@ -91,7 +79,19 @@ class Alg_Object_Factory
 			$object	= $class->newInstanceArgs( $arguments );
 		else
 			$object	= $class->newInstance();
-		return $object;		
+		return $object;
+	}
+
+	public function getArguments()
+	{
+		return $this->arguments;
+	}
+
+	public function setArguments( $arguments = array() )
+	{
+		if( !is_array( $arguments ) )
+			throw new InvalidArgumentException( 'Arguments must be an array' );
+		$this->arguments	= array_values( $arguments );
 	}
 }
 ?>

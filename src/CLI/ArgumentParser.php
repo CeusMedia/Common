@@ -43,6 +43,21 @@ class CLI_ArgumentParser extends ADT_List_Dictionary
 	//  --  PUBLIC METHODS  --  //
 
 	/**
+	 *	Adds Shortcut.
+	 *	@access		public
+	 *	@param		string		$short		Key of Shortcut
+	 *	@param		string		$long		Long form of Shortcut
+	 *	@return		void
+	 */
+	public function addShortCut( $short, $long )
+	{
+		if( !isset( $this->shortcuts[$short] ) )
+			$this->shortcuts[$short]	= $long;
+		else
+			trigger_error( "Shortcut '".$short."' is already set", E_USER_ERROR );
+	}
+
+	/**
 	 *	Parses Arguments of called Script.
 	 *	@access		public
 	 *	@return		void
@@ -73,21 +88,6 @@ class CLI_ArgumentParser extends ADT_List_Dictionary
 		$this->set( "script", $script );
 		$this->set( "commands", $commands );
 		$this->set( "parameters", $list );
-	}
-
-	/**
-	 *	Adds Shortcut.
-	 *	@access		public
-	 *	@param		string		$short		Key of Shortcut
-	 *	@param		string		$long		Long form of Shortcut
-	 *	@return		void
-	 */
-	public function addShortCut( $short, $long )
-	{
-		if( !isset( $this->shortcuts[$short] ) )
-			$this->shortcuts[$short]	= $long;
-		else
-			trigger_error( "Shortcut '".$short."' is already set", E_USER_ERROR );
 	}
 
 	/**

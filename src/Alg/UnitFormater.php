@@ -2,7 +2,7 @@
 /**
  *	Formats Numbers intelligently and adds Units to Bytes and Seconds.
  *
- *	Copyright (c) 2007-2015 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2018 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Alg
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2015 Christian Würker
+ *	@copyright		2007-2018 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			22.04.2008
@@ -35,7 +35,7 @@ define( 'SIZE_GIGABYTE', pow( 1024, 3 ) );
  *	@category		Library
  *	@package		CeusMedia_Common_Alg
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2015 Christian Würker
+ *	@copyright		2007-2018 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			18.10.2007
@@ -81,29 +81,6 @@ class Alg_UnitFormater
 	);
 
 	/**
-	 *	Formats Number.
-	 *	@access		public
-	 *	@static
-	 *	@param		float		$float			Number to format
-	 *	@param		int			$unit			Number of Digits for dot to move to left
-	 *	@param		int			$precision		Number of Digits after dot
-	 *	@return		void
-	 *	@deprecated	uncomplete method, please remove
-	 */
-	public static function formatNumber( $float, $unit = 1, $precision = 0 )
-	{
-		Deprecation::getInstance()->setExceptionVersion( '0.8' )
-			->message(  'Use one of the other methods instead' );
-		if( (int) $unit )
-		{
-			$float	= $float / $unit;
-			if( is_int( $precision ) )
-				$float	= round( $float, $precision );
-		}
-		return $float;
-	}
-
-	/**
 	 *	Formats Number of Bytes by switching to next higher Unit if an set Edge is reached.
 	 *	Edge is a Factor when to switch to ne next higher Unit, eG. 0.5 means 50% of 1024.
 	 *	If you enter 512 (B) it will return 0.5 KB.
@@ -134,39 +111,6 @@ class Alg_UnitFormater
 		if( is_string( $indent ) )													//  Indention is set
 			$float	= $float.$indent.self::$unitBytes[$unitKey];					//  append Unit
 		return $float;																//  return resultung Value
-	}
-
-	/**
-	 *	Formats Number of Pixels by switching to next higher Unit if an set Edge is reached.
-	 *	Edge is a Factor when to switch to ne next higher Unit, eG. 0.5 means 50% of 1000.
-	 *	If you enter 500 (P) it will return 0.5 KP.
-	 *	Caution! With Precision at 0 you may have Errors from rounding.
-	 *	To avoid the Units to be appended, enter FALSE or NULL for indent.
-	 *	@access		public
-	 *	@static
-	 *	@param		float		$number			Number of Pixels
-	 *	@param		int			$precision		Number of Floating Point Digits
-	 *	@param		string		$indent			Space between Number and Unit
-	 *	@param		float		$edge			Factor of next higher Unit when to break
-	 *	@return		string
-	 */
-	public static function formatPixels( $number, $precision = 1, $indent = " ", $edge = 0.5 )
-	{
-		$unitKey	= 0;															//  step to first Unit
-		$divider	= 1000;															//  1000 Pixels are 1 Kilo Pixel
-		$edge		= abs( $edge );													//  avoid negative Edges
-		$edge		= $edge > 1 ? 1 : $edge;										//  avoid senseless Edges
-		$edgeValue	= $divider * $edge;												//  calculate Edge Value
-		while( $number >= $edgeValue )												//  Value is larger than Edge
-		{
-			$unitKey ++;															//  step to next Unit
-			$number	/= $divider;													//  calculate Value in new Unit
-		}
-		if( is_int( $precision ) )													//  Precision is set
-			$number	= round( $number, $precision );									//  round Value
-		if( is_string( $indent ) )													//  Indention is set
-			$number	= $number.$indent.self::$unitPixels[$unitKey];					//  append Unit
-		return $number;																//  return resultung Value
 	}
 
 	/**
@@ -280,6 +224,62 @@ class Alg_UnitFormater
 	public static function formatMinutes( $float, $precision = 1, $indent = " ", $edge = 0.5 )
 	{
 		return self::formatMicroSeconds( $float * 60000000, $precision, $indent, $edge );
+	}
+
+	/**
+	 *	Formats Number.
+	 *	@access		public
+	 *	@static
+	 *	@param		float		$float			Number to format
+	 *	@param		int			$unit			Number of Digits for dot to move to left
+	 *	@param		int			$precision		Number of Digits after dot
+	 *	@return		void
+	 *	@deprecated	uncomplete method, please remove
+	 */
+	public static function formatNumber( $float, $unit = 1, $precision = 0 )
+	{
+		Deprecation::getInstance()->setExceptionVersion( '0.8' )
+			->message(  'Use one of the other methods instead' );
+		if( (int) $unit )
+		{
+			$float	= $float / $unit;
+			if( is_int( $precision ) )
+				$float	= round( $float, $precision );
+		}
+		return $float;
+	}
+
+	/**
+	 *	Formats Number of Pixels by switching to next higher Unit if an set Edge is reached.
+	 *	Edge is a Factor when to switch to ne next higher Unit, eG. 0.5 means 50% of 1000.
+	 *	If you enter 500 (P) it will return 0.5 KP.
+	 *	Caution! With Precision at 0 you may have Errors from rounding.
+	 *	To avoid the Units to be appended, enter FALSE or NULL for indent.
+	 *	@access		public
+	 *	@static
+	 *	@param		float		$number			Number of Pixels
+	 *	@param		int			$precision		Number of Floating Point Digits
+	 *	@param		string		$indent			Space between Number and Unit
+	 *	@param		float		$edge			Factor of next higher Unit when to break
+	 *	@return		string
+	 */
+	public static function formatPixels( $number, $precision = 1, $indent = " ", $edge = 0.5 )
+	{
+		$unitKey	= 0;															//  step to first Unit
+		$divider	= 1000;															//  1000 Pixels are 1 Kilo Pixel
+		$edge		= abs( $edge );													//  avoid negative Edges
+		$edge		= $edge > 1 ? 1 : $edge;										//  avoid senseless Edges
+		$edgeValue	= $divider * $edge;												//  calculate Edge Value
+		while( $number >= $edgeValue )												//  Value is larger than Edge
+		{
+			$unitKey ++;															//  step to next Unit
+			$number	/= $divider;													//  calculate Value in new Unit
+		}
+		if( is_int( $precision ) )													//  Precision is set
+			$number	= round( $number, $precision );									//  round Value
+		if( is_string( $indent ) )													//  Indention is set
+			$number	= $number.$indent.self::$unitPixels[$unitKey];					//  append Unit
+		return $number;																//  return resultung Value
 	}
 
 	/**

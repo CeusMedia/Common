@@ -2,7 +2,7 @@
 /**
  *	Trimmer for Strings, supporting cutting to the right and central cutting for too long Strings.
  *
- *	Copyright (c) 2009-2015 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2009-2018 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Text
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2009-2015 Christian Würker
+ *	@copyright		2009-2018 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.6.8
@@ -31,7 +31,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Text
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2009-2015 Christian Würker
+ *	@copyright		2009-2018 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.6.8
@@ -39,6 +39,22 @@
  */
 class Alg_Text_Trimmer
 {
+	static protected function strlen( $string, $encoding = NULL )
+	{
+		if( !function_exists( 'mb_strlen' ) )
+			return strlen( utf8_decode( $string ) );
+		$encoding	= $encoding ? $encoding : mb_internal_encoding();
+		return mb_strlen( $string, $encoding );
+	}
+
+	static protected function substr( $string, $start, $length = NULL, $encoding = NULL )
+	{
+		if( !function_exists( 'mb_substr' ) )
+			return utf8_encode( substr( utf8_decode( $string ), $start, $length ) );
+		$encoding	= $encoding ? $encoding : mb_internal_encoding();
+		return mb_substr( $string, $start, $length, $encoding );
+	}
+
 	/**
 	 *	Trims String and cuts to the right if too long, also adding a mask string.
 	 *	@access		public
@@ -64,22 +80,6 @@ class Alg_Text_Trimmer
 		else
 			$string	= self::substr( $string, 0, $range, $encoding ).$mask;
 		return $string;
-	}
-
-	static protected function strlen( $string, $encoding = NULL )
-	{
-		if( !function_exists( 'mb_strlen' ) )
-			return strlen( utf8_decode( $string ) );
-		$encoding	= $encoding ? $encoding : mb_internal_encoding();
-		return mb_strlen( $string, $encoding );
-	}
-
-	static protected function substr( $string, $start, $length = NULL, $encoding = NULL )
-	{
-		if( !function_exists( 'mb_substr' ) )
-			return utf8_encode( substr( utf8_decode( $string ), $start, $length ) );
-		$encoding	= $encoding ? $encoding : mb_internal_encoding();
-		return mb_substr( $string, $start, $length, $encoding );
 	}
 
 	/**
