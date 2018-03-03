@@ -41,6 +41,14 @@ set-rights:
 	@find . -type d -not -path "./vendor/*" -print0 | xargs -0 xargs sudo chmod 755 >/dev/null 2>&1 || true
 	@find . -type f -not -path "./vendor/*" -print0 | xargs -0 xargs sudo chmod 644 >/dev/null 2>&1 || true
 
+create-docs: composer-install-dev
+	@php vendor/ceus-media/doc-creator/doc-creator.php --config-file=doc-creator.xml
+ 
+composer-install-dev:
+	@composer install --dev
+
+composer-install-nodev:
+	@composer install --no-dev
 
 
 
@@ -49,4 +57,3 @@ generate-htaccess:
 	@echo 'php_value auto_prepend_file "${PATH_SELF}autoload.php"' > .htaccess
 	@echo ".htaccess generated."
 	@echo "Now you can move this file to your project to enable autoloading."
-
