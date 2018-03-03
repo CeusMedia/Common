@@ -23,8 +23,6 @@
  *	@copyright		2007-2018 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			30.05.2011
- *	@version		$Id$a
  */
 /**
  *	....
@@ -34,8 +32,6 @@
  *	@copyright		2007-2018 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			30.05.2011
- *	@version		$Id$a
  *	@todo			code doc
  */
 class FS_File_Lock
@@ -54,7 +50,6 @@ class FS_File_Lock
 		$this->setSleep( $sleep );
 	}
 
-
 	public function getExpiration()
 	{
 		return $this->expiration;
@@ -70,6 +65,18 @@ class FS_File_Lock
 		return $this->timeout;
 	}
 
+	public function isLocked()
+	{
+		if( file_exists( $this->fileName ) )
+		{
+			if( !$this->expiration )
+				return TRUE;
+			if( $this->expiration >= time() - filemtime( $this->fileName ) )
+				return TRUE;
+			unlink( $this->fileName );
+		}
+		return FALSE;
+	}
 
 	public function lock( $strict = TRUE )
 	{
@@ -92,19 +99,6 @@ class FS_File_Lock
 		if( $this->isLocked() ){
 			@unlink( $this->fileName );
 			return TRUE;
-		}
-		return FALSE;
-	}
-
-	public function isLocked()
-	{
-		if( file_exists( $this->fileName ) )
-		{
-			if( !$this->expiration )
-				return TRUE;
-			if( $this->expiration >= time() - filemtime( $this->fileName ) )
-				return TRUE;
-			unlink( $this->fileName );
 		}
 		return FALSE;
 	}

@@ -133,14 +133,14 @@ class FS_File_BackupCleaner{
 		}
 	}
 
-	public function setVault( $path ){
-		$this->vault	= $path;
-	}
-
 	public function keepOnlyLastMonths( $months ){
 		$dates	= $this->filterDateTree( $this->getDateTree(), array() );
 		print_m( $dates );
 		die;
+	}
+
+	public function setVault( $path ){
+		$this->vault	= $path;
 	}
 }
 ?>

@@ -72,6 +72,42 @@ class FS_Folder_Lister
 	}
 
 	/**
+	 *	Returns List of Files statically.
+	 *	@access		public
+	 *	@static
+	 *	@param		string		$path				Path to Folder
+	 *	@param		string		$pattern			RegEx Pattern to match with File Name
+	 *	@return		FilterIterator
+	 */
+	public static function getFileList( $path, $pattern = NULL )
+	{
+		$index	= new FS_Folder_Lister( $path );
+		$index->setPattern( $pattern );
+		$index->showFiles( TRUE );
+		$index->showFolders( FALSE );
+		return $index->getList();
+	}
+
+	/**
+	 *	Returns List of Folders statically.
+	 *	@access		public
+	 *	@static
+	 *	@param		string		$path				Path to Folder
+	 *	@param		string		$pattern			RegEx Pattern to match with Folder Name
+	 *	@param		bool		$stripDotEntries	Flag: strip Files and Folders starting with a Dot
+	 *	@return		FilterIterator
+	 */
+	public static function getFolderList( $path, $pattern = NULL, $stripDotEntries = TRUE )
+	{
+		$index	= new FS_Folder_Lister( $path );
+		$index->setPattern( $pattern );
+		$index->showFiles( FALSE );
+		$index->showFolders( TRUE );
+		$index->stripDotEntries( $stripDotEntries );
+		return $index->getList();
+	}
+
+	/**
 	 *	Returns List as FilterIterator.
 	 *	@access		public
 	 *	@return		FilterIterator
@@ -95,42 +131,6 @@ class FS_Folder_Lister
 	}
 
 	/**
-	 *	Returns List of Files statically.
-	 *	@access		public
-	 *	@static
-	 *	@param		string		$path				Path to Folder
-	 *	@param		string		$pattern			RegEx Pattern to match with File Name
-	 *	@return		FilterIterator
-	 */	
-	public static function getFileList( $path, $pattern = NULL )
-	{
-		$index	= new FS_Folder_Lister( $path );
-		$index->setPattern( $pattern );
-		$index->showFiles( TRUE );
-		$index->showFolders( FALSE );
-		return $index->getList();
-	}
-
-	/**
-	 *	Returns List of Folders statically.
-	 *	@access		public
-	 *	@static
-	 *	@param		string		$path				Path to Folder
-	 *	@param		string		$pattern			RegEx Pattern to match with Folder Name
-	 *	@param		bool		$stripDotEntries	Flag: strip Files and Folders starting with a Dot
-	 *	@return		FilterIterator
-	 */	
-	public static function getFolderList( $path, $pattern = NULL, $stripDotEntries = TRUE )
-	{
-		$index	= new FS_Folder_Lister( $path );
-		$index->setPattern( $pattern );
-		$index->showFiles( FALSE );
-		$index->showFolders( TRUE );
-		$index->stripDotEntries( $stripDotEntries );
-		return $index->getList();
-	}
-
-	/**
 	 *	Returns List of Folders and Files statically.
 	 *	@access		public
 	 *	@static
@@ -138,7 +138,7 @@ class FS_Folder_Lister
 	 *	@param		string		$pattern			RegEx Pattern to match with Entry Name
 	 *	@param		bool		$stripDotEntries	Flag: strip Files and Folders starting with a Dot
 	 *	@return		FilterIterator
-	 */	
+	 */
 	public static function getMixedList( $path, $pattern = NULL, $stripDotEntries = TRUE )
 	{
 		$index	= new FS_Folder_Lister( $path );
@@ -170,7 +170,7 @@ class FS_Folder_Lister
 		}
 		$this->pattern	= $pattern;
 	}
-	
+
 	/**
 	 *	Sets Filter Pattern.
 	 *	Caution! Method overwrites Extension Filter if already set.
@@ -180,7 +180,7 @@ class FS_Folder_Lister
 	 */
 	public function setPattern( $pattern )
 	{
-		$this->pattern	= $pattern;		
+		$this->pattern	= $pattern;
 	}
 
 	/**

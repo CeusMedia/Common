@@ -51,7 +51,7 @@ class FS_File_Backup{
 		$this->preserveTimestamp	= $preserveTimestamp;
 		$this->keepOnlyOne			= $keepOnlyOne;
 	}
-	
+
 	public function getContent( $version ){
 		$version	= $this->sanitizeVersion( $version );
 		$filePath	= $this->getVersionFilename( $version );
@@ -70,6 +70,13 @@ class FS_File_Backup{
 		return $v;
 	}
 
+	protected function getVersionFilename( $version ){
+		if( (int) $version <= 0 ){
+			return $this->filePath.'~';
+		}
+		return $this->filePath.'.~'.( $version ).'~';
+	}
+
 	public function getVersions(){
 		$list		= array();
 		$version	= $this->getVersion();
@@ -78,13 +85,6 @@ class FS_File_Backup{
 			$version		-= 1;
 		}
 		return array_reverse( $list );
-	}
-
-	protected function getVersionFilename( $version ){
-		if( (int) $version <= 0 ){
-			return $this->filePath.'~';
-		}
-		return $this->filePath.'.~'.( $version ).'~';
 	}
 
 	public function move( $targetPath ){

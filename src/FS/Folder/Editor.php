@@ -138,6 +138,51 @@ class FS_Folder_Editor extends FS_Folder_Reader
 	}
 
 	/**
+	 *	Copies a Folder recursive to another Path and returns Number of copied Files and Folders.
+	 *	@access		public
+	 *	@static
+	 *	@param		string		$sourceFolder	Folder Name of Folder to copy
+	 *	@param		string		$targetFolder	Folder Name to Target Folder
+	 *	@param		bool		$force			Flag: force Copy if file is existing
+	 *	@param		bool		$skipDotEntries	Flag: skip Files and Folders starting with Dot
+	 *	@return		int
+	 */
+	public static function copyFolder( $sourceFolder, $targetFolder, $force = FALSE, $skipDotEntries = TRUE )
+	{
+		if( !self::isFolder( $sourceFolder ) )												//  Source Folder not existing
+			throw new RuntimeException( 'Folder "'.$sourceFolder.'" cannot be copied because it is not existing' );
+
+		$count			= 0;																//  initialize Object Counter
+		$sourceFolder	= self::correctPath( $sourceFolder );								//  add Slash to Source Folder
+		$targetFolder	= self::correctPath( $targetFolder );								//  add Slash to Target Folder
+		if( self::isFolder( $targetFolder ) && !$force )									//  Target Folder is existing, not forced
+			throw new RuntimeException( 'Folder "'.$targetFolder.'" is already existing. See Option "force"' );
+		else if( !self::isFolder( $targetFolder ) )											//  Target Folder is not existing
+			$count	+= (int) self::createFolder( $targetFolder );							//  create TargetFolder and count
+
+		$index	= new FS_Folder_Iterator( $sourceFolder, TRUE, TRUE, $skipDotEntries );		//  Index of Source Folder
+		foreach( $index as $entry )
+		{
+			if( $entry->isDot() )															//  Dot Folders
+				continue;																	//  skip them
+			if( $entry->isDir() )															//  nested Folder
+			{
+				$source	= $entry->getPathname();											//  Source Folder Name
+				$target	= $targetFolder.$entry->getFilename()."/";							//  Target Folder Name
+				$count	+= self::copyFolder( $source, $target, $force, $skipDotEntries );	//  copy Folder recursive and count
+			}
+			else if( $entry->isFile() )														//  nested File
+			{
+				$targetFile	= $targetFolder.$entry->getFilename();
+				if( file_exists( $targetFile ) && !$force )
+					throw new RuntimeException( 'File "'.$targetFile.'" is already existing. See Option "force"' );
+				$count	+= (int) copy( $entry->getPathname(), $targetFile );				//  copy File and count
+			}
+		}
+		return $count;																		//  return Object Count
+	}
+
+	/**
 	 *	Creates a Folder by creating all Folders in Path recursive.
 	 *	@access		public
 	 *	@static
@@ -159,51 +204,6 @@ class FS_Folder_Editor extends FS_Folder_Reader
 		if( $groupName )																	//  Group is set
 			chgrp( $folderName, $groupName );
 		return TRUE;
-	}
-
-	/**
-	 *	Copies a Folder recursive to another Path and returns Number of copied Files and Folders.
-	 *	@access		public
-	 *	@static
-	 *	@param		string		$sourceFolder	Folder Name of Folder to copy
-	 *	@param		string		$targetFolder	Folder Name to Target Folder
-	 *	@param		bool		$force			Flag: force Copy if file is existing
-	 *	@param		bool		$skipDotEntries	Flag: skip Files and Folders starting with Dot
-	 *	@return		int
-	 */
-	public static function copyFolder( $sourceFolder, $targetFolder, $force = FALSE, $skipDotEntries = TRUE )
-	{
-		if( !self::isFolder( $sourceFolder ) )												//  Source Folder not existing
-			throw new RuntimeException( 'Folder "'.$sourceFolder.'" cannot be copied because it is not existing' );
-
-		$count			= 0;																//  initialize Object Counter 
-		$sourceFolder	= self::correctPath( $sourceFolder );								//  add Slash to Source Folder
-		$targetFolder	= self::correctPath( $targetFolder );								//  add Slash to Target Folder
-		if( self::isFolder( $targetFolder ) && !$force )									//  Target Folder is existing, not forced
-			throw new RuntimeException( 'Folder "'.$targetFolder.'" is already existing. See Option "force"' );
-		else if( !self::isFolder( $targetFolder ) )											//  Target Folder is not existing
-			$count	+= (int) self::createFolder( $targetFolder );							//  create TargetFolder and count
-
-		$index	= new FS_Folder_Iterator( $sourceFolder, TRUE, TRUE, $skipDotEntries );		//  Index of Source Folder
-		foreach( $index as $entry )														
-		{
-			if( $entry->isDot() )															//  Dot Folders
-				continue;																	//  skip them
-			if( $entry->isDir() )															//  nested Folder
-			{
-				$source	= $entry->getPathname();											//  Source Folder Name
-				$target	= $targetFolder.$entry->getFilename()."/";							//  Target Folder Name
-				$count	+= self::copyFolder( $source, $target, $force, $skipDotEntries );	//  copy Folder recursive and count
-			}
-			else if( $entry->isFile() )														//  nested File
-			{
-				$targetFile	= $targetFolder.$entry->getFilename();
-				if( file_exists( $targetFile ) && !$force )
-					throw new RuntimeException( 'File "'.$targetFile.'" is already existing. See Option "force"' );
-				$count	+= (int) copy( $entry->getPathname(), $targetFile );				//  copy File and count
-			}
-		}
-		return $count;																		//  return Object Count
 	}
 
 	/**
@@ -243,14 +243,14 @@ class FS_Folder_Editor extends FS_Folder_Reader
 		if( self::isFolder( $targetPath.$sourceName ) && !$force )							//  Path of Target Folder is already existing
 			throw new RuntimeException( 'Folder "'.$targetPath.$sourceName.'" is already existing' );
 		if( !self::isFolder( $targetPath ) )												//  Path to Target Folder not existing
-			self::createFolder( $targetPath );												//  
+			self::createFolder( $targetPath );												//
 		if( $sourceFolder == $targetPath )													//  Source and Target Path are equal
 			return FALSE;																	//  do nothing and return
 		if( FALSE === @rename( $sourceFolder, $targetPath.$sourceName ) )					//  move Source Folder to Target Path
 			throw new RuntimeException( 'Folder "'.$sourceFolder.'" cannot be moved to "'.$targetPath.'"' );
 		return TRUE;
 	}
-	
+
 	/**
 	 *	Moves current Folder to another Path.
 	 *	@access		public
@@ -279,7 +279,7 @@ class FS_Folder_Editor extends FS_Folder_Reader
 		$this->folderName	= dirname( $this->folderName )."/".basename( $folderName );
 		return TRUE;
 	}
-	
+
 	/**
 	 *	Renames a Folder to another Folder Name.
 	 *	@access		public
@@ -314,7 +314,7 @@ class FS_Folder_Editor extends FS_Folder_Reader
 	{
 		return $this->removeFolder( $this->folderName, $force );
 	}
-	
+
 	/**
 	 *	Removes a Folder recursive and returns Number of removed Folders and Files.
 	 *	Because there where Permission Issues with DirectoryIterator it uses the old 'dir' command.
@@ -356,8 +356,8 @@ class FS_Folder_Editor extends FS_Folder_Reader
 		}
 		rmdir( $folderName );																//  remove Folder
 		return $count;
-		
-		
+
+
 		$dir	= dir( $folderName );														//  index Folder
 		while( $entry = $dir->read() )														//  iterate Objects
 		{

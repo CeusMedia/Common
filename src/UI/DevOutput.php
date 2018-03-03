@@ -54,7 +54,7 @@ class UI_DevOutput
 			'stringMaxLength'	=> 1500
 		),
 		'console'	=> array(
-			'lineBreak'			=> "\n",															// Sign for Line Break
+			'lineBreak'			=> PHP_EOL,															// Sign for Line Break
 			'indentSign'		=> " ",																// Sign for Spaces
 			'noteOpen'			=> "'",																// Sign for opening Notes
 			'noteClose'			=> "'",																// Sign for closing Notes

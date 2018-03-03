@@ -23,8 +23,6 @@
  *	@copyright		2008-2018 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.6.6
- *	@version		$Id$
  */
 /**
  *	Converter for Strings using different ways of Camel Case.
@@ -34,11 +32,9 @@
  *	@copyright		2008-2018 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.6.6
- *	@version		$Id$
  */
-class Alg_Text_CamelCase
-{
+class Alg_Text_CamelCase{
+
 	protected static $regExp	= '/^(.*)[\-\_ ](.*)$/';
 	public static $lowercaseFirst	= NULL;
 	public static $lowercaseLetter	= NULL;
@@ -52,29 +48,24 @@ class Alg_Text_CamelCase
 	 *	@param		bool		$startLow	Flag: convert first Word also to uppercase, use static default if NULL
 	 *	@return		string
 	 */
-	static public function convert( $string, $lowercaseFirst = NULL, $lowercaseLetter = NULL )
-	{
+	static public function convert( $string, $lowercaseFirst = NULL, $lowercaseLetter = NULL ){
 		return static::encode( $string, $lowercaseFirst, $lowercaseLetter );
 	}
 
-	static public function decode( $string, $delimiter = ' ' )
-	{
+	static public function decode( $string, $delimiter = ' ' ){
 		if( !function_exists( 'mb_substr' ) )
 			throw new RuntimeException( 'PHP module "mb" is not installed but needed' );
 		$state  = 0;
 		$pos    = 0;
-		while( $pos < mb_strlen( $string, "UTF-8" ) )
-		{
+		while( $pos < mb_strlen( $string, "UTF-8" ) ){
 			$char		= mb_substr( $string, $pos, 1, "UTF-8" );
 			$isUpper	= self::isUpperCharacter( $string, $pos );
-			switch( $state )
-			{
+			switch( $state ){
 				case 0:
 					$state	= $isUpper ? 2 : 1;
 					break;
 				case 1:
-					if( $isUpper )
-					{
+					if( $isUpper ){
 						$length	= mb_strlen( $string, "UTF-8" );
 						$string	= mb_substr( $string, 0, $pos, "UTF-8" ).'-'.mb_substr( $string, $pos, $length, "UTF-8" );
 						$state	= 2;
@@ -82,8 +73,7 @@ class Alg_Text_CamelCase
 					}
 					break;
 				case 2:
-					if( !$isUpper )
-					{
+					if( !$isUpper ){
 						$length	= mb_strlen( $string, "UTF-8" );
 						$string	= mb_substr( $string, 0, $pos - 1, "UTF-8" ).'-'.mb_substr( $string, $pos - 1, $length, "UTF-8" );
 						$state	= 1;
@@ -95,8 +85,7 @@ class Alg_Text_CamelCase
 		}
 		$string	= preg_replace( "/-+/", "-", $string );
 		$parts	= explode( '-', $string );
-		foreach( $parts as $nr => $part )
-		{
+		foreach( $parts as $nr => $part ){
 			if( !( strlen( $part ) > 1 && self::isUpperCharacter( $part, 1 ) ) )
 				$parts[$nr]	= mb_strtolower( $part, "UTF-8" );
 		}
@@ -111,8 +100,7 @@ class Alg_Text_CamelCase
 	 *	@param		bool		$startLow	Flag: convert first Word also to uppercase, use static default if NULL
 	 *	@return		string
 	 */
-	static public function encode( $string, $lowercaseFirst = NULL, $lowercaseLetter = NULL )
-	{
+	static public function encode( $string, $lowercaseFirst = NULL, $lowercaseLetter = NULL ){
 		$lowercaseFirst		= is_null( $lowercaseFirst ) ? self::$lowercaseFirst : $lowercaseFirst;
 		$lowercaseLetter	= is_null( $lowercaseLetter ) ? self::$lowercaseLetter : $lowercaseLetter;
 
@@ -129,8 +117,7 @@ class Alg_Text_CamelCase
 		return $string;
 	}
 
-	static protected function isUpperCharacter( $string, $pos )
-	{
+	static protected function isUpperCharacter( $string, $pos ){
 		$char	= mb_substr( $string, $pos, 1, "UTF-8" );
 		return mb_strtolower( $char, "UTF-8") != $char;
 	}
