@@ -18,6 +18,18 @@ class CLI{
 		UI_Text::$defaultLineLength	= $this->size->width - 1;
 	}
 
+	static public function charTable( $from = 2500, $to = 2600 ){
+		print PHP_EOL;
+		for($i=$from/10; $i<$to/10; $i++){
+			print 'x'.$i.'0  ';
+			for($j=0; $j<16; $j++){
+				$number	= $i.dechex( $j);
+				print ' '.UI_Text::char( 'x'.$number );
+			}
+			print PHP_EOL;
+		}
+	}
+
 	public function getColors(){
 		return $this->size->colors;
 	}
@@ -87,7 +99,7 @@ class CLI{
 			$heading	= sprintf( $heading, $folders->count(), $files->count() );
 			$heading	= UI_Text::padRight( $heading, $freeSize );
 			CLI::out( $heading.$headType.$headSize.$headPerm.$headDate );
-			CLI::out( UI_Text::line( mb_convert_encoding('&#' . intval( 196 ) . ';', 'UTF-8', 'HTML-ENTITIES') ) );
+			CLI::out( UI_Text::line( UI_Text::char( 'x2550' ) ) );
 		}
 
 		if( $folders ){
@@ -108,7 +120,7 @@ class CLI{
 		}
 		if( $files ){
 			if( $folders->count() )
-				CLI::out( UI_Text::line( '-' ) );
+				CLI::out( UI_Text::line( UI_Text::char( 'x2500' ) ) );
 			foreach( $files as $item ){
 				$name	= $item->getName();
 				$mime	= self::shortenMimeType( $item->getMimeType() );

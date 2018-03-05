@@ -8,6 +8,10 @@ class UI_Text{
 		return str_repeat( $sign, (int) $length );
 	}
 
+	static public function char( $number ){
+		return html_entity_decode( '&#'.$number.';', ENT_NOQUOTES, 'UTF-8' );
+	}
+
 	static protected function realizeLength( $length, $min = NULL, $max = NULL ){
 		$length	= abs( (int) $length );
 		$length	= $length ? $length : self::$defaultLineLength;
