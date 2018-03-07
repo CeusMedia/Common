@@ -14,8 +14,16 @@ class CLI{
 
 	public function __construct(){
 		$this->base	= getCwd();
-		$this->size	= CLI_Dimensions::getSize();
-		UI_Text::$defaultLineLength	= $this->size->width - 1;
+		$this->size	= \CLI_Dimensions::getSize();
+		\UI_Text::$defaultLineLength	= $this->size->width - 1;
+	}
+
+	static public function checkIsCLi( $strict = TRUE ){
+		if( php_sapi_name() === 'cli' )
+			return TRUE;
+		if( $strict )
+			throw new \RuntimeException( 'Available in CLI environment, only' );
+		return FALSE;
 	}
 
 	static public function charTable( $from = 2500, $to = 2600 ){
@@ -28,6 +36,28 @@ class CLI{
 			}
 			print PHP_EOL;
 		}
+	}
+
+	static public function error( $messages = NULL ){
+		$isCli	= self::checkIsCLi( FALSE );
+		if( !is_array( $messages ) )
+			$messages	= array( $messages );
+		foreach( $messages as $message ){
+			if( is_null( $message ) )
+				continue;
+			$type		= gettype( $message );
+			if( in_array( $type, array( 'string', 'integer' ) ) ){
+				if( strlen( trim( $message ) ) ){
+					$message	= trim( $message );
+					$isCli ? fwrite( STDERR, $message ) : print( $message );
+				}
+			}
+			else{
+				$message	= UI_DevOutput::print_m( $message, NULL, NULL, TRUE );
+				$isCli ? fwrite( STDERR, $message ) : print( $message );
+			}
+		}
+		$isCli ? fwrite( STDERR, PHP_EOL ) : print( PHP_EOL );
 	}
 
 	public function getColors(){
@@ -43,18 +73,32 @@ class CLI{
 	}
 
 	public function log( $message ){
-		if( !$this->logger )
-			error_log( date( 'Y-m-d H:i:s' ).': '.$message.PHP_EOL, 'cli.log' );
+		if( is_object( $this->log ) )
+			return $this->logger->log( $message );
+		$logFile	= $this->log ? $this->log : 'cli.log';
+		error_log( date( 'Y-m-d H:i:s' ).': '.$message.PHP_EOL, $logFile );
 	}
 
-	static public function out( $message = NULL, $break = TRUE ){
-		$message	= trim( $message );
-		$type		= gettype( $message );
-		if( !in_array( $type, array( 'string', 'integer' ) ) )
-			$message	= print_m( $message, NULL, NULL, TRUE );
-		print( (string) $message );
-		if( $break )
-			print( PHP_EOL );
+	static public function out( $messages = NULL, $newLine = TRUE ){
+		$isCli	= self::checkIsCLi( FALSE );
+		if( !is_array( $messages ) )
+			$messages	= array( $messages );
+		foreach( $messages as $message ){
+			if( is_null( $message ) )
+				continue;
+			$type		= gettype( $message );
+			if( in_array( $type, array( 'string', 'integer' ) ) ){
+				if( strlen( trim( $message ) ) ){
+					$isCli ? fwrite( STDOUT, $message ) : print( $message );
+				}
+			}
+			else{
+				$message	= UI_DevOutput::print_m( $message, NULL, NULL, TRUE );
+				$isCli ? fwrite( STDOUT, $message ) : print( $message );
+			}
+		}
+		if( $newLine )
+			$isCli ? fwrite( STDOUT, PHP_EOL ) : print( PHP_EOL );
 	}
 
 	protected function realizePath( $path ){

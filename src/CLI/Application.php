@@ -38,7 +38,7 @@
  *	@since			11.01.2006
  *	@version		$Id$
  */
-class CLI_Application 
+class CLI_Application
 {
 	/**
 	 *	Constructor.
@@ -46,75 +46,66 @@ class CLI_Application
 	 *	@param		array		$shortcuts		Array of Shortcuts to be set
 	 *	@return		void
 	 */
-	public function __construct( $shortcuts = array(), $fallBackOnEmptyPair = FALSE )
+	public function __construct( $shortcuts = array(), $fallBackOnEmptyPair = FALSE, $handleNoneCLI = TRUE )
 	{
-		$this->arguments	= new CLI_ArgumentParser();
+		\CLI::checkIsCLi( $handleNoneCLI );
+		$this->arguments	= new \CLI_ArgumentParser();
 		foreach( $shortcuts as $key => $value )
 			$this->arguments->addShortCut( $key, $value );
 		$this->arguments->parseArguments( $fallBackOnEmptyPair );
 		$this->main();
 	}
-	
+
 	/**
-	 *	Main Method called by Console Application Constructor, to be overwritten.
+	 *	Main Method called by Console Application Constructor, to be overridden.
 	 *	@access		protected
 	 *	@return		void
 	 */
-	protected function main()
-	{
-		if( $this->arguments->has( "/?" ) )
+	protected function main(){
+		if( join( $this->arguments->get( 'commands' ) ) === 'help' )
 			$this->showUsage();
-/*		if( !$this->getOption( "a" ) )						//  asking for parameters and options
-		{
-			$this->showError( "Option 'a' is missing." );
-			$this->showUsageLink();
-		}
-		echo "running application";						//  start application/service and report
-*/	}
+	}
 
 	//  --  PROTECTED METHODS  --  //
-		
+
 	/**
-	 *	Prints Error Message to Console, to be overwritten.
+	 *	Prints Error Message to Console, to be overridden.
 	 *	@access		protected
 	 *	@param		string		$message		Error Message to print to Console
 	 *	@return		void
 	 */
-	protected function showError( $message, $abort = TRUE )
-	{
-		$message	= "\nERROR: ".$message."\n";
+	protected function showError( $message, $abort = TRUE ){
+		\CLI::error( $message );
 		if( $abort )
 			die( $message );
-		echo $message;
 	}
-	
+
 	/**
-	 *	Prints Usage Message to Console and exits Script, to be overwritten.
+	 *	Prints Usage Message to Console and exits Script, to be overridden.
 	 *	@access		protected
 	 *	@param		string		$message		Message to show below usage lines
 	 *	@return		void
 	 */
-	protected function showUsage( $message = NULL )
-	{
-		echo "\n";
-		echo "ConsoleApplication v0.5\n";
-		echo "Usage: php -f ConsoleApplication_test.php a [b] /?\n";
-		echo "Options:\n";
-		echo "  a\tMandatory Option\n";
-		echo "  b\tOptional Option\n";
-		echo "  /?\tUsage Information\n";
+	protected function showUsage( $message = NULL ){
+		\CLI::out();
+		\CLI::out( 'Console Application' );
+		\CLI::out();
+		\CLI::out( 'Usage: ./cli_app.php a [b]' );
+		\CLI::out( 'Options:' );
+		\CLI::out( '  a			Mandatory Option' );
+		\CLI::out( '    help		show help' );
+		\CLI::out( '  b			Optional Option' );
 		if( $message )
 			$this->showError( $message );
 	}
 
 	/**
-	 *	Prints Usage Message Link to Console.
+	 *	Prints Usage Message Link to Console, to be overridden.
 	 *	@access		protected
 	 *	@return		void
 	 */
-	protected function showUsageLink()
-	{
-		echo "Use option /? for usage information.\n";
+	protected function showUsageLink(){
+		\CLI::out( 'Use command "help" for usage information.' );
 	}
 }
 ?>
