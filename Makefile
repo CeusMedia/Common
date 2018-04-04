@@ -1,15 +1,41 @@
-
-# --  CONFIGURE THIS!  --------------------------
-
+# --  CONFIGURE THIS!  ----------------------------------------------------
 SHELL		:= /bin/bash
 USER		:= kriss
 GROUP		:= www-data
-
-# --  TARGETS  ----------------------------------
 PATH_SELF	:= $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 
-all: git-update set-rights create-docs git-show-status
+# --  COMPOSER  -----------------------------------------------------------
+composer-install-dev:
+	@composer install --dev
 
+composer-install-nodev:
+	@composer install --no-dev
+
+composer-update-dev:
+	@composer install --dev
+
+composer-update-nodev:
+	@composer install --no--dev
+
+# --  DEV: TESTS  ---------------------------------------------------------
+dev-test-self:
+	@php go.php test self
+
+dev-test-syntax:
+	@php go.php test syntax
+#	@find src -type f -print0 | xargs -0 -n1 xargs php -l
+
+dev-test-unit: composer-install-dev
+#	@php go.php test units
+	@phpunit test
+
+# --  DEV: Docs  ---------------------------------------------------------
+dev-create-docs: composer-install-dev
+#	@php go.php create doc
+	@php vendor/ceus-media/doc-creator/doc-creator.php --config-file=doc-creator.xml
+
+
+# --  GIT  ----------------------------------------------------------------
 git-show-status:
 	@git status
 
@@ -20,18 +46,8 @@ git-update:
 	@git fetch
 	@git pull
 
-go-create-docs:
-	@php go.php create doc
 
-go-test-self:
-	@php go.php test self
-
-go-test-syntax:
-	@php go.php test syntax
-
-go-test-units:
-	@php go.php test units
-
+# --  TARGETS  ------------------------------------------------------------
 go-help:
 	@php go.php help
 
@@ -40,20 +56,3 @@ set-rights:
 	@sudo chgrp -R ${GROUP} .
 	@find . -type d -not -path "./vendor/*" -print0 | xargs -0 xargs sudo chmod 755 >/dev/null 2>&1 || true
 	@find . -type f -not -path "./vendor/*" -print0 | xargs -0 xargs sudo chmod 644 >/dev/null 2>&1 || true
-
-create-docs: composer-install-dev
-	@php vendor/ceus-media/doc-creator/doc-creator.php --config-file=doc-creator.xml
- 
-composer-install-dev:
-	@composer install --dev
-
-composer-install-nodev:
-	@composer install --no-dev
-
-
-
-# generate .htaccess file to move to your project, enabling autoloading
-generate-htaccess:
-	@echo 'php_value auto_prepend_file "${PATH_SELF}autoload.php"' > .htaccess
-	@echo ".htaccess generated."
-	@echo "Now you can move this file to your project to enable autoloading."
