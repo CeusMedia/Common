@@ -47,7 +47,8 @@ final class Test_Alg_Object_ConstantTest extends Test_Case
 	{
 	}
 
-	public function testGetAll(){
+	public function testGetAll()
+	{
 		$assertion		= array(
 			'A_1'		=> 1,
 			'B_1'		=> 1,
@@ -58,24 +59,22 @@ final class Test_Alg_Object_ConstantTest extends Test_Case
 		);
 		$creation		= $this->object->getAll();
 		$this->assertEquals( $assertion, $creation );
-	}
 
-	public function testGetAllByPrefix(){
 		$assertion		= array(
 			'1'		=> 1,
 		);
-		$creation		= $this->object->getAllByPrefix( 'A' );
+		$creation		= $this->object->getAll( 'A' );
 		$this->assertEquals( $assertion, $creation );
-		$creation		= $this->object->getAllByPrefix( 'A_' );
+		$creation		= $this->object->getAll( 'A_' );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion		= array(
 			'1'		=> 1,
 			'2'		=> 2,
 		);
-		$creation		= $this->object->getAllByPrefix( 'B' );
+		$creation		= $this->object->getAll( 'B' );
 		$this->assertEquals( $assertion, $creation );
-		$creation		= $this->object->getAllByPrefix( 'B_' );
+		$creation		= $this->object->getAll( 'B_' );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion		= array(
@@ -83,40 +82,65 @@ final class Test_Alg_Object_ConstantTest extends Test_Case
 			'2'		=> 2,
 			'3'		=> 3,
 		);
-		$creation		= $this->object->getAllByPrefix( 'C' );
+		$creation		= $this->object->getAll( 'C' );
 		$this->assertEquals( $assertion, $creation );
-		$creation		= $this->object->getAllByPrefix( 'C_' );
+		$creation		= $this->object->getAll( 'C_' );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion		= array();
-		$creation		= $this->object->getAllByPrefix( 'D', FALSE );
+		$creation		= $this->object->getAll( 'D' );
 		$this->assertEquals( $assertion, $creation );
 	}
 
-	public function testGetAllByPrefixRangeException(){
-		$this->setExpectedException( 'RangeException' );
-		$this->object->getKeyByValue( 3, 'A' );
-	}
-
-	public function testGetKeyByValue(){
+	public function testGetKeyByValue()
+	{
 		$assertion		= 'C_3';
 		$creation		= $this->object->getKeyByValue( 3 );
 		$this->assertEquals( $assertion, $creation );
-	}
 
-	public function getKeyByValueAndPrefix(){
 		$assertion		= '3';
 		$creation		= $this->object->getKeyByValue( 3, 'C' );
 		$this->assertEquals( $assertion, $creation );
 	}
 
-	public function testGetKeyByValueAndPrefixException1(){
+	public function testGetKeyByValueException1()
+	{
 		$this->setExpectedException( 'RangeException' );
 		$this->object->getKeyByValue( 3, 'A' );
 	}
+
+	public function testGetKeyByValueException2()
+	{
+		$this->setExpectedException( 'RangeException' );
+		$this->object->getKeyByValue( 1 );
+	}
+
+	public function testGetValue()
+	{
+		$assertion		= '3';
+		$creation		= $this->object->getValue( 'C_3' );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion		= '3';
+		$creation		= $this->object->getValue( '3', 'C' );
+		$this->assertEquals( $assertion, $creation );
+	}
+
+	public function testGetValueException1()
+	{
+		$this->setExpectedException( 'DomainException' );
+		$this->object->getValue( 'A_2' );
+	}
+
+	public function testGetValueException2()
+	{
+		$this->setExpectedException( 'DomainException' );
+		$this->object->getValue( '2', 'A' );
+	}
 }
 
-class Test_Alg_Object_ConstantExample1{
+class Test_Alg_Object_ConstantExample1
+{
 	const A_1		= 1;
 	const B_1		= 1;
 	const B_2		= 2;
