@@ -143,6 +143,11 @@ class Net_HTTP_Status{
 		throw new InvalidArgumentException( 'No HTTP status code found for status text "'.$text.'"' );
 	}
 
+	static public function isCode( $code ){
+		return array_key_exists( (int) $code, self::$codes );
+	}
+
+
 	/**
 	 *	Sends HTTP header with status code and text.
 	 *	@access		public
