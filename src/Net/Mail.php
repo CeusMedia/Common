@@ -63,6 +63,14 @@ class Net_Mail
 	 */
 	public function __construct()
 	{
+		Deprecation::getInstance()
+			->setErrorVersion( '0.8.5' )
+			->setExceptionVersion( '0.9' )
+			->message( sprintf(
+				'Please use %s (%s) instead',
+				'public library "CeusMedia/Mail"',
+			 	'https://packagist.org/packages/ceus-media/mail'
+			) );
 		$this->headers		= new Net_Mail_Header_Section();
 		$this->mimeBoundary	= md5( microtime( TRUE ) );
 		$server	= empty( $_SERVER['SERVER_NAME'] ) ? 'localhost' : $_SERVER['SERVER_NAME'];

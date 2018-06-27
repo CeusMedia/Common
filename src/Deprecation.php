@@ -66,6 +66,9 @@ class Deprecation{
 	 *	@throws		Exception				if set exception version reached detected library version
 	 */
 	public function message( $message ){
+		$trace	= debug_backtrace();
+		$caller = next( $trace );
+		$message .= ', invoked in '.$caller['file'].' on line '.$caller['line'];
 		if( $this->exceptionVersion )
 			if( version_compare( $this->version, $this->exceptionVersion ) >= 0 )
 				throw new Exception( 'Deprecated: '.$message );
@@ -75,6 +78,7 @@ class Deprecation{
 	}
 
 	static public function notify( $message ){
+		$message .= ', triggered';
 		if( version_compare( phpversion(), "5.3.0" ) >= 0 )
 			trigger_error( $message, E_USER_DEPRECATED );
 		else
