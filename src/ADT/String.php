@@ -248,6 +248,22 @@ class ADT_String
 	}
 
 	/**
+	 *	Replaces whitespace by hyphen.
+	 *	@access		public
+	 *	@param		array		$characters		List of characters to replace by hyphen
+	 *	@param		string		$hyphen			Hyphen character to replace given characters with
+	 *	@return		bool		string
+	 */
+	public function hyphenate( $characters = array( ' ' ), $hyphen = '-' ){
+		$string	= $this->string;
+		foreach( $characters as $character ){
+			$pattern	= '/'.preg_quote( $character, '/' ).'+/s';
+			$string		= preg_replace( $pattern, $hyphen, $string );
+		}
+		return $string;
+	}
+
+	/**
 	 *	Detects wheter string is right-to-left or not.
 	 *	Needs file './StringRandALCat.txt' to do so.
 	 *	@access		public
