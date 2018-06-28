@@ -53,6 +53,14 @@ class Alg_Math_Formula
 	 */
 	public function __construct( $expression, $variables = array(), $name = NULL )
 	{
+		Deprecation::getInstance()
+			->setErrorVersion( '0.8.5' )
+			->setExceptionVersion( '0.9' )
+			->message( sprintf(
+				'Please use %s (%s) instead',
+				'public library "CeusMedia/Math"',
+			 	'https://packagist.org/packages/ceus-media/math'
+			) );
 		$this->expression = $expression;
 		if( !is_array( $variables ) )
 			if( is_string( $variables ) && $variables )

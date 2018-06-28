@@ -45,11 +45,19 @@ class Alg_Math_Average
 	 *	@access		public
 	 *	@static
 	 *	@param		array		$values			Array of Values.
-	 *	@param		int			$accuracy		Accuracy of Result 
+	 *	@param		int			$accuracy		Accuracy of Result
 	 *	@return		float
 	 */
 	public static function arithmetic( $values, $accuracy = NULL )
 	{
+		Deprecation::getInstance()
+			->setErrorVersion( '0.8.5' )
+			->setExceptionVersion( '0.9' )
+			->message( sprintf(
+				'Please use %s (%s) instead',
+				'public library "CeusMedia/Math"',
+			 	'https://packagist.org/packages/ceus-media/math'
+			) );
 		$sum	= 0;
 		foreach( $values as $value )
 			$sum	+= $value;
@@ -64,11 +72,19 @@ class Alg_Math_Average
 	 *	@access		public
 	 *	@static
 	 *	@param		array		$values			Array of Values
-	 *	@param		int			$accuracy		Accuracy of Result 
+	 *	@param		int			$accuracy		Accuracy of Result
 	 *	@return		float
 	 */
 	public static function geometric( $values, $accuracy = NULL )
 	{
+		Deprecation::getInstance()
+			->setErrorVersion( '0.8.5' )
+			->setExceptionVersion( '0.9' )
+			->message( sprintf(
+				'Please use %s (%s) instead',
+				'public library "CeusMedia/Math"',
+			 	'https://packagist.org/packages/ceus-media/math'
+			) );
 		$product	= 1;
 		foreach( $values as $value )
 			$product	*= $value;

@@ -42,6 +42,14 @@ class Alg_Math_RationalNumbers
 
 	public static function getNatural( $float )
 	{
+		Deprecation::getInstance()
+			->setErrorVersion( '0.8.5' )
+			->setExceptionVersion( '0.9' )
+			->message( sprintf(
+				'Please use %s (%s) instead',
+				'public library "CeusMedia/Math"',
+			 	'https://packagist.org/packages/ceus-media/math'
+			) );
 		if( $float < 0 )
 			return (int) ceil( $float );
 		else
@@ -50,11 +58,27 @@ class Alg_Math_RationalNumbers
 
 	public static function inv( $float )
 	{
+		Deprecation::getInstance()
+			->setErrorVersion( '0.8.5' )
+			->setExceptionVersion( '0.9' )
+			->message( sprintf(
+				'Please use %s (%s) instead',
+				'public library "CeusMedia/Math"',
+			 	'https://packagist.org/packages/ceus-media/math'
+			) );
 		return -1 * $float;
 	}
 
 	public static function leastDivisor( $float, $deepth = 0 )
 	{
+		Deprecation::getInstance()
+			->setErrorVersion( '0.8.5' )
+			->setExceptionVersion( '0.9' )
+			->message( sprintf(
+				'Please use %s (%s) instead',
+				'public library "CeusMedia/Math"',
+			 	'https://packagist.org/packages/ceus-media/math'
+			) );
 		if( $deepth > 10 )
 			trigger_error( "no divisor found.", E_USER_ERROR );
 		if( Alg_Math_NaturalNumbers::isNatural( $float ) )
@@ -74,6 +98,14 @@ class Alg_Math_RationalNumbers
 	 */
 	protected static function rec( $float )
 	{
+		Deprecation::getInstance()
+			->setErrorVersion( '0.8.5' )
+			->setExceptionVersion( '0.9' )
+			->message( sprintf(
+				'Please use %s (%s) instead',
+				'public library "CeusMedia/Math"',
+			 	'https://packagist.org/packages/ceus-media/math'
+			) );
 		if( $float == 0 )
 			throw new InvalidArgumentException( "rec($float): first argument must not be 0" );
 		return 1 / $float;
@@ -81,6 +113,14 @@ class Alg_Math_RationalNumbers
 
 	public static function toFraction( $float, $deepth = 20 )
 	{
+		Deprecation::getInstance()
+			->setErrorVersion( '0.8.5' )
+			->setExceptionVersion( '0.9' )
+			->message( sprintf(
+				'Please use %s (%s) instead',
+				'public library "CeusMedia/Math"',
+			 	'https://packagist.org/packages/ceus-media/math'
+			) );
 		$shift	= 0;
 		$values	= array();
 		while( $float > 1 )

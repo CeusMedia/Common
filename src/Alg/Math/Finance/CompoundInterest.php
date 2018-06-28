@@ -46,6 +46,17 @@ class Alg_Math_Finance_CompoundInterest
 	/**	@var		float		$period			Number of Periods */
 	protected $periods;
 
+	public function __construct(){
+		Deprecation::getInstance()
+			->setErrorVersion( '0.8.5' )
+			->setExceptionVersion( '0.9' )
+			->message( sprintf(
+				'Please use %s (%s) instead',
+				'public library "CeusMedia/Math"',
+			 	'https://packagist.org/packages/ceus-media/math'
+			) );
+	}
+
 	/**
 	 *	Calculates Present Amount from Future Amount statically.
 	 *	@access		public
@@ -57,6 +68,14 @@ class Alg_Math_Finance_CompoundInterest
 	 */
 	public static function calculateFutureAmount( $amount, $interest, $periods )
 	{
+		Deprecation::getInstance()
+			->setErrorVersion( '0.8.5' )
+			->setExceptionVersion( '0.9' )
+			->message( sprintf(
+				'Please use %s (%s) instead',
+				'public library "CeusMedia/Math"',
+			 	'https://packagist.org/packages/ceus-media/math'
+			) );
 		if( (int) $periods < 1 )
 			throw new InvalidArgumentException( "Periods must be at least 1." );
 		$result	= $amount * pow( ( 1 + $interest / 100 ), (int) $periods );
@@ -74,6 +93,14 @@ class Alg_Math_Finance_CompoundInterest
 	 */
 	public static function calculateInterest( $presentAmount, $futureAmount, $periods )
 	{
+		Deprecation::getInstance()
+			->setErrorVersion( '0.8.5' )
+			->setExceptionVersion( '0.9' )
+			->message( sprintf(
+				'Please use %s (%s) instead',
+				'public library "CeusMedia/Math"',
+			 	'https://packagist.org/packages/ceus-media/math'
+			) );
 		if( (int) $periods < 1 )
 			throw new InvalidArgumentException( "Periods must be at least 1." );
 		$i	= self::root( $futureAmount / $presentAmount, $periods ) - 1;
@@ -92,6 +119,14 @@ class Alg_Math_Finance_CompoundInterest
 	 */
 	public static function calculatePresentAmount( $amount, $interest, $periods )
 	{
+		Deprecation::getInstance()
+			->setErrorVersion( '0.8.5' )
+			->setExceptionVersion( '0.9' )
+			->message( sprintf(
+				'Please use %s (%s) instead',
+				'public library "CeusMedia/Math"',
+			 	'https://packagist.org/packages/ceus-media/math'
+			) );
 		if( (int) $periods < 1 )
 			throw new InvalidArgumentException( "Periods must be at least 1." );
 		$result	= (float) $amount / pow( ( 1 + $interest / 100 ), (int) $periods );
@@ -206,6 +241,14 @@ class Alg_Math_Finance_CompoundInterest
 	 */
 	protected static function root( $amount, $periods )
 	{
+		Deprecation::getInstance()
+			->setErrorVersion( '0.8.5' )
+			->setExceptionVersion( '0.9' )
+			->message( sprintf(
+				'Please use %s (%s) instead',
+				'public library "CeusMedia/Math"',
+			 	'https://packagist.org/packages/ceus-media/math'
+			) );
 		$sign	= ( $amount < 0 && $periods % 2 > 0 ) ? -1 : 1;
 		$value	= pow( abs( $amount ), 1 / $periods );
 		return $sign * $value;

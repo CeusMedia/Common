@@ -62,7 +62,7 @@ class Alg_Math_Analysis_Progression extends Alg_Math_Analysis_Sequence
 	{
 		return $this->formula->getExpression();
 	}
-	
+
 	/**
 	 *	Calculates partial Sum of Progression.
 	 *	@access		public
@@ -101,7 +101,7 @@ class Alg_Math_Analysis_Progression extends Alg_Math_Analysis_Sequence
 			$an = $this->getPartialSum( $this->interval->getStart(), $i );
 			$an1 = $this->getPartialSum( $this->interval->getStart(), $i+1 );
 			$diff = abs( $an1 - $an );
-//			echo "<br>an1: ".$an1." | an: ".$an." | diff: ".$diff; 
+//			echo "<br>an1: ".$an1." | an: ".$an." | diff: ".$diff;
 			if (!$old_diff) $old_diff = $diff;
 			else if( $diff >= $old_diff )
 				$is = false;
@@ -133,9 +133,9 @@ class Alg_Math_Analysis_Progression extends Alg_Math_Analysis_Sequence
 			$value = $this->getPartialSum( $this->interval->getStart(), $i );
 			$array[$i] = $value;
 		}
-		return $array;	
+		return $array;
 	}
-	
+
 	/**
 	 *	Returns Sequence of Partial Sums as HTML Table.
 	 *	@access		public

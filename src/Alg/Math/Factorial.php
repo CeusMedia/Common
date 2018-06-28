@@ -48,6 +48,14 @@ class Alg_Math_Factorial
 	 */
 	public static function calculate( $integer )
 	{
+		Deprecation::getInstance()
+			->setErrorVersion( '0.8.5' )
+			->setExceptionVersion( '0.9' )
+			->message( sprintf(
+				'Please use %s (%s) instead',
+				'public library "CeusMedia/Math"',
+			 	'https://packagist.org/packages/ceus-media/math'
+			) );
 		if( $integer < 0 )
 			throw new InvalidArgumentException( "Factorial is defined for positive natural Numbers only" );
 		else if( !is_int( $integer ) )

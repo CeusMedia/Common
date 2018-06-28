@@ -42,6 +42,17 @@ class Alg_Math_Analysis_Interpolation_Neville
 	/**	@var		array		$data		Array of x and y values (Xi->Fi) */
 	protected $data				= array();
 
+	public function __construct(){
+		Deprecation::getInstance()
+			->setErrorVersion( '0.8.5' )
+			->setExceptionVersion( '0.9' )
+			->message( sprintf(
+				'Please use %s (%s) instead',
+				'public library "CeusMedia/Math"',
+			 	'https://packagist.org/packages/ceus-media/math'
+			) );
+	}
+
 	/**
 	 *	Interpolates for a specific x value and returns P(x).
 	 *	@access		public

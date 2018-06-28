@@ -52,6 +52,14 @@ class Alg_Math_Euklid
 	 */
 	public static function ggT( $m, $n )
 	{
+		Deprecation::getInstance()
+			->setErrorVersion( '0.8.5' )
+			->setExceptionVersion( '0.9' )
+			->message( sprintf(
+				'Please use %s (%s) instead',
+				'public library "CeusMedia/Math"',
+			 	'https://packagist.org/packages/ceus-media/math'
+			) );
 		if( $n != 0 )
 			return self::ggT( $n, $m % $n );
 		else
@@ -60,12 +68,28 @@ class Alg_Math_Euklid
 
 	public static function ggTe( $a, $b )
 	{
+		Deprecation::getInstance()
+			->setErrorVersion( '0.8.5' )
+			->setExceptionVersion( '0.9' )
+			->message( sprintf(
+				'Please use %s (%s) instead',
+				'public library "CeusMedia/Math"',
+			 	'https://packagist.org/packages/ceus-media/math'
+			) );
 		$array	= self::ggTe_rec( $a, $b );
 		return $array[0];
 	}
 
 	public static function ggTe_rec( $a, $b )
 	{
+		Deprecation::getInstance()
+			->setErrorVersion( '0.8.5' )
+			->setExceptionVersion( '0.9' )
+			->message( sprintf(
+				'Please use %s (%s) instead',
+				'public library "CeusMedia/Math"',
+			 	'https://packagist.org/packages/ceus-media/math'
+			) );
 		if( $b == 0 )
 			$array	= array( $a, 1, 0 );
 		else

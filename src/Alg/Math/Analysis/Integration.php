@@ -54,6 +54,14 @@ class Alg_Math_Analysis_Integration
 	 */
 	public function __construct( $formula, $interval, $nodes )
 	{
+		Deprecation::getInstance()
+			->setErrorVersion( '0.8.5' )
+			->setExceptionVersion( '0.9' )
+			->message( sprintf(
+				'Please use %s (%s) instead',
+				'public library "CeusMedia/Math"',
+			 	'https://packagist.org/packages/ceus-media/math'
+			) );
 		$this->setFormula( $formula );
 		$this->setInterval( $interval );
 		$this->setNodes( $nodes );

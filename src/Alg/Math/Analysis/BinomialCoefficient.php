@@ -39,7 +39,18 @@
  *	@version		$Id$
  */
 class Alg_Math_Analysis_BinomialCoefficient
-{	
+{
+	public function __construct(){
+		Deprecation::getInstance()
+			->setErrorVersion( '0.8.5' )
+			->setExceptionVersion( '0.9' )
+			->message( sprintf(
+				'Please use %s (%s) instead',
+				'public library "CeusMedia/Math"',
+			 	'https://packagist.org/packages/ceus-media/math'
+			) );
+	}
+
 	/**
 	 *	Calculates Binomial Coefficient of Top and Button Integers.
 	 *	@access		public

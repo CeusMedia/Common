@@ -40,6 +40,14 @@ class Alg_Math_Algebra_LabelMatrix
 {
 	public function __construct( $rows, $columns, $init = 0 )
 	{
+		Deprecation::getInstance()
+			->setErrorVersion( '0.8.5' )
+			->setExceptionVersion( '0.9' )
+			->message( sprintf(
+				'Please use %s (%s) instead',
+				'public library "CeusMedia/Math"',
+			 	'https://packagist.org/packages/ceus-media/math'
+			) );
 		$this->rows		= $rows;
 		$this->columns	= $columns;
 		$this->matrix	= new Alg_Math_Algebra_Matrix( count( $rows ), count( $columns ), $init );

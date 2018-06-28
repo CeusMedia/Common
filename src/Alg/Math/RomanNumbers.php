@@ -67,12 +67,21 @@ class Alg_Math_RomanNumbers
 
 	/**
 	 *	Converts and returns a roman number as arabian number.
-	 *	@access		public
+	 *	@access
+	 *	@static
 	 *	@param		string		$roman		Roman number
 	 *	@return		integer
 	 */
-	public function convertFromRoman( $roman )
+	public static function convertFromRoman( $roman )
 	{
+		Deprecation::getInstance()
+			->setErrorVersion( '0.8.5' )
+			->setExceptionVersion( '0.9' )
+			->message( sprintf(
+				'Please use %s (%s) instead',
+				'public library "CeusMedia/Math"',
+			 	'https://packagist.org/packages/ceus-media/math'
+			) );
 		$_r = str_replace( array_keys( $this->roman ), "", $roman );						//  prove roman number by clearing all valid numbers
 		if( strlen( $_r ) )																	//  some numbers are invalid
 			throw new InvalidArgumentException( "Roman '".$roman."' is invalid." );
@@ -98,6 +107,14 @@ class Alg_Math_RomanNumbers
 	 */
 	public static function convertToRoman( $integer )
 	{
+		Deprecation::getInstance()
+			->setErrorVersion( '0.8.5' )
+			->setExceptionVersion( '0.9' )
+			->message( sprintf(
+				'Please use %s (%s) instead',
+				'public library "CeusMedia/Math"',
+			 	'https://packagist.org/packages/ceus-media/math'
+			) );
 		arsort( self::$roman );
 		$roman = "";																		//  initiating roman number
 		if( is_numeric( $integer ) && $integer == round( $integer, 0 ) )					//  prove integer by cutting floats

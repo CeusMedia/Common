@@ -50,6 +50,14 @@ class Alg_Math_Analysis_RealBinomialCoefficient
 	 */
 	public static function calculate( $top, $bottom )
 	{
+		Deprecation::getInstance()
+			->setErrorVersion( '0.8.5' )
+			->setExceptionVersion( '0.9' )
+			->message( sprintf(
+				'Please use %s (%s) instead',
+				'public library "CeusMedia/Math"',
+			 	'https://packagist.org/packages/ceus-media/math'
+			) );
 		if( $top != (int) $top )
 			throw new InvalidArgumentException( 'Top Number must be an Integer.' );
 		if( $bottom != (int) $bottom )

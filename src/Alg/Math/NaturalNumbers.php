@@ -36,11 +36,22 @@
  */
 class Alg_Math_NaturalNumbers
 {
+	public function __construct(){
+		Deprecation::getInstance()
+			->setErrorVersion( '0.8.5' )
+			->setExceptionVersion( '0.9' )
+			->message( sprintf(
+				'Please use %s (%s) instead',
+				'public library "CeusMedia/Math"',
+			 	'https://packagist.org/packages/ceus-media/math'
+			) );
+	}
+
 	public function abs( $number )
 	{
 		return max( $number, NaturalNumbers::inv( $number ) );
 	}
-	
+
 	public function arithmeticAverage( $args )
 	{
 		$sum = 1;
@@ -70,10 +81,10 @@ class Alg_Math_NaturalNumbers
 		}
 		return 0;
 	}
-	
+
 	/**
 	 *	Calcalates greatest common Divisor of m and n.
-	 *	@access		public	 
+	 *	@access		public
 	 *	@param		int		m		Natural Number m
 	 *	@param		int		n		Natural Number n
 	 *	@return		int
@@ -85,7 +96,7 @@ class Alg_Math_NaturalNumbers
 		else
 			return $m;
 	}
-	
+
 	 /**
 	 *	Calculates greatest common Divisor of at least two Numbers.
 	 *	@todo		Test
@@ -101,7 +112,7 @@ class Alg_Math_NaturalNumbers
 				$a = true;
 				foreach( $args as $arg )
 					if( $arg % $i != 0 )
-						$a = false;	
+						$a = false;
 				if( $a )
 					return $i;
 			}
@@ -120,7 +131,7 @@ class Alg_Math_NaturalNumbers
 		}
 		return 0;
 	}
-	
+
 	/**
 	 *	greatest devisor
 	 */
@@ -140,7 +151,7 @@ class Alg_Math_NaturalNumbers
 	{
 		return -1 * $number;
 	}
-	
+
 	public function isNatural( $number )
 	{
 		return fmod( $number, 1 ) == 0;
@@ -163,7 +174,7 @@ class Alg_Math_NaturalNumbers
 
 	/**
 	 *	Calculates least common Multiple of m and n.
-	 *	@access		public	 
+	 *	@access		public
 	 *	@param		int		$m		Natural Number m
 	 *	@param		int		$n		Natural Number n
 	 *	@return		int
@@ -229,7 +240,7 @@ class Alg_Math_NaturalNumbers
 			$args = $args[0];
 		return min( $args );
 	}
-	
+
 	public function pow( $base, $number )
 	{
 		if( !NaturalNumbers::isNatural( $number ) )
@@ -237,7 +248,7 @@ class Alg_Math_NaturalNumbers
 		if( $number == 0 )
 			return 1;
 		else if( $number > 0 )
-			return NaturalNumbers::pow( $base, NaturalNumbers::pre( $number ) ) * $base;		
+			return NaturalNumbers::pow( $base, NaturalNumbers::pre( $number ) ) * $base;
 		else if( $number < 0 )
 			return NaturalNumbers::pow( NaturalNumbers::rec( $base ), NaturalNumbers::abs( $number ) );
 	}

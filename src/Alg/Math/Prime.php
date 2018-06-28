@@ -50,6 +50,14 @@ class Alg_Math_Prime
 	 */
 	public static function getPrimeFactors( $number, $list = array() )
 	{
+		Deprecation::getInstance()
+			->setErrorVersion( '0.8.5' )
+			->setExceptionVersion( '0.9' )
+			->message( sprintf(
+				'Please use %s (%s) instead',
+				'public library "CeusMedia/Math"',
+			 	'https://packagist.org/packages/ceus-media/math'
+			) );
 		$edge	= floor( sqrt( $number ) );
 		$primes	= self::getPrimes( $edge );
 		if( self::isPrime( $number ) )
@@ -87,6 +95,14 @@ class Alg_Math_Prime
 	 */
 	public static function getPrimes( $max )
 	{
+		Deprecation::getInstance()
+			->setErrorVersion( '0.8.5' )
+			->setExceptionVersion( '0.9' )
+			->message( sprintf(
+				'Please use %s (%s) instead',
+				'public library "CeusMedia/Math"',
+			 	'https://packagist.org/packages/ceus-media/math'
+			) );
 		$primes = $numbers = array();
 		for( $i=2; $i<=$max; $i++ )
 			$numbers[$i] = true;
@@ -115,6 +131,14 @@ class Alg_Math_Prime
 	 */
 	public static function isPrime( $number )
 	{
+		Deprecation::getInstance()
+			->setErrorVersion( '0.8.5' )
+			->setExceptionVersion( '0.9' )
+			->message( sprintf(
+				'Please use %s (%s) instead',
+				'public library "CeusMedia/Math"',
+			 	'https://packagist.org/packages/ceus-media/math'
+			) );
 		if( $number < 2 )
 			return false;
 		$edge = floor( sqrt( $number ) );

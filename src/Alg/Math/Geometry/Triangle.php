@@ -40,6 +40,14 @@ class Alg_Math_Geometry_Triangle
 {
 	public function pythagoras( $a = NULL, $b = NULL, $c = NULL )
 	{
+		Deprecation::getInstance()
+			->setErrorVersion( '0.8.5' )
+			->setExceptionVersion( '0.9' )
+			->message( sprintf(
+				'Please use %s (%s) instead',
+				'public library "CeusMedia/Math"',
+			 	'https://packagist.org/packages/ceus-media/math'
+			) );
 		if( $a && $b && $c )
 			throw new InvalidArgumentException( 'Needs 2 of 3 arguments' );
 		if( $a && $b )

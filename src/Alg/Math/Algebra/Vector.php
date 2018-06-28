@@ -49,6 +49,14 @@ class Alg_Math_Algebra_Vector
 	 */
 	public function __construct()
 	{
+		Deprecation::getInstance()
+			->setErrorVersion( '0.8.5' )
+			->setExceptionVersion( '0.9' )
+			->message( sprintf(
+				'Please use %s (%s) instead',
+				'public library "CeusMedia/Math"',
+			 	'https://packagist.org/packages/ceus-media/math'
+			) );
 		$arguments = func_get_args();
 		if( isset( $arguments[0] ) && is_array( $arguments[0] ) )
 			$arguments = $arguments[0];
@@ -57,7 +65,7 @@ class Alg_Math_Algebra_Vector
 		foreach( $arguments as $argument )
 			$this->addValue( $argument );
 	}
-	
+
 	/**
 	 *	Returns Vector as a representative string.
 	 *	@access		public
@@ -68,7 +76,7 @@ class Alg_Math_Algebra_Vector
 		$code = "(".implode( ", ", array_values( $this->values ) ).")";
 		return $code;
 	}
-	
+
 	/**
 	 *	Adds a Value to Vector and increases Dimension
 	 *	@access		public
@@ -81,7 +89,7 @@ class Alg_Math_Algebra_Vector
 		$this->values[]	= $value;
 		$this->dimension++;
 	}
-	
+
 	/**
 	 *	Returns the dimension of the Vector.
 	 *	@access		public
@@ -91,7 +99,7 @@ class Alg_Math_Algebra_Vector
 	{
 		return $this->dimension;
 	}
-	
+
 	/**
 	 *	Returns the value of a dimension.
 	 *	@access		public
@@ -118,7 +126,7 @@ class Alg_Math_Algebra_Vector
 			throw new OutOfRangeException( 'Vector Index ('.$index.') must be lower than Vector Dimension ('.$dimension.').' );
 		return $this->values[$index];
 	}
-	
+
 	/**
 	 *	Returns Vector as array.
 	 *	@access		public

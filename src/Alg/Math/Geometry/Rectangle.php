@@ -41,6 +41,14 @@ class Alg_Math_Geometry_Rectangle
 {
 	public function __construct( $a, $b )
 	{
+		Deprecation::getInstance()
+			->setErrorVersion( '0.8.5' )
+			->setExceptionVersion( '0.9' )
+			->message( sprintf(
+				'Please use %s (%s) instead',
+				'public library "CeusMedia/Math"',
+			 	'https://packagist.org/packages/ceus-media/math'
+			) );
 		$this->a = $a;
 		$this->b = $b;
 	}

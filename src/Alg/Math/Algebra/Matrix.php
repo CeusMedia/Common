@@ -55,6 +55,14 @@ class Alg_Math_Algebra_Matrix
 	 */
 	public function __construct( $rowNumber, $columnNumber, $init = 0 )
 	{
+		Deprecation::getInstance()
+			->setErrorVersion( '0.8.5' )
+			->setExceptionVersion( '0.9' )
+			->message( sprintf(
+				'Please use %s (%s) instead',
+				'public library "CeusMedia/Math"',
+			 	'https://packagist.org/packages/ceus-media/math'
+			) );
 		if( $rowNumber < 1 )
 			throw new InvalidArgumentException( 'Number of Rows must be at least 1.' );
 		if( $columnNumber < 1 )

@@ -53,6 +53,14 @@ class Alg_Math_FormulaProduct
 	 */
 	public function __construct( $formula, $interval )
 	{
+		Deprecation::getInstance()
+			->setErrorVersion( '0.8.5' )
+			->setExceptionVersion( '0.9' )
+			->message( sprintf(
+				'Please use %s (%s) instead',
+				'public library "CeusMedia/Math"',
+			 	'https://packagist.org/packages/ceus-media/math'
+			) );
 		if( !is_a( $formula, 'Alg_Math_Formula' ) )
 			throw new InvalidArgumentException( 'No Formula Object given.' );
 		if( !is_a( $interval, 'Alg_Math_CompactInterval' ) )
@@ -60,7 +68,7 @@ class Alg_Math_FormulaProduct
 		$this->formula	= $formula;
 		$this->interval	= $interval;
 	}
-	
+
 	/**
 	 *	Calculates Product of given Formula within given compact Interval and Parameters.
 	 *	@access		public

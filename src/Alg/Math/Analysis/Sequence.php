@@ -51,6 +51,14 @@ class Alg_Math_Analysis_Sequence
 	 */
 	public function __construct( $formula, $interval )
 	{
+		Deprecation::getInstance()
+			->setErrorVersion( '0.8.5' )
+			->setExceptionVersion( '0.9' )
+			->message( sprintf(
+				'Please use %s (%s) instead',
+				'public library "CeusMedia/Math"',
+			 	'https://packagist.org/packages/ceus-media/math'
+			) );
 		$this->formula	= $formula;
 		$this->interval	= $interval;
 	}
@@ -64,7 +72,7 @@ class Alg_Math_Analysis_Sequence
 	{
 		return $this->formula->getExpression();
 	}
-	
+
 	/**
 	 *	Calculates Value of Index within Sequence.
 	 *	@access		public
@@ -85,11 +93,11 @@ class Alg_Math_Analysis_Sequence
 	{
 		for ($i=$this->interval->getStart(); $i<$this->interval->getEnd(); $i++)
 		{
-			$diff = abs ($this->getValue ($i+1) - $this->getValue ($i));		
+			$diff = abs ($this->getValue ($i+1) - $this->getValue ($i));
 			if (!$old_diff) $old_diff = $diff;
 			else
 			{
-				if ($diff >= $old_diff) 
+				if ($diff >= $old_diff)
 					return false;
 			}
 		}
@@ -119,9 +127,9 @@ class Alg_Math_Analysis_Sequence
 			$value = $this->getValue ($i);
 			$array [$i] = $value;
 		}
-		return $array;	
+		return $array;
 	}
-	
+
 	/**
 	 *	Returns Sequence as HTML Table.
 	 *	@access		public
