@@ -40,7 +40,6 @@
 class Net_Mail_Body
 {
 	protected $content;
-	protected $mimeType;
 	protected $headers;
 	const TYPE_PLAIN	= 'text/plain';
 	const TYPE_HTML		= 'text/html';
@@ -73,6 +72,27 @@ class Net_Mail_Body
 	}
 
 	/**
+	 *	Returns raw content.
+	 *	@access		public
+	 *	@return		string
+	 */
+	public function getContent()
+	{
+		return $this->content;
+	}
+
+	/**
+	 *	Returns mail part content encoding mechanism.
+	 *	@access		public
+	 *	@return		string
+	 */
+	public function getContentEncoding()
+	{
+		$field	= $this->headers->getField( 'Content-Transfer-Encoding' );
+		return $field->getValue();
+	}
+
+	/**
 	 *	Returns Mail Header Section Object.
 	 *	@access		public
 	 *	@return		Net_Mail_Header_Section
@@ -80,6 +100,18 @@ class Net_Mail_Body
 	public function getHeaders()
 	{
 		return $this->headers->getFields();
+	}
+
+	/**
+	 *	Returns mail part MIME type.
+	 *	@access		public
+	 *	@return		string
+	 */
+	public function getMimeType()
+	{
+		$field	= $this->headers->getField( 'Content-Type' );
+		$parts	= explode( ';', $field->getValue() );
+		return $parts[0];
 	}
 
 	/**

@@ -141,6 +141,11 @@ class Net_Mail
 		return $this->headers;
 	}
 
+	public function getParts()
+	{
+		return $this->parts;
+	}
+
 	/**
 	 *	Returns Receiver Address.
 	 *	@access		public

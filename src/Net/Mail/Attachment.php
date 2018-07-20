@@ -75,6 +75,16 @@ class Net_Mail_Attachment
 	}
 
 	/**
+	 *	Returns Content of set File Name.
+	 *	@access		public
+	 *	@return		string
+	 */
+	public function getContent()
+	{
+		return $this->content;
+	}
+
+	/**
 	 *	Returns set File Name.
 	 *	@access		public
 	 *	@return		string
