@@ -45,6 +45,7 @@ class Test_UI_Image_ThumbnailCreatorTest extends Test_Case
 
 	public function testThumbizeGif()
 	{
+		$this->markTestSkipped( 'No image tests.' );
 		$assertFile	= $this->path."assertThumbnail.gif";
 		$sourceFile	= $this->path."sourceThumbnail.gif";
 		$targetFile	= $this->path."targetThumbnail.gif";
@@ -68,7 +69,7 @@ class Test_UI_Image_ThumbnailCreatorTest extends Test_Case
 	 */
 	public function testThumbizeJpg()
 	{
-		return TRUE;
+		$this->markTestSkipped( 'No image tests.' );
 		$assertFile	= $this->path."assertThumbnail.jpg";
 		$sourceFile	= $this->path."sourceThumbnail.jpg";
 		$targetFile	= $this->path."targetThumbnail.jpg";
@@ -89,6 +90,7 @@ class Test_UI_Image_ThumbnailCreatorTest extends Test_Case
 
 	public function testThumbizePng()
 	{
+		$this->markTestSkipped( 'No image tests.' );
 		$assertFile	= $this->path."assertThumbnail.png";
 		$sourceFile	= $this->path."sourceThumbnail.png";
 		$targetFile	= $this->path."targetThumbnail.png";
@@ -110,6 +112,7 @@ class Test_UI_Image_ThumbnailCreatorTest extends Test_Case
 
 	public function testThumbizeByLimit()
 	{
+		$this->markTestSkipped( 'No image tests.' );
 		if( file_exists( $this->targetFile ) )
 			unlink( $this->targetFile );
 

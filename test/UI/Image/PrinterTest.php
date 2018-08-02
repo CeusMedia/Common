@@ -92,6 +92,7 @@ class Test_UI_Image_PrinterTest extends Test_Case
 
 	public function testSavePng()
 	{
+		$this->markTestSkipped( 'No image tests.' );
 		$resource	= imagecreatefrompng( $this->path."sourceCreator.png" );
 		$printer	= new UI_Image_Printer( $resource );
 		$printer->save( $this->path."targetPrinter.png", IMAGETYPE_PNG, 0 );
@@ -102,6 +103,7 @@ class Test_UI_Image_PrinterTest extends Test_Case
 
 	public function testSaveJpeg()
 	{
+		$this->markTestSkipped( 'No image tests.' );
 		$resource	= imagecreatefromjpeg( $this->path."sourceCreator.jpg" );
 		$printer	= new UI_Image_Printer( $resource );
 		$printer->save( $this->path."targetPrinter.jpg", IMAGETYPE_JPEG, 100 );
@@ -113,6 +115,7 @@ class Test_UI_Image_PrinterTest extends Test_Case
 
 	public function testSaveGif()
 	{
+		$this->markTestSkipped( 'No image tests.' );
 		$resource	= imagecreatefromgif( $this->path."sourceCreator.gif" );
 		$printer	= new UI_Image_Printer( $resource );
 		$printer->save( $this->path."targetPrinter.gif", IMAGETYPE_GIF, 0 );

@@ -43,6 +43,7 @@ class Test_UI_Image_CreatorTest extends Test_Case
 
 	public function testCreate()
 	{
+		$this->markTestSkipped( 'No image tests.' );
 		$image	= new UI_Image_Creator();
 		$image->create( 100, 200 );
 		imagepng( $image->getResource(), $this->path."targetCreator1.png" );
@@ -54,6 +55,7 @@ class Test_UI_Image_CreatorTest extends Test_Case
 
 	public function testLoadImagePng()
 	{
+		$this->markTestSkipped( 'No image tests.' );
 		$image	= new UI_Image_Creator();
 		$image->loadImage( $this->path."sourceCreator.png" );
 		imagepng( $image->getResource(), $this->path."targetCreator.png" );
@@ -64,6 +66,7 @@ class Test_UI_Image_CreatorTest extends Test_Case
 
 	public function testLoadImageJpeg()
 	{
+		$this->markTestSkipped( 'No image tests.' );
 		$image	= new UI_Image_Creator();
 		$image->loadImage( $this->path."sourceCreator.jpg" );
 
@@ -74,6 +77,7 @@ class Test_UI_Image_CreatorTest extends Test_Case
 
 	public function testLoadImageGif()
 	{
+		$this->markTestSkipped( 'No image tests.' );
 		$image	= new UI_Image_Creator();
 		$image->loadImage( $this->path."sourceCreator.gif" );
 		imagegif( $image->getResource(), $this->path."targetCreator.gif" );

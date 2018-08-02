@@ -79,6 +79,7 @@ class Test_UI_Image_WatermarkTest extends Test_Case
 	 */
 	public function testMarkImage()
 	{
+		$this->markTestSkipped( 'No image tests.' );
 		$mark	= new UI_Image_Watermark( $this->path."mark.png", 50, 100 );
 		$mark->setMargin( 10, 10 );
 		$mark->markImage( $this->path."sourceWatermark.png", $this->path."targetWatermark.png" );
