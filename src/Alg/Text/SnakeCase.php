@@ -54,6 +54,14 @@ class Alg_Text_SnakeCase{
 		return str_replace( " ", "_", $string );
 	}
 
+	static public function toCamelCase( $string ){
+		return Alg_Text_CamelCase::encode( static::decode( $string ) );
+	}
+
+	static public function toPascalCase( $string ){
+		return Alg_Text_PascalCase::encode( static::decode( $string ) );
+	}
+
 	static public function validate( $string ){
 		return self::apply( $string ) === $string;
 	}

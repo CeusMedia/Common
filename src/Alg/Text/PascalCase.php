@@ -1,8 +1,8 @@
 <?php
 /**
- *	Converter for Strings using different ways of Camel Case.
+ *	Converter for Strings using Pascal Case.
  *
- *	Copyright (c) 2007-2018 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2018 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,20 +20,20 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Text
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2018 Christian Würker
+ *	@copyright		2018 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 /**
- *	Converter for Strings using different ways of Camel Case.
+ *	Converter for Strings using Pascal Case.
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Text
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2018 Christian Würker
+ *	@copyright		2018 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class Alg_Text_CamelCase{
+class Alg_Text_PascalCase{
 
 	protected static $regExp	= '/^(.*)[\-\_ ](.*)$/';
 
@@ -56,7 +56,7 @@ class Alg_Text_CamelCase{
 
 		$result	= '';
 		for( $i=0; $i<strlen( $string ); $i++ ){
-			$isUpper	= static::isUpperCharacter( $string, $i );
+			$isUpper	= self::isUpperCharacter( $string, $i );
 			$string[$i]	= $isUpper ? mb_strtolower( $string[$i] ) : $string[$i];
 			if( strlen( $result ) && $isUpper )
 				$result	.= $delimiter;
@@ -74,10 +74,10 @@ class Alg_Text_CamelCase{
 	 *	@return		string
 	 */
 	static public function encode( $string, $lowercaseLetters = TRUE ){
-		$string[0]	= mb_strtolower( $string[0] );
 		if( $lowercaseLetters === TRUE )
 			$string	= mb_strtolower( $string );
 
+		$string	= ucFirst( $string );
 		while( preg_match( static::$regExp, $string, $matches ) )
 		  $string	= $matches[1].ucfirst( $matches[2] );
 		return $string;
@@ -88,8 +88,8 @@ class Alg_Text_CamelCase{
 		return mb_strtolower( $char, "UTF-8") != $char;
 	}
 
-	static public function toPascalCase( $string ){
-		return Alg_Text_PascalCase::encode( static::decode( $string ) );
+	static public function toCamelCase( $string ){
+		return Alg_Text_CamelCase::encode( static::decode( $string ) );
 	}
 
 	static public function toSnakeCase( $string ){
@@ -99,7 +99,7 @@ class Alg_Text_CamelCase{
 	static public function validate( $string ){
 		for( $i=0; $i<strlen( $string ); $i++ ){
 			$isUpper	= static::isUpperCharacter( $string, $i );
-			if( $i == 0 && $isUpper )
+			if( $i == 0 && !$isUpper )
 				return FALSE;
 			if( $i > 0 && !preg_match( '/[A-Za-z0-9]$/', $string[$i] ) )
 				return FALSE;

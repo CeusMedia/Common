@@ -1,6 +1,6 @@
 <?php
 /**
- *	TestUnit of Alg_Text_CamelCase.
+ *	TestUnit of Alg_Text_PascalCase.
  *	@package		Tests.alg
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			22.10.2008
@@ -8,15 +8,15 @@
  */
 require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
 /**
- *	TestUnit of Alg_Text_CamelCase.
+ *	TestUnit of Alg_Text_PascalCase.
  *	@package		Tests.alg
  *	@extends		Test_Case
- *	@uses			Alg_Text_CamelCase
+ *	@uses			Alg_Text_PascalCase
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			22.10.2008
  *	@version		0.1
  */
-class Test_Alg_Text_CamelCaseTest extends Test_Case
+class Test_Alg_Text_PascalCaseTest extends Test_Case
 {
 	/**
 	 *	Constructor.
@@ -54,16 +54,16 @@ class Test_Alg_Text_CamelCaseTest extends Test_Case
 	{
 		$string1	= "test_alpha__test___RDF string";
 
-		$assertion	= "testAlphaTestRdfString";
-		$creation	= Alg_Text_CamelCase::encode( $string1 );
+		$assertion	= "TestAlphaTestRdfString";
+		$creation	= Alg_Text_PascalCase::encode( $string1 );
 		$this->assertEquals( $assertion, $creation );
 
-		$assertion	= "testAlphaTestRdfString";
-		$creation	= Alg_Text_CamelCase::encode( $string1, TRUE );
+		$assertion	= "TestAlphaTestRdfString";
+		$creation	= Alg_Text_PascalCase::encode( $string1, TRUE );
 		$this->assertEquals( $assertion, $creation );
 
-		$assertion	= "testAlphaTestRDFString";
-		$creation	= Alg_Text_CamelCase::encode( $string1, FALSE  );
+		$assertion	= "TestAlphaTestRDFString";
+		$creation	= Alg_Text_PascalCase::encode( $string1, FALSE );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -76,16 +76,16 @@ class Test_Alg_Text_CamelCaseTest extends Test_Case
 	{
 		$string2	= "Test_alpha__test___RDF string";
 
-		$assertion	= "testAlphaTestRdfString";
-		$creation	= Alg_Text_CamelCase::encode( $string2 );
+		$assertion	= "TestAlphaTestRdfString";
+		$creation	= Alg_Text_PascalCase::encode( $string2 );
 		$this->assertEquals( $assertion, $creation );
 
-		$assertion	= "testAlphaTestRdfString";
-		$creation	= Alg_Text_CamelCase::encode( $string2, TRUE );
+		$assertion	= "TestAlphaTestRdfString";
+		$creation	= Alg_Text_PascalCase::encode( $string2, TRUE );
 		$this->assertEquals( $assertion, $creation );
 
-		$assertion	= "testAlphaTestRDFString";
-		$creation	= Alg_Text_CamelCase::encode( $string2, FALSE  );
+		$assertion	= "TestAlphaTestRDFString";
+		$creation	= Alg_Text_PascalCase::encode( $string2, FALSE );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -96,28 +96,28 @@ class Test_Alg_Text_CamelCaseTest extends Test_Case
 	 */
 	public function testDecode()
 	{
-		$string1	= "testAlphaTestRdfString";
+		$string1	= "TestAlphaTestRdfString";
 
 		$assertion	= "test alpha test rdf string";
-		$creation	= Alg_Text_CamelCase::decode( $string1 );
+		$creation	= Alg_Text_PascalCase::decode( $string1 );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= "test_alpha_test_rdf_string";
-		$creation	= Alg_Text_CamelCase::decode( $string1, '_' );
+		$creation	= Alg_Text_PascalCase::decode( $string1, '_' );
 		$this->assertEquals( $assertion, $creation );
 	}
 
 	/**
-	 *	Tests Method 'toPascalCase'.
+	 *	Tests Method 'toCamelCase'.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testToPascalCase()
+	public function testToCamelCase()
 	{
-		$string1	= "testAlphaTestRdfString";
+		$string1	= "TestAlphaTestRdfString";
 
-		$assertion	= "TestAlphaTestRdfString";
-		$creation	= Alg_Text_CamelCase::toPascalCase( $string1 );
+		$assertion	= "testAlphaTestRdfString";
+		$creation	= Alg_Text_PascalCase::toCamelCase( $string1 );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -128,10 +128,10 @@ class Test_Alg_Text_CamelCaseTest extends Test_Case
 	 */
 	public function testToSnakeCase()
 	{
-		$string1	= "testAlphaTestRdfString";
+		$string1	= "TestAlphaTestRdfString";
 
 		$assertion	= "test_alpha_test_rdf_string";
-		$creation	= Alg_Text_CamelCase::toSnakeCase( $string1, '_' );
+		$creation	= Alg_Text_PascalCase::decode( $string1, '_' );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -142,21 +142,21 @@ class Test_Alg_Text_CamelCaseTest extends Test_Case
 	 */
 	public function testValidate()
 	{
-		$string1	= "testAlphaTestRdfString";
-		$string2	= "testAlphaTestRDFString";
-		$string3	= "TestAlphaTestRdfString";
-		$string4	= "TestAlphaTestRdf String";
+		$string1	= "TestAlphaTestRdfString";
+		$string2	= "TestAlphaTestRDFString";
+		$string3	= "testAlphaTestRdfString";
+		$string4	= "testAlphaTestRdf String";
 
-		$creation	= Alg_Text_CamelCase::validate( $string1 );
+		$creation	= Alg_Text_PascalCase::validate( $string1 );
 		$this->assertEquals( TRUE, $creation );
 
-		$creation	= Alg_Text_CamelCase::validate( $string2 );
+		$creation	= Alg_Text_PascalCase::validate( $string2 );
 		$this->assertEquals( TRUE, $creation );
 
-		$creation	= Alg_Text_CamelCase::validate( $string3 );
+		$creation	= Alg_Text_PascalCase::validate( $string3 );
 		$this->assertEquals( FALSE, $creation );
 
-		$creation	= Alg_Text_CamelCase::validate( $string4 );
+		$creation	= Alg_Text_PascalCase::validate( $string4 );
 		$this->assertEquals( FALSE, $creation );
 	}
 }
