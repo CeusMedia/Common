@@ -51,17 +51,17 @@ class Alg_Object_Constant{
 	}
 
 	static public function staticGetAll( $className, $prefix = NULL ){
-		$object		= new Alg_Object_Constants( $className );
+		$object		= new Alg_Object_Constant( $className );
 		return $object->getAll( $prefix );
 	}
 
 	static public function staticGetValue( $className, $constantKey, $prefix = NULL ){
-		$object		= new Alg_Object_Constants( $className );
+		$object		= new Alg_Object_Constant( $className );
 		return $object->getValue( $constantKey, $prefix );
 	}
 
 	static public function staticGetKeyByValue( $className, $value, $prefix = NULL ){
-		$object		= new Alg_Object_Constants( $className );
+		$object		= new Alg_Object_Constant( $className );
 		return $object->getKeyByValue( $value, $prefix );
 	}
 }
