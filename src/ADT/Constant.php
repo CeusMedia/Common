@@ -63,26 +63,51 @@ class ADT_Constant
 	 *	@static
 	 *	@return		array
 	 */
-	public static function getAll( $prefix = NULL )
+	public static function getAll( $prefix = NULL, $excludePrefix = NULL )
 	{
-		if( !$prefix )
-			return get_defined_constants();
 		$prefix	= strtoupper( $prefix );
 		$length	= strlen( $prefix );
 		if( $length	< 2 )
 			throw new InvalidArgumentException( 'Prefix "'.$prefix.'" is to short.' );
 		$map	= get_defined_constants();
-		foreach( $map as $key => $value )
-		{
-			if( $key[0] !== $prefix[0] )
-				unset( $map[$key] );
-			else if( $key[1] !== $prefix[1] )
-				unset( $map[$key] );
-			else if( substr( $key, 0, $length ) !== $prefix )
-				unset( $map[$key] );
-#			remark( $prefix." - ".$key." - ".(int)isset( $map[$key] ) );
+		if( $prefix ){
+			foreach( $map as $key => $value )
+			{
+				if( $key[0] !== $prefix[0] )
+					unset( $map[$key] );
+				else if( $key[1] !== $prefix[1] )
+					unset( $map[$key] );
+				else if( substr( $key, 0, $length ) !== $prefix )
+					unset( $map[$key] );
+#				remark( $prefix." - ".$key." - ".(int)isset( $map[$key] ) );
+			}
+		}
+		if( $excludePrefix ){
+			if( substr( $excludePrefix, 0, $length ) !== $prefix )
+				$excludePrefix	= $prefix.$excludePrefix;
+			foreach( $map as $key => $value ){
+				if( substr( $key, 0, strlen( $excludePrefix ) ) === $excludePrefix )
+					unset( $map[$key] );
+			}
 		}
 		return $map;
+	}
+
+	public static function getKeyByValue( $prefix, $value ){
+		$constants	= static::getAll( $prefix );
+		$list		= array();
+		foreach( $constants as $constantKey => $constantValue )
+			if( $constantValue === $value )
+				$list[]	= $constantKey;
+		if( count( $list ) === 0 ){
+			$message	= 'Constant value "%s" is not defined within prefix "%s"';
+			throw new RangeException( sprintf( $message, $value, $prefix ) );
+		}
+		if( count( $list ) > 1 ){
+			$message	= 'Constant value "%s" is ambigious within prefix "%s"';
+			throw new RangeException( sprintf( $message, $value, $prefix ) );
+		}
+		return $list[0];
 	}
 
 	/**

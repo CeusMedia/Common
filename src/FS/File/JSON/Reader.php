@@ -72,16 +72,19 @@ class FS_File_JSON_Reader
 	 *	@access		public
 	 *	@param		bool		$asArray		Flag: read into an array
 	 *	@return		object|array
+	 *	@throws		RuntimeException			if parsing failed
 	 */
 	public function read( $asArray = NULL )
 	{
 		$json	= FS_File_Reader::load( $this->filePath );
 		$data	= json_decode( $json, $asArray );
-		if( $data === NULL ){
-			if( !( strlen( trim( $json ) ) === 0 || trim( $json ) === "null" ) ){
-				$message	= 'JSON file "'.$this->filePath.'" cannot be parsed: '.json_last_error_msg();
-				throw new RuntimeException( $message, json_last_error() );
-			}
+		if( json_last_error() !== JSON_ERROR_NONE ){
+			$message	= 'Decoding JSON failed (%s): %s';
+			$message	= vsprintf( $message, array(
+				ADT_Constant::getKeyByValue( 'JSON_ERROR_', json_last_error() ),
+				json_last_error_msg()
+			) );
+			throw new RuntimeException( $message, json_last_error() );
 		}
 		return $data;
 	}
