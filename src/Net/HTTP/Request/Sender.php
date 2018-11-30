@@ -66,24 +66,24 @@ class Net_HTTP_Request_Sender
 	 */
 	public function __construct( $host, $uri, $port = 80, $method = 'GET' )
 	{
-		$this->headers	= new Net_HTTP_Header_Section;
-		$this->headers->addFieldPair( 'Host', $host );
 		$this->host		= $host;
 		$this->setUri( $uri );
 		$this->setPort( $port );
 		$this->setMethod( $method );
+		$this->headers	= new Net_HTTP_Header_Section;
+		$this->headers->addFieldPair( 'Host', $host.( $this->port != 80 ? ':'.$this->port : '' ) );
 	}
 
 	public function addHeader( Net_HTTP_Header_Field $field )
 	{
 		$this->headers->addField( $field );
 	}
-	
+
 	public function addHeaderPair( $name, $value )
 	{
 		$this->headers->addField( new Net_HTTP_Header_Field( $name, $value ) );
 	}
-	
+
 	public function setData( $data )
 	{
 		if( !is_array( $data ) )
@@ -134,8 +134,8 @@ class Net_HTTP_Request_Sender
 	 */
 	public function send()
 	{
-		if( trim( $this->data ) )
-			$this->addHeaderPair( "Content-Length", strlen( $this->data ) );
+		if( $this->method === 'POST' )
+			$this->addHeaderPair( 'Content-Length', mb_strlen( $this->data ) );
 		if( !$this->headers->getFieldsByName( 'connection' ) )
 			$this->addHeaderPair( 'Connection', 'close' );
 
@@ -144,17 +144,17 @@ class Net_HTTP_Request_Sender
 		if( !$fp )
 			throw new RuntimeException( $errstr.' ('.$errno.')' );
 
-		$uri	= $this->uri.( $this->port ? ':'.$this->port : "" );
+		$uri	= $this->uri/*.( $this->port ? ':'.$this->port : "" )*/;
 		$lines	= array(
 			$this->method." ".$uri." HTTP/".$this->version,
-			$this->headers->toString(),
-			''
+			$this->headers->render(),
 		);
-		fwrite( $fp, join( "\r\n", $lines ) );																		//  send Request
-		if( trim( $this->data ) )
-			fwrite( $fp, $this->data );																//  send Request
+		if( $this->method === 'POST' )
+			$lines[]	= $this->data;
+		$lines	= join( "\r\n", $lines );
+		fwrite( $fp, $lines );																		//  send Request
 		while( !feof( $fp ) )																		//  receive Response
-			$result .= fgets( $fp, 128 );															//  collect Response chunks
+			$result .= fgets( $fp, 1024 );															//  collect Response chunks
 		fclose( $fp );																				//  close Connection
 		$response	= Net_HTTP_Response_Parser::fromString( $result );
 		if( count( $response->getHeader( 'Location' ) ) ){
