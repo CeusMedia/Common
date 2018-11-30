@@ -40,6 +40,7 @@
  */
 class Alg_Object_MethodFactory
 {
+
 	/**
 	 *	Calls a Method from a Class or Object with Method Parameters and Object Parameters if a Class is given.
 	 *	@access		public
@@ -116,7 +117,7 @@ class Alg_Object_MethodFactory
 			);
 		}
 		if( $allowProtected && version_compare( PHP_VERSION, '5.3.2' ) >= 0 )
-			$method->setAccessible( TRUE );
+			$method->setAccessible( TRUE );															//  @see http://php.net/manual/de/reflectionmethod.setaccessible.php
 		if( $parameters )																			//  if Method Parameters are set
 			return $method->invokeArgs( $object, $parameters );										//  invoke Method with Parameters
 		return $method->invoke( $object );															//  else invoke Method without Parameters

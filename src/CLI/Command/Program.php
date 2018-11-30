@@ -39,6 +39,12 @@
  */
 abstract class CLI_Command_Program
 {
+	const EXIT_NO			= -1;
+	const EXIT_OK			= 0;
+	const EXIT_INIT			= 1;
+	const EXIT_PARSE		= 2;
+	const EXIT_RUN			= 4;
+
 	/**	@var	array		$arguments		Map of given Arguments */
 	protected $arguments	= NULL;
 	/**	@var	array		$arguments		Map of given Options */
@@ -74,8 +80,8 @@ abstract class CLI_Command_Program
 	 */
 	public function __construct( $options, $shortcuts, $numberArguments = 0 )
 	{
-		$this->parser	= new CLI_Command_ArgumentParser();					//  load Argument Parser
-		$this->parser->setNumberOfMandatoryArguments( $numberArguments );		//  set minimum Number of Arguments										//
+		$this->parser	= new CLI_Command_ArgumentParser();						//  load Argument Parser
+		$this->parser->setNumberOfMandatoryArguments( $numberArguments );		//  set minimum Number of Arguments
 		$this->parser->setPossibleOptions( $options );							//  set Map of Options and Patterns
 		$this->parser->setShortcuts( $shortcuts );								//  set Map of Shortcuts for Options
 	}
@@ -93,13 +99,14 @@ abstract class CLI_Command_Program
 		return $string;
 	}
 
-	public function getLastExitCode(){
+	public function getLastExitCode()
+	{
 		return $this->exitCode;
 	}
-	
-	protected function handleParserException( Exception $e )
+
+	protected function handleParserException( Exception $e, $exitCode = self::EXIT_PARSE )
 	{
-		$this->showError( $e->getMessage() );									//  just show Exception Message
+		$this->showError( $e->getMessage(), $exitCode );						//  show exception message and exit if set so
 	}
 
 	/**
@@ -110,37 +117,37 @@ abstract class CLI_Command_Program
 	 */
 	abstract protected function main();
 
-	public function run( $argumentString = NULL ){
+	public function run( $argumentString = NULL )
+	{
 		if( is_null( $argumentString ) )
 			$argumentString	= $this->getArgumentString();						//  get Argument String
-		try
-		{
+		try{
 			$this->parser->parse( $argumentString );							//  parses Argument String
 			$this->arguments	= $this->parser->getArguments();				//  get parsed Arguments
 			$this->options		= $this->parser->getOptions();					//  get parsed Options
 			$this->exitCode		= $this->main();								//  run Program and store exit code
 			return $this->exitCode;
 		}
-		catch( Exception $e )													//  handle uncatched Exceptions
-		{
+		catch( Exception $e ){													//  handle uncatched Exceptions
 			$this->handleParserException( $e );
 		}
-
 	}
 
 	/**
 	 *	Prints Error Message to Console, can be overwritten.
 	 *	@access		protected
-	 *	@param		string		$message		Error Message to print to Console
-	 *	@param		bool		$abort			Quit Program afterwards
+	 *	@param		string|array	$message		Error Message to print to Console
+	 *	@param		integer			$exitCode		Quit program afterwards, if >= 0 (EXIT_OK|EXIT_INIT|EXIT_PARSE|EXIT_RUN), default: -1 (EXIT_NO)
 	 *	@return		void
 	 */
-	protected function showError( $message, $abort = TRUE )
+	protected function showError( $message, $exitCode = self::EXIT_NO )
 	{
-		$message	= "\n".$message."\n";
-		if( $abort )
-			die( $message );
-		echo $message;
+		if( is_array( $message ) )
+			$message	= join( PHP_EOL, $message );
+		$message	= PHP_EOL.$message.PHP_EOL;
+		print( $message );
+		if( $exitCode != self::EXIT_NO )
+			exit( $exitCode );
 	}
 }
 ?>
