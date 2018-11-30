@@ -37,11 +37,11 @@
  */
 class CLI_Command_ArgumentParser
 {
-	const STATUS_START				= 0; 
-	const STATUS_READ_OPTION_KEY	= 1; 
+	const STATUS_START				= 0;
+	const STATUS_READ_OPTION_KEY	= 1;
 	const STATUS_READ_OPTION_VALUE	= 2;
-	const STATUS_READ_ARGUMENT		= 3; 
-	
+	const STATUS_READ_ARGUMENT		= 3;
+
 	protected $parsed				= FALSE;
 
 	protected $foundArguments		= array();
@@ -109,17 +109,17 @@ class CLI_Command_ArgumentParser
 	/**
 	 *	Handles open Argument or Option at the End of the Argument String.
 	 *	@access		protected
-	 *	@param		int			$status		Status
-	 *	@param		string		$buffer		Argument Buffer
-	 *	@param		string		$option		Option Buffer
+	 *	@param		int			$status		Status Reference
+	 *	@param		string		$buffer		Argument Buffer Reference
+	 *	@param		string		$option		Option Buffer Reference
 	 *	@return		void
 	 */
-	protected function onEndOfLine( $status, $buffer, $option )
+	protected function onEndOfLine( &$status, &$buffer, &$option )
 	{
 		if( $status == self::STATUS_READ_ARGUMENT )
 			$this->foundArguments[]	= $buffer;
-		else if( $status == self::STATUS_READ_OPTION_VALUE )
-			$this->foundOptions[$option]	= $buffer;
+		else if( $status == self::STATUS_READ_OPTION_VALUE )										//  still reading an option value
+			$this->onReadOptionValue( ' ', $status, $buffer, $option );								//  close reading and save last option
 		else if( $status == self::STATUS_READ_OPTION_KEY )
 		{
 			if( !array_key_exists( $option, $this->possibleOptions ) )
@@ -205,11 +205,12 @@ class CLI_Command_ArgumentParser
 			if( !$buffer ){																//  no value
 				if( !$this->possibleOptions[$option] )									//  no value required/defined
 					$this->foundOptions[$option]	= TRUE;								//  assign true for existance
-				return;																	//  
+				return;																	//
 			}
-			if( $this->possibleOptions[$option] !== TRUE )								//  must match regexp
+			if( $this->possibleOptions[$option] !== TRUE ){								//  must match regexp
 				if( !preg_match( $this->possibleOptions[$option], $buffer ) )			//  not matching
 					throw new InvalidArgumentException( 'Argument "'.$option.'" has invalid value' );
+			}
 			$this->foundOptions[$option]	= $buffer;
 			$buffer	= "";
 			$status	= self::STATUS_START;
@@ -258,7 +259,7 @@ class CLI_Command_ArgumentParser
 		$status		= self::STATUS_START;												//  initiate Status
 		$buffer		= "";																//  initiate Argument Buffer
 		$option		= "";																//  initiate Option Buffer
-		
+
 		while( isset( $string[$position] ) )											//  loop until End of String
 		{
 			$sign	= $string[$position];												//  get current Sign
@@ -282,7 +283,7 @@ class CLI_Command_ArgumentParser
 		}
 		$this->onEndOfLine( $status, $buffer, $option );								//  close open States
 	}
-	
+
 	/**
 	 *	Sets mininum Number of Arguments.
 	 *	@access		public
