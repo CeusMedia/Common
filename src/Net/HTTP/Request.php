@@ -49,22 +49,14 @@ class Net_HTTP_Request extends ADT_List_Dictionary
 	/**	@var		string					$ip				IP of Request */
 	protected $ip;
 	/** @var		string					$method			HTTP request method */
-	protected $method		= 'GET';
+	protected $method;
 	protected $protocol		= 'HTTP';
 	protected $status		= '200 OK';
 	protected $version		= '1.0';
 
-	static public $methods	= array(
-		'DELETE',
-		'GET',
-		'HEAD',
-		'OPTIONS',
-		'POST',
-		'PUT'
-	);
-
 	public function __construct( $protocol = NULL, $version = NULL )
 	{
+		$this->method	= new Net_HTTP_Method();
 		$this->headers	= new Net_HTTP_Header_Section();
 		if( !empty( $protocol ) )
 			$this->setProtocol( $protocol );
@@ -97,7 +89,7 @@ class Net_HTTP_Request extends ADT_List_Dictionary
 
 	public function fromEnv( $useSession = FALSE, $useCookie = FALSE )
 	{
-		$this->setMethod( getEnv( 'REQUEST_METHOD' ) );												//  store HTTP method
+		$this->method->set( getEnv( 'REQUEST_METHOD' ) );												//  store HTTP method
 		$this->ip		= getEnv( 'REMOTE_ADDR' );													//  store IP of requesting client
 		$this->sources	= array(
 			"GET"		=> &$_GET,
@@ -266,9 +258,9 @@ class Net_HTTP_Request extends ADT_List_Dictionary
 	}
 
 	/**
-	 *	Return request method.
+	 *	Return request method object.
 	 *	@access		public
-	 *	@return		string
+	 *	@return		Net_HTTP_Method
 	 */
 	public function getMethod()
 	{
@@ -314,70 +306,105 @@ class Net_HTTP_Request extends ADT_List_Dictionary
 	 *	@access		public
 	 *	@param		string		$method		Request method to check against
 	 *	@return		boolean
+	 *	@deprecated	use request->getMethod()->is( $method ) instead
 	 */
 	public function isMethod( $method )
 	{
-		return $this->method === strtoupper( trim( $method ) );
+		Deprecation::getInstance()
+			->setErrorVersion( '0.8.4.7' )
+			->setExceptionVersion( '0.9' )
+			->message( 'Please use $request->getMethod()->is( $method ) instead' );
+		return $this->method->is( $method );
 	}
 
 	/**
 	 *	Indicates whether request method is GET.
 	 *	@access		public
 	 *	@return		boolean
+	 * 	@deprecated use $request->getMethod()->isGet() instead
 	 */
 	public function isGet()
 	{
-		return $this->isMethod( 'GET' );
+		Deprecation::getInstance()
+			->setErrorVersion( '0.8.4.7' )
+			->setExceptionVersion( '0.9' )
+			->message( 'Please use $request->getMethod()->isGet() instead' );
+		return $this->method()->isGet();
 	}
 
 	/**
 	 *	Indicates whether request method is DELETE.
 	 *	@access		public
 	 *	@return		boolean
+	 * 	@deprecated use $request->getMethod()->isDelete() instead
 	 */
 	public function isDelete()
 	{
-		return $this->isMethod( 'DELETE' );
+		Deprecation::getInstance()
+			->setErrorVersion( '0.8.4.7' )
+			->setExceptionVersion( '0.9' )
+			->message( 'Please use $request->getMethod()->isDelete() instead' );
+		return $this->method->isDelete();
 	}
 
 	/**
 	 *	Indicates whether request method is HEAD.
 	 *	@access		public
 	 *	@return		boolean
+	 * 	@deprecated use $request->getMethod()->isHead() instead
 	 */
 	public function isHead()
 	{
-		return $this->isMethod( 'HEAD' );
+		Deprecation::getInstance()
+			->setErrorVersion( '0.8.4.7' )
+			->setExceptionVersion( '0.9' )
+			->message( 'Please use $request->getMethod()->isHead() instead' );
+		return $this->method->isHead();
 	}
 
 	/**
 	 *	Indicates whether request method is OPTIONS.
 	 *	@access		public
 	 *	@return		boolean
+	 * 	@deprecated use $request->getMethod()->isOptions() instead
 	 */
 	public function isOptions()
 	{
-		return $this->isMethod( 'OPTIONS' );
+		Deprecation::getInstance()
+			->setErrorVersion( '0.8.4.7' )
+			->setExceptionVersion( '0.9' )
+			->message( 'Please use $request->getMethod()->isOptions() instead' );
+		return $this->method->isOptions();
 	}
 
 	/**
 	 *	Indicates whether request method is POST.
 	 *	@access		public
 	 *	@return		boolean
+	 * 	@deprecated use $request->getMethod()->isPost() instead
 	 */
 	public function isPost()
 	{
-		return $this->isMethod( 'POST' );
+		Deprecation::getInstance()
+			->setErrorVersion( '0.8.4.7' )
+			->setExceptionVersion( '0.9' )
+			->message( 'Please use $request->getMethod()->isPost() instead' );
+		return $this->method->isPost();
 	}
 
 	/**
 	 *	Indicates whether request method is PUT.
 	 *	@access		public
 	 *	@return		boolean
+	 * 	@deprecated use $request->getMethod()->isPut() instead
 	 */
 	public function isPut()
 	{
-		return $this->isMethod( 'PUT' );
+		Deprecation::getInstance()
+			->setErrorVersion( '0.8.4.7' )
+			->setExceptionVersion( '0.9' )
+			->message( 'Please use $request->getMethod()->isPut() instead' );
+		return $this->method->isPut();
 	}
 
 	public function remove( $key )
@@ -408,13 +435,15 @@ class Net_HTTP_Request extends ADT_List_Dictionary
 	 *	@access		public
 	 *	@param		string		$method		Request method to set
 	 *	@return		self
+	 * 	@deprecated use $request->getMethod()->set() instead
 	 */
 	public function setMethod( $method )
 	{
-		$method		= strtoupper( $method );
-		if( !in_array( $method, self::$methods ) )
-			throw new BadMethodCallException( 'HTTP method "%s" is not supported' );
-		$this->method	= $method;
+		Deprecation::getInstance()
+			->setErrorVersion( '0.8.4.7' )
+			->setExceptionVersion( '0.9' )
+			->message( 'Please use $request->getMethod()->set() instead' );
+		$this->method->set( $method );
 		return $this;
 	}
 }
