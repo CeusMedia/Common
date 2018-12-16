@@ -55,6 +55,17 @@ class FS_File_JSON_Reader
 	}
 
 	/**
+	 *	Get new instance of JSON reader by static call.
+	 *	This method is useful for chaining method calls.
+	 *	@access		public
+	 *	@static
+	 *	@return		self
+	 */
+	public static function getNew( $filePath ){
+		return new self( $filePath );
+	}
+
+	/**
 	 *	Reads a JSON file to an object or array statically.
 	 *	@access		public
 	 *	@param		string		$filePath		Path to JSON file
@@ -65,6 +76,14 @@ class FS_File_JSON_Reader
 	{
 		$reader	= new FS_File_JSON_Reader( $filePath );
 		return $reader->read( $asArray );
+	}
+
+	public function getError(){
+		return json_last_error();
+	}
+
+	public function getMessage(){
+		return json_last_error_msg();
 	}
 
 	/**

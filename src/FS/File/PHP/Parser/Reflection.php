@@ -96,7 +96,7 @@ class FS_File_PHP_Parser_Reflection
 		$fileBlock		= NULL;
 		$openClass		= FALSE;
 		$function		= NULL;
-
+	
 		$level	= 0;
 		$class	= NULL;
 		if( $class )
@@ -132,11 +132,11 @@ class FS_File_PHP_Parser_Reflection
 		$object->setDescription( $class->getDocComment() );
 		$object->setFinal( $class->isFinal() );
 		$object->setLine( $class->getStartLine().'-'.$class->getEndLine() );
-
+	
 		foreach( $class->getMethods() as $method )
 			$object->setMethod( $this->readMethod( $method ) );
-
-
+			
+			
 		$parser		= new FS_File_PHP_Parser_Doc_Regular;
 		$docData	= $parser->parseDocBlock( $class->getDocComment() );
 		$decorator	= new FS_File_PHP_Parser_DocDecorator();
