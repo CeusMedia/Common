@@ -265,9 +265,29 @@ class Net_HTTP_Request extends ADT_List_Dictionary
 		return $this->body;
 	}
 
+	/**
+	 *	Return request method.
+	 *	@access		public
+	 *	@return		string
+	 */
 	public function getMethod()
 	{
 		return $this->method;
+	}
+
+	/**
+	 *	Get requested URL, relative of absolute.
+	 *	@access		public
+	 *	@param		boolean		$absolute		Flag: return absolute URL
+	 *	@return		ADT_URL
+	 */
+	public function getUrl( $absolute = TRUE ){
+		$url	= new ADT_URL( getEnv( 'REQUEST_URI' ) );
+		if( $absolute ){
+			$url->setScheme( getEnv( 'REQUEST_SCHEME' ) );
+			$url->setHost( getEnv( 'HTTP_HOST' ) );
+		}
+		return $url;
 	}
 
 	/**
@@ -288,36 +308,73 @@ class Net_HTTP_Request extends ADT_List_Dictionary
 		return $this->headers->hasField( 'X-Requested-With' );
 	}
 
+	/**
+	 *	Indicate whether a specific request method is used.
+	 *	Method parameter is not case sensitive.
+	 *	@access		public
+	 *	@param		string		$method		Request method to check against
+	 *	@return		boolean
+	 */
 	public function isMethod( $method )
 	{
 		return $this->method === strtoupper( trim( $method ) );
 	}
 
+	/**
+	 *	Indicates whether request method is GET.
+	 *	@access		public
+	 *	@return		boolean
+	 */
 	public function isGet()
 	{
 		return $this->isMethod( 'GET' );
 	}
 
+	/**
+	 *	Indicates whether request method is DELETE.
+	 *	@access		public
+	 *	@return		boolean
+	 */
 	public function isDelete()
 	{
 		return $this->isMethod( 'DELETE' );
 	}
 
+	/**
+	 *	Indicates whether request method is HEAD.
+	 *	@access		public
+	 *	@return		boolean
+	 */
 	public function isHead()
 	{
 		return $this->isMethod( 'HEAD' );
 	}
 
+	/**
+	 *	Indicates whether request method is OPTIONS.
+	 *	@access		public
+	 *	@return		boolean
+	 */
 	public function isOptions()
 	{
 		return $this->isMethod( 'OPTIONS' );
 	}
 
+	/**
+	 *	Indicates whether request method is POST.
+	 *	@access		public
+	 *	@return		boolean
+	 */
 	public function isPost()
 	{
 		return $this->isMethod( 'POST' );
 	}
 
+	/**
+	 *	Indicates whether request method is PUT.
+	 *	@access		public
+	 *	@return		boolean
+	 */
 	public function isPut()
 	{
 		return $this->isMethod( 'PUT' );
@@ -346,12 +403,19 @@ class Net_HTTP_Request extends ADT_List_Dictionary
 			$this->headers->removeField( $field );
 	}
 
+	/**
+	 *	Set request method.
+	 *	@access		public
+	 *	@param		string		$method		Request method to set
+	 *	@return		self
+	 */
 	public function setMethod( $method )
 	{
 		$method		= strtoupper( $method );
 		if( !in_array( $method, self::$methods ) )
 			throw new BadMethodCallException( 'HTTP method "%s" is not supported' );
 		$this->method	= $method;
+		return $this;
 	}
 }
 ?>
