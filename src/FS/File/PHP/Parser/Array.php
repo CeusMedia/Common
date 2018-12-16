@@ -159,7 +159,7 @@ class FS_File_PHP_Parser_Array
 			}
 		}
 	}
-	
+
 	/**
 	 *	Parses a Class Signature and returns Array of collected Information.
 	 *	@access		private
@@ -241,7 +241,7 @@ class FS_File_PHP_Parser_Array
 					if( preg_match( "@^http://@", $matches[1] ) )
 						$url	= trim( $matches[1] );
 				}
-			
+
 				$data['license'][]	= array(
 					'url'	=> $url,
 					'name'	=> $name,
@@ -263,10 +263,10 @@ class FS_File_PHP_Parser_Array
 					case 'uses':
 					case 'throws':
 					case 'link':
-						$data[$matches[1]][]	= $matches[2];			
+						$data[$matches[1]][]	= $matches[2];
 						break;
 					default:
-						$data[$matches[1]]	= $matches[2];			
+						$data[$matches[1]]	= $matches[2];
 						break;
 				}
 			}
@@ -304,7 +304,7 @@ class FS_File_PHP_Parser_Array
 		$file			= $this->fileData;
 		$file['name']	= substr( str_replace( "\\", "/", $fileName ), strlen( $innerPath ) );
 		$file['uri']	= str_replace( "\\", "/", $fileName );
-	
+
 		$level	= 0;
 		$class	= NULL;
 		do
@@ -313,7 +313,7 @@ class FS_File_PHP_Parser_Array
 			$line	= Alg_Text_Unicoder::convertToUnicode( $line );
 			if( preg_match( "@^(<\?(php)?)|((php)?\?>)$@", $line ) )
 				continue;
-			
+
 			if( preg_match( '@{ ?}?$@', $line ) )
 				$level++;
 			else if( preg_match( '@}$@', $line ) )
@@ -441,7 +441,7 @@ class FS_File_PHP_Parser_Array
 				);
 				if( isset( $matches[6] ) )
 					$param['default']	= $matches[7];
-				$method['param'][$matches[5]] = $param; 
+				$method['param'][$matches[5]] = $param;
 			}
 		}
 		if( $openBlocks )
