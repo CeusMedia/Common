@@ -72,6 +72,10 @@ class ADT_URL
 	 *	@return		string		Absolute URL
 	 */
 	public function getAbsolute(){
+		if( empty( $this->parts->scheme ) )
+			throw new RuntimeException( 'HTTP scheme not set' );
+		if( empty( $this->parts->host ) )
+			throw new RuntimeException( 'HTTP host not set' );
 		$buffer	= array();
 		if( $this->parts->scheme )
 			$buffer[]	= $this->parts->scheme.'://';
