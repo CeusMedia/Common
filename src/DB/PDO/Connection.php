@@ -151,12 +151,12 @@ class DB_PDO_Connection extends \PDO{
 	 *	@param		string			$statement		SQL Statement which originated PDO Exception
 	 *	@return		void
 	 */
-	protected function logError( \Exception $exception, $statement ){
+	protected function logError( PDOException $exception, $statement ){
 		if( !$this->logFileErrors )
 			return;
 //			throw $exception;
 		$info		= $exception->errorInfo;
-		$sqlError	= $info[2];
+		$sqlError	= isset( $info[2] ) ? $info[2] : NULL;
 		$sqlCode	= $info[1];
 		$pdoCode	= $info[0];
 		$message	= $exception->getMessage();
@@ -172,7 +172,7 @@ class DB_PDO_Connection extends \PDO{
 		$note	= str_replace( "{statement}", $statement, $note );
 
 		error_log( $note, 3, $this->logFileErrors );
-		throw new \Exception_SQL( $info[2], $info[1], $info[0] );
+		throw new \Exception_SQL( sqlError, sqlCode, pdoCode );
 	}
 
 	/**
