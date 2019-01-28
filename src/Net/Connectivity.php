@@ -43,8 +43,9 @@ class Net_Connectivity{
 	const METHOD_SOCKET		= 0;
 	const METHOD_PING		= 1;
 
-	protected $status;
-
+	protected $status		= 0;
+	protected $method		= 0;
+	protected $target		= 'google.com';
 	protected $callbackOnChange;
 
 	/**
@@ -53,7 +54,6 @@ class Net_Connectivity{
 	 *	@return		void
 	 */
 	public function __construct(){
-		$this->check();
 	}
 
 	/**
@@ -64,7 +64,10 @@ class Net_Connectivity{
 	 *	@return		void
 	 *	@throws		\RangeException			if given method is unsupported
 	 */
-	public function check( $method = self::METHOD_SOCKET ){
+	public function check( $method = NULL ){
+		$method			= $this->method;
+		if( $method && $this->validateMethod( $method ) )
+			$method		= $method;
 		$currentStatus	= $this->status;
 		switch( $method ){
 			case self::METHOD_SOCKET:
@@ -73,8 +76,6 @@ class Net_Connectivity{
 			case self::METHOD_PING:
 				$this->checkUsingSystemPing();
 				break;
-			default:
-				throw new \RangeException( 'Unsupported method: '.$method );
 		}
 		if( $this->status !== $currentStatus ){
 			if( $this->callbackOnChange ){
@@ -103,8 +104,9 @@ class Net_Connectivity{
 	 */
 	public function checkUsingSystemPing(){
 		$response = NULL;
-		system( "ping -c 1 google.com", $response );
-		if( $response == 0 )
+		@exec( "ping -c 1 google.com 2>&1 1> /dev/null", $response, $code );
+//		@system( "ping -c 1 1111google.com &2>1 &1>/dev/null", $code );
+		if( $code == 0 )
 			$this->status = self::STATUS_ONLINE;
 		else
 			$this->status = self::STATUS_OFFLINE;
@@ -138,9 +140,57 @@ class Net_Connectivity{
 	 *	Register callback function to be executed after status has changed.
 	 *	@access		public
 	 * 	@param		callback	$callback	Function to be executed after statush has changed
-	 *	@return 	void
+	 *	@return 	self					for chainability
 	 */
-	public function onChange( $callback ){
+	public function setCallbackOnChange( $callback ){
 		$this->callbackOnChange = $callback;
+		return $this;
+	}
+
+	/**
+	 *	...
+	 *	@access 	public
+	 *	@param		integer		$method			Method to use for checking
+	 *	@param	 	boolean		$resetStatus	Flag: resets status after method has been changed
+	 *	@return 	self						for chainability
+	 */
+	public function setMethod( $method, $resetStatus = TRUE ){
+		$this->validateMethod( $method );
+		if( $this->method !== $method ){
+			$this->method	= $method;
+			if( $resetStatus )
+				$this->status	= self::STATUS_UNKNOWN;
+		}
+		return $this;
+	}
+
+	/**
+	 *	Set target (domain or IP) to check connectivity against.
+	 *	@access 	public
+	 *	@param		integer		$method			Method to use for checking
+	 *	@param	 	boolean		$resetStatus	Flag: resets status after method has been changed
+	 *	@return 	self						for chainability
+	 */
+	public function setTarget( $domainOrIp, $resetStatus = TRUE ){
+		if( $this->target !== $domainOrIp ){
+			$this->target	= $domainOrIp;
+			if( $resetStatus )
+				$this->status	= self::STATUS_UNKNOWN;
+		}
+		return $this;
+	}
+
+	/**
+	 *	Validate given method.
+	 *	@acess		protected
+	 *	@param		integer		Method to validate
+	 *	@return		integer		Method after validation
+	 */
+	protected function validateMethod( $method ){
+		if( !is_int( $method ) )
+			throw new \InvalidArgumentException( 'Method must be integer' );
+		if( !in_array( $method, array( self::METHOD_SOCKET, self::METHOD_PING ) ) )
+			throw new \RangeException( 'Invalid method' );
+		return $method;
 	}
 }
