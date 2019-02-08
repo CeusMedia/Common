@@ -145,6 +145,18 @@ class DB_PDO_Connection extends \PDO{
 	}
 
 	/**
+	 *	Returns list of tables in database.
+	 *	With given prefix the returned list will be filtered.
+	 *	@access		public
+	 *	@param		string		$prefix		Table prefix to filter by (optional).
+	 *	@return		array
+	 */
+	public function getTables( $prefix = NULL ){
+		$query		= "SHOW TABLES" . ( $prefix ? " LIKE '".$prefix."%'" : "" );
+		return parent::query( $query )->fetchAll( PDO::FETCH_COLUMN );
+	}
+
+	/**
 	 *	Notes Information from PDO Exception in Error Log File and throw SQL Exception.
 	 *	@access		protected
 	 *	@param		PDOException	$e				PDO Exception thrown by invalid SQL Statement
