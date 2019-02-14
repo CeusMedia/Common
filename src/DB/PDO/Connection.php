@@ -184,7 +184,7 @@ class DB_PDO_Connection extends \PDO{
 		$note	= str_replace( "{statement}", $statement, $note );
 
 		error_log( $note, 3, $this->logFileErrors );
-		throw new \Exception_SQL( sqlError, sqlCode, pdoCode );
+		throw new \Exception_SQL( $sqlError, $sqlCode, $pdoCode );
 	}
 
 	/**
