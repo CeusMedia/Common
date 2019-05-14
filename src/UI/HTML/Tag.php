@@ -37,7 +37,7 @@
  *	@since			22.04.2008
  *	@version		$Id$
  */
-class UI_HTML_Tag
+class UI_HTML_Tag implements Renderable
 {
 	/**	@var		array		$attributes		Attributes of tag */
 	protected $attributes		= array();
