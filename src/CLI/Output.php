@@ -40,7 +40,8 @@
  */
 class CLI_Output{
 
-	protected $lastLine	= "";
+	protected $lastLine			= '';
+	protected $maxLineLength	= 0;
 
 	/**
 	 *	Adds text to current line.
@@ -60,8 +61,9 @@ class CLI_Output{
 	 *	@param		integer		$sleep		Seconds to sleep afterwards
 	 *	@return		void
 	 */
-	public function newLine( $string = "", $sleep = 0 ){
-		$string		= Alg_Text_Trimmer::trimCentric( $string, 78 );									//  trim string to <80 columns
+	public function newLine( $string = '', $sleep = 0 ){
+		if( $this->maxLineLength )
+			$string		= Alg_Text_Trimmer::trimCentric( $string, $this->maxLineLength );			//  trim string to <80 columns
 		$this->lastLine	= $string;
 		print( "\n" . $string );
 		if( $sleep )
@@ -75,14 +77,19 @@ class CLI_Output{
 	 *	@param		integer		$sleep		Seconds to sleep afterwards
 	 *	@return		void
 	 */
-	public function sameLine( $string = "", $sleep = 0 ){
-		$string		= Alg_Text_Trimmer::trimCentric( $string, 78 );									//  trim string to <80 columns
+	public function sameLine( $string = '', $sleep = 0 ){
+		if( $this->maxLineLength )
+			$string		= Alg_Text_Trimmer::trimCentric( $string, $this->maxLineLength );			//  trim string to <80 columns
 		$spaces		= max( 0, strlen( $this->lastLine ) - strlen( $string ) );
 		$this->lastLine	= $string;
-		$fill		= str_repeat( " ", $spaces );
+		$fill		= str_repeat( ' ', $spaces );
 		print( "\r" . $string . $fill );
 		if( $sleep )
 			sleep( $sleep );
+	}
+
+	public function setMaxLineLength( $length ){
+		$this->setMaxLineLength	= $length;
 	}
 }
 ?>
