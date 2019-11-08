@@ -26,6 +26,8 @@
  *	@since			0.7.0
  *	@version		$Id$
  */
+namespace CeusMedia\Common\ADT\JSON;
+
 /**
  *	JSON Parser.
  *	@category		Library
@@ -37,7 +39,7 @@
  *	@since			0.7.0
  *	@version		$Id$
  */
-class ADT_JSON_Parser
+class Parser
 {
 	/**
 	 *	Get new instance of JSON reader by static call.
@@ -59,7 +61,7 @@ class ADT_JSON_Parser
 	 */
 	public static function load( $json, $asArray = NULL )
 	{
-		$parser	= new ADT_JSON_Parsee();
+		$parser	= new Parser();
 		return $parser->parse( $json, $asArray );
 	}
 
@@ -78,17 +80,17 @@ class ADT_JSON_Parser
 	 *	@param		string		$json			JSOn sting to parse
 	 *	@param		boolean		$asArray		Flag: read into an array
 	 *	@return		object|array
-	 *	@throws		RuntimeException			if parsing failed
+	 *	@throws		\RuntimeException			if parsing failed
 	 */
 	public function parse( $json, $asArray = NULL ){
 		$data	= json_decode( $json, $asArray );
-		if( json_last_error() !== JSON_ERROR_NONE ){
+		if( json_last_error() !== \JSON_ERROR_NONE ){
 			$message	= 'Decoding JSON failed (%s): %s';
 			$message	= vsprintf( $message, array(
-				ADT_Constant::getKeyByValue( 'JSON_ERROR_', json_last_error() ),
+				\CeusMedia\Common\ADT\Constant::getKeyByValue( 'JSON_ERROR_', json_last_error() ),
 				json_last_error_msg()
 			) );
-			throw new RuntimeException( $message, json_last_error() );
+			throw new \RuntimeException( $message, json_last_error() );
 		}
 		return $data;
 

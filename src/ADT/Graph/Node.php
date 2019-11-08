@@ -25,6 +25,8 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@version		$Id$
  */
+namespace CeusMedia\Common\ADT\Graph;
+
 /**
  *	Node in a graph
  *	@category		Library
@@ -35,7 +37,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@version		$Id$
  */
-class ADT_Graph_Node
+class Node
 {
 	/**	@var	string		$nodeName 		Name of this Node */
 	protected $nodeName;

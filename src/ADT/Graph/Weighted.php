@@ -25,6 +25,13 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@version		$Id$
  */
+namespace CeusMedia\Common\ADT\Graph;
+
+use CeusMedia\Common\ADT\List\Stack;
+use CeusMedia\Common\ADT\List\Queue;
+use CeusMedia\Common\ADT\AssocFileMatrix;
+use CeusMedia\Common\ADT\AssocMatrix;
+
 /**
  *	Graph.
  *	@category		Library
@@ -40,7 +47,7 @@
  *	@todo			prove Implementation( AssocFileMatrix)
  *	@todo			Code Documentation
  */
-class ADT_Graph_Weighted
+class Weighted
 {
 	/**	@var	NodeSet		$nodeSet		Set of Nodes */
 	protected $nodeSet;
@@ -54,17 +61,17 @@ class ADT_Graph_Weighted
 	 */
 	public function __construct()
 	{
-		$this->nodeSet = new ADT_Graph_NodeSet();
-		$this->edgeSet = new ADT_Graph_EdgeSet();
+		$this->nodeSet = new NodeSet();
+		$this->edgeSet = new EdgeSet();
 	}
 
 	/**
 	 *	Adds an Edge and returns the reference on the new Edge.
 	 *	@access		public
-	 *	@param		ADT_Graph_Node	$source		Source Node of this Edge
-	 *	@param		ADT_Graph_Node	$target		Target Node of this Edge
+	 *	@param		Node	$source		Source Node of this Edge
+	 *	@param		Node	$target		Target Node of this Edge
 	 *	@param		int				$value		Value of this Edge
-	 *	@return		ADT_Graph_Edge
+	 *	@return		Edge
 	 */
 	public function addEdge( $source, $target, $value = 1 )
 	{
@@ -79,7 +86,7 @@ class ADT_Graph_Weighted
 	 *	@access		public
 	 *	@param		string			$name		Name of the new Node
 	 *	@param		string			$value		Value of the new Node
-	 *	@return		ADT_Graph_Node
+	 *	@return		Node
 	 */
 	public function addNode( $name, $value = null )
 	{
@@ -89,9 +96,9 @@ class ADT_Graph_Weighted
 	/**
 	 *	Returns an Edge by its source and target Nodes.
 	 *	@access		public
-	 *	@param		ADT_Graph_Node	$source		Source Node of the Edge
-	 *	@param		ADT_Graph_Node	$target		Target Node of the Edge
-	 *	@return		ADT_Graph_Edge
+	 *	@param		Node	$source		Source Node of the Edge
+	 *	@param		Node	$target		Target Node of the Edge
+	 *	@return		Edge
 	 */
 	public function getEdge( $source, $target )
 	{
@@ -124,8 +131,8 @@ class ADT_Graph_Weighted
 	/**
 	 *	Returns the value of an Edge.
 	 *	@access		public
-	 *	@param		ADT_Graph_Node	$source		Source Node of this Edge
-	 *	@param		ADT_Graph_Node	$target		Target Node of this Edge
+	 *	@param		Node	$source		Source Node of this Edge
+	 *	@param		Node	$target		Target Node of this Edge
 	 *	@return		int
 	 */
 	public function getEdgeValue( $source, $target )
@@ -142,7 +149,7 @@ class ADT_Graph_Weighted
 	/**
 	 *	Returns entrance grade of this Node.
 	 *	@access		public
-	 *	@param		ADT_Graph_Node	$node		Node
+	 *	@param		Node	$node		Node
 	 *	@return		int
 	 */
 	public function getEntranceGrade( $node )
@@ -154,7 +161,7 @@ class ADT_Graph_Weighted
 	/**
 	 *	Returns exit grade of this Node.
 	 *	@access		public
-	 *	@param		ADT_Graph_Node	$node		Node
+	 *	@param		Node	$node		Node
 	 *	@return		void
 	 */
 	public function getExitGrade( $node )
@@ -166,7 +173,7 @@ class ADT_Graph_Weighted
 	/**
 	 *	Returns last Node in Graph.
 	 *	@access		public
-	 *	@return		ADT_Graph_Node
+	 *	@return		Node
 	 */
 	public function getFinalNode()
 	{
@@ -177,7 +184,7 @@ class ADT_Graph_Weighted
 	 *	Returns a Node by its name.
 	 *	@access		public
 	 *	@param		string			$name		Name of Node
-	 *	@return		ADT_Graph_Node
+	 *	@return		Node
 	 */
 	public function getNode( $name )
 	{
@@ -209,15 +216,15 @@ class ADT_Graph_Weighted
 	/**
 	 *	Returns path between two Nodes as Stack, if way exists.
 	 *	@access		public
-	 *	@param		ADT_Graph_Node	$source		Source Node
-	 *	@param		ADT_Graph_Node	$target		Target Node
-	 *	@param		ADT_List_Stack	$stack		Stack to fill with Nodes on path
-	 *	@return		ADT_List_Stack
+	 *	@param		Node	$source		Source Node
+	 *	@param		Node	$target		Target Node
+	 *	@param		ListStack	$stack		Stack to fill with Nodes on path
+	 *	@return		ListStack
 	 */
 	public function getPath( $source, $target, $stack = false )
 	{
 		if( !( $stack && $stack->_getObjectName() == "ADT_List_Stack") )
-			$stack = new ADT_List_Stack();
+			$stack = new ListStack();
 		$hadNodes = array();
 		$ways = $this->getWays( $source, $target, $stack, $hadNodes );
 		if( sizeof( $ways ) )
@@ -239,8 +246,8 @@ class ADT_Graph_Weighted
 	/**
 	 *	Returns value of edges of a path, if way exists.
 	 *	@access		public
-	 *	@param		ADT_Graph_Node	$source		Source Node
-	 *	@param		ADT_Graph_Node	$target		Target Node
+	 *	@param		Node	$source		Source Node
+	 *	@param		Node	$target		Target Node
 	 *	@param		array			$hadNodes	Array of already visited Nodes
 	 *	@return		int
 	 */
@@ -273,7 +280,7 @@ class ADT_Graph_Weighted
 	/**
 	 *	Returns an array of source Nodes of this Node.
 	 *	@access		public
-	 *	@param		ADT_Graph_Node	$target		Target Node of this Edge
+	 *	@param		Node	$target		Target Node of this Edge
 	 *	@return		array
 	 */
 	public function getSourceNodes( $target )
@@ -288,7 +295,7 @@ class ADT_Graph_Weighted
 	/**
 	 *	Returns first Node in Graph.
 	 *	@access		public
-	 *	@return		ADT_Graph_Node
+	 *	@return		Node
 	 */
 	public function getStartNode()
 	{
@@ -298,7 +305,7 @@ class ADT_Graph_Weighted
 	/**
 	 *	Returns an array of target Nodes of this Node.
 	 *	@access		public
-	 *	@param		ADT_Graph_Node	$source		Source Node of this Edge
+	 *	@param		Node	$source		Source Node of this Edge
 	 *	@return		array
 	 */
 	public function getTargetNodes( $source )
@@ -313,9 +320,9 @@ class ADT_Graph_Weighted
 	/**
 	 *	Returns all ways between two Nodes as array of Stacks, if way exists.
 	 *	@access		public
-	 *	@param		ADT_Graph_Node	$source		Source Node
-	 *	@param		ADT_Graph_Node	$target		Target Node
-	 *	@param		ADT_ListStack	$stack		Stack to fill with Nodes on path
+	 *	@param		Node	$source		Source Node
+	 *	@param		Node	$target		Target Node
+	 *	@param		ListStack	$stack		Stack to fill with Nodes on path
 	 *	@param		array			$hadNodes	Array of already visited Nodes
 	 *	@return		array
 	 */
@@ -323,7 +330,7 @@ class ADT_Graph_Weighted
 	{
 		$ways = $newWays = array();
 		if( !( $stack && is_a( $stack, "ADT_List_Stack" ) ) )
-			$stack = new ADT_List_Stack();
+			$stack = new ListStack();
 		if( $this->isEdge( $source, $target ) )
 		{
 			$stack->push( $target );
@@ -411,8 +418,8 @@ class ADT_Graph_Weighted
 	/**
 	 *	Indicated whether an Edge is existing in this Graph.
 	 *	@access		public
-	 *	@param		ADT_Graph_Node	$source		Source Node of this Edge
-	 *	@param		ADT_Graph_Node	$target		Target Node of this Edge
+	 *	@param		Node	$source		Source Node of this Edge
+	 *	@param		Node	$target		Target Node of this Edge
 	 *	@return		bool
 	 */
 	public function isEdge( $source, $target )
@@ -429,7 +436,7 @@ class ADT_Graph_Weighted
 	/**
 	 *	Ist Schlinge ? --> Kante {u,u}
 	 *	@access		public
-	 *	@param		ADT_Graph_Node	$node		Node to be proved for loops
+	 *	@param		Node	$node		Node to be proved for loops
 	 *	@return		bool
 	 */
 	public function isLoop( $node )
@@ -442,7 +449,7 @@ class ADT_Graph_Weighted
 	/**
 	 *	Indicated whether a Node is existing in this Graph.
 	 *	@access		public
-	 *	@param		ADT_Graph_Node	$node		Node to be proved
+	 *	@param		Node	$node		Node to be proved
 	 *	@return		void
 	 */
 	public function isNode( $node )
@@ -455,8 +462,8 @@ class ADT_Graph_Weighted
 	 *	 - ist Folge
 	 *	 - keinen Knoten doppelt besucht
 	 *	@access		public
-	 *	@param		ADT_Graph_Node	$source		Source Node of this Edge
-	 *	@param		ADT_Graph_Node	$target		Target Node of this Edge
+	 *	@param		Node	$source		Source Node of this Edge
+	 *	@param		Node	$target		Target Node of this Edge
 	 *	@param		array			$hadNodes	Already visited Node.
 	 *	@return		bool
 	 */
@@ -525,8 +532,8 @@ class ADT_Graph_Weighted
 	/**
 	 *	Removes an Edge by its source and target Nodes.
 	 *	@access		public
-	 *	@param		ADT_Graph_Node	$source		Source Node of this Edge
-	 *	@param		ADT_Graph_Node	$target		Target Node of this Edge
+	 *	@param		Node	$source		Source Node of this Edge
+	 *	@param		Node	$target		Target Node of this Edge
 	 *	@return		void
 	 */
 	public function removeEdge( $source, $target )
@@ -540,7 +547,7 @@ class ADT_Graph_Weighted
 	/**
 	 *	Removes a Node.
 	 *	@access		public
-	 *	@param		ADT_Graph_Node	$node		Node to be removed
+	 *	@param		Node	$node		Node to be removed
 	 *	@return		void
 	 */
 	public function removeNode( $node )
@@ -701,10 +708,10 @@ class ADT_Graph_Weighted
 	/**
 	 *	Traverses graph in deepth and build queue of all Nodes.
 	 *	@access		public
-	 *	@param		ADT_Graph_Node	$source		Source Node
-	 *	@param		ADT_List_Queue	$queue		Queue to fill with Nodes
+	 *	@param		Node	$source		Source Node
+	 *	@param		ListQueue	$queue		Queue to fill with Nodes
 	 *	@param		array			$hadNodes	Array of already visited Nodes
-	 *	@return		ADT_List_Queue
+	 *	@return		ListQueue
 	 */
 	public function traverseDeepth( $source, $queue = array(), $hadNodes = false )
 	{

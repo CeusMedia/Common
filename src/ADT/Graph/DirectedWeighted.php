@@ -25,6 +25,13 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@version		$Id$
  */
+namespace CeusMedia\Common\ADT\Graph;
+
+use CeusMedia\Common\ADT\MatrixAssocFileMatrix;
+use CeusMedia\Common\ADT\AssocMatrix;
+use CeusMedia\Common\ADT\List\Stack;
+use CeusMedia\Common\ADT\Queue;
+
 /**
  *	DirectedGraph.
  *	@category		Library
@@ -39,13 +46,13 @@
  *	@todo			prove Implementation( AssocFileMatrix)
  *	@todo			Code Documentation
  */
-class ADT_Graph_DirectedWeighted extends ADT_Graph_Weighted
+class DirectedWeighted extends Weighted
 {
 	/**
 	 *	 Adds an Edge and returns the reference on the new Edge.
 	 *	 @access		public
-	 *	 @param			ADT_Graph_Node		$source		Source Node of this Edge
-	 *	 @param			ADT_Graph_Node		$target		Target Node of this Edge
+	 *	 @param			Node		$source		Source Node of this Edge
+	 *	 @param			Node		$target		Target Node of this Edge
 	 *	 @param			int					$value		Value of this Edge
 	 *	 @return		Edge
 	 */
@@ -79,9 +86,9 @@ class ADT_Graph_DirectedWeighted extends ADT_Graph_Weighted
 	/**
 	 *	 Returns an Edge by its source and target Nodes.
 	 *	 @access		public
-	 *	 @param			ADT_Graph_Node		$source		Source Node of the Edge
-	 *	 @param			ADT_Graph_Node		$target		Target Node of the Edge
-	 *	 @return		ADT_Graph_Edge
+	 *	 @param			Node		$source		Source Node of the Edge
+	 *	 @param			Node		$target		Target Node of the Edge
+	 *	 @return		Edge
 	 */
 	public function getEdge( $source, $target)
 	{
@@ -91,8 +98,8 @@ class ADT_Graph_DirectedWeighted extends ADT_Graph_Weighted
 	/**
 	 *	 Returns distance between two Nodes.
 	 *	 @access		public
-	 *	 @param			ADT_Graph_Node		$source		Source Node of this Edge
-	 *	 @param			ADT_Graph_Node		$target		Target Node of this Edge
+	 *	 @param			Node		$source		Source Node of this Edge
+	 *	 @param			Node		$target		Target Node of this Edge
 	 *	 @return		int
 	 */
 	public function getGrade( $source, $target )
@@ -111,10 +118,10 @@ class ADT_Graph_DirectedWeighted extends ADT_Graph_Weighted
 	/**
 	 *	 Returns the way between two Nodes as Stack.
 	 *	 @access		public
-	 *	 @param			ADT_Graph_Node		$source		Source Node of this Edge
-	 *	 @param			ADT_Graph_Node		$target		Target Node of this Edge
-	 *	 @param			ADT_List_Stack		$stack		Stack to fill with Node on the way
-	 *	 @return		ADT_List_Stack
+	 *	 @param			Node		$source		Source Node of this Edge
+	 *	 @param			Node		$target		Target Node of this Edge
+	 *	 @param			ListStack		$stack		Stack to fill with Node on the way
+	 *	 @return		ListStack
 	 */
 	public function getPath( $source, $target, $stack = false )
 	{
@@ -122,7 +129,7 @@ class ADT_Graph_DirectedWeighted extends ADT_Graph_Weighted
 		{
 			if( $stack && is_a( $stack, "stack" ) )
 				$way = $stack;
-			else $way = new ADT_List_Stack();
+			else $way = new ListStack();
 			$way->push( $target );
 			return $way;
 		}
@@ -178,8 +185,8 @@ class ADT_Graph_DirectedWeighted extends ADT_Graph_Weighted
 	/**
 	 *	 Indicated whether an Edge is existing in this Graph.
 	 *	 @access		public
-	 *	 @param			ADT_Graph_Node		$source		Source Node of this Edge
-	 *	 @param			ADT_Graph_Node		$target		Target Node of this Edge
+	 *	 @param			Node		$source		Source Node of this Edge
+	 *	 @param			Node		$target		Target Node of this Edge
 	 *	 @return		bool
 	 */
 	public function isEdge( $source, $target )
@@ -190,8 +197,8 @@ class ADT_Graph_DirectedWeighted extends ADT_Graph_Weighted
 	/**
 	 *	 Removes an Edge by its source and target Nodes.
 	 *	 @access		public
-	 *	 @param			ADT_Graph_Node		$source		Source Node of this Edge
-	 *	 @param			ADT_Graph_Node		$target		Target Node of this Edge
+	 *	 @param			Node		$source		Source Node of this Edge
+	 *	 @param			Node		$target		Target Node of this Edge
 	 *	 @return		void
 	 */
 	public function removeEdge( $source, $target )
@@ -203,7 +210,7 @@ class ADT_Graph_DirectedWeighted extends ADT_Graph_Weighted
 	/**
 	 *	 Removes a Node.
 	 *	 @access		public
-	 *	 @param			ADT_Graph_Node		$node		Node to be removed
+	 *	 @param			Node		$node		Node to be removed
 	 *	 @return		void
 	 */
 	public function removeNode( $node)
@@ -249,7 +256,7 @@ class ADT_Graph_DirectedWeighted extends ADT_Graph_Weighted
 	 */
 	public function toMatrix( $filename = false )
 	{
-		if( $filename) $m = new ADT_Matrix_AssocFileMatrix( $filename );
+		if( $filename) $m = new MatrixAssocFileMatrix( $filename );
 		else $m = new AssocMatrix();
 
 		$nodes = $this->getNodes();
@@ -276,7 +283,7 @@ class ADT_Graph_DirectedWeighted extends ADT_Graph_Weighted
 	{
 		$distance = array();
 		$state = array();
-		$q = new ADT_Queue();
+		$q = new Queue();
 		foreach( $this->nodeSet->getNodes() as $node )
 		{
 			$state[$node->getNodeName()] = 0;

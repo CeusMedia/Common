@@ -62,7 +62,7 @@ class ADT_Bitmask{
 		return $this;
 	}
 
-	public function set( $bits )
+	public function set( $bits ){
 		$this->bits	= $bits;
 		return $this;
 	}

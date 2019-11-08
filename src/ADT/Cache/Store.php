@@ -2,7 +2,7 @@
 /**
  *	Abstract Cache Store, can be used to implement a Data Cache.
  *
- *	Copyright (c) 2007-2018 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2019 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,12 +20,14 @@
  *	@category		Library
  *	@package		CeusMedia_Common_ADT_Cache
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2018 Christian Würker
+ *	@copyright		2007-2019 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			13.04.2009
  *	@version		0.1
  */
+namespace CeusMedia\Common\ADT\Cache;
+
 /**
  *	Abstract Cache Store, can be used to implement a Data Cache.
  *	@category		Library
@@ -33,13 +35,13 @@
  *	@abstract
  *	@implements		ArrayAccess
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2018 Christian Würker
+ *	@copyright		2007-2019 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			13.04.2009
  *	@version		0.1
  */
-abstract class ADT_Cache_Store implements ArrayAccess
+abstract class Store implements \ArrayAccess
 {
 	/**
 	 *	Returns a Value from Cache by its Key.
@@ -51,7 +53,7 @@ abstract class ADT_Cache_Store implements ArrayAccess
 	{
 		return $this->get( $key );
 	}
-	
+
 	/**
 	 *	Indicates wheter a Value is in Cache by its Key.
 	 *	@access		public
@@ -62,7 +64,7 @@ abstract class ADT_Cache_Store implements ArrayAccess
 	{
 		return $this->has( $key );
 	}
-	
+
 	/**
 	 *	Stores a Value in Cache by its Key.
 	 *	@access		public
@@ -137,7 +139,7 @@ abstract class ADT_Cache_Store implements ArrayAccess
 	{
 		return $this->set( $key, $value );
 	}
-	
+
 	/**
 	 *	Removes a Value from Cache by its Key.
 	 *	@access		public

@@ -1,11 +1,12 @@
 <?php
-//require_once 'PHPUnit/Framework/TestCase.php';
-if( !class_exists( 'PHPUnit_Framework_TestCase' ) )
-	require_once 'PHPUnit/Framework/TestCase.php';
-class Test_Case extends PHPUnit_Framework_TestCase{
-	static public $config;
-	static public $pathLib;
+class Test_Case extends \PHPUnit\Framework\TestCase{
+	static public $__config;
+	static public $__pathLib;
 }
-Test_Case::$pathLib	= dirname( __DIR__  ).'/';
-error_reporting( error_reporting() || ~E_USER_DEPRECATED );
+
+Test_Case::$__pathLib	= dirname( __DIR__  ).'/';
+Test_Case::$__config = parse_ini_file( Test_Case::$__pathLib.'/Common.ini', TRUE );
+class_exists( 'UI_DevOutput' );
+
+#error_reporting( error_reporting() || ~E_USER_DEPRECATED );
 ?>

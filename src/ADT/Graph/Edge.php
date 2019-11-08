@@ -25,6 +25,8 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@version		$Id$
  */
+namespace CeusMedia\Common\ADT\Graph;
+
 /**
  *	Edge in a graph
  *	@category		Library
@@ -35,11 +37,11 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@version		$Id$
  */
-class ADT_Graph_Edge
+class Edge
 {
-	/**	@var		ADT_Graph_Node		$sourceNode		Source Node of Edge */
+	/**	@var		Node		$sourceNode		Source Node of Edge */
  	protected $sourceNode;
-	/**	@var		ADT_Graph_Node		$targetNode		Target Node of Edge */
+	/**	@var		Node		$targetNode		Target Node of Edge */
 	protected $targetNode;
 	/**	@var		int					$edgeValue		Value of Edge */
 	protected $edgeValue				= 1;
@@ -69,7 +71,7 @@ class ADT_Graph_Edge
 	/**
 	 *	Returns the Source Node of this Edge.
 	 *	@access		public
-	 *	@return		ADT_Graph_Node
+	 *	@return		Node
 	 */
 	public function getSourceNode()
 	{
@@ -79,7 +81,7 @@ class ADT_Graph_Edge
 	/**
 	 *	Returns the Target Node of this Edge.
 	 *	@access		public
-	 *	@return		ADT_Graph_Node
+	 *	@return		Node
 	 */
 	public function getTargetNode()
 	{
@@ -100,7 +102,7 @@ class ADT_Graph_Edge
 	/**
 	 *	Setting the Source Node of this Edge.
 	 *	@access		public
-	 *	@param		ADT_Graph_Node		$sourceNode		Source Node of this Edge
+	 *	@param		Node		$sourceNode		Source Node of this Edge
 	 *	@return		void
 	 */
 	public function setSourceNode( $sourceNode )
@@ -111,7 +113,7 @@ class ADT_Graph_Edge
 	/**
 	 *	Setting the Target Node of this Edge.
 	 *	@access		public
-	 *	@param		ADT_Graph_Node		$targetNode		Target Node of this Edge
+	 *	@param		Node		$targetNode		Target Node of this Edge
 	 *	@return		void
 	 */
 	public function setTargetNode( $targetNode )

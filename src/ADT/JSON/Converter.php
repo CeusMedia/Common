@@ -25,6 +25,8 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@version		$Id$
  */
+namespace CeusMedia\Common\ADT\JSON;
+
 /**
  *	...
  *	@category		Library
@@ -38,7 +40,7 @@
  *	@todo			unit test
  *	@deprecated		use json_decode( $string, TRUE ) instead
  */
-class ADT_JSON_Converter
+class Converter
 {
 	public static function convertToArray( $json )
 	{
@@ -46,7 +48,7 @@ class ADT_JSON_Converter
 		{
 			$json	= json_decode( $json );
 			if( $json === FALSE )
-				throw new InvalidArgumentException( 'JSON String is not valid.' );
+				throw new \InvalidArgumentException( 'JSON String is not valid.' );
 		}
 		$array	= array();
 		self::convertToArrayRecursive( $json, $array );

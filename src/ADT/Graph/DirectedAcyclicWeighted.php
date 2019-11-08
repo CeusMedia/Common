@@ -25,6 +25,8 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@version		$Id$
  */
+namespace CeusMedia\Common\ADT\Graph;
+
 /**
  *	Directed Acyclic Graph.
  *	@category		Library
@@ -36,7 +38,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@version		$Id$
  */
-class ADT_Graph_DirectedAcyclicWeighted extends ADT_Graph_DirectedWeighted
+class DirectedAcyclicWeighted extends DirectedWeighted
 {
 	/**
 	 *	Adds an Edge and returns the reference on the new Edge.

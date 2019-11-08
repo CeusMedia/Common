@@ -6,6 +6,9 @@
  *	@version		0.1
  */
 require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
+
+use CeusMedia\Common\ADT\JSON\Builder;
+
 /**
  *	TestUnit of LinkList
  *	@package		Tests.adt.json
@@ -35,13 +38,13 @@ class Test_ADT_JSON_BuilderTest extends Test_Case
 	public function testEncode()
 	{
 		$data		= array( 1, 2.3, "string", TRUE, NULL, $this->object );
-		$builder	= new ADT_JSON_Builder();
+		$builder	= new Builder();
 		$assertion	= '[1,2.3,"string",true,null,{"a":"test"}]';
 		$creation	= $builder->encode( $data );
 		$this->assertEquals( $assertion, $creation );
 
 		$data		= array( array( 1, 2 ), array( 3, 4 ) );
-		$builder	= new ADT_JSON_Builder();
+		$builder	= new Builder();
 		$assertion	= "[[1,2],[3,4]]";
 		$creation	= $builder->encode( $data );
 		$this->assertEquals( $assertion, $creation );
@@ -56,12 +59,12 @@ class Test_ADT_JSON_BuilderTest extends Test_Case
 	{
 		$data		= array( 1, 2.3, "string", TRUE, NULL, $this->object );
 		$assertion	= '[1,2.3,"string",true,null,{"a":"test"}]';
-		$creation	= ADT_JSON_Builder::encode( $data );
+		$creation	= Builder::encode( $data );
 		$this->assertEquals( $assertion, $creation );
 
 		$data		= array( array( 1, 2 ), array( 3, 4 ) );
 		$assertion	= "[[1,2],[3,4]]";
-		$creation	= ADT_JSON_Builder::encode( $data );
+		$creation	= Builder::encode( $data );
 		$this->assertEquals( $assertion, $creation );
 
 	}
@@ -74,7 +77,7 @@ class Test_ADT_JSON_BuilderTest extends Test_Case
 	public function testEncodeStaticException()
 	{
 		$this->setExpectedException( 'InvalidArgumentException' );
-		ADT_JSON_Builder::encode( dir( dirname( __FILE__ ) ) );
+		Builder::encode( dir( dirname( __FILE__ ) ) );
 	}
 }
 ?>

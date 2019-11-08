@@ -2,7 +2,7 @@
 /**
  *	...
  *
- *	Copyright (c) 2011-2018 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2011-2019 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,74 +20,86 @@
  *	@category		Library
  *	@package		CeusMedia_Common_ADT_CSS
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2011-2018 Christian Würker
+ *	@copyright		2011-2019 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.5
  *	@version		$Id$
  */
+namespace CeusMedia\Common\ADT\CSS;
+
 /**
  *	...
  *
  *	@category		Library
  *	@package		CeusMedia_Common_ADT_CSS
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2011-2018 Christian Würker
+ *	@copyright		2011-2019 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.5
  *	@version		$Id$
  */
-class ADT_CSS_Rule{
+class Rule{
 
 	public $selector	= NULL;
 
 	public $properties	= array();
 
-	public function __construct( $selector, $properties = array() ){
+	public function __construct( $selector, $properties = array() )
+	{
 		$this->setSelector( $selector );
 		foreach( $properties as $property )
 			$this->setProperty( $property );
 	}
 
-	public function getProperties(){
+	public function getProperties()
+	{
 		return $this->properties;
 	}
 
-	public function getPropertyByIndex( $index ){
+	public function getPropertyByIndex( $index )
+	{
 		if( !isset( $this->properties[$index] ) )
-			throw new OutOfRangeException( 'Invalid property index' );
+			throw new \OutOfRangeException( 'Invalid property index' );
 		return $this->properties[$index];
 	}
 
-	public function getPropertyByKey( $key ){
+	public function getPropertyByKey( $key )
+	{
 		foreach( $this->properties as $nr => $property )
 			if( $key == $property->getKey() )
 				return $property;
 		return NULL;
 	}
 
-	public function getSelector(){
+	public function getSelector()
+	{
 		return $this->selector;
 	}
 
-	public function hasProperty( ADT_CSS_Property $property ){
+	public function hasProperty( Property $property )
+	{
 		return $this->hasPropertyByKey( $property->getKey() );
 	}
 
-	public function hasPropertyByKey( $key ){
+	public function hasPropertyByKey( $key )
+	{
 		foreach( $this->properties as $nr => $property )
 			if( $key == $property->getKey() )
 				return TRUE;
 		return FALSE;
 	}
 
-	public function removeProperty( ADT_CSS_Property $property ){
+	public function removeProperty( Property $property )
+	{
 		return $this->removePropertyByKey( $property->getKey() );
 	}
 
-	public function removePropertyByKey( $key ){
-		foreach( $this->properties as $nr => $property ){
+	public function removePropertyByKey( $key )
+	{
+		foreach( $this->properties as $nr => $property )
+		{
 			if( $key == $property->getKey() ){
 				unset( $this->properties[$nr] );
 				return TRUE;
@@ -96,21 +108,24 @@ class ADT_CSS_Rule{
 		return FALSE;
 	}
 
-	public function setProperty( ADT_CSS_Property $property ){
+	public function setProperty( Property $property )
+	{
 		return $this->setPropertyByKey( $property->getKey(), $property->getValue() );				//
 	}
 
-	public function setPropertyByKey( $key, $value = NULL ){
+	public function setPropertyByKey( $key, $value = NULL )
+	{
 		if( $value === NULL || !strlen( $value ) )
 			return $this->removePropertyByKey( $key );
 		$property	= $this->getPropertyByKey( $key );
 		if( $property )
 			return $property->setValue( $value );
-		$this->properties[]	= new ADT_CSS_Property( $key, $value );
+		$this->properties[]	= new Property( $key, $value );
 		return TRUE;
 	}
 
-	public function setSelector( $selector ){
+	public function setSelector( $selector )
+	{
 		$this->selector	= $selector;
 	}
 }

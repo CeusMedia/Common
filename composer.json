@@ -7,7 +7,7 @@
     {
       "name": "Christian Würker",
       "email": "christian.wuerker@ceusmedia.de",
-      "homepage": "http://ceusmedia.de",
+      "homepage": "https://ceusmedia.de",
       "role": "Developer"
     }
   ],
@@ -17,16 +17,17 @@
   },
   "minimum-stability": "dev",
   "require": {
-    "php": "^5.3.0 || ^7"
+    "php": "^7.2"
   },
   "require-dev": {
     "ceus-media/doc-creator": "dev-master",
     "michelf/php-markdown": "^1.7",
-    "erusev/parsedown": "~1.0"
+    "erusev/parsedown": "~1.0",
+    "phpunit/phpunit": "^8"
   },
   "autoload": {
-    "psr-0": {
-      "": "src/"
+    "psr-4": {
+      "CeusMedia\\Common\\": "src/"
     }
   }
 }
