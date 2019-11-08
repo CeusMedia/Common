@@ -22,7 +22,8 @@
   "require-dev": {
     "ceus-media/doc-creator": "dev-master",
     "michelf/php-markdown": "^1.7",
-    "erusev/parsedown": "~1.0"
+    "erusev/parsedown": "~1.0",
+    "phpunit/phpunit": "^7"
   },
   "autoload": {
     "psr-0": {
