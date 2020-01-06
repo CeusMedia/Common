@@ -56,7 +56,7 @@ class FS_File_PHP_Parser_Regular
 {
 	protected $regexClass		= '@^(abstract )?(final )?(interface |class )([\w]+)( extends ([\w]+))?( implements ([\w]+)(, ([\w]+))*)?(\s*{)?@i';
 	protected $regexMethod		= '@^(abstract )?(final )?(static )?(protected |private |public )?(static )?function &?\s*([\w]+)\((.*)\)(\s*{\s*)?;?\s*$@s';
-	protected $regexParam		= '@^(([\w]+) )?((&\s*)?\$([\w]+))( ?= ?([\S]+))?$@s';
+	protected $regexParam		= '@^(\??([\w]+) )?((&\s*)?\$([\w]+))( ?= ?([\S]+))?$@s';
 	protected $regexDocParam	= '@^\*\s+\@param\s+(([\S]+)\s+)?(\$?([\S]+))\s*(.+)?$@';
 	protected $regexDocVariable	= '@^/\*\*\s+\@var\s+(\w+)\s+\$(\w+)(\s(.+))?\*\/$@s';
 	protected $regexVariable	= '@^(static\s+)?(protected|private|public|var)\s+(static\s+)?\$(\w+)(\s+=\s+([^(]+))?.*$@';
@@ -274,7 +274,7 @@ class FS_File_PHP_Parser_Regular
 					case 'see':
 					case 'uses':
 					case 'link':
-						$data[$matches[1]][]	= $matches[2];			
+						$data[$matches[1]][]	= $matches[2];
 						break;
 					case 'since':
 					case 'version':
@@ -282,7 +282,7 @@ class FS_File_PHP_Parser_Regular
 					case 'category':
 					case 'package':
 					case 'subpackage':
-						$data[$matches[1]]	= $matches[2];			
+						$data[$matches[1]]	= $matches[2];
 						break;
 					default:
 						break;
@@ -431,7 +431,7 @@ class FS_File_PHP_Parser_Regular
 		$file->setBasename( basename( $fileName ) );
 		$file->setPathname( substr( str_replace( "\\", "/", $fileName ), strlen( $innerPath ) ) );
 		$file->setUri( str_replace( "\\", "/", $fileName ) );
-	
+
 		$level	= 0;
 		$class	= NULL;
 		do
@@ -441,7 +441,7 @@ class FS_File_PHP_Parser_Regular
 			$this->lineNumber ++;
 			if( preg_match( "@^(<\?(php)?)|((php)?\?>)$@", $line ) )
 				continue;
-			
+
 			if( preg_match( '@}$@', $line ) )
 				$level--;
 
@@ -521,7 +521,7 @@ class FS_File_PHP_Parser_Regular
 						{
 							$key		= $class->getName()."::".$name;
 							$varBlock	= isset( $this->varBlocks[$key] ) ? $this->varBlocks[$key] : NULL;
-							$variable	= $this->parseMember( $class, $matches, $varBlock ); 
+							$variable	= $this->parseMember( $class, $matches, $varBlock );
 							$class->setMember( $variable );
 						}
 						else
