@@ -183,7 +183,7 @@ class Alg_UnusedVariableFinder
 						$params	= explode( ",", $parts[1] );										//  split parameters
 						foreach( $params as $param )												//  iterate parameters
 						{
-							$regExp		= '@^([a-z0-9_]+ )?&?\$(.+)(\s?=\s?.*)?$@Ui';				//  prepare regular expression for parameter name
+							$regExp		= '@^\??([a-z0-9_]+ )?&?\$(.+)(\s?=\s?.*)?$@Ui';				//  prepare regular expression for parameter name
 							$param		= preg_replace( $regExp, "\\2", trim( $param ) );			//  get clean parameter name
 							$matches[$open]['variables'][$param]	= 0;							//  note parameter in method variable list
 						}
