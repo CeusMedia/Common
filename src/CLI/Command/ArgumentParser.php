@@ -259,6 +259,8 @@ class CLI_Command_ArgumentParser
 		$status		= self::STATUS_START;												//  initiate Status
 		$buffer		= "";																//  initiate Argument Buffer
 		$option		= "";																//  initiate Option Buffer
+		$this->foundArguments	= array();												//  clear earlier parsed arguments
+		$this->foundOptions		= array();												//  clear earlier parsed options
 
 		while( isset( $string[$position] ) )											//  loop until End of String
 		{
