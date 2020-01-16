@@ -22,7 +22,7 @@ class CLI_Question{
 	);
 
 	public function __construct( $message, $type = self::TYPE_STRING, $default = NULL, $options = array(), $break = TRUE ){
-		$this->message	= $message;
+		$this->setMessage( $message );
 		$this->setType( $type );
 		$this->setDefault( $default );
 		$this->setOptions( $options );
@@ -86,6 +86,10 @@ class CLI_Question{
 		return $input->ask();
 	}
 
+	static public function getInstance( $message ){
+		return new static( $message );
+	}
+
 	protected function renderLabel(){
 		$message		= $this->message;
 		$options		= $this->options;
@@ -117,29 +121,40 @@ class CLI_Question{
 
 	public function setBreak( $break = TRUE ){
 		$this->break	= $break;
+		return $this;
 	}
 
 	public function setDefault( $default = NULL ){
 		$this->default	= $default;
+		return $this;
+	}
+
+	public function setMessage( $message ){
+		$this->message	= $message;
+		return $this;
 	}
 
 	public function setOptions( $options = array() ){
 		if( $options )
 			$this->options	= $options;
+		return $this;
 	}
 
 	public function setStrictOptions( $switch = TRUE ){
 		$this->strictOptions	= $switch;
+		return $this;
 	}
 
 	public function setRange( $from, $to ){
 		$this->rangeFrom	= $from;
 		$this->rangeTo		= $to;
+		return $this;
 	}
 
 	public function setType( $type ){
 		$this->type		= $type;
 		if( $type === self::TYPE_BOOLEAN )
 			$this->setOptions( self::$defaultBooleanOptions );
+		return $this;
 	}
 }
