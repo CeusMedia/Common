@@ -40,37 +40,43 @@
 class ADT_JSON_Parser
 {
 	/**
-	 *	Get new instance of JSON reader by static call.
-	 *	This method is useful for chaining method calls.
+	 *	Returns constant of last parse error.
 	 *	@access		public
-	 *	@static
-	 *	@return		self
+	 *	@param		boolean		$asConstantKey	Flag: return constant name as string instead of its integer value
+	 *	@return		integer|string
 	 */
-	public static function getNew( $filePath ){
-		return new self( $filePath );
+	public function getError( $asConstantKey = FALSE ){
+		$code	= json_last_error();
+		if( $asConstantKey )
+			return $this->getConstantFromCode( $code );
+		return $code;
 	}
 
 	/**
-	 *	Reads a JSON file to an object or array statically.
+	 *	Returns all information of last parse error.
 	 *	@access		public
-	 *	@param		string		$filePath		Path to JSON file
-	 *	@param		bool		$asArray		Flag: read into an array
-	 *	@return		object|array
+	 *	@return		object
 	 */
-	public static function load( $json, $asArray = NULL )
-	{
-		$parser	= new ADT_JSON_Parsee();
-		return $parser->parse( $json, $asArray );
+	public function getInfo(){
+		return (object) array(
+			'code'		=> $this->getError(),
+			'constant'	=> $this->getError( TRUE ),
+			'message'	=> $this->getMessage(),
+		);
 	}
 
-	public function getError(){
-		return json_last_error();
-	}
-
+	/**
+	 *	Returns message of last parse error.
+	 *	@access		public
+	 *	@return		string
+	 */
 	public function getMessage(){
 		return json_last_error_msg();
 	}
 
+	protected function getConstantFromCode( $code ){
+		return ADT_Constant::getKeyByValue( 'JSON_ERROR_', json_last_error() );
+	}
 
 	/**
 	 *	Returns data of parsed JSON string.
@@ -91,7 +97,6 @@ class ADT_JSON_Parser
 			throw new RuntimeException( $message, json_last_error() );
 		}
 		return $data;
-
 	}
 }
 ?>
