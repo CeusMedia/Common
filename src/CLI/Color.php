@@ -1,7 +1,7 @@
 <?php
 class CLI_Color{
 
-	private static $foregroundColors		= array(
+	private static $foregroundColors	= array(
 		'black'			=> '0;30',
 		'dark_gray'		=> '1;30',
 		'red'			=> '0;31',
@@ -20,7 +20,7 @@ class CLI_Color{
 		'white'			=> '1;37',
 	);
 
-	private static $backgroundColors		= array(
+	private static $backgroundColors	= array(
 		'black'			=> '40',
 		'red'			=> '41',
 		'green'			=> '42',
@@ -31,7 +31,7 @@ class CLI_Color{
 		'light_gray'	=> '47',
 	);
 
-	public static $classes					= array(
+	public static $classes				= array(
 		'error'			=> array( 'white', 'red' ),
 		'warning'		=> array( 'white', 'yellow' ),
 		'info'			=> array( 'white', 'blue' ),
@@ -87,6 +87,18 @@ class CLI_Color{
 			$fgColor	= "\033[".static::$foregroundColors[$foregroundColor]."m";					//  set foreground color code
 		if( isset( static::$backgroundColors[$backgroundColor] ) )									//  check if given background color is valid
 			$bgColor	= "\033[".static::$backgroundColors[$backgroundColor]."m";					//  set background color code
+		$string			= str_replace( $reset, $reset.$fgColor.$bgColor, $string );					//  continue colors after resets in string
+		return $fgColor.$bgColor.$string.$reset;													//  add string and end coloring
+	}
+
+	public function colorize256( $string, $foregroundColor = NULL, $backgroundColor = NULL ){
+		$reset			= "\033[0m";
+		$fgColor		= '';
+		$bgColor		= '';
+		if( !is_null( $foregroundColor ) )
+			$fgColor	= "\033[38;5;".$foregroundColor."m";										//  set foreground color code
+		if( !is_null( $backgroundColor ) )
+			$bgColor	= "\033[48;5;".$backgroundColor."m";										//  set background color code
 		$string			= str_replace( $reset, $reset.$fgColor.$bgColor, $string );					//  continue colors after resets in string
 		return $fgColor.$bgColor.$string.$reset;													//  add string and end coloring
 	}
