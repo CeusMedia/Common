@@ -1,13 +1,13 @@
 <?php
-require_once 'vendor/autoload.php';
+require_once __DIR__.'/../../vendor/autoload.php';
 new UI_DevOutput;
 
 $cli	= new CLI();
-remark( 'Colors: '.$cli->getColors() );
+CLI::out( 'Colors: '.$cli->getColors() );
 try{
 
-	if( 0 ){
-		$f	= new FS_Folder( 'src' );
+	if( 1 ){
+		$f	= new FS_Folder( __DIR__.'/../' );
 		CLI::out( "Count recursive:" );
 		CLI::out( UI_Text::line( '-' ) );
 		CLI::out( "- Folders: ".$f->count( FS::TYPE_FOLDER, TRUE ) );
@@ -17,14 +17,14 @@ try{
 	}
 
 	if( 0 ){
-		$cli->ls( '.' );
+		$cli->ls( __DIR__ );
 /*		remark( "Listing: " );
 		remark( UI_Text::line( '-' ) );
 		print_m( $f->index()->getAll() );*/
 	}
 
 	if( 0 ){
-		$f	= new FS_Folder( './' );
+		$f	= new FS_Folder( __DIR__ );
 		if( !$f->has( 'abc' ) )
 			$f->createFolder( 'abc' );
 		$abc	= $f->getFolder( 'abc' );
