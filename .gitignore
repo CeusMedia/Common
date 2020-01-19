@@ -1,4 +1,4 @@
-vendor
-composer.lock
-Test/results.*
-doc/*
+/vendor
+/composer.lock
+/Test/results.*
+/doc/*

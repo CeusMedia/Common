@@ -27,7 +27,7 @@ dev-test-syntax:
 
 dev-test-unit: composer-install-dev
 #	@php go.php test units
-	@phpunit test
+	@vendor/bin/phpunit test
 
 # --  DEV: Docs  ---------------------------------------------------------
 dev-create-docs: composer-install-dev
