@@ -39,6 +39,12 @@
  */
 class ADT_JSON_Parser
 {
+	const STATUS_EMPTY			= 0;
+	const STATUS_PARSED			= 1;
+	const STATUS_ERROR			= 2;
+
+	protected $status			= 0;
+
 	/**
 	 *	Returns constant value or key of last parse error.
 	 *	@access		public
@@ -59,6 +65,7 @@ class ADT_JSON_Parser
 	 */
 	public function getInfo(){
 		return (object) array(
+			'status'	=> $this->status,
 			'code'		=> $this->getError(),
 			'constant'	=> $this->getError( TRUE ),
 			'message'	=> $this->getMessage(),
@@ -83,20 +90,23 @@ class ADT_JSON_Parser
 	 *	@throws		RuntimeException			if parsing failed
 	 */
 	public function parse( $json, $asArray = NULL ){
-		$data	= json_decode( $json, $asArray );
+		$this->status	= static::STATUS_EMPTY;
+		$data			= json_decode( $json, $asArray );
 		if( json_last_error() !== JSON_ERROR_NONE ){
+			$this->status	= static::STATUS_ERROR;
 			$message	= 'Decoding JSON failed (%s): %s';
 			$message	= vsprintf( $message, array(
-				ADT_Constant::getKeyByValue( 'JSON_ERROR_', json_last_error() ),
+				$this->getConstantFromCode( json_last_error() ),
 				json_last_error_msg()
 			) );
 			throw new RuntimeException( $message, json_last_error() );
 		}
+		$this->status	= static::STATUS_PARSED;
 		return $data;
 	}
 
 	protected function getConstantFromCode( $code ){
-		return ADT_Constant::getKeyByValue( 'JSON_ERROR_', json_last_error() );
+		return ADT_Constant::getKeyByValue( 'JSON_ERROR_', $code );
 	}
 }
 ?>
