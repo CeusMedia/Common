@@ -46,7 +46,7 @@
 class ADT_List_LevelMap extends ADT_List_Dictionary
 {
 	protected $divider		= ".";
-	
+
 	public function __construct( $array = array(), $divider = "." )
 	{
 		parent::__construct( $array );
@@ -57,9 +57,10 @@ class ADT_List_LevelMap extends ADT_List_Dictionary
 	 *	Return a Value or Pair Map of Dictionary by its Key.
 	 *	@access		public
 	 *	@param		string		$key		Key in Dictionary
+	 *	@param		mixed		$default	Value to return if key is not set, default: NULL
 	 *	@return		mixed
 	 */
-	public function get( $key )
+	public function get( $key, $default = NULL )
 	{
 		if( empty( $key ) )																		//  no Key given
 			throw new InvalidArgumentException( 'Key must not be empty.' );						//  throw Exception
@@ -80,12 +81,12 @@ class ADT_List_LevelMap extends ADT_List_Dictionary
 			if( count( $list ) )																//  found Pairs
 				return $list;																	//  return Pair Map
 		}
-		return NULL;																			//  nothing found
+		return $default;																		//  nothing given default, default: NULL
 	}
 
 	/**
 	 *	@todo	kriss: test + rename + code doc + inline doc
-	 */ 
+	 */
 	public function getKeySections( $prefix = NULL ){
 		if( is_array( $prefix ) )
 			$prefix	= join( $this->divider, $prefix ).$this->divider;
@@ -131,7 +132,7 @@ class ADT_List_LevelMap extends ADT_List_Dictionary
 		}
 		return FALSE;
 	}
-	
+
 	/**
 	 *	Removes a Value or Pair Map from Dictionary by its Key.
 	 *	@access		public
@@ -156,13 +157,13 @@ class ADT_List_LevelMap extends ADT_List_Dictionary
 			}
 		}
 	}
-	
+
 	/**
 	 *	Sets Value of Key in Dictionary.
 	 *	@access		public
 	 *	@param		string		$key		Key in Dictionary
 	 *	@param		string		$value		Value of Key
-	 *	@param		bool		$sort		Flag: sort by Keys after Insertion	
+	 *	@param		bool		$sort		Flag: sort by Keys after Insertion
 	 *	@return		void
 	 */
 	public function set( $key, $value, $sort = TRUE )
