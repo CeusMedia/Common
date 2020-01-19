@@ -1,4 +1,7 @@
 <?php
+require_once __DIR__.'/init.php';
+return;
+
 $pathLib	= realpath( dirname( dirname( __FILE__ ) ) );
 $pathSrc	= realpath( dirname( dirname( __FILE__ ) ) . '/src' );
 $pathTest	= realpath( dirname( dirname( __FILE__ ) ) . '/test' );
