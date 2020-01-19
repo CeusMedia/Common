@@ -40,7 +40,7 @@
 class ADT_JSON_Parser
 {
 	/**
-	 *	Returns constant of last parse error.
+	 *	Returns constant value or key of last parse error.
 	 *	@access		public
 	 *	@param		boolean		$asConstantKey	Flag: return constant name as string instead of its integer value
 	 *	@return		integer|string
@@ -74,10 +74,6 @@ class ADT_JSON_Parser
 		return json_last_error_msg();
 	}
 
-	protected function getConstantFromCode( $code ){
-		return ADT_Constant::getKeyByValue( 'JSON_ERROR_', json_last_error() );
-	}
-
 	/**
 	 *	Returns data of parsed JSON string.
 	 *	@access		public
@@ -97,6 +93,10 @@ class ADT_JSON_Parser
 			throw new RuntimeException( $message, json_last_error() );
 		}
 		return $data;
+	}
+
+	protected function getConstantFromCode( $code ){
+		return ADT_Constant::getKeyByValue( 'JSON_ERROR_', json_last_error() );
 	}
 }
 ?>

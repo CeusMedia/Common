@@ -39,7 +39,14 @@
  */
 class FS_File_JSON_Reader
 {
+	protected static $defaultFilters	= array( 'comments' );
 	protected $filePath;
+	protected $filters					= array();
+	protected $data;
+
+	public static function setDefaultFilters( $defaultFilters ){
+		self::$defaultFilters	= $defaultFilters;
+	}
 
 	/**
 	 *	Constructor.
@@ -52,17 +59,8 @@ class FS_File_JSON_Reader
 		if( !file_exists( $filePath ) )
 			throw new RuntimeException( 'File "'.$filePath.'" is not existing' );
 		$this->filePath	= $filePath;
-	}
-
-	/**
-	 *	Get new instance of JSON reader by static call.
-	 *	This method is useful for chaining method calls.
-	 *	@access		public
-	 *	@static
-	 *	@return		self
-	 */
-	public static function getNew( $filePath ){
-		return new self( $filePath );
+		$this->filters	= self::$defaultFilters;
+		$this->parser	= new ADT_JSON_Parser();
 	}
 
 	/**
@@ -78,34 +76,67 @@ class FS_File_JSON_Reader
 		return $reader->read( $asArray );
 	}
 
-	public function getError(){
-		return json_last_error();
+	/**
+	 *	Returns constant value or key of last parse error.
+	 *	@access		public
+	 *	@param		boolean		$asConstantKey	Flag: return constant name as string instead of its integer value
+	 *	@return		integer|string
+	 */
+	public function getError( $asConstantKey = FALSE ){
+		return $this->parser->getError( $asConstantKey );
 	}
 
+	/**
+	 *	Returns all collected information as object including current parse status.
+	 *	The nested status object holds latest parse information, like error code, message and code constant key.
+	 *	If file has been read with flag "storeData" the parsed data will be includes, too.
+	 *	@access		public
+	 *	@return		object
+	 */
+	public function getInfo(){
+		return (object) array(
+			'filePath'		=> $this->filePath,
+			'filters'		=> $this->filters,
+			'status'		=> $this->parser->getInfo(),
+			'data'			=> $data,
+		);
+	}
+
+	/**
+	 *	Returns message of last parse error.
+	 *	@access		public
+	 *	@return		string
+	 */
 	public function getMessage(){
-		return json_last_error_msg();
+		return $this->parser->getMessage();
 	}
 
 	/**
 	 *	Reads the JSON file to an object or array.
 	 *	@access		public
 	 *	@param		bool		$asArray		Flag: read into an array
+	 *	@param		bool		$storeData		Flag: copy read data in object for info (needs more memory), default: yes
 	 *	@return		object|array
 	 *	@throws		RuntimeException			if parsing failed
 	 */
-	public function read( $asArray = NULL )
+	public function read( $asArray = NULL, $storeData = TRUE )
 	{
 		$json	= FS_File_Reader::load( $this->filePath );
-		$data	= json_decode( $json, $asArray );
-		if( json_last_error() !== JSON_ERROR_NONE ){
-			$message	= 'Decoding JSON failed (%s): %s';
-			$message	= vsprintf( $message, array(
-				ADT_Constant::getKeyByValue( 'JSON_ERROR_', json_last_error() ),
-				json_last_error_msg()
-			) );
-			throw new RuntimeException( $message, json_last_error() );
-		}
+		$json	= $this->applyFilters( $json );
+		$data	= $this->parser->parse( $json );
+
+		$this->data	= $storeData ? $data : NULL;
 		return $data;
+	}
+
+	protected function applyFilters( $json ){
+		foreach( $this->filters as $filter ){
+			if( $filter === 'comments' ){
+				$json	= preg_replace( '@(/\*)(.*)(\*/)@su', '', $json );
+//				$json	= preg_replace( '@^(//)(.*)$@u', '', $json );
+			}
+		}
+		return $json;
 	}
 }
 ?>
