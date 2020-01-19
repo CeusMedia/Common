@@ -99,7 +99,7 @@ class Test_FS_File_CSV_ReaderTest extends Test_Case
 	public function testGetColumnHeadersException1()
 	{
 		$reader	= new FS_File_CSV_Reader( $this->fileName, FALSE );
-		$this->setExpectedException( 'RuntimeException' );
+		$this->expectException( 'RuntimeException' );
 		$reader->getColumnHeaders();
 	}
 
@@ -111,7 +111,7 @@ class Test_FS_File_CSV_ReaderTest extends Test_Case
 	public function testGetColumnHeadersException2()
 	{
 		$reader	= new FS_File_CSV_Reader( $this->pathName.'empty.csv', TRUE );
-		$this->setExpectedException( 'RuntimeException' );
+		$this->expectException( 'RuntimeException' );
 		$reader->getColumnHeaders();
 	}
 

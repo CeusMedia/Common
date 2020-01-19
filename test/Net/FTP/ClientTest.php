@@ -147,7 +147,7 @@ class Test_Net_FTP_ClientTest extends Test_Case
 	 */
 	public function testCopyFileException1()
 	{
-		$this->setExpectedException( 'RuntimeException' );
+		$this->expectException( 'RuntimeException' );
 		$this->client->copyFile( "not_existing", "not_relevant" );
 	}
 
@@ -158,7 +158,7 @@ class Test_Net_FTP_ClientTest extends Test_Case
 	 */
 	public function testCopyFileException2()
 	{
-		$this->setExpectedException( 'RuntimeException' );
+		$this->expectException( 'RuntimeException' );
 		$this->client->copyFile( "source.txt", "not_existing/not_relevant.txt" );
 	}
 

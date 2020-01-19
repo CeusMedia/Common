@@ -339,7 +339,7 @@ class Test_FS_File_INI_ReaderTest extends Test_Case
 	 */
 	public function testGetPropertyException1()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$creation	= $this->list->getProperty( 'key5' );
 	}
 
@@ -350,7 +350,7 @@ class Test_FS_File_INI_ReaderTest extends Test_Case
 	 */
 	public function testGetPropertyException2()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$creation	= $this->sections->getProperty( 'key3', 'section3' );
 	}
 
@@ -361,7 +361,7 @@ class Test_FS_File_INI_ReaderTest extends Test_Case
 	 */
 	public function testGetPropertyException3()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$creation	= $this->sections->getProperty( 'key5', 'section2' );
 	}
 	/**
@@ -371,7 +371,7 @@ class Test_FS_File_INI_ReaderTest extends Test_Case
 	 */
 	public function testGetPropertyException4()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$creation	= $this->sections->getProperty( 'key4' );
 	}
 
@@ -493,7 +493,7 @@ class Test_FS_File_INI_ReaderTest extends Test_Case
 	 */
 	public function testHasSectionException()
 	{
-		$this->setExpectedException( 'RuntimeException' );
+		$this->expectException( 'RuntimeException' );
 		$creation	= $this->list->hasSection( "not_relevant" );
 	}
 
@@ -529,7 +529,7 @@ class Test_FS_File_INI_ReaderTest extends Test_Case
 	 */
 	public function testIsActivePropertyException1()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$creation	= $this->sections->isActiveProperty( 'key1' );
 	}
 
@@ -540,7 +540,7 @@ class Test_FS_File_INI_ReaderTest extends Test_Case
 	 */
 	public function testIsActivePropertyException2()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$creation	= $this->sections->isActiveProperty( 'key1', 'section3' );
 	}
 

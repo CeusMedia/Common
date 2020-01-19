@@ -69,7 +69,7 @@ class Test_Net_ReaderTest extends Test_Case
 	 */
 	public function testGetInfoException1()
 	{
-		$this->setExpectedException( "RuntimeException" );
+		$this->expectException( "RuntimeException" );
 		$this->reader->getInfo();
 	}
 
@@ -81,7 +81,7 @@ class Test_Net_ReaderTest extends Test_Case
 	public function testGetInfoException2()
 	{
 		$this->reader->read();
-		$this->setExpectedException( "InvalidArgumentException" );
+		$this->expectException( "InvalidArgumentException" );
 		var_dump( $this->reader->getInfo( "invalid_key" ) );
 	}
 
@@ -117,7 +117,7 @@ class Test_Net_ReaderTest extends Test_Case
 	 */
 	public function testReadException()
 	{
-		$this->setExpectedException( "RuntimeException" );
+		$this->expectException( "RuntimeException" );
 		$reader		= new Net_Reader( "" );
 		$reader->read();
 	}
@@ -170,7 +170,7 @@ class Test_Net_ReaderTest extends Test_Case
 	 */
 	public function testSetUrlException()
 	{
-		$this->setExpectedException( "InvalidArgumentException" );
+		$this->expectException( "InvalidArgumentException" );
 		$this->reader->setUrl( "" );
 	}
 }

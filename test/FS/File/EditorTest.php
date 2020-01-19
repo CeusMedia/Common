@@ -184,7 +184,7 @@ class Test_FS_File_EditorTest extends Test_Case
 	 */
 	public function testRenameException1()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$this->editor->rename( NULL );
 	}
 
@@ -195,7 +195,7 @@ class Test_FS_File_EditorTest extends Test_Case
 	 */
 	public function testRenameException2()
 	{
-		$this->setExpectedException( 'RuntimeException' );
+		$this->expectException( 'RuntimeException' );
 		$this->editor->rename( "not_existing_path/not_relevant.txt" );
 	}
 

@@ -55,7 +55,7 @@ class Test_ADT_OptionObjectTest extends Test_Case
 	 */
 	public function testConstructException1()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		new ADT_OptionObject( "string" );
 	}
 
@@ -66,7 +66,7 @@ class Test_ADT_OptionObjectTest extends Test_Case
 	 */
 	public function testConstructException2()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		new ADT_OptionObject( array( 1, 2 ) );
 	}
 
@@ -133,7 +133,7 @@ class Test_ADT_OptionObjectTest extends Test_Case
 	 */
 	public function testDeclareOptionsException1()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$object		= new ADT_OptionObject();
 		$object->declareOptions( "string" );
 	}
@@ -145,7 +145,7 @@ class Test_ADT_OptionObjectTest extends Test_Case
 	 */
 	public function testDeclareOptionsException2()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$object		= new ADT_OptionObject();
 		$object->declareOptions( array( "a", 1 )  );
 	}
@@ -191,7 +191,7 @@ class Test_ADT_OptionObjectTest extends Test_Case
 	 */
 	public function testGetOptionException()
 	{
-		$this->setExpectedException( 'OutOfRangeException' );
+		$this->expectException( 'OutOfRangeException' );
 		$this->object->getOption( 'not_existing' );
 	}
 

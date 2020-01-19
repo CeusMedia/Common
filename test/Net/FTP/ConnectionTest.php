@@ -120,7 +120,7 @@ class Test_Net_FTP_ConnectionTest extends Test_Case
 	public function testCheckConnectionException1()
 	{
 		$this->connection->close();
-		$this->setExpectedException( 'RuntimeException' );
+		$this->expectException( 'RuntimeException' );
 		$this->connection->checkConnection( TRUE, FALSE );
 	}
 
@@ -131,7 +131,7 @@ class Test_Net_FTP_ConnectionTest extends Test_Case
 	 */
 	public function testCheckConnectionException2()
 	{
-		$this->setExpectedException( 'RuntimeException' );
+		$this->expectException( 'RuntimeException' );
 		$this->connection->checkConnection( TRUE, TRUE );
 	}
 

@@ -94,7 +94,7 @@ class Test_Net_CURLTest extends Test_Case
 	public function testExecException1()
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
-		$this->setExpectedException( 'RuntimeException' );
+		$this->expectException( 'RuntimeException' );
 		Net_CURL::exec();
 	}
 
@@ -106,7 +106,7 @@ class Test_Net_CURLTest extends Test_Case
 	public function testExecException2()
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		Net_CURL::exec();
 	}
 
@@ -118,7 +118,7 @@ class Test_Net_CURLTest extends Test_Case
 	public function testExecException3()
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
-		$this->setExpectedException( 'RuntimeException' );
+		$this->expectException( 'RuntimeException' );
 		Net_CURL::exec();
 	}
 
@@ -169,7 +169,7 @@ class Test_Net_CURLTest extends Test_Case
 	public function testGetStatusException()
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
-		$this->setExpectedException( 'RuntimeException' );
+		$this->expectException( 'RuntimeException' );
 		Net_CURL::getStatus();
 	}
 
@@ -220,7 +220,7 @@ class Test_Net_CURLTest extends Test_Case
 	public function testSetOptionException1()
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		Net_CURL::setOption();
 	}
 
@@ -232,7 +232,7 @@ class Test_Net_CURLTest extends Test_Case
 	public function testSetOptionException2()
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		Net_CURL::setOption();
 	}
 

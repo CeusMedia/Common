@@ -143,7 +143,7 @@ class Test_UI_Image_WatermarkTest extends Test_Case
 	 */
 	public function testSetPositionException1()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$this->mark->setPosition( 'invalid', 'top' );
 	}
 
@@ -154,7 +154,7 @@ class Test_UI_Image_WatermarkTest extends Test_Case
 	 */
 	public function testSetPositionException2()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$this->mark->setPosition( 'left', 'invalid' );
 	}
 

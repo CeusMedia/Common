@@ -475,7 +475,7 @@ class Test_DB_PDO_TableReaderTest extends Test_Case{
 	 *	@return		void
 	 */
 	public function testFindWhereInException1(){
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$this->reader->findWhereIn( array( 'not_valid' ), "id", 1 );
 	}
 
@@ -485,7 +485,7 @@ class Test_DB_PDO_TableReaderTest extends Test_Case{
 	 *	@return		void
 	 */
 	public function testFindWhereInException2(){
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$this->reader->findWhereIn( "*", "not_valid", 1 );
 	}
 
@@ -602,7 +602,7 @@ class Test_DB_PDO_TableReaderTest extends Test_Case{
 	 *	@return		void
 	 */
 	public function testFocusIndexException(){
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$this->reader->focusIndex( 'not_an_index', 'not_relevant' );
 	}
 
@@ -807,7 +807,7 @@ class Test_DB_PDO_TableReaderTest extends Test_Case{
 	 *	@return		void
 	 */
 	public function testGetWithNoFocusException(){
-		$this->setExpectedException( 'RuntimeException' );
+		$this->expectException( 'RuntimeException' );
 		$this->reader->get();
 	}
 
@@ -983,7 +983,7 @@ class Test_DB_PDO_TableReaderTest extends Test_Case{
 	 *	@return		void
 	 */
 	public function testSetColumnsException1(){
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$this->reader->setColumns( "string" );
 	}
 
@@ -993,7 +993,7 @@ class Test_DB_PDO_TableReaderTest extends Test_Case{
 	 *	@return		void
 	 */
 	public function testSetColumnsException2(){
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$this->reader->setColumns( array() );
 	}
 
@@ -1017,7 +1017,7 @@ class Test_DB_PDO_TableReaderTest extends Test_Case{
 	 *	@return		void
 	 */
 	public function testSetDBConnection1(){
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$this->reader->setDBConnection( "string" );
 	}
 
@@ -1027,7 +1027,7 @@ class Test_DB_PDO_TableReaderTest extends Test_Case{
 	 *	@return		void
 	 */
 	public function testSetDBConnection2(){
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$this->reader->setDBConnection( new Test_Object );
 	}
 
@@ -1065,7 +1065,7 @@ class Test_DB_PDO_TableReaderTest extends Test_Case{
 	 *	@return		void
 	 */
 	public function testSetIndicesException1(){
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$this->reader->setIndices( array( 'not_existing' ) );
 	}
 
@@ -1075,7 +1075,7 @@ class Test_DB_PDO_TableReaderTest extends Test_Case{
 	 *	@return		void
 	 */
 	public function testSetIndicesException2(){
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$this->reader->setIndices( array( 'id' ) );
 	}
 
@@ -1098,7 +1098,7 @@ class Test_DB_PDO_TableReaderTest extends Test_Case{
 	 *	@return		void
 	 */
 	public function testSetPrimaryKeyException(){
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$this->reader->setPrimaryKey( 'not_existing' );
 	}
 

@@ -53,7 +53,7 @@ class Test_FS_File_NameFilterTest extends Test_Case
 	 */
 	public function testConstructException()
 	{
-		$this->setExpectedException( 'RuntimeException' );
+		$this->expectException( 'RuntimeException' );
 		$index	= new FS_File_NameFilter( "not_existing", "not_relevant" );
 	}
 

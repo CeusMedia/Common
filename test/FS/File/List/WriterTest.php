@@ -72,7 +72,7 @@ class Test_FS_File_List_WriterTest extends Test_Case
 	public function testAddException()
 	{
 		$this->writer->add( 'line1' );
-		$this->setExpectedException( 'DomainException' );
+		$this->expectException( 'DomainException' );
 		$this->writer->add( 'line1' );
 	}
 
@@ -104,7 +104,7 @@ class Test_FS_File_List_WriterTest extends Test_Case
 	{
 		$this->writer->add( 'line1' );
 		$this->writer->remove( 'line1' );
-		$this->setExpectedException( 'DomainException' );
+		$this->expectException( 'DomainException' );
 		$this->writer->remove( 'line1' );
 	}
 
@@ -142,7 +142,7 @@ class Test_FS_File_List_WriterTest extends Test_Case
 	 */
 	public function testRemoveIndexException()
 	{
-		$this->setExpectedException( 'DomainException' );
+		$this->expectException( 'DomainException' );
 		$this->writer->removeIndex( 10 );
 	}
 

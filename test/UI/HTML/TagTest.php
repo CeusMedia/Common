@@ -249,7 +249,7 @@ class Test_UI_HTML_TagTest extends Test_Case
 	 */
 	public function testSetAttributeException1_1()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$this->tag->setAttribute( NULL, 'value' );
 	}
 
@@ -260,7 +260,7 @@ class Test_UI_HTML_TagTest extends Test_Case
 	 */
 	public function testSetAttributeException1_2()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$this->tag->setAttribute( FALSE, 'value' );
 	}
 
@@ -271,7 +271,7 @@ class Test_UI_HTML_TagTest extends Test_Case
 	 */
 	public function testSetAttributeException1_3()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$this->tag->setAttribute( '', 'value' );
 	}
 
@@ -282,7 +282,7 @@ class Test_UI_HTML_TagTest extends Test_Case
 	 */
 	public function testSetAttributeException2_1()
 	{
-		$this->setExpectedException( 'RuntimeException' );
+		$this->expectException( 'RuntimeException' );
 		$this->tag->setAttribute( 'key1', 'value' );
 		$this->tag->setAttribute( 'key1', 'value' );
 	}
@@ -294,7 +294,7 @@ class Test_UI_HTML_TagTest extends Test_Case
 	 */
 	public function testSetAttributeException2_2()
 	{
-		$this->setExpectedException( 'RuntimeException' );
+		$this->expectException( 'RuntimeException' );
 		$this->tag->setAttribute( 'KEY1', 'value' );
 		$this->tag->setAttribute( 'key1', 'value' );
 	}
@@ -306,7 +306,7 @@ class Test_UI_HTML_TagTest extends Test_Case
 	 */
 	public function testSetAttributeException3_1()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$this->tag->setAttribute( 'invalid!', 'value' );
 	}
 
@@ -317,7 +317,7 @@ class Test_UI_HTML_TagTest extends Test_Case
 	 */
 	public function testSetAttributeException3_2()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$this->tag->setAttribute( 'with_space ', 'value' );
 	}
 

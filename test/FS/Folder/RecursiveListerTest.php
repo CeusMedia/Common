@@ -75,7 +75,7 @@ class Test_FS_Folder_RecursiveListerTest extends Test_FS_Folder_TestCase
 	 */
 	public function testGetListException()
 	{
-		$this->setExpectedException( 'RuntimeException' );
+		$this->expectException( 'RuntimeException' );
 		$this->lister2->getList( "not_relevant" );
 	}
 
@@ -162,7 +162,7 @@ class Test_FS_Folder_RecursiveListerTest extends Test_FS_Folder_TestCase
 	 */
 	public function testGetFileListException()
 	{
-		$this->setExpectedException( 'RuntimeException' );
+		$this->expectException( 'RuntimeException' );
 		$index	= FS_Folder_RecursiveLister::getFileList( "not_existing" );
 	}
 
@@ -225,7 +225,7 @@ class Test_FS_Folder_RecursiveListerTest extends Test_FS_Folder_TestCase
 	 */
 	public function testGetFolderListException()
 	{
-		$this->setExpectedException( 'RuntimeException' );
+		$this->expectException( 'RuntimeException' );
 		$index	= FS_Folder_RecursiveLister::getFolderList( "not_existing" );
 	}
 
@@ -314,7 +314,7 @@ class Test_FS_Folder_RecursiveListerTest extends Test_FS_Folder_TestCase
 	 */
 	public function testGetMixedListException()
 	{
-		$this->setExpectedException( 'RuntimeException' );
+		$this->expectException( 'RuntimeException' );
 		$index	= FS_Folder_RecursiveLister::getMixedList( "not_existing" );
 	}
 

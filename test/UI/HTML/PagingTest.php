@@ -215,7 +215,7 @@ class Test_UI_HTML_PagingTest extends Test_Case
 	 */
 	public function testBuildException()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$this->paging->setOption( 'text_first', '' );
 		$this->paging->build( 100, 10, 50 );
 	}

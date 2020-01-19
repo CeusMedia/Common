@@ -61,7 +61,7 @@ class Test_FS_File_List_EditorTest extends Test_Case
 	 */
 	public function testAddException()
 	{
-		$this->setExpectedException( 'DomainException' );
+		$this->expectException( 'DomainException' );
 		$this->editor->add( 'line1' );
 	}
 
@@ -88,7 +88,7 @@ class Test_FS_File_List_EditorTest extends Test_Case
 	 */
 	public function testEditException()
 	{
-		$this->setExpectedException( 'DomainException' );
+		$this->expectException( 'DomainException' );
 		$this->editor->edit( "not_existing", "not_relevant" );
 	}
 
@@ -131,7 +131,7 @@ class Test_FS_File_List_EditorTest extends Test_Case
 	public function testRemoveException()
 	{
 		$this->editor->remove( 'line1' );
-		$this->setExpectedException( 'DomainException' );
+		$this->expectException( 'DomainException' );
 		$this->editor->remove( 'line1' );
 	}
 
@@ -166,7 +166,7 @@ class Test_FS_File_List_EditorTest extends Test_Case
 	 */
 	public function testRemoveIndexException()
 	{
-		$this->setExpectedException( 'DomainException' );
+		$this->expectException( 'DomainException' );
 		$this->editor->removeIndex( 10 );
 	}
 

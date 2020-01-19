@@ -88,7 +88,7 @@ class Test_FS_File_LockTest extends Test_Case
 	 */
 	public function testLockException()
 	{
-		$this->setExpectedException( 'RuntimeException' );
+		$this->expectException( 'RuntimeException' );
 		$this->assertTrue( $this->lock->lock() );
 		$creation	= $this->lock->lock();
 	}

@@ -57,7 +57,7 @@ class Test_FS_File_List_ReaderTest extends Test_Case
 	 */
 	public function testGetIndexException()
 	{
-		$this->setExpectedException( 'DomainException' );
+		$this->expectException( 'DomainException' );
 		$this->reader->getIndex( "not_existing" );
 	}
 
@@ -132,7 +132,7 @@ class Test_FS_File_List_ReaderTest extends Test_Case
 	 */
 	public function testReadException()
 	{
-		$this->setExpectedException( 'RuntimeException' );
+		$this->expectException( 'RuntimeException' );
 		FS_File_List_Reader::read( "not_existing" );
 	}
 

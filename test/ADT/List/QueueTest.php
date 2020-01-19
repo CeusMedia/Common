@@ -19,23 +19,14 @@ require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
 class Test_ADT_List_QueueTest extends Test_Case
 {
 	/**
-	 *	Constructor.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function __construct()
-	{
-		$this->array	= array( 1, 2, 3 );
-		$this->queue	= new ADT_List_Queue( $this->array );
-	}
-
-	/**
 	 *	Setup for every Test.
 	 *	@access		public
 	 *	@return		void
 	 */
 	public function setUp()
 	{
+		$this->array	= array( 1, 2, 3 );
+		$this->queue	= new ADT_List_Queue( $this->array );
 	}
 
 	/**
@@ -88,7 +79,7 @@ class Test_ADT_List_QueueTest extends Test_Case
 		$creation	= $this->queue->bottom();
 		$creation	= $this->queue->bottom();
 		$creation	= $this->queue->bottom();
-		$this->setExpectedException( "RuntimeException" );
+		$this->expectException( "RuntimeException" );
 		$creation	= $this->queue->bottom();
 	}
 
@@ -135,7 +126,7 @@ class Test_ADT_List_QueueTest extends Test_Case
 		$creation	= $this->queue->pop();
 		$creation	= $this->queue->pop();
 		$creation	= $this->queue->pop();
-		$this->setExpectedException( "RuntimeException" );
+		$this->expectException( "RuntimeException" );
 		$creation	= $this->queue->pop();
 	}
 

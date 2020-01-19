@@ -38,7 +38,7 @@ class Test_UI_Image_PrinterTest extends Test_Case
 
 	public function testConstructException()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		new UI_Image_Printer( "not_a_resource" );
 	}
 
@@ -84,7 +84,7 @@ class Test_UI_Image_PrinterTest extends Test_Case
 
 	public function testShowException()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$resource	= imagecreatefrompng( $this->path."sourceCreator.png" );
 		$printer	= new UI_Image_Printer( $resource );
 		$printer->show( 15, 0 );
@@ -126,7 +126,7 @@ class Test_UI_Image_PrinterTest extends Test_Case
 
 	public function testSaveException()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$resource	= imagecreatefrompng( $this->path."sourceCreator.png" );
 		$printer	= new UI_Image_Printer( $resource );
 		$printer->save( $this->path."targetPrinter.png", 15, 0 );

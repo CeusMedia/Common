@@ -55,7 +55,7 @@ class Test_XML_DOM_XPathQueryTest extends Test_Case
 	 */
 	public function testLoadFileException()
 	{
-		$this->setExpectedException( 'Exception' );
+		$this->expectException( 'Exception' );
 		$entries	= $this->xPath->loadFile( "http://www.example.com/notexisting.xml" );
 	}
 
@@ -82,7 +82,7 @@ class Test_XML_DOM_XPathQueryTest extends Test_Case
 	 */
 	public function testLoadXmlException()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$this->xPath->loadXml( "not_valid" );
 	}
 

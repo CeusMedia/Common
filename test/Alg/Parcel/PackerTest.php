@@ -147,7 +147,7 @@ class Test_Alg_Parcel_PackerTest extends Test_Case
 	public function testGetPacketException()
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
-		$this->setExpectedException( 'OutOfRangeException' );
+		$this->expectException( 'OutOfRangeException' );
 		Alg_Parcel_Packer::getPacket();
 	}
 
@@ -159,7 +159,7 @@ class Test_Alg_Parcel_PackerTest extends Test_Case
 	public function testReplacePacketException()
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
-		$this->setExpectedException( 'OutOfRangeException' );
+		$this->expectException( 'OutOfRangeException' );
 		Alg_Parcel_Packer::replacePacket();
 	}
 

@@ -47,7 +47,7 @@ class Test_FS_Folder_IteratorTest extends Test_FS_Folder_TestCase
 	 */
 	public function testConstructException()
 	{
-		$this->setExpectedException( 'RuntimeException' );
+		$this->expectException( 'RuntimeException' );
 		$index	= new FS_Folder_Iterator( "not_existing" );
 	}
 

@@ -118,7 +118,7 @@ class Test_XML_Atom_ReaderTest extends Test_Case
 	public function testCheckEntryIndexException()
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		XML_Atom_Reader::checkEntryIndex();
 	}
 

@@ -61,7 +61,7 @@ class Test_FS_File_WriterTest extends Test_Case
 	 */
 	public function testCreateException()
 	{
-		$this->setExpectedException( 'RuntimeException' );
+		$this->expectException( 'RuntimeException' );
 		$writer	= new FS_File_Writer( "not_existing_folder/file" );
 		$writer->create();
 	}
@@ -105,7 +105,7 @@ class Test_FS_File_WriterTest extends Test_Case
 	public function testSetGroupException()
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$this->writer->setGroup();
 	}
 
@@ -130,7 +130,7 @@ class Test_FS_File_WriterTest extends Test_Case
 	public function testSetOwnerException()
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$this->writer->setOwner();
 	}
 
@@ -155,7 +155,7 @@ class Test_FS_File_WriterTest extends Test_Case
 	public function testSetPermissionsException()
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$this->writer->setPermissions();
 	}
 
@@ -213,7 +213,7 @@ class Test_FS_File_WriterTest extends Test_Case
 	 */
 	public function testSaveException()
 	{
-		$this->setExpectedException( 'RuntimeException' );
+		$this->expectException( 'RuntimeException' );
 		FS_File_Writer::save( "not_existing_folder/file", $this->fileContent );
 	}
 
@@ -243,7 +243,7 @@ class Test_FS_File_WriterTest extends Test_Case
 	 */
 	public function testSaveArrayException()
 	{
-		$this->setExpectedException( 'RuntimeException' );
+		$this->expectException( 'RuntimeException' );
 		FS_File_Writer::saveArray( "not_existing_folder/file", array() );
 	}
 
@@ -272,7 +272,7 @@ class Test_FS_File_WriterTest extends Test_Case
 	 */
 	public function testWriteStringException()
 	{
-		$this->setExpectedException( 'RuntimeException' );
+		$this->expectException( 'RuntimeException' );
 		$writer	= new FS_File_Writer( "not_existing_folder/file" );
 		$writer->writeString( "" );
 	}
@@ -303,7 +303,7 @@ class Test_FS_File_WriterTest extends Test_Case
 	 */
 	public function testWriteArrayException()
 	{
-		$this->setExpectedException( 'RuntimeException' );
+		$this->expectException( 'RuntimeException' );
 		$writer	= new FS_File_Writer( "not_existing_folder/file" );
 		$writer->writeArray( array() );
 	}

@@ -138,7 +138,7 @@ class Test_XML_RSS_BuilderTest extends Test_Case
 	 */
 	public function testBuildException()
 	{
-		$this->setExpectedException( 'DomainException' );
+		$this->expectException( 'DomainException' );
 		$this->builder->build();
 	}
 

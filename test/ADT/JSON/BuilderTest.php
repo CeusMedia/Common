@@ -5,7 +5,12 @@
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@version		0.1
  */
-require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
+declare( strict_types = 1 );
+
+use PHPUnit\Framework\TestCase;
+
+require_once dirname( dirname( __DIR__ ) ).'/init.php';
+
 /**
  *	TestUnit of LinkList
  *	@package		Tests.adt.json
@@ -14,14 +19,14 @@ require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@version		0.1
  */
-class Test_ADT_JSON_BuilderTest extends Test_Case
+class Test_ADT_JSON_BuilderTest extends TestCase
 {
 	/**
 	 *	Constructor.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function __construct()
+	public function setUp()
 	{
 		$this->object		= new Test_Object();
 		$this->object->a	= "test";
@@ -68,12 +73,12 @@ class Test_ADT_JSON_BuilderTest extends Test_Case
 
 	/**
 	 *	Tests Exception of Method 'encodeStatic'.
-	 *	@access		public
-	 *	@return		void
+	 *	@access					public
+	 *	@return					void
+	 *	@expectedException		InvalidArgumentException
 	 */
 	public function testEncodeStaticException()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
 		ADT_JSON_Builder::encode( dir( dirname( __FILE__ ) ) );
 	}
 }

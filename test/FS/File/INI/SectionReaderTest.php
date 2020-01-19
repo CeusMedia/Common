@@ -82,7 +82,7 @@ class Test_FS_File_INI_SectionReaderTest extends Test_Case
 	 */
 	public function testGetPropertiesException()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$creation	= $this->reader->getProperties( 'section3' );
 	}
 
@@ -105,7 +105,7 @@ class Test_FS_File_INI_SectionReaderTest extends Test_Case
 	 */
 	public function testGetPropertyException1()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$creation	= $this->reader->getProperty( 'section3', 'not_relevant' );
 	}
 
@@ -116,7 +116,7 @@ class Test_FS_File_INI_SectionReaderTest extends Test_Case
 	 */
 	public function testGetPropertyException2()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$creation	= $this->reader->getProperty( 'section1', 'invalid_key' );
 	}
 

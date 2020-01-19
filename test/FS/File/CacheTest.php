@@ -94,7 +94,7 @@ final class Test_FS_File_CacheTest extends Test_Case
 	 */
 	public function test__constructException()
 	{
-		$this->setExpectedException( 'RuntimeException' );
+		$this->expectException( 'RuntimeException' );
 		new FS_File_Cache( "not_existing" );
 	}
 
@@ -127,7 +127,7 @@ final class Test_FS_File_CacheTest extends Test_Case
 	public function testCleanUpException1()
 	{
 		$cache	= new FS_File_Cache( $this->pathCache );
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$cache->cleanUp();
 	}
 
@@ -139,7 +139,7 @@ final class Test_FS_File_CacheTest extends Test_Case
 	public function testCleanUpException2()
 	{
 		$cache	= new FS_File_Cache( $this->pathCache, 0 );
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$cache->cleanUp();
 	}
 

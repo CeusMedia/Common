@@ -88,14 +88,14 @@ class Test_UI_Image_CreatorTest extends Test_Case
 
 	public function testLoadImageException1()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$image	= new UI_Image_Creator();
 		$image->loadImage( $this->path."not_existing.gif" );
 	}
 
 	public function testLoadImageException2()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$image	= new UI_Image_Creator();
 		$image->loadImage( $this->path."CreatorTest.php" );
 	}

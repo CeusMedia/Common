@@ -96,7 +96,7 @@ class Test_Alg_HtmlParserTest extends Test_Case
 	 */
 	public function testGetDescriptionException()
 	{
-		$this->setExpectedException( 'RuntimeException' );
+		$this->expectException( 'RuntimeException' );
 		$parser	= new Alg_HtmlParser();
 		$parser->parseHtml( "<html>" );
 		$parser->getDescription();
@@ -157,7 +157,7 @@ class Test_Alg_HtmlParserTest extends Test_Case
 	 */
 	public function testGetFavoriteIconException()
 	{
-		$this->setExpectedException( 'RuntimeException' );
+		$this->expectException( 'RuntimeException' );
 
 		$parser		= new Alg_HtmlParser();
 		$parser->parseHtml( '<html>' );
@@ -240,7 +240,7 @@ class Test_Alg_HtmlParserTest extends Test_Case
 	 */
 	public function testGetKeyWordsException()
 	{
-		$this->setExpectedException( 'RuntimeException' );
+		$this->expectException( 'RuntimeException' );
 		$parser		= new Alg_HtmlParser();
 		$parser->parseHtml( '<html>' );
 		$parser->getKeyWords();
@@ -272,7 +272,7 @@ class Test_Alg_HtmlParserTest extends Test_Case
 	 */
 	public function testGetLanguageException()
 	{
-		$this->setExpectedException( 'RuntimeException' );
+		$this->expectException( 'RuntimeException' );
 		$parser	= new Alg_HtmlParser();
 		$parser->parseHtml( "<html>" );
 		$parser->getLanguage();
@@ -473,7 +473,7 @@ class Test_Alg_HtmlParserTest extends Test_Case
 	 */
 	public function testGetTagByIdException()
 	{
-		$this->setExpectedException( 'RuntimeException' );
+		$this->expectException( 'RuntimeException' );
 		$this->parser->getTagById( 'not_existing' );
 	}
 
@@ -563,7 +563,7 @@ class Test_Alg_HtmlParserTest extends Test_Case
 	 */
 	public function testGetTitleException()
 	{
-		$this->setExpectedException( 'RuntimeException' );
+		$this->expectException( 'RuntimeException' );
 		$parser	= new Alg_HtmlParser();
 		$parser->parseHtml( "<html>" );
 		$parser->getTitle();

@@ -74,7 +74,7 @@ class Test_FS_File_PHP_Check_MethodVisibilityTest extends Test_Case
 	 */
 	public function testConstructException()
 	{
-		$this->setExpectedException( 'RuntimeException' );
+		$this->expectException( 'RuntimeException' );
 		$index	= new FS_File_PHP_Check_MethodVisibility( "not_existing" );
 	}
 

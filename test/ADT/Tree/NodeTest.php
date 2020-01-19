@@ -19,15 +19,6 @@ require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
 class Test_ADT_Tree_NodeTest extends Test_Case
 {
 	/**
-	 *	Constructor.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function __construct()
-	{
-	}
-
-	/**
 	 *	Setup for every Test.
 	 *	@access		public
 	 *	@return		void
@@ -66,7 +57,7 @@ class Test_ADT_Tree_NodeTest extends Test_Case
 	 */
 	public function testAddChildException()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$this->node->addChild( "string", "testString" );
 		$this->node->addChild( "string", "testString" );
 	}
@@ -130,7 +121,7 @@ class Test_ADT_Tree_NodeTest extends Test_Case
 	 */
 	public function testGetChildException()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$this->node->getChild( 'not_existing' );
 	}
 

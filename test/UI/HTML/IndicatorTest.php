@@ -221,7 +221,7 @@ class Test_UI_HTML_IndicatorTest extends Test_Case
 	 */
 	public function testSetOptionException()
 	{
-		$this->setExpectedException( 'OutOfRangeException' );
+		$this->expectException( 'OutOfRangeException' );
 		$creation	= $this->indicator->setOption( 'not_existing', 'not_relevant' );
 	}
 

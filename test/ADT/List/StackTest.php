@@ -19,15 +19,6 @@ require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
 class Test_ADT_List_StackTest extends Test_Case
 {
 	/**
-	 *	Constructor.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function __construct()
-	{
-	}
-
-	/**
 	 *	Setup for every Test.
 	 *	@access		public
 	 *	@return		void
@@ -88,7 +79,7 @@ class Test_ADT_List_StackTest extends Test_Case
 		$creation	= $this->stack->bottom();
 		$creation	= $this->stack->bottom();
 		$creation	= $this->stack->bottom();
-		$this->setExpectedException( "RuntimeException" );
+		$this->expectException( "RuntimeException" );
 		$creation	= $this->stack->bottom();
 	}
 
@@ -172,7 +163,7 @@ class Test_ADT_List_StackTest extends Test_Case
 		$this->stack->pop();
 		$this->stack->pop();
 		$this->stack->pop();
-		$this->setExpectedException( "RuntimeException" );
+		$this->expectException( "RuntimeException" );
 		$this->stack->pop();
 	}
 

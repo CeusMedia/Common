@@ -105,13 +105,13 @@ final class Test_Alg_Object_ConstantTest extends Test_Case
 
 	public function testGetKeyByValueException1()
 	{
-		$this->setExpectedException( 'RangeException' );
+		$this->expectException( 'RangeException' );
 		$this->object->getKeyByValue( 3, 'A' );
 	}
 
 	public function testGetKeyByValueException2()
 	{
-		$this->setExpectedException( 'RangeException' );
+		$this->expectException( 'RangeException' );
 		$this->object->getKeyByValue( 1 );
 	}
 
@@ -128,13 +128,13 @@ final class Test_Alg_Object_ConstantTest extends Test_Case
 
 	public function testGetValueException1()
 	{
-		$this->setExpectedException( 'DomainException' );
+		$this->expectException( 'DomainException' );
 		$this->object->getValue( 'A_2' );
 	}
 
 	public function testGetValueException2()
 	{
-		$this->setExpectedException( 'DomainException' );
+		$this->expectException( 'DomainException' );
 		$this->object->getValue( '2', 'A' );
 	}
 }

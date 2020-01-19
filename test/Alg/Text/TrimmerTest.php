@@ -78,7 +78,7 @@ class Test_Alg_Text_TrimmerTest extends Test_Case
 	 */
 	public function testTrimCentricException1()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		Alg_Text_Trimmer::trimCentric( "not_relevant", 2 );
 	}
 
@@ -89,7 +89,7 @@ class Test_Alg_Text_TrimmerTest extends Test_Case
 	 */
 	public function testTrimCentricException2()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		Alg_Text_Trimmer::trimCentric( "not_relevant", 3 );
 	}
 
@@ -100,7 +100,7 @@ class Test_Alg_Text_TrimmerTest extends Test_Case
 	 */
 	public function testTrimCentricException3()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		Alg_Text_Trimmer::trimCentric( "not_relevant", 4, "1234" );
 	}
 

@@ -25,7 +25,7 @@ class Test_Alg_PREG_MatchTest extends Test_Case
 	 */
 	public function testAcceptException1()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		Alg_PREG_Match::accept( 0.1, "not_relevant" );
 	}
 
@@ -36,7 +36,7 @@ class Test_Alg_PREG_MatchTest extends Test_Case
 	 */
 	public function testAcceptException2()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		Alg_PREG_Match::accept( "not_relevant", 0.1 );
 	}
 
@@ -47,7 +47,7 @@ class Test_Alg_PREG_MatchTest extends Test_Case
 	 */
 	public function testAcceptException3()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		Alg_PREG_Match::accept( "not_relevant", "not_relevant", 0.1 );
 	}
 
@@ -58,7 +58,7 @@ class Test_Alg_PREG_MatchTest extends Test_Case
 	 */
 	public function testAcceptException4()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		Alg_PREG_Match::accept( "[A-z", "haystack" );
 	}
 

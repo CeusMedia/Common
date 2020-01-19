@@ -111,7 +111,7 @@ class Test_FS_File_INI_EditorTest extends Test_Case
 	 */
 	public function testActivatePropertyException1()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$this->list->activateProperty( 'invalid_key' );
 	}
 
@@ -122,7 +122,7 @@ class Test_FS_File_INI_EditorTest extends Test_Case
 	 */
 	public function testActivatePropertyException2()
 	{
-		$this->setExpectedException( 'LogicException' );
+		$this->expectException( 'LogicException' );
 		$this->list->activateProperty( 'key1' );
 	}
 
@@ -133,7 +133,7 @@ class Test_FS_File_INI_EditorTest extends Test_Case
 	 */
 	public function testActivatePropertyException3()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$this->sections->activateProperty( 'invalid_key', 'section1' );
 	}
 
@@ -144,7 +144,7 @@ class Test_FS_File_INI_EditorTest extends Test_Case
 	 */
 	public function testActivatePropertyException4()
 	{
-		$this->setExpectedException( 'LogicException' );
+		$this->expectException( 'LogicException' );
 		$this->sections->activateProperty( 'key1', 'section1' );
 	}
 
@@ -203,7 +203,7 @@ class Test_FS_File_INI_EditorTest extends Test_Case
 	 */
 	public function testAddSectionException()
 	{
-		$this->setExpectedException( 'RuntimeException' );
+		$this->expectException( 'RuntimeException' );
 		$this->list->addSection( "not_relevant" );
 	}
 
@@ -238,7 +238,7 @@ class Test_FS_File_INI_EditorTest extends Test_Case
 	 */
 	public function testDeactivatePropertyException1()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$this->list->deactivateProperty( 'invalid_key' );
 	}
 
@@ -249,7 +249,7 @@ class Test_FS_File_INI_EditorTest extends Test_Case
 	 */
 	public function testDeactivatePropertyException2()
 	{
-		$this->setExpectedException( 'LogicException' );
+		$this->expectException( 'LogicException' );
 		$this->list->deactivateProperty( 'key5' );
 	}
 
@@ -260,7 +260,7 @@ class Test_FS_File_INI_EditorTest extends Test_Case
 	 */
 	public function testDeactivatePropertyException3()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$this->sections->deactivateProperty( 'invalid_key', 'section2' );
 	}
 
@@ -271,7 +271,7 @@ class Test_FS_File_INI_EditorTest extends Test_Case
 	 */
 	public function testDeactivatePropertyException4()
 	{
-		$this->setExpectedException( 'LogicException' );
+		$this->expectException( 'LogicException' );
 		$this->sections->deactivateProperty( 'key5', 'section2' );
 	}
 
@@ -306,7 +306,7 @@ class Test_FS_File_INI_EditorTest extends Test_Case
 	 */
 	public function testDeletePropertyException1()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$this->list->deleteProperty( 'invalid_key' );
 	}
 
@@ -317,7 +317,7 @@ class Test_FS_File_INI_EditorTest extends Test_Case
 	 */
 	public function testDeletePropertyException2()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$this->sections->deleteProperty( 'invalid_key', 'section2' );
 	}
 
@@ -360,7 +360,7 @@ class Test_FS_File_INI_EditorTest extends Test_Case
 	 */
 	public function testRenamePropertyException1()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$this->list->renameProperty( 'invalid_key', "not_relevant" );
 	}
 
@@ -371,7 +371,7 @@ class Test_FS_File_INI_EditorTest extends Test_Case
 	 */
 	public function testRenamePropertyException2()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$this->sections->renameProperty( 'invalid_key', "not_relevant", 'section1' );
 	}
 
@@ -402,7 +402,7 @@ class Test_FS_File_INI_EditorTest extends Test_Case
 	 */
 	public function testRenameSectionException()
 	{
-		$this->setExpectedException( 'RuntimeException' );
+		$this->expectException( 'RuntimeException' );
 		$this->list->renameSection( "not_relevant", "not_relevant" );
 	}
 
@@ -429,7 +429,7 @@ class Test_FS_File_INI_EditorTest extends Test_Case
 	 */
 	public function testRemoveSectionException1()
 	{
-		$this->setExpectedException( 'RuntimeException' );
+		$this->expectException( 'RuntimeException' );
 		$this->list->removeSection( "not_relevant" );
 	}
 
@@ -440,7 +440,7 @@ class Test_FS_File_INI_EditorTest extends Test_Case
 	 */
 	public function testRemoveSectionException2()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$this->sections->removeSection( 'invalid_section' );
 	}
 
@@ -475,7 +475,7 @@ class Test_FS_File_INI_EditorTest extends Test_Case
 	 */
 	public function testSetCommentException1()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$this->list->setComment( 'invalid_key', "not_relevant" );
 	}
 
@@ -486,7 +486,7 @@ class Test_FS_File_INI_EditorTest extends Test_Case
 	 */
 	public function testSetCommentException2()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$this->sections->setComment( 'invalid_key', "not_relevant", 'section1' );
 	}
 

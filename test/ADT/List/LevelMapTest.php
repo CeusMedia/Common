@@ -99,7 +99,7 @@ class Test_ADT_List_LevelMapTest extends Test_Case
 	 */
 	public function testGetException()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$this->map->get( "" );
 	}
 
@@ -142,7 +142,7 @@ class Test_ADT_List_LevelMapTest extends Test_Case
 	 */
 	public function testHasException()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$this->map->has( "" );
 	}
 
@@ -183,7 +183,7 @@ class Test_ADT_List_LevelMapTest extends Test_Case
 	 */
 	public function testRemoveException()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$this->map->remove( "" );
 	}
 
@@ -279,7 +279,7 @@ class Test_ADT_List_LevelMapTest extends Test_Case
 	 */
 	public function testSetException()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$this->map->set( "", "" );
 	}
 }

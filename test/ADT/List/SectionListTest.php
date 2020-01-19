@@ -22,15 +22,6 @@ class Test_ADT_List_SectionListTest extends Test_Case
 	private $list;
 
 	/**
-	 *	Constructor.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function __construct()
-	{
-	}
-
-	/**
 	 *	Setup for every Test.
 	 *	@access		public
 	 *	@return		void
@@ -74,7 +65,7 @@ class Test_ADT_List_SectionListTest extends Test_Case
 	 */
 	public function testAddEntryException()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$this->list->addEntry( "entry11", "section1" );
 	}
 
@@ -152,7 +143,7 @@ class Test_ADT_List_SectionListTest extends Test_Case
 	 */
 	public function testGetEntryException()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$this->list->getEntry( 9999, "section1" );
 	}
 
@@ -175,7 +166,7 @@ class Test_ADT_List_SectionListTest extends Test_Case
 	 */
 	public function testGetEntriesException()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$this->list->getEntries( "invalid" );
 	}
 
@@ -236,7 +227,7 @@ class Test_ADT_List_SectionListTest extends Test_Case
 	 */
 	public function testGetSectionOfEntryException()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$this->list->getSectionOfEntry( "invalid" );
 	}
 
@@ -277,7 +268,7 @@ class Test_ADT_List_SectionListTest extends Test_Case
 	 */
 	public function testRemoveEntryException()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$this->list->removeEntry( "invalid", "section1" );
 	}
 
@@ -301,7 +292,7 @@ class Test_ADT_List_SectionListTest extends Test_Case
 	 */
 	public function testRemoveSectionException()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$this->list->removeSection( "invalid" );
 	}
 }

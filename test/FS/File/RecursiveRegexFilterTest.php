@@ -66,7 +66,7 @@ class Test_FS_File_RecursiveRegexFilterTest extends Test_Case
 	 */
 	public function testConstructException()
 	{
-		$this->setExpectedException( 'RuntimeException' );
+		$this->expectException( 'RuntimeException' );
 		$index	= new FS_File_RecursiveRegexFilter( "not_existing", "@not_relevant@" );
 	}
 

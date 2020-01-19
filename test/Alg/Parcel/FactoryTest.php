@@ -112,7 +112,7 @@ class Test_Alg_Parcel_FactoryTest extends Test_Case
 	 */
 	public function testProduceException1()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$this->factory->produce( "not_existing", array( 'a' => 1 ) );
 	}
 
@@ -123,7 +123,7 @@ class Test_Alg_Parcel_FactoryTest extends Test_Case
 	 */
 	public function testProduceException2()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$this->factory->produce( "small", array( 'not_existing' => 1 ) );
 	}
 
@@ -134,7 +134,7 @@ class Test_Alg_Parcel_FactoryTest extends Test_Case
 	 */
 	public function testProduceException3()
 	{
-		$this->setExpectedException( 'OutOfRangeException' );
+		$this->expectException( 'OutOfRangeException' );
 		$this->factory->produce( "small", array( 'b' => 5 ) );
 	}
 }

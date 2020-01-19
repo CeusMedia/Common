@@ -150,7 +150,7 @@ class Test_XML_DOM_NodeTest extends Test_Case
 	 */
 	public function testGetChildException()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$this->node->getChild( "not_existing" );
 	}
 

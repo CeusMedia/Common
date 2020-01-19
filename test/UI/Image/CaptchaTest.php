@@ -170,7 +170,7 @@ class Test_UI_Image_CaptchaTest extends Test_Case
 	public function testGenerateImageException1()
 	{
 		$this->captcha->textColor	= "not_an_array";
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$this->captcha->generateImage( "not_relevant", "not_relevant" );
 	}
 
@@ -182,7 +182,7 @@ class Test_UI_Image_CaptchaTest extends Test_Case
 	public function testGenerateImageException2()
 	{
 		$this->captcha->textColor	= array( 1, 2 );
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$this->captcha->generateImage( "not_relevant", "not_relevant" );
 	}
 
@@ -194,7 +194,7 @@ class Test_UI_Image_CaptchaTest extends Test_Case
 	public function testGenerateImageException3()
 	{
 		$this->captcha->background	= "not_an_array";
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$this->captcha->generateImage( "not_relevant", "not_relevant" );
 	}
 
@@ -206,7 +206,7 @@ class Test_UI_Image_CaptchaTest extends Test_Case
 	public function testGenerateImageException4()
 	{
 		$this->captcha->background	= array( 1, 2 );
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$this->captcha->generateImage( "not_relevant", "not_relevant" );
 	}
 }

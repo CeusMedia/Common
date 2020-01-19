@@ -161,7 +161,7 @@ class Test_DB_PDO_TableWriterTest extends Test_Case{
 	 *	@return		void
 	 */
 	public function testDeleteException1(){
-		$this->setExpectedException( 'RuntimeException' );
+		$this->expectException( 'RuntimeException' );
 		$this->writer->delete();
 	}
 
@@ -279,7 +279,7 @@ class Test_DB_PDO_TableWriterTest extends Test_Case{
 	 *	@return		void
 	 */
 	public function testUpdateException1(){
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$this->writer->updateByConditions( array() );
 	}
 
@@ -289,7 +289,7 @@ class Test_DB_PDO_TableWriterTest extends Test_Case{
 	 *	@return		void
 	 */
 	public function testUpdateException2(){
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$this->writer->focusPrimary( 9999 );
 		$this->writer->update( array( 'label' => 'not_relevant' ));
 	}
@@ -341,7 +341,7 @@ class Test_DB_PDO_TableWriterTest extends Test_Case{
 	 *	@return		void
 	 */
 	public function testUpdateByConditionsException1(){
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$this->writer->updateByConditions( array(), array( 'label' => 'not_relevant' ) );
 	}
 
@@ -351,7 +351,7 @@ class Test_DB_PDO_TableWriterTest extends Test_Case{
 	 *	@return		void
 	 */
 	public function testUpdateByConditionsException2(){
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$this->writer->updateByConditions( array( 'label' => 'not_relevant' ), array() );
 	}
 

@@ -79,7 +79,7 @@ class Test_FS_File_CSV_IteratorTest extends Test_Case
 	 */
 	public function test__constructException()
 	{
-		$this->setExpectedException( 'RuntimeException' );
+		$this->expectException( 'RuntimeException' );
 		new FS_File_CSV_Iterator( 'not_existing' );
 	}
 

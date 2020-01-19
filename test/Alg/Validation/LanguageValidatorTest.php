@@ -53,7 +53,7 @@ class Test_Alg_Validation_LanguageValidatorTest extends Test_Case
 	 */
 	public function testConstructException1()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		new Alg_Validation_LanguageValidator( "string" );
 	}
 
@@ -64,7 +64,7 @@ class Test_Alg_Validation_LanguageValidatorTest extends Test_Case
 	 */
 	public function testConstructException2()
 	{
-		$this->setExpectedException( 'RangeException' );
+		$this->expectException( 'RangeException' );
 		new Alg_Validation_LanguageValidator( array() );
 	}
 
@@ -75,7 +75,7 @@ class Test_Alg_Validation_LanguageValidatorTest extends Test_Case
 	 */
 	public function testConstructException3()
 	{
-		$this->setExpectedException( 'OutOfRangeException' );
+		$this->expectException( 'OutOfRangeException' );
 		new Alg_Validation_LanguageValidator( array( "de" ), "fr" );
 	}
 

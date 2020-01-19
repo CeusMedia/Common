@@ -72,7 +72,7 @@ class Test_DB_StatementCollectionTest extends Test_Case
 	 */
 	public function testAddComponentException()
 	{
-		$this->setExpectedException( 'BadMethodCallException' );
+		$this->expectException( 'BadMethodCallException' );
 		$this->collection->addComponent( "not_existing" );
 	}
 

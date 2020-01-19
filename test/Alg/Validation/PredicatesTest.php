@@ -280,7 +280,7 @@ class Test_Alg_Validation_PredicatesTest extends Test_Case
 	 */
 	public function testIsAfterException()
 	{
-		$this->setExpectedException( "InvalidArgumentException" );
+		$this->expectException( "InvalidArgumentException" );
 		Alg_Validation_Predicates::isAfter( "01.71.2008", $this->point );
 	}
 
@@ -465,7 +465,7 @@ class Test_Alg_Validation_PredicatesTest extends Test_Case
 	 */
 	public function testIsBeforeException()
 	{
-		$this->setExpectedException( "InvalidArgumentException" );
+		$this->expectException( "InvalidArgumentException" );
 		Alg_Validation_Predicates::isBefore( "01.71.2008", $this->point );
 	}
 
@@ -695,7 +695,7 @@ class Test_Alg_Validation_PredicatesTest extends Test_Case
 	 */
 	public function testIsFutureException()
 	{
-		$this->setExpectedException( "InvalidArgumentException" );
+		$this->expectException( "InvalidArgumentException" );
 		Alg_Validation_Predicates::isFuture( "01.71.2008", $this->point );
 	}
 
@@ -997,7 +997,7 @@ class Test_Alg_Validation_PredicatesTest extends Test_Case
 	 */
 	public function testIsPastException()
 	{
-		$this->setExpectedException( "InvalidArgumentException" );
+		$this->expectException( "InvalidArgumentException" );
 		Alg_Validation_Predicates::isPast( "01.71.2008", $this->point );
 	}
 

@@ -22,15 +22,6 @@ require_once dirname( __DIR__ ).'/initLoaders.php';
 class Test_ADT_URLTest extends Test_Case
 {
 	/**
-	 *	Constructor.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function __construct()
-	{
-	}
-
-	/**
 	 *	Setup for every Test.
 	 *	@access		public
 	 *	@return		void
@@ -70,7 +61,7 @@ class Test_ADT_URLTest extends Test_Case
 	public function test__constructException()
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		ADT_URL::__construct();
 	}
 
@@ -134,7 +125,7 @@ class Test_ADT_URLTest extends Test_Case
 	public function testGetAbsoluteException()
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		ADT_URL::getAbsolute();
 	}
 
@@ -172,7 +163,7 @@ class Test_ADT_URLTest extends Test_Case
 	public function testGetAbsoluteToException()
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		ADT_URL::getAbsoluteTo();
 	}
 
@@ -342,7 +333,7 @@ class Test_ADT_URLTest extends Test_Case
 	public function testIsRelativeException1()
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		ADT_URL::isRelative();
 	}
 
@@ -354,7 +345,7 @@ class Test_ADT_URLTest extends Test_Case
 	public function testIsRelativeException2()
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		ADT_URL::isRelative();
 	}
 
@@ -366,7 +357,7 @@ class Test_ADT_URLTest extends Test_Case
 	public function testIsRelativeException3()
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		ADT_URL::isRelative();
 	}
 
@@ -378,7 +369,7 @@ class Test_ADT_URLTest extends Test_Case
 	public function testIsRelativeException4()
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
-		$this->setExpectedException( 'RangeException' );
+		$this->expectException( 'RangeException' );
 		ADT_URL::isRelative();
 	}
 
@@ -412,7 +403,7 @@ class Test_ADT_URLTest extends Test_Case
 	public function testSetException1()
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		ADT_URL::set();
 	}
 
@@ -424,7 +415,7 @@ class Test_ADT_URLTest extends Test_Case
 	public function testSetException2()
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		ADT_URL::set();
 	}
 
@@ -462,7 +453,7 @@ class Test_ADT_URLTest extends Test_Case
 	public function testSetDefaultException()
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		ADT_URL::setDefault();
 	}
 
@@ -534,7 +525,7 @@ class Test_ADT_URLTest extends Test_Case
 	public function testSetPathException()
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
-		$this->setExpectedException( 'RangeException' );
+		$this->expectException( 'RangeException' );
 		ADT_URL::setPath();
 	}
 

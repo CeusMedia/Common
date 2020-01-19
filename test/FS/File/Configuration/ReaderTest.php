@@ -179,7 +179,7 @@ class Test_FS_File_Configuration_ReaderTest extends Test_Case
 	 */
 	public function testConstructExceptionNotExisting()
 	{
-		$this->setExpectedException( 'RuntimeException' );
+		$this->expectException( 'RuntimeException' );
 		new FS_File_Configuration_Reader( $this->path."name.not_supported" );
 	}
 
@@ -192,7 +192,7 @@ class Test_FS_File_Configuration_ReaderTest extends Test_Case
 	{
 		$fileName	= $this->path."filename.xyz";
 		file_put_contents( $fileName, "" );
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		new FS_File_Configuration_Reader( $fileName );
 		unlink( $fileName );
 	}

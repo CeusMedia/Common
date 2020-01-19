@@ -88,7 +88,7 @@ class Test_FS_File_StaticCacheTest extends Test_Case
 	 */
 	public function testCleanUpException1()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		FS_File_StaticCache::init( $this->pathCache );
 		FS_File_StaticCache::cleanUp();
 	}
@@ -100,7 +100,7 @@ class Test_FS_File_StaticCacheTest extends Test_Case
 	 */
 	public function testCleanUpException2()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		FS_File_StaticCache::init( $this->pathCache, 0 );
 		FS_File_StaticCache::cleanUp();
 	}

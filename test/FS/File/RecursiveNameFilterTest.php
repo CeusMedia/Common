@@ -66,7 +66,7 @@ class Test_FS_File_RecursiveNameFilterTest extends Test_Case
 	 */
 	public function testConstructException()
 	{
-		$this->setExpectedException( 'RuntimeException' );
+		$this->expectException( 'RuntimeException' );
 		$index	= new FS_File_RecursiveNameFilter( "not_existing", "not_relevant" );
 	}
 

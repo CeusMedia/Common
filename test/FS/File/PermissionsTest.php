@@ -77,7 +77,7 @@ class Test_FS_File_PermissionsTest extends Test_Case
 	 */
 	public function test__constructException()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		new FS_File_Permissions( 'not_existing' );
 	}
 
@@ -100,7 +100,7 @@ class Test_FS_File_PermissionsTest extends Test_Case
 	 */
 	public function testGetAsIntegerException()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$permissions	= new FS_File_Permissions( 'not_existing' );
 		$permissions->getAsInteger();
 	}
@@ -124,7 +124,7 @@ class Test_FS_File_PermissionsTest extends Test_Case
 	 */
 	public function testGetAsOctalException()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$permissions	= new FS_File_Permissions( 'not_existing' );
 		$permissions->getAsOctal();
 	}
@@ -148,7 +148,7 @@ class Test_FS_File_PermissionsTest extends Test_Case
 	 */
 	public function testGetAsStringException()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$permissions	= new FS_File_Permissions( 'not_existing' );
 		$permissions->getAsString();
 	}
@@ -208,7 +208,7 @@ class Test_FS_File_PermissionsTest extends Test_Case
 	 */
 	public function testGetIntegerFromOctalException1()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		FS_File_Permissions::getIntegerFromOctal( NULL );
 	}
 
@@ -219,7 +219,7 @@ class Test_FS_File_PermissionsTest extends Test_Case
 	 */
 	public function testGetIntegerFromOctalException2()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		FS_File_Permissions::getIntegerFromOctal( TRUE );
 	}
 
@@ -230,7 +230,7 @@ class Test_FS_File_PermissionsTest extends Test_Case
 	 */
 	public function testGetIntegerFromOctalException3()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		FS_File_Permissions::getIntegerFromOctal( M_PI );
 	}
 
@@ -241,7 +241,7 @@ class Test_FS_File_PermissionsTest extends Test_Case
 	 */
 	public function testGetIntegerFromOctalException4()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		FS_File_Permissions::getIntegerFromOctal( new stdClass() );
 	}
 
@@ -284,7 +284,7 @@ class Test_FS_File_PermissionsTest extends Test_Case
 	 */
 	public function testGetIntegerFromStringException1()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		FS_File_Permissions::getIntegerFromString( NULL );
 	}
 
@@ -295,7 +295,7 @@ class Test_FS_File_PermissionsTest extends Test_Case
 	 */
 	public function testGetIntegerFromStringException2()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		FS_File_Permissions::getIntegerFromString( TRUE );
 	}
 
@@ -306,7 +306,7 @@ class Test_FS_File_PermissionsTest extends Test_Case
 	 */
 	public function testGetIntegerFromStringException3()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		FS_File_Permissions::getIntegerFromString( M_PI );
 	}
 
@@ -317,7 +317,7 @@ class Test_FS_File_PermissionsTest extends Test_Case
 	 */
 	public function testGetIntegerFromStringException4()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		FS_File_Permissions::getIntegerFromString( 511 );
 	}
 
@@ -328,7 +328,7 @@ class Test_FS_File_PermissionsTest extends Test_Case
 	 */
 	public function testGetIntegerFromStringException5()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		FS_File_Permissions::getIntegerFromString( new stdClass() );
 	}
 
@@ -387,7 +387,7 @@ class Test_FS_File_PermissionsTest extends Test_Case
 	 */
 	public function testGetOctalFromIntegerException1()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		FS_File_Permissions::getOctalFromInteger( NULL );
 	}
 
@@ -398,7 +398,7 @@ class Test_FS_File_PermissionsTest extends Test_Case
 	 */
 	public function testGetOctalFromIntegerException2()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		FS_File_Permissions::getOctalFromInteger( TRUE );
 	}
 
@@ -409,7 +409,7 @@ class Test_FS_File_PermissionsTest extends Test_Case
 	 */
 	public function testGetOctalFromIntegerException3()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		FS_File_Permissions::getOctalFromInteger( M_PI );
 	}
 
@@ -420,7 +420,7 @@ class Test_FS_File_PermissionsTest extends Test_Case
 	 */
 	public function testGetOctalFromIntegerException4()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		FS_File_Permissions::getOctalFromInteger( new stdClass() );
 	}
 
@@ -431,7 +431,7 @@ class Test_FS_File_PermissionsTest extends Test_Case
 	 */
 	public function testGetOctalFromIntegerException5()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		FS_File_Permissions::getOctalFromInteger( 'rwx------' );
 	}
 
@@ -474,7 +474,7 @@ class Test_FS_File_PermissionsTest extends Test_Case
 	 */
 	public function testGetOctalFromStringException11()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		FS_File_Permissions::getOctalFromString( NULL );
 	}
 
@@ -485,7 +485,7 @@ class Test_FS_File_PermissionsTest extends Test_Case
 	 */
 	public function testGetOctalFromStringException12()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		FS_File_Permissions::getOctalFromString( TRUE );
 	}
 
@@ -496,7 +496,7 @@ class Test_FS_File_PermissionsTest extends Test_Case
 	 */
 	public function testGetOctalFromStringException13()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		FS_File_Permissions::getOctalFromString( M_PI );
 	}
 
@@ -507,7 +507,7 @@ class Test_FS_File_PermissionsTest extends Test_Case
 	 */
 	public function testGetOctalFromStringException14()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		FS_File_Permissions::getOctalFromString( new stdClass() );
 	}
 
@@ -518,7 +518,7 @@ class Test_FS_File_PermissionsTest extends Test_Case
 	 */
 	public function testGetOctalFromStringException15()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		FS_File_Permissions::getOctalFromString( 0600 );
 	}
 
@@ -529,7 +529,7 @@ class Test_FS_File_PermissionsTest extends Test_Case
 	 */
 	public function testGetOctalFromStringException21()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		FS_File_Permissions::getOctalFromString( 'rwxrwxrwxrwx');
 	}
 
@@ -540,7 +540,7 @@ class Test_FS_File_PermissionsTest extends Test_Case
 	 */
 	public function testGetOctalFromStringException22()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		FS_File_Permissions::getOctalFromString( 'rwxrwx');
 	}
 
@@ -599,7 +599,7 @@ class Test_FS_File_PermissionsTest extends Test_Case
 	 */
 	public function testGetStringFromIntegerException1()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		FS_File_Permissions::getStringFromInteger( NULL );
 	}
 
@@ -610,7 +610,7 @@ class Test_FS_File_PermissionsTest extends Test_Case
 	 */
 	public function testGetStringFromIntegerException2()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		FS_File_Permissions::getStringFromInteger( TRUE );
 	}
 
@@ -621,7 +621,7 @@ class Test_FS_File_PermissionsTest extends Test_Case
 	 */
 	public function testGetStringFromIntegerException3()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		FS_File_Permissions::getStringFromInteger( M_PI );
 	}
 
@@ -632,7 +632,7 @@ class Test_FS_File_PermissionsTest extends Test_Case
 	 */
 	public function testGetStringFromIntegerException4()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		FS_File_Permissions::getStringFromInteger( new stdClass() );
 	}
 
@@ -643,7 +643,7 @@ class Test_FS_File_PermissionsTest extends Test_Case
 	 */
 	public function testGetStringFromIntegerException5()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		FS_File_Permissions::getStringFromInteger( 'rwxrwxrwx' );
 	}
 
@@ -690,7 +690,7 @@ class Test_FS_File_PermissionsTest extends Test_Case
 	 */
 	public function testGetStringFromOctalException1()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		FS_File_Permissions::getStringFromOctal( NULL );
 	}
 
@@ -701,7 +701,7 @@ class Test_FS_File_PermissionsTest extends Test_Case
 	 */
 	public function testGetStringFromOctalException2()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		FS_File_Permissions::getStringFromOctal( TRUE );
 	}
 
@@ -712,7 +712,7 @@ class Test_FS_File_PermissionsTest extends Test_Case
 	 */
 	public function testGetStringFromOctalException3()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		FS_File_Permissions::getStringFromOctal( M_PI );
 	}
 
@@ -723,7 +723,7 @@ class Test_FS_File_PermissionsTest extends Test_Case
 	 */
 	public function testGetStringFromOctalException4()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		FS_File_Permissions::getStringFromOctal( new stdClass() );
 	}
 
@@ -750,7 +750,7 @@ class Test_FS_File_PermissionsTest extends Test_Case
 	 */
 	public function testSetByOctalException1()
 	{
-		$this->setExpectedException( 'RuntimeException' );
+		$this->expectException( 'RuntimeException' );
 		unlink( $this->fileName );
 		$this->permissions->setByOctal( 0777 );
 	}
@@ -778,7 +778,7 @@ class Test_FS_File_PermissionsTest extends Test_Case
 	 */
 	public function testSetByOctalException()
 	{
-		$this->setExpectedException( 'RuntimeException' );
+		$this->expectException( 'RuntimeException' );
 		unlink( $this->fileName );
 		$this->permissions->setByOctal( 0777 );
 	}

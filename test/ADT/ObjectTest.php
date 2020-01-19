@@ -23,7 +23,7 @@ class Test_ADT_ObjectTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function __construct()
+	public function setUp()
 	{
 		$this->object	= new TestObjectClass;
 		$this->methods	= array(
