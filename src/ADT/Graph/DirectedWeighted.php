@@ -139,7 +139,10 @@ class ADT_Graph_DirectedWeighted extends ADT_Graph_Weighted
 		return false;
 	}
 
-	public function getPathValue( $source, $target )
+	/**
+	 *	@param		array			$hadNodes	Array of already visited Nodes
+	 */
+	public function getPathValue( $source, $target, $hadNodes = array() )
 	{
 		if( $this->isEdge( $source, $target ) )
 		{
@@ -150,7 +153,7 @@ class ADT_Graph_DirectedWeighted extends ADT_Graph_Weighted
 		foreach( $nodes as $node )
 		{
 			$value	= $this->getEdgeValue( $source, $node );
-			$way	= $this->getPathValue( $node, $target );
+			$way	= $this->getPathValue( $node, $target, $hadNodes );
 			if( $way )
 				return $value + $way;
 		}
