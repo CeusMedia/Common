@@ -45,6 +45,8 @@ class ADT_Bitmask{
 	}
 
 	public function add( $bit ){
+		if( !is_int( $bit ) )
+			throw new InvalidArgumentException( 'Bitmask bit must be of integer' );
 		$this->bits |= $bit;
 		return $this;
 	}
@@ -54,15 +56,21 @@ class ADT_Bitmask{
 	}
 
 	public function has( $bit ){
-		return $this->bits &= $bit;
+		if( !is_int( $bit ) )
+			throw new InvalidArgumentException( 'Bitmask bit must be of integer' );
+		return (bool)( $this->bits & $bit );
 	}
 
 	public function remove( $bit ){
+		if( !is_int( $bit ) )
+			throw new InvalidArgumentException( 'Bitmask bit must be of integer' );
 		$this->bits	^= $bit;
 		return $this;
 	}
 
 	public function set( $bits ){
+		if( !is_int( $bits ) )
+			throw new InvalidArgumentException( 'Bitmask bits must be of integer' );
 		$this->bits	= $bits;
 		return $this;
 	}
