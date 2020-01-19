@@ -1,5 +1,5 @@
 <?php
-namespace CeusMedia\Common\FS\Autoloader;
+#namespace CeusMedia\Common\FS\Autoloader;
 
 /*
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
@@ -18,7 +18,7 @@ namespace CeusMedia\Common\FS\Autoloader;
  * and is licensed under the MIT license. For more information, see
  * <http://www.doctrine-project.org>.
  */
- 
+
 /**
  * SplClassLoader implementation that implements the technical interoperability
  * standards for PHP 5.3 namespaces and class names.
@@ -37,7 +37,7 @@ namespace CeusMedia\Common\FS\Autoloader;
  * @author Kris Wallsmith <kris.wallsmith@gmail.com>
  * @author Fabien Potencier <fabien.potencier@symfony-project.org>
  */
-class Psr0
+class FS_Autoloader_Psr0
 {
     private $_fileExtension = '.php';
     private $_namespace;
@@ -47,7 +47,7 @@ class Psr0
     /**
      * Creates a new <tt>SplClassLoader</tt> that loads classes of the
      * specified namespace.
-     * 
+     *
      * @param string $ns The namespace to use.
      */
     public function __construct($ns = null, $includePath = null)
@@ -58,7 +58,7 @@ class Psr0
 
     /**
      * Sets the namespace separator used by classes in the namespace of this class loader.
-     * 
+     *
      * @param string $sep The separator to use.
      */
     public function setNamespaceSeparator($sep)
@@ -78,7 +78,7 @@ class Psr0
 
     /**
      * Sets the base include path for all class files in the namespace of this class loader.
-     * 
+     *
      * @param string $includePath
      */
     public function setIncludePath($includePath)
@@ -98,7 +98,7 @@ class Psr0
 
     /**
      * Sets the file extension of class files in the namespace of this class loader.
-     * 
+     *
      * @param string $fileExtension
      */
     public function setFileExtension($fileExtension)
