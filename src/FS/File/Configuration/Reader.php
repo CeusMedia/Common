@@ -62,15 +62,16 @@ class FS_File_Configuration_Reader extends ADT_List_Dictionary
 	{
 		$this->source	= $this->loadFile( $fileName, $cachePath );
 	}
-	
+
 	/**
 	 *	Return a Value or Pair Map of Dictionary by its Key.
 	 *	This Method overwrites ALG_List_LevelMap::get for Performance Boost.
 	 *	@access		public
 	 *	@param		string		$key		Key in Dictionary
+	 *	@param		mixed		$default	Value to return if key is not set, default: NULL
 	 *	@return		mixed
 	 */
-	public function get( $key )
+	public function get( $key, $default = NULL )
 	{
 		if( empty( $key ) )																		//  no Key given
 			throw new InvalidArgumentException( 'Key must not be empty.' );						//  throw Exception
@@ -95,7 +96,7 @@ class FS_File_Configuration_Reader extends ADT_List_Dictionary
 			if( count( $list ) )																//  found Pairs
 				return $list;																	//  return Pair Map
 		}
-		return NULL;																			//  nothing found
+		return $default;																		//  nothing given default, default: NULL
 	}
 
 	/**
@@ -117,7 +118,7 @@ class FS_File_Configuration_Reader extends ADT_List_Dictionary
 			if( $this->tryToLoadFromCache( $cacheFile, filemtime( $fileName ) ) )
 				return "cache";
 		}
-		
+
 		$info	= pathinfo( $fileName );
 		switch( $info['extension'] )
 		{
@@ -184,8 +185,8 @@ class FS_File_Configuration_Reader extends ADT_List_Dictionary
 				}
 			}
 		}
-	}	
-	
+	}
+
 	/**
 	 *	Loads Configuration from JSON File.
 	 *	@access		protected
@@ -199,7 +200,7 @@ class FS_File_Configuration_Reader extends ADT_List_Dictionary
 		foreach( $array as $sectionName => $sectionData )
 			foreach( $sectionData as $key => $item )
 				$this->pairs[$sectionName.".".$key]	= $item['value'];
-	}	
+	}
 
 	/**
 	 *	Loads Configuration from WDDX File.
@@ -213,8 +214,8 @@ class FS_File_Configuration_Reader extends ADT_List_Dictionary
 		foreach( $array as $sectionName => $sectionData )
 			foreach( $sectionData as $key => $value )
 				$this->pairs[$sectionName.".".$key]	= $value;
-	}	
-	
+	}
+
 	/**
 	 *	Loads Configuration from XML File.
 	 *	@access		protected
@@ -261,7 +262,7 @@ class FS_File_Configuration_Reader extends ADT_List_Dictionary
 			}
 		}
 	}
-	
+
 	/**
 	 *	Loads Configuration from YAML File.
 	 *	@access		protected
@@ -274,8 +275,8 @@ class FS_File_Configuration_Reader extends ADT_List_Dictionary
 		foreach( $array as $sectionName => $sectionData )
 			foreach( $sectionData as $key => $value )
 				$this->pairs[$sectionName.".".$key]	= $value;
-	}	
-	
+	}
+
 	public function remove( $key )
 	{
 		if( empty( $key ) )																		//  no Key given
