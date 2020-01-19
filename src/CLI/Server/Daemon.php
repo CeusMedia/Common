@@ -102,12 +102,15 @@ class CLI_Server_Daemon extends CLI_Application
 	 *	@access		protected
 	 *	@return		void
 	 */
-	protected function showUsage()
+	protected function showUsage( $message = NULL )
 	{
-		echo "\n";
-		echo "Daemon v0.1\n";
-		echo "Usage: no information given, yet.";
-		die();
+		\CLI::out();
+		\CLI::out( 'Daemon v0.1' );
+		\CLI::out();
+		\CLI::out( 'Usage: no information given, yet.' );
+		\CLI::out();
+		if( $message )
+			$this->showError( $message );
 	}
 
 	/**

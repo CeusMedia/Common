@@ -56,7 +56,7 @@ class UI_HTML_CollapsePanel extends UI_HTML_Panel
 	 *	@param		array		$attributes			Map of Attributes of Panel DIV
 	 *	@return		string
 	 */
-	public static function create( $id, $content, $header, $abstract, $footer = NULL, $theme = "default", $attributes = array() )
+	public static function create( $id, $content, $header, $abstract = NULL, $footer = NULL, $theme = "default", $attributes = array() )
 	{
 		$classes	= $theme ? self::$classPanel." ".$theme : self::$classPanel;
 		return parent::create( $id, $content, $header, $abstract, $footer, $classes, $attributes );
@@ -73,7 +73,7 @@ class UI_HTML_CollapsePanel extends UI_HTML_Panel
 	 */
 	public static function createScript( $selector, $options = array() )
 	{
-		return UI_HTML_JQuery::buildPluginCall( "cmCollapsePanel", $selector, $options );	
+		return UI_HTML_JQuery::buildPluginCall( "cmCollapsePanel", $selector, $options );
 	}
 }
 ?>
