@@ -19,15 +19,6 @@ require_once dirname( dirname( dirname( __DIR__ ) ) ).'/initLoaders.php';
 class Test_FS_File_Block_WriterTest extends Test_Case
 {
 	/**
-	 *	Constructor.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function __construct()
-	{
-	}
-
-	/**
 	 *	Setup for every Test.
 	 *	@access		public
 	 *	@return		void

@@ -22,22 +22,13 @@ class Test_Alg_SgmlTagReaderTest extends Test_Case
 	public $tag2	= '<body font-color="#FF0000" onFocus="this.blur()">';
 
 	/**
-	 *	Constructor.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function __construct()
-	{
-		$reader	= new Alg_SgmlTagReader;
-	}
-
-	/**
 	 *	Setup for every Test.
 	 *	@access		public
 	 *	@return		void
 	 */
 	public function setUp()
 	{
+		$reader	= new Alg_SgmlTagReader;
 	}
 
 	/**

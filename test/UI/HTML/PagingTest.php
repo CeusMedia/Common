@@ -19,22 +19,13 @@ require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
 class Test_UI_HTML_PagingTest extends Test_Case
 {
 	/**
-	 *	Constructor.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function __construct()
-	{
-		$this->path		= dirname( __FILE__ )."/";
-	}
-
-	/**
 	 *	Setup for every Test.
 	 *	@access		public
 	 *	@return		void
 	 */
 	public function setUp()
 	{
+		$this->path		= dirname( __FILE__ )."/";
 		$this->paging	= new UI_HTML_Paging();
 		$this->paging->setOption( 'text_next', 		"[next]" );
 		$this->paging->setOption( 'text_previous',	"[prev]" );

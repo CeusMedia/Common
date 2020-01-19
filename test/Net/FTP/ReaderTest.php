@@ -20,11 +20,11 @@ require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
 class Test_Net_FTP_ReaderTest extends Test_Case
 {
 	/**
-	 *	Constructor.
+	 *	Setup for every Test.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function __construct()
+	public function setUp()
 	{
 		$config	= parse_ini_file( self::$pathLib.'Common.ini', TRUE );
 		$this->config	= $config['unitTest-FTP'];
@@ -34,17 +34,10 @@ class Test_Net_FTP_ReaderTest extends Test_Case
 		$this->password	= $this->config['pass'];
 		$this->path		= $this->config['path'];
 		$this->local	= $this->config['local'];
-	}
 
-	/**
-	 *	Setup for every Test.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function setUp()
-	{
 		if( !$this->local )
 			$this->markTestSkipped( 'No FTP data set in Common.ini' );
+
 		$this->connection	= new Net_FTP_Connection( $this->host, $this->port );
 		$this->connection->login( $this->username, $this->password );
 

@@ -23,26 +23,17 @@ class Test_FS_File_YAML_WriterTest extends Test_Case
 	private $fileName;
 
 	/**
-	 *	Constructor.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function __construct()
-	{
-		$this->fileName	= dirname( __FILE__ )."/writer.yaml";
-		$this->data		= array(
-			'test1',
-			'test2'
-		);
-	}
-
-	/**
 	 *	Setup for every Test.
 	 *	@access		public
 	 *	@return		void
 	 */
 	public function setUp()
 	{
+		$this->fileName	= dirname( __FILE__ )."/writer.yaml";
+		$this->data		= array(
+			'test1',
+			'test2'
+		);
 		@unlink( $this->fileName );
 	}
 

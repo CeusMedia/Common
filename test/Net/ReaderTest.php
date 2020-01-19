@@ -19,26 +19,18 @@ require_once dirname( __DIR__ ).'/initLoaders.php';
 class Test_Net_ReaderTest extends Test_Case
 {
 	/**
-	 *	Constructor.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function __construct()
-	{
-		$this->url		= "http://www.example.com";
-		$this->needle	= "@RFC\s+2606@i";
-
-		$this->url		= "http://ceusmedia.de/";
-		$this->needle	= "@ceus media@i";
-	}
-
-	/**
 	 *	Sets up Reader.
 	 *	@access		public
 	 *	@return		void
 	 */
 	public function setUp()
 	{
+		$this->url		= "http://www.example.com";
+		$this->needle	= "@RFC\s+2606@i";
+
+		$this->url		= "http://ceusmedia.de/";
+		$this->needle	= "@ceus media@i";
+
 		if( !extension_loaded( 'curl' ) )
 			$this->markTestSkipped( 'Missing cURL support' );
 		$this->reader	= new Net_Reader( $this->url );

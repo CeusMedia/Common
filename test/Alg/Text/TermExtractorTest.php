@@ -19,11 +19,11 @@ require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
 class Test_Alg_Text_TermExtractorTest extends Test_Case
 {
 	/**
-	 *	Constructor.
+	 *	Setup for every Test.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function __construct()
+	public function setUp()
 	{
 		$this->path		= dirname( __FILE__ )."/";
 		$this->text		= file_get_contents( $this->path."TermExtractorText.txt" );
@@ -35,15 +35,6 @@ class Test_Alg_Text_TermExtractorTest extends Test_Case
 			$this->terms1[$key] = (int) $value;
 		foreach( $this->terms2 as $key => $value )
 			$this->terms2[$key] = (int) $value;
-	}
-
-	/**
-	 *	Setup for every Test.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function setUp()
-	{
 	}
 
 	/**

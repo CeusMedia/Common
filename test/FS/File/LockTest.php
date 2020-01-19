@@ -21,22 +21,13 @@ require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
 class Test_FS_File_LockTest extends Test_Case
 {
 	/**
-	 *	Constructor.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function __construct()
-	{
-		$this->path	= dirname( __FILE__ ).'/';
-	}
-
-	/**
 	 *	Setup for every Test.
 	 *	@access		public
 	 *	@return		void
 	 */
 	public function setUp()
 	{
+		$this->path	= dirname( __FILE__ ).'/';
 		@unlink( $this->path.'test.lock' );
 		$this->lock	= new FS_File_Lock( $this->path.'test.lock' );
 		$this->lock->setTimeout( 0.5 );

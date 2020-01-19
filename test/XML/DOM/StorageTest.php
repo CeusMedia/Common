@@ -19,22 +19,13 @@ require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
 class Test_XML_DOM_StorageTest extends Test_Case
 {
 	/**
-	 *	Constructor.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function __construct()
-	{
-		$this->fileName		= dirname( __FILE__ )."/storage.xml";
-	}
-
-	/**
 	 *	Sets up Leaf.
 	 *	@access		public
 	 *	@return		void
 	 */
 	public function setUp()
 	{
+		$this->fileName		= dirname( __FILE__ )."/storage.xml";
 		$this->storage	= new XML_DOM_Storage( $this->fileName );
 		$this->storage->set( "tests.test1.key1", "value11" );
 		$this->storage->write();

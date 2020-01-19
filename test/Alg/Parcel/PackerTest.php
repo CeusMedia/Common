@@ -19,11 +19,11 @@ require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
 class Test_Alg_Parcel_PackerTest extends Test_Case
 {
 	/**
-	 *	Constructor.
+	 *	Setup for every Test.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function __construct()
+	public function setUp()
 	{
 		$this->articles	= array(
 			'a',
@@ -52,16 +52,6 @@ class Test_Alg_Parcel_PackerTest extends Test_Case
 				'c'	=> 0.5
 			)
 		);
-
-	}
-
-	/**
-	 *	Setup for every Test.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function setUp()
-	{
 		$this->packer	= new Alg_Parcel_Packer( $this->packets, $this->articles, $this->volumes );
 	}
 

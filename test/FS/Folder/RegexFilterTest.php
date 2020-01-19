@@ -19,13 +19,12 @@ require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
 class Test_FS_Folder_RegexFilterTest extends Test_FS_Folder_TestCase
 {
 	/**
-	 *	Constructor.
+	 *	Setup for every Test.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function __construct()
+	public function setUp()
 	{
-		parent::__construct();
 		$this->path	= str_replace( "\\", "/", dirname( __FILE__ ) )."/";
 	}
 

@@ -19,22 +19,13 @@ require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
 class Test_UI_Image_WatermarkTest extends Test_Case
 {
 	/**
-	 *	Constructor.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function __construct()
-	{
-		$this->path	= dirname( __FILE__ )."/";
-	}
-
-	/**
 	 *	Setup for every Test.
 	 *	@access		public
 	 *	@return		void
 	 */
 	public function setUp()
 	{
+		$this->path	= dirname( __FILE__ )."/";
 		if( !extension_loaded( 'gd' ) )
 			$this->markTestSkipped( 'Missing gd support' );
 		$this->mark	= new Test_UI_Image_WatermarkInstance( $this->path."mark.png" );

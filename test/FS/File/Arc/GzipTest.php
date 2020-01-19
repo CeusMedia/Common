@@ -19,15 +19,11 @@ class Test_FS_File_Arc_GzipTest extends Test_Case
 	/**	@var	string		$fileName		URL of Archive File Name */
 	private $fileName;
 
-	public function __construct()
-	{
-		$this->path	= dirname( __FILE__ )."/";
-	}
-
 	public function setUp()
 	{
 		if( !extension_loaded( 'zlib' ) )
 			$this->markTestSkipped( 'Support for bzip2 is missing' );
+		$this->path	= dirname( __FILE__ )."/";
 		$this->fileName	= $this->path."test.gz";
 	}
 

@@ -19,11 +19,11 @@ require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
 class Test_XML_WDDX_FileWriterTest extends Test_Case
 {
 	/**
-	 *	Constructor.
+	 *	Setup for every Test.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function __construct()
+	public function setUp()
 	{
 		$this->path		= dirname( __FILE__ )."/";
 		$this->fileName	= $this->path."writer.wddx";
@@ -35,15 +35,7 @@ class Test_XML_WDDX_FileWriterTest extends Test_Case
 				'test_double'	=> 3.1415926,
 			)
 		);
-	}
 
-	/**
-	 *	Setup for every Test.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function setUp()
-	{
 		if( !extension_loaded( 'wddx' ) )
 			$this->markTestSkipped( 'Missing WDDX support' );
 		@unlink( $this->fileName );

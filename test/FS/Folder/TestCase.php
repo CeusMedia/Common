@@ -50,11 +50,11 @@ require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
 class Test_FS_Folder_TestCase extends Test_Case
 {
 	/**
-	 *	Constructor, creates File Structure.
+	 *	Setup for every Test.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function __construct()
+	public function setUp()
 	{
 		$this->path		= $path		= dirname( __FILE__ )."/";
 		$this->folder	= $folder	= $path."folder/";
@@ -93,11 +93,11 @@ class Test_FS_Folder_TestCase extends Test_Case
 	}
 
 	/**
-	 *	Destructor, removes File Structure.
+	 *	Cleanup after every Test.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function __destruct()
+	public function tearDown()
 	{
 		if( file_exists( $this->folder ) )
 			$this->removeFolder( $this->folder, true );

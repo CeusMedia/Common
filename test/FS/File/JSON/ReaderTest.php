@@ -20,11 +20,11 @@ require_once dirname( dirname( dirname( __DIR__ ) ) ).'/initLoaders.php';
 class Test_FS_File_JSON_ReaderTest extends Test_Case
 {
 	/**
-	 *	Constructor.
+	 *	Setup for every Test.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function __construct()
+	public function setUp()
 	{
 		$this->path	= dirname( __FILE__ ).'/';
 
@@ -34,15 +34,6 @@ class Test_FS_File_JSON_ReaderTest extends Test_Case
 			'c'	=> array( 1, 2, 3 ),
 			'd'	=> FALSE
 		);
-	}
-
-	/**
-	 *	Setup for every Test.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function setUp()
-	{
 	}
 
 	/**

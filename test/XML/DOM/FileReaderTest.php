@@ -20,22 +20,13 @@ require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
 class Test_XML_DOM_FileReaderTest extends Test_Case
 {
 	/**
-	 *	Constructor.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function __construct()
-	{
-		$this->fileName		= dirname( __FILE__ ).'/builder.xml';
-	}
-
-	/**
 	 *	Sets up Leaf.
 	 *	@access		public
 	 *	@return		void
 	 */
 	public function setUp()
 	{
+		$this->fileName		= dirname( __FILE__ ).'/builder.xml';
 	}
 
 	/**

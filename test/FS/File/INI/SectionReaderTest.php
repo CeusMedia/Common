@@ -19,7 +19,12 @@ class Test_FS_File_INI_SectionReaderTest extends Test_Case
 	/**	@var	string		$fileName		File Name of Test File */
 	private $fileName;
 
-	public function __construct()
+	/**
+	 *	Setup for every Test.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function setUp()
 	{
 		$this->fileName	= dirname( __FILE__ )."/section.reader.ini";
 		$this->reader	= new FS_File_INI_SectionReader( $this->fileName );

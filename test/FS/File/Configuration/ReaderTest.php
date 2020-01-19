@@ -19,11 +19,11 @@ require_once dirname( dirname( dirname( __DIR__ ) ) ).'/initLoaders.php';
 class Test_FS_File_Configuration_ReaderTest extends Test_Case
 {
 	/**
-	 *	Constructor.
+	 *	Setup for every Test.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function __construct()
+	public function setUp()
 	{
 		$this->path	= dirname( __FILE__ )."/";
 		$this->data	= array(

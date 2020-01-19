@@ -18,7 +18,7 @@ require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
  */
 class Test_Alg_Validation_PredicateValidatorTest extends Test_Case
 {
-	public function __construct()
+	public function setUp()
 	{
 		$this->validator	= new Alg_Validation_PredicateValidator;
 	}

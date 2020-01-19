@@ -19,23 +19,14 @@ require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
 final class Test_Alg_Object_ConstantTest extends Test_Case
 {
 	/**
-	 *	Constructor.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function __construct()
-	{
-		$className		= 'Test_Alg_Object_ConstantExample1';
-		$this->object	= new Alg_Object_Constant( $className );
-	}
-
-	/**
 	 *	Setup for every Test.
 	 *	@access		public
 	 *	@return		void
 	 */
 	public function setUp()
 	{
+		$className		= 'Test_Alg_Object_ConstantExample1';
+		$this->object	= new Alg_Object_Constant( $className );
 	}
 
 	/**

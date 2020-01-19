@@ -19,22 +19,13 @@ require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
 class Test_Alg_Validation_LanguageValidatorTest extends Test_Case
 {
 	/**
-	 *	Constructor.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function __construct()
-	{
-		$this->validator	= new Alg_Validation_LanguageValidator( array( "en", "fr" ), "en" );
-	}
-
-	/**
 	 *	Setup for every Test.
 	 *	@access		public
 	 *	@return		void
 	 */
 	public function setUp()
 	{
+		$this->validator	= new Alg_Validation_LanguageValidator( array( "en", "fr" ), "en" );
 	}
 
 	/**

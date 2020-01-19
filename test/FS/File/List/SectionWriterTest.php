@@ -30,7 +30,7 @@ class Test_FS_File_List_SectionWriterTest extends Test_Case
 		),
 	);
 
-	public function __construct()
+	public function setUp()
 	{
 		$this->fileName		= dirname( __FILE__ )."/section.write.list";
 	}

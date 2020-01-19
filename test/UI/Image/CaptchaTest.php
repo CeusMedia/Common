@@ -19,16 +19,6 @@ require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
 class Test_UI_Image_CaptchaTest extends Test_Case
 {
 	/**
-	 *	Constructor.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function __construct()
-	{
-		$this->path		= dirname( __FILE__ )."/";
-	}
-
-	/**
 	 *	Setup for every Test.
 	 *	@access		public
 	 *	@return		void
@@ -37,6 +27,7 @@ class Test_UI_Image_CaptchaTest extends Test_Case
 	{
 		if( !extension_loaded( 'gd' ) )
 			$this->markTestSkipped( 'Missing gd support' );
+		$this->path		= dirname( __FILE__ )."/";
 		$this->captcha	= new UI_Image_Captcha();
 		$this->captcha->font	= $this->path."tahoma.ttf";
 		$this->captcha->width	= 150;

@@ -22,11 +22,11 @@ class Test_FS_File_ReaderTest extends Test_Case
 	private $fileContent	= "line1\nline2\n";
 
 	/**
-	 *	Constructor.
+	 *	Setup for every Test.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function __construct()
+	public function setUp()
 	{
 		$this->fileName	= dirname( __FILE__ )."/reader.test";
 		$this->reader	= new FS_File_Reader( $this->fileName );

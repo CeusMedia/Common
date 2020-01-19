@@ -19,22 +19,13 @@ require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
 class Test_UI_HTML_IndicatorTest extends Test_Case
 {
 	/**
-	 *	Constructor.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function __construct()
-	{
-		$this->path	= dirname( __FILE__ )."/";
-	}
-
-	/**
 	 *	Setup for every Test.
 	 *	@access		public
 	 *	@return		void
 	 */
 	public function setUp()
 	{
+		$this->path	= dirname( __FILE__ )."/";
 		$this->indicator	= new UI_HTML_Indicator();
 	}
 

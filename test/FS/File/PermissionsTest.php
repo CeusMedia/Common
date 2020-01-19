@@ -23,23 +23,14 @@ class Test_FS_File_PermissionsTest extends Test_Case
 	protected $permissions;
 
 	/**
-	 *	Constructor.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function __construct()
-	{
-		$this->pathName	= dirname( __FILE__ ).'/';
-		$this->fileName	= $this->pathName.'test.file';
-	}
-
-	/**
 	 *	Setup for every Test.
 	 *	@access		public
 	 *	@return		void
 	 */
 	public function setUp()
 	{
+		$this->pathName	= dirname( __FILE__ ).'/';
+		$this->fileName	= $this->pathName.'test.file';
 		file_put_contents( $this->fileName, 'this file is for testing permissions' );
 		chmod( $this->fileName, 0777 );
 		$this->permissions	= new FS_File_Permissions( $this->fileName );

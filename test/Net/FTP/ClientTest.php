@@ -18,23 +18,6 @@ require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
  */
 class Test_Net_FTP_ClientTest extends Test_Case
 {
-	/**
-	 *	Constructor.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function __construct()
-	{
-		$config	= parse_ini_file( self::$pathLib.'Common.ini', TRUE );
-		$this->config	= $config['unitTest-FTP'];
-		$this->host		= $this->config['host'];
-		$this->port		= $this->config['port'];
-		$this->username	= $this->config['user'];
-		$this->password	= $this->config['pass'];
-		$this->path		= $this->config['path'];
-		$this->local	= $this->config['local'];
-	}
-
 	protected function login() {
 		$this->connection->login( $this->username, $this->password );
 		if( $this->path )
@@ -48,8 +31,18 @@ class Test_Net_FTP_ClientTest extends Test_Case
 	 */
 	public function setUp()
 	{
+		$config	= parse_ini_file( self::$pathLib.'Common.ini', TRUE );
+		$this->config	= $config['unitTest-FTP'];
+		$this->host		= $this->config['host'];
+		$this->port		= $this->config['port'];
+		$this->username	= $this->config['user'];
+		$this->password	= $this->config['pass'];
+		$this->path		= $this->config['path'];
+		$this->local	= $this->config['local'];
+
 		if( !$this->local )
 			$this->markTestSkipped( 'No FTP data set in Common.ini' );
+
 		@mkDir( $this->local );
 		@mkDir( $this->local."folder" );
 		@mkDir( $this->local."folder/nested" );

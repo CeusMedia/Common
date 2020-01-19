@@ -19,16 +19,13 @@ class Test_FS_File_Arc_BzipTest extends Test_Case
 	/**	@var	string		$fileName		URL of Archive File Name */
 	private $fileName;
 
-	public function __construct()
-	{
-		$this->path	= dirname( __FILE__ )."/";
-		$this->fileName	= $this->path."test.bz";
-	}
-
 	public function setUp()
 	{
 		if( !extension_loaded( 'bz2' ) )
 			$this->markTestSkipped( 'Support for bzip2 is missing' );
+
+		$this->path	= dirname( __FILE__ )."/";
+		$this->fileName	= $this->path."test.bz";
 	}
 
 	public function tearDown()

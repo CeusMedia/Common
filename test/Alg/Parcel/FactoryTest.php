@@ -19,12 +19,13 @@ require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
 class Test_Alg_Parcel_FactoryTest extends Test_Case
 {
 	/**
-	 *	Constructor.
+	 *	Setup for every Test.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function __construct()
+	public function setUp()
 	{
+		$this->factory	= new Alg_Parcel_Factory( $this->packets, $this->articles, $this->volumes );
 		$this->articles	= array(
 			'a',
 			'b',
@@ -43,16 +44,6 @@ class Test_Alg_Parcel_FactoryTest extends Test_Case
 				'b'	=> 0.25,
 			),
 		);
-	}
-
-	/**
-	 *	Setup for every Test.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function setUp()
-	{
-		$this->factory	= new Alg_Parcel_Factory( $this->packets, $this->articles, $this->volumes );
 	}
 
 	/**

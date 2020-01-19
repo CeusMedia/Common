@@ -23,20 +23,9 @@ class Test_FS_File_INI_EditorTest extends Test_Case
 
 	/**	@var		FS_File_INI_Editor		$list			Editor for INI file without sections */
 	protected $list;
+
 	/**	@var		FS_File_INI_Editor		$sections		Editor for INI file with sections */
 	protected $sections;
-
-	/**
-	 *	Constructor.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function __construct()
-	{
-		$this->path	= dirname( __FILE__ )."/";
-		$this->fileList		= $this->path."editor.list.ini";
-		$this->fileSections	= $this->path."editor.sections.ini";
-	}
 
 	/**
 	 *	Setup for every Test.
@@ -45,6 +34,10 @@ class Test_FS_File_INI_EditorTest extends Test_Case
 	 */
 	public function setUp()
 	{
+		$this->path	= dirname( __FILE__ )."/";
+		$this->fileList		= $this->path."editor.list.ini";
+		$this->fileSections	= $this->path."editor.sections.ini";
+
 		copy( $this->path."reader.ini", $this->fileList );
 		copy( $this->path."reader.ini", $this->fileSections );
 		$this->list		= new FS_File_INI_Editor( $this->fileList, FALSE );

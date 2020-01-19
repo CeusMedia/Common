@@ -19,15 +19,11 @@ require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
  */
 class Test_UI_Image_CreatorTest extends Test_Case
 {
-	public function __construct()
-	{
-		$this->path		= dirname( __FILE__ )."/";
-	}
-
 	public function setUp()
 	{
 		if( !extension_loaded( 'gd' ) )
 			$this->markTestSkipped( 'Missing gd support' );
+		$this->path		= dirname( __FILE__ )."/";
 		$this->image	= new UI_Image_Creator();
 		$this->image->loadImage( $this->path."aptana_256.png" );
 		$this->tearDown();

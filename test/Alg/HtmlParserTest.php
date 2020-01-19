@@ -19,25 +19,16 @@ require_once dirname( __DIR__ ).'/initLoaders.php';
 class Test_Alg_HtmlParserTest extends Test_Case
 {
 	/**
-	 *	Constructor.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function __construct()
-	{
-		$this->path		= dirname( __FILE__ )."/";
-		$this->fileName	= $this->path."html.html";
-		$this->parser	= new Alg_HtmlParser();
-		$this->parser->parseHtmlFile( $this->fileName );
-	}
-
-	/**
 	 *	Setup for every Test.
 	 *	@access		public
 	 *	@return		void
 	 */
 	public function setUp()
 	{
+		$this->path		= dirname( __FILE__ )."/";
+		$this->fileName	= $this->path."html.html";
+		$this->parser	= new Alg_HtmlParser();
+		$this->parser->parseHtmlFile( $this->fileName );
 	}
 
 	/**

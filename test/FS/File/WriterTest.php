@@ -22,11 +22,11 @@ class Test_FS_File_WriterTest extends Test_Case
 	private $fileContent	= "line1\nline2\n";
 
 	/**
-	 *	Constructor.
+	 *	Setup for every Test.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function __construct()
+	public function setUp()
 	{
 		$this->path		= dirname( __FILE__ )."/";
 		$this->fileName	= $this->path."writer.test";

@@ -19,13 +19,9 @@ class Test_FS_File_Arc_TarTest extends Test_Case
 	/**	@var	string		$fileName		URL of Archive File Name */
 	private $fileName;
 
-	public function __construct()
-	{
-		$this->path	= dirname( __FILE__ )."/";
-	}
-
 	public function setUp()
 	{
+		$this->path	= dirname( __FILE__ )."/";
 		$this->fileName	= $this->path."test.tar";
 	}
 

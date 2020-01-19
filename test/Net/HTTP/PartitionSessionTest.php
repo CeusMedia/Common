@@ -20,7 +20,7 @@ class Test_Net_HTTP_PartitionSessionTest extends Test_Case
 {
 	private $session;
 
-	public function __construct()
+	public function setUp()
 	{
 		$this->session		= new Net_HTTP_PartitionSession( 'test' );
 		$this->session->clear();

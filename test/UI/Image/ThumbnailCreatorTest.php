@@ -23,17 +23,14 @@ class Test_UI_Image_ThumbnailCreatorTest extends Test_Case
 	protected $sourceFile;
 	protected $targetFile;
 
-	public function __construct()
-	{
+	public function setUp(){
+		if( !extension_loaded( 'gd' ) )
+			$this->markTestSkipped( 'Missing gd support' );
+
 		$this->path	= dirname( __FILE__ )."/";
 		$this->assertFile	= $this->path."assertThumbnail.png";
 		$this->sourceFile	= $this->path."sourceThumbnail.png";
 		$this->targetFile	= $this->path."targetThumbnail.png";
-	}
-
-	public function setUp(){
-		if( !extension_loaded( 'gd' ) )
-			$this->markTestSkipped( 'Missing gd support' );
 	}
 
 	public function tearDown()

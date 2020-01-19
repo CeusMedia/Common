@@ -22,23 +22,14 @@ class Test_XML_RSS_BuilderTest extends Test_Case
 	protected $serial;
 
 	/**
-	 *	Constructor.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function __construct()
-	{
-		$this->path		= dirname( __FILE__ )."/";
-		$this->file		= $this->path."builder.xml";
-	}
-
-	/**
 	 *	Setup for every Test.
 	 *	@access		public
 	 *	@return		void
 	 */
 	public function setUp()
 	{
+		$this->path		= dirname( __FILE__ )."/";
+		$this->file		= $this->path."builder.xml";
 		$this->builder	= new Test_XML_RSS_BuilderInstance();
 		$this->setup	= array(
 			'channel'	=> array(

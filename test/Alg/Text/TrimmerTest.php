@@ -22,22 +22,13 @@ class Test_Alg_Text_TrimmerTest extends Test_Case
 	protected $string;
 
 	/**
-	 *	Constructor.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function __construct()
-	{
-		$this->string	= "abcdefghijklmnop";
-	}
-
-	/**
 	 *	Setup for every Test.
 	 *	@access		public
 	 *	@return		void
 	 */
 	public function setUp()
 	{
+		$this->string	= "abcdefghijklmnop";
 	}
 
 	/**

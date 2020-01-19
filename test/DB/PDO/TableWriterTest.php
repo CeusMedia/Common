@@ -22,11 +22,14 @@ class Test_DB_PDO_TableWriterTest extends Test_Case{
 	protected $directDbc;
 
 	/**
-	 *	Constructor.
+	 *	Setup for every Test.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function __construct(){
+	public function setUp(){
+		if( !extension_loaded( 'pdo_mysql' ) )
+			$this->markTestSkipped( "PDO driver for MySQL not supported" );
+
 		$this->host		= self::$config['unitTest-Database']['host'];
 		$this->port		= self::$config['unitTest-Database']['port'];
 		$this->username	= self::$config['unitTest-Database']['username'];
@@ -51,16 +54,6 @@ class Test_DB_PDO_TableWriterTest extends Test_Case{
 			'topic',
 			'label'
 		);
-	}
-
-	/**
-	 *	Setup for every Test.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function setUp(){
-		if( !extension_loaded( 'pdo_mysql' ) )
-			$this->markTestSkipped( "PDO driver for MySQL not supported" );
 
 		$this->connection	= new DB_PDO_Connection( $this->dsn, $this->username, $this->password, $this->options );
 		$this->connection->setAttribute( PDO::ATTR_CASE, PDO::CASE_NATURAL );

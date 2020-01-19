@@ -19,14 +19,11 @@ require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
  */
 class Test_UI_Image_ErrorTest extends Test_Case
 {
-	public function __construct()
-	{
-		$this->path	= dirname( __FILE__ )."/";
-	}
-
 	public function setUp(){
 		if( !extension_loaded( 'gd' ) )
 			$this->markTestSkipped( 'Missing gd support' );
+
+		$this->path	= dirname( __FILE__ )."/";
 	}
 
 	public function testConstruct()

@@ -19,23 +19,14 @@ require_once dirname( dirname( dirname( dirname( __DIR__ ) ) ) ).'/initLoaders.p
 class Test_FS_File_PHP_Parser_RegularTest extends Test_Case
 {
 	/**
-	 *	Constructor.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function __construct()
-	{
-		$this->path		= str_replace( "\\", "/", dirname( __FILE__ ) )."/" ;
-		$this->fileName	= $this->path."TestClass.php";
-	}
-
-	/**
 	 *	Setup for every Test.
 	 *	@access		public
 	 *	@return		void
 	 */
 	public function setUp()
 	{
+		$this->path		= str_replace( "\\", "/", dirname( __FILE__ ) )."/" ;
+		$this->fileName	= $this->path."TestClass.php";
 		$parser	= new FS_File_PHP_Parser_Regular();
 		$this->data		= $parser->parseFile( $this->fileName, $this->path );
 		$this->file		= $this->data->getUri();

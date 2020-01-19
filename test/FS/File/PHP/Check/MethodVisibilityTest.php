@@ -19,24 +19,15 @@ require_once dirname( dirname( dirname( dirname( __DIR__ ) ) ) ).'/initLoaders.p
 class Test_FS_File_PHP_Check_MethodVisibilityTest extends Test_Case
 {
 	/**
-	 *	Constructor.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function __construct()
-	{
-		$this->path			= dirname( __FILE__ )."/";
-		$this->fileTemp1	= __FILE__;
-		$this->fileTemp2	= $this->path."TestClass_Bad.php";
-	}
-
-	/**
 	 *	Setup for every Test.
 	 *	@access		public
 	 *	@return		void
 	 */
 	public function setUp()
 	{
+		$this->path			= dirname( __FILE__ )."/";
+		$this->fileTemp1	= __FILE__;
+		$this->fileTemp2	= $this->path."TestClass_Bad.php";
 	}
 
 	/**

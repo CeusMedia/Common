@@ -19,7 +19,12 @@ class Test_FS_File_YAML_ReaderTest extends Test_Case
 	/**	@var	string		$fileName		File Name of Test File */
 	private $fileName;
 
-	public function __construct()
+	/**
+	 *	Setup for every Test.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function setUp()
 	{
 		$this->fileName		= dirname( __FILE__ )."/reader.yaml";
 	}

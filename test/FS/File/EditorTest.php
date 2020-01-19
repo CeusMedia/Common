@@ -28,25 +28,16 @@ class Test_FS_File_EditorTest extends Test_Case
 	private $path;
 
 	/**
-	 *	Constructor.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function __construct()
-	{
-		$this->path		= dirname( __FILE__ )."/";
-		$this->fileName	= $this->path.$this->fileName;
-		$this->editor	= new FS_File_Editor( $this->fileName );
-	}
-
-	/**
 	 *	Setup for every Test.
 	 *	@access		public
 	 *	@return		void
 	 */
 	public function setUp()
 	{
+		$this->path		= dirname( __FILE__ )."/";
+		$this->fileName	= $this->path.$this->fileName;
 		file_put_contents( $this->fileName, $this->fileContent );
+		$this->editor	= new FS_File_Editor( $this->fileName );
 	}
 
 	/**

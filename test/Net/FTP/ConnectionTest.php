@@ -20,22 +20,6 @@ class Test_Net_FTP_ConnectionTest extends Test_Case
 {
 	protected $connection;
 
-	/**
-	 *	Constructor.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function __construct()
-	{
-		$this->config	= self::$config['unitTest-FTP'];
-		$this->host		= $this->config['host'];
-		$this->port		= $this->config['port'];
-		$this->username	= $this->config['user'];
-		$this->password	= $this->config['pass'];
-		$this->path		= $this->config['path'];
-		$this->local	= $this->config['local'];
-	}
-
 	protected function login() {
 		$this->connection->login( $this->username, $this->password );
 		if( $this->path )
@@ -49,8 +33,17 @@ class Test_Net_FTP_ConnectionTest extends Test_Case
 	 */
 	public function setUp()
 	{
+		$this->config	= self::$config['unitTest-FTP'];
+		$this->host		= $this->config['host'];
+		$this->port		= $this->config['port'];
+		$this->username	= $this->config['user'];
+		$this->password	= $this->config['pass'];
+		$this->path		= $this->config['path'];
+		$this->local	= $this->config['local'];
+
 		if( !$this->local )
 			$this->markTestSkipped( 'No FTP data set in cmClasses.ini' );
+
 		@mkDir( $this->local );
 		$this->connection	= new Net_FTP_Connection( $this->host, $this->port );
 	}

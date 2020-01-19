@@ -21,22 +21,13 @@ require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
 class Test_XML_DOM_ObjectSerializerTest extends Test_Case
 {
 	/**
-	 *	Constructor.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function __construct()
-	{
-		$this->fileName		= dirname( __FILE__ ).'/serializer.xml';
-	}
-
-	/**
 	 *	Sets up Leaf.
 	 *	@access		public
 	 *	@return		void
 	 */
 	public function setUp()
 	{
+		$this->fileName		= dirname( __FILE__ ).'/serializer.xml';
 		$this->serializer		= new XML_DOM_ObjectSerializer();
 		$this->object			= new Test_Object();
 		$this->object->string	= "content";

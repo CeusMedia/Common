@@ -19,15 +19,6 @@ require_once dirname( __DIR__ ).'/initLoaders.php';
 class Test_Net_CURLTest extends Test_Case
 {
 	/**
-	 *	Constructor.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function __construct()
-	{
-	}
-
-	/**
 	 *	Setup for every Test.
 	 *	@access		public
 	 *	@return		void

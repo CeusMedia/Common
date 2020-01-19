@@ -18,15 +18,6 @@ require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
  */
 class Test_XML_WDDX_BuilderTest extends Test_Case
 {
-	/**
-	 *	Constructor.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function __construct()
-	{
-	}
-
 	public function setUp(){
 		if( !extension_loaded( 'wddx' ) )
 			$this->markTestSkipped( 'Missing WDDX support' );

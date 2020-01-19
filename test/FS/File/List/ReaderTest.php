@@ -5,7 +5,7 @@
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@version		0.1
  */
-require_once dirname( dirname( dirname( __DIR__ ) ) ).'/initLoaders.php'; 
+require_once dirname( dirname( dirname( __DIR__ ) ) ).'/initLoaders.php';
 /**
  *	TestUnit of List Reader.
  *	@package		Tests.file.list
@@ -19,11 +19,6 @@ class Test_FS_File_List_ReaderTest extends Test_Case
 	/**	@var	string		$fileName		File Name of Test File */
 	private $fileName;
 
-	public function __construct()
-	{
-		$this->fileName		= dirname( __FILE__ )."/read.list";
-	}
-
 	/**
 	 *	Set up for every Test.
 	 *	@access		public
@@ -31,6 +26,7 @@ class Test_FS_File_List_ReaderTest extends Test_Case
 	 */
 	public function setUp()
 	{
+		$this->fileName		= dirname( __FILE__ )."/read.list";
 		$this->reader	= new FS_File_List_Reader( $this->fileName );
 	}
 

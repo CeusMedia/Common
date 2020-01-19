@@ -19,22 +19,13 @@ require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
 final class Test_Alg_Time_ClockTest extends Test_Case
 {
 	/**
-	 *	Constructor.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function __construct()
-	{
-		Test_MockAntiProtection::createMockClass( "Alg_Time_Clock" );
-	}
-
-	/**
 	 *	Setup for every Test.
 	 *	@access		public
 	 *	@return		void
 	 */
 	public function setUp()
 	{
+		Test_MockAntiProtection::createMockClass( "Alg_Time_Clock" );
 	}
 
 	/**

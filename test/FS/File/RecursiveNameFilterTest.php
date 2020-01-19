@@ -19,23 +19,14 @@ require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
 class Test_FS_File_RecursiveNameFilterTest extends Test_Case
 {
 	/**
-	 *	Constructor.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function __construct()
-	{
-		$this->path	= dirname( __FILE__ )."/FilterTest/";
-		$this->tearDown();
-	}
-
-	/**
 	 *	Setup for every Test.
 	 *	@access		public
 	 *	@return		void
 	 */
 	public function setUp()
 	{
+		$this->path	= dirname( __FILE__ )."/FilterTest/";
+		$this->tearDown();
 		mkDir( $this->path );
 		mkDir( $this->path."nested/" );
 		file_put_contents( $this->path."test1.test", "test1" );

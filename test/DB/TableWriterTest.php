@@ -19,13 +19,17 @@ require_once dirname( __DIR__ ).'/initLoaders.php';
  */
 class Test_DB_TableWriterTest extends Test_Case
 {
+
 	/**
-	 *	Constructor.
+	 *	Setup for every Test.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function __construct()
+	public function setUp()
 	{
+		if( !extension_loaded( 'mysql' ) )
+			$this->markTestSkipped( 'Missing MySQL support' );
+
 		$this->host		= self::$config['unitTest-Database']['host'];
 		$this->port		= self::$config['unitTest-Database']['port'];
 		$this->username	= self::$config['unitTest-Database']['username'];
@@ -47,17 +51,6 @@ class Test_DB_TableWriterTest extends Test_Case
 			'topic',
 			'label'
 		);
-	}
-
-	/**
-	 *	Setup for every Test.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function setUp()
-	{
-		if( !extension_loaded( 'mysql' ) )
-			$this->markTestSkipped( 'Missing MySQL support' );
 
 		$this->connection	= new DB_MySQL_Connection( $this->logFile );
 		$this->connection->connect( $this->host, $this->username, $this->password, $this->options );

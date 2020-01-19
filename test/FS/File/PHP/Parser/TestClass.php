@@ -70,7 +70,7 @@ abstract class TestClass extends Alpha implements Beta, Gamma
 	 *	@version	3.2.1
 	 *	@since		03.02.01
 	 */
-	abstract public function __construct( ArrayObject $object, &$reference, $array = array(), $null = NULL );
+	abstract public funct ( ArrayObject $object, &$reference, $array = array(), $null = NULL );
 
 	final public function testMethod( Object $object = NULL )
 	{
