@@ -6,7 +6,12 @@
  *	@since			21.04.2008
  *	@version		0.1
  */
-require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
+declare( strict_types = 1 );
+
+use PHPUnit\Framework\TestCase;
+
+require_once __DIR__.'/TestCase.php';
+
 /**
  *	TestUnit of RegexFilter for Folders.
  *	@package		Tests.folder
@@ -25,6 +30,7 @@ class Test_FS_Folder_RegexFilterTest extends Test_FS_Folder_TestCase
 	 */
 	public function setUp()
 	{
+		parent::setUp();
 		$this->path	= str_replace( "\\", "/", dirname( __FILE__ ) )."/";
 	}
 

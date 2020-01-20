@@ -6,7 +6,12 @@
  *	@since			21.04.2008
  *	@version		0.1
  */
-require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
+declare( strict_types = 1 );
+
+use PHPUnit\Framework\TestCase;
+
+require_once __DIR__.'/TestCase.php';
+
 /**
  *	TestUnit of recursive Folder Iterator.
  *	@package		Tests.folder

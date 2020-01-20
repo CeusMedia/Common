@@ -6,7 +6,10 @@
  *	@since			10.08.2008
  *	@version		0.1
  */
-require_once dirname( dirname( dirname( dirname( __DIR__ ) ) ) ).'/initLoaders.php';
+declare( strict_types = 1 );
+
+use PHPUnit\Framework\TestCase;
+
 /**
  *	TestUnit of FS_File_PHP_Parser_Regular.
  *	@package		Tests.file.php

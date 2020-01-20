@@ -6,7 +6,10 @@
  *	@since			19.04.2009
  *	@version		0.1
  */
-require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
+declare( strict_types = 1 );
+
+use PHPUnit\Framework\TestCase;
+
 /**
  *	TestUnit of FS_File_Cache.
  *	@package		Tests.file

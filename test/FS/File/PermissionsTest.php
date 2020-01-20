@@ -6,7 +6,10 @@
  *	@since			0.7.0
  *	@version		$Id$
  */
-require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
+declare( strict_types = 1 );
+
+use PHPUnit\Framework\TestCase;
+
 /**
  *	TestUnit of FS_File_Permissions.
  *	@package		Tests.File

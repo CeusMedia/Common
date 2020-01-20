@@ -6,7 +6,12 @@
  *	@since			21.04.2008
  *	@version		0.1
  */
-require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
+declare( strict_types = 1 );
+
+use PHPUnit\Framework\TestCase;
+
+require_once __DIR__.'/TestCase.php';
+
 /**
  *	TestUnit of Folder Editor.
  *	@package		Tests.folder
@@ -25,8 +30,10 @@ class Test_FS_Folder_EditorTest extends Test_FS_Folder_TestCase
 	 */
 	public function setUp()
 	{
-		$this->editor	= new FS_Folder_Editor( $this->folder );
 		$this->tearDown();
+		parent::setUp();
+		$this->editor	= new FS_Folder_Editor( $this->folder );
+
 	}
 
 	public function tearDown()

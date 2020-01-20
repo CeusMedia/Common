@@ -5,7 +5,10 @@
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@version		0.1
  */
-require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
+declare( strict_types = 1 );
+
+use PHPUnit\Framework\TestCase;
+
 /**
  *	Test class for FS_File_Backup.
  *	@package		Tests.file

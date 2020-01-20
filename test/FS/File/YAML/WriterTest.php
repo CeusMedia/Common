@@ -6,7 +6,10 @@
  *	@since			02.05.2008
  *	@version		0.1
  */
-require_once dirname( dirname( dirname( __DIR__ ) ) ).'/initLoaders.php';
+declare( strict_types = 1 );
+
+use PHPUnit\Framework\TestCase;
+
 /**
  *	TestUnit of FS_File_YAML_Writer.
  *	@package		Test.File.YAML

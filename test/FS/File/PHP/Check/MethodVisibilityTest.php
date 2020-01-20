@@ -6,7 +6,10 @@
  *	@since			04.01.2009
  *	@version		$Id$
  */
-require_once dirname( dirname( dirname( dirname( __DIR__ ) ) ) ).'/initLoaders.php';
+declare( strict_types = 1 );
+
+use PHPUnit\Framework\TestCase;
+
 /**
  *	TestUnit of FS_File_PHP_Check_MethodVisibility.
  *	@package		Tests.file.php
