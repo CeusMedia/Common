@@ -6,7 +6,10 @@
  *	@since			04.08.2008
  *	@version		0.1
  */
-require_once dirname( __DIR__ ).'/initLoaders.php';
+declare( strict_types = 1 );
+
+use PHPUnit\Framework\TestCase;
+
 /**
  *	TestUnit of Alg_HtmlParser.
  *	@package		Tests.alg

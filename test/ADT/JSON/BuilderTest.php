@@ -9,8 +9,6 @@ declare( strict_types = 1 );
 
 use PHPUnit\Framework\TestCase;
 
-require_once dirname( dirname( __DIR__ ) ).'/init.php';
-
 /**
  *	TestUnit of LinkList
  *	@package		Tests.adt.json
@@ -19,7 +17,7 @@ require_once dirname( dirname( __DIR__ ) ).'/init.php';
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@version		0.1
  */
-class Test_ADT_JSON_BuilderTest extends TestCase
+class Test_ADT_JSON_BuilderTest extends Test_Case
 {
 	/**
 	 *	Constructor.

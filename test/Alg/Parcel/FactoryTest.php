@@ -6,7 +6,10 @@
  *	@since			08.07.2008
  *	@version		0.1
  */
-require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
+declare( strict_types = 1 );
+
+use PHPUnit\Framework\TestCase;
+
 /**
  *	TestUnit of Alg_Parcel_Factory.
  *	@package		Tests.alg.parcel
@@ -25,7 +28,6 @@ class Test_Alg_Parcel_FactoryTest extends Test_Case
 	 */
 	public function setUp()
 	{
-		$this->factory	= new Alg_Parcel_Factory( $this->packets, $this->articles, $this->volumes );
 		$this->articles	= array(
 			'a',
 			'b',
@@ -44,6 +46,8 @@ class Test_Alg_Parcel_FactoryTest extends Test_Case
 				'b'	=> 0.25,
 			),
 		);
+		Test_MockAntiProtection::createMockClass( "Alg_Parcel_Factory" );
+		$this->factory	= new Test_Alg_Parcel_Factory_MockAntiProtection( $this->packets, $this->articles, $this->volumes );
 	}
 
 	/**
@@ -62,18 +66,18 @@ class Test_Alg_Parcel_FactoryTest extends Test_Case
 	 */
 	public function testConstruct()
 	{
-		$factory	= new Alg_Parcel_FactoryInstance( $this->packets, $this->articles, $this->volumes );
+//		$factory	= new Alg_Parcel_FactoryInstance( $this->packets, $this->articles, $this->volumes );
 
 		$assertion	= $this->packets;
-		$creation	= $factory->getProtectedVar( 'packets' );
+		$creation	= $this->factory->getProtectedVar( 'packets' );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= $this->articles;
-		$creation	= $factory->getProtectedVar( 'articles' );
+		$creation	= $this->factory->getProtectedVar( 'articles' );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= $this->volumes;
-		$creation	= $factory->getProtectedVar( 'volumes' );
+		$creation	= $this->factory->getProtectedVar( 'volumes' );
 		$this->assertEquals( $assertion, $creation );
 	}
 

@@ -9,7 +9,10 @@
  *	@since			30.11.2018
  *	@version		0.1
  */
-require_once dirname( __DIR__ ).'/initLoaders.php';
+declare( strict_types = 1 );
+
+use PHPUnit\Framework\TestCase;
+
 /**
  *	TestUnit of ADT_URL.
  *	@package		Tests.CeusMedia_Common_ADT

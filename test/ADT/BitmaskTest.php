@@ -6,7 +6,10 @@
  *	@since			11.12.2018
  *	@version		0.1
  */
-require_once dirname( __DIR__ ).'/initLoaders.php';
+declare( strict_types = 1 );
+
+use PHPUnit\Framework\TestCase;
+
 /**
  *	TestUnit of Test_ADT_Bitmask.
  *	@extends		Test_Case

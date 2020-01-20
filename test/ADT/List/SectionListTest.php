@@ -6,7 +6,10 @@
  *	@since			21.07.2008
  *	@version		0.1
  */
-require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
+declare( strict_types = 1 );
+
+use PHPUnit\Framework\TestCase;
+
 /**
  *	TestUnit of Test_ADT_List_SectionList.
  *	@package		Tests.adt.list
