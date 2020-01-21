@@ -21,7 +21,7 @@ class Test_Net_HTTP_Header_FieldTest extends Test_Case
 	{
 		$header	= new Net_HTTP_Header_Field( "key", "value" );
 		$assertion	= true;
-		$creation	= (bool) count( $header->toString() );
+		$creation	= (bool) strlen( $header->toString() );
 		$this->assertEquals( $assertion, $creation );
 	}
 

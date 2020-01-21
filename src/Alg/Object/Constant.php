@@ -47,7 +47,7 @@ class Alg_Object_Constant{
 			return $constants[$constantKey];
 		$key		= $prefix ? rtrim( $prefix, '_' ).'_'.$constantKey : $constantKey;
 		$message	= 'Constant "%s" is not defined in class "%s"';
-		throw new DomainException( sprintf( $message, $value, $this->className ) );
+		throw new DomainException( sprintf( $message, $constantKey, $this->className ) );
 	}
 
 	static public function staticGetAll( $className, $prefix = NULL ){

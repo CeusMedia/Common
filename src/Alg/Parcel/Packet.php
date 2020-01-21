@@ -42,10 +42,10 @@ class Alg_Parcel_Packet
 	/**	@var		string		$name		Name of Packet Size */
 	protected $name;
 	/**	@var		array		$articles	Array of Articles and their Quantities */
-	protected $articles;
+	protected $articles			= array();
 	/**	@var		float		$volume		Filled Volume as floating Number between 0 and 1 */
-	protected $volume;
-	
+	protected $volume			= 0;
+
 	/**
 	 *	Constructor.
 	 *	@access		public
@@ -71,7 +71,7 @@ class Alg_Parcel_Packet
 		$volume		= round( $this->volume * 100, 0 );
 		return "[".$this->name."] {".$articles."} (".$volume."%)";
 	}
-	
+
 	/**
 	 *	Adds an Article to Packet.
 	 *	@access		public
@@ -98,7 +98,7 @@ class Alg_Parcel_Packet
 	{
 		return $this->articles;
 	}
-	
+
 	/**
 	 *	Returns Packet Name.
 	 *	@access		public
@@ -108,7 +108,7 @@ class Alg_Parcel_Packet
 	{
 		return $this->name;
 	}
-	
+
 	/**
 	 *	Returns Packet Volume.
 	 *	@access		public
@@ -118,7 +118,7 @@ class Alg_Parcel_Packet
 	{
 		return $this->volume;
 	}
-	
+
 	/**
 	 *	Checks whether an Article Volume is left in Packet.
 	 *	@access		public

@@ -23,12 +23,13 @@ class Test_Net_HTTP_Request_SenderTest extends Test_Case
 		$url		= "/";
 		$needle		= "@Example Domain@i";
 
-/*		$host		= "ceus-media.de";
-		$url		= "/";
+		$host		= "ceusmedia.de";
+		$url		= "https://ceusmedia.de/";
 		$needle		= "@ceus media@i";
-*/
+
 		$sender		= new Net_HTTP_Request_Sender( $host, $url );
-		$response	= $sender->send( array(), "test" );
+		$sender->setPort( 443 );
+		$response	= $sender->send();
 
 		$creation	= is_object( $response );
 		$this->assertTrue( $creation );

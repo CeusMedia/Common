@@ -93,7 +93,7 @@ class Alg_Parcel_Packer
 			}
 
 			//  --  FILL PACKET  --  //
-			$found = false;																				//  
+			$found = false;																				//
 			for( $i=0; $i<count( $this->packetList ); $i++ )											//  iterate Packets in Packet List
 			{
 				$packet	= $this->getPacket( $i );														//  get current Packet
@@ -114,7 +114,7 @@ class Alg_Parcel_Packer
 				$packet	= $this->getPacket( $i );														//  get current Packet
 				while( $this->hasLargerPacket( $packet->getName() ) )									//  there is a larger Packet Type
 				{
-					$largerPacketName	= $this->getNameOfLargerPacket( $packet->getName() );	
+					$largerPacketName	= $this->getNameOfLargerPacket( $packet->getName() );
 					$articles			= $packet->getArticles();										//  get larger Packet
 					$largerPacket		= $this->factory->produce( $largerPacketName, $articles );		//  produce new Packet and add Articles from old Packet
 					$articleVolume		= $this->volumes[$largerPacketName][$largestArticle];			//  get Volume of current Article in this Packet
@@ -131,7 +131,7 @@ class Alg_Parcel_Packer
 			}
 			if( $found )																				//  Article has been put into a Packet
 				continue;																				//  step to next Article
-	
+
 			//  --  ADD NEW PACKET  --  //
 			$packetName	= $this->getNameOfSmallestPacketForArticle( $largestArticle );					//  get smallest Packet Type for Article
 			$packet		= $this->factory->produce( $packetName, array( $largestArticle => 1 ) );		//  produce new Packet and put Article in
@@ -199,7 +199,8 @@ class Alg_Parcel_Packer
 	{
 		$keys	= array_keys( $this->packets );
 		$index	= array_search( $packetName, $keys );
-		$next	= array_pop( array_slice( $keys, $index + 1, 1 ) );
+		$sliced	= array_slice( $keys, $index + 1, 1 );
+		$next	= array_pop( $sliced );
 		return $next;
 	}
 
@@ -218,7 +219,7 @@ class Alg_Parcel_Packer
 
 	/**
 	 *	Returns Name of smallest Packet for an Article.
-	 *	@access		protected 
+	 *	@access		protected
 	 *	@param		string		$articleName		Name of Article to get smallest Article for
 	 *	@return		string
 	 */

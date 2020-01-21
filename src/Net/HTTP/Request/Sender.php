@@ -151,11 +151,17 @@ class Net_HTTP_Request_Sender
 		);
 		if( $this->method === 'POST' )
 			$lines[]	= $this->data;
+		$lines[]	= "\r\n";
 		$lines	= join( "\r\n", $lines );
+		print_r($lines);
+
 		fwrite( $fp, $lines );																		//  send Request
-		while( !feof( $fp ) )																		//  receive Response
-			$result .= fgets( $fp, 1024 );															//  collect Response chunks
+		while( !feof( $fp ) ){																		//  receive Response
+			echo ".";
+			$result .= fgets( $fp, 4 * 1024 );															//  collect Response chunks
+		}
 		fclose( $fp );																				//  close Connection
+		print_r($result);die;
 		$response	= Net_HTTP_Response_Parser::fromString( $result );
 		if( count( $response->getHeader( 'Location' ) ) ){
 			$location	= array_shift( $response->getHeader( 'Location' ) );
