@@ -33,12 +33,13 @@ class Test_FS_File_PHP_Parser_RegularTest extends Test_Case
 		$parser	= new FS_File_PHP_Parser_Regular();
 		$this->data		= $parser->parseFile( $this->fileName, $this->path );
 		$this->file		= $this->data->getUri();
-		$this->class	= array_shift( array_slice( $this->data->getClasses(), 0, 1 ) );
-		$this->function	= array_shift( array_slice( $this->data->getFunctions(), 0, 1 ) );
-		$this->method1	= array_shift( array_slice( $this->class->getMethods(), 0, 1 ) );
-		$this->method2	= array_shift( array_slice( $this->class->getMethods(), 1, 1 ) );
-		$this->method3	= array_shift( array_slice( $this->class->getMethods(), 2, 1 ) );
-		$this->method4	= array_shift( array_slice( $this->class->getMethods(), 3, 1 ) );
+		$this->class	= current( $this->data->getClasses() );
+		$this->function	= current( $this->data->getFunctions() );
+		$methods		= $this->class->getMethods();
+		$this->method1	= array_shift( $methods );
+		$this->method2	= array_shift( $methods );
+		$this->method3	= array_shift( $methods );
+		$this->method4	= array_shift( $methods );
 	}
 
 	/**
@@ -310,10 +311,10 @@ class Test_FS_File_PHP_Parser_RegularTest extends Test_Case
 		$creation	= count( $this->function->getParameters() );
 		$this->assertEquals( $assertion, $creation );
 
-
-		$param1	= array_shift( array_slice( $this->function->getParameters(), 0, 1 ) );
-		$param2	= array_shift( array_slice( $this->function->getParameters(), 1, 1 ) );
-		$param3	= array_shift( array_slice( $this->function->getParameters(), 2, 1 ) );
+		$parameters	= $this->function->getParameters();
+		$param1	= array_shift( $parameters );
+		$param2	= array_shift( $parameters );
+		$param3	= array_shift( $parameters );
 
 		$this->assertTrue( is_object( $param1 ) );
 		$this->assertTrue( $param1 instanceof ADT_PHP_Parameter );
@@ -752,10 +753,11 @@ class Test_FS_File_PHP_Parser_RegularTest extends Test_Case
 		$creation	= count( $this->method1->getParameters() );
 		$this->assertEquals( $assertion, $creation );
 
-		$param1	= array_shift( array_slice( $this->method1->getParameters(), 0, 1 ) );
-		$param2	= array_shift( array_slice( $this->method1->getParameters(), 1, 1 ) );
-		$param3	= array_shift( array_slice( $this->method1->getParameters(), 2, 1 ) );
-		$param4	= array_shift( array_slice( $this->method1->getParameters(), 3, 1 ) );
+		$parameters	= $this->method1->getParameters();
+		$param1	= array_shift( $parameters );
+		$param2	= array_shift( $parameters );
+		$param3	= array_shift( $parameters );
+		$param4	= array_shift( $parameters );
 
 		$this->assertTrue( is_object( $param1 ) );
 		$this->assertTrue( $param1 instanceof ADT_PHP_Parameter );

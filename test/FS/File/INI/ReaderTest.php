@@ -559,6 +559,51 @@ class Test_FS_File_INI_ReaderTest extends Test_Case
 	 */
 	public function testToArray()
 	{
+		$assertion	= array(
+			"key1"	=> "value1",
+			"key2"	=> "value2",
+			"key3"	=> "value3",
+			"key4"	=> "value4",
+		);
+		$creation	= $this->list->toArray();
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= array(
+			"key1"	=> "value1",
+			"key2"	=> "value2",
+			"key3"	=> "value3",
+			"key4"	=> "value4",
+			"key5"	=> "disabled",
+		);
+		$creation	= $this->list->toArray( FALSE );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= array(
+			'section1'	=> array(
+				"key1"	=> "value1",
+				"key2"	=> "value2",
+			),
+			'section2'	=> array(
+				"key3"	=> "value3",
+				"key4"	=> "value4",
+			),
+		);
+		$creation	= $this->sections->toArray();
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= array(
+			'section1'	=> array(
+				"key1"	=> "value1",
+				"key2"	=> "value2",
+			),
+			'section2'	=> array(
+				"key3"	=> "value3",
+				"key4"	=> "value4",
+				"key5"	=> "disabled",
+			),
+		);
+		$creation	= $this->sections->toArray( FALSE );
+		$this->assertEquals( $assertion, $creation );
 	}
 
 	/**

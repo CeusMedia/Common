@@ -109,7 +109,12 @@ class Test_FS_File_JSON_ReaderTest extends Test_Case
 		$filename	= dirname( __FILE__ ).'/empty.json';
 		$reader		= new FS_File_JSON_Reader( $filename );
 		$assertion	= NULL;
-		$creation	= $reader->read();
+		$creation	= NULL;
+		try{
+			$creation	= $reader->read();
+		}
+		catch( Exception $e ){
+		}
 		$this->assertEquals( $assertion, $creation );
 	}
 
