@@ -118,4 +118,3 @@ class Test_Alg_SgmlTagReaderTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

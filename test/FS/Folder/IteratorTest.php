@@ -152,4 +152,3 @@ class Test_FS_Folder_IteratorTest extends Test_FS_Folder_TestCase
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

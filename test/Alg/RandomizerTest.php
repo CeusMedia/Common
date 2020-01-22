@@ -216,4 +216,3 @@ class Test_Alg_RandomizerTest extends Test_Case
 		$this->randomizer->get( 5, 30 );
 	}
 }
-?>

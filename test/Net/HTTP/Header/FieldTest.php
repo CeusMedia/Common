@@ -41,4 +41,3 @@ class Test_Net_HTTP_Header_FieldTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

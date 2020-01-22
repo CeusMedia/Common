@@ -42,13 +42,19 @@ class Test_FS_File_StaticCacheTest extends Test_Case
 	 */
 	public function tearDown()
 	{
-		$dir	= dir( $this->pathCache );														//  index Folder
-		while( $entry = $dir->read() )															//  iterate Objects
+		//  index Folder
+		$dir	= dir( $this->pathCache );
+		//  iterate Objects
+		while( $entry = $dir->read() )
 		{
-			if( preg_match( "@^(\.){1,2}$@", $entry ) )											//  if is Dot Object
-				continue;																		//  continue
-			if( is_file( $this->pathCache."/".$entry ) )										//  is nested File
-				@unlink( $this->pathCache."/".$entry );											//  remove File
+			//  if is Dot Object
+			if( preg_match( "@^(\.){1,2}$@", $entry ) )
+				//  continue
+				continue;
+			//  is nested File
+			if( is_file( $this->pathCache."/".$entry ) )
+				//  remove File
+				@unlink( $this->pathCache."/".$entry );
 		}
 		$dir->close();
 		rmdir( substr( $this->pathCache, 0, -1 ) );
@@ -330,4 +336,3 @@ class Test_FS_File_StaticCacheTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

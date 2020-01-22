@@ -78,4 +78,3 @@ class Test_FS_File_UnicoderTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

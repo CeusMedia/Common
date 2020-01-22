@@ -76,4 +76,3 @@ class Test_XML_WDDX_FileReaderTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

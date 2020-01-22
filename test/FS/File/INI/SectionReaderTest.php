@@ -172,4 +172,3 @@ class Test_FS_File_INI_SectionReaderTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

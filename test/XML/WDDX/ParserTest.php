@@ -65,4 +65,3 @@ class Test_XML_WDDX_ParserTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

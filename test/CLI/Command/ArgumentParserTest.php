@@ -271,4 +271,3 @@ class Test_CLI_Command_ArgumentParserInstance extends CLI_Command_ArgumentParser
 		$this->$varName	= $varValue;
 	}
 }
-?>

@@ -273,4 +273,3 @@ class Test_DB_PDO_ConnectionTest extends Test_Case{
 		@unlink( $logFile );
 	}
 }
-?>

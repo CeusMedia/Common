@@ -151,4 +151,3 @@ class Test_XML_RSS_WriterTest extends Test_Case
 		$this->assertXmlFileEqualsXmlFile( $this->assert, $this->file );
 	}
 }
-?>

@@ -119,4 +119,3 @@ class Test_Alg_Text_TermExtractorTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

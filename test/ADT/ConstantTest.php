@@ -76,4 +76,3 @@ class Test_ADT_ConstantTest extends Test_Case
 		ADT_Constant::getKeyByValue( 'JSON', 1 );
 	}
 }
-?>

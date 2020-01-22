@@ -132,4 +132,3 @@ class Test_ADT_Tree_BalanceBinaryNodeTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

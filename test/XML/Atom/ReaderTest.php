@@ -506,4 +506,3 @@ class Test_XML_Atom_ReaderTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

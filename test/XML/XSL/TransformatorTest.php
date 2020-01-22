@@ -63,4 +63,3 @@ class Test_XML_XSL_TransformatorTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

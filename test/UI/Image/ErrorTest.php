@@ -47,4 +47,3 @@ class Test_UI_Image_ErrorTest extends Test_Case
 		@unlink( $this->path."targetError.png" );
 	}
 }
-?>

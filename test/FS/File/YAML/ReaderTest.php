@@ -69,4 +69,3 @@ class Test_FS_File_YAML_ReaderTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

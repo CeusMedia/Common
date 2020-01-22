@@ -200,4 +200,3 @@ class Test_FS_File_Configuration_ReaderTest extends Test_Case
 		unlink( $fileName );
 	}
 }
-?>

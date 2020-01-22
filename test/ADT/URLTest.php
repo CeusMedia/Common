@@ -575,4 +575,3 @@ class Test_ADT_URLTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

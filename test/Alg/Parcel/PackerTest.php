@@ -169,4 +169,3 @@ class Test_Alg_Parcel_PackerTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

@@ -139,4 +139,3 @@ final class Test_Alg_Time_DurationTest extends Test_Case
 		}
 	}
 }
-?>

@@ -195,4 +195,3 @@ final class Test_Alg_Time_ClockTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

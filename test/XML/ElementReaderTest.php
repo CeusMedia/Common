@@ -69,4 +69,3 @@ class Test_XML_ElementReaderTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

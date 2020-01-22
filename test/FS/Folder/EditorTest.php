@@ -357,4 +357,3 @@ class Test_FS_Folder_EditorTest extends Test_FS_Folder_TestCase
 		FS_Folder_Editor::removeFolder( $this->path."remove" );
 	}
 }
-?>

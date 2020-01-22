@@ -101,4 +101,3 @@ class Test_FS_File_YAML_WriterTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

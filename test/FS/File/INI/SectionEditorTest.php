@@ -160,4 +160,3 @@ class Test_FS_File_INI_SectionEditorTest extends Test_Case
 		$this->editor->removeSection( 'invalid_section' );
 	}
 }
-?>

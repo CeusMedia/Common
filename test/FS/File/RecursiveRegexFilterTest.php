@@ -161,4 +161,3 @@ class Test_FS_File_RecursiveRegexFilterTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

@@ -123,4 +123,3 @@ class Test_Net_HTTP_SessionTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

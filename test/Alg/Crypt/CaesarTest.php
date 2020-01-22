@@ -55,4 +55,3 @@ class Test_Alg_Crypt_CaesarTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

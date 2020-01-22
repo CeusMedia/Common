@@ -868,4 +868,3 @@ class Test_FS_File_PHP_Parser_RegularTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

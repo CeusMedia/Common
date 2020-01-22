@@ -283,4 +283,3 @@ class Test_ADT_StringBufferTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

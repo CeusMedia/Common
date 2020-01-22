@@ -20,4 +20,3 @@ class Test_Case extends PHPUnit_Framework_TestCase{
 }
 //Test_Case::$pathLib	= dirname( __DIR__  ).'/';
 error_reporting( error_reporting() || ~E_USER_DEPRECATED );
-?>

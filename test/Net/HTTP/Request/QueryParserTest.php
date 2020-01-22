@@ -230,4 +230,3 @@ class Test_Net_HTTP_Request_QueryParserTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

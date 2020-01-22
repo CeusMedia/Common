@@ -169,4 +169,3 @@ class Test_Net_ReaderTest extends Test_Case
 		$this->reader->setUrl( "" );
 	}
 }
-?>

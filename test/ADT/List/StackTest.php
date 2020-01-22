@@ -223,4 +223,3 @@ class Test_ADT_List_StackTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

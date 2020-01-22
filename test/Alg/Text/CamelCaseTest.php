@@ -154,4 +154,3 @@ class Test_Alg_Text_CamelCaseTest extends Test_Case
 		$this->assertEquals( FALSE, $creation );
 	}
 }
-?>

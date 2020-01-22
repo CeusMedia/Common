@@ -92,4 +92,3 @@ class Test_ADT_RegistryTest extends Test_Case
 	}
 
 }
-?>

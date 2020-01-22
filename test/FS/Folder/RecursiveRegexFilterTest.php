@@ -253,4 +253,3 @@ class Test_FS_Folder_RecursiveRegexFilterTest extends Test_FS_Folder_TestCase
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

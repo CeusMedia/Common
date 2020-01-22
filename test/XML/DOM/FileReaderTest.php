@@ -154,4 +154,3 @@ class Test_XML_DOM_FileReaderTest extends Test_Case
 		$this->fail();
 	}
 }
-?>

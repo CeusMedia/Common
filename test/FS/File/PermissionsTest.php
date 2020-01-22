@@ -4,7 +4,6 @@
  *	@package		Tests.File
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			0.7.0
- *	@version		$Id$
  */
 declare( strict_types = 1 );
 
@@ -17,7 +16,6 @@ use PHPUnit\Framework\TestCase;
  *	@uses			FS_File_Permissions
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			0.7.0
- *	@version		$Id$
  */
 class Test_FS_File_PermissionsTest extends Test_Case
 {
@@ -777,4 +775,3 @@ class Test_FS_File_PermissionsTest extends Test_Case
 		$this->permissions->setByOctal( 0777 );
 	}
 }
-?>

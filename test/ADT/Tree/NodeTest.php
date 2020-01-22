@@ -190,4 +190,3 @@ class Test_ADT_Tree_NodeTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

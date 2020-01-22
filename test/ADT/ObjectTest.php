@@ -204,4 +204,3 @@ class TestObjectClass extends ADT_Object
 	protected	function protectedMethod(){}
 	private		function privateMethod(){}
 }
-?>

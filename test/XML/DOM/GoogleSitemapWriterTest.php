@@ -71,4 +71,3 @@ class Test_XML_DOM_GoogleSitemapWriterTest extends Test_Case
 		@unlink( $this->testFile );
 	}
 }
-?>

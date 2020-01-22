@@ -218,4 +218,3 @@ class Test_DB_ResultTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

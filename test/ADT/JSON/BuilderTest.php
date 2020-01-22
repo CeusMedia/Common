@@ -80,4 +80,3 @@ class Test_ADT_JSON_BuilderTest extends Test_Case
 		ADT_JSON_Builder::encode( dir( dirname( __FILE__ ) ) );
 	}
 }
-?>

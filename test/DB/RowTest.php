@@ -179,4 +179,3 @@ class Test_DB_RowTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

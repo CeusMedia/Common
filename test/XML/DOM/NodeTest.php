@@ -477,4 +477,3 @@ class Test_XML_DOM_NodeTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

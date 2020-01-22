@@ -311,4 +311,3 @@ class Test_FS_File_WriterTest extends Test_Case
 		$writer->writeArray( array() );
 	}
 }
-?>

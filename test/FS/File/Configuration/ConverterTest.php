@@ -202,4 +202,3 @@ class Test_FS_File_Configuration_ConverterTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

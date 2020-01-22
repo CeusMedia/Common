@@ -216,4 +216,3 @@ class Test_FS_File_CSV_IteratorTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

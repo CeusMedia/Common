@@ -85,4 +85,3 @@ class Test_XML_DOM_BuilderTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

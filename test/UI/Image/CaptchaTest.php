@@ -204,4 +204,3 @@ class Test_UI_Image_CaptchaTest extends Test_Case
 		$this->captcha->generateImage( "not_relevant", "not_relevant" );
 	}
 }
-?>

@@ -212,4 +212,3 @@ class Test_FS_Folder_RecursiveIteratorTest extends Test_FS_Folder_TestCase
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

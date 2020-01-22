@@ -96,4 +96,3 @@ class Test_XML_RSS_ReaderTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

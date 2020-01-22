@@ -65,4 +65,3 @@ class Test_FS_File_ICal_ParserTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

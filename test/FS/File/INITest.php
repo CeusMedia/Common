@@ -265,4 +265,3 @@ class Test_FS_File_INITest extends Test_Case
 		unlink( $fileName.'.copy' );
 	}
 }
-?>

@@ -270,4 +270,3 @@ class Test_XML_DOM_XPathQueryTest extends Test_Case
 		}
 	}
 }
-?>

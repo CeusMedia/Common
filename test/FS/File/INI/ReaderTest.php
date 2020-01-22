@@ -92,7 +92,8 @@ class Test_FS_File_INI_ReaderTest extends Test_Case
 			'bool2'		=> TRUE,
 			'bool3'		=> FALSE,
 			'bool4'		=> FALSE,
-#			'null'		=> NULL,		//  not included after reading because setting Key to NULL means removing the Pair
+//  not included after reading because setting Key to NULL means removing the Pair
+#			'null'		=> NULL,
 			'string1'	=> "abc",
 			'string2'	=> "xyz",
 			'url1'		=> "http://ceusmedia.com/",
@@ -622,4 +623,3 @@ class Test_FS_File_INI_ReaderTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

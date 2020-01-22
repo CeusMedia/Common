@@ -286,4 +286,3 @@ class Test_ADT_List_LevelMapTest extends Test_Case
 		$this->map->set( "", "" );
 	}
 }
-?>

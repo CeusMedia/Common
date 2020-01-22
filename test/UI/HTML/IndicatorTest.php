@@ -261,4 +261,3 @@ class Test_UI_HTML_IndicatorTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

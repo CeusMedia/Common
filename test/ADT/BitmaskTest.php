@@ -167,4 +167,3 @@ class Test_ADT_BitmaskTest extends Test_Case
 		$obj->remove( 'invalid' );
 	}
 }
-?>

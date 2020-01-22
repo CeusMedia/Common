@@ -216,4 +216,3 @@ class Test_FS_Folder_RegexFilterTest extends Test_FS_Folder_TestCase
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

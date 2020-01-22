@@ -229,4 +229,3 @@ class Test_FS_File_EditorTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

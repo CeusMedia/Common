@@ -199,7 +199,8 @@ class Test_UI_HTML_TagTest extends Test_Case
 	public function testSetAttribute2()
 	{
 		$this->tag->setAttribute( "Key2", "Value2" );
-		$this->tag->setAttribute( "Key2", "Value2-2", FALSE );										//  override
+		//  override
+		$this->tag->setAttribute( "Key2", "Value2-2", FALSE );
 		$assertion	= '<tag key1="Value1" key2="Value2-2">textContent</tag>';
 		$creation	= (string) $this->tag;
 		$this->assertEquals( $assertion, $creation );
@@ -349,4 +350,3 @@ class Test_UI_HTML_TagTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

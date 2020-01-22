@@ -85,4 +85,3 @@ class Test_Alg_Validation_PredicateValidatorTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

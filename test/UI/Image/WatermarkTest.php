@@ -205,4 +205,3 @@ class Test_UI_Image_WatermarkInstance extends UI_Image_Watermark
 		$this->$varName	= $varValue;
 	}
 }
-?>

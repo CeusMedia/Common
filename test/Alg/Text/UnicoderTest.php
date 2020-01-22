@@ -150,4 +150,3 @@ class Test_Alg_Text_UnicoderTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

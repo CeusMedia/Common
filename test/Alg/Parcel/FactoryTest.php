@@ -142,4 +142,3 @@ class Alg_Parcel_FactoryInstance extends Alg_Parcel_Factory
 		return $this->$varName;
 	}
 }
-?>

@@ -142,4 +142,3 @@ class Test_DB_BaseConnectionInstance extends DB_BaseConnection
 	function rollback(){}
 	function selectDB( $database ){}
 }
-?>

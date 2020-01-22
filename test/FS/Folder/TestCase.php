@@ -146,23 +146,30 @@ class Test_FS_Folder_TestCase extends Test_Case
 	{
 		$list	= array();
 		$path	= str_replace( "\\", "/", $path );
-		$dir	= dir( $path );																	//  index Folder
-		while( $entry = $dir->read() )															//  iterate Objects
+		//  index Folder
+		$dir	= dir( $path );
+		//  iterate Objects
+		while( $entry = $dir->read() )
 		{
-			if( preg_match( "@^(\.){1,2}$@", $entry ) )											//  if is Dot Object
-				continue;																		//  continue
+			//  if is Dot Object
+			if( preg_match( "@^(\.){1,2}$@", $entry ) )
+				//  continue
+				continue;
 			if( !$force )
 				throw new Exception( 'Folder '.$path.' is not empty. See Option "force".' );
-			if( is_file( $path."/".$entry ) )													//  is nested File
-				@unlink( $path."/".$entry );													//  remove File
-			if( is_dir( $path."/".$entry ) )													//  is nested Folder
+			//  is nested File
+			if( is_file( $path."/".$entry ) )
+				//  remove File
+				@unlink( $path."/".$entry );
+			//  is nested Folder
+			if( is_dir( $path."/".$entry ) )
 				$list[]	= $path."/".$entry;
 		}
 		$dir->close();
 		foreach( $list as $folder )
-			self::removeFolder( $folder, $force );												//  call Method with nested Folder
+			//  call Method with nested Folder
+			self::removeFolder( $folder, $force );
 
 		@rmDir( $path );
 	}
 }
-?>

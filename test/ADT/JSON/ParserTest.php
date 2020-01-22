@@ -67,4 +67,3 @@ class Test_ADT_JSON_ParserTest extends Test_Case
 		}
 	}
 }
-?>

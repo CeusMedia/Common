@@ -161,4 +161,3 @@ class Test_UI_HTML_PanelInstance extends UI_HTML_Panel
 		return $this->$varName;
 	}
 }
-?>

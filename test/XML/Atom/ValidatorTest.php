@@ -65,4 +65,3 @@ class Test_XML_Atom_ValidatorTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

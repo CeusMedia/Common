@@ -191,4 +191,3 @@ class Test_Net_HTTP_Request_ReceiverTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

@@ -140,4 +140,3 @@ class Test_UI_Image_ThumbnailCreatorTest extends Test_Case
 		}
 	}
 }
-?>

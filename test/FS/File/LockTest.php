@@ -148,4 +148,3 @@ class Test_FS_File_LockTest extends Test_Case
 		$this->assertEquals( 100, $this->lock->getTimeout() );
 	}
 }
-?>

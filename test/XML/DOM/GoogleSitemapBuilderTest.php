@@ -64,4 +64,3 @@ class Test_XML_DOM_GoogleSitemapBuilderTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

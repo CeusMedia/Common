@@ -81,19 +81,24 @@ class Test_Alg_Validation_PredicatesTest extends Test_Case
 	 */
 	public function testHasPasswordScorePositive()
 	{
-		$creation	= Alg_Validation_Predicates::hasPasswordScore( 'hansi1', 15 );				//  15
+		//  15
+		$creation	= Alg_Validation_Predicates::hasPasswordScore( 'hansi1', 15 );
 		$this->assertTrue( $creation );
 
-		$creation	= Alg_Validation_Predicates::hasPasswordScore( 'qweasdyxc', 10 );			//  13
+		//  13
+		$creation	= Alg_Validation_Predicates::hasPasswordScore( 'qweasdyxc', 10 );
 		$this->assertTrue( $creation );
 
-		$creation	= Alg_Validation_Predicates::hasPasswordScore( 'test123#@', 40 );			//  43
+		//  43
+		$creation	= Alg_Validation_Predicates::hasPasswordScore( 'test123#@', 40 );
 		$this->assertTrue( $creation );
 
-		$creation	= Alg_Validation_Predicates::hasPasswordScore( 'tEsT123#@', 50 );			//  50
+		//  50
+		$creation	= Alg_Validation_Predicates::hasPasswordScore( 'tEsT123#@', 50 );
 		$this->assertTrue( $creation );
 
-		$creation	= Alg_Validation_Predicates::hasPasswordScore( '$Up3r$3CuR3#1', 55 );		//  56
+		//  56
+		$creation	= Alg_Validation_Predicates::hasPasswordScore( '$Up3r$3CuR3#1', 55 );
 		$this->assertTrue( $creation );
 	}
 
@@ -104,16 +109,20 @@ class Test_Alg_Validation_PredicatesTest extends Test_Case
 	 */
 	public function testHasPasswordScoreNegative()
 	{
-		$creation	= Alg_Validation_Predicates::hasPasswordScore( 'hansi1', 20 );				//  15
+		//  15
+		$creation	= Alg_Validation_Predicates::hasPasswordScore( 'hansi1', 20 );
 		$this->assertFalse( $creation );
 
-		$creation	= Alg_Validation_Predicates::hasPasswordScore( 'abc123', 0 );				//  -178
+		//  -178
+		$creation	= Alg_Validation_Predicates::hasPasswordScore( 'abc123', 0 );
 		$this->assertFalse( $creation );
 
-		$creation	= Alg_Validation_Predicates::hasPasswordScore( 'qwerty', 10 );				//  -193
+		//  -193
+		$creation	= Alg_Validation_Predicates::hasPasswordScore( 'qwerty', 10 );
 		$this->assertFalse( $creation );
 
-		$creation	= Alg_Validation_Predicates::hasPasswordScore( 'sex', 0 );					//  -299
+		//  -299
+		$creation	= Alg_Validation_Predicates::hasPasswordScore( 'sex', 0 );
 		$this->assertFalse( $creation );
 	}
 
@@ -124,19 +133,24 @@ class Test_Alg_Validation_PredicatesTest extends Test_Case
 	 */
 	public function testHasPasswordStrengthPositive()
 	{
-		$creation	= Alg_Validation_Predicates::hasPasswordStrength( 'hansi1', 20 );				//  27
+		//  27
+		$creation	= Alg_Validation_Predicates::hasPasswordStrength( 'hansi1', 20 );
 		$this->assertTrue( $creation );
 
-		$creation	= Alg_Validation_Predicates::hasPasswordStrength( 'qweasdyxc', 20 );			//  23
+		//  23
+		$creation	= Alg_Validation_Predicates::hasPasswordStrength( 'qweasdyxc', 20 );
 		$this->assertTrue( $creation );
 
-		$creation	= Alg_Validation_Predicates::hasPasswordStrength( 'test123#@', 75 );			//  77
+		//  77
+		$creation	= Alg_Validation_Predicates::hasPasswordStrength( 'test123#@', 75 );
 		$this->assertTrue( $creation );
 
-		$creation	= Alg_Validation_Predicates::hasPasswordStrength( 'tEsT123#@', 89 );			//  89
+		//  89
+		$creation	= Alg_Validation_Predicates::hasPasswordStrength( 'tEsT123#@', 89 );
 		$this->assertTrue( $creation );
 
-		$creation	= Alg_Validation_Predicates::hasPasswordStrength( '$Up3r$3CuR3#1', 99 );		//  100
+		//  100
+		$creation	= Alg_Validation_Predicates::hasPasswordStrength( '$Up3r$3CuR3#1', 99 );
 		$this->assertTrue( $creation );
 	}
 
@@ -147,16 +161,20 @@ class Test_Alg_Validation_PredicatesTest extends Test_Case
 	 */
 	public function testHasPasswordStrengthNegative()
 	{
-		$creation	= Alg_Validation_Predicates::hasPasswordStrength( 'hansi1', 30 );				//  27
+		//  27
+		$creation	= Alg_Validation_Predicates::hasPasswordStrength( 'hansi1', 30 );
 		$this->assertFalse( $creation );
 
-		$creation	= Alg_Validation_Predicates::hasPasswordStrength( 'abc123', 0 );				//  -178
+		//  -178
+		$creation	= Alg_Validation_Predicates::hasPasswordStrength( 'abc123', 0 );
 		$this->assertFalse( $creation );
 
-		$creation	= Alg_Validation_Predicates::hasPasswordStrength( 'qwerty', 10 );				//  -193
+		//  -193
+		$creation	= Alg_Validation_Predicates::hasPasswordStrength( 'qwerty', 10 );
 		$this->assertFalse( $creation );
 
-		$creation	= Alg_Validation_Predicates::hasPasswordStrength( 'sex', 0 );					//  -299
+		//  -299
+		$creation	= Alg_Validation_Predicates::hasPasswordStrength( 'sex', 0 );
 		$this->assertFalse( $creation );
 	}
 
@@ -1035,4 +1053,3 @@ class Test_Alg_Validation_PredicatesTest extends Test_Case
 		$this->assertFalse( $creation );
 	}
 }
-?>

@@ -168,4 +168,3 @@ class Test_Alg_Parcel_PacketTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

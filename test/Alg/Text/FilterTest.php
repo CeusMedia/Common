@@ -126,4 +126,3 @@ This is plain Text.
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

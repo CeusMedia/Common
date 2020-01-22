@@ -104,4 +104,3 @@ class Test_FS_File_INI_CreatorTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

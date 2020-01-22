@@ -130,4 +130,3 @@ class Test_FS_File_JSON_ReaderTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

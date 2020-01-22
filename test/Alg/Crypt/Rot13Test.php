@@ -51,4 +51,3 @@ class Test_Alg_Crypt_Rot13Test extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

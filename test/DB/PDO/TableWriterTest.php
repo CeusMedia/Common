@@ -369,4 +369,3 @@ class Test_DB_PDO_TableWriterTest extends Test_Case{
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

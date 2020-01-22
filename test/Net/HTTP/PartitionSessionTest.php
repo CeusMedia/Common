@@ -131,4 +131,3 @@ class Test_Net_HTTP_PartitionSessionTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

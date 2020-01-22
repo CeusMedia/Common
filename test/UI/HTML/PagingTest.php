@@ -214,4 +214,3 @@ class Test_UI_HTML_PagingTest extends Test_Case
 		$this->paging->build( 100, 10, 50 );
 	}
 }
-?>

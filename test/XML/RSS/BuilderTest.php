@@ -204,4 +204,3 @@ class Test_XML_RSS_BuilderInstance extends XML_RSS_Builder
 		return $this->$varName;
 	}
 }
-?>

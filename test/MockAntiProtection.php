@@ -22,4 +22,3 @@ class Test_MockAntiProtection
 		return $mockObject;
 	}
 }
-?>

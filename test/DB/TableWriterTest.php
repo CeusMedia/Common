@@ -367,4 +367,3 @@ class Test_DB_TableWriterTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

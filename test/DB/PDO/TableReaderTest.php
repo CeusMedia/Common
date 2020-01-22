@@ -346,7 +346,8 @@ class Test_DB_PDO_TableReaderTest extends Test_Case{
 	 */
 	public function testFindWithFocus1(){
 		$this->connection->query( "INSERT INTO transactions (topic,label) VALUES ('test','findTest');" );
-		$this->reader->focusIndex( 'topic', 'start' );							//  will be ignored
+		//  will be ignored
+		$this->reader->focusIndex( 'topic', 'start' );
 		$result		= $this->reader->find( array( 'id' ) );
 
 		$assertion	= 2;
@@ -369,7 +370,8 @@ class Test_DB_PDO_TableReaderTest extends Test_Case{
 	 */
 	public function testFindWithFocus2(){
 		$this->connection->query( "INSERT INTO transactions (topic,label) VALUES ('test','findTest');" );
-		$this->reader->focusPrimary( 1 );										//  will be ignored
+		//  will be ignored
+		$this->reader->focusPrimary( 1 );
 		$result		= $this->reader->find( array( 'id' ) );
 
 		$assertion	= 2;
@@ -393,8 +395,10 @@ class Test_DB_PDO_TableReaderTest extends Test_Case{
 	public function testFindWithFocus3(){
 		$this->connection->query( "INSERT INTO transactions (topic,label) VALUES ('test','findTest');" );
 
-		$this->reader->focusIndex( 'topic', 'test' );							//  will be ignored
-		$this->reader->focusPrimary( 1, FALSE );								//  will be ignored
+		//  will be ignored
+		$this->reader->focusIndex( 'topic', 'test' );
+		//  will be ignored
+		$this->reader->focusPrimary( 1, FALSE );
 		$result		= $this->reader->find( array( 'id' ) );
 
 		$assertion	= 2;
@@ -518,7 +522,8 @@ class Test_DB_PDO_TableReaderTest extends Test_Case{
 	public function testFindWhereInAndWithFocus(){
 		$this->connection->query( "INSERT INTO transactions (topic,label) VALUES ('test','findWhereInAndTest');" );
 
-		$this->reader->focusIndex( 'topic', 'test' );								//  will be ignored
+		//  will be ignored
+		$this->reader->focusIndex( 'topic', 'test' );
 		$result		= $this->reader->findWhereInAnd( array( 'id' ), "topic", array( 'start', 'test' ), array( "label" => "findWhereInAndTest" ), array( 'id' => 'ASC' ) );
 
 		$assertion	= 1;
@@ -1109,4 +1114,3 @@ class Test_DB_PDO_TableReaderTest extends Test_Case{
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

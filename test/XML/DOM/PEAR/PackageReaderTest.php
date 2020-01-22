@@ -53,4 +53,3 @@ class Test_XML_DOM_PEAR_PackageReaderTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

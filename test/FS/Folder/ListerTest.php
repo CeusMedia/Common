@@ -368,4 +368,3 @@ class Test_FS_Folder_ListerTest extends Test_FS_Folder_TestCase
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

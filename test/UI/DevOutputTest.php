@@ -286,4 +286,3 @@ class Test_UI_DevOutputTest extends TestCase
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

@@ -469,4 +469,3 @@ class Test_FS_Folder_RecursiveListerTest extends Test_FS_Folder_TestCase
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

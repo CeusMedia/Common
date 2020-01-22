@@ -885,4 +885,3 @@ class Test_DB_TableReaderTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

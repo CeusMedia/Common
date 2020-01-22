@@ -167,4 +167,3 @@ class Test_DB_StatementBuilderInStatementCollectionInstance extends DB_Statement
 		return $this->$method( $content, $comment );
 	}
 }
-?>

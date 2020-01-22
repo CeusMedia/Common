@@ -211,4 +211,3 @@ class Test_ADT_Tree_BinaryNodeTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

@@ -113,4 +113,3 @@ class Test_Alg_Validation_LanguageValidatorTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

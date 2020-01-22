@@ -31,8 +31,10 @@ class Test_FS_Folder_ReaderTest extends Test_FS_Folder_TestCase
 	public function setUp()
 	{
 		parent::setUp();
-		$this->reader1	= new FS_Folder_Reader( $this->path."folder" );				//  valid Folder Reader
-		$this->reader2	= new FS_Folder_Reader( $this->path."not_existing" );			//  invalid Folder Reader
+		//  valid Folder Reader
+		$this->reader1	= new FS_Folder_Reader( $this->path."folder" );
+		//  invalid Folder Reader
+		$this->reader2	= new FS_Folder_Reader( $this->path."not_existing" );
 	}
 
 	/**
@@ -642,4 +644,3 @@ class Test_FS_Folder_ReaderTest extends Test_FS_Folder_TestCase
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

@@ -136,4 +136,3 @@ class Test_Alg_Validation_DefinitionValidatorTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

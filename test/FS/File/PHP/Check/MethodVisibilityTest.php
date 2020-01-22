@@ -4,7 +4,6 @@
  *	@package		Tests.file.php
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			04.01.2009
- *	@version		$Id$
  */
 declare( strict_types = 1 );
 
@@ -17,7 +16,6 @@ use PHPUnit\Framework\TestCase;
  *	@uses			FS_File_PHP_Check_MethodVisibility
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			04.01.2009
- *	@version		$Id$
  */
 class Test_FS_File_PHP_Check_MethodVisibilityTest extends Test_Case
 {
@@ -130,4 +128,3 @@ class Test_FS_File_PHP_Check_MethodVisibilityTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

@@ -132,4 +132,3 @@ class Test_UI_Image_PrinterTest extends Test_Case
 		$printer->save( $this->path."targetPrinter.png", 15, 0 );
 	}
 }
-?>

@@ -148,4 +148,3 @@ class Test_XML_DOM_StorageTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

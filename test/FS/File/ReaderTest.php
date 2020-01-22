@@ -295,4 +295,3 @@ class Test_FS_File_ReaderTest extends Test_Case
 		$reader->readArray();
 	}
 }
-?>

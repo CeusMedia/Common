@@ -113,4 +113,3 @@ class Test_Alg_PREG_MatchTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

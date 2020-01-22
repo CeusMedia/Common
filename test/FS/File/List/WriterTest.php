@@ -170,4 +170,3 @@ class Test_FS_File_List_WriterTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

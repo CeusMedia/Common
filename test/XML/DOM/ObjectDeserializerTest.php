@@ -61,4 +61,3 @@ class Test_XML_DOM_ObjectDeserializerTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

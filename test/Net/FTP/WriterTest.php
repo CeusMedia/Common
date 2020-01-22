@@ -354,4 +354,3 @@ class Test_Net_FTP_WriterTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

@@ -386,4 +386,3 @@ class Test_ADT_OptionObjectTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

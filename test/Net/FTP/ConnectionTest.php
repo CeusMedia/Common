@@ -332,4 +332,3 @@ class Test_Net_FTP_ConnectionTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

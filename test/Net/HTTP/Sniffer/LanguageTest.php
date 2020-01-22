@@ -42,4 +42,3 @@ class Test_Net_HTTP_Sniffer_LanguageTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

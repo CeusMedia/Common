@@ -218,4 +218,3 @@ class Test_ADT_List_QueueTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

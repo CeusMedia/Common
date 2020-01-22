@@ -243,4 +243,3 @@ class Test_Net_CURLTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

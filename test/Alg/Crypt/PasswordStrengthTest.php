@@ -126,4 +126,3 @@ class Test_Alg_Crypt_PasswordStrengthTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

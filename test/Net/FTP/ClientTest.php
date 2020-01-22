@@ -557,4 +557,3 @@ class Test_Net_FTP_ClientTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

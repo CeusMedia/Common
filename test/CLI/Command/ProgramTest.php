@@ -97,5 +97,3 @@ class Test_CLI_Command_TestProgram extends CLI_Command_Program
 		return $this->options;
 	}
 }
-
-?>

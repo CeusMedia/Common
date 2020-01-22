@@ -127,4 +127,3 @@ class Test_UI_Image_CreatorTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

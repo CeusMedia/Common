@@ -598,4 +598,3 @@ class Test_Alg_HtmlParserTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

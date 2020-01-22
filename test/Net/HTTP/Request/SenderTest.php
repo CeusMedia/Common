@@ -41,4 +41,3 @@ class Test_Net_HTTP_Request_SenderTest extends Test_Case
 		$this->assertTrue( $creation );
 	}
 }
-?>

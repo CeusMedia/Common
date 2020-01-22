@@ -353,4 +353,3 @@ class Test_FS_File_BackupTest extends Test_Case{
 		$this->file->store();
 	}
 }
-?>

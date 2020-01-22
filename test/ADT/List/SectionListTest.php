@@ -299,4 +299,3 @@ class Test_ADT_List_SectionListTest extends Test_Case
 		$this->list->removeSection( "invalid" );
 	}
 }
-?>

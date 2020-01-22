@@ -147,4 +147,3 @@ class Test_Alg_Text_TrimmerTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

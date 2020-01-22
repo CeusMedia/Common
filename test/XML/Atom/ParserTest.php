@@ -103,4 +103,3 @@ class Test_XML_Atom_ParserInstance extends XML_Atom_Parser
 		return $this->$varName;
 	}
 }
-?>

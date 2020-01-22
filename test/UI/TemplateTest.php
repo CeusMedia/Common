@@ -243,4 +243,3 @@ class Test_UI_TemplateTestDataObject
 		$this->data1	= $value;
 	}
 }
-?>

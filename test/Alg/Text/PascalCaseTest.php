@@ -154,4 +154,3 @@ class Test_Alg_Text_PascalCaseTest extends Test_Case
 		$this->assertEquals( FALSE, $creation );
 	}
 }
-?>

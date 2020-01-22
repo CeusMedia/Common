@@ -228,4 +228,3 @@ class Test_FS_File_CSV_ReaderTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

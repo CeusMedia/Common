@@ -51,4 +51,3 @@ class Test_FS_File_List_SectionReaderTest extends Test_Case
 		$this->assertEquals( $this->sectionList, $creation );
 	}
 }
-?>

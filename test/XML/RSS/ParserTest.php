@@ -41,4 +41,3 @@ class Test_XML_RSS_ParserTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

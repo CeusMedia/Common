@@ -147,4 +147,3 @@ class Test_FS_File_List_ReaderTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

@@ -427,4 +427,3 @@ class Test_UI_HTML_FormElementsTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

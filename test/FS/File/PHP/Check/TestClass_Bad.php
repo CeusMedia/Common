@@ -17,4 +17,3 @@ class TestClass_Bad
 	{
 	}
 }
-?>

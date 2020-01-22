@@ -52,4 +52,3 @@ class Test_ADT_Tree_AvlNodeTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>
