@@ -66,6 +66,15 @@ class Net_HTTP_Request_Sender
 	 */
 	public function __construct( $host, $uri, $port = 80, $method = 'GET' )
 	{
+		Deprecation::getInstance()
+			->setErrorVersion( '0.8.5' )
+			->setExceptionVersion( '0.9' )
+			->message( sprintf(
+				'Please use %s (%s) instead',
+				'Net_Reader, Net_CURL or any other public HTTP library',
+			 	'like zend-http or guzzle-http'
+			) );
+
 		$this->host		= $host;
 		$this->setUri( $uri );
 		$this->setPort( $port );
@@ -153,15 +162,13 @@ class Net_HTTP_Request_Sender
 			$lines[]	= $this->data;
 		$lines[]	= "\r\n";
 		$lines	= join( "\r\n", $lines );
-		print_r($lines);
 
 		fwrite( $fp, $lines );																		//  send Request
 		while( !feof( $fp ) ){																		//  receive Response
-			echo ".";
 			$result .= fgets( $fp, 4 * 1024 );															//  collect Response chunks
 		}
 		fclose( $fp );																				//  close Connection
-		print_r($result);die;
+
 		$response	= Net_HTTP_Response_Parser::fromString( $result );
 		if( count( $response->getHeader( 'Location' ) ) ){
 			$location	= array_shift( $response->getHeader( 'Location' ) );
