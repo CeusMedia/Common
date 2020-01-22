@@ -25,7 +25,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			10.01.2008
- *	@version		$Id$
  */
 /**
  *	Formats JSON String.
@@ -37,7 +36,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			10.01.2008
- *	@version		$Id$
  *	@todo			Unit Test
  */
 class ADT_JSON_Formater

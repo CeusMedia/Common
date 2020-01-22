@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.6.8
- *	@version		$Id$
  */
 /**
  *	@abtract
@@ -35,7 +34,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.6.8
- *	@version		$Id$
  */
 abstract class ADT_Singleton
 {

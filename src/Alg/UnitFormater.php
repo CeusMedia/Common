@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			22.04.2008
- *	@version		$Id$
  */
 define( 'SIZE_BYTE', pow( 1024, 0 ) );
 define( 'SIZE_KILOBYTE', pow( 1024, 1 ) );
@@ -39,7 +38,6 @@ define( 'SIZE_GIGABYTE', pow( 1024, 3 ) );
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			18.10.2007
- *	@version		$Id$
  */
 class Alg_UnitFormater
 {

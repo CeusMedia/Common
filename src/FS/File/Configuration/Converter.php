@@ -25,7 +25,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			06.05.2008
- *	@version		$Id$
  */
 /**
  *	Converter for Configuration to translate between INI, JSON and XML.
@@ -45,7 +44,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			06.05.2008
- *	@version		$Id$
  */
 class FS_File_Configuration_Converter
 {

@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			17.02.2008
- *	@version		$Id$
  */
 /**
  *	Wrapper of ROT13 Functions
@@ -35,7 +34,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			17.02.2008
- *	@version		$Id$
  */
 class Alg_Crypt_Rot13
 {

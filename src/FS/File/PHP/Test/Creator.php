@@ -23,7 +23,6 @@
  *	@copyright		2007-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@version		$Id$
  */
 /**
  *	Created Test Class for PHP Unit Tests using Class Parser and two Templates.
@@ -36,7 +35,6 @@
  *	@copyright		2007-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@version		$Id$
  */
 class FS_File_PHP_Test_Creator
 {

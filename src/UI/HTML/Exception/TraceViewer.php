@@ -25,7 +25,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			11.04.2008
- *	@version		$Id$
  */
 /**
  *	Visualisation of Exception Stack Trace.
@@ -37,7 +36,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			11.04.2008
- *	@version		$Id$
  */
 class UI_HTML_Exception_TraceViewer
 {

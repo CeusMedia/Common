@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			01.11.2005
- *	@version		$Id$
  */
 /*
  *	Reader for sectioned Ini Files using parse_ini_file.
@@ -35,7 +34,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			01.11.2005
- *	@version		$Id$
  */
 class FS_File_INI_SectionReader
 {

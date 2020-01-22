@@ -25,7 +25,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			01.03.2007
- *	@version		$Id$
  */
 /**
  *	Exception for Input/Output Errors.
@@ -38,7 +37,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			01.03.2007
- *	@version		$Id$
  */
 class Exception_IO extends Exception_Runtime
 {

@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			18.01.2006
- *	@version		$Id$
  */
 /**
  *	Randomizer supporting different sign types.
@@ -35,7 +34,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			18.01.2006
- *	@version		$Id$
  */
 class Alg_Randomizer
 {

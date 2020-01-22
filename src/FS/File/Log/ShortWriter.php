@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			27.12.2006
- *	@version		$Id$
  */
 /**
  *	Writer for short Log Files.
@@ -35,7 +34,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			27.12.2006
- *	@version		$Id$
  */
 class FS_File_Log_ShortWriter
 {

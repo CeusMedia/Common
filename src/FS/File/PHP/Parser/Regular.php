@@ -23,7 +23,6 @@
  *	@copyright		2008-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@version		$Id$
  *	@since			04.08.08
  *	@todo			support multiple return types separated with |
  */
@@ -48,7 +47,6 @@
  *	@copyright		2008-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@version		$Id$
  *	@since			04.08.08
  *	@todo			Code Doc
  */

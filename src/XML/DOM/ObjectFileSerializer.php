@@ -26,7 +26,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			26.12.2005
- *	@version		$Id$
  */
 /**
  *	Serializer for Data Object into a XML File.
@@ -39,7 +38,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			26.12.2005
- *	@version		$Id$
  */
 class XML_DOM_ObjectFileSerializer
 {

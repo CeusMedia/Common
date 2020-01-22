@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			26.12.2005
- *	@version		$Id$
  */
 /**
  *	Deserializer for XML into a Data Object.
@@ -36,7 +35,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			26.12.2005
- *	@version		$Id$
  *	@todo			rewrite, use ObjectFactory
  */
 class XML_DOM_ObjectDeserializer

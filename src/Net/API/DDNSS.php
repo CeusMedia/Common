@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.7
- *	@version		$Id$
  */
 /**
  *	Access to DDNSS (ddnss.de) API.
@@ -36,7 +35,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.7
- *	@version		$Id$
  */
 class Net_API_DDNSS{
 

@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			23.09.2005
- *	@version		$Id$
  */
 /**
  *	Converter for Colors.
@@ -35,7 +34,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			23.09.2005
- *	@version		$Id$
  *	@todo			Code Documentation
  */
 class Alg_ColorConverter

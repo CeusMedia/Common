@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			10.10.2011
- *	@version		$Id$
  */
 /**
  *	Reads CSS files and returns a structure of ADT_CSS_* objects or an array.
@@ -36,7 +35,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			10.10.2011
- *	@version		$Id$
  */
 class FS_File_CSS_Reader
 {

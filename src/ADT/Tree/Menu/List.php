@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			08.11.2008
- *	@version		$Id$
  */
 /**
  *	Tree Menu List Data Object used by UI_HTML_Tree_Menu.
@@ -35,7 +34,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			08.11.2008
- *	@version		$Id$
  */
 class ADT_Tree_Menu_List
 {

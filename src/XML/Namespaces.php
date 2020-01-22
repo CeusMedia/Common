@@ -23,7 +23,6 @@
  *	@copyright		2007-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@version		$Id$
  */
 /**
  *	Namespace Map to detect and collect Namespaces from a XML File, usind Simple XML to read XML and import DOM.
@@ -33,7 +32,6 @@
  *	@copyright		2007-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@version		$Id$
  */
 class XML_Namespaces
 {

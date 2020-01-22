@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			24.01.2006
- *	@version		$Id$
  */
 /**
  *	Identifies Type and Version of RSS and ATOM Feeds.
@@ -38,7 +37,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			24.01.2006
- *	@version		$Id$
  *	@todo			Unit Test
  */
 class XML_FeedIdentifier

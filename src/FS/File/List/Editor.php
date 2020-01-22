@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			25.04.2008
- *	@version		$Id$
  */
 /**
  *	Editor for List Files.
@@ -37,7 +36,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			25.04.2008
- *	@version		$Id$
  */
 class FS_File_List_Editor extends FS_File_List_Reader
 {

@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.6.5
- *	@version		$Id$
  */
 /**
  *	Resolves an address to geo codes using Google Maps API.
@@ -38,7 +37,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.6.5
- *	@version		$Id$
  */
 class Net_API_Google_Maps_Geocoder extends Net_API_Google_Request
 {

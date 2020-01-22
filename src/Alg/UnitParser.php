@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			11.04.2014
- *	@version		$Id$
  */
 /**
  *	Formats Numbers intelligently and adds Units to Bytes and Seconds.
@@ -36,7 +35,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			11.04.2014
- *	@version		$Id$
  *	@todo			code doc
  */
 class Alg_UnitParser{

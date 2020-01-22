@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			10.12.2006
- *	@version		$Id$
  */
 /**
  *	Crawls and counts all internal Links of an URL.
@@ -38,7 +37,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			10.12.2006
- *	@version		$Id$
  *	@todo			finish Code Doc
  */
 class Net_Site_Crawler

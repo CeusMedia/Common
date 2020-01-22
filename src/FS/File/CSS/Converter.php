@@ -28,7 +28,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			10.10.2011
- *	@version		$Id$
  */
 /**
  *	Converts CSS between.
@@ -40,7 +39,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			10.10.2011
- *	@version		$Id$
  */
 class FS_File_CSS_Converter{
 

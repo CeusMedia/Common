@@ -27,7 +27,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			10.05.2008
- *	@version		$Id$
  */
 /**
  *	Editor for XML Files.
@@ -43,7 +42,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			10.05.2008
- *	@version		$Id$
  */
 class XML_DOM_FileEditor
 {

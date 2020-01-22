@@ -25,7 +25,6 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@see			http://xmlrpc.scripting.com/spec.html XML-RPC Specification 
  *	@since			0.7.7
- *	@version		$Id$
  */
 /**
  *	Generates URL for Gravatar API.
@@ -38,7 +37,6 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@see			http://xmlrpc.scripting.com/spec.html XML-RPC Specification 
  *	@since			0.7.7
- *	@version		$Id$
  */
 class XML_RPC_Client{
 

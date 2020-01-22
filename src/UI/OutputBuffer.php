@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			24.09.2005
- *	@version		$Id$
  */
 /**
  *	Buffer for Standard Output Channel.
@@ -35,7 +34,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			24.09.2005
- *	@version		$Id$
  */
 class UI_OutputBuffer
 {

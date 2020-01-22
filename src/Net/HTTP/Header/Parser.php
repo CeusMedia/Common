@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.8.2.5
- *	@version		$Id$
  */
 /**
  *	Parser for HTTP Headers.
@@ -35,7 +34,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.8.2.5
- *	@version		$Id$
  */
 class Net_HTTP_Header_Parser
 {

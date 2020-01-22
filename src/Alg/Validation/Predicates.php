@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			14.02.2007
- *	@version		$Id$
  */
 /**
  *	Class holding Predicates for String Validation.
@@ -37,7 +36,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			14.02.2007
- *	@version		$Id$
  */
 class Alg_Validation_Predicates
 {

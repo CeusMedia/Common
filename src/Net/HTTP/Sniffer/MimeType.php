@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			12.08.2005
- *	@version		$Id$
  */
 /**
  *	Sniffer for Mime Types accepted by a HTTP Request.
@@ -35,7 +34,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			12.08.2005
- *	@version		$Id$
  */
 class Net_HTTP_Sniffer_MimeType
 {

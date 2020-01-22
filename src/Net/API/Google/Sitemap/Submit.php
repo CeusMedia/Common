@@ -25,7 +25,6 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@link			http://code.google.com/closure/compiler/
  *	@since			0.7.6
- *	@version		$Id$
  */
 /**
  *	Submits sitemap URL to Google webmaster tools.
@@ -38,7 +37,6 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@link			http://code.google.com/closure/compiler/
  *	@since			0.7.6
- *	@version		$Id$
  */
 class Net_API_Google_Sitemap_Submit
 {

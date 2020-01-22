@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			22.06.2005
- *	@version		$Id$
  */
 /**
  *	Convertion between roman and arabic number system.
@@ -35,7 +34,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			22.06.2005
- *	@version		$Id$
  */
 class Alg_Math_RomanNumbers
 {

@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			22.03.2012
- *	@version		$Id$
  */
 /**
  *	Extrapolation.
@@ -36,7 +35,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			22.03.2012
- *	@version		$Id$
  *	@todo			test
  */
 class Alg_Math_Extrapolation

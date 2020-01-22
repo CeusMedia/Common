@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			02.08.2008
- *	@version		$Id$
  */
 /**
  *	Parses SGML based Tags (also HTML, XHTML and XML).
@@ -35,7 +34,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			02.08.2008
- *	@version		$Id$
  */
 class Alg_SgmlTagReader
 {

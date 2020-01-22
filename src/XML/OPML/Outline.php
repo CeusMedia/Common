@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			01.02.2006
- *	@version		$Id$
  */
 /**
  *	XML Node for OPML Outlines.
@@ -36,7 +35,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			01.02.2006
- *	@version		$Id$
  */
 class XML_OPML_Outline extends XML_DOM_Node
 {

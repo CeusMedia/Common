@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			03.02.2009
- *	@version		$Id$
  */
 /**
  *	Builder for HTML Code of Country Flag Icon.
@@ -44,7 +43,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			03.02.2009
- *	@version		$Id$
  */
 class UI_HTML_CountryFlagIcon
 {

@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			20.10.2008
- *	@version		$Id$
  */
 /**
  *	Collector of Ranges for Duration Phrase.
@@ -35,7 +34,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			20.10.2008
- *	@version		$Id$
  */
 class Alg_Time_DurationPhraseRanges implements Countable
 {

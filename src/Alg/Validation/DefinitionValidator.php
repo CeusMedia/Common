@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			28.08.2006
- *	@version		$Id$
  */
 /**
  *	Validator for defined Fields.
@@ -36,7 +35,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			28.08.2006
- *	@version		$Id$
  */
 class Alg_Validation_DefinitionValidator
 {

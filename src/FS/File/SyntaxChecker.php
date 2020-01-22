@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			12.05.2008
- *	@version		$Id$
  */
 /**
  *	Checks Syntax of PHP Classes and Scripts.
@@ -35,7 +34,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			12.05.2008
- *	@version		$Id$
  */
 class FS_File_SyntaxChecker
 {

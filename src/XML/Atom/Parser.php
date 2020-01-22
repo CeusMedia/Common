@@ -25,7 +25,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			13.05.2008
- *	@version		$Id$
  */
 /**
  *	Parser for Atom Feeds.
@@ -39,7 +38,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			13.05.2008
- *	@version		$Id$
  */
 class XML_Atom_Parser
 {

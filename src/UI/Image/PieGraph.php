@@ -5,7 +5,6 @@
  *	@package		CeusMedia_Common_UI_Image
  *	@uses			UI_Template
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@version		$Id$
  */
 /**
  *	...
@@ -13,7 +12,6 @@
  *	@package		CeusMedia_Common_UI_Image
  *	@uses			UI_Template
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@version		$Id$
  */
 class UI_Image_PieGraph
 {

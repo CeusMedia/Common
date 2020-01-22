@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			27.03.2006
- *	@version		$Id$
  */
 /**
  *	Collects and Manages Request Data.
@@ -38,7 +37,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			27.03.2006
- *	@version		$Id$
  */
 class Net_HTTP_Request_Receiver extends ADT_List_Dictionary
 {

@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@see			http://www.ietf.org/rfc/rfc2141.txt
- *	@version		$Id$
  */
 /**
  *	...
@@ -35,7 +34,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@see			http://www.ietf.org/rfc/rfc2141.txt
- *	@version		$Id$
  */
 class ADT_URN
 {

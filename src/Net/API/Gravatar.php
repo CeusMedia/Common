@@ -26,7 +26,6 @@
  *	@see			http://gravatar.com/site/implement/images/php/
  *	@see			http://gravatar.com/site/implement/xmlrpc/
  *	@since			0.7.6
- *	@version		$Id$
  */
 /**
  *	Generates URL for Gravatar API.
@@ -40,7 +39,6 @@
  *	@see			http://gravatar.com/site/implement/images/php/
  *	@see			http://gravatar.com/site/implement/xmlrpc/
  *	@since			0.7.6
- *	@version		$Id$
  *	@todo			test implementations
  *	@todo			code doc
  */

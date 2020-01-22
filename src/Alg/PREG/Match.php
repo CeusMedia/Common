@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			03.12.2008
- *	@version		$Id$
  *	@see			http://de.php.net/preg_match
  */
 /**
@@ -36,7 +35,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			03.12.2008
- *	@version		$Id$
  *	@see			http://de.php.net/preg_match
  */
 class Alg_PREG_Match

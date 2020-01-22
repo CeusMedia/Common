@@ -25,7 +25,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			03.03.2007
- *	@version		$Id$
  */
 /**
  *	Template Class.
@@ -38,7 +37,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			03.03.2007
- *	@version		$Id$
  * 
  *	<b>Syntax of a template file</b>
  *	- comment <%--comment--%>				 | will be removed on render

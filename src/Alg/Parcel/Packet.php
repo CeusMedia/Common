@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			08.05.2008
- *	@version		$Id$
  */
 /**
  *	Packet can contain different Articles and has a defined Volume.
@@ -35,7 +34,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			08.05.2008
- *	@version		$Id$
  */
 class Alg_Parcel_Packet
 {

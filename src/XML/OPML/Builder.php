@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			01.02.2006
- *	@version		$Id$
  */
 /**
  *	Builder for OPML Files.
@@ -37,7 +36,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			01.02.2006
- *	@version		$Id$
  */
 class XML_OPML_Builder extends XML_DOM_Node
 {

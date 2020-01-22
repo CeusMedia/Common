@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			08.11.2008
- *	@version		$Id$
  *	@link			http://www.grc.com/menudemo.htm
  */
 /**
@@ -37,7 +36,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			08.11.2008
- *	@version		$Id$
  */
 class UI_HTML_CSS_TreeMenu
 {

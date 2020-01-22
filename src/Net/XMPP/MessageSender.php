@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			25.04.2008
- *	@version		$Id$
  */
 /**
  *	Sender for Messages via Jabber.
@@ -36,7 +35,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			25.04.2008
- *	@version		$Id$
  */
 class Net_XMPP_MessageSender
 {

@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.6.5
- *	@version		$Id$
  */
 /**
  *	Base class for request to Google APIs.
@@ -35,7 +34,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.6.5
- *	@version		$Id$
  *	@todo			finish implementation
  */
 abstract class Net_API_Google_Request

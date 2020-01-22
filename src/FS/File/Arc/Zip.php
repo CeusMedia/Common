@@ -23,7 +23,6 @@
  *	@copyright		2015-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@version		$Id$
  */
 /**
  *	Base ZIP File implementation.
@@ -34,7 +33,6 @@
  *	@copyright		2015-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@version		$Id$
  *	@todo			ATTENTION!!! This is a hydrid of existing gzip class and ZIP injection.
  *	@todo			kriss: TEST!!!
  *	@todo			code doc

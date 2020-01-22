@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			01.08.2008
- *	@version		$Id$
  */
 /**
  *	Builds Tree View of a Folders content for JQuery Plugin Treeview.
@@ -36,7 +35,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			01.08.2008
- *	@version		$Id$
  */
 class UI_HTML_Tree_FolderView
 {

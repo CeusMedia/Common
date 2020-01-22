@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.6
- *	@version		$Id$
  */
 /**
  *	Converts XML to plain objects (stdClass), trees of nodes (XML_DOM_Node), JSON etc.
@@ -36,7 +35,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.6
- *	@version		$Id$
  */
 class XML_Converter
 {

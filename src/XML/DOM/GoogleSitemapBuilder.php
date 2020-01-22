@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			14.02.2008
- *	@version		$Id$
  */
 /**
  *	Builds and writes Google Sitemap.
@@ -37,7 +36,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			14.02.2008
- *	@version		$Id$
  */
 class XML_DOM_GoogleSitemapBuilder
 {

@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			10.12.2007
- *	@version		$Id$
  */
 /**
  *	Reads CSV Files using the FS_File_CSV_Iterator.
@@ -36,7 +35,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			10.12.2007
- *	@version		$Id$
  */
 class FS_File_CSV_IteratorReader
 {

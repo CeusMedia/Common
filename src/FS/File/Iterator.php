@@ -25,7 +25,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			15.04.2008
- *	@version		$Id$
  */
 /**
  *	Iterates all Files within a Folder.
@@ -37,7 +36,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			15.04.2008
- *	@version		$Id$
  */
 class FS_File_Iterator extends FilterIterator
 {

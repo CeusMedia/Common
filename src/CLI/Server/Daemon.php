@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			20.01.2006
- *	@version		$Id$
  */
 /**
  *	Base Implementation of a Unix Demon.
@@ -36,7 +35,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			20.01.2006
- *	@version		$Id$
  */
 class CLI_Server_Daemon extends CLI_Application
 {

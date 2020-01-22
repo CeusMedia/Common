@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			09.03.2006
- *	@version		$Id$
  */
 /**
  *	Basic FTP Connection.
@@ -35,7 +34,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			09.03.2006
- *	@version		$Id$
  *	@todo			implement SSL Support
  */
 class Net_FTP_Connection

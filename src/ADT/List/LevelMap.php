@@ -26,7 +26,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			07.05.2008
- *	@version		$Id$
  */
 /**
  *	A Map with Level Support.
@@ -40,7 +39,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			07.05.2008
- *	@version		$Id$
  *	@todo			Unit Test
  */
 class ADT_List_LevelMap extends ADT_List_Dictionary

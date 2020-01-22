@@ -25,7 +25,6 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@see			http://ceusmedia.de/demos/cmClasses/UI_HTML_Ladder
  *	@since			0.6.8
- *	@version		$Id$
  */
 /**
  *	Builds HTML and JavaScript code for UI Component 'Ladder'.
@@ -40,7 +39,6 @@
  *	@uses			UI_HTML_Tag
  *	@uses			UI_HTML_JQuery
  *	@since			0.6.8
- *	@version		$Id$
  */
 class UI_HTML_Ladder
 {

@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			04.08.08
- *	@version		$Id$
  */
 /**
  *	Parses PHP Files containing a Class or Methods to Array using regular expressions (slow).
@@ -36,7 +35,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			04.08.08
- *	@version		$Id$
  *	@todo			Code Doc
  */
 class FS_File_PHP_Parser_Array

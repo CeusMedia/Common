@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			20.02.2008
- *	@version		$Id$
  */
 /**
  *	Parser for RSS 2.0 Feeds usind SimpleXML.
@@ -35,7 +34,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			20.02.2008
- *	@version		$Id$
  */
 class XML_RSS_SimpleParser
 {

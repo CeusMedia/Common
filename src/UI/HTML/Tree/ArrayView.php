@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			18.06.2008
- *	@version		$Id$
  */
 /**
  *	Builds HTML Tree with nested Lists for JQuery Plugin Treeview from a Array of Nodes.
@@ -37,7 +36,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			18.06.2008
- *	@version		$Id$
  */
 class UI_HTML_Tree_ArrayView
 {

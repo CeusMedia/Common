@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			18.07.2005
- *	@version		$Id$
  */
 /**
  *	Builder for File in .ini-Format.
@@ -36,7 +35,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			18.07.2005
- *	@version		$Id$
  */
 class FS_File_INI_Creator
 {

@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			04.09.2008
- *	@version		$Id$
  */
 /**
  *	Checks order of methods in a several PHP Files within a Folder.
@@ -37,7 +36,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			04.09.2008
- *	@version		$Id$
  */
 class FS_Folder_MethodSortCheck
 {

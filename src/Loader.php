@@ -6,7 +6,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.0
- *	@version		$Id$
  */
 /**
  *	A configured Loader for Classes and Scripts, which can be registered as Autoloader.
@@ -15,7 +14,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.0
- *	@version		$Id$
  */
 class Loader
 {

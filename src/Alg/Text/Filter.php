@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.6.4
- *	@version		$Id$
  */
 /**
  *	Filters HTML Content by stripping out unwanted Content Types like Scripts or Styles.
@@ -35,7 +34,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.6.4
- *	@version		$Id$
  */
 class Alg_Text_Filter
 {

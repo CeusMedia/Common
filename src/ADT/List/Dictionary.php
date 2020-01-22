@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			27.03.2006
- *	@version		$Id$
  */
 /**
  *	Dictionary is a simple Pair Structure similar to an associative Array but implementing some Interfaces.
@@ -38,7 +37,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			27.03.2006
- *	@version		$Id$
  */
 class ADT_List_Dictionary implements ArrayAccess, Countable, Iterator
 {

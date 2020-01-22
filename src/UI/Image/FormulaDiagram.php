@@ -23,7 +23,6 @@
  *	@copyright		2007-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@version		$Id$
  */
 /**
  *	Paints Formula Diagram
@@ -33,7 +32,6 @@
  *	@uses			Alg_Math_CompactInterval
  *	@uses			Alg_Time_Clock
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@version		$Id$
  *	@copyright		2007-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common

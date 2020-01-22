@@ -25,7 +25,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			05.05.2008
- *	@version		$Id$
  */
 /**
  *	Downloads a File from an URL while showing Progress in Console.
@@ -39,7 +38,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			05.05.2008
- *	@version		$Id$
  *	@see			http://curl.haxx.se/libcurl/c/curl_easy_setopt.html
  */
 class CLI_Downloader

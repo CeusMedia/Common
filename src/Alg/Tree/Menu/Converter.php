@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			02.12.2008
- *	@version		$Id$
  */
 /**
  *	Converter between OPML and Tree Menu Structure.
@@ -38,7 +37,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			02.12.2008
- *	@version		$Id$
  */
 class Alg_Tree_Menu_Converter
 {

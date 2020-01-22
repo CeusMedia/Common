@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			12.08.2005
- *	@version		$Id$
  */
 /**
  *	Validator for Languages (ISO).
@@ -35,7 +34,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			12.08.2005
- *	@version		$Id$
  */
 class Alg_Validation_LanguageValidator
 {

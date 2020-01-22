@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			13.07.2005
- *	@version		$Id$
  */
 /**
  *	Message Implementation for Accessing a IMAP eMail Server.
@@ -35,7 +34,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			13.07.2005
- *	@version		$Id$
  *	@todo			Code Documentation
  */
 class Net_IMAP_Message

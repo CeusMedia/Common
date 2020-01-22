@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			20.06.2014
- *	@version		$Id$
  */
 /**
  *	Parser and generator for XMPP JIDs.
@@ -35,7 +34,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			20.06.2014
- *	@version		$Id$
  */
 class Net_XMPP_JID{
 

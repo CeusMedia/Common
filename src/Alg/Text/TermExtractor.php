@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.6.8
- *	@version		$Id$
  */
 /**
  *	Extracts Terms from a Text Document.
@@ -36,7 +35,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.6.8
- *	@version		$Id$
  *	@todo			Code Doc
  */
 class Alg_Text_TermExtractor

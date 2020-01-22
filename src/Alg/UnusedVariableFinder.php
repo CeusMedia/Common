@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			14.01.2008
- *	@version		$Id$
  */
 /**
  *	Finds not used variables within PHP methods or functions.
@@ -35,7 +34,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			14.01.2008
- *	@version		$Id$
  */
 class Alg_UnusedVariableFinder
 {

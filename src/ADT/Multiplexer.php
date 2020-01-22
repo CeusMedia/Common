@@ -25,7 +25,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			23.08.2005
- *	@version		$Id$
  */
 /**
  *	Multiplexer.
@@ -36,7 +35,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			23.08.2005
- *	@version		$Id$
  */
 class ADT_Multiplexer
 {

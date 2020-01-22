@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			01.03.2007
- *	@version		$Id$
  */
 /**
  *	Exception for SQL Errors. Stores SQLSTATE if PDO is used.
@@ -36,7 +35,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			01.03.2007
- *	@version		$Id$
  */
 class Exception_SQL extends RuntimeException
 {

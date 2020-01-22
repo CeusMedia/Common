@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			16.06.2008
- *	@version		$Id$
  */
 /**
  *	Prints an Image Resource into a File or on Screen.
@@ -35,7 +34,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			16.06.2008
- *	@version		$Id$
  */
 class UI_Image_Printer
 {

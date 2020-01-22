@@ -25,7 +25,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			06.05.2008
- *	@version		$Id$
  */
 /**
  *	Reader for Configuration Files of different Types.
@@ -43,7 +42,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			06.05.2008
- *	@version		$Id$
  */
 #class FS_File_Configuration_Reader extends ADT_List_LevelMap
 class FS_File_Configuration_Reader extends ADT_List_Dictionary

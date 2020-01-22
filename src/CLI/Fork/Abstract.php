@@ -25,7 +25,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.0
- *	@version		$Id$
  */
 /**
  *	Abstract forking application supporting to clone the current process.
@@ -39,7 +38,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.0
- *	@version		$Id$
  *	@todo			Code doc
  */
 abstract class CLI_Fork_Abstract{

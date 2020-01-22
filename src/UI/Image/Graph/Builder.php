@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			16.04.2008
- *	@version		$Id$
  */
 /**
  *	Builds a Graph based on Configuration and Graph Data.
@@ -36,7 +35,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			16.04.2008
- *	@version		$Id$
  */
 class UI_Image_Graph_Builder
 {

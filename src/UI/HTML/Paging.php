@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			01.12.2005
- *	@version		$Id$
  */
 /**
  *	Paging System for Lists.
@@ -37,7 +36,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			01.12.2005
- *	@version		$Id$
  */
 class UI_HTML_Paging extends ADT_OptionObject
 {

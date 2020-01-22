@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			19.12.2007
- *	@version		$Id$
  */
 /**
  *	Calculator for Compound Interest.
@@ -35,7 +34,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			19.12.2007
- *	@version		$Id$
  */
 class Alg_Math_Finance_CompoundInterest
 {
