@@ -110,4 +110,3 @@ class Exception_Template extends RuntimeException
 		return $this->labels;
 	}
 }
-?>

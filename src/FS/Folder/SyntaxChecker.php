@@ -120,4 +120,3 @@ class FS_Folder_SyntaxChecker
 		remark( "Time: ".$time." sec" );
 	}
 }
-?>

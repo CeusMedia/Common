@@ -86,4 +86,3 @@ class Alg_Sort_Insertion
 		return $list;
 	}
 }
-?>

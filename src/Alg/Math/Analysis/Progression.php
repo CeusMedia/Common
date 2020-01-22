@@ -151,4 +151,3 @@ class Alg_Math_Analysis_Progression extends Alg_Math_Analysis_Sequence
 		return $code;
 	}
 }
-?>

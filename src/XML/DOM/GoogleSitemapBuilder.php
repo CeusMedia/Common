@@ -89,4 +89,3 @@ class XML_DOM_GoogleSitemapBuilder
 		return $builder->build( $root );
 	}
 }
-?>

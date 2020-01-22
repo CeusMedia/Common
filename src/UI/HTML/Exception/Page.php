@@ -85,4 +85,3 @@ class UI_HTML_Exception_Page
 		return $page->build( array( 'style' => 'margin: 1em' ) );
 	}
 }
-?>

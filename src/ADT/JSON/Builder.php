@@ -170,4 +170,3 @@ class ADT_JSON_Builder
 		return $output;
 	}
 }
-?>

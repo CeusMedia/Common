@@ -98,4 +98,3 @@ class UI_HTML_Image extends UI_HTML_Abstract
 		$this->url	= $url;	
 	}
 }
-?>

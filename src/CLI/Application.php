@@ -108,4 +108,3 @@ class CLI_Application
 		\CLI::out( 'Use command "help" for usage information.' );
 	}
 }
-?>

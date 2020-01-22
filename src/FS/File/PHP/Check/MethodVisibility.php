@@ -88,4 +88,3 @@ class FS_File_PHP_Check_MethodVisibility
 		return $this->methods;
 	}
 }
-?>

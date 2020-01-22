@@ -124,4 +124,3 @@ class Net_HTTP_Header_Field
 		return $this->toString();
 	}
 }
-?>

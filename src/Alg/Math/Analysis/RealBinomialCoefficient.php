@@ -72,4 +72,3 @@ class Alg_Math_Analysis_RealBinomialCoefficient
 		}
 	}
 }
-?>

@@ -98,4 +98,3 @@ class XML_RSS_SimpleParser
 		return $item;
 	}
 }
-?>

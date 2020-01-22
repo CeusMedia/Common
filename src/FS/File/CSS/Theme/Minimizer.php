@@ -244,4 +244,3 @@ class FS_File_CSS_Theme_Minimizer
 		$this->themesPath	= preg_replace( "@(.+)/$@", "\\1", $themesPath )."/";
 	}
 }
-?>

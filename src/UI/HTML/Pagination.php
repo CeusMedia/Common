@@ -250,4 +250,3 @@ class UI_HTML_Pagination extends ADT_OptionObject
 		return $link;
 	}
 }
-?>

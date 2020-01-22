@@ -137,4 +137,3 @@ class Net_Site_MapCreator
 		$writer->writeArray( $list );
 	}
 }
-?>

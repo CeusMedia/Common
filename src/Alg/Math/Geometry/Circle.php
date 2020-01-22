@@ -65,4 +65,3 @@ class Alg_Math_Geometry_Circle
 		return $value;
 	}
 }
-?>

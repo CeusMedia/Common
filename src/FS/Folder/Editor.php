@@ -380,4 +380,3 @@ class FS_Folder_Editor extends FS_Folder_Reader
 		return $count;																		//  return counted Objects
 	}
 }
-?>

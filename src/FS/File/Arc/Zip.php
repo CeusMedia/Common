@@ -387,5 +387,3 @@ class File_Arc_ZipTarTemplate {
 		return File_Writer::save( $fileName, $this->content );										//  write archive file
 	}
 }
-?>
-

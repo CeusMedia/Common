@@ -198,4 +198,3 @@ class XML_Parser
 		return $this->data->getChildByIndex( 0 );
 	}
 }
-?>

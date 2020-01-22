@@ -156,4 +156,3 @@ class Net_HTTP_PageRank
 		return $a;
 	} 
 }
-?>

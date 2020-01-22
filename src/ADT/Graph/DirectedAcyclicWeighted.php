@@ -72,4 +72,3 @@ class ADT_Graph_DirectedAcyclicWeighted extends ADT_Graph_DirectedWeighted
 			$this->edgeSet->addEdge( $source, $target, $value );
 	}
 }
-?>

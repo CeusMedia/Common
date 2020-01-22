@@ -197,4 +197,3 @@ class DB_StatementCollection
 		$this->builder->setOffset( $offset );
 	}
 }
-?>

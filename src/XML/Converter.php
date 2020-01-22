@@ -98,4 +98,3 @@ class XML_Converter
 		$object->content = $node->getContent();
 	}
 }
-?>

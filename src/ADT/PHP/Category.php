@@ -255,4 +255,3 @@ class ADT_PHP_Category
 		$this->parent	= $parent;
 	}
 }
-?>

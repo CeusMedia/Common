@@ -49,4 +49,3 @@ class ADT_Tree_AvlNode extends ADT_Tree_BalanceBinaryNode
 		parent::__construct( 2, $value );
 	}
 }
-?>

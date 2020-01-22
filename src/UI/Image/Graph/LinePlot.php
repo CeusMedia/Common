@@ -86,4 +86,3 @@ class UI_Image_Graph_LinePlot
 		return $graphType;
 	}
 }
-?>

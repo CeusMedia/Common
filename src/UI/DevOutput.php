@@ -617,4 +617,3 @@ function xmp( $string, $dump = FALSE )
 	if( $dump )
 		return ob_get_clean();
 }
-?>

@@ -110,4 +110,3 @@ class Net_HTTP_CrossDomainProxy
 	}
 
 }
-?>

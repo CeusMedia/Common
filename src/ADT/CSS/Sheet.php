@@ -230,4 +230,3 @@ class ADT_CSS_Sheet{
 		return $this->set( $rule->getSelector(), $property->getKey(), $property->getValue() );		//  
 	}
 }
-?>

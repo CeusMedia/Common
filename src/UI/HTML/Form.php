@@ -82,4 +82,3 @@ class UI_HTML_Form extends UI_HTML_Abstract
 		$this->attributes['action']	= $url;	
 	}
 }
-?>

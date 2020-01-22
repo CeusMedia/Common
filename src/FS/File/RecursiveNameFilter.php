@@ -73,4 +73,3 @@ class FS_File_RecursiveNameFilter extends FilterIterator
 		return !strcmp( basename( $this->current() ), $this->fileName );
 	}
 }
-?>

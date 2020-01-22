@@ -94,4 +94,3 @@ class FS_File_Log_JSON_Reader
 		return $data;
 	}
 }
-?>

@@ -243,4 +243,3 @@ class ADT_Tree_BinaryNode
 		return $code;
 	}
 }
-?>

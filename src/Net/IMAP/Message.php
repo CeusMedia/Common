@@ -176,4 +176,3 @@ class Net_IMAP_Message
 		return $this->info->subject;
 	}
 }
-?>

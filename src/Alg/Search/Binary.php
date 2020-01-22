@@ -75,4 +75,3 @@ class Alg_Search_Binary
 		}
 	}
 }
-?>

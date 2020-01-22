@@ -229,4 +229,3 @@ class Net_Mail
 		$this->subject	= $subject;
 	}
 }
-?>

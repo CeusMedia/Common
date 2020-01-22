@@ -46,4 +46,3 @@ class FS_File_RecursiveTodoLister extends FS_File_TodoLister
 		return new FS_File_RecursiveRegexFilter( $path, $filePattern, $contentPattern );
 	}
 }
-?>

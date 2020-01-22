@@ -84,4 +84,3 @@ class Alg_Math_Analysis_Interpolation_Neville
 		$this->data	= $data;
 	}
 }
-?>

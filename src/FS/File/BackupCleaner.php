@@ -143,4 +143,3 @@ class FS_File_BackupCleaner{
 		$this->vault	= $path;
 	}
 }
-?>

@@ -151,4 +151,3 @@ class UI_HTML_Tree_ArrayView
 		$this->target	= $target;
 	}
 }
-?>

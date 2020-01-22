@@ -95,4 +95,3 @@ class Net_HTTP_UploadErrorHandler
 			$this->messages[$code]	= $label;
 	}
 }
-?>

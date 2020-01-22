@@ -327,4 +327,3 @@ class UI_HTML_Tag implements Renderable
 		$this->content	= $content;
 	}
 }
-?>

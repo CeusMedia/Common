@@ -199,4 +199,3 @@ class ADT_Tree_BalanceBinaryNode extends ADT_Tree_BinaryNode
 		return $code;
 	}
 }
-?>

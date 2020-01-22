@@ -157,4 +157,3 @@ class ADT_PHP_Method extends ADT_PHP_Function
 		$this->static	= (bool) $isStatic;
 	}
 }
-?>

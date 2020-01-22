@@ -80,4 +80,3 @@ class FS_File_Iterator extends FilterIterator
 		return TRUE;
 	}
 }
-?>

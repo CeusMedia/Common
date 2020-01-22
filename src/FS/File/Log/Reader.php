@@ -86,4 +86,3 @@ class FS_File_Log_Reader
 		return $this->load( $this->fileName, $offset, $limit );
 	}
 }
-?>

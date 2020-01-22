@@ -243,4 +243,3 @@ class ADT_PHP_Container
 		$this->files[$name]	= $file;
 	}
 }
-?>

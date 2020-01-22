@@ -107,4 +107,3 @@ class Alg_Text_CamelCase{
 		return TRUE;
 	}
 }
-?>

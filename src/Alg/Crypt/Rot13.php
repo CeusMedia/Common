@@ -64,4 +64,3 @@ class Alg_Crypt_Rot13
 		return str_rot13( $string );
 	}
 }
-?>

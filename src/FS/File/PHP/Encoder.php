@@ -183,4 +183,3 @@ class FS_File_PHP_Encoder
 		return FALSE;
 	}
 }
-?>

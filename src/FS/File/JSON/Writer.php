@@ -87,4 +87,3 @@ class FS_File_JSON_Writer
 		return FS_File_Writer::save( $this->filePath, $json );
 	}
 }
-?>

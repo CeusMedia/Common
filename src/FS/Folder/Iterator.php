@@ -90,4 +90,3 @@ class FS_Folder_Iterator extends FilterIterator
 		return TRUE;
 	}
 }
-?>

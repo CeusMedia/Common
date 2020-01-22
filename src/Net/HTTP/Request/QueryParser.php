@@ -84,4 +84,3 @@ class Net_HTTP_Request_QueryParser
 		return $list;																	//  return resulting list
 	}
 }
-?>

@@ -167,4 +167,3 @@ class Net_HTTP_Sniffer_Client
 		return $this->browser->isBrowser();
 	}
 }
-?>

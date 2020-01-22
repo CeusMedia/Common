@@ -66,4 +66,3 @@ class UI_HTML_Buffer extends UI_HTML_Abstract
 		return $buffer;
 	}
 }
-?>

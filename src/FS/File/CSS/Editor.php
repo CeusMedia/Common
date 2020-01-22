@@ -168,4 +168,3 @@ class FS_File_CSS_Editor{
 		$this->sheet	= $sheet;
 	}
 }
-?>

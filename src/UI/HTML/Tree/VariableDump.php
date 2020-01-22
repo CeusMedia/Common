@@ -136,4 +136,3 @@ function treeVar( $mixed, $print = TRUE, $closed = FALSE )
 {
 	return UI_HTML_VarTree::dumpVar( $mixed, $print, $closed );
 }
-?>

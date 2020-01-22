@@ -226,4 +226,3 @@ class ADT_OptionObject implements ArrayAccess, Countable
 		return TRUE;
 	}
 }
-?>

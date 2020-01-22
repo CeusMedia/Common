@@ -314,4 +314,3 @@ class UI_Image_TransparentWatermark  {
 		}
 	}
 }
-?>

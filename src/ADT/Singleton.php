@@ -82,4 +82,3 @@ abstract class ADT_Singleton
 		return self::$instance;													//  return stored instance
 	}
 }
-?>

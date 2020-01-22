@@ -103,4 +103,3 @@ class DB_DAO_Object
 		return $this->table->updateById( $this->table->getPrimaryKey(), $fields );
 	}
 }
-?>

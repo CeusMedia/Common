@@ -66,4 +66,3 @@ class CLI_RequestReceiver extends ADT_List_Dictionary
 		}
 	}
 }
-?>

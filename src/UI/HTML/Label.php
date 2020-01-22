@@ -68,4 +68,3 @@ class UI_HTML_Label extends UI_HTML_Abstract
 		return UI_HTML_Tag::create( 'label', $content, $this->getAttributes() );
 	}
 }
-?>

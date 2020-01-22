@@ -158,4 +158,3 @@ class FS_File_INI {
 		return FS_File_Writer::save( $this->fileName, join( "\n", $list ), $this->mode );
 	}
 }
-?>

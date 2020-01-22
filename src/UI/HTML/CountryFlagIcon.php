@@ -85,4 +85,3 @@ class UI_HTML_CountryFlagIcon
 		return $isoCode;
 	}
 }
-?>

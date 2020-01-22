@@ -92,4 +92,3 @@ class CLI_Output{
 		$this->setMaxLineLength	= $length;
 	}
 }
-?>

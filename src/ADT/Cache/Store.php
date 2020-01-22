@@ -168,4 +168,3 @@ abstract class ADT_Cache_Store implements ArrayAccess
 	 */
 	abstract public function set( $key, $value );
 }
-?>

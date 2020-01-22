@@ -81,4 +81,3 @@ abstract class Exception_Abstract extends Exception implements Exception_Interfa
 		);
 	}
 }
-?>

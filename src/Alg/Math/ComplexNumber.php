@@ -168,4 +168,3 @@ class Alg_Math_ComplexNumber
 		return $code;
 	}
 }
-?>

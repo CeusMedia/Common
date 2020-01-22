@@ -119,4 +119,3 @@ class ADT_Graph_Edge
 		$this->targetNode = $targetNode;
 	}
 }
-?>

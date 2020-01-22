@@ -98,4 +98,3 @@ class FS_File_CSS_Writer{
 		return self::save( $this->fileName, $sheet );
 	}
 }
-?>

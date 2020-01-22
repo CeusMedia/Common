@@ -247,4 +247,3 @@ class UI_HTML_Exception_TraceViewer
 		return $fileName;
 	}
 }
-?>

@@ -102,4 +102,3 @@ class ADT_Graph_Node
 		return "(".$this->nodeName.":".$this->nodeValue.")";
 	}
 }
-?>

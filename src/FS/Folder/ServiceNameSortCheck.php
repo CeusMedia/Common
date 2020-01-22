@@ -155,4 +155,3 @@ class FS_Folder_ServiceNameSortCheck
 		return $this->found / $this->count;
 	}
 }
-?>

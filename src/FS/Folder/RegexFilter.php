@@ -94,4 +94,3 @@ class FS_Folder_RegexFilter extends RegexIterator
 		return parent::accept();
 	}
 }
-?>

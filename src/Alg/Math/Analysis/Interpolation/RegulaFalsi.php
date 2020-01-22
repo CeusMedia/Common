@@ -116,4 +116,3 @@ class Alg_Math_Analysis_Interpolation_RegulaFalsi
 		$this->interval	= new Alg_Math_CompactInterval( $start, $end );
 	}
 }
-?>

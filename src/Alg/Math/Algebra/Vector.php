@@ -137,4 +137,3 @@ class Alg_Math_Algebra_Vector
 		return $this->values;
 	}
 }
-?>

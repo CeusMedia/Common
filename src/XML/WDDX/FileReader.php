@@ -77,4 +77,3 @@ class XML_WDDX_FileReader
 		return XML_WDDX_Parser::parse( $packet );
 	}
 }
-?>

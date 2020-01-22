@@ -46,4 +46,3 @@ class CLI_Fork_Server_Client_WebProxy extends CLI_Fork_Server_Client_Abstract
 		return http_build_query( $_REQUEST, "", "&" );
 	}
 }
-?>

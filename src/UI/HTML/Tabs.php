@@ -216,4 +216,3 @@ class UI_HTML_Tabs
 		self::$version	= $version;
 	}
 }
-?>

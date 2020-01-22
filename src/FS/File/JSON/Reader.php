@@ -139,4 +139,3 @@ class FS_File_JSON_Reader
 		return $json;
 	}
 }
-?>

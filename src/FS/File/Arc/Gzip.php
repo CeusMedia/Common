@@ -74,4 +74,3 @@ class FS_File_Arc_Gzip extends FS_File_Editor
 		return parent::writeString( $content );
 	}
 }
-?>

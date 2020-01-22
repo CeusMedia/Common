@@ -77,4 +77,3 @@ class XML_RSS_SimpleReader
 		return XML_RSS_SimpleParser::parse( $xml );
 	}
 }
-?>

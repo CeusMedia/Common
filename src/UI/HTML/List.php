@@ -93,4 +93,3 @@ class UI_HTML_List extends UI_HTML_Abstract
 		return UI_HTML_Tag::create( "ul", join( $list ), $this->getAttributes() );
 	}
 }
-?>

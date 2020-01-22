@@ -178,4 +178,3 @@ class FS_File_PHP_Parser_Reflection
 		return $object;
 	}
 }
-?>

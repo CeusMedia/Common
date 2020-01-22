@@ -150,4 +150,3 @@ class ADT_Registry
 		return true;	
 	}
 }  
-?>

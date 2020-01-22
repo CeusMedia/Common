@@ -154,4 +154,3 @@ class XML_DOM_Parser extends ADT_OptionObject
 		return true;
 	}
 }
-?>

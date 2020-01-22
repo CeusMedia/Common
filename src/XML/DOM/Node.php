@@ -332,4 +332,3 @@ class XML_DOM_Node
 		return TRUE;
 	}
 }
-?>

@@ -56,4 +56,3 @@ $("'.$textareaSelector.'").each(function(){
 		$this->setOption( 'theme', $theme );
 	}
 }
-?>

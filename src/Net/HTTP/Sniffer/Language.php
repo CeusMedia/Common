@@ -96,4 +96,3 @@ class Net_HTTP_Sniffer_Language
 		return $currentLanguage;
 	}
 }
-?>

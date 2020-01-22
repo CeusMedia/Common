@@ -447,4 +447,3 @@ class FS_File_INI_Editor extends FS_File_INI_Reader
 		return $result;
 	}
 }
-?>

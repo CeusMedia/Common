@@ -237,4 +237,3 @@ class Net_HTTP_Request_Receiver extends ADT_List_Dictionary
 		return $this->method === strtoupper( $method );
 	}
 }
-?>

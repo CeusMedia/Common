@@ -105,4 +105,3 @@ class Net_HTTP_Post {
 			$this->dataMaxLength	= (int) $integer;
 	}
 }
-?>

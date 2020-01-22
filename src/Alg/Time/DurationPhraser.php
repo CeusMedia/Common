@@ -99,4 +99,3 @@ class Alg_Time_DurationPhraser
 		return $value;
 	}
 }
-?>

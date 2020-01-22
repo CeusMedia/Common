@@ -172,4 +172,3 @@ class XML_UnitTestResultReader
 		return $this->tree->testsuite[0]->getAttribute( 'time' );
 	}
 }
-?>

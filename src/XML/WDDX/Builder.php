@@ -79,4 +79,3 @@ class XML_WDDX_Builder
 		return wddx_packet_end( $this->pid );
 	}
 }
-?>

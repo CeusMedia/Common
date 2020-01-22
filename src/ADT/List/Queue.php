@@ -152,4 +152,3 @@ class ADT_List_Queue implements Countable
 		return $this->pop();
 	}
 }
-?>

@@ -105,4 +105,3 @@ class UI_HTML_Ladder
 		return UI_HTML_JQuery::buildPluginCall( 'cmLadder', '#'.$this->id );	
 	}
 }
-?>

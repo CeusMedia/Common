@@ -394,4 +394,3 @@ class Alg_HtmlParser
 		$this->parseHtml( $html );
 	}
 }
-?>

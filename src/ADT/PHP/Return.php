@@ -120,4 +120,3 @@ class ADT_PHP_Return
 		$this->type	= $type;
 	}
 }
-?>

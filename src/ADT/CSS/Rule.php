@@ -114,4 +114,3 @@ class ADT_CSS_Rule{
 		$this->selector	= $selector;
 	}
 }
-?>

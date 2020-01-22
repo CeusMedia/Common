@@ -103,4 +103,3 @@ class Alg_Object_Delegation
 		throw new BadMethodCallException( 'Method "'.$methodName.'" is not existing in added objects' );
 	}
 }
-?>

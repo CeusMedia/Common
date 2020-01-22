@@ -255,4 +255,3 @@ class Alg_Math_Algebra_Matrix
 		$this->values		= $array;
 	}
 }
-?>

@@ -162,4 +162,3 @@ class UI_Image_ThumbnailCreator
 		return $this->thumbize( $width, $height );
 	}
 }
-?>

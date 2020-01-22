@@ -335,4 +335,3 @@ class Net_CURL
 		self::$timeOut	= (int) $seconds;
 	}
 }
-?>

@@ -71,4 +71,3 @@ class UI_HTML_Button_Link extends UI_HTML_Button_Abstract
 		return UI_HTML_Tag::create( 'button', $this->content, $attributes );
 	}
 }
-?>

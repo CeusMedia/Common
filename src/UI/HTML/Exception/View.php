@@ -163,4 +163,3 @@ class UI_HTML_Exception_View
 		return $fileName;
 	}
 }
-?>

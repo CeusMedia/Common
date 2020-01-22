@@ -179,4 +179,3 @@ class ADT_List_LevelMap extends ADT_List_Dictionary
 			ksort( $this->pairs );																//  sort stored Pairs by Keys
 	}
 }
-?>

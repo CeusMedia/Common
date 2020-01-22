@@ -73,4 +73,3 @@ class ADT_JSON_Converter
 		}
 	}
 }
-?>

@@ -208,4 +208,3 @@ class DB_TableWriter extends DB_TableReader
 		return $value;
 	}
 }
-?>

@@ -123,4 +123,3 @@ class ADT_Tree_Node
 		return TRUE;
 	}
 }
-?>

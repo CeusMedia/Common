@@ -135,4 +135,3 @@ class UI_HTML_Index{
 		return $content;
 	}
 }
-?>

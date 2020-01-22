@@ -106,4 +106,3 @@ class Alg_Tree_Menu_Converter
 		return self::convertFromOpml( $opml, $labelRoot, $rootClass );
 	}
 }
-?>

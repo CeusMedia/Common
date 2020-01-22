@@ -74,4 +74,3 @@ class Exception_SQL extends RuntimeException
 		return $this->SQLSTATE;
 	}
 }
-?>

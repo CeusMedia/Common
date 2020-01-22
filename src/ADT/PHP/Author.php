@@ -81,4 +81,3 @@ class ADT_PHP_Author
 		$this->name	= $name;
 	}
 }
-?>

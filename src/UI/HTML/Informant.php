@@ -76,4 +76,3 @@ jQuery(document).ready(function(){
 })';	
 	}
 }
-?>

@@ -141,4 +141,3 @@ class FS_File_StaticCache extends ADT_Cache_StaticStore
 		return self::$store->set( $key, $value );
 	}
 }
-?>

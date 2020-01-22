@@ -211,4 +211,3 @@ class ADT_PHP_Class extends ADT_PHP_Interface
 		return $this->uses[$className]	= $className;
 	}
 }
-?>

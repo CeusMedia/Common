@@ -121,4 +121,3 @@ class FS_Folder_RecursiveIterator extends FilterIterator
 		return $this->path;
 	}
 }
-?>

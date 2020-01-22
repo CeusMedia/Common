@@ -233,4 +233,3 @@ class XML_Atom_Reader
 		return $this->parser->language;
 	}
 }
-?>

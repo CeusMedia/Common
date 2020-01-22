@@ -306,4 +306,3 @@ class FS_File_Log_Tracker_ShortReader extends FS_File_Log_ShortReader
 		$this->_open	= true;
 	}
 }
-?>

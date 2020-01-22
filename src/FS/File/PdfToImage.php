@@ -46,4 +46,3 @@ $im->setSize( 256, 0 );
 $im->write( 'output.png' );
 
 */
-?>

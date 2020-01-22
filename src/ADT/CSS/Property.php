@@ -65,4 +65,3 @@ class ADT_CSS_Property{
 		$this->value	= $value;
 	}
 }
-?>

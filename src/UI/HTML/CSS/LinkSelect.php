@@ -99,4 +99,3 @@ class UI_HTML_CSS_LinkSelect
 		return $code;
 	}
 }
-?>

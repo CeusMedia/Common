@@ -97,4 +97,3 @@ class ADT_Tree_Menu_Item extends ADT_Tree_Menu_List
 		return $array;
 	}
 }
-?>

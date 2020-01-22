@@ -222,4 +222,3 @@ class FS_File_Permissions
 		return $result;
 	}
 }
-?>

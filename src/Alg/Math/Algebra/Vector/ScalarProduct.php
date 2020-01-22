@@ -66,4 +66,3 @@ class Alg_Math_Algebra_Vector_ScalarProduct
 		return $sum;
 	}
 }
-?>

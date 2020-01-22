@@ -263,4 +263,3 @@ class FS_File_CSS_Relocator {
 		/x', 'url($1)', $css);
 	}
 }
-?>

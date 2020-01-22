@@ -394,4 +394,3 @@ class Alg_JS_Minifier{
 
 // -- Exceptions ---------------------------------------------------------------
 class Alg_JS_MinifierException extends Exception {}
-?>

@@ -455,4 +455,3 @@ class FS_File_PHP_Parser_Array
 		return $method;
 	}
 }
-?>

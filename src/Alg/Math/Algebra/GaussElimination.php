@@ -148,4 +148,3 @@ class Alg_Math_Algebra_GaussElimination
 		return $solution;
 	}
 }
-?>

@@ -99,4 +99,3 @@ class Alg_Crypt_Caesar
 		return self::crypt( $string, $key );
 	}
 }
-?>

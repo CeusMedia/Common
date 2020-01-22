@@ -76,4 +76,3 @@ class UI_HTML_CollapsePanel extends UI_HTML_Panel
 		return UI_HTML_JQuery::buildPluginCall( "cmCollapsePanel", $selector, $options );
 	}
 }
-?>

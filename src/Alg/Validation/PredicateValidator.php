@@ -94,4 +94,3 @@ class Alg_Validation_PredicateValidator
 		}
 	}
 }
-?>

@@ -95,4 +95,3 @@ class Alg_Parcel_Factory
 		}
 	}
 }
-?>

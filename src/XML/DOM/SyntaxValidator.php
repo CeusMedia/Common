@@ -83,4 +83,3 @@ class XML_DOM_SyntaxValidator
 		return FALSE;
 	}
 }
-?>

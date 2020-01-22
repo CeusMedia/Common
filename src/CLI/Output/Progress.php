@@ -109,4 +109,3 @@ class CLI_Output_Progress{
 		return $line;
 	}
 }
-

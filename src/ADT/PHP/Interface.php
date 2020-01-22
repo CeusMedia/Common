@@ -550,4 +550,3 @@ class ADT_PHP_Interface
 		$this->version	= $string;
 	}
 }
-?>

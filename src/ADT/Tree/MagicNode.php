@@ -156,4 +156,3 @@ class ADT_Tree_MagicNode{
 		$this->value	= $value;
 	}
 }
-?>

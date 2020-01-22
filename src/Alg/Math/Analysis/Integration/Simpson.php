@@ -60,4 +60,3 @@ class Alg_Math_Analysis_Integration_Simpson extends Alg_Math_Analysis_Integratio
 		return $sum;			
 	}
 }
-?>

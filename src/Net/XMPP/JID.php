@@ -168,4 +168,3 @@ class Net_XMPP_JID{
 		$this->set( $domain, $node, $resource );
 	}
 }
-?>

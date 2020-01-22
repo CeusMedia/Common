@@ -50,4 +50,3 @@ class XML_WDDX_Parser
 		return wddx_deserialize( $packet );
 	}
 }
-?>

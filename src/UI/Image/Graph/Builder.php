@@ -224,4 +224,3 @@ class UI_Image_Graph_Builder
 				( $axis == 'y2' ) ? $graph->addY2( $plot ) : $graph->add( $plot );
 	}
 }
-?>

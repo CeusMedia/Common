@@ -172,4 +172,3 @@ class Alg_Math_RationalNumbers
 		return $result;
 	}
 }
-?>

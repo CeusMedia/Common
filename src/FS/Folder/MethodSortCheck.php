@@ -155,4 +155,3 @@ class FS_Folder_MethodSortCheck
 		return $this->found / $this->count;
 	}
 }
-?>

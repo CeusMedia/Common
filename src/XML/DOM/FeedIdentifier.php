@@ -127,4 +127,3 @@ class XML_DOM_FeedIdentifier
 		return false;
 	}
 }
-?>

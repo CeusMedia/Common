@@ -76,4 +76,3 @@ class FS_File_YAML_Reader
 		return self::load( $this->fileName );
 	}
 }
-?>

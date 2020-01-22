@@ -90,4 +90,3 @@ class Exception_IO extends Exception_Runtime
 		list( $this->message, $this->code, $this->file, $this->line, $this->resource ) = unserialize( $serial );
 	}
 }
-?>

@@ -134,4 +134,3 @@ class FS_File_CSS_Compressor
 			$this->suffix	= $suffix;
 	}
 }
-?>

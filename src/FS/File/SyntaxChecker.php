@@ -76,4 +76,3 @@ class FS_File_SyntaxChecker
 		return $error;
 	}
 }
-?>

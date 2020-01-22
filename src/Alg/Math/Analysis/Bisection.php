@@ -112,4 +112,3 @@ class Alg_Math_Analysis_Bisection
 		$this->interval	= new Alg_Math_CompactInterval( $start, $end );
 	}
 }
-?>

@@ -201,4 +201,3 @@ class CLI{
 		return $short ? $short.':'.$type : $topic.'/'.$type;
 	}
 }
-?>

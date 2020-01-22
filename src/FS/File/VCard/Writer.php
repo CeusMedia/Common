@@ -83,4 +83,3 @@ class FS_File_VCard_Writer
 		return $this->save( $this->fileName, $card, $charsetIn, $charsetOut );
 	}
 }
-?>

@@ -209,4 +209,3 @@ class XML_OPML_Parser
 		}
 	}
 }
-?>

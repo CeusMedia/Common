@@ -256,4 +256,3 @@ class ADT_StringBuffer implements Countable
 		return $this->buffer;
 	}
 }
-?>

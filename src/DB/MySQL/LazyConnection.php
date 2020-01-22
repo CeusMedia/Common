@@ -159,4 +159,3 @@ class DB_MySQL_LazyConnection extends DB_MySQL_Connection
 		return parent::selectDB( $database );
 	}
 }
-?>

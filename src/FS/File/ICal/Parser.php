@@ -161,4 +161,3 @@ class FS_File_ICal_Parser
 		return $string;
 	}
 }
-?>

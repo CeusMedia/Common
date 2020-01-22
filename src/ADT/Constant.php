@@ -141,4 +141,3 @@ class ADT_Constant
 		return define( $key, $value );
 	}
 }
-?>

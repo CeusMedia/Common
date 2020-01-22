@@ -322,4 +322,3 @@ class FS_File_PHP_Test_Creator
 		$this->pathTemplates	= $pathTemplates;
 	}
 }
-?>

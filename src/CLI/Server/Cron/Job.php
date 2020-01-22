@@ -93,4 +93,3 @@ class CLI_Server_Cron_Job extends ADT_OptionObject
 		return $content;
 	}
 }
-?>

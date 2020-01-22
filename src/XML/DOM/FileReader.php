@@ -78,4 +78,3 @@ class XML_DOM_FileReader
 		return self::load( $this->fileName );
 	}
 }
-?>

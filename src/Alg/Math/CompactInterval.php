@@ -133,4 +133,3 @@ class Alg_Math_CompactInterval
 		return $this->name."[".$this->start.";".$this->end."]";
 	}
 }
-?>

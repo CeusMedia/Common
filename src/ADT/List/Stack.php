@@ -156,4 +156,3 @@ class ADT_List_Stack implements Countable
 		return array_pop( $this->stack );
 	}
 }
-?>

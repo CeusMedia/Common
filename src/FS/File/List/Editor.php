@@ -124,4 +124,3 @@ class FS_File_List_Editor extends FS_File_List_Reader
 		return FS_File_List_Writer::save( $this->fileName, $this->list, $mode, $user, $group );
 	}
 }
-?>

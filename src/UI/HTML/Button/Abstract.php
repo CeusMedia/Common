@@ -67,4 +67,3 @@ abstract class UI_HTML_Button_Abstract extends UI_HTML_Abstract
 		return UI_HTML_Tag::create( 'button', $this->content, $this->getAttributes() );
 	}
 }
-?>

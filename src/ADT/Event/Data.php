@@ -76,4 +76,3 @@ class ADT_Event_Data{
 		$this->handler->stopEvent( $this->trigger );
 	}
 }
-?>

@@ -490,4 +490,3 @@ class ADT_VCard implements Serializable
 		$this->fromString( $string );
 	}
 }
-?>

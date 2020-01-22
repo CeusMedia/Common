@@ -67,4 +67,3 @@ class UI_SVG_ChartData
 		$this->value = $value;
 	}
 }
-?>

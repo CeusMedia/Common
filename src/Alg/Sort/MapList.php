@@ -86,4 +86,3 @@ class Alg_Sort_MapList
 		return $array;															//  return new Data Array
 	}
 }
-?>

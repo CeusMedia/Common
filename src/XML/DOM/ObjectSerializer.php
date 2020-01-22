@@ -117,4 +117,3 @@ class XML_DOM_ObjectSerializer
 		}
 	}
 }
-?>

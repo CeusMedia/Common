@@ -77,5 +77,3 @@ class Alg_Text_Extender{
 		return $left.$text.$right;
 	}
 }
-?>
-

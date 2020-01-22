@@ -67,4 +67,3 @@ class Alg_Math_Factorial
 		return 0;
 	}
 }
-?>

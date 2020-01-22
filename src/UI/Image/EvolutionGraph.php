@@ -252,4 +252,3 @@ class UI_Image_EvolutionGraph extends ADT_OptionObject
 		$this->setOption( 'title_text', $title );
 	}
 }
-?>

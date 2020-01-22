@@ -138,4 +138,3 @@ class FS_File_VCard_Builder
 		return $line;
 	}
 }
-?>

@@ -79,4 +79,3 @@ class FS_File_YAML_Writer
 		return self::save( $this->fileName, $data );
 	}
 }
-?>

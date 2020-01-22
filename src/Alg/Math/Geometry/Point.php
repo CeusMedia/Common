@@ -75,4 +75,3 @@ class Alg_Math_Geometry_Point
 		$this->y = $y;
 	}
 }
-?>

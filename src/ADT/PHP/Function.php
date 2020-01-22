@@ -475,4 +475,3 @@ class ADT_PHP_Function
 		$this->version	= $string;
 	}
 }
-?>

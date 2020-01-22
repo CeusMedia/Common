@@ -92,4 +92,3 @@ class Alg_Math_FormulaProduct
 		return $product;
 	}
 }
-?>

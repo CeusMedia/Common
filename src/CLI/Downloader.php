@@ -224,4 +224,3 @@ class CLI_Downloader
 		return $length;																		//  return Length of Header String
 	}
 }
-?>

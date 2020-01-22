@@ -147,4 +147,3 @@ abstract class UI_HTML_Abstract implements Renderable
 		$this->content	= $content;
 	}
 }
-?>

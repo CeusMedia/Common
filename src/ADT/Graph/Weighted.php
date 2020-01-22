@@ -735,4 +735,3 @@ class ADT_Graph_Weighted
 		return $queue;
 	}
 }
-?>

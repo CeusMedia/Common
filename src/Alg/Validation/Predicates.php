@@ -434,4 +434,3 @@ class Alg_Validation_Predicates
 		return self::isPreg( $string, "@^([a-z]{3,})://([a-z0-9-_\.]+)/?([\w$-\.+!*'\(\)\@:?#=&/;_]+)$@i" );
 	}
 }
-?>

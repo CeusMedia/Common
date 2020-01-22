@@ -87,4 +87,3 @@ class FS_File_List_SectionWriter
 		return self::save( $this->fileName, $list );
 	}
 }
-?>

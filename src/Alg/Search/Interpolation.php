@@ -82,4 +82,3 @@ class Alg_Search_Interpolation{
 		return -1;
 	}
 }
-?>

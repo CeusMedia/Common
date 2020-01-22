@@ -160,4 +160,3 @@ class Net_HTTP_Status{
 		header( $protocol.' '.$code.' '.$text );
 	}
 }
-?>

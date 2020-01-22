@@ -108,4 +108,3 @@ class UI_Image_Creator
 		$this->height		= imagesy( $this->resource );		
 	}
 }
-?>

@@ -150,4 +150,3 @@ abstract class CLI_Command_Program
 			exit( $exitCode );
 	}
 }
-?>

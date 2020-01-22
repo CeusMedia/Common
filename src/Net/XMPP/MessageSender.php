@@ -244,4 +244,3 @@ class Net_XMPP_MessageSender
 		$this->xmpp->presence( $status );
 	}
 }
-?>

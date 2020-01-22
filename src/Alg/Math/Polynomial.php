@@ -178,4 +178,3 @@ class Alg_Math_Polynomial
 		$this->coefficients = $coefficients;
 	}
 }
-?>

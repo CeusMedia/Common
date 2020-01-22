@@ -216,4 +216,3 @@ class FS_Folder_Lister
 		$this->stripDotEntries	= (bool) $flag;
 	}
 }
-?>

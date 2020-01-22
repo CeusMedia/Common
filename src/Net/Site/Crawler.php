@@ -356,4 +356,3 @@ class Net_Site_Crawler
 		);
 	}
 }
-?>

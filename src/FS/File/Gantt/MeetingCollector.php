@@ -144,4 +144,3 @@ class FS_File_Gantt_MeetingCollector
 		return $projects;
 	}
 }
-?>

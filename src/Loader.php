@@ -237,4 +237,3 @@ class Loader
 		return spl_autoload_unregister( array( $this, 'loadClass' ) );
 	}
 }
-?>

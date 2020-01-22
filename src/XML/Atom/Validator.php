@@ -205,4 +205,3 @@ class XML_Atom_Validator
 
 	}
 }
-?>

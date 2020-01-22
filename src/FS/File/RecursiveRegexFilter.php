@@ -132,4 +132,3 @@ class FS_File_RecursiveRegexFilter extends RegexIterator
 		parent::rewind();
 	}
 }
-?>

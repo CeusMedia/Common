@@ -340,4 +340,3 @@ class CLI_Command_ArgumentParser
 		}
 	}
 }
-?>

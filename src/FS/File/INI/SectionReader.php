@@ -143,4 +143,3 @@ class FS_File_INI_SectionReader
 		return $this->getProperties( $section );
 	}
 }
-?>

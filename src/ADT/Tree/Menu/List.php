@@ -178,4 +178,3 @@ class ADT_Tree_Menu_List
 		return $children;
 	}
 }
-?>

@@ -79,4 +79,3 @@ class Net_HTTP_Response_Compressor
 		}
 	}
 }
-?>

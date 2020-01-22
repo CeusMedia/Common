@@ -75,4 +75,3 @@ class Alg_Search_Strange
 			return $this->search( $array, $key, $index1 + 1, $index2 - 1 );
 	}
 }
-?>

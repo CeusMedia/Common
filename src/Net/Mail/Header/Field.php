@@ -130,4 +130,3 @@ class Net_Mail_Header_Field
 		return $this->toString();
 	}
 }
-?>

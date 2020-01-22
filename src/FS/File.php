@@ -110,4 +110,3 @@ class FS_File extends FS_AbstractNode{
 		$this->pathName	= $pathName;
 	}
 }
-?>

@@ -222,4 +222,3 @@ class FS_File_Cache extends ADT_Cache_Store implements Countable
 		FS_File_Editor::save( $uri, $content );
 	}
 }
-?>

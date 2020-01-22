@@ -66,4 +66,3 @@ class FS_Folder_Treeview_JsonExtended extends FS_Folder_Treeview_Json
 		return $item;
 	}
 }
-?>

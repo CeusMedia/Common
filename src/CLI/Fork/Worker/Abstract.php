@@ -142,4 +142,3 @@ abstract class CLI_Fork_Worker_Abstract
 	 */
 	abstract protected function workParent( $pid );
 }
-?>

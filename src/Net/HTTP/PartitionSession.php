@@ -120,4 +120,3 @@ class Net_HTTP_PartitionSession extends ADT_List_Dictionary
 		return session_name();
 	}
 }
-?>

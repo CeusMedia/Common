@@ -169,4 +169,3 @@ class Net_HTTP_Sniffer_OS
 		elseif( eregi( "sie-cx35", $ua ) )		$this->system = "Siemens CX35";
 	}
 }
-?>

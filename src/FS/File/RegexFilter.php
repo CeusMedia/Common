@@ -123,4 +123,3 @@ class FS_File_RegexFilter extends RegexIterator
 		parent::rewind();
 	}
 }
-?>

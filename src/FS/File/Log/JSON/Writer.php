@@ -86,4 +86,3 @@ class FS_File_Log_JSON_Writer
 		return error_log( $serial, 3, $fileName );
 	}
 }
-?>

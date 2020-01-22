@@ -143,4 +143,3 @@ class UI_Image_Printer
 		}
 	}
 }
-?>

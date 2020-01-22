@@ -323,4 +323,3 @@ class FS_File_Reader
 		return file_get_contents( $this->fileName );
 	}
 }
-?>

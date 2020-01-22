@@ -94,4 +94,3 @@ class UI_Image_Exif extends ADT_List_Dictionary
 		return UI_HTML_Tag::create( 'img', NULL, $attributes );
 	}
 }
-?>

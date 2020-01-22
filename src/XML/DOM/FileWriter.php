@@ -82,4 +82,3 @@ class XML_DOM_FileWriter
 		return FS_File_Writer::save( $fileName, $xml );
 	}
 }
-?>

@@ -160,4 +160,3 @@ class Net_AtomServerTime
 		return date( $format, $time );
 	}
 }
-?>

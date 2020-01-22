@@ -308,4 +308,3 @@ class DB_MSSQL_Connection extends DB_BaseConnection
 		}
 	}
 }
-?>

@@ -80,4 +80,3 @@ class UI_HTML_Fieldset extends UI_HTML_Abstract
 		$this->legend	= $legend;
 	}
 }
-?>

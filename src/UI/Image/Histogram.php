@@ -130,4 +130,3 @@ class UI_Image_Histogram
 		return $values;
 	}
 }
-?>

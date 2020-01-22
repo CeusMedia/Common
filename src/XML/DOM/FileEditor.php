@@ -195,4 +195,3 @@ class XML_DOM_FileEditor
 		return XML_DOM_FileWriter::save( $this->fileName, $this->xmlTree );
 	}
 }
-?>

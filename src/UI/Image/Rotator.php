@@ -75,4 +75,3 @@ class UI_Image_Rotator extends UI_Image_Modifier
 		return $modifier->rotate( $angle );
 	}
 }
-?>

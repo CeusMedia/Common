@@ -53,4 +53,3 @@ class XML_DOM_ObjectFileDeserializer
 		return XML_DOM_ObjectDeserializer::deserialize( FS_File_Reader::load( $fileName ) );
 	}
 }
-?>

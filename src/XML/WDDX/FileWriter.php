@@ -100,4 +100,3 @@ class XML_WDDX_FileWriter
 		return FS_File_Writer::save( $fileName, $wddx );
 	}
 }
-?>

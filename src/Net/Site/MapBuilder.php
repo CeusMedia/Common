@@ -63,4 +63,3 @@ class Net_Site_MapBuilder
 		return $xb->build( $set );
 	}
 }
-?>

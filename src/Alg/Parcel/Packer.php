@@ -283,4 +283,3 @@ class Alg_Parcel_Packer
 		$this->packetList[$index]	= $packet;
 	}
 }
-?>

@@ -94,4 +94,3 @@ class Alg_Object_Factory
 		$this->arguments	= array_values( $arguments );
 	}
 }
-?>

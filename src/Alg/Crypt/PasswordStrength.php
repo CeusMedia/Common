@@ -139,4 +139,3 @@ class Alg_Crypt_PasswordStrength
 		return $score;
 	}
 }
-?>

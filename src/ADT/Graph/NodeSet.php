@@ -159,4 +159,3 @@ class ADT_Graph_NodeSet implements Countable
 		sort( $this->nodes );
 	}
 }
-?>

@@ -168,4 +168,3 @@ class XML_DOM_PEAR_PackageReader
 		return $domNode->childNodes->item(0)->nodeValue;
 	}
 }
-?>

@@ -98,4 +98,3 @@ class Alg_Text_TermExtractor
 		self::$blacklist		= array_unique( $list );
 	}
 }
-?>

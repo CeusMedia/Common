@@ -301,4 +301,3 @@ class FS_File_Log_Tracker_Reader extends FS_File_Log_Reader
 		$this->data	= $data;
 	}
 }
-?>

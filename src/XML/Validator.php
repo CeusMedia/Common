@@ -114,4 +114,3 @@ class XML_Validator
 		return TRUE;
 	}
 }
-?>

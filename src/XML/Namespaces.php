@@ -139,4 +139,3 @@ class XML_Namespaces
 		return self::getNamespacesFromSimpleXmlElement( $element );					//  return Namespaces from XML Element
 	}
 }
-?>

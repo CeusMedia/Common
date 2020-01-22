@@ -197,4 +197,3 @@ class UI_Image_Graphviz_Graph{
 		$this->type		= $type;
 	}
 }
-?>

@@ -296,4 +296,3 @@ class UI_Image_Processing
 		return $this->resize( $width, $height, $interpolate, $this->maxMegaPixels );
 	}
 }
-?>

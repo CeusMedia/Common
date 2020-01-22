@@ -76,4 +76,3 @@ class FS_File_CSV_IteratorReader
 		return $list;
 	}
 }
-?>

@@ -89,4 +89,3 @@ class Alg_Math_FormulaSum
 		return $sum;
 	}
 }
-?>

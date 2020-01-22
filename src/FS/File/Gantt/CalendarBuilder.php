@@ -101,4 +101,3 @@ class FS_File_Gantt_CalendarBuilder
 		return $ical;
 	}
 }
-?>

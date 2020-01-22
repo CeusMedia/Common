@@ -229,4 +229,3 @@ class Alg_UnusedVariableFinder
 		$this->readCode( $code );
 	}
 }
-?>

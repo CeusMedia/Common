@@ -98,4 +98,3 @@ class CLI_Server_Cron_Daemon
 		while( $service );
 	}
 }
-?>

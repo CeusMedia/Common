@@ -75,4 +75,3 @@ class UI_HTML_CSS_LanguageSwitch
 		$this->languages	= $array;
 	}
 }
-?>

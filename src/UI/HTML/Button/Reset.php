@@ -56,4 +56,3 @@ class UI_HTML_Button_Reset extends UI_HTML_Button_Abstract
 		$this->addClass( self::$defaultClass );
 	}
 }
-?>

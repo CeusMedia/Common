@@ -312,4 +312,3 @@ abstract class CLI_Fork_Server_Abstract
 		pcntl_signal( SIGHUP, array( &$this, "handleSignal" ) );
 	}
 }
-?>

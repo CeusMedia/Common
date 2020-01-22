@@ -86,4 +86,3 @@ class FS_File_RecursiveIterator extends RecursiveIteratorIterator
 		return $this->path;
 	}
 }
-?>

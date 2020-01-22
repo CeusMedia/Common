@@ -481,4 +481,3 @@ class FS_File_INI_Reader extends FS_File_Reader
 		return $this->usesSections;
 	}
 }
-?>

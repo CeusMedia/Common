@@ -56,4 +56,3 @@ class UI_HTML_AHAH_Link
 		return UI_HTML_Tag::create( 'a', $label, $attributes );
 	}
 }
-?>

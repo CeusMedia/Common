@@ -79,4 +79,3 @@ class Alg_UnitParser{
 		throw new DomainException( 'Given string is not matching any parser rules' );
 	}
 }
-?>

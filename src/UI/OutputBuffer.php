@@ -125,4 +125,3 @@ class UI_OutputBuffer
 		$this->isOpen = TRUE;
 	}
 }
-?>

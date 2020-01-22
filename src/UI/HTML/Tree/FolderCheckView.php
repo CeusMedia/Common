@@ -246,4 +246,3 @@ class UI_HTML_Tree_FolderCheckView
 		$this->showFolders	= (bool) $state;
 	}
 }
-?>

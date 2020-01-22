@@ -80,4 +80,3 @@ class UI_HTML_Link extends UI_HTML_Abstract
 		$this->attributes['href']	= $url;
 	}
 }
-?>

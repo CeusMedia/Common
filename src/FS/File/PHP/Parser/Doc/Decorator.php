@@ -151,4 +151,3 @@ class FS_File_PHP_Parser_Doc_Decorator
 		}
 	}
 }
-?>

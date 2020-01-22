@@ -211,4 +211,3 @@ class UI_HTML_Paging extends ADT_OptionObject
 		return $span;
 	}
 }
-?>

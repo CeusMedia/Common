@@ -101,4 +101,3 @@ class Exception_Validation extends Exception_Runtime
 		list( $this->message, $this->code, $this->file, $this->line, $this->errors, $this->form ) = unserialize( $serial );
 	}
 }
-?>

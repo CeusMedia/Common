@@ -131,4 +131,3 @@ class Alg_Parcel_Packet
 		return  $newVolume <= 1;
 	}
 }
-?>

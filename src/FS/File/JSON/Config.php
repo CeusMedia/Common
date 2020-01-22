@@ -103,4 +103,3 @@ class FS_File_JSON_Config{
 		return $this->data->toArray();
 	}
 }
-?>

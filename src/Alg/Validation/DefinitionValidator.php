@@ -107,4 +107,3 @@ class Alg_Validation_DefinitionValidator
 		return $errors;
 	}
 }
-?>

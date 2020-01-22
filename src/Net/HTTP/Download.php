@@ -155,4 +155,3 @@ class Net_HTTP_Download
 			ob_end_clean();
 	}
 }
-?>

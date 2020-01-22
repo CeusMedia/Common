@@ -129,4 +129,3 @@ class FS_File_Gantt_MeetingReader
 		return $data;
 	}
 }
-?>

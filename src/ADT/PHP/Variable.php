@@ -350,4 +350,3 @@ class ADT_PHP_Variable
 		$this->version	= $string;
 	}
 }
-?>

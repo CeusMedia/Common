@@ -183,4 +183,3 @@ class UI_Image_FormulaDiagram extends UI_Image_Drawer
 			return(1);
 	}
 }				
-?>

@@ -61,4 +61,3 @@ class XML_OPML_Outline extends XML_DOM_Node
 		$this->addChild( $outline );
 	}
 }
-?>

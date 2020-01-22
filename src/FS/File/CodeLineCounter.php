@@ -111,4 +111,3 @@ class FS_File_CodeLineCounter
 		return $data;
 	}
 }
-?>

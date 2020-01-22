@@ -289,4 +289,3 @@ class Alg_Math_Finance_CompoundInterest
 		$this->periods	= (int) $periods;
 	}
 }
-?>

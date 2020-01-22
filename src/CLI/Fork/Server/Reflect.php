@@ -55,4 +55,3 @@ class CLI_Fork_Server_Reflect extends CLI_Fork_Server_Abstract
 		return $buffer;
 	}
 }
-?>

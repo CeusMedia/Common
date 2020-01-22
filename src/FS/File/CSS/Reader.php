@@ -101,4 +101,3 @@ class FS_File_CSS_Reader
 		$this->sheet	= self::load( $fileName );
 	}
 }
-?>

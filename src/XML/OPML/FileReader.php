@@ -79,4 +79,3 @@ class XML_OPML_FileReader
 		return self::load( $this->fileName );
 	}
 }
-?>

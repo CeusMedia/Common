@@ -234,4 +234,3 @@ class UI_HTML_Table
 		$this->summary	= $label;
 	}
 }
-?>

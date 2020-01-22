@@ -316,4 +316,3 @@ class Net_FTP_Client
 		return $this->connection->setPath( $path );
 	}
 }
-?>

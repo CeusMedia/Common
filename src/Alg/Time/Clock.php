@@ -150,4 +150,3 @@ class Alg_Time_Clock
 		$this->microtimeStart	-= $microseconds / 1000000;
 	}
 }
-?>

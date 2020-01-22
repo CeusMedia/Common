@@ -131,4 +131,3 @@ class UI_XML_Elements
 		return $xml;
 	}
 }
-?>

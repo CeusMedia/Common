@@ -436,4 +436,3 @@ class ClassParser
 		return $code;	
 	}
 }
-?>

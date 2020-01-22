@@ -55,4 +55,3 @@ class UI_HTML_Button_Cancel extends UI_HTML_Button_Link
 		$this->addClass( self::$defaultClass );
 	}
 }
-?>

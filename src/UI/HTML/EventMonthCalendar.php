@@ -102,4 +102,3 @@ class UI_HTML_EventMonthCalendar extends UI_HTML_MonthCalendar
 		$this->events	= $events;
 	}
 }
-?>

@@ -189,4 +189,3 @@ class XML_WDDX_Configuration
 		touch( $fileName, filemtime( $this->pathConfig.$this->fileName ) );
 	}
 }
-?>

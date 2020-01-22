@@ -115,4 +115,3 @@ class XML_OPML_Builder extends XML_DOM_Node
 		return $xml;
 	}
 }
-?>

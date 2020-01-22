@@ -113,4 +113,3 @@ class Alg_Math_Euklid
 		return $m * $n / self::ggT( $m, $n );
 	}
 }
-?>

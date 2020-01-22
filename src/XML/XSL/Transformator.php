@@ -102,4 +102,3 @@ class XML_XSL_Transformator
 		return $writer->writeString( $result );
 	}
 }
-?>

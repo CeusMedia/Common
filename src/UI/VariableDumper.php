@@ -96,4 +96,3 @@ function dumpVar( $variable, $mode = UI_VariableDumper::MODE_DUMP, $modeIfNotXDe
 {
 	return UI_VariableDumper::dump( $variable, $mode, $modeIfNotXDebug );
 }
-?>

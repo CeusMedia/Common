@@ -321,4 +321,3 @@ class UI_HTML_Indicator extends ADT_OptionObject
 		$this->setOption( 'classRatio', $class );
 	}
 }
-?>

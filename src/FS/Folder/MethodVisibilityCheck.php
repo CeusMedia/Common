@@ -69,4 +69,3 @@ class FS_Folder_MethodVisibilityCheck
 		$this->count	= $finder->getNumberFound();
 	}
 }
-?>

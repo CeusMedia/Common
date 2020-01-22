@@ -123,4 +123,3 @@ class Alg_Object_MethodFactory
 		return $method->invoke( $object );															//  else invoke Method without Parameters
 	}
 }
-?>

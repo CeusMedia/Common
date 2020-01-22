@@ -132,4 +132,3 @@ class Alg_Object_EventHandler
 		return $counter;
 	}
 }
-?>

@@ -70,4 +70,3 @@ class Alg_Sort_Bubble
 		$list[$pos2] = $memory;
 	}
 }
-?>

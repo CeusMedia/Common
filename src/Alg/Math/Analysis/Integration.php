@@ -181,4 +181,3 @@ class Alg_Math_Analysis_Integration
 		$this->nodes = $nodes;
 	}
 }
-?>

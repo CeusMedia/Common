@@ -135,4 +135,3 @@ class FS_File_INI_SectionEditor extends FS_File_INI_SectionReader
 		$this->read();
 	}
 }
-?>

@@ -249,4 +249,3 @@ class ADT_PHP_Parameter
 		$this->type	= $type;
 	}
 }
-?>

@@ -103,4 +103,3 @@ class Alg_Math_Analysis_Interpolation_Newton
 		$this->data	= $data;
 	}
 }
-?>

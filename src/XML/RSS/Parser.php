@@ -137,4 +137,3 @@ class XML_RSS_Parser
 		return $data;
 	}
 }
-?>

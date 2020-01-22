@@ -100,4 +100,3 @@ class FS_File_Log_ShortWriter
 			$this->patterns	= $array;
 	}
 }
-?>

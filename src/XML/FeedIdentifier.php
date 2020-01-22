@@ -161,4 +161,3 @@ class XML_FeedIdentifier
 		return $this->identify( $xml );
 	}
 }
-?>

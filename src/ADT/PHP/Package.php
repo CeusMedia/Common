@@ -65,4 +65,3 @@ class ADT_PHP_Package extends ADT_PHP_Category
 		$this->files[$name]	= $file;
 	}
 }
-?>

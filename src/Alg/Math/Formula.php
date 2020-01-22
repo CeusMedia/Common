@@ -151,4 +151,3 @@ class Alg_Math_Formula
 		return $string;
 	}
 }
-?>

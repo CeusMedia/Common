@@ -581,4 +581,3 @@ class UI_HTML_Elements extends UI_HTML_FormElements
 		return $code;
 	}
 }
-?>

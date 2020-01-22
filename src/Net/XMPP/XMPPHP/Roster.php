@@ -159,4 +159,3 @@ class Net_XMPP_XMPPHP_Roster {
 		return $this->roster_array;
 	}
 }
-?>

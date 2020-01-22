@@ -314,4 +314,3 @@ class UI_Image_Graph_Components
 			self::setFont( $object, $config );
 	}
 }
-?>

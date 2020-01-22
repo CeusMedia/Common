@@ -109,4 +109,3 @@ class ADT_JSON_Parser
 		return ADT_Constant::getKeyByValue( 'JSON_ERROR_', $code );
 	}
 }
-?>

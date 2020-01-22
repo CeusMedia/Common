@@ -313,4 +313,3 @@ class DB_MySQL_Connection extends DB_BaseConnection
 		return TRUE;
 	}
 }
-?>

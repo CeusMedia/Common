@@ -245,4 +245,3 @@ class UI_HTML_Exception_Trace
 		return $fileName;
 	}
 }
-?>

@@ -161,4 +161,3 @@ class ADT_Multiplexer
 				$this->inputs[$i] = $args[$i];
 	}
 }
-?>

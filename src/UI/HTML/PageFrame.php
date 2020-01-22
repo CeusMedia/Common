@@ -403,4 +403,3 @@ class UI_HTML_PageFrame
 		$this->title	= $title;
 	}
 }
-?>

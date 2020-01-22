@@ -609,4 +609,3 @@ abstract class DB_PDO_Table{
 		$this->table->truncate();
 	}
 }
-?>

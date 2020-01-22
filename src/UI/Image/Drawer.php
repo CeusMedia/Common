@@ -120,4 +120,3 @@ class UI_Image_Drawer
 		die;
 	}
 }
-?>

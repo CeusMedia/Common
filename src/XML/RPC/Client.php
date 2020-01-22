@@ -159,4 +159,3 @@ class XML_RPC_Client{
 		return $list;
 	}
 }
-?>

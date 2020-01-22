@@ -257,4 +257,3 @@ class Net_HTTP_Reader
 		$this->curl->setOption( CURLOPT_CAINFO, $caInfo );
 	}
 }
-?>

@@ -80,4 +80,3 @@ class XML_ElementReader
 		return self::read( $xml );
 	}
 }
-?>

@@ -192,4 +192,3 @@ class Alg_Randomizer
 		throw new RuntimeException( 'Strength Score '.$strength.' not reached after '.$turn.' Turns.' );
 	}
 }
-?>

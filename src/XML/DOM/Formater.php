@@ -102,4 +102,3 @@ class XML_DOM_Formater
 		return $xml;
 	}
 }
-?>

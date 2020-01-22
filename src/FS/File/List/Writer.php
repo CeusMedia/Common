@@ -128,4 +128,3 @@ class FS_File_List_Writer
 		return $this->save( $this->fileName, $this->list, $mode, $user, $group );
 	}
 }
-?>

@@ -251,4 +251,3 @@ class Net_HTTP_Response
 		return join( "\r\n", $lines );																//  glue parts with line break and return result
 	}
 }
-?>

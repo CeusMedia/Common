@@ -99,4 +99,3 @@ class FS_File_Arc_TarBzip extends FS_File_Arc_Tar
 		return true;
 	}
 }
-?>

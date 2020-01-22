@@ -127,4 +127,3 @@ class FS_Folder_RecursiveLister extends FS_Folder_Lister
 		$index->stripDotEntries( $stripDotEntries );
 		return $index->getList();
 	}}
-?>

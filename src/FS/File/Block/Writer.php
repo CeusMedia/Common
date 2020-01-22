@@ -72,4 +72,3 @@ class FS_File_Block_Writer
 		return $file->writeArray( $list );
 	}
 }
-?>

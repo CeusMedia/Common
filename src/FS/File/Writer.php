@@ -255,4 +255,3 @@ class FS_File_Writer
 		return $count;
 	}
 }
-?>

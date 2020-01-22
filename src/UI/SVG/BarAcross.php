@@ -103,4 +103,3 @@ class UI_SVG_BarAcross
 		return $graph;
 	}
 }
-?>

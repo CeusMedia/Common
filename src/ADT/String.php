@@ -457,4 +457,3 @@ class ADT_String
 		return $this->getLength() - $length;
 	}
 }
-?>

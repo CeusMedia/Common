@@ -243,4 +243,3 @@ class Net_FTP_Writer
 		return $this->connection->setPath( $path );
 	}
 }
-?>

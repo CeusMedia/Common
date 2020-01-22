@@ -111,4 +111,3 @@ class Alg_Time_DurationPhraseRanges implements Countable
 		return $this->ranges;
 	}
 }
-?>

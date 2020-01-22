@@ -102,4 +102,3 @@ class Alg_Sort_Quick
 		}
 	}
 }
-?>

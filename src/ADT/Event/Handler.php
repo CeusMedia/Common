@@ -142,4 +142,3 @@ class ADT_Event_Handler{
 		return TRUE;
 	}
 }
-?>

@@ -518,4 +518,3 @@ class UI_HTML_FormElements
 		return UI_HTML_Tag::create( "textarea", (string) $content, $attributes );
 	}
 }
-?>

@@ -70,4 +70,3 @@ class Alg_Math_Algebra_Vector_CrossProduct
 		return $c;
 	}
 }
-?>

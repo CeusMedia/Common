@@ -335,4 +335,3 @@ class FS_Folder_Reader
 		return $exists && $isDir;
 	}
 }
-?>

@@ -110,4 +110,3 @@ class FS_Folder_RecursiveRegexFilter extends RegexIterator
 		return preg_match( $this->pattern, $this->getFilename() );
 	}
 }
-?>

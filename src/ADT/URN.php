@@ -97,4 +97,3 @@ class ADT_URN
 		return "urn:".$this->nid.":".$this->nss;
 	}
 }
-?>

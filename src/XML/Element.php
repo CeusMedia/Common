@@ -329,4 +329,3 @@ class XML_Element extends SimpleXMLElement
 		}
 	}
 }
-?>

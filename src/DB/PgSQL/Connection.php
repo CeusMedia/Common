@@ -272,4 +272,3 @@ class DB_pgSQL_Connection extends DB_BaseConnection
 		return false;
 	}
 }
-?>

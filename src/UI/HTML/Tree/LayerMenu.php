@@ -170,4 +170,3 @@ class UI_HTML_Tree_LayerMenu
 		return $this->buildMenuFromMenuList( $list );
 	}
 }
-?>

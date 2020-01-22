@@ -254,4 +254,3 @@ class UI_SVG_Chart
 		}
 	}
 }
-?>

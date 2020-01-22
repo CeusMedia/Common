@@ -115,4 +115,3 @@ class XML_DOM_ObjectDeserializer
 		}
 	}
 }
-?>

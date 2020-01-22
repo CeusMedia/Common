@@ -70,4 +70,3 @@ class Alg_Math_Geometry_Rectangle
 		return $this->a * $this->b;
 	}
 }
-?>

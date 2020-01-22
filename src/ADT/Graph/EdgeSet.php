@@ -153,4 +153,3 @@ class ADT_Graph_EdgeSet implements Countable
 		sort( $this->edges );
 	}
 }
-?>

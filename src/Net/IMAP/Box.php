@@ -240,4 +240,3 @@ class Net_IMAP_Box
 		);
 	}
 }
-?>

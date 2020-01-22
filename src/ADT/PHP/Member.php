@@ -142,4 +142,3 @@ class ADT_PHP_Member extends ADT_PHP_Variable
 		$this->static	= (bool) $isStatic;
 	}
 }
-?>

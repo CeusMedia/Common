@@ -138,4 +138,3 @@ class FS_Folder_CodeLineCounter
 		);
 	}
 }
-?>

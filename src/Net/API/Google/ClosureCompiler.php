@@ -87,4 +87,3 @@ class Net_API_Google_ClosureCompiler {
         return $obj->min( $js );
     }
 }
-?>

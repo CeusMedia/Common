@@ -250,4 +250,3 @@ class XML_DOM_Storage extends ADT_OptionObject
 		}
 	}
 }
-?>

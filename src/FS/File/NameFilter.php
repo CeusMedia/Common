@@ -70,4 +70,3 @@ class FS_File_NameFilter extends FilterIterator
 		return !strcmp( basename( $this->current() ), $this->fileName );
 	}
 }
-?>

@@ -140,4 +140,3 @@ class Alg_Math_RomanNumbers
 			throw new InvalidArgumentException( "Integer '".$integer."' is invalid." );
 	}
 }
-?>

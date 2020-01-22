@@ -70,4 +70,3 @@ class Alg_Text_EncodingConverter
 		throw new InvalidArgumentException( 'String cannot be converted from '.$charsetIn.' to '.$charsetOut );
 	}
 }
-?>

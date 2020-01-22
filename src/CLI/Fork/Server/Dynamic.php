@@ -58,4 +58,3 @@ class CLI_Fork_Server_Dynamic extends CLI_Fork_Server_Abstract
 		$this->scriptFile	= $scriptFile;
 	}
 }
-?>

@@ -126,4 +126,3 @@ class XML_RSS_Writer
 		return $this->save( $fileName, $this->channelData, $this->itemList, $encoding );
 	}
 }
-?>

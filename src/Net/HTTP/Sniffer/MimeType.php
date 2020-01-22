@@ -81,4 +81,3 @@ class Net_HTTP_Sniffer_MimeType
 		return $curr_mime;
 	}
 }
-?>

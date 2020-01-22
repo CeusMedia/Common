@@ -260,4 +260,3 @@ class XML_RSS_Builder
 		$this->namespaces[$prefix]	= $url;
 	}
 }
-?>

@@ -117,4 +117,3 @@ class Net_API_Dyn{
 		return array_shift( $parts );
 	}
 }
-?>

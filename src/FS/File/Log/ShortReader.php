@@ -123,4 +123,3 @@ class FS_File_Log_ShortReader
 			$this->patterns	= $array;
 	}
 }
-?>

@@ -298,4 +298,3 @@ class Alg_UnitFormater
 		return self::formatMicroSeconds( $float * 1000000, $precision, $indent, $edge );
 	}
 }
-?>

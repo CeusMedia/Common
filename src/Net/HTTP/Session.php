@@ -96,4 +96,3 @@ class Net_HTTP_Session extends ADT_List_Dictionary
 		return session_name();
 	}
 }
-?>

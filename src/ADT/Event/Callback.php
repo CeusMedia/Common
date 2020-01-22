@@ -75,4 +75,3 @@ class ADT_Event_Callback{
 		return $this->data;
 	}
 }
-?>

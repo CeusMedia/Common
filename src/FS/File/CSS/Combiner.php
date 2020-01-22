@@ -176,4 +176,3 @@ class FS_File_CSS_Combiner
 			$this->suffix	= $suffix;
 	}	
 }
-?>

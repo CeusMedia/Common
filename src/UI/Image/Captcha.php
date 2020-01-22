@@ -159,4 +159,3 @@ class UI_Image_Captcha
 		return $rand->get( $this->length );
 	}
 }
-?>

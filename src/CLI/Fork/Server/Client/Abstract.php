@@ -70,4 +70,3 @@ abstract class CLI_Fork_Server_Client_Abstract
 		$this->port	= $port;
 	}
 }
-?>

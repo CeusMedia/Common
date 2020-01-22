@@ -94,4 +94,3 @@ class Alg_Math_Average
 		return $result;
 	}
 }
-?>

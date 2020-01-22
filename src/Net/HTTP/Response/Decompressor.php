@@ -123,4 +123,3 @@ class Net_HTTP_Response_Decompressor
 		throw new RuntimeException( "Data not decompressable with gzuncompress." );
 	}
 }
-?>

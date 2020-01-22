@@ -63,4 +63,3 @@ class Exception_Serializable extends Exception implements Serializable
 		list( $this->message, $this->code, $this->file, $this->line ) = unserialize( $serial );
 	}
 }
-?>

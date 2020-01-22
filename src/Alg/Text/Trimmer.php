@@ -120,4 +120,3 @@ class Alg_Text_Trimmer
 		return self::trim( $string, $length, $mask, TRUE, $encoding );
 	}
 }
-?>

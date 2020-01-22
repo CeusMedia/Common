@@ -111,4 +111,3 @@ class Net_SVN_Client{
 		return svn_status( $url,  $flags );
 	}
 }
-?>

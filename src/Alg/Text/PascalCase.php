@@ -107,4 +107,3 @@ class Alg_Text_PascalCase{
 		return TRUE;
 	}
 }
-?>

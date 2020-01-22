@@ -147,4 +147,3 @@ class FS_File_PHP_Lister extends FilterIterator
 		$this->ignoreFolders	= $folders;
 	}
 }
-?>

@@ -102,4 +102,3 @@ class Net_HTTP_Response_Sender
 		return $sender->send( $compression, $sendLengthHeader, $exit );
 	}
 }
-?>

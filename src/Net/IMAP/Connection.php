@@ -125,4 +125,3 @@ class Net_IMAP_Connection
 			$this->options[]	= $option;
 	}
 }
-?>

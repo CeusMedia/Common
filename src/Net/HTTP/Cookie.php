@@ -197,4 +197,3 @@ class Net_HTTP_Cookie
 		$this->secure = $boolean;
 	}
 }
-?>

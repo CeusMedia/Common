@@ -93,4 +93,3 @@ class Net_Memory_StaticCache extends ADT_Cache_StaticStore
 		return self::$connection->getExtendedStats();
 	}	
 }
-?>

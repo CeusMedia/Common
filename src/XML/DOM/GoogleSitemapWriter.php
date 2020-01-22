@@ -85,4 +85,3 @@ class XML_DOM_GoogleSitemapWriter
 		return $file->writeString( $xml );
 	}
 }
-?>

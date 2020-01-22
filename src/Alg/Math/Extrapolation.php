@@ -86,4 +86,3 @@ class Alg_Math_Extrapolation
 		return $ranges;
 	}
 }
-?>

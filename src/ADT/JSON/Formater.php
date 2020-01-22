@@ -104,4 +104,3 @@ class ADT_JSON_Formater
 		return $content;
 	}
 }
-?>

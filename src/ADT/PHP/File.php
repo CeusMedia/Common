@@ -329,4 +329,3 @@ class ADT_PHP_File
 		$this->version	= $string;
 	}
 }
-?>

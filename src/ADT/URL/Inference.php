@@ -125,4 +125,3 @@ class ADT_URL_Inference extends ADT_URL
 		return $url->getUrl().$parameters;
 	}
 }
-?>

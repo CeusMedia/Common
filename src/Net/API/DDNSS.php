@@ -70,4 +70,3 @@ class Net_API_DDNSS{
 		}
 	}
 }
-?>

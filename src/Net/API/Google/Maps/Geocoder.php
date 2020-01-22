@@ -106,4 +106,3 @@ class Net_API_Google_Maps_Geocoder extends Net_API_Google_Request
 		return (string) $xml->result->formatted_address;
 	}
 }
-?>

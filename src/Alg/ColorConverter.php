@@ -457,4 +457,3 @@ class Alg_ColorConverter
 #		return array( $l, $a, $b );
 #	}
 }
-?>

@@ -287,4 +287,3 @@ class Net_Reader
 		$this->verifyPeer	= (bool) $verify;
 	}
 }
-?>

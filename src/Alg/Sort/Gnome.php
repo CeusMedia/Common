@@ -61,4 +61,3 @@ class Alg_Sort_Gnome
 		}
 	}
 }
-?>

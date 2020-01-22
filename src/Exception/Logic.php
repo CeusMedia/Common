@@ -67,4 +67,3 @@ class Exception_Logic extends Exception_Runtime
 		return $this->subject;
 	}
 }
-?>

@@ -84,4 +84,3 @@ class Net_Site_MapWriter
 		return $file->writeString( $xml );
 	}
 }
-?>

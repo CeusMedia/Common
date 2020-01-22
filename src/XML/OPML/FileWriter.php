@@ -82,4 +82,3 @@ class XML_OPML_FileWriter
 		return $this->save( $this->fileName, $tree, $encoding );
 	}
 }
-?>

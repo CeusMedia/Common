@@ -85,4 +85,3 @@ abstract class CLI_Fork_Abstract{
 
 	abstract protected function runInParent($arguments = array());
 }
-?>

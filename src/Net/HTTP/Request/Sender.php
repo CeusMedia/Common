@@ -180,4 +180,3 @@ class Net_HTTP_Request_Sender
 		return $response;
 	}
 }
-?>

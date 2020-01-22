@@ -154,4 +154,3 @@ class CLI_Server_Cron_Parser
 		}
 	}
 }
-?>

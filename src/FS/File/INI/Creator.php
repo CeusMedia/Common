@@ -169,4 +169,3 @@ class FS_File_INI_Creator
 		return $file->writeArray( $lines );
 	}
 }
-?>

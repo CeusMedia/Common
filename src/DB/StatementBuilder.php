@@ -369,4 +369,3 @@ class DB_StatementBuilder
 		$this->offset	= (int) $offset;
 	}
 }
-?>

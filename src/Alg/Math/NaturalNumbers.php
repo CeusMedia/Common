@@ -277,4 +277,3 @@ class Alg_Math_NaturalNumbers
 		return ++$number;
 	}
 }
-?>

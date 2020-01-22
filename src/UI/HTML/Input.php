@@ -92,4 +92,3 @@ class UI_HTML_Input extends UI_HTML_Abstract
 		$this->attributes['value']	= $value;
 	}
 }
-?>

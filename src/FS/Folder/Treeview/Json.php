@@ -156,4 +156,3 @@ class FS_Folder_Treeview_Json
 		error_log( $message."\n", 3, $this->logFile );
 	}
 }
-?>

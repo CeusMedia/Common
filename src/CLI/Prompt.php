@@ -72,4 +72,3 @@ class CLI_Prompt {
 		return $result;
 	}
 }
-?>

@@ -103,4 +103,3 @@ class UI_SVG_PieGraph
 		return $graph;
 	}
 }
-?>

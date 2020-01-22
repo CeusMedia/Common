@@ -81,4 +81,3 @@ abstract class ADT_Cache_StaticStore
 	 */
 	abstract public static function set( $key, $value );
 }
-?>

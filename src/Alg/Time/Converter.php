@@ -223,4 +223,3 @@ class Alg_Time_Converter
 		return $timestamp;
 	}
 }
-?>

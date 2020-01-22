@@ -240,4 +240,3 @@ class Net_FTP_Connection
 		return TRUE;
 	}
 }	
-?>

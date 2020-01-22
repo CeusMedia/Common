@@ -314,4 +314,3 @@ class FS_File_Configuration_Converter
 		return XML_DOM_FileWriter::save( $fileName, $root );
 	}
 }
-?>

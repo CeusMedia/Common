@@ -64,4 +64,3 @@ class UI_HTML_JQuery
 '.$outerIndent.'});';
 	}
 }
-?>

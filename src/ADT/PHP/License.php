@@ -104,4 +104,3 @@ class ADT_PHP_License
 		$this->url	= $url;
 	}
 }
-?>

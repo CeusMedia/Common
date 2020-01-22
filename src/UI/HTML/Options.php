@@ -156,4 +156,3 @@ class UI_HTML_Options
 		$this->url	= $url;	
 	}
 }
-?>

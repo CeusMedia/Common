@@ -87,4 +87,3 @@ class Net_HTTP_Sniffer_Charset
 		return $currentCharset;
 	}
 }
-?>

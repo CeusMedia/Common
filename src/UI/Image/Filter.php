@@ -183,4 +183,3 @@ class UI_Image_Filter
 		return imagefilter( $this->image->getResource(), IMG_FILTER_SMOOTH, $weight );
 	}
 }
-?>

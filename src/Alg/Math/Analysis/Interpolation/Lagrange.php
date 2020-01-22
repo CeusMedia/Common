@@ -124,4 +124,3 @@ class Alg_Math_Analysis_Interpolation_Lagrange
 		$this->data	= $data;
 	}
 }
-?>

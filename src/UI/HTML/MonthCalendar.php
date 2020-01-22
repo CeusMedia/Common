@@ -336,4 +336,3 @@ class UI_HTML_MonthCalendar extends ADT_OptionObject
 		$this->setOption( 'show_year',	$year );
 	}
 }
-?>

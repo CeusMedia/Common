@@ -169,4 +169,3 @@ class XML_DOM_XPathQuery extends ADT_OptionObject
 		return $this->xPath->registerNamespace( $prefix, $namespace );
 	}
 }
-?>

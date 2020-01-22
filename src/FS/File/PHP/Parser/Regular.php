@@ -682,4 +682,3 @@ class FS_File_PHP_Parser_Regular
 		return $parameter;
 	}
 }
-?>

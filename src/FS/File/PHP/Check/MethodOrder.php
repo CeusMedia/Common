@@ -106,4 +106,3 @@ class FS_File_PHP_Check_MethodOrder
 		return $this->sortedList;
 	}
 }
-?>

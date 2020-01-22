@@ -142,4 +142,3 @@ class Alg_Math_Algebra_LabelMatrix
 		$this->columns	= $rows;
 	}
 }
-?>

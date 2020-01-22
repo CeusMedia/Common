@@ -261,4 +261,3 @@ class DB_PDO_Connection extends \PDO{
 			mkDir( dirname( $fileName ), 0700, TRUE );
 	}
 }
-?>

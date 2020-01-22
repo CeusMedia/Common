@@ -179,4 +179,3 @@ class FS_File_VCard_Parser
 		}
 	}
 }
-?>

@@ -237,4 +237,3 @@ class XML_Atom_Parser
 		return $this->language;
 	}
 }
-?>

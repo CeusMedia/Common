@@ -86,4 +86,3 @@ class Net_API_Google_Sitemap_Submit
 		return TRUE;
 	}
 }
-?>

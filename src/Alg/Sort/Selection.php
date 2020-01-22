@@ -92,4 +92,3 @@ class Alg_Sort_Selection
 		$list[$pos2] = $memory;
 	}
 }
-?>

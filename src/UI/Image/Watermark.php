@@ -207,4 +207,3 @@ class UI_Image_Watermark
 		$this->stamp->loadImage( $stamp );
 	}
 }
-?>

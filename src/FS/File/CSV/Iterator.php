@@ -126,4 +126,3 @@ class FS_File_CSV_Iterator implements Iterator
 		return FALSE;
 	}
 }
-?>

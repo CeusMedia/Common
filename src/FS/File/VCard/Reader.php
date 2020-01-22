@@ -56,4 +56,3 @@ class FS_File_VCard_Reader
 		return $parser->parse( $text, $charsetIn, $charsetOut );
 	}
 }
-?>

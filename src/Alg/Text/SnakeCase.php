@@ -66,4 +66,3 @@ class Alg_Text_SnakeCase{
 		return self::apply( $string ) === $string;
 	}
 }
-?>

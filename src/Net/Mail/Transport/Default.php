@@ -133,4 +133,3 @@ class Net_Mail_Transport_Default
 		$transport->send( $mail, $parameters );
 	}
 }
-?>

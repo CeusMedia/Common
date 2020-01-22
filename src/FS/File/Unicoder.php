@@ -88,4 +88,3 @@ class FS_File_Unicoder
 		return $unicoded == $string;
 	}
 }
-?>

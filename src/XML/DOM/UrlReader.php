@@ -97,4 +97,3 @@ class XML_DOM_UrlReader
 		return self::load( $this->url );
 	}
 }
-?>

@@ -121,4 +121,3 @@ class Alg_Validation_LanguageValidator
 		return $language;
 	}
 }
-?>

@@ -78,4 +78,3 @@ class XML_RSS_GoogleBaseBuilder extends XML_RSS_Builder
 		$this->itemElements[$name]	= (boolean) $mandatory;
 	}
 }
-?>

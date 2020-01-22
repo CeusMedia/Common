@@ -139,4 +139,3 @@ class Net_HTTP_PartitionCookie extends Net_HTTP_Cookie
 		setCookie( $this->partition, $value, $expires, $path, $domain, $secure, $httpOnly );
 	}
 }
-?>

@@ -107,4 +107,3 @@ class Alg_Text_Filter
 		return $string;
 	}
 }
-?>

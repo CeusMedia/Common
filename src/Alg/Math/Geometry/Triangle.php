@@ -59,4 +59,3 @@ class Alg_Math_Geometry_Triangle
 		throw new InvalidArgumentException( 'Needs 2 of 3 arguments' );
 	}
 }
-?>

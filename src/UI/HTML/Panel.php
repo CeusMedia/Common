@@ -206,4 +206,3 @@ class UI_HTML_Panel
 		return UI_HTML_Tag::create( "div", $content, $attributes );
 	}
 }
-?>

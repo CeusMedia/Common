@@ -151,4 +151,3 @@ class Alg_SgmlTagReader
 		return $list;
 	}*/
 }
-?>

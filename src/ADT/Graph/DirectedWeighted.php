@@ -301,4 +301,3 @@ class ADT_Graph_DirectedWeighted extends ADT_Graph_Weighted
 		return $distance;
 	}
 }
-?>

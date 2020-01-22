@@ -245,4 +245,3 @@ class Net_API_Gravatar{
 		return $response[0];
 	}
 }
-?>

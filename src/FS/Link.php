@@ -18,4 +18,3 @@ class FS_Link extends FS_AbstractNode{
 		$this->pathName	= $pathName;
 	}
 }
-?>

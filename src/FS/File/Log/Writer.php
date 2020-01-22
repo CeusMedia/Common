@@ -68,4 +68,3 @@ class FS_File_Log_Writer
 		return error_log( $message, 3, $this->uri );
 	}
 }
-?>

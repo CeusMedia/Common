@@ -67,4 +67,3 @@ class UI_HTML_Legend extends UI_HTML_Abstract
 		return UI_HTML_Tag::create( "legend", $content, $this->getAttributes() );	
 	}
 }
-?>

@@ -125,4 +125,3 @@ class ADT_Time_Delay
 		return $this->getStartTime();
 	}
 }
-?>

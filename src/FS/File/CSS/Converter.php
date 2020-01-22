@@ -222,4 +222,3 @@ class FS_File_CSS_Converter{
 		return FS_File_CSS_Converter::convertSheetToString( $this->sheet );
 	}
 }
-?>

@@ -171,4 +171,3 @@ abstract class UI_Image_Graph_Generator
 		$this->pathJpGraph	= $path;
 	}
 }
-?>

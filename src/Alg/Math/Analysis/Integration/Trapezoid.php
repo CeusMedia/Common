@@ -56,4 +56,3 @@ class Alg_Math_Analysis_Integration_Trapezoid extends Alg_Math_Analysis_Integrat
 		return $sum;			
 	}
 }
-?>

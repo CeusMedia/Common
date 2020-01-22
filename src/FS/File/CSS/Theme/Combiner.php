@@ -69,4 +69,3 @@ class FS_File_CSS_Theme_Combiner extends FS_File_CSS_Combiner
 		$this->protocol	= $integer;
 	}
 }
-?>

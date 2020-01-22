@@ -292,4 +292,3 @@ class Net_FTP_Reader
 		return $this->connection->setPath( $path );
 	}
 }
-?>

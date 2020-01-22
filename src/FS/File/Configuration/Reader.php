@@ -333,4 +333,3 @@ class FS_File_Configuration_Reader extends ADT_List_Dictionary
 		return FALSE;
 	}
 }
-?>

@@ -91,4 +91,3 @@ class XML_DOM_Builder
 		}
 	}
 }
-?>

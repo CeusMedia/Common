@@ -140,4 +140,3 @@ class ADT_Object
 		return serialize( $this );
 	}
 }
-?>

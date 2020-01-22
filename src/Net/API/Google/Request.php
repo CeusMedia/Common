@@ -76,4 +76,3 @@ abstract class Net_API_Google_Request
 		$this->pathCache	= $path;
 	}
 }
-?>

@@ -103,4 +103,3 @@ class ADT_PHP_Throws
 		$this->reason	= $reason;
 	}
 }
-?>

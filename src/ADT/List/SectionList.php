@@ -204,4 +204,3 @@ class ADT_List_SectionList
 		unset( $this->list[$section] );
 	}
 }
-?>

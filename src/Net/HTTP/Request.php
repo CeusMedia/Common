@@ -447,4 +447,3 @@ class Net_HTTP_Request extends ADT_List_Dictionary
 		return $this;
 	}
 }
-?>

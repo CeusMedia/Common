@@ -162,4 +162,3 @@ class Net_Memory_Cache extends ADT_Cache_Store
 		return $this->store->set( $key, $value, 0, $this->expires );
 	}
 }
-?>

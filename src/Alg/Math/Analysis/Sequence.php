@@ -144,4 +144,3 @@ class Alg_Math_Analysis_Sequence
 		return $code;
 	}
 }
-?>

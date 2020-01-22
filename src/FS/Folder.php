@@ -117,4 +117,3 @@ class FS_Folder extends FS_AbstractNode{
 		$this->setPathName( $targetPath );
 	}
 }
-?>

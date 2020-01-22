@@ -127,4 +127,3 @@ class UI_Image_Graphviz_Renderer{
 		$this->layoutEngine	= $layoutEngine;
 	}
 }
-?>

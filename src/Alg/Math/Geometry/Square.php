@@ -67,4 +67,3 @@ class Alg_Math_Geometry_Square
 		return pow( $this->a, 2 );
 	}
 }
-?>

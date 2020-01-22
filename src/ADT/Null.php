@@ -174,4 +174,3 @@ class ADT_Null implements Countable, Renderable, ArrayAccess
 		return '';
 	}
 }
-?>

@@ -199,4 +199,3 @@ class Net_Mail_Header_Section
 		return "";
 	}
 }
-?>

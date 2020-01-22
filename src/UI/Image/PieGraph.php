@@ -156,4 +156,3 @@ class UI_Image_PieGraph
 		$this->height	= $height;
 	}
 }
-?>

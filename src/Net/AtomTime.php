@@ -77,4 +77,3 @@ class Net_AtomTime
 		return date( $format, self::getTimestamp() );
 	}
 }
-?>

@@ -134,4 +134,3 @@ class UI_HTML_Tree_Menu
 		$this->target	= $target;
 	}
 }
-?>

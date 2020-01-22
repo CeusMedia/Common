@@ -78,4 +78,3 @@ class Net_HTTP_Sniffer_Encoding
 		return $currentCode;
 	}
 }
-?>

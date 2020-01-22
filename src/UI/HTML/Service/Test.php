@@ -358,4 +358,3 @@ class UI_HTML_Service_Test
 		return implode( "\n", $lines );
 	}
 }
-?>

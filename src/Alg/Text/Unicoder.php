@@ -118,4 +118,3 @@ class Alg_Text_Unicoder
 		return TRUE;
 	}
 }
-?>

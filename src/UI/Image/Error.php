@@ -68,4 +68,3 @@ class UI_Image_Error
 		UI_Image_Printer::showImage( $image->getImage(), IMAGETYPE_PNG, 100, self::$sendHeader );
 	}
 }
-?>

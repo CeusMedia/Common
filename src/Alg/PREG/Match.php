@@ -98,4 +98,3 @@ class Alg_PREG_Match
 		return FALSE;
 	}
 }
-?>

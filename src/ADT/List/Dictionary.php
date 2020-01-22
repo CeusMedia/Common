@@ -339,4 +339,3 @@ class ADT_List_Dictionary implements ArrayAccess, Countable, Iterator
 		return $this->position < $this->count();
 	}
 }
-?>

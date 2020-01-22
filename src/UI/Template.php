@@ -425,4 +425,3 @@ class UI_Template
 		return TRUE;
 	}
 }
-?>

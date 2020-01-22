@@ -123,4 +123,3 @@ class CLI_Server_Daemon extends CLI_Application
 		sleep(1);
 	}
 }
-?>

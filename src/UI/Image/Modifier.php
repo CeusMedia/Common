@@ -157,4 +157,3 @@ abstract class UI_Image_Modifier
 		$this->targetUri	= $targetUri;
 	}
 }
-?>

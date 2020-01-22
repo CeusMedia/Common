@@ -148,4 +148,3 @@ class FS_File_Ical_Builder
 		return $lines;
 	}
 }
-?>

@@ -306,4 +306,3 @@ class Net_HTTP_Header_Section
 		return $list ? $list."\r\n" : $list;														//  return field list with line break or empty string
 	}
 }
-?>

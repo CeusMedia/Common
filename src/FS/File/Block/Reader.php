@@ -137,4 +137,3 @@ class FS_File_Block_Reader
 			$this->blocks[$section]	= implode( "\n", $block );
 	}
 }
-?>
