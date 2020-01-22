@@ -2,7 +2,7 @@
 /**
  *	...
  *
- *	Copyright (c) 2008-2018 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2008-2020 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_ADT_PHP
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2015-2018 Christian Würker
+ *	@copyright		2015-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id$
  *	@since			0.3
@@ -32,7 +32,7 @@
  *	@uses			ADT_PHP_Category
  *	@uses			ADT_PHP_Package
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2015-2018 Christian Würker
+ *	@copyright		2015-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@version		$Id$
  *	@since			0.3

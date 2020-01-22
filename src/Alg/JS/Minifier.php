@@ -39,7 +39,7 @@
  *	@author			Ryan Grove <ryan@wonko.com>
  *	@copyright		2002 Douglas Crockford <douglas@crockford.com> (jsmin.c)
  *	@copyright		2008 Ryan Grove <ryan@wonko.com> (PHP port)
- *	@copyright		2012 Adam Goforth <aag@adamgoforth.com> (Updates)
+ *	@copyright		2020 Adam Goforth <aag@adamgoforth.com> (Updates)
  *	@license		http://opensource.org/licenses/mit-license.php MIT License
  *	@version		1.1.2 (2012-05-01)
  *	@link			https://github.com/rgrove/jsmin-php
@@ -51,7 +51,7 @@
  *	@author			Ryan Grove <ryan@wonko.com>
  *	@copyright		2002 Douglas Crockford <douglas@crockford.com> (jsmin.c)
  *	@copyright		2008 Ryan Grove <ryan@wonko.com> (PHP port)
- *	@copyright		2012 Adam Goforth <aag@adamgoforth.com> (Updates)
+ *	@copyright		2020 Adam Goforth <aag@adamgoforth.com> (Updates)
  *	@license		http://opensource.org/licenses/mit-license.php MIT License
  *	@version		1.1.2 (2012-05-01)
  *	@link			https://github.com/rgrove/jsmin-php

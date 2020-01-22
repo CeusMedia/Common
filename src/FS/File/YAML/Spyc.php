@@ -5,7 +5,7 @@
  *	@author			Vlad Andersen <vlad.andersen@gmail.com>
  *	@author			Chris Wanstrath <chris@ozmm.org>
  *	@link			https://github.com/mustangostang/spyc/
- *	@copyright		Copyright 2005-2006 Chris Wanstrath, 2006-2011 Vlad Andersen
+ *	@copyright		Copyright 2005-2006 Chris Wanstrath, 2006-2020 Vlad Andersen
  *	@license		http://www.opensource.org/licenses/mit-license.php MIT License
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_YAML

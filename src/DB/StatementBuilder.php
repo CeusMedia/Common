@@ -2,7 +2,7 @@
 /**
  *	Build SQL Statement from given Statement Component.
  *
- *	Copyright (c) 2004-2018 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2004-2020 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,7 +21,7 @@
  *	@package		CeusMedia_Common_DB
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@author			Michael Martin <martin@informatik.uni-leipzig.de>
- *	@copyright		2004-2018 Christian Würker
+ *	@copyright		2004-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -31,7 +31,7 @@
  *	@package		CeusMedia_Common_DB
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@author			Michael Martin <martin@informatik.uni-leipzig.de>
- *	@copyright		2004-2018 Christian Würker
+ *	@copyright		2004-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
