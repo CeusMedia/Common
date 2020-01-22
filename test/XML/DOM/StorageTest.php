@@ -6,7 +6,10 @@
  *	@since			13.12.2007
  *	@version		0.1
  */
-require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
+declare( strict_types = 1 );
+
+use PHPUnit\Framework\TestCase;
+
 /**
  *	TestUnit of XML DOM Storage.
  *	@package		Tests.xml.dom

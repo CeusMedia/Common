@@ -6,7 +6,10 @@
  *	@since			11.12.2007
  *	@version		0.1
  */
-require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
+declare( strict_types = 1 );
+
+use PHPUnit\Framework\TestCase;
+
 /**
  *	TestUnit of XML DOM Builder.
  *	@package		Tests.xml.dom
@@ -28,10 +31,7 @@ class Test_XML_DOM_BuilderTest extends Test_Case
 	{
 		$this->builder		= new XML_DOM_Builder();
 		$this->fileName		= dirname( __FILE__ )."/builder.xml";
-
 	}
-
-
 
 	/**
 	 *	Sets down Writer.

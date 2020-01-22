@@ -10,8 +10,6 @@ declare( strict_types = 1 );
 
 use PHPUnit\Framework\TestCase;
 
-require_once dirname( __DIR__ ).'/init.php';
-
 /**
  *	TestUnit of UI_DevOutput.
  *	@package		Tests.UI

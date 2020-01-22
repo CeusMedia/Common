@@ -6,7 +6,10 @@
  *	@since			16.02.2008
  *	@version		0.6
  */
-require_once dirname( dirname( dirname( __DIR__ ) ) ).'/initLoaders.php';
+declare( strict_types = 1 );
+
+use PHPUnit\Framework\TestCase;
+
 /**
  *	UnitTest for Request Sender.
  *	@package		net.http.request
@@ -17,18 +20,18 @@ require_once dirname( dirname( dirname( __DIR__ ) ) ).'/initLoaders.php';
  */
 class Test_Net_HTTP_Request_SenderTest extends Test_Case
 {
-	public function testSend()
+	public function oldTestSend()
 	{
 		$host		= "www.example.com";
 		$url		= "/";
 		$needle		= "@Example Domain@i";
 
-		$host		= "ceusmedia.de";
-		$url		= "https://ceusmedia.de/";
-		$needle		= "@ceus media@i";
+//		$host		= "ceusmedia.de";
+//		$url		= "https://ceusmedia.de/";
+//		$needle		= "@ceus media@i";
 
 		$sender		= new Net_HTTP_Request_Sender( $host, $url );
-		$sender->setPort( 443 );
+//		$sender->setPort( 443 );
 		$response	= $sender->send();
 
 		$creation	= is_object( $response );

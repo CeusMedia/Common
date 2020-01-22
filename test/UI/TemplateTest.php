@@ -6,7 +6,10 @@
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@version		0.2
  */
-require_once dirname( __DIR__ ).'/initLoaders.php';
+declare( strict_types = 1 );
+
+use PHPUnit\Framework\TestCase;
+
 /**
  *	TestUnit of UI_Template
  *	@package		tests.ui

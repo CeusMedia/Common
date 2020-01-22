@@ -6,7 +6,10 @@
  *	@since			16.02.2008
  *	@version		0.6
  */
-require_once dirname( dirname( dirname( __DIR__ ) ) ).'/initLoaders.php';
+declare( strict_types = 1 );
+
+use PHPUnit\Framework\TestCase;
+
 /**
  *	UnitTest for Request Header Field.
  *	@package		net.http.request

@@ -6,7 +6,10 @@
  *	@since			16.02.2008
  *	@version		0.1
  */
-require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
+declare( strict_types = 1 );
+
+use PHPUnit\Framework\TestCase;
+
 /**
  *	TestUnit of partioned Session.
  *	@package		Tests.net.http
@@ -22,8 +25,16 @@ class Test_Net_HTTP_PartitionSessionTest extends Test_Case
 
 	public function setUp()
 	{
+//		if( session_status() === PHP_SESSION_ACTIVE )
+//			session_destroy();
 		$this->session		= new Net_HTTP_PartitionSession( 'test' );
 		$this->session->clear();
+	}
+
+	public function tearDown()
+	{
+//		if( session_status() === PHP_SESSION_ACTIVE )
+//			session_destroy();
 	}
 
 	public function testClear()

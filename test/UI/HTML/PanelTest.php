@@ -6,7 +6,10 @@
  *	@since			07.09.2008
  *	@version		0.1
  */
-require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
+declare( strict_types = 1 );
+
+use PHPUnit\Framework\TestCase;
+
 /**
  *	TestUnit of UI_HTML_Panel.
  *	@package		Tests.

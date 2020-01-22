@@ -6,7 +6,10 @@
  *	@since			20.02.2008
  *	@version		0.1
  */
-require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
+declare( strict_types = 1 );
+
+use PHPUnit\Framework\TestCase;
+
 /**
  *	TestUnit of XML RSS Reader.
  *	@package		Tests.xml.rss
