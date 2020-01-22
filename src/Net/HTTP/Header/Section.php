@@ -300,7 +300,9 @@ class Net_HTTP_Header_Section
 	{
 		Deprecation::getInstance()->setExceptionVersion( '0.9' )
 			->message(  'Use render method instead' );
-		$list = implode( "\r\n", $this->toArray() );												//  collect fields with line breaks inbetween
-		return $list ? $list."\r\n" : $list;														//  return field list with line break or empty string
+		//  collect fields with line breaks inbetween
+		$list = implode( "\r\n", $this->toArray() );
+		//  return field list with line break or empty string
+		return $list ? $list."\r\n" : $list;
 	}
 }

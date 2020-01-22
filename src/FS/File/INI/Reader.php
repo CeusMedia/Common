@@ -403,7 +403,8 @@ class FS_File_INI_Reader extends FS_File_Reader
 
 			if( $this->usesSections() && preg_match( $this->patternSection, $line ) )
 			{
-#				$currentSection		= substr( trim( $line ), 1, -1 );								//  @todo remove this line in 0.8.0
+//  @todo remove this line in 0.8.0
+#				$currentSection		= substr( trim( $line ), 1, -1 );
 				$currentSection		= preg_replace( $this->patternSection, '\\1', $line );
 				$this->sections[]	= $currentSection;
 				$this->disabled[$currentSection]	= array();

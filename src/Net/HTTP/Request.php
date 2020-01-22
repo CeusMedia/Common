@@ -87,8 +87,10 @@ class Net_HTTP_Request extends ADT_List_Dictionary
 
 	public function fromEnv( $useSession = FALSE, $useCookie = FALSE )
 	{
-		$this->method->set( getEnv( 'REQUEST_METHOD' ) );												//  store HTTP method
-		$this->ip		= getEnv( 'REMOTE_ADDR' );													//  store IP of requesting client
+		//  store HTTP method
+		$this->method->set( getEnv( 'REQUEST_METHOD' ) );
+		//  store IP of requesting client
+		$this->ip		= getEnv( 'REMOTE_ADDR' );
 		$this->sources	= array(
 			"GET"		=> &$_GET,
 			"POST"		=> &$_POST,
@@ -106,10 +108,13 @@ class Net_HTTP_Request extends ADT_List_Dictionary
 			$this->pairs	= array_merge( $this->pairs, $values );
 
 		/*  --  RETRIEVE HTTP HEADERS FROM WEBSERVER ENVIRONMENT  --  */
-		foreach( self::getAllEnvHeaders() as $key => $value )										//  iterate requested HTTP headers
-			$this->headers->addField( new Net_HTTP_Header_Field( $key, $value ) );					//  store header
+		//  iterate requested HTTP headers
+		foreach( self::getAllEnvHeaders() as $key => $value )
+			//  store header
+			$this->headers->addField( new Net_HTTP_Header_Field( $key, $value ) );
 
-		$this->body	= file_get_contents( "php://input" );											//  store raw POST, PUT or FILE data
+		//  store raw POST, PUT or FILE data
+		$this->body	= file_get_contents( "php://input" );
 	}
 
 	public function fromString( $request )

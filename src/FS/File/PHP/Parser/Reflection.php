@@ -51,11 +51,15 @@ class FS_File_PHP_Parser_Reflection
 		if( !Alg_Text_Unicoder::isUnicode( $content ) )
 			$content		= Alg_Text_Unicoder::convertToUnicode( $content );
 
-		$listClasses	= get_declared_classes();													//  list builtin Classes
-		$listInterfaces	= get_declared_interfaces();												//  list builtin Interfaces
+		//  list builtin Classes
+		$listClasses	= get_declared_classes();
+		//  list builtin Interfaces
+		$listInterfaces	= get_declared_interfaces();
 		require_once( $fileName );
-		$listClasses	= array_diff( get_declared_classes(), $listClasses );						//  get only own Classes
-		$listInterfaces	= array_diff( get_declared_interfaces(), $listInterfaces );					//  get only own Interfaces
+		//  get only own Classes
+		$listClasses	= array_diff( get_declared_classes(), $listClasses );
+		//  get only own Interfaces
+		$listInterfaces	= array_diff( get_declared_interfaces(), $listInterfaces );
 
 		$file			= new ADT_PHP_File;
 		$file->setBasename( basename( $fileName ) );
@@ -64,7 +68,8 @@ class FS_File_PHP_Parser_Reflection
 		$file->setSourceCode( $content );
 
 		//  --  READING CLASSES  --  //
-		$countClasses	= count( $listClasses );													//  count own Classes
+		//  count own Classes
+		$countClasses	= count( $listClasses );
 		if( $countClasses )
 		{
 			if( $this->verbose )
@@ -77,7 +82,8 @@ class FS_File_PHP_Parser_Reflection
 				$file->addClass( $class );
 
 		//  --  READING INTERFACES  --  //
-		$countInterfaces	= count( $listInterfaces );												//  count own Interfaces
+		//  count own Interfaces
+		$countInterfaces	= count( $listInterfaces );
 		if( $countInterfaces )
 		{
 			if( $this->verbose )
@@ -112,7 +118,8 @@ class FS_File_PHP_Parser_Reflection
 		if( $class->isInterface() )
 		{
 			$object	= new ADT_PHP_Interface( $class->name );
-			if( $class->getParentClass() )															//  NOT WORKING !!!
+			//  NOT WORKING !!!
+			if( $class->getParentClass() )
 				$object->setExtendedInterfaceName( $class->getParentClass()->name );
 		}
 		else

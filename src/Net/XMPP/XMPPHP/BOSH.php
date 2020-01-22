@@ -106,7 +106,8 @@ class Net_XMPP_XMPPHP_BOSH {
 		if($this->sid) $xml->addAttribute('sid', $this->sid);
 		#if($this->sid) $xml->addAttribute('xmlns', 'http://jabber.org/protocol/httpbind');
 		$xml->addAttribute('xml:lang', 'en');
-		if($sub) { // ok, so simplexml is lame
+		// ok, so simplexml is lame
+		if($sub) {
 			$p = dom_import_simplexml($xml);
 			$c = dom_import_simplexml($sub);
 			$cn = $p->ownerDocument->importNode($c, true);

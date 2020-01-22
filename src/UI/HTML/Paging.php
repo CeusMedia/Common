@@ -88,26 +88,34 @@ class UI_HTML_Paging extends ADT_OptionObject
 			$cover		= $this->getOption( 'coverage' );
 			$extreme	= $this->getOption( 'extreme' );
 			$more		= $this->getOption( 'more' );
-			$offset		= ( (int)$offset >= 0 ) ? (int)$offset : 0;												//  reset invalid negative offsets
-			$offset		= ( 0 !== $offset % $limit ) ? ceil( $offset / $limit ) * $limit : $offset;				//  synchronise invalid offsets
-			$here		= ceil( $offset / $limit );																//  current page
-			$before		= (int)$offset / (int)$limit;															//  pages before
+			//  reset invalid negative offsets
+			$offset		= ( (int)$offset >= 0 ) ? (int)$offset : 0;
+			//  synchronise invalid offsets
+			$offset		= ( 0 !== $offset % $limit ) ? ceil( $offset / $limit ) * $limit : $offset;
+			//  current page
+			$here		= ceil( $offset / $limit );
+			//  pages before
+			$before		= (int)$offset / (int)$limit;
 			if( $before )
 			{
 				//  --  FIRST PAGE --  //
-				if( $extreme && $before > $extreme )															//  first page
+				//  first page
+				if( $extreme && $before > $extreme )
 					$pages[]	= $this->buildButton( 'text_first', 'class_link', 'class_link', 0 );
 
 				//  --  PREVIOUS PAGE --  //
 				$previous	= ( $here - 1 ) * $limit;
-				$pages[]	= $this->buildButton( 'text_previous', 'class_link', 'class_link', $previous );		//  previous page
+				//  previous page
+				$pages[]	= $this->buildButton( 'text_previous', 'class_link', 'class_link', $previous );
 
 				//  --  MORE PAGES  --  //
-				if( $more && $before > $cover )																	//  more previous pages
+				//  more previous pages
+				if( $more && $before > $cover )
 					$pages[]	= $this->buildButton( 'text_more', 'class_text' );
 
 				//  --  PREVIOUS PAGES --  //
-				for( $i=max( 0, $before - $cover ); $i<$here; $i++ )											//  previous pages
+				//  previous pages
+				for( $i=max( 0, $before - $cover ); $i<$here; $i++ )
 					$pages[]	= $this->buildButton( $i + 1, 'class_link', 'class_link', $i * $limit );
 /*				if( $this->getOption( 'key_previous' ) )
 				{
@@ -117,27 +125,33 @@ class UI_HTML_Paging extends ADT_OptionObject
 				}*/
 			}
 			
-			$pages[]	= $this->buildButton( $here + 1, 'class_text' );										//  page here
-			$after	= ceil( ( ( $amount - $limit ) / $limit ) - $here );										//  pages after
+			//  page here
+			$pages[]	= $this->buildButton( $here + 1, 'class_text' );
+			//  pages after
+			$after	= ceil( ( ( $amount - $limit ) / $limit ) - $here );
 			if( $after )
 			{
 				//  --  NEXT PAGES --  //
-				for( $i=0; $i<min( $cover, $after ); $i++ )														//  after pages
+				//  after pages
+				for( $i=0; $i<min( $cover, $after ); $i++ )
 				{
 					$offset		= ( $here + $i + 1 ) * $limit;
 					$pages[]	= $this->buildButton( $here + $i + 2, 'class_link', 'class_link', $offset );
 				}
 
 				//  --  MORE PAGES --  //
-				if( $more && $after > $cover )																	//  more after pages
+				//  more after pages
+				if( $more && $after > $cover )
 					$pages[]	= $this->buildButton( 'text_more', 'class_text' );
 
 				//  --  NEXT PAGE --  //
 				$offset		= ( $here + 1 ) * $limit;
-				$pages[]	= $this->buildButton( 'text_next', 'class_link', 'class_link', $offset );			//  next page
+				//  next page
+				$pages[]	= $this->buildButton( 'text_next', 'class_link', 'class_link', $offset );
 
 				//  --  LAST PAGE --  //
-				if( $extreme && $after > $extreme )																//  last page
+				//  last page
+				if( $extreme && $after > $extreme )
 				{
 					$offset		= ( $here + $after ) * $limit;
 					$pages[]	= $this->buildButton( 'text_last', 'class_link', 'class_link', $offset );

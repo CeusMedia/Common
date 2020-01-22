@@ -39,28 +39,46 @@ class UI_DevOutput
 
 	static public $channels	= array(
 		'html'	=> array(
-			'lineBreak'			=> "<br/>",															// Sign for Line Break
-			'indentSign'		=> "&nbsp;",														// Sign for Spaces
-			'noteOpen'			=> "<em>",															// Sign for opening Notes
-			'noteClose'			=> "</em>",															// Sign for closing Notes
-			'booleanOpen'		=> "<em>",															// Sign for opening boolean values and null
-			'booleanClose'		=> "</em>",															// Sign for closing boolean values and null
-			'highlightOpen'		=> "<b>",															// Sign for opening Highlights
-			'highlightClose'	=> "</b>",															// Sign for closing Highlights
-			'indentFactor'		=> 6,																// Factor of Spaces for Indents
+			// Sign for Line Break
+			'lineBreak'			=> "<br/>",
+			// Sign for Spaces
+			'indentSign'		=> "&nbsp;",
+			// Sign for opening Notes
+			'noteOpen'			=> "<em>",
+			// Sign for closing Notes
+			'noteClose'			=> "</em>",
+			// Sign for opening boolean values and null
+			'booleanOpen'		=> "<em>",
+			// Sign for closing boolean values and null
+			'booleanClose'		=> "</em>",
+			// Sign for opening Highlights
+			'highlightOpen'		=> "<b>",
+			// Sign for closing Highlights
+			'highlightClose'	=> "</b>",
+			// Factor of Spaces for Indents
+			'indentFactor'		=> 6,
 			'stringTrimMask'	=> '&hellip;',
 			'stringMaxLength'	=> 1500
 		),
 		'console'	=> array(
-			'lineBreak'			=> PHP_EOL,															// Sign for Line Break
-			'indentSign'		=> " ",																// Sign for Spaces
-			'noteOpen'			=> "'",																// Sign for opening Notes
-			'noteClose'			=> "'",																// Sign for closing Notes
-			'booleanOpen'		=> "",																// Sign for opening boolean values and null
-			'booleanClose'		=> "",																// Sign for closing boolean values and null
-			'highlightOpen'		=> "",																// Sign for opening Highlights
-			'highlightClose'	=> "",																// Sign for closing Highlights
-			'indentFactor'		=> 2,																// Factor of Spaces for Indents
+			// Sign for Line Break
+			'lineBreak'			=> PHP_EOL,
+			// Sign for Spaces
+			'indentSign'		=> " ",
+			// Sign for opening Notes
+			'noteOpen'			=> "'",
+			// Sign for closing Notes
+			'noteClose'			=> "'",
+			// Sign for opening boolean values and null
+			'booleanOpen'		=> "",
+			// Sign for closing boolean values and null
+			'booleanClose'		=> "",
+			// Sign for opening Highlights
+			'highlightOpen'		=> "",
+			// Sign for closing Highlights
+			'highlightClose'	=> "",
+			// Factor of Spaces for Indents
+			'indentFactor'		=> 2,
 			'stringTrimMask'	=> '...',
 			'stringMaxLength'	=> 50
 		)

@@ -544,8 +544,10 @@ class ADT_Graph_Weighted
 	public function removeNode( $node )
 	{
 		foreach( $this->getNodes() as $_node )
-			$this->removeEdge( $_node, $node );									//  remove all Edges of Node
-		$this->nodeSet->removeNode( $node );									//  remove Node
+			//  remove all Edges of Node
+			$this->removeEdge( $_node, $node );
+		//  remove Node
+		$this->nodeSet->removeNode( $node );
 	}
 
 	/**

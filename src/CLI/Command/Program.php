@@ -78,10 +78,14 @@ abstract class CLI_Command_Program
 	 */
 	public function __construct( $options, $shortcuts, $numberArguments = 0 )
 	{
-		$this->parser	= new CLI_Command_ArgumentParser();						//  load Argument Parser
-		$this->parser->setNumberOfMandatoryArguments( $numberArguments );		//  set minimum Number of Arguments
-		$this->parser->setPossibleOptions( $options );							//  set Map of Options and Patterns
-		$this->parser->setShortcuts( $shortcuts );								//  set Map of Shortcuts for Options
+		//  load Argument Parser
+		$this->parser	= new CLI_Command_ArgumentParser();
+		//  set minimum Number of Arguments
+		$this->parser->setNumberOfMandatoryArguments( $numberArguments );
+		//  set Map of Options and Patterns
+		$this->parser->setPossibleOptions( $options );
+		//  set Map of Shortcuts for Options
+		$this->parser->setShortcuts( $shortcuts );
 	}
 
 	/**
@@ -91,9 +95,12 @@ abstract class CLI_Command_Program
 	 */
 	protected function getArgumentString()
 	{
-		$arguments	= $_SERVER['argv'];											//  get Console Arguments from PHP
-		array_shift( $arguments );												//  remove Programm Call itself
-		$string		= implode( " ", $arguments );								//  build Argument String
+		//  get Console Arguments from PHP
+		$arguments	= $_SERVER['argv'];
+		//  remove Programm Call itself
+		array_shift( $arguments );
+		//  build Argument String
+		$string		= implode( " ", $arguments );
 		return $string;
 	}
 
@@ -104,7 +111,8 @@ abstract class CLI_Command_Program
 
 	protected function handleParserException( Exception $e, $exitCode = self::EXIT_PARSE )
 	{
-		$this->showError( $e->getMessage(), $exitCode );						//  show exception message and exit if set so
+		//  show exception message and exit if set so
+		$this->showError( $e->getMessage(), $exitCode );
 	}
 
 	/**
@@ -118,15 +126,21 @@ abstract class CLI_Command_Program
 	public function run( $argumentString = NULL )
 	{
 		if( is_null( $argumentString ) )
-			$argumentString	= $this->getArgumentString();						//  get Argument String
+			//  get Argument String
+			$argumentString	= $this->getArgumentString();
 		try{
-			$this->parser->parse( $argumentString );							//  parses Argument String
-			$this->arguments	= $this->parser->getArguments();				//  get parsed Arguments
-			$this->options		= $this->parser->getOptions();					//  get parsed Options
-			$this->exitCode		= $this->main();								//  run Program and store exit code
+			//  parses Argument String
+			$this->parser->parse( $argumentString );
+			//  get parsed Arguments
+			$this->arguments	= $this->parser->getArguments();
+			//  get parsed Options
+			$this->options		= $this->parser->getOptions();
+			//  run Program and store exit code
+			$this->exitCode		= $this->main();
 			return $this->exitCode;
 		}
-		catch( Exception $e ){													//  handle uncatched Exceptions
+		//  handle uncatched Exceptions
+		catch( Exception $e ){
 			$this->handleParserException( $e );
 		}
 	}

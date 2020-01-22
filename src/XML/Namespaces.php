@@ -108,8 +108,10 @@ class XML_Namespaces
 	 */
 	public static function getNamespacesFromDocument( $doc )
 	{
-		$element	= simplexml_import_dom( $doc );									//  convert DOM Document to Simple XML Element
-		return self::getNamespacesFromSimpleXmlElement( $element );					//  return Namespaces from XML Element
+		//  convert DOM Document to Simple XML Element
+		$element	= simplexml_import_dom( $doc );
+		//  return Namespaces from XML Element
+		return self::getNamespacesFromSimpleXmlElement( $element );
 	}
 
 	/**
@@ -133,7 +135,9 @@ class XML_Namespaces
 	 */
 	public static function getNamespacesFromXml( $xml )
 	{
-		$element	= new SimpleXMLElement( $xml );									//  parse XML String
-		return self::getNamespacesFromSimpleXmlElement( $element );					//  return Namespaces from XML Element
+		//  parse XML String
+		$element	= new SimpleXMLElement( $xml );
+		//  return Namespaces from XML Element
+		return self::getNamespacesFromSimpleXmlElement( $element );
 	}
 }

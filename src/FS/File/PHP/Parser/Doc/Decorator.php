@@ -58,7 +58,8 @@ class FS_File_PHP_Parser_Doc_Decorator
 			if( !$value )
 				continue;
 
-			if( is_object( $value ) )															//  value is an object
+			//  value is an object
+			if( is_object( $value ) )
 			{
 				if( $codeData instanceof ADT_PHP_Function )
 				{
@@ -68,26 +69,36 @@ class FS_File_PHP_Parser_Doc_Decorator
 					}
 				}
 			}
-			else if( is_string( $value ) )																//  value is a simple string
+			//  value is a simple string
+			else if( is_string( $value ) )
 			{
 				switch( $key )
 				{
-					case 'category':	$codeData->setCategory( $value ); break;					//  extend category
-					case 'package':		$codeData->setPackage( $value ); break;						//  extend package
-					case 'version':		$codeData->setVersion( $value ); break;						//  extend version
-					case 'since':		$codeData->setSince( $value ); break;						//  extend since
-					case 'description':	$codeData->setDescription( $value ); break;					//  extend description
-					case 'todo':		$codeData->setTodo( $itemValue ); break;					//  extend todos
+					//  extend category
+					case 'category':	$codeData->setCategory( $value ); break;
+					//  extend package
+					case 'package':		$codeData->setPackage( $value ); break;
+					//  extend version
+					case 'version':		$codeData->setVersion( $value ); break;
+					//  extend since
+					case 'since':		$codeData->setSince( $value ); break;
+					//  extend description
+					case 'description':	$codeData->setDescription( $value ); break;
+					//  extend todos
+					case 'todo':		$codeData->setTodo( $itemValue ); break;
 				}
 				if( $codeData instanceof ADT_PHP_Interface )
 				{
 					switch( $key )
 					{
 						case 'access':
-							if( !$codeData->getAccess() )											//  only if no access type given by signature
-								$codeData->setAccess( $value );										//  extend access type
+							//  only if no access type given by signature
+							if( !$codeData->getAccess() )
+								//  extend access type
+								$codeData->setAccess( $value );
 							break;								
-						case 'extends':		$codeData->setExtendedClassName( $value ); break;		//  extend extends
+						//  extend extends
+						case 'extends':		$codeData->setExtendedClassName( $value ); break;
 					}
 				}
 				if( $codeData instanceof ADT_PHP_Method )
@@ -95,17 +106,22 @@ class FS_File_PHP_Parser_Doc_Decorator
 					switch( $key )
 					{
 						case 'access':
-							if( !$codeData->getAccess() )											//  only if no access type given by signature
-								$codeData->setAccess( $value );										//  extend access type
+							//  only if no access type given by signature
+							if( !$codeData->getAccess() )
+								//  extend access type
+								$codeData->setAccess( $value );
 							break;
 					}
 				}
 			}
-			else if( is_array( $value ) )															//  value is a list of objects or strings
+			//  value is a list of objects or strings
+			else if( is_array( $value ) )
 			{
-				foreach( $value as $itemKey => $itemValue )											//  iterate list
+				//  iterate list
+				foreach( $value as $itemKey => $itemValue )
 				{
-					if( is_string( $itemKey ) )														//  special case: value is associative array -> a parameter to merge
+					//  special case: value is associative array -> a parameter to merge
+					if( is_string( $itemKey ) )
 					{
 						switch( $key )
 						{
@@ -116,7 +132,8 @@ class FS_File_PHP_Parser_Doc_Decorator
 								break;
 						}
 					}
-					else																			//  value is normal list of objects or strings
+					//  value is normal list of objects or strings
+					else
 					{
 						switch( $key )
 						{

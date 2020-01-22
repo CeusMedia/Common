@@ -41,12 +41,18 @@
  */
 abstract class Exception_Abstract extends Exception implements Exception_Interface
 {
-	protected $message = 'Unknown exception';     // Exception message
-	private   $string;                            // Unknown
-	protected $code    = 0;                       // User-defined exception code
-	protected $file;                              // Source filename of exception
-	protected $line;                              // Source line of exception
-	private   $trace;                             // Unknown
+	// Exception message
+	protected $message = 'Unknown exception';
+	// Unknown
+	private   $string;
+	// User-defined exception code
+	protected $code    = 0;
+	// Source filename of exception
+	protected $file;
+	// Source line of exception
+	protected $line;
+	// Unknown
+	private   $trace;
 
 	/**
 	 *	Constructor.

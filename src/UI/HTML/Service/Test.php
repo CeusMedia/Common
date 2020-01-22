@@ -77,12 +77,17 @@ class UI_HTML_Service_Test
 		$time			= $clock->stop( 6, 0 );
 
 		//  --  INFORMATION FOR TEMPLATE  --  //
-		$title			= $this->servicePoint->getTitle();							//  Service Title
-		$class			= $this->servicePoint->getServiceClass( $service );			//  Service Class Name
-		$description	= $this->servicePoint->getServiceDescription( $service );	//  Service Description
-		$defaultFormat	= $this->servicePoint->getDefaultServiceFormat( $service );	//  Service Format by default
+		//  Service Title
+		$title			= $this->servicePoint->getTitle();
+		//  Service Class Name
+		$class			= $this->servicePoint->getServiceClass( $service );
+		//  Service Description
+		$description	= $this->servicePoint->getServiceDescription( $service );
+		//  Service Format by default
+		$defaultFormat	= $this->servicePoint->getDefaultServiceFormat( $service );
 		$parameters		= $this->getParameterFields( $service, $format, $request );
-		$filters		= $this->servicePoint->getServiceFilters( $service );		//  Service Filter List
+		//  Service Filter List
+		$filters		= $this->servicePoint->getServiceFilters( $service );
 
 		$trace		= "";
 		$data		= "";

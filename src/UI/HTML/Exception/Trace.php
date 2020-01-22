@@ -98,15 +98,20 @@ class UI_HTML_Exception_Trace
 	{
 		switch( gettype( $argument ) )
 		{
-			case 'NULL':																			//  handle NULL
+			//  handle NULL
+			case 'NULL':
 				return '<em>NULL</em>';
-			case 'boolean':																			//  handle boolean
+			//  handle boolean
+			case 'boolean':
 				return $argument ? "<em>TRUE</em>" : "<em>FALSE</em>";
-			case 'array':																			//  handle array
+			//  handle array
+			case 'array':
 				return self::renderArgumentArray( $argument );
-			case 'object':																			//  handle object
+			//  handle object
+			case 'object':
 				return get_class( $argument );
-			default:																				//  handle integer/double/float/real/resource/string
+			//  handle integer/double/float/real/resource/string
+			default:
 				return self::secureString( (string) $argument );
 		}
 	}
@@ -164,7 +169,8 @@ class UI_HTML_Exception_Trace
 	{
 		if( $j == 0 )
 			if( isset( $trace['function'] ) )
-				if( in_array( $trace['function'], array( "eval", "throwException" ) ) )				//  Exception was thrown using throwException
+				//  Exception was thrown using throwException
+				if( in_array( $trace['function'], array( "eval", "throwException" ) ) )
 					return "";
 
 		$content	= "";

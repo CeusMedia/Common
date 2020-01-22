@@ -61,7 +61,8 @@ class CLI_Output{
 	 */
 	public function newLine( $string = '', $sleep = 0 ){
 		if( $this->maxLineLength )
-			$string		= Alg_Text_Trimmer::trimCentric( $string, $this->maxLineLength );			//  trim string to <80 columns
+			//  trim string to <80 columns
+			$string		= Alg_Text_Trimmer::trimCentric( $string, $this->maxLineLength );
 		$this->lastLine	= $string;
 		print( "\n" . $string );
 		if( $sleep )
@@ -77,7 +78,8 @@ class CLI_Output{
 	 */
 	public function sameLine( $string = '', $sleep = 0 ){
 		if( $this->maxLineLength )
-			$string		= Alg_Text_Trimmer::trimCentric( $string, $this->maxLineLength );			//  trim string to <80 columns
+			//  trim string to <80 columns
+			$string		= Alg_Text_Trimmer::trimCentric( $string, $this->maxLineLength );
 		$spaces		= max( 0, strlen( $this->lastLine ) - strlen( $string ) );
 		$this->lastLine	= $string;
 		$fill		= str_repeat( ' ', $spaces );

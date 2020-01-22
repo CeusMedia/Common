@@ -117,28 +117,42 @@ class UI_HTML_Tag implements Renderable
 		}
 		catch( InvalidArgumentException $e ) {
 			if( version_compare( PHP_VERSION, '5.3.0', '>=' ) )
-				throw new RuntimeException( 'Invalid attributes', NULL, $e );						//  throw exception and transport inner exception
-			throw new RuntimeException( 'Invalid attributes', NULL );								//  throw exception
+				//  throw exception and transport inner exception
+				throw new RuntimeException( 'Invalid attributes', NULL, $e );
+			//  throw exception
+			throw new RuntimeException( 'Invalid attributes', NULL );
 		}
-		if( $content === NULL || $content === FALSE )												//  no node content defined, not even an empty string
-			if( !in_array( $name, self::$shortTagExcludes ) )										//  node name is allowed to be a short tag
-				return "<".$name.$attributes.$data."/>";											//  build and return short tag
-		if( is_array( $content ) )																	//  content is an array, may be nested
+		//  no node content defined, not even an empty string
+		if( $content === NULL || $content === FALSE )
+			//  node name is allowed to be a short tag
+			if( !in_array( $name, self::$shortTagExcludes ) )
+				//  build and return short tag
+				return "<".$name.$attributes.$data."/>";
+		//  content is an array, may be nested
+		if( is_array( $content ) )
 			$content	= self::flattenArray( $content, '' );
 		if( is_numeric( $content ) )
 			$content	= (string) $content;
 		if( is_object( $content ) ){
-			if( !method_exists( $content, '__toString' ) ){											//  content is not a renderable object
-				$message	= 'Object of class "'.get_class( $content ).'" cannot be rendered';		//  prepare message about not renderable object
-				throw new InvalidArgumentException( $message ); 									//  break with error message
+			//  content is not a renderable object
+			if( !method_exists( $content, '__toString' ) ){
+				//  prepare message about not renderable object
+				$message	= 'Object of class "'.get_class( $content ).'" cannot be rendered';
+				//  break with error message
+				throw new InvalidArgumentException( $message );
 			}
-			$content	= (string) $content;														//  render object to string
+			//  render object to string
+			$content	= (string) $content;
 		}
-		if( !is_null( $content ) && !is_string( $content ) ){										//  content is neither NULL nor string so far
-			$message	= 'Content type "'.gettype( $content ).'" is not supported';				//  prepare message about wrong content data type
-			throw new InvalidArgumentException( $message ); 										//  break with error message
+		//  content is neither NULL nor string so far
+		if( !is_null( $content ) && !is_string( $content ) ){
+			//  prepare message about wrong content data type
+			$message	= 'Content type "'.gettype( $content ).'" is not supported';
+			//  break with error message
+			throw new InvalidArgumentException( $message );
 		}
-		return "<".$name.$attributes.$data.">".$content."</".$name.">";								//  build and return full tag
+		//  build and return full tag
+		return "<".$name.$attributes.$data.">".$content."</".$name.">";
 	}
 
 	static protected function flattenArray( $array, $delimiter = " ", $path = NULL )
@@ -204,30 +218,47 @@ class UI_HTML_Tag implements Renderable
 		$list	= array();
 		foreach( $attributes as $key => $value )
 		{
-			if( empty( $key ) )																		//  no valid attribute key defined
-				continue;																			//  skip this pair
+			//  no valid attribute key defined
+			if( empty( $key ) )
+				//  skip this pair
+				continue;
 			$key	= strtolower( $key );
-			if( !preg_match( '/^[a-z][a-z0-9.:_-]*$/', $key ) )										//  key is not a valid lowercase ID (namespaces supported)
-				throw new InvalidArgumentException( 'Invalid attribute key' );						//  throw exception
-			if( array_key_exists( $key, $list ) && !$allowOverride )								//  attribute is already defined
-				throw new InvalidArgumentException( 'Attribute "'.$key.'" is already set' );		//  throw exception
-			if( is_array( $value ) ){																//  attribute is an array
+			//  key is not a valid lowercase ID (namespaces supported)
+			if( !preg_match( '/^[a-z][a-z0-9.:_-]*$/', $key ) )
+				//  throw exception
+				throw new InvalidArgumentException( 'Invalid attribute key' );
+			//  attribute is already defined
+			if( array_key_exists( $key, $list ) && !$allowOverride )
+				//  throw exception
+				throw new InvalidArgumentException( 'Attribute "'.$key.'" is already set' );
+			//  attribute is an array
+			if( is_array( $value ) ){
 				if( !count( $value ) )
 					continue;
-				$valueList	= join( ' ', $value );													//  just combine value items with whitespace
-				if( $key == 'style' ){																//  special case: style attribute
-					$valueList	= '';																//  reset list
-					foreach( $value as $k => $v )													//  iterate value items
-						$valueList	.= ( $valueList ? '; ' : '' ).( $k.': '.$v );					//  extend list with style definition
+				//  just combine value items with whitespace
+				$valueList	= join( ' ', $value );
+				//  special case: style attribute
+				if( $key == 'style' ){
+					//  reset list
+					$valueList	= '';
+					//  iterate value items
+					foreach( $value as $k => $v )
+						//  extend list with style definition
+						$valueList	.= ( $valueList ? '; ' : '' ).( $k.': '.$v );
 				}
 				$value	= $valueList;
 			}
-			if( !( is_string( $value ) || is_numeric( $value ) ) )									//  attribute is neither string nor numeric
-				continue;																			//  skip this pair
-//			if( preg_match( '/[^\\\]"/', $value ) )													//  value contains unescaped (double) quotes
+			//  attribute is neither string nor numeric
+			if( !( is_string( $value ) || is_numeric( $value ) ) )
+				//  skip this pair
+				continue;
+//  value contains unescaped (double) quotes
+//			if( preg_match( '/[^\\\]"/', $value ) )
 //				$value	= addslashes( $value );
-#				throw new InvalidArgumentException( 'Invalid attribute value "'.$value.'"' );		//  throw exception
-			$value	= htmlentities( $value, ENT_QUOTES, 'UTF-8', FALSE );							//  encode HTML entities and quotes
+//  throw exception
+#				throw new InvalidArgumentException( 'Invalid attribute value "'.$value.'"' );
+			//  encode HTML entities and quotes
+			$value	= htmlentities( $value, ENT_QUOTES, 'UTF-8', FALSE );
 			$list[$key]	= strtolower( $key ).'="'.$value.'"';
 		}
 		return $list ? ' '.join( ' ', $list ) : '';
@@ -243,24 +274,37 @@ class UI_HTML_Tag implements Renderable
 	 */
 	public function setAttribute( $key, $value = NULL, $strict = TRUE )
 	{
-		if( empty( $key ) )																			//  no valid attribute key defined
-			throw new InvalidArgumentException( 'Key must have content' );							//  throw exception
+		//  no valid attribute key defined
+		if( empty( $key ) )
+			//  throw exception
+			throw new InvalidArgumentException( 'Key must have content' );
 		$key	= strtolower( $key );
-		if( array_key_exists( $key, $this->attributes ) && $strict )								//  attribute key already has a value
-			throw new RuntimeException( 'Attribute "'.$key.'" is already set' );					//  throw exception
-		if( !preg_match( '/^[a-z0-9:_-]+$/', $key ) )												//  key is invalid
-			throw new InvalidArgumentException( 'Invalid attribute key "'.$key.'"' );				//  throw exception
+		//  attribute key already has a value
+		if( array_key_exists( $key, $this->attributes ) && $strict )
+			//  throw exception
+			throw new RuntimeException( 'Attribute "'.$key.'" is already set' );
+		//  key is invalid
+		if( !preg_match( '/^[a-z0-9:_-]+$/', $key ) )
+			//  throw exception
+			throw new InvalidArgumentException( 'Invalid attribute key "'.$key.'"' );
 
-		if( $value === NULL || $value === FALSE ){													//  no value available
-			if( array_key_exists( $key, $this->attributes ) )										//  attribute exists
-				unset( $this->attributes[$key] );													//  remove attribute
+		//  no value available
+		if( $value === NULL || $value === FALSE ){
+			//  attribute exists
+			if( array_key_exists( $key, $this->attributes ) )
+				//  remove attribute
+				unset( $this->attributes[$key] );
 		}
 		else
 		{
-//			if( is_string( $value ) || is_numeric( $value ) )										//  value is string or numeric
-//				if( preg_match( '/[^\\\]"/', $value ) )												//  detect injection
-//					throw new InvalidArgumentException( 'Invalid attribute value' );				//  throw exception
-			$this->attributes[$key]	= $value;														//  set attribute
+//  value is string or numeric
+//			if( is_string( $value ) || is_numeric( $value ) )
+//  detect injection
+//				if( preg_match( '/[^\\\]"/', $value ) )
+//  throw exception
+//					throw new InvalidArgumentException( 'Invalid attribute value' );
+			//  set attribute
+			$this->attributes[$key]	= $value;
 		}
 	}
 
@@ -273,8 +317,10 @@ class UI_HTML_Tag implements Renderable
 	 */
 	public function setAttributes( $attributes, $strict = TRUE )
 	{
-		foreach( $attributes as $key => $value )													//  iterate attributes map
-			$this->setAttribute( $key, $value, $strict );											//  set each attribute
+		//  iterate attributes map
+		foreach( $attributes as $key => $value )
+			//  set each attribute
+			$this->setAttribute( $key, $value, $strict );
 	}
 
 	/**
@@ -286,23 +332,36 @@ class UI_HTML_Tag implements Renderable
 	 *	@return		void
 	 */
 	public function setData( $key, $value = NULL, $strict = TRUE ){
-		if( empty( $key ) )																			//  no valid data key defined
-			throw new InvalidArgumentException( 'Data key is required' );							//  throw exception
-		if( array_key_exists( $key, $this->data ) && $strict )										//  data key already has a value
-			throw new RuntimeException( 'Data attribute "'.$key.'" is already set' );				//  throw exception
-		if( !preg_match( '/^[a-z0-9:_-]+$/i', $key ) )												//  key is invalid
-			throw new InvalidArgumentException( 'Invalid data key "'.$key.'"' );					//  throw exception
+		//  no valid data key defined
+		if( empty( $key ) )
+			//  throw exception
+			throw new InvalidArgumentException( 'Data key is required' );
+		//  data key already has a value
+		if( array_key_exists( $key, $this->data ) && $strict )
+			//  throw exception
+			throw new RuntimeException( 'Data attribute "'.$key.'" is already set' );
+		//  key is invalid
+		if( !preg_match( '/^[a-z0-9:_-]+$/i', $key ) )
+			//  throw exception
+			throw new InvalidArgumentException( 'Invalid data key "'.$key.'"' );
 
-		if( $value === NULL || $value === FALSE ){													//  no value available
-			if( array_key_exists( $key, $this->data ) )												//  data exists
-				unset( $this->data[$key] );															//  remove attribute
+		//  no value available
+		if( $value === NULL || $value === FALSE ){
+			//  data exists
+			if( array_key_exists( $key, $this->data ) )
+				//  remove attribute
+				unset( $this->data[$key] );
 		}
 		else
 		{
-			if( is_string( $value ) || is_numeric( $value ) )										//  value is string or numeric
-				if( preg_match( '/[^\\\]"/', $value ) )												//  detect injection
-					throw new InvalidArgumentException( 'Invalid data attribute value' );			//  throw exception
-			$this->attributes[$key]	= $value;														//  set attribute
+			//  value is string or numeric
+			if( is_string( $value ) || is_numeric( $value ) )
+				//  detect injection
+				if( preg_match( '/[^\\\]"/', $value ) )
+					//  throw exception
+					throw new InvalidArgumentException( 'Invalid data attribute value' );
+			//  set attribute
+			$this->attributes[$key]	= $value;
 		}
 	}
 
@@ -316,11 +375,15 @@ class UI_HTML_Tag implements Renderable
 	public function setContent( $content = NULL )
 	{
 		if( is_object( $content ) ){
-			if( !method_exists( $content, '__toString' ) ){											//  content is not a renderable object
-				$message	= 'Object of class "'.get_class( $content ).'" cannot be rendered';		//  prepare message about not renderable object
-				throw new InvalidArgumentException( $message ); 									//  break with error message
+			//  content is not a renderable object
+			if( !method_exists( $content, '__toString' ) ){
+				//  prepare message about not renderable object
+				$message	= 'Object of class "'.get_class( $content ).'" cannot be rendered';
+				//  break with error message
+				throw new InvalidArgumentException( $message );
 			}
-			$content	= (string) $content;														//  render object to string
+			//  render object to string
+			$content	= (string) $content;
 		}
 		$this->content	= $content;
 	}

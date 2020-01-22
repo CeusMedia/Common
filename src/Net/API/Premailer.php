@@ -54,14 +54,22 @@ class Net_API_Premailer {
 
 	protected $cache;
 	static public $options = array(
-		'adaptor'			=> 'hpricot',		//  string  - Which document handler to use (hpricot (default) or nokigiri)
-		'base_url'			=> '',				//  string  - Base URL for converting relative links
-		'line_length'		=> 65,				//  integer - Length of lines in the plain text version (default 65)
-		'link_query_string'	=> '',				//  string  - Query string appended to links
-		'preserve_styles'	=> true,			//  boolean - Whether to preserve any link rel=stylesheet and style elements
-		'remove_ids'		=> false,			//  boolean - Remove IDs from the HTML document?
-		'remove_classes'	=> false,			//  boolean - Remove classes from the HTML document?
-		'remove_comments'	=> false			//  boolean - Remove comments from the HTML document?
+		//  string  - Which document handler to use (hpricot (default) or nokigiri)
+		'adaptor'			=> 'hpricot',
+		//  string  - Base URL for converting relative links
+		'base_url'			=> '',
+		//  integer - Length of lines in the plain text version (default 65)
+		'line_length'		=> 65,
+		//  string  - Query string appended to links
+		'link_query_string'	=> '',
+		//  boolean - Whether to preserve any link rel=stylesheet and style elements
+		'preserve_styles'	=> true,
+		//  boolean - Remove IDs from the HTML document?
+		'remove_ids'		=> false,
+		//  boolean - Remove classes from the HTML document?
+		'remove_classes'	=> false,
+		//  boolean - Remove comments from the HTML document?
+		'remove_comments'	=> false
 	);
 
 	public function __construct( $cache = NULL ){

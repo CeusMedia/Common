@@ -161,11 +161,15 @@ class Net_HTTP_Request_Sender
 		$lines[]	= "\r\n";
 		$lines	= join( "\r\n", $lines );
 
-		fwrite( $fp, $lines );																		//  send Request
-		while( !feof( $fp ) ){																		//  receive Response
-			$result .= fgets( $fp, 4 * 1024 );															//  collect Response chunks
+		//  send Request
+		fwrite( $fp, $lines );
+		//  receive Response
+		while( !feof( $fp ) ){
+			//  collect Response chunks
+			$result .= fgets( $fp, 4 * 1024 );
 		}
-		fclose( $fp );																				//  close Connection
+		//  close Connection
+		fclose( $fp );
 
 		$response	= Net_HTTP_Response_Parser::fromString( $result );
 		if( count( $response->getHeader( 'Location' ) ) ){

@@ -72,31 +72,38 @@ class FS_File_PHP_Lister extends FilterIterator
 				return FALSE;
 		}
 		$pathName	= dirname( str_replace( "\\", "/", $this->current() ) );
-		$innerPath	= substr( $pathName, strlen( $this->path) )."/";					//  get inner Path Name
+		//  get inner Path Name
+		$innerPath	= substr( $pathName, strlen( $this->path) )."/";
 		$innerFile	= $innerPath.$fileName;
-		foreach( $this->ignoreFolders as $folder )										//  iterate Folders to be ignored
+		//  iterate Folders to be ignored
+		foreach( $this->ignoreFolders as $folder )
 		{
 			if( !trim( (string) $folder ) )
 				continue;
 			$found	= preg_match( (string) $folder, $innerPath );
 #			remark( $file." @ ".$innerPath." : ".$found );
-			if( $found )																//  ...
+			//  ...
+			if( $found )
 			{
-				$this->logSkippedFolder( $this->current() );							//  log Folder
+				//  log Folder
+				$this->logSkippedFolder( $this->current() );
 				if( $this->verbose )
 					remark( "Skipping Folder: ".$innerPath );
 				return FALSE;
 			}
 		}
 
-		foreach( $this->ignoreFiles as $file )											//  iterate Files to be ignored
+		//  iterate Files to be ignored
+		foreach( $this->ignoreFiles as $file )
 		{
 			if( !trim( (string) $file ) )
 				continue;
 			$found	= preg_match( (string) $file, $fileName );
-			if( $found )																//  ...
+			//  ...
+			if( $found )
 			{
-				$this->logSkippedFile( $this->current() );								//  log File
+				//  log File
+				$this->logSkippedFile( $this->current() );
 				if( $this->verbose )
 					remark( "Skipping File: ".$innerPath.$this->current()->getFilename() );
 				return FALSE;

@@ -70,8 +70,10 @@ class Net_HTTP_Request_Receiver extends ADT_List_Dictionary
 		if( $useCookie )
 			$this->sources['cookie']	=& $_COOKIE;
 
-		$this->ip		= getEnv( 'REMOTE_ADDR' );													//  store IP of requesting client
-		$this->method	= strtoupper( getEnv( 'REQUEST_METHOD' ) );									//  store HTTP method
+		//  store IP of requesting client
+		$this->ip		= getEnv( 'REMOTE_ADDR' );
+		//  store HTTP method
+		$this->method	= strtoupper( getEnv( 'REQUEST_METHOD' ) );
 		$this->root		= rtrim( dirname( getEnv( 'SCRIPT_NAME' ) ), '/' ).'/';
 		$this->path		= substr( getEnv( 'REQUEST_URI' ), strlen( $this->root ) );
 		if( strpos( $this->path, '?' ) !== FALSE )
@@ -86,8 +88,10 @@ class Net_HTTP_Request_Receiver extends ADT_List_Dictionary
 		{
 			if( strpos( $key, "HTTP_" ) !== 0 )
 				continue;
-			$key	= preg_replace( '/^HTTP_/', '', $key );											//  strip HTTP prefix
-			$key	= preg_replace( '/_/', '-', $key );												//  replace underscore by dash
+			//  strip HTTP prefix
+			$key	= preg_replace( '/^HTTP_/', '', $key );
+			//  replace underscore by dash
+			$key	= preg_replace( '/_/', '-', $key );
 			$this->headers->addField( new Net_HTTP_Header_Field( $key, $value ) );					//
 		}
 	}

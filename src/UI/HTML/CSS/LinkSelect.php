@@ -75,8 +75,10 @@ class UI_HTML_CSS_LinkSelect
 
 		foreach( $links as $link )
 		{
-			if( !( isset( $link['attributes'] ) && is_array( $link['attributes'] ) ) )				//  no attributes given
-				$link['attributes']	= array();														//  set empty array
+			//  no attributes given
+			if( !( isset( $link['attributes'] ) && is_array( $link['attributes'] ) ) )
+				//  set empty array
+				$link['attributes']	= array();
 
 			$attributes	= array();
 			if( isset( $link['class'] ) )

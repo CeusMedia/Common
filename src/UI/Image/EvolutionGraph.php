@@ -41,26 +41,40 @@
 class UI_Image_EvolutionGraph extends ADT_OptionObject
 {
 	protected $defaults	= array(
-		'width'					=> 400,												//  Width of Image	
-		'height'				=> 150,												//  Height of Image
-		'padding_left'			=> 10,												//  Distance of Graph within Image
+		//  Width of Image	
+		'width'					=> 400,
+		//  Height of Image
+		'height'				=> 150,
+		//  Distance of Graph within Image
+		'padding_left'			=> 10,
 		'padding_right'			=> 50,
 		'padding_top'			=> 15,
 		'padding_bottom'		=> 15,
-		'color_background'		=> array( 0xFF, 0xFF, 0xFF ),						//  Color of Background 
-		'color_bars'			=> array( 0xCC, 0xCC, 0xCC ),						//  Color of Y-Axis Labels
-		'color_dash'			=> array( 0xDF, 0xDF, 0xDF ),						//  Color of dashed Lines
-//		'color_text'			=> array( 0x0, 0x00, 0x00 ),						//  Color of Text
-		'color_title'			=> array( 0x00, 0x00, 0x00 ),						//  Color of Title Text
+		//  Color of Background 
+		'color_background'		=> array( 0xFF, 0xFF, 0xFF ),
+		//  Color of Y-Axis Labels
+		'color_bars'			=> array( 0xCC, 0xCC, 0xCC ),
+		//  Color of dashed Lines
+		'color_dash'			=> array( 0xDF, 0xDF, 0xDF ),
+//  Color of Text
+//		'color_text'			=> array( 0x0, 0x00, 0x00 ),
+		//  Color of Title Text
+		'color_title'			=> array( 0x00, 0x00, 0x00 ),
 		'title_x'				=> 20,
 		'title_y'				=> 0,
-		'title_text'			=> "EvolutionGraph",								//  Title Text (to be changed with setTitle()
-		'title_font'			=> 3,												//  Font and Style of Title (3 - medium&bold)
-		'transparent'			=> true,											//  Background Transparency 
-		'horizontal_bars'		=> 5,												//  Quantity of horizontal Guidelines
-		'label_adjust_x'		=> -10,												//  Distance of Labels
+		//  Title Text (to be changed with setTitle()
+		'title_text'			=> "EvolutionGraph",
+		//  Font and Style of Title (3 - medium&bold)
+		'title_font'			=> 3,
+		//  Background Transparency 
+		'transparent'			=> true,
+		//  Quantity of horizontal Guidelines
+		'horizontal_bars'		=> 5,
+		//  Distance of Labels
+		'label_adjust_x'		=> -10,
 		'label_adjust_y'		=> -10,
-		'legend_adjust_x'		=> 5,												//  Distance of Legend
+		//  Distance of Legend
+		'legend_adjust_x'		=> 5,
 		'legend_adjust_y'		=> 2,
 	);
 
@@ -105,8 +119,10 @@ class UI_Image_EvolutionGraph extends ADT_OptionObject
 	 */
 	public function drawGraph()
 	{
-		$im	= $this->generateGraph();												//  generate Graph Image
-		ImagePng( $im );															//  send Image to Browser
+		//  generate Graph Image
+		$im	= $this->generateGraph();
+		//  send Image to Browser
+		ImagePng( $im );
 	}
 	
 	protected function drawGraphs( &$image, $maxValue, $ratio )
@@ -150,14 +166,21 @@ class UI_Image_EvolutionGraph extends ADT_OptionObject
 		// set the image size
 		$im = @ImageCreate( $this->getOption( 'width' ), $this->getOption( 'height' ) );
 		extract( $this->getOptions() );
-		$imageColorBackground	= $this->setColor( $im, $this->getOption( "color_background" ) );			//  set Background Color
-		$imageColorBars			= $this->setColor( $im, $this->getOption( "color_bars" ) );					//  set Color of Y-Axis Labels
-		$imageColorDash			= $this->setColor( $im, $this->getOption( "color_dash" ) );					//  set Color of dashed Lines
-//		$imageColorText			= $this->setColor( $im, $this->getOption( "color_text" ) );					//  set Color of Text
-		$imageColorTitle		= $this->setColor( $im, $this->getOption( "color_title" ) );				//  set Color of Title Text
+		//  set Background Color
+		$imageColorBackground	= $this->setColor( $im, $this->getOption( "color_background" ) );
+		//  set Color of Y-Axis Labels
+		$imageColorBars			= $this->setColor( $im, $this->getOption( "color_bars" ) );
+		//  set Color of dashed Lines
+		$imageColorDash			= $this->setColor( $im, $this->getOption( "color_dash" ) );
+//  set Color of Text
+//		$imageColorText			= $this->setColor( $im, $this->getOption( "color_text" ) );
+		//  set Color of Title Text
+		$imageColorTitle		= $this->setColor( $im, $this->getOption( "color_title" ) );
 		if( $this->getOption( 'transparent' ) )
-			ImageColorTransparent( $im, $imageColorBackground );											//  set Background Transparency
-		$this->drawOutlines( $im, $imageColorBars );														//  draw Outlines of Graph Image
+			//  set Background Transparency
+			ImageColorTransparent( $im, $imageColorBackground );
+		//  draw Outlines of Graph Image
+		$this->drawOutlines( $im, $imageColorBars );
 		// in case no maximum scale has been provided, calculate the maximum value reached by any of the lines
 		if( !isset( $maxValue ) )
 		{
@@ -165,7 +188,8 @@ class UI_Image_EvolutionGraph extends ADT_OptionObject
 			for( $g=0; $g<count( $this->graphs ); $g++ )
 				$maxValue	= max( $maxValue, max( $this->graphs[$g]['values'] ) );
 	//		if( isset( $maxAdjust ) )
-	//			$maxValue	+= $maxAdjust; // so that it doesn't touch the upper margin
+	// so that it doesn't touch the upper margin
+	//			$maxValue	+= $maxAdjust;
 		}
 
 		// determine the maximum height available for drawing

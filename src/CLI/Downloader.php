@@ -81,52 +81,79 @@ class CLI_Downloader
 	 */
 	public function downloadUrl( $url, $savePath = "", $force = FALSE )
 	{
-		if( getEnv( 'HTTP_HOST' ) )															//  called via Browser
+		//  called via Browser
+		if( getEnv( 'HTTP_HOST' ) )
 			die( "Usage in Console, only." );
 
-		$this->loadSize	= 0;																//  clear Size of current Load
-		$this->fileSize	= 0;																//  clear Size og File to download
+		//  clear Size of current Load
+		$this->loadSize	= 0;
+		//  clear Size og File to download
+		$this->fileSize	= 0;
 		$this->redirected	= FALSE;
 
 		if( $savePath && !file_exists( $savePath ) )
 			if( !@mkDir( $savePath, 0777, TRUE ) )
 				throw new RuntimeException( 'Save path could not been created.' );
 
-		$savePath	= $savePath ? preg_replace( "@([^/])$@", "\\1/", $savePath ) : "";		//  correct Path
-		$parts		= parse_url( $url );													//  parse URL
-		$info		= pathinfo( $parts['path'] );											//  parse Path
-		$fileName	= $info['basename'];													//  extract File Name
-		if( !$fileName )																	//  no File Name found in URL
+		//  correct Path
+		$savePath	= $savePath ? preg_replace( "@([^/])$@", "\\1/", $savePath ) : "";
+		//  parse URL
+		$parts		= parse_url( $url );
+		//  parse Path
+		$info		= pathinfo( $parts['path'] );
+		//  extract File Name
+		$fileName	= $info['basename'];
+		//  no File Name found in URL
+		if( !$fileName )
 			throw new RuntimeException( 'File Name could not be extracted.' );
 
-		$this->fileUri	= $savePath.$fileName;												//  store full File Name
-		$this->tempUri	= sys_get_temp_dir().$fileName.".part";								//  store Temp File Name
-		if( file_exists( $this->fileUri ) )													//  File already exists
+		//  store full File Name
+		$this->fileUri	= $savePath.$fileName;
+		//  store Temp File Name
+		$this->tempUri	= sys_get_temp_dir().$fileName.".part";
+		//  File already exists
+		if( file_exists( $this->fileUri ) )
 		{
-			if( !$force )																	//  force not set
+			//  force not set
+			if( !$force )
 				throw new RuntimeException( 'File "'.$this->fileUri.'" is already existing.' );
-			if( !@unlink( $this->fileUri ) )												//  remove File, because forced
+			//  remove File, because forced
+			if( !@unlink( $this->fileUri ) )
 				throw new RuntimeException( 'File "'.$this->fileUri.'" could not been cleared.' );
 		}
-		if( file_exists( $this->tempUri ) )													//  Temp File exists
-			if( !@unlink( $this->tempUri ) )												//  remove Temp File
+		//  Temp File exists
+		if( file_exists( $this->tempUri ) )
+			//  remove Temp File
+			if( !@unlink( $this->tempUri ) )
 				throw new RuntimeException( 'Temp File "'.$this->tempUri.'" could not been cleared.' );
 
-		if( $this->showFileName && $this->templateFileName )								//  show extraced File Name
-			printf( $this->templateFileName, $fileName );									//  use Template
+		//  show extraced File Name
+		if( $this->showFileName && $this->templateFileName )
+			//  use Template
+			printf( $this->templateFileName, $fileName );
 		
-		$this->clock	= new Alg_Time_Clock;												//  start clock
-		$ch = curl_init();																	//  start cURL
-		curl_setopt( $ch, CURLOPT_URL, $url );												//  set URL in cURL Handle
-		curl_setopt( $ch, CURLOPT_HEADERFUNCTION, array( $this, 'readHeader' ) );			//  set Callback Method for Headers
-		curl_setopt( $ch, CURLOPT_WRITEFUNCTION, array( $this, 'readBody' ) );				//  set Callback Method for Body
-		curl_exec( $ch );																	//  execute cURL Request
+		//  start clock
+		$this->clock	= new Alg_Time_Clock;
+		//  start cURL
+		$ch = curl_init();
+		//  set URL in cURL Handle
+		curl_setopt( $ch, CURLOPT_URL, $url );
+		//  set Callback Method for Headers
+		curl_setopt( $ch, CURLOPT_HEADERFUNCTION, array( $this, 'readHeader' ) );
+		//  set Callback Method for Body
+		curl_setopt( $ch, CURLOPT_WRITEFUNCTION, array( $this, 'readBody' ) );
+		//  execute cURL Request
+		curl_exec( $ch );
 
-		$error	= curl_error( $ch );														//  get cURL Error
-		if( $error )																		//  an Error occured
-			throw new RuntimeException( $error, curl_errno( $ch ) );						//  throw Exception with Error
+		//  get cURL Error
+		$error	= curl_error( $ch );
+		//  an Error occured
+		if( $error )
+			//  throw Exception with Error
+			throw new RuntimeException( $error, curl_errno( $ch ) );
 
-		return $this->loadSize;																//  return Number of loaded Bytes
+		//  return Number of loaded Bytes
+		return $this->loadSize;
 	}
 
 	/**
@@ -138,50 +165,77 @@ class CLI_Downloader
 	 */
 	protected function readBody( $ch, $string )
 	{
-		$length	= strlen( $string );														//  get Length of Body Chunk
-		$this->loadSize	+= $length;															//  add Length to current Load Length
+		//  get Length of Body Chunk
+		$length	= strlen( $string );
+		//  add Length to current Load Length
+		$this->loadSize	+= $length;
 
 		if( $this->redirected )
-			return $length;																	//  return Length of Header String
+			//  return Length of Header String
+			return $length;
 
-		if( $this->showProgress && $this->showProgress )									//  show Progress
+		//  show Progress
+		if( $this->showProgress && $this->showProgress )
 		{
-			$time	= $this->clock->stop( 6, 0 );											//  get current Duration
-			$rate	= $this->loadSize / $time * 1000000;									//  calculate Rate of Bytes per Second
-			$rate	= Alg_UnitFormater::formatBytes( $rate, 1 )."/s";						//  format Rate
-			if( $this->fileSize )															//  File Size is known
+			//  get current Duration
+			$time	= $this->clock->stop( 6, 0 );
+			//  calculate Rate of Bytes per Second
+			$rate	= $this->loadSize / $time * 1000000;
+			//  format Rate
+			$rate	= Alg_UnitFormater::formatBytes( $rate, 1 )."/s";
+			//  File Size is known
+			if( $this->fileSize )
 			{
-				$ratio	= $this->loadSize / $this->fileSize * 100;							//  calculate Ratio in %
-				$ratio	= str_pad( round( $ratio, 0 ), 3, " ", STR_PAD_LEFT );				//  fill Ratio with Spaces
-				$size	= Alg_UnitFormater::formatBytes( $this->loadSize, 1 );				//  format current Load Size
-				printf( $this->templateBodyRatio, $size, $rate, $ratio );					//  use Template
+				//  calculate Ratio in %
+				$ratio	= $this->loadSize / $this->fileSize * 100;
+				//  fill Ratio with Spaces
+				$ratio	= str_pad( round( $ratio, 0 ), 3, " ", STR_PAD_LEFT );
+				//  format current Load Size
+				$size	= Alg_UnitFormater::formatBytes( $this->loadSize, 1 );
+				//  use Template
+				printf( $this->templateBodyRatio, $size, $rate, $ratio );
 			}
 			else
 			{
-				$size	= Alg_UnitFormater::formatBytes( $this->loadSize, 1 );				//  format current Load Size
-				printf( $this->templateBody, $size, $rate );								//  use Template
+				//  format current Load Size
+				$size	= Alg_UnitFormater::formatBytes( $this->loadSize, 1 );
+				//  use Template
+				printf( $this->templateBody, $size, $rate );
 			}
 		}
 
-		if( $this->fileSize )																//  File Size is known from Header
-			$saveUri	= $this->tempUri;													//  save to Temp File
-		else																				//  File Size is not known
-			$saveUri	= $this->fileUri;													//  save File directly to Save Path
+		//  File Size is known from Header
+		if( $this->fileSize )
+			//  save to Temp File
+			$saveUri	= $this->tempUri;
+		//  File Size is not known
+		else
+			//  save File directly to Save Path
+			$saveUri	= $this->fileUri;
 
-		$fp	= fopen( $saveUri, "ab+" );														//  open File for appending
-		fputs( $fp, $string );																//  append Chunk Content
-		fclose( $fp );																		//  close File
+		//  open File for appending
+		$fp	= fopen( $saveUri, "ab+" );
+		//  append Chunk Content
+		fputs( $fp, $string );
+		//  close File
+		fclose( $fp );
 		
-		if( $this->fileSize && $this->fileSize == $this->loadSize )							//  File Size is known and File is complete
+		//  File Size is known and File is complete
+		if( $this->fileSize && $this->fileSize == $this->loadSize )
 		{
-			rename( $this->tempUri, $this->fileUri );										//  move Temp File to Save Path
-			if( $this->showProgress && $this->templateBodyDone )							//  show Progress
+			//  move Temp File to Save Path
+			rename( $this->tempUri, $this->fileUri );
+			//  show Progress
+			if( $this->showProgress && $this->templateBodyDone )
 			{
-				$fileName	= basename( $this->fileUri );									//  get File Name from File URI
-				printf( $this->templateBodyDone, $fileName, $size, $rate );					//  use Template
+				//  get File Name from File URI
+				$fileName	= basename( $this->fileUri );
+				//  use Template
+				printf( $this->templateBodyDone, $fileName, $size, $rate );
 			}
 		}
-		return $length;																		//  return Length of Body Chunk
+		//  return Length of Body Chunk
+		return $length;
 	}
 
 	/**
@@ -193,20 +247,30 @@ class CLI_Downloader
 	 */
 	protected function readHeader( $ch, $string )
 	{
-		$length = strlen( $string );														//  get Length of Header String
+		//  get Length of Header String
+		$length = strlen( $string );
 
-		if( !trim( $string ) )																//  trimmed Header String is empty
-			return $length;																	//  return Length of Header String
+		//  trimmed Header String is empty
+		if( !trim( $string ) )
+			//  return Length of Header String
+			return $length;
 		if( $this->redirected )
-			return $length;																	//  return Length of Header String
+			//  return Length of Header String
+			return $length;
 	
-		$parts			= split( ": ", $string );											//  split Header on Colon
-		if( count( $parts ) > 1 )															//  there has been at least one Colon
+		//  split Header on Colon
+		$parts			= split( ": ", $string );
+		//  there has been at least one Colon
+		if( count( $parts ) > 1 )
 		{
-			$header		= trim( array_shift( $parts ) );									//  Header Key is first Part
-			$content	= trim( join( ": ", $parts ) );										//  Header Content are all other Parts
-			$this->headers[$header]	= $content;												//  store splitted Header
-			if( preg_match( "@^Location$@i", $header ) )									//  Header is Redirect
+			//  Header Key is first Part
+			$header		= trim( array_shift( $parts ) );
+			//  Header Content are all other Parts
+			$content	= trim( join( ": ", $parts ) );
+			//  store splitted Header
+			$this->headers[$header]	= $content;
+			//  Header is Redirect
+			if( preg_match( "@^Location$@i", $header ) )
 			{
 				$this->redirected	= TRUE;
 				if( $this->templateRedirect )
@@ -214,11 +278,16 @@ class CLI_Downloader
 				$loader	= new CLI_Downloader();
 				$loader->downloadUrl( $content, dirname( $this->fileUri ) );
 			}
-			if( preg_match( "@^Content-Length$@i", $header ) )								//  Header is Content-Length
-				$this->fileSize	= (int) $content;											//  store Size of File to download
-			if( $this->showHeaders && $this->templateHeader)								//  show Header
-				printf( $this->templateHeader, $header, $content );							//  use Template
+			//  Header is Content-Length
+			if( preg_match( "@^Content-Length$@i", $header ) )
+				//  store Size of File to download
+				$this->fileSize	= (int) $content;
+			//  show Header
+			if( $this->showHeaders && $this->templateHeader)
+				//  use Template
+				printf( $this->templateHeader, $header, $content );
 		}
-		return $length;																		//  return Length of Header String
+		//  return Length of Header String
+		return $length;
 	}
 }

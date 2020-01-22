@@ -85,15 +85,22 @@ class FS_File_CSS_Compressor
 	}
 
 	static public function compressString( $string, $oneLine = FALSE ){
-		$string	= preg_replace( '!/\*[^*]*\*+([^/][^*]*\*+)*/!', '', $string );							//  remove comments
-		$string	= str_replace( ': ', ':', $string );													//  remove space after colons
-		$string	= str_replace( array( "\r\n", "\r", "\n", "\t", '  ', '    ' ), '', $string );			//  remove whitespace
-		$string	= preg_replace( '@\s*\{\s*@s', "{", $string );											//  remove spaces after selectors
-		$string	= preg_replace( '@\s*\}@s', "}", $string );											//  remove spaces after selectors
-		$string	= trim( $string );																		//  remove leading and trailing space
+		//  remove comments
+		$string	= preg_replace( '!/\*[^*]*\*+([^/][^*]*\*+)*/!', '', $string );
+		//  remove space after colons
+		$string	= str_replace( ': ', ':', $string );
+		//  remove whitespace
+		$string	= str_replace( array( "\r\n", "\r", "\n", "\t", '  ', '    ' ), '', $string );
+		//  remove spaces after selectors
+		$string	= preg_replace( '@\s*\{\s*@s', "{", $string );
+		//  remove spaces after selectors
+		$string	= preg_replace( '@\s*\}@s', "}", $string );
+		//  remove leading and trailing space
+		$string	= trim( $string );
 		return $string;
 
-		$string	= trim( $string );																		//  remove leading and trailing space
+		//  remove leading and trailing space
+		$string	= trim( $string );
 		
 		
 	}

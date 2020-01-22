@@ -314,16 +314,23 @@ class XML_Element extends SimpleXMLElement
 			throw new InvalidArgumentException( 'Value must be a string or NULL' );
 
 		$value	= preg_replace( "/(.*)<!\[CDATA\[(.*)\]\]>(.*)/iU", "\\1\\2\\3", $value );
-		if( $cdata || preg_match( '/&|</', $value ) )												//  string is known or detected to be CDATA
+		//  string is known or detected to be CDATA
+		if( $cdata || preg_match( '/&|</', $value ) )
 		{
-			$dom	= dom_import_simplexml( $this );												//  import node in DOM
-			$cdata	= $dom->ownerDocument->createCDATASection( $value );							//  create a new CDATA section
-			$dom->nodeValue	= "";																	//  clear node content
-			$dom->appendChild( $cdata );															//  add CDATA section
+			//  import node in DOM
+			$dom	= dom_import_simplexml( $this );
+			//  create a new CDATA section
+			$cdata	= $dom->ownerDocument->createCDATASection( $value );
+			//  clear node content
+			$dom->nodeValue	= "";
+			//  add CDATA section
+			$dom->appendChild( $cdata );
 		}
-		else 																						//  normal node content
+		//  normal node content
+		else
 		{
-			dom_import_simplexml( $this )->nodeValue	= $value;									//  set node content
+			//  set node content
+			dom_import_simplexml( $this )->nodeValue	= $value;
 		}
 	}
 }

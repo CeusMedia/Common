@@ -25,8 +25,10 @@
  *
  * http://groups.google.com/group/php-standards/web/psr-0-final-proposal?pli=1
  *
- *     // Example which loads classes for the Doctrine Common package in the
- *     // Doctrine\Common namespace.
+ // Example which loads classes for the Doctrine Common package in the
+ * 
+ // Doctrine\Common namespace.
+ * 
  *     $classLoader = new SplClassLoader('Doctrine\Common', '/path/to/doctrine');
  *     $classLoader->register();
  *

@@ -96,11 +96,15 @@ class Alg_Object_MethodFactory
 		if( !is_object( $object ) )
 			throw new InvalidArgumentException( 'Invalid object' );
 
-		$reflection	= new ReflectionObject( $object );												//  get Object Reflection
-		if( $checkMethod && !$reflection->hasMethod( $methodName ) )								//  called Method is not existing
+		//  get Object Reflection
+		$reflection	= new ReflectionObject( $object );
+		//  called Method is not existing
+		if( $checkMethod && !$reflection->hasMethod( $methodName ) )
 		{
-			$message	= 'Method '.$reflection->getName().'::'.$methodName.' is not existing';		//  prepare Exception Message
-			throw new BadMethodCallException( $message );											//  throw Exception
+			//  prepare Exception Message
+			$message	= 'Method '.$reflection->getName().'::'.$methodName.' is not existing';
+			//  throw Exception
+			throw new BadMethodCallException( $message );
 		}
 
 		if( $reflection->hasMethod( $methodName ) )
@@ -115,9 +119,13 @@ class Alg_Object_MethodFactory
 			);
 		}
 		if( $allowProtected && version_compare( PHP_VERSION, '5.3.2' ) >= 0 )
-			$method->setAccessible( TRUE );															//  @see http://php.net/manual/de/reflectionmethod.setaccessible.php
-		if( $parameters )																			//  if Method Parameters are set
-			return $method->invokeArgs( $object, $parameters );										//  invoke Method with Parameters
-		return $method->invoke( $object );															//  else invoke Method without Parameters
+			//  @see http://php.net/manual/de/reflectionmethod.setaccessible.php
+			$method->setAccessible( TRUE );
+		//  if Method Parameters are set
+		if( $parameters )
+			//  invoke Method with Parameters
+			return $method->invokeArgs( $object, $parameters );
+		//  else invoke Method without Parameters
+		return $method->invoke( $object );
 	}
 }

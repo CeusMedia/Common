@@ -54,7 +54,8 @@ class XML_Atom_Parser
 		'author'		=> array(),
 		'category'		=> array(),
 		'contributor'	=> array(),
-		'generator' 	=> array(),								//  will be set to emptyGenerator by Parser								
+		//  will be set to emptyGenerator by Parser								
+		'generator' 	=> array(),
 		'icon'			=> "",
 		'id'			=> "",
 		'link'			=> array(),
@@ -69,15 +70,19 @@ class XML_Atom_Parser
 	protected $emptyEntry		= array(
 		'author'		=> array(),
 		'category'		=> array(),
-		'content'		=> array(),								//  will be set to emptyText by Constructor
+		//  will be set to emptyText by Constructor
+		'content'		=> array(),
 		'contributor'	=> array(),
 		'id'			=> "",
 		'link'			=> array(),
 		'published'		=> "",
 		'rights'		=> "",
-		'source'		=> array(),								//  will be set to emptyText by Constructor
-		'summary'		=> array(),								//  will be set to emptyText by Constructor
-		'title'			=> array(),								//  will be set to emptyText by Constructor
+		//  will be set to emptyText by Constructor
+		'source'		=> array(),
+		//  will be set to emptyText by Constructor
+		'summary'		=> array(),
+		//  will be set to emptyText by Constructor
+		'title'			=> array(),
 		'updated'		=> "",
 	);
 	/**	@var		array		$emptyChannelData	Template of empty Generator Data Structure */

@@ -73,13 +73,16 @@ class ADT_URL_Inference extends ADT_URL
 	{
 		$mapRequest	= $_GET;
 
-		foreach( $mapSet as $key => $value )											// overwriting vars
+		// overwriting vars
+		foreach( $mapSet as $key => $value )
 			$mapRequest[$key] = $value;
 
-		foreach( $listRemove as $key )													// unsetting vars
+		// unsetting vars
+		foreach( $listRemove as $key )
 			unset( $mapRequest[$key] );	
 
-		return http_build_query( $mapRequest, "test_", $this->separator );				// making link parameter string
+		// making link parameter string
+		return http_build_query( $mapRequest, "test_", $this->separator );
 	}
 		
 	/**
@@ -95,13 +98,16 @@ class ADT_URL_Inference extends ADT_URL
 	{
 		$mapRequest	= $_GET;
 
-		foreach( $mapSet as $key => $value )											// overwriting vars
+		// overwriting vars
+		foreach( $mapSet as $key => $value )
 			$mapRequest[$key] = $value;
 
-		foreach( $listRemove as $key )													// unsetting vars
+		// unsetting vars
+		foreach( $listRemove as $key )
 			unset( $mapRequest[$key] );	
 
-		return http_build_query( $mapRequest, "", self::$staticSeparator );		// making link parameter string
+		// making link parameter string
+		return http_build_query( $mapRequest, "", self::$staticSeparator );
 	}
 	
 	/**

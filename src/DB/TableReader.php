@@ -199,19 +199,28 @@ class DB_TableReader
 	protected function getConditionQuery( $conditions, $usePrimary = TRUE, $useForeign = TRUE )
 	{
 		$new = array();
-		foreach( $this->fields as $field )									//  iterate all Fields
-			if( isset( $conditions[$field] ) )								//  if Condition given
-				$new[$field] = $conditions[$field];							//  note Condition Pair
-		if( $useForeign && count( $this->foreignFocuses ) )					//  if using Foreign Keys
-			foreach( $this->foreignFocuses as $key => $value )				//  iterate focused Foreign Keys & is focused Foreign
-				$new[$key] = $value; 										//  note foreign Key Pair
+		//  iterate all Fields
+		foreach( $this->fields as $field )
+			//  if Condition given
+			if( isset( $conditions[$field] ) )
+				//  note Condition Pair
+				$new[$field] = $conditions[$field];
+		//  if using Foreign Keys
+		if( $useForeign && count( $this->foreignFocuses ) )
+			//  iterate focused Foreign Keys & is focused Foreign
+			foreach( $this->foreignFocuses as $key => $value )
+				//  note foreign Key Pair
+				$new[$key] = $value;
 
-		if( $usePrimary && $this->isFocused() == 'primary' )				//  if using foreign Keys & is focused primary
-			$new[$this->focusKey] = $this->focus;							//  note primary Key Pair
+		//  if using foreign Keys & is focused primary
+		if( $usePrimary && $this->isFocused() == 'primary' )
+			//  note primary Key Pair
+			$new[$this->focusKey] = $this->focus;
 
 		$pattern	= '/^(<=|>=|<|>|!=)(.+)/';
 		$conditions = array();
-		foreach( $new as $key => $value )									//  iterate all noted Pairs
+		//  iterate all noted Pairs
+		foreach( $new as $key => $value )
 		{
 			$operation	= ' = ';
 			if( preg_match( '/%/', $value ) )
@@ -228,9 +237,11 @@ class DB_TableReader
 				$key	= addslashes( $key );
 				$value	= addslashes( $value );
 			}
-			$conditions[] = '`'.$key.'`'.$operation."'".$value."'";			//  create SQL WHERE Condition
+			//  create SQL WHERE Condition
+			$conditions[] = '`'.$key.'`'.$operation."'".$value."'";
 		}
-		$conditions = implode( ' AND ', $conditions );						//  combine Conditions with AND
+		//  combine Conditions with AND
+		$conditions = implode( ' AND ', $conditions );
 		return $conditions;
 	}
 

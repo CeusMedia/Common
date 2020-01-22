@@ -45,10 +45,14 @@ class Net_HTTP_Session extends ADT_List_Dictionary
 	 */
 	public function __construct( $sessionName = "sid", $domain = NULL )
 	{
-		session_name( $sessionName );											//  set session cookie name
-		if( strlen( trim( $domain ) ) )											//  a domain has been specified
-			ini_set( 'session.cookie_domain', trim( strtolower( $domain ) ) );	//  set cookie domain
-		@session_start();														//  start cookie handler
+		//  set session cookie name
+		session_name( $sessionName );
+		//  a domain has been specified
+		if( strlen( trim( $domain ) ) )
+			//  set cookie domain
+			ini_set( 'session.cookie_domain', trim( strtolower( $domain ) ) );
+		//  start cookie handler
+		@session_start();
 		$this->pairs =& $_SESSION;
 	}
 

@@ -83,12 +83,18 @@ class CLI_Color{
 		$reset			= "\033[0m";
 		$fgColor		= '';
 		$bgColor		= '';
-		if( isset( static::$foregroundColors[$foregroundColor] ) )									//  check if given foreground color is valid
-			$fgColor	= "\033[".static::$foregroundColors[$foregroundColor]."m";					//  set foreground color code
-		if( isset( static::$backgroundColors[$backgroundColor] ) )									//  check if given background color is valid
-			$bgColor	= "\033[".static::$backgroundColors[$backgroundColor]."m";					//  set background color code
-		$string			= str_replace( $reset, $reset.$fgColor.$bgColor, $string );					//  continue colors after resets in string
-		return $fgColor.$bgColor.$string.$reset;													//  add string and end coloring
+		//  check if given foreground color is valid
+		if( isset( static::$foregroundColors[$foregroundColor] ) )
+			//  set foreground color code
+			$fgColor	= "\033[".static::$foregroundColors[$foregroundColor]."m";
+		//  check if given background color is valid
+		if( isset( static::$backgroundColors[$backgroundColor] ) )
+			//  set background color code
+			$bgColor	= "\033[".static::$backgroundColors[$backgroundColor]."m";
+		//  continue colors after resets in string
+		$string			= str_replace( $reset, $reset.$fgColor.$bgColor, $string );
+		//  add string and end coloring
+		return $fgColor.$bgColor.$string.$reset;
 	}
 
 	public function colorize256( $string, $foregroundColor = NULL, $backgroundColor = NULL ){
@@ -96,11 +102,15 @@ class CLI_Color{
 		$fgColor		= '';
 		$bgColor		= '';
 		if( !is_null( $foregroundColor ) )
-			$fgColor	= "\033[38;5;".$foregroundColor."m";										//  set foreground color code
+			//  set foreground color code
+			$fgColor	= "\033[38;5;".$foregroundColor."m";
 		if( !is_null( $backgroundColor ) )
-			$bgColor	= "\033[48;5;".$backgroundColor."m";										//  set background color code
-		$string			= str_replace( $reset, $reset.$fgColor.$bgColor, $string );					//  continue colors after resets in string
-		return $fgColor.$bgColor.$string.$reset;													//  add string and end coloring
+			//  set background color code
+			$bgColor	= "\033[48;5;".$backgroundColor."m";
+		//  continue colors after resets in string
+		$string			= str_replace( $reset, $reset.$fgColor.$bgColor, $string );
+		//  add string and end coloring
+		return $fgColor.$bgColor.$string.$reset;
 	}
 
 	// Returns all foreground color names

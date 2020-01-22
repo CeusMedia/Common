@@ -45,22 +45,32 @@ class FS_Folder_CodeLineCounter
 	
 	public function getData( $key = NULL )
 	{
-		if( !$this->data )															//  no Folder scanned yet
+		//  no Folder scanned yet
+		if( !$this->data )
 			throw new RuntimeException( 'Please read a Folder first.' );
-		if( !$key )																	//  no Key set
-			return $this->data;														//  return complete Data Array
+		//  no Key set
+		if( !$key )
+			//  return complete Data Array
+			return $this->data;
 			
-		$prefix	= substr( strtolower( $key ), 0, 5 );								//  extract possible Key Prefix
-		if( in_array( $prefix, array_keys( $this->data ) ) )						//  Prefix is valid
+		//  extract possible Key Prefix
+		$prefix	= substr( strtolower( $key ), 0, 5 );
+		//  Prefix is valid
+		if( in_array( $prefix, array_keys( $this->data ) ) )
 		{
-			$key	= substr( $key, 5 );											//  extract Key without Prefix
-			if( !array_key_exists( $this->data[$prefix] ) )							//  invalid Key
+			//  extract Key without Prefix
+			$key	= substr( $key, 5 );
+			//  invalid Key
+			if( !array_key_exists( $this->data[$prefix] ) )
 				throw new InvalidArgumentException( 'Invalid Data Key.' );
-			return $this->data[$prefix][$key];										//  return Value for prefixed Key
+			//  return Value for prefixed Key
+			return $this->data[$prefix][$key];
 		}
-		else if( !array_key_exists( $key, $this->data[$prefix] ) )					//  prefixless Key is invalid
+		//  prefixless Key is invalid
+		else if( !array_key_exists( $key, $this->data[$prefix] ) )
 			throw new InvalidArgumentException( 'Invalid Data Key.' );
-		return $this->data[$key];													//  return Value for prefixless Key
+		//  return Value for prefixless Key
+		return $this->data[$key];
 	}
 
 	/**

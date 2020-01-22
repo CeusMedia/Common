@@ -52,7 +52,8 @@ abstract class CLI_Fork_Abstract{
 	protected function cleanUpForks() {
 		if( pcntl_wait($status, WNOHANG OR WUNTRACED) < 1 ) {
 			foreach($this->pids as $nr => $pid) {
-				if(!posix_kill($pid, 0)) {									// This detects if the child is still running or not
+				// This detects if the child is still running or not
+				if(!posix_kill($pid, 0)) {
 					unset($this->pids[$nr]);
 				}
 			}
@@ -65,14 +66,17 @@ abstract class CLI_Fork_Abstract{
 		if($pid == -1) {
 			throw new RuntimeException('Could not fork');
 		}
-		if($pid) {																// parent process runs what is here
+		// parent process runs what is here
+		if($pid) {
 			$this->runInParent($arguments);
 			if($this->isBlocking)
-				pcntl_waitpid($pid, $status, WUNTRACED);						// wait until the child has finished processing then end the script
+				// wait until the child has finished processing then end the script
+				pcntl_waitpid($pid, $status, WUNTRACED);
 			else
 				$this->pids[]	= $pid;
 		}
-		else {																	// child process runs what is here
+		// child process runs what is here
+		else {
 			return $this->runInChild($arguments);
 		}
 		if(!$this->isBlocking)

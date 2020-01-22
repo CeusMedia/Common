@@ -108,16 +108,20 @@ class UI_Image_Captcha
 			$angle	= 0;
 			if( $this->angle )
 			{
-				$rand	= 2 * rand() / getrandmax() - 1;											//  randomize Float between -1 and 1
-				$angle	= round( $rand * $this->angle, 0 );											//  calculate rounded Angle
+				//  randomize Float between -1 and 1
+				$rand	= 2 * rand() / getrandmax() - 1;
+				//  calculate rounded Angle
+				$angle	= round( $rand * $this->angle, 0 );
 			}
 
 			//  --  POSITION X  --  //
 			$offset	= 0;
 			if( $this->offsetX )
 			{
-				$rand	= 2 * rand() / getrandmax() - 1;											//  randomize Float between -1 and 1
-				$offset	= round( $rand * $this->offsetX, 0 );										//  calculate rounded Offset
+				//  randomize Float between -1 and 1
+				$rand	= 2 * rand() / getrandmax() - 1;
+				//  calculate rounded Offset
+				$offset	= round( $rand * $this->offsetX, 0 );
 			}
 			$posX	= $i * 20 + $offset + 10;
 
@@ -125,8 +129,10 @@ class UI_Image_Captcha
 			$offset	= 0;
 			if( $this->offsetY )
 			{
-				$rand	= 2 * rand() / getrandmax() - 1;											//  randomize Float between -1 and 1
-				$offset	= round( $rand * $this->offsetY, 0 );										//  calculate rounded Offset
+				//  randomize Float between -1 and 1
+				$rand	= 2 * rand() / getrandmax() - 1;
+				//  calculate rounded Offset
+				$offset	= round( $rand * $this->offsetY, 0 );
 			}
 			$posY	= $offset + round( $this->height / 2, 0 ) + 5;
 

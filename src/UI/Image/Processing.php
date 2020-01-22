@@ -93,7 +93,8 @@ class UI_Image_Processing
 		$image->setType( $this->image->getType() );
 
 		imagecopy( $image->getResource(), $this->image->getResource(), 0, 0, $startX, $startY, $width, $height );
-		$this->image->setResource( $image->getResource() );											//  replace held image resource object by result
+		//  replace held image resource object by result
+		$this->image->setResource( $image->getResource() );
 		return TRUE;
 	}
 
@@ -126,7 +127,8 @@ class UI_Image_Processing
 				0 - $width, $height
 			);
 		}
-		$this->image->setResource( $image->getResource() );											//  replace held image resource object by result
+		//  replace held image resource object by result
+		$this->image->setResource( $image->getResource() );
 		return TRUE;
 	}
 
@@ -162,18 +164,27 @@ class UI_Image_Processing
 		$image->create( $width, $height );
 		$image->setType( $this->image->getType() );
 
-		$parameters	= array_merge(																	//  combine parameters from:
-			array( $image->getResource(), $this->image->getResource() ),							//  target and source resources
-			array( 0, 0, 0, 0 ),																	//  target and source start coordinates
-			array( $width, $height ),																//  target width and height
-			array( $this->image->getWidth(), $this->image->getHeight() )							//  source width and height
+		//  combine parameters from:
+		$parameters	= array_merge(
+			//  target and source resources
+			array( $image->getResource(), $this->image->getResource() ),
+			//  target and source start coordinates
+			array( 0, 0, 0, 0 ),
+			//  target width and height
+			array( $width, $height ),
+			//  source width and height
+			array( $this->image->getWidth(), $this->image->getHeight() )
 		);
 
-		$function = $interpolate ? 'imagecopyresampled' : 'imagecopyresized';						//  function to use depending on interpolation
-		$reflection	= new ReflectionFunction( $function );											//  reflect function
-		$reflection->invokeArgs( $parameters );														//  call function with parameters
+		//  function to use depending on interpolation
+		$function = $interpolate ? 'imagecopyresampled' : 'imagecopyresized';
+		//  reflect function
+		$reflection	= new ReflectionFunction( $function );
+		//  call function with parameters
+		$reflection->invokeArgs( $parameters );
 
-		$this->image->setResource( $image->getResource() );											//  replace held image resource object by result
+		//  replace held image resource object by result
+		$this->image->setResource( $image->getResource() );
 		return TRUE;
 	}
 

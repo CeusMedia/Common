@@ -122,10 +122,13 @@ class Alg_Object_EventHandler
 		foreach( $this->callbacks[$eventName] as $callback )
 		{
 			extract( $callback );
-			$factory	= new Alg_Object_MethodFactory;												//  build a new Method Factory
+			//  build a new Method Factory
+			$factory	= new Alg_Object_MethodFactory;
 			$factory->callObjectMethod( $object, $methodName, $methodParameters );
-			$counter++;																				//  increase Callback Counter
-			$this->counter++;																		//  increase total Callback Counter
+			//  increase Callback Counter
+			$counter++;
+			//  increase total Callback Counter
+			$this->counter++;
 		}
 		return $counter;
 	}

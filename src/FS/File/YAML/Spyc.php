@@ -804,7 +804,8 @@ class FS_File_YAML_Spyc {
 
     $i++;
     if ($i > 10)
-      break; // Prevent infinite loops.
+      // Prevent infinite loops.
+      break;
     }
 
 
@@ -851,7 +852,8 @@ class FS_File_YAML_Spyc {
     $value = isset($incoming_data[$key]) ? $incoming_data[$key] : null;
     if ($key === '__!YAMLZero') $key = '0';
 
-    if ($incoming_indent == 0 && !$this->_containsGroupAlias && !$this->_containsGroupAnchor) { // Shortcut for root-level values.
+    // Shortcut for root-level values.
+    if ($incoming_indent == 0 && !$this->_containsGroupAlias && !$this->_containsGroupAnchor) {
       if ($key || $key === '' || $key === '0') {
         $this->result[$key] = $value;
       } else {
@@ -1102,7 +1104,8 @@ class FS_File_YAML_Spyc {
 
 
   private function returnArrayElement ($line) {
-     if (strlen($line) <= 1) return array(array()); // Weird %)
+     // Weird %)
+     if (strlen($line) <= 1) return array(array());
      $array = array();
      $value   = trim(substr($line,1));
      $value   = $this->_toType($value);
@@ -1116,7 +1119,8 @@ class FS_File_YAML_Spyc {
 
   private function nodeContainsGroup ($line) {
     $symbolsForReference = 'A-z0-9_\-';
-    if (strpos($line, '&') === false && strpos($line, '*') === false) return false; // Please die fast ;-)
+    // Please die fast ;-)
+    if (strpos($line, '&') === false && strpos($line, '*') === false) return false;
     if ($line[0] == '&' && preg_match('/^(&['.$symbolsForReference.']+)/', $line, $matches)) return $matches[1];
     if ($line[0] == '*' && preg_match('/^(\*['.$symbolsForReference.']+)/', $line, $matches)) return $matches[1];
     if (preg_match('/(&['.$symbolsForReference.']+)$/', $line, $matches)) return $matches[1];

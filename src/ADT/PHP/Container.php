@@ -60,11 +60,15 @@ class ADT_PHP_Container
 		$category	= $relatedArtefact->getCategory();
 		$package	= $relatedArtefact->getPackage();
 
-		if( isset( $list[$category][$package] ) )													//  found Class in same Category same Package
-			return $list[$category][$package];														//  return Data Object of Class
+		//  found Class in same Category same Package
+		if( isset( $list[$category][$package] ) )
+			//  return Data Object of Class
+			return $list[$category][$package];
 
-		if( isset( $list[$category] ) )																//  found Class in same Category but different Package
-			return array_shift( $list[$category] );													//  this is a Guess: return Data Object of guessed Class
+		//  found Class in same Category but different Package
+		if( isset( $list[$category] ) )
+			//  this is a Guess: return Data Object of guessed Class
+			return array_shift( $list[$category] );
 
 		$firstCategory	= array_shift( $list );
 		return array_shift( $firstCategory );
@@ -118,11 +122,15 @@ class ADT_PHP_Container
 		$category	= $relatedArtefact->getCategory();
 		$package	= $relatedArtefact->getPackage();
 
-		if( isset( $list[$category][$package] ) )													//  found Interface in same Category same Package
-			return $list[$category][$package];														//  return Data Object of Interface
+		//  found Interface in same Category same Package
+		if( isset( $list[$category][$package] ) )
+			//  return Data Object of Interface
+			return $list[$category][$package];
 
-		if( isset( $list[$category] ) )																//  found Interface in same Category but different Package
-			return array_shift( $list[$category] );													//  this is a Guess: return Data Object of guessed Interface
+		//  found Interface in same Category but different Package
+		if( isset( $list[$category] ) )
+			//  this is a Guess: return Data Object of guessed Interface
+			return array_shift( $list[$category] );
 
 		return array_shift( array_shift( $list ) );
 	}

@@ -44,7 +44,8 @@ class FS_File_Backup{
 
 	public function __construct( $filePath, $preserveTimestamp = TRUE, $keepOnlyOne = FALSE ){
 		if( !file_exists( $filePath ) )
-			throw new RuntimeException( 'File "'.$filePath.'" is not existing' );				//  @todo: better an IO exception
+			//  @todo: better an IO exception
+			throw new RuntimeException( 'File "'.$filePath.'" is not existing' );
 		$this->filePath	= $filePath;
 		$this->preserveTimestamp	= $preserveTimestamp;
 		$this->keepOnlyOne			= $keepOnlyOne;
@@ -162,8 +163,10 @@ class FS_File_Backup{
 	}
 
 	public function store( $removeOriginal = FALSE){
-		$version	= $this->getVersion( $this->filePath );											//  get current backup version
-		$version	= !$this->keepOnlyOne ? ( is_int( $version ) ? $version + 1 : 0 ) : 0;			//  increase version if any backups exist
+		//  get current backup version
+		$version	= $this->getVersion( $this->filePath );
+		//  increase version if any backups exist
+		$version	= !$this->keepOnlyOne ? ( is_int( $version ) ? $version + 1 : 0 ) : 0;
 		$filePath	= $this->getVersionFilename( $version );
 		if( !@copy( $this->filePath, $filePath ) ){
 			throw new RuntimeException( 'Storing backup into file '.$filePath.' failed' );

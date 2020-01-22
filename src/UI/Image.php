@@ -299,8 +299,10 @@ class UI_Image
 			default:
 				throw new Exception( 'Image type "'.$type.'" is no supported' );
 		}
-		if( $fileName === $this->fileName )															//  if saved to same file
-			$this->load( $this->fileName );															//  reload image
+		//  if saved to same file
+		if( $fileName === $this->fileName )
+			//  reload image
+			$this->load( $this->fileName );
 	}
 
 	public function setQuality( $quality ){
@@ -327,8 +329,10 @@ class UI_Image
 		if( function_exists( 'imageantialias' ) )
 			imageantialias( $this->resource, TRUE );
 
-		imagealphablending( $this->resource, FALSE );											//  disable alpha blending in favour to
-		imagesavealpha( $this->resource, TRUE );											//  copying the complete alpha channel
+		//  disable alpha blending in favour to
+		imagealphablending( $this->resource, FALSE );
+		//  copying the complete alpha channel
+		imagesavealpha( $this->resource, TRUE );
 	}
 
 	public function setTransparentColor( $red, $green, $blue, $alpha = 0 ){

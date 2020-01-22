@@ -89,34 +89,52 @@ class UI_HTML_Tree_FolderCheckView
 	{
 		if( !$pathRoot )
 			$pathRoot	= $path;
-		$list	= array();																			//  empty Array for current Level Items
-		$lister	= new FS_Folder_Lister( $path );														//  create Lister for Folder Contents
-		$lister->showFolders( $this->showFolders );													//  switch Folders Visibility
-		$lister->showFiles( $this->showFiles );														//  switch Files Visibility
-		$index	= $lister->getList();																//  get Iterator
-		foreach( $index as $item )																	//  iterate current Path
+		//  empty Array for current Level Items
+		$list	= array();
+		//  create Lister for Folder Contents
+		$lister	= new FS_Folder_Lister( $path );
+		//  switch Folders Visibility
+		$lister->showFolders( $this->showFolders );
+		//  switch Files Visibility
+		$lister->showFiles( $this->showFiles );
+		//  get Iterator
+		$index	= $lister->getList();
+		//  iterate current Path
+		foreach( $index as $item )
 		{
 			$ignore		= FALSE;
-			$path		= str_replace( "\\", "/", $item->getPathname() );							//  correct Slashes on Windows
-			$path		= substr( $path, strlen( $this->path ) );									//  remove Tree Root Path
+			//  correct Slashes on Windows
+			$path		= str_replace( "\\", "/", $item->getPathname() );
+			//  remove Tree Root Path
+			$path		= substr( $path, strlen( $this->path ) );
 			foreach( $this->ignorePatterns as $pattern )
 				if( preg_match( '@^'.$pattern.'$@', $path ) )
 					$ignore	= TRUE;
 			if( $ignore	)
 				continue;
 			$label		= $item->getFilename();
-			$sublist	= "";																		//  empty Sublist
-			if( $item->isDir() )																	//  current Path has Folders
-				$sublist	= $this->buildRecursive( $item->getPathname(), $level + 1, $pathRoot );	//  call Method for nested Folder
-			$state		= $this->selected ? in_array( $path, $this->selected ) : TRUE;				//  current Item is set to be selected or no presets at all 
-			$check		= UI_HTML_FormElements::CheckBox( $this->inputName.'[]', $path, $state );				//  build Checkbox
-			$span		= UI_HTML_Tag::create( 'span', $check.$label );				//  build Label
-			$item		= UI_HTML_Elements::ListItem( $span.$sublist, $level );						//  build List Item
-			$list[$label]		= $item;																	//  append to List
+			//  empty Sublist
+			$sublist	= "";
+			//  current Path has Folders
+			if( $item->isDir() )
+				//  call Method for nested Folder
+				$sublist	= $this->buildRecursive( $item->getPathname(), $level + 1, $pathRoot );
+			//  current Item is set to be selected or no presets at all 
+			$state		= $this->selected ? in_array( $path, $this->selected ) : TRUE;
+			//  build Checkbox
+			$check		= UI_HTML_FormElements::CheckBox( $this->inputName.'[]', $path, $state );
+			//  build Label
+			$span		= UI_HTML_Tag::create( 'span', $check.$label );
+			//  build List Item
+			$item		= UI_HTML_Elements::ListItem( $span.$sublist, $level );
+			//  append to List
+			$list[$label]		= $item;
 		}
 		ksort( $list );
-		$list	= $list ? UI_HTML_Elements::unorderedList( $list, $level ) : "";					//  build List
-		return $list;																				//  return List of this Level
+		//  build List
+		$list	= $list ? UI_HTML_Elements::unorderedList( $list, $level ) : "";
+		//  return List of this Level
+		return $list;
 	}
 
 	/**
@@ -129,21 +147,34 @@ class UI_HTML_Tree_FolderCheckView
 	 */
 	public function buildScript( $options = array(), $treeviewOptions = NULL )
 	{
-		if( !$this->id )																			//  no ID bound to Tree HTML Code
-			return "";																				//  no Plugin Call
-		$default	= array();																		//  Options of 'cmCheckTree' by default
-		foreach( $options as $key => $value )														//  iterate custom Options
+		//  no ID bound to Tree HTML Code
+		if( !$this->id )
+			//  no Plugin Call
+			return "";
+		//  Options of 'cmCheckTree' by default
+		$default	= array();
+		//  iterate custom Options
+		foreach( $options as $key => $value )
 		{
-			if( is_null( $value ) )																	//  Key is set but Value is empty
-				unset( $default[$key] );															//  remove Option at all
-			else																					//  otherwise
-				$default[$key]	= $value;															//  overwrite Options default Value
+			//  Key is set but Value is empty
+			if( is_null( $value ) )
+				//  remove Option at all
+				unset( $default[$key] );
+			//  otherwise
+			else
+				//  overwrite Options default Value
+				$default[$key]	= $value;
 		}
-		$id		= "#".$this->id;																	//  shortcut of ID
-		$script	= UI_HTML_JQuery::buildPluginCall( "cmCheckTree", $id, $default );					//  build JavaScript Plugin Call
-		if( is_array( $treeviewOptions ) )															//  also Treeview Options are given -> add Plugin
-			$script	.= UI_HTML_JQuery::buildPluginCall( "treeview", $id, $treeviewOptions );		//  add Treeview Plugin Call
-		return $script;																				//  return build JavaScript
+		//  shortcut of ID
+		$id		= "#".$this->id;
+		//  build JavaScript Plugin Call
+		$script	= UI_HTML_JQuery::buildPluginCall( "cmCheckTree", $id, $default );
+		//  also Treeview Options are given -> add Plugin
+		if( is_array( $treeviewOptions ) )
+			//  add Treeview Plugin Call
+			$script	.= UI_HTML_JQuery::buildPluginCall( "treeview", $id, $treeviewOptions );
+		//  return build JavaScript
+		return $script;
 	}
 	
 	/**
@@ -155,12 +186,18 @@ class UI_HTML_Tree_FolderCheckView
 	 */
 	public function buildTree()
 	{
-		if( !$this->path )																			//  no Path to read is set
-			throw new RuntimeException( 'No path set' );											//  exit
-		$tree	= $this->buildRecursive( $this->path );												//  build HTML Tree recursively
-		if( $this->id )																				//  an ID for Tree is set
-			$tree	= UI_HTML_Tag::create( 'div', $tree, array( 'id' => $this->id ) );				//  wrap Tree in DIV with ID
-		return $tree;																				//  return finished HTML Tree
+		//  no Path to read is set
+		if( !$this->path )
+			//  exit
+			throw new RuntimeException( 'No path set' );
+		//  build HTML Tree recursively
+		$tree	= $this->buildRecursive( $this->path );
+		//  an ID for Tree is set
+		if( $this->id )
+			//  wrap Tree in DIV with ID
+			$tree	= UI_HTML_Tag::create( 'div', $tree, array( 'id' => $this->id ) );
+		//  return finished HTML Tree
+		return $tree;
 	}
 
 	/**

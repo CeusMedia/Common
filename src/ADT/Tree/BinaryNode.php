@@ -107,10 +107,14 @@ class ADT_Tree_BinaryNode
 	 */
 	public function getHeight()
 	{
-		$left_height	= $this->left  ? $this->left->getHeight()  : 0;		//  Rekursiver Aufruf des linken Teilbaumes
-		$right_height	= $this->right ? $this->right->getHeight() : 0;		//  Rekursiver Aufruf des rechten Teilbaumes
-		$height = max( $left_height, $right_height ); 						//  Vergleichen welcher der beiden Teilbäume höher ist
-		$height++;															//  Höhe hochzählen
+		//  Rekursiver Aufruf des linken Teilbaumes
+		$left_height	= $this->left  ? $this->left->getHeight()  : 0;
+		//  Rekursiver Aufruf des rechten Teilbaumes
+		$right_height	= $this->right ? $this->right->getHeight() : 0;
+		//  Vergleichen welcher der beiden Teilbäume höher ist
+		$height = max( $left_height, $right_height );
+		//  Höhe hochzählen
+		$height++;
 		return $height;
 	}
 

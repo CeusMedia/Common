@@ -72,71 +72,111 @@ class Alg_Parcel_Packer
 	 */
 	public function calculatePackage( $articleList )
 	{
-		$this->packetList	= array();																	//  reset Packet List
+		//  reset Packet List
+		$this->packetList	= array();
 
-		foreach( $articleList as $name => $quantity )													//  iterate Article List
-			if( !$quantity )																			//  and remove all Articles
-				unset( $articleList[$name] );															//  without Quantity
-		while( $articleList )																			//  iterate Article List
+		//  iterate Article List
+		foreach( $articleList as $name => $quantity )
+			//  and remove all Articles
+			if( !$quantity )
+				//  without Quantity
+				unset( $articleList[$name] );
+		//  iterate Article List
+		while( $articleList )
 		{
 			//  --  ADD FIRST PACKET  --  //
-			$largestArticle	= $this->getLargestArticle( $articleList );									//  get Largest Article in List
-			if( !count( $this->packetList ) )															//  no Packets yet in Packet List
+			//  get Largest Article in List
+			$largestArticle	= $this->getLargestArticle( $articleList );
+			//  no Packets yet in Packet List
+			if( !count( $this->packetList ) )
 			{
-				$packetName	= $this->getNameOfSmallestPacketForArticle( $largestArticle );				//  get smallest Packet Type for Article
-				$packet		= $this->factory->produce( $packetName, array( $largestArticle => 1 ) );	//  put Article in new Packet
-				$this->packetList[]	= $packet;															//  add Packet to Packet List
-				$this->removeArticleFromList( $articleList, $largestArticle );							//  remove Article from Article List
-				continue;																				//  step to next Article
+				//  get smallest Packet Type for Article
+				$packetName	= $this->getNameOfSmallestPacketForArticle( $largestArticle );
+				//  put Article in new Packet
+				$packet		= $this->factory->produce( $packetName, array( $largestArticle => 1 ) );
+				//  add Packet to Packet List
+				$this->packetList[]	= $packet;
+				//  remove Article from Article List
+				$this->removeArticleFromList( $articleList, $largestArticle );
+				//  step to next Article
+				continue;
 			}
 
 			//  --  FILL PACKET  --  //
 			$found = false;																				//
-			for( $i=0; $i<count( $this->packetList ); $i++ )											//  iterate Packets in Packet List
+			//  iterate Packets in Packet List
+			for( $i=0; $i<count( $this->packetList ); $i++ )
 			{
-				$packet	= $this->getPacket( $i );														//  get current Packet
-				$articleVolume	= $this->volumes[$packet->getName()][$largestArticle];						//  get Article Volume in this Packet
-				if( $packet->hasVolumeLeft( $articleVolume ) )											//  check if Article will fit in Packet
+				//  get current Packet
+				$packet	= $this->getPacket( $i );
+				//  get Article Volume in this Packet
+				$articleVolume	= $this->volumes[$packet->getName()][$largestArticle];
+				//  check if Article will fit in Packet
+				if( $packet->hasVolumeLeft( $articleVolume ) )
 				{
-					$packet->addArticle( $largestArticle, $articleVolume );								//  put Article in Packet
-					$found	= $this->removeArticleFromList( $articleList, $largestArticle );			//  remove Article From Article List
-					break;																				//  break Packet Loop
+					//  put Article in Packet
+					$packet->addArticle( $largestArticle, $articleVolume );
+					//  remove Article From Article List
+					$found	= $this->removeArticleFromList( $articleList, $largestArticle );
+					//  break Packet Loop
+					break;
 				}
 			}
-			if( $found )																				//  Article has been put into a Packet
-				continue;																				//  step to next Article
+			//  Article has been put into a Packet
+			if( $found )
+				//  step to next Article
+				continue;
 
 			//  --  RESIZE PACKET  --  //
-			for( $i=0; $i<count( $this->packetList ); $i++ )											//  iterate Packets in Packet List
+			//  iterate Packets in Packet List
+			for( $i=0; $i<count( $this->packetList ); $i++ )
 			{
-				$packet	= $this->getPacket( $i );														//  get current Packet
-				while( $this->hasLargerPacket( $packet->getName() ) )									//  there is a larger Packet Type
+				//  get current Packet
+				$packet	= $this->getPacket( $i );
+				//  there is a larger Packet Type
+				while( $this->hasLargerPacket( $packet->getName() ) )
 				{
 					$largerPacketName	= $this->getNameOfLargerPacket( $packet->getName() );
-					$articles			= $packet->getArticles();										//  get larger Packet
-					$largerPacket		= $this->factory->produce( $largerPacketName, $articles );		//  produce new Packet and add Articles from old Packet
-					$articleVolume		= $this->volumes[$largerPacketName][$largestArticle];			//  get Volume of current Article in this Packet
+					//  get larger Packet
+					$articles			= $packet->getArticles();
+					//  produce new Packet and add Articles from old Packet
+					$largerPacket		= $this->factory->produce( $largerPacketName, $articles );
+					//  get Volume of current Article in this Packet
+					$articleVolume		= $this->volumes[$largerPacketName][$largestArticle];
 					if( $largerPacket->hasVolumeLeft( $articleVolume ) )
 					{
-						$largerPacket->addArticle( $largestArticle, $articleVolume );					//  add Article to Packet
-						$this->replacePacket( $i, $largerPacket );										//  replace old Packet with new Packet
-						$found	= $this->removeArticleFromList( $articleList, $largestArticle );		//  remove Article from Article List
-						break;																			//  break Packet Loop
+						//  add Article to Packet
+						$largerPacket->addArticle( $largestArticle, $articleVolume );
+						//  replace old Packet with new Packet
+						$this->replacePacket( $i, $largerPacket );
+						//  remove Article from Article List
+						$found	= $this->removeArticleFromList( $articleList, $largestArticle );
+						//  break Packet Loop
+						break;
 					}
 				}
-				if( $found )																			//  Article has been put into a Packet
-					continue;																			//  break Packet Loop
+				//  Article has been put into a Packet
+				if( $found )
+					//  break Packet Loop
+					continue;
 			}
-			if( $found )																				//  Article has been put into a Packet
-				continue;																				//  step to next Article
+			//  Article has been put into a Packet
+			if( $found )
+				//  step to next Article
+				continue;
 
 			//  --  ADD NEW PACKET  --  //
-			$packetName	= $this->getNameOfSmallestPacketForArticle( $largestArticle );					//  get smallest Packet Type for Article
-			$packet		= $this->factory->produce( $packetName, array( $largestArticle => 1 ) );		//  produce new Packet and put Article in
-				$this->packetList[]	= $packet;															//  add Packet to Packet List
-			$this->removeArticleFromList( $articleList, $largestArticle );								//  remove Article from Article List
+			//  get smallest Packet Type for Article
+			$packetName	= $this->getNameOfSmallestPacketForArticle( $largestArticle );
+			//  produce new Packet and put Article in
+			$packet		= $this->factory->produce( $packetName, array( $largestArticle => 1 ) );
+				//  add Packet to Packet List
+				$this->packetList[]	= $packet;
+			//  remove Article from Article List
+			$this->removeArticleFromList( $articleList, $largestArticle );
 		}
-		return $this->packetList;																		//  return final Packet List with Articles
+		//  return final Packet List with Articles
+		return $this->packetList;
 	}
 
 	/**

@@ -56,13 +56,18 @@ abstract class CLI_Fork_Worker_Abstract
 		$numberWorkers	= abs( (int) $numberWorkers );
 		for( $i=0; $i<$numberWorkers; $i++ )
 		{
-			$pid = pcntl_fork();																		//	Fork and exit (daemonize)
-			if( $pid == -1 )																			//	Not good.
-				throw new RuntimeException( 'Could not fork' );											//  Fork was not possible
-			if( $pid )																					//  Parent
+			//	Fork and exit (daemonize)
+			$pid = pcntl_fork();
+			//	Not good.
+			if( $pid == -1 )
+				//  Fork was not possible
+				throw new RuntimeException( 'Could not fork' );
+			//  Parent
+			if( $pid )
 			{
 				$isLast	= $i == $numberWorkers - 1;
-				$this->workParent( $pid, $isLast );														//  do Parent Stuff
+				//  do Parent Stuff
+				$this->workParent( $pid, $isLast );
 			}
 			else
 			{

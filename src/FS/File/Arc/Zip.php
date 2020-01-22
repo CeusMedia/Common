@@ -159,17 +159,21 @@ class File_Arc_ZipTarTemplate {
 	 */
 	public function addFile( $fileName )
 	{
-		if( !file_exists( $fileName ) )													// Make sure the file we are adding exists!
+		// Make sure the file we are adding exists!
+		if( !file_exists( $fileName ) )
 			throw new Exception( 'File "'.$fileName.'" is not existing' );
-		if( $this->containsFile( $fileName ) )											// Make sure there are no other files in the archive that have this same fileName
+		// Make sure there are no other files in the archive that have this same fileName
+		if( $this->containsFile( $fileName ) )
 			throw new Exception( 'File "'.$fileName.'" already existing in TAR' );
 
 		$fileName	= str_replace( "\\", "/", $fileName );
 		$fileName	= str_replace( "./", "", $fileName );
-		$fileInfo	= stat( $fileName );												// Get file information
+		// Get file information
+		$fileInfo	= stat( $fileName );
 		$file		= new File_Reader( $fileName );
 
-		$this->numFiles++;																// Add file to processed data
+		// Add file to processed data
+		$this->numFiles++;
 		$activeFile					= &$this->files[];
 		$activeFile['name']			= $fileName;
 		$activeFile['mode']			= $fileInfo['mode'];
@@ -180,15 +184,18 @@ class File_Arc_ZipTarTemplate {
 #		$activeFile['checksum']		= $checksum;
 		$activeFile['user_name']	= '';
 		$activeFile['group_name']	= '';
-		$activeFile['file']			= $file->readString();								// Read in the file's contents
+		// Read in the file's contents
+		$activeFile['file']			= $file->readString();
 		return TRUE;
 	}
 
 	public function addFolder( $path ){
 		if( !file_exists( $dirName ) )
 			return FALSE;
-		$fileInfo = stat( $dirName );													// Get folder information
-		$this->numFolders++;															// Add folder to processed data
+		// Get folder information
+		$fileInfo = stat( $dirName );
+		// Add folder to processed data
+		$this->numFolders++;
 		$activeDir				= &$this->folders[];
 		$activeDir['name']		= $dirName;
 		$activeDir['mode']		= $fileInfo['mode'];
@@ -381,7 +388,9 @@ class File_Arc_ZipTarTemplate {
 				throw new Exception( 'No TAR file name for saving given' );
 			$fileName = $this->fileName;
 		}
-		$this->generateZip();																		// Encode processed files into TAR file format
-		return File_Writer::save( $fileName, $this->content );										//  write archive file
+		// Encode processed files into TAR file format
+		$this->generateZip();
+		//  write archive file
+		return File_Writer::save( $fileName, $this->content );
 	}
 }

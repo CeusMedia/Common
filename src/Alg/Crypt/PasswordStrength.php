@@ -68,40 +68,53 @@ class Alg_Crypt_PasswordStrength
 		//  --  LENGTH  --  //
 		$length	= strlen( $password );
 		$min	= self::$minLength;
-		if( $length < $min )															// Password too short
+		// Password too short
+		if( $length < $min )
 			$score	-= 100;
-		else if( $length >= $min && $length <= $min + 2 ) 								// Password Short
+		// Password Short
+		else if( $length >= $min && $length <= $min + 2 )
 			$score += 6;
-		else if( $length >= $min + 3 && $length <= $min + 4 )							// Password Medium
+		// Password Medium
+		else if( $length >= $min + 3 && $length <= $min + 4 )
 			$score += 12;
-		else if( $length >= $min + 5 )													// Password Large
+		// Password Large
+		else if( $length >= $min + 5 )
 			$score += 18;
 
 		//  --  CASE SENSE  --  //
-		if( preg_match( "/[a-z]/", $password ) )										// at least one lower case letter
+		// at least one lower case letter
+		if( preg_match( "/[a-z]/", $password ) )
 			$score	+= 1;
-		if( preg_match( "/[A-Z]/", $password ) )										// at least one upper case letter
+		// at least one upper case letter
+		if( preg_match( "/[A-Z]/", $password ) )
 			$score	+= 5;
 
 		//  --  NUMBERS  --  //
-		if( preg_match( "/\d+/", $password ) )											// at least one number
+		// at least one number
+		if( preg_match( "/\d+/", $password ) )
 			$score	+= 5;
-		if( preg_match( "/(.*[0-9].*[0-9].*[0-9])/", $password ) )						// at least three numbers
+		// at least three numbers
+		if( preg_match( "/(.*[0-9].*[0-9].*[0-9])/", $password ) )
 			$score	+= 7;
 
 		//  --  SPECIAL CHARACTERS  --  //
-		if( preg_match( "/.[!,@,#,$,%,^,&,*,?,_,~]/", $password ) )						// at least one special character
+		// at least one special character
+		if( preg_match( "/.[!,@,#,$,%,^,&,*,?,_,~]/", $password ) )
 			$score	+= 5;
-		if( preg_match( "/(.*[!@#$%^&*?_~].*[!@#$%^&*?_~])/", $password ) )				// at least two special characters
+		// at least two special characters
+		if( preg_match( "/(.*[!@#$%^&*?_~].*[!@#$%^&*?_~])/", $password ) )
 			$score	+= 7;
 
 		//  --  COMBINATION  --  //
-		if( preg_match( "/([a-z].*[A-Z])|([A-Z].*[a-z])/", $password ) )				// both upper and lower case
+		// both upper and lower case
+		if( preg_match( "/([a-z].*[A-Z])|([A-Z].*[a-z])/", $password ) )
 			$score	+= 2;
-		if( preg_match( "/[a-z]/i", $password ) && preg_match( "/\d/", $password ) )	// both letters and numbers
+		// both letters and numbers
+		if( preg_match( "/[a-z]/i", $password ) && preg_match( "/\d/", $password ) )
 			$score	+= 3;
 		$regEx	= "/([a-z0-9].*[!@#$%^&*?_~])|([!@#$%^&*?_~].*[a-z0-9])/i";
-		if( preg_match( $regEx, $password ) )											// letters, numbers, and special characters
+		// letters, numbers, and special characters
+		if( preg_match( $regEx, $password ) )
 			$score	+= 3;
 
 		//  --  BAD WORDS  --  //

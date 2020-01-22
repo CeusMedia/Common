@@ -39,7 +39,8 @@
 class FS_File_PHP_Parser_Doc_Regular
 {
 	protected $regexDocParam	= '@^\*\s+\@param\s+(([\S]+)\s+)?(\$?([\S]+))\s*(.+)?$@';
-	protected $regexDocVariable	= '@^/\*\*\s+\@var\s+(\w+)\s+\$(\w+)(\s(.+))?\*\/$@s';				//  not used
+	//  not used
+	protected $regexDocVariable	= '@^/\*\*\s+\@var\s+(\w+)\s+\$(\w+)(\s(.+))?\*\/$@s';
 
 	/**
 	 *	Parses a Doc Block and returns Array of collected Information.

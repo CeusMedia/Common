@@ -80,18 +80,26 @@ class Alg_Math_RomanNumbers
 				'public library "CeusMedia/Math"',
 			 	'https://packagist.org/packages/ceus-media/math'
 			) );
-		$_r = str_replace( array_keys( $this->roman ), "", $roman );						//  prove roman number by clearing all valid numbers
-		if( strlen( $_r ) )																	//  some numbers are invalid
+		//  prove roman number by clearing all valid numbers
+		$_r = str_replace( array_keys( $this->roman ), "", $roman );
+		//  some numbers are invalid
+		if( strlen( $_r ) )
 			throw new InvalidArgumentException( "Roman '".$roman."' is invalid." );
-		$integer = 0;																		//  initiating integer
+		//  initiating integer
+		$integer = 0;
 		$keys	= array_keys( $this->shorts );
 		$values	= array_values( $this->shorts );
-		$roman = str_replace( $values, $keys, $roman );										//  resolve shortcuts
-		foreach( $this->roman as $key => $value )											//  all roman number starting with biggest
+		//  resolve shortcuts
+		$roman = str_replace( $values, $keys, $roman );
+		//  all roman number starting with biggest
+		foreach( $this->roman as $key => $value )
 		{
-			$count = substr_count( $roman, $key );											//  amount of roman numbers of current value
-			$integer += $count * $value;													//  increase integer by amount * current value
-			$roman = str_replace( $key, "", $roman );											//  remove current roman numbers
+			//  amount of roman numbers of current value
+			$count = substr_count( $roman, $key );
+			//  increase integer by amount * current value
+			$integer += $count * $value;
+			//  remove current roman numbers
+			$roman = str_replace( $key, "", $roman );
 		}
 		return $integer;
 	}
@@ -114,24 +122,31 @@ class Alg_Math_RomanNumbers
 			 	'https://packagist.org/packages/ceus-media/math'
 			) );
 		arsort( self::$roman );
-		$roman = "";																		//  initiating roman number
-		if( is_numeric( $integer ) && $integer == round( $integer, 0 ) )					//  prove integer by cutting floats
+		//  initiating roman number
+		$roman = "";
+		//  prove integer by cutting floats
+		if( is_numeric( $integer ) && $integer == round( $integer, 0 ) )
 		{
 			while( $integer > 0 )
 			{
-				foreach( self::$roman as $key => $value )									//  all roman number starting with biggest
+				//  all roman number starting with biggest
+				foreach( self::$roman as $key => $value )
 				{
-					if( $integer >= $value )												//  current roman number is in integer
+					//  current roman number is in integer
+					if( $integer >= $value )
 					{
-						$roman	.= $key;													//  append roman number
-						$integer	-= $value;												//  decrease integer by current value
+						//  append roman number
+						$roman	.= $key;
+						//  decrease integer by current value
+						$integer	-= $value;
 						break;
 					}
 				}
 			}
 			$keys	= array_keys( self::$shorts );
 			$values	= array_values( self::$shorts );
-			$roman	= str_replace( $keys, $values, $roman );								//  realize shortcuts
+			//  realize shortcuts
+			$roman	= str_replace( $keys, $values, $roman );
 			return $roman;
 		}
 		else
