@@ -39,7 +39,7 @@ class XML_DOM_FileReader
 {
 	/**	@var		string			$fileName		URI of XML File */
 	protected $fileName;
-	
+
 	/**
 	 *	Constructor.
 	 *	@access		public
@@ -50,13 +50,14 @@ class XML_DOM_FileReader
 	{
 		$this->fileName	= $fileName;
 	}
-	
+
 	/**
 	 *	Loads a XML File statically and returns parsed Tree.
 	 *	@access		public
 	 *	@static
 	 *	@param		string		$fileName		URI of XML File
 	 *	@return		XML_DOM_Node
+	 *	@throws		RuntimeException			if file is not existing or not readable
 	 */
 	public static function load( $fileName )
 	{
@@ -65,7 +66,7 @@ class XML_DOM_FileReader
 		$tree	= $parser->parse( $xml );
 		return $tree;
 	}
-	
+
 	/**
 	 *	Reads XML File and returns parsed Tree.
 	 *	@access		public
