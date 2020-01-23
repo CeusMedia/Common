@@ -16,7 +16,7 @@ require_once dirname( __DIR__ ).'/initLoaders.php';
  *	@since			04.05.2008
  *	@version		0.1
  */
-class Test_DB_BaseConnectionTest/* extends Test_Case*/
+class Test_DB_BaseConnectionTest extends Test_Case
 {
 	/**
 	 *	Setup for every Test.
@@ -25,7 +25,7 @@ class Test_DB_BaseConnectionTest/* extends Test_Case*/
 	 */
 	public function setUp(): void
 	{
-		$this->connection	= new Test_DB_BaseConnectionInstance();
+//		$this->connection	= new Test_DB_BaseConnectionInstance();
 	}
 
 	/**
@@ -42,8 +42,9 @@ class Test_DB_BaseConnectionTest/* extends Test_Case*/
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function _testConstruct()
+	public function testConstruct()
 	{
+		$this->expectDeprecation();
 		$connection	= new Test_DB_BaseConnectionInstance( "test" );
 
 		$assertion	= "test";

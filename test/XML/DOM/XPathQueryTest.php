@@ -58,7 +58,7 @@ class Test_XML_DOM_XPathQueryTest extends Test_Case
 	 */
 	public function testLoadFileException()
 	{
-		$this->expectException( 'Exception' );
+		$this->expectException( 'RuntimeException' );
 		$entries	= $this->xPath->loadFile( "http://www.example.com/notexisting.xml" );
 	}
 
@@ -110,13 +110,26 @@ class Test_XML_DOM_XPathQueryTest extends Test_Case
 	 *	Tests Method 'loadUrl'.
 	 *	@access		public
 	 *	@return		void
-	 *	@expectedException	Exception
 	 */
-	public function testLoadUrlException()
+	public function testLoadUrlException1()
 	{
 		if( !extension_loaded( 'curl' ) )
 			$this->markTestSkipped( 'The cURL extension is not available.' );
+		$this->expectException( 'InvalidArgumentException' );
 		$this->xPath->loadUrl( "notexisting.xml" );
+	}
+
+	/**
+	 *	Tests Method 'loadUrl'.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function testLoadUrlException2()
+	{
+		if( !extension_loaded( 'curl' ) )
+			$this->markTestSkipped( 'The cURL extension is not available.' );
+		$this->expectException( 'Exception_IO' );
+		$this->xPath->loadUrl( "http://example.org/notexisting.xml" );
 	}
 
 	/**
@@ -163,14 +176,8 @@ class Test_XML_DOM_XPathQueryTest extends Test_Case
 	 */
 	public function testEvaluateException()
 	{
-		try
-		{
-			$entries	= $this->xPath->evaluate( "//book" );
-			$this->fail( 'An expected Exception has not been thrown.' );
-		}
-		catch( Exception $e )
-		{
-		}
+		$this->expectException( 'RuntimeException' );
+		$entries	= $this->xPath->evaluate( "//book" );
 	}
 
 
@@ -204,16 +211,10 @@ class Test_XML_DOM_XPathQueryTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testGetDocumetException()
+	public function testGetDocumentException()
 	{
-		try
-		{
-			$entries	= $this->xPath->getDocument();
-			$this->fail( 'An expected Exception has not been thrown.' );
-		}
-		catch( Exception $e )
-		{
-		}
+		$this->expectException( 'RuntimeException' );
+		$entries	= $this->xPath->getDocument();
 	}
 
 	/**
@@ -260,13 +261,7 @@ class Test_XML_DOM_XPathQueryTest extends Test_Case
 	 */
 	public function testQueryException()
 	{
-		try
-		{
-			$entries	= $this->xPath->query( "//book" );
-			$this->fail( 'An expected Exception has not been thrown.' );
-		}
-		catch( Exception $e )
-		{
-		}
+		$this->expectException( 'RuntimeException' );
+		$entries	= $this->xPath->query( "//book" );
 	}
 }

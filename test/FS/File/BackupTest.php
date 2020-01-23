@@ -56,25 +56,25 @@ class Test_FS_File_BackupTest extends Test_Case{
 	}
 
 	/**
-	 *	@expectedException		InvalidArgumentException
 	 */
 	public function testGetContentException1(){
+		$this->expectException( 'InvalidArgumentException' );
 		$this->file->store();
 		$this->file->getContent( "a" );
 	}
 
 	/**
-	 *	@expectedException		OutOfBoundsException
 	 */
 	public function testGetContentException2(){
+		$this->expectException( 'OutOfBoundsException' );
 		$this->file->store();
 		$this->file->getContent( -2 );
 	}
 
 	/**
-	 *	@expectedException		OutOfRangeException
 	 */
 	public function testGetContentException3(){
+		$this->expectException( 'OutOfRangeException' );
 		$this->file->store();
 		$this->file->getContent( 1 );
 	}
@@ -116,9 +116,9 @@ class Test_FS_File_BackupTest extends Test_Case{
 	}
 
 	/**
-	 *	@expectedException		RuntimeException
 	 */
 	public function testMoveException(){
+		$this->expectException( 'RuntimeException' );
 		$this->file->move( $this->path.'notexistingFolder/filename.test' );
 	}
 
@@ -168,30 +168,30 @@ class Test_FS_File_BackupTest extends Test_Case{
 	}
 
 	/**
-	 *	@expectedException		InvalidArgumentException
 	 */
 	public function testRemoveException1(){
+		$this->expectException( 'InvalidArgumentException' );
 		$this->file->remove( "a" );
 	}
 
 	/**
-	 *	@expectedException		OutOfBoundsException
 	 */
 	public function testRemoveException2(){
+		$this->expectException( 'OutOfBoundsException' );
 		$this->file->remove( -2 );
 	}
 
 	/**
-	 *	@expectedException		OutOfRangeException
 	 */
 	public function testRemoveException3(){
+		$this->expectException( 'OutOfRangeException' );
 		$this->file->remove( 4 );
 	}
 
 	/**
-	 *	@expectedException		OutOfRangeException
 	 */
 	public function testRemoveException4(){
+		$this->expectException( 'OutOfRangeException' );
 		$this->file->remove();
 	}
 
@@ -268,23 +268,23 @@ class Test_FS_File_BackupTest extends Test_Case{
 	}
 
 	/**
-	 *	@expectedException		InvalidArgumentException
 	 */
 	public function testRestoreException1(){
+		$this->expectException( 'InvalidArgumentException' );
 		$this->file->restore( "a" );
 	}
 
 	/**
-	 *	@expectedException		OutOfBoundsException
 	 */
 	public function testRestoreException2(){
+		$this->expectException( 'OutOfBoundsException' );
 		$this->file->restore( -2 );
 	}
 
 	/**
-	 *	@expectedException		RuntimeException
 	 */
 	public function testRestoreException3(){
+		$this->expectException( 'RuntimeException' );
 		$this->file->store();
 		$this->tearDown();
 		$this->file->restore();
@@ -301,25 +301,25 @@ class Test_FS_File_BackupTest extends Test_Case{
 	}
 
 	/**
-	 *	@expectedException		InvalidArgumentException
 	 */
 	public function testSetContentException1(){
+		$this->expectException( 'InvalidArgumentException' );
 		$this->file->store();
 		$this->file->setContent( 'wrong', 'new content' );
 	}
 
 	/**
-	 *	@expectedException		OutOfBoundsException
 	 */
 	public function testSetContentException2(){
+		$this->expectException( 'OutOfBoundsException' );
 		$this->file->store();
 		$this->file->setContent( -2, 'new content' );
 	}
 
 	/**
-	 *	@expectedException		OutOfRangeException
 	 */
 	public function testSetContentException3(){
+		$this->expectException( 'OutOfRangeException' );
 		$this->file->store();
 		$this->file->setContent( 2, 'new content' );
 	}
@@ -348,9 +348,9 @@ class Test_FS_File_BackupTest extends Test_Case{
 	}
 
 	/**
-	 *	@expectedException		RuntimeException
 	 */
 	public function testStoreException1(){
+		$this->expectException( 'RuntimeException' );
 		unlink( $this->filePath );
 		$this->file->store();
 	}

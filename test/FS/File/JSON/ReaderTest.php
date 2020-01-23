@@ -63,10 +63,10 @@ class Test_FS_File_JSON_ReaderTest extends Test_Case
 	/**
 	 *	Tests Method '__construct'.
 	 *	@access		public
-	 *	@expectedException		RuntimeException
 	 */
 	public function test__constructException()
 	{
+		$this->expectException( 'RuntimeException' );
 		$assertion	= TRUE;
 		$creation	= new FS_File_JSON_Reader( $this->path.'notexisting.json' );
 		$this->assertEquals( $assertion, $creation );
@@ -91,7 +91,6 @@ class Test_FS_File_JSON_ReaderTest extends Test_Case
 	 */
 	public function testRead()
 	{
-
 //		$this->markTestIncomplete( 'Incomplete Test' );
 		$filename	= dirname( __FILE__ ).'/valid.json';
 		$reader		= new FS_File_JSON_Reader( $filename );
@@ -119,10 +118,10 @@ class Test_FS_File_JSON_ReaderTest extends Test_Case
 	}
 
 	/**
-	 *	@expectedException		RuntimeException
-	 *	@expectedExceptionCode	4
 	 */
 	public function testReadException(){
+		$this->expectException( 'RuntimeException' );
+		$this->expectExceptionCode( 4 );
 		$filename	= dirname( __FILE__ ).'/invalid.json';
 		$reader		= new FS_File_JSON_Reader( $filename );
 		$assertion	= NULL;

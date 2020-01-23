@@ -82,16 +82,9 @@ class Test_XML_DOM_FileReaderTest extends Test_Case
 	 */
 	public function testRead2()
 	{
-		try
-		{
-			$reader	= new XML_DOM_FileReader( "not_existing_file.xml" );
-			$reader->read(  );
-		}
-		catch( Exception $e )
-		{
-			return;
-		}
-		$this->fail();
+		$this->expectException( 'RuntimeException' );
+		$reader	= new XML_DOM_FileReader( "not_existing_file.xml" );
+		$reader->read();
 	}
 
 	/**
@@ -143,14 +136,7 @@ class Test_XML_DOM_FileReaderTest extends Test_Case
 	 */
 	public function testLoad2()
 	{
-		try
-		{
-			XML_DOM_FileReader::load( "not_existing_file.xml" );
-		}
-		catch( Exception $e )
-		{
-			return;
-		}
-		$this->fail();
+		$this->expectException( 'RuntimeException' );
+		XML_DOM_FileReader::load( "not_existing_file.xml" );
 	}
 }
