@@ -41,9 +41,9 @@ class Test_ADT_JSON_ParserTest extends Test_Case
 	}
 
 	/**
-	 *	@expectedException		RuntimeException
 	 */
 	public function testParseException(){
+		$this->expectException( 'RuntimeException' );
 		$parser	= new ADT_JSON_Parser();
 		$json	= '[a';
 		$parser->parse( $json );

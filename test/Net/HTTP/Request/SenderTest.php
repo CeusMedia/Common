@@ -20,8 +20,9 @@ use PHPUnit\Framework\TestCase;
  */
 class Test_Net_HTTP_Request_SenderTest extends Test_Case
 {
-	public function oldTestSend()
+	public function testSend()
 	{
+		$this->expectDeprecation();
 		$host		= "www.example.com";
 		$url		= "/";
 		$needle		= "@Example Domain@i";

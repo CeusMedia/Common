@@ -76,27 +76,27 @@ class Test_ADT_List_DictionaryTest extends Test_Case
 	}
 
 	/**
-	 *	@expectedException		InvalidArgumentException
 	 */
 	public function testCastException1()
 	{
+		$this->expectException( 'InvalidArgumentException' );
 		$fp	= fopen( __FILE__, 'r' );
 		$this->dictionary->cast( $fp, 'key1' );
 	}
 
 	/**
-	 *	@expectedException		OutOfRangeException
 	 */
 	public function testCastException2()
 	{
+		$this->expectException( 'OutOfRangeException' );
 		$this->dictionary->cast( 'whatever', 'invalid' );
 	}
 
 	/**
-	 *	@expectedException		UnexpectedValueException
 	 */
 	public function testCastException3()
 	{
+		$this->expectException( 'UnexpectedValueException' );
 		$this->dictionary->cast( array(), 'key1' );
 	}
 
