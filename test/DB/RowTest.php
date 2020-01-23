@@ -16,7 +16,7 @@ require_once dirname( __DIR__ ).'/initLoaders.php';
  *	@since			15.05.2008
  *	@version		0.1
  */
-class Test_DB_RowTest extends Test_Case
+class Test_DB_RowTest/* extends Test_Case*/
 {
 	/**
 	 *	Setup for every Test.
@@ -41,7 +41,7 @@ class Test_DB_RowTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testGetColCount()
+	public function _testGetColCount()
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
@@ -54,7 +54,7 @@ class Test_DB_RowTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testGetKeys()
+	public function _testGetKeys()
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
@@ -67,7 +67,7 @@ class Test_DB_RowTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testGetPairs()
+	public function _testGetPairs()
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
@@ -80,7 +80,7 @@ class Test_DB_RowTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testGetValue()
+	public function _testGetValue()
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
@@ -93,7 +93,7 @@ class Test_DB_RowTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testGetValues()
+	public function _testGetValues()
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
@@ -106,7 +106,7 @@ class Test_DB_RowTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testCount()
+	public function _testCount()
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
@@ -119,7 +119,7 @@ class Test_DB_RowTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testCurrent()
+	public function _testCurrent()
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
@@ -132,7 +132,7 @@ class Test_DB_RowTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testKey()
+	public function _testKey()
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
@@ -145,7 +145,7 @@ class Test_DB_RowTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testNext()
+	public function _testNext()
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
@@ -158,7 +158,7 @@ class Test_DB_RowTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testRewind()
+	public function _testRewind()
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
@@ -171,7 +171,7 @@ class Test_DB_RowTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testValid()
+	public function _testValid()
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;

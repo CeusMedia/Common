@@ -36,7 +36,7 @@ class Test_Net_FTP_ConnectionTest extends Test_Case
 	 */
 	public function setUp()
 	{
-		$this->config	= self::$config['unitTest-FTP'];
+		$this->config	= self::$_config['unitTest-FTP'];
 		$this->host		= $this->config['host'];
 		$this->port		= $this->config['port'];
 		$this->username	= $this->config['user'];

@@ -26,15 +26,17 @@ class Test_DB_PDO_TableTest extends Test_Case{
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function setUp(){
+	public function setUp(): void
+	{
 		if( !extension_loaded( 'pdo_mysql' ) )
 			$this->markTestSkipped( "PDO driver for MySQL not supported" );
 
-		$this->host		= self::$config['unitTest-Database']['host'];
-		$this->port		= self::$config['unitTest-Database']['port'];
-		$this->username	= self::$config['unitTest-Database']['username'];
-		$this->password	= self::$config['unitTest-Database']['password'];
-		$this->database	= self::$config['unitTest-Database']['database'];
+		$config			= self::$_config['unitTest-Database'];
+		$this->host		= $config['host'];
+		$this->port		= $config['port'];
+		$this->username	= $config['username'];
+		$this->password	= $config['password'];
+		$this->database	= $config['database'];
 		$this->path		= dirname( __FILE__ )."/";
 		$this->errorLog	= $this->path."errors.log";
 		$this->queryLog	= $this->path."queries.log";
@@ -42,7 +44,30 @@ class Test_DB_PDO_TableTest extends Test_Case{
 		$this->dsn		= "mysql:host=".$this->host.";dbname=".$this->database;
 		$this->options	= array();
 
-		$options	= array();
+//		$this->connect();
+//		$this->table	= new Test_DB_PDO_TransactionTable( $this->connection );
+	}
+
+	/**
+	 *	Cleanup after every Test.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function tearDown(): void
+	{
+		@unlink( $this->errorLog );
+		@unlink( $this->queryLog );
+		if( extension_loaded( 'mysql' ) ){
+			mysql_query( "DROP TABLE transactions" );
+			mysql_close();
+		}
+		else if( extension_loaded( 'mysqli' ) && $this->directDbc ){
+			mysqli_query( $this->directDbc, "DROP TABLE transactions" );
+			mysqli_close( $this->directDbc );
+		}
+	}
+
+	private function connect(){
 		$this->connection	= new DB_PDO_Connection( $this->dsn, $this->username, $this->password, $this->options );
 		$this->connection->setAttribute( PDO::ATTR_CASE, PDO::CASE_NATURAL );
 		$this->connection->setAttribute( PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, TRUE );
@@ -68,34 +93,24 @@ class Test_DB_PDO_TableTest extends Test_Case{
 		else{
 			$this->markTestSkipped( "Support for MySQL is missing" );
 		}
-
-		$this->table	= new Test_DB_PDO_TransactionTable( $this->connection );
 	}
 
 	/**
-	 *	Cleanup after every Test.
+	 *	Tests Method '__construct'.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function tearDown(){
-		@unlink( $this->errorLog );
-		@unlink( $this->queryLog );
-		if( extension_loaded( 'mysql' ) ){
-			mysql_query( "DROP TABLE transactions" );
-			mysql_close();
-		}
-		else if( extension_loaded( 'mysqli' ) ){
-			mysqli_query( $this->directDbc, "DROP TABLE transactions" );
-			mysqli_close( $this->directDbc );
-		}
+	public function testConstruct(){
+		$this->expectDeprecation();
+		$this->connect();
 	}
 
-	public function testAdd(){
+	public function _testAdd(){
 		$this->table->add( array( 'topic' => 'stop', 'label' => microtime( TRUE ) ) );
 		$this->assertEquals( $this->table->count(), 2 );
 	}
 
-	public function testCount(){
+	public function _testCount(){
 		$this->assertEquals( $this->table->count(), 1 );
 		$this->table->add( array( 'topic' => 'stop', 'label' => time() ) );
 		$this->assertEquals( $this->table->count(), 2 );
@@ -103,7 +118,7 @@ class Test_DB_PDO_TableTest extends Test_Case{
 		$this->assertEquals( $this->table->count(), 3 );
 	}
 
-	public function testCountByIndex(){
+	public function _testCountByIndex(){
 		$this->table->add( array( 'topic' => 'stop', 'label' => microtime( TRUE ) ) );
 		$this->table->add( array( 'topic' => 'stop', 'label' => microtime( TRUE ) ) );
 
@@ -112,7 +127,7 @@ class Test_DB_PDO_TableTest extends Test_Case{
 		$this->assertEquals( $this->table->countByIndex( 'topic', 'stop' ), 2 );
 	}
 
-	public function testCountByIndices(){
+	public function _testCountByIndices(){
 		$this->table->add( array( 'topic' => 'stop', 'label' => 'label1' ) );
 		$this->table->add( array( 'topic' => 'stop', 'label' => 'label2' ) );
 
@@ -126,7 +141,7 @@ class Test_DB_PDO_TableTest extends Test_Case{
 		$this->assertEquals( $this->table->countByIndices( $indices ), 1 );
 	}
 
-	public function testEdit(){
+	public function _testEdit(){
 		$this->table->add( array( 'topic' => 'stop', 'label' => 'label1' ) );
 
 		$indices	= array( 'topic' => 'stop' );
@@ -144,7 +159,7 @@ class Test_DB_PDO_TableTest extends Test_Case{
 		$this->assertEquals( $this->table->countByIndices( $indices ), 1 );
 	}
 
-	public function testEditByIndices(){
+	public function _testEditByIndices(){
 		$this->table->add( array( 'topic' => 'start', 'label' => 'label1' ) );
 
 		$indices	= array( 'topic' => 'start' );
@@ -160,7 +175,7 @@ class Test_DB_PDO_TableTest extends Test_Case{
 		$this->assertEquals( $this->table->countByIndices( $indices ), 0 );
 	}
 
-	public function testGet(){
+	public function _testGet(){
 		$this->table->add( array( 'topic' => 'start', 'label' => 'label1' ) );
 
 		$data	= $this->table->get( 2 );
@@ -176,7 +191,7 @@ class Test_DB_PDO_TableTest extends Test_Case{
 		$this->assertEquals( $data, 'label1' );
 	}
 
-	public function testGetAll(){
+	public function _testGetAll(){
 		$this->table->add( array( 'topic' => 'start', 'label' => 'label1' ) );
 		$this->table->add( array( 'topic' => 'start', 'label' => 'label2' ) );
 
@@ -213,7 +228,7 @@ class Test_DB_PDO_TableTest extends Test_Case{
 		$this->assertEquals( $results[0]->label, 'label1' );
 	}
 
-	public function testGetAllByIndex(){
+	public function _testGetAllByIndex(){
 		$this->table->add( array( 'topic' => 'start', 'label' => 'label1' ) );
 		$this->table->add( array( 'topic' => 'start', 'label' => 'label2' ) );
 
@@ -242,7 +257,7 @@ class Test_DB_PDO_TableTest extends Test_Case{
 		$this->assertEquals( $results[0]->label, 'label1' );
 	}
 
-	public function testGetAllByIndices(){
+	public function _testGetAllByIndices(){
 		$this->table->add( array( 'topic' => 'start', 'label' => 'label1' ) );
 		$this->table->add( array( 'topic' => 'start', 'label' => 'label2' ) );
 
@@ -276,7 +291,7 @@ class Test_DB_PDO_TableTest extends Test_Case{
 		$this->assertEquals( $results[0]->label, 'label1' );
 	}
 
-	public function testGetByIndex(){
+	public function _testGetByIndex(){
 		$this->table->remove( 1 );
 		$this->table->add( array( 'topic' => 'start', 'label' => 'label1' ) );
 		$this->table->add( array( 'topic' => 'start', 'label' => 'label2' ) );
@@ -305,7 +320,7 @@ class Test_DB_PDO_TableTest extends Test_Case{
 		$this->assertEquals( $result, (object) array( 'id' => 3, 'topic' => 'start', 'label' => 'label2' ) );
 	}
 
-	public function testGetByIndices(){
+	public function _testGetByIndices(){
 		$this->table->remove( 1 );
 		$this->table->add( array( 'topic' => 'start', 'label' => 'label1' ) );
 		$this->table->add( array( 'topic' => 'start', 'label' => 'label2' ) );
@@ -337,20 +352,20 @@ class Test_DB_PDO_TableTest extends Test_Case{
 		$this->assertEquals( $result, (object) array( 'id' => 3, 'topic' => 'start', 'label' => 'label2' ) );
 	}
 
-	public function testGetColumns(){
+	public function _testGetColumns(){
 		$this->assertEquals( $this->table->getColumns(), array( 'id', 'topic', 'label', 'timestamp' ) );
 	}
 
-	public function testGetIndices(){
+	public function _testGetIndices(){
 		$this->assertEquals( $this->table->getIndices(), array( 'topic', 'label' ) );
 	}
 
-	public function testGetName(){
+	public function _testGetName(){
 		$this->assertEquals( $this->table->getName(), 'transactions' );
 		$this->assertEquals( $this->table->getName( TRUE ), 'transactions' );
 	}
 
-	public function testGetPrimaryKey(){
+	public function _testGetPrimaryKey(){
 		$this->assertEquals( $this->table->getPrimaryKey(), 'id' );
 	}
 }

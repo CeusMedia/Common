@@ -4,7 +4,14 @@ declare( strict_types = 1 );
 use PHPUnit\Framework\TestCase;
 
 class Test_Case extends TestCase{
-	public static $config;
+	protected static $_config;
+	protected static $_pathLib;
+
+	public function __construct(){
+		parent::__construct();
+		self::$_pathLib	= realpath( dirname( __DIR__ ) ).'/';
+		self::$_config	= parse_ini_file( self::$_pathLib.'Common.ini', TRUE );
+	}
 }
 
 return;

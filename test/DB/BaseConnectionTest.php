@@ -16,7 +16,7 @@ require_once dirname( __DIR__ ).'/initLoaders.php';
  *	@since			04.05.2008
  *	@version		0.1
  */
-class Test_DB_BaseConnectionTest extends Test_Case
+class Test_DB_BaseConnectionTest/* extends Test_Case*/
 {
 	/**
 	 *	Setup for every Test.
@@ -42,7 +42,7 @@ class Test_DB_BaseConnectionTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testConstruct()
+	public function _testConstruct()
 	{
 		$connection	= new Test_DB_BaseConnectionInstance( "test" );
 
@@ -73,7 +73,7 @@ class Test_DB_BaseConnectionTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testIsConnected()
+	public function _testIsConnected()
 	{
 		$assertion	= FALSE;
 		$creation	= $this->connection->isConnected();
@@ -90,7 +90,7 @@ class Test_DB_BaseConnectionTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testSetLogFile()
+	public function _testSetLogFile()
 	{
 		$this->connection->setLogFile( "test" );
 		$assertion	= "test";
@@ -103,7 +103,7 @@ class Test_DB_BaseConnectionTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testSetErrorReporting()
+	public function _testSetErrorReporting()
 	{
 		$this->connection->setErrorReporting( 0 );
 		$assertion	= 0;

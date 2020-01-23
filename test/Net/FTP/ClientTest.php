@@ -34,8 +34,7 @@ class Test_Net_FTP_ClientTest extends Test_Case
 	 */
 	public function setUp()
 	{
-		$config	= parse_ini_file( self::$pathLib.'Common.ini', TRUE );
-		$this->config	= $config['unitTest-FTP'];
+		$this->config	= self::$_config['unitTest-FTP'];
 		$this->host		= $this->config['host'];
 		$this->port		= $this->config['port'];
 		$this->username	= $this->config['user'];

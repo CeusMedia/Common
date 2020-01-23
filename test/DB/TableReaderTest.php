@@ -24,7 +24,7 @@ class Test_DB_TableReaderTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
 		if( !extension_loaded( 'mysql' ) )
 			$this->markTestSkipped( "Support for MySQL is missing" );
@@ -69,7 +69,7 @@ class Test_DB_TableReaderTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function tearDown()
+	public function tearDown(): void
 	{
 		@unlink( $this->logFile );
 		if( extension_loaded( 'mysql' ) )
