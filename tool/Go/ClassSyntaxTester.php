@@ -6,9 +6,9 @@ class Go_ClassSyntaxTester
 	{
 		remark( "GO Class File Syntax Test\n" );
 
-		$path	= dirname( dirname( __FILE__ ) )."/src";
+		$path	= dirname( dirname( __DIR__ ) )."/src";
 		$data	= Go_Library::listClasses( $path );
-		
+
 		remark( "found ".$data['count']." class files\n" );
 		Go_Library::testSyntax( $data['files'] );
 	}

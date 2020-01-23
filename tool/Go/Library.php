@@ -10,7 +10,7 @@ class Go_Library
 
 	public static function getConfigFile()
 	{
-		return dirname( dirname( __FILE__ ) ).'/'.self::$configFile;
+		return dirname( dirname( __DIR__ ) ).'/'.self::$configFile;
 	}
 
 	public static function listClasses( $path )

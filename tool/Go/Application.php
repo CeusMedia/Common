@@ -15,7 +15,7 @@ class Go_Application
 	public function autoload( $className )
 	{
 		if( preg_match( '/^Go_/', $className ) )													//  is it a GO class ?
-			require_once $this->basePath . preg_replace( '/^Go_/', '', $className ).'.php';			//  then require it
+			require_once $this->basePath.'Go/'.preg_replace( '/^Go_/', '', $className ).'.php';		//  then require it
 	}
 
 	public function __construct( $clearScreen = FALSE )
@@ -28,7 +28,7 @@ class Go_Application
 		print( "\n".$this->messages['title'] );														//  print tool title
 
 #		Go_Library::$configFile	= $this->configFile;
-		$this->basePath		= dirname( __FILE__ ).'/';
+		$this->basePath		= dirname( __DIR__ ).'/';
 		$this->configFile	= Go_Library::getConfigFile();											//  point to Configuration File
 
 		$arguments	= array_slice( $_SERVER['argv'], 1 );											//  get given arguments
@@ -118,7 +118,7 @@ class Go_Application
 	{
 		if( $message )
 			$message	= "\nERROR: ".$message."\n";
-		$text	= file_get_contents( $this->basePath.'usage.txt' );
+		$text	= file_get_contents( $this->basePath.'Go/usage.txt' );
 		print( "\n".$text."\n".$message );
 	}
 }
