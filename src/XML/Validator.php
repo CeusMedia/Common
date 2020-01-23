@@ -50,7 +50,7 @@ class XML_Validator
 			return $this->error['line'];
 		return -1;
 	}
-	
+
 	/**
 	 *	Returns last error message.
 	 *	@access		public

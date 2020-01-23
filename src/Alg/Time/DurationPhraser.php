@@ -39,14 +39,14 @@ class Alg_Time_DurationPhraser
 	protected $patternLabel	= '@(.*){(s|m|h|D|W|M|Y)}(.*)::([0-9]+)$@';
 	protected $patternData	= '@::[0-9]+$@';
 	protected $ranges		= NULL;
-	
+
 	public function __construct( $ranges = array() )
 	{
 		if( !( $ranges instanceof Alg_Time_DurationPhraseRanges ) )
 			$ranges	= new Alg_Time_DurationPhraseRanges( $ranges );
 		$this->ranges	= $ranges;
 	}
-	
+
 	public function getPhraseFromSeconds( $seconds )
 	{
 		if( !count( $this->ranges ) )
@@ -65,7 +65,7 @@ class Alg_Time_DurationPhraser
 		}
 		throw new OutOfBoundsException( 'No range defined for '.$seconds.' seconds' );
 	}
-	
+
 	public function getPhraseFromTimestamp( $timestamp )
 	{
 		$seconds	= time() - $timestamp;
@@ -73,7 +73,7 @@ class Alg_Time_DurationPhraser
 			throw new InvalidArgumentException( 'Timestamp must lay in past' );
 		return $this->getPhraseFromSeconds( $seconds );
 	}
-	
+
 	protected static function insertDates( $matches )
 	{
 		$value	= $matches[4];

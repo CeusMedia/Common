@@ -43,8 +43,8 @@ class UI_Image_Graphviz_Renderer{
 	protected $layoutEngine			= "dot";
 	protected $graph;
 	protected $gvInstalled			= NULL;
-	
-	
+
+
 	static public function checkGraphvizSupport(){
 		exec( 'dot -V', $results, $code );
 		if( $code == 127 )
@@ -57,7 +57,7 @@ class UI_Image_Graphviz_Renderer{
 		$this->setLayoutEngine( $layoutEngine );
 		$this->gvInstalled	= $this->checkGraphvizSupport();
 	}
-	
+
 	public function getGraph(){
 		return $this->graph;
 	}
@@ -65,7 +65,7 @@ class UI_Image_Graphviz_Renderer{
 	public function getLayoutEngines(){
 		return array( "circo", "dot", "fdp", "neato", "osage", "sfdp", "twopi" );	
 	}
-	
+
 	public function getMap( $type = "cmapx_np", $graphOptions = array() ){
 		if( !$this->gvInstalled )
 			throw new RuntimeException( 'Missing graphViz' );
@@ -82,7 +82,7 @@ class UI_Image_Graphviz_Renderer{
 		unlink( $mapFile );
 		return $map;
 	}
-	
+
 	public function printGraph( $type = "png", $graphOptions = array() ){
 		if( !$this->gvInstalled )
 			throw new RuntimeException( 'Missing graphViz' );

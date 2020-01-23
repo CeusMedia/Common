@@ -122,7 +122,7 @@ class Alg_Crypt_PasswordStrength
 			$score -= 200;
 		return $score;
 	}
-	
+
 	/**
 	 *	Calculates and returns the Strength of a Password (max 100).
 	 *	@access		public
@@ -135,7 +135,7 @@ class Alg_Crypt_PasswordStrength
 		$score	= self::getScore( $password );
 		return self::normaliseScore( $score );
 	}
-	
+
 	/**
 	 *	Calculates an Integer between -300 and +100 for a calculated Score.
 	 *	@access		public

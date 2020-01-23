@@ -45,9 +45,9 @@ abstract class CLI_Fork_Server_Client_Abstract
 		if( !is_null( $port ) );
 			$this->setPort( $port );
 	}
-	
+
 	abstract function getRequest();
-	
+
 	protected function getResponse()
 	{
 		$socket = stream_socket_client( "tcp://127.0.0.1:".$this->port, $errno, $errstr, 30 );

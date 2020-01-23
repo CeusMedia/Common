@@ -102,7 +102,7 @@ class Alg_Validation_LanguageValidator
 		}
 		return $curr_lang;
 	}
-	
+
 	/**
 	 *	Validates Language statically and returns valid Language.
 	 *	@access		public

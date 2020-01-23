@@ -84,7 +84,7 @@ class UI_HTML_Pagination extends ADT_OptionObject
 		foreach( $options as $key => $value )
 			$this->setOption( $key, $value );
 	}
-	
+
 	/**
 	 *	Builds HTML for Paging of Lists.
 	 *	@access		public
@@ -153,8 +153,8 @@ class UI_HTML_Pagination extends ADT_OptionObject
 					$pages[$latest]	= $button;
 				}*/
 			}
-			
-			
+
+
 			//  page here
 			$pages[]	= $this->buildButton( $here + 1, 'classCurrent' );
 			//  pages after
@@ -201,7 +201,7 @@ class UI_HTML_Pagination extends ADT_OptionObject
 		}
 		return UI_HTML_Elements::unorderedList( $pages, 0, array( 'class' => $this->getOption( 'classList' ) ) );
 	}
-	
+
 	/**
 	 *	Builds Paging Button.
 	 *	@access		protected
@@ -233,7 +233,7 @@ class UI_HTML_Pagination extends ADT_OptionObject
 #			$spanClass	.= " page";
 		return $this->buildItem( $label, NULL );
 	}
-	
+
 	/**
 	 *	Builds List Item of Pagination Link.
 	 *	@access		protected

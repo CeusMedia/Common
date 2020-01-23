@@ -41,7 +41,7 @@ class UI_XML_Elements
 	{
 		$this->root	=& $root;
 	}
-	
+
 	public function addNode( $node, $debug = false )
 	{
 		if( $debug )
@@ -51,12 +51,12 @@ class UI_XML_Elements
 		}
 		$this->root->addChild( $node );
 	}
-	
+
 	public function addNodeTo( &$parent, $node )
 	{
 		$parent->addChild( $node );
 	}
-	
+
 	public function buildLink( $tag, $reference, $title, $target = false, $attributes = array() )
 	{
 		$node	= new XML_DOM_Node( $tag );
@@ -69,7 +69,7 @@ class UI_XML_Elements
 				$node->setAttribute( $key, $value );
 		return $node;
 	}
-	
+
 	public function buildList( $tag, $items, $attributes = array() )
 	{
 		$node	= new XML_DOM_Node( $tag );
@@ -83,7 +83,7 @@ class UI_XML_Elements
 				$node->setAttribute( $key, $value );
 		return $node;
 	}
-	
+
 	public function buildNode( $tag, $text = false , $attributes = array() )
 	{
 		$node	= new XML_DOM_Node( $tag );
@@ -94,7 +94,7 @@ class UI_XML_Elements
 				$node->setAttribute( $key, $value );
 		return $node;
 	}
-	
+
 	public function buildParent( $tag, $child, $attributes = array() )
 	{
 		$node	= new XML_DOM_Node( $tag );
@@ -104,7 +104,7 @@ class UI_XML_Elements
 				$node->setAttribute( $key, $value );
 		return $node;
 	}
-	
+
 	public function buildText( $tag, $text, $attributes = array() )
 	{
 		$node	= new XML_DOM_Node( $tag, $text );
@@ -113,14 +113,14 @@ class UI_XML_Elements
 				$node->setAttribute( $key, $value );
 		return $node;
 	}
-	
+
 	public function buildXML( $xslt_file )
 	{
 		$builder		= new XML_DOM_Builder();
 		$xml		= $builder->build( $this->root );
-		
+
 		$lines	= explode( "\n", $xml );
-		
+
 		$link		='<?xml-stylesheet type="text/xsl" href="'.$xslt_file.'"?>';
 		$first	= array_shift( $lines );
 		array_unshift( $lines, $link );

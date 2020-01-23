@@ -51,7 +51,7 @@ class FS_File_List_SectionReader
 	{
 		$this->list	= self::load( $fileName );
 	}
-	
+
 	/**
 	 *	Reads the List.
 	 *	@access		public
@@ -66,7 +66,7 @@ class FS_File_List_SectionReader
 
 		$reader	= new FS_File_Reader( $fileName );
 		$lines	= $reader->readArray();
-		
+
 		$list	= array();
 		foreach( $lines as $line )
 		{
@@ -75,7 +75,7 @@ class FS_File_List_SectionReader
 				continue;
 			if( preg_match( self::$commentPattern, $line ) )
 				continue;
-					
+
 			if( preg_match( self::$sectionPattern, $line ) )
 			{
 				$section = substr( $line, 1, -1 );

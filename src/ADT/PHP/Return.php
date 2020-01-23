@@ -38,7 +38,7 @@ class ADT_PHP_Return
 	protected $description	= NULL;
 	protected $parent		= NULL;
 	protected $type			= NULL;
-	
+
 	/**
 	 *	Constructor.
 	 *	@access		public
@@ -51,7 +51,7 @@ class ADT_PHP_Return
 		$this->type			= $type;
 		$this->description	= $description;
 	}
-	
+
 	/**
 	 *	Returns description of return value.
 	 *	@access		public
@@ -61,14 +61,14 @@ class ADT_PHP_Return
 	{
 		return $this->description;
 	}
-	
+
 	public function getParent()
 	{
 		if( !is_object( $this->parent ) )
 			throw new RuntimeException( 'Return has no related function. Parser Error' );
 		return $this->parent;
 	}
-	
+
 	/**
 	 *	Returns type of return value.
 	 *	@access		public
@@ -101,12 +101,12 @@ class ADT_PHP_Return
 	{
 		$this->description	= $description;
 	}
-	
+
 	public function setParent( ADT_PHP_Function $function )
 	{
 		$this->parent	= $function;
 	}
-	
+
 	/**
 	 *	Sets type of return value.
 	 *	@access		public

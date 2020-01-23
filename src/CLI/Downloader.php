@@ -131,7 +131,7 @@ class CLI_Downloader
 		if( $this->showFileName && $this->templateFileName )
 			//  use Template
 			printf( $this->templateFileName, $fileName );
-		
+
 		//  start clock
 		$this->clock	= new Alg_Time_Clock;
 		//  start cURL
@@ -219,7 +219,7 @@ class CLI_Downloader
 		fputs( $fp, $string );
 		//  close File
 		fclose( $fp );
-		
+
 		//  File Size is known and File is complete
 		if( $this->fileSize && $this->fileSize == $this->loadSize )
 		{
@@ -257,7 +257,7 @@ class CLI_Downloader
 		if( $this->redirected )
 			//  return Length of Header String
 			return $length;
-	
+
 		//  split Header on Colon
 		$parts			= split( ": ", $string );
 		//  there has been at least one Colon

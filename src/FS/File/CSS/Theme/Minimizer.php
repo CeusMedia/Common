@@ -70,7 +70,7 @@ class FS_File_CSS_Theme_Minimizer
 		//  get CSS Compressor Instance
 		$this->compressor	= new FS_File_CSS_Compressor;
 	}
-	
+
 	/**
 	 *	Returns full Path of Style File (with CSS Folder and Medium).
 	 *	@access		public
@@ -153,7 +153,7 @@ class FS_File_CSS_Theme_Minimizer
 		$this->statistics['fileCombined']	= realpath( $fileUri );
 		return TRUE;
 	}
-	
+
 	/**
 	 *	Sets a combiner Object to use.
 	 *	@access		public
@@ -175,7 +175,7 @@ class FS_File_CSS_Theme_Minimizer
 	{
 		$this->combinerPrefix	= $prefix;
 	}	
-	
+
 	/**
 	 *	Sets Suffix of combined File Name.
 	 *	@access		public
@@ -208,7 +208,7 @@ class FS_File_CSS_Theme_Minimizer
 	{
 		$this->compressorPrefix	= $prefix;
 	}	
-	
+
 	/**
 	 *	Sets Suffix of compressed File Name.
 	 *	@access		public
@@ -253,7 +253,7 @@ class FS_File_CSS_Theme_Minimizer
 	{
 		$this->themeName	= preg_replace( "@(.+)/$@", "\\1", $themeName )."/";
 	}
-		
+
 	/**
 	 *	Sets Path to Themes.
 	 *	@access		public

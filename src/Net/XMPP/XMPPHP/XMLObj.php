@@ -42,28 +42,28 @@ class Net_XMPP_XMPPHP_XMLObj {
 	 * @var string
 	 */
 	public $name;
-	
+
 	/**
 	 * Namespace
 	 *
 	 * @var string
 	 */
 	public $ns;
-	
+
 	/**
 	 * Attributes
 	 *
 	 * @var array
 	 */
 	public $attrs = array();
-	
+
 	/**
 	 * Subs?
 	 *
 	 * @var array
 	 */
 	public $subs = array();
-	
+
 	/**
 	 * Node data
 	 * 

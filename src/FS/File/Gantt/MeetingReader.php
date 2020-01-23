@@ -64,7 +64,7 @@ class FS_File_Gantt_MeetingReader
 		$time	= date( "Y-m-d", $time );
 		return $time;
 	}
-	
+
 	/**
 	 *	Returns extracted Project and Meeting Dates.
 	 *	@access		public

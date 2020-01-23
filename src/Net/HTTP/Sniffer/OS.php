@@ -52,7 +52,7 @@ class Net_HTTP_Sniffer_OS
 	{
 		$this->identifySystem();
 	}
-	
+
 	/**
 	 *	Returns Operating System and Version.
 	 *	@access		public
@@ -62,7 +62,7 @@ class Net_HTTP_Sniffer_OS
 	{
 		return array( "system" => $this->system, "version" => $this->version );
 	}
-	
+
 	/**
 	 *	Returns Operating System and Version.
 	 *	@access		public
@@ -72,7 +72,7 @@ class Net_HTTP_Sniffer_OS
 	{
 		return $this->system;
 	}
-	
+
 	/**
 	 *	Returns Operating System Version.
 	 *	@access		public
@@ -82,7 +82,7 @@ class Net_HTTP_Sniffer_OS
 	{
 		return $this->version;
 	}
-	
+
 	/**
 	 *	Identifies Operating System and Version.
 	 *	@access		protected

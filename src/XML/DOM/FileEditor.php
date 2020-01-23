@@ -56,7 +56,7 @@ class XML_DOM_FileEditor
 		$this->fileName	= $fileName;
 		$this->xmlTree	= XML_DOM_FileReader::load( $fileName );
 	}
-	
+
 	/**
 	 *	Adds a new Node Attribute to an existing Node.
 	 *	@access		public
@@ -73,7 +73,7 @@ class XML_DOM_FileEditor
 		$branch->addChild( $node );
 		return (bool) $this->write();
 	}
-	
+
 	/**
 	 *	Modifies a Node Attribute by its Path and Attribute Key.
 	 *	@access		public
@@ -88,7 +88,7 @@ class XML_DOM_FileEditor
 			return (bool) $this->write();
 		return FALSE;
 	}
-	
+
 	/**
 	 *	Modifies a Node Content by its Path.
 	 *	@access		public
@@ -103,7 +103,7 @@ class XML_DOM_FileEditor
 			return (bool) $this->write();
 		return FALSE;
 	}
-	
+
 	/**
 	 *	Returns Node Object for a Node Path.
 	 *	@access		public
@@ -133,7 +133,7 @@ class XML_DOM_FileEditor
 		}
 		return $xmlNode;
 	}
-	
+
 	/**
 	 *	Removes a Node by its Path.
 	 *	@access		public
@@ -167,7 +167,7 @@ class XML_DOM_FileEditor
 		}
 		throw new InvalidArgumentException( 'Node not found.' );
 	}
-	
+
 	/**
 	 *	Removes a Node Attribute by its Path and Attribute Key.
 	 *	@access		public
@@ -182,7 +182,7 @@ class XML_DOM_FileEditor
 			return (bool) $this->write();
 		return FALSE;
 	}
-	
+
 	/**
 	 *	Writes changes XML Tree to File and returns Number of written Bytes.
 	 *	@access		protected

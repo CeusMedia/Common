@@ -52,7 +52,7 @@ class FS_File_List_Editor extends FS_File_List_Reader
 		parent::__construct( $fileName );
 		$this->fileName	= $fileName;
 	}
-	
+
 	/**
 	 *	Adds an Item to the current List.
 	 *	@access		public
@@ -94,7 +94,7 @@ class FS_File_List_Editor extends FS_File_List_Reader
 		unset( $this->list[$index] );
 		return $this->write();
 	}
-	
+
 	/**
 	 *	Removes an Item from current List by its Index.
 	 *	@access		public
@@ -108,7 +108,7 @@ class FS_File_List_Editor extends FS_File_List_Reader
 		unset( $this->list[$index] );
 		return $this->write();
 	}
-	
+
 	/**
 	 *	Saves current List to File.
 	 *	@access		protected

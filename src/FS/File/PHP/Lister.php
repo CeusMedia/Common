@@ -141,12 +141,12 @@ class FS_File_PHP_Lister extends FilterIterator
 	{
 		$this->extensions	= $extensions;
 	}
-	
+
 	public function setIgnoredFiles( $files = array() )
 	{
 		$this->ignoreFiles	= $files;
 	}
-	
+
 	public function setIgnoredFolders( $folders = array() )
 	{
 		$this->ignoreFolders	= $folders;

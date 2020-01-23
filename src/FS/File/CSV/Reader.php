@@ -45,7 +45,7 @@ class FS_File_CSV_Reader
 	protected $delimiter		= ";";
 	/**	@var		string		$enclosure		Enclosure Sign */
 	protected $enclosure		= '"';
-	
+
 	/**
 	 *	Constructor.
 	 *	@access		public
@@ -136,7 +136,7 @@ class FS_File_CSV_Reader
 	{
 		$this->enclosure = $enclosure;
 	}
-	
+
 	/**
 	 *	Reads data an returns an array.
 	 *	@access		public
@@ -152,7 +152,7 @@ class FS_File_CSV_Reader
 			array_shift( $data );
 		return $data;
 	}
-	
+
 	/**
 	 *	Reads data and returns an associative array if column headers are used.
 	 *	@access		public

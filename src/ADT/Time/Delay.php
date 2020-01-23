@@ -75,7 +75,7 @@ class ADT_Time_Delay
 	{
 		return $this->numberRuns;
 	}
-	
+
 	/**
 	 *	Returns set start timestamp.
 	 *	@access		public
@@ -97,7 +97,7 @@ class ADT_Time_Delay
 		$time	= microtime( TRUE ) - $this->time;
 		return $time < $this->seconds;
 	}
-	
+
 	/**
 	 *	Indicates whether Delay has passed.
 	 *	@access		public

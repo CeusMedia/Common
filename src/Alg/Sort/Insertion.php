@@ -37,7 +37,7 @@ class Alg_Sort_Insertion
 {
 	protected $compares	= 0;
 	protected $moves	= 0;
-	
+
 	/**
 	 *	Sorts List with Insertion Sort.
 	 *	@access		public

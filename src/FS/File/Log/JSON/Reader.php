@@ -62,7 +62,7 @@ class FS_File_Log_JSON_Reader
 	{
 		return $this->read( $this->fileName, $reverse, $limit );
 	}
-	
+
 	/**
 	 *	Reads and returns List of parsed Lines statically.
 	 *	@access		public

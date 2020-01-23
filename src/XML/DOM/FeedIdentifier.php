@@ -43,7 +43,7 @@ class XML_DOM_FeedIdentifier
 	protected $type	= "";
 	/**	@var	string		$version		Version of Feed Type */
 	protected $version	= "";
-	
+
 	/**
 	 *	Returns identified Type of Feed.
 	 *	@access		public
@@ -53,7 +53,7 @@ class XML_DOM_FeedIdentifier
 	{
 		return $this->type;
 	}
-	
+
 	/**
 	 *	Returns identified Version of Feed Type.
 	 *	@access		public

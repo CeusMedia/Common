@@ -47,17 +47,17 @@ class ADT_PHP_Package extends ADT_PHP_Category
 			return $this->files[$name];
 		throw new RuntimeException( "File '$name' is unknown" );
 	}
-	
+
 	public function getFiles()
 	{
 		return $this->files;
 	}
-	
+
 	public function hasFiles()
 	{
 		return count( $this->files ) > 1;
 	}
-	
+
 	public function setFile( $name, $file )
 	{
 		$this->files[$name]	= $file;

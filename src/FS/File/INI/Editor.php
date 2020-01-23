@@ -135,7 +135,7 @@ class FS_File_INI_Editor extends FS_File_INI_Reader
 		$content	= '"'.addslashes( $value ).'"';
 		if( $this->reservedWords && is_bool( $value ) )
 			$content	= $value ? "yes" : "no";
-		
+
 		$breaksKey		= 4 - floor( strlen( $key ) / 8 );
 		$breaksValue	= 4 - floor( strlen( $content ) / 8 );
 		if( $breaksKey < 1 )

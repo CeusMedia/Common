@@ -37,7 +37,7 @@ class Alg_Search_Strange
 {
 	/**	@var		int			$counter		internal counter of steps */
 	protected $counter;
-	
+
 	/**
 	 *	Searches in List and returns position if found.
 	 *	@access		public

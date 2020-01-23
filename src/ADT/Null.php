@@ -51,14 +51,14 @@ class ADT_Null implements Countable, Renderable, ArrayAccess
 	{
 		return $this;
 	}
-	
+
 	/**
 	 *	Cloning is disabled.
 	 *	@access		private
 	 *	@return		void
 	 */
 	private function __clone() {}
-	
+
 	/**
 	 *	Constructor, disabled.
 	 *	@access		protected

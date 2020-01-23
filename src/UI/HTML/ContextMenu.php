@@ -50,10 +50,10 @@ class UI_HTML_ContextMenu
 		$html		= UI_HTML_Tag::create( 'div', $label.$opener.$options, array( 'class' => 'cmContextMenu' ) );
 		return $html;
 	}
-	
+
 	public static function buildScript( $selector, $options	= array() )
 	{
 		return UI_HTML_JQuery::buildPluginCall( 'cmContextMenu', $selector, $options );
 	}
-	
+
 }

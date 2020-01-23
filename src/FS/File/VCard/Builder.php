@@ -98,11 +98,11 @@ class FS_File_VCard_Builder
 		//  PHONES
 		foreach( $card->getPhones() as $number => $types )
 			$lines[]	= self::renderLine( "tel", $number, $types );
-		
+
 		//  GEO TAGS
 		foreach( $card->getGeoTags() as $geo )
 			$lines[]	= self::renderLine( "geo", $geo, $geo['types'] );
-		
+
 		if( self::$prodId )
 			array_unshift( $lines, "PRODID:".self::$prodId );
 		if( self::$version )
@@ -116,7 +116,7 @@ class FS_File_VCard_Builder
 		}
 		return $lines;
 	}
-	
+
 	protected static function escape( $value )
 	{
 		$value	= str_replace( ",", "\,", $value );
@@ -124,7 +124,7 @@ class FS_File_VCard_Builder
 		$value	= str_replace( ":", "\:", $value );
 		return $value;
 	}
-	
+
 	protected static function renderLine( $name, $values, $types = NULL, $escape = TRUE, $delimiter = ";" )
 	{
 		$type	= $types ? ";TYPE=".implode( ",", $types ) : "";

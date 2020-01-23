@@ -47,7 +47,7 @@ class ADT_String
 	{
 		$this->string	= $string;
 	}
-	
+
 	public function __toString()
 	{
 #		return $this->render();

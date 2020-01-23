@@ -72,7 +72,7 @@ class UI_HTML_Link extends UI_HTML_Abstract
 			throw new InvalidArgumentException( 'Link label is neither rendered nor renderable' );
 		return UI_HTML_Tag::create( "a", $content, $attributes );	
 	}
-	
+
 	public function setUrl( $url )
 	{
 		$this->attributes['href']	= $url;

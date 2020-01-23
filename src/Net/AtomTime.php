@@ -61,7 +61,7 @@ class Net_AtomTime
 		$time	= strtotime( $date );
 		return $time;
 	}
-	
+
 	/**
 	 *	Returns date as formatted string.
 	 *	@access		public

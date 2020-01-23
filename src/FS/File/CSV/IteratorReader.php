@@ -49,7 +49,7 @@ class FS_File_CSV_IteratorReader
 	{
 		$this->iterator	= new FS_File_CSV_Iterator( $fileName, $delimiter );	
 	}
-	
+
 	/**
 	 *	Returns CSV Data as Array or associative Array.
 	 *	@access		public

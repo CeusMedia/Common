@@ -52,7 +52,7 @@ class Net_Site_MapWriter
 	{
 		$this->fileName	= $fileName;
 	}
-	
+
 	/**
 	 *	Writes Sitemap for List of URLs.
 	 *	@access		public
@@ -64,7 +64,7 @@ class Net_Site_MapWriter
 	{
 		return $this->save( $this->fileName, $urls, $mode );
 	}
-	
+
 	/**
 	 *	Saves Sitemap for List of URLs statically.
 	 *	@access		public

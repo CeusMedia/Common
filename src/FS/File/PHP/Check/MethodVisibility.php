@@ -73,7 +73,7 @@ class FS_File_PHP_Check_MethodVisibility
 					$this->methods[]	= $match;
 		return empty( $this->methods );
 	}
-	
+
 	/**
 	 *	Returns List of methods without defined visibility.
 	 *	@access		public

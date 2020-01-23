@@ -45,7 +45,7 @@ class Net_Site_MapCreator
 	protected $crawler;
 	/**	@var		array				$errors		List of Errors */
 	protected $errors					= array();
-	
+
 	/**
 	 *	Constructor.
 	 *	@access		public
@@ -119,7 +119,7 @@ class Net_Site_MapCreator
 		$writer	= new FS_File_Block_Writer( $uri );
 		return $writer->writeBlocks( $this->errors );
 	}
-	
+
 	/**
 	 *	Writes found URLs to a List File and returns Number of written Bytes.
 	 *	@access		public

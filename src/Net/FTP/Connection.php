@@ -86,7 +86,7 @@ class Net_FTP_Connection
 		if( $checkAuthentication && !$this->auth )
 			throw new RuntimeException( "Not authenticated onto FTP Server" );
 	}
-	
+
 	/**
 	 *	Closes FTP Connection.
 	 *	@access		public
@@ -102,7 +102,7 @@ class Net_FTP_Connection
 		$this->resource	= NULL;
 		return TRUE;
 	}
-	
+
 	/**
 	 *	Opens Connection to FTP Server.
 	 *	@access		public
@@ -173,7 +173,7 @@ class Net_FTP_Connection
 	{
 		return ftp_get_option( $this->resource, FTP_TIMEOUT_SEC );
 	}
-	
+
 	/**
 	 *	Authenticates FTP Connection.
 	 *	@access		public

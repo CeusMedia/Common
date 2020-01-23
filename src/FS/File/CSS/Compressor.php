@@ -101,8 +101,8 @@ class FS_File_CSS_Compressor
 
 		//  remove leading and trailing space
 		$string	= trim( $string );
-		
-		
+
+
 	}
 
 	/**

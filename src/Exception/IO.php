@@ -56,7 +56,7 @@ class Exception_IO extends Exception_Runtime
 		parent::__construct( $message, $code );
 		$this->resource	= $resource;
 	}
-	
+
 	/**
 	 *	Returns Name of Source which was not fully accessible.
 	 *	@access		public

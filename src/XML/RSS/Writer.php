@@ -55,7 +55,7 @@ class XML_RSS_Writer
 	{
 		$this->itemList[] = $item;
 	}
-	
+
 	/**
 	 *	Sets Information of Channel.
 	 *	@access		public
@@ -67,7 +67,7 @@ class XML_RSS_Writer
 	{
 		$this->channelData	= $array;
 	}
-	
+
 	/**
 	 *	Sets an Information Pair of Channel.
 	 *	@access		public

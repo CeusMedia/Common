@@ -84,7 +84,7 @@ class UI_HTML_Image extends UI_HTML_Abstract
 	{
 		$this->title	= $title;	
 	}
-	
+
 	/**
 	 *	Sets URL.
 	 *	@access		public

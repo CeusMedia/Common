@@ -51,7 +51,7 @@ class FS_File_List_Writer
 	{
 		$this->fileName	= $fileName;
 	}
-	
+
 	/**
 	 *	Adds an Item to the current List.
 	 *	@access		public
@@ -81,7 +81,7 @@ class FS_File_List_Writer
 		unset( $this->list[$index] );
 		return $this->write();
 	}
-	
+
 	/**
 	 *	Removes an Item from current List by its Index.
 	 *	@access		public
@@ -95,7 +95,7 @@ class FS_File_List_Writer
 		unset( $this->list[$index] );
 		return $this->write();
 	}
-	
+
 	/**
 	 *	Saves a List to File.
 	 *	@access		public
@@ -112,7 +112,7 @@ class FS_File_List_Writer
 		$file	= new FS_File_Writer( $fileName, $mode, $user, $group );
 		return $file->writeArray( $list ) !== FALSE;
 	}
-	
+
 	/**
 	 *	Writes the current List to File.
 	 *	@access		protected

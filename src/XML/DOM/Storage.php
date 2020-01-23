@@ -43,7 +43,7 @@ class XML_DOM_Storage extends ADT_OptionObject
 	protected $fileName;
 	/**	@var	array			$storage		Array for Storage Operations */
 	protected $storage	= array();
-	
+
 	/**
 	 *	Constructor.
 	 *	@access		public
@@ -64,7 +64,7 @@ class XML_DOM_Storage extends ADT_OptionObject
 		$tree	= $reader->read();
 		$this->readRecursive( $tree, $this->storage );
 	}
-	
+
 	/**
 	 *	Returns value of a Path in the Storage.
 	 *	@access		public
@@ -92,7 +92,7 @@ class XML_DOM_Storage extends ADT_OptionObject
 				return NULL;
 		}
 	}
-	
+
 	/**
 	 *	Reads XML File recursive into array for Storage Operations.
 	 *	@access		protected
@@ -121,7 +121,7 @@ class XML_DOM_Storage extends ADT_OptionObject
 				$array[$nodeName]	= $value;
 		}
 	}
-	
+
 	/**
 	 *	Removes a Value from the Storage by its Path.
 	 *	@access		public
@@ -161,7 +161,7 @@ class XML_DOM_Storage extends ADT_OptionObject
 		}
 		return false;
 	}
-	
+
 	/**
 	 *	Sets a Value in the Storage by its Path.
 	 *	@access		public
@@ -180,7 +180,7 @@ class XML_DOM_Storage extends ADT_OptionObject
 			return (bool) $this->write();
 		return $result;
 	}
-	
+
 	/**
 	 *	Recursive sets a Value in the Storage by its Path.
 	 *	@access		protected
@@ -218,7 +218,7 @@ class XML_DOM_Storage extends ADT_OptionObject
 		$this->writeRecursive( $root, $this->storage );
 		return $writer->write( $root );
 	}
-	
+
 	/**
 	 *	Writes XML File recursive from Storage.
 	 *	@access		protected

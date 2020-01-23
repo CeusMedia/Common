@@ -28,7 +28,7 @@ class UI_Image_PieGraph
 	protected $width			= 600;
 	protected $shadow			= FALSE;
 	protected $map;
-	
+
 	protected $colors	= array(
 		'#07077F',
 		'#2F2F9F',
@@ -51,7 +51,7 @@ class UI_Image_PieGraph
 	{
 		$this->setSize( $width, $height );
 	}
-	
+
 	public function build( $id, $samples, $uri )
 	{
 		$idMap	= $id."_imageMap";
@@ -64,7 +64,7 @@ class UI_Image_PieGraph
 		);
 		return UI_Template::render( 'templates/graph.html', $data );
 	}
-	
+
 	public function buildImage( $id, $data, $uri = NULL )
 	{
 		if( empty( $data['values'] ) )
@@ -113,7 +113,7 @@ class UI_Image_PieGraph
 		$this->centerX			= $x;
 		$this->centerY			= $y;
 	}
-	
+
 	public function setColors( $colors )
 	{
 		if( !is_array( $colors ) )
@@ -125,7 +125,7 @@ class UI_Image_PieGraph
 	{
 		$this->heading	= $heading;
 	}
-	
+
 	public function setLegendAlign( $x, $y )
 	{
 		$this->legendAlignX		= $x;

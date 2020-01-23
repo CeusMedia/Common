@@ -57,13 +57,13 @@ class FS_File_CSS_Combiner
 	{
 		$pathName	= dirname( realpath( $fileUri ) )."/";
 		$fileBase	= preg_replace( "@\.css@", "", basename( $fileUri  ));
-		
+
 		if( !file_exists( $fileUri ) )
 			throw new Exception( "Style File '".$fileUri."' is not existing." );
-			
+
 		$this->statistics	= array();
 		$content	= file_get_contents( $fileUri );
-	
+
 		$content	= $this->combineString( $pathName, $content );
 		$fileName	= $this->prefix.$fileBase.$this->suffix.".css";
 		$fileUri	= $pathName.$fileName;
@@ -72,7 +72,7 @@ class FS_File_CSS_Combiner
 		file_put_contents( $fileUri, $content );
 		return $fileUri;
 	}
-	
+
 	/**
 	 *	Combines all CSS Files imported in CSS String and returns Combination String;
 	 *	@access		public
@@ -138,7 +138,7 @@ class FS_File_CSS_Combiner
 	{
 		return $this->statistics;
 	}
-	
+
 	/**
 	 *	Callback Method for additional Modifikations before Combination.
 	 *	@access		protected
@@ -161,7 +161,7 @@ class FS_File_CSS_Combiner
 		if( trim( $prefix ) )
 			$this->prefix	= $prefix;
 	}	
-	
+
 	/**
 	 *	Sets Suffix of combined File Name.
 	 *	@access		public

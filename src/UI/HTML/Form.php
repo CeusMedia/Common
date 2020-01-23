@@ -54,7 +54,7 @@ class UI_HTML_Form extends UI_HTML_Abstract
 		if( !is_null( $attributes ) )
 			$this->setAttributes( $attributes );
 	}
-	
+
 	/**
 	 *	Returns rendered Form Element.
 	 *	@access		public

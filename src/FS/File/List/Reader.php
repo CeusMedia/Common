@@ -40,7 +40,7 @@ class FS_File_List_Reader
 	protected $list						= array();
 	/**	@var		string		$commentPattern	RegEx Pattern of Comments */	
 	protected static $commentPattern	= '/^[#:;\/*-]/';
-	
+
 	/**
 	 *	Constructor.
 	 *	@access		public
@@ -61,7 +61,7 @@ class FS_File_List_Reader
 	{
 		return "{".implode( ", ", $this->list )."}";
 	}
-	
+
 	/**
 	 *	Returns the Index of a given Item in current List.
 	 *	@access		public
@@ -85,7 +85,7 @@ class FS_File_List_Reader
 	{
 		return $this->list;
 	}
-	
+
 	/**
 	 *	Returns the Size of current List.
 	 *	@access		public

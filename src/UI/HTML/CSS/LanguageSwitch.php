@@ -67,7 +67,7 @@ class UI_HTML_CSS_LanguageSwitch
 	{
 		return UI_HTML_CountryFlagIcon::build( $isoCode );
 	}
-	
+
 	public function setLanguages( $array )
 	{
 		$this->languages	= $array;

@@ -51,7 +51,7 @@ class XML_DOM_SyntaxValidator
 	{
 		return $this->document;
 	}
-	
+
 	/**
 	 *	Returns Array of parsing Errors.
 	 *	@access		public
@@ -61,7 +61,7 @@ class XML_DOM_SyntaxValidator
 	{
 		return $this->errors;
 	}
-		
+
 	/**
 	 *	Validates XML Document.
 	 *	@access		public

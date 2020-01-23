@@ -49,7 +49,7 @@ class XML_Namespaces
 	{
 		$this->namespaces[$prefix]	= $uri;
 	}
-	
+
 	/**
 	 *	Detects Namespaces from a XML DOM Document and returns Number of found Namespaces.
 	 *	@access		public
@@ -62,7 +62,7 @@ class XML_Namespaces
 		$this->namespaces	= array_merge( $this->namespaces, $namespaces );
 		return count( $namespaces );
 	}
-	
+
 	/**
 	 *	Detects Namespaces from a XML DOM Document and returns Number of found Namespaces.
 	 *	@access		public
@@ -75,7 +75,7 @@ class XML_Namespaces
 		$this->namespaces	= array_merge( $this->namespaces, $namespaces );
 		return count( $namespaces );
 	}
-	
+
 	/**
 	 *	Detects Namespaces from a XML File and returns Number of found Namespaces.
 	 *	@access		public
@@ -125,7 +125,7 @@ class XML_Namespaces
 	{
 		return $element->getDocNamespaces( $element );
 	}
-	
+
 	/**
 	 *	Detects and returns Map of Namespaces found in a XML File.
 	 *	@access		public

@@ -117,7 +117,7 @@ class FS_Folder_MethodSortCheck
 	{
 		return $this->files;
 	}
-		
+
 	/**
 	 *	Returns Number of found Files with Order Deviations.
 	 *	@access		public
@@ -140,7 +140,7 @@ class FS_Folder_MethodSortCheck
 			return 0;
 		return round( $this->found / $this->count * 100, $accuracy );
 	}
-	
+
 	/**
 	 *	Returns Ratio between Number found and scanned Files.
 	 *	@access		public

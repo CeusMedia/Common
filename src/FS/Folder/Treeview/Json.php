@@ -40,19 +40,19 @@ class FS_Folder_Treeview_Json
 {
 	protected $logFile;
 	protected $path;
-	
+
 	public $classLeaf		= "file";
 	public $classNode		= "folder";
-	
+
 	public $fileUrl			= "./?file=";
 	public $fileTarget		= NULL;
-	
+
 	public function __construct( $basePath, $logFile = NULL )
 	{
 		$this->basePath		= $basePath;
 		$this->logFile		= $logFile;
 	}
-	
+
 	public function buildJson( $path = "" )
 	{
 		$clock		= new Alg_Time_Clock;
@@ -75,7 +75,7 @@ class FS_Folder_Treeview_Json
 		return $json;
 	}
 
-	
+
 	protected function buildFileItem( $entry )
 	{
 		$label		= $entry->getFilename();
@@ -91,7 +91,7 @@ class FS_Folder_Treeview_Json
 		);
 		return $item;
 	}
-	
+
 	protected function buildFolderItem( $entry )
 	{
 		$children	= $this->hasChildren( $entry );
@@ -108,7 +108,7 @@ class FS_Folder_Treeview_Json
 	{
 		return pathinfo( $entry->getPathname(), PATHINFO_EXTENSION );
 	}
-	
+
 	protected function getFileUrl( $entry )
 	{
 		return $this->fileUrl.rawurlencode( $this->getPathName( $entry ) );
@@ -138,7 +138,7 @@ class FS_Folder_Treeview_Json
 		}
 		return $children;
 	}
-	
+
 	protected function log( $path, $numberItems, $jsonLength, $time )
 	{
 		$message	= '<path time="%1$d" items="%3$d" length="%4$d" time="%5$d">%2$s</path>';

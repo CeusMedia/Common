@@ -93,7 +93,7 @@ class UI_Image_EvolutionGraph extends ADT_OptionObject
 		foreach( $options as $key => $value )
 			$this->setOption( $key, $value );
 	}
-	
+
 	/**
 	 *	Adds another Graph with Legend, Line Color and Values.
 	 *	@access		public
@@ -124,7 +124,7 @@ class UI_Image_EvolutionGraph extends ADT_OptionObject
 		//  send Image to Browser
 		ImagePng( $im );
 	}
-	
+
 	protected function drawGraphs( &$image, $maxValue, $ratio )
 	{
 		$verticalZone	= $this->getOption( 'height' ) - $this->getOption( 'padding_top' ) - $this->getOption( 'padding_bottom' );

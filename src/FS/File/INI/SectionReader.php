@@ -68,7 +68,7 @@ class FS_File_INI_SectionReader
 			return $this->data[$section];
 		return $this->data;
 	}
-	
+
 	/**
 	 *	Returns a Property by its Key.
 	 *	@access		public
@@ -82,7 +82,7 @@ class FS_File_INI_SectionReader
 			throw new InvalidArgumentException( 'Key "'.$key.'" is not existing in Section "'.$section.'".' ); 
 		return $this->data[$section][$key];
 	}
-	
+
 	/**
 	 *	Returns all Sections as Array.
 	 *	@access		public
@@ -92,7 +92,7 @@ class FS_File_INI_SectionReader
 	{
 		return array_keys( $this->data );
 	}
-	
+
 	/**
 	 *	Indicated whether a Keys is set.
 	 *	@access		public
@@ -106,7 +106,7 @@ class FS_File_INI_SectionReader
 			throw new InvalidArgumentException( 'Section "'.$section.'" is not existing.' ); 
 		return array_key_exists( $key, $this->data[$section] );
 	}
-	
+
 	/**
 	 *	Indicated whether a Section is set.
 	 *	@access		public
@@ -117,7 +117,7 @@ class FS_File_INI_SectionReader
 	{
 		return in_array( $section, $this->getSections() );
 	}
-	
+
 	/**
 	 *	Reads section Property File.
 	 *	@access		protected

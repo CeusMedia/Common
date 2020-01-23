@@ -43,7 +43,7 @@ class Exception_Validation extends Exception_Runtime
 	protected $errors	= array();
 	/**	@var		string		$form			Name Form in Validation File */
 	protected $form		= "";
-	
+
 	/**
 	 *	Constructor.
 	 *	@access		public
@@ -57,7 +57,7 @@ class Exception_Validation extends Exception_Runtime
 		$this->errors	= $errors;
 		$this->form		= $form;
 	}
-	
+
 	/**
 	 *	Returns List of Validation Errors.
 	 *	@access		public
@@ -67,7 +67,7 @@ class Exception_Validation extends Exception_Runtime
 	{
 		return $this->errors;
 	}
-	
+
 	/**
 	 *	Returns Name of Form in Validation File.
 	 *	@access		public

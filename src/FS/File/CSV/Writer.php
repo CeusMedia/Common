@@ -40,7 +40,7 @@ class FS_File_CSV_Writer
 	protected $fileName;
 	/**	@var		string		$separator		Separator Sign */
 	protected $separator		= ",";
-	
+
 	/**
 	 *	Constructor.
 	 *	@access		public

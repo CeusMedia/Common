@@ -54,7 +54,7 @@ class UI_SVG_BarAcross
 		$x = isset( $options["x"] ) ? $options["x"] : 50;
 		$y = isset( $options["y"] ) ? $options["y"] : 80;
 		$data = $this->chart->data;
-		
+
 		$filters	= array();
 		$pointLight	= UI_HTML_Tag::create( "fePointLight", "", array( 'x' => -5000, 'y' => -5000, 'z' => 5000 ) );
 		$filters[]	= UI_HTML_Tag::create( "feGaussianBlur", "", array( 'in' => "SourceAlpha", 'stdDeviation' => "0.5", 'result' => "blur" ) );
@@ -92,7 +92,7 @@ class UI_SVG_BarAcross
 			$count++;
 		}
 		$tags	= implode( "", $tags );
-		
+
 		if( isset( $this->options["legend"] ) )
 		{
 			unset( $this->options["legend"] );

@@ -79,7 +79,7 @@ class Net_Memory_Cache extends ADT_Cache_Store
 	{
 		$this->store->decrement( $key, $value );
 	}
-	
+
 	/**
 	 *	Removes all stored Pairs.
 	 *	@access		public
@@ -89,7 +89,7 @@ class Net_Memory_Cache extends ADT_Cache_Store
 	{
 		return $this->store->flush();
 	}
-	
+
 	/**
 	 *	Returns a stored Value by its Key.
 	 *	@access		public
@@ -110,7 +110,7 @@ class Net_Memory_Cache extends ADT_Cache_Store
 	{
 		return $this->store->getExtendedStats();
 	}
-	
+
 	/**
 	 *	Indicates whether a Pair is stored by its Key.
 	 *	@access		public
@@ -136,7 +136,7 @@ class Net_Memory_Cache extends ADT_Cache_Store
 	{
 		$this->store->increment( $key, $value );
 	}
-	
+
 	/**
 	 *	Removes a stored Pair by its Key.
 	 *	@access		public
@@ -147,7 +147,7 @@ class Net_Memory_Cache extends ADT_Cache_Store
 	{
 		return $this->store->delete( $key );
 	}
-	
+
 	/**
 	 *	Stores or replaces a Pair.
 	 *	@access		public

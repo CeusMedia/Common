@@ -53,7 +53,7 @@ class FS_File_Block_Reader
 		$this->patternSection	= "@^\[([a-z][^\]]*)\]$@i";
 		$this->fileName	= $fileName;
 		$this->readBlocks();	
-		
+
 	}
 
 	/**

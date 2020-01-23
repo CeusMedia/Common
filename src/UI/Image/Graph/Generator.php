@@ -128,7 +128,7 @@ abstract class UI_Image_Graph_Generator
 	 *	@return		void
 	 */
 	abstract protected function prepareConfig();
-	
+
 	/**
 	 *	Prepares Graph Data, needs to be implemented for each Generator.
 	 *	@abstract

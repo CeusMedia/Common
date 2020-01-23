@@ -65,7 +65,7 @@ class UI_HTML_Tree_Menu
 		$code		= UI_HTML_Tag::create( 'div', $tree, $list->getAttributes( TRUE ) );
 		return $code;
 	}
-	
+
 	/**
 	 *	Builds Layer Menu from OPML String.
 	 *	@access		public

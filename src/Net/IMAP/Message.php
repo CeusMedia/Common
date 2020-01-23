@@ -43,7 +43,7 @@ class Net_IMAP_Message
 	protected $structure;
 	protected $info;
 	protected $body;
-	
+
 	const TYPE_PLAIN	= 'PLAIN';
 	const TYPE_HTML		= 'HTML';
 
@@ -93,7 +93,7 @@ class Net_IMAP_Message
 	{
 		return $this->getBody( self::TYPE_PLAIN );
 	}
-	
+
 	/**
 	 *	Returns Body.
 	 *	@access		public

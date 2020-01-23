@@ -51,7 +51,7 @@ class UI_Image_Graph_Builder
 		$graph = new Graph( $config['width'], $config['height'], 'auto' );
 		$graph->setScale( self::getConfigValue( $config, 'scale' ) );
 		$graph->img->SetAntiAliasing( self::getConfigValue( $config, 'image.antialias', FALSE ) ); 
-		
+
 		UI_Image_Graph_Components::setTitle( $graph, $config );
 		UI_Image_Graph_Components::setSubTitle( $graph, $config );
 		UI_Image_Graph_Components::setLegend( $graph, self::getSubConfig( $config, "legend." ) );
@@ -175,7 +175,7 @@ class UI_Image_Graph_Builder
 		if( $marginColor )
 			$graph->setMarginColor( $marginColor );
 	}
-		
+
 	/**
 	 *	Adds Plots to Graph.
 	 *	@access		protected

@@ -41,7 +41,7 @@ class ADT_URL_Inference extends ADT_URL
 	public static $staticAddress	= "./";
 	public static $staticScheme		= "";
 	public static $staticSeparator	= "&";
-	
+
 	/**
 	 *	Builds URL Query String based on current URL Parameters extended by a Map of new Parameters ($mapSet) and reduced by a List of Parameters ($listRemove).
 	 *	Note: You can also remove a Parameter by setting a new Parameter with value NULL.
@@ -59,7 +59,7 @@ class ADT_URL_Inference extends ADT_URL
 		$parameters	.= $fragment ? "#".$fragment : "";
 		return $this->getUrl().$parameters;
 	}
-		
+
 	/**
 	 *	Builds URL based on current URL extended by a Map of new Parameters ($mapSet) and reduced by a List of Parameters ($listRemove).
 	 *	Note: You can also remove a Parameter by setting a new Parameter with value NULL.
@@ -84,7 +84,7 @@ class ADT_URL_Inference extends ADT_URL
 		// making link parameter string
 		return http_build_query( $mapRequest, "test_", $this->separator );
 	}
-		
+
 	/**
 	 *	Builds URL based on current URL extended by a Map of new Parameters ($mapSet) and reduced by a List of Parameters ($listRemove).
 	 *	Note: You can also remove a Parameter by setting a new Parameter with value NULL.
@@ -109,7 +109,7 @@ class ADT_URL_Inference extends ADT_URL
 		// making link parameter string
 		return http_build_query( $mapRequest, "", self::$staticSeparator );
 	}
-	
+
 	/**
 	 *	Builds URL Query String based on current URL Parameters extended by a Map of new Parameters ($mapSet) and reduced by a List of Parameters ($listRemove).
 	 *	Note: You can also remove a Parameter by setting a new Parameter with value NULL.

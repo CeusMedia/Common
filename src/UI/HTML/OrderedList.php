@@ -51,7 +51,7 @@ class UI_HTML_OrderedList extends UI_HTML_Abstract
 		if( !is_null( $attributes ) )
 			$this->addAttributes( $attributes );
 	}
-	
+
 	/**
 	 *	Adds an Item.
 	 *	@access		public
@@ -62,7 +62,7 @@ class UI_HTML_OrderedList extends UI_HTML_Abstract
 	{
 		$this->listItems[]	= $item;
 	}
-	
+
 	/**
 	 *	Adds an Item.
 	 *	@access		public

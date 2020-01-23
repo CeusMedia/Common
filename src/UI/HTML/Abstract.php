@@ -41,7 +41,7 @@ abstract class UI_HTML_Abstract implements Renderable
 		'class'	=> array()
 	);
 	protected $content		= NULL;
-	
+
 	/**
 	 *	Adds Attributes of Element.
 	 *	@access		public
@@ -103,7 +103,7 @@ abstract class UI_HTML_Abstract implements Renderable
 			$content	= $this->content->render();
 		return $content;
 	}
-	
+
 	/**
 	 *	Sets Attributes of Element.
 	 *	@access		public

@@ -51,7 +51,7 @@ class FS_File_SyntaxChecker
 		$this->error	= $output;
 		return FALSE;
 	}
-	
+
 	/**
 	 *	Returns Error of last File Syntax Check.
 	 *	@access		public

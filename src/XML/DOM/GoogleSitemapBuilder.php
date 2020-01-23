@@ -52,7 +52,7 @@ class XML_DOM_GoogleSitemapBuilder
 	{
 		$this->list[]	= $link;
 	}
-	
+
 	/**
 	 *	Builds and return XML of Sitemap.
 	 *	@access		public

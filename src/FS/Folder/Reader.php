@@ -74,7 +74,7 @@ class FS_Folder_Reader
 	{
 		return $this->isFolder( $this->folderName );
 	}
-	
+
 	/**
 	 *	Returns Number of Files and Folders within current Folder.
 	 *	@access		public
@@ -114,7 +114,7 @@ class FS_Folder_Reader
 	{
 		return FS_Folder_Lister::getFileList( $this->folderName, $pattern );
 	}
-	
+
 	/**
 	 *	Get List of Files with specified Extensions within current Folder.
 	 *	@access		public
@@ -128,7 +128,7 @@ class FS_Folder_Reader
 		$lister->showFolders( FALSE );
 		return $lister->getList();
 	}
-	
+
 	/**
 	 *	Returns Number of Folders within current Folder.
 	 *	@access		public
@@ -153,7 +153,7 @@ class FS_Folder_Reader
 	{
 		return FS_Folder_Lister::getFolderList( $this->folderName, $pattern );
 	}
-	
+
 	/**
 	 *	Returns given Folder Name, absolute or reative.
 	 *	@access		public

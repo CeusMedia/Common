@@ -51,17 +51,17 @@ class UI_HTML_Service_Test
 	{
 		$this->servicePoint		= $servicePoint;
 	}
-	
+
 	public function buildContent( $request, $subfolderLevel = 0 )
 	{
 		$service	= $request['test'];
-		
+
 		$basePath	= str_repeat( "../", $subfolderLevel );
-		
+
 		$preferred	= $this->servicePoint->getDefaultServiceFormat( $service );
 		$format		= isset( $request['parameter_format'] ) ? $request['parameter_format'] : $preferred;
 
-		
+
 		$requestUrl		= $this->getRequestUrl( $request );
 		$testUrl		= $this->getTestUrl( $request );
 
@@ -152,7 +152,7 @@ class UI_HTML_Service_Test
 		}
 		return $ruleList;
 	}
-	
+
 	private function evaluateResponse( $format, &$response, &$data, &$exception, &$trace  )
 	{
 		switch( $format )
@@ -321,7 +321,7 @@ class UI_HTML_Service_Test
 		$reader		= new Net_Reader( $url );
 		$reader->setBasicAuth( $this->username, $this->password );
 		$response	= $reader->read();
-		
+
 		$this->headers	= array();
 		$headers	= $reader->getHeader();
 		foreach( $headers as $key => $values )

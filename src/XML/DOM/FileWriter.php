@@ -39,7 +39,7 @@ class XML_DOM_FileWriter
 {
 	/**	@var		string			$fileName		URI of XML File */
 	protected $fileName;
-	
+
 	/**
 	 *	Constructor.
 	 *	@access		public

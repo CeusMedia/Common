@@ -79,7 +79,7 @@ class FS_File_PHP_Check_MethodOrder
 		natCaseSort( $this->sortedList );
 		return $this->sortedList === $this->originalList;
 	}
-	
+
 	/**
 	 *	Returns List of methods in original order.
 	 *	@access		public

@@ -53,7 +53,7 @@ abstract class Net_API_Google_Request
 	{
 		$this->apiKey	= $apiKey;
 	}
-	
+
 	protected function sendQuery( $query )
 	{
 		$query		.= "&key=".$this->apiKey;

@@ -69,7 +69,7 @@ class UI_HTML_Options
 		$select		= UI_HTML_Elements::Select( $this->name, $this->options, $this->class );
 		return $select;
 	}
-	
+
 	/**
 	 *	Builds JavaScript Code for AJAX Options.
 	 *	@access		public
@@ -108,7 +108,7 @@ class UI_HTML_Options
 	{
 		$this->cache	= $bool;
 	}
-	
+
 	/**
 	 *	Sets Class of Select Box for CSS.
 	 *	@access		public
@@ -142,7 +142,7 @@ class UI_HTML_Options
 	{
 		$this->selected	= $value;
 	}
-	
+
 	/**
 	 *	Sets URL to request JSON Options at.
 	 *	@access		public

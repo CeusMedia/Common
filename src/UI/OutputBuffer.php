@@ -39,7 +39,7 @@ class UI_OutputBuffer
 {
 	/**	@var		boolean		$isOpen		Flag: Buffer opened */
 	protected $isOpen = FALSE;
-	
+
 	/**
 	 *	Constructor.
 	 *	@access		public
@@ -51,7 +51,7 @@ class UI_OutputBuffer
 		if( $open )
 			$this->open();
 	}
-	
+
 	/**
 	 *	Clears Output Buffer.
 	 *	@access		public
@@ -61,7 +61,7 @@ class UI_OutputBuffer
 	{
 		ob_clean();
 	}
-	
+
 	/**
 	 *	Closes Output Buffer.
 	 *	@access		public
@@ -82,7 +82,7 @@ class UI_OutputBuffer
 	{
 		ob_flush();
 	}
-	
+
 	/**
 	 *	Returns Content of Output Buffer.
 	 *	@access		public
@@ -99,7 +99,7 @@ class UI_OutputBuffer
 	public function has(){
 		return strlen( $this->get() );
 	}
-	
+
 	/**
 	 *	Indicates whether Output Buffer is open.
 	 *	@access		public
@@ -109,7 +109,7 @@ class UI_OutputBuffer
 	{
 		return (boolean) $this->isOpen;
 	}
-	
+
 	/**
 	 *	Opens Output Buffer.
 	 *	@access		public

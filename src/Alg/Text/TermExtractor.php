@@ -61,11 +61,11 @@ class Alg_Text_TermExtractor
 				$word	= trim( $word );
 				if( strlen( $word ) < 2 )
 					continue;
-				
+
 				$search	= !self::$backlistCaseSensitive ? strtolower( $word ) : $word;
 				if( in_array( $search, $blacklist ) )
 					continue;
-				
+
 				if( $word )
 				{
 					if( !isset( $list[$word] ) )
@@ -78,7 +78,7 @@ class Alg_Text_TermExtractor
 		arsort( $list );
 		return $list;
 	}
-	
+
 	public static function loadBlacklist( $fileName )
 	{
 		$string	= FS_File_Editor::load( $fileName );
@@ -90,7 +90,7 @@ class Alg_Text_TermExtractor
 		$list	= FS_File_Editor::loadArray( $fileName );
 		self::setBlacklist( array_unique( $list ) );
 	}
-	
+
 	public static function setBlacklist( $list )
 	{
 		self::$blacklist		= array_unique( $list );

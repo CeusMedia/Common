@@ -98,7 +98,7 @@ class FS_File_RegexFilter extends RegexIterator
 	{
 		return $this->numberFound;
 	}
-	
+
 	/**
 	 *	Returns Number of scanned Files.
 	 *	@access		public

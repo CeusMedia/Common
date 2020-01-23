@@ -41,7 +41,7 @@ class CLI_Server_Cron_Parser
 {
 	/**	@var		array		$jobs			Array of parse Cron Jobs */
 	protected $jobs				= array();
-	
+
 	/**
 	 *	Constructor.
 	 *	@access		public

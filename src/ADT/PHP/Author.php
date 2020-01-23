@@ -50,12 +50,12 @@ class ADT_PHP_Author
 		$this->setEmail( $email );
 		$this->setName( $name );
 	}
-	
+
 	public function getEmail()
 	{
 		return $this->email;
 	}
-	
+
 	public function getName()
 	{
 		return $this->name;
@@ -73,7 +73,7 @@ class ADT_PHP_Author
 	{
 		$this->email	= $email;
 	}
-	
+
 	public function setName( $name )
 	{
 		$this->name	= $name;

@@ -54,7 +54,7 @@ class UI_HTML_Service_Table
 		$services	= $this->servicePoint->getServices();
 		natcasesort( $services );
 		$heads		= array();
-		
+
 		$heads	= array( "<th>Service</th><th>Parameter</th>" );
 		$cols	= array( "<col width='35%'/><col width='30%'/>" ); 
 		foreach( $this->availableFormats as $format )
@@ -81,7 +81,7 @@ class UI_HTML_Service_Table
 				else
 					$cells[]	= "<td class='no'>-</td>";
 			}
-						
+
 			//  --  PARAMETERS  --   //
 			$parameterList	= array();
 			$parameters	= $this->servicePoint->getServiceParameters( $service );

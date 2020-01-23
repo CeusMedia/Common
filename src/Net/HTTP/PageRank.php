@@ -136,7 +136,7 @@ class Net_HTTP_PageRank
 		}
 		return $result;
 	} 
-	
+
 	private static function zeroFill( $a, $b )
 	{
 		$z	= hexdec( 80000000 );

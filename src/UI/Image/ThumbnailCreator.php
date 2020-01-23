@@ -45,7 +45,7 @@ class UI_Image_ThumbnailCreator
 	private $source;
 	/**	@var	string		$target			Target File Name of Target Image */
 	private $target;
-	
+
 	/**
 	 *	Constructur.
 	 *	@access		public
@@ -99,7 +99,7 @@ class UI_Image_ThumbnailCreator
 	{
 		$this->target	= $target;
 	}
-	
+
 	/**
 	 *	Resizes Image to a given Size.
 	 *	@access		public

@@ -91,7 +91,7 @@ class Alg_Validation_DefinitionValidator
 					if( !$this->validator->validate( $value, $predicate, $syntax[$key] ) )
 						$errors[]	= array( $predicate, $syntax[$key] );
 		}
-	
+
 		if( !empty( $definition['semantic'] ) )
 		{
 			foreach( $definition['semantic'] as $semantic )

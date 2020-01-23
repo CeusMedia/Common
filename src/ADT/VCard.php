@@ -148,7 +148,7 @@ class ADT_VCard implements Serializable
 	{
 		$this->types['nickname'][]	= $name;
 	}
-	
+
 	/**
 	 *	Adds a Phone Number.
 	 *	@access		public
@@ -394,7 +394,7 @@ class ADT_VCard implements Serializable
 			'honorificSuffixes'	=> $honorificSuffixes,
 		);
 	}
-	
+
 	/**
 	 *	Sets Organisation Name and Unit.
 	 *	@access		public

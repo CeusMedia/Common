@@ -56,7 +56,7 @@ class FS_File_TodoLister
 	protected $pattern			= "@todo";
 	/**	@var		array		$patterns		Other Patterns */
 	protected $patterns			= array();
-	
+
 	/**
 	 *	Constructor.
 	 *	@access		public
@@ -72,7 +72,7 @@ class FS_File_TodoLister
 		$this->extensions	= $additionalExtensions;
 		$this->patterns		= $additionalPatterns;
 	}
-	
+
 	private function getExtendedPattern( $member = "pattern" )
 	{
 		$list1	= array( $this->$member );
@@ -89,7 +89,7 @@ class FS_File_TodoLister
 		$pattern	= "%".$pattern."%";
 		return $pattern;
 	}
-	
+
 	protected function getExtensionPattern()
 	{
 		return $this->getExtendedPattern( "extension" );
@@ -99,7 +99,7 @@ class FS_File_TodoLister
 	{
 		return new FS_File_RegexFilter( $path, $filePattern );
 	}
-	
+
 	/**
 	 *	Returns Array of numberFound Files.
 	 *	@access		public

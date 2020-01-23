@@ -39,7 +39,7 @@
 abstract class UI_HTML_Button_Abstract extends UI_HTML_Abstract
 {
 	public static $defaultClass		= NULL;
-	
+
 	/**
 	 *	Constructor.
 	 *	@access		public

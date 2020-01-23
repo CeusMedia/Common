@@ -51,7 +51,7 @@ class XML_RSS_Reader
 		$xml	= FS_File_Reader::load( $fileName );
 		return XML_RSS_Parser::parse( $xml );
 	}
-	
+
 	/**
 	 *	Reads RSS from URL.
 	 *	@access		public

@@ -70,7 +70,7 @@ class Net_HTTP_Sniffer_Client
 		$this->mimeType	= new Net_HTTP_Sniffer_MimeType();
 		$this->system	= new Net_HTTP_Sniffer_OS();
 	}
-	
+
 	/**
 	 *	Returns IP addresse of Request.
 	 *	@access		public
@@ -80,7 +80,7 @@ class Net_HTTP_Sniffer_Client
 	{
 		return getEnv( 'REMOTE_ADDR' );
 	}
-	
+
 	/**
 	 *	Returns prefered allowed and accepted Language of a HTTP Request.
 	 *	@access		public
@@ -144,7 +144,7 @@ class Net_HTTP_Sniffer_Client
 	{
 		return $this->browser->getBrowser();
 	}
-	
+
 	/**
 	 *	Indicates whether a HTTP Request is sent by a Search Engine Robot.
 	 *	@access		public

@@ -44,7 +44,7 @@ class ADT_PHP_Function
 	protected $version		= NULL;
 	protected $licenses		= array();
 	protected $copyright	= array();
-	
+
 	protected $authors		= array();
 	protected $links		= array();
 	protected $sees			= array();
@@ -55,7 +55,7 @@ class ADT_PHP_Function
 
 	protected $param		= array();
 	protected $return		= NULL;
-	
+
 	protected $sourceCode	= NULL;
 	protected $line			= 0;
 

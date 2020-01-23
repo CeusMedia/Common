@@ -41,7 +41,7 @@ class FS_File_Gantt_CalendarBuilder
 {
 	/**	@var		string		$title		Title of iCal Root Node */
 	protected $title;
-	
+
 	/**
 	 *	Constructor.
 	 *	@access		public
@@ -52,7 +52,7 @@ class FS_File_Gantt_CalendarBuilder
 	{
 		$this->title	= $title;
 	}
-	
+
 	/**
 	 *	Builds iCal File with Project and Meeting Dates.
 	 *	@access		public

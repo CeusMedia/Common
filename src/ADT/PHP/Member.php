@@ -39,7 +39,7 @@ class ADT_PHP_Member extends ADT_PHP_Variable
 	protected $access		= NULL;
 	protected $static		= FALSE;
 	protected $default		= NULL;
-	
+
 	/**
 	 *	Returns member access.
 	 *	@access		public
@@ -93,7 +93,7 @@ class ADT_PHP_Member extends ADT_PHP_Variable
 		if( $member->isStatic() )
 			$this->setAbstract( $member->isStatic() );
 	}
-	
+
 	/**
 	 *	Sets member access.
 	 *	@access		public
@@ -104,7 +104,7 @@ class ADT_PHP_Member extends ADT_PHP_Variable
 	{
 		$this->access	= $string;
 	}
-	
+
 	/**
 	 *	Sets member default value.
 	 *	@access		public
@@ -115,7 +115,7 @@ class ADT_PHP_Member extends ADT_PHP_Variable
 	{
 		$this->default	= $string;
 	}
-	
+
 	/**
 	 *	Sets parent Class or Interface Data Object.
 	 *	@access		public

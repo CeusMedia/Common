@@ -61,7 +61,7 @@ class UI_Image_Graph_Components
 			return $default;
 		return $value;
 	}
-	
+
 	/**
 	 *	Returns a Configuration Subset with a Prefix
 	 *	@access		protected
@@ -109,7 +109,7 @@ class UI_Image_Graph_Components
 		if( $grace )
 			$object->scale->setGrace( $grace );
 	}
-	
+
 	/**
 	 *	Sets the Font of a JpGraph Object.
 	 *	@access		public
@@ -189,7 +189,7 @@ class UI_Image_Graph_Components
 			$graph->legend->hide();
 			return;
 		}
-		
+
 		$graph->legend->setLayout( self::getConfigValue( $config, 'layout', LEGEND_VERT ) );
 
 		$shadowShow		= self::getConfigValue( $config, 'shadow.show', FALSE );
@@ -245,7 +245,7 @@ class UI_Image_Graph_Components
 		if( $fillColor )
 			$object->mark->setFillColor( $fillColor );
 	}
-	
+
 	/**
 	 *	Sets Shadow of a JpGraph Object.
 	 *	@access		public

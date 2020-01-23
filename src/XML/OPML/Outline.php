@@ -47,7 +47,7 @@ class XML_OPML_Outline extends XML_DOM_Node
 	{
 		parent::__construct( "outline" );
 	}
-	
+
 	/**
 	 *	Adds an Outline Node to this Outline Node.
 	 *	@access		public

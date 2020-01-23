@@ -39,7 +39,7 @@ class Alg_Validation_PredicateValidator
 {
 	/**	@var		Object		Predicate Class Instance */
 	protected $validator;
-	
+
 	/**
 	 *	Constructor.
 	 *	@access		public
@@ -65,7 +65,7 @@ class Alg_Validation_PredicateValidator
 			throw new BadMethodCallException( 'Predicate "'.$method.'" is not defined.' );
 		return $this->validator->$method( $value, $method );
 	}
-	
+
 	/**
 	 *	Indicates whether a String validates against a Predicate.
 	 *	@access		public

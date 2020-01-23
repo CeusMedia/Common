@@ -45,7 +45,7 @@ class FS_File_Cache extends ADT_Cache_Store implements Countable
 
 	/**	@var		string		$path			Path to Cache Files */
 	protected $path;
-	
+
 	/**	@var		int			$expires		Cache File Lifetime in Seconds */
 	protected $expires			= 0;
 
@@ -64,7 +64,7 @@ class FS_File_Cache extends ADT_Cache_Store implements Countable
 		$this->path		= $path;
 		$this->expires	= $expires;
 	}
-	
+
 	/**
 	 *	Removes all expired Cache Files.
 	 *	@access		public

@@ -38,7 +38,7 @@ class XML_OPML_FileReader
 {
 	/**	@var		string		$fileName		URI of OPML File */
 	protected $fileName;
-	
+
 	/**
 	 *	Constructor.
 	 *	@access		public
@@ -49,7 +49,7 @@ class XML_OPML_FileReader
 	{
 		$this->fileName	= $fileName;
 	}
-	
+
 	/**
 	 *	Loads a OPML File statically.
 	 *	@access		public
@@ -66,7 +66,7 @@ class XML_OPML_FileReader
 		$parser	= new XML_OPML_Parser();
 		return $parser->parse( $xml );
 	}
-	
+
 	/**
 	 *	Reads OPML File and returns Outline Array.
 	 *	@access		public

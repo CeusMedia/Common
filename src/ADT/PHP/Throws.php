@@ -50,7 +50,7 @@ class ADT_PHP_Throws
 		$this->name		= $name;
 		$this->reason	= $reason;
 	}
-	
+
 	/**
 	 *	Returns exception name.
 	 *	@access		public
@@ -89,7 +89,7 @@ class ADT_PHP_Throws
 	{
 		$this->name	= $name;
 	}
-	
+
 	/**
 	 *	Sets exception reason.
 	 *	@access		public

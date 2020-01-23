@@ -61,7 +61,7 @@ class ADT_PHP_License
 	{
 		return $this->name;
 	}
-	
+
 	/**
 	 *	Returns license URL.
 	 *	@access		public
@@ -79,7 +79,7 @@ class ADT_PHP_License
 		if( $license->getUrl() )
 			$this->setUrl( $license->getUrl() );
 	}
-	
+
 	/**
 	 *	Sets license name.
 	 *	@access		public
@@ -90,7 +90,7 @@ class ADT_PHP_License
 	{
 		$this->name	= $name;
 	}
-	
+
 	/**
 	 *	Sets license URL.
 	 *	@access		public

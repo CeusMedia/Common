@@ -56,7 +56,7 @@ class XML_DOM_ObjectDeserializer
 		self::deserializeVarsRec( $tree->getChildren(), $object );
 		return $object;
 	}
-	
+
 	/**
 	 *	Adds nested Vars to an Element by their Type while supporting nested Arrays.
 	 *	@access		protected
@@ -82,7 +82,7 @@ class XML_DOM_ObjectDeserializer
 					$element[$name]	= NULL;
 				$pointer	=& $element[$name];
 			}
-			
+
 			switch( $vartype )
 			{
 				case 'boolean':

@@ -43,14 +43,14 @@ class UI_SVG_ChartData
 	 *	@access public
 	 */
 	public $desc;
-	
+
 	/**
 	 *	Value of the data object.
 	 *	@var float
 	 *	@access public
 	 */
 	public $value;
-	
+
 	/**
 	 * 	The constructor.
 	 *	It receives the description o the data, not needed, but for some chart types useful,

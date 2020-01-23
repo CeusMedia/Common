@@ -101,7 +101,7 @@ class UI_HTML_Exception_TraceViewer
 		return UI_HTML_Tag::create( 'p', $content, array( 'style' => "font-family: monospace" ) );
 		 $content;
 	}
-	
+
 	/**
 	 *	Builds HTML Code of one Trace Step.
 	 *	@access		private

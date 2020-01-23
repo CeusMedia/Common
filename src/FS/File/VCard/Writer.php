@@ -52,7 +52,7 @@ class FS_File_VCard_Writer
 	{
 		$this->fileName	= $fileName;
 	}
-	
+
 	/**
 	 *	Saves a vCard Object to a File statically and returns Number of written Bytes.
 	 *	@access		public

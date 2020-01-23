@@ -70,7 +70,7 @@ class XML_DOM_PEAR_PackageReader
 		}
 		if( !$root )
 			throw Exception( 'No root node found.' );
-		
+
 		foreach( $root->childNodes as $node )
 		{
 			$nodeName	= strToLower( $node->nodeName );
@@ -94,7 +94,7 @@ class XML_DOM_PEAR_PackageReader
 		}
 		return $package;
 	}
-	
+
 	/**
 	 *	Reads a Maintainer Block and returns an Array.
 	 *	@access		protected

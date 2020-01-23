@@ -39,7 +39,7 @@ class Net_Memory_StaticCache extends ADT_Cache_StaticStore
 	protected static $expire		= 0;
 	protected static $compress		= FALSE;
 	protected static $connection	= NULL;
-	
+
 	public static function connect( $host = "127.0.0.1", $port = 11211 )
 	{
 		if( !defined( 'MEMCACHE_COMPRESSED' ) )
@@ -47,7 +47,7 @@ class Net_Memory_StaticCache extends ADT_Cache_StaticStore
 		self::$connection	= new Memcache;
 		self::$connection->connect( $host, $port );
 	}
-	
+
 	public static function get( $key )
 	{
 		if( !self::$connection )
@@ -57,7 +57,7 @@ class Net_Memory_StaticCache extends ADT_Cache_StaticStore
 			return self::$connection->replace( $key, FALSE ) ? FALSE : NULL; 
 		return $value;
 	}
-	
+
 	public static function has( $key )
 	{
 		if( !self::$connection )
@@ -67,7 +67,7 @@ class Net_Memory_StaticCache extends ADT_Cache_StaticStore
 			return self::$connection->replace( $key, FALSE ) ? TRUE : NULL; 
 		return TRUE;
 	}
-	
+
 	public static function set( $key, $value, $expire = NULL )
 	{
 		if( !self::$connection )
@@ -76,14 +76,14 @@ class Net_Memory_StaticCache extends ADT_Cache_StaticStore
 			$expire	= self::$expire;
 		return self::$connection->set( $key, $value, self::$compress, $expire );
 	}
-	
+
 	public static function remove( $key )
 	{
 		if( !self::$connection )
 			throw new RuntimeException( 'Not connected' );
 		return self::$connection->delete( $key );
 	}
-	
+
 	public static function getExtendedStats()
 	{
 		if( !self::$connection )

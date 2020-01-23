@@ -280,7 +280,7 @@ class FS_File_Reader
 		$reader	= new FS_File_Reader( $fileName );
 		return $reader->readString();
 	}
-	
+
 	/**
 	 *	Loads a File into an Array statically.
 	 *	@access		public

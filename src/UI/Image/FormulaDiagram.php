@@ -97,7 +97,7 @@ class UI_Image_FormulaDiagram extends UI_Image_Drawer
 #		$col	= $this->allocateColor( $this->backRed, $this->backGreen, $this->backBlue );
 		$col1	= $this->allocateColor( $this->arcRed, $this->arcGreen, $this->arcBlue );
 		$grcol	= $this->allocateColor( $this->gridRed, $this->gridGreen, $this->gridBlue );
-		
+
 		if( $this->grid )
 		{
 			//  horizontal Grid Lines
@@ -136,7 +136,7 @@ class UI_Image_FormulaDiagram extends UI_Image_Drawer
 			$j++;
 		}
 		ob_end_clean();
-		
+
 		$this->drawString( 15, $yDiam-15, "f(x)=".$this->formula->getExpression(), 2, $col1 );	
 		if( $stop )
 			$this->drawString( $xDiam-50, $yDiam-15, round( $clock->stop(), 0 )."ms", 2, $col1 );	

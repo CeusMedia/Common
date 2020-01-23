@@ -36,13 +36,13 @@
  *	@copyright		2008 Nathanael C. Fritz
  */
 class Net_XMPP_XMPPHP_Log {
-	
+
 	const LEVEL_ERROR   = 0;
 	const LEVEL_WARNING = 1;
 	const LEVEL_INFO	= 2;
 	const LEVEL_DEBUG   = 3;
 	const LEVEL_VERBOSE = 4;
-	
+
 	/**
 	 * @var array
 	 */
@@ -109,7 +109,7 @@ class Net_XMPP_XMPPHP_Log {
 			$this->data = array();
 		}
 	}
-	
+
 	protected function writeLine($msg, $runlevel, $time) {
 		//echo date('Y-m-d H:i:s', $time)." [".$this->names[$runlevel]."]: ".$msg."\n";
 		echo $time." [".$this->names[$runlevel]."]: ".$msg."\n";

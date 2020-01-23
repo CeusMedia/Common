@@ -88,7 +88,7 @@ class Alg_Validation_Predicates
 	{
 		return Alg_Crypt_PasswordStrength::getStrength( $string ) >= $strength;
 	}
-	
+
 	/**
 	 *	Indicates whether a String has a Value.
 	 *	@access		public

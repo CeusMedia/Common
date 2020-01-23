@@ -54,7 +54,7 @@ class XML_WDDX_FileWriter
 		$this->builder	= new XML_WDDX_Builder( $packetName );
 		$this->fileName	= $fileName;
 	}
-	
+
 	/**
 	 *	Adds a Data Object to the packet.
 	 *	@access		public

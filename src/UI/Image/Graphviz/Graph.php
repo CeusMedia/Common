@@ -53,7 +53,7 @@ class UI_Image_Graphviz_Graph{
 	public function __toString(){
 		return $this->render();
 	}
-	
+
 	public function addEdge( $nodeSource, $nodeTarget, $options = array() ){
 		$nodeSourceId	= $this->sanitizeNodeName( $nodeSource );
 		$nodeTargetId	= $this->sanitizeNodeName( $nodeTarget );
@@ -145,7 +145,7 @@ class UI_Image_Graphviz_Graph{
 			$list[]	= $key.'="'.addslashes( $value ).'"';
 		return join( $delimiter, $list );
 	}
-	
+
 	protected function sanitizeNodeName( $name ){
 		$name	= htmlentities( $name );
 		return preg_replace( "/[^\w_:]/", "", $name );

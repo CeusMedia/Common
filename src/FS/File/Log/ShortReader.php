@@ -65,7 +65,7 @@ class FS_File_Log_ShortReader
 		);
 		$this->setPatterns( $patterns );
 	}
-	
+
 	/**
 	 *	Returns parsed Log Data as Array.
 	 *	@access		public
@@ -79,7 +79,7 @@ class FS_File_Log_ShortReader
 		trigger_error( "Log File not read", E_USER_ERROR );
 		return array();
 	}
-	
+
 	/**
 	 *	Indicated whether Log File is already opened and read.
 	 *	@access		protected

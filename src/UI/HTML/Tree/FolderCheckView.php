@@ -176,7 +176,7 @@ class UI_HTML_Tree_FolderCheckView
 		//  return build JavaScript
 		return $script;
 	}
-	
+
 	/**
 	 *	Builds and returns HTML Tree of Folders and/or Files the set Path contains.
 	 *	If an ID is set, the Tree is Wrapped in a DIV with this ID.

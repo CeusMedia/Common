@@ -82,7 +82,7 @@ class XML_RSS_Parser
 		"pubDate",
 		"source",
 	);
-		
+
 	public static function parse( $xml )
 	{
 		$channelData	= array();
@@ -125,7 +125,7 @@ class XML_RSS_Parser
 			}
 			$itemList[]	= $array;
 		}
-		
+
 		$data	= array(
 			'encoding'		=> $encoding,
 			'version'		=> $version,

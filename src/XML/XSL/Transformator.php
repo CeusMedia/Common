@@ -67,7 +67,7 @@ class XML_XSL_Transformator
 		$reader		= new FS_File_Reader( $xslFile );
 		$this->xsl	= $reader->readString();
 	}
-	
+
 	/**
 	 *	Transforms loaded XML and XSL and returns Result.
 	 *	@access		public

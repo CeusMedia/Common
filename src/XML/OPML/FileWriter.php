@@ -39,7 +39,7 @@ class XML_OPML_FileWriter
 {
 	/**	@var		string		$fileName		URI of OPML File */
 	protected $fileName;
-	
+
 	/**
 	 *	Constructor.
 	 *	@access		public
@@ -50,7 +50,7 @@ class XML_OPML_FileWriter
 	{
 		$this->fileName	= $fileName;
 	}
-	
+
 	/**
 	 *	Saves OPML Tree to OPML File statically.
 	 *	@access		public
@@ -67,7 +67,7 @@ class XML_OPML_FileWriter
 		$file		= new FS_File_Writer( $fileName, 0777 );
 		return $file->writeString( $xml );
 	}
-	
+
 	/**
 	 *	Writes OPML Tree to OPML File.
 	 *	@access		public

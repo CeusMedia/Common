@@ -146,7 +146,7 @@ class XML_Atom_Parser
 		$text['content']	= (string) $node;
 		return $text;
 	}
-	
+
 	/**
 	 *	Parses XML String and stores Channel Data and Entries.
 	 *	@access		public
@@ -159,7 +159,7 @@ class XML_Atom_Parser
 		$this->language		= "en";
 		$this->channelData	= $this->emptyChannelData;
 		$this->entries		= array();
-			
+
 		$root		= new XML_Element( $xml );
 		if( $validateRules )
 		{
@@ -219,7 +219,7 @@ class XML_Atom_Parser
 		}
 		return $target;
 	}
-	
+
 	/**
 	 *	Returns Language Attributes and returns evaluate Language.
 	 *	@access		protected

@@ -56,7 +56,7 @@ class UI_HTML_Tree_FolderView
 		$this->path		= $path;
 		$this->view		= new UI_HTML_Tree_ArrayView( $baseUrl, $queryKey );
 	}
-	
+
 	/**
 	 *	Returns HTML Code of Tree.
 	 *	@access		public
@@ -73,7 +73,7 @@ class UI_HTML_Tree_FolderView
 		$this->readRecursive( $this->path, $currentId, $nodes, $linkNodes, $classNode, $classLeaf );
 		return $this->view->constructTree( $nodes, $currentId, $attributes );
 	}
-	
+
 	/**
 	 *	Returns JavaScript Code to call Plugin.
 	 *	@access		public
@@ -143,7 +143,7 @@ class UI_HTML_Tree_FolderView
 		foreach( $files as $file )
 			$nodes[]	= $file;
 	}
-	
+
 	public function setTarget( $target )
 	{
 		$this->view->setTarget( $target );

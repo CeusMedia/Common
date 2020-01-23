@@ -55,7 +55,7 @@ class XML_OPML_Builder extends XML_DOM_Node
 		"windowBottom",
 		"windowRight",
 		);
-	
+
 	/**
 	 *	Constructor.
 	 *	@access		public
@@ -69,7 +69,7 @@ class XML_OPML_Builder extends XML_DOM_Node
 		$this->tree->addChild( new XML_DOM_Node( "head" ) );
 		$this->tree->addChild( new XML_DOM_Node( "body" ) );
 	}
-	
+
 	/**
 	 *	Adds Outline to OPML Document.
 	 *	@access		public
@@ -99,7 +99,7 @@ class XML_OPML_Builder extends XML_DOM_Node
 		$node		= new XML_DOM_Node( $key, $value );
 		$head->addChild( $node );
 	}
-	
+
 	/**
 	 *	Sets Header of OPML Document.
 	 *	@access		public

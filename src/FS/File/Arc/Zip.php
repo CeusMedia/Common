@@ -114,7 +114,7 @@ class File_Arc_Zip{
 
 	public function index(){
 		if( $this->checkFileOpened( FALSE ) )
-			
+
 		return $this->index();
 	}
 }

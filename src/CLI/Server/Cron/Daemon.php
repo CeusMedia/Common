@@ -43,7 +43,7 @@ class CLI_Server_Cron_Daemon
 	protected $cronTab;
 	/**	@var		string		$logFile		Message Log File */
 	protected $logFile;
-	
+
 	/**
 	 *	Constructor.
 	 *	@access		public
@@ -58,7 +58,7 @@ class CLI_Server_Cron_Daemon
 		ob_implicit_flush();
 		set_time_limit( 0 );
 	}
-	
+
 	/**
 	 *	Executes Service once or Starts as Service.
 	 *	@access		public

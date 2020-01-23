@@ -40,7 +40,7 @@ class UI_Image_Processing
 {
 	/**	@var		UI_Image		$image			Image resource object */
 	protected $image;
-	
+
 	/**	@param		integer			$maxMegaPixel	Maxiumum megapixels */
 	public $maxMegaPixels			= 0;
 

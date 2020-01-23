@@ -57,7 +57,7 @@ class UI_Image_Watermark
 	protected $marginY			= 0;
 	/**	@var		int			$alpha			Opacity of Stamp Image */
 	protected $alpha;
-	
+
 	/**
 	 *	Constructor.
 	 *	@access		public
@@ -72,7 +72,7 @@ class UI_Image_Watermark
 		$this->setAlpha( $alpha );
 		$this->setQuality( $quality );
 	}
-	
+
 	/**
 	 *	Return Array with Coords of Stamp Image within a given Image.
 	 *	@access		protected
@@ -111,7 +111,7 @@ class UI_Image_Watermark
 		);
 		return $position;
 	}
-	
+
 	/**
 	 *	Marks a Image with Stamp Image.
 	 *	@access		public
@@ -123,7 +123,7 @@ class UI_Image_Watermark
 	{
 		if( !$target )
 			$target = $source;
-		
+
 		$creator	= new UI_Image_Creator();
 		$creator->loadImage( $source );
 		$image		= $creator->getResource();
@@ -149,7 +149,7 @@ class UI_Image_Watermark
 	{
 		$this->alpha	= abs( (int) $alpha );
 	}
-	
+
 	/**
 	 *	Sets the Marig of Stamp Image.
 	 *	@access		public
@@ -162,7 +162,7 @@ class UI_Image_Watermark
 		$this->marginX	= abs( (int)$x );
 		$this->marginY	= abs( (int)$y );
 	}
-	
+
 	/**
 	 *	Sets the Position of Stamp Image.
 	 *	@access		public
@@ -181,7 +181,7 @@ class UI_Image_Watermark
 		else
 			throw new InvalidArgumentException( 'Vertical Position "'.$horizontal.'" must be on of (top, middle, bottom).' );
 	}
-	
+
 	/**
 	 *	Sets the Quality of resulting Image.
 	 *	@access		public

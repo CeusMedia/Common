@@ -51,7 +51,7 @@ class Net_HTTP_Sniffer_Encoding
 			$default = $allowed[0];
 		else if( !in_array( $default, $allowed ) )
 			throw new InvalidArgumentException( 'Default Encoding Method must be an allowed Encoding Method.' );
-		
+
 		$pattern	= '/^([a-z]+)(?:;\s*q=(0(?:\.[0-9]{1,3})?|1(?:\.0{1,3})?))?$/i';
 		$accepted	= getEnv( 'HTTP_ACCEPT_ENCODING' );
 		if( !$accepted )

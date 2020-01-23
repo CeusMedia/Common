@@ -52,7 +52,7 @@ class XML_RPC_Client{
 	public function __construct( $url ){
 		$this->url	= $url;
 	}
-	
+
 	/**
 	 *	Calls XML-RPC method with parameters and returns resulting answer data.
 	 *	@access		public
@@ -104,7 +104,7 @@ class XML_RPC_Client{
 				return (double) $node;
 		}
 	}
-	
+
 	/**
 	 *	...
 	 *	@access		protected

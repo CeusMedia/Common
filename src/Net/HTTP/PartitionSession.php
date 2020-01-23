@@ -92,7 +92,7 @@ class Net_HTTP_PartitionSession extends ADT_List_Dictionary
 		//  copy session partition reference
 		$this->pairs =& $_SESSION['partitions'][$partitionName];
 	}
-	
+
 	/**
 	 *	Destructor.
 	 *	@access		public

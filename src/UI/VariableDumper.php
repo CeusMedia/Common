@@ -43,7 +43,7 @@ class UI_VariableDumper
 
 	static public $modePrintIndentSign	= ". ";
 	static public $modePrintIndentSize	= 2;
-	
+
 	/**
 	 *	Creates readable Dump of a Variable, either with print_m or var_dump, depending on printMode and installed XDebug Extension
 	 *

@@ -71,7 +71,7 @@ class UI_HTML_Paging extends ADT_OptionObject
 		$this->setOption( 'key_next',		'' );
 		$this->setOption( 'key_last',		'' );
 	}
-	
+
 	/**
 	 *	Builds HTML for Paging of Lists.
 	 *	@access		public
@@ -124,7 +124,7 @@ class UI_HTML_Paging extends ADT_OptionObject
 					$pages[$latest]	= $button;
 				}*/
 			}
-			
+
 			//  page here
 			$pages[]	= $this->buildButton( $here + 1, 'class_text' );
 			//  pages after
@@ -161,7 +161,7 @@ class UI_HTML_Paging extends ADT_OptionObject
 		$pages	= implode( $this->getOption( "linebreak" ), $pages );
 		return $pages;
 	}
-	
+
 	/**
 	 *	Builds Paging Button.
 	 *	@access		protected
@@ -208,7 +208,7 @@ class UI_HTML_Paging extends ADT_OptionObject
 		$link	= $this->getOption( 'uri' ).$this->getOption( 'key_request' ).$param;
 		return $link;
 	}
-	
+
 	/**
 	 *	Builds Span Link of Paging Button.
 	 *	@access		protected

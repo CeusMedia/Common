@@ -42,7 +42,7 @@ class FS_Folder_MethodVisibilityCheck
 	public $count	= 0;
 	public $found	= 0;
 	public $list	= array();
-	
+
 	/**
 	 *	Scans a folder containing PHP files for methods without defined visibility.
 	 *	@access		public

@@ -85,7 +85,7 @@ class FS_File_Log_ShortWriter
 		}
 		return FALSE;
 	}
-	
+
 	/**
 	 *	Sets Pattern Array filled with Logging Information.
 	 *	@access		public

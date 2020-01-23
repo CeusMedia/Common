@@ -55,7 +55,7 @@ class FS_File_INI_Creator
 	{
 		$this->useSections = $useSections;
 	}
-	
+
 	/**
 	 *	Adds a Property (to current Section).
 	 *	@access		public
@@ -78,7 +78,7 @@ class FS_File_INI_Creator
 		else
 			throw new InvalidArgumentException( 'No section given' );
 	}
-	
+
 	/**
 	 *	Adds a Property (to current Section).
 	 *	@access		public
@@ -107,7 +107,7 @@ class FS_File_INI_Creator
 			$this->data[$section]	= array();
 		$this->currentSection	= $section;
 	}
-	
+
 	/**
 	 *	Returns a build Property line.
 	 *	@access		protected
@@ -129,7 +129,7 @@ class FS_File_INI_Creator
 			$line .= str_repeat( "\t", $breaksValue )."; ".$comment;
 		return $line;
 	}
-	
+
 	/**
 	 *	Creates and writes Settings to File.
 	 *	@access		public

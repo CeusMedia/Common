@@ -37,7 +37,7 @@ class Alg_Search_Binary
 {
 	/**	@var		int		$counter	internal counter of steps */
 	protected $counter;
-	
+
 	/**
 	 *	Searches in List and returns position if found, else 0.
 	 *	@access		public

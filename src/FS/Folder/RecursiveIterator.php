@@ -100,7 +100,7 @@ class FS_Folder_RecursiveIterator extends FilterIterator
 			//  found file or folder is hidden
 			if( substr( $this->getFilename(), 0, 1 ) == "." )
 				return FALSE;
-			
+
 			//  inner path is hidden
 			if( substr( $this->getSubPathname(), 0, 1 ) == "." )
 				return FALSE;

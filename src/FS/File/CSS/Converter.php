@@ -161,7 +161,7 @@ class FS_File_CSS_Converter{
 	public function fromFile( $fileName ){
 		$this->sheet	= FS_File_CSS_Parser::parseFile( $fileName );
 	}
-	
+
 	/**
 	 *	Reads sheet.
 	 *	@access		public
@@ -181,7 +181,7 @@ class FS_File_CSS_Converter{
 	public function fromString( $string ){
 		$this->sheet	= FS_File_CSS_Parser::parseString( $string );
 	}
-	
+
 	/**
 	 *	Returns current sheet as list of rules.
 	 *	@access		public

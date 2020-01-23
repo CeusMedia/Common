@@ -50,32 +50,32 @@ class UI_Image_Creator
 		$backColor		= imagecolorallocatealpha( $this->resource, $backgroundRed, $backgroundGreen, $backgroundBlue, $alpha );
 		imagefilledrectangle( $this->resource, 0, 0, $width - 1, $height - 1, $backColor );		
 	}
-	
+
 	public function getExtension()
 	{
 		return $this->extension;	
 	}
-	
+
 	public function getHeight()
 	{
 		return $this->height;
 	}
-	
+
 	public function getResource()
 	{
 		return $this->resource;
 	}
-	
+
 	public function getType()
 	{
 		return $this->type;	
 	}
-	
+
 	public function getWidth()
 	{
 		return $this->width;
 	}
-	
+
 	public function loadImage( $fileName )
 	{
 		if( !file_exists( $fileName ) )

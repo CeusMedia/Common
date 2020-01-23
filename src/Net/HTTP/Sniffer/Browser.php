@@ -54,7 +54,7 @@ class Net_HTTP_Sniffer_Browser
 	{
 		$this->identifyBrowser( $userAgent );
 	}
-	
+
 	/**
 	 *	Returns Browser, Version and Type.
 	 *	@access		public
@@ -64,7 +64,7 @@ class Net_HTTP_Sniffer_Browser
 	{
 		return array( "browser" => $this->browser, "version" => $this->browserVersion, "type" => $this->browserType );
 	}
-	
+
 	/**
 	 *	Indicates whether Client is a Robot.
 	 *	@access		public
@@ -84,7 +84,7 @@ class Net_HTTP_Sniffer_Browser
 	{
 		return $this->browserType == "browser";
 	}
-	
+
 	/**
 	 *	Identifies Browser, Version and Type.
 	 *	@access		private

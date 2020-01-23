@@ -145,7 +145,7 @@ class UI_HTML_Tree_LayerMenu
 		);
 		return self::buildLayersRecursive( $list, $this->rootId, $root );
 	}
-	
+
 	/**
 	 *	Builds Layer Menu from OPML String.
 	 *	@access		public

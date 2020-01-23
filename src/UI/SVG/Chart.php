@@ -43,7 +43,7 @@ class UI_SVG_Chart
 	 *	@access		protected
 	 */
 	public $data;
-	
+
 	/**
 	 *	Array for storing the colors to visualize the data defined in {@link $data}.
 	 *	@var		array
@@ -51,7 +51,7 @@ class UI_SVG_Chart
 	 *	@see		Chart::$data
 	 */	
 	public $colors;
-	
+
 	protected $content	= "";
 
 	/**
@@ -112,7 +112,7 @@ class UI_SVG_Chart
 		$chart->options = $options;
 		$content = $chart->build( $options );
 		$options = $chart->options;
-		
+
 		if( isset( $options["legend"] ) && $options["legend"] )
 		{
 			$content .= $this->makeLegend( $options["legend"] );
@@ -145,10 +145,10 @@ class UI_SVG_Chart
 		$data = '<?xml version="1.0" encoding="iso-8859-1"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">';
 		$data .= $svg;
 		$data .= "</svg>";
-		
+
 		return $data;
 	}
-	
+
 	/**
 	 *	This function simply returns a color from the internal coller palette.
 	 *	Supplied is a number.
@@ -161,7 +161,7 @@ class UI_SVG_Chart
 		$color = $this->colors[$id % count( $this->colors )];
 		return $color;
 	}
-	
+
 	/**
 	 *	This is an internal function used by the visualization classes to make a legend to the various chart types.
 	 *	It uses the internal {@link $data} structure.<br>
@@ -185,7 +185,7 @@ class UI_SVG_Chart
 		$tags[]	= UI_HTML_Tag::create( "rect", NULL, $attributes );
 		$attributes	= array( 'x' => $x, 'y' => $y, 'width' => $width, 'height' => $height, 'fill' => "white", 'stroke' => "#333" );
 		$tags[]	= UI_HTML_Tag::create( "rect", NULL, $attributes );
-		
+
 		$y		= $y + 5;
 		$x		= $x + 5;
 		$count	= 0;
@@ -217,7 +217,7 @@ class UI_SVG_Chart
 	{
 		return encapsulate( $this->get( $name, $options ) );
 	}
-	
+
 	/**
 	 *	Saves SVG Graph to File.
 	 *	@access		public
@@ -234,7 +234,7 @@ class UI_SVG_Chart
 		$svg	= $doc->saveXml();
 		return FS_File_Writer::save( $fileName, $svg );
 	}
-	
+
 	/**
 	 *	This function sets the {@link Chart::$data} array to a new value.
 	 *	@access		public
@@ -246,7 +246,7 @@ class UI_SVG_Chart
 		$sum = 0;
 		foreach( $data as $obj )
 			$sum += $obj->value;
-		
+
 		foreach( $data as $key => $obj )
 		{
 			$obj->percent = $obj->value / $sum * 100;

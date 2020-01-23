@@ -60,7 +60,7 @@ class ADT_JSON_Formater
 		if( $validateSource )
 			if( json_decode( $json ) === FALSE )
 				throw new InvalidArgumentException( 'JSON String is not valid.' );
-			
+
 		$len	= strlen( $json );
 		for( $c=0; $c<$len; $c++ )
 		{

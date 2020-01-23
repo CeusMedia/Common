@@ -60,17 +60,17 @@ class UI_Image_Drawer
 	{
 		return imageline( $this->image, $x0, $y0, $x1, $y1, $color );
 	}
-	
+
 	public function drawPixel( $x, $y, $color )
 	{
 		return imagesetpixel( $this->image, $x, $y, $color );		
 	}
-	
+
 	public function drawRectangle( $x0, $y0, $x1, $y1, $color )
 	{
 		return imagerectangle( $this->image, $x0, $y0, $x1, $y1, $color );
 	}
-	
+
 	public function drawString( $x, $y, $text, $size, $color )
 	{
 		return imagestring( $this->image, $size, $x, $y, $text, $color );
@@ -80,22 +80,22 @@ class UI_Image_Drawer
 	{
 		return imagefilledrectangle( $this->image, 0, 0, imagesx( $this->image ) - 1, imagesy( $this->image ) - 1, $color );		
 	}
-	
+
 	public function fillRectangle( $x0, $y0, $x1, $y1, $color )
 	{
 		return imagefilledrectangle( $this->image, $x0, $y0, $x1, $y1, $color );		
 	}
-	
+
 	public function getColor( $red, $green, $blue, $alpha = 0 )
 	{
 		return imagecolorallocatealpha( $this->image, $red, $green, $blue, $alpha );
 	}
-	
+
 	public function getImage()
 	{
 		return $this->image;
 	}
-	
+
 /*	public function isSet()
 	{
 		return isset( $this->image );
@@ -111,7 +111,7 @@ class UI_Image_Drawer
 	{
 		$this->image = $image;
 	}
-	
+
 	public function show( $quality = 100 )
 	{
 		UI_Image_Printer::showImage( $this->image, $this->type, $quality );

@@ -62,7 +62,7 @@ class XML_WDDX_FileReader
 	{
 		return self::load( $this->fileName );
 	}
-	
+
 	/**
 	 *	Reads a WDDX File statically and returns deserialized Data.
 	 *	@access		public

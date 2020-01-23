@@ -39,7 +39,7 @@
 class UI_HTML_Button_Reset extends UI_HTML_Button_Abstract
 {
 	public static $defaultClass		= 'neutral reset';
-	
+
 	/**
 	 *	Constructor.
 	 *	@access		public

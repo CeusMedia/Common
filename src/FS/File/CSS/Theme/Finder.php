@@ -47,7 +47,7 @@ class FS_File_CSS_Theme_Finder
 		$this->themePath	= $themePath;
 		$this->cssPath		= $cssPath;
 	}
-	
+
 	/**
 	 *	Returns found Themes as List.
 	 *	@access		public

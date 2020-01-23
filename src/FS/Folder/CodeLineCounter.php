@@ -42,7 +42,7 @@
 class FS_Folder_CodeLineCounter
 {
 	protected $data	= array();
-	
+
 	public function getData( $key = NULL )
 	{
 		//  no Folder scanned yet
@@ -52,7 +52,7 @@ class FS_Folder_CodeLineCounter
 		if( !$key )
 			//  return complete Data Array
 			return $this->data;
-			
+
 		//  extract possible Key Prefix
 		$prefix	= substr( strtolower( $key ), 0, 5 );
 		//  Prefix is valid
@@ -100,21 +100,21 @@ class FS_Folder_CodeLineCounter
 		{
 			$fileName	= str_replace( "\\", "/", $entry->getFilename() );
 			$pathName	= str_replace( "\\", "/", $entry->getPathname() );
-			
+
 			if( substr( $fileName, 0, 1 ) == "_" )
 				continue;
 			if( preg_match( "@/_@", $pathName ) )
 				continue;
 
 			$countData	= FS_File_CodeLineCounter::countLines( $pathName );
-			
+
 			unset( $countData['linesCodes'] );
 			unset( $countData['linesDocs'] );
 			unset( $countData['linesStrips'] );
 
 			$numberLength		+= $countData['length'];
 			$numberLines		+= $countData['linesTotal'];
-			
+
 			$numberFiles		++;
 			$numberStrips		+= $countData['numberStrips'];
 			$numberCodes		+= $countData['numberCodes'];

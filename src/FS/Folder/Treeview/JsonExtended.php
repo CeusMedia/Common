@@ -51,7 +51,7 @@ class FS_Folder_Treeview_JsonExtended extends FS_Folder_Treeview_Json
 		);
 		return $item;
 	}
-	
+
 	protected function buildFolderItem( $entry )
 	{
 		$children	= $this->hasChildren( $entry, TRUE );

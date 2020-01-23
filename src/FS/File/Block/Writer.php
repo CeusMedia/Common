@@ -51,7 +51,7 @@ class FS_File_Block_Writer
 		$this->patternSection	= "[{#name#}]";
 		$this->fileName			= $fileName;
 	}
-	
+
 	/**
 	 *	Writes Blocks to Block File.
 	 *	@access		public

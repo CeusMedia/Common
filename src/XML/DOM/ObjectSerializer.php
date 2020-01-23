@@ -57,7 +57,7 @@ class XML_DOM_ObjectSerializer
 		$serial		= $builder->build( $root, $encoding );
 		return $serial;
 	}
-	
+
 	/**
 	 *	Adds XML Nodes to a XML Tree by their Type while supporting nested Arrays.
 	 *	@access		protected

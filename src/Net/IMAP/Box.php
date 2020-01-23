@@ -131,7 +131,7 @@ class Net_IMAP_Box
 		}
 		return $string;
 	}
-	
+
 	public function getHeadersByUid( $uid ){
 		$cacheKey	= 'mail_header_'.$uid;
 		if( $this->cache->has( $cacheKey ) )
@@ -175,9 +175,9 @@ class Net_IMAP_Box
 			$this->cache->set( $cacheKey, json_encode( $message ) );
 		}
 		return $message;
-		
+
 	}
-	
+
 	/**
 	 *	Returns Array of Message Header Information.
 	 *	@access		public

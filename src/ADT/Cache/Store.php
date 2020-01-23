@@ -51,7 +51,7 @@ abstract class ADT_Cache_Store implements ArrayAccess
 	{
 		return $this->get( $key );
 	}
-	
+
 	/**
 	 *	Indicates wheter a Value is in Cache by its Key.
 	 *	@access		public
@@ -62,7 +62,7 @@ abstract class ADT_Cache_Store implements ArrayAccess
 	{
 		return $this->has( $key );
 	}
-	
+
 	/**
 	 *	Stores a Value in Cache by its Key.
 	 *	@access		public
@@ -137,7 +137,7 @@ abstract class ADT_Cache_Store implements ArrayAccess
 	{
 		return $this->set( $key, $value );
 	}
-	
+
 	/**
 	 *	Removes a Value from Cache by its Key.
 	 *	@access		public

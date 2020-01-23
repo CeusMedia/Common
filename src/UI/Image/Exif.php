@@ -62,7 +62,7 @@ class UI_Image_Exif extends ADT_List_Dictionary
 				$this->set( $key, $value );
 		}
 	}
-	
+
 	public function getRawData()
 	{
 		return $this->raw;

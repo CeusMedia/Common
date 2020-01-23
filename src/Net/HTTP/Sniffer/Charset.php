@@ -53,7 +53,7 @@ class Net_HTTP_Sniffer_Charset
 		$accepted	= getEnv( 'HTTP_ACCEPT_CHARSET' );
 		return self::getCharsetFromString( $accepted, $allowed, $default );
 	}
-	
+
 	/**
 	 *	Returns prefered allowed and accepted Character Set from String.
 	 *	@access		public

@@ -58,7 +58,7 @@ class ADT_Registry
 	 *	@return		void
 	 */
 	private function __clone() {}
-	
+
 	/**
 	 *	Cleares registered Object.
 	 *	@access		public
@@ -95,7 +95,7 @@ class ADT_Registry
 			throw new InvalidArgumentException( 'No Object registered with Key "'.$key.'"' );
 		return $GLOBALS[$this->poolKey][$key];
 	}
-	
+
 	/**
 	 *	Returns registered Object statically.
 	 *	@access		public
@@ -107,7 +107,7 @@ class ADT_Registry
 	{
 		return self::getInstance()->get( $key );
 	}
-	
+
 	/**
 	 *	Indicates whether a Key is registered.
 	 *	@access		public
