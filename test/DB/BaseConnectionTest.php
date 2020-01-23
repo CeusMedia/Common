@@ -23,7 +23,7 @@ class Test_DB_BaseConnectionTest/* extends Test_Case*/
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
 		$this->connection	= new Test_DB_BaseConnectionInstance();
 	}
@@ -33,7 +33,7 @@ class Test_DB_BaseConnectionTest/* extends Test_Case*/
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function tearDown()
+	public function tearDown(): void
 	{
 	}
 

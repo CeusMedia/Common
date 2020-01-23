@@ -29,7 +29,7 @@ class Test_Alg_Text_TrimmerTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
 		$this->string	= "abcdefghijklmnop";
 	}
@@ -39,7 +39,7 @@ class Test_Alg_Text_TrimmerTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function tearDown()
+	public function tearDown(): void
 	{
 	}
 

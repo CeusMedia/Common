@@ -27,7 +27,7 @@ class Test_FS_File_JSON_ReaderTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
 		$this->path	= dirname( __FILE__ ).'/';
 
@@ -44,7 +44,7 @@ class Test_FS_File_JSON_ReaderTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function tearDown()
+	public function tearDown(): void
 	{
 	}
 

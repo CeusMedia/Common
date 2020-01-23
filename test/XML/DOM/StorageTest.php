@@ -26,7 +26,7 @@ class Test_XML_DOM_StorageTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
 		$this->fileName		= dirname( __FILE__ )."/storage.xml";
 		$this->storage	= new XML_DOM_Storage( $this->fileName );
@@ -39,7 +39,7 @@ class Test_XML_DOM_StorageTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function tearDown()
+	public function tearDown(): void
 	{
 		@unlink( $this->fileName );
 	}

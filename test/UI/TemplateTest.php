@@ -23,7 +23,7 @@ class Test_UI_TemplateTest extends Test_Case
 {
 	private $template;
 
-	public function setUp()
+	public function setUp(): void
 	{
 		$this->mock			= Test_MockAntiProtection::getInstance( 'UI_Template' );
 		$this->path			= dirname( __FILE__ )."/";

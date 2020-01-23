@@ -22,7 +22,7 @@ use PHPUnit\Framework\TestCase;
  */
 class Test_UI_Image_CreatorTest extends Test_Case
 {
-	public function setUp()
+	public function setUp(): void
 	{
 		if( !extension_loaded( 'gd' ) )
 			$this->markTestSkipped( 'Missing gd support' );
@@ -32,7 +32,7 @@ class Test_UI_Image_CreatorTest extends Test_Case
 		$this->tearDown();
 	}
 
-	public function tearDown()
+	public function tearDown(): void
 	{
 		@unlink( $this->path."targetCreator.jpg" );
 		@unlink( $this->path."targetCreator.gif" );

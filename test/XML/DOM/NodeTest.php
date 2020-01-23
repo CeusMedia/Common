@@ -27,7 +27,7 @@ class Test_XML_DOM_NodeTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
 		$this->node	= new XML_DOM_Node( "testNode", "testContent" );
 		$this->node->setAttribute( "testKey", "testValue" );

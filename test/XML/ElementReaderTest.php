@@ -25,7 +25,7 @@ class Test_XML_ElementReaderTest extends Test_Case
 	protected $url		= 'http://www.rssboard.org/files/sample-rss-2.xml';
 	protected $file;
 
-	public function setUp()
+	public function setUp(): void
 	{
 		$this->file		= dirname( __FILE__ ).'/element_reader.xml';
 	}

@@ -26,7 +26,7 @@ final class Test_Alg_Time_ClockTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
 		Test_MockAntiProtection::createMockClass( "Alg_Time_Clock" );
 	}
@@ -36,7 +36,7 @@ final class Test_Alg_Time_ClockTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function tearDown()
+	public function tearDown(): void
 	{
 	}
 

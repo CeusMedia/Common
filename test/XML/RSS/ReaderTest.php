@@ -29,7 +29,7 @@ class Test_XML_RSS_ReaderTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
 		$this->file		= dirname( __FILE__ )."/reader.xml";
 		$this->serial	= dirname( __FILE__ )."/reader.serial";

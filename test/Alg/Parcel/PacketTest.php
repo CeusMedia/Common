@@ -26,7 +26,7 @@ class Test_Alg_Parcel_PacketTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
 		$this->packet	= new Alg_Parcel_Packet( 'testPacket' );
 		$this->packet->addArticle( 'testArticle1', 0.2 );
@@ -39,7 +39,7 @@ class Test_Alg_Parcel_PacketTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function tearDown()
+	public function tearDown(): void
 	{
 	}
 

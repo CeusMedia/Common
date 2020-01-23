@@ -26,7 +26,7 @@ class Test_ADT_StringTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
 		$this->string	= new ADT_String( "some content" );
 	}
@@ -36,7 +36,7 @@ class Test_ADT_StringTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function tearDown()
+	public function tearDown(): void
 	{
 	}
 

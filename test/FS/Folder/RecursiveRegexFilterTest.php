@@ -28,7 +28,7 @@ class Test_FS_Folder_RecursiveRegexFilterTest extends Test_FS_Folder_TestCase
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
 		parent::setUp();
 		$this->path	= str_replace( "\\", "/", dirname( __FILE__ ) )."/";

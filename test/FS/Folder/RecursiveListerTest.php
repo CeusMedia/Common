@@ -28,7 +28,7 @@ class Test_FS_Folder_RecursiveListerTest extends Test_FS_Folder_TestCase
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
 		parent::setUp();
 		$this->lister1	= new FS_Folder_RecursiveLister( $this->folder );

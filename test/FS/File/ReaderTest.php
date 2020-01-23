@@ -29,7 +29,7 @@ class Test_FS_File_ReaderTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
 		$this->fileName	= dirname( __FILE__ )."/reader.test";
 		$this->reader	= new FS_File_Reader( $this->fileName );

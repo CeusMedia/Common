@@ -28,7 +28,7 @@ class Test_FS_Folder_EditorTest extends Test_FS_Folder_TestCase
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
 		$this->tearDown();
 		parent::setUp();
@@ -36,7 +36,7 @@ class Test_FS_Folder_EditorTest extends Test_FS_Folder_TestCase
 
 	}
 
-	public function tearDown()
+	public function tearDown(): void
 	{
 		if( file_exists( $this->path."copy" ) )
 			$this->removeFolder( $this->path."copy", true);

@@ -29,7 +29,7 @@ class Test_ADT_List_SectionListTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
 		$this->list	= new ADT_List_SectionList();
 		$this->list->addEntry( 'entry11', 'section1' );
@@ -44,7 +44,7 @@ class Test_ADT_List_SectionListTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function tearDown()
+	public function tearDown(): void
 	{
 	}
 

@@ -27,7 +27,7 @@ class Test_XML_DOM_BuilderTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
 		$this->builder		= new XML_DOM_Builder();
 		$this->fileName		= dirname( __FILE__ )."/builder.xml";
@@ -38,7 +38,7 @@ class Test_XML_DOM_BuilderTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function tearDown()
+	public function tearDown(): void
 	{
 		@unlink( $this->path."writer.xml" );
 	}

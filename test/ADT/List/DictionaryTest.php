@@ -22,7 +22,7 @@ class Test_ADT_List_DictionaryTest extends Test_Case
 	/**	@var	ADT_List_Dictionary		$list		Instance of Dictionary */
 	private $dictionary;
 
-	public function setUp()
+	public function setUp(): void
 	{
 		$this->dictionary	= new ADT_List_Dictionary();
 		$this->dictionary->set( 'key0', 0 );

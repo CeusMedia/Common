@@ -22,7 +22,7 @@ class Test_ADT_Tree_BalanceBinaryNodeTest extends Test_Case
 	/**	@var	array		$list		Instance of BinaryTree */
 	private $tree;
 
-	public function setUp()
+	public function setUp(): void
 	{
 		$this->tree	= new ADT_Tree_BalanceBinaryNode( 2 );
 		$this->tree->add( 1 );

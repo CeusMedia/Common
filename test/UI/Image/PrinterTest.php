@@ -22,14 +22,15 @@ use PHPUnit\Framework\TestCase;
  */
 class Test_UI_Image_PrinterTest extends Test_Case
 {
-	public function setUp(){
+	public function setUp(): void
+	{
 		if( !extension_loaded( 'gd' ) )
 			$this->markTestSkipped( 'Missing gd support' );
 
 		$this->path	= dirname( __FILE__ )."/";
 	}
 
-	public function tearDown()
+	public function tearDown(): void
 	{
 		 @unlink( $this->path."targetPrinter.png" );
 		 @unlink( $this->path."targetPrinter.jpg" );

@@ -48,7 +48,7 @@ class Test_Alg_Validation_DefinitionValidatorTest extends Test_Case
 		'test1'	=> 'Test Field 1'
 	);
 
-	public function setUp()
+	public function setUp(): void
 	{
 		$this->validator	= new Alg_Validation_DefinitionValidator();
 #		$this->validator->setLabels( $this->labels );

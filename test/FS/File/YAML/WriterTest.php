@@ -30,7 +30,7 @@ class Test_FS_File_YAML_WriterTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
 		$this->fileName	= dirname( __FILE__ )."/writer.yaml";
 		$this->data		= array(
@@ -45,7 +45,7 @@ class Test_FS_File_YAML_WriterTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function tearDown()
+	public function tearDown(): void
 	{
 		@unlink( $this->fileName );
 	}

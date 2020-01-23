@@ -22,7 +22,7 @@ final class Test_Alg_Time_DurationTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
 		Test_MockAntiProtection::createMockClass( "Alg_Time_Clock" );
 		$hour	= 3600;
@@ -53,7 +53,7 @@ final class Test_Alg_Time_DurationTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function tearDown()
+	public function tearDown(): void
 	{
 	}
 

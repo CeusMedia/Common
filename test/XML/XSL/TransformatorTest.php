@@ -27,7 +27,7 @@ class Test_XML_XSL_TransformatorTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
 		if( !class_exists( 'XSLTProcessor' ) )
 			$this->markTestSkipped( 'Support for XSL is missing' );

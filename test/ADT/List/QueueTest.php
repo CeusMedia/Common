@@ -26,7 +26,7 @@ class Test_ADT_List_QueueTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
 		$this->array	= array( 1, 2, 3 );
 		$this->queue	= new ADT_List_Queue( $this->array );
@@ -37,7 +37,7 @@ class Test_ADT_List_QueueTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function tearDown()
+	public function tearDown(): void
 	{
 	}
 

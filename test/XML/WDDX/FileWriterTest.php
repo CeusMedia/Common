@@ -26,7 +26,7 @@ class Test_XML_WDDX_FileWriterTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
 		$this->path		= dirname( __FILE__ )."/";
 		$this->fileName	= $this->path."writer.wddx";
@@ -50,7 +50,7 @@ class Test_XML_WDDX_FileWriterTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function tearDown()
+	public function tearDown(): void
 	{
 		if( !function_exists( 'wddx_packet_start' ) )
 			return;

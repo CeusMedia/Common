@@ -26,7 +26,7 @@ class Test_XML_WDDX_ParserTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
 		if( !extension_loaded( 'wddx' ) )
 			$this->markTestSkipped( 'Missing WDDX support' );
@@ -39,7 +39,7 @@ class Test_XML_WDDX_ParserTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function tearDown()
+	public function tearDown(): void
 	{
 	}
 

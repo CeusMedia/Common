@@ -33,7 +33,7 @@ class Test_FS_File_List_SectionReaderTest extends Test_Case
 		),
 	);
 
-	public function setUp()
+	public function setUp(): void
 	{
 		$this->fileName		= dirname( __FILE__ )."/section.read.list";
 	}

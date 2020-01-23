@@ -26,7 +26,7 @@ class Test_FS_File_Configuration_ConverterTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
 		$this->path	= dirname( __FILE__ )."/";
 	}
@@ -36,7 +36,7 @@ class Test_FS_File_Configuration_ConverterTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function tearDown()
+	public function tearDown(): void
 	{
 		@unlink( $this->path."test.ini.json" );
 		@unlink( $this->path."test.ini.xml" );

@@ -26,7 +26,8 @@ class Test_UI_Image_ThumbnailCreatorTest extends Test_Case
 	protected $sourceFile;
 	protected $targetFile;
 
-	public function setUp(){
+	public function setUp(): void
+	{
 		if( !extension_loaded( 'gd' ) )
 			$this->markTestSkipped( 'Missing gd support' );
 
@@ -36,7 +37,7 @@ class Test_UI_Image_ThumbnailCreatorTest extends Test_Case
 		$this->targetFile	= $this->path."targetThumbnail.png";
 	}
 
-	public function tearDown()
+	public function tearDown(): void
 	{
 		@unlink( $this->path."targetThumbnail.gif" );
 		@unlink( $this->path."targetThumbnail.png" );

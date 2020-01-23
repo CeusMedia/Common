@@ -19,7 +19,7 @@ use PHPUnit\Framework\TestCase;
  */
 class Test_ADT_OptionObjectTest extends Test_Case
 {
-	public function setUp()
+	public function setUp(): void
 	{
 		$this->object	= new ADT_OptionObject();
 		$this->object->setOption( "string1", "value1" );

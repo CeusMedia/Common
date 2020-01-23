@@ -29,7 +29,7 @@ class Test_XML_RSS_BuilderTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
 		$this->path		= dirname( __FILE__ )."/";
 		$this->file		= $this->path."builder.xml";
@@ -64,7 +64,7 @@ class Test_XML_RSS_BuilderTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function tearDown()
+	public function tearDown(): void
 	{
 	}
 

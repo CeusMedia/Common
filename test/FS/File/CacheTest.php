@@ -26,7 +26,7 @@ final class Test_FS_File_CacheTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
 		Test_MockAntiProtection::createMockClass( 'FS_File_Cache' );
 		$this->path			= dirname( __FILE__ )."/";
@@ -40,7 +40,7 @@ final class Test_FS_File_CacheTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function tearDown()
+	public function tearDown(): void
 	{
 		//  index Folder
 		$dir	= dir( $this->pathCache );

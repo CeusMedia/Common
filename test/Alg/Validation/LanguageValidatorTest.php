@@ -26,7 +26,7 @@ class Test_Alg_Validation_LanguageValidatorTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
 		$this->validator	= new Alg_Validation_LanguageValidator( array( "en", "fr" ), "en" );
 	}
@@ -36,7 +36,7 @@ class Test_Alg_Validation_LanguageValidatorTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function tearDown()
+	public function tearDown(): void
 	{
 	}
 

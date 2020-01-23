@@ -28,7 +28,7 @@ class Test_FS_Folder_ReaderTest extends Test_FS_Folder_TestCase
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
 		parent::setUp();
 		//  valid Folder Reader

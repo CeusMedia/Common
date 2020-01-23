@@ -19,7 +19,7 @@ use PHPUnit\Framework\TestCase;
  */
 class Test_ADT_RegistryTest extends Test_Case
 {
-	public function setUp()
+	public function setUp(): void
 	{
 		$this->registry	= ADT_Registry::getInstance();
 	}

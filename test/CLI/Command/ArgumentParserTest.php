@@ -26,7 +26,7 @@ class Test_CLI_Command_ArgumentParserTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
 		$this->parser	= new Test_CLI_Command_ArgumentParserInstance();
 	}
@@ -36,7 +36,7 @@ class Test_CLI_Command_ArgumentParserTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function tearDown()
+	public function tearDown(): void
 	{
 	}
 

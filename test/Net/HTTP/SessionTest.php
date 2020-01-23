@@ -23,7 +23,7 @@ class Test_Net_HTTP_SessionTest extends Test_Case
 {
 	private $session;
 
-	public function setUp()
+	public function setUp(): void
 	{
 		$this->session		= @new Net_HTTP_Session();
 		$this->session->clear();

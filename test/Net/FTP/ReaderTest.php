@@ -27,7 +27,7 @@ class Test_Net_FTP_ReaderTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
 		$this->config	= self::$_config['unitTest-FTP'];
 		$this->host		= $this->config['host'];
@@ -70,7 +70,7 @@ class Test_Net_FTP_ReaderTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function tearDown()
+	public function tearDown(): void
 	{
 		if( !$this->local )
 			return;

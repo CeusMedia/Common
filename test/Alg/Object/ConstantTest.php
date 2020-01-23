@@ -26,7 +26,7 @@ final class Test_Alg_Object_ConstantTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
 		$className		= 'Test_Alg_Object_ConstantExample1';
 		$this->object	= new Alg_Object_Constant( $className );
@@ -37,7 +37,7 @@ final class Test_Alg_Object_ConstantTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function tearDown()
+	public function tearDown(): void
 	{
 	}
 

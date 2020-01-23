@@ -27,7 +27,7 @@ class Test_XML_DOM_FileReaderTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
 		$this->fileName		= dirname( __FILE__ ).'/builder.xml';
 	}

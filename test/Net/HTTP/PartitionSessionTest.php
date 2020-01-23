@@ -23,7 +23,7 @@ class Test_Net_HTTP_PartitionSessionTest extends Test_Case
 {
 	private $session;
 
-	public function setUp()
+	public function setUp(): void
 	{
 //		if( session_status() === PHP_SESSION_ACTIVE )
 //			session_destroy();
@@ -31,7 +31,7 @@ class Test_Net_HTTP_PartitionSessionTest extends Test_Case
 		$this->session->clear();
 	}
 
-	public function tearDown()
+	public function tearDown(): void
 	{
 //		if( session_status() === PHP_SESSION_ACTIVE )
 //			session_destroy();

@@ -26,7 +26,7 @@ class Test_FS_File_List_EditorTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
 		$this->fileName	= dirname( __FILE__ )."/edit.list";
 		FS_File_List_Writer::save( $this->fileName, array( "line1", "line2" ) );

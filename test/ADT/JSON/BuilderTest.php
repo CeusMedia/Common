@@ -24,7 +24,7 @@ class Test_ADT_JSON_BuilderTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
 		$this->object		= new Test_Object();
 		$this->object->a	= "test";

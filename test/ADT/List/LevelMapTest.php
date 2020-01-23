@@ -26,7 +26,7 @@ class Test_ADT_List_LevelMapTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
 		$this->map	= new ADT_List_LevelMap();
 

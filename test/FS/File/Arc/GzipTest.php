@@ -22,7 +22,7 @@ class Test_FS_File_Arc_GzipTest extends Test_Case
 	/**	@var	string		$fileName		URL of Archive File Name */
 	private $fileName;
 
-	public function setUp()
+	public function setUp(): void
 	{
 		if( !extension_loaded( 'zlib' ) )
 			$this->markTestSkipped( 'Support for bzip2 is missing' );
@@ -30,7 +30,7 @@ class Test_FS_File_Arc_GzipTest extends Test_Case
 		$this->fileName	= $this->path."test.gz";
 	}
 
-	public function tearDown()
+	public function tearDown(): void
 	{
 		@unlink( $this->fileName );
 	}

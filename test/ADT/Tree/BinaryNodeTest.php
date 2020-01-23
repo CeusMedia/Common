@@ -27,7 +27,7 @@ class Test_ADT_Tree_BinaryNodeTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
 		$this->tree	= new ADT_Tree_BinaryNode();
 		$this->tree->add( 3 );

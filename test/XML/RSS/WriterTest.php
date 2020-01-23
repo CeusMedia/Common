@@ -39,7 +39,7 @@ class Test_XML_RSS_WriterTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
 		$this->writer	= new Test_XML_RSS_Writer_MockAntiProtection();
 		$this->path		= dirname( __FILE__ )."/";
@@ -56,7 +56,7 @@ class Test_XML_RSS_WriterTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function tearDown()
+	public function tearDown(): void
 	{
 		@unlink( $this->file );
 #		date_default_timezone_set( $this->timeZone );

@@ -65,7 +65,7 @@ class Test_FS_Folder_TestCase extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
 		@mkDir( $this->folder );
 		@mkDir( $this->folder."sub1" );
@@ -105,7 +105,7 @@ class Test_FS_Folder_TestCase extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function tearDown()
+	public function tearDown(): void
 	{
 		if( file_exists( $this->folder ) )
 			$this->removeFolder( $this->folder, true );

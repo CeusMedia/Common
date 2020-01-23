@@ -26,7 +26,7 @@ class Test_Net_CURLTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
 		if( !extension_loaded( 'curl' ) )
 			$this->markTestSkipped( 'Missing cURL support' );
@@ -37,7 +37,7 @@ class Test_Net_CURLTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function tearDown()
+	public function tearDown(): void
 	{
 	}
 

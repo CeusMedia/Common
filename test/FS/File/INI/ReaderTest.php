@@ -27,7 +27,7 @@ class Test_FS_File_INI_ReaderTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
 		$this->path		= dirname( __FILE__ )."/";
 		$this->fileName	= $this->path."reader.ini";

@@ -27,7 +27,7 @@ class Test_FS_File_List_ReaderTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
 		$this->fileName		= dirname( __FILE__ )."/read.list";
 		$this->reader	= new FS_File_List_Reader( $this->fileName );

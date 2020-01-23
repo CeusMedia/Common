@@ -23,7 +23,8 @@ class Test_FS_File_BackupTest extends Test_Case{
 	protected $path;
 	protected $time;
 
-	public function setUp(){
+	public function setUp(): void
+	{
 		$this->time	= time();
 		$this->path	= "test";
 		$this->filePath	= $this->path."/test.txt";
@@ -34,7 +35,8 @@ class Test_FS_File_BackupTest extends Test_Case{
 		$this->file	= new FS_File_Backup( $this->filePath );
 	}
 
-	public function tearDown(){
+	public function tearDown(): void
+	{
 		@unlink( $this->filePath );
 		@unlink( $this->filePath.'~' );
 		@unlink( $this->filePath.'.~1~' );

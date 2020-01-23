@@ -26,7 +26,7 @@ class Test_Alg_Text_TermExtractorTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
 		$this->path		= dirname( __FILE__ )."/";
 		$this->text		= file_get_contents( $this->path."TermExtractorText.txt" );
@@ -45,7 +45,7 @@ class Test_Alg_Text_TermExtractorTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function tearDown()
+	public function tearDown(): void
 	{
 	}
 

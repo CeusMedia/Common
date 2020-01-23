@@ -21,7 +21,7 @@ use PHPUnit\Framework\TestCase;
  */
 class Test_Alg_Validation_PredicateValidatorTest extends Test_Case
 {
-	public function setUp()
+	public function setUp(): void
 	{
 		$this->validator	= new Alg_Validation_PredicateValidator;
 	}

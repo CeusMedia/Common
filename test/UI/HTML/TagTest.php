@@ -26,7 +26,7 @@ class Test_UI_HTML_TagTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
 		$name		= "Tag";
 		$value		= "textContent";

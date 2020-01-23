@@ -22,7 +22,7 @@ use PHPUnit\Framework\TestCase;
  */
 class Test_Alg_Validation_PredicatesTest extends Test_Case
 {
-	function setUp()
+	function setUp(): void
 	{
 		$this->point	= time();
 	}

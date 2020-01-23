@@ -27,7 +27,7 @@ class Test_FS_File_INI_SectionEditorTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
 		$this->fileName		= dirname( __FILE__ )."/section.editor.ini";
 		$path	= dirname( $this->fileName )."/";

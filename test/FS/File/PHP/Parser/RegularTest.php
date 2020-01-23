@@ -26,7 +26,7 @@ class Test_FS_File_PHP_Parser_RegularTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
 		$this->path		= str_replace( "\\", "/", dirname( __FILE__ ) )."/" ;
 		$this->fileName	= $this->path."TestClass.php";
@@ -47,7 +47,7 @@ class Test_FS_File_PHP_Parser_RegularTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function tearDown()
+	public function tearDown(): void
 	{
 	}
 

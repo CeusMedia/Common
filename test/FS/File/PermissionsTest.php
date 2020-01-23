@@ -28,7 +28,7 @@ class Test_FS_File_PermissionsTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
 		$this->pathName	= dirname( __FILE__ ).'/';
 		$this->fileName	= $this->pathName.'test.file';
@@ -42,7 +42,7 @@ class Test_FS_File_PermissionsTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function tearDown()
+	public function tearDown(): void
 	{
 		unset( $this->permissions );
 		@unlink( $this->fileName );

@@ -30,7 +30,7 @@ class Test_XML_DOM_XPathQueryTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
 		$this->xmlFile	= dirname( __FILE__ ).'/books.xml';
 		$this->xPath	= new XML_DOM_XPathQuery();

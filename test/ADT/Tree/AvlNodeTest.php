@@ -26,7 +26,7 @@ class Test_ADT_Tree_AvlNodeTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
 	}
 
@@ -35,7 +35,7 @@ class Test_ADT_Tree_AvlNodeTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function tearDown()
+	public function tearDown(): void
 	{
 	}
 

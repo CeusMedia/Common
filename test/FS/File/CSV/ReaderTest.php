@@ -26,7 +26,7 @@ class Test_FS_File_CSV_ReaderTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
 		$this->pathName	= dirname( __FILE__ ).'/';
 		$this->fileName	= $this->pathName.'read.csv';
@@ -38,7 +38,7 @@ class Test_FS_File_CSV_ReaderTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function tearDown()
+	public function tearDown(): void
 	{
 	}
 

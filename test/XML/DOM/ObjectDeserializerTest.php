@@ -28,7 +28,7 @@ class Test_XML_DOM_ObjectDeserializerTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
 		$this->deserializer	= new XML_DOM_ObjectDeserializer();
 		$this->object	= new Test_Object();

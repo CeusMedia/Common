@@ -26,7 +26,7 @@ class Test_Alg_RandomizerTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
 		$this->randomizer	= new Alg_Randomizer();
 	}

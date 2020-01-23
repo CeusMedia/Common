@@ -26,7 +26,7 @@ class Test_FS_File_Configuration_ReaderTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
 		$this->path	= dirname( __FILE__ )."/";
 		$this->data	= array(
@@ -46,7 +46,7 @@ class Test_FS_File_Configuration_ReaderTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function tearDown()
+	public function tearDown(): void
 	{
 		 @unlink( $this->path."test.ini.cache" );
 		 @unlink( $this->path."test.json.cache" );

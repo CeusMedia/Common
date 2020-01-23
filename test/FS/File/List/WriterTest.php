@@ -27,7 +27,7 @@ class Test_FS_File_List_WriterTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
 		$this->fileName	= dirname( __FILE__ )."/writer.list";
 		$this->writer	= new FS_File_List_Writer( $this->fileName );
@@ -38,7 +38,7 @@ class Test_FS_File_List_WriterTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function tearDown()
+	public function tearDown(): void
 	{
 		@unlink( $this->fileName );
 	}

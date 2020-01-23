@@ -22,7 +22,8 @@ use PHPUnit\Framework\TestCase;
  */
 class Test_UI_Image_ErrorTest extends Test_Case
 {
-	public function setUp(){
+	public function setUp(): void
+	{
 		if( !extension_loaded( 'gd' ) )
 			$this->markTestSkipped( 'Missing gd support' );
 

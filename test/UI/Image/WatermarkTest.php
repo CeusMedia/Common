@@ -26,7 +26,7 @@ class Test_UI_Image_WatermarkTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
 		$this->path	= dirname( __FILE__ )."/";
 		if( !extension_loaded( 'gd' ) )
@@ -39,7 +39,7 @@ class Test_UI_Image_WatermarkTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function tearDown()
+	public function tearDown(): void
 	{
 		@unlink( $this->path."targetWatermark.png" );
 	}

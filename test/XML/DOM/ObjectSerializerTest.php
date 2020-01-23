@@ -28,7 +28,7 @@ class Test_XML_DOM_ObjectSerializerTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
 		$this->fileName		= dirname( __FILE__ ).'/serializer.xml';
 		$this->serializer		= new XML_DOM_ObjectSerializer();

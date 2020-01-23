@@ -24,7 +24,7 @@ class Test_Net_HTTP_Request_ReceiverTest extends Test_Case
 	/**	@var	array		$list		Instance of Request Receiver */
 	private $receiver;
 
-	public function setUp()
+	public function setUp(): void
 	{
 		$this->receiver	= new Net_HTTP_Request_Receiver();
 		$this->receiver->set( 'key1', 'value1' );

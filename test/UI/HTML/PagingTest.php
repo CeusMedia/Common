@@ -26,7 +26,7 @@ class Test_UI_HTML_PagingTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
 		$this->path		= dirname( __FILE__ )."/";
 		$this->paging	= new UI_HTML_Paging();
@@ -42,7 +42,7 @@ class Test_UI_HTML_PagingTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function tearDown()
+	public function tearDown(): void
 	{
 	}
 

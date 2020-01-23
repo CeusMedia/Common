@@ -26,7 +26,7 @@ class Test_ADT_Tree_NodeTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
 		$this->node	= new ADT_Tree_Node();
 	}
@@ -36,7 +36,7 @@ class Test_ADT_Tree_NodeTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function tearDown()
+	public function tearDown(): void
 	{
 	}
 

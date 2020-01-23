@@ -26,7 +26,7 @@ class Test_XML_DOM_PEAR_PackageReaderTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
 		$this->path	= dirname( __FILE__)."/";
 		$this->reader	= new XML_DOM_PEAR_PackageReader();
@@ -37,7 +37,7 @@ class Test_XML_DOM_PEAR_PackageReaderTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function tearDown()
+	public function tearDown(): void
 	{
 	}
 

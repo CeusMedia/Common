@@ -27,7 +27,7 @@ class Test_XML_ElementTest extends Test_Case
 	protected $fileWrite;
 	protected $fileSerial;
 
-	public function setUp()
+	public function setUp(): void
 	{
 		$this->fileRead		= dirname( __FILE__ ).'/element_read.xml';
 		$this->fileWrite	= dirname( __FILE__ ).'/element_write.xml';

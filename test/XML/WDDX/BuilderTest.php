@@ -21,7 +21,8 @@ use PHPUnit\Framework\TestCase;
  */
 class Test_XML_WDDX_BuilderTest extends Test_Case
 {
-	public function setUp(){
+	public function setUp(): void
+	{
 		if( !extension_loaded( 'wddx' ) )
 			$this->markTestSkipped( 'Missing WDDX support' );
 		$this->builder	= new XML_WDDX_Builder( 'test' );

@@ -26,7 +26,7 @@ class Test_Net_ReaderTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
 		$this->url		= "http://www.example.com";
 		$this->needle	= "@RFC\s+2606@i";
