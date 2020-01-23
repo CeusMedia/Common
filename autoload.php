@@ -12,9 +12,7 @@ if( !defined( 'CMC_PATH' ) ){
 /* PSR-0 */
 require_once $pathSrc . 'FS/Autoloader/Psr0.php';
 
-//$loader = new \CeusMedia\Common\FS\Autoloader\Psr0('CeusMedia\Common', $pathSrc);
-$loader = new \CeusMedia\Common\FS\Autoloader\Psr0();
-//$loader = new FS_Autoloader_Psr0();
+$loader = new FS_Autoloader_Psr0();
 $loader->setIncludePath( $pathSrc );
 $loader->register();
 

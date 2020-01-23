@@ -12,10 +12,10 @@ composer-install-nodev:
 	@composer install --no-dev
 
 composer-update-dev:
-	@composer install --dev
+	@composer update --dev
 
 composer-update-nodev:
-	@composer install --no--dev
+	@composer update --no--dev
 
 # --  DEV: TESTS  ---------------------------------------------------------
 dev-test-self:
