@@ -37,30 +37,39 @@
  */
 class Net_HTTP_Response_Sender
 {
+
+	/**	@var		string|NULL			$compression		Type of compression to use (gzip, deflate), default: NULL */
+	protected $compression;
+
 	/**
 	 *	Constructur.
 	 *	@access		public
 	 *	@param		Net_HTTP_Response	$response	Response Object
 	 *	@return		void
 	 */
-	public function  __construct( Net_HTTP_Response $response )
+	public function  __construct( Net_HTTP_Response $response = NULL )
 	{
-		$this->response	= $response;
+		if( $response )
+			$this->setResponse( Net_HTTP_Response $response );
 	}
 
 	/**
 	 *	Send Response.
 	 *	@access		public
 	 *	@param		string		$compression		Type of compression (gzip|deflate)
-	 *	@param		boolean		$sendLengthHeader	Send Content-Length Header
+	 *	@param		boolean		$sendLengthHeader	Flag: Send Content-Length Header (default: yes)
+	 *	@param		boolean		$exit				Flag: after afterwards (default: no)
 	 *	@return		integer		Number of sent Bytes or exits if wished so
+	 *	@todo		remove compression parameter
 	 */
 	public function send( $compression = NULL, $sendLengthHeader = TRUE, $exit = FALSE )
 	{
 		$response	= clone( $this->response );
-		$length		= strlen( $response->getBody() );
+		$body		= $response->getBody();
+		$length		= method_exists( 'mb_strlen' ) ? mb_strlen( $body ) : strlen( $body );
 
 		/*  --  COMPRESSION  --  */
+		$compression	= $compression ? $compression : $this->compression;
 		if( $compression )
 		{
 			$compressor	= new Net_HTTP_Response_Compressor;
@@ -68,9 +77,11 @@ class Net_HTTP_Response_Sender
 			$lengthNow	= strlen( $response->getBody() );
 			$ratio		= round( $lengthNow / $length * 100 );
 		}
+		else if( $sendLengthHeader )
+			$response->addHeaderPair( 'Content-Length', $length, TRUE );
 
 		/*  --  HTTP BASIC INFORMATION  --  */
-		$status	= $response->getStatus();
+		$status		= $response->getStatus();
 		header( $response->getProtocol().'/'.$response->getVersion().' '.$status );
 		header( 'Status: '.$status );
 
@@ -91,12 +102,40 @@ class Net_HTTP_Response_Sender
 	 *	@access		public
 	 *	@param		Net_HTTP_Response	$response			Response Object
 	 *	@param		string				$compression		Type of compression (gzip|deflate)
-	 *	@param		boolean				$sendLengthHeader	Send Content-Length Header
+	 *	@param		boolean				$sendLengthHeader	Flag: Send Content-Length Header (default: yes)
+	 *	@param		boolean				$exit				Flag: after afterwards (default: no)
 	 *	@return		integer				Number of sent Bytes
+	 *	@todo		realize changed parameters of send method
 	 */
-	public static function sendResponse( Net_HTTP_Response $response, $compression = NULL, $sendLengthHeader = TRUE, $exit = TRUE )
+	public static function sendResponse( Net_HTTP_Response $response, $compression = NULL, $sendLengthHeader = TRUE, $exit = FALSE )
 	{
 		$sender	= new Net_HTTP_Response_Sender( $response );
+		$sender->setCompression( $compression );
+//		return $sender->send( $sendLengthHeader, $exit );
 		return $sender->send( $compression, $sendLengthHeader, $exit );
+	}
+
+	/**
+	 *	Set compression to use.
+	 *	@access		public
+	 *	@param		string|NULL		Compression to use: gzip, deflate
+	 *	@return		self
+	 */
+	public function setCompression( $compression )
+	{
+		$this->compression	= $compression;
+		return $this;
+	}
+
+	/**
+	 *	Set response to send
+	 *	@access		public
+	 *	@param		Net_HTTP_Response	$response	Response Object
+	 *	@return		self;
+	 */
+	public function setResponse( Net_HTTP_Response $response )
+	{
+		$this->response	= $response;
+		return $this;
 	}
 }
