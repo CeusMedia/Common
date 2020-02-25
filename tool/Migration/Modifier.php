@@ -1,5 +1,5 @@
 <?php
-class CeusMedia_Common_Tool_Migration_Modifier
+class Tool_Migration_Modifier
 {
 	public static function breakCommentsInLines( $lines )
 {
@@ -42,6 +42,7 @@ class CeusMedia_Common_Tool_Migration_Modifier
 	public static function updateCopyrightYearInLines( $lines, $yearFromQuotedRegExp, $yearTo )
 	{
 		foreach( $lines as $nr => $line ){
+			$lines[$nr]	= preg_replace( '/(\s+)('.$yearFromQuotedRegExp.')(\s+)/', "\\1\\2-".$yearTo."\\3", $line );
 			$lines[$nr]	= preg_replace( '/-'.$yearFromQuotedRegExp.'(\s+)/', "-".$yearTo."\\1", $line );
 			$lines[$nr]	= preg_replace( '/'.$yearFromQuotedRegExp.'(\s+)/', $yearTo."\\1", $line );
 		}

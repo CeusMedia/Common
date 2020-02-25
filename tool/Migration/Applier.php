@@ -1,5 +1,5 @@
 <?php
-class CeusMedia_Common_Tool_Migration_Applier
+class Tool_Migration_Applier
 {
 	protected $modifiers	= array();
 	protected $folder;
@@ -27,7 +27,7 @@ class CeusMedia_Common_Tool_Migration_Applier
 
 	private function handleFolder( $folder ): object
 	{
-		remark( "FOLDER: ".$folder->getPathName() );
+//		remark( "FOLDER: ".$folder->getPathName() );
 		$nrFiles		= 0;
 		$nrFilesChanged	= 0;
 		foreach( $folder->index( FS::TYPE_FILE ) as $fileName => $file ){
@@ -38,20 +38,24 @@ class CeusMedia_Common_Tool_Migration_Applier
 			$nrFiles++;
 			$content	= $file->getContent();
 			$lines		= preg_split( '/\r?\n/', $content );
-			foreach( $this->modifiers as $modifierCallback )
-				$lines	= call_user_func_array( $modifierCallback, array( $lines ) );
+			foreach( $this->modifiers as $modifier ){
+				$modifierCallback	= array( $modifier[0], $modifier[1] );
+				$modifierArguments	= array_slice( $modifier, 2 );
+				$callbackArguments	= array_merge( array( $lines ), $modifierArguments );
+				$lines	= call_user_func_array( $modifierCallback, $callbackArguments );
+			}
 
 			if( $content !== join( PHP_EOL, $lines ) ){
 //				FS_File_Writer::saveArray( $file->getPathName().'.2', $lines );
 				$nrFilesChanged++;
-				remark( "- File #".$nrFiles.": ".$file->getName() );
+				CLI::out( "- File: ".$folder->getPathName().$file->getName() );
 /*				foreach( $this->diff( preg_split( '/\r?\n/', $content ), $lines ) as $line ){
 					if( !empty( $line['d'] ) )
 						foreach( $line['d'] as $deletedLine )
-							remark( CLI_Color::colorize( $deletedLine, 'white', 'red' ) );
+							CLI::out( CLI_Color::colorize( $deletedLine, 'white', 'red' ) );
 					if( !empty( $line['i'] ) )
 						foreach( $line['i'] as $insertedLine )
-							remark( CLI_Color::colorize( $insertedLine, 'white', 'green' ) );
+							CLI::out( CLI_Color::colorize( $insertedLine, 'white', 'green' ) );
 				}*/
 			}
 			$file->setContent( join( PHP_EOL, $lines ) );
@@ -90,4 +94,3 @@ class CeusMedia_Common_Tool_Migration_Applier
 		$this->diff(array_slice($old, $omax + $maxlen), array_slice($new, $nmax + $maxlen)));
 	}
 }
-
