@@ -81,7 +81,7 @@ class UI_HTML_Tag implements Renderable
 	 *	@access		public
 	 *	@return		string
 	 */
-	public function __toString()
+	public function __toString(): string
 	{
 		return $this->build();
 	}
@@ -91,7 +91,7 @@ class UI_HTML_Tag implements Renderable
 	 *	@access		public
 	 *	@return		string
 	 */
-	public function build()
+	public function build(): string
 	{
 		return $this->create( $this->name, $this->content, $this->attributes, $this->data );
 	}
@@ -155,13 +155,6 @@ class UI_HTML_Tag implements Renderable
 		return "<".$name.$attributes.$data.">".$content."</".$name.">";
 	}
 
-	static protected function flattenArray( $array, $delimiter = " ", $path = NULL )
-	{
-		foreach( $array as $key => $value )
-			if( is_array( $value ) )
-				$array[$key]	= self::flattenArray( $value, $delimiter );
-		return join( $delimiter, $array );
-	}
 
 	/**
 	 *	Returns value of tag attribute if set.
@@ -169,7 +162,8 @@ class UI_HTML_Tag implements Renderable
 	 *	@param		string		$key		Key of attribute to get
 	 *	@return		mixed|NULL
 	 */
-	public function getAttribute( $key ){
+	public function getAttribute( string $key )
+	{
 		if( !array_key_exists( $key, $this->attributes ) )
 			return NULL;
 		return $this->attributes[$key];
@@ -180,7 +174,8 @@ class UI_HTML_Tag implements Renderable
 	 *	@access		public
 	 *	@return		array
 	 */
-	public function getAttributes(){
+	public function getAttributes(): array
+	{
 		return $this->attributes;
 	}
 
@@ -190,7 +185,8 @@ class UI_HTML_Tag implements Renderable
 	 *	@param		string		$key		Key of data to get
 	 *	@return		mixed|array|NULL
 	 */
-	public function getData( $key = NULL ){
+	public function getData( $key = NULL )
+	{
 		if( is_null( $key ) )
 			return $this->data ;
 		if( !array_key_exists( $key, $this->data ) )
@@ -198,8 +194,148 @@ class UI_HTML_Tag implements Renderable
 		return $this->data[$key];
 	}
 
-	public function render(){
+	public function render(): string
+	{
 		return $this->build();
+	}
+
+	/**
+	 *	Sets attribute of tag.
+	 *	@access		public
+	 *	@param		string		$key			Key of attribute
+	 *	@param		string		$value			Value of attribute
+	 *	@param		boolean		$strict			Flag: deny to override attribute
+	 *	@return		self
+	 */
+	public function setAttribute( $key, $value = NULL, $strict = TRUE ): self
+	{
+		//  no valid attribute key defined
+		if( empty( $key ) )
+			//  throw exception
+			throw new InvalidArgumentException( 'Key must have content' );
+		$key	= strtolower( $key );
+		//  attribute key already has a value
+		if( array_key_exists( $key, $this->attributes ) && $strict )
+			//  throw exception
+			throw new RuntimeException( 'Attribute "'.$key.'" is already set' );
+		//  key is invalid
+		if( !preg_match( '/^[a-z0-9:_-]+$/', $key ) )
+			//  throw exception
+			throw new InvalidArgumentException( 'Invalid attribute key "'.$key.'"' );
+
+		//  no value available
+		if( $value === NULL || $value === FALSE ){
+			//  attribute exists
+			if( array_key_exists( $key, $this->attributes ) )
+				//  remove attribute
+				unset( $this->attributes[$key] );
+		}
+		else
+		{
+//  value is string or numeric
+//			if( is_string( $value ) || is_numeric( $value ) )
+//  detect injection
+//				if( preg_match( '/[^\\\]"/', $value ) )
+//  throw exception
+//					throw new InvalidArgumentException( 'Invalid attribute value' );
+			//  set attribute
+			$this->attributes[$key]	= $value;
+		}
+		return $this;
+	}
+
+	/**
+	 *	Sets multiple attributes of tag.
+	 *	@access		public
+	 *	@param		array		$attributes		Map of attributes to set
+	 *	@param		boolean		$strict			Flag: deny to override attribute
+	 *	@return		self
+	 */
+	public function setAttributes( $attributes, $strict = TRUE ): self
+	{
+		//  iterate attributes map
+		foreach( $attributes as $key => $value )
+			//  set each attribute
+			$this->setAttribute( $key, $value, $strict );
+		return $this;
+	}
+
+	/**
+	 *	Sets data attribute of tag.
+	 *	@access		public
+	 *	@param		string		$key			Key of data attribute
+	 *	@param		string		$value			Value of data attribute
+	 *	@param		boolean		$strict			Flag: deny to override data
+	 *	@return		self
+	 */
+	public function setData( $key, $value = NULL, $strict = TRUE ): self
+	{
+		//  no valid data key defined
+		if( empty( $key ) )
+			//  throw exception
+			throw new InvalidArgumentException( 'Data key is required' );
+		//  data key already has a value
+		if( array_key_exists( $key, $this->data ) && $strict )
+			//  throw exception
+			throw new RuntimeException( 'Data attribute "'.$key.'" is already set' );
+		//  key is invalid
+		if( !preg_match( '/^[a-z0-9:_-]+$/i', $key ) )
+			//  throw exception
+			throw new InvalidArgumentException( 'Invalid data key "'.$key.'"' );
+
+		//  no value available
+		if( $value === NULL || $value === FALSE ){
+			//  data exists
+			if( array_key_exists( $key, $this->data ) )
+				//  remove attribute
+				unset( $this->data[$key] );
+		}
+		else
+		{
+			//  value is string or numeric
+			if( is_string( $value ) || is_numeric( $value ) )
+				//  detect injection
+				if( preg_match( '/[^\\\]"/', $value ) )
+					//  throw exception
+					throw new InvalidArgumentException( 'Invalid data attribute value' );
+			//  set attribute
+			$this->attributes[$key]	= $value;
+		}
+		return $this;
+	}
+
+	/**
+	 *	Sets Content of Tag.
+	 *	@access		public
+	 *	@param		string|object	$content	Content of Tag or stringable object
+	 *	@return		self
+	 *	@throws		InvalidArgumentException	if given object has no __toString method
+	 */
+	public function setContent( $content = NULL ): self
+	{
+		if( is_object( $content ) ){
+			//  content is not a renderable object
+			if( !method_exists( $content, '__toString' ) ){
+				//  prepare message about not renderable object
+				$message	= 'Object of class "'.get_class( $content ).'" cannot be rendered';
+				//  break with error message
+				throw new InvalidArgumentException( $message );
+			}
+			//  render object to string
+			$content	= (string) $content;
+		}
+		$this->content	= $content;
+		return $this;
+	}
+
+	//  --  PROTECTED  --  //
+
+	static protected function flattenArray( $array, $delimiter = " ", $path = NULL ): string
+	{
+		foreach( $array as $key => $value )
+			if( is_array( $value ) )
+				$array[$key]	= self::flattenArray( $value, $delimiter );
+		return join( $delimiter, $array );
 	}
 
 	protected static function renderData( $data = array() ){
@@ -211,7 +347,7 @@ class UI_HTML_Tag implements Renderable
 		return self::renderAttributes( $list, TRUE );
 	}
 
-	protected static function renderAttributes( $attributes = array(), $allowOverride = FALSE )
+	protected static function renderAttributes( $attributes = array(), $allowOverride = FALSE ): string
 	{
 		if( !is_array( $attributes ) )
 			throw new InvalidArgumentException( 'Parameter "attributes" must be an Array.' );
@@ -262,129 +398,5 @@ class UI_HTML_Tag implements Renderable
 			$list[$key]	= strtolower( $key ).'="'.$value.'"';
 		}
 		return $list ? ' '.join( ' ', $list ) : '';
-	}
-
-	/**
-	 *	Sets attribute of tag.
-	 *	@access		public
-	 *	@param		string		$key			Key of attribute
-	 *	@param		string		$value			Value of attribute
-	 *	@param		boolean		$strict			Flag: deny to override attribute
-	 *	@return		void
-	 */
-	public function setAttribute( $key, $value = NULL, $strict = TRUE )
-	{
-		//  no valid attribute key defined
-		if( empty( $key ) )
-			//  throw exception
-			throw new InvalidArgumentException( 'Key must have content' );
-		$key	= strtolower( $key );
-		//  attribute key already has a value
-		if( array_key_exists( $key, $this->attributes ) && $strict )
-			//  throw exception
-			throw new RuntimeException( 'Attribute "'.$key.'" is already set' );
-		//  key is invalid
-		if( !preg_match( '/^[a-z0-9:_-]+$/', $key ) )
-			//  throw exception
-			throw new InvalidArgumentException( 'Invalid attribute key "'.$key.'"' );
-
-		//  no value available
-		if( $value === NULL || $value === FALSE ){
-			//  attribute exists
-			if( array_key_exists( $key, $this->attributes ) )
-				//  remove attribute
-				unset( $this->attributes[$key] );
-		}
-		else
-		{
-//  value is string or numeric
-//			if( is_string( $value ) || is_numeric( $value ) )
-//  detect injection
-//				if( preg_match( '/[^\\\]"/', $value ) )
-//  throw exception
-//					throw new InvalidArgumentException( 'Invalid attribute value' );
-			//  set attribute
-			$this->attributes[$key]	= $value;
-		}
-	}
-
-	/**
-	 *	Sets multiple attributes of tag.
-	 *	@access		public
-	 *	@param		array		$attributes		Map of attributes to set
-	 *	@param		boolean		$strict			Flag: deny to override attribute
-	 *	@return		void
-	 */
-	public function setAttributes( $attributes, $strict = TRUE )
-	{
-		//  iterate attributes map
-		foreach( $attributes as $key => $value )
-			//  set each attribute
-			$this->setAttribute( $key, $value, $strict );
-	}
-
-	/**
-	 *	Sets data attribute of tag.
-	 *	@access		public
-	 *	@param		string		$key			Key of data attribute
-	 *	@param		string		$value			Value of data attribute
-	 *	@param		boolean		$strict			Flag: deny to override data
-	 *	@return		void
-	 */
-	public function setData( $key, $value = NULL, $strict = TRUE ){
-		//  no valid data key defined
-		if( empty( $key ) )
-			//  throw exception
-			throw new InvalidArgumentException( 'Data key is required' );
-		//  data key already has a value
-		if( array_key_exists( $key, $this->data ) && $strict )
-			//  throw exception
-			throw new RuntimeException( 'Data attribute "'.$key.'" is already set' );
-		//  key is invalid
-		if( !preg_match( '/^[a-z0-9:_-]+$/i', $key ) )
-			//  throw exception
-			throw new InvalidArgumentException( 'Invalid data key "'.$key.'"' );
-
-		//  no value available
-		if( $value === NULL || $value === FALSE ){
-			//  data exists
-			if( array_key_exists( $key, $this->data ) )
-				//  remove attribute
-				unset( $this->data[$key] );
-		}
-		else
-		{
-			//  value is string or numeric
-			if( is_string( $value ) || is_numeric( $value ) )
-				//  detect injection
-				if( preg_match( '/[^\\\]"/', $value ) )
-					//  throw exception
-					throw new InvalidArgumentException( 'Invalid data attribute value' );
-			//  set attribute
-			$this->attributes[$key]	= $value;
-		}
-	}
-
-	/**
-	 *	Sets Content of Tag.
-	 *	@access		public
-	 *	@param		string|object	$content	Content of Tag or stringable object
-	 *	@return		void
-	 *	@throws		InvalidArgumentException	if given object has no __toString method
-	 */
-	public function setContent( $content = NULL )
-	{
-		if( is_object( $content ) ){
-			//  content is not a renderable object
-			if( !method_exists( $content, '__toString' ) ){
-				//  prepare message about not renderable object
-				$message	= 'Object of class "'.get_class( $content ).'" cannot be rendered';
-				//  break with error message
-				throw new InvalidArgumentException( $message );
-			}
-			//  render object to string
-			$content	= (string) $content;
-		}
-		$this->content	= $content;
 	}
 }
