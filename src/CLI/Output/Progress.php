@@ -1,6 +1,13 @@
 <?php
 class CLI_Output_Progress
 {
+	const STATUS_NONE		= 0;
+	const STATUS_READY		= 1;
+	const STATUS_STARTED	= 2;
+	const STATUS_FINISHED	= 3;
+
+	protected $status		= 0;
+	protected $startTime	= 0;
 	protected $total		= 0;
 	protected $barBlocks	= array( '_', '░', '▓', '█' );
 	protected $barTemplate	= '%1$s%2$s%3$s%4$s';
@@ -14,6 +21,7 @@ class CLI_Output_Progress
 
 	public function setTotal( $total ): self{
 		$this->total		= $total;
+		$this->status		= static::STATUS_READY;
 		return $this;
 	}
 
@@ -33,26 +41,32 @@ class CLI_Output_Progress
 
 	public function start(): self
 	{
-		if( !$this->total )
+		if( $this->status < static::STATUS_READY )
 			throw new RuntimeException( 'No total set' );
 		$this->startTime	= microtime( TRUE );
+		$this->status		= static::STATUS_STARTED;
 		$this->output->newLine( $this->renderLine( 0 ) );
 		return $this;
 	}
 
 	public function update( $count ): self
 	{
-		if( !$this->total )
-			throw new RuntimeException( 'No total set' );
-
+		if( $this->status != static::STATUS_STARTED )
+			$this->start();
 		$this->output->sameLine( $this->renderLine( $count ) );
+		if( $count === $this->total ){
+			$this->status	= static::STATUS_FINISHED;
+			$this->output->newLine();
+		}
 		return $this;
 	}
 
 	public function finish(): self
 	{
-		$this->update( $this->total );
-		$this->output->newLine();
+		if( $this->status == static::STATUS_STARTED ){
+			$this->status	= static::STATUS_FINISHED;
+			$this->output->newLine();
+		}
 		return $this;
 	}
 
