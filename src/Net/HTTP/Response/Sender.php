@@ -50,7 +50,7 @@ class Net_HTTP_Response_Sender
 	public function  __construct( Net_HTTP_Response $response = NULL )
 	{
 		if( $response )
-			$this->setResponse( Net_HTTP_Response $response );
+			$this->setResponse( $response );
 	}
 
 	/**
