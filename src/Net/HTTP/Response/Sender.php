@@ -66,7 +66,7 @@ class Net_HTTP_Response_Sender
 	{
 		$response	= clone( $this->response );
 		$body		= $response->getBody();
-		$length		= method_exists( 'mb_strlen' ) ? mb_strlen( $body ) : strlen( $body );
+		$length		= function_exists( 'mb_strlen' ) ? mb_strlen( $body ) : strlen( $body );
 
 		/*  --  COMPRESSION  --  */
 		$compression	= $compression ? $compression : $this->compression;

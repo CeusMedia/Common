@@ -129,6 +129,16 @@ class Net_HTTP_Response
 	}
 
 	/**
+	 *	Returns length of current response.
+	 *	@access		public
+	 *	@return		integer		Byte length of current response
+	 */
+	public function getLength()
+	{
+		return strlen( $this->toString() );
+	}
+
+	/**
 	 *	Returns response protocol.
 	 *	@access		public
 	 *	@return		string		Response protocol
