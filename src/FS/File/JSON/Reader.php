@@ -42,10 +42,6 @@ class FS_File_JSON_Reader
 	protected $filters					= array();
 	protected $data;
 
-	public static function setDefaultFilters( $defaultFilters ){
-		self::$defaultFilters	= $defaultFilters;
-	}
-
 	/**
 	 *	Constructor.
 	 *	@access		public
@@ -127,6 +123,23 @@ class FS_File_JSON_Reader
 		return $data;
 	}
 
+	/**
+	 *	Set default filters to set for each instance.
+	 *	@access		public
+	 *	@static
+	 *	@param		array		$defaultFilters		List of filters to set for each new instance
+	 */
+	public static function setDefaultFilters( $defaultFilters ){
+		self::$defaultFilters	= $defaultFilters;
+	}
+
+	/**
+	 *	Applies set filters to JSON file content, to be done before parsing.
+	 *	Only one filter at the moment: comments - strip comments
+	 *	@access		protected
+	 *	@param		string		$json				JSON file content to be filtered
+	 *	@return		string
+	 */
 	protected function applyFilters( $json ){
 		foreach( $this->filters as $filter ){
 			if( $filter === 'comments' ){
