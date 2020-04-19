@@ -121,7 +121,7 @@ class FS_File_JSON_Reader
 	{
 		$json	= FS_File_Reader::load( $this->filePath );
 		$json	= $this->applyFilters( $json );
-		$data	= $this->parser->parse( $json );
+		$data	= $this->parser->parse( $json, $asArray );
 
 		$this->data	= $storeData ? $data : NULL;
 		return $data;
