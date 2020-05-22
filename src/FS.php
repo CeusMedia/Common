@@ -1,5 +1,8 @@
 <?php
-class FS{
+namespace CeusMedia\Common;
+
+class FS
+{
 	const TYPE_UNKNOWN	= 0;
 	const TYPE_ALL		= 1;
 	const TYPE_FILE		= 2;
@@ -9,4 +12,3 @@ class FS{
 //	public function __construct(){
 //	}
 }
-?>

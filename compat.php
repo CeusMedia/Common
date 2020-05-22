@@ -2,9 +2,16 @@
 $isComposer		= file_exists( "vendor" );
 $isFromGithub	= !function_exists( "print_m" );
 
+use function CeusMedia\Common\UI\DevOutput\printMixed as print_m;
+
+$config		= parse_ini_file( __DIR__.'/Common.ini', TRUE );
+$version	= $config['project']['version'];
+
+print_m( $version );
+
 if( $isComposer && $isFromGithub ){
-    class Database_PDO_Connection extends DB_PDO_Connection{}
-    class Database_PDO_DataSourceName extends DB_PDO_DataSourceName{}
+	class Database_PDO_Connection extends DB_PDO_Connection{}
+	class Database_PDO_DataSourceName extends DB_PDO_DataSourceName{}
 	class File_JSON_Reader extends FS_File_JSON_Reader{}
 	class File_Editor extends FS_File_Editor{}
 	class File_Reader extends FS_File_Reader{}

@@ -1,22 +1,28 @@
 <?php
 require_once 'vendor/autoload.php';
-new UI_DevOutput;
+new CeusMedia\Common\UI\DevOutput;
+//require_once 'compat.php';
+
+use CeusMedia\Common\CLI as CLI;
+use CeusMedia\Common\FS;
+use CeusMedia\Common\FS\Folder;
+use CeusMedia\Common\UI\Text;
 
 $cli	= new CLI();
-remark( 'Colors: '.$cli->getColors() );
+CLI::out( 'Colors: '.$cli->getColors() );
 try{
 
 	if( 0 ){
-		$f	= new FS_Folder( 'src' );
+		$f	= new Folder( 'src' );
 		CLI::out( "Count recursive:" );
-		CLI::out( UI_Text::line( '-' ) );
+		CLI::out( Text::line( '-' ) );
 		CLI::out( "- Folders: ".$f->count( FS::TYPE_FOLDER, TRUE ) );
 		CLI::out( "- Files: ".$f->count( FS::TYPE_FILE, TRUE ) );
 		CLI::out( "- Total: ".$f->count( FS::TYPE_ALL, TRUE ) );
 		CLI::out();
 	}
 
-	if( 0 ){
+	if( 1 ){
 		$cli->ls( '.' );
 /*		remark( "Listing: " );
 		remark( UI_Text::line( '-' ) );
@@ -24,7 +30,7 @@ try{
 	}
 
 	if( 0 ){
-		$f	= new FS_Folder( './' );
+		$f	= new CeusMedia\Common\FS\Folder( './' );
 		if( !$f->has( 'abc' ) )
 			$f->createFolder( 'abc' );
 		$abc	= $f->getFolder( 'abc' );

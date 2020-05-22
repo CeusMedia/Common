@@ -2,7 +2,7 @@
 /**
  *	Converter for Strings using different ways of Camel Case.
  *
- *	Copyright (c) 2007-2018 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,21 +20,23 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Text
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2018 Christian Würker
+ *	@copyright		2008-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+namespace CeusMedia\Common\Alg\Text;
+
 /**
  *	Converter for Strings using different ways of Camel Case.
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Text
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2008-2018 Christian Würker
+ *	@copyright		2008-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class Alg_Text_CamelCase{
-
+class CamelCase
+{
 	protected static $regExp	= '/^(.*)[\-\_ ](.*)$/';
 
 	/**
@@ -46,13 +48,15 @@ class Alg_Text_CamelCase{
 	 *	@param		bool		$lowercaseLetters	Flag: convert all letters to lower case before
 	 *	@return		string
 	 */
-	static public function convert( $string, $lowercaseLetters = TRUE ){
+	static public function convert( string $string, bool $lowercaseLetters = TRUE ): string
+	{
 		return static::encode( $string, $lowercaseLetters );
 	}
 
-	static public function decode( $string, $delimiter = ' ' ){
+	static public function decode( string $string, string $delimiter = ' ' ): string
+	{
 		if( !function_exists( 'mb_substr' ) )
-			throw new RuntimeException( 'PHP module "mb" is not installed but needed' );
+			throw new \RuntimeException( 'PHP module "mb" is not installed but needed' );
 
 		$result	= '';
 		for( $i=0; $i<strlen( $string ); $i++ ){
@@ -73,7 +77,8 @@ class Alg_Text_CamelCase{
 	 *	@param		bool		$lowercaseLetters	Flag: convert all letters to lower case before
 	 *	@return		string
 	 */
-	static public function encode( $string, $lowercaseLetters = TRUE ){
+	static public function encode( string $string, bool $lowercaseLetters = TRUE ): string
+	{
 		$string[0]	= mb_strtolower( $string[0] );
 		if( $lowercaseLetters === TRUE )
 			$string	= mb_strtolower( $string );
@@ -83,20 +88,24 @@ class Alg_Text_CamelCase{
 		return $string;
 	}
 
-	static protected function isUpperCharacter( $string, $pos ){
+	static protected function isUpperCharacter( string $string, int $pos ): bool
+	{
 		$char	= mb_substr( $string, $pos, 1, "UTF-8" );
 		return mb_strtolower( $char, "UTF-8") != $char;
 	}
 
-	static public function toPascalCase( $string ){
-		return Alg_Text_PascalCase::encode( static::decode( $string ) );
+	static public function toPascalCase( string $string ): string
+	{
+		return PascalCase::encode( static::decode( $string ) );
 	}
 
-	static public function toSnakeCase( $string ){
-		return Alg_Text_SnakeCase::encode( static::decode( $string ) );
+	static public function toSnakeCase( string $string ): string
+	{
+		return SnakeCase::encode( static::decode( $string ) );
 	}
 
-	static public function validate( $string ){
+	static public function validate( string $string ): bool
+	{
 		for( $i=0; $i<strlen( $string ); $i++ ){
 			$isUpper	= static::isUpperCharacter( $string, $i );
 			if( $i == 0 && $isUpper )
@@ -107,4 +116,3 @@ class Alg_Text_CamelCase{
 		return TRUE;
 	}
 }
-?>

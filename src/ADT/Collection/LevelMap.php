@@ -4,7 +4,7 @@
  *	It is a Dictionary where Keys can contain Dots.
  *	All Method work with complete Keys and single Values or Prefix Keys and Arrays.
  *
- *	Copyright (c) 2007-2018 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -22,12 +22,14 @@
  *	@category		Library
  *	@package		CeusMedia_Common_ADT_List
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2018 Christian Würker
+ *	@copyright		2007-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			07.05.2008
  *	@version		$Id$
  */
+namespace CeusMedia\Common\ADT\Collection;
+
 /**
  *	A Map with Level Support.
  *	It is a Dictionary where Keys can contain Dots.
@@ -36,17 +38,17 @@
  *	@package		CeusMedia_Common_ADT_List
  *	@extends		ADT_List_Dictionary
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2018 Christian Würker
+ *	@copyright		2007-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			07.05.2008
  *	@version		$Id$
  *	@todo			Unit Test
  */
-class ADT_List_LevelMap extends ADT_List_Dictionary
+class LevelMap extends Dictionary
 {
 	protected $divider		= ".";
-	
+
 	public function __construct( $array = array(), $divider = "." )
 	{
 		parent::__construct( $array );
@@ -58,11 +60,12 @@ class ADT_List_LevelMap extends ADT_List_Dictionary
 	 *	@access		public
 	 *	@param		string		$key		Key in Dictionary
 	 *	@return		mixed
+	 *	@throws		\InvalidArgumentException	if key is invalid
 	 */
-	public function get( $key )
+	public function get( string $key )
 	{
 		if( empty( $key ) )																		//  no Key given
-			throw new InvalidArgumentException( 'Key must not be empty.' );						//  throw Exception
+			throw new \InvalidArgumentException( 'Key must not be empty.' );						//  throw Exception
 		if( isset( $this->pairs[$key] ) )														//  Key is set on its own
 			return $this->pairs[$key];															//  return Value
 		else																					//  Key has not been found
@@ -85,8 +88,9 @@ class ADT_List_LevelMap extends ADT_List_Dictionary
 
 	/**
 	 *	@todo	kriss: test + rename + code doc + inline doc
-	 */ 
-	public function getKeySections( $prefix = NULL ){
+	 */
+	public function getKeySections( string $prefix = NULL ): array
+	{
 		if( is_array( $prefix ) )
 			$prefix	= join( $this->divider, $prefix ).$this->divider;
 		$keys		= array_keys( $this->getAll( $prefix ) );
@@ -111,11 +115,12 @@ class ADT_List_LevelMap extends ADT_List_Dictionary
 	 *	@access		public
 	 *	@param		string		$key		Key in Dictionary
 	 *	@return		bool
+	 *	@throws		\InvalidArgumentException	if key is invalid
 	 */
-	public function has( $key )
+	public function has( string $key ): bool
 	{
 		if( empty( $key ) )																		//  no Key given
-			throw new InvalidArgumentException( 'Key must not be empty.' );						//  throw Exception
+			throw new \InvalidArgumentException( 'Key must not be empty.' );						//  throw Exception
 		if( isset( $this->pairs[$key] ) )														//  Key is set on its own
 			return TRUE;
 		else																					//  Key has not been found
@@ -131,17 +136,18 @@ class ADT_List_LevelMap extends ADT_List_Dictionary
 		}
 		return FALSE;
 	}
-	
+
 	/**
 	 *	Removes a Value or Pair Map from Dictionary by its Key.
 	 *	@access		public
 	 *	@param		string		$key		Key in Dictionary
 	 *	@return		void
+	 *	@throws		\InvalidArgumentException	if key is empty
 	 */
-	public function remove( $key )
+	public function remove( string $key ): self
 	{
 		if( empty( $key ) )																		//  no Key given
-			throw new InvalidArgumentException( 'Key must not be empty.' );						//  throw Exception
+			throw new \InvalidArgumentException( 'Key must not be empty.' );					//  throw Exception
 		if( isset( $this->pairs[$key] ) )														//  Key is set on its own
 			unset( $this->pairs[$key] );														//  remove Pair
 		else																					//  Key has not been found
@@ -155,17 +161,18 @@ class ADT_List_LevelMap extends ADT_List_Dictionary
 					unset( $this->pairs[$pairKey] );											//  remove Pair
 			}
 		}
+		return $this;
 	}
-	
+
 	/**
 	 *	Sets Value of Key in Dictionary.
 	 *	@access		public
 	 *	@param		string		$key		Key in Dictionary
 	 *	@param		string		$value		Value of Key
-	 *	@param		bool		$sort		Flag: sort by Keys after Insertion	
+	 *	@param		bool		$sort		Flag: sort by Keys after Insertion
 	 *	@return		void
 	 */
-	public function set( $key, $value, $sort = TRUE )
+	public function set( string $key, string $value, bool $sort = TRUE ): self
 	{
 		if( empty( $key ) )																		//  no Key given
 			throw new InvalidArgumentException( 'Key must not be empty.' );						//  throw Exception
@@ -176,6 +183,6 @@ class ADT_List_LevelMap extends ADT_List_Dictionary
 			$this->pairs[$key]	= $value;														//  set Pair
 		if( $sort )																				//  sort after Insertion is active
 			ksort( $this->pairs );																//  sort stored Pairs by Keys
+		return $this;
 	}
 }
-?>

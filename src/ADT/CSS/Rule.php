@@ -2,7 +2,7 @@
 /**
  *	...
  *
- *	Copyright (c) 2011-2019 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2011-2020 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_ADT_CSS
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2011-2019 Christian Würker
+ *	@copyright		2011-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.5
@@ -34,43 +34,43 @@ namespace CeusMedia\Common\ADT\CSS;
  *	@category		Library
  *	@package		CeusMedia_Common_ADT_CSS
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2011-2019 Christian Würker
+ *	@copyright		2011-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.5
  *	@version		$Id$
  */
-class Rule{
-
-	public $selector	= NULL;
+class Rule
+{
+	public $selector	= '';
 
 	public $properties	= array();
 
-	public function __construct( $selector, $properties = array() )
+	public function __construct( string $selector, array $properties = array() )
 	{
 		$this->setSelector( $selector );
 		foreach( $properties as $property )
 			$this->setProperty( $property );
 	}
 
-	public function getProperties()
+	public function getProperties(): array
 	{
 		return $this->properties;
 	}
 
-	public function getPropertyByIndex( $index )
+	public function getPropertyByIndex( int $index ): Property
 	{
 		if( !isset( $this->properties[$index] ) )
 			throw new \OutOfRangeException( 'Invalid property index' );
 		return $this->properties[$index];
 	}
 
-	public function getPropertyByKey( $key )
+	public function getPropertyByKey( string $key ): Property
 	{
 		foreach( $this->properties as $nr => $property )
 			if( $key == $property->getKey() )
 				return $property;
-		return NULL;
+		throw new \OutOfRangeException( 'Invalid property key' );
 	}
 
 	public function getSelector()
@@ -83,7 +83,7 @@ class Rule{
 		return $this->hasPropertyByKey( $property->getKey() );
 	}
 
-	public function hasPropertyByKey( $key )
+	public function hasPropertyByKey( string $key )
 	{
 		foreach( $this->properties as $nr => $property )
 			if( $key == $property->getKey() )
@@ -96,7 +96,7 @@ class Rule{
 		return $this->removePropertyByKey( $property->getKey() );
 	}
 
-	public function removePropertyByKey( $key )
+	public function removePropertyByKey( string $key ): bool
 	{
 		foreach( $this->properties as $nr => $property )
 		{
@@ -113,7 +113,7 @@ class Rule{
 		return $this->setPropertyByKey( $property->getKey(), $property->getValue() );				//
 	}
 
-	public function setPropertyByKey( $key, $value = NULL )
+	public function setPropertyByKey( string $key, $value = NULL ): bool
 	{
 		if( $value === NULL || !strlen( $value ) )
 			return $this->removePropertyByKey( $key );
@@ -124,9 +124,9 @@ class Rule{
 		return TRUE;
 	}
 
-	public function setSelector( $selector )
+	public function setSelector( string $selector ): self
 	{
 		$this->selector	= $selector;
+		return $this;
 	}
 }
-?>

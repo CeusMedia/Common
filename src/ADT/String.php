@@ -2,7 +2,7 @@
 /**
  *	String Class wrapping most of the PHP functions in a usable way.
  *
- *	Copyright (c) 2007-2018 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_ADT
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2018 Christian Würker
+ *	@copyright		2007-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.6.7
@@ -31,7 +31,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_ADT
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2018 Christian Würker
+ *	@copyright		2007-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.6.7
@@ -45,14 +45,13 @@ class ADT_String
 	 *	@param		string		$string			Initial string
 	 *	@return		void
 	 */
-	public function __construct( $string = "" )
+	public function __construct( $string = '' )
 	{
 		$this->string	= $string;
 	}
-	
-	public function __toString()
+
+	public function __toString(): string
 	{
-#		return $this->render();
 		return (string) $this->string;
 	}
 
@@ -62,7 +61,7 @@ class ADT_String
 	 *	@param		string		$delimiter		Capitalize every word separated by delimiter
 	 *	@return		bool		At least 1 character has been changed
 	 */
-	public function capitalize( $delimiter = NULL )
+	public function capitalize( $delimiter = NULL ): bool
 	{
 		$oldString		= $this->string;
 		if( $delimiter === NULL ){
@@ -77,10 +76,10 @@ class ADT_String
 	/**
 	 *	Changes first letter of every word to upper case and returns TRUE of there were changes.
 	 *	@access		public
-	 *	@return		bool		At least 1 character has been changed
 	 *	@param		string		$delimiter		Capitalize every word separated by delimiter
+	 *	@return		bool		At least 1 character has been changed
 	 */
-	public function capitalizeWords( $delimiter = NULL )
+	public function capitalizeWords( $delimiter = NULL ): bool
 	{
 		$oldString		= $this->string;
 		if( !$delimiter || preg_match( "/ +/", $delimiter ) ){
@@ -108,7 +107,7 @@ class ADT_String
 	 *	@see		http://www.php.net/manual/en/function.strcmp.php
 	 *	@see		http://www.php.net/manual/en/function.strcasecmp.php
 	 */
-	public function compareTo( $string, $caseSense = TRUE )
+	public function compareTo( $string, $caseSense = TRUE ): int
 	{
 		$method	= $caseSense ? "strcmp" : "strcasecmp";
 		return call_user_func( $method, $this->string, $string );
@@ -156,7 +155,7 @@ class ADT_String
 
 	/**
 	 *	Extends this string with another and returns number of added characters.
-	 *	If left and right is set, 
+	 *	If left and right is set,
 	 *	@access		public
 	 *	@param		int			$length			Length of resulting string
 	 *	@param		string		$string			String to extend with
@@ -184,7 +183,7 @@ class ADT_String
 			throw new InvalidArgumentException( 'No mode given, set left and/or right to TRUE' );
 		$this->string	= str_pad( $this->string, $length, (string) $string, $mode );
 		return $this->getLength() - $oldLength;
-	}	
+	}
 
 	/**
 	 *	Returns number of characters of this string.
@@ -198,7 +197,7 @@ class ADT_String
 
 	/**
 	 *	Returns a substring of this string.
-	 *	Note: Length can be negative 
+	 *	Note: Length can be negative
 	 *	@access		public
 	 *	@param		int			$start			Number of character to start at
 	 *	@param		int			$length			Number of characters from start
@@ -294,7 +293,7 @@ class ADT_String
 	 *	If the multiplier is 0 there will be no effect.
 	 *	Negative multipliers are not allowed.
 	 *	@access		public
-	 *	@param		int			$multiplier		
+	 *	@param		int			$multiplier
 	 *	@return		int			Number of added characters
 	 */
 	public function repeat( $multiplier )

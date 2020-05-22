@@ -2,7 +2,7 @@
 /**
  *	...
  *
- *	Copyright (c) 2011-2019 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2011-2020 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_ADT_CSS
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2011-2019 Christian Würker
+ *	@copyright		2011-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.5
@@ -34,14 +34,14 @@ namespace CeusMedia\Common\ADT\CSS;
  *	@category		Library
  *	@package		CeusMedia_Common_ADT_CSS
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2011-2019 Christian Würker
+ *	@copyright		2011-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.5
  *	@version		$Id$
  */
-class Sheet{
-
+class Sheet
+{
 	/**	@var		array			$rules		List of CSS rule objects */
 	public $rules		= array();
 
@@ -59,9 +59,9 @@ class Sheet{
 	 *	Add rule object
 	 *	@access		public
 	 *	@param		Rule	$rule		CSS rule object
-	 *	@return		void
+	 *	@return		self
 	 */
-	public function addRule( Rule $rule )
+	public function addRule( Rule $rule ): self
 	{
 		$got = $this->getRuleBySelector( $rule->selector );
 		if( $got )
@@ -72,6 +72,7 @@ class Sheet{
 				throw new \InvalidArgumentException( 'Invalid selector' );
 			$this->rules[]	= $rule;
 		}
+		return $this;
 	}
 
 	/**
@@ -81,7 +82,7 @@ class Sheet{
 	 *	@param		string			$key		Property key
 	 *	@return		string|NULL
 	 */
-	public function get( $selector, $key )
+	public function get( string $selector, string $key )
 	{
 		$rule = $this->getRuleBySelector( $selector );
 		if( !$rule )
@@ -95,7 +96,7 @@ class Sheet{
 	 *	@param		string			$selector	Rule selector
 	 *	@return		Rule|NULL
 	 */
-	public function getRuleBySelector( $selector )
+	public function getRuleBySelector( string $selector )
 	{
 		foreach( $this->rules as $rule )
 			if( $selector == $rule->getSelector() )
@@ -108,7 +109,7 @@ class Sheet{
 	 *	@access		public
 	 *	@return		array
 	 */
-	public function getRules()
+	public function getRules(): array
 	{
 		return $this->rules;
 	}
@@ -118,7 +119,7 @@ class Sheet{
 	 *	@access		public
 	 *	@return		array
 	 */
-	public function getSelectors()
+	public function getSelectors(): array
 	{
 		$list	= array();
 		foreach( $this->rules as $rule )
@@ -132,7 +133,7 @@ class Sheet{
 	 *	@param		string			$selector	Rule selector
 	 *	@return		boolean
 	 */
-	public function has( $selector, $key = NULL )
+	public function has( string $selector, string $key = NULL ): bool
 	{
 		$rule = $this->getRuleBySelector( $selector );
 		if( $rule )
@@ -146,7 +147,7 @@ class Sheet{
 	 *	@param		string			$selector	Rule selector
 	 *	@return		boolean
 	 */
-	public function hasRuleBySelector( $selector )
+	public function hasRuleBySelector( string $selector ): bool
 	{
 		foreach( $this->rules as $rule )
 			if( $selector == $rule->getSelector() )
@@ -161,7 +162,7 @@ class Sheet{
 	 *	@param		string			$key		Property key
 	 *	@return		boolean
 	 */
-	public function remove( $selector, $key )
+	public function remove( string $selector, string $key ): bool
 	{
 		$rule	= $this->getRuleBySelector( $selector );
 		if( !$rule )
@@ -181,7 +182,7 @@ class Sheet{
 	 *	@param		Property	$property	Property object
 	 *	@return		boolean
 	 */
-	public function removeProperty( Rule $rule, Property $property )
+	public function removeProperty( Rule $rule, Property $property ): bool
 	{
 		return $this->remove( $rule->getSelector(), $property->getKey() );
 	}
@@ -192,7 +193,7 @@ class Sheet{
 	 *	@param		Rule		$rule		Rule object
 	 *	@return		boolean
 	 */
-	public function removeRule( Rule $rule )
+	public function removeRule( Rule $rule ): bool
 	{
 		return $this->removeRuleBySelector( $rule->getSelector() );
 	}
@@ -203,7 +204,7 @@ class Sheet{
 	 *	@param		string			$selector		Rule selector
 	 *	@return		boolean
 	 */
-	public function removeRuleBySelector( $selector )
+	public function removeRuleBySelector( string $selector ): bool
 	{
 		foreach( $this->rules as $nr => $rule ){
 			if( $selector == $rule->getSelector() ){
@@ -222,7 +223,7 @@ class Sheet{
 	 *	@param		string			$value			Property value
 	 *	@return		boolean
 	 */
-	public function set( $selector, $key, $value = NULL )
+	public function set( string $selector, string $key, $value = NULL ): bool
 	{
 		if( $value === NULL || !strlen( $value ) )
 			return $this->remove( $selector, $key );
@@ -241,9 +242,8 @@ class Sheet{
 	 *	@param		Property	$property	Property object
 	 *	@return		boolean
 	 */
-	public function setProperty( Rule $rule, Property $property )
+	public function setProperty( Rule $rule, Property $property ): bool
 	{
 		return $this->set( $rule->getSelector(), $property->getKey(), $property->getValue() );		//
 	}
 }
-?>

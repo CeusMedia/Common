@@ -1,15 +1,19 @@
 <?php
-class FS_File extends FS_AbstractNode{
+namespace CeusMedia\Common\FS;
 
+class File extends AbstractNode
+{
 	protected $pathName;
 
-	public function __construct( $pathName, $create = FALSE, $mode = 0777, $strict = TRUE ){
+	public function __construct( string $pathName, bool $create = FALSE, $mode = 0777, bool $strict = TRUE )
+	{
 		$this->setPathName( $pathName );
 		if( $create && !$this->exists() )
 			$this->create( $mode, $strict );
 	}
 
-	public function create( $mode = 0777, $strict = TRUE ){
+	public function create( $mode = 0777, bool $strict = TRUE ): bool
+	{
 		if( $this->exists( FALSE ) ){
 			if( $strict ){
 				if( is_dir( $this->pathName ) )
@@ -29,7 +33,8 @@ class FS_File extends FS_AbstractNode{
 		return TRUE;
 	}
 
-	public function exists( $strict = FALSE ){
+	public function exists( bool $strict = FALSE ): bool
+	{
 		if( !file_exists( $this->pathName ) ){
 			if( $strict )
 				throw new Exception_IO( 'Folder is not existing', 0, $targetPath );
@@ -43,7 +48,8 @@ class FS_File extends FS_AbstractNode{
 		return TRUE;
 	}
 
-	public function getContent( $strict = TRUE ){
+	public function getContent( bool $strict = TRUE )
+	{
 		if( !$this->exists( $strict ) )
 			return NULL;
 		return file_get_contents( $this->pathName );
@@ -55,7 +61,8 @@ class FS_File extends FS_AbstractNode{
 	 *	@return		string
 	 *	@throws		RuntimeException	if Fileinfo is not installed
 	 */
-	public function getMimeType(){
+	public function getMimeType(): string
+	{
 		if( function_exists( 'finfo_open' ) ){
 			$magicFile	= ini_get( 'mime_magic.magicfile' );
 //			$magicFile	= str_replace( "\\", "/", $magicFile );
@@ -73,41 +80,38 @@ class FS_File extends FS_AbstractNode{
 			if( $mimeType = mime_content_type( $this->pathName ) )
 				return $mimeType;
 		}
-		throw new RuntimeException( 'PHP extension Fileinfo is missing' );
+		throw new \RuntimeException( 'PHP extension Fileinfo is missing' );
 	}
 
-	public function getName( $withExtension = TRUE, $strict = TRUE ){
+	public function getName( bool $withExtension = TRUE, bool $strict = TRUE ): string
+	{
 		if( $withExtension )
 			return pathinfo( $this->pathName, PATHINFO_BASENAME );
 		return pathinfo( $this->pathName, PATHINFO_FILENAME );
 	}
 
-	public function getSize( $strict = TRUE ){
+	public function getSize( $strict = TRUE )
+	{
 		if( !$this->exists( $strict ) )
 			return NULL;
 		return filesize( $this->pathName );
 	}
 
-	public function getTime( $strict = TRUE ){
+	public function getTime( bool $strict = TRUE ): ?int
+	{
 		if( !$this->exists( $strict ) )
 			return NULL;
 		return filemtime( $this->pathName );
 	}
 
-	public function setContent( $content, $strict = TRUE ){
+	public function setContent( string $content, bool $strict = TRUE ): ?self
+	{
 		if( !$this->exists() ){
 			if( !$this->create( $strict ) ){
 				return FALSE;
 			}
 		}
 		file_put_contents( $this->pathName, $content );
-	}
-
-	public function setPathName( $pathName ){
-		$pathName	= trim( $pathName );
-		if( $pathName !== '/' )
-			$pathName	= rtrim( $pathName, '/' );
-		$this->pathName	= $pathName;
+		return $this;
 	}
 }
-?>

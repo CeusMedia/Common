@@ -7,13 +7,13 @@
     {
       "name": "Christian Würker",
       "email": "christian.wuerker@ceusmedia.de",
-      "homepage": "https://ceusmedia.de",
+      "homepage": "https://ceusmedia.de/",
       "role": "Developer"
     }
   ],
   "support": {
     "email": "office@ceusmedia.de",
-    "jabber": "ceus-media@jabber.org"
+    "jabber": "cwuerker@ceusmedia.de"
   },
   "minimum-stability": "dev",
   "require": {
