@@ -33,20 +33,34 @@
  *	@copyright		2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
+ *	@see			https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods
  *	@since			0.8.4.7
  */
 class Net_HTTP_Method
 {
+	const METHOD_CONNECT	= 'CONNECT';
+	const METHOD_DELETE		= 'DELETE';
+	const METHOD_GET		= 'GET';
+	const METHOD_HEAD		= 'HEAD';
+	const METHOD_OPTIONS	= 'OPTIONS';
+	const METHOD_PATCH		= 'PATCH';
+	const METHOD_POST		= 'POST';
+	const METHOD_PUT		= 'PUT';
+	const METHOD_TRACE		= 'TRACE';
+
 	/** @var		string					$method			HTTP request method */
-	protected $method		= 'GET';
+	protected $method		= self::METHOD_GET;
 
 	static public $methods	= array(
-		'DELETE',
-		'GET',
-		'HEAD',
-		'OPTIONS',
-		'POST',
-		'PUT'
+		self::METHOD_CONNECT,
+		self::METHOD_DELETE,
+		self::METHOD_GET,
+		self::METHOD_HEAD,
+		self::METHOD_OPTIONS,
+		self::METHOD_PATCH,
+		self::METHOD_POST,
+		self::METHOD_PUT,
+		self::METHOD_TRACE,
 	);
 
 	public function __construct( $method = NULL )
@@ -55,7 +69,8 @@ class Net_HTTP_Method
 			$this->set( $method );
 	}
 
-	public function __toString(){
+	public function __toString(): string
+	{
 		return $this->get();
 	}
 
@@ -64,7 +79,7 @@ class Net_HTTP_Method
 	 *	@access		public
 	 *	@return		string
 	 */
-	public function get()
+	public function get(): string
 	{
 		return $this->method;
 	}
@@ -76,9 +91,19 @@ class Net_HTTP_Method
 	 *	@param		string		$method		Request method to check against
 	 *	@return		boolean
 	 */
-	public function is( $method )
+	public function is( string $method ): bool
 	{
 		return $this->method === strtoupper( trim( $method ) );
+	}
+
+	/**
+	 *	Indicates whether request method is CONNECT.
+	 *	@access		public
+	 *	@return		boolean
+	 */
+	public function isConnect(): bool
+	{
+		return $this->is( self::METHOD_CONNECT );
 	}
 
 	/**
@@ -86,9 +111,9 @@ class Net_HTTP_Method
 	 *	@access		public
 	 *	@return		boolean
 	 */
-	public function isGet()
+	public function isGet(): bool
 	{
-		return $this->is( 'GET' );
+		return $this->is( self::METHOD_GET );
 	}
 
 	/**
@@ -96,9 +121,9 @@ class Net_HTTP_Method
 	 *	@access		public
 	 *	@return		boolean
 	 */
-	public function isDelete()
+	public function isDelete(): bool
 	{
-		return $this->is( 'DELETE' );
+		return $this->is( self::METHOD_DELETE );
 	}
 
 	/**
@@ -106,9 +131,9 @@ class Net_HTTP_Method
 	 *	@access		public
 	 *	@return		boolean
 	 */
-	public function isHead()
+	public function isHead(): bool
 	{
-		return $this->is( 'HEAD' );
+		return $this->is( self::METHOD_HEAD );
 	}
 
 	/**
@@ -116,9 +141,19 @@ class Net_HTTP_Method
 	 *	@access		public
 	 *	@return		boolean
 	 */
-	public function isOptions()
+	public function isOptions(): bool
 	{
-		return $this->is( 'OPTIONS' );
+		return $this->is( self::METHOD_OPTIONS );
+	}
+
+	/**
+	 *	Indicates whether request method is PATCH.
+	 *	@access		public
+	 *	@return		boolean
+	 */
+	public function isPatch(): bool
+	{
+		return $this->is( self::METHOD_PATCH );
 	}
 
 	/**
@@ -126,9 +161,9 @@ class Net_HTTP_Method
 	 *	@access		public
 	 *	@return		boolean
 	 */
-	public function isPost()
+	public function isPost(): bool
 	{
-		return $this->is( 'POST' );
+		return $this->is( self::METHOD_POST );
 	}
 
 	/**
@@ -136,9 +171,19 @@ class Net_HTTP_Method
 	 *	@access		public
 	 *	@return		boolean
 	 */
-	public function isPut()
+	public function isPut(): bool
 	{
-		return $this->is( 'PUT' );
+		return $this->is( self::METHOD_PUT );
+	}
+
+	/**
+	 *	Indicates whether request method is TRACE.
+	 *	@access		public
+	 *	@return		boolean
+	 */
+	public function isTrace(): bool
+	{
+		return $this->is( self::METHOD_TRACE );
 	}
 
 	/**
@@ -146,12 +191,13 @@ class Net_HTTP_Method
 	 *	@access		public
 	 *	@param		string		$method		Request method to set
 	 *	@return		self
+	 *	@throws		\BadMethodCallException	if given method is not supported
 	 */
-	public function set( $method )
+	public function set( string $method ): self
 	{
 		$method		= strtoupper( $method );
 		if( !in_array( $method, self::$methods ) )
-			throw new BadMethodCallException( 'HTTP method "%s" is not supported' );
+			throw new \BadMethodCallException( 'HTTP method "%s" is not supported' );
 		$this->method	= $method;
 		return $this;
 	}
