@@ -41,15 +41,22 @@
  */
 class Net_HTTP_Request extends ADT_List_Dictionary
 {
-	protected $body;
 	/** @var		Net_HTTP_Header_Section	$headers		Object of collected HTTP Headers */
 	public $headers;
+
+	/** @var		string					$body			Raw POST/PUT data, if available */
+	protected $body			= '';
+
 	/**	@var		string					$ip				IP of Request */
-	protected $ip;
-	/** @var		string					$method			HTTP request method */
+	protected $ip			= '';
+
+	/** @var		Net_HTTP_Method			$method			HTTP request method object */
 	protected $method;
+
 	protected $protocol		= 'HTTP';
+
 	protected $status		= '200 OK';
+
 	protected $version		= '1.0';
 
 	public function __construct( $protocol = NULL, $version = NULL )
@@ -66,11 +73,12 @@ class Net_HTTP_Request extends ADT_List_Dictionary
 	 *	Adds an HTTP header object.
 	 *	@access		public
 	 *	@param		Net_HTTP_Header_Field	$header		HTTP Header Field Object
-	 *	@return		void
+	 *	@return		self
 	 */
-	public function addHeader( Net_HTTP_Header_Field $field )
+	public function addHeader( Net_HTTP_Header_Field $field ): self
 	{
 		$this->headers->addField( $field );
+		return $this;
 	}
 
 	/**
@@ -80,17 +88,17 @@ class Net_HTTP_Request extends ADT_List_Dictionary
 	 *	@param		string			$value		HTTP header value
 	 *	@return		void
 	 */
-	public function addHeaderPair( $name, $value )
+	public function addHeaderPair( string $name, string $value ): self
 	{
 		$this->headers->addField( new Net_HTTP_Header_Field( $name, $value ) );
+		return $this;
 	}
 
-	public function fromEnv( $useSession = FALSE, $useCookie = FALSE )
+	public function fromEnv( bool $useSession = FALSE, bool $useCookie = FALSE ): self
 	{
 		//  store HTTP method
 		$this->method->set( getEnv( 'REQUEST_METHOD' ) );
-		//  store IP of requesting client
-		$this->ip		= getEnv( 'REMOTE_ADDR' );
+
 		$this->sources	= array(
 			"GET"		=> &$_GET,
 			"POST"		=> &$_POST,
@@ -113,13 +121,20 @@ class Net_HTTP_Request extends ADT_List_Dictionary
 			//  store header
 			$this->headers->addField( new Net_HTTP_Header_Field( $key, $value ) );
 
+		//  store IP of requesting client
+		$this->ip		= getEnv( 'REMOTE_ADDR' );
+		if( $this->headers->hasField( 'X-Forwarded-For' ) )											//  request has been forwarded
+			$this->ip = $this->headers->getFieldsByName( 'X-Forwarded-For', TRUE );					//  get original IP address of request
+
 		//  store raw POST, PUT or FILE data
 		$this->body	= file_get_contents( "php://input" );
+		return $this;
 	}
 
-	public function fromString( $request )
+	public function fromString( $request ): self
 	{
 		throw new Exception( 'Not implemented' );
+		return $this;
 	}
 
 	/**
@@ -130,7 +145,7 @@ class Net_HTTP_Request extends ADT_List_Dictionary
 	 *	@throws		InvalidArgumentException if key is not set in source and strict is on
 	 *	@return		array		Pairs in source (or empty array if not set on strict is off)
 	 */
-	public function getAllFromSource( $source, $strict = FALSE )
+	public function getAllFromSource( string $source, bool $strict = FALSE ): array
 	{
 		$source	= strtoupper( $source );
 		if( isset( $this->sources[$source] ) )
@@ -140,48 +155,42 @@ class Net_HTTP_Request extends ADT_List_Dictionary
 		throw new InvalidArgumentException( 'Invalid source "'.$source.'"' );
 	}
 
-	static public function getAllEnvHeaders(){
+	static public function getAllEnvHeaders(): array
+	{
 		if( function_exists( 'getallheaders' ) )
 			return getallheaders();
 
-		$headers = array();
-
-		$copy_server = array(
+		$headers		= array();
+		$copyDirectly	= array(
 			'CONTENT_TYPE'   => 'Content-Type',
 			'CONTENT_LENGTH' => 'Content-Length',
 			'CONTENT_MD5'    => 'Content-Md5',
 		);
 
-		foreach( $_SERVER as $key => $value )
-		{
-			if( substr( $key, 0, 5 ) === 'HTTP_' )
-			{
-				$key = substr( $key, 5 );
-				if( !(isset( $copy_server[$key] ) && isset( $_SERVER[$key] ) ) )
-				{
-					$key = str_replace( ' ', '-', ucwords( strtolower( str_replace( '_', ' ', $key ) ) ) );
-					$headers[$key] = $value;
+		foreach( $_SERVER as $key => $value ){
+			if( substr( $key, 0, 5 ) === 'HTTP_' ){
+				$key	= substr( $key, 5 );
+				if( !(isset( $copyDirectly[$key] ) && isset( $_SERVER[$key] ) ) ){
+					$key	= strtolower( str_replace( '_', ' ', $key ) );
+					$key	= str_replace( ' ', '-', ucwords( $key ) );
+					$headers[$key]	= $value;
 				}
 			}
-			elseif (isset($copy_server[$key]))
-			{
-				$headers[$copy_server[$key]] = $value;
+			elseif( isset( $copyDirectly[$key] ) ){
+				$headers[$copyDirectly[$key]]	= $value;
 			}
 		}
-		if( !isset( $headers['Authorization'] ) )
-		{
-			if( isset( $_SERVER['REDIRECT_HTTP_AUTHORIZATION'] ) )
-			{
-				$headers['Authorization'] = $_SERVER['REDIRECT_HTTP_AUTHORIZATION'];
+		if( !isset( $headers['Authorization'] ) ){
+			if( isset( $_SERVER['REDIRECT_HTTP_AUTHORIZATION'] ) ){
+				$headers['Authorization']	= $_SERVER['REDIRECT_HTTP_AUTHORIZATION'];
 			}
-			elseif( isset( $_SERVER['PHP_AUTH_USER'] ) )
-			{
-				$basic_pass = isset( $_SERVER['PHP_AUTH_PW'] ) ? $_SERVER['PHP_AUTH_PW'] : '';
-				$headers['Authorization'] = 'Basic ' . base64_encode( $_SERVER['PHP_AUTH_USER'] . ':' . $basic_pass );
+			elseif( isset( $_SERVER['PHP_AUTH_DIGEST'] ) ){
+				$headers['Authorization']	= $_SERVER['PHP_AUTH_DIGEST'];
 			}
-			elseif (isset($_SERVER['PHP_AUTH_DIGEST'] ) )
-			{
-				$headers['Authorization'] = $_SERVER['PHP_AUTH_DIGEST'];
+			elseif( isset( $_SERVER['PHP_AUTH_USER'] ) ){
+				$password	= $_SERVER['PHP_AUTH_PW'] ?? '';
+				$hash		= base64_encode( $_SERVER['PHP_AUTH_USER'] . ':' . $password );
+				$headers['Authorization']	= 'Basic ' . $hash;
 			}
 		}
 		return $headers;
@@ -196,7 +205,7 @@ class Net_HTTP_Request extends ADT_List_Dictionary
 	 *	@throws		InvalidArgumentException if key is not set in source and strict is on
 	 *	@return		mixed		Value of key in source or NULL if not set
 	 */
-	public function getFromSource( $key, $source, $strict = FALSE )
+	public function getFromSource( string $key, string $source, bool $strict = FALSE )
 	{
 		$data	= $this->getAllFromSource( $source );
 		if( isset( $data[$key] ) )
@@ -217,7 +226,7 @@ class Net_HTTP_Request extends ADT_List_Dictionary
 	 *	@return		Net_HTTP_Header_Field|null
 	 *	@throws		RuntimeException		if nothing found and strict mode enabled
 	 */
-	public function getHeader( $name, $strict = TRUE )
+	public function getHeader( string $name, bool $strict = TRUE )
 	{
 		$header	= $this->getHeadersByName( $name, TRUE );
 		if( $header )
@@ -232,7 +241,7 @@ class Net_HTTP_Request extends ADT_List_Dictionary
 	 *	@access		public
 	 *	@return		Net_HTTP_Header_Section		Collection of of Net_HTTP_Header_Field instances
 	 */
-	public function getHeaders()
+	public function getHeaders(): Net_HTTP_Header_Section
 	{
 		return $this->headers;
 	}
@@ -245,19 +254,19 @@ class Net_HTTP_Request extends ADT_List_Dictionary
 	 *	@param		boolean		$latestOnly	Flag: return latest header field, only
 	 *	@return		array|null	List of HTTP header fields with given header name
 	 */
-	public function getHeadersByName( $name, $latestOnly = FALSE )
+	public function getHeadersByName( string $name, bool $latestOnly = FALSE )
 	{
 		return $this->headers->getFieldsByName( $name, $latestOnly );
 	}
 
 	/**
-	 *	Returns received raw POST Data.
+	 *	Returns detected remote client IP.
 	 *	@access		public
 	 *	@return		string
 	 */
-	public function getBody()
+	public function getIp(): string
 	{
-		return $this->body;
+		return $this->ip;
 	}
 
 	/**
@@ -265,7 +274,7 @@ class Net_HTTP_Request extends ADT_List_Dictionary
 	 *	@access		public
 	 *	@return		Net_HTTP_Method
 	 */
-	public function getMethod()
+	public function getMethod(): Net_HTTP_Method
 	{
 		return $this->method;
 	}
@@ -276,7 +285,8 @@ class Net_HTTP_Request extends ADT_List_Dictionary
 	 *	@param		boolean		$absolute		Flag: return absolute URL
 	 *	@return		ADT_URL
 	 */
-	public function getUrl( $absolute = TRUE ){
+	public function getUrl( bool $absolute = TRUE ): ADT_URL
+	{
 		$url	= new ADT_URL( getEnv( 'REQUEST_URI' ) );
 		if( $absolute ){
 			$url->setScheme( getEnv( 'REQUEST_SCHEME' ) );
@@ -292,13 +302,13 @@ class Net_HTTP_Request extends ADT_List_Dictionary
 	 *	@param		string		$source		Source key (not case sensitive) (get,post,files[,session,cookie])
 	 *	@return		bool
 	 */
-	public function hasInSource( $key, $source )
+	public function hasInSource( string $key, string $source ): bool
 	{
 		$source	= strtoupper( $source );
 		return isset( $this->sources[$source][$key] );
 	}
 
-	public function isAjax()
+	public function isAjax(): bool
 	{
 		return $this->headers->hasField( 'X-Requested-With' );
 	}
@@ -311,7 +321,7 @@ class Net_HTTP_Request extends ADT_List_Dictionary
 	 *	@return		boolean
 	 *	@deprecated	use request->getMethod()->is( $method ) instead
 	 */
-	public function isMethod( $method )
+	public function isMethod( string $method ): bool
 	{
 		Deprecation::getInstance()
 			->setErrorVersion( '0.8.4.7' )
@@ -326,7 +336,7 @@ class Net_HTTP_Request extends ADT_List_Dictionary
 	 *	@return		boolean
 	 * 	@deprecated use $request->getMethod()->isGet() instead
 	 */
-	public function isGet()
+	public function isGet(): bool
 	{
 		Deprecation::getInstance()
 			->setErrorVersion( '0.8.4.7' )
@@ -341,7 +351,7 @@ class Net_HTTP_Request extends ADT_List_Dictionary
 	 *	@return		boolean
 	 * 	@deprecated use $request->getMethod()->isDelete() instead
 	 */
-	public function isDelete()
+	public function isDelete(): bool
 	{
 		Deprecation::getInstance()
 			->setErrorVersion( '0.8.4.7' )
@@ -356,7 +366,7 @@ class Net_HTTP_Request extends ADT_List_Dictionary
 	 *	@return		boolean
 	 * 	@deprecated use $request->getMethod()->isHead() instead
 	 */
-	public function isHead()
+	public function isHead(): bool
 	{
 		Deprecation::getInstance()
 			->setErrorVersion( '0.8.4.7' )
@@ -371,7 +381,7 @@ class Net_HTTP_Request extends ADT_List_Dictionary
 	 *	@return		boolean
 	 * 	@deprecated use $request->getMethod()->isOptions() instead
 	 */
-	public function isOptions()
+	public function isOptions(): bool
 	{
 		Deprecation::getInstance()
 			->setErrorVersion( '0.8.4.7' )
@@ -386,7 +396,7 @@ class Net_HTTP_Request extends ADT_List_Dictionary
 	 *	@return		boolean
 	 * 	@deprecated use $request->getMethod()->isPost() instead
 	 */
-	public function isPost()
+	public function isPost(): bool
 	{
 		Deprecation::getInstance()
 			->setErrorVersion( '0.8.4.7' )
@@ -401,7 +411,7 @@ class Net_HTTP_Request extends ADT_List_Dictionary
 	 *	@return		boolean
 	 * 	@deprecated use $request->getMethod()->isPut() instead
 	 */
-	public function isPut()
+	public function isPut(): bool
 	{
 		Deprecation::getInstance()
 			->setErrorVersion( '0.8.4.7' )
@@ -410,27 +420,30 @@ class Net_HTTP_Request extends ADT_List_Dictionary
 		return $this->method->isPut();
 	}
 
-	public function remove( $key )
+	public function remove( string $key ): self
 	{
 		parent::remove( $key );
 //		if( $this->method === "POST" )
 //			$this->body	= http_build_query( $this->getAll(), NULL, '&' );
+		return $this;
 	}
 
-	public function set( $key, $value )
+	public function set( string $key, string $value ): self
 	{
 		parent::set( $key, $value );
 //		if( $this->method === "POST" )
 //			$this->body	= http_build_query( $this->getAll(), NULL, '&' );
+		return $this;
 	}
 
-	public function setAjax( $isAjax = TRUE )
+	public function setAjax( bool $isAjax = TRUE ): self
 	{
 		$field	= new Net_HTTP_Header_Field( 'X-Requested-With', 'XMLHttpRequest' );
 		if( $isAjax )
 			$this->headers->addField( $field );
 		else
 			$this->headers->removeField( $field );
+		return $this;
 	}
 
 	/**
@@ -440,7 +453,7 @@ class Net_HTTP_Request extends ADT_List_Dictionary
 	 *	@return		self
 	 * 	@deprecated use $request->getMethod()->set() instead
 	 */
-	public function setMethod( $method )
+	public function setMethod( string $method ): self
 	{
 		Deprecation::getInstance()
 			->setErrorVersion( '0.8.4.7' )

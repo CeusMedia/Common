@@ -32,6 +32,7 @@
  *	@extends		ADT_List_Dictionary
  *	@uses			Net_HTTP_Header_Section
  *	@uses			Net_HTTP_Header_Field
+ *	@uses			Net_HTTP_Method
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -44,7 +45,7 @@ class Net_HTTP_Request_Receiver extends ADT_List_Dictionary
 	protected $headers						= NULL;
 	/**	@var		string					$ip				IP of Request */
 	protected $ip;
-	/** @var		string					$method			HTTP request method */
+	/** @var		Net_HTTP_Method			$method			Object of HTTP request method */
 	protected $method						= NULL;
 	/** @var		string					$path			Requested path */
 	protected $path							= NULL;
@@ -58,8 +59,9 @@ class Net_HTTP_Request_Receiver extends ADT_List_Dictionary
 	 *	@param		bool		$useCookie		Flag: include Cookie Values
 	 *	@return		void
 	 */
-	public function __construct( $useSession = FALSE, $useCookie = FALSE )
+	public function __construct( bool $useSession = FALSE, bool $useCookie = FALSE )
 	{
+		$this->method	= new \Net_HTTP_Method( getEnv( 'REQUEST_METHOD' ) );
 		$this->sources	= array(
 			"get"	=> &$_GET,
 			"post"	=> &$_POST,
@@ -70,10 +72,7 @@ class Net_HTTP_Request_Receiver extends ADT_List_Dictionary
 		if( $useCookie )
 			$this->sources['cookie']	=& $_COOKIE;
 
-		//  store IP of requesting client
-		$this->ip		= getEnv( 'REMOTE_ADDR' );
 		//  store HTTP method
-		$this->method	= strtoupper( getEnv( 'REQUEST_METHOD' ) );
 		$this->root		= rtrim( dirname( getEnv( 'SCRIPT_NAME' ) ), '/' ).'/';
 		$this->path		= substr( getEnv( 'REQUEST_URI' ), strlen( $this->root ) );
 		if( strpos( $this->path, '?' ) !== FALSE )
@@ -83,17 +82,18 @@ class Net_HTTP_Request_Receiver extends ADT_List_Dictionary
 			$this->pairs	= array_merge( $this->pairs, $values );
 
 		/*  --  RETRIEVE HTTP HEADERS  --  */
-		$this->headers	= new Net_HTTP_Header_Section;
-		foreach( $_SERVER as $key => $value )
-		{
-			if( strpos( $key, "HTTP_" ) !== 0 )
-				continue;
-			//  strip HTTP prefix
-			$key	= preg_replace( '/^HTTP_/', '', $key );
-			//  replace underscore by dash
-			$key	= preg_replace( '/_/', '-', $key );
-			$this->headers->addField( new Net_HTTP_Header_Field( $key, $value ) );					//
+		$this->headers	= new \Net_HTTP_Header_Section;
+		foreach( $_SERVER as $key => $value ){
+			if( substr( $key, 0, 5 ) === 'HTTP_' ){
+				$key	= str_replace( '_', '-', substr( $key, 5 ) );								//  strip HTTP prefix and replace underscore by dash
+				$this->headers->addFieldPair( $key, $value );										//  add header
+			}
 		}
+
+		//  store IP of requesting client
+		$this->ip		= getEnv( 'REMOTE_ADDR' );
+		if( $this->headers->hasField( 'X-Forwarded-For' ) )											//  request has been forwarded
+			$this->ip = $this->headers->getFieldsByName( 'X-Forwarded-For', TRUE );					//  get original IP address of request
 	}
 
 	/**
@@ -101,17 +101,17 @@ class Net_HTTP_Request_Receiver extends ADT_List_Dictionary
 	 *	@access		public
 	 *	@param		string		$source		Source key (not case sensitive) (get,post,files[,session,cookie])
 	 *	@param		bool		$strict		Flag: throw exception if not set, otherwise return NULL
-	 *	@throws		InvalidArgumentException if key is not set in source and strict is on
 	 *	@return		array		Pairs in source (or empty array if not set on strict is off)
+	 *	@throws		\InvalidArgumentException if key is not set in source and strict is on
 	 */
-	public function getAllFromSource( $source, $strict = FALSE )
+	public function getAllFromSource( string $source, bool $strict = FALSE ): array
 	{
 		$source	= strtolower( $source );
 		if( isset( $this->sources[$source] ) )
-			return new ADT_List_Dictionary( $this->sources[$source] );
+			return $this->sources[$source];
 		if( !$strict )
 			return array();
-		throw new InvalidArgumentException( 'Invalid source "'.$source.'"' );
+		throw new \InvalidArgumentException( 'Invalid source "'.$source.'"' );
 	}
 
 	/**
@@ -120,17 +120,17 @@ class Net_HTTP_Request_Receiver extends ADT_List_Dictionary
 	 *	@param		string		$key		...
 	 *	@param		string		$source		Source key (not case sensitive) (get,post,files[,session,cookie])
 	 *	@param		bool		$strict		Flag: throw exception if not set, otherwise return NULL
-	 *	@throws		InvalidArgumentException if key is not set in source and strict is on
 	 *	@return		mixed		Value of key in source or NULL if not set
+	 *	@throws		\InvalidArgumentException if key is not set in source and strict is on
 	 */
-	public function getFromSource( $key, $source, $strict = FALSE )
+	public function getFromSource( string $key, string $source, bool $strict = FALSE )
 	{
 		$data	= $this->getAllFromSource( $source );
 		if( isset( $data[$key] ) )
 			return $data[$key];
 		if( !$strict )
 			return NULL;
-		throw new InvalidArgumentException( 'Invalid key "'.$key.'" in source "'.$source.'"' );
+		throw new \InvalidArgumentException( 'Invalid key "'.$key.'" in source "'.$source.'"' );
 	}
 
 	/**
@@ -139,7 +139,7 @@ class Net_HTTP_Request_Receiver extends ADT_List_Dictionary
 	 *	@return		Net_HTTP_Header_Section	List of Header Objects
 	 *	@since		0.8.3.4
 	 */
-	public function getHeader()
+	public function getHeader(): Net_HTTP_Header_Section
 	{
 		return $this->headers;
 	}
@@ -150,7 +150,7 @@ class Net_HTTP_Request_Receiver extends ADT_List_Dictionary
 	 *	@return		array		List of Header Objects
 	 *	@since		0.6.8
 	 */
-	public function getHeaders()
+	public function getHeaders(): array
 	{
 		return $this->headers->getFields();
 	}
@@ -164,17 +164,17 @@ class Net_HTTP_Request_Receiver extends ADT_List_Dictionary
 	 *	@return		array|NULL	List of collected HTTP Header Fields with given Header Name
 	 *	@since		0.6.8
 	 */
-	public function getHeadersByName( $name, $latestOnly = FALSE )
+	public function getHeadersByName( string $name, bool $latestOnly = FALSE )
 	{
 		return $this->headers->getFieldsByName( $name, $latestOnly );
 	}
 
-	public function getMethod()
+	public function getMethod(): Net_HTTP_Method
 	{
 		return $this->method;
 	}
 
-	public function getPath()
+	public function getPath(): string
 	{
 		return $this->path;
 	}
@@ -186,7 +186,7 @@ class Net_HTTP_Request_Receiver extends ADT_List_Dictionary
 	 *	@return		bool
 	 *	@since		0.6.8
 	 */
-	public function hasHeader( $name )
+	public function hasHeader( string $name ): bool
 	{
 		return $this->headers->hasField( $name );
 	}
@@ -197,7 +197,7 @@ class Net_HTTP_Request_Receiver extends ADT_List_Dictionary
 	 *	@return		string
 	 *	@since		0.6.8
 	 */
-	public function getRawPostData()
+	public function getRawPostData(): string
 	{
 		return file_get_contents( "php://input" );
 	}
@@ -209,7 +209,7 @@ class Net_HTTP_Request_Receiver extends ADT_List_Dictionary
 	 *	@param		string		$source		Source key (not case sensitive) (get,post,files[,session,cookie])
 	 *	@return		bool
 	 */
-	public function hasInSource( $key, $source )
+	public function hasInSource( string $key, string $source ): bool
 	{
 		$source	= strtolower( $source );
 		return isset( $this->sources[$source][$key] );
@@ -222,10 +222,9 @@ class Net_HTTP_Request_Receiver extends ADT_List_Dictionary
 	 *	@return		bool
 	 *	@since		0.6.7
 	 */
-	public function isAjax()
+	public function isAjax(): bool
 	{
 		return $this->headers->hasField( 'X-Requested-With' );
-		return getEnv( 'HTTP_X_REQUESTED_WITH' ) == "HTTP_X_REQUESTED_WITH";
 	}
 
 	/**
@@ -235,7 +234,8 @@ class Net_HTTP_Request_Receiver extends ADT_List_Dictionary
 	 *	@return		bool
 	 *	@since		0.6.7
 	 */
-	public function isMethod( $method ){
-		return $this->method === strtoupper( $method );
+	public function isMethod( string $method ): bool
+	{
+		return $this->method->is( $method );
 	}
 }
