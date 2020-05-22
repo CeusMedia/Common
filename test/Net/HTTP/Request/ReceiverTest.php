@@ -187,7 +187,7 @@ class Test_Net_HTTP_Request_ReceiverTest extends Test_Case
 	{
 		$_GET['key1']	= "value2";
 		$assertion	= array( 'key1' => "value2" );
-		$creation	= $this->receiver->getAllFromSource( 'get' )->getAll();
+		$creation	= $this->receiver->getAllFromSource( 'get' );
 		$this->assertEquals( $assertion, $creation );
 	}
 }
