@@ -12,4 +12,3 @@ for( $i=0; $i<10; $i++){
 	print( $color->colorize256( $text, $fg, $bg ).PHP_EOL );
 }
 print( PHP_EOL );
-

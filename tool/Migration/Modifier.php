@@ -2,7 +2,7 @@
 class Tool_Migration_Modifier
 {
 	public static function breakCommentsInLines( $lines )
-{
+	{
 		$nrInserted	= 0;
 		$list	= array();
 		foreach( $lines as $nr => $line ){

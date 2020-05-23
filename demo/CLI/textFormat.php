@@ -38,6 +38,3 @@ $text	= vsprintf( 'Text can be %s, %s, %s or %s.', array(
 print( $text.PHP_EOL );
 print( $color->colorize( $text, NULL, 'blue' ).PHP_EOL );
 print( PHP_EOL );
-
-
-

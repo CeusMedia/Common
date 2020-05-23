@@ -13,4 +13,3 @@ $c->setMethod( Net_Connectivity::METHOD_SOCKET );
 print( 'Using sock: ' );
 print_r( (bool) $c->isOnline() );
 print( PHP_EOL );
-
