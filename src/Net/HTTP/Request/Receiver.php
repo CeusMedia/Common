@@ -180,6 +180,17 @@ class Net_HTTP_Request_Receiver extends ADT_List_Dictionary
 	}
 
 	/**
+	 *	Returns received raw POST Data.
+	 *	@access		public
+	 *	@return		string
+	 *	@since		0.6.8
+	 */
+	public function getRawPostData(): string
+	{
+		return file_get_contents( "php://input" );
+	}
+
+	/**
 	 *	Indicates whether atleast one HTTP Header with given Header Name is set.
 	 *	@access		public
 	 *	@param		string		$name		Header Name
@@ -189,17 +200,6 @@ class Net_HTTP_Request_Receiver extends ADT_List_Dictionary
 	public function hasHeader( string $name ): bool
 	{
 		return $this->headers->hasField( $name );
-	}
-
-	/**
-	 *	Returns received raw POST Data.
-	 *	@access		public
-	 *	@return		string
-	 *	@since		0.6.8
-	 */
-	public function getRawPostData(): string
-	{
-		return file_get_contents( "php://input" );
 	}
 
 	/**

@@ -158,24 +158,25 @@ class Net_HTTP_Header_Section
 		)
 	);
 
-	public function addField( Net_HTTP_Header_Field $field )
+	public function addField( Net_HTTP_Header_Field $field ): self
 	{
 		return $this->setField( $field, FALSE );
 	}
 
-	public function addFieldPair( $name, $value )
+	public function addFieldPair( string $name, $value ): self
 	{
 		$field	= new Net_HTTP_Header_Field( $name, $value );
-		$this->addField( $field );
+		return $this->addField( $field );
 	}
 
-	public function addFields( $fields )
+	public function addFields( array $fields = array() ): self
 	{
 		foreach( $fields as $field )
 			$this->addField( $field );
+		return $this;
 	}
 
-	public function getField( $name )
+	public function getField( string $name ): array
 	{
 		$name	= strtolower( $name );
 		foreach( $this->fields as $sectionName => $sectionPairs )
@@ -184,7 +185,7 @@ class Net_HTTP_Header_Section
 		return NULL;
 	}
 
-	public function getFields()
+	public function getFields(): array
 	{
 		$list	= array();
 		foreach( $this->fields as $sectionName => $sectionPairs )
@@ -195,18 +196,14 @@ class Net_HTTP_Header_Section
 		return $list;
 	}
 
-	public function getFieldsByName( $name, $latestOnly = FALSE )
+	public function getFieldsByName( string $name, bool $latestOnly = FALSE )
 	{
 		$name	= strtolower( $name );
 		foreach( $this->fields as $sectionName => $sectionPairs ){
 			if( array_key_exists( $name, $sectionPairs ) ){
-				if( $this->fields[$sectionName][$name] ){
-					if( $latestOnly ){
-						$size	= count( $this->fields[$sectionName][$name] );
-						return $this->fields[$sectionName][$name][$size - 1];
-					}
-					return $this->fields[$sectionName][$name];
-				}
+				if( $latestOnly )
+					return end( $sectionPairs[$name] );
+				return $sectionPairs[$name];
 			}
 		}
 		if( $latestOnly )
@@ -214,7 +211,11 @@ class Net_HTTP_Header_Section
 		return array();
 	}
 
-	public function hasField( $name )
+	public static function instantiate(){
+		return new static;
+	}
+
+	public function hasField( string $name ): bool
 	{
 		$name	= strtolower( $name );
 		foreach( $this->fields as $sectionName => $sectionPairs )
@@ -223,7 +224,7 @@ class Net_HTTP_Header_Section
 		return FALSE;
 	}
 
-	public function removeField( Net_HTTP_Header_Field $field )
+	public function removeField( Net_HTTP_Header_Field $field ): self
 	{
 		$name	= $field->getName();
 		foreach( $this->fields as $sectionName => $sectionPairs )
@@ -234,9 +235,10 @@ class Net_HTTP_Header_Section
 				if( $sectionField == $field )
 					unset( $this->fields[$sectionName][$name][$nr] );
 		}
+		return $this;
 	}
 
-	public function removeByName( $name )
+	public function removeByName( string $name ): self
 	{
 		if( isset( $this->fields['others'][$name] ) )
 			unset( $this->fields['others'][$name] );
@@ -246,17 +248,15 @@ class Net_HTTP_Header_Section
 		return $this;
 	}
 
-	public function setField( Net_HTTP_Header_Field $field, $emptyBefore = TRUE )
+	public function setField( Net_HTTP_Header_Field $field, bool $emptyBefore = TRUE ): self
 	{
 		$name	= $field->getName();
-		foreach( $this->fields as $sectionName => $sectionPairs )
-		{
-			if( array_key_exists( $name, $sectionPairs ) )
-			{
+		foreach( $this->fields as $sectionName => $sectionPairs ){
+			if( array_key_exists( $name, $sectionPairs ) ){
 				if( $emptyBefore )
-					$this->fields[$sectionName][$name]		= array();
+					$this->fields[$sectionName][$name]	= array();
 				$this->fields[$sectionName][$name][]	= $field;
-				return;
+				return $this;
 			}
 		}
 		if( $emptyBefore || !isset( $this->fields['others'][$name] ) )
@@ -265,7 +265,7 @@ class Net_HTTP_Header_Section
 		return $this;
 	}
 
-	public function setFieldPair( $name, $value, $emptyBefore = TRUE )
+	public function setFieldPair( string $name, $value, bool $emptyBefore = TRUE ): self
 	{
 		$this->setField( new Net_HTTP_Header_Field( $name, $value ), $emptyBefore );
 		return $this;
@@ -288,7 +288,8 @@ class Net_HTTP_Header_Section
 		return $list;
 	}
 
-	public function render(){
+	public function render(): string
+	{
 		return Net_HTTP_Header_Renderer::render( $this );
 	}
 
