@@ -149,7 +149,8 @@ class Net_HTTP_Request extends ADT_List_Dictionary
 	{
 		$source	= strtoupper( $source );
 		if( isset( $this->sources[$source] ) )
-			return new ADT_List_Dictionary( $this->sources[$source] );
+//			return new ADT_List_Dictionary( $this->sources[$source] );
+			return $this->sources[$source];
 		if( !$strict )
 			return array();
 		throw new InvalidArgumentException( 'Invalid source "'.$source.'"' );
@@ -420,7 +421,7 @@ class Net_HTTP_Request extends ADT_List_Dictionary
 		return $this->method->isPut();
 	}
 
-	public function remove( string $key ): self
+	public function remove( $key ): self
 	{
 		parent::remove( $key );
 //		if( $this->method === "POST" )
@@ -428,7 +429,7 @@ class Net_HTTP_Request extends ADT_List_Dictionary
 		return $this;
 	}
 
-	public function set( string $key, string $value ): self
+	public function set( $key, $value ): self
 	{
 		parent::set( $key, $value );
 //		if( $this->method === "POST" )
