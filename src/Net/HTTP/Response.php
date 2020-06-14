@@ -76,11 +76,12 @@ class Net_HTTP_Response
 	/**
 	 *	Adds an HTTP header.
 	 *	@access		public
-	 *	@param		string		$name		HTTP header name
-	 *	@param		string		$value		HTTP header value
+	 *	@param		string		$name			HTTP header name
+	 *	@param		string		$value			HTTP header value
+	 *	@param		boolean		$emptyBefore	Flag: clear beforehand set headers with this name (default: no)
 	 *	@return		void
 	 */
-	public function addHeaderPair( $name, $value, $emptyBefore = NULL )
+	public function addHeaderPair( $name, $value, $emptyBefore = FALSE )
 	{
 		$this->headers->setField( new Net_HTTP_Header_Field( $name, $value ), $emptyBefore );
 	}
