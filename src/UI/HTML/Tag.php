@@ -155,7 +155,6 @@ class UI_HTML_Tag implements Renderable
 		return "<".$name.$attributes.$data.">".$content."</".$name.">";
 	}
 
-
 	/**
 	 *	Returns value of tag attribute if set.
 	 *	@access		public

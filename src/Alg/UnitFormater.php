@@ -92,7 +92,7 @@ class Alg_UnitFormater
 	 *	@param		float		$edge			Factor of next higher Unit when to break
 	 *	@return		string
 	 */
-	public static function formatBytes( $float, $precision = 1, $indent = " ", $edge = 0.5 )
+	public static function formatBytes( $float, int $precision = 1, string $indent = ' ', float $edge = 0.5 ): string
 	{
 		//  step to first Unit
 		$unitKey	= 0;
@@ -135,7 +135,7 @@ class Alg_UnitFormater
 	 *	@param		float		$edge			Factor of next higher Unit when to break
 	 *	@return		string
 	 */
-	public static function formatKiloBytes( $float, $precision = 1, $indent = " ", $edge = 0.5 )
+	public static function formatKiloBytes( $float, int $precision = 1, string $indent = ' ', float $edge = 0.5 ): string
 	{
 		return self::formatBytes( $float * 1024, $precision, $indent, $edge );
 	}
@@ -151,7 +151,7 @@ class Alg_UnitFormater
 	 *	@param		float		$edge			Factor of next higher Unit when to break
 	 *	@return		string
 	 */
-	public static function formatMegaBytes( $float, $precision = 1, $indent = " ", $edge = 0.5 )
+	public static function formatMegaBytes( $float, int $precision = 1, string $indent = ' ', float $edge = 0.5 ): string
 	{
 		return self::formatBytes( $float * 1024 * 1024, $precision, $indent, $edge );
 	}
@@ -170,7 +170,7 @@ class Alg_UnitFormater
 	 *	@param		float		$edge			Factor of next higher Unit when to break
 	 *	@return		string
 	 */
-	public static function formatMicroSeconds( $float, $precision = 1, $indent = " ", $edge = 0.5 )
+	public static function formatMicroSeconds( $float, int $precision = 1, string $indent = ' ', float $edge = 0.5 ): string
 	{
 		//  step to first Unit
 		$unitKey	= 0;
@@ -238,7 +238,7 @@ class Alg_UnitFormater
 	 *	@param		float		$edge			Factor of next higher Unit when to break
 	 *	@return		string
 	 */
-	public static function formatMilliSeconds( $float, $precision = 1, $indent = " ", $edge = 0.5 )
+	public static function formatMilliSeconds( $float, int $precision = 1, string $indent = ' ', float $edge = 0.5 ): string
 	{
 		return self::formatMicroSeconds( $float * 1000, $precision, $indent, $edge );
 	}
@@ -254,7 +254,7 @@ class Alg_UnitFormater
 	 *	@param		float		$edge			Factor of next higher Unit when to break
 	 *	@return		string
 	 */
-	public static function formatMinutes( $float, $precision = 1, $indent = " ", $edge = 0.5 )
+	public static function formatMinutes( $float, int $precision = 1, string $indent = ' ', float $edge = 0.5 ): string
 	{
 		return self::formatMicroSeconds( $float * 60000000, $precision, $indent, $edge );
 	}
@@ -269,7 +269,7 @@ class Alg_UnitFormater
 	 *	@return		void
 	 *	@deprecated	uncomplete method, please remove
 	 */
-	public static function formatNumber( $float, $unit = 1, $precision = 0 )
+	public static function formatNumber( $float, int $unit = 1, int $precision = 0 ): string
 	{
 		Deprecation::getInstance()->setExceptionVersion( '0.8' )
 			->message(  'Use one of the other methods instead' );
@@ -296,7 +296,7 @@ class Alg_UnitFormater
 	 *	@param		float		$edge			Factor of next higher Unit when to break
 	 *	@return		string
 	 */
-	public static function formatPixels( $number, $precision = 1, $indent = " ", $edge = 0.5 )
+	public static function formatPixels( $number, int $precision = 1, string $indent = ' ', $edge = 0.5 ): string
 	{
 		//  step to first Unit
 		$unitKey	= 0;
@@ -339,7 +339,7 @@ class Alg_UnitFormater
 	 *	@param		float		$edge			Factor of next higher Unit when to break
 	 *	@return		string
 	 */
-	public static function formatSeconds( $float, $precision = 1, $indent = " ", $edge = 0.5 )
+	public static function formatSeconds( $float, int $precision = 1, string $indent = ' ', $edge = 0.5 ): string
 	{
 		return self::formatMicroSeconds( $float * 1000000, $precision, $indent, $edge );
 	}

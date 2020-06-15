@@ -58,19 +58,6 @@ class FS_File_JSON_Reader
 	}
 
 	/**
-	 *	Reads a JSON file to an object or array statically.
-	 *	@access		public
-	 *	@param		string		$filePath		Path to JSON file
-	 *	@param		bool		$asArray		Flag: read into an array
-	 *	@return		object|array
-	 */
-	public static function load( $filePath, $asArray = NULL )
-	{
-		$reader	= new FS_File_JSON_Reader( $filePath );
-		return $reader->read( $asArray );
-	}
-
-	/**
 	 *	Returns constant value or key of last parse error.
 	 *	@access		public
 	 *	@param		boolean		$asConstantKey	Flag: return constant name as string instead of its integer value
@@ -103,6 +90,30 @@ class FS_File_JSON_Reader
 	 */
 	public function getMessage(){
 		return $this->parser->getMessage();
+	}
+
+	/**
+	 *	Get new instance of JSON reader by static call.
+	 *	This method is useful for chaining method calls.
+	 *	@access		public
+	 *	@static
+	 *	@return		self
+	 */
+	public static function getNew( $filePath ){
+		return new self( $filePath );
+	}
+
+	/**
+	 *	Reads a JSON file to an object or array statically.
+	 *	@access		public
+	 *	@param		string		$filePath		Path to JSON file
+	 *	@param		bool		$asArray		Flag: read into an array
+	 *	@return		object|array
+	 */
+	public static function load( $filePath, $asArray = NULL )
+	{
+		$reader	= new FS_File_JSON_Reader( $filePath );
+		return $reader->read( $asArray );
 	}
 
 	/**

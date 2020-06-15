@@ -1,6 +1,6 @@
 <?php
-class CLI{
-
+class CLI
+{
 	protected $logger;
 	protected $size;
 
@@ -12,13 +12,15 @@ class CLI{
 		'text/x-shellscript'	=> 'Shell',
 	);
 
-	public function __construct(){
+	public function __construct()
+	{
 		$this->base	= getCwd();
 		$this->size	= \CLI_Dimensions::getSize();
 		\UI_Text::$defaultLineLength	= $this->size->width - 1;
 	}
 
-	static public function checkIsCLi( $strict = TRUE ){
+	static public function checkIsCLi( bool $strict = TRUE ): bool
+	{
 		if( php_sapi_name() === 'cli' )
 			return TRUE;
 		if( $strict )
@@ -26,7 +28,8 @@ class CLI{
 		return FALSE;
 	}
 
-	static public function charTable( $from = 2500, $to = 2600 ){
+	static public function charTable( int $from = 2500, int $to = 2600 )
+	{
 		print PHP_EOL;
 		for($i=$from/10; $i<$to/10; $i++){
 			print 'x'.$i.'0  ';
@@ -38,7 +41,8 @@ class CLI{
 		}
 	}
 
-	static public function error( $messages = NULL ){
+	static public function error( $messages = NULL )
+	{
 		$isCli	= self::checkIsCLi( FALSE );
 		if( !is_array( $messages ) )
 			$messages	= array( $messages );
@@ -60,26 +64,31 @@ class CLI{
 		$isCli ? fwrite( STDERR, PHP_EOL ) : print( PHP_EOL );
 	}
 
-	public function getColors(){
+	public function getColors(): int
+	{
 		return $this->size->colors;
 	}
 
-	public function getHeight(){
+	public function getHeight(): int
+	{
 		return $this->size->getHeight();
 	}
 
-	public function getWidth(){
+	public function getWidth(): int
+	{
 		return $this->size->getWidth();
 	}
 
-	public function log( $message ){
+	public function log( $message )
+	{
 		if( is_object( $this->log ) )
 			return $this->logger->log( $message );
 		$logFile	= $this->log ? $this->log : 'cli.log';
 		error_log( date( 'Y-m-d H:i:s' ).': '.$message.PHP_EOL, $logFile );
 	}
 
-	static public function out( $messages = NULL, $newLine = TRUE ){
+	static public function out( $messages = NULL, $newLine = TRUE )
+	{
 		$isCli	= self::checkIsCLi( FALSE );
 		if( !is_array( $messages ) )
 			$messages	= array( $messages );
@@ -101,7 +110,8 @@ class CLI{
 			$isCli ? fwrite( STDOUT, PHP_EOL ) : print( PHP_EOL );
 	}
 
-	protected function realizePath( $path ){
+	protected function realizePath( string $path ): string
+	{
 //		if( !strlen( trim( $path ) )
 //			$path	= '.';
 		$first	= substr( $path, 0, 1 );
@@ -119,7 +129,8 @@ class CLI{
 		throw new Exception_IO( 'Path is not existing', 0, $path );
 	}
 
-	function ls( $path = NULL, $mimeType = TRUE ){
+	function ls( $path = NULL, $mimeType = TRUE )
+	{
 		$path	= $this->realizePath( $path );
 		$f		= new FS_Folder( $path );
 		Alg_UnitFormater::$unitBytes[0]	= ' B';
@@ -182,7 +193,8 @@ class CLI{
 		}
 	}
 
-	static protected function shortenMimeType( $mimeType ){
+	static protected function shortenMimeType( string $mimeType ): string
+	{
 		$mimeType	= trim( $mimeType );
 		if( !strlen( $mimeType ) )
 			return '';

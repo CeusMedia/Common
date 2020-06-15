@@ -96,7 +96,7 @@ class ADT_JSON_Formater
 						$inString = !$inString;
 				default:
 					$content .= $char;
-					break;                   
+					break;
 			}
 		}
 		return $content;

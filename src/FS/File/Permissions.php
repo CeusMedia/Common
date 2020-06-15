@@ -157,20 +157,20 @@ class FS_File_Permissions
 		return sprintf( '0%o', $octal );
 	}
 
-	public static function getStringFromFile( $pathName )
+	public static function getStringFromFile( string $pathName )
 	{
 		$object	= new FS_File_Permissions( $pathName );
 		return $object->getAsString();
 	}
 
-	public static function getStringFromInteger( $permissions )
+	public static function getStringFromInteger( int $permissions ): string
 	{
 		if( !is_integer( $permissions ) )
 			throw new InvalidArgumentException( 'Must be integer' );
 		return self::getStringFromOctal( $permissions );
 	}
 
-	public static function getStringFromOctal( $permissions )
+	public static function getStringFromOctal( string $permissions ): string
 	{
 		if( is_string( $permissions ) )
 			$permissions	= octdec( $permissions );
@@ -202,7 +202,7 @@ class FS_File_Permissions
 		return $info;
 	}
 
-	public function setByOctal( $permissions )
+	public function setByOctal( string $permissions )
 	{
 		$permissions	= self::getIntegerFromOctal( $permissions );
 		$result	= @chmod( $this->pathName, $permissions );
@@ -211,7 +211,7 @@ class FS_File_Permissions
 		return $result;
 	}
 
-	public function setByString( $permissions )
+	public function setByString( string $permissions )
 	{
 		$permissions	= self::getIntegerFromString( $permissions );
 		$result	= @chmod( $this->pathName, $permissions );

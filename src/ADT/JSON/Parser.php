@@ -57,6 +57,17 @@ class ADT_JSON_Parser
 	}
 
 	/**
+	 *	Get new instance of JSON reader by static call.
+	 *	This method is useful for chaining method calls.
+	 *	@access		public
+	 *	@static
+	 *	@return		self
+	 */
+	public static function getNew( $filePath ){
+		return new self( $filePath );
+	}
+
+	/**
 	 *	Returns all information of last parse error.
 	 *	@access		public
 	 *	@return		object

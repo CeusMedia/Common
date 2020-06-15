@@ -3,13 +3,15 @@ class FS_Folder extends FS_AbstractNode{
 
 	protected $pathName;
 
-	public function __construct( $pathName, $create = FALSE, $mode = 0777, $strict = TRUE ){
+	public function __construct( $pathName, $create = FALSE, $mode = 0777, $strict = TRUE )
+	{
 		$this->setPathName( $pathName );
 		if( $create && !$this->exists() )
 			$this->create( $mode, $strict );
 	}
 
-	public function count( $type = FS::TYPE_ALL, $recursive = FALSE, $strict = TRUE ){
+	public function count( $type = FS::TYPE_ALL, $recursive = FALSE, $strict = TRUE ): int
+	{
 		$index	= $this->index( $type, $strict );
 		$count	= $index->count();
 		if( $recursive ){
@@ -20,7 +22,8 @@ class FS_Folder extends FS_AbstractNode{
 		return $count;
 	}
 
-	public function create( $mode = 0777, $strict = TRUE ){
+	public function create( $mode = 0777, $strict = TRUE )
+	{
 		if( $this->exists() ){
 			if( $strict ){
 				if( is_dir( $this->pathName ) )
@@ -52,7 +55,8 @@ class FS_Folder extends FS_AbstractNode{
 		return $folder;
 	}
 
-	public function exists( $strict = FALSE ){
+	public function exists( bool $strict = FALSE ): bool
+	{
 		if( !file_exists( $this->pathName ) ){
 			if( $strict )
 				throw new Exception_IO( 'Folder is not existing', 0, $this->pathName );
@@ -74,7 +78,8 @@ class FS_Folder extends FS_AbstractNode{
 		return new FS_Folder( $this->pathName.'/'.$fileName );
 	}
 
-	public function getTime( $strict = TRUE ){
+	public function getTime( $strict = TRUE )
+	{
 		if( !$this->exists( $strict ) )
 			return NULL;
 		return filemtime( $this->pathName );

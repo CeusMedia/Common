@@ -337,7 +337,7 @@ class CLI_Command_ArgumentParser
 	 */
 	protected function onReadOptionValue( $sign, &$status, &$buffer, &$option )
 	{
-//  illegal Option following
+		//  illegal Option following
 //		if( $sign === "-" )
 //			throw new RuntimeException( 'Missing value of option "'.$option.'"' );
 		//  closing value...

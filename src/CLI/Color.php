@@ -1,6 +1,6 @@
 <?php
-class CLI_Color{
-
+class CLI_Color
+{
 	private static $foregroundColors	= array(
 		'black'			=> '0;30',
 		'dark_gray'		=> '1;30',

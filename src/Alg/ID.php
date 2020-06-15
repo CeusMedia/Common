@@ -40,8 +40,10 @@
  *	@see			comment at linked page
  *	@link			http://php.net/manual/en/function.uniqid.php
  */
-class Alg_ID{
-	static public function uuid(){
+class Alg_ID
+{
+	static public function uuid(): string
+	{
 		if( function_exists( 'com_create_guid' ) === TRUE )
 			return trim( com_create_guid(), '{}' );
 		return sprintf(
@@ -55,5 +57,11 @@ class Alg_ID{
 			mt_rand( 0, 65535 ),
 			mt_rand( 0, 65535 )
 		);
+	}
+
+	static public function isUuid( $uuid ): bool
+	{
+		$regexp	= '[a-f0-9]{8}\-[a-f0-9]{4}\-[a-f0-9]{4}\-[a-f0-9]{4}\-[a-f0-9]{12}';
+		return preg_match( '/^'.$regexp.'$/i', $uuid );
 	}
 }
