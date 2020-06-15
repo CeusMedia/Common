@@ -47,8 +47,12 @@ $places	= array(
 	),
 );
 
-new UI_DevOutput();
-$cliColor	= new CLI_Color();
+use CeusMedia\Common\CLI;
+use CeusMedia\Common\CLI\Color as CLI_Color;
+use CeusMedia\Common\FS\Folder as FS_Folder;
+
+new CeusMedia\Common\UI\DevOutput();
+$cliColor	= new CeusMedia\Common\CLI\Color();
 
 foreach( $places as $placeKey => $placeData ){
 	if( empty( $placeData->active ) )
