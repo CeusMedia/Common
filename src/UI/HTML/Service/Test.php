@@ -49,6 +49,14 @@ class UI_HTML_Service_Test
 
 	public function __construct( Net_Service_Point $servicePoint )
 	{
+		Deprecation::getInstance()
+			->setErrorVersion( '0.8.5' )
+			->setExceptionVersion( '0.9' )
+			->message( sprintf(
+				'Please use %s (%s) instead',
+				'public library "CeusMedia/NetServices"',
+			 	'https://packagist.org/packages/ceus-media/net-services'
+			) );
 		$this->servicePoint		= $servicePoint;
 	}
 

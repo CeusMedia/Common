@@ -38,6 +38,14 @@ class UI_HTML_Service_Table
 {
 	public function __construct( Net_Service_Point $servicePoint, $availableFormats, $tableClass = NULL )
 	{
+		Deprecation::getInstance()
+			->setErrorVersion( '0.8.5' )
+			->setExceptionVersion( '0.9' )
+			->message( sprintf(
+				'Please use %s (%s) instead',
+				'public library "CeusMedia/NetServices"',
+			 	'https://packagist.org/packages/ceus-media/net-services'
+			) );
 		$this->servicePoint		= $servicePoint;
 		$this->availableFormats	= $availableFormats;
 		$this->tableClass		= $tableClass;
@@ -56,7 +64,7 @@ class UI_HTML_Service_Table
 		$heads		= array();
 
 		$heads	= array( "<th>Service</th><th>Parameter</th>" );
-		$cols	= array( "<col width='35%'/><col width='30%'/>" ); 
+		$cols	= array( "<col width='35%'/><col width='30%'/>" );
 		foreach( $this->availableFormats as $format )
 		{
 			$cols[]		= "<col width='".round( ( 100 - 65 ) / count( $this->availableFormats ), 0 )."%'/>";
