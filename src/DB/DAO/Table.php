@@ -230,4 +230,3 @@ abstract class DB_DAO_Table
 		return TRUE;
 	}
 }
-?>

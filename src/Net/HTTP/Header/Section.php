@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.1
- *	@version		$Id$
  */
 /**
  *	...
@@ -36,7 +35,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.1
- *	@version		$Id$
  *	@see			http://www.w3.org/Protocols/rfc2616/rfc2616-sec4.html#sec4.2 RFC 2616 HTTP Message Headers
  *
  *	GENERAL
@@ -306,4 +304,3 @@ class Net_HTTP_Header_Section
 		return $list ? $list."\r\n" : $list;														//  return field list with line break or empty string
 	}
 }
-?>

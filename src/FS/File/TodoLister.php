@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			11.06.2008
- *	@version		$Id$
  */
 /**
  *	Class to find all Files with ToDos inside.
@@ -36,7 +35,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			11.06.2008
- *	@version		$Id$
  */
 class FS_File_TodoLister
 {
@@ -58,7 +56,7 @@ class FS_File_TodoLister
 	protected $pattern			= "@todo";
 	/**	@var		array		$patterns		Other Patterns */
 	protected $patterns			= array();
-	
+
 	/**
 	 *	Constructor.
 	 *	@access		public
@@ -74,7 +72,7 @@ class FS_File_TodoLister
 		$this->extensions	= $additionalExtensions;
 		$this->patterns		= $additionalPatterns;
 	}
-	
+
 	private function getExtendedPattern( $member = "pattern" )
 	{
 		$list1	= array( $this->$member );
@@ -91,7 +89,7 @@ class FS_File_TodoLister
 		$pattern	= "%".$pattern."%";
 		return $pattern;
 	}
-	
+
 	protected function getExtensionPattern()
 	{
 		return $this->getExtendedPattern( "extension" );
@@ -101,7 +99,7 @@ class FS_File_TodoLister
 	{
 		return new FS_File_RegexFilter( $path, $filePattern );
 	}
-	
+
 	/**
 	 *	Returns Array of numberFound Files.
 	 *	@access		public
@@ -211,4 +209,3 @@ class FS_File_TodoLister
 		}
 	}
 }
-?>

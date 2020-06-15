@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			10.12.2006
- *	@version		$Id$
  */
 /**
  *	Builds Sitemap XML File for Google.
@@ -37,7 +36,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			10.12.2006
- *	@version		$Id$
  */
 class Net_Site_MapBuilder
 {
@@ -63,4 +61,3 @@ class Net_Site_MapBuilder
 		return $xb->build( $set );
 	}
 }
-?>

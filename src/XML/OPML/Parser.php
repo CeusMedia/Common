@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			01.02.2006
- *	@version		$Id$
  */
 /**
  *	Parser for OPML Files.
@@ -37,7 +36,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			01.02.2006
- *	@version		$Id$
  */
 class XML_OPML_Parser
 {
@@ -61,7 +59,7 @@ class XML_OPML_Parser
 	var $outlines = array();
 	/**	@var	XML_DOM_Node	tree			Loaded XML Tree from OPML Document */
 	var $tree;
-		
+
 	/**
 	 *	Constructor.
 	 *	@access		public
@@ -128,7 +126,7 @@ class XML_OPML_Parser
 	{
 		return $this->outlines;
 	}
-	
+
 	public function getOutlineTree()
 	{
 		$areas	= $this->tree->getChildren();
@@ -136,7 +134,7 @@ class XML_OPML_Parser
 			if( $area->getNodeName() == "body" )
 				return $area;
 	}
-	
+
 	/**
 	 *	Reads  XML String of OPML Document and builds tree of XML_DOM_Nodes.
 	 *	@access		public
@@ -187,7 +185,7 @@ class XML_OPML_Parser
 			}
 		}
 	}
-	
+
 	/**
 	 *	Parses Outlines recursive.
 	 *	@access		protected
@@ -209,4 +207,3 @@ class XML_OPML_Parser
 		}
 	}
 }
-?>

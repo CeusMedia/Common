@@ -23,7 +23,6 @@
  *	@copyright		2007-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@version		$Id$
  */
 /**
  *	@category		Library
@@ -34,13 +33,12 @@
  *	@copyright		2007-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@version		$Id$
  */
 class XML_OPML_FileReader
 {
 	/**	@var		string		$fileName		URI of OPML File */
 	protected $fileName;
-	
+
 	/**
 	 *	Constructor.
 	 *	@access		public
@@ -51,7 +49,7 @@ class XML_OPML_FileReader
 	{
 		$this->fileName	= $fileName;
 	}
-	
+
 	/**
 	 *	Loads a OPML File statically.
 	 *	@access		public
@@ -68,7 +66,7 @@ class XML_OPML_FileReader
 		$parser	= new XML_OPML_Parser();
 		return $parser->parse( $xml );
 	}
-	
+
 	/**
 	 *	Reads OPML File and returns Outline Array.
 	 *	@access		public
@@ -79,4 +77,3 @@ class XML_OPML_FileReader
 		return self::load( $this->fileName );
 	}
 }
-?>

@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			08.05.2008
- *	@version		$Id$
  */
 /**
  *	Packet can contain different Articles and has a defined Volume.
@@ -35,7 +34,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			08.05.2008
- *	@version		$Id$
  */
 class Alg_Parcel_Packet
 {
@@ -45,7 +43,7 @@ class Alg_Parcel_Packet
 	protected $articles;
 	/**	@var		float		$volume		Filled Volume as floating Number between 0 and 1 */
 	protected $volume;
-	
+
 	/**
 	 *	Constructor.
 	 *	@access		public
@@ -71,7 +69,7 @@ class Alg_Parcel_Packet
 		$volume		= round( $this->volume * 100, 0 );
 		return "[".$this->name."] {".$articles."} (".$volume."%)";
 	}
-	
+
 	/**
 	 *	Adds an Article to Packet.
 	 *	@access		public
@@ -98,7 +96,7 @@ class Alg_Parcel_Packet
 	{
 		return $this->articles;
 	}
-	
+
 	/**
 	 *	Returns Packet Name.
 	 *	@access		public
@@ -108,7 +106,7 @@ class Alg_Parcel_Packet
 	{
 		return $this->name;
 	}
-	
+
 	/**
 	 *	Returns Packet Volume.
 	 *	@access		public
@@ -118,7 +116,7 @@ class Alg_Parcel_Packet
 	{
 		return $this->volume;
 	}
-	
+
 	/**
 	 *	Checks whether an Article Volume is left in Packet.
 	 *	@access		public
@@ -131,4 +129,3 @@ class Alg_Parcel_Packet
 		return  $newVolume <= 1;
 	}
 }
-?>

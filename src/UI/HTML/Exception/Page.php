@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.0
- *	@version		$Id$
  */
 /**
  *	Builder of Exception Pages.
@@ -35,7 +34,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.0
- *	@version		$Id$
  */
 class UI_HTML_Exception_Page
 {
@@ -85,4 +83,3 @@ class UI_HTML_Exception_Page
 		return $page->build( array( 'style' => 'margin: 1em' ) );
 	}
 }
-?>

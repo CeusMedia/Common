@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			18.07.2005
- *	@version		$Id$
  */
 /**
  *	Builder for File in .ini-Format.
@@ -36,7 +35,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			18.07.2005
- *	@version		$Id$
  */
 class FS_File_INI_Creator
 {
@@ -57,7 +55,7 @@ class FS_File_INI_Creator
 	{
 		$this->useSections = $useSections;
 	}
-	
+
 	/**
 	 *	Adds a Property (to current Section).
 	 *	@access		public
@@ -80,7 +78,7 @@ class FS_File_INI_Creator
 		else
 			throw new InvalidArgumentException( 'No section given' );
 	}
-	
+
 	/**
 	 *	Adds a Property (to current Section).
 	 *	@access		public
@@ -109,7 +107,7 @@ class FS_File_INI_Creator
 			$this->data[$section]	= array();
 		$this->currentSection	= $section;
 	}
-	
+
 	/**
 	 *	Returns a build Property line.
 	 *	@access		protected
@@ -131,7 +129,7 @@ class FS_File_INI_Creator
 			$line .= str_repeat( "\t", $breaksValue )."; ".$comment;
 		return $line;
 	}
-	
+
 	/**
 	 *	Creates and writes Settings to File.
 	 *	@access		public
@@ -169,4 +167,3 @@ class FS_File_INI_Creator
 		return $file->writeArray( $lines );
 	}
 }
-?>

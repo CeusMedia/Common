@@ -25,7 +25,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			13.05.2008
- *	@version		$Id$
  */
 /**
  *	Parser for Atom Feeds.
@@ -39,7 +38,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			13.05.2008
- *	@version		$Id$
  */
 class XML_Atom_Parser
 {
@@ -143,7 +141,7 @@ class XML_Atom_Parser
 		$text['content']	= (string) $node;
 		return $text;
 	}
-	
+
 	/**
 	 *	Parses XML String and stores Channel Data and Entries.
 	 *	@access		public
@@ -156,7 +154,7 @@ class XML_Atom_Parser
 		$this->language		= "en";
 		$this->channelData	= $this->emptyChannelData;
 		$this->entries		= array();
-			
+
 		$root		= new XML_Element( $xml );
 		if( $validateRules )
 		{
@@ -216,7 +214,7 @@ class XML_Atom_Parser
 		}
 		return $target;
 	}
-	
+
 	/**
 	 *	Returns Language Attributes and returns evaluate Language.
 	 *	@access		protected
@@ -237,4 +235,3 @@ class XML_Atom_Parser
 		return $this->language;
 	}
 }
-?>

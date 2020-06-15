@@ -41,4 +41,3 @@
 class Exception_Runtime extends Exception_Serializable
 {
 }
-?>

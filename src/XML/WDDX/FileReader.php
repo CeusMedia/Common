@@ -23,7 +23,6 @@
  *	@copyright		2007-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@version		$Id$
  */
 /**
  *	Reads a WDDX File. 
@@ -35,7 +34,6 @@
  *	@copyright		2007-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@version		$Id$
  */
 class XML_WDDX_FileReader
 {
@@ -64,7 +62,7 @@ class XML_WDDX_FileReader
 	{
 		return self::load( $this->fileName );
 	}
-	
+
 	/**
 	 *	Reads a WDDX File statically and returns deserialized Data.
 	 *	@access		public
@@ -77,4 +75,3 @@ class XML_WDDX_FileReader
 		return XML_WDDX_Parser::parse( $packet );
 	}
 }
-?>

@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.0
- *	@version		$Id$
  */
 /**
  *	Abstract HTML Button.
@@ -36,12 +35,11 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.0
- *	@version		$Id$
  */
 abstract class UI_HTML_Button_Abstract extends UI_HTML_Abstract
 {
 	public static $defaultClass		= NULL;
-	
+
 	/**
 	 *	Constructor.
 	 *	@access		public
@@ -67,4 +65,3 @@ abstract class UI_HTML_Button_Abstract extends UI_HTML_Abstract
 		return UI_HTML_Tag::create( 'button', $this->content, $this->getAttributes() );
 	}
 }
-?>

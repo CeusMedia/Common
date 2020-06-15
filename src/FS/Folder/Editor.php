@@ -28,7 +28,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			15.04.2008
- *	@version		$Id$
  */
 /**
  *	Editor for Folders.
@@ -44,7 +43,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			15.04.2008
- *	@version		$Id$
  */
 class FS_Folder_Editor extends FS_Folder_Reader
 {
@@ -380,4 +378,3 @@ class FS_Folder_Editor extends FS_Folder_Reader
 		return $count;																		//  return counted Objects
 	}
 }
-?>

@@ -25,7 +25,6 @@
  *	@copyright		2007-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@version		$Id$
  */
 /**
  *	Property File Editor.
@@ -40,7 +39,6 @@
  *	@copyright		2007-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@version		$Id$
  *	@todo			Code Documentation
  */
 class FS_File_INI_Editor extends FS_File_INI_Reader
@@ -137,7 +135,7 @@ class FS_File_INI_Editor extends FS_File_INI_Reader
 		$content	= '"'.addslashes( $value ).'"';
 		if( $this->reservedWords && is_bool( $value ) )
 			$content	= $value ? "yes" : "no";
-		
+
 		$breaksKey		= 4 - floor( strlen( $key ) / 8 );
 		$breaksValue	= 4 - floor( strlen( $content ) / 8 );
 		if( $breaksKey < 1 )
@@ -447,4 +445,3 @@ class FS_File_INI_Editor extends FS_File_INI_Reader
 		return $result;
 	}
 }
-?>

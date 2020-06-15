@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			23.09.2005
- *	@version		$Id$
  */
 /**
  *	Converter for Colors.
@@ -35,7 +34,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			23.09.2005
- *	@version		$Id$
  *	@todo			Code Documentation
  */
 class Alg_ColorConverter
@@ -337,7 +335,7 @@ class Alg_ColorConverter
 		$g	= $g / 255;
 		$b	= $b / 255;
 		$x	= 0.430574 * $r + 0.341550 * $g + 0.178325 * $b;
-		$y	= 0.222015 * $r + 0.706655 * $g + 0.071330 * $b;
+		$y	= 0.222020 * $r + 0.706655 * $g + 0.071330 * $b;
 		$z	= 0.020183 * $r + 0.129553 * $g + 0.939180 * $b;
 		return array( $x, $y, $z );
 	}
@@ -457,4 +455,3 @@ class Alg_ColorConverter
 #		return array( $l, $a, $b );
 #	}
 }
-?>

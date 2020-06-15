@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			16.06.2005
- *	@version		$Id$
  */
 /**
  *	cURL Wrapper
@@ -35,7 +34,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			16.06.2005
- *	@version		$Id$
  */
 class Net_CURL
 {
@@ -335,4 +333,3 @@ class Net_CURL
 		self::$timeOut	= (int) $seconds;
 	}
 }
-?>

@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			01.12.2008
- *	@version		$Id$
  */
 /**
  *	Writer for Log Files containing JSON Serials.
@@ -35,7 +34,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			01.12.2008
- *	@version		$Id$
  */
 class FS_File_Log_JSON_Writer
 {
@@ -86,4 +84,3 @@ class FS_File_Log_JSON_Writer
 		return error_log( $serial, 3, $fileName );
 	}
 }
-?>

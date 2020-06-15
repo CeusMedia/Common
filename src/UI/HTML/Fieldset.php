@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.0
- *	@version		$Id$
  */
 /**
  *	Builder for HTML Fieldset Elements.
@@ -35,7 +34,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.0
- *	@version		$Id$
  */
 class UI_HTML_Fieldset extends UI_HTML_Abstract
 {
@@ -67,17 +65,16 @@ class UI_HTML_Fieldset extends UI_HTML_Abstract
 		$legend		= $this->renderInner( $this->legend );
 		if( !is_string( $legend ) )
 			throw new InvalidArgumentException( 'Fieldset legend is neither rendered nor renderable' );
-		
+
 		$content	= $this->renderInner( $this->content );
 		if( !is_string( $content ) )
 			throw new InvalidArgumentException( 'Fieldset content is neither rendered nor renderable' );
 
 		return UI_HTML_Tag::create( "fieldset", $legend.$content, $this->getAttributes() );
 	}
-	
+
 	public function setLegend( $legend )
 	{
 		$this->legend	= $legend;
 	}
 }
-?>

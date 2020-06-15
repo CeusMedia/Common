@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			13.07.2005
- *	@version		$Id$
  */
 /**
  *	Conntection Implementation for Accessing a IMAP eMail Server.
@@ -35,7 +34,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			13.07.2005
- *	@version		$Id$
  *	@todo			Code Documentation
  */
 class Net_IMAP_Connection
@@ -49,28 +47,28 @@ class Net_IMAP_Connection
 	protected $username;
 	protected $password;
 	protected $status	= 0;
-	
-	
+
+
 	public function __construct( $host, $port = 143, $flags = array() )
 	{
 		$this->host		= $host;
 		$this->port		= $port;
 		$this->flags	= $flags;
 	}
-	
+
 	public function close()
 	{
 		if( $this->status == 2 )
 			imap_close( $this->stream );	
 	}
-	
+
 	public function getAddress( $folder = NULL )
 	{
 		if( $folder )
 			$folder	= $this->folder ? $this->folder."/".$folder : $folder;
 		else
 			$folder	= $this->folder;
-			
+
 		if( !$folder && !$this->hasOption( OP_HALFOPEN ) )
 			$this->setOption( OP_HALFOPEN );
 		$flags		= $this->flags ? '/'.join( '/', $this->flags ) : "";
@@ -86,13 +84,13 @@ class Net_IMAP_Connection
 			throw new RuntimeException( 'Not connected' );
 		return $this->stream;
 	}
-	
+
 	public function hasOption( $option )
 	{
 		if( in_array( $option, $this->options ) )
 			return TRUE;
 	}
-	
+
 	public function openLazy( $username, $password, $folder = "" )
 	{
 		$this->username	= $username;
@@ -100,7 +98,7 @@ class Net_IMAP_Connection
 		$this->folder	= $folder;
 		$this->status	= 1;
 	}
-	
+
 	public function open( $username, $password, $folder = "" )
 	{
 		if( $this->status == 2 )
@@ -113,7 +111,7 @@ class Net_IMAP_Connection
 			throw new RuntimeException( 'Connection could not be established' );
 		$this->status	= 2;
 	}		
-	
+
 	public function resetOptions()
 	{
 		$this->options	= array();
@@ -125,4 +123,3 @@ class Net_IMAP_Connection
 			$this->options[]	= $option;
 	}
 }
-?>

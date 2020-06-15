@@ -174,4 +174,3 @@ class Net_API_Premailer {
 		$this->cache	= $cache;
 	}
 }
-?>

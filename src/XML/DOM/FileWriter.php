@@ -23,7 +23,6 @@
  *	@copyright		2007-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@version		$Id$
  */
 /**
  *	Writes XML Files from Trees build with XML_DOM_Nodes.
@@ -35,13 +34,12 @@
  *	@copyright		2007-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@version		$Id$
  */
 class XML_DOM_FileWriter
 {
 	/**	@var		string			$fileName		URI of XML File */
 	protected $fileName;
-	
+
 	/**
 	 *	Constructor.
 	 *	@access		public
@@ -82,4 +80,3 @@ class XML_DOM_FileWriter
 		return FS_File_Writer::save( $fileName, $xml );
 	}
 }
-?>

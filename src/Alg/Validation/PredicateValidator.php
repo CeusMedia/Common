@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			14.02.2007
- *	@version		$Id$
  */
 /**
  *	Validator for Predicates on Strings.
@@ -35,13 +34,12 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			14.02.2007
- *	@version		$Id$
  */
 class Alg_Validation_PredicateValidator
 {
 	/**	@var		Object		Predicate Class Instance */
 	protected $validator;
-	
+
 	/**
 	 *	Constructor.
 	 *	@access		public
@@ -67,7 +65,7 @@ class Alg_Validation_PredicateValidator
 			throw new BadMethodCallException( 'Predicate "'.$method.'" is not defined.' );
 		return $this->validator->$method( $value, $method );
 	}
-	
+
 	/**
 	 *	Indicates whether a String validates against a Predicate.
 	 *	@access		public
@@ -94,4 +92,3 @@ class Alg_Validation_PredicateValidator
 		}
 	}
 }
-?>

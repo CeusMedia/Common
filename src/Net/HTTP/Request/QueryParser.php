@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			02.11.2008
- *	@version		$Id$
  */
 /**
  *	Parser for HTTP Request Query Strings, for example given by mod_rewrite or own formats.
@@ -35,7 +34,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			02.11.2008
- *	@version		$Id$
  */
 class Net_HTTP_Request_QueryParser
 {
@@ -84,4 +82,3 @@ class Net_HTTP_Request_QueryParser
 		return $list;																	//  return resulting list
 	}
 }
-?>

@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			16.04.2008
- *	@version		$Id$
  */
 /**
  *	Builds a Graph based on Configuration and Graph Data.
@@ -36,7 +35,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			16.04.2008
- *	@version		$Id$
  */
 class UI_Image_Graph_Builder
 {
@@ -53,7 +51,7 @@ class UI_Image_Graph_Builder
 		$graph = new Graph( $config['width'], $config['height'], 'auto' );
 		$graph->setScale( self::getConfigValue( $config, 'scale' ) );
 		$graph->img->SetAntiAliasing( self::getConfigValue( $config, 'image.antialias', FALSE ) ); 
-		
+
 		UI_Image_Graph_Components::setTitle( $graph, $config );
 		UI_Image_Graph_Components::setSubTitle( $graph, $config );
 		UI_Image_Graph_Components::setLegend( $graph, self::getSubConfig( $config, "legend." ) );
@@ -177,7 +175,7 @@ class UI_Image_Graph_Builder
 		if( $marginColor )
 			$graph->setMarginColor( $marginColor );
 	}
-		
+
 	/**
 	 *	Adds Plots to Graph.
 	 *	@access		protected
@@ -224,4 +222,3 @@ class UI_Image_Graph_Builder
 				( $axis == 'y2' ) ? $graph->addY2( $plot ) : $graph->add( $plot );
 	}
 }
-?>

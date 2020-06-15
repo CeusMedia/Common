@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			24.01.2006
- *	@version		$Id$
  */
 /**
  *	Identifies Type and Version of RSS and ATOM Feeds.
@@ -37,7 +36,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			24.01.2006
- *	@version		$Id$
  */
 class XML_DOM_FeedIdentifier
 {
@@ -45,7 +43,7 @@ class XML_DOM_FeedIdentifier
 	protected $type	= "";
 	/**	@var	string		$version		Version of Feed Type */
 	protected $version	= "";
-	
+
 	/**
 	 *	Returns identified Type of Feed.
 	 *	@access		public
@@ -55,7 +53,7 @@ class XML_DOM_FeedIdentifier
 	{
 		return $this->type;
 	}
-	
+
 	/**
 	 *	Returns identified Version of Feed Type.
 	 *	@access		public
@@ -127,4 +125,3 @@ class XML_DOM_FeedIdentifier
 		return false;
 	}
 }
-?>

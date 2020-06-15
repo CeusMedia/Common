@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			14.03.2006
- *	@version		$Id$
  */
 /**
  *	Calendar with Month View.
@@ -37,7 +36,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			14.03.2006
- *	@version		$Id$
  */
 class UI_HTML_MonthCalendar extends ADT_OptionObject
 {
@@ -78,20 +76,20 @@ class UI_HTML_MonthCalendar extends ADT_OptionObject
 		parent::__construct();
 		$this->setYear( date( "Y" ) );
 		$this->setMonth( date( "m" ) );
-		
+
 		$this->setOption( 'carrier_year', "year" );
 		$this->setOption( 'carrier_month', "month" );
 
 		$this->setOption( 'current_year', date( "Y" ) );
 		$this->setOption( 'current_month', date( "m" ) );
 		$this->setOption( 'current_day', date( "j" ) );
-		
+
 		$this->setOption( 'url', "./?" );
 		$this->setOption( 'template', NULL );
 
 		$this->html	= new UI_HTML_Elements;
 	}
-	
+
 	/**
 	 *	Builds Output of Month Calendar.
 	 *	@access		public
@@ -137,7 +135,7 @@ class UI_HTML_MonthCalendar extends ADT_OptionObject
 		$code		= $this->getCode( $heading, $weekdays, $days );
 		return $code;
 	}
-	
+
 	/**
 	 *	Builds Table Cell for one Day.
 	 *	@access		protected
@@ -166,7 +164,7 @@ class UI_HTML_MonthCalendar extends ADT_OptionObject
 		$code	= UI_HTML_Tag::create( "div", $day, array( 'class' => implode( " ", $classes ) ) );
 		return $code;
 	}
-	
+
 	/**
 	 *	Builds Table Heading with Month, Year and Links for Selection.
 	 *	@access		protected
@@ -207,7 +205,7 @@ class UI_HTML_MonthCalendar extends ADT_OptionObject
 		$code	= UI_HTML_Tag::create( "div", $left.$label.$right, array( 'class' => 'month' ) );
 		return $code;
 	}
-	
+
 	/**
 	 *	Builds Table Row with Week Days.
 	 *	@access		protected
@@ -221,7 +219,7 @@ class UI_HTML_MonthCalendar extends ADT_OptionObject
 		$code	= UI_HTML_Tag::create( "div", $days, array( 'class' => "weekdays" ) );
 		return $code;
 	}
-	
+
 	/**
 	 *	Builds Output Code by loading a Template or with built-in Template.
 	 *	@access		protected
@@ -244,7 +242,7 @@ class UI_HTML_MonthCalendar extends ADT_OptionObject
 		}
 		return $content;
 	}
-	
+
 	/**
 	 *	Sets Month to show.
 	 *	@access		public
@@ -280,7 +278,7 @@ class UI_HTML_MonthCalendar extends ADT_OptionObject
 			'class'	=> ''
 		);
 	}
-	
+
 	/**
 	 *	Sets Weekday Names.
 	 *	@access		public
@@ -291,7 +289,7 @@ class UI_HTML_MonthCalendar extends ADT_OptionObject
 	{
 		$this->days	= $names;
 	}
-	
+
 	/**
 	 *	Sets Month to show.
 	 *	@access		public
@@ -302,7 +300,7 @@ class UI_HTML_MonthCalendar extends ADT_OptionObject
 	{
 		$this->setOption( 'show_month',	$month );
 	}
-	
+
 	/**
 	 *	Sets Month Names.
 	 *	@access		public
@@ -313,7 +311,7 @@ class UI_HTML_MonthCalendar extends ADT_OptionObject
 	{
 		$this->months	= $names;
 	}
-	
+
 	/**
 	 *	Sets Template to use.
 	 *	@access		public
@@ -324,7 +322,7 @@ class UI_HTML_MonthCalendar extends ADT_OptionObject
 	{
 		$this->setOption( 'template', $template );
 	}
-	
+
 	/**
 	 *	Sets Year to show.
 	 *	@access		public
@@ -336,4 +334,3 @@ class UI_HTML_MonthCalendar extends ADT_OptionObject
 		$this->setOption( 'show_year',	$year );
 	}
 }
-?>

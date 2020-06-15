@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			20.02.2007
- *	@version		$Id$
  */
 /**
  *	Handler for HTTP Responses with HTTP Compression Support.
@@ -37,7 +36,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			20.02.2007
- *	@version		$Id$
  */
 class Net_HTTP_Response
 {
@@ -251,4 +249,3 @@ class Net_HTTP_Response
 		return join( "\r\n", $lines );																//  glue parts with line break and return result
 	}
 }
-?>

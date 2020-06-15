@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			10.12.2006
- *	@version		$Id$
  */
 /**
  *	Crawls and counts all internal Links of an URL.
@@ -38,7 +37,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			10.12.2006
- *	@version		$Id$
  *	@todo			finish Code Doc
  */
 class Net_Site_Crawler
@@ -54,7 +52,7 @@ class Net_Site_Crawler
 	protected $port;
 	protected $scheme;
 	protected $user;
-	
+
 	public $denied			= array(
 		'pdf',
 		'doc',
@@ -72,7 +70,7 @@ class Net_Site_Crawler
 		'png',
 		'bmp',
 	);
-	
+
 	public $deniedUrlParts	= array();
 
 	/**	@var	Net_Reader		$reader */
@@ -323,7 +321,7 @@ class Net_Site_Crawler
 		}
 		return $links;
 	}
-	
+
 	/**
 	 *	Shows Information about downloaded Web Page. This Method is customizable (can be overwritten).
 	 *	@access		protected
@@ -356,4 +354,3 @@ class Net_Site_Crawler
 		);
 	}
 }
-?>

@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			16.02.2009
- *	@version		$Id$
  *	@link			http://www.grc.com/menudemo.htm
  */
 /**
@@ -39,7 +38,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			16.02.2009
- *	@version		$Id$
  */
 class UI_HTML_CSS_LinkSelect
 {
@@ -47,7 +45,7 @@ class UI_HTML_CSS_LinkSelect
 	{
 		$list	= new ADT_Tree_Menu_List();
 		$value	= is_null( $value ) ? NULL : (string) $value;
-		
+
 		foreach( $links as $link )
 		{
 			$key	= isset( $link['key'] ) ? (string) $link['key'] : NULL;
@@ -72,7 +70,7 @@ class UI_HTML_CSS_LinkSelect
 			$value	= isset( $first['key'] ) ? $first['key'] : NULL;
 		}
 		$value	= is_null( $value ) ? NULL : (string) $value;
-		
+
 		$list->addChild( $main );
 
 		foreach( $links as $link )
@@ -85,7 +83,7 @@ class UI_HTML_CSS_LinkSelect
 				$attributes['class']	= $link['class'];
 			else if( isset( $link['disabled'] ) )
 				$attributes['disabled']	= $link['disabled'];
-			
+
 			$key	= isset( $link['key'] ) ? (string) $link['key'] : NULL;
 			$url	= isset( $link['url'] ) ? (string) $link['url'] : NULL;
 			$item	= new ADT_Tree_Menu_Item( $url, $link['label'], $attributes );
@@ -99,4 +97,3 @@ class UI_HTML_CSS_LinkSelect
 		return $code;
 	}
 }
-?>

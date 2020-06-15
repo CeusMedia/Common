@@ -23,7 +23,6 @@
  *	@copyright		2007-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@version		$Id$
  */
 /**
  *	Integration with Trapezoid Algorithm within a compact Interval.
@@ -34,7 +33,6 @@
  *	@copyright		2007-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@version		$Id$
  */
 class Alg_Math_Analysis_Integration_Trapezoid extends Alg_Math_Analysis_Integration
 {
@@ -56,4 +54,3 @@ class Alg_Math_Analysis_Integration_Trapezoid extends Alg_Math_Analysis_Integrat
 		return $sum;			
 	}
 }
-?>

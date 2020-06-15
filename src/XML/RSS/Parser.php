@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			30.01.2006
- *	@version		$Id$
  *	@see			http://blogs.law.harvard.edu/tech/rss
  */
 /**
@@ -37,7 +36,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			30.01.2006
- *	@version		$Id$
  *	@see			http://blogs.law.harvard.edu/tech/rss
  *	@todo			Code Doc
  */
@@ -84,7 +82,7 @@ class XML_RSS_Parser
 		"pubDate",
 		"source",
 	);
-		
+
 	public static function parse( $xml )
 	{
 		$channelData	= array();
@@ -127,7 +125,7 @@ class XML_RSS_Parser
 			}
 			$itemList[]	= $array;
 		}
-		
+
 		$data	= array(
 			'encoding'		=> $encoding,
 			'version'		=> $version,
@@ -137,4 +135,3 @@ class XML_RSS_Parser
 		return $data;
 	}
 }
-?>

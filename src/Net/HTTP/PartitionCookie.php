@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			11.08.2005
- *	@version		$Id$
  */
 /**
  *	Partitioned Cookie Management.
@@ -35,7 +34,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			11.08.2005
- *	@version		$Id$
  */
 class Net_HTTP_PartitionCookie extends Net_HTTP_Cookie
 {
@@ -129,4 +127,3 @@ class Net_HTTP_PartitionCookie extends Net_HTTP_Cookie
 		$this->save( $path, $domain, $secure, $httpOnly );
 	}
 }
-?>

@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			20.01.2006
- *	@version		$Id$
  */
 /**
  *	Cron Server.
@@ -37,7 +36,6 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			20.01.2006
- *	@version		$Id$
  */
 class CLI_Server_Cron_Daemon
 {
@@ -45,7 +43,7 @@ class CLI_Server_Cron_Daemon
 	protected $cronTab;
 	/**	@var		string		$logFile		Message Log File */
 	protected $logFile;
-	
+
 	/**
 	 *	Constructor.
 	 *	@access		public
@@ -60,7 +58,7 @@ class CLI_Server_Cron_Daemon
 		ob_implicit_flush();
 		set_time_limit( 0 );
 	}
-	
+
 	/**
 	 *	Executes Service once or Starts as Service.
 	 *	@access		public
@@ -98,4 +96,3 @@ class CLI_Server_Cron_Daemon
 		while( $service );
 	}
 }
-?>

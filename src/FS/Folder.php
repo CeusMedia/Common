@@ -132,4 +132,3 @@ class Folder extends AbstractNode
 		$this->setPathName( $targetPath );
 	}
 }
-?>

@@ -23,7 +23,6 @@
  *	@copyright		2007-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@version		$Id$
  */
 /**
  *	Writes XML Files from Trees build with XML_Node.
@@ -35,13 +34,12 @@
  *	@copyright		2007-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@version		$Id$
  */
 class XML_OPML_FileWriter
 {
 	/**	@var		string		$fileName		URI of OPML File */
 	protected $fileName;
-	
+
 	/**
 	 *	Constructor.
 	 *	@access		public
@@ -52,7 +50,7 @@ class XML_OPML_FileWriter
 	{
 		$this->fileName	= $fileName;
 	}
-	
+
 	/**
 	 *	Saves OPML Tree to OPML File statically.
 	 *	@access		public
@@ -69,7 +67,7 @@ class XML_OPML_FileWriter
 		$file		= new FS_File_Writer( $fileName, 0777 );
 		return $file->writeString( $xml );
 	}
-	
+
 	/**
 	 *	Writes OPML Tree to OPML File.
 	 *	@access		public
@@ -82,4 +80,3 @@ class XML_OPML_FileWriter
 		return $this->save( $this->fileName, $tree, $encoding );
 	}
 }
-?>

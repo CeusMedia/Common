@@ -1,42 +1,79 @@
 <?php
-class CLI_Output_Progress{
+class CLI_Output_Progress
+{
+	const STATUS_NONE		= 0;
+	const STATUS_READY		= 1;
+	const STATUS_STARTED	= 2;
+	const STATUS_FINISHED	= 3;
 
-	protected $total	= 0;
+	protected $status		= 0;
+	protected $startTime	= 0;
+	protected $total		= 0;
+	protected $barBlocks	= array( '_', '░', '▓', '█' );
+	protected $barTemplate	= '%1$s%2$s%3$s%4$s';
 
-	public function __construct(){
+	public function __construct()
+	{
 		$this->width	= CLI_Dimensions::getWidth() - 3;
 		$this->output	= new CLI_Output();
 		$this->output->setMaxLineLength( $this->width );
 	}
 
-	public function setTotal( $total ){
-		$this->total	= $total;
+	public function setTotal( $total ): self{
+		$this->total		= $total;
+		$this->status		= static::STATUS_READY;
+		return $this;
 	}
 
-	public function start(){
-		if( !$this->total )
+	public function setBarTemplate( $barTemplate ): self
+	{
+		$this->barTemplate	= $barTemplate;
+		return $this;
+	}
+
+	public function setBarBlocks( $barBlocks ): self
+	{
+		if( count( $barBlocks ) !== 4 )
+			throw new InvalidArgumentException( 'Bar blocks list must contain 4 items' );
+		$this->barBlocks	= array_values( $barBlocks );
+		return $this;
+	}
+
+	public function start(): self
+	{
+		if( $this->status < static::STATUS_READY )
 			throw new RuntimeException( 'No total set' );
 		$this->startTime	= microtime( TRUE );
-		$line	= $this->renderLine( 0, $this->total, $this->width );
-		$this->output->newLine( $line );
+		$this->status		= static::STATUS_STARTED;
+		$this->output->newLine( $this->renderLine( 0 ) );
+		return $this;
 	}
 
-	public function update( $count ){
-		if( !$this->total )
-			throw new RuntimeException( 'No total set' );
-
-		$line	= $this->renderLine( $count, $this->total, $this->width );
-		$this->output->sameLine( $line );
+	public function update( $count ): self
+	{
+		if( $this->status != static::STATUS_STARTED )
+			$this->start();
+		$this->output->sameLine( $this->renderLine( $count ) );
+		if( $count === $this->total ){
+			$this->status	= static::STATUS_FINISHED;
+			$this->output->newLine();
+		}
+		return $this;
 	}
 
-	public function finish(){
-		$this->update( $this->total );
-		$this->output->newLine();
+	public function finish(): self
+	{
+		if( $this->status == static::STATUS_STARTED ){
+			$this->status	= static::STATUS_FINISHED;
+			$this->output->newLine();
+		}
+		return $this;
 	}
 
 	/*  --  PROTECTED  --  */
 
-	protected function estimateTimeLeft( $count ){
+	protected function estimateTimeLeft( int $count ): string
+	{
 		if( $count === 0 )
 			return 0;
 		if( $count === $this->total )
@@ -51,7 +88,8 @@ class CLI_Output_Progress{
 		return $timeLeft;
 	}
 
-	protected function formatTime( $seconds, $nrParts = 2 ){
+	protected function formatTime( int $seconds, int $nrParts = 2 ): string
+	{
 		if( $seconds < 1 )
 			return '';
 		$days		= 0;
@@ -70,7 +108,6 @@ class CLI_Output_Progress{
 				$parts[]	= str_pad( $hours, 2, 0, STR_PAD_LEFT ).'h';
 			else
 				$parts[]	= $hours.'h';
-
 		}
 		if( $seconds > 60 ){
 			$minutes	= floor( $seconds / 60 );
@@ -88,25 +125,37 @@ class CLI_Output_Progress{
 		if( $nrParts )
 			$parts		= array_slice( $parts, 0, $nrParts );
 		return implode( ' ', $parts );
-
-		return Alg_Time_Duration::render( $seconds );
 	}
 
-
-
-	protected function renderLine( $count, $total, $width ){
-		$count		= min( $count, $total );
+	protected function renderLine( int $count ): string
+	{
+		$count		= min( $count, $this->total );
 		$timeLeft	= ceil( microtime( TRUE ) - $this->startTime );
 		if( $count !== $this->total )
 			$timeLeft	= $this->estimateTimeLeft( $count );
 		$timeLeft	= str_pad( $this->formatTime( $timeLeft ), 8, ' ', STR_PAD_LEFT );
-		$ratio		= str_pad( floor( $count / $total * 100 ), 4, ' ', STR_PAD_LEFT ).'%';
-		$numbers	= str_pad( $count.'/'.$total, strlen( $total ) * 2 + 2, ' ', STR_PAD_LEFT );
-		$barWidth	= $width - strlen( $timeLeft ) - strlen( $ratio ) - strlen( $numbers );
-		$length1	= floor( $count / $total * $barWidth );
-		$length2	= $barWidth - $length1;
-		$line		= '['.str_repeat( '#', $length1 ).str_repeat( '.', $length2 ).']'.$numbers.$ratio.$timeLeft;
+		$ratio		= str_pad( floor( $count / $this->total * 100 ), 4, ' ', STR_PAD_LEFT ).'%';
+		$numbers	= str_pad( $count.'/'.$this->total, strlen( $this->total ) * 2 + 2, ' ', STR_PAD_LEFT );
+		$barWidth	= $this->width - strlen( $timeLeft ) - strlen( $ratio ) - strlen( $numbers );
+		$length1	= floor( $count / $this->total * $barWidth );
+		$barPart1	= str_repeat( $this->barBlocks[3], $length1 );
+		$bar		= $barPart1;
+		if( $length1 < $barWidth ){
+			$next		= floor( ( ( $count / $this->total * $barWidth ) - $length1 ) * 100 );
+			$block		= $this->barBlocks[0];
+			if( $next >= 66 )
+				$block	= $this->barBlocks[2];
+			else if( $next >= 33 )
+				$block	= $this->barBlocks[1];
+			$barPart2	= str_repeat( $this->barBlocks[0], $barWidth - $length1 - 1 );
+			$bar		= $barPart1.$block.$barPart2;
+		}
+		$line	= vsprintf( $this->barTemplate, array(
+			$bar,
+			$numbers,
+			$ratio,
+			$timeLeft
+		) );
 		return $line;
 	}
 }
-

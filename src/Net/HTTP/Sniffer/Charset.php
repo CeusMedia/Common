@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			12.08.2005
- *	@version		$Id$
  */
 /**
  *	Sniffer for Character Sets accepted by a HTTP Request.
@@ -35,7 +34,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			12.08.2005
- *	@version		$Id$
  */
 class Net_HTTP_Sniffer_Charset
 {
@@ -55,7 +53,7 @@ class Net_HTTP_Sniffer_Charset
 		$accepted	= getEnv( 'HTTP_ACCEPT_CHARSET' );
 		return self::getCharsetFromString( $accepted, $allowed, $default );
 	}
-	
+
 	/**
 	 *	Returns prefered allowed and accepted Character Set from String.
 	 *	@access		public
@@ -87,4 +85,3 @@ class Net_HTTP_Sniffer_Charset
 		return $currentCharset;
 	}
 }
-?>

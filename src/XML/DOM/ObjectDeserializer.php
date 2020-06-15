@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			26.12.2005
- *	@version		$Id$
  */
 /**
  *	Deserializer for XML into a Data Object.
@@ -36,7 +35,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			26.12.2005
- *	@version		$Id$
  *	@todo			rewrite, use ObjectFactory
  */
 class XML_DOM_ObjectDeserializer
@@ -58,7 +56,7 @@ class XML_DOM_ObjectDeserializer
 		self::deserializeVarsRec( $tree->getChildren(), $object );
 		return $object;
 	}
-	
+
 	/**
 	 *	Adds nested Vars to an Element by their Type while supporting nested Arrays.
 	 *	@access		protected
@@ -84,7 +82,7 @@ class XML_DOM_ObjectDeserializer
 					$element[$name]	= NULL;
 				$pointer	=& $element[$name];
 			}
-			
+
 			switch( $vartype )
 			{
 				case 'boolean':
@@ -115,4 +113,3 @@ class XML_DOM_ObjectDeserializer
 		}
 	}
 }
-?>

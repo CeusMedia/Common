@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			27.12.2006
- *	@version		$Id$
  */
 /**
  *	Reader for short Log Files.
@@ -35,7 +34,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			27.12.2006
- *	@version		$Id$
  *	@todo			Prove File for Existence
  */
 class FS_File_Log_ShortReader
@@ -67,7 +65,7 @@ class FS_File_Log_ShortReader
 		);
 		$this->setPatterns( $patterns );
 	}
-	
+
 	/**
 	 *	Returns parsed Log Data as Array.
 	 *	@access		public
@@ -81,7 +79,7 @@ class FS_File_Log_ShortReader
 		trigger_error( "Log File not read", E_USER_ERROR );
 		return array();
 	}
-	
+
 	/**
 	 *	Indicated whether Log File is already opened and read.
 	 *	@access		protected
@@ -123,4 +121,3 @@ class FS_File_Log_ShortReader
 			$this->patterns	= $array;
 	}
 }
-?>

@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			20.03.06
- *	@version		$Id$
  */
 /**
  *	Generator for Month Calendar with Events.
@@ -36,7 +35,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			20.03.06
- *	@version		$Id$
  */
 class UI_HTML_EventMonthCalendar extends UI_HTML_MonthCalendar
 {
@@ -55,7 +53,7 @@ class UI_HTML_EventMonthCalendar extends UI_HTML_MonthCalendar
 		$this->setOption( 'carrier_day', "day" );
 		$this->setDay( date( "j" ) );
 	}
-	
+
 	/**
 	 *	Modification of Cell Content of Days - to be overwritten.
 	 *	@access		protected
@@ -79,7 +77,7 @@ class UI_HTML_EventMonthCalendar extends UI_HTML_MonthCalendar
 		$class	= implode( ' ', $classes );
 		return $data	= array( 'day'	=> $day, 'class' => $class );		
 	}
-	
+
 	/**
 	 *	Sets Day to show.
 	 *	@access		public
@@ -90,7 +88,7 @@ class UI_HTML_EventMonthCalendar extends UI_HTML_MonthCalendar
 	{
 		$this->setOption( 'show_day', $day );
 	}
-	
+
 	/**
 	 *	Sets Events for Links.
 	 *	@access		public
@@ -102,4 +100,3 @@ class UI_HTML_EventMonthCalendar extends UI_HTML_MonthCalendar
 		$this->events	= $events;
 	}
 }
-?>

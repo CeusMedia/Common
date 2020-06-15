@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			04.08.2009
- *	@version		$Id$
  */
 /**
  *	Rotates an Image.
@@ -36,7 +35,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			04.08.2009
- *	@version		$Id$
  */
 class UI_Image_Rotator extends UI_Image_Modifier
 {	
@@ -75,4 +73,3 @@ class UI_Image_Rotator extends UI_Image_Modifier
 		return $modifier->rotate( $angle );
 	}
 }
-?>

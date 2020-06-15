@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			19.12.2006
- *	@version		$Id$
  */
 /**
  *	Writer for Files with Text Block Contents, named by Section.
@@ -35,7 +34,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			19.12.2006
- *	@version		$Id$
  */
 class FS_File_Block_Writer
 {
@@ -53,7 +51,7 @@ class FS_File_Block_Writer
 		$this->patternSection	= "[{#name#}]";
 		$this->fileName			= $fileName;
 	}
-	
+
 	/**
 	 *	Writes Blocks to Block File.
 	 *	@access		public
@@ -72,4 +70,3 @@ class FS_File_Block_Writer
 		return $file->writeArray( $list );
 	}
 }
-?>

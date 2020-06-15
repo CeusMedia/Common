@@ -23,7 +23,6 @@
  *	@copyright		2008-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@version		$Id$
  *	@since			04.08.08
  *	@todo			support multiple return types separated with |
  */
@@ -48,7 +47,6 @@
  *	@copyright		2008-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@version		$Id$
  *	@since			04.08.08
  *	@todo			Code Doc
  */
@@ -431,7 +429,7 @@ class FS_File_PHP_Parser_Regular
 		$file->setBasename( basename( $fileName ) );
 		$file->setPathname( substr( str_replace( "\\", "/", $fileName ), strlen( $innerPath ) ) );
 		$file->setUri( str_replace( "\\", "/", $fileName ) );
-	
+
 		$level	= 0;
 		$class	= NULL;
 		do
@@ -441,7 +439,7 @@ class FS_File_PHP_Parser_Regular
 			$this->lineNumber ++;
 			if( preg_match( "@^(<\?(php)?)|((php)?\?>)$@", $line ) )
 				continue;
-			
+
 			if( preg_match( '@}$@', $line ) )
 				$level--;
 
@@ -682,4 +680,3 @@ class FS_File_PHP_Parser_Regular
 		return $parameter;
 	}
 }
-?>

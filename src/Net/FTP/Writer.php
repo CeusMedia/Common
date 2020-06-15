@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			01.07.2008
- *	@version		$Id$
  */
 /**
  *	Writer for FTP Connections.
@@ -36,7 +35,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			01.07.2008
- *	@version		$Id$
  */
 class Net_FTP_Writer
 {
@@ -72,7 +70,7 @@ class Net_FTP_Writer
 			throw new RuntimeException( 'Changing rights for "'.$fileName.'" is not possible' );
 		return $result;
 	}
-	
+
 	/**
 	 *	Copies a File on FTP Server.
 	 *	@access		public
@@ -96,7 +94,7 @@ class Net_FTP_Writer
 		unlink( $temp );
 		return TRUE;
 	}
-	
+
 	/**
 	 *	Copies a Folder on FTP Server [recursive].
 	 *	@access		public
@@ -119,7 +117,7 @@ class Net_FTP_Writer
 		}
 		return TRUE;
 	}
-	
+
 	/**
 	 *	Creates a Folder on FTP Server.
 	 *	@access		public
@@ -131,7 +129,7 @@ class Net_FTP_Writer
 		$this->connection->checkConnection();
 		return (bool) ftp_mkdir( $this->connection->getResource(), $folderName );
 	}
-	
+
 	/**
 	 *	Returns current Path on Server.
 	 *	@access		public
@@ -154,7 +152,7 @@ class Net_FTP_Writer
 		$this->connection->checkConnection();
 		return @ftp_rename( $this->connection->getResource(), $from, $to );
 	}
-	
+
 	/**
 	 *	Copies a Folder on FTP Server [recursive].
 	 *	@access		public
@@ -169,7 +167,7 @@ class Net_FTP_Writer
 			throw new RuntimeException( 'Folder "'.$from.'" is not existing.' );
 		return @ftp_rename( $this->connection->getResource(), $from, $to );
 	}
-	
+
 	/**
 	 *	Transferes a File onto FTP Server.
 	 *	@access		public
@@ -182,7 +180,7 @@ class Net_FTP_Writer
 		$this->connection->checkConnection();
 		return ftp_put( $this->connection->getResource(), $target, $fileName, $this->connection->mode );
 	}
-	
+
 	/**
 	 *	Removes a File.
 	 *	@access		public
@@ -194,7 +192,7 @@ class Net_FTP_Writer
 		$this->connection->checkConnection();
 		return @ftp_delete( $this->connection->getResource(), $fileName );
 	}
-	
+
 	/**
 	 *	Removes a Folder.
 	 *	@access		public
@@ -243,4 +241,3 @@ class Net_FTP_Writer
 		return $this->connection->setPath( $path );
 	}
 }
-?>

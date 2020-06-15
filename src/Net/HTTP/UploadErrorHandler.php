@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.6.8
- *	@version		$Id$
  */
 /**
  *	Handes Upload Error Codes by throwing Exceptions.
@@ -35,7 +34,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.6.8
- *	@version		$Id$
  *	@todo			code doc
  */
 class Net_HTTP_UploadErrorHandler
@@ -95,4 +93,3 @@ class Net_HTTP_UploadErrorHandler
 			$this->messages[$code]	= $label;
 	}
 }
-?>

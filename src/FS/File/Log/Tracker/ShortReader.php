@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			27.12.2006
- *	@version		$Id$
  */
 /**
  *	Reader and Parser for Tracker Log File.
@@ -36,7 +35,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			27.12.2006
- *	@version		$Id$
  */
 class FS_File_Log_Tracker_ShortReader extends FS_File_Log_ShortReader
 {
@@ -44,7 +42,7 @@ class FS_File_Log_Tracker_ShortReader extends FS_File_Log_ShortReader
 	protected $data	= array();
 	/*	@var		string		$skip			Remote Address to skip (own Requests) */
 	protected $skip;
-	
+
 	/**
 	 *	Constructor.
 	 *	@access		public
@@ -57,7 +55,7 @@ class FS_File_Log_Tracker_ShortReader extends FS_File_Log_ShortReader
 		parent::__construct( $uri );
 		$this->skip	= $skip;
 	}
-	
+
 	/**
 	 *	Returns used Browsers of unique Visitors.
 	 *	@access		public
@@ -105,7 +103,7 @@ class FS_File_Log_Tracker_ShortReader extends FS_File_Log_ShortReader
 		$content	= "<table>".$lines."</table>";
 		return $content;
 	}
-	
+
 	/**
 	 *	Returns parsed Log Data as Array.
 	 *	@access		public
@@ -162,7 +160,7 @@ class FS_File_Log_Tracker_ShortReader extends FS_File_Log_ShortReader
 		$pages	= round( $total / count( $visitors ), 1 );
 		return $pages;
 	}
-	
+
 	/**
 	 *	Returns Referers of unique Visitors.
 	 *	@access		public
@@ -214,7 +212,7 @@ class FS_File_Log_Tracker_ShortReader extends FS_File_Log_ShortReader
 		$data	= $this->data;
 		if( $max )
 			$data	= array_reverse( $data );
-			
+
 		foreach( $data as $entry )
 			if( $entry['remote_addr'] != $this->skip )
 			{
@@ -233,7 +231,7 @@ class FS_File_Log_Tracker_ShortReader extends FS_File_Log_ShortReader
 		$content	= "<table>".$lines."</table>";
 		return $content;
 	}
-	
+
 	/**
 	 *	Counts tracked unique Visitors.
 	 *	@access		public
@@ -267,7 +265,7 @@ class FS_File_Log_Tracker_ShortReader extends FS_File_Log_ShortReader
 		}
 		return $counter;
 	}
-	
+
 	/**
 	 *	Counts tracked Visits.
 	 *	@access		public
@@ -293,7 +291,7 @@ class FS_File_Log_Tracker_ShortReader extends FS_File_Log_ShortReader
 		foreach( $lines as $line )
 			$this->data[]	= array_combine( $this->_pattern, $line );
 	}
-	
+
 	/**
 	 *	Set already parsed Log Data (i.E. from serialized Cache File).
 	 *	@access		public
@@ -306,4 +304,3 @@ class FS_File_Log_Tracker_ShortReader extends FS_File_Log_ShortReader
 		$this->_open	= true;
 	}
 }
-?>

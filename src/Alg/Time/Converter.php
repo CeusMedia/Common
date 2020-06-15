@@ -23,7 +23,6 @@
  *	@copyright		2007-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@version		$Id$
  */
 /**
  *	Converting Unix Timestamps to Human Time in different formats and backwards.
@@ -33,7 +32,6 @@
  *	@copyright		2007-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@version		$Id$
  *	@todo			revise, internationalise
  */
 class Alg_Time_Converter
@@ -223,4 +221,3 @@ class Alg_Time_Converter
 		return $timestamp;
 	}
 }
-?>

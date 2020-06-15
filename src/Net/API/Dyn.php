@@ -25,7 +25,6 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@see			http://dyn.com/support/developers/api/
  *	@since			0.7.6
- *	@version		$Id$
  */
 /**
  *  Access to Dyn (dyn.com) API.
@@ -38,7 +37,6 @@
  *  @link           https://github.com/CeusMedia/Common
  *  @see            http://dyn.com/support/developers/api/
  *  @since          0.7.6
- *  @version        $Id$
  */
 class Net_API_Dyn{
 
@@ -117,4 +115,3 @@ class Net_API_Dyn{
 		return array_shift( $parts );
 	}
 }
-?>

@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			04.08.2009
- *	@version		$Id$
  */
 /**
  *	Abstract basic class for all image modifying classes.
@@ -35,7 +34,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			04.08.2009
- *	@version		$Id$
  */
 abstract class UI_Image_Modifier
 {
@@ -157,4 +155,3 @@ abstract class UI_Image_Modifier
 		$this->targetUri	= $targetUri;
 	}
 }
-?>

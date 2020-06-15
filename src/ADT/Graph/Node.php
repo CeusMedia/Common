@@ -23,7 +23,6 @@
  *	@copyright		2007-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@version		$Id$
  */
 namespace CeusMedia\Common\ADT\Graph;
 
@@ -35,7 +34,6 @@ namespace CeusMedia\Common\ADT\Graph;
  *	@copyright		2007-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@version		$Id$
  */
 class Node
 {
@@ -104,4 +102,3 @@ class Node
 		return "(".$this->nodeName.":".$this->nodeValue.")";
 	}
 }
-?>

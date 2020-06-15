@@ -23,7 +23,6 @@
  *	@copyright		2007-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@version		$Id$
  */
 /**
  *	Writes a WDDX File.
@@ -35,7 +34,6 @@
  *	@copyright		2007-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@version		$Id$
  */
 class XML_WDDX_FileWriter
 {
@@ -56,7 +54,7 @@ class XML_WDDX_FileWriter
 		$this->builder	= new XML_WDDX_Builder( $packetName );
 		$this->fileName	= $fileName;
 	}
-	
+
 	/**
 	 *	Adds a Data Object to the packet.
 	 *	@access		public
@@ -100,4 +98,3 @@ class XML_WDDX_FileWriter
 		return FS_File_Writer::save( $fileName, $wddx );
 	}
 }
-?>

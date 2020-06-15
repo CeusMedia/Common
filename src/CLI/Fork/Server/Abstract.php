@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.6.8
- *	@version		$Id$
  */
 #require_once( "Exception.php5" );
 /**
@@ -37,7 +36,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.6.8
- *	@version		$Id$
  */
 abstract class CLI_Fork_Server_Abstract
 {
@@ -312,4 +310,3 @@ abstract class CLI_Fork_Server_Abstract
 		pcntl_signal( SIGHUP, array( &$this, "handleSignal" ) );
 	}
 }
-?>

@@ -628,4 +628,3 @@ class DB_PDO_TableReader{
 				throw new \InvalidArgumentException( 'Column key "'.$column.'" is not a valid column of table "'.$this->tableName.'"' );
 	}
 }
-?>

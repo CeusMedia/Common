@@ -22,7 +22,6 @@
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2015-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id$
  *	@since			0.3
  */
 /**
@@ -32,7 +31,6 @@
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2015-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id$
  *	@since			0.3
  */
 class ADT_PHP_File
@@ -49,7 +47,7 @@ class ADT_PHP_File
 	protected $version		= NULL;
 	protected $licenses		= array();
 	protected $copyright	= array();
-	
+
 	protected $authors		= array();
 	protected $links		= array();
 	protected $sees			= array();
@@ -60,15 +58,15 @@ class ADT_PHP_File
 	protected $functions	= array();
 	protected $classes		= array();
 	protected $interfaces	= array();
-	
+
 	protected $sourceCode	= "";
 	public $unicode;
-	
+
 	public function addClass( ADT_PHP_Class $class )
 	{
 		$this->classes[$class->getName()]	= $class;
 	}
-	
+
 	public function addInterface( ADT_PHP_Interface $interface )
 	{
 		$this->interfaces[$interface->getName()]	= $interface;
@@ -96,7 +94,7 @@ class ADT_PHP_File
 	{
 		return $this->category;
 	}
-	
+
 	public function & getClass( $name )
 	{
 		if( isset( $this->classes[$name] ) )
@@ -123,19 +121,19 @@ class ADT_PHP_File
 	{
 		return $this->description;
 	}
-	
+
 	public function & getFunction( $name )
 	{
 		if( isset( $this->functions[$name] ) )
 			return $this->functions[$name];
 		throw new RuntimeException( 'Function "'.$name.'" is unknown' );
 	}
-	
+
 	public function getFunctions()
 	{
 		return $this->functions;
 	}
-	
+
 	public function getId()
 	{
 		$parts	= array();
@@ -146,24 +144,24 @@ class ADT_PHP_File
 		$parts[]	= $this->basename;
 		return implode( "-", $parts );
 	}
-	
+
 	public function & getInterface( $name )
 	{
 		if( isset( $this->interfaces[$name] ) )
 			return $this->interfaces[$name];
 		throw new RuntimeException( 'Interface "'.$name.'" is unknown' );
 	}
-	
+
 	public function getInterfaces()
 	{
 		return $this->interfaces;
 	}
-	
+
 	public function getLicenses()
 	{
 		return $this->licenses;
 	}
-	
+
 	public function getLinks()
 	{
 		return $this->links;
@@ -223,17 +221,17 @@ class ADT_PHP_File
 	{
 		return count( $this->classes ) > 0;
 	}
-	
+
 	public function hasFunctions()
 	{
 		return count( $this->functions ) > 0;
 	}
-	
+
 	public function hasInterfaces()
 	{
 		return count( $this->interfaces ) > 0;
 	}
-	
+
 	public function hasLinks()
 	{
 		return count( $this->links ) > 0;
@@ -248,12 +246,12 @@ class ADT_PHP_File
 	{
 		$this->basename	= $string;
 	}
-	
+
 	public function setCategory( $string )
 	{
 		$this->category	= trim( $string );
 	}
-	
+
 	public function setCopyright( $string )
 	{
 		$this->copyright[]	= $string;
@@ -268,22 +266,22 @@ class ADT_PHP_File
 	{
 		$this->description	= $description;
 	}
-	
+
 	public function setFunction( ADT_PHP_Function $function )
 	{
 		$this->functions[$function->getName()]	= $function;
 	}
-	
+
 	public function setLicense( ADT_PHP_License $license )
 	{
 		$this->licenses[]	= $license;
 	}
-	
+
 	public function setLink( $string )
 	{
 		$this->links[]	= $string;
 	}
-	
+
 	public function setPackage( $string )
 	{
 		$this->package	= $string;
@@ -308,7 +306,7 @@ class ADT_PHP_File
 	{
 		$this->sourceCode	= $string;
 	}
-	
+
 	public function setSubpackage( $string )
 	{
 		$this->subpackage	= $string;
@@ -329,4 +327,3 @@ class ADT_PHP_File
 		$this->version	= $string;
 	}
 }
-?>

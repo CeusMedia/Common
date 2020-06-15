@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			01.12.2005
- *	@version		$Id$
  */
 /**
  *	Paging System for Lists.
@@ -37,7 +36,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			01.12.2005
- *	@version		$Id$
  */
 class UI_HTML_Paging extends ADT_OptionObject
 {
@@ -73,7 +71,7 @@ class UI_HTML_Paging extends ADT_OptionObject
 		$this->setOption( 'key_next',		'' );
 		$this->setOption( 'key_last',		'' );
 	}
-	
+
 	/**
 	 *	Builds HTML for Paging of Lists.
 	 *	@access		public
@@ -118,7 +116,7 @@ class UI_HTML_Paging extends ADT_OptionObject
 					$pages[$latest]	= $button;
 				}*/
 			}
-			
+
 			$pages[]	= $this->buildButton( $here + 1, 'class_text' );										//  page here
 			$after	= ceil( ( ( $amount - $limit ) / $limit ) - $here );										//  pages after
 			if( $after )
@@ -149,7 +147,7 @@ class UI_HTML_Paging extends ADT_OptionObject
 		$pages	= implode( $this->getOption( "linebreak" ), $pages );
 		return $pages;
 	}
-	
+
 	/**
 	 *	Builds Paging Button.
 	 *	@access		protected
@@ -196,7 +194,7 @@ class UI_HTML_Paging extends ADT_OptionObject
 		$link	= $this->getOption( 'uri' ).$this->getOption( 'key_request' ).$param;
 		return $link;
 	}
-	
+
 	/**
 	 *	Builds Span Link of Paging Button.
 	 *	@access		protected
@@ -211,4 +209,3 @@ class UI_HTML_Paging extends ADT_OptionObject
 		return $span;
 	}
 }
-?>

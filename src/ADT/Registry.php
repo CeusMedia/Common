@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			20.02.2007
- *	@version		$Id$
  */
 /**
  *	Registry Pattern Singleton Implementation to store Objects.
@@ -35,7 +34,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			20.02.2007
- *	@version		$Id$
  */
 class ADT_Registry
 {
@@ -60,7 +58,7 @@ class ADT_Registry
 	 *	@return		void
 	 */
 	private function __clone() {}
-	
+
 	/**
 	 *	Cleares registered Object.
 	 *	@access		public
@@ -97,7 +95,7 @@ class ADT_Registry
 			throw new InvalidArgumentException( 'No Object registered with Key "'.$key.'"' );
 		return $GLOBALS[$this->poolKey][$key];
 	}
-	
+
 	/**
 	 *	Returns registered Object statically.
 	 *	@access		public
@@ -109,7 +107,7 @@ class ADT_Registry
 	{
 		return self::getInstance()->get( $key );
 	}
-	
+
 	/**
 	 *	Indicates whether a Key is registered.
 	 *	@access		public
@@ -150,4 +148,3 @@ class ADT_Registry
 		return true;	
 	}
 }  
-?>

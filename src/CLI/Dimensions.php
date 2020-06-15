@@ -81,4 +81,3 @@ class Dimensions
 	}
 }
 class Size extends Dimensions{}
-?>

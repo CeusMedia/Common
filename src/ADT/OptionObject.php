@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			18.07.2005
- *	@version		$Id$
  */
 /**
  *	Base Object with options.
@@ -37,7 +36,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			18.07.2005
- *	@version		$Id$
  */
 class ADT_OptionObject implements ArrayAccess, Countable
 {
@@ -226,4 +224,3 @@ class ADT_OptionObject implements ArrayAccess, Countable
 		return TRUE;
 	}
 }
-?>

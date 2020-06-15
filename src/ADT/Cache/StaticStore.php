@@ -83,4 +83,3 @@ abstract class StaticStore
 	 */
 	abstract public static function set( $key, $value );
 }
-?>

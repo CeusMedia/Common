@@ -23,7 +23,6 @@
  *	@copyright		2007-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@version		$Id$
  */
 /**
  *	...
@@ -33,7 +32,6 @@
  *	@copyright		2007-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@version		$Id$
  *	@todo			Code Doc
  */
 class UI_HTML_Service_Table
@@ -56,7 +54,7 @@ class UI_HTML_Service_Table
 		$services	= $this->servicePoint->getServices();
 		natcasesort( $services );
 		$heads		= array();
-		
+
 		$heads	= array( "<th>Service</th><th>Parameter</th>" );
 		$cols	= array( "<col width='35%'/><col width='30%'/>" ); 
 		foreach( $this->availableFormats as $format )
@@ -83,7 +81,7 @@ class UI_HTML_Service_Table
 				else
 					$cells[]	= "<td class='no'>-</td>";
 			}
-						
+
 			//  --  PARAMETERS  --   //
 			$parameterList	= array();
 			$parameters	= $this->servicePoint->getServiceParameters( $service );

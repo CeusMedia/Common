@@ -145,7 +145,7 @@ class UI_HTML_Tree_FolderCheckView
 			$script	.= UI_HTML_JQuery::buildPluginCall( "treeview", $id, $treeviewOptions );		//  add Treeview Plugin Call
 		return $script;																				//  return build JavaScript
 	}
-	
+
 	/**
 	 *	Builds and returns HTML Tree of Folders and/or Files the set Path contains.
 	 *	If an ID is set, the Tree is Wrapped in a DIV with this ID.
@@ -246,4 +246,3 @@ class UI_HTML_Tree_FolderCheckView
 		$this->showFolders	= (bool) $state;
 	}
 }
-?>

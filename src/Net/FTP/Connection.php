@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			09.03.2006
- *	@version		$Id$
  */
 /**
  *	Basic FTP Connection.
@@ -35,7 +34,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			09.03.2006
- *	@version		$Id$
  *	@todo			implement SSL Support
  */
 class Net_FTP_Connection
@@ -88,7 +86,7 @@ class Net_FTP_Connection
 		if( $checkAuthentication && !$this->auth )
 			throw new RuntimeException( "Not authenticated onto FTP Server" );
 	}
-	
+
 	/**
 	 *	Closes FTP Connection.
 	 *	@access		public
@@ -104,7 +102,7 @@ class Net_FTP_Connection
 		$this->resource	= NULL;
 		return TRUE;
 	}
-	
+
 	/**
 	 *	Opens Connection to FTP Server.
 	 *	@access		public
@@ -175,7 +173,7 @@ class Net_FTP_Connection
 	{
 		return ftp_get_option( $this->resource, FTP_TIMEOUT_SEC );
 	}
-	
+
 	/**
 	 *	Authenticates FTP Connection.
 	 *	@access		public
@@ -240,4 +238,3 @@ class Net_FTP_Connection
 		return TRUE;
 	}
 }	
-?>

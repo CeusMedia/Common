@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			18.06.2008
- *	@version		$Id$
  */
 /**
  *	Builds HTML Tree with nested Lists for JQuery Plugin Treeview from a Array of Nodes.
@@ -37,7 +36,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			18.06.2008
- *	@version		$Id$
  */
 class UI_HTML_Tree_ArrayView
 {
@@ -45,7 +43,7 @@ class UI_HTML_Tree_ArrayView
 	protected $baseUrl;
 	/**	@var		string		$queryKey			Query Key for linked Items */
 	protected $queryKey;
-	
+
 	protected $target			= "";
 
 	/**
@@ -60,7 +58,7 @@ class UI_HTML_Tree_ArrayView
 		$this->baseUrl	= $baseUrl;
 		$this->queryKey	= $queryKey;
 	}
-	
+
 	/**
 	 *	Builds JavaScript to call Plugin.
 	 *	@access		public
@@ -88,7 +86,7 @@ class UI_HTML_Tree_ArrayView
 			$options['unique']		= "true";
 		if( $collapsed )
 			$options['collapsed']	= "true";
-		
+
 		return UI_HTML_JQuery::buildPluginCall( "treeview", $selector, $options );
 	}
 
@@ -111,7 +109,7 @@ class UI_HTML_Tree_ArrayView
 		{
 			if( !isset( $node['label'] ) )
 				throw new InvalidArgumentException( 'A Node must at least have a Label.' );
-	
+
 			$node['type']	= ( isset( $node['type'] ) && $node['type'] ) ? $node['type'] : isset( $node['children'] ) && $node['children'];
 			$node['class']	= ( isset( $node['class'] ) && $node['class'] ) ? $node['class'] : $node['type'];
 			$node['linked']	= ( isset( $node['linked'] ) && $node['linked'] ) ? TRUE : $node['type'] == "leaf";
@@ -145,10 +143,9 @@ class UI_HTML_Tree_ArrayView
 			return UI_HTML_Elements::unorderedList( $list, $level, $attributes );
 		return "";
 	}
-	
+
 	public function setTarget( $target )
 	{
 		$this->target	= $target;
 	}
 }
-?>

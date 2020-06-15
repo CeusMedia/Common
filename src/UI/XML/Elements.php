@@ -23,7 +23,6 @@
  *	@copyright		2007-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@version		$Id$
  */
 /**
  *	Elements for XML UI Output Generation.
@@ -33,7 +32,6 @@
  *	@copyright		2007-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@version		$Id$
  *	@todo			finish Implementation
  *	@todo			Code Documentation
  */
@@ -43,7 +41,7 @@ class UI_XML_Elements
 	{
 		$this->root	=& $root;
 	}
-	
+
 	public function addNode( $node, $debug = false )
 	{
 		if( $debug )
@@ -53,12 +51,12 @@ class UI_XML_Elements
 		}
 		$this->root->addChild( $node );
 	}
-	
+
 	public function addNodeTo( &$parent, $node )
 	{
 		$parent->addChild( $node );
 	}
-	
+
 	public function buildLink( $tag, $reference, $title, $target = false, $attributes = array() )
 	{
 		$node	= new XML_DOM_Node( $tag );
@@ -71,7 +69,7 @@ class UI_XML_Elements
 				$node->setAttribute( $key, $value );
 		return $node;
 	}
-	
+
 	public function buildList( $tag, $items, $attributes = array() )
 	{
 		$node	= new XML_DOM_Node( $tag );
@@ -85,7 +83,7 @@ class UI_XML_Elements
 				$node->setAttribute( $key, $value );
 		return $node;
 	}
-	
+
 	public function buildNode( $tag, $text = false , $attributes = array() )
 	{
 		$node	= new XML_DOM_Node( $tag );
@@ -96,7 +94,7 @@ class UI_XML_Elements
 				$node->setAttribute( $key, $value );
 		return $node;
 	}
-	
+
 	public function buildParent( $tag, $child, $attributes = array() )
 	{
 		$node	= new XML_DOM_Node( $tag );
@@ -106,7 +104,7 @@ class UI_XML_Elements
 				$node->setAttribute( $key, $value );
 		return $node;
 	}
-	
+
 	public function buildText( $tag, $text, $attributes = array() )
 	{
 		$node	= new XML_DOM_Node( $tag, $text );
@@ -115,14 +113,14 @@ class UI_XML_Elements
 				$node->setAttribute( $key, $value );
 		return $node;
 	}
-	
+
 	public function buildXML( $xslt_file )
 	{
 		$builder		= new XML_DOM_Builder();
 		$xml		= $builder->build( $this->root );
-		
+
 		$lines	= explode( "\n", $xml );
-		
+
 		$link		='<?xml-stylesheet type="text/xsl" href="'.$xslt_file.'"?>';
 		$first	= array_shift( $lines );
 		array_unshift( $lines, $link );
@@ -131,4 +129,3 @@ class UI_XML_Elements
 		return $xml;
 	}
 }
-?>

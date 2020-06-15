@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.6
- *	@version		$Id$
  */
 /**
  *	Renderer graphs in DOT language (Graphviz).
@@ -36,7 +35,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.6
- *	@version		$Id$
  *	@todo			implement support for other image formats than PNG
  *	@todo			implement support for SVG and PDF
  */
@@ -45,8 +43,8 @@ class UI_Image_Graphviz_Renderer{
 	protected $layoutEngine			= "dot";
 	protected $graph;
 	protected $gvInstalled			= NULL;
-	
-	
+
+
 	static public function checkGraphvizSupport(){
 		exec( 'dot -V', $results, $code );
 		if( $code == 127 )
@@ -59,7 +57,7 @@ class UI_Image_Graphviz_Renderer{
 		$this->setLayoutEngine( $layoutEngine );
 		$this->gvInstalled	= $this->checkGraphvizSupport();
 	}
-	
+
 	public function getGraph(){
 		return $this->graph;
 	}
@@ -67,7 +65,7 @@ class UI_Image_Graphviz_Renderer{
 	public function getLayoutEngines(){
 		return array( "circo", "dot", "fdp", "neato", "osage", "sfdp", "twopi" );	
 	}
-	
+
 	public function getMap( $type = "cmapx_np", $graphOptions = array() ){
 		if( !$this->gvInstalled )
 			throw new RuntimeException( 'Missing graphViz' );
@@ -84,7 +82,7 @@ class UI_Image_Graphviz_Renderer{
 		unlink( $mapFile );
 		return $map;
 	}
-	
+
 	public function printGraph( $type = "png", $graphOptions = array() ){
 		if( !$this->gvInstalled )
 			throw new RuntimeException( 'Missing graphViz' );
@@ -127,4 +125,3 @@ class UI_Image_Graphviz_Renderer{
 		$this->layoutEngine	= $layoutEngine;
 	}
 }
-?>

@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.0
- *	@version		$Id$
  */
 /**
  *	Builder for HTML Label Elements.
@@ -35,7 +34,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.0
- *	@version		$Id$
  */
 class UI_HTML_Label extends UI_HTML_Abstract
 {
@@ -68,4 +66,3 @@ class UI_HTML_Label extends UI_HTML_Abstract
 		return UI_HTML_Tag::create( 'label', $content, $this->getAttributes() );
 	}
 }
-?>

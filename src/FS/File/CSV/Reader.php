@@ -23,7 +23,6 @@
  *	@copyright		2007-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@version		$Id$
  */
 /**
  *	Reading comma separated values with or without column headers.
@@ -35,7 +34,6 @@
  *	@copyright		2007-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@version		$Id$
  */
 class FS_File_CSV_Reader
 {
@@ -47,7 +45,7 @@ class FS_File_CSV_Reader
 	protected $delimiter		= ";";
 	/**	@var		string		$enclosure		Enclosure Sign */
 	protected $enclosure		= '"';
-	
+
 	/**
 	 *	Constructor.
 	 *	@access		public
@@ -138,7 +136,7 @@ class FS_File_CSV_Reader
 	{
 		$this->enclosure = $enclosure;
 	}
-	
+
 	/**
 	 *	Reads data an returns an array.
 	 *	@access		public
@@ -154,7 +152,7 @@ class FS_File_CSV_Reader
 			array_shift( $data );
 		return $data;
 	}
-	
+
 	/**
 	 *	Reads data and returns an associative array if column headers are used.
 	 *	@access		public
@@ -182,4 +180,3 @@ class FS_File_CSV_Reader
 		return $data;
 	}
 }
-?>

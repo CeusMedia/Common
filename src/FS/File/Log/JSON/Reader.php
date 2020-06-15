@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			01.12.2008
- *	@version		$Id$
  */
 /**
  *	Reader for Log Files containing JSON Serials.
@@ -35,7 +34,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			01.12.2008
- *	@version		$Id$
  */
 class FS_File_Log_JSON_Reader
 {
@@ -64,7 +62,7 @@ class FS_File_Log_JSON_Reader
 	{
 		return $this->read( $this->fileName, $reverse, $limit );
 	}
-	
+
 	/**
 	 *	Reads and returns List of parsed Lines statically.
 	 *	@access		public
@@ -94,4 +92,3 @@ class FS_File_Log_JSON_Reader
 		return $data;
 	}
 }
-?>

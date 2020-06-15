@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			01.12.2005
- *	@version		$Id$
  */
 /**
  *	Pagination System for limited Tables and Lists.
@@ -37,7 +36,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			01.12.2005
- *	@version		$Id$
  */
 class UI_HTML_Pagination extends ADT_OptionObject
 {	
@@ -85,7 +83,7 @@ class UI_HTML_Pagination extends ADT_OptionObject
 		foreach( $options as $key => $value )
 			$this->setOption( $key, $value );
 	}
-	
+
 	/**
 	 *	Builds HTML for Paging of Lists.
 	 *	@access		public
@@ -143,8 +141,8 @@ class UI_HTML_Pagination extends ADT_OptionObject
 					$pages[$latest]	= $button;
 				}*/
 			}
-			
-			
+
+
 			$pages[]	= $this->buildButton( $here + 1, 'classCurrent' );											//  page here
 			$after	= ceil( ( ( $amount - $limit ) / $limit ) - $here );										//  pages after
 			if( $after )
@@ -183,7 +181,7 @@ class UI_HTML_Pagination extends ADT_OptionObject
 		}
 		return UI_HTML_Elements::unorderedList( $pages, 0, array( 'class' => $this->getOption( 'classList' ) ) );
 	}
-	
+
 	/**
 	 *	Builds Paging Button.
 	 *	@access		protected
@@ -215,7 +213,7 @@ class UI_HTML_Pagination extends ADT_OptionObject
 #			$spanClass	.= " page";
 		return $this->buildItem( $label, NULL );
 	}
-	
+
 	/**
 	 *	Builds List Item of Pagination Link.
 	 *	@access		protected
@@ -250,4 +248,3 @@ class UI_HTML_Pagination extends ADT_OptionObject
 		return $link;
 	}
 }
-?>

@@ -1,6 +1,6 @@
 <?php
 class Net_SVN{
-	
+
 	static public $nodes	= array(
 		SVN_NODE_NONE			=> array(
 			'label'	=> 'none',
@@ -97,4 +97,3 @@ class Net_SVN{
 		),
 	);
 }
-?>

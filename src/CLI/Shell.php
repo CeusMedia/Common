@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			11.08.2005
- *	@version		$Id$
  */
 /**
  *	Class for PHP Execution via Console (for Windows).
@@ -35,7 +34,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			11.08.2005
- *	@version		$Id$
  */
 class CLI_Shell
 {
@@ -180,4 +178,3 @@ class CLI_Shell
 		}
 	}
 }
-?>

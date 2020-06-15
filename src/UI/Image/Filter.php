@@ -23,7 +23,6 @@
  *	@copyright		2010-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@version		$Id$
  */
 /**
  *	Image filter.
@@ -34,7 +33,6 @@
  *	@copyright		2010-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@version		$Id$
  *	@see			http://www.php.net/manual/en/function.imagefilter.php
  *	@see			http://www.tuxradar.com/practicalphp/11/2/15
  */
@@ -183,4 +181,3 @@ class UI_Image_Filter
 		return imagefilter( $this->image->getResource(), IMG_FILTER_SMOOTH, $weight );
 	}
 }
-?>

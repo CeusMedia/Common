@@ -23,7 +23,6 @@
  *	@copyright		2007-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@version		$Id$
  */
 /**
  *	Base gzip File implementation.
@@ -34,7 +33,6 @@
  *	@copyright		2007-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@version		$Id$
  */
 class FS_File_Arc_Gzip extends FS_File_Editor
 {	
@@ -74,4 +72,3 @@ class FS_File_Arc_Gzip extends FS_File_Editor
 		return parent::writeString( $content );
 	}
 }
-?>

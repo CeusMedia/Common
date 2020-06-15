@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			25.04.2008
- *	@version		$Id$
  */
 /**
  *	Editor for List Files.
@@ -37,7 +36,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			25.04.2008
- *	@version		$Id$
  */
 class FS_File_List_Editor extends FS_File_List_Reader
 {
@@ -54,7 +52,7 @@ class FS_File_List_Editor extends FS_File_List_Reader
 		parent::__construct( $fileName );
 		$this->fileName	= $fileName;
 	}
-	
+
 	/**
 	 *	Adds an Item to the current List.
 	 *	@access		public
@@ -96,7 +94,7 @@ class FS_File_List_Editor extends FS_File_List_Reader
 		unset( $this->list[$index] );
 		return $this->write();
 	}
-	
+
 	/**
 	 *	Removes an Item from current List by its Index.
 	 *	@access		public
@@ -110,7 +108,7 @@ class FS_File_List_Editor extends FS_File_List_Reader
 		unset( $this->list[$index] );
 		return $this->write();
 	}
-	
+
 	/**
 	 *	Saves current List to File.
 	 *	@access		protected
@@ -124,4 +122,3 @@ class FS_File_List_Editor extends FS_File_List_Reader
 		return FS_File_List_Writer::save( $this->fileName, $this->list, $mode, $user, $group );
 	}
 }
-?>

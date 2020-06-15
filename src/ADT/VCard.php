@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.6.8
- *	@version		$Id$
  *	@link			http://www.ietf.org/rfc/rfc2426.txt
  */
 /**
@@ -38,7 +37,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.6.8
- *	@version		$Id$
  *	@link			http://www.ietf.org/rfc/rfc2426.txt
  *	@todo			PHOTO,BDAY,NOTE,LABEL,KEY,PRODID,MAILER,TZ
  */
@@ -150,7 +148,7 @@ class ADT_VCard implements Serializable
 	{
 		$this->types['nickname'][]	= $name;
 	}
-	
+
 	/**
 	 *	Adds a Phone Number.
 	 *	@access		public
@@ -396,7 +394,7 @@ class ADT_VCard implements Serializable
 			'honorificSuffixes'	=> $honorificSuffixes,
 		);
 	}
-	
+
 	/**
 	 *	Sets Organisation Name and Unit.
 	 *	@access		public
@@ -490,4 +488,3 @@ class ADT_VCard implements Serializable
 		$this->fromString( $string );
 	}
 }
-?>

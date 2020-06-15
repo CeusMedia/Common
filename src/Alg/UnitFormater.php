@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			22.04.2008
- *	@version		$Id$
  */
 namespace CeusMedia\Common\Alg;
 
@@ -41,7 +40,6 @@ define( 'SIZE_GIGABYTE', pow( 1024, 3 ) );
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			18.10.2007
- *	@version		$Id$
  */
 class UnitFormater
 {
@@ -300,4 +298,3 @@ class UnitFormater
 		return self::formatMicroSeconds( $float * 1000000, $precision, $indent, $edge );
 	}
 }
-?>

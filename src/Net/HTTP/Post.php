@@ -23,7 +23,6 @@
  *	@copyright		2015-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@version		$Id$
  */
 /**
  *	Sender for HTTP POST requests.
@@ -34,7 +33,6 @@
  *	@copyright		2015-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@version		$Id$
  */
 class Net_HTTP_Post {
 
@@ -105,4 +103,3 @@ class Net_HTTP_Post {
 			$this->dataMaxLength	= (int) $integer;
 	}
 }
-?>

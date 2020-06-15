@@ -200,4 +200,3 @@ class Alg_Turing_Machine
 			$tape = $tape.$this->blank;
 	}
 }
-?>

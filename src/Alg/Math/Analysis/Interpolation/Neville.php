@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			03.02.2006
- *	@version		$Id$
  */
 /**
  *	Neville Interpolation.
@@ -35,7 +34,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			03.02.2006
- *	@version		$Id$
  */
 class Alg_Math_Analysis_Interpolation_Neville
 {
@@ -84,4 +82,3 @@ class Alg_Math_Analysis_Interpolation_Neville
 		$this->data	= $data;
 	}
 }
-?>

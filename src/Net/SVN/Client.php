@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.5
- *	@version		$Id$
  */
 /**
  *	Simple Subversion client.
@@ -36,14 +35,13 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.5
- *	@version		$Id$
  */
 class Net_SVN_Client{
 
 	protected $user;
 	protected $group;
 	protected $mode;
-	
+
 	public function __construct( $path ){
 		if( !file_exists( $path ) )
 			throw new Exception_IO( 'Invalid path', 0, $path );
@@ -60,7 +58,7 @@ class Net_SVN_Client{
 			svn_revert( $url );
 		return $status;
 	}
-	
+
 	public function authenticate( $username, $password ){
 		svn_auth_set_parameter( SVN_AUTH_PARAM_NON_INTERACTIVE, true); 
 		svn_auth_set_parameter( SVN_AUTH_PARAM_DEFAULT_USERNAME, $username );
@@ -81,7 +79,7 @@ class Net_SVN_Client{
 			$path	= substr( $path, strlen( $this->path ) );
 		return $path;
 	}
-	
+
 	public function info( $path = '' ){
 		$path	= $this->path.$path;
 		if( !strlen( `svn info $path` ) )
@@ -111,4 +109,3 @@ class Net_SVN_Client{
 		return svn_status( $url,  $flags );
 	}
 }
-?>

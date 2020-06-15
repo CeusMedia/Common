@@ -34,7 +34,6 @@
  *	@author			Stephan Wentz <JID: stephan@jabber.wentz.it>
  *	@author			Michael Garvin <JID: gar@netflint.net>
  *	@copyright		2008 Nathanael C. Fritz
- *	@version		$Id$
  */
 class Net_XMPP_XMPPHP_XMLObj {
 	/**
@@ -43,28 +42,28 @@ class Net_XMPP_XMPPHP_XMLObj {
 	 * @var string
 	 */
 	public $name;
-	
+
 	/**
 	 * Namespace
 	 *
 	 * @var string
 	 */
 	public $ns;
-	
+
 	/**
 	 * Attributes
 	 *
 	 * @var array
 	 */
 	public $attrs = array();
-	
+
 	/**
 	 * Subs?
 	 *
 	 * @var array
 	 */
 	public $subs = array();
-	
+
 	/**
 	 * Node data
 	 * 

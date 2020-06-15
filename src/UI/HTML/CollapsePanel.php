@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.6
- *	@version		$Id$
  */
 /**
  *	User Interface Component to build a Panel which can be expanded and collapsed.
@@ -37,7 +36,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.6
- *	@version		$Id$
  */
 class UI_HTML_CollapsePanel extends UI_HTML_Panel
 {
@@ -76,4 +74,3 @@ class UI_HTML_CollapsePanel extends UI_HTML_Panel
 		return UI_HTML_JQuery::buildPluginCall( "cmCollapsePanel", $selector, $options );	
 	}
 }
-?>

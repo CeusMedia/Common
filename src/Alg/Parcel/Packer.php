@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			08.05.2008
- *	@version		$Id$
  */
 /**
  *
@@ -36,7 +35,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			08.05.2008
- *	@version		$Id$
  */
 class Alg_Parcel_Packer
 {
@@ -131,7 +129,7 @@ class Alg_Parcel_Packer
 			}
 			if( $found )																				//  Article has been put into a Packet
 				continue;																				//  step to next Article
-	
+
 			//  --  ADD NEW PACKET  --  //
 			$packetName	= $this->getNameOfSmallestPacketForArticle( $largestArticle );					//  get smallest Packet Type for Article
 			$packet		= $this->factory->produce( $packetName, array( $largestArticle => 1 ) );		//  produce new Packet and put Article in
@@ -282,4 +280,3 @@ class Alg_Parcel_Packer
 		$this->packetList[$index]	= $packet;
 	}
 }
-?>

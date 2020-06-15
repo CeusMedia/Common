@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			13.07.2005
- *	@version		$Id$
  */
 /**
  *	Message Implementation for Accessing a IMAP eMail Server.
@@ -35,7 +34,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			13.07.2005
- *	@version		$Id$
  *	@todo			Code Documentation
  */
 class Net_IMAP_Message
@@ -45,7 +43,7 @@ class Net_IMAP_Message
 	protected $structure;
 	protected $info;
 	protected $body;
-	
+
 	const TYPE_PLAIN	= 'PLAIN';
 	const TYPE_HTML		= 'HTML';
 
@@ -95,7 +93,7 @@ class Net_IMAP_Message
 	{
 		return $this->getBody( self::TYPE_PLAIN );
 	}
-	
+
 	/**
 	 *	Returns Body.
 	 *	@access		public
@@ -176,4 +174,3 @@ class Net_IMAP_Message
 		return $this->info->subject;
 	}
 }
-?>

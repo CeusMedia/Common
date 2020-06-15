@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@see			http://www.w3.org/Addressing/URL/url-spec.html
- *	@version		$Id$
  */
 /**
  *	...
@@ -35,7 +34,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@see			http://www.w3.org/Addressing/URL/url-spec.html
- *	@version		$Id$
  */
 class ADT_URL_Inference extends ADT_URL
 {
@@ -43,7 +41,7 @@ class ADT_URL_Inference extends ADT_URL
 	public static $staticAddress	= "./";
 	public static $staticScheme		= "";
 	public static $staticSeparator	= "&";
-	
+
 	/**
 	 *	Builds URL Query String based on current URL Parameters extended by a Map of new Parameters ($mapSet) and reduced by a List of Parameters ($listRemove).
 	 *	Note: You can also remove a Parameter by setting a new Parameter with value NULL.
@@ -61,7 +59,7 @@ class ADT_URL_Inference extends ADT_URL
 		$parameters	.= $fragment ? "#".$fragment : "";
 		return $this->getUrl().$parameters;
 	}
-		
+
 	/**
 	 *	Builds URL based on current URL extended by a Map of new Parameters ($mapSet) and reduced by a List of Parameters ($listRemove).
 	 *	Note: You can also remove a Parameter by setting a new Parameter with value NULL.
@@ -83,7 +81,7 @@ class ADT_URL_Inference extends ADT_URL
 
 		return http_build_query( $mapRequest, "test_", $this->separator );				// making link parameter string
 	}
-		
+
 	/**
 	 *	Builds URL based on current URL extended by a Map of new Parameters ($mapSet) and reduced by a List of Parameters ($listRemove).
 	 *	Note: You can also remove a Parameter by setting a new Parameter with value NULL.
@@ -105,7 +103,7 @@ class ADT_URL_Inference extends ADT_URL
 
 		return http_build_query( $mapRequest, "", self::$staticSeparator );		// making link parameter string
 	}
-	
+
 	/**
 	 *	Builds URL Query String based on current URL Parameters extended by a Map of new Parameters ($mapSet) and reduced by a List of Parameters ($listRemove).
 	 *	Note: You can also remove a Parameter by setting a new Parameter with value NULL.
@@ -125,4 +123,3 @@ class ADT_URL_Inference extends ADT_URL
 		return $url->getUrl().$parameters;
 	}
 }
-?>

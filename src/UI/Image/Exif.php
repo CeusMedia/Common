@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.6.8
- *	@version		$Id$
  */
 /**
  *	...
@@ -36,7 +35,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.6.8
- *	@version		$Id$
  */
 class UI_Image_Exif extends ADT_List_Dictionary
 {
@@ -64,7 +62,7 @@ class UI_Image_Exif extends ADT_List_Dictionary
 				$this->set( $key, $value );
 		}
 	}
-	
+
 	public function getRawData()
 	{
 		return $this->raw;
@@ -94,4 +92,3 @@ class UI_Image_Exif extends ADT_List_Dictionary
 		return UI_HTML_Tag::create( 'img', NULL, $attributes );
 	}
 }
-?>

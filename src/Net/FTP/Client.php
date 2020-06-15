@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			01.07.2008
- *	@version		$Id$
  */
 /**
  *	Client for FTP Connections.
@@ -38,7 +37,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			01.07.2008
- *	@version		$Id$
  */
 class Net_FTP_Client
 {
@@ -103,7 +101,7 @@ class Net_FTP_Client
 	{
 		return $this->writer->changeRights( $fileName, $mode );
 	}
-	
+
 	/**
 	 *	Copies a File on FTP Server.
 	 *	@access		public
@@ -115,7 +113,7 @@ class Net_FTP_Client
 	{
 		return $this->writer->copyFile( $from, $to );
 	}
-	
+
 	/**
 	 *	Copies a Folder on FTP Server [recursive].
 	 *	@access		public
@@ -127,7 +125,7 @@ class Net_FTP_Client
 	{
 		return $this->writer->copyFolder( $from, $to );
 	}
-	
+
 	/**
 	 *	Creates a Folder on FTP Server.
 	 *	@access		public
@@ -162,7 +160,7 @@ class Net_FTP_Client
 	{
 		return $this->reader->getFileList( $path, $recursive );
 	}
-	
+
 	/**
 	 *	Returns Array of Folders in Path [and nested Folders].
 	 *	@access		public
@@ -174,7 +172,7 @@ class Net_FTP_Client
 	{
 		return $this->reader->getFolderList( $path, $recursive );
 	}
-	
+
 	/**
 	 *	Returns a List of all Folders an Files of a Path on FTP Server.
 	 *	@access		public
@@ -186,7 +184,7 @@ class Net_FTP_Client
 	{
 		return $this->reader->getList( $path, $recursive );
 	}
-	
+
 	/**
 	 *	Returns current Path on Server.
 	 *	@access		public
@@ -220,7 +218,7 @@ class Net_FTP_Client
 	{
 		return $this->writer->moveFile( $from, $to );
 	}
-	
+
 	/**
 	 *	Copies a Folder on FTP Server [recursive].
 	 *	@access		public
@@ -232,7 +230,7 @@ class Net_FTP_Client
 	{
 		return $this->writer->moveFolder( $from, $to );
 	}
-	
+
 	/**
 	 *	Transferes a File onto FTP Server.
 	 *	@access		public
@@ -244,7 +242,7 @@ class Net_FTP_Client
 	{
 		return $this->writer->putFile( $localFile, $globalFile );
 	}
-	
+
 	/**
 	 *	Removes a File.
 	 *	@access		public
@@ -255,7 +253,7 @@ class Net_FTP_Client
 	{
 		return $this->writer->removeFile( $fileName );
 	}
-	
+
 	/**
 	 *	Removes a Folder.
 	 *	@access		public
@@ -316,4 +314,3 @@ class Net_FTP_Client
 		return $this->connection->setPath( $path );
 	}
 }
-?>

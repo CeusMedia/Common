@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			22.06.2005
- *	@version		$Id$
  */
 /**
  *	Parses Class and creates UML Diagram.
@@ -37,7 +36,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			22.06.2005
- *	@version		$Id$
  */
 class ClassParser
 {
@@ -69,7 +67,7 @@ class ClassParser
 		);
 	/**	@var		array		$patterns		Patterns for regular expression */
 	protected $patterns	= array();
-	
+
 	/**
 	 *	Constructor.
 	 *	@access		public
@@ -121,7 +119,7 @@ class ClassParser
 			"since"			=> "d_since",
 			"see"			=> "d_see",
 			);
-			
+
 		$this->methodProperties = array(
 			"access"		=> "d_access",
 			"author"		=> "d_author",
@@ -150,7 +148,7 @@ class ClassParser
 			);
 		return $data;
 	}
-	
+
 	/**
 	 *	Returns an Array of all imported Classes.
 	 *	@access		public
@@ -160,7 +158,7 @@ class ClassParser
 	{
 		return $this->imports;
 	}
-	
+
 	/**
 	 *	Returns an Array of all Properties of a Method.
 	 *	@access		public
@@ -171,7 +169,7 @@ class ClassParser
 	{
 		return $this->methods[$method];
 	}
-	
+
 	/**
 	 *	Returns an Array of all Methods.
 	 *	@access		public
@@ -181,7 +179,7 @@ class ClassParser
 	{
 		return array_keys( $this->methods );
 	}
-	
+
 	/**
 	 *	Returns the Value of a Documentation Line determined by a pattern.
 	 *	@access		protected
@@ -195,7 +193,7 @@ class ClassParser
 		$value	= trim( $parts[1] );
 		return $value;
 	}
-	
+
 	/**
 	 *	Returns an Array of all Properties of a Variable.
 	 *	@access		public
@@ -206,7 +204,7 @@ class ClassParser
 	{
 		return $this->vars[$var];
 	}
-	
+
 	/**
 	 *	Returns an Array of all Variables.
 	 *	@access		public
@@ -216,7 +214,7 @@ class ClassParser
 	{
 		return array_keys( $this->vars );
 	}
-	
+
 	/**
 	 *	Parses Class and stores Class data.
 	 *	@access		protected
@@ -308,7 +306,7 @@ class ClassParser
 					$parts = explode( " extends ", $line );
 					$class = explode( " implements ", $parts[0] );
 					$class = $class[0];
-					
+
 //					$class = str_replace( array( "class", " " ), "", $class );
 					$this->classData["class"] = $class;
 					if( isset( $parts[1] ) )
@@ -370,7 +368,7 @@ class ClassParser
 			if( isset( $this->classData[$prop] ) && is_array( $this->classData[$prop] ) )
 				$this->classData[$prop]	= array_unique( $this->classData[$prop] );
 	}
-	
+
 	/**
 	 *	Returns a UML Diagramm of the Class as HTML Code.
 	 *	@access		public
@@ -384,7 +382,7 @@ class ClassParser
 			$template = dirname( __FILE__ )."/ClassParserUML.tpl";
 		$data = $this->getClassData();
 		$vars = $methods = $props = array();
-		
+
 		if( count( $data['class']['desc']))
 			$props['class']['desc']		= implode( "<br/>", $data['class']['desc'] );
 		if( $data['class']['package'])
@@ -423,7 +421,7 @@ class ClassParser
 		}
 		$methods = implode( "\n\t  ", $methods );
 
-		
+
 		foreach( $data['vars'] as $varName => $varData )
 		{
 			if( count( $varData['desc'] ) )
@@ -436,4 +434,3 @@ class ClassParser
 		return $code;	
 	}
 }
-?>

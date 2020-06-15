@@ -25,7 +25,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			20.02.2008
- *	@version		$Id$
  */
 /**
  *	Reader for Contents from the Net.
@@ -38,7 +37,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			20.02.2008
- *	@version		$Id$
  */
 class Net_Reader
 {
@@ -287,4 +285,3 @@ class Net_Reader
 		$this->verifyPeer	= (bool) $verify;
 	}
 }
-?>

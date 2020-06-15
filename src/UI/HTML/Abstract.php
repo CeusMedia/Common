@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.0
- *	@version		$Id$
  */
 /**
  *	Abstract Builder for HTML Elements.
@@ -35,7 +34,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.0
- *	@version		$Id$
  */
 abstract class UI_HTML_Abstract implements Renderable
 {
@@ -43,7 +41,7 @@ abstract class UI_HTML_Abstract implements Renderable
 		'class'	=> array()
 	);
 	protected $content		= NULL;
-	
+
 	/**
 	 *	Adds Attributes of Element.
 	 *	@access		public
@@ -105,7 +103,7 @@ abstract class UI_HTML_Abstract implements Renderable
 			$content	= $this->content->render();
 		return $content;
 	}
-	
+
 	/**
 	 *	Sets Attributes of Element.
 	 *	@access		public
@@ -147,4 +145,3 @@ abstract class UI_HTML_Abstract implements Renderable
 		$this->content	= $content;
 	}
 }
-?>

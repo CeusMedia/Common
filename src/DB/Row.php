@@ -235,4 +235,3 @@ class DB_Row implements Countable, Iterator, ArrayAccess
 	}
 
 }
-?>

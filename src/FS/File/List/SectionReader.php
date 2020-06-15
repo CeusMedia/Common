@@ -24,7 +24,6 @@
  *	@copyright		2007-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@version		$Id$
  */
 /**
  *	A Class for reading Section List Files.
@@ -35,7 +34,6 @@
  *	@copyright		2007-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@version		$Id$
  */
 class FS_File_List_SectionReader
 {
@@ -53,7 +51,7 @@ class FS_File_List_SectionReader
 	{
 		$this->list	= self::load( $fileName );
 	}
-	
+
 	/**
 	 *	Reads the List.
 	 *	@access		public
@@ -68,7 +66,7 @@ class FS_File_List_SectionReader
 
 		$reader	= new FS_File_Reader( $fileName );
 		$lines	= $reader->readArray();
-		
+
 		$list	= array();
 		foreach( $lines as $line )
 		{
@@ -77,7 +75,7 @@ class FS_File_List_SectionReader
 				continue;
 			if( preg_match( self::$commentPattern, $line ) )
 				continue;
-					
+
 			if( preg_match( self::$sectionPattern, $line ) )
 			{
 				$section = substr( $line, 1, -1 );
@@ -95,4 +93,3 @@ class FS_File_List_SectionReader
 		return $this->list;
 	}
 }
-?>

@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.0
- *	@version		$Id$
  */
 /**
  *	Builds HTML Cancel Link Button.
@@ -36,7 +35,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.0
- *	@version		$Id$
  */
 class UI_HTML_Button_Cancel extends UI_HTML_Button_Link
 {
@@ -55,4 +53,3 @@ class UI_HTML_Button_Cancel extends UI_HTML_Button_Link
 		$this->addClass( self::$defaultClass );
 	}
 }
-?>

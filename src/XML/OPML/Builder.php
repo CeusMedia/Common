@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			01.02.2006
- *	@version		$Id$
  */
 /**
  *	Builder for OPML Files.
@@ -37,7 +36,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			01.02.2006
- *	@version		$Id$
  */
 class XML_OPML_Builder extends XML_DOM_Node
 {
@@ -57,7 +55,7 @@ class XML_OPML_Builder extends XML_DOM_Node
 		"windowBottom",
 		"windowRight",
 		);
-	
+
 	/**
 	 *	Constructor.
 	 *	@access		public
@@ -71,7 +69,7 @@ class XML_OPML_Builder extends XML_DOM_Node
 		$this->tree->addChild( new XML_DOM_Node( "head" ) );
 		$this->tree->addChild( new XML_DOM_Node( "body" ) );
 	}
-	
+
 	/**
 	 *	Adds Outline to OPML Document.
 	 *	@access		public
@@ -101,7 +99,7 @@ class XML_OPML_Builder extends XML_DOM_Node
 		$node		= new XML_DOM_Node( $key, $value );
 		$head->addChild( $node );
 	}
-	
+
 	/**
 	 *	Sets Header of OPML Document.
 	 *	@access		public
@@ -115,4 +113,3 @@ class XML_OPML_Builder extends XML_DOM_Node
 		return $xml;
 	}
 }
-?>

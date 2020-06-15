@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			01.09.2006
- *	@version		$Id$
  */
 /**
  *	Reader and Parser for Tracker Log File.
@@ -36,7 +35,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			01.09.2006
- *	@version		$Id$
  */
 class FS_File_Log_Tracker_Reader extends FS_File_Log_Reader
 {
@@ -301,4 +299,3 @@ class FS_File_Log_Tracker_Reader extends FS_File_Log_Reader
 		$this->data	= $data;
 	}
 }
-?>

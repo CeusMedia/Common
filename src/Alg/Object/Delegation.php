@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.6.8
- *	@version		$Id$
  */
 /**
  *	Container to compose Objects and delegate Calls to their Methods.
@@ -37,7 +36,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.6.8
- *	@version		$Id$
  */
 class Alg_Object_Delegation
 {
@@ -103,4 +101,3 @@ class Alg_Object_Delegation
 		throw new BadMethodCallException( 'Method "'.$methodName.'" is not existing in added objects' );
 	}
 }
-?>

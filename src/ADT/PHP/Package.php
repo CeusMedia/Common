@@ -22,7 +22,6 @@
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2015-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id$
  *	@since			0.3
  */
 /**
@@ -33,7 +32,6 @@
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2015-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id$
  *	@since			0.3
  */
 class ADT_PHP_Package extends ADT_PHP_Category
@@ -49,20 +47,19 @@ class ADT_PHP_Package extends ADT_PHP_Category
 			return $this->files[$name];
 		throw new RuntimeException( "File '$name' is unknown" );
 	}
-	
+
 	public function getFiles()
 	{
 		return $this->files;
 	}
-	
+
 	public function hasFiles()
 	{
 		return count( $this->files ) > 1;
 	}
-	
+
 	public function setFile( $name, $file )
 	{
 		$this->files[$name]	= $file;
 	}
 }
-?>

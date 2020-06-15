@@ -24,7 +24,6 @@
  *	@copyright		2007-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@version		$Id$
  */
 /**
  *	Combines Stylesheet Files of a cmFramework Theme to one single File.
@@ -35,7 +34,6 @@
  *	@copyright		2007-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@version		$Id$
  */
 class FS_File_CSS_Theme_Combiner extends FS_File_CSS_Combiner
 {
@@ -69,4 +67,3 @@ class FS_File_CSS_Theme_Combiner extends FS_File_CSS_Combiner
 		$this->protocol	= $integer;
 	}
 }
-?>

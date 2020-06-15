@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			12.08.2005
- *	@version		$Id$
  */
 /**
  *	Combination of different Sniffers for HTTP Request to determine all information about the Client.
@@ -41,7 +40,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			12.08.2005
- *	@version		$Id$
  */
 class Net_HTTP_Sniffer_Client
 {
@@ -72,7 +70,7 @@ class Net_HTTP_Sniffer_Client
 		$this->mimeType	= new Net_HTTP_Sniffer_MimeType();
 		$this->system	= new Net_HTTP_Sniffer_OS();
 	}
-	
+
 	/**
 	 *	Returns IP addresse of Request.
 	 *	@access		public
@@ -82,7 +80,7 @@ class Net_HTTP_Sniffer_Client
 	{
 		return getEnv( 'REMOTE_ADDR' );
 	}
-	
+
 	/**
 	 *	Returns prefered allowed and accepted Language of a HTTP Request.
 	 *	@access		public
@@ -146,7 +144,7 @@ class Net_HTTP_Sniffer_Client
 	{
 		return $this->browser->getBrowser();
 	}
-	
+
 	/**
 	 *	Indicates whether a HTTP Request is sent by a Search Engine Robot.
 	 *	@access		public
@@ -167,4 +165,3 @@ class Net_HTTP_Sniffer_Client
 		return $this->browser->isBrowser();
 	}
 }
-?>

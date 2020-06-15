@@ -170,4 +170,3 @@ abstract class Store implements \ArrayAccess
 	 */
 	abstract public function set( $key, $value );
 }
-?>

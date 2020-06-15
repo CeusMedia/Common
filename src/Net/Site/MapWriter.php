@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			10.12.2006
- *	@version		$Id$
  */
 /**
  *	Google Sitemap XML Writer.
@@ -37,7 +36,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			10.12.2006
- *	@version		$Id$
  */
 class Net_Site_MapWriter
 {
@@ -54,7 +52,7 @@ class Net_Site_MapWriter
 	{
 		$this->fileName	= $fileName;
 	}
-	
+
 	/**
 	 *	Writes Sitemap for List of URLs.
 	 *	@access		public
@@ -66,7 +64,7 @@ class Net_Site_MapWriter
 	{
 		return $this->save( $this->fileName, $urls, $mode );
 	}
-	
+
 	/**
 	 *	Saves Sitemap for List of URLs statically.
 	 *	@access		public
@@ -84,4 +82,3 @@ class Net_Site_MapWriter
 		return $file->writeString( $xml );
 	}
 }
-?>

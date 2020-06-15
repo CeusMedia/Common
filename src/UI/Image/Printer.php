@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			16.06.2008
- *	@version		$Id$
  */
 /**
  *	Prints an Image Resource into a File or on Screen.
@@ -35,7 +34,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			16.06.2008
- *	@version		$Id$
  */
 class UI_Image_Printer
 {
@@ -54,7 +52,7 @@ class UI_Image_Printer
 			throw new InvalidArgumentException( 'Given Image Resource is not a valid Resource.' );
 		$this->resource	= $resource;
 	}
-	
+
 	/**
 	 *	Writes Image to File.
 	 *	@access		public
@@ -67,7 +65,7 @@ class UI_Image_Printer
 	{
 		$this->saveImage( $fileName, $this->resource, $type, $quality );
 	}
-	
+
 	/**
 	 *	Saves an Image to File statically.
 	 *	@access		public
@@ -95,7 +93,7 @@ class UI_Image_Printer
 				throw new InvalidArgumentException( 'Invalid Image Type' );
 		}
 	}
-	
+
 	/**
 	 *	Print Image on Screen.
 	 *	@access		public
@@ -108,7 +106,7 @@ class UI_Image_Printer
 	{
 		$this->showImage( $this->resource, $type, $quality, $sendHeader );
 	}
-	
+
 	/**
 	 *	Prints an Image to Screen statically.
 	 *	@access		public
@@ -143,4 +141,3 @@ class UI_Image_Printer
 		}
 	}
 }
-?>

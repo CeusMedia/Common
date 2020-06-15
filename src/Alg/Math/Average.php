@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			15.09.2006
- *	@version		$Id$
  */
 /**
  *	Calculates artithmetic and geometric Average.
@@ -35,7 +34,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			15.09.2006
- *	@version		$Id$
  *	@todo			finish Implementation
  */
 class Alg_Math_Average
@@ -94,4 +92,3 @@ class Alg_Math_Average
 		return $result;
 	}
 }
-?>

@@ -28,7 +28,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			15.04.2008
- *	@version		$Id$
  */
 /**
  *	Lists Folders and Files within a Folder.
@@ -45,7 +44,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			15.04.2008
- *	@version		$Id$
  */
 class FS_Folder_Lister
 {
@@ -216,4 +214,3 @@ class FS_Folder_Lister
 		$this->stripDotEntries	= (bool) $flag;
 	}
 }
-?>

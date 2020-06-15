@@ -22,7 +22,6 @@
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2015-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id$
  *	@since			0.3
  */
 /**
@@ -33,7 +32,6 @@
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2015-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id$
  *	@since			0.3
  */
 class ADT_PHP_Method extends ADT_PHP_Function
@@ -52,14 +50,14 @@ class ADT_PHP_Method extends ADT_PHP_Function
 	{
 		return $this->access;
 	}
-	
+
 	public function getParent()
 	{
 		if( !is_object( $this->parent ) )
 			throw new RuntimeException( 'Method has no related class. Parser Error' );
 		return parent::getParent();
 	}
-	
+
 	/**
 	 *	Indicates whether method is abstract.
 	 *	@access		public
@@ -69,7 +67,7 @@ class ADT_PHP_Method extends ADT_PHP_Function
 	{
 		return (bool) $this->abstract;
 	}
-	
+
 	/**
 	 *	Indicates whether method is final.
 	 *	@access		public
@@ -79,7 +77,7 @@ class ADT_PHP_Method extends ADT_PHP_Function
 	{
 		return (bool) $this->final;
 	}
-	
+
 	/**
 	 *	Indicates whether method is static.
 	 *	@access		public
@@ -89,7 +87,7 @@ class ADT_PHP_Method extends ADT_PHP_Function
 	{
 		return (bool) $this->static;
 	}
-	
+
 	public function merge( ADT_PHP_Function $method )
 	{
 		if( $this->name != $method->getName() )
@@ -116,7 +114,7 @@ class ADT_PHP_Method extends ADT_PHP_Function
 	{
 		$this->abstract	= (bool) $isAbstract;
 	}
-	
+
 	/**
 	 *	Sets method access.
 	 *	@access		public
@@ -127,7 +125,7 @@ class ADT_PHP_Method extends ADT_PHP_Function
 	{
 		$this->access	= $string;
 	}
-	
+
 	/**
 	 *	Sets if method is final.
 	 *	@access		public
@@ -138,14 +136,14 @@ class ADT_PHP_Method extends ADT_PHP_Function
 	{
 		$this->final	= (bool) $isFinal;
 	}
-	
+
 	public function setParent( $classOrInterface )
 	{
 		if( !( $classOrInterface instanceof ADT_PHP_Interface ) )
 			throw new InvalidArgumentException( 'Parent must be of ADT_PHP_Class' );
 		$this->parent	= $classOrInterface;
 	}
-	
+
 	/**
 	 *	Sets if method is static.
 	 *	@access		public
@@ -157,4 +155,3 @@ class ADT_PHP_Method extends ADT_PHP_Function
 		$this->static	= (bool) $isStatic;
 	}
 }
-?>

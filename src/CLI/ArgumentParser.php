@@ -102,4 +102,3 @@ class CLI_ArgumentParser extends ADT_List_Dictionary
 			unset( $this->shortcuts[$key] );
 	}
 }
-?>

@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			03.02.2006
- *	@version		$Id$
  */
 /**
  *	RegulaFalsi Interpolation within a compact Interval.
@@ -37,7 +36,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			03.02.2006
- *	@version		$Id$
  */
 class Alg_Math_Analysis_Interpolation_RegulaFalsi
 {
@@ -116,4 +114,3 @@ class Alg_Math_Analysis_Interpolation_RegulaFalsi
 		$this->interval	= new Alg_Math_CompactInterval( $start, $end );
 	}
 }
-?>

@@ -23,7 +23,6 @@
  *	@copyright		2007-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@version		$Id$
  */
 /**
  *	Combines and compresses Stylesheet Files of cmFramework Themes.
@@ -35,7 +34,6 @@
  *	@copyright		2007-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@version		$Id$
  */
 class FS_File_CSS_Theme_Minimizer
 {
@@ -70,7 +68,7 @@ class FS_File_CSS_Theme_Minimizer
 		$this->combiner		= new FS_File_CSS_Combiner;
 		$this->compressor	= new FS_File_CSS_Compressor;								//  get CSS Compressor Instance
 	}
-	
+
 	/**
 	 *	Returns full Path of Style File (with CSS Folder and Medium).
 	 *	@access		public
@@ -132,7 +130,7 @@ class FS_File_CSS_Theme_Minimizer
 		$this->statistics['fileCombined']	= realpath( $fileUri );					//  note combined Target File Path
 		return TRUE;
 	}
-	
+
 	/**
 	 *	Sets a combiner Object to use.
 	 *	@access		public
@@ -154,7 +152,7 @@ class FS_File_CSS_Theme_Minimizer
 	{
 		$this->combinerPrefix	= $prefix;
 	}	
-	
+
 	/**
 	 *	Sets Suffix of combined File Name.
 	 *	@access		public
@@ -187,7 +185,7 @@ class FS_File_CSS_Theme_Minimizer
 	{
 		$this->compressorPrefix	= $prefix;
 	}	
-	
+
 	/**
 	 *	Sets Suffix of compressed File Name.
 	 *	@access		public
@@ -232,7 +230,7 @@ class FS_File_CSS_Theme_Minimizer
 	{
 		$this->themeName	= preg_replace( "@(.+)/$@", "\\1", $themeName )."/";
 	}
-		
+
 	/**
 	 *	Sets Path to Themes.
 	 *	@access		public
@@ -244,4 +242,3 @@ class FS_File_CSS_Theme_Minimizer
 		$this->themesPath	= preg_replace( "@(.+)/$@", "\\1", $themesPath )."/";
 	}
 }
-?>

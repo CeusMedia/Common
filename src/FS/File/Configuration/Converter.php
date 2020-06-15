@@ -25,7 +25,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			06.05.2008
- *	@version		$Id$
  */
 /**
  *	Converter for Configuration to translate between INI, JSON and XML.
@@ -45,7 +44,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			06.05.2008
- *	@version		$Id$
  */
 class FS_File_Configuration_Converter
 {
@@ -79,7 +77,7 @@ class FS_File_Configuration_Converter
 		$data	= self::loadIni( $sourceFile );
 		return self::saveXml( $targetFile, $data );
 	}
-	
+
 	/**
 	 *	Converts Configuration File from JSON to INI and returns Length of Target File.
 	 *	@access		public
@@ -121,7 +119,7 @@ class FS_File_Configuration_Converter
 		$data		= self::loadXml( $sourceFile );
 		return self::saveIni( $targetFile, $data );
 	}
-	
+
 	/**
 	 *	Converts Configuration File from XML to JSON and returns Length of Target File.
 	 *	@access		public
@@ -217,7 +215,7 @@ class FS_File_Configuration_Converter
 					'value'		=> (string) $valueNode,
 					'type'		=> $valueNode->getAttribute( 'type' ),
 				);
-	
+
 				if( $valueNode->hasAttribute( 'comment' ) )
 					$item['comment']	= $valueNode->getAttribute( 'comment' );
 				settype( $item['value'], $item['type'] );
@@ -226,7 +224,7 @@ class FS_File_Configuration_Converter
 		}
 		return $data;
 	}
-	
+
 	/**
 	 *	Saves Configuration Data as INI File and returns Number of written Bytes.
 	 *	@access		protected
@@ -314,4 +312,3 @@ class FS_File_Configuration_Converter
 		return XML_DOM_FileWriter::save( $fileName, $root );
 	}
 }
-?>

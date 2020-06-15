@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			14.06.2008
- *	@version		$Id$
  */
 /**
  *	Proxy for Cross Domain Requests to bypass JavaScript's same origin policy.
@@ -35,7 +34,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			14.06.2008
- *	@version		$Id$
  *	@todo			use Net_Reader or Net_CURL
  *	@todo			implement time out and http status code check
  *	@todo			think about forwarding header "X-Requested-With"
@@ -110,4 +108,3 @@ class Net_HTTP_CrossDomainProxy
 	}
 
 }
-?>

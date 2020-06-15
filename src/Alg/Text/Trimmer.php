@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.6.8
- *	@version		$Id$
  */
 /**
  *	Trimmer for Strings, supporting cutting to the right and central cutting for too long Strings.
@@ -35,7 +34,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.6.8
- *	@version		$Id$
  */
 class Alg_Text_Trimmer
 {
@@ -120,4 +118,3 @@ class Alg_Text_Trimmer
 		return self::trim( $string, $length, $mask, TRUE, $encoding );
 	}
 }
-?>

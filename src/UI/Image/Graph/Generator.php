@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			16.04.2008
- *	@version		$Id$
  */
 /**
  *	Abstract Generator Class for several Graph Generator Appications.
@@ -38,7 +37,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			16.04.2008
- *	@version		$Id$
  */
 abstract class UI_Image_Graph_Generator
 {
@@ -130,7 +128,7 @@ abstract class UI_Image_Graph_Generator
 	 *	@return		void
 	 */
 	abstract protected function prepareConfig();
-	
+
 	/**
 	 *	Prepares Graph Data, needs to be implemented for each Generator.
 	 *	@abstract
@@ -171,4 +169,3 @@ abstract class UI_Image_Graph_Generator
 		$this->pathJpGraph	= $path;
 	}
 }
-?>

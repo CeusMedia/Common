@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			03.02.2006
- *	@version		$Id$
  */
 /**
  *	Download Provider for Files and Strings.
@@ -38,7 +37,6 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@see			http://www.media-division.com/the-right-way-to-handle-file-downloads-in-php/
  *	@since			03.02.2006
- *	@version		$Id$
  *	@todo			integrate MIME type detection
  *	@todo  			support download range
  *	@todo  			support x-sendfile, @see https://tn123.org/mod_xsendfile/
@@ -155,4 +153,3 @@ class Net_HTTP_Download
 			ob_end_clean();
 	}
 }
-?>

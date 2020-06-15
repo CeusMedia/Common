@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			26.12.2005
- *	@version		$Id$
  */
 /**
  *	Serializer for Data Object into XML.
@@ -37,7 +36,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			26.12.2005
- *	@version		$Id$
  */
 class XML_DOM_ObjectSerializer
 {
@@ -59,7 +57,7 @@ class XML_DOM_ObjectSerializer
 		$serial		= $builder->build( $root, $encoding );
 		return $serial;
 	}
-	
+
 	/**
 	 *	Adds XML Nodes to a XML Tree by their Type while supporting nested Arrays.
 	 *	@access		protected
@@ -117,4 +115,3 @@ class XML_DOM_ObjectSerializer
 		}
 	}
 }
-?>

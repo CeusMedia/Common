@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			13.09.2006
- *	@version		$Id$
  */
 /**
  *	Generator for Evolution Graph Images.
@@ -36,7 +35,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			13.09.2006
- *	@version		$Id$
  *	@todo			Finish Implementation
  *	@todo			Code Documentation
  */
@@ -81,7 +79,7 @@ class UI_Image_EvolutionGraph extends ADT_OptionObject
 		foreach( $options as $key => $value )
 			$this->setOption( $key, $value );
 	}
-	
+
 	/**
 	 *	Adds another Graph with Legend, Line Color and Values.
 	 *	@access		public
@@ -110,7 +108,7 @@ class UI_Image_EvolutionGraph extends ADT_OptionObject
 		$im	= $this->generateGraph();												//  generate Graph Image
 		ImagePng( $im );															//  send Image to Browser
 	}
-	
+
 	protected function drawGraphs( &$image, $maxValue, $ratio )
 	{
 		$verticalZone	= $this->getOption( 'height' ) - $this->getOption( 'padding_top' ) - $this->getOption( 'padding_bottom' );
@@ -252,4 +250,3 @@ class UI_Image_EvolutionGraph extends ADT_OptionObject
 		$this->setOption( 'title_text', $title );
 	}
 }
-?>

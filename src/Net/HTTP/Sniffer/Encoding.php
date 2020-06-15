@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			12.08.2005
- *	@version		$Id$
  */
 /**
  *	Sniffer for Encoding Methods accepted by a HTTP Request.
@@ -35,7 +34,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			12.08.2005
- *	@version		$Id$
  */
 class Net_HTTP_Sniffer_Encoding
 {
@@ -53,7 +51,7 @@ class Net_HTTP_Sniffer_Encoding
 			$default = $allowed[0];
 		else if( !in_array( $default, $allowed ) )
 			throw new InvalidArgumentException( 'Default Encoding Method must be an allowed Encoding Method.' );
-		
+
 		$pattern	= '/^([a-z]+)(?:;\s*q=(0(?:\.[0-9]{1,3})?|1(?:\.0{1,3})?))?$/i';
 		$accepted	= getEnv( 'HTTP_ACCEPT_ENCODING' );
 		if( !$accepted )
@@ -78,4 +76,3 @@ class Net_HTTP_Sniffer_Encoding
 		return $currentCode;
 	}
 }
-?>

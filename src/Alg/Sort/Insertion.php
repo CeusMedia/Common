@@ -23,7 +23,6 @@
  *	@copyright		2007-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@version		$Id$
  */
 /**
  *	Insertion Sort.
@@ -33,13 +32,12 @@
  *	@copyright		2007-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@version		$Id$
  */
 class Alg_Sort_Insertion
 {
 	protected $compares	= 0;
 	protected $moves	= 0;
-	
+
 	/**
 	 *	Sorts List with Insertion Sort.
 	 *	@access		public
@@ -86,4 +84,3 @@ class Alg_Sort_Insertion
 		return $list;
 	}
 }
-?>

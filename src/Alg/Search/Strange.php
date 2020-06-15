@@ -23,7 +23,6 @@
  *	@copyright		2007-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@version		$Id$
  */
 /**
  *	Strange Search Algorithm.
@@ -33,13 +32,12 @@
  *	@copyright		2007-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@version		$Id$
  */
 class Alg_Search_Strange
 {
 	/**	@var		int			$counter		internal counter of steps */
 	protected $counter;
-	
+
 	/**
 	 *	Searches in List and returns position if found.
 	 *	@access		public
@@ -75,4 +73,3 @@ class Alg_Search_Strange
 			return $this->search( $array, $key, $index1 + 1, $index2 - 1 );
 	}
 }
-?>

@@ -34,7 +34,6 @@
  *	@author			Stephan Wentz <JID: stephan@jabber.wentz.it>
  *	@author			Michael Garvin <JID: gar@netflint.net>
  *	@copyright		2008 Nathanael C. Fritz
- *	@version		$Id$
  */
 
 class Net_XMPP_XMPPHP_Roster {
@@ -159,4 +158,3 @@ class Net_XMPP_XMPPHP_Roster {
 		return $this->roster_array;
 	}
 }
-?>

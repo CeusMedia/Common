@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			01.07.2008
- *	@version		$Id$
  */
 /**
  *	Reader for FTP Connections.
@@ -35,7 +34,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			01.07.2008
- *	@version		$Id$
  */
 class Net_FTP_Reader
 {
@@ -292,4 +290,3 @@ class Net_FTP_Reader
 		return $this->connection->setPath( $path );
 	}
 }
-?>

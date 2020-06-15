@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			01.01.2001
- *	@version		$Id$
  */
 /**
  *	Reader for Property Files or typical .ini Files with Key, Values and optional Sections and Comments.
@@ -36,7 +35,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			01.01.2001
- *	@version		$Id$
  */
 class FS_File_INI_Reader extends FS_File_Reader
 {
@@ -481,4 +479,3 @@ class FS_File_INI_Reader extends FS_File_Reader
 		return $this->usesSections;
 	}
 }
-?>

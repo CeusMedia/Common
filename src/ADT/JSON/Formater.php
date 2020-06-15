@@ -25,7 +25,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			10.01.2008
- *	@version		$Id$
  */
 namespace CeusMedia\Common\ADT\JSON;
 
@@ -39,7 +38,6 @@ namespace CeusMedia\Common\ADT\JSON;
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			10.01.2008
- *	@version		$Id$
  *	@todo			Unit Test
  */
 class Formater
@@ -106,4 +104,3 @@ class Formater
 		return $content;
 	}
 }
-?>

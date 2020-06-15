@@ -23,7 +23,6 @@
  *	@copyright		2007-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@version		$Id$
  */
 /**
  *	...
@@ -36,25 +35,24 @@
  *	@copyright		2007-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@version		$Id$
  */
 class FS_Folder_Treeview_Json
 {
 	protected $logFile;
 	protected $path;
-	
+
 	public $classLeaf		= "file";
 	public $classNode		= "folder";
-	
+
 	public $fileUrl			= "./?file=";
 	public $fileTarget		= NULL;
-	
+
 	public function __construct( $basePath, $logFile = NULL )
 	{
 		$this->basePath		= $basePath;
 		$this->logFile		= $logFile;
 	}
-	
+
 	public function buildJson( $path = "" )
 	{
 		$clock		= new Alg_Time_Clock;
@@ -77,7 +75,7 @@ class FS_Folder_Treeview_Json
 		return $json;
 	}
 
-	
+
 	protected function buildFileItem( $entry )
 	{
 		$label		= $entry->getFilename();
@@ -93,7 +91,7 @@ class FS_Folder_Treeview_Json
 		);
 		return $item;
 	}
-	
+
 	protected function buildFolderItem( $entry )
 	{
 		$children	= $this->hasChildren( $entry );
@@ -110,7 +108,7 @@ class FS_Folder_Treeview_Json
 	{
 		return pathinfo( $entry->getPathname(), PATHINFO_EXTENSION );
 	}
-	
+
 	protected function getFileUrl( $entry )
 	{
 		return $this->fileUrl.rawurlencode( $this->getPathName( $entry ) );
@@ -140,7 +138,7 @@ class FS_Folder_Treeview_Json
 		}
 		return $children;
 	}
-	
+
 	protected function log( $path, $numberItems, $jsonLength, $time )
 	{
 		$message	= '<path time="%1$d" items="%3$d" length="%4$d" time="%5$d">%2$s</path>';
@@ -156,4 +154,3 @@ class FS_Folder_Treeview_Json
 		error_log( $message."\n", 3, $this->logFile );
 	}
 }
-?>

@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			04.09.2008
- *	@version		$Id$
  */
 /**
  *	Checks order of methods within a PHP File.
@@ -35,7 +34,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			04.09.2008
- *	@version		$Id$
  */
 class FS_File_PHP_Check_MethodOrder
 {
@@ -81,7 +79,7 @@ class FS_File_PHP_Check_MethodOrder
 		natCaseSort( $this->sortedList );
 		return $this->sortedList === $this->originalList;
 	}
-	
+
 	/**
 	 *	Returns List of methods in original order.
 	 *	@access		public
@@ -106,4 +104,3 @@ class FS_File_PHP_Check_MethodOrder
 		return $this->sortedList;
 	}
 }
-?>

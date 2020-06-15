@@ -25,7 +25,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			09.03.2007
- *	@version		$Id$
  */
 /**
  *	Exception for Input Validation Errors, which can be serialized e.G. for NetServices.
@@ -37,7 +36,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			09.03.2007
- *	@version		$Id$
  */
 class Exception_Validation extends Exception_Runtime
 {
@@ -45,7 +43,7 @@ class Exception_Validation extends Exception_Runtime
 	protected $errors	= array();
 	/**	@var		string		$form			Name Form in Validation File */
 	protected $form		= "";
-	
+
 	/**
 	 *	Constructor.
 	 *	@access		public
@@ -59,7 +57,7 @@ class Exception_Validation extends Exception_Runtime
 		$this->errors	= $errors;
 		$this->form		= $form;
 	}
-	
+
 	/**
 	 *	Returns List of Validation Errors.
 	 *	@access		public
@@ -69,7 +67,7 @@ class Exception_Validation extends Exception_Runtime
 	{
 		return $this->errors;
 	}
-	
+
 	/**
 	 *	Returns Name of Form in Validation File.
 	 *	@access		public
@@ -101,4 +99,3 @@ class Exception_Validation extends Exception_Runtime
 		list( $this->message, $this->code, $this->file, $this->line, $this->errors, $this->form ) = unserialize( $serial );
 	}
 }
-?>

@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			15.04.2008
- *	@version		$Id$
  */
 /**
  *	Counter for Lines of Code.
@@ -38,20 +37,19 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			15.04.2008
- *	@version		$Id$
  *	@todo			Code Doc
  */
 class FS_Folder_CodeLineCounter
 {
 	protected $data	= array();
-	
+
 	public function getData( $key = NULL )
 	{
 		if( !$this->data )															//  no Folder scanned yet
 			throw new RuntimeException( 'Please read a Folder first.' );
 		if( !$key )																	//  no Key set
 			return $this->data;														//  return complete Data Array
-			
+
 		$prefix	= substr( strtolower( $key ), 0, 5 );								//  extract possible Key Prefix
 		if( in_array( $prefix, array_keys( $this->data ) ) )						//  Prefix is valid
 		{
@@ -92,21 +90,21 @@ class FS_Folder_CodeLineCounter
 		{
 			$fileName	= str_replace( "\\", "/", $entry->getFilename() );
 			$pathName	= str_replace( "\\", "/", $entry->getPathname() );
-			
+
 			if( substr( $fileName, 0, 1 ) == "_" )
 				continue;
 			if( preg_match( "@/_@", $pathName ) )
 				continue;
 
 			$countData	= FS_File_CodeLineCounter::countLines( $pathName );
-			
+
 			unset( $countData['linesCodes'] );
 			unset( $countData['linesDocs'] );
 			unset( $countData['linesStrips'] );
 
 			$numberLength		+= $countData['length'];
 			$numberLines		+= $countData['linesTotal'];
-			
+
 			$numberFiles		++;
 			$numberStrips		+= $countData['numberStrips'];
 			$numberCodes		+= $countData['numberCodes'];
@@ -138,4 +136,3 @@ class FS_Folder_CodeLineCounter
 		);
 	}
 }
-?>

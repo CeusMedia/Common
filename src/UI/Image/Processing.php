@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.0
- *	@version		$Id$
  */
 /**
  *	Processor for resizing, scaling and rotating an image.
@@ -36,13 +35,12 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.0
- *	@version		$Id$
  */
 class UI_Image_Processing
 {
 	/**	@var		UI_Image		$image			Image resource object */
 	protected $image;
-	
+
 	/**	@param		integer			$maxMegaPixel	Maxiumum megapixels */
 	public $maxMegaPixels			= 0;
 
@@ -296,4 +294,3 @@ class UI_Image_Processing
 		return $this->resize( $width, $height, $interpolate, $this->maxMegaPixels );
 	}
 }
-?>

@@ -45,7 +45,7 @@ class UI_HTML_Elements extends UI_HTML_FormElements
 		$label		= UI_HTML_Tag::create( "label", $text, array( 'for' => $name ) );
 		$span		= UI_HTML_Tag::create( "span", $checkSpan.$label, array( 'class' => $class ) );
 		return $span;
-		
+
 	}
 
 	/**
@@ -170,7 +170,7 @@ class UI_HTML_Elements extends UI_HTML_FormElements
 		$code = "<table".$ins_id.$ins_class.$ins_width.$ins_border.$ins_spacing.">";
 		return $code;
 	}
-	
+
 	/**
 	 *	@static
 	 *	@todo		Signature Documenation
@@ -274,7 +274,7 @@ class UI_HTML_Elements extends UI_HTML_FormElements
 		}
 		return $code;	
 	}
-	
+
 	/**
 	 *	Erzeugt HTML-Code eines Eingabefeldes.
 	 *	@access		public
@@ -581,4 +581,3 @@ class UI_HTML_Elements extends UI_HTML_FormElements
 		return $code;
 	}
 }
-?>

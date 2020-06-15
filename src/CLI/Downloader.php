@@ -25,7 +25,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			05.05.2008
- *	@version		$Id$
  */
 /**
  *	Downloads a File from an URL while showing Progress in Console.
@@ -39,7 +38,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			05.05.2008
- *	@version		$Id$
  *	@see			http://curl.haxx.se/libcurl/c/curl_easy_setopt.html
  */
 class CLI_Downloader
@@ -116,7 +114,7 @@ class CLI_Downloader
 
 		if( $this->showFileName && $this->templateFileName )								//  show extraced File Name
 			printf( $this->templateFileName, $fileName );									//  use Template
-		
+
 		$this->clock	= new Alg_Time_Clock;												//  start clock
 		$ch = curl_init();																	//  start cURL
 		curl_setopt( $ch, CURLOPT_URL, $url );												//  set URL in cURL Handle
@@ -173,7 +171,7 @@ class CLI_Downloader
 		$fp	= fopen( $saveUri, "ab+" );														//  open File for appending
 		fputs( $fp, $string );																//  append Chunk Content
 		fclose( $fp );																		//  close File
-		
+
 		if( $this->fileSize && $this->fileSize == $this->loadSize )							//  File Size is known and File is complete
 		{
 			rename( $this->tempUri, $this->fileUri );										//  move Temp File to Save Path
@@ -201,7 +199,7 @@ class CLI_Downloader
 			return $length;																	//  return Length of Header String
 		if( $this->redirected )
 			return $length;																	//  return Length of Header String
-	
+
 		$parts			= split( ": ", $string );											//  split Header on Colon
 		if( count( $parts ) > 1 )															//  there has been at least one Colon
 		{
@@ -224,4 +222,3 @@ class CLI_Downloader
 		return $length;																		//  return Length of Header String
 	}
 }
-?>

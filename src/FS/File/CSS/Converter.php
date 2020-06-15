@@ -28,7 +28,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			10.10.2011
- *	@version		$Id$
  */
 /**
  *	Converts CSS between.
@@ -40,7 +39,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			10.10.2011
- *	@version		$Id$
  */
 class FS_File_CSS_Converter{
 
@@ -163,7 +161,7 @@ class FS_File_CSS_Converter{
 	public function fromFile( $fileName ){
 		$this->sheet	= FS_File_CSS_Parser::parseFile( $fileName );
 	}
-	
+
 	/**
 	 *	Reads sheet.
 	 *	@access		public
@@ -183,7 +181,7 @@ class FS_File_CSS_Converter{
 	public function fromString( $string ){
 		$this->sheet	= FS_File_CSS_Parser::parseString( $string );
 	}
-	
+
 	/**
 	 *	Returns current sheet as list of rules.
 	 *	@access		public
@@ -222,4 +220,3 @@ class FS_File_CSS_Converter{
 		return FS_File_CSS_Converter::convertSheetToString( $this->sheet );
 	}
 }
-?>

@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			30.07.2005
- *	@version		$Id$
  */
 /**
  *	Transformator for XML and XSLT.
@@ -37,7 +36,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			30.07.2005
- *	@version		$Id$
  */
 class XML_XSL_Transformator
 {
@@ -69,7 +67,7 @@ class XML_XSL_Transformator
 		$reader		= new FS_File_Reader( $xslFile );
 		$this->xsl	= $reader->readString();
 	}
-	
+
 	/**
 	 *	Transforms loaded XML and XSL and returns Result.
 	 *	@access		public
@@ -102,4 +100,3 @@ class XML_XSL_Transformator
 		return $writer->writeString( $result );
 	}
 }
-?>

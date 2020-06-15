@@ -25,7 +25,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			03.03.2007
- *	@version		$Id$
  */
 /**
  *	Template Class.
@@ -38,7 +37,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			03.03.2007
- *	@version		$Id$
  * 
  *	<b>Syntax of a template file</b>
  *	- comment <%--comment--%>				 | will be removed on render
@@ -74,13 +72,13 @@ class UI_Template
 	protected $fileName;
 	/**	@var		string		content of a specified templatefile */
 	protected $template;
-	
+
 	public static $removeComments	= FALSE;
 	public static $removeOptional	= FALSE;
 
 	/**	@var		array		$plugins		List of Template Plugin Instances */
 	protected $plugins			= array();
-	
+
 	/**
 	 *	Constructor
 	 *	@access		public
@@ -96,7 +94,7 @@ class UI_Template
 		$this->setTemplate( $fileName );
 		$this->add( $elements ); 
 	}
-	
+
 	/**
 	 *	Adds an associative array with labels and elements to the template and returns number of added elements. 
 	 *	@param		array 		Array where the <b>key</b> can be a string, integer or 
@@ -170,7 +168,7 @@ class UI_Template
 		}
 		return $number;
 	}
-	
+
 	/**
 	 *	Adds one Element.
 	 *	@param		string		$tag		Tag name
@@ -204,7 +202,7 @@ class UI_Template
 		}
 		return $number;
 	}
-	
+
 	/**
 	 *	Adds another Template.
 	 *	@param		string		tagname
@@ -228,7 +226,7 @@ class UI_Template
 	{
 		$out	= $this->template;																	//  local copy of set template
 		$out	= $this->loadNestedTemplates( $out );												//  search for nested templates and load them
-		
+
 		foreach( $this->plugins as $plugin )
 			if( $plugin->type == 'pre' )
 				$out	= $plugin->work( $out );
@@ -308,7 +306,7 @@ class UI_Template
 		}
 		return $list;
 	}
-	
+
 	/**
 	 *	Returns all defined labels.
 	 *	@param		int			$type		Label Type: 0=all, 1=mandatory, 2=optional
@@ -376,7 +374,7 @@ class UI_Template
 		}
 		return $template;
 	}
-	
+
 	/**
 	 *	Renders a Template with given Elements statically.
 	 *	@access		public
@@ -416,7 +414,7 @@ class UI_Template
 	{
 		if( empty( $fileName ) )
 			return FALSE;
-			
+
 		if( !file_exists( $fileName ) )
 			throw new Exception_Template( Exception_Template::FILE_NOT_FOUND, $fileName );
 
@@ -425,4 +423,3 @@ class UI_Template
 		return TRUE;
 	}
 }
-?>

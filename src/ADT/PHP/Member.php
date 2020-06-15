@@ -22,7 +22,6 @@
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2015-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id$
  *	@since			0.3
  */
 /**
@@ -33,7 +32,6 @@
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2015-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id$
  *	@since			0.3
  */
 class ADT_PHP_Member extends ADT_PHP_Variable
@@ -41,7 +39,7 @@ class ADT_PHP_Member extends ADT_PHP_Variable
 	protected $access		= NULL;
 	protected $static		= FALSE;
 	protected $default		= NULL;
-	
+
 	/**
 	 *	Returns member access.
 	 *	@access		public
@@ -95,7 +93,7 @@ class ADT_PHP_Member extends ADT_PHP_Variable
 		if( $member->isStatic() )
 			$this->setAbstract( $member->isStatic() );
 	}
-	
+
 	/**
 	 *	Sets member access.
 	 *	@access		public
@@ -106,7 +104,7 @@ class ADT_PHP_Member extends ADT_PHP_Variable
 	{
 		$this->access	= $string;
 	}
-	
+
 	/**
 	 *	Sets member default value.
 	 *	@access		public
@@ -117,7 +115,7 @@ class ADT_PHP_Member extends ADT_PHP_Variable
 	{
 		$this->default	= $string;
 	}
-	
+
 	/**
 	 *	Sets parent Class or Interface Data Object.
 	 *	@access		public
@@ -142,4 +140,3 @@ class ADT_PHP_Member extends ADT_PHP_Variable
 		$this->static	= (bool) $isStatic;
 	}
 }
-?>

@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.6.8
- *	@version		$Id$
  */
 /**
  *	...
@@ -36,7 +35,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.6.8
- *	@version		$Id$
  */
 abstract class CLI_Fork_Server_Client_Abstract
 {
@@ -47,9 +45,9 @@ abstract class CLI_Fork_Server_Client_Abstract
 		if( !is_null( $port ) );
 			$this->setPort( $port );
 	}
-	
+
 	abstract function getRequest();
-	
+
 	protected function getResponse()
 	{
 		$socket = stream_socket_client( "tcp://127.0.0.1:".$this->port, $errno, $errstr, 30 );
@@ -70,4 +68,3 @@ abstract class CLI_Fork_Server_Client_Abstract
 		$this->port	= $port;
 	}
 }
-?>

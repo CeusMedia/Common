@@ -125,4 +125,3 @@ class Net_Mail_Attachment
 		$this->headers->setFieldPair( 'Content-Type', $mimeType );
 	}
 }
-?>

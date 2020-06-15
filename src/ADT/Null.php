@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.0
- *	@version		$Id$
  */
 /**
  *	Null Object (Design Pattern) Implementation as Singleton.
@@ -35,7 +34,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.0
- *	@version		$Id$
  */
 class ADT_Null implements Countable, Renderable, ArrayAccess
 {
@@ -53,14 +51,14 @@ class ADT_Null implements Countable, Renderable, ArrayAccess
 	{
 		return $this;
 	}
-	
+
 	/**
 	 *	Cloning is disabled.
 	 *	@access		private
 	 *	@return		void
 	 */
 	private function __clone() {}
-	
+
 	/**
 	 *	Constructor, disabled.
 	 *	@access		protected
@@ -174,4 +172,3 @@ class ADT_Null implements Countable, Renderable, ArrayAccess
 		return '';
 	}
 }
-?>

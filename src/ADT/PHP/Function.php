@@ -22,7 +22,6 @@
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2015-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id$
  *	@since			0.3
  */
 /**
@@ -32,7 +31,6 @@
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2015-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id$
  *	@since			0.3
  */
 class ADT_PHP_Function
@@ -46,7 +44,7 @@ class ADT_PHP_Function
 	protected $version		= NULL;
 	protected $licenses		= array();
 	protected $copyright	= array();
-	
+
 	protected $authors		= array();
 	protected $links		= array();
 	protected $sees			= array();
@@ -57,7 +55,7 @@ class ADT_PHP_Function
 
 	protected $param		= array();
 	protected $return		= NULL;
-	
+
 	protected $sourceCode	= NULL;
 	protected $line			= 0;
 
@@ -475,4 +473,3 @@ class ADT_PHP_Function
 		$this->version	= $string;
 	}
 }
-?>

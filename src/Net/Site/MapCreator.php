@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			10.12.2006
- *	@version		$Id$
  */
 /**
  *	Google Sitemap XML Creator, crawls a Web Site and writes a Sitemap XML File.
@@ -39,7 +38,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			10.12.2006
- *	@version		$Id$
  */
 class Net_Site_MapCreator
 {
@@ -47,7 +45,7 @@ class Net_Site_MapCreator
 	protected $crawler;
 	/**	@var		array				$errors		List of Errors */
 	protected $errors					= array();
-	
+
 	/**
 	 *	Constructor.
 	 *	@access		public
@@ -121,7 +119,7 @@ class Net_Site_MapCreator
 		$writer	= new FS_File_Block_Writer( $uri );
 		return $writer->writeBlocks( $this->errors );
 	}
-	
+
 	/**
 	 *	Writes found URLs to a List File and returns Number of written Bytes.
 	 *	@access		public
@@ -137,4 +135,3 @@ class Net_Site_MapCreator
 		$writer->writeArray( $list );
 	}
 }
-?>

@@ -23,7 +23,6 @@
  *	@copyright		2007-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@version		$Id$
  */
 /**
  *	...
@@ -38,7 +37,6 @@
  *	@copyright		2007-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@version		$Id$
  *	@todo			Code Doc
  */
 class UI_HTML_Service_Test
@@ -53,17 +51,17 @@ class UI_HTML_Service_Test
 	{
 		$this->servicePoint		= $servicePoint;
 	}
-	
+
 	public function buildContent( $request, $subfolderLevel = 0 )
 	{
 		$service	= $request['test'];
-		
+
 		$basePath	= str_repeat( "../", $subfolderLevel );
-		
+
 		$preferred	= $this->servicePoint->getDefaultServiceFormat( $service );
 		$format		= isset( $request['parameter_format'] ) ? $request['parameter_format'] : $preferred;
 
-		
+
 		$requestUrl		= $this->getRequestUrl( $request );
 		$testUrl		= $this->getTestUrl( $request );
 
@@ -149,7 +147,7 @@ class UI_HTML_Service_Test
 		}
 		return $ruleList;
 	}
-	
+
 	private function evaluateResponse( $format, &$response, &$data, &$exception, &$trace  )
 	{
 		switch( $format )
@@ -318,7 +316,7 @@ class UI_HTML_Service_Test
 		$reader		= new Net_Reader( $url );
 		$reader->setBasicAuth( $this->username, $this->password );
 		$response	= $reader->read();
-		
+
 		$this->headers	= array();
 		$headers	= $reader->getHeader();
 		foreach( $headers as $key => $values )
@@ -358,4 +356,3 @@ class UI_HTML_Service_Test
 		return implode( "\n", $lines );
 	}
 }
-?>

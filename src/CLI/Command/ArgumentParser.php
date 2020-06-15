@@ -23,7 +23,6 @@
  *	@copyright		2007-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@version		$Id$
  */
 /**
  *	Argument Parser for Console Applications using an Automaton.
@@ -33,7 +32,6 @@
  *	@copyright		2007-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@version		$Id$
  */
 class CLI_Command_ArgumentParser
 {
@@ -50,6 +48,125 @@ class CLI_Command_ArgumentParser
 	protected $numberArguments		= 0;
 	protected $possibleOptions		= array();
 	protected $shortcuts			= array();
+
+	/**
+	 *	Returns List of parsed Arguments.
+	 *	@access		public
+	 *	@return		array
+	 */
+	public function getArguments()
+	{
+		if( !$this->parsed )
+			throw new RuntimeException( 'Nothing parsed yet.' );
+		return $this->foundArguments;
+	}
+
+	/**
+	 *	Returns List of parsed Options.
+	 *	@access		public
+	 *	@return		array
+	 */
+	public function getOptions()
+	{
+		if( !$this->parsed )
+			throw new RuntimeException( 'Nothing parsed yet.' );
+		return $this->foundOptions;
+	}
+
+	/**
+	 *	Parses given Argument String and extracts Arguments and Options.
+	 *	@access		public
+	 *	@param		string		$string		String of Arguments and Options
+	 *	@return		void
+	 */
+	public function parse( $string )
+	{
+		if( !is_string( $string ) )														//  no String given
+			throw new InvalidArgumentException( 'Given argument is not a string' );		//  throw Exception
+
+		$this->extendPossibleOptionsWithShortcuts();									//  realize Shortcuts
+
+		$position	= 0;																//  initiate Sign Pointer
+		$status		= self::STATUS_START;												//  initiate Status
+		$buffer		= "";																//  initiate Argument Buffer
+		$option		= "";																//  initiate Option Buffer
+
+		while( isset( $string[$position] ) )											//  loop until End of String
+		{
+			$sign	= $string[$position];												//  get current Sign
+			$position ++;																//  increase Sign Pointer
+
+			switch( $status )															//  handle Sign depending on Status
+			{
+				case self::STATUS_START:												//  open for all Signs
+					$this->onReady( $sign, $status, $buffer, $option );					//  handle Sign
+					break;
+				case self::STATUS_READ_OPTION_KEY:										//  open for Option Key Signs
+					$this->onReadOptionKey( $sign, $status, $buffer, $option );			//  handle Sign
+					break;
+				case self::STATUS_READ_OPTION_VALUE:									//  open for Option Value Signs
+					$this->onReadOptionValue( $sign, $status, $buffer, $option );		//  handle Sign
+					break;
+				case self::STATUS_READ_ARGUMENT:										//  open for Argument Signs
+					$this->onReadArgument( $sign, $status, $buffer );					//  handle Sign
+					break;
+			}
+		}
+		$this->onEndOfLine( $status, $buffer, $option );								//  close open States
+	}
+
+	/**
+	 *	Sets mininum Number of Arguments.
+	 *	@access		public
+	 *	@param		int			$number			Minimum Number of Arguments
+	 *	@return		bool
+	 */
+	public function setNumberOfMandatoryArguments( $number = 0 )
+	{
+		if( !is_int( $number ) )														//  no Integer given
+			throw new InvalidArgument( 'No integer given' );							//  throw Exception
+		if( $number === $this->numberArguments )										//  this Number is already set
+			return FALSE;																//  do nothing
+		$this->numberArguments	= $number;												//  set new Argument Number
+		return TRUE;																	//  indicate Success
+	}
+
+	/**
+	 *	Sets Map of Options with optional Regex Patterns.
+	 *	@access		public
+	 *	@param		array		$options		Map of Options and their Regex Patterns (or empty for a Non-Value-Option)
+	 *	@return		bool
+	 */
+	public function setPossibleOptions( $options )
+	{
+		if( !is_array( $options ) )														//  no Array given
+			throw InvalidArgumentException( 'No array given.' );						//  throw Exception
+		if( $options === $this->possibleOptions )										//  threse Options are already set
+			return FALSE;																//  do nothing
+		$this->possibleOptions	= $options;												//  set new Options
+		return TRUE;																	//  indicate Success
+	}
+
+	/**
+	 *	Sets Map between Shortcuts and afore set Options.
+	 *	@access		public
+	 *	@param		array		$shortcuts		Array of Shortcuts for Options
+	 *	@return		bool
+	 */
+	public function setShortcuts( $shortcuts )
+	{
+		if( !is_array( $shortcuts ) )													//  no Array given
+			throw InvalidArgumentException( 'No array given.' );						//  throw Exception
+		foreach( $shortcuts as $short => $long )										//  iterate Shortcuts
+			if( !array_key_exists( $long, $this->possibleOptions ) )					//  related Option is not set
+				throw new OutOfBoundsException( 'Option "'.$long.'" not set' );			//  throw Exception
+		if( $shortcuts === $this->shortcuts )											//  these Shortcuts are already set
+			return FALSE;																//  do nothing
+		$this->shortcuts	= $shortcuts;												//  set new Shortcuts
+		return TRUE;																	//  indicate Success
+	}
+
+	//  --  PROTECTED  --  //
 
 	/**
 	 *	Extends internal Option List with afore set Shortcut List.
@@ -80,30 +197,6 @@ class CLI_Command_ArgumentParser
 			$this->foundOptions[$long]	= $this->foundOptions[$short];
 			unset( $this->foundOptions[$short] );
 		}
-	}
-
-	/**
-	 *	Returns List of parsed Arguments.
-	 *	@access		public
-	 *	@return		array
-	 */
-	public function getArguments()
-	{
-		if( !$this->parsed )
-			throw new RuntimeException( 'Nothing parsed yet.' );
-		return $this->foundArguments;
-	}
-
-	/**
-	 *	Returns List of parsed Options.
-	 *	@access		public
-	 *	@return		array
-	 */
-	public function getOptions()
-	{
-		if( !$this->parsed )
-			throw new RuntimeException( 'Nothing parsed yet.' );
-		return $this->foundOptions;
 	}
 
 	/**
@@ -241,98 +334,4 @@ class CLI_Command_ArgumentParser
 			$status	= self::STATUS_READ_ARGUMENT;
 		}
 	}
-
-	/**
-	 *	Parses given Argument String and extracts Arguments and Options.
-	 *	@access		public
-	 *	@param		string		$string		String of Arguments and Options
-	 *	@return		void
-	 */
-	public function parse( $string )
-	{
-		if( !is_string( $string ) )														//  no String given
-			throw new InvalidArgumentException( 'Given argument is not a string' );		//  throw Exception
-
-		$this->extendPossibleOptionsWithShortcuts();									//  realize Shortcuts
-
-		$position	= 0;																//  initiate Sign Pointer
-		$status		= self::STATUS_START;												//  initiate Status
-		$buffer		= "";																//  initiate Argument Buffer
-		$option		= "";																//  initiate Option Buffer
-
-		while( isset( $string[$position] ) )											//  loop until End of String
-		{
-			$sign	= $string[$position];												//  get current Sign
-			$position ++;																//  increase Sign Pointer
-
-			switch( $status )															//  handle Sign depending on Status
-			{
-				case self::STATUS_START:												//  open for all Signs
-					$this->onReady( $sign, $status, $buffer, $option );					//  handle Sign
-					break;
-				case self::STATUS_READ_OPTION_KEY:										//  open for Option Key Signs
-					$this->onReadOptionKey( $sign, $status, $buffer, $option );			//  handle Sign
-					break;
-				case self::STATUS_READ_OPTION_VALUE:									//  open for Option Value Signs
-					$this->onReadOptionValue( $sign, $status, $buffer, $option );		//  handle Sign
-					break;
-				case self::STATUS_READ_ARGUMENT:										//  open for Argument Signs
-					$this->onReadArgument( $sign, $status, $buffer );					//  handle Sign
-					break;
-			}
-		}
-		$this->onEndOfLine( $status, $buffer, $option );								//  close open States
-	}
-
-	/**
-	 *	Sets mininum Number of Arguments.
-	 *	@access		public
-	 *	@param		int			$number			Minimum Number of Arguments
-	 *	@return		bool
-	 */
-	public function setNumberOfMandatoryArguments( $number = 0 )
-	{
-		if( !is_int( $number ) )														//  no Integer given
-			throw new InvalidArgument( 'No integer given' );							//  throw Exception
-		if( $number === $this->numberArguments )										//  this Number is already set
-			return FALSE;																//  do nothing
-		$this->numberArguments	= $number;												//  set new Argument Number
-		return TRUE;																	//  indicate Success
-	}
-
-	/**
-	 *	Sets Map of Options with optional Regex Patterns.
-	 *	@access		public
-	 *	@param		array		$options		Map of Options and their Regex Patterns (or empty for a Non-Value-Option)
-	 *	@return		bool
-	 */
-	public function setPossibleOptions( $options )
-	{
-		if( !is_array( $options ) )														//  no Array given
-			throw InvalidArgumentException( 'No array given.' );						//  throw Exception
-		if( $options === $this->possibleOptions )										//  threse Options are already set
-			return FALSE;																//  do nothing
-		$this->possibleOptions	= $options;												//  set new Options
-		return TRUE;																	//  indicate Success
-	}
-
-	/**
-	 *	Sets Map between Shortcuts and afore set Options.
-	 *	@access		public
-	 *	@param		array		$shortcuts		Array of Shortcuts for Options
-	 *	@return		bool
-	 */
-	public function setShortcuts( $shortcuts )
-	{
-		if( !is_array( $shortcuts ) )													//  no Array given
-			throw InvalidArgumentException( 'No array given.' );						//  throw Exception
-		foreach( $shortcuts as $short => $long )										//  iterate Shortcuts
-			if( !array_key_exists( $long, $this->possibleOptions ) )					//  related Option is not set
-				throw new OutOfBoundsException( 'Option "'.$long.'" not set' );			//  throw Exception
-		if( $shortcuts === $this->shortcuts )											//  these Shortcuts are already set
-			return FALSE;																//  do nothing
-		$this->shortcuts	= $shortcuts;												//  set new Shortcuts
-		return TRUE;																	//  indicate Success
-	}
 }
-?>

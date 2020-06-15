@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			12.08.2005
- *	@version		$Id$
  */
 /**
  *	Sniffer for Client's Operating System.
@@ -35,7 +34,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			12.08.2005
- *	@version		$Id$
  *	@todo			may be out of date
  */
 class Net_HTTP_Sniffer_OS
@@ -54,7 +52,7 @@ class Net_HTTP_Sniffer_OS
 	{
 		$this->identifySystem();
 	}
-	
+
 	/**
 	 *	Returns Operating System and Version.
 	 *	@access		public
@@ -64,7 +62,7 @@ class Net_HTTP_Sniffer_OS
 	{
 		return array( "system" => $this->system, "version" => $this->version );
 	}
-	
+
 	/**
 	 *	Returns Operating System and Version.
 	 *	@access		public
@@ -74,7 +72,7 @@ class Net_HTTP_Sniffer_OS
 	{
 		return $this->system;
 	}
-	
+
 	/**
 	 *	Returns Operating System Version.
 	 *	@access		public
@@ -84,7 +82,7 @@ class Net_HTTP_Sniffer_OS
 	{
 		return $this->version;
 	}
-	
+
 	/**
 	 *	Identifies Operating System and Version.
 	 *	@access		protected
@@ -169,4 +167,3 @@ class Net_HTTP_Sniffer_OS
 		elseif( eregi( "sie-cx35", $ua ) )		$this->system = "Siemens CX35";
 	}
 }
-?>

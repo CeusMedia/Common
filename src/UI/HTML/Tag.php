@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			22.04.2008
- *	@version		$Id$
  */
 /**
  *	Builder for HTML tags.
@@ -35,7 +34,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			22.04.2008
- *	@version		$Id$
  */
 class UI_HTML_Tag implements Renderable
 {
@@ -327,4 +325,3 @@ class UI_HTML_Tag implements Renderable
 		$this->content	= $content;
 	}
 }
-?>

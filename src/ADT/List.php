@@ -43,4 +43,3 @@ class ADT_List implements Countable {
 		}
 	}
 }
-?>

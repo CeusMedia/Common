@@ -296,4 +296,3 @@ class DB_PDO_DataSourceName
 		return $dsn->render();
 	}
 }
-?>

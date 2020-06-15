@@ -181,4 +181,3 @@ class DB_PDO_TableWriter extends DB_PDO_TableReader
 		return $this->dbc->exec( $query );
 	}
 }
-?>

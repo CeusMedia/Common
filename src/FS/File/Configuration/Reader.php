@@ -25,7 +25,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			06.05.2008
- *	@version		$Id$
  */
 /**
  *	Reader for Configuration Files of different Types.
@@ -43,7 +42,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			06.05.2008
- *	@version		$Id$
  */
 #class FS_File_Configuration_Reader extends ADT_List_LevelMap
 class FS_File_Configuration_Reader extends ADT_List_Dictionary
@@ -62,7 +60,7 @@ class FS_File_Configuration_Reader extends ADT_List_Dictionary
 	{
 		$this->source	= $this->loadFile( $fileName, $cachePath );
 	}
-	
+
 	/**
 	 *	Return a Value or Pair Map of Dictionary by its Key.
 	 *	This Method overwrites ALG_List_LevelMap::get for Performance Boost.
@@ -117,7 +115,7 @@ class FS_File_Configuration_Reader extends ADT_List_Dictionary
 			if( $this->tryToLoadFromCache( $cacheFile, filemtime( $fileName ) ) )
 				return "cache";
 		}
-		
+
 		$info	= pathinfo( $fileName );
 		switch( $info['extension'] )
 		{
@@ -185,7 +183,7 @@ class FS_File_Configuration_Reader extends ADT_List_Dictionary
 			}
 		}
 	}	
-	
+
 	/**
 	 *	Loads Configuration from JSON File.
 	 *	@access		protected
@@ -214,7 +212,7 @@ class FS_File_Configuration_Reader extends ADT_List_Dictionary
 			foreach( $sectionData as $key => $value )
 				$this->pairs[$sectionName.".".$key]	= $value;
 	}	
-	
+
 	/**
 	 *	Loads Configuration from XML File.
 	 *	@access		protected
@@ -261,7 +259,7 @@ class FS_File_Configuration_Reader extends ADT_List_Dictionary
 			}
 		}
 	}
-	
+
 	/**
 	 *	Loads Configuration from YAML File.
 	 *	@access		protected
@@ -275,7 +273,7 @@ class FS_File_Configuration_Reader extends ADT_List_Dictionary
 			foreach( $sectionData as $key => $value )
 				$this->pairs[$sectionName.".".$key]	= $value;
 	}	
-	
+
 	public function remove( $key )
 	{
 		if( empty( $key ) )																		//  no Key given
@@ -332,4 +330,3 @@ class FS_File_Configuration_Reader extends ADT_List_Dictionary
 		return FALSE;
 	}
 }
-?>

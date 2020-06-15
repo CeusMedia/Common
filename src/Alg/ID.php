@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.0
- *	@version		$Id$
  */
 /**
  *	ID generator.
@@ -36,7 +35,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.6
- *	@version		$Id$
  *
  *	@todo			implement versions
  *	@see			comment at linked page
@@ -67,4 +65,3 @@ class Alg_ID
 		return preg_match( '/^'.$regexp.'$/i', $uuid );
 	}
 }
-?>

@@ -23,7 +23,6 @@
  *	@copyright		2007-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@version		$Id$
  */
 /**
  *	Reader for Folders.
@@ -36,7 +35,6 @@
  *	@copyright		2007-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@version		$Id$
  *	@todo			implement getFileTree, getFolderTree, getTree
  */
 class FS_Folder_Reader
@@ -76,7 +74,7 @@ class FS_Folder_Reader
 	{
 		return $this->isFolder( $this->folderName );
 	}
-	
+
 	/**
 	 *	Returns Number of Files and Folders within current Folder.
 	 *	@access		public
@@ -116,7 +114,7 @@ class FS_Folder_Reader
 	{
 		return FS_Folder_Lister::getFileList( $this->folderName, $pattern );
 	}
-	
+
 	/**
 	 *	Get List of Files with specified Extensions within current Folder.
 	 *	@access		public
@@ -130,7 +128,7 @@ class FS_Folder_Reader
 		$lister->showFolders( FALSE );
 		return $lister->getList();
 	}
-	
+
 	/**
 	 *	Returns Number of Folders within current Folder.
 	 *	@access		public
@@ -155,7 +153,7 @@ class FS_Folder_Reader
 	{
 		return FS_Folder_Lister::getFolderList( $this->folderName, $pattern );
 	}
-	
+
 	/**
 	 *	Returns given Folder Name, absolute or reative.
 	 *	@access		public
@@ -335,4 +333,3 @@ class FS_Folder_Reader
 		return $exists && $isDir;
 	}
 }
-?>

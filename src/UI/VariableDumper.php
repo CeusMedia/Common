@@ -23,7 +23,6 @@
  *	@copyright		2007-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@version		$Id$
  */
 define( 'SERVICE_TEST_PRINT_M', 0 );
 define( 'SERVICE_TEST_VAR_DUMP', 1 );
@@ -35,7 +34,6 @@ define( 'SERVICE_TEST_VAR_DUMP', 1 );
  *	@copyright		2007-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@version		$Id$
  *	@todo			Code Docu
  */
 class UI_VariableDumper
@@ -45,7 +43,7 @@ class UI_VariableDumper
 
 	static public $modePrintIndentSign	= ". ";
 	static public $modePrintIndentSize	= 2;
-	
+
 	/**
 	 *	Creates readable Dump of a Variable, either with print_m or var_dump, depending on printMode and installed XDebug Extension
 	 *
@@ -96,4 +94,3 @@ function dumpVar( $variable, $mode = UI_VariableDumper::MODE_DUMP, $modeIfNotXDe
 {
 	return UI_VariableDumper::dump( $variable, $mode, $modeIfNotXDebug );
 }
-?>

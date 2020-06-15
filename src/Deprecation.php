@@ -109,4 +109,3 @@ class Deprecation{
 		return $this;
 	}
 }
-?>

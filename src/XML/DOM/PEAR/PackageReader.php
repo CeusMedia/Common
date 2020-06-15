@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			20.10.2008
- *	@version		$Id$
  */
 /**
  *	Reader for PEAR Package Description Files in XML.
@@ -36,7 +35,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			20.10.2008
- *	@version		$Id$
  */
 class XML_DOM_PEAR_PackageReader
 {
@@ -72,7 +70,7 @@ class XML_DOM_PEAR_PackageReader
 		}
 		if( !$root )
 			throw Exception( 'No root node found.' );
-		
+
 		foreach( $root->childNodes as $node )
 		{
 			$nodeName	= strToLower( $node->nodeName );
@@ -96,7 +94,7 @@ class XML_DOM_PEAR_PackageReader
 		}
 		return $package;
 	}
-	
+
 	/**
 	 *	Reads a Maintainer Block and returns an Array.
 	 *	@access		protected
@@ -168,4 +166,3 @@ class XML_DOM_PEAR_PackageReader
 		return $domNode->childNodes->item(0)->nodeValue;
 	}
 }
-?>

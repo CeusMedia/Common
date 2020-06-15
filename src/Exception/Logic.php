@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			22.02.2007
- *	@version		$Id$
  */
 /**
  *	Exception for Logic Errors, which can be serialized e.G. for NetServices.
@@ -36,7 +35,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			22.02.2007
- *	@version		$Id$
  */
 class Exception_Logic extends Exception_Runtime
 {
@@ -67,4 +65,3 @@ class Exception_Logic extends Exception_Runtime
 		return $this->subject;
 	}
 }
-?>

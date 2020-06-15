@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			12.03.2008
- *	@version		$Id$
  */
 /**
  *	Reads for several "Gantt Project" XML Files and extracts Project Information and Meeting Dates.
@@ -33,7 +32,6 @@
  *	@uses			FS_File_Gantt_MeetingReader
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			12.03.2008
- *	@version		$Id$
  */
 class FS_File_Gantt_MeetingCollector
 {
@@ -144,4 +142,3 @@ class FS_File_Gantt_MeetingCollector
 		return $projects;
 	}
 }
-?>

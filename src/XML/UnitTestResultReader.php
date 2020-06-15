@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			25.04.2008
- *	@version		$Id$
  */
 /**
  *	Reader for XML Result File written by PHPUnit.
@@ -36,7 +35,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			25.04.2008
- *	@version		$Id$
  *	@todo			Code Documentation
  *	@todo			Unit Test
  */
@@ -57,7 +55,7 @@ class XML_UnitTestResultReader
 		$this->tree	= XML_ElementReader::readFile( $fileName );
 		$this->date	= filemtime( $fileName );
 	}
-	
+
 	/**
 	 *	Returns Date of XML File.
 	 *	@access		public
@@ -67,7 +65,7 @@ class XML_UnitTestResultReader
 	{
 		return $this->date;
 	}
-	
+
 	/**
 	 *	Returns Number of Errors.
 	 *	@access		public
@@ -77,7 +75,7 @@ class XML_UnitTestResultReader
 	{
 		return $this->tree->testsuite[0]->getAttribute( 'errors' );
 	}
-	
+
 	/**
 	 *	Returns List of Error Messages.
 	 *	@access		public
@@ -90,7 +88,7 @@ class XML_UnitTestResultReader
 			$this->getMessagesRecursive( $testSuite, $list, "error" );
 		return $list;
 	}
-	
+
 	/**
 	 *	Collects Error or Failure Messages by iterating Tree recursive and returns Lists.
 	 *	@access		private
@@ -124,7 +122,7 @@ class XML_UnitTestResultReader
 	{
 		return $this->tree->testsuite[0]->getAttribute( 'failures' );
 	}
-	
+
 	/**
 	 *	Returns List of Failure Messages.
 	 *	@access		public
@@ -137,7 +135,7 @@ class XML_UnitTestResultReader
 			$this->getMessagesRecursive( $testSuite, $list, "failure" );
 		return $list;
 	}
-		
+
 	/**
 	 *	Returns Number of Tests.
 	 *	@access		public
@@ -147,7 +145,7 @@ class XML_UnitTestResultReader
 	{
 		return $this->tree->testsuite[0]->getAttribute( 'tests' );
 	}
-	
+
 	public function getTestSuiteCount( $element = NULL )
 	{
 		$count		= 1;
@@ -156,7 +154,7 @@ class XML_UnitTestResultReader
 			$count	+= $this->getTestSuiteCount( $testSuite );
 		return $count;
 	}
-	
+
 	public function getTestCaseCount( $element = NULL )
 	{
 		$count		= 0;
@@ -166,10 +164,9 @@ class XML_UnitTestResultReader
 		$count	+= count( $element->testcase );
 		return $count;
 	}
-	
+
 	public function getTime()
 	{
 		return $this->tree->testsuite[0]->getAttribute( 'time' );
 	}
 }
-?>

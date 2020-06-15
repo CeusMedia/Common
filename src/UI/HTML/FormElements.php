@@ -151,7 +151,7 @@ class UI_HTML_FormElements
 			self::addReadonlyAttributes( $attributes, $readOnly );
 		return UI_HTML_Tag::create( "input", NULL, $attributes );
 	}
-	
+
 	/**
 	 *	Builds HTML Code for a Form using POST.
 	 *	@access		public
@@ -518,4 +518,3 @@ class UI_HTML_FormElements
 		return UI_HTML_Tag::create( "textarea", (string) $content, $attributes );
 	}
 }
-?>

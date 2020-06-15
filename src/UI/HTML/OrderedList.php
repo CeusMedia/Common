@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.0
- *	@version		$Id$
  */
 /**
  *	Builder of HTML Ordered List Elements.
@@ -35,7 +34,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.0
- *	@version		$Id$
  */
 class UI_HTML_OrderedList extends UI_HTML_Abstract
 {
@@ -53,7 +51,7 @@ class UI_HTML_OrderedList extends UI_HTML_Abstract
 		if( !is_null( $attributes ) )
 			$this->addAttributes( $attributes );
 	}
-	
+
 	/**
 	 *	Adds an Item.
 	 *	@access		public
@@ -64,7 +62,7 @@ class UI_HTML_OrderedList extends UI_HTML_Abstract
 	{
 		$this->listItems[]	= $item;
 	}
-	
+
 	/**
 	 *	Adds an Item.
 	 *	@access		public
@@ -93,4 +91,3 @@ class UI_HTML_OrderedList extends UI_HTML_Abstract
 		return UI_HTML_Tag::create( "ol", join( $list ), $this->getAttributes() );
 	}
 }
-?>

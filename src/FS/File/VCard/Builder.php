@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			02.09.2008
- *	@version		$Id$
  *	@link			http://www.ietf.org/rfc/rfc2426.txt
  */
 /**
@@ -38,7 +37,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			02.09.2008
- *	@version		$Id$
  *	@link			http://www.ietf.org/rfc/rfc2426.txt
  *	@todo			PHOTO,BDAY,NOTE,LABEL,KEY,PRODID,MAILER,TZ
  *	@todo			Code Doc
@@ -90,10 +88,10 @@ class FS_File_VCard_Builder
 
 		foreach( $card->getPhones() as $number => $types )								//  PHONES
 			$lines[]	= self::renderLine( "tel", $number, $types );
-		
+
 		foreach( $card->getGeoTags() as $geo )											//  GEO TAGS
 			$lines[]	= self::renderLine( "geo", $geo, $geo['types'] );
-		
+
 		if( self::$prodId )
 			array_unshift( $lines, "PRODID:".self::$prodId );
 		if( self::$version )
@@ -107,7 +105,7 @@ class FS_File_VCard_Builder
 		}
 		return $lines;
 	}
-	
+
 	protected static function escape( $value )
 	{
 		$value	= str_replace( ",", "\,", $value );
@@ -115,7 +113,7 @@ class FS_File_VCard_Builder
 		$value	= str_replace( ":", "\:", $value );
 		return $value;
 	}
-	
+
 	protected static function renderLine( $name, $values, $types = NULL, $escape = TRUE, $delimiter = ";" )
 	{
 		$type	= $types ? ";TYPE=".implode( ",", $types ) : "";
@@ -138,4 +136,3 @@ class FS_File_VCard_Builder
 		return $line;
 	}
 }
-?>

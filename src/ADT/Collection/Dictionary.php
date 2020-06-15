@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			27.03.2006
- *	@version		$Id$
  */
 namespace CeusMedia\Common\ADT\Collection;
 
@@ -40,7 +39,6 @@ namespace CeusMedia\Common\ADT\Collection;
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			27.03.2006
- *	@version		$Id$
  */
 class Dictionary implements \ArrayAccess, \Countable, \Iterator
 {
@@ -341,4 +339,3 @@ class Dictionary implements \ArrayAccess, \Countable, \Iterator
 		return $this->position < $this->count();
 	}
 }
-?>

@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			08.05.2008
- *	@version		$Id$
  */
 /**
  *	...
@@ -36,7 +35,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			08.05.2008
- *	@version		$Id$
  *	@todo			Code Doc
  */
 class Alg_Parcel_Factory
@@ -95,4 +93,3 @@ class Alg_Parcel_Factory
 		}
 	}
 }
-?>

@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			18.10.2007
- *	@version		$Id$
  */
 /**
  *	Converts a File into UTF-8.
@@ -37,7 +36,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			18.10.2007
- *	@version		$Id$
  */
 class FS_File_Unicoder
 {
@@ -88,4 +86,3 @@ class FS_File_Unicoder
 		return $unicoded == $string;
 	}
 }
-?>

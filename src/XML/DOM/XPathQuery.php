@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			24.01.2006
- *	@version		$Id$
  */
 /**
  *	Evaluator for XPath Queries.
@@ -37,7 +36,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			24.01.2006
- *	@version		$Id$
  */
 class XML_DOM_XPathQuery extends ADT_OptionObject
 {
@@ -58,7 +56,7 @@ class XML_DOM_XPathQuery extends ADT_OptionObject
 		$this->setOption( "header", 1 );
 		$this->setOption( "ssl_verifypeer", 1 );
 	}
-	
+
 	/**
 	 *	Returns identified Type of Feed.
 	 *	@access		public
@@ -101,7 +99,7 @@ class XML_DOM_XPathQuery extends ADT_OptionObject
 		$this->xPath	= new DOMXpath( $this->document );
 		return true;
 	}
-	
+
 	/**
 	 *	Loads XML from URL.
 	 *	@access		public
@@ -120,7 +118,7 @@ class XML_DOM_XPathQuery extends ADT_OptionObject
 		$this->loadXml( $xml );
 		return true;
 	}
-	
+
 	/**
 	 *	Loads XML into XPath Parser.
 	 *	@access		public
@@ -137,7 +135,7 @@ class XML_DOM_XPathQuery extends ADT_OptionObject
 		$this->document->loadXml( $xml );
 		$this->xPath	= new DOMXPath( $this->document );
 	}
-	
+
 	/**
 	 *	Returns identified Type of Feed.
 	 *	@access		public
@@ -169,4 +167,3 @@ class XML_DOM_XPathQuery extends ADT_OptionObject
 		return $this->xPath->registerNamespace( $prefix, $namespace );
 	}
 }
-?>

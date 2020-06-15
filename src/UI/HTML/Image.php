@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.0
- *	@version		$Id$
  */
 /**
  *	Builder for HTML Image Elements.
@@ -35,7 +34,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.0
- *	@version		$Id$
  */
 class UI_HTML_Image extends UI_HTML_Abstract
 {
@@ -86,7 +84,7 @@ class UI_HTML_Image extends UI_HTML_Abstract
 	{
 		$this->title	= $title;	
 	}
-	
+
 	/**
 	 *	Sets URL.
 	 *	@access		public
@@ -98,4 +96,3 @@ class UI_HTML_Image extends UI_HTML_Abstract
 		$this->url	= $url;	
 	}
 }
-?>

@@ -211,4 +211,3 @@ class Net_Mail_Transport_SMTP
 		$this->port		= $port;
 	}
 }
-?>

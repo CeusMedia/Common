@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			11.10.2006
- *	@version		$Id$
  */
 /**
  *	Class for encoding PHP File.
@@ -36,7 +35,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			11.10.2006
- *	@version		$Id$
  */
 class FS_File_PHP_Encoder
 {
@@ -66,7 +64,7 @@ class FS_File_PHP_Encoder
 		$this->outcodePrefix	= "<"."? eval( gzinflate(base64_decode('";
 		$this->outcodeSuffix	= "')));?".">";
 	}
-	
+
 	/**
 	 *	Returns decoded and stripped PHP Content.
 	 *	@access		public
@@ -79,7 +77,7 @@ class FS_File_PHP_Encoder
 		$php 	= $this->decodeHash( $code );
 		return $php;
 	}
-	
+
 	/**
 	 *	Decodes an encoded PHP File.
 	 *	@access		public
@@ -105,7 +103,7 @@ class FS_File_PHP_Encoder
 		}
 		return FALSE;	
 	}
-	
+
 	/**
 	 *	Returns Hash decoded PHP Content.
 	 *	@access		protected 
@@ -118,7 +116,7 @@ class FS_File_PHP_Encoder
 		$php	= substr( $php, strlen( $this->incodePrefix) , -strlen( $this->incodeSuffix ) );
 		return 	$php;
 	}
-	
+
 	/**
 	 *	Returns encoded and wrapped PHP Content.
 	 *	@access		public
@@ -153,7 +151,7 @@ class FS_File_PHP_Encoder
 //		copy( $fileName, "#".$fileName );
 		return (bool) FS_File_Writer::save( $target, $code );
 	}
-	
+
 	/**
 	 *	Returns encoded PHP Content.
 	 *	@access		protected
@@ -164,7 +162,7 @@ class FS_File_PHP_Encoder
 	{
 		return base64_encode( gzdeflate( $this->incodePrefix.$php.$this->incodeSuffix ) );	
 	}
-	
+
 	/**
 	 *	Indicated whether a PHP File ist encoded.
 	 *	@access		public
@@ -183,4 +181,3 @@ class FS_File_PHP_Encoder
 		return FALSE;
 	}
 }
-?>

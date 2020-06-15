@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			01.08.2008
- *	@version		$Id$
  */
 /**
  *	Builds Tree View of a Folders content for JQuery Plugin Treeview.
@@ -36,7 +35,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			01.08.2008
- *	@version		$Id$
  */
 class UI_HTML_Tree_FolderView
 {
@@ -58,7 +56,7 @@ class UI_HTML_Tree_FolderView
 		$this->path		= $path;
 		$this->view		= new UI_HTML_Tree_ArrayView( $baseUrl, $queryKey );
 	}
-	
+
 	/**
 	 *	Returns HTML Code of Tree.
 	 *	@access		public
@@ -75,7 +73,7 @@ class UI_HTML_Tree_FolderView
 		$this->readRecursive( $this->path, $currentId, $nodes, $linkNodes, $classNode, $classLeaf );
 		return $this->view->constructTree( $nodes, $currentId, $attributes );
 	}
-	
+
 	/**
 	 *	Returns JavaScript Code to call Plugin.
 	 *	@access		public
@@ -145,10 +143,9 @@ class UI_HTML_Tree_FolderView
 		foreach( $files as $file )
 			$nodes[]	= $file;
 	}
-	
+
 	public function setTarget( $target )
 	{
 		$this->view->setTarget( $target );
 	}
 }
-?>

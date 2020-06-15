@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			03.12.2009
- *	@version		$Id$
  */
 /**
  *	Checks visibility of methods within a PHP file.
@@ -36,7 +35,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			03.12.2009
- *	@version		$Id$
  */
 class FS_File_PHP_Check_MethodVisibility
 {
@@ -75,7 +73,7 @@ class FS_File_PHP_Check_MethodVisibility
 					$this->methods[]	= $match;
 		return empty( $this->methods );
 	}
-	
+
 	/**
 	 *	Returns List of methods without defined visibility.
 	 *	@access		public
@@ -88,4 +86,3 @@ class FS_File_PHP_Check_MethodVisibility
 		return $this->methods;
 	}
 }
-?>

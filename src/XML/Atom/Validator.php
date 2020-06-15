@@ -68,7 +68,7 @@ class XML_Atom_Validator
 		'entry_updates'		=> "Entry Element MUST contain exactly one updated element.",
 		'entry_link_unique'	=> "Entry Element MUST NOT contain more than one link element with a rel attribute value of \"alternate\" that has the same combination of type and hreflang attribute values.",
 	);
-	
+
 	/**
 	 *	Returns Error Messages of all Atom Rules hurt by Validation.
 	 *	Call Method 'validate'.
@@ -83,7 +83,7 @@ class XML_Atom_Validator
 			$list[$errorKey]	= self::$rules[$errorKey];
 		return $list;
 	}
-	
+
 	/**
 	 *	Returns first Error Message from Validation.
 	 *	@access		public
@@ -108,7 +108,7 @@ class XML_Atom_Validator
 		$this->validate( $xmlElement );
 		return !count( $this->errors );
 	}
-	
+
 	/**
 	 *	Validates a XML Element built form an Atom XML String and returns broken Atom Rules.
 	 *	@access		protected
@@ -205,4 +205,3 @@ class XML_Atom_Validator
 
 	}
 }
-?>

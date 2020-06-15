@@ -23,7 +23,6 @@
  *	@copyright		2007-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@version		$Id$
  */
 /**
  *	Writing comma separatad values (CSV) data with or without column headers to File. 
@@ -34,7 +33,6 @@
  *	@copyright		2007-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@version		$Id$
  */
 class FS_File_CSV_Writer
 {
@@ -42,7 +40,7 @@ class FS_File_CSV_Writer
 	protected $fileName;
 	/**	@var		string		$separator		Separator Sign */
 	protected $separator		= ",";
-	
+
 	/**
 	 *	Constructor.
 	 *	@access		public
@@ -95,4 +93,3 @@ class FS_File_CSV_Writer
 		return $file->writeArray( $output );
 	}
 }
-?>

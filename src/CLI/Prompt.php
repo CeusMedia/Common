@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			01.06.2012
- *	@version		$Id$
  */
 /**
  *	Console input handler.
@@ -36,7 +35,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			01.06.2012
- *	@version		$Id$
  */
 class CLI_Prompt {
 
@@ -72,4 +70,3 @@ class CLI_Prompt {
 		return $result;
 	}
 }
-?>

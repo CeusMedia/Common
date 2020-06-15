@@ -293,4 +293,3 @@ class ADT_URL
 		return $this;
 	}
 }
-?>

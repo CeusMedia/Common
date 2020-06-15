@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.0
- *	@version		$Id$
  */
 /**
  *	Abstract exception.
@@ -38,7 +37,6 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@see			http://www.php.net/manual/de/language.exceptions.php#91159
  *	@since			0.7.0
- *	@version		$Id$
  *	@todo			test and write unit tests, remove see-link later
  */
 abstract class Exception_Abstract extends Exception implements Exception_Interface
@@ -81,4 +79,3 @@ abstract class Exception_Abstract extends Exception implements Exception_Interfa
 		);
 	}
 }
-?>

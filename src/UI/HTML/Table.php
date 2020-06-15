@@ -78,9 +78,9 @@ class UI_HTML_Table
 					break;			
 			}
 		}
-	
+
 	}
-	
+
 	public function addCell( $label, $attributes = array() )
 	{
 		if( !$this->bodyRows )
@@ -90,7 +90,7 @@ class UI_HTML_Table
 			$label	= "&#160;";
 		$this->bodyRows[$current][]	= UI_HTML_Tag::create( "td", $label, $attributes );
 	}
-	
+
 	public function addColumn( $column )
 	{
 		if( !$this->columns )
@@ -129,7 +129,7 @@ class UI_HTML_Table
 				throw new InvalidArgumentException( 'Unknown format: '.gettype( $key ).' => '.$gettype( $value ) );
 		}
 	}
-	
+
 	public function addHead( $label, $attributes = array() )
 	{
 		if( !$this->headRows )
@@ -155,7 +155,7 @@ class UI_HTML_Table
 				throw new InvalidArgumentException( 'Unknown format: '.gettype( $key ).' => '.gettype( $value ) );
 		}
 	}
-	
+
 	public function addRow( $cells = array() )
 	{
 		$this->bodyRows[]	= array();
@@ -169,7 +169,7 @@ class UI_HTML_Table
 				throw new InvalidArgumentException( 'Unknown format: '.gettype( $key ).' => '.gettype( $value ) );
 		}
 	}
-	
+
 	public function render( $comment = "TEST" )
 	{
 		$start	= $comment ? "\n<!--  TABLE: ".$comment." >>  -->\n" : "";
@@ -192,7 +192,7 @@ class UI_HTML_Table
 		foreach( $this->bodyRows as $bodyCells )
 			$list[]	= UI_HTML_Tag::create( "tr", "\n      ".implode( "\n      ", $bodyCells )."\n    " );
 		$tableBody		= "\n  ".UI_HTML_Tag::create( "tbody", "\n    ".implode( "\n    ", $list )."\n  " )."\n";
-		
+
 		//  --  COLUMN GROUP  --  //
 		$list	= array();
 		foreach( $this->columns as $columns )
@@ -234,4 +234,3 @@ class UI_HTML_Table
 		$this->summary	= $label;
 	}
 }
-?>

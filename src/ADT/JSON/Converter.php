@@ -23,7 +23,6 @@
  *	@copyright		2007-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@version		$Id$
  */
 namespace CeusMedia\Common\ADT\JSON;
 
@@ -35,7 +34,6 @@ namespace CeusMedia\Common\ADT\JSON;
  *	@copyright		2007-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@version		$Id$
  *	@todo			code doc
  *	@todo			unit test
  *	@deprecated		use json_decode( $string, TRUE ) instead
@@ -75,4 +73,3 @@ class Converter
 		}
 	}
 }
-?>

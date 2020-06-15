@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			13.07.2005
- *	@version		$Id$
  */
 /**
  *	Calculates real Time by Server time and synchronised Atom time.
@@ -38,7 +37,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			13.07.2005
- *	@version		$Id$
  */
 class Net_AtomServerTime
 {
@@ -50,7 +48,7 @@ class Net_AtomServerTime
 	protected $syncDiff	= 0;
 	/**	@var		int			$refreshTime		Time distance in seconds for synchronisation update */
 	protected $refreshTime	= 86400;
-	
+
 	/**
 	 *	Constructor.
 	 *	@access		public
@@ -103,7 +101,7 @@ class Net_AtomServerTime
 		FS_File_Writer::save( $this->syncFile, $this->syncDiff );
 		touch( $this->syncFile );
 	}
-	
+
 	/**
 	 *	Returns timestamp of last synchronisation.
 	 *	@access		public
@@ -113,7 +111,7 @@ class Net_AtomServerTime
 	{
 		return $this->syncTime;
 	}
-	
+
 	/**
 	 *	Returns date of last synchronisation as formatted string.
 	 *	@access		public
@@ -124,7 +122,7 @@ class Net_AtomServerTime
 	{
 		return date( $format, $this->syncTime );
 	}
-	
+
 	/**
 	 *	Returns time difference between server time and atom time.
 	 *	@access		public
@@ -134,7 +132,7 @@ class Net_AtomServerTime
 	{
 		return $this->syncDiff;
 	}
-	
+
 	/**
 	 *	Returns timestamp.
 	 *	@access		public
@@ -146,7 +144,7 @@ class Net_AtomServerTime
 		$time = time() + $this->syncDiff;
 		return $time;
 	}
-	
+
 	/**
 	 *	Returns date as formatted string.
 	 *	@access		public
@@ -160,4 +158,3 @@ class Net_AtomServerTime
 		return date( $format, $time );
 	}
 }
-?>

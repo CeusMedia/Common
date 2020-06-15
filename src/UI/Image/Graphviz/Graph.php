@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.6
- *	@version		$Id$
  */
 /**
  *	Graph data class for DOT language (Graphviz).
@@ -36,7 +35,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.6
- *	@version		$Id$
  */
 class UI_Image_Graphviz_Graph{
 
@@ -55,7 +53,7 @@ class UI_Image_Graphviz_Graph{
 	public function __toString(){
 		return $this->render();
 	}
-	
+
 	public function addEdge( $nodeSource, $nodeTarget, $options = array() ){
 		$nodeSourceId	= $this->sanitizeNodeName( $nodeSource );
 		$nodeTargetId	= $this->sanitizeNodeName( $nodeTarget );
@@ -147,7 +145,7 @@ class UI_Image_Graphviz_Graph{
 			$list[]	= $key.'="'.addslashes( $value ).'"';
 		return join( $delimiter, $list );
 	}
-	
+
 	protected function sanitizeNodeName( $name ){
 		$name	= htmlentities( $name );
 		return preg_replace( "/[^\w_:]/", "", $name );
@@ -197,4 +195,3 @@ class UI_Image_Graphviz_Graph{
 		$this->type		= $type;
 	}
 }
-?>

@@ -23,7 +23,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.0
- *	@version		$Id$
  */
 /**
  *	@category		Library
@@ -33,7 +32,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.0
- *	@version		$Id$
  */
 class ADT_Time_Delay
 {
@@ -77,7 +75,7 @@ class ADT_Time_Delay
 	{
 		return $this->numberRuns;
 	}
-	
+
 	/**
 	 *	Returns set start timestamp.
 	 *	@access		public
@@ -99,7 +97,7 @@ class ADT_Time_Delay
 		$time	= microtime( TRUE ) - $this->time;
 		return $time < $this->seconds;
 	}
-	
+
 	/**
 	 *	Indicates whether Delay has passed.
 	 *	@access		public
@@ -125,4 +123,3 @@ class ADT_Time_Delay
 		return $this->getStartTime();
 	}
 }
-?>

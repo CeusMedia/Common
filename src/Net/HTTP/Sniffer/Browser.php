@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			12.08.2005
- *	@version		$Id$
  */
 /**
  *	Sniffer for browsing HTTP Clients via User Agents.
@@ -35,7 +34,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			12.08.2005
- *	@version		$Id$
  */
 class Net_HTTP_Sniffer_Browser
 {
@@ -56,7 +54,7 @@ class Net_HTTP_Sniffer_Browser
 	{
 		$this->identifyBrowser( $userAgent );
 	}
-	
+
 	/**
 	 *	Returns Browser, Version and Type.
 	 *	@access		public
@@ -66,7 +64,7 @@ class Net_HTTP_Sniffer_Browser
 	{
 		return array( "browser" => $this->browser, "version" => $this->browserVersion, "type" => $this->browserType );
 	}
-	
+
 	/**
 	 *	Indicates whether Client is a Robot.
 	 *	@access		public
@@ -86,7 +84,7 @@ class Net_HTTP_Sniffer_Browser
 	{
 		return $this->browserType == "browser";
 	}
-	
+
 	/**
 	 *	Identifies Browser, Version and Type.
 	 *	@access		private
@@ -733,4 +731,3 @@ class Net_HTTP_Sniffer_Browser
 		}
 	}
 }
-?>

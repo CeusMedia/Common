@@ -25,7 +25,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			09.06.2007
- *	@version		$Id$
  */
 /**
  *	Searchs for Files by given RegEx Pattern (as File Name) in Folder.
@@ -37,7 +36,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			09.06.2007
- *	@version		$Id$
  *	@todo			Fix Error while comparing File Name to Current File with Path
  */
 class FS_File_RecursiveRegexFilter extends RegexIterator
@@ -109,7 +107,7 @@ class FS_File_RecursiveRegexFilter extends RegexIterator
 	{
 		return $this->numberFound;
 	}
-	
+
 	/**
 	 *	Returns Number of scanned Files.
 	 *	@access		public
@@ -132,4 +130,3 @@ class FS_File_RecursiveRegexFilter extends RegexIterator
 		parent::rewind();
 	}
 }
-?>

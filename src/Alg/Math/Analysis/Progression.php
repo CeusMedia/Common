@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			09.05.2006
- *	@version		$Id$
  */
 /**
  *	Progression within a compact Interval.
@@ -36,7 +35,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			09.05.2006
- *	@version		$Id$
  *	@todo			Code Correction
  */
 class Alg_Math_Analysis_Progression extends Alg_Math_Analysis_Sequence
@@ -151,4 +149,3 @@ class Alg_Math_Analysis_Progression extends Alg_Math_Analysis_Sequence
 		return $code;
 	}
 }
-?>

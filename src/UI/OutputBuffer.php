@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			24.09.2005
- *	@version		$Id$
  */
 /**
  *	Buffer for Standard Output Channel.
@@ -35,13 +34,12 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			24.09.2005
- *	@version		$Id$
  */
 class UI_OutputBuffer
 {
 	/**	@var		boolean		$isOpen		Flag: Buffer opened */
 	protected $isOpen = FALSE;
-	
+
 	/**
 	 *	Constructor.
 	 *	@access		public
@@ -53,7 +51,7 @@ class UI_OutputBuffer
 		if( $open )
 			$this->open();
 	}
-	
+
 	/**
 	 *	Clears Output Buffer.
 	 *	@access		public
@@ -63,7 +61,7 @@ class UI_OutputBuffer
 	{
 		ob_clean();
 	}
-	
+
 	/**
 	 *	Closes Output Buffer.
 	 *	@access		public
@@ -84,7 +82,7 @@ class UI_OutputBuffer
 	{
 		ob_flush();
 	}
-	
+
 	/**
 	 *	Returns Content of Output Buffer.
 	 *	@access		public
@@ -101,7 +99,7 @@ class UI_OutputBuffer
 	public function has(){
 		return strlen( $this->get() );
 	}
-	
+
 	/**
 	 *	Indicates whether Output Buffer is open.
 	 *	@access		public
@@ -111,7 +109,7 @@ class UI_OutputBuffer
 	{
 		return (boolean) $this->isOpen;
 	}
-	
+
 	/**
 	 *	Opens Output Buffer.
 	 *	@access		public
@@ -125,4 +123,3 @@ class UI_OutputBuffer
 		$this->isOpen = TRUE;
 	}
 }
-?>

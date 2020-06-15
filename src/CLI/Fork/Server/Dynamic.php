@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.6.8
- *	@version		$Id$
  */
 /**
  *	...
@@ -37,7 +36,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.6.8
- *	@version		$Id$
  */
 class CLI_Fork_Server_Dynamic extends CLI_Fork_Server_Abstract
 {
@@ -58,4 +56,3 @@ class CLI_Fork_Server_Dynamic extends CLI_Fork_Server_Abstract
 		$this->scriptFile	= $scriptFile;
 	}
 }
-?>

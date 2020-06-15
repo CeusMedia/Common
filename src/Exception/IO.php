@@ -25,7 +25,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			01.03.2007
- *	@version		$Id$
  */
 /**
  *	Exception for Input/Output Errors.
@@ -38,7 +37,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			01.03.2007
- *	@version		$Id$
  */
 class Exception_IO extends Exception_Runtime
 {
@@ -58,7 +56,7 @@ class Exception_IO extends Exception_Runtime
 		parent::__construct( $message, $code );
 		$this->resource	= $resource;
 	}
-	
+
 	/**
 	 *	Returns Name of Source which was not fully accessible.
 	 *	@access		public
@@ -90,4 +88,3 @@ class Exception_IO extends Exception_Runtime
 		list( $this->message, $this->code, $this->file, $this->line, $this->resource ) = unserialize( $serial );
 	}
 }
-?>

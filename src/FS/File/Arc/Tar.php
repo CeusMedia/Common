@@ -506,4 +506,3 @@ class FS_File_Arc_Tar
 		return FS_File_Writer::save( $fileName, $this->content );										//  write archive file
 	}
 }
-?>

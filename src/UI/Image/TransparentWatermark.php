@@ -35,9 +35,9 @@ class UI_Image_TransparentWatermark  {
 	var $stampHeight;
 	var $stampPositionX= transparentWatermarkOnRight;
 	var $stampPositionY= transparentWatermarkOnBottom;
-	
+
 	var $errorMsg="";
-	
+
 	/**
 	* Constructor
 	*
@@ -65,12 +65,12 @@ class UI_Image_TransparentWatermark  {
 			header("Content-Type: image/jpeg");
 			Imagejpeg( $image);
 			break;
-			
+
 			case 3:	//PNG
 			header("Content-Type: image/png");
 			Imagepng( $image);
 			break;
-			
+
 			default:
 			$this->errorMsg="File format not supported.";
 		}
@@ -86,7 +86,7 @@ class UI_Image_TransparentWatermark  {
 	public function getLastError() {
 		return($this->errorMsg);
 	}
-	
+
 	/**
 	* mark an image file and  display/save it
 	*
@@ -108,15 +108,15 @@ class UI_Image_TransparentWatermark  {
 
 		$imageinfos = @getimagesize($imageFile);
 		$type   = $imageinfos[2];
-		
+
 		$image=$this->readImage($imageFile, $type);
 		if (!$image) {
 			$this->errorMsg="Error on loading '$imageFile', image must be a valid PNG or JPEG file.";
 			return(false);
 		}
-		
+
 		$this->markImage ( $image);
-		
+
 		if ($resultImageFile!="") {
 			$this->writeImage( $image, $resultImageFile, $type);
 		}
@@ -124,9 +124,9 @@ class UI_Image_TransparentWatermark  {
 			$this->displayImage( $image, $type);
 		}
 		return( true);
-		
+
 	}
-	
+
 	/**
 	* mark an image
 	*
@@ -174,35 +174,35 @@ class UI_Image_TransparentWatermark  {
 			default:
 			$topStamp=0;
 		}
-		
+
 		// for each pixel of stamp
 		for ($x=0; $x<$this->stampWidth; $x++) {
 			if (($x+$leftStamp<0)||($x+$leftStamp>=$imageWidth)) continue;
 			for ($y=0; $y<$this->stampHeight; $y++) {
 				if (($y+$topStamp<0)||($y+$topStamp>=$imageHeight)) continue;
-				
+
 				// search RGB values of stamp image pixel
 				$indexStamp=ImageColorAt($this->stampImage, $x, $y);
 				$rgbStamp=imagecolorsforindex ( $this->stampImage, $indexStamp);
 
-				
+
 				// search RGB values of image pixel
 				$indexImage=ImageColorAt( $imageResource, $x+$leftStamp, $y+$topStamp);
 				$rgbImage=imagecolorsforindex ( $imageResource, $indexImage);
 
 				$randomizer=0;
-				
+
 				// compute new values of colors pixel
 				$r=max( min($rgbImage["red"]+$rgbStamp["red"]-0x80, 0xFF), 0x00);
 				$g=max( min($rgbImage["green"]+$rgbStamp["green"]-0x80, 0xFF), 0x00);
 				$b=max( min($rgbImage["blue"]+$rgbStamp["blue"]-0x80, 0xFF), 0x00);
-				
+
 				// change  image pixel
 				imagesetpixel ( $imageResource, $x+$leftStamp, $y+$topStamp, ($r<<16)+($g<<8)+$b);
 			}
 		}
 	}
-	
+
 	/**
 	* read image from file 
 	*
@@ -217,17 +217,17 @@ class UI_Image_TransparentWatermark  {
 			case 2:	//JPEG
 			return(ImageCreateFromJPEG($file));
 			break;
-			
+
 			case 3:	//PNG
 			return(ImageCreateFromPNG($file));
 			break;
-			
+
 			default:
 			$this->errorMsg="File format not supported.";
 			return(false);
 		}
 	}
-	
+
 	/**
 	* set stamp image for watermak
 	*
@@ -245,11 +245,11 @@ class UI_Image_TransparentWatermark  {
 		$width  = $imageinfos[0];
 		$height = $imageinfos[1];
 		$type   = $imageinfos[2];
-		
+
 		if ($this->stampImage) imagedestroy( $this->stampImage);
-		
+
 		$this->stampImage=$this->readImage($stampFile, $type);
-		
+
 		if (!$this->stampImage) {
 			$this->errorMsg="Error on loading '$stampFile', stamp image must be a valid PNG or JPEG file.";
 			return(false);
@@ -260,7 +260,7 @@ class UI_Image_TransparentWatermark  {
 			return(true);
 		}
 	}
-	
+
 	/**
 	* set stamp position on image
 	*
@@ -304,14 +304,13 @@ class UI_Image_TransparentWatermark  {
 			case 2:	//JPEG
 			Imagejpeg( $image, $file);
 			break;
-			
+
 			case 3:	//PNG
 			Imagepng( $image, $file);
 			break;
-			
+
 			default:
 			$this->errorMsg="File format not supported.";
 		}
 	}
 }
-?>

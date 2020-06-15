@@ -100,7 +100,7 @@ class UI_HTML_Panel
 		$divAbstract	= "";
 		$divHead		= "";
 		$divFoot		= "";
-		
+
 		if( !is_null( $abstract ) )
 		{
 			$divAbstractInner	= self::wrap( $abstract, self::$classAbstractInner );
@@ -122,7 +122,7 @@ class UI_HTML_Panel
 		$divPanel		= self::wrap( $divHead.$divAbstract.$divCont.$divFoot, $classes, $attributes );
 		return $divPanel;
 	}
-	
+
 	/**
 	 *	Sets Abstract of Panel.
 	 *	@access		public
@@ -145,7 +145,7 @@ class UI_HTML_Panel
 	{
 		$this->attributes[$key]	= $value;
 	}
-	
+
 	/**
 	 *	Sets a Map of Attributes of Panel DIV.
 	 *	@access		public
@@ -206,4 +206,3 @@ class UI_HTML_Panel
 		return UI_HTML_Tag::create( "div", $content, $attributes );
 	}
 }
-?>

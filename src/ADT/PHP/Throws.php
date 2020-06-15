@@ -22,7 +22,6 @@
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2015-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id$
  *	@since			0.3
  */
 /**
@@ -32,7 +31,6 @@
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2015-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@version		$Id$
  *	@since			0.3
  */
 class ADT_PHP_Throws
@@ -52,7 +50,7 @@ class ADT_PHP_Throws
 		$this->name		= $name;
 		$this->reason	= $reason;
 	}
-	
+
 	/**
 	 *	Returns exception name.
 	 *	@access		public
@@ -91,7 +89,7 @@ class ADT_PHP_Throws
 	{
 		$this->name	= $name;
 	}
-	
+
 	/**
 	 *	Sets exception reason.
 	 *	@access		public
@@ -103,4 +101,3 @@ class ADT_PHP_Throws
 		$this->reason	= $reason;
 	}
 }
-?>

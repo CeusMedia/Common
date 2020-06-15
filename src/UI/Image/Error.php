@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			16.06.2008
- *	@version		$Id$
  */
 /**
  *	Creates and displays Error Image with Message.
@@ -38,7 +37,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			16.06.2008
- *	@version		$Id$
  */
 class UI_Image_Error
 {
@@ -68,4 +66,3 @@ class UI_Image_Error
 		UI_Image_Printer::showImage( $image->getImage(), IMAGETYPE_PNG, 100, self::$sendHeader );
 	}
 }
-?>

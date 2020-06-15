@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.6.7
- *	@version		$Id$
  */
 /**
  *	Builder for Tree Menu.
@@ -38,7 +37,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.6.7
- *	@version		$Id$
  */
 class UI_HTML_Tree_Menu
 {
@@ -67,7 +65,7 @@ class UI_HTML_Tree_Menu
 		$code		= UI_HTML_Tag::create( 'div', $tree, $list->getAttributes( TRUE ) );
 		return $code;
 	}
-	
+
 	/**
 	 *	Builds Layer Menu from OPML String.
 	 *	@access		public
@@ -134,4 +132,3 @@ class UI_HTML_Tree_Menu
 		$this->target	= $target;
 	}
 }
-?>

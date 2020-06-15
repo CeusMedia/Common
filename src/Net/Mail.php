@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.1
- *	@version		$Id$
  */
 /**
  *	Sends Mails.
@@ -36,7 +35,6 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@see			http://tools.ietf.org/html/rfc5322#section-3.3
  *	@since			0.7.1
- *	@version		$Id$
  */
 class Net_Mail
 {
@@ -229,4 +227,3 @@ class Net_Mail
 		$this->subject	= $subject;
 	}
 }
-?>

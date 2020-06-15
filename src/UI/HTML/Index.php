@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.6
- *	@version		$Id$
  */
 /**
  *	Generates HTML of an index structure, parsed headings within HTML or given by OPML (or [several] tree structures and objects).
@@ -36,7 +35,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.6
- *	@version		$Id$
  *	@todo		implement import of trees and perhaps normal setters
  *	@todo		code doc
  */
@@ -135,4 +133,3 @@ class UI_HTML_Index{
 		return $content;
 	}
 }
-?>

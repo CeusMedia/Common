@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			15.04.2008
- *	@version		$Id$
  */
 /**
  *	Iterates all Folders and Files recursive within a Folder.
@@ -38,7 +37,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			15.04.2008
- *	@version		$Id$
  */
 class FS_Folder_RecursiveIterator extends FilterIterator
 {
@@ -100,7 +98,7 @@ class FS_Folder_RecursiveIterator extends FilterIterator
 		{
 			if( substr( $this->getFilename(), 0, 1 ) == "." )									//  found file or folder is hidden
 				return FALSE;
-			
+
 			if( substr( $this->getSubPathname(), 0, 1 ) == "." )								//  inner path is hidden
 				return FALSE;
 
@@ -121,4 +119,3 @@ class FS_Folder_RecursiveIterator extends FilterIterator
 		return $this->path;
 	}
 }
-?>

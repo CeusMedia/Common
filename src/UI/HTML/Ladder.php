@@ -25,7 +25,6 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@see			http://ceusmedia.de/demos/cmClasses/UI_HTML_Ladder
  *	@since			0.6.8
- *	@version		$Id$
  */
 /**
  *	Builds HTML and JavaScript code for UI Component 'Ladder'.
@@ -40,7 +39,6 @@
  *	@uses			UI_HTML_Tag
  *	@uses			UI_HTML_JQuery
  *	@since			0.6.8
- *	@version		$Id$
  */
 class UI_HTML_Ladder
 {
@@ -57,7 +55,7 @@ class UI_HTML_Ladder
 	{
 		$this->id	= $id;
 	}
-	
+
 	/**
 	 *	Adds a Step on the Ladder.
 	 *	@access		public
@@ -72,7 +70,7 @@ class UI_HTML_Ladder
 			'content'	=> $content,
 		);
 	}
-	
+
 	/**
 	 *	Builds and returns HTML Code of Ladder.
 	 *	@access		public
@@ -94,7 +92,7 @@ class UI_HTML_Ladder
 		$div	= UI_HTML_Tag::create( 'div', "\n".$list.$divs."\n", array( 'id' => $this->id ) );
 		return $div;
 	}
-	
+
 	/**
 	 *	Builds and returns JavaScript Code of Ladder.
 	 *	@access		public
@@ -105,4 +103,3 @@ class UI_HTML_Ladder
 		return UI_HTML_JQuery::buildPluginCall( 'cmLadder', '#'.$this->id );	
 	}
 }
-?>

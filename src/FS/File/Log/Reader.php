@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			28.11.2007
- *	@version		$Id$
  */
 /**
  *	Reader for Log File.
@@ -36,7 +35,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			28.11.2007
- *	@version		$Id$
  */
 class FS_File_Log_Reader
 {
@@ -86,4 +84,3 @@ class FS_File_Log_Reader
 		return $this->load( $this->fileName, $offset, $limit );
 	}
 }
-?>

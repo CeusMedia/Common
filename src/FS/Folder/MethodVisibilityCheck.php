@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			03.12.2009
- *	@version		$Id$
  */
 /**
  *	Checks visibility of methods in a folder containing PHP files.
@@ -37,14 +36,13 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			03.12.2009
- *	@version		$Id$
  */
 class FS_Folder_MethodVisibilityCheck
 {
 	public $count	= 0;
 	public $found	= 0;
 	public $list	= array();
-	
+
 	/**
 	 *	Scans a folder containing PHP files for methods without defined visibility.
 	 *	@access		public
@@ -69,4 +67,3 @@ class FS_Folder_MethodVisibilityCheck
 		$this->count	= $finder->getNumberFound();
 	}
 }
-?>

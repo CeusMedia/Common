@@ -34,7 +34,6 @@
  *	@author			Stephan Wentz <JID: stephan@jabber.wentz.it>
  *	@author			Michael Garvin <JID: gar@netflint.net>
  *	@copyright		2008 Nathanael C. Fritz
- *	@version		$Id$
  */
 class Net_XMPP_XMPPHP_XMPP extends Net_XMPP_XMPPHP_XMLStream {
 	/**
@@ -46,48 +45,48 @@ class Net_XMPP_XMPPHP_XMPP extends Net_XMPP_XMPPHP_XMLStream {
 	 * @var string
 	 */
 	public $user;
-	
+
 	/**
 	 * @var string
 	 */
 	protected $password;
-	
+
 	/**
 	 * @var string
 	 */
 	protected $resource;
-	
+
 	/**
 	 * @var string
 	 */
 	protected $fulljid;
-	
+
 	/**
 	 * @var string
 	 */
 	protected $basejid;
-	
+
 	/**
 	 * @var boolean
 	 */
 	protected $authed = false;
 	protected $session_started = false;
-	
+
 	/**
 	 * @var boolean
 	 */
 	protected $auto_subscribe = false;
-	
+
 	/**
 	 * @var boolean
 	 */
 	protected $use_encryption = true;
-	
+
 	/**
 	 * @var boolean
 	 */
 	public $track_presence = true;
-	
+
 	/**
 	 * @var object
 	 */
@@ -107,7 +106,7 @@ class Net_XMPP_XMPPHP_XMPP extends Net_XMPP_XMPPHP_XMLStream {
 	 */
 	public function __construct($host, $port, $user, $password, $resource, $server = null, $printlog = false, $loglevel = null) {
 		parent::__construct($host, $port, $printlog, $loglevel);
-		
+
 		$this->user	 = $user;
 		$this->password = $password;
 		$this->resource = $resource;
@@ -120,7 +119,7 @@ class Net_XMPP_XMPPHP_XMPP extends Net_XMPP_XMPPHP_XMLStream {
 		$this->stream_start = '<stream:stream to="' . $server . '" xmlns:stream="http://etherx.jabber.org/streams" xmlns="jabber:client" version="1.0">';
 		$this->stream_end   = '</stream:stream>';
 		$this->default_ns   = 'jabber:client';
-		
+
 		$this->addXPathHandler('{http://etherx.jabber.org/streams}features', 'features_handler');
 		$this->addXPathHandler('{urn:ietf:params:xml:ns:xmpp-sasl}success', 'sasl_success_handler');
 		$this->addXPathHandler('{urn:ietf:params:xml:ns:xmpp-sasl}failure', 'sasl_failure_handler');
@@ -138,7 +137,7 @@ class Net_XMPP_XMPPHP_XMPP extends Net_XMPP_XMPPHP_XMLStream {
 	public function useEncryption($useEncryption = true) {
 		$this->use_encryption = $useEncryption;
 	}
-	
+
 	/**
 	 * Turn on auto-authorization of subscription requests.
 	 *
@@ -161,17 +160,17 @@ class Net_XMPP_XMPPHP_XMPP extends Net_XMPP_XMPPHP_XMLStream {
 	    {
 	        $type = 'chat';
 	    }
-	    
+
 		$to	  = htmlspecialchars($to);
 		$body	= htmlspecialchars($body);
 		$subject = htmlspecialchars($subject);
-		
+
 		$out = "<message from=\"{$this->fulljid}\" to=\"$to\" type='$type'>";
 		if($subject) $out .= "<subject>$subject</subject>";
 		$out .= "<body>$body</body>";
 		if($payload) $out .= $payload;
 		$out .= "</message>";
-		
+
 		$this->send($out);
 	}
 
@@ -187,7 +186,7 @@ class Net_XMPP_XMPPHP_XMPP extends Net_XMPP_XMPPHP_XMLStream {
 		$to	 = htmlspecialchars($to);
 		$status = htmlspecialchars($status);
 		if($show == 'unavailable') $type = 'unavailable';
-		
+
 		$out = "<presence";
 		if($to) $out .= " to=\"$to\"";
 		if($type) $out .= " type='$type'";
@@ -200,7 +199,7 @@ class Net_XMPP_XMPPHP_XMPP extends Net_XMPP_XMPPHP_XMLStream {
 			if($priority) $out .= "<priority>$priority</priority>";
 			$out .= "</presence>";
 		}
-		
+
 		$this->send($out);
 	}
 	/**
@@ -292,7 +291,7 @@ class Net_XMPP_XMPPHP_XMPP extends Net_XMPP_XMPPHP_XMLStream {
 		$this->authed = true;
 		$this->reset();
 	}
-	
+
 	/**
 	 * SASL feature handler
 	 *
@@ -301,7 +300,7 @@ class Net_XMPP_XMPPHP_XMPP extends Net_XMPP_XMPPHP_XMLStream {
 	protected function sasl_failure_handler($xml) {
 		$this->log->log("Auth failed!",  Net_XMPP_XMPPHP_Log::LEVEL_ERROR);
 		$this->disconnect();
-		
+
 		throw new Net_XMPP_XMPPHP_Exception('Auth failed!');
 	}
 

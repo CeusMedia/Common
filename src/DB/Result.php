@@ -215,4 +215,3 @@ class DB_Result implements Countable, Iterator
 		return $this->cursor < $this->count();
 	}
 }
-?>

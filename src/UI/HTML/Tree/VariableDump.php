@@ -23,7 +23,6 @@
  *	@copyright		2009-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@version		$Id$
  */
 /**
  *	Output Methods for Developement.
@@ -33,7 +32,6 @@
  *	@copyright		2009-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@version		$Id$
  */
 class UI_HTML_Tree_VariableDump
 {
@@ -136,4 +134,3 @@ function treeVar( $mixed, $print = TRUE, $closed = FALSE )
 {
 	return UI_HTML_VarTree::dumpVar( $mixed, $print, $closed );
 }
-?>

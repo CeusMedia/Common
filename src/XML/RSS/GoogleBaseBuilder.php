@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			19.02.02008
- *	@version		$Id$
  */
 /**
  *	Builds RSS for Google Base - Froogle.
@@ -36,7 +35,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			19.02.02008
- *	@version		$Id$
  */
 class XML_RSS_GoogleBaseBuilder extends XML_RSS_Builder
 {
@@ -78,4 +76,3 @@ class XML_RSS_GoogleBaseBuilder extends XML_RSS_Builder
 		$this->itemElements[$name]	= (boolean) $mandatory;
 	}
 }
-?>

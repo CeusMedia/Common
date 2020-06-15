@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.6
- *	@version		$Id$
  */
 /**
  *	Collects event bindings and handles calls of triggered events.
@@ -35,7 +34,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.6
- *	@version		$Id$
  */
 class ADT_Event_Handler{
 
@@ -142,4 +140,3 @@ class ADT_Event_Handler{
 		return TRUE;
 	}
 }
-?>

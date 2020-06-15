@@ -265,4 +265,3 @@ abstract class DB_BaseConnection
 			mkDir( dirname( $fileName ), 0700, TRUE );
 	}
 }
-?>

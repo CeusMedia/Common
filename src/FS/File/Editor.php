@@ -194,4 +194,3 @@ class FS_File_Editor extends FS_File_Reader
 		return $this->writer->writeString( $string );
 	}
 }
-?>

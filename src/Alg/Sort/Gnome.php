@@ -23,7 +23,6 @@
  *	@copyright		2007-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@version		$Id$
  */
 /**
  *	Gnome Sort.
@@ -34,7 +33,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@link			http://www.cs.vu.nl/~dick/gnomesort.html
- *	@version		$Id$
  */
 class Alg_Sort_Gnome
 {
@@ -61,4 +59,3 @@ class Alg_Sort_Gnome
 		}
 	}
 }
-?>

@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.1
- *	@version		$Id$
  */
 /**
  *	Handler for HTTP Requests.
@@ -38,7 +37,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.1
- *	@version		$Id$
  */
 class Net_HTTP_Reader
 {
@@ -257,4 +255,3 @@ class Net_HTTP_Reader
 		$this->curl->setOption( CURLOPT_CAINFO, $caInfo );
 	}
 }
-?>

@@ -25,7 +25,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			26.07.2005
- *	@version		$Id$
  */
 /**
  *	Management for session data with partitions.
@@ -38,7 +37,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			26.07.2005
- *	@version		$Id$
  */
 class Net_HTTP_PartitionSession extends ADT_List_Dictionary
 {
@@ -76,7 +74,7 @@ class Net_HTTP_PartitionSession extends ADT_List_Dictionary
 			$_SESSION['partitions'][$partitionName]	= array();					//  create new partition in session
 		$this->pairs =& $_SESSION['partitions'][$partitionName];				//  copy session partition reference
 	}
-	
+
 	/**
 	 *	Destructor.
 	 *	@access		public
@@ -120,4 +118,3 @@ class Net_HTTP_PartitionSession extends ADT_List_Dictionary
 		return session_name();
 	}
 }
-?>

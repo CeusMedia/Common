@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.5
- *	@version		$Id$
  */
 namespace CeusMedia\Common\ADT\CSS;
 
@@ -38,7 +37,6 @@ namespace CeusMedia\Common\ADT\CSS;
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.5
- *	@version		$Id$
  */
 class Rule
 {

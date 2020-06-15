@@ -1,7 +1,6 @@
 <?php
 /**
  *	Spyc -- A Simple PHP YAML Class
- *	@version		$Id$
  *	@author			Chris Wanstrath <chris@ozmm.org>
  *	@author			Vlad Andersen <vlad@oneiros.ru>
  *	@link			http://spyc.sourceforge.net/
@@ -734,4 +733,3 @@ class FS_File_YAML_Spyc {
 		return $Spyc->load($input);
 	}
 }
-?>

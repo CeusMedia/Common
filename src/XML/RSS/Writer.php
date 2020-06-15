@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			20.02.2008
- *	@version		$Id$
  */
 /**
  *	Writer for RSS 2.0 Feeds.
@@ -37,7 +36,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			20.02.2008
- *	@version		$Id$
  */
 class XML_RSS_Writer
 {
@@ -57,7 +55,7 @@ class XML_RSS_Writer
 	{
 		$this->itemList[] = $item;
 	}
-	
+
 	/**
 	 *	Sets Information of Channel.
 	 *	@access		public
@@ -69,7 +67,7 @@ class XML_RSS_Writer
 	{
 		$this->channelData	= $array;
 	}
-	
+
 	/**
 	 *	Sets an Information Pair of Channel.
 	 *	@access		public
@@ -126,4 +124,3 @@ class XML_RSS_Writer
 		return $this->save( $fileName, $this->channelData, $this->itemList, $encoding );
 	}
 }
-?>

@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			14.05.2006
- *	@version		$Id$
  */
 namespace CeusMedia\Common\ADT\JSON;
 
@@ -37,7 +36,6 @@ namespace CeusMedia\Common\ADT\JSON;
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			14.05.2006
- *	@version		$Id$
  */
 class Builder
 {
@@ -172,4 +170,3 @@ class Builder
 		return $output;
 	}
 }
-?>

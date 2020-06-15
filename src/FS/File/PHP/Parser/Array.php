@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			04.08.08
- *	@version		$Id$
  */
 /**
  *	Parses PHP Files containing a Class or Methods to Array using regular expressions (slow).
@@ -36,7 +35,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			04.08.08
- *	@version		$Id$
  *	@todo			Code Doc
  */
 class FS_File_PHP_Parser_Array
@@ -159,7 +157,7 @@ class FS_File_PHP_Parser_Array
 			}
 		}
 	}
-	
+
 	/**
 	 *	Parses a Class Signature and returns Array of collected Information.
 	 *	@access		private
@@ -241,7 +239,7 @@ class FS_File_PHP_Parser_Array
 					if( preg_match( "@^http://@", $matches[1] ) )
 						$url	= trim( $matches[1] );
 				}
-			
+
 				$data['license'][]	= array(
 					'url'	=> $url,
 					'name'	=> $name,
@@ -304,7 +302,7 @@ class FS_File_PHP_Parser_Array
 		$file			= $this->fileData;
 		$file['name']	= substr( str_replace( "\\", "/", $fileName ), strlen( $innerPath ) );
 		$file['uri']	= str_replace( "\\", "/", $fileName );
-	
+
 		$level	= 0;
 		$class	= NULL;
 		do
@@ -313,7 +311,7 @@ class FS_File_PHP_Parser_Array
 			$line	= Alg_Text_Unicoder::convertToUnicode( $line );
 			if( preg_match( "@^(<\?(php)?)|((php)?\?>)$@", $line ) )
 				continue;
-			
+
 			if( preg_match( '@{ ?}?$@', $line ) )
 				$level++;
 			else if( preg_match( '@}$@', $line ) )
@@ -455,4 +453,3 @@ class FS_File_PHP_Parser_Array
 		return $method;
 	}
 }
-?>

@@ -172,4 +172,3 @@ class Net_Mail_Body
 		$this->content	= chunk_split( $this->content, $maxLineLength, Net_Mail::$delimiter );
 	}
 }
-?>

@@ -25,7 +25,6 @@
  *	@copyright		2007-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@version		$Id$
  */
 /**
  *	This is a pie visualization class. 
@@ -37,7 +36,6 @@
  *	@copyright		2007-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@version		$Id$
  */
 class UI_SVG_PieGraph
 {
@@ -62,34 +60,34 @@ class UI_SVG_PieGraph
 		$alpha	= 0;
 		$output	= "";
 		$count	= 0;
-		
+
 		$data	= $this->chart->data;
 		$sum	= 0;
 		foreach( $data as $obj )
 			$sum += $obj->value;
-		
+
 		foreach( $data as $obj )
 		{
 			$alpha = $alpha + ( $obj->percent / 100 * ( 2 * M_PI ) );
-			
+
 			$x2 = $cx + ( $r * sin( $alpha ) );
 			$y2 = $cy - ( $r * cos( $alpha ) );
-			
+
 			$rotate180	= $obj->percent > 50 ? 1 : 0; 
 			$color		= $this->chart->getColor( $count );
-			
+
 			$attributes	= array(
 				'd'			=> "M{$cx},{$cy} L$x1,$y1 A{$r},{$r} 0 $rotate180,1 $x2,$y2 Z",
 				'fill'		=> $color,
 				'opacity'	=> 0.8,
 			);
 			$output .= UI_HTML_Tag::create( "path", NULL, $attributes );
-			
+
 			$x1	= $x2;
 			$y1	= $y2;
 			$count++;
 		}
-		
+
 		if( isset( $this->options["legend"] ) && $options["legend"] )
 		{
 			$x = $cx + $r * 1.2;
@@ -103,4 +101,3 @@ class UI_SVG_PieGraph
 		return $graph;
 	}
 }
-?>

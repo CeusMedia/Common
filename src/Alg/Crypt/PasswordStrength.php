@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			14.02.2008
- *	@version		$Id$
  */
 /**
  *	Calculates a Score for the Strength of a Password.
@@ -35,7 +34,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			14.02.2008
- *	@version		$Id$
  */
 class Alg_Crypt_PasswordStrength
 {
@@ -111,7 +109,7 @@ class Alg_Crypt_PasswordStrength
 			$score -= 200;
 		return $score;
 	}
-	
+
 	/**
 	 *	Calculates and returns the Strength of a Password (max 100).
 	 *	@access		public
@@ -124,7 +122,7 @@ class Alg_Crypt_PasswordStrength
 		$score	= self::getScore( $password );
 		return self::normaliseScore( $score );
 	}
-	
+
 	/**
 	 *	Calculates an Integer between -300 and +100 for a calculated Score.
 	 *	@access		public
@@ -139,4 +137,3 @@ class Alg_Crypt_PasswordStrength
 		return $score;
 	}
 }
-?>

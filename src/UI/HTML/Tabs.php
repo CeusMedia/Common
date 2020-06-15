@@ -148,7 +148,7 @@ class UI_HTML_Tabs
 	{
 		return UI_HTML_JQuery::buildPluginCall( "tabs", $selector, $options );	
 	}
-	
+
 	/**
 	 *	Builds HTML Code of Tabbed Content statically.
 	 *	@access		public
@@ -216,4 +216,3 @@ class UI_HTML_Tabs
 		self::$version	= $version;
 	}
 }
-?>

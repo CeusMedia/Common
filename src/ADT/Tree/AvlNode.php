@@ -23,7 +23,6 @@
  *	@copyright		2007-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@version		$Id$
  */
 /**
  *	AVL Tree.
@@ -34,7 +33,6 @@
  *	@copyright		2007-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@version		$Id$
  */
 class ADT_Tree_AvlNode extends ADT_Tree_BalanceBinaryNode
 {
@@ -49,4 +47,3 @@ class ADT_Tree_AvlNode extends ADT_Tree_BalanceBinaryNode
 		parent::__construct( 2, $value );
 	}
 }
-?>

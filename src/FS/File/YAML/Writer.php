@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			18.06.2007
- *	@version		$Id$
  */
 /**
  *	YAML Writer based on Spyc.
@@ -37,7 +36,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			18.06.2007
- *	@version		$Id$
  */
 class FS_File_YAML_Writer
 {
@@ -79,4 +77,3 @@ class FS_File_YAML_Writer
 		return self::save( $this->fileName, $data );
 	}
 }
-?>

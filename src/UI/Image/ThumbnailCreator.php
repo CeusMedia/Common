@@ -24,7 +24,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			16.12.2005
- *	@version		$Id$
  */
 /**
  *	Resizing Images.
@@ -35,7 +34,6 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			16.12.2005
- *	@version		$Id$
  */
 class UI_Image_ThumbnailCreator
 {
@@ -47,7 +45,7 @@ class UI_Image_ThumbnailCreator
 	private $source;
 	/**	@var	string		$target			Target File Name of Target Image */
 	private $target;
-	
+
 	/**
 	 *	Constructur.
 	 *	@access		public
@@ -101,7 +99,7 @@ class UI_Image_ThumbnailCreator
 	{
 		$this->target	= $target;
 	}
-	
+
 	/**
 	 *	Resizes Image to a given Size.
 	 *	@access		public
@@ -162,4 +160,3 @@ class UI_Image_ThumbnailCreator
 		return $this->thumbize( $width, $height );
 	}
 }
-?>

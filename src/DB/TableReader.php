@@ -455,4 +455,3 @@ class DB_TableReader
 		$this->tableName = $tableName;
 	}
 }
-?>

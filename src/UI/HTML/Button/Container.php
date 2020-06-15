@@ -5,7 +5,6 @@
  *	@package		CeusMedia_Common_UI_HTML_Button
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			0.7.0
- *	@version		$Id$
  */
 /**
  *	HTML Button Container (for CSS).
@@ -14,7 +13,6 @@
  *	@extends		UI_HTML_Abstract
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			0.7.0
- *	@version		$Id$
  */
 class UI_HTML_Button_Container extends UI_HTML_Abstract
 {
@@ -47,4 +45,3 @@ class UI_HTML_Button_Container extends UI_HTML_Abstract
 		return UI_HTML_Tag::create( "div", $list, $this->getAttributes() );
 	}
 }
-?>

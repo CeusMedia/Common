@@ -23,7 +23,6 @@
  *	@copyright		2007-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@version		$Id$
  */
 /**
  *	Namespace Map to detect and collect Namespaces from a XML File, usind Simple XML to read XML and import DOM.
@@ -33,7 +32,6 @@
  *	@copyright		2007-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@version		$Id$
  */
 class XML_Namespaces
 {
@@ -51,7 +49,7 @@ class XML_Namespaces
 	{
 		$this->namespaces[$prefix]	= $uri;
 	}
-	
+
 	/**
 	 *	Detects Namespaces from a XML DOM Document and returns Number of found Namespaces.
 	 *	@access		public
@@ -64,7 +62,7 @@ class XML_Namespaces
 		$this->namespaces	= array_merge( $this->namespaces, $namespaces );
 		return count( $namespaces );
 	}
-	
+
 	/**
 	 *	Detects Namespaces from a XML DOM Document and returns Number of found Namespaces.
 	 *	@access		public
@@ -77,7 +75,7 @@ class XML_Namespaces
 		$this->namespaces	= array_merge( $this->namespaces, $namespaces );
 		return count( $namespaces );
 	}
-	
+
 	/**
 	 *	Detects Namespaces from a XML File and returns Number of found Namespaces.
 	 *	@access		public
@@ -125,7 +123,7 @@ class XML_Namespaces
 	{
 		return $element->getDocNamespaces( $element );
 	}
-	
+
 	/**
 	 *	Detects and returns Map of Namespaces found in a XML File.
 	 *	@access		public
@@ -139,4 +137,3 @@ class XML_Namespaces
 		return self::getNamespacesFromSimpleXmlElement( $element );					//  return Namespaces from XML Element
 	}
 }
-?>
