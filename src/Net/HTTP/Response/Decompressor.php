@@ -62,7 +62,8 @@ class Net_HTTP_Response_Decompressor
 	{
 		if( !$type )
 			return $content;
-		ob_start();																					//  open a output buffer
+		//  open a output buffer
+		ob_start();
 		switch( strtolower( $type ) )
 		{
 			case 'deflate':
@@ -77,10 +78,14 @@ class Net_HTTP_Response_Decompressor
 				ob_end_clean();
 				throw new InvalidArgumentException( 'Decompression method "'.$type.'" is not supported' );
 		}
-		$output		= ob_get_clean();																//  close buffer for PHP error messages
-		if( $content === FALSE && $output )															//  could not decompress
-			throw new RuntimeException( $output );												//  throw exception and carry error message
-		return $content;																				//  return decompressed response Content
+		//  close buffer for PHP error messages
+		$output		= ob_get_clean();
+		//  could not decompress
+		if( $content === FALSE && $output )
+			//  throw exception and carry error message
+			throw new RuntimeException( $output );
+		//  return decompressed response Content
+		return $content;
 	}
 
 	/**
@@ -91,20 +96,31 @@ class Net_HTTP_Response_Decompressor
 	 */
 	public static function ungzip( $content )
 	{
-		if( function_exists( 'gzdecode' ) )															//  if PHP method has been released
-			$content	= @gzdecode( $content );													//  use it to decompress the data
-		else																						//  otherwise: own implementation
+		//  if PHP method has been released
+		if( function_exists( 'gzdecode' ) )
+			//  use it to decompress the data
+			$content	= @gzdecode( $content );
+		//  otherwise: own implementation
+		else
 		{
-			$tmp	= tempnam( '/tmp', 'CMC' );														//  create temporary file
-			@file_put_contents( $tmp, $content );													//  store gzipped data
-			ob_start();																				//  open output buffer
-			readgzfile( $tmp );																		//  read the gzip file to std output
+			//  create temporary file
+			$tmp	= tempnam( '/tmp', 'CMC' );
+			//  store gzipped data
+			@file_put_contents( $tmp, $content );
+			//  open output buffer
+			ob_start();
+			//  read the gzip file to std output
+			readgzfile( $tmp );
 			@unlink( $tmp );
-			$content	= ob_get_clean();															//  get decompressed data from output buffer
+			//  get decompressed data from output buffer
+			$content	= ob_get_clean();
 		}
-		if( FALSE !== $content )																	//  gzencode could decompress
-			return $content;																			//  return decompressed data
-		throw new RuntimeException( 'Data not decompressable with gzdecode' );						//  throw exception
+		//  gzencode could decompress
+		if( FALSE !== $content )
+			//  return decompressed data
+			return $content;
+		//  throw exception
+		throw new RuntimeException( 'Data not decompressable with gzdecode' );
 	}
 
 	/**

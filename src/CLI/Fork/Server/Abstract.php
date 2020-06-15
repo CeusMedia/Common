@@ -63,7 +63,8 @@ abstract class CLI_Fork_Server_Abstract
 	{
 		if( !is_null( $port ) )
 			$this->setPort( $port );
-		ini_set( 'max_execution_time', '0' );														//	Give us eternity to execute the script. We can always kill -9
+		//	Give us eternity to execute the script. We can always kill -9
+		ini_set( 'max_execution_time', '0' );
 		ini_set( 'max_input_time', '0' );
 		set_time_limit( 0 );
 		try
@@ -145,8 +146,10 @@ abstract class CLI_Fork_Server_Abstract
 	protected function run()
 	{
 
-		$pid = pcntl_fork();																		//	Fork and exit (daemonize)
-		if( $pid == -1 )																			//	Not good.
+		//	Fork and exit (daemonize)
+		$pid = pcntl_fork();
+		//	Not good.
+		if( $pid == -1 )
 			throw new CLI_Fork_Server_Exception( 'Could not fork' );
 
 		else if( $pid )
@@ -155,18 +158,22 @@ abstract class CLI_Fork_Server_Abstract
 			exit();
 		}
 
-#		$parentpid = posix_getpid();																//  kriss: not used
+//  kriss: not used
+#		$parentpid = posix_getpid();
 
-		while( !$this->signalTerm )																	//	And we're off!
+		//	And we're off!
+		while( !$this->signalTerm )
 		{
-			if( ( $sock = socket_create_listen( $this->socketPort, SOMAXCONN ) ) === FALSE )		//	Set up listener
+			//	Set up listener
+			if( ( $sock = socket_create_listen( $this->socketPort, SOMAXCONN ) ) === FALSE )
 			{
 				$this->signalHangup = TRUE;
 				$errNo	= socket_last_error();
 				throw new CLI_Fork_Server_SocketException( self::E_LISTEN_FAILED, $errNo );
 			}
 			//	Whoop-tee-loop!
-			while( !$this->signalHangup && !$this->signalTerm )										//	Patiently wait until some of our children dies. Make sure we don't use all powers that be.
+			//	Patiently wait until some of our children dies. Make sure we don't use all powers that be.
+			while( !$this->signalHangup && !$this->signalTerm )
 			{
 				while( pcntl_wait( $status, WNOHANG OR WUNTRACED ) > 0 )
 				{
@@ -212,17 +219,20 @@ abstract class CLI_Fork_Server_Abstract
 				}
 
 				$pid = pcntl_fork();
-				if( $pid == -1 )																	//	Not good.
+				//	Not good.
+				if( $pid == -1 )
 				{
 					throw new CLI_Fork_Server_Exception( 'Could not fork' );
 				}
-				else if( $pid )																		//	This is the parent. It doesn't do much.
+				//	This is the parent. It doesn't do much.
+				else if( $pid )
 				{
 					socket_close( $conn );
 					$this->childrenMap[] = $pid;
 					usleep( 5000 );
 				}
-				else																				//	This is a child. It dies, hopefully.
+				//	This is a child. It dies, hopefully.
+				else
 				{
 					socket_close( $sock );
 					while( TRUE )
@@ -248,7 +258,8 @@ abstract class CLI_Fork_Server_Abstract
 							$rbuf .= $tbuf;
 						}
 
-						$wbuf	= $this->handleRequest( $rbuf );									//	Formulating answer
+						//	Formulating answer
+						$wbuf	= $this->handleRequest( $rbuf );
 
 						//	Going postal!
 						if( socket_write( $conn, $wbuf ) === FALSE )
@@ -266,12 +277,14 @@ abstract class CLI_Fork_Server_Abstract
 				}
 			}
 
-			while( pcntl_wait( $status, WNOHANG OR WUNTRACED ) > 0 )								//	Patiently wait until all our children die.
+			//	Patiently wait until all our children die.
+			while( pcntl_wait( $status, WNOHANG OR WUNTRACED ) > 0 )
 			{
 				usleep( 5000 );
 			}
 
-			if( socket_close( $sock ) === FALSE )													//	Kill the listener.
+			//	Kill the listener.
+			if( socket_close( $sock ) === FALSE )
 			{
 				$errNo	= socket_last_error();
 				throw new CLI_Fork_Server_SocketException( self::E_CLOSE_FAILED, $errNo );
@@ -279,7 +292,8 @@ abstract class CLI_Fork_Server_Abstract
 			$this->signalHangup = FALSE;
 			$this->timeStarted	= time();
 		}
-		exit();																						//	Finally!
+		//	Finally!
+		exit();
 	}
 
 	public function setPort( $port )

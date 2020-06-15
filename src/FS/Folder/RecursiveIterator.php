@@ -94,16 +94,21 @@ class FS_Folder_RecursiveIterator extends FilterIterator
 		if( !$this->showFiles && !$isDir )
 			return FALSE;
 
-		if( $this->stripDotEntries )															//  skip all folders and files starting with a dot
+		//  skip all folders and files starting with a dot
+		if( $this->stripDotEntries )
 		{
-			if( substr( $this->getFilename(), 0, 1 ) == "." )									//  found file or folder is hidden
+			//  found file or folder is hidden
+			if( substr( $this->getFilename(), 0, 1 ) == "." )
 				return FALSE;
 
-			if( substr( $this->getSubPathname(), 0, 1 ) == "." )								//  inner path is hidden
+			//  inner path is hidden
+			if( substr( $this->getSubPathname(), 0, 1 ) == "." )
 				return FALSE;
 
-			$subPath	= str_replace( "\\", "/", $this->getSubPathname() );					//  be nice to Windows
-			if( preg_match( '/\/\.\w/', $subPath ) )											//  atleast 1 folder in inner path is hidden
+			//  be nice to Windows
+			$subPath	= str_replace( "\\", "/", $this->getSubPathname() );
+			//  atleast 1 folder in inner path is hidden
+			if( preg_match( '/\/\.\w/', $subPath ) )
 				return FALSE;
 		}
 		return TRUE;

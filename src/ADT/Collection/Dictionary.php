@@ -84,7 +84,8 @@ class Dictionary implements \ArrayAccess, \Countable, \Iterator
 		if( !$this->has( $key ) )
 			throw new \OutOfRangeException( 'Invalid key "'.$key.'"' );
 
-		$key		= !$this->caseSensitive ? strtolower( $key ) : $key;								//  lowercase key if dictionary is not case sensitive
+		//  lowercase key if dictionary is not case sensitive
+		$key		= !$this->caseSensitive ? strtolower( $key ) : $key;
 		$valueType	= strtolower( gettype( $value ) );
 		$pairType	= strtolower( gettype( $this->get( $key ) ) );
 
@@ -162,23 +163,36 @@ class Dictionary implements \ArrayAccess, \Countable, \Iterator
 	 */
 	public function getAll( $prefix = NULL, $asDictionary = FALSE, $caseSensitive = TRUE )
 	{
-		$list	= $this->pairs;																		//  assume all pairs by default
-		if( strlen( $prefix ) ){																	//  a prefix to filter keys has been given
-			$list	= arCollectionray();																		//  create empty list
-			$length	= strlen( $prefix );															//  get prefix length
-			foreach( $this->pairs as $key => $value )												//  iterate all pairs
+		//  assume all pairs by default
+		$list	= $this->pairs;
+		//  a prefix to filter keys has been given
+		if( strlen( $prefix ) ){
+			//  create empty list
+			$list	= arCollectionray();
+			//  get prefix length
+			$length	= strlen( $prefix );
+			//  iterate all pairs
+			foreach( $this->pairs as $key => $value )
 			{
-				if( strlen( $key ) <= $length )														//  pair key is shorter than prefix
-					continue;																		//  skip this pair
-				if( substr( $key, 0, $length ) == $prefix ){										//  key starts with prefix
-					$key	= substr( $key, $length );												//  cut prefix
-					$list[( !$this->caseSensitive ? strtolower( $key ) : $key )]	= $value;		//  enlist pair, with case insensitive key if needed
+				//  pair key is shorter than prefix
+				if( strlen( $key ) <= $length )
+					//  skip this pair
+					continue;
+				//  key starts with prefix
+				if( substr( $key, 0, $length ) == $prefix ){
+					//  cut prefix
+					$key	= substr( $key, $length );
+					//  enlist pair, with case insensitive key if needed
+					$list[( !$this->caseSensitive ? strtolower( $key ) : $key )]	= $value;
 				}
 			}
 		}
-		if( $asDictionarCollectiony )																			//  a dictionary object is to be returned
-			$list	= new Dictionary( $list, $caseSensitive );										//  create dictionary for pair list
-		return $list;																				//  return pair list as array or dictionary
+		//  a dictionary object is to be returned
+		if( $asDictionarCollectiony )
+			//  create dictionary for pair list
+			$list	= new Dictionary( $list, $caseSensitive );
+		//  return pair list as array or dictionary
+		return $list;
 	}
 
 	/**
@@ -211,7 +225,8 @@ class Dictionary implements \ArrayAccess, \Countable, \Iterator
 	 */
 	public function has( $key )
 	{
-		$key	= !$this->caseSensitive ? strtolower( $key ) : $key;								//  lowercase key if dictionary is not case sensitive
+		//  lowercase key if dictionary is not case sensitive
+		$key	= !$this->caseSensitive ? strtolower( $key ) : $key;
 		return array_key_exists( $key, $this->pairs );
 	}
 
@@ -289,14 +304,22 @@ class Dictionary implements \ArrayAccess, \Countable, \Iterator
 	 */
 	public function remove( $key )
 	{
-		if( !$this->has( $key ) )																	//  pair key is not existing
-			return FALSE;																			//  indicate miss
-		$key	= !$this->caseSensitive ? strtolower( $key ) : $key;								//  lowercase key if dictionary is not case sensitive
-		$index	= array_search( $key, array_keys( $this->pairs ) );									//  index of pair to be removed
-		if( $index >= $this->position )																//  iterator position is beyond pair
-			$this->position--;																		//  decrease iterator position since pair is removed
-		unset( $this->pairs[$key] );																//  remove pair by its key
-		return TRUE;																				//  indicate hit
+		//  pair key is not existing
+		if( !$this->has( $key ) )
+			//  indicate miss
+			return FALSE;
+		//  lowercase key if dictionary is not case sensitive
+		$key	= !$this->caseSensitive ? strtolower( $key ) : $key;
+		//  index of pair to be removed
+		$index	= array_search( $key, array_keys( $this->pairs ) );
+		//  iterator position is beyond pair
+		if( $index >= $this->position )
+			//  decrease iterator position since pair is removed
+			$this->position--;
+		//  remove pair by its key
+		unset( $this->pairs[$key] );
+		//  indicate hit
+		return TRUE;
 	}
 
 	/**
@@ -318,15 +341,22 @@ class Dictionary implements \ArrayAccess, \Countable, \Iterator
 	 */
 	public function set( $key, $value )
 	{
-		if( $this->has( $key ) )																	//  check if pair is already existing
+		//  check if pair is already existing
+		if( $this->has( $key ) )
 		{
-			if( is_null( $value ) )																	//  given value is NULL, which means: remove this pair
-				return $this->remove( $key );														//  remove pair and return result of sub operation
-			else if( $this->get( $key ) === $value )												//  value of pair did not change
-				return FALSE;																		//  quit and return negative because no change has taken place
+			//  given value is NULL, which means: remove this pair
+			if( is_null( $value ) )
+				//  remove pair and return result of sub operation
+				return $this->remove( $key );
+			//  value of pair did not change
+			else if( $this->get( $key ) === $value )
+				//  quit and return negative because no change has taken place
+				return FALSE;
 		}
-		$this->pairs[( !$this->caseSensitive ? strtolower( $key ) : $key )]		= $value;			//  set new value of current pair, case insensitive if needed
-		return TRUE;																				//  indicate success
+		//  set new value of current pair, case insensitive if needed
+		$this->pairs[( !$this->caseSensitive ? strtolower( $key ) : $key )]		= $value;
+		//  indicate success
+		return TRUE;
 	}
 
 	/**

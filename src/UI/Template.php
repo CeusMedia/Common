@@ -224,43 +224,63 @@ class UI_Template
 	 */
 	public function create()
 	{
-		$out	= $this->template;																	//  local copy of set template
-		$out	= $this->loadNestedTemplates( $out );												//  search for nested templates and load them
+		//  local copy of set template
+		$out	= $this->template;
+		//  search for nested templates and load them
+		$out	= $this->loadNestedTemplates( $out );
 
 		foreach( $this->plugins as $plugin )
 			if( $plugin->type == 'pre' )
 				$out	= $plugin->work( $out );
 
- 		$out	= preg_replace( '/<%--.*--%>/sU', '', $out );										//  remove template engine style comments
- 		if( self::$removeComments )																	//  HTML comments should be removed
-			$out	= preg_replace( '/<!--.+-->/sU', '', $out );									//  find and remove all HTML comments 
- 		if( self::$removeOptional )																	//  optional parts should be removed
-			$out	= preg_replace( '/<%\?--.+--%>/sU', '', $out );									//  find and remove optional parts
-		else																						//  otherwise
-			$out	= preg_replace( '/<%\?--(.+)--%>/sU', '\\1', $out );							//  find, remove markup but keep content
+ 		//  remove template engine style comments
+ 		$out	= preg_replace( '/<%--.*--%>/sU', '', $out );
+ 		//  HTML comments should be removed
+ 		if( self::$removeComments )
+			//  find and remove all HTML comments 
+			$out	= preg_replace( '/<!--.+-->/sU', '', $out );
+ 		//  optional parts should be removed
+ 		if( self::$removeOptional )
+			//  find and remove optional parts
+			$out	= preg_replace( '/<%\?--.+--%>/sU', '', $out );
+		//  otherwise
+		else
+			//  find, remove markup but keep content
+			$out	= preg_replace( '/<%\?--(.+)--%>/sU', '\\1', $out );
 
-		foreach( $this->elements as $label => $element )											//  iterate over all registered element containers
+		//  iterate over all registered element containers
+		foreach( $this->elements as $label => $element )
 		{
 			$tmp = '';																				//  
-			if( is_object( $element ) )																//  element is an object
+			//  element is an object
+			if( is_object( $element ) )
 			{
-				if( !( $element instanceof $this->className ) )										//  object is not an template of this template engine
-					continue;																		//  skip this one
-				$element = $element->create();														//  render template before concat
+				//  object is not an template of this template engine
+				if( !( $element instanceof $this->className ) )
+					//  skip this one
+					continue;
+				//  render template before concat
+				$element = $element->create();
 			}
 			$tmp	.= $element;
-			$out	= preg_replace( '/<%(\?)?' . preg_quote( $label, '/' ) . '%>/', $tmp, $out );	//  find placeholder and set in content
+			//  find placeholder and set in content
+			$out	= preg_replace( '/<%(\?)?' . preg_quote( $label, '/' ) . '%>/', $tmp, $out );
  		}
-		$out = preg_replace( '/<%\?.*%>/U', '', $out );    											//  remove left over optional placeholders
-#        $out = preg_replace( '/\n\s+\n/', "\n", $out );												//  remove double line breaks
+		//  remove left over optional placeholders
+		$out = preg_replace( '/<%\?.*%>/U', '', $out );
+//  remove double line breaks
+#        $out = preg_replace( '/\n\s+\n/', "\n", $out );
 
 		foreach( $this->plugins as $plugin )
 			if( $plugin->type == 'post' )
 				$out	= $plugin->work( $out );
 
-		$tags = array();																			//  create container for left over placeholders
-		if( preg_match_all( '/<%.*%>/U', $out, $tags ) === 0 )										//  no more placeholders left over
-		    return $out; 																			//  return final result
+		//  create container for left over placeholders
+		$tags = array();
+		//  no more placeholders left over
+		if( preg_match_all( '/<%.*%>/U', $out, $tags ) === 0 )
+		    //  return final result
+		    return $out;
 
 		$tags	= array_shift( $tags );																//  
 		foreach( $tags as $key => $value )

@@ -49,36 +49,58 @@ class Net_HTTP_Request_QueryParser
 	public static function toArray( $query, $separatorPairs = "&", $separatorPair = "=" )
 	{
 		$list	= array();
-		$pairs	= explode( $separatorPairs, $query );									//  cut query into pairs
-		foreach( $pairs as $pair )														//  iterate all pairs
+		//  cut query into pairs
+		$pairs	= explode( $separatorPairs, $query );
+		//  iterate all pairs
+		foreach( $pairs as $pair )
 		{
-			$pair	= trim( $pair );													//  remove surrounding whitespace 
-			if( !$pair )																//  empty pair
-				continue;																//  skip to next
+			//  remove surrounding whitespace 
+			$pair	= trim( $pair );
+			//  empty pair
+			if( !$pair )
+				//  skip to next
+				continue;
 
-			$key		= $pair;														//  default, if no value attached
-			$value		= NULL;															//  default, if no value attached
+			//  default, if no value attached
+			$key		= $pair;
+			//  default, if no value attached
+			$value		= NULL;
 			$pattern	= '@^(\S+)'.$separatorPair.'(\S*)$@U';
-			if( preg_match( $pattern, $pair ) ) 										//  separator sign found -> value attached
+			//  separator sign found -> value attached
+			if( preg_match( $pattern, $pair ) )
 			{
-				$matches	= array();													//  prepare matches array
-				preg_match_all( $pattern, $pair, $matches );							//  find all parts
-				$key	= $matches[1][0];												//  key is first part
-				$value	= $matches[2][0];												//  value is second part
+				//  prepare matches array
+				$matches	= array();
+				//  find all parts
+				preg_match_all( $pattern, $pair, $matches );
+				//  key is first part
+				$key	= $matches[1][0];
+				//  value is second part
+				$value	= $matches[2][0];
 			}
-			if( !preg_match( '@^[^'.$separatorPair.']@', $pair ) ) 						//  is there a key at all ?
-				throw new InvalidArgumentException( 'Query is invalid.' );				//  no, key is empty
+			//  is there a key at all ?
+			if( !preg_match( '@^[^'.$separatorPair.']@', $pair ) )
+				//  no, key is empty
+				throw new InvalidArgumentException( 'Query is invalid.' );
 
-			if( preg_match( "/\[\]$/", $key ) )											//  key is ending on [] -> array
+			//  key is ending on [] -> array
+			if( preg_match( "/\[\]$/", $key ) )
 			{
-				$key	= preg_replace( "/\[\]$/", "", $key );							//  remove [] from key
-				if( !isset( $list[$key] ) )												//  array for key is not yet set in list
-					$list[$key]	= array();												//  set up array for key in list
-				$list[$key][]	= $value;												//  add value for key in array in list
+				//  remove [] from key
+				$key	= preg_replace( "/\[\]$/", "", $key );
+				//  array for key is not yet set in list
+				if( !isset( $list[$key] ) )
+					//  set up array for key in list
+					$list[$key]	= array();
+				//  add value for key in array in list
+				$list[$key][]	= $value;
 			}
-			else																		//  key is just a string
-				$list[$key]	= $value;													//  set value for key in list
+			//  key is just a string
+			else
+				//  set value for key in list
+				$list[$key]	= $value;
 		}
-		return $list;																	//  return resulting list
+		//  return resulting list
+		return $list;
 	}
 }

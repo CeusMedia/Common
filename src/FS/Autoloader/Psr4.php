@@ -21,13 +21,16 @@
  * as follows:
  *
  *      <?php
- *      // instantiate the loader
+ // instantiate the loader
+ * 
  *      $loader = new \Example\Psr4AutoloaderClass;
  *
- *      // register the autoloader
+ // register the autoloader
+ * 
  *      $loader->register();
  *
- *      // register the base directories for the namespace prefix
+ // register the base directories for the namespace prefix
+ * 
  *      $loader->addNamespace('Foo\Bar', '/path/to/packages/foo-bar/src');
  *      $loader->addNamespace('Foo\Bar', '/path/to/packages/foo-bar/tests');
  *
@@ -80,7 +83,7 @@ class FS_Autoloader_Psr4
         $prefix = trim($prefix, '\\') . '\\';
 
         // normalize the base directory with a trailing separator
-        $base_dir = rtrim($base_dir, DIRECTORY_SEPARATOR) . '/';
+        $base_dir = rtrim(realpath($base_dir), DIRECTORY_SEPARATOR) . '/';
 
         // initialize the namespace prefix array
         if (isset($this->prefixes[$prefix]) === false) {

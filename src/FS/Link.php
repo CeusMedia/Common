@@ -1,5 +1,9 @@
 <?php
-class FS_File extends FS_AbstractNode{
+/**
+ *	@todo		finish implementation, seems to be not finished
+ *	@todo		code doc
+ */
+class FS_Link extends FS_AbstractNode{
 
 	protected $pathName;
 

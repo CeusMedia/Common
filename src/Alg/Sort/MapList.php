@@ -62,25 +62,40 @@ class Alg_Sort_MapList
 	 */
 	public static function sortByMultipleColumns( $data, $orders )
 	{
-		$key		= array_shift( array_keys( $orders ) );						//  get first Column
-		$direction	= $orders[$key];											//  get first Diection
-		$orders		= array_slice( $orders, 1 );								//  remove Order from Order Map
-		$list		= array();													//  prepare Index List
-		foreach( $data as $entry )												//  iterate Data Array
-			$list[$entry[$key]][]	= $entry;									//  index by Column Key
+		//  get first Column
+		$key		= array_shift( array_keys( $orders ) );
+		//  get first Direction
+		$direction	= $orders[$key];
+		//  remove Order from Order Map
+		$orders		= array_slice( $orders, 1 );
+		//  prepare Index List
+		$list		= array();
+		//  iterate Data Array
+		foreach( $data as $entry )
+			//  index by Column Key
+			$list[$entry[$key]][]	= $entry;
 
-		if( $direction == self::DIRECTION_ASC )									//  ascending
-			ksort( $list );														//  sort Index List
-		else																	//  descending
-			krsort( $list );													//  reverse sort Index List
-		$array	= array();														//  prepare new Data Array
-		foreach( $list as $entries )											//  iterate Index List
+		//  ascending
+		if( $direction == self::DIRECTION_ASC )
+			//  sort Index List
+			ksort( $list );
+		//  descending
+		else
+			//  reverse sort Index List
+			krsort( $list );
+		//  prepare new Data Array
+		$array	= array();
+		//  iterate Index List
+		foreach( $list as $entries )
 		{
 			if( $orders && count( $entries ) > 1 )
 				$entries	= self::sortByMultipleColumns( $entries, $orders );
-			foreach( $entries as $entry)										//  ...
-				$array[]	= $entry;											//  fill new Data Array
+			//  ...
+			foreach( $entries as $entry)
+				//  fill new Data Array
+				$array[]	= $entry;
 		}
-		return $array;															//  return new Data Array
+		//  return new Data Array
+		return $array;
 	}
 }

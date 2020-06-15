@@ -25,8 +25,10 @@ namespace CeusMedia\Common\FS\Autoloader;
  *
  * http://groups.google.com/group/php-standards/web/psr-0-final-proposal?pli=1
  *
- *     // Example which loads classes for the Doctrine Common package in the
- *     // Doctrine\Common namespace.
+ // Example which loads classes for the Doctrine Common package in the
+ * 
+ // Doctrine\Common namespace.
+ * 
  *     $classLoader = new SplClassLoader('Doctrine\Common', '/path/to/doctrine');
  *     $classLoader->register();
  *
@@ -47,7 +49,7 @@ class Psr0
     /**
      * Creates a new <tt>SplClassLoader</tt> that loads classes of the
      * specified namespace.
-     * 
+     *
      * @param string $ns The namespace to use.
      */
     public function __construct($ns = null, $includePath = null)
@@ -58,7 +60,7 @@ class Psr0
 
     /**
      * Sets the namespace separator used by classes in the namespace of this class loader.
-     * 
+     *
      * @param string $sep The separator to use.
      */
     public function setNamespaceSeparator($sep)
@@ -78,7 +80,7 @@ class Psr0
 
     /**
      * Sets the base include path for all class files in the namespace of this class loader.
-     * 
+     *
      * @param string $includePath
      */
     public function setIncludePath($includePath)
@@ -98,7 +100,7 @@ class Psr0
 
     /**
      * Sets the file extension of class files in the namespace of this class loader.
-     * 
+     *
      * @param string $fileExtension
      */
     public function setFileExtension($fileExtension)

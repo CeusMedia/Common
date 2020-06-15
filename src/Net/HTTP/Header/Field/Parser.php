@@ -59,11 +59,14 @@ class Net_HTTP_Header_Field_Parser{
 				$map[(string)$quality]	= array();
 			$map[(string)$quality][strlen( $code)]	= $code;
 			if( $sortByLength )
-				krsort( $map[(string)$quality] );													//  sort inner list by code length
+				//  sort inner list by code length
+				krsort( $map[(string)$quality] );
 		}
-		krsort( $map );																				//  sort outer list by quality
+		//  sort outer list by quality
+		krsort( $map );
 		$list	= array();
-		foreach( $map as $quality => $codes )														//  reduce map to list
+		//  reduce map to list
+		foreach( $map as $quality => $codes )
 			foreach( $codes as $code )
 				$list[$code]	= (float) $quality;
 		return $list;

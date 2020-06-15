@@ -96,21 +96,34 @@ class UnitFormater
 	 */
 	public static function formatBytes( $float, int $precision = 1, string $indent = ' ', float $edge = 0.5 ): string
 	{
-		$unitKey	= 0;															//  step to first Unit
-		$divider	= 1024;															//  1024 Bytes are 1 Kilo Byte
-		$edge		= abs( $edge );													//  avoid negative Edges
-		$edge		= $edge > 1 ? 1 : $edge;										//  avoid senseless Edges
-		$edgeValue	= $divider * $edge;												//  calculate Edge Value
-		while( $float >= $edgeValue )												//  Value is larger than Edge
+		//  step to first Unit
+		$unitKey	= 0;
+		//  1024 Bytes are 1 Kilo Byte
+		$divider	= 1024;
+		//  avoid negative Edges
+		$edge		= abs( $edge );
+		//  avoid senseless Edges
+		$edge		= $edge > 1 ? 1 : $edge;
+		//  calculate Edge Value
+		$edgeValue	= $divider * $edge;
+		//  Value is larger than Edge
+		while( $float >= $edgeValue )
 		{
-			$unitKey ++;															//  step to next Unit
-			$float	/= $divider;													//  calculate Value in new Unit
+			//  step to next Unit
+			$unitKey ++;
+			//  calculate Value in new Unit
+			$float	/= $divider;
 		}
-		if( is_int( $precision ) )													//  Precision is set
-			$float	= round( $float, $precision );									//  round Value
-		if( is_string( $indent ) )													//  Indention is set
-			$float	= $float.$indent.self::$unitBytes[$unitKey];					//  append Unit
-		return $float;																//  return resultung Value
+		//  Precision is set
+		if( is_int( $precision ) )
+			//  round Value
+			$float	= round( $float, $precision );
+		//  Indention is set
+		if( is_string( $indent ) )
+			//  append Unit
+			$float	= $float.$indent.self::$unitBytes[$unitKey];
+		//  return resultung Value
+		return $float;
 	}
 
 	/**
@@ -161,37 +174,59 @@ class UnitFormater
 	 */
 	public static function formatMicroSeconds( $float, int $precision = 1, string $indent = ' ', float $edge = 0.5 ): string
 	{
-		$unitKey	= 0;															//  step to first Unit
-		$divider	= 1000;															//  1000 Micro Seconds are 1 Milli Second
-		$edge		= abs( $edge );													//  avoid negative Edges
-		$edge		= $edge > 1 ? 1 : $edge;										//  avoid senseless Edges
-		$edgeValue	= $divider * $edge;												//  calculate Edge Value
+		//  step to first Unit
+		$unitKey	= 0;
+		//  1000 Micro Seconds are 1 Milli Second
+		$divider	= 1000;
+		//  avoid negative Edges
+		$edge		= abs( $edge );
+		//  avoid senseless Edges
+		$edge		= $edge > 1 ? 1 : $edge;
+		//  calculate Edge Value
+		$edgeValue	= $divider * $edge;
 
-		while( $float >= $edgeValue )												//  Value is larger than Edge
+		//  Value is larger than Edge
+		while( $float >= $edgeValue )
 		{
-			$unitKey ++;															//  step to next Unit
-			$float	/= $divider;													//  calculate Value in new Unit
-			if( $unitKey == 2 )														//  Seconds are reached
+			//  step to next Unit
+			$unitKey ++;
+			//  calculate Value in new Unit
+			$float	/= $divider;
+			//  Seconds are reached
+			if( $unitKey == 2 )
 			{
-				$divider	= 60;													//  60 Seconds per Minute
-				$edgeValue	= $edge * $divider;										//  calculate new Edge
+				//  60 Seconds per Minute
+				$divider	= 60;
+				//  calculate new Edge
+				$edgeValue	= $edge * $divider;
 			}
-			if( $unitKey == 4 )														//  Hours are reached
+			//  Hours are reached
+			if( $unitKey == 4 )
 			{
-				$divider	= 24;													//  24 Hours per Day
-				$edgeValue	= $edge * $divider;										//  calculate new Edge
+				//  24 Hours per Day
+				$divider	= 24;
+				//  calculate new Edge
+				$edgeValue	= $edge * $divider;
 			}
-			if( $unitKey == 5 )														//  Days are reached
+			//  Days are reached
+			if( $unitKey == 5 )
 			{
-				$divider	= 365;													//  365 Days per Year
-				$edgeValue	= $edge * $divider;										//  calculate new Edge
+				//  365 Days per Year
+				$divider	= 365;
+				//  calculate new Edge
+				$edgeValue	= $edge * $divider;
 			}
 		}
-		if( is_int( $precision ) )													//  Precision is set
-			$float	= round( $float, $precision );									//  round Value
-		if( is_string( $indent ) )													//  Indention is set
-			$float	= $float.$indent.self::$unitSeconds[$unitKey];					//  append Unit
-		return $float;																//  return resulting Value
+		//  Precision is set
+		if( is_int( $precision ) )
+			//  round Value
+			$float	= round( $float, $precision );
+		//  Indention is set
+		if( is_string( $indent ) )
+			//  append Unit
+			$float	= $float.$indent.self::$unitSeconds[$unitKey];
+		//  return resulting Value
+		return $float;
 	}
 
 	/**
@@ -265,21 +300,34 @@ class UnitFormater
 	 */
 	public static function formatPixels( $number, int $precision = 1, string $indent = ' ', $edge = 0.5 ): string
 	{
-		$unitKey	= 0;															//  step to first Unit
-		$divider	= 1000;															//  1000 Pixels are 1 Kilo Pixel
-		$edge		= abs( $edge );													//  avoid negative Edges
-		$edge		= $edge > 1 ? 1 : $edge;										//  avoid senseless Edges
-		$edgeValue	= $divider * $edge;												//  calculate Edge Value
-		while( $number >= $edgeValue )												//  Value is larger than Edge
+		//  step to first Unit
+		$unitKey	= 0;
+		//  1000 Pixels are 1 Kilo Pixel
+		$divider	= 1000;
+		//  avoid negative Edges
+		$edge		= abs( $edge );
+		//  avoid senseless Edges
+		$edge		= $edge > 1 ? 1 : $edge;
+		//  calculate Edge Value
+		$edgeValue	= $divider * $edge;
+		//  Value is larger than Edge
+		while( $number >= $edgeValue )
 		{
-			$unitKey ++;															//  step to next Unit
-			$number	/= $divider;													//  calculate Value in new Unit
+			//  step to next Unit
+			$unitKey ++;
+			//  calculate Value in new Unit
+			$number	/= $divider;
 		}
-		if( is_int( $precision ) )													//  Precision is set
-			$number	= round( $number, $precision );									//  round Value
-		if( is_string( $indent ) )													//  Indention is set
-			$number	= $number.$indent.self::$unitPixels[$unitKey];					//  append Unit
-		return $number;																//  return resultung Value
+		//  Precision is set
+		if( is_int( $precision ) )
+			//  round Value
+			$number	= round( $number, $precision );
+		//  Indention is set
+		if( is_string( $indent ) )
+			//  append Unit
+			$number	= $number.$indent.self::$unitPixels[$unitKey];
+		//  return resultung Value
+		return $number;
 	}
 
 	/**

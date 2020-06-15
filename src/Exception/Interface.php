@@ -39,14 +39,21 @@
 interface Exception_Interface
 {
 	/* Protected methods inherited from Exception class */
-	public function getMessage();												// Exception message
-	public function getCode();													// User-defined Exception code
-	public function getFile();													// Source filename
-	public function getLine();													// Source line
-	public function getTrace();													// An array of the backtrace()
-	public function getTraceAsString();											// Formated string of trace
+	// Exception message
+	public function getMessage();
+	// User-defined Exception code
+	public function getCode();
+	// Source filename
+	public function getFile();
+	// Source line
+	public function getLine();
+	// An array of the backtrace()
+	public function getTrace();
+	// Formated string of trace
+	public function getTraceAsString();
 
 	/* Overrideable methods inherited from Exception class */
-	public function __toString();												// formated string for display
+	// formated string for display
+	public function __toString();
 	public function __construct( $message = NULL, $code = 0 );
 }

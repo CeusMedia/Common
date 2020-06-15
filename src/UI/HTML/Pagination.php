@@ -74,7 +74,8 @@ class UI_HTML_Pagination extends ADT_OptionObject
 			'textMore'		=> "&minus;"
 		);
 
-#		//  --  LEFT JOIN  --  //
+//  --  LEFT JOIN  --  //
+#	
 #		foreach( $defaultOptions as $defaultKey => $defaultValue )
 #			if( array_key_exists( $defaultKey, $options ) )
 #				$this->setOption( $option[$defaultKey] : $defaultValue );
@@ -101,18 +102,25 @@ class UI_HTML_Pagination extends ADT_OptionObject
 			$showMore		= $this->getOption( 'showMore' );
 			$showFirstLast	= $this->getOption( 'showFirstLast' );
 			$showPrevNext	= $this->getOption( 'showFirstLast' );
-			$offset		= ( (int)$offset >= 0 ) ? (int)$offset : 0;												//  reset invalid negative offsets
-			$offset		= ( 0 !== $offset % $limit ) ? ceil( $offset / $limit ) * $limit : $offset;				//  synchronise invalid offsets
-			$here		= ceil( $offset / $limit );																//  current page
-			$before		= (int)$offset / (int)$limit;															//  pages before
+			//  reset invalid negative offsets
+			$offset		= ( (int)$offset >= 0 ) ? (int)$offset : 0;
+			//  synchronise invalid offsets
+			$offset		= ( 0 !== $offset % $limit ) ? ceil( $offset / $limit ) * $limit : $offset;
+			//  current page
+			$here		= ceil( $offset / $limit );
+			//  pages before
+			$before		= (int)$offset / (int)$limit;
 
 				//  --  FIRST PAGE --  //
-			if( $showFirstLast )																					//  show first link
+			//  show first link
+			if( $showFirstLast )
 			{
-				if( $before )																						//  first link if not at first page 
+				//  first link if not at first page 
+				if( $before )
 					$pages[]	= $this->buildButton( 'textFirst', 'classExtreme', 0 );
 				else
-					$pages[]	= $this->buildButton( 'textFirst', 'classExtreme classDisabled' );					//  first link disabled if at first page
+					//  first link disabled if at first page
+					$pages[]	= $this->buildButton( 'textFirst', 'classExtreme classDisabled' );
 			}
 
 				//  --  PREVIOUS PAGE --  //
@@ -120,19 +128,23 @@ class UI_HTML_Pagination extends ADT_OptionObject
 			{
 				$previous	= ( $here - 1 ) * $limit;
 				if( $before )
-					$pages[]	= $this->buildButton( 'textPrevious', 'classSkip', $previous );		//  previous page
+					//  previous page
+					$pages[]	= $this->buildButton( 'textPrevious', 'classSkip', $previous );
 				else
-					$pages[]	= $this->buildButton( 'textPrevious', 'classSkip classDisabled' );					//  previous page
+					//  previous page
+					$pages[]	= $this->buildButton( 'textPrevious', 'classSkip classDisabled' );
 			}
 
 			if( $before )
 			{
 				//  --  MORE PAGES  --  //
-				if( $showMore && $before > $cover )																		//  more previous pages
+				//  more previous pages
+				if( $showMore && $before > $cover )
 					$pages[]	= $this->buildButton( 'textMore', 'classMore' );
 
 				//  --  PREVIOUS PAGES --  //
-				for( $i=max( 0, $before - $cover ); $i<$here; $i++ )											//  previous pages
+				//  previous pages
+				for( $i=max( 0, $before - $cover ); $i<$here; $i++ )
 					$pages[]	= $this->buildButton( $i + 1, 'classPage', $i * $limit );
 /*				if( $this->getOption( 'keyPrevious' ) )
 				{
@@ -143,19 +155,23 @@ class UI_HTML_Pagination extends ADT_OptionObject
 			}
 
 
-			$pages[]	= $this->buildButton( $here + 1, 'classCurrent' );											//  page here
-			$after	= ceil( ( ( $amount - $limit ) / $limit ) - $here );										//  pages after
+			//  page here
+			$pages[]	= $this->buildButton( $here + 1, 'classCurrent' );
+			//  pages after
+			$after	= ceil( ( ( $amount - $limit ) / $limit ) - $here );
 			if( $after )
 			{
 				//  --  NEXT PAGES --  //
-				for( $i=0; $i<min( $cover, $after ); $i++ )														//  after pages
+				//  after pages
+				for( $i=0; $i<min( $cover, $after ); $i++ )
 				{
 					$offset		= ( $here + $i + 1 ) * $limit;
 					$pages[]	= $this->buildButton( $here + $i + 2, 'classPage', $offset );
 				}
 
 				//  --  MORE PAGES --  //
-				if( $showMore && $after > $cover )																		//  more after pages
+				//  more after pages
+				if( $showMore && $after > $cover )
 					$pages[]	= $this->buildButton( 'textMore', 'classMore' );
 			}
 
@@ -164,19 +180,23 @@ class UI_HTML_Pagination extends ADT_OptionObject
 			{
 				$offset		= ( $here + 1 ) * $limit;
 				if( $after )
-					$pages[]	= $this->buildButton( 'textNext', 'classSkip', $offset );							//  next link if not at last page
+					//  next link if not at last page
+					$pages[]	= $this->buildButton( 'textNext', 'classSkip', $offset );
 				else
-					$pages[]	= $this->buildButton( 'textNext', 'classSkip disabled' );							//  next link disabled it at last page
+					//  next link disabled it at last page
+					$pages[]	= $this->buildButton( 'textNext', 'classSkip disabled' );
 			}
 
 				//  --  LAST PAGE --  //
 			if( $showFirstLast )
 			{
 				$offset		= ( $here + $after ) * $limit;
-				if( $after )																					//  last page
+				//  last page
+				if( $after )
 					$pages[]	= $this->buildButton( 'textLast', 'classExtreme', $offset );
 				else
-					$pages[]	= $this->buildButton( 'textLast', 'classExtreme disabled' );		//  last link disabled if at last page
+					//  last link disabled if at last page
+					$pages[]	= $this->buildButton( 'textLast', 'classExtreme disabled' );
 			}
 		}
 		return UI_HTML_Elements::unorderedList( $pages, 0, array( 'class' => $this->getOption( 'classList' ) ) );

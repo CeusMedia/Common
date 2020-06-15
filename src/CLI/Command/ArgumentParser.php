@@ -81,38 +81,61 @@ class CLI_Command_ArgumentParser
 	 */
 	public function parse( $string )
 	{
-		if( !is_string( $string ) )														//  no String given
-			throw new InvalidArgumentException( 'Given argument is not a string' );		//  throw Exception
+		//  no String given
+		if( !is_string( $string ) )
+			//  throw Exception
+			throw new InvalidArgumentException( 'Given argument is not a string' );
 
-		$this->extendPossibleOptionsWithShortcuts();									//  realize Shortcuts
+		$this->foundArguments	= array();
+		$this->foundOptions		= array();
 
-		$position	= 0;																//  initiate Sign Pointer
-		$status		= self::STATUS_START;												//  initiate Status
-		$buffer		= "";																//  initiate Argument Buffer
-		$option		= "";																//  initiate Option Buffer
+		//  realize Shortcuts
+		$this->extendPossibleOptionsWithShortcuts();
 
-		while( isset( $string[$position] ) )											//  loop until End of String
+		//  initiate Sign Pointer
+		$position	= 0;
+		//  initiate Status
+		$status		= self::STATUS_START;
+		//  initiate Argument Buffer
+		$buffer		= "";
+		//  initiate Option Buffer
+		$option		= "";
+
+		//  loop until End of String
+		while( isset( $string[$position] ) )
 		{
-			$sign	= $string[$position];												//  get current Sign
-			$position ++;																//  increase Sign Pointer
+			//  get current Sign
+			$sign	= $string[$position];
+			//  increase Sign Pointer
+			$position ++;
 
-			switch( $status )															//  handle Sign depending on Status
+			//  handle Sign depending on Status
+			switch( $status )
 			{
-				case self::STATUS_START:												//  open for all Signs
-					$this->onReady( $sign, $status, $buffer, $option );					//  handle Sign
+				//  open for all Signs
+				case self::STATUS_START:
+					//  handle Sign
+					$this->onReady( $sign, $status, $buffer, $option );
 					break;
-				case self::STATUS_READ_OPTION_KEY:										//  open for Option Key Signs
-					$this->onReadOptionKey( $sign, $status, $buffer, $option );			//  handle Sign
+				//  open for Option Key Signs
+				case self::STATUS_READ_OPTION_KEY:
+					//  handle Sign
+					$this->onReadOptionKey( $sign, $status, $buffer, $option );
 					break;
-				case self::STATUS_READ_OPTION_VALUE:									//  open for Option Value Signs
-					$this->onReadOptionValue( $sign, $status, $buffer, $option );		//  handle Sign
+				//  open for Option Value Signs
+				case self::STATUS_READ_OPTION_VALUE:
+					//  handle Sign
+					$this->onReadOptionValue( $sign, $status, $buffer, $option );
 					break;
-				case self::STATUS_READ_ARGUMENT:										//  open for Argument Signs
-					$this->onReadArgument( $sign, $status, $buffer );					//  handle Sign
+				//  open for Argument Signs
+				case self::STATUS_READ_ARGUMENT:
+					//  handle Sign
+					$this->onReadArgument( $sign, $status, $buffer );
 					break;
 			}
 		}
-		$this->onEndOfLine( $status, $buffer, $option );								//  close open States
+		//  close open States
+		$this->onEndOfLine( $status, $buffer, $option );
 	}
 
 	/**
@@ -123,12 +146,18 @@ class CLI_Command_ArgumentParser
 	 */
 	public function setNumberOfMandatoryArguments( $number = 0 )
 	{
-		if( !is_int( $number ) )														//  no Integer given
-			throw new InvalidArgument( 'No integer given' );							//  throw Exception
-		if( $number === $this->numberArguments )										//  this Number is already set
-			return FALSE;																//  do nothing
-		$this->numberArguments	= $number;												//  set new Argument Number
-		return TRUE;																	//  indicate Success
+		//  no Integer given
+		if( !is_int( $number ) )
+			//  throw Exception
+			throw new InvalidArgument( 'No integer given' );
+		//  this Number is already set
+		if( $number === $this->numberArguments )
+			//  do nothing
+			return FALSE;
+		//  set new Argument Number
+		$this->numberArguments	= $number;
+		//  indicate Success
+		return TRUE;
 	}
 
 	/**
@@ -139,12 +168,18 @@ class CLI_Command_ArgumentParser
 	 */
 	public function setPossibleOptions( $options )
 	{
-		if( !is_array( $options ) )														//  no Array given
-			throw InvalidArgumentException( 'No array given.' );						//  throw Exception
-		if( $options === $this->possibleOptions )										//  threse Options are already set
-			return FALSE;																//  do nothing
-		$this->possibleOptions	= $options;												//  set new Options
-		return TRUE;																	//  indicate Success
+		//  no Array given
+		if( !is_array( $options ) )
+			//  throw Exception
+			throw InvalidArgumentException( 'No array given.' );
+		//  threse Options are already set
+		if( $options === $this->possibleOptions )
+			//  do nothing
+			return FALSE;
+		//  set new Options
+		$this->possibleOptions	= $options;
+		//  indicate Success
+		return TRUE;
 	}
 
 	/**
@@ -155,15 +190,24 @@ class CLI_Command_ArgumentParser
 	 */
 	public function setShortcuts( $shortcuts )
 	{
-		if( !is_array( $shortcuts ) )													//  no Array given
-			throw InvalidArgumentException( 'No array given.' );						//  throw Exception
-		foreach( $shortcuts as $short => $long )										//  iterate Shortcuts
-			if( !array_key_exists( $long, $this->possibleOptions ) )					//  related Option is not set
-				throw new OutOfBoundsException( 'Option "'.$long.'" not set' );			//  throw Exception
-		if( $shortcuts === $this->shortcuts )											//  these Shortcuts are already set
-			return FALSE;																//  do nothing
-		$this->shortcuts	= $shortcuts;												//  set new Shortcuts
-		return TRUE;																	//  indicate Success
+		//  no Array given
+		if( !is_array( $shortcuts ) )
+			//  throw Exception
+			throw InvalidArgumentException( 'No array given.' );
+		//  iterate Shortcuts
+		foreach( $shortcuts as $short => $long )
+			//  related Option is not set
+			if( !array_key_exists( $long, $this->possibleOptions ) )
+				//  throw Exception
+				throw new OutOfBoundsException( 'Option "'.$long.'" not set' );
+		//  these Shortcuts are already set
+		if( $shortcuts === $this->shortcuts )
+			//  do nothing
+			return FALSE;
+		//  set new Shortcuts
+		$this->shortcuts	= $shortcuts;
+		//  indicate Success
+		return TRUE;
 	}
 
 	//  --  PROTECTED  --  //
@@ -211,8 +255,10 @@ class CLI_Command_ArgumentParser
 	{
 		if( $status == self::STATUS_READ_ARGUMENT )
 			$this->foundArguments[]	= $buffer;
-		else if( $status == self::STATUS_READ_OPTION_VALUE )										//  still reading an option value
-			$this->onReadOptionValue( ' ', $status, $buffer, $option );								//  close reading and save last option
+		//  still reading an option value
+		else if( $status == self::STATUS_READ_OPTION_VALUE )
+			//  close reading and save last option
+			$this->onReadOptionValue( ' ', $status, $buffer, $option );
 		else if( $status == self::STATUS_READ_OPTION_KEY )
 		{
 			if( !array_key_exists( $option, $this->possibleOptions ) )
@@ -291,18 +337,25 @@ class CLI_Command_ArgumentParser
 	 */
 	protected function onReadOptionValue( $sign, &$status, &$buffer, &$option )
 	{
-		if( $sign == "-" )																//  illegal Option following
-			throw new RuntimeException( 'Missing value of option "'.$option.'"' );
-		if( $sign == " " )																//  closing value...
+		//  illegal Option following
+//		if( $sign === "-" )
+//			throw new RuntimeException( 'Missing value of option "'.$option.'"' );
+		//  closing value...
+		if( $sign === " " )
 		{
-			if( !$buffer ){																//  no value
-				if( !$this->possibleOptions[$option] )									//  no value required/defined
-					$this->foundOptions[$option]	= TRUE;								//  assign true for existance
+			//  no value
+			if( !$buffer ){
+				//  no value required/defined
+				if( !$this->possibleOptions[$option] )
+					//  assign true for existance
+					$this->foundOptions[$option]	= TRUE;
 				return;																	//
 			}
-			if( $this->possibleOptions[$option] !== TRUE ){								//  must match regexp
-				if( !preg_match( $this->possibleOptions[$option], $buffer ) )			//  not matching
-					throw new InvalidArgumentException( 'Argument "'.$option.'" has invalid value' );
+			//  must match regexp
+			if( $this->possibleOptions[$option] !== TRUE ){
+				//  not matching
+				if( !preg_match( $this->possibleOptions[$option], $buffer ) )
+					throw new InvalidArgumentException( 'Argument "'.$option.'" has invalid value (not matching regexp: '.$this->possibleOptions[$option].')' );
 			}
 			$this->foundOptions[$option]	= $buffer;
 			$buffer	= "";

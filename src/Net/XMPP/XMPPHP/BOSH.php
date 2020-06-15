@@ -3,17 +3,17 @@
  * XMPPHP: The PHP XMPP Library
  * Copyright (C) 2008  Nathanael C. Fritz
  * This file is part of SleekXMPP.
- * 
+ *
  * XMPPHP is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
  * (at your option) any later version.
- * 
+ *
  * XMPPHP is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with XMPPHP; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
@@ -27,7 +27,7 @@
  */
 /**
  * XMPPHP Main Class
- * 
+ *
  *	@category		Library
  *	@package		CeusMedia_Common_Net_XMPP_XMPPHP
  *	@author			Nathanael C. Fritz <JID: fritzy@netflint.net>
@@ -35,7 +35,7 @@
  *	@author			Michael Garvin <JID: gar@netflint.net>
  *	@copyright		2008 Nathanael C. Fritz
  */
-class Net_XMPP_XMPPHP_BOSH extends Net_XMPP_XMPPHP_XMPP {
+class Net_XMPP_XMPPHP_BOSH {
 
 	protected $rid;
 	protected $sid;
@@ -106,7 +106,8 @@ class Net_XMPP_XMPPHP_BOSH extends Net_XMPP_XMPPHP_XMPP {
 		if($this->sid) $xml->addAttribute('sid', $this->sid);
 		#if($this->sid) $xml->addAttribute('xmlns', 'http://jabber.org/protocol/httpbind');
 		$xml->addAttribute('xml:lang', 'en');
-		if($sub) { // ok, so simplexml is lame
+		// ok, so simplexml is lame
+		if($sub) {
 			$p = dom_import_simplexml($xml);
 			$c = dom_import_simplexml($sub);
 			$cn = $p->ownerDocument->importNode($c, true);

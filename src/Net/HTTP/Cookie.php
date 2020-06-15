@@ -132,6 +132,7 @@ class Net_HTTP_Cookie
 	 *	@access		public
 	 *	@param		string		$key			Key name of setting
 	 *	@param		string		$value			Value of setting
+	 *	@param		integer		$expires		EOL as UNIX timestamp
 	 *	@param		string		$path			Default path of cookie
 	 *	@param		string		$domain			Domain of cookie
 	 *	@param		boolean		$secure			Flag: only with secured HTTPS connection

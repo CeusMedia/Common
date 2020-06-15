@@ -58,7 +58,7 @@ class ADT_Bitmask
 
 	public function has( int $bit ): bool
 	{
-		return $this->bits &= $bit;
+		return (bool)( $this->bits & $bit );
 	}
 
 	public function remove( int $bit ): self

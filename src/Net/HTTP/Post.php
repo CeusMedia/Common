@@ -42,7 +42,8 @@ class Net_HTTP_Post {
 
 	protected $transport		= FALSE;
 	protected $dataMaxLength	= 0;
-	static protected $userAgent	= "cmClasses:Net_HTTP_Post/0.7";									//  default user agent to report to server, can be overriden by constructor or given CURL options on get or post
+	//  default user agent to report to server, can be overriden by constructor or given CURL options on get or post
+	static protected $userAgent	= "cmClasses:Net_HTTP_Post/0.7";
 
 	public function __construct(){
         $allowUrlFopen	= preg_match( '/1|yes|on|true/i', ini_get( 'allow_url_fopen' ) );

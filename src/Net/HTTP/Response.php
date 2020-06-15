@@ -76,11 +76,12 @@ class Net_HTTP_Response
 	/**
 	 *	Adds an HTTP header.
 	 *	@access		public
-	 *	@param		string		$name		HTTP header name
-	 *	@param		string		$value		HTTP header value
+	 *	@param		string		$name			HTTP header name
+	 *	@param		string		$value			HTTP header value
+	 *	@param		boolean		$emptyBefore	Flag: clear beforehand set headers with this name (default: no)
 	 *	@return		void
 	 */
-	public function addHeaderPair( $name, $value, $emptyBefore = NULL )
+	public function addHeaderPair( $name, $value, $emptyBefore = FALSE )
 	{
 		$this->headers->setField( new Net_HTTP_Header_Field( $name, $value ), $emptyBefore );
 	}
@@ -104,12 +105,18 @@ class Net_HTTP_Response
 	 */
 	public function getHeader( $key, $first = NULL )
 	{
-		$fields	= $this->headers->getFieldsByName( $key );											//  get all header fields with this header name
-		if( !$first )																				//  all header fields shall be returned
-			return $fields;																			//  return all header fields
-		if( $fields )																				//  otherwise: header fields (atleat one) are set
-			return $fields[0];																		//  return first header field
-		return new Net_HTTP_Header_Field( $key, NULL );												//  otherwise: return empty fake header field
+		//  get all header fields with this header name
+		$fields	= $this->headers->getFieldsByName( $key );
+		//  all header fields shall be returned
+		if( !$first )
+			//  return all header fields
+			return $fields;
+		//  otherwise: header fields (atleat one) are set
+		if( $fields )
+			//  return first header field
+			return $fields[0];
+		//  otherwise: return empty fake header field
+		return new Net_HTTP_Header_Field( $key, NULL );
 	}
 
 	/**
@@ -120,6 +127,16 @@ class Net_HTTP_Response
 	public function getHeaders()
 	{
 		return $this->headers->getFields();
+	}
+
+	/**
+	 *	Returns length of current response.
+	 *	@access		public
+	 *	@return		integer		Byte length of current response
+	 */
+	public function getLength()
+	{
+		return strlen( $this->toString() );
 	}
 
 	/**
@@ -217,10 +234,14 @@ class Net_HTTP_Response
 	 */
 	public function setStatus( $status, $strict = FALSE )
 	{
-		$status	= $strict ? (int) $status : $status;												//  strict mode: always resolve status message
-		if( is_int( $status ) || !preg_match( "/[a-z]/i", $status ) )								//  only status code given
-			$status	= ( (int) $status ).' '.Net_HTTP_Status::getText( (int) $status );				//  extend status code by status message
-		$this->status	= $status;																	//  store status code and message
+		//  strict mode: always resolve status message
+		$status	= $strict ? (int) $status : $status;
+		//  only status code given
+		if( is_int( $status ) || !preg_match( "/[a-z]/i", $status ) )
+			//  extend status code by status message
+			$status	= ( (int) $status ).' '.Net_HTTP_Status::getText( (int) $status );
+		//  store status code and message
+		$this->status	= $status;
 	}
 
 	/**
@@ -242,10 +263,15 @@ class Net_HTTP_Response
 	public function toString()
 	{
 		$lines	= array();
-		$lines[]	= $this->protocol.'/'.$this->version.' '.$this->status;							//  add main protocol header
-		$lines[]	= $this->headers->toString();													//  add header fields and line break
-		if( strlen( $this->body ) )																	//  response body is set
-			$lines[]	= $this->body;																//  add response body
-		return join( "\r\n", $lines );																//  glue parts with line break and return result
+		//  add main protocol header
+		$lines[]	= $this->protocol.'/'.$this->version.' '.$this->status;
+		//  add header fields and line break
+		$lines[]	= $this->headers->toString();
+		//  response body is set
+		if( strlen( $this->body ) )
+			//  add response body
+			$lines[]	= $this->body;
+		//  glue parts with line break and return result
+		return join( "\r\n", $lines );
 	}
 }

@@ -57,6 +57,7 @@ class XML_DOM_FileReader
 	 *	@static
 	 *	@param		string		$fileName		URI of XML File
 	 *	@return		XML_DOM_Node
+	 *	@throws		RuntimeException			if file is not existing or not readable
 	 */
 	public static function load( $fileName )
 	{

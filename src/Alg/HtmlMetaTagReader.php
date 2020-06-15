@@ -57,7 +57,8 @@ class Alg_HtmlMetaTagReader
 			return array();
 		foreach( $tags[0] as $tag )
 		{
-			$attributes	= Alg_SgmlTagReader::getAttributes( $tag, self::TRANSFORM_LOWERCASE );	//  read HTML Tag Attributes
+			//  read HTML Tag Attributes
+			$attributes	= Alg_SgmlTagReader::getAttributes( $tag, self::TRANSFORM_LOWERCASE );
 			if( !isset( $attributes['content'] ) )
 				continue;
 			if( isset( $attributes['content'] ) && isset( $attributes['name'] ) )

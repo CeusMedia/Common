@@ -75,8 +75,11 @@ abstract class ADT_Singleton
 	 */
 	protected static function buildInstance( $className )
 	{
-		if( !self::$instance )													//  no instance built, yet
-			self::$instance	= new $className;									//  build a single instance and store it
-		return self::$instance;													//  return stored instance
+		//  no instance built, yet
+		if( !self::$instance )
+			//  build a single instance and store it
+			self::$instance	= new $className;
+		//  return stored instance
+		return self::$instance;
 	}
 }

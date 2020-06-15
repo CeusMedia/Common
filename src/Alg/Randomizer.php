@@ -155,38 +155,54 @@ class Alg_Randomizer
 	 */
 	public function get( $length, $strength = 0 )
 	{
-		if( !is_int( $length ) )															//  Length is not Integer
+		//  Length is not Integer
+		if( !is_int( $length ) )
 			throw new InvalidArgumentException( 'Length must be an Integer.' );
-		if( !$length )																		//  Length is 0
+		//  Length is 0
+		if( !$length )
 			throw new InvalidArgumentException( 'Length must greater than 0.' );
-		if( !is_int( $strength ) )															//  Stength is not Integer
+		//  Stength is not Integer
+		if( !is_int( $strength ) )
 			throw new InvalidArgumentException( 'Strength must be an Integer.' );
-		if( $strength && $strength > 100 )													//  Strength is to high
+		//  Strength is to high
+		if( $strength && $strength > 100 )
 			throw new InvalidArgumentException( 'Strength must be at most 100.' );
-		if( $strength && $strength < -100 )													//  Strength is to low
+		//  Strength is to low
+		if( $strength && $strength < -100 )
 			throw new InvalidArgumentException( 'Strength must be at leastt -100.' );
 
-		$length	= abs( $length );															//  absolute Length
-		$pool	= $this->createPool();														//  create Sign Pool
-		if( !strlen( $pool ) )																//  Pool is empty
+		//  absolute Length
+		$length	= abs( $length );
+		//  create Sign Pool
+		$pool	= $this->createPool();
+		//  Pool is empty
+		if( !strlen( $pool ) )
 			throw new RuntimeException( 'No usable signs defined.' );
-		if( $this->unique && $length >= strlen( $pool ) )									//  Pool is smaller than Length
+		//  Pool is smaller than Length
+		if( $this->unique && $length >= strlen( $pool ) )
 			throw new UnderflowException( 'Length must be lower than Number of usable Signs in "unique" Mode.' );
 
-		$random	= $this->createString( $length, $pool );									//  randomize String
-		if( !$strength )																	//  no Strength needed
+		//  randomize String
+		$random	= $this->createString( $length, $pool );
+		//  no Strength needed
+		if( !$strength )
 			return $random;
 
 		$turn	= 0;
 		do
 		{
-			$currentStrength	= Alg_Crypt_PasswordStrength::getStrength( $random );		//  calculate Strength of random String
-			if( $currentStrength >= $strength )												//  random String is strong enough
+			//  calculate Strength of random String
+			$currentStrength	= Alg_Crypt_PasswordStrength::getStrength( $random );
+			//  random String is strong enough
+			if( $currentStrength >= $strength )
 				return $random;
-			$random	= $this->createString( $length, $pool );								//  randomize again
-			$turn++;																		//  count turn
+			//  randomize again
+			$random	= $this->createString( $length, $pool );
+			//  count turn
+			$turn++;
 		}
-		while( $turn < $this->maxTurns );													//  break if to much turns
+		//  break if to much turns
+		while( $turn < $this->maxTurns );
 		throw new RuntimeException( 'Strength Score '.$strength.' not reached after '.$turn.' Turns.' );
 	}
 }

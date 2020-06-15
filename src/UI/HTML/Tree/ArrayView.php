@@ -115,18 +115,25 @@ class UI_HTML_Tree_ArrayView
 			$node['linked']	= ( isset( $node['linked'] ) && $node['linked'] ) ? TRUE : $node['type'] == "leaf";
 
 			$way	= $path ? $path."/" : "";
-			if( !isset( $node['id'] ) )																		//  no ID set
-				$node['id']	= rawurlencode( $way.$node['label'] );											//  generate ID
+			//  no ID set
+			if( !isset( $node['id'] ) )
+				//  generate ID
+				$node['id']	= rawurlencode( $way.$node['label'] );
 
 			$linkClass	= rawurlencode( $currentId ) == $node['id'] ? 'selected' : NULL;
 
 			$label	= UI_HTML_Tag::create( "span", $node['label'], array( 'class' => $node['class'] ) );
-			if( $node['linked'] )																			//  linked Item
+			//  linked Item
+			if( $node['linked'] )
 			{
-				$url	= $this->baseUrl.$this->queryKey.$node['id'];										//  generate URL
-				$link	= UI_HTML_Elements::Link( $url, $node['label'], $linkClass, $target );				//  generate Link Tag
-				$label	= $link;																			//  linked Nodes have no Span Container
-				if( 1 || $node['type'] == "leaf" )																//  linked Leafes have a Span Container
+				//  generate URL
+				$url	= $this->baseUrl.$this->queryKey.$node['id'];
+				//  generate Link Tag
+				$link	= UI_HTML_Elements::Link( $url, $node['label'], $linkClass, $target );
+				//  linked Nodes have no Span Container
+				$label	= $link;
+				//  linked Leafes have a Span Container
+				if( 1 || $node['type'] == "leaf" )
 					$label	= UI_HTML_Tag::create( "span", $link, array( 'class' => $node['class'] ) );
 			}
 			$sublist	= "";

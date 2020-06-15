@@ -81,8 +81,10 @@ class FS_File_CSS_Relocator {
 	 *	@param		array		$symlinks		If the CSS file is stored in a symlink-ed directory, provide an array of link paths to target paths, where the link paths are within the document root. Because paths need to be normalized for this to work, use "//" to substitute the doc root in the link paths (the array keys). E.g.:
 	 *	@example
 	 * <code>
-	 * array('//symlink' => '/real/target/path') // unix
-	 * array('//static' => 'D:\\staticStorage')  // Windows
+	 // unix
+	 * array('//symlink' => '/real/target/path')
+	 // Windows
+	 * array('//static' => 'D:\\staticStorage')
 	 * </code>
 	 *	@return		string
 	 */
@@ -127,8 +129,10 @@ class FS_File_CSS_Relocator {
 	 * <code>
 	 * FS_File_CSS_Relocator::rewriteRelative(
 	 *	   '../img/hello.gif'
-	 *	 , '/home/user/www/css'  // path of CSS file
-	 *	 , '/home/user/www'	  // doc root
+	 // path of CSS file
+	 *	 , '/home/user/www/css'
+	 // doc root
+	 *	 , '/home/user/www'
 	 * );
 	 * // returns '/img/hello.gif'
 	 *
@@ -148,8 +152,10 @@ class FS_File_CSS_Relocator {
 	 *	@param		array		$symlinks		If the file is stored in a symlink-ed directory, provide an array of link paths to real target paths, where the link paths "appear" to be within the document root. E.g.:
 	 *	@example
 	 * <code>
-	 * array('/home/foo/www/not/real/path' => '/real/target/path') // unix
-	 * array('C:\\htdocs\\not\\real' => 'D:\\real\\target\\path')  // Windows
+	 // unix
+	 * array('/home/foo/www/not/real/path' => '/real/target/path')
+	 // Windows
+	 * array('C:\\htdocs\\not\\real' => 'D:\\real\\target\\path')
 	 * </code>
 	 *	@return		string
 	 */
@@ -209,9 +215,12 @@ class FS_File_CSS_Relocator {
 				: substr($m[1], 1, strlen($m[1]) - 2);
 		}
 		// analyze URI
-		if ('/' !== $uri[0]				  // root-relative
-			&& false === strpos($uri, '//')  // protocol (non-data)
-			&& 0 !== strpos($uri, 'data:')   // data protocol
+		// root-relative
+		if ('/' !== $uri[0]
+			// protocol (non-data)
+			&& false === strpos($uri, '//')
+			// data protocol
+			&& 0 !== strpos($uri, 'data:')
 		) {
 			// URI is file-relative: rewrite depending on options
 			if (self::$_prependPath === null) {

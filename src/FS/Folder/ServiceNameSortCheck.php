@@ -52,6 +52,10 @@ class FS_Folder_ServiceNameSortCheck
 	 */
 	public function __construct( $path, $extensions = array( "xml", "yaml", "json" ) )
 	{
+		Deprecation::getInstance()
+			->setErrorVersion( '0.8.5' )
+			->setExceptionVersion( '0.9' )
+			->message( 'Will be removed without replacement' );
 		$this->path			= $path;
 		$this->extensions	= $extensions;
 	}

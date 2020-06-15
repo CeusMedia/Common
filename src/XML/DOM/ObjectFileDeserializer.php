@@ -37,7 +37,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			26.12.2005
  */
-class XML_DOM_ObjectFileDeserializer extends XML_DOM_ObjectDeserializer
+class XML_DOM_ObjectFileDeserializer
 {
 	/**
 	 *	Builds Object from XML File of a serialized Object.
@@ -48,8 +48,6 @@ class XML_DOM_ObjectFileDeserializer extends XML_DOM_ObjectDeserializer
 	 */
 	public static function deserialize( $fileName )
 	{
-		$reader	= new FS_File_Reader( $fileName );
-		$xml	= $reader->readString( $fileName );
-		return parent::deserialize( $xml ); 
+		return XML_DOM_ObjectDeserializer::deserialize( FS_File_Reader::load( $fileName ) );
 	}
 }

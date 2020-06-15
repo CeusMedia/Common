@@ -1,8 +1,8 @@
 <?php
 namespace CeusMedia\Common\CLI;
 
-class Color{
-
+class Color
+{
 	private static $foregroundColors	= array(
 		'black'			=> '0;30',
 		'dark_gray'		=> '1;30',

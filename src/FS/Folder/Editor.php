@@ -147,37 +147,54 @@ class FS_Folder_Editor extends FS_Folder_Reader
 	 */
 	public static function copyFolder( $sourceFolder, $targetFolder, $force = FALSE, $skipDotEntries = TRUE )
 	{
-		if( !self::isFolder( $sourceFolder ) )												//  Source Folder not existing
+		//  Source Folder not existing
+		if( !self::isFolder( $sourceFolder ) )
 			throw new RuntimeException( 'Folder "'.$sourceFolder.'" cannot be copied because it is not existing' );
 
-		$count			= 0;																//  initialize Object Counter
-		$sourceFolder	= self::correctPath( $sourceFolder );								//  add Slash to Source Folder
-		$targetFolder	= self::correctPath( $targetFolder );								//  add Slash to Target Folder
-		if( self::isFolder( $targetFolder ) && !$force )									//  Target Folder is existing, not forced
+		//  initialize Object Counter
+		$count			= 0;
+		//  add Slash to Source Folder
+		$sourceFolder	= self::correctPath( $sourceFolder );
+		//  add Slash to Target Folder
+		$targetFolder	= self::correctPath( $targetFolder );
+		//  Target Folder is existing, not forced
+		if( self::isFolder( $targetFolder ) && !$force )
 			throw new RuntimeException( 'Folder "'.$targetFolder.'" is already existing. See Option "force"' );
-		else if( !self::isFolder( $targetFolder ) )											//  Target Folder is not existing
-			$count	+= (int) self::createFolder( $targetFolder );							//  create TargetFolder and count
+		//  Target Folder is not existing
+		else if( !self::isFolder( $targetFolder ) )
+			//  create TargetFolder and count
+			$count	+= (int) self::createFolder( $targetFolder );
 
-		$index	= new FS_Folder_Iterator( $sourceFolder, TRUE, TRUE, $skipDotEntries );		//  Index of Source Folder
+		//  Index of Source Folder
+		$index	= new FS_Folder_Iterator( $sourceFolder, TRUE, TRUE, $skipDotEntries );
 		foreach( $index as $entry )
 		{
-			if( $entry->isDot() )															//  Dot Folders
-				continue;																	//  skip them
-			if( $entry->isDir() )															//  nested Folder
+			//  Dot Folders
+			if( $entry->isDot() )
+				//  skip them
+				continue;
+			//  nested Folder
+			if( $entry->isDir() )
 			{
-				$source	= $entry->getPathname();											//  Source Folder Name
-				$target	= $targetFolder.$entry->getFilename()."/";							//  Target Folder Name
-				$count	+= self::copyFolder( $source, $target, $force, $skipDotEntries );	//  copy Folder recursive and count
+				//  Source Folder Name
+				$source	= $entry->getPathname();
+				//  Target Folder Name
+				$target	= $targetFolder.$entry->getFilename()."/";
+				//  copy Folder recursive and count
+				$count	+= self::copyFolder( $source, $target, $force, $skipDotEntries );
 			}
-			else if( $entry->isFile() )														//  nested File
+			//  nested File
+			else if( $entry->isFile() )
 			{
 				$targetFile	= $targetFolder.$entry->getFilename();
 				if( file_exists( $targetFile ) && !$force )
 					throw new RuntimeException( 'File "'.$targetFile.'" is already existing. See Option "force"' );
-				$count	+= (int) copy( $entry->getPathname(), $targetFile );				//  copy File and count
+				//  copy File and count
+				$count	+= (int) copy( $entry->getPathname(), $targetFile );
 			}
 		}
-		return $count;																		//  return Object Count
+		//  return Object Count
+		return $count;
 	}
 
 	/**
@@ -194,12 +211,16 @@ class FS_Folder_Editor extends FS_Folder_Reader
 	{
 		if( self::isFolder( $folderName ) )
 			return FALSE;
-		if( false === @mkdir( $folderName, $mode, TRUE ) )									//  create Folder recursive
+		//  create Folder recursive
+		if( false === @mkdir( $folderName, $mode, TRUE ) )
 			throw new RuntimeException( 'Folder "'.$folderName.'" could not be created' );
 		chmod( $folderName, $mode );
-		if( $userName )																		//  User is set
-			chown( $folderName, $userName );												//  change Owner to User
-		if( $groupName )																	//  Group is set
+		//  User is set
+		if( $userName )
+			//  change Owner to User
+			chown( $folderName, $userName );
+		//  Group is set
+		if( $groupName )
 			chgrp( $folderName, $groupName );
 		return TRUE;
 	}
@@ -232,19 +253,29 @@ class FS_Folder_Editor extends FS_Folder_Reader
 	 */
 	public static function moveFolder( $sourceFolder, $targetPath, $force = FALSE )
 	{
-		$sourceName	= basename( $sourceFolder );											//  Folder Name of Source Folder
-		$sourcePath	= dirname( $sourceFolder );												//  Path to Source Folder
-		$sourceFolder	= self::correctPath( $sourceFolder );								//  add Slash to Source Path
-		$targetPath		= self::correctPath( $targetPath );									//  add Slash to Target Path
-		if( !self::isFolder( $sourcePath ) )												//  Path of Source Folder not existing
+		//  Folder Name of Source Folder
+		$sourceName	= basename( $sourceFolder );
+		//  Path to Source Folder
+		$sourcePath	= dirname( $sourceFolder );
+		//  add Slash to Source Path
+		$sourceFolder	= self::correctPath( $sourceFolder );
+		//  add Slash to Target Path
+		$targetPath		= self::correctPath( $targetPath );
+		//  Path of Source Folder not existing
+		if( !self::isFolder( $sourcePath ) )
 			throw new RuntimeException( 'Folder "'.$sourceFolder.'" cannot be moved since it is not existing' );
-		if( self::isFolder( $targetPath.$sourceName ) && !$force )							//  Path of Target Folder is already existing
+		//  Path of Target Folder is already existing
+		if( self::isFolder( $targetPath.$sourceName ) && !$force )
 			throw new RuntimeException( 'Folder "'.$targetPath.$sourceName.'" is already existing' );
-		if( !self::isFolder( $targetPath ) )												//  Path to Target Folder not existing
+		//  Path to Target Folder not existing
+		if( !self::isFolder( $targetPath ) )
 			self::createFolder( $targetPath );												//
-		if( $sourceFolder == $targetPath )													//  Source and Target Path are equal
-			return FALSE;																	//  do nothing and return
-		if( FALSE === @rename( $sourceFolder, $targetPath.$sourceName ) )					//  move Source Folder to Target Path
+		//  Source and Target Path are equal
+		if( $sourceFolder == $targetPath )
+			//  do nothing and return
+			return FALSE;
+		//  move Source Folder to Target Path
+		if( FALSE === @rename( $sourceFolder, $targetPath.$sourceName ) )
 			throw new RuntimeException( 'Folder "'.$sourceFolder.'" cannot be moved to "'.$targetPath.'"' );
 		return TRUE;
 	}
@@ -289,15 +320,20 @@ class FS_Folder_Editor extends FS_Folder_Reader
 	public static function renameFolder( $sourceFolder, $targetName )
 	{
 		$targetName	= basename( $targetName );
-		if( !self::isFolder( $sourceFolder ) )												//  Source Folder not existing
+		//  Source Folder not existing
+		if( !self::isFolder( $sourceFolder ) )
 			throw new RuntimeException( 'Folder "'.$sourceFolder.'" is not existing' );
 
-		$sourcePath	= self::correctPath( dirname( $sourceFolder ) );						//  Path to Source Folder
-		if( basename( $sourceFolder ) == $targetName )										//  Source Name and Target name is equal
+		//  Path to Source Folder
+		$sourcePath	= self::correctPath( dirname( $sourceFolder ) );
+		//  Source Name and Target name is equal
+		if( basename( $sourceFolder ) == $targetName )
 			return FALSE;
-		if( self::isFolder( $sourcePath.$targetName ) )										//  Target Folder is already existing
+		//  Target Folder is already existing
+		if( self::isFolder( $sourcePath.$targetName ) )
 			throw new RuntimeException( 'Folder "'.$sourcePath.$targetName.'" is already existing' );
-		if( FALSE === @rename( $sourceFolder, $sourcePath.$targetName ) )					//  rename Source Folder to Target Folder
+		//  rename Source Folder to Target Folder
+		if( FALSE === @rename( $sourceFolder, $sourcePath.$targetName ) )
 			throw new RuntimeException( 'Folder "'.$sourceFolder.'" cannot be renamed to "'.$sourcePath.$targetName.'"' );
 		return TRUE;
 	}
@@ -325,7 +361,8 @@ class FS_Folder_Editor extends FS_Folder_Reader
 	public static function removeFolder( $folderName, $force = FALSE, $strict = TRUE )
 	{
 		$folderName	= self::correctPath( $folderName);
-		$count	= 1;																		//  current Folder is first Object
+		//  current Folder is first Object
+		$count	= 1;
 		if( !file_exists( $folderName ) )
 		{
 			if( $strict )
@@ -338,43 +375,62 @@ class FS_Folder_Editor extends FS_Folder_Reader
 		{
 			if( !$entry->isDot() )
 			{
-				if( !$force )																	//  nested Files or Folders found
+				//  nested Files or Folders found
+				if( !$force )
 					throw new RuntimeException( 'Folder '.$folderName.' is not empty. See Option "force"' );
 				if( $entry->isFile() || $entry->isLink() )
 				{
-					if( FALSE === @unlink( $entry->getPathname() ) )								//  remove File and count
-						throw new RuntimeException( 'File "'.$folderName.$entry->getFilename().'" is not removable' );	//  throw Exception for File
+					//  remove File and count
+					if( FALSE === @unlink( $entry->getPathname() ) )
+						//  throw Exception for File
+						throw new RuntimeException( 'File "'.$folderName.$entry->getFilename().'" is not removable' );
 					$count	++;
 				}
 				else if( $entry->isDir() )
 				{
-					$count	+= self::removeFolder( $entry->getPathname(), $force );					//  call Method with nested Folder
+					//  call Method with nested Folder
+					$count	+= self::removeFolder( $entry->getPathname(), $force );
 				}
 			}
 		}
-		rmdir( $folderName );																//  remove Folder
+		//  remove Folder
+		rmdir( $folderName );
 		return $count;
 
 
-		$dir	= dir( $folderName );														//  index Folder
-		while( $entry = $dir->read() )														//  iterate Objects
+		//  index Folder
+		$dir	= dir( $folderName );
+		//  iterate Objects
+		while( $entry = $dir->read() )
 		{
-			if( preg_match( "@^(\.){1,2}$@", $entry ) )										//  if is Dot Object
-				continue;																	//  continue
-			$pathName	= $folderName.$entry;												//  Name of nested Object
-			if( !$force )																	//  nested Files or Folders found
+			//  if is Dot Object
+			if( preg_match( "@^(\.){1,2}$@", $entry ) )
+				//  continue
+				continue;
+			//  Name of nested Object
+			$pathName	= $folderName.$entry;
+			//  nested Files or Folders found
+			if( !$force )
 				throw new RuntimeException( 'Folder '.$folderName.' is not empty. See Option "force"' );
-			if( is_file( $pathName ) )														//  is nested File
+			//  is nested File
+			if( is_file( $pathName ) )
 			{
-				if( FALSE === unlink( $pathName ) )										//  remove File and count
-					throw new RuntimeException( 'File "'.$pathName.'" is not removable' );	//  throw Exception for File
+				//  remove File and count
+				if( FALSE === unlink( $pathName ) )
+					//  throw Exception for File
+					throw new RuntimeException( 'File "'.$pathName.'" is not removable' );
 				$count	++;
 			}
-			if( is_dir( $pathName ) )														//  is nested Folder
-				$count	+= self::removeFolder( $pathName, $force );							//  call Method with nested Folder
+			//  is nested Folder
+			if( is_dir( $pathName ) )
+				//  call Method with nested Folder
+				$count	+= self::removeFolder( $pathName, $force );
 		}
-		$dir->close();																		//  close Directory Handler
-		rmDir( $folderName );																//  remove Folder
-		return $count;																		//  return counted Objects
+		//  close Directory Handler
+		$dir->close();
+		//  remove Folder
+		rmDir( $folderName );
+		//  return counted Objects
+		return $count;
 	}
 }

@@ -40,9 +40,9 @@ class Alg_Parcel_Packet
 	/**	@var		string		$name		Name of Packet Size */
 	protected $name;
 	/**	@var		array		$articles	Array of Articles and their Quantities */
-	protected $articles;
+	protected $articles			= array();
 	/**	@var		float		$volume		Filled Volume as floating Number between 0 and 1 */
-	protected $volume;
+	protected $volume			= 0;
 
 	/**
 	 *	Constructor.

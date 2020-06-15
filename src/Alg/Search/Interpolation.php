@@ -61,8 +61,10 @@ class Alg_Search_Interpolation{
 	 */
 	public function search( $list, $search )
 	{
-		$lowbound	= 0;									// lowbound - untergrenze
-		$highbound	= sizeof( $list ) - 1;					// highbound - obergrenze
+		// lowbound - untergrenze
+		$lowbound	= 0;
+		// highbound - obergrenze
+		$highbound	= sizeof( $list ) - 1;
 		do
 		{
 			$index = $this->calculateIndex( $list, $search, $lowbound, $highbound );

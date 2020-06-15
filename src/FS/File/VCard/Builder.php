@@ -59,37 +59,48 @@ class FS_File_VCard_Builder
 	{
 		$lines		= array();
 
-		if( $fields	= $card->getNameFields() )											//  NAME FIELDS
+		//  NAME FIELDS
+		if( $fields	= $card->getNameFields() )
 			$lines[]	= self::renderLine( "n", $fields );
 
-		foreach( $card->getAddresses() as $address )									//  ADDRESSES
+		//  ADDRESSES
+		foreach( $card->getAddresses() as $address )
 			$lines[]	= self::renderLine( "adr", $address, $address['types'] );
 
-		if( $name	= $card->getFormatedName() )										//  FORMATED NAME
+		//  FORMATED NAME
+		if( $name	= $card->getFormatedName() )
 			$lines[]	= self::renderLine( "fn", $name );
 
-		if( $nicknames = $card->getNicknames() )										//  NICKNAMES
+		//  NICKNAMES
+		if( $nicknames = $card->getNicknames() )
 			$lines[]	= self::renderLine( "nickname", $nicknames, NULL, TRUE, "," );
 
-		if( $fields	= $card->getOrganisationFields() )									//  ORGANISATION
+		//  ORGANISATION
+		if( $fields	= $card->getOrganisationFields() )
 			$lines[]	= self::renderLine( "org", $fields, NULL, TRUE );
 
-		if( $title	= $card->getTitle() )												//  TITLE
+		//  TITLE
+		if( $title	= $card->getTitle() )
 			$lines[]	= self::renderLine( "title", $title );
 
-		if( $role	= $card->getRole() )												//  ROLE
+		//  ROLE
+		if( $role	= $card->getRole() )
 			$lines[]	= self::renderLine( "role", $role );
 
-		foreach( $card->getEmails() as $address => $types )								//  EMAIL ADDRESSES
+		//  EMAIL ADDRESSES
+		foreach( $card->getEmails() as $address => $types )
 			$lines[]	= self::renderLine( "email", $address, $types );
 
-		foreach( $card->getUrls() as $url => $types )									//  URLS
+		//  URLS
+		foreach( $card->getUrls() as $url => $types )
 			$lines[]	= self::renderLine( "url", $url, $types, FALSE );
 
-		foreach( $card->getPhones() as $number => $types )								//  PHONES
+		//  PHONES
+		foreach( $card->getPhones() as $number => $types )
 			$lines[]	= self::renderLine( "tel", $number, $types );
 
-		foreach( $card->getGeoTags() as $geo )											//  GEO TAGS
+		//  GEO TAGS
+		foreach( $card->getGeoTags() as $geo )
 			$lines[]	= self::renderLine( "geo", $geo, $geo['types'] );
 
 		if( self::$prodId )

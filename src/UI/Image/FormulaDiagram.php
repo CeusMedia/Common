@@ -100,9 +100,11 @@ class UI_Image_FormulaDiagram extends UI_Image_Drawer
 
 		if( $this->grid )
 		{
-			for( $i=0; $i<$xDiam; $i+=$this->grid )									//  horizontal Grid Lines
+			//  horizontal Grid Lines
+			for( $i=0; $i<$xDiam; $i+=$this->grid )
 				$this->drawLine( $i, 0, $i, $yDiam, $grcol );
-			for( $i=0; $i<$yDiam; $i+=$this->grid )									//  vertical Grid Lines
+			//  vertical Grid Lines
+			for( $i=0; $i<$yDiam; $i+=$this->grid )
 				$this->drawLine( 0, $i, $xDiam, $i,$grcol );
 		}
 		if( $xStart <= 0 && 0 < $xEnd )

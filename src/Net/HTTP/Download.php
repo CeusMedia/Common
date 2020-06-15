@@ -87,7 +87,8 @@ class Net_HTTP_Download
 	static public function sendFile( $url, $filename = NULL, $andExit = TRUE )
 	{
 		$filename	= strlen( $filename ) ? $filename : basename( $url );
-		$url		= str_replace( '../', '', $url );									//  avoid messing with path
+		//  avoid messing with path
+		$url		= str_replace( '../', '', $url );
 		if( !file_exists( $url ) )
 			throw new RuntimeException( 'File "'.$url.'" is not existing' );
 		self::clearOutputBuffers();

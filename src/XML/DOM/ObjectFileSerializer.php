@@ -39,7 +39,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			26.12.2005
  */
-class XML_DOM_ObjectFileSerializer extends XML_DOM_ObjectSerializer
+class XML_DOM_ObjectFileSerializer
 {
 	/**
 	 *	Writes XML String from an Object to a File.
@@ -51,8 +51,6 @@ class XML_DOM_ObjectFileSerializer extends XML_DOM_ObjectSerializer
 	 */
 	public static function serialize( $object, $fileName )
 	{
-		$serial	= parent::serialize( $object );
-		$file	= new FS_File_Writer( $fileName );
-		return $file->writeString( $serial );
+		return FS_File_Writer::save( XML_DOM_ObjectSerializer::serialize( $object ) );
 	}
 }

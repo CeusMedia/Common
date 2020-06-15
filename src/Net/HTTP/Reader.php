@@ -42,7 +42,8 @@ class Net_HTTP_Reader
 {
 	protected $curl;
 	protected $curlInfo		= array();
-	protected $userAgent	= "cmClasses:Net_HTTP_Reader/0.7";										//  default user agent to report to server, can be overriden by constructor or given CURL options on get or post
+	//  default user agent to report to server, can be overriden by constructor or given CURL options on get or post
+	protected $userAgent	= "cmClasses:Net_HTTP_Reader/0.7";
 
 	/**
 	 *	Constructor, sets up cURL.
@@ -156,9 +157,12 @@ class Net_HTTP_Reader
 
 		if( is_array( $data ) )
 		{
-			foreach( $data as $key => $value )														//  cURL hack (file upload identifier)
-				if( is_string( $value ) && substr( $value, 0, 1 ) == "@" )							//  leading @ in field values
-					$data[$key]	= "\\".$value;														//  need to be escaped
+			//  cURL hack (file upload identifier)
+			foreach( $data as $key => $value )
+				//  leading @ in field values
+				if( is_string( $value ) && substr( $value, 0, 1 ) == "@" )
+					//  need to be escaped
+					$data[$key]	= "\\".$value;
 			$data	= http_build_query( $data, NULL, "&" );
 		}
 		$curl->setOption( CURLOPT_POST, TRUE );

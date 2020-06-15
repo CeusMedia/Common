@@ -50,6 +50,7 @@ class ADT_String
 
 	public function __toString(): string
 	{
+#		return $this->render();
 		return (string) $this->string;
 	}
 
@@ -208,22 +209,29 @@ class ADT_String
 			throw new InvalidArgumentException( 'Start must be integer' );
 		if( abs( $start ) > $this->getLength() )
 			throw new OutOfBoundsException( 'Start excesses string length' );
-		if( !is_null( $length ) )																	//  a length is given
+		//  a length is given
+		if( !is_null( $length ) )
 		{
 			if( !is_int( $length ) )
 				throw new InvalidArgumentException( 'Length must be integer' );
-			if( $start >= 0 )																		//  start is postive, starting from left
+			//  start is postive, starting from left
+			if( $start >= 0 )
 			{
-				if( $length >= 0 && $start + $length > $this->getLength() )							//  length from start is to long
+				//  length from start is to long
+				if( $length >= 0 && $start + $length > $this->getLength() )
 					throw new OutOfBoundsException( 'Start and length excess string length from start (from left)' );
-				if( $length < 0 && abs( $length ) > $this->getLength() - $start )					//  length from right is to long
+				//  length from right is to long
+				if( $length < 0 && abs( $length ) > $this->getLength() - $start )
 					throw new OutOfBoundsException( 'Length (from right) excesses start (form left)' );
 			}
-			else																					//  start is negative
+			//  start is negative
+			else
 			{
-				if( $length >= 0 && abs( $start ) < $length )										//  length from start is to long
+				//  length from start is to long
+				if( $length >= 0 && abs( $start ) < $length )
 					throw new OutOfBoundsException( 'Length (from start) excesses string length from start (from right)' );
-				if( $length < 0 && abs( $start ) < abs( $length ) )									//  length from right is to long
+				//  length from right is to long
+				if( $length < 0 && abs( $start ) < abs( $length ) )
 					throw new OutOfBoundsException( 'Length (from right) excesses start (from right)' );
 			}
 			return new ADT_String( substr( $this->string, $start, $length ) );

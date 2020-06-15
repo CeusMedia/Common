@@ -171,10 +171,12 @@ class Net_CURL
 			throw new RuntimeException( $this->info['error'], $this->info['errno'] );
 		if( $this->getOption( CURLOPT_HEADER ) && $parseHeaders )
 		{
-#			$result	= preg_replace( "@^HTTP/1\.1 100 Continue\r\n\r\n@", "", $result );				//  Hack: remove "100 Continue"
+//  Hack: remove "100 Continue"
+#			$result	= preg_replace( "@^HTTP/1\.1 100 Continue\r\n\r\n@", "", $result );
 			$header	= mb_substr( $result, 0, $this->info['header_size'] );
 			$result	= mb_substr( $result, $this->info['header_size'] );
-			$this->parseHeaderSection( $header );															//  parse Header Block
+			//  parse Header Block
+			$this->parseHeaderSection( $header );
 		}
 		return $result;
 	}

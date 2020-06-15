@@ -61,11 +61,12 @@ class XML_DOM_XPathQuery extends ADT_OptionObject
 	 *	Returns identified Type of Feed.
 	 *	@access		public
 	 *	@return		string
+	 *	@throws		RuntimeException		if not XML has been loaded, yet
 	 */
 	public function evaluate( $path, $node = NULL )
 	{
 		if( !$this->xPath )
-			throw new Exception( 'No XML loaded yet.' );
+			throw new RuntimeException( 'No XML loaded yet.' );
 		if( $node )
 			$nodeList	= $this->xPath->evaluate( $path, $node );
 		else
@@ -77,11 +78,12 @@ class XML_DOM_XPathQuery extends ADT_OptionObject
 	 *	Returns DOM Document of loaded XML File.
 	 *	@access		public
 	 *	@return		DOMDocument
+	 *	@throws		RuntimeException		if not XML has been loaded, yet
 	 */
 	public function getDocument()
 	{
 		if( !$this->document )
-			throw new Exception( 'No XML loaded yet.' );
+			throw new RuntimeException( 'No XML loaded yet.' );
 		return $this->document;
 	}
 	/**
@@ -93,7 +95,7 @@ class XML_DOM_XPathQuery extends ADT_OptionObject
 	public function loadFile( $fileName )
 	{
 		if( !file_exists( $fileName ) )
-			throw new Exception( 'XML File "'.$fileName.'" is not existing.' );
+			throw new RuntimeException( 'XML File "'.$fileName.'" is not existing.' );
 		$this->document	= new DOMDocument();
 		$this->document->load( $fileName );
 		$this->xPath	= new DOMXpath( $this->document );
@@ -114,7 +116,7 @@ class XML_DOM_XPathQuery extends ADT_OptionObject
 			$options["CURLOPT_".strtoupper( $key )]	= $value;
 		$xml	= Net_Reader::readUrl( $url, $options );
 		if( !$xml )
-			throw new Exception( 'No XML found for URL "'.$url.'".' );
+			throw new RuntimeException( 'No XML found for URL "'.$url.'".' );
 		$this->loadXml( $xml );
 		return true;
 	}
@@ -140,11 +142,12 @@ class XML_DOM_XPathQuery extends ADT_OptionObject
 	 *	Returns identified Type of Feed.
 	 *	@access		public
 	 *	@return		string
+	 *	@throws		RuntimeException		if not XML has been loaded, yet
 	 */
 	public function query( $path, $node = NULL )
 	{
 		if( !$this->xPath )
-			throw new Exception( 'No XML loaded yet.' );
+			throw new RuntimeException( 'No XML loaded yet.' );
 		if( $node )
 			$nodeList	= $this->xPath->query( $path, $node );
 		else
@@ -152,18 +155,19 @@ class XML_DOM_XPathQuery extends ADT_OptionObject
 		return $nodeList;
 	}
 
-	/** 
+	/**
 	 *	Registers a Namespace for a Prefix.
 	 *	@access		public
 	 *	@param		string		$prefix			Prefix of Namespace
 	 *	@param		string		$namespace		Namespace of Prefix
 	 *	@return		bool
+	 *	@throws		RuntimeException		if not XML has been loaded, yet
 	 *	@see		http://tw.php.net/manual/de/function.dom-domxpath-registernamespace.php
 	 */
 	public function registerNamespace( $prefix, $namespace )
 	{
 		if( !$this->xPath )
-			throw new Exception( 'No XML loaded yet.' );
+			throw new RuntimeException( 'No XML loaded yet.' );
 		return $this->xPath->registerNamespace( $prefix, $namespace );
 	}
 }

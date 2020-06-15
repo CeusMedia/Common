@@ -63,7 +63,8 @@ class Net_SVN_Client{
 		svn_auth_set_parameter( SVN_AUTH_PARAM_NON_INTERACTIVE, true); 
 		svn_auth_set_parameter( SVN_AUTH_PARAM_DEFAULT_USERNAME, $username );
 		svn_auth_set_parameter( SVN_AUTH_PARAM_DEFAULT_PASSWORD, $password );
-		svn_auth_set_parameter( PHP_SVN_AUTH_PARAM_IGNORE_SSL_VERIFY_ERRORS, true); // <--- Important for certificate issues! 
+		// <--- Important for certificate issues! 
+		svn_auth_set_parameter( PHP_SVN_AUTH_PARAM_IGNORE_SSL_VERIFY_ERRORS, true);
 		svn_auth_set_parameter( SVN_AUTH_PARAM_NO_AUTH_CACHE, true); 
 	}
 
@@ -74,7 +75,8 @@ class Net_SVN_Client{
 	}
 
 	public function getRelativePath( $path ){
-		$path	= str_replace( '\\', '/', $path );													//  Windows fix
+		//  Windows fix
+		$path	= str_replace( '\\', '/', $path );
 		if( preg_match( '/'.$this->pathExp.'/U', $path ) )
 			$path	= substr( $path, strlen( $this->path ) );
 		return $path;

@@ -216,11 +216,14 @@ class DirectedWeighted extends Weighted
 		foreach( $this->getNodes() as $_node )
 		{
 			if( $this->isEdge( $_node, $node ) )
-				$this->removeEdge( $_node, $node );				//  remove incoming Edges
+				//  remove incoming Edges
+				$this->removeEdge( $_node, $node );
 			if( $this->isEdge( $node, $_node ) )
-				$this->removeEdge( $node, $_node );				//  remove outgoing Edges
+				//  remove outgoing Edges
+				$this->removeEdge( $node, $_node );
 		}
-		$this->nodeSet->removeNode( $node );												//  remove Node
+		//  remove Node
+		$this->nodeSet->removeNode( $node );
 	}
 
 	/**

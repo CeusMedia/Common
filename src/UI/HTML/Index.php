@@ -56,14 +56,22 @@ class UI_HTML_Index{
 	}
 
 	protected function importFromHtmlRecursive( $content, $level ){
-		if( !preg_match( "/<h".$level.">/", $content ) )											//  no heading of this level found
-			return array();																			//  return empty list
-		$tree		= array();																		//  prepare empty tree
-		$headings	= array();																		//  prepare empty heading list
-		preg_match_all( "/<h".$level.">(.+)<\/h".$level.">/U", $content, $headings );				//  collect headings of this level
-		$parts	= preg_split( "/<h".$level.">.+<\/h".$level.">/U", $content );						//  split HTML into blocks
-		array_shift( $parts );																		//  ignore block above first heading
-		foreach( $parts as $nr => $part ){															//  iterate blocks
+		//  no heading of this level found
+		if( !preg_match( "/<h".$level.">/", $content ) )
+			//  return empty list
+			return array();
+		//  prepare empty tree
+		$tree		= array();
+		//  prepare empty heading list
+		$headings	= array();
+		//  collect headings of this level
+		preg_match_all( "/<h".$level.">(.+)<\/h".$level.">/U", $content, $headings );
+		//  split HTML into blocks
+		$parts	= preg_split( "/<h".$level.">.+<\/h".$level.">/U", $content );
+		//  ignore block above first heading
+		array_shift( $parts );
+		//  iterate blocks
+		foreach( $parts as $nr => $part ){
 			$heading	= preg_replace( "/<.+>/", "", $headings[1][$nr] );							//  
 			$id			= strtolower( trim( $heading ) );											//  
 			$id			= str_replace( array( " ", "_" ), "-", $id );								//  

@@ -115,7 +115,8 @@ class UI_HTML_Exception_TraceViewer
 	{
 		if( $j == 0 )
 			if( isset( $trace['function'] ) )
-				if( in_array( $trace['function'], array( "eval", "throwException" ) ) )		//  Exception was thrown using throwException
+				//  Exception was thrown using throwException
+				if( in_array( $trace['function'], array( "eval", "throwException" ) ) )
 					return "";
 
 		$indent		= " ";

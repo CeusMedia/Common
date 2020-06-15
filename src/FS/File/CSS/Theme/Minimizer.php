@@ -64,9 +64,11 @@ class FS_File_CSS_Theme_Minimizer
 	 */
 	public function __construct( $themesPath )
 	{
-		$this->setThemesPath( $themesPath );										//  set Themes Path
+		//  set Themes Path
+		$this->setThemesPath( $themesPath );
 		$this->combiner		= new FS_File_CSS_Combiner;
-		$this->compressor	= new FS_File_CSS_Compressor;								//  get CSS Compressor Instance
+		//  get CSS Compressor Instance
+		$this->compressor	= new FS_File_CSS_Compressor;
 	}
 
 	/**
@@ -76,13 +78,20 @@ class FS_File_CSS_Theme_Minimizer
 	 */
 	private function getPath()
 	{
-		$themesPath = $this->themesPath;											//  Basic Themes Path
-		if( $this->themeName )														//  Theme Path is set
-			$themesPath .= $this->themeName;										//  add Theme Path
-		if( $this->cssFolder )														//  CSS Folder is set
-			$themesPath .= $this->cssFolder;										//  add CSS Folder
-		if( $this->mediumPath )														//  Medium Path is set
-			$themesPath .= $this->mediumPath;										//  add Medium Path
+		//  Basic Themes Path
+		$themesPath = $this->themesPath;
+		//  Theme Path is set
+		if( $this->themeName )
+			//  add Theme Path
+			$themesPath .= $this->themeName;
+		//  CSS Folder is set
+		if( $this->cssFolder )
+			//  add CSS Folder
+			$themesPath .= $this->cssFolder;
+		//  Medium Path is set
+		if( $this->mediumPath )
+			//  add Medium Path
+			$themesPath .= $this->mediumPath;
 		return $themesPath;
 	}
 
@@ -104,30 +113,44 @@ class FS_File_CSS_Theme_Minimizer
 	 */
 	public function minimize( $styleFile, $compress = FALSE )
 	{
-		$pathName	= $this->getPath();												//  get full Path to Style File
+		//  get full Path to Style File
+		$pathName	= $this->getPath();
 
 		//  --  SET COMBINER ENVIRONMENT  --  //
-		$this->combiner->setPrefix( $this->combinerPrefix );						//  set Combiner Prefix
-		$this->combiner->setPrefix( $this->combinerSuffix );						//  set Combiner Suffix
+		//  set Combiner Prefix
+		$this->combiner->setPrefix( $this->combinerPrefix );
+		//  set Combiner Suffix
+		$this->combiner->setPrefix( $this->combinerSuffix );
 
 		//  --  LAUNCH COMBINER  --  //
-		$fileUri	= $this->combiner->combineFile( $pathName.$styleFile );			//  combine CSS Files
-		$this->statistics	= $this->combiner->getStatistics();						//  collect Statisticts
+		//  combine CSS Files
+		$fileUri	= $this->combiner->combineFile( $pathName.$styleFile );
+		//  collect Statisticts
+		$this->statistics	= $this->combiner->getStatistics();
 
-		if( $compress )																//  Compression is enabled
+		//  Compression is enabled
+		if( $compress )
 		{
 			//  --  SET COMPRESSOR ENVIRONMENT  --  //
-			$this->compressor->setPrefix( $this->compressorPrefix );				//  set Compressor Prefix
-			$this->compressor->setPrefix( $this->compressorSuffix );				//  set Compressor Suffix
+			//  set Compressor Prefix
+			$this->compressor->setPrefix( $this->compressorPrefix );
+			//  set Compressor Suffix
+			$this->compressor->setPrefix( $this->compressorSuffix );
 
 			//  --  LAUNCH COMPRESSOR  --  //
-			$targetFile	= $this->compressor->compressFile( $fileUri );				//  compress CSS File
-			$statistics	= $this->compressor->getStatistics();						//  collect Statisticts
-			$this->statistics['sizeCompressed']	= $statistics['after'];				//  merge Statisticts
-			$this->statistics['fileCompressed']	= realpath( $targetFile );			//  note compressed Target File Path
+			//  compress CSS File
+			$targetFile	= $this->compressor->compressFile( $fileUri );
+			//  collect Statisticts
+			$statistics	= $this->compressor->getStatistics();
+			//  merge Statisticts
+			$this->statistics['sizeCompressed']	= $statistics['after'];
+			//  note compressed Target File Path
+			$this->statistics['fileCompressed']	= realpath( $targetFile );
 		}
-		$this->statistics['fileSource']		= realpath( $pathName.$styleFile );		//  note Source File Path
-		$this->statistics['fileCombined']	= realpath( $fileUri );					//  note combined Target File Path
+		//  note Source File Path
+		$this->statistics['fileSource']		= realpath( $pathName.$styleFile );
+		//  note combined Target File Path
+		$this->statistics['fileCombined']	= realpath( $fileUri );
 		return TRUE;
 	}
 

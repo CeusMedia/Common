@@ -118,24 +118,37 @@ class Alg_UnusedVariableFinder
 	 */
 	private function inspectParsedMethods( $countCalls = FALSE )
 	{
-		foreach( $this->methods as $method => $data )												//  iterate before parsed methods
+		//  iterate before parsed methods
+		foreach( $this->methods as $method => $data )
 		{
-			foreach( $data['lines'] as $nr => $line )												//  iterate method/function lines
+			//  iterate method/function lines
+			foreach( $data['lines'] as $nr => $line )
 			{
-				$pattern	= "@^ *\t*[$]([a-z0-9_]+)(\t| )+=[^>].*@i";								//  prepare regular expression for variable assignment
-				if( preg_match( $pattern, $line ) )													//  line contains variable assignment
-					if( $var = trim( preg_replace( $pattern, "\\1", $line ) ) )						//  extract variable name from line
-						if( !array_key_exists( $var, $this->methods[$method]['variables'] ) )		//  variable is not noted, yet
-							$this->methods[$method]['variables'][$var]	= 0;						//  note newly found variable
-				foreach( $this->methods[$method]['variables'] as $name => $count )					//  iterate known method/function variables
+				//  prepare regular expression for variable assignment
+				$pattern	= "@^ *\t*[$]([a-z0-9_]+)(\t| )+=[^>].*@i";
+				//  line contains variable assignment
+				if( preg_match( $pattern, $line ) )
+					//  extract variable name from line
+					if( $var = trim( preg_replace( $pattern, "\\1", $line ) ) )
+						//  variable is not noted, yet
+						if( !array_key_exists( $var, $this->methods[$method]['variables'] ) )
+							//  note newly found variable
+							$this->methods[$method]['variables'][$var]	= 0;
+				//  iterate known method/function variables
+				foreach( $this->methods[$method]['variables'] as $name => $count )
 				{
-					if( !$countCalls && $count )													//  variable is used and count mode is off
-						continue;																	//  skip to next line
+					//  variable is used and count mode is off
+					if( !$countCalls && $count )
+						//  skip to next line
+						continue;
 					if( preg_match( "/\(/", $name ) || preg_match( "/\)/", $name ) )
 						xmp( $method."::".$name.' ('.join( ",", array_keys( $this->methods ) ).')' );
-					$line		= preg_replace( "/\$".addslashes( $name )."\s*=/", "", $line );					//  remove variable assignment if found
-					if( preg_match( '@\$'.addslashes( $name ).'[^a-z0-9_]@i', $line ) ){							//  if variable is used in this line
-						$this->methods[$method]['variables'][$name]++;								//  increate variable's use counter
+					//  remove variable assignment if found
+					$line		= preg_replace( "/\$".addslashes( $name )."\s*=/", "", $line );
+					//  if variable is used in this line
+					if( preg_match( '@\$'.addslashes( $name ).'[^a-z0-9_]@i', $line ) ){
+						//  increate variable's use counter
+						$this->methods[$method]['variables'][$name]++;
 					}
 				}
 			}
@@ -150,57 +163,96 @@ class Alg_UnusedVariableFinder
 	 */
 	private function parseCodeForMethods( $content )
 	{
-		$this->methods	= array();																	//  reset list of found methods
-		$open		= FALSE;																		//  initial: no method found, yet
-		$content	= preg_replace( "@/\*.*\*/@Us", "", $content );									//  remove all slash-star-comments
-//		$content	= preg_replace( '@".*"@Us', "", $content );										//  remove all strings
-		$content	= preg_replace( "@'.*'@Us", "", $content );										//  remove all strings
-		$content	= preg_replace( "@#.+\n@U", "", $content );										//  remove all hash-comments
-		$content	= preg_replace( "@\s+\n@U", "\n", $content );									//  trailing white space
-		$content	= preg_replace( "@\n\n@U", "\n", $content );									//  remove double line breaks
-		$content	= preg_replace( "@//\s*[\w|\s]*\n@U", "\n", $content );							//  remove comment lines
-		$matches	= array();																		//  prepare empty matches array
-		$count		= 0;																			//  initial: open bracket counter
-		foreach( explode( "\n", $content ) as $nr => $line )										//  iterate code lines
+		//  reset list of found methods
+		$this->methods	= array();
+		//  initial: no method found, yet
+		$open		= FALSE;
+		//  remove all slash-star-comments
+		$content	= preg_replace( "@/\*.*\*/@Us", "", $content );
+//  remove all strings
+//		$content	= preg_replace( '@".*"@Us', "", $content );
+		//  remove all strings
+		$content	= preg_replace( "@'.*'@Us", "", $content );
+		//  remove all hash-comments
+		$content	= preg_replace( "@#.+\n@U", "", $content );
+		//  trailing white space
+		$content	= preg_replace( "@\s+\n@U", "\n", $content );
+		//  remove double line breaks
+		$content	= preg_replace( "@\n\n@U", "\n", $content );
+		//  remove comment lines
+		$content	= preg_replace( "@//\s*[\w|\s]*\n@U", "\n", $content );
+		//  prepare empty matches array
+		$matches	= array();
+		//  initial: open bracket counter
+		$count		= 0;
+		//  iterate code lines
+		foreach( explode( "\n", $content ) as $nr => $line )
 		{
-			$line	= trim( $line );																//  remove leading and trailing white space
-			if( !$open )																			//  if no method found, yet
+			//  remove leading and trailing white space
+			$line	= trim( $line );
+			//  if no method found, yet
+			if( !$open )
 			{
-				$regExp	= '@^(abstract )?(final )?(static )?(protected |private |public )?(static )?function ([\w]+)\((.*)\)(\s*{\s*)?;?\s*$@s';	//  prepare regular expression for method/function signature
-				if( preg_match( $regExp, $line ) )													//  line is method/function signature
+				//  prepare regular expression for method/function signature
+				$regExp	= '@^(abstract )?(final )?(static )?(protected |private |public )?(static )?function ([\w]+)\((.*)\)(\s*{\s*)?;?\s*$@s';
+				//  line is method/function signature
+				if( preg_match( $regExp, $line ) )
 				{
-					$regExp	= "@^.*function ([^(]+) ?\((.*)\).*$@i";								//  prepare regular expression for method/function name and parameters
-					$name	= preg_replace( $regExp, "\\1@@\\2", $line );							//  find method/function name and parameters
-					$parts	= explode( "@@", $name );												//  split name and parameters
-					$open	= trim( $parts[0] );															//  note found method/function
-					$matches[$open]['variables']	= array();										//  prepare empty method/function parameter list
-					$matches[$open]['lines']		= array();										//  prepare empty method/function line list
-					$parts[1]	= preg_replace( '@\(.*\)@U', "", $parts[1] );										//  remove all strings
-					if( isset( $parts[1] ) && trim( $parts[1] ) )									//  parameters are defined
+					//  prepare regular expression for method/function name and parameters
+					$regExp	= "@^.*function ([^(]+) ?\((.*)\).*$@i";
+					//  find method/function name and parameters
+					$name	= preg_replace( $regExp, "\\1@@\\2", $line );
+					//  split name and parameters
+					$parts	= explode( "@@", $name );
+					//  note found method/function
+					$open	= trim( $parts[0] );
+					//  prepare empty method/function parameter list
+					$matches[$open]['variables']	= array();
+					//  prepare empty method/function line list
+					$matches[$open]['lines']		= array();
+					//  remove all strings
+					$parts[1]	= preg_replace( '@\(.*\)@U', "", $parts[1] );
+					//  parameters are defined
+					if( isset( $parts[1] ) && trim( $parts[1] ) )
 					{
-						$params	= explode( ",", $parts[1] );										//  split parameters
-						foreach( $params as $param )												//  iterate parameters
+						//  split parameters
+						$params	= explode( ",", $parts[1] );
+						//  iterate parameters
+						foreach( $params as $param )
 						{
-							$regExp		= '@^([a-z0-9_]+ )?&?\$(.+)(\s?=\s?.*)?$@Ui';				//  prepare regular expression for parameter name
-							$param		= preg_replace( $regExp, "\\2", trim( $param ) );			//  get clean parameter name
-							$matches[$open]['variables'][$param]	= 0;							//  note parameter in method variable list
+							//  prepare regular expression for parameter name
+							$regExp		= '@^(\S+ )?&?\$(.+)(\s?=\s?.*)?$@Ui';
+							//  get clean parameter name
+							$param		= preg_replace( $regExp, "\\2", trim( $param ) );
+							//  note parameter in method variable list
+							$matches[$open]['variables'][$param]	= 0;
 						}
 					}
-					if( preg_match( "/\{$/", $line ) )												//  signature line ends with opening bracket
-						$count++;																	//  increase open bracket counter
+					//  signature line ends with opening bracket
+					if( preg_match( "/\{$/", $line ) )
+						//  increase open bracket counter
+						$count++;
 				}
 			}
-			else																					//  inside method code lines
+			//  inside method code lines
+			else
 			{
-				$matches[$open]['lines'][$nr]	= $line;											//  note method code line for inspection
-				if( preg_match( "/^\{$/", $line ) || preg_match( "/\{$/", $line ) )					//  line contains opening bracket
-					$count++;																		//  increase open bracket counter
-				else if( preg_match( "/^\}/", $line ) || preg_match( "/\}$/", $line ) )				//  line contains closing bracket
-					if( !( --$count ) )																//  decrease open bracket counter and if all open brackets are closed
-						$open	= FALSE;															//  leave method code mode
+				//  note method code line for inspection
+				$matches[$open]['lines'][$nr]	= $line;
+				//  line contains opening bracket
+				if( preg_match( "/^\{$/", $line ) || preg_match( "/\{$/", $line ) )
+					//  increase open bracket counter
+					$count++;
+				//  line contains closing bracket
+				else if( preg_match( "/^\}/", $line ) || preg_match( "/\}$/", $line ) )
+					//  decrease open bracket counter and if all open brackets are closed
+					if( !( --$count ) )
+						//  leave method code mode
+						$open	= FALSE;
 			}
 		}
-		$this->methods	= $matches;																	//  note all found methods and their variables
+		//  note all found methods and their variables
+		$this->methods	= $matches;
 	}
 
 	/**

@@ -70,41 +70,66 @@ class Net_HTTP_CrossDomainProxy
 	 */
 	public function forward( $throwException = FALSE )
 	{
-		$query	= getEnv( 'QUERY_STRING' );														//  get GET Query String
-		$url	= $this->url."?".$query;														//  build Service Request URL
+		//  get GET Query String
+		$query	= getEnv( 'QUERY_STRING' );
+		//  build Service Request URL
+		$url	= $this->url."?".$query;
 		return self::requestUrl( $url, $this->username, $this->password, $throwException );
 	}
 
 	public static function requestUrl( $url, $username = NULL, $password = NULL, $throwException = FALSE )
 	{
-		$curl	= curl_init();																	//  open cURL Handler
-		curl_setopt( $curl, CURLOPT_SSL_VERIFYPEER, 0 );										//  skip Peer Verification
-		curl_setopt( $curl, CURLOPT_SSL_VERIFYHOST, 0 );										//  skip Host Verification
-		curl_setopt( $curl, CURLOPT_URL, $url );												//  set Service Request URL
-		curl_setopt( $curl, CURLOPT_RETURNTRANSFER, TRUE );										//  catch Response
-		curl_setopt( $curl, CURLOPT_HEADER, FALSE );											//  don't receiver headers
-		curl_setopt( $curl, CURLOPT_FOLLOWLOCATION, TRUE );									//  follow redirects
-		if( $username )																			//  Basic Authentication Username is set
-			curl_setopt( $curl, CURLOPT_USERPWD, $username.":".$password );						//  set HTTP Basic Authentication
-		$method	= getEnv( 'REQUEST_METHOD' );													//  get Request Method
-		if( $method == "POST" )																	//  Request Method is POST
+		//  open cURL Handler
+		$curl	= curl_init();
+		//  skip Peer Verification
+		curl_setopt( $curl, CURLOPT_SSL_VERIFYPEER, 0 );
+		//  skip Host Verification
+		curl_setopt( $curl, CURLOPT_SSL_VERIFYHOST, 0 );
+		//  set Service Request URL
+		curl_setopt( $curl, CURLOPT_URL, $url );
+		//  catch Response
+		curl_setopt( $curl, CURLOPT_RETURNTRANSFER, TRUE );
+		//  don't receiver headers
+		curl_setopt( $curl, CURLOPT_HEADER, FALSE );
+		//  follow redirects
+		curl_setopt( $curl, CURLOPT_FOLLOWLOCATION, TRUE );
+		//  Basic Authentication Username is set
+		if( $username )
+			//  set HTTP Basic Authentication
+			curl_setopt( $curl, CURLOPT_USERPWD, $username.":".$password );
+		//  get Request Method
+		$method	= getEnv( 'REQUEST_METHOD' );
+		//  Request Method is POST
+		if( $method == "POST" )
 		{
-			$data	= http_build_query( $_POST, NULL, "&" );									//  build POST Parameters
-			curl_setopt( $curl, CURLOPT_POST, TRUE );											//  set POST Request on cURL Handler
-			curl_setopt( $curl, CURLOPT_POSTFIELDS, $data );									//  set POST Parameters
+			//  build POST Parameters
+			$data	= http_build_query( $_POST, NULL, "&" );
+			//  set POST Request on cURL Handler
+			curl_setopt( $curl, CURLOPT_POST, TRUE );
+			//  set POST Parameters
+			curl_setopt( $curl, CURLOPT_POSTFIELDS, $data );
 		}
-		else if( $method != "GET" )																//  neither POST nor GET
-			throw new Exception( 'Invalid Request Method.' );									//  throw Exception
+		//  neither POST nor GET
+		else if( $method != "GET" )
+			//  throw Exception
+			throw new Exception( 'Invalid Request Method.' );
 
-		$response	= curl_exec( $curl );														//  get Service Response
-		curl_close( $curl );																	//  close cURL Handler
+		//  get Service Response
+		$response	= curl_exec( $curl );
+		//  close cURL Handler
+		curl_close( $curl );
 
-		if( $throwException )																	//  check Response for Exception
-			if( $object = @unserialize( $response ) )											//  Response is an Object
-				if( is_object( $object ) && is_a( $object, "Exception" ) )						//  Response is an Exception
-					throw $object;																//  throw this Exception
+		//  check Response for Exception
+		if( $throwException )
+			//  Response is an Object
+			if( $object = @unserialize( $response ) )
+				//  Response is an Exception
+				if( is_object( $object ) && is_a( $object, "Exception" ) )
+					//  throw this Exception
+					throw $object;
 
-		return $response;																		//  return Service Response
+		//  return Service Response
+		return $response;
 	}
 
 }

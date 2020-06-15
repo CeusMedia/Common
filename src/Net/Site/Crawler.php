@@ -125,8 +125,10 @@ class Net_Site_Crawler
 	 */
 	public function crawl( $url, $followExternalLinks = FALSE, $followWithLabelOnly = FALSE, $verbose = FALSE )
 	{
-		if( $xdebug = ini_get( 'xdebug.profiler_enable' ) )							//  XDebug Profiler is enabled
-			ini_set( 'xdebug.profiler_enable', "0" );								//  disable Profiler
+		//  XDebug Profiler is enabled
+		if( $xdebug = ini_get( 'xdebug.profiler_enable' ) )
+			//  disable Profiler
+			ini_set( 'xdebug.profiler_enable', "0" );
 
 		$this->crawled	= FALSE;
 		$this->errors	= array();
@@ -195,8 +197,10 @@ class Net_Site_Crawler
 			}
 		}
 		$this->crawled	= TRUE;
-		if( $xdebug )																//  XDebug Profiler was enabled
-			ini_set( 'xdebug.profiler_enable', "1" );								//  enable Profiler
+		//  XDebug Profiler was enabled
+		if( $xdebug )
+			//  enable Profiler
+			ini_set( 'xdebug.profiler_enable', "1" );
 		return count( $this->links );
 	}
 

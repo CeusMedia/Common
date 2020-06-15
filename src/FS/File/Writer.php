@@ -125,7 +125,9 @@ class FS_File_Writer
 	 */
 	public function remove()
 	{
-		return unlink( $this->fileName );
+		if( file_exists( $this->fileName ) )
+			return unlink( $this->fileName );
+		return FALSE;
 	}
 
 	/**
@@ -223,7 +225,7 @@ class FS_File_Writer
 	public function writeArray( $array, $lineBreak = "\n" )
 	{
 		if( !is_array( $array ) )
-			throw new InvalidArgumentException( ucFirst( gettype( $string ) ).' given instead of array' );
+			throw new InvalidArgumentException( ucFirst( gettype( $array ) ).' given instead of array' );
 		$string	= implode( $lineBreak, $array );
 		return $this->writeString( $string );
 	}

@@ -94,20 +94,24 @@ class ADT_Tree_BalanceBinaryNode extends ADT_Tree_BinaryNode
 	protected function balanceTree()
 	{
 		$bf	= $this->getBalance();
-		if( $bf >= $this->balance ) 												// LR or LL rotation
+		// LR or LL rotation
+		if( $bf >= $this->balance )
 		{
 			$ll_height	= $this->left->left  ? $this->left->left->getHeight()  : 0;
 			$lr_height	= $this->left->right ? $this->left->right->getHeight() : 0;
 			if( $ll_height < $lr_height )
-				$this->left->rotateRR(); 											// LR rotation
+				// LR rotation
+				$this->left->rotateRR();
 			$this->rotateLL();
 		}
-		else if( $bf <= $this->balance )											// RR or RL rotation
+		// RR or RL rotation
+		else if( $bf <= $this->balance )
 		{
 			$rr_height	= $this->right->right ? $this->right->right->getHeight() : 0;
 			$rl_height	= $this->right->left  ? $this->right->left->getHeight()  : 0;
 			if( $rl_height > $rr_height )
-				$this->right->rotateLL();											// RR rotation
+				// RR rotation
+				$this->right->rotateLL();
 			$this->rotateRR();
 		}
 	}

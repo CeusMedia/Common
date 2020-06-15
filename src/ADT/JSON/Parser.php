@@ -39,6 +39,25 @@ namespace CeusMedia\Common\ADT\JSON;
  */
 class Parser
 {
+	const STATUS_EMPTY			= 0;
+	const STATUS_PARSED			= 1;
+	const STATUS_ERROR			= 2;
+
+	protected $status			= 0;
+
+	/**
+	 *	Returns constant value or key of last parse error.
+	 *	@access		public
+	 *	@param		boolean		$asConstantKey	Flag: return constant name as string instead of its integer value
+	 *	@return		integer|string
+	 */
+	public function getError( $asConstantKey = FALSE ){
+		$code	= json_last_error();
+		if( $asConstantKey )
+			return $this->getConstantFromCode( $code );
+		return $code;
+	}
+
 	/**
 	 *	Get new instance of JSON reader by static call.
 	 *	This method is useful for chaining method calls.
@@ -51,26 +70,27 @@ class Parser
 	}
 
 	/**
-	 *	Reads a JSON file to an object or array statically.
+	 *	Returns all information of last parse error.
 	 *	@access		public
-	 *	@param		string		$filePath		Path to JSON file
-	 *	@param		bool		$asArray		Flag: read into an array
-	 *	@return		object|array
+	 *	@return		object
 	 */
-	public static function load( $json, $asArray = NULL )
-	{
-		$parser	= new Parser();
-		return $parser->parse( $json, $asArray );
+	public function getInfo(){
+		return (object) array(
+			'status'	=> $this->status,
+			'code'		=> $this->getError(),
+			'constant'	=> $this->getError( TRUE ),
+			'message'	=> $this->getMessage(),
+		);
 	}
 
-	public function getError(){
-		return json_last_error();
-	}
-
+	/**
+	 *	Returns message of last parse error.
+	 *	@access		public
+	 *	@return		string
+	 */
 	public function getMessage(){
 		return json_last_error_msg();
 	}
-
 
 	/**
 	 *	Returns data of parsed JSON string.
@@ -81,16 +101,22 @@ class Parser
 	 *	@throws		\RuntimeException			if parsing failed
 	 */
 	public function parse( $json, $asArray = NULL ){
-		$data	= json_decode( $json, $asArray );
-		if( json_last_error() !== \JSON_ERROR_NONE ){
+		$this->status	= static::STATUS_EMPTY;
+		$data			= json_decode( $json, $asArray );
+		if( json_last_error() !== JSON_ERROR_NONE ){
+			$this->status	= static::STATUS_ERROR;
 			$message	= 'Decoding JSON failed (%s): %s';
 			$message	= vsprintf( $message, array(
-				\CeusMedia\Common\ADT\Constant::getKeyByValue( 'JSON_ERROR_', json_last_error() ),
+				$this->getConstantFromCode( json_last_error() ),
 				json_last_error_msg()
 			) );
 			throw new \RuntimeException( $message, json_last_error() );
 		}
+		$this->status	= static::STATUS_PARSED;
 		return $data;
+	}
 
+	protected function getConstantFromCode( $code ){
+		return ADT_Constant::getKeyByValue( 'JSON_ERROR_', $code );
 	}
 }

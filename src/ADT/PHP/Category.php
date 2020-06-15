@@ -142,16 +142,26 @@ class ADT_PHP_Category
 
 	public function & getPackage( $name )
 	{
-		$parts		= explode( "_", str_replace( ".", "_", $name ) );								//  set underscore as separator
-		if( !$parts )																				//  no Package parts found
-			throw new InvalidArgumentException( 'Package name cannot be empty' );					//  break: invalid Package name
-		$main	= $parts[0];																		//  Mainpackage name
-		if( !array_key_exists( $main, $this->packages ) )											//  Mainpackage is not existing
-			throw new RuntimeException( 'Package "'.$name.'" is unknown' );							//  break: unknown Mainpackage
-		if( count( $parts ) == 1 )																	//  has no Subpackage, must be existing Mainpackage
-			return $this->packages[$main];															//  return Mainpackage
-		$sub	= implode( "_", array_slice( $parts, 1 ) );											//  Subpackage key
-		return $this->packages[$main]->getPackage( $sub );											//  ask for Subpackage in Mainpackage
+		//  set underscore as separator
+		$parts		= explode( "_", str_replace( ".", "_", $name ) );
+		//  no Package parts found
+		if( !$parts )
+			//  break: invalid Package name
+			throw new InvalidArgumentException( 'Package name cannot be empty' );
+		//  Mainpackage name
+		$main	= $parts[0];
+		//  Mainpackage is not existing
+		if( !array_key_exists( $main, $this->packages ) )
+			//  break: unknown Mainpackage
+			throw new RuntimeException( 'Package "'.$name.'" is unknown' );
+		//  has no Subpackage, must be existing Mainpackage
+		if( count( $parts ) == 1 )
+			//  return Mainpackage
+			return $this->packages[$main];
+		//  Subpackage key
+		$sub	= implode( "_", array_slice( $parts, 1 ) );
+		//  ask for Subpackage in Mainpackage
+		return $this->packages[$main]->getPackage( $sub );
 	}
 
 	/**
@@ -186,16 +196,26 @@ class ADT_PHP_Category
 
 	public function hasPackage( $name )
 	{
-		$parts		= explode( "_", str_replace( ".", "_", $name ) );								//  set underscore as separator
-		if( !$parts )																				//  no Package parts found
-			throw new InvalidArgumentException( 'Package name cannot be empty' );					//  break: invalid Package name
-		$main	= $parts[0];																		//  Mainpackage name
-		if( !array_key_exists( $main, $this->packages ) )											//  Mainpackage is not existing
-			return FALSE;																			//  break: unknown Mainpackage
-		if( count( $parts ) == 1 )																	//  has no Subpackage
-			return TRUE;																			//  must be existing Mainpackage
-		$sub	= implode( "_", array_slice( $parts, 1 ) );											//  Subpackage key
-		return $this->packages[$main]->hasPackage( $sub );											//  ask for Subpackage in Mainpackage
+		//  set underscore as separator
+		$parts		= explode( "_", str_replace( ".", "_", $name ) );
+		//  no Package parts found
+		if( !$parts )
+			//  break: invalid Package name
+			throw new InvalidArgumentException( 'Package name cannot be empty' );
+		//  Mainpackage name
+		$main	= $parts[0];
+		//  Mainpackage is not existing
+		if( !array_key_exists( $main, $this->packages ) )
+			//  break: unknown Mainpackage
+			return FALSE;
+		//  has no Subpackage
+		if( count( $parts ) == 1 )
+			//  must be existing Mainpackage
+			return TRUE;
+		//  Subpackage key
+		$sub	= implode( "_", array_slice( $parts, 1 ) );
+		//  ask for Subpackage in Mainpackage
+		return $this->packages[$main]->hasPackage( $sub );
 	}
 
 	/**
@@ -215,36 +235,53 @@ class ADT_PHP_Category
 
 	public function setPackage( $name, ADT_PHP_Category $package )
 	{
-		$parts		= explode( "_", str_replace( ".", "_", $name ) );								//  set underscore as separator
-		if( !$parts )																				//  no Package parts found
-			throw new InvalidArgumentException( 'Package name cannot be empty' );					//  break: invalid Package name
-		$main	= $parts[0];																		//  Mainpackage name
-		if( count( $parts ) > 1 )																	//  has Subpackage
+		//  set underscore as separator
+		$parts		= explode( "_", str_replace( ".", "_", $name ) );
+		//  no Package parts found
+		if( !$parts )
+			//  break: invalid Package name
+			throw new InvalidArgumentException( 'Package name cannot be empty' );
+		//  Mainpackage name
+		$main	= $parts[0];
+		//  has Subpackage
+		if( count( $parts ) > 1 )
 		{
-			$sub	= implode( "_", array_slice( $parts, 1 ) );										//  Subpackage key
-			if( !array_key_exists( $main, $this->packages ) )										//  Mainpackage is not existing
+			//  Subpackage key
+			$sub	= implode( "_", array_slice( $parts, 1 ) );
+			//  Mainpackage is not existing
+			if( !array_key_exists( $main, $this->packages ) )
 			{
-				$this->packages[$main]	= new ADT_PHP_Package( $main );								//  create empty Mainpackage for now
+				//  create empty Mainpackage for now
+				$this->packages[$main]	= new ADT_PHP_Package( $main );
 				$this->packages[$main]->setParent( $this );
 			}
-			$this->packages[$main]->setPackage( $sub, $package );									//  give Subpackage to Mainpackage
+			//  give Subpackage to Mainpackage
+			$this->packages[$main]->setPackage( $sub, $package );
 		}
 		else
 		{
-			if( !array_key_exists( $name, $this->packages ) )										//  Package is not existing
+			//  Package is not existing
+			if( !array_key_exists( $name, $this->packages ) )
 			{
-				$this->packages[$name]	= $package;													//  add Package
+				//  add Package
+				$this->packages[$name]	= $package;
 				$this->packages[$name]->setParent( $this );
 			}
 			else
 			{
-				foreach( $package->getClasses() as $class )											//  iterate Classes in Package
-					$this->packages[$name]->addClass( $class );										//  add Class to existing Package
-				foreach( $package->getInterfaces() as $interface )									//  iterate Interfaces in Package
-					$this->packages[$name]->addInterface( $interface );							//  add Interface to existing Package
+				//  iterate Classes in Package
+				foreach( $package->getClasses() as $class )
+					//  add Class to existing Package
+					$this->packages[$name]->addClass( $class );
+				//  iterate Interfaces in Package
+				foreach( $package->getInterfaces() as $interface )
+					//  add Interface to existing Package
+					$this->packages[$name]->addInterface( $interface );
 			}
-#			foreach( $package->getFiles() as $file )												//  iterate Files
-#				$this->packages[$name]->setFile( $file->basename, $file );							//  add File to existing Package
+//  iterate Files
+#			foreach( $package->getFiles() as $file )
+//  add File to existing Package
+#				$this->packages[$name]->setFile( $file->basename, $file );
 		}
 	}
 

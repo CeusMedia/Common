@@ -50,10 +50,13 @@ class Net_HTTP_Response_Compressor
 		if( !$type )
 			return;
 		$response->setBody( self::compressString( $response->getBody(), $type ) );
-		$response->addHeaderPair( 'Content-Encoding', $type, TRUE );								//  send Encoding Header
-		$response->addHeaderPair( 'Vary', "Accept-Encoding", TRUE );								//  send Encoding Header
+		//  send Encoding Header
+		$response->addHeaderPair( 'Content-Encoding', $type, TRUE );
+		//  send Encoding Header
+		$response->addHeaderPair( 'Vary', "Accept-Encoding", TRUE );
 		if( $sendLengthHeader )
-			$response->addHeaderPair( 'Content-Length', strlen( $response->getBody() ), TRUE );		//  send Content-Length Header
+			//  send Content-Length Header
+			$response->addHeaderPair( 'Content-Length', strlen( $response->getBody() ), TRUE );
 	}
 
 	/**
@@ -69,10 +72,13 @@ class Net_HTTP_Response_Compressor
 			case NULL:
 				return $content;
 			case 'deflate':
-				return gzdeflate( $content );														//  compress Content
+				//  compress Content
+				return gzdeflate( $content );
 			case 'gzip':
-				return gzencode( $content, 9 );														//  compress Content
-			default:																				//  no valid Compression Method set
+				//  compress Content
+				return gzencode( $content, 9 );
+			//  no valid Compression Method set
+			default:
 				throw new InvalidArgumentException( 'Compression "'.$type.'" is not supported' );
 		}
 	}

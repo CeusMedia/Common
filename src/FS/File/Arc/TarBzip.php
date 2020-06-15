@@ -57,7 +57,8 @@ class FS_File_Arc_TarBzip extends FS_File_Arc_Tar
 	 */
 	public function open( $fileName )
 	{
-		if( !file_exists( $fileName ) )																		// If the tar file doesn't exist...
+		// If the tar file doesn't exist...
+		if( !file_exists( $fileName ) )
 			throw new RuntimeException( 'TBZ file "'.$fileName.'" is not existing.' );
 		$this->fileName = $fileName;
 		$this->readBzipTar( $fileName );
@@ -73,7 +74,8 @@ class FS_File_Arc_TarBzip extends FS_File_Arc_Tar
 	{
 		$f = new FS_File_Arc_Bzip( $fileName );
 		$this->content = $f->readString();
-		$this->parseTar();																			// Parse the TAR file
+		// Parse the TAR file
+		$this->parseTar();
 		return true;
 	}
 
@@ -91,7 +93,8 @@ class FS_File_Arc_TarBzip extends FS_File_Arc_Tar
 				throw new RuntimeException( 'No TBZ file name for saving given.' );
 			$fileName = $this->fileName;
 		}
-		$this->generateTar();												// Encode processed files into TAR file format
+		// Encode processed files into TAR file format
+		$this->generateTar();
 		$f = new FS_File_Arc_Bzip( $fileName );
 		$f->writeString( $this->content );
 		return true;

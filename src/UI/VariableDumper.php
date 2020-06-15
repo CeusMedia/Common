@@ -61,33 +61,48 @@ class UI_VariableDumper
 	 */
 	public static function dump( $variable, $mode = self::MODE_DUMP, $modeIfNotXDebug = self::MODE_PRINT )
 	{
-		ob_start();																	//  open Buffer
-		$hasXDebug	= extension_loaded( 'xdebug' );									//  check for XDebug Extension
+		//  open Buffer
+		ob_start();
+		//  check for XDebug Extension
+		$hasXDebug	= extension_loaded( 'xdebug' );
 		if( !$hasXDebug )
 			$mode	= $modeIfNotXDebug;
 		switch( $mode )
 		{
 			case self::MODE_DUMP:
-				var_dump( $variable );												//  print  Variable Dump
+				//  print  Variable Dump
+				var_dump( $variable );
 				if( !$hasXDebug )
 				{
-					$dump	= ob_get_clean();										//  get buffered Dump
-					$dump	= preg_replace( "@=>\n +@", ": ", $dump );				//  remove Line Break on Relations
-					$dump	= str_replace( "{\n", "\n", $dump );					//  remove Array Opener
-					$dump	= str_replace( "}\n", "\n", $dump );					//  remove Array Closer
-					$dump	= str_replace( ' ["', " ", $dump );						//  remove Variable Key Opener
-					$dump	= str_replace( '"]:', ":", $dump );						//  remove Variable Key Closer
-					$dump	= preg_replace( '@string\([0-9]+\)@', "", $dump );		//  remove Variable Type for Strings
-					$dump	= preg_replace( '@array\([0-9]+\)@', "", $dump );		//  remove Variable Type for Arrays
-					ob_start();														//  open Buffer
-					xmp( $dump );													//  print Dump with XMP
+					//  get buffered Dump
+					$dump	= ob_get_clean();
+					//  remove Line Break on Relations
+					$dump	= preg_replace( "@=>\n +@", ": ", $dump );
+					//  remove Array Opener
+					$dump	= str_replace( "{\n", "\n", $dump );
+					//  remove Array Closer
+					$dump	= str_replace( "}\n", "\n", $dump );
+					//  remove Variable Key Opener
+					$dump	= str_replace( ' ["', " ", $dump );
+					//  remove Variable Key Closer
+					$dump	= str_replace( '"]:', ":", $dump );
+					//  remove Variable Type for Strings
+					$dump	= preg_replace( '@string\([0-9]+\)@', "", $dump );
+					//  remove Variable Type for Arrays
+					$dump	= preg_replace( '@array\([0-9]+\)@', "", $dump );
+					//  open Buffer
+					ob_start();
+					//  print Dump with XMP
+					xmp( $dump );
 				}
 				break;
 			case self::MODE_PRINT:
-				print_m( $variable, self::$modePrintIndentSign, self::$modePrintIndentSize );		//  print Dump with indent
+				//  print Dump with indent
+				print_m( $variable, self::$modePrintIndentSign, self::$modePrintIndentSize );
 				break;
 		}
-		return ob_get_clean();														//  return buffered Dump
+		//  return buffered Dump
+		return ob_get_clean();
 	}
 }
 function dumpVar( $variable, $mode = UI_VariableDumper::MODE_DUMP, $modeIfNotXDebug = UI_VariableDumper::MODE_PRINT )

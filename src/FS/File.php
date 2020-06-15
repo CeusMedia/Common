@@ -114,4 +114,11 @@ class File extends AbstractNode
 		file_put_contents( $this->pathName, $content );
 		return $this;
 	}
+
+	public function setPathName( $pathName ){
+		$pathName	= trim( $pathName );
+		if( $pathName !== '/' )
+			$pathName	= rtrim( $pathName, '/' );
+		$this->pathName	= $pathName;
+	}
 }

@@ -66,34 +66,53 @@ class FS_File_Configuration_Reader extends ADT_List_Dictionary
 	 *	This Method overwrites ALG_List_LevelMap::get for Performance Boost.
 	 *	@access		public
 	 *	@param		string		$key		Key in Dictionary
+	 *	@param		mixed		$default	Value to return if key is not set, default: NULL
 	 *	@return		mixed
 	 */
-	public function get( $key )
+	public function get( $key, $default = NULL )
 	{
-		if( empty( $key ) )																		//  no Key given
-			throw new InvalidArgumentException( 'Key must not be empty.' );						//  throw Exception
-		if( isset( $this->pairs[$key] ) )														//  Key is set on its own
-			return $this->pairs[$key];															//  return Value
-		else																					//  Key has not been found
+		//  no Key given
+		if( empty( $key ) )
+			//  throw Exception
+			throw new InvalidArgumentException( 'Key must not be empty.' );
+		//  Key is set on its own
+		if( isset( $this->pairs[$key] ) )
+			//  return Value
+			return $this->pairs[$key];
+		//  Key has not been found
+		else
 		{
-			$key		.= ".";																	//  prepare Prefix Key to seach for
-			$list		= array();																//  define empty Map
-			$length		= strlen( $key );														//  get Length of Prefix Key outside the Loop
-			foreach( $this->pairs as $pairKey => $pairValue )									//  iterate all stores Pairs
+			//  prepare Prefix Key to seach for
+			$key		.= ".";
+			//  define empty Map
+			$list		= array();
+			//  get Length of Prefix Key outside the Loop
+			$length		= strlen( $key );
+			//  iterate all stores Pairs
+			foreach( $this->pairs as $pairKey => $pairValue )
 			{
-				if( $pairKey[0] !== $key[0] )													//  precheck for Performance
+				//  precheck for Performance
+				if( $pairKey[0] !== $key[0] )
 				{
-					if( count( $list ) )														//  Pairs with Prefix Keys are passed
-						return $list;															//  break Loop -> big Performance Boost
-					continue;																	//  skip Pair
+					//  Pairs with Prefix Keys are passed
+					if( count( $list ) )
+						//  break Loop -> big Performance Boost
+						return $list;
+					//  skip Pair
+					continue;
 				}
-				if( strpos( $pairKey, $key ) === 0 )											//  Prefix Key is found
-					$list[substr( $pairKey, $length )]	= $pairValue;							//  collect Pair
+				//  Prefix Key is found
+				if( strpos( $pairKey, $key ) === 0 )
+					//  collect Pair
+					$list[substr( $pairKey, $length )]	= $pairValue;
 			}
-			if( count( $list ) )																//  found Pairs
-				return $list;																	//  return Pair Map
+			//  found Pairs
+			if( count( $list ) )
+				//  return Pair Map
+				return $list;
 		}
-		return NULL;																			//  nothing found
+		//  nothing given default, default: NULL
+		return $default;
 	}
 
 	/**
@@ -182,7 +201,7 @@ class FS_File_Configuration_Reader extends ADT_List_Dictionary
 				}
 			}
 		}
-	}	
+	}
 
 	/**
 	 *	Loads Configuration from JSON File.
@@ -197,7 +216,7 @@ class FS_File_Configuration_Reader extends ADT_List_Dictionary
 		foreach( $array as $sectionName => $sectionData )
 			foreach( $sectionData as $key => $item )
 				$this->pairs[$sectionName.".".$key]	= $item['value'];
-	}	
+	}
 
 	/**
 	 *	Loads Configuration from WDDX File.
@@ -211,7 +230,7 @@ class FS_File_Configuration_Reader extends ADT_List_Dictionary
 		foreach( $array as $sectionName => $sectionData )
 			foreach( $sectionData as $key => $value )
 				$this->pairs[$sectionName.".".$key]	= $value;
-	}	
+	}
 
 	/**
 	 *	Loads Configuration from XML File.
@@ -221,14 +240,19 @@ class FS_File_Configuration_Reader extends ADT_List_Dictionary
 	 */
 	protected function loadXmlFile( $fileName )
 	{
-		$root	= XML_ElementReader::readFile( $fileName );											//  get root element of XML file
+		//  get root element of XML file
+		$root	= XML_ElementReader::readFile( $fileName );
 		$this->pairs	= array();
-		foreach( $root as $sectionNode )															//  iterate sections
+		//  iterate sections
+		foreach( $root as $sectionNode )
 		{
-			$sectionName	= $sectionNode->getAttribute( 'name' );									//  get section name
-			$this->loadXmlSection( $sectionNode, $sectionName );									//  read section
+			//  get section name
+			$sectionName	= $sectionNode->getAttribute( 'name' );
+			//  read section
+			$this->loadXmlSection( $sectionNode, $sectionName );
 		}
-		ksort( $this->pairs );																		//  sort resulting pairs by key
+		//  sort resulting pairs by key
+		ksort( $this->pairs );
 	}
 
 	/**
@@ -240,21 +264,34 @@ class FS_File_Configuration_Reader extends ADT_List_Dictionary
 	 */
 	protected function loadXmlSection( $node, $path = NULL )
 	{
-		$path	.= $path ? '.' : '';																//  extend path by delimiter
-		foreach( $node as $child )																	//  iterate node children
+		//  extend path by delimiter
+		$path	.= $path ? '.' : '';
+		//  iterate node children
+		foreach( $node as $child )
 		{
-			$name	= $child->getAttribute( 'name' );												//  get node name of child
-			switch( $child->getName() ){															//  dispatch on node name
-				case 'section':																		//  section node
-					$this->loadXmlSection( $child, $path.$name );									//  load child section
+			//  get node name of child
+			$name	= $child->getAttribute( 'name' );
+			//  dispatch on node name
+			switch( $child->getName() ){
+				//  section node
+				case 'section':
+					//  load child section
+					$this->loadXmlSection( $child, $path.$name );
 					break;
-				case 'value':																		//  pair node
-					$type	= 'string';																//  default type: string
-					if( $child->hasAttribute( 'type' ) )											//  type attribute is set
-						$type	= $child->getAttribute( 'type' );									//  realize type attribute
-					$value	= (string) $child;														//  convert node content to value string
-					settype( $value, $type );														//  apply type to value
-					$this->pairs[$path.$name]	= $value;											//  register pair
+				//  pair node
+				case 'value':
+					//  default type: string
+					$type	= 'string';
+					//  type attribute is set
+					if( $child->hasAttribute( 'type' ) )
+						//  realize type attribute
+						$type	= $child->getAttribute( 'type' );
+					//  convert node content to value string
+					$value	= (string) $child;
+					//  apply type to value
+					settype( $value, $type );
+					//  register pair
+					$this->pairs[$path.$name]	= $value;
 					break;
 			}
 		}
@@ -272,36 +309,52 @@ class FS_File_Configuration_Reader extends ADT_List_Dictionary
 		foreach( $array as $sectionName => $sectionData )
 			foreach( $sectionData as $key => $value )
 				$this->pairs[$sectionName.".".$key]	= $value;
-	}	
+	}
 
 	public function remove( $key )
 	{
-		if( empty( $key ) )																		//  no Key given
-			throw new InvalidArgumentException( 'Key must not be empty.' );						//  throw Exception
-		if( isset( $this->pairs[$key] ) )														//  Key is set on its own
+		//  no Key given
+		if( empty( $key ) )
+			//  throw Exception
+			throw new InvalidArgumentException( 'Key must not be empty.' );
+		//  Key is set on its own
+		if( isset( $this->pairs[$key] ) )
 		{
-			unset( $this->pairs[$key] );														//  remove Pair
-			return 1;																			//  return Success
+			//  remove Pair
+			unset( $this->pairs[$key] );
+			//  return Success
+			return 1;
 		}
 
 		$count	= 0;
-		$key		.= ".";																		//  prepare Prefix Key to seach for
-		$length		= strlen( $key );															//  get Length of Prefix Key outside the Loop
-		foreach( $this->pairs as $pairKey => $pairValue )										//  iterate all stores Pairs
+		//  prepare Prefix Key to seach for
+		$key		.= ".";
+		//  get Length of Prefix Key outside the Loop
+		$length		= strlen( $key );
+		//  iterate all stores Pairs
+		foreach( $this->pairs as $pairKey => $pairValue )
 		{
-			if( $pairKey[0] !== $key[0] )														//  precheck for Performance
+			//  precheck for Performance
+			if( $pairKey[0] !== $key[0] )
 			{
-				if( $count )																	//  Pairs with Prefix Keys are passed
-					break;																		//  break Loop -> big Performance Boost
-				continue;																		//  skip Pair
+				//  Pairs with Prefix Keys are passed
+				if( $count )
+					//  break Loop -> big Performance Boost
+					break;
+				//  skip Pair
+				continue;
 			}
-			if( strpos( $pairKey, $key ) === 0 )												//  Prefix Key is found
+			//  Prefix Key is found
+			if( strpos( $pairKey, $key ) === 0 )
 			{
-				unset( $this->pairs[$pairKey] );												//  remove Pair
-				$count++;																		//  count removed Pairs
+				//  remove Pair
+				unset( $this->pairs[$pairKey] );
+				//  count removed Pairs
+				$count++;
 			}
 		}
-		return $count;																			//  return number of removed pairs
+		//  return number of removed pairs
+		return $count;
 	}
 
 	/**
