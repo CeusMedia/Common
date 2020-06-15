@@ -10,7 +10,7 @@ class Go_Library
 
 	public static function getConfigFile()
 	{
-		return dirname( dirname( __FILE__ ) ).'/'.self::$configFile;
+		return dirname( dirname( __DIR__ ) ).'/'.self::$configFile;
 	}
 
 	public static function listClasses( $path )
@@ -159,28 +159,35 @@ class Go_Library
 		$path	= dirname( __FILE__ )."/";
 		$line	= str_repeat( "-", 79 );
 		$list	= array();
+		$progress	= new CLI_Output_Progress();
+		$progress->setTotal( count( $files ) );
 		foreach( $files as $file )
 		{
-			if( $count && !( $count % 60 ) )
+			$progress->update( $count );
+			$code	= 0;
+			$output	= array();
+			exec( 'php -l "'.$file.'" 2>&1', $output, $code );
+/*			if( $count && !( $count % 60 ) )
 				echo " ".$count."/".count( $files )."\n";
-			$output = shell_exec('php -l "'.$file.'"');
-			if( !preg_match( '/^No syntax errors detected/', $output ) )
-			{
-				$list[$file]	= $output;
-				echo "E";
+*/			if( !preg_match( '/^No syntax errors detected/', join( PHP_EOL, $output ) ) )
+//			{
+				$list[$file]	= join( PHP_EOL, $output );
+/*				echo "E";
 			}
 			else
 				echo ".";
-			$count++;
+*/			$count++;
 		}
-		echo "  ".$count."/".count( $files )."\n";
+		$progress->finish();
+//		echo "  ".$count."/".count( $files )."\n";
 		if( $list )
 		{
 			remark( "\n! Invalid files:" );
 			foreach( $list as $file => $message )
 			{
 				$relative	= str_replace( $path, "", $file );
-				remark( "File: ".$relative.$message.$line );
+				remark( "File:  ".$relative );
+				remark( "Error: ".$message.PHP_EOL );
 			}
 		}
 	}

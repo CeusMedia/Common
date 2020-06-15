@@ -1,5 +1,5 @@
 <?php
-require_once dirname( __FILE__ ).'/Library.php';
+require_once __DIR__.'/Library.php';
 class Go_UnitTester
 {
 	public function __construct( $className = NULL )
@@ -12,7 +12,7 @@ class Go_UnitTester
 	protected function runAllTests()
 	{
 		remark( "Reading Class Files:\n" );
-		$data	= Go_Library::listClasses( dirname( dirname ( __FILE__ ) ).'/src/' );
+		$data	= Go_Library::listClasses( dirname( dirname ( __DIR__ ) ).'/src/' );
 		$number	= count( $data['files'] );
 		$length	= strlen( $number );
 		for( $i=0; $i<$number; $i++ )
@@ -49,8 +49,8 @@ class Go_UnitTester
 		if( !file_exists( $testFile ) )
 			throw new RuntimeException( 'Test Class File "'.$testFile.'" is not existing' );
 		echo "\nTesting Class: ".$className."\n\n";
-		
+
 		passthru( "phpunit ".$testClass, $return );
-	} 
+	}
 }
 ?>
