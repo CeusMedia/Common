@@ -12,26 +12,26 @@ composer-install-nodev:
 	@composer install --no-dev
 
 composer-update-dev:
-	@composer install --dev
+	@composer update --dev
 
 composer-update-nodev:
-	@composer install --no--dev
+	@composer update --no--dev
 
 # --  DEV: TESTS  ---------------------------------------------------------
 dev-test-self:
-	@php go.php test self
+	@php tool/go.php test self
 
 dev-test-syntax:
-	@php go.php test syntax
+	@php tool/go.php test syntax
 #	@find src -type f -print0 | xargs -0 -n1 xargs php -l
 
 dev-test-unit: composer-install-dev
-#	@php go.php test units
+#	@php tool/go.php test units
 	@vendor/bin/phpunit test
 
 # --  DEV: Docs  ---------------------------------------------------------
 dev-create-docs: composer-install-dev
-#	@php go.php create doc
+#	@php tool/go.php create doc
 	@php vendor/ceus-media/doc-creator/doc-creator.php --config-file=doc-creator.xml
 
 
@@ -49,7 +49,7 @@ git-update:
 
 # --  TARGETS  ------------------------------------------------------------
 go-help:
-	@php go.php help
+	@php tool/go.php help
 
 set-rights:
 	@sudo chown -R ${USER} .
