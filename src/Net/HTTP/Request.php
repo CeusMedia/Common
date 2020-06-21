@@ -140,20 +140,23 @@ class Net_HTTP_Request extends ADT_List_Dictionary
 	/**
 	 *	Reads and returns Data from Sources.
 	 *	@access		public
-	 *	@param		string		$source		Source key (not case sensitive) (get,post,files[,session,cookie])
-	 *	@param		bool		$strict		Flag: throw exception if not set, otherwise return NULL
+	 *	@param		string		$source			Source key (not case sensitive) (get,post,files[,session,cookie])
+	 *	@param		boolean		$asDictionary	Flag: return map as dictionary
+	 *	@param		boolean		$strict			Flag: throw exception for invalid source, otherwise return NULL
 	 *	@throws		InvalidArgumentException if key is not set in source and strict is on
 	 *	@return		array		Pairs in source (or empty array if not set on strict is off)
 	 */
-	public function getAllFromSource( string $source, bool $strict = FALSE ): array
+	public function getAllFromSource( string $source, bool $asDictionary = FALSE, bool $strict = TRUE )
 	{
 		$source	= strtoupper( $source );
-		if( isset( $this->sources[$source] ) )
-//			return new ADT_List_Dictionary( $this->sources[$source] );
+		if( isset( $this->sources[$source] ) ){
+			if( $asDictionary )
+				return new ADT_List_Dictionary( $this->sources[$source] );
 			return $this->sources[$source];
-		if( !$strict )
-			return array();
-		throw new InvalidArgumentException( 'Invalid source "'.$source.'"' );
+		}
+		if( $strict )
+			throw new InvalidArgumentException( 'Invalid source "'.$source.'"' );
+		return array();
 	}
 
 	static public function getAllEnvHeaders(): array
