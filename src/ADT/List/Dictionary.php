@@ -135,6 +135,51 @@ class ADT_List_Dictionary implements ArrayAccess, Countable, Iterator
 	}
 
 	/**
+	 *	Returns dictionary with all pairs having a key starting with prefix.
+	 *	Attention: A given prefix will be cut from pair keys.
+	 *	@access		public
+	 *	@param		string		$prefix			Prefix to filter keys, e.g. "mail." for all pairs starting with "mail."
+	 *	@param		boolean		$caseSensitive	Flag: return list with lowercase pair keys or dictionary with no case sensitivy
+	 *	@return		ADT_List_Dictionary			Dictionary object containing filtered pairs
+	 */
+	public function filterByKeyPrefix( string $prefix, $caseSensitive = TRUE ): ADT_List_Dictionary
+	{
+		//  assume all pairs by default
+		$list	= $this->pairs;
+		//  a prefix to filter keys has been given
+		if( strlen( $prefix ) ){
+			//  create empty list
+			$list	= array();
+			//  get prefix length
+			$length	= strlen( $prefix );
+			//  iterate all pairs
+			foreach( $this->pairs as $key => $value )
+			{
+				//  pair key is shorter than prefix
+				if( strlen( $key ) <= $length )
+					//  skip this pair
+					continue;
+				$substr	= substr( $key, 0, $length );
+				if( $caseSensitive )
+					$match	= $substr === $prefix;
+				else
+					$match	= strtolower( $substr ) === strtolower( $prefix );
+				//  key starts with prefix
+				if( $match ){
+					//  cut prefix
+					$key	= substr( $key, $length );
+					//  enlist pair, with case insensitive key if needed
+					$list[$key]	= $value;
+				}
+			}
+		}
+		//  return pair list as dictionary
+		return new ADT_List_Dictionary( $list );
+	}
+
+
+
+	/**
 	 *	Return a Value of Dictionary by its Key.
 	 *	@access		public
 	 *	@param		string		$key		Key in Dictionary
@@ -165,26 +210,11 @@ class ADT_List_Dictionary implements ArrayAccess, Countable, Iterator
 		//  assume all pairs by default
 		$list	= $this->pairs;
 		//  a prefix to filter keys has been given
-		if( strlen( $prefix ) ){
-			//  create empty list
-			$list	= array();
-			//  get prefix length
-			$length	= strlen( $prefix );
-			//  iterate all pairs
-			foreach( $this->pairs as $key => $value )
-			{
-				//  pair key is shorter than prefix
-				if( strlen( $key ) <= $length )
-					//  skip this pair
-					continue;
-				//  key starts with prefix
-				if( substr( $key, 0, $length ) == $prefix ){
-					//  cut prefix
-					$key	= substr( $key, $length );
-					//  enlist pair, with case insensitive key if needed
-					$list[( !$this->caseSensitive ? strtolower( $key ) : $key )]	= $value;
-				}
-			}
+		if( strlen( trim( $prefix ) ) ){
+			$filtered	= $this->filterByKeyPrefix( $prefix );
+			if( $asDictionary )
+				return $filtered;
+			return $filtered->getAll();
 		}
 		//  a dictionary object is to be returned
 		if( $asDictionary )
