@@ -23,6 +23,8 @@
  *	@copyright		2015-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@since			0.3
+ *	@deprecated		use CeusMedia/PHP-Parser (https://packagist.org/packages/ceus-media/php-parser) instead
+ *	@todo			to be removed in 8.7
  */
 /**
  *	...
@@ -32,6 +34,8 @@
  *	@copyright		2015-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@since			0.3
+ *	@deprecated		use CeusMedia/PHP-Parser (https://packagist.org/packages/ceus-media/php-parser) instead
+ *	@todo			to be removed in 8.7
  */
 class ADT_PHP_Category
 {
@@ -50,6 +54,14 @@ class ADT_PHP_Category
 	 */
 	public function __construct( $label = NULL )
 	{
+		Deprecation::getInstance()
+			->setErrorVersion( '0.8.5' )
+			->setExceptionVersion( '0.8.6' )
+			->message( sprintf(
+				'Please use %s (%s) instead',
+				'public library "CeusMedia/PHP-Parser"',
+			 	'https://packagist.org/packages/ceus-media/php-parser'
+			) );
 		if( $label )
 			$this->setLabel( $label );
 	}

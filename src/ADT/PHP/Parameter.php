@@ -23,6 +23,8 @@
  *	@copyright		2015-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@since			0.3
+ *	@deprecated		use CeusMedia/PHP-Parser (https://packagist.org/packages/ceus-media/php-parser) instead
+ *	@todo			to be removed in 8.7
  */
 /**
  *	Function/Method Parameter Data Class.
@@ -33,6 +35,8 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@since			0.3
  *	@todo			Code Doc
+ *	@deprecated		use CeusMedia/PHP-Parser (https://packagist.org/packages/ceus-media/php-parser) instead
+ *	@todo			to be removed in 8.7
  */
 class ADT_PHP_Parameter
 {
@@ -55,6 +59,14 @@ class ADT_PHP_Parameter
 	 */
 	public function __construct( $name, $type = NULL, $description = NULL )
 	{
+		Deprecation::getInstance()
+			->setErrorVersion( '0.8.5' )
+			->setExceptionVersion( '0.8.6' )
+			->message( sprintf(
+				'Please use %s (%s) instead',
+				'public library "CeusMedia/PHP-Parser"',
+			 	'https://packagist.org/packages/ceus-media/php-parser'
+			) );
 		$this->setName( $name );
 		if( !is_null( $type ) )
 			$this->setType( $type );
@@ -115,7 +127,7 @@ class ADT_PHP_Parameter
 	/**
 	 *	Return parent container, an instance of ADT_PHP_Function or ADT_PHP_Class.
 	 *	@access		public
-	 *	@return		ADT_PHP_Function	Parent container object, instance of ADT_PHP_Function or ADT_PHP_Class, 
+	 *	@return		ADT_PHP_Function	Parent container object, instance of ADT_PHP_Function or ADT_PHP_Class,
 	 */
 	public function getParent()
 	{
@@ -223,7 +235,7 @@ class ADT_PHP_Parameter
 	/**
 	 *	Sets parent container, an instance of ADT_PHP_Function or ADT_PHP_Class.
 	 *	@access		public
-	 *	@param		ADT_PHP_Function	$function		Parent container object, instance of ADT_PHP_Function or ADT_PHP_Class, 
+	 *	@param		ADT_PHP_Function	$function		Parent container object, instance of ADT_PHP_Function or ADT_PHP_Class,
 	 *	@return		void
 	 */
 	public function setParent( ADT_PHP_Function $function )

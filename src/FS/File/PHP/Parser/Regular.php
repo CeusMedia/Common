@@ -25,6 +25,8 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			04.08.08
  *	@todo			support multiple return types separated with |
+ *	@deprecated		use CeusMedia/PHP-Parser (https://packagist.org/packages/ceus-media/php-parser) instead
+ *	@todo			to be removed in 8.7
  */
 /**
  *	Parses PHP Files containing a Class or Methods using regular expressions (slow).
@@ -49,6 +51,8 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			04.08.08
  *	@todo			Code Doc
+ *	@deprecated		use CeusMedia/PHP-Parser (https://packagist.org/packages/ceus-media/php-parser) instead
+ *	@todo			to be removed in 8.7
  */
 class FS_File_PHP_Parser_Regular
 {

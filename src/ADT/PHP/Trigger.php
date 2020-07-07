@@ -22,6 +22,8 @@
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2017-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@deprecated		use CeusMedia/PHP-Parser (https://packagist.org/packages/ceus-media/php-parser) instead
+ *	@todo			to be removed in 8.7
  */
 /**
  *	Function/Method Return Data Class.
@@ -30,6 +32,8 @@
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2017-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@deprecated		use CeusMedia/PHP-Parser (https://packagist.org/packages/ceus-media/php-parser) instead
+ *	@todo			to be removed in 8.7
  */
 class ADT_PHP_Trigger
 {
@@ -45,6 +49,14 @@ class ADT_PHP_Trigger
 	 */
 	public function __construct( $key )
 	{
+		Deprecation::getInstance()
+			->setErrorVersion( '0.8.5' )
+			->setExceptionVersion( '0.8.6' )
+			->message( sprintf(
+				'Please use %s (%s) instead',
+				'public library "CeusMedia/PHP-Parser"',
+			 	'https://packagist.org/packages/ceus-media/php-parser'
+			) );
 		$this->key			= $key;
 	}
 

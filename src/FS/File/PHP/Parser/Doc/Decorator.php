@@ -24,6 +24,8 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.6.8
+ *	@deprecated		use CeusMedia/PHP-Parser (https://packagist.org/packages/ceus-media/php-parser) instead
+ *	@todo			to be removed in 8.7
  */
 /**
  *	...
@@ -35,6 +37,8 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.6.8
+ *	@deprecated		use CeusMedia/PHP-Parser (https://packagist.org/packages/ceus-media/php-parser) instead
+ *	@todo			to be removed in 8.7
  */
 class FS_File_PHP_Parser_Doc_Decorator
 {
@@ -96,7 +100,7 @@ class FS_File_PHP_Parser_Doc_Decorator
 							if( !$codeData->getAccess() )
 								//  extend access type
 								$codeData->setAccess( $value );
-							break;								
+							break;
 						//  extend extends
 						case 'extends':		$codeData->setExtendedClassName( $value ); break;
 					}

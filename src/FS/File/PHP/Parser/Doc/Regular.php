@@ -24,6 +24,8 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.6.8
+ *	@deprecated		use CeusMedia/PHP-Parser (https://packagist.org/packages/ceus-media/php-parser) instead
+ *	@todo			to be removed in 8.7
  */
 /**
  *	...
@@ -35,6 +37,8 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.6.8
+ *	@deprecated		use CeusMedia/PHP-Parser (https://packagist.org/packages/ceus-media/php-parser) instead
+ *	@todo			to be removed in 8.7
  */
 class FS_File_PHP_Parser_Doc_Regular
 {
@@ -89,13 +93,13 @@ class FS_File_PHP_Parser_Doc_Regular
 					case 'see':
 					case 'uses':
 					case 'link':
-						$data[$matches[1]][]	= $matches[2];			
+						$data[$matches[1]][]	= $matches[2];
 						break;
 					case 'access':
 					case 'category':
 					case 'package':
 					case 'subpackage':
-						$data[$matches[1]]	= $matches[2];			
+						$data[$matches[1]]	= $matches[2];
 						break;
 					default:
 						break;
