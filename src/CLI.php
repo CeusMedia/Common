@@ -19,6 +19,22 @@ class CLI
 		\UI_Text::$defaultLineLength	= $this->size->width - 1;
 	}
 
+	/**
+	 *	Ensures that runtime environment is headless, like crontab execution.
+	 *	@access		public
+	 *	@static
+	 *	@param		boolean		$strict			Flag: throw exception if not headless (default: yes)
+	 *	@return		boolean
+	 */
+	static public function checkIsHeadless( bool $strict = TRUE ): bool
+	{
+		if( getEnv( 'TERM' ) === FALSE )
+			return TRUE;
+		if( $strict )
+			throw new \RuntimeException( 'Available in headless environment, only' );
+		return FALSE;
+	}
+
 	static public function checkIsCLi( bool $strict = TRUE ): bool
 	{
 		if( php_sapi_name() === 'cli' )
