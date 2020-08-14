@@ -35,10 +35,24 @@
  */
 class UI_DevOutput
 {
+	public const CHANNEL_AUTO		= 'auto';
+	public const CHANNEL_HTML		= 'html';
+	public const CHANNEL_TEXT		= 'text';
+	public const CHANNEL_CONSOLE	= 'text';
+
+	public const CHANNELS			= array(
+		self::CHANNEL_AUTO,
+		self::CHANNEL_HTML,
+		self::CHANNEL_TEXT,
+		self::CHANNEL_CONSOLE
+	);
+
 	public $channel;
 
-	static public $channels	= array(
-		'html'	=> array(
+	public static $defaultChannel	= self::CHANNEL_AUTO;
+
+	public static $channelSettings	= array(
+		self::CHANNEL_HTML	=> array(
 			// Sign for Line Break
 			'lineBreak'			=> "<br/>",
 			// Sign for Spaces
@@ -60,7 +74,7 @@ class UI_DevOutput
 			'stringTrimMask'	=> '&hellip;',
 			'stringMaxLength'	=> 1500
 		),
-		'console'	=> array(
+		self::CHANNEL_TEXT	=> array(
 			// Sign for Line Break
 			'lineBreak'			=> PHP_EOL,
 			// Sign for Spaces
@@ -84,6 +98,8 @@ class UI_DevOutput
 		)
 	);
 
+	protected $settings;
+
 	/**
 	 *	Constructur.
 	 *	@access		public
@@ -92,7 +108,15 @@ class UI_DevOutput
 	 */
 	public function __construct( $channel = NULL )
 	{
+		$channel	= $channel ? $channel : self::$defaultChannel;
 		$this->setChannel( $channel );
+	}
+
+	public function getSettings(): array
+	{
+		if( !$this->settings )
+			$this->settings	= self::$channelSettings[$this->channel];
+		return $this->settings;
 	}
 
 	/**
@@ -105,7 +129,7 @@ class UI_DevOutput
 	 */
 	public function indentSign( $offset, $sign = NULL, $factor = NULL )
 	{
-		extract( self::$channels[$this->channel] );
+		extract( $this->getSettings() );
 		$sign	= $sign ? $sign : $indentSign;
 		$factor	= $factor ? $factor : $indentFactor;
 		return str_repeat( $sign, $offset * $factor );
@@ -125,7 +149,7 @@ class UI_DevOutput
 	{
 		if( is_array( $array ) )
 		{
-			extract( self::$channels[$this->channel] );
+			extract( $this->getSettings() );
 			$space = $this->indentSign( $offset, $sign, $factor );
 			if( $key !== NULL )
 				echo $space."[A] ".$key.$lineBreak;
@@ -155,7 +179,7 @@ class UI_DevOutput
 	{
 		if( is_bool( $bool ) )
 		{
-			extract( self::$channels[$this->channel] );
+			extract( $this->getSettings() );
 			$key = ( $key !== NULL ) ? $key." => " : "";
 			$space = $this->indentSign( $offset, $sign, $factor );
 			echo $space."[B] ".$key.$booleanOpen.( $bool ? "TRUE" : "FALSE" ).$booleanClose.$lineBreak;
@@ -193,7 +217,7 @@ class UI_DevOutput
 	{
 		if( is_float( $float ) )
 		{
-			extract( self::$channels[$this->channel] );
+			extract( $this->getSettings() );
 			$key = ( $key !== NULL ) ? $key." => " : "";
 			$space = $this->indentSign( $offset, $sign, $factor );
 			echo $space."[F] ".$key.$float.$lineBreak;
@@ -216,7 +240,7 @@ class UI_DevOutput
 	{
 		if( is_int( $integer ) )
 		{
-			extract( self::$channels[$this->channel] );
+			extract( $this->getSettings() );
 			$key = ( $key !== NULL ) ? $key." => " : "";
 			$space = $this->indentSign( $offset, $sign, $factor );
 			echo $space."[I] ".$key.$integer.$lineBreak;
@@ -238,7 +262,7 @@ class UI_DevOutput
 	{
 		if( $return )
 			ob_start();
-		extract( self::$channels[$this->channel] );
+		extract( $this->getSettings() );
 		$o	= new UI_DevOutput();
 		echo $lineBreak;
 		$space	= $this->indentSign( 1, $sign, $factor );
@@ -301,7 +325,7 @@ class UI_DevOutput
 	{
 		if( $null === NULL )
 		{
-			extract( self::$channels[$this->channel] );
+			extract( $this->getSettings() );
 			$key = ( $key !== NULL ) ? $key." => " : "";
 			$space = $this->indentSign( $offset, $sign, $factor );
 			echo $space."[N] ".$key.$booleanOpen."NULL".$booleanClose.$lineBreak;
@@ -324,7 +348,7 @@ class UI_DevOutput
 	{
 		if( is_object( $object ) || gettype( $object ) == "object" )
 		{
-			extract( self::$channels[$this->channel] );
+			extract( $this->getSettings() );
 			$ins_key	= ( $key !== NULL ) ? $key." -> " : "";
 			$space		= $this->indentSign( $offset, $sign, $factor );
 			echo $space."[O] ".$ins_key."".$highlightOpen.get_class( $object ).$highlightClose.$lineBreak;
@@ -357,7 +381,7 @@ class UI_DevOutput
 	{
 		if( is_resource( $resource ) )
 		{
-			extract( self::$channels[$this->channel] );
+			extract( $this->getSettings() );
 			$key	= ( $key !== NULL ) ? $key." => " : "";
 			$space	= $this->indentSign( $offset, $sign, $factor );
 			echo $space."[R] ".$key.$resource.$lineBreak;
@@ -380,7 +404,7 @@ class UI_DevOutput
 	{
 		if( is_string( $string ) )
 		{
-			extract( self::$channels[$this->channel] );
+			extract( $this->getSettings() );
 			$key = ( $key !== NULL ) ? $key." => " : "";
 			$space = $this->indentSign( $offset, $sign, $factor );
 			if( $lineBreak != "\n" )
@@ -434,16 +458,23 @@ class UI_DevOutput
 	public function setChannel( $channel = NULL )
 	{
 		if( !is_string( $channel ) )
-			$channel	= 'auto';
+			$channel	= self::CHANNEL_AUTO;
 		$channel	= strtolower( $channel );
-		if( !in_array( $channel, array( 'auto', 'console', 'html' ) ) )
+		if( !in_array( $channel, self::CHANNELS ) )
 			throw new OutOfRangeException( 'Channel type "'.$channel.'" is not supported' );
-		if( $channel === "auto" ){
-			$channel	= 'html';
+		if( $channel === self::CHANNEL_AUTO ){
+			$channel	= self::CHANNEL_HTML;
 			if( getEnv( 'PROMPT' ) || getEnv( 'SHELL' ) || $channel == "console" )
-				$channel	= 'console';
+				$channel	= self::CHANNEL_TEXT;
 		}
 		$this->channel	= $channel;
+	}
+
+	public static function setDefaultChannel( $channel )
+	{
+		if( !in_array( $channel, self::CHANNELS ) )
+			throw new OutOfRangeException( 'Channel type "'.$channel.'" is not supported' );
+		self::$defaultChannel	= $channel;
 	}
 
 	public function showDOM( $node, $offset = 0 )
@@ -538,7 +569,7 @@ function pre( $string, $dump = FALSE )
 function print_j( $mixed, $sign = NULL, $factor = NULL, $return = FALSE )
 {
 	$o		= new UI_DevOutput();
-	$break	= UI_DevOutput::$channels[$o->channel]['lineBreak'];
+	$break	= UI_DevOutput::$channelSettings[$o->channel]['lineBreak'];
 	if( $return )
 		return $o->printJson( $mixed, $sign, $factor, TRUE );
 	echo $break;
@@ -559,7 +590,7 @@ function print_m( $mixed, $sign = NULL, $factor = NULL, $return = FALSE, $channe
 	$o		= new UI_DevOutput();
 	if( $channel )
 		$o->setChannel( $channel );
-	$break	= UI_DevOutput::$channels[$o->channel]['lineBreak'];
+	$break	= UI_DevOutput::$channelSettings[$o->channel]['lineBreak'];
 	if( $return )
 		return $break.$o->printMixed( $mixed, 0, NULL, $sign, $factor, $return );
 	echo $break;
@@ -592,7 +623,7 @@ function remark( $text = "", $parameters = array(), $break = TRUE )
 {
 	$o = new UI_DevOutput();
 	if( $break )
-		echo UI_DevOutput::$channels[$o->channel]['lineBreak'];
+		echo UI_DevOutput::$channelSettings[$o->channel]['lineBreak'];
 	$o->remark( $text, $parameters );
 }
 
@@ -626,7 +657,7 @@ function xmp( $string, $dump = FALSE )
 	$dev	= new UI_DevOutput();
 	if( $dump )
 		ob_start();
-	if( $dev->channel === "console" )
+	if( $dev->channel === UI_DevOutput::CHANNEL_TEXT )
 		echo $string."\n";
 	else
 		echo "<xmp>".$string."</xmp>";
