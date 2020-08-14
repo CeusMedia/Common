@@ -57,7 +57,7 @@
 class FS_File_PHP_Parser_Regular
 {
 	protected $regexClass		= '@^(abstract )?(final )?(interface |class )([\w]+)( extends ([\w]+))?( implements ([\w]+)(, ([\w]+))*)?(\s*{)?@i';
-	protected $regexMethod		= '@^(abstract )?(final )?(static )?(protected |private |public )?(static )?function &?\s*([\w]+)\((.*)\)(\s*{\s*)?;?\s*$@s';
+	protected $regexMethod		= '@^(abstract )?(final )?(static )?(protected |private |public )?(static )?function &?\s*([\w]+)\((.*)\)(\s*:\s*\S+)?(\s*{\s*)?;?\s*$@s';
 	protected $regexParam		= '@^((\S+) )?((&\s*)?\$([\w]+))( ?= ?([\S]+))?$@s';
 	protected $regexDocParam	= '@^\*\s+\@param\s+(([\S]+)\s+)?(\$?([\S]+))\s*(.+)?$@';
 	protected $regexDocVariable	= '@^/\*\*\s+\@var\s+(\w+)\s+\$(\w+)(\s(.+))?\*\/$@s';
@@ -456,7 +456,8 @@ class FS_File_PHP_Parser_Regular
 		$class	= NULL;
 		do
 		{
-			$line	= trim( array_shift( $lines ) );
+			$originalLine	= array_shift( $lines );
+			$line			= trim( $originalLine );
 #			remark( ( $openClass ? "I" : "O" )." :: ".$level." :: ".$this->lineNumber." :: ".$line );
 			$this->lineNumber ++;
 			if( preg_match( "@^(<\?(php)?)|((php)?\?>)$@", $line ) )
@@ -555,7 +556,7 @@ class FS_File_PHP_Parser_Regular
 				}
 				else if( $level > 1 && $function )
 				{
-					$functionBody[$function][]	= $line;
+					$functionBody[$function][]	= $originalLine;
 				}
 			}
 			if( preg_match( '@{$@', $line ) )
