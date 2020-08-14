@@ -2,3 +2,4 @@
 /composer.lock
 /Test/results.*
 /doc/*
+/.phpunit.result.cache

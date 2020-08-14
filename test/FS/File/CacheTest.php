@@ -52,9 +52,9 @@ final class Test_FS_File_CacheTest extends Test_Case
 				//  continue
 				continue;
 			//  is nested File
-			if( is_file( $this->pathCache."/".$entry ) )
+			if( is_file( $this->pathCache.$entry ) )
 				//  remove File
-				@unlink( $this->pathCache."/".$entry );
+				@unlink( $this->pathCache.$entry );
 		}
 		$dir->close();
 		rmdir( substr( $this->pathCache, 0, -1 ) );

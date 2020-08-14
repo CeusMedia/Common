@@ -188,7 +188,7 @@ class Test_Alg_Validation_PredicatesTest extends Test_Case
 		$creation	= Alg_Validation_Predicates::hasValue( "test" );
 		$this->assertTrue( $creation );
 
-		$creation	= Alg_Validation_Predicates::hasValue( 1 );
+		$creation	= Alg_Validation_Predicates::hasValue( "1" );
 		$this->assertTrue( $creation );
 	}
 
@@ -319,9 +319,6 @@ class Test_Alg_Validation_PredicatesTest extends Test_Case
 		$creation	= Alg_Validation_Predicates::isAlpha( "1" );
 		$this->assertTrue( $creation );
 
-		$creation	= Alg_Validation_Predicates::isAlpha( 1 );
-		$this->assertTrue( $creation );
-
 		//  --  NEGATIVE  --  //
 		$creation	= Alg_Validation_Predicates::isAlpha( "#" );
 		$this->assertFalse( $creation );
@@ -342,9 +339,6 @@ class Test_Alg_Validation_PredicatesTest extends Test_Case
 		$this->assertTrue( $creation );
 
 		$creation	= Alg_Validation_Predicates::isAlphahyphen( "1" );
-		$this->assertTrue( $creation );
-
-		$creation	= Alg_Validation_Predicates::isAlphahyphen( 1 );
 		$this->assertTrue( $creation );
 
 		$creation	= Alg_Validation_Predicates::isAlphahyphen( "-" );
@@ -373,9 +367,6 @@ class Test_Alg_Validation_PredicatesTest extends Test_Case
 		$this->assertTrue( $creation );
 
 		$creation	= Alg_Validation_Predicates::isAlphaspace( "1" );
-		$this->assertTrue( $creation );
-
-		$creation	= Alg_Validation_Predicates::isAlphaspace( 1 );
 		$this->assertTrue( $creation );
 
 		$creation	= Alg_Validation_Predicates::isAlphaspace( " " );
@@ -728,7 +719,7 @@ class Test_Alg_Validation_PredicatesTest extends Test_Case
 	public function testIsGreater()
 	{
 		//  --  POSITIVE  --  //
-		$creation	= Alg_Validation_Predicates::isGreater( 1, 0 );
+		$creation	= Alg_Validation_Predicates::isGreater( "1", 0 );
 		$this->assertTrue( $creation );
 
 		$creation	= Alg_Validation_Predicates::isGreater( "1", "0" );
@@ -783,7 +774,7 @@ class Test_Alg_Validation_PredicatesTest extends Test_Case
 	 */
 	public function testIsLessPositive()
 	{
-		$creation	= Alg_Validation_Predicates::isLess( 0, 1 );
+		$creation	= Alg_Validation_Predicates::isLess( "0", 1 );
 		$this->assertTrue( $creation );
 
 		$creation	= Alg_Validation_Predicates::isLess( "0", "1" );
@@ -842,7 +833,7 @@ class Test_Alg_Validation_PredicatesTest extends Test_Case
 	 */
 	public function testIsMaximum()
 	{
-		$creation	= Alg_Validation_Predicates::isMaximum( 1, 2 );
+		$creation	= Alg_Validation_Predicates::isMaximum( "1", 2 );
 		$this->assertTrue( $creation );
 
 		$creation	= Alg_Validation_Predicates::isMaximum( "1", "2" );
@@ -872,7 +863,7 @@ class Test_Alg_Validation_PredicatesTest extends Test_Case
 	 */
 	public function testIsMinimumPositive()
 	{
-		$creation	= Alg_Validation_Predicates::isMinimum( 1, 0 );
+		$creation	= Alg_Validation_Predicates::isMinimum( "1", 0 );
 		$this->assertTrue( $creation );
 
 		$creation	= Alg_Validation_Predicates::isMinimum( "1", "0" );
