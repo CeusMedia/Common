@@ -114,9 +114,7 @@ class UI_DevOutput
 
 	public function getSettings(): array
 	{
-		if( !$this->settings )
-			$this->settings	= self::$channelSettings[$this->channel];
-		return $this->settings;
+		return self::$channelSettings[$this->channel];
 	}
 
 	/**
