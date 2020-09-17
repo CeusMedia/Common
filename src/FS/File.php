@@ -113,10 +113,12 @@ class FS_File extends FS_AbstractNode
 		return $this;
 	}
 
-	public function setPathName( $pathName ){
+	public function setPathName( string $pathName ): self
+	{
 		$pathName	= trim( $pathName );
 		if( $pathName !== '/' )
 			$pathName	= rtrim( $pathName, '/' );
 		$this->pathName	= $pathName;
+		return $this;
 	}
 }
