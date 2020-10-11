@@ -78,4 +78,4 @@ class CLI_Dimensions
 		return self::$width;
 	}
 }
-class Size extends Dimensions{}
+class Size extends CLI_Dimensions{}
