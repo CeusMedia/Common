@@ -45,47 +45,46 @@ class CLI_Output{
 	 *	Adds text to current line.
 	 *	@access		public
 	 *	@param		string		$string		Text to display
-	 *	@param		integer		$sleep		Seconds to sleep afterwards
 	 *	@return		void
 	 */
-	public function append( $string = "", $sleep = 0 ){
-		$this->sameLine( trim( $this->lastLine ) . $string, $sleep );
+	public function append( $string = '' ){
+		$this->sameLine( trim( $this->lastLine ) . $string );
 	}
 
 	/**
 	 *	Display text in new line.
 	 *	@access		public
 	 *	@param		string		$string		Text to display
-	 *	@param		integer		$sleep		Seconds to sleep afterwards
-	 *	@return		void
+	 *	@return		self
 	 */
-	public function newLine( $string = '', $sleep = 0 ){
-		if( $this->maxLineLength )
-			//  trim string to <80 columns
-			$string		= Alg_Text_Trimmer::trimCentric( $string, $this->maxLineLength );
-		$this->lastLine	= $string;
-		print( "\n" . $string );
-		if( $sleep )
-			sleep( $sleep );
+	public function newLine( $string = '' ){
+		if( !CLI::checkIsHeadless() ){
+			if( $this->maxLineLength )
+				//  trim string to <80 columns
+				$string		= Alg_Text_Trimmer::trimCentric( $string, $this->maxLineLength );
+			$this->lastLine	= $string;
+			print( "\n" . $string );
+		}
+		return $this;
 	}
 
 	/**
 	 *	Display text in current line.
 	 *	@access		public
 	 *	@param		string		$string		Text to display
-	 *	@param		integer		$sleep		Seconds to sleep afterwards
-	 *	@return		void
+	 *	@return		self
 	 */
-	public function sameLine( $string = '', $sleep = 0 ){
-		if( $this->maxLineLength )
-			//  trim string to <80 columns
-			$string		= Alg_Text_Trimmer::trimCentric( $string, $this->maxLineLength );
-		$spaces		= max( 0, strlen( $this->lastLine ) - strlen( $string ) );
-		$this->lastLine	= $string;
-		$fill		= str_repeat( ' ', $spaces );
-		print( "\r" . $string . $fill );
-		if( $sleep )
-			sleep( $sleep );
+	public function sameLine( $string = '' ){
+		if( !CLI::checkIsHeadless() ){
+			if( $this->maxLineLength )
+				//  trim string to <80 columns
+				$string		= Alg_Text_Trimmer::trimCentric( $string, $this->maxLineLength );
+			$spaces		= max( 0, strlen( $this->lastLine ) - strlen( $string ) );
+			$this->lastLine	= $string;
+			$fill		= str_repeat( ' ', $spaces );
+			print( "\r" . $string . $fill );
+		}
+		return $this;
 	}
 
 	public function setMaxLineLength( $length ){
