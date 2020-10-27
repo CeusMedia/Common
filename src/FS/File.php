@@ -1,8 +1,6 @@
 <?php
 class FS_File extends FS_AbstractNode
 {
-	protected $pathName;
-
 	public function __construct( string $pathName, bool $create = FALSE, $mode = 0777, bool $strict = TRUE )
 	{
 		$this->setPathName( $pathName );
@@ -110,15 +108,6 @@ class FS_File extends FS_AbstractNode
 			}
 		}
 		file_put_contents( $this->pathName, $content );
-		return $this;
-	}
-
-	public function setPathName( string $pathName ): self
-	{
-		$pathName	= trim( $pathName );
-		if( $pathName !== '/' )
-			$pathName	= rtrim( $pathName, '/' );
-		$this->pathName	= $pathName;
 		return $this;
 	}
 }

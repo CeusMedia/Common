@@ -1,8 +1,6 @@
 <?php
-class FS_Folder extends FS_AbstractNode{
-
-	protected $pathName;
-
+class FS_Folder extends FS_AbstractNode
+{
 	public function __construct( $pathName, $create = FALSE, $mode = 0777, $strict = TRUE )
 	{
 		$this->setPathName( $pathName );
