@@ -61,7 +61,7 @@ class CLI_Output_Progress
 	 */
 	public function __construct()
 	{
-		if( !CLI::checkIsHeadless() )
+		if( !CLI::checkIsHeadless( FALSE ) )
 			$this->width	= CLI_Dimensions::getWidth();
 		$this->width	= $this->width - 3;
 		$this->output	= new CLI_Output();
@@ -225,7 +225,7 @@ class CLI_Output_Progress
 	 */
 	protected function renderLine( int $count ): string
 	{
-		if( CLI::checkIsHeadless() )
+		if( CLI::checkIsHeadless( FALSE ) )
 			return '';
 		$count		= min( $count, $this->total );
 		$timeLeft	= ceil( microtime( TRUE ) - $this->startTime );
