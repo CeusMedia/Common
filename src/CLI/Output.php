@@ -58,7 +58,7 @@ class CLI_Output{
 	 *	@return		self
 	 */
 	public function newLine( $string = '' ){
-		if( !CLI::checkIsHeadless() ){
+		if( !CLI::checkIsHeadless( FALSE ) ){
 			if( $this->maxLineLength )
 				//  trim string to <80 columns
 				$string		= Alg_Text_Trimmer::trimCentric( $string, $this->maxLineLength );
@@ -75,7 +75,7 @@ class CLI_Output{
 	 *	@return		self
 	 */
 	public function sameLine( $string = '' ){
-		if( !CLI::checkIsHeadless() ){
+		if( !CLI::checkIsHeadless( FALSE ) ){
 			if( $this->maxLineLength )
 				//  trim string to <80 columns
 				$string		= Alg_Text_Trimmer::trimCentric( $string, $this->maxLineLength );
