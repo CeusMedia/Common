@@ -119,9 +119,12 @@ class CLI_Output_Progress
 	 *	@access		public
 	 *	@param		integer		$total			Total number of steps
 	 *	@return		self
+	 *	@throws		RangeException				if total number is less than 1
 	 */
 	public function setTotal( int $total ): self
 	{
+		if( $total < 1 )
+			throw new RangeException( 'Total number cannot be less than 1' );
 		$this->total	= $total;
 		$this->status	= static::STATUS_READY;
 		return $this;
