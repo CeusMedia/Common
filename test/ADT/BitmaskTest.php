@@ -68,18 +68,6 @@ class Test_ADT_BitmaskTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testHas_InvalidArgumentExceptionByString()
-	{
-		$obj	= new ADT_Bitmask();
-		$this->expectException( 'InvalidArgumentException' );
-		$obj->has( 'invalid' );
-	}
-
-	/**
-	 *	Tests Method 'get'.
-	 *	@access		public
-	 *	@return		void
-	 */
 	public function testHas()
 	{
 		$obj	= new ADT_Bitmask();
@@ -140,30 +128,5 @@ class Test_ADT_BitmaskTest extends Test_Case
 
 		$obj->remove( static::BIT_4 );
 		$this->assertEquals( static::BIT_0, $obj->get() );
-	}
-
-	/**
-	 *	Tests Method 'get'.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function testRemove_InvalidArgumentException()
-	{
-		$obj	= new ADT_Bitmask();
-//		$this->expectException( 'Range_Exception' );
-		$this->expectException( 'InvalidArgumentException' );
-		$obj->remove( 'invalid' );
-	}
-
-	/**
-	 *	Tests Method 'get'.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function testSet_InvalidArgumentException()
-	{
-		$obj	= new ADT_Bitmask();
-		$this->expectException( 'InvalidArgumentException' );
-		$obj->remove( 'invalid' );
 	}
 }
