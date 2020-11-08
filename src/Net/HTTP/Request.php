@@ -59,6 +59,10 @@ class Net_HTTP_Request extends ADT_List_Dictionary
 
 	protected $version		= '1.0';
 
+	protected $root;
+
+	protected $path			= '/';
+
 	public function __construct( $protocol = NULL, $version = NULL )
 	{
 		$this->method	= new Net_HTTP_Method();
@@ -110,6 +114,12 @@ class Net_HTTP_Request extends ADT_List_Dictionary
 			$this->sources['session']	=& $_SESSION;
 		if( $useCookie )
 			$this->sources['cookie']	=& $_COOKIE;
+
+		//  retrieve requested path
+		$this->root	= rtrim( dirname( getEnv( 'SCRIPT_NAME' ) ), '/' ).'/';
+		$this->path	= substr( getEnv( 'REQUEST_URI' ), strlen( $this->root ) );
+		if( strpos( $this->path, '?' ) !== FALSE )
+			$this->path = substr( $this->path, 0, strpos( $this->path, '?' ) );
 
 		/*  --  APPLY ALL SOURCES TO ONE COLLECTION OF REQUEST ARGUMENT PAIRS  --  */
 		foreach( $this->sources as $key => $values )
@@ -281,6 +291,16 @@ class Net_HTTP_Request extends ADT_List_Dictionary
 	public function getMethod(): Net_HTTP_Method
 	{
 		return $this->method;
+	}
+
+	/**
+	 *	...
+	 *	@access		public
+	 *	@return		string
+	 */
+	public function getPath(): string
+	{
+		return $this->path;
 	}
 
 	/**
