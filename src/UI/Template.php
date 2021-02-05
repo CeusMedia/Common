@@ -401,7 +401,7 @@ class UI_Template
 	 *	@static
 	 *	@param		string		$fileName		File Name of Template File
 	 *	@param		array		$elements		List of Elements {@link add()}
-	 *	@return		void
+	 *	@return		string
 	 */
 	public static function render( $fileName, $elements = array() )
 	{
