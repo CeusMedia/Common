@@ -126,10 +126,7 @@ class Net_HTTP_Request extends ADT_List_Dictionary
 			$this->pairs	= array_merge( $this->pairs, $values );
 
 		/*  --  RETRIEVE HTTP HEADERS FROM WEBSERVER ENVIRONMENT  --  */
-		//  iterate requested HTTP headers
-		foreach( self::getAllEnvHeaders() as $key => $value )
-			//  store header
-			$this->headers->addField( new Net_HTTP_Header_Field( $key, $value ) );
+		$this->headers->addFieldPairs( self::getAllEnvHeaders() );
 
 		//  store IP of requesting client
 		$this->ip		= getEnv( 'REMOTE_ADDR' );
@@ -302,6 +299,17 @@ class Net_HTTP_Request extends ADT_List_Dictionary
 	{
 		return $this->path;
 	}
+
+	/**
+	 *	Returns raw request body of POST, PUT or PATCH requests.
+	 *	@access		public
+	 *	@return		string
+	 */
+	public function getRawPostData(): string
+	{
+		return $this->body;
+	}
+
 
 	/**
 	 *	Get requested URL, relative of absolute.

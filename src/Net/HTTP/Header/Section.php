@@ -169,6 +169,19 @@ class Net_HTTP_Header_Section
 		return $this->addField( $field );
 	}
 
+	/**
+	 *	Add header fields from assoc array.
+	 *	@access		public
+	 *	@param		array		$fieldPairs		Map of header field names and values
+	 *	@return		self
+	 */
+	public function addFieldPairs( array $fieldPairs = array() ): self
+	{
+		foreach( $fieldPairs as $key => $value )
+			$this->addFieldPair( $key, $value );
+		return $this;
+	}
+
 	public function addFields( array $fields = array() ): self
 	{
 		foreach( $fields as $field )
