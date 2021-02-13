@@ -62,12 +62,8 @@ class UI_HTML_Tag implements Renderable
 	 *	@param		array		$data			Data attributes of tag
 	 *	@return		void
 	 */
-	public function __construct( $name, $content = NULL, $attributes = array(), $data = array() )
+	public function __construct( string $name, $content = NULL, array $attributes = array(), array $data = array() )
 	{
-		if( !is_array( $attributes ) )
-			throw new InvalidArgumentException( 'Parameter "attributes" must be an array' );
-		if( !is_array( $data ) )
-			throw new InvalidArgumentException( 'Parameter "data" must be an array' );
 		$this->name		= $name;
 		$this->setContent( $content );
 		foreach( $attributes as $key => $value )
@@ -104,9 +100,9 @@ class UI_HTML_Tag implements Renderable
 	 *	@param		string		$content		Content of tag
 	 *	@param		array		$attributes		Attributes of tag
 	 *	@param		array		$data			Data attributes of tag
-	 *	@return		void
+	 *	@return		string
 	 */
-	public static function create( $name, $content = NULL, $attributes = array(), $data = array() )
+	public static function create( string $name, $content = NULL, array $attributes = array(), array $data = array() ): string
 	{
 		if( !strlen( $name	= trim( $name ) ) )
 			throw new InvalidArgumentException( 'Missing tag name' );
