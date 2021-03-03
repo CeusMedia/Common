@@ -34,6 +34,14 @@ dev-create-docs: composer-install-dev
 #	@php tool/go.php create doc
 	@php vendor/ceus-media/doc-creator/doc-creator.php --config-file=doc-creator.xml
 
+# --  DEV: QUALITY--------------------------------------------------------
+dev-phpstan:
+	@vendor/bin/phpstan analyse --configuration phpstan.neon --xdebug || true
+
+dev-phpstan-save-baseline:
+	@vendor/bin/phpstan analyse --configuration phpstan.neon --generate-baseline phpstan-baseline.neon || true
+
+
 
 # --  GIT  ----------------------------------------------------------------
 git-show-status:
