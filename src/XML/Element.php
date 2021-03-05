@@ -60,10 +60,14 @@ class XML_Element extends SimpleXMLElement
 			$key		= $nsPrefix ? $nsPrefix.':'.$name : $name;
 			if( $this->hasAttribute( $name, $nsPrefix ) )
 				throw new RuntimeException( 'Attribute "'.$key.'" is already set' );
-			if( array_key_exists( $nsPrefix, $namespaces ) )
-				return parent::addAttribute( $key, $value, $namespaces[$nsPrefix] );
-			if( $nsURI )
-				return parent::addAttribute( $key, $value, $nsURI );
+			if( array_key_exists( $nsPrefix, $namespaces ) ){
+				parent::addAttribute( $key, $value, $namespaces[$nsPrefix] );
+				return;
+			}
+			if( $nsURI ){
+				parent::addAttribute( $key, $value, $nsURI );
+				return;
+			}
 			throw new RuntimeException( 'Namespace prefix is not registered and namespace URI is missing' );
 		}
 		if( $this->hasAttribute( $name ) )
@@ -137,7 +141,7 @@ class XML_Element extends SimpleXMLElement
 	 */
 	public function asFile( $fileName )
 	{
-		$xml	= $this->asXml();
+		$xml	= $this->asXML();
 		return FS_File_Writer::save( $fileName, $xml );
 	}
 
@@ -230,7 +234,7 @@ class XML_Element extends SimpleXMLElement
 	public function hasAttribute( $name, $nsPrefix = NULL  )
 	{
 		$names	= $this->getAttributeNames( $nsPrefix );
-		return in_array( $name, $names );
+		return in_array( $name, $names, TRUE );
 	}
 
 	/**
@@ -292,8 +296,10 @@ class XML_Element extends SimpleXMLElement
 	{
 		if( $value !== NULL )
 		{
-			if( !$this->hasAttribute( $name, $nsPrefix ) )
-				return $this->addAttribute( $name, $value, $nsPrefix, $nsURI );
+			if( !$this->hasAttribute( $name, $nsPrefix ) ){
+				$this->addAttribute( $name, $value, $nsPrefix, $nsURI );
+				return;
+			}
 			$this->removeAttribute( $name, $nsPrefix );
 			$this->addAttribute( $name, $value, $nsPrefix, $nsURI );
 		}

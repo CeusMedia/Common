@@ -42,20 +42,24 @@
 class XML_WDDX_Configuration
 {
 	/**	@var		array		$config			Array of configurations */
-	protected $config	= array();
+	protected $config			= array();
+
 	/**	@var		string		$fileName		File Name of WDDX File */
-	protected $fileName	= array();
+	protected $fileName			= array();
+
 	/**	@var		string		$pathCache		Path to Cache */
-	protected $pathCache	= array();
+	protected $pathCache		= array();
+
 	/**	@var		array		$types			Types for value casting */
-	protected $types	= array(
+	protected $types			= array(
 		"int",
 		"integer",
 		"double",
 		"string",
 		"bool",
 		"boolean"
-		);
+	);
+
 	/**	@var		bool			$useCache	Flag: use Cache */
 	protected $useCache	= array();
 
@@ -66,7 +70,7 @@ class XML_WDDX_Configuration
 	 *	@param		bool		$useCache		Flag: use Caching
 	 *	@return		void
 	 */
-	public function __construct( $fileName, $useCache = false )
+	public function __construct( $fileName, $useCache = FALSE )
 	{
 		$this->fileName		= realpath( $fileName );
 		$this->useCache		= $useCache;
@@ -103,21 +107,18 @@ class XML_WDDX_Configuration
 	 */
 	protected function read()
 	{
-		if( $this->useCache )
-		{
+		if( $this->useCache ){
 			$fileName	= $this->pathCache.basename( $this->fileName ).".cache";
-			if( file_exists( $fileName ) && file_exists( $this->fileName ) && filemtime( $fileName ) == filemtime( $this->pathConfig.$this->fileName ) )
-			{
-				return $this->readCache( $fileName );
+			if( file_exists( $fileName ) && file_exists( $this->fileName ) && filemtime( $fileName ) == filemtime( $this->fileName ) ){
+				$this->readCache( $fileName );
 			}
-			else
-			{
+			else{
 				$this->readWDDX();
-				return $this->writeCache( $fileName );
+				$this->writeCache( $fileName );
 			}
+			return;
 		}
-		return $this->readWDDX();
-
+		$this->readWDDX();
 	}
 
 	/**
@@ -140,7 +141,7 @@ class XML_WDDX_Configuration
 	 */
 	protected function readWDDX()
 	{
-		$wr	= new XML_WDDX_FileReader( $this->pathConfig.$this->fileName );
+		$wr	= new XML_WDDX_FileReader( $this->fileName );
 		$this->config = $wr->read();
 	}
 
@@ -184,6 +185,6 @@ class XML_WDDX_Configuration
 		$file		= new FS_File_Writer( $fileName, 0777 );
 		$content	= serialize( $this->getConfigValues() );
 		$file->writeString( $content );
-		touch( $fileName, filemtime( $this->pathConfig.$this->fileName ) );
+		touch( $fileName, filemtime( $this->fileName ) );
 	}
 }

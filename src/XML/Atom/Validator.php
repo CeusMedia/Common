@@ -43,6 +43,7 @@ class XML_Atom_Validator
 {
 	/**	@var		array			$errors			List of broken Atom Rules */
 	protected $errors	= array();
+
 	/**	@var		array			$rules			Error Messages of Atom Rules */
 	protected $rules	= array(
 		'feed_author'		=> "Feed element MUST contain one or more author elements, unless all of the feed element's child entry elements contain at least one author element.",
@@ -73,14 +74,13 @@ class XML_Atom_Validator
 	 *	Returns Error Messages of all Atom Rules hurt by Validation.
 	 *	Call Method 'validate'.
 	 *	@access		public
-	 *	@static
 	 *	@return		array
 	 */
-	public static function getErrors()
+	public function getErrors()
 	{
 		$list	= array();
 		foreach( $this->errors as $errorKey )
-			$list[$errorKey]	= self::$rules[$errorKey];
+			$list[$errorKey]	= $this->rules[$errorKey];
 		return $list;
 	}
 
@@ -152,7 +152,7 @@ class XML_Atom_Validator
 				$id	= $link->getAttribute( 'type' );
 			if( $link->hasAttribute( 'hreflang' ) )
 				$id	.= "_".$link->getAttribute( 'hreflang');
-			if( in_array( $id, $ids ) )
+			if( in_array( $id, $ids, TRUE ) )
 			{
 				$errors[]	= "feed_link_unique";
 				break;
@@ -193,7 +193,7 @@ class XML_Atom_Validator
 					$key	= $link->getAttribute( 'type' );
 				if( $link->hasAttribute( 'hreflang' ) )
 					$key	.= "_".$link->getAttribute( 'hreflang');
-				if( in_array( $key, $keys ) )
+				if( in_array( $key, $keys, TRUE ) )
 				{
 					$errors[]	= "entry_link_unique";
 					break;

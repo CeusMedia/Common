@@ -76,17 +76,15 @@ class XML_DOM_Storage extends ADT_OptionObject
 	{
 		if( $array == NULL )
 			$array	= $this->storage;
-		if( substr_count( $path, "." ) )
-		{
+		if( substr_count( $path, "." ) ){
 			$parts	= explode( ".", $path );
 			$step	= array_shift( $parts );
 			$path	= implode( ".", $parts );
 			$array	= (array) $array[$step];
 			return $this->get( $path, $array );
 		}
-		else
-		{
-			if( in_array( $path, array_keys( $array ) ) )
+		else{
+			if( in_array( $path, array_keys( $array ), TRUE ) )
 				return $array[$path];
 			else
 				return NULL;
@@ -110,8 +108,7 @@ class XML_DOM_Storage extends ADT_OptionObject
 		else if( $nodeTag == $this->getOption( 'tag_level' ) )
 			foreach( $node->getChildren() as $child )
 				$this->readRecursive( $child, $array[$nodeName] );
-		else if( $nodeTag	== $this->getOption( 'tag_pair' ) )
-		{
+		else if( $nodeTag	== $this->getOption( 'tag_pair' ) ){
 			$value	= $node->getContent();
 			if( $type = $node->getAttribute( 'type' ) )
 				settype( $value, $type );
@@ -133,7 +130,7 @@ class XML_DOM_Storage extends ADT_OptionObject
 	{
 		$result	= $this->removeRecursive( $path, $this->storage );
 		if( $write && $result )
-			return (bool) $this->write();
+			return $this->write();
 		return $result;
 	}
 
@@ -147,19 +144,17 @@ class XML_DOM_Storage extends ADT_OptionObject
 	 */
 	protected function removeRecursive( $path, &$array )
 	{
-		if( substr_count( $path, "." ) )
-		{
+		if( substr_count( $path, "." ) ){
 			$parts	= explode( ".", $path );
 			$step	= array_shift( $parts );
 			$path	= implode( ".", $parts );
 			return $this->removeRecursive( $path, $array[$step] );
 		}
-		else if( isset( $array[$path] ) )
-		{
+		else if( isset( $array[$path] ) ){
 			unset( $array[$path] );
-			return true;
+			return TRUE;
 		}
-		return false;
+		return FALSE;
 	}
 
 	/**
@@ -173,11 +168,11 @@ class XML_DOM_Storage extends ADT_OptionObject
 	public function set( $path, $value, $write = false )
 	{
 		$type	= gettype( $value );
-		if( !in_array( $type, array( "double", "integer", "boolean", "string" ) ) )
+		if( !in_array( $type, array( "double", "integer", "boolean", "string" ), TRUE ) )
 			throw new InvalidArgumentException( "Value must be of type double, integer, boolean or string. ".ucfirst( $type )." given", E_USER_WARNING );
 		$result	=	$this->setRecursive( $path, $value, $this->storage );
 		if( $write && $result )
-			return (bool) $this->write();
+			return $this->write();
 		return $result;
 	}
 
@@ -191,19 +186,17 @@ class XML_DOM_Storage extends ADT_OptionObject
 	 */
 	protected function setRecursive( $path, $value, &$array )
 	{
-		if( substr_count( $path, "." ) )
-		{
+		if( substr_count( $path, "." ) ){
 			$parts	= explode( ".", $path );
 			$step	= array_shift( $parts );
 			$path	= implode( ".", $parts );
 			return $this->setRecursive( $path, $value, $array[$step] );
 		}
-		else if( !(isset( $array[$path] ) && $array[$path] == $value ) )
-		{
+		else if( !(isset( $array[$path] ) && $array[$path] == $value ) ){
 			$array[$path] = $value;
-			return true;
+			return TRUE;
 		}
-		return false;
+		return FALSE;
 	}
 
 	/**
@@ -228,17 +221,14 @@ class XML_DOM_Storage extends ADT_OptionObject
 	 */
 	protected function writeRecursive( &$node, $array )
 	{
-		foreach( $array as $key => $value )
-		{
-			if( is_array( $value ) )
-			{
+		foreach( $array as $key => $value ){
+			if( is_array( $value ) ){
 				$child	= new XML_DOM_Node( $this->getOption( 'tag_level' ) );
 				$child->setAttribute( 'name', $key );
 				$this->writeRecursive( $child, $array[$key] );
 				$node->addChild( $child );
 			}
-			else
-			{
+			else{
 				$child	= new XML_DOM_Node( $this->getOption( 'tag_pair' ) );
 				$child->setAttribute( 'name', $key );
 				$child->setAttribute( 'type', gettype( $value ) );

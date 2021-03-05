@@ -99,7 +99,7 @@ class XML_RSS_Parser
 			$nodes	= $xPath->query( "//rss/channel/".$channelKey."/text()" );
 			$parts	= explode( "/", $channelKey );
 			if( isset( $parts[1] ) )
-				$channelKey	= $parts[0].ucFirst( $parts[1] );
+				$channelKey	= $parts[0].ucfirst( $parts[1] );
 			$value	= $nodes->length ? $nodes->item( 0 )->nodeValue : NULL;
 			$channelData[$channelKey]	= $value;
 		}

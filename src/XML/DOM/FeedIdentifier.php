@@ -100,19 +100,21 @@ class XML_DOM_FeedIdentifier
 	{
 		$this->type		= "";
 		$this->version	= "";
-		$nodename	= strtolower( $tree->getNodeName() );
+		$nodename		= strtolower( $tree->getNodeName() );
+		$type			= '';
+		$version		= '';
 		switch( $nodename )
 		{
 			case 'feed':
-				$type	= "ATOM";
+				$type		= "ATOM";
 				$version	= $tree->getAttribute( 'version' );
 				break;
 			case 'rss':
-				$type	= "RSS";
+				$type		= "RSS";
 				$version	= $tree->getAttribute( 'version' );
 				break;
 			case 'rdf:rdf':
-				$type	= "RSS";
+				$type		= "RSS";
 				$version	= "1.0";
 				break;
 		}
@@ -122,6 +124,6 @@ class XML_DOM_FeedIdentifier
 			$this->version	= $version;
 			return $type."/".$version;
 		}
-		return false;
+		return FALSE;
 	}
 }

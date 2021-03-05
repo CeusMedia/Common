@@ -37,7 +37,10 @@
  */
 class XML_WDDX_FileWriter
 {
-	/**	@var		string		$fileName		File Name of WDDX File */
+	/**	@var		XML_WDDX_Builder	$fileName		Instance of WDDX builder */
+	protected $builder;
+
+	/**	@var		string				$fileName		File Name of WDDX File */
 	protected $fileName;
 
 	/**
