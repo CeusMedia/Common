@@ -339,30 +339,26 @@ class ADT_PHP_Interface
 	{
 		if( $this->name != $artefact->getName() )
 			throw new Exception( 'Not mergable' );
-		if( $artefact->getDescription() )
+		if( NULL !== $artefact->getDescription() )
 			$this->setDescription( $artefact->getDescription() );
-		if( $artefact->getSince() )
+		if( NULL !== $artefact->getSince() )
 			$this->setSince( $artefact->getSince() );
-		if( $artefact->getVersion() )
+		if( NULL !== $artefact->getVersion() )
 			$this->setVersion( $artefact->getVersion() );
-		if( $artefact->getCopyright() )
+		if( NULL !== $artefact->getCopyright() )
 			$this->setCopyright( $artefact->getCopyright() );
-		if( $artefact->getReturn() )
-			$this->setReturn( $artefact->getReturn() );
 
-		foreach( $function->getAuthors() as $author )
+		foreach( $artefact->getAuthors() as $author )
 			$this->setAuthor( $author );
-		foreach( $function->getLinks() as $link )
+		foreach( $artefact->getLinks() as $link )
 			$this->setLink( $link );
-		foreach( $function->getSees() as $see )
+		foreach( $artefact->getSees() as $see )
 			$this->setSee( $see );
-		foreach( $function->getTodos() as $todo )
+		foreach( $artefact->getTodos() as $todo )
 			$this->setTodo( $todo );
-		foreach( $function->getDeprecations() as $deprecation )
+		foreach( $artefact->getDeprecations() as $deprecation )
 			$this->setDeprecation( $deprecation );
-		foreach( $function->getThrows() as $throws )
-			$this->setThrows( $throws );
-		foreach( $function->getLicenses() as $license )
+		foreach( $artefact->getLicenses() as $license )
 			$this->setLicense( $license );
 
 		//	@todo		many are missing
@@ -487,7 +483,7 @@ class ADT_PHP_Interface
 	 */
 	public function setName( $string )
 	{
-		if( empty( $string ) )
+		if( 0 === strlen( trim( $string ) ) )
 			throw new InvalidArgumentException( 'Interface name cannot be empty' );
 		$this->name	= $string;
 	}

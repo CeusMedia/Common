@@ -149,7 +149,7 @@ class ADT_PHP_Function
 	/**
 	 *	Returns function name.
 	 *	@access		public
-	 *	@return		void			Function name
+	 *	@return		string			Function name
 	 */
 	public function getName()
 	{
@@ -263,15 +263,15 @@ class ADT_PHP_Function
 	{
 		if( $this->name != $function->getName() )
 			throw new Exception( 'Not mergable' );
-		if( $function->getDescription() )
+		if( NULL !== $function->getDescription() )
 			$this->setDescription( $function->getDescription() );
-		if( $function->getSince() )
+		if( NULL !== $function->getSince() )
 			$this->setSince( $function->getSince() );
-		if( $function->getVersion() )
+		if( NULL !== $function->getVersion() )
 			$this->setVersion( $function->getVersion() );
-		if( $function->getCopyright() )
+		if( NULL !== $function->getCopyright() )
 			$this->setCopyright( $function->getCopyright() );
-		if( $function->getReturn() )
+		if( NULL !== $function->getReturn() )
 			$this->setReturn( $function->getReturn() );
 
 		foreach( $function->getAuthors() as $author )

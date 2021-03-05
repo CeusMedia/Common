@@ -111,8 +111,8 @@ class ADT_PHP_Class extends ADT_PHP_Interface
 
 	public function isUsingClass( ADT_PHP_Class $class )
 	{
-		foreach( $this->uses as $className => $class )
-			if( $class == $class )
+		foreach( $this->uses as $className => $usedClass )
+			if( $class == $usedClass )
 				return TRUE;
 		return FALSE;
 	}
@@ -123,15 +123,11 @@ class ADT_PHP_Class extends ADT_PHP_Interface
 			throw new Exception( 'Not mergable' );
 		if( $artefact->isAbstract() )
 			$this->setAbstract( $artefact->isAbstract() );
-		if( $artefact->getDefault() )
-			$this->setDefault( $artefact->getDefault() );
 		if( $artefact->isStatic() )
 			$this->setAbstract( $artefact->isStatic() );
 
-		foreach( $variable->getUsedClasses() as $artefact )
-			$this->setUsedClass( $artefact );
-		foreach( $variable->getUsedClasses() as $artefact )
-			$this->setUsedClass( $artefact );
+		foreach( $artefact->getUsedClasses() as $class )
+			$this->setUsedClass( $class );
 
 		//	@todo		members and interfaces missing
 	}

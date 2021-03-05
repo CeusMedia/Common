@@ -45,7 +45,7 @@ class ADT_List_Queue implements Countable
 	 *	@param		array		$initialArray	Array with initial Queue Items
 	 *	@return		void
 	 */
-	public function __construct( $initialArray = false )
+	public function __construct( bool $initialArray = FALSE )
 	{
 		if( is_array( $initialArray ) && count( $initialArray ) )
 			$this->queue = $initialArray;
@@ -56,7 +56,7 @@ class ADT_List_Queue implements Countable
 	 *	@access		public
 	 *	@return		string
 	 */
-	public function __toString()
+	public function __toString(): string
 	{
 		return "(".implode( "|", $this->queue ).")";
 	}
@@ -78,7 +78,7 @@ class ADT_List_Queue implements Countable
 	 *	@access		public
 	 *	@return		int
 	 */
-	public function count()
+	public function count(): int
 	{
 		return count( $this->queue );
 	}
@@ -87,11 +87,11 @@ class ADT_List_Queue implements Countable
 	 *	Indicates whether an Item is in Queue or not.
 	 *	@access		public
 	 *	@param		mixed		$item		Item to find in the Queue
-	 *	@return		bood
+	 *	@return		bool
 	 */
-	public function has( $item )
+	public function has( $item ): bool
 	{
-		return in_array( $item, $this->queue );
+		return in_array( $item, $this->queue, TRUE );
 	}
 
 	/**
@@ -101,9 +101,7 @@ class ADT_List_Queue implements Countable
 	 */
 	public function isEmpty()
 	{
-		if( count( $this->queue ) == 0 )
-			return TRUE;
-		return FALSE;
+		return 0 === count( $this->queue );
 	}
 
 	/**
@@ -122,12 +120,12 @@ class ADT_List_Queue implements Countable
 	 *	Adds a new Item to the Queue.
 	 *	@access		public
 	 *	@param		mixed		$item		Item to add to the Queue
-	 *	@return		mixed
+	 *	@return		self
 	 */
-	public function push( $item )
+	public function push( $item ): self
 	{
 		$this->queue[] = $item;
-		return $item;
+		return $this;
 	}
 
 	/**
@@ -135,7 +133,7 @@ class ADT_List_Queue implements Countable
 	 *	@access		public
 	 *	@return		array
 	 */
-	public function toArray()
+	public function toArray(): array
 	{
 		return $this->queue;
 	}

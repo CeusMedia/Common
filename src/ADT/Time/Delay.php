@@ -13,7 +13,7 @@
  *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *	GNU General Public License for more details.
  *
- *	You should have received a copy of the GNU General Public License 
+ *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		Library
@@ -46,13 +46,13 @@ class ADT_Time_Delay
 	 *	@param		int			$msec		Delay in milliseconds
 	 *	@return		void
 	 */
-	public function __construct( $msec )
+	public function __construct( int $msec )
 	{
 		if( !is_int( $msec ) )
 			throw new InvalidArgumentException( 'Delay must be integer' );
 		if( $msec < 1 )
-			throw new InvalidArgumentException( 'Delay must be at least 1 ms' );
-		$this->seconds	= (int) $msec / 1000;
+			throw new RangeException( 'Delay must be at least 1 ms' );
+		$this->seconds	= $msec / 1000;
 		$this->restart();
 	}
 
@@ -117,7 +117,7 @@ class ADT_Time_Delay
 	public function restart( $force = FALSE )
 	{
 		if( $this->isActive() && !$force )
-			throw RuntimeException( 'Delay is still active' );
+			throw new RuntimeException( 'Delay is still active' );
 		$this->time = microtime( TRUE );
 		$this->numberRuns++;
 		return $this->getStartTime();

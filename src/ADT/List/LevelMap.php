@@ -45,7 +45,7 @@ class ADT_List_LevelMap extends ADT_List_Dictionary
 {
 	protected $divider		= ".";
 
-	public function __construct( $array = array(), $divider = "." )
+	public function __construct( array $array = array(), string $divider = "." )
 	{
 		parent::__construct( $array );
 		$this->divider	= $divider;
@@ -58,10 +58,10 @@ class ADT_List_LevelMap extends ADT_List_Dictionary
 	 *	@param		mixed		$default	Value to return if key is not set, default: NULL
 	 *	@return		mixed
 	 */
-	public function get( $key, $default = NULL )
+	public function get( string $key, $default = NULL )
 	{
 		//  no Key given
-		if( empty( $key ) )
+		if( 0 === strlen( trim( $key ) ) )
 			//  throw Exception
 			throw new InvalidArgumentException( 'Key must not be empty.' );
 		//  Key is set on its own
@@ -69,31 +69,29 @@ class ADT_List_LevelMap extends ADT_List_Dictionary
 			//  return Value
 			return $this->pairs[$key];
 		//  Key has not been found
-		else
+
+		//  prepare Prefix Key to seach for
+		$key		.= $this->divider;
+		//  define empty Map
+		$list		= array();
+		//  get Length of Prefix Key outside the Loop
+		$length		= strlen( $key );
+		//  iterate all stores Pairs
+		foreach( $this->pairs as $pairKey => $pairValue )
 		{
-			//  prepare Prefix Key to seach for
-			$key		.= $this->divider;
-			//  define empty Map
-			$list		= array();
-			//  get Length of Prefix Key outside the Loop
-			$length		= strlen( $key );
-			//  iterate all stores Pairs
-			foreach( $this->pairs as $pairKey => $pairValue )
-			{
-				//  precheck for Performance
-				if( $pairKey[0] !== $key[0] )
-					//  skip Pair
-					continue;
-				//  Prefix Key is found
-				if( strpos( $pairKey, $key ) === 0 )
-					//  collect Pair
-					$list[substr( $pairKey, $length )]	= $pairValue;
-			}
-			//  found Pairs
-			if( count( $list ) )
-				//  return Pair Map
-				return $list;
+			//  precheck for Performance
+			if( $pairKey[0] !== $key[0] )
+				//  skip Pair
+				continue;
+			//  Prefix Key is found
+			if( strpos( $pairKey, $key ) === 0 )
+				//  collect Pair
+				$list[substr( $pairKey, $length )]	= $pairValue;
 		}
+		//  found Pairs
+		if( count( $list ) )
+			//  return Pair Map
+			return $list;
 		//  nothing given default, default: NULL
 		return $default;
 	}
@@ -101,7 +99,8 @@ class ADT_List_LevelMap extends ADT_List_Dictionary
 	/**
 	 *	@todo	kriss: test + rename + code doc + inline doc
 	 */
-	public function getKeySections( $prefix = NULL ){
+	public function getKeySections( $prefix = NULL )
+	{
 		if( is_array( $prefix ) )
 			$prefix	= join( $this->divider, $prefix ).$this->divider;
 		$keys		= array_keys( $this->getAll( $prefix ) );
@@ -127,31 +126,29 @@ class ADT_List_LevelMap extends ADT_List_Dictionary
 	 *	@param		string		$key		Key in Dictionary
 	 *	@return		bool
 	 */
-	public function has( $key )
+	public function has( string $key ): bool
 	{
 		//  no Key given
-		if( empty( $key ) )
+		if( 0 === strlen( trim( $key ) ) )
 			//  throw Exception
 			throw new InvalidArgumentException( 'Key must not be empty.' );
 		//  Key is set on its own
 		if( isset( $this->pairs[$key] ) )
 			return TRUE;
 		//  Key has not been found
-		else
+
+		//  prepare Prefix Key to seach for
+		$key		.= $this->divider;
+		//  iterate all stores Pairs
+		foreach( $this->pairs as $pairKey => $pairValue )
 		{
-			//  prepare Prefix Key to seach for
-			$key		.= $this->divider;
-			//  iterate all stores Pairs
-			foreach( $this->pairs as $pairKey => $pairValue )
-			{
-				//  precheck for Performance
-				if( $pairKey[0] !== $key[0] )
-					//  skip Pair
-					continue;
-				//  Prefix Key is found
-				if( strpos( $pairKey, $key ) === 0 )
-					return TRUE;
-			}
+			//  precheck for Performance
+			if( $pairKey[0] !== $key[0] )
+				//  skip Pair
+				continue;
+			//  Prefix Key is found
+			if( strpos( $pairKey, $key ) === 0 )
+				return TRUE;
 		}
 		return FALSE;
 	}
@@ -162,16 +159,18 @@ class ADT_List_LevelMap extends ADT_List_Dictionary
 	 *	@param		string		$key		Key in Dictionary
 	 *	@return		void
 	 */
-	public function remove( $key )
+	public function remove( string $key ): bool
 	{
 		//  no Key given
-		if( empty( $key ) )
+		if( 0 === strlen( trim( $key ) ) )
 			//  throw Exception
 			throw new InvalidArgumentException( 'Key must not be empty.' );
 		//  Key is set on its own
-		if( isset( $this->pairs[$key] ) )
+		if( isset( $this->pairs[$key] ) ){
 			//  remove Pair
 			unset( $this->pairs[$key] );
+			return TRUE;
+		}
 		//  Key has not been found
 		else
 		{
@@ -185,11 +184,14 @@ class ADT_List_LevelMap extends ADT_List_Dictionary
 					//  skip Pair
 					continue;
 				//  Prefix Key is found
-				if( strpos( $pairKey, $key ) === 0 )
+				if( strpos( $pairKey, $key ) === 0 ){
 					//  remove Pair
 					unset( $this->pairs[$pairKey] );
+					return TRUE;
+				}
 			}
 		}
+		return FALSE;
 	}
 
 	/**
@@ -200,10 +202,10 @@ class ADT_List_LevelMap extends ADT_List_Dictionary
 	 *	@param		bool		$sort		Flag: sort by Keys after Insertion
 	 *	@return		void
 	 */
-	public function set( $key, $value, $sort = TRUE )
+	public function set( string $key, $value, $sort = TRUE ): bool
 	{
 		//  no Key given
-		if( empty( $key ) )
+		if( 0 === strlen( trim( $key ) ) )
 			//  throw Exception
 			throw new InvalidArgumentException( 'Key must not be empty.' );
 		//  Pair Map given
@@ -220,5 +222,6 @@ class ADT_List_LevelMap extends ADT_List_Dictionary
 		if( $sort )
 			//  sort stored Pairs by Keys
 			ksort( $this->pairs );
+		return TRUE;
 	}
 }

@@ -39,28 +39,29 @@
 class ADT_URL
 {
 	protected $defaultUrl;
+
 	protected $parts;
 
-	public function __construct( $url, $defaultUrl = NULL )
+	public function __construct( string $url, string $defaultUrl = NULL )
 	{
 		if( !is_null( $defaultUrl ) )
 			$this->setDefault( $defaultUrl );
-		if( !( is_string( $url ) && strlen( trim( $url ) ) ) )
+		if( 0 !== strlen( trim( $url ) ) )
 			throw new InvalidArgumentException( 'No URL given' );
 		return $this->set( $url );
 	}
 
-	public function __toString()
+	public function __toString(): string
 	{
 		return $this->get();
 	}
 
-	public static function create( $url = NULL, $defaultUrl = NULL )
+	public static function create( string $url = NULL, string $defaultUrl = NULL ): self
 	{
-		return new static( $url, $defaultUrl );
+		return new self( $url, $defaultUrl );
 	}
 
-	public function get( $absolute = TRUE )
+	public function get( bool $absolute = TRUE ): string
 	{
 		return $absolute ? $this->getAbsolute() : $this->getRelative();
 	}
@@ -71,10 +72,11 @@ class ADT_URL
 	 *	@access		public
 	 *	@return		string		Absolute URL
 	 */
-	public function getAbsolute(){
-		if( empty( $this->parts->scheme ) )
+	public function getAbsolute(): string
+	{
+		if( 0 === strlen( trim( $this->parts->scheme ) ) )
 			throw new RuntimeException( 'HTTP scheme not set' );
-		if( empty( $this->parts->host ) )
+		if( 0 === strlen( trim( $this->parts->host ) ) )
 			throw new RuntimeException( 'HTTP host not set' );
 		$buffer	= array();
 		if( $this->parts->scheme )
@@ -104,7 +106,8 @@ class ADT_URL
 	 *	@access		public
 	 *	@return		string		Relative URL
 	 */
-	public function getRelative(){
+	public function getRelative(): string
+	{
 		$buffer	= array();
 		if( $this->parts->path )
 			$buffer[]	= ltrim( $this->parts->path, '/' );
@@ -122,7 +125,8 @@ class ADT_URL
 	 *	@param		ADT_URL|string	$referenceUrl		Reference URL to apply to absolute URL
 	 *	@return		string		... (to be implemented)
 	 */
-	public function getAbsoluteTo( $referenceUrl ){
+	public function getAbsoluteTo( $referenceUrl ): string
+	{
 		if( is_string( $referenceUrl ) )
 			$referenceUrl	= new ADT_URL( $referenceUrl );
 		if( !( is_a( $referenceUrl, 'ADT_URL' ) ) )
@@ -141,44 +145,53 @@ class ADT_URL
 	 *	@param		ADT_URL|string	$referenceUrl		Reference URL to apply to absolute URL
 	 *	@return		string		... (to be implemented)
 	 */
-	public function getRelativeTo( $referenceUrl ){
+	public function getRelativeTo( $referenceUrl )
+	{
 		throw new Exception( 'No implemented, yet' );
 		return '';
 	}
 
-	public function getFragment(){
+	public function getFragment(): string
+	{
 		return $this->parts->fragment;
 	}
 
-	public function getHost(){
+	public function getHost(): string
+	{
 		return $this->parts->host;
 	}
 
-	public function getPassword(){
+	public function getPassword(): string
+	{
 		return $this->parts->pass;
 	}
 
-	public function getPath(){
+	public function getPath(): string
+	{
 		return $this->parts->path;
 	}
 
-	public function getPort(){
+	public function getPort(): string
+	{
 		return $this->parts->port;
 	}
 
-	public function getQuery(){
+	public function getQuery(): string
+	{
 		return $this->parts->query;
 	}
 
-	public function getScheme(){
+	public function getScheme(): string
+	{
 		return $this->parts->scheme;
 	}
 
-	public function getUsername(){
+	public function getUsername(): string
+	{
 		return $this->parts->user;
 	}
 
-	public function isAbsolute()
+	public function isAbsolute(): bool
 	{
 		$hasScheme		= strlen( $this->parts->scheme ) > 0;
 		$hasHost		= strlen( $this->parts->host ) > 0;
@@ -186,18 +199,15 @@ class ADT_URL
 		return $hasScheme && $hasHost && $hasPath;
 	}
 
-	public function isRelative()
+	public function isRelative(): bool
 	{
-		return !$this->isAbsolute() && strlen( trim( $this->parts->path ) );
+		return !$this->isAbsolute() && 0 !== strlen( trim( $this->parts->path ) );
 	}
 
-	public function set( $url, $strict = TRUE )
+	public function set( string $url ): self
 	{
-		if( !( is_string( $url ) && strlen( trim( $url ) ) ) ){
-			if( $strict )
-				throw new InvalidArgumentException( 'Empty URL given' );
-			return $this;
-		}
+		if( 0 === strlen( trim( $url ) ) )
+			throw new InvalidArgumentException( 'Empty URL given' );
 		$parts	= parse_url( trim( $url ) );
 		if( $parts === FALSE )
 			throw new InvalidArgumentException( 'No valid URL given' );
@@ -219,49 +229,52 @@ class ADT_URL
 		return $this;
 	}
 
-	public function setAuth( $username, $password )
+	public function setAuth( string $username, string $password ): self
 	{
 		$this->setUsername( $username );
 		$this->setPassword( $password );
 		return $this;
 	}
 
-	public function setDefault( $url )
+	public function setDefault( string $url ): self
 	{
 		$this->defaultUrl	= NULL;
-		if( is_null( $url ) || !strlen( trim( $url ) ) )
+		if( 0 === strlen( trim( $url ) ) )
 			return $this;
-		if( is_string( $url ) && strlen( trim( $url ) ) )
-			$url	= new ADT_URL( $url );
-		if( $url && !( $url instanceof ADT_URL ) )
-			throw new InvalidArgumentException( 'Default URL must be ADT_URL or string' );
+
 		$this->defaultUrl	= $url;
 		return $this;
 	}
 
-	public function setFragment( $fragment )
+	public function setFragment( string $fragment ): self
 	{
 		$this->parts->fragment	= $fragment;
 		return $this;
 	}
 
-	public function setHost( $host, $port = NULL, $username = NULL, $password = NULL )
+	public function setHost( string $host, $port = NULL, string $username = NULL, string $password = NULL ): self
 	{
 		$this->parts->host	= $host;
 		if( $port )
 			$this->setPort( $port );
-		if( $username )
+		if( NULL !== $username )
 			$this->setAuth( $username, $password );
 		return $this;
 	}
 
-	public function setPassword( $password )
+	public function setPassword( string $password ): self
 	{
 		$this->parts->pass	= $password;
 		return $this;
 	}
 
-	public function setPath( $path, $based = FALSE )
+	public function setPort( $port ): self
+	{
+		$this->parts->port	= $port;
+		return $this;
+	}
+
+	public function setPath( string $path, bool $based = FALSE ): self
 	{
 		$path	= preg_replace( '@([^/]+/\.\./)@', '/', $path );
 		if( preg_match( '@\.\./@', $path ) )
@@ -273,7 +286,7 @@ class ADT_URL
 		return $this;
 	}
 
-	public function setQuery( $query )
+	public function setQuery( string $query ): self
 	{
 		if( is_array( $query ) )
 			$query	= http_build_query( $query, '&' );
@@ -281,13 +294,13 @@ class ADT_URL
 		return $this;
 	}
 
-	public function setScheme( $scheme )
+	public function setScheme( string $scheme ): self
 	{
 		$this->parts->scheme	= $scheme;
 		return $this;
 	}
 
-	public function setUsername( $username )
+	public function setUsername( string $username ): self
 	{
 		$this->parts->user	= $username;
 		return $this;

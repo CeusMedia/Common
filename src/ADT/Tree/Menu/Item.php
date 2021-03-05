@@ -29,7 +29,6 @@
  *	Tree Menu List Item Data Object used by UI_HTML_Tree_Menu.
  *	@category		Library
  *	@package		CeusMedia_Common_ADT_Tree_Menu
- *	@extends		ADT_Tree_Menu_List
  *	@uses			ADT_List_Dictionary
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2020 Christian Würker

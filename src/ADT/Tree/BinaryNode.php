@@ -50,7 +50,7 @@ class ADT_Tree_BinaryNode
 	 */
 	public function __construct( $value = NULL )
 	{
-		if( $value )
+		if( NULL !== $value )
 			$this->add( $value );
 	}
 

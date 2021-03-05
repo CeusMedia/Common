@@ -35,8 +35,8 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.6
  */
-class ADT_Event_Handler{
-
+class ADT_Event_Handler
+{
 	/**	@var	array		$stopped		List of bound events */
 	protected $events	= array();
 
@@ -48,7 +48,8 @@ class ADT_Event_Handler{
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function __construct(){
+	public function __construct()
+	{
 		$this->events	= new ADT_List_Dictionary();
 	}
 
@@ -59,7 +60,8 @@ class ADT_Event_Handler{
 	 *	@param		function|ADT_Event_Callback	$callback	Callback function or object
 	 *	@return		void
 	 */
-	public function bind( $key, $callback ){
+	public function bind( string $key, $callback )
+	{
 		if( is_callable( $callback ) )
 			$callback	= new ADT_Event_Callback( $callback );
 		if( !( $callback instanceof ADT_Event_Callback ) )
@@ -75,9 +77,10 @@ class ADT_Event_Handler{
 	 *	@access		public
 	 *	@param		string		$key		Event key, eg. "start"
 	 *	@param		boolean		$nested		Flag: list events with namespace, like "start.my"
-	 *	@return		void
+	 *	@return		array
 	 */
-	public function getBoundEvents( $key, $nested = FALSE ){
+	public function getBoundEvents( string $key, bool $nested = FALSE ): array
+	{
 		$events	= array();
 		if( $this->events->get( $key ) )
 			foreach( $this->events->get( $key) as $event )
@@ -95,8 +98,9 @@ class ADT_Event_Handler{
 	 *	@param		string		$key		Event key, eg. "start"
 	 *	@return		void
 	 */
-	protected function removeStopMark( $key ){
-		$index	= array_search( $key, $this->stopped );
+	protected function removeStopMark( string $key )
+	{
+		$index	= array_search( $key, $this->stopped, TRUE );
 		if( $index !== FALSE )
 			unset( $this->stopped[$index] );
 	}
@@ -107,8 +111,9 @@ class ADT_Event_Handler{
 	 *	@param		string		$key		Event key
 	 *	@return		void
 	 */
-	public function stopEvent( $key ){
-		if( !in_array( $key, $this->stopped ) )
+	public function stopEvent( string $key )
+	{
+		if( !in_array( $key, $this->stopped, TRUE ) )
 			$this->stopped[]	= $key;
 	}
 
@@ -120,12 +125,13 @@ class ADT_Event_Handler{
 	 *	@param		mixed		$arguments	Data for event on trigger
 	 *	@return		boolean
 	 */
-	public function trigger( $key, $caller = NULL, $arguments = NULL ){
+	public function trigger( string $key, $caller = NULL, $arguments = NULL )
+	{
 		if( !( $events = $this->getBoundEvents( $key, TRUE ) ) )
 			return NULL;
 		$this->removeStopMark( $key );
 		foreach( $events as $callback ){
-			if( in_array( $key, $this->stopped ) )
+			if( in_array( $key, $this->stopped, TRUE ) )
 				continue;
 			$event	= new ADT_Event_Data( $this );
 			$event->key			= $callback[0];

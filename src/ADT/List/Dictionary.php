@@ -42,8 +42,10 @@ class ADT_List_Dictionary implements ArrayAccess, Countable, Iterator
 {
 	/**	@var		array		$pairs			Associative Array of Pairs */
 	protected $pairs			= array();
+
 	/**	@var		array		$position		Iterator Position */
 	private $position			= 0;
+
 	/**	@var		boolean		$caseSensitive	Flag: be case sensitive on pair keys */
 	protected $caseSensitive	= TRUE;
 
@@ -53,29 +55,24 @@ class ADT_List_Dictionary implements ArrayAccess, Countable, Iterator
 	 *	@param		array		$array		Map if initial pairs
 	 *	@return		void
 	 */
-	public function __construct( $array = array(), $caseSensitive = TRUE )
+	public function __construct( array $array = array(), bool $caseSensitive = TRUE )
 	{
-		$this->caseSensitive	= (bool) $caseSensitive;
-		if( $array instanceof ADT_List_Dictionary )
-			$array	= $array->getAll();
-		if( is_object( $array ) )
-			$array	= (array) $array;
-		if( is_array( $array ) && count( $array ) )
-			foreach( $array as $key => $value )
-				$this->set( $key, $value );
+		$this->caseSensitive	= $caseSensitive;
+		foreach( $array as $key => $value )
+			$this->set( $key, $value );
 	}
 
 	/**
 	 *	Casts a Value by the Type of the current Value by its Key.
 	 *	@access		public
-	 *	@param		string		$value		Value to cast
+	 *	@param		mixed		$value		Value to cast
 	 *	@param		string		$key		Key in Dictionary
 	 *	@return		mixed
 	 *	@throws		InvalidArgumentException	if value is a resource
 	 *	@throws		OutOfRangeException			if key is not existing
 	 *	@throws		UnexpectedValueException	if cast is not possible (like between string and array and vise versa)
 	 */
-	public function cast( $value, $key )
+	public function cast( $value, string $key )
 	{
 		if( strtolower( gettype( $value ) ) === "resource" )
 			throw new InvalidArgumentException( 'Cannot cast resource' );
@@ -88,7 +85,7 @@ class ADT_List_Dictionary implements ArrayAccess, Countable, Iterator
 		$pairType	= strtolower( gettype( $this->get( $key ) ) );
 
 		$abstracts	= array( 'array', 'object' );
-		if( in_array( $valueType, $abstracts ) !== in_array( $pairType, $abstracts ) )
+		if( in_array( $valueType, $abstracts, TRUE ) !== in_array( $pairType, $abstracts, TRUE ) )
 			throw new UnexpectedValueException( 'Cannot cast '.$valueType.' to '.$pairType );
 		settype( $value, $pairType );
 		return $value;
@@ -99,7 +96,7 @@ class ADT_List_Dictionary implements ArrayAccess, Countable, Iterator
 	 *	@access		public
 	 *	@return		integer
 	 */
-	public function count()
+	public function count(): int
 	{
 		return count( $this->pairs );
 	}
@@ -109,9 +106,10 @@ class ADT_List_Dictionary implements ArrayAccess, Countable, Iterator
 	 *	@static
 	 *	@access		public
 	 *	@param		array		$array		Map if initial pairs
-	 *	@return		void
+	 *	@return		self
 	 */
-	static public function create( $array ){
+	static public function create( array $array ): self
+	{
 		return new ADT_List_Dictionary( $array );
 	}
 
@@ -128,7 +126,8 @@ class ADT_List_Dictionary implements ArrayAccess, Countable, Iterator
 		return $this->pairs[$keys[$this->position]];
 	}
 
-	public function flush(){
+	public function flush()
+	{
 		foreach( $this->getKeys() as $key )
 			$this->remove( $key );
 		$this->rewind();
@@ -140,9 +139,9 @@ class ADT_List_Dictionary implements ArrayAccess, Countable, Iterator
 	 *	@access		public
 	 *	@param		string		$prefix			Prefix to filter keys, e.g. "mail." for all pairs starting with "mail."
 	 *	@param		boolean		$caseSensitive	Flag: return list with lowercase pair keys or dictionary with no case sensitivy
-	 *	@return		ADT_List_Dictionary			Dictionary object containing filtered pairs
+	 *	@return		self						Dictionary object containing filtered pairs
 	 */
-	public function filterByKeyPrefix( string $prefix, $caseSensitive = TRUE ): ADT_List_Dictionary
+	public function filterByKeyPrefix( string $prefix, bool $caseSensitive = TRUE ): self
 	{
 		//  assume all pairs by default
 		$list	= $this->pairs;
@@ -174,7 +173,7 @@ class ADT_List_Dictionary implements ArrayAccess, Countable, Iterator
 			}
 		}
 		//  return pair list as dictionary
-		return new ADT_List_Dictionary( $list );
+		return new self( $list );
 	}
 
 
@@ -186,7 +185,7 @@ class ADT_List_Dictionary implements ArrayAccess, Countable, Iterator
 	 *	@param		mixed		$default	Value to return if key is not set, default: NULL
 	 *	@return		mixed
 	 */
-	public function get( $key, $default = NULL )
+	public function get( string $key, $default = NULL )
 	{
 		if( $this->has( $key ) )
 			return $this->pairs[( !$this->caseSensitive ? strtolower( $key ) : $key )];
@@ -205,7 +204,7 @@ class ADT_List_Dictionary implements ArrayAccess, Countable, Iterator
 	 *	@param		boolean		$caseSensitive	Flag: return list with lowercase pair keys or dictionary with no case sensitivy
 	 *	@return		array|ADT_List_Dictionary	Map or dictionary object containing all or filtered pairs
 	 */
-	public function getAll( $prefix = NULL, $asDictionary = FALSE, $caseSensitive = TRUE )
+	public function getAll( $prefix = NULL, bool $asDictionary = FALSE, bool $caseSensitive = TRUE )
 	{
 		//  assume all pairs by default
 		$list	= $this->pairs;
@@ -229,7 +228,7 @@ class ADT_List_Dictionary implements ArrayAccess, Countable, Iterator
 	 *	@access		public
 	 *	@return		array		List of pair keys
 	 */
-	public function getKeys()
+	public function getKeys(): array
 	{
 		return array_keys( $this->pairs );
 	}
@@ -252,7 +251,7 @@ class ADT_List_Dictionary implements ArrayAccess, Countable, Iterator
 	 *	@param		string		$key		Key in Dictionary
 	 *	@return		boolean
 	 */
-	public function has( $key )
+	public function has( string $key ): bool
 	{
 		//  lowercase key if dictionary is not case sensitive
 		$key	= !$this->caseSensitive ? strtolower( $key ) : $key;
@@ -331,7 +330,7 @@ class ADT_List_Dictionary implements ArrayAccess, Countable, Iterator
 	 *	@param		string		$key		Key in Dictionary
 	 *	@return		boolean
 	 */
-	public function remove( $key )
+	public function remove( string $key ): bool
 	{
 		//  pair key is not existing
 		if( !$this->has( $key ) )
@@ -340,7 +339,7 @@ class ADT_List_Dictionary implements ArrayAccess, Countable, Iterator
 		//  lowercase key if dictionary is not case sensitive
 		$key	= !$this->caseSensitive ? strtolower( $key ) : $key;
 		//  index of pair to be removed
-		$index	= array_search( $key, array_keys( $this->pairs ) );
+		$index	= array_search( $key, array_keys( $this->pairs ), TRUE );
 		//  iterator position is beyond pair
 		if( $index >= $this->position )
 			//  decrease iterator position since pair is removed
@@ -368,7 +367,7 @@ class ADT_List_Dictionary implements ArrayAccess, Countable, Iterator
 	 *	@param		string		$value		Value of Key, NULL will remove pair from list
 	 *	@return		boolean
 	 */
-	public function set( $key, $value )
+	public function set( string $key, $value ): bool
 	{
 		//  check if pair is already existing
 		if( $this->has( $key ) )
@@ -393,7 +392,7 @@ class ADT_List_Dictionary implements ArrayAccess, Countable, Iterator
 	 *	@access		public
 	 *	@return		boolean
 	 */
-	public function valid()
+	public function valid(): bool
 	{
 		return $this->position < $this->count();
 	}

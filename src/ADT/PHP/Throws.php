@@ -87,7 +87,7 @@ class ADT_PHP_Throws
 	{
 		if( $this->name != $throws->getName() )
 			throw new Exception( 'Not mergable' );
-		if( $throws->getReason() )
+		if( NULL !== $throws->getReason() )
 			$this->setReason( $throws->getReason() );
 	}
 

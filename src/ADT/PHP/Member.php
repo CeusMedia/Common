@@ -95,7 +95,7 @@ class ADT_PHP_Member extends ADT_PHP_Variable
 		if( $member->getDefault() )
 			$this->setDefault( $member->getDefault() );
 		if( $member->isStatic() )
-			$this->setAbstract( $member->isStatic() );
+			$this->setStatic( $member->isStatic() );
 	}
 
 	/**

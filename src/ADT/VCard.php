@@ -30,7 +30,6 @@
  *	Data Object for vCard.
  *	@category		Library
  *	@package		CeusMedia_Common_ADT
- *	@implements		Serializable
  *	@uses			FS_File_VCard_Builder
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2020 Christian Würker
@@ -253,7 +252,7 @@ class ADT_VCard implements Serializable
 	 */
 	public function getGeoTags()
 	{
-		return $this->types['geo'];	
+		return $this->types['geo'];
 	}
 
 	/**
@@ -286,7 +285,7 @@ class ADT_VCard implements Serializable
 	 */
 	public function getNicknames()
 	{
-		return $this->types['nickname'];	
+		return $this->types['nickname'];
 	}
 
 	/**

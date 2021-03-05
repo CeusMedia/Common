@@ -45,7 +45,7 @@ class ADT_PHP_Container
 	protected $classIdList			= array();
 	protected $classNameList		= array();
 	protected $interfaceIdList		= array();
-	protected $interfacesNameList	= array();
+	protected $interfaceNameList	= array();
 
 	/**
 	 *	Searches for a Class by its Name in same Category and Package.
@@ -56,7 +56,7 @@ class ADT_PHP_Container
 	 *	@return		ADT_PHP_Class
 	 *	@throws		Exception			if Class is not known
 	 */
-	public function getClassFromClassName( $className, ADT_PHP_Interface $relatedArtefact )
+	public function getClassFromClassName( string $className, ADT_PHP_Interface $relatedArtefact )
 	{
 		if( !isset( $this->classNameList[$className] ) )
 			throw new Exception( 'Unknown class "'.$className.'"' );
@@ -85,7 +85,7 @@ class ADT_PHP_Container
 		return $this->classIdList[$id];
 	}
 
-	public function & getFile( $name )
+	public function & getFile( string $name )
 	{
 		if( isset( $this->files[$name] ) )
 			return $this->files[$name];
@@ -118,7 +118,7 @@ class ADT_PHP_Container
 	 *	@return		ADT_PHP_Interface
 	 *	@throws		Exception			if Interface is not known
 	 */
-	public function getInterfaceFromInterfaceName( $interfaceName, ADT_PHP_Interface $relatedArtefact )
+	public function getInterfaceFromInterfaceName( string $interfaceName, ADT_PHP_Interface $relatedArtefact )
 	{
 		if( !isset( $this->interfaceNameList[$interfaceName] ) )
 			throw new Exception( 'Unknown interface "'.$interfaceName.'"' );
@@ -139,7 +139,7 @@ class ADT_PHP_Container
 		return array_shift( array_shift( $list ) );
 	}
 
-	public function hasFile( $fileName )
+	public function hasFile( string $fileName ): bool
 	{
 		return isset( $this->files[$fileName] );
 	}
@@ -153,12 +153,10 @@ class ADT_PHP_Container
 	 *	@return		void
 	 *	@todo		move to Environment
 	 */
-	public function indexClasses( $defaultCategory = 'default', $defaultPackage = 'default' )
+	public function indexClasses( string $defaultCategory = 'default', string $defaultPackage = 'default' )
 	{
-		foreach( $this->files as $fileName => $file )
-		{
-			foreach( $file->getClasses() as $class )
-			{
+		foreach( $this->files as $fileName => $file ){
+			foreach( $file->getClasses() as $class ){
 				$category	= $class->getCategory() ? $class->getCategory() : $defaultCategory;
 				$package	= $class->getPackage() ? $class->getPackage() : $defaultPackage;
 				$name		= $class->getName();
@@ -177,12 +175,10 @@ class ADT_PHP_Container
 	 *	@return		void
 	 *	@todo		move to Environment
 	 */
-	public function indexInterfaces( $defaultCategory = 'default', $defaultPackage = 'default' )
+	public function indexInterfaces( string $defaultCategory = 'default', string $defaultPackage = 'default' )
 	{
-		foreach( $this->files as $fileName => $file )
-		{
-			foreach( $file->getInterfaces() as $interface )
-			{
+		foreach( $this->files as $fileName => $file ){
+			foreach( $file->getInterfaces() as $interface ){
 				$category	= $interface->getCategory() ? $interface->getCategory() : $defaultCategory;
 				$package	= $interface->getPackage() ? $interface->getPackage() : $defaultPackage;
 				$name		= $interface->getName();
@@ -192,32 +188,31 @@ class ADT_PHP_Container
 		}
 	}
 
-	public function load( $config )
+	public function load( array $config )
 	{
-		if( !empty( $config['creator.file.data.archive'] ) )
-		{
-			$uri	= $config['doc.path'].$config['creator.file.data.archive'];
-			if( file_exists( $uri ) )
-			{
-				$serial	= "";
-				if( $fp = gzopen( $uri, "r" ) )
-				{
-					while( !gzeof( $fp ) )
-						$serial	.= gzgets( $fp, 4096 );
-					$data	= unserialize( $serial );
-					gzclose( $fp );
+		if( isset( $config['creator.file.data.archive'] ) ){
+			if( 0 !== strlen( trim( $config['creator.file.data.archive'] ) ) ){
+				$uri	= $config['doc.path'].$config['creator.file.data.archive'];
+				if( file_exists( $uri ) ){
+					$serial	= "";
+					if( $fp = gzopen( $uri, "r" ) ){
+						while( !gzeof( $fp ) )
+							$serial	.= gzgets( $fp, 4096 );
+						$data	= unserialize( $serial );
+						gzclose( $fp );
+						return $data;
+					}
 				}
-				return $data;
 			}
 		}
-		if( !empty( $config['creator.file.data.serial'] ) )
-		{
-			$uri	= $config['doc.path'].$config['creator.file.data.serial'];
-			if( file_exists( $uri ) )
-			{
-				$serial	= file_get_contents( $uri );
-				$data	= unserialize( $serial );
-				return $data;
+		if( isset( $config['creator.file.data.serial'] ) ){
+			if( 0 !== strlen( trim( $config['creator.file.data.serial'] ) ) ){
+				$uri	= $config['doc.path'].$config['creator.file.data.serial'];
+				if( file_exists( $uri ) ){
+					$serial	= file_get_contents( $uri );
+					$data	= unserialize( $serial );
+					return $data;
+				}
 			}
 		}
 		throw new RuntimeException( 'No data file existing' );
@@ -229,27 +224,32 @@ class ADT_PHP_Container
 	 *	@param		array		$data		Collected File / Class Data
 	 *	@return		void
 	 */
-	public function save( $config )
+	public function save( array $config )
 	{
 		$serial	= serialize( $this );
 		if( !file_exists( $config['doc.path'] ) )
-			mkDir( $config['doc.path'], 0777, TRUE );
-		if( !empty( $config['creator.file.data.archive'] ) )
-		{
-			$uri	= $config['doc.path'].$config['creator.file.data.archive'];
-			$gz		= gzopen( $uri, 'w9' );
-			gzwrite( $gz, $serial );
-			gzclose( $gz );
+			mkdir( $config['doc.path'], 0777, TRUE );
+
+		if( isset( $config['creator.file.data.archive'] ) ){
+			if( 0 !== strlen( trim( $config['creator.file.data.archive'] ) ) ){
+				$uri	= $config['doc.path'].$config['creator.file.data.archive'];
+				$gz		= gzopen( $uri, 'w9' );
+				gzwrite( $gz, $serial );
+				gzclose( $gz );
+				return;
+			}
 		}
-		else if( !empty( $config['creator.file.data.serial'] ) )
-		{
-			$uri	= $config['doc.path'].$config['creator.file.data.serial'];
-			file_put_contents( $uri, $serial );
+		if( isset( $config['creator.file.data.serial'] ) ){
+			if( 0 !== strlen( trim( $config['creator.file.data.serial'] ) ) ){
+				$uri	= $config['doc.path'].$config['creator.file.data.serial'];
+				file_put_contents( $uri, $serial );
+			}
 		}
 	}
 
-	public function setFile( $name, ADT_PHP_File $file )
+	public function setFile( string $name, ADT_PHP_File $file ): self
 	{
 		$this->files[$name]	= $file;
+		return $this;
 	}
 }

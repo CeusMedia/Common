@@ -78,7 +78,6 @@ class ADT_Tree_Node
 	/**
 	 *	Returns all children from Tree.
 	 *	@access		public
-	 *	@param		string		$name		Child name
 	 *	@return		array
 	 */
 	public function getChildren()

@@ -137,8 +137,8 @@ class ADT_PHP_Category
 	 */
 	public function & getInterfaceByName( $name )
 	{
-		if( isset( $this->interface[$name] ) )
-			return $this->interface[$name];
+		if( isset( $this->interfaces[$name] ) )
+			return $this->interfaces[$name];
 		throw new RuntimeException( "Interface '$name' is unknown" );
 	}
 

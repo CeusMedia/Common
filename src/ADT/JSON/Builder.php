@@ -46,7 +46,8 @@ class ADT_JSON_Builder
 	 */
 	public static function encode( $data )
 	{
-		return self::get( NULL, $data );
+		$builder	= new ADT_JSON_Builder();
+		return $builder->get( NULL, $data );
 	}
 
 	/**
@@ -99,7 +100,7 @@ class ADT_JSON_Builder
 				$value	= '"'.self::escape( $value ).'"';
 				break;
 			case 'boolean':
-				$value	= $value ? 'true' : 'false';
+				$value	= $value === TRUE ? 'true' : 'false';
 				break;
 			case 'null':
 				$value	= 'null';
@@ -161,9 +162,10 @@ class ADT_JSON_Builder
 	 */
 	private static function loop( $array, $type )
 	{
-		$output	= NULL;
+		$builder	= new self();
+		$output		= NULL;
 		foreach( $array as $key => $value )
-			$output	.= self::get( $key, $value, $type ).',';
+			$output	.= $builder->get( $key, $value, $type ).',';
 		$output	= trim( $output, ',' );
 		return $output;
 	}

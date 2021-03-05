@@ -247,40 +247,13 @@ class ADT_Graph_DirectedWeighted extends ADT_Graph_Weighted
 	}
 
 	/**
-	 *	 Returns all Nodes and Edges of this Graph as an associative file matrix.
-	 *	 @access		public
-	 *	 @return		AssocFileMatrix
-	 */
-	public function toMatrix( $filename = false )
-	{
-		if( $filename) $m = new ADT_Matrix_AssocFileMatrix( $filename );
-		else $m = new AssocMatrix();
-
-		$nodes = $this->getNodes();
-		foreach( $nodes as $source )
-		{
-			echo $source->getNodeName()."<br>";
-			foreach( $nodes as $target )
-			{
-				if( $this->isEdge($source, $target ) )
-				{
-					$value = $this->getEdgeValue( $source, $target );
-				}
-				else $value = 0;
-				$m->addValueAssoc( $source->getNodeName(), $target->getNodeName(), $value );
-			}
-		}
-		return $m;
-	}
-
-	/**
 	 *	Breitendurchlauf
 	 */
 	public function traverseBreadth( $startNode )
 	{
 		$distance = array();
 		$state = array();
-		$q = new ADT_Queue();
+		$q = new ADT_List_Queue();
 		foreach( $this->nodeSet->getNodes() as $node )
 		{
 			$state[$node->getNodeName()] = 0;

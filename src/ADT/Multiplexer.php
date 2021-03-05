@@ -95,39 +95,36 @@ class ADT_Multiplexer
 	 */
 	public function proceed()
 	{
-		if( $this->getType() == 1 )
-		{
-			$output = $this->controls[0] ? $this->inputs[1] : $this->inputs[0];
+		switch( $this->getType() ){
+			case 1:
+				return $this->controls[0] ? $this->inputs[1] : $this->inputs[0];
+			case 2:
+				$mux = new ADT_Multiplexer();
+				$mux->setControls( $this->controls[0] );
+				$mux->setInputs( $this->inputs[0], $this->inputs[1] );
+				$input0 = $mux->proceed();
+				$mux->setInputs( $this->inputs[2], $this->inputs[3] );
+				$input1 = $mux->proceed();
+				$mux->setControls( $this->controls[1] );
+				$mux->setInputs( $input0, $input1 );
+				return $mux->proceed();
+			case 4:
+				$mux2 = new ADT_Multiplexer( 2 );
+				$mux2->setControls( $this->controls[0], $this->controls[1] );
+				$mux2->setInputs( $this->inputs[0], $this->inputs[1], $this->inputs[2], $this->inputs[3] );
+				$input0 = $mux2->proceed();
+				$mux2->setInputs( $this->inputs[4], $this->inputs[5], $this->inputs[6], $this->inputs[7] );
+				$input1 = $mux2->proceed();
+				$mux2->setInputs( $this->inputs[8], $this->inputs[9], $this->inputs[10], $this->inputs[11] );
+				$input2 = $mux2->proceed();
+				$mux2->setInputs( $this->inputs[12], $this->inputs[13], $this->inputs[14], $this->inputs[15] );
+				$input3 = $mux2->proceed();
+				$mux2->setControls( $this->controls[2], $this->controls[3] );
+				$mux2->setInputs( $input0, $input1, $input2, $input3 );
+				return $mux2->proceed();
+			default:
+				throw new RangeException( 'Invalid type' );
 		}
-		else if( $this->getType() == 2 )
-		{
-			$mux = new ADT_Multiplexer();
-			$mux->setControls( $this->controls[0] );
-			$mux->setInputs( $this->inputs[0], $this->inputs[1] );
-			$input0 = $mux->proceed();
-			$mux->setInputs( $this->inputs[2], $this->inputs[3] );
-			$input1 = $mux->proceed();
-			$mux->setControls( $this->controls[1] );
-			$mux->setInputs( $input0, $input1 );
-			$output = $mux->proceed();
-		}
-		else if( $this->getType() == 4)
-		{
-			$mux2 = new ADT_Multiplexer( 2 );
-			$mux2->setControls( $this->controls[0], $this->controls[1] );
-			$mux2->setInputs( $this->inputs[0], $this->inputs[1], $this->inputs[2], $this->inputs[3] );
-			$input0 = $mux2->proceed();
-			$mux2->setInputs( $this->inputs[4], $this->inputs[5], $this->inputs[6], $this->inputs[7] );
-			$input1 = $mux2->proceed();
-			$mux2->setInputs( $this->inputs[8], $this->inputs[9], $this->inputs[10], $this->inputs[11] );
-			$input2 = $mux2->proceed();
-			$mux2->setInputs( $this->inputs[12], $this->inputs[13], $this->inputs[14], $this->inputs[15] );
-			$input3 = $mux2->proceed();
-			$mux2->setControls( $this->controls[2], $this->controls[3] );
-			$mux2->setInputs( $input0, $input1, $input2, $input3 );
-			$output = $mux2->proceed();
-		}
-		return $output;
 	}
 
 	/**

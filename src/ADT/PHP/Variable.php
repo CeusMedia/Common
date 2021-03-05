@@ -63,7 +63,7 @@ class ADT_PHP_Variable
 	 *	@param		string		$description	Variable description
 	 *	@return		void
 	 */
-	public function __construct( $name, $type = NULL, $description = NULL )
+	public function __construct( string $name, $type = NULL, string $description = NULL )
 	{
 		Deprecation::getInstance()
 			->setErrorVersion( '0.8.5' )
@@ -85,7 +85,7 @@ class ADT_PHP_Variable
 	 *	@access		public
 	 *	@return		array			List of author data objects
 	 */
-	public function getAuthors()
+	public function getAuthors(): array
 	{
 		return $this->authors;
 	}
@@ -95,7 +95,7 @@ class ADT_PHP_Variable
 	 *	@access		public
 	 *	@return		array			List of deprecation strings
 	 */
-	public function getDeprecations()
+	public function getDeprecations(): array
 	{
 		return $this->deprecations;
 	}
@@ -103,7 +103,7 @@ class ADT_PHP_Variable
 	/**
 	 *	Returns variable description.
 	 *	@access		public
-	 *	@return		void		Variable description
+	 *	@return		string|NULL		Variable description
 	 */
 	public function getDescription()
 	{
@@ -115,7 +115,7 @@ class ADT_PHP_Variable
 	 *	@access		public
 	 *	@return		int				Line number in code
 	 */
-	public function getLine()
+	public function getLine(): int
 	{
 		return $this->line;
 	}
@@ -125,17 +125,17 @@ class ADT_PHP_Variable
 	 *	@access		public
 	 *	@return		array			List of links
 	 */
-	public function getLinks()
+	public function getLinks(): array
 	{
 		return $this->links;
 	}
 
 	/**
-	 *	Returns type of parameter.
+	 *	Returns name of parameter.
 	 *	@access		public
-	 *	@return		mixed		Type string or
+	 *	@return		string			Variable name
 	 */
-	public function getName()
+	public function getName(): string
 	{
 		return $this->name;
 	}
@@ -156,9 +156,9 @@ class ADT_PHP_Variable
 	/**
 	 *	Returns list of see-also-references.
 	 *	@access		public
-	 *	@return		string		List of see-also-references
+	 *	@return		array		List of see-also-references
 	 */
-	public function getSees()
+	public function getSees(): array
 	{
 		return $this->sees;
 	}
@@ -176,9 +176,9 @@ class ADT_PHP_Variable
 	/**
 	 *	Returns list of todos.
 	 *	@access		public
-	 *	@return		string		List of todos
+	 *	@return		array		List of todos
 	 */
-	public function getTodos()
+	public function getTodos(): array
 	{
 		return $this->todos;
 	}
@@ -208,13 +208,13 @@ class ADT_PHP_Variable
 #		remark( 'merging variable: '.$variable->getName() );
 		if( $this->name != $variable->getName() )
 			throw new Exception( 'Not mergable' );
-		if( $variable->getType() )
+		if( NULL !== $variable->getType() )
 			$this->setType( $variable->getType() );
-		if( $variable->getDescription() )
+		if( NULL !== $variable->getDescription() )
 			$this->setDescription( $variable->getDescription() );
-		if( $variable->getSince() )
+		if( NULL !== $variable->getSince() )
 			$this->setSince( $variable->getSince() );
-		if( $variable->getVersion() )
+		if( NULL !== $variable->getVersion() )
 			$this->setVersion( $variable->getVersion() );
 
 		foreach( $variable->getAuthors() as $author )
@@ -245,7 +245,7 @@ class ADT_PHP_Variable
 	 *	@param		string			$string		Variable deprecation
 	 *	@return		void
 	 */
-	public function setDeprecation( $string )
+	public function setDeprecation( string $string )
 	{
 		$this->deprecations[]	= $string;
 	}
@@ -256,7 +256,7 @@ class ADT_PHP_Variable
 	 *	@param		string		$string			Variable description
 	 *	@return		void
 	 */
-	public function setDescription( $string )
+	public function setDescription( string $string )
 	{
 		$this->description	= $string;
 	}
@@ -264,10 +264,10 @@ class ADT_PHP_Variable
 	/**
 	 *	Sets line in code.
 	 *	@access		public
-	 *	@param		int				Line number in code
+	 *	@param		int			$number			Line number in code
 	 *	@return		void
 	 */
-	public function setLine( $number )
+	public function setLine( int $number )
 	{
 		$this->line	= $number;
 	}
@@ -275,10 +275,10 @@ class ADT_PHP_Variable
 	/**
 	 *	Sets function link.
 	 *	@access		public
-	 *	@param		string			$string		Function link
+	 *	@param		string		$string			Function link
 	 *	@return		void
 	 */
-	public function setLink( $string )
+	public function setLink( string $string )
 	{
 		$this->links[]	= $string;
 	}
@@ -289,7 +289,7 @@ class ADT_PHP_Variable
 	 *	@param		string		$string			Variable name
 	 *	@return		void
 	 */
-	public function setName( $string )
+	public function setName( string $string )
 	{
 		$this->name	= $string;
 	}
@@ -311,7 +311,7 @@ class ADT_PHP_Variable
 	 *	@param		string		$string			See-also-reference
 	 *	@return		void
 	 */
-	public function setSee( $string )
+	public function setSee( string $string )
 	{
 		$this->sees[]	= $string;
 	}
@@ -322,7 +322,7 @@ class ADT_PHP_Variable
 	 *	@param		string		$string			First version of variable
 	 *	@return		void
 	 */
-	public function setSince( $string )
+	public function setSince( string $string )
 	{
 		$this->since	= $string;
 	}
@@ -333,7 +333,7 @@ class ADT_PHP_Variable
 	 *	@param		string		$string			Todo string
 	 *	@return		void
 	 */
-	public function setTodo( $string )
+	public function setTodo( string $string )
 	{
 		$this->todos[]	= $string;
 	}
@@ -355,7 +355,7 @@ class ADT_PHP_Variable
 	 *	@param		string		$string			Latest version of variable
 	 *	@return		void
 	 */
-	public function setVersion( $string )
+	public function setVersion( string $string )
 	{
 		$this->version	= $string;
 	}

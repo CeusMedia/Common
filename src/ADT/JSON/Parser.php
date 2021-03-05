@@ -49,7 +49,8 @@ class ADT_JSON_Parser
 	 *	@param		boolean		$asConstantKey	Flag: return constant name as string instead of its integer value
 	 *	@return		integer|string
 	 */
-	public function getError( $asConstantKey = FALSE ){
+	public function getError( $asConstantKey = FALSE )
+	{
 		$code	= json_last_error();
 		if( $asConstantKey )
 			return $this->getConstantFromCode( $code );
@@ -63,8 +64,9 @@ class ADT_JSON_Parser
 	 *	@static
 	 *	@return		self
 	 */
-	public static function getNew( $filePath ){
-		return new self( $filePath );
+	public static function getNew(): self
+	{
+		return new self();
 	}
 
 	/**
@@ -72,7 +74,8 @@ class ADT_JSON_Parser
 	 *	@access		public
 	 *	@return		object
 	 */
-	public function getInfo(){
+	public function getInfo()
+	{
 		return (object) array(
 			'status'	=> $this->status,
 			'code'		=> $this->getError(),
@@ -86,7 +89,8 @@ class ADT_JSON_Parser
 	 *	@access		public
 	 *	@return		string
 	 */
-	public function getMessage(){
+	public function getMessage()
+	{
 		return json_last_error_msg();
 	}
 
@@ -98,7 +102,8 @@ class ADT_JSON_Parser
 	 *	@return		object|array
 	 *	@throws		RuntimeException			if parsing failed
 	 */
-	public function parse( $json, $asArray = NULL ){
+	public function parse( string $json, bool $asArray = NULL )
+	{
 		$this->status	= static::STATUS_EMPTY;
 		$data			= json_decode( $json, $asArray );
 		if( json_last_error() !== JSON_ERROR_NONE ){
@@ -114,7 +119,8 @@ class ADT_JSON_Parser
 		return $data;
 	}
 
-	protected function getConstantFromCode( $code ){
+	protected function getConstantFromCode( $code )
+	{
 		return ADT_Constant::getKeyByValue( 'JSON_ERROR_', $code );
 	}
 }

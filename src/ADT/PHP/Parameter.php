@@ -161,13 +161,13 @@ class ADT_PHP_Parameter
 #		remark( "merging parameter: ".$parameter->getName() );
 		if( $this->name != $parameter->getName() )
 			throw new Exception( 'Not mergable' );
-		if( $parameter->getCast() )
+		if( NULL !== $parameter->getCast() )
 			$this->setCast( $parameter->getCast() );
-		if( $parameter->getDefault() )
+		if( NULL !== $parameter->getDefault() )
 			$this->setDefault( $parameter->getDefault() );
-		if( $parameter->getDescription() )
+		if( NULL !== $parameter->getDescription() )
 			$this->setDescription( $parameter->getDescription() );
-		if( $parameter->getType() )
+		if( NULL !== $parameter->getType() )
 			$this->setType( $parameter->getType() );
 #		if( $parameter->getParent() )
 #			$this->setParent( $parameter->getParent() );
@@ -213,10 +213,10 @@ class ADT_PHP_Parameter
 	/**
 	 *	Sets line in code.
 	 *	@access		public
-	 *	@param		int				Line number in code
+	 *	@param		int				$number			Line number in code
 	 *	@return		void
 	 */
-	public function setLine( $number )
+	public function setLine( int $number )
 	{
 		$this->line	= $number;
 	}

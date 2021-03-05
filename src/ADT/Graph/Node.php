@@ -47,10 +47,15 @@ class ADT_Graph_Node
 	 *	@param		mixed		$value			Value of this Node
 	 *	@return		void
 	 */
-	public function __construct( $nodeName, $nodeValue = false )
+	public function __construct( string $nodeName, $nodeValue = '' )
 	{
 		$this->setNodeName( $nodeName );
 		$this->setNodeValue( $nodeValue );
+	}
+
+	public function __toString(): string
+	{
+		return "(".$this->nodeName.":".$this->nodeValue.")";
 	}
 
 	/**
@@ -58,7 +63,7 @@ class ADT_Graph_Node
 	 *	@access		public
 	 *	@return		string
 	 */
-	public function getNodeName()
+	public function getNodeName(): string
 	{
 		return $this->nodeName;
 	}
@@ -77,11 +82,12 @@ class ADT_Graph_Node
 	 *	Setting the Name of this Node.
 	 *	@access		public
 	 *	@param		string		$nodeName		Name of this Node
-	 *	@return		void
+	 *	@return		self
 	 */
-	public function setNodeName( $nodeName )
+	public function setNodeName( string $nodeName ): self
 	{
 		$this->nodeName = $nodeName;
+		return $this;
 	}
 
 	/**
@@ -90,13 +96,9 @@ class ADT_Graph_Node
 	 *	@param		mixed		$nodeValue		Value of this Node
 	 *	@return		void
 	 */
-	public function setNodeValue( $nodeValue )
+	public function setNodeValue( $nodeValue ): self
 	{
 		$this->nodeValue = $nodeValue;
-	}
-
-	public function __toString()
-	{
-		return "(".$this->nodeName.":".$this->nodeValue.")";
+		return $this;
 	}
 }

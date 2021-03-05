@@ -93,8 +93,6 @@ class ADT_PHP_Return
 
 	public function merge( ADT_PHP_Return $return )
 	{
-		if( $this->name != $return->getName() )
-			throw new Exception( 'Not mergable' );
 		if( $return->getDescription() )
 			$this->setDescription( $return->getDescription() );
 		if( $return->getType() )

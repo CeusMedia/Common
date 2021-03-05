@@ -47,7 +47,7 @@ class ADT_List_Stack implements Countable
 	 *	@param		array		$initialArray	Array with initial Stack Items
 	 *	@return		void
 	 */
-	public function __construct( $initialArray = array() )
+	public function __construct( array $initialArray = array() )
 	{
 		if( is_array( $initialArray ) && count( $initialArray ) )
 			$this->stack = $initialArray;
@@ -58,7 +58,7 @@ class ADT_List_Stack implements Countable
 	 *	@access		public
 	 *	@return		string
 	 */
-	public function __toString()
+	public function __toString(): string
 	{
 		return "(".implode( $this->delimiter, $this->stack ).")";
 	}
@@ -80,7 +80,7 @@ class ADT_List_Stack implements Countable
 	 *	@access		public
 	 *	@return		int
 	 */
-	public function count()
+	public function count(): int
 	{
 		return count( $this->stack );
 	}
@@ -91,9 +91,9 @@ class ADT_List_Stack implements Countable
 	 *	@param		mixed		$item		Item to find in the Stack
 	 *	@return		bood
 	 */
-	public function has( $item )
+	public function has( $item ): bool
 	{
-		return in_array( $item, $this->stack );
+		return in_array( $item, $this->stack, TRUE );
 	}
 
 	/**
@@ -101,11 +101,9 @@ class ADT_List_Stack implements Countable
 	 *	@access		public
 	 *	@return		bool
 	 */
-	public function isEmpty()
+	public function isEmpty(): bool
 	{
-		if( $this->count() == 0 )
-			return true;
-		return false;
+		return ( 0 === $this->count() );
 	}
 
 	/**
@@ -137,7 +135,7 @@ class ADT_List_Stack implements Countable
 	 *	@access		public
 	 *	@return		array
 	 */
-	public function toArray()
+	public function toArray(): array
 	{
 		return $this->stack;
 	}
