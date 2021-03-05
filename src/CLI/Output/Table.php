@@ -1,20 +1,35 @@
 <?php
 class CLI_Output_Table
 {
-	const SIZE_MODE_MIN		= 0;
-	const SIZE_MODE_MAX		= 1;
+	const SIZE_MODE_MIN			= 0;
+	const SIZE_MODE_MAX			= 1;
+
+	const SIZE_MODES			= [
+		self::SIZE_MODE_MIN,
+		self::SIZE_MODE_MAX,
+	];
 
 	const BORDER_STYLE_NONE		= 0;
 	const BORDER_STYLE_SINGLE	= 1;
 	const BORDER_STYLE_DOUBLE	= 2;
 	const BORDER_STYLE_MIXED	= 3;
 
-	protected $sizeMax	= 76;
-	protected $sizeMin	= 5;
+	const BORDER_STYLES			= [
+		self::BORDER_STYLE_NONE,
+		self::BORDER_STYLE_SINGLE,
+		self::BORDER_STYLE_DOUBLE,
+		self::BORDER_STYLE_MIXED,
+	];
 
-	protected $data		= array();
+	protected $sizeMax			= 76;
 
-	protected $sizeMode	= 0;
+	protected $sizeMin			= 5;
+
+	protected $columns			= array();
+
+	protected $data				= array();
+
+	protected $sizeMode			= 0;
 
 	protected static $bordersDouble	= [
 		'otl'	=> '╔',
@@ -72,6 +87,8 @@ class CLI_Output_Table
 
 	protected $borderStyle;
 
+	protected $borders		= [];
+
 	public function __construct()
 	{
 		$this->setBorderStyle( self::BORDER_STYLE_SINGLE );
@@ -79,7 +96,7 @@ class CLI_Output_Table
 
 	public function render()
 	{
-		$result		= '';
+		$rows		= [];
 		if( count( $this->data ) ){
 			$this->collectColumns();
 			$headline	= $this->renderHeadline();

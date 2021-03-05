@@ -38,6 +38,8 @@
  */
 class CLI_Application
 {
+	protected $arguments;
+
 	/**
 	 *	Constructor.
 	 *	@access		public

@@ -54,6 +54,7 @@ class CLI_Output_Progress
 	protected $barBlocks	= array( '_', '░', '▓', '█' );
 	protected $barTemplate	= '%1$s%2$s%3$s%4$s';
 	protected $width		= 80;
+	protected $output;
 
 	/**
 	 *	Constructor.

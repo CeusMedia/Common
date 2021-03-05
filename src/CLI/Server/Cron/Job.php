@@ -41,11 +41,12 @@ class CLI_Server_Cron_Job extends ADT_OptionObject
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		string	$action		String to execute within Cron Job
+	 *	@param		string		$action		String to execute within Cron Job
 	 *	@return		void
 	 */
-	public function __construct( $action )
+	public function __construct( string $action )
 	{
+		parent::__construct();
 		$this->setOption( "action", $action );
 	}
 
@@ -54,7 +55,7 @@ class CLI_Server_Cron_Job extends ADT_OptionObject
 	 *	@access		protected
 	 *	@return		bool
 	 */
-	protected function checkMaturity()
+	protected function checkMaturity(): bool
 	{
 		$time	= time();
 		$c_minute	= date( "i", $time );
@@ -68,13 +69,13 @@ class CLI_Server_Cron_Job extends ADT_OptionObject
 		$j_day		= (array) $this->getOption( 'day' );
 		$j_month	= (array) $this->getOption( 'month' );
 		$j_weekday	= (array) $this->getOption( 'weekday' );
-		if( $j_weekday[0] == "*" || in_array( $c_weekday, $j_weekday ) )
-			if( $j_month[0] == "*" || in_array( $c_month, $j_month ) )
-				if( $j_day[0] == "*" || in_array( $c_day, $j_day ) )
-					if( $j_hour[0] == "*" || in_array( $c_hour, $j_hour ) )
-						if( $j_minute[0] == "*" || in_array( $c_minute, $j_minute ) )
-							return true;
-		return false;
+		if( $j_weekday[0] == "*" || in_array( $c_weekday, $j_weekday, TRUE ) )
+			if( $j_month[0] == "*" || in_array( $c_month, $j_month, TRUE ) )
+				if( $j_day[0] == "*" || in_array( $c_day, $j_day, TRUE ) )
+					if( $j_hour[0] == "*" || in_array( $c_hour, $j_hour, TRUE ) )
+						if( $j_minute[0] == "*" || in_array( $c_minute, $j_minute, TRUE ) )
+							return TRUE;
+		return FALSE;
 	}
 
 	/**
@@ -82,7 +83,7 @@ class CLI_Server_Cron_Job extends ADT_OptionObject
 	 *	@access		public
 	 *	@return		string
 	 */
-	public function execute()
+	public function execute(): string
 	{
 		ob_start();
 		passthru( $this->getOption( "action" ) );

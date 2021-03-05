@@ -36,8 +36,8 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.6
  */
-class CLI_Output{
-
+class CLI_Output
+{
 	protected $lastLine			= '';
 	protected $maxLineLength	= 0;
 
@@ -45,10 +45,11 @@ class CLI_Output{
 	 *	Adds text to current line.
 	 *	@access		public
 	 *	@param		string		$string		Text to display
-	 *	@return		void
+	 *	@return		self
 	 */
-	public function append( $string = '' ){
-		$this->sameLine( trim( $this->lastLine ) . $string );
+	public function append( string $string = '' ): self
+	{
+		return $this->sameLine( trim( $this->lastLine ) . $string );
 	}
 
 	/**
@@ -57,7 +58,8 @@ class CLI_Output{
 	 *	@param		string		$string		Text to display
 	 *	@return		self
 	 */
-	public function newLine( $string = '' ){
+	public function newLine( string $string = '' ): self
+	{
 		if( !CLI::checkIsHeadless( FALSE ) ){
 			if( $this->maxLineLength )
 				//  trim string to <80 columns
@@ -74,7 +76,8 @@ class CLI_Output{
 	 *	@param		string		$string		Text to display
 	 *	@return		self
 	 */
-	public function sameLine( $string = '' ){
+	public function sameLine( string $string = '' ): self
+	{
 		if( !CLI::checkIsHeadless( FALSE ) ){
 			if( $this->maxLineLength )
 				//  trim string to <80 columns
@@ -87,7 +90,9 @@ class CLI_Output{
 		return $this;
 	}
 
-	public function setMaxLineLength( $length ){
-		$this->setMaxLineLength	= $length;
+	public function setMaxLineLength( int $length ): self
+	{
+		$this->maxLineLength	= $length;
+		return $this;
 	}
 }

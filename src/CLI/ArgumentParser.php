@@ -49,7 +49,7 @@ class CLI_ArgumentParser extends ADT_List_Dictionary
 	 *	@param		string		$long		Long form of Shortcut
 	 *	@return		void
 	 */
-	public function addShortCut( $short, $long )
+	public function addShortCut( string $short, string $long )
 	{
 		if( !isset( $this->shortcuts[$short] ) )
 			$this->shortcuts[$short]	= $long;
@@ -62,7 +62,7 @@ class CLI_ArgumentParser extends ADT_List_Dictionary
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function parseArguments( $fallBackOnEmptyPair = FALSE )
+	public function parseArguments( bool $fallBackOnEmptyPair = FALSE )
 	{
 		$request	= new CLI_RequestReceiver( $fallBackOnEmptyPair );
 		$arguments	= $request->getAll();
@@ -78,13 +78,13 @@ class CLI_ArgumentParser extends ADT_List_Dictionary
 		$list	= array();
 		foreach( $parameters as $key => $value ){
 			$reverse	= array_flip( $this->shortcuts );
-			if( in_array( $key, array_keys( $this->shortcuts ) ) )
+			if( in_array( $key, array_keys( $this->shortcuts ), TRUE ) )
 				$key	= $this->shortcuts[$key];
 			$list[$key]	= $value;
 		}
 #		$this->set( "__file", __FILE__ );
 #		$this->set( "__class", get_class( $this ) );
-		$this->set( "path", getCwd() );
+		$this->set( "path", getcwd() );
 		$this->set( "script", $script );
 		$this->set( "commands", $commands );
 		$this->set( "parameters", $list );
@@ -96,7 +96,7 @@ class CLI_ArgumentParser extends ADT_List_Dictionary
 	 *	@param		string		$key		Key of Shortcut
 	 *	@return		void
 	 */
-	public function removeShortCut( $key )
+	public function removeShortCut( string $key )
 	{
 		if( isset( $this->shortcuts[$key] ) )
 			unset( $this->shortcuts[$key] );

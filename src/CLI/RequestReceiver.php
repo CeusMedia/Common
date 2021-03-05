@@ -37,6 +37,7 @@
 class CLI_RequestReceiver extends ADT_List_Dictionary
 {
 	public static $delimiterAssign	= "=";
+
 	protected $pairs				= array();
 
 	/**
@@ -44,18 +45,17 @@ class CLI_RequestReceiver extends ADT_List_Dictionary
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function __construct( $fallBackOnEmptyPair = FALSE )
+	public function __construct( bool $fallBackOnEmptyPair = FALSE )
 	{
+		parent::__construct();
 		$count	= 0;
 		global $argv;
 		if( !is_array( $argv ) )
 			throw new RuntimeException( 'Missing arguments' );
-		if( !$fallBackOnEmptyPair && in_array( 'fallBackOnEmptyPair', $argv ) )
+		if( !$fallBackOnEmptyPair && in_array( 'fallBackOnEmptyPair', $argv, TRUE ) )
 			$fallBackOnEmptyPair	= TRUE;
-		foreach( $argv as $argument )
-		{
-			if( substr_count( $argument, self::$delimiterAssign ) || $fallBackOnEmptyPair )
-			{
+		foreach( $argv as $argument ){
+			if( substr_count( $argument, self::$delimiterAssign ) || $fallBackOnEmptyPair ){
 				$parts	= explode( self::$delimiterAssign, $argument, 2 );
 				$key	= array_shift( $parts );
 				$value	= $parts ? $parts[0] : NULL;

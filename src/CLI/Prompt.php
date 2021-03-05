@@ -29,26 +29,27 @@
  *	Console input handler.
  *	@category		Library
  *	@package		CeusMedia_Common_CLI
- *	@extends		ADT_List_Dictionary
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2015-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			01.06.2012
  */
-class CLI_Prompt {
+class CLI_Prompt
+{
 
 	/**	@var	resource		$tty		Terminal (or console) input handler */
 	protected $tty;
 
 	/**
-	 *	Constructor, tries to setup a terminal input resource handler. 
+	 *	Constructor, tries to setup a terminal input resource handler.
 	 *	@access		public
 	 *	@return		void
 	 *	@throws		RuntimeException	if no terminal resource could by established
 	 */
-	public function __construct(){
-		if( substr(PHP_OS, 0, 3) == "WIN" )
+	public function __construct()
+	{
+		if( substr( PHP_OS, 0, 3 ) == "WIN" )
 			$this->tty = fopen( "\con", "rb" );
 		else if( !($this->tty = fopen( "/dev/tty", "r" ) ) )
 			$this->tty = fopen( "php://stdin", "r" );
@@ -63,8 +64,9 @@ class CLI_Prompt {
 	 *	@param		integer		$length		Number of bytes to read at most
 	 *	@return		string		String entered in terminal
 	 */
-	public function get( $prompt = "", $length = 1024 ){
-		remark( $prompt );
+	public function get( string $prompt = '', $length = 1024 )
+	{
+		print( $prompt );
 		ob_flush();
 		$result = trim( fgets( $this->tty, $length ) );
 		return $result;

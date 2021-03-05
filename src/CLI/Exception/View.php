@@ -1,21 +1,20 @@
 <?php
 class CLI_Exception_View
 {
-	public function __construct( ?Exception $exception = NULL ){
+	protected $exception;
+
+	public function __construct( ?Exception $exception = NULL )
+	{
 		if( !is_null( $exception ) )
 			$this->setException( $exception );
 	}
 
-	public function __toString()
+	public function __toString(): string
 	{
 		return $this->render();
 	}
 
-	public function setException( Exception $exception ){
-		$this->exception	= $exception;
-	}
-
-	public function render()
+	public function render(): string
 	{
 		if( !$this->exception || !$this->exception instanceof Exception )
 			throw new InvalidArgumentException( 'No exception set' );
@@ -29,7 +28,13 @@ class CLI_Exception_View
 		return join( PHP_EOL, $lines ).PHP_EOL;
 	}
 
-	public static function getInstance( ?Exception $exception = NULL )
+	public function setException( Exception $exception ): self
+	{
+		$this->exception	= $exception;
+		return $this;
+	}
+
+	public static function getInstance( ?Exception $exception = NULL ): self
 	{
 		return new self( $exception );
 	}

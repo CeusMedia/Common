@@ -77,14 +77,13 @@ class CLI_Shell
 	 */
 	public function __construct()
 	{
-		if( getEnv( 'HTTP_HOST' ) )
+		if( getenv( 'HTTP_HOST' ) )
 			die( "usage in console only." );
 		ob_implicit_flush( true );
 		ini_set( "html_errors", 0 );
 		error_reporting( 7 );
 		set_time_limit( 0 );
-		if( !defined( 'STDIN' ) )
-		{
+		if( !defined( 'STDIN' ) ){
 			define( 'STDIN',	fopen( "php://stdin","r" ) );
 			define( 'STDOUT',	fopen( "php://stdout","w" ) );
 			define( 'STDERR',	fopen( "php://stderr","w" ) );
@@ -97,46 +96,46 @@ class CLI_Shell
 	/**
 	 *	Indicates whether a line is immediate executable like equations.
 	 *	@access		protected
-	 *	@return 	void
+	 *	@param		string		$line		...
+	 *	@return 	bool
 	 */
 	protected function isImmediate( $line )
 	{
-		$code = "";
-		$sq = $dq = false;
-		for( $i = 0; $i < strlen( $line ); $i++ )
-		{
-			$c = $line{$i};
+		$code = '';
+		$sq = $dq = FALSE;
+		for( $i = 0; $i < strlen( $line ); $i++ ){
+			$c = $line[$i];
 			if( $c == "'" )
 				$sq = !$sq;
 			else if( $c == '"')
 				$dq = !$dq;
-			else if( ( $sq ) ||( $dq ) )
-			{
+			else if( ( $sq ) ||( $dq ) ){
 				if( $c == "\\" )
 					$i++;
 			}
 			else
 				$code .= $c;
 		}
-		$code = str_replace( $this->okeq, "", $code );
+		$code = str_replace( $this->okeq, '', $code );
 		if( strcspn( $code, ";{=" ) != strlen( $code ) )
-			return false;
-		$kw = split( "[^A-Za-z0-9_]", $code );
+			return FALSE;
+		$kw = preg_split( "/[^A-Za-z0-9_]/", $code );
 		foreach( $kw as $i )
-			if( in_array( $i, $this->skip ) )
-				return false;
-		return true;
+			if( in_array( $i, $this->skip, TRUE ) )
+				return FALSE;
+		return TRUE;
 	}
 
 	/**
 	 *	Reads input line from console.
 	 *	@access		public
-	 *	@return 	void
+	 *	@param		integer		$length			...
+	 *	@return 	string
 	 */
-	public function readLine( $length = 255)
+	public function readLine( int $length = 255): string
 	{
-		$line = fgets ( STDIN, $length );
-		return trim ($line);
+		$line = fgets( STDIN, $length );
+		return trim( $line );
 	}
 
 	/**
@@ -147,18 +146,15 @@ class CLI_Shell
 	protected function run()
 	{
 		fputs( STDOUT, ":> " );
-		while( $line = $this->readLine() )
-		{
+		while( $line = $this->readLine() ){
 			$line = preg_replace( "/\n*|\r*/", "", $line );
 			$line = preg_replace( "/;$/", "", $line );
-			if( strlen( $line ) )
-			{
+			if( strlen( $line ) ){
 				if( $this->isImmediate( $line ) )
 					$line = "return( ".$line." )";
 				ob_start();
 				$ret = eval( "unset(\$line); $line;" );
-				if( ob_get_length() == 0)
-				{
+				if( ob_get_length() == 0){
 					if( is_bool( $ret ) )
 						echo( $ret ? "true" : "false" );
 					else if( is_string( $ret ) )

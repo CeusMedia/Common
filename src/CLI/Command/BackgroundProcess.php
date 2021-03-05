@@ -49,7 +49,8 @@ class CLI_Command_BackgroundProcess
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function __construct(){
+	public function __construct()
+	{
 		try{
 			self::$pidMax	= FS_File_Reader::load( '/proc/sys/kernel/pid_max' );
 		}
@@ -73,7 +74,7 @@ class CLI_Command_BackgroundProcess
 	 *	@return		integer					Process ID (PID) of running process
 	 *	@throws		\RuntimeException		if process has not been started or has been stopped and strict mode is enabled
 	 */
-	public function getPid( $strict = TRUE ): int
+	public function getPid( bool $strict = TRUE ): int
 	{
 		$this->ensurePid( $strict );
 		return $this->pid;
@@ -86,7 +87,7 @@ class CLI_Command_BackgroundProcess
 	 *	@param		boolean		$strict		Flag: throw exceptions on errors (default: yes)
 	 *	@return		boolean
 	 */
-	public function getStatus( $strict = TRUE ): bool
+	public function getStatus( bool $strict = TRUE ): bool
 	{
 		if( !$this->ensurePid( $strict ) )
 			return FALSE;
@@ -115,7 +116,7 @@ class CLI_Command_BackgroundProcess
 	 */
 	public function setCommand( string $command ): self
 	{
-		if( !strlen( trim( (string) $command ) ) )
+		if( !strlen( trim( $command ) ) )
 			throw new \InvalidArgumentException( 'Command cannot be empty' );
 		if( $this->getStatus( FALSE ) )
 			throw new \InvalidArgumentException( 'Command cannot be changed on a running process' );
@@ -165,7 +166,7 @@ class CLI_Command_BackgroundProcess
 	 *	@param		boolean		$strict		Flag: throw exceptions on errors (default: yes)
 	 *	@return		self
 	 */
-	public function stop( $strict = TRUE ): self
+	public function stop( bool $strict = TRUE ): self
 	{
 		if( $this->getStatus( $strict ) ){
 			$command = 'kill '.$this->pid;
@@ -185,7 +186,7 @@ class CLI_Command_BackgroundProcess
 	 *	@return		boolean
 	 *	@throws		\RuntimeException			if no process ID is known and strict mode is enabled
 	 */
-	protected function ensurePid( $strict = TRUE ): bool
+	protected function ensurePid( bool $strict = TRUE ): bool
 	{
 		if( $this->pid )
 			return TRUE;
