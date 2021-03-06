@@ -54,8 +54,8 @@ class Test_ADT_List_StackTest extends Test_Case
 		$creation	= $stack->toArray();
 		$this->assertEquals( $assertion, $creation );
 
-		$stack		= new ADT_List_Stack( 1 );
-		$assertion	= array();
+		$stack		= new ADT_List_Stack( array( 1 ) );
+		$assertion	= array( 1 );
 		$creation	= $stack->toArray();
 		$this->assertEquals( $assertion, $creation );
 	}

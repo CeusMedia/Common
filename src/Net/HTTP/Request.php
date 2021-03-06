@@ -452,20 +452,20 @@ class Net_HTTP_Request extends ADT_List_Dictionary
 		return $this->method->isPut();
 	}
 
-	public function remove( $key ): self
+	public function remove( string $key ): bool
 	{
-		parent::remove( $key );
+		return parent::remove( $key );
 //		if( $this->method === "POST" )
 //			$this->body	= http_build_query( $this->getAll(), NULL, '&' );
-		return $this;
+//		return $this;
 	}
 
-	public function set( $key, $value ): self
+	public function set( string $key, $value ): bool
 	{
-		parent::set( $key, $value );
+		return parent::set( $key, $value );
 //		if( $this->method === "POST" )
 //			$this->body	= http_build_query( $this->getAll(), NULL, '&' );
-		return $this;
+//		return $this;
 	}
 
 	public function setAjax( bool $isAjax = TRUE ): self

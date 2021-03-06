@@ -279,7 +279,7 @@ class UI_HTML_Indicator extends ADT_OptionObject
 	 *	@param		bool		$values		Flag: switch Option
 	 *	@return		bool
 	 */
-	public function setOption( $key, $value )
+	public function setOption( string $key, $value ): bool
 	{
 		if( !array_key_exists( $key, $this->defaultOptions ) )
 			throw new OutOfRangeException( 'Option "'.$key.'" is not a valid Indicator Option.' );

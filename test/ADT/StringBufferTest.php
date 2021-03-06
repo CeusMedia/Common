@@ -73,7 +73,8 @@ class Test_ADT_StringBufferTest extends Test_Case
 	public function testDeleteCharAt()
 	{
 		$assertion	= "tet";
-		$creation	= $this->buffer->deleteCharAt( 2 );
+		$this->buffer->deleteCharAt( 2 );
+		$creation	= $this->buffer->toString();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -90,126 +91,38 @@ class Test_ADT_StringBufferTest extends Test_Case
 	}
 
 	/**
-	 *	Tests Method 'getCurrentPos'.
+	 *	Tests Method 'key'.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testGetCurrentPos()
+	public function testKey()
 	{
 		$assertion	= 0;
-		$creation	= $this->buffer->getCurrentPos();
+		$creation	= $this->buffer->key();
 		$this->assertEquals( $assertion, $creation );
 
-		$this->buffer->getNextChar();
+		$this->buffer->next();
 
 		$assertion	= 1;
-		$creation	= $this->buffer->getCurrentPos();
+		$creation	= $this->buffer->key();
 		$this->assertEquals( $assertion, $creation );
 	}
 
 	/**
-	 *	Tests Method 'getCurrentChar'.
+	 *	Tests Method 'current'.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testGetCurrentChar()
+	public function testCurrent()
 	{
 		$assertion	= "t";
-		$creation	= $this->buffer->getCurrentChar();
+		$creation	= $this->buffer->current();
 		$this->assertEquals( $assertion, $creation );
 
-		$this->buffer->getNextChar();
+		$this->buffer->next();
 
 		$assertion	= "e";
-		$creation	= $this->buffer->getCurrentChar();
-		$this->assertEquals( $assertion, $creation );
-	}
-
-	/**
-	 *	Tests Method 'getNextChar'.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function testGetNextChar()
-	{
-		$assertion	= "t";
-		$creation	= $this->buffer->getNextChar();
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= "e";
-		$creation	= $this->buffer->getNextChar();
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= "s";
-		$creation	= $this->buffer->getNextChar();
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= "t";
-		$creation	= $this->buffer->getNextChar();
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= NULL;
-		$creation	= $this->buffer->getNextChar();
-		$this->assertEquals( $assertion, $creation );
-	}
-
-	/**
-	 *	Tests Method 'getPrevChar'.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function testGetPrevChar()
-	{
-		$this->buffer->getNextChar();
-		$this->buffer->getNextChar();
-		$this->buffer->getNextChar();
-		$this->buffer->getNextChar();
-
-		$assertion	= "s";
-		$creation	= $this->buffer->getPrevChar();
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= "e";
-		$creation	= $this->buffer->getPrevChar();
-		$this->assertEquals( $assertion, $creation );
-	}
-
-	/**
-	 *	Tests Method 'hasLess'.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function testHasLess()
-	{
-		$assertion	= FALSE;
-		$creation	= $this->buffer->hasLess();
-		$this->assertEquals( $assertion, $creation );
-
-		$this->buffer->getNextChar();
-
-		$assertion	= TRUE;
-		$creation	= $this->buffer->hasLess();
-		$this->assertEquals( $assertion, $creation );
-	}
-
-	/**
-	 *	Tests Method 'hasMore'.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function testHasMore()
-	{
-		$assertion	= TRUE;
-		$creation	= $this->buffer->hasMore();
-		$this->assertEquals( $assertion, $creation );
-
-		$this->buffer->getNextChar();
-		$this->buffer->getNextChar();
-		$this->buffer->getNextChar();
-		$this->buffer->getNextChar();
-
-		$assertion	= FALSE;
-		$creation	= $this->buffer->hasMore();
+		$creation	= $this->buffer->current();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -221,7 +134,8 @@ class Test_ADT_StringBufferTest extends Test_Case
 	public function testInsert()
 	{
 		$assertion	= "te123st";
-		$creation	= $this->buffer->insert( 2, "123" );
+		$this->buffer->insert( 2, "123" );
+		$creation	= $this->buffer->toString();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -240,22 +154,22 @@ class Test_ADT_StringBufferTest extends Test_Case
 	}
 
 	/**
-	 *	Tests Method 'resetPointer'.
+	 *	Tests Method 'rewind'.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testResetPointer()
+	public function testRewind()
 	{
-		$this->buffer->getNextChar();
+		$this->buffer->next();
 
 		$assertion	= "e";
-		$creation	= $this->buffer->getCurrentChar();
+		$creation	= $this->buffer->current();
 		$this->assertEquals( $assertion, $creation );
 
-		$this->buffer->resetPointer();
+		$this->buffer->rewind();
 
 		$assertion	= "t";
-		$creation	= $this->buffer->getCurrentChar();
+		$creation	= $this->buffer->current();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -267,7 +181,8 @@ class Test_ADT_StringBufferTest extends Test_Case
 	public function testSetCharAt()
 	{
 		$assertion	= "text";
-		$creation	= $this->buffer->setCharAt( 2, "x" );
+		$this->buffer->setCharAt( 2, "x" );
+		$creation	= $this->buffer->toString();
 		$this->assertEquals( $assertion, $creation );
 	}
 

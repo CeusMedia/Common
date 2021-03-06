@@ -46,7 +46,7 @@ class ADT_URL
 	{
 		if( !is_null( $defaultUrl ) )
 			$this->setDefault( $defaultUrl );
-		if( 0 !== strlen( trim( $url ) ) )
+		if( 0 === strlen( trim( $url ) ) )
 			throw new InvalidArgumentException( 'No URL given' );
 		return $this->set( $url );
 	}

@@ -54,8 +54,8 @@ class Test_ADT_List_QueueTest extends Test_Case
 		$creation	= $queue->toArray();
 		$this->assertEquals( $assertion, $creation );
 
-		$queue		= new ADT_List_Queue( 1 );
-		$assertion	= array();
+		$queue		= new ADT_List_Queue( array( 1 ) );
+		$assertion	= array( 1 );
 		$creation	= $queue->toArray();
 		$this->assertEquals( $assertion, $creation );
 	}
@@ -141,7 +141,8 @@ class Test_ADT_List_QueueTest extends Test_Case
 	public function testPush()
 	{
 		$assertion	= 4;
-		$creation	= $this->queue->push( 4 );
+		$this->queue->push( 4 );
+		$creation	= $this->queue->count();
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= 4;

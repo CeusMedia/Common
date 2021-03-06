@@ -153,17 +153,6 @@ class Test_CLI_Command_ArgumentParserTest extends Test_Case
 	 */
 	public function testParseException1()
 	{
-		$this->expectException( 'InvalidArgumentException' );
-		$this->parser->parse( 1 );
-	}
-
-	/**
-	 *	Tests Exception of Method 'parse'.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function testParseException2()
-	{
 		$this->expectException( 'RuntimeException' );
 		$this->parser->setNumberOfMandatoryArguments( 2 );
 		$this->parser->parse( "Argument1" );
@@ -174,7 +163,7 @@ class Test_CLI_Command_ArgumentParserTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testParseException3()
+	public function testParseException2()
 	{
 		$this->expectException( 'InvalidArgumentException' );
 		$this->parser->setPossibleOptions( array( 'a' => TRUE ) );
@@ -186,7 +175,7 @@ class Test_CLI_Command_ArgumentParserTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testParseException4()
+	public function testParseException3()
 	{
 		$this->expectException( 'RuntimeException' );
 		$this->parser->setPossibleOptions( array( 'a' => TRUE ) );
@@ -198,7 +187,7 @@ class Test_CLI_Command_ArgumentParserTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testParseException5()
+	public function testParseException4()
 	{
 		$this->expectException( 'InvalidArgumentException' );
 		$this->parser->setPossibleOptions( array( 'a' => TRUE ) );

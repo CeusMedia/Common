@@ -311,7 +311,7 @@ class FS_File_Configuration_Reader extends ADT_List_Dictionary
 				$this->pairs[$sectionName.".".$key]	= $value;
 	}
 
-	public function remove( $key )
+	public function remove( string $key ): bool
 	{
 		//  no Key given
 		if( empty( $key ) )
@@ -354,7 +354,7 @@ class FS_File_Configuration_Reader extends ADT_List_Dictionary
 			}
 		}
 		//  return number of removed pairs
-		return $count;
+		return $count > 0;
 	}
 
 	/**

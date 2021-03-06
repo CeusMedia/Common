@@ -56,17 +56,6 @@ class Test_ADT_OptionObjectTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testConstructException1()
-	{
-		$this->expectException( 'InvalidArgumentException' );
-		new ADT_OptionObject( "string" );
-	}
-
-	/**
-	 *	Tests Exception of Method '__construct'.
-	 *	@access		public
-	 *	@return		void
-	 */
 	public function testConstructException2()
 	{
 		$this->expectException( 'InvalidArgumentException' );
@@ -135,18 +124,6 @@ class Test_ADT_OptionObjectTest extends Test_Case
 	 *	@return		void
 	 */
 	public function testDeclareOptionsException1()
-	{
-		$this->expectException( 'InvalidArgumentException' );
-		$object		= new ADT_OptionObject();
-		$object->declareOptions( "string" );
-	}
-
-	/**
-	 *	Tests Exception of Method 'declareOptions'.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function testDeclareOptionsException2()
 	{
 		$this->expectException( 'InvalidArgumentException' );
 		$object		= new ADT_OptionObject();

@@ -171,27 +171,25 @@ class ADT_List_LevelMap extends ADT_List_Dictionary
 			unset( $this->pairs[$key] );
 			return TRUE;
 		}
-		//  Key has not been found
-		else
+
+		$count	= 0;
+		//  prepare Prefix Key to seach for
+		$key		.= $this->divider;
+		//  iterate all stores Pairs
+		foreach( $this->pairs as $pairKey => $pairValue )
 		{
-			//  prepare Prefix Key to seach for
-			$key		.= $this->divider;
-			//  iterate all stores Pairs
-			foreach( $this->pairs as $pairKey => $pairValue )
-			{
-				//  precheck for Performance
-				if( $pairKey[0] !== $key[0] )
-					//  skip Pair
-					continue;
-				//  Prefix Key is found
-				if( strpos( $pairKey, $key ) === 0 ){
-					//  remove Pair
-					unset( $this->pairs[$pairKey] );
-					return TRUE;
-				}
+			//  precheck for Performance
+			if( $pairKey[0] !== $key[0] )
+				//  skip Pair
+				continue;
+			//  Prefix Key is found
+			if( strpos( $pairKey, $key ) === 0 ){
+				//  remove Pair
+				unset( $this->pairs[$pairKey] );
+				$count++;
 			}
 		}
-		return FALSE;
+		return $count > 0;
 	}
 
 	/**

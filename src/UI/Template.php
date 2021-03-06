@@ -189,7 +189,7 @@ class UI_Template
 		foreach( $reflection->getProperties() as $property )
 		{
 			$key		= $property->getName();
-			$methodName	= 'get'.ucFirst( $key );
+			$methodName	= 'get'.ucfirst( $key );
 			if( $property->isPublic() )
 				$value	= $property->getValue( $object );
 			else if( $reflection->hasMethod( $methodName ) )
@@ -309,7 +309,7 @@ class UI_Template
 	public function getElementsFromComment( $comment, $unique = TRUE )
 	{
 		$content = $this->getTaggedComment( $comment );
-		if( !isset( $content ) )
+		if( NULL === $content )
 			return NULL;
 
 		$list	= array();
@@ -354,7 +354,7 @@ class UI_Template
 	 *	Returns a tagged comment.
 	 *	@param		string		$tag		Comment Tag
 	 *	@param		boolean		$xml		Flag: with or without Delimiter
-	 *	@return		string					Comment or NULL
+	 *	@return		string|NULL				Comment or NULL
 	 *	@todo		quote specialchars in tagname
 	 */
 	public function getTaggedComment( $tag, $xml = TRUE )
@@ -432,7 +432,7 @@ class UI_Template
 	 */
 	public function setTemplate( $fileName )
 	{
-		if( empty( $fileName ) )
+		if( 0 === strlen( trim( $fileName ) ) )
 			return FALSE;
 
 		if( !file_exists( $fileName ) )

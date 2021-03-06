@@ -45,13 +45,14 @@ class ADT_OptionObject implements ArrayAccess, Countable
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		array		$options		Associative Array of options
+	 *	@param		array		$defaults		Associative Array of options
+	 *	@param		array		$settings		...
 	 *	@throws		InvalidArgumentException	if given map is not an array
 	 *	@throws		InvalidArgumentException	if map key is an integer since associative arrays are prefered
 	 *	@todo		allow integer map keys for eg. options defined by constants (which point to integer values, of course)
 	 *	@return		void
 	 */
-	public function __construct( $defaults = array(), $settings = array() )
+	public function __construct( array $defaults = array(), array $settings = array() )
 	{
 		if( !is_array( $defaults ) )
 			throw new InvalidArgumentException( 'Default options must be an array map.' );
@@ -74,7 +75,7 @@ class ADT_OptionObject implements ArrayAccess, Countable
 	 *	@access		public
 	 *	@return		bool
 	 */
-	public function clearOptions()
+	public function clearOptions(): bool
 	{
 		if( !count( $this->options ) )
 			return FALSE;
@@ -87,7 +88,7 @@ class ADT_OptionObject implements ArrayAccess, Countable
 	 *	@access		public
 	 *	@return		int
 	 */
-	public function count()
+	public function count(): int
 	{
 		return count( $this->options );
 	}
@@ -98,12 +99,9 @@ class ADT_OptionObject implements ArrayAccess, Countable
 	 *	@param		array		$optionKeys		List of Option Keys
 	 *	@return		void
 	 */
-	public function declareOptions( $optionKeys = array() )
+	public function declareOptions( array $optionKeys = array() )
 	{
-		if( !is_array( $optionKeys ) )
-			throw new InvalidArgumentException( 'Option Keys must be an Array.' );
-		foreach( $optionKeys as $key )
-		{
+		foreach( $optionKeys as $key ){
 			if( !is_string( $key ) )
 				throw new InvalidArgumentException( 'Option Keys must be an Array List of Strings.' );
 			$this->options[$key]	= NULL;
@@ -118,7 +116,7 @@ class ADT_OptionObject implements ArrayAccess, Countable
 	 *	@throws		OutOfRangeException			if key is not set and $throwException is true
 	 *	@return		mixed
 	 */
-	public function getOption( $key, $throwException = TRUE )
+	public function getOption( string $key, bool $throwException = TRUE )
 	{
 		if( !$this->hasOption( $key ) )
 		{
@@ -134,7 +132,7 @@ class ADT_OptionObject implements ArrayAccess, Countable
 	 *	@access		public
 	 *	@return		array
 	 */
-	public function getOptions()
+	public function getOptions(): array
 	{
 		return $this->options;
 	}
@@ -145,7 +143,7 @@ class ADT_OptionObject implements ArrayAccess, Countable
 	 *	@param		string		$key			Option Key
 	 *	@return		bool
 	 */
-	public function hasOption( $key )
+	public function hasOption( string $key ): bool
 	{
 		return array_key_exists( (string) $key, $this->options );
 	}
@@ -201,7 +199,7 @@ class ADT_OptionObject implements ArrayAccess, Countable
 	 *	@param		string		$key			Option Key
 	 *	@return		bool
 	 */
-	public function removeOption( $key )
+	public function removeOption( string $key ): bool
 	{
 		if( !$this->hasOption( $key ) )
 			return FALSE;
@@ -216,7 +214,7 @@ class ADT_OptionObject implements ArrayAccess, Countable
 	 *	@param		mixed		$value			Option Value
 	 *	@return		bool
 	 */
-	public function setOption( $key, $value )
+	public function setOption( string $key, $value ): bool
 	{
 		if( isset( $this->options[$key] ) && $this->options[$key] === $value )
 			return FALSE;

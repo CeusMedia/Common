@@ -45,10 +45,9 @@ class ADT_List_Queue implements Countable
 	 *	@param		array		$initialArray	Array with initial Queue Items
 	 *	@return		void
 	 */
-	public function __construct( bool $initialArray = FALSE )
+	public function __construct( array $initialArray = array() )
 	{
-		if( is_array( $initialArray ) && count( $initialArray ) )
-			$this->queue = $initialArray;
+		$this->queue = $initialArray;
 	}
 
 	/**

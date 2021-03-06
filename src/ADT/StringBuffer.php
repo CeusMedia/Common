@@ -74,6 +74,16 @@ class ADT_StringBuffer implements Countable, Iterator
 	}
 
 	/**
+	 *	Returns  a Character at the current position.
+	 *	@access		public
+	 *	@return		string
+	 */
+	public function current(): string
+	{
+		return $this->buffer[$this->position];
+	}
+
+	/**
 	 *	Deletes a Character at a given Position.
 	 *	@access		public
 	 *	@param		int			$position			Position to delete
@@ -103,16 +113,6 @@ class ADT_StringBuffer implements Countable, Iterator
 		if( !$this->valid() )
 			throw new RangeException( 'Invalid position' );
 		return $this->buffer[$position];
-	}
-
-	/**
-	 *	Returns  a Character at the current position.
-	 *	@access		public
-	 *	@return		string
-	 */
-	public function current(): string
-	{
-		return $this->buffer[$this->position];
 	}
 
 	/**

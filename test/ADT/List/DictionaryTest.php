@@ -30,7 +30,7 @@ class Test_ADT_List_DictionaryTest extends Test_Case
 		$this->dictionary->set( 'key2', 'value2' );
 		$this->dictionary->set( 'key3', array( 'value3-1', 'value3-2' ) );
 		$this->dictionary->set( 'key4', array( 'key4-1' => 'value4-1', 'key4-2' => 'value4-2' ) );
-		$this->dictionary->set( 'key5', new ADT_List_Dictionary( '0', '1' ) );
+		$this->dictionary->set( 'key5', new ADT_List_Dictionary( array( '0', '1' ) ) );
 	}
 
 	public function testConstruct()
@@ -166,8 +166,8 @@ class Test_ADT_List_DictionaryTest extends Test_Case
 			'key2'	=> 'value2',
 			'key3'	=> array( 'value3-1', 'value3-2' ),
 			'key4'	=> array( 'key4-1' => 'value4-1', 'key4-2' => 'value4-2' ),
-			'key5'	=> new ADT_List_Dictionary( '0', '1' ),
-			);
+			'key5'	=> new ADT_List_Dictionary( array( '0', '1' ) ),
+		);
 		$creation	= $this->dictionary->getAll();
 		$this->assertEquals( $assertion, $creation );
 	}

@@ -77,9 +77,8 @@ class XML_XSL_Transformator
 	{
 		if( !( $this->xml && $this->xsl ) )
 			throw new InvalidArgumentException( 'XML and XSL must be set.' );
-		$dom	= new DOMDocument();
-		$xml	= $dom->loadXML( $this->xml );
-		$xsl	= $dom->loadXML( $this->xsl );
+		$xml	= DOMDocument::loadXML( $this->xml );
+		$xsl	= DOMDocument::loadXML( $this->xsl );
 		$proc	= new XSLTProcessor();
 		$proc->importStyleSheet( $xsl );
 		$result =  $proc->transformToXML( $xml );

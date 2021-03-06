@@ -49,8 +49,7 @@ class ADT_List_Stack implements Countable
 	 */
 	public function __construct( array $initialArray = array() )
 	{
-		if( is_array( $initialArray ) && count( $initialArray ) )
-			$this->stack = $initialArray;
+		$this->stack = $initialArray;
 	}
 
 	/**

@@ -137,7 +137,10 @@ class ADT_List_SectionList
 			$section	= $this->getSectionOfEntry( $entry );
 		if( !isset( $this->list[$section] ) )
 			throw new InvalidArgumentException( 'Invalid Section "'.$section.'".' );
-		return array_search( $entry, $this->list[$section], TRUE );
+		$index	= array_search( $entry, $this->list[$section], TRUE );
+		if( FALSE === $index )
+			return -1;
+		return $index;
 	}
 
 	/**
@@ -180,13 +183,14 @@ class ADT_List_SectionList
 	 *	@param		string		$entry			Entry to remove
 	 *	@param		string		$section		Section of Entry
 	 *	@return		void
+	 *	@throws		InvalidArgumentException	if entry is not existing
 	 */
 	public function removeEntry( string $entry, string $section = NULL )
 	{
 		if( !$section )
 			$section	= $this->getSectionOfEntry( $entry );
 		$index	= $this->getIndex( $entry, $section );
-		if( $index === FALSE )
+		if( $index === -1 )
 			throw new InvalidArgumentException( 'Entry "'.$entry.'" not found in Section "'.$section.'".' );
 		unset( $this->list[$section][$index] );
 	}
