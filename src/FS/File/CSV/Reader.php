@@ -58,8 +58,8 @@ class FS_File_CSV_Reader implements Countable
 	public function getColumnHeaders(): array
 	{
 		Deprecation::getInstance()
-			->setErrorVersion( '0.8.8.0' )
-			->setExceptionVersion( '0.8.8.4' )
+			->setErrorVersion( '0.8.5.8' )
+			->setExceptionVersion( '0.8.8.0' )
 			->message( 'Use FS_File_CSV_Reader::getHeaders() instead' );
 		return $this->iterator->getHeaders();
 	}
@@ -84,8 +84,8 @@ class FS_File_CSV_Reader implements Countable
 	public function getRowCount()
 	{
 		Deprecation::getInstance()
-			->setErrorVersion( '0.8.8.0' )
-			->setExceptionVersion( '0.8.8.4' )
+			->setErrorVersion( '0.8.5.8' )
+			->setExceptionVersion( '0.8.8.0' )
 			->message( 'Use FS_File_CSV_Reader::count() instead' );
 		return $this->count();
 	}
@@ -128,8 +128,8 @@ class FS_File_CSV_Reader implements Countable
 	public function toAssocArray(): array
 	{
 		Deprecation::getInstance()
-			->setErrorVersion( '0.8.8.0' )
-			->setExceptionVersion( '0.8.8.4' )
+			->setErrorVersion( '0.8.5.8' )
+			->setExceptionVersion( '0.8.8.0' )
 			->message( 'Use FS_File_CSV_Reader::toArray() instead' );
 		return $this->toArray();
 	}
