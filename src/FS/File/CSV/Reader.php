@@ -1,182 +1,136 @@
 <?php
 /**
- *	Reading comma separated values with or without column headers.
- *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
- *
- *	This program is free software: you can redistribute it and/or modify
- *	it under the terms of the GNU General Public License as published by
- *	the Free Software Foundation, either version 3 of the License, or
- *	(at your option) any later version.
- *
- *	This program is distributed in the hope that it will be useful,
- *	but WITHOUT ANY WARRANTY; without even the implied warranty of
- *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *	GNU General Public License for more details.
- *
- *	You should have received a copy of the GNU General Public License
- *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
- *
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_CSV
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@link			https://github.com/CeusMedia/Common
  */
 /**
- *	Reading comma separated values with or without column headers.
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_CSV
- *	@extends		FS_File_Reader
- *	@uses			Alg_Text_Unicoder
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@link			https://github.com/CeusMedia/Common
  */
-class FS_File_CSV_Reader
+class FS_File_CSV_Reader implements Countable
 {
-	/**	@var		string		$fileName		File Name of CSV File */
-	protected $fileName;
-	/**	@var		bool		$withHeaders	Flag: use Column Headers in first line */
-	protected $withHeaders			= false;
-	/**	@var		string		$delimiter		Delimiter Sign */
-	protected $delimiter		= ";";
-	/**	@var		string		$enclosure		Enclosure Sign */
-	protected $enclosure		= '"';
+	public static $maxRowSize	= 4096;
+
+	protected $iterator;
 
 	/**
 	 *	Constructor.
+	 *	It tries to open the csv file and throws an exception on failure.
 	 *	@access		public
-	 *	@param		string		$fileName		File Name of CSV File
-	 *	@param		bool		$withHeaders	Flag: use Column Headers in first line
-	 *	@param		string		$delimiter		Delimiter Sign
+	 *	@param		string		$filePath		CSV file
+	 *	@param		boolean		$useHeaders		Flag: use first line to read row headers
+	 *	@param		string		$delimiter		Delimiter sign
+	 *	@param		string		$enclosure		Enclosure sign
 	 *	@return		void
+	 *	@throws		RuntimeException
 	 */
-	public function __construct( $fileName, $withHeaders = FALSE, $delimiter = NULL, $enclosure = NULL )
+	public function __construct( $filePath, $useHeaders = FALSE, $delimiter = NULL, $enclosure = NULL )
 	{
-		$this->fileName		= $fileName;
-		$this->withHeaders	= $withHeaders;
-		if( !is_null( $delimiter ) )
-			$this->setDelimiter( $delimiter );
-		if( !is_null( $enclosure ) )
-			$this->setEnclosure( $enclosure );
+		FS_File_CSV_Iterator::$maxRowSize = self::$maxRowSize;
+		$this->iterator	= new FS_File_CSV_Iterator( $filePath, $useHeaders, $delimiter, $enclosure );
 	}
 
-	/**
-	 *	Returns columns headers if used.
-	 *	@access		public
-	 *	@return		array
+    /**
+	 *  Returns the count of data rows.
+	 *  @access		public
+	 *  @return		int
 	 */
-	public function getColumnHeaders()
+	public function count(): int
 	{
-		if( !$this->withHeaders )
-			throw new RuntimeException( 'Column headers not enabled' );
-		$iterator	= new FS_File_CSV_Iterator( $this->fileName, $this->delimiter );
-		if( !$iterator->valid() )
-			throw new RuntimeException( 'Invalid CSV file' );
-		return $iterator->current();
-	}
-
-	/**
-	 *	Returns the set delimiter.
-	 *	@access		public
-	 *	@return		string
-	 */
-	public function getDelimiter()
-	{
-		return $this->delimiter;
-	}
-
-	/**
-	 *	Returns the set enclosure.
-	 *	@access		public
-	 *	@return		string
-	 */
-	public function getEnclosure()
-	{
-		return $this->enclosure;
-	}
-
-	/**
-	 *	Returns the count of data rows.
-	 *	@access		public
-	 *	@return		int
-	 */
-	public function getRowCount()
-	{
-		$iterator	= new FS_File_CSV_Iterator( $this->fileName, $this->delimiter );
 		$counter	= 0;
-		while( $iterator->next() )
+		$this->iterator->rewind();
+		while( $this->iterator->valid() ){
 			$counter++;
-		if( $counter && $this->withHeaders )
-			$counter--;
+			$this->iterator->next();
+		}
 		return $counter;
 	}
 
 	/**
-	 *	Sets the delimiter sign.
+	 *	Returns headers, if available. Empty array otherwise.
 	 *	@access		public
-	 *	@param		string		$delimiter		Delimiter Sign
-	 *	@return		void
+	 *	@return		array
+	 *	@deprecated	Use FS_File_CSV_Reader::getHeaders()
+	 *	@todo		Remove in version 0.9.0
 	 */
-	public function setDelimiter( $delimiter )
+	public function getColumnHeaders(): array
 	{
-		$this->delimiter = $delimiter;
+		Deprecation::getInstance()
+			->setErrorVersion( '0.8.8.0' )
+			->setExceptionVersion( '0.8.8.4' )
+			->message( 'Use FS_File_CSV_Reader::getHeaders() instead' );
+		return $this->iterator->getHeaders();
 	}
 
 	/**
-	 *	Sets the enclosure sign.
-	 *	@access		public
-	 *	@param		string		$enclosure		Enclosure Sign
-	 *	@return		void
-	 */
-	public function setEnclosure( $enclosure )
-	{
-		$this->enclosure = $enclosure;
-	}
-
-	/**
-	 *	Reads data an returns an array.
+	 *	Returns headers, if available. Empty array otherwise.
 	 *	@access		public
 	 *	@return		array
 	 */
-	public function toArray()
+	public function getHeaders(): array
 	{
-		$data		= array();
-		$iterator	= new FS_File_CSV_Iterator( $this->fileName, $this->delimiter );
-		while( $iterator->next() )
-			$data[]	= $iterator->current();
-		if( $this->withHeaders )
-			array_shift( $data );
-		return $data;
+		return $this->iterator->getHeaders();
+	}
+
+    /**
+	 *  Returns the count of data rows.
+	 *  @access		public
+	 *  @return		int
+	 *	@deprecated	Use FS_File_CSV_Reader::count()
+	 *	@todo		Remove in version 0.9.0
+	 */
+	public function getRowCount()
+	{
+		Deprecation::getInstance()
+			->setErrorVersion( '0.8.8.0' )
+			->setExceptionVersion( '0.8.8.4' )
+			->message( 'Use FS_File_CSV_Reader::count() instead' );
+		return $this->count();
 	}
 
 	/**
-	 *	Reads data and returns an associative array if column headers are used.
+	 *	Set verbosity.
 	 *	@access		public
+	 *	@param		boolean		$verbose		Flag: be verbose or not, default: no
+	 *	@return		self
+	 */
+	public function setVerbose( bool $verbose ): self
+	{
+		$this->iterator->setVerbose( $verbose );
+		return $this;
+	}
+
+	/**
+	 *	Returns parse data as array.
+	 *	Array key will be available header (if available) or incrementing integers starting with 0.
 	 *	@return		array
 	 */
-	public function toAssocArray( $headerMap = array() )
+	public function toArray(): array
 	{
-		$data		= array();
-		$iterator	= new FS_File_CSV_Iterator( $this->fileName, $this->delimiter );
-		$keys		= $this->getColumnHeaders( $headerMap );
-		$line		= 0;
-		if( $this->withHeaders )
-		{
-			$iterator->next();
-			$line++;
+		$list	= [];
+		$this->iterator->rewind();
+		while( $this->iterator->valid() ){
+			$list[]	= $this->iterator->current();
+			$this->iterator->next();
 		}
-		while( $iterator->valid() )
-		{
-			$line++;
-			$values	= $iterator->current();
-			if( count( $keys ) != count( $values ) )
-				throw new RuntimeException( 'Invalid line '.$line.' in file "'.$this->fileName.'"' );
-			$data[]	= array_combine( $keys, $values );
-		}
-		return $data;
+		return $list;
+	}
+
+	/**
+	 *	Returns parse data as array.
+	 *	Array key will be available header (if available) or incrementing integers starting with 0.
+	 *	@return		array
+	 *	@deprecated	Use FS_File_CSV_Reader::toArray()
+	 *	@todo		Remove in version 0.9.0
+	 */
+	public function toAssocArray(): array
+	{
+		Deprecation::getInstance()
+			->setErrorVersion( '0.8.8.0' )
+			->setExceptionVersion( '0.8.8.4' )
+			->message( 'Use FS_File_CSV_Reader::toArray() instead' );
+		return $this->toArray();
 	}
 }
