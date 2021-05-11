@@ -242,9 +242,9 @@ class FS_File_CSV_Iterator implements Iterator
 		while( strlen( trim( $line ) ) === 0 ){
 			if( feof( $this->filePointer ) )
 				return NULL;
-			if( $this->currentNr === 0 )
-				$line	= $this->removeBOM( $line );
 		}
+		if( $this->currentNr === 0 )
+			$line	= $this->removeBOM( $line );
 		$data	= str_getcsv( $line, $this->delimiter, $this->enclosure );
 		if( !is_array( $data ) )
 			return NULL;
