@@ -50,11 +50,11 @@ class FS_File_Reader
 	{
 		if( !is_string( $fileName ) )
 			throw new InvalidArgumentException( 'File name must a string' );
-		if( $check && !$this->exists( $fileName ) )
-			throw new RuntimeException( 'File "'.addslashes( $fileName ).'" is not existing' );
-		if( $check && !$this->isReadable( $fileName ) )
-			throw new RuntimeException( 'File "'.$fileName.'" is not readable' );
 		$this->fileName = $fileName;
+		if( $check && !$this->exists() )
+			throw new RuntimeException( 'File "'.addslashes( $fileName ).'" is not existing' );
+		if( $check && !$this->isReadable() )
+			throw new RuntimeException( 'File "'.$fileName.'" is not readable' );
 	}
 
 	/**

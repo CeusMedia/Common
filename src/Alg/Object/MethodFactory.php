@@ -46,6 +46,8 @@ class Alg_Object_MethodFactory
 	 *	Constructor.
 	 *	@access		public
 	 *	@param		object		$object			Object to call method on
+	 *	@param		string		$method			Name of method to call
+	 *	@param		array		$arguments		List of method arguments
 	 */
 	public function __construct( $object = NULL, $method = NULL, array $arguments = array() )
 	{
