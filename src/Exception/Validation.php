@@ -41,6 +41,7 @@ class Exception_Validation extends Exception_Runtime
 {
 	/**	@var		array		$errors			List of Validation Errors */
 	protected $errors	= array();
+
 	/**	@var		string		$form			Name Form in Validation File */
 	protected $form		= "";
 
@@ -51,9 +52,9 @@ class Exception_Validation extends Exception_Runtime
 	 *	@param		string		$errors			List of Validation Errors
 	 *	@return		void
 	 */
-	public function __construct( $message = null, $errors = array(), $form = "" )
+	public function __construct( string $message = null, array $errors = array(), $form = '', ?Throwable $previous = null )
 	{
-		parent::__construct( $message );
+		parent::__construct( $message, 0, $previous );
 		$this->errors	= $errors;
 		$this->form		= $form;
 	}
@@ -91,7 +92,7 @@ class Exception_Validation extends Exception_Runtime
 	/**
 	 *	Recreates an exception from its serial.
 	 *	@access		public
-	 *	@param		string		$serial			Serial string of an validation exception 
+	 *	@param		string		$serial			Serial string of an validation exception
 	 *	@return		void
 	 */
 	public function unserialize( $serial )
