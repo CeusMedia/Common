@@ -168,7 +168,7 @@ class Dictionary implements \ArrayAccess, \Countable, \Iterator
 		//  a prefix to filter keys has been given
 		if( strlen( $prefix ) ){
 			//  create empty list
-			$list	= arCollectionray();
+			$list	= array();
 			//  get prefix length
 			$length	= strlen( $prefix );
 			//  iterate all pairs
@@ -188,7 +188,7 @@ class Dictionary implements \ArrayAccess, \Countable, \Iterator
 			}
 		}
 		//  a dictionary object is to be returned
-		if( $asDictionarCollectiony )
+		if( $asDictionary )
 			//  create dictionary for pair list
 			$list	= new Dictionary( $list, $caseSensitive );
 		//  return pair list as array or dictionary

@@ -13,7 +13,7 @@
  *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  *	GNU General Public License for more details.
  *
- *	You should have received a copy of the GNU General Public License 
+ *	You should have received a copy of the GNU General Public License
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		Library
@@ -24,6 +24,8 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.0
  */
+namespace CeusMedia\Common\ADT\Time;
+
 /**
  *	@category		Library
  *	@package		CeusMedia_Common_ADT_Time
@@ -33,7 +35,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.0
  */
-class ADT_Time_Delay
+class Delay
 {
 	protected $seconds;
 	protected $time;

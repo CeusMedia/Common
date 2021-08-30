@@ -24,6 +24,8 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+namespace CeusMedia\Common\Alg\Sort;
+
 /**
  *	Sorts a List of Maps (=associative Arrays) by one Column or many Columns.
  *	@category		Library
@@ -33,7 +35,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class Alg_Sort_MapList
+class MapList
 {
 	const DIRECTION_ASC		= 0;
 	const DIRECTION_DESC	= 1;

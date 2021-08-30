@@ -24,6 +24,8 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+namespace CeusMedia\Common\Alg\Sort;
+
 /**
  *	Gnome Sort.
  *	@category		Library
@@ -34,7 +36,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@link			http://www.cs.vu.nl/~dick/gnomesort.html
  */
-class Alg_Sort_Gnome
+class Gnome
 {
 	/**
 	 *	Sorts List in-place with Gnome Sort.

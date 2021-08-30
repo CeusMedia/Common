@@ -24,6 +24,8 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+namespace CeusMedia\Common\Alg\Sort;
+
 /**
  *	Bubble Sort.
  *	@category		Library
@@ -33,7 +35,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class Alg_Sort_Bubble
+class Bubble
 {
 
 	/**
@@ -47,7 +49,7 @@ class Alg_Sort_Bubble
 	{
 		for( $i=sizeof( $list ) - 1; $i>=1; $i-- )
 			for( $j=0; $j<$i; $j++ )
-				if( $list[$j] > $list[$j+1] ) 
+				if( $list[$j] > $list[$j+1] )
 					self::swap( $list, $j, $j + 1 );
 		return $list;
 	}

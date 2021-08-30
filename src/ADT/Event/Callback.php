@@ -25,6 +25,8 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.6
  */
+namespace CeusMedia\Common\ADT\Event;
+
 /**
  *	Data class for triggered events.
  *	@category		Library
@@ -35,8 +37,8 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.6
  */
-class ADT_Event_Callback{
-
+class Callback
+{
 	/**	@var		callback	$callback	Anonymous function or callback to call when event is triggered */
 	protected $callback;
 
@@ -50,7 +52,8 @@ class ADT_Event_Callback{
 	 *	@param		mixed		$data		Data to bind to event
 	 *	@return		void
 	 */
-	public function __construct( $callback, $data = NULL ){
+	public function __construct( $callback, $data = NULL )
+	{
 		$this->callback	= $callback;
 		$this->data		= $data;
 	}
@@ -60,7 +63,8 @@ class ADT_Event_Callback{
 	 *	@access		public
 	 *	@return		callback
 	 */
-	public function getCallback(){
+	public function getCallback()
+	{
 		return $this->callback;
 	}
 
@@ -69,7 +73,8 @@ class ADT_Event_Callback{
 	 *	@access		public
 	 *	@return		mixed
 	 */
-	public function getData(){
+	public function getData()
+	{
 		return $this->data;
 	}
 }

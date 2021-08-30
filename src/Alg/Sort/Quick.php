@@ -26,6 +26,8 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+namespace CeusMedia\Common\Alg\Sort;
+
 /**
  *	Sorting numeric arrays with the Quicksort algorithm.
  *	@category		Library
@@ -35,7 +37,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class Alg_Sort_Quick
+class Quick
 {
 
 	/**

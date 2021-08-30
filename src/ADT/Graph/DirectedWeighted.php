@@ -28,7 +28,7 @@ namespace CeusMedia\Common\ADT\Graph;
 
 use CeusMedia\Common\ADT\MatrixAssocFileMatrix;
 use CeusMedia\Common\ADT\AssocMatrix;
-use CeusMedia\Common\ADT\List\Stack;
+use CeusMedia\Common\ADT\Collection\Stack;
 use CeusMedia\Common\ADT\Queue;
 
 /**
