@@ -25,7 +25,8 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.6.8
  */
-#require_once( "Exception.php5" );
+namespace CeusMedia\Common\CLI\Fork\Server;
+
 /**
  *	...
  *
@@ -37,7 +38,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.6.8
  */
-abstract class CLI_Fork_Server_Abstract
+abstract class Abstraction
 {
 	const E_LISTEN_FAILED		= 'No sense in creating socket';
 	const E_ACCEPT_FAILED		= 'Miscommunicating';
@@ -72,15 +73,15 @@ abstract class CLI_Fork_Server_Abstract
 			$this->setUp( $force );
 			$this->run();
 		}
-		catch( ServerSocketException $e )
+		catch( SocketException $e )
 		{
 			$this->handleSocketException( $e );
 		}
-		catch( ServerException $e )
+		catch( Exception $e )
 		{
 			$this->handleServerException( $e );
 		}
-		catch( Exception $e )
+		catch( \Exception $e )
 		{
 			die( "!!! Not handled: ".$e->getMessage()."\n" );
 		}
@@ -89,7 +90,7 @@ abstract class CLI_Fork_Server_Abstract
 	public function getPid()
 	{
 		if( !$this->isRunning() )
-			throw new CLI_Fork_ServerException( 'Server is not running' );
+			throw new Exception( 'Server is not running' );
 		return trim( file_get_contents( $this->filePid ) );
 	}
 
@@ -150,7 +151,7 @@ abstract class CLI_Fork_Server_Abstract
 		$pid = pcntl_fork();
 		//	Not good.
 		if( $pid == -1 )
-			throw new CLI_Fork_Server_Exception( 'Could not fork' );
+			throw new Exception( 'Could not fork' );
 
 		else if( $pid )
 		{
@@ -169,7 +170,7 @@ abstract class CLI_Fork_Server_Abstract
 			{
 				$this->signalHangup = TRUE;
 				$errNo	= socket_last_error();
-				throw new CLI_Fork_Server_SocketException( self::E_LISTEN_FAILED, $errNo );
+				throw new SocketException( self::E_LISTEN_FAILED, $errNo );
 			}
 			//	Whoop-tee-loop!
 			//	Patiently wait until some of our children dies. Make sure we don't use all powers that be.
@@ -205,7 +206,7 @@ abstract class CLI_Fork_Server_Abstract
 				{
 					$this->signalHangup = TRUE;
 					$errNo	= socket_last_error();
-					throw new CLI_Fork_Server_SocketException( self::E_ACCEPT_FAILED, $errNo );
+					throw new SocketException( self::E_ACCEPT_FAILED, $errNo );
 					continue;
 				}
 
@@ -222,7 +223,7 @@ abstract class CLI_Fork_Server_Abstract
 				//	Not good.
 				if( $pid == -1 )
 				{
-					throw new CLI_Fork_Server_Exception( 'Could not fork' );
+					throw new Exception( 'Could not fork' );
 				}
 				//	This is the parent. It doesn't do much.
 				else if( $pid )
@@ -242,7 +243,7 @@ abstract class CLI_Fork_Server_Abstract
 						if( $tbuf === FALSE )
 						{
 							$errNo	= socket_last_error();
-							throw new CLI_Fork_Server_SocketException( self::E_READ_FAILED, $errNo );
+							throw new SocketException( self::E_READ_FAILED, $errNo );
 							break;
 						}
 						$rbuf = $tbuf;
@@ -252,7 +253,7 @@ abstract class CLI_Fork_Server_Abstract
 							if( $tbuf === FALSE )
 							{
 								$errNo	= socket_last_error();
-								throw new CLI_Fork_Server_SocketException( self::E_READ_FAILED, $errNo );
+								throw new SocketException( self::E_READ_FAILED, $errNo );
 								break;
 							}
 							$rbuf .= $tbuf;
@@ -265,7 +266,7 @@ abstract class CLI_Fork_Server_Abstract
 						if( socket_write( $conn, $wbuf ) === FALSE )
 						{
 							$errNo	= socket_last_error();
-							throw new CLI_Fork_Server_SocketException( self::E_WRITE_FAILED, $errNo );
+							throw new SocketException( self::E_WRITE_FAILED, $errNo );
 							break;
 						}
 						break;
@@ -287,7 +288,7 @@ abstract class CLI_Fork_Server_Abstract
 			if( socket_close( $sock ) === FALSE )
 			{
 				$errNo	= socket_last_error();
-				throw new CLI_Fork_Server_SocketException( self::E_CLOSE_FAILED, $errNo );
+				throw new SocketException( self::E_CLOSE_FAILED, $errNo );
 			}
 			$this->signalHangup = FALSE;
 			$this->timeStarted	= time();
@@ -299,7 +300,7 @@ abstract class CLI_Fork_Server_Abstract
 	public function setPort( $port )
 	{
 		if( !is_int( $port ) )
-			throw new InvalidArgumentException( 'Port must be of integer' );
+			throw new \InvalidArgumentException( 'Port must be of integer' );
 		$this->socketPort	= $port;
 	}
 
@@ -313,7 +314,7 @@ abstract class CLI_Fork_Server_Abstract
 					unlink( $this->filePid );
 			}
 			else
-				throw new CLI_Fork_Server_Exception( 'Server is already running' );
+				throw new Exception( 'Server is already running' );
 		}
 
 		//	Set up the basic

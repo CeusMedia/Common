@@ -1,5 +1,10 @@
 <?php
-class CLI_Output_Progress
+namespace CeusMedia\Common\CLI\Output;
+
+use CeusMedia\Common\CLI\Dimensions;
+use CeusMedia\Common\CLI\Output;
+
+class Progress
 {
 	const STATUS_NONE		= 0;
 	const STATUS_READY		= 1;
@@ -14,8 +19,8 @@ class CLI_Output_Progress
 
 	public function __construct()
 	{
-		$this->width	= CLI_Dimensions::getWidth() - 3;
-		$this->output	= new CLI_Output();
+		$this->width	= Dimensions::getWidth() - 3;
+		$this->output	= new Output();
 		$this->output->setMaxLineLength( $this->width );
 	}
 
@@ -34,7 +39,7 @@ class CLI_Output_Progress
 	public function setBarBlocks( $barBlocks ): self
 	{
 		if( count( $barBlocks ) !== 4 )
-			throw new InvalidArgumentException( 'Bar blocks list must contain 4 items' );
+			throw new \InvalidArgumentException( 'Bar blocks list must contain 4 items' );
 		$this->barBlocks	= array_values( $barBlocks );
 		return $this;
 	}
@@ -42,7 +47,7 @@ class CLI_Output_Progress
 	public function start(): self
 	{
 		if( $this->status < static::STATUS_READY )
-			throw new RuntimeException( 'No total set' );
+			throw new \RuntimeException( 'No total set' );
 		$this->startTime	= microtime( TRUE );
 		$this->status		= static::STATUS_STARTED;
 		$this->output->newLine( $this->renderLine( 0 ) );

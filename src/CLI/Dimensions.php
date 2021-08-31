@@ -15,7 +15,7 @@ class Dimensions
 	 */
 	static public function getCols( bool $force = FALSE ): int
 	{
-		return $this->getWidth( $force );
+		return self::getWidth( $force );
 	}
 
 	/**

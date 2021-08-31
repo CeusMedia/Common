@@ -25,6 +25,10 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			20.01.2006
  */
+namespace CeusMedia\Common\CLI\Server\Cron;
+
+use CeusMedia\Common\ADT\OptionObject;
+
 /**
  *	CronParser.
  *	@category		Library
@@ -36,7 +40,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			20.01.2006
  */
-class CLI_Server_Cron_Job extends ADT_OptionObject
+class Job extends OptionObject
 {
 	/**
 	 *	Constructor.

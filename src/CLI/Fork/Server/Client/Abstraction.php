@@ -25,6 +25,8 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.6.8
  */
+namespace CeusMedia\Common\CLI\Fork\Server\Client;
+
 /**
  *	...
  *
@@ -36,7 +38,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.6.8
  */
-abstract class CLI_Fork_Server_Client_Abstract
+abstract class Abstraction
 {
 	protected $port		= NULL;
 

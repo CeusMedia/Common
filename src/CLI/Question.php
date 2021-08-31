@@ -1,6 +1,10 @@
 <?php
-class CLI_Question{
+namespace CeusMedia\Common\CLI;
 
+use CeusMedia\Common\CLI;
+
+class Question
+{
 	const TYPE_UNKNOWN			= 0;
 	const TYPE_BOOLEAN			= 1;
 	const TYPE_INTEGER			= 2;
@@ -21,7 +25,8 @@ class CLI_Question{
 		'n'	=> 'no',
 	);
 
-	public function __construct( $message, $type = self::TYPE_STRING, $default = NULL, $options = array(), $break = TRUE ){
+	public function __construct( $message, $type = self::TYPE_STRING, $default = NULL, $options = array(), $break = TRUE )
+	{
 		$this->setMessage( $message );
 		$this->setType( $type );
 		$this->setDefault( $default );
@@ -29,7 +34,8 @@ class CLI_Question{
 		$this->setBreak( $break );
 	}
 
-	public function ask(){
+	public function ask()
+	{
 		$message	= $this->renderLabel();
 		CLI::out( $message, $this->break );
 		$handle	= fopen( "php://stdin","r" );
@@ -39,7 +45,8 @@ class CLI_Question{
 		return $input;
 	}
 
-	protected function evaluateInput( & $input ){
+	protected function evaluateInput( & $input )
+	{
 		if( $this->default && !strlen( $input ) )
 			$input	= $this->default;
 		if( $this->type === self::TYPE_BOOLEAN ){
@@ -81,23 +88,26 @@ class CLI_Question{
 		return TRUE;
 	}
 
-	static public function askStatic( $message, $type = 'string', $default = NULL, $options = array(), $break = TRUE ){
+	static public function askStatic( $message, $type = 'string', $default = NULL, $options = array(), $break = TRUE )
+	{
 		$input	= new self( $message, $type, $default, $options, $break );
 		return $input->ask();
 	}
 
-	static public function getInstance( $message ){
+	static public function getInstance( $message )
+	{
 		return new static( $message );
 	}
 
-	protected function renderLabel(){
+	protected function renderLabel()
+	{
 		$message		= $this->message;
 		$options		= $this->options;
 		if( $this->type === self::TYPE_BOOLEAN ){
 			if( $this->strictOptions )
 				if( !is_null( $this->default ) )
 					if( !array_key_exists( $this->default, $this->options ) )
-						throw new RangeException( 'Default value is not within options' );
+						throw new \RangeException( 'Default value is not within options' );
 			$options	= array();
 			foreach( $this->options as $key => $value )
 				$options[]	= $key.':'.$value;
@@ -106,7 +116,7 @@ class CLI_Question{
 			if( $this->rangeFrom || $this->rangeTo ){
 				if( !is_null( $this->default ) )
 					if( $this->default < $this->rangeFrom || $this->default > $this->rangeTo )
-						throw new RangeException( 'Default value is not within set range' );
+						throw new \RangeException( 'Default value is not within set range' );
 				$options	= array( $this->rangeFrom.'-'.$this->rangeTo );
 			}
 		}
@@ -119,39 +129,46 @@ class CLI_Question{
 		return $message;
 	}
 
-	public function setBreak( $break = TRUE ){
+	public function setBreak( $break = TRUE )
+	{
 		$this->break	= $break;
 		return $this;
 	}
 
-	public function setDefault( $default = NULL ){
+	public function setDefault( $default = NULL )
+	{
 		$this->default	= $default;
 		return $this;
 	}
 
-	public function setMessage( $message ){
+	public function setMessage( $message )
+	{
 		$this->message	= $message;
 		return $this;
 	}
 
-	public function setOptions( $options = array() ){
+	public function setOptions( $options = array() )
+	{
 		if( $options )
 			$this->options	= $options;
 		return $this;
 	}
 
-	public function setStrictOptions( $switch = TRUE ){
+	public function setStrictOptions( $switch = TRUE )
+	{
 		$this->strictOptions	= $switch;
 		return $this;
 	}
 
-	public function setRange( $from, $to ){
+	public function setRange( $from, $to )
+	{
 		$this->rangeFrom	= $from;
 		$this->rangeTo		= $to;
 		return $this;
 	}
 
-	public function setType( $type ){
+	public function setType( $type )
+	{
 		$this->type		= $type;
 		if( $type === self::TYPE_BOOLEAN )
 			$this->setOptions( self::$defaultBooleanOptions );

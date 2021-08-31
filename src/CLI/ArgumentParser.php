@@ -24,6 +24,11 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+namespace CeusMedia\Common\CLI;
+
+use CeusMedia\Common\ADT\Collection\Dictionary;
+use CeusMedia\Common\CLI\RequestReceiver;
+
 /**
  *	Argument Parser for Console Applications.
  *	@category		Library
@@ -35,7 +40,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class CLI_ArgumentParser extends ADT_List_Dictionary
+class ArgumentParser extends Dictionary
 {
 	/**	@var	array		shortcuts		Associative Array of Shortcuts */
 	private $shortcuts	= array();
@@ -64,7 +69,7 @@ class CLI_ArgumentParser extends ADT_List_Dictionary
 	 */
 	public function parseArguments( $fallBackOnEmptyPair = FALSE )
 	{
-		$request	= new CLI_RequestReceiver( $fallBackOnEmptyPair );
+		$request	= new RequestReceiver( $fallBackOnEmptyPair );
 		$arguments	= $request->getAll();
 		$commands	= array();
 		$parameters	= array();

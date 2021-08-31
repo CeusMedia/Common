@@ -25,6 +25,8 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.6.8
  */
+namespace CeusMedia\Common\CLI\Fork\Worker;
+
 /**
  *	...
  *
@@ -36,7 +38,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.6.8
  */
-abstract class CLI_Fork_Worker_Abstract
+abstract class Abstraction
 {
 	protected $isWindows	= NULL;
 	/**
@@ -48,7 +50,7 @@ abstract class CLI_Fork_Worker_Abstract
 	{
 		$os	= substr( PHP_OS, 0, 3 );
 		if( strtoupper( $os ) == 'WIN' )
-			throw new RuntimeException( 'Not possible on Windows' );
+			throw new \RuntimeException( 'Not possible on Windows' );
 	}
 
 	public function forkWorkers( $numberWorkers = 1 )
@@ -61,7 +63,7 @@ abstract class CLI_Fork_Worker_Abstract
 			//	Not good.
 			if( $pid == -1 )
 				//  Fork was not possible
-				throw new RuntimeException( 'Could not fork' );
+				throw new \RuntimeException( 'Could not fork' );
 			//  Parent
 			if( $pid )
 			{

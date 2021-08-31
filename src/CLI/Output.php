@@ -25,6 +25,10 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.6
  */
+namespace CeusMedia\Common\CLI;
+
+use CeusMedia\Common\Alg\Text\Trimmer as TextTrimmer;
+
 /**
  *	Console Output.
  *
@@ -36,8 +40,8 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.6
  */
-class CLI_Output{
-
+class Output
+{
 	protected $lastLine			= '';
 	protected $maxLineLength	= 0;
 
@@ -48,7 +52,8 @@ class CLI_Output{
 	 *	@param		integer		$sleep		Seconds to sleep afterwards
 	 *	@return		void
 	 */
-	public function append( $string = "", $sleep = 0 ){
+	public function append( $string = "", $sleep = 0 )
+	{
 		$this->sameLine( trim( $this->lastLine ) . $string, $sleep );
 	}
 
@@ -59,10 +64,11 @@ class CLI_Output{
 	 *	@param		integer		$sleep		Seconds to sleep afterwards
 	 *	@return		void
 	 */
-	public function newLine( $string = '', $sleep = 0 ){
+	public function newLine( $string = '', $sleep = 0 )
+	{
 		if( $this->maxLineLength )
 			//  trim string to <80 columns
-			$string		= Alg_Text_Trimmer::trimCentric( $string, $this->maxLineLength );
+			$string		= TextTrimmer::trimCentric( $string, $this->maxLineLength );
 		$this->lastLine	= $string;
 		print( "\n" . $string );
 		if( $sleep )
@@ -76,10 +82,11 @@ class CLI_Output{
 	 *	@param		integer		$sleep		Seconds to sleep afterwards
 	 *	@return		void
 	 */
-	public function sameLine( $string = '', $sleep = 0 ){
+	public function sameLine( $string = '', $sleep = 0 )
+	{
 		if( $this->maxLineLength )
 			//  trim string to <80 columns
-			$string		= Alg_Text_Trimmer::trimCentric( $string, $this->maxLineLength );
+			$string		= TextTrimmer::trimCentric( $string, $this->maxLineLength );
 		$spaces		= max( 0, strlen( $this->lastLine ) - strlen( $string ) );
 		$this->lastLine	= $string;
 		$fill		= str_repeat( ' ', $spaces );
@@ -88,7 +95,8 @@ class CLI_Output{
 			sleep( $sleep );
 	}
 
-	public function setMaxLineLength( $length ){
+	public function setMaxLineLength( $length )
+	{
 		$this->setMaxLineLength	= $length;
 	}
 }

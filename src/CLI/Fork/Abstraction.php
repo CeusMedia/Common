@@ -26,6 +26,8 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.0
  */
+namespace CeusMedia\Common\CLI\Fork;
+
 /**
  *	Abstract forking application supporting to clone the current process.
  *	Create an application by extending by child and parent code.
@@ -40,16 +42,18 @@
  *	@since			0.7.0
  *	@todo			Code doc
  */
-abstract class CLI_Fork_Abstract{
-
+abstract class Abstraction
+{
 	protected $pids			= array();
 	protected $isBlocking;
 
-	public function __construct($blocking = FALSE) {
+	public function __construct( $blocking = FALSE )
+	{
 		$this->isBlocking	= (int) $blocking;
 	}
 
-	protected function cleanUpForks() {
+	protected function cleanUpForks()
+	{
 		if( pcntl_wait($status, WNOHANG OR WUNTRACED) < 1 ) {
 			foreach($this->pids as $nr => $pid) {
 				// This detects if the child is still running or not
@@ -60,11 +64,12 @@ abstract class CLI_Fork_Abstract{
 		}
 	}
 
-	protected function fork() {
+	protected function fork()
+	{
 		$arguments	= func_get_args();
 		$pid		= pcntl_fork();
 		if($pid == -1) {
-			throw new RuntimeException('Could not fork');
+			throw new \RuntimeException('Could not fork');
 		}
 		// parent process runs what is here
 		if($pid) {
@@ -83,7 +88,7 @@ abstract class CLI_Fork_Abstract{
 			$this->cleanUpForks();
 	}
 
-	abstract protected function runInChild($arguments = array());
+	abstract protected function runInChild( $arguments = array() );
 
-	abstract protected function runInParent($arguments = array());
+	abstract protected function runInParent( $arguments = array() );
 }

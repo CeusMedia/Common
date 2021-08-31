@@ -35,6 +35,38 @@ class Alg_Sort_MapList extends \CeusMedia\Common\Alg\Sort\MapList{};
 class Alg_Sort_Quick extends \CeusMedia\Common\Alg\Sort\Quick{};
 class Alg_Sort_Selection extends \CeusMedia\Common\Alg\Sort\Selection{};
 
+class CLI_Command_ArgumentParser extends \CeusMedia\Common\CLI\Command\ArgumentParser{};
+class CLI_Command_Program extends \CeusMedia\Common\CLI\Command\Program{};
+abstract class CLI_Fork_Server_Client_Abstract extends \CeusMedia\Common\CLI\Fork\Server\Client\Abstraction{};
+class CLI_Fork_Server_Client_WebProxy extends \CeusMedia\Common\CLI\Fork\Server\Client\WebProxy{};
+class CLI_Fork_Server_Abstraction extends \CeusMedia\Common\CLI\Fork\Server\Abstraction{};
+class CLI_Fork_Server_Dynamic extends \CeusMedia\Common\CLI\Fork\Server\Dynamic{};
+class CLI_Fork_Server_Exception extends \CeusMedia\Common\CLI\Fork\Server\Exception{};
+class CLI_Fork_Server_SocketException extends \CeusMedia\Common\CLI\Fork\Server\SocketException{};
+class CLI_Fork_Server_Reflect extends \CeusMedia\Common\CLI\Fork\Server\Reflection{};
+abstract class CLI_Fork_Worker_Abstract extends \CeusMedia\Common\CLI\Fork\Worker\Abstraction{};
+abstract class CLI_Fork_Abstract extends \CeusMedia\Common\CLI\Fork\Abstraction{};
+class CLI_Output_Progress extends \CeusMedia\Common\CLI\Output\Progress{};
+class CLI_Output_Table extends \CeusMedia\Common\CLI\Output\Table{};
+class CLI_Server_Cron_Daemon extends \CeusMedia\Common\CLI\Server\Cron\Daemon{};
+class CLI_Server_Cron_Job extends \CeusMedia\Common\CLI\Server\Cron\Job{};
+class CLI_Server_Cron_Parser extends \CeusMedia\Common\CLI\Server\Cron\Parser{};
+class CLI_Server_Daemon extends \CeusMedia\Common\CLI\Server\Ḑaemon{};
+class CLI_Application extends \CeusMedia\Common\CLI\Application{};
+class CLI_ArgumentParser extends \CeusMedia\Common\CLI\ArgumentParser{};
+class CLI_Color extends \CeusMedia\Common\CLI\Color{};
+class CLI_Dimensions extends \CeusMedia\Common\CLI\Dimensions{};
+class CLI_Downloader extends \CeusMedia\Common\CLI\Downloader{};
+class CLI_Output extends \CeusMedia\Common\CLI\Output{};
+class CLI_Prompt extends \CeusMedia\Common\CLI\Prompt{};
+class CLI_Question extends \CeusMedia\Common\CLI\Question{};
+class CLI_RequestReceiver extends \CeusMedia\Common\CLI\RequestReceiver{};
+class CLI_Shell extends \CeusMedia\Common\CLI\Shell{};
+
+
+
+
+#CeusMedia\Common\CLI\Command
 #	class ADT_ extends \CeusMedia\Common\ADT\{};
 
 

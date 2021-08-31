@@ -40,7 +40,8 @@ class Color
 		'success'		=> array( 'white', 'green' ),
 	);
 
-	public function applyClass( $string, $class ){
+	public function applyClass( $string, $class )
+	{
 		if( isset( static::$classes[$class] ) ){
 			$colors	= static::$classes[$class];
 			$string	= $this->colorize( $string, $colors[0], $colors[1] );
@@ -48,40 +49,49 @@ class Color
 		return $string;
 	}
 
-	public function asError( $string ){
+	public function asError( $string )
+	{
 		return $this->applyClass( $string, 'error' );
 	}
 
-	public function asWarning( $string ){
+	public function asWarning( $string )
+	{
 		return $this->applyClass( $string, 'warning' );
 	}
 
-	public function asInfo( $string ){
+	public function asInfo( $string )
+	{
 		return $this->applyClass( $string, 'info' );
 	}
 
-	public function asSuccess( $string ){
+	public function asSuccess( $string )
+	{
 		return $this->applyClass( $string, 'success' );
 	}
 
-	public function bold( $string ){
+	public function bold( $string )
+	{
 		return "\033[1m".$string."\033[0m";
 	}
 
-	public function light( $string ){
+	public function light( $string )
+	{
 		return "\033[2m".$string."\033[0m";
 	}
 
-	public function italic( $string ){
+	public function italic( $string )
+	{
 		return "\033[3m".$string."\033[0m";
 	}
 
-	public function underscore( $string ){
+	public function underscore( $string )
+	{
 		return "\033[4m".$string."\033[0m";
 	}
 
 	// Returns colored string
-	public function colorize( $string, $foregroundColor = NULL, $backgroundColor = NULL ){
+	public function colorize( $string, $foregroundColor = NULL, $backgroundColor = NULL )
+	{
 		$reset			= "\033[0m";
 		$fgColor		= '';
 		$bgColor		= '';
@@ -99,7 +109,8 @@ class Color
 		return $fgColor.$bgColor.$string.$reset;
 	}
 
-	public function colorize256( $string, $foregroundColor = NULL, $backgroundColor = NULL ){
+	public function colorize256( $string, $foregroundColor = NULL, $backgroundColor = NULL )
+	{
 		$reset			= "\033[0m";
 		$fgColor		= '';
 		$bgColor		= '';
@@ -116,12 +127,14 @@ class Color
 	}
 
 	// Returns all foreground color names
-	public function getForegroundColors(){
+	public function getForegroundColors()
+	{
 		return array_keys( static::$foregroundColors );
 	}
 
 	// Returns all background color names
-	public function getBackgroundColors(){
+	public function getBackgroundColors()
+	{
 		return array_keys( static::$backgroundColors );
 	}
 }

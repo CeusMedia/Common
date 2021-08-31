@@ -24,6 +24,8 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+namespace CeusMedia\Common\CLI\Command;
+
 /**
  *	Argument Parser for Console Applications using an Automaton.
  *	@category		Library
@@ -33,7 +35,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class CLI_Command_ArgumentParser
+class ArgumentParser
 {
 	const STATUS_START				= 0;
 	const STATUS_READ_OPTION_KEY	= 1;
@@ -57,7 +59,7 @@ class CLI_Command_ArgumentParser
 	public function getArguments()
 	{
 		if( !$this->parsed )
-			throw new RuntimeException( 'Nothing parsed yet.' );
+			throw new \RuntimeException( 'Nothing parsed yet.' );
 		return $this->foundArguments;
 	}
 
@@ -69,7 +71,7 @@ class CLI_Command_ArgumentParser
 	public function getOptions()
 	{
 		if( !$this->parsed )
-			throw new RuntimeException( 'Nothing parsed yet.' );
+			throw new \RuntimeException( 'Nothing parsed yet.' );
 		return $this->foundOptions;
 	}
 
@@ -84,7 +86,7 @@ class CLI_Command_ArgumentParser
 		//  no String given
 		if( !is_string( $string ) )
 			//  throw Exception
-			throw new InvalidArgumentException( 'Given argument is not a string' );
+			throw new \InvalidArgumentException( 'Given argument is not a string' );
 
 		$this->foundArguments	= array();
 		$this->foundOptions		= array();
@@ -149,7 +151,7 @@ class CLI_Command_ArgumentParser
 		//  no Integer given
 		if( !is_int( $number ) )
 			//  throw Exception
-			throw new InvalidArgument( 'No integer given' );
+			throw new \InvalidArgument( 'No integer given' );
 		//  this Number is already set
 		if( $number === $this->numberArguments )
 			//  do nothing
@@ -171,7 +173,7 @@ class CLI_Command_ArgumentParser
 		//  no Array given
 		if( !is_array( $options ) )
 			//  throw Exception
-			throw InvalidArgumentException( 'No array given.' );
+			throw new \InvalidArgumentException( 'No array given.' );
 		//  threse Options are already set
 		if( $options === $this->possibleOptions )
 			//  do nothing
@@ -193,13 +195,13 @@ class CLI_Command_ArgumentParser
 		//  no Array given
 		if( !is_array( $shortcuts ) )
 			//  throw Exception
-			throw InvalidArgumentException( 'No array given.' );
+			throw new \InvalidArgumentException( 'No array given.' );
 		//  iterate Shortcuts
 		foreach( $shortcuts as $short => $long )
 			//  related Option is not set
 			if( !array_key_exists( $long, $this->possibleOptions ) )
 				//  throw Exception
-				throw new OutOfBoundsException( 'Option "'.$long.'" not set' );
+				throw new \OutOfBoundsException( 'Option "'.$long.'" not set' );
 		//  these Shortcuts are already set
 		if( $shortcuts === $this->shortcuts )
 			//  do nothing
@@ -222,7 +224,7 @@ class CLI_Command_ArgumentParser
 		foreach( $this->shortcuts as $short	=> $long )
 		{
 			if( !isset( $this->possibleOptions[$long] ) )
-				throw new InvalidArgumentException( 'Invalid shortcut to not existing option "'.$long.'" .' );
+				throw new \InvalidArgumentException( 'Invalid shortcut to not existing option "'.$long.'" .' );
 			$this->possibleOptions[$short]	= $this->possibleOptions[$long];
 		}
 	}
@@ -262,13 +264,13 @@ class CLI_Command_ArgumentParser
 		else if( $status == self::STATUS_READ_OPTION_KEY )
 		{
 			if( !array_key_exists( $option, $this->possibleOptions ) )
-				throw new InvalidArgumentException( 'Invalid option: '.$option.'.' );
+				throw new \InvalidArgumentException( 'Invalid option: '.$option.'.' );
 			if( $this->possibleOptions[$option] )
-				throw new RuntimeException( 'Missing value of option "'.$option.'".' );
+				throw new \RuntimeException( 'Missing value of option "'.$option.'".' );
 			$this->foundOptions[$option]	= TRUE;
 		}
 		if( count( $this->foundArguments ) < $this->numberArguments )
-			throw new RuntimeException( 'Missing argument.' );
+			throw new \RuntimeException( 'Missing argument.' );
 		$this->finishOptions();
 		$this->parsed	= TRUE;
 	}
@@ -308,11 +310,11 @@ class CLI_Command_ArgumentParser
 		if( in_array( $sign, array( " ", ":", "=" ) ) )
 		{
 			if( !array_key_exists( $option, $this->possibleOptions ) )
-				throw new InvalidArgumentException( 'Invalid option "'.$option.'"' );
+				throw new \InvalidArgumentException( 'Invalid option "'.$option.'"' );
 			if( !$this->possibleOptions[$option] )
 			{
 				if( $sign !== " " )
-					throw new InvalidArgumentException( 'Option "'.$option.'" cannot receive a value' );
+					throw new \InvalidArgumentException( 'Option "'.$option.'" cannot receive a value' );
 				$this->foundOptions[$option]	= TRUE;
 				$status	= self::STATUS_START;
 			}
@@ -355,7 +357,7 @@ class CLI_Command_ArgumentParser
 			if( $this->possibleOptions[$option] !== TRUE ){
 				//  not matching
 				if( !preg_match( $this->possibleOptions[$option], $buffer ) )
-					throw new InvalidArgumentException( 'Argument "'.$option.'" has invalid value (not matching regexp: '.$this->possibleOptions[$option].')' );
+					throw new \InvalidArgumentException( 'Argument "'.$option.'" has invalid value (not matching regexp: '.$this->possibleOptions[$option].')' );
 			}
 			$this->foundOptions[$option]	= $buffer;
 			$buffer	= "";

@@ -24,6 +24,9 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+namespace CeusMedia\Common\CLI;
+
+use CeusMedia\Common\ADT\Collection\Dictionary;
 /**
  *	Handler for Console Requests.
  *	@category		Library
@@ -34,7 +37,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class CLI_RequestReceiver extends ADT_List_Dictionary
+class RequestReceiver extends Dictionary
 {
 	public static $delimiterAssign	= "=";
 	protected $pairs				= array();
@@ -49,7 +52,7 @@ class CLI_RequestReceiver extends ADT_List_Dictionary
 		$count	= 0;
 		global $argv;
 		if( !is_array( $argv ) )
-			throw new RuntimeException( 'Missing arguments' );
+			throw new \RuntimeException( 'Missing arguments' );
 		if( !$fallBackOnEmptyPair && in_array( 'fallBackOnEmptyPair', $argv ) )
 			$fallBackOnEmptyPair	= TRUE;
 		foreach( $argv as $argument )

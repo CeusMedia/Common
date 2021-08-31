@@ -25,6 +25,8 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			11.08.2005
  */
+namespace CeusMedia\Common\CLI;
+
 /**
  *	Class for PHP Execution via Console (for Windows).
  *	@category		Library
@@ -35,7 +37,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			11.08.2005
  */
-class CLI_Shell
+class Shell
 {
 	/**	@var	array	$skip	Commands to skip */
 	protected $skip	= array(

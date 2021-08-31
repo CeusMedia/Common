@@ -25,6 +25,8 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.6.8
  */
+namespace CeusMedia\Common\CLI\Fork\Server;
+
 /**
  *	...
  *
@@ -37,7 +39,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.6.8
  */
-class CLI_Fork_Server_Dynamic extends CLI_Fork_Server_Abstract
+class Dynamic extends Abstraction
 {
 	protected $scriptFile;
 
