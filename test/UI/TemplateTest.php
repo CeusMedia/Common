@@ -6,7 +6,10 @@
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@version		0.2
  */
-require_once dirname( __DIR__ ).'/initLoaders.php';
+declare( strict_types = 1 );
+
+use PHPUnit\Framework\TestCase;
+
 /**
  *	TestUnit of UI_Template
  *	@package		tests.ui
@@ -20,7 +23,7 @@ class Test_UI_TemplateTest extends Test_Case
 {
 	private $template;
 
-	public function setUp()
+	public function setUp(): void
 	{
 		$this->mock			= Test_MockAntiProtection::getInstance( 'UI_Template' );
 		$this->path			= dirname( __FILE__ )."/";
@@ -240,4 +243,3 @@ class Test_UI_TemplateTestDataObject
 		$this->data1	= $value;
 	}
 }
-?>

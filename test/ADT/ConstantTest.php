@@ -5,7 +5,10 @@
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@version		0.1
  */
-require_once dirname( __DIR__ ).'/initLoaders.php';
+declare( strict_types = 1 );
+
+use PHPUnit\Framework\TestCase;
+
 /**
  *	TestUnit of Constant Class
  *	@package		Tests.adt
@@ -29,6 +32,7 @@ class Test_ADT_ConstantTest extends Test_Case
 			'INI_ALL'				=> 7,
 			'INI_SCANNER_NORMAL'	=> 0,
 			'INI_SCANNER_RAW'		=> 1,
+			'INI_SCANNER_TYPED'		=> 2,
 		);
 		$creation	= ADT_Constant::getAll( 'INI_' );
 		$this->assertEquals( $assertion, $creation );
@@ -45,7 +49,7 @@ class Test_ADT_ConstantTest extends Test_Case
 
 	public function testGetAllException1()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		ADT_Constant::getAll( 'I' );
 	}
 
@@ -62,14 +66,13 @@ class Test_ADT_ConstantTest extends Test_Case
 
 	public function testGetByKeyValueException1()
 	{
-		$this->setExpectedException( 'RangeException' );
+		$this->expectException( 'RangeException' );
 		ADT_Constant::getKeyByValue( 'JSON', -1 );
 	}
 
 	public function testGetByKeyValueException2()
 	{
-		$this->setExpectedException( 'RangeException' );
+		$this->expectException( 'RangeException' );
 		ADT_Constant::getKeyByValue( 'JSON', 1 );
 	}
 }
-?>

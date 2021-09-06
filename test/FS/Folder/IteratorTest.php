@@ -6,7 +6,10 @@
  *	@since			21.04.2008
  *	@version		0.1
  */
-require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
+declare( strict_types = 1 );
+
+use PHPUnit\Framework\TestCase;
+
 /**
  *	TestUnit of Folder Iterator.
  *	@package		Tests.folder
@@ -47,7 +50,7 @@ class Test_FS_Folder_IteratorTest extends Test_FS_Folder_TestCase
 	 */
 	public function testConstructException()
 	{
-		$this->setExpectedException( 'RuntimeException' );
+		$this->expectException( 'RuntimeException' );
 		$index	= new FS_Folder_Iterator( "not_existing" );
 	}
 
@@ -149,4 +152,3 @@ class Test_FS_Folder_IteratorTest extends Test_FS_Folder_TestCase
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

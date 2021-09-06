@@ -5,7 +5,10 @@
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@version		0.2
  */
-require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
+declare( strict_types = 1 );
+
+use PHPUnit\Framework\TestCase;
+
 /**
  *	Unit Test of Binary Node.
  *	@package		Tests.adt.list
@@ -24,7 +27,7 @@ class Test_ADT_Tree_BinaryNodeTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
 		$this->tree	= new ADT_Tree_BinaryNode();
 		$this->tree->add( 3 );
@@ -208,4 +211,3 @@ class Test_ADT_Tree_BinaryNodeTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

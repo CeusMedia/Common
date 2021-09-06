@@ -6,7 +6,10 @@
  *	@since			16.02.2008
  *	@version		0.6
  */
-require_once dirname( dirname( dirname( __DIR__ ) ) ).'/initLoaders.php';
+declare( strict_types = 1 );
+
+use PHPUnit\Framework\TestCase;
+
 /**
  *	UnitTest for Request Header Field.
  *	@package		net.http.request
@@ -21,7 +24,7 @@ class Test_Net_HTTP_Header_FieldTest extends Test_Case
 	{
 		$header	= new Net_HTTP_Header_Field( "key", "value" );
 		$assertion	= true;
-		$creation	= (bool) count( $header->toString() );
+		$creation	= (bool) strlen( $header->toString() );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -38,4 +41,3 @@ class Test_Net_HTTP_Header_FieldTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

@@ -64,7 +64,7 @@ class XML_DOM_GoogleSitemapWriter
 	 */
 	public function write( $fileName = "sitemap.xml", $baseUrl = "" )
 	{
-		return $this->writeSitemap( $this->list, $fileName, $baseUrl );
+		return self::writeSitemap( $this->list, $fileName, $baseUrl );
 	}
 
 	/**

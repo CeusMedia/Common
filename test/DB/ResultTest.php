@@ -16,23 +16,14 @@ require_once dirname( __DIR__ ).'/initLoaders.php';
  *	@since			15.05.2008
  *	@version		0.1
  */
-class Test_DB_ResultTest extends Test_Case
+class Test_DB_ResultTest/* extends Test_Case*/
 {
-	/**
-	 *	Constructor.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function __construct()
-	{
-	}
-
 	/**
 	 *	Setup for every Test.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
 	}
 
@@ -41,7 +32,7 @@ class Test_DB_ResultTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function tearDown()
+	public function tearDown(): void
 	{
 	}
 
@@ -50,7 +41,7 @@ class Test_DB_ResultTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function test__construct()
+	public function _test__construct()
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
@@ -63,7 +54,7 @@ class Test_DB_ResultTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testCount()
+	public function _testCount()
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
@@ -76,7 +67,7 @@ class Test_DB_ResultTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testCurrent()
+	public function _testCurrent()
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
@@ -89,7 +80,7 @@ class Test_DB_ResultTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testFetchArray()
+	public function _testFetchArray()
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
@@ -102,7 +93,7 @@ class Test_DB_ResultTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testFetchNextArray()
+	public function _testFetchNextArray()
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
@@ -115,7 +106,7 @@ class Test_DB_ResultTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testFetchNextObject()
+	public function _testFetchNextObject()
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
@@ -128,7 +119,7 @@ class Test_DB_ResultTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testFetchNextRow()
+	public function _testFetchNextRow()
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
@@ -141,7 +132,7 @@ class Test_DB_ResultTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testFetchObject()
+	public function _testFetchObject()
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
@@ -154,7 +145,7 @@ class Test_DB_ResultTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testFetchRow()
+	public function _testFetchRow()
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
@@ -167,7 +158,7 @@ class Test_DB_ResultTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testKey()
+	public function _testKey()
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
@@ -180,7 +171,7 @@ class Test_DB_ResultTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testNext()
+	public function _testNext()
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
@@ -193,7 +184,7 @@ class Test_DB_ResultTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testRecordCount()
+	public function _testRecordCount()
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
@@ -206,7 +197,7 @@ class Test_DB_ResultTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testRewind()
+	public function _testRewind()
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
@@ -219,7 +210,7 @@ class Test_DB_ResultTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testValid()
+	public function _testValid()
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
@@ -227,4 +218,3 @@ class Test_DB_ResultTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

@@ -45,14 +45,13 @@ class NodeSet implements \Countable
 	 *	Adds a new Node and returns reference of this Node.
 	 *	@access		public
 	 *	@param		string			$nodeName		Name of the new Node
-	 *	@param		string			$nodeValue		Value of the new Node
+	 *	@param		mixed			$nodeValue		Value of the new Node
 	 *	@return 	Node
 	 */
-	public function addNode( $nodeName, $nodeValue = false )
+	public function addNode( string $nodeName, $nodeValue = '' )
 	{
-		$newNode = new Node( $nodeName, $nodeValue );
-		if( !$this->isNode( $newNode ) )
-		{
+		$newNode = new ADT_Graph_Node( $nodeName, $nodeValue );
+		if( !$this->isNode( $newNode ) ){
 			$this->nodes[] = $newNode;
 			return $newNode;
 		}
@@ -65,7 +64,7 @@ class NodeSet implements \Countable
 	 *	@access		public
 	 *	@return 	int
 	 */
-	public function count()
+	public function count(): int
 	{
 		return count( $this->getNodes() );
 	}
@@ -84,24 +83,25 @@ class NodeSet implements \Countable
 	/**
 	 *	Returns last Node of this NodeSet.
 	 *	@access		public
-	 *	@return 	Node
+	 *	@return 	Node|NULL
 	 */
 	public function getLastNode()
 	{
-		if( count( $this->nodes ) )
-			return $this->nodes[$this->getNodeSize()-1];
+		if( 0 !== $this->count() )
+			return $this->nodes[$this->count() - 1];
+		return NULL;
 	}
 
 	/**
 	 *	Returns a Node of this NodeSet.
 	 *	@access		public
-	 *	@param		string				$node			Name of the new Node
+	 *	@param		string				$nodeName		Name of the new Node
 	 *	@return 	Node
 	 */
-	public function getNode( $node )
+	public function getNode( string $nodeName )
 	{
 		for( $i=0; $i<$this->count(); $i++ )
-			if( $this->nodes[$i]->getNodeName() == $node )
+			if( $this->nodes[$i]->getNodeName() == $nodeName )
 				return $this->nodes[$i];
 		return NULL;
 	}
@@ -123,10 +123,9 @@ class NodeSet implements \Countable
 	/**
 	 *	Returns an array of all nodes in this NodeSet.
 	 *	@access		public
-	 *	@param		string				$nodeName		Name of the new Node
-	 *	@return 	Node
+	 *	@return 	array
 	 */
-	public function getNodes()
+	public function getNodes(): array
 	{
 		return $this->nodes;
 	}
@@ -137,11 +136,12 @@ class NodeSet implements \Countable
 	 *	@param		Node		$node			Node to be searched for
 	 *	@return 	bool
 	 */
-	public function isNode( $node )
+	public function isNode( $node ): bool
 	{
 		foreach( $this->nodes as $_node )
 			if( $_node == $node )
 				return TRUE;
+		return FALSE;
 	}
 
 	/**

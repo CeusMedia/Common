@@ -92,7 +92,7 @@ class XML_OPML_Builder extends XML_DOM_Node
 	 */
 	public function setHeader( $key, $value )
 	{
-		if( !in_array( $key, $this->headers ) )
+		if( !in_array( $key, $this->headers, TRUE ) )
 			throw new InvalidArgumentException( "Unsupported Header '".$key."'" );
 		$children	=& $this->tree->getChildren();
 		$head		=& $children[0];

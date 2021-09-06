@@ -77,6 +77,6 @@ class XML_OPML_FileWriter
 	 */
 	public function write( $tree, $encoding = "utf-8" )
 	{
-		return $this->save( $this->fileName, $tree, $encoding );
+		return self::save( $this->fileName, $tree, $encoding );
 	}
 }

@@ -47,10 +47,14 @@ abstract class Program
 
 	/**	@var	array		$arguments		Map of given Arguments */
 	protected $arguments	= NULL;
+
 	/**	@var	array		$arguments		Map of given Options */
 	protected $options		= NULL;
+
 	/**	@var	array		$exitCode		Exit Code of Main Application */
 	protected $exitCode		= NULL;
+
+	protected $parser;
 
 	/**
 	 *	Constructor, parses Console Call String against given Options and calls Main Method.

@@ -23,7 +23,7 @@
  *	@copyright		2015-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@see			http://xmlrpc.scripting.com/spec.html XML-RPC Specification 
+ *	@see			http://xmlrpc.scripting.com/spec.html XML-RPC Specification
  *	@since			0.7.7
  */
 /**
@@ -35,7 +35,7 @@
  *	@copyright		2015-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@see			http://xmlrpc.scripting.com/spec.html XML-RPC Specification 
+ *	@see			http://xmlrpc.scripting.com/spec.html XML-RPC Specification
  *	@since			0.7.7
  */
 class XML_RPC_Client{
@@ -113,6 +113,7 @@ class XML_RPC_Client{
 	 *	@return		string
 	 */
 	static protected function encodeXmlParameter( $parameter ){
+		$data	= [];
 		switch( gettype( $parameter ) ){
 			case 'object':
 				foreach( get_object_vars( $parameter ) as $key => $value ){
@@ -123,7 +124,7 @@ class XML_RPC_Client{
 			case 'array':
 				$data	= array();
 				foreach( $parameter as $value )
-					$data[]	= self::encodeXmlParameter( $value );	
+					$data[]	= self::encodeXmlParameter( $value );
 				return '<array><data>'.join( $data ).'</data></array>';
 			case 'int':
 			case 'integer':

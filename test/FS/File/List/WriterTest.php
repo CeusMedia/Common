@@ -5,7 +5,10 @@
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@version		0.1
  */
-require_once dirname( dirname( dirname( __DIR__ ) ) ).'/initLoaders.php'; 
+declare( strict_types = 1 );
+
+use PHPUnit\Framework\TestCase;
+
 /**
  *	TestUnit of List Writer.
  *	@package		Tests.file.list
@@ -24,7 +27,7 @@ class Test_FS_File_List_WriterTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
 		$this->fileName	= dirname( __FILE__ )."/writer.list";
 		$this->writer	= new FS_File_List_Writer( $this->fileName );
@@ -35,7 +38,7 @@ class Test_FS_File_List_WriterTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function tearDown()
+	public function tearDown(): void
 	{
 		@unlink( $this->fileName );
 	}
@@ -72,7 +75,7 @@ class Test_FS_File_List_WriterTest extends Test_Case
 	public function testAddException()
 	{
 		$this->writer->add( 'line1' );
-		$this->setExpectedException( 'DomainException' );
+		$this->expectException( 'DomainException' );
 		$this->writer->add( 'line1' );
 	}
 
@@ -104,7 +107,7 @@ class Test_FS_File_List_WriterTest extends Test_Case
 	{
 		$this->writer->add( 'line1' );
 		$this->writer->remove( 'line1' );
-		$this->setExpectedException( 'DomainException' );
+		$this->expectException( 'DomainException' );
 		$this->writer->remove( 'line1' );
 	}
 
@@ -142,7 +145,7 @@ class Test_FS_File_List_WriterTest extends Test_Case
 	 */
 	public function testRemoveIndexException()
 	{
-		$this->setExpectedException( 'DomainException' );
+		$this->expectException( 'DomainException' );
 		$this->writer->removeIndex( 10 );
 	}
 
@@ -167,4 +170,3 @@ class Test_FS_File_List_WriterTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

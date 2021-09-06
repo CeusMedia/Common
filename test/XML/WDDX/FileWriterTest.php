@@ -6,7 +6,10 @@
  *	@since			03.05.2008
  *	@version		0.1
  */
-require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
+declare( strict_types = 1 );
+
+use PHPUnit\Framework\TestCase;
+
 /**
  *	TestUnit of XML_WDDX_FileWriter.
  *	@package		Tests.{classPackage}
@@ -19,11 +22,11 @@ require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
 class Test_XML_WDDX_FileWriterTest extends Test_Case
 {
 	/**
-	 *	Constructor.
+	 *	Setup for every Test.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function __construct()
+	public function setUp(): void
 	{
 		$this->path		= dirname( __FILE__ )."/";
 		$this->fileName	= $this->path."writer.wddx";
@@ -35,15 +38,7 @@ class Test_XML_WDDX_FileWriterTest extends Test_Case
 				'test_double'	=> 3.1415926,
 			)
 		);
-	}
 
-	/**
-	 *	Setup for every Test.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function setUp()
-	{
 		if( !extension_loaded( 'wddx' ) )
 			$this->markTestSkipped( 'Missing WDDX support' );
 		@unlink( $this->fileName );
@@ -55,7 +50,7 @@ class Test_XML_WDDX_FileWriterTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function tearDown()
+	public function tearDown(): void
 	{
 		if( !function_exists( 'wddx_packet_start' ) )
 			return;
@@ -165,4 +160,3 @@ class Test_XML_WDDX_FileWriterTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

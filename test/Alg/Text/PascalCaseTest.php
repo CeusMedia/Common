@@ -6,7 +6,10 @@
  *	@since			22.10.2008
  *	@version		0.1
  */
-require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
+declare( strict_types = 1 );
+
+use PHPUnit\Framework\TestCase;
+
 /**
  *	TestUnit of Alg_Text_PascalCase.
  *	@package		Tests.alg
@@ -19,20 +22,11 @@ require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
 class Test_Alg_Text_PascalCaseTest extends Test_Case
 {
 	/**
-	 *	Constructor.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function __construct()
-	{
-	}
-
-	/**
 	 *	Setup for every Test.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
 	}
 
@@ -41,7 +35,7 @@ class Test_Alg_Text_PascalCaseTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function tearDown()
+	public function tearDown(): void
 	{
 	}
 
@@ -160,4 +154,3 @@ class Test_Alg_Text_PascalCaseTest extends Test_Case
 		$this->assertEquals( FALSE, $creation );
 	}
 }
-?>

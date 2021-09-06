@@ -6,7 +6,10 @@
  *	@since			08.07.2008
  *	@version		0.1
  */
-require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
+declare( strict_types = 1 );
+
+use PHPUnit\Framework\TestCase;
+
 /**
  *	TestUnit of Alg_Parcel_Packet.
  *	@package		Tests.alg.parcel
@@ -23,7 +26,7 @@ class Test_Alg_Parcel_PacketTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
 		$this->packet	= new Alg_Parcel_Packet( 'testPacket' );
 		$this->packet->addArticle( 'testArticle1', 0.2 );
@@ -36,7 +39,7 @@ class Test_Alg_Parcel_PacketTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function tearDown()
+	public function tearDown(): void
 	{
 	}
 
@@ -165,4 +168,3 @@ class Test_Alg_Parcel_PacketTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

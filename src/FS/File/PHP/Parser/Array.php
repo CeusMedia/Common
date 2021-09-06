@@ -24,6 +24,8 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			04.08.08
+ *	@deprecated		use CeusMedia/PHP-Parser (https://packagist.org/packages/ceus-media/php-parser) instead
+ *	@todo			to be removed in 8.7
  */
 /**
  *	Parses PHP Files containing a Class or Methods to Array using regular expressions (slow).
@@ -36,6 +38,8 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			04.08.08
  *	@todo			Code Doc
+ *	@deprecated		use CeusMedia/PHP-Parser (https://packagist.org/packages/ceus-media/php-parser) instead
+ *	@todo			to be removed in 8.7
  */
 class FS_File_PHP_Parser_Array
 {
@@ -261,10 +265,10 @@ class FS_File_PHP_Parser_Array
 					case 'uses':
 					case 'throws':
 					case 'link':
-						$data[$matches[1]][]	= $matches[2];			
+						$data[$matches[1]][]	= $matches[2];
 						break;
 					default:
-						$data[$matches[1]]	= $matches[2];			
+						$data[$matches[1]]	= $matches[2];
 						break;
 				}
 			}
@@ -439,7 +443,7 @@ class FS_File_PHP_Parser_Array
 				);
 				if( isset( $matches[6] ) )
 					$param['default']	= $matches[7];
-				$method['param'][$matches[5]] = $param; 
+				$method['param'][$matches[5]] = $param;
 			}
 		}
 		if( $openBlocks )

@@ -6,7 +6,10 @@
  *	@since			20.02.2008
  *	@version		0.1
  */
-require_once dirname( __DIR__ ).'/initLoaders.php';
+declare( strict_types = 1 );
+
+use PHPUnit\Framework\TestCase;
+
 /**
  *	TestUnit of XML Element.
  *	@package		Tests.xml
@@ -24,7 +27,7 @@ class Test_XML_ElementTest extends Test_Case
 	protected $fileWrite;
 	protected $fileSerial;
 
-	public function setUp()
+	public function setUp(): void
 	{
 		$this->fileRead		= dirname( __FILE__ ).'/element_read.xml';
 		$this->fileWrite	= dirname( __FILE__ ).'/element_write.xml';
@@ -500,4 +503,3 @@ class Test_XML_ElementTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
  }
-?>

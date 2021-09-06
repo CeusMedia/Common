@@ -33,14 +33,13 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class ADT_StringBuffer implements Countable
+class ADT_StringBuffer implements Countable, Iterator
 {
 	/**	@var		string		$buffer			internal String */
 	private $buffer;
-	/**	@var		string		$direction		internal Direction */
-	private $direction = "";
-	/**	@var		int			$pointer		internal Position Pointer */
-	private $pointer = 0;
+
+	/**	@var		int			$position		Iterator position */
+	private $position = 0;
 
 	/**
 	 *	Constructor.
@@ -48,7 +47,7 @@ class ADT_StringBuffer implements Countable
 	 *	@param		string		$buffer			initial String in StringBuffer
 	 *	@return		void
 	 */
-	public function __construct( $buffer = "" )
+	public function __construct( $buffer = '' )
 	{
 		$this->buffer = $buffer;
 	}
@@ -58,7 +57,7 @@ class ADT_StringBuffer implements Countable
 	 *	@access		public
 	 *	@return		ADT_StringBuffer
 	 */
-	public function append( $string )
+	public function append( string $string ): self
 	{
 		$this->buffer	.= $string;
 		return $this;
@@ -69,27 +68,37 @@ class ADT_StringBuffer implements Countable
 	 *	@access		public
 	 *	@return		int
 	 */
-	public function count()
+	public function count(): int
 	{
 		return strlen( $this->buffer );
+	}
+
+	/**
+	 *	Returns  a Character at the current position.
+	 *	@access		public
+	 *	@return		string
+	 */
+	public function current(): string
+	{
+		return $this->buffer[$this->position];
 	}
 
 	/**
 	 *	Deletes a Character at a given Position.
 	 *	@access		public
 	 *	@param		int			$position			Position to delete
-	 *	@return		string
+	 *	@return		self
 	 */
-	public function deleteCharAt( $position )
+	public function deleteCharAt( int $position ): self
 	{
 		$string	= "";
 		for( $i = 0; $i < $this->count(); $i++ )
 			if( $position != $i )
 				$string .= $this->buffer[$i];
 		$this->buffer = $string;
-		if( $position == $this->pointer )
-			$this->pointer++;
-		return $this->toString();
+		if( $position == $this->position )
+			$this->position++;
+		return $this;
 	}
 
 	/**
@@ -97,94 +106,23 @@ class ADT_StringBuffer implements Countable
 	 *	@access		public
 	 *	@param		int			$position			Position
 	 *	@return		string
+	 *	@throws		RangeException
 	 */
-	public function getCharAt( $position )
+	public function getCharAt( int $position ): string
 	{
-		if($position <= $this->count() && $position >= 0 )
-			$character = $this->buffer[$position];
-		return $character;
+		if( !$this->valid() )
+			throw new RangeException( 'Invalid position' );
+		return $this->buffer[$position];
 	}
 
 	/**
-	 *	Returns  a Character at the current Position.
-	 *	@access		public
-	 *	@return		string
-	 */
-	public function getCurrentChar()
-	{
-		$character = $this->buffer[$this->pointer];
-		return $character;
-	}
-
-	/**
-	 *	Returns the current Position of the internal Pointer.
+	 *	Returns the current Position of the internal position.
 	 *	@access		public
 	 *	@return		int
 	 */
-	public function getCurrentPos()
+	public function key(): int
 	{
-		return $this->pointer;
-	}
-
-	/**
-	 *	Returns the next Character.
-	 *	@access		public
-	 *	@return		string
-	 */
-	public function getNextChar()
-	{
-		$character	= NULL;
-		if( $this->direction == "<" )
-			$this->pointer++;
-		if( $this->pointer < $this->count() &&  $this->pointer >=0 )
-		{
-			$this->direction = ">";
-			$character = $this->buffer[$this->pointer];
-			$this->pointer++;
-		}
-		return $character;
-	}
-
-	/**
-	 *	Returns the previous Character.
-	 *	@access		public
-	 *	@return		string
-	 */
-	public function getPrevChar()
-	{
-		if( $this->direction == ">" )
-			$this->pointer--;
-		if( $this->pointer <= $this->count() &&  $this->pointer > 0 )
-		{
-			$this->direction = "<";
-			$this->pointer--;
-			$character = $this->buffer[$this->pointer];
-		}
-		return $character;
-	}
-
-	/**
-	 *	Indicates wheter less Characters are available.
-	 *	@access		public
-	 *	@return		bool
-	 */
-	public function hasLess()
-	{
-		if( $this->pointer > 0 )
-			return TRUE;
-		return FALSE;
-	}
-
-	/**
-	 *	Indicates wheter more Characters are available.
-	 *	@access		public
-	 *	@return		bool
-	 */
-	public function hasMore()
-	{
-		if( $this->pointer < $this->count() )
-			return TRUE;
-		return FALSE;
+		return $this->position;
 	}
 
 	/**
@@ -192,56 +130,60 @@ class ADT_StringBuffer implements Countable
 	 *	@access		public
 	 *	@param		int			$position		Position to insert to
 	 *	@param		string		$string			String to insert
-	 *	@return		string
+	 *	@return		self
 	 */
-	public function insert( $position, $string )
+	public function insert( int $position, string $string ): self
 	{
-		if( $position<= $this->count() && $position >=0 )
-		{
-			if( $position < $this->pointer )
-				$this->pointer = $this->pointer + strlen( $string );
+		if( $position <= $this->count() && $position >=0 ){
+			if( $position < $this->position )
+				$this->position = $this->position + strlen( $string );
 			$left	= substr( $this->toString(), 0, $position );
 			$right	= substr( $this->toString(), $position );
 			$this->buffer = $left.$string.$right;
 		}
-		return $this->toString();
+		return $this;
+	}
+
+	public function next()
+	{
+		++$this->position;
 	}
 
 	/**
-	 *	Resets Buffer, Pointer and Flags.
+	 *	Resets buffer, position.
 	 *	@access		public
 	 *	@param		string		$buffer			new initial String in StringBuffer
-	 *	@return		void
+	 *	@return		self
 	 */
-	public function reset( $buffer = "" )
+	public function reset( string $buffer = '' ): self
 	{
 		$this->buffer	= $buffer;
-		$this->resetPointer();
+		$this->rewind();
+		return $this;
 	}
 
 	/**
-	 *	Resets Pointer and Flags.
+	 *	Resets position.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function resetPointer()
+	public function rewind()
 	{
-		$this->pointer		= 0;
-		$this->direction	= FALSE;
+		$this->position	= 0;
 	}
 
 	/**
 	 *	Sets the Character at a given Position.
 	 *	@access		public
 	 *	@param		int			$position		Position to set to
-	 *	@param		string		$characte		Character to set
-	 *	@return		string
+	 *	@param		string		$character		Character to set
+	 *	@return		self
 	 */
-	public function setCharAt( $position, $character )
+	public function setCharAt( int $position, string $character ): self
 	{
 		if( $position <= $this->count() && $position >= 0 )
 			$this->buffer[$position] = $character;
-		return $this->toString();
+		return $this;
 	}
 
 	/**
@@ -249,8 +191,13 @@ class ADT_StringBuffer implements Countable
 	 *	@access		public
 	 *	@return		string
 	 */
-	public function toString()
+	public function toString(): string
 	{
 		return $this->buffer;
+	}
+
+	public function valid(): bool
+	{
+		return isset( $this->buffer[$this->position] );
 	}
 }

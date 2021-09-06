@@ -6,7 +6,10 @@
  *	@since			15.06.2008
  *	@version		0.1
  */
-require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
+declare( strict_types = 1 );
+
+use PHPUnit\Framework\TestCase;
+
 /**
  *	TestUnit of FS_File_RecursiveNameFilter.
  *	@package		Tests.file
@@ -19,23 +22,14 @@ require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
 class Test_FS_File_RecursiveNameFilterTest extends Test_Case
 {
 	/**
-	 *	Constructor.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function __construct()
-	{
-		$this->path	= dirname( __FILE__ )."/FilterTest/";
-		$this->tearDown();
-	}
-
-	/**
 	 *	Setup for every Test.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
+		$this->path	= dirname( __FILE__ )."/FilterTest/";
+		$this->tearDown();
 		mkDir( $this->path );
 		mkDir( $this->path."nested/" );
 		file_put_contents( $this->path."test1.test", "test1" );
@@ -49,7 +43,7 @@ class Test_FS_File_RecursiveNameFilterTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function tearDown()
+	public function tearDown(): void
 	{
 		@unlink( $this->path."test1.test" );
 		@unlink( $this->path."test2.test" );
@@ -66,7 +60,7 @@ class Test_FS_File_RecursiveNameFilterTest extends Test_Case
 	 */
 	public function testConstructException()
 	{
-		$this->setExpectedException( 'RuntimeException' );
+		$this->expectException( 'RuntimeException' );
 		$index	= new FS_File_RecursiveNameFilter( "not_existing", "not_relevant" );
 	}
 
@@ -100,4 +94,3 @@ class Test_FS_File_RecursiveNameFilterTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

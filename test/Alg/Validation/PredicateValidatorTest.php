@@ -6,7 +6,10 @@
  *	@since			14.02.2008
  *	@version		0.1
  */
-require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
+declare( strict_types = 1 );
+
+use PHPUnit\Framework\TestCase;
+
 /**
  *	TestUnit of Predicate Validator.
  *	@package		Tests.alg.validation
@@ -18,7 +21,7 @@ require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
  */
 class Test_Alg_Validation_PredicateValidatorTest extends Test_Case
 {
-	public function __construct()
+	public function setUp(): void
 	{
 		$this->validator	= new Alg_Validation_PredicateValidator;
 	}
@@ -82,4 +85,3 @@ class Test_Alg_Validation_PredicateValidatorTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

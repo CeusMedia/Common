@@ -5,7 +5,10 @@
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@version		0.1
  */
-require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
+declare( strict_types = 1 );
+
+use PHPUnit\Framework\TestCase;
+
 /**
  *	TestUnit of Dictionary
  *	@package		Tests.adt.list
@@ -19,7 +22,7 @@ class Test_ADT_List_DictionaryTest extends Test_Case
 	/**	@var	ADT_List_Dictionary		$list		Instance of Dictionary */
 	private $dictionary;
 
-	public function setUp()
+	public function setUp(): void
 	{
 		$this->dictionary	= new ADT_List_Dictionary();
 		$this->dictionary->set( 'key0', 0 );
@@ -27,7 +30,7 @@ class Test_ADT_List_DictionaryTest extends Test_Case
 		$this->dictionary->set( 'key2', 'value2' );
 		$this->dictionary->set( 'key3', array( 'value3-1', 'value3-2' ) );
 		$this->dictionary->set( 'key4', array( 'key4-1' => 'value4-1', 'key4-2' => 'value4-2' ) );
-		$this->dictionary->set( 'key5', new ADT_List_Dictionary( '0', '1' ) );
+		$this->dictionary->set( 'key5', new ADT_List_Dictionary( array( '0', '1' ) ) );
 	}
 
 	public function testConstruct()
@@ -73,27 +76,27 @@ class Test_ADT_List_DictionaryTest extends Test_Case
 	}
 
 	/**
-	 *	@expectedException		InvalidArgumentException
 	 */
 	public function testCastException1()
 	{
+		$this->expectException( 'InvalidArgumentException' );
 		$fp	= fopen( __FILE__, 'r' );
 		$this->dictionary->cast( $fp, 'key1' );
 	}
 
 	/**
-	 *	@expectedException		OutOfRangeException
 	 */
 	public function testCastException2()
 	{
+		$this->expectException( 'OutOfRangeException' );
 		$this->dictionary->cast( 'whatever', 'invalid' );
 	}
 
 	/**
-	 *	@expectedException		UnexpectedValueException
 	 */
 	public function testCastException3()
 	{
+		$this->expectException( 'UnexpectedValueException' );
 		$this->dictionary->cast( array(), 'key1' );
 	}
 
@@ -163,8 +166,8 @@ class Test_ADT_List_DictionaryTest extends Test_Case
 			'key2'	=> 'value2',
 			'key3'	=> array( 'value3-1', 'value3-2' ),
 			'key4'	=> array( 'key4-1' => 'value4-1', 'key4-2' => 'value4-2' ),
-			'key5'	=> new ADT_List_Dictionary( '0', '1' ),
-			);
+			'key5'	=> new ADT_List_Dictionary( array( '0', '1' ) ),
+		);
 		$creation	= $this->dictionary->getAll();
 		$this->assertEquals( $assertion, $creation );
 	}
@@ -457,4 +460,3 @@ class Test_ADT_List_DictionaryTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}*/
 }
-?>

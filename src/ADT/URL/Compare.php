@@ -84,7 +84,7 @@ class ADT_URL_Compare
 
 	public static function sameBaseStatic( $url1, $url2 )
 	{
-		$that	= new static( $url1, $url2 );
+		$that	= new self( $url1, $url2 );
 		return $that->sameBase();
 	}
 }

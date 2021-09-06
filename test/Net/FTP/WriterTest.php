@@ -6,7 +6,10 @@
  *	@since			01.07.2008
  *	@version		0.1
  */
-require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
+declare( strict_types = 1 );
+
+use PHPUnit\Framework\TestCase;
+
 /**
  *	TestUnit of Net_FTP_Writer.
  *	@package		Tests.net.ftp
@@ -20,31 +23,23 @@ require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
 class Test_Net_FTP_WriterTest extends Test_Case
 {
 	/**
-	 *	Constructor.
+	 *	Setup for every Test.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function __construct()
+	public function setUp(): void
 	{
-		$config	= parse_ini_file( self::$pathLib.'Common.ini', TRUE );
-		$this->config	= $config['unitTest-FTP'];
+		$this->config	= self::$_config['unitTest-FTP'];
 		$this->host		= $this->config['host'];
 		$this->port		= $this->config['port'];
 		$this->username	= $this->config['user'];
 		$this->password	= $this->config['pass'];
 		$this->path		= $this->config['path'];
 		$this->local	= $this->config['local'];
-	}
 
-	/**
-	 *	Setup for every Test.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function setUp()
-	{
 		if( !$this->local )
 			$this->markTestSkipped( 'No FTP data set in Common.ini' );
+
 		$this->connection	= new Net_FTP_Connection( $this->host, $this->port );
 		$this->connection->login( $this->username, $this->password );
 
@@ -65,7 +60,7 @@ class Test_Net_FTP_WriterTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function tearDown()
+	public function tearDown(): void
 	{
 		if( !$this->local )
 			$this->markTestSkipped( 'No FTP data set in Common.ini' );
@@ -149,7 +144,7 @@ class Test_Net_FTP_WriterTest extends Test_Case
 	 */
 	public function testCopyFileException1()
 	{
-		$this->setExpectedException( 'RuntimeException' );
+		$this->expectException( 'RuntimeException' );
 		$this->writer->copyFile( "not_existing", "not_relevant" );
 	}
 
@@ -160,7 +155,7 @@ class Test_Net_FTP_WriterTest extends Test_Case
 	 */
 	public function testCopyFileException2()
 	{
-		$this->setExpectedException( 'RuntimeException' );
+		$this->expectException( 'RuntimeException' );
 		$this->writer->copyFile( "source.txt", "not_existing/not_relevant.txt" );
 	}
 
@@ -358,4 +353,3 @@ class Test_Net_FTP_WriterTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

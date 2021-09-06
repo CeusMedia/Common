@@ -6,7 +6,10 @@
  *	@since			08.07.2008
  *	@version		0.1
  */
-require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
+declare( strict_types = 1 );
+
+use PHPUnit\Framework\TestCase;
+
 /**
  *	TestUnit of Alg_Parcel_Factory.
  *	@package		Tests.alg.parcel
@@ -19,11 +22,11 @@ require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
 class Test_Alg_Parcel_FactoryTest extends Test_Case
 {
 	/**
-	 *	Constructor.
+	 *	Setup for every Test.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function __construct()
+	public function setUp(): void
 	{
 		$this->articles	= array(
 			'a',
@@ -43,16 +46,8 @@ class Test_Alg_Parcel_FactoryTest extends Test_Case
 				'b'	=> 0.25,
 			),
 		);
-	}
-
-	/**
-	 *	Setup for every Test.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function setUp()
-	{
-		$this->factory	= new Alg_Parcel_Factory( $this->packets, $this->articles, $this->volumes );
+		Test_MockAntiProtection::createMockClass( "Alg_Parcel_Factory" );
+		$this->factory	= new Test_Alg_Parcel_Factory_MockAntiProtection( $this->packets, $this->articles, $this->volumes );
 	}
 
 	/**
@@ -60,7 +55,7 @@ class Test_Alg_Parcel_FactoryTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function tearDown()
+	public function tearDown(): void
 	{
 	}
 
@@ -71,18 +66,18 @@ class Test_Alg_Parcel_FactoryTest extends Test_Case
 	 */
 	public function testConstruct()
 	{
-		$factory	= new Alg_Parcel_FactoryInstance( $this->packets, $this->articles, $this->volumes );
+//		$factory	= new Alg_Parcel_FactoryInstance( $this->packets, $this->articles, $this->volumes );
 
 		$assertion	= $this->packets;
-		$creation	= $factory->getProtectedVar( 'packets' );
+		$creation	= $this->factory->getProtectedVar( 'packets' );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= $this->articles;
-		$creation	= $factory->getProtectedVar( 'articles' );
+		$creation	= $this->factory->getProtectedVar( 'articles' );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= $this->volumes;
-		$creation	= $factory->getProtectedVar( 'volumes' );
+		$creation	= $this->factory->getProtectedVar( 'volumes' );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -112,7 +107,7 @@ class Test_Alg_Parcel_FactoryTest extends Test_Case
 	 */
 	public function testProduceException1()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$this->factory->produce( "not_existing", array( 'a' => 1 ) );
 	}
 
@@ -123,7 +118,7 @@ class Test_Alg_Parcel_FactoryTest extends Test_Case
 	 */
 	public function testProduceException2()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$this->factory->produce( "small", array( 'not_existing' => 1 ) );
 	}
 
@@ -134,7 +129,7 @@ class Test_Alg_Parcel_FactoryTest extends Test_Case
 	 */
 	public function testProduceException3()
 	{
-		$this->setExpectedException( 'OutOfRangeException' );
+		$this->expectException( 'OutOfRangeException' );
 		$this->factory->produce( "small", array( 'b' => 5 ) );
 	}
 }
@@ -147,4 +142,3 @@ class Alg_Parcel_FactoryInstance extends Alg_Parcel_Factory
 		return $this->$varName;
 	}
 }
-?>

@@ -6,7 +6,10 @@
  *	@since			08.07.2008
  *	@version		0.1
  */
-require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
+declare( strict_types = 1 );
+
+use PHPUnit\Framework\TestCase;
+
 /**
  *	TestUnit of Alg_Parcel_Packer.
  *	@package		Tests.alg.parcel
@@ -19,11 +22,11 @@ require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
 class Test_Alg_Parcel_PackerTest extends Test_Case
 {
 	/**
-	 *	Constructor.
+	 *	Setup for every Test.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function __construct()
+	public function setUp(): void
 	{
 		$this->articles	= array(
 			'a',
@@ -52,16 +55,6 @@ class Test_Alg_Parcel_PackerTest extends Test_Case
 				'c'	=> 0.5
 			)
 		);
-
-	}
-
-	/**
-	 *	Setup for every Test.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function setUp()
-	{
 		$this->packer	= new Alg_Parcel_Packer( $this->packets, $this->articles, $this->volumes );
 	}
 
@@ -70,7 +63,7 @@ class Test_Alg_Parcel_PackerTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function tearDown()
+	public function tearDown(): void
 	{
 	}
 
@@ -147,7 +140,7 @@ class Test_Alg_Parcel_PackerTest extends Test_Case
 	public function testGetPacketException()
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
-		$this->setExpectedException( 'OutOfRangeException' );
+		$this->expectException( 'OutOfRangeException' );
 		Alg_Parcel_Packer::getPacket();
 	}
 
@@ -159,7 +152,7 @@ class Test_Alg_Parcel_PackerTest extends Test_Case
 	public function testReplacePacketException()
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
-		$this->setExpectedException( 'OutOfRangeException' );
+		$this->expectException( 'OutOfRangeException' );
 		Alg_Parcel_Packer::replacePacket();
 	}
 
@@ -176,4 +169,3 @@ class Test_Alg_Parcel_PackerTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

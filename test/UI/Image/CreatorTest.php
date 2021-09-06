@@ -6,7 +6,10 @@
  *	@since			16.06.2008
  *	@version		0.1
  */
-require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
+declare( strict_types = 1 );
+
+use PHPUnit\Framework\TestCase;
+
 /**
  *	TestUnit of Inverter.
  *	@package		Tests.ui.image
@@ -19,21 +22,17 @@ require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
  */
 class Test_UI_Image_CreatorTest extends Test_Case
 {
-	public function __construct()
-	{
-		$this->path		= dirname( __FILE__ )."/";
-	}
-
-	public function setUp()
+	public function setUp(): void
 	{
 		if( !extension_loaded( 'gd' ) )
 			$this->markTestSkipped( 'Missing gd support' );
+		$this->path		= dirname( __FILE__ )."/";
 		$this->image	= new UI_Image_Creator();
 		$this->image->loadImage( $this->path."aptana_256.png" );
 		$this->tearDown();
 	}
 
-	public function tearDown()
+	public function tearDown(): void
 	{
 		@unlink( $this->path."targetCreator.jpg" );
 		@unlink( $this->path."targetCreator.gif" );
@@ -88,14 +87,14 @@ class Test_UI_Image_CreatorTest extends Test_Case
 
 	public function testLoadImageException1()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$image	= new UI_Image_Creator();
 		$image->loadImage( $this->path."not_existing.gif" );
 	}
 
 	public function testLoadImageException2()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$image	= new UI_Image_Creator();
 		$image->loadImage( $this->path."CreatorTest.php" );
 	}
@@ -128,4 +127,3 @@ class Test_UI_Image_CreatorTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

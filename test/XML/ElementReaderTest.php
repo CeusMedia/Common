@@ -6,7 +6,10 @@
  *	@since			20.02.2008
  *	@version		0.1
  */
-require_once dirname( __DIR__ ).'/initLoaders.php';
+declare( strict_types = 1 );
+
+use PHPUnit\Framework\TestCase;
+
 /**
  *	TestUnit of XML Element Reader.
  *	@package		Tests.xml
@@ -22,7 +25,7 @@ class Test_XML_ElementReaderTest extends Test_Case
 	protected $url		= 'http://www.rssboard.org/files/sample-rss-2.xml';
 	protected $file;
 
-	public function setUp()
+	public function setUp(): void
 	{
 		$this->file		= dirname( __FILE__ ).'/element_reader.xml';
 	}
@@ -66,4 +69,3 @@ class Test_XML_ElementReaderTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

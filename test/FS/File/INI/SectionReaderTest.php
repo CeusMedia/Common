@@ -5,7 +5,10 @@
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@version		0.1
  */
-require_once dirname( dirname( dirname( __DIR__ ) ) ).'/initLoaders.php';
+declare( strict_types = 1 );
+
+use PHPUnit\Framework\TestCase;
+
 /**
  *	TestUnit of Section INI Reader.
  *	@package		Tests.file.ini
@@ -19,7 +22,12 @@ class Test_FS_File_INI_SectionReaderTest extends Test_Case
 	/**	@var	string		$fileName		File Name of Test File */
 	private $fileName;
 
-	public function __construct()
+	/**
+	 *	Setup for every Test.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function setUp(): void
 	{
 		$this->fileName	= dirname( __FILE__ )."/section.reader.ini";
 		$this->reader	= new FS_File_INI_SectionReader( $this->fileName );
@@ -82,7 +90,7 @@ class Test_FS_File_INI_SectionReaderTest extends Test_Case
 	 */
 	public function testGetPropertiesException()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$creation	= $this->reader->getProperties( 'section3' );
 	}
 
@@ -105,7 +113,7 @@ class Test_FS_File_INI_SectionReaderTest extends Test_Case
 	 */
 	public function testGetPropertyException1()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$creation	= $this->reader->getProperty( 'section3', 'not_relevant' );
 	}
 
@@ -116,7 +124,7 @@ class Test_FS_File_INI_SectionReaderTest extends Test_Case
 	 */
 	public function testGetPropertyException2()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$creation	= $this->reader->getProperty( 'section1', 'invalid_key' );
 	}
 
@@ -164,4 +172,3 @@ class Test_FS_File_INI_SectionReaderTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

@@ -6,7 +6,10 @@
  *	@since			19.06.2008
  *	@version		0.1
  */
-require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
+declare( strict_types = 1 );
+
+use PHPUnit\Framework\TestCase;
+
 /**
  *	TestUnit of Alg_Validation_LanguageValidator.
  *	@package		Tests.alg.validation
@@ -19,22 +22,13 @@ require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
 class Test_Alg_Validation_LanguageValidatorTest extends Test_Case
 {
 	/**
-	 *	Constructor.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function __construct()
-	{
-		$this->validator	= new Alg_Validation_LanguageValidator( array( "en", "fr" ), "en" );
-	}
-
-	/**
 	 *	Setup for every Test.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
+		$this->validator	= new Alg_Validation_LanguageValidator( array( "en", "fr" ), "en" );
 	}
 
 	/**
@@ -42,7 +36,7 @@ class Test_Alg_Validation_LanguageValidatorTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function tearDown()
+	public function tearDown(): void
 	{
 	}
 
@@ -53,7 +47,7 @@ class Test_Alg_Validation_LanguageValidatorTest extends Test_Case
 	 */
 	public function testConstructException1()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		new Alg_Validation_LanguageValidator( "string" );
 	}
 
@@ -64,7 +58,7 @@ class Test_Alg_Validation_LanguageValidatorTest extends Test_Case
 	 */
 	public function testConstructException2()
 	{
-		$this->setExpectedException( 'RangeException' );
+		$this->expectException( 'RangeException' );
 		new Alg_Validation_LanguageValidator( array() );
 	}
 
@@ -75,7 +69,7 @@ class Test_Alg_Validation_LanguageValidatorTest extends Test_Case
 	 */
 	public function testConstructException3()
 	{
-		$this->setExpectedException( 'OutOfRangeException' );
+		$this->expectException( 'OutOfRangeException' );
 		new Alg_Validation_LanguageValidator( array( "de" ), "fr" );
 	}
 
@@ -119,4 +113,3 @@ class Test_Alg_Validation_LanguageValidatorTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

@@ -6,7 +6,10 @@
  *	@since			16.02.2008
  *	@version		0.1
  */
-require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
+declare( strict_types = 1 );
+
+use PHPUnit\Framework\TestCase;
+
 /**
  *	TestUnit of Thumbnail Creator.
  *	@package		Tests.ui.image
@@ -23,20 +26,18 @@ class Test_UI_Image_ThumbnailCreatorTest extends Test_Case
 	protected $sourceFile;
 	protected $targetFile;
 
-	public function __construct()
+	public function setUp(): void
 	{
+		if( !extension_loaded( 'gd' ) )
+			$this->markTestSkipped( 'Missing gd support' );
+
 		$this->path	= dirname( __FILE__ )."/";
 		$this->assertFile	= $this->path."assertThumbnail.png";
 		$this->sourceFile	= $this->path."sourceThumbnail.png";
 		$this->targetFile	= $this->path."targetThumbnail.png";
 	}
 
-	public function setUp(){
-		if( !extension_loaded( 'gd' ) )
-			$this->markTestSkipped( 'Missing gd support' );
-	}
-
-	public function tearDown()
+	public function tearDown(): void
 	{
 		@unlink( $this->path."targetThumbnail.gif" );
 		@unlink( $this->path."targetThumbnail.png" );
@@ -140,4 +141,3 @@ class Test_UI_Image_ThumbnailCreatorTest extends Test_Case
 		}
 	}
 }
-?>

@@ -5,7 +5,10 @@
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@version		0.1
  */
-require_once dirname( __DIR__ ).'/initLoaders.php';
+declare( strict_types = 1 );
+
+use PHPUnit\Framework\TestCase;
+
 /**
  *	TestUnit of Registry
  *	@package		Tests.adt
@@ -16,7 +19,7 @@ require_once dirname( __DIR__ ).'/initLoaders.php';
  */
 class Test_ADT_RegistryTest extends Test_Case
 {
-	public function setUp()
+	public function setUp(): void
 	{
 		$this->registry	= ADT_Registry::getInstance();
 	}
@@ -89,4 +92,3 @@ class Test_ADT_RegistryTest extends Test_Case
 	}
 
 }
-?>

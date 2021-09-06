@@ -23,8 +23,24 @@ class CLI
 	public function __construct()
 	{
 		$this->base	= getCwd();
-		$this->size	= CLI\Dimensions::getSize();
-		Text::$defaultLineLength	= $this->size->width - 1;
+		$this->size	= \CLI_Dimensions::getSize();
+		\UI_Text::$defaultLineLength	= $this->size->width - 1;
+	}
+
+	/**
+	 *	Ensures that runtime environment is headless, like crontab execution.
+	 *	@access		public
+	 *	@static
+	 *	@param		boolean		$strict			Flag: throw exception if not headless (default: yes)
+	 *	@return		boolean
+	 */
+	static public function checkIsHeadless( bool $strict = TRUE ): bool
+	{
+		if( getEnv( 'TERM' ) === FALSE )
+			return TRUE;
+		if( $strict )
+			throw new \RuntimeException( 'Available in headless environment, only' );
+		return FALSE;
 	}
 
 	static public function checkIsCLi( bool $strict = TRUE ): bool
@@ -43,7 +59,7 @@ class CLI
 			print 'x'.$i.'0  ';
 			for($j=0; $j<16; $j++){
 				$number	= $i.dechex( $j);
-				print ' '.Text::char( 'x'.$number );
+				print ' '.UI_Text::char( 'x'.$number );
 			}
 			print PHP_EOL;
 		}

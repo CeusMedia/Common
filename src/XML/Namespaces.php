@@ -58,7 +58,7 @@ class XML_Namespaces
 	 */
 	public function detectNamespacesFromDocument( $doc )
 	{
-		$namespaces	= self::getNamespacesFromDocument( $element );
+		$namespaces	= self::getNamespacesFromDocument( $doc );
 		$this->namespaces	= array_merge( $this->namespaces, $namespaces );
 		return count( $namespaces );
 	}

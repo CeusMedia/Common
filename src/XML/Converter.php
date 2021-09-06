@@ -60,11 +60,13 @@ class XML_Converter
 	 */
 	public static function toPlainObject( $xml )
 	{
-		$parser	= new XML_DOM_Parser();
+		$parser		= new XML_DOM_Parser();
 		$document	= $parser->parse( $xml );
 		$rootNode	= array_shift( $document->getChildren() );
 		$rootName	= $rootNode->getNodeName();
-		$object->$rootName	= new stdClass();
+		$object		= (object) array(
+			$rootName => new stdClass()
+		);
 		self::convertToObjectRecursive( $rootNode, $object->$rootName );
 		return $object;
 	}

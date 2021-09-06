@@ -5,7 +5,10 @@
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@version		0.1
  */
-require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
+declare( strict_types = 1 );
+
+use PHPUnit\Framework\TestCase;
+
 /**
  *	TestUnit of File Reader.
  *	@package		Tests.file
@@ -22,11 +25,11 @@ class Test_FS_File_ReaderTest extends Test_Case
 	private $fileContent	= "line1\nline2\n";
 
 	/**
-	 *	Constructor.
+	 *	Setup for every Test.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function __construct()
+	public function setUp(): void
 	{
 		$this->fileName	= dirname( __FILE__ )."/reader.test";
 		$this->reader	= new FS_File_Reader( $this->fileName );
@@ -217,7 +220,7 @@ class Test_FS_File_ReaderTest extends Test_Case
 	 */
 	public function testLoadException()
 	{
-		$this->setExpectedException( 'RuntimeException' );
+		$this->expectException( 'RuntimeException' );
 		FS_File_Reader::load( "not_existing" );
 	}
 
@@ -240,7 +243,7 @@ class Test_FS_File_ReaderTest extends Test_Case
 	 */
 	public function testLoadArrayException()
 	{
-		$this->setExpectedException( 'RuntimeException' );
+		$this->expectException( 'RuntimeException' );
 		FS_File_Reader::loadArray( "not_existing" );
 	}
 
@@ -263,7 +266,7 @@ class Test_FS_File_ReaderTest extends Test_Case
 	 */
 	public function testReadStringException()
 	{
-		$this->setExpectedException( 'RuntimeException' );
+		$this->expectException( 'RuntimeException' );
 		$reader	= new FS_File_Reader( "not_existing" );
 		$reader->readString();
 	}
@@ -287,9 +290,8 @@ class Test_FS_File_ReaderTest extends Test_Case
 	 */
 	public function testReadArrayException()
 	{
-		$this->setExpectedException( 'RuntimeException' );
+		$this->expectException( 'RuntimeException' );
 		$reader	= new FS_File_Reader( "not_existing" );
 		$reader->readArray();
 	}
 }
-?>

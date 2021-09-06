@@ -6,7 +6,10 @@
  *	@since			25.10.2008
  *	@version		0.1
  */
-require_once dirname( dirname( dirname( __DIR__ ) ) ).'/initLoaders.php';
+declare( strict_types = 1 );
+
+use PHPUnit\Framework\TestCase;
+
 /**
  *	TestUnit of XML_DOM_PEAR_PackageReader.
  *	@package		Tests....
@@ -19,22 +22,13 @@ require_once dirname( dirname( dirname( __DIR__ ) ) ).'/initLoaders.php';
 class Test_XML_DOM_PEAR_PackageReaderTest extends Test_Case
 {
 	/**
-	 *	Constructor.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function __construct()
-	{
-		$this->path	= dirname( __FILE__)."/";
-	}
-
-	/**
 	 *	Setup for every Test.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
+		$this->path	= dirname( __FILE__)."/";
 		$this->reader	= new XML_DOM_PEAR_PackageReader();
 	}
 
@@ -43,7 +37,7 @@ class Test_XML_DOM_PEAR_PackageReaderTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function tearDown()
+	public function tearDown(): void
 	{
 	}
 
@@ -59,4 +53,3 @@ class Test_XML_DOM_PEAR_PackageReaderTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

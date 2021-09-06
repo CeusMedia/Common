@@ -49,7 +49,7 @@ class Exception_Logic extends Exception_Runtime
 	 *	@param		integer		$code			Exception code
 	 *	@return		void
 	 */
-	public function __construct( $message, $subject = "", $code = 0 )
+	public function __construct( $message, $subject = "", $code = 0, ?Throwable $previous = null )
 	{
 		parent::__construct( $message, $code );
 		$this->subject	= $subject;

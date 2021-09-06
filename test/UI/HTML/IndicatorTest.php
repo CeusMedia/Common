@@ -6,7 +6,10 @@
  *	@since			09.07.2008
  *	@version		0.1
  */
-require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
+declare( strict_types = 1 );
+
+use PHPUnit\Framework\TestCase;
+
 /**
  *	TestUnit of UI_HTML_Indicator.
  *	@package		Tests.ui.html
@@ -19,22 +22,13 @@ require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
 class Test_UI_HTML_IndicatorTest extends Test_Case
 {
 	/**
-	 *	Constructor.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function __construct()
-	{
-		$this->path	= dirname( __FILE__ )."/";
-	}
-
-	/**
 	 *	Setup for every Test.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
+		$this->path	= dirname( __FILE__ )."/";
 		$this->indicator	= new UI_HTML_Indicator();
 	}
 
@@ -43,7 +37,7 @@ class Test_UI_HTML_IndicatorTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function tearDown()
+	public function tearDown(): void
 	{
 	}
 
@@ -221,7 +215,7 @@ class Test_UI_HTML_IndicatorTest extends Test_Case
 	 */
 	public function testSetOptionException()
 	{
-		$this->setExpectedException( 'OutOfRangeException' );
+		$this->expectException( 'OutOfRangeException' );
 		$creation	= $this->indicator->setOption( 'not_existing', 'not_relevant' );
 	}
 
@@ -267,4 +261,3 @@ class Test_UI_HTML_IndicatorTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

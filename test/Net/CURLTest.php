@@ -6,7 +6,10 @@
  *	@since			29.10.2010
  *	@version		0.1
  */
-require_once dirname( __DIR__ ).'/initLoaders.php';
+declare( strict_types = 1 );
+
+use PHPUnit\Framework\TestCase;
+
 /**
  *	TestUnit of Net_CURL.
  *	@package		Tests.Net
@@ -19,20 +22,11 @@ require_once dirname( __DIR__ ).'/initLoaders.php';
 class Test_Net_CURLTest extends Test_Case
 {
 	/**
-	 *	Constructor.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function __construct()
-	{
-	}
-
-	/**
 	 *	Setup for every Test.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
 		if( !extension_loaded( 'curl' ) )
 			$this->markTestSkipped( 'Missing cURL support' );
@@ -43,7 +37,7 @@ class Test_Net_CURLTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function tearDown()
+	public function tearDown(): void
 	{
 	}
 
@@ -94,7 +88,7 @@ class Test_Net_CURLTest extends Test_Case
 	public function testExecException1()
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
-		$this->setExpectedException( 'RuntimeException' );
+		$this->expectException( 'RuntimeException' );
 		Net_CURL::exec();
 	}
 
@@ -106,7 +100,7 @@ class Test_Net_CURLTest extends Test_Case
 	public function testExecException2()
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		Net_CURL::exec();
 	}
 
@@ -118,7 +112,7 @@ class Test_Net_CURLTest extends Test_Case
 	public function testExecException3()
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
-		$this->setExpectedException( 'RuntimeException' );
+		$this->expectException( 'RuntimeException' );
 		Net_CURL::exec();
 	}
 
@@ -169,7 +163,7 @@ class Test_Net_CURLTest extends Test_Case
 	public function testGetStatusException()
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
-		$this->setExpectedException( 'RuntimeException' );
+		$this->expectException( 'RuntimeException' );
 		Net_CURL::getStatus();
 	}
 
@@ -220,7 +214,7 @@ class Test_Net_CURLTest extends Test_Case
 	public function testSetOptionException1()
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		Net_CURL::setOption();
 	}
 
@@ -232,7 +226,7 @@ class Test_Net_CURLTest extends Test_Case
 	public function testSetOptionException2()
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		Net_CURL::setOption();
 	}
 
@@ -249,4 +243,3 @@ class Test_Net_CURLTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

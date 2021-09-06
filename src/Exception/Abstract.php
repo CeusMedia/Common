@@ -43,16 +43,23 @@ abstract class Exception_Abstract extends Exception implements Exception_Interfa
 {
 	// Exception message
 	protected $message = 'Unknown exception';
-	// Unknown
-	private   $string;
+
 	// User-defined exception code
 	protected $code    = 0;
+
 	// Source filename of exception
 	protected $file;
+
 	// Source line of exception
 	protected $line;
+
+	protected $previous;
+
 	// Unknown
 	private   $trace;
+
+	// Unknown
+	private   $string;
 
 	/**
 	 *	Constructor.
@@ -61,11 +68,11 @@ abstract class Exception_Abstract extends Exception implements Exception_Interfa
 	 *	@param		integer		$code
 	 *	@return		void
 	 */
-	public function __construct( $message = NULL, $code = 0 )
+	public function __construct( $message = NULL, $code = 0, ?Throwable $previous = null )
 	{
 		if( !$message )
 			throw new $this( 'Unknown '.get_class( $this ) );
-		parent::__construct( $message, $code );
+		parent::__construct( $message, $code, $previous );
 	}
 
 	/**

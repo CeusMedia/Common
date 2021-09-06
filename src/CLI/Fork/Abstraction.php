@@ -45,20 +45,21 @@ namespace CeusMedia\Common\CLI\Fork;
 abstract class Abstraction
 {
 	protected $pids			= array();
+
 	protected $isBlocking;
 
-	public function __construct( $blocking = FALSE )
+	public function __construct( bool $blocking = FALSE )
 	{
 		$this->isBlocking	= (int) $blocking;
 	}
 
 	protected function cleanUpForks()
 	{
-		if( pcntl_wait($status, WNOHANG OR WUNTRACED) < 1 ) {
-			foreach($this->pids as $nr => $pid) {
+		if( pcntl_wait( $status, WNOHANG OR WUNTRACED ) < 1 ){
+			foreach( $this->pids as $nr => $pid ){
 				// This detects if the child is still running or not
-				if(!posix_kill($pid, 0)) {
-					unset($this->pids[$nr]);
+				if( !posix_kill( $pid, 0 ) ){
+					unset( $this->pids[$nr] );
 				}
 			}
 		}
@@ -68,27 +69,27 @@ abstract class Abstraction
 	{
 		$arguments	= func_get_args();
 		$pid		= pcntl_fork();
-		if($pid == -1) {
+		if( $pid == -1 )
 			throw new \RuntimeException('Could not fork');
-		}
+
 		// parent process runs what is here
-		if($pid) {
-			$this->runInParent($arguments);
-			if($this->isBlocking)
+		if( $pid ){
+			$this->runInParent( $arguments );
+			if( $this->isBlocking )
 				// wait until the child has finished processing then end the script
-				pcntl_waitpid($pid, $status, WUNTRACED);
+				pcntl_waitpid( $pid, $status, WUNTRACED );
 			else
 				$this->pids[]	= $pid;
 		}
 		// child process runs what is here
 		else {
-			return $this->runInChild($arguments);
+			return $this->runInChild( $arguments );
 		}
-		if(!$this->isBlocking)
+		if( !$this->isBlocking )
 			$this->cleanUpForks();
 	}
 
-	abstract protected function runInChild( $arguments = array() );
+	abstract protected function runInChild( array $arguments = array() );
 
-	abstract protected function runInParent( $arguments = array() );
+	abstract protected function runInParent( array $arguments = array() );
 }

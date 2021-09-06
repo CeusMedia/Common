@@ -6,7 +6,10 @@
  *	@since			11.12.2007
  *	@version		0.1
  */
-require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
+declare( strict_types = 1 );
+
+use PHPUnit\Framework\TestCase;
+
 /**
  *	TestUnit of XML DOM Parser.
  *	@package		Tests.xml.dom
@@ -25,7 +28,7 @@ class Test_XML_DOM_ParserTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
 		$this->builder	= new XML_DOM_Builder();
 		$this->parser	= new XML_DOM_Parser();
@@ -94,4 +97,3 @@ class Test_XML_DOM_ParserTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

@@ -5,7 +5,10 @@
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@version		0.1
  */
-require_once dirname( dirname( dirname( __DIR__ ) ) ).'/initLoaders.php'; 
+declare( strict_types = 1 );
+
+use PHPUnit\Framework\TestCase;
+
 /**
  *	TestUnit of List Editor.
  *	@package		Tests.file.list
@@ -23,7 +26,7 @@ class Test_FS_File_List_EditorTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
 		$this->fileName	= dirname( __FILE__ )."/edit.list";
 		FS_File_List_Writer::save( $this->fileName, array( "line1", "line2" ) );
@@ -61,7 +64,7 @@ class Test_FS_File_List_EditorTest extends Test_Case
 	 */
 	public function testAddException()
 	{
-		$this->setExpectedException( 'DomainException' );
+		$this->expectException( 'DomainException' );
 		$this->editor->add( 'line1' );
 	}
 
@@ -88,7 +91,7 @@ class Test_FS_File_List_EditorTest extends Test_Case
 	 */
 	public function testEditException()
 	{
-		$this->setExpectedException( 'DomainException' );
+		$this->expectException( 'DomainException' );
 		$this->editor->edit( "not_existing", "not_relevant" );
 	}
 
@@ -131,7 +134,7 @@ class Test_FS_File_List_EditorTest extends Test_Case
 	public function testRemoveException()
 	{
 		$this->editor->remove( 'line1' );
-		$this->setExpectedException( 'DomainException' );
+		$this->expectException( 'DomainException' );
 		$this->editor->remove( 'line1' );
 	}
 
@@ -166,7 +169,7 @@ class Test_FS_File_List_EditorTest extends Test_Case
 	 */
 	public function testRemoveIndexException()
 	{
-		$this->setExpectedException( 'DomainException' );
+		$this->expectException( 'DomainException' );
 		$this->editor->removeIndex( 10 );
 	}
 
@@ -182,4 +185,3 @@ class Test_FS_File_List_EditorTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

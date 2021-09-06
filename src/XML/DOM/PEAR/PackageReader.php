@@ -68,12 +68,12 @@ class XML_DOM_PEAR_PackageReader
 				break;
 			}
 		}
-		if( !$root )
-			throw Exception( 'No root node found.' );
+		if( !isset( $root ) )
+			throw new Exception( 'No root node found.' );
 
 		foreach( $root->childNodes as $node )
 		{
-			$nodeName	= strToLower( $node->nodeName );
+			$nodeName	= strtolower( $node->nodeName );
 			switch( $nodeName )
 			{
 				case 'maintainers':

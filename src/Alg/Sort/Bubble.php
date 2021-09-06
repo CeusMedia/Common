@@ -49,7 +49,7 @@ class Bubble
 	{
 		for( $i=sizeof( $list ) - 1; $i>=1; $i-- )
 			for( $j=0; $j<$i; $j++ )
-				if( $list[$j] > $list[$j+1] )
+				if( $list[$j] > $list[$j+1] ) 
 					self::swap( $list, $j, $j + 1 );
 		return $list;
 	}

@@ -54,7 +54,7 @@ class Net_HTTP_PartitionSession extends ADT_List_Dictionary
 	public function __construct( $partitionName, $sessionName = "sid", $domain = NULL )
 	{
 		//  set session cookie name
-		session_name( $sessionName );
+		@session_name( $sessionName );
 		//  a domain has been specified
 		if( strlen( trim( $domain ) ) )
 			//  set cookie domain

@@ -144,7 +144,10 @@ class DirectedWeighted extends Weighted
 		return false;
 	}
 
-	public function getPathValue( $source, $target )
+	/**
+	 *	@param		array			$hadNodes	Array of already visited Nodes
+	 */
+	public function getPathValue( $source, $target, $hadNodes = array() )
 	{
 		if( $this->isEdge( $source, $target ) )
 		{
@@ -155,7 +158,7 @@ class DirectedWeighted extends Weighted
 		foreach( $nodes as $node )
 		{
 			$value	= $this->getEdgeValue( $source, $node );
-			$way	= $this->getPathValue( $node, $target );
+			$way	= $this->getPathValue( $node, $target, $hadNodes );
 			if( $way )
 				return $value + $way;
 		}
@@ -248,33 +251,6 @@ class DirectedWeighted extends Weighted
 			$a[$source->getNodeName()] = $line;
 		}
 		return $a;
-	}
-
-	/**
-	 *	 Returns all Nodes and Edges of this Graph as an associative file matrix.
-	 *	 @access		public
-	 *	 @return		AssocFileMatrix
-	 */
-	public function toMatrix( $filename = false )
-	{
-		if( $filename) $m = new MatrixAssocFileMatrix( $filename );
-		else $m = new AssocMatrix();
-
-		$nodes = $this->getNodes();
-		foreach( $nodes as $source )
-		{
-			echo $source->getNodeName()."<br>";
-			foreach( $nodes as $target )
-			{
-				if( $this->isEdge($source, $target ) )
-				{
-					$value = $this->getEdgeValue( $source, $target );
-				}
-				else $value = 0;
-				$m->addValueAssoc( $source->getNodeName(), $target->getNodeName(), $value );
-			}
-		}
-		return $m;
 	}
 
 	/**

@@ -51,6 +51,6 @@ class XML_DOM_ObjectFileSerializer
 	 */
 	public static function serialize( $object, $fileName )
 	{
-		return FS_File_Writer::save( XML_DOM_ObjectSerializer::serialize( $object ) );
+		return FS_File_Writer::save( $fileName, XML_DOM_ObjectSerializer::serialize( $object ) );
 	}
 }

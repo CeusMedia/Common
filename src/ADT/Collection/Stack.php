@@ -51,8 +51,7 @@ class Stack implements \Countable
 	 */
 	public function __construct( array $initialArray = array() )
 	{
-		if( is_array( $initialArray ) && count( $initialArray ) )
-			$this->stack = $initialArray;
+		$this->stack = $initialArray;
 	}
 
 	/**
@@ -95,7 +94,7 @@ class Stack implements \Countable
 	 */
 	public function has( $item ): bool
 	{
-		return in_array( $item, $this->stack );
+		return in_array( $item, $this->stack, TRUE );
 	}
 
 	/**
@@ -105,9 +104,7 @@ class Stack implements \Countable
 	 */
 	public function isEmpty(): bool
 	{
-		if( $this->count() == 0 )
-			return true;
-		return false;
+		return ( 0 === $this->count() );
 	}
 
 	/**

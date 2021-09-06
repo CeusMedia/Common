@@ -6,7 +6,10 @@
  *	@since			04.07.2008
  *	@version		0.1
  */
-require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
+declare( strict_types = 1 );
+
+use PHPUnit\Framework\TestCase;
+
 /**
  *	TestUnit of FS_File_Editor.
  *	@package		Tests.file
@@ -28,25 +31,16 @@ class Test_FS_File_EditorTest extends Test_Case
 	private $path;
 
 	/**
-	 *	Constructor.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function __construct()
-	{
-		$this->path		= dirname( __FILE__ )."/";
-		$this->fileName	= $this->path.$this->fileName;
-		$this->editor	= new FS_File_Editor( $this->fileName );
-	}
-
-	/**
 	 *	Setup for every Test.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
+		$this->path		= dirname( __FILE__ )."/";
+		$this->fileName	= $this->path.$this->fileName;
 		file_put_contents( $this->fileName, $this->fileContent );
+		$this->editor	= new FS_File_Editor( $this->fileName );
 	}
 
 	/**
@@ -54,7 +48,7 @@ class Test_FS_File_EditorTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function tearDown()
+	public function tearDown(): void
 	{
 		@unlink( $this->fileName );
 		@unlink( $this->path."renamed.txt" );
@@ -184,7 +178,7 @@ class Test_FS_File_EditorTest extends Test_Case
 	 */
 	public function testRenameException1()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$this->editor->rename( NULL );
 	}
 
@@ -195,7 +189,7 @@ class Test_FS_File_EditorTest extends Test_Case
 	 */
 	public function testRenameException2()
 	{
-		$this->setExpectedException( 'RuntimeException' );
+		$this->expectException( 'RuntimeException' );
 		$this->editor->rename( "not_existing_path/not_relevant.txt" );
 	}
 
@@ -235,4 +229,3 @@ class Test_FS_File_EditorTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

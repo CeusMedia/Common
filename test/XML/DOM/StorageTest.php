@@ -6,7 +6,10 @@
  *	@since			13.12.2007
  *	@version		0.1
  */
-require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
+declare( strict_types = 1 );
+
+use PHPUnit\Framework\TestCase;
+
 /**
  *	TestUnit of XML DOM Storage.
  *	@package		Tests.xml.dom
@@ -19,22 +22,13 @@ require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
 class Test_XML_DOM_StorageTest extends Test_Case
 {
 	/**
-	 *	Constructor.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function __construct()
-	{
-		$this->fileName		= dirname( __FILE__ )."/storage.xml";
-	}
-
-	/**
 	 *	Sets up Leaf.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
+		$this->fileName		= dirname( __FILE__ )."/storage.xml";
 		$this->storage	= new XML_DOM_Storage( $this->fileName );
 		$this->storage->set( "tests.test1.key1", "value11" );
 		$this->storage->write();
@@ -45,7 +39,7 @@ class Test_XML_DOM_StorageTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function tearDown()
+	public function tearDown(): void
 	{
 		@unlink( $this->fileName );
 	}
@@ -154,4 +148,3 @@ class Test_XML_DOM_StorageTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

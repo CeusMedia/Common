@@ -6,7 +6,10 @@
  *	@since			01.07.2008
  *	@version		0.1
  */
-require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
+declare( strict_types = 1 );
+
+use PHPUnit\Framework\TestCase;
+
 /**
  *	TestUnit of Net_FTP_Connection.
  *	@package		Tests.net.ftp
@@ -20,22 +23,6 @@ class Test_Net_FTP_ConnectionTest extends Test_Case
 {
 	protected $connection;
 
-	/**
-	 *	Constructor.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function __construct()
-	{
-		$this->config	= self::$config['unitTest-FTP'];
-		$this->host		= $this->config['host'];
-		$this->port		= $this->config['port'];
-		$this->username	= $this->config['user'];
-		$this->password	= $this->config['pass'];
-		$this->path		= $this->config['path'];
-		$this->local	= $this->config['local'];
-	}
-
 	protected function login() {
 		$this->connection->login( $this->username, $this->password );
 		if( $this->path )
@@ -47,10 +34,19 @@ class Test_Net_FTP_ConnectionTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
+		$this->config	= self::$_config['unitTest-FTP'];
+		$this->host		= $this->config['host'];
+		$this->port		= $this->config['port'];
+		$this->username	= $this->config['user'];
+		$this->password	= $this->config['pass'];
+		$this->path		= $this->config['path'];
+		$this->local	= $this->config['local'];
+
 		if( !$this->local )
 			$this->markTestSkipped( 'No FTP data set in cmClasses.ini' );
+
 		@mkDir( $this->local );
 		$this->connection	= new Net_FTP_Connection( $this->host, $this->port );
 	}
@@ -60,7 +56,7 @@ class Test_Net_FTP_ConnectionTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function tearDown()
+	public function tearDown(): void
 	{
 		if( empty( $this->local ) )
 			return;
@@ -120,7 +116,7 @@ class Test_Net_FTP_ConnectionTest extends Test_Case
 	public function testCheckConnectionException1()
 	{
 		$this->connection->close();
-		$this->setExpectedException( 'RuntimeException' );
+		$this->expectException( 'RuntimeException' );
 		$this->connection->checkConnection( TRUE, FALSE );
 	}
 
@@ -131,7 +127,7 @@ class Test_Net_FTP_ConnectionTest extends Test_Case
 	 */
 	public function testCheckConnectionException2()
 	{
-		$this->setExpectedException( 'RuntimeException' );
+		$this->expectException( 'RuntimeException' );
 		$this->connection->checkConnection( TRUE, TRUE );
 	}
 
@@ -336,4 +332,3 @@ class Test_Net_FTP_ConnectionTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

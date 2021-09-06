@@ -6,7 +6,12 @@
  *	@since			21.04.2008
  *	@version		0.1
  */
-require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
+declare( strict_types = 1 );
+
+use PHPUnit\Framework\TestCase;
+
+require_once __DIR__.'/TestCase.php';
+
 /**
  *	TestUnit of Folder Reader.
  *	@package		Tests.folder
@@ -23,10 +28,13 @@ class Test_FS_Folder_ReaderTest extends Test_FS_Folder_TestCase
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
-		$this->reader1	= new FS_Folder_Reader( $this->path."folder" );				//  valid Folder Reader
-		$this->reader2	= new FS_Folder_Reader( $this->path."not_existing" );			//  invalid Folder Reader
+		parent::setUp();
+		//  valid Folder Reader
+		$this->reader1	= new FS_Folder_Reader( $this->path."folder" );
+		//  invalid Folder Reader
+		$this->reader2	= new FS_Folder_Reader( $this->path."not_existing" );
 	}
 
 	/**
@@ -81,7 +89,7 @@ class Test_FS_Folder_ReaderTest extends Test_FS_Folder_TestCase
 	 */
 	public function testGetCountException()
 	{
-		$this->setExpectedException( "RuntimeException" );
+		$this->expectException( "RuntimeException" );
 		$creation	= $this->reader2->getCount();
 	}
 
@@ -112,7 +120,7 @@ class Test_FS_Folder_ReaderTest extends Test_FS_Folder_TestCase
 	 */
 	public function testGetFileCountException()
 	{
-		$this->setExpectedException( "RuntimeException" );
+		$this->expectException( "RuntimeException" );
 		$creation	= $this->reader2->getFileCount();
 	}
 
@@ -141,7 +149,7 @@ class Test_FS_Folder_ReaderTest extends Test_FS_Folder_TestCase
 	 */
 	public function testGetFileListException()
 	{
-		$this->setExpectedException( "RuntimeException" );
+		$this->expectException( "RuntimeException" );
 		$index	= $this->reader2->getFileList();
 	}
 
@@ -177,7 +185,7 @@ class Test_FS_Folder_ReaderTest extends Test_FS_Folder_TestCase
 	 */
 	public function testGetFileListByExtensionsExecption()
 	{
-		$this->setExpectedException( "RuntimeException" );
+		$this->expectException( "RuntimeException" );
 		$creation	= $this->reader2->getFileListByExtensions( array( "*" ) );
 	}
 
@@ -204,7 +212,7 @@ class Test_FS_Folder_ReaderTest extends Test_FS_Folder_TestCase
 	 */
 	public function testGetFolderCountException()
 	{
-		$this->setExpectedException( "RuntimeException" );
+		$this->expectException( "RuntimeException" );
 		$creation	= $this->reader2->getFolderCount();
 	}
 
@@ -230,7 +238,7 @@ class Test_FS_Folder_ReaderTest extends Test_FS_Folder_TestCase
 	 */
 	public function testGetFolderListException()
 	{
-		$this->setExpectedException( "RuntimeException" );
+		$this->expectException( "RuntimeException" );
 		$index	= $this->reader2->getFolderList();
 	}
 
@@ -294,7 +302,7 @@ class Test_FS_Folder_ReaderTest extends Test_FS_Folder_TestCase
 	 */
 	public function testGetListException()
 	{
-		$this->setExpectedException( "RuntimeException" );
+		$this->expectException( "RuntimeException" );
 		$index	= $this->reader2->getList();
 	}
 
@@ -349,7 +357,7 @@ class Test_FS_Folder_ReaderTest extends Test_FS_Folder_TestCase
 	 */
 	public function testGetRealPathException()
 	{
-		$this->setExpectedException( "RuntimeException" );
+		$this->expectException( "RuntimeException" );
 		$creation	= $this->reader2->getRealPath();
 	}
 
@@ -376,7 +384,7 @@ class Test_FS_Folder_ReaderTest extends Test_FS_Folder_TestCase
 	 */
 	public function testGetNestedCountException()
 	{
-		$this->setExpectedException( "RuntimeException" );
+		$this->expectException( "RuntimeException" );
 		$index	= $this->reader2->getNestedCount();
 	}
 
@@ -403,7 +411,7 @@ class Test_FS_Folder_ReaderTest extends Test_FS_Folder_TestCase
 	 */
 	public function testGetNestedFileCountException()
 	{
-		$this->setExpectedException( "RuntimeException" );
+		$this->expectException( "RuntimeException" );
 		$index	= $this->reader2->getNestedFileCount();
 	}
 
@@ -447,7 +455,7 @@ class Test_FS_Folder_ReaderTest extends Test_FS_Folder_TestCase
 	 */
 	public function testGetNestedFileListException()
 	{
-		$this->setExpectedException( "RuntimeException" );
+		$this->expectException( "RuntimeException" );
 		$index	= $this->reader2->getNestedFileList();
 	}
 
@@ -474,7 +482,7 @@ class Test_FS_Folder_ReaderTest extends Test_FS_Folder_TestCase
 	 */
 	public function testGetNestedFolderCountException()
 	{
-		$this->setExpectedException( "RuntimeException" );
+		$this->expectException( "RuntimeException" );
 		$index	= $this->reader2->getNestedFolderCount();
 	}
 
@@ -513,7 +521,7 @@ class Test_FS_Folder_ReaderTest extends Test_FS_Folder_TestCase
 	 */
 	public function testGetNestedFolderListException()
 	{
-		$this->setExpectedException( "RuntimeException" );
+		$this->expectException( "RuntimeException" );
 		$index	= $this->reader2->getNestedFolderList();
 	}
 
@@ -562,7 +570,7 @@ class Test_FS_Folder_ReaderTest extends Test_FS_Folder_TestCase
 	 */
 	public function testGetNestedListException()
 	{
-		$this->setExpectedException( "RuntimeException" );
+		$this->expectException( "RuntimeException" );
 		$index	= $this->reader2->getNestedList();
 	}
 
@@ -589,7 +597,7 @@ class Test_FS_Folder_ReaderTest extends Test_FS_Folder_TestCase
 	 */
 	public function testGetNestedSizeException()
 	{
-		$this->setExpectedException( "RuntimeException" );
+		$this->expectException( "RuntimeException" );
 		$index	= $this->reader2->getNestedSize();
 	}
 
@@ -616,7 +624,7 @@ class Test_FS_Folder_ReaderTest extends Test_FS_Folder_TestCase
 	 */
 	public function testGetSizeException()
 	{
-		$this->setExpectedException( "RuntimeException" );
+		$this->expectException( "RuntimeException" );
 		$creation	= $this->reader2->getSize();
 	}
 
@@ -636,4 +644,3 @@ class Test_FS_Folder_ReaderTest extends Test_FS_Folder_TestCase
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

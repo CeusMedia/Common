@@ -31,4 +31,3 @@ class Go_SelfTester
 		remark( "" );
 	}
 }
-?>

@@ -6,7 +6,10 @@
  *	@since			20.02.2008
  *	@version		0.1
  */
-require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
+declare( strict_types = 1 );
+
+use PHPUnit\Framework\TestCase;
+
 /**
  *	TestUnit of XML RSS Reader.
  *	@package		Tests.xml.rss
@@ -26,7 +29,7 @@ class Test_XML_RSS_ReaderTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
 		$this->file		= dirname( __FILE__ )."/reader.xml";
 		$this->serial	= dirname( __FILE__ )."/reader.serial";
@@ -93,4 +96,3 @@ class Test_XML_RSS_ReaderTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

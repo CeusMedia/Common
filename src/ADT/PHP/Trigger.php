@@ -22,6 +22,8 @@
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2017-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@deprecated		use CeusMedia/PHP-Parser (https://packagist.org/packages/ceus-media/php-parser) instead
+ *	@todo			to be removed in 8.7
  */
 /**
  *	Function/Method Return Data Class.
@@ -30,6 +32,8 @@
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2017-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@deprecated		use CeusMedia/PHP-Parser (https://packagist.org/packages/ceus-media/php-parser) instead
+ *	@todo			to be removed in 8.7
  */
 class ADT_PHP_Trigger
 {
@@ -39,48 +43,48 @@ class ADT_PHP_Trigger
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		string		$type			Return type
-	 *	@param		string		$description	Return description
+	 *	@param		string		$key			Trigger key
+	 *	@param		string		$condition		Trigger condition
 	 *	@return		void
 	 */
-	public function __construct( $key )
+	public function __construct( string $key, string $condition = NULL )
 	{
-		$this->key			= $key;
+		Deprecation::getInstance()
+			->setErrorVersion( '0.8.5' )
+			->setExceptionVersion( '0.8.6' )
+			->message( sprintf(
+				'Please use %s (%s) instead',
+				'public library "CeusMedia/PHP-Parser"',
+			 	'https://packagist.org/packages/ceus-media/php-parser'
+			) );
+		$this->setKey( $key );
+		$this->setCondition( $condition );
 	}
 
 	/**
-	 *	Returns description of return value.
+	 *	Returns conditions of trigger.
 	 *	@access		public
-	 *	@return		void		Return description
+	 *	@return		string		Trigger condition
 	 */
 	public function getCondition()
 	{
 		return $this->condition;
 	}
 
-/*	public function getParent()
+	/**
+	 *	Returns key of trigger.
+	 *	@access		public
+	 *	@return		string|NULL		Trigger key
+	 */
+	public function getKey()
 	{
-		if( !is_object( $this->parent ) )
-			throw new RuntimeException( 'Return has no related function. Parser Error' );
-		return $this->parent;
+		return $this->key;
 	}
 
-	public function merge( ADT_PHP_Return $return )
-	{
-		if( $this->name != $return->getName() )
-			throw new Exception( 'Not mergable' );
-		if( $return->getDescription() )
-			$this->setDescription( $return->getDescription() );
-		if( $return->getType() )
-			$this->setType( $return->getType() );
-		if( $return->getParent() )
-			$this->setParent( $return->getParent() );
-	}
-*/
 	/**
-	 *	Sets description of return value.
+	 *	Sets conditions of trigger.
 	 *	@access		public
-	 *	@param		string		$description	Return description
+	 *	@param		string		$condition		Trigger condition
 	 *	@return		void
 	 */
 	public function setCondition( $condition )
@@ -88,15 +92,10 @@ class ADT_PHP_Trigger
 		$this->condition	= $condition;
 	}
 
-/*	public function setParent( ADT_PHP_Function $function )
-	{
-		$this->parent	= $function;
-	}
-*/
 	/**
-	 *	Sets type of return value.
+	 *	Sets key of trigger.
 	 *	@access		public
-	 *	@param		string		$type			Return type
+	 *	@param		string		$key			Trigger key
 	 *	@return		void
 	 */
 	public function setKey( $key )

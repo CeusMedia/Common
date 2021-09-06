@@ -47,17 +47,11 @@ use CeusMedia\Common\Alg\UnitFormater;
  */
 class Downloader
 {
-	/**	@var		int			$fileSize			Length of File to download, extracted from Response Headers */
-	protected $fileSize			= 0;
-	/**	@var		int			$loadSize			Length of current Load */
-	protected $loadSize			= 0;
-	/**	@var		array		$headers			Collected Response Headers, already splitted */
-	protected $headers			= array();
-	/**	@var		bool		$showFileName		Flag: show File Name */
-	public $redirected			= FALSE;
-	/**	@var		bool		$showHeaders		Flag: show Headers */
-	public $showFileName		= TRUE;
-	/**	@var		bool		$showHeaders		Flag: show Headers */
+	/**	@var		bool			$showFileName		Flag: show File Name */
+	public $redirected				= FALSE;
+	/**	@var		bool			$showHeaders		Flag: show Headers */
+	public $showFileName			= TRUE;
+	/**	@var		bool			$showHeaders		Flag: show Headers */
 	public $showHeaders				= FALSE;
 	/**	@var		bool			$showProgress		Flag: show Progress */
 	public $showProgress			= TRUE;
@@ -76,6 +70,17 @@ class Downloader
 	/**	@var		Clock			$clock				Clock Instance */
 	private $clock;
 
+	/**	@var		int				$fileSize			Length of File to download, extracted from Response Headers */
+	protected $fileSize				= 0;
+	/**	@var		int				$loadSize			Length of current Load */
+	protected $loadSize				= 0;
+	/**	@var		array			$headers			Collected Response Headers, already splitted */
+	protected $headers				= array();
+
+	protected $fileUri;
+
+	protected $tempUri;
+
 	/**
 	 *	Loads a File from an URL, saves it using Callback Methods and returns Number of loaded Bytes.
 	 *	@access		public
@@ -84,10 +89,10 @@ class Downloader
 	 *	@param		bool		$force				Flag: overwrite File if already existing
 	 *	@return		int
 	 */
-	public function downloadUrl( $url, $savePath = "", $force = FALSE )
+	public function downloadUrl( string $url, string $savePath = '', bool $force = FALSE )
 	{
 		//  called via Browser
-		if( getEnv( 'HTTP_HOST' ) )
+		if( getenv( 'HTTP_HOST' ) )
 			die( "Usage in Console, only." );
 
 		//  clear Size of current Load
@@ -235,6 +240,16 @@ class Downloader
 			{
 				//  get File Name from File URI
 				$fileName	= basename( $this->fileUri );
+
+				//  get current Duration
+				$time	= $this->clock->stop( 6, 0 );
+				//  format Load Size
+				$size	= Alg_UnitFormater::formatBytes( $this->loadSize, 1 );
+				//  calculate Rate of Bytes per Second
+				$rate	= $this->loadSize / $time * 1000000;
+				//  format Rate
+				$rate	= Alg_UnitFormater::formatBytes( $rate, 1 )."/s";
+
 				//  use Template
 				printf( $this->templateBodyDone, $fileName, $size, $rate );
 			}
@@ -264,7 +279,7 @@ class Downloader
 			return $length;
 
 		//  split Header on Colon
-		$parts			= split( ": ", $string );
+		$parts			= preg_split( '/: /', $string );
 		//  there has been at least one Colon
 		if( count( $parts ) > 1 )
 		{

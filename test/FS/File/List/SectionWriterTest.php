@@ -5,7 +5,10 @@
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@version		0.1
  */
-require_once dirname( dirname( dirname( __DIR__ ) ) ).'/initLoaders.php';
+declare( strict_types = 1 );
+
+use PHPUnit\Framework\TestCase;
+
 /**
  *	TestUnit of Yaml Reader.
  *	@package		Tests.file.list
@@ -30,7 +33,7 @@ class Test_FS_File_List_SectionWriterTest extends Test_Case
 		),
 	);
 
-	public function __construct()
+	public function setUp(): void
 	{
 		$this->fileName		= dirname( __FILE__ )."/section.write.list";
 	}
@@ -50,4 +53,3 @@ class Test_FS_File_List_SectionWriterTest extends Test_Case
 		$this->assertEquals( $this->sectionList, $creation );
 	}
 }
-?>

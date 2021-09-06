@@ -6,7 +6,10 @@
  *	@since			03.11.2008
  *	@version		0.1
  */
-require_once dirname( dirname( dirname( __DIR__ ) ) ).'/initLoaders.php';
+declare( strict_types = 1 );
+
+use PHPUnit\Framework\TestCase;
+
 /**
  *	TestUnit of Net_HTTP_Request_QueryParser.
  *	@package		Tests.net.http.request
@@ -19,20 +22,11 @@ require_once dirname( dirname( dirname( __DIR__ ) ) ).'/initLoaders.php';
 class Test_Net_HTTP_Request_QueryParserTest extends Test_Case
 {
 	/**
-	 *	Constructor.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function __construct()
-	{
-	}
-
-	/**
 	 *	Setup for every Test.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
 	}
 
@@ -41,7 +35,7 @@ class Test_Net_HTTP_Request_QueryParserTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function tearDown()
+	public function tearDown(): void
 	{
 	}
 
@@ -52,7 +46,7 @@ class Test_Net_HTTP_Request_QueryParserTest extends Test_Case
 	 */
 	public function testToArrayException1()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		Net_HTTP_Request_QueryParser::toArray( "=" );
 	}
 
@@ -63,7 +57,7 @@ class Test_Net_HTTP_Request_QueryParserTest extends Test_Case
 	 */
 	public function testToArrayException2()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		Net_HTTP_Request_QueryParser::toArray( "&a=123&=" );
 	}
 
@@ -74,7 +68,7 @@ class Test_Net_HTTP_Request_QueryParserTest extends Test_Case
 	 */
 	public function testToArrayException3()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		Net_HTTP_Request_QueryParser::toArray( "&a=321&=123" );
 	}
 
@@ -85,7 +79,7 @@ class Test_Net_HTTP_Request_QueryParserTest extends Test_Case
 	 */
 	public function testToArrayException4()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		Net_HTTP_Request_QueryParser::toArray( "a,321;,123", ";", "," );
 	}
 
@@ -236,4 +230,3 @@ class Test_Net_HTTP_Request_QueryParserTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

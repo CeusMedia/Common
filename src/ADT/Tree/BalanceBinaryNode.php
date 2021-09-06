@@ -175,6 +175,7 @@ class ADT_Tree_BalanceBinaryNode extends ADT_Tree_BinaryNode
 		$lb		= $this->right ? $this->right->getHeight() : 0;
 		$depth	= $this->getHeight ();
 		$color	= 240 - ( 3 * $depth );
+		$ins_bf	= '';
 		if( $showBalanceFactor )
 		{
 			$k = $la - $lb;

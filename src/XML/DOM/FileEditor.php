@@ -45,6 +45,12 @@
  */
 class XML_DOM_FileEditor
 {
+	/** @var		string			$fileName		File Name of XML File */
+	protected $fileName;
+
+	/** @var		XML_DOM_Node	$xmlTree		... */
+	protected $xmlTree;
+
 	/**
 	 *	Constructor.
 	 *	@access		public
@@ -159,7 +165,7 @@ class XML_DOM_FileEditor
 			if( !$nodeName || $nodes[$i]->getNodeName() == $nodeName )
 			{
 				$index++;
-				if( $index != $nodeNumber ) 
+				if( $index != $nodeNumber )
 					continue;
 				unset( $nodes[$i] );
 				return (bool) $this->write();

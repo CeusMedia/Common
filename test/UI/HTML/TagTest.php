@@ -6,7 +6,10 @@
  *	@since			22.04.2008
  *	@version		0.1
  */
-require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
+declare( strict_types = 1 );
+
+use PHPUnit\Framework\TestCase;
+
 /**
  *	TestUnit of Gauss Blur.
  *	@package		Tests.ui.html
@@ -23,7 +26,7 @@ class Test_UI_HTML_TagTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
 		$name		= "Tag";
 		$value		= "textContent";
@@ -196,7 +199,8 @@ class Test_UI_HTML_TagTest extends Test_Case
 	public function testSetAttribute2()
 	{
 		$this->tag->setAttribute( "Key2", "Value2" );
-		$this->tag->setAttribute( "Key2", "Value2-2", FALSE );										//  override
+		//  override
+		$this->tag->setAttribute( "Key2", "Value2-2", FALSE );
 		$assertion	= '<tag key1="Value1" key2="Value2-2">textContent</tag>';
 		$creation	= (string) $this->tag;
 		$this->assertEquals( $assertion, $creation );
@@ -249,7 +253,7 @@ class Test_UI_HTML_TagTest extends Test_Case
 	 */
 	public function testSetAttributeException1_1()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$this->tag->setAttribute( NULL, 'value' );
 	}
 
@@ -260,7 +264,7 @@ class Test_UI_HTML_TagTest extends Test_Case
 	 */
 	public function testSetAttributeException1_2()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$this->tag->setAttribute( FALSE, 'value' );
 	}
 
@@ -271,7 +275,7 @@ class Test_UI_HTML_TagTest extends Test_Case
 	 */
 	public function testSetAttributeException1_3()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$this->tag->setAttribute( '', 'value' );
 	}
 
@@ -282,7 +286,7 @@ class Test_UI_HTML_TagTest extends Test_Case
 	 */
 	public function testSetAttributeException2_1()
 	{
-		$this->setExpectedException( 'RuntimeException' );
+		$this->expectException( 'RuntimeException' );
 		$this->tag->setAttribute( 'key1', 'value' );
 		$this->tag->setAttribute( 'key1', 'value' );
 	}
@@ -294,7 +298,7 @@ class Test_UI_HTML_TagTest extends Test_Case
 	 */
 	public function testSetAttributeException2_2()
 	{
-		$this->setExpectedException( 'RuntimeException' );
+		$this->expectException( 'RuntimeException' );
 		$this->tag->setAttribute( 'KEY1', 'value' );
 		$this->tag->setAttribute( 'key1', 'value' );
 	}
@@ -306,7 +310,7 @@ class Test_UI_HTML_TagTest extends Test_Case
 	 */
 	public function testSetAttributeException3_1()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$this->tag->setAttribute( 'invalid!', 'value' );
 	}
 
@@ -317,7 +321,7 @@ class Test_UI_HTML_TagTest extends Test_Case
 	 */
 	public function testSetAttributeException3_2()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$this->tag->setAttribute( 'with_space ', 'value' );
 	}
 
@@ -346,4 +350,3 @@ class Test_UI_HTML_TagTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

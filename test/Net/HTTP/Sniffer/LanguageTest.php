@@ -6,7 +6,10 @@
  *	@since			16.02.2008
  *	@version		0.1
  */
-require_once dirname( dirname( dirname( __DIR__ ) ) ).'/initLoaders.php';
+declare( strict_types = 1 );
+
+use PHPUnit\Framework\TestCase;
+
 /**
  *	TestUnit of Language Sniffer.
  *	@package		Tests.net.http
@@ -39,4 +42,3 @@ class Test_Net_HTTP_Sniffer_LanguageTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

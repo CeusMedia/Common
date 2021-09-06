@@ -23,6 +23,8 @@
  *	@copyright		2015-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@since			0.3
+ *	@deprecated		use CeusMedia/PHP-Parser (https://packagist.org/packages/ceus-media/php-parser) instead
+ *	@todo			to be removed in 8.7
  */
 /**
  *	Interface Data Class.
@@ -32,6 +34,8 @@
  *	@copyright		2015-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@since			0.3
+ *	@deprecated		use CeusMedia/PHP-Parser (https://packagist.org/packages/ceus-media/php-parser) instead
+ *	@todo			to be removed in 8.7
  */
 class ADT_PHP_Interface
 {
@@ -76,6 +80,14 @@ class ADT_PHP_Interface
 	 */
 	public function __construct( $name = NULL )
 	{
+		Deprecation::getInstance()
+			->setErrorVersion( '0.8.5' )
+			->setExceptionVersion( '0.8.6' )
+			->message( sprintf(
+				'Please use %s (%s) instead',
+				'public library "CeusMedia/PHP-Parser"',
+			 	'https://packagist.org/packages/ceus-media/php-parser'
+			) );
 		if( !is_null( $name ) )
 			$this->setName( $name );
 	}
@@ -327,30 +339,26 @@ class ADT_PHP_Interface
 	{
 		if( $this->name != $artefact->getName() )
 			throw new Exception( 'Not mergable' );
-		if( $artefact->getDescription() )
+		if( NULL !== $artefact->getDescription() )
 			$this->setDescription( $artefact->getDescription() );
-		if( $artefact->getSince() )
+		if( NULL !== $artefact->getSince() )
 			$this->setSince( $artefact->getSince() );
-		if( $artefact->getVersion() )
+		if( NULL !== $artefact->getVersion() )
 			$this->setVersion( $artefact->getVersion() );
-		if( $artefact->getCopyright() )
+		if( NULL !== $artefact->getCopyright() )
 			$this->setCopyright( $artefact->getCopyright() );
-		if( $artefact->getReturn() )
-			$this->setReturn( $artefact->getReturn() );
 
-		foreach( $function->getAuthors() as $author )
+		foreach( $artefact->getAuthors() as $author )
 			$this->setAuthor( $author );
-		foreach( $function->getLinks() as $link )
+		foreach( $artefact->getLinks() as $link )
 			$this->setLink( $link );
-		foreach( $function->getSees() as $see )
+		foreach( $artefact->getSees() as $see )
 			$this->setSee( $see );
-		foreach( $function->getTodos() as $todo )
+		foreach( $artefact->getTodos() as $todo )
 			$this->setTodo( $todo );
-		foreach( $function->getDeprecations() as $deprecation )
+		foreach( $artefact->getDeprecations() as $deprecation )
 			$this->setDeprecation( $deprecation );
-		foreach( $function->getThrows() as $throws )
-			$this->setThrows( $throws );
-		foreach( $function->getLicenses() as $license )
+		foreach( $artefact->getLicenses() as $license )
 			$this->setLicense( $license );
 
 		//	@todo		many are missing
@@ -475,7 +483,7 @@ class ADT_PHP_Interface
 	 */
 	public function setName( $string )
 	{
-		if( empty( $string ) )
+		if( 0 === strlen( trim( $string ) ) )
 			throw new InvalidArgumentException( 'Interface name cannot be empty' );
 		$this->name	= $string;
 	}

@@ -6,7 +6,12 @@
  *	@since			21.04.2008
  *	@version		0.1
  */
-require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
+declare( strict_types = 1 );
+
+use PHPUnit\Framework\TestCase;
+
+require_once __DIR__.'/TestCase.php';
+
 /**
  *	TestUnit of recursive RegexFilter for Folders.
  *	@package		Tests.folder
@@ -19,13 +24,13 @@ require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
 class Test_FS_Folder_RecursiveRegexFilterTest extends Test_FS_Folder_TestCase
 {
 	/**
-	 *	Constructor.
+	 *	Setup for every Test.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function __construct()
+	public function setUp(): void
 	{
-		parent::__construct();
+		parent::setUp();
 		$this->path	= str_replace( "\\", "/", dirname( __FILE__ ) )."/";
 	}
 
@@ -78,7 +83,7 @@ class Test_FS_Folder_RecursiveRegexFilterTest extends Test_FS_Folder_TestCase
 	 */
 	public function testConstructException()
 	{
-		$this->setExpectedException( 'RuntimeException' );
+		$this->expectException( 'RuntimeException' );
 		$index	= new FS_Folder_RecursiveRegexFilter( "not_existing", "not_relevant" );
 	}
 
@@ -248,4 +253,3 @@ class Test_FS_Folder_RecursiveRegexFilterTest extends Test_FS_Folder_TestCase
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

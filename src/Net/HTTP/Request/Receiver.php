@@ -82,13 +82,8 @@ class Net_HTTP_Request_Receiver extends ADT_List_Dictionary
 			$this->pairs	= array_merge( $this->pairs, $values );
 
 		/*  --  RETRIEVE HTTP HEADERS  --  */
-		$this->headers	= new \Net_HTTP_Header_Section;
-		foreach( $_SERVER as $key => $value ){
-			if( substr( $key, 0, 5 ) === 'HTTP_' ){
-				$key	= str_replace( '_', '-', substr( $key, 5 ) );								//  strip HTTP prefix and replace underscore by dash
-				$this->headers->addFieldPair( $key, $value );										//  add header
-			}
-		}
+		$this->headers		= new \Net_HTTP_Header_Section;
+		$this->headers->addFieldPairs( \Net_HTTP_Request::getAllEnvHeaders() );
 
 		//  store IP of requesting client
 		$this->ip		= getEnv( 'REMOTE_ADDR' );

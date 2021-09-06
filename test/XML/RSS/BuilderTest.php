@@ -6,7 +6,10 @@
  *	@since			08.05.2008
  *	@version		0.1
  */
-require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
+declare( strict_types = 1 );
+
+use PHPUnit\Framework\TestCase;
+
 /**
  *	TestUnit of XML_RSS_Builder.
  *	@package		Tests.xml.rss
@@ -22,23 +25,14 @@ class Test_XML_RSS_BuilderTest extends Test_Case
 	protected $serial;
 
 	/**
-	 *	Constructor.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function __construct()
-	{
-		$this->path		= dirname( __FILE__ )."/";
-		$this->file		= $this->path."builder.xml";
-	}
-
-	/**
 	 *	Setup for every Test.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
+		$this->path		= dirname( __FILE__ )."/";
+		$this->file		= $this->path."builder.xml";
 		$this->builder	= new Test_XML_RSS_BuilderInstance();
 		$this->setup	= array(
 			'channel'	=> array(
@@ -70,7 +64,7 @@ class Test_XML_RSS_BuilderTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function tearDown()
+	public function tearDown(): void
 	{
 	}
 
@@ -111,8 +105,9 @@ class Test_XML_RSS_BuilderTest extends Test_Case
 		$creation	= count( $this->builder->getProtectedVar( 'items' ) );
 		$this->assertEquals( $assertion, $creation );
 
+		$items		= $this->builder->getProtectedVar( 'items' );
 		$assertion	= $item;
-		$creation	= array_pop( $this->builder->getProtectedVar( 'items' ) );
+		$creation	= array_pop( $items );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -138,7 +133,7 @@ class Test_XML_RSS_BuilderTest extends Test_Case
 	 */
 	public function testBuildException()
 	{
-		$this->setExpectedException( 'DomainException' );
+		$this->expectException( 'DomainException' );
 		$this->builder->build();
 	}
 
@@ -209,4 +204,3 @@ class Test_XML_RSS_BuilderInstance extends XML_RSS_Builder
 		return $this->$varName;
 	}
 }
-?>

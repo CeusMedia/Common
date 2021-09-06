@@ -52,11 +52,11 @@ class Exception_SQL extends RuntimeException
 	 *	@param		int			$SQLSTATE 		SQLSTATE Code
 	 *	@return		void
 	 */
-	public function __construct( $message, $code, $SQLSTATE  = NULL )
+	public function __construct( $message, $code, $SQLSTATE  = NULL, ?Throwable $previous = null )
 	{
 		if( !$message )
 			$message	= self::$default;
-		parent::__construct( $message, $code );
+		parent::__construct( $message, $code, $previous);
 		$this->SQLSTATE		= $SQLSTATE;
 	}
 

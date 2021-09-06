@@ -6,7 +6,10 @@
  *	@since			03.05.2008
  *	@version		0.1
  */
-require_once dirname( __DIR__ ).'/initLoaders.php';
+declare( strict_types = 1 );
+
+use PHPUnit\Framework\TestCase;
+
 /**
  *	TestUnit of Test_ADT_Object.
  *	@package		Tests.{classPackage}
@@ -23,7 +26,7 @@ class Test_ADT_ObjectTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function __construct()
+	public function setUp(): void
 	{
 		$this->object	= new TestObjectClass;
 		$this->methods	= array(
@@ -201,4 +204,3 @@ class TestObjectClass extends ADT_Object
 	protected	function protectedMethod(){}
 	private		function privateMethod(){}
 }
-?>

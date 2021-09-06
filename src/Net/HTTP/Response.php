@@ -65,10 +65,11 @@ class Net_HTTP_Response
 	/**
 	 *	Adds an HTTP header field object.
 	 *	@access		public
-	 *	@param		Net_HTTP_Header_Field	$field		HTTP header field object
+	 *	@param		Net_HTTP_Header_Field	$field			HTTP header field object
+	 *	@param		boolean					$emptyBefore	Flag: clear beforehand set headers with this name (default: no)
 	 *	@return		void
 	 */
-	public function addHeader( Net_HTTP_Header_Field $field, $emptyBefore = NULL )
+	public function addHeader( Net_HTTP_Header_Field $field, $emptyBefore = FALSE )
 	{
 		$this->headers->setField( $field, $emptyBefore );
 	}

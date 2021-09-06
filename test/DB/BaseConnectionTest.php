@@ -19,22 +19,13 @@ require_once dirname( __DIR__ ).'/initLoaders.php';
 class Test_DB_BaseConnectionTest extends Test_Case
 {
 	/**
-	 *	Constructor.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function __construct()
-	{
-	}
-
-	/**
 	 *	Setup for every Test.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
-		$this->connection	= new Test_DB_BaseConnectionInstance();
+//		$this->connection	= new Test_DB_BaseConnectionInstance();
 	}
 
 	/**
@@ -42,7 +33,7 @@ class Test_DB_BaseConnectionTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function tearDown()
+	public function tearDown(): void
 	{
 	}
 
@@ -53,6 +44,7 @@ class Test_DB_BaseConnectionTest extends Test_Case
 	 */
 	public function testConstruct()
 	{
+		$this->expectDeprecation();
 		$connection	= new Test_DB_BaseConnectionInstance( "test" );
 
 		$assertion	= "test";
@@ -82,7 +74,7 @@ class Test_DB_BaseConnectionTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testIsConnected()
+	public function _testIsConnected()
 	{
 		$assertion	= FALSE;
 		$creation	= $this->connection->isConnected();
@@ -99,7 +91,7 @@ class Test_DB_BaseConnectionTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testSetLogFile()
+	public function _testSetLogFile()
 	{
 		$this->connection->setLogFile( "test" );
 		$assertion	= "test";
@@ -112,7 +104,7 @@ class Test_DB_BaseConnectionTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testSetErrorReporting()
+	public function _testSetErrorReporting()
 	{
 		$this->connection->setErrorReporting( 0 );
 		$assertion	= 0;
@@ -151,4 +143,3 @@ class Test_DB_BaseConnectionInstance extends DB_BaseConnection
 	function rollback(){}
 	function selectDB( $database ){}
 }
-?>

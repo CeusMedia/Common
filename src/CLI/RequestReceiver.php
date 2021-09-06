@@ -27,6 +27,8 @@
 namespace CeusMedia\Common\CLI;
 
 use CeusMedia\Common\ADT\Collection\Dictionary;
+use RuntimeException;
+
 /**
  *	Handler for Console Requests.
  *	@category		Library
@@ -40,6 +42,7 @@ use CeusMedia\Common\ADT\Collection\Dictionary;
 class RequestReceiver extends Dictionary
 {
 	public static $delimiterAssign	= "=";
+
 	protected $pairs				= array();
 
 	/**
@@ -47,18 +50,17 @@ class RequestReceiver extends Dictionary
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function __construct( $fallBackOnEmptyPair = FALSE )
+	public function __construct( bool $fallBackOnEmptyPair = FALSE )
 	{
+		parent::__construct();
 		$count	= 0;
 		global $argv;
 		if( !is_array( $argv ) )
-			throw new \RuntimeException( 'Missing arguments' );
-		if( !$fallBackOnEmptyPair && in_array( 'fallBackOnEmptyPair', $argv ) )
+			throw new RuntimeException( 'Missing arguments' );
+		if( !$fallBackOnEmptyPair && in_array( 'fallBackOnEmptyPair', $argv, TRUE ) )
 			$fallBackOnEmptyPair	= TRUE;
-		foreach( $argv as $argument )
-		{
-			if( substr_count( $argument, self::$delimiterAssign ) || $fallBackOnEmptyPair )
-			{
+		foreach( $argv as $argument ){
+			if( substr_count( $argument, self::$delimiterAssign ) || $fallBackOnEmptyPair ){
 				$parts	= explode( self::$delimiterAssign, $argument, 2 );
 				$key	= array_shift( $parts );
 				$value	= $parts ? $parts[0] : NULL;

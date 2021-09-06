@@ -6,7 +6,10 @@
  *	@since			04.06.2008
  *	@version		0.1
  */
-require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
+declare( strict_types = 1 );
+
+use PHPUnit\Framework\TestCase;
+
 /**
  *	TestUnit of Test_ADT_List_Stack.
  *	@package		Tests.adt.list
@@ -19,20 +22,11 @@ require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
 class Test_ADT_List_StackTest extends Test_Case
 {
 	/**
-	 *	Constructor.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function __construct()
-	{
-	}
-
-	/**
 	 *	Setup for every Test.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
 		$this->array	= array( 1, 2, 3 );
 		$this->stack	= new ADT_List_Stack( $this->array );
@@ -43,7 +37,7 @@ class Test_ADT_List_StackTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function tearDown()
+	public function tearDown(): void
 	{
 	}
 
@@ -60,8 +54,8 @@ class Test_ADT_List_StackTest extends Test_Case
 		$creation	= $stack->toArray();
 		$this->assertEquals( $assertion, $creation );
 
-		$stack		= new ADT_List_Stack( 1 );
-		$assertion	= array();
+		$stack		= new ADT_List_Stack( array( 1 ) );
+		$assertion	= array( 1 );
 		$creation	= $stack->toArray();
 		$this->assertEquals( $assertion, $creation );
 	}
@@ -88,7 +82,7 @@ class Test_ADT_List_StackTest extends Test_Case
 		$creation	= $this->stack->bottom();
 		$creation	= $this->stack->bottom();
 		$creation	= $this->stack->bottom();
-		$this->setExpectedException( "RuntimeException" );
+		$this->expectException( "RuntimeException" );
 		$creation	= $this->stack->bottom();
 	}
 
@@ -172,7 +166,7 @@ class Test_ADT_List_StackTest extends Test_Case
 		$this->stack->pop();
 		$this->stack->pop();
 		$this->stack->pop();
-		$this->setExpectedException( "RuntimeException" );
+		$this->expectException( "RuntimeException" );
 		$this->stack->pop();
 	}
 
@@ -229,4 +223,3 @@ class Test_ADT_List_StackTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

@@ -5,7 +5,10 @@
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@version		0.1
  */
-require_once dirname( dirname( dirname( __DIR__ ) ) ).'/initLoaders.php';
+declare( strict_types = 1 );
+
+use PHPUnit\Framework\TestCase;
+
 /**
  *	TestUnit of INI Reader.
  *	@package		Tests.file.ini
@@ -19,7 +22,12 @@ class Test_FS_File_INI_ReaderTest extends Test_Case
 	/**	@var	string		$fileName		File Name of Test File */
 	private $fileName;
 
-	public function __construct()
+	/**
+	 *	Setup for every Test.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function setUp(): void
 	{
 		$this->path		= dirname( __FILE__ )."/";
 		$this->fileName	= $this->path."reader.ini";
@@ -84,7 +92,8 @@ class Test_FS_File_INI_ReaderTest extends Test_Case
 			'bool2'		=> TRUE,
 			'bool3'		=> FALSE,
 			'bool4'		=> FALSE,
-#			'null'		=> NULL,		//  not included after reading because setting Key to NULL means removing the Pair
+//  not included after reading because setting Key to NULL means removing the Pair
+#			'null'		=> NULL,
 			'string1'	=> "abc",
 			'string2'	=> "xyz",
 			'url1'		=> "http://ceusmedia.com/",
@@ -339,7 +348,7 @@ class Test_FS_File_INI_ReaderTest extends Test_Case
 	 */
 	public function testGetPropertyException1()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$creation	= $this->list->getProperty( 'key5' );
 	}
 
@@ -350,7 +359,7 @@ class Test_FS_File_INI_ReaderTest extends Test_Case
 	 */
 	public function testGetPropertyException2()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$creation	= $this->sections->getProperty( 'key3', 'section3' );
 	}
 
@@ -361,7 +370,7 @@ class Test_FS_File_INI_ReaderTest extends Test_Case
 	 */
 	public function testGetPropertyException3()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$creation	= $this->sections->getProperty( 'key5', 'section2' );
 	}
 	/**
@@ -371,7 +380,7 @@ class Test_FS_File_INI_ReaderTest extends Test_Case
 	 */
 	public function testGetPropertyException4()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$creation	= $this->sections->getProperty( 'key4' );
 	}
 
@@ -493,7 +502,7 @@ class Test_FS_File_INI_ReaderTest extends Test_Case
 	 */
 	public function testHasSectionException()
 	{
-		$this->setExpectedException( 'RuntimeException' );
+		$this->expectException( 'RuntimeException' );
 		$creation	= $this->list->hasSection( "not_relevant" );
 	}
 
@@ -529,7 +538,7 @@ class Test_FS_File_INI_ReaderTest extends Test_Case
 	 */
 	public function testIsActivePropertyException1()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$creation	= $this->sections->isActiveProperty( 'key1' );
 	}
 
@@ -540,7 +549,7 @@ class Test_FS_File_INI_ReaderTest extends Test_Case
 	 */
 	public function testIsActivePropertyException2()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$creation	= $this->sections->isActiveProperty( 'key1', 'section3' );
 	}
 
@@ -551,6 +560,51 @@ class Test_FS_File_INI_ReaderTest extends Test_Case
 	 */
 	public function testToArray()
 	{
+		$assertion	= array(
+			"key1"	=> "value1",
+			"key2"	=> "value2",
+			"key3"	=> "value3",
+			"key4"	=> "value4",
+		);
+		$creation	= $this->list->toArray();
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= array(
+			"key1"	=> "value1",
+			"key2"	=> "value2",
+			"key3"	=> "value3",
+			"key4"	=> "value4",
+			"key5"	=> "disabled",
+		);
+		$creation	= $this->list->toArray( FALSE );
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= array(
+			'section1'	=> array(
+				"key1"	=> "value1",
+				"key2"	=> "value2",
+			),
+			'section2'	=> array(
+				"key3"	=> "value3",
+				"key4"	=> "value4",
+			),
+		);
+		$creation	= $this->sections->toArray();
+		$this->assertEquals( $assertion, $creation );
+
+		$assertion	= array(
+			'section1'	=> array(
+				"key1"	=> "value1",
+				"key2"	=> "value2",
+			),
+			'section2'	=> array(
+				"key3"	=> "value3",
+				"key4"	=> "value4",
+				"key5"	=> "disabled",
+			),
+		);
+		$creation	= $this->sections->toArray( FALSE );
+		$this->assertEquals( $assertion, $creation );
 	}
 
 	/**
@@ -569,4 +623,3 @@ class Test_FS_File_INI_ReaderTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

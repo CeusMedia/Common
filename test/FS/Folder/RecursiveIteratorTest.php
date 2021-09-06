@@ -6,7 +6,12 @@
  *	@since			21.04.2008
  *	@version		0.1
  */
-require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
+declare( strict_types = 1 );
+
+use PHPUnit\Framework\TestCase;
+
+require_once __DIR__.'/TestCase.php';
+
 /**
  *	TestUnit of recursive Folder Iterator.
  *	@package		Tests.folder
@@ -66,7 +71,7 @@ class Test_FS_Folder_RecursiveIteratorTest extends Test_FS_Folder_TestCase
 	 */
 	public function testConstructException()
 	{
-		$this->setExpectedException( 'RuntimeException' );
+		$this->expectException( 'RuntimeException' );
 		$index	= new FS_Folder_RecursiveIterator( "not_existing" );
 	}
 
@@ -207,4 +212,3 @@ class Test_FS_Folder_RecursiveIteratorTest extends Test_FS_Folder_TestCase
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

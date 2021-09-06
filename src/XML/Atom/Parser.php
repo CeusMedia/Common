@@ -54,7 +54,7 @@ class XML_Atom_Parser
 		'author'		=> array(),
 		'category'		=> array(),
 		'contributor'	=> array(),
-		//  will be set to emptyGenerator by Parser								
+		//  will be set to emptyGenerator by Parser
 		'generator' 	=> array(),
 		'icon'			=> "",
 		'id'			=> "",
@@ -116,6 +116,8 @@ class XML_Atom_Parser
 	/**	@var		array		$entries			Array of Entries in Atom Feed */
 	public $entries;
 
+	protected $language;
+
 	/**
 	 *	Constructor.
 	 *	@access		public
@@ -164,7 +166,7 @@ class XML_Atom_Parser
 		if( $validateRules )
 		{
 			$validator	= new XML_Atom_Validator();
-			if( !$validator->isValid( $root ) )	
+			if( !$validator->isValid( $root ) )
 				throw new Exception( $validator->getFirstError() );
 		}
 

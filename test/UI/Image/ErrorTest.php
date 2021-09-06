@@ -6,7 +6,10 @@
  *	@since			16.06.2008
  *	@version		0.1
  */
-require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
+declare( strict_types = 1 );
+
+use PHPUnit\Framework\TestCase;
+
 /**
  *	TestUnit of Inverter.
  *	@package		Tests.ui.image
@@ -19,14 +22,12 @@ require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
  */
 class Test_UI_Image_ErrorTest extends Test_Case
 {
-	public function __construct()
+	public function setUp(): void
 	{
-		$this->path	= dirname( __FILE__ )."/";
-	}
-
-	public function setUp(){
 		if( !extension_loaded( 'gd' ) )
 			$this->markTestSkipped( 'Missing gd support' );
+
+		$this->path	= dirname( __FILE__ )."/";
 	}
 
 	public function testConstruct()
@@ -47,4 +48,3 @@ class Test_UI_Image_ErrorTest extends Test_Case
 		@unlink( $this->path."targetError.png" );
 	}
 }
-?>

@@ -6,7 +6,10 @@
  *	@since			12.01.2009
  *	@version		0.1
  */
-require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
+declare( strict_types = 1 );
+
+use PHPUnit\Framework\TestCase;
+
 /**
  *	TestUnit of CLI_Command_Program.
  *	@package		Tests.console.command
@@ -19,20 +22,11 @@ require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
 class Test_CLI_Command_ProgramTest extends Test_Case
 {
 	/**
-	 *	Constructor.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function __construct()
-	{
-	}
-
-	/**
 	 *	Setup for every Test.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
 	}
 
@@ -41,7 +35,7 @@ class Test_CLI_Command_ProgramTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function tearDown()
+	public function tearDown(): void
 	{
 	}
 
@@ -103,5 +97,3 @@ class Test_CLI_Command_TestProgram extends CLI_Command_Program
 		return $this->options;
 	}
 }
-
-?>

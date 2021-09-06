@@ -1,5 +1,5 @@
 <?php
-namespace CeusMedia\Common\FS\Autoloader;
+#namespace CeusMedia\Common\FS\Autoloader;
 
 /*
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
@@ -39,7 +39,7 @@ namespace CeusMedia\Common\FS\Autoloader;
  * @author Kris Wallsmith <kris.wallsmith@gmail.com>
  * @author Fabien Potencier <fabien.potencier@symfony-project.org>
  */
-class Psr0
+class FS_Autoloader_Psr0
 {
     private $_fileExtension = '.php';
     private $_namespace;

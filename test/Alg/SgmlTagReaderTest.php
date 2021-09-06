@@ -6,7 +6,10 @@
  *	@since			03.08.2008
  *	@version		0.1
  */
-require_once dirname( __DIR__ ).'/initLoaders.php';
+declare( strict_types = 1 );
+
+use PHPUnit\Framework\TestCase;
+
 /**
  *	TestUnit of Alg_SgmlTagReader.
  *	@package		Tests.alg
@@ -22,22 +25,13 @@ class Test_Alg_SgmlTagReaderTest extends Test_Case
 	public $tag2	= '<body font-color="#FF0000" onFocus="this.blur()">';
 
 	/**
-	 *	Constructor.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function __construct()
-	{
-		$reader	= new Alg_SgmlTagReader;
-	}
-
-	/**
 	 *	Setup for every Test.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
+		$reader	= new Alg_SgmlTagReader;
 	}
 
 	/**
@@ -45,7 +39,7 @@ class Test_Alg_SgmlTagReaderTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function tearDown()
+	public function tearDown(): void
 	{
 	}
 
@@ -124,4 +118,3 @@ class Test_Alg_SgmlTagReaderTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>
