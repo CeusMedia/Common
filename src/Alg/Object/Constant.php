@@ -13,13 +13,13 @@ class Alg_Object_Constant{
 		$this->className	= $className;
 	}
 
-	public function getAll( $prefix = NULL ){
+	public function getAll( $prefix = NULL, bool $asDictionary = FALSE ){
 		$reflection	= new ReflectionClass( $this->className );
 		$constants	= $reflection->getConstants();
 		if( $prefix ){
 			$prefix		= rtrim( $prefix, '_' );
 			$dictionary	= new ADT_List_Dictionary( $constants );
-			$constants	= $dictionary->getAll( $prefix.'_' );
+			$constants	= $dictionary->getAll( $prefix.'_', $asDictionary );
 		}
 		return $constants;
 	}
@@ -48,6 +48,16 @@ class Alg_Object_Constant{
 		$key		= $prefix ? rtrim( $prefix, '_' ).'_'.$constantKey : $constantKey;
 		$message	= 'Constant "%s" is not defined in class "%s"';
 		throw new DomainException( sprintf( $message, $constantKey, $this->className ) );
+	}
+
+	public function hasKey( $constantKey, $prefix = NULL ): bool
+	{
+		return in_array( $constantKey, $this->getAll( $prefix ), TRUE );
+	}
+
+	public function hasValue( $value, $prefix = NULL ): bool
+	{
+		return array_key_exists( $value, $this->getAll( $prefix ) );
 	}
 
 	static public function staticGetAll( $className, $prefix = NULL ){
