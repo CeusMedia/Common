@@ -38,6 +38,8 @@ class Deprecation{
 	 *	@return		void
 	 */
 	protected function __construct(){
+		if( self::class !== get_class( $this ) )
+			return;
 		$iniFilePath		= dirname( __DIR__ ).'/Common.ini';
 		$iniFileData		= parse_ini_file( $iniFilePath, TRUE );
 		$this->version		= $iniFileData['project']['version'];
