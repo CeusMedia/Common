@@ -36,7 +36,10 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			10.10.2011
  */
-class FS_File_CSS_Editor{
+class FS_File_CSS_Editor
+{
+	/** @var		ADT_CSS_Sheet		$sheet */
+	protected $sheet;
 
 	public function __construct( $fileName = NULL ){
 		if( $fileName )
@@ -154,7 +157,6 @@ class FS_File_CSS_Editor{
 			throw new RuntimeException( 'No CSS sheet loaded' );
 		$result	= $this->sheet->set( $selector, $key, $value );
 		return $this->save();
-		return $result;
 	}
 
 	public function setFileName( $fileName ){

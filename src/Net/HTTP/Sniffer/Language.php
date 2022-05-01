@@ -48,7 +48,7 @@ class Net_HTTP_Sniffer_Language
 	 *	@param		string	$default		Default Languages supported and allowed by the Application
 	 *	@return		string
 	 */
-	public static function getLanguage( $allowed, $default = false )
+	public static function getLanguage( $allowed, $default = FALSE )
 	{
 		$accept	= getEnv( 'HTTP_ACCEPT_LANGUAGE' );
 		return self::getLanguageFromString( $accept, $allowed, $default );
@@ -62,7 +62,7 @@ class Net_HTTP_Sniffer_Language
 	 *	@param		string	$default		Default Languages supported and allowed by the Application
 	 *	@return		string
 	 */
-	public static function getLanguageFromString( $string, $allowed, $default = false )
+	public static function getLanguageFromString( $string, $allowed, $default = FALSE )
 	{
 		if( !$default)
 			$default = $allowed[0];
@@ -71,18 +71,14 @@ class Net_HTTP_Sniffer_Language
 		$accepted	= preg_split( '/,\s*/', $string );
 		$currentLanguage	= $default;
 		$currentQuality		= 0;
-		foreach( $accepted as $accept )
-		{
+		foreach( $accepted as $accept ){
 			if( !preg_match( self::$pattern, $accept, $matches ) )
 				continue;
 			$languageCode = explode ( '-', $matches[1] );
 			$languageQuality =  isset( $matches[2] ) ? (float) $matches[2] : 1.0;
-			while( count( $languageCode ) )
-			{
-				if( in_array( strtolower( join( '-', $languageCode ) ), $allowed ) )
-				{
-					if( $languageQuality > $currentQuality )
-					{
+			while( count( $languageCode ) ){
+				if( in_array( strtolower( join( '-', $languageCode ) ), $allowed ) ){
+					if( $languageQuality > $currentQuality ){
 						$currentLanguage	= strtolower( join( '-', $languageCode ) );
 						$currentQuality		= $languageQuality;
 						break;

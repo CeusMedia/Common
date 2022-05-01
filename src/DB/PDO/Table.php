@@ -59,6 +59,8 @@ abstract class DB_PDO_Table{
 
 	public static $cacheClass						= 'ADT_List_Dictionary';
 
+	protected $cacheKey;
+
 	/**
 	 *	Constructor.
 	 *	@access		public

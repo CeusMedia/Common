@@ -71,39 +71,39 @@ class ClassParser
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		string		$fileName		File name of Class to parse 
+	 *	@param		string		$fileName		File name of Class to parse
 	 *	@return		void
 	 */
 	public function __construct( $fileName )
 	{
 		$this->fileName = $fileName;
 		$this->patterns = array(
-			"import"		=> "^import",
-			"class"			=> "^(final |abstract )*(class) ",
-			"doc_start"		=> "^/##",
-			"doc_end"		=> "#/$",
-			"doc_data"		=> "^#",
-			"method"		=> "^function ",
-			"method"		=> "^(static |final |private |protected |public )*function ",
-			"d_package"		=> "@package",
-			"d_extends"		=> "@extends",
-			"d_implements"	=> "@implements",
-			"d_uses"		=> "@uses",
-			"d_package"		=> "@package",
-			"d_subpackage"	=> "@subpackage",
-			"d_param"		=> "@param",
-			"d_access"		=> "@access",
-			"d_author"		=> "@author",
-			"d_since"		=> "@since",
-			"d_version"		=> "@version",
-			"d_license"		=> "@license",
-			"d_copyright"	=> "@copyright",
-			"d_return"		=> "@return",
-			"d_todo"		=> "@todo",
-			"d_var"			=> "@var",	
-			"d_see"			=> "@see",
-			"d_link"		=> "@link",
-			"d_throws"		=> "@throws",
+			"import"		=> '~^import~i',
+			"class"			=> '~^(final |abstract )*(class) ~i',
+			"doc_start"		=> '~^/##~',
+			"doc_end"		=> '~#/$~',
+			"doc_data"		=> '~^#~',
+			"method"		=> '~^function ~',
+			"method"		=> '~^(static |final |private |protected |public )*function ~',
+			"d_package"		=> '~@package~',
+			"d_extends"		=> '~@extends~',
+			"d_implements"	=> '~@implements~',
+			"d_uses"		=> '~@uses~',
+			"d_package"		=> '~@package~',
+			"d_subpackage"	=> '~@subpackage~',
+			"d_param"		=> '~@param~',
+			"d_access"		=> '~@access~',
+			"d_author"		=> '~@author~',
+			"d_since"		=> '~@since~',
+			"d_version"		=> '~@version~',
+			"d_license"		=> '~@license~',
+			"d_copyright"	=> '~@copyright~',
+			"d_return"		=> '~@return~',
+			"d_todo"		=> '~@todo~',
+			"d_var"			=> '~@var~',
+			"d_see"			=> '~@see~',
+			"d_link"		=> '~@link~',
+			"d_throws"		=> '~@throws~',
 			);
 		$this->classProperties = array(
 			"package"		=> "d_package",
@@ -229,7 +229,7 @@ class ClassParser
 		$f = new FS_File_Reader( $this->fileName );
 		$lines = $f->readArray();
 		array_pop( $lines );
-		array_shift( $lines ); 
+		array_shift( $lines );
 		foreach( $lines as $line )
 		{
 			$line = trim( $line );
@@ -238,9 +238,9 @@ class ClassParser
 			{
 				if( !$doc_open )
 				{
-					if( ereg( $this->patterns['doc_start'], $line ) )
+					if( preg_match( $this->patterns['doc_start'], $line ) )
 						$doc_open = true;
-					else if( ereg( $this->patterns["method"], $line ) )
+					else if( preg_match( $this->patterns["method"], $line ) )
 					{
 						$parts = explode( "function", $line );
 						$method = substr( $parts[1], 0, strpos($parts[1], "(" ) );
@@ -253,17 +253,17 @@ class ClassParser
 				if( $doc_open )
 				{
 					$found_pattern = false;
-					if( ereg( $this->patterns["doc_data"], $line ) )
+					if( preg_match( $this->patterns["doc_data"], $line ) )
 					{
 						foreach( $this->methodProperties as $prop => $pattern )
 						{
-							if( ereg( $this->patterns[$pattern], $line ) )
+							if( preg_match( $this->patterns[$pattern], $line ) )
 							{
 								$found_pattern = true;
 								$func_data[$prop] = $this->getValueOfDocLine( $line, $pattern );
 							}
 						}
-						if( ereg( $this->patterns["d_param"], $line ) )
+						if( preg_match( $this->patterns["d_param"], $line ) )
 						{
 							$parts = explode( $this->patterns["d_param"], $line );
 							$parts = explode( "\t", trim($parts[1] ) );
@@ -271,15 +271,15 @@ class ClassParser
 							if( isset( $parts[2] ) )
 								$func_data["param"][$parts[1]]['desc'] = $parts[2];
 						}
-						else if( !$found_pattern && !ereg( $this->patterns['doc_end'], $line ) )
+						else if( !$found_pattern && !preg_match( $this->patterns['doc_end'], $line ) )
 						{
-							$desc = ereg_replace( $this->patterns["doc_data"], "", $line );
+							$desc = preg_replace( $this->patterns["doc_data"], "", $line );
 							$desc = trim( $desc );
 							if( $desc )
 								$func_data["desc"][] = $desc;
 						}
 					}
-					else	if( ereg( $this->patterns["d_var"], $line ) )
+					else	if( preg_match( $this->patterns["d_var"], $line ) )
 					{
 						$parts = explode( $this->patterns["d_var"], $line );
 						$parts = preg_split( "@\t+@", trim($parts[1] ) );
@@ -288,19 +288,19 @@ class ClassParser
 							$this->vars[$parts[1]]['access'] = $access;
 						$this->vars[$parts[1]]['desc'][] = str_replace( array( "#", "/" ), "", $parts[2] );
 					}
-					if( ereg( $this->patterns['doc_end'], $line ) )
+					if( preg_match( $this->patterns['doc_end'], $line ) )
 						$doc_open = false;
 				}
 			}
 			else
 			{
-				if( eregi( $this->patterns["import"], $line ) )
+				if( preg_match( $this->patterns["import"], $line ) )
 				{
 					$import = str_replace( array( "import", " ", "(", ")", ";", "'", '"' ), "", $line );
 					$parts = explode( ".", $import );
 					$this->imports[$parts[count( $parts )-1]] = implode( "/", $parts );
 				}
-				else if( eregi( $this->patterns["class"], $line ) )
+				else if( preg_match( $this->patterns["class"], $line ) )
 				{
 					$line	= preg_replace( "@".$this->patterns["class"]."@i", "", $line );
 					$parts = explode( " extends ", $line );
@@ -315,52 +315,52 @@ class ClassParser
 				}
 				else if( !$doc_open )
 				{
-					if( ereg( $this->patterns['doc_start'], $line ) )
+					if( preg_match( $this->patterns['doc_start'], $line ) )
 						$doc_open = true;
 				}
 				else if( $doc_open )
 				{
-					if( ereg( $this->patterns['doc_end'], $line ) )
+					if( preg_match( $this->patterns['doc_end'], $line ) )
 						$doc_open = false;
 					else
 					{
-						if( ereg( $this->patterns["doc_data"], $line ) )
+						if( preg_match( $this->patterns["doc_data"], $line ) )
 						{
 							$found_pattern = false;
 							foreach( $this->classProperties as $prop => $pattern )
 							{
-								if( ereg( $this->patterns[$pattern], $line ) )
+								if( preg_match( $this->patterns[$pattern], $line ) )
 								{
 									$found_pattern = true;
 									$this->classData[$prop][] = $this->getValueOfDocLine( $line, $pattern );
 								}
 							}
-							if( !$found_pattern && !ereg( $this->patterns['doc_end'], $line ) )
+							if( !$found_pattern && !preg_match( $this->patterns['doc_end'], $line ) )
 							{
-								if( ereg( $this->patterns['d_uses'], $line ) )
+								if( preg_match( $this->patterns['d_uses'], $line ) )
 								{
 									$parts = explode( $this->patterns["d_uses"], $line );
 									$uses = trim( $parts[1] );
 									if( !in_array ( $uses, $this->classData["uses"] ) )
-										$this->classData["uses"][] = $uses; 
+										$this->classData["uses"][] = $uses;
 								}
-								else if( ereg( $this->patterns['d_todo'], $line ) )
+								else if( preg_match( $this->patterns['d_todo'], $line ) )
 								{
 									$parts = explode( $this->patterns["d_todo"], $line );
 									$todo = trim( $parts[1] );
 									if( !in_array( $todo, $this->classData["todo"] ) )
-										$this->classData["todo"][] = $todo; 
+										$this->classData["todo"][] = $todo;
 								}
 								else
 								{
-									$desc = ereg_replace( $this->patterns["doc_data"], "", $line );
+									$desc = preg_replace( $this->patterns["doc_data"], "", $line );
 									$desc = trim( $desc );
 									if( $desc && !in_array( $desc, $this->classData["desc"] ) )
 										$this->classData["desc"][] = $desc;
 								}
 							}
 						}
-					}	
+					}
 				}
 			}
 		}
@@ -431,6 +431,6 @@ class ClassParser
 		}
 		$vars = implode( "\n\t  ", $vars );
 		require_once( $template );
-		return $code;	
+		return $code;
 	}
 }

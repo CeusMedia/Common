@@ -22,38 +22,21 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class Deprecation{
-
+class Deprecation
+{
 	protected $version;
 	protected $errorVersion;
 	protected $exceptionVersion;
 	protected $phpVersion;
 
 	/**
-	 *	Contructor, needs to be called statically by getInstance.
-	 *	Will detect library version.
-	 *	Will set error version to curent library version by default.
-	 *	Will not set an exception version.
-	 *	@access		protected
-	 *	@return		void
-	 */
-	protected function __construct(){
-		if( self::class !== get_class( $this ) )
-			return;
-		$iniFilePath		= dirname( __DIR__ ).'/Common.ini';
-		$iniFileData		= parse_ini_file( $iniFilePath, TRUE );
-		$this->version		= $iniFileData['project']['version'];
-		$this->phpVersion	= phpversion();
-		$this->errorVersion	= $this->version;
-	}
-
-	/**
 	 *	Creates a new deprection object.
-	 *	@static
 	 *	@access		public
+	 *	@static
 	 *	@return		Deprecation
 	 */
-	static public function getInstance(){
+	public static function getInstance()
+	{
 		return new static();
 	}
 
@@ -67,7 +50,8 @@ class Deprecation{
 	 *	@return		void
 	 *	@throws		Exception				if set exception version reached detected library version
 	 */
-	public function message( $message ){
+	public function message( $message )
+	{
 		$trace	= debug_backtrace();
 		$caller = next( $trace );
 		$message .= ', invoked in '.$caller['file'].' on line '.$caller['line'];
@@ -79,7 +63,8 @@ class Deprecation{
 		}
 	}
 
-	static public function notify( $message ){
+	public static function notify( $message )
+	{
 		$message .= ', triggered';
 		if( version_compare( phpversion(), "5.3.0" ) >= 0 )
 			trigger_error( $message, E_USER_DEPRECATED );
@@ -94,7 +79,8 @@ class Deprecation{
 	 *	@param		string		$version	Library version to start showing deprecation error or notice
 	 *	@return		Deprecation
 	 */
-	public function setErrorVersion( $version ){
+	public function setErrorVersion( $version )
+	{
 		$this->errorVersion		= $version;
 		return $this;
 	}
@@ -106,8 +92,41 @@ class Deprecation{
 	 *	@param		string		$version	Library version to start throwing deprecation exception
 	 *	@return		Deprecation
 	 */
-	public function setExceptionVersion( $version ){
+	public function setExceptionVersion( $version )
+	{
 		$this->exceptionVersion		= $version;
 		return $this;
+	}
+
+	//  --  PROTECTED  --  //
+
+	/**
+	 *	Contructor, needs to be called statically by getInstance.
+	 *	Will call onInit at the end to handle self detection.
+	 *	@access		protected
+	 *	@return		void
+	 */
+	protected function __construct()
+	{
+		$this->phpVersion	= phpversion();
+		$this->onInit();
+	}
+
+	/**
+	 *	Event to handle self detection on end of static construction.
+	 *	ATTENTION: Must be set in inheriting classes, at least as an empty method!
+	 *
+	 *	Will detect library version.
+	 *	Will set error version to curent library version by default.
+	 *	Will not set an exception version.
+	 *	@access		protected
+	 *	@return		void
+	 */
+	protected function onInit(): void
+	{
+		$iniFilePath		= dirname( __DIR__ ).'/Common.ini';
+		$iniFileData		= parse_ini_file( $iniFilePath, TRUE );
+		$this->version		= $iniFileData['project']['version'];
+		$this->errorVersion	= $this->version;
 	}
 }

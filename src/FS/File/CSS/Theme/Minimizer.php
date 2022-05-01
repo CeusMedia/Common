@@ -37,6 +37,10 @@
  */
 class FS_File_CSS_Theme_Minimizer
 {
+	/**	@var		FS_File_CSS_Combiner		$combiner		Combiner instance */
+	protected $combiner;
+	/**	@var		FS_File_CSS_Compressor		$compressor		Compressor instance */
+	protected $compressor;
 	/**	@var		string		$cssFolder		Name of CSS Folder within Theme Path (optional) */
 	protected $cssFolder		= "";
 	/**	@var		string		$cssFolder		Path Medium within CSS Path within Theme (optional) */
@@ -98,7 +102,7 @@ class FS_File_CSS_Theme_Minimizer
 	/**
 	 *	Returns statistical Data of last Combination.
 	 *	@access		public
-	 *	@return		array	
+	 *	@return		array
 	 */
 	public function getStatistics()
 	{
@@ -174,7 +178,7 @@ class FS_File_CSS_Theme_Minimizer
 	public function setCombinerPrefix( $prefix )
 	{
 		$this->combinerPrefix	= $prefix;
-	}	
+	}
 
 	/**
 	 *	Sets Suffix of combined File Name.
@@ -185,7 +189,7 @@ class FS_File_CSS_Theme_Minimizer
 	public function setCombinerSuffix( $suffix )
 	{
 		$this->combinerSuffix	= $suffix;
-	}	
+	}
 
 	/**
 	 *	Sets a Compressor Object to use.
@@ -207,7 +211,7 @@ class FS_File_CSS_Theme_Minimizer
 	public function setCompressorPrefix( $prefix )
 	{
 		$this->compressorPrefix	= $prefix;
-	}	
+	}
 
 	/**
 	 *	Sets Suffix of compressed File Name.
@@ -218,7 +222,7 @@ class FS_File_CSS_Theme_Minimizer
 	public function setCompressorSuffix( $suffix )
 	{
 		$this->compressorSuffix	= $suffix;
-	}	
+	}
 
 	/**
 	 *	Sets CSS Folder (within Theme Path) within Themes Path.

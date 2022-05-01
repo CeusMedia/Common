@@ -40,8 +40,12 @@ class FS_File_Log_Tracker_ShortReader extends FS_File_Log_ShortReader
 {
 	/*	@var		array		$data			Array of Data from parsed Lines */
 	protected $data	= array();
+
 	/*	@var		string		$skip			Remote Address to skip (own Requests) */
 	protected $skip;
+
+	/*	@var		boolean		$_open			Internal status */
+	protected $_open = FALSE;
 
 	/**
 	 *	Constructor.
@@ -68,7 +72,7 @@ class FS_File_Log_Tracker_ShortReader extends FS_File_Log_ShortReader
 			trigger_error( "Log File not read", E_USER_ERROR );
 			return array();
 		}
-		$remote_addrs	= array();	
+		$remote_addrs	= array();
 		$browsers		= array();
 		foreach( $this->data as $entry )
 		{
@@ -130,7 +134,7 @@ class FS_File_Log_Tracker_ShortReader extends FS_File_Log_ShortReader
 			trigger_error( "Log File not read", E_USER_ERROR );
 			return 0;
 		}
-		$remote_addrs	= array();	
+		$remote_addrs	= array();
 		$visitors			= array();
 		$visitor	= 0;
 		foreach( $this->data as $entry )
@@ -244,7 +248,7 @@ class FS_File_Log_Tracker_ShortReader extends FS_File_Log_ShortReader
 			trigger_error( "Log File not read", E_USER_ERROR );
 			return 0;
 		}
-		$remote_addrs	= array();	
+		$remote_addrs	= array();
 		$counter	= 0;
 		foreach( $this->data as $entry )
 		{
@@ -301,6 +305,6 @@ class FS_File_Log_Tracker_ShortReader extends FS_File_Log_ShortReader
 	public function setData( $data )
 	{
 		$this->data	= $data;
-		$this->_open	= true;
+		$this->_open	= TRUE;
 	}
 }

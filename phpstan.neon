@@ -7,4 +7,7 @@ parameters:
 	paths:
 		- src
 	checkMissingIterableValueType: false
+	checkGenericClassInNonGenericObjectType: false
+	reportMaybesInPropertyPhpDocTypes: false
 	treatPhpDocTypesAsCertain: false
+

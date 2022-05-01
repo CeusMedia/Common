@@ -51,6 +51,8 @@ class Net_HTTP_Request_Receiver extends ADT_List_Dictionary
 	protected $path							= NULL;
 	/**	@var		array					$sources		Array of Sources of Request Data */
 	protected $sources;
+	/** @var		string					$root			Detected web root */
+	protected $root;
 
 	/**
 	 *	Constructor, reads and stores Data from Sources to internal Dictionary.

@@ -58,11 +58,12 @@ class Net_HTTP_Sniffer_Charset
 	 *	Returns prefered allowed and accepted Character Set from String.
 	 *	@access		public
 	 *	@static
+	 *	@param		string	$string			String to process
 	 *	@param		array	$allowed		Array of Character Sets supported and allowed by the Application
 	 *	@param		string	$default		Default Character Sets supported and allowed by the Application
 	 *	@return		string
 	 */
-	public static function getCharsetFromString( $string, $allowed, $default = false )
+	public static function getCharsetFromString( $string, $allowed, $default = FALSE )
 	{
 		if( !$default)
 			$default = $allowed[0];
@@ -71,13 +72,11 @@ class Net_HTTP_Sniffer_Charset
 		$accepted	= preg_split( '/,\s*/', $string );
 		$currentCharset	= $default;
 		$currentQuality	= 0;
-		foreach( $accepted as $accept )
-		{
+		foreach( $accepted as $accept ){
 			if( !preg_match ( self::$pattern, $accept, $matches ) )
 				continue;
 			$charsetQuality	= isset( $matches[2] ) ? (float) $matches[2] : 1.0;
-			if( $charsetQuality > $currentQuality )
-			{
+			if( $charsetQuality > $currentQuality ){
 				$currentCharset	= strtolower( $matches[1] );
 				$currentQuality	= $charsetQuality;
 			}

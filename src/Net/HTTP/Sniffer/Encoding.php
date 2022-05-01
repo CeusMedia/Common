@@ -59,15 +59,12 @@ class Net_HTTP_Sniffer_Encoding
 		$accepted		= preg_split( '/,\s*/', $accepted );
 		$currentCode	= $default;
 		$currentQuality	= 0;
-		foreach( $accepted as $accept )
-		{
+		foreach( $accepted as $accept ){
 			if( !preg_match ( $pattern, $accept, $matches ) )
 				continue;
 			$codeQuality	=  isset( $matches[2] ) ? (float) $matches[2] : 1.0;
-			if( in_array( $matches[1], $allowed ) )
-			{
-				if( $codeQuality > $currentQuality )
-				{
+			if( in_array( $matches[1], $allowed ) ){
+				if( $codeQuality > $currentQuality ){
 					$currentCode	= $matches[1];
 					$currentQuality	= $codeQuality;
 				}

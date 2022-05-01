@@ -24,8 +24,8 @@
     "michelf/php-markdown": "^1.7",
     "erusev/parsedown": "~1.0",
     "phpunit/phpunit": "^8",
-    "phpstan/phpstan": "0.12.x-dev",
-    "phpstan/phpstan-strict-rules": "0.12.x-dev"
+    "phpstan/phpstan": "^1",
+    "phpstan/phpstan-strict-rules": "^1"
   },
   "autoload": {
     "psr-0": {

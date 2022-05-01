@@ -47,7 +47,7 @@ class Alg_Math_NaturalNumbers
 
 	public function abs( $number )
 	{
-		return max( $number, NaturalNumbers::inv( $number ) );
+		return max( $number, $this->inv( $number ) );
 	}
 
 	public function arithmeticAverage( $args )
@@ -65,7 +65,7 @@ class Alg_Math_NaturalNumbers
 
 	public function avg( $args )
 	{
-		return NaturalNumbers::geometricAverage( $args );
+		return $this->geometricAverage( $args );
 	}
 
 	public function fac( $number )
@@ -74,7 +74,7 @@ class Alg_Math_NaturalNumbers
 		{
 			if( $number==0 )
 				return 1;
-			$value = $number * NaturalNumbers::fac( NaturalNumbers::pre( $number ) );
+			$value = $number * $this->fac( $this->pre( $number ) );
 			return $value;
 		}
 		return 0;
@@ -90,7 +90,7 @@ class Alg_Math_NaturalNumbers
 	public function gcd( $m, $n )
 	{
 		if( $n != 0 )
-			return NaturalNumbers::gcd( $n, $m % $n );
+			return $this->gcd( $n, $m % $n );
 		else
 			return $m;
 	}
@@ -157,7 +157,7 @@ class Alg_Math_NaturalNumbers
 
 	public function isPrime( $number )
 	{
-		if( !NaturalNumbers::isNatural( $number ) )
+		if( !$this->isNatural( $number ) )
 			throw new InvalidArgumentException( 'First Argument must be a natural Number.' );
 		$limit		= round( sqrt( $number ) );
 		$counter	= 2;
@@ -179,7 +179,7 @@ class Alg_Math_NaturalNumbers
 	 */
 	public function lcm( $m, $n )
 	{
-		return $m * $n / NaturalNumbers::gcd( $m, $n );
+		return $m * $n / $this->gcd( $m, $n );
 	}
 
 	/**
@@ -241,19 +241,19 @@ class Alg_Math_NaturalNumbers
 
 	public function pow( $base, $number )
 	{
-		if( !NaturalNumbers::isNatural( $number ) )
+		if( !$this->isNatural( $number ) )
 			throw new InvalidArgumentException( 'First Argument must be a natural Number.' );
 		if( $number == 0 )
 			return 1;
 		else if( $number > 0 )
-			return NaturalNumbers::pow( $base, NaturalNumbers::pre( $number ) ) * $base;
+			return $this->pow( $base, $this->pre( $number ) ) * $base;
 		else if( $number < 0 )
-			return NaturalNumbers::pow( NaturalNumbers::rec( $base ), NaturalNumbers::abs( $number ) );
+			return $this->pow( $this->rec( $base ), $this->abs( $number ) );
 	}
 
 	public function pre( $number )
 	{
-		if( !NaturalNumbers::isNatural( $number ) )
+		if( !$this->isNatural( $number ) )
 			throw new InvalidArgumentException( 'First Argument must be a natural Number.' );
 		return --$number;
 	}
@@ -270,7 +270,7 @@ class Alg_Math_NaturalNumbers
 
 	public function succ( $number )
 	{
-		if( !NaturalNumbers::isNatural( $number ) )
+		if( !$this->isNatural( $number ) )
 			throw new InvalidArgumentException( 'First Argument must be a natural Number.' );
 		return ++$number;
 	}
