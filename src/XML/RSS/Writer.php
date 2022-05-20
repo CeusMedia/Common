@@ -121,6 +121,6 @@ class XML_RSS_Writer
 	 */
 	public function write( $fileName, $encoding = "utf-8" )
 	{
-		return $this->save( $fileName, $this->channelData, $this->itemList, $encoding );
+		return self::save( $fileName, $this->channelData, $this->itemList, $encoding );
 	}
 }

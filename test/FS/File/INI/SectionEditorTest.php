@@ -5,7 +5,10 @@
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@version		0.1
  */
-require_once dirname( dirname( dirname( __DIR__ ) ) ).'/initLoaders.php';
+declare( strict_types = 1 );
+
+use PHPUnit\Framework\TestCase;
+
 /**
  *	TestUnit of Section INI Reader.
  *	@package		Tests.file.ini
@@ -19,17 +22,17 @@ class Test_FS_File_INI_SectionEditorTest extends Test_Case
 	/**	@var	string		$fileName		File Name of Test File */
 	private $fileName;
 
-	public function __construct()
+	/**
+	 *	Setup for every Test.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function setUp(): void
 	{
 		$this->fileName		= dirname( __FILE__ )."/section.editor.ini";
-		$this->setUp();
-		$this->editor	= new FS_File_INI_SectionEditor( $this->fileName );
-	}
-
-	public function setUp()
-	{
 		$path	= dirname( $this->fileName )."/";
 		copy( $path."section.reader.ini", $path."section.editor.ini" );
+		$this->editor	= new FS_File_INI_SectionEditor( $this->fileName );
 	}
 
 	/**
@@ -55,7 +58,7 @@ class Test_FS_File_INI_SectionEditorTest extends Test_Case
 	 */
 	public function testAddSectionException()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$creation	= $this->editor->addSection( 'section1' );
 	}
 
@@ -115,7 +118,7 @@ class Test_FS_File_INI_SectionEditorTest extends Test_Case
 	 */
 	public function testRemovePropertyException1()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$this->editor->removeProperty( 'invalid_section', 'not_relevant' );
 	}
 
@@ -126,7 +129,7 @@ class Test_FS_File_INI_SectionEditorTest extends Test_Case
 	 */
 	public function testRemovePropertyException2()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$this->editor->removeProperty( 'section1', 'invalid_key' );
 	}
 
@@ -153,8 +156,7 @@ class Test_FS_File_INI_SectionEditorTest extends Test_Case
 	 */
 	public function testRemoveSectionException1()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$this->editor->removeSection( 'invalid_section' );
 	}
 }
-?>

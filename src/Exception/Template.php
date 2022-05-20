@@ -62,7 +62,7 @@ class Exception_Template extends RuntimeException
 	 *	@param		mixed		$data			Some additional data
 	 *	@return		void
 	 */
-	public function __construct( $code, $fileName, $data = array() )
+	public function __construct( $code, $fileName, $data = array(), ?Throwable $previous = null )
 	{
 		$tagList	= '"'.implode( '", "', $data ).'"';
 		switch( $code )
@@ -71,19 +71,19 @@ class Exception_Template extends RuntimeException
 				$this->filePath	= $data;
 				$message		= self::$messages[self::FILE_NOT_FOUND];
 				$message		= sprintf( $message, $fileName );
-				parent::__construct( $message, self::FILE_NOT_FOUND );
+				parent::__construct( $message, self::FILE_NOT_FOUND, $previous );
 				break;
 			case self::FILE_LABELS_MISSING:
 				$this->labels	= $data;
 				$message		= self::$messages[self::FILE_LABELS_MISSING];
 				$message		= sprintf( $message, $fileName, $tagList );
-				parent::__construct( $message, self::FILE_LABELS_MISSING );
+				parent::__construct( $message, self::FILE_LABELS_MISSING, $previous );
 				break;
 			case self::LABELS_MISSING:
 				$this->labels	= $data;
 				$message		= self::$messages[self::LABELS_MISSING];
 				$message		= sprintf( $message, $tagList );
-				parent::__construct( $message, self::LABELS_MISSING );
+				parent::__construct( $message, self::LABELS_MISSING, $previous );
 				break;
 		}
 	}

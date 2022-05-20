@@ -6,7 +6,10 @@
  *	@since			20.02.2008
  *	@version		0.1
  */
-require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
+declare( strict_types = 1 );
+
+use PHPUnit\Framework\TestCase;
+
 /**
  *	TestUnit of XML RSS 2 Parser.
  *	@package		Tests.xml.rss
@@ -38,4 +41,3 @@ class Test_XML_RSS_ParserTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

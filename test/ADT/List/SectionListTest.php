@@ -6,7 +6,10 @@
  *	@since			21.07.2008
  *	@version		0.1
  */
-require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
+declare( strict_types = 1 );
+
+use PHPUnit\Framework\TestCase;
+
 /**
  *	TestUnit of Test_ADT_List_SectionList.
  *	@package		Tests.adt.list
@@ -22,20 +25,11 @@ class Test_ADT_List_SectionListTest extends Test_Case
 	private $list;
 
 	/**
-	 *	Constructor.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function __construct()
-	{
-	}
-
-	/**
 	 *	Setup for every Test.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
 		$this->list	= new ADT_List_SectionList();
 		$this->list->addEntry( 'entry11', 'section1' );
@@ -50,7 +44,7 @@ class Test_ADT_List_SectionListTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function tearDown()
+	public function tearDown(): void
 	{
 	}
 
@@ -74,7 +68,7 @@ class Test_ADT_List_SectionListTest extends Test_Case
 	 */
 	public function testAddEntryException()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$this->list->addEntry( "entry11", "section1" );
 	}
 
@@ -152,7 +146,7 @@ class Test_ADT_List_SectionListTest extends Test_Case
 	 */
 	public function testGetEntryException()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$this->list->getEntry( 9999, "section1" );
 	}
 
@@ -175,7 +169,7 @@ class Test_ADT_List_SectionListTest extends Test_Case
 	 */
 	public function testGetEntriesException()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$this->list->getEntries( "invalid" );
 	}
 
@@ -236,7 +230,7 @@ class Test_ADT_List_SectionListTest extends Test_Case
 	 */
 	public function testGetSectionOfEntryException()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$this->list->getSectionOfEntry( "invalid" );
 	}
 
@@ -277,7 +271,7 @@ class Test_ADT_List_SectionListTest extends Test_Case
 	 */
 	public function testRemoveEntryException()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$this->list->removeEntry( "invalid", "section1" );
 	}
 
@@ -301,8 +295,7 @@ class Test_ADT_List_SectionListTest extends Test_Case
 	 */
 	public function testRemoveSectionException()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$this->list->removeSection( "invalid" );
 	}
 }
-?>

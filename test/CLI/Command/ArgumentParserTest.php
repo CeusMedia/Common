@@ -6,7 +6,10 @@
  *	@since			24.10.2008
  *	@version		0.1
  */
-require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
+declare( strict_types = 1 );
+
+use PHPUnit\Framework\TestCase;
+
 /**
  *	TestUnit of CLI_Command_ArgumentParser.
  *	@package		Tests.
@@ -19,20 +22,11 @@ require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
 class Test_CLI_Command_ArgumentParserTest extends Test_Case
 {
 	/**
-	 *	Constructor.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function __construct()
-	{
-	}
-
-	/**
 	 *	Setup for every Test.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
 		$this->parser	= new Test_CLI_Command_ArgumentParserInstance();
 	}
@@ -42,7 +36,7 @@ class Test_CLI_Command_ArgumentParserTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function tearDown()
+	public function tearDown(): void
 	{
 	}
 
@@ -69,7 +63,7 @@ class Test_CLI_Command_ArgumentParserTest extends Test_Case
 	 */
 	public function testGetArgumentsException()
 	{
-		$this->setExpectedException( 'RuntimeException' );
+		$this->expectException( 'RuntimeException' );
 
 		$arguments	= array( 'a' => "b" );
 		$this->parser->setProtectedVar( 'foundArguments', $arguments );
@@ -100,7 +94,7 @@ class Test_CLI_Command_ArgumentParserTest extends Test_Case
 	 */
 	public function testGetOptionsException()
 	{
-		$this->setExpectedException( 'RuntimeException' );
+		$this->expectException( 'RuntimeException' );
 
 		$options	= array( 'a' => "b" );
 		$this->parser->setProtectedVar( 'foundOptions', $options );
@@ -159,18 +153,7 @@ class Test_CLI_Command_ArgumentParserTest extends Test_Case
 	 */
 	public function testParseException1()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
-		$this->parser->parse( 1 );
-	}
-
-	/**
-	 *	Tests Exception of Method 'parse'.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function testParseException2()
-	{
-		$this->setExpectedException( 'RuntimeException' );
+		$this->expectException( 'RuntimeException' );
 		$this->parser->setNumberOfMandatoryArguments( 2 );
 		$this->parser->parse( "Argument1" );
 	}
@@ -180,9 +163,9 @@ class Test_CLI_Command_ArgumentParserTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testParseException3()
+	public function testParseException2()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$this->parser->setPossibleOptions( array( 'a' => TRUE ) );
 		$this->parser->parse( "-b" );
 	}
@@ -192,9 +175,9 @@ class Test_CLI_Command_ArgumentParserTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testParseException4()
+	public function testParseException3()
 	{
-		$this->setExpectedException( 'RuntimeException' );
+		$this->expectException( 'RuntimeException' );
 		$this->parser->setPossibleOptions( array( 'a' => TRUE ) );
 		$this->parser->parse( "-a" );
 	}
@@ -204,9 +187,9 @@ class Test_CLI_Command_ArgumentParserTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testParseException5()
+	public function testParseException4()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$this->parser->setPossibleOptions( array( 'a' => TRUE ) );
 		$this->parser->parse( "-b -a" );
 	}
@@ -277,4 +260,3 @@ class Test_CLI_Command_ArgumentParserInstance extends CLI_Command_ArgumentParser
 		$this->$varName	= $varValue;
 	}
 }
-?>

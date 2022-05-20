@@ -6,7 +6,10 @@
  *	@since			08.05.2008
  *	@version		0.1
  */
-require_once dirname( dirname( dirname( __DIR__ ) ) ).'/initLoaders.php';
+declare( strict_types = 1 );
+
+use PHPUnit\Framework\TestCase;
+
 /**
  *	TestUnit of FS_File_Configuration_Reader.
  *	@package		Tests.
@@ -19,11 +22,11 @@ require_once dirname( dirname( dirname( __DIR__ ) ) ).'/initLoaders.php';
 class Test_FS_File_Configuration_ReaderTest extends Test_Case
 {
 	/**
-	 *	Constructor.
+	 *	Setup for every Test.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function __construct()
+	public function setUp(): void
 	{
 		$this->path	= dirname( __FILE__ )."/";
 		$this->data	= array(
@@ -43,7 +46,7 @@ class Test_FS_File_Configuration_ReaderTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function tearDown()
+	public function tearDown(): void
 	{
 		 @unlink( $this->path."test.ini.cache" );
 		 @unlink( $this->path."test.json.cache" );
@@ -179,7 +182,7 @@ class Test_FS_File_Configuration_ReaderTest extends Test_Case
 	 */
 	public function testConstructExceptionNotExisting()
 	{
-		$this->setExpectedException( 'RuntimeException' );
+		$this->expectException( 'RuntimeException' );
 		new FS_File_Configuration_Reader( $this->path."name.not_supported" );
 	}
 
@@ -192,9 +195,8 @@ class Test_FS_File_Configuration_ReaderTest extends Test_Case
 	{
 		$fileName	= $this->path."filename.xyz";
 		file_put_contents( $fileName, "" );
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		new FS_File_Configuration_Reader( $fileName );
 		unlink( $fileName );
 	}
 }
-?>

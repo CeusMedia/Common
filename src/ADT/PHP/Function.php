@@ -23,6 +23,8 @@
  *	@copyright		2015-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@since			0.3
+ *	@deprecated		use CeusMedia/PHP-Parser (https://packagist.org/packages/ceus-media/php-parser) instead
+ *	@todo			to be removed in 8.7
  */
 /**
  *	File Function Data Class.
@@ -32,6 +34,8 @@
  *	@copyright		2015-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@since			0.3
+ *	@deprecated		use CeusMedia/PHP-Parser (https://packagist.org/packages/ceus-media/php-parser) instead
+ *	@todo			to be removed in 8.7
  */
 class ADT_PHP_Function
 {
@@ -61,6 +65,14 @@ class ADT_PHP_Function
 
 	public function __construct( $name )
 	{
+		Deprecation::getInstance()
+			->setErrorVersion( '0.8.5' )
+			->setExceptionVersion( '0.8.6' )
+			->message( sprintf(
+				'Please use %s (%s) instead',
+				'public library "CeusMedia/PHP-Parser"',
+			 	'https://packagist.org/packages/ceus-media/php-parser'
+			) );
 		$this->setName( $name );
 	}
 
@@ -137,7 +149,7 @@ class ADT_PHP_Function
 	/**
 	 *	Returns function name.
 	 *	@access		public
-	 *	@return		void			Function name
+	 *	@return		string			Function name
 	 */
 	public function getName()
 	{
@@ -251,15 +263,15 @@ class ADT_PHP_Function
 	{
 		if( $this->name != $function->getName() )
 			throw new Exception( 'Not mergable' );
-		if( $function->getDescription() )
+		if( NULL !== $function->getDescription() )
 			$this->setDescription( $function->getDescription() );
-		if( $function->getSince() )
+		if( NULL !== $function->getSince() )
 			$this->setSince( $function->getSince() );
-		if( $function->getVersion() )
+		if( NULL !== $function->getVersion() )
 			$this->setVersion( $function->getVersion() );
-		if( $function->getCopyright() )
+		if( NULL !== $function->getCopyright() )
 			$this->setCopyright( $function->getCopyright() );
-		if( $function->getReturn() )
+		if( NULL !== $function->getReturn() )
 			$this->setReturn( $function->getReturn() );
 
 		foreach( $function->getAuthors() as $author )

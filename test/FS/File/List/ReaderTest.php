@@ -5,7 +5,10 @@
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@version		0.1
  */
-require_once dirname( dirname( dirname( __DIR__ ) ) ).'/initLoaders.php'; 
+declare( strict_types = 1 );
+
+use PHPUnit\Framework\TestCase;
+
 /**
  *	TestUnit of List Reader.
  *	@package		Tests.file.list
@@ -19,18 +22,14 @@ class Test_FS_File_List_ReaderTest extends Test_Case
 	/**	@var	string		$fileName		File Name of Test File */
 	private $fileName;
 
-	public function __construct()
-	{
-		$this->fileName		= dirname( __FILE__ )."/read.list";
-	}
-
 	/**
 	 *	Set up for every Test.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
+		$this->fileName		= dirname( __FILE__ )."/read.list";
 		$this->reader	= new FS_File_List_Reader( $this->fileName );
 	}
 
@@ -57,7 +56,7 @@ class Test_FS_File_List_ReaderTest extends Test_Case
 	 */
 	public function testGetIndexException()
 	{
-		$this->setExpectedException( 'DomainException' );
+		$this->expectException( 'DomainException' );
 		$this->reader->getIndex( "not_existing" );
 	}
 
@@ -132,7 +131,7 @@ class Test_FS_File_List_ReaderTest extends Test_Case
 	 */
 	public function testReadException()
 	{
-		$this->setExpectedException( 'RuntimeException' );
+		$this->expectException( 'RuntimeException' );
 		FS_File_List_Reader::read( "not_existing" );
 	}
 
@@ -148,4 +147,3 @@ class Test_FS_File_List_ReaderTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

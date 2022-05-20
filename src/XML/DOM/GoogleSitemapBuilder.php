@@ -61,7 +61,7 @@ class XML_DOM_GoogleSitemapBuilder
 	 */
 	public function build( $baseUrl )
 	{
-		return $this->buildSitemap( $this->list, $baseUrl );
+		return self::buildSitemap( $this->list, $baseUrl );
 	}
 
 	/**

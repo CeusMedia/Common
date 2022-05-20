@@ -6,7 +6,12 @@
  *	@since			21.04.2008
  *	@version		0.1
  */
-require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
+declare( strict_types = 1 );
+
+use PHPUnit\Framework\TestCase;
+
+require_once __DIR__.'/TestCase.php';
+
 /**
  *	TestUnit of recursive Folder Indexer.
  *	@package		Tests.folder
@@ -23,8 +28,9 @@ class Test_FS_Folder_RecursiveListerTest extends Test_FS_Folder_TestCase
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
+		parent::setUp();
 		$this->lister1	= new FS_Folder_RecursiveLister( $this->folder );
 		$this->lister2	= new FS_Folder_RecursiveLister( "not_existing" );
 	}
@@ -75,7 +81,7 @@ class Test_FS_Folder_RecursiveListerTest extends Test_FS_Folder_TestCase
 	 */
 	public function testGetListException()
 	{
-		$this->setExpectedException( 'RuntimeException' );
+		$this->expectException( 'RuntimeException' );
 		$this->lister2->getList( "not_relevant" );
 	}
 
@@ -162,7 +168,7 @@ class Test_FS_Folder_RecursiveListerTest extends Test_FS_Folder_TestCase
 	 */
 	public function testGetFileListException()
 	{
-		$this->setExpectedException( 'RuntimeException' );
+		$this->expectException( 'RuntimeException' );
 		$index	= FS_Folder_RecursiveLister::getFileList( "not_existing" );
 	}
 
@@ -225,7 +231,7 @@ class Test_FS_Folder_RecursiveListerTest extends Test_FS_Folder_TestCase
 	 */
 	public function testGetFolderListException()
 	{
-		$this->setExpectedException( 'RuntimeException' );
+		$this->expectException( 'RuntimeException' );
 		$index	= FS_Folder_RecursiveLister::getFolderList( "not_existing" );
 	}
 
@@ -314,7 +320,7 @@ class Test_FS_Folder_RecursiveListerTest extends Test_FS_Folder_TestCase
 	 */
 	public function testGetMixedListException()
 	{
-		$this->setExpectedException( 'RuntimeException' );
+		$this->expectException( 'RuntimeException' );
 		$index	= FS_Folder_RecursiveLister::getMixedList( "not_existing" );
 	}
 
@@ -463,4 +469,3 @@ class Test_FS_Folder_RecursiveListerTest extends Test_FS_Folder_TestCase
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

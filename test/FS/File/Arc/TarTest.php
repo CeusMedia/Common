@@ -5,7 +5,10 @@
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@version		0.1
  */
-require_once dirname( dirname( dirname( __DIR__ ) ) ).'/initLoaders.php';
+declare( strict_types = 1 );
+
+use PHPUnit\Framework\TestCase;
+
 /**
  *	TestUnit of Tar File.
  *	@package		Tests.file.arc
@@ -19,17 +22,13 @@ class Test_FS_File_Arc_TarTest extends Test_Case
 	/**	@var	string		$fileName		URL of Archive File Name */
 	private $fileName;
 
-	public function __construct()
+	public function setUp(): void
 	{
 		$this->path	= dirname( __FILE__ )."/";
-	}
-
-	public function setUp()
-	{
 		$this->fileName	= $this->path."test.tar";
 	}
 
-	public function tearDown()
+	public function tearDown(): void
 	{
 		@unlink( $this->fileName );
 	}
@@ -46,4 +45,3 @@ class Test_FS_File_Arc_TarTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

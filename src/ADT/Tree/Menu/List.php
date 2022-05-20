@@ -37,14 +37,14 @@
  */
 class ADT_Tree_Menu_List
 {
-	/**	@var		string		$label			Label of Item Link */
-	public $label				= NULL;
-	/**	@var		array		$attributes		Array of Item Attributes (classItem,classLink,classList) */
-	public $attributes			= NULL;
-	/**	@var		array		$children		List of nested Tree Menu Items */
-	public $children			= array();
+	/**	@var		string					$label			Label of Item Link */
+	public $label							= NULL;
+	/**	@var		ADT_List_Dictionary		$attributes		Array of Item Attributes (classItem,classLink,classList) */
+	public $attributes						= NULL;
+	/**	@var		array					$children		List of nested Tree Menu Items */
+	public $children						= array();
 
-	public $defaultAttributes	= array(
+	public $defaultAttributes				= array(
 		'class'		=> "option",
 		'default'	=> FALSE,
 	);
@@ -133,11 +133,11 @@ class ADT_Tree_Menu_List
 	 *	@access		public
 	 *	@param		string		$key			Attribute Key
 	 *	@param		string		$value			Attribute Value
-	 *	@return		string
+	 *	@return		bool
 	 */
 	public function setAttribute( $key, $value )
 	{
-		$this->attributes->set( $key, $value );
+		return $this->attributes->set( $key, $value );
 	}
 
 	/**
@@ -156,11 +156,12 @@ class ADT_Tree_Menu_List
 	/**
 	 *	Sets Label of Tree Menu List.
 	 *	@access		public
-	 *	@return		string
+	 *	@return		self
 	 */
-	public function setLabel( $label )
+	public function setLabel( $label ): self
 	{
 		$this->label	= $label;
+		return $this;
 	}
 
 	/**

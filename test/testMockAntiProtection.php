@@ -63,4 +63,3 @@ catch( MockBadStaticVarCallException $e )
 {
 	remark( "Access denied for static variable" );
 }
-?>

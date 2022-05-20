@@ -11,6 +11,14 @@ class Question
 	const TYPE_NUMBER			= 3;
 	const TYPE_STRING			= 4;
 
+	const TYPES					= [
+		self::TYPE_UNKNOWN,
+		self::TYPE_BOOLEAN,
+		self::TYPE_INTEGER,
+		self::TYPE_NUMBER,
+		self::TYPE_STRING,
+	];
+
 	protected $message;
 	protected $type				= 0;
 	protected $default			= NULL;
@@ -20,12 +28,12 @@ class Question
 	protected $rangeTo			= 0;
 	protected $strictOptions	= TRUE;
 
-	static public $defaultBooleanOptions	= array(
-		'y'	=> 'yes',
-		'n'	=> 'no',
+	public static $defaultBooleanOptions	= array(
+		'y'		=> 'yes',
+		'n'		=> 'no',
 	);
 
-	public function __construct( $message, $type = self::TYPE_STRING, $default = NULL, $options = array(), $break = TRUE )
+	public function __construct( string $message, int $type = self::TYPE_STRING, $default = NULL, array $options = array(), bool $break = TRUE )
 	{
 		$this->setMessage( $message );
 		$this->setType( $type );
@@ -34,7 +42,7 @@ class Question
 		$this->setBreak( $break );
 	}
 
-	public function ask()
+	public function ask(): string
 	{
 		$message	= $this->renderLabel();
 		CLI::out( $message, $this->break );
@@ -45,18 +53,75 @@ class Question
 		return $input;
 	}
 
+	public static function askStatic( string $message, int $type = self::TYPE_STRING, $default = NULL, array $options = array(), bool $break = TRUE ): string
+	{
+		$input	= new self( $message, $type, $default, $options, $break );
+		return $input->ask();
+	}
+
+	public static function getInstance( string $message ): self
+	{
+		return new self( $message );
+	}
+
+	public function setBreak( bool $break = TRUE ): self
+	{
+		$this->break	= $break;
+		return $this;
+	}
+
+	public function setDefault( $default = NULL ): self
+	{
+		$this->default	= $default;
+		return $this;
+	}
+
+	public function setMessage( string $message ): self
+	{
+		$this->message	= $message;
+		return $this;
+	}
+
+	public function setOptions( array $options = array() ): self
+	{
+		if( $options )
+			$this->options	= $options;
+		return $this;
+	}
+
+	public function setStrictOptions( bool $switch = TRUE ): self
+	{
+		$this->strictOptions	= $switch;
+		return $this;
+	}
+
+	public function setRange( int $from, int $to ): self
+	{
+		$this->rangeFrom	= $from;
+		$this->rangeTo		= $to;
+		return $this;
+	}
+
+	public function setType( int $type ): self
+	{
+		$this->type		= $type;
+		if( $type === self::TYPE_BOOLEAN )
+			$this->setOptions( self::$defaultBooleanOptions );
+		return $this;
+	}
+
 	protected function evaluateInput( & $input )
 	{
 		if( $this->default && !strlen( $input ) )
 			$input	= $this->default;
 		if( $this->type === self::TYPE_BOOLEAN ){
 			if( !array_key_exists( $input, $this->options ) )
-				if( !in_array( $input, $this->options ) )
+				if( !in_array( $input, $this->options, TRUE ) )
 					return FALSE;
 		}
 		if( $this->type === self::TYPE_STRING ){
 			if( $this->options && $this->strictOptions ){
-				if( !in_array( $input, $this->options ) )
+				if( !in_array( $input, $this->options, TRUE ) )
 					return FALSE;
 			}
 		}
@@ -68,7 +133,7 @@ class Question
  				if( $this->rangeFrom || $this->rangeTo )
 	 				if( $input < $this->rangeFrom || $input > $this->rangeTo )
 						return FALSE;
-				else if( $this->options && !in_array( $input, $this->options ) )
+				else if( $this->options && !in_array( $input, $this->options, TRUE ) )
 					return FALSE;
 			}
 		}
@@ -81,22 +146,11 @@ class Question
 	 				if( $input < $this->rangeFrom || $input > $this->rangeTo )
 						return FALSE;
 				}
-				else if( $this->options && !in_array( $input, $this->options ) )
+				else if( $this->options && !in_array( $input, $this->options, TRUE ) )
 					return FALSE;
 			}
 		}
 		return TRUE;
-	}
-
-	static public function askStatic( $message, $type = 'string', $default = NULL, $options = array(), $break = TRUE )
-	{
-		$input	= new self( $message, $type, $default, $options, $break );
-		return $input->ask();
-	}
-
-	static public function getInstance( $message )
-	{
-		return new static( $message );
 	}
 
 	protected function renderLabel()
@@ -127,51 +181,5 @@ class Question
 		if( !$this->break )
 			$message	.= ": ";
 		return $message;
-	}
-
-	public function setBreak( $break = TRUE )
-	{
-		$this->break	= $break;
-		return $this;
-	}
-
-	public function setDefault( $default = NULL )
-	{
-		$this->default	= $default;
-		return $this;
-	}
-
-	public function setMessage( $message )
-	{
-		$this->message	= $message;
-		return $this;
-	}
-
-	public function setOptions( $options = array() )
-	{
-		if( $options )
-			$this->options	= $options;
-		return $this;
-	}
-
-	public function setStrictOptions( $switch = TRUE )
-	{
-		$this->strictOptions	= $switch;
-		return $this;
-	}
-
-	public function setRange( $from, $to )
-	{
-		$this->rangeFrom	= $from;
-		$this->rangeTo		= $to;
-		return $this;
-	}
-
-	public function setType( $type )
-	{
-		$this->type		= $type;
-		if( $type === self::TYPE_BOOLEAN )
-			$this->setOptions( self::$defaultBooleanOptions );
-		return $this;
 	}
 }

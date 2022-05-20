@@ -6,7 +6,10 @@
  *	@since			19.06.2008
  *	@version		0.1
  */
-require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
+declare( strict_types = 1 );
+
+use PHPUnit\Framework\TestCase;
+
 /**
  *	TestUnit of Clock.
  *	@package		Tests.
@@ -19,23 +22,14 @@ require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
 final class Test_Alg_Object_ConstantTest extends Test_Case
 {
 	/**
-	 *	Constructor.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function __construct()
-	{
-		$className		= 'Test_Alg_Object_ConstantExample1';
-		$this->object	= new Alg_Object_Constant( $className );
-	}
-
-	/**
 	 *	Setup for every Test.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
+		$className		= 'Test_Alg_Object_ConstantExample1';
+		$this->object	= new Alg_Object_Constant( $className );
 	}
 
 	/**
@@ -43,7 +37,7 @@ final class Test_Alg_Object_ConstantTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function tearDown()
+	public function tearDown(): void
 	{
 	}
 
@@ -105,13 +99,13 @@ final class Test_Alg_Object_ConstantTest extends Test_Case
 
 	public function testGetKeyByValueException1()
 	{
-		$this->setExpectedException( 'RangeException' );
+		$this->expectException( 'RangeException' );
 		$this->object->getKeyByValue( 3, 'A' );
 	}
 
 	public function testGetKeyByValueException2()
 	{
-		$this->setExpectedException( 'RangeException' );
+		$this->expectException( 'RangeException' );
 		$this->object->getKeyByValue( 1 );
 	}
 
@@ -128,13 +122,13 @@ final class Test_Alg_Object_ConstantTest extends Test_Case
 
 	public function testGetValueException1()
 	{
-		$this->setExpectedException( 'DomainException' );
+		$this->expectException( 'DomainException' );
 		$this->object->getValue( 'A_2' );
 	}
 
 	public function testGetValueException2()
 	{
-		$this->setExpectedException( 'DomainException' );
+		$this->expectException( 'DomainException' );
 		$this->object->getValue( '2', 'A' );
 	}
 }

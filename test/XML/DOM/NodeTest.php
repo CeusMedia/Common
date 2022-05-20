@@ -6,7 +6,10 @@
  *	@since			11.12.2007
  *	@version		0.1
  */
-require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
+declare( strict_types = 1 );
+
+use PHPUnit\Framework\TestCase;
+
 /**
  *	TestUnit of XML DOM Node.
  *	@package		Tests.xml.dom
@@ -24,7 +27,7 @@ class Test_XML_DOM_NodeTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
 		$this->node	= new XML_DOM_Node( "testNode", "testContent" );
 		$this->node->setAttribute( "testKey", "testValue" );
@@ -150,7 +153,7 @@ class Test_XML_DOM_NodeTest extends Test_Case
 	 */
 	public function testGetChildException()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$this->node->getChild( "not_existing" );
 	}
 
@@ -474,4 +477,3 @@ class Test_XML_DOM_NodeTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

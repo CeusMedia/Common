@@ -6,7 +6,10 @@
  *	@since			13.12.2007
  *	@version		0.1
  */
-require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
+declare( strict_types = 1 );
+
+use PHPUnit\Framework\TestCase;
+
 /**
  *	TestUnit of XSL Transformator.
  *	@package		Tests.xml.dom
@@ -24,7 +27,7 @@ class Test_XML_XSL_TransformatorTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
 		if( !class_exists( 'XSLTProcessor' ) )
 			$this->markTestSkipped( 'Support for XSL is missing' );
@@ -60,4 +63,3 @@ class Test_XML_XSL_TransformatorTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

@@ -6,7 +6,10 @@
  *	@since			19.06.2008
  *	@version		0.1
  */
-require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
+declare( strict_types = 1 );
+
+use PHPUnit\Framework\TestCase;
+
 /**
  *	TestUnit of Clock.
  *	@package		Tests.
@@ -19,22 +22,13 @@ require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
 final class Test_Alg_Time_ClockTest extends Test_Case
 {
 	/**
-	 *	Constructor.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function __construct()
-	{
-		Test_MockAntiProtection::createMockClass( "Alg_Time_Clock" );
-	}
-
-	/**
 	 *	Setup for every Test.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
+		Test_MockAntiProtection::createMockClass( "Alg_Time_Clock" );
 	}
 
 	/**
@@ -42,7 +36,7 @@ final class Test_Alg_Time_ClockTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function tearDown()
+	public function tearDown(): void
 	{
 	}
 
@@ -55,7 +49,7 @@ final class Test_Alg_Time_ClockTest extends Test_Case
 	{
 		$watch	= new Test_Alg_Time_Clock_MockAntiProtection();
 		$assertion	= 1;
-		$creation	= preg_match( "@^[0-9]+\.[0-9]+$@", $watch->getProtectedVar( 'microtimeStart' ) );
+		$creation	= preg_match( "@^[0-9]+\.[0-9]+$@", (string) $watch->getProtectedVar( 'microtimeStart' ) );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -122,7 +116,7 @@ final class Test_Alg_Time_ClockTest extends Test_Case
 	{
 		$watch	= new Test_Alg_Time_Clock_MockAntiProtection();
 		$assertion	= 1;
-		$creation	= preg_match( "@^[0-9]+\.[0-9]+$@", $watch->getProtectedVar( 'microtimeStart' ) );
+		$creation	= preg_match( "@^[0-9]+\.[0-9]+$@", (string) $watch->getProtectedVar( 'microtimeStart' ) );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -136,7 +130,7 @@ final class Test_Alg_Time_ClockTest extends Test_Case
 		$watch	= new Test_Alg_Time_Clock_MockAntiProtection();
 		$watch->stop();
 		$assertion	= 1;
-		$creation	= preg_match( "@^[0-9]+\.[0-9]+$@", $watch->stop() );
+		$creation	= preg_match( "@^[0-9]+\.[0-9]+$@", (string) $watch->stop() );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -201,4 +195,3 @@ final class Test_Alg_Time_ClockTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

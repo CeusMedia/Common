@@ -5,7 +5,10 @@
  *	@since			21.04.2008
  *	@version		0.1
  */
-require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
+declare( strict_types = 1 );
+
+use PHPUnit\Framework\TestCase;
+
 /**
  *	TestUnit of Folder Editor.
  *	@package		Tests.folder
@@ -49,55 +52,60 @@ require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
  */
 class Test_FS_Folder_TestCase extends Test_Case
 {
-	/**
-	 *	Constructor, creates File Structure.
-	 *	@access		public
-	 *	@return		void
-	 */
+
 	public function __construct()
 	{
-		$this->path		= $path		= dirname( __FILE__ )."/";
-		$this->folder	= $folder	= $path."folder/";
-
-		@mkDir( $folder );
-		@mkDir( $folder."sub1" );
-		@mkDir( $folder."sub1/sub1sub1" );
-		@mkDir( $folder."sub1/sub1sub2" );
-		@mkDir( $folder."sub2" );
-		@mkDir( $folder."sub2/sub2sub1" );
-		@mkDir( $folder."sub2/.sub2sub2" );
-		@mkDir( $folder.".sub3" );
-		@mkDir( $folder.".sub3/sub3sub1" );
-		@mkDir( $folder.".sub3/.sub3sub2" );
-		@file_put_contents( $folder."file1.txt", "test" );
-		@file_put_contents( $folder."file2.txt", "test" );
-		@file_put_contents( $folder.".file3.txt", "test" );
-		@file_put_contents( $folder."sub1/file1_1.txt", "test" );
-		@file_put_contents( $folder."sub1/file1_2.txt", "test" );
-		@file_put_contents( $folder."sub1/sub1sub1/file1_1_1.txt", "test" );
-		@file_put_contents( $folder."sub1/sub1sub1/file1_1_2.txt", "test" );
-		@file_put_contents( $folder."sub1/sub1sub2/file1_2_1.txt", "test" );
-		@file_put_contents( $folder."sub1/sub1sub2/file1_2_2.txt", "test" );
-		@file_put_contents( $folder."sub2/file2_1.txt", "test" );
-		@file_put_contents( $folder."sub2/.file2_2.txt", "test" );
-		@file_put_contents( $folder."sub2/sub2sub1/file2_1_1.txt", "test" );
-		@file_put_contents( $folder."sub2/sub2sub1/.file2_1_2.txt", "test" );
-		@file_put_contents( $folder."sub2/.sub2sub2/file2_2_1.txt", "test" );
-		@file_put_contents( $folder."sub2/.sub2sub2/.file2_2_2.txt", "test" );
-		@file_put_contents( $folder.".sub3/file3_1.txt", "test" );
-		@file_put_contents( $folder.".sub3/.file3_2.txt", "test" );
-		@file_put_contents( $folder.".sub3/sub3sub1/file3_1_1.txt", "test" );
-		@file_put_contents( $folder.".sub3/sub3sub1/.file3_1_2.txt", "test" );
-		@file_put_contents( $folder.".sub3/.sub3sub2/file3_2_1.txt", "test" );
-		@file_put_contents( $folder.".sub3/.sub3sub2/.file3_2_2.txt", "test" );
+		parent::__construct();
+		$this->path		= dirname( __FILE__ )."/";
+		$this->folder	= $this->path."folder/";
 	}
 
 	/**
-	 *	Destructor, removes File Structure.
+	 *	Setup for every Test.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function __destruct()
+	public function setUp(): void
+	{
+		@mkDir( $this->folder );
+		@mkDir( $this->folder."sub1" );
+		@mkDir( $this->folder."sub1/sub1sub1" );
+		@mkDir( $this->folder."sub1/sub1sub2" );
+		@mkDir( $this->folder."sub2" );
+		@mkDir( $this->folder."sub2/sub2sub1" );
+		@mkDir( $this->folder."sub2/.sub2sub2" );
+		@mkDir( $this->folder.".sub3" );
+		@mkDir( $this->folder.".sub3/sub3sub1" );
+		@mkDir( $this->folder.".sub3/.sub3sub2" );
+		@file_put_contents( $this->folder."file1.txt", "test" );
+		@file_put_contents( $this->folder."file2.txt", "test" );
+		@file_put_contents( $this->folder.".file3.txt", "test" );
+		@file_put_contents( $this->folder."sub1/file1_1.txt", "test" );
+		@file_put_contents( $this->folder."sub1/file1_2.txt", "test" );
+		@file_put_contents( $this->folder."sub1/sub1sub1/file1_1_1.txt", "test" );
+		@file_put_contents( $this->folder."sub1/sub1sub1/file1_1_2.txt", "test" );
+		@file_put_contents( $this->folder."sub1/sub1sub2/file1_2_1.txt", "test" );
+		@file_put_contents( $this->folder."sub1/sub1sub2/file1_2_2.txt", "test" );
+		@file_put_contents( $this->folder."sub2/file2_1.txt", "test" );
+		@file_put_contents( $this->folder."sub2/.file2_2.txt", "test" );
+		@file_put_contents( $this->folder."sub2/sub2sub1/file2_1_1.txt", "test" );
+		@file_put_contents( $this->folder."sub2/sub2sub1/.file2_1_2.txt", "test" );
+		@file_put_contents( $this->folder."sub2/.sub2sub2/file2_2_1.txt", "test" );
+		@file_put_contents( $this->folder."sub2/.sub2sub2/.file2_2_2.txt", "test" );
+		@file_put_contents( $this->folder.".sub3/file3_1.txt", "test" );
+		@file_put_contents( $this->folder.".sub3/.file3_2.txt", "test" );
+		@file_put_contents( $this->folder.".sub3/sub3sub1/file3_1_1.txt", "test" );
+		@file_put_contents( $this->folder.".sub3/sub3sub1/.file3_1_2.txt", "test" );
+		@file_put_contents( $this->folder.".sub3/.sub3sub2/file3_2_1.txt", "test" );
+		@file_put_contents( $this->folder.".sub3/.sub3sub2/.file3_2_2.txt", "test" );
+	}
+
+	/**
+	 *	Cleanup after every Test.
+	 *	@access		public
+	 *	@return		void
+	 */
+	public function tearDown(): void
 	{
 		if( file_exists( $this->folder ) )
 			$this->removeFolder( $this->folder, true );
@@ -138,23 +146,30 @@ class Test_FS_Folder_TestCase extends Test_Case
 	{
 		$list	= array();
 		$path	= str_replace( "\\", "/", $path );
-		$dir	= dir( $path );																	//  index Folder
-		while( $entry = $dir->read() )															//  iterate Objects
+		//  index Folder
+		$dir	= dir( $path );
+		//  iterate Objects
+		while( $entry = $dir->read() )
 		{
-			if( preg_match( "@^(\.){1,2}$@", $entry ) )											//  if is Dot Object
-				continue;																		//  continue
+			//  if is Dot Object
+			if( preg_match( "@^(\.){1,2}$@", $entry ) )
+				//  continue
+				continue;
 			if( !$force )
 				throw new Exception( 'Folder '.$path.' is not empty. See Option "force".' );
-			if( is_file( $path."/".$entry ) )													//  is nested File
-				@unlink( $path."/".$entry );													//  remove File
-			if( is_dir( $path."/".$entry ) )													//  is nested Folder
+			//  is nested File
+			if( is_file( $path."/".$entry ) )
+				//  remove File
+				@unlink( $path."/".$entry );
+			//  is nested Folder
+			if( is_dir( $path."/".$entry ) )
 				$list[]	= $path."/".$entry;
 		}
 		$dir->close();
 		foreach( $list as $folder )
-			self::removeFolder( $folder, $force );												//  call Method with nested Folder
+			//  call Method with nested Folder
+			self::removeFolder( $folder, $force );
 
 		@rmDir( $path );
 	}
 }
-?>

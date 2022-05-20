@@ -37,7 +37,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			03.03.2007
- * 
+ *
  *	<b>Syntax of a template file</b>
  *	- comment <%--comment--%>				 | will be removed on render
  *	- optional tag <%?tagname%>              | will be replaced, even with empty string
@@ -92,13 +92,13 @@ class UI_Template
 		$this->className	= get_class( $this );
 		$this->fileName		= $fileName;
 		$this->setTemplate( $fileName );
-		$this->add( $elements ); 
+		$this->add( $elements );
 	}
 
 	/**
-	 *	Adds an associative array with labels and elements to the template and returns number of added elements. 
-	 *	@param		array 		Array where the <b>key</b> can be a string, integer or 
-	 *							float and is the <b>label</b>. The <b>value</b> can be a 
+	 *	Adds an associative array with labels and elements to the template and returns number of added elements.
+	 *	@param		array 		Array where the <b>key</b> can be a string, integer or
+	 *							float and is the <b>label</b>. The <b>value</b> can be a
 	 *							string, integer, float or a template object and represents
 	 *							the element to add.
 	 *	@param		boolean		if TRUE an a tag is already used, it will overwrite it
@@ -189,11 +189,11 @@ class UI_Template
 		foreach( $reflection->getProperties() as $property )
 		{
 			$key		= $property->getName();
-			$methodName	= 'get'.ucFirst( $key );
+			$methodName	= 'get'.ucfirst( $key );
 			if( $property->isPublic() )
 				$value	= $property->getValue( $object );
 			else if( $reflection->hasMethod( $methodName ) )
-				$value	= Alg_Object_MethodFactory::callObjectMethod( $object, $methodName );
+				$value	= Alg_Object_MethodFactory::staticCallObjectMethod( $object, $methodName );
 			else
 				continue;
 			$label	= implode( ".", $steps ).".".$key;
@@ -237,7 +237,7 @@ class UI_Template
  		$out	= preg_replace( '/<%--.*--%>/sU', '', $out );
  		//  HTML comments should be removed
  		if( self::$removeComments )
-			//  find and remove all HTML comments 
+			//  find and remove all HTML comments
 			$out	= preg_replace( '/<!--.+-->/sU', '', $out );
  		//  optional parts should be removed
  		if( self::$removeOptional )
@@ -251,7 +251,7 @@ class UI_Template
 		//  iterate over all registered element containers
 		foreach( $this->elements as $label => $element )
 		{
-			$tmp = '';																				//  
+			$tmp = '';																				//
 			//  element is an object
 			if( is_object( $element ) )
 			{
@@ -282,7 +282,7 @@ class UI_Template
 		    //  return final result
 		    return $out;
 
-		$tags	= array_shift( $tags );																//  
+		$tags	= array_shift( $tags );																//
 		foreach( $tags as $key => $value )
 			$tags[$key]	= preg_replace( '@(<%\??)|%>@', "", $value );
 		if( $this->fileName )
@@ -309,7 +309,7 @@ class UI_Template
 	public function getElementsFromComment( $comment, $unique = TRUE )
 	{
 		$content = $this->getTaggedComment( $comment );
-		if( !isset( $content ) )
+		if( NULL === $content )
 			return NULL;
 
 		$list	= array();
@@ -335,7 +335,7 @@ class UI_Template
 	 */
 	public function getLabels( $type = 0, $xml = TRUE )
 	{
- 		$content = preg_replace( '/<%\??--.*--%>/sU', '', $this->template );	
+ 		$content = preg_replace( '/<%\??--.*--%>/sU', '', $this->template );
 		switch( $type )
 		{
 			case 2:
@@ -354,7 +354,7 @@ class UI_Template
 	 *	Returns a tagged comment.
 	 *	@param		string		$tag		Comment Tag
 	 *	@param		boolean		$xml		Flag: with or without Delimiter
-	 *	@return		string					Comment or NULL
+	 *	@return		string|NULL				Comment or NULL
 	 *	@todo		quote specialchars in tagname
 	 */
 	public function getTaggedComment( $tag, $xml = TRUE )
@@ -401,7 +401,7 @@ class UI_Template
 	 *	@static
 	 *	@param		string		$fileName		File Name of Template File
 	 *	@param		array		$elements		List of Elements {@link add()}
-	 *	@return		void
+	 *	@return		string
 	 */
 	public static function render( $fileName, $elements = array() )
 	{
@@ -432,7 +432,7 @@ class UI_Template
 	 */
 	public function setTemplate( $fileName )
 	{
-		if( empty( $fileName ) )
+		if( 0 === strlen( trim( $fileName ) ) )
 			return FALSE;
 
 		if( !file_exists( $fileName ) )

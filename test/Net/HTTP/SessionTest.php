@@ -6,7 +6,10 @@
  *	@since			16.02.2008
  *	@version		0.1
  */
-require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
+declare( strict_types = 1 );
+
+use PHPUnit\Framework\TestCase;
+
 /**
  *	TestUnit of Session.
  *	@package		Tests.net.http
@@ -20,7 +23,7 @@ class Test_Net_HTTP_SessionTest extends Test_Case
 {
 	private $session;
 
-	public function __construct()
+	public function setUp(): void
 	{
 		$this->session		= @new Net_HTTP_Session();
 		$this->session->clear();
@@ -120,4 +123,3 @@ class Test_Net_HTTP_SessionTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

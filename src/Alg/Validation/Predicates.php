@@ -1,6 +1,6 @@
 <?php
 /**
- *	Class holding Predicates for String Validation.
+ *	Class holding predicates for string validation.
  *
  *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
  *
@@ -26,7 +26,7 @@
  *	@since			14.02.2007
  */
 /**
- *	Class holding Predicates for String Validation.
+ *	Class holding predicates for string validation.
  *	@category		Library
  *	@package		CeusMedia_Common_Alg_Validation
  *	@uses			Alg_Time_Converter
@@ -40,348 +40,352 @@
 class Alg_Validation_Predicates
 {
 	/**
-	 *	Indicates whether a String is short enough.
+	 *	Indicates whether a string is short enough.
 	 *	@access		public
 	 *	@static
 	 *	@param		string		$string		String to be checked
-	 *	@return		bool
+	 *	@param		integer		$length		Length to have at most
+	 *	@return		boolean
 	 */
-	public static function hasMaxLength( $string, $length )
+	public static function hasMaxLength( string $string, int $length ): bool
 	{
 		return strlen( $string ) <= $length;
 	}
 
 	/**
-	 *	Indicates whether a String is long enough.
+	 *	Indicates whether a string is long enough.
 	 *	@access		public
 	 *	@static
 	 *	@param		string		$string		String to be checked
-	 *	@return		bool
+	 *	@param		integer		$length		Length to have at least
+	 *	@return		boolean
 	 */
-	public static function hasMinLength( $string, $length )
+	public static function hasMinLength( string $string, int $length ): bool
 	{
 		return strlen( $string ) >= $length;
 	}
 
 	/**
-	 *	Indicates whether a Password String has a Score.
+	 *	Indicates whether a password string has a Score.
 	 *	@access		public
 	 *	@static
 	 *	@param		string		$string		String to be checked
-	 *	@param		int			$score		Score to a have at least
-	 *	@return		bool
+	 *	@param		integer		$score		Score to a have at least
+	 *	@return		boolean
 	 */
-	public static function hasPasswordScore( $string, $score )
+	public static function hasPasswordScore( string $string, int $score ): bool
 	{
 		return Alg_Crypt_PasswordStrength::getScore( $string ) >= $score;
 	}
 
 	/**
-	 *	Indicates whether a Password String has a Stength.
+	 *	Indicates whether a password string has a Stength.
 	 *	@access		public
 	 *	@static
 	 *	@param		string		$string		String to be checked
-	 *	@param		int			$strength	Strength to a have at least
-	 *	@return		bool
+	 *	@param		integer		$strength	Strength to a have at least
+	 *	@return		boolean
 	 */
-	public static function hasPasswordStrength( $string, $strength )
+	public static function hasPasswordStrength( string $string, int $strength ): bool
 	{
 		return Alg_Crypt_PasswordStrength::getStrength( $string ) >= $strength;
 	}
 
 	/**
-	 *	Indicates whether a String has a Value.
+	 *	Indicates whether a string has a Value.
 	 *	@access		public
 	 *	@static
 	 *	@param		string		$string		String to be checked
-	 *	@return		bool
+	 *	@return		boolean
 	 */
-	public static function hasValue( $string )
+	public static function hasValue( string $string ): bool
 	{
-		return $string != "";
+		return trim( $string ) !== '';
 	}
 
 	/**
-	 *	Indicates whether a String is time formated and is after another point in time.
+	 *	Indicates whether a string is time formated and is after another point in time.
 	 *	@access		public
 	 *	@static
 	 *	@param		string		$string		String to be checked
-	 *	@param		string		$point		Point of Time to be after
-	 *	@return		bool
+	 *	@param		string		$point		Point of time to be after
+	 *	@return		boolean
 	 */
-	public static function isAfter( $string, $point )
+	public static function isAfter( string $string, $point ): bool
 	{
 		$string	= Alg_Time_Converter::complementMonthDate( $string );
 		$time	= strtotime( $string );
-		if( $time === false )
+		if( $time === FALSE )
 			throw new InvalidArgumentException( 'Given Date "'.$string.'" could not been parsed.' );
 		return $time > $point;
 	}
 
 	/**
-	 *	Indicates whether a String contains only letters.
+	 *	Indicates whether a string contains only letters.
 	 *	@access		public
 	 *	@static
 	 *	@param		string		$string		String to be checked
-	 *	@return		bool
+	 *	@return		boolean
 	 */
-	public static function isAlpha( $string )
+	public static function isAlpha( string $string ): bool
 	{
 		return self::isPreg( $string, "/^[a-z0-9]+$/i" );
 	}
 
 	/**
-	 *	Indicates whether a String contains only letters and digits.
+	 *	Indicates whether a string contains only letters and digits.
 	 *	@access		public
 	 *	@static
 	 *	@param		string		$string		String to be checked
-	 *	@return		bool
+	 *	@return		boolean
 	 */
-	public static function isAlphahyphen( $string )
+	public static function isAlphahyphen( string $string ): bool
 	{
 		return self::isPreg( $string, "/^[a-z0-9-]+$/i" );
 	}
 
 	/**
-	 *	Indicates whether a String contains only letters and spaces.
+	 *	Indicates whether a string contains only letters and spaces.
 	 *	@access		public
 	 *	@static
 	 *	@param		string		$string		String to be checked
-	 *	@return		bool
+	 *	@return		boolean
 	 */
-	public static function isAlphaspace( $string )
+	public static function isAlphaspace( string $string ): bool
 	{
 		return self::isPreg( $string, "/^[a-z0-9 ]+$/i" );
 	}
 
 	/**
-	 *	Indicates whether a String is time formated and is before another point in time.
+	 *	Indicates whether a string is time formated and is before another point in time.
 	 *	@access		public
 	 *	@static
 	 *	@param		string		$string		String to be checked
-	 *	@param		string		$point		Point of Time to be before
-	 *	@return		bool
+	 *	@param		string		$point		Point of time to be before
+	 *	@return		boolean
 	 */
-	public static function isBefore( $string, $point )
+	public static function isBefore( string $string, $point ): bool
 	{
 		$string	= Alg_Time_Converter::complementMonthDate( $string, 1 );
 		$time	= strtotime( $string );
-		if( $time === false )
+		if( $time === FALSE )
 			throw new InvalidArgumentException( 'Given Date "'.$string.'" could not been parsed.' );
 		return $time < $point;
 	}
 
 	/**
-	 *	Indicates whether a String is a valid Date.
+	 *	Indicates whether a string is a valid date.
 	 *	@access		public
 	 *	@static
 	 *	@param		string		$string		String to be checked
-	 *	@return		bool
+	 *	@return		boolean
 	 */
-	public static function isDate( $string )
+	public static function isDate( string $string ): bool
 	{
-		try
-		{
+		try{
 			$string	= Alg_Time_Converter::complementMonthDate( $string );
 			$date	= strtotime( $string );
 			return (bool) $date;
 		}
-		catch( Exception $e )
-		{
-			return false;
+		catch( Exception $e ){
+			return FALSE;
 		}
 	}
 
 	/**
-	 *	Indicates whether a String contains only numeric characters.
+	 *	Indicates whether a string contains only numeric characters.
 	 *	@access		public
 	 *	@static
 	 *	@param		string		$string		String to be checked
-	 *	@return		bool
+	 *	@return		boolean
 	 */
-	public static function isDigit( $string )
+	public static function isDigit( string $string ): bool
 	{
 		return self::isPreg( $string, "/^[0-9]+$/" );
 	}
 
 	/**
-	 *	Indicates whether a String an valid eMail address.
+	 *	Indicates whether a string an valid email address.
 	 *	@access		public
 	 *	@static
 	 *	@param		string		$string		String to be checked
-	 *	@return		bool
+	 *	@return		boolean
 	 */
-	public static function isEmail( $string )
+	public static function isEmail( string $string ): bool
 	{
 		return self::isPreg( $string, "#^([a-z0-9äöü_.-]+)@([a-z0-9äöü_.-]+)\.([a-z]{2,4})$#i" );
 	}
 
 	/**
-	 *	Indicates whether a String is a valid File Name.
+	 *	Indicates whether a string is a valid file name.
 	 *	@access		public
 	 *	@static
 	 *	@param		string		$string		String to be checked
-	 *	@return		bool
+	 *	@return		boolean
 	 */
-	public static function isFilename( $string )
+	public static function isFilename( string $string ): bool
 	{
 		return self::isPreg( $string, "'^[a-z0-9!§$%&()=²³{[]}_-;,.+#~@µ`´]+$'i" );
 	}
 
 	/**
-	 *	Indicates whether a String contains a floating number.
+	 *	Indicates whether a string contains a floating number.
 	 *	@access		public
 	 *	@static
 	 *	@param		string		$string		String to be checked
-	 *	@return		bool
+	 *	@return		boolean
 	 */
-	public static function isFloat( $string )
+	public static function isFloat( string $string ): bool
 	{
 		return self::isPreg( $string, "/^\d+(\.\d+)?$/" );
 	}
 
 	/**
-	 *	Indicates whether a String is time formated and is in future.
+	 *	Indicates whether a string is time formated and is in future.
 	 *	@access		public
 	 *	@static
 	 *	@param		string		$string		String to be checked
-	 *	@return		bool
+	 *	@return		boolean
 	 */
-	public static function isFuture( $string )
+	public static function isFuture( string $string ): bool
 	{
 		$string	= Alg_Time_Converter::complementMonthDate( $string );
 		$time	= strtotime( $string );
-		if( $time === false )
+		if( $time === FALSE )
 			throw new InvalidArgumentException( 'Given Date "'.$string.'" could not been parsed.' );
 		return $time > time();
 	}
 
 	/**
-	 *	Indicates whether a String is time formated and is in future, including the actual month
+	 *	Indicates whether a string is time formated and is in future, including the actual month
 	 *	@access		public
 	 *	@static
 	 *	@param		string		$string		String to be checked
-	 *	@return		bool
+	 *	@return		boolean
 	 *	@todo		test this unit
 	 */
-	public static function isFutureOrNow( $string )
+	public static function isFutureOrNow( string $string ): bool
 	{
 		$string	= Alg_TimeConverter::complementMonthDate( $string, 1 );
 		$time	= strtotime( $string );
-		if( $time === false )
+		if( $time === FALSE )
 			throw new InvalidArgumentException( 'Given Date "'.$string.'" could not been parsed.' );
 		return $time > time();
 	}
 
 	/**
-	 *	Indicates whether a String is larger than a limit.
+	 *	Indicates whether a string is larger than a limit.
+	 *	Works with float internally.
 	 *	@access		public
 	 *	@static
 	 *	@param		string		$string		String to be checked
 	 *	@param		string		$limit		Parameter to be measured with
-	 *	@return		bool
+	 *	@return		boolean
 	 */
-	public static function isGreater( $string, $limit )
+	public static function isGreater( string $string, $limit ): bool
 	{
-		return (int) $string > (int) $limit;
+		return (float) $string > (float) $limit;
 	}
 
 	/**
-	 *	Indicates whether a String is a valid Id.
+	 *	Indicates whether a string is a valid ID.
 	 *	@access		public
 	 *	@static
 	 *	@param		string		$string		String to be checked
-	 *	@return		bool
+	 *	@return		boolean
 	 */
-	public static function isId( $string )
+	public static function isId( string $string ): bool
 	{
 		return self::isPreg( $string, "'^[a-z][a-z0-9:#/@._-]+$'i" );
 	}
 
 	/**
-	 *	Indicates whether a String is smaller than a limit.
+	 *	Indicates whether a string is smaller than a limit.
+	 *	Works with float internally.
 	 *	@access		public
 	 *	@static
 	 *	@param		string		$string		String to be checked
 	 *	@param		string		$limit		Parameter to be measured with
-	 *	@return		bool
+	 *	@return		boolean
 	 */
-	public static function isLess( $string, $limit )
+	public static function isLess( string $string, $limit ): bool
 	{
-		return (int) $string < (int) $limit;
+		return (float) $string < (float) $limit;
 	}
 
 	/**
-	 *	Indicates whether a String contains only letters.
+	 *	Indicates whether a string contains only letters.
 	 *	@access		public
 	 *	@static
 	 *	@param		string		$string		String to be checked
-	 *	@return		bool
+	 *	@return		boolean
 	 *	@todo		add Umlauts (äöüßâáàêéèîíìôóòûúù + missing other languages)
 	 */
-	public static function isLetter( $string )
+	public static function isLetter( string $string ): bool
 	{
 		return self::isPreg( $string, "/^[a-z]+$/i" );
 	}
 
 	/**
-	 *	Indicates whether a String is at most a limit.
+	 *	Indicates whether a string is at most a limit.
+	 *	Works with float internally.
 	 *	@access		public
 	 *	@static
 	 *	@param		string		$string		String to be checked
 	 *	@param		string		$limit		Parameter to be measured with
-	 *	@return		bool
+	 *	@return		boolean
 	 */
-	public static function isMaximum( $string, $limit )
+	public static function isMaximum( string $string, $limit ): bool
 	{
-		return (int) $string <= (int) $limit;
+		return (float) $string <= (float) $limit;
 	}
 
 	/**
-	 *	Indicates whether a String is at least a limit.
+	 *	Indicates whether a string is at least a limit.
+	 *	Works with float internally.
 	 *	@access		public
 	 *	@static
 	 *	@param		string		$string		String to be checked
 	 *	@param		string		$limit		Parameter to be measured with
-	 *	@return		bool
+	 *	@return		boolean
 	 */
-	public static function isMinimum( $string, $limit )
+	public static function isMinimum( string $string, $limit ): bool
 	{
-		return (int) $string >= (int) $limit;
+		return (float) $string >= (float) $limit;
 	}
 
 	/**
-	 *	Indicates whether a String is not "0".
+	 *	Indicates whether a string is not 0.
 	 *	@access		public
 	 *	@static
 	 *	@param		string		$string		String to be checked
-	 *	@return		bool
+	 *	@return		boolean
 	 */
-	public static function isNotZero( $string )
+	public static function isNotZero( string $string ): bool
 	{
-		return "0" ==! (string) $string;
+		return (string) $string !== '0';
 	}
 
 	/**
-	 *	Indicates whether a String contains only numeric characters (also ²³).
+	 *	Indicates whether a string contains only numeric characters (also ²³).
 	 *	@access		public
 	 *	@static
 	 *	@param		string		$string		String to be checked
-	 *	@return		bool
+	 *	@return		boolean
 	 */
-	public static function isNumeric( $string )
+	public static function isNumeric( string $string ): bool
 	{
 		return self::isPreg( $string, "/^\d+$/" );
 	}
 
 	/**
-	 *	Indicates whether a String is time formated and is in past.
+	 *	Indicates whether a string is time formated and is in past.
 	 *	@access		public
 	 *	@static
 	 *	@param		string		$string		String to be checked
-	 *	@return		bool
+	 *	@return		boolean
 	 */
-	public static function isPast( $string )
+	public static function isPast( string $string ): bool
 	{
 		$date	= Alg_Time_Converter::complementMonthDate( $string, 1 );
 		$time	= strtotime( $date );
@@ -391,14 +395,14 @@ class Alg_Validation_Predicates
 	}
 
 	/**
-	 *	Indicates whether a String is time formated and is in past.
+	 *	Indicates whether a string is time formated and is in past.
 	 *	@access		public
 	 *	@static
 	 *	@param		string		$string		String to be checked
-	 *	@return		bool
+	 *	@return		boolean
 	 *	@todo		test this unit
 	 */
-	public static function isPastOrNow( $string )
+	public static function isPastOrNow( string $string ): bool
 	{
 		$date	= Alg_TimeConverter::complementMonthDate( $string );
 		$time	= strtotime( $date );
@@ -408,27 +412,28 @@ class Alg_Validation_Predicates
 	}
 
 	/**
-	 *	Indicates whether a String can be matched by a Perl RegEx.
+	 *	Indicates whether a string can be matched by a Perl RegEx.
 	 *	@access		public
 	 *	@static
 	 *	@param		string		$string		String to be checked
 	 *	@param		string		$pattern	Perl regular expression
-	 *	@return		bool
+	 *	@return		boolean
 	 */
-	public static function isPreg( $string, $pattern )
+	public static function isPreg( string $string, string $pattern ): bool
 	{
 		return (bool) preg_match( $pattern, $string );
 	}
 
 	/**
-	 *	Indicates whether a String an valid URL.
+	 *	Indicates whether a string an valid URL.
 	 *	@access		public
 	 *	@static
 	 *	@param		string		$string		String to be checked
-	 *	@return		bool
+	 *	@return		boolean
 	 */
-	public static function isUrl( $string )
+	public static function isUrl( string $string ): bool
 	{
-		return self::isPreg( $string, "@^([a-z]{3,})://([a-z0-9-_\.]+)/?([\w$-\.+!*'\(\)\@:?#=&/;_]+)$@i" );
+		$regExp	= "@^([a-z]{3,})://([a-z0-9-_\.]+)/?([\w$-\.+!*'\(\)\@:?#=&/;_]+)$@i";
+		return self::isPreg( $string, $regExp );
 	}
 }

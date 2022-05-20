@@ -6,7 +6,10 @@
  *	@since			18.02.2008
  *	@version		0.1
  */
-require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
+declare( strict_types = 1 );
+
+use PHPUnit\Framework\TestCase;
+
 /**
  *	TestUnit of Google Sitemap Builder.
  *	@package		Tests.xml.dom
@@ -23,7 +26,7 @@ class Test_XML_DOM_GoogleSitemapWriterTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
 		$this->xmlFile	= dirname( __FILE__ ).'/sitemap.xml';
 		$this->testFile	= dirname( __FILE__ ).'/test.xml';
@@ -68,4 +71,3 @@ class Test_XML_DOM_GoogleSitemapWriterTest extends Test_Case
 		@unlink( $this->testFile );
 	}
 }
-?>

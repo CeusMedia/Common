@@ -74,7 +74,7 @@ abstract class Store implements \ArrayAccess
 	 */
 	public function __set( $key, $value )
 	{
-		return $this->set( $key, $value );
+		$this->set( $key, $value );
 	}
 
 	/**
@@ -85,7 +85,7 @@ abstract class Store implements \ArrayAccess
 	 */
 	public function __unset( $key )
 	{
-		return $this->remove( $key );
+		$this->remove( $key );
 	}
 
 	/**
@@ -102,7 +102,7 @@ abstract class Store implements \ArrayAccess
 	 *	@abstract
 	 *	@access		public
 	 *	@param		string		$key			Key of Cache File
-	 *	@return		void
+	 *	@return		bool
 	 */
 	abstract public function has( $key );
 
@@ -110,7 +110,7 @@ abstract class Store implements \ArrayAccess
 	 *	Indicates wheter a Value is in Cache by its Key.
 	 *	@access		public
 	 *	@param		string		$key			Key of Cache File
-	 *	@return		void
+	 *	@return		bool
 	 */
 	public function offsetExists( $key )
 	{
@@ -137,7 +137,7 @@ abstract class Store implements \ArrayAccess
 	 */
 	public function offsetSet( $key, $value )
 	{
-		return $this->set( $key, $value );
+		$this->set( $key, $value );
 	}
 
 	/**
@@ -148,7 +148,7 @@ abstract class Store implements \ArrayAccess
 	 */
 	public function offsetUnset( $key )
 	{
-		return $this->remove( $key );
+		$this->remove( $key );
 	}
 
 	/**

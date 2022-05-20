@@ -66,9 +66,9 @@ class Parser
 	 *	@static
 	 *	@return		self
 	 */
-	public static function getNew( $filePath )
+	public static function getNew(): self
 	{
-		return new self( $filePath );
+		return new self();
 	}
 
 	/**
@@ -104,7 +104,7 @@ class Parser
 	 *	@return		object|array
 	 *	@throws		\RuntimeException			if parsing failed
 	 */
-	public function parse( $json, $asArray = NULL )
+	public function parse( string $json, bool $asArray = NULL )
 	{
 		$this->status	= static::STATUS_EMPTY;
 		$data			= json_decode( $json, $asArray );

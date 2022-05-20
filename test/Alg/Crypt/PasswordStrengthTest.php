@@ -6,7 +6,10 @@
  *	@since			14.02.2008
  *	@version		0.1
  */
-require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
+declare( strict_types = 1 );
+
+use PHPUnit\Framework\TestCase;
+
 /**
  *	TestUnit of Dictionay
  *	@package		Tests.alg.crypt
@@ -123,4 +126,3 @@ class Test_Alg_Crypt_PasswordStrengthTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

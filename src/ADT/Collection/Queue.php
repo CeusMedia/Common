@@ -47,10 +47,9 @@ class Queue implements \Countable
 	 *	@param		array		$initialArray	Array with initial Queue Items
 	 *	@return		void
 	 */
-	public function __construct( $initialArray = FALSE )
+	public function __construct( array $initialArray = array() )
 	{
-		if( is_array( $initialArray ) && count( $initialArray ) )
-			$this->queue = $initialArray;
+		$this->queue = $initialArray;
 	}
 
 	/**
@@ -90,11 +89,11 @@ class Queue implements \Countable
 	 *	Indicates whether an Item is in Queue or not.
 	 *	@access		public
 	 *	@param		mixed		$item		Item to find in the Queue
-	 *	@return		bood
+	 *	@return		bool
 	 */
 	public function has( $item ): bool
 	{
-		return in_array( $item, $this->queue );
+		return in_array( $item, $this->queue, TRUE );
 	}
 
 	/**
@@ -102,11 +101,9 @@ class Queue implements \Countable
 	 *	@access		public
 	 *	@return		bool
 	 */
-	public function isEmpty(): bool
+	public function isEmpty()
 	{
-		if( count( $this->queue ) == 0 )
-			return TRUE;
-		return FALSE;
+		return 0 === count( $this->queue );
 	}
 
 	/**
@@ -126,12 +123,12 @@ class Queue implements \Countable
 	 *	Adds a new Item to the Queue.
 	 *	@access		public
 	 *	@param		mixed		$item		Item to add to the Queue
-	 *	@return		mixed
+	 *	@return		self
 	 */
-	public function push( $item )
+	public function push( $item ): self
 	{
 		$this->queue[] = $item;
-		return $item;
+		return $this;
 	}
 
 	/**

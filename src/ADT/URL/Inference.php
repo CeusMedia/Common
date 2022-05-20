@@ -54,10 +54,10 @@ class ADT_URL_Inference extends ADT_URL
 	 */
 	public function build( $mapSet = array(), $listRemove = array(), $fragment = NULL )
 	{
-		$parameters	= $this->buildQueryString( $mapSet, $listRemove, $fragment );
+		$parameters	= $this->buildQueryString( $mapSet, $listRemove );
 		$parameters	= $parameters ? "?".$parameters : "";
 		$parameters	.= $fragment ? "#".$fragment : "";
-		return $this->getUrl().$parameters;
+		return $this->get( $this->isAbsolute() ).$parameters;
 	}
 
 	/**
@@ -79,7 +79,7 @@ class ADT_URL_Inference extends ADT_URL
 
 		// unsetting vars
 		foreach( $listRemove as $key )
-			unset( $mapRequest[$key] );	
+			unset( $mapRequest[$key] );
 
 		// making link parameter string
 		return http_build_query( $mapRequest, "test_", $this->separator );
@@ -104,7 +104,7 @@ class ADT_URL_Inference extends ADT_URL
 
 		// unsetting vars
 		foreach( $listRemove as $key )
-			unset( $mapRequest[$key] );	
+			unset( $mapRequest[$key] );
 
 		// making link parameter string
 		return http_build_query( $mapRequest, "", self::$staticSeparator );
@@ -122,7 +122,7 @@ class ADT_URL_Inference extends ADT_URL
 	 */
 	public function buildStatic( $mapSet = array(), $listRemove = array(), $fragment = NULL )
 	{
-		$parameters	= self::buildQueryStringStatic( $mapSet, $listRemove, $fragment );
+		$parameters	= self::buildQueryStringStatic( $mapSet, $listRemove );
 		$parameters	= $parameters ? "?".$parameters : "";
 		$parameters	.= $fragment ? "#".$fragment : "";
 		$url		= new ADT_URL( self::$staticScheme, self::$staticAddress );

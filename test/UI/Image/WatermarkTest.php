@@ -6,7 +6,10 @@
  *	@since			21.07.2008
  *	@version		0.1
  */
-require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
+declare( strict_types = 1 );
+
+use PHPUnit\Framework\TestCase;
+
 /**
  *	TestUnit of UI_Image_Watermark.
  *	@package		Tests.ui.image
@@ -19,22 +22,13 @@ require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
 class Test_UI_Image_WatermarkTest extends Test_Case
 {
 	/**
-	 *	Constructor.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function __construct()
-	{
-		$this->path	= dirname( __FILE__ )."/";
-	}
-
-	/**
 	 *	Setup for every Test.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
+		$this->path	= dirname( __FILE__ )."/";
 		if( !extension_loaded( 'gd' ) )
 			$this->markTestSkipped( 'Missing gd support' );
 		$this->mark	= new Test_UI_Image_WatermarkInstance( $this->path."mark.png" );
@@ -45,7 +39,7 @@ class Test_UI_Image_WatermarkTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function tearDown()
+	public function tearDown(): void
 	{
 		@unlink( $this->path."targetWatermark.png" );
 	}
@@ -143,7 +137,7 @@ class Test_UI_Image_WatermarkTest extends Test_Case
 	 */
 	public function testSetPositionException1()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$this->mark->setPosition( 'invalid', 'top' );
 	}
 
@@ -154,7 +148,7 @@ class Test_UI_Image_WatermarkTest extends Test_Case
 	 */
 	public function testSetPositionException2()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$this->mark->setPosition( 'left', 'invalid' );
 	}
 
@@ -211,4 +205,3 @@ class Test_UI_Image_WatermarkInstance extends UI_Image_Watermark
 		$this->$varName	= $varValue;
 	}
 }
-?>

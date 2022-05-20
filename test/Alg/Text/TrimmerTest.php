@@ -6,7 +6,10 @@
  *	@since			27.10.2008
  *	@version		0.1
  */
-require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
+declare( strict_types = 1 );
+
+use PHPUnit\Framework\TestCase;
+
 /**
  *	TestUnit of Alg_Text_Trimmer.
  *	@package		Tests.alg
@@ -22,22 +25,13 @@ class Test_Alg_Text_TrimmerTest extends Test_Case
 	protected $string;
 
 	/**
-	 *	Constructor.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function __construct()
-	{
-		$this->string	= "abcdefghijklmnop";
-	}
-
-	/**
 	 *	Setup for every Test.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
+		$this->string	= "abcdefghijklmnop";
 	}
 
 	/**
@@ -45,7 +39,7 @@ class Test_Alg_Text_TrimmerTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function tearDown()
+	public function tearDown(): void
 	{
 	}
 
@@ -78,7 +72,7 @@ class Test_Alg_Text_TrimmerTest extends Test_Case
 	 */
 	public function testTrimCentricException1()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		Alg_Text_Trimmer::trimCentric( "not_relevant", 2 );
 	}
 
@@ -89,7 +83,7 @@ class Test_Alg_Text_TrimmerTest extends Test_Case
 	 */
 	public function testTrimCentricException2()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		Alg_Text_Trimmer::trimCentric( "not_relevant", 3 );
 	}
 
@@ -100,7 +94,7 @@ class Test_Alg_Text_TrimmerTest extends Test_Case
 	 */
 	public function testTrimCentricException3()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		Alg_Text_Trimmer::trimCentric( "not_relevant", 4, "1234" );
 	}
 
@@ -153,4 +147,3 @@ class Test_Alg_Text_TrimmerTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

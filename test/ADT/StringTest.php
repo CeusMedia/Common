@@ -6,7 +6,10 @@
  *	@since			21.07.2008
  *	@version		0.1
  */
-require_once dirname( __DIR__ ).'/initLoaders.php';
+declare( strict_types = 1 );
+
+use PHPUnit\Framework\TestCase;
+
 /**
  *	TestUnit of Test_ADT_String.
  *	@package		Tests.adt
@@ -19,20 +22,11 @@ require_once dirname( __DIR__ ).'/initLoaders.php';
 class Test_ADT_StringTest extends Test_Case
 {
 	/**
-	 *	Constructor.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function __construct()
-	{
-	}
-
-	/**
 	 *	Setup for every Test.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
 		$this->string	= new ADT_String( "some content" );
 	}
@@ -42,7 +36,7 @@ class Test_ADT_StringTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function tearDown()
+	public function tearDown(): void
 	{
 	}
 
@@ -231,4 +225,3 @@ class Test_ADT_StringTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

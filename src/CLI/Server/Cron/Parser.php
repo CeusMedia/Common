@@ -52,7 +52,7 @@ class Parser
 	 *	@param		string		$fileName		Message Log File
 	 *	@return		void
 	 */
-	public function __construct( $fileName )
+	public function __construct( string $fileName )
 	{
 		$this->parse( $fileName );
 	}
@@ -64,7 +64,7 @@ class Parser
 	 *	@param		integer		$length			Length to fill to
 	 *	@return		string
 	 */
-	protected function fill( $value, $length )
+	protected function fill( string $value, int $length ): string
 	{
 		if( $length && $value != "*" )
 		{
@@ -83,7 +83,7 @@ class Parser
 	 *	@access		public
 	 *	@return		array
 	 */
-	public function getJobs()
+	public function getJobs(): array
 	{
 		return $this->jobs;
 	}
@@ -92,9 +92,9 @@ class Parser
 	 *	Parses one numeric entry of Cron Job.
 	 *	@access		protected
 	 *	@param		string		$string		One numeric entry of Cron Job
-	 *	@return		void
+	 *	@return		array
 	 */
-	protected function getValues( $value, $fill = 0 )
+	protected function getValues( string $value, $fill = 0 )
 	{
 		$values	= array();
 		if( substr_count( $value, "-" ) )
@@ -121,7 +121,7 @@ class Parser
 	 *	@param		string		$fileName		Cron Tab File
 	 *	@return		void
 	 */
-	protected function parse( $fileName )
+	protected function parse( string $fileName )
 	{
 		if( !file_exists( $fileName ) )
 			throw new \Exception( "Cron Tab File '".$fileName."' is not existing." );
@@ -139,7 +139,7 @@ class Parser
 	 *	@param		string	$string		One entry of Cron Tab File
 	 *	@return		void
 	 */
-	protected function parseJob( $string )
+	protected function parseJob( string $string )
 	{
 		$pattern	= "@^( |\t)*(\*|[0-9,-]+)( |\t)+(\*|[0-9,-]+)( |\t)+(\*|[0-9,-]+)( |\t)+(\*|[0-9,-]+)( |\t)+(\*|[0-9,-]+)( |\t)+(.*)(\r)?\n$@si";
 		if( preg_match( $pattern, $string ) )

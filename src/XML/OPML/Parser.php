@@ -41,7 +41,8 @@ class XML_OPML_Parser
 {
 	/**	@var	ADT_OptionObject	$headers			Object containing Headers of OPML Document */
 	var $headers;
-	/**	@var	array				optionKeys			Array of supported Headers */
+
+	/**	@var	array				$optionKeys			Array of supported Headers */
 	var $optionKeys	= array(
 		"title",
 		"dateCreated",
@@ -55,10 +56,18 @@ class XML_OPML_Parser
 		"windowBottom",
 		"windowRight",
 		);
-	/**	@var	array			outlines			Array of Outlines */
+
+	/**	@var	array				$outlines			Array of Outlines */
 	var $outlines = array();
-	/**	@var	XML_DOM_Node	tree			Loaded XML Tree from OPML Document */
+
+	/**	@var	XML_DOM_Node		$tree				Loaded XML Tree from OPML Document */
 	var $tree;
+
+	/**	@var	XML_DOM_Parser		$parser				Instance of DOM parser */
+	var $parser;
+
+	/**	@var	bool				$parsed				Flag: OPML has been parsed */
+	var $parsed;
 
 	/**
 	 *	Constructor.
@@ -94,7 +103,7 @@ class XML_OPML_Parser
 	 */
 	public function getOption( $key)
 	{
-		if( $this->_parsed )
+		if( $this->parsed )
 		{
 			if( NULL !== $this->headers->getOption( $key ) )
 				return $this->headers->getOption( $key );
@@ -111,7 +120,7 @@ class XML_OPML_Parser
 	 */
 	public function getOptions()
 	{
-		if( $this->_parsed )
+		if( $this->parsed )
 			return $this->headers->getOptions();
 		else
 			trigger_error( "OPML_DOM_Parser[getOptions]: OPML Document has not been parsed yet.", E_USER_WARNING );
@@ -184,6 +193,7 @@ class XML_OPML_Parser
 					break;
 			}
 		}
+		$this->parsed	= TRUE;
 	}
 
 	/**

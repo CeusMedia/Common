@@ -23,7 +23,7 @@ class Test_DB_StatementBuilderTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
 		$this->builder	= new Test_DB_StatementBuilderInstance( "prefix_" );
 	}
@@ -115,7 +115,7 @@ class Test_DB_StatementBuilderTest extends Test_Case
 	 */
 	public function testAddConditionsException()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$this->builder->addConditions( "not_an_array" );
 	}
 
@@ -153,7 +153,7 @@ class Test_DB_StatementBuilderTest extends Test_Case
 	 */
 	public function testAddGroupingsException()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$this->builder->addGroupings( "not_an_array" );
 	}
 
@@ -191,7 +191,7 @@ class Test_DB_StatementBuilderTest extends Test_Case
 	 */
 	public function testAddKeysException()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$this->builder->addKeys( "not_an_array" );
 	}
 
@@ -232,7 +232,7 @@ class Test_DB_StatementBuilderTest extends Test_Case
 	 */
 	public function testAddOrdersException()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$this->builder->addOrders( "not_an_array" );
 	}
 
@@ -269,7 +269,7 @@ class Test_DB_StatementBuilderTest extends Test_Case
 	 */
 	public function testAddTablesException()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$this->builder->addTables( "not_an_array" );
 	}
 
@@ -309,7 +309,7 @@ GROUP BY
 	 */
 	public function testBuildCountStatementException1()
 	{
-		$this->setExpectedException( 'RuntimeException' );
+		$this->expectException( 'RuntimeException' );
 		$this->builder->buildCountStatement();
 	}
 
@@ -320,7 +320,7 @@ GROUP BY
 	 */
 	public function testBuildCountStatementException2()
 	{
-		$this->setExpectedException( 'RuntimeException' );
+		$this->expectException( 'RuntimeException' );
 		$this->builder->addKeys( array( 'key1', 'key2' ) );
 		$this->builder->buildCountStatement();
 	}
@@ -368,7 +368,7 @@ OFFSET 20";
 	 */
 	public function testBuildSelectStatementException1()
 	{
-		$this->setExpectedException( 'RuntimeException' );
+		$this->expectException( 'RuntimeException' );
 		$this->builder->buildSelectStatement();
 	}
 
@@ -379,7 +379,7 @@ OFFSET 20";
 	 */
 	public function testBuildSelectStatementException2()
 	{
-		$this->setExpectedException( 'RuntimeException' );
+		$this->expectException( 'RuntimeException' );
 		$this->builder->addKeys( array( 'key1', 'key2' ) );
 		$this->builder->buildSelectStatement();
 	}
@@ -408,7 +408,7 @@ FROM
 	 */
 	public function testBuildStatementException1()
 	{
-		$this->setExpectedException( 'RuntimeException' );
+		$this->expectException( 'RuntimeException' );
 		$this->builder->buildStatement();
 	}
 
@@ -419,7 +419,7 @@ FROM
 	 */
 	public function testBuildStatementException2()
 	{
-		$this->setExpectedException( 'RuntimeException' );
+		$this->expectException( 'RuntimeException' );
 		$this->builder->addKeys( array( 'key1', 'key2' ) );
 		$this->builder->buildStatement();
 	}
@@ -481,4 +481,3 @@ class Test_DB_StatementBuilderInstance extends DB_StatementBuilder
 		return $this->$method( $content, $comment );
 	}
 }
-?>

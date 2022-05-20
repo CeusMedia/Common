@@ -6,7 +6,10 @@
  *	@since			21.02.2008
  *	@version		0.1
  */
-require_once dirname( __DIR__ ).'/initLoaders.php';
+declare( strict_types = 1 );
+
+use PHPUnit\Framework\TestCase;
+
 /**
  *	TestUnit of Unit Formater.
  *	@package		Tests.alg.validation
@@ -260,4 +263,3 @@ class Test_Alg_UnitFormaterTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

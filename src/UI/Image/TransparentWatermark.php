@@ -29,12 +29,13 @@ define ("transparentWatermarkOnRight", 10);
  *	@todo			create TestCases
  *	@todo			Code Documentation
  */
-class UI_Image_TransparentWatermark  {
-	var $stampImage=0;
+class UI_Image_TransparentWatermark
+{
+	var $stampImage		= 0;
 	var $stampWidth;
 	var $stampHeight;
-	var $stampPositionX= transparentWatermarkOnRight;
-	var $stampPositionY= transparentWatermarkOnBottom;
+	var $stampPositionX	= transparentWatermarkOnRight;
+	var $stampPositionY	= transparentWatermarkOnBottom;
 
 	var $errorMsg="";
 
@@ -46,29 +47,31 @@ class UI_Image_TransparentWatermark  {
 	* @access public
 	* @uses setStamp()
 	*/
-	public function __construct( $stampFile="") {
+	public function __construct( $stampFile="")
+	{
 		return( $this->setStamp( $stampFile));
 	}
 
 	/**
 	* send image to stdout
 	*
-	* @param resource $image  image 
+	* @param resource $image  image
 	* @param int $type  image type (2:JPEG or 3:PNG)
 	* @return void
 	* @access protected
 	* @uses errorMsg
 	*/
-	public function displayImage( $image, $type) {
+	public function displayImage( $image, $type )
+	{
 		switch ($type) {
 			case 2:	//JPEG
 			header("Content-Type: image/jpeg");
-			Imagejpeg( $image);
+			imagejpeg( $image);
 			break;
 
 			case 3:	//PNG
 			header("Content-Type: image/png");
-			Imagepng( $image);
+			imagepng( $image);
 			break;
 
 			default:
@@ -149,7 +152,7 @@ class UI_Image_TransparentWatermark  {
 
 		//set position of logo
 		switch ($this->stampPositionX) {
-			case transparentWatermarkOnLeft: 
+			case transparentWatermarkOnLeft:
 			$leftStamp=0;
 			break;
 			case transparentWatermarkOnCenter:
@@ -176,35 +179,37 @@ class UI_Image_TransparentWatermark  {
 		}
 
 		// for each pixel of stamp
-		for ($x=0; $x<$this->stampWidth; $x++) {
-			if (($x+$leftStamp<0)||($x+$leftStamp>=$imageWidth)) continue;
-			for ($y=0; $y<$this->stampHeight; $y++) {
-				if (($y+$topStamp<0)||($y+$topStamp>=$imageHeight)) continue;
+		for( $x=0; $x<$this->stampWidth; $x++ ){
+			if( ( $x+$leftStamp < 0 ) || ( $x+$leftStamp >= $imageWidth ) )
+			 	continue;
+			for( $y=0; $y<$this->stampHeight; $y++ ){
+				if( ( $y+$topStamp < 0) || ( $y+$topStamp >= $imageHeight ) )
+					continue;
 
 				// search RGB values of stamp image pixel
-				$indexStamp=ImageColorAt($this->stampImage, $x, $y);
-				$rgbStamp=imagecolorsforindex ( $this->stampImage, $indexStamp);
+				$indexStamp	= imagecolorat( $this->stampImage, $x, $y );
+				$rgbStamp	= imagecolorsforindex( $this->stampImage, $indexStamp );
 
 
 				// search RGB values of image pixel
-				$indexImage=ImageColorAt( $imageResource, $x+$leftStamp, $y+$topStamp);
-				$rgbImage=imagecolorsforindex ( $imageResource, $indexImage);
+				$indexImage	= imagecolorat( $imageResource, $x+$leftStamp, $y+$topStamp );
+				$rgbImage=imagecolorsforindex( $imageResource, $indexImage );
 
 				$randomizer=0;
 
 				// compute new values of colors pixel
-				$r=max( min($rgbImage["red"]+$rgbStamp["red"]-0x80, 0xFF), 0x00);
-				$g=max( min($rgbImage["green"]+$rgbStamp["green"]-0x80, 0xFF), 0x00);
-				$b=max( min($rgbImage["blue"]+$rgbStamp["blue"]-0x80, 0xFF), 0x00);
+				$r	= max( min( $rgbImage["red"] + $rgbStamp["red"]-0x80, 0xFF), 0x00 );
+				$g	= max( min( $rgbImage["green"] + $rgbStamp["green"]-0x80, 0xFF), 0x00 );
+				$b	= max( min( $rgbImage["blue"] + $rgbStamp["blue"]-0x80, 0xFF), 0x00 );
 
 				// change  image pixel
-				imagesetpixel ( $imageResource, $x+$leftStamp, $y+$topStamp, ($r<<16)+($g<<8)+$b);
+				imagesetpixel( $imageResource, $x+$leftStamp, $y+$topStamp, ($r<<16)+($g<<8)+$b );
 			}
 		}
 	}
 
 	/**
-	* read image from file 
+	* read image from file
 	*
 	* @param string $file  image file (JPEG or PNG)
 	* @param int $type  file type (2:JPEG or 3:PNG)
@@ -273,7 +278,7 @@ class UI_Image_TransparentWatermark  {
 	public function setStampPosition ( $Xposition, $Yposition) {
 		// set X position
 		switch ($Xposition) {
-			case transparentWatermarkOnLeft: 
+			case transparentWatermarkOnLeft:
 			case transparentWatermarkOnCenter:
 			case transparentWatermarkOnRight:
 			$this->stampPositionX=$Xposition;
@@ -290,9 +295,9 @@ class UI_Image_TransparentWatermark  {
 	}
 
 	/**
-	* write image to file 
+	* write image to file
 	*
-	* @param resource $image  image 
+	* @param resource $image  image
 	* @param string $file  image file (JPEG or PNG)
 	* @param int $type  file type (2:JPEG or 3:PNG)
 	* @return void

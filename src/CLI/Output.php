@@ -50,11 +50,11 @@ class Output
 	 *	@access		public
 	 *	@param		string		$string		Text to display
 	 *	@param		integer		$sleep		Seconds to sleep afterwards
-	 *	@return		void
+	 *	@return		self
 	 */
-	public function append( $string = "", $sleep = 0 )
+	public function append( string $string = "", $sleep = 0 )
 	{
-		$this->sameLine( trim( $this->lastLine ) . $string, $sleep );
+		return $this->sameLine( trim( $this->lastLine ) . $string, $sleep );
 	}
 
 	/**
@@ -62,17 +62,18 @@ class Output
 	 *	@access		public
 	 *	@param		string		$string		Text to display
 	 *	@param		integer		$sleep		Seconds to sleep afterwards
-	 *	@return		void
+	 *	@return		self
 	 */
-	public function newLine( $string = '', $sleep = 0 )
+	public function newLine( string $string = '', $sleep = 0 )
 	{
-		if( $this->maxLineLength )
-			//  trim string to <80 columns
-			$string		= TextTrimmer::trimCentric( $string, $this->maxLineLength );
-		$this->lastLine	= $string;
-		print( "\n" . $string );
-		if( $sleep )
-			sleep( $sleep );
+		if( !CLI::checkIsHeadless( FALSE ) ){
+			if( $this->maxLineLength )
+				//  trim string to <80 columns
+				$string		= TextTrimmer::trimCentric( $string, $this->maxLineLength );
+			$this->lastLine	= $string;
+			print( "\n" . $string );
+		}
+		return $this;
 	}
 
 	/**
@@ -80,23 +81,27 @@ class Output
 	 *	@access		public
 	 *	@param		string		$string		Text to display
 	 *	@param		integer		$sleep		Seconds to sleep afterwards
-	 *	@return		void
+	 *	@return		self
 	 */
-	public function sameLine( $string = '', $sleep = 0 )
+	public function sameLine( string $string = '', $sleep = 0 ): self
 	{
-		if( $this->maxLineLength )
-			//  trim string to <80 columns
-			$string		= TextTrimmer::trimCentric( $string, $this->maxLineLength );
-		$spaces		= max( 0, strlen( $this->lastLine ) - strlen( $string ) );
-		$this->lastLine	= $string;
-		$fill		= str_repeat( ' ', $spaces );
-		print( "\r" . $string . $fill );
+		if( !CLI::checkIsHeadless( FALSE ) ){
+			if( $this->maxLineLength )
+				//  trim string to <80 columns
+				$string		= Trimmer::trimCentric( $string, $this->maxLineLength );
+			$spaces		= max( 0, strlen( $this->lastLine ) - strlen( $string ) );
+			$this->lastLine	= $string;
+			$fill		= str_repeat( ' ', $spaces );
+			print( "\r" . $string . $fill );
+		}
 		if( $sleep )
 			sleep( $sleep );
+		return $this;
 	}
 
-	public function setMaxLineLength( $length )
+	public function setMaxLineLength( int $length ): self
 	{
-		$this->setMaxLineLength	= $length;
+		$this->maxLineLength	= $length;
+		return $this;
 	}
 }

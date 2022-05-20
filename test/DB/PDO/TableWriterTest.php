@@ -22,16 +22,21 @@ class Test_DB_PDO_TableWriterTest extends Test_Case{
 	protected $directDbc;
 
 	/**
-	 *	Constructor.
+	 *	Setup for every Test.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function __construct(){
-		$this->host		= self::$config['unitTest-Database']['host'];
-		$this->port		= self::$config['unitTest-Database']['port'];
-		$this->username	= self::$config['unitTest-Database']['username'];
-		$this->password	= self::$config['unitTest-Database']['password'];
-		$this->database	= self::$config['unitTest-Database']['database'];
+	public function setUp(): void
+	{
+		if( !extension_loaded( 'pdo_mysql' ) )
+			$this->markTestSkipped( "PDO driver for MySQL not supported" );
+
+		$config			= self::$_config['unitTest-Database'];
+		$this->host		= $config['host'];
+		$this->port		= $config['port'];
+		$this->username	= $config['username'];
+		$this->password	= $config['password'];
+		$this->database	= $config['database'];
 		$this->path		= dirname( __FILE__ )."/";
 		$this->errorLog	= $this->path."errors.log";
 		$this->queryLog	= $this->path."queries.log";
@@ -51,17 +56,32 @@ class Test_DB_PDO_TableWriterTest extends Test_Case{
 			'topic',
 			'label'
 		);
+
+//		$this->connect();
+//		$this->writer	= new DB_PDO_TableWriter( $this->connection, $this->tableName, $this->columns, $this->primaryKey );
+//		$this->writer->setIndices( $this->indices );
 	}
 
 	/**
-	 *	Setup for every Test.
+	 *	Cleanup after every Test.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function setUp(){
-		if( !extension_loaded( 'pdo_mysql' ) )
-			$this->markTestSkipped( "PDO driver for MySQL not supported" );
+	public function tearDown(): void
+	{
+		@unlink( $this->errorLog );
+		@unlink( $this->queryLog );
+		if( extension_loaded( 'mysql' ) ){
+			mysql_query( "DROP TABLE transactions" );
+			mysql_close();
+		}
+		else if( extension_loaded( 'mysqli' ) && $this->directDbc ){
+			mysqli_query( $this->directDbc, "DROP TABLE transactions" );
+			mysqli_close( $this->directDbc );
+		}
+	}
 
+	private function connect(){
 		$this->connection	= new DB_PDO_Connection( $this->dsn, $this->username, $this->password, $this->options );
 		$this->connection->setAttribute( PDO::ATTR_CASE, PDO::CASE_NATURAL );
 		$this->connection->setAttribute( PDO::MYSQL_ATTR_USE_BUFFERED_QUERY, TRUE );
@@ -87,27 +107,16 @@ class Test_DB_PDO_TableWriterTest extends Test_Case{
 		else{
 			$this->markTestSkipped( "Support for MySQL is missing" );
 		}
-
-		$this->writer	= new DB_PDO_TableWriter( $this->connection, $this->tableName, $this->columns, $this->primaryKey );
-		$this->writer->setIndices( $this->indices );
 	}
 
 	/**
-	 *	Cleanup after every Test.
+	 *	Tests Method '__construct'.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function tearDown(){
-		@unlink( $this->errorLog );
-		@unlink( $this->queryLog );
-		if( extension_loaded( 'mysql' ) ){
-			mysql_query( "DROP TABLE transactions" );
-			mysql_close();
-		}
-		else if( extension_loaded( 'mysqli' ) ){
-			mysqli_query( $this->directDbc, "DROP TABLE transactions" );
-			mysqli_close( $this->directDbc );
-		}
+	public function testConstruct(){
+		$this->expectDeprecation();
+		$this->connect();
 	}
 
 	/**
@@ -115,7 +124,7 @@ class Test_DB_PDO_TableWriterTest extends Test_Case{
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testDelete(){
+	public function _testDelete(){
 		$this->connection->query( "INSERT INTO transactions (topic, label) VALUES ('test', 'deleteTest');" );
 		$this->connection->query( "INSERT INTO transactions (topic, label) VALUES ('test', 'deleteTest');" );
 		$this->connection->query( "INSERT INTO transactions (topic, label) VALUES ('test', 'deleteTest');" );
@@ -160,8 +169,8 @@ class Test_DB_PDO_TableWriterTest extends Test_Case{
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testDeleteException1(){
-		$this->setExpectedException( 'RuntimeException' );
+	public function _testDeleteException1(){
+		$this->expectException( 'RuntimeException' );
 		$this->writer->delete();
 	}
 
@@ -170,7 +179,7 @@ class Test_DB_PDO_TableWriterTest extends Test_Case{
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testDeleteByConditions(){
+	public function _testDeleteByConditions(){
 		$this->connection->query( "INSERT INTO transactions (topic, label) VALUES ('test', 'deleteTest');" );
 		$this->connection->query( "INSERT INTO transactions (topic, label) VALUES ('test', 'deleteTest');" );
 		$this->connection->query( "INSERT INTO transactions (topic, label) VALUES ('test', 'deleteTest');" );
@@ -193,7 +202,7 @@ class Test_DB_PDO_TableWriterTest extends Test_Case{
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testInsert(){
+	public function _testInsert(){
 		$data	= array(
 			'topic'	=> 'insert',
 			'label'	=> 'insertTest',
@@ -233,7 +242,7 @@ class Test_DB_PDO_TableWriterTest extends Test_Case{
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testUpdatePrimary(){
+	public function _testUpdatePrimary(){
 		$this->connection->query( "INSERT INTO transactions (topic,label) VALUES ('update','updateTest1');" );
 		$this->connection->query( "INSERT INTO transactions (topic,label) VALUES ('update','updateTest2');" );
 		$this->writer->focusPrimary( 2 );
@@ -255,7 +264,7 @@ class Test_DB_PDO_TableWriterTest extends Test_Case{
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testUpdateIndex(){
+	public function _testUpdateIndex(){
 		$this->connection->query( "INSERT INTO transactions (topic,label) VALUES ('update','updateTest1');" );
 		$this->connection->query( "INSERT INTO transactions (topic,label) VALUES ('update','updateTest2');" );
 		$this->writer->focusIndex( 'topic', 'update' );
@@ -278,8 +287,8 @@ class Test_DB_PDO_TableWriterTest extends Test_Case{
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testUpdateException1(){
-		$this->setExpectedException( 'InvalidArgumentException' );
+	public function _testUpdateException1(){
+		$this->expectException( 'InvalidArgumentException' );
 		$this->writer->updateByConditions( array() );
 	}
 
@@ -288,8 +297,8 @@ class Test_DB_PDO_TableWriterTest extends Test_Case{
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testUpdateException2(){
-		$this->setExpectedException( 'InvalidArgumentException' );
+	public function _testUpdateException2(){
+		$this->expectException( 'InvalidArgumentException' );
 		$this->writer->focusPrimary( 9999 );
 		$this->writer->update( array( 'label' => 'not_relevant' ));
 	}
@@ -299,7 +308,7 @@ class Test_DB_PDO_TableWriterTest extends Test_Case{
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testUpdateByConditions(){
+	public function _testUpdateByConditions(){
 		$this->connection->query( "INSERT INTO transactions (topic,label) VALUES ('update','updateTest1');" );
 		$this->connection->query( "INSERT INTO transactions (topic,label) VALUES ('update','updateTest2');" );
 
@@ -340,8 +349,8 @@ class Test_DB_PDO_TableWriterTest extends Test_Case{
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testUpdateByConditionsException1(){
-		$this->setExpectedException( 'InvalidArgumentException' );
+	public function _testUpdateByConditionsException1(){
+		$this->expectException( 'InvalidArgumentException' );
 		$this->writer->updateByConditions( array(), array( 'label' => 'not_relevant' ) );
 	}
 
@@ -350,8 +359,8 @@ class Test_DB_PDO_TableWriterTest extends Test_Case{
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testUpdateByConditionsException2(){
-		$this->setExpectedException( 'InvalidArgumentException' );
+	public function _testUpdateByConditionsException2(){
+		$this->expectException( 'InvalidArgumentException' );
 		$this->writer->updateByConditions( array( 'label' => 'not_relevant' ), array() );
 	}
 
@@ -360,7 +369,7 @@ class Test_DB_PDO_TableWriterTest extends Test_Case{
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testTruncate(){
+	public function _testTruncate(){
 		$this->connection->query( "INSERT INTO transactions (topic, label) VALUES ('test', 'truncateTest');" );
 
 		$assertion	= 2;
@@ -376,4 +385,3 @@ class Test_DB_PDO_TableWriterTest extends Test_Case{
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

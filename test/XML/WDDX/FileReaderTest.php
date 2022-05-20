@@ -6,7 +6,10 @@
  *	@since			03.05.2008
  *	@version		0.1
  */
-require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
+declare( strict_types = 1 );
+
+use PHPUnit\Framework\TestCase;
+
 /**
  *	TestUnit of XML_WDDX_FileReader.
  *	@package		Tests.{classPackage}
@@ -18,13 +21,11 @@ require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
  */
 class Test_XML_WDDX_FileReaderTest extends Test_Case
 {
-	/**
-	 *	Constructor.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function __construct()
+	public function setUp(): void
 	{
+		if( !extension_loaded( 'wddx' ) )
+			$this->markTestSkipped( 'Missing WDDX support' );
+
 		$this->path		= dirname( __FILE__ )."/";
 		$this->fileName	= $this->path."reader.wddx";
 		$this->reader	= new XML_WDDX_FileReader( $this->fileName );
@@ -36,11 +37,6 @@ class Test_XML_WDDX_FileReaderTest extends Test_Case
 				'test_double'	=> 3.1415926,
 			)
 		);
-	}
-
-	public function setUp(){
-		if( !extension_loaded( 'wddx' ) )
-			$this->markTestSkipped( 'Missing WDDX support' );
 	}
 
 	/**
@@ -81,4 +77,3 @@ class Test_XML_WDDX_FileReaderTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

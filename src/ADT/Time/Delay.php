@@ -48,13 +48,13 @@ class Delay
 	 *	@param		int			$msec		Delay in milliseconds
 	 *	@return		void
 	 */
-	public function __construct( $msec )
+	public function __construct( int $msec )
 	{
 		if( !is_int( $msec ) )
 			throw new InvalidArgumentException( 'Delay must be integer' );
 		if( $msec < 1 )
-			throw new InvalidArgumentException( 'Delay must be at least 1 ms' );
-		$this->seconds	= (int) $msec / 1000;
+			throw new RangeException( 'Delay must be at least 1 ms' );
+		$this->seconds	= $msec / 1000;
 		$this->restart();
 	}
 
@@ -119,7 +119,7 @@ class Delay
 	public function restart( $force = FALSE )
 	{
 		if( $this->isActive() && !$force )
-			throw RuntimeException( 'Delay is still active' );
+			throw new RuntimeException( 'Delay is still active' );
 		$this->time = microtime( TRUE );
 		$this->numberRuns++;
 		return $this->getStartTime();

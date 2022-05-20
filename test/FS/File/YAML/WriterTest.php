@@ -6,7 +6,10 @@
  *	@since			02.05.2008
  *	@version		0.1
  */
-require_once dirname( dirname( dirname( __DIR__ ) ) ).'/initLoaders.php';
+declare( strict_types = 1 );
+
+use PHPUnit\Framework\TestCase;
+
 /**
  *	TestUnit of FS_File_YAML_Writer.
  *	@package		Test.File.YAML
@@ -23,26 +26,17 @@ class Test_FS_File_YAML_WriterTest extends Test_Case
 	private $fileName;
 
 	/**
-	 *	Constructor.
+	 *	Setup for every Test.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function __construct()
+	public function setUp(): void
 	{
 		$this->fileName	= dirname( __FILE__ )."/writer.yaml";
 		$this->data		= array(
 			'test1',
 			'test2'
 		);
-	}
-
-	/**
-	 *	Setup for every Test.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function setUp()
-	{
 		@unlink( $this->fileName );
 	}
 
@@ -51,7 +45,7 @@ class Test_FS_File_YAML_WriterTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function tearDown()
+	public function tearDown(): void
 	{
 		@unlink( $this->fileName );
 	}
@@ -107,4 +101,3 @@ class Test_FS_File_YAML_WriterTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

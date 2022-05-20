@@ -37,6 +37,7 @@ class ADT_List_SectionList
 {
 	/**	@var		array	$sections	List of Sections */
 	protected $sections = array();
+
 	/**	@var		array	$list		List of sectioned  Items */
 	protected $list = array();
 
@@ -47,10 +48,11 @@ class ADT_List_SectionList
 	 *	@param		string		$section		Section to add in
 	 *	@return		void
 	 */
-	public function addEntry( $entry, $section )
+	public function addEntry( string $entry, string $section )
 	{
-		if( isset( $this->list[$section] ) && is_array( $this->list[$section] ) && in_array( $entry, $this->list[$section] ) )
-			throw new InvalidArgumentException( 'Entry "'.$entry.'" is already in Section "'.$section.'".' );
+		if( isset( $this->list[$section] ) && is_array( $this->list[$section] ) )
+		 	if( in_array( $entry, $this->list[$section], TRUE ) )
+				throw new InvalidArgumentException( 'Entry "'.$entry.'" is already in Section "'.$section.'".' );
 		$this->list[$section][] = $entry;
 	}
 
@@ -60,7 +62,7 @@ class ADT_List_SectionList
 	 *	@param		string		$section		Name of Section to add
 	 *	@return		void
 	 */
-	public function addSection( $section )
+	public function addSection( string $section )
 	{
 		if( !isset( $this->list[$section] ) )
 			$this->list[$section] = array();
@@ -82,7 +84,7 @@ class ADT_List_SectionList
 	 *	@param		string		$section		Section to count Entries for
 	 *	@return		int
 	 */
-	public function countEntries( $section )
+	public function countEntries( string $section ): int
 	{
 		return count( $this->getEntries( $section ) );
 	}
@@ -92,7 +94,7 @@ class ADT_List_SectionList
 	 *	@access		public
 	 *	@return		int
 	 */
-	public function countSections()
+	public function countSections(): int
 	{
 		return count( $this->list );
 	}
@@ -103,7 +105,7 @@ class ADT_List_SectionList
 	 *	@param		string		$section		Section to get Entries for
 	 *	@return		array
 	 */
-	public function getEntries( $section )
+	public function getEntries( $section ): array
 	{
 		if( !isset( $this->list[$section] ) )
 			throw new InvalidArgumentException( 'Invalid Section "'.$section.'".' );
@@ -115,7 +117,7 @@ class ADT_List_SectionList
 	 *	@access		public
 	 *	@return		mixed
 	 */
-	public function getEntry( $index, $section )
+	public function getEntry( int $index, string $section ): string
 	{
 		if( !isset( $this->list[$section][$index] ) )
 			throw new InvalidArgumentException( 'No Entry with Index '.$index.' in Section "'.$section.'" found.' );
@@ -129,13 +131,16 @@ class ADT_List_SectionList
 	 *	@param		string		$section		Section of Entry
 	 *	@return		int
 	 */
-	public function getIndex( $entry, $section = NULL )
+	public function getIndex( string $entry, string $section = NULL ): int
 	{
 		if( !$section )
 			$section	= $this->getSectionOfEntry( $entry );
 		if( !isset( $this->list[$section] ) )
 			throw new InvalidArgumentException( 'Invalid Section "'.$section.'".' );
-		return array_search( $entry, $this->list[$section] );
+		$index	= array_search( $entry, $this->list[$section], TRUE );
+		if( FALSE === $index )
+			return -1;
+		return $index;
 	}
 
 	/**
@@ -143,7 +148,7 @@ class ADT_List_SectionList
 	 *	@access		public
 	 *	@return		array
 	 */
-	public function getList()
+	public function getList(): array
 	{
 		return $this->list;
 	}
@@ -154,10 +159,10 @@ class ADT_List_SectionList
 	 *	@param		string		$entry			Entry to get Section for
 	 *	@return		string
 	 */
-	public function getSectionOfEntry( $entry )
+	public function getSectionOfEntry( string $entry ): string
 	{
 		foreach( $this->getSections() as $section )
-			if( in_array( $entry, $this->list[$section] ) )
+			if( in_array( $entry, $this->list[$section], TRUE ) )
 				return $section;
 		throw new InvalidArgumentException( 'Entry "'.$entry.'" not found in any Section.' );
 	}
@@ -167,7 +172,7 @@ class ADT_List_SectionList
 	 *	@access		public
 	 *	@return		array
 	 */
-	public function getSections()
+	public function getSections(): array
 	{
 		return array_keys( $this->list );
 	}
@@ -178,13 +183,14 @@ class ADT_List_SectionList
 	 *	@param		string		$entry			Entry to remove
 	 *	@param		string		$section		Section of Entry
 	 *	@return		void
+	 *	@throws		InvalidArgumentException	if entry is not existing
 	 */
-	public function removeEntry( $entry, $section = NULL )
+	public function removeEntry( string $entry, string $section = NULL )
 	{
 		if( !$section )
 			$section	= $this->getSectionOfEntry( $entry );
 		$index	= $this->getIndex( $entry, $section );
-		if( $index === FALSE )
+		if( $index === -1 )
 			throw new InvalidArgumentException( 'Entry "'.$entry.'" not found in Section "'.$section.'".' );
 		unset( $this->list[$section][$index] );
 	}
@@ -195,7 +201,7 @@ class ADT_List_SectionList
 	 *	@param		string		$section		Section to remove
 	 *	@return		void
 	 */
-	public function removeSection( $section )
+	public function removeSection( string $section )
 	{
 		if( !isset( $this->list[$section] ) )
 			throw new InvalidArgumentException( 'Invalid Section "'.$section.'".' );

@@ -6,7 +6,10 @@
  *	@since			05.05.2008
  *	@version		0.1
  */
-require_once dirname( __DIR__ ).'/initLoaders.php';
+declare( strict_types = 1 );
+
+use PHPUnit\Framework\TestCase;
+
 /**
  *	TestUnit of Alg_Randomizer.
  *	@package		Tests.alg
@@ -23,7 +26,7 @@ class Test_Alg_RandomizerTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
 		$this->randomizer	= new Alg_Randomizer();
 	}
@@ -126,7 +129,7 @@ class Test_Alg_RandomizerTest extends Test_Case
 	 */
 	public function testGetLengthException1()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$this->randomizer->get( "not_an_integer" );
 	}
 
@@ -137,7 +140,7 @@ class Test_Alg_RandomizerTest extends Test_Case
 	 */
 	public function testGetLengthException2()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$this->randomizer->get( 0 );
 	}
 
@@ -152,7 +155,7 @@ class Test_Alg_RandomizerTest extends Test_Case
 		$this->randomizer->useLarges	= FALSE;
 		$this->randomizer->useDigits	= FALSE;
 		$this->randomizer->useSigns		= FALSE;
-		$this->setExpectedException( 'RuntimeException' );
+		$this->expectException( 'RuntimeException' );
 		$this->randomizer->get( 1 );
 	}
 
@@ -163,7 +166,7 @@ class Test_Alg_RandomizerTest extends Test_Case
 	 */
 	public function testGetLengthException4()
 	{
-		$this->setExpectedException( 'UnderflowException' );
+		$this->expectException( 'UnderflowException' );
 		$this->randomizer->get( 200 );
 	}
 
@@ -174,7 +177,7 @@ class Test_Alg_RandomizerTest extends Test_Case
 	 */
 	public function testGetStrengthException1()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$this->randomizer->get( 6, "not_an_integer" );
 	}
 
@@ -185,7 +188,7 @@ class Test_Alg_RandomizerTest extends Test_Case
 	 */
 	public function testGetStrengthException2()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$this->randomizer->get( 6, 101 );
 	}
 
@@ -196,7 +199,7 @@ class Test_Alg_RandomizerTest extends Test_Case
 	 */
 	public function testGetStrengthException3()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$this->randomizer->get( 6, -101 );
 	}
 
@@ -209,8 +212,7 @@ class Test_Alg_RandomizerTest extends Test_Case
 	{
 		$this->randomizer->turns	= 10;
 
-		$this->setExpectedException( 'RuntimeException' );
+		$this->expectException( 'RuntimeException' );
 		$this->randomizer->get( 5, 30 );
 	}
 }
-?>

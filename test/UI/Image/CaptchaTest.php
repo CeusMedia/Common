@@ -6,7 +6,10 @@
  *	@since			05.05.2008
  *	@version		0.1
  */
-require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
+declare( strict_types = 1 );
+
+use PHPUnit\Framework\TestCase;
+
 /**
  *	TestUnit of UI_Image_Captcha.
  *	@package		Tests.ui
@@ -19,24 +22,15 @@ require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
 class Test_UI_Image_CaptchaTest extends Test_Case
 {
 	/**
-	 *	Constructor.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function __construct()
-	{
-		$this->path		= dirname( __FILE__ )."/";
-	}
-
-	/**
 	 *	Setup for every Test.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
 		if( !extension_loaded( 'gd' ) )
 			$this->markTestSkipped( 'Missing gd support' );
+		$this->path		= dirname( __FILE__ )."/";
 		$this->captcha	= new UI_Image_Captcha();
 		$this->captcha->font	= $this->path."tahoma.ttf";
 		$this->captcha->width	= 150;
@@ -48,7 +42,7 @@ class Test_UI_Image_CaptchaTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function tearDown()
+	public function tearDown(): void
 	{
 		@unlink( $this->path."captcha.created.jpg" );
 	}
@@ -170,7 +164,7 @@ class Test_UI_Image_CaptchaTest extends Test_Case
 	public function testGenerateImageException1()
 	{
 		$this->captcha->textColor	= "not_an_array";
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$this->captcha->generateImage( "not_relevant", "not_relevant" );
 	}
 
@@ -182,7 +176,7 @@ class Test_UI_Image_CaptchaTest extends Test_Case
 	public function testGenerateImageException2()
 	{
 		$this->captcha->textColor	= array( 1, 2 );
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$this->captcha->generateImage( "not_relevant", "not_relevant" );
 	}
 
@@ -194,7 +188,7 @@ class Test_UI_Image_CaptchaTest extends Test_Case
 	public function testGenerateImageException3()
 	{
 		$this->captcha->background	= "not_an_array";
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$this->captcha->generateImage( "not_relevant", "not_relevant" );
 	}
 
@@ -206,8 +200,7 @@ class Test_UI_Image_CaptchaTest extends Test_Case
 	public function testGenerateImageException4()
 	{
 		$this->captcha->background	= array( 1, 2 );
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$this->captcha->generateImage( "not_relevant", "not_relevant" );
 	}
 }
-?>

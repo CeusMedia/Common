@@ -6,7 +6,10 @@
  *	@since			11.12.2007
  *	@version		0.1
  */
-require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
+declare( strict_types = 1 );
+
+use PHPUnit\Framework\TestCase;
+
 /**
  *	TestUnit of XML DOM File Writer.
  *	@package		Tests.xml.dom
@@ -20,22 +23,13 @@ require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
 class Test_XML_DOM_FileReaderTest extends Test_Case
 {
 	/**
-	 *	Constructor.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function __construct()
-	{
-		$this->fileName		= dirname( __FILE__ ).'/builder.xml';
-	}
-
-	/**
 	 *	Sets up Leaf.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
+		$this->fileName		= dirname( __FILE__ ).'/builder.xml';
 	}
 
 	/**
@@ -88,16 +82,9 @@ class Test_XML_DOM_FileReaderTest extends Test_Case
 	 */
 	public function testRead2()
 	{
-		try
-		{
-			$reader	= new XML_DOM_FileReader( "not_existing_file.xml" );
-			$reader->read(  );
-		}
-		catch( Exception $e )
-		{
-			return;
-		}
-		$this->fail();
+		$this->expectException( 'RuntimeException' );
+		$reader	= new XML_DOM_FileReader( "not_existing_file.xml" );
+		$reader->read();
 	}
 
 	/**
@@ -149,15 +136,7 @@ class Test_XML_DOM_FileReaderTest extends Test_Case
 	 */
 	public function testLoad2()
 	{
-		try
-		{
-			XML_DOM_FileReader::load( "not_existing_file.xml" );
-		}
-		catch( Exception $e )
-		{
-			return;
-		}
-		$this->fail();
+		$this->expectException( 'RuntimeException' );
+		XML_DOM_FileReader::load( "not_existing_file.xml" );
 	}
 }
-?>

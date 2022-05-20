@@ -6,7 +6,10 @@
  *	@since			20.07.2008
  *	@version		0.1
  */
-require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
+declare( strict_types = 1 );
+
+use PHPUnit\Framework\TestCase;
+
 /**
  *	TestUnit of UI_HTML_Paging.
  *	@package		Tests.ui.html
@@ -19,22 +22,13 @@ require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
 class Test_UI_HTML_PagingTest extends Test_Case
 {
 	/**
-	 *	Constructor.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function __construct()
-	{
-		$this->path		= dirname( __FILE__ )."/";
-	}
-
-	/**
 	 *	Setup for every Test.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
+		$this->path		= dirname( __FILE__ )."/";
 		$this->paging	= new UI_HTML_Paging();
 		$this->paging->setOption( 'text_next', 		"[next]" );
 		$this->paging->setOption( 'text_previous',	"[prev]" );
@@ -48,7 +42,7 @@ class Test_UI_HTML_PagingTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function tearDown()
+	public function tearDown(): void
 	{
 	}
 
@@ -215,9 +209,8 @@ class Test_UI_HTML_PagingTest extends Test_Case
 	 */
 	public function testBuildException()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$this->paging->setOption( 'text_first', '' );
 		$this->paging->build( 100, 10, 50 );
 	}
 }
-?>

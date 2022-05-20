@@ -3,40 +3,32 @@
  *	TestUnit of FS_File_CSV_Reader.
  *	@package		Tests.File.CSV
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			09.08.2010
- *	@version		0.1
  */
-require_once dirname( dirname( dirname( __DIR__ ) ) ).'/initLoaders.php';
+declare( strict_types = 1 );
+
+use PHPUnit\Framework\TestCase;
+
 /**
  *	TestUnit of FS_File_CSV_Reader.
  *	@package		Tests.File.CSV
- *	@extends		Test_Case
- *	@uses			FS_File_CSV_Reader
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			09.08.2010
- *	@version		0.1
  */
 class Test_FS_File_CSV_ReaderTest extends Test_Case
 {
-	/**
-	 *	Constructor.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function __construct()
-	{
-		$this->pathName	= dirname( __FILE__ ).'/';
-		$this->fileName	= $this->pathName.'read.csv';
-	}
+	protected $filePath;
+	protected $pathName;
+	protected $reader;
 
 	/**
 	 *	Setup for every Test.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
-		$this->reader	= new FS_File_CSV_Reader( $this->fileName, TRUE );
+		$this->pathName	= dirname( __FILE__ ).'/';
+		$this->filePath	= $this->pathName.'read.csv';
+		$this->reader	= new FS_File_CSV_Reader( $this->filePath, TRUE, ';' );
 	}
 
 	/**
@@ -44,7 +36,7 @@ class Test_FS_File_CSV_ReaderTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function tearDown()
+	public function tearDown(): void
 	{
 	}
 
@@ -55,141 +47,47 @@ class Test_FS_File_CSV_ReaderTest extends Test_Case
 	 */
 	public function test__construct()
 	{
-		$mock		= Test_MockAntiProtection::getInstance( 'FS_File_CSV_Reader', $this->fileName, TRUE, '|', '#' );
+		$mock		= Test_MockAntiProtection::getInstance( 'FS_File_CSV_Reader', $this->filePath, TRUE, '|', '#' );
 
 		$assertion	= TRUE;
 		$creation	= is_object( $mock );
 		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= TRUE;
-		$creation	= $mock->getProtectedVar( 'withHeaders' );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= '|';
-		$creation	= $mock->getProtectedVar( 'delimiter' );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= '#';
-		$creation	= $mock->getProtectedVar( 'enclosure' );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= $this->fileName;
-		$creation	= $mock->getProtectedVar( 'fileName' );
-		$this->assertEquals( $assertion, $creation );
 	}
 
 	/**
-	 *	Tests Method 'getColumnHeaders'.
+	 *	Tests Method 'getHeaders'.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testGetColumnHeaders()
+	public function testGetHeaders()
 	{
-		$reader		= new FS_File_CSV_Reader( $this->fileName, TRUE );
 		$assertion	= array( 'id', 'col1', 'col2' );
-		$creation	= $this->reader->getColumnHeaders();
+		$creation	= $this->reader->getHeaders();
+		$this->assertEquals( $assertion, $creation );
+
+		$reader		= new FS_File_CSV_Reader( $this->filePath, FALSE, ';' );
+		$assertion	= array();
+		$creation	= $reader->getHeaders();
 		$this->assertEquals( $assertion, $creation );
 	}
 
 	/**
-	 *	Tests Exception of Method 'getColumnHeaders'.
+	 *	Tests Method 'count'.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testGetColumnHeadersException1()
-	{
-		$reader	= new FS_File_CSV_Reader( $this->fileName, FALSE );
-		$this->setExpectedException( 'RuntimeException' );
-		$reader->getColumnHeaders();
-	}
-
-	/**
-	 *	Tests Exception of Method 'getColumnHeaders'.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function testGetColumnHeadersException2()
-	{
-		$reader	= new FS_File_CSV_Reader( $this->pathName.'empty.csv', TRUE );
-		$this->setExpectedException( 'RuntimeException' );
-		$reader->getColumnHeaders();
-	}
-
-	/**
-	 *	Tests Method 'getRowCount'.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function testGetRowCount()
+	public function testCount()
 	{
 		$assertion	= 2;
-		$creation	= $this->reader->getRowCount();
-		$this->assertEquals( $assertion, $creation );
-	}
-
-	/**
-	 *	Tests Method 'getDelimiter'.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function testGetDelimiter()
-	{
-		$assertion	= ';';
-		$creation	= $this->reader->getDelimiter();
+		$creation	= $this->reader->count();
 		$this->assertEquals( $assertion, $creation );
 
-		$reader		= new FS_File_CSV_Reader( $this->fileName, TRUE, '_' );
-		$assertion	= '_';
-		$creation	= $reader->getDelimiter();
-		$this->assertEquals( $assertion, $creation );
-	}
+		$creation	= $this->reader->count();
+		$this->assertEquals( $assertion, $creation, 'Not same size on 2nd attempt' );
 
-	/**
-	 *	Tests Method 'getEnclosure'.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function testGetEnclosure()
-	{
-		$assertion	= '"';
-		$creation	= $this->reader->getEnclosure();
-		$this->assertEquals( $assertion, $creation );
-
-		$reader		= new FS_File_CSV_Reader( $this->fileName, TRUE, ';', '_' );
-		$assertion	= '_';
-		$creation	= $reader->getEnclosure();
-		$this->assertEquals( $assertion, $creation );
-	}
-
-	/**
-	 *	Tests Method 'setDelimiter'.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function testSetDelimiter()
-	{
-		$assertion	= NULL;
-		$creation	= $this->reader->setDelimiter( '#' );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= '#';
-		$creation	= $this->reader->getDelimiter();
-		$this->assertEquals( $assertion, $creation );
-	}
-
-	/**
-	 *	Tests Method 'setEnclosure'.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function testSetEnclosure()
-	{
-		$assertion	= NULL;
-		$creation	= $this->reader->setEnclosure( '#' );
-		$this->assertEquals( $assertion, $creation );
-
-		$assertion	= '#';
-		$creation	= $this->reader->getEnclosure();
+		$reader		= new FS_File_CSV_Reader( $this->filePath, FALSE, ';' );
+		$assertion	= 3;
+		$creation	= $reader->count();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -199,24 +97,6 @@ class Test_FS_File_CSV_ReaderTest extends Test_Case
 	 *	@return		void
 	 */
 	public function testToArray()
-	{
-		$assertion	= array(
-			array(
-				'1', 'test1', 'string without semicolon'
-			), array(
-				'2', 'test2', 'string with ; semicolon'
-			)
-		);
-		$creation	= $this->reader->toArray();
-		$this->assertEquals( $assertion, $creation );
-	}
-
-	/**
-	 *	Tests Method 'toAssocArray'.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function testToAssocArray()
 	{
 		$assertion	= array(
 			array(
@@ -230,8 +110,21 @@ class Test_FS_File_CSV_ReaderTest extends Test_Case
 				'col2'	=> 'string with ; semicolon'
 			)
 		);
-		$creation	= $this->reader->toAssocArray();
+		$creation	= $this->reader->toArray();
+//print(json_encode($creation, JSON_PRETTY_PRINT));
+		$this->assertEquals( $assertion, $creation );
+
+		$reader		= new FS_File_CSV_Reader( $this->filePath, FALSE, ';' );
+		$assertion	= array(
+			array(
+				'id', 'col1', 'col2'
+			), array(
+				'1', 'test1', 'string without semicolon'
+			), array(
+				'2', 'test2', 'string with ; semicolon'
+			)
+		);
+		$creation	= $reader->toArray();
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

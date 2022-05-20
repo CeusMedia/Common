@@ -6,7 +6,10 @@
  *	@since			11.12.2007
  *	@version		0.1
  */
-require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
+declare( strict_types = 1 );
+
+use PHPUnit\Framework\TestCase;
+
 /**
  *	TestUnit of XML DOM Object Deserializer.
  *	@package		Tests.xml.dom
@@ -25,7 +28,7 @@ class Test_XML_DOM_ObjectDeserializerTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
 		$this->deserializer	= new XML_DOM_ObjectDeserializer();
 		$this->object	= new Test_Object();
@@ -58,4 +61,3 @@ class Test_XML_DOM_ObjectDeserializerTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

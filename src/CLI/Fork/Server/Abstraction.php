@@ -44,7 +44,6 @@ abstract class Abstraction
 	const E_ACCEPT_FAILED		= 'Miscommunicating';
 	const E_READ_FAILED			= 'Misread';
 	const E_WRITE_FAILED		= 'Miswritten';
-	const E_CLOSE_FAILED		= 'No sense in closing socket';
 
 	protected $childrenMap		= array();
 	protected $childrenMax		= 30;
@@ -60,7 +59,7 @@ abstract class Abstraction
 	protected $timeStarted		= NULL;
 	protected $filePid			= "pid";
 
-	public function __construct( $port = NULL, $force = FALSE )
+	public function __construct( $port = NULL, bool $force = FALSE )
 	{
 		if( !is_null( $port ) )
 			$this->setPort( $port );
@@ -102,10 +101,9 @@ abstract class Abstraction
 	}
 
 	//	Do funky things with signals
-	protected function handleSignal( $signalNumber )
+	protected function handleSignal( int $signalNumber )
 	{
-		switch( $signalNumber )
-		{
+		switch( $signalNumber ){
 			case SIGTERM:
 				$this->signalTerm = TRUE;
 				@unlink( $this->filePid );
@@ -118,7 +116,7 @@ abstract class Abstraction
 		}
 	}
 
-	protected function handleSocketException( ServerSocketException $e )
+	protected function handleSocketException( SocketException $e )
 	{
 		$key		= md5( time() );
 		$dump		= serialize( $e );
@@ -146,15 +144,13 @@ abstract class Abstraction
 
 	protected function run()
 	{
-
 		//	Fork and exit (daemonize)
 		$pid = pcntl_fork();
 		//	Not good.
 		if( $pid == -1 )
 			throw new Exception( 'Could not fork' );
 
-		else if( $pid )
-		{
+		else if( $pid ){
 			file_put_contents( $this->filePid, $pid );
 			exit();
 		}
@@ -163,47 +159,38 @@ abstract class Abstraction
 #		$parentpid = posix_getpid();
 
 		//	And we're off!
-		while( !$this->signalTerm )
-		{
+		while( !$this->signalTerm ){
 			//	Set up listener
-			if( ( $sock = socket_create_listen( $this->socketPort, SOMAXCONN ) ) === FALSE )
-			{
+			if( ( $sock = socket_create_listen( $this->socketPort, SOMAXCONN ) ) === FALSE ){
 				$this->signalHangup = TRUE;
 				$errNo	= socket_last_error();
-				throw new SocketException( self::E_LISTEN_FAILED, $errNo );
+				throw new CLI_Fork_Server_SocketException( self::E_LISTEN_FAILED, $errNo );
 			}
 			//	Whoop-tee-loop!
 			//	Patiently wait until some of our children dies. Make sure we don't use all powers that be.
-			while( !$this->signalHangup && !$this->signalTerm )
-			{
-				while( pcntl_wait( $status, WNOHANG OR WUNTRACED ) > 0 )
-				{
+			while( !$this->signalHangup && !$this->signalTerm ){
+				while( pcntl_wait( $status, WNOHANG OR WUNTRACED ) > 0 ){
 					usleep( 5000 );
 				}
-				while( list( $key, $val ) = each( $this->childrenMap ) )
-				{
-					if( !posix_kill( $val, 0 ) )
-					{
+				while( list( $key, $val ) = each( $this->childrenMap ) ){
+					if( !posix_kill( $val, 0 ) ){
 						unset( $this->childrenMap[$key] );
 						$this->childrenOpen = $this->childrenOpen - 1;
 					}
 				}
 				$this->childrenMap = array_values( $this->childrenMap );
-				if( $this->childrenOpen >= $this->childrenMax )
-				{
+				if( $this->childrenOpen >= $this->childrenMax ){
 					usleep( 5000 );
 					continue;
 				}
 
 				//	Wait for somebody to talk to.
-				if( socket_select( $rarray = array( $sock ), $this->listenWrite, $this->listenExcept, 0, 0 ) <= 0 )
-				{
+				if( socket_select( $rarray = array( $sock ), $this->listenWrite, $this->listenExcept, 0, 0 ) <= 0 ){
 					usleep( 5000 );
 					continue;
 				}
 
-				if( ( $conn = socket_accept( $sock ) ) === FALSE )
-				{
+				if( ( $conn = socket_accept( $sock ) ) === FALSE ){
 					$this->signalHangup = TRUE;
 					$errNo	= socket_last_error();
 					throw new SocketException( self::E_ACCEPT_FAILED, $errNo );
@@ -214,44 +201,36 @@ abstract class Abstraction
 				$this->childrenOpen++;
 				$this->statSeenTotal++;
 
-				if( $this->childrenOpen > $this->statSeenMax )
-				{
+				if( $this->childrenOpen > $this->statSeenMax ){
 					$this->statSeenMax = $this->childrenOpen;
 				}
 
 				$pid = pcntl_fork();
 				//	Not good.
-				if( $pid == -1 )
-				{
+				if( $pid == -1 ){
 					throw new Exception( 'Could not fork' );
 				}
 				//	This is the parent. It doesn't do much.
-				else if( $pid )
-				{
+				else if( $pid ){
 					socket_close( $conn );
 					$this->childrenMap[] = $pid;
 					usleep( 5000 );
 				}
 				//	This is a child. It dies, hopefully.
-				else
-				{
+				else{
 					socket_close( $sock );
-					while( TRUE )
-					{
+					while( TRUE ){
 						//	Happy buffer reading!
 						$tbuf = socket_read( $conn, $this->sizeBuffer, PHP_BINARY_READ );
-						if( $tbuf === FALSE )
-						{
+						if( $tbuf === FALSE ){
 							$errNo	= socket_last_error();
 							throw new SocketException( self::E_READ_FAILED, $errNo );
 							break;
 						}
 						$rbuf = $tbuf;
-						while( strlen( $tbuf ) == $this->sizeBuffer )
-						{
+						while( strlen( $tbuf ) == $this->sizeBuffer ){
 							$tbuf = socket_read( $conn, $this->sizeBuffer, PHP_BINARY_READ );
-							if( $tbuf === FALSE )
-							{
+							if( $tbuf === FALSE ){
 								$errNo	= socket_last_error();
 								throw new SocketException( self::E_READ_FAILED, $errNo );
 								break;
@@ -263,8 +242,7 @@ abstract class Abstraction
 						$wbuf	= $this->handleRequest( $rbuf );
 
 						//	Going postal!
-						if( socket_write( $conn, $wbuf ) === FALSE )
-						{
+						if( socket_write( $conn, $wbuf ) === FALSE ){
 							$errNo	= socket_last_error();
 							throw new SocketException( self::E_WRITE_FAILED, $errNo );
 							break;
@@ -279,17 +257,12 @@ abstract class Abstraction
 			}
 
 			//	Patiently wait until all our children die.
-			while( pcntl_wait( $status, WNOHANG OR WUNTRACED ) > 0 )
-			{
+			while( pcntl_wait( $status, WNOHANG OR WUNTRACED ) > 0 ){
 				usleep( 5000 );
 			}
 
 			//	Kill the listener.
-			if( socket_close( $sock ) === FALSE )
-			{
-				$errNo	= socket_last_error();
-				throw new SocketException( self::E_CLOSE_FAILED, $errNo );
-			}
+			socket_close( $sock );
 			$this->signalHangup = FALSE;
 			$this->timeStarted	= time();
 		}
@@ -304,12 +277,9 @@ abstract class Abstraction
 		$this->socketPort	= $port;
 	}
 
-	protected function setUp( $force = FALSE )
-	{
-		if( $this->isRunning() )
-		{
-			if( $force )
-			{
+	protected function setUp( $force = FALSE ){
+		if( $this->isRunning() ){
+			if( $force ){
 				if( posix_kill( $this->getPid(), 9 ) )
 					unlink( $this->filePid );
 			}

@@ -7,7 +7,10 @@
  *	@since			21.03.2015
  *	@version		0.1
  */
-require_once dirname( dirname( dirname( __DIR__ ) ) ).'/initLoaders.php';
+declare( strict_types = 1 );
+
+use PHPUnit\Framework\TestCase;
+
 /**
  *	TestUnit of FS_File_JSON_Reader.
  *	@package		Tests.File.JSON
@@ -20,11 +23,11 @@ require_once dirname( dirname( dirname( __DIR__ ) ) ).'/initLoaders.php';
 class Test_FS_File_JSON_ReaderTest extends Test_Case
 {
 	/**
-	 *	Constructor.
+	 *	Setup for every Test.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function __construct()
+	public function setUp(): void
 	{
 		$this->path	= dirname( __FILE__ ).'/';
 
@@ -37,20 +40,11 @@ class Test_FS_File_JSON_ReaderTest extends Test_Case
 	}
 
 	/**
-	 *	Setup for every Test.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function setUp()
-	{
-	}
-
-	/**
 	 *	Cleanup after every Test.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function tearDown()
+	public function tearDown(): void
 	{
 	}
 
@@ -69,10 +63,10 @@ class Test_FS_File_JSON_ReaderTest extends Test_Case
 	/**
 	 *	Tests Method '__construct'.
 	 *	@access		public
-	 *	@expectedException		RuntimeException
 	 */
 	public function test__constructException()
 	{
+		$this->expectException( 'RuntimeException' );
 		$assertion	= TRUE;
 		$creation	= new FS_File_JSON_Reader( $this->path.'notexisting.json' );
 		$this->assertEquals( $assertion, $creation );
@@ -97,7 +91,6 @@ class Test_FS_File_JSON_ReaderTest extends Test_Case
 	 */
 	public function testRead()
 	{
-
 //		$this->markTestIncomplete( 'Incomplete Test' );
 		$filename	= dirname( __FILE__ ).'/valid.json';
 		$reader		= new FS_File_JSON_Reader( $filename );
@@ -115,15 +108,20 @@ class Test_FS_File_JSON_ReaderTest extends Test_Case
 		$filename	= dirname( __FILE__ ).'/empty.json';
 		$reader		= new FS_File_JSON_Reader( $filename );
 		$assertion	= NULL;
-		$creation	= $reader->read();
+		$creation	= NULL;
+		try{
+			$creation	= $reader->read();
+		}
+		catch( Exception $e ){
+		}
 		$this->assertEquals( $assertion, $creation );
 	}
 
 	/**
-	 *	@expectedException		RuntimeException
-	 *	@expectedExceptionCode	4
 	 */
 	public function testReadException(){
+		$this->expectException( 'RuntimeException' );
+		$this->expectExceptionCode( 4 );
 		$filename	= dirname( __FILE__ ).'/invalid.json';
 		$reader		= new FS_File_JSON_Reader( $filename );
 		$assertion	= NULL;
@@ -131,4 +129,3 @@ class Test_FS_File_JSON_ReaderTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

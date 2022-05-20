@@ -210,6 +210,8 @@ class FS_File_Writer
 	 */
 	public function setPermissions( $mode )
 	{
+		if( is_integer( $mode ) )
+			$mode	= decoct( (string) $mode );
 		$permissions	= new FS_File_Permissions( $this->fileName );
 		return $permissions->setByOctal( $mode );
 	}

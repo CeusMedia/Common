@@ -158,7 +158,7 @@ class UI_Image_Processing
 		if( $this->image->getWidth() == $width && $this->image->getHeight() == $height )
 			return FALSE;
 		if( $this->maxMegaPixels && $width * $height > $this->maxMegaPixels * 1024 * 1024 )
-			throw new OutOfRangeException( 'Larger than '.$this->maxMegaPixels.'MP ('.$width.'x'.$heigth.')' );
+			throw new OutOfRangeException( 'Larger than '.$this->maxMegaPixels.'MP ('.$width.'x'.$height.')' );
 
 		$image	= new UI_Image;
 		$image->create( $width, $height );
@@ -302,6 +302,6 @@ class UI_Image_Processing
 			$scale	*= $height / ( $sourceHeight * $scale );
 		$width	= (int) round( $sourceWidth * $scale );
 		$height	= (int) round( $sourceHeight * $scale );
-		return $this->resize( $width, $height, $interpolate, $this->maxMegaPixels );
+		return $this->resize( $width, $height, $interpolate );
 	}
 }

@@ -6,7 +6,10 @@
  *	@since			14.02.2008
  *	@version		0.1
  */
-require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
+declare( strict_types = 1 );
+
+use PHPUnit\Framework\TestCase;
+
 /**
  *	TestUnit of Definition Validator.
  *	@package		Tests.alg.validation
@@ -45,7 +48,7 @@ class Test_Alg_Validation_DefinitionValidatorTest extends Test_Case
 		'test1'	=> 'Test Field 1'
 	);
 
-	public function setUp()
+	public function setUp(): void
 	{
 		$this->validator	= new Alg_Validation_DefinitionValidator();
 #		$this->validator->setLabels( $this->labels );
@@ -133,4 +136,3 @@ class Test_Alg_Validation_DefinitionValidatorTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

@@ -42,9 +42,10 @@
 class XML_FeedIdentifier
 {
 	/**	@var		string		$type			Type of Feed */
-	protected $type	= "";
+	protected $type				= '';
+
 	/**	@var		string		$version		Version of Feed Type */
-	protected $version	= "";
+	protected $version			= '';
 
 	/**
 	 *	Returns identified Type of Feed.
@@ -139,10 +140,11 @@ class XML_FeedIdentifier
 	 *	@param		string	filename		XML File of Feed
 	 *	@return		string
 	 */
-	public static function identifyFromFile( $file )
+	public static function identifyFromFile( $filename )
 	{
 		$xml	= FS_File_Reader::load( $filename );
-		return $this->identify( $xml );
+		$identifier	= new XML_FeedIdentifier();
+		return $identifier->identify( $xml );
 	}
 
 	/**

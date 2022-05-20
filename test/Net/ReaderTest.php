@@ -6,7 +6,10 @@
  *	@since			21.02.2008
  *	@version		0.1
  */
-require_once dirname( __DIR__ ).'/initLoaders.php';
+declare( strict_types = 1 );
+
+use PHPUnit\Framework\TestCase;
+
 /**
  *	TestUnit of Net Reader.
  *	@package		Tests.net
@@ -19,26 +22,18 @@ require_once dirname( __DIR__ ).'/initLoaders.php';
 class Test_Net_ReaderTest extends Test_Case
 {
 	/**
-	 *	Constructor.
+	 *	Sets up Reader.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function __construct()
+	public function setUp(): void
 	{
 		$this->url		= "http://www.example.com";
 		$this->needle	= "@RFC\s+2606@i";
 
 		$this->url		= "http://ceusmedia.de/";
 		$this->needle	= "@ceus media@i";
-	}
 
-	/**
-	 *	Sets up Reader.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function setUp()
-	{
 		if( !extension_loaded( 'curl' ) )
 			$this->markTestSkipped( 'Missing cURL support' );
 		$this->reader	= new Net_Reader( $this->url );
@@ -69,7 +64,7 @@ class Test_Net_ReaderTest extends Test_Case
 	 */
 	public function testGetInfoException1()
 	{
-		$this->setExpectedException( "RuntimeException" );
+		$this->expectException( "RuntimeException" );
 		$this->reader->getInfo();
 	}
 
@@ -81,7 +76,7 @@ class Test_Net_ReaderTest extends Test_Case
 	public function testGetInfoException2()
 	{
 		$this->reader->read();
-		$this->setExpectedException( "InvalidArgumentException" );
+		$this->expectException( "InvalidArgumentException" );
 		var_dump( $this->reader->getInfo( "invalid_key" ) );
 	}
 
@@ -117,7 +112,7 @@ class Test_Net_ReaderTest extends Test_Case
 	 */
 	public function testReadException()
 	{
-		$this->setExpectedException( "RuntimeException" );
+		$this->expectException( "RuntimeException" );
 		$reader		= new Net_Reader( "" );
 		$reader->read();
 	}
@@ -170,8 +165,7 @@ class Test_Net_ReaderTest extends Test_Case
 	 */
 	public function testSetUrlException()
 	{
-		$this->setExpectedException( "InvalidArgumentException" );
+		$this->expectException( "InvalidArgumentException" );
 		$this->reader->setUrl( "" );
 	}
 }
-?>

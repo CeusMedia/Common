@@ -6,7 +6,10 @@
  *	@since			22.12.2008
  *	@version		0.1
  */
-require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
+declare( strict_types = 1 );
+
+use PHPUnit\Framework\TestCase;
+
 /**
  *	TestUnit of Alg_Text_TermExtractor.
  *	@package		Tests.alg
@@ -19,11 +22,11 @@ require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
 class Test_Alg_Text_TermExtractorTest extends Test_Case
 {
 	/**
-	 *	Constructor.
+	 *	Setup for every Test.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function __construct()
+	public function setUp(): void
 	{
 		$this->path		= dirname( __FILE__ )."/";
 		$this->text		= file_get_contents( $this->path."TermExtractorText.txt" );
@@ -38,20 +41,11 @@ class Test_Alg_Text_TermExtractorTest extends Test_Case
 	}
 
 	/**
-	 *	Setup for every Test.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function setUp()
-	{
-	}
-
-	/**
 	 *	Cleanup after every Test.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function tearDown()
+	public function tearDown(): void
 	{
 	}
 
@@ -125,4 +119,3 @@ class Test_Alg_Text_TermExtractorTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

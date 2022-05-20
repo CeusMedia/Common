@@ -77,7 +77,7 @@ class XML_DOM_UrlReader
 		$type	= explode( ";",$reader->getInfo( Net_CURL::INFO_CONTENT_TYPE ) );
 		$type	= array_shift( $type );
 
-		if( !in_array( $type, self::$mimeTypes ) )
+		if( !in_array( $type, self::$mimeTypes, TRUE ) )
 			throw new Exception( 'URL "'.$url.'" is not an accepted XML File (MIME Type: '.$type.').' );
 
 		$parser	= new XML_DOM_Parser();

@@ -6,7 +6,10 @@
  *	@since			02.05.2008
  *	@version		0.1
  */
-require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
+declare( strict_types = 1 );
+
+use PHPUnit\Framework\TestCase;
+
 /**
  *	TestUnit of XML_WDDX_Builder.
  *	@package		Tests.xml.wddx
@@ -18,16 +21,8 @@ require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
  */
 class Test_XML_WDDX_BuilderTest extends Test_Case
 {
-	/**
-	 *	Constructor.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function __construct()
+	public function setUp(): void
 	{
-	}
-
-	public function setUp(){
 		if( !extension_loaded( 'wddx' ) )
 			$this->markTestSkipped( 'Missing WDDX support' );
 		$this->builder	= new XML_WDDX_Builder( 'test' );
@@ -79,4 +74,3 @@ class Test_XML_WDDX_BuilderTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

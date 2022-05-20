@@ -6,7 +6,10 @@
  *	@since			13.06.2013
  *	@version		0.1
  */
-require_once dirname( __DIR__ ).'/initLoaders.php';
+declare( strict_types = 1 );
+
+use PHPUnit\Framework\TestCase;
+
 /**
  *	TestUnit of UI_DevOutput.
  *	@package		Tests.UI
@@ -16,23 +19,14 @@ require_once dirname( __DIR__ ).'/initLoaders.php';
  *	@since			13.06.2013
  *	@version		0.1
  */
-class Test_UI_DevOutputTest extends Test_Case
+class Test_UI_DevOutputTest extends TestCase
 {
-	/**
-	 *	Constructor.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function __construct()
-	{
-	}
-
 	/**
 	 *	Setup for every Test.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
 	}
 
@@ -41,7 +35,7 @@ class Test_UI_DevOutputTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function tearDown()
+	public function tearDown(): void
 	{
 	}
 
@@ -292,4 +286,3 @@ class Test_UI_DevOutputTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

@@ -26,6 +26,9 @@
  */
 namespace CeusMedia\Common\CLI\Command;
 
+use InvalidArgumentException;
+use RuntimeException;
+
 /**
  *	Argument Parser for Console Applications using an Automaton.
  *	@category		Library
@@ -42,6 +45,13 @@ class ArgumentParser
 	const STATUS_READ_OPTION_VALUE	= 2;
 	const STATUS_READ_ARGUMENT		= 3;
 
+	const STATUSES					= [
+		self::STATUS_START,
+		self::STATUS_READ_OPTION_KEY,
+		self::STATUS_READ_OPTION_VALUE,
+		self::STATUS_READ_ARGUMENT,
+	];
+
 	protected $parsed				= FALSE;
 
 	protected $foundArguments		= array();
@@ -56,10 +66,10 @@ class ArgumentParser
 	 *	@access		public
 	 *	@return		array
 	 */
-	public function getArguments()
+	public function getArguments(): array
 	{
 		if( !$this->parsed )
-			throw new \RuntimeException( 'Nothing parsed yet.' );
+			throw new RuntimeException( 'Nothing parsed yet.' );
 		return $this->foundArguments;
 	}
 
@@ -68,10 +78,10 @@ class ArgumentParser
 	 *	@access		public
 	 *	@return		array
 	 */
-	public function getOptions()
+	public function getOptions(): array
 	{
 		if( !$this->parsed )
-			throw new \RuntimeException( 'Nothing parsed yet.' );
+			throw new RuntimeException( 'Nothing parsed yet.' );
 		return $this->foundOptions;
 	}
 
@@ -81,13 +91,8 @@ class ArgumentParser
 	 *	@param		string		$string		String of Arguments and Options
 	 *	@return		void
 	 */
-	public function parse( $string )
+	public function parse( string $string )
 	{
-		//  no String given
-		if( !is_string( $string ) )
-			//  throw Exception
-			throw new \InvalidArgumentException( 'Given argument is not a string' );
-
 		$this->foundArguments	= array();
 		$this->foundOptions		= array();
 
@@ -104,16 +109,14 @@ class ArgumentParser
 		$option		= "";
 
 		//  loop until End of String
-		while( isset( $string[$position] ) )
-		{
+		while( isset( $string[$position] ) ){
 			//  get current Sign
 			$sign	= $string[$position];
 			//  increase Sign Pointer
 			$position ++;
 
 			//  handle Sign depending on Status
-			switch( $status )
-			{
+			switch( $status ){
 				//  open for all Signs
 				case self::STATUS_START:
 					//  handle Sign
@@ -146,12 +149,12 @@ class ArgumentParser
 	 *	@param		int			$number			Minimum Number of Arguments
 	 *	@return		bool
 	 */
-	public function setNumberOfMandatoryArguments( $number = 0 )
+	public function setNumberOfMandatoryArguments( int $number = 0 ): bool
 	{
 		//  no Integer given
 		if( !is_int( $number ) )
 			//  throw Exception
-			throw new \InvalidArgument( 'No integer given' );
+			throw new InvalidArgumentException( 'No integer given' );
 		//  this Number is already set
 		if( $number === $this->numberArguments )
 			//  do nothing
@@ -168,12 +171,12 @@ class ArgumentParser
 	 *	@param		array		$options		Map of Options and their Regex Patterns (or empty for a Non-Value-Option)
 	 *	@return		bool
 	 */
-	public function setPossibleOptions( $options )
+	public function setPossibleOptions( array $options ): bool
 	{
 		//  no Array given
 		if( !is_array( $options ) )
 			//  throw Exception
-			throw new \InvalidArgumentException( 'No array given.' );
+			throw new InvalidArgumentException( 'No array given.' );
 		//  threse Options are already set
 		if( $options === $this->possibleOptions )
 			//  do nothing
@@ -190,18 +193,18 @@ class ArgumentParser
 	 *	@param		array		$shortcuts		Array of Shortcuts for Options
 	 *	@return		bool
 	 */
-	public function setShortcuts( $shortcuts )
+	public function setShortcuts( array $shortcuts ): bool
 	{
 		//  no Array given
 		if( !is_array( $shortcuts ) )
 			//  throw Exception
-			throw new \InvalidArgumentException( 'No array given.' );
+			throw new InvalidArgumentException( 'No array given.' );
 		//  iterate Shortcuts
 		foreach( $shortcuts as $short => $long )
 			//  related Option is not set
 			if( !array_key_exists( $long, $this->possibleOptions ) )
 				//  throw Exception
-				throw new \OutOfBoundsException( 'Option "'.$long.'" not set' );
+				throw new OutOfBoundsException( 'Option "'.$long.'" not set' );
 		//  these Shortcuts are already set
 		if( $shortcuts === $this->shortcuts )
 			//  do nothing
@@ -221,8 +224,7 @@ class ArgumentParser
 	 */
 	protected function extendPossibleOptionsWithShortcuts()
 	{
-		foreach( $this->shortcuts as $short	=> $long )
-		{
+		foreach( $this->shortcuts as $short	=> $long ){
 			if( !isset( $this->possibleOptions[$long] ) )
 				throw new \InvalidArgumentException( 'Invalid shortcut to not existing option "'.$long.'" .' );
 			$this->possibleOptions[$short]	= $this->possibleOptions[$long];
@@ -236,8 +238,7 @@ class ArgumentParser
 	 */
 	protected function finishOptions()
 	{
-		foreach( $this->shortcuts as $short	=> $long )
-		{
+		foreach( $this->shortcuts as $short	=> $long ){
 			if( !array_key_exists( $short, $this->foundOptions ) )
 				continue;
 			$this->foundOptions[$long]	= $this->foundOptions[$short];
@@ -261,8 +262,7 @@ class ArgumentParser
 		else if( $status == self::STATUS_READ_OPTION_VALUE )
 			//  close reading and save last option
 			$this->onReadOptionValue( ' ', $status, $buffer, $option );
-		else if( $status == self::STATUS_READ_OPTION_KEY )
-		{
+		else if( $status == self::STATUS_READ_OPTION_KEY ){
 			if( !array_key_exists( $option, $this->possibleOptions ) )
 				throw new \InvalidArgumentException( 'Invalid option: '.$option.'.' );
 			if( $this->possibleOptions[$option] )
@@ -286,8 +286,7 @@ class ArgumentParser
 	 */
 	protected function onReadArgument( $sign, &$status, &$buffer )
 	{
-		if( $sign == " " )
-		{
+		if( $sign == " " ){
 			$this->foundArguments[]	= $buffer;
 			$buffer		= "";
 			$status		= self::STATUS_START;
@@ -307,19 +306,16 @@ class ArgumentParser
 	 */
 	protected function onReadOptionKey( $sign, &$status, &$buffer, &$option )
 	{
-		if( in_array( $sign, array( " ", ":", "=" ) ) )
-		{
+		if( in_array( $sign, array( " ", ":", "=" ), TRUE ) ){
 			if( !array_key_exists( $option, $this->possibleOptions ) )
-				throw new \InvalidArgumentException( 'Invalid option "'.$option.'"' );
-			if( !$this->possibleOptions[$option] )
-			{
+				throw new InvalidArgumentException( 'Invalid option "'.$option.'"' );
+			if( !$this->possibleOptions[$option] ){
 				if( $sign !== " " )
 					throw new \InvalidArgumentException( 'Option "'.$option.'" cannot receive a value' );
 				$this->foundOptions[$option]	= TRUE;
 				$status	= self::STATUS_START;
 			}
-			else
-			{
+			else{
 				$buffer	= "";
 				$status	= self::STATUS_READ_OPTION_VALUE;
 			}
@@ -343,8 +339,7 @@ class ArgumentParser
 //		if( $sign === "-" )
 //			throw new RuntimeException( 'Missing value of option "'.$option.'"' );
 		//  closing value...
-		if( $sign === " " )
-		{
+		if( $sign === " " ){
 			//  no value
 			if( !$buffer ){
 				//  no value required/defined
@@ -357,7 +352,7 @@ class ArgumentParser
 			if( $this->possibleOptions[$option] !== TRUE ){
 				//  not matching
 				if( !preg_match( $this->possibleOptions[$option], $buffer ) )
-					throw new \InvalidArgumentException( 'Argument "'.$option.'" has invalid value (not matching regexp: '.$this->possibleOptions[$option].')' );
+					throw new InvalidArgumentException( 'Argument "'.$option.'" has invalid value (not matching regexp: '.$this->possibleOptions[$option].')' );
 			}
 			$this->foundOptions[$option]	= $buffer;
 			$buffer	= "";
@@ -378,13 +373,11 @@ class ArgumentParser
 	 */
 	protected function onReady( $sign, &$status, &$buffer, &$option )
 	{
-		if( $sign == "-" )
-		{
+		if( $sign == "-" ){
 			$option	= "";
 			$status	= self::STATUS_READ_OPTION_KEY;
 		}
-		else if( preg_match( "@[a-z0-9]@i", $sign ) )
-		{
+		else if( preg_match( "@[a-z0-9]@i", $sign ) ){
 			$buffer	.= $sign;
 			$status	= self::STATUS_READ_ARGUMENT;
 		}

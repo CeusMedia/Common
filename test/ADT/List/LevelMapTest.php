@@ -6,7 +6,10 @@
  *	@since			08.05.2008
  *	@version		0.1
  */
-require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
+declare( strict_types = 1 );
+
+use PHPUnit\Framework\TestCase;
+
 /**
  *	TestUnit of Level Map.
  *	@package		Tests.adt.list
@@ -23,7 +26,7 @@ class Test_ADT_List_LevelMapTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
 		$this->map	= new ADT_List_LevelMap();
 
@@ -99,7 +102,7 @@ class Test_ADT_List_LevelMapTest extends Test_Case
 	 */
 	public function testGetException()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$this->map->get( "" );
 	}
 
@@ -142,7 +145,7 @@ class Test_ADT_List_LevelMapTest extends Test_Case
 	 */
 	public function testHasException()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$this->map->has( "" );
 	}
 
@@ -183,7 +186,7 @@ class Test_ADT_List_LevelMapTest extends Test_Case
 	 */
 	public function testRemoveException()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$this->map->remove( "" );
 	}
 
@@ -279,8 +282,7 @@ class Test_ADT_List_LevelMapTest extends Test_Case
 	 */
 	public function testSetException()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$this->map->set( "", "" );
 	}
 }
-?>

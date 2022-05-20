@@ -31,7 +31,6 @@ namespace CeusMedia\Common\CLI;
  *	Console input handler.
  *	@category		Library
  *	@package		CeusMedia_Common_CLI
- *	@extends		ADT_List_Dictionary
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2015-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
@@ -51,7 +50,7 @@ class Prompt
 	 */
 	public function __construct()
 	{
-		if( substr(PHP_OS, 0, 3) == "WIN" )
+		if( substr( PHP_OS, 0, 3 ) == "WIN" )
 			$this->tty = fopen( "\con", "rb" );
 		else if( !($this->tty = fopen( "/dev/tty", "r" ) ) )
 			$this->tty = fopen( "php://stdin", "r" );
@@ -66,9 +65,9 @@ class Prompt
 	 *	@param		integer		$length		Number of bytes to read at most
 	 *	@return		string		String entered in terminal
 	 */
-	public function get( $prompt = "", $length = 1024 )
+	public function get( string $prompt = '', $length = 1024 )
 	{
-		remark( $prompt );
+		print( $prompt );
 		ob_flush();
 		$result = trim( fgets( $this->tty, $length ) );
 		return $result;

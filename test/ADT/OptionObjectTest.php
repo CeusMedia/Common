@@ -5,7 +5,10 @@
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@version		0.1
  */
-require_once dirname( __DIR__ ).'/initLoaders.php';
+declare( strict_types = 1 );
+
+use PHPUnit\Framework\TestCase;
+
 /**
  *	TestUnit of LinkList
  *	@package		Tests.adt.list
@@ -16,7 +19,7 @@ require_once dirname( __DIR__ ).'/initLoaders.php';
  */
 class Test_ADT_OptionObjectTest extends Test_Case
 {
-	public function setUp()
+	public function setUp(): void
 	{
 		$this->object	= new ADT_OptionObject();
 		$this->object->setOption( "string1", "value1" );
@@ -53,20 +56,9 @@ class Test_ADT_OptionObjectTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testConstructException1()
-	{
-		$this->setExpectedException( 'InvalidArgumentException' );
-		new ADT_OptionObject( "string" );
-	}
-
-	/**
-	 *	Tests Exception of Method '__construct'.
-	 *	@access		public
-	 *	@return		void
-	 */
 	public function testConstructException2()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		new ADT_OptionObject( array( 1, 2 ) );
 	}
 
@@ -133,19 +125,7 @@ class Test_ADT_OptionObjectTest extends Test_Case
 	 */
 	public function testDeclareOptionsException1()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
-		$object		= new ADT_OptionObject();
-		$object->declareOptions( "string" );
-	}
-
-	/**
-	 *	Tests Exception of Method 'declareOptions'.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function testDeclareOptionsException2()
-	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		$object		= new ADT_OptionObject();
 		$object->declareOptions( array( "a", 1 )  );
 	}
@@ -191,7 +171,7 @@ class Test_ADT_OptionObjectTest extends Test_Case
 	 */
 	public function testGetOptionException()
 	{
-		$this->setExpectedException( 'OutOfRangeException' );
+		$this->expectException( 'OutOfRangeException' );
 		$this->object->getOption( 'not_existing' );
 	}
 
@@ -383,4 +363,3 @@ class Test_ADT_OptionObjectTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

@@ -38,8 +38,11 @@
 class Net_HTTP_Response_Sender
 {
 
-	/**	@var		string|NULL			$compression		Type of compression to use (gzip, deflate), default: NULL */
+	/**	@var		string|NULL				$compression	Type of compression to use (gzip, deflate), default: NULL */
 	protected $compression;
+
+	/**	@var		Net_HTTP_Response|NULL	$response		Response object */
+	protected $response;
 
 	/**
 	 *	Constructur.
@@ -56,33 +59,36 @@ class Net_HTTP_Response_Sender
 	/**
 	 *	Send Response.
 	 *	@access		public
-	 *	@param		string		$compression		Type of compression (gzip|deflate)
 	 *	@param		boolean		$sendLengthHeader	Flag: Send Content-Length Header (default: yes)
-	 *	@param		boolean		$exit				Flag: after afterwards (default: no)
+	 *	@param		boolean		$andExit			Flag: after afterwards (default: no)
 	 *	@return		integer		Number of sent Bytes or exits if wished so
 	 *	@todo		remove compression parameter
 	 */
-	public function send( $compression = NULL, $sendLengthHeader = TRUE, $exit = FALSE )
+	public function send( $sendLengthHeader = TRUE, $andExit = FALSE )
 	{
 		$response	= clone( $this->response );
 		$body		= $response->getBody();
-		$length		= function_exists( 'mb_strlen' ) ? mb_strlen( $body ) : strlen( $body );
+		$length		= strlen( $body );
+		if( function_exists( 'mb_strlen' ) )
+			$length	= mb_strlen( $body );
 
 		/*  --  COMPRESSION  --  */
-		$compression	= $compression ? $compression : $this->compression;
-		if( $compression )
-		{
-			$compressor	= new Net_HTTP_Response_Compressor;
-			$compressor->compressResponse( $response, $compression, $sendLengthHeader );
-			$lengthNow	= strlen( $response->getBody() );
-			$ratio		= round( $lengthNow / $length * 100 );
-		}
+		if( $this->compression )
+			Net_HTTP_Response_Compressor::compressResponse(
+				$response,
+				$this->compression,
+				$sendLengthHeader
+			);
 		else if( $sendLengthHeader )
 			$response->addHeaderPair( 'Content-Length', $length, TRUE );
 
 		/*  --  HTTP BASIC INFORMATION  --  */
-		$status		= $response->getStatus();
-		header( $response->getProtocol().'/'.$response->getVersion().' '.$status );
+		$status	= $response->getStatus();
+		header( vsprintf( '%s/%s %s', array(
+			$response->getProtocol(),
+			$response->getVersion(),
+			$status
+		) ) );
 		header( 'Status: '.$status );
 
 		/*  --  HTTP HEADER FIELDS  --  */
@@ -92,7 +98,7 @@ class Net_HTTP_Response_Sender
 		/*  --  SEND BODY  --  */
 		print( $response->getBody() );
 		flush();
-		if( $exit )
+		if( $andExit )
 			exit;
 		return strlen( $response->getBody() );
 	}

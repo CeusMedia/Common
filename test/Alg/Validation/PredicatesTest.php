@@ -6,7 +6,10 @@
  *	@since			14.02.2008
  *	@version		0.1
  */
-require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
+declare( strict_types = 1 );
+
+use PHPUnit\Framework\TestCase;
+
 /**
  *	TestUnit of Predicates.
  *	@package		Tests.alg.validation
@@ -19,7 +22,7 @@ require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
  */
 class Test_Alg_Validation_PredicatesTest extends Test_Case
 {
-	function setUp()
+	function setUp(): void
 	{
 		$this->point	= time();
 	}
@@ -78,19 +81,24 @@ class Test_Alg_Validation_PredicatesTest extends Test_Case
 	 */
 	public function testHasPasswordScorePositive()
 	{
-		$creation	= Alg_Validation_Predicates::hasPasswordScore( 'hansi1', 15 );				//  15
+		//  15
+		$creation	= Alg_Validation_Predicates::hasPasswordScore( 'hansi1', 15 );
 		$this->assertTrue( $creation );
 
-		$creation	= Alg_Validation_Predicates::hasPasswordScore( 'qweasdyxc', 10 );			//  13
+		//  13
+		$creation	= Alg_Validation_Predicates::hasPasswordScore( 'qweasdyxc', 10 );
 		$this->assertTrue( $creation );
 
-		$creation	= Alg_Validation_Predicates::hasPasswordScore( 'test123#@', 40 );			//  43
+		//  43
+		$creation	= Alg_Validation_Predicates::hasPasswordScore( 'test123#@', 40 );
 		$this->assertTrue( $creation );
 
-		$creation	= Alg_Validation_Predicates::hasPasswordScore( 'tEsT123#@', 50 );			//  50
+		//  50
+		$creation	= Alg_Validation_Predicates::hasPasswordScore( 'tEsT123#@', 50 );
 		$this->assertTrue( $creation );
 
-		$creation	= Alg_Validation_Predicates::hasPasswordScore( '$Up3r$3CuR3#1', 55 );		//  56
+		//  56
+		$creation	= Alg_Validation_Predicates::hasPasswordScore( '$Up3r$3CuR3#1', 55 );
 		$this->assertTrue( $creation );
 	}
 
@@ -101,16 +109,20 @@ class Test_Alg_Validation_PredicatesTest extends Test_Case
 	 */
 	public function testHasPasswordScoreNegative()
 	{
-		$creation	= Alg_Validation_Predicates::hasPasswordScore( 'hansi1', 20 );				//  15
+		//  15
+		$creation	= Alg_Validation_Predicates::hasPasswordScore( 'hansi1', 20 );
 		$this->assertFalse( $creation );
 
-		$creation	= Alg_Validation_Predicates::hasPasswordScore( 'abc123', 0 );				//  -178
+		//  -178
+		$creation	= Alg_Validation_Predicates::hasPasswordScore( 'abc123', 0 );
 		$this->assertFalse( $creation );
 
-		$creation	= Alg_Validation_Predicates::hasPasswordScore( 'qwerty', 10 );				//  -193
+		//  -193
+		$creation	= Alg_Validation_Predicates::hasPasswordScore( 'qwerty', 10 );
 		$this->assertFalse( $creation );
 
-		$creation	= Alg_Validation_Predicates::hasPasswordScore( 'sex', 0 );					//  -299
+		//  -299
+		$creation	= Alg_Validation_Predicates::hasPasswordScore( 'sex', 0 );
 		$this->assertFalse( $creation );
 	}
 
@@ -121,19 +133,24 @@ class Test_Alg_Validation_PredicatesTest extends Test_Case
 	 */
 	public function testHasPasswordStrengthPositive()
 	{
-		$creation	= Alg_Validation_Predicates::hasPasswordStrength( 'hansi1', 20 );				//  27
+		//  27
+		$creation	= Alg_Validation_Predicates::hasPasswordStrength( 'hansi1', 20 );
 		$this->assertTrue( $creation );
 
-		$creation	= Alg_Validation_Predicates::hasPasswordStrength( 'qweasdyxc', 20 );			//  23
+		//  23
+		$creation	= Alg_Validation_Predicates::hasPasswordStrength( 'qweasdyxc', 20 );
 		$this->assertTrue( $creation );
 
-		$creation	= Alg_Validation_Predicates::hasPasswordStrength( 'test123#@', 75 );			//  77
+		//  77
+		$creation	= Alg_Validation_Predicates::hasPasswordStrength( 'test123#@', 75 );
 		$this->assertTrue( $creation );
 
-		$creation	= Alg_Validation_Predicates::hasPasswordStrength( 'tEsT123#@', 89 );			//  89
+		//  89
+		$creation	= Alg_Validation_Predicates::hasPasswordStrength( 'tEsT123#@', 89 );
 		$this->assertTrue( $creation );
 
-		$creation	= Alg_Validation_Predicates::hasPasswordStrength( '$Up3r$3CuR3#1', 99 );		//  100
+		//  100
+		$creation	= Alg_Validation_Predicates::hasPasswordStrength( '$Up3r$3CuR3#1', 99 );
 		$this->assertTrue( $creation );
 	}
 
@@ -144,16 +161,20 @@ class Test_Alg_Validation_PredicatesTest extends Test_Case
 	 */
 	public function testHasPasswordStrengthNegative()
 	{
-		$creation	= Alg_Validation_Predicates::hasPasswordStrength( 'hansi1', 30 );				//  27
+		//  27
+		$creation	= Alg_Validation_Predicates::hasPasswordStrength( 'hansi1', 30 );
 		$this->assertFalse( $creation );
 
-		$creation	= Alg_Validation_Predicates::hasPasswordStrength( 'abc123', 0 );				//  -178
+		//  -178
+		$creation	= Alg_Validation_Predicates::hasPasswordStrength( 'abc123', 0 );
 		$this->assertFalse( $creation );
 
-		$creation	= Alg_Validation_Predicates::hasPasswordStrength( 'qwerty', 10 );				//  -193
+		//  -193
+		$creation	= Alg_Validation_Predicates::hasPasswordStrength( 'qwerty', 10 );
 		$this->assertFalse( $creation );
 
-		$creation	= Alg_Validation_Predicates::hasPasswordStrength( 'sex', 0 );					//  -299
+		//  -299
+		$creation	= Alg_Validation_Predicates::hasPasswordStrength( 'sex', 0 );
 		$this->assertFalse( $creation );
 	}
 
@@ -167,7 +188,7 @@ class Test_Alg_Validation_PredicatesTest extends Test_Case
 		$creation	= Alg_Validation_Predicates::hasValue( "test" );
 		$this->assertTrue( $creation );
 
-		$creation	= Alg_Validation_Predicates::hasValue( 1 );
+		$creation	= Alg_Validation_Predicates::hasValue( "1" );
 		$this->assertTrue( $creation );
 	}
 
@@ -280,7 +301,7 @@ class Test_Alg_Validation_PredicatesTest extends Test_Case
 	 */
 	public function testIsAfterException()
 	{
-		$this->setExpectedException( "InvalidArgumentException" );
+		$this->expectException( "InvalidArgumentException" );
 		Alg_Validation_Predicates::isAfter( "01.71.2008", $this->point );
 	}
 
@@ -296,9 +317,6 @@ class Test_Alg_Validation_PredicatesTest extends Test_Case
 		$this->assertTrue( $creation );
 
 		$creation	= Alg_Validation_Predicates::isAlpha( "1" );
-		$this->assertTrue( $creation );
-
-		$creation	= Alg_Validation_Predicates::isAlpha( 1 );
 		$this->assertTrue( $creation );
 
 		//  --  NEGATIVE  --  //
@@ -321,9 +339,6 @@ class Test_Alg_Validation_PredicatesTest extends Test_Case
 		$this->assertTrue( $creation );
 
 		$creation	= Alg_Validation_Predicates::isAlphahyphen( "1" );
-		$this->assertTrue( $creation );
-
-		$creation	= Alg_Validation_Predicates::isAlphahyphen( 1 );
 		$this->assertTrue( $creation );
 
 		$creation	= Alg_Validation_Predicates::isAlphahyphen( "-" );
@@ -352,9 +367,6 @@ class Test_Alg_Validation_PredicatesTest extends Test_Case
 		$this->assertTrue( $creation );
 
 		$creation	= Alg_Validation_Predicates::isAlphaspace( "1" );
-		$this->assertTrue( $creation );
-
-		$creation	= Alg_Validation_Predicates::isAlphaspace( 1 );
 		$this->assertTrue( $creation );
 
 		$creation	= Alg_Validation_Predicates::isAlphaspace( " " );
@@ -465,7 +477,7 @@ class Test_Alg_Validation_PredicatesTest extends Test_Case
 	 */
 	public function testIsBeforeException()
 	{
-		$this->setExpectedException( "InvalidArgumentException" );
+		$this->expectException( "InvalidArgumentException" );
 		Alg_Validation_Predicates::isBefore( "01.71.2008", $this->point );
 	}
 
@@ -695,7 +707,7 @@ class Test_Alg_Validation_PredicatesTest extends Test_Case
 	 */
 	public function testIsFutureException()
 	{
-		$this->setExpectedException( "InvalidArgumentException" );
+		$this->expectException( "InvalidArgumentException" );
 		Alg_Validation_Predicates::isFuture( "01.71.2008", $this->point );
 	}
 
@@ -707,7 +719,7 @@ class Test_Alg_Validation_PredicatesTest extends Test_Case
 	public function testIsGreater()
 	{
 		//  --  POSITIVE  --  //
-		$creation	= Alg_Validation_Predicates::isGreater( 1, 0 );
+		$creation	= Alg_Validation_Predicates::isGreater( "1", 0 );
 		$this->assertTrue( $creation );
 
 		$creation	= Alg_Validation_Predicates::isGreater( "1", "0" );
@@ -762,7 +774,7 @@ class Test_Alg_Validation_PredicatesTest extends Test_Case
 	 */
 	public function testIsLessPositive()
 	{
-		$creation	= Alg_Validation_Predicates::isLess( 0, 1 );
+		$creation	= Alg_Validation_Predicates::isLess( "0", 1 );
 		$this->assertTrue( $creation );
 
 		$creation	= Alg_Validation_Predicates::isLess( "0", "1" );
@@ -821,7 +833,7 @@ class Test_Alg_Validation_PredicatesTest extends Test_Case
 	 */
 	public function testIsMaximum()
 	{
-		$creation	= Alg_Validation_Predicates::isMaximum( 1, 2 );
+		$creation	= Alg_Validation_Predicates::isMaximum( "1", 2 );
 		$this->assertTrue( $creation );
 
 		$creation	= Alg_Validation_Predicates::isMaximum( "1", "2" );
@@ -851,7 +863,7 @@ class Test_Alg_Validation_PredicatesTest extends Test_Case
 	 */
 	public function testIsMinimumPositive()
 	{
-		$creation	= Alg_Validation_Predicates::isMinimum( 1, 0 );
+		$creation	= Alg_Validation_Predicates::isMinimum( "1", 0 );
 		$this->assertTrue( $creation );
 
 		$creation	= Alg_Validation_Predicates::isMinimum( "1", "0" );
@@ -997,7 +1009,7 @@ class Test_Alg_Validation_PredicatesTest extends Test_Case
 	 */
 	public function testIsPastException()
 	{
-		$this->setExpectedException( "InvalidArgumentException" );
+		$this->expectException( "InvalidArgumentException" );
 		Alg_Validation_Predicates::isPast( "01.71.2008", $this->point );
 	}
 
@@ -1032,4 +1044,3 @@ class Test_Alg_Validation_PredicatesTest extends Test_Case
 		$this->assertFalse( $creation );
 	}
 }
-?>

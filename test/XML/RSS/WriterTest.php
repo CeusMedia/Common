@@ -6,7 +6,10 @@
  *	@since			20.02.2008
  *	@version		0.1
  */
-require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
+declare( strict_types = 1 );
+
+use PHPUnit\Framework\TestCase;
+
 /**
  *	TestUnit of XML RSS Writer.
  *	@package		Tests.xml.dom
@@ -27,8 +30,8 @@ class Test_XML_RSS_WriterTest extends Test_Case
 	 */
 	public function __construct()
 	{
+		parent::__construct();
 		Test_MockAntiProtection::createMockClass( 'XML_RSS_Writer' );
-		$this->writer	= new Test_XML_RSS_Writer_MockAntiProtection();
 	}
 
 	/**
@@ -36,7 +39,7 @@ class Test_XML_RSS_WriterTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
 		$this->writer	= new Test_XML_RSS_Writer_MockAntiProtection();
 		$this->path		= dirname( __FILE__ )."/";
@@ -53,7 +56,7 @@ class Test_XML_RSS_WriterTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function tearDown()
+	public function tearDown(): void
 	{
 		@unlink( $this->file );
 #		date_default_timezone_set( $this->timeZone );
@@ -68,7 +71,9 @@ class Test_XML_RSS_WriterTest extends Test_Case
 	{
 		$data	= array( 'key1' => 'value2' );
 		$this->writer->addItem( $data );
-		$this->assertEquals( array( $data ), $this->writer->getProtectedVar( 'itemList' ) );
+		$itemList	= $this->writer->getProtectedVar( 'itemList' );
+		$this->assertEquals( 1, count( $itemList ) );
+		$this->assertEquals( $data, current( $itemList ) );
 	}
 
 	/**
@@ -146,4 +151,3 @@ class Test_XML_RSS_WriterTest extends Test_Case
 		$this->assertXmlFileEqualsXmlFile( $this->assert, $this->file );
 	}
 }
-?>

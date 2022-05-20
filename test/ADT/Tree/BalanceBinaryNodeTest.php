@@ -5,7 +5,10 @@
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@version		0.1
  */
-require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
+declare( strict_types = 1 );
+
+use PHPUnit\Framework\TestCase;
+
 /**
  *	TestUnit of LinkList
  *	@package		Tests.adt.list
@@ -19,7 +22,7 @@ class Test_ADT_Tree_BalanceBinaryNodeTest extends Test_Case
 	/**	@var	array		$list		Instance of BinaryTree */
 	private $tree;
 
-	public function setUp()
+	public function setUp(): void
 	{
 		$this->tree	= new ADT_Tree_BalanceBinaryNode( 2 );
 		$this->tree->add( 1 );
@@ -129,4 +132,3 @@ class Test_ADT_Tree_BalanceBinaryNodeTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

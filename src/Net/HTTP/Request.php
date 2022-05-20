@@ -59,6 +59,10 @@ class Net_HTTP_Request extends ADT_List_Dictionary
 
 	protected $version		= '1.0';
 
+	protected $root;
+
+	protected $path			= '/';
+
 	public function __construct( $protocol = NULL, $version = NULL )
 	{
 		$this->method	= new Net_HTTP_Method();
@@ -111,15 +115,18 @@ class Net_HTTP_Request extends ADT_List_Dictionary
 		if( $useCookie )
 			$this->sources['cookie']	=& $_COOKIE;
 
+		//  retrieve requested path
+		$this->root	= rtrim( dirname( getEnv( 'SCRIPT_NAME' ) ), '/' ).'/';
+		$this->path	= substr( getEnv( 'REQUEST_URI' ), strlen( $this->root ) );
+		if( strpos( $this->path, '?' ) !== FALSE )
+			$this->path = substr( $this->path, 0, strpos( $this->path, '?' ) );
+
 		/*  --  APPLY ALL SOURCES TO ONE COLLECTION OF REQUEST ARGUMENT PAIRS  --  */
 		foreach( $this->sources as $key => $values )
 			$this->pairs	= array_merge( $this->pairs, $values );
 
 		/*  --  RETRIEVE HTTP HEADERS FROM WEBSERVER ENVIRONMENT  --  */
-		//  iterate requested HTTP headers
-		foreach( self::getAllEnvHeaders() as $key => $value )
-			//  store header
-			$this->headers->addField( new Net_HTTP_Header_Field( $key, $value ) );
+		$this->headers->addFieldPairs( self::getAllEnvHeaders() );
 
 		//  store IP of requesting client
 		$this->ip		= getEnv( 'REMOTE_ADDR' );
@@ -140,20 +147,23 @@ class Net_HTTP_Request extends ADT_List_Dictionary
 	/**
 	 *	Reads and returns Data from Sources.
 	 *	@access		public
-	 *	@param		string		$source		Source key (not case sensitive) (get,post,files[,session,cookie])
-	 *	@param		bool		$strict		Flag: throw exception if not set, otherwise return NULL
+	 *	@param		string		$source			Source key (not case sensitive) (get,post,files[,session,cookie])
+	 *	@param		boolean		$asDictionary	Flag: return map as dictionary
+	 *	@param		boolean		$strict			Flag: throw exception for invalid source, otherwise return NULL
 	 *	@throws		InvalidArgumentException if key is not set in source and strict is on
 	 *	@return		array		Pairs in source (or empty array if not set on strict is off)
 	 */
-	public function getAllFromSource( string $source, bool $strict = FALSE ): array
+	public function getAllFromSource( string $source, bool $asDictionary = FALSE, bool $strict = TRUE )
 	{
 		$source	= strtoupper( $source );
-		if( isset( $this->sources[$source] ) )
-//			return new ADT_List_Dictionary( $this->sources[$source] );
+		if( isset( $this->sources[$source] ) ){
+			if( $asDictionary )
+				return new ADT_List_Dictionary( $this->sources[$source] );
 			return $this->sources[$source];
-		if( !$strict )
-			return array();
-		throw new InvalidArgumentException( 'Invalid source "'.$source.'"' );
+		}
+		if( $strict )
+			throw new InvalidArgumentException( 'Invalid source "'.$source.'"' );
+		return array();
 	}
 
 	static public function getAllEnvHeaders(): array
@@ -279,6 +289,27 @@ class Net_HTTP_Request extends ADT_List_Dictionary
 	{
 		return $this->method;
 	}
+
+	/**
+	 *	...
+	 *	@access		public
+	 *	@return		string
+	 */
+	public function getPath(): string
+	{
+		return $this->path;
+	}
+
+	/**
+	 *	Returns raw request body of POST, PUT or PATCH requests.
+	 *	@access		public
+	 *	@return		string
+	 */
+	public function getRawPostData(): string
+	{
+		return $this->body;
+	}
+
 
 	/**
 	 *	Get requested URL, relative of absolute.
@@ -421,20 +452,20 @@ class Net_HTTP_Request extends ADT_List_Dictionary
 		return $this->method->isPut();
 	}
 
-	public function remove( $key ): self
+	public function remove( string $key ): bool
 	{
-		parent::remove( $key );
+		return parent::remove( $key );
 //		if( $this->method === "POST" )
 //			$this->body	= http_build_query( $this->getAll(), NULL, '&' );
-		return $this;
+//		return $this;
 	}
 
-	public function set( $key, $value ): self
+	public function set( string $key, $value ): bool
 	{
-		parent::set( $key, $value );
+		return parent::set( $key, $value );
 //		if( $this->method === "POST" )
 //			$this->body	= http_build_query( $this->getAll(), NULL, '&' );
-		return $this;
+//		return $this;
 	}
 
 	public function setAjax( bool $isAjax = TRUE ): self

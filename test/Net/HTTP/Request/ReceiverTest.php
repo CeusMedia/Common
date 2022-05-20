@@ -6,7 +6,10 @@
  *	@since			16.02.2008
  *	@version		0.1
  */
-require_once dirname( dirname( dirname( __DIR__ ) ) ).'/initLoaders.php';
+declare( strict_types = 1 );
+
+use PHPUnit\Framework\TestCase;
+
 /**
  *	TestUnit of Request Receiver.
  *	@package		Tests.net.http.request
@@ -21,7 +24,7 @@ class Test_Net_HTTP_Request_ReceiverTest extends Test_Case
 	/**	@var	array		$list		Instance of Request Receiver */
 	private $receiver;
 
-	public function setUp()
+	public function setUp(): void
 	{
 		$this->receiver	= new Net_HTTP_Request_Receiver();
 		$this->receiver->set( 'key1', 'value1' );
@@ -184,8 +187,7 @@ class Test_Net_HTTP_Request_ReceiverTest extends Test_Case
 	{
 		$_GET['key1']	= "value2";
 		$assertion	= array( 'key1' => "value2" );
-		$creation	= $this->receiver->getAllFromSource( 'get' )->getAll();
+		$creation	= $this->receiver->getAllFromSource( 'get' );
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

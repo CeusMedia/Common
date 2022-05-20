@@ -38,6 +38,115 @@
  */
 class Alg_Object_MethodFactory
 {
+	protected $arguments;
+	protected $method;
+	protected $object;
+
+	/**
+	 *	Constructor.
+	 *	@access		public
+	 *	@param		object		$object			Object to call method on
+	 *	@param		string		$method			Name of method to call
+	 *	@param		array		$arguments		List of method arguments
+	 */
+	public function __construct( $object = NULL, $method = NULL, array $arguments = array() )
+	{
+		if( NULL !== $object )
+			$this->setObject( $object );
+		if( NULL !== $method )
+			$this->setMethod( $method, $arguments );
+	}
+
+	/**
+	 *	Call set method with arguments on set object.
+	 *	@access		public
+	 *	@param		boolean			$checkMethod		Flag: check if methods exists by default, disable for classes using __call
+	 *	@param		boolean			$allowProtected		Flag: allow invoking protected and private methods (PHP 5.3.2+), default: no
+	 *	@return		mixed			Result of called method
+	 */
+	public function call( bool $checkMethod = TRUE, bool $allowProtected = FALSE )
+	{
+		if( NULL === $this->method )
+			throw new \RuntimeException( 'No method set' );
+		return $this->callMethod( $this->method, $this->arguments, $checkMethod, $allowProtected );
+	}
+
+	/**
+	 *	Call method with arguments on prior set object.
+	 *	@access		public
+	 *	@param		string			$name				Name of method to call on object
+	 *	@param		array			$arguments			List of method arguments
+	 *	@return		mixed			Result of called Method
+	 *	@throws		RuntimeException					if an neither object not class is set
+	 *	@throws		BadMethodCallException				if an invalid Method is called
+	 */
+	public function callMethod( string $name, array $arguments = array(), bool $checkMethod = TRUE, bool $allowProtected = FALSE )
+	{
+		if( NULL === $this->object )
+			throw new \RuntimeException( 'Neither object nor class set' );
+		return self::staticCallObjectMethod( $this->object, $name, $arguments, $checkMethod, $allowProtected );
+	}
+
+
+	/**
+	 *	Set class and invokation arguments of object to call method on.
+	 *	@access		public
+	 *	@param		string		$name			Name of class to set
+	 *	@param		array		$arguments		Class arguments for invokation
+	 *	@return		self
+	 */
+	public function setClass( string $name, array $arguments = array() ): self
+	{
+		if( !class_exists( $name ) )
+			throw new RuntimeException( 'Class "'.$name.'" has not been loaded' );
+		return $this->setObject( Alg_Object_Factory::createObject( $name, $arguments ) );
+	}
+
+	/**
+	 *	Set method to call and its arguments.
+	 *	@access		public
+	 *	@param		string		$name			Name of method to call
+	 *	@param		array		$arguments		List of arguments on method call
+	 *	@return		self
+	 */
+	public function setMethod( string $method, array $arguments = array() ): self
+	{
+		$this->method		= $method;
+		$this->arguments	= $arguments;
+		return $this;
+	}
+
+	/**
+	 *	Set object to call method on.
+	 *	@access		public
+	 *	@param		object		$object			Object to call method on
+	 *	@return		self
+	 */
+	public function setObject( $object ): self
+	{
+		$this->object	= $object;
+		return $this;
+	}
+
+	//  --  STATIC  --  //
+
+	public static function callClassMethod( string $className, string $methodName, array $classParameters = array(), array $methodParameters = array(), bool $checkMethod = TRUE, bool $allowProtected = FALSE )
+	{
+		Deprecation::getInstance()
+			->setErrorVersion( '0.8.5.7' )
+			->setExceptionVersion( '0.8.6' )
+			->message( 'Use staticCallClassMethod or OOP-style instead' );
+		return self::staticCallClassMethod( $className, $methodName, $classParameters, $methodParameters, $checkMethod, $allowProtected );
+	}
+
+	public static function callObjectMethod( $object, string $methodName, array $parameters = array(), bool $checkMethod = TRUE, bool $allowProtected = FALSE )
+	{
+		Deprecation::getInstance()
+			->setErrorVersion( '0.8.5.7' )
+			->setExceptionVersion( '0.8.6' )
+			->message( 'Use staticCallObjectMethod or OOP-style instead' );
+		return self::staticCallObjectMethod( $object, $methodName, $parameters, $checkMethod, $allowProtected );
+	}
 
 	/**
 	 *	Calls a Method from a Class or Object with Method Parameters and Object Parameters if a Class is given.
@@ -51,12 +160,12 @@ class Alg_Object_MethodFactory
 	 *	@param		boolean			$allowProtected		Flag: allow invoking protected and private methods (PHP 5.3.2+), default: no
 	 *	@return		mixed			Result of called Method
 	 */
-	public static function call( $mixed, $methodName, $methodParameters = array(), $classParameters = array(), $checkMethod = TRUE, $allowProtected = FALSE )
+/*	public static function staticCall( $mixed, string $methodName, array $methodParameters = array(), array $classParameters = array(), bool $checkMethod = TRUE, bool $allowProtected = FALSE )
 	{
 		if( is_object( $mixed ) )
-			return self::callObjectMethod( $mixed, $methodName, $methodParameters, $checkMethod, $allowProtected );
-		return self::callClassMethod( $mixed, $methodName, $classParameters, $methodParameters, $checkMethod, $allowProtected );
-	}
+			return self::staticCallObjectMethod( $mixed, $methodName, $methodParameters, $checkMethod, $allowProtected );
+		return self::staticCallClassMethod( $mixed, $methodName, $classParameters, $methodParameters, $checkMethod, $allowProtected );
+	}*/
 
 	/**
 	 *	Creates an instance of a class using Reflection.
@@ -70,12 +179,12 @@ class Alg_Object_MethodFactory
 	 *	@param		boolean			$allowProtected		Flag: allow invoking protected and private methods (PHP 5.3.2+), default: no
 	 *	@return		mixed			Result of called Method
 	 */
-	public static function callClassMethod( $className, $methodName, $classParameters = array(), $methodParameters = array(), $checkMethod = TRUE, $allowProtected = FALSE )
+	public static function staticCallClassMethod( string $className, string $methodName, array $classParameters = array(), array $methodParameters = array(), bool $checkMethod = TRUE, bool $allowProtected = FALSE )
 	{
 		if( !class_exists( $className ) )
 			throw new RuntimeException( 'Class "'.$className.'" has not been loaded' );
 		$object		= Alg_Object_Factory::createObject( $className, $classParameters );
-		return self::callObjectMethod( $object, $methodName, $methodParameters, $checkMethod, $allowProtected );
+		return self::staticCallObjectMethod( $object, $methodName, $methodParameters, $checkMethod, $allowProtected );
 	}
 
 	/**
@@ -91,7 +200,7 @@ class Alg_Object_MethodFactory
 	 *	@throws		InvalidArgumentException			if no object is given
 	 *	@throws		BadMethodCallException				if an invalid Method is called
 	 */
-	public static function callObjectMethod( $object, $methodName, $parameters = array(), $checkMethod = TRUE, $allowProtected = FALSE )
+	public static function staticCallObjectMethod( $object, string $methodName, array $parameters = array(), bool $checkMethod = TRUE, bool $allowProtected = FALSE )
 	{
 		if( !is_object( $object ) )
 			throw new InvalidArgumentException( 'Invalid object' );

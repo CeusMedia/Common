@@ -51,9 +51,9 @@ class Exception_IO extends Exception_Runtime
 	 *	@param		string		$sourceUri		Name or Value of unavailable Resource
 	 *	@return		void
 	 */
-	public function __construct( $message = null, $code = 0, $resource = "" )
+	public function __construct( $message = null, $code = 0, $resource = "", ?Throwable $previous = null )
 	{
-		parent::__construct( $message, $code );
+		parent::__construct( $message, $code, $previous );
 		$this->resource	= $resource;
 	}
 
@@ -64,7 +64,7 @@ class Exception_IO extends Exception_Runtime
 	 */
 	public function getResource()
 	{
-		return $this->resource;	
+		return $this->resource;
 	}
 
 	/**

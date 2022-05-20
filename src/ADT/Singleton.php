@@ -71,12 +71,12 @@ abstract class ADT_Singleton
 	 *	Use this method in the 'getInstance()' implementation.
 	 *	@access		public
 	 *	@param		string			$className		Name of Singleton class
-	 * @return <type>
+	 *	@return		object
 	 */
 	protected static function buildInstance( $className )
 	{
 		//  no instance built, yet
-		if( !self::$instance )
+		if( NULL === self::$instance )
 			//  build a single instance and store it
 			self::$instance	= new $className;
 		//  return stored instance

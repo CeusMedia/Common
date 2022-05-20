@@ -27,6 +27,8 @@
  */
 namespace CeusMedia\Common\CLI\Fork\Worker;
 
+use RuntimeException;
+
 /**
  *	...
  *
@@ -50,29 +52,26 @@ abstract class Abstraction
 	{
 		$os	= substr( PHP_OS, 0, 3 );
 		if( strtoupper( $os ) == 'WIN' )
-			throw new \RuntimeException( 'Not possible on Windows' );
+			throw new RuntimeException( 'Not possible on Windows' );
 	}
 
-	public function forkWorkers( $numberWorkers = 1 )
+	public function forkWorkers( int $numberWorkers = 1 )
 	{
-		$numberWorkers	= abs( (int) $numberWorkers );
-		for( $i=0; $i<$numberWorkers; $i++ )
-		{
+		$numberWorkers	= abs( $numberWorkers );
+		for( $i=0; $i<$numberWorkers; $i++ ){
 			//	Fork and exit (daemonize)
 			$pid = pcntl_fork();
 			//	Not good.
 			if( $pid == -1 )
 				//  Fork was not possible
-				throw new \RuntimeException( 'Could not fork' );
+				throw new RuntimeException( 'Could not fork' );
 			//  Parent
-			if( $pid )
-			{
+			if( $pid ){
 				$isLast	= $i == $numberWorkers - 1;
 				//  do Parent Stuff
-				$this->workParent( $pid, $isLast );
+				$this->workParent( $pid/*, $isLast*/ );
 			}
-			else
-			{
+			else{
 				$code	= $this->workChild( $pid, $i );
 				exit( $code );
 			}
@@ -91,8 +90,7 @@ abstract class Abstraction
 	 */
 	protected function handleSignal( $signalNumber )
 	{
-		switch( $signalNumber )
-		{
+		switch( $signalNumber ){
 			case SIGHUP:
 				$this->handleHangupSignal();
 				break;
@@ -100,7 +98,7 @@ abstract class Abstraction
 				$this->handleTerminationSignal();
 				break;
 			default:
-				$this->handleUnknownSignal();
+				$this->handleUnknownSignal( $signalNumber );
 		}
 	}
 
@@ -108,7 +106,7 @@ abstract class Abstraction
 	{
 	}
 
-	protected function handleUnknownSignal( $signalNumber )
+	protected function handleUnknownSignal( int $signalNumber )
 	{
 //		$this->report( 'Unknown signal: ' . $signalNumber );
 	}

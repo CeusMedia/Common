@@ -6,7 +6,12 @@
  *	@since			21.04.2008
  *	@version		0.1
  */
-require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
+declare( strict_types = 1 );
+
+use PHPUnit\Framework\TestCase;
+
+require_once __DIR__.'/TestCase.php';
+
 /**
  *	TestUnit of Folder Editor.
  *	@package		Tests.folder
@@ -23,13 +28,15 @@ class Test_FS_Folder_EditorTest extends Test_FS_Folder_TestCase
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
-		$this->editor	= new FS_Folder_Editor( $this->folder );
 		$this->tearDown();
+		parent::setUp();
+		$this->editor	= new FS_Folder_Editor( $this->folder );
+
 	}
 
-	public function tearDown()
+	public function tearDown(): void
 	{
 		if( file_exists( $this->path."copy" ) )
 			$this->removeFolder( $this->path."copy", true);
@@ -120,7 +127,7 @@ class Test_FS_Folder_EditorTest extends Test_FS_Folder_TestCase
 	 */
 	public function testCopyFolderException()
 	{
-		$this->setExpectedException( 'RuntimeException' );
+		$this->expectException( 'RuntimeException' );
 		FS_Folder_Editor::copyFolder( $this->path."folder", $this->path."copy" );
 		FS_Folder_Editor::copyFolder( $this->path."folder", $this->path."copy" );
 		$this->assertEquals( $assertion, $creation );
@@ -196,7 +203,7 @@ class Test_FS_Folder_EditorTest extends Test_FS_Folder_TestCase
 		FS_Folder_Editor::moveFolder( $this->path."copy", $this->path."test" );
 		$this->editor->createFolder( $this->path."copy" );
 
-		$this->setExpectedException( 'RuntimeException' );
+		$this->expectException( 'RuntimeException' );
 		FS_Folder_Editor::moveFolder( $this->path."copy", $this->path."test" );
 	}
 
@@ -271,7 +278,7 @@ class Test_FS_Folder_EditorTest extends Test_FS_Folder_TestCase
 	 */
 	public function testRenameFolderException1()
 	{
-		$this->setExpectedException( 'RuntimeException' );
+		$this->expectException( 'RuntimeException' );
 		FS_Folder_Editor::renameFolder( "not_existing", "not_relevant" );
 	}
 
@@ -285,7 +292,7 @@ class Test_FS_Folder_EditorTest extends Test_FS_Folder_TestCase
 		FS_Folder_Editor::createFolder( $this->path."test" );
 		FS_Folder_Editor::createFolder( $this->path."renamed" );
 
-		$this->setExpectedException( 'RuntimeException' );
+		$this->expectException( 'RuntimeException' );
 		FS_Folder_Editor::renameFolder( $this->path."test", "renamed" );
 	}
 
@@ -296,7 +303,7 @@ class Test_FS_Folder_EditorTest extends Test_FS_Folder_TestCase
 	 */
 	public function testRenameFolderException()
 	{
-		$this->setExpectedException( 'RuntimeException' );
+		$this->expectException( 'RuntimeException' );
 		FS_Folder_Editor::renameFolder( "not_existing", "not_relevant" );
 	}
 
@@ -346,8 +353,7 @@ class Test_FS_Folder_EditorTest extends Test_FS_Folder_TestCase
 	{
 		$this->editor->copyFolder( $this->path."folder", $this->path."remove" );
 
-		$this->setExpectedException( 'RuntimeException' );
+		$this->expectException( 'RuntimeException' );
 		FS_Folder_Editor::removeFolder( $this->path."remove" );
 	}
 }
-?>

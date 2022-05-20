@@ -4,9 +4,11 @@
  *	@package		Tests.file.php
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			04.01.2009
- *	@version		$Id$
  */
-require_once dirname( dirname( dirname( dirname( __DIR__ ) ) ) ).'/initLoaders.php';
+declare( strict_types = 1 );
+
+use PHPUnit\Framework\TestCase;
+
 /**
  *	TestUnit of FS_File_PHP_Check_MethodVisibility.
  *	@package		Tests.file.php
@@ -14,16 +16,15 @@ require_once dirname( dirname( dirname( dirname( __DIR__ ) ) ) ).'/initLoaders.p
  *	@uses			FS_File_PHP_Check_MethodVisibility
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			04.01.2009
- *	@version		$Id$
  */
 class Test_FS_File_PHP_Check_MethodVisibilityTest extends Test_Case
 {
 	/**
-	 *	Constructor.
+	 *	Setup for every Test.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function __construct()
+	public function setUp(): void
 	{
 		$this->path			= dirname( __FILE__ )."/";
 		$this->fileTemp1	= __FILE__;
@@ -31,20 +32,11 @@ class Test_FS_File_PHP_Check_MethodVisibilityTest extends Test_Case
 	}
 
 	/**
-	 *	Setup for every Test.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function setUp()
-	{
-	}
-
-	/**
 	 *	Cleanup after every Test.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function tearDown()
+	public function tearDown(): void
 	{
 	}
 
@@ -74,7 +66,7 @@ class Test_FS_File_PHP_Check_MethodVisibilityTest extends Test_Case
 	 */
 	public function testConstructException()
 	{
-		$this->setExpectedException( 'RuntimeException' );
+		$this->expectException( 'RuntimeException' );
 		$index	= new FS_File_PHP_Check_MethodVisibility( "not_existing" );
 	}
 
@@ -136,4 +128,3 @@ class Test_FS_File_PHP_Check_MethodVisibilityTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

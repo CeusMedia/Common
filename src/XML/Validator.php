@@ -60,7 +60,7 @@ class XML_Validator
 	{
 		if( $this->error )
 			return $this->error['message'];
-		return "";
+		return '';
 	}
 
 	/**
@@ -71,7 +71,7 @@ class XML_Validator
 	public function validateFile( $fileName )
 	{
 		$xml = FS_File_Reader::load( $fileName );
-		return $this->validateXML( $xml );
+		return $this->validate( $xml );
 	}
 
 	/**
@@ -82,7 +82,7 @@ class XML_Validator
 	public function validateUrl( $url)
 	{
 		$xml	= Net_Reader::readUrl( $url );
-		return $this->validateXML( $xml );
+		return $this->validate( $xml );
 	}
 
 	/**

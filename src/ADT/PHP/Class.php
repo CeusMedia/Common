@@ -23,6 +23,8 @@
  *	@copyright		2015-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@since			0.3
+ *	@deprecated		use CeusMedia/PHP-Parser (https://packagist.org/packages/ceus-media/php-parser) instead
+ *	@todo			to be removed in 8.7
  */
 /**
  *	Class Data Class.
@@ -33,6 +35,8 @@
  *	@copyright		2015-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@since			0.3
+ *	@deprecated		use CeusMedia/PHP-Parser (https://packagist.org/packages/ceus-media/php-parser) instead
+ *	@todo			to be removed in 8.7
  */
 class ADT_PHP_Class extends ADT_PHP_Interface
 {
@@ -107,8 +111,8 @@ class ADT_PHP_Class extends ADT_PHP_Interface
 
 	public function isUsingClass( ADT_PHP_Class $class )
 	{
-		foreach( $this->uses as $className => $class )
-			if( $class == $class )
+		foreach( $this->uses as $className => $usedClass )
+			if( $class == $usedClass )
 				return TRUE;
 		return FALSE;
 	}
@@ -119,15 +123,11 @@ class ADT_PHP_Class extends ADT_PHP_Interface
 			throw new Exception( 'Not mergable' );
 		if( $artefact->isAbstract() )
 			$this->setAbstract( $artefact->isAbstract() );
-		if( $artefact->getDefault() )
-			$this->setDefault( $artefact->getDefault() );
 		if( $artefact->isStatic() )
 			$this->setAbstract( $artefact->isStatic() );
 
-		foreach( $variable->getUsedClasses() as $artefact )
-			$this->setUsedClass( $artefact );
-		foreach( $variable->getUsedClasses() as $artefact )
-			$this->setUsedClass( $artefact );
+		foreach( $artefact->getUsedClasses() as $class )
+			$this->setUsedClass( $class );
 
 		//	@todo		members and interfaces missing
 	}

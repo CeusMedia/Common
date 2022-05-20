@@ -37,6 +37,8 @@
  */
 class ADT_String
 {
+	protected $string;
+
 	/**
 	 *	Constructor.
 	 *	@access		public
@@ -81,7 +83,7 @@ class ADT_String
 	public function capitalizeWords( $delimiter = NULL ): bool
 	{
 		$oldString		= $this->string;
-		if( !$delimiter || preg_match( "/ +/", $delimiter ) ){
+		if( NULL === $delimiter || preg_match( "/ +/", $delimiter ) ){
 			$this->string	= ucwords( $oldString );
 			return $this->string !== $oldString;
 		}
@@ -133,7 +135,7 @@ class ADT_String
 		{
 			if( !is_int( $limit ) )
 				throw new InvalidArgumentException( 'Limit must be integer' );
-			if( $limit && $offset + $limit > $this->getLength() )
+			if( NULL !== $limit && $offset + $limit > $this->getLength() )
 				throw new OutOfBoundsException( 'Offset and limit excess string length' );
 			return substr_count( $this->string, $string, $offset, $limit );
 		}
@@ -169,7 +171,7 @@ class ADT_String
 			throw new InvalidArgumentException( 'Length cannot be lower than string length' );
 		if( !is_string( $string ) && !( $string instanceof ADT_String ) )
 			throw new InvalidArgumentException( 'Padding string must be of string' );
-		if( !$string )
+		if( 0 === strlen( trim( $string ) ) )
 			throw new InvalidArgumentException( 'Padding string cannot be empty' );
 
 		$oldLength	= $this->getLength();
@@ -281,7 +283,7 @@ class ADT_String
 		foreach( $codePoints as $codePoint )
 		{
 			$hexCode	= strtoupper( str_pad( dechex( $codePoint ), 6, '0', STR_PAD_LEFT ) );
-			if( array_search( $hexCode, $RandALCat ) )
+			if( array_search( $hexCode, $RandALCat, TRUE ) )
 				return true;
 		}
 		return false;
@@ -321,7 +323,6 @@ class ADT_String
 	 *	@access		public
 	 *	@param		string		$search			String to be replace
 	 *	@param		string		$replace		String to be set in
-	 *	@param		int			$count			Number of maximum replacements
 	 *	@param		bool		$caseSense		Flag: be case sensitive
 	 *	@return		int			Number of replaced occurrences
 	 */
@@ -357,6 +358,7 @@ class ADT_String
 	 */
 	public function split( $delimiter )
 	{
+		$list	= array( $this->string );
 		if( is_int( $delimiter ) )
 			$list	= str_split( $this->string, $delimiter );
 		else if( is_string( $delimiter ) )
@@ -383,12 +385,12 @@ class ADT_String
 
 	/**
 	 *	Changes all upper case characters to lower case.
-	 *	@param		bool		Only change first letter (=lcfirst)
+	 *	@param		bool		$firstOnly		Only change first letter (=lcfirst)
 	 *	@return		bool		At least 1 character has been changed
 	 *	@see		http://www.php.net/manual/en/function.strtolower.php
 	 *	@see		http://www.php.net/manual/en/function.lcfirst.php
 	 */
-	public function toLowerCase( $firstOnly = FALSE )
+	public function toLowerCase( bool $firstOnly = FALSE ): bool
 	{
 		$oldString		= $this->string;
 		if( $firstOnly && !function_exists( 'lcfirst' ) )
@@ -404,12 +406,12 @@ class ADT_String
 
 	/**
 	 *	Changes all lower case characters to upper case.
-	 *	@param		bool		Only change first letter (=ucfirst)
+	 *	@param		bool		$firstOnly		Only change first letter (=ucfirst)
 	 *	@return		bool		At least 1 character has been changed
 	 *	@see		http://www.php.net/manual/en/function.strtoupper.php
 	 *	@see		http://www.php.net/manual/en/function.ucfirst.php
 	 */
-	public function toUpperCase( $firstOnly = FALSE )
+	public function toUpperCase( bool $firstOnly = FALSE ): bool
 	{
 		$oldString		= $this->string;
 		$method			= $firstOnly ? "ucfirst" : "strtoupper";
@@ -424,7 +426,7 @@ class ADT_String
 	 *	@param		bool		$right			Remove from right side
 	 *	@return		int			Number of removed characters
 	 */
-	public function trim( $left = TRUE, $right = TRUE )
+	public function trim( bool $left = TRUE, bool $right = TRUE ): int
 	{
 		$length			= $this->getLength();
 		if( $left && $right )
@@ -441,7 +443,7 @@ class ADT_String
  	 *	@access		public
  	 *	@return		int			Number of removed slashes
  	 */
- 	public function unescape()
+ 	public function unescape(): int
  	{
 		$length			= $this->getLength();
 		$this->string	= stripslashes( $this->string );
@@ -455,7 +457,7 @@ class ADT_String
 	 *	@param		string		$right			String to add right
 	 *	@return		int			Number of added characters
 	 */
-	public function wrap( $left = NULL, $right = NULL )
+	public function wrap( string $left = NULL, string $right = NULL ): int
 	{
 		$length			= $this->getLength();
 		$this->string	= (string) $left . $this->string . (string) $right;

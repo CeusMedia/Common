@@ -83,7 +83,7 @@ class XML_DOM_Builder
 		}
 		else if( $tree->hasContent() )
 		{
-			$text	= (string) $tree->getContent();
+			$text	= $tree->getContent();
 			$text	= $document->createTextNode( $text );
 			$text	= $root->appendChild( $text );
 		}

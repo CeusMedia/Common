@@ -26,6 +26,9 @@
  */
 namespace CeusMedia\Common\FS\File;
 
+use InvalidArgumentException;
+use RuntimeException;
+
 /**
  *	File permission data object and handler.
  *	@category		Library
@@ -45,36 +48,22 @@ class Permissions
 	 *	@access		public
 	 *	@param		string		$pathName		Path name of file to get permissions for
 	 *	@return		void
-	 *	@throws		\InvalidArgumentException if file is not existing
+	 *	@throws		InvalidArgumentException if file is not existing
 	 */
-	public function __construct( $pathName )
+	public function __construct( string $pathName )
 	{
 		if( !file_exists( $pathName ) )
-			throw new \InvalidArgumentException( 'File "'.$pathName.'" is not existing' );
+			throw new InvalidArgumentException( 'File "'.$pathName.'" is not existing' );
 		$this->pathName	= $pathName;
-	}
-
-	/**
-	 *	Returns permissions as integer value.
-	 *	@access		public
-	 *	@return		integer		Integer value of permissions of current file
-	 *	@throws		\InvalidArgumentException if no valid file is set
-	 */
-	public function getAsInteger()
-	{
-		$permissions	= @fileperms( $this->pathName );
-		if( FALSE === $permissions )
-			throw new \InvalidArgumentException( 'Could not get permissions of file "'.$this->pathName.'"' );
-		return octdec( substr( sprintf( '%o', $permissions ), -4 ) );
 	}
 
 	/**
 	 *	Returns permissions as octal string value.
 	 *	@access		public
-	 *	@return		integer		Octal string value of permissions of current file
-	 *	@throws		\InvalidArgumentException if no valid file is set
+	 *	@return		string		Octal string value of permissions of current file
+	 *	@throws		InvalidArgumentException if no valid file is set
 	 */
-	public function getAsOctal()
+	public function getAsOctal(): string
 	{
 		$permissions	= @fileperms( $this->pathName );
 		if( FALSE === $permissions )
@@ -86,57 +75,26 @@ class Permissions
 	 *	Returns permissions as string value.
 	 *	@access		public
 	 *	@return		string		String value of permissions of current file
-	 *	@throws		RuntimeException if no valid file is set
+	 *	@throws		InvalidArgumentException if no valid file is set
 	 */
-	public function getAsString()
+	public function getAsString(): string
 	{
 		$permissions	= @fileperms( $this->pathName );
 		if( FALSE === $permissions )
 			throw new InvalidArgumentException( 'Could not get permissions of file "'.$this->pathName.'"' );
-		return self::getStringFromOctal( $permissions );
+		return self::getStringFromOctal( sprintf( '%o', $permissions ) );
 	}
 
-	public static function getIntegerFromFile( $pathName )
-	{
-		$object	= new FS_File_Permissions( $pathName );
-		return $object->getAsInteger();
-	}
-
-	public static function getIntegerFromOctal( $permissions )
-	{
-		if( is_string( $permissions ) )
-			$permissions	= octdec( $permissions );
-		if( !is_integer( $permissions ) )
-			throw new \InvalidArgumentException( 'Must be octal, string or integer' );
-		return $permissions;
-	}
-
-	public static function getIntegerFromString( string $permissions )
-	{
-		if( !is_string( $permissions ) )
-			throw new \InvalidArgumentException( 'Must be string' );
-		return octdec( self::getOctalFromString( $permissions ) );
-	}
-
-	public static function getOctalFromFile( $pathName )
+	public static function getOctalFromFile( $pathName ): string
 	{
 		$object	= new Permissions( $pathName );
 		return $object->getAsOctal();
 	}
 
-	public static function getOctalFromInteger( int $permissions )
+	public static function getOctalFromString( string $permissions ): string
 	{
-		if( !is_integer( $permissions ) )
-			throw new \InvalidArgumentException( 'Must be integer' );
-		return sprintf( '0%o', $permissions );
-	}
-
-	public static function getOctalFromString( string $permissions )
-	{
-		if( !is_string( $permissions ) )
-			throw new \InvalidArgumentException( 'Must be string' );
 		if( strlen( $permissions ) != 9 )
-			throw new \InvalidArgumentException( 'String must contain 9 characters' );
+			throw new InvalidArgumentException( 'String must contain 9 characters' );
 
 		$octal	= 0;
 		if( $permissions[0] == 'r' ) $octal += 0400;
@@ -159,25 +117,15 @@ class Permissions
 		return sprintf( '0%o', $octal );
 	}
 
-	public static function getStringFromFile( string $pathName )
+	public static function getStringFromFile( string $pathName ): string
 	{
 		$object	= new Permissions( $pathName );
 		return $object->getAsString();
 	}
 
-	public static function getStringFromInteger( int $permissions ): string
-	{
-		if( !is_integer( $permissions ) )
-			throw new \InvalidArgumentException( 'Must be integer' );
-		return self::getStringFromOctal( $permissions );
-	}
-
 	public static function getStringFromOctal( string $permissions ): string
 	{
-		if( is_string( $permissions ) )
-			$permissions	= octdec( $permissions );
-		if( !is_integer( $permissions ) )
-			throw new \InvalidArgumentException( 'Must be octal, string or integer' );
+		$permissions	= octdec( $permissions );
 
 		$info	= "";
 		// Owner
@@ -204,21 +152,17 @@ class Permissions
 		return $info;
 	}
 
-	public function setByOctal( string $permissions )
+	public function setByOctal( string $permissions ): bool
 	{
-		$permissions	= self::getIntegerFromOctal( $permissions );
+		$permissions	= octdec( $permissions );
 		$result	= @chmod( $this->pathName, $permissions );
 		if( FALSE === $result )
-			throw new \RuntimeException( 'Cannot change permissions for "'.$this->pathName.'"' );
+			throw new RuntimeException( 'Cannot change permissions for "'.$this->pathName.'"' );
 		return $result;
 	}
 
-	public function setByString( string $permissions )
+	public function setByString( string $permissions ): bool
 	{
-		$permissions	= self::getIntegerFromString( $permissions );
-		$result	= @chmod( $this->pathName, $permissions );
-		if( FALSE === $result )
-			throw new \RuntimeException( 'Cannot change permissions for "'.$this->pathName.'"' );
-		return $result;
+		return $this->setByOctal( $this->getOctalFromString( $permissions ) );
 	}
 }

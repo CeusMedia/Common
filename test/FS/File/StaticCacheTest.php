@@ -6,7 +6,10 @@
  *	@since			19.04.2009
  *	@version		0.1
  */
-require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
+declare( strict_types = 1 );
+
+use PHPUnit\Framework\TestCase;
+
 /**
  *	TestUnit of FS_File_StaticCache.
  *	@package		Tests.file
@@ -19,24 +22,15 @@ require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
 class Test_FS_File_StaticCacheTest extends Test_Case
 {
 	/**
-	 *	Constructor.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function __construct()
-	{
-		Test_MockAntiProtection::createMockClass( 'FS_File_StaticCache' );
-		$this->path			= dirname( __FILE__ )."/";
-		$this->pathCache	= $this->path."__cacheTestPath/";
-	}
-
-	/**
 	 *	Setup for every Test.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
+		Test_MockAntiProtection::createMockClass( 'FS_File_StaticCache' );
+		$this->path			= dirname( __FILE__ )."/";
+		$this->pathCache	= $this->path."__cacheTestPath/";
 		if( !file_exists( $this->pathCache ) )
 			@mkdir( $this->pathCache );
 	}
@@ -46,15 +40,21 @@ class Test_FS_File_StaticCacheTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function tearDown()
+	public function tearDown(): void
 	{
-		$dir	= dir( $this->pathCache );														//  index Folder
-		while( $entry = $dir->read() )															//  iterate Objects
+		//  index Folder
+		$dir	= dir( $this->pathCache );
+		//  iterate Objects
+		while( $entry = $dir->read() )
 		{
-			if( preg_match( "@^(\.){1,2}$@", $entry ) )											//  if is Dot Object
-				continue;																		//  continue
-			if( is_file( $this->pathCache."/".$entry ) )										//  is nested File
-				@unlink( $this->pathCache."/".$entry );											//  remove File
+			//  if is Dot Object
+			if( preg_match( "@^(\.){1,2}$@", $entry ) )
+				//  continue
+				continue;
+			//  is nested File
+			if( is_file( $this->pathCache.$entry ) )
+				//  remove File
+				@unlink( $this->pathCache.$entry );
 		}
 		$dir->close();
 		rmdir( substr( $this->pathCache, 0, -1 ) );
@@ -88,7 +88,7 @@ class Test_FS_File_StaticCacheTest extends Test_Case
 	 */
 	public function testCleanUpException1()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		FS_File_StaticCache::init( $this->pathCache );
 		FS_File_StaticCache::cleanUp();
 	}
@@ -100,7 +100,7 @@ class Test_FS_File_StaticCacheTest extends Test_Case
 	 */
 	public function testCleanUpException2()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( 'InvalidArgumentException' );
 		FS_File_StaticCache::init( $this->pathCache, 0 );
 		FS_File_StaticCache::cleanUp();
 	}
@@ -336,4 +336,3 @@ class Test_FS_File_StaticCacheTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

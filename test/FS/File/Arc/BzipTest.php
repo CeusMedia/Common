@@ -5,7 +5,10 @@
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@version		0.1
  */
-require_once dirname( dirname( dirname( __DIR__ ) ) ).'/initLoaders.php';
+declare( strict_types = 1 );
+
+use PHPUnit\Framework\TestCase;
+
 /**
  *	TestUnit of Bzip File.
  *	@package		Tests.file.arc
@@ -19,19 +22,16 @@ class Test_FS_File_Arc_BzipTest extends Test_Case
 	/**	@var	string		$fileName		URL of Archive File Name */
 	private $fileName;
 
-	public function __construct()
+	public function setUp(): void
 	{
+		if( !extension_loaded( 'bz2' ) )
+			$this->markTestSkipped( 'Support for bzip2 is missing' );
+
 		$this->path	= dirname( __FILE__ )."/";
 		$this->fileName	= $this->path."test.bz";
 	}
 
-	public function setUp()
-	{
-		if( !extension_loaded( 'bz2' ) )
-			$this->markTestSkipped( 'Support for bzip2 is missing' );
-	}
-
-	public function tearDown()
+	public function tearDown(): void
 	{
 		@unlink( $this->fileName );
 	}
@@ -60,4 +60,3 @@ class Test_FS_File_Arc_BzipTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-?>

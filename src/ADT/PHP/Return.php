@@ -23,6 +23,8 @@
  *	@copyright		2015-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@since			0.3
+ *	@deprecated		use CeusMedia/PHP-Parser (https://packagist.org/packages/ceus-media/php-parser) instead
+ *	@todo			to be removed in 8.7
  */
 /**
  *	Function/Method Return Data Class.
@@ -32,6 +34,8 @@
  *	@copyright		2015-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@since			0.3
+ *	@deprecated		use CeusMedia/PHP-Parser (https://packagist.org/packages/ceus-media/php-parser) instead
+ *	@todo			to be removed in 8.7
  */
 class ADT_PHP_Return
 {
@@ -48,6 +52,14 @@ class ADT_PHP_Return
 	 */
 	public function __construct( $type = NULL, $description = NULL )
 	{
+		Deprecation::getInstance()
+			->setErrorVersion( '0.8.5' )
+			->setExceptionVersion( '0.8.6' )
+			->message( sprintf(
+				'Please use %s (%s) instead',
+				'public library "CeusMedia/PHP-Parser"',
+			 	'https://packagist.org/packages/ceus-media/php-parser'
+			) );
 		$this->type			= $type;
 		$this->description	= $description;
 	}
@@ -81,8 +93,6 @@ class ADT_PHP_Return
 
 	public function merge( ADT_PHP_Return $return )
 	{
-		if( $this->name != $return->getName() )
-			throw new Exception( 'Not mergable' );
 		if( $return->getDescription() )
 			$this->setDescription( $return->getDescription() );
 		if( $return->getType() )

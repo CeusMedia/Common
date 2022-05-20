@@ -24,7 +24,7 @@ class Test_DB_StatementCollectionTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function setUp()
+	public function setUp(): void
 	{
 		$this->builder		= new Test_DB_StatementBuilderInStatementCollectionInstance( "prefix_" );
 		$this->collection	= new Test_DB_StatementCollectionInstance( $this->builder );
@@ -35,7 +35,7 @@ class Test_DB_StatementCollectionTest extends Test_Case
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function tearDown()
+	public function tearDown(): void
 	{
 	}
 
@@ -72,7 +72,7 @@ class Test_DB_StatementCollectionTest extends Test_Case
 	 */
 	public function testAddComponentException()
 	{
-		$this->setExpectedException( 'BadMethodCallException' );
+		$this->expectException( 'BadMethodCallException' );
 		$this->collection->addComponent( "not_existing" );
 	}
 
@@ -167,4 +167,3 @@ class Test_DB_StatementBuilderInStatementCollectionInstance extends DB_Statement
 		return $this->$method( $content, $comment );
 	}
 }
-?>

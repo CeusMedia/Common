@@ -262,7 +262,7 @@ class Weighted
 		$hadNodes[] = $source->getNodeName();
 		foreach( $nodes as $node )
 		{
-			if( !in_array( $node->getNodeName(), $hadNodes ) )
+			if( !in_array( $node->getNodeName(), $hadNodes, TRUE ) )
 			{
 				if( $way = $this->getPathValue( $node, $target, $hadNodes ) )
 				{
@@ -339,17 +339,15 @@ class Weighted
 		$nodes = $this->getTargetNodes( $source );
 		foreach( $nodes as $node )
 		{
-			if( !in_array( $node->getNodeName(), $hadNodes ) )
+			if( !in_array( $node->getNodeName(), $hadNodes, TRUE ) )
 			{
 				$ways = $this->getWays( $node, $target, $stack, $hadNodes );
-				if( sizeof( $ways ) )
-				{
-					foreach( $ways as $stack )
-					{
-						$stack->push( $node );
-						$newWays[] = $stack;
+				if( 0 !== count( $ways ) ){
+					foreach( $ways as $newStack ){
+						$newStack->push( $node );
+						$newWays[] = $newStack;
 					}
-					$hasnodeSet[] = $node;
+					$hadNodes[] = $node;
 					$ways = $newWays;
 				}
 			}
@@ -465,17 +463,17 @@ class Weighted
 	 *	@param		array			$hadNodes	Already visited Node.
 	 *	@return		bool
 	 */
-	public function isPath( $source, $target, $hadNodes = array() )
+	public function isPath( $source, $target, array $hadNodes = array() ): bool
 	{
 		if( $this->isEdge( $source, $target ) )
-			return true;
+			return TRUE;
 		$nodes = $this->getTargetNodes( $source );
 		$hadNodes[] = $source->getNodeName();
 		foreach( $nodes as $node )
-			if( !in_array( $node->getNodeName(), $hadNodes ) )
+			if( !in_array( $node->getNodeName(), $hadNodes, TRUE ) )
 				if( $this->isPath( $node, $target, $hadNodes ) )
-					return true;
-		return false;
+					return TRUE;
+		return FALSE;
 	}
 
 	/**
@@ -483,19 +481,15 @@ class Weighted
 	 *	@access		public
 	 *	@return		bool
 	 */
-	public function isWood()
+	public function isForrest(): bool
 	{
-		if( !$this->hasCycle() )
-		{
-			$nodes = $this->getNodes();
-			foreach( $nodes as $targetSource )
-				foreach( $nodes as $source )
-					if( $source != $targetSource )
-						if( $this->getEntranceGrade( $source, $targetSource ) > 1 )
-							return false;
-			return true;
-		}
-		else return false;
+		if( $this->hasCycle() )
+			return TRUE;
+		$nodes = $this->getNodes();
+		foreach( $nodes as $node )
+			if( 0 === $this->getEntranceGrade( $node ) )
+				return FALSE;
+		return TRUE;
 	}
 
 	/**
@@ -638,35 +632,6 @@ class Weighted
 	}
 
 	/**
-	 *	Returns all nodes and edges of this graph as an associative file matrix.
-	 *	@access		public
-	 *	@param		string	$filename		URI of File Matrix to write
-	 *	@return		AssocFileMatrix
-	 *	@todo		rebuild for KeyMatrix / MatrixWriter
-	 */
-	public function toMatrix(  $filename = false )
-	{
-		if( $filename) $m = new AssocFileMatrix( $filename );
-		else $m = new AssocMatrix();
-
-		$nodes = $this->getNodes();
-		foreach( $nodes as $source )
-		{
-			echo $source->getNodeName()."<br>";
-			foreach( $nodes as $target )
-			{
-				if( $this->isEdge($source, $target ) || $this->isEdge($target, $source ) )
-				{
-					$value = $this->getEdgeValue( $source, $target );
-				}
-				else $value = 0;
-				$m->addValueAssoc( $source->getNodeName(), $target->getNodeName(), $value );
-			}
-		}
-		return $m;
-	}
-
-	/**
 	 *	Returns all nodes and edges of this graph as HTML-table.
 	 *	@access		public
 	 *	@param		bool		$showNull		flag: show Zero
@@ -721,7 +686,7 @@ class Weighted
 		array_push($queue, $source );
 		foreach( $this->getSourceNodes( $source) as $node )
 		{
-			if( !in_array( $node->getNodeName(), $hadNodes ) )
+			if( !in_array( $node->getNodeName(), $hadNodes, TRUE ) )
 			{
 				$hadNodes[] = $node->getNodeName();
 				$nextnodeSet[] = $node;
@@ -729,7 +694,7 @@ class Weighted
 		}
 		foreach( $this->getTargetNodes( $source) as $node )
 		{
-			if( !in_array( $node->getNodeName(), $hadNodes ) )
+			if( !in_array( $node->getNodeName(), $hadNodes, TRUE ) )
 			{
 				$hadNodes[] = $node->getNodeName();
 				$queue = $this->traverseDeepth( $node, $queue, $hadNodes );

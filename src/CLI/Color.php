@@ -40,7 +40,7 @@ class Color
 		'success'		=> array( 'white', 'green' ),
 	);
 
-	public function applyClass( $string, $class )
+	public function applyClass( string $string, string $class ): string
 	{
 		if( isset( static::$classes[$class] ) ){
 			$colors	= static::$classes[$class];
@@ -49,75 +49,80 @@ class Color
 		return $string;
 	}
 
-	public function asError( $string )
+	public function asError( $string ): string
 	{
 		return $this->applyClass( $string, 'error' );
 	}
 
-	public function asWarning( $string )
+	public function asWarning( $string ): string
 	{
 		return $this->applyClass( $string, 'warning' );
 	}
 
-	public function asInfo( $string )
+	public function asInfo( $string ): string
 	{
 		return $this->applyClass( $string, 'info' );
 	}
 
-	public function asSuccess( $string )
+	public function asSuccess( $string ): string
 	{
 		return $this->applyClass( $string, 'success' );
 	}
 
-	public function bold( $string )
+	public function bold( $string ): string
 	{
 		return "\033[1m".$string."\033[0m";
 	}
 
-	public function light( $string )
+	public function light( $string ): string
 	{
 		return "\033[2m".$string."\033[0m";
 	}
 
-	public function italic( $string )
+	public function italic( $string ): string
 	{
 		return "\033[3m".$string."\033[0m";
 	}
 
-	public function underscore( $string )
+	public function underscore( $string ): string
 	{
 		return "\033[4m".$string."\033[0m";
 	}
 
 	// Returns colored string
-	public function colorize( $string, $foregroundColor = NULL, $backgroundColor = NULL )
+	public function colorize( string $string, string $foregroundColor = NULL, string $backgroundColor = NULL ): string
 	{
 		$reset			= "\033[0m";
 		$fgColor		= '';
 		$bgColor		= '';
-		//  check if given foreground color is valid
-		if( isset( static::$foregroundColors[$foregroundColor] ) )
-			//  set foreground color code
-			$fgColor	= "\033[".static::$foregroundColors[$foregroundColor]."m";
-		//  check if given background color is valid
-		if( isset( static::$backgroundColors[$backgroundColor] ) )
-			//  set background color code
-			$bgColor	= "\033[".static::$backgroundColors[$backgroundColor]."m";
+
+		if( NULL !== $foregroundColor && 0 !== strlen( trim( $foregroundColor ) ) )
+			//  check if given foreground color is valid
+			if( isset( static::$foregroundColors[$foregroundColor] ) )
+				//  set foreground color code
+				$fgColor	= "\033[".static::$foregroundColors[$foregroundColor]."m";
+
+		if( NULL !== $backgroundColor && 0 !== strlen( trim( $backgroundColor ) ) )
+			//  check if given background color is valid
+			if( isset( static::$backgroundColors[$backgroundColor] ) )
+				//  set background color code
+				$bgColor	= "\033[".static::$backgroundColors[$backgroundColor]."m";
+
 		//  continue colors after resets in string
 		$string			= str_replace( $reset, $reset.$fgColor.$bgColor, $string );
 		//  add string and end coloring
 		return $fgColor.$bgColor.$string.$reset;
 	}
 
-	public function colorize256( $string, $foregroundColor = NULL, $backgroundColor = NULL )
+	public function colorize256( string $string, string $foregroundColor = NULL, string $backgroundColor = NULL ): string
 	{
 		$reset			= "\033[0m";
 		$fgColor		= '';
 		$bgColor		= '';
-		if( !is_null( $foregroundColor ) )
+		if( NULL !== $foregroundColor && 0 !== strlen( trim( $foregroundColor ) ) )
 			//  set foreground color code
 			$fgColor	= "\033[38;5;".$foregroundColor."m";
-		if( !is_null( $backgroundColor ) )
+		if( NULL !== $backgroundColor && 0 !== strlen( trim( $backgroundColor ) ) )
 			//  set background color code
 			$bgColor	= "\033[48;5;".$backgroundColor."m";
 		//  continue colors after resets in string
@@ -127,13 +132,13 @@ class Color
 	}
 
 	// Returns all foreground color names
-	public function getForegroundColors()
+	public function getForegroundColors(): array
 	{
 		return array_keys( static::$foregroundColors );
 	}
 
 	// Returns all background color names
-	public function getBackgroundColors()
+	public function getBackgroundColors(): array
 	{
 		return array_keys( static::$backgroundColors );
 	}
