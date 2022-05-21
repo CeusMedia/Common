@@ -527,13 +527,14 @@ function dev( $content, $force = FALSE, $flagKey = 'CM_SHOW_DEV' )
 }
 
 /**
- *	Prints out any variable with print_r in xmp
+ *	Prints out any variable with print_r in xmp.
+ *  Old function name "dump" has been rename in order to use Rector.
  *	@access		public
  *	@param		mixed		$variable	Variable to print dump of
  *	@param		boolean		$return		Flag: Return output instead of printing it
  *	@return		void
  */
-function dump( $variable, $return = FALSE )
+function print_rx( $variable, $return = FALSE )
 {
 	ob_start();
 	print_r( $variable );

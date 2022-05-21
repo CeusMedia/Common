@@ -1,4 +1,7 @@
 <?php
+/**
+ *	@deorecated use make dev-test-unit instead!
+ */
 require_once __DIR__.'/Library.php';
 class Go_UnitTester
 {

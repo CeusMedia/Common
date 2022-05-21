@@ -71,7 +71,7 @@ class FS_File_Writer
 			throw new InvalidArgumentException( ucFirst( gettype( $string ) ).' given instead of string' );
 		if( !file_exists( $this->fileName ) )
 			$this->create();
-		if( !$this->isWritable( $this->fileName ) )
+		if( !$this->isWritable() )
 			throw new RuntimeException( 'File "'.$this->fileName.'" is not writable' );
 		return error_log( $string, 3, $this->fileName );
 	}
@@ -168,7 +168,7 @@ class FS_File_Writer
 	 *	Sets Group of current File.
 	 *	@access		public
 	 *	@param		string		$groupName		OS Group Name of new File Owner
-	 *	@return		bool
+	 *	@return		void
 	 */
 	public function setGroup( $groupName )
 	{
@@ -176,7 +176,7 @@ class FS_File_Writer
 			throw new InvalidArgumentException( 'No Group Name given.' );
 		if( !file_exists( $this->fileName ) )
 			throw new RuntimeException( 'File "'.$this->fileName.'" is not existing' );
-		if( !$this->isWritable( $this->fileName ) )
+		if( !$this->isWritable() )
 			throw new RuntimeException( 'File "'.$this->fileName.'" is not writable' );
 		if( !@chGrp( $this->fileName, $groupName ) )
 			throw new RuntimeException( 'Only a superuser can change file group' );
@@ -186,7 +186,7 @@ class FS_File_Writer
 	 *	Sets Owner of current File.
 	 *	@access		public
 	 *	@param		string		$userName		OS User Name of new File Owner
-	 *	@return		bool
+	 *	@return		void
 	 */
 	public function setOwner( $userName )
 	{
@@ -196,7 +196,7 @@ class FS_File_Writer
 			throw new RuntimeException( 'File "'.$this->fileName.'" is not existing' );
 #		if( !$this->isOwner() )
 #			throw new RuntimeException( 'File "'.$this->fileName.'" is not owned by current user' );
-		if( !$this->isWritable( $this->fileName ) )
+		if( !$this->isWritable() )
 			throw new RuntimeException( 'File "'.$this->fileName.'" is not writable' );
 		if( !@chOwn( $this->fileName, $userName ) )
 			throw new RuntimeException( 'Only a superuser can change file owner' );
@@ -247,7 +247,7 @@ class FS_File_Writer
 			throw new InvalidArgumentException( ucFirst( gettype( $string ) ).' given instead of string' );
 		if( !file_exists( $this->fileName ) )
 			$this->create();
-		if( !$this->isWritable( $this->fileName ) )
+		if( !$this->isWritable() )
 			throw new RuntimeException( 'File "'.$this->fileName.'" is not writable' );
 		$count	= file_put_contents( $this->fileName, $string );
 		if( $count != strlen( $string ) )

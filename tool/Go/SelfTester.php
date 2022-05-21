@@ -1,4 +1,7 @@
 <?php
+/**
+ *	@deorecated not needed once Go is gone
+ */
 require_once dirname( __FILE__ ).'/Library.php';
 class Go_SelfTester
 {

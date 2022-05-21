@@ -45,7 +45,7 @@ class Net_HTTP_Sniffer_MimeType
 	 *	@param		string	$default		Default Mime Types supported and allowed by the Application
 	 *	@return		string
 	 */
-	public static function getMimeType( $allowed, $default = false )
+	public static function getMimeType( $allowed, $default = FALSE )
 	{
 		if( !$default)
 			$default = $allowed[0];
@@ -56,18 +56,14 @@ class Net_HTTP_Sniffer_MimeType
 		$accepted	= preg_split( '/,\s*/', $accepted );
 		$curr_mime	= $default;
 		$curr_qual	= 0;
-		foreach( $accepted as $accept)
-		{
+		foreach( $accepted as $accept){
 			if( !preg_match ( $pattern, $accept, $matches ) )
 				continue;
 			$mime_code = explode ( '/', $matches[1] );
 			$mime_quality =  isset( $matches[3] ) ? (float) $matches[3] : 1.0;
-			while( count( $mime_code ) )
-			{
-				if( in_array( strtolower( join( '/', $mime_code ) ), $allowed ) )
-				{
-					if( $mime_quality > $curr_qual )
-					{
+			while( count( $mime_code ) ){
+				if( in_array( strtolower( join( '/', $mime_code ) ), $allowed ) ){
+					if( $mime_quality > $curr_qual ){
 						$curr_mime	= strtolower( join( '/', $mime_code ) );
 						$curr_qual	= $mime_quality;
 						break;

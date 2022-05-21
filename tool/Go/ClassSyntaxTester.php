@@ -1,4 +1,7 @@
 <?php
+/**
+ *	@deorecated use php test/syntax.php instead!
+ */
 require_once dirname( __FILE__ ).'/Library.php';
 class Go_ClassSyntaxTester
 {

@@ -1,13 +1,24 @@
 <?php
 declare( strict_types = 1 );
 
-class Test_Case extends \PHPUnit\Framework\TestCase{
-	static public $__config;
-	static public $__pathLib;
+use PHPUnit\Framework\TestCase;
+
+class Test_Case extends TestCase
+{
+	/**	@var		array		$_config */
+	protected static $_config;
+
+	/**	@var		string		$_pathLib */
+	protected static $_pathLib;
+
+	/**
+	 *	Constructor, sets interal library path and loads library config file.
+	 *	@return		void
+	 */
+	public function __construct()
+	{
+		parent::__construct();
+		self::$_pathLib	= realpath( dirname( __DIR__ ) ).'/';
+		self::$_config	= parse_ini_file( self::$_pathLib.'Common.ini', TRUE );
+	}
 }
-
-Test_Case::$__pathLib	= dirname( __DIR__  ).'/';
-Test_Case::$__config = parse_ini_file( Test_Case::$__pathLib.'/Common.ini', TRUE );
-class_exists( 'UI_DevOutput' );
-
-#error_reporting( error_reporting() || ~E_USER_DEPRECATED );

@@ -49,13 +49,17 @@ class FS_Folder_Lister
 {
 	/**	@var		string		$path				Path to Folder */
 	protected $path				= NULL;
-	/**	@var		string		$pattern			Regular Expression to match with File Name */
+
+	/**	@var		string|NULL	$pattern			Regular Expression to match with File Name */
 	protected $pattern			= NULL;
-	/**	@var		 bool		$showFiles			Flag: show Files */
+
+	/**	@var		boolean		$showFiles			Flag: show Files */
 	protected $showFiles		= TRUE;
-	/**	@var		 bool		$showFolders		Flag: show Folders */
+
+	/**	@var		boolean		$showFolders		Flag: show Folders */
 	protected $showFolders		= TRUE;
-	/**	@var		 bool		$stripDotEntries	Flag: strip Files and Folder with leading Dot */
+
+	/**	@var		boolean		$stripDotEntries	Flag: strip Files and Folder with leading Dot */
 	protected $stripDotEntries	= TRUE;
 
 	/**
@@ -64,7 +68,7 @@ class FS_Folder_Lister
 	 *	@param		string		$path				Path to Folder
 	 *	@return		void
 	 */
-	public function __construct( $path )
+	public function __construct( string $path )
 	{
 		$this->path	= $path;
 	}
@@ -77,10 +81,11 @@ class FS_Folder_Lister
 	 *	@param		string		$pattern			RegEx Pattern to match with File Name
 	 *	@return		FilterIterator
 	 */
-	public static function getFileList( $path, $pattern = NULL )
+	public static function getFileList( string $path, string $pattern = NULL ): FilterIterator
 	{
 		$index	= new FS_Folder_Lister( $path );
-		$index->setPattern( $pattern );
+		if( $pattern !== NULL )
+			$index->setPattern( $pattern );
 		$index->showFiles( TRUE );
 		$index->showFolders( FALSE );
 		return $index->getList();
@@ -91,14 +96,15 @@ class FS_Folder_Lister
 	 *	@access		public
 	 *	@static
 	 *	@param		string		$path				Path to Folder
-	 *	@param		string		$pattern			RegEx Pattern to match with Folder Name
-	 *	@param		bool		$stripDotEntries	Flag: strip Files and Folders starting with a Dot
+	 *	@param		string|NULL	$pattern			RegEx Pattern to match with Folder Name
+	 *	@param		boolean		$stripDotEntries	Flag: strip Files and Folders starting with a Dot
 	 *	@return		FilterIterator
 	 */
-	public static function getFolderList( $path, $pattern = NULL, $stripDotEntries = TRUE )
+	public static function getFolderList( string $path, ?string $pattern = NULL, bool $stripDotEntries = TRUE ): FilterIterator
 	{
 		$index	= new FS_Folder_Lister( $path );
-		$index->setPattern( $pattern );
+		if( $pattern !== NULL )
+			$index->setPattern( $pattern );
 		$index->showFiles( FALSE );
 		$index->showFolders( TRUE );
 		$index->stripDotEntries( $stripDotEntries );
@@ -110,7 +116,7 @@ class FS_Folder_Lister
 	 *	@access		public
 	 *	@return		FilterIterator
 	 */
-	public function getList()
+	public function getList(): FilterIterator
 	{
 		if( $this->pattern )
 			return new FS_Folder_RegexFilter(
@@ -133,14 +139,15 @@ class FS_Folder_Lister
 	 *	@access		public
 	 *	@static
 	 *	@param		string		$path				Path to Folder
-	 *	@param		string		$pattern			RegEx Pattern to match with Entry Name
-	 *	@param		bool		$stripDotEntries	Flag: strip Files and Folders starting with a Dot
+	 *	@param		string|NULL	$pattern			RegEx Pattern to match with Entry Name
+	 *	@param		boolean		$stripDotEntries	Flag: strip Files and Folders starting with a Dot
 	 *	@return		FilterIterator
 	 */
-	public static function getMixedList( $path, $pattern = NULL, $stripDotEntries = TRUE )
+	public static function getMixedList( string $path, ?string $pattern = NULL, bool $stripDotEntries = TRUE ): FilterIterator
 	{
 		$index	= new FS_Folder_Lister( $path );
-		$index->setPattern( $pattern );
+		if( $pattern !== NULL )
+			$index->setPattern( $pattern );
 		$index->showFiles( TRUE );
 		$index->showFolders( TRUE );
 		$index->stripDotEntries( $stripDotEntries );
@@ -153,20 +160,17 @@ class FS_Folder_Lister
 	 *	Caution! Flag 'showFiles' needs to be set to TRUE.
 	 *	@access		public
 	 *	@param		array		$extensions			List of allowed File Extensions.
-	 *	@return		void
+	 *	@return		self
 	 */
-	public function setExtensions( $extensions = array() )
+	public function setExtensions( array $extensions = array() ): self
 	{
-		if( !is_array( $extensions ) )
-			throw new InvalidArgumentException( 'Extensions must be given as Array.' );
-
 		$pattern	= "";
-		if( count( $extensions ) )
-		{
-			$extensions	= implode( "|", array_values( $extensions ) );
+		if( count( $extensions ) !== 0 ){
+			$extensions	= join( '|', array_values( $extensions ) );
 			$pattern	= '@\.'.$extensions.'$@i';
 		}
 		$this->pattern	= $pattern;
+		return $this;
 	}
 
 	/**
@@ -174,43 +178,47 @@ class FS_Folder_Lister
 	 *	Caution! Method overwrites Extension Filter if already set.
 	 *	@access		public
 	 *	@param		string		$pattern			RegEx Pattern for allowed Entries, eg. '@^A@' for all Entries starting with an A.
-	 *	@return		void
+	 *	@return		self
 	 */
-	public function setPattern( $pattern )
+	public function setPattern( string $pattern ): self
 	{
 		$this->pattern	= $pattern;
+		return $this;
 	}
 
 	/**
 	 *	Sets whether Files should be listed.
 	 *	@access		public
-	 *	@param		bool		$flag				Flag: show Files
-	 *	@return		void
+	 *	@param		boolean		$flag				Flag: show Files, default: yes
+	 *	@return		self
 	 */
-	public function showFiles( $flag )
+	public function showFiles( bool $flag = TRUE ): self
 	{
 		$this->showFiles	= (bool) $flag;
+		return $this;
 	}
 
 	/**
 	 *	Sets whether Folders should be listed.
 	 *	@access		public
-	 *	@param		bool		$flag				Flag: show Folders
-	 *	@return		void
+	 *	@param		boolean		$flag				Flag: show Folders, default: yes
+	 *	@return		self
 	 */
-	public function showFolders( $flag )
+	public function showFolders( bool $flag = TRUE ): self
 	{
 		$this->showFolders	= (bool) $flag;
+		return $this;
 	}
 
 	/**
 	 *	Sets whether Files and Folders starting with a Dot should be stripped from the List.
 	 *	@access		public
-	 *	@param		bool		$flag			Flag: strip Files and Folders starting with a Dot
-	 *	@return		void
+	 *	@param		boolean		$flag			Flag: strip Files and Folders starting with a Dot, default: yes
+	 *	@return		self
 	 */
-	public function stripDotEntries( $flag )
+	public function stripDotEntries( bool $flag = TRUE ): self
 	{
 		$this->stripDotEntries	= (bool) $flag;
+		return $this;
 	}
 }

@@ -40,6 +40,7 @@ class Net_HTTP_Sniffer_OS
 {
 	/**	@var	string		$system			Operating System */
 	protected $system		= "";
+
 	/**	@var	string		$version		Version of Operating System */
 	protected $version		= "";
 
@@ -60,7 +61,10 @@ class Net_HTTP_Sniffer_OS
 	 */
 	public function getOS()
 	{
-		return array( "system" => $this->system, "version" => $this->version );
+		return [
+			'system'	=> $this->system,
+			'version'	=> $this->version,
+		];
 	}
 
 	/**
@@ -91,79 +95,72 @@ class Net_HTTP_Sniffer_OS
 	protected function identifySystem()
 	{
 		$ua = getEnv( 'HTTP_USER_AGENT' );
-		if( eregi( "win", $ua ) )
-		{
+		if( preg_match( "~win~i", $ua ) ){
 			$this->system = "Windows";
-			if( (eregi( "Windows 95", $ua ) ) || ( eregi( "Win95", $ua ) )) $this->version = "95";
-			elseif( eregi( "Windows ME", $ua) || ( eregi( "Win 9x 4.90", $ua ) )) $this->version = "ME";
-			elseif( ( eregi( "Windows 98", $ua ) ) || ( eregi( "Win98", $ua ) )) $this->version = "98";
-			elseif( ( eregi( "Windows NT 5.0", $ua ) ) || ( eregi( "WinNT5.0", $ua ) ) || ( eregi( "Windows 2000", $ua ) ) || ( eregi( "Win2000", $ua ) ) ) $this->version = "2000";
-			elseif( ( eregi( "Windows NT 5.1", $ua ) ) || ( eregi( "WinNT5.1", $ua ) ) || ( eregi( "Windows XP", $ua ) ) ) $this->version = "XP";
-			elseif( ( eregi( "Windows NT 5.2", $ua ) ) || ( eregi( "WinNT5.2", $ua ) ) ) $this->version = ".NET 2003";
-			elseif( ( eregi( "Windows NT 6.0", $ua ) ) || ( eregi( "WinNT6.0", $ua ) ) ) $this->version = "Codename: Longhorn";
-			elseif( eregi( "Windows CE", $ua ) ) $this->version = "CE";
-			elseif( eregi( "Win3.11", $ua ) ) $this->version = "3.11";
-			elseif( eregi( "Win3.1", $ua ) ) $this->version = "3.1";
-			elseif( ( eregi( "Windows NT", $ua ) ) || ( eregi( "WinNT", $ua ) )) $this->version = "NT";
+			if( (preg_match( "~Windows 95~i", $ua ) ) || ( preg_match( "~Win95~i", $ua ) )) $this->version = "95";
+			elseif( preg_match( "~Windows ME~i", $ua) || ( preg_match( "~Win 9x 4.90~i", $ua ) )) $this->version = "ME";
+			elseif( ( preg_match( "~Windows 98~i", $ua ) ) || ( preg_match( "~Win98~i", $ua ) )) $this->version = "98";
+			elseif( ( preg_match( "~Windows NT 5.0~i", $ua ) ) || ( preg_match( "~WinNT5.0~i", $ua ) ) || ( preg_match( "~Windows 2000~i", $ua ) ) || ( preg_match( "~Win2000~i", $ua ) ) ) $this->version = "2000";
+			elseif( ( preg_match( "~Windows NT 5.1~i", $ua ) ) || ( preg_match( "~WinNT5.1~i", $ua ) ) || ( preg_match( "~Windows XP~i", $ua ) ) ) $this->version = "XP";
+			elseif( ( preg_match( "~Windows NT 5.2~i", $ua ) ) || ( preg_match( "~WinNT5.2~i", $ua ) ) ) $this->version = ".NET 2003";
+			elseif( ( preg_match( "~Windows NT 6.0~i", $ua ) ) || ( preg_match( "~WinNT6.0~i", $ua ) ) ) $this->version = "Codename: Longhorn";
+			elseif( preg_match( "~Windows CE~i", $ua ) ) $this->version = "CE";
+			elseif( preg_match( "~Win3.11~i", $ua ) ) $this->version = "3.11";
+			elseif( preg_match( "~Win3.1~i", $ua ) ) $this->version = "3.1";
+			elseif( ( preg_match( "~Windows NT~i", $ua ) ) || ( preg_match( "~WinNT~i", $ua ) )) $this->version = "NT";
 		}
-		elseif( eregi( "lindows", $ua ) )
+		elseif( preg_match( "~lindows~i", $ua ) )
 			$this->system = "LindowsOS";
-		elseif( eregi( "mac", $ua ) )
-		{
+		elseif( preg_match( "~mac~i", $ua ) ){
 			$this->system = "MacIntosh";
-			if( (eregi( "Mac OS X", $ua ) ) || ( eregi( "Mac 10", $ua ) ) ) $this->version = "OS X";
-			elseif( (eregi( "PowerPC", $ua ) ) || ( eregi( "PPC", $ua ) ) ) $this->version = "PPC";
-			elseif( (eregi( "68000", $ua ) ) || ( eregi( "68k", $ua ) ) ) $this->version = "68K";
+			if( (preg_match( "~Mac OS X~i", $ua ) ) || ( preg_match( "~Mac 10~i", $ua ) ) ) $this->version = "OS X";
+			elseif( (preg_match( "~PowerPC~i", $ua ) ) || ( preg_match( "~PPC~i", $ua ) ) ) $this->version = "PPC";
+			elseif( (preg_match( "~68000~i", $ua ) ) || ( preg_match( "~68k~i", $ua ) ) ) $this->version = "68K";
 		}
-		elseif( eregi( "linux", $ua ) )
-		{
+		elseif( preg_match( "~linux~i", $ua ) ){
 			$this->system = "Linux";
-			if( eregi( "i686", $ua ) )			$this->version = "i686";
-			elseif( eregi( "i586", $ua ) )		$this->version = "i586";
-			elseif( eregi( "i486", $ua ) )		$this->version = "i486";
-			elseif( eregi( "i386", $ua ) )		$this->version = "i386";
-			elseif( eregi( "ppc", $ua ) )		$this->version = "ppc";
+			if( preg_match( "~i686~i", $ua ) )			$this->version = "i686";
+			elseif( preg_match( "~i586~i", $ua ) )		$this->version = "i586";
+			elseif( preg_match( "~i486~i", $ua ) )		$this->version = "i486";
+			elseif( preg_match( "~i386~i", $ua ) )		$this->version = "i386";
+			elseif( preg_match( "~ppc~i", $ua ) )		$this->version = "ppc";
 		}
-		elseif( eregi( "freebsd", $ua ) )
-		{
+		elseif( preg_match( "~freebsd~i", $ua ) ){
 			$this->system = "FreeBSD";
-			if( eregi( "i686", $ua ) )			$this->version = "i686";
-			elseif( eregi( "i586", $ua ) )		$this->version = "i586";
-			elseif( eregi( "i486", $ua ) )		$this->version = "i486";
-			elseif( eregi( "i386", $ua ) )		$this->version = "i386";
+			if( preg_match( "~i686~i", $ua ) )			$this->version = "i686";
+			elseif( preg_match( "~i586~i", $ua ) )		$this->version = "i586";
+			elseif( preg_match( "~i486~i", $ua ) )		$this->version = "i486";
+			elseif( preg_match( "~i386~i", $ua ) )		$this->version = "i386";
 		}
-		elseif( eregi( "netbsd", $ua ) )
-		{
+		elseif( preg_match( "~netbsd~i", $ua ) ){
 			$this->system = "NetBSD";
-			if( eregi( "i686", $ua ) )			$this->version = "i686";
-			elseif( eregi( "i586", $ua ) )		$this->version = "i586";
-			elseif( eregi( "i486", $ua ) )		$this->version = "i486";
-			elseif( eregi( "i386", $ua ) )		$this->version = "i386";
+			if( preg_match( "~i686~i", $ua ) )			$this->version = "i686";
+			elseif( preg_match( "~i586~i", $ua ) )		$this->version = "i586";
+			elseif( preg_match( "~i486~i", $ua ) )		$this->version = "i486";
+			elseif( preg_match( "~i386~i", $ua ) )		$this->version = "i386";
 		}
-		elseif( eregi( "os/2", $ua ) )
-		{
+		elseif( preg_match( "~os/2~i", $ua ) ){
 			$this->system = "OS/2";
-			if( eregi( "Warp 4.5", $ua ) )		$this->version = "Warp 4.5";
-			elseif( eregi( "Warp 4", $ua ) )	$this->version = "Warp 4";
+			if( preg_match( "~Warp 4.5~i", $ua ) )		$this->version = "Warp 4.5";
+			elseif( preg_match( "~Warp 4~i", $ua ) )	$this->version = "Warp 4";
 		}
-		elseif( eregi( "qnx", $ua ) )
-		{
+		elseif( preg_match( "~qnx~i", $ua ) ){
 			$this->system = "QNX";
-			if( eregi( "photon", $ua ) ) $this->version = "Photon";
+			if( preg_match( "~photon~i", $ua ) ) $this->version = "Photon";
 		}
-		elseif( eregi( "symbian", $ua ) )		$this->system = "Symbian";
-		elseif( eregi( "sunos", $ua ) )			$this->system = "SunOS";
-		elseif( eregi( "hp-ux", $ua ) )			$this->system = "HP-UX";
-		elseif( eregi( "osf1", $ua ) )			$this->system = "OSF1";
-		elseif( eregi( "irix", $ua ) )			$this->system = "IRIX";
-		elseif( eregi( "amiga", $ua ) )			$this->system = "Amiga";
-		elseif( eregi( "liberate", $ua ) )		$this->system = "Liberate";
-		elseif( eregi( "dreamcast", $ua ) )		$this->system = "Sega Dreamcast";
-		elseif( eregi( "palm", $ua ) )			$this->system = "Palm";
-		elseif( eregi( "powertv", $ua ) )		$this->system = "PowerTV";
-		elseif( eregi( "prodigy", $ua ) )		$this->system = "Prodigy";
-		elseif( eregi( "unix", $ua ) )			$this->system = "Unix";
-		elseif( eregi( "webtv", $ua ) )			$this->system = "WebTV";
-		elseif( eregi( "sie-cx35", $ua ) )		$this->system = "Siemens CX35";
+		elseif( preg_match( "~symbian~i", $ua ) )		$this->system = "Symbian";
+		elseif( preg_match( "~sunos~i", $ua ) )			$this->system = "SunOS";
+		elseif( preg_match( "~hp-ux~i", $ua ) )			$this->system = "HP-UX";
+		elseif( preg_match( "~osf1~i", $ua ) )			$this->system = "OSF1";
+		elseif( preg_match( "~irix~i", $ua ) )			$this->system = "IRIX";
+		elseif( preg_match( "~amiga~i", $ua ) )			$this->system = "Amiga";
+		elseif( preg_match( "~liberate~i", $ua ) )		$this->system = "Liberate";
+		elseif( preg_match( "~dreamcast~i", $ua ) )		$this->system = "Sega Dreamcast";
+		elseif( preg_match( "~palm~i", $ua ) )			$this->system = "Palm";
+		elseif( preg_match( "~powertv~i", $ua ) )		$this->system = "PowerTV";
+		elseif( preg_match( "~prodigy~i", $ua ) )		$this->system = "Prodigy";
+		elseif( preg_match( "~unix~i", $ua ) )			$this->system = "Unix";
+		elseif( preg_match( "~webtv~i", $ua ) )			$this->system = "WebTV";
+		elseif( preg_match( "~sie-cx35~i", $ua ) )		$this->system = "Siemens CX35";
 	}
 }

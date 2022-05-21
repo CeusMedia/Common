@@ -150,7 +150,7 @@ class Net_HTTP_Sniffer_Client
 	 *	@access		public
 	 *	@return		bool
 	 */
-	public function isRobot()
+	public function isRobot(): bool
 	{
 		return $this->browser->isRobot();
 	}
@@ -160,7 +160,7 @@ class Net_HTTP_Sniffer_Client
 	 *	@access		public
 	 *	@return		bool
 	 */
-	public function isBrowser()
+	public function isBrowser(): bool
 	{
 		return $this->browser->isBrowser();
 	}

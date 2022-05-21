@@ -48,11 +48,14 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.8.3.5
  */
-class Net_API_Premailer {
-
+class Net_API_Premailer
+{
 	const ENDPOINT = 'http://premailer.dialect.ca/api/0.1/documents';
 
 	protected $cache;
+
+	protected $response;
+
 	static public $options = array(
 		//  string  - Which document handler to use (hpricot (default) or nokigiri)
 		'adaptor'			=> 'hpricot',
@@ -72,12 +75,14 @@ class Net_API_Premailer {
 		'remove_comments'	=> false
 	);
 
-	public function __construct( $cache = NULL ){
+	public function __construct( $cache = NULL )
+	{
 		if( $cache )
 			$this->setCache( $cache );
 	}
 
-	protected function convert( $params ){
+	protected function convert( $params )
+	{
 		if( !$params['base_url'] )
 			unset( $params['base_url'] );
 		if( !$params['link_query_string'] )
@@ -124,7 +129,8 @@ class Net_API_Premailer {
 	 *	@param		array		$params		Conversion parameters
 	 *	@return		object		Response object
 	 */
-	public function convertFromUrl( $url, $params = array() ){
+	public function convertFromUrl( $url, $params = array() )
+	{
 		$params = array_merge( self::$options, $params );
 		$params['url']	= $url;
 		$this->response	= $this->convert( $params );
@@ -139,7 +145,8 @@ class Net_API_Premailer {
 	 *	@param		array		$params		Conversion parameters
 	 *	@return		object		Response object
 	 */
-	public function convertFromHtml( $html, $params = array() ){
+	public function convertFromHtml( $html, $params = array() )
+	{
 		$params = array_merge( self::$options, $params );
 		$params['html']	= $html;
 		$this->response	= $this->convert( $params );
@@ -151,7 +158,8 @@ class Net_API_Premailer {
 	 *	@access		public
 	 *	@return		string		Converted HTML
 	 */
-	public function getHtml(){
+	public function getHtml()
+	{
 		if( !$this->response )
 			throw new RuntimeException( 'No conversion started' );
 		$cacheKey	= 'premailer_'.$this->response->requestId.'.html';
@@ -167,7 +175,8 @@ class Net_API_Premailer {
 	 *	@access		public
 	 *	@return		string		Converted HTML
 	 */
-	public function getPlainText(){
+	public function getPlainText()
+	{
 		if( !$this->response )
 			throw new RuntimeException( 'No conversion startet' );
 		$cacheKey	= 'premailer_'.$this->response->requestId.'.text';
@@ -178,7 +187,8 @@ class Net_API_Premailer {
 		return $text;
 	}
 
-	public function setCache( $cache ){
+	public function setCache( $cache )
+	{
 		$this->cache	= $cache;
 	}
 }

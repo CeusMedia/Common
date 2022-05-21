@@ -38,11 +38,12 @@
  *  @see            http://dyn.com/support/developers/api/
  *  @since          0.7.6
  */
-class Net_API_Dyn{
-
+class Net_API_Dyn
+{
 	protected $cacheFile	= NULL;
 	protected $lastIp;
 	protected $lastCheck	= 0;
+	protected $reader;
 
 	/**
 	 *	Constructor.
@@ -50,7 +51,8 @@ class Net_API_Dyn{
 	 *	@param		string		$cacheFile		Name of cache file
 	 *	@return		void
 	 */
-	public function __construct( $cacheFile = NULL ){
+	public function __construct( $cacheFile = NULL )
+	{
 		if( is_string( $cacheFile ) ){
 			$this->cacheFile	= $cacheFile;
 			if( file_exists( $cacheFile ) ){
@@ -66,9 +68,10 @@ class Net_API_Dyn{
 	/**
 	 *	Returns external IP of this server identified by Dyn service.
 	 *	@access		public
-	 *	@return		string		IP address to be identified 
+	 *	@return		string		IP address to be identified
 	 */
-	public function getIp(){
+	public function getIp()
+	{
 		if( (int) $this->lastCheck > 0 && time() - $this->lastCheck < 10 * 60 )
 			return $this->lastIp;
 		$this->reader->setUrl( 'http://checkip.dyndns.org' );
@@ -85,7 +88,8 @@ class Net_API_Dyn{
 	 *	@param		array		$data			Map of IP and timestamp
 	 *	@return		integer		Number of bytes written to cache file
 	 */
-	protected function save( $data ){
+	protected function save( $data )
+	{
 		if( !$this->cacheFile )
 			return;
 		$last	= array(
@@ -105,7 +109,8 @@ class Net_API_Dyn{
 	 *	@param		string		$ip				Ip address to set for host
 	 *	@return		string		Update code string returned by Dyn service
 	 */
-	public function update( $username, $password, $host, $ip ){
+	public function update( $username, $password, $host, $ip )
+	{
 		if( (int) $this->lastCheck > 0 && time() - $this->lastCheck < 10 * 60 )
 			return "noop";
 		$url	= "http://%s:%s@members.dyndns.org/nic/update?hostname=%s&myip=%s&wildcard=NOCHG&mx=NOCHG&backmx=NOCHG";

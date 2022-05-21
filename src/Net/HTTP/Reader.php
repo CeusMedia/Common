@@ -238,7 +238,7 @@ class Net_HTTP_Reader
 	public function setUserAgent( $string )
 	{
 		if( empty( $string ) )
-			throw new InvaligArgumentException( 'Must be set' );
+			throw new InvalidArgumentException( 'Must be set' );
 		$this->curl->setOption( CURLOPT_USERAGENT, $string );
 	}
 

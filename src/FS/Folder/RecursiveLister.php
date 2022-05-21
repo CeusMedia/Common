@@ -53,7 +53,7 @@ class FS_Folder_RecursiveLister extends FS_Folder_Lister
 	 *	@access		public
 	 *	@return		FilterIterator
 	 */
-	public function getList()
+	public function getList(): FilterIterator
 	{
 		if( $this->pattern )
 			return new FS_Folder_RecursiveRegexFilter(
@@ -78,11 +78,12 @@ class FS_Folder_RecursiveLister extends FS_Folder_Lister
 	 *	@param		string		$path				Path to Folder
 	 *	@param		string		$pattern			RegEx Pattern to match with File Name
 	 *	@return		FilterIterator
-	 */	
-	public static function getFileList( $path, $pattern = NULL )
+	 */
+	public static function getFileList( string $path, ?string $pattern = NULL ): FilterIterator
 	{
 		$index	= new FS_Folder_RecursiveLister( $path );
-		$index->setPattern( $pattern );
+		if( $pattern !== NULL )
+			$index->setPattern( $pattern );
 		$index->showFiles( TRUE );
 		$index->showFolders( FALSE );
 		return $index->getList();
@@ -93,14 +94,15 @@ class FS_Folder_RecursiveLister extends FS_Folder_Lister
 	 *	@access		public
 	 *	@static
 	 *	@param		string		$path				Path to Folder
-	 *	@param		string		$pattern			RegEx Pattern to match with Folder Name
-	 *	@param		bool		$stripDotEntries	Flag: strip Files and Folders starting with a Dot
+	 *	@param		string|NULL	$pattern			RegEx Pattern to match with Folder Name
+	 *	@param		boolean		$stripDotEntries	Flag: strip Files and Folders starting with a Dot
 	 *	@return		FilterIterator
-	 */	
-	public static function getFolderList( $path, $pattern = NULL, $stripDotEntries = TRUE )
+	 */
+	public static function getFolderList( string $path, ?string $pattern = NULL, bool $stripDotEntries = TRUE ): FilterIterator
 	{
 		$index	= new FS_Folder_RecursiveLister( $path );
-		$index->setPattern( $pattern );
+		if( $pattern !== NULL )
+			$index->setPattern( $pattern );
 		$index->showFiles( FALSE );
 		$index->showFolders( TRUE );
 		$index->stripDotEntries( $stripDotEntries );
@@ -112,16 +114,18 @@ class FS_Folder_RecursiveLister extends FS_Folder_Lister
 	 *	@access		public
 	 *	@static
 	 *	@param		string		$path				Path to Folder
-	 *	@param		string		$pattern			RegEx Pattern to match with Entry Name
-	 *	@param		bool		$stripDotEntries	Flag: strip Files and Folders starting with a Dot
+	 *	@param		string|NULL	$pattern			RegEx Pattern to match with Entry Name
+	 *	@param		boolean		$stripDotEntries	Flag: strip Files and Folders starting with a Dot
 	 *	@return		FilterIterator
-	 */	
-	public static function getMixedList( $path, $pattern = NULL, $stripDotEntries = TRUE )
+	 */
+	public static function getMixedList( string $path, ?string $pattern = NULL, bool $stripDotEntries = TRUE ): FilterIterator
 	{
 		$index	= new FS_Folder_RecursiveLister( $path );
-		$index->setPattern( $pattern );
+		if( $pattern !== NULL )
+			$index->setPattern( $pattern );
 		$index->showFiles( TRUE );
 		$index->showFolders( TRUE );
 		$index->stripDotEntries( $stripDotEntries );
 		return $index->getList();
-	}}
+	}
+}

@@ -42,10 +42,20 @@ class ADT_URL
 
 	protected $parts;
 
-	public function __construct( string $url, string $defaultUrl = NULL )
+	/**
+	 *	Constructor.
+	 *
+	 *	@access		public
+	 *	@param		string			$url		URL string to represent
+	 *	@param		ADT_URL|string	$defaultUrl Underlaying base URL
+	 */
+	public function __construct( string $url, $defaultUrl = NULL )
 	{
-		if( !is_null( $defaultUrl ) )
+		if( !is_null( $defaultUrl ) ){
+			if( is_string( $defaultUrl ) )
+				$defaultUrl	= new self( $defaultUrl );
 			$this->setDefault( $defaultUrl );
+		}
 		if( 0 === strlen( trim( $url ) ) )
 			throw new InvalidArgumentException( 'No URL given' );
 		return $this->set( $url );
@@ -236,12 +246,8 @@ class ADT_URL
 		return $this;
 	}
 
-	public function setDefault( string $url ): self
+	public function setDefault( ADT_URL $url ): self
 	{
-		$this->defaultUrl	= NULL;
-		if( 0 === strlen( trim( $url ) ) )
-			return $this;
-
 		$this->defaultUrl	= $url;
 		return $this;
 	}
