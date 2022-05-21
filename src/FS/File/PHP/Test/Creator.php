@@ -136,7 +136,9 @@ class FS_File_PHP_Test_Creator
 				foreach( $exceptions as $exception )
 					$methods[]	= $exception;
 			}
-			if( $methodName == array_pop( array_slice( array_keys( $this->data['methods'] ), -1 ) ) )
+			$methodNames	= array_keys( $this->data['methods'] );
+			$methodNames	= array_slice( $methodNames, -1 );
+			if( $methodName == array_pop( $methodNames ) )
 			{
 				$pattern	= "@.*function ".$methodName."(.*)$@si";
 				$content	= file_get_contents( $this->classFile );
@@ -172,7 +174,7 @@ class FS_File_PHP_Test_Creator
 		$this->readPath();
 		$this->classFile	= "src/".$this->getPath( "/" ).".php";
 		$this->classPath	= $this->getPath( "." );
-		$this->targetFile	= "Test/".$this->getPath( "/" )."Test.php";
+		$this->targetFile	= "test/".$this->getPath( "/" )."Test.php";
 
 		if( file_exists( $this->targetFile ) && !$force )
 			throw new RuntimeException( 'Test Class for Class "'.$this->className.'" is already existing.' );

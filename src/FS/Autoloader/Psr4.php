@@ -21,18 +21,15 @@
  * as follows:
  *
  *      <?php
- // instantiate the loader
- * 
- *      $loader = new \Example\Psr4AutoloaderClass;
+ *      // instantiate the loader
+ *      $loader = new \FS_Autoloader_Psr4;
  *
- // register the autoloader
- * 
+ *      // register the autoloader
  *      $loader->register();
  *
- // register the base directories for the namespace prefix
- * 
+ *      // register the base directories for the namespace prefix
  *      $loader->addNamespace('Foo\Bar', '/path/to/packages/foo-bar/src');
- *      $loader->addNamespace('Foo\Bar', '/path/to/packages/foo-bar/tests');
+ *      $loader->addNamespace('Foo\Bar', '/path/to/packages/foo-bar/test');
  *
  * The following line would cause the autoloader to attempt to load the
  * \Foo\Bar\Qux\Quux class from /path/to/packages/foo-bar/src/Qux/Quux.php:
@@ -107,6 +104,9 @@ class FS_Autoloader_Psr4
      */
     public function loadClass($class)
     {
+        if (0 === count($this->prefixes))
+            return false;
+
         // the current namespace prefix
         $prefix = $class;
 
