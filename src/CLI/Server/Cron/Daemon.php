@@ -25,6 +25,10 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			20.01.2006
  */
+namespace CeusMedia\Common\CLI\Server\Cron;
+
+use CeusMedia\Common\FS\File\Log\Writer as LogWriter;
+
 /**
  *	Cron Server.
  *	@category		Library
@@ -37,7 +41,7 @@
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			20.01.2006
  */
-class CLI_Server_Cron_Daemon
+class Daemon
 {
 	/**	@var		string		$cronTab		Cron Tab File */
 	protected $cronTab;
@@ -54,7 +58,7 @@ class CLI_Server_Cron_Daemon
 	public function __construct( $cronTab, $logFile = "cron.log" )
 	{
 		$this->cronTab	= $cronTab;
-		$this->logFile	= new FS_File_Log_Writer( $logFile );
+		$this->logFile	= new LogWriter( $logFile );
 		ob_implicit_flush();
 		set_time_limit( 0 );
 	}
@@ -72,7 +76,7 @@ class CLI_Server_Cron_Daemon
 		{
 			if( $lastminute	!= date( "i", time() ) )
 			{
-				$cp	= new CLI_Server_Cron_Parser( $this->cronTab );
+				$cp	= new Parser( $this->cronTab );
 				$jobs	= $cp->getJobs();
 				foreach( $jobs as $job )
 				{

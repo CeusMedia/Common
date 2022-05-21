@@ -26,6 +26,11 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			05.05.2008
  */
+namespace CeusMedia\Common\CLI;
+
+use CeusMedia\Common\Alg\Time\Clock;
+use CeusMedia\Common\Alg\UnitFormater;
+
 /**
  *	Downloads a File from an URL while showing Progress in Console.
  *	@category		Library
@@ -40,7 +45,7 @@
  *	@since			05.05.2008
  *	@see			http://curl.haxx.se/libcurl/c/curl_easy_setopt.html
  */
-class CLI_Downloader
+class Downloader
 {
 	/**	@var		bool			$showFileName		Flag: show File Name */
 	public $redirected				= FALSE;
@@ -62,7 +67,7 @@ class CLI_Downloader
 	public $templateHeader			= "%s: %s\n";
 	/**	@var		string			$templateHeader		Template for Header Line */
 	public $templateRedirect		= "Redirected to \"%s\"\n";
-	/**	@var		Alg_Time_Clock	$clock				Clock Instance */
+	/**	@var		Clock			$clock				Clock Instance */
 	private $clock;
 
 	/**	@var		int				$fileSize			Length of File to download, extracted from Response Headers */
@@ -97,8 +102,8 @@ class CLI_Downloader
 		$this->redirected	= FALSE;
 
 		if( $savePath && !file_exists( $savePath ) )
-			if( !@mkdir( $savePath, 0777, TRUE ) )
-				throw new RuntimeException( 'Save path could not been created.' );
+			if( !@mkDir( $savePath, 0777, TRUE ) )
+				throw new \RuntimeException( 'Save path could not been created.' );
 
 		//  correct Path
 		$savePath	= $savePath ? preg_replace( "@([^/])$@", "\\1/", $savePath ) : "";
@@ -110,7 +115,7 @@ class CLI_Downloader
 		$fileName	= $info['basename'];
 		//  no File Name found in URL
 		if( !$fileName )
-			throw new RuntimeException( 'File Name could not be extracted.' );
+			throw new \RuntimeException( 'File Name could not be extracted.' );
 
 		//  store full File Name
 		$this->fileUri	= $savePath.$fileName;
@@ -121,16 +126,16 @@ class CLI_Downloader
 		{
 			//  force not set
 			if( !$force )
-				throw new RuntimeException( 'File "'.$this->fileUri.'" is already existing.' );
+				throw new \RuntimeException( 'File "'.$this->fileUri.'" is already existing.' );
 			//  remove File, because forced
 			if( !@unlink( $this->fileUri ) )
-				throw new RuntimeException( 'File "'.$this->fileUri.'" could not been cleared.' );
+				throw new \RuntimeException( 'File "'.$this->fileUri.'" could not been cleared.' );
 		}
 		//  Temp File exists
 		if( file_exists( $this->tempUri ) )
 			//  remove Temp File
 			if( !@unlink( $this->tempUri ) )
-				throw new RuntimeException( 'Temp File "'.$this->tempUri.'" could not been cleared.' );
+				throw new \RuntimeException( 'Temp File "'.$this->tempUri.'" could not been cleared.' );
 
 		//  show extraced File Name
 		if( $this->showFileName && $this->templateFileName )
@@ -138,7 +143,7 @@ class CLI_Downloader
 			printf( $this->templateFileName, $fileName );
 
 		//  start clock
-		$this->clock	= new Alg_Time_Clock;
+		$this->clock	= new Clock;
 		//  start cURL
 		$ch = curl_init();
 		//  set URL in cURL Handle
@@ -155,7 +160,7 @@ class CLI_Downloader
 		//  an Error occured
 		if( $error )
 			//  throw Exception with Error
-			throw new RuntimeException( $error, curl_errno( $ch ) );
+			throw new \RuntimeException( $error, curl_errno( $ch ) );
 
 		//  return Number of loaded Bytes
 		return $this->loadSize;
@@ -187,7 +192,7 @@ class CLI_Downloader
 			//  calculate Rate of Bytes per Second
 			$rate	= $this->loadSize / $time * 1000000;
 			//  format Rate
-			$rate	= Alg_UnitFormater::formatBytes( $rate, 1 )."/s";
+			$rate	= UnitFormater::formatBytes( $rate, 1 )."/s";
 			//  File Size is known
 			if( $this->fileSize )
 			{
@@ -196,14 +201,14 @@ class CLI_Downloader
 				//  fill Ratio with Spaces
 				$ratio	= str_pad( round( $ratio, 0 ), 3, " ", STR_PAD_LEFT );
 				//  format current Load Size
-				$size	= Alg_UnitFormater::formatBytes( $this->loadSize, 1 );
+				$size	= UnitFormater::formatBytes( $this->loadSize, 1 );
 				//  use Template
 				printf( $this->templateBodyRatio, $size, $rate, $ratio );
 			}
 			else
 			{
 				//  format current Load Size
-				$size	= Alg_UnitFormater::formatBytes( $this->loadSize, 1 );
+				$size	= UnitFormater::formatBytes( $this->loadSize, 1 );
 				//  use Template
 				printf( $this->templateBody, $size, $rate );
 			}
@@ -290,7 +295,7 @@ class CLI_Downloader
 				$this->redirected	= TRUE;
 				if( $this->templateRedirect )
 					printf( $this->templateRedirect, $content );
-				$loader	= new CLI_Downloader();
+				$loader	= new Downloader();
 				$loader->downloadUrl( $content, dirname( $this->fileUri ) );
 			}
 			//  Header is Content-Length

@@ -24,6 +24,8 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+namespace CeusMedia\Common\Alg\Text;
+
 /**
  *	Converter for Strings using different ways of Camel Case.
  *	@category		Library
@@ -33,7 +35,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class Alg_Text_CamelCase
+class CamelCase
 {
 	protected static $regExp	= '/^(.*)[\-\_ ](.*)$/';
 
@@ -54,7 +56,7 @@ class Alg_Text_CamelCase
 	static public function decode( string $string, string $delimiter = ' ' ): string
 	{
 		if( !function_exists( 'mb_substr' ) )
-			throw new RuntimeException( 'PHP module "mb" is not installed but needed' );
+			throw new \RuntimeException( 'PHP module "mb" is not installed but needed' );
 
 		$result	= '';
 		for( $i=0; $i<strlen( $string ); $i++ ){
@@ -94,12 +96,12 @@ class Alg_Text_CamelCase
 
 	static public function toPascalCase( string $string ): string
 	{
-		return Alg_Text_PascalCase::encode( static::decode( $string ) );
+		return PascalCase::encode( static::decode( $string ) );
 	}
 
 	static public function toSnakeCase( string $string ): string
 	{
-		return Alg_Text_SnakeCase::encode( static::decode( $string ) );
+		return SnakeCase::encode( static::decode( $string ) );
 	}
 
 	static public function validate( string $string ): bool

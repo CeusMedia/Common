@@ -1,5 +1,7 @@
 <?php
-class CLI_Dimensions
+namespace CeusMedia\Common\CLI;
+
+class Dimensions
 {
 	protected static $colors	= 0;
 	protected static $width		= 0;
@@ -78,4 +80,4 @@ class CLI_Dimensions
 		return self::$width;
 	}
 }
-class Size extends CLI_Dimensions{}
+class Size extends Dimensions{}

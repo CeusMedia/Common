@@ -1,6 +1,10 @@
 <?php
-class CLI_Question{
+namespace CeusMedia\Common\CLI;
 
+use CeusMedia\Common\CLI;
+
+class Question
+{
 	const TYPE_UNKNOWN			= 0;
 	const TYPE_BOOLEAN			= 1;
 	const TYPE_INTEGER			= 2;
@@ -149,14 +153,15 @@ class CLI_Question{
 		return TRUE;
 	}
 
-	protected function renderLabel(){
+	protected function renderLabel()
+	{
 		$message		= $this->message;
 		$options		= $this->options;
 		if( $this->type === self::TYPE_BOOLEAN ){
 			if( $this->strictOptions )
 				if( !is_null( $this->default ) )
 					if( !array_key_exists( $this->default, $this->options ) )
-						throw new RangeException( 'Default value is not within options' );
+						throw new \RangeException( 'Default value is not within options' );
 			$options	= array();
 			foreach( $this->options as $key => $value )
 				$options[]	= $key.':'.$value;
@@ -165,7 +170,7 @@ class CLI_Question{
 			if( $this->rangeFrom || $this->rangeTo ){
 				if( !is_null( $this->default ) )
 					if( $this->default < $this->rangeFrom || $this->default > $this->rangeTo )
-						throw new RangeException( 'Default value is not within set range' );
+						throw new \RangeException( 'Default value is not within set range' );
 				$options	= array( $this->rangeFrom.'-'.$this->rangeTo );
 			}
 		}

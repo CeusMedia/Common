@@ -1,5 +1,7 @@
 <?php
-abstract class FS_AbstractNode
+namespace CeusMedia\Common\FS;
+
+abstract class AbstractNode
 {
 	protected $pathName;
 

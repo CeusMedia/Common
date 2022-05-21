@@ -25,6 +25,8 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			14.05.2006
  */
+namespace CeusMedia\Common\ADT\JSON;
+
 /**
  *	JSON Implementation for building JSON Code.
  *	@category		Library
@@ -35,7 +37,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			14.05.2006
  */
-class ADT_JSON_Builder
+class Builder
 {
 	/**
 	 *	Encodes Data into a representative String.
@@ -46,7 +48,7 @@ class ADT_JSON_Builder
 	 */
 	public static function encode( $data )
 	{
-		$builder	= new ADT_JSON_Builder();
+		$builder	= new self();
 		return $builder->get( NULL, $data );
 	}
 
@@ -135,7 +137,7 @@ class ADT_JSON_Builder
 		elseif( is_null( $value ) )
 			$type	= 'null';
 		else
-			throw new InvalidArgumentException( 'Variable "'.$key.'" is not a supported Type.' );
+			throw new \InvalidArgumentException( 'Variable "'.$key.'" is not a supported Type.' );
 		return $type;
 	}
 
@@ -148,7 +150,7 @@ class ADT_JSON_Builder
 	 */
 	private static function isAssoc( $array )
 	{
-		krsort( $array, SORT_STRING );
+		krsort( $array, \SORT_STRING );
 		return !is_numeric( key( $array ) );
 	}
 

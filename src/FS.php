@@ -1,4 +1,6 @@
 <?php
+namespace CeusMedia\Common;
+
 class FS
 {
 	const TYPE_UNKNOWN	= 0;

@@ -25,6 +25,10 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.6
  */
+namespace CeusMedia\Common\CLI;
+
+use CeusMedia\Common\Alg\Text\Trimmer as TextTrimmer;
+
 /**
  *	Console Output.
  *
@@ -36,7 +40,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.6
  */
-class CLI_Output
+class Output
 {
 	protected $lastLine			= '';
 	protected $maxLineLength	= 0;
@@ -45,25 +49,27 @@ class CLI_Output
 	 *	Adds text to current line.
 	 *	@access		public
 	 *	@param		string		$string		Text to display
+	 *	@param		integer		$sleep		Seconds to sleep afterwards
 	 *	@return		self
 	 */
-	public function append( string $string = '' ): self
+	public function append( string $string = "", $sleep = 0 )
 	{
-		return $this->sameLine( trim( $this->lastLine ) . $string );
+		return $this->sameLine( trim( $this->lastLine ) . $string, $sleep );
 	}
 
 	/**
 	 *	Display text in new line.
 	 *	@access		public
 	 *	@param		string		$string		Text to display
+	 *	@param		integer		$sleep		Seconds to sleep afterwards
 	 *	@return		self
 	 */
-	public function newLine( string $string = '' ): self
+	public function newLine( string $string = '', $sleep = 0 )
 	{
 		if( !CLI::checkIsHeadless( FALSE ) ){
 			if( $this->maxLineLength )
 				//  trim string to <80 columns
-				$string		= Alg_Text_Trimmer::trimCentric( $string, $this->maxLineLength );
+				$string		= TextTrimmer::trimCentric( $string, $this->maxLineLength );
 			$this->lastLine	= $string;
 			print( "\n" . $string );
 		}
@@ -74,19 +80,22 @@ class CLI_Output
 	 *	Display text in current line.
 	 *	@access		public
 	 *	@param		string		$string		Text to display
+	 *	@param		integer		$sleep		Seconds to sleep afterwards
 	 *	@return		self
 	 */
-	public function sameLine( string $string = '' ): self
+	public function sameLine( string $string = '', $sleep = 0 ): self
 	{
 		if( !CLI::checkIsHeadless( FALSE ) ){
 			if( $this->maxLineLength )
 				//  trim string to <80 columns
-				$string		= Alg_Text_Trimmer::trimCentric( $string, $this->maxLineLength );
+				$string		= Trimmer::trimCentric( $string, $this->maxLineLength );
 			$spaces		= max( 0, strlen( $this->lastLine ) - strlen( $string ) );
 			$this->lastLine	= $string;
 			$fill		= str_repeat( ' ', $spaces );
 			print( "\r" . $string . $fill );
 		}
+		if( $sleep )
+			sleep( $sleep );
 		return $this;
 	}
 

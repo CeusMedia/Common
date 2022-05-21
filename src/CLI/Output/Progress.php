@@ -24,6 +24,11 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+namespace CeusMedia\Common\CLI\Output;
+
+use CeusMedia\Common\CLI\Dimensions;
+use CeusMedia\Common\CLI\Output;
+
 /**
  *	Console Output.
  *
@@ -63,9 +68,9 @@ class CLI_Output_Progress
 	public function __construct()
 	{
 		if( !CLI::checkIsHeadless( FALSE ) )
-			$this->width	= CLI_Dimensions::getWidth();
+			$this->width	= Dimensions::getWidth();
 		$this->width	= $this->width - 3;
-		$this->output	= new CLI_Output();
+		$this->output	= new Output();
 		$this->output->setMaxLineLength( $this->width );
 	}
 

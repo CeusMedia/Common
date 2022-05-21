@@ -24,6 +24,8 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+namespace CeusMedia\Common\UI;
+
 /**
  *	Output Methods for Developement.
  *	@category		Library
@@ -33,7 +35,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class UI_DevOutput
+class DevOutput
 {
 	public const CHANNEL_AUTO		= 'auto';
 	public const CHANNEL_HTML		= 'html';

@@ -25,6 +25,8 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.0
  */
+namespace CeusMedia\Common\ADT\JSON;
+
 /**
  *	JSON Parser.
  *	@category		Library
@@ -35,7 +37,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.0
  */
-class ADT_JSON_Parser
+class Parser
 {
 	const STATUS_EMPTY			= 0;
 	const STATUS_PARSED			= 1;
@@ -100,7 +102,7 @@ class ADT_JSON_Parser
 	 *	@param		string		$json			JSOn sting to parse
 	 *	@param		boolean		$asArray		Flag: read into an array
 	 *	@return		object|array
-	 *	@throws		RuntimeException			if parsing failed
+	 *	@throws		\RuntimeException			if parsing failed
 	 */
 	public function parse( string $json, bool $asArray = NULL )
 	{
@@ -113,7 +115,7 @@ class ADT_JSON_Parser
 				$this->getConstantFromCode( json_last_error() ),
 				json_last_error_msg()
 			) );
-			throw new RuntimeException( $message, json_last_error() );
+			throw new \RuntimeException( $message, json_last_error() );
 		}
 		$this->status	= static::STATUS_PARSED;
 		return $data;
@@ -121,6 +123,6 @@ class ADT_JSON_Parser
 
 	protected function getConstantFromCode( $code )
 	{
-		return ADT_Constant::getKeyByValue( 'JSON_ERROR_', $code );
+		return \ADT_Constant::getKeyByValue( 'JSON_ERROR_', $code );
 	}
 }

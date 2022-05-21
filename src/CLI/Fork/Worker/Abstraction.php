@@ -25,6 +25,10 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.6.8
  */
+namespace CeusMedia\Common\CLI\Fork\Worker;
+
+use RuntimeException;
+
 /**
  *	...
  *
@@ -36,7 +40,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.6.8
  */
-abstract class CLI_Fork_Worker_Abstract
+abstract class Abstraction
 {
 	protected $isWindows	= NULL;
 	/**

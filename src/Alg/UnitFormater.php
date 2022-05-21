@@ -25,6 +25,8 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			22.04.2008
  */
+namespace CeusMedia\Common\Alg;
+
 define( 'SIZE_BYTE', pow( 1024, 0 ) );
 define( 'SIZE_KILOBYTE', pow( 1024, 1 ) );
 define( 'SIZE_MEGABYTE', pow( 1024, 2 ) );
@@ -39,7 +41,7 @@ define( 'SIZE_GIGABYTE', pow( 1024, 3 ) );
  *	@link			https://github.com/CeusMedia/Common
  *	@since			18.10.2007
  */
-class Alg_UnitFormater
+class UnitFormater
 {
 	/**	@var		array		$unitBytes		List of Byte Units */
 	public static $unitBytes	= array(

@@ -26,6 +26,8 @@
  *	@since			13.04.2009
  *	@version		0.1
  */
+namespace CeusMedia\Common\ADT\Cache;
+
 /**
  *	Abstract Cache Store, can be used to implement a Data Cache.
  *	@category		Library
@@ -39,7 +41,7 @@
  *	@since			13.04.2009
  *	@version		0.1
  */
-abstract class ADT_Cache_Store implements ArrayAccess
+abstract class Store implements \ArrayAccess
 {
 	/**
 	 *	Returns a Value from Cache by its Key.

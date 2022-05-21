@@ -24,6 +24,8 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+namespace CeusMedia\Common\ADT\Collection;
+
 /**
  *	Stack Implementation based on an Array. LIFO - last in first out.
  *	@category		Library
@@ -34,7 +36,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class ADT_List_Stack implements Countable
+class Stack implements \Countable
 {
 	public $delimiter	= '|';
 
@@ -70,7 +72,7 @@ class ADT_List_Stack implements Countable
 	public function bottom()
 	{
 		if( !count( $this->stack ) )
-			throw new RuntimeException( 'Stack is empty.' );
+			throw new \RuntimeException( 'Stack is empty.' );
 		return array_shift( $this->stack );
 	}
 
@@ -113,7 +115,7 @@ class ADT_List_Stack implements Countable
 	public function pop()
 	{
 		if( $this->isEmpty() )
-			throw new RuntimeException( 'Stack is already empty.' );
+			throw new \RuntimeException( 'Stack is already empty.' );
 		$value = array_pop( $this->stack );
 		return $value;
 	}
@@ -147,7 +149,7 @@ class ADT_List_Stack implements Countable
 	public function top()
 	{
 		if( !count( $this->stack ) )
-			throw new RuntimeException( 'Stack is empty.' );
+			throw new \RuntimeException( 'Stack is empty.' );
 		return array_pop( $this->stack );
 	}
 }

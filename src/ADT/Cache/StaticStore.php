@@ -26,6 +26,8 @@
  *	@since			13.04.2009
  *	@version		0.1
  */
+namespace CeusMedia\Common\ADT\Cache;
+
 /**
  *	Abstract static Cache Store, can be used to implement a static Data Cache.
  *	@category		Library
@@ -38,7 +40,7 @@
  *	@since			13.04.2009
  *	@version		0.1
  */
-abstract class ADT_Cache_StaticStore
+abstract class StaticStore
 {
 	/**
 	 *	Returns a Value from Cache by its Key.

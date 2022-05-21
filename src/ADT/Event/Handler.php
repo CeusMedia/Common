@@ -25,6 +25,11 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.6
  */
+namespace CeusMedia\Common\ADT\Event;
+
+use CeusMedia\Common\ADT\Collection\Dictionary;
+use InvalidArgumentException;
+
 /**
  *	Collects event bindings and handles calls of triggered events.
  *	@category		Library
@@ -35,8 +40,9 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.6
  */
-class ADT_Event_Handler
+class Handler
 {
+
 	/**	@var	array		$stopped		List of bound events */
 	protected $events	= array();
 
@@ -57,14 +63,14 @@ class ADT_Event_Handler
 	 *	Bind event.
 	 *	@access		public
 	 *	@param		string						$key		Event key, eg. "start.my"
-	 *	@param		function|ADT_Event_Callback	$callback	Callback function or object
+	 *	@param		function|Callback	$callback	Callback function or object
 	 *	@return		void
 	 */
 	public function bind( string $key, $callback )
 	{
 		if( is_callable( $callback ) )
-			$callback	= new ADT_Event_Callback( $callback );
-		if( !( $callback instanceof ADT_Event_Callback ) )
+			$callback	= new Callback( $callback );
+		if( !( $callback instanceof Callback ) )
 			throw new InvalidArgumentException( 'Callback must be function or instance of ADT_Event_Callback' );
 		if( !is_array( $list = $this->events->get( $key ) ) )
 			$list	= array();
@@ -133,7 +139,7 @@ class ADT_Event_Handler
 		foreach( $events as $callback ){
 			if( in_array( $key, $this->stopped, TRUE ) )
 				continue;
-			$event	= new ADT_Event_Data( $this );
+			$event	= new Data( $this );
 			$event->key			= $callback[0];
 			$event->trigger		= $key;
 			$event->caller		= $caller;

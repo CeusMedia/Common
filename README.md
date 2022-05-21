@@ -8,3 +8,109 @@ A library of PHP classes for common tasks.
 
 
 
+### Namespace conversion status
+
+- [ ] ADT *(5/10)*
+	- [x] Cache
+	- [x] List => Collection
+	- [x] CSS
+	- [ ] Event
+	- [x] Graph
+	- [ ] JSON
+	- [ ] PHP
+	- [x] Time
+	- [ ] Tree
+		- [ ] Menu
+	- [ ] URL
+- [ ] Alg *(2/13)*
+	- [ ] Crypt
+	- [ ] JS
+	- [x] Math => moved to CeusMedia::Math
+	- [ ] Object
+	- [ ] Parcel
+	- [ ] PREG
+	- [ ] Search
+	- [x] Sort
+	- [ ] Text
+	- [ ] Time
+	- [ ] Tree
+		- [ ] Menu
+	- [ ] Turing
+	- [ ] Validation
+- [x] CLI  *(4/4)*
+	- [x] Command
+	- [x] Fork
+		- [x] Server
+			- [x] Client
+		- [x] Worker
+	- [x] Output
+	- [x] Server
+		- [x] Cron
+- [x] DB => moved to CeusMedia::Database
+- [ ] Exception
+- [ ] FS
+	- [ ] Autoloader
+	- [ ] File
+		- [ ] Arc
+		- [ ] Block
+		- [ ] Configuration
+		- [ ] CSS
+			- [ ] Theme
+		- [ ] CSV
+		- [ ] Gantt
+		- [ ] ICal
+		- [ ] INI
+		- [ ] JSON
+		- [ ] List => ???
+		- [ ] Log
+			- [ ] JSON
+			- [ ] Tracker
+		- [ ] PHP
+			- [ ] Check
+			- [x] Parser => moved to CeusMedia::PHP-Parser
+			- [ ] Test
+		- [ ] VCard
+		- [ ] YAML
+	- [ ] Folder
+		- [ ] TreeView
+- [ ] Net *(2/9)*
+	- [ ] API
+		- [ ] Google
+			- [ ] Code
+			- [ ] Maps
+			- [ ] Sitemap
+	- [ ] FTP
+	- [ ] HTTP
+		- [ ] Header
+			- [ ] Field
+		- [ ] Request
+		- [ ] Response
+		- [ ] Sniffer
+	- [x] IMAP => moved to CeusMedia::Mail
+	- [x] Mail => moved to CeusMedia::Mail
+	- [ ] Memory
+	- [ ] Site
+	- [ ] SVN
+	- [ ] XMPP
+- [ ] UI *(0/5)*
+	- [ ] HTML
+		- [ ] AHAH
+		- [ ] Button
+		- [ ] CSS
+		- [ ] Exception
+		- [ ] Service
+		- [ ] Tree
+	- [ ] Image
+		- [ ] Graph
+		- [ ] Graphviz
+	- [ ] JS
+	- [ ] SVG
+	- [ ] XML
+- [ ] XML *(0/6)*
+	- [ ] Atom
+	- [ ] DOM
+		- [ ] PEAR
+	- [ ] OPML
+	- [ ] RPC
+	- [ ] WDDX
+	- [ ] WSL

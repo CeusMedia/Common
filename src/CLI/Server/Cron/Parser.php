@@ -25,6 +25,10 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			20.01.2006
  */
+namespace CeusMedia\Common\CLI\Server\Cron;
+
+use CeusMedia\Common\FS\File\Reader as FileReader;
+
 /**
  *	Cron Parser.
  *	@category		Library
@@ -37,10 +41,10 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			20.01.2006
  */
-class CLI_Server_Cron_Parser
+class Parser
 {
-	/**	@var	array		$jobs			Array of parse Cron Jobs */
-	protected $jobs			= array();
+	/**	@var		array		$jobs			Array of parse Cron Jobs */
+	protected $jobs				= array();
 
 	/**
 	 *	Constructor.
@@ -57,7 +61,7 @@ class CLI_Server_Cron_Parser
 	 *	Fills numbers with leading Zeros.
 	 *	@access		protected
 	 *	@param		string		$value			Number to be filled
-	 *	@param		int			$length			Length to fill to
+	 *	@param		integer		$length			Length to fill to
 	 *	@return		string
 	 */
 	protected function fill( string $value, int $length ): string
@@ -120,8 +124,8 @@ class CLI_Server_Cron_Parser
 	protected function parse( string $fileName )
 	{
 		if( !file_exists( $fileName ) )
-			throw new Exception( "Cron Tab File '".$fileName."' is not existing." );
-		$reader	= new FS_File_Reader( $fileName );
+			throw new \Exception( "Cron Tab File '".$fileName."' is not existing." );
+		$reader	= new FileReader( $fileName );
 		$lines	= $reader->readArray();
 		$lines	= file( $fileName );
 		foreach( $lines as $line )
@@ -142,7 +146,7 @@ class CLI_Server_Cron_Parser
 		{
 			$match	= preg_replace( $pattern, "\\2|||\\4|||\\6|||\\8|||\\10|||\\12", $string );
 			$match	= explode( "|||", $match );
-			$job	= new CLI_Server_Cron_Job( $match[5] );
+			$job	= new Job( $match[5] );
 			$job->setOption( "minute",	$this->getValues( $match[0], 2 ) );
 			$job->setOption( "hour",	$this->getValues( $match[1], 2 ) );
 			$job->setOption( "day",		$this->getValues( $match[2], 2 ) );

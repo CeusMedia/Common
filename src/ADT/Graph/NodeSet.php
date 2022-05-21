@@ -24,6 +24,8 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+namespace CeusMedia\Common\ADT\Graph;
+
 /**
  *	NodeSet to store and manipulate nodes in a graph.
  *	@category		Library
@@ -34,7 +36,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class ADT_Graph_NodeSet implements Countable
+class NodeSet implements \Countable
 {
 	/**	@var		array			$nodes			array of all Nodes */
  	protected $nodes = array();
@@ -44,7 +46,7 @@ class ADT_Graph_NodeSet implements Countable
 	 *	@access		public
 	 *	@param		string			$nodeName		Name of the new Node
 	 *	@param		mixed			$nodeValue		Value of the new Node
-	 *	@return 	ADT_Graph_Node
+	 *	@return 	Node
 	 */
 	public function addNode( string $nodeName, $nodeValue = '' )
 	{
@@ -70,7 +72,7 @@ class ADT_Graph_NodeSet implements Countable
 	/**
 	 *	Returns first Node of this NodeSet.
 	 *	@access		public
-	 *	@return 	ADT_Graph_Node
+	 *	@return 	Node
 	 */
 	public function getFirstNode()
 	{
@@ -81,7 +83,7 @@ class ADT_Graph_NodeSet implements Countable
 	/**
 	 *	Returns last Node of this NodeSet.
 	 *	@access		public
-	 *	@return 	ADT_Graph_Node|NULL
+	 *	@return 	Node|NULL
 	 */
 	public function getLastNode()
 	{
@@ -94,7 +96,7 @@ class ADT_Graph_NodeSet implements Countable
 	 *	Returns a Node of this NodeSet.
 	 *	@access		public
 	 *	@param		string				$nodeName		Name of the new Node
-	 *	@return 	ADT_Graph_Node
+	 *	@return 	Node
 	 */
 	public function getNode( string $nodeName )
 	{
@@ -107,7 +109,7 @@ class ADT_Graph_NodeSet implements Countable
 	/**
 	 *	Returns index of a node in this NodeSet.
 	 *	@access		private
-	 *	@param		ADT_Graph_Node		$node			Node to get index for
+	 *	@param		Node		$node			Node to get index for
 	 *	@return 	int
 	 */
 	private function getNodeIndex( $node )
@@ -131,7 +133,7 @@ class ADT_Graph_NodeSet implements Countable
 	/**
 	 *	Indicates whether a Node is existing in this NodeSet.
 	 *	@access		public
-	 *	@param		ADT_Graph_Node		$node			Node to be searched for
+	 *	@param		Node		$node			Node to be searched for
 	 *	@return 	bool
 	 */
 	public function isNode( $node ): bool
@@ -145,13 +147,13 @@ class ADT_Graph_NodeSet implements Countable
 	/**
 	 *	Removing a node.
 	 *	@access		public
-	 *	@param		ADT_Graph_Node		$node			Node to be removed
+	 *	@param		Node		$node			Node to be removed
 	 *	@return 	void
 	 */
 	public function removeNode( $node )
 	{
 		if( !$this->isNode( $node ) )
-			throw new Exception( 'Edge is not existing.' );
+			throw new \Exception( 'Edge is not existing.' );
 		$index = $this->getNodeIndex( $node );
 		unset( $this->nodes[$index] );
 		sort( $this->nodes );

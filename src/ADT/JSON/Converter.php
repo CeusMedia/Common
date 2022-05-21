@@ -24,6 +24,8 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+namespace CeusMedia\Common\ADT\JSON;
+
 /**
  *	...
  *	@category		Library
@@ -36,7 +38,7 @@
  *	@todo			unit test
  *	@deprecated		use json_decode( $string, TRUE ) instead
  */
-class ADT_JSON_Converter
+class Converter
 {
 	public static function convertToArray( $json )
 	{
@@ -44,7 +46,7 @@ class ADT_JSON_Converter
 		{
 			$json	= json_decode( $json );
 			if( $json === FALSE )
-				throw new InvalidArgumentException( 'JSON String is not valid.' );
+				throw new \InvalidArgumentException( 'JSON String is not valid.' );
 		}
 		$array	= array();
 		self::convertToArrayRecursive( $json, $array );

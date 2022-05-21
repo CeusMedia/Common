@@ -24,6 +24,11 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+namespace CeusMedia\Common\CLI;
+
+use CeusMedia\Common\ADT\Collection\Dictionary;
+use RuntimeException;
+
 /**
  *	Handler for Console Requests.
  *	@category		Library
@@ -34,7 +39,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class CLI_RequestReceiver extends ADT_List_Dictionary
+class RequestReceiver extends Dictionary
 {
 	public static $delimiterAssign	= "=";
 

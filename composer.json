@@ -29,8 +29,8 @@
     "rector/rector": "0.12.x-dev"
   },
   "autoload": {
-    "psr-0": {
-      "": "src/"
+    "psr-4": {
+      "CeusMedia\\Common\\": "src/"
     }
   }
 }

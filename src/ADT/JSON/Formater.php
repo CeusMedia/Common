@@ -26,6 +26,8 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			10.01.2008
  */
+namespace CeusMedia\Common\ADT\JSON;
+
 /**
  *	Formats JSON String.
  *	@category		Library
@@ -38,7 +40,7 @@
  *	@since			10.01.2008
  *	@todo			Unit Test
  */
-class ADT_JSON_Formater
+class Formater
 {
 	/**
 	 *	Formats JSON String.
@@ -59,7 +61,7 @@ class ADT_JSON_Formater
 
 		if( $validateSource )
 			if( json_decode( $json ) === FALSE )
-				throw new InvalidArgumentException( 'JSON String is not valid.' );
+				throw new \InvalidArgumentException( 'JSON String is not valid.' );
 
 		$len	= strlen( $json );
 		for( $c=0; $c<$len; $c++ )

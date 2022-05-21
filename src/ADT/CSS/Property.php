@@ -25,6 +25,8 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.5
  */
+namespace CeusMedia\Common\ADT\CSS;
+
 /**
  *	...
  *
@@ -36,30 +38,37 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.5
  */
-class ADT_CSS_Property{
-
+class Property
+{
 	protected $key;
 
 	protected $value;
 
-	public function __construct( $key, $value ){
+	public function __construct( $key, $value )
+	{
 		$this->key		= $key;
 		$this->value	= $value;
 	}
 
-	public function getKey(){
+	public function getKey(): string
+	{
 		return $this->key;
 	}
 
-	public function getValue(){
+	public function getValue(): string
+	{
 		return $this->value;
 	}
 
-	public function setKey( $key ){
+	public function setKey( string $key ): self
+	{
 		$this->key		= $key;
+		return $this;
 	}
 
-	public function setValue( $value ){
+	public function setValue( string $value ): self
+	{
 		$this->value	= $value;
+		return $this;
 	}
 }

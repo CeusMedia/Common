@@ -25,6 +25,8 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			01.06.2012
  */
+namespace CeusMedia\Common\CLI;
+
 /**
  *	Console input handler.
  *	@category		Library
@@ -35,9 +37,8 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			01.06.2012
  */
-class CLI_Prompt
+class Prompt
 {
-
 	/**	@var	resource		$tty		Terminal (or console) input handler */
 	protected $tty;
 
@@ -45,7 +46,7 @@ class CLI_Prompt
 	 *	Constructor, tries to setup a terminal input resource handler.
 	 *	@access		public
 	 *	@return		void
-	 *	@throws		RuntimeException	if no terminal resource could by established
+	 *	@throws		\RuntimeException	if no terminal resource could by established
 	 */
 	public function __construct()
 	{
@@ -54,7 +55,7 @@ class CLI_Prompt
 		else if( !($this->tty = fopen( "/dev/tty", "r" ) ) )
 			$this->tty = fopen( "php://stdin", "r" );
 		else
-			throw new RuntimeException( 'Could not create any terminal or console device' );
+			throw new \RuntimeException( 'Could not create any terminal or console device' );
 	}
 
 	/**

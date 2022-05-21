@@ -25,6 +25,8 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.5
  */
+namespace CeusMedia\Common\ADT\CSS;
+
 /**
  *	...
  *
@@ -36,56 +38,66 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.5
  */
-class ADT_CSS_Rule{
-
-	public $selector	= NULL;
+class Rule
+{
+	public $selector	= '';
 
 	public $properties	= array();
 
-	public function __construct( $selector, $properties = array() ){
+	public function __construct( string $selector, array $properties = array() )
+	{
 		$this->setSelector( $selector );
 		foreach( $properties as $property )
 			$this->setProperty( $property );
 	}
 
-	public function getProperties(){
+	public function getProperties(): array
+	{
 		return $this->properties;
 	}
 
-	public function getPropertyByIndex( $index ){
+	public function getPropertyByIndex( int $index ): Property
+	{
 		if( !isset( $this->properties[$index] ) )
-			throw new OutOfRangeException( 'Invalid property index' );
+			throw new \OutOfRangeException( 'Invalid property index' );
 		return $this->properties[$index];
 	}
 
-	public function getPropertyByKey( $key ){
+	public function getPropertyByKey( string $key ): Property
+	{
 		foreach( $this->properties as $nr => $property )
 			if( $key == $property->getKey() )
 				return $property;
-		return NULL;
+		throw new \OutOfRangeException( 'Invalid property key' );
 	}
 
-	public function getSelector(){
+	public function getSelector()
+	{
 		return $this->selector;
 	}
 
-	public function hasProperty( ADT_CSS_Property $property ){
+	public function hasProperty( Property $property )
+	{
 		return $this->hasPropertyByKey( $property->getKey() );
 	}
 
-	public function hasPropertyByKey( $key ){
+	public function hasPropertyByKey( string $key )
+	{
 		foreach( $this->properties as $nr => $property )
 			if( $key == $property->getKey() )
 				return TRUE;
 		return FALSE;
 	}
 
-	public function removeProperty( ADT_CSS_Property $property ){
+	public function removeProperty( Property $property )
+	{
 		return $this->removePropertyByKey( $property->getKey() );
 	}
 
-	public function removePropertyByKey( $key ){
-		foreach( $this->properties as $nr => $property ){
+	public function removePropertyByKey( string $key ): bool
+	{
+		foreach( $this->properties as $nr => $property )
+		{
 			if( $key == $property->getKey() ){
 				unset( $this->properties[$nr] );
 				return TRUE;
@@ -94,21 +106,25 @@ class ADT_CSS_Rule{
 		return FALSE;
 	}
 
-	public function setProperty( ADT_CSS_Property $property ){
+	public function setProperty( Property $property )
+	{
 		return $this->setPropertyByKey( $property->getKey(), $property->getValue() );				//
 	}
 
-	public function setPropertyByKey( $key, $value = NULL ){
+	public function setPropertyByKey( string $key, $value = NULL ): bool
+	{
 		if( $value === NULL || !strlen( $value ) )
 			return $this->removePropertyByKey( $key );
 		$property	= $this->getPropertyByKey( $key );
 		if( $property )
 			return $property->setValue( $value );
-		$this->properties[]	= new ADT_CSS_Property( $key, $value );
+		$this->properties[]	= new Property( $key, $value );
 		return TRUE;
 	}
 
-	public function setSelector( $selector ){
+	public function setSelector( string $selector ): self
+	{
 		$this->selector	= $selector;
+		return $this;
 	}
 }

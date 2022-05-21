@@ -8,6 +8,7 @@
 declare( strict_types = 1 );
 
 use PHPUnit\Framework\TestCase;
+use CeusMedia\Common\ADT\JSON\Parser;
 
 /**
  *	TestUnit of ADT_JSON_Parser

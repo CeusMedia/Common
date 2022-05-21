@@ -24,6 +24,8 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+namespace CeusMedia\Common\Alg\Sort;
+
 /**
  *	Selection Sort.
  *	@category		Library
@@ -33,7 +35,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class Alg_Sort_Selection
+class Selection
 {
 	/**
 	 *	Finds and returns Position of lowest Element in Bounds.

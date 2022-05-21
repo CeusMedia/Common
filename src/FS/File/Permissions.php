@@ -24,6 +24,11 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+namespace CeusMedia\Common\FS\File;
+
+use InvalidArgumentException;
+use RuntimeException;
+
 /**
  *	File permission data object and handler.
  *	@category		Library
@@ -33,7 +38,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class FS_File_Permissions
+class Permissions
 {
 	/**	@var	string		$pathName			Path name of current file */
 	protected $pathName		= NULL;
@@ -56,13 +61,13 @@ class FS_File_Permissions
 	 *	Returns permissions as octal string value.
 	 *	@access		public
 	 *	@return		string		Octal string value of permissions of current file
-	 *	@throws		RuntimeException if no valid file is set
+	 *	@throws		InvalidArgumentException if no valid file is set
 	 */
 	public function getAsOctal(): string
 	{
 		$permissions	= @fileperms( $this->pathName );
 		if( FALSE === $permissions )
-			throw new InvalidArgumentException( 'Could not get permissions of file "'.$this->pathName.'"' );
+			throw new \InvalidArgumentException( 'Could not get permissions of file "'.$this->pathName.'"' );
 		return substr( sprintf( '%o', $permissions ), -4 );
 	}
 
@@ -70,7 +75,7 @@ class FS_File_Permissions
 	 *	Returns permissions as string value.
 	 *	@access		public
 	 *	@return		string		String value of permissions of current file
-	 *	@throws		RuntimeException if no valid file is set
+	 *	@throws		InvalidArgumentException if no valid file is set
 	 */
 	public function getAsString(): string
 	{
@@ -82,7 +87,7 @@ class FS_File_Permissions
 
 	public static function getOctalFromFile( $pathName ): string
 	{
-		$object	= new FS_File_Permissions( $pathName );
+		$object	= new Permissions( $pathName );
 		return $object->getAsOctal();
 	}
 
@@ -114,7 +119,7 @@ class FS_File_Permissions
 
 	public static function getStringFromFile( string $pathName ): string
 	{
-		$object	= new FS_File_Permissions( $pathName );
+		$object	= new Permissions( $pathName );
 		return $object->getAsString();
 	}
 

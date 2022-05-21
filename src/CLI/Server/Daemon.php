@@ -25,6 +25,11 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			20.01.2006
  */
+namespace CeusMedia\Common\CLI\Server;
+
+use CeusMedia\Common\CLI;
+use CeusMedia\Common\CLI\Application;
+
 /**
  *	Base Implementation of a Unix Demon.
  *	@category		Library
@@ -36,7 +41,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			20.01.2006
  */
-class CLI_Server_Daemon extends CLI_Application
+class Daemon extends Application
 {
 	/**
 	 *	Constructor.
@@ -102,11 +107,11 @@ class CLI_Server_Daemon extends CLI_Application
 	 */
 	protected function showUsage( $message = NULL )
 	{
-		\CLI::out();
-		\CLI::out( 'Daemon v0.1' );
-		\CLI::out();
-		\CLI::out( 'Usage: no information given, yet.' );
-		\CLI::out();
+		CLI::out();
+		CLI::out( 'Daemon v0.1' );
+		CLI::out();
+		CLI::out( 'Usage: no information given, yet.' );
+		CLI::out();
 		if( $message )
 			$this->showError( $message );
 	}

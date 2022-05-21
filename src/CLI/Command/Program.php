@@ -24,6 +24,8 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+namespace CeusMedia\Common\CLI\Command;
+
 /**
  *	Basic Program to implement Console Application using Automaton Argument Parser.
  *	@category		Library
@@ -35,7 +37,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-abstract class CLI_Command_Program
+abstract class Program
 {
 	const EXIT_NO			= -1;
 	const EXIT_OK			= 0;
@@ -83,7 +85,7 @@ abstract class CLI_Command_Program
 	public function __construct( $options, $shortcuts, $numberArguments = 0 )
 	{
 		//  load Argument Parser
-		$this->parser	= new CLI_Command_ArgumentParser();
+		$this->parser	= new ArgumentParser();
 		//  set minimum Number of Arguments
 		$this->parser->setNumberOfMandatoryArguments( $numberArguments );
 		//  set Map of Options and Patterns
@@ -144,7 +146,7 @@ abstract class CLI_Command_Program
 			return $this->exitCode;
 		}
 		//  handle uncatched Exceptions
-		catch( Exception $e ){
+		catch( \Exception $e ){
 			$this->handleParserException( $e );
 		}
 	}

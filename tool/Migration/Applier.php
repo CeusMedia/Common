@@ -1,4 +1,8 @@
 <?php
+use CeusMedia\Common\FS;
+use CeusMedia\Common\FS\Folder;
+use CeusMedia\Common\CLI;
+
 class Tool_Migration_Applier
 {
 	protected $modifiers	= array();
@@ -17,7 +21,7 @@ class Tool_Migration_Applier
 		return $this;
 	}
 
-	public function setRootFolder( FS_Folder $folder ): self
+	public function setRootFolder( Folder $folder ): self
 	{
 		$this->folder	= $folder;
 		return $this;

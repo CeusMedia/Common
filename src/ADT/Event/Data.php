@@ -25,6 +25,8 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.6
  */
+namespace CeusMedia\Common\ADT\Event;
+
 /**
  *	Data class for triggered events.
  *	@category		Library
@@ -35,8 +37,8 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.6
  */
-class ADT_Event_Data{
-
+class Data
+{
 	/**	@var	mixed		$arguments		Data given by trigger */
 	public $arguments;
 
@@ -58,10 +60,11 @@ class ADT_Event_Data{
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		ADT_Event_Handler	$handler		Event handler instance
+	 *	@param		Handler	$handler		Event handler instance
 	 *	@return		void
 	 */
-	public function __construct( ADT_Event_Handler $handler ){
+	public function __construct( Handler $handler )
+	{
 		$this->handler	= $handler;
 	}
 
@@ -70,7 +73,8 @@ class ADT_Event_Data{
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function stop(){
+	public function stop()
+	{
 		$this->handler->stopEvent( $this->trigger );
 	}
 }

@@ -25,6 +25,11 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			11.01.2006
  */
+namespace CeusMedia\Common\CLI;
+
+use CeusMedia\Common\CLI;
+use CeusMedia\Common\CLI\ArgumentParser;
+
 /**
  *	Generic Console Application.
  *	@category		Library
@@ -36,10 +41,8 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			11.01.2006
  */
-class CLI_Application
+class Application
 {
-	protected $arguments;
-
 	/**
 	 *	Constructor.
 	 *	@access		public
@@ -48,8 +51,8 @@ class CLI_Application
 	 */
 	public function __construct( $shortcuts = array(), $fallBackOnEmptyPair = FALSE, $handleNoneCLI = TRUE )
 	{
-		\CLI::checkIsCLi( $handleNoneCLI );
-		$this->arguments	= new \CLI_ArgumentParser();
+		CLI::checkIsCLi( $handleNoneCLI );
+		$this->arguments	= new ArgumentParser();
 		foreach( $shortcuts as $key => $value )
 			$this->arguments->addShortCut( $key, $value );
 		$this->arguments->parseArguments( $fallBackOnEmptyPair );
@@ -61,7 +64,8 @@ class CLI_Application
 	 *	@access		protected
 	 *	@return		void
 	 */
-	protected function main(){
+	protected function main()
+	{
 		if( join( $this->arguments->get( 'commands' ) ) === 'help' )
 			$this->showUsage();
 	}
@@ -74,8 +78,9 @@ class CLI_Application
 	 *	@param		string		$message		Error Message to print to Console
 	 *	@return		void
 	 */
-	protected function showError( $message, $abort = TRUE ){
-		\CLI::error( $message );
+	protected function showError( $message, $abort = TRUE )
+	{
+		CLI::error( $message );
 		if( $abort )
 			die( $message );
 	}
@@ -86,15 +91,16 @@ class CLI_Application
 	 *	@param		string		$message		Message to show below usage lines
 	 *	@return		void
 	 */
-	protected function showUsage( $message = NULL ){
-		\CLI::out();
-		\CLI::out( 'Console Application' );
-		\CLI::out();
-		\CLI::out( 'Usage: ./cli_app.php a [b]' );
-		\CLI::out( 'Options:' );
-		\CLI::out( '  a			Mandatory Option' );
-		\CLI::out( '    help		show help' );
-		\CLI::out( '  b			Optional Option' );
+	protected function showUsage( $message = NULL )
+	{
+		CLI::out();
+		CLI::out( 'Console Application' );
+		CLI::out();
+		CLI::out( 'Usage: ./cli_app.php a [b]' );
+		CLI::out( 'Options:' );
+		CLI::out( '  a			Mandatory Option' );
+		CLI::out( '    help		show help' );
+		CLI::out( '  b			Optional Option' );
 		if( $message )
 			$this->showError( $message );
 	}
@@ -104,7 +110,8 @@ class CLI_Application
 	 *	@access		protected
 	 *	@return		void
 	 */
-	protected function showUsageLink(){
-		\CLI::out( 'Use command "help" for usage information.' );
+	protected function showUsageLink()
+	{
+		CLI::out( 'Use command "help" for usage information.' );
 	}
 }

@@ -1,5 +1,7 @@
 <?php
-class CLI_Color
+namespace CeusMedia\Common\CLI;
+
+class Color
 {
 	private static $foregroundColors	= array(
 		'black'			=> '0;30',

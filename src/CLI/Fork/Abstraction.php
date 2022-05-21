@@ -26,6 +26,8 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.0
  */
+namespace CeusMedia\Common\CLI\Fork;
+
 /**
  *	Abstract forking application supporting to clone the current process.
  *	Create an application by extending by child and parent code.
@@ -40,7 +42,7 @@
  *	@since			0.7.0
  *	@todo			Code doc
  */
-abstract class CLI_Fork_Abstract
+abstract class Abstraction
 {
 	protected $pids			= array();
 
@@ -68,7 +70,7 @@ abstract class CLI_Fork_Abstract
 		$arguments	= func_get_args();
 		$pid		= pcntl_fork();
 		if( $pid == -1 )
-			throw new RuntimeException('Could not fork');
+			throw new \RuntimeException('Could not fork');
 
 		// parent process runs what is here
 		if( $pid ){

@@ -25,6 +25,8 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.6.8
  */
+namespace CeusMedia\Common\CLI\Fork\Server\Client;
+
 /**
  *	...
  *
@@ -37,7 +39,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.6.8
  */
-class CLI_Fork_Server_Client_WebProxy extends CLI_Fork_Server_Client_Abstract
+class WebProxy extends Abstraction
 {
 	public function getRequest()
 	{

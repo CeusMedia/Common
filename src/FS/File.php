@@ -1,6 +1,10 @@
 <?php
-class FS_File extends FS_AbstractNode
+namespace CeusMedia\Common\FS;
+
+class File extends AbstractNode
 {
+	protected $pathName;
+
 	public function __construct( string $pathName, bool $create = FALSE, $mode = 0777, bool $strict = TRUE )
 	{
 		$this->setPathName( $pathName );
@@ -76,7 +80,7 @@ class FS_File extends FS_AbstractNode
 			if( $mimeType = mime_content_type( $this->pathName ) )
 				return $mimeType;
 		}
-		throw new RuntimeException( 'PHP extension Fileinfo is missing' );
+		throw new \RuntimeException( 'PHP extension Fileinfo is missing' );
 	}
 
 	public function getName( bool $withExtension = TRUE, bool $strict = TRUE ): string

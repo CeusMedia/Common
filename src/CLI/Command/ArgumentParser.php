@@ -24,6 +24,11 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+namespace CeusMedia\Common\CLI\Command;
+
+use InvalidArgumentException;
+use RuntimeException;
+
 /**
  *	Argument Parser for Console Applications using an Automaton.
  *	@category		Library
@@ -33,7 +38,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class CLI_Command_ArgumentParser
+class ArgumentParser
 {
 	const STATUS_START				= 0;
 	const STATUS_READ_OPTION_KEY	= 1;
@@ -221,7 +226,7 @@ class CLI_Command_ArgumentParser
 	{
 		foreach( $this->shortcuts as $short	=> $long ){
 			if( !isset( $this->possibleOptions[$long] ) )
-				throw new InvalidArgumentException( 'Invalid shortcut to not existing option "'.$long.'" .' );
+				throw new \InvalidArgumentException( 'Invalid shortcut to not existing option "'.$long.'" .' );
 			$this->possibleOptions[$short]	= $this->possibleOptions[$long];
 		}
 	}
@@ -259,13 +264,13 @@ class CLI_Command_ArgumentParser
 			$this->onReadOptionValue( ' ', $status, $buffer, $option );
 		else if( $status == self::STATUS_READ_OPTION_KEY ){
 			if( !array_key_exists( $option, $this->possibleOptions ) )
-				throw new InvalidArgumentException( 'Invalid option: '.$option.'.' );
+				throw new \InvalidArgumentException( 'Invalid option: '.$option.'.' );
 			if( $this->possibleOptions[$option] )
-				throw new RuntimeException( 'Missing value of option "'.$option.'".' );
+				throw new \RuntimeException( 'Missing value of option "'.$option.'".' );
 			$this->foundOptions[$option]	= TRUE;
 		}
 		if( count( $this->foundArguments ) < $this->numberArguments )
-			throw new RuntimeException( 'Missing argument.' );
+			throw new \RuntimeException( 'Missing argument.' );
 		$this->finishOptions();
 		$this->parsed	= TRUE;
 	}
@@ -306,7 +311,7 @@ class CLI_Command_ArgumentParser
 				throw new InvalidArgumentException( 'Invalid option "'.$option.'"' );
 			if( !$this->possibleOptions[$option] ){
 				if( $sign !== " " )
-					throw new InvalidArgumentException( 'Option "'.$option.'" cannot receive a value' );
+					throw new \InvalidArgumentException( 'Option "'.$option.'" cannot receive a value' );
 				$this->foundOptions[$option]	= TRUE;
 				$status	= self::STATUS_START;
 			}

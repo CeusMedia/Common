@@ -1,5 +1,7 @@
 <?php
-class CLI_Output_Table
+namespace CeusMedia\Common\CLI\Output;
+
+class Table
 {
 	const SIZE_MODE_MIN			= 0;
 	const SIZE_MODE_MAX			= 1;

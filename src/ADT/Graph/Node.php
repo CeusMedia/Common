@@ -24,6 +24,8 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+namespace CeusMedia\Common\ADT\Graph;
+
 /**
  *	Node in a graph
  *	@category		Library
@@ -33,7 +35,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class ADT_Graph_Node
+class Node
 {
 	/**	@var	string		$nodeName 		Name of this Node */
 	protected $nodeName;

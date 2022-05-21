@@ -1,5 +1,9 @@
 <?php
-class UI_Text
+namespace CeusMedia\Common\UI;
+
+use CeusMedia\Common\Alg\UnitFormater;
+
+class Text
 {
 	static public $defaultLineLength		= 76;
 

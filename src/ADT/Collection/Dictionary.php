@@ -25,6 +25,8 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			27.03.2006
  */
+namespace CeusMedia\Common\ADT\Collection;
+
 /**
  *	Dictionary is a simple Pair Structure similar to an associative Array but implementing some Interfaces.
  *	@category		Library
@@ -38,7 +40,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			27.03.2006
  */
-class ADT_List_Dictionary implements ArrayAccess, Countable, Iterator
+class Dictionary implements \ArrayAccess, \Countable, \Iterator
 {
 	/**	@var		array		$pairs			Associative Array of Pairs */
 	protected $pairs			= array();
@@ -75,9 +77,9 @@ class ADT_List_Dictionary implements ArrayAccess, Countable, Iterator
 	public function cast( $value, string $key )
 	{
 		if( strtolower( gettype( $value ) ) === "resource" )
-			throw new InvalidArgumentException( 'Cannot cast resource' );
+			throw new \InvalidArgumentException( 'Cannot cast resource' );
 		if( !$this->has( $key ) )
-			throw new OutOfRangeException( 'Invalid key "'.$key.'"' );
+			throw new \OutOfRangeException( 'Invalid key "'.$key.'"' );
 
 		//  lowercase key if dictionary is not case sensitive
 		$key		= !$this->caseSensitive ? strtolower( $key ) : $key;
@@ -86,7 +88,7 @@ class ADT_List_Dictionary implements ArrayAccess, Countable, Iterator
 
 		$abstracts	= array( 'array', 'object' );
 		if( in_array( $valueType, $abstracts, TRUE ) !== in_array( $pairType, $abstracts, TRUE ) )
-			throw new UnexpectedValueException( 'Cannot cast '.$valueType.' to '.$pairType );
+			throw new \UnexpectedValueException( 'Cannot cast '.$valueType.' to '.$pairType );
 		settype( $value, $pairType );
 		return $value;
 	}
@@ -110,7 +112,7 @@ class ADT_List_Dictionary implements ArrayAccess, Countable, Iterator
 	 */
 	static public function create( array $array ): self
 	{
-		return new ADT_List_Dictionary( $array );
+		return new Dictionary( $array );
 	}
 
 	/**
@@ -202,7 +204,7 @@ class ADT_List_Dictionary implements ArrayAccess, Countable, Iterator
 	 *	@param		string		$prefix			Prefix to filter keys, e.g. "mail." for all pairs starting with "mail."
 	 *	@param		boolean		$asDictionary	Flag: return list as dictionary object instead of an array
 	 *	@param		boolean		$caseSensitive	Flag: return list with lowercase pair keys or dictionary with no case sensitivy
-	 *	@return		array|ADT_List_Dictionary	Map or dictionary object containing all or filtered pairs
+	 *	@return		array|self	Map or dictionary object containing all or filtered pairs
 	 */
 	public function getAll( $prefix = NULL, bool $asDictionary = FALSE, bool $caseSensitive = TRUE )
 	{
@@ -218,7 +220,7 @@ class ADT_List_Dictionary implements ArrayAccess, Countable, Iterator
 		//  a dictionary object is to be returned
 		if( $asDictionary )
 			//  create dictionary for pair list
-			$list	= new ADT_List_Dictionary( $list, $caseSensitive );
+			$list	= new self( $list, $caseSensitive );
 		//  return pair list as array or dictionary
 		return $list;
 	}

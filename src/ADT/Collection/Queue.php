@@ -24,6 +24,8 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+namespace CeusMedia\Common\ADT\Collection;
+
 /**
  *	Queue Implementation based on an Array. FIFO - first in first out.
  *	@category		Library
@@ -34,7 +36,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class ADT_List_Queue implements Countable
+class Queue implements \Countable
 {
 	/**	@var		array		$queue			Array of all elements in queue */
  	protected $queue			= array();
@@ -64,11 +66,12 @@ class ADT_List_Queue implements Countable
 	 *	Returns last Item of the Queue.
 	 *	@access		public
 	 *	@return		mixed
+	 *	@throws		\RuntimeException	if queue is empty
 	 */
 	public function bottom()
 	{
 		if( !count( $this->queue ) )
-			throw new RuntimeException( 'Queue is empty.' );
+			throw new \RuntimeException( 'Queue is empty.' );
 		return array_pop( $this->queue );
 	}
 
@@ -107,11 +110,12 @@ class ADT_List_Queue implements Countable
 	 *	Returns next Item of the Queue.
 	 *	@access		public
 	 *	@return		mixed
+	 *	@throws		\RuntimeException	if queue is empty
 	 */
 	public function pop()
 	{
 		if( !count( $this->queue ) )
-			throw new RuntimeException( 'Queue is empty.' );
+			throw new \RuntimeException( 'Queue is empty.' );
 		return array_shift( $this->queue );
 	}
 
