@@ -3,6 +3,11 @@ SHELL		:= /bin/bash
 USER		:= kriss
 GROUP		:= www-data
 PATH_SELF	:= $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
+PERM_FOLDER := 755
+PERM_FILE   := 644
+
+help:
+	@cat tool/Go/make.txt
 
 # --  COMPOSER  -----------------------------------------------------------
 composer-install-dev:
@@ -41,6 +46,11 @@ dev-phpstan:
 dev-phpstan-save-baseline:
 	@vendor/bin/phpstan analyse --configuration phpstan.neon --generate-baseline phpstan-baseline.neon || true
 
+dev-rector-apply:
+	@vendor/bin/rector process src
+
+dev-rector-dry:
+	@vendor/bin/rector process src --dry-run
 
 
 # --  GIT  ----------------------------------------------------------------
@@ -62,5 +72,5 @@ go-help:
 set-rights:
 	@sudo chown -R ${USER} .
 	@sudo chgrp -R ${GROUP} .
-	@find . -type d -not -path "./vendor/*" -print0 | xargs -0 xargs sudo chmod 755 >/dev/null 2>&1 || true
-	@find . -type f -not -path "./vendor/*" -print0 | xargs -0 xargs sudo chmod 644 >/dev/null 2>&1 || true
+	@find . -type d -not -path "./vendor/*" -print0 | xargs -0 xargs sudo chmod ${PERM_FOLDER} >/dev/null 2>&1 || true
+	@find . -type f -not -path "./vendor/*" -print0 | xargs -0 xargs sudo chmod ${PERM_FILE} >/dev/null 2>&1 || true
