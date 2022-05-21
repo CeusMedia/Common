@@ -1,4 +1,7 @@
 <?php
+/**
+ *	@deorecated not needed once Go is gone
+ */
 class Go_Application
 {
 	private $basePath;
@@ -94,7 +97,7 @@ class Go_Application
 				{
 					case 'benchmark':
 						new Go_Benchmark();
-						break;						
+						break;
 					case 'syntax':
 						new Go_ClassSyntaxTester( $arguments );
 						break;
@@ -119,6 +122,8 @@ class Go_Application
 		if( $message )
 			$message	= "\nERROR: ".$message."\n";
 		$text	= file_get_contents( $this->basePath.'Go/usage.txt' );
+		$make	= file_get_contents( $this->basePath.'Go/make.txt' );
+		$text	= str_replace( '{{make.txt}}', $make, $text);
 		print( "\n".$text."\n".$message );
 	}
 }

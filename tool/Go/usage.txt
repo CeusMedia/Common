@@ -1,4 +1,10 @@
-Usage: go COMMAND [OPTION]...
+WARNING!
+This tool is deprecated and will be removed, soon.
+
+Use `make help` to see more information!
+
+
+Usage: php tool/go.php COMMAND [OPTION]...
 
   create                       create...
     doc                        ... API reference using CeusMedia:DocCreator
@@ -11,3 +17,7 @@ Usage: go COMMAND [OPTION]...
     units                      - run available unit tests
       [PACKAGE_CLASS]          - run unit tests of one specified class
 
+
+Also, see these make commands:
+
+{{make.txt}}

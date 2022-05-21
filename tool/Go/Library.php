@@ -1,4 +1,7 @@
 <?php
+/**
+ *	@deorecated not needed once Go is gone
+ */
 class Go_Library
 {
 	public static $configFile	= 'Common.ini';
@@ -140,4 +143,3 @@ class Go_Library
 		}
 	}
 }
-
