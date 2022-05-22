@@ -20,17 +20,18 @@
     "php": ">=7.2"
   },
   "require-dev": {
-    "ceus-media/doc-creator": "dev-master",
+    "ceus-media/doc-creator": "* | dev-master",
     "michelf/php-markdown": "^1.7",
     "erusev/parsedown": "~1.0",
     "phpunit/phpunit": "*",
-    "phpstan/phpstan": "^1",
-    "phpstan/phpstan-strict-rules": "^1",
+    "phpstan/phpstan": "*",
+    "phpstan/phpstan-strict-rules": "*",
     "rector/rector": "0.12.x-dev"
   },
   "autoload": {
     "psr-4": {
       "CeusMedia\\Common\\": "src/"
-    }
+    },
+    "files": ["compat.php"]
   }
 }
