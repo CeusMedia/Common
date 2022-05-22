@@ -25,6 +25,11 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			18.07.2005
  */
+namespace CeusMedia\Common\ADT;
+
+use InvalidArgumentException;
+use OutOfRangeException;
+
 /**
  *	Base Object with options.
  *	@category		Library
@@ -37,7 +42,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			18.07.2005
  */
-class ADT_OptionObject implements ArrayAccess, Countable
+class OptionObject implements \ArrayAccess, \Countable
 {
 	/**	@var		array		$options		Associative Array of options */
 	protected $options	= array();

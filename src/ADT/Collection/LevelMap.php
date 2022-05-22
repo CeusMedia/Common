@@ -47,7 +47,7 @@ class LevelMap extends Dictionary
 {
 	protected $divider		= ".";
 
-	public function __construct( $array = array(), $divider = "." )
+	public function __construct( array $array = array(), string $divider = "." )
 	{
 		parent::__construct( $array );
 		$this->divider	= $divider;
@@ -57,13 +57,14 @@ class LevelMap extends Dictionary
 	 *	Return a Value or Pair Map of Dictionary by its Key.
 	 *	@access		public
 	 *	@param		string		$key		Key in Dictionary
+	 *	@param		mixed		$default	Value to return if key is not set, default: NULL
 	 *	@return		mixed
 	 *	@throws		\InvalidArgumentException	if key is invalid
 	 */
-	public function get( string $key )
+	public function get( string $key, $default = NULL )
 	{
 		//  no Key given
-		if( empty( $key ) )
+		if( 0 === strlen( trim( $key ) ) )
 			//  throw Exception
 			throw new \InvalidArgumentException( 'Key must not be empty.' );
 		//  Key is set on its own
@@ -71,33 +72,31 @@ class LevelMap extends Dictionary
 			//  return Value
 			return $this->pairs[$key];
 		//  Key has not been found
-		else
+
+		//  prepare Prefix Key to seach for
+		$key		.= $this->divider;
+		//  define empty Map
+		$list		= array();
+		//  get Length of Prefix Key outside the Loop
+		$length		= strlen( $key );
+		//  iterate all stores Pairs
+		foreach( $this->pairs as $pairKey => $pairValue )
 		{
-			//  prepare Prefix Key to seach for
-			$key		.= $this->divider;
-			//  define empty Map
-			$list		= array();
-			//  get Length of Prefix Key outside the Loop
-			$length		= strlen( $key );
-			//  iterate all stores Pairs
-			foreach( $this->pairs as $pairKey => $pairValue )
-			{
-				//  precheck for Performance
-				if( $pairKey[0] !== $key[0] )
-					//  skip Pair
-					continue;
-				//  Prefix Key is found
-				if( strpos( $pairKey, $key ) === 0 )
-					//  collect Pair
-					$list[substr( $pairKey, $length )]	= $pairValue;
-			}
-			//  found Pairs
-			if( count( $list ) )
-				//  return Pair Map
-				return $list;
+			//  precheck for Performance
+			if( $pairKey[0] !== $key[0] )
+				//  skip Pair
+				continue;
+			//  Prefix Key is found
+			if( strpos( $pairKey, $key ) === 0 )
+				//  collect Pair
+				$list[substr( $pairKey, $length )]	= $pairValue;
 		}
-		//  nothing found
-		return NULL;
+		//  found Pairs
+		if( count( $list ) )
+			//  return Pair Map
+			return $list;
+		//  nothing given default, default: NULL
+		return $default;
 	}
 
 	/**
@@ -134,28 +133,26 @@ class LevelMap extends Dictionary
 	public function has( string $key ): bool
 	{
 		//  no Key given
-		if( empty( $key ) )
+		if( 0 === strlen( trim( $key ) ) )
 			//  throw Exception
 			throw new \InvalidArgumentException( 'Key must not be empty.' );
 		//  Key is set on its own
 		if( isset( $this->pairs[$key] ) )
 			return TRUE;
 		//  Key has not been found
-		else
+
+		//  prepare Prefix Key to seach for
+		$key		.= $this->divider;
+		//  iterate all stores Pairs
+		foreach( $this->pairs as $pairKey => $pairValue )
 		{
-			//  prepare Prefix Key to seach for
-			$key		.= $this->divider;
-			//  iterate all stores Pairs
-			foreach( $this->pairs as $pairKey => $pairValue )
-			{
-				//  precheck for Performance
-				if( $pairKey[0] !== $key[0] )
-					//  skip Pair
-					continue;
-				//  Prefix Key is found
-				if( strpos( $pairKey, $key ) === 0 )
-					return TRUE;
-			}
+			//  precheck for Performance
+			if( $pairKey[0] !== $key[0] )
+				//  skip Pair
+				continue;
+			//  Prefix Key is found
+			if( strpos( $pairKey, $key ) === 0 )
+				return TRUE;
 		}
 		return FALSE;
 	}
@@ -167,35 +164,37 @@ class LevelMap extends Dictionary
 	 *	@return		void
 	 *	@throws		\InvalidArgumentException	if key is empty
 	 */
-	public function remove( string $key ): self
+	public function remove( string $key ): bool
 	{
 		//  no Key given
-		if( empty( $key ) )
+		if( 0 === strlen( trim( $key ) ) )
 			//  throw Exception
 			throw new \InvalidArgumentException( 'Key must not be empty.' );
 		//  Key is set on its own
-		if( isset( $this->pairs[$key] ) )
+		if( isset( $this->pairs[$key] ) ){
 			//  remove Pair
 			unset( $this->pairs[$key] );
-		//  Key has not been found
-		else
+			return TRUE;
+		}
+
+		$count	= 0;
+		//  prepare Prefix Key to seach for
+		$key		.= $this->divider;
+		//  iterate all stores Pairs
+		foreach( $this->pairs as $pairKey => $pairValue )
 		{
-			//  prepare Prefix Key to seach for
-			$key		.= $this->divider;
-			//  iterate all stores Pairs
-			foreach( $this->pairs as $pairKey => $pairValue )
-			{
-				//  precheck for Performance
-				if( $pairKey[0] !== $key[0] )
-					//  skip Pair
-					continue;
-				//  Prefix Key is found
-				if( strpos( $pairKey, $key ) === 0 )
-					//  remove Pair
-					unset( $this->pairs[$pairKey] );
+			//  precheck for Performance
+			if( $pairKey[0] !== $key[0] )
+				//  skip Pair
+				continue;
+			//  Prefix Key is found
+			if( strpos( $pairKey, $key ) === 0 ){
+				//  remove Pair
+				unset( $this->pairs[$pairKey] );
+				$count++;
 			}
 		}
-		return $this;
+		return $count > 0;
 	}
 
 	/**
@@ -206,10 +205,10 @@ class LevelMap extends Dictionary
 	 *	@param		bool		$sort		Flag: sort by Keys after Insertion
 	 *	@return		void
 	 */
-	public function set( string $key, string $value, bool $sort = TRUE ): self
+	public function set( string $key, $value, $sort = TRUE ): bool
 	{
 		//  no Key given
-		if( empty( $key ) )
+		if( 0 === strlen( trim( $key ) ) )
 			//  throw Exception
 			throw new InvalidArgumentException( 'Key must not be empty.' );
 		//  Pair Map given
@@ -226,6 +225,6 @@ class LevelMap extends Dictionary
 		if( $sort )
 			//  sort stored Pairs by Keys
 			ksort( $this->pairs );
-		return $this;
+		return TRUE;
 	}
 }

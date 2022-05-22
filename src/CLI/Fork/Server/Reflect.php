@@ -39,7 +39,7 @@ namespace CeusMedia\Common\CLI\Fork\Server;
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.6.8
  */
-class Reflection extends Abstraction
+class Reflect extends Abstraction
 {
 	protected function handleRequest( $request )
 	{

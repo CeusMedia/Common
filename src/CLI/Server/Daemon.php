@@ -27,7 +27,6 @@
  */
 namespace CeusMedia\Common\CLI\Server;
 
-use CeusMedia\Common\CLI;
 use CeusMedia\Common\CLI\Application;
 
 /**

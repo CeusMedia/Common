@@ -39,7 +39,7 @@ use CeusMedia\Common\CLI\Output;
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class CLI_Output_Progress
+class Progress
 {
 	const STATUS_NONE		= 0;
 	const STATUS_READY		= 1;

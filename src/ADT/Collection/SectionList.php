@@ -18,22 +18,26 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		Library
- *	@package		CeusMedia_Common_ADT_List
+ *	@package		CeusMedia_Common_ADT_Collection
  *	@author			Chistian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+namespace CeusMedia\Common\ADT\Collection;
+
+use InvalidArgumentException;
+
 /**
  *	Implementation of a Section List using an Array.
  *	@category		Library
- *	@package		CeusMedia_Common_ADT_List
+ *	@package		CeusMedia_Common_ADT_Collection
  *	@author			Chistian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class ADT_List_SectionList
+class SectionList
 {
 	/**	@var		array	$sections	List of Sections */
 	protected $sections = array();
