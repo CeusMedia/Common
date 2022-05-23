@@ -32,6 +32,6 @@
     "psr-4": {
       "CeusMedia\\Common\\": "src/"
     },
-    "files": ["compat.php"]
+    "files": ["src/global.php", "compat.php"]
   }
 }

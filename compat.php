@@ -28,12 +28,14 @@ class ADT_JSON_Formater extends \CeusMedia\Common\ADT\JSON\Formater{};
 class ADT_JSON_Parser extends \CeusMedia\Common\ADT\JSON\Parser{};
 class ADT_OptionObject extends \CeusMedia\Common\ADT\OptionObject{};
 class ADT_Time_Delay extends \CeusMedia\Common\ADT\Time\Delay{};
+class Alg_Text_CamelCase extends \CeusMedia\Common\Alg\Text\CamelCase{};
 class Alg_Sort_Bubble extends \CeusMedia\Common\Alg\Sort\Bubble{};
 class Alg_Sort_Gnome extends \CeusMedia\Common\Alg\Sort\Gnome{};
 class Alg_Sort_Insertion extends \CeusMedia\Common\Alg\Sort\Insertion{};
 class Alg_Sort_MapList extends \CeusMedia\Common\Alg\Sort\MapList{};
 class Alg_Sort_Quick extends \CeusMedia\Common\Alg\Sort\Quick{};
 class Alg_Sort_Selection extends \CeusMedia\Common\Alg\Sort\Selection{};
+class Alg_UnitFormater extends \CeusMedia\Common\Alg\UnitFormater{};
 
 class CLI_Command_ArgumentParser extends \CeusMedia\Common\CLI\Command\ArgumentParser{};
 abstract class CLI_Command_Program extends \CeusMedia\Common\CLI\Command\Program{};
@@ -75,10 +77,12 @@ class UI_DevOutput extends \CeusMedia\Common\UI\DevOutput{};
 if( $isComposer && $isFromGithub ){
 
 	spl_autoload_register(function($className){
-		$classPath	= __DIR__.'/src/'.str_replace( '_', '/', $className ).'.php';
-		if( file_exists( $classPath ) ){
-			include_once $classPath;
-			return TRUE;
+		if( !preg_match('/\\\\/', $className ) ){
+			$classPath	= __DIR__.'/src/'.str_replace( '_', '/', $className ).'.php';
+			if( file_exists( $classPath ) ){
+				include_once $classPath;
+				return TRUE;
+			}
 		}
 	});
 
