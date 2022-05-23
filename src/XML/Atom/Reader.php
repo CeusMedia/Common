@@ -24,6 +24,12 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+
+namespace CeusMedia\Common\XML\Atom;
+
+use Exception;
+use InvalidArgumentException;
+
 /**
  *	...
  *	@category		Library
@@ -35,13 +41,13 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@todo			Code Doc
  */
-class XML_Atom_Reader
+class Reader
 {
 	protected $parser;
 
 	public function __construct()
 	{
-		$this->parser	= new XML_Atom_Parser();
+		$this->parser	= new Parser();
 	}
 
 	public function readXml( $xml )
@@ -51,13 +57,13 @@ class XML_Atom_Reader
 
 	public function readUrl( $url )
 	{
-		$xml	= Net_Reader::readUrl( $url );
+		$xml	= \Net_Reader::readUrl( $url );
 		$this->parser->parse( $xml );
 	}
 
 	public function readFile( $fileName )
 	{
-		$xml	= FS_File_Reader::load( $fileName );
+		$xml	= \FS_File_Reader::load( $fileName );
 		$this->parser->parse( $xml );
 	}
 
@@ -144,7 +150,7 @@ class XML_Atom_Reader
 	public function getEntries( $language = NULL )
 	{
 		return $this->parser->entries;
-	}	
+	}
 
 
 	public function getEntry( $index )

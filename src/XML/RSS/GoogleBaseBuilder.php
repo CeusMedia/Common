@@ -25,6 +25,9 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			19.02.02008
  */
+
+namespace CeusMedia\Common\XML\RSS;
+
 /**
  *	Builds RSS for Google Base - Froogle.
  *	@category		Library
@@ -36,7 +39,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			19.02.02008
  */
-class XML_RSS_GoogleBaseBuilder extends XML_RSS_Builder
+class GoogleBaseBuilder extends Builder
 {
 	protected $itemElements	= array(
 		'title'						=> FALSE,

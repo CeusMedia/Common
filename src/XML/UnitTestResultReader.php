@@ -25,6 +25,9 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			25.04.2008
  */
+
+namespace CeusMedia\Common\XML;
+
 /**
  *	Reader for XML Result File written by PHPUnit.
  *	@category		Library
@@ -38,11 +41,11 @@
  *	@todo			Code Documentation
  *	@todo			Unit Test
  */
-class XML_UnitTestResultReader
+class UnitTestResultReader
 {
 	/**	@var		int			$date			Date of XML File */
 	protected $date;
-	/**	@var		XML_Element	$tree			XML Element Tree from XML File */	
+	/**	@var		Element		$tree			XML Element Tree from XML File */
 	protected $tree;
 	/**
 	 *	Constructor, reads XML.
@@ -52,7 +55,7 @@ class XML_UnitTestResultReader
 	 */
 	public function __construct( $fileName )
 	{
-		$this->tree	= XML_ElementReader::readFile( $fileName );
+		$this->tree	= ElementReader::readFile( $fileName );
 		$this->date	= filemtime( $fileName );
 	}
 
@@ -92,7 +95,7 @@ class XML_UnitTestResultReader
 	/**
 	 *	Collects Error or Failure Messages by iterating Tree recursive and returns Lists.
 	 *	@access		private
-	 *	@param		XML_Element	$element		Current XML Element
+	 *	@param		Element		$element		Current XML Element
 	 *	@param		array		$list			Reference to Result List
 	 *	@param		string		$type			Message Type (error|failure)
 	 *	@param		string		$testSuite		Current Test Suite

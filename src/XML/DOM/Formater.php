@@ -25,6 +25,12 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			12.05.2008
  */
+
+namespace CeusMedia\Common\XML\DOM;
+
+use DOMDocument;
+use InvalidArgumentException;
+
 /**
  *	Formats untidy XML or recodes to another Character Set.
  *	@category		Library
@@ -37,7 +43,7 @@
  *	@since			12.05.2008
  *	@todo			Unit Test
  */
-class XML_DOM_Formater
+class Formater
 {
 	/**
 	 *	Formats a XML String with Line Breaks and Indention and returns it.
@@ -49,9 +55,9 @@ class XML_DOM_Formater
 	 */
 	public static function format( $xml, $leadingTabs = FALSE )
 	{
-		$validator	= new XML_DOM_SyntaxValidator();
+		$validator	= new SyntaxValidator();
 		if( !$validator->validate( $xml ) )
-			throw new InvalidArgumentException( 'String is no valid XML' ); 
+			throw new InvalidArgumentException( 'String is no valid XML' );
 
 		$document	= new DOMDocument();
 		$document->preserveWhiteSpace	= FALSE;
@@ -80,9 +86,9 @@ class XML_DOM_Formater
 	 */
 	public static function recode( $xml, $encodeTo = "UTF-8" )
 	{
-		$validator	= new XML_DOM_SyntaxValidator();
+		$validator	= new SyntaxValidator();
 		if( !$validator->validate( $xml ) )
-			throw new InvalidArgumentException( 'String is no valid XML' ); 
+			throw new InvalidArgumentException( 'String is no valid XML' );
 
 		$encodeTo	= strtoupper( $encodeTo );
 

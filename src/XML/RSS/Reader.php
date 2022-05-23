@@ -25,6 +25,9 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			20.02.2008
  */
+
+namespace CeusMedia\Common\XML\RSS;
+
 /**
  *	Reader for RSS 2.0 Feeds.
  *	@category		Library
@@ -37,7 +40,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			20.02.2008
  */
-class XML_RSS_Reader
+class Reader
 {
 	/**
 	 *	Reads RSS from File.
@@ -48,8 +51,8 @@ class XML_RSS_Reader
 	 */
 	public static function readFile( $fileName )
 	{
-		$xml	= FS_File_Reader::load( $fileName );
-		return XML_RSS_Parser::parse( $xml );
+		$xml	= \FS_File_Reader::load( $fileName );
+		return Parser::parse( $xml );
 	}
 
 	/**
@@ -61,8 +64,8 @@ class XML_RSS_Reader
 	 */
 	public static function readUrl( $url )
 	{
-		$xml	= Net_Reader::readUrl( $url );
-		return XML_RSS_Parser::parse( $xml );
+		$xml	= \Net_Reader::readUrl( $url );
+		return Parser::parse( $xml );
 	}
 
 	/**
@@ -74,6 +77,6 @@ class XML_RSS_Reader
 	 */
 	public static function readXml( $xml )
 	{
-		return XML_RSS_Parser::parse( $xml );
+		return Parser::parse( $xml );
 	}
 }

@@ -24,6 +24,12 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+
+namespace CeusMedia\Common\XML\OPML;
+
+use CeusMedia\Common\XML\DOM\Node;
+use Exception;
+
 /**
  *	@category		Library
  *	@package		CeusMedia_Common_XML_OPML
@@ -34,7 +40,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class XML_OPML_FileReader
+class FileReader
 {
 	/**	@var		string		$fileName		URI of OPML File */
 	protected $fileName;
@@ -59,18 +65,18 @@ class XML_OPML_FileReader
 	 */
 	public static function load( $fileName )
 	{
-		$file	= new FS_File_Reader( $fileName );
+		$file	= new \FS_File_Reader( $fileName );
 		if( !$file->exists() )
 			throw new Exception( "File '".$fileName."' is not existing." );
 		$xml	= $file->readString();
-		$parser	= new XML_OPML_Parser();
+		$parser	= new Parser();
 		return $parser->parse( $xml );
 	}
 
 	/**
 	 *	Reads OPML File and returns Outline Array.
 	 *	@access		public
-	 *	@return		XML_DOM_Node
+	 *	@return		Node
 	 */
 	public function read()
 	{

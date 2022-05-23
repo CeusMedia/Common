@@ -24,6 +24,12 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+
+namespace CeusMedia\Common\XML\OPML;
+
+use CeusMedia\Common\XML\DOM\Builder;
+use CeusMedia\Common\XML\DOM\Node;
+
 /**
  *	Writes XML Files from Trees build with XML_Node.
  *	@category		Library
@@ -35,7 +41,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class XML_OPML_FileWriter
+class FileWriter
 {
 	/**	@var		string		$fileName		URI of OPML File */
 	protected $fileName;
@@ -56,22 +62,22 @@ class XML_OPML_FileWriter
 	 *	@access		public
 	 *	@static
 	 *	@param		string		$fileName		URI of OPML File
-	 *	@param		XML_DOM_Node	tree		OPML Tree
-	 *	@param		string			encoding	Encoding Type
+	 *	@param		Node		tree			OPML Tree
+	 *	@param		string		encoding		Encoding Type
 	 *	@return		bool
 	 */
 	public static function save( $fileName, $tree, $encoding = "utf-8" )
 	{
-		$builder	= new XML_DOM_Builder();
+		$builder	= new Builder();
 		$xml		= $builder->build( $tree, $encoding );
-		$file		= new FS_File_Writer( $fileName, 0777 );
+		$file		= new \FS_File_Writer( $fileName, 0777 );
 		return $file->writeString( $xml );
 	}
 
 	/**
 	 *	Writes OPML Tree to OPML File.
 	 *	@access		public
-	 *	@param		XML_DOM_Node	tree		OPML Tree
+	 *	@param		Node	tree		OPML Tree
 	 *	@param		string			encoding	Encoding Type
 	 *	@return		bool
 	 */

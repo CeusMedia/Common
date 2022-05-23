@@ -25,6 +25,13 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			24.01.2006
  */
+
+namespace CeusMedia\Common\XML;
+
+use CeusMedia\Common\XML\DOM\SyntaxValidator;
+use DOMXPath;
+use Exception;
+
 /**
  *	Identifies Type and Version of RSS and ATOM Feeds.
  *	@category		Library
@@ -39,7 +46,7 @@
  *	@since			24.01.2006
  *	@todo			Unit Test
  */
-class XML_FeedIdentifier
+class FeedIdentifier
 {
 	/**	@var		string		$type			Type of Feed */
 	protected $type				= '';
@@ -77,7 +84,7 @@ class XML_FeedIdentifier
 	{
 		$this->type		= "";
 		$this->version	= "";
-		$xsv	= new XML_DOM_SyntaxValidator;
+		$xsv	= new SyntaxValidator();
 		if( !$xsv->validate( $xml ) )
 			throw new Exception( 'XML is not valid: '.$xsv->getErrors() );
 
@@ -142,8 +149,8 @@ class XML_FeedIdentifier
 	 */
 	public static function identifyFromFile( $filename )
 	{
-		$xml	= FS_File_Reader::load( $filename );
-		$identifier	= new XML_FeedIdentifier();
+		$xml	= \FS_File_Reader::load( $filename );
+		$identifier	= new FeedIdentifier();
 		return $identifier->identify( $xml );
 	}
 
@@ -156,8 +163,8 @@ class XML_FeedIdentifier
 	 */
 	public function identifyFromUrl( $url, $timeout = 5 )
 	{
-		Net_CURL::setTimeOut( $timeout );
-		$xml	= Net_Reader::readUrl( $url );
+		\Net_CURL::setTimeOut( $timeout );
+		$xml	= \Net_Reader::readUrl( $url );
 		return $this->identify( $xml );
 	}
 }

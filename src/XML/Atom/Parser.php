@@ -26,6 +26,12 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			13.05.2008
  */
+
+namespace CeusMedia\Common\XML\Atom;
+
+use CeusMedia\Common\XML\Element as XmlElement;
+use Exception;
+
 /**
  *	Parser for Atom Feeds.
  *	@category		Library
@@ -39,16 +45,18 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			13.05.2008
  */
-class XML_Atom_Parser
+class Parser
 {
 	/**	@var		array		$channelData		Array of collect Data about Atom Feed */
 	public $channelData;
+
 	/**	@var		array		$emptyChannelData	Template of empty Category Data Structure */
 	protected $emptyCategory	= array(
 		'label'		=> "",
 		'scheme'	=> "",
 		'term'		=> "",
 	);
+
 	/**	@var		array		$emptyChannelData	Template of empty Channel Data Structure */
 	protected $emptyChannelData	= array(
 		'author'		=> array(),
@@ -66,6 +74,7 @@ class XML_Atom_Parser
 		'title'			=> "",
 		'updated'		=> "",
 	);
+
 	/**	@var		array		$emptyChannelData	Template of empty Entry Data Structure */
 	protected $emptyEntry		= array(
 		'author'		=> array(),
@@ -85,12 +94,14 @@ class XML_Atom_Parser
 		'title'			=> array(),
 		'updated'		=> "",
 	);
+
 	/**	@var		array		$emptyChannelData	Template of empty Generator Data Structure */
 	protected $emptyGenerator	= array(
 		'uri'		=> "",
 		'version'	=> "",
 		'name'		=> "",
 	);
+
 	/**	@var		array		$emptyChannelData	Template of empty Link Data Structure */
 	protected $emptyLink	= array(
 		'href'			=> "",
@@ -100,12 +111,14 @@ class XML_Atom_Parser
 		'title'			=> NULL,
 		'length'		=> NULL,
 	);
+
 	/**	@var		array		$emptyChannelData	Template of empty Person Data Structure */
 	protected $emptyPerson	= array(
 		'name'	=> "",
 		'uri'	=> "",
 		'email'	=> "",
 	);
+
 	/**	@var		array		$emptyChannelData	Template of empty Text Data Structure */
 	protected $emptyText		= array(
 		'base'		=> "",
@@ -113,6 +126,7 @@ class XML_Atom_Parser
 		'lang'		=> "",
 		'type'		=> "text",
 	);
+
 	/**	@var		array		$entries			Array of Entries in Atom Feed */
 	public $entries;
 
@@ -136,7 +150,7 @@ class XML_Atom_Parser
 	/**
 	 *	Creates a Data Structure with Attributes with a Tempate for a Node.
 	 *	@access		protected
-	 *	@param		XML_Element	$node				Node to build Data Structure for
+	 *	@param		XmlElement	$node				Node to build Data Structure for
 	 *	@param		array							Template Data Structure (emptyCategory|emptyChannelData|emptyEntry|emptyGenerator|emptyLink|emptyPerson|emptyText)
 	 *	@return		array
 	 */
@@ -162,10 +176,10 @@ class XML_Atom_Parser
 		$this->channelData	= $this->emptyChannelData;
 		$this->entries		= array();
 
-		$root		= new XML_Element( $xml );
+		$root		= new XmlElement( $xml );
 		if( $validateRules )
 		{
-			$validator	= new XML_Atom_Validator();
+			$validator	= new Validator();
 			if( !$validator->isValid( $root ) )
 				throw new Exception( $validator->getFirstError() );
 		}
@@ -177,7 +191,7 @@ class XML_Atom_Parser
 	/**
 	 *	Parses Nodes and returns Array Structure.
 	 *	@access		protected
-	 *	@param		XML_Element		$nodes			XML_Element containing Child Nodes to parse
+	 *	@param		XmlElement		$nodes			XML_Element containing Child Nodes to parse
 	 *	@param		array			$template		Template of new Structure (emptyCategory|emptyChannelData|emptyEntry|emptyGenerator|emptyLink|emptyPerson|emptyText)
 	 *	@return		array
 	 */
@@ -225,7 +239,7 @@ class XML_Atom_Parser
 	/**
 	 *	Returns Language Attributes and returns evaluate Language.
 	 *	@access		protected
-	 *	@param		XML_Element		$node			XML_Element
+	 *	@param		XmlElement		$node			XML_Element
 	 *	@param		string			$attributeName	Name of Language Attribute
 	 *	@return		string
 	 */

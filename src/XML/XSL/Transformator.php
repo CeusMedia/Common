@@ -25,6 +25,13 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			30.07.2005
  */
+
+namespace CeusMedia\Common\XML\XSL;
+
+use DOMDocument;
+use InvalidArgumentException;
+use XSLTProcessor;
+
 /**
  *	Transformator for XML and XSLT.
  *	@category		Library
@@ -37,7 +44,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			30.07.2005
  */
-class XML_XSL_Transformator
+class Transformator
 {
 	/**	@var	string		$xml		Content of XML File */
 	protected $xml;
@@ -52,7 +59,7 @@ class XML_XSL_Transformator
 	 */
 	public function loadXmlFile( $xmlFile )
 	{
-		$reader		= new FS_File_Reader( $xmlFile );
+		$reader		= new \FS_File_Reader( $xmlFile );
 		$this->xml	= $reader->readString();
 	}
 
@@ -64,7 +71,7 @@ class XML_XSL_Transformator
 	 */
 	public function loadXslFile( $xslFile )
 	{
-		$reader		= new FS_File_Reader( $xslFile );
+		$reader		= new \FS_File_Reader( $xslFile );
 		$this->xsl	= $reader->readString();
 	}
 
@@ -96,7 +103,7 @@ class XML_XSL_Transformator
 	public function transformToFile( $outFile = false )
 	{
 		$result	= $this->transform();
-		$writer	= new FS_File_Writer( $outFile );
+		$writer	= new \FS_File_Writer( $outFile );
 		return $writer->writeString( $result );
 	}
 }

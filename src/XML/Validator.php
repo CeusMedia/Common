@@ -24,6 +24,9 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+
+namespace CeusMedia\Common\XML;
+
 /**
  *	Validates XML.
  *	@category		Library
@@ -34,7 +37,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@todo			Unit Test
  */
-class XML_Validator
+class Validator
 {
 	/**	@var		array		$error		Array of Error Information */
 	protected $error	= array();
@@ -70,7 +73,7 @@ class XML_Validator
 	 */
 	public function validateFile( $fileName )
 	{
-		$xml = FS_File_Reader::load( $fileName );
+		$xml = \FS_File_Reader::load( $fileName );
 		return $this->validate( $xml );
 	}
 
@@ -81,7 +84,7 @@ class XML_Validator
 	 */
 	public function validateUrl( $url)
 	{
-		$xml	= Net_Reader::readUrl( $url );
+		$xml	= \Net_Reader::readUrl( $url );
 		return $this->validate( $xml );
 	}
 

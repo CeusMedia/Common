@@ -24,6 +24,12 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+
+namespace CeusMedia\Common\XML;
+
+use CeusMedia\Common\XML\DOM\Node;
+use RuntimeException;
+
 /**
  *	Parses XML String and returns Array or Object Structure.
  *	@category		Library
@@ -35,7 +41,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@todo			Unit Test
  */
-class XML_Parser
+class Parser
 {
 	/**	@var		resource		$xml		Resource of XML Parser */
 	protected $xml;
@@ -139,7 +145,7 @@ class XML_Parser
 	{
 		$count		= count( $this->last ) - 1;
 		$parentNode	=& $this->last[$count];
-		$childNode	= new XML_DOM_Node(
+		$childNode	= new Node(
 			$tag,
 			"",
 			$attributes
@@ -175,11 +181,11 @@ class XML_Parser
 	/**
 	 *	Returns an Object Tree as XML_DOM_Node from XML String.
 	 *	@access		public
-	 *	@return		XML_DOM_Node
+	 *	@return		Node
 	 */
 	public function toObject( $xml )
 	{
-		$this->data	= new XML_DOM_Node( "root" );
+		$this->data	= new Node( "root" );
 		$this->xml	= xml_parser_create();
 		xml_set_object( $this->xml, $this );
 		xml_set_element_handler( $this->xml, 'handleTagOpenForObject', 'handleTagCloseForObject' );

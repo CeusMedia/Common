@@ -25,6 +25,11 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			26.12.2005
  */
+
+namespace CeusMedia\Common\XML\DOM;
+
+use Exception;
+
 /**
  *	Deserializer for XML into a Data Object.
  *	@category		Library
@@ -37,7 +42,7 @@
  *	@since			26.12.2005
  *	@todo			rewrite, use ObjectFactory
  */
-class XML_DOM_ObjectDeserializer
+class ObjectDeserializer
 {
 	/**
 	 *	Builds Object from XML of a serialized Object.
@@ -47,7 +52,7 @@ class XML_DOM_ObjectDeserializer
 	 */
 	public static function deserialize( $xml, $strict = TRUE )
 	{
-		$parser	= new XML_DOM_Parser();
+		$parser	= new Parser();
 		$tree	= $parser->parse( $xml );
 		$class	= $tree->getAttribute( 'class' );
 		if( !class_exists( $class ) )

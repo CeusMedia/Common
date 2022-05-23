@@ -25,18 +25,22 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			01.02.2006
  */
+
+namespace CeusMedia\Common\XML\OPML;
+
+use CeusMedia\Common\XML\DOM\Node;
+
 /**
  *	XML Node for OPML Outlines.
  *	@category		Library
  *	@package		CeusMedia_Common_XML_OPML
- *	@extends		XML_DOM_Node
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2020 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			01.02.2006
  */
-class XML_OPML_Outline extends XML_DOM_Node
+class Outline extends Node
 {
 	/**
 	 *	Constructor.
@@ -51,7 +55,7 @@ class XML_OPML_Outline extends XML_DOM_Node
 	/**
 	 *	Adds an Outline Node to this Outline Node.
 	 *	@access		public
-	 *	@param		XML_OPML_Outline	$outline		Outline Node
+	 *	@param		Outline		$outline		Outline Node
 	 *	@return		void
 	 */
 	public function addOutline( $outline )

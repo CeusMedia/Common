@@ -28,6 +28,12 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			10.05.2008
  */
+
+namespace CeusMedia\Common\XML\DOM;
+
+use InvalidArgumentException;
+
+
 /**
  *	Editor for XML Files.
  *	Every Method is working with a Node Path, which is a bit like XPath but without Attribute Selectors.
@@ -43,12 +49,12 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			10.05.2008
  */
-class XML_DOM_FileEditor
+class FileEditor
 {
-	/** @var		string			$fileName		File Name of XML File */
+	/** @var		string		$fileName		File Name of XML File */
 	protected $fileName;
 
-	/** @var		XML_DOM_Node	$xmlTree		... */
+	/** @var		Node		$xmlTree		... */
 	protected $xmlTree;
 
 	/**
@@ -60,7 +66,7 @@ class XML_DOM_FileEditor
 	public function __construct( $fileName )
 	{
 		$this->fileName	= $fileName;
-		$this->xmlTree	= XML_DOM_FileReader::load( $fileName );
+		$this->xmlTree	= FileReader::load( $fileName );
 	}
 
 	/**
@@ -75,7 +81,7 @@ class XML_DOM_FileEditor
 	public function addNode( $nodePath, $name, $content = "", $attributes = array() )
 	{
 		$branch	= $this->getNode( $nodePath );
-		$node	= new XML_DOM_Node( $name, $content, $attributes );
+		$node	= new Node( $name, $content, $attributes );
 		$branch->addChild( $node );
 		return (bool) $this->write();
 	}
@@ -196,6 +202,6 @@ class XML_DOM_FileEditor
 	 */
 	protected function write()
 	{
-		return XML_DOM_FileWriter::save( $this->fileName, $this->xmlTree );
+		return FileWriter::save( $this->fileName, $this->xmlTree );
 	}
 }

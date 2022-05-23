@@ -25,6 +25,14 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			01.02.2006
  */
+
+namespace CeusMedia\Common\XML\OPML;
+
+use CeusMedia\Common\ADT\OptionObject;
+use CeusMedia\Common\XML\DOM\Node;
+use CeusMedia\Common\XML\DOM\Parser;
+use Exception;
+
 /**
  *	Parser for OPML Files.
  *	@category		Library
@@ -37,9 +45,9 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			01.02.2006
  */
-class XML_OPML_Parser
+class Parser
 {
-	/**	@var	ADT_OptionObject	$headers			Object containing Headers of OPML Document */
+	/**	@var	OptionObject		$headers			Object containing Headers of OPML Document */
 	var $headers;
 
 	/**	@var	array				$optionKeys			Array of supported Headers */
@@ -60,10 +68,10 @@ class XML_OPML_Parser
 	/**	@var	array				$outlines			Array of Outlines */
 	var $outlines = array();
 
-	/**	@var	XML_DOM_Node		$tree				Loaded XML Tree from OPML Document */
+	/**	@var	Node				$tree				Loaded XML Tree from OPML Document */
 	var $tree;
 
-	/**	@var	XML_DOM_Parser		$parser				Instance of DOM parser */
+	/**	@var	Parser				$parser				Instance of DOM parser */
 	var $parser;
 
 	/**	@var	bool				$parsed				Flag: OPML has been parsed */
@@ -76,9 +84,9 @@ class XML_OPML_Parser
 	 */
 	public function __construct()
 	{
-		$this->headers	= new ADT_OptionObject();
+		$this->headers	= new OptionObject();
 		$this->outlines	= array();
-		$this->parser	= new XML_DOM_Parser();
+		$this->parser	= new Parser();
 		$this->parsed	= false;
 	}
 

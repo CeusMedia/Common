@@ -25,6 +25,11 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			20.02.2008
  */
+
+namespace CeusMedia\Common\XML\RSS;
+
+use SimpleXMLElement;
+
 /**
  *	Parser for RSS 2.0 Feeds usind SimpleXML.
  *	@category		Library
@@ -35,7 +40,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			20.02.2008
  */
-class XML_RSS_SimpleParser
+class SimpleParser
 {
 	/**
 	 *	Reads RSS from XML statically and returns Array containing Channel Data and Items.
@@ -48,7 +53,7 @@ class XML_RSS_SimpleParser
 	{
 		$channelData	= array();
 		$itemList		= array();
-		$xml	= new SimpleXMLElement( $xml );
+		$xml			= new SimpleXMLElement( $xml );
 		foreach( $xml->channel->children() as $nodeName => $nodeValue )
 		{
 			if( $nodeName == "image" && $nodeValue->children() )

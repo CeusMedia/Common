@@ -24,6 +24,11 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+
+namespace CeusMedia\Common\XML\DOM;
+
+use InvalidArgumentException;
+
 /**
  *	Simplified XML Node DOM Implementation.
  *	@category		Library
@@ -33,7 +38,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class XML_DOM_Node
+class Node
 {
 	/**	@var		string		$nodeName		Name of XML Node */
 	protected $nodeName;
@@ -86,8 +91,8 @@ class XML_DOM_Node
 	/**
 	 *	Adds a Child Node, returns the Node just added.
 	 *	@access		public
-	 *	@param		XML_DOM_Node	$xmlNode	XML Node to add
-	 *	@return		XML_DOM_Node
+	 *	@param		Node		$xmlNode	XML Node to add
+	 *	@return		Node
 	 */
 	public function addChild( $xmlNode )
 	{
@@ -123,7 +128,7 @@ class XML_DOM_Node
 	 *	Returns a Child Nodes by its name.
 	 *	@access		public
 	 *	@param		string		$nodeName		Name of Child Node
-	 *	@return		XML_DOM_Node
+	 *	@return		Node
 	 */
 	public function getChild( $nodeName )
 	{
@@ -137,7 +142,7 @@ class XML_DOM_Node
 	 *	Returns a Child Node by its Index.
 	 *	@access		public
 	 *	@param		int			$index			Index of Child, starting with 0
-	 *	@return		XML_DOM_Node
+	 *	@return		Node
 	 *	@todo		write Unit Test
 	 */
 	public function getChildByIndex( $index )

@@ -25,6 +25,14 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			18.07.02005
  */
+
+namespace CeusMedia\Common\XML\RSS;
+
+use CeusMedia\Common\XML\DOM\Builder as DomBuilder;
+use CeusMedia\Common\XML\DOM\Node;
+use DomainException;
+use Exception;
+
 /**
  *	Builder for RSS Feeds.
  *	@category		Library
@@ -37,14 +45,17 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			18.07.02005
  */
-class XML_RSS_Builder
+class Builder
 {
-	/**	@var	XML_DOM_Builder	$builder			Instance of XML_DOM_Builder */
+	/**	@var	DomBuilder		$builder			Instance of XML_DOM_Builder */
 	protected $builder;
+
 	/**	@var	array			$channel			Array of Channel Data */
 	protected $channel			= array();
+
 	/**	@var	array			$items				Array of Items */
 	protected $items			= array();
+
 	/**	@var	array			$channelElements	Array of Elements of Channel */
 	protected $channelElements	= array(
 		"title"				=> TRUE,
@@ -63,6 +74,7 @@ class XML_RSS_Builder
 		"ttl"				=> FALSE,
 		"rating"			=> FALSE,
 	);
+
 	/**	@var	array			$itemElements		Array of Elements of Items */
 	protected $itemElements	= array(
 		"title"				=> true,
@@ -76,6 +88,7 @@ class XML_RSS_Builder
 		"guid"				=> FALSE,
 		"source"			=> FALSE,
 	);
+
 	/**	@var	array			$namespaces		Array or RSS Namespaces */
 	protected $namespaces	= array();
 
@@ -87,7 +100,7 @@ class XML_RSS_Builder
 	 */
 	public function __construct( $data = array() )
 	{
-		$this->builder	= new XML_DOM_Builder();
+		$this->builder	= new DomBuilder();
 		$this->channel['timezone']	= '+0000';
 		$this->items	= array();
 
@@ -125,68 +138,68 @@ class XML_RSS_Builder
 //		if( count( $this->items ) < 1 )
 //			trigger_error( "RSS items are required.", E_USER_WARNING );
 
-		$tree = new XML_DOM_Node( 'rss' );
+		$tree = new Node( 'rss' );
 		$tree->setAttribute( 'version', $version );
-		$channel	= new XML_DOM_Node( 'channel' );
+		$channel	= new Node( 'channel' );
 
 		//  --  CHANNEL  ELEMENTS  --  //
 		foreach( $this->channelElements as $element => $required )
 			if( $required || isset( $this->channel[$element] ) )
-				$channel->addChild( new XML_DOM_Node( $element, $this->channel[$element] ) );
+				$channel->addChild( new Node( $element, $this->channel[$element] ) );
 
 		if( isset( $this->channel['date'] ) && !isset( $this->channel['pubDate'] ) )
-			$channel->addChild( new XML_DOM_Node( 'pubDate', $this->getDate( $this->channel['date'] ) ) );
+			$channel->addChild( new Node( 'pubDate', $this->getDate( $this->channel['date'] ) ) );
 
 		if( isset( $this->channel['imageUrl'] ) )
 		{
-			$image	= new XML_DOM_Node( 'image' );
-			$image->addChild( new XML_DOM_Node( 'url', $this->channel['imageUrl'] ) );
+			$image	= new Node( 'image' );
+			$image->addChild( new Node( 'url', $this->channel['imageUrl'] ) );
 			if( isset( $this->channel['imageTitle'] ) )
-				$image->addChild( new XML_DOM_Node( 'title', $this->channel['imageTitle'] ) );
+				$image->addChild( new Node( 'title', $this->channel['imageTitle'] ) );
 			if( isset( $this->channel['imageLink'] ) )
-				$image->addChild( new XML_DOM_Node( 'link', $this->channel['imageLink'] ) );
+				$image->addChild( new Node( 'link', $this->channel['imageLink'] ) );
 
 			if( isset( $this->channel['imageWidth'] ) )
-				$image->addChild( new XML_DOM_Node( 'width', $this->channel['imageWidth'] ) );
+				$image->addChild( new Node( 'width', $this->channel['imageWidth'] ) );
 			if( isset( $this->channel['imageHeight'] ) )
-				$image->addChild( new XML_DOM_Node( 'height', $this->channel['imageHeight'] ) );
+				$image->addChild( new Node( 'height', $this->channel['imageHeight'] ) );
 			if( isset( $this->channel['imageDescription'] ) )
-				$image->addChild( new XML_DOM_Node( 'description', $this->channel['imageDescription'] ) );
+				$image->addChild( new Node( 'description', $this->channel['imageDescription'] ) );
 			$channel->addChild( $image );
 		}
 		if( isset( $this->channel['textInputTitle'] ) )
 		{
-			$image	= new XML_DOM_Node( 'textInput' );
-			$image->addChild( new XML_DOM_Node( 'title', $this->channel['textInputTitle'] ) );
+			$image	= new Node( 'textInput' );
+			$image->addChild( new Node( 'title', $this->channel['textInputTitle'] ) );
 			if( isset( $this->channel['textInputDescription'] ) )
-				$image->addChild( new XML_DOM_Node( 'description', $this->channel['textInputDescription'] ) );
+				$image->addChild( new Node( 'description', $this->channel['textInputDescription'] ) );
 			if( isset( $this->channel['textInputName'] ) )
-				$image->addChild( new XML_DOM_Node( 'name', $this->channel['textInputName'] ) );
+				$image->addChild( new Node( 'name', $this->channel['textInputName'] ) );
 			if( isset( $this->channel['textInputLink'] ) )
-				$image->addChild( new XML_DOM_Node( 'link', $this->channel['textInputLink'] ) );
+				$image->addChild( new Node( 'link', $this->channel['textInputLink'] ) );
 			$channel->addChild( $image );
 		}
 
 		//  --  ITEMS  --  //
 		foreach( $this->items as $item )
 		{
-			$node	= new XML_DOM_Node( 'item' );
+			$node	= new Node( 'item' );
 			foreach( $this->itemElements as $element => $required )
 			{
 				$value	= isset( $item[$element] ) ? $item[$element] : NULL;
 				if( $required || $value )
 				{
 					if( $element == "source" && $value ){
-						$node->addChild( new XML_DOM_Node( $element, $this->channel['title'], array( 'url' => $value ) ) );
+						$node->addChild( new Node( $element, $this->channel['title'], array( 'url' => $value ) ) );
 						continue;
 					}
 					if( $element == "guid" && $value ){
-						$node->addChild( new XML_DOM_Node( $element, $value, array( 'isPermaLink' => 'true' ) ) );
+						$node->addChild( new Node( $element, $value, array( 'isPermaLink' => 'true' ) ) );
 						continue;
 					}
 					if( $element == "pubDate" && $value )
 						$value	= $this->getDate( $value );
-					$node->addChild( new XML_DOM_Node( $element, $value ) );
+					$node->addChild( new Node( $element, $value ) );
 				}
 			}
 			$channel->addChild( $node );

@@ -25,6 +25,13 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.6
  */
+
+namespace CeusMedia\Common\XML;
+
+use CeusMedia\Common\XML\DOM\Parser;
+use DOMNode;
+use stdClass;
+
 /**
  *	Converts XML to plain objects (stdClass), trees of nodes (XML_DOM_Node), JSON etc.
  *
@@ -36,7 +43,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.6
  */
-class XML_Converter
+class Converter
 {
 	/**
 	 *	Converts a XML string to a tree of plain objects and returns JSON string.
@@ -60,7 +67,7 @@ class XML_Converter
 	 */
 	public static function toPlainObject( $xml )
 	{
-		$parser		= new XML_DOM_Parser();
+		$parser		= new Parser();
 		$document	= $parser->parse( $xml );
 		$rootNode	= array_shift( $document->getChildren() );
 		$rootName	= $rootNode->getNodeName();

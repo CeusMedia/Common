@@ -25,6 +25,9 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			26.12.2005
  */
+
+namespace CeusMedia\Common\XML\DOM;
+
 /**
  *	Deserializer for a XML File into a Data Object.
  *	@category		Library
@@ -37,7 +40,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			26.12.2005
  */
-class XML_DOM_ObjectFileDeserializer
+class ObjectFileDeserializer
 {
 	/**
 	 *	Builds Object from XML File of a serialized Object.
@@ -48,6 +51,6 @@ class XML_DOM_ObjectFileDeserializer
 	 */
 	public static function deserialize( $fileName )
 	{
-		return XML_DOM_ObjectDeserializer::deserialize( FS_File_Reader::load( $fileName ) );
+		return ObjectDeserializer::deserialize( \FS_File_Reader::load( $fileName ) );
 	}
 }

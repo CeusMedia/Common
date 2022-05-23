@@ -25,6 +25,16 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			24.01.2006
  */
+
+namespace CeusMedia\Common\XML\DOM;
+
+use CeusMedia\Common\ADT\OptionObject;
+use DOMDocument;
+use DOMXpath;
+use InvalidArgumentException;
+use RuntimeException;
+use XML_Validator;
+
 /**
  *	Evaluator for XPath Queries.
  *	@category		Library
@@ -37,7 +47,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			24.01.2006
  */
-class XML_DOM_XPathQuery extends ADT_OptionObject
+class XPathQuery extends OptionObject
 {
 	/**	@var		DOMDocument	$document		DOM Document Object */
 	var $document	= NULL;
@@ -114,7 +124,7 @@ class XML_DOM_XPathQuery extends ADT_OptionObject
 		$options	= array();
 		foreach( $this->getOptions() as $key => $value )
 			$options["CURLOPT_".strtoupper( $key )]	= $value;
-		$xml	= Net_Reader::readUrl( $url, $options );
+		$xml	= \Net_Reader::readUrl( $url, $options );
 		if( !$xml )
 			throw new RuntimeException( 'No XML found for URL "'.$url.'".' );
 		$this->loadXml( $xml );
@@ -129,7 +139,7 @@ class XML_DOM_XPathQuery extends ADT_OptionObject
 	public function loadXml( $xml )
 	{
 		$this->document	= new DOMDocument();
-		$validator	= new XML_Validator();
+		$validator	= new Validator();
 		if( !$validator->validate( $xml ) ){
 			$message	= $validator->getErrorMessage();
 			throw new InvalidArgumentException( 'XML is invalid ('.$message.')' );

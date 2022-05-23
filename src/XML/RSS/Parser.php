@@ -26,6 +26,11 @@
  *	@since			30.01.2006
  *	@see			http://blogs.law.harvard.edu/tech/rss
  */
+
+namespace CeusMedia\Common\XML\RSS;
+
+use CeusMedia\Common\XML\DOM\XPathQuery;
+
 /**
  *	Parser for RSS 2 Feed using XPath.
  *	@category		Library
@@ -39,7 +44,7 @@
  *	@see			http://blogs.law.harvard.edu/tech/rss
  *	@todo			Code Doc
  */
-class XML_RSS_Parser
+class Parser
 {
 	public static $channelKeys	= array(
 		"title",
@@ -87,7 +92,7 @@ class XML_RSS_Parser
 	{
 		$channelData	= array();
 		$itemList		= array();
-		$xPath	= new XML_DOM_XPathQuery();
+		$xPath			= new XPathQuery();
 		$xPath->loadXml( $xml );
 
 		$document	= $xPath->getDocument();

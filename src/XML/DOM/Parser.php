@@ -24,6 +24,14 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+
+namespace CeusMedia\Common\XML\DOM;
+
+use CeusMedia\Common\ADT\OptionObject;
+use DOMDocument;
+use DOMElement;
+use Exception;
+
 /**
  *	Parses a XML Document to a Tree of XML_DOM_Nodes.
  *	@category		Library
@@ -36,7 +44,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class XML_DOM_Parser extends ADT_OptionObject
+class Parser extends OptionObject
 {
 	/**	@var	DOMDocument		$document		DOM Document */
 	protected $document			= NULL;
@@ -68,7 +76,7 @@ class XML_DOM_Parser extends ADT_OptionObject
 	 */
 	protected function loadXml( $xml )
 	{
-		$xsv	= new XML_DOM_SyntaxValidator;
+		$xsv	= new SyntaxValidator;
 		if( !$xsv->validate( $xml ) )
 			throw new Exception( "XML Document is not valid:".$xsv->getErrors() );
 		$this->document	= $xsv->getDocument();
@@ -82,7 +90,7 @@ class XML_DOM_Parser extends ADT_OptionObject
 	 *	Parses XML String to XML Tree.
 	 *	@access		public
 	 *	@param		string		$xml			XML to parse
-	 *	@return		XML_DOM_Node
+	 *	@return		Node
 	 */
 	public function parse( $xml )
 	{
@@ -91,7 +99,7 @@ class XML_DOM_Parser extends ADT_OptionObject
 		while( $root->nodeType == XML_COMMENT_NODE )
 			$root	= $root->nextSibling;
 
-		$tree	= new XML_DOM_Node( $root->nodeName );
+		$tree	= new Node( $root->nodeName );
 		if( $root->hasAttributes())
 		{
 			$attributeNodes	= $root->attributes;
@@ -106,7 +114,7 @@ class XML_DOM_Parser extends ADT_OptionObject
 	 *	Parses XML File to XML Tree recursive.
 	 *	@access		protected
 	 *	@param		DOMElement		$root		DOM Node Element
-	 *	@param		XML_DOM_Node	$tree		Parent XML Node
+	 *	@param		Node			$tree		Parent XML Node
 	 *	@return		bool
 	 */
 	protected function parseRecursive( $root, $tree )
@@ -120,7 +128,7 @@ class XML_DOM_Parser extends ADT_OptionObject
 				switch( $child->nodeType )
 				{
 					case XML_ELEMENT_NODE:
-						$node = new XML_DOM_Node( $child->nodeName );
+						$node = new Node( $child->nodeName );
 						if( !$this->parseRecursive( $child, $node ) )
 						{
 	#						$node->setContent( utf8_decode( $child->textContent ) );

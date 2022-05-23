@@ -27,6 +27,9 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			14.02.2008
  */
+
+namespace CeusMedia\Common\XML\DOM;
+
 /**
  *	Builds and writes Google Sitemap.
  *	@category		Library
@@ -39,7 +42,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			14.02.2008
  */
-class XML_DOM_GoogleSitemapWriter
+class GoogleSitemapWriter
 {
 	/**	@var	array		$list		List of URLs */
 	protected $list	= array();
@@ -78,8 +81,8 @@ class XML_DOM_GoogleSitemapWriter
 	 */
 	public static function writeSitemap( $links, $fileName = "sitemap.xml", $baseUrl = "" )
 	{
-		$xml	= XML_DOM_GoogleSitemapBuilder::buildSitemap( $links, $baseUrl );
-		$file	= new FS_File_Writer( $fileName );
+		$xml	= GoogleSitemapBuilder::buildSitemap( $links, $baseUrl );
+		$file	= new \FS_File_Writer( $fileName );
 		return $file->writeString( $xml );
 	}
 }

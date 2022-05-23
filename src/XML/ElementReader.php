@@ -25,6 +25,9 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			20.02.2008
  */
+
+namespace CeusMedia\Common\XML;
+
 /**
  *	Reader for XML Elements from File or URL.
  *	@category		Library
@@ -38,18 +41,18 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			20.02.2008
  */
-class XML_ElementReader
+class ElementReader
 {
 	/**
 	 *	Reads XML from string.
 	 *	@static
 	 *	@access		public
 	 *	@param		string		$xml		XML string to read
-	 *	@return		XML_Element
+	 *	@return		Element
 	 */
 	static public function read( $xml )
 	{
-		return new XML_Element( $xml );
+		return new Element( $xml );
 	}
 
 	/**
@@ -57,11 +60,11 @@ class XML_ElementReader
 	 *	@static
 	 *	@access		public
 	 *	@param		string		$fileName	File name to XML file
-	 *	@return		XML_Element
+	 *	@return		Element
 	 */
 	static public function readFile( $fileName )
 	{
-		$xml	= FS_File_Reader::load( $fileName );
+		$xml	= \FS_File_Reader::load( $fileName );
 		return self::read( $xml );
 	}
 
@@ -70,11 +73,11 @@ class XML_ElementReader
 	 *	@static
 	 *	@access		public
 	 *	@param		string		$url		URL to read XML from
-	 *	@return		XML_Element
+	 *	@return		Element
 	 */
 	static public function readUrl( $url )
 	{
-		$xml	= Net_Reader::readUrl( $url );
+		$xml	= \Net_Reader::readUrl( $url );
 		return self::read( $xml );
 	}
 }

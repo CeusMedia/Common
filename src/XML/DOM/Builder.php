@@ -24,6 +24,12 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+
+namespace CeusMedia\Common\XML\DOM;
+
+use DOMDocument;
+use DOMElement;
+
 /**
  *	Builder for XML Strings with DOM.
  *	@category		Library
@@ -33,13 +39,13 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class XML_DOM_Builder
+class Builder
 {
 	/**
 	 *	Builds XML and returns XML as string.
 	 *	@static
 	 *	@access		public
-	 *	@param		XML_DOM_Node	$tree			XML Tree
+	 *	@param		Node			$tree			XML Tree
 	 *	@param		string			$encoding		Encoding Character Set (utf-8 etc.)
 	 *	@return		string							Rendered tree as XML string
 	 */
@@ -61,7 +67,7 @@ class XML_DOM_Builder
 	 *	@access		protected
 	 *	@param		DOMElement		$document	DOM Document
 	 *	@param		DOMElement		$root		DOM Element
-	 *	@param		XML_DOM_Node	$tree		Parent XML Node
+	 *	@param		Node			$tree		Parent XML Node
 	 *	@param		string			$encoding	Encoding Character Set (utf-8 etc.)
 	 *	@return		void
 	 */

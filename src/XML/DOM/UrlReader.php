@@ -25,6 +25,12 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			15.04.2008
  */
+
+namespace CeusMedia\Common\XML\DOM;
+
+use CeusMedia\Common\XML\DOM\Node;
+use Exception;
+
 /**
  *	Loads XML from an URL and parses to a Tree of XML_DOM_Nodes.
  *	@category		Library
@@ -37,7 +43,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			15.04.2008
  */
-class XML_DOM_UrlReader
+class UrlReader
 {
 	/**	@var		string		$url			URL of XML File */
 	protected $url;
@@ -67,20 +73,20 @@ class XML_DOM_UrlReader
 	 *	@static
 	 *	@param		string		$url			URL of XML File
 	 *	@param		array		$curlOptions	Array of cURL Options
-	 *	@return		XML_DOM_Node
+	 *	@return		Node
 	 */
 	public static function load( $url, $curlOptions = array() )
 	{
-		$reader	= new Net_Reader( $url );
+		$reader	= new \Net_Reader( $url );
 		$reader->setUserAgent( self::$userAgent );
 		$xml	= $reader->read( $curlOptions );
-		$type	= explode( ";",$reader->getInfo( Net_CURL::INFO_CONTENT_TYPE ) );
+		$type	= explode( ";",$reader->getInfo( \Net_CURL::INFO_CONTENT_TYPE ) );
 		$type	= array_shift( $type );
 
 		if( !in_array( $type, self::$mimeTypes, TRUE ) )
 			throw new Exception( 'URL "'.$url.'" is not an accepted XML File (MIME Type: '.$type.').' );
 
-		$parser	= new XML_DOM_Parser();
+		$parser	= new Parser();
 		$tree	= $parser->parse( $xml );
 		return $tree;
 	}
@@ -88,7 +94,7 @@ class XML_DOM_UrlReader
 	/**
 	 *	Reads XML File and returns parsed Tree.
 	 *	@access		public
-	 *	@return		XML_DOM_Node
+	 *	@return		Node
 	 */
 	public function read()
 	{

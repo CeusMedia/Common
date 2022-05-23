@@ -25,6 +25,9 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			24.01.2006
  */
+
+namespace CeusMedia\Common\XML\DOM;
+
 /**
  *	Identifies Type and Version of RSS and ATOM Feeds.
  *	@category		Library
@@ -37,10 +40,10 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			24.01.2006
  */
-class XML_DOM_FeedIdentifier
+class FeedIdentifier
 {
 	/**	@var	string		$type			Type of Feed */
-	protected $type	= "";
+	protected $type		= "";
 	/**	@var	string		$version		Version of Feed Type */
 	protected $version	= "";
 
@@ -72,7 +75,7 @@ class XML_DOM_FeedIdentifier
 	 */
 	public function identify( $xml )
 	{
-		$parser	= new XML_DOM_Parser();
+		$parser	= new Parser();
 		$tree	= $parser->parse( $xml );
 		return $this->identifyFromTree( $tree );
 	}
@@ -85,7 +88,7 @@ class XML_DOM_FeedIdentifier
 	 */
 	public function identifyFromFile( $fileName )
 	{
-		$file	= new FS_File_Reader( $fileName );
+		$file	= new \FS_File_Reader( $fileName );
 		$xml	= $file->readString();
 		return $this->identify( $xml );
 	}
@@ -93,7 +96,7 @@ class XML_DOM_FeedIdentifier
 	/**
 	 *	Identifies Feed from XML Tree.
 	 *	@access		public
-	 *	@param		XML_DOM_Node	$tree	XML Tree of Feed
+	 *	@param		Node		$tree	XML Tree of Feed
 	 *	@return		string
 	 */
 	public function identifyFromTree( $tree )

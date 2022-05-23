@@ -24,6 +24,12 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+
+namespace CeusMedia\Common\XML\DOM;
+
+use CeusMedia\Common\ADT\OptionObject;
+use InvalidArgumentException;
+
 /**
  *	Storage with unlimited depth to store pairs of data in XML Files.
  *	@category		Library
@@ -37,7 +43,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class XML_DOM_Storage extends ADT_OptionObject
+class Storage extends OptionObject
 {
 	/**	@var	string			$fileName		URI of XML File */
 	protected $fileName;
@@ -60,7 +66,7 @@ class XML_DOM_Storage extends ADT_OptionObject
 
 		if( !file_exists( $this->fileName ) )
 			$this->write();
-		$reader	= new XML_DOM_FileReader( $this->fileName );
+		$reader	= new FileReader( $this->fileName );
 		$tree	= $reader->read();
 		$this->readRecursive( $tree, $this->storage );
 	}
@@ -94,7 +100,7 @@ class XML_DOM_Storage extends ADT_OptionObject
 	/**
 	 *	Reads XML File recursive into array for Storage Operations.
 	 *	@access		protected
-	 *	@param		XML_DOM_Node	$node		Current Node to read
+	 *	@param		Node			$node		Current Node to read
 	 *	@param		array			$array		Current Array in Storage
 	 *	@return 	void
 	 */
@@ -206,8 +212,8 @@ class XML_DOM_Storage extends ADT_OptionObject
 	 */
 	public function write()
 	{
-		$writer	= new XML_DOM_FileWriter( $this->fileName );
-		$root	= new XML_DOM_Node( $this->getOption( 'tag_root' ) );
+		$writer	= new FileWriter( $this->fileName );
+		$root	= new Node( $this->getOption( 'tag_root' ) );
 		$this->writeRecursive( $root, $this->storage );
 		return $writer->write( $root );
 	}
@@ -215,7 +221,7 @@ class XML_DOM_Storage extends ADT_OptionObject
 	/**
 	 *	Writes XML File recursive from Storage.
 	 *	@access		protected
-	 *	@param		XML_DOM_Node	$node		Current Node to read
+	 *	@param		Node			$node		Current Node to read
 	 *	@param		array			$array		Current Array in Storage
 	 *	@return 	void
 	 */
@@ -223,13 +229,13 @@ class XML_DOM_Storage extends ADT_OptionObject
 	{
 		foreach( $array as $key => $value ){
 			if( is_array( $value ) ){
-				$child	= new XML_DOM_Node( $this->getOption( 'tag_level' ) );
+				$child	= new Node( $this->getOption( 'tag_level' ) );
 				$child->setAttribute( 'name', $key );
 				$this->writeRecursive( $child, $array[$key] );
 				$node->addChild( $child );
 			}
 			else{
-				$child	= new XML_DOM_Node( $this->getOption( 'tag_pair' ) );
+				$child	= new Node( $this->getOption( 'tag_pair' ) );
 				$child->setAttribute( 'name', $key );
 				$child->setAttribute( 'type', gettype( $value ) );
 				$child->setContent( utf8_encode( $value ) );

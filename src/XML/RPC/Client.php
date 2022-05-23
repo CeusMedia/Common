@@ -26,6 +26,11 @@
  *	@see			http://xmlrpc.scripting.com/spec.html XML-RPC Specification
  *	@since			0.7.7
  */
+
+namespace CeusMedia\Common\XML\RPC;
+
+use CeusMedia\Common\XML\ElementReader;
+
 /**
  *	Generates URL for Gravatar API.
  *
@@ -38,8 +43,8 @@
  *	@see			http://xmlrpc.scripting.com/spec.html XML-RPC Specification
  *	@since			0.7.7
  */
-class XML_RPC_Client{
-
+class Client
+{
 	/**	@var		string		$url			Base URL of XML-RPC */
 	protected $url;
 
@@ -149,7 +154,7 @@ class XML_RPC_Client{
 	 */
 	static protected function parseResponse( $xml ){
 		$list		= array();
-		$response	= XML_ElementReader::read( $xml );
+		$response	= ElementReader::read( $xml );
 		foreach( $response->params as $params )
 			foreach( $params as $param )
 				foreach( $param as $value )

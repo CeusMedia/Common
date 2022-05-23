@@ -25,6 +25,13 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			20.10.2008
  */
+
+namespace CeusMedia\Common\XML\DOM\PEAR;
+
+use DOMDocument;
+use DOMNode;
+use Exception;
+
 /**
  *	Reader for PEAR Package Description Files in XML.
  *	@category		Library
@@ -36,7 +43,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			20.10.2008
  */
-class XML_DOM_PEAR_PackageReader
+class PackageReader
 {
 	/**
 	 *	Reads Package XML File and returns found Information as Array.
@@ -55,7 +62,7 @@ class XML_DOM_PEAR_PackageReader
 			'changes'		=> array(),
 		);
 
-		$xml	= FS_File_Reader::load( $fileName );
+		$xml	= \FS_File_Reader::load( $fileName );
 		$doc	= new DOMDocument();
 		$doc->preserveWhiteSpace	= FALSE;
 		$doc->validateOnParse		= !TRUE;

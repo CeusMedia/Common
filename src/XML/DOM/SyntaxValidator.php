@@ -25,6 +25,11 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			01.02.2006
  */
+
+namespace CeusMedia\Common\XML\DOM;
+
+use DOMDocument;
+
 /**
  *	Validator for XML Syntax.
  *	@category		Library
@@ -35,7 +40,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			01.02.2006
  */
-class XML_DOM_SyntaxValidator
+class SyntaxValidator
 {
 	/**	@var	DOMDocument		$document	DOM Document of Syntax is valid */
 	protected $document	= NULL;

@@ -27,6 +27,9 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			26.12.2005
  */
+
+namespace CeusMedia\Common\XML\DOM;
+
 /**
  *	Serializer for Data Object into a XML File.
  *	@category		Library
@@ -39,7 +42,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			26.12.2005
  */
-class XML_DOM_ObjectFileSerializer
+class ObjectFileSerializer
 {
 	/**
 	 *	Writes XML String from an Object to a File.
@@ -51,6 +54,6 @@ class XML_DOM_ObjectFileSerializer
 	 */
 	public static function serialize( $object, $fileName )
 	{
-		return FS_File_Writer::save( $fileName, XML_DOM_ObjectSerializer::serialize( $object ) );
+		return \FS_File_Writer::save( $fileName, ObjectSerializer::serialize( $object ) );
 	}
 }

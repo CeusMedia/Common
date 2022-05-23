@@ -25,6 +25,14 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			21.02.2008
  */
+
+namespace CeusMedia\Common\XML;
+
+use DOMNode;
+use InvalidArgumentException;
+use RuntimeException;
+use SimpleXMLElement;
+
 /**
  *	XML element based on SimpleXMLElement with improved attribute Handling.
  *	@category		Library
@@ -36,7 +44,7 @@
  *	@since			21.02.2008
  *	@todo			namespace handling: implement detection "Prefix or URI?", see http://www.w3.org/TR/REC-xml/#NT-Name
  */
-class XML_Element extends SimpleXMLElement
+class Element extends SimpleXMLElement
 {
 	protected $attributes	= array();
 
@@ -93,7 +101,7 @@ class XML_Element extends SimpleXMLElement
 	 *	@param		string		$value		Value of child element
 	 *	@param		string		$nsPrefix	Namespace prefix of child element
 	 *	@param		string		$nsURI		Namespace URI of child element
-	 *	@return		XML_Element
+	 *	@return		Element
 	 *	@throws		RuntimeException		if namespace prefix is neither registered nor given
 	 */
 	public function addChild( $name, $value = NULL, $nsPrefix = NULL, $nsURI = NULL )
@@ -123,7 +131,7 @@ class XML_Element extends SimpleXMLElement
 	 *	@param		string		$cdata_text		The CDATA value of the child element.
 	 *	@param		string		$nsPrefix		Namespace prefix of child element
 	 *	@param		string		$nsURI			Namespace URI of child element
-	 *	@return		XML_Element
+	 *	@return		Element
 	 *	@reprecated	use addChild instead
 	 */
 	public function addChildCData( $name, $text, $nsPrefix = NULL, $nsURI = NULL )
@@ -142,7 +150,7 @@ class XML_Element extends SimpleXMLElement
 	public function asFile( $fileName )
 	{
 		$xml	= $this->asXML();
-		return FS_File_Writer::save( $fileName, $xml );
+		return \FS_File_Writer::save( $fileName, $xml );
 	}
 
 	/**

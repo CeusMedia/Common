@@ -25,6 +25,13 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			01.02.2006
  */
+
+namespace CeusMedia\Common\XML\OPML;
+
+use CeusMedia\Common\XML\DOM\Builder;
+use CeusMedia\Common\XML\DOM\Node;
+use InvalidArgumentException;
+
 /**
  *	Builder for OPML Files.
  *	@category		Library
@@ -37,10 +44,11 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			01.02.2006
  */
-class XML_OPML_Builder extends XML_DOM_Node
+class Builder extends Node
 {
-	/**	@var	XML_DOM_Node	$tree			Outline Document Tree */
+	/**	@var	Node	$tree			Outline Document Tree */
 	protected $tree;
+
 	/**	@var	array			$headers		Array of supported Headers */
 	protected $headers	= array(
 		"title",
@@ -64,16 +72,16 @@ class XML_OPML_Builder extends XML_DOM_Node
 	 */
 	public function __construct( $version = "1.0" )
 	{
-		$this->tree	= new XML_DOM_Node( "opml" );
+		$this->tree	= new Node( "opml" );
 		$this->tree->setAttribute( "version", $version );
-		$this->tree->addChild( new XML_DOM_Node( "head" ) );
-		$this->tree->addChild( new XML_DOM_Node( "body" ) );
+		$this->tree->addChild( new Node( "head" ) );
+		$this->tree->addChild( new Node( "body" ) );
 	}
 
 	/**
 	 *	Adds Outline to OPML Document.
 	 *	@access		public
-	 *	@param		OPML_DOM_Outline	outline		Outline Node to add
+	 *	@param		Outline		outline		Outline Node to add
 	 *	@return		void
 	 */
 	public function addOutline( $outline )
@@ -96,7 +104,7 @@ class XML_OPML_Builder extends XML_DOM_Node
 			throw new InvalidArgumentException( "Unsupported Header '".$key."'" );
 		$children	=& $this->tree->getChildren();
 		$head		=& $children[0];
-		$node		= new XML_DOM_Node( $key, $value );
+		$node		= new Node( $key, $value );
 		$head->addChild( $node );
 	}
 
@@ -108,7 +116,7 @@ class XML_OPML_Builder extends XML_DOM_Node
 	 */
 	public function build( $encoding = "utf-8" )
 	{
-		$builder	= new XML_DOM_Builder;
+		$builder	= new Builder;
 		$xml		= $builder->build( $this->tree, $encoding );
 		return $xml;
 	}

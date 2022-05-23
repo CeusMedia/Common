@@ -25,6 +25,9 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			20.02.2008
  */
+
+namespace CeusMedia\Common\XML\RSS;
+
 /**
  *	Writer for RSS 2.0 Feeds.
  *	@category		Library
@@ -37,10 +40,11 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			20.02.2008
  */
-class XML_RSS_Writer
+class Writer
 {
 	/**	@var	array			$channelData		Array of Channel Data */
 	protected $channelData		= array();
+
 	/**	@var	array			$itemList			Array of Items */
 	protected $itemList			= array();
 
@@ -105,11 +109,11 @@ class XML_RSS_Writer
 	 */
 	public static function save( $fileName, $channelData, $itemList, $encoding = "utf-8" )
 	{
-		$builder	= new XML_RSS_Builder();
+		$builder	= new Builder();
 		$builder->setChannelData( $channelData );
 		$builder->setItemList( $itemList );
 		$xml	= $builder->build( $encoding = "utf-8" );
-		return FS_File_Writer::save( $fileName, $xml );
+		return \FS_File_Writer::save( $fileName, $xml );
 	}
 
 	/**

@@ -27,6 +27,11 @@
  *	@since			13.05.2008
  *	@version		0.6
  */
+
+namespace CeusMedia\Common\XML\Atom;
+
+use CeusMedia\Common\XML\Element as XmlElement;
+
 /**
  *	Validates a XML Element built form an Atom XML String against most of the ATOM Rules.
  *	@category		Library
@@ -39,7 +44,7 @@
  *	@since			13.05.2008
  *	@version		0.6
  */
-class XML_Atom_Validator
+class Validator
 {
 	/**	@var		array			$errors			List of broken Atom Rules */
 	protected $errors	= array();
@@ -100,7 +105,7 @@ class XML_Atom_Validator
 	/**
 	 *	Indicates whether a XML Element built form an Atom XML String is a valid Atom Feed.
 	 *	@access		protected
-	 *	@param		XML_Element		$xmlElement		Root Element of Atom Feed
+	 *	@param		XmlElement		$xmlElement		Root Element of Atom Feed
 	 *	@return		bool
 	 */
 	public function isValid( $xmlElement )
@@ -112,7 +117,7 @@ class XML_Atom_Validator
 	/**
 	 *	Validates a XML Element built form an Atom XML String and returns broken Atom Rules.
 	 *	@access		protected
-	 *	@param		XML_Element		$xmlElement		Root Element of Atom Feed
+	 *	@param		XmlElement		$xmlElement		Root Element of Atom Feed
 	 *	@return		bool
 	 */
 	protected function validate( $xmlElement )

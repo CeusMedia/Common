@@ -25,6 +25,9 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			14.02.2008
  */
+
+namespace CeusMedia\Common\XML\DOM;
+
 /**
  *	Builds and writes Google Sitemap.
  *	@category		Library
@@ -37,7 +40,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			14.02.2008
  */
-class XML_DOM_GoogleSitemapBuilder
+class GoogleSitemapBuilder
 {
 	/**	@var	array		$list		List of URLs */
 	protected $list	= array();
@@ -74,16 +77,16 @@ class XML_DOM_GoogleSitemapBuilder
 	 */
 	public static function buildSitemap( $links, $baseUrl = "" )
 	{
-		$root	= new XML_DOM_Node( "urlset" );
+		$root	= new Node( "urlset" );
 		$root->setAttribute( 'xmlns', "http://www.google.com/schemas/sitemap/0.84" );
 		foreach( $links as $link )
 		{
-			$child	= new XML_DOM_Node( "url" );
-			$loc	= new XML_DOM_Node( "loc", $baseUrl.$link );
+			$child	= new Node( "url" );
+			$loc	= new Node( "loc", $baseUrl.$link );
 			$child->addChild( $loc );
 			$root->addChild( $child );
 		}
-		$builder	= new XML_DOM_Builder();
+		$builder	= new Builder();
 		return $builder->build( $root );
 	}
 }
