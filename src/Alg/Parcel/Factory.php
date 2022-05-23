@@ -25,6 +25,12 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			08.05.2008
  */
+
+namespace CeusMedia\Common\Alg\Parcel;
+
+use InvalidArgumentException;
+use OutOfRangeException;
+
 /**
  *	...
  *	@category		Library
@@ -37,12 +43,14 @@
  *	@since			08.05.2008
  *	@todo			Code Doc
  */
-class Alg_Parcel_Factory
+class Factory
 {
 	/**	@var		array		$articles		List of possible Articles */
 	protected $articles;
+
 	/**	@var		array		$packets		Array of possible Packet and their Prices */
 	protected $packets;
+
 	/**	@var		array		$volumes		Array of Packets and the Volumes the Articles would need */
 	protected $volumes;
 
@@ -66,7 +74,7 @@ class Alg_Parcel_Factory
 	 *	@access		public
 	 *	@param		string		$packetName		Name of Packet Size
 	 *	@param		array		$articles		Articles to put into Packet
-	 *	@return		Alg_Parcel_Packet
+	 *	@return		Packet
 	 */
 	public function produce( $packetName, $articles )
 	{
@@ -74,7 +82,7 @@ class Alg_Parcel_Factory
 			throw new InvalidArgumentException( 'Packet "'.$packetName.'" is not a valid Packet.' );
 		try
 		{
-			$packet	= new Alg_Parcel_Packet( $packetName );
+			$packet	= new Packet( $packetName );
 			foreach( $articles as $articleName => $articleQuantity )
 			{
 				if( !in_array( $articleName, $this->articles ) )
@@ -89,7 +97,7 @@ class Alg_Parcel_Factory
 		}
 		catch( OutOfRangeException $e )
 		{
-			throw new OutOfRangeException( 'To much Articles for Packet.' ); 
+			throw new OutOfRangeException( 'To much Articles for Packet.' );
 		}
 	}
 }

@@ -24,6 +24,13 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+
+namespace CeusMedia\Common\Alg\Time;
+
+use Exception;
+use InvalidArgumentException;
+use OutOfBoundsException;
+
 /**
  *	...
  *	@category		Library
@@ -34,7 +41,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@todo			Code Doc
  */
-class Alg_Time_DurationPhraser
+class DurationPhraser
 {
 	protected $patternLabel	= '@(.*){(s|m|h|D|W|M|Y)}(.*)::([0-9]+)$@';
 	protected $patternData	= '@::[0-9]+$@';
@@ -42,8 +49,8 @@ class Alg_Time_DurationPhraser
 
 	public function __construct( $ranges = array() )
 	{
-		if( !( $ranges instanceof Alg_Time_DurationPhraseRanges ) )
-			$ranges	= new Alg_Time_DurationPhraseRanges( $ranges );
+		if( !( $ranges instanceof DurationPhraseRanges ) )
+			$ranges	= new DurationPhraseRanges( $ranges );
 		$this->ranges	= $ranges;
 	}
 

@@ -25,6 +25,9 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.6.8
  */
+
+namespace CeusMedia\Common\Alg\Text;
+
 /**
  *	Extracts Terms from a Text Document.
  *	@category		Library
@@ -37,7 +40,7 @@
  *	@since			0.6.8
  *	@todo			Code Doc
  */
-class Alg_Text_TermExtractor
+class TermExtractor
 {
 	public static $blacklist					= array();
 	public static $backlistCaseSensitive		= FALSE;
@@ -82,9 +85,9 @@ class Alg_Text_TermExtractor
 	public static function loadBlacklist( $fileName )
 	{
 		$string	= FS_File_Editor::load( $fileName );
-		if( !Alg_Text_Unicoder::isUnicode( $string ) )
+		if( !Unicoder::isUnicode( $string ) )
 		{
-			$string	= Alg_Text_Unicoder::convertToUnicode( $string );
+			$string	= Unicoder::convertToUnicode( $string );
 			FS_File_Editor::save( $fileName, $string );
 		}
 		$list	= FS_File_Editor::loadArray( $fileName );

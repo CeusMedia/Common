@@ -25,6 +25,12 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			02.12.2008
  */
+
+namespace CeusMedia\Common\Alg\Tree\Menu;
+
+use CeusMedia\Common\ADT\Tree\Menu\Collection;
+use CeusMedia\Common\ADT\Tree\Menu\Item;
+
 /**
  *	Converter between OPML and Tree Menu Structure.
  *	@category		Library
@@ -38,14 +44,14 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			02.12.2008
  */
-class Alg_Tree_Menu_Converter
+class Converter
 {
 	/**
 	 *	Adds Tree Menu Items from OPML Outlines into a given Tree Menu List recursively.
 	 *	@access		public
 	 *	@static
-	 *	@param		array				$outlines		Outline Array from OPML Parser
-	 *	@param		ADT_Tree_Menu_List	$container		Current working Menu Container, a Tree Menu List initially.
+	 *	@param		array			$outlines		Outline Array from OPML Parser
+	 *	@param		Collection		$container		Current working Menu Container, a Tree Menu List initially.
 	 *	@return		void
 	 */
 	protected static function buildMenuListFromOutlines( $lines, &$container )
@@ -55,15 +61,15 @@ class Alg_Tree_Menu_Converter
 			if( isset( $line['outlines'] ) && count( $line['outlines'] ) )
 			{
 				if( isset ( $line['url'] ) )
-					$item	= new ADT_Tree_Menu_Item( $line['url'], $line['text'] );
+					$item	= new Item( $line['url'], $line['text'] );
 				else
-					$item	= new ADT_Tree_Menu_List( $line['text'] );
+					$item	= new Collection( $line['text'] );
 				self::buildMenuListFromOutlines( $line['outlines'], $item );
 				$container->addChild( $item );
 			}
 			else
 			{
-				$item	= new ADT_Tree_Menu_Item( $line['url'], $line['text'] );
+				$item	= new Item( $line['url'], $line['text'] );
 				$container->addChild( $item );
 			}
 		}
@@ -76,14 +82,14 @@ class Alg_Tree_Menu_Converter
 	 *	@param		string		$opml			OPML String
 	 *	@param		string		$labelRoot		Label of Top Tree Menu List
 	 *	@param		string		$rootClass		CSS Class of root node
-	 *	@return		ADT_Tree_Menu_List
+	 *	@return		Collection
 	 */
 	public static function convertFromOpml( $opml, $labelRoot, $rootClass = NULL )
 	{
 		$parser		= new XML_OPML_Parser();
 		$parser->parse( $opml );
 		$lines		= $parser->getOutlines();
-		$list		= new ADT_Tree_Menu_List( $labelRoot, array( 'class' => $rootClass ) );
+		$list		= new Collection( $labelRoot, array( 'class' => $rootClass ) );
 
 		self::buildMenuListFromOutlines( $lines, $list );
 		return $list;
@@ -96,7 +102,7 @@ class Alg_Tree_Menu_Converter
 	 *	@param		string		$fileName		File Name of OPML File
 	 *	@param		string		$labelRoot		Label of Top Tree Menu List
 	 *	@param		string		$rootClass		CSS Class of root node
-	 *	@return		ADT_Tree_Menu_List
+	 *	@return		Collection
 	 */
 	public static function convertFromOpmlFile( $fileName, $labelRoot, $rootClass = NULL )
 	{

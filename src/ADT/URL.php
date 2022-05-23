@@ -254,7 +254,7 @@ class URL
 		return $this;
 	}
 
-	public function setDefault( ADT_URL $url ): self
+	public function setDefault( URL $url ): self
 	{
 		$this->defaultUrl	= $url;
 		return $this;

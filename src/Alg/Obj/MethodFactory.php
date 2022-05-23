@@ -25,6 +25,13 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.6.8
  */
+
+namespace CeusMedia\Common\Alg\Obj;
+
+use CeusMedia\Common\Deprecation;
+use BadMethodCallException;
+use RuntimeException;
+
 /**
  *	Calls Object or Class Methods using Reflection.
  *	@category		Library
@@ -36,7 +43,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.6.8
  */
-class Alg_Object_MethodFactory
+class MethodFactory
 {
 	protected $arguments;
 	protected $method;
@@ -67,7 +74,7 @@ class Alg_Object_MethodFactory
 	public function call( bool $checkMethod = TRUE, bool $allowProtected = FALSE )
 	{
 		if( NULL === $this->method )
-			throw new \RuntimeException( 'No method set' );
+			throw new RuntimeException( 'No method set' );
 		return $this->callMethod( $this->method, $this->arguments, $checkMethod, $allowProtected );
 	}
 
@@ -83,7 +90,7 @@ class Alg_Object_MethodFactory
 	public function callMethod( string $name, array $arguments = array(), bool $checkMethod = TRUE, bool $allowProtected = FALSE )
 	{
 		if( NULL === $this->object )
-			throw new \RuntimeException( 'Neither object nor class set' );
+			throw new RuntimeException( 'Neither object nor class set' );
 		return self::staticCallObjectMethod( $this->object, $name, $arguments, $checkMethod, $allowProtected );
 	}
 
@@ -99,7 +106,7 @@ class Alg_Object_MethodFactory
 	{
 		if( !class_exists( $name ) )
 			throw new RuntimeException( 'Class "'.$name.'" has not been loaded' );
-		return $this->setObject( Alg_Object_Factory::createObject( $name, $arguments ) );
+		return $this->setObject( Factory::createObject( $name, $arguments ) );
 	}
 
 	/**
@@ -129,24 +136,6 @@ class Alg_Object_MethodFactory
 	}
 
 	//  --  STATIC  --  //
-
-	public static function callClassMethod( string $className, string $methodName, array $classParameters = array(), array $methodParameters = array(), bool $checkMethod = TRUE, bool $allowProtected = FALSE )
-	{
-		Deprecation::getInstance()
-			->setErrorVersion( '0.8.5.7' )
-			->setExceptionVersion( '0.8.6' )
-			->message( 'Use staticCallClassMethod or OOP-style instead' );
-		return self::staticCallClassMethod( $className, $methodName, $classParameters, $methodParameters, $checkMethod, $allowProtected );
-	}
-
-	public static function callObjectMethod( $object, string $methodName, array $parameters = array(), bool $checkMethod = TRUE, bool $allowProtected = FALSE )
-	{
-		Deprecation::getInstance()
-			->setErrorVersion( '0.8.5.7' )
-			->setExceptionVersion( '0.8.6' )
-			->message( 'Use staticCallObjectMethod or OOP-style instead' );
-		return self::staticCallObjectMethod( $object, $methodName, $parameters, $checkMethod, $allowProtected );
-	}
 
 	/**
 	 *	Calls a Method from a Class or Object with Method Parameters and Object Parameters if a Class is given.

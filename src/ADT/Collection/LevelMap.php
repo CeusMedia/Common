@@ -29,6 +29,8 @@
  */
 namespace CeusMedia\Common\ADT\Collection;
 
+use InvalidArgumentException;
+
 /**
  *	A Map with Level Support.
  *	It is a Dictionary where Keys can contain Dots.
@@ -59,14 +61,14 @@ class LevelMap extends Dictionary
 	 *	@param		string		$key		Key in Dictionary
 	 *	@param		mixed		$default	Value to return if key is not set, default: NULL
 	 *	@return		mixed
-	 *	@throws		\InvalidArgumentException	if key is invalid
+	 *	@throws		InvalidArgumentException	if key is invalid
 	 */
 	public function get( string $key, $default = NULL )
 	{
 		//  no Key given
 		if( 0 === strlen( trim( $key ) ) )
 			//  throw Exception
-			throw new \InvalidArgumentException( 'Key must not be empty.' );
+			throw new InvalidArgumentException( 'Key must not be empty.' );
 		//  Key is set on its own
 		if( isset( $this->pairs[$key] ) )
 			//  return Value
@@ -128,14 +130,14 @@ class LevelMap extends Dictionary
 	 *	@access		public
 	 *	@param		string		$key		Key in Dictionary
 	 *	@return		bool
-	 *	@throws		\InvalidArgumentException	if key is invalid
+	 *	@throws		InvalidArgumentException	if key is invalid
 	 */
 	public function has( string $key ): bool
 	{
 		//  no Key given
 		if( 0 === strlen( trim( $key ) ) )
 			//  throw Exception
-			throw new \InvalidArgumentException( 'Key must not be empty.' );
+			throw new InvalidArgumentException( 'Key must not be empty.' );
 		//  Key is set on its own
 		if( isset( $this->pairs[$key] ) )
 			return TRUE;
@@ -162,14 +164,14 @@ class LevelMap extends Dictionary
 	 *	@access		public
 	 *	@param		string		$key		Key in Dictionary
 	 *	@return		void
-	 *	@throws		\InvalidArgumentException	if key is empty
+	 *	@throws		InvalidArgumentException	if key is empty
 	 */
 	public function remove( string $key ): bool
 	{
 		//  no Key given
 		if( 0 === strlen( trim( $key ) ) )
 			//  throw Exception
-			throw new \InvalidArgumentException( 'Key must not be empty.' );
+			throw new InvalidArgumentException( 'Key must not be empty.' );
 		//  Key is set on its own
 		if( isset( $this->pairs[$key] ) ){
 			//  remove Pair

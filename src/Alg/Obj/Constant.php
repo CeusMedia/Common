@@ -1,11 +1,20 @@
 <?php
-class Alg_Object_Constant{
+namespace CeusMedia\Common\Alg\Obj;
 
+use CeusMedia\Common\ADT\Collection\Dictionary;
+use DomainException;
+use RangeException;
+use ReflectionClass;
+use RuntimeException;
+
+class Constant
+{
 	protected $className;
 	protected $constants;
 	protected $reflection;
 
-	public function __construct( $className ){
+	public function __construct( $className )
+	{
 		if( !class_exists( $className ) ){
 			$message	= sprintf( 'Class "%s" is not available', $className );
 			throw new RuntimeException( $message );
@@ -13,18 +22,20 @@ class Alg_Object_Constant{
 		$this->className	= $className;
 	}
 
-	public function getAll( $prefix = NULL, bool $asDictionary = FALSE ){
+	public function getAll( $prefix = NULL, bool $asDictionary = FALSE )
+	{
 		$reflection	= new ReflectionClass( $this->className );
 		$constants	= $reflection->getConstants();
 		if( $prefix ){
 			$prefix		= rtrim( $prefix, '_' );
-			$dictionary	= new ADT_List_Dictionary( $constants );
+			$dictionary	= new Dictionary( $constants );
 			$constants	= $dictionary->getAll( $prefix.'_', $asDictionary );
 		}
 		return $constants;
 	}
 
-	public function getKeyByValue( $value, $prefix = NULL ){
+	public function getKeyByValue( $value, $prefix = NULL )
+	{
 		$constants	= $this->getAll( $prefix );
 		$list		= array();
 		foreach( $constants as $constantKey => $constantValue )
@@ -41,7 +52,8 @@ class Alg_Object_Constant{
 		return $list[0];
 	}
 
-	public function getValue( $constantKey, $prefix = NULL ){
+	public function getValue( $constantKey, $prefix = NULL )
+	{
 		$constants	= $this->getAll( $prefix );
 		if( array_key_exists( $constantKey, $constants ) )
 			return $constants[$constantKey];
@@ -60,18 +72,21 @@ class Alg_Object_Constant{
 		return array_key_exists( $value, $this->getAll( $prefix ) );
 	}
 
-	static public function staticGetAll( $className, $prefix = NULL ){
-		$object		= new Alg_Object_Constant( $className );
+	static public function staticGetAll( $className, $prefix = NULL )
+	{
+		$object		= new Constant( $className );
 		return $object->getAll( $prefix );
 	}
 
-	static public function staticGetValue( $className, $constantKey, $prefix = NULL ){
-		$object		= new Alg_Object_Constant( $className );
+	static public function staticGetValue( $className, $constantKey, $prefix = NULL )
+	{
+		$object		= new Constant( $className );
 		return $object->getValue( $constantKey, $prefix );
 	}
 
-	static public function staticGetKeyByValue( $className, $value, $prefix = NULL ){
-		$object		= new Alg_Object_Constant( $className );
+	static public function staticGetKeyByValue( $className, $value, $prefix = NULL )
+	{
+		$object		= new Constant( $className );
 		return $object->getKeyByValue( $value, $prefix );
 	}
 }

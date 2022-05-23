@@ -25,6 +25,9 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			17.02.2008
  */
+
+namespace CeusMedia\Common\Alg\Crypt;
+
 /**
  *	Wrapper of ROT13 Functions
  *	@category		Library
@@ -35,7 +38,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			17.02.2008
  */
-class Alg_Crypt_Rot13
+class Rot13
 {
 
 	/**

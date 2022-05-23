@@ -24,6 +24,9 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+
+namespace CeusMedia\Common\Alg\Turing;
+
 /**
  *	Turing Machine with one tape.
  *	@category		Library
@@ -33,22 +36,29 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class Alg_Turing_Machine
+class Machine
 {
 	/**	@var	array			$states			States of Machine */
 	protected $states;
+
 	/**	@var	array			$alphabet		Alphabet of Machine Language */
 	protected $alphabet;
+
 	/**	@var	array			$transition		Transitions of Machine */
 	protected $transition;
+
 	/**	@var	array			$start			Start State */
 	protected $start;
+
 	/**	@var	array			$blank			Blank Sign of Machine Language */
 	protected $blank;
+
 	/**	@var	array			$finals			Final States */
 	protected $finals;
+
 	/**	@var	array			$state			Current State of Machine */
 	protected $state;
+
 	/**	@var	int				$pointer		Current Pointer of Machine */
 	protected $pointer;
 

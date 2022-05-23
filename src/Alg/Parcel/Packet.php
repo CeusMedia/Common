@@ -25,6 +25,11 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			08.05.2008
  */
+
+namespace CeusMedia\Common\Alg\Parcel;
+
+use OutOfRangeException;
+
 /**
  *	Packet can contain different Articles and has a defined Volume.
  *	@category		Library
@@ -35,12 +40,14 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			08.05.2008
  */
-class Alg_Parcel_Packet
+class Packet
 {
 	/**	@var		string		$name		Name of Packet Size */
 	protected $name;
+
 	/**	@var		array		$articles	Array of Articles and their Quantities */
 	protected $articles			= array();
+
 	/**	@var		float		$volume		Filled Volume as floating Number between 0 and 1 */
 	protected $volume			= 0;
 

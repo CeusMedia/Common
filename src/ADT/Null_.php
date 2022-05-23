@@ -27,6 +27,10 @@
  */
 namespace CeusMedia\Common\ADT;
 
+use CeusMedia\Common\Renderable;
+use ArrayAccess;
+use Countable;
+
 /**
  *	Null Object (Design Pattern) Implementation as Singleton.
  *	@category		Library
@@ -37,7 +41,7 @@ namespace CeusMedia\Common\ADT;
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.0
  */
-class Null_ implements \Countable, \Renderable, \ArrayAccess
+class Null_ implements Countable, Renderable, ArrayAccess
 {
 	/**	@var	Null_		$instance		Singleton instance of ADT_Null */
 	protected static $instance	= NULL;

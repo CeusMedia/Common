@@ -25,6 +25,14 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.6.8
  */
+
+namespace CeusMedia\Common\Alg\Obj;
+
+use BadMethodCallException;
+use InvalidArgumentException;
+use ReflectionObject;
+use RuntimeException;
+
 /**
  *	Container to compose Objects and delegate Calls to their Methods.
  *	@category		Library
@@ -37,7 +45,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.6.8
  */
-class Alg_Object_Delegation
+class Delegation
 {
 	protected $delegableObjects	= array();
 	protected $delegableMethods	= array();
@@ -51,7 +59,7 @@ class Alg_Object_Delegation
 	 */
 	public function addClass( $className, $parameters = array() )
 	{
-		$object	= Alg_Object_Factory::createObject( $className, $parameters );
+		$object	= Factory::createObject( $className, $parameters );
 		$this->addObject( $object );
 	}
 
@@ -95,7 +103,7 @@ class Alg_Object_Delegation
 			$method	= $reflection->getMethod( $methodName );
 			if( !$method->isPublic() )
 				continue;
-			$factory	= new Alg_Object_MethodFactory;
+			$factory	= new MethodFactory;
 			return $factory->call( $object, $methodName, $arguments );
 		}
 		throw new BadMethodCallException( 'Method "'.$methodName.'" is not existing in added objects' );

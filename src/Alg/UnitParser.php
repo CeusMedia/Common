@@ -25,6 +25,12 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			11.04.2014
  */
+
+namespace CeusMedia\Common\Alg;
+
+use DomainException;
+use InvalidArgumentException;
+
 /**
  *	Formats Numbers intelligently and adds Units to Bytes and Seconds.
  *
@@ -37,8 +43,8 @@
  *	@since			11.04.2014
  *	@todo			code doc
  */
-class Alg_UnitParser{
-
+class UnitParser
+{
 	static public $rules	= array(
 		'/^([0-9.,]+)$/'		=> 1,
 		'/^([0-9.,]+)B$/'		=> 1,
@@ -57,7 +63,8 @@ class Alg_UnitParser{
 		'/^([0-9.,]+)GiB$/i'	=> 1000000000,
 	);
 
-	static public function parse( $string, $exceptedUnit = NULL ){
+	static public function parse( $string, $exceptedUnit = NULL )
+	{
 		if( !strlen( trim( $string ) ) )
 			throw new InvalidArgumentException( 'String cannot be empty' );
 		$int	= (int) $string;

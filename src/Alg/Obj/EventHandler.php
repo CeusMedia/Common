@@ -25,6 +25,11 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.6.8
  */
+
+namespace CeusMedia\Common\Alg\Obj;
+
+use InvalidArgumentException;
+
 /**
  *	Handles Callbacks on Object or Class Methods for triggered Events.
  *	@category		Library
@@ -36,7 +41,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.6.8
  */
-class Alg_Object_EventHandler
+class EventHandler
 {
 	/**	@var		array			$callbacks			Map of registered Callback Methods on Events */
 	protected $callbacks			= array();
@@ -67,14 +72,14 @@ class Alg_Object_EventHandler
 	 *	@param		string			$eventName			Name of the Event
 	 *	@param		string			$class				Name of Class with Method to call
 	 *	@param		string			$methodName			Name of Object Method to call on Event
-	 *	@param		array			$methodParameters	List of Parameters for Method Call		
+	 *	@param		array			$methodParameters	List of Parameters for Method Call
 	 *	@return		void
 	 */
 	public function addClassCallback( $eventName, $class, $methodName, $methodParameters = array(), $classParameters = array() )
 	{
 		if( !is_string( $class ) )
 			throw new InvalidArgumentException( 'Not a class name given' );
-		$object	= Alg_Object_Factory::createObject( $class, $classParameters );
+		$object	= Factory::createObject( $class, $classParameters );
 		$this->addObjectCallback(  $eventName, $object, $methodName, $methodParameters );
 	}
 
@@ -123,7 +128,7 @@ class Alg_Object_EventHandler
 		{
 			extract( $callback );
 			//  build a new Method Factory
-			$factory	= new Alg_Object_MethodFactory;
+			$factory	= new MethodFactory;
 			$factory->callObjectMethod( $object, $methodName, $methodParameters );
 			//  increase Callback Counter
 			$counter++;

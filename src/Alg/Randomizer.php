@@ -25,6 +25,14 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			18.01.2006
  */
+
+namespace CeusMedia\Common\Alg;
+
+use CeusMedia\Common\Alg\Crypt\PasswordStrength;
+use InvalidArgumentException;
+use RuntimeException;
+use UnderflowException;
+
 /**
  *	Randomizer supporting different sign types.
  *	@category		Library
@@ -35,28 +43,38 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			18.01.2006
  */
-class Alg_Randomizer
+class Randomizer
 {
 	/**	@var		string		$digits			String with Digits */
 	public $digits				= "0123456789";
+
 	/**	@var		string		$larges		String with large Letters */
 	public $larges				= "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
 	/**	@var		string		$smalls			String with small Letters */
 	public $smalls				= "abcdefghijklmnopqrstuvwxyz";
+
 	/**	@var		string		$signs			String with Signs */
 	public $signs				= '.:_-+*=/\!§$%&(){}[]#@?~';
+
 	/**	@var		integer		$strength		Strength randomized String should have at least (-100 <= x <= 100) */
 	public $strength			= 0;
+
 	/**	@var		integer		$maxTurns		Number of Turns to try to create a strong String */
 	public $maxTurns			= 10;
+
 	/**	@var		boolean		$unique			Flag: every Sign may only appear once in randomized String */
 	public $unique				= TRUE;
+
 	/**	@var		boolean		$useDigits		Flag: use Digits */
 	public $useDigits			= TRUE;
+
 	/**	@var		boolean		$useSmalls		Flag: use small Letters */
 	public $useSmalls			= TRUE;
+
 	/**	@var		boolean		$useLarges		Flag: use large Letters */
 	public $useLarges			= TRUE;
+
 	/**	@var		boolean		$useSigns		Flag: use Signs */
 	public $useSigns			= TRUE;
 
@@ -70,7 +88,8 @@ class Alg_Randomizer
 	 *	@param		integer		$strength		Strength randomized String should have at least (-100 <= x <= 100)
 	 *	@return		void
 	 */
-	public function configure( $useDigits, $useSmalls, $useLarges, $useSigns, $strength ){
+	public function configure( $useDigits, $useSmalls, $useLarges, $useSigns, $strength )
+	{
 		if( !( $useDigits || $useSmalls || $useLarges || $useSigns ) )
 			throw InvalidArgumentException( 'Atleast one type of characters must be enabled' );
 		$this->useDigits	= $useDigits;
@@ -192,7 +211,7 @@ class Alg_Randomizer
 		do
 		{
 			//  calculate Strength of random String
-			$currentStrength	= Alg_Crypt_PasswordStrength::getStrength( $random );
+			$currentStrength	= PasswordStrength::getStrength( $random );
 			//  random String is strong enough
 			if( $currentStrength >= $strength )
 				return $random;

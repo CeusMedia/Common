@@ -25,6 +25,13 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			12.08.2005
  */
+
+namespace CeusMedia\Common\Alg\Validation;
+
+use InvalidArgumentException;
+use OutOfRangeException;
+use RangeException;
+
 /**
  *	Validator for Languages (ISO).
  *	@category		Library
@@ -35,10 +42,11 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			12.08.2005
  */
-class Alg_Validation_LanguageValidator
+class LanguageValidator
 {
 	/**	@var		string		$allowed		Array of allowed Languages */
 	protected $allowed;
+
 	/**	@var		string		$default		Default Language */
 	protected $default;
 
@@ -114,7 +122,7 @@ class Alg_Validation_LanguageValidator
 	 */
 	public static function validate( $language, $allowed, $default = NULL )
 	{
-		$validator	= new Alg_Validation_LanguageValidator( $allowed, $default );
+		$validator	= new LanguageValidator( $allowed, $default );
 		$language	= $validator->getLanguage( $language );
 		return $language;
 	}

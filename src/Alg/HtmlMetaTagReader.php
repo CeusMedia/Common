@@ -25,6 +25,9 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			02.08.2008
  */
+
+namespace CeusMedia\Common\Alg;
+
 /**
  *	Reader for HTML Meta Tags.
  *	@category		Library
@@ -36,7 +39,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			02.08.2008
  */
-class Alg_HtmlMetaTagReader
+class HtmlMetaTagReader
 {
 	const TRANSFORM_LOWERCASE	= 1;
 	const TRANSFORM_UPPERCASE	= 2;
@@ -58,7 +61,7 @@ class Alg_HtmlMetaTagReader
 		foreach( $tags[0] as $tag )
 		{
 			//  read HTML Tag Attributes
-			$attributes	= Alg_SgmlTagReader::getAttributes( $tag, self::TRANSFORM_LOWERCASE );
+			$attributes	= SgmlTagReader::getAttributes( $tag, self::TRANSFORM_LOWERCASE );
 			if( !isset( $attributes['content'] ) )
 				continue;
 			if( isset( $attributes['content'] ) && isset( $attributes['name'] ) )

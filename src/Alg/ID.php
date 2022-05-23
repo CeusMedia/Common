@@ -25,6 +25,9 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.0
  */
+
+namespace CeusMedia\Common\Alg;
+
 /**
  *	ID generator.
  *
@@ -40,7 +43,7 @@
  *	@see			comment at linked page
  *	@link			http://php.net/manual/en/function.uniqid.php
  */
-class Alg_ID
+class ID
 {
 	static public function uuid(): string
 	{

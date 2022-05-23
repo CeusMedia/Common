@@ -189,7 +189,7 @@ class VCard implements \Serializable
 	 */
 	public static function createFromString( $string )
 	{
-		return FS_File_VCard_Parser::parse( $string );
+		return \FS_File_VCard_Parser::parse( $string );
 	}
 
 	/**
@@ -216,7 +216,7 @@ class VCard implements \Serializable
 	public function fromString( $string )
 	{
 		$this->__construct();
-		FS_File_VCard_Parser::parseInto( $string, $this );
+		\FS_File_VCard_Parser::parseInto( $string, $this );
 	}
 
 	/**
@@ -476,7 +476,7 @@ class VCard implements \Serializable
 	 */
 	public function toString( $charsetIn = NULL, $charsetOut = NULL )
 	{
-		return FS_File_VCard_Builder::build( $this, $charsetIn, $charsetOut );
+		return \FS_File_VCard_Builder::build( $this, $charsetIn, $charsetOut );
 	}
 
 	/**

@@ -25,6 +25,9 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.6.8
  */
+
+namespace CeusMedia\Common\Alg\Text;
+
 /**
  *	Converts a String into UTF-8.
  *	@category		Library
@@ -35,7 +38,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.6.8
  */
-class Alg_Text_Unicoder
+class Unicoder
 {
 	/**	@var		string		$string		Unicoded String */
 	protected $string;

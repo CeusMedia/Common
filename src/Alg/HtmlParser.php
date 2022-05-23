@@ -26,6 +26,15 @@
  *	@since			04.08.2008
  *	@version 		0.2
  */
+
+namespace CeusMedia\Common\Alg;
+
+use DOMDocument;
+use DOMElement;
+use DomXPath;
+use InvalidArgumentException;
+use RuntimeException;
+
 /**
  *	Parser for HTML Documents.
  *	@category		Library
@@ -38,7 +47,7 @@
  *	@version 		0.2
  *	@todo			implement getErrors() and hide $errors;
  */
-class Alg_HtmlParser
+class HtmlParser
 {
 	/** @var		DOMDocument		$document			DOM Document from HTML */
 	protected $document;
@@ -60,7 +69,7 @@ class Alg_HtmlParser
 	 *	Returns List of Attributes from a DOM Element.
 	 *	@access		public
 	 *	@param		DOMElement		$element			DOM Element
-	 *	@return		list
+	 *	@return		array
 	 */
 	public function getAttributesFromElement( $element )
 	{
@@ -94,7 +103,7 @@ class Alg_HtmlParser
 	 *	@access		public
 	 *	@return		DOMDocument
 	 */
-	public function getDocument()
+	public function getDocument(): DOMDocument
 	{
 		return $this->document;
 	}
@@ -251,7 +260,7 @@ class Alg_HtmlParser
 	 *	@param		bool			$throwException		Flag: throw Exception if not found, otherwise return empty String
 	 *	@return		DOMElement
 	 */
-	public function getTagById( $id, $throwException = TRUE )
+	public function getTagById( $id, $throwException = TRUE ): DOMElement
 	{
 		$xpath	= new DomXPath( $this->document );
 		$query	= "//*[@id = '$id']";

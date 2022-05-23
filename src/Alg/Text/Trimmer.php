@@ -25,6 +25,11 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.6.8
  */
+
+namespace CeusMedia\Common\Alg\Text;
+
+use InvalidArgumentException;
+
 /**
  *	Trimmer for Strings, supporting cutting to the right and central cutting for too long Strings.
  *	@category		Library
@@ -35,7 +40,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.6.8
  */
-class Alg_Text_Trimmer
+class Trimmer
 {
 	static protected function strlen( $string, $encoding = NULL )
 	{

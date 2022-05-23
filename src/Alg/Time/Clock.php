@@ -24,6 +24,9 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+
+namespace CeusMedia\Common\Alg\Time;
+
 /**
  *	Clock implementation with Lap Support.
  *	@category		Library
@@ -33,14 +36,17 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class Alg_Time_Clock
+class Clock
 {
 	/**	@var	string		$microtimeStart		Microtime at the Start */
 	protected $microtimeStart;
+
 	/**	@var	string		$microtimeLap		Time in micro at the end of the last since start */
 	protected $microtimeLap;
+
 	/**	@var	string		$microtimeStop		Microtime at the End */
 	protected $microtimeStop;
+
 	/**	@var	array		$laps				Array of Lap Times */
 	protected $laps			= array();
 

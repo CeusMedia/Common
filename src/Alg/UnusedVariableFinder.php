@@ -25,6 +25,11 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			14.01.2008
  */
+
+namespace CeusMedia\Common\Alg;
+
+use InvalidArgumentException
+
 /**
  *	Finds not used variables within PHP methods or functions.
  *	@category		Library
@@ -35,7 +40,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			14.01.2008
  */
-class Alg_UnusedVariableFinder
+class UnusedVariableFinder
 {
 	/** @var		array		$methods 		Array of collect Method Parameters and Code Lines */
 	protected $methods	= array();

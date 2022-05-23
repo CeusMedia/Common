@@ -25,6 +25,9 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.6.4
  */
+
+namespace CeusMedia\Common\Alg\Text;
+
 /**
  *	Filters HTML Content by stripping out unwanted Content Types like Scripts or Styles.
  *	@category		Library
@@ -35,7 +38,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.6.4
  */
-class Alg_Text_Filter
+class Filter
 {
 	/**
 	 *	Strips all Comments from String.

@@ -74,7 +74,7 @@ class Collection
 	 *	@param		Item		$child		Nested Tree Menu Item Data Object
 	 *	@return		void
 	 */
-	public function addChild( ADT_Tree_Menu_List $child )
+	public function addChild( Collection $child )
 	{
 		$this->children[]	= $child;
 	}

@@ -7,6 +7,9 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.0
  */
+
+namespace CeusMedia\Common;
+
 /**
  *	Interface for all Clases which are renderable.
  *	@category		Library

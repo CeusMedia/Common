@@ -37,7 +37,7 @@ namespace CeusMedia\Common\ADT\Tree;
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class ADT_Tree_AvlNode extends ADT_Tree_BalanceBinaryNode
+class ADT_Tree_AvlNode extends BalanceBinaryNode
 {
 	/**
 	 *	Constructor

@@ -25,6 +25,9 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			14.02.2008
  */
+
+namespace CeusMedia\Common\Alg\Crypt;
+
 /**
  *	Calculates a Score for the Strength of a Password.
  *	@category		Library
@@ -35,7 +38,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			14.02.2008
  */
-class Alg_Crypt_PasswordStrength
+class PasswordStrength
 {
 	/**	@var	array	$badWords		List of unsecure words */
 	public static $badWords	= array(
@@ -51,7 +54,7 @@ class Alg_Crypt_PasswordStrength
 		"qwerty",
 		"monkey"
 	);
-	/**	@var	int		$minLength		... */	
+	/**	@var	int		$minLength		... */
 	public static $minLength	= 6;
 
 	/**
@@ -118,7 +121,7 @@ class Alg_Crypt_PasswordStrength
 			$score	+= 3;
 
 		//  --  BAD WORDS  --  //
-		if( in_array( strtolower( $password ), self::$badWords ) ) 
+		if( in_array( strtolower( $password ), self::$badWords ) )
 			$score -= 200;
 		return $score;
 	}

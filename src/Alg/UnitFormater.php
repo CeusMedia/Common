@@ -31,6 +31,7 @@ define( 'SIZE_BYTE', pow( 1024, 0 ) );
 define( 'SIZE_KILOBYTE', pow( 1024, 1 ) );
 define( 'SIZE_MEGABYTE', pow( 1024, 2 ) );
 define( 'SIZE_GIGABYTE', pow( 1024, 3 ) );
+
 /**
  *	Formats Numbers intelligently and adds Units to Bytes and Seconds.
  *	@category		Library

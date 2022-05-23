@@ -25,6 +25,13 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.6.8
  */
+
+namespace CeusMedia\Common\Alg\Obj;
+
+use InvalidArgumentException;
+use ReflectionClass;
+use RuntimeException;
+
 /**
  *	Creates instances of Classes using Reflection.
  *	@category		Library
@@ -35,7 +42,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.6.8
  */
-class Alg_Object_Factory
+class Factory
 {
 	protected $arguments		= array();
 
@@ -57,7 +64,7 @@ class Alg_Object_Factory
 			foreach( $arguments as $argument )
 				$factory->addArgument( $argument );
 		$arguments	= $factory->getArguments();
-		return Alg_Object_Factory::createObject( $className, $arguments );
+		return Factory::createObject( $className, $arguments );
 	}
 
 	/**

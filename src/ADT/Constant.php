@@ -30,6 +30,7 @@ namespace CeusMedia\Common\ADT;
 
 use InvalidArgumentException;
 use RangeException;
+use RuntimeException;
 
 /**
  *	Sets and gets constant values.

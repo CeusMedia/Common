@@ -30,6 +30,9 @@
  *	@since			0.8.3.4
  *	@see			https://en.wikipedia.org/wiki/Snake_case
  */
+
+namespace CeusMedia\Common\Alg\Text;
+
 /**
  *	Support for strings in snake case.
  *	@category		Library
@@ -40,29 +43,35 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.8.3.4
  */
-class Alg_Text_SnakeCase{
-
-	static public function apply( $string ){
+class SnakeCase
+{
+	static public function apply( $string )
+	{
 		return self::encode( $string );
 	}
 
-	static public function decode( $string ){
+	static public function decode( $string )
+	{
 		return str_replace( "_", " ", $string );
 	}
 
-	static public function encode( $string ){
+	static public function encode( $string )
+	{
 		return str_replace( " ", "_", $string );
 	}
 
-	static public function toCamelCase( $string ){
-		return Alg_Text_CamelCase::encode( static::decode( $string ) );
+	static public function toCamelCase( $string )
+	{
+		return CamelCase::encode( static::decode( $string ) );
 	}
 
-	static public function toPascalCase( $string ){
-		return Alg_Text_PascalCase::encode( static::decode( $string ) );
+	static public function toPascalCase( $string )
+	{
+		return PascalCase::encode( static::decode( $string ) );
 	}
 
-	static public function validate( $string ){
+	static public function validate( $string )
+	{
 		return self::apply( $string ) === $string;
 	}
 }

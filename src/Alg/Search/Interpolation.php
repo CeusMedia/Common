@@ -24,6 +24,9 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+
+namespace CeusMedia\Common\Alg\Search;
+
 /**
  *	Implementation of interpolation search algorithm for sorted lists of numbers.
  *	@category		Library
@@ -33,8 +36,8 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class Alg_Search_Interpolation{
-
+class Interpolation
+{
 	/**
 	 *	Calculates next bound index.
 	 *	@access		protected
@@ -52,6 +55,7 @@ class Alg_Search_Interpolation{
 		$index		= $lowbound + round( $spanValues * ( $spanDiff / $spanIndex ) );
 		return $index;
 	}
+
 	/**
 	 *	Searches in List and returns position if found, else -1.
 	 *	@access		public

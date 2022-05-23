@@ -25,6 +25,9 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			23.09.2005
  */
+
+namespace CeusMedia\Common\Alg;
+
 /**
  *	Converter for Colors.
  *	@category		Library
@@ -36,7 +39,7 @@
  *	@since			23.09.2005
  *	@todo			Code Documentation
  */
-class Alg_ColorConverter
+class ColorConverter
 {
 	/**
 	 *	Converts CMY to CMYK.

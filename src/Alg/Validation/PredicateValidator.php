@@ -25,6 +25,13 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			14.02.2007
  */
+
+namespace CeusMedia\Common\Alg\Validation;
+
+use BadMethodCallException;
+use Exception;
+use InvalidArgumentException;
+
 /**
  *	Validator for Predicates on Strings.
  *	@category		Library
@@ -35,7 +42,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			14.02.2007
  */
-class Alg_Validation_PredicateValidator
+class PredicateValidator
 {
 	/**	@var		Object		Predicate Class Instance */
 	protected $validator;
@@ -46,8 +53,9 @@ class Alg_Validation_PredicateValidator
 	 *	@param		string		$predicateClassName		Class Name of Predicate Class
 	 *	@return		void
 	 */
-	public function __construct( $predicateClassName = "Alg_Validation_Predicates" )
+	public function __construct( $predicateClassName = NULL )
 	{
+		$predicateClassName	= $predicateClassName ?? Predicates::class;
 		$this->validator	= new $predicateClassName();
 	}
 

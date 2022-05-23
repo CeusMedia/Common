@@ -22,21 +22,20 @@ A library of PHP classes for common tasks.
 	- [x] Tree
 		- [x] Menu
 	- [x] URL
-- [ ] Alg *(2/13)*
-	- [ ] Crypt
-	- [ ] JS
+- [ ] Alg *(12/12)*
+	- [x] Crypt
+	- [x] JS
 	- [x] Math => moved to CeusMedia::Math
-	- [ ] Object
-	- [ ] Parcel
-	- [ ] PREG
-	- [ ] Search
+	- [x] Object => Obj
+	- [x] Parcel
+	- [x] Search
 	- [x] Sort
-	- [ ] Text
-	- [ ] Time
-	- [ ] Tree
-		- [ ] Menu
-	- [ ] Turing
-	- [ ] Validation
+	- [x] Text
+	- [x] Time
+	- [x] Tree
+		- [x] Menu
+	- [x] Turing
+	- [x] Validation
 - [x] CLI  *(4/4)*
 	- [x] Command
 	- [x] Fork

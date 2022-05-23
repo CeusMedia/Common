@@ -44,6 +44,11 @@
  *	@version		1.1.2 (2012-05-01)
  *	@link			https://github.com/rgrove/jsmin-php
  */
+
+namespace CeusMedia\Common\Alg\JS;
+
+use Exception;
+
 /**
  *	PHP implementation of Douglas Crockford's JSMin.
  *	@category		Library
@@ -56,7 +61,7 @@
  *	@version		1.1.2 (2012-05-01)
  *	@link			https://github.com/rgrove/jsmin-php
  */
-class Alg_JS_Minifier{
+class Minifier{
 
 	const ORD_LF			= 10;
 	const ORD_SPACE			= 32;
@@ -83,7 +88,7 @@ class Alg_JS_Minifier{
 	 *	@return		string
 	 */
 	public static function minify( $js ){
-		$jsmin	= new Alg_JS_Minifier( $js );
+		$jsmin	= new Minifier( $js );
 		return $jsmin->min();
 	}
 
@@ -109,7 +114,7 @@ class Alg_JS_Minifier{
    *
    * @uses next()
    * @uses get()
-   * @throws Alg_JS_MinifierException If parser errors are found:
+   * @throws MinifierException If parser errors are found:
    *         - Unterminated string literal
    *         - Unterminated regular expression set in regex literal
    *         - Unterminated regular expression literal
@@ -136,7 +141,7 @@ class Alg_JS_Minifier{
             }
 
             if (ord($this->a) <= self::ORD_LF) {
-              throw new Alg_JS_MinifierException('Unterminated string literal.');
+              throw new MinifierException('Unterminated string literal.');
             }
 
             if ($this->a === '\\') {
@@ -176,7 +181,7 @@ class Alg_JS_Minifier{
                   $this->output .= $this->a;
                   $this->a       = $this->get();
                 } elseif (ord($this->a) <= self::ORD_LF) {
-                  throw new Alg_JS_MinifierException('Unterminated regular expression set in regex literal.');
+                  throw new MinifierException('Unterminated regular expression set in regex literal.');
                 }
               }
             } elseif ($this->a === '/') {
@@ -185,7 +190,7 @@ class Alg_JS_Minifier{
               $this->output .= $this->a;
               $this->a       = $this->get();
             } elseif (ord($this->a) <= self::ORD_LF) {
-              throw new Alg_JS_MinifierException('Unterminated regular expression literal.');
+              throw new MinifierException('Unterminated regular expression literal.');
             }
 
             $this->output .= $this->a;
@@ -248,7 +253,7 @@ class Alg_JS_Minifier{
         $this->get();
         $this->get();
         $this->get();
-    } 
+    }
 
     $this->a = "\n";
     $this->action(self::ACTION_DELETE_A_B);
@@ -338,7 +343,7 @@ class Alg_JS_Minifier{
    *
    * @uses get()
    * @uses peek()
-   * @throws Alg_JS_MinifierException On unterminated comment.
+   * @throws MinifierException On unterminated comment.
    * @return string
    */
   protected function next() {
@@ -368,7 +373,7 @@ class Alg_JS_Minifier{
                 break;
 
               case null:
-                throw new Alg_JS_MinifierException('Unterminated comment.');
+                throw new MinifierException('Unterminated comment.');
             }
           }
 
@@ -393,4 +398,4 @@ class Alg_JS_Minifier{
 }
 
 // -- Exceptions ---------------------------------------------------------------
-class Alg_JS_MinifierException extends Exception {}
+class MinifierException extends Exception {}

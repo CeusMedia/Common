@@ -25,6 +25,11 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			20.10.2008
  */
+
+namespace CeusMedia\Common\Alg\Time;
+
+use Exception;
+
 /**
  *	Collector of Ranges for Duration Phrase.
  *	@category		Library
@@ -35,7 +40,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			20.10.2008
  */
-class Alg_Time_DurationPhraseRanges implements Countable
+class DurationPhraseRanges implements \Countable
 {
 	protected $ranges	= array();
 	protected $regExp	= '@^([0-9]+)(s|m|h|D|W|M|Y)$@';

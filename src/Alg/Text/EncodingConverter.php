@@ -25,6 +25,12 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.6.8
  */
+
+namespace CeusMedia\Common\Alg\Text;
+
+use InvalidArgumentException;
+use RuntimeException;
+
 /**
  *	Converts a String between Encodings using ICONV.
  *	@category		Library
@@ -35,7 +41,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.6.8
  */
-class Alg_Text_EncodingConverter
+class EncodingConverter
 {
 	/**
 	 *	Checks whether PHP Module 'iconv' is installed or not.

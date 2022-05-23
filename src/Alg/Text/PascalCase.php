@@ -24,6 +24,11 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+
+namespace CeusMedia\Common\Alg\Text;
+
+use RuntimeException;
+
 /**
  *	Converter for Strings using Pascal Case.
  *	@category		Library
@@ -33,8 +38,8 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class Alg_Text_PascalCase{
-
+class PascalCase
+{
 	protected static $regExp	= '/^(.*)[\-\_ ](.*)$/';
 
 	/**
@@ -46,11 +51,13 @@ class Alg_Text_PascalCase{
 	 *	@param		bool		$lowercaseLetters	Flag: convert all letters to lower case before
 	 *	@return		string
 	 */
-	static public function convert( $string, $lowercaseLetters = TRUE ){
+	static public function convert( $string, $lowercaseLetters = TRUE )
+	{
 		return static::encode( $string, $lowercaseLetters );
 	}
 
-	static public function decode( $string, $delimiter = ' ' ){
+	static public function decode( $string, $delimiter = ' ' )
+	{
 		if( !function_exists( 'mb_substr' ) )
 			throw new RuntimeException( 'PHP module "mb" is not installed but needed' );
 
@@ -73,7 +80,8 @@ class Alg_Text_PascalCase{
 	 *	@param		bool		$lowercaseLetters	Flag: convert all letters to lower case before
 	 *	@return		string
 	 */
-	static public function encode( $string, $lowercaseLetters = TRUE ){
+	static public function encode( $string, $lowercaseLetters = TRUE )
+	{
 		if( $lowercaseLetters === TRUE )
 			$string	= mb_strtolower( $string );
 
@@ -83,20 +91,23 @@ class Alg_Text_PascalCase{
 		return $string;
 	}
 
-	static protected function isUpperCharacter( $string, $pos ){
+	static protected function isUpperCharacter( $string, $pos )
+	{
 		$char	= mb_substr( $string, $pos, 1, "UTF-8" );
 		return mb_strtolower( $char, "UTF-8") != $char;
 	}
 
-	static public function toCamelCase( $string ){
-		return Alg_Text_CamelCase::encode( static::decode( $string ) );
+	static public function toCamelCase( $string )
+	{
+		return CamelCase::encode( static::decode( $string ) );
 	}
 
 	static public function toSnakeCase( $string ){
-		return Alg_Text_SnakeCase::encode( static::decode( $string ) );
+		return SnakeCase::encode( static::decode( $string ) );
 	}
 
-	static public function validate( $string ){
+	static public function validate( $string )
+	{
 		for( $i=0; $i<strlen( $string ); $i++ ){
 			$isUpper	= static::isUpperCharacter( $string, $i );
 			if( $i == 0 && !$isUpper )

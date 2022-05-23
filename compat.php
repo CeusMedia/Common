@@ -26,6 +26,8 @@ class ADT_JSON_Formater extends \CeusMedia\Common\ADT\JSON\Formater{};
 class ADT_JSON_Parser extends \CeusMedia\Common\ADT\JSON\Parser{};
 class ADT_OptionObject extends \CeusMedia\Common\ADT\OptionObject{};
 class ADT_Time_Delay extends \CeusMedia\Common\ADT\Time\Delay{};
+class ADT_Tree_Menu_Item extends \CeusMedia\Common\ADT\Tree\Menu\Item{};
+class ADT_Tree_Menu_List extends \CeusMedia\Common\ADT\Tree\Menu\Collection{};
 class ADT_URL_Compare extends \CeusMedia\Common\ADT\URL\Compare{};
 class ADT_URL_Inference extends \CeusMedia\Common\ADT\URL\Inference{};
 class ADT_Bitmask extends \CeusMedia\Common\ADT\Bitmask{};
@@ -35,12 +37,18 @@ class ADT_Multiplexer extends \CeusMedia\Common\ADT\Multiplexer{};
 class ADT_Null extends \CeusMedia\Common\ADT\Null_{};
 class ADT_Object extends \CeusMedia\Common\ADT\Object_{};
 class ADT_Registry extends \CeusMedia\Common\ADT\Registry{};
-class ADT_Singleton extends \CeusMedia\Common\ADT\Singleton{};
+abstract class ADT_Singleton extends \CeusMedia\Common\ADT\Singleton{};
 class ADT_String extends \CeusMedia\Common\ADT\String_{};
 class ADT_StringBuffer extends \CeusMedia\Common\ADT\StringBuffer{};
 class ADT_URL extends \CeusMedia\Common\ADT\URL{};
 class ADT_URN extends \CeusMedia\Common\ADT\URN{};
 class ADT_VCard extends \CeusMedia\Common\ADT\VCard{};
+
+class Alg_Object_Constant extends \CeusMedia\Common\Alg\Obj\Constant{};
+class Alg_Object_Delegation extends \CeusMedia\Common\Alg\Obj\Delegation{};
+class Alg_Object_EventHandler extends \CeusMedia\Common\Alg\Obj\EventHandler{};
+class Alg_Object_Factory extends \CeusMedia\Common\Alg\Obj\Factory{};
+class Alg_Object_MethodFactory extends \CeusMedia\Common\Alg\Obj\MethodFactory{};
 
 class Alg_Text_CamelCase extends \CeusMedia\Common\Alg\Text\CamelCase{};
 class Alg_Sort_Bubble extends \CeusMedia\Common\Alg\Sort\Bubble{};

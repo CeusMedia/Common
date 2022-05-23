@@ -1,20 +1,27 @@
 <?php
-class Alg_Time_Duration{
 
+namespace CeusMedia\Common\Alg\Time;
+
+class Duration
+{
 	protected $shortMode	= FALSE;
 
-	public function __construct(){
+	public function __construct()
+	{
 	}
 
-	public function convertDurationToSeconds( $duration ){
+	public function convertDurationToSeconds( $duration )
+	{
 		return self::parse( $duration );
 	}
 
-	public function convertSecondsToDuration( $seconds, $space ){
+	public function convertSecondsToDuration( $seconds, $space )
+	{
 		return self::render( $seconds, $space, $this->shortMode );
 	}
 
-	static public function parse( $duration ){
+	static public function parse( $duration )
+	{
 		$regexWeeks	= '@([0-9]+)w\s*@';
 		$regexDays	= '@([0-9]+)d\s*@';
 		$regexHours	= '@([0-9]+)h\s*@';
@@ -45,7 +52,8 @@ class Alg_Time_Duration{
 		return $seconds;
 	}
 
-	static public function render( $seconds, $space = ' ', $shorten = FALSE ){
+	static public function render( $seconds, $space = ' ', $shorten = FALSE )
+	{
 		$remaining	= abs( $seconds );
 		$secs	 	= $remaining % 60;
 		$remaining	= ( $remaining - $secs ) / 60;
@@ -77,11 +85,13 @@ class Alg_Time_Duration{
 		return ltrim( $duration, $space );
 	}
 
-	public function sanitize( $duration, $space = ' ' ){
+	public function sanitize( $duration, $space = ' ' )
+	{
 		return self::render( self::parse( $duration ), ' ' );
 	}
 
-	public function setShortMode( $enableShortMode = TRUE ){
+	public function setShortMode( $enableShortMode = TRUE )
+	{
 		$this->shortMode	= (bool) $enableShortMode;
 
 	}

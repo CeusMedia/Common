@@ -25,6 +25,9 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			30.4.2005
  */
+
+namespace CeusMedia\Common\Alg\Crypt;
+
 /**
  *	Caesar Encryption.
  *	@category		Library
@@ -35,7 +38,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			30.4.2005
  */
-class Alg_Crypt_Caesar
+class Caesar
 {
 	/**
 	 *	Realizes Encryption/Decryption of a text with the normal/inversed Key.

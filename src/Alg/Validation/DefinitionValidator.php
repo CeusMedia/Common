@@ -25,6 +25,12 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			28.08.2006
  */
+
+namespace CeusMedia\Common\Alg\Validation;
+
+use ArrayObject;
+use InvalidArgumentException;
+
 /**
  *	Validator for defined Fields.
  *	@category		Library
@@ -36,7 +42,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			28.08.2006
  */
-class Alg_Validation_DefinitionValidator
+class DefinitionValidator
 {
 	/**	@var		Object		Predicate Class Instance */
 	protected $validator;
@@ -48,8 +54,10 @@ class Alg_Validation_DefinitionValidator
 	 *	@param		string		$validatorClass		Class Name of Predicate Validator Class
 	 *	@return		void
 	 */
-	public function __construct( $predicateClass = "Alg_Validation_Predicates", $validatorClass = "Alg_Validation_PredicateValidator" )
+	public function __construct( $predicateClass = NULL, $validatorClass = NULL )
 	{
+		$predicateClass		= $predicateClass ?? Predicates::class;
+		$validatorClass		= $validatorClass ?? PredicateValidator::class;
 		$this->validator	= new $validatorClass( $predicateClass );
 	}
 

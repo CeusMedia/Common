@@ -25,6 +25,9 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			02.08.2008
  */
+
+namespace CeusMedia\Common\Alg;
+
 /**
  *	Parses SGML based Tags (also HTML, XHTML and XML).
  *	@category		Library
@@ -35,7 +38,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			02.08.2008
  */
-class Alg_SgmlTagReader
+class SgmlTagReader
 {
 	const TRANSFORM_LOWERCASE	= 1;
 	const TRANSFORM_UPPERCASE	= 2;

@@ -25,6 +25,11 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			08.05.2008
  */
+
+namespace CeusMedia\Common\Alg\Parcel;
+
+use OutOfRangeException;
+
 /**
  *
  *	@category		Library
@@ -36,14 +41,17 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			08.05.2008
  */
-class Alg_Parcel_Packer
+class Packer
 {
 	/**	@var		object		$factory			Packet Factory */
 	protected $factory		= array();
+
 	/**	@var		array		$articles			Array if possible Articles */
 	protected $articles		= array();
+
 	/**	@var		array		$packets			Array of Packet Types and their Prices */
 	protected $packets		= array();
+
 	/**	@var		array		$packetList			Array of Packets need to pack Articles */
 	protected $packetList	= array();
 
@@ -61,7 +69,7 @@ class Alg_Parcel_Packer
 		$this->packets		= $packets;
 		$this->articles		= $articles;
 		$this->volumes		= $volumes;
-		$this->factory		= new Alg_Parcel_Factory( array_keys( $packets ), $articles, $volumes );
+		$this->factory		= new Factory( array_keys( $packets ), $articles, $volumes );
 	}
 
 	/**
@@ -311,7 +319,7 @@ class Alg_Parcel_Packer
 	 *	Replaces a Packet from current Packet List with another Packet.
 	 *	@access		public
 	 *	@param		int					$index		Index of Packet to replace
-	 *	@param		Alg_Parcel_packet	$packet		Packet to set for another Packet
+	 *	@param		Packet	$packet		Packet to set for another Packet
 	 *	@return		void
 	 */
 	public function replacePacket( $index, $packet )

@@ -25,6 +25,9 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.6
  */
+
+namespace CeusMedia\Common\Alg\Text;
+
 /**
  *	String extender.
  *
@@ -36,8 +39,8 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.6
  */
-class Alg_Text_Extender{
-
+class Extender
+{
 	static $encoding	= "UTF-8";
 
 	static public function extend( $text, $toLength, $fromLeft = FALSE, $withString = ' ' ){
