@@ -24,6 +24,11 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+
+namespace CeusMedia\Common\ADT\Tree;
+
+use Exception;
+
 /**
  *	Binary Tree.
  *	@category		Library
@@ -33,13 +38,15 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class ADT_Tree_BinaryNode
+class BinaryNode
 {
 	/**	@var 	mixed		$value		Value of the Root Element of this Tree */
 	protected $value		= NULL;
-	/**	@var	ADT_Tree_BinaryNode		$left		Left Child Tree */
+
+	/**	@var	BinaryNode	$left		Left Child Tree */
 	protected $left			= NULL;
-	/**	@var	ADT_Tree_BinaryNode		$right		Right Child Tree */
+
+	/**	@var	BinaryNode	$right		Right Child Tree */
 	protected $right		= NULL;
 
 	/**
@@ -71,14 +78,14 @@ class ADT_Tree_BinaryNode
 			if( $this->left )
 				$this->left->add( $value );
 			else
-				$this->left = new ADT_Tree_BinaryNode( $value );
+				$this->left = new BinaryNode( $value );
 		}
 		else if( $value > $this->value )
 		{
 			if( $this->right )
 				$this->right->add( $value );
 			else
-				$this->right = new ADT_Tree_BinaryNode( $value );
+				$this->right = new BinaryNode( $value );
 		}
 	}
 
@@ -121,7 +128,7 @@ class ADT_Tree_BinaryNode
 	/**
 	 *	Returns Left Child Tree.
 	 *	@access		public
-	 *	@return		ADT_Tree_BinaryNode
+	 *	@return		BinaryNode
 	 */
 	public function getLeft()
 	{

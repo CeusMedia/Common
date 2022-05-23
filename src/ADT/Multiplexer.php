@@ -26,6 +26,10 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			23.08.2005
  */
+namespace CeusMedia\Common\ADT;
+
+use RangeException;
+
 /**
  *	Multiplexer.
  *	@category		Library
@@ -36,12 +40,14 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			23.08.2005
  */
-class ADT_Multiplexer
+class Multiplexer
 {
 	/**	@var		int			$type			Type (1,2,4) */
 	protected $type;
+
 	/**	@var		array		$controls		Controls */
 	protected $controls			= array();
+
 	/**	@var		int			$inputs			Inputs */
 	protected $inputs			= array();
 
@@ -99,7 +105,7 @@ class ADT_Multiplexer
 			case 1:
 				return $this->controls[0] ? $this->inputs[1] : $this->inputs[0];
 			case 2:
-				$mux = new ADT_Multiplexer();
+				$mux = new Multiplexer();
 				$mux->setControls( $this->controls[0] );
 				$mux->setInputs( $this->inputs[0], $this->inputs[1] );
 				$input0 = $mux->proceed();
@@ -109,7 +115,7 @@ class ADT_Multiplexer
 				$mux->setInputs( $input0, $input1 );
 				return $mux->proceed();
 			case 4:
-				$mux2 = new ADT_Multiplexer( 2 );
+				$mux2 = new Multiplexer( 2 );
 				$mux2->setControls( $this->controls[0], $this->controls[1] );
 				$mux2->setInputs( $this->inputs[0], $this->inputs[1], $this->inputs[2], $this->inputs[3] );
 				$input0 = $mux2->proceed();

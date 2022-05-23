@@ -25,6 +25,8 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.8.4.7
  */
+namespace CeusMedia\Common\ADT;
+
 /**
  *	Handler for bitmask.
  *
@@ -36,7 +38,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.8.4.7
  */
-class ADT_Bitmask
+class Bitmask
 {
 	protected $bits	= 0;
 

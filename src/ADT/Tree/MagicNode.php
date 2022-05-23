@@ -24,6 +24,9 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+
+namespace CeusMedia\Common\ADT\Tree;
+
 /**
  *	Magic Node.
  *	@category		Library
@@ -33,8 +36,8 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class ADT_Tree_MagicNode{
-
+class MagicNode
+{
 	/**	@var	array		$data		Map of nested nodes */
 	public $data	= array();
 
@@ -47,7 +50,8 @@ class ADT_Tree_MagicNode{
 	 *	@param		mixed		$value		Value to set for node
 	 *	@return		void
 	 */
-	public function __construct( $value = NULL ){
+	public function __construct( $value = NULL )
+	{
 		$this->value	= $value;
 	}
 
@@ -55,11 +59,12 @@ class ADT_Tree_MagicNode{
 	 *	Magic function to get value of current node or node for next magic call level.
 	 *	@access		public
 	 *	@param		string		$key		Key of nested node
-	 *	@return		ADT_Tree_MagicNode
+	 *	@return		MagicNode
 	 */
-	public function __get( $key ){
+	public function __get( $key )
+	{
 		if( !isset( $this->data[$key] ) )
-			return new ADT_Tree_MagicNode( NULL );
+			return new MagicNode( NULL );
 		return $this->data[$key];
 	}
 
@@ -70,9 +75,10 @@ class ADT_Tree_MagicNode{
 	 *	@param		mixed		$value		Value to set on current or nested node
 	 *	@return		void
 	 */
-	public function __set( $key, $value ){
+	public function __set( $key, $value )
+	{
 		if( !isset( $this->data[$key] ) )
-			$this->data[$key]	= new ADT_Tree_MagicNode( $value );
+			$this->data[$key]	= new MagicNode( $value );
 		else
 			$this->data[$key]->value	= $value;
 	}
@@ -82,7 +88,8 @@ class ADT_Tree_MagicNode{
 	 *	@access		public
 	 *	@return		string
 	 */
-	public function __toString(){
+	public function __toString()
+	{
 		return (string) $this->value;
 	}
 
@@ -92,7 +99,8 @@ class ADT_Tree_MagicNode{
 	 *	@param		array		$array		Array to import
 	 *	@return		void
 	 */
-	public function fromArray( $array ){
+	public function fromArray( $array )
+	{
 		foreach( $array as $key => $value ){
 			if( is_array( $value ) ){
 				$this->__set( $key, NULL );
@@ -111,7 +119,8 @@ class ADT_Tree_MagicNode{
 	 *	@param		array		$array		Array to import
 	 *	@return		void
 	 */
-	public function fromJson( $json ){
+	public function fromJson( $json )
+	{
 		$this->fromArray( json_decode( $json, TRUE ) );
 	}
 
@@ -120,7 +129,8 @@ class ADT_Tree_MagicNode{
 	 *	@access		public
 	 *	@return		array
 	 */
-	public function toArray(){
+	public function toArray()
+	{
 		$array	= array();
 		foreach( $this->data as $key => $node ){
 			if( count( $node->data ) )
@@ -136,7 +146,8 @@ class ADT_Tree_MagicNode{
 	 *	@access		public
 	 *	@return		array
 	 */
-	public function toJson(){
+	public function toJson()
+	{
 		return json_encode( $this->toArray() );
 	}
 
@@ -148,7 +159,8 @@ class ADT_Tree_MagicNode{
 	 *	@param		mixed		$value		Value to set on node
 	 *	@return		mixed|NULL
 	 */
-	public function value( $value = NULL ){
+	public function value( $value = NULL )
+	{
 		if( is_null( $value ) )
 			return $this->value;
 		$this->value	= $value;

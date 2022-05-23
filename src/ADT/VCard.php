@@ -26,6 +26,10 @@
  *	@since			0.6.8
  *	@link			http://www.ietf.org/rfc/rfc2426.txt
  */
+namespace CeusMedia\Common\ADT;
+
+use InvalidArgumentException;
+
 /**
  *	Data Object for vCard.
  *	@category		Library
@@ -39,7 +43,7 @@
  *	@link			http://www.ietf.org/rfc/rfc2426.txt
  *	@todo			PHOTO,BDAY,NOTE,LABEL,KEY,PRODID,MAILER,TZ
  */
-class ADT_VCard implements Serializable
+class VCard implements \Serializable
 {
 	/**	@var		array		$types					Array of VCard Types (Entities) */
 	private $types	= array();
@@ -181,7 +185,7 @@ class ADT_VCard implements Serializable
 	 *	@access		public
 	 *	@static
 	 *	@param		string		$string					Serialized VCard String
-	 *	@return		ADT_VCard
+	 *	@return		VCard
 	 */
 	public static function createFromString( $string )
 	{

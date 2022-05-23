@@ -25,6 +25,11 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			20.02.2007
  */
+
+namespace CeusMedia\Common\ADT;
+
+use InvalidArgumentException;
+
 /**
  *	Registry Pattern Singleton Implementation to store Objects.
  *	@category		Library
@@ -35,9 +40,10 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			20.02.2007
  */
-class ADT_Registry
+class Registry
 {
 	protected static $instance	= NULL;
+
 	protected $poolKey	= "REFERENCES";
 
 	/**
@@ -80,7 +86,7 @@ class ADT_Registry
 	{
 		if( self::$instance === NULL )
 			self::$instance	= new self( $poolKey );
-		return self::$instance;		
+		return self::$instance;
 	}
 
 	/**
@@ -145,6 +151,6 @@ class ADT_Registry
 		if( !isset( $GLOBALS[$this->poolKey][$key] ) )
 			return false;
 		unset( $GLOBALS[$this->poolKey][$key] );
-		return true;	
+		return true;
 	}
-}  
+}

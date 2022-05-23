@@ -24,6 +24,9 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+
+namespace CeusMedia\Common\ADT\Tree;
+
 /**
  *	Balanced Binary Tree.
  *	@category		Library
@@ -34,7 +37,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class ADT_Tree_BalanceBinaryNode extends ADT_Tree_BinaryNode
+class BalanceBinaryNode extends BinaryNode
 {
 	/**	@var		int			balance		Balance Tolerance */
 	protected $balance;
@@ -69,14 +72,14 @@ class ADT_Tree_BalanceBinaryNode extends ADT_Tree_BinaryNode
 			if( $this->left )
 				$this->left->add( $value );
 			else
-				$this->left = new ADT_Tree_BalanceBinaryNode( $this->balance, $value );
+				$this->left = new BalanceBinaryNode( $this->balance, $value );
 		}
 		else if( $value > $this->value )
 		{
 			if( $this->right )
 				$this->right->add( $value );
 			else
-				$this->right = new ADT_Tree_BalanceBinaryNode( $this->balance, $value );
+				$this->right = new BalanceBinaryNode( $this->balance, $value );
 		}
 		if ($this->balance)
 		{

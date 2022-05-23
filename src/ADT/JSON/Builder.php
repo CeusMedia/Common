@@ -27,6 +27,8 @@
  */
 namespace CeusMedia\Common\ADT\JSON;
 
+use InvalidArgumentException;
+
 /**
  *	JSON Implementation for building JSON Code.
  *	@category		Library
@@ -137,7 +139,7 @@ class Builder
 		elseif( is_null( $value ) )
 			$type	= 'null';
 		else
-			throw new \InvalidArgumentException( 'Variable "'.$key.'" is not a supported Type.' );
+			throw new InvalidArgumentException( 'Variable "'.$key.'" is not a supported Type.' );
 		return $type;
 	}
 

@@ -25,6 +25,11 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			08.11.2008
  */
+
+namespace CeusMedia\Common\ADT\Tree\Menu;
+
+use CeusMedia\Common\ADT\Collection\Dictionary;
+
 /**
  *	Tree Menu List Data Object used by UI_HTML_Tree_Menu.
  *	@category		Library
@@ -35,16 +40,16 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			08.11.2008
  */
-class ADT_Tree_Menu_List
+class Collection
 {
-	/**	@var		string					$label			Label of Item Link */
-	public $label							= NULL;
-	/**	@var		ADT_List_Dictionary		$attributes		Array of Item Attributes (classItem,classLink,classList) */
-	public $attributes						= NULL;
-	/**	@var		array					$children		List of nested Tree Menu Items */
-	public $children						= array();
+	/**	@var		string			$label			Label of Item Link */
+	public $label					= NULL;
+	/**	@var		Dictionary		$attributes		Array of Item Attributes (classItem,classLink,classList) */
+	public $attributes				= NULL;
+	/**	@var		array			$children		List of nested Tree Menu Items */
+	public $children				= array();
 
-	public $defaultAttributes				= array(
+	public $defaultAttributes		= array(
 		'class'		=> "option",
 		'default'	=> FALSE,
 	);
@@ -60,13 +65,13 @@ class ADT_Tree_Menu_List
 	{
 		$this->setLabel( $label );
 		$attributes			= array_merge( $this->defaultAttributes, $attributes );
-		$this->attributes	= new ADT_List_Dictionary( $attributes );
+		$this->attributes	= new Dictionary( $attributes );
 	}
 
 	/**
 	 *	Adds a nested Tree Menu Item to this Tree Menu List.
 	 *	@access		public
-	 *	@param		ADT_Tree_Menu_Item	$child		Nested Tree Menu Item Data Object
+	 *	@param		Item		$child		Nested Tree Menu Item Data Object
 	 *	@return		void
 	 */
 	public function addChild( ADT_Tree_Menu_List $child )
@@ -148,7 +153,7 @@ class ADT_Tree_Menu_List
 	 */
 	public function setAttributes( $array )
 	{
-		if( is_a( $array, 'ADT_List_Dictionary' ) )
+		if( $array instanceof Dictionary )
 			$array	= $array->getAll();
 		foreach( $array as $key => $value )
 			$this->attributes->set( $key, $value );

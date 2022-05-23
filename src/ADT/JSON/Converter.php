@@ -26,6 +26,8 @@
  */
 namespace CeusMedia\Common\ADT\JSON;
 
+use InvalidArgumentException;
+
 /**
  *	...
  *	@category		Library
@@ -46,7 +48,7 @@ class Converter
 		{
 			$json	= json_decode( $json );
 			if( $json === FALSE )
-				throw new \InvalidArgumentException( 'JSON String is not valid.' );
+				throw new InvalidArgumentException( 'JSON String is not valid.' );
 		}
 		$array	= array();
 		self::convertToArrayRecursive( $json, $array );

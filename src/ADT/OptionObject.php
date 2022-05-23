@@ -59,12 +59,6 @@ class OptionObject implements \ArrayAccess, \Countable
 	 */
 	public function __construct( array $defaults = array(), array $settings = array() )
 	{
-		if( !is_array( $defaults ) )
-			throw new InvalidArgumentException( 'Default options must be an array map.' );
-		if( !is_array( $settings ) )
-			throw new InvalidArgumentException( 'Settings must be an array map.' );
-
-
 		foreach( $defaults as $key => $value )
 			if( is_int( $key ) )
 				throw new InvalidArgumentException( 'Default options must be an associative array of pairs.' );

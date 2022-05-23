@@ -25,6 +25,14 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@see			http://www.w3.org/Addressing/URL/url-spec.html
  */
+
+namespace CeusMedia\Common\ADT;
+
+use Exception;
+use InvalidArgumentException;
+use RangeException;
+use RuntimeException;
+
 /**
  *	...
  *	@category		Library
@@ -36,7 +44,7 @@
  *	@see			http://www.w3.org/Addressing/URL/url-spec.html
  *	@todo			code doc
  */
-class ADT_URL
+class URL
 {
 	protected $defaultUrl;
 
@@ -47,7 +55,7 @@ class ADT_URL
 	 *
 	 *	@access		public
 	 *	@param		string			$url		URL string to represent
-	 *	@param		ADT_URL|string	$defaultUrl Underlaying base URL
+	 *	@param		URL|string		$defaultUrl Underlaying base URL
 	 */
 	public function __construct( string $url, $defaultUrl = NULL )
 	{
@@ -132,14 +140,14 @@ class ADT_URL
 	 *	... (to be implemented)
 	 *	@access		public
 	 *	@todo		implement
-	 *	@param		ADT_URL|string	$referenceUrl		Reference URL to apply to absolute URL
+	 *	@param		URL|string		$referenceUrl		Reference URL to apply to absolute URL
 	 *	@return		string		... (to be implemented)
 	 */
 	public function getAbsoluteTo( $referenceUrl ): string
 	{
 		if( is_string( $referenceUrl ) )
-			$referenceUrl	= new ADT_URL( $referenceUrl );
-		if( !( is_a( $referenceUrl, 'ADT_URL' ) ) )
+			$referenceUrl	= new URL( $referenceUrl );
+		if( !( $referenceUrl instanceof URL ) )
 			throw new InvalidArgumentException( 'Given reference URL is neither ADT_URL nor string' );
 		$url	= clone $referenceUrl;
 		$url->setPath( $this->parts->path );
@@ -152,7 +160,7 @@ class ADT_URL
 	 *	... (to be implemented)
 	 *	@access		public
 	 *	@todo		implement
-	 *	@param		ADT_URL|string	$referenceUrl		Reference URL to apply to absolute URL
+	 *	@param		URL|string	$referenceUrl		Reference URL to apply to absolute URL
 	 *	@return		string		... (to be implemented)
 	 */
 	public function getRelativeTo( $referenceUrl )

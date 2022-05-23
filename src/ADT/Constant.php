@@ -26,6 +26,11 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.0
  */
+namespace CeusMedia\Common\ADT;
+
+use InvalidArgumentException;
+use RangeException;
+
 /**
  *	Sets and gets constant values.
  *	List all constants with a given prefix.
@@ -37,7 +42,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.0
  */
-class ADT_Constant
+class Constant
 {
 	/**
 	 *	Returns the Value of a set Constant, throws Exception otherwise.
@@ -91,7 +96,8 @@ class ADT_Constant
 		return $map;
 	}
 
-	public static function getKeyByValue( $prefix, $value ){
+	public static function getKeyByValue( $prefix, $value )
+	{
 		$constants	= static::getAll( $prefix );
 		$list		= array();
 		foreach( $constants as $constantKey => $constantValue )

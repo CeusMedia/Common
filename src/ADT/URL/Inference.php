@@ -25,6 +25,13 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@see			http://www.w3.org/Addressing/URL/url-spec.html
  */
+
+namespace CeusMedia\Common\ADT\URL;
+
+use CeusMedia\Common\ADT\URL;
+use InvalidArgumentException;
+use RuntimeException;
+
 /**
  *	...
  *	@category		Library
@@ -35,7 +42,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@see			http://www.w3.org/Addressing/URL/url-spec.html
  */
-class ADT_URL_Inference extends ADT_URL
+class Inference extends URL
 {
 	public $separator		= "&";
 	public static $staticAddress	= "./";
@@ -125,7 +132,7 @@ class ADT_URL_Inference extends ADT_URL
 		$parameters	= self::buildQueryStringStatic( $mapSet, $listRemove );
 		$parameters	= $parameters ? "?".$parameters : "";
 		$parameters	.= $fragment ? "#".$fragment : "";
-		$url		= new ADT_URL( self::$staticScheme, self::$staticAddress );
+		$url		= new URL( self::$staticScheme, self::$staticAddress );
 		return $url->getUrl().$parameters;
 	}
 }

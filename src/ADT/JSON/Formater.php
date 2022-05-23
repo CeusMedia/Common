@@ -28,6 +28,8 @@
  */
 namespace CeusMedia\Common\ADT\JSON;
 
+use InvalidArgumentException;
+
 /**
  *	Formats JSON String.
  *	@category		Library
@@ -61,7 +63,7 @@ class Formater
 
 		if( $validateSource )
 			if( json_decode( $json ) === FALSE )
-				throw new \InvalidArgumentException( 'JSON String is not valid.' );
+				throw new InvalidArgumentException( 'JSON String is not valid.' );
 
 		$len	= strlen( $json );
 		for( $c=0; $c<$len; $c++ )

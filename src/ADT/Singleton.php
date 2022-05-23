@@ -25,6 +25,9 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.6.8
  */
+
+namespace CeusMedia\Common\ADT;
+
 /**
  *	@abtract
  *	@category		Library
@@ -35,9 +38,9 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.6.8
  */
-abstract class ADT_Singleton
+abstract class Singleton
 {
-	/**	@var		ADT_Singleton		$instance		Instance of Singleton */
+	/**	@var		Singleton		$instance		Instance of Singleton */
 	protected static $instance;
 
 	/**
@@ -61,7 +64,7 @@ abstract class ADT_Singleton
 	 *	@abstract
 	 *	@static
 	 *	@access		public
-	 *	@return		ADT_Singleton	Single instance of this Singleton class
+	 *	@return		Singleton	Single instance of this Singleton class
 	 */
 	abstract public static function getInstance();
 

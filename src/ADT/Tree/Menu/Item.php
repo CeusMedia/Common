@@ -25,6 +25,9 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			08.11.2008
  */
+
+namespace CeusMedia\Common\ADT\Tree\Menu;
+
 /**
  *	Tree Menu List Item Data Object used by UI_HTML_Tree_Menu.
  *	@category		Library
@@ -36,7 +39,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			08.11.2008
  */
-class ADT_Tree_Menu_Item extends ADT_Tree_Menu_List
+class Item extends Collection
 {
 	/**	@var		string		$url			URL of Item Link */
 	public $url			= NULL;

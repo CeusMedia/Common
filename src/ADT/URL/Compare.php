@@ -25,6 +25,13 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@see			http://www.w3.org/Addressing/URL/url-spec.html
  */
+
+namespace CeusMedia\Common\ADT\URL;
+
+use CeusMedia\Common\ADT\URL;
+use InvalidArgumentException;
+use RuntimeException;
+
 /**
  *	...
  *	@category		Library
@@ -35,7 +42,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@see			http://www.w3.org/Addressing/URL/url-spec.html
  */
-class ADT_URL_Compare
+class Compare
 {
 	protected $url1;
 	protected $url2;
@@ -51,8 +58,8 @@ class ADT_URL_Compare
 	public function setUrl1( $url )
 	{
 		if( is_string( $url ) )
-			$url	= new ADT_URL( $url );
-		if( !is_a( $url, 'ADT_URL' ) )
+			$url	= new URL( $url );
+		if( !( $url instanceof URL ) )
 			throw new InvalidArgumentException( 'Given first URL is neither ADT_URL nor string' );
 		$this->url1		= $url;
 		return $this;
@@ -61,8 +68,8 @@ class ADT_URL_Compare
 	public function setUrl2( $url )
 	{
 		if( is_string( $url ) )
-			$url	= new ADT_URL( $url );
-		if( !is_a( $url, 'ADT_URL' ) )
+			$url	= new URL( $url );
+		if( !( $url instanceof URL ) )
 			throw new InvalidArgumentException( 'Given second URL is neither ADT_URL nor string' );
 		$this->url2		= $url;
 		return $this;

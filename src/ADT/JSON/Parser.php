@@ -27,6 +27,9 @@
  */
 namespace CeusMedia\Common\ADT\JSON;
 
+use CeusMedia\Common\ADT\Constant;
+use RuntimeException;
+
 /**
  *	JSON Parser.
  *	@category		Library
@@ -102,7 +105,7 @@ class Parser
 	 *	@param		string		$json			JSOn sting to parse
 	 *	@param		boolean		$asArray		Flag: read into an array
 	 *	@return		object|array
-	 *	@throws		\RuntimeException			if parsing failed
+	 *	@throws		RuntimeException			if parsing failed
 	 */
 	public function parse( string $json, bool $asArray = NULL )
 	{
@@ -115,7 +118,7 @@ class Parser
 				$this->getConstantFromCode( json_last_error() ),
 				json_last_error_msg()
 			) );
-			throw new \RuntimeException( $message, json_last_error() );
+			throw new RuntimeException( $message, json_last_error() );
 		}
 		$this->status	= static::STATUS_PARSED;
 		return $data;
@@ -123,6 +126,6 @@ class Parser
 
 	protected function getConstantFromCode( $code )
 	{
-		return \ADT_Constant::getKeyByValue( 'JSON_ERROR_', $code );
+		return Constant::getKeyByValue( 'JSON_ERROR_', $code );
 	}
 }

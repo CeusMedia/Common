@@ -1,27 +1,36 @@
 <?php
-class ADT_List implements Countable {
+namespace CeusMedia\Common\ADT;
 
+use InvalidArgumentException;
+
+class Collection implements \Countable
+{
 	public $list;
 
-	public function __construct( $list = array() ){
+	public function __construct( $list = array() )
+	{
 		if( !( is_array( $list ) || is_null( $list ) ) )
 			throw new InvalidArgumentException( 'List must be an array' );
 		$this->list		= $list;
 	}
 
-	public function count(){
+	public function count()
+	{
 		return count( $this->list );
 	}
 
-	public function getKeys(){
+	public function getKeys()
+	{
 		return array_keys( $this->list );
 	}
 
-	public function getValues(){
+	public function getValues()
+	{
 		return array_values( $this->list );
 	}
 
-	public function raise( $index, $steps = 1 ){
+	public function raise( $index, $steps = 1 )
+	{
 		$steps	= abs( (int) $steps );
 		$index	= (int) $index;
 		if( $steps && $index > 0 && $index < count( $this ) ){
@@ -32,7 +41,8 @@ class ADT_List implements Countable {
 		}
 	}
 
-	public function sink( $index, $steps = 1 ){
+	public function sink( $index, $steps = 1 )
+	{
 		$steps	= abs( (int) $steps );
 		$index	= (int) $index;
 		if( $steps && $index >= 0 && $index < count( $this ) -1 ){

@@ -25,6 +25,12 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.6.7
  */
+namespace CeusMedia\Common\ADT;
+
+use ArrayObject;
+use InvalidArgumentException;
+use OutOfBoundsException;
+
 /**
  *	String Class wrapping most of the PHP functions in a usable way.
  *	@category		Library
@@ -35,7 +41,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.6.7
  */
-class ADT_String
+class String_
 {
 	protected $string;
 
@@ -236,9 +242,9 @@ class ADT_String
 				if( $length < 0 && abs( $start ) < abs( $length ) )
 					throw new OutOfBoundsException( 'Length (from right) excesses start (from right)' );
 			}
-			return new ADT_String( substr( $this->string, $start, $length ) );
+			return new String_( substr( $this->string, $start, $length ) );
 		}
-		return new ADT_String( substr( $this->string, $start ) );
+		return new String_( substr( $this->string, $start ) );
 	}
 
 	/**
@@ -261,7 +267,8 @@ class ADT_String
 	 *	@param		string		$hyphen			Hyphen character to replace given characters with
 	 *	@return		bool		string
 	 */
-	public function hyphenate( $characters = array( ' ' ), $hyphen = '-' ){
+	public function hyphenate( $characters = array( ' ' ), $hyphen = '-' )
+	{
 		$string	= $this->string;
 		foreach( $characters as $character ){
 			$pattern	= '/'.preg_quote( $character, '/' ).'+/s';

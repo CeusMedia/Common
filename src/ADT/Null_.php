@@ -25,6 +25,8 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.0
  */
+namespace CeusMedia\Common\ADT;
+
 /**
  *	Null Object (Design Pattern) Implementation as Singleton.
  *	@category		Library
@@ -35,9 +37,9 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.0
  */
-class ADT_Null implements Countable, Renderable, ArrayAccess
+class Null_ implements \Countable, \Renderable, \ArrayAccess
 {
-	/**	@var	ADT_Null		$instance		Singleton instance of ADT_Null */
+	/**	@var	Null_		$instance		Singleton instance of ADT_Null */
 	protected static $instance	= NULL;
 
 	/**
@@ -45,7 +47,7 @@ class ADT_Null implements Countable, Renderable, ArrayAccess
 	 *	@access		public
 	 *	@param		string		$name			Method name - doesn't matter at all
 	 *	@param		array		$arguments		List of argments - also doesn't matter
-	 *	@return		ADT_Null
+	 *	@return		Null_
 	 */
 	public function __call( $name, $arguments )
 	{
@@ -69,7 +71,7 @@ class ADT_Null implements Countable, Renderable, ArrayAccess
 	/**
 	 *	Answers all undefined members reads by returning this null object again.
 	 *	@param		string		$name			Member name - doesn't matter
-	 *	@return		ADT_Null
+	 *	@return		Null_
 	 */
 	public function __get( $name )
 	{
@@ -101,7 +103,7 @@ class ADT_Null implements Countable, Renderable, ArrayAccess
 	 *	Returns single instance statically.
 	 *	@access		public
 	 *	@static
-	 *	@return		ADT_Null	Single instance
+	 *	@return		Null_	Single instance
 	 */
 	public static function getInstance()
 	{
@@ -134,7 +136,7 @@ class ADT_Null implements Countable, Renderable, ArrayAccess
 	/**
 	 *	Implements interface ArrayAccess and returns always self instance.
 	 *	@access		public
-	 *	@return		ADT_Null		Null object, infact self
+	 *	@return		Null_		Null object, infact self
 	 */
 	public function offsetGet( $key )
 	{

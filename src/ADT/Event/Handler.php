@@ -56,7 +56,7 @@ class Handler
 	 */
 	public function __construct()
 	{
-		$this->events	= new ADT_List_Dictionary();
+		$this->events	= new Dictionary();
 	}
 
 	/**

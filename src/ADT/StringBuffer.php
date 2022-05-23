@@ -24,6 +24,11 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+
+namespace CeusMedia\Common\ADT;
+
+use RangeException;
+
 /**
  *	JAVA like StringBuffer Implementation.
  *	@category		Library
@@ -33,7 +38,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class ADT_StringBuffer implements Countable, Iterator
+class StringBuffer implements \Countable, \Iterator
 {
 	/**	@var		string		$buffer			internal String */
 	private $buffer;
@@ -55,7 +60,7 @@ class ADT_StringBuffer implements Countable, Iterator
 	/**
 	 *	Returns the Size of the String.
 	 *	@access		public
-	 *	@return		ADT_StringBuffer
+	 *	@return		StringBuffer
 	 */
 	public function append( string $string ): self
 	{

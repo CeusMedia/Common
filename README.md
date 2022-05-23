@@ -10,18 +10,18 @@ A library of PHP classes for common tasks.
 
 ### Namespace conversion status
 
-- [ ] ADT *(5/10)*
+- [x] ADT *(10/10)*
 	- [x] Cache
 	- [x] List => Collection
 	- [x] CSS
-	- [ ] Event
+	- [x] Event
 	- [x] Graph
-	- [ ] JSON
-	- [ ] PHP
+	- [x] JSON
+	- [x] PHP => moved to CeusMedia::PhpParser
 	- [x] Time
-	- [ ] Tree
-		- [ ] Menu
-	- [ ] URL
+	- [x] Tree
+		- [x] Menu
+	- [x] URL
 - [ ] Alg *(2/13)*
 	- [ ] Crypt
 	- [ ] JS
