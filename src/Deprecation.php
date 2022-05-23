@@ -1,6 +1,4 @@
 <?php
-/*
-*/
 /**
  *	Indicator for deprecated methods.
  *	@category		Library
@@ -8,6 +6,9 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+
+namespace CeusMedia\Common;
+
 /**
  *	Indicator for deprecated methods.
  *
@@ -79,7 +80,7 @@ class Deprecation
 	 *	@param		string		$version	Library version to start showing deprecation error or notice
 	 *	@return		Deprecation
 	 */
-	public function setErrorVersion( $version )
+	public function setErrorVersion( $version ): self
 	{
 		$this->errorVersion		= $version;
 		return $this;
@@ -92,7 +93,7 @@ class Deprecation
 	 *	@param		string		$version	Library version to start throwing deprecation exception
 	 *	@return		Deprecation
 	 */
-	public function setExceptionVersion( $version )
+	public function setExceptionVersion( $version ): self
 	{
 		$this->exceptionVersion		= $version;
 		return $this;

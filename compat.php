@@ -1,8 +1,6 @@
 <?php
 $isComposer		= file_exists( "vendor" );
-$isFromGithub	= !function_exists( "print_m" );
-
-use function CeusMedia\Common\UI\DevOutput\printMixed as print_m;
+$legacy			= TRUE;
 
 $config		= parse_ini_file( __DIR__.'/Common.ini', TRUE );
 $version	= $config['project']['version'];
@@ -65,27 +63,28 @@ class CLI_Question extends \CeusMedia\Common\CLI\Question{};
 class CLI_RequestReceiver extends \CeusMedia\Common\CLI\RequestReceiver{};
 class CLI_Shell extends \CeusMedia\Common\CLI\Shell{};
 
+class Deprecation extends \CeusMedia\Common\Deprecation{};
+
 class UI_DevOutput extends \CeusMedia\Common\UI\DevOutput{};
 
 
-
-
-#CeusMedia\Common\CLI\Command
 #	class ADT_ extends \CeusMedia\Common\ADT\{};
 
-
-if( $isComposer && $isFromGithub ){
-
-	spl_autoload_register(function($className){
-		if( !preg_match('/\\\\/', $className ) ){
-			$classPath	= __DIR__.'/src/'.str_replace( '_', '/', $className ).'.php';
-			if( file_exists( $classPath ) ){
-				include_once $classPath;
-				return TRUE;
-			}
+spl_autoload_register(function($className){
+	if( !preg_match('/\\\\/', $className ) ){
+		$classPath	= __DIR__.'/src/'.str_replace( '_', '/', $className ).'.php';
+		if( file_exists( $classPath ) ){
+			include_once $classPath;
+			return TRUE;
 		}
-	});
+	}
+});
 
+
+if( $isComposer ){
+}
+
+if( $legacy ){
 //	class Database_PDO_Connection extends DB_PDO_Connection{}
 //	class Database_PDO_DataSourceName extends DB_PDO_DataSourceName{}
 	class File_JSON_Reader extends FS_File_JSON_Reader{}
@@ -103,16 +102,4 @@ if( $isComposer && $isFromGithub ){
 	class CMC_Loader extends Loader{}
 	class Console_RequestReceiver extends CLI_RequestReceiver{}
 	class Console_Command_ArgumentParser extends CLI_Command_ArgumentParser{}
-
-	/*  --  Having library CeusMedia/Mail  --  */
-	if( class_exists( '\CeusMedia\Mail\Parser' ) ){
-		class CMM_Mail_Parser extends \CeusMedia\Mail\Parser{}
-	}
-
-	/*  --  Having library CeusMedia/Bootstrap  --  */
-	if( class_exists( '\CeusMedia\Bootstrap\PageControl' ) ){
-		class CMM_Bootstrap_PageControl extends \CeusMedia\Bootstrap\PageControl{}
-	}
-
-	new UI_DevOutput;
 }
