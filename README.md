@@ -22,7 +22,7 @@ A library of PHP classes for common tasks.
 	- [x] Tree
 		- [x] Menu
 	- [x] URL
-- [ ] Alg *(12/12)*
+- [x] Alg *(12/12)*
 	- [x] Crypt
 	- [x] JS
 	- [x] Math => moved to CeusMedia::Math
@@ -105,11 +105,11 @@ A library of PHP classes for common tasks.
 	- [ ] JS
 	- [ ] SVG
 	- [ ] XML
-- [ ] XML *(0/6)*
-	- [ ] Atom
-	- [ ] DOM
-		- [ ] PEAR
-	- [ ] OPML
-	- [ ] RPC
-	- [ ] WDDX
-	- [ ] WSL
+- [x] XML *(6/6)*
+	- [x] Atom
+	- [x] DOM
+		- [x] PEAR
+	- [x] OPML
+	- [x] RPC
+	- [x] WDDX => removed
+	- [x] WSL
