@@ -2,7 +2,7 @@
 /**
  *	Editor for sectioned Ini Files using parse_ini_file.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_INI
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			01.11.2005
@@ -29,10 +29,8 @@
  *	Editor for sectioned Ini Files using parse_ini_file.
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_INI
- *	@extends		FS_File_INI_SectionReader
- *	@uses			FS_File_Writer
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			01.11.2005
@@ -93,7 +91,7 @@ class FS_File_INI_SectionEditor extends FS_File_INI_SectionReader
 	public function removeSection( $section )
 	{
 		if( !$this->hasSection( $section ) )
-			throw new InvalidArgumentException( 'Section "'.$section.'" is not existing.' ); 
+			throw new InvalidArgumentException( 'Section "'.$section.'" is not existing.' );
 		unset( $this->data[$section] );
 		return is_int( $this->write() );
 	}

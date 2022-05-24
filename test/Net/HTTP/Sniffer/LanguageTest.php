@@ -4,7 +4,7 @@
  *	@package		Tests.net.http
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			16.02.2008
- *	@version		0.1
+ *
  */
 declare( strict_types = 1 );
 
@@ -13,11 +13,9 @@ use PHPUnit\Framework\TestCase;
 /**
  *	TestUnit of Language Sniffer.
  *	@package		Tests.net.http
- *	@extends		Test_Case
- *	@uses			Net_HTTP_Sniffer_Language
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			16.02.2008
- *	@version		0.1
+ *
  */
 class Test_Net_HTTP_Sniffer_LanguageTest extends Test_Case
 {

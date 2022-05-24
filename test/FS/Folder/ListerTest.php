@@ -4,7 +4,7 @@
  *	@package		Tests.folder
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			21.04.2008
- *	@version		0.1
+ *
  */
 declare( strict_types = 1 );
 
@@ -15,11 +15,9 @@ require_once __DIR__.'/TestCase.php';
 /**
  *	TestUnit of Folder Indexer.
  *	@package		Tests.folder
- *	@extends		Test_FS_Folder_TestCase
- *	@uses			FS_Folder_Lister
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			21.04.2008
- *	@version		0.1
+ *
  */
 class Test_FS_Folder_ListerTest extends Test_FS_Folder_TestCase
 {

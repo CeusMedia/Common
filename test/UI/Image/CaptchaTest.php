@@ -4,7 +4,7 @@
  *	@package		Tests.ui
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			05.05.2008
- *	@version		0.1
+ *
  */
 declare( strict_types = 1 );
 
@@ -13,11 +13,9 @@ use PHPUnit\Framework\TestCase;
 /**
  *	TestUnit of UI_Image_Captcha.
  *	@package		Tests.ui
- *	@extends		Test_Case
- *	@uses			UI_Image_Captcha
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			05.05.2008
- *	@version		0.1
+ *
  */
 class Test_UI_Image_CaptchaTest extends Test_Case
 {

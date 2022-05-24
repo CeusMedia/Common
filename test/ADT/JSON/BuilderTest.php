@@ -3,7 +3,6 @@
  *	TestUnit of LinkList
  *	@package		Tests.adt.list
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@version		0.1
  */
 require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
 
@@ -12,10 +11,7 @@ use CeusMedia\Common\ADT\JSON\Builder;
 /**
  *	TestUnit of LinkList
  *	@package		Tests.adt.json
- *	@extends		Test_Case
- *	@uses			Test_ADT_JSON_Builder
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@version		0.1
  */
 class Test_ADT_JSON_BuilderTest extends Test_Case
 {

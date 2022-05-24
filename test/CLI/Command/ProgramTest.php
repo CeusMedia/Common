@@ -4,7 +4,6 @@
  *	@package		Tests.console.command
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			12.01.2009
- *	@version		0.1
  */
 declare( strict_types = 1 );
 
@@ -13,11 +12,8 @@ use PHPUnit\Framework\TestCase;
 /**
  *	TestUnit of CLI_Command_Program.
  *	@package		Tests.console.command
- *	@extends		Test_Case
- *	@uses			CLI_Command_Program
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			12.01.2009
- *	@version		0.1
  */
 class Test_CLI_Command_ProgramTest extends Test_Case
 {

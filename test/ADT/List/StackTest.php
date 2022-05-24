@@ -4,7 +4,6 @@
  *	@package		Tests.adt.list
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			04.06.2008
- *	@version		0.1
  */
 declare( strict_types = 1 );
 
@@ -13,11 +12,8 @@ use PHPUnit\Framework\TestCase;
 /**
  *	TestUnit of Test_ADT_List_Stack.
  *	@package		Tests.adt.list
- *	@extends		Test_Case
- *	@uses			Test_ADT_List_Stack
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			04.06.2008
- *	@version		0.1
  */
 class Test_ADT_List_StackTest extends Test_Case
 {

@@ -12,8 +12,6 @@ use PHPUnit\Framework\TestCase;
 /**
  *	TestUnit of FS_File_Permissions.
  *	@package		Tests.File
- *	@extends		Test_Case
- *	@uses			FS_File_Permissions
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			0.7.0
  */

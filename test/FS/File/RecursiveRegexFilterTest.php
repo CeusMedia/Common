@@ -4,7 +4,6 @@
  *	@package		Tests.file
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			15.06.2008
- *	@version		0.1
  */
 declare( strict_types = 1 );
 
@@ -13,11 +12,8 @@ use PHPUnit\Framework\TestCase;
 /**
  *	TestUnit of FS_File_NameFilter.
  *	@package		Tests.file
- *	@extends		Test_Case
- *	@uses			FS_File_RecursiveRegexFilter
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			15.06.2008
- *	@version		0.1
  */
 class Test_FS_File_RecursiveRegexFilterTest extends Test_Case
 {

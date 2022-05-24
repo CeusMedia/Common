@@ -4,7 +4,7 @@
  *	@package		Tests.
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			07.09.2008
- *	@version		0.1
+ *
  */
 declare( strict_types = 1 );
 
@@ -13,11 +13,9 @@ use PHPUnit\Framework\TestCase;
 /**
  *	TestUnit of UI_HTML_Panel.
  *	@package		Tests.
- *	@extends		Test_Case
- *	@uses			UI_HTML_Panel
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			07.09.2008
- *	@version		0.1
+ *
  */
 class Test_UI_HTML_PanelTest extends Test_Case
 {

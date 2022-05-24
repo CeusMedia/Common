@@ -2,7 +2,7 @@
 /**
  *	Generator for Evolution Graph Images.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_UI_Image
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			13.09.2006
@@ -29,9 +29,8 @@
  *	Generator for Evolution Graph Images.
  *	@category		Library
  *	@package		CeusMedia_Common_UI_Image
- *	@extends		ADT_OptionObject
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			13.09.2006
@@ -41,7 +40,7 @@
 class UI_Image_EvolutionGraph extends ADT_OptionObject
 {
 	protected $defaults	= array(
-		//  Width of Image	
+		//  Width of Image
 		'width'					=> 400,
 		//  Height of Image
 		'height'				=> 150,
@@ -50,7 +49,7 @@ class UI_Image_EvolutionGraph extends ADT_OptionObject
 		'padding_right'			=> 50,
 		'padding_top'			=> 15,
 		'padding_bottom'		=> 15,
-		//  Color of Background 
+		//  Color of Background
 		'color_background'		=> array( 0xFF, 0xFF, 0xFF ),
 		//  Color of Y-Axis Labels
 		'color_bars'			=> array( 0xCC, 0xCC, 0xCC ),
@@ -66,7 +65,7 @@ class UI_Image_EvolutionGraph extends ADT_OptionObject
 		'title_text'			=> "EvolutionGraph",
 		//  Font and Style of Title (3 - medium&bold)
 		'title_font'			=> 3,
-		//  Background Transparency 
+		//  Background Transparency
 		'transparent'			=> true,
 		//  Quantity of horizontal Guidelines
 		'horizontal_bars'		=> 5,
@@ -85,7 +84,7 @@ class UI_Image_EvolutionGraph extends ADT_OptionObject
 	 *	Constructor, sets default Options.
 	 *	@access		public
 	 *	@return		void
-	 */	 
+	 */
 	public function __construct( $options = array() )
 	{
 		parent::__construct();

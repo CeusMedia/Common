@@ -4,7 +4,7 @@
  *	@package		Tests.ui.html
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			22.04.2008
- *	@version		0.1
+ *
  */
 declare( strict_types = 1 );
 
@@ -13,11 +13,9 @@ use PHPUnit\Framework\TestCase;
 /**
  *	TestUnit of Gauss Blur.
  *	@package		Tests.ui.html
- *	@extends		Test_Case
- *	@uses			UI_HTML_Tag
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			22.04.2008
- *	@version		0.1
+ *
  */
 class Test_UI_HTML_TagTest extends Test_Case
 {

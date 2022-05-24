@@ -11,8 +11,6 @@ use PHPUnit\Framework\TestCase;
 /**
  *	TestUnit of Alg_Time_Duration.
  *	@package		Tests.
- *	@extends		Test_Case
- *	@uses			Alg_Time_Duration
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
 final class Test_Alg_Time_DurationTest extends Test_Case

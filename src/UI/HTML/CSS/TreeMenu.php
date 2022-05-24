@@ -2,7 +2,7 @@
 /**
  *	Implementation of CSS Menu, a dynamic Tree Navigation without JavaScript.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_UI_HTML_CSS
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			08.11.2008
@@ -30,9 +30,8 @@
  *	Implementation of CSS Menu, a dynamic Tree Navigation without JavaScript.
  *	@category		Library
  *	@package		CeusMedia_Common_UI_HTML_CSS
- *	@uses			UI_HTML_Elements
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			08.11.2008
@@ -70,7 +69,7 @@ class UI_HTML_CSS_TreeMenu
 	 *	Builds HTML of Tree Menu from Data Array dynamically.
 	 *	@access		public
 	 *	@static
-	 *	@param		array				$tree				Data Array with Tree Menu Structure 
+	 *	@param		array				$tree				Data Array with Tree Menu Structure
 	 *	@param		string				$contentDrop		Indicator HTML Code for Items containing further Items
 	 *	@return		string
 	 */
@@ -194,7 +193,7 @@ class UI_HTML_CSS_TreeMenu
 	 *	Builds HTML of Tree Menu from Data Array statically.
 	 *	@access		public
 	 *	@static
-	 *	@param		array				$tree				Data Array with Tree Menu Structure 
+	 *	@param		array				$tree				Data Array with Tree Menu Structure
 	 *	@param		string				$contentDrop		Indicator HTML Code for Items containing further Items
 	 *	@return		string
 	 */

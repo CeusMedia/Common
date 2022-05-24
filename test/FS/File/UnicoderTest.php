@@ -4,7 +4,7 @@
  *	@package		Tests.
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			19.06.2008
- *	@version		0.1
+ *
  */
 declare( strict_types = 1 );
 
@@ -13,11 +13,9 @@ use PHPUnit\Framework\TestCase;
 /**
  *	TestUnit of FS_File_Unicoder.
  *	@package		Tests.
- *	@extends		Test_Case
- *	@uses			FS_File_Unicoder
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			19.06.2008
- *	@version		0.1
+ *
  */
 class Test_FS_File_UnicoderTest extends Test_Case
 {

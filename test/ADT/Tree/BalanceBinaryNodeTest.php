@@ -3,7 +3,6 @@
  *	TestUnit of LinkList
  *	@package		Tests.adt.list
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@version		0.1
  */
 declare( strict_types = 1 );
 
@@ -12,10 +11,7 @@ use PHPUnit\Framework\TestCase;
 /**
  *	TestUnit of LinkList
  *	@package		Tests.adt.list
- *	@extends		Test_Case
- *	@uses			Test_ADT_Tree_BalanceBinaryNode
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@version		0.1
  */
 class Test_ADT_Tree_BalanceBinaryNodeTest extends Test_Case
 {

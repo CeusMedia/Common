@@ -3,7 +3,6 @@
  *	TestUnit of Registry
  *	@package		Tests.adt
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@version		0.1
  */
 declare( strict_types = 1 );
 
@@ -12,10 +11,7 @@ use PHPUnit\Framework\TestCase;
 /**
  *	TestUnit of Registry
  *	@package		Tests.adt
- *	@extends		Test_Case
- *	@uses			ADT_Registry
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@version		0.1
  */
 class Test_ADT_RegistryTest extends Test_Case
 {

@@ -3,11 +3,8 @@
 /**
  *	TestUnit of ADT_URL.
  *	@package		Tests.CeusMedia_Common_ADT
- *	@extends		PHPUnit_Framework_TestCase
- *	@uses			ADT_URL
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			30.11.2018
- *	@version		0.1
  */
 declare( strict_types = 1 );
 
@@ -16,11 +13,8 @@ use PHPUnit\Framework\TestCase;
 /**
  *	TestUnit of ADT_URL.
  *	@package		Tests.CeusMedia_Common_ADT
- *	@extends		PHPUnit_Framework_TestCase
- *	@uses			ADT_URL
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			30.11.2018
- *	@version		0.1
  */
 class Test_ADT_URLTest extends Test_Case
 {

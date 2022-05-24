@@ -4,7 +4,6 @@
  *	@package		Tests.alg
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			03.08.2008
- *	@version		0.1
  */
 declare( strict_types = 1 );
 
@@ -13,11 +12,8 @@ use PHPUnit\Framework\TestCase;
 /**
  *	TestUnit of Alg_SgmlTagReader.
  *	@package		Tests.alg
- *	@extends		Test_Case
- *	@uses			Alg_SgmlTagReader
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			03.08.2008
- *	@version		0.1
  */
 class Test_Alg_SgmlTagReaderTest extends Test_Case
 {

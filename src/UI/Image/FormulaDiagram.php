@@ -2,7 +2,7 @@
 /**
  *	Paints Formula Diagram
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_UI_Image
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -28,11 +28,8 @@
  *	Paints Formula Diagram
  *	@category		Library
  *	@package		CeusMedia_Common_UI_Image
- *	@extends		UI_Image_Drawer
- *	@uses			Alg_Math_CompactInterval
- *	@uses			Alg_Time_Clock
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@todo			Code Doc
@@ -111,14 +108,14 @@ class UI_Image_FormulaDiagram extends UI_Image_Drawer
 		{
 			$this->drawLine( abs( $xStart ), 0, abs( $xStart ), $yDiam, $col1 );
 			for( $i=50; $i<$yDiam-1; $i+=50 )
-				$this->drawString( abs( $xStart )+5, $i - ( ( strlen( $i ) - 1 ) * 5 ), ( $i + $yStart ) / $this->zoomY, 1, $col1 );	
-		}			
+				$this->drawString( abs( $xStart )+5, $i - ( ( strlen( $i ) - 1 ) * 5 ), ( $i + $yStart ) / $this->zoomY, 1, $col1 );
+		}
 		if( $yStart <= 0 && 0 < $yEnd )
 		{
 			$this->drawLine( 0, abs( $yStart ), $xDiam, abs( $yStart ), $col1 );
 			for( $i=50; $i<$xDiam-1; $i+=50 )
-				$this->drawString( $i - ( ( strlen( $i ) - 1 ) * 5 ), abs( $yStart ) + 5, ( $i + $xStart ) / $this->zoomX, 1, $col1 );	
-		}			
+				$this->drawString( $i - ( ( strlen( $i ) - 1 ) * 5 ), abs( $yStart ) + 5, ( $i + $xStart ) / $this->zoomX, 1, $col1 );
+		}
 		ob_start();
 		$j=0;
 		for( $x=$xStart; $x<$xEnd; $x+=$this->step )
@@ -137,9 +134,9 @@ class UI_Image_FormulaDiagram extends UI_Image_Drawer
 		}
 		ob_end_clean();
 
-		$this->drawString( 15, $yDiam-15, "f(x)=".$this->formula->getExpression(), 2, $col1 );	
+		$this->drawString( 15, $yDiam-15, "f(x)=".$this->formula->getExpression(), 2, $col1 );
 		if( $stop )
-			$this->drawString( $xDiam-50, $yDiam-15, round( $clock->stop(), 0 )."ms", 2, $col1 );	
+			$this->drawString( $xDiam-50, $yDiam-15, round( $clock->stop(), 0 )."ms", 2, $col1 );
 		$this->show();
 	}
 
@@ -182,4 +179,4 @@ class UI_Image_FormulaDiagram extends UI_Image_Drawer
 		else*/
 			return(1);
 	}
-}				
+}

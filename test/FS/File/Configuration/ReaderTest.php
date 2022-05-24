@@ -4,7 +4,6 @@
  *	@package		Tests.
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			08.05.2008
- *	@version		0.1
  */
 declare( strict_types = 1 );
 
@@ -13,11 +12,8 @@ use PHPUnit\Framework\TestCase;
 /**
  *	TestUnit of FS_File_Configuration_Reader.
  *	@package		Tests.
- *	@extends		Test_Case
- *	@uses			FS_File_Configuration_Reader
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			08.05.2008
- *	@version		0.1
  */
 class Test_FS_File_Configuration_ReaderTest extends Test_Case
 {

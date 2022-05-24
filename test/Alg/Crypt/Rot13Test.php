@@ -4,7 +4,6 @@
  *	@package		Tests.alg.crypt
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			14.02.2008
- *	@version		0.1
  */
 declare( strict_types = 1 );
 
@@ -13,11 +12,8 @@ use PHPUnit\Framework\TestCase;
 /**
  *	TestUnit of Rot13.
  *	@package		Tests.alg.crypt
- *	@extends		Test_Case
- *	@uses			Alg_Crypt_Rot13
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			14.02.2008
- *	@version		0.1
  */
 class Test_Alg_Crypt_Rot13Test extends Test_Case
 {

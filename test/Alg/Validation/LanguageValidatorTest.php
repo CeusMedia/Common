@@ -4,7 +4,6 @@
  *	@package		Tests.alg.validation
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			19.06.2008
- *	@version		0.1
  */
 declare( strict_types = 1 );
 
@@ -13,11 +12,8 @@ use PHPUnit\Framework\TestCase;
 /**
  *	TestUnit of Alg_Validation_LanguageValidator.
  *	@package		Tests.alg.validation
- *	@extends		Test_Case
- *	@uses			Alg_Validation_LanguageValidator
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			19.06.2008
- *	@version		0.1
  */
 class Test_Alg_Validation_LanguageValidatorTest extends Test_Case
 {

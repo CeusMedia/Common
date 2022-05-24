@@ -4,7 +4,7 @@
  *	@package		Tests.net
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			21.02.2008
- *	@version		0.1
+ *
  */
 declare( strict_types = 1 );
 
@@ -13,11 +13,9 @@ use PHPUnit\Framework\TestCase;
 /**
  *	TestUnit of Net Reader.
  *	@package		Tests.net
- *	@extends		Test_Case
- *	@uses			Net_Reader
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			21.02.2008
- *	@version		0.1
+ *
  */
 class Test_Net_ReaderTest extends Test_Case
 {

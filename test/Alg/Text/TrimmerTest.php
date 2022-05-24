@@ -4,7 +4,6 @@
  *	@package		Tests.alg
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			27.10.2008
- *	@version		0.1
  */
 declare( strict_types = 1 );
 
@@ -13,11 +12,8 @@ use PHPUnit\Framework\TestCase;
 /**
  *	TestUnit of Alg_Text_Trimmer.
  *	@package		Tests.alg
- *	@extends		Test_Case
- *	@uses			Alg_Text_Trimmer
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			27.10.2008
- *	@version		0.1
  */
 class Test_Alg_Text_TrimmerTest extends Test_Case
 {

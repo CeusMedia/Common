@@ -4,7 +4,7 @@
  *	@package		Tests.ui.html
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			09.07.2008
- *	@version		0.1
+ *
  */
 declare( strict_types = 1 );
 
@@ -13,11 +13,9 @@ use PHPUnit\Framework\TestCase;
 /**
  *	TestUnit of UI_HTML_Indicator.
  *	@package		Tests.ui.html
- *	@extends		Test_Case
- *	@uses			UI_HTML_Indicator
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			09.07.2008
- *	@version		0.1
+ *
  */
 class Test_UI_HTML_IndicatorTest extends Test_Case
 {

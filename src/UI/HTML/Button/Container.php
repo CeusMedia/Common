@@ -10,7 +10,6 @@
  *	HTML Button Container (for CSS).
  *	@category		Library
  *	@package		CeusMedia_Common_UI_HTML_Button
- *	@extends		UI_HTML_Abstract
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			0.7.0
  */
@@ -21,7 +20,7 @@ class UI_HTML_Button_Container extends UI_HTML_Abstract
 
 	public function __construct( UI_HTML_Buffer $buffer )
 	{
-		$this->content[]	= $buffer->render();	
+		$this->content[]	= $buffer->render();
 		$this->addClass( $this->defaultClass );
 	}
 

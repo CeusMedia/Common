@@ -22,7 +22,6 @@
  *	@copyright		2007-2012 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
- *	@version		$Id$
  */
 /**
  *	...
@@ -31,7 +30,6 @@
  *	@copyright		2007-2012 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			http://code.google.com/p/cmclasses/
- *	@version		$Id$
  *	@todo			Code Doc
  */
 class UI_HTML_FormElements
@@ -50,7 +48,7 @@ class UI_HTML_FormElements
 	 */
 /*	public static function CheckLabel( $checkbox, $text, $class, $label, $icons = false)
 	{
-		$ins_label = $label?" id='fld_'.$label.''":"'; 
+		$ins_label = $label?" id='fld_'.$label.''":"';
 		$ins_class	= $class ? ' class="'.$class.'"" : '';
 		$ins_text = $this->Label( $label, $text);
 		if( is_array( $icons))

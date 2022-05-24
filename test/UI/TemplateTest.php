@@ -4,7 +4,6 @@
  *	@package		tests.ui
  *	@author			David Seebacher <dseebacher@gmail.com>
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@version		0.2
  */
 declare( strict_types = 1 );
 
@@ -13,11 +12,8 @@ use PHPUnit\Framework\TestCase;
 /**
  *	TestUnit of UI_Template
  *	@package		tests.ui
- *	@extends		Test_Case
- *	@uses			UI_Template
  *	@author			David Seebacher <dseebacher@gmail.com>
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@version		0.2
  */
 class Test_UI_TemplateTest extends Test_Case
 {

@@ -2,7 +2,7 @@
 /**
  *	Reader for Property Files or typical .ini Files with Key, Values and optional Sections and Comments.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_INI
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			01.01.2001
@@ -29,9 +29,8 @@
  *	Reader for Property Files or typical .ini Files with Key, Values and optional Sections and Comments.
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_INI
- *	@uses			FS_File_Reader
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			01.01.2001
@@ -450,7 +449,7 @@ class FS_File_INI_Reader extends FS_File_Reader
 						$value	= NULL;
 				}
 				if( preg_match( '@^".*"$@', $value ) )
-					$value	= substr( stripslashes( $value ), 1, -1 );			
+					$value	= substr( stripslashes( $value ), 1, -1 );
 				if( $this->usesSections() )
 					$this->properties[$currentSection][$key] = $value;
 				else

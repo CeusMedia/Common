@@ -2,7 +2,7 @@
 /**
  *	Crawls and counts all internal Links of an URL.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_Net_Site
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			10.12.2006
@@ -29,11 +29,8 @@
  *	Crawls and counts all internal Links of an URL.
  *	@category		Library
  *	@package		CeusMedia_Common_Net_Site
- *	@uses			ADT_StringBuffer
- *	@uses			ADT_List_Dictionary
- *	@uses			Net_Reader
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			10.12.2006
@@ -154,7 +151,7 @@ class Net_Site_Crawler
 			$parts['port']		= $this->port;
 			$parts['user']		= $this->user;
 			$parts['pass']		= $this->pass;
-#			$parts['path']		= $this->path.$parts['path'];	
+#			$parts['path']		= $this->path.$parts['path'];
 
 			if( substr( $url, 0, strlen( $this->baseUrl ) ) !== $this->baseUrl )
 				if( !$followExternalLinks )
@@ -261,7 +258,7 @@ class Net_Site_Crawler
 		{
 			$content	= $this->reader->read( array(
 				'CURLOPT_FOLLOWLOCATION'	=> TRUE,
-				'CURLOPT_COOKIEJAR'			=> 'cookies.txt', 
+				'CURLOPT_COOKIEJAR'			=> 'cookies.txt',
 				'CURLOPT_COOKIEFILE'		=> 'cookies.txt'
 			) );
 			$contentType	= $this->reader->getInfo( 'content_type' );

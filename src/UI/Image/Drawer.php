@@ -2,7 +2,7 @@
 /**
  *	Basic Image Creation.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_UI_Image
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -28,9 +28,8 @@
  *	Basic Image Creation.
  *	@category		Library
  *	@package		CeusMedia_Common_UI_Image
- *	@uses			UI_Image_Printer
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -63,7 +62,7 @@ class UI_Image_Drawer
 
 	public function drawPixel( $x, $y, $color )
 	{
-		return imagesetpixel( $this->image, $x, $y, $color );		
+		return imagesetpixel( $this->image, $x, $y, $color );
 	}
 
 	public function drawRectangle( $x0, $y0, $x1, $y1, $color )
@@ -78,12 +77,12 @@ class UI_Image_Drawer
 
 	public function fill( $color )
 	{
-		return imagefilledrectangle( $this->image, 0, 0, imagesx( $this->image ) - 1, imagesy( $this->image ) - 1, $color );		
+		return imagefilledrectangle( $this->image, 0, 0, imagesx( $this->image ) - 1, imagesy( $this->image ) - 1, $color );
 	}
 
 	public function fillRectangle( $x0, $y0, $x1, $y1, $color )
 	{
-		return imagefilledrectangle( $this->image, $x0, $y0, $x1, $y1, $color );		
+		return imagefilledrectangle( $this->image, $x0, $y0, $x1, $y1, $color );
 	}
 
 	public function getColor( $red, $green, $blue, $alpha = 0 )
@@ -100,7 +99,7 @@ class UI_Image_Drawer
 	{
 		return isset( $this->image );
 	}
-*/	
+*/
 	/**
 	 *	Sets Image Handler.
 	 *	@access		public

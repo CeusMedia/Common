@@ -2,7 +2,7 @@
 /**
  *	A Class for reading List Files.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_List
  *	@author			Chistian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -28,17 +28,16 @@
  *	A Class for reading List Files.
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_List
- *	@uses			FS_File_Reader
  *	@author			Chistian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
 class FS_File_List_Reader
 {
-	/**	@var		array		$list			List */	
+	/**	@var		array		$list			List */
 	protected $list						= array();
-	/**	@var		string		$commentPattern	RegEx Pattern of Comments */	
+	/**	@var		string		$commentPattern	RegEx Pattern of Comments */
 	protected static $commentPattern	= '/^[#:;\/*-]/';
 
 	/**
@@ -104,7 +103,7 @@ class FS_File_List_Reader
 	 */
 	public function hasItem( $item )
 	{
-		return in_array( $item, $this->list );	
+		return in_array( $item, $this->list );
 	}
 
 	/**

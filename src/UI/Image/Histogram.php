@@ -2,7 +2,7 @@
 /**
  *	Histogram image generator.
  *
- *	Copyright (c) 2012-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2012-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_UI_Image
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2012-2020 Christian Würker
+ *	@copyright		2012-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.6
@@ -29,9 +29,8 @@
  *	Histogram image generator.
  *	@category		Library
  *	@package		CeusMedia_Common_UI_Image
- *	@uses			UI_Image
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2012-2020 Christian Würker
+ *	@copyright		2012-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.6
@@ -117,7 +116,7 @@ class UI_Image_Histogram
 				$rgb	= imagecolorat( $resource, $x, $y );
 				$r		= ($rgb >> 16) & 0xFF;
 				$g		= ($rgb >> 8) & 0xFF;
-				$b		= $rgb & 0xFF;			
+				$b		= $rgb & 0xFF;
 				$w		= round( ( $r + $g + $b ) / 3 );
 				$values['w'][$w]++;
 				$values['r'][$r]++;

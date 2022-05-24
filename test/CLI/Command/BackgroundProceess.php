@@ -11,8 +11,6 @@ use PHPUnit\Framework\TestCase;
 /**
  *	TestUnit of CLI_Command_BackgroundProcess.
  *	@package		Tests.
- *	@extends		Test_Case
- *	@uses			CLI_Command_ArgumentParser
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
 class Test_CLI_Command_BackgroundProcessTest extends Test_Case

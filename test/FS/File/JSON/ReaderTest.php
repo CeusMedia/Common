@@ -5,7 +5,6 @@
  *	@package		Tests.File.JSON
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			21.03.2015
- *	@version		0.1
  */
 declare( strict_types = 1 );
 
@@ -14,11 +13,8 @@ use PHPUnit\Framework\TestCase;
 /**
  *	TestUnit of FS_File_JSON_Reader.
  *	@package		Tests.File.JSON
- *	@extends		Test_Case
- *	@uses			FS_File_JSON_Reader
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			21.03.2015
- *	@version		0.1
  */
 class Test_FS_File_JSON_ReaderTest extends Test_Case
 {

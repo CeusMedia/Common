@@ -4,18 +4,13 @@
  *	@package		Tests.{classPackage}
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			02.05.2008
- *	@version		0.1
  */
 require_once dirname( __DIR__ ).'/initLoaders.php';
 /**
  *	TestUnit of DB_StatementCollection.
  *	@package		Tests.{classPackage}
- *	@extends		Test_Case
- *	@uses			DB_StatementCollection
- *	@uses			DB_StatementBuilder
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			02.05.2008
- *	@version		0.1
  */
 class Test_DB_StatementCollectionTest extends Test_Case
 {

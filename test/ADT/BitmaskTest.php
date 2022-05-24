@@ -4,7 +4,6 @@
  *	@package		Tests.{classPackage}
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			11.12.2018
- *	@version		0.1
  */
 declare( strict_types = 1 );
 
@@ -12,12 +11,9 @@ use PHPUnit\Framework\TestCase;
 
 /**
  *	TestUnit of Test_ADT_Bitmask.
- *	@extends		Test_Case
  *	@package		Tests.{classPackage}
- *	@uses			ADT_Object
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			11.12.2018
- *	@version		0.1
  */
 class Test_ADT_BitmaskTest extends Test_Case
 {

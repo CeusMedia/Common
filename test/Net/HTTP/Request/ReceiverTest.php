@@ -4,7 +4,7 @@
  *	@package		Tests.net.http.request
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			16.02.2008
- *	@version		0.1
+ *
  */
 declare( strict_types = 1 );
 
@@ -13,11 +13,9 @@ use PHPUnit\Framework\TestCase;
 /**
  *	TestUnit of Request Receiver.
  *	@package		Tests.net.http.request
- *	@extends		Test_Case
- *	@uses			Net_HTTP_Request_Receiver
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			16.02.2008
- *	@version		0.1
+ *
  */
 class Test_Net_HTTP_Request_ReceiverTest extends Test_Case
 {

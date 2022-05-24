@@ -4,17 +4,13 @@
  *	@package		Tests.database
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			15.05.2008
- *	@version		0.1
  */
 require_once dirname( __DIR__ ).'/initLoaders.php';
 /**
  *	TestUnit of DB_Result.
  *	@package		Tests.database
- *	@extends		Test_Case
- *	@uses			DB_Result
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			15.05.2008
- *	@version		0.1
  */
 class Test_DB_ResultTest/* extends Test_Case*/
 {

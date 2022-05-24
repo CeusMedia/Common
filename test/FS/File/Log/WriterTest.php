@@ -4,7 +4,6 @@
  *	@package		Tests.file.log
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			08.05.2008
- *	@version		0.1
  */
 declare( strict_types = 1 );
 
@@ -13,11 +12,8 @@ use PHPUnit\Framework\TestCase;
 /**
  *	TestUnit of FS_File_Log_Writer.
  *	@package		Tests.file.log
- *	@extends		Test_Case
- *	@uses			FS_File_Log_Writer
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			08.05.2008
- *	@version		0.1
  */
 class Test_FS_File_Log_WriterTest extends Test_Case
 {

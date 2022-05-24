@@ -3,7 +3,6 @@
  *	Test class for FS_File_Backup.
  *	@package		Tests.file
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@version		0.1
  */
 declare( strict_types = 1 );
 
@@ -12,10 +11,7 @@ use PHPUnit\Framework\TestCase;
 /**
  *	Test class for FS_File_Backup.
  *	@package		Tests.file
- *	@extends		Test_Case
- *	@uses			FS_File_Editor
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@version		0.1
  */
 class Test_FS_File_BackupTest extends Test_Case{
 

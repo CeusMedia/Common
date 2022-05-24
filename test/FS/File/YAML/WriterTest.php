@@ -4,7 +4,7 @@
  *	@package		Test.File.YAML
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			02.05.2008
- *	@version		0.1
+ *
  */
 declare( strict_types = 1 );
 
@@ -13,12 +13,9 @@ use PHPUnit\Framework\TestCase;
 /**
  *	TestUnit of FS_File_YAML_Writer.
  *	@package		Test.File.YAML
- *	@extends		Test_Case
- *	@uses			FS_File_YAML_Writer
- *	@uses			FS_File_YAML_Reader
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			02.05.2008
- *	@version		0.1
+ *
  */
 class Test_FS_File_YAML_WriterTest extends Test_Case
 {

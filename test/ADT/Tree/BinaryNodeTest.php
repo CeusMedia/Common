@@ -3,7 +3,6 @@
  *	Unit Test of Binary Node.
  *	@package		Tests.adt.list
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@version		0.2
  */
 declare( strict_types = 1 );
 
@@ -12,10 +11,7 @@ use PHPUnit\Framework\TestCase;
 /**
  *	Unit Test of Binary Node.
  *	@package		Tests.adt.list
- *	@extends		Test_Case
- *	@uses			Test_ADT_Tree_BinaryNode
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@version		0.2
  */
 class Test_ADT_Tree_BinaryNodeTest extends Test_Case
 {

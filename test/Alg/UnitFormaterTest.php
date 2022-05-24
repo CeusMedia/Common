@@ -4,7 +4,6 @@
  *	@package		Tests.alg.validation
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			21.02.2008
- *	@version		0.1
  */
 declare( strict_types = 1 );
 
@@ -13,11 +12,8 @@ use PHPUnit\Framework\TestCase;
 /**
  *	TestUnit of Unit Formater.
  *	@package		Tests.alg.validation
- *	@extends		Test_Case
- *	@uses			Alg_Validation_PredicateValidator
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			21.02.2008
- *	@version		0.1
  */
 class Test_Alg_UnitFormaterTest extends Test_Case
 {

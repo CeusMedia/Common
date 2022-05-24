@@ -3,7 +3,6 @@
  *	TestUnit of T File.
  *	@package		Tests.file.arc
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@version		0.1
  */
 declare( strict_types = 1 );
 
@@ -12,10 +11,7 @@ use PHPUnit\Framework\TestCase;
 /**
  *	TestUnit of Tar File.
  *	@package		Tests.file.arc
- *	@extends		Test_Case
- *	@uses			FS_File_Arc_Tar
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@version		0.1
  */
 class Test_FS_File_Arc_TarTest extends Test_Case
 {

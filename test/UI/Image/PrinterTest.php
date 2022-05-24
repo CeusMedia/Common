@@ -4,7 +4,7 @@
  *	@package		Tests.ui.image
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			16.06.2008
- *	@version		0.1
+ *
  */
 declare( strict_types = 1 );
 
@@ -13,12 +13,9 @@ use PHPUnit\Framework\TestCase;
 /**
  *	TestUnit of Inverter.
  *	@package		Tests.ui.image
- *	@extends		Test_Case
- *	@uses			UI_Image_Printer
- *	@uses			FS_File_Reader
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			16.06.2008
- *	@version		0.1
+ *
  */
 class Test_UI_Image_PrinterTest extends Test_Case
 {

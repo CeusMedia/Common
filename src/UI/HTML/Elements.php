@@ -2,7 +2,7 @@
 /**
  *	Builds HTML Components.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,21 +20,18 @@
  *	@category		Library
  *	@package		CeusMedia_Common_UI_HTML
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@version		0.6
  */
 /**
  *	Builds HTML Components.
  *	@category		Library
  *	@package		CeusMedia_Common_UI_HTML
- *	@extends		UI_HTML_FormElements
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@version		0.6
  */
 class UI_HTML_Elements extends UI_HTML_FormElements
 {
@@ -62,7 +59,7 @@ class UI_HTML_Elements extends UI_HTML_FormElements
 	 */
 /*	public static function CheckLabel( $checkbox, $text, $class, $label, $icons = false)
 	{
-		$ins_label = $label?" id='fld_'.$label.''":"'; 
+		$ins_label = $label?" id='fld_'.$label.''":"';
 		$ins_class	= $class ? ' class="'.$class.'"" : '';
 		$ins_text = $this->Label( $label, $text);
 		if( is_array( $icons))
@@ -272,7 +269,7 @@ class UI_HTML_Elements extends UI_HTML_FormElements
 			$cols	= implode( "", $cols );
 			$code	= "<colgroup>".$cols."</colgroup>";
 		}
-		return $code;	
+		return $code;
 	}
 
 	/**
@@ -371,7 +368,7 @@ class UI_HTML_Elements extends UI_HTML_FormElements
 			$ins_id		= $label_name ? " id=\"lbl_".$label_name."\"" : "";
 			$ins_class	= $class ? " class=\"".$class."\"" : "";
 			$label		= $label_name ? "<label for='".$label_name."'>".$label_text."</label>" : $label_text;
-			$code		= "<td".$ins_id.$ins_class.">".$label."</td>";		
+			$code		= "<td".$ins_id.$ins_class.">".$label."</td>";
 		}
 		return $code;
 	}

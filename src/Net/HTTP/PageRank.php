@@ -2,7 +2,7 @@
 /**
  *	Google PageRank.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,7 +21,7 @@
  *	@package		CeusMedia_Common_Net_HTTP
  *	@author			Emir Plicanic
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			18.01.2007
@@ -31,10 +31,9 @@ define( 'GOOGLE_MAGIC', 0xE6359A60 );
  *	Google PageRank.
  *	@category		Library
  *	@package		CeusMedia_Common_Net_HTTP
- *	@uses			Net_CURL
  *	@author			Emir Plicanic
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			18.01.2007
@@ -49,14 +48,14 @@ class Net_HTTP_PageRank
 	 *	@return		string
 	 */
 	private static function calculateChecksum( $url )
-	{ 
+	{
 		$length	= sizeof( $url );
 		$a		= $b = 0x9E3779B9;
 		$c		= GOOGLE_MAGIC;
 		$k		= 0;
 		$len	= $length;
 		while( $len >= 12 )
-		{ 
+		{
 			$a		+= ( $url[$k+0] + ( $url[$k+1] <<8 ) + ( $url[$k+2] << 16 ) + ( $url[$k+3] << 24 ) );
 			$b		+= ( $url[$k+4] + ( $url[$k+5] <<8 ) + ( $url[$k+6] << 16 ) + ( $url[$k+7] << 24 ) );
 			$c		+= ( $url[$k+8] + ( $url[$k+9] <<8 ) + ( $url[$k+10] << 16 )+ ( $url[$k+11] << 24 ) );
@@ -69,7 +68,7 @@ class Net_HTTP_PageRank
 		}
 		$c += $length;
 		switch( $len )
-		{ 
+		{
 			case 11: $c	+=( $url[$k+10] << 24 );
 			case 10: $c	+=( $url[$k+9] << 16 );
 			case 9 : $c	+=( $url[$k+8] << 8 );
@@ -82,10 +81,10 @@ class Net_HTTP_PageRank
 			case 3 : $a	+=( $url[$k+2] << 16 );
 			case 2 : $a	+=( $url[$k+1] << 8 );
 			case 1 : $a	+=( $url[$k+0] );
-		} 
+		}
 		$mix	= self::mix( $a, $b, $c );
 		return	$mix[2];
-	} 
+	}
 
 	/**
 	 *	Returns Google PageRank.
@@ -108,7 +107,7 @@ class Net_HTTP_PageRank
 	}
 
 	private static function mix( $a, $b, $c)
-	{ 
+	{
 		$a -= $b; $a -= $c; $a ^= ( self::zeroFill( $c, 13 ) );
 		$b -= $c; $b -= $a; $b ^= ( $a << 8 );
 		$c -= $a; $c -= $b; $c ^= ( self::zeroFill( $b, 13 ) );
@@ -129,19 +128,19 @@ class Net_HTTP_PageRank
 	 *	@return		array
 	 */
 	private static function strord( $string )
-	{ 
+	{
 		for( $i=0; $i<strlen( $string ); $i++ )
-		{ 
+		{
 			$result[$i] = ord( $string{$i} );
 		}
 		return $result;
-	} 
+	}
 
 	private static function zeroFill( $a, $b )
 	{
 		$z	= hexdec( 80000000 );
 		if( $z & $a )
-		{ 
+		{
 			$a	= ( $a >> 1 );
 			$a	&= ( ~$z );
 			$a	|= 0x40000000;
@@ -152,5 +151,5 @@ class Net_HTTP_PageRank
 			$a	= ( $a >> $b );
 		}
 		return $a;
-	} 
+	}
 }

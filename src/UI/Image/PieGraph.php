@@ -3,14 +3,12 @@
  *	...
  *	@category		Library
  *	@package		CeusMedia_Common_UI_Image
- *	@uses			UI_Template
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
 /**
  *	...
  *	@category		Library
  *	@package		CeusMedia_Common_UI_Image
- *	@uses			UI_Template
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
 class UI_Image_PieGraph

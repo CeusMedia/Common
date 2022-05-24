@@ -4,7 +4,7 @@
  *	@package		Tests.xml.dom
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			11.12.2007
- *	@version		0.1
+ *
  */
 declare( strict_types = 1 );
 
@@ -13,13 +13,9 @@ use PHPUnit\Framework\TestCase;
 /**
  *	TestUnit of XML DOM Object Deserializer.
  *	@package		Tests.xml.dom
- *	@extends		Test_Case
- *	@uses			XML_DOM_ObjectDeserializer
- *	@uses			XML_DOM_ObjectSerializer
- *	@uses			Test_Object
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			11.12.2007
- *	@version		0.1
+ *
  */
 class Test_XML_DOM_ObjectDeserializerTest extends Test_Case
 {

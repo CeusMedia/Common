@@ -12,8 +12,6 @@ use PHPUnit\Framework\TestCase;
 /**
  *	TestUnit of FS_File_NameFilter.
  *	@package		Tests.File
- *	@extends		Test_Case
- *	@uses			FS_File_NameFilter
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			15.06.2008
  */

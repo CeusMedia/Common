@@ -4,7 +4,6 @@
  *	@package		Tests.alg
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			05.05.2008
- *	@version		0.1
  */
 declare( strict_types = 1 );
 
@@ -13,11 +12,8 @@ use PHPUnit\Framework\TestCase;
 /**
  *	TestUnit of Alg_Randomizer.
  *	@package		Tests.alg
- *	@extends		Test_Case
- *	@uses			Alg_Randomizer
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			05.05.2008
- *	@version		0.1
  */
 class Test_Alg_RandomizerTest extends Test_Case
 {

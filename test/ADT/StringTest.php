@@ -4,7 +4,6 @@
  *	@package		Tests.adt
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			21.07.2008
- *	@version		0.1
  */
 declare( strict_types = 1 );
 
@@ -13,11 +12,8 @@ use PHPUnit\Framework\TestCase;
 /**
  *	TestUnit of Test_ADT_String.
  *	@package		Tests.adt
- *	@extends		Test_Case
- *	@uses			ADT_String
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			21.07.2008
- *	@version		0.1
  */
 class Test_ADT_StringTest extends Test_Case
 {

@@ -4,7 +4,7 @@
  *	@package		Tests.xml.dom
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			20.02.2008
- *	@version		0.1
+ *
  */
 declare( strict_types = 1 );
 
@@ -13,11 +13,9 @@ use PHPUnit\Framework\TestCase;
 /**
  *	TestUnit of XML RSS Writer.
  *	@package		Tests.xml.dom
- *	@extends		Test_Case
- *	@uses			XML_RSS_Writer
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			20.02.2008
- *	@version		0.1
+ *
  */
 class Test_XML_RSS_WriterTest extends Test_Case
 {

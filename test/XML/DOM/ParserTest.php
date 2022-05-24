@@ -4,7 +4,7 @@
  *	@package		Tests.xml.dom
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			11.12.2007
- *	@version		0.1
+ *
  */
 declare( strict_types = 1 );
 
@@ -13,13 +13,9 @@ use PHPUnit\Framework\TestCase;
 /**
  *	TestUnit of XML DOM Parser.
  *	@package		Tests.xml.dom
- *	@extends		Test_Case
- *	@uses			XML_DOM_Parser
- *	@uses			XML_DOM_Builder
- *	@uses			XML_DOM_Node
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			11.12.2007
- *	@version		0.1
+ *
  */
 class Test_XML_DOM_ParserTest extends Test_Case
 {

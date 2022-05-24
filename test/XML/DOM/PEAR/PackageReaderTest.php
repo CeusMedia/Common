@@ -4,7 +4,7 @@
  *	@package		Tests....
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			25.10.2008
- *	@version		0.1
+ *
  */
 declare( strict_types = 1 );
 
@@ -13,11 +13,9 @@ use PHPUnit\Framework\TestCase;
 /**
  *	TestUnit of XML_DOM_PEAR_PackageReader.
  *	@package		Tests....
- *	@extends		Test_Case
- *	@uses			XML_DOM_PEAR_PackageReader
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			25.10.2008
- *	@version		0.1
+ *
  */
 class Test_XML_DOM_PEAR_PackageReaderTest extends Test_Case
 {

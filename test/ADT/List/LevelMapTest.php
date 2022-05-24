@@ -4,7 +4,6 @@
  *	@package		Tests.adt.list
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			08.05.2008
- *	@version		0.1
  */
 declare( strict_types = 1 );
 
@@ -13,11 +12,8 @@ use PHPUnit\Framework\TestCase;
 /**
  *	TestUnit of Level Map.
  *	@package		Tests.adt.list
- *	@extends		Test_Case
- *	@uses			Test_ADT_List_LevelMap
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			08.05.2008
- *	@version		0.1
  */
 class Test_ADT_List_LevelMapTest extends Test_Case
 {

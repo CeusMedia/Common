@@ -2,7 +2,7 @@
 /**
  *	Cache to store Data in Files.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			13.04.2009
@@ -29,11 +29,8 @@
  *	Cache to store Data in Files.
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File
- *	@extends		ADT_Cache_Store
- *	@implements		Countable
- *	@uses			FS_File_Editor
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			13.04.2009
@@ -99,7 +96,7 @@ class FS_File_Cache extends ADT_Cache_Store implements Countable
 	 */
 	public function count()
 	{
-		return count( $this->data );	
+		return count( $this->data );
 	}
 
 	/**

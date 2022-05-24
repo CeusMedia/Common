@@ -2,11 +2,8 @@
 /**
  *	TestUnit of FS_File_Lock.
  *	@package		Tests.CeusMedia_Common_FS_File
- *	@extends		PHPUnit_Framework_TestCase
- *	@uses			FS_File_Lock
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			06.05.2017
- *	@version		0.1
  */
 declare( strict_types = 1 );
 
@@ -15,11 +12,8 @@ use PHPUnit\Framework\TestCase;
 /**
  *	TestUnit of FS_File_Lock.
  *	@package		Tests.CeusMedia_Common_FS_File
- *	@extends		PHPUnit_Framework_TestCase
- *	@uses			FS_File_Lock
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			06.05.2017
- *	@version		0.1
  */
 class Test_FS_File_LockTest extends Test_Case
 {

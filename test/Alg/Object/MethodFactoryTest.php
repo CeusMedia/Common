@@ -11,8 +11,6 @@ use PHPUnit\Framework\TestCase;
 /**
  *	TestUnit of Clock.
  *	@package		Tests.
- *	@extends		Test_Case
- *	@uses			Alg_Time_Clock
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
 final class Test_Alg_Object_MethodFactoryTest extends Test_Case
@@ -88,5 +86,3 @@ class Test_Alg_Object_MethodFactoryTestClass
 		return $this->a * $this->b;
 	}
 }
-
-

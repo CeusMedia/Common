@@ -4,7 +4,7 @@
  *	@package		Tests.xml.dom
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			13.12.2007
- *	@version		0.1
+ *
  */
 declare( strict_types = 1 );
 
@@ -13,11 +13,9 @@ use PHPUnit\Framework\TestCase;
 /**
  *	TestUnit of XML DOM Storage.
  *	@package		Tests.xml.dom
- *	@extends		Test_Case
- *	@uses			XML_DOM_Storage
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			13.12.2007
- *	@version		0.1
+ *
  */
 class Test_XML_DOM_StorageTest extends Test_Case
 {

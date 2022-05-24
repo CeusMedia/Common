@@ -4,7 +4,6 @@
  *	@package		Tests.
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			24.10.2008
- *	@version		0.1
  */
 declare( strict_types = 1 );
 
@@ -13,11 +12,8 @@ use PHPUnit\Framework\TestCase;
 /**
  *	TestUnit of CLI_Command_ArgumentParser.
  *	@package		Tests.
- *	@extends		Test_Case
- *	@uses			CLI_Command_ArgumentParser
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			24.10.2008
- *	@version		0.1
  */
 class Test_CLI_Command_ArgumentParserTest extends Test_Case
 {

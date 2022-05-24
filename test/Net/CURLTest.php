@@ -4,7 +4,7 @@
  *	@package		Tests.Net
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			29.10.2010
- *	@version		0.1
+ *
  */
 declare( strict_types = 1 );
 
@@ -13,11 +13,9 @@ use PHPUnit\Framework\TestCase;
 /**
  *	TestUnit of Net_CURL.
  *	@package		Tests.Net
- *	@extends		Test_Case
- *	@uses			Net_CURL
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			29.10.2010
- *	@version		0.1
+ *
  */
 class Test_Net_CURLTest extends Test_Case
 {

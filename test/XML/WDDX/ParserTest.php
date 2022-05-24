@@ -4,7 +4,7 @@
  *	@package		Tests.xml.wddx
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			02.05.2008
- *	@version		0.1
+ *
  */
 declare( strict_types = 1 );
 
@@ -13,11 +13,9 @@ use PHPUnit\Framework\TestCase;
 /**
  *	TestUnit of XML_WDDX_Parser.
  *	@package		Tests.xml.wddx
- *	@extends		Test_Case
- *	@uses			XML_WDDX_Parser
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			02.05.2008
- *	@version		0.1
+ *
  */
 class Test_XML_WDDX_ParserTest extends Test_Case
 {

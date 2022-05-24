@@ -2,7 +2,7 @@
 /**
  *	Builds Tree View of a Folders content for JQuery Plugin Treeview.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_UI_HTML_Tree
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			01.08.2008
@@ -29,9 +29,8 @@
  *	Builds Tree View of a Folders content for JQuery Plugin Treeview.
  *	@category		Library
  *	@package		CeusMedia_Common_UI_HTML_Tree
- *	@uses			UI_HTML_Tree_ArrayView
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			01.08.2008
@@ -100,7 +99,7 @@ class UI_HTML_Tree_FolderView
 	 *	@param		string		$classLeaf			CSS Class of Leafes / Files
 	 *	@return		void
 	 */
-	protected function readRecursive( $path, $currentId, &$nodes, $linkNodes, $classNode = "folder", $classLeaf = "file" ) 
+	protected function readRecursive( $path, $currentId, &$nodes, $linkNodes, $classNode = "folder", $classLeaf = "file" )
 	{
 		$files	= array();
 		$index	= new DirectoryIterator( $path );

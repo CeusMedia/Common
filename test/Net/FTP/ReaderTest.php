@@ -4,7 +4,7 @@
  *	@package		Tests.
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			01.07.2008
- *	@version		0.1
+ *
  */
 declare( strict_types = 1 );
 
@@ -13,12 +13,9 @@ use PHPUnit\Framework\TestCase;
 /**
  *	TestUnit of Net_FTP_Reader.
  *	@package		Tests.
- *	@extends		Test_Case
- *	@uses			Net_FTP_Connection
- *	@uses			Net_FTP_Reader
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			01.07.2008
- *	@version		0.1
+ *
  */
 class Test_Net_FTP_ReaderTest extends Test_Case
 {

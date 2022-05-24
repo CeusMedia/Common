@@ -7,7 +7,6 @@
  *	@category		Library
  *	@package		CeusMedia_Common_UI_Image
  *	@author			Lionel Micault <lionel.micault@laposte.net>
- *	@version		1.01
  */
 // position constants
 define ("transparentWatermarkOnTop", -10);
@@ -24,7 +23,6 @@ define ("transparentWatermarkOnRight", 10);
  *	@category		Library
  *	@package		CeusMedia_Common_UI_Image
  *	@author			Lionel Micault <lionel.micault@laposte.net>
- *	@version		1.01
  *	@todo			check Integration
  *	@todo			create TestCases
  *	@todo			Code Documentation
@@ -45,7 +43,6 @@ class UI_Image_TransparentWatermark
 	* @param string $stampFile  filename of stamp image
 	* @return boolean
 	* @access public
-	* @uses setStamp()
 	*/
 	public function __construct( $stampFile="")
 	{
@@ -59,7 +56,6 @@ class UI_Image_TransparentWatermark
 	* @param int $type  image type (2:JPEG or 3:PNG)
 	* @return void
 	* @access protected
-	* @uses errorMsg
 	*/
 	public function displayImage( $image, $type )
 	{
@@ -84,7 +80,6 @@ class UI_Image_TransparentWatermark
 	*
 	* @return string
 	* @access public
-	* @uses errorMsg
 	*/
 	public function getLastError() {
 		return($this->errorMsg);
@@ -97,11 +92,6 @@ class UI_Image_TransparentWatermark
 	* @param int $resultImageFile new image file (same format)
 	* @return boolean
 	* @access public
-	* @uses readImage()
-	* @uses markImage()
-	* @uses writeImage()
-	* @uses readImage()
-	* @uses errorMsg
 	*/
 	public function markImageFile ( $imageFile, $resultImageFile="") {
 		if (!$this->stampImage) {
@@ -136,11 +126,6 @@ class UI_Image_TransparentWatermark
 	* @param int $imageResource resource of image
 	* @return boolean
 	* @access public
-	* @uses stampWidth
-	* @uses stampHeight
-	* @uses stampImage
-	* @uses stampPositionX
-	* @uses stampPositionY
 	*/
 	public function markImage ( $imageResource) {
 		if (!$this->stampImage) {
@@ -215,7 +200,6 @@ class UI_Image_TransparentWatermark
 	* @param int $type  file type (2:JPEG or 3:PNG)
 	* @return resource
 	* @access protected
-	* @uses errorMsg
 	*/
 	public function readImage( $file, $type) {
 		switch ($type) {
@@ -239,11 +223,6 @@ class UI_Image_TransparentWatermark
 	* @param string $stampFile  image file (JPEG or PNG)
 	* @return boolean
 	* @access public
-	* @uses readImage()
-	* @uses stampImage
-	* @uses stampWidth
-	* @uses stampHeight
-	* @uses errorMsg
 	*/
 	public function setStamp( $stampFile) {
 		$imageinfos = @getimagesize($stampFile);
@@ -273,7 +252,6 @@ class UI_Image_TransparentWatermark
 	* @param	int $Xposition x position
 	* @param	int $Yposition y position
 	* @return	void
-	* @uses	errorMsg
 	*/
 	public function setStampPosition ( $Xposition, $Yposition) {
 		// set X position
@@ -302,7 +280,6 @@ class UI_Image_TransparentWatermark
 	* @param int $type  file type (2:JPEG or 3:PNG)
 	* @return void
 	* @access protected
-	* @uses errorMsg
 	*/
 	public function writeImage( $image, $file, $type) {
 		switch ($type) {

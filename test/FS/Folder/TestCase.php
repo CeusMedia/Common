@@ -3,7 +3,7 @@
  *	TestUnit of Folder Editor.
  *	@package		Tests.folder
  *	@since			21.04.2008
- *	@version		0.1
+ *
  */
 declare( strict_types = 1 );
 
@@ -12,10 +12,9 @@ use PHPUnit\Framework\TestCase;
 /**
  *	TestUnit of Folder Editor.
  *	@package		Tests.folder
- *	@extends		Test_Case
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			21.04.2008
- *	@version		0.1
+ *
  *
  *	This Class creates and removed this File Structure:
  *	# folder

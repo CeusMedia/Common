@@ -2,7 +2,7 @@
 /**
  *	Builder for HTML Form Components.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,25 +20,21 @@
  *	@category		Library
  *	@package		CeusMedia_Common_UI_HTML
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@version		0.6
  */
 /**
  *	Builder for HTML Form Components.
  *	@category		Library
  *	@package		CeusMedia_Common_UI_HTML
- *	@uses			UI_HTML_Tag
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@version		0.6
  */
 class UI_HTML_FormElements
 {
-
 	/**
 	 *	Adds Disabled Attributes directly to Attributes Array, inserts JavaScript Alert if String given.
 	 *	@access		protected
@@ -385,7 +381,7 @@ class UI_HTML_FormElements
 	 *	@param		string		$class			CSS Class
 	 *	@param		mixed		$readOnly		Field is not writable, JavaScript Alert if String is given
 	 *	@return		string
-	 */ 
+	 */
 	public static function Radio( $name, $value, $checked = NULL, $class = NULL, $readOnly = NULL )
 	{
 		$attributes	= array(

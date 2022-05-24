@@ -4,7 +4,6 @@
  *	@package		Tests.file
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			19.04.2009
- *	@version		0.1
  */
 declare( strict_types = 1 );
 
@@ -13,11 +12,8 @@ use PHPUnit\Framework\TestCase;
 /**
  *	TestUnit of FS_File_Cache.
  *	@package		Tests.file
- *	@extends		Test_Case
- *	@uses			FS_File_Cache
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			19.04.2009
- *	@version		0.1
  */
 final class Test_FS_File_CacheTest extends Test_Case
 {

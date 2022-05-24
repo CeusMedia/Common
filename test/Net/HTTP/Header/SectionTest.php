@@ -4,7 +4,7 @@
  *	@package		net.http.request
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			16.02.2008
- *	@version		0.6
+ *
  */
 declare( strict_types = 1 );
 
@@ -16,7 +16,7 @@ use PHPUnit\Framework\TestCase;
  *	@uses			Net_HTTP_Header
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			16.02.2008
- *	@version		0.6
+ *
  */
 class Test_Net_HTTP_Header_SectionTest extends Test_Case
 {

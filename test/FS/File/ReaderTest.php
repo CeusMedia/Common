@@ -3,7 +3,6 @@
  *	TestUnit of File Reader.
  *	@package		Tests.file
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@version		0.1
  */
 declare( strict_types = 1 );
 
@@ -12,10 +11,7 @@ use PHPUnit\Framework\TestCase;
 /**
  *	TestUnit of File Reader.
  *	@package		Tests.file
- *	@extends		Test_Case
- *	@uses			FS_File_Reader
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@version		0.1
  */
 class Test_FS_File_ReaderTest extends Test_Case
 {

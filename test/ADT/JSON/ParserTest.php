@@ -3,7 +3,6 @@
  *	TestUnit of ADT_JSON_Parser
  *	@package		Tests.adt.json
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@version		0.1
  */
 declare( strict_types = 1 );
 
@@ -13,9 +12,7 @@ use CeusMedia\Common\ADT\JSON\Parser;
 /**
  *	TestUnit of ADT_JSON_Parser
  *	@package		Tests.adt.json
- *	@extends		Test_Case
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@version		0.1
  */
 class Test_ADT_JSON_ParserTest extends Test_Case
 {

@@ -4,7 +4,6 @@
  *	@package		Tests.
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			18.12.2010
- *	@version		0.1
  */
 declare( strict_types = 1 );
 
@@ -13,11 +12,8 @@ use PHPUnit\Framework\TestCase;
 /**
  *	TestUnit of FS_File_INI.
  *	@package		Tests.
- *	@extends		Test_Case
- *	@uses			FS_File_INI
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			18.12.2010
- *	@version		0.1
  */
 class Test_FS_File_INITest extends Test_Case
 {

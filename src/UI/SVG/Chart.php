@@ -2,7 +2,7 @@
 /**
  *	The main Chart package file. It includes the core of all Chart classes.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,7 +20,7 @@
  *	@category		Library
  *	@package		CeusMedia_Common_UI_SVG
  *	@author			Jonas Schneider <JonasSchneider@gmx.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -28,10 +28,8 @@
  *	The main Chart class. Base class for all subtypes of charts, like Pie, Bar, Line and so on.
  *	@category		Library
  *	@package		CeusMedia_Common_UI_SVG
- *	@uses			UI_HTML_Tag
- *	@uses			FS_File_Writer
  *	@author			Jonas Schneider <JonasSchneider@gmx.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
@@ -49,15 +47,15 @@ class UI_SVG_Chart
 	 *	@var		array
 	 *	@access		public
 	 *	@see		Chart::$data
-	 */	
+	 */
 	public $colors;
 
 	protected $content	= "";
 
 	/**
 	 *	The constructor.
-	 *	You can pass it an array of {@link Chart_Data} objects as data, 
-	 *	the name of the visualization 
+	 *	You can pass it an array of {@link Chart_Data} objects as data,
+	 *	the name of the visualization
 	 *	and, optional, an array contents the colors in what the Chart data is visualized.
 	 *	@access		public
 	 *	@param		array 		List of Chart_Data objects
@@ -95,7 +93,7 @@ class UI_SVG_Chart
 	 *	It receives the name of the visualization class to use.
 	 *	As $options, you can pass an array of options forwarded to the visualization class.<br>
 	 *	The following options are also implemented in this function:<br>
-	 *	* legend - If set, a legend is also generated. The value is also an array passed to the 
+	 *	* legend - If set, a legend is also generated. The value is also an array passed to the
 	 *	{@link Chart::makeLegend()} function.
 	 *	@access		protected
 	 *	@param		string		Class to use
@@ -178,7 +176,7 @@ class UI_SVG_Chart
 		$width	= isset( $options["width"] ) ? $options["width"] : 100;
 		$height	= isset( $options["height"] ) ? $options["height"] : count( $this->data ) * 20 + 5;
 
-		$tags	= array( "" );		
+		$tags	= array( "" );
 
 		# Frame
 		$attributes	= array( 'x' => $x + 4, 'y' => $y + 4, 'width' => $width, 'height' => $height, 'fill' => "#BBB" );
@@ -203,7 +201,7 @@ class UI_SVG_Chart
 		}
 		$tags	= implode( "\n", $tags );
 		$graph	= UI_HTML_Tag::create( "g", $tags );
-		$this->content	.= $graph;		
+		$this->content	.= $graph;
 	}
 
 	/**
@@ -228,7 +226,7 @@ class UI_SVG_Chart
 	{
 		$svg	= $this->encapsulate( $this->content );
 		$doc	= new DOMDocument();
-		$doc->preserveWhiteSpace = false; 
+		$doc->preserveWhiteSpace = false;
 		$doc->formatOutput = true;
 		$doc->loadXml( $svg );
 		$svg	= $doc->saveXml();

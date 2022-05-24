@@ -4,7 +4,6 @@
  *	@package		Tests.alg.validation
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			14.02.2008
- *	@version		0.1
  */
 declare( strict_types = 1 );
 
@@ -13,12 +12,8 @@ use PHPUnit\Framework\TestCase;
 /**
  *	TestUnit of Predicates.
  *	@package		Tests.alg.validation
- *	@extends		Test_Case
- *	@uses			Alg_Validation_Predicates
- *	@uses			Alg_Crypt_PasswordStrength
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			14.02.2008
- *	@version		0.1
  */
 class Test_Alg_Validation_PredicatesTest extends Test_Case
 {

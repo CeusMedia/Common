@@ -4,7 +4,7 @@
  *	@package		Tests.ui.image
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			21.07.2008
- *	@version		0.1
+ *
  */
 declare( strict_types = 1 );
 
@@ -13,11 +13,9 @@ use PHPUnit\Framework\TestCase;
 /**
  *	TestUnit of UI_Image_Watermark.
  *	@package		Tests.ui.image
- *	@extends		Test_Case
- *	@uses			UI_Image_Watermark
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			21.07.2008
- *	@version		0.1
+ *
  */
 class Test_UI_Image_WatermarkTest extends Test_Case
 {

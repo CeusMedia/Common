@@ -4,7 +4,6 @@
  *	@package		Tests.alg.parcel
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			08.07.2008
- *	@version		0.1
  */
 declare( strict_types = 1 );
 
@@ -13,11 +12,8 @@ use PHPUnit\Framework\TestCase;
 /**
  *	TestUnit of Alg_Parcel_Factory.
  *	@package		Tests.alg.parcel
- *	@extends		Test_Case
- *	@uses			Alg_Parcel_Factory
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			08.07.2008
- *	@version		0.1
  */
 class Test_Alg_Parcel_FactoryTest extends Test_Case
 {

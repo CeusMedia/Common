@@ -3,7 +3,6 @@
  *	TestUnit of Dictionary
  *	@package		Tests.adt.list
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@version		0.1
  */
 declare( strict_types = 1 );
 
@@ -12,10 +11,7 @@ use PHPUnit\Framework\TestCase;
 /**
  *	TestUnit of Dictionary
  *	@package		Tests.adt.list
- *	@extends		Test_Case
- *	@uses			Test_ADT_List_Dictionay
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@version		0.1
  */
 class Test_ADT_List_DictionaryTest extends Test_Case
 {

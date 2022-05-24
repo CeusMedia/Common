@@ -2,7 +2,7 @@
 /**
  *	Tar File allows creation and manipulation of tar archives.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -20,22 +20,18 @@
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_Arc
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@version		$Id$.7
  */
 /**
  *	Tar File allows creation and manipulation of tar archives.
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_Arc
- *	@uses			FS_File_Reader
- *	@uses			FS_File_Writer
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@version		$Id$.7
  */
 class FS_File_Arc_Tar
 {
@@ -220,11 +216,11 @@ class FS_File_Arc_Tar
 	 */
 	protected function generateTar()
 	{
-		// Clear any data currently in $this->content	
+		// Clear any data currently in $this->content
 		$this->content		= "";
 		if( $this->numFolders > 0 )
 		// Generate Records for each folder, if we have directories
-		{	
+		{
 			foreach( $this->folders as $key => $information )
 			{
 				unset( $header );
@@ -484,7 +480,7 @@ class FS_File_Arc_Tar
 	protected function readTar( $fileName )
 	{
  		$file	= new FS_File_Reader( $fileName );
-		$this->content = $file->readString(); 		
+		$this->content = $file->readString();
 		// Parse the TAR file
 		return $this->parseTar();
 	}

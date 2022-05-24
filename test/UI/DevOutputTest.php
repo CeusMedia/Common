@@ -4,7 +4,7 @@
  *	@package		Tests.UI
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			13.06.2013
- *	@version		0.1
+ *
  */
 declare( strict_types = 1 );
 
@@ -13,11 +13,9 @@ use PHPUnit\Framework\TestCase;
 /**
  *	TestUnit of UI_DevOutput.
  *	@package		Tests.UI
- *	@extends		Test_Case
- *	@uses			UI_DevOutput
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			13.06.2013
- *	@version		0.1
+ *
  */
 class Test_UI_DevOutputTest extends TestCase
 {

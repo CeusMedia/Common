@@ -4,7 +4,6 @@
  *	@package		Tests.file.ini
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			03.11.2008
- *	@version		0.1
  */
 declare( strict_types = 1 );
 
@@ -13,11 +12,8 @@ use PHPUnit\Framework\TestCase;
 /**
  *	TestUnit of FS_File_INI_Creator.
  *	@package		Tests.file.ini
- *	@extends		Test_Case
- *	@uses			FS_File_INI_Creator
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			03.11.2008
- *	@version		0.1
  */
 class Test_FS_File_INI_CreatorTest extends Test_Case
 {

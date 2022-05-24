@@ -3,7 +3,7 @@
  *	Builds HTML Tree of Folder Entries with Checkboxes for Selection.
  *	If an ID is set the JQuery Plugins 'cmCheckTree' and 'treeview' can be bound.
  *
- *	Copyright (c) 2007-2020 Christian Würker (ceusmedia.de)
+ *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
  *	This program is free software: you can redistribute it and/or modify
  *	it under the terms of the GNU General Public License as published by
@@ -21,12 +21,10 @@
  *	@category		Library
  *	@package		CeusMedia_Common_UI_HTML_Tree
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			27.07.2009
- *	@version		0.1
- *
  */
 /**
  *	Builds HTML Tree of Folder Entries with Checkboxes for Selection.
@@ -34,15 +32,11 @@
  *
  *	@category		Library
  *	@package		CeusMedia_Common_UI_HTML_Tree
- *	@uses			FS_Folder_Lister
- *	@uses			UI_HTML_Elements
- *	@uses			UI_HTML_JQuery
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2007-2020 Christian Würker
+ *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			27.07.2009
- *	@version		0.1
  */
 class UI_HTML_Tree_FolderCheckView
 {
@@ -119,7 +113,7 @@ class UI_HTML_Tree_FolderCheckView
 			if( $item->isDir() )
 				//  call Method for nested Folder
 				$sublist	= $this->buildRecursive( $item->getPathname(), $level + 1, $pathRoot );
-			//  current Item is set to be selected or no presets at all 
+			//  current Item is set to be selected or no presets at all
 			$state		= $this->selected ? in_array( $path, $this->selected ) : TRUE;
 			//  build Checkbox
 			$check		= UI_HTML_FormElements::CheckBox( $this->inputName.'[]', $path, $state );
@@ -208,7 +202,7 @@ class UI_HTML_Tree_FolderCheckView
 	 */
 	public function setId( $id )
 	{
-		$this->id	= $id;	
+		$this->id	= $id;
 	}
 
 	/**
@@ -222,7 +216,7 @@ class UI_HTML_Tree_FolderCheckView
 	{
 		$this->ignorePatterns	= array();
 		foreach( array_value( $list ) as $pattern)
-			$this->addIgnorePattern( $pattern );	
+			$this->addIgnorePattern( $pattern );
 	}
 
 	/**

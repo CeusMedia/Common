@@ -4,7 +4,7 @@
  *	@package		Tests.folder
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			21.04.2008
- *	@version		0.1
+ *
  */
 declare( strict_types = 1 );
 
@@ -13,11 +13,9 @@ use PHPUnit\Framework\TestCase;
 /**
  *	TestUnit of Folder Iterator.
  *	@package		Tests.folder
- *	@extends		Test_FS_Folder_TestCase
- *	@uses			FS_Folder_Iterator
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			21.04.2008
- *	@version		0.1
+ *
  */
 class Test_FS_Folder_IteratorTest extends Test_FS_Folder_TestCase
 {

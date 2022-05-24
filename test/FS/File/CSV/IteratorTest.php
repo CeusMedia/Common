@@ -4,7 +4,6 @@
  *	@package		Tests.File.CSV
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			09.08.2010
- *	@version		0.1
  */
 declare( strict_types = 1 );
 
@@ -15,7 +14,6 @@ use PHPUnit\Framework\TestCase;
  *	@package		Tests.File.CSV
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			09.08.2010
- *	@version		0.1
  */
 class Test_FS_File_CSV_IteratorTest extends Test_Case
 {

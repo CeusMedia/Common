@@ -4,7 +4,6 @@
  *	@package		Tests.
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			22.12.2008
- *	@version		0.1
  */
 declare( strict_types = 1 );
 
@@ -13,11 +12,8 @@ use PHPUnit\Framework\TestCase;
 /**
  *	TestUnit of Alg_PREG_Match.
  *	@package		Tests.
- *	@extends		Test_Case
- *	@uses			Alg_Preg_Match
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			22.12.2008
- *	@version		0.1
  */
 class Test_Alg_PREG_MatchTest extends Test_Case
 {

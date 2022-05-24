@@ -4,7 +4,7 @@
  *	@package		Tests.{classPackage}
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			03.05.2008
- *	@version		0.1
+ *
  */
 declare( strict_types = 1 );
 
@@ -13,11 +13,9 @@ use PHPUnit\Framework\TestCase;
 /**
  *	TestUnit of XML_WDDX_FileWriter.
  *	@package		Tests.{classPackage}
- *	@extends		Test_Case
- *	@uses			XML_WDDX_FileWriter
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			03.05.2008
- *	@version		0.1
+ *
  */
 class Test_XML_WDDX_FileWriterTest extends Test_Case
 {

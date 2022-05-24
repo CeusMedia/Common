@@ -4,7 +4,6 @@
  *	@package		Tests.adt.tree
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			12.07.2008
- *	@version		0.1
  */
 declare( strict_types = 1 );
 
@@ -13,11 +12,8 @@ use PHPUnit\Framework\TestCase;
 /**
  *	TestUnit of Test_ADT_Tree_Node.
  *	@package		Tests.adt.tree
- *	@extends		Test_Case
- *	@uses			Test_ADT_Tree_Node
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			12.07.2008
- *	@version		0.1
  */
 class Test_ADT_Tree_NodeTest extends Test_Case
 {
