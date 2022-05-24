@@ -30,7 +30,7 @@ namespace CeusMedia\Common\XML\OPML;
 
 use CeusMedia\Common\ADT\OptionObject;
 use CeusMedia\Common\XML\DOM\Node;
-use CeusMedia\Common\XML\DOM\Parser;
+use CeusMedia\Common\XML\DOM\Parser as DomParser;
 use Exception;
 
 /**
@@ -69,7 +69,7 @@ class Parser
 	/**	@var	Node				$tree				Loaded XML Tree from OPML Document */
 	var $tree;
 
-	/**	@var	Parser				$parser				Instance of DOM parser */
+	/**	@var	DomParser			$parser				Instance of DOM parser */
 	var $parser;
 
 	/**	@var	bool				$parsed				Flag: OPML has been parsed */
@@ -84,7 +84,7 @@ class Parser
 	{
 		$this->headers	= new OptionObject();
 		$this->outlines	= array();
-		$this->parser	= new Parser();
+		$this->parser	= new DomParser();
 		$this->parsed	= false;
 	}
 
@@ -116,7 +116,7 @@ class Parser
 			return false;
 		}
 		else
-			trigger_error( "OPML_DOM_Parser[getOption]: OPML Document has not been parsed yet.", E_USER_WARNING );
+			trigger_error( "XML_OPML_Parser[getOption]: OPML Document has not been parsed yet.", E_USER_WARNING );
 	}
 
 	/**
@@ -129,7 +129,7 @@ class Parser
 		if( $this->parsed )
 			return $this->headers->getOptions();
 		else
-			trigger_error( "OPML_DOM_Parser[getOptions]: OPML Document has not been parsed yet.", E_USER_WARNING );
+			trigger_error( "XML_OPML_Parser[getOptions]: OPML Document has not been parsed yet.", E_USER_WARNING );
 	}
 
 	/**

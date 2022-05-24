@@ -24,6 +24,12 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+namespace CeusMedia\Common\ADT\Graph;
+
+use Countable;
+use Exception;
+use InvalidArgumentException;
+
 /**
  *	EdgeSet to store and manipulate edges in a graph.
  *	@category		Library
@@ -33,7 +39,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class EdgeSet implements \Countable
+class EdgeSet implements Countable
 {
 	/**	@var		array				$edges			Array of all Edges */
 	protected $edges = array();
@@ -52,7 +58,7 @@ class EdgeSet implements \Countable
 		{
 			$edge	= $this->getEdge( $sourceNode, $targetNode );
  			if( $value == $edge->getEdgeValue( $sourceNode, $targetNode ) )
-				throw new \InvalidArgumentException( 'Edge is already set.' );
+				throw new InvalidArgumentException( 'Edge is already set.' );
 			else
 				$this->removeEdge( $sourceNode, $targetNode );
 		}
@@ -143,7 +149,7 @@ class EdgeSet implements \Countable
 	public function removeEdge( $sourceNode, $targetNode )
 	{
 		if( !$this->isEdge( $sourceNode, $targetNode ) )
-			throw new \Exception( 'Edge is not existing.' );
+			throw new Exception( 'Edge is not existing.' );
 		$index = $this->getEdgeIndex( $sourceNode, $targetNode );
 		unset( $this->edges[$index] );
 		sort( $this->edges );

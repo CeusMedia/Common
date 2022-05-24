@@ -28,7 +28,7 @@
 
 namespace CeusMedia\Common\XML\OPML;
 
-use CeusMedia\Common\XML\DOM\Builder;
+use CeusMedia\Common\XML\DOM\Builder as DomBuilder;
 use CeusMedia\Common\XML\DOM\Node;
 use InvalidArgumentException;
 
@@ -114,7 +114,7 @@ class Builder extends Node
 	 */
 	public function build( $encoding = "utf-8" )
 	{
-		$builder	= new Builder;
+		$builder	= new DomBuilder;
 		$xml		= $builder->build( $this->tree, $encoding );
 		return $xml;
 	}

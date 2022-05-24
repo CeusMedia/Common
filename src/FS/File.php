@@ -1,6 +1,9 @@
 <?php
 namespace CeusMedia\Common\FS;
 
+use CeusMedia\Common\Exception\IO as IOException;
+use RuntimeException;
+
 class File extends AbstractNode
 {
 	protected $pathName;
@@ -17,17 +20,17 @@ class File extends AbstractNode
 		if( $this->exists( FALSE ) ){
 			if( $strict ){
 				if( is_dir( $this->pathName ) )
-					throw new Exception_IO( 'A folder with this name is already existing', 0, $this->pathName );
+					throw new IOException( 'A folder with this name is already existing', 0, $this->pathName );
 				if( is_link( $this->pathName ) )
-					throw new Exception_IO( 'A link with this name is already existing', 0, $this->pathName );
+					throw new IOException( 'A link with this name is already existing', 0, $this->pathName );
 				if( is_file( $this->pathName ) )
-					throw new Exception_IO( 'File is already existing', 0, $this->pathName );
+					throw new IOException( 'File is already existing', 0, $this->pathName );
 			}
 			return FALSE;
 		}
 		if( !touch( $this->pathName, 0777, TRUE ) ){
 			if( $strict )
-				throw new Exception_IO( 'File creation failed', 0, $this->pathName );
+				throw new IOException( 'File creation failed', 0, $this->pathName );
 			return FALSE;
 		}
 		return TRUE;
@@ -37,12 +40,12 @@ class File extends AbstractNode
 	{
 		if( !file_exists( $this->pathName ) ){
 			if( $strict )
-				throw new Exception_IO( 'Folder is not existing', 0, $targetPath );
+				throw new IOException( 'Folder is not existing', 0, $targetPath );
 			return FALSE;
 		}
 		if( !is_file( $this->pathName ) ){
 			if( $strict )
-				throw new Exception_IO( 'Not a file', 0, $targetPath );
+				throw new IOException( 'Not a file', 0, $targetPath );
 			return FALSE;
 		}
 		return TRUE;
@@ -80,7 +83,7 @@ class File extends AbstractNode
 			if( $mimeType = mime_content_type( $this->pathName ) )
 				return $mimeType;
 		}
-		throw new \RuntimeException( 'PHP extension Fileinfo is missing' );
+		throw new RuntimeException( 'PHP extension Fileinfo is missing' );
 	}
 
 	public function getName( bool $withExtension = TRUE, bool $strict = TRUE ): string

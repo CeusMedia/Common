@@ -91,20 +91,20 @@ A library of PHP classes for common tasks.
 	- [ ] Site
 	- [ ] SVN
 	- [ ] XMPP
-- [ ] UI *(0/5)*
-	- [ ] HTML
-		- [ ] AHAH
-		- [ ] Button
-		- [ ] CSS
-		- [ ] Exception
-		- [ ] Service
-		- [ ] Tree
-	- [ ] Image
-		- [ ] Graph
-		- [ ] Graphviz
-	- [ ] JS
-	- [ ] SVG
-	- [ ] XML
+- [x] UI *(5/5)*
+	- [x] HTML
+		- [x] AHAH
+		- [x] Button
+		- [x] CSS
+		- [x] Exception
+		- [x] Service => removed
+		- [x] Tree
+	- [x] Image
+		- [x] Graph
+		- [x] Graphviz
+	- [x] JS
+	- [x] SVG
+	- [x] XML
 - [x] XML *(6/6)*
 	- [x] Atom
 	- [x] DOM

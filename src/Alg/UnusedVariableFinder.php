@@ -28,7 +28,7 @@
 
 namespace CeusMedia\Common\Alg;
 
-use InvalidArgumentException
+use InvalidArgumentException;
 
 /**
  *	Finds not used variables within PHP methods or functions.

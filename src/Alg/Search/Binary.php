@@ -36,7 +36,7 @@ namespace CeusMedia\Common\Alg\Search;
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class Alg_Search_Binary
+class Binary
 {
 	/**	@var		int		$counter	internal counter of steps */
 	protected $counter;
