@@ -24,6 +24,11 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+
+namespace CeusMedia\Common\UI\HTML;
+
+use InvalidArgumentException;
+
 /**
  *	...
  *	@category		Library
@@ -34,7 +39,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@todo			Code Doc
  */
-class UI_HTML_Table
+class Table
 {
 	protected $bodyRows	= array();
 	protected $footRows	= array();
@@ -46,7 +51,7 @@ class UI_HTML_Table
 	protected $id		= NULL;
 
 	public function __construct( $attributes = array() )
-	{	
+	{
 		foreach( $attributes as $key => $value )
 		{
 			switch( $key )
@@ -75,7 +80,7 @@ class UI_HTML_Table
 				case 'rows':
 					foreach( $value as $row )
 					$this->addRow( $row );
-					break;			
+					break;
 			}
 		}
 
@@ -88,7 +93,7 @@ class UI_HTML_Table
 		$current	= count( $this->bodyRows ) - 1;
 		if( empty( $label ) )
 			$label	= "&#160;";
-		$this->bodyRows[$current][]	= UI_HTML_Tag::create( "td", $label, $attributes );
+		$this->bodyRows[$current][]	= Tag::create( "td", $label, $attributes );
 	}
 
 	public function addColumn( $column )
@@ -113,7 +118,7 @@ class UI_HTML_Table
 		if( !$this->footRows )
 			$this->footRows[]	= array();
 		$current	= count( $this->footRows ) - 1;
-		$this->footRows[$current][]	= UI_HTML_Tag::create( "td", $label, $attributes );
+		$this->footRows[$current][]	= Tag::create( "td", $label, $attributes );
 	}
 
 	public function addFoots( $foots )
@@ -136,7 +141,7 @@ class UI_HTML_Table
 			$this->headRows[]	= array();
 		$current				= count( $this->headRows ) - 1;
 		$attributes['scope']	= isset( $attributes['scope'] ) ? $attributes['scope'] : 'col';
-		$tag					= UI_HTML_Tag::create( "th", $label, $attributes );
+		$tag					= Tag::create( "th", $label, $attributes );
 		$this->headRows[$current][]	= $tag;
 	}
 
@@ -178,39 +183,39 @@ class UI_HTML_Table
 		//  --  TABLE HEAD  --  //
 		$list	= array();
 		foreach( $this->headRows as $headCells )
-			$list[]	= UI_HTML_Tag::create( "tr", "\n      ".implode( "\n      ", $headCells )."\n    " );
-		$tableHead		= "\n  ".UI_HTML_Tag::create( "thead", "\n    ".implode( "\n    ", $list )."\n  " );
+			$list[]	= Tag::create( "tr", "\n      ".implode( "\n      ", $headCells )."\n    " );
+		$tableHead		= "\n  ".Tag::create( "thead", "\n    ".implode( "\n    ", $list )."\n  " );
 
 		//  --  TABLE FOOT  --  //
 		$list	= array();
 		foreach( $this->footRows as $footCells )
-			$list[]	= UI_HTML_Tag::create( "tr", "\n      ".implode( "\n      ", $footCells )."\n    " );
-		$tableFoot		= "\n  ".UI_HTML_Tag::create( "tfoot", "\n    ".implode( "\n    ", $list )."\n  " );
+			$list[]	= Tag::create( "tr", "\n      ".implode( "\n      ", $footCells )."\n    " );
+		$tableFoot		= "\n  ".Tag::create( "tfoot", "\n    ".implode( "\n    ", $list )."\n  " );
 
 		//  --  TABLE BODY  --  //
 		$list	= array();
 		foreach( $this->bodyRows as $bodyCells )
-			$list[]	= UI_HTML_Tag::create( "tr", "\n      ".implode( "\n      ", $bodyCells )."\n    " );
-		$tableBody		= "\n  ".UI_HTML_Tag::create( "tbody", "\n    ".implode( "\n    ", $list )."\n  " )."\n";
+			$list[]	= Tag::create( "tr", "\n      ".implode( "\n      ", $bodyCells )."\n    " );
+		$tableBody		= "\n  ".Tag::create( "tbody", "\n    ".implode( "\n    ", $list )."\n  " )."\n";
 
 		//  --  COLUMN GROUP  --  //
 		$list	= array();
 		foreach( $this->columns as $columns )
 		{
 			foreach( $columns as $nr => $width )
-				$columns[$nr]	= UI_HTML_Tag::create( "col", NULL, array( 'width' => $width ) );
-			$list[]	= UI_HTML_Tag::create( "colgroup", "\n      ".implode( "\n      ", $columns )."\n  " );
+				$columns[$nr]	= Tag::create( "col", NULL, array( 'width' => $width ) );
+			$list[]	= Tag::create( "colgroup", "\n      ".implode( "\n      ", $columns )."\n  " );
 		}
 		$colgroups		= "\n  ".implode( "\n  ", $list );
 
-		$caption		= $this->caption ? "\n  ".UI_HTML_Tag::create( 'caption', $this->caption ) : "";
+		$caption		= $this->caption ? "\n  ".Tag::create( 'caption', $this->caption ) : "";
 		$content		= $caption.$colgroups.$tableHead.$tableFoot.$tableBody;
 		$attributes		= array(
 			'id'		=> $this->id,
 			'class'		=> $this->class,
 			'summary'	=> $this->summary
 		);
-		$table			= UI_HTML_Tag::create( "table", $content, $attributes );
+		$table			= Tag::create( "table", $content, $attributes );
 		return $start.$table.$end;
 	}
 

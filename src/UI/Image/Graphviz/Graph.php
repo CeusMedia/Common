@@ -25,6 +25,13 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.6
  */
+
+namespace CeusMedia\Common\UI\Image\Graphviz;
+
+use FS_File_Writer as FileWriter;
+use DomainException;
+use InvalidArgumentException;
+
 /**
  *	Graph data class for DOT language (Graphviz).
  *
@@ -36,8 +43,8 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.6
  */
-class UI_Image_Graphviz_Graph{
-
+class Graph
+{
 	protected $type				= "digraph";
 	protected $edges			= array();
 	protected $nodes			= array();
@@ -152,7 +159,7 @@ class UI_Image_Graphviz_Graph{
 	}
 
 	public function save( $fileName, $options = array() ){
-		return FS_File_Writer::save( $fileName, $this->render( $options ) );
+		return FileWriter::save( $fileName, $this->render( $options ) );
 	}
 
 	public function setDefaultEdgeOptions( $options ){

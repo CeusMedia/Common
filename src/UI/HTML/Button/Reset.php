@@ -25,6 +25,9 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.0
  */
+
+namespace CeusMedia\Common\UI\HTML\Button;
+
 /**
  *	Builds HTML Reset Button.
  *	@category		Library
@@ -35,7 +38,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.0
  */
-class UI_HTML_Button_Reset extends UI_HTML_Button_Abstract
+class Reset extends Abstraction
 {
 	public static $defaultClass		= 'neutral reset';
 

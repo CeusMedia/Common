@@ -25,8 +25,15 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			16.04.2008
  */
+
+namespace CeusMedia\Common\UI\Image\Graph;
+
+use Exception;
+
 /**
  *	Components to set up Graph by set Configuration and Graph Data.
+ *	Attention: Needs jpgraph (https://jpgraph.net/)
+ *	Possible Package: https://packagist.org/packages/amenadiel/jpgraph
  *	@category		Library
  *	@package		CeusMedia_Common_UI_Image_Graph
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
@@ -35,7 +42,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			16.04.2008
  */
-class UI_Image_Graph_Components
+class Components
 {
 	/**
 	 *	Returns the interpreted Value of a Configuration Parameter.
@@ -84,7 +91,7 @@ class UI_Image_Graph_Components
 	 *	Adds an Axis to the JpGraph Graph Object.
 	 *	@access		public
 	 *	@static
-	 *	@param		Graph		$object			JpGraph Graph Object
+	 *	@param		jpgraph_Graph		$object			JpGraph Graph Object
 	 *	@param		array		$config			Configuration Data
 	 *	@param		array		$data			Graph Data
 	 *	@return		void
@@ -131,7 +138,7 @@ class UI_Image_Graph_Components
 	 *	Sets the Frame of a JpGraph Graph Object.
 	 *	@access		public
 	 *	@static
-	 *	@param		Graph		$object			JpGraph Graph Object
+	 *	@param		jpgraph_Graph		$object			JpGraph Graph Object
 	 *	@param		array		$config			Configuration Data
 	 *	@return		void
 	 */
@@ -141,14 +148,14 @@ class UI_Image_Graph_Components
 		$frameColor	= self::getConfigValue( $config, 'frame.color', array( 0, 0, 0 ) );
 		$frameWidth	= self::getConfigValue( $config, 'frame.width', 1 );
 		$object->setFrame( $frameShow, $frameColor, $frameWidth );
-#$graph->SetFrameBevel(12,true,'black'); 		
+#$graph->SetFrameBevel(12,true,'black');
 	}
 
 	/**
 	 *	Sets the Grid of a JpGraph Grid Object.
 	 *	@access		public
 	 *	@static
-	 *	@param		Grid		$object			JpGraph Grid Object
+	 *	@param		jpgraph_Grid		$object			JpGraph Grid Object
 	 *	@param		array		$config			Configuration Data
 	 *	@return		void
 	 */
@@ -178,7 +185,7 @@ class UI_Image_Graph_Components
 	 *	Sets the Grid of a JpGraph Graph Object.
 	 *	@access		public
 	 *	@static
-	 *	@param		Graph		$object			JpGraph Graph Object
+	 *	@param		jpgraph_Graph		$object			JpGraph Graph Object
 	 *	@param		array		$config			Configuration Data
 	 *	@return		void
 	 */
@@ -202,7 +209,7 @@ class UI_Image_Graph_Components
 		$color		= self::getConfigValue( $config, 'color', 'black' );
 		$frameColor	= self::getConfigValue( $config, 'frame.color', 'black' );
 		$graph->legend->setColor( $color, $frameColor );
-		$graph->legend->setFrameWeight( self::getConfigValue( $config, 'frame.weight', 1 ) ); 
+		$graph->legend->setFrameWeight( self::getConfigValue( $config, 'frame.weight', 1 ) );
 
 		$posX		= self::getConfigValue( $config, 'pos.x', 0 );
 		$posY		= self::getConfigValue( $config, 'pos.y', 0 );
@@ -266,7 +273,7 @@ class UI_Image_Graph_Components
 	 *	Sets Subtitle of a JpGraph Graph Object.
 	 *	@access		public
 	 *	@static
-	 *	@param		Graph		$graph			JpGraph Graph Object
+	 *	@param		jpgraph_Graph		$graph			JpGraph Graph Object
 	 *	@param		array		$config			Configuration Data
 	 *	@return		void
 	 */
@@ -282,7 +289,7 @@ class UI_Image_Graph_Components
 	 *	Sets Title of a JpGraph Graph Object.
 	 *	@access		public
 	 *	@static
-	 *	@param		Graph		$graph			JpGraph Graph Object
+	 *	@param		jpgraph_Graph		$graph			JpGraph Graph Object
 	 *	@param		array		$config			Configuration Data
 	 *	@return		void
 	 */
@@ -298,7 +305,7 @@ class UI_Image_Graph_Components
 	 *	Sets Value Style of a JpGraph Plot Object.
 	 *	@access		public
 	 *	@static
-	 *	@param		Graph		$object			JpGraph Plot Object
+	 *	@param		jpgraph_Graph		$object			JpGraph Plot Object
 	 *	@param		array		$config			Configuration Data
 	 *	@return		void
 	 */

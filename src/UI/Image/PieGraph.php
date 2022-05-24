@@ -5,13 +5,21 @@
  *	@package		CeusMedia_Common_UI_Image
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
+
+namespace CeusMedia\Common\UI\Image;
+
+use UI_Template as Template;
+use InvalidArgumentException;
+
 /**
  *	...
+ *	Attention: Needs jpgraph (https://jpgraph.net/)
+ *	Possible Package: https://packagist.org/packages/amenadiel/jpgraph
  *	@category		Library
  *	@package		CeusMedia_Common_UI_Image
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
-class UI_Image_PieGraph
+class PieGraph
 {
 	protected $antialias		= TRUE;
 	protected $centerX			= 0.43;
@@ -60,14 +68,14 @@ class UI_Image_PieGraph
 			'map'		=> $this->map,
 			'image'		=> $image
 		);
-		return UI_Template::render( 'templates/graph.html', $data );
+		return Template::render( 'templates/graph.html', $data );
 	}
 
 	public function buildImage( $id, $data, $uri = NULL )
 	{
 		if( empty( $data['values'] ) )
 			return "No entries found";
-		$graph = new PieGraph( $this->width, $this->height, $id );
+		$graph = new jpgrapth_PieGraph( $this->width, $this->height, $id );
 		$graph->setShadow( $this->shadow );
 		$graph->setAntiAliasing( $this->antialias );
 		if( $this->heading )
@@ -84,7 +92,7 @@ class UI_Image_PieGraph
 		$graph->legend->setShadow( $this->legendShadow );
 //		$graph->legend->setFont( FF_VERDANA, FS_NORMAL, 8 );
 		$graph->legend->setFont( FF_FONT1, FS_NORMAL, 8 );
-		$p1 = new PiePlot3D( $data['values'] );
+		$p1 = new jpgrapth_PiePlot3D( $data['values'] );
 		$p1->value->setFormat( "%d%%" );
 		$p1->value->show();
 //		$p1->value->setFont( FF_VERDANA, FS_NORMAL, 8 );

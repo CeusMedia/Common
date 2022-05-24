@@ -26,6 +26,15 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			27.07.2009
  */
+
+namespace CeusMedia\Common\UI\HTML\Tree;
+
+use CeusMedia\Common\UI\HTML\Elements;
+use CeusMedia\Common\UI\HTML\FormElements;
+use CeusMedia\Common\UI\HTML\Tag;
+use FS_Folder_Lister as FolderLister;
+use RuntimeException;
+
 /**
  *	Builds HTML Tree of Folder Entries with Checkboxes for Selection.
  *	If an ID is set the JQuery Plugins 'cmCheckTree' and 'treeview' can be bound.
@@ -38,7 +47,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			27.07.2009
  */
-class UI_HTML_Tree_FolderCheckView
+class FolderCheckView
 {
 	protected $id				= NULL;
 	protected $path				= NULL;
@@ -86,7 +95,7 @@ class UI_HTML_Tree_FolderCheckView
 		//  empty Array for current Level Items
 		$list	= array();
 		//  create Lister for Folder Contents
-		$lister	= new FS_Folder_Lister( $path );
+		$lister	= new FolderLister( $path );
 		//  switch Folders Visibility
 		$lister->showFolders( $this->showFolders );
 		//  switch Files Visibility
@@ -116,17 +125,17 @@ class UI_HTML_Tree_FolderCheckView
 			//  current Item is set to be selected or no presets at all
 			$state		= $this->selected ? in_array( $path, $this->selected ) : TRUE;
 			//  build Checkbox
-			$check		= UI_HTML_FormElements::CheckBox( $this->inputName.'[]', $path, $state );
+			$check		= FormElements::CheckBox( $this->inputName.'[]', $path, $state );
 			//  build Label
-			$span		= UI_HTML_Tag::create( 'span', $check.$label );
+			$span		= Tag::create( 'span', $check.$label );
 			//  build List Item
-			$item		= UI_HTML_Elements::ListItem( $span.$sublist, $level );
+			$item		= Elements::ListItem( $span.$sublist, $level );
 			//  append to List
 			$list[$label]		= $item;
 		}
 		ksort( $list );
 		//  build List
-		$list	= $list ? UI_HTML_Elements::unorderedList( $list, $level ) : "";
+		$list	= $list ? Elements::unorderedList( $list, $level ) : "";
 		//  return List of this Level
 		return $list;
 	}
@@ -162,11 +171,11 @@ class UI_HTML_Tree_FolderCheckView
 		//  shortcut of ID
 		$id		= "#".$this->id;
 		//  build JavaScript Plugin Call
-		$script	= UI_HTML_JQuery::buildPluginCall( "cmCheckTree", $id, $default );
+		$script	= JQuery::buildPluginCall( "cmCheckTree", $id, $default );
 		//  also Treeview Options are given -> add Plugin
 		if( is_array( $treeviewOptions ) )
 			//  add Treeview Plugin Call
-			$script	.= UI_HTML_JQuery::buildPluginCall( "treeview", $id, $treeviewOptions );
+			$script	.= JQuery::buildPluginCall( "treeview", $id, $treeviewOptions );
 		//  return build JavaScript
 		return $script;
 	}
@@ -189,7 +198,7 @@ class UI_HTML_Tree_FolderCheckView
 		//  an ID for Tree is set
 		if( $this->id )
 			//  wrap Tree in DIV with ID
-			$tree	= UI_HTML_Tag::create( 'div', $tree, array( 'id' => $this->id ) );
+			$tree	= Tag::create( 'div', $tree, array( 'id' => $this->id ) );
 		//  return finished HTML Tree
 		return $tree;
 	}

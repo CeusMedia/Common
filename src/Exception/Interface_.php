@@ -1,6 +1,6 @@
 <?php
 /**
- *	Abstract exception.
+ *	Exception interface.
  *
  *	Copyright (c) 2010-2022 Christian Würker (ceusmedia.de)
  *
@@ -25,68 +25,46 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.0
  */
+
+namespace CeusMedia\Common\Exception;
+
 /**
- *	Abstract exception.
+ *	Exception interface.
  *	@category		Library
  *	@package		CeusMedia_Common_Exception
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2010-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@see			http://www.php.net/manual/de/language.exceptions.php#91159
  *	@since			0.7.0
  *	@todo			test and write unit tests, remove see-link later
  */
-abstract class Exception_Abstract extends Exception implements Exception_Interface
+interface Interface_
 {
+	/* Protected methods inherited from Exception class */
 	// Exception message
-	protected $message = 'Unknown exception';
+	public function getMessage();
 
-	// User-defined exception code
-	protected $code    = 0;
+	// User-defined Exception code
+	public function getCode();
 
-	// Source filename of exception
-	protected $file;
+	// Source filename
+	public function getFile();
 
-	// Source line of exception
-	protected $line;
+	// Source line
+	public function getLine();
 
-	protected $previous;
+	// An array of the backtrace()
+	public function getTrace();
 
-	// Unknown
-	private   $trace;
+	// Formated string of trace
+	public function getTraceAsString();
 
-	// Unknown
-	private   $string;
+	public function getPrevious();
 
-	/**
-	 *	Constructor.
-	 *	@access		public
-	 *	@param		string		$message
-	 *	@param		integer		$code
-	 *	@return		void
-	 */
-	public function __construct( $message = NULL, $code = 0, ?Throwable $previous = null )
-	{
-		if( !$message )
-			throw new $this( 'Unknown '.get_class( $this ) );
-		parent::__construct( $message, $code, $previous );
-	}
+	/* Overrideable methods inherited from Exception class */
+	// formated string for display
+	public function __toString();
 
-	/**
-	 *	String representation of exception.
-	 *	@access		public
-	 *	@return		string
-	 */
-	public function __toString()
-	{
-		return sprintf(
-			'%1$s "{%2$s}" in {%3$s}(%4$s) '.PHP_EOL.'%5$s',
-			get_class( $this ),
-			$this->message,
-			$this->file,
-			$this->line,
-			$this->getTraceAsString()
-		);
-	}
+	public function __construct( $message = NULL, $code = 0, ?Throwable $previous = null );
 }

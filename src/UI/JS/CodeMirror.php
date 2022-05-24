@@ -1,10 +1,12 @@
 <?php
-class UI_JS_CodeMirror{
+namespace CeusMedia\Common\UI\JS;
 
-	protected $addons	= array(
-	);
-	protected $theme	= array(
-	);
+class CodeMirror
+{
+	protected $addons	= array();
+
+	protected $theme	= array();
+
 	protected $options	= array(
 		'lineNumbers'				=> TRUE,
 		'matchBrackets'				=> TRUE,
@@ -19,7 +21,8 @@ class UI_JS_CodeMirror{
 		'matchBrackets'				=> TRUE,
 	);
 
-	public function build( $textareaSelector, $options = array() ){
+	public function build( $textareaSelector, $options = array() )
+	{
 		$options	= array_merge( $this->options, $options );
 		ksort( $options );
 		$script		= '
@@ -31,28 +34,37 @@ $("'.$textareaSelector.'").each(function(){
 		return $script;
 	}
 
-	public function getOptions(){
+	public function getOptions()
+	{
 		return $this->options;
 	}
 
-	public function setMode( $mode ){
+	public function setMode( $mode ): self
+	{
 		$this->setOption( 'mode', $mode );
+		return $this;
 	}
 
-	public function setOption( $key, $value ){
+	public function setOption( $key, $value ): self
+	{
 		if( is_null( $value ) ){
 			if( isset( $this->options[$key] ) )
 				unset( $this->options[$key] );
 		}
 		else
 			$this->options[$key]	= $value;
+		return $this;
 	}
 
-	public function setReadOnly( $status = TRUE ){
+	public function setReadOnly( $status = TRUE ): self
+	{
 		$this->setOption( 'readonly', (bool) $status );
+		return $this;
 	}
 
-	public function setTheme( $theme ){
+	public function setTheme( $theme ): self
+	{
 		$this->setOption( 'theme', $theme );
+		return $this;
 	}
 }

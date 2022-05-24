@@ -26,6 +26,9 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			01.03.2007
  */
+
+namespace CeusMedia\Common\Exception;
+
 /**
  *	Exception for Input/Output Errors.
  *	Stores an additional resource and is serializable.
@@ -37,7 +40,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			01.03.2007
  */
-class Exception_IO extends Exception_Runtime
+class IO extends Runtime
 {
 	/**	@var		string		$resource		Name or Value of resource which was not fully accessible */
 	protected $resource			= "";

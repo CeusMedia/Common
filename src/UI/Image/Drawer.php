@@ -24,6 +24,9 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+
+namespace CeusMedia\Common\UI\Image;
+
 /**
  *	Basic Image Creation.
  *	@category		Library
@@ -33,7 +36,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class UI_Image_Drawer
+class Drawer
 {
 	protected $image;
 	protected $type	= 0;
@@ -113,7 +116,7 @@ class UI_Image_Drawer
 
 	public function show( $quality = 100 )
 	{
-		UI_Image_Printer::showImage( $this->image, $this->type, $quality );
+		Printer::showImage( $this->image, $this->type, $quality );
 		die;
 	}
 }

@@ -25,6 +25,11 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			04.08.2009
  */
+
+namespace CeusMedia\Common\UI\Image;
+
+use RuntimeException;
+
 /**
  *	Rotates an Image.
  *	@category		Library
@@ -35,7 +40,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			04.08.2009
  */
-class UI_Image_Rotator extends UI_Image_Modifier
+class Rotator extends Modifier
 {
 	/**
 	 *	Invertes Source Image.
@@ -68,7 +73,7 @@ class UI_Image_Rotator extends UI_Image_Modifier
 	 */
 	public static function rotateImage( $imageUri, $angle, $quality = 100 )
 	{
-		$modifier	= new UI_Image_Rotator( $imageUri, $imageUri, $quality );
+		$modifier	= new Rotator( $imageUri, $imageUri, $quality );
 		return $modifier->rotate( $angle );
 	}
 }

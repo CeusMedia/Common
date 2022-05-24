@@ -1,6 +1,6 @@
 <?php
 /**
- *	This is a pie visualization class. 
+ *	This is a pie visualization class.
  *	You shouldn´t use this class alone, but you can.
  *	You should only use it in corporation with the UI_SVG_Chart class.
  *
@@ -26,8 +26,13 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+
+namespace CeusMedia\Common\UI\SVG;
+
+use UI_HTML_Tag as HtmlTag;
+
 /**
- *	This is a pie visualization class. 
+ *	This is a pie visualization class.
  *	You shouldn´t use this class alone, but you can.
  *	You should only use it in corporation with the UI_SVG_Chart class.
  *	@category		Library
@@ -37,7 +42,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class UI_SVG_PieGraph
+class PieGraph
 {
 	/**
 	 *	This function generates a pie chart of the given data.
@@ -73,7 +78,7 @@ class UI_SVG_PieGraph
 			$x2 = $cx + ( $r * sin( $alpha ) );
 			$y2 = $cy - ( $r * cos( $alpha ) );
 
-			$rotate180	= $obj->percent > 50 ? 1 : 0; 
+			$rotate180	= $obj->percent > 50 ? 1 : 0;
 			$color		= $this->chart->getColor( $count );
 
 			$attributes	= array(
@@ -81,7 +86,7 @@ class UI_SVG_PieGraph
 				'fill'		=> $color,
 				'opacity'	=> 0.8,
 			);
-			$output .= UI_HTML_Tag::create( "path", NULL, $attributes );
+			$output .= HtmlTag::create( "path", NULL, $attributes );
 
 			$x1	= $x2;
 			$y1	= $y2;
@@ -97,7 +102,7 @@ class UI_SVG_PieGraph
 				"y"	=> $y,
 			);
 		}
-		$graph	= UI_HTML_Tag::create( "g", $output );
+		$graph	= HtmlTag::create( "g", $output );
 		return $graph;
 	}
 }

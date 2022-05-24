@@ -24,6 +24,11 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+
+namespace CeusMedia\Common\UI\Image;
+
+use CeusMedia\Common\UI\Image;
+
 /**
  *	Image filter.
  *	@category		Library
@@ -35,12 +40,12 @@
  *	@see			http://www.php.net/manual/en/function.imagefilter.php
  *	@see			http://www.tuxradar.com/practicalphp/11/2/15
  */
-class UI_Image_Filter
+class Filter
 {
-	/**	@var		UI_Image		$resource		Image resource object */
+	/**	@var		Image		$resource		Image resource object */
 	protected $image;
 
-	public function __construct( UI_Image $image )
+	public function __construct( Image $image )
 	{
 		$this->image	= $image;
 	}

@@ -26,6 +26,16 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			03.03.2007
  */
+
+namespace CeusMedia\Common\UI;
+
+use CeusMedia\Common\ADT\Collection\Dictionary;
+use CeusMedia\Common\Alg\Obj\MethodFactory as ObjectMethodFactory;
+use CeusMedia\Common\Exception\Template as TemplateException;
+use ArrayObject;
+use InvalidArgumentException;
+use ReflectionObject;
+
 /**
  *	Template Class.
  *	@category		Library
@@ -61,7 +71,7 @@
  *	</html>
  *	</code>
  */
-class UI_Template
+class Template
 {
 	/**	@var		string		$className		Name of template class */
 	protected $className;
@@ -115,7 +125,7 @@ class UI_Template
 			if( !strlen( trim( $key ) ) )
 				throw new InvalidArgumentException( 'Key cannot be empty' );
 
-			$isListObject	= $value instanceof ArrayObject || $value instanceof ADT_List_Dictionary;
+			$isListObject	= $value instanceof ArrayObject || $value instanceof Dictionary;
 			$isPrimitive	= is_string( $value ) || is_int( $value ) || is_float( $value ) || is_bool( $value );
 			$isTemplate		= $value instanceof $this->className;
 			if( is_null( $value ) )
@@ -153,7 +163,7 @@ class UI_Template
 		$steps[]	= $name;
 		foreach( $data as $key => $value )
 		{
-			$isListObject	= $value instanceof ArrayObject || $value instanceof ADT_List_Dictionary;
+			$isListObject	= $value instanceof ArrayObject || $value instanceof Dictionary;
 			if( is_array( $value ) || $isListObject  )
 			{
 				$number	+= $this->addArrayRecursive( $key, $value, $steps );
@@ -171,7 +181,7 @@ class UI_Template
 	/**
 	 *	Adds one Element.
 	 *	@param		string		$tag		Tag name
-	 *	@param		string|integer|float|UI_Template
+	 *	@param		string|integer|float|Template
 	 *	@param		boolean		if set to TRUE, it will overwrite an existing element with the same label
 	 *	@return		void
 	 */
@@ -192,7 +202,7 @@ class UI_Template
 			if( $property->isPublic() )
 				$value	= $property->getValue( $object );
 			else if( $reflection->hasMethod( $methodName ) )
-				$value	= Alg_Object_MethodFactory::staticCallObjectMethod( $object, $methodName );
+				$value	= ObjectMethodFactory::staticCallObjectMethod( $object, $methodName );
 			else
 				continue;
 			$label	= implode( ".", $steps ).".".$key;
@@ -285,8 +295,8 @@ class UI_Template
 		foreach( $tags as $key => $value )
 			$tags[$key]	= preg_replace( '@(<%\??)|%>@', "", $value );
 		if( $this->fileName )
-			throw new Exception_Template( Exception_Template::FILE_LABELS_MISSING, $this->fileName, $tags );
-		throw new Exception_Template( Exception_Template::LABELS_MISSING, NULL, $tags );
+			throw new TemplateException( TemplateException::FILE_LABELS_MISSING, $this->fileName, $tags );
+		throw new TemplateException( TemplateException::LABELS_MISSING, NULL, $tags );
 	}
 
 	/**
@@ -388,7 +398,7 @@ class UI_Template
 			return $template;
 		for( $i=0; $i<count( $matches[0] ); $i++ )
 		{
-			$nested		= UI_Template::render( $matches[2][$i], $this->elements );
+			$nested		= Template::render( $matches[2][$i], $this->elements );
 			$template	= str_replace( $matches[0][$i], $nested, $template );
 		}
 		return $template;
@@ -435,7 +445,7 @@ class UI_Template
 			return FALSE;
 
 		if( !file_exists( $fileName ) )
-			throw new Exception_Template( Exception_Template::FILE_NOT_FOUND, $fileName );
+			throw new TemplateException( TemplateException::FILE_NOT_FOUND, $fileName );
 
 		$this->fileName	= $fileName;
 		$this->template = file_get_contents( $fileName );

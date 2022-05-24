@@ -25,6 +25,11 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.0
  */
+
+namespace CeusMedia\Common\UI\HTML;
+
+use InvalidArgumentException;
+
 /**
  *	Builder for HTML Image Elements.
  *	@category		Library
@@ -35,7 +40,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.0
  */
-class UI_HTML_Image extends UI_HTML_Abstract
+class Image extends Abstraction
 {
 	protected $title	= NULL;
 	protected $url		= NULL;
@@ -71,7 +76,7 @@ class UI_HTML_Image extends UI_HTML_Abstract
 		$attributes['title']	= (string) $this->title;
 		$attributes['alt'] 		= (string) $this->title;
 		$attributes['src'] 		= $this->url;
-		return UI_HTML_Tag::create( 'img', NULL, $attributes );
+		return Tag::create( 'img', NULL, $attributes );
 	}
 
 	/**
@@ -82,7 +87,7 @@ class UI_HTML_Image extends UI_HTML_Abstract
 	 */
 	public function setTitle( $title )
 	{
-		$this->title	= $title;	
+		$this->title	= $title;
 	}
 
 	/**
@@ -93,6 +98,6 @@ class UI_HTML_Image extends UI_HTML_Abstract
 	 */
 	public function setUrl( $url )
 	{
-		$this->url	= $url;	
+		$this->url	= $url;
 	}
 }

@@ -25,6 +25,9 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			16.06.2008
  */
+
+namespace CeusMedia\Common\UI\Image;
+
 /**
  *	Creates and displays Error Image with Message.
  *	@category		Library
@@ -35,10 +38,11 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			16.06.2008
  */
-class UI_Image_Error
+class Error
 {
 	/**	 @var		int			$borderWidth	Width of Border around Image */
 	static public $borderWidth	= 0;
+
 	/**	 @var		bool		$sendHeader		Send Header with Image MIME Type */
 	static public $sendHeader	= TRUE;
 
@@ -54,12 +58,12 @@ class UI_Image_Error
 	 */
 	public function __construct( $message, $width = 200, $height = 20, $posX = 5, $posY = 3 )
 	{
-		$image	= new UI_Image_Creator();
+		$image	= new Creator();
 		$image->create( $width, $height );
-		$image	= new UI_Image_Drawer( $image->getResource() );
+		$image	= new Drawer( $image->getResource() );
 		$color	= $image->getColor( 255, 0, 0 );
 		$image->drawBorder( $color, self::$borderWidth );
 		$image->drawString( $posX, $posY, $message, 3, $color );
-		UI_Image_Printer::showImage( $image->getImage(), IMAGETYPE_PNG, 100, self::$sendHeader );
+		Printer::showImage( $image->getImage(), IMAGETYPE_PNG, 100, self::$sendHeader );
 	}
 }

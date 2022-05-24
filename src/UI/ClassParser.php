@@ -25,6 +25,11 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			22.06.2005
  */
+
+namespace CeusMedia\Common\UI;
+
+use FS_File_Reader as FileReader;
+
 /**
  *	Parses Class and creates UML Diagram.
  *	@category		Library
@@ -39,12 +44,16 @@ class ClassParser
 {
 	/**	@var		string		$fileName		File name of Class to parse */
 	protected $fileName;
+
 	/**	@var		array		$funcs			List of Functions */
 	protected $methods		= array();
+
 	/**	@var		array		$vars			List of Variables */
 	protected $vars				= array();
+
 	/**	@var		array		$imports		List of imported Classes */
 	protected $imports			= array();
+
 	/**	@var		array		$classData		List of Class Properties */
 	protected $classData		= array(
 		"package"		=> "",
@@ -224,7 +233,7 @@ class ClassParser
 		$doc_open	= false;
 		$func_data	= array();
 
-		$f = new FS_File_Reader( $this->fileName );
+		$f = new FileReader( $this->fileName );
 		$lines = $f->readArray();
 		array_pop( $lines );
 		array_shift( $lines );

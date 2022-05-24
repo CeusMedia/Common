@@ -25,6 +25,9 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.0
  */
+
+namespace CeusMedia\Common\UI\HTML;
+
 /**
  *	Builder of HTML Ordered List Elements.
  *	@category		Library
@@ -35,7 +38,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.0
  */
-class UI_HTML_OrderedList extends UI_HTML_Abstract
+class OrderedList extends Abstraction
 {
 	/**
 	 *	Constructor.
@@ -55,7 +58,7 @@ class UI_HTML_OrderedList extends UI_HTML_Abstract
 	/**
 	 *	Adds an Item.
 	 *	@access		public
-	 *	@param		UI_HTML_ListItem|string	$item	List Item Element or String
+	 *	@param		ListItem|string	$item	List Item Element or String
 	 *	@return		void
 	 */
 	public function addItem( $item )
@@ -71,7 +74,7 @@ class UI_HTML_OrderedList extends UI_HTML_Abstract
 	 */
 	public function addItems( $items )
 	{
-		if( $items instanceof UI_HTML_Buffer ) 
+		if( $items instanceof Buffer )
 			$this->addItem( $items->render() );
 		else
 			foreach( $items as $item )
@@ -88,6 +91,6 @@ class UI_HTML_OrderedList extends UI_HTML_Abstract
 		$list	= array();
 		foreach( $this->listItems as $item )
 			$list[]	= $this->renderInner( $item );
-		return UI_HTML_Tag::create( "ol", join( $list ), $this->getAttributes() );
+		return Tag::create( "ol", join( $list ), $this->getAttributes() );
 	}
 }

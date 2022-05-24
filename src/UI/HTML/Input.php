@@ -25,6 +25,9 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.0
  */
+
+namespace CeusMedia\Common\UI\HTML;
+
 /**
  *	Builder for HTML Input Elements.
  *	@category		Library
@@ -35,7 +38,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.0
  */
-class UI_HTML_Input extends UI_HTML_Abstract
+class Input extends Abstraction
 {
 	/**
 	 *	Constructor.
@@ -64,7 +67,7 @@ class UI_HTML_Input extends UI_HTML_Abstract
 	public function render()
 	{
 		$attributes	= $this->getAttributes();
-		return UI_HTML_Tag::create( "input", NULL, $attributes );
+		return Tag::create( "input", NULL, $attributes );
 	}
 
 	/**

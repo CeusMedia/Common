@@ -25,6 +25,11 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			16.04.2008
  */
+
+namespace CeusMedia\Common\UI\Image\Graph;
+
+use Exception;
+
 /**
  *	Builds a Line Plot for Graph.
  *	@category		Library
@@ -35,19 +40,19 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			16.04.2008
  */
-class UI_Image_Graph_LinePlot
+class LinePlot
 {
 	/**
 	 *	Builds and returns Line Plot.
 	 *	@access		public
 	 *	@param		array		$config			Graph Configuration
 	 *	@param		array		$data			Graph Data
-	 *	@return		LinePlot
+	 *	@return		jpgraph_LinePlot
 	 */
 	public function buildPlot( $config, $data )
 	{
 		$graphClass	= $config['type'];
-		if( is_string( UI_Image_Graph_Components::getConfigValue( $config, 'data' ) ) )
+		if( is_string( Components::getConfigValue( $config, 'data' ) ) )
 		{
 			if( isset( $data[$config['data']] ) )
 			{
@@ -63,10 +68,10 @@ class UI_Image_Graph_LinePlot
 		else
 			$graphData	= array_fill( 0, count( $data['x'] ), $config['data'] );
 
-		$legend		= UI_Image_Graph_Components::getConfigValue( $config, 'legend' );
-		$color		= UI_Image_Graph_Components::getConfigValue( $config, 'color' );
-		$weight		= UI_Image_Graph_Components::getConfigValue( $config, 'weight' );
-		$fillColor	= UI_Image_Graph_Components::getConfigValue( $config, 'fill.color' );
+		$legend		= Components::getConfigValue( $config, 'legend' );
+		$color		= Components::getConfigValue( $config, 'color' );
+		$weight		= Components::getConfigValue( $config, 'weight' );
+		$fillColor	= Components::getConfigValue( $config, 'fill.color' );
 
 		$graphType	= new $graphClass( $graphData );
 
@@ -79,8 +84,8 @@ class UI_Image_Graph_LinePlot
 		if( $fillColor )
 			$graphType->setFillColor( $fillColor );
 
-		UI_Image_Graph_Components::setValue( $graphType, $config );
-		UI_Image_Graph_Components::setMark( $graphType, $config );
+		Components::setValue( $graphType, $config );
+		Components::setMark( $graphType, $config );
 		return $graphType;
 	}
 }

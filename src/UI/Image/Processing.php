@@ -25,6 +25,14 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.0
  */
+
+namespace CeusMedia\Common\UI\Image;
+
+use CeusMedia\Common\UI\Image;
+use InvalidArgumentException;
+use OutOfRangeException;
+use ReflectionFunction;
+
 /**
  *	Processor for resizing, scaling and rotating an image.
  *	@category		Library
@@ -35,9 +43,9 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.0
  */
-class UI_Image_Processing
+class Processing
 {
-	/**	@var		UI_Image		$image			Image resource object */
+	/**	@var		Image			$image			Image resource object */
 	protected $image;
 
 	/**	@param		integer			$maxMegaPixel	Maxiumum megapixels */
@@ -47,7 +55,7 @@ class UI_Image_Processing
 	 *	Constructor.
 	 *	Sets initial image resource object.
 	 *	@access		public
-	 *	@param		UI_Image		$image			Image resource object
+	 *	@param		Image			$image			Image resource object
 	 *	@param		integer			$maxMegaPixel	Maxiumum megapixels, default: 0 - unlimited
 	 *	@return		void
 	 */
@@ -87,7 +95,7 @@ class UI_Image_Processing
 			throw new OutOfRangeException( 'Width must be atleast 1' );
 		if( $height < 1 )
 			throw new OutOfRangeException( 'Height must be atleast 1' );
-		$image	= new UI_Image;
+		$image	= new Image;
 		$image->create( $width, $height );
 		$image->setType( $this->image->getType() );
 
@@ -104,7 +112,7 @@ class UI_Image_Processing
 	 *	@return		boolean		Image has been flipped
 	 */
 	public function flip( $mode = 0 ){
-		$image	= new UI_Image;
+		$image	= new Image;
 		$width	= $this->image->getWidth();
 		$height	= $this->image->getHeight();
 		$image->create( $width, $height );
@@ -159,7 +167,7 @@ class UI_Image_Processing
 		if( $this->maxMegaPixels && $width * $height > $this->maxMegaPixels * 1024 * 1024 )
 			throw new OutOfRangeException( 'Larger than '.$this->maxMegaPixels.'MP ('.$width.'x'.$height.')' );
 
-		$image	= new UI_Image;
+		$image	= new Image;
 		$image->create( $width, $height );
 		$image->setType( $this->image->getType() );
 

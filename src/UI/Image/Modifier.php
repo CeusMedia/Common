@@ -25,6 +25,13 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			04.08.2009
  */
+
+namespace CeusMedia\Common\UI\Image;
+
+use Exception;
+use InvalidArgumentException;
+use RuntimeException;
+
 /**
  *	Abstract basic class for all image modifying classes.
  *	@category		Library
@@ -35,18 +42,23 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			04.08.2009
  */
-abstract class UI_Image_Modifier
+abstract class Modifier
 {
 	/*	@var		int			$quality		Quality of Target Image */
 	protected $quality;
+
 	/*	@var		array		$size			Sizes of Source Image */
 	protected $sourceInfo		= array();
+
 	/*	@var		string		$source			Source image */
 	protected $source;
+
 	/*	@var		string		$sourceUri		Source image URI */
 	protected $sourceUri;
+
 	/*	@var		string		$target			Target image */
 	protected $target;
+
 	/*	@var		string		$targetUri		Target image URI */
 	protected $targetUri;
 
@@ -63,8 +75,8 @@ abstract class UI_Image_Modifier
 		if( !is_null( $sourceUri ) )
 			$this->setSourceUri( $sourceUri );
 		if( !is_null( $targetUri ) )
-			$this->setTargetUri( $targetUri );	
-		$this->setQuality( $quality );	
+			$this->setTargetUri( $targetUri );
+		$this->setQuality( $quality );
 	}
 
 	public function loadImage()

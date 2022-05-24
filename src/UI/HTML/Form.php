@@ -25,6 +25,11 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.0
  */
+
+namespace CeusMedia\Common\UI\HTML;
+
+use CeusMedia\Common\ADT\URL\Inference as Inference;
+
 /**
  *	Builder for HTML Form Elements.
  *	@category		Library
@@ -35,7 +40,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.0
  */
-class UI_HTML_Form extends UI_HTML_Abstract
+class Form extends Abstraction
 {
 	/**
 	 *	Constructor.
@@ -64,9 +69,9 @@ class UI_HTML_Form extends UI_HTML_Abstract
 	{
 		$attributes	= $this->getAttributes();
 		if( is_array( $attributes['action'] ) )
-			$attributes['action']	= ADT_URL_Inference::buildStatic( $attributes['action'] );
+			$attributes['action']	= Inference::buildStatic( $attributes['action'] );
 		$content	= $this->renderInner( $this->content );
-		return UI_HTML_Tag::create( "form", $content, $attributes );
+		return Tag::create( "form", $content, $attributes );
 	}
 
 	/**
@@ -77,6 +82,6 @@ class UI_HTML_Form extends UI_HTML_Abstract
 	 */
 	public function setAction( $url )
 	{
-		$this->attributes['action']	= $url;	
+		$this->attributes['action']	= $url;
 	}
 }

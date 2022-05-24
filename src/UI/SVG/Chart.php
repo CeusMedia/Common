@@ -24,6 +24,14 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+
+namespace CeusMedia\Common\UI\SVG;
+
+use FS_File_Writer as FileWriter;
+use UI_HTML_Tag as HtmlTag;
+use DOMDocument;
+use Exception;
+
 /**
  *	The main Chart class. Base class for all subtypes of charts, like Pie, Bar, Line and so on.
  *	@category		Library
@@ -33,7 +41,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class UI_SVG_Chart
+class Chart
 {
 	/**
 	 *	Array for storing the data to visualize.
@@ -83,7 +91,7 @@ class UI_SVG_Chart
 	 */
 	public function buildBarAcross( $options = false )
 	{
-		$chart = new UI_SVG_BarAcross;
+		$chart = new BarAcross;
 		$chart->chart = &$this;
 		$this->content	.= $this->buildComponent( $chart, $options );
 	}
@@ -126,7 +134,7 @@ class UI_SVG_Chart
 	 */
 	public function buildPieGraph( $options = false )
 	{
-		$chart = new UI_SVG_PieGraph;
+		$chart = new PieGraph;
 		$chart->chart = &$this;
 		$this->content	.= $this->buildComponent( $chart, $options );
 	}
@@ -180,9 +188,9 @@ class UI_SVG_Chart
 
 		# Frame
 		$attributes	= array( 'x' => $x + 4, 'y' => $y + 4, 'width' => $width, 'height' => $height, 'fill' => "#BBB" );
-		$tags[]	= UI_HTML_Tag::create( "rect", NULL, $attributes );
+		$tags[]	= HtmlTag::create( "rect", NULL, $attributes );
 		$attributes	= array( 'x' => $x, 'y' => $y, 'width' => $width, 'height' => $height, 'fill' => "white", 'stroke' => "#333" );
-		$tags[]	= UI_HTML_Tag::create( "rect", NULL, $attributes );
+		$tags[]	= HtmlTag::create( "rect", NULL, $attributes );
 
 		$y		= $y + 5;
 		$x		= $x + 5;
@@ -194,13 +202,13 @@ class UI_SVG_Chart
 			$texty	= $y + 15;
 			$textx	= $x + 20;
 			$color	= $colors[$count % count( $colors )];
-			$tags[]	= UI_HTML_Tag::create( "rect", NULL, array( 'x' => $x, 'y' => $y, 'width' => 15, 'height' => 15, 'fill' => $color ) );
-			$tags[]	= UI_HTML_Tag::create( "text", $obj->desc, array( 'x' => $textx, 'y' => $texty ) );
+			$tags[]	= HtmlTag::create( "rect", NULL, array( 'x' => $x, 'y' => $y, 'width' => 15, 'height' => 15, 'fill' => $color ) );
+			$tags[]	= HtmlTag::create( "text", $obj->desc, array( 'x' => $textx, 'y' => $texty ) );
 			$y		+= 20;
 			$count++;
 		}
 		$tags	= implode( "\n", $tags );
-		$graph	= UI_HTML_Tag::create( "g", $tags );
+		$graph	= HtmlTag::create( "g", $tags );
 		$this->content	.= $graph;
 	}
 
@@ -230,7 +238,7 @@ class UI_SVG_Chart
 		$doc->formatOutput = true;
 		$doc->loadXml( $svg );
 		$svg	= $doc->saveXml();
-		return FS_File_Writer::save( $fileName, $svg );
+		return FileWriter::save( $fileName, $svg );
 	}
 
 	/**

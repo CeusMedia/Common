@@ -26,6 +26,13 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			14.11.2008
  */
+
+namespace CeusMedia\Common\UI\HTML;
+
+use UI_HTML_JQuery as JQuery;
+use Exception;
+use InvalidArgumentException;
+
 /**
  *	Tabbed Content Builder - builds Tab List and Content Divs and applies JavaScript 'tabs.js'.
  *	The Script is a jQuery Plugin and must be loaded within the surrounding HTML.
@@ -37,16 +44,19 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			14.11.2008
  */
-class UI_HTML_Tabs
+class Tabs
 {
 	/**	@var		int			$counter	Internal Tab Counter for creating unique IDs for Tabs and Contents */
 	protected static $counter	= 0;
+
 	/**	@var		array		$pairs		List of Content Divs */
 	protected $divs	= array();
+
 	/**	@var		array		$options	Array of Options for the jQuery Plugin Call */
 	protected $options	= array(
 		'navClass'	=> "tabs-nav"
 	);
+
 	/**	@var		array		$tabs		List of Tab Labels */
 	protected $tabs	= array();
 
@@ -142,7 +152,7 @@ class UI_HTML_Tabs
 	 */
 	public static function createScript( $selector, $options = array() )
 	{
-		return UI_HTML_JQuery::buildPluginCall( "tabs", $selector, $options );
+		return JQuery::buildPluginCall( "tabs", $selector, $options );
 	}
 
 	/**
@@ -171,18 +181,18 @@ class UI_HTML_Tabs
 			$tabKey		= is_int( $index ) ? 'tab-'.$index : $index;
 			$divKey		= $index."-container";
 			$url		= $urlPrefix."#".$divKey;
-			$label		= UI_HTML_Tag::create( 'span', $label );
-			$link		= UI_HTML_Tag::create( 'a', $label, array( 'href' => $url ) );
-			$tabs[]		= UI_HTML_Tag::create( 'li', $link, array( 'id' => $tabKey ) );
+			$label		= Tag::create( 'span', $label );
+			$link		= Tag::create( 'a', $label, array( 'href' => $url ) );
+			$tabs[]		= Tag::create( 'li', $link, array( 'id' => $tabKey ) );
 
 			$divClass	= $class ? $class."-container" : NULL;
 			$attributes	= array( 'id' => $divKey, 'class' => $divClass );
-			$divs[]		= UI_HTML_Tag::create( 'div', $contents[$index], $attributes );
+			$divs[]		= Tag::create( 'div', $contents[$index], $attributes );
 			self::$counter++;
 		}
-		$tabs		= UI_HTML_Tag::create( 'ul', implode( "\n", $tabs ), array( 'class' => $class ) );
+		$tabs		= Tag::create( 'ul', implode( "\n", $tabs ), array( 'class' => $class ) );
 		$divs		= implode( "\n", $divs );
-		$content	= UI_HTML_Tag::create( 'div', $tabs.$divs, array( 'id' => $id ) );
+		$content	= Tag::create( 'div', $tabs.$divs, array( 'id' => $id ) );
 		return $content;
 	}
 

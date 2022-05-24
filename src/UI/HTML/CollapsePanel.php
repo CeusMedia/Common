@@ -25,6 +25,9 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.6
  */
+
+namespace CeusMedia\Common\UI\HTML;
+
 /**
  *	User Interface Component to build a Panel which can be expanded and collapsed.
  *	@category		Library
@@ -35,7 +38,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.6
  */
-class UI_HTML_CollapsePanel extends UI_HTML_Panel
+class CollapsePanel extends Panel
 {
 	public static $classPanel	= "collapsable";
 
@@ -69,6 +72,6 @@ class UI_HTML_CollapsePanel extends UI_HTML_Panel
 	 */
 	public static function createScript( $selector, $options = array() )
 	{
-		return UI_HTML_JQuery::buildPluginCall( "cmCollapsePanel", $selector, $options );
+		return JQuery::buildPluginCall( "cmCollapsePanel", $selector, $options );
 	}
 }

@@ -25,6 +25,13 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			16.12.2005
  */
+
+namespace CeusMedia\Common\UI\Image;
+
+use InvalidArgumentException;
+use Exception;
+use RuntimeException;
+
 /**
  *	Resizing Images.
  *	@category		Library
@@ -35,14 +42,17 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			16.12.2005
  */
-class UI_Image_ThumbnailCreator
+class ThumbnailCreator
 {
 	/**	@var	int			$quality		Quality of Target Image */
 	private $quality;
+
 	/**	@var	array		$size			Sizes of Source Image */
 	private $size	= array();
+
 	/**	@var	string		$source			Source File Name of Source Image */
 	private $source;
+
 	/**	@var	string		$target			Target File Name of Target Image */
 	private $target;
 
@@ -56,9 +66,9 @@ class UI_Image_ThumbnailCreator
 	 */
 	public function __construct( $source, $target, $quality = 100 )
 	{
-		$this->setSource( $source );	
-		$this->setTarget( $target );	
-		$this->setQuality( $quality );	
+		$this->setSource( $source );
+		$this->setTarget( $target );
+		$this->setQuality( $quality );
 	}
 
 	/**

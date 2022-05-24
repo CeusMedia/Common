@@ -24,6 +24,9 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+
+namespace CeusMedia\Common\UI\HTML;
+
 /**
  *	Builds HTML Components.
  *	@category		Library
@@ -33,14 +36,14 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class UI_HTML_Elements extends UI_HTML_FormElements
+class Elements extends FormElements
 {
 	public static function CheckboxLabel( $name, $value, $checked, $text, $class = 'checklabel' )
 	{
 		$checkBox	= self::CheckBox( $name, $value, $checked );
-		$checkSpan	= UI_HTML_Tag::create( "span", $checkBox, array( 'class' => "checkbox" ) );
-		$label		= UI_HTML_Tag::create( "label", $text, array( 'for' => $name ) );
-		$span		= UI_HTML_Tag::create( "span", $checkSpan.$label, array( 'class' => $class ) );
+		$checkSpan	= Tag::create( "span", $checkBox, array( 'class' => "checkbox" ) );
+		$label		= Tag::create( "label", $text, array( 'for' => $name ) );
+		$span		= Tag::create( "span", $checkSpan.$label, array( 'class' => $class ) );
 		return $span;
 
 	}
@@ -102,11 +105,11 @@ class UI_HTML_Elements extends UI_HTML_FormElements
 	 */
 	public static function RadioLabel( $name, $label, $value, $checked = NULL, $class = NULL, $readOnly = NULL )
 	{
-		$radio		= UI_HTML_Elements::Radio( $name, $value, $checked, $class, $readOnly );
-		$field		= UI_HTML_Elements::FieldCell( '', $radio );
-		$label		= UI_HTML_Elements::LabelCell( '', $label, $class );
+		$radio		= Elements::Radio( $name, $value, $checked, $class, $readOnly );
+		$field		= Elements::FieldCell( '', $radio );
+		$label		= Elements::LabelCell( '', $label, $class );
 		$content	= '<tr>'.$field.$label.'</tr>';
-		$code		= UI_HTML_Elements::Table( $content, false, false );
+		$code		= Elements::Table( $content, false, false );
 		return $code;
 	}
 
@@ -300,7 +303,7 @@ class UI_HTML_Elements extends UI_HTML_FormElements
 
 	public static function Heading( $label, $level, $class = NULL )
 	{
-		return UI_HTML_Tag::create( 'h'.$level, $label, array( 'class' => $class ) );
+		return Tag::create( 'h'.$level, $label, array( 'class' => $class ) );
 	}
 
 	/**
@@ -324,7 +327,7 @@ class UI_HTML_Elements extends UI_HTML_FormElements
 			'hspace'	=> 0,
 			'vspace'	=> 0,
 		);
-		$code	= UI_HTML_Tag::create( "img", NULL, $attributes );
+		$code	= Tag::create( "img", NULL, $attributes );
 		return $code;
 	}
 
@@ -400,7 +403,7 @@ class UI_HTML_Elements extends UI_HTML_FormElements
 			'rel'		=> $relation	? $relation : NULL,
 			'onclick'	=> $confirm		? "return confirm('".$confirm."')" : NULL,
 		);
-		$link	= UI_HTML_Tag::create( "a", $name, $attributes );
+		$link	= Tag::create( "a", $name, $attributes );
 		return $link;
 	}
 
@@ -417,7 +420,7 @@ class UI_HTML_Elements extends UI_HTML_FormElements
 	{
 		$depth	= 2 * abs( (int) $level ) + 1;
 		$indent	= str_repeat( "  ", $depth );
-		$tag	= UI_HTML_Tag::create( "li", $content, $attributes );
+		$tag	= Tag::create( "li", $content, $attributes );
 		$code	= $indent.$tag;
 		return $code;
 	}
@@ -435,7 +438,7 @@ class UI_HTML_Elements extends UI_HTML_FormElements
 	{
 		$content	= "\n".implode( "\n", $items )."\n";
 		$indent		= str_repeat( "	", 2 * abs( (int) $level ) );
-		$tag		= UI_HTML_Tag::create( "ol", $content, $attributes );
+		$tag		= Tag::create( "ol", $content, $attributes );
 		$code		= $indent.$tag;
 		return $code;
 	}
@@ -512,7 +515,7 @@ class UI_HTML_Elements extends UI_HTML_FormElements
 	{
 		$ins_class	= $class ? " class=\"".$class."\"" : "";
 		$ins_check	= $checktable_id ? " onClick=\"ct.switchTable('".$checktable_id."');\"" : "";
-		$span		= UI_HTML_Tag::create( "span", $caption );
+		$span		= Tag::create( "span", $caption );
 		$code		= "<caption".$ins_class.$ins_check.">".$span."</caption>";
 		return $code;
 	}
@@ -573,7 +576,7 @@ class UI_HTML_Elements extends UI_HTML_FormElements
 		$indent1	= str_repeat( "  ", $depth1 );
 		$indent2	= str_repeat( "  ", $depth2 );
 		$content	= "\n".implode( "\n", $items )."\n".$indent1;
-		$tag		= UI_HTML_Tag::create( "ul", $content, $attributes );
+		$tag		= Tag::create( "ul", $content, $attributes );
 		$code		= $indent1.$tag."\n".$indent2;
 		return $code;
 	}

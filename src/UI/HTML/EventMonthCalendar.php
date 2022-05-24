@@ -25,6 +25,9 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			20.03.06
  */
+
+namespace CeusMedia\Common\UI\HTML;
+
 /**
  *	Generator for Month Calendar with Events.
  *	@category		Library
@@ -35,7 +38,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			20.03.06
  */
-class UI_HTML_EventMonthCalendar extends UI_HTML_MonthCalendar
+class EventMonthCalendar extends MonthCalendar
 {
 	/**	@var	array		$events			Array of Days with Events */
 	protected $events	= array();

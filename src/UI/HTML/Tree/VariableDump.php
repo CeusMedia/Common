@@ -24,6 +24,14 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+
+namespace CeusMedia\Common\UI\HTML\Tree;
+
+use CeusMedia\Common\UI\HTML\Elements;
+use CeusMedia\Common\UI\HTML\Tag;
+use CeusMedia\Common\UI\HTML\VarTree;
+use RuntimeException;
+
 /**
  *	Output Methods for Developement.
  *	@category		Library
@@ -33,10 +41,11 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class UI_HTML_Tree_VariableDump
+class VariableDump
 {
 	/**	@var		string		$noteOpen		Sign for opening Notes */
 	public static $noteOpen		= "<em>";
+
 	/**	@var		string		$noteClose		Sign for closing Notes */
 	public static $noteClose	= "</em>";
 
@@ -76,7 +85,7 @@ class UI_HTML_Tree_VariableDump
 				self::$count--;
 				$vars		= get_object_vars( $mixed );
 				foreach( $vars as $childKey => $childValue )
-					$children[]	= self::buildTree( $childValue, $childKey, $closed, $level + 1 ); 
+					$children[]	= self::buildTree( $childValue, $childKey, $closed, $level + 1 );
 				$keyLabel	= self::$noteOpen.get_class( $mixed ).self::$noteClose;
 				$mixed		= "";
 				$event		= '$(this).parent().toggleClass(\'closed\'); return false;';
@@ -95,13 +104,13 @@ class UI_HTML_Tree_VariableDump
 					$mixed	= str_repeat( '*', 8 );
 				break;
 		}
-		$children	= $children ? "\n".UI_HTML_Elements::unorderedList( $children, $level + 2 ) : "";
+		$children	= $children ? "\n".Elements::unorderedList( $children, $level + 2 ) : "";
 		$pair		= $keyLabel.htmlentities( $mixed, ENT_QUOTES, 'UTF-8' );
-		$label		= UI_HTML_Tag::create( 'span', $pair, array( 'onclick' => $event ) );
+		$label		= Tag::create( 'span', $pair, array( 'onclick' => $event ) );
 		$classes	= array( $type );
 		if( $closed )
 			$classes[]	= "closed";
-		return UI_HTML_Elements::ListItem( $label.$children, $level + 1, array( 'class' => implode( " ", $classes ) ) );
+		return Elements::ListItem( $label.$children, $level + 1, array( 'class' => implode( " ", $classes ) ) );
 	}
 
 	/**
@@ -114,7 +123,7 @@ class UI_HTML_Tree_VariableDump
 	 */
 	public static function dumpVar( $mixed, $print = TRUE, $closed = FALSE ){
 		$tree	= self::buildTree( $mixed, NULL, $closed, 0 );
-		$list	= UI_HTML_Elements::unorderedList( array( $tree ), 1 );
+		$list	= Elements::unorderedList( array( $tree ), 1 );
 		$code	= '<div class="varTree">'."\n".$list.'</div>';
 		if( !$print )
 			return $code;
@@ -132,5 +141,5 @@ class UI_HTML_Tree_VariableDump
  */
 function treeVar( $mixed, $print = TRUE, $closed = FALSE )
 {
-	return UI_HTML_VarTree::dumpVar( $mixed, $print, $closed );
+	return VarTree::dumpVar( $mixed, $print, $closed );
 }

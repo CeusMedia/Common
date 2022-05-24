@@ -1,6 +1,6 @@
 <?php
 /**
- *	This class represents an object in a chart, i.e. a line in a line diagram, a piece of pie in a 
+ *	This class represents an object in a chart, i.e. a line in a line diagram, a piece of pie in a
  *	pie chart and so on.
  *
  *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
@@ -25,8 +25,11 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+
+namespace CeusMedia\Common\UI\SVG;
+
 /**
- *	This class represents an object in a chart, i.e. a line in a line diagram, a piece of pie in a 
+ *	This class represents an object in a chart, i.e. a line in a line diagram, a piece of pie in a
  *	pie chart and so on.
  *	@category		Library
  *	@package		CeusMedia_Common_UI_SVG
@@ -35,7 +38,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class UI_SVG_ChartData
+class ChartData
 {
 	/**
 	 *	Description of the data object.

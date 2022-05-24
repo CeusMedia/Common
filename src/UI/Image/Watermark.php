@@ -25,6 +25,11 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			16.12.2005
  */
+
+namespace CeusMedia\Common\UI\Image;
+
+use InvalidArgumentException;
+
 /**
  *	Mark Image with another Image.
  *	@category		Library
@@ -35,24 +40,32 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			16.12.2005
  */
-class UI_Image_Watermark
+class Watermark
 {
 	/**	@var		array		$size			Array of Information of Stamp Image */
 	protected $size;
+
 	/**	@var		string		$stamp			File Name of Stamp Image */
 	protected $stamp;
+
 	/**	@var		array		$stampSource	Image Source Stamp Image */
 	protected $stampSource;
+
 	/**	@var		int			$quality		Quality of resulting JPEG Image */
 	protected $quality;
+
 	/**	@var		string		$positionH		Horizontal Position of Stamp Image (left, center, right) */
 	protected $positionH		= 'right';
+
 	/**	@var		string		$positionV		Vertical Position of Stamp Image (top, middle, bottom) */
 	protected $positionV		= 'bottom';
+
 	/**	@var		int			$marginX		Horizontal Margin of Stamp Image */
 	protected $marginX			= 0;
+
 	/**	@var		int			$marginY		Vertical Margin of Stamp Image */
 	protected $marginY			= 0;
+
 	/**	@var		int			$alpha			Opacity of Stamp Image */
 	protected $alpha;
 
@@ -122,7 +135,7 @@ class UI_Image_Watermark
 		if( !$target )
 			$target = $source;
 
-		$creator	= new UI_Image_Creator();
+		$creator	= new Creator();
 		$creator->loadImage( $source );
 		$image		= $creator->getResource();
 		$type		= $creator->getType();
@@ -133,7 +146,7 @@ class UI_Image_Watermark
 		$stampResource	= $this->stamp->getResource();
 		imagecopymerge( $image, $stampResource, $position['x'], $position['y'], 0, 0, $stampWidth, $stampHeight, $this->alpha );
 
-		$printer	= new UI_Image_Printer( $image );
+		$printer	= new Printer( $image );
 		$printer->save( $target, $type );
 	}
 
@@ -199,7 +212,7 @@ class UI_Image_Watermark
 	 */
 	public function setStamp( $stamp )
 	{
-		$this->stamp	= new UI_Image_Creator();
+		$this->stamp	= new Creator();
 		$this->stamp->loadImage( $stamp );
 	}
 }

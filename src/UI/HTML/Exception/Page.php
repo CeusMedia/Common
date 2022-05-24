@@ -25,6 +25,14 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.0
  */
+
+namespace CeusMedia\Common\UI\HTML\Exception;
+
+use CeusMedia\Common\UI\HTML\JQuery;
+use CeusMedia\Common\UI\HTML\PageFrame;
+use CeusMedia\Common\UI\HTML\Tag;
+use Exception;
+
 /**
  *	Builder of Exception Pages.
  *	@category		Library
@@ -35,7 +43,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.0
  */
-class UI_HTML_Exception_Page
+class Page
 {
 	/**
 	 *	Displays rendered Exception Page.
@@ -46,7 +54,7 @@ class UI_HTML_Exception_Page
 	 */
 	public static function display( Exception $e )
 	{
-		$view	= UI_HTML_Exception_View::render( $e );
+		$view	= View::render( $e );
 		print( self::wrapExceptionView( $view ) );
 	}
 	/**
@@ -58,28 +66,28 @@ class UI_HTML_Exception_Page
 	 */
 	public static function render( Exception $e )
 	{
-		$view	= UI_HTML_Exception_View::render( $e );
+		$view	= View::render( $e );
 		return self::wrapExceptionView( $view );
 	}
 
 	/**
 	 *	Wraps an Exception View to an Exception Page.
 	 *	@access		public
-	 *	@param		UI_HTML_Exception_View	$view		Exception View
+	 *	@param		View	$view		Exception View
 	 *	@return		string
 	 */
 	public static function wrapExceptionView( $view )
 	{
-		$page	= new UI_HTML_PageFrame();
+		$page	= new PageFrame();
 		$page->setTitle( 'Exception' );
 		$page->addJavaScript( '//cdn.ceusmedia.de/js/jquery/1.4.2.min.js' );
 		$page->addJavaScript( '//cdn.ceusmedia.de/js/jquery/cmExceptionView/0.1.js' );
 		$page->addStylesheet( '//cdn.ceusmedia.de/js/jquery/cmExceptionView/0.1.css' );
 		$page->addStylesheet( '//cdn.ceusmedia.de/css/bootstrap.min.css' );
 		$options	= array( 'foldTraces' => TRUE );
-		$script		= UI_HTML_JQuery::buildPluginCall( 'cmExceptionView', 'dl.exception', $options );
-		$page->addHead( UI_HTML_Tag::create( 'script', $script ) );
-		$page->addBody( UI_HTML_Tag::create( 'h2', 'Error' ).$view );
+		$script		= JQuery::buildPluginCall( 'cmExceptionView', 'dl.exception', $options );
+		$page->addHead( Tag::create( 'script', $script ) );
+		$page->addBody( Tag::create( 'h2', 'Error' ).$view );
 		return $page->build( array( 'style' => 'margin: 1em' ) );
 	}
 }

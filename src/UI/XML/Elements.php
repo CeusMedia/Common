@@ -24,6 +24,12 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+
+namespace CeusMedia\Common\UI\XML;
+
+use CeusMedia\Common\XML\DOM\Node;
+use CeusMedia\Common\XML\DOM\Builder;
+
 /**
  *	Elements for XML UI Output Generation.
  *	@category		Library
@@ -35,7 +41,7 @@
  *	@todo			finish Implementation
  *	@todo			Code Documentation
  */
-class UI_XML_Elements
+class Elements
 {
 	public function __construct( &$root )
 	{
@@ -59,11 +65,11 @@ class UI_XML_Elements
 
 	public function buildLink( $tag, $reference, $title, $target = false, $attributes = array() )
 	{
-		$node	= new XML_DOM_Node( $tag );
-		$node->addChild( new XML_DOM_Node( "reference", $reference ) );
-		$node->addChild( new XML_DOM_Node( "title", $title ) );
+		$node	= new Node( $tag );
+		$node->addChild( new Node( "reference", $reference ) );
+		$node->addChild( new Node( "title", $title ) );
 		if( $target )
-			$node->addChild( new XML_DOM_Node( "target", $target ) );
+			$node->addChild( new Node( "target", $target ) );
 		if( count( $attributes ) )
 			foreach( $attributes as $key => $value )
 				$node->setAttribute( $key, $value );
@@ -72,7 +78,7 @@ class UI_XML_Elements
 
 	public function buildList( $tag, $items, $attributes = array() )
 	{
-		$node	= new XML_DOM_Node( $tag );
+		$node	= new Node( $tag );
 		foreach( $items as $item )
 		{
 			$node->addChild( $item );
@@ -86,7 +92,7 @@ class UI_XML_Elements
 
 	public function buildNode( $tag, $text = false , $attributes = array() )
 	{
-		$node	= new XML_DOM_Node( $tag );
+		$node	= new Node( $tag );
 		if( $text )
 			$node->setContent( $text );
 		if( count( $attributes ) )
@@ -97,7 +103,7 @@ class UI_XML_Elements
 
 	public function buildParent( $tag, $child, $attributes = array() )
 	{
-		$node	= new XML_DOM_Node( $tag );
+		$node	= new Node( $tag );
 		$node->addChild( $child );
 		if( count( $attributes ) )
 			foreach( $attributes as $key => $value )
@@ -107,7 +113,7 @@ class UI_XML_Elements
 
 	public function buildText( $tag, $text, $attributes = array() )
 	{
-		$node	= new XML_DOM_Node( $tag, $text );
+		$node	= new Node( $tag, $text );
 		if( count( $attributes ) )
 			foreach( $attributes as $key => $value )
 				$node->setAttribute( $key, $value );
@@ -116,7 +122,7 @@ class UI_XML_Elements
 
 	public function buildXML( $xslt_file )
 	{
-		$builder		= new XML_DOM_Builder();
+		$builder		= new Builder();
 		$xml		= $builder->build( $this->root );
 
 		$lines	= explode( "\n", $xml );

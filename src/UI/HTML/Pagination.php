@@ -25,6 +25,12 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			01.12.2005
  */
+
+namespace CeusMedia\Common\UI\HTML;
+
+use CeusMedia\Common\ADT\OptionObject as OptionObject;
+use InvalidArgumentException;
+
 /**
  *	Pagination System for limited Tables and Lists.
  *	@category		Library
@@ -35,7 +41,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			01.12.2005
  */
-class UI_HTML_Pagination extends ADT_OptionObject
+class Pagination extends OptionObject
 {
 	/**
 	 *	Constructor.
@@ -197,7 +203,7 @@ class UI_HTML_Pagination extends ADT_OptionObject
 					$pages[]	= $this->buildButton( 'textLast', 'classExtreme disabled' );
 			}
 		}
-		return UI_HTML_Elements::unorderedList( $pages, 0, array( 'class' => $this->getOption( 'classList' ) ) );
+		return Elements::unorderedList( $pages, 0, array( 'class' => $this->getOption( 'classList' ) ) );
 	}
 
 	/**
@@ -223,10 +229,10 @@ class UI_HTML_Pagination extends ADT_OptionObject
 			$url		= $this->buildLinkUrl( $offset );
 #			if( $label == $text )
 #				$linkClass	.= " page";
-			$label		= UI_HTML_Elements::Link( $url, $label, $class );
+			$label		= Elements::Link( $url, $label, $class );
 		}
 		else
-			$label	= UI_HTML_Tag::create( "span", $label, array( 'class' => $class ) );
+			$label	= Tag::create( "span", $label, array( 'class' => $class ) );
 #		if( $label == $text )
 #			$spanClass	.= " page";
 		return $this->buildItem( $label, NULL );
@@ -244,7 +250,7 @@ class UI_HTML_Pagination extends ADT_OptionObject
 		$list	= array();
 		if( $class )
 			$list[]	= $class;
-		$item	= UI_HTML_Elements::ListItem( $text, 0, array( 'class' => $class ) );
+		$item	= Elements::ListItem( $text, 0, array( 'class' => $class ) );
 		return $item;
 	}
 

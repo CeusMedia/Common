@@ -25,6 +25,11 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			01.03.2007
  */
+
+namespace CeusMedia\Common\Exception;
+
+use RuntimeException;
+
 /**
  *	Exception for SQL Errors. Stores SQLSTATE if PDO is used.
  *	@category		Library
@@ -35,7 +40,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			01.03.2007
  */
-class Exception_SQL extends RuntimeException
+class SQL extends RuntimeException
 {
 	/**	@var		string		$defaultMessage		Default Message if SQL Info Message is empty */
 	public static $default		= "Unknown SQL Error.";

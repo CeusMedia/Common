@@ -25,6 +25,16 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.0
  */
+
+namespace CeusMedia\Common\UI\HTML\Exception;
+
+use CeusMedia\Common\Exception\SQL as SqlException;
+use CeusMedia\Common\Exception\Logic as LogicException;
+use CeusMedia\Common\Exception\IO as IoException;
+use CeusMedia\Common\UI\HTML\Tag;
+use CeusMedia\Common\XML\ElementReader as XmlElementReader;
+use Exception;
+
 /**
  *	Visualisation of Exception Stack Trace.
  *	@category		Library
@@ -35,7 +45,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.0
  */
-class UI_HTML_Exception_View
+class View
 {
 	/**
 	 *	Prints exception view.
@@ -60,7 +70,7 @@ class UI_HTML_Exception_View
 	{
 		$class1	= substr( $SQLSTATE, 0, 2 );
 		$class2	= substr( $SQLSTATE, 2, 3 );
-		$root	= XML_ElementReader::readFile( dirname( __FILE__ ).'/SQLSTATE.xml' );
+		$root	= XmlElementReader::readFile( dirname( __FILE__ ).'/SQLSTATE.xml' );
 
 		$query	= 'class[@id="'.$class1.'"]/subclass[@id="000"]';
 		$result	= $root->xpath( $query );
@@ -81,31 +91,31 @@ class UI_HTML_Exception_View
 		$list	= array();
 
 		$msg	= htmlentities( $e->getMessage(), ENT_COMPAT, 'UTF-8' );
-		$list[]	= UI_HTML_Tag::create( 'dt', 'Message', array( 'class' => 'exception-message' ) );
-		$list[]	= UI_HTML_Tag::create( 'dd', $msg, array( 'class' => 'exception-message' ) );
+		$list[]	= Tag::create( 'dt', 'Message', array( 'class' => 'exception-message' ) );
+		$list[]	= Tag::create( 'dd', $msg, array( 'class' => 'exception-message' ) );
 
 		if( (int) $e->getCode() !== 0 ){
 			$code	= htmlentities( $e->getCode(), ENT_COMPAT, 'UTF-8' );
-			$list[]	= UI_HTML_Tag::create( 'dt', 'Code', array( 'class' => 'exception-code' ) );
-			$list[]	= UI_HTML_Tag::create( 'dd', $code, array( 'class' => 'exception-code' ) );
+			$list[]	= Tag::create( 'dt', 'Code', array( 'class' => 'exception-code' ) );
+			$list[]	= Tag::create( 'dd', $code, array( 'class' => 'exception-code' ) );
 		}
 
-		if( $e instanceof Exception_SQL && $e->getSQLSTATE() ){
+		if( $e instanceof SqlException && $e->getSQLSTATE() ){
 			$meaning	= self::getMeaningOfSQLSTATE( $e->getSQLSTATE() );
-			$list[]	= UI_HTML_Tag::create( 'dt', 'SQLSTATE', array( 'class' => 'exception-code-sqlstate' ) );
-			$list[]	= UI_HTML_Tag::create( 'dd', $e->getSQLSTATE().': '.$meaning, array( 'class' => 'exception-code-sqlstate' ) );
+			$list[]	= Tag::create( 'dt', 'SQLSTATE', array( 'class' => 'exception-code-sqlstate' ) );
+			$list[]	= Tag::create( 'dd', $e->getSQLSTATE().': '.$meaning, array( 'class' => 'exception-code-sqlstate' ) );
 		}
-		if( $e instanceof Exception_IO  ){
-			$list[]	= UI_HTML_Tag::create( 'dt', 'Resource', array( 'class' => 'exception-resource' ) );
-			$list[]	= UI_HTML_Tag::create( 'dd', $e->getResource(), array( 'class' => 'exception-resource' ) );
+		if( $e instanceof IoException  ){
+			$list[]	= Tag::create( 'dt', 'Resource', array( 'class' => 'exception-resource' ) );
+			$list[]	= Tag::create( 'dd', $e->getResource(), array( 'class' => 'exception-resource' ) );
 		}
-		if( $e instanceof Exception_Logic ){
-			$list[]	= UI_HTML_Tag::create( 'dt', 'Subject', array( 'class' => 'exception-subject' ) );
-			$list[]	= UI_HTML_Tag::create( 'dd', $e->getSubject(), array( 'class' => 'exception-subject' ) );
+		if( $e instanceof LogicException ){
+			$list[]	= Tag::create( 'dt', 'Subject', array( 'class' => 'exception-subject' ) );
+			$list[]	= Tag::create( 'dd', $e->getSubject(), array( 'class' => 'exception-subject' ) );
 		}
 
-		$list[]	= UI_HTML_Tag::create( 'dt', 'Type', array( 'class' => 'exception-type' ) );
-		$list[]	= UI_HTML_Tag::create( 'dd', get_class( $e ), array( 'class' => 'exception-type' ) );
+		$list[]	= Tag::create( 'dt', 'Type', array( 'class' => 'exception-type' ) );
+		$list[]	= Tag::create( 'dd', get_class( $e ), array( 'class' => 'exception-type' ) );
 
 		$pathName	= self::trimRootPath(  $e->getFile() );
 		$fileName	= '<span class="file">'.pathinfo( $pathName, PATHINFO_FILENAME ).'</span>';
@@ -114,30 +124,30 @@ class UI_HTML_Exception_View
 		$path		= '<span class="path">'.dirname( $pathName ).'/</span>';
 		$file		= $path.$fileName.$extension;
 
-		$list[]	= UI_HTML_Tag::create( 'dt', 'File', array( 'class' => 'exception-file' ) );
-		$list[]	= UI_HTML_Tag::create( 'dd',$file, array( 'class' => 'exception-file' ) );
+		$list[]	= Tag::create( 'dt', 'File', array( 'class' => 'exception-file' ) );
+		$list[]	= Tag::create( 'dd',$file, array( 'class' => 'exception-file' ) );
 
-		$list[]	= UI_HTML_Tag::create( 'dt', 'Line', array( 'class' => 'exception-line' ) );
-		$list[]	= UI_HTML_Tag::create( 'dd', (string) $e->getLine(), array( 'class' => 'exception-line' ) );
+		$list[]	= Tag::create( 'dt', 'Line', array( 'class' => 'exception-line' ) );
+		$list[]	= Tag::create( 'dd', (string) $e->getLine(), array( 'class' => 'exception-line' ) );
 
 		if( $showTrace )
 		{
-			$trace	= UI_HTML_Exception_Trace::render( $e );
+			$trace	= Trace::render( $e );
 			if( $trace )
 			{
-				$list[]	= UI_HTML_Tag::create( 'dt', 'Trace' );
-				$list[]	= UI_HTML_Tag::create( 'dd', $trace );
+				$list[]	= Tag::create( 'dt', 'Trace' );
+				$list[]	= Tag::create( 'dd', $trace );
 			}
 		}
 		if( $showPrevious )
 		{
 			if( method_exists( $e, 'getPrevious' ) && $e->getPrevious() )
 			{
-				$list[]	= UI_HTML_Tag::create( 'dt', 'Previous' );
-				$list[]	= UI_HTML_Tag::create( 'dd', UI_HTML_Exception_View::render( $e->getPrevious() ) );
+				$list[]	= Tag::create( 'dt', 'Previous' );
+				$list[]	= Tag::create( 'dd', View::render( $e->getPrevious() ) );
 			}
 		}
-		return UI_HTML_Tag::create( 'dl', join( $list ), array( 'class' => 'exception' ) );
+		return Tag::create( 'dl', join( $list ), array( 'class' => 'exception' ) );
 	}
 
 

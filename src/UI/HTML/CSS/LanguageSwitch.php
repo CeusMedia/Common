@@ -25,6 +25,15 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.6.8
  */
+
+namespace CeusMedia\Common\UI\HTML\CSS;
+
+use CeusMedia\Common\ADT\Tree\Menu\Collection as MenuCollection;
+use CeusMedia\Common\ADT\Tree\Menu\Item as MenuItem;
+use CeusMedia\Common\UI\HTML\CountryFlagIcon;
+use CeusMedia\Common\UI\HTML\Tag;
+use CeusMedia\Common\UI\HTML\Tree\Menu as HtmlTreeMenu;
+
 /**
  *	...
  *
@@ -36,17 +45,17 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.6.8
  */
-class UI_HTML_CSS_LanguageSwitch
+class LanguageSwitch
 {
 	protected $languages	= array();
 
 	public function build( $currentLanguage )
 	{
-		$list	= new ADT_Tree_Menu_List();
+		$list	= new MenuCollection();
 		$icon	= self::getFlag( $currentLanguage );
 		$label	= $this->languages[$currentLanguage];
-		$span	= UI_HTML_Tag::create( "span", $icon, array( 'class' => "flagIcon" ) );
-		$main	= new ADT_Tree_Menu_Item( "#", $span.$label );
+		$span	= Tag::create( "span", $icon, array( 'class' => "flagIcon" ) );
+		$main	= new MenuItem( "#", $span.$label );
 		$list->addChild( $main );
 
 		foreach( $this->languages as $languageKey => $languageLabel )
@@ -54,18 +63,18 @@ class UI_HTML_CSS_LanguageSwitch
 			if( $languageKey == $currentLanguage )
 				continue;
 			$icon	= self::getFlag( $languageKey );
-			$span	= UI_HTML_Tag::create( "span", $icon, array( 'class' => "flagIcon" ) );
-			$item	= new ADT_Tree_Menu_Item( "?language=".$languageKey, $span.$languageLabel );
+			$span	= Tag::create( "span", $icon, array( 'class' => "flagIcon" ) );
+			$item	= new MenuItem( "?language=".$languageKey, $span.$languageLabel );
 			$main->addChild( $item );
 		}
-		$code	= UI_HTML_Tree_Menu::buildMenu( $list );
-		$code	= UI_HTML_Tag::create( "span", $code, array( 'class' => "menu select" ) );
+		$code	= HtmlTreeMenu::buildMenu( $list );
+		$code	= Tag::create( "span", $code, array( 'class' => "menu select" ) );
 		return $code;
 	}
 
 	protected static function getFlag( $isoCode )
 	{
-		return UI_HTML_CountryFlagIcon::build( $isoCode );
+		return CountryFlagIcon::build( $isoCode );
 	}
 
 	public function setLanguages( $array )

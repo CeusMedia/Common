@@ -25,6 +25,13 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			01.08.2008
  */
+
+namespace CeusMedia\Common\UI\HTML\Tree;
+
+use CeusMedia\Common\UI\HTML\Tree\ArrayView;
+use ArrayObject;
+use DirectoryIterator;
+
 /**
  *	Builds Tree View of a Folders content for JQuery Plugin Treeview.
  *	@category		Library
@@ -35,11 +42,12 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			01.08.2008
  */
-class UI_HTML_Tree_FolderView
+class FolderView
 {
 	/**	@var		string		$path				Path to Folder to index */
 	protected $path;
-	/**	@var		UI_HTML_Tree_ArrayView	$view	Instance of Tree View */
+
+	/**	@var		ArrayView	$view	Instance of Tree View */
 	protected $view;
 
 	/**
@@ -53,7 +61,7 @@ class UI_HTML_Tree_FolderView
 	public function __construct( $path, $baseUrl, $queryKey )
 	{
 		$this->path		= $path;
-		$this->view		= new UI_HTML_Tree_ArrayView( $baseUrl, $queryKey );
+		$this->view		= new ArrayView( $baseUrl, $queryKey );
 	}
 
 	/**

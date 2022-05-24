@@ -24,6 +24,14 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+
+namespace CeusMedia\Common\UI\HTML\Tree;
+
+use CeusMedia\Common\ADT\Tree\Menu\Collection as MenuCollection;
+use CeusMedia\Common\Alg\Tree\Menu\Converter as MenuConverter;
+use CeusMedia\Common\UI\HTML\Elements;
+use CeusMedia\Common\UI\HTML\Tag;
+
 /**
  *	Builder for Layer Menu.
  *	@category		Library
@@ -33,7 +41,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class UI_HTML_Tree_LayerMenu
+class LayerMenu
 {
 	/**
 	 *	Constructor.
@@ -52,7 +60,7 @@ class UI_HTML_Tree_LayerMenu
 	 *	Builds Layer Menu from Tree Menu Structure.
 	 *	@access		protected
 	 *	@static
-	 *	@param		ADT_Tree_Menu_List	$list	Tree Menu Structure
+	 *	@param		MenuCollection		$list	Tree Menu Structure
 	 *	@param		string				$parent	ID of parent Node
 	 *	@param		array				$steps	List of Steps in Tree
 	 *	@param		int					$level	Depth Level of Tree
@@ -67,15 +75,15 @@ class UI_HTML_Tree_LayerMenu
 			for( $i=1; $i<count( $steps ); $i++ )
 			{
 				$step			= $steps[$i-1];
-				$label			= UI_HTML_Tag::create( "span", $step['label'] );
+				$label			= Tag::create( "span", $step['label'] );
 				$attributes		= array(
 					'class'		=> "level".$step['level'],
 					'onclick'	=> "stepOutTo('".$step['id']."');"
 				);
-				$backlinks[]	= UI_HTML_Elements::ListItem( $label, $level, $attributes );
+				$backlinks[]	= Elements::ListItem( $label, $level, $attributes );
 			}
 			$backlinks	= implode( "\n", $backlinks );
-			$backlinks	= UI_HTML_Tag::create( "ol", $backlinks, array( 'class' => "back" ) );
+			$backlinks	= Tag::create( "ol", $backlinks, array( 'class' => "back" ) );
 		}
 
 		$list		= array();
@@ -83,20 +91,20 @@ class UI_HTML_Tree_LayerMenu
 		{
 			if( $item->hasChildren() )
 			{
-				$label	= UI_HTML_Tag::create( "span", $item->label );
+				$label	= Tag::create( "span", $item->label );
 				$attributes		= array(
 					'class'		=> "parent",
 					'onclick'	=> "stepInTo('".$parent."_".$id."');"
 				);
-				$list[]	= UI_HTML_Elements::ListItem( $label, $level, $attributes );
+				$list[]	= Elements::ListItem( $label, $level, $attributes );
 			}
 			else
 			{
-				$link	= UI_HTML_Elements::Link( $item->url, $item->label );
-				$list[]	= UI_HTML_Elements::ListItem( $link, $level );
+				$link	= Elements::Link( $item->url, $item->label );
+				$list[]	= Elements::ListItem( $link, $level );
 			}
 		}
-		$list	= UI_HTML_Elements::unorderedList( $list, $level );
+		$list	= Elements::unorderedList( $list, $level );
 		$nested		= count( $steps ) > 1 ? " nested" : "";
 		$attributes	= array(
 			"id"	=> "layer_".$parent,
@@ -105,7 +113,7 @@ class UI_HTML_Tree_LayerMenu
 
 		$heading	= '<div class="heading">'.$tree->label.'</div>';
 
-		$list	= UI_HTML_Tag::create( "div", $backlinks.$heading.$list, $attributes );
+		$list	= Tag::create( "div", $backlinks.$heading.$list, $attributes );
 
 		foreach( $tree->getChildren() as $id => $item )
 		{
@@ -126,7 +134,7 @@ class UI_HTML_Tree_LayerMenu
 	/**
 	 *	Builds Layer Menu from Tree Menu Structure.
 	 *	@access		public
-	 *	@param		ADT_Tree_Menu_List	$list	Tree Menu Structure
+	 *	@param		MenuCollection	$list	Tree Menu Structure
 	 *	@return
 	 */
 	public function buildMenuFromMenuList( ADT_Tree_Menu_List $list )
@@ -149,7 +157,7 @@ class UI_HTML_Tree_LayerMenu
 	 */
 	public function buildMenuFromOpml( $opml )
 	{
-		$list		= Alg_Tree_Menu_Converter::convertFromOpml( $opml, $this->rootLabel );
+		$list		= MenuConverter::convertFromOpml( $opml, $this->rootLabel );
 		return $this->buildMenuFromMenuList( $list );
 	}
 
@@ -161,7 +169,7 @@ class UI_HTML_Tree_LayerMenu
 	 */
 	public function buildMenuFromOpmlFile( $fileName )
 	{
-		$list	= Alg_Tree_Menu_Converter::convertFromOpmlFile( $fileName, $this->rootLabel );
+		$list	= MenuConverter::convertFromOpmlFile( $fileName, $this->rootLabel );
 		return $this->buildMenuFromMenuList( $list );
 	}
 }

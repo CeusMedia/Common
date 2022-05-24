@@ -25,6 +25,14 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.6.7
  */
+
+namespace CeusMedia\Common\UI\HTML\Tree;
+
+use CeusMedia\Common\ADT\Tree\Menu\Collection as MenuCollection;
+use CeusMedia\Common\Alg\Tree\Menu\Converter as MenuConverter;
+use CeusMedia\Common\UI\HTML\Elements;
+use CeusMedia\Common\UI\HTML\Tag;
+
 /**
  *	Builder for Tree Menu.
  *	@category		Library
@@ -35,7 +43,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.6.7
  */
-class UI_HTML_Tree_Menu
+class Menu
 {
 	protected $target	= NULL;
 
@@ -53,13 +61,13 @@ class UI_HTML_Tree_Menu
 	/**
 	 *	Builds Layer Menu from Tree Menu Structure.
 	 *	@access		public
-	 *	@param		ADT_Tree_Menu_List	$list	Tree Menu Structure
+	 *	@param		MenuCollection	$list	Tree Menu Structure
 	 *	@return
 	 */
 	public function buildMenuFromMenuList( ADT_Tree_Menu_List $list )
 	{
 		$tree		= $this->buildMenuRecursive( $list );
-		$code		= UI_HTML_Tag::create( 'div', $tree, $list->getAttributes( TRUE ) );
+		$code		= Tag::create( 'div', $tree, $list->getAttributes( TRUE ) );
 		return $code;
 	}
 
@@ -72,7 +80,7 @@ class UI_HTML_Tree_Menu
 	 */
 	public function buildMenuFromOpml( $opml, $rootClass = NULL )
 	{
-		$list		= Alg_Tree_Menu_Converter::convertFromOpml( $opml, $this->rootLabel, $rootClass );
+		$list		= MenuConverter::convertFromOpml( $opml, $this->rootLabel, $rootClass );
 		return $this->buildMenuFromMenuList( $list );
 	}
 
@@ -85,7 +93,7 @@ class UI_HTML_Tree_Menu
 	 */
 	public function buildMenuFromOpmlFile( $fileName, $rootClass = NULL )
 	{
-		$list	= Alg_Tree_Menu_Converter::convertFromOpmlFile( $fileName, NULL, $rootClass );
+		$list	= MenuConverter::convertFromOpmlFile( $fileName, NULL, $rootClass );
 		return $this->buildMenuFromMenuList( $list );
 	}
 
@@ -93,7 +101,7 @@ class UI_HTML_Tree_Menu
 	 *	Builds Tree Menu from Tree Menu Structure.
 	 *	@access		protected
 	 *	@static
-	 *	@param		ADT_Tree_Menu_List	$list	Tree Menu Structure
+	 *	@param		MenuCollection		$list	Tree Menu Structure
 	 *	@param		string				$parent	ID of parent Node
 	 *	@param		array				$steps	List of Steps in Tree
 	 *	@param		int					$level	Depth Level of Tree
@@ -107,9 +115,9 @@ class UI_HTML_Tree_Menu
 			$class		= $child->getAttributes()->get( 'class' );
 			$label		= $child->label;
 			if( !empty( $child->url ) )
-				$label	= UI_HTML_Elements::Link( $child->url, $child->label, $class, $this->target );
+				$label	= Elements::Link( $child->url, $child->label, $class, $this->target );
 			else
-				$label	= UI_HTML_Tag::create( 'span', $child->label );
+				$label	= Tag::create( 'span', $child->label );
 
 			$sublist	= "";
 			if( $child->hasChildren() )
@@ -118,9 +126,9 @@ class UI_HTML_Tree_Menu
 			if( $child->hasChildren() )
 				$classes[]	= "parent";
 			$class		= implode( " ", $classes );
-			$list[]		= UI_HTML_Elements::ListItem( $label.$sublist, $level, array( 'class' => $class ) );
+			$list[]		= Elements::ListItem( $label.$sublist, $level, array( 'class' => $class ) );
 		}
-		$list	= UI_HTML_Elements::unorderedList( $list, $level );
+		$list	= Elements::unorderedList( $list, $level );
 		return $list;
 	}
 

@@ -26,6 +26,9 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			21.11.2008
  */
+
+namespace CeusMedia\Common\UI\HTML;
+
 /**
  *	User Interface Component for Panels with Header, Footer and Content.
  *	Base Implementation for further Panel Systems.
@@ -34,35 +37,47 @@
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			21.11.2008
  */
-class UI_HTML_Panel
+class Panel
 {
 	/**	@var		string		$classAbstract		CSS Class of Abstract DIV */
 	public static $classAbstract					= "panelAbstract";
+
 	/**	@var		string		$classAbstractInner	CSS Class of inner Abstract DIV */
 	public static $classAbstractInner				= "panelAbstractInner";
+
 	/**	@var		string		$classContent		CSS Class of Content DIV */
 	public static $classContent						= "panelContent";
+
 	/**	@var		string		$classContentInner	CSS Class of inner Content DIV */
 	public static $classContentInner				= "panelContentInner";
+
 	/**	@var		string		$classFooter		CSS Class of Footer DIV */
 	public static $classFooter						= "panelFoot";
+
 	/**	@var		string		$classFooterInner	CSS Class of inner Footer DIV */
 	public static $classFooterInner					= "panelFootInner";
+
 	/**	@var		string		$classHeader		CSS Class of Header DIV */
 	public static $classHeader						= "panelHead";
+
 	/**	@var		string		$classHeaderInner	CSS Class of inner Header DIV */
 	public static $classHeaderInner					= "panelHeadInner";
+
 	/**	@var		string		$classPanel			CSS Class of Panel DIV */
 	public static $classPanel						= "panel";
 
 	/** @var		string		$abstract			Abstract of Panel */
 	protected $abstract			= NULL;
+
 	/** @var		array		$attributes			Map of Attributes of Panel DIV */
 	protected $attributes		= array();
+
 	/** @var		string		$content			Content of Panel */
 	protected $content			= NULL;
+
 	/** @var		string		$footer				Footer of Panel */
 	protected $footer			= NULL;
+
 	/** @var		string		$header				Header of Panel */
 	protected $header			= NULL;
 
@@ -200,6 +215,6 @@ class UI_HTML_Panel
 	protected static function wrap( $content, $class, $attributes = array() )
 	{
 		$attributes	= array_merge( $attributes, array( 'class' => $class ) );
-		return UI_HTML_Tag::create( "div", $content, $attributes );
+		return Tag::create( "div", $content, $attributes );
 	}
 }

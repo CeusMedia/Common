@@ -25,8 +25,13 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			16.04.2008
  */
+
+namespace CeusMedia\Common\UI\Image\Graph;
+
 /**
  *	Builds a Graph based on Configuration and Graph Data.
+ *	Attention: Needs jpgraph (https://jpgraph.net/)
+ *	Possible Package: https://packagist.org/packages/amenadiel/jpgraph
  *	@category		Library
  *	@package		CeusMedia_Common_UI_Image_Graph
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
@@ -35,7 +40,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			16.04.2008
  */
-class UI_Image_Graph_Builder
+class Builder
 {
 	/**
 	 *	Builds and returns the Graph Object.
@@ -43,21 +48,21 @@ class UI_Image_Graph_Builder
 	 *	@static
 	 *	@param		array		$config			Configuration Data
 	 *	@param		array		$data			Graph Data
-	 *	@return		Graph
+	 *	@return		jpgraph_Graph
 	 */
 	protected static function buildGraph( $config, $data )
 	{
-		$graph = new Graph( $config['width'], $config['height'], 'auto' );
+		$graph = new jpgraph_Graph( $config['width'], $config['height'], 'auto' );
 		$graph->setScale( self::getConfigValue( $config, 'scale' ) );
 		$graph->img->SetAntiAliasing( self::getConfigValue( $config, 'image.antialias', FALSE ) );
 
-		UI_Image_Graph_Components::setTitle( $graph, $config );
-		UI_Image_Graph_Components::setSubTitle( $graph, $config );
-		UI_Image_Graph_Components::setLegend( $graph, self::getSubConfig( $config, "legend." ) );
-		UI_Image_Graph_Components::setFrame( $graph, $config );
-		UI_Image_Graph_Components::setShadow( $graph, $config );
-		UI_Image_Graph_Components::setAxis( $graph->xaxis, self::getSubConfig( $config, 'x.axis.' ), $data );
-		UI_Image_Graph_Components::setAxis( $graph->yaxis, self::getSubConfig( $config, 'y1.axis.' ), $data );
+		Components::setTitle( $graph, $config );
+		Components::setSubTitle( $graph, $config );
+		Components::setLegend( $graph, self::getSubConfig( $config, "legend." ) );
+		Components::setFrame( $graph, $config );
+		Components::setShadow( $graph, $config );
+		Components::setAxis( $graph->xaxis, self::getSubConfig( $config, 'x.axis.' ), $data );
+		Components::setAxis( $graph->yaxis, self::getSubConfig( $config, 'y1.axis.' ), $data );
 
 		self::setUpMargin( $graph, $config );
 		self::setUpGrid( $graph, $config, $data );
@@ -91,14 +96,14 @@ class UI_Image_Graph_Builder
 	protected static function createPlot( $config, $data, $prefix )
 	{
 		$plotClass	= $config[$prefix.'type'];
-		$plotClass	= 'UI_Image_Graph_'.$plotClass;
+		$plotClass	= '\\CeusMedia\\Common\\UI\\Image\\Graph\\'.$plotClass;
 		$plotObject	= new $plotClass;
 		$plotConf	= self::getSubConfig( $config, $prefix );
 		return $plotObject->buildPlot( $plotConf, $data );
 	}
 
 	/**
-	 *	Alias for UI_Image_Graph_Components::getConfigValue.
+	 *	Alias for Components::getConfigValue.
 	 *	@access		protected
 	 *	@static
 	 *	@param		array		$config			Configuration Data
@@ -108,11 +113,11 @@ class UI_Image_Graph_Builder
 	 */
 	protected static function getConfigValue( $config, $key, $default = NULL )
 	{
-		return UI_Image_Graph_Components::getConfigValue( $config, $key, $default );
+		return Components::getConfigValue( $config, $key, $default );
 	}
 
 	/**
-	 *	Alias for UI_Image_Graph_Components::getSubConfig.
+	 *	Alias for Components::getSubConfig.
 	 *	@access		protected
 	 *	@static
 	 *	@param		array		$config			Configuration Data
@@ -121,7 +126,7 @@ class UI_Image_Graph_Builder
 	 */
 	protected static function getSubConfig( $config, $prefix )
 	{
-		return UI_Image_Graph_Components::getSubConfig( $config, $prefix );
+		return Components::getSubConfig( $config, $prefix );
 	}
 
 	/**
@@ -151,15 +156,15 @@ class UI_Image_Graph_Builder
 	{
 		$gridDepth	= self::getConfigValue( $config, "grid.depth", DEPTH_BACK );
 		$graph->setGridDepth( $gridDepth );
-		UI_Image_Graph_Components::setGrid( $graph->xgrid, self::getSubConfig( $config, 'x.grid.' ), $data );
-		UI_Image_Graph_Components::setGrid( $graph->ygrid, self::getSubConfig( $config, 'y.grid.' ), $data );
+		Components::setGrid( $graph->xgrid, self::getSubConfig( $config, 'x.grid.' ), $data );
+		Components::setGrid( $graph->ygrid, self::getSubConfig( $config, 'y.grid.' ), $data );
 	}
 
 	/**
 	 *	Adds Margin to Graph.
 	 *	@access		protected
 	 *	@static
-	 *	@param		Graph		$graph			Graph Object to work on
+	 *	@param		jpgraph_Graph		$graph			Graph Object to work on
 	 *	@param		array		$config			Configuration Data
 	 *	@return		void
 	 */
@@ -179,7 +184,7 @@ class UI_Image_Graph_Builder
 	 *	Adds Plots to Graph.
 	 *	@access		protected
 	 *	@static
-	 *	@param		Graph		$graph			Graph Object to work on
+	 *	@param		jpgraph_Graph		$graph			Graph Object to work on
 	 *	@param		array		$config			Configuration Data
 	 *	@param		array		$data			Graph Data
 	 *	@return		void
@@ -205,7 +210,7 @@ class UI_Image_Graph_Builder
 		if( $scaleY2 )
 		{
 			$graph->setY2Scale( $scaleY2 );
-			UI_Image_Graph_Components::setAxis( $graph->y2axis, self::getSubConfig( $config, 'y2.axis.' ), $data );
+			Components::setAxis( $graph->y2axis, self::getSubConfig( $config, 'y2.axis.' ), $data );
 			$nr	= 1;
 			while( 1 )
 			{

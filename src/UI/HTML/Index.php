@@ -25,6 +25,9 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.6
  */
+
+namespace CeusMedia\Common\UI\HTML;
+
 /**
  *	Generates HTML of an index structure, parsed headings within HTML or given by OPML (or [several] tree structures and objects).
  *
@@ -38,8 +41,8 @@
  *	@todo		implement import of trees and perhaps normal setters
  *	@todo		code doc
  */
-class UI_HTML_Index{
-
+class Index
+{
 	public $headings	= array();
 	public $tree		= array();
 
@@ -50,9 +53,9 @@ class UI_HTML_Index{
 	 *	@return		void
 	 */
 	public function importFromHtml( &$content, $level = 1 ){
-		$this->headings	= array();																	//  
-		$this->tree		= $this->importFromHtmlRecursive( $content, $level );						//  
-		$this->setHeadingIds( $content, $level );													//  
+		$this->headings	= array();																	//
+		$this->tree		= $this->importFromHtmlRecursive( $content, $level );						//
+		$this->setHeadingIds( $content, $level );													//
 	}
 
 	protected function importFromHtmlRecursive( $content, $level ){
@@ -72,23 +75,23 @@ class UI_HTML_Index{
 		array_shift( $parts );
 		//  iterate blocks
 		foreach( $parts as $nr => $part ){
-			$heading	= preg_replace( "/<.+>/", "", $headings[1][$nr] );							//  
-			$id			= strtolower( trim( $heading ) );											//  
-			$id			= str_replace( array( " ", "_" ), "-", $id );								//  
-			$id			= preg_replace( "/[^a-z0-9-]/", "", $id );									//  
-			$this->headings[]	= (object) array(													//  
-				'label'		=> $heading,															//  
-				'level'		=> $level,																//  
-				'id'		=> $id,																	//  
+			$heading	= preg_replace( "/<.+>/", "", $headings[1][$nr] );							//
+			$id			= strtolower( trim( $heading ) );											//
+			$id			= str_replace( array( " ", "_" ), "-", $id );								//
+			$id			= preg_replace( "/[^a-z0-9-]/", "", $id );									//
+			$this->headings[]	= (object) array(													//
+				'label'		=> $heading,															//
+				'level'		=> $level,																//
+				'id'		=> $id,																	//
 			);
-			$tree[]	= (object) array(																//  
-				'label'		=> $heading,															//  
-				'level'		=> $level,																//  
-				'id'		=> $id,																	//  
-				'children'	=> $this->importFromHtmlRecursive( $part, $level + 1 ),					//  
+			$tree[]	= (object) array(																//
+				'label'		=> $heading,															//
+				'level'		=> $level,																//
+				'id'		=> $id,																	//
+				'children'	=> $this->importFromHtmlRecursive( $part, $level + 1 ),					//
 			);
 		}
-		return $tree;																				//  
+		return $tree;																				//
 	}
 
 	/**
@@ -97,13 +100,13 @@ class UI_HTML_Index{
 	 *	@return		string		HTML of list containing heading structure.
 	 */
 	public function renderList( $itemClassPrefix = "level-" ){
-		$list	= array();																			//  
-		foreach( $this->headings as $item ){														//  
-			$link	= UI_HTML_Tag::create( 'a', $item->label, array( 'href' => "#".$item->id ) );	//  
-			$attributes		= array( 'class' => $itemClassPrefix.$item->level );							//  
-			$list[]	= UI_HTML_Elements::ListItem( $link, 0, $attributes );							//  
+		$list	= array();																			//
+		foreach( $this->headings as $item ){														//
+			$link	= Tag::create( 'a', $item->label, array( 'href' => "#".$item->id ) );	//
+			$attributes		= array( 'class' => $itemClassPrefix.$item->level );							//
+			$list[]	= Elements::ListItem( $link, 0, $attributes );							//
 		}
-		return UI_HTML_Tag::create( 'ul', $list, array( 'class' => 'index-list' ) );				//  
+		return Tag::create( 'ul', $list, array( 'class' => 'index-list' ) );				//
 	}
 
 	/**
@@ -112,17 +115,17 @@ class UI_HTML_Index{
 	 *	@param		array		$tree		Tree of heading structure, default: parsed tree
 	 *	@return		string		HTML of nested lists containing heading structure.
 	 */
-	public function renderTree( $tree = NULL ){														//  
-		$list	= array();																			//  
-		if( is_null( $tree ) )																		//  
-			$tree	= $this->tree;																	//  
+	public function renderTree( $tree = NULL ){														//
+		$list	= array();																			//
+		if( is_null( $tree ) )																		//
+			$tree	= $this->tree;																	//
 		foreach( $tree as $item ){
-			$link	= UI_HTML_Tag::create( 'a', $item->label, array( 'href' => "#".$item->id ) );	//  
-			$attributes		= array( 'class' => 'level-'.$item->level );							//  
-			$subtree		= $this->renderTree( $item->children );									//  
-			$list[]	= UI_HTML_Elements::ListItem( $link.$subtree, 0, $attributes );					//  
+			$link	= Tag::create( 'a', $item->label, array( 'href' => "#".$item->id ) );	//
+			$attributes		= array( 'class' => 'level-'.$item->level );							//
+			$subtree		= $this->renderTree( $item->children );									//
+			$list[]	= Elements::ListItem( $link.$subtree, 0, $attributes );					//
 		}
-		return UI_HTML_Tag::create( 'ul', $list, array( 'class' => 'index-tree' ) );				//  
+		return Tag::create( 'ul', $list, array( 'class' => 'index-tree' ) );				//
 	}
 
 	/**
@@ -133,10 +136,10 @@ class UI_HTML_Index{
 	 *	@return		string		Resulting HTML
 	 */
 	protected function setHeadingIds( &$content, $level = 1 ){
-		foreach( $this->headings as $heading ){														//  
-			$find		= "/<h".$heading->level."(.*)>".$heading->label."/";						//  
-			$replace	= '<h'.$heading->level.'\\1 id="'.$heading->id.'">'.$heading->label;		//  
-			$content	= preg_replace( $find, $replace, $content );								//  
+		foreach( $this->headings as $heading ){														//
+			$find		= "/<h".$heading->level."(.*)>".$heading->label."/";						//
+			$replace	= '<h'.$heading->level.'\\1 id="'.$heading->id.'">'.$heading->label;		//
+			$content	= preg_replace( $find, $replace, $content );								//
 		}
 		return $content;
 	}

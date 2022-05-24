@@ -25,6 +25,13 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.0
  */
+
+namespace CeusMedia\Common\UI\HTML;
+
+use CeusMedia\Common\Renderable;
+use ArrayIterator;
+use InvalidArgumentException;
+
 /**
  *	Abstract Builder for HTML Elements.
  *	@category		Library
@@ -35,7 +42,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.0
  */
-abstract class UI_HTML_Abstract implements Renderable
+abstract class Abstraction implements Renderable
 {
 	protected $attributes	= array(
 		'class'	=> array()
@@ -75,7 +82,7 @@ abstract class UI_HTML_Abstract implements Renderable
 	 */
 	public function addClass( $class )
 	{
-		$this->attributes['class'][]	= $class;	
+		$this->attributes['class'][]	= $class;
 	}
 
 	/**

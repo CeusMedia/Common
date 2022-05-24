@@ -6,6 +6,12 @@
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			0.7.0
  */
+
+namespace CeusMedia\Common\UI\HTML\Button;
+
+use CeusMedia\Common\UI\HTML\Abstraction as HtmlAbstraction;
+use CeusMedia\Common\UI\HTML\Tag;
+
 /**
  *	HTML Button Container (for CSS).
  *	@category		Library
@@ -13,7 +19,7 @@
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			0.7.0
  */
-class UI_HTML_Button_Container extends UI_HTML_Abstract
+class Container extends HtmlAbstraction
 {
 	protected $defaultClass	= "buttons button-bar";
 	protected $content	= array();
@@ -36,11 +42,11 @@ class UI_HTML_Button_Container extends UI_HTML_Abstract
 			return '';
 		foreach( $this->content as $button )
 		{
-			if( $button instanceof UI_HTML_Abstract )
+			if( $button instanceof HtmlAbstraction )
 				$button	= $button->render();
 			$list[]	= $button;
 		}
 		$list	= join( $list );
-		return UI_HTML_Tag::create( "div", $list, $this->getAttributes() );
+		return Tag::create( "div", $list, $this->getAttributes() );
 	}
 }

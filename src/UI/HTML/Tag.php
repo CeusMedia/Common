@@ -25,6 +25,14 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			22.04.2008
  */
+
+namespace CeusMedia\Common\UI\HTML;
+
+use CeusMedia\Common\Renderable;
+use Alg_Text_CamelCase as CamelCase;
+use InvalidArgumentException;
+use RuntimeException;
+
 /**
  *	Builder for HTML tags.
  *	@category		Library
@@ -35,14 +43,17 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			22.04.2008
  */
-class UI_HTML_Tag implements Renderable
+class Tag implements Renderable
 {
 	/**	@var		array		$attributes		Attributes of tag */
 	protected $attributes		= array();
+
 	/**	@var		array		$data			Data attributes of tag */
 	protected $data				= array();
+
 	/**	@var		string		$name			Node name of tag */
 	protected $name;
+
 	/**	@var		array		$content		Content of tag */
 	protected $content;
 
@@ -336,7 +347,7 @@ class UI_HTML_Tag implements Renderable
 	protected static function renderData( $data = array() ){
 		$list	= array();
 		foreach( $data as $key => $value ){
-			$key	= 'data-'.Alg_Text_CamelCase::decode( $key, '-' );
+			$key	= 'data-'.CamelCase::decode( $key, '-' );
 			$list[$key]	= (string) $value;
 		}
 		return self::renderAttributes( $list, TRUE );

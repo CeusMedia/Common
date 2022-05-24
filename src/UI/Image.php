@@ -24,6 +24,14 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+
+namespace CeusMedia\Common\UI;
+
+use CeusMedia\Common\UI\Image\Error as ErrorImage;
+use Exception;
+use InvalidArgumentException;
+use RuntimeException;
+
 /**
  *	Image resource reader and writer.
  *	@category		Library
@@ -56,7 +64,7 @@
 16 - XBM		IMAGETYPE_XBM
 17 - ICO		IMAGETYPE_ICO
 */
-class UI_Image
+class Image
 {
 	protected $resource			= NULL;
 	protected $type				= IMAGETYPE_PNG;
@@ -112,7 +120,7 @@ class UI_Image
 				break;
 			default:
 				header_remove( 'Content-type' );
-				new UI_Image_Error( 'invalid type' );
+				new ErrorImage( 'invalid type' );
 		}
 	}
 

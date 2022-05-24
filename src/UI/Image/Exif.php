@@ -25,6 +25,15 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.6.8
  */
+
+namespace CeusMedia\Common\UI\Image;
+
+use CeusMedia\Common\ADT\Collection\Dictionary;
+use CeusMedia\Common\UI\Image;
+use UI_HTML_Tag as HtmlTag;
+use Exception;
+use RuntimeException;
+
 /**
  *	...
  *
@@ -36,7 +45,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.6.8
  */
-class UI_Image_Exif extends ADT_List_Dictionary
+class Exif extends Dictionary
 {
 	protected $imageUri;
 
@@ -89,6 +98,6 @@ class UI_Image_Exif extends ADT_List_Dictionary
 			'height'	=> $height,
 			'src'		=> 'data:image/gif;base64,'.base64_encode( $content )
 		);
-		return UI_HTML_Tag::create( 'img', NULL, $attributes );
+		return HtmlTag::create( 'img', NULL, $attributes );
 	}
 }

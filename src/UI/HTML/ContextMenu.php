@@ -25,6 +25,9 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.6.7
  */
+
+namespace CeusMedia\Common\UI\HTML;
+
 /**
  *	...
  *	@category		Library
@@ -35,21 +38,21 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.6.7
  */
-class UI_HTML_ContextMenu
+class ContextMenu
 {
 
 	public static function buildCode( $context, $content, $id = NULL )
 	{
-		$label		= UI_HTML_Tag::create( 'div', $context, array( 'class' => 'label' ) );
-		$opener		= UI_HTML_Tag::create( 'div', UI_HTML_Tag::create( 'span', '&nabla;' ), array( 'class' => 'opener' ) );
-		$options	= UI_HTML_Tag::create( 'div', $content, array( 'class' => 'contextMenu', 'id' => $id ) );
-		$html		= UI_HTML_Tag::create( 'div', $label.$opener.$options, array( 'class' => 'cmContextMenu' ) );
+		$label		= Tag::create( 'div', $context, array( 'class' => 'label' ) );
+		$opener		= Tag::create( 'div', Tag::create( 'span', '&nabla;' ), array( 'class' => 'opener' ) );
+		$options	= Tag::create( 'div', $content, array( 'class' => 'contextMenu', 'id' => $id ) );
+		$html		= Tag::create( 'div', $label.$opener.$options, array( 'class' => 'cmContextMenu' ) );
 		return $html;
 	}
 
 	public static function buildScript( $selector, $options	= array() )
 	{
-		return UI_HTML_JQuery::buildPluginCall( 'cmContextMenu', $selector, $options );
+		return JQuery::buildPluginCall( 'cmContextMenu', $selector, $options );
 	}
 
 }

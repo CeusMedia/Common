@@ -24,6 +24,9 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+
+namespace CeusMedia\Common\UI\HTML;
+
 /**
  *	User Interface Component to build a Panel which can be expanded and collapsed.
  *	@category		Library
@@ -33,7 +36,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class UI_HTML_Informant
+class Informant
 {
 	/**
 	 *	Builds HTML Code of Panel.

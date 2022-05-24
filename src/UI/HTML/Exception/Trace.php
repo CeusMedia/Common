@@ -25,6 +25,15 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.0
  */
+
+namespace CeusMedia\Common\UI\HTML\Exception;
+
+use CeusMedia\Common\Alg\Text\Trimmer as TextTrimmer;
+use CeusMedia\Common\UI\HTML\Tag;
+use Countable;
+use Exception;
+use InvalidArgumentException;
+
 /**
  *	Visualisation of Exception Stack Trace.
  *	@category		Library
@@ -35,7 +44,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.1
  */
-class UI_HTML_Exception_Trace
+class Trace
 {
 	/**
 	 *	Prints exception trace HTML code.
@@ -68,10 +77,10 @@ class UI_HTML_Exception_Trace
 			$step	= self::renderTraceStep( $trace, $i++, $j );
 			if( !$step )
 				continue;
-			$list[]	= UI_HTML_Tag::create( 'li', $step );
+			$list[]	= Tag::create( 'li', $step );
 			$j++;
 		}
-		return UI_HTML_Tag::create( 'ol', implode( $list ), array( 'class' => 'trace' ) );
+		return Tag::create( 'ol', implode( $list ), array( 'class' => 'trace' ) );
 	}
 
 	/**
@@ -129,11 +138,11 @@ class UI_HTML_Exception_Trace
 		{
 			$type	= self::renderArgumentType( $value );
 			$string	= self::renderArgument( $value );
-			$list[]	= UI_HTML_Tag::create( 'dt', $type." ".$key );
-			$list[]	= UI_HTML_Tag::create( 'dd', $string );
+			$list[]	= Tag::create( 'dt', $type." ".$key );
+			$list[]	= Tag::create( 'dd', $string );
 		}
-		$list	= UI_HTML_Tag::create( 'dl', implode( $list ) );
-		$block	= UI_HTML_Tag::create( 'blockquote', $list );
+		$list	= Tag::create( 'dl', implode( $list ) );
+		$block	= Tag::create( 'blockquote', $list );
 		return '{'.$block.'}';
 	}
 
@@ -153,7 +162,7 @@ class UI_HTML_Exception_Trace
 		else if( $type == 'array' || $argument instanceof Countable )
 			$length	= '('.count( $argument ).')';
 		$type	= ucFirst( strtolower( gettype( $argument ) ) );
-		return UI_HTML_Tag::create( 'span', $type.$length, array( 'class' => 'type' ) );
+		return Tag::create( 'span', $type.$length, array( 'class' => 'type' ) );
 	}
 
 	/**
@@ -198,11 +207,11 @@ class UI_HTML_Exception_Trace
 				{
 					$type	= self::renderArgumentType( $argument );
 					$string	= self::renderArgument( $argument );
-					$argList[]	= UI_HTML_Tag::create( 'dt', $type );
-					$argList[]	= UI_HTML_Tag::create( 'dd', $string );
+					$argList[]	= Tag::create( 'dt', $type );
+					$argList[]	= Tag::create( 'dd', $string );
 				}
-				$argList	= UI_HTML_Tag::create( 'dl', implode( $argList ) );
-				$block		= UI_HTML_Tag::create( 'blockquote', $argList );
+				$argList	= Tag::create( 'dl', implode( $argList ) );
+				$block		= Tag::create( 'blockquote', $argList );
 			}
 			$function	= '<span class="func">'.$trace["function"].'</span>';
 			$arguments	= '<span class="args">('.$block.')</span>';
@@ -226,7 +235,7 @@ class UI_HTML_Exception_Trace
 	protected static function secureString( $string, $maxLength = 0, $mask = '&hellip;' )
 	{
 		if( $maxLength && strlen( $string ) > $maxLength )
-			$value	= Alg_Text_Trimmer::trimCentric( $string, $maxLength, $mask );
+			$value	= TextTrimmer::trimCentric( $string, $maxLength, $mask );
 //		$string	= addslashes( $string );
 		$string	= htmlentities( $string, ENT_QUOTES, 'UTF-8' );
 		$string	= nl2br( $string );

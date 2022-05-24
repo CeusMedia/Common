@@ -26,6 +26,13 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			11.04.2008
  */
+
+namespace CeusMedia\Common\UI\HTML\Exception;
+
+use CeusMedia\Common\Alg\Text\Trimmer as TextTrimmer;
+use CeusMedia\Common\UI\HTML\Tag;
+use Exception;
+
 /**
  *	Visualisation of Exception Stack Trace.
  *	@category		Library
@@ -37,7 +44,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			11.04.2008
  */
-class UI_HTML_Exception_TraceViewer
+class TraceViewer
 {
 	/**
 	 *	Constructor, prints Exception Trace.
@@ -57,7 +64,7 @@ class UI_HTML_Exception_TraceViewer
 
 	protected static function blockquote( $content )
 	{
-		return UI_HTML_Tag::create( 'blockquote', $content, array( 'style' => 'margin: 0px 30px' ) );
+		return Tag::create( 'blockquote', $content, array( 'style' => 'margin: 0px 30px' ) );
 	}
 
 	/**
@@ -95,10 +102,10 @@ class UI_HTML_Exception_TraceViewer
 		if( method_exists( $exception, 'getPrevious' ) && $exception->getPrevious() )
 		{
 			$view	= self::buildTrace( $exception->getPrevious(), $breakMode );
-			$block	= UI_HTML_Tag::create( 'blockquote', $view );
+			$block	= Tag::create( 'blockquote', $view );
 			$content	.= 'Previous: '.$block.'<br/>';
 		}
-		return UI_HTML_Tag::create( 'p', $content, array( 'style' => "font-family: monospace" ) );
+		return Tag::create( 'p', $content, array( 'style' => "font-family: monospace" ) );
 		 $content;
 	}
 
@@ -182,7 +189,7 @@ class UI_HTML_Exception_TraceViewer
 				return htmlentities( (string) $value );
 			case 'string':
 				if( strlen( $value ) > 70 )
-					$value	= Alg_Text_Trimmer::trimCentric( $value, 70, '...' );
+					$value	= TextTrimmer::trimCentric( $value, 70, '...' );
 				return '"'.htmlentities($value ).'"';
 			case 'array':
 				return self::convertArrayToString( $argument, $breakMode, $level );

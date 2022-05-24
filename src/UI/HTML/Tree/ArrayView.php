@@ -25,6 +25,15 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			18.06.2008
  */
+
+namespace CeusMedia\Common\UI\HTML\Tree;
+
+use CeusMedia\Common\UI\HTML\Elements;
+use CeusMedia\Common\UI\HTML\JQuery;
+use CeusMedia\Common\UI\HTML\Tag;
+use ArrayObject;
+use InvalidArgumentException;
+
 /**
  *	Builds HTML Tree with nested Lists for JQuery Plugin Treeview from a Array of Nodes.
  *	@category		Library
@@ -35,10 +44,11 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			18.06.2008
  */
-class UI_HTML_Tree_ArrayView
+class ArrayView
 {
 	/**	@var		string		$baseUrl			Base URL for linked Items */
 	protected $baseUrl;
+
 	/**	@var		string		$queryKey			Query Key for linked Items */
 	protected $queryKey;
 
@@ -85,7 +95,7 @@ class UI_HTML_Tree_ArrayView
 		if( $collapsed )
 			$options['collapsed']	= "true";
 
-		return UI_HTML_JQuery::buildPluginCall( "treeview", $selector, $options );
+		return JQuery::buildPluginCall( "treeview", $selector, $options );
 	}
 
 	/**
@@ -120,19 +130,19 @@ class UI_HTML_Tree_ArrayView
 
 			$linkClass	= rawurlencode( $currentId ) == $node['id'] ? 'selected' : NULL;
 
-			$label	= UI_HTML_Tag::create( "span", $node['label'], array( 'class' => $node['class'] ) );
+			$label	= Tag::create( "span", $node['label'], array( 'class' => $node['class'] ) );
 			//  linked Item
 			if( $node['linked'] )
 			{
 				//  generate URL
 				$url	= $this->baseUrl.$this->queryKey.$node['id'];
 				//  generate Link Tag
-				$link	= UI_HTML_Elements::Link( $url, $node['label'], $linkClass, $target );
+				$link	= Elements::Link( $url, $node['label'], $linkClass, $target );
 				//  linked Nodes have no Span Container
 				$label	= $link;
 				//  linked Leafes have a Span Container
 				if( 1 || $node['type'] == "leaf" )
-					$label	= UI_HTML_Tag::create( "span", $link, array( 'class' => $node['class'] ) );
+					$label	= Tag::create( "span", $link, array( 'class' => $node['class'] ) );
 			}
 			$sublist	= "";
 			$children	= new ArrayObject();
@@ -141,11 +151,11 @@ class UI_HTML_Tree_ArrayView
 
 			$sublist	= "\n".$this->constructTree( $children, $currentId, array(), $level + 1, $way.$node['label'] );
 			$label		.= $sublist;
-			$item		= UI_HTML_Elements::ListItem( $label, $level, array( 'id' => $node['id'], 'class' => $node['class'] ) );
+			$item		= Elements::ListItem( $label, $level, array( 'id' => $node['id'], 'class' => $node['class'] ) );
 			$list[]		= $item;
 		}
 		if( count( $list ) )
-			return UI_HTML_Elements::unorderedList( $list, $level, $attributes );
+			return Elements::unorderedList( $list, $level, $attributes );
 		return "";
 	}
 

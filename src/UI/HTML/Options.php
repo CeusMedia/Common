@@ -25,6 +25,9 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.6.8
  */
+
+namespace CeusMedia\Common\UI\HTML;
+
 /**
  *	Wrapper of jQuery plugin 'cmOptions' to create HTML and JavaScript.
  *	@category		Library
@@ -35,7 +38,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.6.8
  */
-class UI_HTML_Options
+class Options
 {
 	protected $async	= TRUE;
 	protected $cache	= TRUE;
@@ -64,7 +67,7 @@ class UI_HTML_Options
 	 */
 	public function buildCode()
 	{
-		$select		= UI_HTML_Elements::Select( $this->name, $this->options, $this->class );
+		$select		= Elements::Select( $this->name, $this->options, $this->class );
 		return $select;
 	}
 
@@ -82,7 +85,7 @@ class UI_HTML_Options
 			'data'		=> $this->data,
 			'selected'	=> $this->selected
 		);
-		return UI_HTML_JQuery::buildPluginCall( 'ajaxOptions', "select[name='".$this->name."']", $options );
+		return JQuery::buildPluginCall( 'ajaxOptions', "select[name='".$this->name."']", $options );
 	}
 
 	/**

@@ -25,6 +25,12 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			16.04.2008
  */
+
+namespace CeusMedia\Common\UI\Image\Graph;
+
+use UI_Template as Template;
+use RuntimeException;
+
 /**
  *	Abstract Generator Class for several Graph Generator Appications.
  *	@category		Library
@@ -36,7 +42,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			16.04.2008
  */
-abstract class UI_Image_Graph_Generator
+abstract class Generator
 {
 	protected $config;
 	protected $timestampData;
@@ -60,7 +66,7 @@ abstract class UI_Image_Graph_Generator
 	 */
 	public function buildImage()
 	{
-		UI_Image_Graph_Builder::buildImage( $this->config, $this->data );
+		Builder::buildImage( $this->config, $this->data );
 	}
 
 	/**
@@ -80,7 +86,7 @@ abstract class UI_Image_Graph_Generator
 		}
 
 		foreach( $this->config as $key => $value )
-			$this->config[$key]	= UI_Template::renderString( $value, $labels );
+			$this->config[$key]	= Template::renderString( $value, $labels );
 	}
 
 	/**
@@ -143,7 +149,7 @@ abstract class UI_Image_Graph_Generator
 	 */
 	public function saveImage( $fileName )
 	{
-		UI_Image_Graph_Builder::saveImage( $fileName, $this->config, $this->data );
+		Builder::saveImage( $fileName, $this->config, $this->data );
 	}
 
 	/**

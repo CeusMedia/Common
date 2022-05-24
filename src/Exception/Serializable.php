@@ -26,6 +26,12 @@
  *	@since			15.09.2011
  *	@see			http://fabien.potencier.org/article/9/php-serialization-stack-traces-and-exceptions
  */
+
+namespace CeusMedia\Common\Exception;
+
+use Exception;
+use Serializable as BaseSerializable;
+
 /**
  *	Base Exception which can be serialized e.G. for NetServices.
  *	@category		Library
@@ -36,7 +42,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			15.09.2011
  */
-class Exception_Serializable extends Exception implements Serializable
+class Serializable extends Exception implements BaseSerializable
 {
 	/**
 	 *	Returns serial of exception.

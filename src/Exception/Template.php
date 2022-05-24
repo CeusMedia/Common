@@ -25,6 +25,11 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			03.03.2007
  */
+
+namespace CeusMedia\Common\Exception;
+
+use RuntimeException;
+
 /**
  *	Exception for Templates.
  *	@category		Library
@@ -35,7 +40,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			03.03.2007
  */
-class Exception_Template extends RuntimeException
+class Template extends RuntimeException
 {
 	const FILE_NOT_FOUND		= 0;
 	const FILE_LABELS_MISSING	= 1;

@@ -25,6 +25,11 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.0
  */
+
+namespace CeusMedia\Common\UI\HTML;
+
+use InvalidArgumentException;
+
 /**
  *	Builder for HTML Fieldset Elements.
  *	@category		Library
@@ -35,7 +40,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.0
  */
-class UI_HTML_Fieldset extends UI_HTML_Abstract
+class Fieldset extends Abstraction
 {
 	protected $content	= NULL;
 	protected $legend	= NULL;
@@ -70,7 +75,7 @@ class UI_HTML_Fieldset extends UI_HTML_Abstract
 		if( !is_string( $content ) )
 			throw new InvalidArgumentException( 'Fieldset content is neither rendered nor renderable' );
 
-		return UI_HTML_Tag::create( "fieldset", $legend.$content, $this->getAttributes() );
+		return Tag::create( "fieldset", $legend.$content, $this->getAttributes() );
 	}
 
 	public function setLegend( $legend )

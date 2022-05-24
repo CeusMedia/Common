@@ -25,6 +25,9 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			22.02.2007
  */
+
+namespace CeusMedia\Common\Exception;
+
 /**
  *	Exception for Logic Errors, which can be serialized e.G. for NetServices.
  *	@category		Library
@@ -35,7 +38,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			22.02.2007
  */
-class Exception_Logic extends Exception_Runtime
+class Logic extends Runtime
 {
 	/**	@var		string		$subject		Subject on which this logic exception happened */
 	protected $subject	= NULL;

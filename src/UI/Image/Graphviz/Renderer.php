@@ -25,6 +25,15 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.6
  */
+
+namespace CeusMedia\Common\UI\Image\Graphviz;
+
+use FS_File_Editor as FileEditor;
+use FS_File_Reader as FileReader;
+use InvalidArgumentException;
+use OutOfBoundsException;
+use RuntimeException;
+
 /**
  *	Renderer graphs in DOT language (Graphviz).
  *
@@ -38,8 +47,8 @@
  *	@todo			implement support for other image formats than PNG
  *	@todo			implement support for SVG and PDF
  */
-class UI_Image_Graphviz_Renderer{
-
+class Renderer
+{
 	protected $layoutEngine			= "dot";
 	protected $graph;
 	protected $gvInstalled			= NULL;
@@ -52,7 +61,7 @@ class UI_Image_Graphviz_Renderer{
 		return TRUE;
 	}
 
-	public function __construct( UI_Image_Graphviz_Graph $graph, $layoutEngine = "dot" ){
+	public function __construct( Graph $graph, $layoutEngine = "dot" ){
 		$this->setGraph( $graph );
 		$this->setLayoutEngine( $layoutEngine );
 		$this->gvInstalled	= $this->checkGraphvizSupport();
@@ -63,7 +72,7 @@ class UI_Image_Graphviz_Renderer{
 	}
 
 	public function getLayoutEngines(){
-		return array( "circo", "dot", "fdp", "neato", "osage", "sfdp", "twopi" );	
+		return array( "circo", "dot", "fdp", "neato", "osage", "sfdp", "twopi" );
 	}
 
 	public function getMap( $type = "cmapx_np", $graphOptions = array() ){
@@ -78,7 +87,7 @@ class UI_Image_Graphviz_Renderer{
 		$mapFile	= $tempFile.".".$type;
 		if( !file_exists( $mapFile ) )
 			throw new RuntimeException( 'Map file could not been created' );
-		$map	= FS_File_Reader::load( $mapFile );
+		$map	= FileReader::load( $mapFile );
 		unlink( $mapFile );
 		return $map;
 	}
@@ -88,7 +97,7 @@ class UI_Image_Graphviz_Renderer{
 			throw new RuntimeException( 'Missing graphViz' );
 		$tempFile	= tempnam( sys_get_temp_dir(), 'CMC_GV_' );
 		$this->saveAsImage( $tempFile, $type, $graphOptions );
-		$image		= FS_File_Reader::load( $tempFile );
+		$image		= FileReader::load( $tempFile );
 		@unlink( $tempFile );
 		$mimeType	= "image/png";
 		if( $type == "jpg" )
@@ -111,7 +120,7 @@ class UI_Image_Graphviz_Renderer{
 		unlink( $tempFile );
 		if( !file_exists( $tempFile.".".$type ) )
 			throw new RuntimeException( 'Image file could not been created' );
-		$file	= new FS_File_Editor( $tempFile.".".$type );
+		$file	= new FileEditor( $tempFile.".".$type );
 		return $file->rename( $fileName );
 	}
 

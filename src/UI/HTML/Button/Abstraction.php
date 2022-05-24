@@ -1,6 +1,6 @@
 <?php
 /**
- *	Exception interface.
+ *	Abstract HTML Button.
  *
  *	Copyright (c) 2010-2022 Christian Würker (ceusmedia.de)
  *
@@ -18,50 +18,55 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		Library
- *	@package		CeusMedia_Common_Exception
+ *	@package		CeusMedia_Common_UI_HTML_Button
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2010-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.0
  */
+
+namespace CeusMedia\Common\UI\HTML\Button;
+
+use CeusMedia\Common\UI\HTML\Abstraction as HtmlAbstraction;
+use CeusMedia\Common\UI\HTML\Tag;
+
 /**
- *	Exception interface.
+ *	Abstract HTML Button.
  *	@category		Library
- *	@package		CeusMedia_Common_Exception
+ *	@package		CeusMedia_Common_UI_HTML_Button
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2010-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.0
- *	@todo			test and write unit tests, remove see-link later
  */
-interface Exception_Interface
+abstract class Abstraction extends HtmlAbstraction
 {
-	/* Protected methods inherited from Exception class */
-	// Exception message
-	public function getMessage();
+	public static $defaultClass		= NULL;
 
-	// User-defined Exception code
-	public function getCode();
+	/**
+	 *	Constructor.
+	 *	@access		public
+	 *	@param		mixed		$content		Label String or HTML Object
+	 *	@param		array		$attributes		Map of Attributes to set
+	 *	@return		void
+	 */
+	public function __construct( $content, $attributes = array() )
+	{
+		$this->attributes['type']	= 'button';
+		$this->addClass( self::$defaultClass );
+		$this->setContent( $content );
+		$this->addAttributes( $attributes );
+	}
 
-	// Source filename
-	public function getFile();
-
-	// Source line
-	public function getLine();
-
-	// An array of the backtrace()
-	public function getTrace();
-
-	// Formated string of trace
-	public function getTraceAsString();
-
-	public function getPrevious();
-
-	/* Overrideable methods inherited from Exception class */
-	// formated string for display
-	public function __toString();
-
-	public function __construct( $message = NULL, $code = 0, ?Throwable $previous = null );
+	/**
+	 *	Renders Button to HTML String.
+	 *	@access		public
+	 *	@return		string
+	 */
+	public function render()
+	{
+		return Tag::create( 'button', $this->content, $this->getAttributes() );
+	}
 }

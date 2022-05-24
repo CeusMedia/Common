@@ -25,6 +25,9 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			25.06.2008
  */
+
+namespace CeusMedia\Common\UI\HTML;
+
 /**
  *	Builder for jQuery Plugin Calls for HTML Documents.
  *	@category		Library
@@ -35,7 +38,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			25.06.2008
  */
-class UI_HTML_JQuery
+class JQuery
 {
 	/**	@var		string		$jQueryFunctionName		Name of jQuery Function to call, default: $ */
 	public static $jQueryFunctionName	= 'jQuery';

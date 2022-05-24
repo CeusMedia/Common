@@ -25,6 +25,12 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.0
  */
+
+namespace CeusMedia\Common\UI\HTML\Button;
+
+use CeusMedia\Common\ADT\URL\Inference;
+use CeusMedia\Common\UI\HTML\Tag;
+
 /**
  *	Builds HTML Link Button.
  *	@category		Library
@@ -35,7 +41,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.0
  */
-class UI_HTML_Button_Link extends UI_HTML_Button_Abstract
+class Link extends Abstraction
 {
 	public static $defaultClass	= 'neutral';
 	protected $parameters	= array();
@@ -64,7 +70,7 @@ class UI_HTML_Button_Link extends UI_HTML_Button_Abstract
 	public function render()
 	{
 		$attributes	= $this->getAttributes();
-		$attributes['onclick']	= 'location.href=\''.ADT_URL_Inference::buildStatic( $this->parameters ).'\';';
-		return UI_HTML_Tag::create( 'button', $this->content, $attributes );
+		$attributes['onclick']	= 'location.href=\''.Inference::buildStatic( $this->parameters ).'\';';
+		return Tag::create( 'button', $this->content, $attributes );
 	}
 }

@@ -1,6 +1,6 @@
 <?php
 /**
- *	Builder of HTML List Elements.
+ *	Abstract exception.
  *
  *	Copyright (c) 2010-2022 Christian Würker (ceusmedia.de)
  *
@@ -18,76 +18,80 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		Library
- *	@package		CeusMedia_Common_UI_HTML
+ *	@package		CeusMedia_Common_Exception
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2010-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.0
  */
+
+namespace CeusMedia\Common\Exception;
+
+use Exception;
+
 /**
- *	Builder of HTML List Elements.
+ *	Abstract exception.
  *	@category		Library
- *	@package		CeusMedia_Common_UI_HTML
+ *	@package		CeusMedia_Common_Exception
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2010-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
+ *	@see			http://www.php.net/manual/de/language.exceptions.php#91159
  *	@since			0.7.0
+ *	@todo			test and write unit tests, remove see-link later
  */
-class UI_HTML_List extends UI_HTML_Abstract
+abstract class Abstraction extends Exception implements Interface_
 {
+	// Exception message
+	protected $message = 'Unknown exception';
+
+	// User-defined exception code
+	protected $code    = 0;
+
+	// Source filename of exception
+	protected $file;
+
+	// Source line of exception
+	protected $line;
+
+	protected $previous;
+
+	// Unknown
+	private   $trace;
+
+	// Unknown
+	private   $string;
+
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		array		$items		List of Item Elements or Strings
-	 *	@param		array		$attributes	Map of Attributes
+	 *	@param		string		$message
+	 *	@param		integer		$code
 	 *	@return		void
 	 */
-	public function __construct( $items = NULL, $attributes = NULL )
+	public function __construct( $message = NULL, $code = 0, ?Throwable $previous = null )
 	{
-		if( !is_null( $items ) )
-			$this->addItems( $items );
-		if( !is_null( $attributes ) )
-			$this->addAttributes( $attributes );
+		if( !$message )
+			throw new $this( 'Unknown '.get_class( $this ) );
+		parent::__construct( $message, $code, $previous );
 	}
 
 	/**
-	 *	Adds an Item.
-	 *	@access		public
-	 *	@param		UI_HTML_ListItem|string	$item	List Item Element or String
-	 *	@return		void
-	 */
-	public function addItem( $item )
-	{
-		$this->listItems[]	= $item;
-	}
-
-	/**
-	 *	Adds an Item.
-	 *	@access		public
-	 *	@param		array		$items		List of List Item Elements or Strings
-	 *	@return		void
-	 */
-	public function addItems( $items )
-	{
-		if( $items instanceof UI_HTML_Buffer ) 
-			$this->addItem( $items->render() );
-		else
-			foreach( $items as $item )
-				$this->addItem( $item );
-	}
-
-	/**
-	 *	Returns rendered List Element.
+	 *	String representation of exception.
 	 *	@access		public
 	 *	@return		string
 	 */
-	public function render()
+	public function __toString()
 	{
-		$list	= array();
-		foreach( $this->listItems as $item )
-			$list[]	= $this->renderInner( $item );
-		return UI_HTML_Tag::create( "ul", join( $list ), $this->getAttributes() );
+		return sprintf(
+			'%1$s "{%2$s}" in {%3$s}(%4$s) '.PHP_EOL.'%5$s',
+			get_class( $this ),
+			$this->message,
+			$this->file,
+			$this->line,
+			$this->getTraceAsString()
+		);
 	}
 }

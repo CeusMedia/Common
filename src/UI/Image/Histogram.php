@@ -25,6 +25,12 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.6
  */
+
+namespace CeusMedia\Common\UI\Image;
+
+use CeusMedia\Common\UI\Image;
+use Exception;
+
 /**
  *	Histogram image generator.
  *	@category		Library
@@ -36,13 +42,13 @@
  *	@since			0.7.6
  *	@todo			Code Doc
  */
-class UI_Image_Histogram
+class Histogram
 {
 	static public function drawChannels( $data )
 	{
-		$image	= new UI_Image();
+		$image	= new Image();
 		$image->create( 256, 100 );
-		$drawer	= new UI_Image_Drawer( $image->getResource() );
+		$drawer	= new Drawer( $image->getResource() );
 		$alpha	= $image->getColor( 255, 255, 255, 127 );
 		$drawer->fill( $alpha );
 		imagealphablending( $image->getResource(), TRUE );
@@ -63,7 +69,7 @@ class UI_Image_Histogram
 			if( $r = floor( $data['r'][$i] / $max * 100 ) )
 				$drawer->drawLine( $i, $g + $b, $x1, $r + $g + $b, $red );
 		}
-		$processor	= new UI_Image_Processing( $image );
+		$processor	= new Processing( $image );
 		$processor->flip();
 		return $image;
 	}
@@ -75,9 +81,9 @@ class UI_Image_Histogram
 		$max	*= 1.05;
 		for( $i=0; $i<256; $i++ )
 			$data[$i]	= round( $data[$i] / $max * 100 );
-		$image	= new UI_Image();
+		$image	= new Image();
 		$image->create( 256, 100 );
-		$drawer	= new UI_Image_Drawer( $image->getResource() );
+		$drawer	= new Drawer( $image->getResource() );
 		$alpha	= $image->getColor( $colorR, $colorG, $colorB, 127 );
 		$drawer->fill( $alpha );
 		$color	= $image->getColor( $colorR, $colorG, $colorB );
@@ -85,7 +91,7 @@ class UI_Image_Histogram
 		for($i=0; $i<256; $i++)
 			if( $data[$i] )
 				$drawer->drawLine( $i, 0, $i, $data[$i], $color );
-		$processor	= new UI_Image_Processing( $image );
+		$processor	= new Processing( $image );
 		$processor->flip();
 		return $image;
 	}
@@ -96,9 +102,9 @@ class UI_Image_Histogram
 		if( $pixels > 2 * 1000 * 1000 )
 		{
 			$tempFile	= uniqid().'.image';
-			$thumb	= new UI_Image_ThumbnailCreator( $image->getFileName(), $tempFile, 100 );
+			$thumb	= new ThumbnailCreator( $image->getFileName(), $tempFile, 100 );
 			$thumb->thumbizeByLimit( 1000, 1000 );
-			$image	= new UI_Image( $tempFile );
+			$image	= new Image( $tempFile );
 			$pixels		= $image->getWidth() * $image->getHeight();
 			unlink( $tempFile );
 		}

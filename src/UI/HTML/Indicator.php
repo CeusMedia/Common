@@ -24,6 +24,12 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+
+namespace CeusMedia\Common\UI\HTML;
+
+use CeusMedia\Common\ADT\OptionObject as OptionObject;
+use OutOfRangeException;
+
 /**
  *	Builds HTML of Bar Indicator.
  *	@category		Library
@@ -33,7 +39,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class UI_HTML_Indicator extends ADT_OptionObject
+class Indicator extends OptionObject
 {
 	/**	@var		array		$defaultOptions			Map of default options */
 	public $defaultOptions		= array(
@@ -78,7 +84,7 @@ class UI_HTML_Indicator extends ADT_OptionObject
 		$divBar			= $this->renderBar( $ratio, $length );
 		$divRatio		= $this->renderRatio( $found, $count );
 		$divPercentage	= $this->renderPercentage( $ratio );
-		$divIndicator	= new UI_HTML_Tag( "div" );
+		$divIndicator	= new Tag( "div" );
 		$divIndicator->setContent( $divBar.$divPercentage.$divRatio );
 		$divIndicator->setAttribute( 'class', $this->getOption( 'classIndicator' ) );
 		if( $this->getOption( 'id' ) )
@@ -176,7 +182,7 @@ class UI_HTML_Indicator extends ADT_OptionObject
 	}
 
 	static public function render( $count, $found, $options = array() ){
-		$indicator	= new UI_HTML_Indicator( $options );
+		$indicator	= new Indicator( $options );
 		return $indicator->build( $count, $found );
 	}
 
@@ -203,7 +209,7 @@ class UI_HTML_Indicator extends ADT_OptionObject
 			'class'	=> $this->getOption( 'classInner' ),
 			'style'	=> $css,
 		);
-		$bar		= UI_HTML_Tag::create( 'div', "", $attributes );
+		$bar		= Tag::create( 'div', "", $attributes );
 
 		$attributes	= array( 'class' => $this->getOption( 'classOuter' ) );
 		$css		= array();
@@ -212,7 +218,7 @@ class UI_HTML_Indicator extends ADT_OptionObject
 		if( $this->getOption( 'useColor' ) && $this->getOption( 'useColorAtBorder' ) )
 			$css['border-color']	= "rgb(".$color[0].",".$color[1].",".$color[2].")";
 		$attributes['style']	= $css;
-		return UI_HTML_Tag::create( "span", $bar, $attributes );
+		return Tag::create( "span", $bar, $attributes );
 	}
 
 	/**
@@ -227,7 +233,7 @@ class UI_HTML_Indicator extends ADT_OptionObject
 			return "";
 		$value		= floor( $ratio * 100 )."&nbsp;%";
 		$attributes	= array( 'class' => $this->getOption( 'classPercentage' ) );
-		$div		= UI_HTML_Tag::create( "span", $value, $attributes );
+		$div		= Tag::create( "span", $value, $attributes );
 		return $div;
 	}
 
@@ -244,7 +250,7 @@ class UI_HTML_Indicator extends ADT_OptionObject
 			return "";
 		$content	= $found."/".$count;
 		$attributes	= array( 'class' => $this->getOption( 'classRatio' ) );
-		$div		= UI_HTML_Tag::create( "span", $content, $attributes );
+		$div		= Tag::create( "span", $content, $attributes );
 		return $div;
 	}
 

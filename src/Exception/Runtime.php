@@ -25,6 +25,9 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			15.09.2011
  */
+
+namespace CeusMedia\Common\Exception;
+
 /**
  *	Exception for Runtime Errors, which can be serialized e.G. for NetServices.
  *	@category		Library
@@ -35,6 +38,6 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			15.09.2011
  */
-class Exception_Runtime extends Exception_Serializable
+class Runtime extends Serializable
 {
 }

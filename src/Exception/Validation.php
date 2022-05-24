@@ -25,6 +25,9 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			09.03.2007
  */
+
+namespace CeusMedia\Common\Exception;
+
 /**
  *	Exception for Input Validation Errors, which can be serialized e.G. for NetServices.
  *	@category		Library
@@ -35,7 +38,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			09.03.2007
  */
-class Exception_Validation extends Exception_Runtime
+class Validation extends Runtime
 {
 	/**	@var		array		$errors			List of Validation Errors */
 	protected $errors	= array();

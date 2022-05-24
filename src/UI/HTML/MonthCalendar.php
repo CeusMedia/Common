@@ -25,6 +25,11 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			14.03.2006
  */
+
+namespace CeusMedia\Common\UI\HTML;
+
+use CeusMedia\Common\ADT\OptionObject as OptionObject;
+
 /**
  *	Calendar with Month View.
  *	@category		Library
@@ -35,7 +40,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			14.03.2006
  */
-class UI_HTML_MonthCalendar extends ADT_OptionObject
+class MonthCalendar extends OptionObject
 {
 	/**	@var	array	months		Array of Month Names */
 	protected $months	= array(
@@ -85,7 +90,7 @@ class UI_HTML_MonthCalendar extends ADT_OptionObject
 		$this->setOption( 'url', "./?" );
 		$this->setOption( 'template', NULL );
 
-		$this->html	= new UI_HTML_Elements;
+		$this->html	= new Elements;
 	}
 
 	/**
@@ -124,10 +129,10 @@ class UI_HTML_MonthCalendar extends ADT_OptionObject
 				}
 				$line	= implode( "", $cells );
 			}
-			$lines[]	= UI_HTML_Tag::create( "div", $line, array( 'class' => 'day-week' ) );
+			$lines[]	= Tag::create( "div", $line, array( 'class' => 'day-week' ) );
 		}
 		$lines		= implode( "\n\t  ", $lines );
-		$days		= UI_HTML_Tag::create( "div", $lines, array( 'class' => "days" ) );
+		$days		= Tag::create( "div", $lines, array( 'class' => "days" ) );
 		$heading	= $this->buildHeading( $heading_span );
 		$weekdays	= $this->buildWeekDays();
 		$code		= $this->getCode( $heading, $weekdays, $days );
@@ -159,7 +164,7 @@ class UI_HTML_MonthCalendar extends ADT_OptionObject
 		}
 		else
 			$day	= "&nbsp;";
-		$code	= UI_HTML_Tag::create( "div", $day, array( 'class' => implode( " ", $classes ) ) );
+		$code	= Tag::create( "div", $day, array( 'class' => implode( " ", $classes ) ) );
 		return $code;
 	}
 
@@ -193,14 +198,14 @@ class UI_HTML_MonthCalendar extends ADT_OptionObject
 		if( $span )
 			$colspan	= " colspan='5'";
 		$url	= $this->getOption( 'url' )."&".$this->getOption( 'carrier_year' )."=".$prev_year."&".$this->getOption( 'carrier_month' )."=".$prev_month;
-		$prev	= UI_HTML_Elements::Link( $url, "&lt;" );
+		$prev	= Elements::Link( $url, "&lt;" );
 		$url	= $this->getOption( 'url' )."&".$this->getOption( 'carrier_year' )."=".$next_year."&".$this->getOption( 'carrier_month' )."=".$next_month;
-		$next	= UI_HTML_Elements::Link( $url, "&gt;" );
+		$next	= Elements::Link( $url, "&gt;" );
 
-		$left	= UI_HTML_Tag::create( "div", $prev, array( 'class' => "go-left" ) );
-		$right	= UI_HTML_Tag::create( "div", $next, array( 'class' => "go-right" ) );
-		$label	= UI_HTML_Tag::create( "div", htmlspecialchars( $month ).' '.$year, array( 'class' => "label" ) );
-		$code	= UI_HTML_Tag::create( "div", $left.$label.$right, array( 'class' => 'month' ) );
+		$left	= Tag::create( "div", $prev, array( 'class' => "go-left" ) );
+		$right	= Tag::create( "div", $next, array( 'class' => "go-right" ) );
+		$label	= Tag::create( "div", htmlspecialchars( $month ).' '.$year, array( 'class' => "label" ) );
+		$code	= Tag::create( "div", $left.$label.$right, array( 'class' => 'month' ) );
 		return $code;
 	}
 
@@ -212,9 +217,9 @@ class UI_HTML_MonthCalendar extends ADT_OptionObject
 	protected function buildWeekDays()
 	{
 		foreach( $this->days as $day )
-			$days[]	= UI_HTML_Tag::create( "div", $day, array( 'class' => "weekday" ) );
+			$days[]	= Tag::create( "div", $day, array( 'class' => "weekday" ) );
 		$days	= implode( "", $days );
-		$code	= UI_HTML_Tag::create( "div", $days, array( 'class' => "weekdays" ) );
+		$code	= Tag::create( "div", $days, array( 'class' => "weekdays" ) );
 		return $code;
 	}
 
@@ -235,8 +240,8 @@ class UI_HTML_MonthCalendar extends ADT_OptionObject
 		}
 		else
 		{
-			$clearFix	= UI_HTML_Tag::create( 'div', "", array( 'style' => 'clear: both' ) );
-			$content	= UI_HTML_Tag::create( 'div', $heading.$weekdays.$weeks.$clearFix, array( 'class' => 'calendar' ) );
+			$clearFix	= Tag::create( 'div', "", array( 'style' => 'clear: both' ) );
+			$content	= Tag::create( 'div', $heading.$weekdays.$weeks.$clearFix, array( 'class' => 'calendar' ) );
 		}
 		return $content;
 	}

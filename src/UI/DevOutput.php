@@ -559,7 +559,7 @@ function pre( $string, $dump = FALSE )
 }
 
 /**
- *	Global function for UI_DevOutput::printJson.
+ *	Global function for DevOutput::printJson.
  *	@access		public
  *	@param		mixed		$mixed		variable to print out
  *	@param		string		$sign		Space Sign
@@ -578,7 +578,7 @@ function print_j( $mixed, $sign = NULL, $factor = NULL, $return = FALSE )
 }
 
 /**
- *	Global function for UI_DevOutput::printMixed.
+ *	Global function for DevOutput::printMixed.
  *	@access		public
  *	@param		mixed		$mixed		variable to print out
  *	@param		string		$sign		Space Sign
@@ -599,7 +599,7 @@ function print_m( $mixed, $sign = NULL, $factor = NULL, $return = FALSE, $channe
 }
 
 /**
- *	Prints out all global registered variables with UI_DevOutput::print_m
+ *	Prints out all global registered variables with DevOutput::print_m
  *	@access		public
  *	@param		string		$sign		Space Sign
  *	@param		int			$factor		Space Factor
@@ -629,7 +629,7 @@ function remark( $text = "", $parameters = array(), $break = TRUE )
 }
 
 /**
- *	Prints out a variable with UI_DevOutput::print_m
+ *	Prints out a variable with DevOutput::print_m
  *	@access		public
  *	@param		mixed		$mixed		variable to print out
  *	@param		string		$sign		Space Sign

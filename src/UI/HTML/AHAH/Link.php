@@ -24,6 +24,11 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+
+namespace CeusMedia\Common\UI\HTML\AHAH;
+
+use CeusMedia\Common\UI\HTML\Tag;
+
 /**
  *	Builder for Link Elements using AHAH.
  *	@category		Library
@@ -33,7 +38,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class UI_HTML_AHAH_Link
+class Link
 {
 	/**
 	 *	Returns rendered Link Element.
@@ -51,6 +56,6 @@ class UI_HTML_AHAH_Link
 			'class'		=> $class,
 			'onclick'	=> "ahah('".$url."','".$targetId."');",
 		);
-		return UI_HTML_Tag::create( 'a', $label, $attributes );
+		return Tag::create( 'a', $label, $attributes );
 	}
 }

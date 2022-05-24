@@ -25,6 +25,11 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			03.02.2009
  */
+
+namespace CeusMedia\Common\UI\HTML;
+
+use InvalidArgumentException;
+
 /**
  *	Builder for HTML Code of Country Flag Icon.
  *
@@ -43,7 +48,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			03.02.2009
  */
-class UI_HTML_CountryFlagIcon
+class CountryFlagIcon
 {
 	public static $imageBaseUri		= "//icons.ceusmedia.de/famfamfam/flags/png/";
 	public static $imageExtension	= "png";
@@ -62,7 +67,7 @@ class UI_HTML_CountryFlagIcon
 			throw new InvalidArgumentException( 'No country language code given' );
 		$languageCode	= self::transformCode( $languageCode );
 		$url			= self::$imageBaseUri.$languageCode.".".self::$imageExtension;
-		$code			= UI_HTML_Elements::Image( $url, $title, $class );
+		$code			= Elements::Image( $url, $title, $class );
 		return $code;
 	}
 

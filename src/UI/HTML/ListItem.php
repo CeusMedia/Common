@@ -25,6 +25,9 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.0
  */
+
+namespace CeusMedia\Common\UI\HTML;
+
 /**
  *	Builder for HTML List Item Elements.
  *	@category		Library
@@ -35,7 +38,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.0
  */
-class UI_HTML_ListItem extends UI_HTML_Abstract
+class ListItem extends Abstraction
 {
 	/**
 	 *	Constructor.
@@ -59,6 +62,6 @@ class UI_HTML_ListItem extends UI_HTML_Abstract
 	public function render()
 	{
 		$content	= $this->renderInner( $this->content );
-		return UI_HTML_Tag::create( "li", $content, $this->getAttributes() );
+		return Tag::create( "li", $content, $this->getAttributes() );
 	}
 }

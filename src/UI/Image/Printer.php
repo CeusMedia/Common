@@ -25,6 +25,11 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			16.06.2008
  */
+
+namespace CeusMedia\Common\UI\Image;
+
+use InvalidArgumentException;
+
 /**
  *	Prints an Image Resource into a File or on Screen.
  *	@category		Library
@@ -35,7 +40,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			16.06.2008
  */
-class UI_Image_Printer
+class Printer
 {
 	/**	@var		resource		$resource		Image Resource */
 	protected $resource;

@@ -24,6 +24,12 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+
+namespace CeusMedia\Common\UI\HTML;
+
+use InvalidArgumentException;
+use OutOfRangeException;
+
 /**
  *	Builds XHTML Page Frame containing Doctype, Meta Tags, Title, Title, JavaScripts, Stylesheets and additional Head and Body.
  *	@category		Library
@@ -33,7 +39,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class UI_HTML_PageFrame
+class PageFrame
 {
 	protected $title		= NULL;
 	protected $heading		= NULL;
@@ -190,7 +196,7 @@ class UI_HTML_PageFrame
 	}
 
 	public function addScript( $script, $type = "text/javascript" ){
-		$this->addHead( UI_HTML_Tag::create( 'script', $script, array( 'type' => $type ) ) );
+		$this->addHead( Tag::create( 'script', $script, array( 'type' => $type ) ) );
 	}
 
 	/**
@@ -231,21 +237,21 @@ class UI_HTML_PageFrame
 		$tagsBody	= array();
 
 		if( $this->baseHref )
-			$tagsHead[]	= UI_HTML_Tag::create( 'base', NULL, array( 'href' => $this->baseHref ) );
+			$tagsHead[]	= Tag::create( 'base', NULL, array( 'href' => $this->baseHref ) );
 		foreach( $this->metaTags as $attributes )
-			$tagsHead[]	= UI_HTML_Tag::create( 'meta', NULL, $attributes );
+			$tagsHead[]	= Tag::create( 'meta', NULL, $attributes );
 
 		if( $this->title )
-			$tagsHead[]	= UI_HTML_Tag::create( 'title', $this->title );
+			$tagsHead[]	= Tag::create( 'title', $this->title );
 
 		if( $this->heading )
-			$tagsBody[]	= UI_HTML_Tag::create( 'h1', $this->heading );
+			$tagsBody[]	= Tag::create( 'h1', $this->heading );
 
 		foreach( $this->links as $attributes )
-			$tagsHead[]	= UI_HTML_Tag::create( "link", NULL, $attributes );
+			$tagsHead[]	= Tag::create( "link", NULL, $attributes );
 
 		foreach( $this->scripts as $attributes )
-			$tagsHead[]	= UI_HTML_Tag::create( "script", "", $attributes );
+			$tagsHead[]	= Tag::create( "script", "", $attributes );
 
 		$headAttributes	= array(
 			'profile'	=> $this->profile
@@ -259,8 +265,8 @@ class UI_HTML_PageFrame
 			$tagsBody	= "\n".$this->indent.$this->indent.$tagsBody."\n".$this->indent;
 		if( $tagsHead )
 			$tagsHead	= "\n".$this->indent.$this->indent.$tagsHead."\n".$this->indent;
-		$head		= UI_HTML_Tag::create( "head", $tagsHead, $headAttributes );
-		$body		= UI_HTML_Tag::create( "body", $tagsBody, $bodyAttributes );
+		$head		= Tag::create( "head", $tagsHead, $headAttributes );
+		$body		= Tag::create( "body", $tagsBody, $bodyAttributes );
 
 		$doctype	= $this->doctypes[$this->doctype];
 		$attributes	= array( 'lang' => $this->language );
@@ -281,7 +287,7 @@ class UI_HTML_PageFrame
 				$attributes[$key]	= $value;
 		}
 		$content	= "\n".$this->indent.$head."\n".$this->indent.$body."\n";
-		$html		= UI_HTML_Tag::create( "html", $content, $attributes );
+		$html		= Tag::create( "html", $content, $attributes );
 		return $doctype."\n".$html;
 	}
 

@@ -24,6 +24,9 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+
+namespace CeusMedia\Common\UI\HTML;
+
 /**
  *	Builder for HTML Form Components.
  *	@category		Library
@@ -33,7 +36,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class UI_HTML_FormElements
+class FormElements
 {
 	/**
 	 *	Adds Disabled Attributes directly to Attributes Array, inserts JavaScript Alert if String given.
@@ -91,7 +94,7 @@ class UI_HTML_FormElements
 		);
 		if( $disabled )
 			self::addDisabledAttributes( $attributes, $disabled );
-		return UI_HTML_Tag::create( "button", UI_HTML_Tag::create( "span", (string) $label ), $attributes );
+		return Tag::create( "button", Tag::create( "span", (string) $label ), $attributes );
 	}
 
 	/**
@@ -118,7 +121,7 @@ class UI_HTML_FormElements
 		);
 		if( $readOnly )
 			self::addReadonlyAttributes( $attributes, $readOnly );
-		return UI_HTML_Tag::create( "input", NULL, $attributes );
+		return Tag::create( "input", NULL, $attributes );
 	}
 
 	/**
@@ -145,7 +148,7 @@ class UI_HTML_FormElements
 		);
 		if( $readOnly )
 			self::addReadonlyAttributes( $attributes, $readOnly );
-		return UI_HTML_Tag::create( "input", NULL, $attributes );
+		return Tag::create( "input", NULL, $attributes );
 	}
 
 	/**
@@ -170,7 +173,7 @@ class UI_HTML_FormElements
 			'enctype'	=> $enctype,
 			'onsubmit'	=> $onSubmit,
 		);
-		$form	= UI_HTML_Tag::create( "form", NULL, $attributes );
+		$form	= Tag::create( "form", NULL, $attributes );
 		return preg_replace( "@/>$@", ">", $form );
 	}
 
@@ -190,7 +193,7 @@ class UI_HTML_FormElements
 			'name'		=> $name,
 			'value'		=> $value,
 		);
-		return UI_HTML_Tag::create( "input", NULL, $attributes );
+		return Tag::create( "input", NULL, $attributes );
 	}
 
 	/**
@@ -220,7 +223,7 @@ class UI_HTML_FormElements
 		);
 		if( $readOnly )
 			self::addReadonlyAttributes( $attributes, $readOnly );
-		return UI_HTML_Tag::create( "input", NULL, $attributes );
+		return Tag::create( "input", NULL, $attributes );
 	}
 
 	/**
@@ -238,7 +241,7 @@ class UI_HTML_FormElements
 			'for'		=> $id,
 			'class'		=> $class ? $class : NULL,
 		);
-		return UI_HTML_Tag::create( "label", $label, $attributes );
+		return Tag::create( "label", $label, $attributes );
 	}
 
 	/**
@@ -265,7 +268,7 @@ class UI_HTML_FormElements
 		);
 		if( $disabled )
 			self::addDisabledAttributes( $attributes, $disabled );
-		return UI_HTML_Tag::create( "button", UI_HTML_Tag::create( "span", $label ), $attributes );
+		return Tag::create( "button", Tag::create( "span", $label ), $attributes );
 	}
 
 	/**
@@ -289,7 +292,7 @@ class UI_HTML_FormElements
 			'disabled'	=> $disabled	? "disabled" : NULL,
 			'class'		=> $class,
 		);
-		return UI_HTML_Tag::create( "option", htmlspecialchars( $label ), $attributes );
+		return Tag::create( "option", htmlspecialchars( $label ), $attributes );
 	}
 
 	/**
@@ -305,7 +308,7 @@ class UI_HTML_FormElements
 	{
 		$attributes	= array( 'label' => $label );
 		$options	= self::Options( $options, $selected );
-		return UI_HTML_Tag::create( "optgroup", $options, $attributes );
+		return Tag::create( "optgroup", $options, $attributes );
 	}
 
 	/**
@@ -368,7 +371,7 @@ class UI_HTML_FormElements
 		);
 		if( $readOnly )
 			self::addReadonlyAttributes( $attributes, $readOnly );
-		return UI_HTML_Tag::create( "input", NULL, $attributes );
+		return Tag::create( "input", NULL, $attributes );
 	}
 
 	/**
@@ -395,7 +398,7 @@ class UI_HTML_FormElements
 		);
 		if( $readOnly )
 			self::addReadonlyAttributes( $attributes, $readOnly );
-		return UI_HTML_Tag::create( "input", NULL, $attributes );
+		return Tag::create( "input", NULL, $attributes );
 	}
 
 	/**
@@ -417,10 +420,10 @@ class UI_HTML_FormElements
 				continue;
 			$selected	= isset( $options['_selected'] ) ? (string) $value == (string) $options['_selected'] : NULL;
 			$radio		= self::Radio( $name, $value, $selected, $class, $readOnly );
-			$spanRadio	= UI_HTML_Tag::create( "span", $radio, array( 'class' => 'radio' ) );
-			$label		= UI_HTML_Tag::create( "label", $label, array( 'for' => $name."_".$value ) );
-			$spanLabel	= UI_HTML_Tag::create( "span", $label, array( 'class' => 'label' ) );
-			$content	= UI_HTML_Tag::create( "span", $spanRadio.$spanLabel, array( 'class' => 'radiolabel' ) );
+			$spanRadio	= Tag::create( "span", $radio, array( 'class' => 'radio' ) );
+			$label		= Tag::create( "label", $label, array( 'for' => $name."_".$value ) );
+			$spanLabel	= Tag::create( "span", $label, array( 'class' => 'label' ) );
+			$content	= Tag::create( "span", $spanRadio.$spanLabel, array( 'class' => 'radiolabel' ) );
 			$radios[]	= $content;
 		}
 		$group	= implode( "", $radios );
@@ -448,7 +451,7 @@ class UI_HTML_FormElements
 		);
 		if( $disabled )
 			self::addReadonlyAttributes( $attributes, $disabled );
-		return UI_HTML_Tag::create( "button", $label, $attributes );
+		return Tag::create( "button", $label, $attributes );
 	}
 
 	/**
@@ -487,7 +490,7 @@ class UI_HTML_FormElements
 			else
 				self::addDisabledAttributes( $attributes, TRUE );
 		}
-		return UI_HTML_Tag::create( "select", $options, $attributes );
+		return Tag::create( "select", $options, $attributes );
 	}
 
 	/**
@@ -511,6 +514,6 @@ class UI_HTML_FormElements
 		);
 		if( $readOnly )
 			self::addReadonlyAttributes( $attributes, $readOnly );
-		return UI_HTML_Tag::create( "textarea", (string) $content, $attributes );
+		return Tag::create( "textarea", (string) $content, $attributes );
 	}
 }

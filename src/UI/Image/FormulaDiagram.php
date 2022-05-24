@@ -24,6 +24,13 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+
+namespace CeusMedia\Common\UI\Image;
+
+use CeusMedia\Common\Alg\Time\Clock;
+use CeusMedia\Math\CompactInterval;
+use CeusMedia\Math\Formula;
+
 /**
  *	Paints Formula Diagram
  *	@category		Library
@@ -34,14 +41,14 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@todo			Code Doc
  */
-class UI_Image_FormulaDiagram extends UI_Image_Drawer
+class FormulaDiagram extends Drawer
 {
 	protected $intervalX;
 	protected $intervalY;
 
-	protected $arcRed	= 0;
-	protected $arcGreen	= 0;
-	protected $arcBlue	= 0;
+	protected $arcRed		= 0;
+	protected $arcGreen		= 0;
+	protected $arcBlue		= 0;
 
 	protected $backRed		= 255;
 	protected $backGreen	= 255;
@@ -51,7 +58,7 @@ class UI_Image_FormulaDiagram extends UI_Image_Drawer
 	protected $gridGreen	= 247;
 	protected $gridBlue		= 247;
 
-	protected $grid	= false;
+	protected $grid			= false;
 	protected $formula;
 	protected $zoomX		= 1;
 	protected $zoomY		= 1;
@@ -60,17 +67,17 @@ class UI_Image_FormulaDiagram extends UI_Image_Drawer
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		Alg_Math_CompactInterval	Interval on X Axis
-	 *	@param		Alg_Math_CompactInterval	Interval on Y Axis
-	 *	@param		Alg_Math_Formula			Formula to display
-	 *	@param		float					Dots between to 2 Points.
-	 *	@param		int						Dots between Grid Lines (0 for 'no Grid')
+	 *	@param		CompactInterval		Interval on X Axis
+	 *	@param		CompactInterval		Interval on Y Axis
+	 *	@param		Formula				Formula to display
+	 *	@param		float				Dots between to 2 Points.
+	 *	@param		int					Dots between Grid Lines (0 for 'no Grid')
 	 *	@return		void
 	 */
 	public function __construct( $intervalX, $intervalY, $formula, $step = 1, $grid = 0 )
 	{
-		$this->intervalX	= $grid ? new Alg_Math_CompactInterval( $intervalX->getStart(), $intervalX->getEnd() + 1 ) : $intervalX;
-		$this->intervalY	= $grid ? new Alg_Math_CompactInterval( $intervalY->getStart(), $intervalY->getEnd() + 1 ) : $intervalY;
+		$this->intervalX	= $grid ? new CompactInterval( $intervalX->getStart(), $intervalX->getEnd() + 1 ) : $intervalX;
+		$this->intervalY	= $grid ? new CompactInterval( $intervalY->getStart(), $intervalY->getEnd() + 1 ) : $intervalY;
 		$this->formula		= $formula;
 		$this->step			= (real) $step;
 		$this->grid			= (int) $grid;
@@ -81,7 +88,7 @@ class UI_Image_FormulaDiagram extends UI_Image_Drawer
 	public function draw( $stop = false )
 	{
 		if( $stop )
-			$clock = new Alg_Time_Clock ();
+			$clock = new Clock ();
 		$xStart		= $this->intervalX->getStart();
 		$xEnd		= $this->intervalX->getEnd();
 		$xDiam		= $this->intervalX->getDiam();

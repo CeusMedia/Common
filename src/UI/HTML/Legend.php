@@ -25,6 +25,11 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.0
  */
+
+namespace CeusMedia\Common\UI\HTML;
+
+use InvalidArgumentException;
+
 /**
  *	Builder for HTML Legend Elements.
  *	@category		Library
@@ -35,7 +40,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.0
  */
-class UI_HTML_Legend extends UI_HTML_Abstract
+class Legend extends Abstraction
 {
 	/**
 	 *	Constructor.
@@ -62,6 +67,6 @@ class UI_HTML_Legend extends UI_HTML_Abstract
 		$content	= $this->renderInner( $this->content );
 		if( !is_string( $content ) )
 			throw new InvalidArgumentException( 'Legend content is neither rendered nor renderable' );
-		return UI_HTML_Tag::create( "legend", $content, $this->getAttributes() );	
+		return Tag::create( "legend", $content, $this->getAttributes() );
 	}
 }

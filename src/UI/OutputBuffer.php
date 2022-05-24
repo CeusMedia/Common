@@ -25,6 +25,11 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			24.09.2005
  */
+
+namespace CeusMedia\Common\UI;
+
+use RuntimeException;
+
 /**
  *	Buffer for Standard Output Channel.
  *	@category		Library
@@ -35,7 +40,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			24.09.2005
  */
-class UI_OutputBuffer
+class OutputBuffer
 {
 	/**	@var		boolean		$isOpen		Flag: Buffer opened */
 	protected $isOpen = FALSE;

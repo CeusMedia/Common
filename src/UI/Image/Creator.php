@@ -25,6 +25,11 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@todo			Code Doc
  */
+
+namespace CeusMedia\Common\UI\Image;
+
+use InvalidArgumentException;
+
 /**
  *	...
  *	@category		Library
@@ -35,7 +40,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@todo			Code Doc
  */
-class UI_Image_Creator
+class Creator
 {
 	protected $height		= -1;
 	protected $resource		= NULL;
@@ -48,12 +53,12 @@ class UI_Image_Creator
 		$this->width	= $width;
 		$this->height	= $height;
 		$backColor		= imagecolorallocatealpha( $this->resource, $backgroundRed, $backgroundGreen, $backgroundBlue, $alpha );
-		imagefilledrectangle( $this->resource, 0, 0, $width - 1, $height - 1, $backColor );		
+		imagefilledrectangle( $this->resource, 0, 0, $width - 1, $height - 1, $backColor );
 	}
 
 	public function getExtension()
 	{
-		return $this->extension;	
+		return $this->extension;
 	}
 
 	public function getHeight()
@@ -68,7 +73,7 @@ class UI_Image_Creator
 
 	public function getType()
 	{
-		return $this->type;	
+		return $this->type;
 	}
 
 	public function getWidth()
@@ -102,7 +107,7 @@ class UI_Image_Creator
 				throw new InvalidArgumentException( 'Image Type "'.$extension.'" is not supported.' );
 		}
 		$this->extension	= $extension;
-		$this->width		= imagesx( $this->resource );		
-		$this->height		= imagesy( $this->resource );		
+		$this->width		= imagesx( $this->resource );
+		$this->height		= imagesy( $this->resource );
 	}
 }

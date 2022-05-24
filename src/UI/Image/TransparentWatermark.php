@@ -8,6 +8,9 @@
  *	@package		CeusMedia_Common_UI_Image
  *	@author			Lionel Micault <lionel.micault@laposte.net>
  */
+
+namespace CeusMedia\Common\UI\Image;
+
 // position constants
 define ("transparentWatermarkOnTop", -10);
 define ("transparentWatermarkOnMiddle", 0);
@@ -27,7 +30,7 @@ define ("transparentWatermarkOnRight", 10);
  *	@todo			create TestCases
  *	@todo			Code Documentation
  */
-class UI_Image_TransparentWatermark
+class TransparentWatermark
 {
 	var $stampImage		= 0;
 	var $stampWidth;

@@ -25,6 +25,11 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			13.09.2006
  */
+
+namespace CeusMedia\Common\UI\Image;
+
+use CeusMedia\Common\ADT\OptionObject;
+
 /**
  *	Generator for Evolution Graph Images.
  *	@category		Library
@@ -37,7 +42,7 @@
  *	@todo			Finish Implementation
  *	@todo			Code Documentation
  */
-class UI_Image_EvolutionGraph extends ADT_OptionObject
+class EvolutionGraph extends OptionObject
 {
 	protected $defaults	= array(
 		//  Width of Image

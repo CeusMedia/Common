@@ -26,6 +26,9 @@
  *	@see			http://ceusmedia.de/demos/cmClasses/UI_HTML_Ladder
  *	@since			0.6.8
  */
+
+namespace CeusMedia\Common\UI\HTML;
+
 /**
  *	Builds HTML and JavaScript code for UI Component 'Ladder'.
  *	@category		Library
@@ -37,7 +40,7 @@
  *	@see			http://ceusmedia.de/demos/cmClasses/UI_HTML_Ladder
  *	@since			0.6.8
  */
-class UI_HTML_Ladder
+class Ladder
 {
 	protected $steps	= array();
 	protected $id		= NULL;
@@ -80,13 +83,13 @@ class UI_HTML_Ladder
 		foreach( $this->steps as $nr => $step )
 		{
 			$id		= $this->id."_link".$nr;
-			$list[]	= UI_HTML_Elements::ListItem( $step['label'], 0, array( 'id' => $id ) );
+			$list[]	= Elements::ListItem( $step['label'], 0, array( 'id' => $id ) );
 			$id		= $this->id."_".$nr;
-			$divs[] = UI_HTML_Tag::create( 'div', $step['content'], array( 'id' => $id ) );
+			$divs[] = Tag::create( 'div', $step['content'], array( 'id' => $id ) );
 		}
-		$list	= UI_HTML_Elements::unorderedList( $list );
+		$list	= Elements::unorderedList( $list );
 		$divs	= implode( "\n", $divs );
-		$div	= UI_HTML_Tag::create( 'div', "\n".$list.$divs."\n", array( 'id' => $this->id ) );
+		$div	= Tag::create( 'div', "\n".$list.$divs."\n", array( 'id' => $this->id ) );
 		return $div;
 	}
 
@@ -97,6 +100,6 @@ class UI_HTML_Ladder
 	 */
 	public function buildScript()
 	{
-		return UI_HTML_JQuery::buildPluginCall( 'cmLadder', '#'.$this->id );
+		return JQuery::buildPluginCall( 'cmLadder', '#'.$this->id );
 	}
 }

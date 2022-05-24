@@ -1,6 +1,6 @@
 <?php
 /**
- *	Abstract HTML Button.
+ *	Builder of HTML List Elements.
  *
  *	Copyright (c) 2010-2022 Christian Würker (ceusmedia.de)
  *
@@ -18,49 +18,79 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		Library
- *	@package		CeusMedia_Common_UI_HTML_Button
+ *	@package		CeusMedia_Common_UI_HTML
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2010-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.0
  */
-/**
- *	Abstract HTML Button.
- *	@category		Library
- *	@package		CeusMedia_Common_UI_HTML_Button
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@copyright		2010-2022 Christian Würker
- *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
- *	@link			https://github.com/CeusMedia/Common
- *	@since			0.7.0
- */
-abstract class UI_HTML_Button_Abstract extends UI_HTML_Abstract
-{
-	public static $defaultClass		= NULL;
 
+namespace CeusMedia\Common\UI\HTML;
+
+/**
+ *	Builder of HTML List Elements.
+ *	@category		Library
+ *	@package		CeusMedia_Common_UI_HTML
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ *	@copyright		2010-2022 Christian Würker
+ *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
+ *	@link			https://github.com/CeusMedia/Common
+ *	@since			0.7.0
+ */
+class UnorderedList extends Abstraction
+{
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		mixed		$content		Label String or HTML Object
-	 *	@param		array		$attributes		Map of Attributes to set
+	 *	@param		array		$items		List of Item Elements or Strings
+	 *	@param		array		$attributes	Map of Attributes
 	 *	@return		void
 	 */
-	public function __construct( $content, $attributes = array() )
+	public function __construct( $items = NULL, $attributes = NULL )
 	{
-		$this->attributes['type']	= 'button';
-		$this->addClass( self::$defaultClass );
-		$this->setContent( $content );
-		$this->addAttributes( $attributes );
+		if( !is_null( $items ) )
+			$this->addItems( $items );
+		if( !is_null( $attributes ) )
+			$this->addAttributes( $attributes );
 	}
 
 	/**
-	 *	Renders Button to HTML String.
+	 *	Adds an Item.
+	 *	@access		public
+	 *	@param		ListItem|string	$item	List Item Element or String
+	 *	@return		void
+	 */
+	public function addItem( $item )
+	{
+		$this->listItems[]	= $item;
+	}
+
+	/**
+	 *	Adds an Item.
+	 *	@access		public
+	 *	@param		array		$items		List of List Item Elements or Strings
+	 *	@return		void
+	 */
+	public function addItems( $items )
+	{
+		if( $items instanceof Buffer )
+			$this->addItem( $items->render() );
+		else
+			foreach( $items as $item )
+				$this->addItem( $item );
+	}
+
+	/**
+	 *	Returns rendered List Element.
 	 *	@access		public
 	 *	@return		string
 	 */
 	public function render()
 	{
-		return UI_HTML_Tag::create( 'button', $this->content, $this->getAttributes() );
+		$list	= array();
+		foreach( $this->listItems as $item )
+			$list[]	= $this->renderInner( $item );
+		return Tag::create( "ul", join( $list ), $this->getAttributes() );
 	}
 }

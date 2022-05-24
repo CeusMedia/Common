@@ -26,6 +26,13 @@
  *	@since			16.02.2009
  *	@link			http://www.grc.com/menudemo.htm
  */
+
+namespace CeusMedia\Common\UI\HTML\CSS;
+
+use CeusMedia\Common\ADT\Tree\Menu\Collection as MenuCollection;
+use CeusMedia\Common\ADT\Tree\Menu\Item as MenuItem;
+use CeusMedia\Common\UI\HTML\Tag;
+
 /**
  *	...
  *	@category		Library
@@ -36,11 +43,11 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			16.02.2009
  */
-class UI_HTML_CSS_LinkSelect
+class LinkSelect
 {
 	public static function build( $name, $links, $value = NULL, $class = NULL, $prefix = NULL )
 	{
-		$list	= new ADT_Tree_Menu_List();
+		$list	= new MenuCollection();
 		$value	= is_null( $value ) ? NULL : (string) $value;
 
 		foreach( $links as $link )
@@ -50,10 +57,10 @@ class UI_HTML_CSS_LinkSelect
 			if( $key === $value && $url )
 			{
 				$label	= $prefix ? $prefix.$link['label'] : $link['label'];
-				$main	= new ADT_Tree_Menu_Item( "javascript: void();", $label );
+				$main	= new MenuItem( "javascript: void();", $label );
 			}
 		}
-		if( !( isset( $main ) && $main instanceof ADT_Tree_Menu_Item ) )
+		if( !( isset( $main ) && $main instanceof MenuItem ) )
 		{
 			$i=0;
 			do
@@ -63,7 +70,7 @@ class UI_HTML_CSS_LinkSelect
 			}
 			while( empty( $first['url'] ) && $i < count( $links ) );
 			$label	= $prefix ? $prefix.$first['label'] : $first['label'];
-			$main	= new ADT_Tree_Menu_Item( "#", $label );
+			$main	= new MenuItem( "#", $label );
 			$value	= isset( $first['key'] ) ? $first['key'] : NULL;
 		}
 		$value	= is_null( $value ) ? NULL : (string) $value;
@@ -85,14 +92,14 @@ class UI_HTML_CSS_LinkSelect
 
 			$key	= isset( $link['key'] ) ? (string) $link['key'] : NULL;
 			$url	= isset( $link['url'] ) ? (string) $link['url'] : NULL;
-			$item	= new ADT_Tree_Menu_Item( $url, $link['label'], $attributes );
+			$item	= new MenuItem( $url, $link['label'], $attributes );
 			$key	= is_null( $key ) ? NULL : (string) $key;
 			if( $key === $value )
 				continue;
 			$main->addChild( $item );
 		}
-		$code	= UI_HTML_CSS_TreeMenu::buildMenu( $list );
-		$code	= UI_HTML_Tag::create( "span", $code, array( 'class' => $class ) );
+		$code	= TreeMenu::buildMenu( $list );
+		$code	= Tag::create( "span", $code, array( 'class' => $class ) );
 		return $code;
 	}
 }

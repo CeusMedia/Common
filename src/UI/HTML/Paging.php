@@ -25,6 +25,12 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			01.12.2005
  */
+
+namespace CeusMedia\Common\UI\HTML;
+
+use CeusMedia\Common\ADT\OptionObject as OptionObject;
+use InvalidArgumentException;
+
 /**
  *	Paging System for Lists.
  *	@category		Library
@@ -35,7 +41,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			01.12.2005
  */
-class UI_HTML_Paging extends ADT_OptionObject
+class Paging extends OptionObject
 {
 	/**
 	 *	Constructor.
@@ -182,7 +188,7 @@ class UI_HTML_Paging extends ADT_OptionObject
 			$key		= $key ? $this->getOption( 'key_'.$key ) : "";
 #			if( $label == $text )
 #				$linkClass	.= " page";
-			$label		= UI_HTML_Elements::Link( $url, $label, $linkClass, NULL, NULL, NULL, $key );
+			$label		= Elements::Link( $url, $label, $linkClass, NULL, NULL, NULL, $key );
 		}
 #		if( $label == $text )
 #			$spanClass	.= " page";
@@ -217,7 +223,7 @@ class UI_HTML_Paging extends ADT_OptionObject
 	protected function buildSpan( $text, $class = NULL )
 	{
 		$class 	= $class ? $this->getOption( 'class_span' )." ".$class : $this->getOption( 'class_span' );
-		$span	= UI_HTML_Tag::create( "span", $text, array( 'class' => $class ) );
+		$span	= Tag::create( "span", $text, array( 'class' => $class ) );
 		return $span;
 	}
 }
