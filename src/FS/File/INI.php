@@ -8,6 +8,13 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+
+namespace CeusMedia\Common\FS\File;
+
+use CeusMedia\Common\ADT\Collection\Dictionary;
+use FilterIterator;
+use RuntimeException;
+
 /**
  *	...
  *	@category		Library
@@ -17,8 +24,8 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class FS_File_INI {
-
+class INI
+{
 	protected $sections		= NULL;
 	protected $pairs		= NULL;
 	public $indentTabs		= 8;
@@ -73,23 +80,20 @@ class FS_File_INI {
 
 	protected function read( $useSections = FALSE )
 	{
-		if( $useSections )
-		{
-			$this->sections	= new ADT_List_Dictionary();
-			foreach( parse_ini_file( $this->fileName, TRUE ) as $section => $pairs )
-			{
+		if( $useSections ){
+			$this->sections	= new Dictionary();
+			foreach( parse_ini_file( $this->fileName, TRUE ) as $section => $pairs ){
 				$data	= $this->sections->get( $section );
 				if( is_null( $data ) )
-					$data	= new ADT_List_Dictionary();
+					$data	= new Dictionary();
 				foreach( $pairs as $key => $value )
 					$data->set( $key, $value, TRUE );
 				$this->sections->set( $section, $data, TRUE );
 			}
 		}
-		else
-		{
+		else{
 			$data			= parse_ini_file( $this->fileName, FALSE );
-			$this->pairs	= new ADT_List_Dictionary( $data );
+			$this->pairs	= new Dictionary( $data );
 		}
 	}
 
@@ -110,10 +114,9 @@ class FS_File_INI {
 		$result	= NULL;
 		if( !is_null( $this->sections ) && $this->sections->has( $section ) )
 			$result	= $this->sections->get( $section )->set( $key, $value );
-		else
-		{
+		else{
 			if( is_null( $this->pairs ) )
-				$this->pairs	= new ADT_List_Dictionary();
+				$this->pairs	= new Dictionary();
 			$result	= $this->pairs->set( $key, $value );
 		}
 		if( $result )
@@ -124,13 +127,10 @@ class FS_File_INI {
 	protected function write()
 	{
 		$list	= array();
-		if( !is_null( $this->sections ) )
-		{
-			foreach( $this->sections as $section => $items )
-			{
+		if( !is_null( $this->sections ) ){
+			foreach( $this->sections as $section => $items ){
 				$list[]	= '['.$section.']';
-				foreach( $items as $key => $value )
-				{
+				foreach( $items as $key => $value ){
 					$indent	= max( $this->indentTabs - ceil( ( strlen( $key ) + 1 ) / $this->lengthTab ), 1 );
 					if( is_bool( $value ) )
 						$value	= $value ? "yes" : "no";
@@ -141,10 +141,8 @@ class FS_File_INI {
 				$list[]	= '';
 			}
 		}
-		else if( !is_null( $this->pairs ) )
-		{
-			foreach( $this->pairs as $key => $value )
-			{
+		else if( !is_null( $this->pairs ) ){
+			foreach( $this->pairs as $key => $value ){
 				$indent	= max( $this->indentTabs - ceil( ( strlen( $key ) + 1 ) / $this->lengthTab ), 1 );
 				if( is_bool( $value ) )
 					$value	= $value ? "yes" : "no";
@@ -153,6 +151,6 @@ class FS_File_INI {
 				$list[]	= $key.str_repeat( "\t", $indent ).'= '.$value;
 			}
 		}
-		return FS_File_Writer::save( $this->fileName, join( "\n", $list ), $this->mode );
+		return Writer::save( $this->fileName, join( "\n", $list ), $this->mode );
 	}
 }

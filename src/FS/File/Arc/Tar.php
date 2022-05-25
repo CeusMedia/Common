@@ -24,6 +24,14 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+
+namespace CeusMedia\Common\FS\File\Arc;
+
+use CeusMedia\Common\FS\File\Reader as FileReader;
+use CeusMedia\Common\FS\File\Writer as FileWriter;
+use CeusMedia\Common\FS\Folder\Editor as FolderEditor;
+use Exception;
+
 /**
  *	Tar File allows creation and manipulation of tar archives.
  *	@category		Library
@@ -33,7 +41,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class FS_File_Arc_Tar
+class Tar
 {
 	// Unprocessed Archive Information
 	protected $fileName;
@@ -60,7 +68,7 @@ class FS_File_Arc_Tar
 	/**
 	 *	Adds a File to the TAR Archive by its Path, depending on current working Directory.
 	 *	@access		public
-	 *	@param		stromg		$fileName			Path of File to add
+	 *	@param		string		$fileName			Path of File to add
 	 *	@return		bool
 	 */
 	public function addFile( $fileName )
@@ -76,7 +84,7 @@ class FS_File_Arc_Tar
 		$fileName	= str_replace( "./", "", $fileName );
 		// Get file information
 		$fileInfo	= stat( $fileName );
-		$file		= new FS_File_Reader( $fileName );
+		$file		= new FileReader( $fileName );
 
 		// Add file to processed data
 		$this->numFiles++;
@@ -193,16 +201,16 @@ class FS_File_Arc_Tar
 		if( $targetPath )
 		{
 			$cwd	= getCwd();
-			FS_Folder_Editor::createFolder( $targetPath );
+			FolderEditor::createFolder( $targetPath );
 			chdir( $targetPath );
 		}
 		foreach( $this->folders as $folder )
-			FS_Folder_Editor::createFolder( $folder['name'] );
+			FolderEditor::createFolder( $folder['name'] );
 		foreach( $this->files as $file )
 		{
 			if( $folder = dirname( $file['name'] ) )
-				FS_Folder_Editor::createFolder( $folder );
-			$counter	+= (int)(bool) FS_File_Writer::save( $file['name'], $file['file'] );
+				FolderEditor::createFolder( $folder );
+			$counter	+= (int)(bool) FileWriter::save( $file['name'], $file['file'] );
 		}
 		if( $targetPath )
 			chDir( $cwd );
@@ -479,7 +487,7 @@ class FS_File_Arc_Tar
 	 */
 	protected function readTar( $fileName )
 	{
- 		$file	= new FS_File_Reader( $fileName );
+ 		$file	= new FileReader( $fileName );
 		$this->content = $file->readString();
 		// Parse the TAR file
 		return $this->parseTar();
@@ -542,6 +550,6 @@ class FS_File_Arc_Tar
 		// Encode processed files into TAR file format
 		$this->generateTar();
 		//  write archive file
-		return FS_File_Writer::save( $fileName, $this->content );
+		return FileWriter::save( $fileName, $this->content );
 	}
 }

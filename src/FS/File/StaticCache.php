@@ -25,6 +25,11 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			13.04.2009
  */
+
+namespace CeusMedia\Common\FS\File;
+
+use CeusMedia\Common\ADT\Cache\StaticStore as StaticCacheStore;
+
 /**
  *	Cache to store Data in Files statically.
  *	@category		Library
@@ -35,9 +40,9 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			13.04.2009
  */
-class FS_File_StaticCache extends ADT_Cache_StaticStore
+class StaticCache extends StaticCacheStore
 {
-	/**	@var		FS_File_Cache	$store			Instance of File Cache */
+	/**	@var		Cache			$store			Instance of File Cache */
 	protected static $store			= NULL;
 
 	/**
@@ -108,7 +113,7 @@ class FS_File_StaticCache extends ADT_Cache_StaticStore
 	 */
 	public static function init( $path, $expires = 0 )
 	{
-		self::$store	= new FS_File_Cache( $path, $expires );
+		self::$store	= new Cache( $path, $expires );
 	}
 
 	/**

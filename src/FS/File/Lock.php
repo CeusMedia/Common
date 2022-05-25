@@ -24,6 +24,11 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+
+namespace CeusMedia\Common\FS\File;
+
+use RuntimeException;
+
 /**
  *	....
  *	@category		Library
@@ -34,7 +39,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@todo			code doc
  */
-class FS_File_Lock
+class Lock
 {
 
 	protected $fileName;

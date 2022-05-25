@@ -25,6 +25,14 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.6
  */
+
+namespace CeusMedia\Common\FS\File;
+
+use InvalidArgumentException;
+use OutOfBoundsException;
+use OutOfRangeException;
+use RuntimeException;
+
 /**
  *	Handles backup and restore of single files.
  *
@@ -36,13 +44,14 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.6
  */
-class FS_File_Backup{
-
+class Backup
+{
 	protected $filePath;
 	protected $preserveTimestamp;
 	protected $keepOnlyOne;
 
-	public function __construct( $filePath, $preserveTimestamp = TRUE, $keepOnlyOne = FALSE ){
+	public function __construct( $filePath, $preserveTimestamp = TRUE, $keepOnlyOne = FALSE )
+	{
 		if( !file_exists( $filePath ) )
 			//  @todo: better an IO exception
 			throw new RuntimeException( 'File "'.$filePath.'" is not existing' );
@@ -51,13 +60,15 @@ class FS_File_Backup{
 		$this->keepOnlyOne			= $keepOnlyOne;
 	}
 
-	public function getContent( $version ){
+	public function getContent( $version )
+	{
 		$version	= $this->sanitizeVersion( $version );
 		$filePath	= $this->getVersionFilename( $version );
 		return file_get_contents( $filePath );
 	}
 
-	public function getVersion(){
+	public function getVersion()
+	{
 		$i	= 1;
 		$v	= NULL;
 		while( file_exists( $this->filePath.'.~'.$i.'~' ) ){
@@ -69,14 +80,16 @@ class FS_File_Backup{
 		return $v;
 	}
 
-	protected function getVersionFilename( $version ){
+	protected function getVersionFilename( $version )
+	{
 		if( (int) $version <= 0 ){
 			return $this->filePath.'~';
 		}
 		return $this->filePath.'.~'.( $version ).'~';
 	}
 
-	public function getVersions(){
+	public function getVersions()
+	{
 		$list		= array();
 		$version	= $this->getVersion();
 		while( is_int( $version ) && $version >= 0 ){
@@ -86,7 +99,8 @@ class FS_File_Backup{
 		return array_reverse( $list );
 	}
 
-	public function move( $targetPath ){
+	public function move( $targetPath )
+	{
 		$files		= array();
 		$version	= $this->getVersion();
 		for( $i=0; $i<=$version; $i++ ){
@@ -103,7 +117,8 @@ class FS_File_Backup{
 		}
 	}
 
-	public function remove( $version = 0 ){
+	public function remove( $version = 0 )
+	{
 		$version	= $this->sanitizeVersion( $version );
 		$filePath	= $this->getVersionFilename( $version );
 		if( !file_exists( $filePath ) ){
@@ -123,7 +138,8 @@ class FS_File_Backup{
 		}
 	}
 
-	public function restore( $version = -1, $removeBackup = FALSE ){
+	public function restore( $version = -1, $removeBackup = FALSE )
+	{
 		$version	= $this->sanitizeVersion( $version );
 		$filePath	= $this->getVersionFilename( $version );
 		if( !file_exists( $filePath) ){
@@ -141,7 +157,8 @@ class FS_File_Backup{
 		}
 	}
 
-	protected function sanitizeVersion( $version ){
+	protected function sanitizeVersion( $version )
+	{
 		if( !is_int( $version ) ){
 			throw new InvalidArgumentException( 'Version must be integer' );
 		}
@@ -157,12 +174,14 @@ class FS_File_Backup{
 		return $version;
 	}
 
-	public function setContent( $version, $content ){
+	public function setContent( $version, $content )
+	{
 		$version	= $this->sanitizeVersion( $version );
-		return FS_File_Writer::save( $this->getVersionFilename( $version ), $content );
+		return Writer::save( $this->getVersionFilename( $version ), $content );
 	}
 
-	public function store( $removeOriginal = FALSE){
+	public function store( $removeOriginal = FALSE )
+	{
 		//  get current backup version
 		$version	= $this->getVersion( $this->filePath );
 		//  increase version if any backups exist

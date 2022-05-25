@@ -25,6 +25,9 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			27.12.2006
  */
+
+namespace CeusMedia\Common\FS\File\Log;
+
 /**
  *	Reader for short Log Files.
  *	@category		Library
@@ -36,14 +39,17 @@
  *	@since			27.12.2006
  *	@todo			Prove File for Existence
  */
-class FS_File_Log_ShortReader
+class ShortReader
 {
 	/*	@var		array		$data		Array of Data in Lines */
 	protected $data	= FALSE;
+
 	/*	@var		bool		$open		Status: Log File is read */
 	protected $open	= FALSE;
+
 	/*	@var		string		$patterns	Pattern Array filled with Logging Information */
 	protected $patterns	= array();
+
 	/**	@var		string		$uri		URI of Log File */
 	protected $uri;
 

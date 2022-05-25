@@ -24,6 +24,11 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+
+namespace CeusMedia\Common\FS\File\CSS\Theme;
+
+use DirectoryIterator;
+
 /**
  *	Finds Web Application Themes in cmFrameworks.
  *	@category		Library
@@ -33,7 +38,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class FS_File_CSS_Theme_Finder
+class Finder
 {
 	/**
 	 *	Constructor.

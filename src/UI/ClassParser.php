@@ -28,7 +28,7 @@
 
 namespace CeusMedia\Common\UI;
 
-use FS_File_Reader as FileReader;
+use CeusMedia\Common\FS\File\Reader as FileReader;
 
 /**
  *	Parses Class and creates UML Diagram.

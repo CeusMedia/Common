@@ -25,6 +25,13 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			10.10.2011
  */
+
+namespace CeusMedia\Common\FS\File\CSS;
+
+use CeusMedia\Common\ADT\CSS\Sheet as CssSheet;
+use CeusMedia\Common\FS\File\Writer as FileWriter;
+use RuntimeException;
+
 /**
  *	Editor for CSS files.
  *
@@ -36,8 +43,8 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			10.10.2011
  */
-class FS_File_CSS_Writer{
-
+class Writer
+{
 	protected $fileName;
 
 	/**
@@ -46,7 +53,8 @@ class FS_File_CSS_Writer{
 	 *	@param		string		$fileName		Relative or absolute file URI
 	 *	@return		void
 	 */
-	public function __construct( $fileName = NULL ){
+	public function __construct( $fileName = NULL )
+	{
 		if( $fileName )
 			$this->setFileName( $fileName );
 	}
@@ -56,7 +64,8 @@ class FS_File_CSS_Writer{
 	 *	@access		public
 	 *	@return		string
 	 */
-	public function getFileName(){
+	public function getFileName()
+	{
 		return $this->fileName;
 	}
 
@@ -65,12 +74,13 @@ class FS_File_CSS_Writer{
 	 *	@access		public
 	 *	@static
 	 *	@param		string			$fileName	Relative or absolute file URI
-	 *	@param		ADT_CSS_Sheet	$sheet		Sheet structure
+	 *	@param		CssSheet		$sheet		Sheet structure
 	 *	@return		void
 	 */
-	static public function save( $fileName, ADT_CSS_Sheet $sheet ){
-		$css	= FS_File_CSS_Converter::convertSheetToString( $sheet );								//  
-		return FS_File_Writer::save( $fileName, $css );												//  
+	static public function save( $fileName, CssSheet $sheet )
+	{
+		$css	= Converter::convertSheetToString( $sheet );								//
+		return FileWriter::save( $fileName, $css );												//
 	}
 
 	/**
@@ -79,18 +89,20 @@ class FS_File_CSS_Writer{
 	 *	@param		string		$fileName		Relative or absolute file URI
 	 *	@return		void
 	 */
-	public function setFileName( $fileName ){
+	public function setFileName( $fileName )
+	{
 		$this->fileName	= $fileName;
 	}
 
 	/**
 	 *	Writes a sheet structure to the current CSS file.
 	 *	@access		public
-	 *	@param		ADT_CSS_Sheet	$sheet		Sheet structure
+	 *	@param		CssSheet	$sheet		Sheet structure
 	 *	@return		void
 	 *	@throws		RuntimeException	if no CSS file is set, yet.
 	 */
-	public function write( ADT_CSS_Sheet $sheet ){
+	public function write( CssSheet $sheet )
+	{
 		if( !$this->fileName )
 			throw new RuntimeException( 'No CSS file set yet' );
 		return self::save( $this->fileName, $sheet );

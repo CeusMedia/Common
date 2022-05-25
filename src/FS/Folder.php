@@ -4,6 +4,7 @@ namespace CeusMedia\Common\FS;
 use CeusMedia\Common\ADT\Collection\Dictionary;
 use CeusMedia\Common\Exception\IO as IOException;
 #use CeusMedia\Common\FS;
+use DirectoryIterator;
 
 class Folder extends AbstractNode
 {
@@ -58,7 +59,7 @@ class Folder extends AbstractNode
 
 	public function createFolder( $pathName, $mode = 0777, $strict = TRUE ): Folder
 	{
-		$folder	= new FS_Folder( $this->pathName.'/'.$pathName );
+		$folder	= new Folder( $this->pathName.'/'.$pathName );
 		$folder->create( $mode, $strict );
 		return $folder;
 	}
@@ -103,7 +104,7 @@ class Folder extends AbstractNode
 	public function index( $type = FS::TYPE_ALL, $sort = SORT_REGULAR, $strict = TRUE ){
 		if( !$this->exists( $strict ) )
  			return new Dictionary();
-		$index	= new \DirectoryIterator( $this->pathName );
+		$index	= new DirectoryIterator( $this->pathName );
 		$list	= array();
 		foreach( $index as $entry ){
 			if( $entry->isDot() )
@@ -112,7 +113,7 @@ class Folder extends AbstractNode
 			if( $entry->isDir() && ( $type & ( FS::TYPE_ALL | FS::TYPE_FOLDER ) ) )
 				$list[$fileName]	= new Folder( $this->pathName.'/'.$fileName );
 //			else if( $entry->isLink() )
-//				$list[]	= new FS_Folder( $this->pathName.'/'.$entry->getFilename() );
+//				$list[]	= new Folder( $this->pathName.'/'.$entry->getFilename() );
 			else if( $entry->isFile() && $type & ( FS::TYPE_ALL | FS::TYPE_FILE ) )
 				$list[$fileName]	= new File( $this->pathName.'/'.$fileName );
 		}

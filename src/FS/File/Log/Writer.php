@@ -24,6 +24,11 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+
+namespace CeusMedia\Common\FS\File\Log;
+
+use CeusMedia\Common\Alg\Time\Converter as TimeConverter;
+
 /**
  *	Writer for Log File.
  *	@category		Library
@@ -33,7 +38,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class FS_File_Log_Writer
+class Writer
 {
 	/**	@var		string		$uri		URI of Log File */
 	protected $uri;
@@ -58,7 +63,7 @@ class FS_File_Log_Writer
 	 */
 	public function note( $line, $format = "datetime" )
 	{
-		$converter 	= new Alg_Time_Converter();
+		$converter 	= new TimeConverter();
 		$time		= $format ? " [".$converter->convertToHuman( time(), $format )."]" : "";
 		$message	= time().$time." ".$line."\n";
 		return error_log( $message, 3, $this->uri );

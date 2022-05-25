@@ -25,6 +25,11 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.6.8
  */
+
+namespace CeusMedia\Common\FS\File\VCard;
+
+use CeusMedia\Common\FS\File\Reader as FileReader;
+
 /**
  *	Reads and parses vCard Strings from File or URL to vCard Data Object.
  *	@category		Library
@@ -36,7 +41,7 @@
  *	@since			0.6.8
  *	@todo			Code Doc
  */
-class FS_File_VCard_Reader
+class Reader
 {
 	/**
 	 *	Reads and parses vCard File to vCard Object and converts between Charsets.
@@ -49,8 +54,8 @@ class FS_File_VCard_Reader
 	 */
 	public function readFile( $fileName, $charsetIn = NULL, $charsetOut = NULL )
 	{
-		$text	= FS_File_Reader::load( $fileName );
-		$parser	= new FS_File_VCard_Parser;
+		$text	= FileReader::load( $fileName );
+		$parser	= new Parser;
 		return $parser->parse( $text, $charsetIn, $charsetOut );
 	}
 }

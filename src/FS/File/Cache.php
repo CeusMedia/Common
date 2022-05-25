@@ -25,6 +25,15 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			13.04.2009
  */
+
+namespace CeusMedia\Common\FS\File;
+
+use CeusMedia\Common\ADT\Cache\Store as CacheStore;
+use Countable;
+use DirectoryIterator;
+use InvalidArgumentException;
+use RuntimeException;
+
 /**
  *	Cache to store Data in Files.
  *	@category		Library
@@ -35,7 +44,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			13.04.2009
  */
-class FS_File_Cache extends ADT_Cache_Store implements Countable
+class Cache extends CacheStore implements Countable
 {
 	/**	@var		array		$data			Memory Cache */
 	protected $data				= array();
@@ -132,7 +141,7 @@ class FS_File_Cache extends ADT_Cache_Store implements Countable
 			return NULL;
 		if( isset( $this->data[$key] ) )
 			return $this->data[$key];
-		$content	= FS_File_Editor::load( $uri );
+		$content	= Editor::load( $uri );
 		$value		= unserialize( $content );
 		$this->data[$key]	= $value;
 		return $value;
@@ -214,6 +223,6 @@ class FS_File_Cache extends ADT_Cache_Store implements Countable
 		$uri		= $this->getUriForKey( $key );
 		$content	= serialize( $value );
 		$this->data[$key]	= $value;
-		FS_File_Editor::save( $uri, $content );
+		Editor::save( $uri, $content );
 	}
 }

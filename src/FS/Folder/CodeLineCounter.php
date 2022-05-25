@@ -25,6 +25,15 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			15.04.2008
  */
+
+namespace CeusMedia\Common\FS\Folder;
+
+use CeusMedia\Common\Alg\Time\Clock;
+use CeusMedia\Common\FS\File\CodeLineCounter as FileCodeLineCounter;
+use CeusMedia\Common\FS\Folder\RecursiveLister as FolderRecursiveLister;
+use InvalidArgumentException;
+use RuntimeException;
+
 /**
  *	Counter for Lines of Code.
  *	@category		Library
@@ -36,7 +45,7 @@
  *	@since			15.04.2008
  *	@todo			Code Doc
  */
-class FS_Folder_CodeLineCounter
+class CodeLineCounter
 {
 	protected $data	= array();
 
@@ -89,8 +98,8 @@ class FS_Folder_CodeLineCounter
 
 		$path	= preg_replace( "@^(.+)/?$@", "\\1/", $path );
 
-		$st		= new Alg_Time_Clock();
-		$lister	= new FS_Folder_RecursiveLister( $path );
+		$st		= new Clock();
+		$lister	= new FolderRecursiveLister( $path );
 		$lister->setExtensions( $extensions );
 		$list	= $lister->getList();
 		foreach( $list as $entry )
@@ -103,7 +112,7 @@ class FS_Folder_CodeLineCounter
 			if( preg_match( "@/_@", $pathName ) )
 				continue;
 
-			$countData	= FS_File_CodeLineCounter::countLines( $pathName );
+			$countData	= FileCodeLineCounter::countLines( $pathName );
 
 			unset( $countData['linesCodes'] );
 			unset( $countData['linesDocs'] );

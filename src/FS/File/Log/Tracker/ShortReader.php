@@ -25,6 +25,11 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			27.12.2006
  */
+
+namespace CeusMedia\Common\FS\File\Log\Tracker;
+
+use CeusMedia\Common\FS\File\Log\ShortReader as LogShortReader;
+
 /**
  *	Reader and Parser for Tracker Log File.
  *	@category		Library
@@ -35,7 +40,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			27.12.2006
  */
-class FS_File_Log_Tracker_ShortReader extends FS_File_Log_ShortReader
+class ShortReader extends LogShortReader
 {
 	/*	@var		array		$data			Array of Data from parsed Lines */
 	protected $data	= array();

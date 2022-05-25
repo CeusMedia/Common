@@ -25,6 +25,13 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.0
  */
+
+namespace CeusMedia\Common\FS\File\JSON;
+
+use CeusMedia\Common\ADT\JSON\Parser as JsonParser;
+use CeusMedia\Common\FS\File\Reader as FileReader;
+use RuntimeException;
+
 /**
  *	JSON Reader.
  *	@category		Library
@@ -35,7 +42,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.0
  */
-class FS_File_JSON_Reader
+class Reader
 {
 	protected static $defaultFilters	= array( 'comments' );
 	protected $filePath;
@@ -54,7 +61,7 @@ class FS_File_JSON_Reader
 			throw new RuntimeException( 'File "'.$filePath.'" is not existing' );
 		$this->filePath	= $filePath;
 		$this->filters	= self::$defaultFilters;
-		$this->parser	= new ADT_JSON_Parser();
+		$this->parser	= new JsonParser();
 	}
 
 	/**
@@ -63,7 +70,8 @@ class FS_File_JSON_Reader
 	 *	@param		boolean		$asConstantKey	Flag: return constant name as string instead of its integer value
 	 *	@return		integer|string
 	 */
-	public function getError( $asConstantKey = FALSE ){
+	public function getError( $asConstantKey = FALSE )
+	{
 		return $this->parser->getError( $asConstantKey );
 	}
 
@@ -74,7 +82,8 @@ class FS_File_JSON_Reader
 	 *	@access		public
 	 *	@return		object
 	 */
-	public function getInfo(){
+	public function getInfo()
+	{
 		return (object) array(
 			'filePath'		=> $this->filePath,
 			'filters'		=> $this->filters,
@@ -88,7 +97,8 @@ class FS_File_JSON_Reader
 	 *	@access		public
 	 *	@return		string
 	 */
-	public function getMessage(){
+	public function getMessage()
+	{
 		return $this->parser->getMessage();
 	}
 
@@ -99,7 +109,8 @@ class FS_File_JSON_Reader
 	 *	@static
 	 *	@return		self
 	 */
-	public static function getNew( $filePath ){
+	public static function getNew( $filePath )
+	{
 		return new self( $filePath );
 	}
 
@@ -112,7 +123,7 @@ class FS_File_JSON_Reader
 	 */
 	public static function load( $filePath, $asArray = NULL )
 	{
-		$reader	= new FS_File_JSON_Reader( $filePath );
+		$reader	= new Reader( $filePath );
 		return $reader->read( $asArray );
 	}
 
@@ -126,7 +137,7 @@ class FS_File_JSON_Reader
 	 */
 	public function read( $asArray = NULL, $storeData = TRUE )
 	{
-		$json	= FS_File_Reader::load( $this->filePath );
+		$json	= FileReader::load( $this->filePath );
 		$json	= $this->applyFilters( $json );
 		$data	= $this->parser->parse( $json, $asArray );
 
@@ -140,7 +151,8 @@ class FS_File_JSON_Reader
 	 *	@static
 	 *	@param		array		$defaultFilters		List of filters to set for each new instance
 	 */
-	public static function setDefaultFilters( $defaultFilters ){
+	public static function setDefaultFilters( $defaultFilters )
+	{
 		self::$defaultFilters	= $defaultFilters;
 	}
 
@@ -151,7 +163,8 @@ class FS_File_JSON_Reader
 	 *	@param		string		$json				JSON file content to be filtered
 	 *	@return		string
 	 */
-	protected function applyFilters( $json ){
+	protected function applyFilters( $json )
+	{
 		foreach( $this->filters as $filter ){
 			if( $filter === 'comments' ){
 				$json	= preg_replace( '@(/\*)(.*)(\*/)@su', '', $json );

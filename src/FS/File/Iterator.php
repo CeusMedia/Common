@@ -25,6 +25,12 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			15.04.2008
  */
+
+namespace CeusMedia\Common\FS\File;
+
+use FilterIterator;
+use RuntimeException;
+
 /**
  *	Iterates all Files within a Folder.
  *	@category		Library
@@ -35,7 +41,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			15.04.2008
  */
-class FS_File_Iterator extends FilterIterator
+class Iterator extends FilterIterator
 {
 	/**	@var		 bool		$stripDotFiles		Flag: strip Files with leading Dot */
 	protected $stripDotFiles;

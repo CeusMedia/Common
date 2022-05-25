@@ -29,10 +29,10 @@
 
 namespace CeusMedia\Common\UI\HTML\Tree;
 
+use CeusMedia\Common\FS\Folder\Lister as FolderLister;
 use CeusMedia\Common\UI\HTML\Elements;
 use CeusMedia\Common\UI\HTML\FormElements;
 use CeusMedia\Common\UI\HTML\Tag;
-use FS_Folder_Lister as FolderLister;
 use RuntimeException;
 
 /**

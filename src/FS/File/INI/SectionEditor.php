@@ -25,6 +25,12 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			01.11.2005
  */
+
+namespace CeusMedia\Common\FS\File\INI;
+
+use CeusMedia\Common\FS\File\Writer as FileWriter;
+use InvalidArgumentException;
+
 /**
  *	Editor for sectioned Ini Files using parse_ini_file.
  *	@category		Library
@@ -35,7 +41,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			01.11.2005
  */
-class FS_File_INI_SectionEditor extends FS_File_INI_SectionReader
+class SectionEditor extends SectionReader
 {
 	/**
 	 *	Adds a Section.
@@ -127,7 +133,7 @@ class FS_File_INI_SectionEditor extends FS_File_INI_SectionReader
 			foreach( $this->data[$section] as $key => $value )
 				$lines[]	= $this->fillUp( $key )."=".$value;
 		}
-		return FS_File_Writer::saveArray( $this->fileName, $lines );
+		return FileWriter::saveArray( $this->fileName, $lines );
 		$this->read();
 	}
 }

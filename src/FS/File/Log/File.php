@@ -1,6 +1,6 @@
 <?php
 /**
- *	Writer for Section List.
+ *	Writer for Log File.
  *
  *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
@@ -18,68 +18,61 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		Library
- *	@package		CeusMedia_Common_FS_File_List
+ *	@package		CeusMedia_Common_FS_File_Log
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+
+namespace CeusMedia\Common\FS\File\Log;
+
+use CeusMedia\Common\Alg\Time\Converter as TimeConverter;
+
 /**
- *	Writer for Section List.
+ *	Writer for Log File.
  *	@category		Library
- *	@package		CeusMedia_Common_FS_File_List
+ *	@package		CeusMedia_Common_FS_File_Log
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class FS_File_List_SectionWriter
+class File
 {
-	/**	@var		string		$fileName		File Name of Section List */
-	protected $fileName;
+	/**	@var		string		$uri		URI of Log File */
+	protected $uri;
 
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		string		$fileName		File Name of Section List
+	 *	@param		string		$uri		URI of Log File
 	 *	@return		void
 	 */
-	public function __construct( $fileName )
+	public function __construct( $uri )
 	{
-		$this->fileName = $fileName;
+		$this->uri = $uri;
 	}
 
 	/**
-	 *	Saves a Section List to a File.
+	 *	Adds an entry to the logfile.
+	 *
 	 *	@access		public
-	 *	@static
-	 *	@param		string		$fileName		File Name of Section List
-	 *	@param		array		$list			Section List to write
-	 *	@return		void
+	 *	@param		string		$line		Entry to add to Log File
+	 *	@return		bool
 	 */
-	public static function save( $fileName, $list )
+	public function addEntry( $line )
 	{
-		$lines = array();
-		foreach( $list as $section => $data )
+		$tc = new TimeConverter();
+		$entry = time()." [".$tc->convertToHuman( time(), "datetime" )."] ".$line."\n";
+
+		$fp = @fopen( $this->uri, "ab" );
+		if( $fp )
 		{
-			if( count( $lines ) )
-				$lines[] = "";
-			$lines[] = "[".$section."]";
-			foreach( $data as $entry )
-				$lines[] = $entry;
+			@fwrite( $fp, $entry );
+			@fclose( $fp );
+			return true;
 		}
-		$writer	= new FS_File_Writer( $fileName, 0755 );
-		return $writer->writeArray( $lines );
-	}
-
-	/**
-	 *	Writes Section List.
-	 *	@access		public
-	 *	@param		array		$list			Section List to write
-	 *	@return		void
-	 */
-	public function write( $list )
-	{
-		return self::save( $this->fileName, $list );
+		return false;
 	}
 }

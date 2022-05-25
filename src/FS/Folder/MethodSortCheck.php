@@ -25,6 +25,13 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			04.09.2008
  */
+
+namespace CeusMedia\Common\FS\Folder;
+
+use CeusMedia\Common\FS\File\PHP\MethodSortCheck as FilePhpMethodSortCheck;
+use CeusMedia\Common\FS\File\RecursiveRegexFilter as FileRecursiveRegexFilter;
+use FilterIterator;
+
 /**
  *	Checks order of methods in a several PHP Files within a Folder.
  *	@category		Library
@@ -35,7 +42,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			04.09.2008
  */
-class FS_Folder_MethodSortCheck
+class MethodSortCheck
 {
 	protected $count	= 0;
 	protected $found	= 0;
@@ -66,13 +73,13 @@ class FS_Folder_MethodSortCheck
 		$this->files	= array();
 		$extensions		= implode( "|", $this->extensions );
 		$pattern		= "@^[A-Z].*\.(".$extensions.")$@";
-		$filter			=  new FS_File_RecursiveRegexFilter( $this->path, $pattern );
+		$filter			=  new FileRecursiveRegexFilter( $this->path, $pattern );
 		foreach( $filter as $entry )
 		{
 			if( preg_match( "@^(_|\.)@", $entry->getFilename() ) )
 				continue;
 			$this->count++;
-			$check	= new FS_File_PHP_MethodSortCheck( $entry->getPathname() );
+			$check	= new FilePhpMethodSortCheck( $entry->getPathname() );
 			if( $check->compare() )
 				continue;
 			$this->found++;

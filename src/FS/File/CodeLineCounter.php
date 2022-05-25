@@ -25,6 +25,9 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			15.04.2008
  */
+
+namespace CeusMedia\Common\FS\File;
+
 /**
  *	Counter for Lines of Code of a File.
  *	@category		Library
@@ -35,7 +38,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			15.04.2008
  */
-class FS_File_CodeLineCounter
+class CodeLineCounter
 {
 	/**
 	 *	Reads File and counts Code Lines, Documentation Lines and unimportant Lines and returns a Data Array.
@@ -46,7 +49,7 @@ class FS_File_CodeLineCounter
 	 */
 	public static function countLines( $fileName )
 	{
-		$content	= FS_File_Reader::load( $fileName );
+		$content	= Reader::load( $fileName );
 		return self::countLinesFromSource( $content );
 	}
 
@@ -68,25 +71,20 @@ class FS_File_CodeLineCounter
 		$linesStrips	= array();
 
 		$lines		= explode( "\n", $content );
-		foreach( $lines as $line )
-		{
-			if( preg_match( "@^(\t| )*/?\*@", $line ) )
-			{
+		foreach( $lines as $line ){
+			if( preg_match( "@^(\t| )*/?\*@", $line ) ){
 				$linesDocs[$counter] = $line;
 				$numberDocs++;
 			}
-			else if( preg_match( "@^(<\?php|<\?|\?>|\}|\{|\t| )*$@", trim( $line ) ) )
-			{
+			else if( preg_match( "@^(<\?php|<\?|\?>|\}|\{|\t| )*$@", trim( $line ) ) ){
 				$linesStrips[$counter] = $line;
 				$numberStrips++;
 			}
-			else if( preg_match( "@^(public|protected|private|class|function|final|define|import)@", trim( $line ) ) )
-			{
+			else if( preg_match( "@^(public|protected|private|class|function|final|define|import)@", trim( $line ) ) ){
 				$linesStrips[$counter] = $line;
 				$numberStrips++;
 			}
-			else
-			{
+			else{
 				$linesCodes[$counter] = $line;
 				$numberCodes++;
 			}

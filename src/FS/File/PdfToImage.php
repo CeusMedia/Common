@@ -1,6 +1,11 @@
 <?php
-class PdfToImage{
 
+namespace CeusMedia\Common\FS\File;
+
+use Imagick;
+
+class PdfToImage
+{
 	protected $im;
 	protected $outputFormat	= 'png';
 

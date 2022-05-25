@@ -10,6 +10,12 @@
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_YAML
  */
+
+namespace CeusMedia\Common\FS\File\YAML;
+
+use CeusMedia\Common\FS\File\Reader as FileReader;
+use Exception;
+
 /**
  * The Simple PHP YAML Class.
  *
@@ -32,8 +38,8 @@
  * </code>
  * @package Spyc
  */
-class FS_File_YAML_Spyc {
-
+class Spyc
+{
   // SETTINGS
 
   const REMPTY = "\0\0\0\0\0";
@@ -121,7 +127,7 @@ class FS_File_YAML_Spyc {
      * @param array set options
      */
   public static function YAMLLoad($input, $options = []) {
-    $Spyc = new FS_File_YAML_Spyc;
+    $Spyc = new Spyc;
     foreach ($options as $key => $value) {
         if (property_exists($Spyc, $key)) {
             $Spyc->$key = $value;
@@ -151,7 +157,7 @@ class FS_File_YAML_Spyc {
      * @param array set options
      */
   public static function YAMLLoadString($input, $options = []) {
-    $Spyc = new FS_File_YAML_Spyc;
+    $Spyc = new Spyc;
     foreach ($options as $key => $value) {
         if (property_exists($Spyc, $key)) {
             $Spyc->$key = $value;
@@ -182,7 +188,7 @@ class FS_File_YAML_Spyc {
      * @param bool $no_opening_dashes Do not start YAML file with "---\n"
      */
   public static function YAMLDump($array, $indent = false, $wordwrap = false, $no_opening_dashes = false) {
-    $spyc = new FS_File_YAML_Spyc;
+    $spyc = new Spyc;
     return $spyc->dump($array, $indent, $wordwrap, $no_opening_dashes);
   }
 

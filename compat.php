@@ -143,6 +143,123 @@ class CLI_Shell extends \CeusMedia\Common\CLI\Shell{};
 
 class Deprecation extends \CeusMedia\Common\Deprecation{};
 
+class FS_File_Editor extends \CeusMedia\Common\FS\File\Editor{};
+class FS_File_Reader extends \CeusMedia\Common\FS\File\Reader{};
+class FS_File_Writer extends \CeusMedia\Common\FS\File\Writer{};
+
+class FS_File_RegexFilter extends \CeusMedia\Common\FS\File\RegexFilter{};
+class FS_File_RecursiveRegexFilter extends \CeusMedia\Common\FS\File\RecursiveRegexFilter{};
+
+class FS_Folder_Editor extends \CeusMedia\Common\FS\Folder\Editor{};
+class FS_Folder_Lister extends \CeusMedia\Common\FS\Folder\Lister{};
+class FS_Folder_RecursiveLister extends \CeusMedia\Common\FS\Folder\RecursiveLister{};
+
+class FS_Folder_RegexFilter extends \CeusMedia\Common\FS\Folder\RegexFilter{};
+class FS_Folder_CodeLineCounter extends \CeusMedia\Common\FS\Folder\CodeLineCounter{};
+class FS_Folder_MethodVisibilityCheck extends \CeusMedia\Common\FS\Folder\MethodVisibilityCheck{};
+class FS_Folder_Iterator extends \CeusMedia\Common\FS\Folder\Iterator{};
+class FS_Folder_Reader extends \CeusMedia\Common\FS\Folder\Reader{};
+class FS_Folder_MethodSortCheck extends \CeusMedia\Common\FS\Folder\MethodSortCheck{};
+class FS_Folder_RecursiveIterator extends \CeusMedia\Common\FS\Folder\RecursiveIterator{};
+class FS_Folder_RecursiveRegexFilter extends \CeusMedia\Common\FS\Folder\RecursiveRegexFilter{};
+class FS_Folder_Treeview_JsonExtended extends \CeusMedia\Common\FS\Folder\Treeview\JsonExtended{};
+class FS_Folder_Treeview_Json extends \CeusMedia\Common\FS\Folder\Treeview\Json{};
+class FS_Folder_SyntaxChecker extends \CeusMedia\Common\FS\Folder\SyntaxChecker{};
+class FS_File extends \CeusMedia\Common\FS\File{};
+class FS_AbstractNode extends \CeusMedia\Common\FS\AbstractNode{};
+class FS_File_Backup extends \CeusMedia\Common\FS\File\Backup{};
+class FS_File_Permissions extends \CeusMedia\Common\FS\File\Permissions{};
+class FS_File_INI extends \CeusMedia\Common\FS\File\INI{};
+class FS_File_BackupCleaner extends \CeusMedia\Common\FS\File\BackupCleaner{};
+class FS_File_VCard_Reader extends \CeusMedia\Common\FS\File\VCard\Reader{};
+class FS_File_VCard_Writer extends \CeusMedia\Common\FS\File\VCard\Writer{};
+class FS_File_VCard_Builder extends \CeusMedia\Common\FS\File\VCard\Builder{};
+class FS_File_VCard_Parser extends \CeusMedia\Common\FS\File\VCard\Parser{};
+class FS_File_NameFilter extends \CeusMedia\Common\FS\File\NameFilter{};
+class FS_File_CodeLineCounter extends \CeusMedia\Common\FS\File\CodeLineCounter{};
+class FS_File_CSV_Iterator extends \CeusMedia\Common\FS\File\CSV\Iterator{};
+class FS_File_CSV_Reader extends \CeusMedia\Common\FS\File\CSV\Reader{};
+class FS_File_CSV_Writer extends \CeusMedia\Common\FS\File\CSV\Writer{};
+class FS_File_TodoLister extends \CeusMedia\Common\FS\File\TodoLister{};
+class FS_File_Iterator extends \CeusMedia\Common\FS\File\Iterator{};
+class FS_File_PHP_Encoder extends \CeusMedia\Common\FS\File\PHP\Encoder{};
+class FS_File_PHP_Test_Creator extends \CeusMedia\Common\FS\File\PHP\Test\Creator{};
+class FS_File_PHP_Lister extends \CeusMedia\Common\FS\File\PHP\Lister{};
+class FS_File_PHP_Check_MethodOrder extends \CeusMedia\Common\FS\File\PHP\Check\MethodOrder{};
+class FS_File_PHP_Check_MethodVisibility extends \CeusMedia\Common\FS\File\PHP\Check\MethodVisibility{};
+class FS_File_RecursiveIterator extends \CeusMedia\Common\FS\File\RecursiveIterator{};
+class FS_File_Log_File extends \CeusMedia\Common\FS\File\Log\File{};
+class FS_File_Log_JSON_Reader extends \CeusMedia\Common\FS\File\Log\JSON\Reader{};
+class FS_File_Log_JSON_Writer extends \CeusMedia\Common\FS\File\Log\JSON\Writer{};
+class FS_File_Log_ShortReader extends \CeusMedia\Common\FS\File\Log\ShortReader{};
+class FS_File_Log_ShortWriter extends \CeusMedia\Common\FS\File\Log\ShortWriter{};
+class FS_File_Log_Reader extends \CeusMedia\Common\FS\File\Log\Reader{};
+class FS_File_Log_Writer extends \CeusMedia\Common\FS\File\Log\Writer{};
+class FS_File_Log_Tracker_ShortReader extends \CeusMedia\Common\FS\File\Log\Tracker\ShortReader{};
+class FS_File_Log_Tracker_Reader extends \CeusMedia\Common\FS\File\Log\JSON\Reader{};
+class FS_File_RecursiveNameFilter extends \CeusMedia\Common\FS\File\RecursiveNameFilter{};
+class FS_File_PdfToImage extends \CeusMedia\Common\FS\File\PdfToImage{};
+class FS_File_Lock extends \CeusMedia\Common\FS\File\Lock{};
+class FS_File_StaticCache extends \CeusMedia\Common\FS\File\StaticCache{};
+class FS_File_SyntaxChecker extends \CeusMedia\Common\FS\File\SyntaxChecker{};
+class FS_File_YAML_Spyc extends \CeusMedia\Common\FS\File\YAML\Spyc{};
+class FS_File_YAML_Reader extends \CeusMedia\Common\FS\File\YAML\Reader{};
+class FS_File_YAML_Writer extends \CeusMedia\Common\FS\File\YAML\Writer{};
+class FS_File_RecursiveTodoLister extends \CeusMedia\Common\FS\File\RecursiveTodoLister{};
+class FS_File_Cache extends \CeusMedia\Common\FS\File\Cache{};
+class FS_File_Unicoder extends \CeusMedia\Common\FS\File\Unicoder{};
+class FS_Folder extends \CeusMedia\Common\FS\Folder{};
+class FS_Link extends \CeusMedia\Common\FS\Link{};
+class FS extends \CeusMedia\Common\FS{};
+
+class FS_File_List_Editor extends \CeusMedia\Common\FS\File\Collection\Editor{};
+class FS_File_List_Reader extends \CeusMedia\Common\FS\File\Collection\Reader{};
+class FS_File_List_SectionReader extends \CeusMedia\Common\FS\File\Collection\SectionReader{};
+class FS_File_List_SectionWriter extends \CeusMedia\Common\FS\File\Collection\SectionWriter{};
+class FS_File_List_Writer extends \CeusMedia\Common\FS\File\Collection\Writer{};
+class FS_File_JSON_Config extends \CeusMedia\Common\FS\File\JSON\Config{};
+class FS_File_JSON_Reader extends \CeusMedia\Common\FS\File\JSON\Reader{};
+class FS_File_JSON_Writer extends \CeusMedia\Common\FS\File\JSON\Writer{};
+
+class FS_File_INI_Creator extends \CeusMedia\Common\FS\File\INI\Creator{};
+class FS_File_INI_Editor extends \CeusMedia\Common\FS\File\INI\Editor{};
+class FS_File_INI_Reader extends \CeusMedia\Common\FS\File\INI\Reader{};
+class FS_File_INI_SectionEditor extends \CeusMedia\Common\FS\File\INI\SectionEditor{};
+class FS_File_INI_SectionReader extends \CeusMedia\Common\FS\File\INI\SectionReader{};
+
+class FS_File_Gantt_MeetingReader extends \CeusMedia\Common\FS\File\Gantt\MeetingReader{};
+class FS_File_Gantt_MeetingCollector extends \CeusMedia\Common\FS\File\Gantt\MeetingCollector{};
+class FS_File_Gantt_CalendarBuilder extends \CeusMedia\Common\FS\File\Gantt\CalendarBuilder{};
+class FS_File_CSS_Compressor extends \CeusMedia\Common\FS\File\CSS\Compressor{};
+class FS_File_CSS_Converter extends \CeusMedia\Common\FS\File\CSS\Converter{};
+class FS_File_CSS_Reader extends \CeusMedia\Common\FS\File\CSS\Reader{};
+class FS_File_CSS_Writer extends \CeusMedia\Common\FS\File\CSS\Writer{};
+class FS_File_CSS_Editor extends \CeusMedia\Common\FS\File\CSS\Editor{};
+class FS_File_CSS_Parser extends \CeusMedia\Common\FS\File\CSS\Parser{};
+class FS_File_CSS_Combiner extends \CeusMedia\Common\FS\File\CSS\Combiner{};
+class FS_File_CSS_Theme_Minimizer extends \CeusMedia\Common\FS\File\CSS\Theme\Minimizer{};
+class FS_File_CSS_Theme_Combiner extends \CeusMedia\Common\FS\File\CSS\Theme\Combiner{};
+class FS_File_CSS_Theme_Finder extends \CeusMedia\Common\FS\File\CSS\Theme\Finder{};
+class FS_File_CSS_Relocator extends \CeusMedia\Common\FS\File\CSS\Relocator{};
+
+class FS_Autoloader_Psr0 extends \CeusMedia\Common\FS\Autoloader\Psr0{};
+class FS_Autoloader_Psr4 extends \CeusMedia\Common\FS\Autoloader\Psr4{};
+
+class FS_File_Arc_Gzip extends \CeusMedia\Common\FS\File\Arc\Gzip{};
+class FS_File_Arc_TarGzip extends \CeusMedia\Common\FS\File\Arc\TarGzip{};
+class FS_File_Arc_TarBzip extends \CeusMedia\Common\FS\File\Arc\TarBzip{};
+class FS_File_Arc_Bzip extends \CeusMedia\Common\FS\File\Arc\Bzip{};
+class FS_File_Arc_Tar extends \CeusMedia\Common\FS\File\Arc\Tar{};
+class FS_File_Arc_Zip extends \CeusMedia\Common\FS\File\Arc\Zip{};
+
+class FS_File_Block_Reader extends \CeusMedia\Common\FS\File\Block\Reader{};
+class FS_File_Block_Writer extends \CeusMedia\Common\FS\File\Block\Writer{};
+
+class FS_File_ICal_Builder extends \CeusMedia\Common\FS\File\ICal\Builder{};
+class FS_File_ICal_Parser extends \CeusMedia\Common\FS\File\ICal\Parser{};
+class FS_File_Configuration_Reader extends \CeusMedia\Common\FS\File\Configuration\Reader{};
+class FS_File_Configuration_Converter extends \CeusMedia\Common\FS\File\Configuration\Converter{};
+
 abstract class UI_HTML_Abstract extends \CeusMedia\Common\UI\HTML\Abstraction{};
 class UI_HTML_Buffer extends \CeusMedia\Common\UI\HTML\Buffer{};
 class UI_HTML_CollapsePanel extends \CeusMedia\Common\UI\HTML\CollapsePanel{};

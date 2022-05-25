@@ -29,6 +29,11 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			15.04.2008
  */
+
+namespace CeusMedia\Common\FS\Folder;
+
+use FilterIterator;
+
 /**
  *	Lists Folders and Files within a Folder.
  *	Entries can be filtered with a RegEx Pattern or allowed Extensions.
@@ -43,7 +48,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			15.04.2008
  */
-class FS_Folder_Lister
+class Lister
 {
 	/**	@var		string		$path				Path to Folder */
 	protected $path				= NULL;
@@ -81,7 +86,7 @@ class FS_Folder_Lister
 	 */
 	public static function getFileList( string $path, string $pattern = NULL ): FilterIterator
 	{
-		$index	= new FS_Folder_Lister( $path );
+		$index	= new Lister( $path );
 		if( $pattern !== NULL )
 			$index->setPattern( $pattern );
 		$index->showFiles( TRUE );
@@ -100,7 +105,7 @@ class FS_Folder_Lister
 	 */
 	public static function getFolderList( string $path, ?string $pattern = NULL, bool $stripDotEntries = TRUE ): FilterIterator
 	{
-		$index	= new FS_Folder_Lister( $path );
+		$index	= new Lister( $path );
 		if( $pattern !== NULL )
 			$index->setPattern( $pattern );
 		$index->showFiles( FALSE );
@@ -117,14 +122,14 @@ class FS_Folder_Lister
 	public function getList(): FilterIterator
 	{
 		if( $this->pattern )
-			return new FS_Folder_RegexFilter(
+			return new RegexFilter(
 				$this->path,
 				$this->pattern,
 				$this->showFiles,
 				$this->showFolders,
 				$this->stripDotEntries
 			);
-		return new FS_Folder_Iterator(
+		return new Iterator(
 			$this->path,
 			$this->showFiles,
 			$this->showFolders,
@@ -143,7 +148,7 @@ class FS_Folder_Lister
 	 */
 	public static function getMixedList( string $path, ?string $pattern = NULL, bool $stripDotEntries = TRUE ): FilterIterator
 	{
-		$index	= new FS_Folder_Lister( $path );
+		$index	= new Lister( $path );
 		if( $pattern !== NULL )
 			$index->setPattern( $pattern );
 		$index->showFiles( TRUE );

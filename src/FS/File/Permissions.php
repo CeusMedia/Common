@@ -67,7 +67,7 @@ class Permissions
 	{
 		$permissions	= @fileperms( $this->pathName );
 		if( FALSE === $permissions )
-			throw new \InvalidArgumentException( 'Could not get permissions of file "'.$this->pathName.'"' );
+			throw new InvalidArgumentException( 'Could not get permissions of file "'.$this->pathName.'"' );
 		return substr( sprintf( '%o', $permissions ), -4 );
 	}
 

@@ -25,6 +25,9 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			11.06.2008
  */
+
+namespace CeusMedia\Common\FS\File;
+
 /**
  *	Class to find all Files with ToDos inside.
  *	@category		Library
@@ -35,10 +38,10 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			11.06.2008
  */
-class FS_File_RecursiveTodoLister extends FS_File_TodoLister
+class RecursiveTodoLister extends TodoLister
 {
 	protected function getIndexIterator( $path, $filePattern, $contentPattern = NULL )
 	{
-		return new FS_File_RecursiveRegexFilter( $path, $filePattern, $contentPattern );
+		return new RecursiveRegexFilter( $path, $filePattern, $contentPattern );
 	}
 }

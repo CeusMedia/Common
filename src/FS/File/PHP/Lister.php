@@ -25,6 +25,13 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			04.08.08
  */
+
+namespace CeusMedia\Common\FS\File\PHP;
+
+use FilterIterator;
+use RecursiveDirectoryIterator;
+use RecursiveIteratorIterator;
+
 /**
  *	Lists PHP Files within a Path an applies Filter on Folder and File Names.
  *	@category		Library
@@ -36,7 +43,7 @@
  *	@since			04.08.08
  *	@todo			Code Doc
  */
-class FS_File_PHP_Lister extends FilterIterator
+class Lister extends FilterIterator
 {
 	public $extensions			= array();
 	public $ignoreFolders		= array();

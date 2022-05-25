@@ -24,6 +24,12 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+
+namespace CeusMedia\Common\FS\File\Arc;
+
+use CeusMedia\Common\FS\File\Editor as FileEditor;
+use Exception;
+
 /**
  *	Base gzip File implementation.
  *	@category		Library
@@ -33,7 +39,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class FS_File_Arc_Gzip extends FS_File_Editor
+class Gzip extends FileEditor
 {
 	/**
 	 *	Constructor.

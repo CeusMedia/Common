@@ -4,12 +4,19 @@
  *	@package		CeusMedia_Common_FS_File_CSV
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
+
+namespace CeusMedia\Common\FS\File\CSV;
+
+use InvalidArgumentException;
+use Iterator as BaseIterator;
+use RuntimeException;
+
 /**
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_CSV
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
-class FS_File_CSV_Iterator implements Iterator
+class Iterator implements BaseIterator
 {
 	public static $maxRowSize		= 4096;
 

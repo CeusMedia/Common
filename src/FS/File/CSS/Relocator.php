@@ -1,11 +1,13 @@
 <?php
 /**
- * Class FS_File_CSS_Relocator
+ * Class Relocator
  *
  * @category	Library
  * @package		CeusMedia_Common_FS_File_CSS
  * @author		Stephen Clay <steve@mrclay.org>
  */
+
+namespace CeusMedia\Common\FS\File\CSS;
 
 /**
  * Rewrite file-relative URIs as root-relative in CSS files
@@ -14,13 +16,13 @@
  * @package		CeusMedia_Common_FS_File_CSS
  * @author		Stephen Clay <steve@mrclay.org>
  */
-class FS_File_CSS_Relocator {
-
+class Relocator
+{
 	/**	@var		string		$debugText		rewrite() and rewriteRelative() append debugging information here */
 	public static $debugText = '';
 
 	/**	@var		string		$className		Defines which class to call as part of callbacks, change this if you extend FS_File_CSS_Relocator */
-	protected static $className = 'FS_File_CSS_Relocator';
+	protected static $className = Relocator::class;
 
 	/**	@var		string		$_currentDir	Directory of this stylesheet */
 	private static $_currentDir = '';
@@ -81,9 +83,9 @@ class FS_File_CSS_Relocator {
 	 *	@param		array		$symlinks		If the CSS file is stored in a symlink-ed directory, provide an array of link paths to target paths, where the link paths are within the document root. Because paths need to be normalized for this to work, use "//" to substitute the doc root in the link paths (the array keys). E.g.:
 	 *	@example
 	 * <code>
-	 // unix
+	 * // unix
 	 * array('//symlink' => '/real/target/path')
-	 // Windows
+	 * // Windows
 	 * array('//static' => 'D:\\staticStorage')
 	 * </code>
 	 *	@return		string
@@ -127,17 +129,17 @@ class FS_File_CSS_Relocator {
 	 * Get a root relative URI from a file relative URI
 	 *
 	 * <code>
-	 * FS_File_CSS_Relocator::rewriteRelative(
+	 * Relocator::rewriteRelative(
 	 *	   '../img/hello.gif'
-	 // path of CSS file
+	 * // path of CSS file
 	 *	 , '/home/user/www/css'
-	 // doc root
+	 * // doc root
 	 *	 , '/home/user/www'
 	 * );
 	 * // returns '/img/hello.gif'
 	 *
 	 * // example where static files are stored in a symlinked directory
-	 * FS_File_CSS_Relocator::rewriteRelative(
+	 * Relocator::rewriteRelative(
 	 *	   'hello.gif'
 	 *	 , '/var/staticFiles/theme'
 	 *	 , '/home/user/www'
@@ -152,9 +154,9 @@ class FS_File_CSS_Relocator {
 	 *	@param		array		$symlinks		If the file is stored in a symlink-ed directory, provide an array of link paths to real target paths, where the link paths "appear" to be within the document root. E.g.:
 	 *	@example
 	 * <code>
-	 // unix
+	 * // unix
 	 * array('/home/foo/www/not/real/path' => '/real/target/path')
-	 // Windows
+	 * // Windows
 	 * array('C:\\htdocs\\not\\real' => 'D:\\real\\target\\path')
 	 * </code>
 	 *	@return		string

@@ -28,6 +28,8 @@
 
 namespace CeusMedia\Common\Alg\Text;
 
+use CeusMedia\Common\FS\File\Editor as FileEditor;
+
 /**
  *	Extracts Terms from a Text Document.
  *	@category		Library
@@ -83,13 +85,13 @@ class TermExtractor
 
 	public static function loadBlacklist( $fileName )
 	{
-		$string	= FS_File_Editor::load( $fileName );
+		$string	= FileEditor::load( $fileName );
 		if( !Unicoder::isUnicode( $string ) )
 		{
 			$string	= Unicoder::convertToUnicode( $string );
 			FS_File_Editor::save( $fileName, $string );
 		}
-		$list	= FS_File_Editor::loadArray( $fileName );
+		$list	= FileEditor::loadArray( $fileName );
 		self::setBlacklist( array_unique( $list ) );
 	}
 

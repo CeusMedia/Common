@@ -27,6 +27,11 @@
  *	@see			RFC2445
  *	@link			http://www.w3.org/2002/12/cal/rfc2445
  */
+
+namespace CeusMedia\Common\FS\File\ICal;
+
+use CeusMedia\Common\XML\DOM\Node;
+
 /**
  *	Parser for iCalendar Files.
  *	@category		Library
@@ -39,7 +44,7 @@
  *	@see			RFC2445
  *	@link			http://www.w3.org/2002/12/cal/rfc2445
  */
-class FS_File_ICal_Parser
+class Parser
 {
 	/**	@var	string		$lineBreak		Line Break String */
 	protected static $lineBreak;
@@ -60,11 +65,11 @@ class FS_File_ICal_Parser
 	 *	@access		public
 	 *	@param		string		$name		Line Name
 	 *	@param		array		$string		String of iCal Lines
-	 *	@return 	XML_DOM_Node
+	 *	@return 	Node
 	 */
 	public function parse( $name, $string )
 	{
-		$root	= new XML_DOM_Node( $name );
+		$root	= new Node( $name );
 
 		$string	= self::unfoldString( $string );
 		$lines = explode( self::$lineBreak, $string );
@@ -113,14 +118,14 @@ class FS_File_ICal_Parser
 	 *	Parses iCal Lines and returns a XML Tree recursive.
 	 *	@access		protected
 	 *	@static
-	 *	@param		string			$type			String to unfold
-	 *	@param		XML_DOM_Node	$root			Parent XML Node
-	 *	@param		string			$lines			Array of iCal Lines
+	 *	@param		string		$type			String to unfold
+	 *	@param		Node		$root			Parent XML Node
+	 *	@param		string		$lines			Array of iCal Lines
 	 *	@return 	void
 	 */
 	protected static function parseRecursive( $type, &$root, &$lines )
 	{
-		$node = new XML_DOM_Node( strtolower( $type ) );
+		$node = new Node( strtolower( $type ) );
 		$root->addChild( $node );
 		while( count( $lines ) )
 		{
@@ -132,7 +137,7 @@ class FS_File_ICal_Parser
 				$lines	= self::parseRecursive( $parsed['value'], $node, $lines );
 			else
 			{
-				$child	= new XML_DOM_Node( strtolower( $parsed['name'] ), $parsed['value'] );
+				$child	= new Node( strtolower( $parsed['name'] ), $parsed['value'] );
 				foreach( $parsed['param'] as $param )
 				{
 					$parts	= explode( "=", $param );

@@ -24,6 +24,11 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+
+namespace CeusMedia\Common\FS\File\CSV;
+
+use CeusMedia\Common\FS\File\Writer as FileWriter;
+
 /**
  *	Writing comma separatad values (CSV) data with or without column headers to File.
  *	@category		Library
@@ -33,10 +38,11 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class FS_File_CSV_Writer
+class Writer
 {
 	/**	@var		string		$fileName		Flag: use ColumnHeaders in first line */
 	protected $fileName;
+
 	/**	@var		string		$separator		Separator Sign */
 	protected $separator		= ",";
 
@@ -75,12 +81,10 @@ class FS_File_CSV_Writer
 	public function write( $data, $headers = array() )
 	{
 		$output = array();
-		if( $headers )
-		{
+		if( $headers ){
 			$output[] = implode( $this->separator, $headers );
 		}
-		foreach( $data as $line )
-		{
+		foreach( $data as $line ){
 			//  iterate line values
 			foreach( $line as $nr => $value )
 				//  separator found in value
@@ -92,7 +96,7 @@ class FS_File_CSV_Writer
 			$line = implode( $this->separator, $line );
 			$output[] = $line;
 		}
-		$file	= new FS_File_Writer( $this->fileName );
+		$file	= new FileWriter( $this->fileName );
 		return $file->writeArray( $output );
 	}
 }

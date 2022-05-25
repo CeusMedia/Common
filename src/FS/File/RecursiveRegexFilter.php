@@ -25,6 +25,14 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			09.06.2007
  */
+
+namespace CeusMedia\Common\FS\File;
+
+use RecursiveDirectoryIterator;
+use RecursiveIteratorIterator;
+use RegexIterator;
+use RuntimeException;
+
 /**
  *	Searchs for Files by given RegEx Pattern (as File Name) in Folder.
  *	@category		Library
@@ -36,7 +44,7 @@
  *	@since			09.06.2007
  *	@todo			Fix Error while comparing File Name to Current File with Path
  */
-class FS_File_RecursiveRegexFilter extends RegexIterator
+class RecursiveRegexFilter extends RegexIterator
 {
 	/**	@var	int				$numberFound			Number of found Files */
 	protected $numberFound		= 0;

@@ -24,6 +24,13 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+
+namespace CeusMedia\Common\FS\File\PHP\Test;
+
+use CeusMedia\Common\FS\File\Editor as FileEditor;
+use CeusMedia\Common\FS\Folder\RecursiveRegexFilter as RecursiveFolderRegexFilter;
+use RuntimeException;
+
 /**
  *	Created Test Class for PHP Unit Tests using Class Parser and two Templates.
  *	@category		Library
@@ -33,24 +40,32 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class FS_File_PHP_Test_Creator
+class Creator
 {
 	/**	@var		string			$className			Class Name, eg. Package_Class */
 	protected $className			= "";
+
 	/**	@var		string			$classFile			Class Name, eg. de/ceus-media/package/Class.php */
 	protected $classFile			= "";
+
 	/**	@var		string			$classPath			Class Path, eg. de.ceus-media.package.Class */
 	protected $classPath			= "";
+
 	/**	@var		string			$fileName			File Name of Class */
 	protected $fileName				= "";
+
 	/**	@var		array			$pathParts			Splitted Path Parts in lower Case */
 	protected $pathParts			= array();
+
 	/**	@var		array			$pathParts			Splitted Path Parts in lower Case */
 	protected $pathTemplates		= array();
+
 	/**	@var		string			$templateClass		File Name of Test Class Template */
 	protected $templateClass		= "Creator_class.tmpl";
+
 	/**	@var		string			$templateClass		File Name of Exception Test Method Template */
 	protected $templateException	= "Creator_exception.tmpl";
+
 	/**	@var		string			$templateClass		File Name of Test Method Template */
 	protected $templateMethod		= "Creator_method.tmpl";
 
@@ -105,7 +120,7 @@ class FS_File_PHP_Test_Creator
 		$template	= str_replace( "{date}", date( "d.m.Y" ), $template );
 		$template	= "<?php\n".$template."\n?>";
 
-		FS_Folder_Editor::createFolder( dirname( $this->targetFile ) );
+		FolderEditor::createFolder( dirname( $this->targetFile ) );
 		file_put_contents( $this->targetFile, $template );
 	}
 
@@ -176,7 +191,7 @@ class FS_File_PHP_Test_Creator
 		if( file_exists( $this->targetFile ) && !$force )
 			throw new RuntimeException( 'Test Class for Class "'.$this->className.'" is already existing.' );
 
-		$parser	= new FS_File_PHP_Parser_Array();
+		$parser	= new \CeusMedia\PhpParser\Parser\Regular();
 		$data	= $parser->parseFile( $this->classFile, "" );
 		$this->data	= $data['class'];
 
@@ -201,7 +216,7 @@ class FS_File_PHP_Test_Creator
 		$fullPath	= "src/".str_replace( "_", "/", $path )."/";
 		if( file_exists( $fullPath ) && is_dir( $fullPath ) )
 		{
-			$filter	= new FS_Folder_RecursiveRegexFilter( $fullPath, "@\.php$@i", TRUE, FALSE );
+			$filter	= new RecursiveFolderRegexFilter( $fullPath, "@\.php$@i", TRUE, FALSE );
 			foreach( $filter as $entry )
 			{
 				$counter++;
@@ -209,7 +224,7 @@ class FS_File_PHP_Test_Creator
 				$className	= substr( $className, strlen( $fullPath ) );
 				$className	= preg_replace( "@\.php$@i", "", $className );
 				$className	= str_replace( "/", "_", $className );
-				$creator	= new FS_File_PHP_Test_Creator();
+				$creator	= new Creator();
 				$creator->createForFile( $path."_".$className, $force );
 			}
 		}

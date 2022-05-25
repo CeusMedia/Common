@@ -25,6 +25,13 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			03.12.2009
  */
+
+namespace CeusMedia\Common\FS\File\PHP\Check;
+
+use CeusMedia\Common\FS\File\Reader as FileReader;
+use Exception;
+use RuntimeException;
+
 /**
  *	Checks visibility of methods within a PHP file.
  *	@category		Library
@@ -35,7 +42,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			03.12.2009
  */
-class FS_File_PHP_Check_MethodVisibility
+class MethodVisibility
 {
 	protected $fileName		= "";
 	protected $methods		= array();
@@ -65,7 +72,7 @@ class FS_File_PHP_Check_MethodVisibility
 		$this->checked	= TRUE;
 		$this->methods	= array();
 		$matches		= array();
-		$content		= FS_File_Reader::load( $this->fileName );
+		$content		= FileReader::load( $this->fileName );
 		if( preg_match( "@class @i", $content ) )
 			if( preg_match_all( "@\tfunction (& *)?([a-z][a-z0-9]+)@i", $content, $matches ) )
 				foreach( $matches[2] as $match )

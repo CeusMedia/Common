@@ -4,12 +4,19 @@
  *	@package		CeusMedia_Common_FS_File_CSV
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
+
+namespace CeusMedia\Common\FS\File\CSV;
+
+use CeusMedia\Common\Deprecation;
+use Countable;
+use RuntimeException;
+
 /**
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_CSV
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
-class FS_File_CSV_Reader implements Countable
+class Reader implements Countable
 {
 	public static $maxRowSize	= 4096;
 
@@ -28,8 +35,8 @@ class FS_File_CSV_Reader implements Countable
 	 */
 	public function __construct( $filePath, $useHeaders = FALSE, $delimiter = NULL, $enclosure = NULL )
 	{
-		FS_File_CSV_Iterator::$maxRowSize = self::$maxRowSize;
-		$this->iterator	= new FS_File_CSV_Iterator( $filePath, $useHeaders, $delimiter, $enclosure );
+		Iterator::$maxRowSize = self::$maxRowSize;
+		$this->iterator	= new Iterator( $filePath, $useHeaders, $delimiter, $enclosure );
 	}
 
     /**

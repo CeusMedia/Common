@@ -24,6 +24,13 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+
+namespace CeusMedia\Common\FS\File;
+
+use CeusMedia\Common\Alg\UnitFormater;
+use InvalidArgumentException;
+use RuntimeException;
+
 /**
  *	Basic File Reader.
  *	@category		Library
@@ -33,7 +40,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class FS_File_Reader
+class Reader
 {
 	/**	@var		string		$fileName		File Name or URI of File */
 	protected $fileName;
@@ -63,8 +70,8 @@ class FS_File_Reader
 	 */
 	public function equals( $fileName )
 	{
-		$toCompare	= FS_File_Reader::load( $fileName );
-		$thisFile	= FS_File_Reader::load( $this->fileName );
+		$toCompare	= Reader::load( $fileName );
+		$thisFile	= Reader::load( $this->fileName );
 		return( $thisFile == $toCompare );
 	}
 
@@ -211,11 +218,11 @@ class FS_File_Reader
 	/**
 	 *	Returns OS permissions of current file as octal value.
 	 *	@access		public
-	 *	@return		FS_File_Permissions		File permissions object
+	 *	@return		Permissions		File permissions object
 	 */
 	public function getPermissions()
 	{
-		return new FS_File_Permissions( $this->fileName );
+		return new Permissions( $this->fileName );
 	}
 
 	/**
@@ -229,7 +236,7 @@ class FS_File_Reader
 		$size	= filesize( $this->fileName );
 		if( $precision )
 		{
-			$size	= Alg_UnitFormater::formatBytes( $size, $precision );
+			$size	= UnitFormater::formatBytes( $size, $precision );
 		}
 		return $size;
 	}
@@ -275,7 +282,7 @@ class FS_File_Reader
 	 */
 	public static function load( $fileName )
 	{
-		$reader	= new FS_File_Reader( $fileName );
+		$reader	= new Reader( $fileName );
 		return $reader->readString();
 	}
 
@@ -288,7 +295,7 @@ class FS_File_Reader
 	 */
 	public static function loadArray( $fileName )
 	{
-		$reader	= new FS_File_Reader( $fileName );
+		$reader	= new Reader( $fileName );
 		return $reader->readArray();
 	}
 

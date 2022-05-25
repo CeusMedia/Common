@@ -26,6 +26,13 @@
  *	@since			0.6.8
  *	@link			http://www.ietf.org/rfc/rfc2426.txt
  */
+
+namespace CeusMedia\Common\FS\File\VCard;
+
+use CeusMedia\Common\ADT\VCard;
+use CeusMedia\Common\Alg\Text\EncodingConverter;
+use InvalidArgumentException;
+
 /**
  *	Parses vCard String to vCard Data Object.
  *	@category		Library
@@ -39,7 +46,7 @@
  *	@todo			PHOTO,BDAY,NOTE,LABEL,KEY,PRODID,MAILER,TZ
  *	@todo			Code Doc
  */
-class FS_File_VCard_Parser
+class Parser
 {
 	/**
 	 *	Parses vCard String to new vCard Object and converts between Charsets.
@@ -52,7 +59,7 @@ class FS_File_VCard_Parser
 	 */
 	public static function parse( $string, $charsetIn = NULL, $charsetOut = NULL )
 	{
-		$vcard	= new ADT_VCard;
+		$vcard	= new VCard;
 		return self::parseInto( $string, $vcard, $charsetIn, $charsetOut );
 	}
 
@@ -75,7 +82,7 @@ class FS_File_VCard_Parser
 	 *	@access		public
 	 *	@static
 	 *	@param		string		$string			VCard String
-	 *	@param		ADT_VCard	$vcard			VCard Data Object
+	 *	@param		VCard		$vcard			VCard Data Object
 	 *	@param		string		$charsetIn		Charset to convert from
 	 *	@param		string		$charsetOut		Charset to convert to
 	 *	@return		string
@@ -86,7 +93,7 @@ class FS_File_VCard_Parser
 			throw new InvalidArgumentException( 'String is empty ' );
 		if( $charsetIn && $charsetOut && function_exists( 'iconv' ) )
 		{
-			$string	= Alg_Text_EncodingConverter::convert( $string, $charsetIn, $charsetOut );
+			$string	= EncodingConverter::convert( $string, $charsetIn, $charsetOut );
 		}
 
 		$lines	= explode( "\n", $string );

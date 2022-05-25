@@ -24,6 +24,11 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+
+namespace CeusMedia\Common\FS\File\Collection;
+
+use DomainException;
+
 /**
  *	A Class for reading List Files.
  *	@category		Library
@@ -33,10 +38,11 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class FS_File_List_Reader
+class Reader
 {
 	/**	@var		array		$list			List */
 	protected $list						= array();
+
 	/**	@var		string		$commentPattern	RegEx Pattern of Comments */
 	protected static $commentPattern	= '/^[#:;\/*-]/';
 
@@ -118,7 +124,7 @@ class FS_File_List_Reader
 		$list	= array();
 		if( !file_exists( $fileName ) )
 			throw new RuntimeException( 'File "'.$fileName.'" is not existing' );
-		$reader	= new FS_File_Reader( $fileName );
+		$reader	= new FileReader( $fileName );
 		$lines	= $reader->readArray();
 		foreach( $lines as $line )
 			if( $line = trim( $line ) )

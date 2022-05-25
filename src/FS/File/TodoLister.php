@@ -25,6 +25,14 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			11.06.2008
  */
+
+namespace CeusMedia\Common\FS\File;
+
+use Exception;
+use InvalidArgumentException;
+use RuntimeException;
+use UnexpectedValueException;
+
 /**
  *	Class to find all Files with ToDos inside.
  *	@category		Library
@@ -35,24 +43,32 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			11.06.2008
  */
-class FS_File_TodoLister
+class TodoLister
 {
 	/**	@var		int			$numberFound	Number of matching Files */
 	protected $numberFound		= 0;
+
 	/**	@var		int			$numberLines	Number of scanned Lines in matching Files */
 	protected $numberLines		= 0;
+
 	/**	@var		int			$numberScanned	Total Number of scanned Files */
 	protected $numberScanned	= 0;
+
 	/**	@var		int			$numberTodos	Number of found Todos */
 	protected $numberTodos		= 0;
+
 	/**	@var		string		$extension		Default File Extension */
 	protected $extension		= "php5";
+
 	/**	@var		array		$extensions		Other File Extensions */
 	protected $extensions		= array();
+
 	/**	@var		array		$list			List of numberFound Files */
 	protected $list				= array();
+
 	/**	@var		string		$pattern		Default Pattern */
 	protected $pattern			= "@todo";
+
 	/**	@var		array		$patterns		Other Patterns */
 	protected $patterns			= array();
 
@@ -96,7 +112,7 @@ class FS_File_TodoLister
 
 	protected function getIndexIterator( $path, $filePattern )
 	{
-		return new FS_File_RegexFilter( $path, $filePattern );
+		return new RegexFilter( $path, $filePattern );
 	}
 
 	/**
@@ -176,15 +192,13 @@ class FS_File_TodoLister
 		$pattern		= $this->getExtendedPattern();
 		$iterator		= $this->getIndexIterator( $path, $extensions );
 		try{
-			foreach( $iterator as $entry )
-			{
+			foreach( $iterator as $entry ){
 				$this->numberScanned++;
 				$content	= file_get_contents( $entry->getPathname() );
 				$lines		= explode( "\n", $content );
 				$i			= 0;
 				$list		= array();
-				foreach( $lines as $line )
-				{
+				foreach( $lines as $line ){
 					$this->numberLines++;
 					$i++;
 					if( !preg_match( $pattern, $line ) )

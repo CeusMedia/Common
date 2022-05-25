@@ -25,6 +25,11 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			28.11.2007
  */
+
+namespace CeusMedia\Common\FS\File\Log;
+
+use CeusMedia\Common\FS\File\Reader as FileReader;
+
 /**
  *	Reader for Log File.
  *	@category		Library
@@ -35,7 +40,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			28.11.2007
  */
-class FS_File_Log_Reader
+class Reader
 {
 	/**	@var		string		$fileName		URI of file with absolute path */
 	protected $fileName;
@@ -62,7 +67,7 @@ class FS_File_Log_Reader
 	 */
 	public static function load( $fileName, $offset = NULL, $limit = NULL )
 	{
-		$file	= new FS_File_Reader( $fileName );
+		$file	= new FileReader( $fileName );
 		$lines	= $file->readArray();
 		if( $offset !== NULL && $limit !== NULL && (int) $limit !==  0 )
 			$lines	= array_slice( $lines, abs( (int) $offset ), (int) $limit );

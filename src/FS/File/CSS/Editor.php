@@ -25,6 +25,15 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			10.10.2011
  */
+
+namespace CeusMedia\Common\FS\File\CSS;
+
+use OutOfRangeException;
+use RuntimeException;
+
+use CeusMedia\Common\ADT\CSS\Rule as CssRule;
+use CeusMedia\Common\ADT\CSS\Sheet as CssSheet;
+
 /**
  *	Editor for CSS files.
  *
@@ -36,23 +45,26 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			10.10.2011
  */
-class FS_File_CSS_Editor
+class Editor
 {
-	/** @var		ADT_CSS_Sheet		$sheet */
+	/** @var		CssSheet		$sheet */
 	protected $sheet;
 
-	public function __construct( $fileName = NULL ){
+	public function __construct( $fileName = NULL )
+	{
 		if( $fileName )
 			$this->setFileName( $fileName );
 	}
 
-	public function addRuleBySelector( $selector, $properties = array() ){
-		$rule	= new ADT_CSS_Rule( $selector, $properties );
+	public function addRuleBySelector( $selector, $properties = array() )
+	{
+		$rule	= new CssRule( $selector, $properties );
 		$this->sheet->addRule( $rule );
 		return $this->save();
 	}
 
-	public function changePropertyKey( $selector, $keyOld, $keyNew ){
+	public function changePropertyKey( $selector, $keyOld, $keyNew )
+	{
 		if( !$this->sheet )
 			throw new RuntimeException( 'No CSS sheet loaded' );
 		$rule	= $this->sheet->getRuleBySelector( $selector );
@@ -63,7 +75,8 @@ class FS_File_CSS_Editor
 		$this->save();
 	}
 
-	public function changeRuleSelector( $selectorOld, $selectorNew ){
+	public function changeRuleSelector( $selectorOld, $selectorNew )
+	{
 		if( !$this->sheet )
 			throw new RuntimeException( 'No CSS sheet loaded' );
 		$rule	= $this->sheet->getRuleBySelector( $selectorOld );
@@ -81,7 +94,8 @@ class FS_File_CSS_Editor
 	 *	@return		string|NULL
 	 *	@throws		RuntimeException	if no CSS sheet is loaded, yet.
 	 */
-	public function get( $selector, $key = NULL ){
+	public function get( $selector, $key = NULL )
+	{
 		if( !$this->sheet )
 			throw new RuntimeException( 'No CSS sheet loaded' );
 		return $this->sheet->get( $selector, $key );
@@ -94,7 +108,8 @@ class FS_File_CSS_Editor
 	 *	@return		array
 	 *	@throws		RuntimeException	if no CSS sheet is loaded, yet.
 	 */
-	public function getProperties( $selector ){
+	public function getProperties( $selector )
+	{
 		if( !$this->sheet )
 			throw new RuntimeException( 'No CSS sheet loaded' );
 		$rule	= $this->sheet->getRuleBySelector( $selector );
@@ -109,7 +124,8 @@ class FS_File_CSS_Editor
 	 *	@return		array
 	 *	@throws		RuntimeException	if no CSS sheet is loaded, yet.
 	 */
-	public function getSelectors(){
+	public function getSelectors()
+	{
 		if( !$this->sheet )
 			throw new RuntimeException( 'No CSS sheet loaded' );
 		return $this->sheet->getSelectors();
@@ -132,7 +148,8 @@ class FS_File_CSS_Editor
 	 *	@return		boolean
 	 *	@throws		RuntimeException	if no CSS sheet is loaded, yet.
 	 */
-	public function remove( $selector, $key = NULL ){
+	public function remove( $selector, $key = NULL )
+	{
 		if( !$this->sheet )
 			throw new RuntimeException( 'No CSS sheet loaded' );
 		$result	= $this->sheet->remove( $selector, $key );
@@ -146,25 +163,29 @@ class FS_File_CSS_Editor
 	 *	@return		integer		Number of written bytes
 	 *	@throws		RuntimeException	if no CSS file is set, yet.
 	 */
-	protected function save(){
+	protected function save()
+	{
 		if( !$this->fileName )
 			throw new RuntimeException( 'No CSS file set yet' );
-		return FS_File_CSS_Writer::save( $this->fileName, $this->sheet );
+		return Writer::save( $this->fileName, $this->sheet );
 	}
 
-	public function set( $selector, $key, $value ){
+	public function set( $selector, $key, $value )
+	{
 		if( !$this->sheet )
 			throw new RuntimeException( 'No CSS sheet loaded' );
 		$result	= $this->sheet->set( $selector, $key, $value );
 		return $this->save();
 	}
 
-	public function setFileName( $fileName ){
+	public function setFileName( $fileName )
+	{
 		$this->fileName	= $fileName;
-		$this->sheet	= FS_File_CSS_Parser::parseFile( $fileName );
+		$this->sheet	= Parser::parseFile( $fileName );
 	}
 
-	public function setSheet( ADT_CSS_Sheet $sheet ){
+	public function setSheet( ADT_CSS_Sheet $sheet )
+	{
 		$this->sheet	= $sheet;
 	}
 }

@@ -46,32 +46,32 @@ A library of PHP classes for common tasks.
 	- [x] Server
 		- [x] Cron
 - [x] DB => moved to CeusMedia::Database
-- [ ] Exception
-- [ ] FS
-	- [ ] Autoloader
-	- [ ] File
-		- [ ] Arc
-		- [ ] Block
-		- [ ] Configuration
-		- [ ] CSS
-			- [ ] Theme
-		- [ ] CSV
-		- [ ] Gantt
-		- [ ] ICal
-		- [ ] INI
-		- [ ] JSON
-		- [ ] List => ???
-		- [ ] Log
-			- [ ] JSON
-			- [ ] Tracker
-		- [ ] PHP
-			- [ ] Check
+- [x] Exception
+- [x] FS
+	- [x] Autoloader
+	- [x] File
+		- [x] Arc
+		- [x] Block
+		- [x] Configuration
+		- [x] CSS
+			- [x] Theme
+		- [x] CSV
+		- [x] Gantt
+		- [x] ICal
+		- [x] INI
+		- [x] JSON
+		- [x] List => Collection
+		- [x] Log
+			- [x] JSON
+			- [x] Tracker
+		- [x] PHP
+			- [x] Check
 			- [x] Parser => moved to CeusMedia::PHP-Parser
-			- [ ] Test
-		- [ ] VCard
-		- [ ] YAML
-	- [ ] Folder
-		- [ ] TreeView
+			- [x] Test
+		- [x] VCard
+		- [x] YAML
+	- [x] Folder
+		- [x] TreeView
 - [ ] Net *(2/9)*
 	- [ ] API
 		- [ ] Google

@@ -1,6 +1,6 @@
 <?php
 /**
- *	A Class for reading Section List Files.
+ *	Writer for Section List.
  *
  *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
@@ -19,75 +19,72 @@
  *
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_List
- *	@author			Chistian Würker <christian.wuerker@ceusmedia.de>
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+
+namespace CeusMedia\Common\FS\File\Collection;
+
+use CeusMedia\Common\FS\File\Writer as FileWriter;
+
 /**
- *	A Class for reading Section List Files.
+ *	Writer for Section List.
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_List
- *	@author			Chistian Würker <christian.wuerker@ceusmedia.de>
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class FS_File_List_SectionReader
+class SectionWriter
 {
-	protected $list	= array();
-	public static $commentPattern	= '/^[#|-|*|:|;]/';
-	public static $sectionPattern	= '/^\[([a-z0-9_=.,:;# ])+\]$/i';
+	/**	@var		string		$fileName		File Name of Section List */
+	protected $fileName;
 
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		string		$fileName		File Name of sectioned List
+	 *	@param		string		$fileName		File Name of Section List
 	 *	@return		void
 	 */
 	public function __construct( $fileName )
 	{
-		$this->list	= self::load( $fileName );
+		$this->fileName = $fileName;
 	}
 
 	/**
-	 *	Reads the List.
+	 *	Saves a Section List to a File.
 	 *	@access		public
 	 *	@static
-	 *	@param		string		$fileName		File Name of sectioned List
-	 *	@return		array
+	 *	@param		string		$fileName		File Name of Section List
+	 *	@param		array		$list			Section List to write
+	 *	@return		void
 	 */
-	public static function load( $fileName )
+	public static function save( $fileName, $list )
 	{
-		if( !file_exists( $fileName ) )
-			throw new Exception( 'File "'.$fileName.'" is not existing.' );
-
-		$reader	= new FS_File_Reader( $fileName );
-		$lines	= $reader->readArray();
-
-		$list	= array();
-		foreach( $lines as $line )
+		$lines = array();
+		foreach( $list as $section => $data )
 		{
-			$line = trim( $line );
-			if( !$line )
-				continue;
-			if( preg_match( self::$commentPattern, $line ) )
-				continue;
-
-			if( preg_match( self::$sectionPattern, $line ) )
-			{
-				$section = substr( $line, 1, -1 );
-				if( !isset( $list[$section] ) )
-					$list[$section]	= array();
-			}
-			else if( $section )
-				$list[$section][]	= $line;
+			if( count( $lines ) )
+				$lines[] = "";
+			$lines[] = "[".$section."]";
+			foreach( $data as $entry )
+				$lines[] = $entry;
 		}
-		return $list;
+		$writer	= new FileWriter( $fileName, 0755 );
+		return $writer->writeArray( $lines );
 	}
 
-	public function read()
+	/**
+	 *	Writes Section List.
+	 *	@access		public
+	 *	@param		array		$list			Section List to write
+	 *	@return		void
+	 */
+	public function write( $list )
 	{
-		return $this->list;
+		return self::save( $this->fileName, $list );
 	}
 }

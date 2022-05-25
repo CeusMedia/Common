@@ -25,6 +25,12 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			12.03.2008
  */
+
+namespace CeusMedia\Common\FS\File\Gantt;
+
+use CeusMedia\Common\XML\DOM\XPathQuery;
+use Exception;
+
 /**
  *	Reads "Gantt Project" XML File and extracts basic Project Information and Meeting Dates.
  *	@category		Library
@@ -35,7 +41,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			12.03.2008
  */
-class FS_File_Gantt_MeetingReader
+class MeetingReader
 {
 	/**
 	 *	Constructor.
@@ -45,7 +51,7 @@ class FS_File_Gantt_MeetingReader
 	 */
 	public function __construct( $fileName )
 	{
-		$this->xpath	= new XML_DOM_XPathQuery();
+		$this->xpath	= new XPathQuery();
 		$this->xpath->loadFile( $fileName );
 	}
 

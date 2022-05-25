@@ -25,6 +25,12 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			15.04.2008
  */
+
+namespace CeusMedia\Common\FS\File;
+
+use InvalidArgumentException;
+use RuntimeException;
+
 /**
  *	Editor for Files.
  *	@category		Library
@@ -36,9 +42,9 @@
  *	@since			15.04.2008
  *	@todo			finish Writer Methods (create, isWritable)
  */
-class FS_File_Editor extends FS_File_Reader
+class Editor extends Reader
 {
-	/**	@var		FS_File_Writer	$writer			Instance of file writer class */
+	/**	@var		Writer	$writer			Instance of file writer class */
 	protected $writer;
 
 	/**
@@ -53,7 +59,7 @@ class FS_File_Editor extends FS_File_Reader
 	public function __construct( $fileName, $creationMode = NULL, $creationUser = NULL, $creationGroup = NULL )
 	{
 		parent::__construct( $fileName );
-		$this->writer	= new FS_File_Writer( $fileName, $creationMode, $creationUser, $creationGroup );
+		$this->writer	= new Writer( $fileName, $creationMode, $creationUser, $creationGroup );
 	}
 
 	public function appendString( $string )
@@ -68,7 +74,7 @@ class FS_File_Editor extends FS_File_Reader
 
 	public static function delete( $fileName )
 	{
-		return FS_File_Writer::delete( $fileName );
+		return Writer::delete( $fileName );
 	}
 
 	/**
@@ -118,7 +124,7 @@ class FS_File_Editor extends FS_File_Reader
 	 */
 	public static function save( $fileName, $string )
 	{
-		return FS_File_Writer::save( $fileName, $string );
+		return Writer::save( $fileName, $string );
 	}
 
 	/**
@@ -131,7 +137,7 @@ class FS_File_Editor extends FS_File_Reader
 	 */
 	public static  function saveArray( $fileName, $array, $lineBreak = "\n" )
 	{
-		return FS_File_Writer::saveArray( $fileName, $array, $lineBreak );
+		return Writer::saveArray( $fileName, $array, $lineBreak );
 	}
 
 	/**

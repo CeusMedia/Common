@@ -1,6 +1,6 @@
 <?php
 /**
- *	Editor for List Files.
+ *	A Class for reading and writing List Files.
  *
  *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
@@ -19,26 +19,34 @@
  *
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_List
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ *	@author			Chistian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			25.04.2008
  */
+
+namespace CeusMedia\Common\FS\File\Collection;
+
+use CeusMedia\Common\FS\File\Writer as FileWriter;
+use DomainException;
+
 /**
- *	Editor for List Files.
+ *	A Class for reading and writing List Files.
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_List
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ *	@author			Chistian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			25.04.2008
  */
-class FS_File_List_Editor extends FS_File_List_Reader
+class Writer
 {
+	/**	@var		array		$list			List **/
+	protected $list				= array();
+
 	/**	@var		string		$fileName		File Name of List, absolute or relative URI **/
 	protected $fileName;
+
 	/**
 	 *	Constructor.
 	 *	@access		public
@@ -47,7 +55,6 @@ class FS_File_List_Editor extends FS_File_List_Reader
 	 */
 	public function __construct( $fileName )
 	{
-		parent::__construct( $fileName );
 		$this->fileName	= $fileName;
 	}
 
@@ -61,22 +68,8 @@ class FS_File_List_Editor extends FS_File_List_Reader
 	public function add( $item, $force = FALSE )
 	{
 		if( in_array( $item, $this->list ) && !$force )
-			throw new DomainException( 'List Item "'.$item.'" is already existing. See Option "force".' );
+			throw new DomainException( 'Item "'.$item.'" is already existing. See Option "force".' );
 		$this->list[]	= $item;
-		return $this->write();
-	}
-
-	/**
-	 *	Edits an existing Item of current List.
-	 *	@access		public
-	 *	@param		int			$oldItem		Item to replace
-	 *	@param		int			$newItem		Item to set instead
-	 *	@return		bool
-	 */
-	public function edit( $oldItem, $newItem )
-	{
-		$index	= $this->getIndex( $oldItem );
-		$this->list[$index]	= $newItem;
 		return $this->write();
 	}
 
@@ -88,7 +81,9 @@ class FS_File_List_Editor extends FS_File_List_Reader
 	 */
 	public function remove( $item )
 	{
-		$index	= $this->getIndex( $item );
+		if( !in_array( $item, $this->list ) )
+			throw new DomainException( 'Item "'.$item.'" is not existing.' );
+		$index	= array_search( $item, $this->list );
 		unset( $this->list[$index] );
 		return $this->write();
 	}
@@ -102,13 +97,30 @@ class FS_File_List_Editor extends FS_File_List_Reader
 	public function removeIndex( $index )
 	{
 		if( !isset( $this->list[$index] ) )
-			throw new DomainException( 'List Item with Index '.$index.' is not existing.' );
+			throw new DomainException( 'Item with Index '.$index.' is not existing.' );
 		unset( $this->list[$index] );
 		return $this->write();
 	}
 
 	/**
-	 *	Saves current List to File.
+	 *	Saves a List to File.
+	 *	@access		public
+	 *	@static
+	 *	@param		string		$fileName		File Name of List, absolute or relative URI
+	 *	@param		array		$list			List to save
+	 *	@param		string		$mode			UNIX rights for chmod()
+	 *	@param		string		$user			User Name for chown()
+	 *	@param		string		$group			Group Name for chgrp()
+	 *	@return		bool
+	 */
+	public static function save( $fileName, $list, $mode = 0755, $user = NULL, $group = NULL )
+	{
+		$file	= new FileWriter( $fileName, $mode, $user, $group );
+		return $file->writeArray( $list ) !== FALSE;
+	}
+
+	/**
+	 *	Writes the current List to File.
 	 *	@access		protected
 	 *	@param		string		$mode			UNIX rights for chmod()
 	 *	@param		string		$user			User Name for chown()
@@ -117,6 +129,6 @@ class FS_File_List_Editor extends FS_File_List_Reader
 	 */
 	protected function write( $mode = 0755, $user = NULL, $group = NULL )
 	{
-		return FS_File_List_Writer::save( $this->fileName, $this->list, $mode, $user, $group );
+		return $this->save( $this->fileName, $this->list, $mode, $user, $group );
 	}
 }

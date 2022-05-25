@@ -25,6 +25,14 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			10.10.2011
  */
+
+namespace CeusMedia\Common\FS\File\CSS;
+
+use CeusMedia\Common\ADT\CSS\Property as CssProperty;
+use CeusMedia\Common\ADT\CSS\Rule as CssRule;
+use CeusMedia\Common\ADT\CSS\Sheet as CssSheet;
+use CeusMedia\Common\FS\File\Reader as FileReader;
+
 /**
  *	Parses a CSS string or file and creates a structure of ADT_CSS_* objects.
  *
@@ -36,26 +44,28 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			10.10.2011
  */
-class FS_File_CSS_Parser{
-
+class Parser
+{
 	/**
 	 *	Parses a CSS file and returns sheet structure statically.
 	 *	@access		public
 	 *	@param		string			$fileName	Relative or absolute file URI
-	 *	@return		ADT_CSS_Sheet
+	 *	@return		CssSheet
 	 */
-	static public function parseFile( $fileName ){
-		$content	= FS_File_Reader::load( $fileName );
+	static public function parseFile( $fileName )
+	{
+		$content	= FileReader::load( $fileName );
 		return self::parseString( $content );
 	}
 
 	/**
 	 *	Parses CSS properties inside a rule and returns a list of property objects.
 	 *	@access		protected
-	 *	@param		string			$string		String of CSS rule properties 
+	 *	@param		string			$string		String of CSS rule properties
 	 *	@return		array			List of property objects
 	 */
-	static protected function parseProperties( $string ){
+	static protected function parseProperties( $string )
+	{
 		$list	= array();
 		foreach( explode( ';', trim( $string ) ) as $line ){
 			if( !trim( $line ) )
@@ -63,7 +73,7 @@ class FS_File_CSS_Parser{
 			$parts	= explode( ':', $line );
 			$key	= array_shift( $parts );
 			$value	= trim( implode( ':', $parts ) );
-			$list[]	= new ADT_CSS_Property( $key, $value );
+			$list[]	= new CssProperty( $key, $value );
 		}
 		return $list;
 	}
@@ -72,15 +82,16 @@ class FS_File_CSS_Parser{
 	 *	Parses a CSS string and returns sheet structure statically.
 	 *	@access		public
 	 *	@param		string			$string		CSS string
-	 *	@return		ADT_CSS_Sheet
+	 *	@return		CssSheet
 	 */
-	static public function parseString( $string ){
-		if( substr_count( $string, "{" ) !== substr_count( $string, "}" ) )							//  
+	static public function parseString( $string )
+	{
+		if( substr_count( $string, "{" ) !== substr_count( $string, "}" ) )							//
 			throw Exception( 'Invalid paranthesis' );
 		$string	= preg_replace( '/\/\*.+\*\//sU', '', $string );
 		$string	= preg_replace( '/(\t|\r|\n)/s', '', $string );
 		$state	= (int) ( $buffer = $key = '' );
-		$sheet	= new ADT_CSS_Sheet();
+		$sheet	= new CssSheet();
 		for( $i=0; $i<strlen( $string ); $i++ ){
 			$char = $string[$i];
 			if( !$state && $char == '{' ){
@@ -90,7 +101,7 @@ class FS_File_CSS_Parser{
 			else if( $state && $char == '}' ){
 				$properties	= self::parseProperties( $buffer );
 				foreach( explode( ',', $key ) as $selector )
-					$sheet->addRule( new ADT_CSS_Rule( $selector, $properties ) );
+					$sheet->addRule( new CssRule( $selector, $properties ) );
 				$state	= (boolean) ($buffer = '');
 			}
 			else

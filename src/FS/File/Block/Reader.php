@@ -25,6 +25,11 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			19.12.2006
  */
+
+namespace CeusMedia\Common\FS\File\Block;
+
+use CeusMedia\Common\FS\File\Reader as FileReader;
+
 /**
  *	Reader for Files with Text Block Contents, named by Section.
  *	@category		Library
@@ -35,7 +40,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			19.12.2006
  */
-class FS_File_Block_Reader
+class Reader
 {
 	protected $blocks			= array();
 	protected $fileName;
@@ -110,7 +115,7 @@ class FS_File_Block_Reader
 	protected function readBlocks()
 	{
 		$open	= false;
-		$file	= new FS_File_Reader( $this->fileName );
+		$file	= new FileReader( $this->fileName );
 		$lines	= $file->readArray();
 		foreach( $lines as $line )
 		{

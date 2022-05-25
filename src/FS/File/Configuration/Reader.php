@@ -26,6 +26,19 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			06.05.2008
  */
+
+namespace CeusMedia\Common\FS\File\Configuration;
+
+use CeusMedia\Common\ADT\Collection\Dictionary;
+use CeusMedia\Common\FS\File\INI\Reader as IniFileReader;
+use CeusMedia\Common\FS\File\Reader as FileReader;
+use CeusMedia\Common\FS\File\Writer as FileWriter;
+use CeusMedia\Common\FS\File\YAML\Reader as YamlFileReader;
+use CeusMedia\Common\XML\Element as XmlElement;
+use CeusMedia\Common\XML\ElementReader as XmlElementReader;
+use InvalidArgumentException;
+use RuntimeException;
+
 /**
  *	Reader for Configuration Files of different Types.
  *	Supported File Types are CONF, INI, JSON, YAML and XML.
@@ -37,8 +50,8 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			06.05.2008
  */
-#class FS_File_Configuration_Reader extends ADT_List_LevelMap
-class FS_File_Configuration_Reader extends ADT_List_Dictionary
+#class Reader extends ADT_List_LevelMap
+class Reader extends Dictionary
 {
 	/**	@var		bool		$iniQuickLoad	Flag: load INI Files with parse_ini_files, no Type Support */
 	public static $iniQuickLoad		= FALSE;
@@ -153,7 +166,7 @@ class FS_File_Configuration_Reader extends ADT_List_Dictionary
 		ksort( $this->pairs );
 		if( !empty( $cachePath ) )
 		{
-			FS_File_Writer::save( $cacheFile, serialize( $this->pairs ), 0640 );
+			FileWriter::save( $cacheFile, serialize( $this->pairs ), 0640 );
 		}
 		return $info['extension'];
 	}
@@ -176,7 +189,7 @@ class FS_File_Configuration_Reader extends ADT_List_Dictionary
 		else
 		{
 			$pattern	= '@^(string|integer|int|double|boolean|bool).*$@';
-			$reader		= new FS_File_INI_Reader( $fileName, TRUE );
+			$reader		= new IniFileReader( $fileName, TRUE );
 			$comments	= $reader->getComments();
 			foreach( $reader->getProperties() as $sectionName => $sectionData )
 			{
@@ -205,25 +218,11 @@ class FS_File_Configuration_Reader extends ADT_List_Dictionary
 	 */
 	protected function loadJsonFile( $fileName )
 	{
-		$json	= FS_File_Reader::load( $fileName );
-		$array	= ADT_JSON_Converter::convertToArray( $json );
+		$json	= FileReader::load( $fileName );
+		$array	= JsonConverter::convertToArray( $json );
 		foreach( $array as $sectionName => $sectionData )
 			foreach( $sectionData as $key => $item )
 				$this->pairs[$sectionName.".".$key]	= $item['value'];
-	}
-
-	/**
-	 *	Loads Configuration from WDDX File.
-	 *	@access		protected
-	 *	@param		string		$fileName		File Name of Configuration File
-	 *	@return		void
-	 */
-	protected function loadWddxFile( $fileName )
-	{
-		$array	= XML_WDDX_FileReader::load( $fileName );
-		foreach( $array as $sectionName => $sectionData )
-			foreach( $sectionData as $key => $value )
-				$this->pairs[$sectionName.".".$key]	= $value;
 	}
 
 	/**
@@ -235,7 +234,7 @@ class FS_File_Configuration_Reader extends ADT_List_Dictionary
 	protected function loadXmlFile( $fileName )
 	{
 		//  get root element of XML file
-		$root	= XML_ElementReader::readFile( $fileName );
+		$root	= XmlElementReader::readFile( $fileName );
 		$this->pairs	= array();
 		//  iterate sections
 		foreach( $root as $sectionNode )
@@ -252,7 +251,7 @@ class FS_File_Configuration_Reader extends ADT_List_Dictionary
 	/**
 	 *	Reads sections and values of a XML file node, recursivly, and stores pairs in-situ.
 	 *	@access		protected
-	 *	@param		XML_Element	$node			Section XML node to read
+	 *	@param		XmlElement	$node			Section XML node to read
 	 *	@param		string		$path			Path to this section
 	 *	@return		void
 	 */
@@ -299,7 +298,7 @@ class FS_File_Configuration_Reader extends ADT_List_Dictionary
 	 */
 	protected function loadYamlFile( $fileName )
 	{
-		$array	= FS_File_YAML_Reader::load( $fileName );
+		$array	= YamlFileReader::load( $fileName );
 		foreach( $array as $sectionName => $sectionData )
 			foreach( $sectionData as $key => $value )
 				$this->pairs[$sectionName.".".$key]	= $value;

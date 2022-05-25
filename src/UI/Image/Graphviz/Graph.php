@@ -28,7 +28,7 @@
 
 namespace CeusMedia\Common\UI\Image\Graphviz;
 
-use FS_File_Writer as FileWriter;
+use CeusMedia\Common\FS\File\Writer as FileWriter;
 use DomainException;
 use InvalidArgumentException;
 

@@ -24,6 +24,11 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+
+namespace CeusMedia\Common\FS\Folder\Treeview;
+
+use CeusMedia\Common\UI\HTML\Tag;
+
 /**
  *	...
  *	@category		Library
@@ -34,7 +39,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@todo			Code Doc
  */
-class FS_Folder_Treeview_JsonExtended extends FS_Folder_Treeview_Json
+class JsonExtended extends Json
 {
 	protected function buildFileItem( $entry )
 	{
@@ -44,7 +49,7 @@ class FS_Folder_Treeview_JsonExtended extends FS_Folder_Treeview_Json
 			'href' 		=> $this->getFileUrl( $entry ),
 			'target'	=> $this->fileTarget
 		);
-		$link		= UI_HTML_Tag::create( "a", $label, $attributes );
+		$link		= Tag::create( "a", $label, $attributes );
 		$item		= array(
 			'text'		=> $link,
 			'classes'	=> $this->classLeaf." ".$extension,

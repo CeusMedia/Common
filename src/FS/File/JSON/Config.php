@@ -24,6 +24,14 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+
+namespace CeusMedia\Common\FS\File\JSON;
+
+use CeusMedia\Common\ADT\JSON\Formater as JsonFormater;
+use CeusMedia\Common\ADT\Tree\MagicNode;
+use CeusMedia\Common\FS\File\Reader as FileReader;
+use CeusMedia\Common\FS\File\Writer as FileWriter;
+
 /**
  *	Configuration using JSON file and structure of magic nodes.
  *	@category		Library
@@ -33,15 +41,15 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class FS_File_JSON_Config{
-
-	/**	@var		string				$fileName		Name of JSON file */
+class Config
+{
+	/**	@var		string			$fileName		Name of JSON file */
 	protected $fileName;
 
-	/**	@var		ADT_Tree_MagicNode	$data			Node structure */
+	/**	@var		MagicNode		$data			Node structure */
 	protected $data;
 
-	/**	@var		boolean				$format			Flag: format JSON on save */
+	/**	@var		boolean			$format			Flag: format JSON on save */
 	protected $format;
 
 	/**
@@ -51,21 +59,23 @@ class FS_File_JSON_Config{
 	 *	@param		boolean		$format			Flag: format JSON on save
 	 *	@return		void
 	 */
-	public function __construct( $fileName, $format = TRUE ){
+	public function __construct( $fileName, $format = TRUE )
+	{
 		$this->fileName	= $fileName;
-		$this->data		= new ADT_Tree_MagicNode();
+		$this->data		= new MagicNode();
 		$this->format	= $format;
 		if( file_exists( $fileName ) )
-			$this->data->fromJson( FS_File_Reader::load( $fileName ) );
+			$this->data->fromJson( FileReader::load( $fileName ) );
 	}
 
 	/**
 	 *	Magic function get value.
 	 *	@access		public
 	 *	@param		string		$key		Key of node to get value for
-	 *	@return		ADT_Tree_MagicNode
+	 *	@return		MagicNode
 	 */
-	public function __get( $key ){
+	public function __get( $key )
+	{
 		return $this->data->__get( $key );
 	}
 
@@ -74,9 +84,10 @@ class FS_File_JSON_Config{
 	 *	@access		public
 	 *	@param		string		$key		Key of to set value for
 	 *	@param		string		$value		Value to set
-	 *	@return		ADT_Tree_MagicNode
+	 *	@return		MagicNode
 	 */
-	public function __set( $key, $value ){
+	public function __set( $key, $value )
+	{
 		$this->data->__set( $key, $value );
 	}
 
@@ -85,11 +96,12 @@ class FS_File_JSON_Config{
 	 *	@access		public
 	 *	@return		integer		Number of saved bytes
 	 */
-	public function save(){
+	public function save()
+	{
 		$json	= $this->data->toJson();
 		if( $this->format )
-			$json	= ADT_JSON_Formater::format( $json );
-		return FS_File_Writer::save( $this->fileName, $json );
+			$json	= JsonFormater::format( $json );
+		return FileWriter::save( $this->fileName, $json );
 	}
 
 	/**
@@ -97,7 +109,8 @@ class FS_File_JSON_Config{
 	 *	@access		public
 	 *	@return		array
 	 */
-	public function toArray(){
+	public function toArray()
+	{
 		return $this->data->toArray();
 	}
 }

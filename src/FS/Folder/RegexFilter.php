@@ -25,6 +25,13 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			09.06.2007
  */
+
+namespace CeusMedia\Common\FS\Folder;
+
+use DirectoryIterator;
+use RegexIterator;
+use RuntimeException;
+
 /**
  *	Searchs for Folders by given RegEx Pattern (as File Name) in Folder.
  *	@category		Library
@@ -36,12 +43,14 @@
  *	@since			09.06.2007
  *	@todo			Fix Error while comparing File Name to Current File with Path
  */
-class FS_Folder_RegexFilter extends RegexIterator
+class RegexFilter extends RegexIterator
 {
 	/**	@var		 bool		$showFiles			Flag: show Files */
 	protected $showFiles;
+
 	/**	@var		 bool		$showFolders		Flag: show Folders */
 	protected $showFolders;
+
 	/**	@var		 bool		$stripDotEntries	Flag: strip Folder with leading Dot */
 	protected $stripDotEntries;
 

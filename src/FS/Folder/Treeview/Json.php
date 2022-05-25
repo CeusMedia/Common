@@ -24,6 +24,13 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+
+namespace CeusMedia\Common\FS\Folder\Treeview;
+
+use CeusMedia\Common\Alg\Time\Clock;
+use CeusMedia\Common\UI\HTML\Tag;
+use DirectoryIterator;
+
 /**
  *	...
  *	@category		Library
@@ -34,7 +41,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class FS_Folder_Treeview_Json
+class Json
 {
 	protected $logFile;
 	protected $path;
@@ -53,7 +60,7 @@ class FS_Folder_Treeview_Json
 
 	public function buildJson( $path = "" )
 	{
-		$clock		= new Alg_Time_Clock;
+		$clock		= new Clock;
 		$index		= new DirectoryIterator( $this->basePath.$path );
 		$folders	= array();
 		$files		= array();
@@ -82,7 +89,7 @@ class FS_Folder_Treeview_Json
 			'href' 		=> $url,
 			'target'	=> $this->fileTarget
 		);
-		$link		= UI_HTML_Tag::create( "a", $label, $attributes );
+		$link		= Tag::create( "a", $label, $attributes );
 		$item		= array(
 			'text'		=> $link,
 			'classes'	=> $this->classLeaf,

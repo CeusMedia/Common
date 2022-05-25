@@ -27,6 +27,8 @@
 
 namespace CeusMedia\Common\UI\Image;
 
+use CeusMedia\Common\FS\File\Writer as FileWriter;
+
 /**
  *	Simple CAPTCHA Generator.
  *	@category		Library
@@ -143,7 +145,7 @@ class Captcha
 		ob_start();
 		imagejpeg( $image, NULL, $this->quality );
 		if( $fileName )
-			return FS_File_Writer::save( $fileName, ob_get_clean() );
+			return FileWriter::save( $fileName, ob_get_clean() );
 		return ob_get_clean();
 	}
 

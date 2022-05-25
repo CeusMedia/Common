@@ -25,6 +25,9 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			12.05.2008
  */
+
+namespace CeusMedia\Common\FS\File;
+
 /**
  *	Checks Syntax of PHP Classes and Scripts.
  *	@category		Library
@@ -35,7 +38,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			12.05.2008
  */
-class FS_File_SyntaxChecker
+class SyntaxChecker
 {
 	/**
 	 *	Returns whether a PHP Class or Script has valid Syntax.

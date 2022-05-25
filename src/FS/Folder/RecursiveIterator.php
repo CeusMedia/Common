@@ -25,6 +25,14 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			15.04.2008
  */
+
+namespace CeusMedia\Common\FS\Folder;
+
+use FilterIterator;
+use RecursiveDirectoryIterator;
+use RecursiveIteratorIterator;
+use RuntimeException;
+
 /**
  *	Iterates all Folders and Files recursive within a Folder.
  *	@category		Library
@@ -35,14 +43,17 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			15.04.2008
  */
-class FS_Folder_RecursiveIterator extends FilterIterator
+class RecursiveIterator extends FilterIterator
 {
 	/**	@var		 string		$path				Path to iterate */
 	protected $path;
+
 	/**	@var		 bool		$showFiles			Flag: show Files */
 	protected $showFiles;
+
 	/**	@var		 bool		$showFolders		Flag: show Folders */
 	protected $showFolders;
+
 	/**	@var		 bool		$stripDotFolders	Flag: strip Folder with leading Dot */
 	protected $stripDotFolders;
 

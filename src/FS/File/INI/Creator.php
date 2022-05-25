@@ -25,6 +25,12 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			18.07.2005
  */
+
+namespace CeusMedia\Common\FS\File\INI;
+
+use CeusMedia\Common\FS\File\Writer as FileWriter;
+use InvalidArgumentException;
+
 /**
  *	Builder for File in .ini-Format.
  *	@category		Library
@@ -35,12 +41,14 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			18.07.2005
  */
-class FS_File_INI_Creator
+class Creator
 {
 	/**	@var	array			$data			Data of Ini File */
 	protected $data				= array();
+
 	/**	@var	string			$currentSection	Current working Section */
 	protected $currentSection	= NULL;
+
 	/**	@var	bool			$useSections	Flag: use Sections within Ini File */
 	protected $useSections		= FALSE;
 
@@ -162,7 +170,7 @@ class FS_File_INI_Creator
 			}
 			$lines[]	= "";
 		}
-		$file		= new FS_File_Writer( $fileName, 0664 );
+		$file		= new FileWriter( $fileName, 0664 );
 		return $file->writeArray( $lines );
 	}
 }

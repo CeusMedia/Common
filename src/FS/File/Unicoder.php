@@ -25,6 +25,12 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			18.10.2007
  */
+
+namespace CeusMedia\Common\FS\File;
+
+use CeusMedia\Common\Alg\Text\Unicoder as TextUnicoder;
+use Exception;
+
 /**
  *	Converts a File into UTF-8.
  *	@category		Library
@@ -35,7 +41,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			18.10.2007
  */
-class FS_File_Unicoder
+class Unicoder
 {
 	/**
 	 *	Constructor.
@@ -61,9 +67,9 @@ class FS_File_Unicoder
 	{
 		if( !(!$force && self::isUnicode( $fileName ) ) )
 		{
-			$string		= FS_File_Editor::load( $fileName );
-			$unicoded	= Alg_Text_Unicoder::convertToUnicode( $string );
-			return (bool) FS_File_Editor::save( $fileName, $unicoded );
+			$string		= Editor::load( $fileName );
+			$unicoded	= TextUnicoder::convertToUnicode( $string );
+			return (bool) Editor::save( $fileName, $unicoded );
 		}
 		return FALSE;
 	}
@@ -79,8 +85,8 @@ class FS_File_Unicoder
 	{
 		if( !file_exists( $fileName ) )
 			throw new Exception( 'File "'.$fileName.'" is not existing.' );
-		$string		= FS_File_Editor::load( $fileName );
-		$unicoded	= Alg_Text_Unicoder::convertToUnicode( $string );
+		$string		= Editor::load( $fileName );
+		$unicoded	= TextUnicoder::convertToUnicode( $string );
 		return $unicoded == $string;
 	}
 }

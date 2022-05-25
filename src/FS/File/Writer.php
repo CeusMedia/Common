@@ -24,6 +24,12 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+
+namespace CeusMedia\Common\FS\File;
+
+use InvalidArgumentExcpetion;
+use RuntimeException;
+
 /**
  *	Base File Writer.
  *	@category		Library
@@ -33,7 +39,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class FS_File_Writer
+class Writer
 {
 	public static $minFreeDiskSpace	= 10485760;
 
@@ -104,7 +110,7 @@ class FS_File_Writer
 
 	public static function delete( $fileName )
 	{
-		$writer	= new FS_File_Writer( $fileName );
+		$writer	= new Writer( $fileName );
 		return $writer->remove();
 	}
 
@@ -144,7 +150,7 @@ class FS_File_Writer
 	 */
 	public static function save( $fileName, $content, $mode = NULL, $user = NULL, $group = NULL )
 	{
-		$writer	= new FS_File_Writer( $fileName, $mode, $user, $group );
+		$writer	= new Writer( $fileName, $mode, $user, $group );
 		return $writer->writeString( $content );
 	}
 
@@ -160,7 +166,7 @@ class FS_File_Writer
 	 */
 	public static function saveArray( $fileName, $array, $lineBreak = "\n" )
 	{
-		$writer	= new FS_File_Writer( $fileName );
+		$writer	= new Writer( $fileName );
 		return $writer->writeArray( $array, $lineBreak );
 	}
 
@@ -212,7 +218,7 @@ class FS_File_Writer
 	{
 		if( is_integer( $mode ) )
 			$mode	= decoct( (string) $mode );
-		$permissions	= new FS_File_Permissions( $this->fileName );
+		$permissions	= new Permissions( $this->fileName );
 		return $permissions->setByOctal( $mode );
 	}
 

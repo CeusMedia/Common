@@ -25,6 +25,11 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			18.06.2007
  */
+
+namespace CeusMedia\Common\FS\File\YAML;
+
+use CeusMedia\Common\FS\File\Writer as FileWriter;
+
 /**
  *	YAML Writer based on Spyc.
  *	@category		Library
@@ -35,7 +40,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			18.06.2007
  */
-class FS_File_YAML_Writer
+class Writer
 {
 	/**	@var		string		$fileName		File Name of YAML File */
 	protected $fileName;
@@ -61,8 +66,8 @@ class FS_File_YAML_Writer
 	 */
 	public static function save( $fileName, $data )
 	{
-		$yaml	= FS_File_YAML_Spyc::YAMLDump( $data );
-		return FS_File_Writer::save( $fileName, $yaml );
+		$yaml	= Spyc::YAMLDump( $data );
+		return FileWriter::save( $fileName, $yaml );
 	}
 
 	/**

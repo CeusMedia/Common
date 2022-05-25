@@ -25,6 +25,9 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			27.12.2006
  */
+
+namespace CeusMedia\Common\FS\File\Log;
+
 /**
  *	Writer for short Log Files.
  *	@category		Library
@@ -35,7 +38,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			27.12.2006
  */
-class FS_File_Log_ShortWriter
+class ShortWriter
 {
 	/**	@var		string		$patterns	Pattern Array filled with Logging Information */
 	protected $patterns			= array();

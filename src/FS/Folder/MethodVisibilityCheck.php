@@ -25,6 +25,13 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			03.12.2009
  */
+
+namespace CeusMedia\Common\FS\Folder;
+
+use CeusMedia\Common\FS\File\PHP\Check\MethodVisibility as FilePhpCheckMethodVisibility;
+use CeusMedia\Common\FS\File\RecursiveRegexFilter as FileRecursiveRegexFilter;
+use FilterIterator;
+
 /**
  *	Checks visibility of methods in a folder containing PHP files.
  *	@category		Library
@@ -35,7 +42,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			03.12.2009
  */
-class FS_Folder_MethodVisibilityCheck
+class MethodVisibilityCheck
 {
 	public $count	= 0;
 	public $found	= 0;
@@ -53,10 +60,9 @@ class FS_Folder_MethodVisibilityCheck
 		$this->count	= 0;
 		$this->found	= 0;
 		$this->list		= array();
-		$finder	= new FS_File_RecursiveRegexFilter( $path, '@^[^_].*\.'.$extension.'$@', "@function @" );
-		foreach( $finder as $entry )
-		{
-			$checker	= new FS_File_PHP_Check_MethodVisibility( $entry->getPathname() );
+		$finder	= new FileRecursiveRegexFilter( $path, '@^[^_].*\.'.$extension.'$@', "@function @" );
+		foreach( $finder as $entry ){
+			$checker	= new FilePhpCheckMethodVisibility( $entry->getPathname() );
 			if( $checker->check() )
 				continue;
 			$this->found++;

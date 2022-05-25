@@ -25,6 +25,14 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			09.06.2007
  */
+
+namespace CeusMedia\Common\FS\File;
+
+use FilterIterator;
+use RecursiveDirectoryIterator;
+use RecursiveIteratorIterator;
+use RuntimeException;
+
 /**
  *	Searchs for a File by given File Name in Folder recursive.
  *	@category		Library
@@ -36,7 +44,7 @@
  *	@since			09.06.2007
  *	@todo			Fix Error while comparing File Name to Current File with Path
  */
-class FS_File_RecursiveNameFilter extends FilterIterator
+class RecursiveNameFilter extends FilterIterator
 {
 	/**	@var	string		$fileName		Name of File to be found */
 	private $fileName;

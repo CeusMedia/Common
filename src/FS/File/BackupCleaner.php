@@ -8,6 +8,12 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+
+namespace CeusMedia\Common\FS\File;
+
+use CeusMedia\Common\Alg\Validation\PredicateValidator;
+use InvalidArgumentException;
+
 /**
  *	...
  *	@category		Library
@@ -17,14 +23,15 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class FS_File_BackupCleaner{
-
+class BackupCleaner
+{
 	protected $path;
 	protected $prefix;
 	protected $ext;
 	protected $vault;
 
-	public function __construct( $path, $prefix, $ext ){
+	public function __construct( $path, $prefix, $ext )
+	{
 		$this->path			= $path;
 		$this->prefix		= $prefix;
 		$this->ext			= preg_replace( "/^\.+/", "", $ext );
@@ -33,14 +40,15 @@ class FS_File_BackupCleaner{
 	/**
 	 *	@todo		kriss: 3rd parameter $predicateClass = "Alg_Validation_Predicates"
 	 */
-	public function filterDateTree( $dates, $filters ){
+	public function filterDateTree( $dates, $filters )
+	{
 		if( !is_array( $dates ) )
 			throw new InvalidArgumentException( "Dates must be an array" );
 		if( !is_array( $filters ) )
 			throw new InvalidArgumentException( "Filters must be an array" );
 		if( !count( $filters ) )
 			return $dates;
-		$validator	= new Alg_Validation_PredicateValidator();
+		$validator	= new PredicateValidator();
 		foreach( $dates as $year => $months ){
 			foreach( $months as $month => $days ){
 				foreach( $days as $day => $date ){
@@ -61,7 +69,8 @@ class FS_File_BackupCleaner{
 		return $dates;
 	}
 
-	public function getDateTree(){
+	public function getDateTree()
+	{
 		$dates	= array();
 		foreach( $this->index() as $date ){
 			$time	= strtotime( $date );
@@ -80,10 +89,11 @@ class FS_File_BackupCleaner{
 		return $dates;
 	}
 
-	public function index(){
+	public function index()
+	{
 		$dates	= array();
 		$regExp	= "/^".$this->prefix.".+\.".$this->ext."$/";
-		$index	= new FS_File_RegexFilter( $this->path, $regExp );
+		$index	= new RegexFilter( $this->path, $regExp );
 		foreach( $index as $entry ){
 			$regExp		= "/^".$this->prefix."([0-9-]+)\.".$this->ext."$/";
 			$dates[]	= preg_replace( $regExp, "\\1", $entry->getFilename() );
@@ -99,7 +109,8 @@ class FS_File_BackupCleaner{
 	 *	@param		boolean		$testOnly	Flag: no real actions will take place, default: FALSE
 	 *	@return		void
 	 */
-	public function keepLastOfMonth( $filters = array(), $verbose = FALSE, $testOnly = FALSE ){
+	public function keepLastOfMonth( $filters = array(), $verbose = FALSE, $testOnly = FALSE )
+	{
 		$dates	= $this->filterDateTree( $this->getDateTree(), $filters );
 		foreach( $dates as $year => $months ){
 			if( $verbose )
@@ -131,13 +142,15 @@ class FS_File_BackupCleaner{
 		}
 	}
 
-	public function keepOnlyLastMonths( $months ){
+	public function keepOnlyLastMonths( $months )
+	{
 		$dates	= $this->filterDateTree( $this->getDateTree(), array() );
 		print_m( $dates );
 		die;
 	}
 
-	public function setVault( $path ){
+	public function setVault( $path )
+	{
 		$this->vault	= $path;
 	}
 }

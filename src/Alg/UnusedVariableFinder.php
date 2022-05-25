@@ -28,6 +28,7 @@
 
 namespace CeusMedia\Common\Alg;
 
+use CeusMedia\Common\FS\File\Reader as FileReader;
 use InvalidArgumentException;
 
 /**
@@ -280,7 +281,7 @@ class UnusedVariableFinder
 	 */
 	public function readFile( $fileName )
 	{
-		$code	= FS_File_Reader::load( $fileName );
+		$code	= FileReader::load( $fileName );
 		$this->readCode( $code );
 	}
 }

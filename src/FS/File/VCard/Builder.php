@@ -26,6 +26,12 @@
  *	@since			02.09.2008
  *	@link			http://www.ietf.org/rfc/rfc2426.txt
  */
+
+namespace CeusMedia\Common\FS\File\VCard;
+
+use CeusMedia\Common\ADT\VCard;
+use CeusMedia\Common\Alg\Text\EncodingConverter;
+
 /**
  *	Builds vCard String from vCard Data Object.
  *
@@ -40,7 +46,7 @@
  *	@todo			PHOTO,BDAY,NOTE,LABEL,KEY,PRODID,MAILER,TZ
  *	@todo			Code Doc
  */
-class FS_File_VCard_Builder
+class Builder
 {
 	public static $version	= "3.0";
 	public static $prodId	= "";
@@ -49,12 +55,12 @@ class FS_File_VCard_Builder
 	 *	Builds vCard String from vCard Object and converts between Charsets.
 	 *	@access		public
 	 *	@static
-	 *	@param		ADT_VCard	$card			VCard Data Object
+	 *	@param		VCard		$card			VCard Data Object
 	 *	@param		string		$charsetIn		Charset to convert from
 	 *	@param		string		$charsetOut		Charset to convert to
 	 *	@return		string
 	 */
-	public static function build( ADT_VCard $card, $charsetIn = NULL, $charsetOut = NULL )
+	public static function build( VCard $card, $charsetIn = NULL, $charsetOut = NULL )
 	{
 		$lines		= array();
 
@@ -111,7 +117,7 @@ class FS_File_VCard_Builder
 		$lines	= implode( "\n", $lines );
 		if( $charsetIn && $charsetOut )
 		{
-			$lines	= Alg_Text_EncodingConverter::convert( $lines, $charsetIn, $charsetOut );
+			$lines	= EncodingConverter::convert( $lines, $charsetIn, $charsetOut );
 		}
 		return $lines;
 	}

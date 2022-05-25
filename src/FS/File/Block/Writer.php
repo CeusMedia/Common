@@ -25,6 +25,11 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			19.12.2006
  */
+
+namespace CeusMedia\Common\FS\File\Block;
+
+use CeusMedia\Common\FS\File\Writer as FileWriter;
+
 /**
  *	Writer for Files with Text Block Contents, named by Section.
  *	@category		Library
@@ -35,7 +40,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			19.12.2006
  */
-class FS_File_Block_Writer
+class Writer
 {
 	protected $fileName;
 	protected $patternSection;
@@ -66,7 +71,7 @@ class FS_File_Block_Writer
 			$list[]	= $content;
 			$list[]	= "";
 		}
-		$file	= new FS_File_Writer( $this->fileName );
+		$file	= new FileWriter( $this->fileName );
 		return $file->writeArray( $list );
 	}
 }

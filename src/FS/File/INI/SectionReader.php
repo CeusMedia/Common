@@ -25,6 +25,12 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			01.11.2005
  */
+
+namespace CeusMedia\Common\FS\File\INI;
+
+use InvalidArgumentException;
+use RuntimeException;
+
 /*
  *	Reader for sectioned Ini Files using parse_ini_file.
  *	@category		Library
@@ -35,10 +41,11 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			01.11.2005
  */
-class FS_File_INI_SectionReader
+class SectionReader
 {
 	/**	@var		string		$fileName		Array of parsed Properties from File */
 	protected $data				= array();
+
 	/**	@var		string		$fileName		File Name of sectioned Properties File */
 	protected $fileName			= "";
 
@@ -63,7 +70,7 @@ class FS_File_INI_SectionReader
 	public function getProperties( $section = NULL )
 	{
 		if( $section && !$this->hasSection( $section ) )
-			throw new InvalidArgumentException( 'Section "'.$section.'" is not existing.' ); 
+			throw new InvalidArgumentException( 'Section "'.$section.'" is not existing.' );
 		if( $section )
 			return $this->data[$section];
 		return $this->data;
@@ -79,7 +86,7 @@ class FS_File_INI_SectionReader
 	public function getProperty( $section, $key )
 	{
 		if( !$this->hasProperty( $section, $key ) )
-			throw new InvalidArgumentException( 'Key "'.$key.'" is not existing in Section "'.$section.'".' ); 
+			throw new InvalidArgumentException( 'Key "'.$key.'" is not existing in Section "'.$section.'".' );
 		return $this->data[$section][$key];
 	}
 
@@ -103,7 +110,7 @@ class FS_File_INI_SectionReader
 	public function hasProperty( $section, $key )
 	{
 		if( !$this->hasSection( $section ) )
-			throw new InvalidArgumentException( 'Section "'.$section.'" is not existing.' ); 
+			throw new InvalidArgumentException( 'Section "'.$section.'" is not existing.' );
 		return array_key_exists( $key, $this->data[$section] );
 	}
 

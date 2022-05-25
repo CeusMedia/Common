@@ -1,6 +1,4 @@
 <?php
-#namespace CeusMedia\Common\FS\Autoloader;
-
 /*
  * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
  * "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
@@ -19,18 +17,21 @@
  * <http://www.doctrine-project.org>.
  */
 
+namespace CeusMedia\Common\FS\Autoloader;
+
 /**
  * SplClassLoader implementation that implements the technical interoperability
  * standards for PHP 5.3 namespaces and class names.
  *
  * http://groups.google.com/group/php-standards/web/psr-0-final-proposal?pli=1
  *
- // Example which loads classes for the Doctrine Common package in the
- * 
- // Doctrine\Common namespace.
- * 
- *     $classLoader = new SplClassLoader('Doctrine\Common', '/path/to/doctrine');
- *     $classLoader->register();
+ * // Example which loads classes for the Doctrine Common package in the
+ * // Doctrine\Common namespace.
+ *
+ *     use \CeusMedia\Common\FS\Autoloader\Psr0;
+ *
+ *     $loader = new Psr0('Doctrine\Common', '/path/to/doctrine');
+ *     $loader->register();
  *
  * @license http://www.opensource.org/licenses/mit-license.html  MIT License
  * @author Jonathan H. Wage <jonwage@gmail.com>
@@ -39,7 +40,7 @@
  * @author Kris Wallsmith <kris.wallsmith@gmail.com>
  * @author Fabien Potencier <fabien.potencier@symfony-project.org>
  */
-class FS_Autoloader_Psr0
+class Psr0
 {
     private $_fileExtension = '.php';
     private $_namespace;

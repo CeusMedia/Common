@@ -25,6 +25,12 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			10.10.2011
  */
+
+namespace CeusMedia\Common\FS\File\CSS;
+
+use CeusMedia\Common\ADT\CSS\Sheet as CssSheet;
+use RuntimeException;
+
 /**
  *	Reads CSS files and returns a structure of ADT_CSS_* objects or an array.
  *
@@ -36,9 +42,8 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			10.10.2011
  */
-class FS_File_CSS_Reader
+class Reader
 {
-
 	protected $fileName;
 
 	protected $content;
@@ -49,7 +54,8 @@ class FS_File_CSS_Reader
 	 *	@param		string		$fileName		Relative or absolute file URI
 	 *	@return		void
 	 */
-	public function __construct( $fileName = NULL ){
+	public function __construct( $fileName = NULL )
+	{
 		if( $fileName )
 			$this->setFileName( $fileName );
 	}
@@ -60,19 +66,21 @@ class FS_File_CSS_Reader
 	 *	@return		array
 	 *	@throws		RuntimeException	if no CSS file is set, yet.
 	 */
-	public function getRules(){
+	public function getRules()
+	{
 		if( !$this->fileName )
 			throw new RuntimeException( 'No CSS file set yet' );
-		return FS_File_CSS_Converter::convertSheetToArray( $this->sheet );
+		return Converter::convertSheetToArray( $this->sheet );
 	}
 
 	/**
 	 *	Returns content of CSS file as sheet structure.
 	 *	@access		public
-	 *	@return		ADT_CSS_Sheet
+	 *	@return		CssSheet
 	 *	@throws		RuntimeException	if no CSS file is set, yet.
 	 */
-	public function getSheet(){
+	public function getSheet()
+	{
 		if( !$this->fileName )
 			throw new RuntimeException( 'No CSS file set yet' );
 		return $this->sheet;
@@ -82,10 +90,11 @@ class FS_File_CSS_Reader
 	 *	Loads a CSS file and returns sheet structure statically.
 	 *	@access		public
 	 *	@param		string		$fileName		Relative or absolute file URI
-	 *	@return		ADT_CSS_Sheet
+	 *	@return		CssSheet
 	 */
-	static public function load( $fileName ){
-		return FS_File_CSS_Parser::parseFile( $fileName );
+	static public function load( $fileName )
+	{
+		return Parser::parseFile( $fileName );
 	}
 
 	/**
@@ -94,7 +103,8 @@ class FS_File_CSS_Reader
 	 *	@param		string		$fileName		Relative or absolute file URI
 	 *	@return		void
 	 */
-	public function setFileName( $fileName ){
+	public function setFileName( $fileName )
+	{
 		$this->fileName	= $fileName;
 		$this->sheet	= self::load( $fileName );
 	}

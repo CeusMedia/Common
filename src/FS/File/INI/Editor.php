@@ -26,6 +26,15 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+
+namespace CeusMedia\Common\FS\File\INI;
+
+use CeusMedia\Common\FS\File\Reader as FileReader;
+use CeusMedia\Common\FS\File\Writer as FileWriter;
+use InvalidArgumentException;
+use LogicException;
+use RuntimeException;
+
 /**
  *	Property File Editor.
  *	This Implementation keeps the File Structure of original File completely alive.
@@ -38,12 +47,14 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@todo			Code Documentation
  */
-class FS_File_INI_Editor extends FS_File_INI_Reader
+class Editor extends Reader
 {
 	/**	@var		array		$added			Added Properties */
 	protected $added			= array();
+
 	/**	@var		array		$renamed		Renamed Properties */
 	protected $renamed			= array();
+
 	/**	@var		array		$deleted		Deleted Properties */
 	protected $deleted			= array();
 
@@ -110,11 +121,11 @@ class FS_File_INI_Editor extends FS_File_INI_Reader
 	{
 		if( !$this->usesSections() )
 			throw new RuntimeException( 'Sections are disabled' );
-		$lines		= FS_File_Reader::loadArray( $this->fileName );
+		$lines		= FileReader::loadArray( $this->fileName );
 		$lines[]	= "[".$sectionName."]";
 		if( !in_array( $sectionName, $this->sections ) )
 			$this->sections[] = $sectionName;
-		$result		= FS_File_Writer::saveArray( $this->fileName, $lines );
+		$result		= FileWriter::saveArray( $this->fileName, $lines );
 		$this->read();
 		return is_int( $result );
 	}
@@ -273,9 +284,9 @@ class FS_File_INI_Editor extends FS_File_INI_Reader
 	{
 		if( !$this->usesSections() )
 			throw new RuntimeException( 'Sections are disabled' );
-		$content	= FS_File_Reader::load( $this->fileName );
+		$content	= FileReader::load( $this->fileName );
 		$content	= preg_replace( "/(.*)(\[".$oldSection."\])(.*)/si", "$1[".$newSection."]$3", $content );
-		$result		= FS_File_Writer::save( $this->fileName, $content );
+		$result		= FileWriter::save( $this->fileName, $content );
 		$this->added	= array();
 		$this->deleted	= array();
 		$this->renamed	= array();
@@ -342,7 +353,7 @@ class FS_File_INI_Editor extends FS_File_INI_Reader
 	 */
 	protected function write()
 	{
-		$file		= new FS_File_Writer( $this->fileName );
+		$file		= new FileWriter( $this->fileName );
 		$newLines	= array();
 		$currentSection	= "";
 		foreach( $this->lines as $line )

@@ -25,6 +25,14 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			11.10.2006
  */
+
+namespace CeusMedia\Common\FS\File\PHP;
+
+use CeusMedia\Common\FS\File\Editor as FileEditor;
+use CeusMedia\Common\FS\File\Reader as FileReader;
+use CeusMedia\Common\FS\File\Writer as FileWriter;
+use RuntimeException;
+
 /**
  *	Class for encoding PHP File.
  *	@category		Library
@@ -35,18 +43,23 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			11.10.2006
  */
-class FS_File_PHP_Encoder
+class Encoder
 {
 	/**	@var		string		$incodePrefix		Prefix of inner Code Wrapper */
 	protected $incodePrefix		= "";
+
 	/**	@var		string		$incodeSuffix		Suffix of inner Code Wrapper */
 	protected $incodeSuffix		= "";
+
 	/**	@var		string		$outcodePrefix		Prefix of outer Code Wrapper */
 	protected $outcodePrefix	= "";
+
 	/**	@var		string		$outcodeSuffix		Suffix of outer Code Wrapper */
 	protected $outcodeSuffix	= "";
+
 	/**	@var		string		$filePrefix			Prefix of compressed PHP File */
 	public $filePrefix			= "code.";
+
 	/**	@var		string		$fileSuffix			Suffix of compressed PHP File */
 	public $fileSuffix			= "";
 
@@ -88,7 +101,7 @@ class FS_File_PHP_Encoder
 		{
 			if( $this->isEncoded( $fileName ) )
 			{
-				$file	= new FS_File_Editor( $fileName );
+				$file	= new FileEditor( $fileName );
 				$php	= $file->readString();
 				$code	= $this->encode( $php );
 				$dirname	= dirname( $fileName );
@@ -140,7 +153,7 @@ class FS_File_PHP_Encoder
 			return FALSE;
 		if( $this->isEncoded( $fileName ) )
 			return TRUE;
-		$php		= FS_File_Reader::load( $fileName );
+		$php		= FileReader::load( $fileName );
 		$code		= $this->encode( $php );
 		$dirname	= dirname( $fileName );
 		$basename	= basename( $fileName );
@@ -148,7 +161,7 @@ class FS_File_PHP_Encoder
 		if( $fileName == $target && !$overwrite )
 			throw new RuntimeException( 'File cannot be overwritten, use Parameter "overwrite".' );
 //		copy( $fileName, "#".$fileName );
-		return (bool) FS_File_Writer::save( $target, $code );
+		return (bool) FileWriter::save( $target, $code );
 	}
 
 	/**

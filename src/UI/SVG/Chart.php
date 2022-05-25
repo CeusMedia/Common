@@ -27,8 +27,8 @@
 
 namespace CeusMedia\Common\UI\SVG;
 
-use FS_File_Writer as FileWriter;
-use UI_HTML_Tag as HtmlTag;
+use CeusMedia\Common\FS\File\Writer as FileWriter;
+use CeusMedia\Common\UI\HTML\Tag as HtmlTag;
 use DOMDocument;
 use Exception;
 

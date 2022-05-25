@@ -1,4 +1,7 @@
 <?php
+
+namespace CeusMedia\Common\FS\Autoloader;
+
 /**
  * An example of a general-purpose implementation that includes the optional
  * functionality of allowing multiple base directories for a single namespace
@@ -21,8 +24,10 @@
  * as follows:
  *
  *      <?php
+ *      use \CeusMedia\Common\FS\Autoloader\Psr4;
+ *
  *      // instantiate the loader
- *      $loader = new \FS_Autoloader_Psr4;
+ *      $loader = new Psr4();
  *
  *      // register the autoloader
  *      $loader->register();
@@ -43,7 +48,7 @@
  *      <?php
  *      new \Foo\Bar\Qux\QuuxTest;
  */
-class FS_Autoloader_Psr4
+class Psr4
 {
     /**
      * An associative array where the key is a namespace prefix and the value

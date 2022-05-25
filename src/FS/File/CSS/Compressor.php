@@ -25,6 +25,12 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			26.09.2007
  */
+
+namespace CeusMedia\Common\FS\File\CSS;
+
+#use CeusMedia\Common\FS\File\Reader as FileReader;
+use Exception;
+
 /**
  *	Compresses CSS Files.
  *	@category		Library
@@ -35,21 +41,24 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			26.09.2007
  */
-class FS_File_CSS_Compressor
+class Compressor
 {
 	/**	@var		string			$prefix			Prefix of compressed File Name */
 	var $prefix		= "";
+
 	/**	@var		array			$statistics		Statistical Data */
 	var $statistics	= array();
+
 	/**	@var		string			$suffix			Suffix of compressed File Name */
 	var $suffix		= ".min";
 
 /*	static public function compressFile( $fileName, $oneLine = FALSE ){
-		return self::compressString( FS_File_Reader::load( $fileName ), $oneLine );
+		return self::compressString( FileReader::load( $fileName ), $oneLine );
 	}
 */
 
-	public function compress( $string, $oneLine = FALSE ){
+	public function compress( $string, $oneLine = FALSE )
+	{
 		$this->statistics	= array();
 		$this->statistics['before']	= strlen( $string );
 		$string	= self::compressString( $string, $oneLine );
@@ -79,12 +88,14 @@ class FS_File_CSS_Compressor
 		return $fileUri;
 	}
 
-	static public function compressSheet( ADT_CSS_Sheet $sheet, $oneLine = FALSE ){
-		$converter	= new FS_File_CSS_Converter( $sheet );
+	static public function compressSheet( ADT_CSS_Sheet $sheet, $oneLine = FALSE )
+	{
+		$converter	= new Converter( $sheet );
 		return self::compressString( $converter->toString(), $oneLine );
 	}
 
-	static public function compressString( $string, $oneLine = FALSE ){
+	static public function compressString( $string, $oneLine = FALSE )
+	{
 		//  remove comments
 		$string	= preg_replace( '!/\*[^*]*\*+([^/][^*]*\*+)*/!', '', $string );
 		//  remove space after colons

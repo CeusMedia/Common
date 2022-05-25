@@ -25,6 +25,11 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			01.12.2008
  */
+
+namespace CeusMedia\Common\FS\File\Log\JSON;
+
+use Exception;
+
 /**
  *	Reader for Log Files containing JSON Serials.
  *	@category		Library
@@ -35,7 +40,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			01.12.2008
  */
-class FS_File_Log_JSON_Reader
+class Reader
 {
 	/**	@var		string		$fileName		File Name of Log File */
 	protected $fileName;
@@ -48,7 +53,7 @@ class FS_File_Log_JSON_Reader
 	 */
 	public function __construct( $fileName )
 	{
-		$this->fileName	= $fileName;	
+		$this->fileName	= $fileName;
 	}
 
 	/**

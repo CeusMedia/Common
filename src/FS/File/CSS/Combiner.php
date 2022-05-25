@@ -25,6 +25,12 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			26.09.2007
  */
+
+namespace CeusMedia\Common\FS\File\CSS;
+
+use Exception;
+use RuntimeException;
+
 /**
  *	Combines CSS Files imported in one CSS File.
  *	@category		Library
@@ -35,14 +41,17 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			26.09.2007
  */
-class FS_File_CSS_Combiner
+class Combiner
 {
 	/**	@var		string		$prefix			Prefix of combined File Name */
 	var $prefix					= "";
+
 	/**	@var		string		$suffix			Suffix of combined File Name */
 	var $suffix					= ".combined";
+
 	/**	@var		string		$importPattern	Pattern of imported CSS Files */
 	var $importPattern			= '#^@import (url\(\s*)?["\'](.*)["\'](\s*\))?;?$#i';
+
 	/**	@var		array		$statistics		Statistical Data */
 	var $statistics				= array();
 
@@ -51,7 +60,7 @@ class FS_File_CSS_Combiner
 	 *	@access		public
 	 *	@param		string		$styleFile		File Name of Style without Extension (iE. style.css,import.css,default.css)
 	 *	@param		bool		$verbose		Flag: list loaded CSS Files
-	 *	@return		string		
+	 *	@return		string
 	 */
 	public function combineFile( $fileUri )
 	{
@@ -132,7 +141,7 @@ class FS_File_CSS_Combiner
 	/**
 	 *	Returns statistical Data of last Combination.
 	 *	@access		public
-	 *	@return		array	
+	 *	@return		array
 	 */
 	public function getStatistics()
 	{
@@ -160,7 +169,7 @@ class FS_File_CSS_Combiner
 	{
 		if( trim( $prefix ) )
 			$this->prefix	= $prefix;
-	}	
+	}
 
 	/**
 	 *	Sets Suffix of combined File Name.
@@ -172,5 +181,5 @@ class FS_File_CSS_Combiner
 	{
 		if( trim( $suffix ) )
 			$this->suffix	= $suffix;
-	}	
+	}
 }

@@ -24,6 +24,11 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+
+namespace CeusMedia\Common\FS\File\CSS\Theme;
+
+use CeusMedia\Common\FS\File\CSS\Combiner as CssCombiner;
+
 /**
  *	Combines Stylesheet Files of a cmFramework Theme to one single File.
  *	@category		Library
@@ -33,7 +38,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class FS_File_CSS_Theme_Combiner extends FS_File_CSS_Combiner
+class Combiner extends CssCombiner
 {
 	const PROTOCOL_NONE		= 0;
 	const PROTOCOL_HTTP		= 1;

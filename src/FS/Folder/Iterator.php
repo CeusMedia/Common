@@ -25,6 +25,13 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			15.04.2008
  */
+
+namespace CeusMedia\Common\FS\Folder;
+
+use DirectoryIterator;
+use FilterIterator;
+use RuntimeException;
+
 /**
  *	Iterates all Folders and Files within a Folder.
  *	@category		Library
@@ -35,12 +42,14 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			15.04.2008
  */
-class FS_Folder_Iterator extends FilterIterator
+class Iterator extends FilterIterator
 {
 	/**	@var		 bool		$showFiles			Flag: show Files */
 	protected $showFiles;
+
 	/**	@var		 bool		$showFolders		Flag: show Folders */
 	protected $showFolders;
+
 	/**	@var		 bool		$stripDotEntries	Flag: strip Files and Folder with leading Dot */
 	protected $stripDotEntries;
 

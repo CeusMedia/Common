@@ -29,6 +29,16 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			15.04.2008
  */
+
+namespace CeusMedia\Common\FS\Folder;
+
+use CeusMedia\Common\FS\Folder\Iterator as FolderIterator;
+use DirectoryIterator;
+use InvalidArgumentException;
+use RecursiveDirectoryIterator;
+use RecursiveIteratorIterator;
+use RuntimeException;
+
 /**
  *	Editor for Folders.
  *	All Methods to create, copy, move or remove a Folder are working recursive.
@@ -43,7 +53,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			15.04.2008
  */
-class FS_Folder_Editor extends FS_Folder_Reader
+class Editor extends Reader
 {
 	/**
 	 *	Constructor, Creates Folder if not existing and Creation Mode is set.
@@ -165,7 +175,7 @@ class FS_Folder_Editor extends FS_Folder_Reader
 			$count	+= (int) self::createFolder( $targetFolder );
 
 		//  Index of Source Folder
-		$index	= new FS_Folder_Iterator( $sourceFolder, TRUE, TRUE, $skipDotEntries );
+		$index	= new FolderIterator( $sourceFolder, TRUE, TRUE, $skipDotEntries );
 		foreach( $index as $entry ){
 			//  Dot Folders
 			if( $entry->isDot() )

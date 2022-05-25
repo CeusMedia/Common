@@ -25,6 +25,13 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			09.06.2007
  */
+
+namespace CeusMedia\Common\FS\File;
+
+use DirectoryIterator;
+use RegexIterator;
+use RuntimeException;
+
 /**
  *	Searchs for Files by given RegEx Pattern (as File Name) in Folder.
  *	@category		Library
@@ -36,12 +43,14 @@
  *	@since			09.06.2007
  *	@todo			Fix Error while comparing File Name to Current File with Path
  */
-class FS_File_RegexFilter extends RegexIterator
+class RegexFilter extends RegexIterator
 {
 	/**	@var	int				$numberFound			Number of found Files */
 	protected $numberFound		= 0;
+
 	/**	@var	int				$numberScanned			Number of scanned Files */
 	protected $numberScanned	= 0;
+
 	/**	@var	string			$contentPattern	Regular Expression to match with File Content */
 	private $contentPattern;
 
@@ -82,7 +91,7 @@ class FS_File_RegexFilter extends RegexIterator
 		$realPath	= realpath( $this->current()->getPathname() );
 		if( $realPath )
 			$filePath	= $realPath;
-		$content	= FS_File_Reader::load( $filePath );
+		$content	= Reader::load( $filePath );
 		$found		= preg_match( $this->contentPattern, $content );
 		return $found;
 	}

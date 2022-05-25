@@ -25,6 +25,12 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			12.05.2008
  */
+
+namespace CeusMedia\Common\FS\Folder;
+
+use CeusMedia\Common\Alg\Time\Clock;
+use CeusMedia\Common\FS\File\SyntaxChecker as FileSyntaxChecker;
+
 /**
  *	Checks Syntax of all PHP Classes and Scripts within a Folder.
  *	@category		Library
@@ -35,10 +41,11 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			12.05.2008
  */
-class FS_Folder_SyntaxChecker
+class SyntaxChecker
 {
-	/**	@var		object		$checker		Instance of FS_File_SyntaxChecker */
+	/**	@var		object		$checker		Instance of SyntaxChecker */
 	protected $checker;
+
 	/**	@var		string		$phpExtension	Extension of PHP Files, by default 'php5' */
 	public static $phpExtension	= "php5";
 
@@ -50,7 +57,7 @@ class FS_Folder_SyntaxChecker
 	public function __construct()
 	{
 		$this->lineBreak	= getEnv( 'HTTP_HOST' ) ? "<br/>" : "\n";
-		$this->checker		= new FS_File_SyntaxChecker;
+		$this->checker		= new FileSyntaxChecker;
 	}
 
 	/**
@@ -65,11 +72,10 @@ class FS_Folder_SyntaxChecker
 	{
 		$counter	= 0;
 		$invalid	= array();
-		$clock		= new Alg_Time_Clock;
+		$clock		= new Clock;
 		$this->failures	= array();
-		$index		= new FS_Folder_RecursiveRegexFilter( $pathName, "@\.".self::$phpExtension."$@" );
-		foreach( $index as $file )
-		{
+		$index		= new RecursiveRegexFilter( $pathName, "@\.".self::$phpExtension."$@" );
+		foreach( $index as $file ){
 			$counter++;
 			$fileName	= $file->getPathname();
 			$shortName	= substr( $fileName, strlen( $pathName) );
@@ -100,15 +106,13 @@ class FS_Folder_SyntaxChecker
 	protected function printResults( $invalid, $counter, $time )
 	{
 		remark( str_repeat( "-", 79 ) );
-		if( count( $invalid ) )
-		{
+		if( count( $invalid ) ){
 			remark( "valid Files: ".( $counter - count( $invalid ) ) );
 			remark( "invalid Files: ".count( $invalid ) );
 			foreach( $invalid as $fileName => $error )
 				remark( "1. ".$fileName.": ".$error );
 		}
-		else
-		{
+		else{
 			remark( "All ".$counter." Files are valid." );;
 		}
 		remark( "Time: ".$time." sec" );

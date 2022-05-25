@@ -28,8 +28,8 @@
 
 namespace CeusMedia\Common\UI\Image\Graphviz;
 
-use FS_File_Editor as FileEditor;
-use FS_File_Reader as FileReader;
+use CeusMedia\Common\FS\File\Editor as FileEditor;
+use CeusMedia\Common\FS\File\Reader as FileReader;
 use InvalidArgumentException;
 use OutOfBoundsException;
 use RuntimeException;

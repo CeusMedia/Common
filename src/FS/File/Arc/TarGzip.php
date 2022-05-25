@@ -24,6 +24,11 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+
+namespace CeusMedia\Common\FS\File\Arc;
+
+use Exception;
+
 /**
  *	Tar Gzip File allows creation and manipulation of gzipped tar archives.
  *	@category		Library
@@ -33,7 +38,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class FS_File_Arc_TarGzip extends FS_File_Arc_Tar
+class TarGzip extends Tar
 {
 	/**
 	 *	Constructor.
@@ -70,7 +75,7 @@ class FS_File_Arc_TarGzip extends FS_File_Arc_Tar
 	 */
 	private function readGzipTar( $fileName )
 	{
-		$f = new FS_File_Arc_Gzip( $fileName );
+		$f = new Gzip( $fileName );
 		$this->content = $f->readString();
 		// Parse the TAR file
 		$this->parseTar();
@@ -93,7 +98,7 @@ class FS_File_Arc_TarGzip extends FS_File_Arc_Tar
 		}
 		// Encode processed files into TAR file format
 		$this->generateTar();
-		$f = new FS_File_Arc_Gzip( $fileName );
+		$f = new Gzip( $fileName );
 		$f->writeString( $this->content);
 		return true;
 	}

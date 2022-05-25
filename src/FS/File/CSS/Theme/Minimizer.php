@@ -24,6 +24,12 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+
+namespace CeusMedia\Common\FS\File\CSS\Theme;
+
+use CeusMedia\Common\FS\File\CSS\Combiner as CssCombiner;
+use CeusMedia\Common\FS\File\CSS\Compressor as CssCompressor;
+
 /**
  *	Combines and compresses Stylesheet Files of cmFramework Themes.
  *	@category		Library
@@ -33,11 +39,11 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class FS_File_CSS_Theme_Minimizer
+class Minimizer
 {
-	/**	@var		FS_File_CSS_Combiner		$combiner		Combiner instance */
+	/**	@var		CssCombiner					$combiner		Combiner instance */
 	protected $combiner;
-	/**	@var		FS_File_CSS_Compressor		$compressor		Compressor instance */
+	/**	@var		CssCompressor				$compressor		Compressor instance */
 	protected $compressor;
 	/**	@var		string		$cssFolder		Name of CSS Folder within Theme Path (optional) */
 	protected $cssFolder		= "";
@@ -68,9 +74,9 @@ class FS_File_CSS_Theme_Minimizer
 	{
 		//  set Themes Path
 		$this->setThemesPath( $themesPath );
-		$this->combiner		= new FS_File_CSS_Combiner;
+		$this->combiner		= new CssCombiner;
 		//  get CSS Compressor Instance
-		$this->compressor	= new FS_File_CSS_Compressor;
+		$this->compressor	= new CssCompressor;
 	}
 
 	/**
@@ -159,10 +165,10 @@ class FS_File_CSS_Theme_Minimizer
 	/**
 	 *	Sets a combiner Object to use.
 	 *	@access		public
-	 *	@param		FS_File_CSS_Combiner	$combiner		Combiner Object
+	 *	@param		CssCombiner		$combiner		Combiner Object
 	 *	@return		void
 	 */
-	public function setCombinerObject( FS_File_CSS_Combiner $combiner )
+	public function setCombinerObject( CssCombiner $combiner )
 	{
 		$this->combiner	= $combiner;
 	}
@@ -192,10 +198,10 @@ class FS_File_CSS_Theme_Minimizer
 	/**
 	 *	Sets a Compressor Object to use.
 	 *	@access		public
-	 *	@param		FS_File_CSS_Compressor	$compressor		Compressor Object
+	 *	@param		CssCompressor	$compressor		Compressor Object
 	 *	@return		void
 	 */
-	public function setCompressorObject( FS_File_CSS_Compressor $compressor )
+	public function setCompressorObject( CssCompressor $compressor )
 	{
 		$this->compressor	= $compressor;
 	}

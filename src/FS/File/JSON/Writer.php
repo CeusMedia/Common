@@ -25,6 +25,12 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.0
  */
+
+namespace CeusMedia\Common\FS\File\JSON;
+
+use CeusMedia\Common\ADT\JSON\Formater as JsonFormater;
+use CeusMedia\Common\FS\File\Writer as FileWriter;
+
 /**
  *	JSON Writer.
  *	@category		Library
@@ -35,7 +41,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.0
  */
-class FS_File_JSON_Writer
+class Writer
 {
 	protected $filePath;
 
@@ -60,7 +66,7 @@ class FS_File_JSON_Writer
 	 */
 	public static function save( $filePath, $value, $format = FALSE )
 	{
-		$writer	= new FS_File_JSON_Writer( $filePath );
+		$writer	= new Writer( $filePath );
 		return $writer->write( $value, $format );
 	}
 
@@ -78,10 +84,10 @@ class FS_File_JSON_Writer
 			if( version_compare( phpversion(), '5.4.0' ) >= 0 )
 				$json	= json_encode( $value, JSON_PRETTY_PRINT );
 			else
-				$json	= ADT_JSON_Formater::format( json_encode( $value ) );
+				$json	= JsonFormater::format( json_encode( $value ) );
 		}
 		else
 			$json	= json_encode( $value );
-		return FS_File_Writer::save( $this->filePath, $json );
+		return FileWriter::save( $this->filePath, $json );
 	}
 }

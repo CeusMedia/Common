@@ -25,6 +25,11 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			01.09.2006
  */
+
+namespace CeusMedia\Common\FS\File\Log\Tracker;
+
+use CeusMedia\Common\FS\File\Log\Reader as LogReader;
+
 /**
  *	Reader and Parser for Tracker Log File.
  *	@category		Library
@@ -35,12 +40,14 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			01.09.2006
  */
-class FS_File_Log_Tracker_Reader extends FS_File_Log_Reader
+class Reader extends LogReader
 {
 	/*	@var		string		$patterns		RegEx Patterns to parse Line */
 	protected $patterns;
+
 	/*	@var		string		$skip			Remote Address to skip (own Requests) */
 	protected $skip;
+
 	/*	@var		array		$data			Array of Data from parsed Lines */
 	protected $data	= array();
 

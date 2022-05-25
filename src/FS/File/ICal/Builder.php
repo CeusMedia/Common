@@ -27,6 +27,11 @@
  *	@see			RFC2445
  *	@link			http://www.w3.org/2002/12/cal/rfc2445
  */
+
+namespace CeusMedia\Common\FS\File\ICal;
+
+use CeusMedia\Common\XML\DOM\Node;
+
 /**
  *	Builder for iCalendar File from XML Tree.
  *	@category		Library
@@ -39,7 +44,7 @@
  *	@see			RFC2445
  *	@link			http://www.w3.org/2002/12/cal/rfc2445
  */
-class FS_File_Ical_Builder
+class Builder
 {
 	/**	@var	string		$lineBreak		Line Break String */
 	protected static $lineBreak;
@@ -58,7 +63,7 @@ class FS_File_Ical_Builder
 	/**
 	 *	Builds Array of iCal Lines from XML Tree.
 	 *	@access		public
-	 *	@param		XML_DOM_Node	$tree		XML Tree
+	 *	@param		Node		$tree		XML Tree
 	 *	@return 	array
 	 */
 	public function build( $tree )
@@ -75,9 +80,9 @@ class FS_File_Ical_Builder
 	 *	Builds iCal Line.
 	 *	@access		protected
 	 *	@static
-	 *	@param		string		name		Line Name
-	 *	@param		array		param		Line Parameters
-	 *	@param		string		content		Line Value
+	 *	@param		string		$name		Line Name
+	 *	@param		array		$param		Line Parameters
+	 *	@param		string		$content	Line Value
 	 *	@return 	string
 	 */
 	protected static function buildLine( $name, $param, $content )
@@ -123,7 +128,7 @@ class FS_File_Ical_Builder
 	 *	Builds Array of iCal Lines from XML Tree recursive.
 	 *	@access		protected
 	 *	@static
-	 *	@param		XML_DOM_Node	node	XML Node
+	 *	@param		Node		$node		XML Node
 	 *	@return 	array
 	 */
 	protected static function buildRecursive( $node  )

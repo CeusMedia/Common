@@ -30,7 +30,8 @@ namespace CeusMedia\Common\Alg\Tree\Menu;
 
 use CeusMedia\Common\ADT\Tree\Menu\Collection;
 use CeusMedia\Common\ADT\Tree\Menu\Item;
-
+use CeusMedia\Common\FS\File\Reader as FileReader;
+use CeusMedia\Common\XML\OPML\Parser as OpmlParser;
 /**
  *	Converter between OPML and Tree Menu Structure.
  *	@category		Library
@@ -83,7 +84,7 @@ class Converter
 	 */
 	public static function convertFromOpml( $opml, $labelRoot, $rootClass = NULL )
 	{
-		$parser		= new XML_OPML_Parser();
+		$parser		= new OpmlParser();
 		$parser->parse( $opml );
 		$lines		= $parser->getOutlines();
 		$list		= new Collection( $labelRoot, array( 'class' => $rootClass ) );
@@ -103,7 +104,7 @@ class Converter
 	 */
 	public static function convertFromOpmlFile( $fileName, $labelRoot, $rootClass = NULL )
 	{
-		$opml		= FS_File_Reader::load( $fileName );
+		$opml		= FileReader::load( $fileName );
 		return self::convertFromOpml( $opml, $labelRoot, $rootClass );
 	}
 }

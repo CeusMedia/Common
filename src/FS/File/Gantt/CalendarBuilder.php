@@ -25,6 +25,12 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			12.03.2008
  */
+
+namespace CeusMedia\Common\FS\File\Gantt;
+
+use CeusMedia\Common\FS\File\iCal\Builder as IcalBuilder;
+use CeusMedia\Common\XML\DOM\Node;
+
 /**
  *	Builds iCal File with Meeting Dates from "Gantt Project" File.
  *	@category		Library
@@ -35,7 +41,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			12.03.2008
  */
-class FS_File_Gantt_CalendarBuilder
+class CalendarBuilder
 {
 	/**	@var		string		$title		Title of iCal Root Node */
 	protected $title;
@@ -60,17 +66,17 @@ class FS_File_Gantt_CalendarBuilder
 	 */
 	public function build( $projects, $meetings )
 	{
-		$tree		= new XML_DOM_Node( $this->title );
-		$cal		= new XML_DOM_Node( "vcalendar" );
-		$cal->addChild( new XML_DOM_Node( "version", "2.0" ) );
+		$tree		= new Node( $this->title );
+		$cal		= new Node( "vcalendar" );
+		$cal->addChild( new Node( "version", "2.0" ) );
 		foreach( $projects as $project )
 		{
 			$start		= strtotime( $project['start'] );
 			$end		= strtotime( $project['end'] );
-			$event		= new XML_DOM_Node( "vevent" );
-			$start		= new XML_DOM_Node( "dtstart", date( "Ymd", $start ) );
-			$end		= new XML_DOM_Node( "dtend", date( "Ymd", $end ) );
-			$summary	= new XML_DOM_Node( "summary", $project['name'] );
+			$event		= new Node( "vevent" );
+			$start		= new Node( "dtstart", date( "Ymd", $start ) );
+			$end		= new Node( "dtend", date( "Ymd", $end ) );
+			$summary	= new Node( "summary", $project['name'] );
 			$event->addChild( $start );
 			$event->addChild( $end );
 			$event->addChild( $summary );
@@ -81,10 +87,10 @@ class FS_File_Gantt_CalendarBuilder
 		{
 			$start		= strtotime( $meeting['start'] );
 			$end		= strtotime( $meeting['end'] );
-			$event		= new XML_DOM_Node( "vevent" );
-			$start		= new XML_DOM_Node( "dtstart", date( "Ymd", $start ) );
-			$end		= new XML_DOM_Node( "dtend", date( "Ymd", $end ) );
-			$summary	= new XML_DOM_Node( "summary", $meeting['name'] );
+			$event		= new Node( "vevent" );
+			$start		= new Node( "dtstart", date( "Ymd", $start ) );
+			$end		= new Node( "dtend", date( "Ymd", $end ) );
+			$summary	= new Node( "summary", $meeting['name'] );
 			$event->addChild( $start );
 			$event->addChild( $end );
 			$event->addChild( $summary );
@@ -92,7 +98,7 @@ class FS_File_Gantt_CalendarBuilder
 		}
 		$tree->addChild( $cal );
 
-		$builder	= new FS_File_iCal_Builder();
+		$builder	= new IcalBuilder();
 		$ical		= $builder->build( $tree );
 		return $ical;
 	}

@@ -1,6 +1,6 @@
 <?php
 /**
- *	YAML Reader based on Spyc.
+ *	A Class for reading Section List Files.
  *
  *	Copyright (c) 2007-2022 Christian Würker (ceusmedia.de)
  *
@@ -18,62 +18,82 @@
  *	along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  *	@category		Library
- *	@package		CeusMedia_Common_FS_File_YAML
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ *	@package		CeusMedia_Common_FS_File_List
+ *	@author			Chistian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			18.06.2007
  */
 
-namespace CeusMedia\Common\FS\File\YAML;
+namespace CeusMedia\Common\FS\File\Collection;
 
 use CeusMedia\Common\FS\File\Reader as FileReader;
+use Exception;
 
 /**
- *	YAML Reader based on Spyc.
+ *	A Class for reading Section List Files.
  *	@category		Library
- *	@package		CeusMedia_Common_FS_File_YAML
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ *	@package		CeusMedia_Common_FS_File_List
+ *	@author			Chistian Würker <christian.wuerker@ceusmedia.de>
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			18.06.2007
  */
-class Reader
+class SectionReader
 {
+	protected $list	= array();
+	public static $commentPattern	= '/^[#|-|*|:|;]/';
+	public static $sectionPattern	= '/^\[([a-z0-9_=.,:;# ])+\]$/i';
+
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		string		$fileName		File Name of YAML File.
+	 *	@param		string		$fileName		File Name of sectioned List
 	 *	@return		void
 	 */
 	public function __construct( $fileName )
 	{
-		$this->fileName	= $fileName;
+		$this->list	= self::load( $fileName );
 	}
 
 	/**
-	 *	Loads YAML File statically.
+	 *	Reads the List.
 	 *	@access		public
 	 *	@static
-	 *	@param		string		$fileName		File Name of YAML File.
+	 *	@param		string		$fileName		File Name of sectioned List
 	 *	@return		array
 	 */
 	public static function load( $fileName )
 	{
-		$yaml	= FileReader::load( $fileName );
-		$array	= Spyc::YAMLLoad( $yaml );
-		return $array;
+		if( !file_exists( $fileName ) )
+			throw new Exception( 'File "'.$fileName.'" is not existing.' );
+
+		$reader	= new FileReader( $fileName );
+		$lines	= $reader->readArray();
+
+		$list	= array();
+		foreach( $lines as $line )
+		{
+			$line = trim( $line );
+			if( !$line )
+				continue;
+			if( preg_match( self::$commentPattern, $line ) )
+				continue;
+
+			if( preg_match( self::$sectionPattern, $line ) )
+			{
+				$section = substr( $line, 1, -1 );
+				if( !isset( $list[$section] ) )
+					$list[$section]	= array();
+			}
+			else if( $section )
+				$list[$section][]	= $line;
+		}
+		return $list;
 	}
 
-	/**
-	 *	Reads YAML File.
-	 *	@access		public
-	 *	@return		array
-	 */
 	public function read()
 	{
-		return self::load( $this->fileName );
+		return $this->list;
 	}
 }

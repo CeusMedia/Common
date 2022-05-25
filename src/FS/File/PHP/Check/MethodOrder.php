@@ -25,6 +25,11 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			04.09.2008
  */
+
+namespace CeusMedia\Common\FS\File\PHP\Check;
+
+use Exception;
+
 /**
  *	Checks order of methods within a PHP File.
  *	@category		Library
@@ -35,7 +40,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			04.09.2008
  */
-class FS_File_PHP_Check_MethodOrder
+class MethodOrder
 {
 	private $fileName		= "";
 	private $originalList	= array();

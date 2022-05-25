@@ -25,6 +25,13 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			03.09.2008
  */
+
+namespace CeusMedia\Common\FS\File\VCard;
+
+use CeusMedia\Common\ADT\VCard;
+use CeusMedia\Common\Alg\Text\EncodingConverter;
+use CeusMedia\Common\FS\File\Writer as FileWriter;
+
 /**
  *	Writes vCard String from vCard Data Object to a File.
  *	@category		Library
@@ -35,7 +42,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			03.09.2008
  */
-class FS_File_VCard_Writer
+class Writer
 {
 	/**	@var		string		$fileName		File Name of VCard File */
 	protected $fileName;
@@ -55,21 +62,21 @@ class FS_File_VCard_Writer
 	 *	Saves a vCard Object to a File statically and returns Number of written Bytes.
 	 *	@access		public
 	 *	@static
-	 *	@param		ADT_VCard	$card			vCard Object
+	 *	@param		VCard	$card			vCard Object
 	 *	@param		string		$charsetIn		Charset to convert from
 	 *	@param		string		$charsetOut		Charset to convert to
 	 *	@return		int
 	 */
 	public static function save( $fileName, $card, $charsetIn = NULL, $charsetOut = NULL )
 	{
-		$string	= FS_File_VCard_Builder::build( $card, $charsetIn, $charsetOut );
-		return FS_File_Writer::save( $fileName, $string );
+		$string	= Builder::build( $card, $charsetIn, $charsetOut );
+		return FileWriter::save( $fileName, $string );
 	}
 
 	/**
 	 *	Writes a vCard Object to the set up File and returns Number of written Bytes.
 	 *	@access		public
-	 *	@param		ADT_VCard	$card			vCard Object
+	 *	@param		VCard		$card			vCard Object
 	 *	@param		string		$charsetIn		Charset to convert from
 	 *	@param		string		$charsetOut		Charset to convert to
 	 *	@return		int

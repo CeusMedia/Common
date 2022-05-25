@@ -25,6 +25,11 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			12.03.2008
  */
+
+namespace CeusMedia\Common\FS\File\Gantt;
+
+use DirectoryIterator;
+
 /**
  *	Reads for several "Gantt Project" XML Files and extracts Project Information and Meeting Dates.
  *	@category		Library
@@ -32,12 +37,14 @@
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			12.03.2008
  */
-class FS_File_Gantt_MeetingCollector
+class MeetingCollector
 {
 	/**	@var		array		$files			Array of found Gantt Project XML Files */
 	protected $files			= array();
+
 	/**	@var		array		$meetigns		Array of extracted Meeting Dates */
 	protected $meetings			= array();
+
 	/**	@var		array		$projects		Array of extracted Project Dates */
 	protected $projects			= array();
 
@@ -135,7 +142,7 @@ class FS_File_Gantt_MeetingCollector
 		$projects	= array();
 		foreach( $fileList as $fileName )
 		{
-			$reader		= new FS_File_Gantt_MeetingReader( $fileName );
+			$reader		= new MeetingReader( $fileName );
 			$projects[]	= $reader->getProjectData();
 		}
 		return $projects;
