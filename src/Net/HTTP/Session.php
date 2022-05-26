@@ -24,6 +24,11 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+
+namespace CeusMedia\Common\Net\HTTP;
+
+use CeusMedia\Common\ADT\Collection\Dictionary;
+
 /**
  *	Session Management.
  *	@category		Library
@@ -33,7 +38,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class Net_HTTP_Session extends ADT_List_Dictionary
+class Session extends Dictionary
 {
 	/**
 	 *	Constructor.

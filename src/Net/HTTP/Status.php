@@ -24,6 +24,11 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+
+namespace CeusMedia\Common\Net\HTTP;
+
+use InvalidArgumentException;
+
 /**
  *	HTTP status code handling.
  *	@category		Library
@@ -33,8 +38,8 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class Net_HTTP_Status{
-
+class Status
+{
 	static protected $codes	= array(
 		100 => "Continue",
 		101 => "Switching Protocols",
@@ -117,7 +122,8 @@ class Net_HTTP_Status{
 	 *	@return		string
 	 *	@throws		InvalidArgumentException	if code could not be resolved
 	 */
-	static public function getText( $code ){
+	static public function getText( $code )
+	{
 		if( !array_key_exists( (int) $code, self::$codes ) )
 			throw new InvalidArgumentException( 'Unknown HTTP status code: '.$code );
 		return self::$codes[(int) $code];
@@ -130,7 +136,8 @@ class Net_HTTP_Status{
 	 *	@return		integer
 	 *	@throws		InvalidArgumentException	if text could not be resolved
 	 */
-	static public function getCode( $text ){
+	static public function getCode( $text )
+	{
 		if( $code = array_search( $text, self::$codes ) )
 			return $code;
 		$__text	= trim( strtolower( preg_replace( "/[^a-z ]/i", "", $text ) ) );
@@ -152,7 +159,8 @@ class Net_HTTP_Status{
 	 *	@param		string		$protocol		HTTP protocol, default: HTTP/1.0
 	 *	@return		void
 	 */
-	static public function sendHeader( $code, $protocol = "HTTP/1.0" ){
+	static public function sendHeader( $code, $protocol = "HTTP/1.0" )
+	{
 		$text = self::getText( $code );
 		header( $protocol.' '.$code.' '.$text );
 	}

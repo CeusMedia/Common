@@ -25,6 +25,12 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			01.07.2008
  */
+
+namespace CeusMedia\Common\Net\FTP;
+
+use InvalidArgumentException;
+use RuntimeException;
+
 /**
  *	Writer for FTP Connections.
  *	@category		Library
@@ -35,18 +41,18 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			01.07.2008
  */
-class Net_FTP_Writer
+class Writer
 {
-	/**	@var		Net_FTP_Connection	$connection		FTP connection object */
+	/**	@var		Connection		$connection		FTP connection object */
 	protected $connection;
 
 	/**
 	 *	Constructor
 	 *	@access		public
-	 *	@param		Net_FTP_Connection	$connection		FTP connection object
+	 *	@param		Connection		$connection		FTP connection object
 	 *	@return		void
 	 */
-	public function __construct( Net_FTP_Connection $connection )
+	public function __construct( Connection $connection )
 	{
 		$this->connection	= $connection;
 	}
@@ -81,7 +87,7 @@ class Net_FTP_Writer
 	{
 		$this->connection->checkConnection();
 		$temp	= uniqid( time() ).".temp";
-		$reader	= new Net_FTP_Reader( $this->connection );
+		$reader	= new Reader( $this->connection );
 		$reader->setPath( $this->getPath() );
 		if( !$reader->getFile( $from, $temp ) )
 			throw new RuntimeException( 'File "'.$from.'" could not be received.' );
@@ -105,7 +111,7 @@ class Net_FTP_Writer
 	{
 		$this->connection->checkConnection();
 		$this->createFolder( $to );
-		$reader	= new Net_FTP_Reader( $this->connection );
+		$reader	= new Reader( $this->connection );
 		$list	= $reader->getList( $from, TRUE );
 		foreach( $list as $entry )
 		{
@@ -201,7 +207,7 @@ class Net_FTP_Writer
 	public function removeFolder( $folderName )
 	{
 		$this->connection->checkConnection();
-		$reader	= new Net_FTP_Reader( $this->connection );
+		$reader	= new Reader( $this->connection );
 		$list	= $reader->getList( $folderName );
 		foreach( $list as $entry )
 		{

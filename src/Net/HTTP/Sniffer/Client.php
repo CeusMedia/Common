@@ -25,6 +25,9 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			12.08.2005
  */
+
+namespace CeusMedia\Common\Net\HTTP\Sniffer;
+
 /**
  *	Combination of different Sniffers for HTTP Request to determine all information about the Client.
  *	@category		Library
@@ -35,18 +38,23 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			12.08.2005
  */
-class Net_HTTP_Sniffer_Client
+class Client
 {
 	/**	@var		object		$browser		Instance of Net_HTTP_Sniffer_Browser */
 	protected $browser;
+
 	/**	@var		object		$charset		Instance of Net_HTTP_Sniffer_Charset */
 	protected $charset;
+
 	/**	@var		object		$encoding		Instance of Net_HTTP_Sniffer_Encoding */
 	protected $encoding;
+
 	/**	@var		object		$language		Instance of Net_HTTP_Sniffer_Language */
 	protected $language;
+
 	/**	@var		object		$mimeType		Instance of Net_HTTP_Sniffer_MimeType */
 	protected $mimeType;
+
 	/**	@var		object		$osSniffer		Instance of Net_HTTP_Sniffer_OperatingSystem */
 	protected $osSniffer;
 
@@ -57,12 +65,12 @@ class Net_HTTP_Sniffer_Client
 	 */
 	public function __construct()
 	{
-		$this->browser	= new Net_HTTP_Sniffer_Browser();
-		$this->charSet	= new Net_HTTP_Sniffer_Charset();
-		$this->encoding	= new Net_HTTP_Sniffer_Encoding();
-		$this->language	= new Net_HTTP_Sniffer_Language();
-		$this->mimeType	= new Net_HTTP_Sniffer_MimeType();
-		$this->system	= new Net_HTTP_Sniffer_OS();
+		$this->browser	= new Browser();
+		$this->charSet	= new Charset();
+		$this->encoding	= new Encoding();
+		$this->language	= new Language();
+		$this->mimeType	= new MimeType();
+		$this->system	= new OS();
 	}
 
 	/**

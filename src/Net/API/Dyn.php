@@ -26,6 +26,13 @@
  *	@see			http://dyn.com/support/developers/api/
  *	@since			0.7.6
  */
+
+namespace CeusMedia\Common\Net\API;
+
+use CeusMedia\Common\FS\File\Reader as FileReader;
+use CeusMedia\Common\FS\File\Writer as FileWriter;
+use CeusMedia\Common\Net\Reader as NetReader;
+
 /**
  *  Access to Dyn (dyn.com) API.
  *
@@ -38,7 +45,7 @@
  *  @see            http://dyn.com/support/developers/api/
  *  @since          0.7.6
  */
-class Net_API_Dyn
+class Dyn
 {
 	protected $cacheFile	= NULL;
 	protected $lastIp;
@@ -56,12 +63,12 @@ class Net_API_Dyn
 		if( is_string( $cacheFile ) ){
 			$this->cacheFile	= $cacheFile;
 			if( file_exists( $cacheFile ) ){
-				$data	= json_decode( FS_File_Reader::load( $cacheFile ) );
+				$data	= json_decode( FileReader::load( $cacheFile ) );
 				$this->lastIp		= $data->ip;
 				$this->lastCheck	= $data->timestamp;
 			}
 		}
-		$this->reader	= new Net_Reader();
+		$this->reader	= new NetReader();
 		$this->reader->setUserAgent( "CeusMedia - DynUpdateBot - 0.1" );
 	}
 
@@ -97,7 +104,7 @@ class Net_API_Dyn
 			'timestamp'	=> $this->lastCheck
 		);
 		$data	= array_merge( $last,  $data );
-		return FS_File_Writer::save( $this->cacheFile, json_encode( $data ) );
+		return FileWriter::save( $this->cacheFile, json_encode( $data ) );
 	}
 
 	/**

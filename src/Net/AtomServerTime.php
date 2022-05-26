@@ -25,6 +25,13 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			13.07.2005
  */
+
+namespace CeusMedia\Common\Net;
+
+use CeusMedia\Common\FS\File\INI\Reader as IniFileReader;
+use CeusMedia\Common\FS\File\Reader as FileReader;
+use CeusMedia\Common\FS\File\Writer as FileWriter;
+
 /**
  *	Calculates real Time by Server time and synchronised Atom time.
  *	@category		Library
@@ -35,14 +42,17 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			13.07.2005
  */
-class Net_AtomServerTime
+class AtomServerTime
 {
 	/**	@var		string		$syncFile		URI of File with synchronized atom time */
 	protected $syncFile	= "";
+
 	/**	@var		string		$syncTime		Timestamp of last synchronisation */
 	protected $syncTime	= "";
+
 	/**	@var		int			$syncDiff		Time difference between server time and atom time */
 	protected $syncDiff	= 0;
+
 	/**	@var		int			$refreshTime		Time distance in seconds for synchronisation update */
 	protected $refreshTime	= 86400;
 
@@ -70,7 +80,7 @@ class Net_AtomServerTime
 	{
 		if( !file_exists( $this->syncFile ) )
 			$this->synchronize();
-		$ir = new FS_File_INI_Reader ($this->syncFile, false);
+		$ir = new IniFileReader ($this->syncFile, false);
 		$data = $ir->getProperties (true);
 		$this->syncTime	= $data['time'];
 		$this->syncDiff	= $data['diff'];
@@ -89,13 +99,13 @@ class Net_AtomServerTime
 			if( ( time() - $time ) < $this->refreshTime )
 			{
 				$this->syncTime	= $time;
-				$this->syncDiff	= FS_File_Reader::load( $this->syncFile );
+				$this->syncDiff	= FileReader::load( $this->syncFile );
 				return;
 			}
 		}
 		$this->syncTime	= time();
-		$this->syncDiff	= $this->syncTime - Net_AtomTime::getTimestamp();
-		FS_File_Writer::save( $this->syncFile, $this->syncDiff );
+		$this->syncDiff	= $this->syncTime - AtomTime::getTimestamp();
+		FileWriter::save( $this->syncFile, $this->syncDiff );
 		touch( $this->syncFile );
 	}
 

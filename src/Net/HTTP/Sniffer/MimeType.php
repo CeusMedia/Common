@@ -25,6 +25,9 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			12.08.2005
  */
+
+namespace CeusMedia\Common\Net\HTTP\Sniffer;
+
 /**
  *	Sniffer for Mime Types accepted by a HTTP Request.
  *	@category		Library
@@ -35,7 +38,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			12.08.2005
  */
-class Net_HTTP_Sniffer_MimeType
+class MimeType
 {
 	/**
 	 *	Returns prefered allowed and accepted Mime Types.

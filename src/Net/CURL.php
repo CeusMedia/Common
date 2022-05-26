@@ -25,6 +25,12 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			16.06.2005
  */
+
+namespace CeusMedia\Common\Net;
+
+use InvalidArgumentException;
+use RuntimeException;
+
 /**
  *	cURL Wrapper
  *	@category		Library
@@ -35,19 +41,19 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			16.06.2005
  */
-class Net_CURL
+class CURL
 {
 	const INFO_CONTENT_TYPE				= 'content_type';
 	const INFO_CONTENT_LENGTH_DOWNLOAD	= 'download_content_length';
-	const INFO_CONTENT_LENGTH_UPLOAD		= 'upload_content_length';
-	const INFO_ERRNO						= 'errno';
+	const INFO_CONTENT_LENGTH_UPLOAD	= 'upload_content_length';
+	const INFO_ERRNO					= 'errno';
 	const INFO_ERROR					= 'error';
 	const INFO_HTTP_CODE				= 'http_code';
 	const INFO_HTTP_URL					= 'url';
 	const INFO_REDIRECT_COUNT			= 'redirect_count';
 	const INFO_REDIRECT_TIME			= 'redirect_time';
 	const INFO_SIZE_HEADER				= 'header_size';
-	const INFO_SIZE_DOWNLOAD				= 'size_download';
+	const INFO_SIZE_DOWNLOAD			= 'size_download';
 	const INFO_SIZE_REQUEST				= 'request_size';
 	const INFO_SIZE_UPLOAD				= 'size_upload';
 	const INFO_SPEED_DOWNLOAD			= 'speed_download';

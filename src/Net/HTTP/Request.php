@@ -25,6 +25,18 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			20.02.2007
  */
+
+namespace CeusMedia\Common\Net\HTTP;
+
+use CeusMedia\Common\ADT\Collection\Dictionary;
+use CeusMedia\Common\ADT\URL;
+use CeusMedia\Common\Deprecation;
+use CeusMedia\Common\Net\HTTP\Header\Field as HeaderField;
+use CeusMedia\Common\Net\HTTP\Header\Section as HeaderSection;
+use Exception;
+use InvalidArgumentException;
+use RuntimeException;
+
 /**
  *	Handler for HTTP Requests.
  *	@category		Library
@@ -36,18 +48,18 @@
  *	@since			20.02.2007
  *	@todo			Finish implementation: this is bastard of request and reponse
  */
-class Net_HTTP_Request extends ADT_List_Dictionary
+class Request extends Dictionary
 {
-	/** @var		Net_HTTP_Header_Section	$headers		Object of collected HTTP Headers */
+	/** @var		HeaderSection		$headers		Object of collected HTTP Headers */
 	public $headers;
 
-	/** @var		string					$body			Raw POST/PUT data, if available */
+	/** @var		string				$body			Raw POST/PUT data, if available */
 	protected $body			= '';
 
-	/**	@var		string					$ip				IP of Request */
+	/**	@var		string				$ip				IP of Request */
 	protected $ip			= '';
 
-	/** @var		Net_HTTP_Method			$method			HTTP request method object */
+	/** @var		Method				$method			HTTP request method object */
 	protected $method;
 
 	protected $protocol		= 'HTTP';
@@ -62,8 +74,8 @@ class Net_HTTP_Request extends ADT_List_Dictionary
 
 	public function __construct( $protocol = NULL, $version = NULL )
 	{
-		$this->method	= new Net_HTTP_Method();
-		$this->headers	= new Net_HTTP_Header_Section();
+		$this->method	= new Method();
+		$this->headers	= new HeaderSection();
 		if( !empty( $protocol ) )
 			$this->setProtocol( $protocol );
 		if( !empty( $version ) )
@@ -73,10 +85,10 @@ class Net_HTTP_Request extends ADT_List_Dictionary
 	/**
 	 *	Adds an HTTP header object.
 	 *	@access		public
-	 *	@param		Net_HTTP_Header_Field	$header		HTTP Header Field Object
+	 *	@param		HeaderField		$header		HTTP header field object
 	 *	@return		self
 	 */
-	public function addHeader( Net_HTTP_Header_Field $field ): self
+	public function addHeader( HeaderField $field ): self
 	{
 		$this->headers->addField( $field );
 		return $this;
@@ -91,7 +103,7 @@ class Net_HTTP_Request extends ADT_List_Dictionary
 	 */
 	public function addHeaderPair( string $name, string $value ): self
 	{
-		$this->headers->addField( new Net_HTTP_Header_Field( $name, $value ) );
+		$this->headers->addField( new HeaderField( $name, $value ) );
 		return $this;
 	}
 
@@ -155,7 +167,7 @@ class Net_HTTP_Request extends ADT_List_Dictionary
 		$source	= strtoupper( $source );
 		if( isset( $this->sources[$source] ) ){
 			if( $asDictionary )
-				return new ADT_List_Dictionary( $this->sources[$source] );
+				return new Dictionary( $this->sources[$source] );
 			return $this->sources[$source];
 		}
 		if( $strict )
@@ -231,7 +243,7 @@ class Net_HTTP_Request extends ADT_List_Dictionary
 	 *	@access		public
 	 *	@param		string		$name		Key name of header
 	 *	@param		boolean		$strict		Flag: throw exception if nothing found
-	 *	@return		Net_HTTP_Header_Field|null
+	 *	@return		HeaderField|null
 	 *	@throws		RuntimeException		if nothing found and strict mode enabled
 	 */
 	public function getHeader( string $name, bool $strict = TRUE )
@@ -247,9 +259,9 @@ class Net_HTTP_Request extends ADT_List_Dictionary
 	/**
 	 *	Returns collection of all HTTP headers received.
 	 *	@access		public
-	 *	@return		Net_HTTP_Header_Section		Collection of of Net_HTTP_Header_Field instances
+	 *	@return		HeaderSection			Collection of of HTTP header field instances
 	 */
-	public function getHeaders(): Net_HTTP_Header_Section
+	public function getHeaders(): HeaderSection
 	{
 		return $this->headers;
 	}
@@ -280,9 +292,9 @@ class Net_HTTP_Request extends ADT_List_Dictionary
 	/**
 	 *	Return request method object.
 	 *	@access		public
-	 *	@return		Net_HTTP_Method
+	 *	@return		Method
 	 */
-	public function getMethod(): Net_HTTP_Method
+	public function getMethod(): Method
 	{
 		return $this->method;
 	}
@@ -312,11 +324,11 @@ class Net_HTTP_Request extends ADT_List_Dictionary
 	 *	Get requested URL, relative of absolute.
 	 *	@access		public
 	 *	@param		boolean		$absolute		Flag: return absolute URL
-	 *	@return		ADT_URL
+	 *	@return		URL
 	 */
-	public function getUrl( bool $absolute = TRUE ): ADT_URL
+	public function getUrl( bool $absolute = TRUE ): URL
 	{
-		$url	= new ADT_URL( getEnv( 'REQUEST_URI' ) );
+		$url	= new URL( getEnv( 'REQUEST_URI' ) );
 		if( $absolute ){
 			$url->setScheme( getEnv( 'REQUEST_SCHEME' ) );
 			$url->setHost( getEnv( 'HTTP_HOST' ) );
@@ -467,7 +479,7 @@ class Net_HTTP_Request extends ADT_List_Dictionary
 
 	public function setAjax( bool $isAjax = TRUE ): self
 	{
-		$field	= new Net_HTTP_Header_Field( 'X-Requested-With', 'XMLHttpRequest' );
+		$field	= new HeaderField( 'X-Requested-With', 'XMLHttpRequest' );
 		if( $isAjax )
 			$this->headers->addField( $field );
 		else

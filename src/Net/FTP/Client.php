@@ -25,6 +25,13 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			01.07.2008
  */
+
+namespace CeusMedia\Common\Net\FTP;
+
+use Exception;
+use InvalidArgumentException;
+use RuntimeException;
+
 /**
  *	Client for FTP Connections.
  *	@category		Library
@@ -35,13 +42,15 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			01.07.2008
  */
-class Net_FTP_Client
+class Client
 {
-	/**	@var		Net_FTP_Connection	$connection		FTP Connection Object */
+	/**	@var		Connection		$connection		FTP Connection Object */
 	protected $connection;
-	/**	@var		Net_FTP_Reader		$reader			FTP Reader Object */
+
+	/**	@var		Reader			$reader			FTP Reader Object */
 	protected $reader;
-	/**	@var		Net_FTP_Writer		$writer			FTP Writer Object */
+
+	/**	@var		Writer			$writer			FTP Writer Object */
 	protected $writer;
 
 	/**
@@ -58,7 +67,7 @@ class Net_FTP_Client
 		try
 		{
 			$port	= $port ? $port : 21;
-			$this->connection	= new Net_FTP_Connection( $host, $port );
+			$this->connection	= new Connection( $host, $port );
 			$this->connection->checkConnection( TRUE, FALSE );
 			if( $username && $password )
 				$this->connection->login( $username, $password );
@@ -66,8 +75,8 @@ class Net_FTP_Client
 			if( $path )
 				if( !$this->connection->setPath( $path ) )
 					throw new InvalidArgumentException( 'Path "'.$path.'" not existing' );
-			$this->reader		= new Net_FTP_Reader( $this->connection );
-			$this->writer		= new Net_FTP_Writer( $this->connection );
+			$this->reader		= new Reader( $this->connection );
+			$this->writer		= new Writer( $this->connection );
 		}
 		catch( Exception $e )
 		{

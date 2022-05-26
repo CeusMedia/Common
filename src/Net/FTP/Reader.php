@@ -25,6 +25,9 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			01.07.2008
  */
+
+namespace CeusMedia\Common\Net\FTP;
+
 /**
  *	Reader for FTP Connections.
  *	@category		Library
@@ -35,25 +38,25 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			01.07.2008
  */
-class Net_FTP_Reader
+class Reader
 {
-	/**	@var		array				$fileTypes		List of File Types (dir,file,link) */
+	/**	@var		array			$fileTypes		List of File Types (dir,file,link) */
 	protected $fileTypes	= array(
 		'd'	=> "dir",
 		'-'	=> "file",
 		'l'	=> "link"
 	);
 
-	/**	@var		Net_FTP_Connection	$connection		FTP Connection Object */
+	/**	@var		Connection		$connection		FTP Connection Object */
 	protected $connection;
 
 	/**
 	 *	Constructor
 	 *	@access		public
-	 *	@param		Net_FTP_Connection	$connection		FTP Connection Object
+	 *	@param		Connection		$connection		FTP Connection Object
 	 *	@return		void
 	 */
-	public function __construct( Net_FTP_Connection $connection )
+	public function __construct( Connection $connection )
 	{
 		$this->connection	= $connection;
 	}

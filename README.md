@@ -72,25 +72,25 @@ A library of PHP classes for common tasks.
 		- [x] YAML
 	- [x] Folder
 		- [x] TreeView
-- [ ] Net *(2/9)*
-	- [ ] API
-		- [ ] Google
-			- [ ] Code
-			- [ ] Maps
-			- [ ] Sitemap
-	- [ ] FTP
-	- [ ] HTTP
-		- [ ] Header
-			- [ ] Field
-		- [ ] Request
-		- [ ] Response
-		- [ ] Sniffer
+- [x] Net *(9/9)*
+	- [x] API
+		- [x] Google
+			- [x] Code => removed
+			- [x] Maps
+			- [x] Sitemap
+	- [x] FTP
+	- [x] HTTP
+		- [x] Header
+			- [x] Field
+		- [x] Request
+		- [x] Response
+		- [x] Sniffer
 	- [x] IMAP => moved to CeusMedia::Mail
 	- [x] Mail => moved to CeusMedia::Mail
-	- [ ] Memory
-	- [ ] Site
-	- [ ] SVN
-	- [ ] XMPP
+	- [x] Memory
+	- [x] Site
+	- [x] SVN
+	- [x] XMPP
 - [x] UI *(5/5)*
 	- [x] HTML
 		- [x] AHAH

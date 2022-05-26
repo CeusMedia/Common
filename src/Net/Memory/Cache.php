@@ -25,6 +25,13 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			13.04.2009
  */
+
+namespace CeusMedia\Common\Net\Memory;
+
+use CeusMedia\Common\ADT\Cache\Store as CacheStore;
+use Memcache;
+use RuntimeException;
+
 /**
  *	Cache to store Data in Memory of a remote Server using MemCache as Store.
  *	@category		Library
@@ -35,7 +42,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			13.04.2009
  */
-class Net_Memory_Cache extends ADT_Cache_Store
+class Cache extends CacheStore
 {
 	public $expires		= 0;
 	public $compress	= 0;

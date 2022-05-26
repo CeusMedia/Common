@@ -25,6 +25,13 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.5
  */
+
+namespace CeusMedia\Common\Net\SVN;
+
+use CeusMedia\Common\Exception\IO as IoException;
+use CeusMedia\Common\XML\Element as XmlElement;
+use Exception;
+
 /**
  *	Simple Subversion client.
  *
@@ -36,8 +43,8 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.5
  */
-class Net_SVN_Client{
-
+class Client
+{
 	protected $user;
 	protected $group;
 	protected $mode;
@@ -46,7 +53,7 @@ class Net_SVN_Client{
 
 	public function __construct( $path ){
 		if( !file_exists( $path ) )
-			throw new Exception_IO( 'Invalid path', 0, $path );
+			throw new IoException( 'Invalid path', 0, $path );
 		$this->path		= realpath( $path ).'/';
 		$this->pathExp	= '^('.str_replace( '/', '\/', $this->path ).')';
 	}
@@ -54,7 +61,7 @@ class Net_SVN_Client{
 	public function add( $path ){
 		$url	= $this->path.$path;
 		if( !file_exists( $url ) )
-			throw new Exception_IO( 'Invalid path', 0, $path );
+			throw new IoException( 'Invalid path', 0, $path );
 		$status	= @svn_add( $url );
 		if( !$status )
 			svn_revert( $url );
@@ -89,27 +96,27 @@ class Net_SVN_Client{
 		if( !strlen( `svn info $path` ) )
 			throw new Exception( 'Path '.$path.' is not under SVN conrol' );
 		$xml	= `svn info $path --xml 2>&1`;
-		return new XML_Element( $xml );
+		return new XmlElement( $xml );
 	}
 
 	public function ls( $path, $revision = SVN_REVISION_HEAD, $recurse = FALSE ){
 		$url	= $this->path.$path;
 		if( !file_exists( $url ) )
-			throw new Exception_IO( 'Invalid path', 0, $path );
+			throw new IoException( 'Invalid path', 0, $path );
 		return svn_ls( $url, $revision, $recurse );
 	}
 
 	public function revert( $path ){
 		$url	= $this->path.$path;
 		if( !file_exists( $url ) )
-			throw new Exception_IO( 'Invalid path', 0, $path );
+			throw new IoException( 'Invalid path', 0, $path );
 		return @svn_revert( $url );
 	}
 
 	public function status( $path = '.', $flags = 0 ){
 		$url		= $this->path.$path;
 		if( !file_exists( $url ) )
-			throw new Exception_IO( 'Invalid path', 0, $path );
+			throw new IoException( 'Invalid path', 0, $path );
 		return svn_status( $url,  $flags );
 	}
 }

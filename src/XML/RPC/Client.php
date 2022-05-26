@@ -29,6 +29,7 @@
 
 namespace CeusMedia\Common\XML\RPC;
 
+use CeusMedia\Common\Net\HTTP\Post as HttpPost;
 use CeusMedia\Common\XML\ElementReader;
 
 /**
@@ -72,7 +73,7 @@ class Client
 		$method	= '<methodName>'.$method.'</methodName>';
 		$params	= '<params>'.join( $params ).'</params>';
 		$call	= '<methodCall>'.$method.$params.'</methodCall>';
-		return self::parseResponse( Net_HTTP_Post::sendData( $this->url, $call ) );
+		return self::parseResponse( HttpPost::sendData( $this->url, $call ) );
 	}
 
 	/**

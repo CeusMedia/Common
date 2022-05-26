@@ -25,6 +25,12 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.1
  */
+
+namespace CeusMedia\Common\Net\HTTP\Header;
+
+use CeusMedia\Common\Net\HTTP\Header\Field\Parser as FieldParser;
+use InvalidArgumentException;
+
 /**
  *	Data Object of HTTP Headers.
  *	@category		Library
@@ -35,10 +41,11 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.1
  */
-class Net_HTTP_Header_Field
+class Field
 {
 	/**	@var		string		$name		Name of Header */
 	protected $name;
+
 	/**	@var		string		$value		Value of Header */
 	protected $value;
 
@@ -66,7 +73,7 @@ class Net_HTTP_Header_Field
 	 */
 	static public function decodeQualifiedValues( $values, $sortByLength = TRUE )
 	{
-		return Net_HTTP_Header_Field_Parser::decodeQualifiedValues( $values, $sortByLength );
+		return FieldParser::decodeQualifiedValues( $values, $sortByLength );
 	}
 
 	/**

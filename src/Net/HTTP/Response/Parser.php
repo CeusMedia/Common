@@ -25,6 +25,14 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.0
  */
+
+namespace CeusMedia\Common\Net\HTTP\Response;
+
+use CeusMedia\Common\Net\HTTP\Request as Request;
+use CeusMedia\Common\Net\HTTP\Response as Response;
+use CeusMedia\Common\Net\HTTP\Response\Decompressor as ResponseDecompressor;
+use CeusMedia\Common\Net\HTTP\Header\Field\Parser as HeaderFieldParser;
+
 /**
  *	Parser for HTTP Response containing Headers and Body.
  *	@category		Library
@@ -35,15 +43,15 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.0
  */
-class Net_HTTP_Response_Parser
+class Parser
 {
 	/**
 	 *	Sends given Request and returns resulting Response Object.
 	 *	@access		public
-	 *	@param		Net_HTTP_Request	$request	Request Object
-	 *	@return		Net_HTTP_Response	Response Object
+	 *	@param		Request			$request	Request Object
+	 *	@return		Response		Response Object
 	 */
-	public static function fromRequest( Net_HTTP_Request $request )
+	public static function fromRequest( Request $request )
 	{
 		$response	= $request->send();
 		return self::fromString( $response );
@@ -52,14 +60,14 @@ class Net_HTTP_Response_Parser
 	/**
 	 *	Parses Response String and returns resulting Response Object.
 	 *	@access		public
-	 *	@param		string				$request	Request String
-	 *	@return		Net_HTTP_Response	Response Object
+	 *	@param		string			$request	Request String
+	 *	@return		Response		Response Object
 	 */
 	public static function fromString( $string )
 	{
 #		$string		= trim( $string );
 		$parts		= explode( "\r\n\r\n", $string );
-		$response	= new Net_HTTP_Response;
+		$response	= new Response;
 		while( $part = array_shift( $parts ) )
 		{
 			$pattern	= '/^([A-Z]+)\/([0-9.]+) ([0-9]{3}) ?(.+)?/';
@@ -77,7 +85,7 @@ class Net_HTTP_Response_Parser
 		while( $encoding = array_pop( $encodings ) )
 		{
 			$method	= $encoding->getValue();
-			$body	= Net_HTTP_Response_Decompressor::decompressString( $body, $method );
+			$body	= ResponseDecompressor::decompressString( $body, $method );
 		}*/
 		$response->setBody( $body );
 		return $response;
@@ -94,7 +102,7 @@ class Net_HTTP_Response_Parser
 				$pattern	= '/^([A-Z]+)\/([0-9.]+) ([0-9]{3}) ?(.+)?/';
 				$matches	= array();
 				preg_match_all( $pattern, $line, $matches );
-				$response	= new Net_HTTP_Response( $matches[1][0], $matches[2][0] );
+				$response	= new Response( $matches[1][0], $matches[2][0] );
 				$response->setStatus( $matches[3][0] );
 				$state	= 1;
 			}
@@ -102,7 +110,7 @@ class Net_HTTP_Response_Parser
 			{
 				if( !strlen( trim( $line ) ) )
 					continue;
-				$response->headers->addField( Net_HTTP_Header_Field_Parser::parse( $line ) );
+				$response->headers->addField( HeaderFieldParser::parse( $line ) );
 			}
 		}
 		return $response;

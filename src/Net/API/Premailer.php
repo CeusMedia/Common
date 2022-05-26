@@ -28,6 +28,14 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.8.3.5
  */
+
+namespace CeusMedia\Common\Net\API;
+
+use CeusMedia\Common\Net\HTTP\Post;
+use CeusMedia\Common\Net\Reader as NetReader;
+use Exception;
+use RuntimeException;
+
 /**
  *	Premailer API PHP class.
  *
@@ -48,7 +56,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.8.3.5
  */
-class Net_API_Premailer
+class Premailer
 {
 	const ENDPOINT = 'http://premailer.dialect.ca/api/0.1/documents';
 
@@ -98,7 +106,7 @@ class Net_API_Premailer
 		if( $this->cache && $this->cache->has( $cacheKey ) )
 			return json_decode( $this->cache->get( $cacheKey ) );
 
-		$request	= new Net_HTTP_Post();
+		$request	= new Post();
 		$response	= json_decode( $request->send( self::ENDPOINT, $params, array(
 			CURLOPT_TIMEOUT			=> 15,
 			CURLOPT_USERAGENT		=> 'PHP Premailer',
@@ -165,7 +173,7 @@ class Net_API_Premailer
 		$cacheKey	= 'premailer_'.$this->response->requestId.'.html';
 		if( $this->cache && $this->cache->has( $cacheKey ) )
 			return $this->cache->get( $cacheKey );
-		$html	= Net_Reader::readUrl( $this->response->documents->html );
+		$html	= NetReader::readUrl( $this->response->documents->html );
 		$this->cache && $this->cache->set( $cacheKey, $html );
 		return $html;
 	}
@@ -182,7 +190,7 @@ class Net_API_Premailer
 		$cacheKey	= 'premailer_'.$this->response->requestId.'.text';
 		if( $this->cache && $this->cache->has( $cacheKey ) )
 			return $this->cache->get( $cacheKey );
-		$text	= Net_Reader::readUrl( $this->response->documents->txt );
+		$text	= NetReader::readUrl( $this->response->documents->txt );
 		$this->cache && $this->cache->set( $cacheKey, $text );
 		return $text;
 	}

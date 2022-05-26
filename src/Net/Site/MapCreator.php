@@ -25,6 +25,12 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			10.12.2006
  */
+
+namespace CeusMedia\Common\Net\Site;
+
+use CeusMedia\Common\FS\File\Block\Writer as BlockFileWriter;
+use CeusMedia\Common\FS\File\Writer as FileWriter;
+
 /**
  *	Google Sitemap XML Creator, crawls a Web Site and writes a Sitemap XML File.
  *	@category		Library
@@ -35,12 +41,13 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			10.12.2006
  */
-class Net_Site_MapCreator
+class MapCreator
 {
-	/**	@var		Net_Site_Crawler	$crawler	Instance of Site Crawler */
+	/**	@var		Crawler			$crawler	Instance of Site Crawler */
 	protected $crawler;
-	/**	@var		array				$errors		List of Errors */
-	protected $errors					= array();
+
+	/**	@var		array			$errors		List of Errors */
+	protected $errors				= array();
 
 	/**
 	 *	Constructor.
@@ -65,14 +72,14 @@ class Net_Site_MapCreator
 	 */
 	public function createSitemap( $url, $sitemapUri, $errorsLogUri = NULL, $urlListUri = NULL, $verbose = FALSE )
 	{
-		$crawler	= new Net_Site_Crawler( $url, $this->depth );
+		$crawler	= new Crawler( $url, $this->depth );
 		$crawler->crawl( $url, FALSE, $verbose );
 		$this->errors	= $crawler->getErrors();
 		$this->links	= $crawler->getLinks();
 		$list	= array();
 		foreach( $this->links as $link )
 			$list[]	= $link['url'];
-		$writtenBytes	= Net_Site_MapWriter::save( $sitemapUri, $list );
+		$writtenBytes	= MapWriter::save( $sitemapUri, $list );
 		if( $errorsLogUri )
 		{
 			@unlink( $errorsLogUri );
@@ -112,7 +119,7 @@ class Net_Site_MapCreator
 	 */
 	public function saveErrors( $uri )
 	{
-		$writer	= new FS_File_Block_Writer( $uri );
+		$writer	= new BlockFileWriter( $uri );
 		return $writer->writeBlocks( $this->errors );
 	}
 
@@ -127,7 +134,7 @@ class Net_Site_MapCreator
 		$list	= array();
 		foreach( $this->links as $link )
 			$list[]	= $link['url'];
-		$writer	= new FS_File_Writer( $uri );
+		$writer	= new FileWriter( $uri );
 		$writer->writeArray( $list );
 	}
 }

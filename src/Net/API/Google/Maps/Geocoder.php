@@ -25,6 +25,15 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.6.5
  */
+
+namespace CeusMedia\Common\Net\API\Google\Maps;
+
+use CeusMedia\Common\Net\API\Google\Request as GoogleRequest;
+use CeusMedia\Common\FS\File\Editor as FileEditor;
+use CeusMedia\Common\XML\Element as XmlElement;
+use InvalidArgumentException;
+use RuntimeException;
+
 /**
  *	Resolves an address to geo codes using Google Maps API.
  *	@category		Library
@@ -35,7 +44,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.6.5
  */
-class Net_API_Google_Maps_Geocoder extends Net_API_Google_Request
+class Geocoder extends GoogleRequest
 {
 	/** @var		string		$apiUrl			Google Maps API URL */
 	public $apiUrl				= "http://maps.googleapis.com/maps/api/geocode/xml";
@@ -57,16 +66,16 @@ class Net_API_Google_Maps_Geocoder extends Net_API_Google_Request
 		{
 			$cacheFile	= $this->pathCache.$address.".xml.cache";
 			if( file_exists( $cacheFile ) && !$force )
-				return File_Editor::load( $cacheFile );
+				return FileEditor::load( $cacheFile );
 		}
 		$xml	= $this->sendQuery( $query );
-		$doc	= new XML_Element( $xml );
+		$doc	= new XmlElement( $xml );
 		if( $doc->status->getValue() === "OVER_QUERY_LIMIT" )
 			throw new RuntimeException( 'Query limit reached' );
 		if( !@$doc->result->geometry->location )
 			throw new InvalidArgumentException( 'Address not found' );
 		if( $this->pathCache )
-			File_Editor::save( $cacheFile, $xml );
+			FileEditor::save( $cacheFile, $xml );
 		return $xml;
 	}
 
@@ -82,7 +91,7 @@ class Net_API_Google_Maps_Geocoder extends Net_API_Google_Request
 	public function getGeoTags( $address, $force = FALSE )
 	{
 		$xml	= $this->getGeoCode( $address, $force );
-		$xml	= new XML_Element( $xml );
+		$xml	= new XmlElement( $xml );
 		$coordinates	= (string) $xml->result->geometry->location;
 		$parts			= explode( ",", $coordinates );
 		$data			= array(
@@ -95,7 +104,7 @@ class Net_API_Google_Maps_Geocoder extends Net_API_Google_Request
 
 	public function getAddress( $address, $force = FALSE ){
 		$xml	= $this->getGeoCode( $address, $force );
-		$xml	= new XML_Element( $xml );
+		$xml	= new XmlElement( $xml );
 		if( (string) $xml->status !== "OK" )
 			throw new RuntimeException( 'Address not found: '.$address );
 		return (string) $xml->result->formatted_address;

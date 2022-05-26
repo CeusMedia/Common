@@ -25,6 +25,11 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			09.03.2006
  */
+
+namespace CeusMedia\Common\Net\FTP;
+
+use RuntimeException;
+
 /**
  *	Basic FTP Connection.
  *	@category		Library
@@ -36,7 +41,7 @@
  *	@since			09.03.2006
  *	@todo			implement SSL Support
  */
-class Net_FTP_Connection
+class Connection
 {
 	/**	@var		boolean		$auth			Indicator of Authentification */
 	protected $auth				= FALSE;
@@ -237,4 +242,4 @@ class Net_FTP_Connection
 		$this->mode	= $mode;
 		return TRUE;
 	}
-}	
+}

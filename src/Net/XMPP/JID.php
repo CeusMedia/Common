@@ -25,6 +25,11 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			20.06.2014
  */
+
+namespace CeusMedia\Common\Net\XMPP;
+
+use InvalidArgumentException;
+
 /**
  *	Parser and generator for XMPP JIDs.
  *	@category		Library
@@ -35,8 +40,8 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			20.06.2014
  */
-class Net_XMPP_JID{
-
+class JID
+{
 	protected $domain;
 	protected $node;
 	protected $resource;
@@ -51,7 +56,8 @@ class Net_XMPP_JID{
 	 *	@param		string		$resource	Name of client resource
 	 *	@return		void
 	 */
-	public function __construct( $domain, $node = NULL, $resource = NULL ){
+	public function __construct( $domain, $node = NULL, $resource = NULL )
+	{
 		if( preg_match( "/@/", $domain ) )
 			extract( self::disassemble( $domain ) );
 		$this->set( $domain, $node, $resource );
@@ -63,7 +69,8 @@ class Net_XMPP_JID{
 	 *	@access		public
 	 *	@return		array
 	 */
-	static public function disassemble( $jid ){
+	static public function disassemble( $jid )
+	{
 		if( !self::isValid( $jid ) )
 			throw new InvalidArgumentException( 'Given JID is not valid.' );
 		$matches	= array();
@@ -80,7 +87,8 @@ class Net_XMPP_JID{
 	 *	@access		public
 	 *	@return		string
 	 */
-	public function get(){
+	public function get()
+	{
 		return self::getJid( $this->domain, $this->node, $this->resource );
 	}
 
@@ -89,7 +97,8 @@ class Net_XMPP_JID{
 	 *	@access		public
 	 *	@return		string
 	 */
-	public function getDomain(){
+	public function getDomain()
+	{
 		return $this->domain;
 	}
 
@@ -102,9 +111,10 @@ class Net_XMPP_JID{
 	 *	@param		string		$resource	Name of client resource
 	 *	@return		string
 	 */
-	static public function getJid( $domain, $node = NULL, $resource = NULL ){
+	static public function getJid( $domain, $node = NULL, $resource = NULL )
+	{
 		$jid	= $domain;
-		if( strlen( trim( $node ) ) ) 
+		if( strlen( trim( $node ) ) )
 			$jid	= $node.'@'.$domain;
 		if( strlen( trim( $resource ) ) )
 			$jid	.= "/".$resource;
@@ -116,7 +126,8 @@ class Net_XMPP_JID{
 	 *	@access		public
 	 *	@return		string
 	 */
-	public function getNode(){
+	public function getNode()
+	{
 		return $this->node;
 	}
 
@@ -125,7 +136,8 @@ class Net_XMPP_JID{
 	 *	@access		public
 	 *	@return		string
 	 */
-	public function getResource(){
+	public function getResource()
+	{
 		return $this->resource;
 	}
 
@@ -135,7 +147,8 @@ class Net_XMPP_JID{
 	 *	@param		string		$jid		JID
 	 *	@return		boolean
 	 */
-	static public function isValid( $jid ){
+	static public function isValid( $jid )
+	{
 		return preg_match( self::$regexJid, $jid );
 	}
 
@@ -147,7 +160,8 @@ class Net_XMPP_JID{
 	 *	@param		string		$resource	Name of client resource
 	 *	@return		void
 	 */
-	public function set( $domain, $node = NULL, $resource = NULL ){
+	public function set( $domain, $node = NULL, $resource = NULL )
+	{
 		if( !strlen( trim( $domain ) ) )
 			throw new InvalidArgumentException( 'Domain is missing' );
 		$this->domain	= $domain;
@@ -161,7 +175,8 @@ class Net_XMPP_JID{
 	 *	@param		string		$jid		JID: domain + optional node and resource
 	 *	@return		void
 	 */
-	public function setJid( $jid ){
+	public function setJid( $jid )
+	{
 		extract( self::disassemble( $jid ) );
 		$this->set( $domain, $node, $resource );
 	}

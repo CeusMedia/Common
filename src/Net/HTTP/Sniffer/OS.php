@@ -25,6 +25,9 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			12.08.2005
  */
+
+namespace CeusMedia\Common\Net\HTTP\Sniffer;
+
 /**
  *	Sniffer for Client's Operating System.
  *	@category		Library
@@ -36,7 +39,7 @@
  *	@since			12.08.2005
  *	@todo			may be out of date
  */
-class Net_HTTP_Sniffer_OS
+class OS
 {
 	/**	@var	string		$system			Operating System */
 	protected $system		= "";

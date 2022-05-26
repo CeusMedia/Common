@@ -27,6 +27,15 @@
  *	@see			http://gravatar.com/site/implement/xmlrpc/
  *	@since			0.7.6
  */
+
+namespace CeusMedia\Common\Net\API;
+
+use CeusMedia\Common\UI\HTML\Tag as HtmlTag;
+use CeusMedia\Common\XML\RPC\Client as RpcClient;
+use InvalidArgumentException;
+use OutOfBoundsException;
+use RuntimeException;
+
 /**
  *	Generates URL for Gravatar API.
  *
@@ -42,8 +51,8 @@
  *	@todo			test implementations
  *	@todo			code doc
  */
-class Net_API_Gravatar{
-
+class Gravatar
+{
 	protected $url		= 'https://secure.gravatar.com/avatar/';
 	protected $urlRpc	= 'https://secure.gravatar.com/xmlrpc';
 	protected $size		= 80;
@@ -58,7 +67,7 @@ class Net_API_Gravatar{
 	 *	@param		string		$rate		Rate to allow atleast (g | pg | r | x)
 	 *	@param		string		$default	Default set to use if no Gravatar is available (404 | mm | identicon | monsterid | wavatar)
 	 *	@return		void
-	 */	
+	 */
 	public function __construct( $size = NULL, $rate = NULL, $default = NULL ){
 		if( !is_null( $size ) )
 			$this->setSize( $size );
@@ -74,7 +83,7 @@ class Net_API_Gravatar{
 		if( !array_key_exists( 'password', $arguments ) )
 			throw new InvalidArgumentException( 'argument "password" is missing' );
 		$hash		= md5( strtolower( trim( $email ) ) );
-		$client		= new XML_RPC_Client( $this->urlRpc.'?user='.$hash );
+		$client		= new RpcClient( $this->urlRpc.'?user='.$hash );
 		return $client->call( 'grav.'.$method, array( (object) $arguments ), TRUE );
 	}
 
@@ -123,13 +132,13 @@ class Net_API_Gravatar{
 	 *	@access		public
 	 *	@param		string		$email			Email address to get Gravatar image for
 	 *	@param		array		$attributes		Additional HTML tag attributes
-	 *	@return		string		Image HTML code 
+	 *	@return		string		Image HTML code
 	 */
 	public function renderImage( $email, $attributes = array() ){
 		$attributes['src']		= $this->getUrl( $email );
 		$attributes['width']	= $this->size;
 		$attributes['height']	= $this->size;
-		return UI_HTML_Tag::create( 'img', NULL, $attributes );
+		return HtmlTag::create( 'img', NULL, $attributes );
 	}
 
 	/**

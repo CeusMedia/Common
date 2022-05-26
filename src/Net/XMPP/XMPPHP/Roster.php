@@ -3,17 +3,17 @@
  * XMPPHP: The PHP XMPP Library
  * Copyright (C) 2008  Nathanael C. Fritz
  * This file is part of SleekXMPP.
- * 
+ *
  * XMPPHP is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
  * (at your option) any later version.
- * 
+ *
  * XMPPHP is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with XMPPHP; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
@@ -25,9 +25,12 @@
  *	@author			Michael Garvin <JID: gar@netflint.net>
  *	@copyright		2008 Nathanael C. Fritz
  */
+
+namespace CeusMedia\Common\Net\XMPP\XMPPHP;
+
 /**
  * XMPPHP Roster Object
- * 
+ *
  *	@category		Library
  *	@package		CeusMedia_Common_Net_XMPP_XMPPHP
  *	@author			Nathanael C. Fritz <JID: fritzy@netflint.net>
@@ -36,7 +39,8 @@
  *	@copyright		2008 Nathanael C. Fritz
  */
 
-class Net_XMPP_XMPPHP_Roster {
+class Roster
+{
 	/**
 	 * Roster array, handles contacts and presence.  Indexed by jid.
 	 * Contains array with potentially two indexes 'contact' and 'presence'
@@ -45,9 +49,10 @@ class Net_XMPP_XMPPHP_Roster {
 	public $roster_array = array();
 	/**
 	 * Constructor
-	 * 
+	 *
 	 */
-	public function __construct($roster_array = array()) {
+	public function __construct($roster_array = array())
+	{
 		if ($this->verifyRoster($roster_array)) {
 			$this->roster_array = $roster_array; //Allow for prepopulation with existing roster
 		} else {
@@ -61,7 +66,8 @@ class Net_XMPP_XMPPHP_Roster {
 	 *
 	 * @param array $roster_array
 	 */
-	protected function verifyRoster($roster_array) {
+	protected function verifyRoster($roster_array)
+	{
 		#TODO once we know *what* a valid roster array looks like
 		return True;
 	}
@@ -75,7 +81,8 @@ class Net_XMPP_XMPPHP_Roster {
 	 * @param string $name
 	 * @param array $groups
 	 */
-	public function addContact($jid, $subscription, $name='', $groups=array()) {
+	public function addContact($jid, $subscription, $name='', $groups=array())
+	{
 		$contact = array('jid' => $jid, 'subscription' => $subscription, 'name' => $name, 'groups' => $groups);
 		if ($this->isContact($jid)) {
 			$this->roster_array[$jid]['contact'] = $contact;
@@ -85,12 +92,13 @@ class Net_XMPP_XMPPHP_Roster {
 	}
 
 	/**
-	 * 
+	 *
 	 * Retrieve contact via jid
 	 *
 	 * @param string $jid
 	 */
-	public function getContact($jid) {
+	public function getContact($jid)
+	{
 		if ($this->isContact($jid)) {
 			return $this->roster_array[$jid]['contact'];
 		}
@@ -102,7 +110,8 @@ class Net_XMPP_XMPPHP_Roster {
 	 *
 	 * @param string $jid
 	 */
-	public function isContact($jid) {
+	public function isContact($jid)
+	{
 		return (array_key_exists($jid, $this->roster_array));
 	}
 
@@ -115,7 +124,8 @@ class Net_XMPP_XMPPHP_Roster {
 	 * @param string $show
 	 * @param string $status
 	*/
-	public function setPresence($presence, $priority, $show, $status) {
+	public function setPresence($presence, $priority, $show, $status)
+	{
 		list($jid, $resource) = explode("/", $presence);
 		if ($show != 'unavailable') {
 			if (!$this->isContact($jid)) {
@@ -134,7 +144,8 @@ class Net_XMPP_XMPPHP_Roster {
 	 *
 	 * @param string $jid
 	 */
-	public function getPresence($jid) {
+	public function getPresence($jid)
+	{
 		$split = explode("/", $jid);
 		$jid = $split[0];
 		if($this->isContact($jid)) {
@@ -154,7 +165,8 @@ class Net_XMPP_XMPPHP_Roster {
 	 * Get roster
 	 *
 	 */
-	public function getRoster() {
+	public function getRoster()
+	{
 		return $this->roster_array;
 	}
 }

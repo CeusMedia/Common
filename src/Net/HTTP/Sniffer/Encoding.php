@@ -25,6 +25,11 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			12.08.2005
  */
+
+namespace CeusMedia\Common\Net\HTTP\Sniffer;
+
+use InvalidArgumentException;
+
 /**
  *	Sniffer for Encoding Methods accepted by a HTTP Request.
  *	@category		Library
@@ -35,7 +40,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			12.08.2005
  */
-class Net_HTTP_Sniffer_Encoding
+class Encoding
 {
 	/**
 	 *	Returns prefered allowed and accepted Encoding Method.

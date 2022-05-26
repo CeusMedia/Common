@@ -24,6 +24,13 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+
+namespace CeusMedia\Common\Net\Memory;
+
+use CeusMedia\Common\ADT\Cache\StaticStore as StaticCacheStore;
+use Memcache;
+use RuntimeException;
+
 /**
  *	...
  *	@category		Library
@@ -34,7 +41,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@todo			Code Doc
  */
-class Net_Memory_StaticCache extends ADT_Cache_StaticStore
+class StaticCache extends StaticCacheStore
 {
 	protected static $expire		= 0;
 	protected static $compress		= FALSE;
@@ -54,7 +61,7 @@ class Net_Memory_StaticCache extends ADT_Cache_StaticStore
 			throw new RuntimeException( 'Not connected' );
 		$value	= self::$connection->get( $key );
 		if( $value === FALSE )
-			return self::$connection->replace( $key, FALSE ) ? FALSE : NULL; 
+			return self::$connection->replace( $key, FALSE ) ? FALSE : NULL;
 		return $value;
 	}
 
@@ -64,7 +71,7 @@ class Net_Memory_StaticCache extends ADT_Cache_StaticStore
 			throw new RuntimeException( 'Not connected' );
 		$value	= self::$connection->get( $key );
 		if( $value === FALSE )
-			return self::$connection->replace( $key, FALSE ) ? TRUE : NULL; 
+			return self::$connection->replace( $key, FALSE ) ? TRUE : NULL;
 		return TRUE;
 	}
 
@@ -89,5 +96,5 @@ class Net_Memory_StaticCache extends ADT_Cache_StaticStore
 		if( !self::$connection )
 			throw new RuntimeException( 'Not connected' );
 		return self::$connection->getExtendedStats();
-	}	
+	}
 }

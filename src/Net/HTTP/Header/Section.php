@@ -25,6 +25,13 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.1
  */
+
+namespace CeusMedia\Common\Net\HTTP\Header;
+
+use CeusMedia\Common\Deprecation;
+use CeusMedia\Common\Net\HTTP\Header\Field as HeaderField;
+use CeusMedia\Common\Net\HTTP\Header\Renderer as HeaderRenderer;
+
 /**
  *	...
  *
@@ -96,7 +103,7 @@
  *	Expires
  *	Last-Modified
  */
-class Net_HTTP_Header_Section
+class Section
 {
 	protected $fields	= array(
 		'general'	=> array(
@@ -158,14 +165,14 @@ class Net_HTTP_Header_Section
 		)
 	);
 
-	public function addField( Net_HTTP_Header_Field $field ): self
+	public function addField( HeaderField $field ): self
 	{
 		return $this->setField( $field, FALSE );
 	}
 
 	public function addFieldPair( string $name, $value ): self
 	{
-		$field	= new Net_HTTP_Header_Field( $name, $value );
+		$field	= new HeaderField( $name, $value );
 		return $this->addField( $field );
 	}
 
@@ -237,7 +244,7 @@ class Net_HTTP_Header_Section
 		return FALSE;
 	}
 
-	public function removeField( Net_HTTP_Header_Field $field ): self
+	public function removeField( HeaderField $field ): self
 	{
 		$name	= $field->getName();
 		foreach( $this->fields as $sectionName => $sectionPairs )
@@ -261,7 +268,7 @@ class Net_HTTP_Header_Section
 		return $this;
 	}
 
-	public function setField( Net_HTTP_Header_Field $field, bool $emptyBefore = TRUE ): self
+	public function setField( HeaderField $field, bool $emptyBefore = TRUE ): self
 	{
 		$name	= $field->getName();
 		foreach( $this->fields as $sectionName => $sectionPairs ){
@@ -280,7 +287,7 @@ class Net_HTTP_Header_Section
 
 	public function setFieldPair( string $name, $value, bool $emptyBefore = TRUE ): self
 	{
-		$this->setField( new Net_HTTP_Header_Field( $name, $value ), $emptyBefore );
+		$this->setField( new HeaderField( $name, $value ), $emptyBefore );
 		return $this;
 	}
 
@@ -303,7 +310,7 @@ class Net_HTTP_Header_Section
 
 	public function render(): string
 	{
-		return Net_HTTP_Header_Renderer::render( $this );
+		return HeaderRenderer::render( $this );
 	}
 
 	/**

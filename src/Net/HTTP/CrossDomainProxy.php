@@ -25,6 +25,11 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			14.06.2008
  */
+
+namespace CeusMedia\Common\Net\HTTP;
+
+use Exception;
+
 /**
  *	Proxy for Cross Domain Requests to bypass JavaScript's same origin policy.
  *	@category		Library
@@ -38,12 +43,14 @@
  *	@todo			implement time out and http status code check
  *	@todo			think about forwarding header "X-Requested-With"
  */
-class Net_HTTP_CrossDomainProxy
+class CrossDomainProxy
 {
 	/**	@var		string		$url				URL of Service Request */
 	protected		$url		= "";
+
 	/**	@var		string		$username			Username of HTTP Basic Authentication */
 	protected		$username	= "";
+
 	/**	@var		string		$password			Password of HTTP Basic Authentication */
 	protected		$password	= "";
 
@@ -131,5 +138,4 @@ class Net_HTTP_CrossDomainProxy
 		//  return Service Response
 		return $response;
 	}
-
 }

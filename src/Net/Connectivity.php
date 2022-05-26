@@ -24,6 +24,12 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+
+namespace CeusMedia\Common\Net;
+
+use InvalidArgumentException;
+use RangeException;
+
 /**
  *	Reader for Contents from the Net.
  *
@@ -34,8 +40,8 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class Net_Connectivity{
-
+class Connectivity
+{
 	const STATUS_UNKNOWN	= 0;
 	const STATUS_OFFLINE	= 1;
 	const STATUS_ONLINE		= 2;
@@ -62,9 +68,10 @@ class Net_Connectivity{
 	 *	@access		public
 	 *	@param		integer		$method		Method to use for checking
 	 *	@return		void
-	 *	@throws		\RangeException			if given method is unsupported
+	 *	@throws		RangeException			if given method is unsupported
 	 */
-	public function check( $method = NULL ){
+	public function check( $method = NULL )
+	{
 		$method			= $this->method;
 		if( $method && $this->validateMethod( $method ) )
 			$method		= $method;
@@ -90,7 +97,8 @@ class Net_Connectivity{
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function checkUsingSocket(){
+	public function checkUsingSocket()
+	{
 		$conn	= @fsockopen( 'google.com', 443);
 		$this->status = $conn ? self::STATUS_ONLINE : self::STATUS_OFFLINE;
         fclose( $conn );
@@ -102,7 +110,8 @@ class Net_Connectivity{
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function checkUsingSystemPing(){
+	public function checkUsingSystemPing()
+	{
 		$response = NULL;
 		@exec( "ping -c 1 google.com 2>&1 1> /dev/null", $response, $code );
 //		@system( "ping -c 1 1111google.com &2>1 &1>/dev/null", $code );
@@ -118,7 +127,8 @@ class Net_Connectivity{
 	 *	@param		integer		$force		Flag: evaluate connectivity instead if returning latest status
 	 *	@return		boolean
 	 */
-	public function isOnline( $force = FALSE ){
+	public function isOnline( $force = FALSE )
+	{
 		if( $this->status === self::STATUS_UNKNOWN || $force )
 			$this->check();
 		return $this->status === self::STATUS_ONLINE;
@@ -130,7 +140,8 @@ class Net_Connectivity{
 	 *	@param		integer		$force		Flag: evaluate connectivity instead if returning latest status
 	 *	@return		boolean
 	 */
-	public function isOffline( $force = FALSE ){
+	public function isOffline( $force = FALSE )
+	{
 		if( $this->status === self::STATUS_UNKNOWN || $force )
 			$this->check();
 		return $this->status === self::STATUS_OFFLINE;
@@ -142,7 +153,8 @@ class Net_Connectivity{
 	 * 	@param		callback	$callback	Function to be executed after statush has changed
 	 *	@return 	self					for chainability
 	 */
-	public function setCallbackOnChange( $callback ){
+	public function setCallbackOnChange( $callback )
+	{
 		$this->callbackOnChange = $callback;
 		return $this;
 	}
@@ -154,7 +166,8 @@ class Net_Connectivity{
 	 *	@param	 	boolean		$resetStatus	Flag: resets status after method has been changed
 	 *	@return 	self						for chainability
 	 */
-	public function setMethod( $method, $resetStatus = TRUE ){
+	public function setMethod( $method, $resetStatus = TRUE )
+	{
 		$this->validateMethod( $method );
 		if( $this->method !== $method ){
 			$this->method	= $method;
@@ -171,7 +184,8 @@ class Net_Connectivity{
 	 *	@param	 	boolean		$resetStatus	Flag: resets status after method has been changed
 	 *	@return 	self						for chainability
 	 */
-	public function setTarget( $domainOrIp, $resetStatus = TRUE ){
+	public function setTarget( $domainOrIp, $resetStatus = TRUE )
+	{
 		if( $this->target !== $domainOrIp ){
 			$this->target	= $domainOrIp;
 			if( $resetStatus )
@@ -186,11 +200,12 @@ class Net_Connectivity{
 	 *	@param		integer		Method to validate
 	 *	@return		integer		Method after validation
 	 */
-	protected function validateMethod( $method ){
+	protected function validateMethod( $method )
+	{
 		if( !is_int( $method ) )
-			throw new \InvalidArgumentException( 'Method must be integer' );
+			throw new InvalidArgumentException( 'Method must be integer' );
 		if( !in_array( $method, array( self::METHOD_SOCKET, self::METHOD_PING ) ) )
-			throw new \RangeException( 'Invalid method' );
+			throw new RangeException( 'Invalid method' );
 		return $method;
 	}
 }

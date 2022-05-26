@@ -25,6 +25,11 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			02.11.2008
  */
+
+namespace CeusMedia\Common\Net\HTTP\Request;
+
+use InvalidArgumentException;
+
 /**
  *	Parser for HTTP Request Query Strings, for example given by mod_rewrite or own formats.
  *	@category		Library
@@ -35,7 +40,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			02.11.2008
  */
-class Net_HTTP_Request_QueryParser
+class QueryParser
 {
 	/**
 	 *	Parses Query String and returns an Array statically.
@@ -52,9 +57,8 @@ class Net_HTTP_Request_QueryParser
 		//  cut query into pairs
 		$pairs	= explode( $separatorPairs, $query );
 		//  iterate all pairs
-		foreach( $pairs as $pair )
-		{
-			//  remove surrounding whitespace 
+		foreach( $pairs as $pair ){
+			//  remove surrounding whitespace
 			$pair	= trim( $pair );
 			//  empty pair
 			if( !$pair )
@@ -67,8 +71,7 @@ class Net_HTTP_Request_QueryParser
 			$value		= NULL;
 			$pattern	= '@^(\S+)'.$separatorPair.'(\S*)$@U';
 			//  separator sign found -> value attached
-			if( preg_match( $pattern, $pair ) )
-			{
+			if( preg_match( $pattern, $pair ) ){
 				//  prepare matches array
 				$matches	= array();
 				//  find all parts
@@ -84,8 +87,7 @@ class Net_HTTP_Request_QueryParser
 				throw new InvalidArgumentException( 'Query is invalid.' );
 
 			//  key is ending on [] -> array
-			if( preg_match( "/\[\]$/", $key ) )
-			{
+			if( preg_match( "/\[\]$/", $key ) ){
 				//  remove [] from key
 				$key	= preg_replace( "/\[\]$/", "", $key );
 				//  array for key is not yet set in list

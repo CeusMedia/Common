@@ -25,6 +25,14 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			20.02.2007
  */
+
+namespace CeusMedia\Common\Net\HTTP;
+
+use CeusMedia\Common\ADT\Collection\Dictionary;
+use CeusMedia\Common\Net\HTTP\Header\Section as HeaderSection;
+use CeusMedia\Common\Net\HTTP\Header\Field as HeaderField;
+use InvalidArgumentException;
+
 /**
  *	Handler for HTTP Responses with HTTP Compression Support.
  *	@category		Library
@@ -35,10 +43,11 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			20.02.2007
  */
-class Net_HTTP_Response
+class Response
 {
-	protected $body			= NULL;
 	public $headers			= NULL;
+
+	protected $body			= NULL;
 	protected $protocol		= 'HTTP';
 	protected $status		= '200 OK';
 	protected $version		= '1.0';
@@ -52,7 +61,7 @@ class Net_HTTP_Response
 	 */
 	public function __construct( $protocol = NULL, $version = NULL )
 	{
-		$this->headers	= new Net_HTTP_Header_Section();
+		$this->headers	= new HeaderSection();
 		if( !empty( $protocol ) )
 			$this->setProtocol( $protocol );
 		if( !empty( $version ) )
@@ -63,11 +72,11 @@ class Net_HTTP_Response
 	/**
 	 *	Adds an HTTP header field object.
 	 *	@access		public
-	 *	@param		Net_HTTP_Header_Field	$field			HTTP header field object
-	 *	@param		boolean					$emptyBefore	Flag: clear beforehand set headers with this name (default: no)
+	 *	@param		HeaderField		$field			HTTP header field object
+	 *	@param		boolean				$emptyBefore	Flag: clear beforehand set headers with this name (default: no)
 	 *	@return		void
 	 */
-	public function addHeader( Net_HTTP_Header_Field $field, $emptyBefore = FALSE )
+	public function addHeader( HeaderField $field, $emptyBefore = FALSE )
 	{
 		$this->headers->setField( $field, $emptyBefore );
 	}
@@ -82,7 +91,7 @@ class Net_HTTP_Response
 	 */
 	public function addHeaderPair( $name, $value, $emptyBefore = FALSE )
 	{
-		$this->headers->setField( new Net_HTTP_Header_Field( $name, $value ), $emptyBefore );
+		$this->headers->setField( new HeaderField( $name, $value ), $emptyBefore );
 	}
 
 	/**
@@ -100,7 +109,7 @@ class Net_HTTP_Response
 	 *	@access		public
 	 *	@param		string		$string			Header name
 	 *	@param		bool		$first			Flag: return first header only
-	 *	@return		array|Net_HTTP_Header_Field		List of header fields or only one header field if requested so
+	 *	@return		array|HeaderField		List of header fields or only one header field if requested so
 	 */
 	public function getHeader( $key, $first = NULL )
 	{
@@ -115,7 +124,7 @@ class Net_HTTP_Response
 			//  return first header field
 			return $fields[0];
 		//  otherwise: return empty fake header field
-		return new Net_HTTP_Header_Field( $key, NULL );
+		return new HeaderField( $key, NULL );
 	}
 
 	/**
@@ -180,7 +189,7 @@ class Net_HTTP_Response
 	}
 
 	public function send( $compression = NULL, $sendLengthHeader = TRUE, $exit = TRUE ){
-		$sender	= new Net_HTTP_Response_Sender( $this );
+		$sender	= new Response\Sender( $this );
 		return $sender->send( $compression, $sendLengthHeader, $exit );
 	}
 
@@ -238,7 +247,7 @@ class Net_HTTP_Response
 		//  only status code given
 		if( is_int( $status ) || !preg_match( "/[a-z]/i", $status ) )
 			//  extend status code by status message
-			$status	= ( (int) $status ).' '.Net_HTTP_Status::getText( (int) $status );
+			$status	= ( (int) $status ).' '.Status::getText( (int) $status );
 		//  store status code and message
 		$this->status	= $status;
 	}

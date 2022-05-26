@@ -25,6 +25,11 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.8.4.7
  */
+
+namespace CeusMedia\Common\Net\HTTP;
+
+use BadMethodCallException;
+
 /**
  *	HTTP method data type.
  *	@category		Library
@@ -36,7 +41,7 @@
  *	@see			https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods
  *	@since			0.8.4.7
  */
-class Net_HTTP_Method
+class Method
 {
 	const METHOD_CONNECT	= 'CONNECT';
 	const METHOD_DELETE		= 'DELETE';
@@ -191,13 +196,13 @@ class Net_HTTP_Method
 	 *	@access		public
 	 *	@param		string		$method		Request method to set
 	 *	@return		self
-	 *	@throws		\BadMethodCallException	if given method is not supported
+	 *	@throws		BadMethodCallException	if given method is not supported
 	 */
 	public function set( string $method ): self
 	{
 		$method		= strtoupper( $method );
 		if( !in_array( $method, self::$methods ) )
-			throw new \BadMethodCallException( 'HTTP method "%s" is not supported' );
+			throw new BadMethodCallException( 'HTTP method "%s" is not supported' );
 		$this->method	= $method;
 		return $this;
 	}

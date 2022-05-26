@@ -25,6 +25,9 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			11.08.2005
  */
+
+namespace CeusMedia\Common\Net\HTTP;
+
 /**
  *	Partitioned Cookie Management.
  *	@category		Library
@@ -35,7 +38,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			11.08.2005
  */
-class Net_HTTP_PartitionCookie extends Net_HTTP_Cookie
+class PartitionCookie extends Cookie
 {
 	/**	@var		string		$partition		Name of partition in cookie */
 	protected $partition;

@@ -25,6 +25,11 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			03.02.2006
  */
+
+namespace CeusMedia\Common\Net\HTTP;
+
+use RuntimeException;
+
 /**
  *	Download Provider for Files and Strings.
  *	Improved by hints on http://www.media-division.com/the-right-way-to-handle-file-downloads-in-php/
@@ -41,7 +46,7 @@
  *	@todo  			support download range
  *	@todo  			support x-sendfile, @see https://tn123.org/mod_xsendfile/
  */
-class Net_HTTP_Download
+class Download
 {
 	/**
 	 *	Applies default HTTP headers of download.

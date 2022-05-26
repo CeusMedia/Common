@@ -25,6 +25,11 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			13.07.2005
  */
+
+namespace CeusMedia\Common\Net;
+
+use Exception;
+
 /**
  *	Connects Server to request Atom Time.
  *	@category		Library
@@ -34,8 +39,9 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@since			13.07.2005
+ *	@todo			find new service, this one is gone
  */
-class Net_AtomTime
+class AtomTime
 {
 	/**	@var		string		$url			URL for Server Request */
 	protected static $url		= "http://www.uni-leipzig.de/cgi-bin/date/index.htm";
@@ -49,7 +55,7 @@ class Net_AtomTime
 	 */
 	public static function getTimestamp()
 	{
-		$curl	= new Net_CURL( self::$url );
+		$curl	= new CURL( self::$url );
 		$result	= $curl->exec();
 		$status	= $curl->getStatus();
 		if( $status['http_code'] != 200 )

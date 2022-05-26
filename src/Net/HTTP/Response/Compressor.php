@@ -25,6 +25,12 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.1
  */
+
+namespace CeusMedia\Common\Net\HTTP\Response;
+
+use CeusMedia\Common\Net\HTTP\Response as Response;
+use InvalidArgumentException;
+
 /**
  *	Decompressor for HTTP Request Body Strings.
  *	@category		Library
@@ -35,17 +41,17 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.1
  */
-class Net_HTTP_Response_Compressor
+class Compressor
 {
 	/**
 	 *	Appied HTTP Compression to a Response Object.
 	 *	@access		public
-	 *	@param		Net_HTTP_Response	$response			Response Object
-	 *	@param		string				$type				Compression type (gzip|deflate)
-	 *	@param		boolean				$sendLengthHeader	Flag: add Content-Length Header
+	 *	@param		Response		$response			Response Object
+	 *	@param		string			$type				Compression type (gzip|deflate)
+	 *	@param		boolean			$sendLengthHeader	Flag: add Content-Length Header
 	 *	@return		void
 	 */
-	public static function compressResponse( Net_HTTP_Response $response, $type = NULL, $sendLengthHeader = TRUE )
+	public static function compressResponse( Response $response, $type = NULL, $sendLengthHeader = TRUE )
 	{
 		if( !$type )
 			return;

@@ -25,6 +25,11 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.8.3.4
  */
+
+namespace CeusMedia\Common\Net\HTTP\Header;
+
+use CeusMedia\Common\Net\HTTP\Header\Section as HeaderSection;
+
 /**
  *	Parser for HTTP Headers.
  *	@category		Library
@@ -35,9 +40,10 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.8.3.4
  */
-class Net_HTTP_Header_Renderer{
-
-	static public function render( Net_HTTP_Header_Section $section ){
+class Renderer
+{
+	static public function render( HeaderSection $section )
+	{
 		$fields	= $section->getFields();
 		if( !$fields )
 			return;

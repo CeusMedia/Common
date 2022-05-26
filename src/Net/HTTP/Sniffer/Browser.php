@@ -25,6 +25,9 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			12.08.2005
  */
+
+namespace CeusMedia\Common\Net\HTTP\Sniffer;
+
 /**
  *	Sniffer for browsing HTTP Clients via User Agents.
  *	@category		Library
@@ -35,12 +38,14 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			12.08.2005
  */
-class Net_HTTP_Sniffer_Browser
+class Browser
 {
 	/**	@var		string		$browser			Browser */
 	protected $browser;
+
 	/**	@var		string		$browserVersion		Browser Version */
 	protected $browserVersion;
+
 	/**	@var		string		$browserType		Browser Type */
 	protected $browserType;
 

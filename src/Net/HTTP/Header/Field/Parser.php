@@ -25,6 +25,12 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.8.3.4
  */
+
+namespace CeusMedia\Common\Net\HTTP\Header\Field;
+
+use CeusMedia\Common\Net\HTTP\Header\Field as HeaderField;
+use InvalidArgumentException;
+
 /**
  *	Parser for HTTP Header Fields.
  *	@category		Library
@@ -35,8 +41,8 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.8.3.4
  */
-class Net_HTTP_Header_Field_Parser{
-
+class Parser
+{
 	/**
 	 *	Tries to decode qualified values into a map of values ordered by their quality.
 	 *
@@ -46,7 +52,8 @@ class Net_HTTP_Header_Field_Parser{
 	 *	@param		boolean		$sortByLength	Flag: assume longer key as more qualified for keys with same quality (default: FALSE)
 	 *	@return		array		Map of qualified values ordered by quality
 	 */
-	static public function decodeQualifiedValues( $qualifiedValues, $sortByLength = FALSE ){
+	static public function decodeQualifiedValues( $qualifiedValues, $sortByLength = FALSE )
+	{
 		$pattern	= '/^(\S+)(?:;\s*q=(0(?:\.[0-9]{1,3})?|1(?:\.0{1,3})?))?$/iU';
 		$parts		= preg_split( '/,\s*/', $qualifiedValues );
 		$codes		= array();
@@ -79,16 +86,17 @@ class Net_HTTP_Header_Field_Parser{
 	 *	@access		public
 	 *	@param		string		$headerFieldString		String to header field to parse
 	 *	@param		boolean		$decodeQualifiedValues	Flag: decode qualified values (default: FALSE)
-	 *	@return		Net_HTTP_Header_Field				Header field object
+	 *	@return		HeaderField							Header field object
 	 *	@throws		InvalidArgumentException			If given string is not a valid header field
 	 */
-	static public function parse( $headerFieldString, $decodeQualifiedValues = FALSE ){
+	static public function parse( $headerFieldString, $decodeQualifiedValues = FALSE )
+	{
 		if( !preg_match( '/^\S+:\s*.+$/', trim( $headerFieldString ) ) )
 		 	throw new InvalidArgumentException( 'Given string is not an HTTP header' );
 		list( $key, $value )	= preg_split( '/:/', trim( $headerFieldString ), 2 );
 		$value	= trim( $value );
 		if( $decodeQualifiedValues )
 			$value	= self::decodeQualifiedValues( $value );
-		return new Net_HTTP_Header_Field( trim( $key ), $value );
+		return new HeaderField( trim( $key ), $value );
 	}
 }

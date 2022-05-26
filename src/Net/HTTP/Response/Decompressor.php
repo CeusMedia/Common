@@ -25,6 +25,13 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.1
  */
+
+namespace CeusMedia\Common\Net\HTTP\Response;
+
+use CeusMedia\Common\Net\HTTP\Response as Response;
+use InvalidArgumentException;
+use RuntimeException;
+
 /**
  *	Decompressor for HTTP Request Body Strings.
  *	@category		Library
@@ -35,15 +42,15 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.1
  */
-class Net_HTTP_Response_Decompressor
+class Decompressor
 {
 	/**
 	 *	Decompresses Content in HTTP Response Object.
 	 *	@access		public
-	 *	@param		Net_HTTP_Response	$response		HTTP Response Object
+	 *	@param		Response		$response		HTTP Response Object
 	 *	@return		void
 	 */
-	public static function decompressResponse( Net_HTTP_Response $response )
+	public static function decompressResponse( Response $response )
 	{
 		$type	= array_pop( $response->getHeader( 'Content-Encoding' ) );
 		if( $type )

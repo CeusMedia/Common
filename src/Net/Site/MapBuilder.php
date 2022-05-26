@@ -25,6 +25,12 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			10.12.2006
  */
+
+namespace CeusMedia\Common\Net\Site;
+
+use CeusMedia\Common\XML\DOM\Builder as XmlBuilder;
+use CeusMedia\Common\XML\DOM\Node;
+
 /**
  *	Builds Sitemap XML File for Google.
  *	@category		Library
@@ -35,7 +41,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			10.12.2006
  */
-class Net_Site_MapBuilder
+class MapBuilder
 {
 	/**
 	 *	Builds Sitemap XML for List of URLs.
@@ -46,16 +52,16 @@ class Net_Site_MapBuilder
 	 */
 	public static function build( $urls )
 	{
-		$set	= new XML_DOM_Node( "urlset" );
+		$set	= new Node( "urlset" );
 		$set->setAttribute( 'xmlns', "http://www.google.com/schemas/sitemap/0.84" );
 		foreach( $urls as $url )
 		{
-			$node	= new XML_DOM_Node( "url" );
-			$child	= new XML_DOM_Node( "loc", $url );
+			$node	= new Node( "url" );
+			$child	= new Node( "loc", $url );
 			$node->addChild( $child );
 			$set->addChild( $node );
 		}
-		$xb	= new XML_DOM_Builder();
+		$xb	= new XmlBuilder();
 		return $xb->build( $set );
 	}
 }

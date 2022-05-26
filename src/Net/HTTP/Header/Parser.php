@@ -25,6 +25,12 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.8.2.5
  */
+
+namespace CeusMedia\Common\Net\HTTP\Header;
+
+use CeusMedia\Common\Net\HTTP\Header\Section as HeaderSection;
+use CeusMedia\Common\Net\HTTP\Header\Field\Parser as FieldParser;
+
 /**
  *	Parser for HTTP Headers.
  *	@category		Library
@@ -35,25 +41,25 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.8.2.5
  */
-class Net_HTTP_Header_Parser
+class Parser
 {
 	/**
 	 *	Parses block of HTTP headers and returns list of HTTP header field objects.
 	 *	@static
 	 *	@access		public
 	 *	@param		$string			HTTP headers encoded as string
-	 *	@return		Net_HTTP_Header_Section
+	 *	@return		HeaderSection
 	 */
 	static public function parse( $string )
 	{
-		$section	= new Net_HTTP_Header_Section();
+		$section	= new HeaderSection();
 		$lines		= explode( PHP_EOL, trim( $string ) );
 		foreach( $lines as $line )
 		{
 			if( preg_match( '@^HTTP/@', $line ) )
 				continue;
 			if( strlen( trim( $line ) ) )
-				$section->addField( Net_HTTP_Header_Field_Parser::parse( $line ) );
+				$section->addField( FieldParser::parse( $line ) );
 		}
 		return $section;
 	}

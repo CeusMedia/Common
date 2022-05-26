@@ -25,6 +25,9 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			01.07.2005
  */
+
+namespace CeusMedia\Common\Net\HTTP;
+
 /**
  *	Cookie Management.
  *	@category		Library
@@ -35,16 +38,20 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			01.07.2005
  */
-class Net_HTTP_Cookie
+class Cookie
 {
 	/**	@var		array		$data			Reference to cookie data */
 	protected $data;
+
 	/** @var		string		$path			Default path of cookie */
 	protected $path;
+
 	/** @var		string		$domain			Domain of cookie */
 	protected $domain			= NULL;
+
 	/** @var		boolean		$secure			Flag: only with secured HTTPS connection */
 	protected $secure			= FALSE;
+
 	/** @var		boolean		$httpOnly		Flag: allow access via HTTP protocol only */
 	protected $httpOnly			= FALSE;
 

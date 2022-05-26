@@ -26,6 +26,14 @@
  *	@link			http://code.google.com/closure/compiler/
  *	@since			0.7.6
  */
+
+namespace CeusMedia\Common\Net\API\Google\Sitemap;
+
+use CeusMedia\Common\ADT\URL;
+use CeusMedia\Common\Net\Reader as NetReader;
+use Exception;
+use InvalidArgumentException;
+
 /**
  *	Submits sitemap URL to Google webmaster tools.
  *
@@ -38,7 +46,7 @@
  *	@link			http://code.google.com/closure/compiler/
  *	@since			0.7.6
  */
-class Net_API_Google_Sitemap_Submit
+class Submit
 {
 
 	/**	@var		string		$baseUrl		Base URL to Google webmaster tools */
@@ -68,16 +76,14 @@ class Net_API_Google_Sitemap_Submit
 	 */
 	static public function submit( $url )
 	{
-		if( $url instanceof ADT_URL )
+		if( $url instanceof URL )
 			$url	= (string) $url;
 		if( !is_string( $url ) )
 			throw new InvalidArgumentException( 'URL must be string or instance of ADT_URL' );
-		try
-		{
-			Net_Reader::readUrl( self::$baseUrl.urlencode( $url ) );
+		try{
+			NetReader::readUrl( self::$baseUrl.urlencode( $url ) );
 		}
-		catch( Exception $e )
-		{
+		catch( Exception $e ){
 			self::$lastError	= $e->getMessage();
 			return FALSE;
 		}

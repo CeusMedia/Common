@@ -25,6 +25,11 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.6.5
  */
+
+namespace CeusMedia\Common\Net\API\Google;
+
+use CeusMedia\Common\Net\Reader as NetReader;
+
 /**
  *	Base class for request to Google APIs.
  *	@category		Library
@@ -36,7 +41,7 @@
  *	@since			0.6.5
  *	@todo			finish implementation
  */
-abstract class Net_API_Google_Request
+abstract class Request
 {
 	public $apiKey		= "";
 	public $apiUrl		= "";
@@ -58,7 +63,7 @@ abstract class Net_API_Google_Request
 	{
 		$query		.= "&key=".$this->apiKey;
 		$url		= $this->apiUrl.$query;
-		$response	= Net_Reader::readUrl( $url );
+		$response	= NetReader::readUrl( $url );
 		$response	= utf8_encode( $response );
 		return $response;
 	}

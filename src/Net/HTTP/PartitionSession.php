@@ -26,6 +26,11 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			26.07.2005
  */
+
+namespace CeusMedia\Common\Net\HTTP;
+
+use CeusMedia\Common\ADT\Collection\Dictionary;
+
 /**
  *	Management for session data with partitions.
  *	Helpful and more secure if several applications are storing data with same session.
@@ -37,7 +42,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			26.07.2005
  */
-class Net_HTTP_PartitionSession extends ADT_List_Dictionary
+class PartitionSession extends Dictionary
 {
 	/**	@var	array		$session			Reference to Session with Partitions */
 	protected $session;

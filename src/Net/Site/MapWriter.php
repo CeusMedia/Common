@@ -25,6 +25,11 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			10.12.2006
  */
+
+namespace CeusMedia\Common\Net\Site;
+
+use CeusMedia\Common\FS\File\Writer as FileWriter;
+
 /**
  *	Google Sitemap XML Writer.
  *	@category		Library
@@ -35,7 +40,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			10.12.2006
  */
-class Net_Site_MapWriter
+class MapWriter
 {
 	/**	@var		string		$fileName			File Name of Sitemap XML File */
 	protected $fileName;
@@ -74,8 +79,8 @@ class Net_Site_MapWriter
 	 */
 	public static function save( $fileName, $urls, $mode = 0777 )
 	{
-		$builder	= new Net_Site_MapBuilder();
-		$file		= new FS_File_Writer( $fileName, $mode );
+		$builder	= new MapBuilder();
+		$file		= new FileWriter( $fileName, $mode );
 		$xml		= $builder->build( $urls );
 		return $file->writeString( $xml );
 	}

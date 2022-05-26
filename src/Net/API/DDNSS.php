@@ -25,6 +25,12 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.7
  */
+
+namespace CeusMedia\Common\Net\API;
+
+use CeusMedia\Common\Net\Reader as NetReader;
+use Exception;
+
 /**
  *	Access to DDNSS (ddnss.de) API.
  *
@@ -36,8 +42,8 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.7
  */
-class Net_API_DDNSS{
-
+class DDNSS
+{
 	/**	@var		string		Base URL for update */
 	public static $urlUpdate	= "http://ddnss.de/upd.php?key=%s&host=%s";
 
@@ -55,7 +61,7 @@ class Net_API_DDNSS{
 			$hosts	= implode( ",", $hosts );
 		$url	= sprintf( self::$urlUpdate, $key, $hosts );
 		try{
-			$reader		= new Net_Reader( $url );
+			$reader		= new NetReader( $url );
 			$reader->setUserAgent( "cURL" );
 			$response	= strip_tags( $reader->read() );
 			if( !preg_match( "/Updated [0-9]+ /", $response ) )

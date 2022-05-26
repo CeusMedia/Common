@@ -24,6 +24,13 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+
+namespace CeusMedia\Common\Net\HTTP;
+
+use CeusMedia\Common\Net\CURL;
+use OutOfBoundsException;
+use RuntimeException;
+
 /**
  *	Sender for HTTP POST requests.
  *
@@ -34,26 +41,28 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class Net_HTTP_Post {
-
+class Post
+{
 	const TRANSPORT_NONE		= 0;
 	const TRANSPORT_FOPEN		= 1;
-	const TRANSPORT_CURL			= 2;
+	const TRANSPORT_CURL		= 2;
 
 	protected $transport		= FALSE;
 	protected $dataMaxLength	= 0;
 	//  default user agent to report to server, can be overriden by constructor or given CURL options on get or post
 	static protected $userAgent	= "cmClasses:Net_HTTP_Post/0.7";
 
-	public function __construct(){
+	public function __construct()
+	{
         $allowUrlFopen	= preg_match( '/1|yes|on|true/i', ini_get( 'allow_url_fopen' ) );
-		if( Net_CURL::isSupported() )
+		if( CURL::isSupported() )
 			$this->transport	= self::TRANSPORT_CURL;
 		else if( $allowUrlFopen )
 			$this->transport	= self::TRANSPORT_FOPEN;
 	}
 
-	public function send( $url, $data = array(), $curlOptions = array() ){
+	public function send( $url, $data = array(), $curlOptions = array() )
+	{
 		if( is_array( $data ) )
 			$data	= http_build_query( $data, NULL, '&' );
 		if( $this->dataMaxLength && strlen( $data ) > $this->dataMaxLength )
@@ -62,7 +71,7 @@ class Net_HTTP_Post {
 
 		switch( $this->transport ){
 			case self::TRANSPORT_CURL:
-				$curl		= new Net_CURL( $url );
+				$curl		= new CURL( $url );
 				$options	= array(
 					CURLOPT_POST				=> TRUE,
 					CURLOPT_RETURNTRANSFER		=> TRUE,
@@ -87,19 +96,21 @@ class Net_HTTP_Post {
 					'timeout'		=> 15,
 				);
 				$stream	= stream_context_create( array( 'http'	=> $stream ) );
-	            return trim( file_get_contents( $url, FALSE, $stream ) );
+				return trim( file_get_contents( $url, FALSE, $stream ) );
 
 			default:
 				throw new RuntimeException( 'Could not make HTTP request: allow_url_open is false and cURL not available' );
 		}
 	}
 
-	static public function sendData( $url, $data = array(), $curlOptions = array() ){
+	static public function sendData( $url, $data = array(), $curlOptions = array() )
+	{
 		$post	= new self();
 		return $post->send( $url, $data, $curlOptions );
 	}
 
-	public function setDataMaxLength( $integer ){
+	public function setDataMaxLength( $integer )
+	{
 		if( (int) $integer === 0 || (int) $integer > 1 )
 			$this->dataMaxLength	= (int) $integer;
 	}

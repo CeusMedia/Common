@@ -25,6 +25,16 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.1
  */
+
+namespace CeusMedia\Common\Net\HTTP;
+
+use CeusMedia\Common\Net\CURL;
+use CeusMedia\Common\Net\HTTP\Header\Section as HeaderSection;
+use CeusMedia\Common\Net\HTTP\Response\Decompressor as ResponseDecompressor;
+use CeusMedia\Common\Net\HTTP\Response\Parser as ResponseParser;
+use InvalidArgumentException;
+use RuntimeException;
+
 /**
  *	Handler for HTTP Requests.
  *	@category		Library
@@ -35,7 +45,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.1
  */
-class Net_HTTP_Reader
+class Reader
 {
 	protected $curl;
 	protected $curlInfo		= array();
@@ -50,7 +60,7 @@ class Net_HTTP_Reader
 	 */
 	public function __construct( $httpVersion = NULL, $userAgent = NULL )
 	{
-		$this->curl		= new Net_CURL;
+		$this->curl		= new CURL;
 		$this->curl->setOption( CURLOPT_ENCODING, '' );
 		$this->curl->setOption( CURLOPT_HTTP_VERSION, $httpVersion );
 		if( $userAgent )
@@ -61,11 +71,11 @@ class Net_HTTP_Reader
 	/**
 	 *	Applies cURL Options to a cURL Object.
 	 *	@access		protected
-	 *	@param		Net_CURL	$curl				cURL Object
+	 *	@param		CURL		$curl				cURL Object
 	 *	@param		array		$options			Map of cURL Options
 	 *	@return		void
 	 */
-	protected function applyCurlOptions( Net_CURL $curl, $options = array() )
+	protected function applyCurlOptions( CURL $curl, $options = array() )
 	{
 		foreach( $options as $key => $value )
 		{
@@ -84,10 +94,10 @@ class Net_HTTP_Reader
 	/**
 	 *	Returns Resource Response.
 	 *	@access		public
-	 *	@param		string							$url			Resource URL
-	 *	@param		array|Net_HTTP_Header_Section	$headers		Map of HTTP Header Fields or Header Section Object
-	 *	@param		array							$curlOptions	Map of cURL Options
-	 *	@return		Net_HTTP_Response
+	 *	@param		string					$url			Resource URL
+	 *	@param		array|HeaderSection		$headers		Map of HTTP Header Fields or Header Section Object
+	 *	@param		array					$curlOptions	Map of cURL Options
+	 *	@return		Response
 	 */
 	public function get( $url, $headers = array(), $curlOptions = array() )
 	{
@@ -95,18 +105,18 @@ class Net_HTTP_Reader
 		$curl->setOption( CURLOPT_URL, $url );
 		if( $headers )
 		{
-			if( $headers instanceof Net_HTTP_Header_Section )
+			if( $headers instanceof HeaderSection )
 				$headers	= $headers->toArray();
 			$curlOptions[CURLOPT_HTTPHEADER]	= $headers;
 		}
 		$this->applyCurlOptions( $curl, $curlOptions );
 		$response		= $curl->exec( TRUE, FALSE );
 		$this->curlInfo	= $curl->getInfo();
-		$response		= Net_HTTP_Response_Parser::fromString( $response );
+		$response		= ResponseParser::fromString( $response );
 /*		$encodings	= $response->headers->getField( 'content-encoding' );
 		while( $encoding = array_pop( $encodings ) )
 		{
-			$decompressor	= new Net_HTTP_Response_Decompressor;
+			$decompressor	= new ResponseDecompressor;
 			$type			= $encoding->getValue();
 			$body			= $decompressor->decompressString( $response->getBody(), $type );
 		}
@@ -134,11 +144,11 @@ class Net_HTTP_Reader
 	/**
 	 *	Posts Data to Resource and returns Response.
 	 *	@access		public
-	 *	@param		string							$url			Resource URL
-	 *	@param		array							$data			Map of POST Data
-	 *	@param		array|Net_HTTP_Header_Section	$headers		Map of HTTP Header Fields or Header Section Object
-	 *	@param		array							$curlOptions	Map of cURL Options
-	 *	@return		Net_HTTP_Response
+	 *	@param		string					$url			Resource URL
+	 *	@param		array					$data			Map of POST Data
+	 *	@param		array|HeaderSection		$headers		Map of HTTP Header Fields or Header Section Object
+	 *	@param		array					$curlOptions	Map of cURL Options
+	 *	@return		Response
 	 */
 	public function post( $url, $data, $headers = array(), $curlOptions = array() )
 	{
@@ -146,7 +156,7 @@ class Net_HTTP_Reader
 		$curl->setOption( CURLOPT_URL, $url );
 		if( $headers )
 		{
-			if( $headers instanceof Net_HTTP_Header_Section )
+			if( $headers instanceof HeaderSection )
 				$headers	= $headers->toArray();
 			$curlOptions[CURLOPT_HTTPHEADER]	= $headers;
 		}
@@ -167,7 +177,7 @@ class Net_HTTP_Reader
 
 		$response		= $curl->exec( TRUE, FALSE );
 		$this->curlInfo	= $curl->getInfo();
-		$response		= Net_HTTP_Response_Parser::fromString( $response );
+		$response		= ResponseParser::fromString( $response );
 		return $response;
 	}
 

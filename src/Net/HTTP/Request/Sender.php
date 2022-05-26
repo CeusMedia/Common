@@ -24,6 +24,17 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+
+namespace CeusMedia\Common\Net\HTTP\Request;
+
+use CeusMedia\Common\Deprecation;
+use CeusMedia\Common\Net\HTTP\Header\Field as HeaderField;
+use CeusMedia\Common\Net\HTTP\Header\Section as HeaderSection;
+use CeusMedia\Common\Net\HTTP\Response as Response;
+use CeusMedia\Common\Net\HTTP\Response\Parser as ResponseParser;
+use InvalidArgumentException;
+use RuntimeException;
+
 /**
  *	Request for HTTP Protocol.
  *	@category		Library
@@ -34,20 +45,26 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@todo			fix: 400 Bad Request
  */
-class Net_HTTP_Request_Sender
+class Sender
 {
 	/**	@var	string					$host			Host IP to be connected to */
 	protected $host;
+
 	/**	@var	string					$uri			URI to request to */
 	protected $uri;
+
 	/**	@var	string					$port			Service Port of Host */
 	protected $port						= -1;
+
 	/**	@var	string					$method			Method of Request (GET or POST) */
 	protected $method;
-	/**	@var	Net_HTTP_Header_Section	$headers		Object of collected HTTP Headers */
+
+	/**	@var	HeaderSection			$headers		Object of collected HTTP Headers */
 	protected $headers					= NULL;
+
 	/**	@var	string					$version		HTTP version (1.0 or 1.1) */
 	protected $version					= '1.1';
+
 	/**	@var	string					$data			Raw POST data */
 	protected $data;
 
@@ -75,18 +92,18 @@ class Net_HTTP_Request_Sender
 		$this->setUri( $uri );
 		$this->setPort( $port );
 		$this->setMethod( $method );
-		$this->headers	= new Net_HTTP_Header_Section;
+		$this->headers	= new HeaderSection;
 		$this->headers->addFieldPair( 'Host', $host.( $this->port != 80 ? ':'.$this->port : '' ) );
 	}
 
-	public function addHeader( Net_HTTP_Header_Field $field )
+	public function addHeader( HeaderField $field )
 	{
 		$this->headers->addField( $field );
 	}
 
 	public function addHeaderPair( $name, $value )
 	{
-		$this->headers->addField( new Net_HTTP_Header_Field( $name, $value ) );
+		$this->headers->addField( new HeaderField( $name, $value ) );
 	}
 
 	public function setData( $data )
@@ -135,7 +152,7 @@ class Net_HTTP_Request_Sender
 	/**
 	 *	Sends data via prepared Request.
 	 *	@access		public
-	 *	@return		Net_HTTP_Response
+	 *	@return		Response
 	 */
 	public function send()
 	{
@@ -169,7 +186,7 @@ class Net_HTTP_Request_Sender
 		//  close Connection
 		fclose( $fp );
 
-		$response	= Net_HTTP_Response_Parser::fromString( $result );
+		$response	= ResponseParser::fromString( $result );
 		if( count( $response->getHeader( 'Location' ) ) ){
 			$location	= array_shift( $response->getHeader( 'Location' ) );
 			$this->host	= parse_url( $location->getValue(), PHP_URL_HOST );

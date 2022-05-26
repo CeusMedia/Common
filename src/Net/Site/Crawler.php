@@ -25,6 +25,18 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			10.12.2006
  */
+
+namespace CeusMedia\Common\Net\Site;
+
+use CeusMedia\Common\ADT\Collection\Dictionary;
+use CeusMedia\Common\ADT\StringBuffer;
+use CeusMedia\Common\Alg\UnitFormater;
+use CeusMedia\Common\Net\Reader as NetReader;
+use DOMDocument;
+use Exception;
+use InvalidArgumentException;
+use RuntimeException;
+
 /**
  *	Crawls and counts all internal Links of an URL.
  *	@category		Library
@@ -36,7 +48,7 @@
  *	@since			10.12.2006
  *	@todo			finish Code Doc
  */
-class Net_Site_Crawler
+class Crawler
 {
 	protected $crawled		= FALSE;
 	protected $depth		= 10;
@@ -70,7 +82,7 @@ class Net_Site_Crawler
 
 	public $deniedUrlParts	= array();
 
-	/**	@var	Net_Reader		$reader */
+	/**	@var	NetReader		$reader */
 	protected $reader;
 
 	/**
@@ -85,7 +97,7 @@ class Net_Site_Crawler
 			throw new InvalidArgumentException( 'Depth must be at least 1.' );
 		$this->baseUrl	= $baseUrl;
 		$this->depth	= $depth;
-		$this->reader	= new Net_Reader( "empty" );
+		$this->reader	= new NetReader( "empty" );
 		$this->reader->setUserAgent( "SiteCrawler/0.1" );
 	}
 
@@ -97,7 +109,7 @@ class Net_Site_Crawler
 	 */
 	protected function buildUrl( $parts )
 	{
-		$url	= new ADT_StringBuffer();
+		$url	= new StringBuffer();
 		if( isset( $parts['user'] ) && isset( $parts['pass'] ) && $parts['user'] )
 			$url->append( $parts['user'].":".$parts['pass']."@" );
 		if( substr( $parts['path'], 0, 1 ) != "/" )
@@ -144,7 +156,7 @@ class Net_Site_Crawler
 		{
 			$number++;
 			$url	= array_shift( $urlList );
-			$parts	= new ADT_List_Dictionary( parse_url( $url ) );
+			$parts	= new Dictionary( parse_url( $url ) );
 
 			$parts['scheme']	= $this->scheme;
 			$parts['host']		= isset( $parts['host'] ) ? $parts['host'] : $this->host;
@@ -331,7 +343,7 @@ class Net_Site_Crawler
 	 */
 	protected function handleVerbose( $url, $number )
 	{
-		$speed	= Alg_UnitFormater::formatBytes( $this->reader->getInfo( 'speed_download' ) );
+		$speed	= UnitFormater::formatBytes( $this->reader->getInfo( 'speed_download' ) );
 		$url	= str_replace( "http://".$this->host.":".$this->port, "", $url );
 		$url	= str_replace( "http://".$this->host, "", $url );
 		remark( "[".$number."] ".$url." | ".$speed."/s" );

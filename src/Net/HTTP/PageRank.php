@@ -26,6 +26,12 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			18.01.2007
  */
+
+namespace CeusMedia\Common\Net\HTTP;
+
+use CeusMedia\Common\Net\CURL;
+use Exception;
+
 define( 'GOOGLE_MAGIC', 0xE6359A60 );
 /**
  *	Google PageRank.
@@ -38,7 +44,7 @@ define( 'GOOGLE_MAGIC', 0xE6359A60 );
  *	@link			https://github.com/CeusMedia/Common
  *	@since			18.01.2007
  */
-class Net_HTTP_PageRank
+class PageRank
 {
 	/**
 	 *	Calculates Checksum of URL for Google Request
@@ -97,7 +103,7 @@ class Net_HTTP_PageRank
 	{
 		$checksum	= "6".self::calculateChecksum( self::strord( "info:".$url ) );
 		$googleUrl	= "www.google.com/search?client=navclient-auto&ch=".$checksum."&features=Rank&q=info:".$url;
-		$curl		= new Net_CURL( $googleUrl );
+		$curl		= new CURL( $googleUrl );
 		$response	= $curl->exec();
 		$position	= strpos( $response, "Rank_" );
 		if( $position === FALSE )

@@ -25,6 +25,11 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.6.8
  */
+
+namespace CeusMedia\Common\Net\HTTP;
+
+use InvalidArgumentException;
+
 /**
  *	Handes Upload Error Codes by throwing Exceptions.
  *	@category		Library
@@ -36,7 +41,7 @@
  *	@since			0.6.8
  *	@todo			code doc
  */
-class Net_HTTP_UploadErrorHandler
+class UploadErrorHandler
 {
 	protected $messages	= array(
 		UPLOAD_ERR_INI_SIZE		=> 'The uploaded file exceeds the upload_max_filesize directive in php.ini',
@@ -48,7 +53,8 @@ class Net_HTTP_UploadErrorHandler
 		UPLOAD_ERR_EXTENSION	=> 'File upload stopped by extension',
 	);
 
-	public function getErrorMessage( $code ){
+	public function getErrorMessage( $code )
+	{
 		if( !isset( $this->messages[(string)$code] ) )
 			throw new InvalidArgumentException( 'Invalid Error Code ('.$code.')' );
 		return $this->messages[$code];

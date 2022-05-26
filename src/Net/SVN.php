@@ -1,6 +1,9 @@
 <?php
-class Net_SVN{
 
+namespace CeusMedia\Common\Net;
+
+class SVN
+{
 	static public $nodes	= array(
 		SVN_NODE_NONE			=> array(
 			'label'	=> 'none',
@@ -17,7 +20,7 @@ class Net_SVN{
 		SVN_NODE_UNKNOWN		=> array(
 			'label'	=> 'unknown',
 			'text'	=> 'Something Subversion cannot identify'
-		)		
+		)
 	);
 	static public $states	= array(
 		SVN_WC_STATUS_NONE			=> array(
