@@ -1,4 +1,7 @@
 <?php
+
+//  DEPRECATED: Use compat8 instead!
+
 $isComposer		= file_exists( "vendor" );
 $legacy			= TRUE;
 
@@ -142,6 +145,7 @@ class CLI_Prompt extends \CeusMedia\Common\CLI\Prompt{};
 class CLI_Question extends \CeusMedia\Common\CLI\Question{};
 class CLI_RequestReceiver extends \CeusMedia\Common\CLI\RequestReceiver{};
 class CLI_Shell extends \CeusMedia\Common\CLI\Shell{};
+class CLI_Exception_View extends \CeusMedia\Common\CLI\Exception\View{};
 
 class Deprecation extends \CeusMedia\Common\Deprecation{};
 
@@ -270,7 +274,6 @@ class Net_HTTP_Response_Decompressor extends \CeusMedia\Common\Net\HTTP\Response
 class Net_HTTP_UploadErrorHandler extends \CeusMedia\Common\Net\HTTP\UploadErrorHandler{};
 class Net_HTTP_Request_QueryParser extends \CeusMedia\Common\Net\HTTP\Request\QueryParser{};
 class Net_HTTP_Request_Receiver extends \CeusMedia\Common\Net\HTTP\Request\Receiver{};
-class Net_HTTP_Request_Sender extends \CeusMedia\Common\Net\HTTP\Request\Sender{};
 class Net_HTTP_Reader extends \CeusMedia\Common\Net\HTTP\Reader{};
 class Net_HTTP_PartitionCookie extends \CeusMedia\Common\Net\HTTP\PartitionCookie{};
 class Net_HTTP_CrossDomainProxy extends \CeusMedia\Common\Net\HTTP\CrossDomainProxy{};
@@ -366,7 +369,7 @@ class UI_HTML_Table extends \CeusMedia\Common\UI\HTML\Table{};
 class UI_HTML_Tabs extends \CeusMedia\Common\UI\HTML\Tabs{};
 class UI_HTML_Tag extends \CeusMedia\Common\UI\HTML\Tag{};
 class UI_DevOutput extends \CeusMedia\Common\UI\DevOutput{};
-
+class UI_VariableDumper extends \CeusMedia\Common\UI\VariableDumper{};
 
 class UI_HTML_Tree_ArrayView extends \CeusMedia\Common\UI\HTML\Tree\ArrayView{};
 class UI_HTML_Tree_VariableDump extends \CeusMedia\Common\UI\HTML\Tree\VariableDump{};
@@ -479,6 +482,7 @@ class XML_OPML_FileReader extends \CeusMedia\Common\XML\OPML\FileReader{};
 class XML_Validator extends \CeusMedia\Common\XML\Validator{};
 class XML_Namespaces extends \CeusMedia\Common\XML\Namespaces{};
 
+interface Renderable extends \CeusMedia\Common\Renderable{};
 
 #	class ADT_ extends \CeusMedia\Common\ADT\{};
 

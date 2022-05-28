@@ -1,5 +1,7 @@
 <?php
 
+use CeusMedia\Common\UI\DevOutput;
+
 /**
  *	Prints out Code formatted with Tag CODE
  *	@access		public
@@ -57,7 +59,7 @@ function pre( $string, $dump = FALSE )
 }
 
 /**
- *	Global function for UI_DevOutput::printJson.
+ *	Global function for DevOutput::printJson.
  *	@access		public
  *	@param		mixed		$mixed		variable to print out
  *	@param		string		$sign		Space Sign
@@ -67,8 +69,8 @@ function pre( $string, $dump = FALSE )
  */
 function print_j( $mixed, $sign = NULL, $factor = NULL, $return = FALSE )
 {
-	$o		= new UI_DevOutput();
-	$break	= UI_DevOutput::$channelSettings[$o->channel]['lineBreak'];
+	$o		= new DevOutput();
+	$break	= DevOutput::$channelSettings[$o->channel]['lineBreak'];
 	if( $return )
 		return $o->printJson( $mixed, $sign, $factor, TRUE );
 	echo $break;
@@ -76,7 +78,7 @@ function print_j( $mixed, $sign = NULL, $factor = NULL, $return = FALSE )
 }
 
 /**
- *	Global function for UI_DevOutput::printMixed.
+ *	Global function for DevOutput::printMixed.
  *	@access		public
  *	@param		mixed		$mixed		variable to print out
  *	@param		string		$sign		Space Sign
@@ -86,10 +88,10 @@ function print_j( $mixed, $sign = NULL, $factor = NULL, $return = FALSE )
  */
 function print_m( $mixed, $sign = NULL, $factor = NULL, $return = FALSE, $channel = NULL )
 {
-	$o		= new UI_DevOutput();
+	$o		= new DevOutput();
 	if( $channel )
 		$o->setChannel( $channel );
-	$break	= UI_DevOutput::$channelSettings[$o->channel]['lineBreak'];
+	$break	= DevOutput::$channelSettings[$o->channel]['lineBreak'];
 	if( $return )
 		return $break.$o->printMixed( $mixed, 0, NULL, $sign, $factor, $return );
 	echo $break;
@@ -97,7 +99,7 @@ function print_m( $mixed, $sign = NULL, $factor = NULL, $return = FALSE, $channe
 }
 
 /**
- *	Prints out all global registered variables with UI_DevOutput::print_m
+ *	Prints out all global registered variables with DevOutput::print_m
  *	@access		public
  *	@param		string		$sign		Space Sign
  *	@param		int			$factor		Space Factor
@@ -120,14 +122,14 @@ function print_globals( $sign = NULL, $factor = NULL )
  */
 function remark( $text = "", $parameters = array(), $break = TRUE )
 {
-	$o = new UI_DevOutput();
+	$o = new DevOutput();
 	if( $break )
-		echo UI_DevOutput::$channelSettings[$o->channel]['lineBreak'];
+		echo DevOutput::$channelSettings[$o->channel]['lineBreak'];
 	$o->remark( $text, $parameters );
 }
 
 /**
- *	Prints out a variable with UI_DevOutput::print_m
+ *	Prints out a variable with DevOutput::print_m
  *	@access		public
  *	@param		mixed		$mixed		variable to print out
  *	@param		string		$sign		Space Sign
@@ -141,7 +143,7 @@ function show( $mixed, $sign = NULL, $factor = NULL )
 
 function showDOM( $node )
 {
-	$o = new UI_DevOutput();
+	$o = new DevOutput();
 	$o->showDOM( $node );
 }
 
@@ -153,10 +155,10 @@ function showDOM( $node )
  */
 function xmp( $string, $dump = FALSE )
 {
-	$dev	= new UI_DevOutput();
+	$dev	= new DevOutput();
 	if( $dump )
 		ob_start();
-	if( $dev->channel === UI_DevOutput::CHANNEL_TEXT )
+	if( $dev->channel === DevOutput::CHANNEL_TEXT )
 		echo $string."\n";
 	else
 		echo "<xmp>".$string."</xmp>";
