@@ -164,7 +164,7 @@ abstract class Abstraction
 			if( ( $sock = socket_create_listen( $this->socketPort, SOMAXCONN ) ) === FALSE ){
 				$this->signalHangup = TRUE;
 				$errNo	= socket_last_error();
-				throw new CLI_Fork_Server_SocketException( self::E_LISTEN_FAILED, $errNo );
+				throw new SocketException( self::E_LISTEN_FAILED, $errNo );
 			}
 			//	Whoop-tee-loop!
 			//	Patiently wait until some of our children dies. Make sure we don't use all powers that be.

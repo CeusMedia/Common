@@ -27,6 +27,8 @@
 
 namespace CeusMedia\Common\XML\DOM;
 
+use CeusMedia\Common\FS\File\Writer as RawFileWriter;
+
 /**
  *	Writes XML Files from Trees build with XML_DOM_Nodes.
  *	@category		Library
@@ -78,6 +80,6 @@ class FileWriter
 	{
 		$builder	= new Builder();
 		$xml		= $builder->build( $tree, $encoding );
-		return \FS_File_Writer::save( $fileName, $xml );
+		return RawFileWriter::save( $fileName, $xml );
 	}
 }

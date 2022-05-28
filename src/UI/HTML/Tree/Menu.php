@@ -64,7 +64,7 @@ class Menu
 	 *	@param		MenuCollection	$list	Tree Menu Structure
 	 *	@return
 	 */
-	public function buildMenuFromMenuList( ADT_Tree_Menu_List $list )
+	public function buildMenuFromMenuList( MenuCollection $list )
 	{
 		$tree		= $this->buildMenuRecursive( $list );
 		$code		= Tag::create( 'div', $tree, $list->getAttributes( TRUE ) );
@@ -107,7 +107,7 @@ class Menu
 	 *	@param		int					$level	Depth Level of Tree
 	 *	@return		string
 	 */
-	protected function buildMenuRecursive( ADT_Tree_Menu_List $tree, $level = 1 )
+	protected function buildMenuRecursive( MenuCollection $tree, $level = 1 )
 	{
 		$list	= array();
 		foreach( $tree->getChildren() as $child )

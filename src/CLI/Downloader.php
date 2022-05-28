@@ -30,6 +30,7 @@ namespace CeusMedia\Common\CLI;
 
 use CeusMedia\Common\Alg\Time\Clock;
 use CeusMedia\Common\Alg\UnitFormater;
+use RuntimeException;
 
 /**
  *	Downloads a File from an URL while showing Progress in Console.
@@ -47,31 +48,43 @@ class Downloader
 {
 	/**	@var		bool			$showFileName		Flag: show File Name */
 	public $redirected				= FALSE;
+
 	/**	@var		bool			$showHeaders		Flag: show Headers */
 	public $showFileName			= TRUE;
+
 	/**	@var		bool			$showHeaders		Flag: show Headers */
 	public $showHeaders				= FALSE;
+
 	/**	@var		bool			$showProgress		Flag: show Progress */
 	public $showProgress			= TRUE;
+
 	/**	@var		string			$templateBodyDone	Template for Progress Line after having finished File Download */
 	public $templateBodyDone		= "\rLoaded %1\$s (%2\$s) with %3\$s.\n";
+
 	/**	@var		string			$templateBodyRatio	Template for Progress Line with Ratio (File Size muste be known) */
 	public $templateBodyRatio		= "\r[%3\$s%%] %1\$s loaded (%2\$s)   ";
+
 	/**	@var		string			$templateBody		Template for Progress Line without Ratio */
 	public $templateBody			= "\r%1\$s loaded (%2\$s)   ";
+
 	/**	@var		string			$templateFileName	Template for File Name Line */
 	public $templateFileName		= "Downloading File \"%s\":\n";
+
 	/**	@var		string			$templateHeader		Template for Header Line */
 	public $templateHeader			= "%s: %s\n";
+
 	/**	@var		string			$templateHeader		Template for Header Line */
 	public $templateRedirect		= "Redirected to \"%s\"\n";
+
 	/**	@var		Clock			$clock				Clock Instance */
 	private $clock;
 
 	/**	@var		int				$fileSize			Length of File to download, extracted from Response Headers */
 	protected $fileSize				= 0;
+
 	/**	@var		int				$loadSize			Length of current Load */
 	protected $loadSize				= 0;
+
 	/**	@var		array			$headers			Collected Response Headers, already splitted */
 	protected $headers				= array();
 
@@ -101,7 +114,7 @@ class Downloader
 
 		if( $savePath && !file_exists( $savePath ) )
 			if( !@mkDir( $savePath, 0777, TRUE ) )
-				throw new \RuntimeException( 'Save path could not been created.' );
+				throw new RuntimeException( 'Save path could not been created.' );
 
 		//  correct Path
 		$savePath	= $savePath ? preg_replace( "@([^/])$@", "\\1/", $savePath ) : "";
@@ -113,7 +126,7 @@ class Downloader
 		$fileName	= $info['basename'];
 		//  no File Name found in URL
 		if( !$fileName )
-			throw new \RuntimeException( 'File Name could not be extracted.' );
+			throw new RuntimeException( 'File Name could not be extracted.' );
 
 		//  store full File Name
 		$this->fileUri	= $savePath.$fileName;
@@ -124,16 +137,16 @@ class Downloader
 		{
 			//  force not set
 			if( !$force )
-				throw new \RuntimeException( 'File "'.$this->fileUri.'" is already existing.' );
+				throw new RuntimeException( 'File "'.$this->fileUri.'" is already existing.' );
 			//  remove File, because forced
 			if( !@unlink( $this->fileUri ) )
-				throw new \RuntimeException( 'File "'.$this->fileUri.'" could not been cleared.' );
+				throw new RuntimeException( 'File "'.$this->fileUri.'" could not been cleared.' );
 		}
 		//  Temp File exists
 		if( file_exists( $this->tempUri ) )
 			//  remove Temp File
 			if( !@unlink( $this->tempUri ) )
-				throw new \RuntimeException( 'Temp File "'.$this->tempUri.'" could not been cleared.' );
+				throw new RuntimeException( 'Temp File "'.$this->tempUri.'" could not been cleared.' );
 
 		//  show extraced File Name
 		if( $this->showFileName && $this->templateFileName )
@@ -158,7 +171,7 @@ class Downloader
 		//  an Error occured
 		if( $error )
 			//  throw Exception with Error
-			throw new \RuntimeException( $error, curl_errno( $ch ) );
+			throw new RuntimeException( $error, curl_errno( $ch ) );
 
 		//  return Number of loaded Bytes
 		return $this->loadSize;
@@ -242,11 +255,11 @@ class Downloader
 				//  get current Duration
 				$time	= $this->clock->stop( 6, 0 );
 				//  format Load Size
-				$size	= Alg_UnitFormater::formatBytes( $this->loadSize, 1 );
+				$size	= UnitFormater::formatBytes( $this->loadSize, 1 );
 				//  calculate Rate of Bytes per Second
 				$rate	= $this->loadSize / $time * 1000000;
 				//  format Rate
-				$rate	= Alg_UnitFormater::formatBytes( $rate, 1 )."/s";
+				$rate	= UnitFormater::formatBytes( $rate, 1 )."/s";
 
 				//  use Template
 				printf( $this->templateBodyDone, $fileName, $size, $rate );

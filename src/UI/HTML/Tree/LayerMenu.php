@@ -66,7 +66,7 @@ class LayerMenu
 	 *	@param		int					$level	Depth Level of Tree
 	 *	@return		string
 	 */
-	protected static function buildLayersRecursive( ADT_Tree_Menu_List $tree, $parent, $steps = array(), $level = 0 )
+	protected static function buildLayersRecursive( MenuCollection $tree, $parent, $steps = array(), $level = 0 )
 	{
 		$backlinks	= "";
 		if( count( $steps ) > 1 )
@@ -137,7 +137,7 @@ class LayerMenu
 	 *	@param		MenuCollection	$list	Tree Menu Structure
 	 *	@return
 	 */
-	public function buildMenuFromMenuList( ADT_Tree_Menu_List $list )
+	public function buildMenuFromMenuList( MenuCollection $list )
 	{
 		$root	= array(
 			array(

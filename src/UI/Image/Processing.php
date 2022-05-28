@@ -59,7 +59,7 @@ class Processing
 	 *	@param		integer			$maxMegaPixel	Maxiumum megapixels, default: 0 - unlimited
 	 *	@return		void
 	 */
-	public function __construct( UI_Image $image, $maxMegaPixels = 0 )
+	public function __construct( Image $image, $maxMegaPixels = 0 )
 	{
 		$this->image			= $image;
 		$this->maxMegaPixels	= $maxMegaPixels;

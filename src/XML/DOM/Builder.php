@@ -49,7 +49,7 @@ class Builder
 	 *	@param		string			$encoding		Encoding Character Set (utf-8 etc.)
 	 *	@return		string							Rendered tree as XML string
 	 */
-	static public function build( XML_DOM_Node $tree, $encoding = "utf-8", $namespaces = array() )
+	static public function build( Node $tree, $encoding = "utf-8", $namespaces = array() )
 	{
 		$document	= new DOMDocument( "1.0", $encoding );
 		$document->formatOutput = TRUE;
@@ -71,7 +71,7 @@ class Builder
 	 *	@param		string			$encoding	Encoding Character Set (utf-8 etc.)
 	 *	@return		void
 	 */
-	static protected function buildRecursive( DOMDocument $document, DOMElement $root, XML_DOM_Node $tree, $encoding )
+	static protected function buildRecursive( DOMDocument $document, DOMElement $root, Node $tree, $encoding )
 	{
 		foreach( $tree->getAttributes() as $key => $value )
 		{

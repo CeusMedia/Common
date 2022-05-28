@@ -27,6 +27,7 @@
 
 namespace CeusMedia\Common\XML\DOM;
 
+use CeusMedia\Common\FS\File\Reader as RawFileReader;
 use RuntimeException;
 
 /**
@@ -65,7 +66,7 @@ class FileReader
 	public static function load( $fileName )
 	{
 		$parser	= new Parser();
-		$xml	= \FS_File_Reader::load( $fileName );
+		$xml	= RawFileReader::load( $fileName );
 		$tree	= $parser->parse( $xml );
 		return $tree;
 	}

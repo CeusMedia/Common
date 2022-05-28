@@ -184,7 +184,7 @@ class Editor
 		$this->sheet	= Parser::parseFile( $fileName );
 	}
 
-	public function setSheet( ADT_CSS_Sheet $sheet )
+	public function setSheet( CssSheet $sheet )
 	{
 		$this->sheet	= $sheet;
 	}

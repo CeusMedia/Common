@@ -28,6 +28,8 @@
 
 namespace CeusMedia\Common\XML\DOM\PEAR;
 
+use CeusMedia\Common\FS\File\Reader as FileReader;
+
 use DOMDocument;
 use DOMNode;
 use Exception;
@@ -61,7 +63,7 @@ class PackageReader
 			'changes'		=> array(),
 		);
 
-		$xml	= \FS_File_Reader::load( $fileName );
+		$xml	= FileReader::load( $fileName );
 		$doc	= new DOMDocument();
 		$doc->preserveWhiteSpace	= FALSE;
 		$doc->validateOnParse		= !TRUE;

@@ -3,9 +3,13 @@ namespace CeusMedia\Common;
 
 use CeusMedia\Common\Alg\Text\CamelCase;
 use CeusMedia\Common\Alg\UnitFormater;
+use CeusMedia\Common\CLI\Dimensions as CliDimensions;
+use CeusMedia\Common\Exception\IO as IoException;
 use CeusMedia\Common\FS\File\Permissions as FilePermissions;
 use CeusMedia\Common\FS\Folder;
+use CeusMedia\Common\UI\DevOutput;
 use CeusMedia\Common\UI\Text;
+use RuntimeException;
 
 class CLI
 {
@@ -23,8 +27,8 @@ class CLI
 	public function __construct()
 	{
 		$this->base	= getCwd();
-		$this->size	= \CLI_Dimensions::getSize();
-		\UI_Text::$defaultLineLength	= $this->size->width - 1;
+		$this->size	= CliDimensions::getSize();
+		Text::$defaultLineLength	= $this->size->width - 1;
 	}
 
 	/**
@@ -39,7 +43,7 @@ class CLI
 		if( getEnv( 'TERM' ) === FALSE )
 			return TRUE;
 		if( $strict )
-			throw new \RuntimeException( 'Available in headless environment, only' );
+			throw new RuntimeException( 'Available in headless environment, only' );
 		return FALSE;
 	}
 
@@ -48,7 +52,7 @@ class CLI
 		if( php_sapi_name() === 'cli' )
 			return TRUE;
 		if( $strict )
-			throw new \RuntimeException( 'Available in CLI environment, only' );
+			throw new RuntimeException( 'Available in CLI environment, only' );
 		return FALSE;
 	}
 
@@ -59,7 +63,7 @@ class CLI
 			print 'x'.$i.'0  ';
 			for($j=0; $j<16; $j++){
 				$number	= $i.dechex( $j);
-				print ' '.UI_Text::char( 'x'.$number );
+				print ' '.Text::char( 'x'.$number );
 			}
 			print PHP_EOL;
 		}
@@ -81,7 +85,7 @@ class CLI
 				}
 			}
 			else{
-				$message	= UI_DevOutput::print_m( $message, NULL, NULL, TRUE );
+				$message	= DevOutput::print_m( $message, NULL, NULL, TRUE );
 				$isCli ? fwrite( STDERR, $message ) : print( $message );
 			}
 		}
@@ -126,7 +130,7 @@ class CLI
 				}
 			}
 			else{
-				$message	= UI_DevOutput::print_m( $message, NULL, NULL, TRUE );
+				$message	= DevOutput::print_m( $message, NULL, NULL, TRUE );
 				$isCli ? fwrite( STDOUT, $message ) : print( $message );
 			}
 		}
@@ -150,7 +154,7 @@ class CLI
 		}
 		if( file_exists( $path ) )
 			return realpath( $path );
-		throw new Exception_IO( 'Path is not existing', 0, $path );
+		throw new IoException( 'Path is not existing', 0, $path );
 	}
 
 	function ls( $path = NULL, $mimeType = TRUE )

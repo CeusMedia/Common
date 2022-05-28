@@ -28,6 +28,8 @@
 
 namespace CeusMedia\Common\XML\DOM;
 
+use CeusMedia\Common\Net\Reader as NetReader;
+use CeusMedia\Common\Net\CURL as CURL;
 use CeusMedia\Common\XML\DOM\Node;
 use Exception;
 
@@ -75,10 +77,10 @@ class UrlReader
 	 */
 	public static function load( $url, $curlOptions = array() )
 	{
-		$reader	= new \Net_Reader( $url );
+		$reader	= new NetReader( $url );
 		$reader->setUserAgent( self::$userAgent );
 		$xml	= $reader->read( $curlOptions );
-		$type	= explode( ";",$reader->getInfo( \Net_CURL::INFO_CONTENT_TYPE ) );
+		$type	= explode( ";",$reader->getInfo( CURL::INFO_CONTENT_TYPE ) );
 		$type	= array_shift( $type );
 
 		if( !in_array( $type, self::$mimeTypes, TRUE ) )

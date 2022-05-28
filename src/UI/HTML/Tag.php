@@ -29,7 +29,7 @@
 namespace CeusMedia\Common\UI\HTML;
 
 use CeusMedia\Common\Renderable;
-use Alg_Text_CamelCase as CamelCase;
+use CeusMedia\Common\Alg\Text\CamelCase as CamelCase;
 use InvalidArgumentException;
 use RuntimeException;
 

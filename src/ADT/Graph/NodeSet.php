@@ -26,6 +26,8 @@
  */
 namespace CeusMedia\Common\ADT\Graph;
 
+use Countable;
+
 /**
  *	NodeSet to store and manipulate nodes in a graph.
  *	@category		Library
@@ -35,7 +37,7 @@ namespace CeusMedia\Common\ADT\Graph;
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class NodeSet implements \Countable
+class NodeSet implements Countable
 {
 	/**	@var		array			$nodes			array of all Nodes */
  	protected $nodes = array();
@@ -49,7 +51,7 @@ class NodeSet implements \Countable
 	 */
 	public function addNode( string $nodeName, $nodeValue = '' )
 	{
-		$newNode = new ADT_Graph_Node( $nodeName, $nodeValue );
+		$newNode = new Node( $nodeName, $nodeValue );
 		if( !$this->isNode( $newNode ) ){
 			$this->nodes[] = $newNode;
 			return $newNode;

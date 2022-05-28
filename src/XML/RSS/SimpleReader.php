@@ -28,6 +28,10 @@
 
 namespace CeusMedia\Common\XML\RSS;
 
+use CeusMedia\Common\FS\File\Reader as FileReader;
+use CeusMedia\Common\Net\Reader as NetReader;
+
+
 /**
  *	Reader for RSS 2.0 Feeds.
  *	@category		Library
@@ -49,7 +53,7 @@ class SimpleReader
 	 */
 	public static function readFile( $fileName )
 	{
-		$xml	= \FS_File_Reader::load( $fileName );
+		$xml	= FileReader::load( $fileName );
 		return SimpleParser::parse( $xml );
 	}
 
@@ -62,7 +66,7 @@ class SimpleReader
 	 */
 	public static function readUrl( $url )
 	{
-		$xml	= \Net_Reader::readUrl( $url );
+		$xml	= NetReader::readUrl( $url );
 		return SimpleParser::parse( $xml );
 	}
 

@@ -148,7 +148,7 @@ class URL
 		if( is_string( $referenceUrl ) )
 			$referenceUrl	= new URL( $referenceUrl );
 		if( !( $referenceUrl instanceof URL ) )
-			throw new InvalidArgumentException( 'Given reference URL is neither ADT_URL nor string' );
+			throw new InvalidArgumentException( 'Given reference URL is neither URL object nor string' );
 		$url	= clone $referenceUrl;
 		$url->setPath( $this->parts->path );
 		$url->setQuery( $this->parts->query );

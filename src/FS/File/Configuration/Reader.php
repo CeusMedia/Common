@@ -30,6 +30,7 @@
 namespace CeusMedia\Common\FS\File\Configuration;
 
 use CeusMedia\Common\ADT\Collection\Dictionary;
+#use CeusMedia\Common\ADT\Collection\LevelMap;
 use CeusMedia\Common\FS\File\INI\Reader as IniFileReader;
 use CeusMedia\Common\FS\File\Reader as FileReader;
 use CeusMedia\Common\FS\File\Writer as FileWriter;
@@ -50,7 +51,7 @@ use RuntimeException;
  *	@link			https://github.com/CeusMedia/Common
  *	@since			06.05.2008
  */
-#class Reader extends ADT_List_LevelMap
+#class Reader extends LevelMap
 class Reader extends Dictionary
 {
 	/**	@var		bool		$iniQuickLoad	Flag: load INI Files with parse_ini_files, no Type Support */
@@ -87,8 +88,7 @@ class Reader extends Dictionary
 			//  return Value
 			return $this->pairs[$key];
 		//  Key has not been found
-		else
-		{
+		else{
 			//  prepare Prefix Key to seach for
 			$key		.= ".";
 			//  define empty Map
@@ -96,11 +96,9 @@ class Reader extends Dictionary
 			//  get Length of Prefix Key outside the Loop
 			$length		= strlen( $key );
 			//  iterate all stores Pairs
-			foreach( $this->pairs as $pairKey => $pairValue )
-			{
+			foreach( $this->pairs as $pairKey => $pairValue ){
 				//  precheck for Performance
-				if( $pairKey[0] !== $key[0] )
-				{
+				if( $pairKey[0] !== $key[0] ){
 					//  Pairs with Prefix Keys are passed
 					if( count( $list ) )
 						//  break Loop -> big Performance Boost
@@ -134,8 +132,7 @@ class Reader extends Dictionary
 		if( !file_exists( $fileName ) )
 			throw new RuntimeException( 'Configuration File "'.$fileName.'" is not existing.' );
 
-		if( is_string( $cachePath ) )
-		{
+		if( is_string( $cachePath ) ){
 			$cachePath	= preg_replace( "@([^/])$@", "\\1/", $cachePath );
 			$cacheFile	= $cachePath.basename( $fileName ).".cache";
 			if( $this->tryToLoadFromCache( $cacheFile, filemtime( $fileName ) ) )
@@ -143,8 +140,7 @@ class Reader extends Dictionary
 		}
 
 		$info	= pathinfo( $fileName );
-		switch( $info['extension'] )
-		{
+		switch( $info['extension'] ){
 			case 'ini':
 			case 'conf':
 				$this->loadIniFile( $fileName );
@@ -164,8 +160,7 @@ class Reader extends Dictionary
 				throw new InvalidArgumentException( 'File Type "'.$info['extension'].'" is not supported.' );
 		}
 		ksort( $this->pairs );
-		if( !empty( $cachePath ) )
-		{
+		if( !empty( $cachePath ) ){
 			FileWriter::save( $cacheFile, serialize( $this->pairs ), 0640 );
 		}
 		return $info['extension'];
@@ -179,27 +174,21 @@ class Reader extends Dictionary
 	 */
 	protected function loadIniFile( $fileName )
 	{
-		if( self::$iniQuickLoad )
-		{
+		if( self::$iniQuickLoad ){
 			$array	= parse_ini_file( $fileName, TRUE );
 			foreach( $array as $sectionName => $sectionData )
 				foreach( $sectionData as $key => $value )
 					$this->pairs[$sectionName.".".$key]	= $value;
 		}
-		else
-		{
+		else{
 			$pattern	= '@^(string|integer|int|double|boolean|bool).*$@';
 			$reader		= new IniFileReader( $fileName, TRUE );
 			$comments	= $reader->getComments();
-			foreach( $reader->getProperties() as $sectionName => $sectionData )
-			{
-				foreach( $sectionData as $key => $value )
-				{
-					if( isset( $comments[$sectionName][$key] ) )
-					{
+			foreach( $reader->getProperties() as $sectionName => $sectionData ){
+				foreach( $sectionData as $key => $value ){
+					if( isset( $comments[$sectionName][$key] ) ){
 						$matches	= array();
-						if( preg_match_all( $pattern, $comments[$sectionName][$key], $matches ) )
-						{
+						if( preg_match_all( $pattern, $comments[$sectionName][$key], $matches ) ){
 							$type		= $matches[1][0];
 							settype( $value, $type );
 						}
@@ -237,8 +226,7 @@ class Reader extends Dictionary
 		$root	= XmlElementReader::readFile( $fileName );
 		$this->pairs	= array();
 		//  iterate sections
-		foreach( $root as $sectionNode )
-		{
+		foreach( $root as $sectionNode ){
 			//  get section name
 			$sectionName	= $sectionNode->getAttribute( 'name' );
 			//  read section
@@ -260,8 +248,7 @@ class Reader extends Dictionary
 		//  extend path by delimiter
 		$path	.= $path ? '.' : '';
 		//  iterate node children
-		foreach( $node as $child )
-		{
+		foreach( $node as $child ){
 			//  get node name of child
 			$name	= $child->getAttribute( 'name' );
 			//  dispatch on node name
@@ -311,8 +298,7 @@ class Reader extends Dictionary
 			//  throw Exception
 			throw new InvalidArgumentException( 'Key must not be empty.' );
 		//  Key is set on its own
-		if( isset( $this->pairs[$key] ) )
-		{
+		if( isset( $this->pairs[$key] ) ){
 			//  remove Pair
 			unset( $this->pairs[$key] );
 			//  return Success
@@ -325,11 +311,9 @@ class Reader extends Dictionary
 		//  get Length of Prefix Key outside the Loop
 		$length		= strlen( $key );
 		//  iterate all stores Pairs
-		foreach( $this->pairs as $pairKey => $pairValue )
-		{
+		foreach( $this->pairs as $pairKey => $pairValue ){
 			//  precheck for Performance
-			if( $pairKey[0] !== $key[0] )
-			{
+			if( $pairKey[0] !== $key[0] ){
 				//  Pairs with Prefix Keys are passed
 				if( $count )
 					//  break Loop -> big Performance Boost
@@ -338,8 +322,7 @@ class Reader extends Dictionary
 				continue;
 			}
 			//  Prefix Key is found
-			if( strpos( $pairKey, $key ) === 0 )
-			{
+			if( strpos( $pairKey, $key ) === 0 ){
 				//  remove Pair
 				unset( $this->pairs[$pairKey] );
 				//  count removed Pairs
@@ -363,12 +346,10 @@ class Reader extends Dictionary
 			return FALSE;
 
 		$lastCache	= @filemtime( $cacheFile );
-		if( $lastCache && $lastChange <= $lastCache )
-		{
+		if( $lastCache && $lastChange <= $lastCache ){
 			$content	= file_get_contents( $cacheFile );
 			$array		= @unserialize( $content );
-			if( is_array( $array ) )
-			{
+			if( is_array( $array ) ){
 				$this->pairs	= $array;
 				return TRUE;
 			}

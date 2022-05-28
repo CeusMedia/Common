@@ -26,6 +26,9 @@
  */
 namespace CeusMedia\Common\UI;
 
+use CeusMedia\Common\ADT\JSON\Formater as JsonFormater;
+use CeusMedia\Common\Alg\Text\Trimmer as TextTrimmer;
+
 /**
  *	Output Methods for Developement.
  *	@category		Library
@@ -147,14 +150,12 @@ class DevOutput
 	 */
 	public function printArray( $array, $offset = 0, $key = NULL, $sign = NULL, $factor = NULL )
 	{
-		if( is_array( $array ) )
-		{
+		if( is_array( $array ) ){
 			extract( $this->getSettings() );
 			$space = $this->indentSign( $offset, $sign, $factor );
 			if( $key !== NULL )
 				echo $space."[A] ".$key.$lineBreak;
-			foreach( $array as $key => $value )
-			{
+			foreach( $array as $key => $value ){
 				if( is_array( $value ) && count( $value ) )
 					$this->printArray( $value, $offset + 1, $key, $sign, $factor );
 				else
@@ -177,8 +178,7 @@ class DevOutput
 	 */
 	public function printBoolean( $bool, $offset = 0, $key = NULL, $sign = NULL, $factor = NULL )
 	{
-		if( is_bool( $bool ) )
-		{
+		if( is_bool( $bool ) ){
 			extract( $this->getSettings() );
 			$key = ( $key !== NULL ) ? $key." => " : "";
 			$space = $this->indentSign( $offset, $sign, $factor );
@@ -215,8 +215,7 @@ class DevOutput
 	 */
 	public function printFloat( $float, $offset = 0, $key = NULL, $sign = NULL, $factor = NULL )
 	{
-		if( is_float( $float ) )
-		{
+		if( is_float( $float ) ){
 			extract( $this->getSettings() );
 			$key = ( $key !== NULL ) ? $key." => " : "";
 			$space = $this->indentSign( $offset, $sign, $factor );
@@ -238,8 +237,7 @@ class DevOutput
 	 */
 	public function printInteger( $integer, $offset = 0, $key = NULL, $sign = NULL, $factor = NULL )
 	{
-		if( is_int( $integer ) )
-		{
+		if( is_int( $integer ) ){
 			extract( $this->getSettings() );
 			$key = ( $key !== NULL ) ? $key." => " : "";
 			$space = $this->indentSign( $offset, $sign, $factor );
@@ -266,7 +264,7 @@ class DevOutput
 		$o	= new DevOutput();
 		echo $lineBreak;
 		$space	= $this->indentSign( 1, $sign, $factor );
-		$json	= ADT_JSON_Formater::format( $mixed );
+		$json	= JsonFormater::format( $mixed );
 		$json	= str_replace( "\n", $lineBreak, $json );
 		$json	= str_replace( "  ", $space, $json );
 		echo $json;
@@ -323,8 +321,7 @@ class DevOutput
 	 */
 	public function printNull( $null, $offset = 0, $key = NULL, $sign = NULL, $factor = NULL )
 	{
-		if( $null === NULL )
-		{
+		if( $null === NULL ){
 			extract( $this->getSettings() );
 			$key = ( $key !== NULL ) ? $key." => " : "";
 			$space = $this->indentSign( $offset, $sign, $factor );
@@ -346,15 +343,13 @@ class DevOutput
 	 */
 	public function printObject( $object, $offset = 0, $key = NULL, $sign = NULL, $factor = NULL )
 	{
-		if( is_object( $object ) || gettype( $object ) == "object" )
-		{
+		if( is_object( $object ) || gettype( $object ) == "object" ){
 			extract( $this->getSettings() );
 			$ins_key	= ( $key !== NULL ) ? $key." -> " : "";
 			$space		= $this->indentSign( $offset, $sign, $factor );
 			echo $space."[O] ".$ins_key."".$highlightOpen.get_class( $object ).$highlightClose.$lineBreak;
 			$vars		= get_object_vars( $object );
-			foreach( $vars as $key => $value )
-			{
+			foreach( $vars as $key => $value ){
 				if( is_object( $value ) )
 					$this->printObject( $value, $offset + 1, $key, $sign, $factor );
 				else if( is_array( $value ) )
@@ -379,8 +374,7 @@ class DevOutput
 	 */
 	public function printResource( $resource, $offset = 0, $key = NULL, $sign = NULL, $factor = NULL )
 	{
-		if( is_resource( $resource ) )
-		{
+		if( is_resource( $resource ) ){
 			extract( $this->getSettings() );
 			$key	= ( $key !== NULL ) ? $key." => " : "";
 			$space	= $this->indentSign( $offset, $sign, $factor );
@@ -402,15 +396,14 @@ class DevOutput
 	 */
 	public function printString( $string, $offset = 0, $key = NULL, $sign = NULL, $factor = NULL )
 	{
-		if( is_string( $string ) )
-		{
+		if( is_string( $string ) ){
 			extract( $this->getSettings() );
 			$key = ( $key !== NULL ) ? $key." => " : "";
 			$space = $this->indentSign( $offset, $sign, $factor );
 			if( $lineBreak != "\n" )
 				$string	= htmlspecialchars( $string );
 			if( strlen( $string > $stringMaxLength ) )
-				$string	= Alg_Text_Trimmer::trimCentric( $string, $stringMaxLength, $stringTrimMask );
+				$string	= TextTrimmer::trimCentric( $string, $stringMaxLength, $stringTrimMask );
 			echo $space."[S] ".$key.$string.$lineBreak;
 		}
 		else
@@ -427,11 +420,9 @@ class DevOutput
 	public function remark( $text, $parameters = array() )
 	{
 		$param	= "";
-		if( is_array( $parameters ) && count( $parameters ) )
-		{
+		if( is_array( $parameters ) && count( $parameters ) ){
 			$param	= array();
-			foreach( $parameters as $key => $value )
-			{
+			foreach( $parameters as $key => $value ){
 				if( is_int( $key ) )
 					$param[]	= $value;
 				else
@@ -482,8 +473,7 @@ class DevOutput
 	//	remark( $node->nodeType." [".$node->nodeName."]" );
 	//	remark( $node->nodeValue );
 		$o	= str_repeat( "&nbsp;", $offset * 2 );
-		switch( $node->nodeType )
-		{
+		switch( $node->nodeType ){
 			case XML_ELEMENT_NODE:
 				remark( $o."[".$node->nodeName."]" );
 				foreach( $node->attributes as $map )

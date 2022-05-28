@@ -29,7 +29,7 @@
 
 namespace CeusMedia\Common\UI\HTML;
 
-use UI_HTML_JQuery as JQuery;
+use CeusMedia\Common\UI\HTML\JQuery as JQuery;
 use Exception;
 use InvalidArgumentException;
 

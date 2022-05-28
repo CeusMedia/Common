@@ -28,6 +28,8 @@
 
 namespace CeusMedia\Common\XML\RSS;
 
+use CeusMedia\Common\FS\File\Writer as FileWriter;
+
 /**
  *	Writer for RSS 2.0 Feeds.
  *	@category		Library
@@ -111,7 +113,7 @@ class Writer
 		$builder->setChannelData( $channelData );
 		$builder->setItemList( $itemList );
 		$xml	= $builder->build( $encoding = "utf-8" );
-		return \FS_File_Writer::save( $fileName, $xml );
+		return FileWriter::save( $fileName, $xml );
 	}
 
 	/**

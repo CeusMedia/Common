@@ -237,7 +237,7 @@ class XMPP extends XMLStream
 		$payload['from'] = $xml->attrs['from'];
 		$payload['body'] = $xml->sub('body') ? $xml->sub('body')->data : NULL;
 		$payload['xml'] = $xml;
-		$this->log->log("Message: {$payload['body']}", Net_XMPP_XMPPHP_Log::LEVEL_DEBUG);
+		$this->log->log("Message: {$payload['body']}", Log::LEVEL_DEBUG);
 		$this->event('message', $payload);
 	}
 
@@ -257,7 +257,7 @@ class XMPP extends XMLStream
 		if($this->track_presence) {
 			$this->roster->setPresence($payload['from'], $payload['priority'], $payload['show'], $payload['status']);
 		}
-		$this->log->log("Presence: {$payload['from']} [{$payload['show']}] {$payload['status']}",  Net_XMPP_XMPPHP_Log::LEVEL_DEBUG);
+		$this->log->log("Presence: {$payload['from']} [{$payload['show']}] {$payload['status']}", Log::LEVEL_DEBUG);
 		if(array_key_exists('type', $xml->attrs) and $xml->attrs['type'] == 'subscribe') {
 			if($this->auto_subscribe) {
 				$this->send("<presence type='subscribed' to='{$xml->attrs['from']}' from='{$this->fulljid}' />");

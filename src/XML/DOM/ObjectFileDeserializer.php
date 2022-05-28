@@ -28,6 +28,8 @@
 
 namespace CeusMedia\Common\XML\DOM;
 
+use CeusMedia\Common\FS\File\Reader as FileReader;
+
 /**
  *	Deserializer for a XML File into a Data Object.
  *	@category		Library
@@ -49,6 +51,6 @@ class ObjectFileDeserializer
 	 */
 	public static function deserialize( $fileName )
 	{
-		return ObjectDeserializer::deserialize( \FS_File_Reader::load( $fileName ) );
+		return ObjectDeserializer::deserialize( FileReader::load( $fileName ) );
 	}
 }

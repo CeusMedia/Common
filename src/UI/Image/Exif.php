@@ -29,8 +29,8 @@
 namespace CeusMedia\Common\UI\Image;
 
 use CeusMedia\Common\ADT\Collection\Dictionary;
+use CeusMedia\Common\UI\HTML\Tag as HtmlTag;
 use CeusMedia\Common\UI\Image;
-use UI_HTML_Tag as HtmlTag;
 use Exception;
 use RuntimeException;
 

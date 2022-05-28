@@ -28,6 +28,8 @@
 
 namespace CeusMedia\Common\XML\DOM;
 
+use CeusMedia\Common\FS\File\Reader as FileReader;
+
 /**
  *	Identifies Type and Version of RSS and ATOM Feeds.
  *	@category		Library
@@ -86,7 +88,7 @@ class FeedIdentifier
 	 */
 	public function identifyFromFile( $fileName )
 	{
-		$file	= new \FS_File_Reader( $fileName );
+		$file	= new FileReader( $fileName );
 		$xml	= $file->readString();
 		return $this->identify( $xml );
 	}

@@ -28,7 +28,7 @@
 
 namespace CeusMedia\Common\UI\Image\Graph;
 
-use UI_Template as Template;
+use CeusMedia\Common\UI\Template as Template;
 use RuntimeException;
 
 /**

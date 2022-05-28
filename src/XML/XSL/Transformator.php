@@ -28,6 +28,8 @@
 
 namespace CeusMedia\Common\XML\XSL;
 
+use CeusMedia\Common\FS\File\Reader as FileReader;
+use CeusMedia\Common\FS\File\Writer as FileWriter;
 use DOMDocument;
 use InvalidArgumentException;
 use XSLTProcessor;
@@ -57,7 +59,7 @@ class Transformator
 	 */
 	public function loadXmlFile( $xmlFile )
 	{
-		$reader		= new \FS_File_Reader( $xmlFile );
+		$reader		= new FileReader( $xmlFile );
 		$this->xml	= $reader->readString();
 	}
 
@@ -69,7 +71,7 @@ class Transformator
 	 */
 	public function loadXslFile( $xslFile )
 	{
-		$reader		= new \FS_File_Reader( $xslFile );
+		$reader		= new FileReader( $xslFile );
 		$this->xsl	= $reader->readString();
 	}
 
@@ -101,7 +103,7 @@ class Transformator
 	public function transformToFile( $outFile = false )
 	{
 		$result	= $this->transform();
-		$writer	= new \FS_File_Writer( $outFile );
+		$writer	= new FileWriter( $outFile );
 		return $writer->writeString( $result );
 	}
 }

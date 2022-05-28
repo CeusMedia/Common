@@ -28,7 +28,7 @@
 
 namespace CeusMedia\Common\FS\File\CSS;
 
-#use CeusMedia\Common\FS\File\Reader as FileReader;
+use CeusMedia\Common\ADT\CSS\Sheet as CssSheet;
 use Exception;
 
 /**
@@ -88,7 +88,7 @@ class Compressor
 		return $fileUri;
 	}
 
-	static public function compressSheet( ADT_CSS_Sheet $sheet, $oneLine = FALSE )
+	static public function compressSheet( CssSheet $sheet, $oneLine = FALSE )
 	{
 		$converter	= new Converter( $sheet );
 		return self::compressString( $converter->toString(), $oneLine );

@@ -28,6 +28,10 @@
 
 namespace CeusMedia\Common\XML;
 
+use CeusMedia\Common\FS\File\Reader as FileReader;
+use CeusMedia\Common\Net\Reader as NetReader;
+
+
 /**
  *	Reader for XML Elements from File or URL.
  *	@category		Library
@@ -61,7 +65,7 @@ class ElementReader
 	 */
 	static public function readFile( $fileName )
 	{
-		$xml	= \FS_File_Reader::load( $fileName );
+		$xml	= FileReader::load( $fileName );
 		return self::read( $xml );
 	}
 
@@ -74,7 +78,7 @@ class ElementReader
 	 */
 	static public function readUrl( $url )
 	{
-		$xml	= \Net_Reader::readUrl( $url );
+		$xml	= NetReader::readUrl( $url );
 		return self::read( $xml );
 	}
 }

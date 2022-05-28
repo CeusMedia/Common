@@ -28,6 +28,7 @@
 
 namespace CeusMedia\Common\XML;
 
+use CeusMedia\Common\FS\File\Writer as FileWriter;
 use DOMNode;
 use InvalidArgumentException;
 use RuntimeException;
@@ -150,7 +151,7 @@ class Element extends SimpleXMLElement
 	public function asFile( $fileName )
 	{
 		$xml	= $this->asXML();
-		return \FS_File_Writer::save( $fileName, $xml );
+		return FileWriter::save( $fileName, $xml );
 	}
 
 	/**

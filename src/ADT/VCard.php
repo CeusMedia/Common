@@ -28,6 +28,8 @@
  */
 namespace CeusMedia\Common\ADT;
 
+use CeusMedia\Common\FS\File\VCard\Builder as VCardFileBuilder;
+use CeusMedia\Common\FS\File\VCard\Parser as VCardFileParser;
 use InvalidArgumentException;
 
 /**
@@ -188,7 +190,7 @@ class VCard implements \Serializable
 	 */
 	public static function createFromString( $string )
 	{
-		return \FS_File_VCard_Parser::parse( $string );
+		return VCardFileParser::parse( $string );
 	}
 
 	/**
@@ -215,7 +217,7 @@ class VCard implements \Serializable
 	public function fromString( $string )
 	{
 		$this->__construct();
-		\FS_File_VCard_Parser::parseInto( $string, $this );
+		VCardFileParser::parseInto( $string, $this );
 	}
 
 	/**
@@ -475,7 +477,7 @@ class VCard implements \Serializable
 	 */
 	public function toString( $charsetIn = NULL, $charsetOut = NULL )
 	{
-		return \FS_File_VCard_Builder::build( $this, $charsetIn, $charsetOut );
+		return VCardFileBuilder::build( $this, $charsetIn, $charsetOut );
 	}
 
 	/**

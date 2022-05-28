@@ -131,7 +131,7 @@ class String_
 	 */
 	public function countSubstring( $string, $offset = 0, $limit = NULL )
 	{
-		if( !is_string( $string ) && !( $string instanceof ADT_String ) )
+		if( !is_string( $string ) && !( $string instanceof String_ ) )
 			throw new InvalidArgumentException( 'No string given' );
 		if( !is_int( $offset ) )
 			throw new InvalidArgumentException( 'Offset must be integer' );
@@ -175,7 +175,7 @@ class String_
 			throw new InvalidArgumentException( 'Length must be integer' );
 		if( $length < $this->getLength() )
 			throw new InvalidArgumentException( 'Length cannot be lower than string length' );
-		if( !is_string( $string ) && !( $string instanceof ADT_String ) )
+		if( !is_string( $string ) && !( $string instanceof String_ ) )
 			throw new InvalidArgumentException( 'Padding string must be of string' );
 		if( 0 === strlen( trim( $string ) ) )
 			throw new InvalidArgumentException( 'Padding string cannot be empty' );

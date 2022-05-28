@@ -87,7 +87,7 @@ class Parser
 	 *	@param		string		$charsetOut		Charset to convert to
 	 *	@return		string
 	 */
-	public static function parseInto( $string, ADT_VCard $vcard, $charsetIn = NULL, $charsetOut = NULL )
+	public static function parseInto( $string, VCard $vcard, $charsetIn = NULL, $charsetOut = NULL )
 	{
 		if( !$string )
 			throw new InvalidArgumentException( 'String is empty ' );

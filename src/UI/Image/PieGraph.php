@@ -8,7 +8,7 @@
 
 namespace CeusMedia\Common\UI\Image;
 
-use UI_Template as Template;
+use CeusMedia\Common\UI\Template as Template;
 use InvalidArgumentException;
 
 /**

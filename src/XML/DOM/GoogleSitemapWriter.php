@@ -28,6 +28,8 @@
 
 namespace CeusMedia\Common\XML\DOM;
 
+use CeusMedia\Common\FS\File\Writer as FileWriter;
+
 /**
  *	Builds and writes Google Sitemap.
  *	@category		Library
@@ -78,7 +80,7 @@ class GoogleSitemapWriter
 	public static function writeSitemap( $links, $fileName = "sitemap.xml", $baseUrl = "" )
 	{
 		$xml	= GoogleSitemapBuilder::buildSitemap( $links, $baseUrl );
-		$file	= new \FS_File_Writer( $fileName );
+		$file	= new FileWriter( $fileName );
 		return $file->writeString( $xml );
 	}
 }

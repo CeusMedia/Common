@@ -27,6 +27,7 @@
 
 namespace CeusMedia\Common\XML\OPML;
 
+use CeusMedia\Common\FS\File\Reader as RawFileReader;
 use CeusMedia\Common\XML\DOM\Node;
 use Exception;
 
@@ -63,7 +64,7 @@ class FileReader
 	 */
 	public static function load( $fileName )
 	{
-		$file	= new \FS_File_Reader( $fileName );
+		$file	= new RawFileReader( $fileName );
 		if( !$file->exists() )
 			throw new Exception( "File '".$fileName."' is not existing." );
 		$xml	= $file->readString();

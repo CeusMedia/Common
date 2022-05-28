@@ -124,7 +124,7 @@ class Renderer
 		return $file->rename( $fileName );
 	}
 
-	public function setGraph( UI_Image_Graphviz_Graph $graph ){
+	public function setGraph( Graph $graph ){
 		$this->graph	= $graph;
 	}
 

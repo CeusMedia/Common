@@ -28,6 +28,7 @@
 
 namespace CeusMedia\Common\Alg\Obj;
 
+use CeusMedia\Common\Alg\Obj\Factory as ObjectFactory;
 use CeusMedia\Common\Deprecation;
 use BadMethodCallException;
 use RuntimeException;
@@ -171,7 +172,7 @@ class MethodFactory
 	{
 		if( !class_exists( $className ) )
 			throw new RuntimeException( 'Class "'.$className.'" has not been loaded' );
-		$object		= Alg_Object_Factory::createObject( $className, $classParameters );
+		$object		= ObjectFactory::createObject( $className, $classParameters );
 		return self::staticCallObjectMethod( $object, $methodName, $methodParameters, $checkMethod, $allowProtected );
 	}
 

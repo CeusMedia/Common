@@ -24,8 +24,12 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+
+namespace CeusMedia\Common\UI;
+
 define( 'SERVICE_TEST_PRINT_M', 0 );
 define( 'SERVICE_TEST_VAR_DUMP', 1 );
+
 /**
  *	...
  *	@category		Library
@@ -36,7 +40,7 @@ define( 'SERVICE_TEST_VAR_DUMP', 1 );
  *	@link			https://github.com/CeusMedia/Common
  *	@todo			Code Docu
  */
-class UI_VariableDumper
+class VariableDumper
 {
 	const MODE_PRINT	= 0;
 	const MODE_DUMP		= 1;
@@ -105,7 +109,7 @@ class UI_VariableDumper
 		return ob_get_clean();
 	}
 }
-function dumpVar( $variable, $mode = UI_VariableDumper::MODE_DUMP, $modeIfNotXDebug = UI_VariableDumper::MODE_PRINT )
+function dumpVar( $variable, $mode = VariableDumper::MODE_DUMP, $modeIfNotXDebug = VariableDumper::MODE_PRINT )
 {
-	return UI_VariableDumper::dump( $variable, $mode, $modeIfNotXDebug );
+	return VariableDumper::dump( $variable, $mode, $modeIfNotXDebug );
 }

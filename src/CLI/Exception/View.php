@@ -1,5 +1,11 @@
 <?php
-class CLI_Exception_View
+
+namespace CeusMedia\Common\CLI\Exception;
+
+use Exception;
+use InvalidArgumentException;
+
+class View
 {
 	protected $exception;
 

@@ -10,6 +10,7 @@
 namespace CeusMedia\Common\UI\HTML\Button;
 
 use CeusMedia\Common\UI\HTML\Abstraction as HtmlAbstraction;
+use CeusMedia\Common\UI\HTML\Buffer as HtmlBuffer;
 use CeusMedia\Common\UI\HTML\Tag;
 
 /**
@@ -24,7 +25,7 @@ class Container extends HtmlAbstraction
 	protected $defaultClass	= "buttons button-bar";
 	protected $content	= array();
 
-	public function __construct( UI_HTML_Buffer $buffer )
+	public function __construct( HtmlBuffer $buffer )
 	{
 		$this->content[]	= $buffer->render();
 		$this->addClass( $this->defaultClass );

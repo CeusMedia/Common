@@ -7,6 +7,11 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.0
  */
+
+namespace CeusMedia\Common;
+
+use InvalidArgumentException;
+
 /**
  *	A configured Loader for Classes and Scripts, which can be registered as Autoloader.
  *	@category		Library
@@ -15,6 +20,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.0
  */
+
 class Loader
 {
 	protected $extensions	= array(
@@ -82,16 +88,14 @@ class Loader
 	 */
 	public function loadClass( $className )
 	{
-		if( $this->prefix )
-		{
+		if( $this->prefix ){
 			$prefix	= strtolower( substr( $className, 0, strlen( $this->prefix ) ) );
 			if( $prefix != $this->prefix )
 				return FALSE;
 			$className	= str_ireplace( $this->prefix, '', $className );
 		}
 		$basePath		= $this->path ? $this->path : "";
-		if( $this->lowerPath )
-		{
+		if( $this->lowerPath ){
 			$matches	= array();
 			preg_match_all( '/^(.*)([a-z0-9]+)$/iU', $className, $matches );
 			$fileName	= $matches[2][0];
@@ -100,8 +104,7 @@ class Loader
 		}
 		else
 			$fileName	= str_replace( "_","/", $className );
-		foreach( $this->extensions as $extension )
-		{
+		foreach( $this->extensions as $extension ){
 			$filePath	= $basePath.$fileName.".".$extension;
 			if( $this->verbose > 1 )
 				echo $this->lineBreak."autoload: ".$filePath;
@@ -180,7 +183,7 @@ class Loader
 
 	public function setLowerPath( $bool )
 	{
-		$this->lowerPath	= (bool) $bool;	
+		$this->lowerPath	= (bool) $bool;
 	}
 
 	public function setVerbose( $verbosity )

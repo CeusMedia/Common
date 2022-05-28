@@ -27,6 +27,7 @@
 
 namespace CeusMedia\Common\XML\OPML;
 
+use CeusMedia\Common\FS\File\Writer as RawFileWriter;
 use CeusMedia\Common\XML\DOM\Builder;
 use CeusMedia\Common\XML\DOM\Node;
 
@@ -68,15 +69,15 @@ class FileWriter
 	{
 		$builder	= new Builder();
 		$xml		= $builder->build( $tree, $encoding );
-		$file		= new \FS_File_Writer( $fileName, 0777 );
+		$file		= new RawFileWriter( $fileName, 0777 );
 		return $file->writeString( $xml );
 	}
 
 	/**
 	 *	Writes OPML Tree to OPML File.
 	 *	@access		public
-	 *	@param		Node	tree		OPML Tree
-	 *	@param		string			encoding	Encoding Type
+	 *	@param		Node		tree		OPML Tree
+	 *	@param		string		encoding	Encoding Type
 	 *	@return		bool
 	 */
 	public function write( $tree, $encoding = "utf-8" )

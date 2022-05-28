@@ -28,6 +28,8 @@
 
 namespace CeusMedia\Common\XML\DOM;
 
+use CeusMedia\Common\FS\File\Writer as FileWriter;
+
 /**
  *	Serializer for Data Object into a XML File.
  *	@category		Library
@@ -50,6 +52,6 @@ class ObjectFileSerializer
 	 */
 	public static function serialize( $object, $fileName )
 	{
-		return \FS_File_Writer::save( $fileName, ObjectSerializer::serialize( $object ) );
+		return FileWriter::save( $fileName, ObjectSerializer::serialize( $object ) );
 	}
 }

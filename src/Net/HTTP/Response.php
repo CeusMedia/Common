@@ -31,6 +31,7 @@ namespace CeusMedia\Common\Net\HTTP;
 use CeusMedia\Common\ADT\Collection\Dictionary;
 use CeusMedia\Common\Net\HTTP\Header\Section as HeaderSection;
 use CeusMedia\Common\Net\HTTP\Header\Field as HeaderField;
+use CeusMedia\Common\Net\HTTP\Response\Sender as ResponseSender;
 use InvalidArgumentException;
 
 /**
@@ -189,7 +190,7 @@ class Response
 	}
 
 	public function send( $compression = NULL, $sendLengthHeader = TRUE, $exit = TRUE ){
-		$sender	= new Response\Sender( $this );
+		$sender	= new ResponseSender( $this );
 		return $sender->send( $compression, $sendLengthHeader, $exit );
 	}
 

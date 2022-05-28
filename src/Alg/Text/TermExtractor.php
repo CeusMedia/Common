@@ -89,7 +89,7 @@ class TermExtractor
 		if( !Unicoder::isUnicode( $string ) )
 		{
 			$string	= Unicoder::convertToUnicode( $string );
-			FS_File_Editor::save( $fileName, $string );
+			FileEditor::save( $fileName, $string );
 		}
 		$list	= FileEditor::loadArray( $fileName );
 		self::setBlacklist( array_unique( $list ) );

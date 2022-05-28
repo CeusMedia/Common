@@ -27,6 +27,7 @@
 
 namespace CeusMedia\Common\UI\Image;
 
+use CeusMedia\Common\Alg\Randomizer;
 use CeusMedia\Common\FS\File\Writer as FileWriter;
 
 /**
@@ -156,7 +157,7 @@ class Captcha
 	 */
 	public function generateWord()
 	{
-		$rand				= new Alg_Randomizer();
+		$rand				= new Randomizer();
 		$rand->digits		= "2345678";
 		$rand->larges		= "ABCDEFGHIKLMNPQRSTUVWXYZ";
 		$rand->smalls		= "abcdefghiklmnpqrstuvwxyz";

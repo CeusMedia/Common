@@ -29,11 +29,12 @@
 namespace CeusMedia\Common\XML\DOM;
 
 use CeusMedia\Common\ADT\OptionObject;
+use CeusMedia\Common\Net\Reader as NetReader;
+use CeusMedia\Common\XML\Validator;
 use DOMDocument;
 use DOMXpath;
 use InvalidArgumentException;
 use RuntimeException;
-use XML_Validator;
 
 /**
  *	Evaluator for XPath Queries.
@@ -49,6 +50,7 @@ class XPathQuery extends OptionObject
 {
 	/**	@var		DOMDocument	$document		DOM Document Object */
 	var $document	= NULL;
+
 	/**	@var		DOMXPath	$xPath			DOM XPath Object */
 	var $xPath		= NULL;
 
@@ -122,7 +124,7 @@ class XPathQuery extends OptionObject
 		$options	= array();
 		foreach( $this->getOptions() as $key => $value )
 			$options["CURLOPT_".strtoupper( $key )]	= $value;
-		$xml	= \Net_Reader::readUrl( $url, $options );
+		$xml	= NetReader::readUrl( $url, $options );
 		if( !$xml )
 			throw new RuntimeException( 'No XML found for URL "'.$url.'".' );
 		$this->loadXml( $xml );

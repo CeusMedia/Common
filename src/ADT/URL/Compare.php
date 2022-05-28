@@ -60,7 +60,7 @@ class Compare
 		if( is_string( $url ) )
 			$url	= new URL( $url );
 		if( !( $url instanceof URL ) )
-			throw new InvalidArgumentException( 'Given first URL is neither ADT_URL nor string' );
+			throw new InvalidArgumentException( 'Given first URL is neither URL object nor string' );
 		$this->url1		= $url;
 		return $this;
 	}
@@ -70,7 +70,7 @@ class Compare
 		if( is_string( $url ) )
 			$url	= new URL( $url );
 		if( !( $url instanceof URL ) )
-			throw new InvalidArgumentException( 'Given second URL is neither ADT_URL nor string' );
+			throw new InvalidArgumentException( 'Given second URL is neither URL object nor string' );
 		$this->url2		= $url;
 		return $this;
 	}

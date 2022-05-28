@@ -27,6 +27,9 @@
 
 namespace CeusMedia\Common\XML;
 
+use CeusMedia\Common\FS\File\Reader as FileReader;
+use CeusMedia\Common\Net\Reader as NetReader;
+
 /**
  *	Validates XML.
  *	@category		Library
@@ -73,7 +76,7 @@ class Validator
 	 */
 	public function validateFile( $fileName )
 	{
-		$xml = \FS_File_Reader::load( $fileName );
+		$xml = FileReader::load( $fileName );
 		return $this->validate( $xml );
 	}
 
@@ -84,7 +87,7 @@ class Validator
 	 */
 	public function validateUrl( $url)
 	{
-		$xml	= \Net_Reader::readUrl( $url );
+		$xml	= NetReader::readUrl( $url );
 		return $this->validate( $xml );
 	}
 

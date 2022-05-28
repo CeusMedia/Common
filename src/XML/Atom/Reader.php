@@ -27,6 +27,8 @@
 
 namespace CeusMedia\Common\XML\Atom;
 
+use CeusMedia\Common\FS\File\Reader as FileReader;
+use CeusMedia\Common\Net\Reader as NetReader;
 use Exception;
 use InvalidArgumentException;
 
@@ -56,13 +58,13 @@ class Reader
 
 	public function readUrl( $url )
 	{
-		$xml	= \Net_Reader::readUrl( $url );
+		$xml	= NetReader::readUrl( $url );
 		$this->parser->parse( $xml );
 	}
 
 	public function readFile( $fileName )
 	{
-		$xml	= \FS_File_Reader::load( $fileName );
+		$xml	= FileReader::load( $fileName );
 		$this->parser->parse( $xml );
 	}
 
@@ -183,8 +185,7 @@ class Reader
 		$this->checkEntryIndex( $index );
 		if( !$attribute )
 			return $this->parser->entries[$index][$element];
-		if( !array_key_exists( $attribute, $this->parser->entries[$index][$element] ) )
-		{
+		if( !array_key_exists( $attribute, $this->parser->entries[$index][$element] ) ){
 #			print_m( $this->parser->entries[$index][$element] );
 			throw new Exception( 'Attribute "'.$attribute.'" is not set in Entry Element "'.$element.'".' );
 		}

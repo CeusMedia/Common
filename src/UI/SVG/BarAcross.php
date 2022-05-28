@@ -29,7 +29,7 @@
 
 namespace CeusMedia\Common\UI\SVG;
 
-use UI_HTML_Tag as HtmlTag;
+use CeusMedia\Common\UI\HTML\Tag as HtmlTag;
 
 /**
  *	This is a Bar Visualization Class.

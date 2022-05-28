@@ -28,6 +28,9 @@
 
 namespace CeusMedia\Common\XML;
 
+use CeusMedia\Common\FS\File\Reader as FileReader;
+use CeusMedia\Common\Net\CURL as CURL;
+use CeusMedia\Common\Net\Reader as NetReader;
 use CeusMedia\Common\XML\DOM\SyntaxValidator;
 use DOMXPath;
 use Exception;
@@ -90,8 +93,7 @@ class FeedIdentifier
 
 		//  --  RSS  --  //
 		$rss	= $xpath->query( "//rss/@version" );
-		if( $rss->length )
-		{
+		if( $rss->length ){
 			$this->type		= "RSS";
 			$this->version	= $rss->item( 0 )->value;
 			return TRUE;
@@ -101,8 +103,7 @@ class FeedIdentifier
 		$namespace	= $xpath->evaluate( 'namespace-uri(//*)' );
 		$xpath->registerNamespace( "rdf", $namespace );
 		$rdf		= $xpath->evaluate( "//rdf:RDF" );
-		if( $rdf->length )
-		{
+		if( $rdf->length ){
 			$this->type		= "RSS";
 			$this->version	= "1.0";
 			return TRUE;
@@ -110,8 +111,7 @@ class FeedIdentifier
 
 		//  --  ATOM  --  //
 		$atom	= $xpath->evaluate( "//feed/@version" );
-		if( $atom->length )
-		{
+		if( $atom->length ){
 			$this->type		= "ATOM";
 			$this->version	= $atom->item( 0 )->value;
 			return TRUE;
@@ -120,16 +120,14 @@ class FeedIdentifier
 		$namespace = $xpath->evaluate( 'namespace-uri(//*)' );
 		$xpath->registerNamespace( "pre", $namespace );
 		$atom	= $xpath->evaluate( "//pre:feed/@version" );
-		if( $atom->length )
-		{
+		if( $atom->length ){
 			$this->type		= "ATOM";
 			$this->version	= $atom->item( 0 )->value;
 			return TRUE;
 		}
 
 		$atom	= $xpath->evaluate( "//pre:feed/pre:title/text()" );
-		if( $atom->length )
-		{
+		if( $atom->length ){
 			$this->type		= "ATOM";
 			$this->version	= "1.0";
 			return TRUE;
@@ -146,7 +144,7 @@ class FeedIdentifier
 	 */
 	public static function identifyFromFile( $filename )
 	{
-		$xml	= \FS_File_Reader::load( $filename );
+		$xml	= FileReader::load( $filename );
 		$identifier	= new FeedIdentifier();
 		return $identifier->identify( $xml );
 	}
@@ -160,8 +158,8 @@ class FeedIdentifier
 	 */
 	public function identifyFromUrl( $url, $timeout = 5 )
 	{
-		\Net_CURL::setTimeOut( $timeout );
-		$xml	= \Net_Reader::readUrl( $url );
+		CURL::setTimeOut( $timeout );
+		$xml	= NetReader::readUrl( $url );
 		return $this->identify( $xml );
 	}
 }

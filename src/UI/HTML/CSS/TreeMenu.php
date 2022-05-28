@@ -69,7 +69,7 @@ class TreeMenu
 	 *	@param		MenuCollection		$tree				Tree Menu List Data Object
 	 *	@return		string
 	 */
-	public function build( ADT_Tree_Menu_List $tree )
+	public function build( MenuCollection $tree )
 	{
 		return self::buildMenu( $tree, $this->contentDrop );
 	}
@@ -95,7 +95,7 @@ class TreeMenu
 	 *	@param		string				$contentDrop		Indicator HTML Code for Items containing further Items
 	 *	@return		string
 	 */
-	protected static function buildItemWithChildren( ADT_Tree_Menu_Item &$node, $level, $contentDrop = NULL )
+	protected static function buildItemWithChildren( MenuItem &$node, $level, $contentDrop = NULL )
 	{
 		$contentDrop	= $contentDrop !== NULL ? $contentDrop : self::$contentDropDefault;
 		$children		= "";
@@ -190,7 +190,7 @@ class TreeMenu
 	 *	@param		array				$attributes			Map of HTML Attributes of List Tag
 	 *	@return		string
 	 */
-	public static function buildMenu( ADT_Tree_Menu_List $tree, $contentDrop = NULL, $attributes = array() )
+	public static function buildMenu( MenuCollection $tree, $contentDrop = NULL, $attributes = array() )
 	{
 		$list	= array();
 		foreach( $tree->getChildren() as $child )

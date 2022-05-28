@@ -62,7 +62,7 @@ class Handler
 	/**
 	 *	Bind event.
 	 *	@access		public
-	 *	@param		string						$key		Event key, eg. "start.my"
+	 *	@param		string				$key		Event key, eg. "start.my"
 	 *	@param		function|Callback	$callback	Callback function or object
 	 *	@return		void
 	 */
@@ -71,7 +71,7 @@ class Handler
 		if( is_callable( $callback ) )
 			$callback	= new Callback( $callback );
 		if( !( $callback instanceof Callback ) )
-			throw new InvalidArgumentException( 'Callback must be function or instance of ADT_Event_Callback' );
+			throw new InvalidArgumentException( 'Callback must be function or instance of '.Callback::class );
 		if( !is_array( $list = $this->events->get( $key ) ) )
 			$list	= array();
 		$list[]	= array( $key, $callback );

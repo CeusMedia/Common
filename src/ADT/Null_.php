@@ -43,7 +43,7 @@ use Countable;
  */
 class Null_ implements Countable, Renderable, ArrayAccess
 {
-	/**	@var	Null_		$instance		Singleton instance of ADT_Null */
+	/**	@var	Null_		$instance		Singleton instance of Null_ */
 	protected static $instance	= NULL;
 
 	/**
