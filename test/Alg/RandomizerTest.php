@@ -7,7 +7,7 @@
  */
 declare( strict_types = 1 );
 
-use PHPUnit\Framework\TestCase;
+use CeusMedia\Common\Test\BaseCase;
 
 /**
  *	TestUnit of Alg_Randomizer.
@@ -15,7 +15,7 @@ use PHPUnit\Framework\TestCase;
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			05.05.2008
  */
-class Test_Alg_RandomizerTest extends Test_Case
+class Test_Alg_RandomizerTest extends BaseCase
 {
 	/**
 	 *	Setup for every Test.

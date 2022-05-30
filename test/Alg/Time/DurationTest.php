@@ -6,14 +6,14 @@
  */
 declare( strict_types = 1 );
 
-use PHPUnit\Framework\TestCase;
+use CeusMedia\Common\Test\BaseCase;
 
 /**
  *	TestUnit of Alg_Time_Duration.
  *	@package		Tests.
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
-final class Test_Alg_Time_DurationTest extends Test_Case
+final class Test_Alg_Time_DurationTest extends BaseCase
 {
 	/**
 	 *	Setup for every Test.

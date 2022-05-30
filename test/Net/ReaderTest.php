@@ -8,7 +8,7 @@
  */
 declare( strict_types = 1 );
 
-use PHPUnit\Framework\TestCase;
+use CeusMedia\Common\Test\BaseCase;
 
 /**
  *	TestUnit of Net Reader.
@@ -17,7 +17,7 @@ use PHPUnit\Framework\TestCase;
  *	@since			21.02.2008
  *
  */
-class Test_Net_ReaderTest extends Test_Case
+class Test_Net_ReaderTest extends BaseCase
 {
 	/**
 	 *	Sets up Reader.

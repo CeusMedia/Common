@@ -1,23 +1,26 @@
 <?php
+declare( strict_types = 1 );
 /**
  *	TestUnit of Option Object
  *	@package		adt
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
-declare( strict_types = 1 );
 
-use PHPUnit\Framework\TestCase;
+ namespace CeusMedia\Common\Test;
+
+use CeusMedia\Common\ADT\OptionObject;
+use CeusMedia\Common\Test\BaseCase;
 
 /**
  *	TestUnit of LinkList
  *	@package		Tests.adt.list
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
-class Test_ADT_OptionObjectTest extends Test_Case
+class OptionObjectTest extends BaseCase
 {
 	public function setUp(): void
 	{
-		$this->object	= new ADT_OptionObject();
+		$this->object	= new OptionObject();
 		$this->object->setOption( "string1", "value1" );
 		$this->object->setOption( "boolean1", true );
 		$this->object->setOption( "double1", M_PI );
@@ -31,7 +34,7 @@ class Test_ADT_OptionObjectTest extends Test_Case
 	 */
 	public function testConstruct()
 	{
-		$object		= new ADT_OptionObject();
+		$object		= new OptionObject();
 		$assertion	= array();
 		$creation	= $object->getOptions();
 		$this->assertEquals( $assertion, $creation );
@@ -41,7 +44,7 @@ class Test_ADT_OptionObjectTest extends Test_Case
 			'key2'	=> "param2",
 		);
 
-		$object		= new ADT_OptionObject( $pairs );
+		$object		= new OptionObject( $pairs );
 		$assertion	= $pairs;
 		$creation	= $object->getOptions();
 		$this->assertEquals( $assertion, $creation );
@@ -55,7 +58,7 @@ class Test_ADT_OptionObjectTest extends Test_Case
 	public function testConstructException2()
 	{
 		$this->expectException( 'InvalidArgumentException' );
-		new ADT_OptionObject( array( 1, 2 ) );
+		new OptionObject( array( 1, 2 ) );
 	}
 
 	/**
@@ -102,7 +105,7 @@ class Test_ADT_OptionObjectTest extends Test_Case
 	public function testDeclareOptions()
 	{
 		$optionKeys	= array( "key1", "key2" );
-		$object		= new ADT_OptionObject();
+		$object		= new OptionObject();
 		$object->declareOptions( $optionKeys );
 
 		$assertion	= $optionKeys;
@@ -122,7 +125,7 @@ class Test_ADT_OptionObjectTest extends Test_Case
 	public function testDeclareOptionsException1()
 	{
 		$this->expectException( 'InvalidArgumentException' );
-		$object		= new ADT_OptionObject();
+		$object		= new OptionObject();
 		$object->declareOptions( array( "a", 1 )  );
 	}
 

@@ -4,16 +4,19 @@
  *	@package		Tests.adt.list
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
-require_once dirname( dirname( __DIR__ ) ).'/initLoaders.php';
+
+namespace CeusMedia\Common\Test\ADT\JSON;
 
 use CeusMedia\Common\ADT\JSON\Builder;
+use CeusMedia\Common\Test\BaseCase;
+use CeusMedia\Common\Test\Object_;
 
 /**
  *	TestUnit of LinkList
  *	@package		Tests.adt.json
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
-class Test_ADT_JSON_BuilderTest extends Test_Case
+class BuilderTest extends BaseCase
 {
 	/**
 	 *	Constructor.
@@ -22,7 +25,7 @@ class Test_ADT_JSON_BuilderTest extends Test_Case
 	 */
 	public function __construct()
 	{
-		$this->object		= new Test_Object();
+		$this->object		= new Object_();
 		$this->object->a	= "test";
 	}
 

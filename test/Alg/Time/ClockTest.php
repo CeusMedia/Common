@@ -1,21 +1,23 @@
 <?php
-/**
- *	TestUnit of Clock.
- *	@package		Tests.
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			19.06.2008
- */
 declare( strict_types = 1 );
+/**
+ *	TestUnit of Clock.
+ *	@package		Tests.Alg.Time
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ */
 
-use PHPUnit\Framework\TestCase;
+namespace CeusMedia\Common\Test\Alg\Time;
+
+use CeusMedia\Common\Alg\Time\Clock;
+use CeusMedia\Common\Test\BaseCase;
+use CeusMedia\Common\Test\MockAntiProtection;
 
 /**
  *	TestUnit of Clock.
- *	@package		Tests.
+ *	@package		Tests.Alg.Time
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			19.06.2008
  */
-final class Test_Alg_Time_ClockTest extends Test_Case
+final class ClockTest extends BaseCase
 {
 	/**
 	 *	Setup for every Test.
@@ -24,7 +26,7 @@ final class Test_Alg_Time_ClockTest extends Test_Case
 	 */
 	public function setUp(): void
 	{
-		Test_MockAntiProtection::createMockClass( "Alg_Time_Clock" );
+		MockAntiProtection::createMockClass( "Alg\\Time\\Clock" );
 	}
 
 	/**

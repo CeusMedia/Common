@@ -1,19 +1,22 @@
 <?php
-/**
- *	TestUnit of Clock.
- *	@package		Tests.
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- */
 declare( strict_types = 1 );
+/**
+ *	TestUnit of Method Factory.
+ *	@package		Tests.Alg.Obj
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ */
 
-use PHPUnit\Framework\TestCase;
+namespace CeusMedia\Common\Test\Alg\Obj;
+
+use CeusMedia\Common\Alg\Obj\MethodFactory;
+use CeusMedia\Common\Test\BaseCase;
 
 /**
  *	TestUnit of Clock.
- *	@package		Tests.
+ *	@package		Tests.Alg.Obj
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
-final class Test_Alg_Object_MethodFactoryTest extends Test_Case
+final class MethodFactoryTest extends BaseCase
 {
 	/**
 	 *	Setup for every Test.
@@ -36,10 +39,10 @@ final class Test_Alg_Object_MethodFactoryTest extends Test_Case
 
 	public function testCall()
 	{
-		$object	= new Test_Alg_Object_MethodFactoryTestClass( 2 );
+		$object	= new MethodFactoryTestClass( 2 );
 
-		$factory	= new Alg_Object_MethodFactory();
-		$factory->setClass( 'Test_Alg_Object_MethodFactoryTestClass', [2] );
+		$factory	= new MethodFactory();
+		$factory->setClass( MethodFactoryTestClass::class, [2] );
 		$factory->setMethod( 'callableMethod', [3] );
 		$creation	= $factory->call();
 
@@ -49,29 +52,29 @@ final class Test_Alg_Object_MethodFactoryTest extends Test_Case
 	public function testCallException1()
 	{
 		$this->expectException( 'RuntimeException' );
-		$factory	= new Alg_Object_MethodFactory();
+		$factory	= new MethodFactory();
 		$creation	= $factory->call();
 	}
 
 	public function testCallException2()
 	{
 		$this->expectException( 'RuntimeException' );
-		$factory	= new Alg_Object_MethodFactory();
-		$factory->setClass( 'Test_Alg_Object_MethodFactoryTestClass', [2] );
+		$factory	= new MethodFactory();
+		$factory->setClass( MethodFactoryTestClass::class, [2] );
 		$creation	= $factory->call();
 	}
 
 	public function testCallException3()
 	{
 		$this->expectException( 'BadMethodCallException' );
-		$factory	= new Alg_Object_MethodFactory();
-		$factory->setClass( 'Test_Alg_Object_MethodFactoryTestClass', [2] );
+		$factory	= new MethodFactory();
+		$factory->setClass( MethodFactoryTestClass::class, [2] );
 		$factory->setMethod( 'invalidMethod', [3] );
 		$creation	= $factory->call();
 	}
 }
 
-class Test_Alg_Object_MethodFactoryTestClass
+class MethodFactoryTestClass
 {
 	public $a;
 	public $b;

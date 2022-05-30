@@ -8,7 +8,7 @@
  */
 declare( strict_types = 1 );
 
-use PHPUnit\Framework\TestCase;
+use CeusMedia\Common\Test\BaseCase;
 
 /**
  *	TestUnit of XML_RSS_Builder.
@@ -17,7 +17,7 @@ use PHPUnit\Framework\TestCase;
  *	@since			08.05.2008
  *
  */
-class Test_XML_RSS_BuilderTest extends Test_Case
+class Test_XML_RSS_BuilderTest extends BaseCase
 {
 	protected $file;
 	protected $serial;

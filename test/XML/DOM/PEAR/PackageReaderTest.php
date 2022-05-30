@@ -8,7 +8,7 @@
  */
 declare( strict_types = 1 );
 
-use PHPUnit\Framework\TestCase;
+use CeusMedia\Common\Test\BaseCase;
 
 /**
  *	TestUnit of XML_DOM_PEAR_PackageReader.
@@ -17,7 +17,7 @@ use PHPUnit\Framework\TestCase;
  *	@since			25.10.2008
  *
  */
-class Test_XML_DOM_PEAR_PackageReaderTest extends Test_Case
+class Test_XML_DOM_PEAR_PackageReaderTest extends BaseCase
 {
 	/**
 	 *	Setup for every Test.

@@ -1,21 +1,23 @@
 <?php
-/**
- *	TestUnit of Level Map.
- *	@package		Tests.adt.list
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			08.05.2008
- */
 declare( strict_types = 1 );
 
-use PHPUnit\Framework\TestCase;
+/**
+ *	TestUnit of Level Map.
+ *	@package		Tests.ADT.Collection
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ */
+
+namespace CeusMedia\Common\Test\ADT\Collection;
+
+use CeusMedia\Common\ADT\Collection\LevelMap;
+use CeusMedia\Common\Test\BaseCase;
 
 /**
  *	TestUnit of Level Map.
- *	@package		Tests.adt.list
+ *	@package		Tests.ADT.Collection
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			08.05.2008
  */
-class Test_ADT_List_LevelMapTest extends Test_Case
+class LevelMapTest extends BaseCase
 {
 	/**
 	 *	Setup for every Test.
@@ -24,7 +26,7 @@ class Test_ADT_List_LevelMapTest extends Test_Case
 	 */
 	public function setUp(): void
 	{
-		$this->map	= new ADT_List_LevelMap();
+		$this->map	= new LevelMap();
 
 		$this->map['level1.key1']	= "value_11";
 		$this->map['level1.key2']	= "value_12";
@@ -221,7 +223,7 @@ class Test_ADT_List_LevelMapTest extends Test_Case
 	 */
 	public function testSetSortArray()
 	{
-		$map	= new ADT_List_LevelMap();
+		$map	= new LevelMap();
 		$data	= array(
 			'key1' => "value1",
 			'key1' => "value2",
@@ -245,7 +247,7 @@ class Test_ADT_List_LevelMapTest extends Test_Case
 			'add_b'	=> "value_b",
 			'add_a'	=> "value_a",
 		);
-		$map	= new ADT_List_LevelMap( $data );
+		$map	= new LevelMap( $data );
 
 		ksort( $data );
 		$assertion	= $data;
@@ -264,7 +266,7 @@ class Test_ADT_List_LevelMapTest extends Test_Case
 			'add_b'	=> "value_b",
 			'add_a'	=> "value_a",
 		);
-		$map	= new ADT_List_LevelMap( $data );
+		$map	= new LevelMap( $data );
 
 		$assertion	= $data;
 		$creation	= $map->getAll();

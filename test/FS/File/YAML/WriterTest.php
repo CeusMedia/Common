@@ -8,7 +8,7 @@
  */
 declare( strict_types = 1 );
 
-use PHPUnit\Framework\TestCase;
+use CeusMedia\Common\Test\BaseCase;
 
 /**
  *	TestUnit of FS_File_YAML_Writer.
@@ -17,7 +17,7 @@ use PHPUnit\Framework\TestCase;
  *	@since			02.05.2008
  *
  */
-class Test_FS_File_YAML_WriterTest extends Test_Case
+class Test_FS_File_YAML_WriterTest extends BaseCase
 {
 	/**	@var	string		$fileName		URL of Archive File Name */
 	private $fileName;

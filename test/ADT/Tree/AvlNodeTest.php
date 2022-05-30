@@ -1,21 +1,22 @@
 <?php
-/**
- *	TestUnit of Test_ADT_Tree_AvlNode.
- *	@package		Tests.adt.tree
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			06.09.2008
- */
 declare( strict_types = 1 );
+/**
+ *	TestUnit of ADT\Tree\AvlNode.
+ *	@package		Tests.ADT.Tree
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ */
 
-use PHPUnit\Framework\TestCase;
+namespace CeusMedia\Common\Test\ADT\Tree;
+
+use CeusMedia\Common\ADT\Tree\AvlNode;
+use CeusMedia\Common\Test\BaseCase;
 
 /**
  *	TestUnit of Test_ADT_Tree_AvlNode.
- *	@package		Tests.adt.tree
+ *	@package		Tests.ADT.Tree
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			06.09.2008
  */
-class Test_ADT_Tree_AvlNodeTest extends Test_Case
+class AvlNodeTest extends BaseCase
 {
 	/**
 	 *	Setup for every Test.
@@ -44,7 +45,7 @@ class Test_ADT_Tree_AvlNodeTest extends Test_Case
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= ADT_Tree_AvlNode::__construct();
+		$creation	= AvlNode::__construct();
 		$this->assertEquals( $assertion, $creation );
 	}
 }

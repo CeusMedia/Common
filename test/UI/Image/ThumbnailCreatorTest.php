@@ -8,7 +8,7 @@
  */
 declare( strict_types = 1 );
 
-use PHPUnit\Framework\TestCase;
+use CeusMedia\Common\Test\BaseCase;
 
 /**
  *	TestUnit of Thumbnail Creator.
@@ -17,7 +17,7 @@ use PHPUnit\Framework\TestCase;
  *	@since			16.02.2008
  *
  */
-class Test_UI_Image_ThumbnailCreatorTest extends Test_Case
+class Test_UI_Image_ThumbnailCreatorTest extends BaseCase
 {
 	protected $assertFile;
 	protected $sourceFile;

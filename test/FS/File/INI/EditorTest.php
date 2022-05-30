@@ -7,7 +7,7 @@
  */
 declare( strict_types = 1 );
 
-use PHPUnit\Framework\TestCase;
+use CeusMedia\Common\Test\BaseCase;
 
 /**
  *	TestUnit of FS_File_INI_Editor.
@@ -15,7 +15,7 @@ use PHPUnit\Framework\TestCase;
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			02.05.2008
  */
-class Test_FS_File_INI_EditorTest extends Test_Case
+class Test_FS_File_INI_EditorTest extends BaseCase
 {
 	protected $fileList;
 	protected $fileSections;

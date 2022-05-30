@@ -8,7 +8,7 @@
  */
 declare( strict_types = 1 );
 
-use PHPUnit\Framework\TestCase;
+use CeusMedia\Common\Test\BaseCase;
 
 /**
  *	TestUnit of Google Sitemap Builder.
@@ -17,7 +17,7 @@ use PHPUnit\Framework\TestCase;
  *	@since			18.02.2008
  *
  */
-class Test_XML_DOM_GoogleSitemapWriterTest extends Test_Case
+class Test_XML_DOM_GoogleSitemapWriterTest extends BaseCase
 {
 	/**
 	 *	Sets up Builder.

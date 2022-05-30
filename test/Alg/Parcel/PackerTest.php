@@ -7,7 +7,7 @@
  */
 declare( strict_types = 1 );
 
-use PHPUnit\Framework\TestCase;
+use CeusMedia\Common\Test\BaseCase;
 
 /**
  *	TestUnit of Alg_Parcel_Packer.
@@ -15,7 +15,7 @@ use PHPUnit\Framework\TestCase;
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			08.07.2008
  */
-class Test_Alg_Parcel_PackerTest extends Test_Case
+class Test_Alg_Parcel_PackerTest extends BaseCase
 {
 	/**
 	 *	Setup for every Test.

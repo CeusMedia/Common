@@ -7,7 +7,7 @@
  */
 declare( strict_types = 1 );
 
-use PHPUnit\Framework\TestCase;
+use CeusMedia\Common\Test\BaseCase;
 
 /**
  *	TestUnit of FS_File_Cache.
@@ -15,7 +15,7 @@ use PHPUnit\Framework\TestCase;
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			19.04.2009
  */
-final class Test_FS_File_CacheTest extends Test_Case
+final class Test_FS_File_CacheTest extends BaseCase
 {
 	/**
 	 *	Setup for every Test.

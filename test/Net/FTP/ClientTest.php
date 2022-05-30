@@ -8,7 +8,7 @@
  */
 declare( strict_types = 1 );
 
-use PHPUnit\Framework\TestCase;
+use CeusMedia\Common\Test\BaseCase;
 
 /**
  *	TestUnit of Net_FTP_Client.
@@ -17,7 +17,7 @@ use PHPUnit\Framework\TestCase;
  *	@since			02.07.2008
  *
  */
-class Test_Net_FTP_ClientTest extends Test_Case
+class Test_Net_FTP_ClientTest extends BaseCase
 {
 	protected function login() {
 		$this->connection->login( $this->username, $this->password );

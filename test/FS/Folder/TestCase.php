@@ -7,7 +7,7 @@
  */
 declare( strict_types = 1 );
 
-use PHPUnit\Framework\TestCase;
+use CeusMedia\Common\Test\BaseCase;
 
 /**
  *	TestUnit of Folder Editor.
@@ -49,7 +49,7 @@ use PHPUnit\Framework\TestCase;
  *	      ° file3_2_1
  *	      ° .file3_2_2
  */
-class Test_FS_Folder_TestCase extends Test_Case
+class Test_FS_Folder_TestCase extends BaseCase
 {
 
 	public function __construct()

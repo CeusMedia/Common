@@ -1,21 +1,23 @@
 <?php
-/**
- *	TestUnit of Test_ADT_Object.
- *	@package		Tests.{classPackage}
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			03.05.2008
- */
 declare( strict_types = 1 );
+/**
+ *	TestUnit of ADT\Object_.
+ *	@package		Tests.ADT
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ */
 
-use PHPUnit\Framework\TestCase;
+namespace CeusMedia\Common\Test;
+
+use CeusMedia\Common\ADT\Object_;
+use CeusMedia\Common\Test\BaseCase;
+use CeusMedia\Common\Test\Object_ as TestObject;
 
 /**
- *	TestUnit of Test_ADT_Object.
- *	@package		Tests.{classPackage}
+ *	TestUnit of ADT\Object_.
+ *	@package		Tests.ADT
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			03.05.2008
  */
-class Test_ADT_ObjectTest extends Test_Case
+class ObjectTest extends BaseCase
 {
 	/**
 	 *	Constructor.
@@ -53,7 +55,7 @@ class Test_ADT_ObjectTest extends Test_Case
 	 */
 	public function testGetClass()
 	{
-		$assertion	= "TestObjectClass";
+		$assertion	= 'CeusMedia\\Common\\Test\\TestObjectClass';
 		$creation	= $this->object->getClass();
 		$this->assertEquals( $assertion, $creation );
 	}
@@ -78,8 +80,8 @@ class Test_ADT_ObjectTest extends Test_Case
 	public function testGetObjectInfo()
 	{
 		$assertion	= array(
-			'name'		=> "TestObjectClass",
-			'parent'	=> "ADT_Object",
+			'name'		=> 'CeusMedia\\Common\\Test\\TestObjectClass',
+			'parent'	=> 'CeusMedia\\Common\\ADT\\Object_',
 			'methods'	=> $this->methods,
 			'vars'		=> $this->vars,
 		);
@@ -94,7 +96,7 @@ class Test_ADT_ObjectTest extends Test_Case
 	 */
 	public function testGetParent()
 	{
-		$assertion	= "ADT_Object";
+		$assertion	= 'CeusMedia\\Common\\ADT\\Object_';
 		$creation	= $this->object->getParent();
 		$this->assertEquals( $assertion, $creation );
 	}
@@ -147,11 +149,11 @@ class Test_ADT_ObjectTest extends Test_Case
 	public function testIsInstanceOf()
 	{
 		$assertion	= TRUE;
-		$creation	= $this->object->isInstanceOf( "ADT_Object" );
+		$creation	= $this->object->isInstanceOf( 'CeusMedia\\Common\\ADT\\Object_' );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= TRUE;
-		$creation	= $this->object->isInstanceOf( "ADT_OBJECT" );
+		$creation	= $this->object->isInstanceOf( 'CeusMedia\\Common\\ADT\\OBJECT_' );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= FALSE;
@@ -167,11 +169,11 @@ class Test_ADT_ObjectTest extends Test_Case
 	public function testIsSubclassOf()
 	{
 		$assertion	= TRUE;
-		$creation	= $this->object->isSubclassOf( "ADT_Object" );
+		$creation	= $this->object->isSubclassOf( 'CeusMedia\\Common\\ADT\\Object_' );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= TRUE;
-		$creation	= $this->object->isSubclassOf( "ADT_OBJECT" );
+		$creation	= $this->object->isSubclassOf( 'CeusMedia\\Common\\ADT\\OBJECT_' );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= FALSE;
@@ -191,7 +193,7 @@ class Test_ADT_ObjectTest extends Test_Case
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-class TestObjectClass extends ADT_Object
+class TestObjectClass extends Object_
 {
 	public		$publicVar		= FALSE;
 	protected	$protectedVar	= FALSE;

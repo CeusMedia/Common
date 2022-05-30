@@ -1,19 +1,23 @@
 <?php
-/**
- *	Unit Test of Binary Node.
- *	@package		Tests.adt.list
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- */
 declare( strict_types = 1 );
+/**
+ *	Unit Test of Binary Node.
+ *	@package		Tests.ADT.Tree
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ */
 
-use PHPUnit\Framework\TestCase;
+namespace CeusMedia\Common\Test\ADT\Tree;
+
+use CeusMedia\Common\ADT\Tree\BinaryNode;
+use CeusMedia\Common\Test\BaseCase;
+use Exception;
 
 /**
  *	Unit Test of Binary Node.
- *	@package		Tests.adt.list
+ *	@package		Tests.ADT.Tree
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
-class Test_ADT_Tree_BinaryNodeTest extends Test_Case
+class BinaryNodeTest extends BaseCase
 {
 	/**	@var	array		$list		Instance of BinaryTree */
 	private $tree;
@@ -25,7 +29,7 @@ class Test_ADT_Tree_BinaryNodeTest extends Test_Case
 	 */
 	public function setUp(): void
 	{
-		$this->tree	= new ADT_Tree_BinaryNode();
+		$this->tree	= new BinaryNode();
 		$this->tree->add( 3 );
 		$this->tree->add( 2 );
 		$this->tree->add( 1 );

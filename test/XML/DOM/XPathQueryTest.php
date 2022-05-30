@@ -8,7 +8,7 @@
  */
 declare( strict_types = 1 );
 
-use PHPUnit\Framework\TestCase;
+use CeusMedia\Common\Test\BaseCase;
 
 /**
  *	TestUnit of XML DOM XPath.
@@ -17,7 +17,7 @@ use PHPUnit\Framework\TestCase;
  *	@since			17.02.2008
  *
  */
-class Test_XML_DOM_XPathQueryTest extends Test_Case
+class Test_XML_DOM_XPathQueryTest extends BaseCase
 {
 	protected $xmlUrl	= "https://www.w3schools.com/xml/books.xml";
 	protected $xmlFile;

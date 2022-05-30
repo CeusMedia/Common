@@ -8,7 +8,7 @@
  */
 declare( strict_types = 1 );
 
-use PHPUnit\Framework\TestCase;
+use CeusMedia\Common\Test\BaseCase;
 
 /**
  *	TestUnit of UI_HTML_Panel.
@@ -17,7 +17,7 @@ use PHPUnit\Framework\TestCase;
  *	@since			07.09.2008
  *
  */
-class Test_UI_HTML_PanelTest extends Test_Case
+class Test_UI_HTML_PanelTest extends BaseCase
 {
 	/**
 	 *	Setup for every Test.

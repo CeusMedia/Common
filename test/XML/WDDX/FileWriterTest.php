@@ -8,7 +8,7 @@
  */
 declare( strict_types = 1 );
 
-use PHPUnit\Framework\TestCase;
+use CeusMedia\Common\Test\BaseCase;
 
 /**
  *	TestUnit of XML_WDDX_FileWriter.
@@ -17,7 +17,7 @@ use PHPUnit\Framework\TestCase;
  *	@since			03.05.2008
  *
  */
-class Test_XML_WDDX_FileWriterTest extends Test_Case
+class Test_XML_WDDX_FileWriterTest extends BaseCase
 {
 	/**
 	 *	Setup for every Test.

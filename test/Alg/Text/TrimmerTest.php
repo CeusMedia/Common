@@ -1,21 +1,22 @@
 <?php
-/**
- *	TestUnit of Alg_Text_Trimmer.
- *	@package		Tests.alg
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			27.10.2008
- */
 declare( strict_types = 1 );
+/**
+ *	TestUnit of Alg\Text\Trimmer.
+ *	@package		Tests.Alg.Text
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ */
 
-use PHPUnit\Framework\TestCase;
+namespace CeusMedia\Common\Test\Alg\Text;
+
+use CeusMedia\Common\Alg\Text\Trimmer;
+use CeusMedia\Common\Test\BaseCase;
 
 /**
- *	TestUnit of Alg_Text_Trimmer.
- *	@package		Tests.alg
+ *	TestUnit of Alg\Text\Trimmer.
+ *	@package		Tests.Alg.Text
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			27.10.2008
  */
-class Test_Alg_Text_TrimmerTest extends Test_Case
+class TrimmerTest extends BaseCase
 {
 	/**	@var		string		Default test string */
 	protected $string;
@@ -46,18 +47,18 @@ class Test_Alg_Text_TrimmerTest extends Test_Case
 	 */
 	public function testTrim()
 	{
-		$this->assertEquals( $this->string, Alg_Text_Trimmer::trim( $this->string ) );
+		$this->assertEquals( $this->string, Trimmer::trim( $this->string ) );
 
 		$assertion	= "abc...";
-		$creation	= Alg_Text_Trimmer::trim( $this->string, 6 );
+		$creation	= Trimmer::trim( $this->string, 6 );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= "abc---";
-		$creation	= Alg_Text_Trimmer::trim( $this->string, 6, '---' );
+		$creation	= Trimmer::trim( $this->string, 6, '---' );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= "ÄÄ-";
-		$creation	= Alg_Text_Trimmer::trim( "ÄÄÖÖÜÜ", 3, '-' );
+		$creation	= Trimmer::trim( "ÄÄÖÖÜÜ", 3, '-' );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -69,7 +70,7 @@ class Test_Alg_Text_TrimmerTest extends Test_Case
 	public function testTrimCentricException1()
 	{
 		$this->expectException( 'InvalidArgumentException' );
-		Alg_Text_Trimmer::trimCentric( "not_relevant", 2 );
+		Trimmer::trimCentric( "not_relevant", 2 );
 	}
 
 	/**
@@ -80,7 +81,7 @@ class Test_Alg_Text_TrimmerTest extends Test_Case
 	public function testTrimCentricException2()
 	{
 		$this->expectException( 'InvalidArgumentException' );
-		Alg_Text_Trimmer::trimCentric( "not_relevant", 3 );
+		Trimmer::trimCentric( "not_relevant", 3 );
 	}
 
 	/**
@@ -91,7 +92,7 @@ class Test_Alg_Text_TrimmerTest extends Test_Case
 	public function testTrimCentricException3()
 	{
 		$this->expectException( 'InvalidArgumentException' );
-		Alg_Text_Trimmer::trimCentric( "not_relevant", 4, "1234" );
+		Trimmer::trimCentric( "not_relevant", 4, "1234" );
 	}
 
 	/**
@@ -101,45 +102,45 @@ class Test_Alg_Text_TrimmerTest extends Test_Case
 	 */
 	public function testTrimCentric()
 	{
-		$this->assertEquals( $this->string, Alg_Text_Trimmer::trimCentric( $this->string ) );
+		$this->assertEquals( $this->string, Trimmer::trimCentric( $this->string ) );
 
 		$assertion	= "ab...p";
-		$creation	= Alg_Text_Trimmer::trimCentric( $this->string, 6 );
+		$creation	= Trimmer::trimCentric( $this->string, 6 );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= "a...p";
-		$creation	= Alg_Text_Trimmer::trimCentric( $this->string, 5 );
+		$creation	= Trimmer::trimCentric( $this->string, 5 );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= "ab...p";
-		$creation	= Alg_Text_Trimmer::trimCentric( $this->string, 6 );
+		$creation	= Trimmer::trimCentric( $this->string, 6 );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= "ab---p";
-		$creation	= Alg_Text_Trimmer::trimCentric( $this->string, 6, '---' );
+		$creation	= Trimmer::trimCentric( $this->string, 6, '---' );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= "ab...op";
-		$creation	= Alg_Text_Trimmer::trimCentric( $this->string, 7 );
+		$creation	= Trimmer::trimCentric( $this->string, 7 );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= "Ä-Ü";
-		$creation	= Alg_Text_Trimmer::trimCentric( "ÄÄÖÖÜÜ", 3, '-' );
+		$creation	= Trimmer::trimCentric( "ÄÄÖÖÜÜ", 3, '-' );
 		$this->assertEquals( $assertion, $creation );
 	}
 
 	public function testTrimLeft()
 	{
 		$assertion	= "abcdefghijklmnop";
-		$creation	= Alg_Text_Trimmer::trimLeft( $this->string, 60 );
+		$creation	= Trimmer::trimLeft( $this->string, 60 );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= "...efghijklmnop";
-		$creation	= Alg_Text_Trimmer::trimLeft( $this->string, 15 );
+		$creation	= Trimmer::trimLeft( $this->string, 15 );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= "...nop";
-		$creation	= Alg_Text_Trimmer::trimLeft( $this->string, 6 );
+		$creation	= Trimmer::trimLeft( $this->string, 6 );
 		$this->assertEquals( $assertion, $creation );
 	}
 }

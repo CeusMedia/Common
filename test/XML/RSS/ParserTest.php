@@ -8,7 +8,7 @@
  */
 declare( strict_types = 1 );
 
-use PHPUnit\Framework\TestCase;
+use CeusMedia\Common\Test\BaseCase;
 
 /**
  *	TestUnit of XML RSS 2 Parser.
@@ -17,7 +17,7 @@ use PHPUnit\Framework\TestCase;
  *	@since			20.02.2008
  *
  */
-class Test_XML_RSS_ParserTest extends Test_Case
+class Test_XML_RSS_ParserTest extends BaseCase
 {
 
 	/**

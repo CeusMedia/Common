@@ -1,26 +1,25 @@
 <?php
 /**
- *	TestUnit of ADT_JSON_Parser
  *	@package		Tests.adt.json
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
-declare( strict_types = 1 );
 
-use PHPUnit\Framework\TestCase;
+namespace CeusMedia\Common\Test\ADT;
+
 use CeusMedia\Common\ADT\JSON\Parser;
+use CeusMedia\Common\Test\BaseCase;
 
 /**
- *	TestUnit of ADT_JSON_Parser
  *	@package		Tests.adt.json
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
-class Test_ADT_JSON_ParserTest extends Test_Case
+class ParserTest extends BaseCase
 {
 	public function testParse(){
-		$parser	= new ADT_JSON_Parser();
+		$parser	= new Parser();
 
 		$info	= (object) array(
-			'status'	=> ADT_JSON_Parser::STATUS_EMPTY,
+			'status'	=> Parser::STATUS_EMPTY,
 			'code'		=> JSON_ERROR_NONE,
 			'constant'	=> 'JSON_ERROR_NONE',
 			'message'	=> 'No error',
@@ -29,7 +28,7 @@ class Test_ADT_JSON_ParserTest extends Test_Case
 
 		$json	= '"a"';
 		$info	= (object) array(
-			'status'	=> ADT_JSON_Parser::STATUS_PARSED,
+			'status'	=> Parser::STATUS_PARSED,
 			'code'		=> JSON_ERROR_NONE,
 			'constant'	=> 'JSON_ERROR_NONE',
 			'message'	=> 'No error',
@@ -42,13 +41,13 @@ class Test_ADT_JSON_ParserTest extends Test_Case
 	 */
 	public function testParseException(){
 		$this->expectException( 'RuntimeException' );
-		$parser	= new ADT_JSON_Parser();
+		$parser	= new Parser();
 		$json	= '[a';
 		$parser->parse( $json );
 	}
 
 	public function testParseWithError(){
-		$parser	= new ADT_JSON_Parser();
+		$parser	= new Parser();
 		$json	= '[a';
 
 		try{
@@ -56,7 +55,7 @@ class Test_ADT_JSON_ParserTest extends Test_Case
 		}
 		catch( Exception $e ){
 			$info	= (object) array(
-				'status'	=> ADT_JSON_Parser::STATUS_ERROR,
+				'status'	=> Parser::STATUS_ERROR,
 				'code'		=> JSON_ERROR_SYNTAX,
 				'constant'	=> 'JSON_ERROR_SYNTAX',
 				'message'	=> 'Syntax error',

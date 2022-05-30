@@ -7,7 +7,7 @@
  */
 declare( strict_types = 1 );
 
-use PHPUnit\Framework\TestCase;
+use CeusMedia\Common\Test\BaseCase;
 
 /**
  *	TestUnit of Alg_SgmlTagReader.
@@ -15,7 +15,7 @@ use PHPUnit\Framework\TestCase;
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			03.08.2008
  */
-class Test_Alg_SgmlTagReaderTest extends Test_Case
+class Test_Alg_SgmlTagReaderTest extends BaseCase
 {
 	public $tag1	= '<a href="http://google.com/" target="_blank" class=\'test-class other\'>Google</a>';
 	public $tag2	= '<body font-color="#FF0000" onFocus="this.blur()">';

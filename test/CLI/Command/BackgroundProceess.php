@@ -6,14 +6,14 @@
  */
 declare( strict_types = 1 );
 
-use PHPUnit\Framework\TestCase;
+use CeusMedia\Common\Test\BaseCase;
 
 /**
  *	TestUnit of CLI_Command_BackgroundProcess.
  *	@package		Tests.
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
-class Test_CLI_Command_BackgroundProcessTest extends Test_Case
+class Test_CLI_Command_BackgroundProcessTest extends BaseCase
 {
 	/**
 	 *	Setup for every Test.

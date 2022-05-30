@@ -8,7 +8,7 @@
  */
 declare( strict_types = 1 );
 
-use PHPUnit\Framework\TestCase;
+use CeusMedia\Common\Test\BaseCase;
 
 /**
  *	TestUnit of XML_Atom_Validator.
@@ -17,7 +17,7 @@ use PHPUnit\Framework\TestCase;
  *	@since			14.05.2008
  *
  */
-class Test_XML_Atom_ValidatorTest extends Test_Case
+class Test_XML_Atom_ValidatorTest extends BaseCase
 {
 	/**
 	 *	Setup for every Test.

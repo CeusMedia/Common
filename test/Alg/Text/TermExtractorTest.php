@@ -1,21 +1,22 @@
 <?php
-/**
- *	TestUnit of Alg_Text_TermExtractor.
- *	@package		Tests.alg
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			22.12.2008
- */
 declare( strict_types = 1 );
+/**
+ *	TestUnit of Alg\Text\TermExtractor.
+ *	@package		Tests.Alg.Text
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ */
 
-use PHPUnit\Framework\TestCase;
+namespace CeusMedia\Common\Test\Alg\Text;
+
+use CeusMedia\Common\Alg\Text\TermExtractor;
+use CeusMedia\Common\Test\BaseCase;
 
 /**
- *	TestUnit of Alg_Text_TermExtractor.
- *	@package		Tests.alg
+ *	TestUnit of Alg\Text\TermExtractor.
+ *	@package		Tests.Alg.Text
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			22.12.2008
  */
-class Test_Alg_Text_TermExtractorTest extends Test_Case
+class TermExtractorTest extends BaseCase
 {
 	/**
 	 *	Setup for every Test.
@@ -58,7 +59,7 @@ class Test_Alg_Text_TermExtractorTest extends Test_Case
 			"bb"	=> 2,
 			"cc"	=> 3
 		);
-		$creation	= Alg_Text_TermExtractor::getTerms( $text );
+		$creation	= TermExtractor::getTerms( $text );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -70,7 +71,7 @@ class Test_Alg_Text_TermExtractorTest extends Test_Case
 	public function testGetTerms2()
 	{
 		$assertion	= $this->terms1;
-		$creation	= Alg_Text_TermExtractor::getTerms( $this->text );
+		$creation	= TermExtractor::getTerms( $this->text );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -81,9 +82,9 @@ class Test_Alg_Text_TermExtractorTest extends Test_Case
 	 */
 	public function testGetTerms3()
 	{
-		Alg_Text_TermExtractor::loadBlackList( $this->black );
+		TermExtractor::loadBlackList( $this->black );
 		$assertion	= $this->terms2;
-		$creation	= Alg_Text_TermExtractor::getTerms( $this->text );
+		$creation	= TermExtractor::getTerms( $this->text );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -95,8 +96,8 @@ class Test_Alg_Text_TermExtractorTest extends Test_Case
 	public function testLoadBlacklist()
 	{
 		$assertion	= explode( "\n", file_get_contents( $this->black ) );
-		Alg_Text_TermExtractor::loadBlacklist( $this->black );
-		$creation	= Alg_Text_TermExtractor::$blacklist;
+		TermExtractor::loadBlacklist( $this->black );
+		$creation	= TermExtractor::$blacklist;
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -110,8 +111,8 @@ class Test_Alg_Text_TermExtractorTest extends Test_Case
 		$list		= array( "a", "b", "b" );
 
 		$assertion	= array_unique( $list );
-		Alg_Text_TermExtractor::setBlacklist( $list );
-		$creation	= Alg_Text_TermExtractor::$blacklist;
+		TermExtractor::setBlacklist( $list );
+		$creation	= TermExtractor::$blacklist;
 		$this->assertEquals( $assertion, $creation );
 	}
 }

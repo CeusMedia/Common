@@ -8,7 +8,7 @@
  */
 declare( strict_types = 1 );
 
-use PHPUnit\Framework\TestCase;
+use CeusMedia\Common\Test\BaseCase;
 
 /**
  *	TestUnit of XML RSS Reader.
@@ -17,7 +17,7 @@ use PHPUnit\Framework\TestCase;
  *	@since			20.02.2008
  *
  */
-class Test_XML_RSS_ReaderTest extends Test_Case
+class Test_XML_RSS_ReaderTest extends BaseCase
 {
 
 	protected $url		= "http://www.rssboard.org/files/sample-rss-2.xml";

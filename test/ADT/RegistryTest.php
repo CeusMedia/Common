@@ -1,23 +1,26 @@
 <?php
-/**
- *	TestUnit of Registry
- *	@package		Tests.adt
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- */
 declare( strict_types = 1 );
+/**
+ *	TestUnit of Registry
+ *	@package		Tests.ADT
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ */
 
-use PHPUnit\Framework\TestCase;
+ namespace CeusMedia\Common\Test;
+
+use CeusMedia\Common\ADT\Registry;
+use CeusMedia\Common\Test\BaseCase;
 
 /**
  *	TestUnit of Registry
- *	@package		Tests.adt
+ *	@package		Tests.ADT
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
-class Test_ADT_RegistryTest extends Test_Case
+class RegistryTest extends BaseCase
 {
 	public function setUp(): void
 	{
-		$this->registry	= ADT_Registry::getInstance();
+		$this->registry	= Registry::getInstance();
 	}
 
 	/**
@@ -42,7 +45,7 @@ class Test_ADT_RegistryTest extends Test_Case
 	{
 		$GLOBALS['REFERENCES']['key1']	= "value1";
 		$assertion	= "value1";
-		$creation	= ADT_Registry::getStatic( 'key1' );
+		$creation	= Registry::getStatic( 'key1' );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -86,5 +89,4 @@ class Test_ADT_RegistryTest extends Test_Case
 		$creation	= $GLOBALS['REFERENCES']['key3'];
 		$this->assertEquals( $data, $creation );
 	}
-
 }

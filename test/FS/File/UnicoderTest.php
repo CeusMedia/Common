@@ -8,7 +8,7 @@
  */
 declare( strict_types = 1 );
 
-use PHPUnit\Framework\TestCase;
+use CeusMedia\Common\Test\BaseCase;
 
 /**
  *	TestUnit of FS_File_Unicoder.
@@ -17,7 +17,7 @@ use PHPUnit\Framework\TestCase;
  *	@since			19.06.2008
  *
  */
-class Test_FS_File_UnicoderTest extends Test_Case
+class Test_FS_File_UnicoderTest extends BaseCase
 {
 	/**
 	 *	Setup for every Test.

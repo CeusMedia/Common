@@ -7,7 +7,7 @@
  */
 declare( strict_types = 1 );
 
-use PHPUnit\Framework\TestCase;
+use CeusMedia\Common\Test\BaseCase;
 
 /**
  *	TestUnit of CLI_Command_ArgumentParser.
@@ -15,7 +15,7 @@ use PHPUnit\Framework\TestCase;
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			24.10.2008
  */
-class Test_CLI_Command_ArgumentParserTest extends Test_Case
+class Test_CLI_Command_ArgumentParserTest extends BaseCase
 {
 	/**
 	 *	Setup for every Test.

@@ -1,21 +1,23 @@
 <?php
-/**
- *	TestUnit of Test_ADT_List_SectionList.
- *	@package		Tests.adt.list
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			21.07.2008
- */
 declare( strict_types = 1 );
 
-use PHPUnit\Framework\TestCase;
-
 /**
- *	TestUnit of Test_ADT_List_SectionList.
+ *	TestUnit of ADT\Collection\SectionList.
  *	@package		Tests.adt.list
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			21.07.2008
  */
-class Test_ADT_List_SectionListTest extends Test_Case
+
+namespace CeusMedia\Common\Test\ADT\Collection;
+
+use CeusMedia\Common\ADT\Collection\SectionList;
+use CeusMedia\Common\Test\BaseCase;
+
+/**
+*	TestUnit of ADT\Collection\SectionList.
+ *	@package		Tests.adt.list
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ */
+class SectionListTest extends BaseCase
 {
 	/**	@var	array		$list		Instance of SectionList */
 	private $list;
@@ -27,7 +29,7 @@ class Test_ADT_List_SectionListTest extends Test_Case
 	 */
 	public function setUp(): void
 	{
-		$this->list	= new ADT_List_SectionList();
+		$this->list	= new SectionList();
 		$this->list->addEntry( 'entry11', 'section1' );
 		$this->list->addEntry( 'entry12', 'section1' );
 		$this->list->addEntry( 'entry21', 'section2' );

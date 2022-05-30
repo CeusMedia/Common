@@ -8,7 +8,7 @@
  */
 declare( strict_types = 1 );
 
-use PHPUnit\Framework\TestCase;
+use CeusMedia\Common\Test\BaseCase;
 
 /**
  *	TestUnit of UI_Image_Watermark.
@@ -17,7 +17,7 @@ use PHPUnit\Framework\TestCase;
  *	@since			21.07.2008
  *
  */
-class Test_UI_Image_WatermarkTest extends Test_Case
+class Test_UI_Image_WatermarkTest extends BaseCase
 {
 	/**
 	 *	Setup for every Test.

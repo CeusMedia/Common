@@ -8,7 +8,7 @@
  */
 declare( strict_types = 1 );
 
-use PHPUnit\Framework\TestCase;
+use CeusMedia\Common\Test\BaseCase;
 
 /**
  *	UnitTest for Request Header Field.
@@ -18,7 +18,7 @@ use PHPUnit\Framework\TestCase;
  *	@since			16.02.2008
  *
  */
-class Test_Net_HTTP_Header_SectionTest extends Test_Case
+class Test_Net_HTTP_Header_SectionTest extends BaseCase
 {
 	protected $section;
 

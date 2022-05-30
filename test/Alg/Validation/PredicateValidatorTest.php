@@ -7,7 +7,7 @@
  */
 declare( strict_types = 1 );
 
-use PHPUnit\Framework\TestCase;
+use CeusMedia\Common\Test\BaseCase;
 
 /**
  *	TestUnit of Predicate Validator.
@@ -15,7 +15,7 @@ use PHPUnit\Framework\TestCase;
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			14.02.2008
  */
-class Test_Alg_Validation_PredicateValidatorTest extends Test_Case
+class Test_Alg_Validation_PredicateValidatorTest extends BaseCase
 {
 	public function setUp(): void
 	{

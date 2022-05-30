@@ -8,7 +8,7 @@
  */
 declare( strict_types = 1 );
 
-use PHPUnit\Framework\TestCase;
+use CeusMedia\Common\Test\BaseCase;
 
 /**
  *	TestUnit of Inverter.
@@ -17,7 +17,7 @@ use PHPUnit\Framework\TestCase;
  *	@since			16.06.2008
  *
  */
-class Test_UI_Image_CreatorTest extends Test_Case
+class Test_UI_Image_CreatorTest extends BaseCase
 {
 	public function setUp(): void
 	{

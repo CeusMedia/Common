@@ -8,7 +8,7 @@
  */
 declare( strict_types = 1 );
 
-use PHPUnit\Framework\TestCase;
+use CeusMedia\Common\Test\BaseCase;
 
 /**
  *	TestUnit of XML Element.
@@ -17,7 +17,7 @@ use PHPUnit\Framework\TestCase;
  *	@since			20.02.2008
  *
  */
-class Test_XML_ElementTest extends Test_Case
+class Test_XML_ElementTest extends BaseCase
 {
 	/**	@var		XML_Element		$element		XML element instance */
 	protected $element;

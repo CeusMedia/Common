@@ -8,7 +8,7 @@
  */
 declare( strict_types = 1 );
 
-use PHPUnit\Framework\TestCase;
+use CeusMedia\Common\Test\BaseCase;
 
 /**
  *	TestUnit of Gauss Blur.
@@ -17,7 +17,7 @@ use PHPUnit\Framework\TestCase;
  *	@since			22.04.2008
  *
  */
-class Test_UI_HTML_TagTest extends Test_Case
+class Test_UI_HTML_TagTest extends BaseCase
 {
 	/**
 	 *	Constructor.

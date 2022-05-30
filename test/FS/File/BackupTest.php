@@ -6,14 +6,14 @@
  */
 declare( strict_types = 1 );
 
-use PHPUnit\Framework\TestCase;
+use CeusMedia\Common\Test\BaseCase;
 
 /**
  *	Test class for FS_File_Backup.
  *	@package		Tests.file
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
-class Test_FS_File_BackupTest extends Test_Case{
+class Test_FS_File_BackupTest extends BaseCase{
 
 	protected $filePath;
 	protected $path;

@@ -7,7 +7,7 @@
  */
 declare( strict_types = 1 );
 
-use PHPUnit\Framework\TestCase;
+use CeusMedia\Common\Test\BaseCase;
 
 /**
  *	TestUnit of UI_Template
@@ -15,7 +15,7 @@ use PHPUnit\Framework\TestCase;
  *	@author			David Seebacher <dseebacher@gmail.com>
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
-class Test_UI_TemplateTest extends Test_Case
+class Test_UI_TemplateTest extends BaseCase
 {
 	private $template;
 

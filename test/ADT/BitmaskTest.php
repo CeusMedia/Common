@@ -1,21 +1,23 @@
 <?php
-/**
- *	TestUnit of Test_ADT_Bitmask.
- *	@package		Tests.{classPackage}
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			11.12.2018
- */
 declare( strict_types = 1 );
 
-use PHPUnit\Framework\TestCase;
+/**
+*	TestUnit of ADT\Bitmask.
+ *	@package		Tests.ADT
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ */
+
+namespace CeusMedia\Common\Test;
+
+use CeusMedia\Common\ADT\Bitmask;
+use CeusMedia\Common\Test\BaseCase;
 
 /**
- *	TestUnit of Test_ADT_Bitmask.
- *	@package		Tests.{classPackage}
+ *	TestUnit of ADT\Bitmask.
+ *	@package		Tests.ADT
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			11.12.2018
  */
-class Test_ADT_BitmaskTest extends Test_Case
+class BitmaskTest extends BaseCase
 {
 	const BIT_0		= 0;
 	const BIT_1		= 1;
@@ -31,7 +33,7 @@ class Test_ADT_BitmaskTest extends Test_Case
 	 */
 	public function testGet()
 	{
-		$obj	= new ADT_Bitmask();
+		$obj	= new Bitmask();
 		$obj->add( static::BIT_2 );
 
 		$this->assertEquals( static::BIT_2, $obj->get() & static::BIT_2 );
@@ -66,7 +68,7 @@ class Test_ADT_BitmaskTest extends Test_Case
 	 */
 	public function testHas()
 	{
-		$obj	= new ADT_Bitmask();
+		$obj	= new Bitmask();
 		$obj->add( static::BIT_2 );
 
 		$this->assertFalse( $obj->has( static::BIT_16 ) );
@@ -104,7 +106,7 @@ class Test_ADT_BitmaskTest extends Test_Case
 	 */
 	public function testRemove()
 	{
-		$obj		= new ADT_Bitmask();
+		$obj		= new Bitmask();
 
 		$original	= static::BIT_16 | static::BIT_8 | static::BIT_4 | static::BIT_2 | static::BIT_1;
 		$obj->set( $original );

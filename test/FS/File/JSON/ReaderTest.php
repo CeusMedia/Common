@@ -8,7 +8,7 @@
  */
 declare( strict_types = 1 );
 
-use PHPUnit\Framework\TestCase;
+use CeusMedia\Common\Test\BaseCase;
 
 /**
  *	TestUnit of FS_File_JSON_Reader.
@@ -16,7 +16,7 @@ use PHPUnit\Framework\TestCase;
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			21.03.2015
  */
-class Test_FS_File_JSON_ReaderTest extends Test_Case
+class Test_FS_File_JSON_ReaderTest extends BaseCase
 {
 	/**
 	 *	Setup for every Test.

@@ -8,7 +8,7 @@
  */
 declare( strict_types = 1 );
 
-use PHPUnit\Framework\TestCase;
+use CeusMedia\Common\Test\BaseCase;
 
 /**
  *	TestUnit of UI_HTML_Indicator.
@@ -17,7 +17,7 @@ use PHPUnit\Framework\TestCase;
  *	@since			09.07.2008
  *
  */
-class Test_UI_HTML_IndicatorTest extends Test_Case
+class Test_UI_HTML_IndicatorTest extends BaseCase
 {
 	/**
 	 *	Setup for every Test.

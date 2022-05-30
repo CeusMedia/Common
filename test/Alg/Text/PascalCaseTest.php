@@ -1,21 +1,22 @@
 <?php
-/**
- *	TestUnit of Alg_Text_PascalCase.
- *	@package		Tests.alg
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			22.10.2008
- */
 declare( strict_types = 1 );
+/**
+ *	TestUnit of Alg\Text\PascalCase.
+ *	@package		Tests.Alg.Text
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ */
 
-use PHPUnit\Framework\TestCase;
+namespace CeusMedia\Common\Test\Alg\Text;
+
+use CeusMedia\Common\Alg\Text\PascalCase;
+use CeusMedia\Common\Test\BaseCase;
 
 /**
- *	TestUnit of Alg_Text_PascalCase.
- *	@package		Tests.alg
+ *	TestUnit of Alg\Text\PascalCase.
+ *	@package		Tests.Alg.Text
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			22.10.2008
  */
-class Test_Alg_Text_PascalCaseTest extends Test_Case
+class PascalCaseTest extends BaseCase
 {
 	/**
 	 *	Setup for every Test.
@@ -45,15 +46,15 @@ class Test_Alg_Text_PascalCaseTest extends Test_Case
 		$string1	= "test_alpha__test___RDF string";
 
 		$assertion	= "TestAlphaTestRdfString";
-		$creation	= Alg_Text_PascalCase::encode( $string1 );
+		$creation	= PascalCase::encode( $string1 );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= "TestAlphaTestRdfString";
-		$creation	= Alg_Text_PascalCase::encode( $string1, TRUE );
+		$creation	= PascalCase::encode( $string1, TRUE );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= "TestAlphaTestRDFString";
-		$creation	= Alg_Text_PascalCase::encode( $string1, FALSE );
+		$creation	= PascalCase::encode( $string1, FALSE );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -67,15 +68,15 @@ class Test_Alg_Text_PascalCaseTest extends Test_Case
 		$string2	= "Test_alpha__test___RDF string";
 
 		$assertion	= "TestAlphaTestRdfString";
-		$creation	= Alg_Text_PascalCase::encode( $string2 );
+		$creation	= PascalCase::encode( $string2 );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= "TestAlphaTestRdfString";
-		$creation	= Alg_Text_PascalCase::encode( $string2, TRUE );
+		$creation	= PascalCase::encode( $string2, TRUE );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= "TestAlphaTestRDFString";
-		$creation	= Alg_Text_PascalCase::encode( $string2, FALSE );
+		$creation	= PascalCase::encode( $string2, FALSE );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -89,11 +90,11 @@ class Test_Alg_Text_PascalCaseTest extends Test_Case
 		$string1	= "TestAlphaTestRdfString";
 
 		$assertion	= "test alpha test rdf string";
-		$creation	= Alg_Text_PascalCase::decode( $string1 );
+		$creation	= PascalCase::decode( $string1 );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= "test_alpha_test_rdf_string";
-		$creation	= Alg_Text_PascalCase::decode( $string1, '_' );
+		$creation	= PascalCase::decode( $string1, '_' );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -107,7 +108,7 @@ class Test_Alg_Text_PascalCaseTest extends Test_Case
 		$string1	= "TestAlphaTestRdfString";
 
 		$assertion	= "testAlphaTestRdfString";
-		$creation	= Alg_Text_PascalCase::toCamelCase( $string1 );
+		$creation	= PascalCase::toCamelCase( $string1 );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -121,7 +122,7 @@ class Test_Alg_Text_PascalCaseTest extends Test_Case
 		$string1	= "TestAlphaTestRdfString";
 
 		$assertion	= "test_alpha_test_rdf_string";
-		$creation	= Alg_Text_PascalCase::decode( $string1, '_' );
+		$creation	= PascalCase::decode( $string1, '_' );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -137,16 +138,16 @@ class Test_Alg_Text_PascalCaseTest extends Test_Case
 		$string3	= "testAlphaTestRdfString";
 		$string4	= "testAlphaTestRdf String";
 
-		$creation	= Alg_Text_PascalCase::validate( $string1 );
+		$creation	= PascalCase::validate( $string1 );
 		$this->assertEquals( TRUE, $creation );
 
-		$creation	= Alg_Text_PascalCase::validate( $string2 );
+		$creation	= PascalCase::validate( $string2 );
 		$this->assertEquals( TRUE, $creation );
 
-		$creation	= Alg_Text_PascalCase::validate( $string3 );
+		$creation	= PascalCase::validate( $string3 );
 		$this->assertEquals( FALSE, $creation );
 
-		$creation	= Alg_Text_PascalCase::validate( $string4 );
+		$creation	= PascalCase::validate( $string4 );
 		$this->assertEquals( FALSE, $creation );
 	}
 }

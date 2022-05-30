@@ -6,14 +6,14 @@
  */
 declare( strict_types = 1 );
 
-use PHPUnit\Framework\TestCase;
+use CeusMedia\Common\Test\BaseCase;
 
 /**
  *	TestUnit of FS_File_CSV_Reader.
  *	@package		Tests.File.CSV
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
-class Test_FS_File_CSV_ReaderTest extends Test_Case
+class Test_FS_File_CSV_ReaderTest extends BaseCase
 {
 	protected $filePath;
 	protected $pathName;

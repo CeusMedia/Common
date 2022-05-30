@@ -7,7 +7,7 @@
  */
 declare( strict_types = 1 );
 
-use PHPUnit\Framework\TestCase;
+use CeusMedia\Common\Test\BaseCase;
 
 /**
  *	TestUnit of Alg_Validation_LanguageValidator.
@@ -15,7 +15,7 @@ use PHPUnit\Framework\TestCase;
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			19.06.2008
  */
-class Test_Alg_Validation_LanguageValidatorTest extends Test_Case
+class Test_Alg_Validation_LanguageValidatorTest extends BaseCase
 {
 	/**
 	 *	Setup for every Test.

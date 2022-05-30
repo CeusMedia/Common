@@ -7,7 +7,7 @@
  */
 declare( strict_types = 1 );
 
-use PHPUnit\Framework\TestCase;
+use CeusMedia\Common\Test\BaseCase;
 
 /**
  *	TestUnit of Unit Formater.
@@ -15,7 +15,7 @@ use PHPUnit\Framework\TestCase;
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			21.02.2008
  */
-class Test_Alg_UnitFormaterTest extends Test_Case
+class Test_Alg_UnitFormaterTest extends BaseCase
 {
 	public function testFormatPixels()
 	{

@@ -8,7 +8,7 @@
  */
 declare( strict_types = 1 );
 
-use PHPUnit\Framework\TestCase;
+use CeusMedia\Common\Test\BaseCase;
 
 /**
  *	TestUnit of Net_CURL.
@@ -17,7 +17,7 @@ use PHPUnit\Framework\TestCase;
  *	@since			29.10.2010
  *
  */
-class Test_Net_CURLTest extends Test_Case
+class Test_Net_CURLTest extends BaseCase
 {
 	/**
 	 *	Setup for every Test.

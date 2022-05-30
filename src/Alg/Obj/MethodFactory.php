@@ -31,6 +31,7 @@ namespace CeusMedia\Common\Alg\Obj;
 use CeusMedia\Common\Alg\Obj\Factory as ObjectFactory;
 use CeusMedia\Common\Deprecation;
 use BadMethodCallException;
+use ReflectionObject;
 use RuntimeException;
 
 /**

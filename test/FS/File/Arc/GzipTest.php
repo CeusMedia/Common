@@ -6,14 +6,14 @@
  */
 declare( strict_types = 1 );
 
-use PHPUnit\Framework\TestCase;
+use CeusMedia\Common\Test\BaseCase;
 
 /**
  *	TestUnit of Gzip File.
  *	@package		Tests.file.arc
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
-class Test_FS_File_Arc_GzipTest extends Test_Case
+class Test_FS_File_Arc_GzipTest extends BaseCase
 {
 	/**	@var	string		$fileName		URL of Archive File Name */
 	private $fileName;

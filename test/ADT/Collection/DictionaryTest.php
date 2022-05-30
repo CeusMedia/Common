@@ -1,37 +1,41 @@
 <?php
-/**
- *	TestUnit of Dictionary
- *	@package		Tests.adt.list
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- */
 declare( strict_types = 1 );
 
-use PHPUnit\Framework\TestCase;
+/**
+ *	TestUnit of Dictionary
+ *	@package		Tests.ADT.Collection
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ */
+
+namespace CeusMedia\Common\Test\ADT\Collection;
+
+use CeusMedia\Common\ADT\Collection\Dictionary;
+use CeusMedia\Common\Test\BaseCase;
 
 /**
  *	TestUnit of Dictionary
- *	@package		Tests.adt.list
+ *	@package		Tests.ADT.Collection
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
-class Test_ADT_List_DictionaryTest extends Test_Case
+class DictionaryTest extends BaseCase
 {
-	/**	@var	ADT_List_Dictionary		$list		Instance of Dictionary */
+	/**	@var	Dictionary		$list		Instance of Dictionary */
 	private $dictionary;
 
 	public function setUp(): void
 	{
-		$this->dictionary	= new ADT_List_Dictionary();
+		$this->dictionary	= new Dictionary();
 		$this->dictionary->set( 'key0', 0 );
 		$this->dictionary->set( 'key1', 'value1' );
 		$this->dictionary->set( 'key2', 'value2' );
 		$this->dictionary->set( 'key3', array( 'value3-1', 'value3-2' ) );
 		$this->dictionary->set( 'key4', array( 'key4-1' => 'value4-1', 'key4-2' => 'value4-2' ) );
-		$this->dictionary->set( 'key5', new ADT_List_Dictionary( array( '0', '1' ) ) );
+		$this->dictionary->set( 'key5', new Dictionary( array( '0', '1' ) ) );
 	}
 
 	public function testConstruct()
 	{
-		$dictionary	= new ADT_List_Dictionary();
+		$dictionary	= new Dictionary();
 		$assertion	= 0;
 		$creation	= $dictionary->count();
 		$this->assertEquals( $assertion, $creation );
@@ -40,7 +44,7 @@ class Test_ADT_List_DictionaryTest extends Test_Case
 		$creation	= $dictionary->getAll();
 		$this->assertEquals( $assertion, $creation );
 
-		$dictionary	= new ADT_List_Dictionary( array( 1, 2, 3 ) );
+		$dictionary	= new Dictionary( array( 1, 2, 3 ) );
 		$assertion	= 3;
 		$creation	= $dictionary->count();
 		$this->assertEquals( $assertion, $creation );
@@ -49,7 +53,7 @@ class Test_ADT_List_DictionaryTest extends Test_Case
 		$creation	= $dictionary->getAll();
 		$this->assertEquals( $assertion, $creation );
 
-		$dictionary	= new ADT_List_Dictionary( array( 'a' => 'b', 'b' => 'c', 'c' => 'd' ) );
+		$dictionary	= new Dictionary( array( 'a' => 'b', 'b' => 'c', 'c' => 'd' ) );
 		$assertion	= array( 'a' => 'b', 'b' => 'c', 'c' => 'd' );
 		$creation	= $dictionary->getAll();
 		$this->assertEquals( $assertion, $creation );
@@ -162,7 +166,7 @@ class Test_ADT_List_DictionaryTest extends Test_Case
 			'key2'	=> 'value2',
 			'key3'	=> array( 'value3-1', 'value3-2' ),
 			'key4'	=> array( 'key4-1' => 'value4-1', 'key4-2' => 'value4-2' ),
-			'key5'	=> new ADT_List_Dictionary( array( '0', '1' ) ),
+			'key5'	=> new Dictionary( array( '0', '1' ) ),
 		);
 		$creation	= $this->dictionary->getAll();
 		$this->assertEquals( $assertion, $creation );
@@ -170,7 +174,7 @@ class Test_ADT_List_DictionaryTest extends Test_Case
 
 	public function testGetAllWithPrefix()
 	{
-		$dictionary	= new ADT_List_Dictionary( array(
+		$dictionary	= new Dictionary( array(
 			'A.a'		=> 0,
 			'A.a.1'		=> 1,
 			'A.a.2'		=> 2,

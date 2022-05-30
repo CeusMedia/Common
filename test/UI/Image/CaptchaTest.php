@@ -8,7 +8,7 @@
  */
 declare( strict_types = 1 );
 
-use PHPUnit\Framework\TestCase;
+use CeusMedia\Common\Test\BaseCase;
 
 /**
  *	TestUnit of UI_Image_Captcha.
@@ -17,7 +17,7 @@ use PHPUnit\Framework\TestCase;
  *	@since			05.05.2008
  *
  */
-class Test_UI_Image_CaptchaTest extends Test_Case
+class Test_UI_Image_CaptchaTest extends BaseCase
 {
 	/**
 	 *	Setup for every Test.

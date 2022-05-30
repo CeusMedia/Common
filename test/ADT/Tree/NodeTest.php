@@ -1,21 +1,22 @@
 <?php
-/**
- *	TestUnit of Test_ADT_Tree_Node.
- *	@package		Tests.adt.tree
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			12.07.2008
- */
 declare( strict_types = 1 );
+/**
+ *	TestUnit of Test_ADT_Tree_Node.
+ *	@package		Tests.ADT.Tree
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ */
 
-use PHPUnit\Framework\TestCase;
+namespace CeusMedia\Common\Test\ADT\Tree;
+
+use CeusMedia\Common\ADT\Tree\Node;
+use CeusMedia\Common\Test\BaseCase;
 
 /**
  *	TestUnit of Test_ADT_Tree_Node.
- *	@package		Tests.adt.tree
+ *	@package		Tests.ADT.Tree
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			12.07.2008
  */
-class Test_ADT_Tree_NodeTest extends Test_Case
+class NodeTest extends BaseCase
 {
 	/**
 	 *	Setup for every Test.
@@ -24,7 +25,7 @@ class Test_ADT_Tree_NodeTest extends Test_Case
 	 */
 	public function setUp(): void
 	{
-		$this->node	= new ADT_Tree_Node();
+		$this->node	= new Node();
 	}
 
 	/**

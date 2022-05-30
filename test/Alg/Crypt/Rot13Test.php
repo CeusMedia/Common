@@ -1,49 +1,50 @@
 <?php
-/**
- *	TestUnit of Rot13.
- *	@package		Tests.alg.crypt
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			14.02.2008
- */
 declare( strict_types = 1 );
+/**
+ *	TestUnit of Rot13.
+ *	@package		Tests.Alg.Crypt
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ */
 
-use PHPUnit\Framework\TestCase;
+namespace CeusMedia\Common\Test;
+
+use CeusMedia\Common\Alg\Crypt\Rot13;
+use CeusMedia\Common\Test\BaseCase;
 
 /**
  *	TestUnit of Rot13.
- *	@package		Tests.alg.crypt
+ *	@package		Tests.Alg.Crypt
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			14.02.2008
  */
-class Test_Alg_Crypt_Rot13Test extends Test_Case
+class Rot13Test extends BaseCase
 {
 	public function testEncrypt()
 	{
 		$assertion	= "nopqrs";
-		$creation	= Alg_Crypt_Rot13::encrypt( 'abcdef' );
+		$creation	= Rot13::encrypt( 'abcdef' );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= "123456";
-		$creation	= Alg_Crypt_Rot13::encrypt( '123456' );
+		$creation	= Rot13::encrypt( '123456' );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= '!"§$%&/()=';
-		$creation	= Alg_Crypt_Rot13::encrypt( '!"§$%&/()=' );
+		$creation	= Rot13::encrypt( '!"§$%&/()=' );
 		$this->assertEquals( $assertion, $creation );
 	}
 
 	public function testDecrypt()
 	{
 		$assertion	= "abcdef";
-		$creation	= Alg_Crypt_Rot13::decrypt( 'nopqrs' );
+		$creation	= Rot13::decrypt( 'nopqrs' );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= "123456";
-		$creation	= Alg_Crypt_Rot13::decrypt( '123456' );
+		$creation	= Rot13::decrypt( '123456' );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= '!"§$%&/()=';
-		$creation	= Alg_Crypt_Rot13::decrypt( '!"§$%&/()=' );
+		$creation	= Rot13::decrypt( '!"§$%&/()=' );
 		$this->assertEquals( $assertion, $creation );
 	}
 }

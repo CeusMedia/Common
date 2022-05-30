@@ -7,7 +7,7 @@
  */
 declare( strict_types = 1 );
 
-use PHPUnit\Framework\TestCase;
+use CeusMedia\Common\Test\BaseCase;
 
 /**
  *	TestUnit of CLI_Command_Program.
@@ -15,7 +15,7 @@ use PHPUnit\Framework\TestCase;
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			12.01.2009
  */
-class Test_CLI_Command_ProgramTest extends Test_Case
+class Test_CLI_Command_ProgramTest extends BaseCase
 {
 	/**
 	 *	Setup for every Test.

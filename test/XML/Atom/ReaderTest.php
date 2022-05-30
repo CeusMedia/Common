@@ -8,7 +8,7 @@
  */
 declare( strict_types = 1 );
 
-use PHPUnit\Framework\TestCase;
+use CeusMedia\Common\Test\BaseCase;
 
 /**
  *	TestUnit of XML_Atom_Reader.
@@ -17,7 +17,7 @@ use PHPUnit\Framework\TestCase;
  *	@since			14.05.2008
  *
  */
-class Test_XML_Atom_ReaderTest extends Test_Case
+class Test_XML_Atom_ReaderTest extends BaseCase
 {
 	/**
 	 *	Setup for every Test.

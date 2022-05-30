@@ -8,7 +8,7 @@
  */
 declare( strict_types = 1 );
 
-use PHPUnit\Framework\TestCase;
+use CeusMedia\Common\Test\BaseCase;
 
 /**
  *	TestUnit of partioned Session.
@@ -17,7 +17,7 @@ use PHPUnit\Framework\TestCase;
  *	@since			16.02.2008
  *
  */
-class Test_Net_HTTP_PartitionSessionTest extends Test_Case
+class Test_Net_HTTP_PartitionSessionTest extends BaseCase
 {
 	private $session;
 

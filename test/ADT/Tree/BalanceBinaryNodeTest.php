@@ -1,26 +1,30 @@
 <?php
-/**
- *	TestUnit of LinkList
- *	@package		Tests.adt.list
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- */
 declare( strict_types = 1 );
+/**
+ *	TestUnit of LinkList
+ *	@package		Tests.adt.list
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ */
 
-use PHPUnit\Framework\TestCase;
+namespace CeusMedia\Common\Test\ADT\Tree;
+
+use CeusMedia\Common\ADT\Tree\BalanceBinaryNode;
+use CeusMedia\Common\Test\BaseCase;
+use Exception;
 
 /**
  *	TestUnit of LinkList
  *	@package		Tests.adt.list
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
-class Test_ADT_Tree_BalanceBinaryNodeTest extends Test_Case
+class BalanceBinaryNodeTest extends BaseCase
 {
 	/**	@var	array		$list		Instance of BinaryTree */
 	private $tree;
 
 	public function setUp(): void
 	{
-		$this->tree	= new ADT_Tree_BalanceBinaryNode( 2 );
+		$this->tree	= new BalanceBinaryNode( 2 );
 		$this->tree->add( 1 );
 		$this->tree->add( 2 );
 		$this->tree->add( 3 );
@@ -71,7 +75,7 @@ class Test_ADT_Tree_BalanceBinaryNodeTest extends Test_Case
 
 	public function testGetLeft()
 	{
-		$assertion	= new ADT_Tree_BalanceBinaryNode( 2, 1 );
+		$assertion	= new BalanceBinaryNode( 2, 1 );
 		$creation	= $this->tree->getLeft();
 		$this->assertEquals( $assertion, $creation );
 
@@ -85,7 +89,7 @@ class Test_ADT_Tree_BalanceBinaryNodeTest extends Test_Case
 
 	public function testGetRight()
 	{
-		$tree	= new ADT_Tree_BalanceBinaryNode( 2, 3 );
+		$tree	= new BalanceBinaryNode( 2, 3 );
 		$tree->add( 4 );
 		$assertion	= 4;
 		$creation	= $tree->getRight()->getValue();
@@ -115,7 +119,7 @@ class Test_ADT_Tree_BalanceBinaryNodeTest extends Test_Case
 
 	public function testToTable()
 	{
-		$tree	= new ADT_Tree_BalanceBinaryNode( 2 );
+		$tree	= new BalanceBinaryNode( 2 );
 		$tree->add( 3 );
 		$tree->add( 2 );
 		$tree->add( 4 );

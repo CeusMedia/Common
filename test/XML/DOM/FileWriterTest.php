@@ -8,7 +8,7 @@
  */
 declare( strict_types = 1 );
 
-use PHPUnit\Framework\TestCase;
+use CeusMedia\Common\Test\BaseCase;
 
 /**
  *	TestUnit of XML DOM File Writer.
@@ -17,7 +17,7 @@ use PHPUnit\Framework\TestCase;
  *	@since			11.12.2007
  *
  */
-class Test_XML_DOM_FileWriterTest extends Test_Case
+class Test_XML_DOM_FileWriterTest extends BaseCase
 {
 	/**
 	 *	Sets up Writer.

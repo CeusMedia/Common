@@ -7,7 +7,7 @@
  */
 declare( strict_types = 1 );
 
-use PHPUnit\Framework\TestCase;
+use CeusMedia\Common\Test\BaseCase;
 
 /**
  *	TestUnit of FS_File_NameFilter.
@@ -15,7 +15,7 @@ use PHPUnit\Framework\TestCase;
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			15.06.2008
  */
-class Test_FS_File_NameFilterTest extends Test_Case
+class Test_FS_File_NameFilterTest extends BaseCase
 {
 	/**
 	 *	Setup for every Test.

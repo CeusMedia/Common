@@ -1,21 +1,22 @@
 <?php
-/**
- *	TestUnit of Clock.
- *	@package		Tests.
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			19.06.2008
- */
 declare( strict_types = 1 );
+/**
+ *	TestUnit of Constant.
+ *	@package		Tests.Alg.Obj
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ */
 
-use PHPUnit\Framework\TestCase;
+namespace CeusMedia\Common\Test;
+
+use CeusMedia\Common\Alg\Obj\Constant;
+use CeusMedia\Common\Test\BaseCase;
 
 /**
- *	TestUnit of Clock.
- *	@package		Tests.
+ *	TestUnit of Constant.
+ *	@package		Tests.Alg.Obj
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			19.06.2008
  */
-final class Test_Alg_Object_ConstantTest extends Test_Case
+final class ConstantTest extends BaseCase
 {
 	/**
 	 *	Setup for every Test.
@@ -24,8 +25,8 @@ final class Test_Alg_Object_ConstantTest extends Test_Case
 	 */
 	public function setUp(): void
 	{
-		$className		= 'Test_Alg_Object_ConstantExample1';
-		$this->object	= new Alg_Object_Constant( $className );
+		$className		= ConstantExample1::class;
+		$this->object	= new Constant( $className );
 	}
 
 	/**
@@ -129,7 +130,7 @@ final class Test_Alg_Object_ConstantTest extends Test_Case
 	}
 }
 
-class Test_Alg_Object_ConstantExample1
+class ConstantExample1
 {
 	const A_1		= 1;
 	const B_1		= 1;

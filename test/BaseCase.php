@@ -1,9 +1,11 @@
 <?php
 declare( strict_types = 1 );
 
+namespace CeusMedia\Common\Test;
+
 use PHPUnit\Framework\TestCase;
 
-class Test_Case extends TestCase
+class BaseCase extends TestCase
 {
 	/**	@var		array		$_config */
 	protected static $_config;

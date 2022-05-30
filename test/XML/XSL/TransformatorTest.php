@@ -8,7 +8,7 @@
  */
 declare( strict_types = 1 );
 
-use PHPUnit\Framework\TestCase;
+use CeusMedia\Common\Test\BaseCase;
 
 /**
  *	TestUnit of XSL Transformator.
@@ -17,7 +17,7 @@ use PHPUnit\Framework\TestCase;
  *	@since			13.12.2007
  *
  */
-class Test_XML_XSL_TransformatorTest extends Test_Case
+class Test_XML_XSL_TransformatorTest extends BaseCase
 {
 	/**
 	 *	Sets up Node.
