@@ -1,21 +1,22 @@
 <?php
+declare( strict_types = 1 );
 /**
  *	TestUnit of Alg_Randomizer.
- *	@package		Tests.alg
+ *	@package		Tests.Alg
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			05.05.2008
  */
-declare( strict_types = 1 );
 
+namespace CeusMedia\Common\Test\Alg;
+
+use CeusMedia\Common\Alg\Randomizer;
 use CeusMedia\Common\Test\BaseCase;
 
 /**
  *	TestUnit of Alg_Randomizer.
- *	@package		Tests.alg
+ *	@package		Tests.Alg
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			05.05.2008
  */
-class Test_Alg_RandomizerTest extends BaseCase
+class RandomizerTest extends BaseCase
 {
 	/**
 	 *	Setup for every Test.
@@ -24,7 +25,7 @@ class Test_Alg_RandomizerTest extends BaseCase
 	 */
 	public function setUp(): void
 	{
-		$this->randomizer	= new Alg_Randomizer();
+		$this->randomizer	= new Randomizer();
 	}
 
 	/**

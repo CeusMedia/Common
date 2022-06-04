@@ -1,25 +1,22 @@
 <?php
-/**
- *	TestUnit of Folder Reader.
- *	@package		Tests.folder
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			21.04.2008
- *
- */
 declare( strict_types = 1 );
+/**
+ *	TestUnit of Folder Reader.
+ *	@package		Tests.FS.Folder
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ */
 
-use CeusMedia\Common\Test\BaseCase;
+namespace CeusMedia\Common\Test\FS\Folder;
 
-require_once __DIR__.'/TestCase.php';
+use CeusMedia\Common\FS\Folder\Reader;
+use CeusMedia\Common\Test\FS\Folder\TestCase;
 
 /**
  *	TestUnit of Folder Reader.
- *	@package		Tests.folder
+ *	@package		Tests.FS.Folder
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			21.04.2008
- *
  */
-class Test_FS_Folder_ReaderTest extends Test_FS_Folder_TestCase
+class ReaderTest extends TestCase
 {
 	/**
 	 *	Setup for every Test.
@@ -30,9 +27,9 @@ class Test_FS_Folder_ReaderTest extends Test_FS_Folder_TestCase
 	{
 		parent::setUp();
 		//  valid Folder Reader
-		$this->reader1	= new FS_Folder_Reader( $this->path."folder" );
+		$this->reader1	= new Reader( $this->path."folder" );
 		//  invalid Folder Reader
-		$this->reader2	= new FS_Folder_Reader( $this->path."not_existing" );
+		$this->reader2	= new Reader( $this->path."not_existing" );
 	}
 
 	/**
@@ -42,7 +39,7 @@ class Test_FS_Folder_ReaderTest extends Test_FS_Folder_TestCase
 	 */
 	public function testConstruct()
 	{
-		$reader	= new FS_Folder_Reader( "test123" );
+		$reader	= new Reader( "test123" );
 		$assertion	= "test123";
 		$creation	= $reader->getFolderName();
 		$this->assertEquals( $assertion, $creation );
@@ -634,11 +631,11 @@ class Test_FS_Folder_ReaderTest extends Test_FS_Folder_TestCase
 	public function testIsFolder()
 	{
 		$assertion	= true;
-		$creation	= FS_Folder_Reader::isFolder( $this->path."folder" );
+		$creation	= Reader::isFolder( $this->path."folder" );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= false;
-		$creation	= FS_Folder_Reader::isFolder( $this->path."not_existing" );
+		$creation	= Reader::isFolder( $this->path."not_existing" );
 		$this->assertEquals( $assertion, $creation );
 	}
 }

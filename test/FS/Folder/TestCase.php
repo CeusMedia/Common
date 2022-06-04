@@ -1,20 +1,19 @@
 <?php
+declare( strict_types = 1 );
 /**
  *	TestUnit of Folder Editor.
- *	@package		Tests.folder
- *	@since			21.04.2008
+ *	@package		Tests.FS.Folder
  *
  */
-declare( strict_types = 1 );
 
-use CeusMedia\Common\Test\BaseCase;
+namespace CeusMedia\Common\Test\FS\Folder;
+
+use CeusMedia\Common\Test\BaseCase as BaseTestCase;
 
 /**
  *	TestUnit of Folder Editor.
- *	@package		Tests.folder
+ *	@package		Tests.FS.Folder
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			21.04.2008
- *
  *
  *	This Class creates and removed this File Structure:
  *	# folder
@@ -49,7 +48,7 @@ use CeusMedia\Common\Test\BaseCase;
  *	      ° file3_2_1
  *	      ° .file3_2_2
  */
-class Test_FS_Folder_TestCase extends BaseCase
+class TestCase extends BaseTestCase
 {
 
 	public function __construct()

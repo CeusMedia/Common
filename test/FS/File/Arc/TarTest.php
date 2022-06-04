@@ -1,19 +1,22 @@
 <?php
+declare( strict_types = 1 );
 /**
  *	TestUnit of T File.
- *	@package		Tests.file.arc
+ *	@package		Tests.FS.File.Arc
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
-declare( strict_types = 1 );
 
+namespace CeusMedia\Common\Test\FS\File\Arc;
+
+use CeusMedia\Common\FS\File\Arc\Tar;
 use CeusMedia\Common\Test\BaseCase;
 
 /**
  *	TestUnit of Tar File.
- *	@package		Tests.file.arc
+ *	@package		Tests.FS.File.Arc
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
-class Test_FS_File_Arc_TarTest extends BaseCase
+class TarTest extends BaseCase
 {
 	/**	@var	string		$fileName		URL of Archive File Name */
 	private $fileName;
@@ -31,7 +34,7 @@ class Test_FS_File_Arc_TarTest extends BaseCase
 
 	public function testAddFile()
 	{
-		$arc	= new FS_File_Arc_Tar();
+		$arc	= new Tar();
 		$arc->addFile( $this->path."TarTest.php" );
 
 		$this->assertTrue( $arc->save( $this->fileName ) > 0 );

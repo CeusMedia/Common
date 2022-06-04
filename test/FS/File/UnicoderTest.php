@@ -1,23 +1,22 @@
 <?php
+declare( strict_types = 1 );
 /**
  *	TestUnit of FS_File_Unicoder.
- *	@package		Tests.
+ *	@package		Tests.FS.File
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			19.06.2008
- *
  */
-declare( strict_types = 1 );
 
+namespace CeusMedia\Common\Test\FS\File;
+
+use CeusMedia\Common\FS\File\Unicoder;
 use CeusMedia\Common\Test\BaseCase;
 
 /**
  *	TestUnit of FS_File_Unicoder.
- *	@package		Tests.
+ *	@package		Tests.FS.File
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			19.06.2008
- *
  */
-class Test_FS_File_UnicoderTest extends BaseCase
+class UnicoderTest extends BaseCase
 {
 	/**
 	 *	Setup for every Test.
@@ -46,7 +45,7 @@ class Test_FS_File_UnicoderTest extends BaseCase
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= FS_File_Unicoder::__construct();
+		$creation	= Unicoder::__construct();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -59,7 +58,7 @@ class Test_FS_File_UnicoderTest extends BaseCase
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= FS_File_Unicoder::isUnicode();
+		$creation	= Unicoder::isUnicode();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -72,7 +71,7 @@ class Test_FS_File_UnicoderTest extends BaseCase
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= FS_File_Unicoder::convertToUnicode();
+		$creation	= Unicoder::convertToUnicode();
 		$this->assertEquals( $assertion, $creation );
 	}
 }

@@ -1,25 +1,22 @@
 <?php
-/**
- *	TestUnit of recursive RegexFilter for Folders.
- *	@package		Tests.folder
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			21.04.2008
- *
- */
 declare( strict_types = 1 );
+/**
+ *	TestUnit of recursive RegexFilter for Folders.
+ *	@package		Tests.FS.Folder
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ */
 
-use CeusMedia\Common\Test\BaseCase;
+namespace CeusMedia\Common\Test\FS\Folder;
 
-require_once __DIR__.'/TestCase.php';
+use CeusMedia\Common\FS\Folder\RecursiveRegexFilter;
+use CeusMedia\Common\Test\FS\Folder\TestCase;
 
 /**
  *	TestUnit of recursive RegexFilter for Folders.
- *	@package		Tests.folder
+ *	@package		Tests.FS.Folder
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			21.04.2008
- *
  */
-class Test_FS_Folder_RecursiveRegexFilterTest extends Test_FS_Folder_TestCase
+class RecursiveRegexFilterTest extends TestCase
 {
 	/**
 	 *	Setup for every Test.
@@ -42,7 +39,7 @@ class Test_FS_Folder_RecursiveRegexFilterTest extends Test_FS_Folder_TestCase
 		$folders	= array();
 		$files		= array();
 		$path		= $this->path."folder";
-		$index	= new FS_Folder_RecursiveRegexFilter( $path, "@.*@" );
+		$index	= new RecursiveRegexFilter( $path, "@.*@" );
 		extract( $this->getListFromIndex( $index ) );
 
 		$assertion	= array(
@@ -82,7 +79,7 @@ class Test_FS_Folder_RecursiveRegexFilterTest extends Test_FS_Folder_TestCase
 	public function testConstructException()
 	{
 		$this->expectException( 'RuntimeException' );
-		$index	= new FS_Folder_RecursiveRegexFilter( "not_existing", "not_relevant" );
+		$index	= new RecursiveRegexFilter( "not_existing", "not_relevant" );
 	}
 
 	/**
@@ -93,7 +90,7 @@ class Test_FS_Folder_RecursiveRegexFilterTest extends Test_FS_Folder_TestCase
 	public function testConstructTextFilesOnly()
 	{
 		$path		= $this->path."folder";
-		$index	= new FS_Folder_RecursiveRegexFilter( $path, "@\.txt$@", TRUE, FALSE );
+		$index	= new RecursiveRegexFilter( $path, "@\.txt$@", TRUE, FALSE );
 		extract( $this->getListFromIndex( $index ) );
 
 		$assertion	= array();
@@ -127,7 +124,7 @@ class Test_FS_Folder_RecursiveRegexFilterTest extends Test_FS_Folder_TestCase
 	public function testConstructFilesOnly()
 	{
 		$path		= $this->path."folder";
-		$index	= new FS_Folder_RecursiveRegexFilter( $path, "@file@", TRUE, FALSE );
+		$index	= new RecursiveRegexFilter( $path, "@file@", TRUE, FALSE );
 		extract( $this->getListFromIndex( $index ) );
 
 		$assertion	= array();
@@ -161,7 +158,7 @@ class Test_FS_Folder_RecursiveRegexFilterTest extends Test_FS_Folder_TestCase
 	public function testConstructPhpFilesOnly()
 	{
 		$path		= $this->path."folder";
-		$index		= new FS_Folder_RecursiveRegexFilter( $path, "@\.php$@", TRUE, FALSE );
+		$index		= new RecursiveRegexFilter( $path, "@\.php$@", TRUE, FALSE );
 		extract( $this->getListFromIndex( $index ) );
 
 		$assertion	= array();
@@ -181,7 +178,7 @@ class Test_FS_Folder_RecursiveRegexFilterTest extends Test_FS_Folder_TestCase
 	public function testConstructFoldersOnly()
 	{
 		$path		= $this->path."folder";
-		$index		= new FS_Folder_RecursiveRegexFilter( $path, "@.*@", FALSE, TRUE );
+		$index		= new RecursiveRegexFilter( $path, "@.*@", FALSE, TRUE );
 		extract( $this->getListFromIndex( $index ) );
 
 		$assertion	= array(
@@ -209,7 +206,7 @@ class Test_FS_Folder_RecursiveRegexFilterTest extends Test_FS_Folder_TestCase
 	public function a_testConstructSub1FoldersOnly()
 	{
 		$path		= $this->path."folder";
-		$index		= new FS_Folder_RecursiveRegexFilter( $path, "@^sub1@", FALSE, TRUE );
+		$index		= new RecursiveRegexFilter( $path, "@^sub1@", FALSE, TRUE );
 		extract( $this->getListFromIndex( $index ) );
 
 		$assertion	= array(
@@ -233,7 +230,7 @@ class Test_FS_Folder_RecursiveRegexFilterTest extends Test_FS_Folder_TestCase
 	public function testConstructShowHiddenFolders()
 	{
 		$path		= $this->path."folder";
-		$index		= new FS_Folder_RecursiveRegexFilter( $path, "@sub3@", FALSE, TRUE, FALSE );
+		$index		= new RecursiveRegexFilter( $path, "@sub3@", FALSE, TRUE, FALSE );
 		extract( $this->getListFromIndex( $index ) );
 
 		$assertion	= array(

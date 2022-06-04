@@ -1,19 +1,23 @@
 <?php
+declare( strict_types = 1 );
 /**
- *	TestUnit of Yaml Reader.
- *	@package		Tests.file.list
+ *	TestUnit of Collection Section Writer.
+ *	@package		Tests.FS.File.Collection
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
-declare( strict_types = 1 );
 
+namespace CeusMedia\Common\Test\FS\File\Collection;
+
+use CeusMedia\Common\FS\File\Collection\SectionReader;
+use CeusMedia\Common\FS\File\Collection\SectionWriter;
 use CeusMedia\Common\Test\BaseCase;
 
 /**
- *	TestUnit of Yaml Reader.
- *	@package		Tests.file.list
+*	TestUnit of Collection Section Writer.
+ *	@package		Tests.FS.File.Collection
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
-class Test_FS_File_List_SectionWriterTest extends BaseCase
+class SectionWriterTest extends BaseCase
 {
 	/**	@var	string		$fileName		File Name of Test File */
 	private $fileName;
@@ -35,16 +39,16 @@ class Test_FS_File_List_SectionWriterTest extends BaseCase
 
 	public function testWrite()
 	{
-		$writer		= new FS_File_List_SectionWriter( $this->fileName );
+		$writer		= new SectionWriter( $this->fileName );
 		$writer->write( $this->sectionList );
-		$creation	= FS_File_List_SectionReader::load( $this->fileName );
+		$creation	= SectionReader::load( $this->fileName );
 		$this->assertEquals( $this->sectionList, $creation );
 	}
 
 	public function testSave()
 	{
-		FS_File_List_SectionWriter::save( $this->fileName, $this->sectionList );
-		$creation	= FS_File_List_SectionReader::load( $this->fileName );
+		SectionWriter::save( $this->fileName, $this->sectionList );
+		$creation	= SectionReader::load( $this->fileName );
 		$this->assertEquals( $this->sectionList, $creation );
 	}
 }

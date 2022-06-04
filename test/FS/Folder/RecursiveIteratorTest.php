@@ -1,25 +1,22 @@
 <?php
-/**
- *	TestUnit of recursive Folder Iterator.
- *	@package		Tests.folder
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			21.04.2008
- *
- */
 declare( strict_types = 1 );
+/**
+ *	TestUnit of recursive Folder Iterator.
+ *	@package		Tests.FS.Folder
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ */
 
-use CeusMedia\Common\Test\BaseCase;
+namespace CeusMedia\Common\Test\FS\Folder;
 
-require_once __DIR__.'/TestCase.php';
+use CeusMedia\Common\FS\Folder\RecursiveIterator;
+use CeusMedia\Common\Test\FS\Folder\TestCase;
 
 /**
  *	TestUnit of recursive Folder Iterator.
- *	@package		Tests.folder
+ *	@package		Tests.FS.Folder
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			21.04.2008
- *
  */
-class Test_FS_Folder_RecursiveIteratorTest extends Test_FS_Folder_TestCase
+class RecursiveIteratorTest extends TestCase
 {
 	/**
 	 *	Tests Method '__construct'.
@@ -29,7 +26,7 @@ class Test_FS_Folder_RecursiveIteratorTest extends Test_FS_Folder_TestCase
 	public function testConstruct()
 	{
 		$path		= str_replace( "\\", "/", $this->path."folder" );
-		$index	= new FS_Folder_RecursiveIterator( $path );
+		$index	= new RecursiveIterator( $path );
 		$list	= $this->getListFromIndex( $index );
 
 		$assertion	= array(
@@ -70,7 +67,7 @@ class Test_FS_Folder_RecursiveIteratorTest extends Test_FS_Folder_TestCase
 	public function testConstructException()
 	{
 		$this->expectException( 'RuntimeException' );
-		$index	= new FS_Folder_RecursiveIterator( "not_existing" );
+		$index	= new RecursiveIterator( "not_existing" );
 	}
 
 	/**
@@ -81,7 +78,7 @@ class Test_FS_Folder_RecursiveIteratorTest extends Test_FS_Folder_TestCase
 	public function testConstructFilesOnly()
 	{
 		$path		= str_replace( "\\", "/", $this->path."folder" );
-		$index	= new FS_Folder_RecursiveIterator( $path, TRUE, FALSE );
+		$index	= new RecursiveIterator( $path, TRUE, FALSE );
 		$list	= $this->getListFromIndex( $index );
 
 		$assertion	= array();
@@ -114,7 +111,7 @@ class Test_FS_Folder_RecursiveIteratorTest extends Test_FS_Folder_TestCase
 	public function testConstructFoldersOnly()
 	{
 		$path		= str_replace( "\\", "/", $this->path."folder" );
-		$index	= new FS_Folder_RecursiveIterator( $path, FALSE, TRUE );
+		$index	= new RecursiveIterator( $path, FALSE, TRUE );
 		$list	= $this->getListFromIndex( $index );
 
 		$assertion	= array(
@@ -142,7 +139,7 @@ class Test_FS_Folder_RecursiveIteratorTest extends Test_FS_Folder_TestCase
 	public function testConstructHiddenFilesAlso()
 	{
 		$path	= str_replace( "\\", "/", $this->path."folder" );
-		$index	= new FS_Folder_RecursiveIterator( $path, TRUE, FALSE, FALSE );
+		$index	= new RecursiveIterator( $path, TRUE, FALSE, FALSE );
 		$list	= $this->getListFromIndex( $index );
 
 		$assertion	= array(
@@ -186,7 +183,7 @@ class Test_FS_Folder_RecursiveIteratorTest extends Test_FS_Folder_TestCase
 	public function testConstructHiddenFoldersAlso()
 	{
 		$path	= str_replace( "\\", "/", $this->path."folder" );
-		$index	= new FS_Folder_RecursiveIterator( $path, FALSE, TRUE, FALSE );
+		$index	= new RecursiveIterator( $path, FALSE, TRUE, FALSE );
 		$list	= $this->getListFromIndex( $index );
 
 		$assertion	= array(

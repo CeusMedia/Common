@@ -1,11 +1,14 @@
 <?php
+declare( strict_types = 1 );
 /**
  *	TestUnit of Section INI Reader.
- *	@package		Tests.file.ini
+ *	@package		Tests.FS.File.INI
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
-declare( strict_types = 1 );
 
+namespace CeusMedia\Common\Test\FS\File\INI;
+
+use CeusMedia\Common\FS\File\INI\SectionReader;
 use CeusMedia\Common\Test\BaseCase;
 
 /**
@@ -13,7 +16,7 @@ use CeusMedia\Common\Test\BaseCase;
  *	@package		Tests.file.ini
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
-class Test_FS_File_INI_SectionReaderTest extends BaseCase
+class SectionReaderTest extends BaseCase
 {
 	/**	@var	string		$fileName		File Name of Test File */
 	private $fileName;
@@ -26,7 +29,7 @@ class Test_FS_File_INI_SectionReaderTest extends BaseCase
 	public function setUp(): void
 	{
 		$this->fileName	= dirname( __FILE__ )."/section.reader.ini";
-		$this->reader	= new FS_File_INI_SectionReader( $this->fileName );
+		$this->reader	= new SectionReader( $this->fileName );
 	}
 
 	/**
@@ -46,7 +49,7 @@ class Test_FS_File_INI_SectionReaderTest extends BaseCase
 				"key4"	=> "value4",
 			),
 		);
-		$reader		= new FS_File_INI_SectionReader( $this->fileName );
+		$reader		= new SectionReader( $this->fileName );
 		$creation	= $reader->toArray();
 		$this->assertEquals( $assertion, $creation );
 	}

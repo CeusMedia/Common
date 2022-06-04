@@ -1,21 +1,24 @@
 <?php
+declare( strict_types = 1 );
 /**
  *	TestUnit of YAML Reader.
- *	@package		Test.File.YAML
+ *	@package		Test.FS.File.YAML
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *
  */
-declare( strict_types = 1 );
 
+namespace CeusMedia\Common\Test\FS\File\YAML;
+
+use CeusMedia\Common\FS\File\YAML\Reader;
 use CeusMedia\Common\Test\BaseCase;
 
 /**
  *	TestUnit of YAML Reader.
- *	@package		Test.File.YAML
+ *	@package		Test.FS.File.YAML
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *
  */
-class Test_FS_File_YAML_ReaderTest extends BaseCase
+class ReaderTest extends BaseCase
 {
 	/**	@var	string		$fileName		File Name of Test File */
 	private $fileName;
@@ -37,7 +40,7 @@ class Test_FS_File_YAML_ReaderTest extends BaseCase
 	 */
 	public function testLoad()
 	{
-		$creation	= FS_File_YAML_Reader::load( $this->fileName );
+		$creation	= Reader::load( $this->fileName );
 		$assertion	= array(
 			"title" => "test",
 			"list"	=> array(
@@ -55,7 +58,7 @@ class Test_FS_File_YAML_ReaderTest extends BaseCase
 	 */
 	public function testRead()
 	{
-		$reader		= new FS_File_YAML_Reader( $this->fileName );
+		$reader		= new Reader( $this->fileName );
 		$creation	= $reader->read();
 		$assertion	= array(
 			"title" => "test",

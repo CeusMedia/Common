@@ -1,23 +1,24 @@
 <?php
+declare( strict_types = 1 );
 /**
  *	TestUnit of FS_File_Editor.
- *	@package		Tests.file
+ *	@package		Tests.FS.File
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			04.07.2008
  */
-declare( strict_types = 1 );
 
+namespace CeusMedia\Common\Test\FS\File;
+
+use CeusMedia\Common\FS\File\Editor;
 use CeusMedia\Common\Test\BaseCase;
 
 /**
  *	TestUnit of FS_File_Editor.
- *	@package		Tests.file
+ *	@package		Tests.FS.File
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			04.07.2008
  */
-class Test_FS_File_EditorTest extends BaseCase
+class EditorTest extends BaseCase
 {
-	/**	@var	FS_File_Editor	$editor			Instance of File Editor */
+	/**	@var	Editor		$editor			Instance of File Editor */
 	private $editor			= NULL;
 	/**	@var	string		$fileName		File Name of Test File */
 	private $fileName		= "editor.test";
@@ -36,7 +37,7 @@ class Test_FS_File_EditorTest extends BaseCase
 		$this->path		= dirname( __FILE__ )."/";
 		$this->fileName	= $this->path.$this->fileName;
 		file_put_contents( $this->fileName, $this->fileContent );
-		$this->editor	= new FS_File_Editor( $this->fileName );
+		$this->editor	= new Editor( $this->fileName );
 	}
 
 	/**
@@ -62,7 +63,7 @@ class Test_FS_File_EditorTest extends BaseCase
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= TRUE;
-		$creation	= FS_File_Editor::delete( $this->fileName );
+		$creation	= Editor::delete( $this->fileName );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= FALSE;

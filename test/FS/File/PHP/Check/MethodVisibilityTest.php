@@ -1,21 +1,23 @@
 <?php
-/**
- *	TestUnit of FS_File_PHP_Check_MethodVisibility.
- *	@package		Tests.file.php
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			04.01.2009
- */
 declare( strict_types = 1 );
+/**
+ *	TestUnit of FS_File_PHP_Check_MethodVisibility.
+ *	@package		Tests.FS.File.PHP.Check
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ */
 
+namespace CeusMedia\Common\Test\FS\File\PHP\Check;
+
+use CeusMedia\Common\FS\File\PHP\Check\MethodVisibility;
 use CeusMedia\Common\Test\BaseCase;
+use CeusMedia\Common\Test\MockAntiProtection;
 
 /**
  *	TestUnit of FS_File_PHP_Check_MethodVisibility.
- *	@package		Tests.file.php
+ *	@package		Tests.FS.File.PHP.Check
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			04.01.2009
  */
-class Test_FS_File_PHP_Check_MethodVisibilityTest extends BaseCase
+class MethodVisibilityTest extends BaseCase
 {
 	/**
 	 *	Setup for every Test.
@@ -46,7 +48,7 @@ class Test_FS_File_PHP_Check_MethodVisibilityTest extends BaseCase
 	public function testConstruct()
 	{
 		$fileName	= __FILE__;
-		$checker	= Test_MockAntiProtection::getInstance( 'FS_File_PHP_Check_MethodVisibility', $fileName );
+		$checker	= MockAntiProtection::getInstance( MethodVisibility::class, $fileName );
 
 		$assertion	= $fileName;
 		$creation	= $checker->getProtectedVar( 'fileName' );
@@ -65,7 +67,7 @@ class Test_FS_File_PHP_Check_MethodVisibilityTest extends BaseCase
 	public function testConstructException()
 	{
 		$this->expectException( 'RuntimeException' );
-		$index	= new FS_File_PHP_Check_MethodVisibility( "not_existing" );
+		$index	= new MethodVisibility( "not_existing" );
 	}
 
 	/**
@@ -75,7 +77,7 @@ class Test_FS_File_PHP_Check_MethodVisibilityTest extends BaseCase
 	 */
 	public function testCheck1()
 	{
-		$checker	= new FS_File_PHP_Check_MethodVisibility( $this->fileTemp1 );
+		$checker	= new MethodVisibility( $this->fileTemp1 );
 		$assertion	= TRUE;
 		$creation	= $checker->check();
 		$this->assertEquals( $assertion, $creation );
@@ -88,7 +90,7 @@ class Test_FS_File_PHP_Check_MethodVisibilityTest extends BaseCase
 	 */
 	public function testCheck2()
 	{
-		$checker	= new FS_File_PHP_Check_MethodVisibility( $this->fileTemp2 );
+		$checker	= new MethodVisibility( $this->fileTemp2 );
 		$assertion	= FALSE;
 		$creation	= $checker->check();
 		$this->assertEquals( $assertion, $creation );
@@ -101,7 +103,7 @@ class Test_FS_File_PHP_Check_MethodVisibilityTest extends BaseCase
 	 */
 	public function testGetMethods1()
 	{
-		$checker	= new FS_File_PHP_Check_MethodVisibility( $this->fileTemp1 );
+		$checker	= new MethodVisibility( $this->fileTemp1 );
 		$checker->check();
 		$assertion	= array();
 		$creation	= $checker->getMethods();
@@ -115,7 +117,7 @@ class Test_FS_File_PHP_Check_MethodVisibilityTest extends BaseCase
 	 */
 	public function testGetMethods2()
 	{
-		$checker	= new FS_File_PHP_Check_MethodVisibility( $this->fileTemp2 );
+		$checker	= new MethodVisibility( $this->fileTemp2 );
 		$checker->check();
 		$assertion	= array(
 			'alpha',

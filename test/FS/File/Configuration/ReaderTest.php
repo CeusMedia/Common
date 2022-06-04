@@ -1,21 +1,22 @@
 <?php
+declare( strict_types = 1 );
 /**
  *	TestUnit of FS_File_Configuration_Reader.
- *	@package		Tests.
+ *	@package		Tests.FS.File.Configuration
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			08.05.2008
  */
-declare( strict_types = 1 );
 
+namespace CeusMedia\Common\Test\FS\File\Configuration;
+
+use CeusMedia\Common\FS\File\Configuration\Reader;
 use CeusMedia\Common\Test\BaseCase;
 
 /**
  *	TestUnit of FS_File_Configuration_Reader.
- *	@package		Tests.
+ *	@package		Tests.FS.File.Configuration
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			08.05.2008
  */
-class Test_FS_File_Configuration_ReaderTest extends BaseCase
+class ReaderTest extends BaseCase
 {
 	/**
 	 *	Setup for every Test.
@@ -57,7 +58,7 @@ class Test_FS_File_Configuration_ReaderTest extends BaseCase
 	 */
 	public function testConstructIni()
 	{
-		$reader		= new FS_File_Configuration_Reader( $this->path."test.ini" );
+		$reader		= new Reader( $this->path."test.ini" );
 		$assertion	= $this->data;
 		$creation	= $reader->getAll();
 		$this->assertEquals( $assertion, $creation );
@@ -70,7 +71,7 @@ class Test_FS_File_Configuration_ReaderTest extends BaseCase
 	 */
 	public function testConstructIniCache()
 	{
-		$reader		= new FS_File_Configuration_Reader( $this->path."test.ini", $this->path );
+		$reader		= new Reader( $this->path."test.ini", $this->path );
 		$assertion	= $this->data;
 		$creation	= $reader->getAll();
 		$this->assertEquals( $assertion, $creation );
@@ -83,8 +84,8 @@ class Test_FS_File_Configuration_ReaderTest extends BaseCase
 	 */
 	public function testConstructIniQuick()
 	{
-		FS_File_Configuration_Reader::$iniQuickLoad	= TRUE;
-		$reader		= new FS_File_Configuration_Reader( $this->path."test.ini" );
+		Reader::$iniQuickLoad	= TRUE;
+		$reader		= new Reader( $this->path."test.ini" );
 		$stringData	= array();
 		foreach( $this->data as $key => $value )
 			$stringData[$key]	= (string) $value;
@@ -100,7 +101,7 @@ class Test_FS_File_Configuration_ReaderTest extends BaseCase
 	 */
 	public function testConstructJson()
 	{
-		$reader		= new FS_File_Configuration_Reader( $this->path."test.json" );
+		$reader		= new Reader( $this->path."test.json" );
 		$assertion	= $this->data;
 		$creation	= $reader->getAll();
 		$this->assertEquals( $assertion, $creation );
@@ -113,7 +114,7 @@ class Test_FS_File_Configuration_ReaderTest extends BaseCase
 	 */
 	public function testConstructJsonCache()
 	{
-		$reader		= new FS_File_Configuration_Reader( $this->path."test.json", $this->path );
+		$reader		= new Reader( $this->path."test.json", $this->path );
 		$assertion	= $this->data;
 		$creation	= $reader->getAll();
 		$this->assertEquals( $assertion, $creation );
@@ -126,7 +127,7 @@ class Test_FS_File_Configuration_ReaderTest extends BaseCase
 	 */
 	public function testConstructYaml()
 	{
-		$reader		= new FS_File_Configuration_Reader( $this->path."test.yaml" );
+		$reader		= new Reader( $this->path."test.yaml" );
 		$assertion	= $this->data;
 		$creation	= $reader->getAll();
 		$this->assertEquals( $assertion, $creation );
@@ -139,7 +140,7 @@ class Test_FS_File_Configuration_ReaderTest extends BaseCase
 	 */
 	public function testConstructYamlCache()
 	{
-		$reader		= new FS_File_Configuration_Reader( $this->path."test.yaml", $this->path );
+		$reader		= new Reader( $this->path."test.yaml", $this->path );
 		$assertion	= $this->data;
 		$creation	= $reader->getAll();
 		$this->assertEquals( $assertion, $creation );
@@ -152,7 +153,7 @@ class Test_FS_File_Configuration_ReaderTest extends BaseCase
 	 */
 	public function testConstructXml()
 	{
-		$reader		= new FS_File_Configuration_Reader( $this->path."test.xml" );
+		$reader		= new Reader( $this->path."test.xml" );
 		$assertion	= $this->data;
 		$creation	= $reader->getAll();
 		$this->assertEquals( $assertion, $creation );
@@ -165,7 +166,7 @@ class Test_FS_File_Configuration_ReaderTest extends BaseCase
 	 */
 	public function testConstructXmlCache()
 	{
-		$reader		= new FS_File_Configuration_Reader( $this->path."test.xml", $this->path );
+		$reader		= new Reader( $this->path."test.xml", $this->path );
 		$assertion	= $this->data;
 		$creation	= $reader->getAll();
 		$this->assertEquals( $assertion, $creation );
@@ -179,7 +180,7 @@ class Test_FS_File_Configuration_ReaderTest extends BaseCase
 	public function testConstructExceptionNotExisting()
 	{
 		$this->expectException( 'RuntimeException' );
-		new FS_File_Configuration_Reader( $this->path."name.not_supported" );
+		new Reader( $this->path."name.not_supported" );
 	}
 
 	/**
@@ -192,7 +193,7 @@ class Test_FS_File_Configuration_ReaderTest extends BaseCase
 		$fileName	= $this->path."filename.xyz";
 		file_put_contents( $fileName, "" );
 		$this->expectException( 'InvalidArgumentException' );
-		new FS_File_Configuration_Reader( $fileName );
+		new Reader( $fileName );
 		unlink( $fileName );
 	}
 }

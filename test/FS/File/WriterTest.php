@@ -1,21 +1,23 @@
 <?php
+declare( strict_types = 1 );
 /**
  *	TestUnit of File Writer.
- *	@package		Tests.file
+ *	@package		Tests.FS.File
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *
  */
-declare( strict_types = 1 );
 
+namespace CeusMedia\Common\Test\FS\File;
+
+use CeusMedia\Common\FS\File\Writer;
 use CeusMedia\Common\Test\BaseCase;
 
 /**
  *	TestUnit of File Writer.
- *	@package		Tests.file
+ *	@package		Tests.FS.File
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *
  */
-class Test_FS_File_WriterTest extends BaseCase
+class WriterTest extends BaseCase
 {
 	/**	@var	string		$fileName		File Name of Test File */
 	private $fileName;
@@ -31,7 +33,7 @@ class Test_FS_File_WriterTest extends BaseCase
 	{
 		$this->path		= dirname( __FILE__ )."/";
 		$this->fileName	= $this->path."writer.test";
-		$this->writer	= new FS_File_Writer( $this->fileName );
+		$this->writer	= new Writer( $this->fileName );
 	}
 
 	public function tearDown(): void
@@ -46,7 +48,7 @@ class Test_FS_File_WriterTest extends BaseCase
 	 */
 	public function testCreate()
 	{
-		$writer	= new FS_File_Writer( $this->path."writer_create.test" );
+		$writer	= new Writer( $this->path."writer_create.test" );
 		$writer->create();
 
 		$assertion	= TRUE;
@@ -63,7 +65,7 @@ class Test_FS_File_WriterTest extends BaseCase
 	public function testCreateException()
 	{
 		$this->expectException( 'RuntimeException' );
-		$writer	= new FS_File_Writer( "not_existing_folder/file" );
+		$writer	= new Writer( "not_existing_folder/file" );
 		$writer->create();
 	}
 
@@ -79,7 +81,7 @@ class Test_FS_File_WriterTest extends BaseCase
 		$creation	= $this->writer->isWritable();
 		$this->assertEquals( $assertion, $creation );
 
-		$writer		= new FS_File_Writer( "not_existing" );
+		$writer		= new Writer( "not_existing" );
 		$assertion	= false;
 		$creation	= $writer->isWritable();
 		$this->assertEquals( $assertion, $creation );
@@ -174,7 +176,7 @@ class Test_FS_File_WriterTest extends BaseCase
 		$creation	= file_exists( $removeFile );
 		$this->assertEquals( $assertion, $creation );
 
-		$writer		= new FS_File_Writer( $removeFile );
+		$writer		= new Writer( $removeFile );
 		$assertion	= true;
 		$creation	= $writer->remove();
 		$this->assertEquals( $assertion, $creation );
@@ -183,7 +185,7 @@ class Test_FS_File_WriterTest extends BaseCase
 		$creation	= file_exists( $removeFile );
 		$this->assertEquals( $assertion, $creation );
 
-		$writer		= new FS_File_Writer( "no_existing" );
+		$writer		= new Writer( "no_existing" );
 		$assertion	= false;
 		$creation	= $writer->remove();
 		$this->assertEquals( $assertion, $creation );
@@ -199,7 +201,7 @@ class Test_FS_File_WriterTest extends BaseCase
 		@unlink( $this->fileName );
 
 		$assertion	= 12;
-		$creation	= FS_File_Writer::save( $this->fileName, $this->fileContent );
+		$creation	= Writer::save( $this->fileName, $this->fileContent );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= true;
@@ -215,7 +217,7 @@ class Test_FS_File_WriterTest extends BaseCase
 	public function testSaveException()
 	{
 		$this->expectException( 'RuntimeException' );
-		FS_File_Writer::save( "not_existing_folder/file", $this->fileContent );
+		Writer::save( "not_existing_folder/file", $this->fileContent );
 	}
 
 	/**
@@ -229,7 +231,7 @@ class Test_FS_File_WriterTest extends BaseCase
 
 		$array		= explode( "\n", $this->fileContent );
 		$assertion	= 12;
-		$creation	= FS_File_Writer::saveArray( $this->fileName, $array );
+		$creation	= Writer::saveArray( $this->fileName, $array );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= true;
@@ -245,7 +247,7 @@ class Test_FS_File_WriterTest extends BaseCase
 	public function testSaveArrayException()
 	{
 		$this->expectException( 'RuntimeException' );
-		FS_File_Writer::saveArray( "not_existing_folder/file", array() );
+		Writer::saveArray( "not_existing_folder/file", array() );
 	}
 
 	/**
@@ -274,7 +276,7 @@ class Test_FS_File_WriterTest extends BaseCase
 	public function testWriteStringException()
 	{
 		$this->expectException( 'RuntimeException' );
-		$writer	= new FS_File_Writer( "not_existing_folder/file" );
+		$writer	= new Writer( "not_existing_folder/file" );
 		$writer->writeString( "" );
 	}
 
@@ -305,7 +307,7 @@ class Test_FS_File_WriterTest extends BaseCase
 	public function testWriteArrayException()
 	{
 		$this->expectException( 'RuntimeException' );
-		$writer	= new FS_File_Writer( "not_existing_folder/file" );
+		$writer	= new Writer( "not_existing_folder/file" );
 		$writer->writeArray( array() );
 	}
 }

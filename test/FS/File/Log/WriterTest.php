@@ -1,21 +1,22 @@
 <?php
+declare( strict_types = 1 );
 /**
  *	TestUnit of FS_File_Log_Writer.
- *	@package		Tests.file.log
+ *	@package		Tests.FS.File.Log
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			08.05.2008
  */
-declare( strict_types = 1 );
 
+namespace CeusMedia\Common\Test\FS\File\JSON;
+
+use CeusMedia\Common\FS\File\Log\Writer;
 use CeusMedia\Common\Test\BaseCase;
 
 /**
  *	TestUnit of FS_File_Log_Writer.
- *	@package		Tests.file.log
+ *	@package		Tests.FS.File.Log
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			08.05.2008
  */
-class Test_FS_File_Log_WriterTest extends BaseCase
+class WriterTest extends BaseCase
 {
 	/**
 	 *	Setup for every Test.
@@ -45,7 +46,7 @@ class Test_FS_File_Log_WriterTest extends BaseCase
 	 */
 	public function test__construct()
 	{
-		$writer	= new FS_File_Log_Writer( $this->fileName );
+		$writer	= new Writer( $this->fileName );
 		$writer->note( 1 );
 
 		$assertion	= TRUE;
@@ -60,7 +61,7 @@ class Test_FS_File_Log_WriterTest extends BaseCase
 	 */
 	public function testNote()
 	{
-		$writer	= new FS_File_Log_Writer( $this->fileName );
+		$writer	= new Writer( $this->fileName );
 
 		$assertion	= TRUE;
 		$creation	= $writer->note( 1 );

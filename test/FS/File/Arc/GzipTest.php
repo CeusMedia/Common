@@ -1,19 +1,22 @@
 <?php
+declare( strict_types = 1 );
 /**
  *	TestUnit of Gzip File.
- *	@package		Tests.file.arc
+ *	@package		Tests.FS.File.Arc
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
-declare( strict_types = 1 );
 
+namespace CeusMedia\Common\Test\FS\File\Arc;
+
+use CeusMedia\Common\FS\File\Arc\Gzip;
 use CeusMedia\Common\Test\BaseCase;
 
 /**
  *	TestUnit of Gzip File.
- *	@package		Tests.file.arc
+ *	@package		Tests.FS.File.Arc
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
-class Test_FS_File_Arc_GzipTest extends BaseCase
+class GzipTest extends BaseCase
 {
 	/**	@var	string		$fileName		URL of Archive File Name */
 	private $fileName;
@@ -33,7 +36,7 @@ class Test_FS_File_Arc_GzipTest extends BaseCase
 
 	public function testWriteString()
 	{
-		$arc	= new FS_File_Arc_Gzip( $this->fileName );
+		$arc	= new Gzip( $this->fileName );
 		$arc->writeString( "test" );
 
 		$assertion	= TRUE;
@@ -47,7 +50,7 @@ class Test_FS_File_Arc_GzipTest extends BaseCase
 
 	public function testReadString()
 	{
-		$arc	= new FS_File_Arc_Gzip( $this->fileName );
+		$arc	= new Gzip( $this->fileName );
 		$arc->writeString( "test" );
 
 		$assertion	= "test";

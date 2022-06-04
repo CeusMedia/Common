@@ -1,21 +1,22 @@
 <?php
+declare( strict_types = 1 );
 /**
  *	TestUnit of FS_File_Lock.
- *	@package		Tests.CeusMedia_Common_FS_File
+ *	@package		Tests.FS.File
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			06.05.2017
  */
-declare( strict_types = 1 );
 
+namespace CeusMedia\Common\Test\FS\File;
+
+use CeusMedia\Common\FS\File\Lock;
 use CeusMedia\Common\Test\BaseCase;
 
 /**
  *	TestUnit of FS_File_Lock.
- *	@package		Tests.CeusMedia_Common_FS_File
+ *	@package		Tests.FS.File
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			06.05.2017
  */
-class Test_FS_File_LockTest extends BaseCase
+class LockTest extends BaseCase
 {
 	/**
 	 *	Setup for every Test.
@@ -26,7 +27,7 @@ class Test_FS_File_LockTest extends BaseCase
 	{
 		$this->path	= dirname( __FILE__ ).'/';
 		@unlink( $this->path.'test.lock' );
-		$this->lock	= new FS_File_Lock( $this->path.'test.lock' );
+		$this->lock	= new Lock( $this->path.'test.lock' );
 		$this->lock->setTimeout( 0.5 );
 	}
 
@@ -47,12 +48,12 @@ class Test_FS_File_LockTest extends BaseCase
 	 */
 	public function test__construct()
 	{
-		$lock	= new FS_File_Lock( 'test.lock' );
+		$lock	= new Lock( 'test.lock' );
 		$this->assertEquals( 0, $lock->getExpiration() );
 		$this->assertEquals( 2, $lock->getTimeout() );
 		$this->assertEquals( 0.1, $lock->getSleep() );
 
-		$lock	= new FS_File_Lock( 'test.lock', 200, 100, 1 );
+		$lock	= new Lock( 'test.lock', 200, 100, 1 );
 		$this->assertEquals( 200, $lock->getExpiration() );
 		$this->assertEquals( 100, $lock->getTimeout() );
 		$this->assertEquals( 1, $lock->getSleep() );

@@ -1,19 +1,22 @@
 <?php
+declare( strict_types = 1 );
 /**
- *	TestUnit of List Reader.
- *	@package		Tests.file.list
+ *	TestUnit of Collection Reader.
+ *	@package		Tests.FS.File.Collection
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
-declare( strict_types = 1 );
 
+namespace CeusMedia\Common\Test\FS\File\Collection;
+
+use CeusMedia\Common\FS\File\Collection\Reader;
 use CeusMedia\Common\Test\BaseCase;
 
 /**
- *	TestUnit of List Reader.
- *	@package		Tests.file.list
+ *	TestUnit of Collection Reader.
+ *	@package		Tests.FS.File.Collection
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
-class Test_FS_File_List_ReaderTest extends BaseCase
+class ReaderTest extends BaseCase
 {
 	/**	@var	string		$fileName		File Name of Test File */
 	private $fileName;
@@ -26,7 +29,7 @@ class Test_FS_File_List_ReaderTest extends BaseCase
 	public function setUp(): void
 	{
 		$this->fileName		= dirname( __FILE__ )."/read.list";
-		$this->reader	= new FS_File_List_Reader( $this->fileName );
+		$this->reader	= new Reader( $this->fileName );
 	}
 
 	/**
@@ -110,13 +113,13 @@ class Test_FS_File_List_ReaderTest extends BaseCase
 			"line1",
 			"line2",
 		);
-		$creation	= FS_File_List_Reader::read( $this->fileName );
+		$creation	= Reader::read( $this->fileName );
 		$this->assertEquals( $assertion, $creation );
 
 		$fileName	= dirname( $this->fileName )."/empty.list";
 		file_put_contents( $fileName, "" );
 		$assertion	= array();
-		$creation	= FS_File_List_Reader::read( $fileName );
+		$creation	= Reader::read( $fileName );
 		unlink( $fileName );
 	}
 
@@ -128,7 +131,7 @@ class Test_FS_File_List_ReaderTest extends BaseCase
 	public function testReadException()
 	{
 		$this->expectException( 'RuntimeException' );
-		FS_File_List_Reader::read( "not_existing" );
+		Reader::read( "not_existing" );
 	}
 
 	/**

@@ -1,21 +1,22 @@
 <?php
+declare( strict_types = 1 );
 /**
  *	TestUnit of FS_File_RecursiveRegexFilter.
- *	@package		Tests.file
+ *	@package		Tests.FS.File
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			15.06.2008
  */
-declare( strict_types = 1 );
 
+namespace CeusMedia\Common\Test\FS\File;
+
+use CeusMedia\Common\FS\File\RecursiveRegexFilter;
 use CeusMedia\Common\Test\BaseCase;
 
 /**
  *	TestUnit of FS_File_NameFilter.
- *	@package		Tests.file
+ *	@package		Tests.FS.File
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			15.06.2008
  */
-class Test_FS_File_RecursiveRegexFilterTest extends BaseCase
+class RecursiveRegexFilterTest extends BaseCase
 {
 	/**
 	 *	Setup for every Test.
@@ -57,7 +58,7 @@ class Test_FS_File_RecursiveRegexFilterTest extends BaseCase
 	public function testConstructException()
 	{
 		$this->expectException( 'RuntimeException' );
-		$index	= new FS_File_RecursiveRegexFilter( "not_existing", "@not_relevant@" );
+		$index	= new RecursiveRegexFilter( "not_existing", "@not_relevant@" );
 	}
 
 	/**
@@ -68,7 +69,7 @@ class Test_FS_File_RecursiveRegexFilterTest extends BaseCase
 	public function testAccept()
 	{
 		$search	= "@^test@";
-		$filter	= new FS_File_RecursiveRegexFilter( $this->path, $search );
+		$filter	= new RecursiveRegexFilter( $this->path, $search );
 
 		$files	= array();
 		foreach( $filter as $entry )
@@ -86,7 +87,7 @@ class Test_FS_File_RecursiveRegexFilterTest extends BaseCase
 
 
 		$search	= "@^test1@";
-		$filter	= new FS_File_RecursiveRegexFilter( $this->path, $search );
+		$filter	= new RecursiveRegexFilter( $this->path, $search );
 
 		$files	= array();
 		foreach( $filter as $entry )
@@ -98,7 +99,7 @@ class Test_FS_File_RecursiveRegexFilterTest extends BaseCase
 
 
 		$search	= "@not_existing_file@";
-		$filter	= new FS_File_RecursiveRegexFilter( $this->path, $search );
+		$filter	= new RecursiveRegexFilter( $this->path, $search );
 
 		$files	= array();
 		foreach( $filter as $entry )
@@ -118,7 +119,7 @@ class Test_FS_File_RecursiveRegexFilterTest extends BaseCase
 	{
 		$name	= "@^test@";
 		$incode	= "@test2@";
-		$filter	= new FS_File_RecursiveRegexFilter( $this->path, $name, $incode );
+		$filter	= new RecursiveRegexFilter( $this->path, $name, $incode );
 
 		$files	= array();
 		foreach( $filter as $entry )
@@ -131,7 +132,7 @@ class Test_FS_File_RecursiveRegexFilterTest extends BaseCase
 
 
 		$incode	= "@test@";
-		$filter	= new FS_File_RecursiveRegexFilter( $this->path, $name, $incode );
+		$filter	= new RecursiveRegexFilter( $this->path, $name, $incode );
 
 		$files	= array();
 		foreach( $filter as $entry )
@@ -146,7 +147,7 @@ class Test_FS_File_RecursiveRegexFilterTest extends BaseCase
 
 
 		$incode	= "@test5@";
-		$filter	= new FS_File_RecursiveRegexFilter( $this->path, $name, $incode );
+		$filter	= new RecursiveRegexFilter( $this->path, $name, $incode );
 
 		$files	= array();
 		foreach( $filter as $entry )

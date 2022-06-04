@@ -9,6 +9,7 @@ declare( strict_types = 1 );
 namespace CeusMedia\Common\Test\Alg\Time;
 
 use CeusMedia\Common\Alg\Time\Clock;
+use CeusMedia\Common\Test\Alg\Time\ClockMockAntiProtection as Mock;
 use CeusMedia\Common\Test\BaseCase;
 use CeusMedia\Common\Test\MockAntiProtection;
 
@@ -26,7 +27,7 @@ final class ClockTest extends BaseCase
 	 */
 	public function setUp(): void
 	{
-		MockAntiProtection::createMockClass( "Alg\\Time\\Clock" );
+		MockAntiProtection::createMockClass( Clock::class );
 	}
 
 	/**
@@ -45,7 +46,7 @@ final class ClockTest extends BaseCase
 	 */
 	public function testConstruct()
 	{
-		$watch	= new Test_Alg_Time_Clock_MockAntiProtection();
+		$watch	= new Mock();
 		$assertion	= 1;
 		$creation	= preg_match( "@^[0-9]+\.[0-9]+$@", (string) $watch->getProtectedVar( 'microtimeStart' ) );
 		$this->assertEquals( $assertion, $creation );
@@ -60,7 +61,7 @@ final class ClockTest extends BaseCase
 	{
 		$time	= microtime( TRUE );
 
-		$watch	= new Test_Alg_Time_Clock_MockAntiProtection();
+		$watch	= new Mock();
 		$watch->setProtectedVar( 'microtimeStart', $time - 2 );
 		$watch->sleep( 1 );
 
@@ -96,7 +97,7 @@ final class ClockTest extends BaseCase
 	{
 		$time	= microtime( TRUE );
 
-		$watch	= new Test_Alg_Time_Clock_MockAntiProtection();
+		$watch	= new Mock();
 		$watch->setProtectedVar( 'microtimeStart', $time );
 		$watch->speed( 1 );
 
@@ -112,7 +113,7 @@ final class ClockTest extends BaseCase
 	 */
 	public function testStart()
 	{
-		$watch	= new Test_Alg_Time_Clock_MockAntiProtection();
+		$watch	= new Mock();
 		$assertion	= 1;
 		$creation	= preg_match( "@^[0-9]+\.[0-9]+$@", (string) $watch->getProtectedVar( 'microtimeStart' ) );
 		$this->assertEquals( $assertion, $creation );
@@ -125,7 +126,7 @@ final class ClockTest extends BaseCase
 	 */
 	public function testStop()
 	{
-		$watch	= new Test_Alg_Time_Clock_MockAntiProtection();
+		$watch	= new Mock();
 		$watch->stop();
 		$assertion	= 1;
 		$creation	= preg_match( "@^[0-9]+\.[0-9]+$@", (string) $watch->stop() );
@@ -141,7 +142,7 @@ final class ClockTest extends BaseCase
 	{
 		$time	= microtime( TRUE );
 
-		$watch	= new Test_Alg_Time_Clock_MockAntiProtection();
+		$watch	= new Mock();
 		$watch->setProtectedVar( 'microtimeStart', $time - 2 );
 		$watch->usleep( 1000000 );
 
@@ -159,7 +160,7 @@ final class ClockTest extends BaseCase
 	{
 		$time	= microtime( TRUE );
 
-		$watch	= new Test_Alg_Time_Clock_MockAntiProtection();
+		$watch	= new Mock();
 		$watch->setProtectedVar( 'microtimeStart', $time );
 		$watch->uspeed( 1000 );
 
@@ -175,7 +176,7 @@ final class ClockTest extends BaseCase
 	 */
 	public function testGetTime()
 	{
-		$watch	= new Test_Alg_Time_Clock_MockAntiProtection();
+		$watch	= new Mock();
 
 		$watch->setProtectedVar( 'microtimeStart', (float) time().".00000000" );
 		$watch->setProtectedVar( 'microtimeStop', (float) time().".12345678" );

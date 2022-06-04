@@ -1,21 +1,22 @@
 <?php
+declare( strict_types = 1 );
 /**
  *	TestUnit of FS_File_ICal_Parser.
- *	@package		Tests.file_ical.file
+ *	@package		Tests.FS.File.ICal
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			19.06.2008
  */
-declare( strict_types = 1 );
 
+namespace CeusMedia\Common\Test\FS\File\ICal;
+
+use CeusMedia\Common\FS\File\ICal\Parser;
 use CeusMedia\Common\Test\BaseCase;
 
 /**
  *	TestUnit of FS_File_ICal_Parser.
- *	@package		Tests.file_ical.file
+ *	@package		Tests.FS.File.ICal
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			19.06.2008
  */
-class Test_FS_File_ICal_ParserTest extends BaseCase
+class ParserTest extends BaseCase
 {
 	/**
 	 *	Setup for every Test.
@@ -44,7 +45,7 @@ class Test_FS_File_ICal_ParserTest extends BaseCase
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= FS_File_ICal_Parser::__construct();
+		$creation	= Parser::__construct();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -57,7 +58,7 @@ class Test_FS_File_ICal_ParserTest extends BaseCase
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= FS_File_ICal_Parser::parse();
+		$creation	= Parser::parse();
 		$this->assertEquals( $assertion, $creation );
 	}
 }

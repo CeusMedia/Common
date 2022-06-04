@@ -1,21 +1,22 @@
 <?php
 /**
  *	TestUnit of CLI_Command_Program.
- *	@package		Tests.console.command
+ *	@package		Tests.CLI.Command
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			12.01.2009
  */
 declare( strict_types = 1 );
 
+namespace CeusMedia\Common\Test\CLI;
+
+use CeusMedia\Common\CLI\Command\Program;
 use CeusMedia\Common\Test\BaseCase;
 
 /**
  *	TestUnit of CLI_Command_Program.
- *	@package		Tests.console.command
+ *	@package		Tests.CLI.Command
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			12.01.2009
  */
-class Test_CLI_Command_ProgramTest extends BaseCase
+class ProgramTest extends BaseCase
 {
 	/**
 	 *	Setup for every Test.
@@ -35,14 +36,14 @@ class Test_CLI_Command_ProgramTest extends BaseCase
 	{
 	}
 
-	/**
-	 *	Tests Method '__construct'.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function testConstruct1()
-	{
-	}
+//	/**
+//	 *	Tests Method '__construct'.
+//	 *	@access		public
+//	 *	@return		void
+//	 */
+//	public function testConstruct1()
+//	{
+//	}
 
 	/**
 	 *	Tests Method '__construct'.
@@ -51,13 +52,13 @@ class Test_CLI_Command_ProgramTest extends BaseCase
 	 */
 	public function testRun()
 	{
-		$program	= new Test_CLI_Command_TestProgram;
+		$program	= new TestProgram;
 		$assertion	= 2;
 		$creation	= $program->run( "arg1" );
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-class Test_CLI_Command_TestProgram extends CLI_Command_Program
+class TestProgram extends Program
 {
 	public $testOptions	= array(
 		'user'		=> "@[a-z]@i",

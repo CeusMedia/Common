@@ -1,21 +1,22 @@
 <?php
+declare( strict_types = 1 );
 /**
  *	TestUnit of FS_File_NameFilter.
- *	@package		Tests.file
+ *	@package		Tests.FS.File
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			15.06.2008
  */
-declare( strict_types = 1 );
 
+namespace CeusMedia\Common\Test\FS\File;
+
+use CeusMedia\Common\FS\File\RegexFilter;
 use CeusMedia\Common\Test\BaseCase;
 
 /**
  *	TestUnit of FS_File_NameFilter.
- *	@package		Tests.file
+ *	@package		Tests.FS.File
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			15.06.2008
  */
-class Test_FS_File_RegexFilterTest extends BaseCase
+class RegexFilterTest extends BaseCase
 {
 	/**
 	 *	Setup for every Test.
@@ -44,7 +45,7 @@ class Test_FS_File_RegexFilterTest extends BaseCase
 	public function testConstructException()
 	{
 		$this->expectException( 'RuntimeException' );
-		$index	= new FS_File_RegexFilter( "not_existing", "@not_relevant@" );
+		$index	= new RegexFilter( "not_existing", "@not_relevant@" );
 	}
 
 	/**
@@ -55,7 +56,7 @@ class Test_FS_File_RegexFilterTest extends BaseCase
 	public function testAccept()
 	{
 		$search	= "@^RegexFilterTest@";
-		$filter	= new FS_File_RegexFilter( $this->path, $search );
+		$filter	= new RegexFilter( $this->path, $search );
 
 		$files	= array();
 		foreach( $filter as $entry )
@@ -66,7 +67,7 @@ class Test_FS_File_RegexFilterTest extends BaseCase
 		$this->assertEquals( $assertion, $creation );
 
 		$search	= "@not_existing_file@";
-		$filter	= new FS_File_RegexFilter( $this->path, $search );
+		$filter	= new RegexFilter( $this->path, $search );
 
 		$files	= array();
 		foreach( $filter as $entry )
@@ -86,7 +87,7 @@ class Test_FS_File_RegexFilterTest extends BaseCase
 	{
 		$name	= "@^RegexFilterTest@";
 		$incode	= "@RegexFilterTest extends@";
-		$filter	= new FS_File_RegexFilter( $this->path, $name, $incode );
+		$filter	= new RegexFilter( $this->path, $name, $incode );
 
 		$files	= array();
 		foreach( $filter as $entry )
@@ -97,7 +98,7 @@ class Test_FS_File_RegexFilterTest extends BaseCase
 		$this->assertEquals( $assertion, $creation );
 
 		$search	= "@".time()."@";
-		$filter	= new FS_File_RegexFilter( $this->path, "@\.php3$@", $search );
+		$filter	= new RegexFilter( $this->path, "@\.php3$@", $search );
 
 		$files	= array();
 		foreach( $filter as $entry )

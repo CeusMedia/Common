@@ -1,21 +1,22 @@
 <?php
+declare( strict_types = 1 );
 /**
  *	TestUnit of FS_File_Block_Reader.
- *	@package		Tests.file
+ *	@package		Tests.FS.File.Block
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			19.06.2008
  */
-declare( strict_types = 1 );
 
+namespace CeusMedia\Common\Test\FS\File\Block;
+
+use CeusMedia\Common\FS\File\Block\Reader;
 use CeusMedia\Common\Test\BaseCase;
 
 /**
  *	TestUnit of FS_File_Block_Reader.
- *	@package		Tests.file
+ *	@package		Tests.FS.File.Block
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			19.06.2008
  */
-class Test_FS_File_Block_ReaderTest extends BaseCase
+class ReaderTest extends BaseCase
 {
 	/**
 	 *	Setup for every Test.
@@ -44,7 +45,7 @@ class Test_FS_File_Block_ReaderTest extends BaseCase
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= FS_File_Block_Reader::__construct();
+		$creation	= Reader::__construct();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -57,7 +58,7 @@ class Test_FS_File_Block_ReaderTest extends BaseCase
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= FS_File_Block_Reader::getBlockNames();
+		$creation	= Reader::getBlockNames();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -70,7 +71,7 @@ class Test_FS_File_Block_ReaderTest extends BaseCase
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= FS_File_Block_Reader::getBlock();
+		$creation	= Reader::getBlock();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -83,7 +84,7 @@ class Test_FS_File_Block_ReaderTest extends BaseCase
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= FS_File_Block_Reader::hasBlock();
+		$creation	= Reader::hasBlock();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -96,7 +97,7 @@ class Test_FS_File_Block_ReaderTest extends BaseCase
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= FS_File_Block_Reader::getBlocks();
+		$creation	= Reader::getBlocks();
 		$this->assertEquals( $assertion, $creation );
 	}
 }

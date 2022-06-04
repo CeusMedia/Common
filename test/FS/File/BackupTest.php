@@ -1,20 +1,23 @@
 <?php
+declare( strict_types = 1 );
 /**
  *	Test class for FS_File_Backup.
- *	@package		Tests.file
+ *	@package		Tests.FS.File
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
-declare( strict_types = 1 );
 
+namespace CeusMedia\Common\Test\FS\File;
+
+use CeusMedia\Common\FS\File\Backup;
 use CeusMedia\Common\Test\BaseCase;
 
 /**
  *	Test class for FS_File_Backup.
- *	@package		Tests.file
+ *	@package		Tests.FS.File
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
-class Test_FS_File_BackupTest extends BaseCase{
-
+class BackupTest extends BaseCase
+{
 	protected $filePath;
 	protected $path;
 	protected $time;
@@ -28,7 +31,7 @@ class Test_FS_File_BackupTest extends BaseCase{
 		if( !file_exists( $this->path ) )
 			mkdir( $this->path );
 		file_put_contents( $this->filePath, $this->time );
-		$this->file	= new FS_File_Backup( $this->filePath );
+		$this->file	= new Backup( $this->filePath );
 	}
 
 	public function tearDown(): void

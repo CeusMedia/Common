@@ -7,6 +7,7 @@
  */
 declare( strict_types = 1 );
 
+use CeusMedia\Common\Alg\Parcel\Packet as ParcelPacket;
 use CeusMedia\Common\Test\BaseCase;
 
 /**
@@ -15,7 +16,7 @@ use CeusMedia\Common\Test\BaseCase;
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			08.07.2008
  */
-class Test_Alg_Parcel_PacketTest extends BaseCase
+class PacketTest extends BaseCase
 {
 	/**
 	 *	Setup for every Test.
@@ -24,7 +25,7 @@ class Test_Alg_Parcel_PacketTest extends BaseCase
 	 */
 	public function setUp(): void
 	{
-		$this->packet	= new Alg_Parcel_Packet( 'testPacket' );
+		$this->packet	= new ParcelPacket( 'testPacket' );
 		$this->packet->addArticle( 'testArticle1', 0.2 );
 		$this->packet->addArticle( 'testArticle2', 0.3 );
 		$this->packet->addArticle( 'testArticle3', 0.4 );
@@ -47,7 +48,7 @@ class Test_Alg_Parcel_PacketTest extends BaseCase
 	public function testConstruct()
 	{
 		$packetName	= "testPacketName";
-		$packet		= new Alg_Parcel_Packet( $packetName );
+		$packet		= new ParcelPacket( $packetName );
 
 		$assertion	= $packetName;
 		$creation	= $packet->getName();
@@ -73,7 +74,7 @@ class Test_Alg_Parcel_PacketTest extends BaseCase
 	 */
 	public function testAddArticle()
 	{
-		$packet		= new Alg_Parcel_Packet( 'testPacket' );
+		$packet		= new ParcelPacket( 'testPacket' );
 
 		$assertion	= 0;
 		$creation	= count( $packet->getArticles() );

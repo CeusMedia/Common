@@ -1,19 +1,24 @@
 <?php
-/**
- *	TestUnit of Alg_Time_Duration.
- *	@package		Tests.
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- */
 declare( strict_types = 1 );
+/**
+ *	TestUnit of Alg_Time_Duration.
+ *	@package		Tests.
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ */
 
+namespace CeusMedia\Common\Test\Alg\Time;
+
+use CeusMedia\Common\Alg\Time\Duration;
 use CeusMedia\Common\Test\BaseCase;
+use CeusMedia\Common\Test\MockAntiProtection;
+use CeusMedia\Common\Test\Alg_Time_Duration_MockAntiProtection as Mock;
 
 /**
  *	TestUnit of Alg_Time_Duration.
  *	@package		Tests.
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
-final class Test_Alg_Time_DurationTest extends BaseCase
+final class DurationTest extends BaseCase
 {
 	/**
 	 *	Setup for every Test.
@@ -22,7 +27,7 @@ final class Test_Alg_Time_DurationTest extends BaseCase
 	 */
 	public function setUp(): void
 	{
-		Test_MockAntiProtection::createMockClass( "Alg_Time_Clock" );
+		MockAntiProtection::createMockClass( Duration::class );
 		$hour	= 3600;
 		$day	= 24 * $hour;
 		$week	= 7 * $day;
@@ -56,26 +61,13 @@ final class Test_Alg_Time_DurationTest extends BaseCase
 	}
 
 	/**
-	 *	Tests Method '__construct'.
-	 *	@access		public
-	 *	@return		void
-	 */
-	public function testConstruct()
-	{
-		$watch	= new Test_Alg_Time_Clock_MockAntiProtection();
-		$assertion	= 1;
-		$creation	= preg_match( "@^[0-9]+\.[0-9]+$@", (string) $watch->getProtectedVar( 'microtimeStart' ) );
-		$this->assertEquals( $assertion, $creation );
-	}
-
-	/**
 	 *	Tests Method 'sleep' when enough time to sleep has elapsed.
 	 *	@access		public
 	 *	@return		void
 	 */
 	public function testConvertDurationToSeconds()
 	{
-		$obj	= new Alg_Time_Duration();
+		$obj	= new Duration();
 
 		foreach( $this->durations as $duration => $assertion ){
 			$creation	= $obj->convertDurationToSeconds( $duration );
@@ -99,7 +91,7 @@ final class Test_Alg_Time_DurationTest extends BaseCase
 	 */
 	public function testConvertSecondsToDuration()
 	{
-		$obj	= new Alg_Time_Duration();
+		$obj	= new Duration();
 		foreach( $this->durations as $assertion => $seconds ){
 			$creation	= $obj->convertSecondsToDuration( $seconds, ' ' );
 			$this->assertEquals( $assertion, $creation );
@@ -123,7 +115,7 @@ final class Test_Alg_Time_DurationTest extends BaseCase
 	 */
 	public function testSanitize()
 	{
-		$obj	= new Alg_Time_Duration();
+		$obj	= new Duration();
 
 		$durations	= array(
 			'61s'				=> '1m 1s',

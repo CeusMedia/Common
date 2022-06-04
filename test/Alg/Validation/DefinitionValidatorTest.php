@@ -1,21 +1,22 @@
 <?php
+declare( strict_types = 1 );
 /**
  *	TestUnit of Definition Validator.
- *	@package		Tests.alg.validation
+ *	@package		Tests.Alg.Validation
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			14.02.2008
  */
-declare( strict_types = 1 );
 
+namespace CeusMedia\Common\Test\Alg\Validation;
+
+use CeusMedia\Common\Alg\Validation\DefinitionValidator;
 use CeusMedia\Common\Test\BaseCase;
 
 /**
  *	TestUnit of Definition Validator.
- *	@package		Tests.alg.validation
+ *	@package		Tests.Alg.Validation
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			14.02.2008
  */
-class Test_Alg_Validation_DefinitionValidatorTest extends BaseCase
+class DefinitionValidatorTest extends BaseCase
 {
 	protected $definition	= array(
 		'test1' => array(
@@ -44,23 +45,23 @@ class Test_Alg_Validation_DefinitionValidatorTest extends BaseCase
 
 	public function setUp(): void
 	{
-		$this->validator	= new Alg_Validation_DefinitionValidator();
+		$this->validator	= new DefinitionValidator();
 #		$this->validator->setLabels( $this->labels );
 	}
 
 	public function testConstruct()
 	{
-		$validator	= new Alg_Validation_DefinitionValidator();
+		$validator	= new DefinitionValidator();
 		ob_start();
 		var_dump( $validator );
 		$dump	= ob_get_clean();
 
 		$assertion	= 1;
-		$creation	= substr_count( $dump, "Alg_Validation_PredicateValidator" );
+		$creation	= substr_count( $dump, "PredicateValidator" );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= 1;
-		$creation	= substr_count( $dump, "Alg_Validation_Predicates" );
+		$creation	= substr_count( $dump, "Predicates" );
 		$this->assertEquals( $assertion, $creation );
 	}
 /*

@@ -4,10 +4,11 @@
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
 
-namespace CeusMedia\Common\Test\ADT;
+namespace CeusMedia\Common\Test\ADT\JSON;
 
 use CeusMedia\Common\ADT\JSON\Parser;
 use CeusMedia\Common\Test\BaseCase;
+use Exception;
 
 /**
  *	@package		Tests.adt.json

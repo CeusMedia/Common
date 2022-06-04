@@ -1,21 +1,22 @@
 <?php
+declare( strict_types = 1 );
 /**
  *	TestUnit of Alg_Validation_LanguageValidator.
- *	@package		Tests.alg.validation
+ *	@package		Tests.Alg.Validation
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			19.06.2008
  */
-declare( strict_types = 1 );
 
+namespace CeusMedia\Common\Test\Alg\Validation;
+
+use CeusMedia\Common\Alg\Validation\LanguageValidator;
 use CeusMedia\Common\Test\BaseCase;
 
 /**
  *	TestUnit of Alg_Validation_LanguageValidator.
- *	@package		Tests.alg.validation
+ *	@package		Tests.Alg.Validation
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			19.06.2008
  */
-class Test_Alg_Validation_LanguageValidatorTest extends BaseCase
+class LanguageValidatorTest extends BaseCase
 {
 	/**
 	 *	Setup for every Test.
@@ -24,7 +25,7 @@ class Test_Alg_Validation_LanguageValidatorTest extends BaseCase
 	 */
 	public function setUp(): void
 	{
-		$this->validator	= new Alg_Validation_LanguageValidator( array( "en", "fr" ), "en" );
+		$this->validator	= new LanguageValidator( array( "en", "fr" ), "en" );
 	}
 
 	/**
@@ -44,7 +45,7 @@ class Test_Alg_Validation_LanguageValidatorTest extends BaseCase
 	public function testConstructException1()
 	{
 		$this->expectException( 'InvalidArgumentException' );
-		new Alg_Validation_LanguageValidator( "string" );
+		new LanguageValidator( "string" );
 	}
 
 	/**
@@ -55,7 +56,7 @@ class Test_Alg_Validation_LanguageValidatorTest extends BaseCase
 	public function testConstructException2()
 	{
 		$this->expectException( 'RangeException' );
-		new Alg_Validation_LanguageValidator( array() );
+		new LanguageValidator( array() );
 	}
 
 	/**
@@ -66,7 +67,7 @@ class Test_Alg_Validation_LanguageValidatorTest extends BaseCase
 	public function testConstructException3()
 	{
 		$this->expectException( 'OutOfRangeException' );
-		new Alg_Validation_LanguageValidator( array( "de" ), "fr" );
+		new LanguageValidator( array( "de" ), "fr" );
 	}
 
 	/**
@@ -97,15 +98,15 @@ class Test_Alg_Validation_LanguageValidatorTest extends BaseCase
 	public function testValidate()
 	{
 		$assertion	= "en";
-		$creation	= Alg_Validation_LanguageValidator::validate( "da,en-us;q=0.7,en;q=0.3", array( "en", "fr" ) );
+		$creation	= LanguageValidator::validate( "da,en-us;q=0.7,en;q=0.3", array( "en", "fr" ) );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= "fr";
-		$creation	= Alg_Validation_LanguageValidator::validate( "da,fr;q=0.3", array( "en", "fr" ) );
+		$creation	= LanguageValidator::validate( "da,fr;q=0.3", array( "en", "fr" ) );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= "en";
-		$creation	= Alg_Validation_LanguageValidator::validate( "", array( "en", "fr" ) );
+		$creation	= LanguageValidator::validate( "", array( "en", "fr" ) );
 		$this->assertEquals( $assertion, $creation );
 	}
 }

@@ -1,21 +1,22 @@
 <?php
+declare( strict_types = 1 );
 /**
  *	TestUnit of FS_File_Permissions.
- *	@package		Tests.File
+ *	@package		Tests.FS.File
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			0.7.0
  */
-declare( strict_types = 1 );
 
+namespace CeusMedia\Common\Test\FS\File;
+
+use CeusMedia\Common\FS\File\Permissions;
 use CeusMedia\Common\Test\BaseCase;
 
 /**
  *	TestUnit of FS_File_Permissions.
- *	@package		Tests.File
+ *	@package		Tests.FS.File
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			0.7.0
  */
-class Test_FS_File_PermissionsTest extends BaseCase
+class PermissionsTest extends BaseCase
 {
 	protected $fileName;
 	protected $pathName;
@@ -32,7 +33,7 @@ class Test_FS_File_PermissionsTest extends BaseCase
 		$this->fileName	= $this->pathName.'test.file';
 		file_put_contents( $this->fileName, 'this file is for testing permissions' );
 		chmod( $this->fileName, 0777 );
-		$this->permissions	= new FS_File_Permissions( $this->fileName );
+		$this->permissions	= new Permissions( $this->fileName );
 	}
 
 	/**
@@ -53,7 +54,7 @@ class Test_FS_File_PermissionsTest extends BaseCase
 	 */
 	public function test__construct()
 	{
-		$instance	= new FS_File_Permissions( $this->fileName );
+		$instance	= new Permissions( $this->fileName );
 
 		$assertion	= TRUE;
 		$creation	= is_object( $instance );
@@ -68,7 +69,7 @@ class Test_FS_File_PermissionsTest extends BaseCase
 	public function test__constructException()
 	{
 		$this->expectException( 'InvalidArgumentException' );
-		new FS_File_Permissions( 'not_existing' );
+		new Permissions( 'not_existing' );
 	}
 
 	/**
@@ -91,7 +92,7 @@ class Test_FS_File_PermissionsTest extends BaseCase
 	public function testGetAsOctalException()
 	{
 		$this->expectException( 'InvalidArgumentException' );
-		$permissions	= new FS_File_Permissions( 'not_existing' );
+		$permissions	= new Permissions( 'not_existing' );
 		$permissions->getAsOctal();
 	}
 
@@ -115,7 +116,7 @@ class Test_FS_File_PermissionsTest extends BaseCase
 	public function testGetAsStringException()
 	{
 		$this->expectException( 'InvalidArgumentException' );
-		$permissions	= new FS_File_Permissions( 'not_existing' );
+		$permissions	= new Permissions( 'not_existing' );
 		$permissions->getAsString();
 	}
 
@@ -127,7 +128,7 @@ class Test_FS_File_PermissionsTest extends BaseCase
 	public function testGetOctalFromFile()
 	{
 		$assertion	= '0777';
-		$creation	= FS_File_Permissions::getOctalFromFile( $this->fileName );
+		$creation	= Permissions::getOctalFromFile( $this->fileName );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -139,27 +140,27 @@ class Test_FS_File_PermissionsTest extends BaseCase
 	public function testGetOctalFromString()
 	{
 		$assertion	= '0600';
-		$creation	= FS_File_Permissions::getOctalFromString( 'rw-------' );
+		$creation	= Permissions::getOctalFromString( 'rw-------' );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= '0644';
-		$creation	= FS_File_Permissions::getOctalFromString( 'rw-r--r--' );
+		$creation	= Permissions::getOctalFromString( 'rw-r--r--' );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= '0750';
-		$creation	= FS_File_Permissions::getOctalFromString( 'rwxr-x---' );
+		$creation	= Permissions::getOctalFromString( 'rwxr-x---' );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= '0770';
-		$creation	= FS_File_Permissions::getOctalFromString( 'rwxrwx---' );
+		$creation	= Permissions::getOctalFromString( 'rwxrwx---' );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= '0775';
-		$creation	= FS_File_Permissions::getOctalFromString( 'rwxrwxr-x' );
+		$creation	= Permissions::getOctalFromString( 'rwxrwxr-x' );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= '0777';
-		$creation	= FS_File_Permissions::getOctalFromString( 'rwxrwxrwx' );
+		$creation	= Permissions::getOctalFromString( 'rwxrwxrwx' );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -171,7 +172,7 @@ class Test_FS_File_PermissionsTest extends BaseCase
 	public function testGetStringFromFile()
 	{
 		$assertion	= 'rwxrwxrwx';
-		$creation	= FS_File_Permissions::getStringFromFile( $this->fileName );
+		$creation	= Permissions::getStringFromFile( $this->fileName );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -183,31 +184,31 @@ class Test_FS_File_PermissionsTest extends BaseCase
 	public function testGetStringFromOctal()
 	{
 		$assertion	= 'rw-------';
-		$creation	= FS_File_Permissions::getStringFromOctal( "0600" );
+		$creation	= Permissions::getStringFromOctal( "0600" );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= 'rw-------';
-		$creation	= FS_File_Permissions::getStringFromOctal( '0600' );
+		$creation	= Permissions::getStringFromOctal( '0600' );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= 'rw-r--r--';
-		$creation	= FS_File_Permissions::getStringFromOctal( '0644' );
+		$creation	= Permissions::getStringFromOctal( '0644' );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= 'rwxr-x---';
-		$creation	= FS_File_Permissions::getStringFromOctal( '0750' );
+		$creation	= Permissions::getStringFromOctal( '0750' );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= 'rwxrwx---';
-		$creation	= FS_File_Permissions::getStringFromOctal( '0770' );
+		$creation	= Permissions::getStringFromOctal( '0770' );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= 'rwxrwxr-x';
-		$creation	= FS_File_Permissions::getStringFromOctal( '0775' );
+		$creation	= Permissions::getStringFromOctal( '0775' );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= 'rwxrwxrwx';
-		$creation	= FS_File_Permissions::getStringFromOctal( '0777' );
+		$creation	= Permissions::getStringFromOctal( '0777' );
 		$this->assertEquals( $assertion, $creation );
 	}
 

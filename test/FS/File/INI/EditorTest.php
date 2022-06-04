@@ -1,29 +1,31 @@
 <?php
+declare( strict_types = 1 );
 /**
  *	TestUnit of FS_File_INI_Editor.
- *	@package		Tests.{classPackage}
+ *	@package		Tests.FS.File.INI
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			02.05.2008
  */
-declare( strict_types = 1 );
 
+namespace CeusMedia\Common\Test\FS\File\INI;
+
+use CeusMedia\Common\FS\File\INI\Editor;
+use CeusMedia\Common\FS\File\Reader as FileReader;
 use CeusMedia\Common\Test\BaseCase;
 
 /**
  *	TestUnit of FS_File_INI_Editor.
- *	@package		Tests.{classPackage}
+ *	@package		Tests.FS.File.INI
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			02.05.2008
  */
-class Test_FS_File_INI_EditorTest extends BaseCase
+class EditorTest extends BaseCase
 {
 	protected $fileList;
 	protected $fileSections;
 
-	/**	@var		FS_File_INI_Editor		$list			Editor for INI file without sections */
+	/**	@var		Editor		$list			Editor for INI file without sections */
 	protected $list;
 
-	/**	@var		FS_File_INI_Editor		$sections		Editor for INI file with sections */
+	/**	@var		Editor		$sections		Editor for INI file with sections */
 	protected $sections;
 
 	/**
@@ -39,8 +41,8 @@ class Test_FS_File_INI_EditorTest extends BaseCase
 
 		copy( $this->path."reader.ini", $this->fileList );
 		copy( $this->path."reader.ini", $this->fileSections );
-		$this->list		= new FS_File_INI_Editor( $this->fileList, FALSE );
-		$this->sections	= new FS_File_INI_Editor( $this->fileSections, TRUE );
+		$this->list		= new Editor( $this->fileList, FALSE );
+		$this->sections	= new Editor( $this->fileSections, TRUE );
 	}
 
 	/**
@@ -64,13 +66,13 @@ class Test_FS_File_INI_EditorTest extends BaseCase
 	public function testWriteIdempotency()
 	{
 		$this->markTestSkipped( 'Not idempotent :-(' );
-		$assertion	= FS_File_Reader::load( $this->fileList );
+		$assertion	= FileReader::load( $this->fileList );
 		$this->list->setProperty( "key1", "value1", "not_important" );
-		$creation	= FS_File_Reader::load( $this->fileList );
+		$creation	= FileReader::load( $this->fileList );
 
-		$assertion	= FS_File_Reader::load( $this->fileSections );
+		$assertion	= FileReader::load( $this->fileSections );
 		$this->sections->setProperty( "key1", "value1", "section1" );
-		$creation	= FS_File_Reader::load( $this->fileSections );
+		$creation	= FileReader::load( $this->fileSections );
 	}
 
 	/**

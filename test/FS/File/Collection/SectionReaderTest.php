@@ -1,19 +1,22 @@
 <?php
+declare( strict_types = 1 );
 /**
- *	TestUnit of Yaml Reader.
- *	@package		Tests.file.list
+ *	TestUnit of Collection Section Reader.
+ *	@package		Tests.FS.File.Collection
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
-declare( strict_types = 1 );
 
+namespace CeusMedia\Common\Test\FS\File\Collection;
+
+use CeusMedia\Common\FS\File\Collection\SectionReader;
 use CeusMedia\Common\Test\BaseCase;
 
 /**
- *	TestUnit of Yaml Reader.
- *	@package		Tests.file.list
+ *	TestUnit of Collection Section Reader.
+ *	@package		Tests.FS.File.Collection
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
-class Test_FS_File_List_SectionReaderTest extends BaseCase
+class SectionReaderTest extends BaseCase
 {
 	/**	@var	string		$fileName		File Name of Test File */
 	private $fileName;
@@ -36,14 +39,14 @@ class Test_FS_File_List_SectionReaderTest extends BaseCase
 
 	public function testRead()
 	{
-		$reader		= new FS_File_List_SectionReader( $this->fileName );
+		$reader		= new SectionReader( $this->fileName );
 		$creation	= $reader->read();
 		$this->assertEquals( $this->sectionList, $creation );
 	}
 
 	public function testLoad()
 	{
-		$creation	= FS_File_List_SectionReader::load( $this->fileName );
+		$creation	= SectionReader::load( $this->fileName );
 		$this->assertEquals( $this->sectionList, $creation );
 	}
 }

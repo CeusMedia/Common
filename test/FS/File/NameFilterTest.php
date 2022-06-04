@@ -1,21 +1,22 @@
 <?php
+declare( strict_types = 1 );
 /**
  *	TestUnit of FS_File_NameFilter.
- *	@package		Tests.File
+ *	@package		Tests.FS.File
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			15.06.2008
  */
-declare( strict_types = 1 );
 
+namespace CeusMedia\Common\Test\FS\File;
+
+use CeusMedia\Common\FS\File\NameFilter;
 use CeusMedia\Common\Test\BaseCase;
 
 /**
  *	TestUnit of FS_File_NameFilter.
- *	@package		Tests.File
+ *	@package		Tests.FS.File
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			15.06.2008
  */
-class Test_FS_File_NameFilterTest extends BaseCase
+class NameFilterTest extends BaseCase
 {
 	/**
 	 *	Setup for every Test.
@@ -44,7 +45,7 @@ class Test_FS_File_NameFilterTest extends BaseCase
 	public function testConstructException()
 	{
 		$this->expectException( 'RuntimeException' );
-		$index	= new FS_File_NameFilter( "not_existing", "not_relevant" );
+		$index	= new NameFilter( "not_existing", "not_relevant" );
 	}
 
 	/**
@@ -55,7 +56,7 @@ class Test_FS_File_NameFilterTest extends BaseCase
 	public function testAccept()
 	{
 		$search	= "NameFilterTest.php";
-		$filter	= new FS_File_NameFilter( $this->path, $search );
+		$filter	= new NameFilter( $this->path, $search );
 
 		$files	= array();
 		foreach( $filter as $entry )
@@ -66,7 +67,7 @@ class Test_FS_File_NameFilterTest extends BaseCase
 		$this->assertEquals( $assertion, $creation );
 
 		$search	= "not_existing_file";
-		$filter	= new FS_File_NameFilter( $this->path, $search );
+		$filter	= new NameFilter( $this->path, $search );
 
 		$files	= array();
 		foreach( $filter as $entry )

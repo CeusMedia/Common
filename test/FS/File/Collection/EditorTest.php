@@ -1,19 +1,23 @@
 <?php
+declare( strict_types = 1 );
 /**
- *	TestUnit of List Editor
- *	@package		Tests.file.list
+ *	TestUnit of Collection Editor
+ *	@package		Tests.FS.File.Collection
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
-declare( strict_types = 1 );
 
+namespace CeusMedia\Common\Test\FS\File\Collection;
+
+use CeusMedia\Common\FS\File\Collection\Editor;
+use CeusMedia\Common\FS\File\Collection\Writer;
 use CeusMedia\Common\Test\BaseCase;
 
 /**
- *	TestUnit of List Editor.
- *	@package		Tests.file.list
+ *	TestUnit of Collection Editor.
+ *	@package		Tests.FS.File.Collection
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
-class Test_FS_File_List_EditorTest extends BaseCase
+class EditorTest extends BaseCase
 {
 	/**	@var	string		$fileName		URL of Archive File Name */
 
@@ -25,8 +29,8 @@ class Test_FS_File_List_EditorTest extends BaseCase
 	public function setUp(): void
 	{
 		$this->fileName	= dirname( __FILE__ )."/edit.list";
-		FS_File_List_Writer::save( $this->fileName, array( "line1", "line2" ) );
-		$this->editor	= new FS_File_List_Editor( $this->fileName );
+		Writer::save( $this->fileName, array( "line1", "line2" ) );
+		$this->editor	= new Editor( $this->fileName );
 	}
 
 	/**
@@ -41,7 +45,7 @@ class Test_FS_File_List_EditorTest extends BaseCase
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= array( "line1", "line2", "line3" );
-		$creation	= FS_File_List_Editor::read( $this->fileName );
+		$creation	= Editor::read( $this->fileName );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= TRUE;
@@ -49,7 +53,7 @@ class Test_FS_File_List_EditorTest extends BaseCase
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= array( "line1", "line2", "line3", "line4" );
-		$creation	= FS_File_List_Editor::read( $this->fileName );
+		$creation	= Editor::read( $this->fileName );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -118,7 +122,7 @@ class Test_FS_File_List_EditorTest extends BaseCase
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= array( "line2" );
-		$creation	= FS_File_List_Editor::read( $this->fileName );
+		$creation	= Editor::read( $this->fileName );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -146,7 +150,7 @@ class Test_FS_File_List_EditorTest extends BaseCase
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= array( "line1" );
-		$creation	= FS_File_List_Editor::read( $this->fileName );
+		$creation	= Editor::read( $this->fileName );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= TRUE;
@@ -154,7 +158,7 @@ class Test_FS_File_List_EditorTest extends BaseCase
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= array();
-		$creation	= FS_File_List_Editor::read( $this->fileName );
+		$creation	= Editor::read( $this->fileName );
 		$this->assertEquals( $assertion, $creation );
 	}
 

@@ -1,21 +1,24 @@
 <?php
-/**
- *	TestUnit of FS_File_StaticCache.
- *	@package		Tests.file
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			19.04.2009
- */
 declare( strict_types = 1 );
+/**
+ *	TestUnit of FS_File_StaticCache.
+ *	@package		Tests.FS.File
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ */
 
+namespace CeusMedia\Common\Test\FS\File;
+
+use CeusMedia\Common\FS\File\Cache;
+use CeusMedia\Common\FS\File\StaticCache;
 use CeusMedia\Common\Test\BaseCase;
+use CeusMedia\Common\Test\MockAntiProtection;
 
 /**
  *	TestUnit of FS_File_StaticCache.
- *	@package		Tests.file
+ *	@package		Tests.FS.File
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			19.04.2009
  */
-class Test_FS_File_StaticCacheTest extends BaseCase
+class StaticCacheTest extends BaseCase
 {
 	/**
 	 *	Setup for every Test.
@@ -24,7 +27,7 @@ class Test_FS_File_StaticCacheTest extends BaseCase
 	 */
 	public function setUp(): void
 	{
-		Test_MockAntiProtection::createMockClass( 'FS_File_StaticCache' );
+		MockAntiProtection::createMockClass( StaticCache::class );
 		$this->path			= dirname( __FILE__ )."/";
 		$this->pathCache	= $this->path."__cacheTestPath/";
 		if( !file_exists( $this->pathCache ) )
@@ -63,13 +66,13 @@ class Test_FS_File_StaticCacheTest extends BaseCase
 	 */
 	public function testCleanUp()
 	{
-		FS_File_StaticCache::init( $this->pathCache, 1 );
+		StaticCache::init( $this->pathCache, 1 );
 		$fileName	= $this->pathCache."test.serial";
 		file_put_contents( $fileName, "test" );
 		touch( $fileName, time() - 10 );
 
 		$assertion	= 1;
-		$creation	= FS_File_StaticCache::cleanUp();
+		$creation	= StaticCache::cleanUp();
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= FALSE;
@@ -85,8 +88,8 @@ class Test_FS_File_StaticCacheTest extends BaseCase
 	public function testCleanUpException1()
 	{
 		$this->expectException( 'InvalidArgumentException' );
-		FS_File_StaticCache::init( $this->pathCache );
-		FS_File_StaticCache::cleanUp();
+		StaticCache::init( $this->pathCache );
+		StaticCache::cleanUp();
 	}
 
 	/**
@@ -97,8 +100,8 @@ class Test_FS_File_StaticCacheTest extends BaseCase
 	public function testCleanUpException2()
 	{
 		$this->expectException( 'InvalidArgumentException' );
-		FS_File_StaticCache::init( $this->pathCache, 0 );
-		FS_File_StaticCache::cleanUp();
+		StaticCache::init( $this->pathCache, 0 );
+		StaticCache::cleanUp();
 	}
 
 	/**
@@ -108,14 +111,14 @@ class Test_FS_File_StaticCacheTest extends BaseCase
 	 */
 	public function testCount()
 	{
-		FS_File_StaticCache::init( $this->pathCache, 1 );
-		FS_File_StaticCache::set( 'test1', 'value1' );
-		FS_File_StaticCache::set( 'test2', 'value2' );
-		FS_File_StaticCache::set( 'test3', 'value3' );
+		StaticCache::init( $this->pathCache, 1 );
+		StaticCache::set( 'test1', 'value1' );
+		StaticCache::set( 'test2', 'value2' );
+		StaticCache::set( 'test3', 'value3' );
 		file_put_contents( $this->pathCache."notCacheFile.txt", "test" );
 
 		$assertion	= 3;
-		$creation	= FS_File_StaticCache::count();
+		$creation	= StaticCache::count();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -126,23 +129,23 @@ class Test_FS_File_StaticCacheTest extends BaseCase
 	 */
 	public function testFlush()
 	{
-		FS_File_StaticCache::init( $this->pathCache, 1 );
-		FS_File_StaticCache::set( 'test1', 'value1' );
-		FS_File_StaticCache::set( 'test2', 'value2' );
-		FS_File_StaticCache::set( 'test3', 'value3' );
+		StaticCache::init( $this->pathCache, 1 );
+		StaticCache::set( 'test1', 'value1' );
+		StaticCache::set( 'test2', 'value2' );
+		StaticCache::set( 'test3', 'value3' );
 		$fileName	= $this->pathCache."notCacheFile.txt";
 		file_put_contents( $fileName, "test" );
 
 		$assertion	= 3;
-		$creation	= FS_File_StaticCache::count();
+		$creation	= StaticCache::count();
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= 3;
-		$creation	= FS_File_StaticCache::flush();
+		$creation	= StaticCache::flush();
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= 0;
-		$creation	= FS_File_StaticCache::count();
+		$creation	= StaticCache::count();
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= TRUE;
@@ -157,9 +160,9 @@ class Test_FS_File_StaticCacheTest extends BaseCase
 	 */
 	public function testGet1()
 	{
-		FS_File_StaticCache::init( $this->pathCache, 1 );
+		StaticCache::init( $this->pathCache, 1 );
 		$assertion	= NULL;
-		$creation	= FS_File_StaticCache::get( 'testKey' );
+		$creation	= StaticCache::get( 'testKey' );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -170,17 +173,17 @@ class Test_FS_File_StaticCacheTest extends BaseCase
 	 */
 	public function testGet2()
 	{
-		FS_File_StaticCache::init( $this->pathCache, 1 );
-		FS_File_StaticCache::set( 'testKey', "testValue" );
+		StaticCache::init( $this->pathCache, 1 );
+		StaticCache::set( 'testKey', "testValue" );
 
 		$assertion	= "testValue";
-		$creation	= FS_File_StaticCache::get( 'testKey' );
+		$creation	= StaticCache::get( 'testKey' );
 		$this->assertEquals( $assertion, $creation );
 
-		FS_File_StaticCache::set( 'testKey', "testValue2" );
+		StaticCache::set( 'testKey', "testValue2" );
 
 		$assertion	= "testValue2";
-		$creation	= FS_File_StaticCache::get( 'testKey' );
+		$creation	= StaticCache::get( 'testKey' );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -191,12 +194,12 @@ class Test_FS_File_StaticCacheTest extends BaseCase
 	 */
 	public function testGet3()
 	{
-		FS_File_StaticCache::init( $this->pathCache, 1 );
-		FS_File_StaticCache::set( 'testKey', "testValue" );
+		StaticCache::init( $this->pathCache, 1 );
+		StaticCache::set( 'testKey', "testValue" );
 
-		FS_File_StaticCache::init( $this->pathCache, 1 );
+		StaticCache::init( $this->pathCache, 1 );
 		$assertion	= "testValue";
-		$creation	= FS_File_StaticCache::get( 'testKey' );
+		$creation	= StaticCache::get( 'testKey' );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -208,12 +211,12 @@ class Test_FS_File_StaticCacheTest extends BaseCase
 	 */
 	public function testGet4()
 	{
-		FS_File_StaticCache::init( $this->pathCache, 1 );
-		FS_File_StaticCache::set( 'testKey', "testValue" );
+		StaticCache::init( $this->pathCache, 1 );
+		StaticCache::set( 'testKey', "testValue" );
 
 		sleep( 1 );
 		$assertion	= NULL;
-		$creation	= FS_File_StaticCache::get( 'testKey' );
+		$creation	= StaticCache::get( 'testKey' );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -224,9 +227,9 @@ class Test_FS_File_StaticCacheTest extends BaseCase
 	 */
 	public function testHas1()
 	{
-		FS_File_StaticCache::init( $this->pathCache, 1 );
+		StaticCache::init( $this->pathCache, 1 );
 		$assertion	= FALSE;
-		$creation	= FS_File_StaticCache::has( 'testKey' );
+		$creation	= StaticCache::has( 'testKey' );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -237,17 +240,17 @@ class Test_FS_File_StaticCacheTest extends BaseCase
 	 */
 	public function testHas2()
 	{
-		FS_File_StaticCache::init( $this->pathCache, 1 );
-		FS_File_StaticCache::set( 'testKey', "testValue" );
+		StaticCache::init( $this->pathCache, 1 );
+		StaticCache::set( 'testKey', "testValue" );
 
 		$assertion	= TRUE;
-		$creation	= FS_File_StaticCache::has( 'testKey' );
+		$creation	= StaticCache::has( 'testKey' );
 		$this->assertEquals( $assertion, $creation );
 
-		FS_File_StaticCache::set( 'testKey', FALSE );
+		StaticCache::set( 'testKey', FALSE );
 
 		$assertion	= TRUE;
-		$creation	= FS_File_StaticCache::has( 'testKey' );
+		$creation	= StaticCache::has( 'testKey' );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -258,12 +261,12 @@ class Test_FS_File_StaticCacheTest extends BaseCase
 	 */
 	public function testHas3()
 	{
-		FS_File_StaticCache::init( $this->pathCache, 1 );
-		FS_File_StaticCache::set( 'testKey', "testValue" );
+		StaticCache::init( $this->pathCache, 1 );
+		StaticCache::set( 'testKey', "testValue" );
 
-		FS_File_StaticCache::init( $this->pathCache, 1 );
+		StaticCache::init( $this->pathCache, 1 );
 		$assertion	= TRUE;
-		$creation	= FS_File_StaticCache::has( 'testKey' );
+		$creation	= StaticCache::has( 'testKey' );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -274,12 +277,12 @@ class Test_FS_File_StaticCacheTest extends BaseCase
 	 */
 	public function testHas4()
 	{
-		FS_File_StaticCache::init( $this->pathCache, 1 );
-		FS_File_StaticCache::set( 'testKey', "testValue" );
+		StaticCache::init( $this->pathCache, 1 );
+		StaticCache::set( 'testKey', "testValue" );
 
 		sleep( 1 );
 		$assertion	= FALSE;
-		$creation	= FS_File_StaticCache::has( 'testKey' );
+		$creation	= StaticCache::has( 'testKey' );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -290,9 +293,9 @@ class Test_FS_File_StaticCacheTest extends BaseCase
 	 */
 	public function testInit()
 	{
-		Test_FS_File_StaticCache_MockAntiProtection::init( $this->pathCache );
-		$assertion	= 'FS_File_Cache';
-		$creation	= get_class( Test_FS_File_StaticCache_MockAntiProtection::getProtectedStaticVar( 'store' ) );
+		StaticCacheMockAntiProtection::init( $this->pathCache );
+		$assertion	= Cache::class;
+		$creation	= get_class( StaticCacheMockAntiProtection::getProtectedStaticVar( 'store' ) );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -303,15 +306,15 @@ class Test_FS_File_StaticCacheTest extends BaseCase
 	 */
 	public function testRemove()
 	{
-		FS_File_StaticCache::init( $this->pathCache, 1 );
-		FS_File_StaticCache::set( 'testKey', "testValue" );
+		StaticCache::init( $this->pathCache, 1 );
+		StaticCache::set( 'testKey', "testValue" );
 
 		$assertion	= TRUE;
-		$creation	= FS_File_StaticCache::remove( 'testKey' );
+		$creation	= StaticCache::remove( 'testKey' );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= FALSE;
-		$creation	= FS_File_StaticCache::has( 'testKey' );
+		$creation	= StaticCache::has( 'testKey' );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -322,10 +325,10 @@ class Test_FS_File_StaticCacheTest extends BaseCase
 	 */
 	public function testSet()
 	{
-		Test_FS_File_StaticCache_MockAntiProtection::init( $this->pathCache );
-		Test_FS_File_StaticCache_MockAntiProtection::set( 'testKey', "testValue" );
+		StaticCacheMockAntiProtection::init( $this->pathCache );
+		StaticCacheMockAntiProtection::set( 'testKey', "testValue" );
 
-		$store		= Test_FS_File_StaticCache_MockAntiProtection::getProtectedStaticVar( 'store' );
+		$store		= StaticCacheMockAntiProtection::getProtectedStaticVar( 'store' );
 
 		$assertion	= "testValue";
 		$creation	= $store->get( 'testKey' );

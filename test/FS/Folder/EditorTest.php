@@ -1,25 +1,22 @@
 <?php
-/**
- *	TestUnit of Folder Editor.
- *	@package		Tests.folder
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			21.04.2008
- *
- */
 declare( strict_types = 1 );
+/**
+ *	TestUnit of Folder Editor.
+ *	@package		Tests.FS.Folder
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ */
 
-use CeusMedia\Common\Test\BaseCase;
+namespace CeusMedia\Common\Test\FS\Folder;
 
-require_once __DIR__.'/TestCase.php';
+use CeusMedia\Common\FS\Folder\Editor;
+use CeusMedia\Common\Test\FS\Folder\TestCase;
 
 /**
  *	TestUnit of Folder Editor.
- *	@package		Tests.folder
+ *	@package		Tests.FS.Folder
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			21.04.2008
- *
  */
-class Test_FS_Folder_EditorTest extends Test_FS_Folder_TestCase
+class EditorTest extends TestCase
 {
 	/**
 	 *	Setup for every Test.
@@ -30,7 +27,7 @@ class Test_FS_Folder_EditorTest extends Test_FS_Folder_TestCase
 	{
 		$this->tearDown();
 		parent::setUp();
-		$this->editor	= new FS_Folder_Editor( $this->folder );
+		$this->editor	= new Editor( $this->folder );
 
 	}
 
@@ -58,11 +55,11 @@ class Test_FS_Folder_EditorTest extends Test_FS_Folder_TestCase
 	public function testCreateFolder()
 	{
 		$assertion	= TRUE;
-		$creation	= FS_Folder_Editor::createFolder( $this->path."created" );
+		$creation	= Editor::createFolder( $this->path."created" );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= TRUE;
-		$creation	= FS_Folder_Editor::createFolder( $this->path."created/sub1/sub1sub2" );
+		$creation	= Editor::createFolder( $this->path."created/sub1/sub1sub2" );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -110,11 +107,11 @@ class Test_FS_Folder_EditorTest extends Test_FS_Folder_TestCase
 	public function testCopyFolder()
 	{
 		$assertion	= 31;
-		$creation	= FS_Folder_Editor::copyFolder( $this->path."folder", $this->path."copy", FALSE, FALSE );
+		$creation	= Editor::copyFolder( $this->path."folder", $this->path."copy", FALSE, FALSE );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= 21;
-		$creation	= FS_Folder_Editor::copyFolder( $this->path."folder", $this->path."copy", TRUE, FALSE );
+		$creation	= Editor::copyFolder( $this->path."folder", $this->path."copy", TRUE, FALSE );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -126,8 +123,8 @@ class Test_FS_Folder_EditorTest extends Test_FS_Folder_TestCase
 	public function testCopyFolderException()
 	{
 		$this->expectException( 'RuntimeException' );
-		FS_Folder_Editor::copyFolder( $this->path."folder", $this->path."copy" );
-		FS_Folder_Editor::copyFolder( $this->path."folder", $this->path."copy" );
+		Editor::copyFolder( $this->path."folder", $this->path."copy" );
+		Editor::copyFolder( $this->path."folder", $this->path."copy" );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -139,7 +136,7 @@ class Test_FS_Folder_EditorTest extends Test_FS_Folder_TestCase
 	public function testMove()
 	{
 		$this->editor->copy( $this->path."copy" );
-		$editor	= new FS_Folder_Editor( $this->path."copy" );
+		$editor	= new Editor( $this->path."copy" );
 
 		$assertion	= TRUE;
 		$creation	= $editor->move( $this->path."moved", FALSE );
@@ -152,7 +149,7 @@ class Test_FS_Folder_EditorTest extends Test_FS_Folder_TestCase
 
 		$this->removeFolder( $this->path."moved", TRUE );
 		$this->editor->copy( $this->path."copy" );
-		$editor	= new FS_Folder_Editor( $this->path."copy" );
+		$editor	= new Editor( $this->path."copy" );
 
 		$assertion	= TRUE;
 		$creation	= $editor->move( $this->path."moved", TRUE );
@@ -165,7 +162,7 @@ class Test_FS_Folder_EditorTest extends Test_FS_Folder_TestCase
 
 		$this->removeFolder( $this->path."moved", TRUE );
 		$this->editor->copy( $this->path."copy" );
-		$editor	= new FS_Folder_Editor( $this->path."copy" );
+		$editor	= new Editor( $this->path."copy" );
 
 		$assertion	= FALSE;
 		$creation	= $editor->move( $this->path."copy", TRUE );
@@ -182,11 +179,11 @@ class Test_FS_Folder_EditorTest extends Test_FS_Folder_TestCase
 		$this->editor->createFolder( $this->path."copy" );
 
 		$assertion	= TRUE;
-		$creation	= FS_Folder_Editor::moveFolder( $this->path."copy", $this->path."test" );
+		$creation	= Editor::moveFolder( $this->path."copy", $this->path."test" );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= FALSE;
-		$creation	= FS_Folder_Editor::moveFolder( $this->path."test", $this->path."test" );
+		$creation	= Editor::moveFolder( $this->path."test", $this->path."test" );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -198,11 +195,11 @@ class Test_FS_Folder_EditorTest extends Test_FS_Folder_TestCase
 	public function testMoveFolderException()
 	{
 		$this->editor->createFolder( $this->path."copy" );
-		FS_Folder_Editor::moveFolder( $this->path."copy", $this->path."test" );
+		Editor::moveFolder( $this->path."copy", $this->path."test" );
 		$this->editor->createFolder( $this->path."copy" );
 
 		$this->expectException( 'RuntimeException' );
-		FS_Folder_Editor::moveFolder( $this->path."copy", $this->path."test" );
+		Editor::moveFolder( $this->path."copy", $this->path."test" );
 	}
 
 	/**
@@ -213,7 +210,7 @@ class Test_FS_Folder_EditorTest extends Test_FS_Folder_TestCase
 	public function testRename()
 	{
 		$this->editor->copy( $this->path."rename" );
-		$editor	= new FS_Folder_Editor( $this->path."rename" );
+		$editor	= new Editor( $this->path."rename" );
 
 		$assertion	= TRUE;
 		$creation	= $editor->rename( $this->path."renamed" );
@@ -230,7 +227,7 @@ class Test_FS_Folder_EditorTest extends Test_FS_Folder_TestCase
 
 		$this->removeFolder( $this->path."renamed", TRUE );
 		$this->editor->copy( $this->path."rename" );
-		$editor	= new FS_Folder_Editor( $this->path."rename" );
+		$editor	= new Editor( $this->path."rename" );
 
 		$assertion	= TRUE;
 		$creation	= $editor->rename( "renamed" );
@@ -255,7 +252,7 @@ class Test_FS_Folder_EditorTest extends Test_FS_Folder_TestCase
 		$this->editor->createFolder( $this->path."test1" );
 
 		$assertion	= TRUE;
-		$creation	= FS_Folder_Editor::renameFolder( $this->path."test1", "test2" );
+		$creation	= Editor::renameFolder( $this->path."test1", "test2" );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= TRUE;
@@ -263,7 +260,7 @@ class Test_FS_Folder_EditorTest extends Test_FS_Folder_TestCase
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= FALSE;
-		$creation	= FS_Folder_Editor::renameFolder( $this->path."folder", $this->path."folder" );
+		$creation	= Editor::renameFolder( $this->path."folder", $this->path."folder" );
 		$this->assertEquals( $assertion, $creation );
 
 		rmDir( $this->path."test2" );
@@ -277,7 +274,7 @@ class Test_FS_Folder_EditorTest extends Test_FS_Folder_TestCase
 	public function testRenameFolderException1()
 	{
 		$this->expectException( 'RuntimeException' );
-		FS_Folder_Editor::renameFolder( "not_existing", "not_relevant" );
+		Editor::renameFolder( "not_existing", "not_relevant" );
 	}
 
 	/**
@@ -287,11 +284,11 @@ class Test_FS_Folder_EditorTest extends Test_FS_Folder_TestCase
 	 */
 	public function testRenameFolderException2()
 	{
-		FS_Folder_Editor::createFolder( $this->path."test" );
-		FS_Folder_Editor::createFolder( $this->path."renamed" );
+		Editor::createFolder( $this->path."test" );
+		Editor::createFolder( $this->path."renamed" );
 
 		$this->expectException( 'RuntimeException' );
-		FS_Folder_Editor::renameFolder( $this->path."test", "renamed" );
+		Editor::renameFolder( $this->path."test", "renamed" );
 	}
 
 	/**
@@ -302,7 +299,7 @@ class Test_FS_Folder_EditorTest extends Test_FS_Folder_TestCase
 	public function testRenameFolderException()
 	{
 		$this->expectException( 'RuntimeException' );
-		FS_Folder_Editor::renameFolder( "not_existing", "not_relevant" );
+		Editor::renameFolder( "not_existing", "not_relevant" );
 	}
 
 	/**
@@ -312,9 +309,9 @@ class Test_FS_Folder_EditorTest extends Test_FS_Folder_TestCase
 	 */
 	public function testRemove()
 	{
-		FS_Folder_Editor::copyFolder( $this->path."folder", $this->path."remove" );
+		Editor::copyFolder( $this->path."folder", $this->path."remove" );
 
-		$editor	= new FS_Folder_Editor( $this->path."remove" );
+		$editor	= new Editor( $this->path."remove" );
 
 		$assertion	= 16;
 		$creation	= $editor->remove( TRUE );
@@ -336,7 +333,7 @@ class Test_FS_Folder_EditorTest extends Test_FS_Folder_TestCase
 		$this->assertTrue( file_exists( $this->path."remove" ) );
 
 		$assertion	= 16;
-		$creation	= FS_Folder_Editor::removeFolder( $this->path."remove", TRUE );
+		$creation	= Editor::removeFolder( $this->path."remove", TRUE );
 		$this->assertEquals( $assertion, $creation );
 
 		$this->assertFalse( file_exists( $this->path."remove" ) );
@@ -352,6 +349,6 @@ class Test_FS_Folder_EditorTest extends Test_FS_Folder_TestCase
 		$this->editor->copyFolder( $this->path."folder", $this->path."remove" );
 
 		$this->expectException( 'RuntimeException' );
-		FS_Folder_Editor::removeFolder( $this->path."remove" );
+		Editor::removeFolder( $this->path."remove" );
 	}
 }

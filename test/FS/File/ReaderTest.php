@@ -1,19 +1,22 @@
 <?php
+declare( strict_types = 1 );
 /**
  *	TestUnit of File Reader.
- *	@package		Tests.file
+ *	@package		Tests.FS.File
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
-declare( strict_types = 1 );
 
+namespace CeusMedia\Common\Test\FS\File;
+
+use CeusMedia\Common\FS\File\Reader;
 use CeusMedia\Common\Test\BaseCase;
 
 /**
  *	TestUnit of File Reader.
- *	@package		Tests.file
+ *	@package		Tests.FS.File
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
-class Test_FS_File_ReaderTest extends BaseCase
+class ReaderTest extends BaseCase
 {
 	/**	@var	string		$fileName		File Name of Test File */
 	private $fileName;
@@ -28,7 +31,7 @@ class Test_FS_File_ReaderTest extends BaseCase
 	public function setUp(): void
 	{
 		$this->fileName	= dirname( __FILE__ )."/reader.test";
-		$this->reader	= new FS_File_Reader( $this->fileName );
+		$this->reader	= new Reader( $this->fileName );
 	}
 
 /*	public function testGetMimeType(){
@@ -62,7 +65,7 @@ class Test_FS_File_ReaderTest extends BaseCase
 		$creation	= $this->reader->exists();
 		$this->assertEquals( $assertion, $creation );
 
-		$reader		= new FS_File_Reader( "no_existing" );
+		$reader		= new Reader( "no_existing" );
 		$assertion	= false;
 		$creation	= $reader->exists();
 		$this->assertEquals( $assertion, $creation );
@@ -131,7 +134,7 @@ class Test_FS_File_ReaderTest extends BaseCase
 		$creation	= $this->reader->getPath();
 		$this->assertEquals( $assertion, $creation );
 
-		$reader		= new FS_File_Reader( "test" );
+		$reader		= new Reader( "test" );
 		$assertion	= str_replace( "\\", "/", dirname( __FILE__ ) )."/";
 		$creation	= $this->reader->getPath();
 		$this->assertEquals( $assertion, $creation );
@@ -152,7 +155,7 @@ class Test_FS_File_ReaderTest extends BaseCase
 	 */
 	public function testGetSize()
 	{
-		$reader	= new FS_File_Reader( __FILE__ );
+		$reader	= new Reader( __FILE__ );
 		$size	= filesize( __FILE__ );
 
 		$assertion	= $size;
@@ -191,7 +194,7 @@ class Test_FS_File_ReaderTest extends BaseCase
 		$creation	= $this->reader->isReadable();
 		$this->assertEquals( $assertion, $creation );
 
-		$reader		= new FS_File_Reader( "not_existing" );
+		$reader		= new Reader( "not_existing" );
 		$assertion	= false;
 		$creation	= $reader->isReadable();
 		$this->assertEquals( $assertion, $creation );
@@ -205,7 +208,7 @@ class Test_FS_File_ReaderTest extends BaseCase
 	public function testLoad()
 	{
 		$assertion	= $this->fileContent;
-		$creation	= FS_File_Reader::load( $this->fileName );
+		$creation	= Reader::load( $this->fileName );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -217,7 +220,7 @@ class Test_FS_File_ReaderTest extends BaseCase
 	public function testLoadException()
 	{
 		$this->expectException( 'RuntimeException' );
-		FS_File_Reader::load( "not_existing" );
+		Reader::load( "not_existing" );
 	}
 
 	/**
@@ -228,7 +231,7 @@ class Test_FS_File_ReaderTest extends BaseCase
 	public function testLoadArray()
 	{
 		$assertion	= explode( "\n", $this->fileContent );
-		$creation	= FS_File_Reader::loadArray( $this->fileName );
+		$creation	= Reader::loadArray( $this->fileName );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -240,7 +243,7 @@ class Test_FS_File_ReaderTest extends BaseCase
 	public function testLoadArrayException()
 	{
 		$this->expectException( 'RuntimeException' );
-		FS_File_Reader::loadArray( "not_existing" );
+		Reader::loadArray( "not_existing" );
 	}
 
 	/**
@@ -263,7 +266,7 @@ class Test_FS_File_ReaderTest extends BaseCase
 	public function testReadStringException()
 	{
 		$this->expectException( 'RuntimeException' );
-		$reader	= new FS_File_Reader( "not_existing" );
+		$reader	= new Reader( "not_existing" );
 		$reader->readString();
 	}
 
@@ -287,7 +290,7 @@ class Test_FS_File_ReaderTest extends BaseCase
 	public function testReadArrayException()
 	{
 		$this->expectException( 'RuntimeException' );
-		$reader	= new FS_File_Reader( "not_existing" );
+		$reader	= new Reader( "not_existing" );
 		$reader->readArray();
 	}
 }

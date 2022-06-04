@@ -1,21 +1,22 @@
 <?php
+declare( strict_types = 1 );
 /**
  *	TestUnit of FS_File_RecursiveNameFilter.
- *	@package		Tests.file
+ *	@package		Tests.FS.File
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			15.06.2008
  */
-declare( strict_types = 1 );
 
+namespace CeusMedia\Common\Test\FS\File;
+
+use CeusMedia\Common\FS\File\RecursiveNameFilter;
 use CeusMedia\Common\Test\BaseCase;
 
 /**
  *	TestUnit of FS_File_RecursiveNameFilter.
- *	@package		Tests.file
+ *	@package		Tests.FS.File
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			15.06.2008
  */
-class Test_FS_File_RecursiveNameFilterTest extends BaseCase
+class RecursiveNameFilterTest extends BaseCase
 {
 	/**
 	 *	Setup for every Test.
@@ -57,7 +58,7 @@ class Test_FS_File_RecursiveNameFilterTest extends BaseCase
 	public function testConstructException()
 	{
 		$this->expectException( 'RuntimeException' );
-		$index	= new FS_File_RecursiveNameFilter( "not_existing", "not_relevant" );
+		$index	= new RecursiveNameFilter( "not_existing", "not_relevant" );
 	}
 
 	/**
@@ -68,7 +69,7 @@ class Test_FS_File_RecursiveNameFilterTest extends BaseCase
 	public function testAccept()
 	{
 		$search	= "test1.test";
-		$filter	= new FS_File_RecursiveNameFilter( $this->path, $search );
+		$filter	= new RecursiveNameFilter( $this->path, $search );
 
 		$files	= array();
 		foreach( $filter as $entry )
@@ -79,7 +80,7 @@ class Test_FS_File_RecursiveNameFilterTest extends BaseCase
 		$this->assertEquals( $assertion, $creation );
 
 		$search	= "not_existing_file";
-		$filter	= new FS_File_RecursiveNameFilter( $this->path, $search );
+		$filter	= new RecursiveNameFilter( $this->path, $search );
 
 		$files	= array();
 		foreach( $filter as $entry )

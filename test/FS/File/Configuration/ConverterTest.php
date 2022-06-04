@@ -1,21 +1,22 @@
 <?php
+declare( strict_types = 1 );
 /**
  *	TestUnit of FS_File_Configuration_Converter.
- *	@package		Tests.file.configuration
+ *	@package		Tests.FS.File.Configuration
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			08.05.2008
  */
-declare( strict_types = 1 );
 
+namespace CeusMedia\Common\Test\FS\Configuration;
+
+use CeusMedia\Common\FS\File\Configuration\Converter;
 use CeusMedia\Common\Test\BaseCase;
 
 /**
  *	TestUnit of FS_File_Configuration_Converter.
- *	@package		Tests.file.configuration
+ *	@package		Tests.FS.File.Configuration
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			08.05.2008
  */
-class Test_FS_File_Configuration_ConverterTest extends BaseCase
+class ConverterTest extends BaseCase
 {
 	/**
 	 *	Setup for every Test.
@@ -53,7 +54,7 @@ class Test_FS_File_Configuration_ConverterTest extends BaseCase
 		$targetFile	= $this->path."test.ini.json";
 		$assertFile	= $this->path."test.json";
 
-		$length		= FS_File_Configuration_Converter::convertIniToJson( $sourceFile, $targetFile );
+		$length		= Converter::convertIniToJson( $sourceFile, $targetFile );
 
 		$assertion	= TRUE;
 		$creation	= is_int( $length );
@@ -79,7 +80,7 @@ class Test_FS_File_Configuration_ConverterTest extends BaseCase
 		$targetFile	= $this->path."test.ini.xml";
 		$assertFile	= $this->path."test.xml";
 
-		$length		= FS_File_Configuration_Converter::convertIniToXml( $sourceFile, $targetFile );
+		$length		= Converter::convertIniToXml( $sourceFile, $targetFile );
 
 		$assertion	= TRUE;
 		$creation	= is_int( $length );
@@ -105,7 +106,7 @@ class Test_FS_File_Configuration_ConverterTest extends BaseCase
 		$targetFile	= $this->path."test.json.ini";
 		$assertFile	= $this->path."test.ini";
 
-		$length		= FS_File_Configuration_Converter::convertJsonToIni( $sourceFile, $targetFile );
+		$length		= Converter::convertJsonToIni( $sourceFile, $targetFile );
 
 		$assertion	= TRUE;
 		$creation	= is_int( $length );
@@ -131,7 +132,7 @@ class Test_FS_File_Configuration_ConverterTest extends BaseCase
 		$targetFile	= $this->path."test.json.xml";
 		$assertFile	= $this->path."test.xml";
 
-		$length		= FS_File_Configuration_Converter::convertJsonToXml( $sourceFile, $targetFile );
+		$length		= Converter::convertJsonToXml( $sourceFile, $targetFile );
 
 		$assertion	= TRUE;
 		$creation	= is_int( $length );
@@ -157,7 +158,7 @@ class Test_FS_File_Configuration_ConverterTest extends BaseCase
 		$targetFile	= $this->path."test.xml.ini";
 		$assertFile	= $this->path."test.ini";
 
-		$length		= FS_File_Configuration_Converter::convertXmlToIni( $sourceFile, $targetFile );
+		$length		= Converter::convertXmlToIni( $sourceFile, $targetFile );
 
 		$assertion	= TRUE;
 		$creation	= is_int( $length );
@@ -183,7 +184,7 @@ class Test_FS_File_Configuration_ConverterTest extends BaseCase
 		$targetFile	= $this->path."test.xml.json";
 		$assertFile	= $this->path."test.json";
 
-		$length		= FS_File_Configuration_Converter::convertXmlToJson( $sourceFile, $targetFile );
+		$length		= Converter::convertXmlToJson( $sourceFile, $targetFile );
 
 		$assertion	= TRUE;
 		$creation	= is_int( $length );

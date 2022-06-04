@@ -1,19 +1,23 @@
 <?php
-/**
- *	TestUnit of INI Reader.
- *	@package		Tests.file.ini
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- */
 declare( strict_types = 1 );
+/**
+ *	TestUnit of INI Reader.
+ *	@package		Tests.FS.File.INI
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ */
 
+namespace CeusMedia\Common\Test\FS\File\INI;
+
+use CeusMedia\Common\FS\File\INI\Reader;
 use CeusMedia\Common\Test\BaseCase;
+use Exception;
 
 /**
  *	TestUnit of INI Reader.
- *	@package		Tests.file.ini
+ *	@package		Tests.FS.File.INI
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
-class Test_FS_File_INI_ReaderTest extends BaseCase
+class ReaderTest extends BaseCase
 {
 	/**	@var	string		$fileName		File Name of Test File */
 	private $fileName;
@@ -27,8 +31,8 @@ class Test_FS_File_INI_ReaderTest extends BaseCase
 	{
 		$this->path		= dirname( __FILE__ )."/";
 		$this->fileName	= $this->path."reader.ini";
-		$this->list		= new FS_File_INI_Reader( $this->fileName );
-		$this->sections	= new FS_File_INI_Reader( $this->fileName, true );
+		$this->list		= new Reader( $this->fileName );
+		$this->sections	= new Reader( $this->fileName, true );
 
 	}
 
@@ -40,7 +44,7 @@ class Test_FS_File_INI_ReaderTest extends BaseCase
 			"key3"	=> "value3",
 			"key4"	=> "value4",
 		);
-		$reader		= new FS_File_INI_Reader( $this->fileName );
+		$reader		= new Reader( $this->fileName );
 		$creation	= $reader->toArray();
 		$this->assertEquals( $assertion, $creation );
 
@@ -55,14 +59,14 @@ class Test_FS_File_INI_ReaderTest extends BaseCase
 				"key4"	=> "value4",
 			),
 		);
-		$reader		= new FS_File_INI_Reader( $this->fileName, TRUE );
+		$reader		= new Reader( $this->fileName, TRUE );
 		$creation	= $reader->toArray();
 		$this->assertEquals( $assertion, $creation );
 	}
 
 	public function testContructNotReserved()
 	{
-		$reader		= new FS_File_INI_Reader( $this->path."reader.types.ini", FALSE, FALSE );
+		$reader		= new Reader( $this->path."reader.types.ini", FALSE, FALSE );
 		$assertion	= array(
 			'bool1'		=> "yes",
 			'bool2'		=> "true",
@@ -82,7 +86,7 @@ class Test_FS_File_INI_ReaderTest extends BaseCase
 
 	public function testContructReserved()
 	{
-		$reader		= new FS_File_INI_Reader( $this->path."reader.types.ini", FALSE, TRUE );
+		$reader		= new Reader( $this->path."reader.types.ini", FALSE, TRUE );
 		$assertion	= array(
 			'bool1'		=> TRUE,
 			'bool2'		=> TRUE,

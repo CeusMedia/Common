@@ -1,19 +1,24 @@
 <?php
-/**
- *	TestUnit of CLI_Command_BackgroundProcess.
- *	@package		Tests.
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- */
 declare( strict_types = 1 );
+/**
+ *	TestUnit of CLI_Command_BackgroundProcess.
+ *	@package		Tests.CLI.Command
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ */
 
+namespace CeusMedia\Common\Test\CLI;
+
+use CeusMedia\Common\CLI\Command\BackgroundProcess;
 use CeusMedia\Common\Test\BaseCase;
+use Exception;
+use InvalidArgumentException;
 
 /**
  *	TestUnit of CLI_Command_BackgroundProcess.
- *	@package		Tests.
+ *	@package		Tests.CLI.Command
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
-class Test_CLI_Command_BackgroundProcessTest extends BaseCase
+class BackgroundProcessTest extends BaseCase
 {
 	/**
 	 *	Setup for every Test.
@@ -22,7 +27,7 @@ class Test_CLI_Command_BackgroundProcessTest extends BaseCase
 	 */
 	public function setUp(): void
 	{
-		$this->process	= new CLI_Command_BackgroundProcess();
+		$this->process	= new BackgroundProcess();
 	}
 
 	/**
@@ -41,15 +46,15 @@ class Test_CLI_Command_BackgroundProcessTest extends BaseCase
 	 */
 	public function testNewInstance()
 	{
-		$assertion	= new CLI_Command_BackgroundProcess;
-		$creation	= CLI_Command_BackgroundProcess::newInstance();
+		$assertion	= new BackgroundProcess;
+		$creation	= BackgroundProcess::newInstance();
 		$this->assertEquals( $assertion, $creation );
 	}
 
 	public function testSetCommand()
 	{
 		$command	= 'ls -lah';
-		$process	= new Test_CLI_Command_BackgroundProcessInstance();
+		$process	= new BackgroundProcessInstance();
 		$process->setCommand( $command );
 
 		$assertion	= $command;
@@ -84,7 +89,7 @@ class Test_CLI_Command_BackgroundProcessTest extends BaseCase
 	}
 
 }
-class Test_CLI_Command_BackgroundProcessInstance extends CLI_Command_BackgroundProcess
+class BackgroundProcessInstance extends BackgroundProcess
 {
 	public function getProtectedVar( $varName )
 	{

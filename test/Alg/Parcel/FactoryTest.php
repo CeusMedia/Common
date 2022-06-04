@@ -1,13 +1,19 @@
 <?php
-/**
- *	TestUnit of Alg_Parcel_Factory.
- *	@package		Tests.alg.parcel
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			08.07.2008
- */
 declare( strict_types = 1 );
+/**
+ *	TestUnit of Alg_Parcel_Factory.
+ *	@package		Tests.alg.parcel
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ *	@since			08.07.2008
+ */
 
+namespace CeusMedia\Common\Test\Alg\Parcel;
+
+use CeusMedia\Common\Alg\Parcel\Factory as ParcelFactory;
+use CeusMedia\Common\Alg\Parcel\Packet as ParcelPacket;
 use CeusMedia\Common\Test\BaseCase;
+use CeusMedia\Common\Test\MockAntiProtection;
+use Exception;
 
 /**
  *	TestUnit of Alg_Parcel_Factory.
@@ -15,7 +21,7 @@ use CeusMedia\Common\Test\BaseCase;
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  *	@since			08.07.2008
  */
-class Test_Alg_Parcel_FactoryTest extends BaseCase
+class FactoryTest extends BaseCase
 {
 	/**
 	 *	Setup for every Test.
@@ -42,8 +48,8 @@ class Test_Alg_Parcel_FactoryTest extends BaseCase
 				'b'	=> 0.25,
 			),
 		);
-		Test_MockAntiProtection::createMockClass( "Alg_Parcel_Factory" );
-		$this->factory	= new Test_Alg_Parcel_Factory_MockAntiProtection( $this->packets, $this->articles, $this->volumes );
+		$this->factory	= MockAntiProtection::getInstance( ParcelFactory::class, $this->packets, $this->articles, $this->volumes );
+//		$this->factory	= new FactoryMockAntiProtection( $this->packets, $this->articles, $this->volumes );
 	}
 
 	/**
@@ -84,7 +90,7 @@ class Test_Alg_Parcel_FactoryTest extends BaseCase
 	 */
 	public function testProduce()
 	{
-		$packet		= new Alg_Parcel_Packet( 'large' );
+		$packet		= new ParcelPacket( 'large' );
 		$packet->addArticle( 'a', 0.1 );
 		$packet->addArticle( 'a', 0.1 );
 		$packet->addArticle( 'a', 0.1 );
@@ -129,7 +135,7 @@ class Test_Alg_Parcel_FactoryTest extends BaseCase
 		$this->factory->produce( "small", array( 'b' => 5 ) );
 	}
 }
-class Alg_Parcel_FactoryInstance extends Alg_Parcel_Factory
+class FactoryInstance extends ParcelFactory
 {
 	public function getProtectedVar( $varName )
 	{

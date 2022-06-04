@@ -1,21 +1,22 @@
 <?php
+declare( strict_types = 1 );
 /**
  *	TestUnit of FS_File_INI_Creator.
- *	@package		Tests.file.ini
+ *	@package		Tests.FS.File.INI
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			03.11.2008
  */
-declare( strict_types = 1 );
 
+namespace CeusMedia\Common\Test\FS\File\INI;
+
+use CeusMedia\Common\FS\File\INI\Creator;
 use CeusMedia\Common\Test\BaseCase;
 
 /**
  *	TestUnit of FS_File_INI_Creator.
- *	@package		Tests.file.ini
+ *	@package		Tests.FS.File.INI
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			03.11.2008
  */
-class Test_FS_File_INI_CreatorTest extends BaseCase
+class CreatorTest extends BaseCase
 {
 	/**
 	 *	Setup for every Test.
@@ -44,7 +45,7 @@ class Test_FS_File_INI_CreatorTest extends BaseCase
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= FS_File_INI_Creator::__construct();
+		$creation	= Creator::__construct();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -57,7 +58,7 @@ class Test_FS_File_INI_CreatorTest extends BaseCase
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= FS_File_INI_Creator::addProperty();
+		$creation	= Creator::addProperty();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -70,7 +71,7 @@ class Test_FS_File_INI_CreatorTest extends BaseCase
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= FS_File_INI_Creator::addPropertyToSection();
+		$creation	= Creator::addPropertyToSection();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -83,7 +84,7 @@ class Test_FS_File_INI_CreatorTest extends BaseCase
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= FS_File_INI_Creator::addSection();
+		$creation	= Creator::addSection();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -96,7 +97,7 @@ class Test_FS_File_INI_CreatorTest extends BaseCase
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= FS_File_INI_Creator::write();
+		$creation	= Creator::write();
 		$this->assertEquals( $assertion, $creation );
 	}
 }

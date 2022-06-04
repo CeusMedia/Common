@@ -1,4 +1,6 @@
 <?php
+declare( strict_types = 1 );
+
 /**
  *	TestUnit of LinkList
  *	@package		Tests.adt.list
@@ -10,6 +12,7 @@ namespace CeusMedia\Common\Test\ADT\JSON;
 use CeusMedia\Common\ADT\JSON\Builder;
 use CeusMedia\Common\Test\BaseCase;
 use CeusMedia\Common\Test\Object_;
+use InvalidArgumentException;
 
 /**
  *	TestUnit of LinkList
@@ -19,11 +22,11 @@ use CeusMedia\Common\Test\Object_;
 class BuilderTest extends BaseCase
 {
 	/**
-	 *	Constructor.
+	 *	Setup.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function __construct()
+	public function setUp(): void
 	{
 		$this->object		= new Object_();
 		$this->object->a	= "test";
@@ -75,7 +78,7 @@ class BuilderTest extends BaseCase
 	 */
 	public function testEncodeStaticException()
 	{
-		$this->setExpectedException( 'InvalidArgumentException' );
+		$this->expectException( InvalidArgumentException::class );
 		Builder::encode( dir( dirname( __FILE__ ) ) );
 	}
 }

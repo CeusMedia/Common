@@ -1,25 +1,26 @@
 <?php
+declare( strict_types = 1 );
 /**
  *	TestUnit of Predicate Validator.
- *	@package		Tests.alg.validation
+ *	@package		Tests.Alg.Validation
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			14.02.2008
  */
-declare( strict_types = 1 );
 
+namespace CeusMedia\Common\Test\Alg\Validation;
+
+use CeusMedia\Common\Alg\Validation\PredicateValidator;
 use CeusMedia\Common\Test\BaseCase;
 
 /**
  *	TestUnit of Predicate Validator.
- *	@package		Tests.alg.validation
+ *	@package		Tests.Alg.Validation
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			14.02.2008
  */
-class Test_Alg_Validation_PredicateValidatorTest extends BaseCase
+class PredicateValidatorTest extends BaseCase
 {
 	public function setUp(): void
 	{
-		$this->validator	= new Alg_Validation_PredicateValidator;
+		$this->validator	= new PredicateValidator;
 	}
 
 	public function testIsClass()
@@ -39,15 +40,12 @@ class Test_Alg_Validation_PredicateValidatorTest extends BaseCase
 		$assertion	= false;
 		$creation	= $this->validator->isClass( "123abc", "id" );
 		$this->assertEquals( $assertion, $creation );
+	}
 
-		$assertion	= false;
-		try{
-			$creation	= $this->validator->isClass( "123abc", "notexisting" );
-			$this->fail( 'An Exception has not been thrown.' );
-		}
-		catch( Exception $e )
-		{
-		}
+	public function testIsClassException()
+	{
+		$this->expectException( 'BadMethodCallException' );
+		$this->validator->isClass( "123abc", "notexisting" );
 	}
 
 	public function testValidate()

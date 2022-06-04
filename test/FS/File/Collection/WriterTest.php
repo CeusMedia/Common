@@ -1,19 +1,23 @@
 <?php
+declare( strict_types = 1 );
 /**
  *	TestUnit of List Writer.
- *	@package		Tests.file.list
+ *	@package		Tests.FS.File.Collection
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
-declare( strict_types = 1 );
 
+namespace CeusMedia\Common\Test\FS\File\Collection;
+
+use CeusMedia\Common\FS\File\Collection\Reader;
+use CeusMedia\Common\FS\File\Collection\Writer;
 use CeusMedia\Common\Test\BaseCase;
 
 /**
  *	TestUnit of List Writer.
- *	@package		Tests.file.list
+ *	@package		Tests.FS.File.Collection
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
-class Test_FS_File_List_WriterTest extends BaseCase
+class WriterTest extends BaseCase
 {
 	/**	@var	string		$fileName		File Name of Test File */
 	private $fileName;
@@ -26,7 +30,7 @@ class Test_FS_File_List_WriterTest extends BaseCase
 	public function setUp(): void
 	{
 		$this->fileName	= dirname( __FILE__ )."/writer.list";
-		$this->writer	= new FS_File_List_Writer( $this->fileName );
+		$this->writer	= new Writer( $this->fileName );
 	}
 
 	/**
@@ -51,7 +55,7 @@ class Test_FS_File_List_WriterTest extends BaseCase
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= array( "line1" );
-		$creation	= FS_File_List_Reader::read( $this->fileName );
+		$creation	= Reader::read( $this->fileName );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= TRUE;
@@ -59,7 +63,7 @@ class Test_FS_File_List_WriterTest extends BaseCase
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= array( "line1", "line2" );
-		$creation	= FS_File_List_Reader::read( $this->fileName );
+		$creation	= Reader::read( $this->fileName );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -90,7 +94,7 @@ class Test_FS_File_List_WriterTest extends BaseCase
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= array( "line2" );
-		$creation	= FS_File_List_Reader::read( $this->fileName );
+		$creation	= Reader::read( $this->fileName );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -122,7 +126,7 @@ class Test_FS_File_List_WriterTest extends BaseCase
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= array( "line1" );
-		$creation	= FS_File_List_Reader::read( $this->fileName );
+		$creation	= Reader::read( $this->fileName );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= TRUE;
@@ -130,7 +134,7 @@ class Test_FS_File_List_WriterTest extends BaseCase
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= array();
-		$creation	= FS_File_List_Reader::read( $this->fileName );
+		$creation	= Reader::read( $this->fileName );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -158,11 +162,11 @@ class Test_FS_File_List_WriterTest extends BaseCase
 			'line3',
 		);
 		$assertion	= TRUE;
-		$creation	= FS_File_List_Writer::save( $this->fileName, $lines );
+		$creation	= Writer::save( $this->fileName, $lines );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= $lines;
-		$creation	= FS_File_List_Reader::read( $this->fileName );
+		$creation	= Reader::read( $this->fileName );
 		$this->assertEquals( $assertion, $creation );
 	}
 }

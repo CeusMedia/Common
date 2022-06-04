@@ -1,19 +1,22 @@
 <?php
+declare( strict_types = 1 );
 /**
  *	TestUnit of Section INI Editor.
- *	@package		Tests.file.ini
+ *	@package		Tests.FS.File.INI
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
-declare( strict_types = 1 );
 
+namespace CeusMedia\Common\Test\FS\File\INI;
+
+use CeusMedia\Common\FS\File\INI\SectionEditor;
 use CeusMedia\Common\Test\BaseCase;
 
 /**
  *	TestUnit of Section INI Reader.
- *	@package		Tests.file.ini
+ *	@package		Tests.FS.File.INI
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
-class Test_FS_File_INI_SectionEditorTest extends BaseCase
+class SectionEditorTest extends BaseCase
 {
 	/**	@var	string		$fileName		File Name of Test File */
 	private $fileName;
@@ -28,7 +31,7 @@ class Test_FS_File_INI_SectionEditorTest extends BaseCase
 		$this->fileName		= dirname( __FILE__ )."/section.editor.ini";
 		$path	= dirname( $this->fileName )."/";
 		copy( $path."section.reader.ini", $path."section.editor.ini" );
-		$this->editor	= new FS_File_INI_SectionEditor( $this->fileName );
+		$this->editor	= new SectionEditor( $this->fileName );
 	}
 
 	/**

@@ -1,21 +1,23 @@
 <?php
-/**
- *	TestUnit of CLI_Command_ArgumentParser.
- *	@package		Tests.
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			24.10.2008
- */
 declare( strict_types = 1 );
+/**
+ *	TestUnit of CLI_Command_ArgumentParser.
+ *	@package		Tests.CLI.Command
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ */
 
+namespace CeusMedia\Common\Test\CLI;
+
+use CeusMedia\Common\CLI\Command\ArgumentParser;
 use CeusMedia\Common\Test\BaseCase;
+use Exception;
 
 /**
  *	TestUnit of CLI_Command_ArgumentParser.
- *	@package		Tests.
+ *	@package		Tests.CLI.Command
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			24.10.2008
  */
-class Test_CLI_Command_ArgumentParserTest extends BaseCase
+class ArgumentParserTest extends BaseCase
 {
 	/**
 	 *	Setup for every Test.
@@ -24,7 +26,7 @@ class Test_CLI_Command_ArgumentParserTest extends BaseCase
 	 */
 	public function setUp(): void
 	{
-		$this->parser	= new Test_CLI_Command_ArgumentParserInstance();
+		$this->parser	= new ArgumentParserInstance();
 	}
 
 	/**
@@ -117,7 +119,7 @@ class Test_CLI_Command_ArgumentParserTest extends BaseCase
 		);
 		$string		= "-a xyz -beta 123 -f Argument1 Argument2";
 
-		$parser	= new CLI_Command_ArgumentParser();
+		$parser	= new ArgumentParser();
 		$parser->setNumberOfMandatoryArguments( 2 );
 		$parser->setPossibleOptions( $options );
 		$parser->setShortcuts( $shortcuts );
@@ -240,7 +242,7 @@ class Test_CLI_Command_ArgumentParserTest extends BaseCase
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-class Test_CLI_Command_ArgumentParserInstance extends CLI_Command_ArgumentParser
+class ArgumentParserInstance extends ArgumentParser
 {
 	public function getProtectedVar( $varName )
 	{

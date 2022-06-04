@@ -1,21 +1,23 @@
 <?php
-/**
- *	TestUnit of FS_File_Cache.
- *	@package		Tests.file
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			19.04.2009
- */
 declare( strict_types = 1 );
+/**
+ *	TestUnit of FS_File_Cache.
+ *	@package		Tests.FS.File
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ */
 
+namespace CeusMedia\Common\Test\FS\File;
+
+use CeusMedia\Common\FS\File\Cache;
 use CeusMedia\Common\Test\BaseCase;
+use CeusMedia\Common\Test\MockAntiProtection;
 
 /**
  *	TestUnit of FS_File_Cache.
- *	@package		Tests.file
+ *	@package		Tests.FS.File
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			19.04.2009
  */
-final class Test_FS_File_CacheTest extends BaseCase
+final class CacheTest extends BaseCase
 {
 	/**
 	 *	Setup for every Test.
@@ -24,7 +26,7 @@ final class Test_FS_File_CacheTest extends BaseCase
 	 */
 	public function setUp(): void
 	{
-		Test_MockAntiProtection::createMockClass( 'FS_File_Cache' );
+		MockAntiProtection::createMockClass( Cache::class );
 		$this->path			= dirname( __FILE__ )."/";
 		$this->pathCache	= $this->path."__cacheTestPath/";
 		if( !file_exists( $this->pathCache ) )
@@ -63,7 +65,7 @@ final class Test_FS_File_CacheTest extends BaseCase
 	 */
 	public function test__construct1()
 	{
-		$mock		= new Test_FS_File_Cache_MockAntiProtection( $this->pathCache );
+		$mock		= new CacheMockAntiProtection( $this->pathCache );
 		$assertion	= $this->pathCache;
 		$creation	= $mock->getProtectedVar( 'path' );
 		$this->assertEquals( $assertion, $creation );
@@ -77,7 +79,7 @@ final class Test_FS_File_CacheTest extends BaseCase
 	public function test__construct2()
 	{
 		$path		= substr( $this->pathCache, 0, -1 );
-		$mock		= new Test_FS_File_Cache_MockAntiProtection( $path );
+		$mock		= new CacheMockAntiProtection( $path );
 		$assertion	= $this->pathCache;
 		$creation	= $mock->getProtectedVar( 'path' );
 		$this->assertEquals( $assertion, $creation );
@@ -91,7 +93,7 @@ final class Test_FS_File_CacheTest extends BaseCase
 	public function test__constructException()
 	{
 		$this->expectException( 'RuntimeException' );
-		new FS_File_Cache( "not_existing" );
+		new Cache( "not_existing" );
 	}
 
 	/**
@@ -101,7 +103,7 @@ final class Test_FS_File_CacheTest extends BaseCase
 	 */
 	public function testCleanUp()
 	{
-		$cache		= new FS_File_Cache( $this->pathCache, 1 );
+		$cache		= new Cache( $this->pathCache, 1 );
 		$fileName	= $this->pathCache."test.serial";
 		file_put_contents( $fileName, "test" );
 		touch( $fileName, time() - 10 );
@@ -122,7 +124,7 @@ final class Test_FS_File_CacheTest extends BaseCase
 	 */
 	public function testCleanUpException1()
 	{
-		$cache	= new FS_File_Cache( $this->pathCache );
+		$cache	= new Cache( $this->pathCache );
 		$this->expectException( 'InvalidArgumentException' );
 		$cache->cleanUp();
 	}
@@ -134,7 +136,7 @@ final class Test_FS_File_CacheTest extends BaseCase
 	 */
 	public function testCleanUpException2()
 	{
-		$cache	= new FS_File_Cache( $this->pathCache, 0 );
+		$cache	= new Cache( $this->pathCache, 0 );
 		$this->expectException( 'InvalidArgumentException' );
 		$cache->cleanUp();
 	}
@@ -146,7 +148,7 @@ final class Test_FS_File_CacheTest extends BaseCase
 	 */
 	public function testCount()
 	{
-		$cache	= new FS_File_Cache( $this->pathCache, 1 );
+		$cache	= new Cache( $this->pathCache, 1 );
 		$cache->set( 'test1', 'value1' );
 		$cache->set( 'test2', 'value2' );
 		$cache->set( 'test3', 'value3' );
@@ -164,7 +166,7 @@ final class Test_FS_File_CacheTest extends BaseCase
 	 */
 	public function testFlush()
 	{
-		$cache	= new FS_File_Cache( $this->pathCache, 1 );
+		$cache	= new Cache( $this->pathCache, 1 );
 		$cache->set( 'test1', 'value1' );
 		$cache->set( 'test2', 'value2' );
 		$cache->set( 'test3', 'value3' );
@@ -195,7 +197,7 @@ final class Test_FS_File_CacheTest extends BaseCase
 	 */
 	public function testGet1()
 	{
-		$cache	= new FS_File_Cache( $this->pathCache, 1 );
+		$cache	= new Cache( $this->pathCache, 1 );
 		$assertion	= NULL;
 		$creation	= $cache->get( 'testKey' );
 		$this->assertEquals( $assertion, $creation );
@@ -208,7 +210,7 @@ final class Test_FS_File_CacheTest extends BaseCase
 	 */
 	public function testGet2()
 	{
-		$cache	= new FS_File_Cache( $this->pathCache, 1 );
+		$cache	= new Cache( $this->pathCache, 1 );
 		$cache->set( 'testKey', "testValue" );
 
 		$assertion	= "testValue";
@@ -229,10 +231,10 @@ final class Test_FS_File_CacheTest extends BaseCase
 	 */
 	public function testGet3()
 	{
-		$cache	= new FS_File_Cache( $this->pathCache, 10 );
+		$cache	= new Cache( $this->pathCache, 10 );
 		$cache->set( 'testKey', "testValue" );
 
-		$cache	= new FS_File_Cache( $this->pathCache, 10 );
+		$cache	= new Cache( $this->pathCache, 10 );
 		$assertion	= "testValue";
 		$creation	= $cache->get( 'testKey' );
 		$this->assertEquals( $assertion, $creation );
@@ -246,7 +248,7 @@ final class Test_FS_File_CacheTest extends BaseCase
 	 */
 	public function testGet4()
 	{
-		$cache	= new FS_File_Cache( $this->pathCache, 1 );
+		$cache	= new Cache( $this->pathCache, 1 );
 		$cache->set( 'testKey', "testValue" );
 
 		sleep( 1 );
@@ -262,7 +264,7 @@ final class Test_FS_File_CacheTest extends BaseCase
 	 */
 	public function testGet5()
 	{
-		$mock	= new Test_FS_File_Cache_MockAntiProtection( $this->pathCache );
+		$mock	= new CacheMockAntiProtection( $this->pathCache );
 		$mock->setProtectedVar( 'data', array( 'testKey' => 'testValue' ) );
 
 		$assertion	= NULL;
@@ -277,7 +279,7 @@ final class Test_FS_File_CacheTest extends BaseCase
 	 */
 	public function testHas1()
 	{
-		$cache		= new FS_File_Cache( $this->pathCache, 1 );
+		$cache		= new Cache( $this->pathCache, 1 );
 		$assertion	= FALSE;
 		$creation	= $cache->has( 'testKey' );
 		$this->assertEquals( $assertion, $creation );
@@ -290,7 +292,7 @@ final class Test_FS_File_CacheTest extends BaseCase
 	 */
 	public function testHas2()
 	{
-		$cache	= new FS_File_Cache( $this->pathCache, 10 );
+		$cache	= new Cache( $this->pathCache, 10 );
 		$cache->set( 'testKey', "testValue" );
 
 		$assertion	= TRUE;
@@ -311,10 +313,10 @@ final class Test_FS_File_CacheTest extends BaseCase
 	 */
 	public function testHas3()
 	{
-		$cache	= new FS_File_Cache( $this->pathCache, 10 );
+		$cache	= new Cache( $this->pathCache, 10 );
 		$cache->set( 'testKey', "testValue" );
 
-		$cache	= new FS_File_Cache( $this->pathCache, 10 );
+		$cache	= new Cache( $this->pathCache, 10 );
 		$assertion	= TRUE;
 		$creation	= $cache->has( 'testKey' );
 		$this->assertEquals( $assertion, $creation );
@@ -327,7 +329,7 @@ final class Test_FS_File_CacheTest extends BaseCase
 	 */
 	public function testHas4()
 	{
-		$cache	= new FS_File_Cache( $this->pathCache, 1 );
+		$cache	= new Cache( $this->pathCache, 1 );
 		$cache->set( 'testKey', "testValue" );
 
 		sleep( 1 );
@@ -343,7 +345,7 @@ final class Test_FS_File_CacheTest extends BaseCase
 	 */
 	public function testHas5()
 	{
-		$mock	= new Test_FS_File_Cache_MockAntiProtection( $this->pathCache );
+		$mock	= new CacheMockAntiProtection( $this->pathCache );
 		$mock->setProtectedVar( 'data', array( 'testKey' => 'testValue' ) );
 
 		$assertion	= FALSE;
@@ -358,7 +360,7 @@ final class Test_FS_File_CacheTest extends BaseCase
 	 */
 	public function testRemove()
 	{
-		$cache	= new FS_File_Cache( $this->pathCache, 1 );
+		$cache	= new Cache( $this->pathCache, 1 );
 		$cache->set( 'testKey', "testValue" );
 
 		$assertion	= TRUE;
@@ -377,7 +379,7 @@ final class Test_FS_File_CacheTest extends BaseCase
 	 */
 	public function testSet()
 	{
-		$mock	= new Test_FS_File_Cache_MockAntiProtection( $this->pathCache );
+		$mock	= new CacheMockAntiProtection( $this->pathCache );
 		$mock->set( 'testKey', "testValue" );
 
 		$assertion	= array( 'testKey' => "testValue" );

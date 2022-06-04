@@ -1,22 +1,23 @@
 <?php
-
-/**
- *	TestUnit of FS_File_JSON_Reader.
- *	@package		Tests.File.JSON
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			21.03.2015
- */
 declare( strict_types = 1 );
+/**
+ *	TestUnit of FS_File_JSON_Reader.
+ *	@package		Tests.FS.File.JSON
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ */
 
+namespace CeusMedia\Common\Test\FS\File\JSON;
+
+use CeusMedia\Common\FS\File\JSON\Reader;
 use CeusMedia\Common\Test\BaseCase;
+use Exception;
 
 /**
  *	TestUnit of FS_File_JSON_Reader.
- *	@package		Tests.File.JSON
+ *	@package		Tests.FS.File.JSON
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			21.03.2015
  */
-class Test_FS_File_JSON_ReaderTest extends BaseCase
+class ReaderTest extends BaseCase
 {
 	/**
 	 *	Setup for every Test.
@@ -51,8 +52,8 @@ class Test_FS_File_JSON_ReaderTest extends BaseCase
 	 */
 	public function test__construct()
 	{
-		$assertion	= "FS_File_JSON_Reader";
-		$creation	= get_class( new FS_File_JSON_Reader( $this->path.'valid.json' ) );
+		$assertion	= Reader::class;
+		$creation	= get_class( new Reader( $this->path.'valid.json' ) );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -64,7 +65,7 @@ class Test_FS_File_JSON_ReaderTest extends BaseCase
 	{
 		$this->expectException( 'RuntimeException' );
 		$assertion	= TRUE;
-		$creation	= new FS_File_JSON_Reader( $this->path.'notexisting.json' );
+		$creation	= new Reader( $this->path.'notexisting.json' );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -76,7 +77,7 @@ class Test_FS_File_JSON_ReaderTest extends BaseCase
 	public function testLoad()
 	{
 		$assertion	= $this->dataValid;
-		$creation	= FS_File_JSON_Reader::load( $this->path.'valid.json' );
+		$creation	= Reader::load( $this->path.'valid.json' );
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -89,7 +90,7 @@ class Test_FS_File_JSON_ReaderTest extends BaseCase
 	{
 //		$this->markTestIncomplete( 'Incomplete Test' );
 		$filename	= dirname( __FILE__ ).'/valid.json';
-		$reader		= new FS_File_JSON_Reader( $filename );
+		$reader		= new Reader( $filename );
 		$assertion	= $this->dataValid;
 		$creation	= $reader->read();
 		$this->assertEquals( $assertion, $creation );
@@ -102,7 +103,7 @@ class Test_FS_File_JSON_ReaderTest extends BaseCase
 	 */
 	public function testReadEmpty(){
 		$filename	= dirname( __FILE__ ).'/empty.json';
-		$reader		= new FS_File_JSON_Reader( $filename );
+		$reader		= new Reader( $filename );
 		$assertion	= NULL;
 		$creation	= NULL;
 		try{
@@ -119,7 +120,7 @@ class Test_FS_File_JSON_ReaderTest extends BaseCase
 		$this->expectException( 'RuntimeException' );
 		$this->expectExceptionCode( 4 );
 		$filename	= dirname( __FILE__ ).'/invalid.json';
-		$reader		= new FS_File_JSON_Reader( $filename );
+		$reader		= new Reader( $filename );
 		$assertion	= NULL;
 		$creation	= $reader->read();
 		$this->assertEquals( $assertion, $creation );

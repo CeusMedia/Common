@@ -1,21 +1,22 @@
 <?php
+declare( strict_types = 1 );
 /**
  *	TestUnit of FS_File_Block_Writer.
- *	@package		Tests.file.block
+ *	@package		Tests.FS.File.Block
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			19.06.2008
  */
-declare( strict_types = 1 );
 
+namespace CeusMedia\Common\Test\FS\File\Block;
+
+use CeusMedia\Common\FS\File\Block\Writer;
 use CeusMedia\Common\Test\BaseCase;
 
 /**
  *	TestUnit of FS_File_Block_Writer.
- *	@package		Tests.file.block
+ *	@package		Tests.FS.File.Block
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			19.06.2008
  */
-class Test_FS_File_Block_WriterTest extends BaseCase
+class WriterTest extends BaseCase
 {
 	/**
 	 *	Setup for every Test.
@@ -44,7 +45,7 @@ class Test_FS_File_Block_WriterTest extends BaseCase
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= FS_File_Block_Writer::__construct();
+		$creation	= Writer::__construct();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -57,7 +58,7 @@ class Test_FS_File_Block_WriterTest extends BaseCase
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= FS_File_Block_Writer::writeBlocks();
+		$creation	= Writer::writeBlocks();
 		$this->assertEquals( $assertion, $creation );
 	}
 }
