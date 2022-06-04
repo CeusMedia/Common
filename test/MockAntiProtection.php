@@ -8,23 +8,36 @@ use InvalidArgumentException;
 
 class MockAntiProtection
 {
-	public static function createMockClass( $className )
+	public static function createMockClass( $originalClass )
 	{
-		if( class_exists( '\\CeusMedia\\Common\\Test\\'.$className.'MockAntiProtection' ) )
+		if( !class_exists( $originalClass ) )
+			throw new InvalidArgumentException( 'Class "'.$originalClass.'" is not existing' );
+
+		$mockClass	= str_replace( 'Common\\', 'Common\\Test\\', $originalClass );
+		$mockClass	= $mockClass.'MockAntiProtection';
+		if( class_exists( '\\'.$mockClass ) )
 			return;
-		if( !class_exists( $className ) )
-			throw new InvalidArgumentException( 'Class "'.$className.'" is not existing' );
-		$codeFile	= dirname( __FILE__ ).'/MockAntiProtection.tmpl';
-		$codeClass	= Template::render( $codeFile, array( 'className' => $className ) );
+		$parts		= explode( '\\', $mockClass );
+		$className	= array_pop( $parts );
+		$namespace	= implode( '\\', $parts );
+
+		$codeFile	= __DIR__.'/MockAntiProtection.tmpl';
+		$codeClass	= Template::render( $codeFile, [
+			'namespace' => $namespace,
+			'originalClassName' => '\\'.$originalClass,
+			'mockClassName' => $className,
+		] );
+//		xmp( $codeClass );die;
 		eval( $codeClass );
 	}
 
-	public static function getInstance( $className )
+	public static function getInstance( $originalClass )
 	{
-		self::createMockClass( $className );
-		$mockClass	= "\\CeusMedia\\Common\\Test\\".$className."MockAntiProtection";
+		self::createMockClass( $originalClass );
+
+		$mockClass	= str_replace( 'Common\\', 'Common\\Test\\', $originalClass );
+		$mockClass	= '\\'.$mockClass.'MockAntiProtection';
 		$arguments	= array_slice( func_get_args(), 1 );
-		$mockObject	= ObjectFactory::createObject( $mockClass, $arguments );
-		return $mockObject;
+		return ObjectFactory::createObject( $mockClass, $arguments );
 	}
 }
