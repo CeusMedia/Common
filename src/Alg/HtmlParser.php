@@ -256,9 +256,9 @@ class HtmlParser
 	 *	@access		public
 	 *	@param		string			$id					ID of Tag to return
 	 *	@param		bool			$throwException		Flag: throw Exception if not found, otherwise return empty String
-	 *	@return		DOMElement
+	 *	@return		DOMElement|NULL
 	 */
-	public function getTagById( $id, $throwException = TRUE ): DOMElement
+	public function getTagById( $id, $throwException = TRUE ): ?DOMElement
 	{
 		$xpath	= new DomXPath( $this->document );
 		$query	= "//*[@id = '$id']";

@@ -124,6 +124,7 @@ class Editor extends Reader
 	 */
 	protected function write( $mode = 0755, $user = NULL, $group = NULL )
 	{
-		return FileWriter::save( $this->fileName, $this->list, $mode, $user, $group );
+		$file	= new FileWriter( $this->fileName, $mode, $user, $group );
+		return $file->writeArray( $this->list ) !== FALSE;
 	}
 }

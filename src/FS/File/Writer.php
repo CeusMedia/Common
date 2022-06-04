@@ -27,7 +27,7 @@
 
 namespace CeusMedia\Common\FS\File;
 
-use InvalidArgumentExcpetion;
+use InvalidArgumentException;
 use RuntimeException;
 
 /**
@@ -67,7 +67,7 @@ class Writer
 	 *	@access		public
 	 *	@param		string		string		string to write to file
 	 *	@return		integer		Number of written bytes
-	 *	@throws		InvalidArgumentExcpetion if no string is given
+	 *	@throws		InvalidArgumentException if no string is given
 	 *	@throws		RuntimeException if file is not writable
 	 *	@throws		RuntimeException if written length is unequal to string length
 	 */
@@ -146,7 +146,7 @@ class Writer
 	 *	@param		string		$user			User Name for chown()
 	 *	@param		string		$group			Group Name for chgrp()
 	 *	@return		integer		Number of written bytes
-	 *	@throws		InvalidArgumentExcpetion if no string is given
+	 *	@throws		InvalidArgumentException if no string is given
 	 */
 	public static function save( $fileName, $content, $mode = NULL, $user = NULL, $group = NULL )
 	{
@@ -162,7 +162,7 @@ class Writer
 	 *	@param		array		$array			Array to save
 	 *	@param		string		$lineBreak		Line Break
 	 *	@return		integer		Number of written bytes
-	 *	@throws		InvalidArgumentExcpetion if no array is given
+	 *	@throws		InvalidArgumentException if no array is given
 	 */
 	public static function saveArray( $fileName, $array, $lineBreak = "\n" )
 	{
@@ -228,7 +228,7 @@ class Writer
 	 *	@param		array		$array			List of String to write to File
 	 *	@param		string		$lineBreak		Line Break
 	 *	@return		integer		Number of written bytes
-	 *	@throws		InvalidArgumentExcpetion if no array is given
+	 *	@throws		InvalidArgumentException if no array is given
 	 */
 	public function writeArray( $array, $lineBreak = "\n" )
 	{

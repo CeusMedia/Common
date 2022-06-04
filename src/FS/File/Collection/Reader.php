@@ -27,7 +27,9 @@
 
 namespace CeusMedia\Common\FS\File\Collection;
 
+use CeusMedia\Common\FS\File\Reader as FileReader;
 use DomainException;
+use RuntimeException;
 
 /**
  *	A Class for reading List Files.
