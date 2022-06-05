@@ -5,9 +5,8 @@ includes:
 parameters:
 	level: 1
 	paths:
-		- src
+		- ../../src
 	checkMissingIterableValueType: false
 	checkGenericClassInNonGenericObjectType: false
 	reportMaybesInPropertyPhpDocTypes: false
 	treatPhpDocTypesAsCertain: false
-

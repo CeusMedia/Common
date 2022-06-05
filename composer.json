@@ -17,7 +17,7 @@
   },
   "minimum-stability": "dev",
   "require": {
-    "php": ">=7.2"
+    "php": ">=7.3"
   },
   "require-dev": {
     "ceus-media/doc-creator": "* | dev-master",
@@ -26,13 +26,27 @@
     "phpunit/phpunit": "*",
     "phpstan/phpstan": "*",
     "phpstan/phpstan-strict-rules": "*",
-    "rector/rector": "0.12.x-dev"
+    "rector/rector": "*"
   },
   "autoload": {
     "psr-4": {
       "CeusMedia\\Common\\": "src/",
       "CeusMedia\\Common\\Test\\": "test/"
     },
-    "files": ["compat8.php", "src/global.php"]
+    "files": ["src/compat8.php", "src/global.php"]
+  },
+  "scripts": {
+    "install-dev": "composer install --dev --quiet",
+    "update-dev": "composer install --dev",
+    "dev-rector-rules-show": [
+      "@install-dev",
+      "vendor/bin/rector process --config=tool/config/rector-rules.php --dry-run"
+    ],
+    "dev-test-syntax": "php test/syntax.php"
+  },
+  "scripts-descriptions": {
+    "install-dev": "Installs the project dependencies for Development stage",
+    "dev-test-syntax": "Validate code base syntax using PHP linter",
+    "dev-rector-rules-show": "Shows suggestions of selected Rector rules"
   }
 }

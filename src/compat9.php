@@ -339,7 +339,6 @@ namespace CeusMedia\Common\Net\HTTP{
 	class PartitionSession extends \Net_HTTP_PartitionSession{}
 	class Session extends \Net_HTTP_Session{}
 	class Request extends \Net_HTTP_Request{}
-	class PageRank extends \Net_HTTP_PageRank{}
 	class Post extends \Net_HTTP_Post{}
 	class Status extends \Net_HTTP_Status{}
 	class Method extends \Net_HTTP_Method{}}
@@ -420,7 +419,6 @@ namespace CeusMedia\Common\UI\HTML{
 	class Indicator extends \UI_HTML_Indicator{}
 	class Link extends \UI_HTML_Link{}
 	class UnorderedList extends \UI_HTML_List{}
-	class Informant extends \UI_HTML_Informant{}
 	class Tabs extends \UI_HTML_Tabs{}
 	class EventMonthCalendar extends \UI_HTML_EventMonthCalendar{}
 	class Panel extends \UI_HTML_Panel{}
