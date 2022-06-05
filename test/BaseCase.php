@@ -3,9 +3,9 @@ declare( strict_types = 1 );
 
 namespace CeusMedia\Common\Test;
 
-use PHPUnit\Framework\TestCase;
+use PHPUnit\Framework\TestCase as FrameworkTestCase;
 
-class BaseCase extends TestCase
+class BaseCase extends FrameworkTestCase
 {
 	/**	@var		array		$_config */
 	protected static $_config;

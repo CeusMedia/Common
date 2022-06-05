@@ -47,6 +47,14 @@ namespace CeusMedia\Common\FS\Autoloader;
  *
  *      <?php
  *      new \Foo\Bar\Qux\QuuxTest;
+ *
+ *  Short syntax:
+ *
+ *      use \CeusMedia\Common\FS\Autoloader\Psr4;
+ *      Psr4::getInstance()->register()
+ *          ->addNamespace('Foo\Bar', '/path/to/packages/foo-bar/src')
+ *          ->addNamespace('Foo\Bar', '/path/to/packages/foo-bar/test');
+ *
  */
 class Psr4
 {
@@ -56,48 +64,79 @@ class Psr4
      *
      * @var array
      */
-    protected $prefixes = array();
+    protected $prefixes = [];
+
+    /**
+     * Creates loader instance statically.
+     *
+     * @return self
+     */
+    public static function getInstance(): self
+    {
+        $instance   = new self();
+        return $instance;
+    }
 
     /**
      * Register loader with SPL autoloader stack.
      *
-     * @return void
+     * @return self
      */
-    public function register()
+    public function register(): self
     {
-        spl_autoload_register(array($this, 'loadClass'));
+        spl_autoload_register( [$this, 'loadClass'] );
+        return $this;
     }
 
     /**
      * Adds a base directory for a namespace prefix.
      *
-     * @param string $prefix The namespace prefix.
-     * @param string $base_dir A base directory for class files in the
+     * @param string $prefix The namespace prefix
+     * @param string $baseDir A base directory for class files in the
      * namespace.
      * @param bool $prepend If true, prepend the base directory to the stack
      * instead of appending it; this causes it to be searched first rather
      * than last.
-     * @return void
+     * @return self
      */
-    public function addNamespace($prefix, $base_dir, $prepend = false)
+    public function addNamespace( string $prefix, string $baseDir, bool $prepend = FALSE ): self
     {
         // normalize namespace prefix
-        $prefix = trim($prefix, '\\') . '\\';
+        $prefix = trim( $prefix, '\\' ) . '\\';
 
         // normalize the base directory with a trailing separator
-        $base_dir = rtrim(realpath($base_dir), DIRECTORY_SEPARATOR) . '/';
+        $baseDir = rtrim( realpath( $baseDir ), DIRECTORY_SEPARATOR) . '/';
 
         // initialize the namespace prefix array
-        if (isset($this->prefixes[$prefix]) === false) {
-            $this->prefixes[$prefix] = array();
+        if( isset( $this->prefixes[$prefix] ) === FALSE ){
+            $this->prefixes[$prefix] = [];
         }
 
         // retain the base directory for the namespace prefix
-        if ($prepend) {
-            array_unshift($this->prefixes[$prefix], $base_dir);
-        } else {
-            array_push($this->prefixes[$prefix], $base_dir);
+        if( $prepend ){
+            array_unshift( $this->prefixes[$prefix], $baseDir );
         }
+        else{
+            array_push( $this->prefixes[$prefix], $baseDir );
+        }
+        return $this;
+    }
+
+    /**
+     * Adds several base directories for namespace prefixes.
+     *
+     * @param array $list List of namespace prefixes and base directories
+     * @param bool $prepend If true, prepend the base directory to the stack
+     * instead of appending it; this causes it to be searched first rather
+     * than last.
+     * @return self
+     */
+    public function addNamespaces( array $list, bool $prepend = FALSE ): self
+    {
+        foreach( $list as $prefix => $baseDir ){
+            $this->addNamespace( $prefix, $baseDir, $prepend );
+        }
+        return $this;
     }
 
     /**
@@ -107,73 +146,73 @@ class Psr4
      * @return mixed The mapped file name on success, or boolean false on
      * failure.
      */
-    public function loadClass($class)
+    public function loadClass( string $class )
     {
-        if (0 === count($this->prefixes))
-            return false;
+        if( 0 === count($this->prefixes ) )
+            return FALSE;
 
         // the current namespace prefix
         $prefix = $class;
 
         // work backwards through the namespace names of the fully-qualified
         // class name to find a mapped file name
-        while (false !== $pos = strrpos($prefix, '\\')) {
+        while( FALSE !== $pos = strrpos($prefix, '\\' ) ){
 
             // retain the trailing namespace separator in the prefix
-            $prefix = substr($class, 0, $pos + 1);
+            $prefix = substr( $class, 0, $pos + 1 );
 
             // the rest is the relative class name
-            $relative_class = substr($class, $pos + 1);
+            $relativeClass = substr( $class, $pos + 1 );
 
             // try to load a mapped file for the prefix and relative class
-            $mapped_file = $this->loadMappedFile($prefix, $relative_class);
-            if ($mapped_file) {
-                return $mapped_file;
+            $mappedFile = $this->loadMappedFile( $prefix, $relativeClass );
+            if( $mappedFile ){
+                return $mappedFile;
             }
 
             // remove the trailing namespace separator for the next iteration
             // of strrpos()
-            $prefix = rtrim($prefix, '\\');
+            $prefix = rtrim( $prefix, '\\' );
         }
 
         // never found a mapped file
-        return false;
+        return FALSE;
     }
 
     /**
      * Load the mapped file for a namespace prefix and relative class.
      *
      * @param string $prefix The namespace prefix.
-     * @param string $relative_class The relative class name.
+     * @param string $relativeClass The relative class name.
      * @return mixed Boolean false if no mapped file can be loaded, or the
      * name of the mapped file that was loaded.
      */
-    protected function loadMappedFile($prefix, $relative_class)
+    protected function loadMappedFile( string $prefix, string $relativeClass )
     {
         // are there any base directories for this namespace prefix?
-        if (isset($this->prefixes[$prefix]) === false) {
-            return false;
+        if( isset( $this->prefixes[$prefix]) === FALSE ){
+            return FALSE;
         }
 
         // look through base directories for this namespace prefix
-        foreach ($this->prefixes[$prefix] as $base_dir) {
+        foreach( $this->prefixes[$prefix] as $baseDir ){
 
             // replace the namespace prefix with the base directory,
             // replace namespace separators with directory separators
             // in the relative class name, append with .php
-            $file = $base_dir
-                  . str_replace('\\', '/', $relative_class)
+            $file = $baseDir
+                  . str_replace( '\\', '/', $relativeClass )
                   . '.php';
 
             // if the mapped file exists, require it
-            if ($this->requireFile($file)) {
+            if( $this->requireFile( $file ) ){
                 // yes, we're done
                 return $file;
             }
         }
 
         // never found it
-        return false;
+        return FALSE;
     }
 
     /**
@@ -182,12 +221,12 @@ class Psr4
      * @param string $file The file to require.
      * @return bool True if the file exists, false if not.
      */
-    protected function requireFile($file)
+    protected function requireFile( string $file )
     {
-        if (file_exists($file)) {
+        if( file_exists( $file ) ){
             require $file;
-            return true;
+            return TRUE;
         }
-        return false;
+        return FALSE;
     }
 }

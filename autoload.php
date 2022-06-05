@@ -1,25 +1,30 @@
 <?php
 
-$pathSrc	= dirname( __FILE__ ) . "/src/";
+/**
+ *	Usually, this library should be installed using composer.
+ *	Including the composer autoloader will be enough.
+ *
+ *	So, this script use only helpful, if this library needs to be available
+ *	without the composer autoloader.
+ *	The PSR4 autoloader within this library will be used to enable autoloading
+ *	for this library, omly.
+ */
 
-if( !defined( 'CMC_PATH' ) )
+use CeusMedia\Common\FS\Autoloader\Psr4 as Loader;
+
+$pathSrc	= __DIR__ . "/src/";
+
+/*if( !defined( 'CMC_PATH' ) ){
 	define('CMC_PATH', $pathSrc);
-if( !defined( 'CMC_PATH' ) ){
-	$config 	= parse_ini_file( 'Common.ini', TRUE );
+	$config 	= parse_ini_file( __DIR__.'/Common.ini', TRUE );
 	define( 'CMC_VERSION', $config['project']['version'] );
-}
+}*/
 
-/* PSR-0 */
-require_once $pathSrc . 'FS/Autoloader/Psr0.php';
-
-$loader = new FS_Autoloader_Psr0();
-$loader->setIncludePath( $pathSrc );
-$loader->register();
-
-/* PSR-4 - use this for v0.9
 require_once $pathSrc . 'FS/Autoloader/Psr4.php';
-$loader = new \CeusMedia\Common\FS\Psr4AutoloaderClass;
-$loader->register();
-$loader->addNamespace( 'CeusMedia\Common', $pathSrc );*/
 
-class_exists( 'UI_DevOutput' );
+$loader = Loader::getInstance()->register()
+	->addNamespace( 'CeusMedia\Common', $pathSrc );
+
+require_once $pathSrc . 'compat8.php';
+
+require_once $pathSrc . 'global.php';
