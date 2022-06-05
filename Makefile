@@ -29,10 +29,11 @@ dev-test-self:
 dev-test-syntax:
 	@php tool/go.php test syntax
 #	@find src -type f -print0 | xargs -0 -n1 xargs php -l
+#	@php test/syntax.php
 
 dev-test-unit: composer-install-dev
 #	@php tool/go.php test units
-	@vendor/bin/phpunit test
+	@vendor/bin/phpunit --testsuite units
 
 # --  DEV: Docs  ---------------------------------------------------------
 dev-create-docs: composer-install-dev
@@ -41,17 +42,25 @@ dev-create-docs: composer-install-dev
 
 # --  DEV: QUALITY--------------------------------------------------------
 dev-phpstan:
-	@vendor/bin/phpstan analyse --configuration phpstan.neon --xdebug || true
+	@vendor/bin/phpstan analyse --configuration tool/config/phpstan.neon --xdebug || true
+
+dev-phpstan-clear-cache:
+	@vendor/bin/phpstan clear-cache
 
 dev-phpstan-save-baseline:
-	@vendor/bin/phpstan analyse --configuration phpstan.neon --generate-baseline phpstan-baseline.neon || true
+	@vendor/bin/phpstan analyse --configuration tool/config/phpstan.neon --generate-baseline tool/config/phpstan-baseline.neon || true
 
-dev-rector-apply:
-	@vendor/bin/rector process src
+dev-rector-rules-apply:
+	@vendor/bin/rector process --config=tool/config/rector-rules --no-diffs
 
-dev-rector-dry:
-	@vendor/bin/rector process src --dry-run
+dev-rector-php7.3-apply:
+	@vendor/bin/rector process --config=tool/config/rector-php73 --no-diffs
 
+dev-rector-rules-dry:
+	@vendor/bin/rector process --config=tool/config/rector-rules.php --dry-run
+
+dev-rector-php7.3-dry:
+	@vendor/bin/rector process --config=tool/config/rector-php73 --dry-run
 
 # --  GIT  ----------------------------------------------------------------
 git-show-status:
