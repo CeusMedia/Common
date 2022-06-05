@@ -11,11 +11,10 @@ class LibraryClassSyntaxTester
 		require_once( $path.'CLI/Output/Progress.php' );
 		require_once( $path.'UI/DevOutput.php' );
 
-		remark( "GO Class File Syntax Test\n" );
-		$data	= self::listClasses( $path );
+		$data	= (object) self::listClasses( $path );
 
-		remark( "found ".$data['count']." class files\n" );
-		self::testSyntax( $data['files'] );
+		print( 'Found '.$data->count.' class files'.PHP_EOL.PHP_EOL );
+		self::testSyntax( $data->files );
 	}
 
 	protected static function listClasses( string $path ): array
@@ -36,14 +35,14 @@ class LibraryClassSyntaxTester
 	{
 		$index	= new DirectoryIterator( $path );
 		foreach( $index as $entry ){
-			if( $entry->isDot() || $entry->getFilename() == ".git" )
+			if( $entry->isDot() || $entry->getFilename() === ".git" )
 				continue;
 			$pathName	= $entry->getPathname();
 			if( $entry->isDir() )
 				self::listClassesRecursive( $pathName, $list, $count, $size );
 			else if( $entry->isFile() ){
 				$info	= pathinfo( $pathName );
-				if( $info['extension'] !== "php" )
+				if( $info['extension'] !== 'php' )
 					continue;
 				if( !preg_match( '/^[A-Z]/', $info['basename'] ) )
 					continue;
@@ -56,11 +55,11 @@ class LibraryClassSyntaxTester
 
 	protected static function testSyntax( array $files )
 	{
-		remark( "Checking class file syntax\n" );
+		print( 'Checking syntax of class files ...'.PHP_EOL );
 		$count	= 0;
-		$line	= str_repeat( "-", 79 );
+		$line	= str_repeat( '-', 79 );
 		$list	= [];
-		$progress	= new CLI_Output_Progress();
+		$progress	= new CeusMedia\Common\CLI\Output\Progress();
 		$progress->setTotal( count( $files ) );
 		$progress->start();
 		foreach( $files as $file ){
@@ -74,12 +73,12 @@ class LibraryClassSyntaxTester
 		}
 		$progress->finish();
 		if( $list ){
-			remark( "\n! Invalid files:" );
-			$path	= dirname( __FILE__ )."/";
+			print( PHP_EOL.'! Invalid files:'.PHP_EOL );
+			$path	= dirname( __FILE__ ).'/';
 			foreach( $list as $file => $message ){
-				$relative	= str_replace( $path, "", $file );
-				remark( "File:  ".$relative );
-				remark( "Error: ".$message.PHP_EOL );
+				$relative	= str_replace( $path, '', $file );
+				print( 'File:  '.$relative.PHP_EOL );
+				print( 'Error: '.$message.PHP_EOL.PHP_EOL );
 			}
 		}
 	}

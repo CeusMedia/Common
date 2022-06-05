@@ -26,6 +26,7 @@
  */
 namespace CeusMedia\Common\CLI\Output;
 
+use CeusMedia\Common\CLI;
 use CeusMedia\Common\CLI\Dimensions;
 use CeusMedia\Common\CLI\Output;
 

@@ -28,6 +28,7 @@
 namespace CeusMedia\Common\CLI;
 
 use CeusMedia\Common\Alg\Text\Trimmer as TextTrimmer;
+use CeusMedia\Common\CLI;
 
 /**
  *	Console Output.
@@ -88,7 +89,7 @@ class Output
 		if( !CLI::checkIsHeadless( FALSE ) ){
 			if( $this->maxLineLength )
 				//  trim string to <80 columns
-				$string		= Trimmer::trimCentric( $string, $this->maxLineLength );
+				$string		= TextTrimmer::trimCentric( $string, $this->maxLineLength );
 			$spaces		= max( 0, strlen( $this->lastLine ) - strlen( $string ) );
 			$this->lastLine	= $string;
 			$fill		= str_repeat( ' ', $spaces );
