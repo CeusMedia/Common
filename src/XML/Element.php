@@ -174,7 +174,7 @@ class XML_Element extends SimpleXMLElement
 	 *	@access		public
 	 *	@param		string		$name		Name of attribute
 	 *	@param		string		$nsPrefix	Namespace prefix of attribute
-	 *	@return		bool
+	 *	@return		string
 	 *	@throws		RuntimeException		if attribute is not set
 	 */
 	public function getAttribute( $name, $nsPrefix = NULL )
