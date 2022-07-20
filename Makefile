@@ -38,7 +38,7 @@ dev-test-unit: composer-install-dev
 # --  DEV: Docs  ---------------------------------------------------------
 dev-create-docs: composer-install-dev
 #	@php tool/go.php create doc
-	@php vendor/ceus-media/doc-creator/doc-creator.php --config-file=doc-creator.xml
+	@php vendor/ceus-media/doc-creator/doc-creator.php --config-file=tool/config/doc-creator.xml
 
 # --  DEV: QUALITY--------------------------------------------------------
 dev-phpstan:

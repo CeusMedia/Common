@@ -20,7 +20,7 @@
     "php": ">=7.3"
   },
   "require-dev": {
-    "ceus-media/doc-creator": "* | dev-master",
+    "ceus-media/doc-creator": "^0.9.6 | dev-master",
     "michelf/php-markdown": "^1.7",
     "erusev/parsedown": "~1.0",
     "phpunit/phpunit": "*",
@@ -38,6 +38,10 @@
   "scripts": {
     "install-dev": "composer install --dev --quiet",
     "update-dev": "composer install --dev",
+    "dev-create-docs": [
+        "@install-dev",
+        "php vendor/ceus-media/doc-creator/doc-creator.php --config-file=tool/config/doc-creator.xml"
+    ],
     "dev-rector-rules-show": [
       "@install-dev",
       "vendor/bin/rector process --config=tool/config/rector-rules.php --dry-run"
