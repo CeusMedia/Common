@@ -1,23 +1,25 @@
 <?php
-/**
- *	TestUnit of XML RSS Writer.
- *	@package		Tests.xml.dom
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			20.02.2008
- *
- */
 declare( strict_types = 1 );
 
+/**
+ *	TestUnit of XML RSS Writer.
+ *	@package		Tests.xml.dom
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ */
+
+namespace CeusMedia\Common\Test\XML\RSS;
+
 use CeusMedia\Common\Test\BaseCase;
+use CeusMedia\Common\Test\MockAntiProtection;
+use CeusMedia\Common\XML\RSS\Writer;
+use CeusMedia\Common\Test\XML\RSS\WriterMockAntiProtection as Mock;
 
 /**
  *	TestUnit of XML RSS Writer.
  *	@package		Tests.xml.dom
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			20.02.2008
- *
  */
-class Test_XML_RSS_WriterTest extends BaseCase
+class WriterTest extends BaseCase
 {
 	protected $writer;
 
@@ -29,7 +31,7 @@ class Test_XML_RSS_WriterTest extends BaseCase
 	public function __construct()
 	{
 		parent::__construct();
-		Test_MockAntiProtection::createMockClass( 'XML_RSS_Writer' );
+		MockAntiProtection::createMockClass( Writer::class );
 	}
 
 	/**
@@ -39,7 +41,7 @@ class Test_XML_RSS_WriterTest extends BaseCase
 	 */
 	public function setUp(): void
 	{
-		$this->writer	= new Test_XML_RSS_Writer_MockAntiProtection();
+		$this->writer	= new Mock();
 		$this->path		= dirname( __FILE__ )."/";
 		$this->assert	= $this->path."reader.xml";
 		$this->file		= $this->path."writer.xml";
@@ -124,7 +126,7 @@ class Test_XML_RSS_WriterTest extends BaseCase
 	 */
 	public function testWrite()
 	{
-		$writer	= new XML_RSS_Writer();
+		$writer	= new Writer();
 		$data	= unserialize( file_get_contents( $this->serial ) );
 		foreach( $data['channelData'] as $key => $value  )
 		{

@@ -10,7 +10,7 @@
   </coverage>
   <testsuites>
     <testsuite name="units">
-      <directory>test</directory>
+      <directory>../../test</directory>
     </testsuite>
   </testsuites>
   <logging>

@@ -6,7 +6,7 @@ declare( strict_types = 1 );
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
 
-namespace CeusMedia\Common\Test;
+namespace CeusMedia\Common\Test\Alg\Obj;
 
 use CeusMedia\Common\Alg\Obj\Constant;
 use CeusMedia\Common\Test\BaseCase;

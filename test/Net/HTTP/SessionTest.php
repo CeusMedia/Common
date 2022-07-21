@@ -1,29 +1,29 @@
 <?php
-/**
- *	TestUnit of Session.
- *	@package		Tests.net.http
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			16.02.2008
- *
- */
 declare( strict_types = 1 );
 
+/**
+ *	TestUnit of Session.
+ *	@package		Tests.net.http
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ */
+
+namespace CeusMedia\Common\Test\Net\HTTP;
+
 use CeusMedia\Common\Test\BaseCase;
+use CeusMedia\Common\Net\HTTP\Session;
 
 /**
  *	TestUnit of Session.
  *	@package		Tests.net.http
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			16.02.2008
- *
  */
-class Test_Net_HTTP_SessionTest extends BaseCase
+class SessionTest extends BaseCase
 {
 	private $session;
 
 	public function setUp(): void
 	{
-		$this->session		= @new Net_HTTP_Session();
+		$this->session		= @new Session();
 		$this->session->clear();
 	}
 

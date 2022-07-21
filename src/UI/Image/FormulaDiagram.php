@@ -79,7 +79,7 @@ class FormulaDiagram extends Drawer
 		$this->intervalX	= $grid ? new CompactInterval( $intervalX->getStart(), $intervalX->getEnd() + 1 ) : $intervalX;
 		$this->intervalY	= $grid ? new CompactInterval( $intervalY->getStart(), $intervalY->getEnd() + 1 ) : $intervalY;
 		$this->formula		= $formula;
-		$this->step			= (real) $step;
+		$this->step			= (float) $step;
 		$this->grid			= (int) $grid;
 		$this->zoomX		= 1;
 		$this->zoomY		= 1;

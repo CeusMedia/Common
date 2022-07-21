@@ -1,23 +1,24 @@
 <?php
-/**
- *	TestUnit of XML DOM File Writer.
- *	@package		Tests.xml.dom
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			11.12.2007
- *
- */
 declare( strict_types = 1 );
 
+/**
+ *	TestUnit of XML DOM File Writer.
+ *	@package		Tests.xml.dom
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ */
+
+use CeusMedia\Common\Test\XML\DOM;
+
 use CeusMedia\Common\Test\BaseCase;
+use CeusMedia\Common\XML\DOM\FileWriter;
+use CeusMedia\Common\XML\DOM\Node as XML_DOM_Node;
 
 /**
  *	TestUnit of XML DOM File Writer.
  *	@package		Tests.xml.dom
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			11.12.2007
- *
  */
-class Test_XML_DOM_FileWriterTest extends BaseCase
+class FileWriterTest extends BaseCase
 {
 	/**
 	 *	Sets up Writer.
@@ -121,7 +122,7 @@ class Test_XML_DOM_FileWriterTest extends BaseCase
 		$tree->addChild( $leaf31 );
 		$tree->addChild( $leaf32 );
 
-		XML_DOM_FileWriter::save( $this->path."writer.xml", $tree );
+		FileWriter::save( $this->path."writer.xml", $tree );
 		$assertion	= file_get_contents( $this->path."builder.xml" );
 		$creation	= file_get_contents( $this->path."writer.xml" );
 		$this->assertEquals( $assertion, $creation );

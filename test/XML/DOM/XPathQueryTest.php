@@ -1,23 +1,23 @@
 <?php
-/**
- *	TestUnit of XML DOM XPath.
- *	@package		Tests.xml.dom
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			17.02.2008
- *
- */
 declare( strict_types = 1 );
 
+/**
+ *	TestUnit of XML DOM XPath.
+ *	@package		Tests.xml.dom
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ */
+
+namespace CeusMedia\Common\Test\XML\DOM;
+
 use CeusMedia\Common\Test\BaseCase;
+use CeusMedia\Common\XML\DOM\XPathQuery;
 
 /**
  *	TestUnit of XML DOM XPath.
  *	@package		Tests.xml.dom
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			17.02.2008
- *
  */
-class Test_XML_DOM_XPathQueryTest extends BaseCase
+class XPathQueryTest extends BaseCase
 {
 	protected $xmlUrl	= "https://www.w3schools.com/xml/books.xml";
 	protected $xmlFile;
@@ -31,7 +31,7 @@ class Test_XML_DOM_XPathQueryTest extends BaseCase
 	public function setUp(): void
 	{
 		$this->xmlFile	= dirname( __FILE__ ).'/books.xml';
-		$this->xPath	= new XML_DOM_XPathQuery();
+		$this->xPath	= new XPathQuery();
 	}
 
 	/**
@@ -56,7 +56,7 @@ class Test_XML_DOM_XPathQueryTest extends BaseCase
 	 */
 	public function testLoadFileException()
 	{
-		$this->expectException( 'RuntimeException' );
+		$this->expectException( '\\RuntimeException' );
 		$entries	= $this->xPath->loadFile( "http://www.example.com/notexisting.xml" );
 	}
 
@@ -83,7 +83,7 @@ class Test_XML_DOM_XPathQueryTest extends BaseCase
 	 */
 	public function testLoadXmlException()
 	{
-		$this->expectException( 'InvalidArgumentException' );
+		$this->expectException( '\\InvalidArgumentException' );
 		$this->xPath->loadXml( "not_valid" );
 	}
 
@@ -113,7 +113,7 @@ class Test_XML_DOM_XPathQueryTest extends BaseCase
 	{
 		if( !extension_loaded( 'curl' ) )
 			$this->markTestSkipped( 'The cURL extension is not available.' );
-		$this->expectException( 'InvalidArgumentException' );
+		$this->expectException( '\\InvalidArgumentException' );
 		$this->xPath->loadUrl( "notexisting.xml" );
 	}
 
@@ -126,7 +126,7 @@ class Test_XML_DOM_XPathQueryTest extends BaseCase
 	{
 		if( !extension_loaded( 'curl' ) )
 			$this->markTestSkipped( 'The cURL extension is not available.' );
-		$this->expectException( 'Exception_IO' );
+		$this->expectException( '\\CeusMedia\Common\\Exception\\IO' );
 		$this->xPath->loadUrl( "http://example.org/notexisting.xml" );
 	}
 
@@ -174,7 +174,7 @@ class Test_XML_DOM_XPathQueryTest extends BaseCase
 	 */
 	public function testEvaluateException()
 	{
-		$this->expectException( 'RuntimeException' );
+		$this->expectException( '\\RuntimeException' );
 		$entries	= $this->xPath->evaluate( "//book" );
 	}
 
@@ -211,7 +211,7 @@ class Test_XML_DOM_XPathQueryTest extends BaseCase
 	 */
 	public function testGetDocumentException()
 	{
-		$this->expectException( 'RuntimeException' );
+		$this->expectException( '\\RuntimeException' );
 		$entries	= $this->xPath->getDocument();
 	}
 
@@ -259,7 +259,7 @@ class Test_XML_DOM_XPathQueryTest extends BaseCase
 	 */
 	public function testQueryException()
 	{
-		$this->expectException( 'RuntimeException' );
+		$this->expectException( '\\RuntimeException' );
 		$entries	= $this->xPath->query( "//book" );
 	}
 }

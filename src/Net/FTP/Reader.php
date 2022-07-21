@@ -196,9 +196,9 @@ class Reader
 		$parts	= preg_split("/[\s]+/", $entry, 9 );
 		if( $parts[0] == "total" )
 			return array();
-		$data['isdir']			= $parts[0]{0} === "d";
-		$data['islink']			= $parts[0]{0} === "l";
-		$data['isfile']			= $parts[0]{0} === "-";
+		$data['isdir']			= $parts[0][0] === "d";
+		$data['islink']			= $parts[0][0] === "l";
+		$data['isfile']			= $parts[0][0] === "-";
 		$data['permissions']	= $parts[0];
 		$data['number']			= $parts[1];
 		$data['owner']			= $parts[2];
@@ -217,8 +217,8 @@ class Reader
 		}
 		$data['timestamp']		= strtotime( $data['day']." ".$data['month']." ".$data['year']." ".$data['time'] );
 		$data['datetime']		= date( "c", $data['timestamp'] );
-		$data['type']			= $this->fileTypes[$parts[0]{0}];
-		$data['type_short']		= $data['type']{0};
+		$data['type']			= $this->fileTypes[$parts[0][0]];
+		$data['type_short']		= $data['type'][0];
 		$data['octal']			= $this->getPermissionsAsOctal( $parts[0] );
 		$data['raw']			= $entry;
 		return $data;

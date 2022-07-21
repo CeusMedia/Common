@@ -51,7 +51,7 @@ class ObjectSerializer
 	public static function serialize( $object, $encoding = "utf-8" )
 	{
 		$root	= new Node( "object" );
-		$root->setAttribute( 'class', get_class( $object ) );
+		$root->setAttribute( 'class', addslashes( get_class( $object ) ) );
 		$vars	= get_object_vars( $object );
 		self::serializeVarsRec( $vars, $root );
 		$builder	= new Builder();
@@ -107,7 +107,7 @@ class ObjectSerializer
 				case 'object':
 					$child	= new Node( "object" );
 					$child->setAttribute( "name", $key );
-					$child->setAttribute( "class", get_class( $value ) );
+					$child->setAttribute( "class", addslashes( get_class( $value ) ) );
 					$vars	= get_object_vars( $value );
 					self::serializeVarsRec( $vars, $child );
 					$node->addChild( $child );

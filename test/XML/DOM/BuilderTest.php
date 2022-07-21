@@ -1,23 +1,24 @@
 <?php
-/**
- *	TestUnit of XML DOM Builder.
- *	@package		Tests.xml.dom
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			11.12.2007
- *
- */
 declare( strict_types = 1 );
 
+/**
+ *	TestUnit of XML DOM Builder.
+ *	@package		Tests.xml.dom
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ */
+
+use CeusMedia\Common\Test\XML\DOM;
+
 use CeusMedia\Common\Test\BaseCase;
+use CeusMedia\Common\XML\DOM\Builder;
+use CeusMedia\Common\XML\DOM\Node as XML_DOM_Node;
 
 /**
  *	TestUnit of XML DOM Builder.
  *	@package		Tests.xml.dom
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			11.12.2007
- *
  */
-class Test_XML_DOM_BuilderTest extends BaseCase
+class BuilderTest extends BaseCase
 {
 	/**
 	 *	Sets up Builder.
@@ -26,7 +27,7 @@ class Test_XML_DOM_BuilderTest extends BaseCase
 	 */
 	public function setUp(): void
 	{
-		$this->builder		= new XML_DOM_Builder();
+		$this->builder		= new Builder();
 		$this->fileName		= dirname( __FILE__ )."/builder.xml";
 	}
 
@@ -78,7 +79,7 @@ class Test_XML_DOM_BuilderTest extends BaseCase
 		$tree->addChild( $leaf32 );
 
 		$assertion	= file_get_contents( $this->fileName );
-		$creation	= XML_DOM_Builder::build( $tree );
+		$creation	= Builder::build( $tree );
 		$this->assertEquals( $assertion, $creation );
 	}
 }

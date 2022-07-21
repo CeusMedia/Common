@@ -30,6 +30,9 @@ namespace CeusMedia\Common\UI\Image;
 use CeusMedia\Common\Alg\Randomizer;
 use CeusMedia\Common\FS\File\Writer as FileWriter;
 
+use InvalidArgumentException;
+use RuntimeException;
+
 /**
  *	Simple CAPTCHA Generator.
  *	@category		Library

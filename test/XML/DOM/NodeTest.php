@@ -1,23 +1,23 @@
 <?php
-/**
- *	TestUnit of XML DOM Node.
- *	@package		Tests.xml.dom
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			11.12.2007
- *
- */
 declare( strict_types = 1 );
 
+/**
+ *	TestUnit of XML DOM Node.
+ *	@package		Tests.xml.dom
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ */
+
+use CeusMedia\Common\Test\XML\DOM;
+
 use CeusMedia\Common\Test\BaseCase;
+use CeusMedia\Common\XML\DOM\Node;
 
 /**
  *	TestUnit of XML DOM Node.
  *	@package		Tests.xml.dom
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			11.12.2007
- *
  */
-class Test_XML_DOM_NodeTest extends BaseCase
+class NodeTest extends BaseCase
 {
 	/**
 	 *	Sets up Node.
@@ -26,9 +26,9 @@ class Test_XML_DOM_NodeTest extends BaseCase
 	 */
 	public function setUp(): void
 	{
-		$this->node	= new XML_DOM_Node( "testNode", "testContent" );
+		$this->node	= new Node( "testNode", "testContent" );
 		$this->node->setAttribute( "testKey", "testValue" );
-		$this->leaf	= new XML_DOM_Node( "testLeaf1", "testContent1" );
+		$this->leaf	= new Node( "testLeaf1", "testContent1" );
 		$this->node->addChild( $this->leaf );
 	}
 
@@ -40,7 +40,7 @@ class Test_XML_DOM_NodeTest extends BaseCase
 	public function testConstruct()
 	{
 		$attributes	= array( 'key1' => "value1", 'key2' => "value2" );
-		$node		= new XML_DOM_Node( "tag1", "content1", $attributes );
+		$node		= new Node( "tag1", "content1", $attributes );
 
 		$assertion	= "tag1";
 		$creation	= $node->getNodeName();
@@ -63,7 +63,7 @@ class Test_XML_DOM_NodeTest extends BaseCase
 	public function testAddChild()
 	{
 		//  add Leaf
-		$leaf		= new XML_DOM_Node( "testLeaf2", "testContent2" );
+		$leaf		= new Node( "testLeaf2", "testContent2" );
 		$assertion	= $leaf;
 		$creation	= $this->node->addChild( $leaf );
 		$this->assertEquals( $assertion, $creation );
@@ -79,7 +79,7 @@ class Test_XML_DOM_NodeTest extends BaseCase
 		$this->assertEquals( $assertion, $creation );
 
 		//  add Node
-		$node		= new XML_DOM_Node( "testNode3", "testContent3" );
+		$node		= new Node( "testNode3", "testContent3" );
 		$assertion	= $node;
 		$creation	= $this->node->addChild( $node );
 		$this->assertEquals( $assertion, $creation );
@@ -343,8 +343,8 @@ class Test_XML_DOM_NodeTest extends BaseCase
 
 
 		//  add 2 Children with same Node Name
-		$this->node->addChild( new XML_DOM_Node( "leaf" ) );
-		$this->node->addChild( new XML_DOM_Node( "leaf" ) );
+		$this->node->addChild( new Node( "leaf" ) );
+		$this->node->addChild( new Node( "leaf" ) );
 
 		//  test Children
 		$assertion	= 2;

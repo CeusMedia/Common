@@ -1,23 +1,24 @@
 <?php
-/**
- *	TestUnit of XML DOM File Writer.
- *	@package		Tests.xml.dom
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			11.12.2007
- *
- */
 declare( strict_types = 1 );
 
+/**
+ *	TestUnit of XML DOM File Writer.
+ *	@package		Tests.xml.dom
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ */
+
+namespace CeusMedia\Common\XML\DOM;
+
 use CeusMedia\Common\Test\BaseCase;
+use CeusMedia\Common\XML\DOM\FileReader as XML_DOM_FileReader;
+use CeusMedia\Common\XML\DOM\Node as XML_DOM_Node;
 
 /**
  *	TestUnit of XML DOM File Writer.
  *	@package		Tests.xml.dom
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			11.12.2007
- *
  */
-class Test_XML_DOM_FileReaderTest extends BaseCase
+class FileReaderTest extends BaseCase
 {
 	/**
 	 *	Sets up Leaf.

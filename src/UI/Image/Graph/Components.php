@@ -63,7 +63,7 @@ class Components
 		else if( preg_match( '/^[0-9]+$/', $value ) )
 			$value	= (int) $value;
 		else if( preg_match( '/^[0-9.]+$/', $value ) )
-			$value	= (real) $value;
+			$value	= (float) $value;
 		else if( empty( $value ) )
 			return $default;
 		return $value;

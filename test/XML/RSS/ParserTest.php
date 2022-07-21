@@ -1,23 +1,23 @@
 <?php
-/**
- *	TestUnit of XML RSS 2 Parser.
- *	@package		Tests.xml.rss
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			20.02.2008
- *
- */
 declare( strict_types = 1 );
 
+/**
+ *	TestUnit of XML RSS 2 Parser.
+ *	@package		Tests.xml.rss
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ */
+
+namespace CeusMedia\Common\Test\XML\RSS;
+
 use CeusMedia\Common\Test\BaseCase;
+use CeusMedia\Common\XML\RSS\Parser;
 
 /**
  *	TestUnit of XML RSS 2 Parser.
  *	@package		Tests.xml.rss
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			20.02.2008
- *
  */
-class Test_XML_RSS_ParserTest extends BaseCase
+class ParserTest extends BaseCase
 {
 
 	/**
@@ -33,7 +33,7 @@ class Test_XML_RSS_ParserTest extends BaseCase
 		$xml		= file_get_contents( $this->file );
 
 		$assertion	= unserialize( file_get_contents( $this->serial ) );
-		$creation	= XML_RSS_Parser::parse( $xml );
+		$creation	= Parser::parse( $xml );
 
 #		file_put_contents( $this->serial, serialize( $creation ) );
 		$this->assertEquals( $assertion, $creation );

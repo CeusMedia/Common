@@ -1,23 +1,23 @@
 <?php
+declare( strict_types = 1 );
+
 /**
  *	TestUnit of UI_DevOutput.
  *	@package		Tests.UI
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			13.06.2013
- *
  */
-declare( strict_types = 1 );
 
+namespace CeusMedia\Common\Test\UI;
+
+use CeusMedia\Common\UI\DevOutput;
 use CeusMedia\Common\Test\BaseCase;
 
 /**
  *	TestUnit of UI_DevOutput.
  *	@package		Tests.UI
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			13.06.2013
- *
  */
-class Test_UI_DevOutputTest extends TestCase
+class DevOutputTest extends BaseCase
 {
 	/**
 	 *	Setup for every Test.
@@ -46,7 +46,7 @@ class Test_UI_DevOutputTest extends TestCase
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= UI_DevOutput::indentSign();
+		$creation	= DevOutput::indentSign();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -57,7 +57,7 @@ class Test_UI_DevOutputTest extends TestCase
 	 */
 	public function testPrintArray()
 	{
-		$output		= new UI_DevOutput();
+		$output		= new DevOutput();
 		$array		= array( 'a' => 1, 'b' => "2" );
 		$assertion	= "  [I] a => 1\n  [S] b => 2\n";
 		$creation	= $output->printMixed( $array, 0, NULL, NULL, NULL, TRUE );
@@ -76,7 +76,7 @@ class Test_UI_DevOutputTest extends TestCase
 	 */
 	public function testPrintBoolean()
 	{
-		$output		= new UI_DevOutput();
+		$output		= new DevOutput();
 		$assertion	= "[B] TRUE\n";
 		$creation	= $output->printMixed( TRUE, 0, NULL, NULL, NULL, TRUE );
 		$this->assertEquals( $assertion, $creation );
@@ -102,7 +102,7 @@ class Test_UI_DevOutputTest extends TestCase
 	 */
 	public function testPrintDouble()
 	{
-		$output		= new UI_DevOutput();
+		$output		= new DevOutput();
 		$assertion	= "[F] 3.1415926\n";
 		$creation	= $output->printMixed( (double) 3.1415926, 0, NULL, NULL, NULL, TRUE );
 		$this->assertEquals( $assertion, $creation );
@@ -120,7 +120,7 @@ class Test_UI_DevOutputTest extends TestCase
 	 */
 	public function testPrintFloat()
 	{
-		$output		= new UI_DevOutput();
+		$output		= new DevOutput();
 		$assertion	= "[F] 3.1415926\n";
 		$creation	= $output->printMixed( (float) 3.1415926, 0, NULL, NULL, NULL, TRUE );
 		$this->assertEquals( $assertion, $creation );
@@ -138,7 +138,7 @@ class Test_UI_DevOutputTest extends TestCase
 	 */
 	public function testPrintInteger()
 	{
-		$output		= new UI_DevOutput();
+		$output		= new DevOutput();
 		$assertion	= "[I] 3\n";
 		$creation	= $output->printMixed( (int) 3.1415926, 0, NULL, NULL, NULL, TRUE );
 		$this->assertEquals( $assertion, $creation );
@@ -172,7 +172,7 @@ class Test_UI_DevOutputTest extends TestCase
 	 */
 	public function testPrintMixed()
 	{
-		$output		= new UI_DevOutput();
+		$output		= new DevOutput();
 		$assertion	= "[S] 123\n";
 		$creation	= $output->printMixed( "123", 0, NULL, NULL, NULL, TRUE );
 		$this->assertEquals( $assertion, $creation );
@@ -190,7 +190,7 @@ class Test_UI_DevOutputTest extends TestCase
 	 */
 	public function testPrintNull()
 	{
-		$output		= new UI_DevOutput();
+		$output		= new DevOutput();
 		$assertion	= "[N] NULL\n";
 		$creation	= $output->printMixed( NULL, 0, NULL, NULL, NULL, TRUE );
 		$this->assertEquals( $assertion, $creation );
@@ -208,7 +208,7 @@ class Test_UI_DevOutputTest extends TestCase
 	 */
 	public function testPrintObject()
 	{
-		$output		= new UI_DevOutput();
+		$output		= new DevOutput();
 		$object		= (object) array( 'a' => 1, 'b' => "2" );
 		$assertion	= "[O] stdClass\n  [I] a => 1\n  [S] b => 2\n";
 		$creation	= $output->printMixed( $object, 0, NULL, NULL, NULL, TRUE );
@@ -227,7 +227,7 @@ class Test_UI_DevOutputTest extends TestCase
 	 */
 	public function testPrintResource()
 	{
-		$output		= new UI_DevOutput();
+		$output		= new DevOutput();
 		$resource	= fopen( __FILE__, "r" );
 		$assertion	= "[R] Resource id #\n";
 		$creation	= $output->printMixed( $resource, 0, NULL, NULL, NULL, TRUE );
@@ -247,7 +247,7 @@ class Test_UI_DevOutputTest extends TestCase
 	 */
 	public function testPrintString()
 	{
-		$output		= new UI_DevOutput();
+		$output		= new DevOutput();
 		$assertion	= "[S] 123\n";
 		$creation	= $output->printMixed( "123", 0, NULL, NULL, NULL, TRUE );
 		$this->assertEquals( $assertion, $creation );
@@ -267,7 +267,7 @@ class Test_UI_DevOutputTest extends TestCase
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= UI_DevOutput::remark();
+		$creation	= DevOutput::remark();
 		$this->assertEquals( $assertion, $creation );
 	}
 
@@ -280,7 +280,7 @@ class Test_UI_DevOutputTest extends TestCase
 	{
 		$this->markTestIncomplete( 'Incomplete Test' );
 		$assertion	= TRUE;
-		$creation	= UI_DevOutput::showDOM();
+		$creation	= DevOutput::showDOM();
 		$this->assertEquals( $assertion, $creation );
 	}
 }

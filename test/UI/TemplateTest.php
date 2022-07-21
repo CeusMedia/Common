@@ -1,13 +1,21 @@
 <?php
-/**
- *	TestUnit of UI_Template
- *	@package		tests.ui
- *	@author			David Seebacher <dseebacher@gmail.com>
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- */
 declare( strict_types = 1 );
 
+/**
+ *	TestUnit of UI_Template
+ *	@package		tests.ui
+ *	@author			David Seebacher <dseebacher@gmail.com>
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ */
+
+namespace CeusMedia\Common\Test\UI;
+
 use CeusMedia\Common\Test\BaseCase;
+use CeusMedia\Common\Test\MockAntiProtection;
+use CeusMedia\Common\ADT\Collection\Dictionary;
+use CeusMedia\Common\UI\Template as UI_Template;
+
+use ArrayObject;
 
 /**
  *	TestUnit of UI_Template
@@ -15,13 +23,13 @@ use CeusMedia\Common\Test\BaseCase;
  *	@author			David Seebacher <dseebacher@gmail.com>
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
  */
-class Test_UI_TemplateTest extends BaseCase
+class TemplateTest extends BaseCase
 {
 	private $template;
 
 	public function setUp(): void
 	{
-		$this->mock			= Test_MockAntiProtection::getInstance( 'UI_Template' );
+		$this->mock			= MockAntiProtection::getInstance( 'UI_Template' );
 		$this->path			= dirname( __FILE__ )."/";
 		$this->template		= new UI_Template( $this->path.'template_testcase1.html' );
 		$this->mockElements	= array(
@@ -109,7 +117,7 @@ class Test_UI_TemplateTest extends BaseCase
 
 	public function testAddObject1()
 	{
-		$object	= new Test_UI_TemplateTestDataObject();
+		$object	= new TemplateTestDataObject();
 		$object->setData1( 'test1' );
 		$this->template->addObject( 'dataObject', $object );
 		$size	= sizeof( $this->template->getElements() );
@@ -125,7 +133,7 @@ class Test_UI_TemplateTest extends BaseCase
 
 	public function testAddObject2()
 	{
-		$object	= new Test_UI_TemplateTestDataObject();
+		$object	= new TemplateTestDataObject();
 		$object->setData1( new ArrayObject( array( 'first', 'second' ) ) );
 		$this->template->addObject( 'dataObject', $object );
 		$size	= sizeof( $this->template->getElements() );
@@ -142,8 +150,8 @@ class Test_UI_TemplateTest extends BaseCase
 
 	public function testAddObject3()
 	{
-		$object	= new Test_UI_TemplateTestDataObject();
-		$object->setData1( new ADT_List_Dictionary( array( 'key1' => 'val1', 'key2' => 'val2' ) ) );
+		$object	= new TemplateTestDataObject();
+		$object->setData1( new Dictionary( array( 'key1' => 'val1', 'key2' => 'val2' ) ) );
 		$this->template->addObject( 'dataObject', $object );
 		$size	= sizeof( $this->template->getElements() );
 		$this->assertEquals( 3, $size );
@@ -226,7 +234,8 @@ class Test_UI_TemplateTest extends BaseCase
 		$this->assertEquals( $assertion, $creation );
 	}
 }
-class Test_UI_TemplateTestDataObject
+
+class TemplateTestDataObject
 {
 	public $public		= "test";
 	protected $data1	= NULL;

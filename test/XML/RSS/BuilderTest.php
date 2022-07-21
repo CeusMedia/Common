@@ -1,23 +1,24 @@
 <?php
-/**
- *	TestUnit of XML_RSS_Builder.
- *	@package		Tests.xml.rss
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			08.05.2008
- *
- */
 declare( strict_types = 1 );
 
+/**
+ *	TestUnit of XML_RSS_Builder.
+ *	@package		Tests.xml.rss
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ */
+
+namespace CeusMedia\Common\Test\XML\RSS;
+
 use CeusMedia\Common\Test\BaseCase;
+use CeusMedia\Common\XML\DOM\Builder as XmlDomBuilder;
+use CeusMedia\Common\XML\RSS\Builder;
 
 /**
  *	TestUnit of XML_RSS_Builder.
  *	@package		Tests.xml.rss
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			08.05.2008
- *
  */
-class Test_XML_RSS_BuilderTest extends BaseCase
+class BuilderTest extends BaseCase
 {
 	protected $file;
 	protected $serial;
@@ -31,7 +32,7 @@ class Test_XML_RSS_BuilderTest extends BaseCase
 	{
 		$this->path		= dirname( __FILE__ )."/";
 		$this->file		= $this->path."builder.xml";
-		$this->builder	= new Test_XML_RSS_BuilderInstance();
+		$this->builder	= new TestBuilderInstance();
 		$this->setup	= array(
 			'channel'	=> array(
 				'title'				=> "UnitTest created Feed",
@@ -73,9 +74,9 @@ class Test_XML_RSS_BuilderTest extends BaseCase
 	 */
 	public function testConstruct()
 	{
-		$builder	= new Test_XML_RSS_BuilderInstance();
+		$builder	= new TestBuilderInstance();
 
-		$assertion	= new XML_DOM_Builder();
+		$assertion	= new XmlDomBuilder();
 		$creation	= $this->builder->getProtectedVar( 'builder' );
 		$this->assertEquals( $assertion, $creation );
 
@@ -193,12 +194,12 @@ class Test_XML_RSS_BuilderTest extends BaseCase
 	}
 }
 
-class Test_XML_RSS_BuilderInstance extends XML_RSS_Builder
+class TestBuilderInstance extends Builder
 {
 	public function getProtectedVar( $varName )
 	{
 		if( !in_array( $varName, array_keys( get_object_vars( $this ) ) ) )
-			throw new Exception( 'Var "'.$varName.'" is not declared.' );
+			throw new \Exception( 'Var "'.$varName.'" is not declared.' );
 		return $this->$varName;
 	}
 }

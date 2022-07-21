@@ -1,23 +1,25 @@
 <?php
-/**
- *	TestUnit of XML DOM Parser.
- *	@package		Tests.xml.dom
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			11.12.2007
- *
- */
 declare( strict_types = 1 );
 
+/**
+ *	TestUnit of XML DOM Parser.
+ *	@package		Tests.xml.dom
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ */
+
+namespace CeusMedia\Common\Test\XML\DOM;
+
 use CeusMedia\Common\Test\BaseCase;
+use CeusMedia\Common\XML\DOM\Builder;
+use CeusMedia\Common\XML\DOM\Node as XML_DOM_Node;
+use CeusMedia\Common\XML\DOM\Parser;
 
 /**
  *	TestUnit of XML DOM Parser.
  *	@package		Tests.xml.dom
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			11.12.2007
- *
  */
-class Test_XML_DOM_ParserTest extends BaseCase
+class ParserTest extends BaseCase
 {
 	/**
 	 *	Sets up Leaf.
@@ -26,8 +28,8 @@ class Test_XML_DOM_ParserTest extends BaseCase
 	 */
 	public function setUp(): void
 	{
-		$this->builder	= new XML_DOM_Builder();
-		$this->parser	= new XML_DOM_Parser();
+		$this->builder	= new Builder();
+		$this->parser	= new Parser();
 	}
 
 	/**
@@ -46,7 +48,7 @@ class Test_XML_DOM_ParserTest extends BaseCase
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= true;
-		$creation	= $document instanceof DOMDocument;
+		$creation	= $document instanceof \DOMDocument;
 		$this->assertEquals( $assertion, $creation );
 	}
 

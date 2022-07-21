@@ -1,23 +1,23 @@
 <?php
+declare( strict_types = 1 );
+
 /**
  *	TestUnit of partioned Session.
  *	@package		Tests.net.http
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			16.02.2008
- *
  */
-declare( strict_types = 1 );
 
+namespace CeusMedia\Common\Test\Net\HTTP;
+
+use CeusMedia\Common\Net\HTTP\PartitionSession;
 use CeusMedia\Common\Test\BaseCase;
 
 /**
  *	TestUnit of partioned Session.
  *	@package		Tests.net.http
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			16.02.2008
- *
  */
-class Test_Net_HTTP_PartitionSessionTest extends BaseCase
+class PartitionSessionTest extends BaseCase
 {
 	private $session;
 
@@ -25,7 +25,7 @@ class Test_Net_HTTP_PartitionSessionTest extends BaseCase
 	{
 //		if( session_status() === PHP_SESSION_ACTIVE )
 //			session_destroy();
-		$this->session		= new Net_HTTP_PartitionSession( 'test' );
+		$this->session		= new PartitionSession( 'test' );
 		$this->session->clear();
 	}
 
