@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	A Map with Level Support.
  *	It is a Dictionary where Keys can contain Dots.
@@ -25,8 +26,8 @@
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			07.05.2008
  */
+
 namespace CeusMedia\Common\ADT\Collection;
 
 use InvalidArgumentException;
@@ -41,7 +42,6 @@ use InvalidArgumentException;
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			07.05.2008
  *	@todo			Unit Test
  */
 class LevelMap extends Dictionary
@@ -74,7 +74,7 @@ class LevelMap extends Dictionary
 			return $this->pairs[$key];
 		//  Key has not been found
 
-		//  prepare Prefix Key to seach for
+		//  prepare Prefix Key to search for
 		$key		.= $this->divider;
 		//  define empty Map
 		$list		= array();
@@ -83,7 +83,7 @@ class LevelMap extends Dictionary
 		//  iterate all stores Pairs
 		foreach( $this->pairs as $pairKey => $pairValue )
 		{
-			//  precheck for Performance
+			//  pre-check for Performance
 			if( $pairKey[0] !== $key[0] )
 				//  skip Pair
 				continue;
@@ -101,12 +101,10 @@ class LevelMap extends Dictionary
 	}
 
 	/**
-	 *	@todo	kriss: test + rename + code doc + inline doc
+	 *	@todo	test + rename + code doc + inline doc
 	 */
 	public function getKeySections( string $prefix = NULL ): array
 	{
-		if( is_array( $prefix ) )
-			$prefix	= join( $this->divider, $prefix ).$this->divider;
 		$keys		= array_keys( $this->getAll( $prefix ) );
 		natcasesort( $keys );
 		$sections		= array();
@@ -142,12 +140,12 @@ class LevelMap extends Dictionary
 			return TRUE;
 		//  Key has not been found
 
-		//  prepare Prefix Key to seach for
+		//  prepare Prefix Key to search for
 		$key		.= $this->divider;
 		//  iterate all stores Pairs
 		foreach( $this->pairs as $pairKey => $pairValue )
 		{
-			//  precheck for Performance
+			//  pre-check for Performance
 			if( $pairKey[0] !== $key[0] )
 				//  skip Pair
 				continue;
@@ -179,12 +177,12 @@ class LevelMap extends Dictionary
 		}
 
 		$count	= 0;
-		//  prepare Prefix Key to seach for
+		//  prepare Prefix Key to search for
 		$key		.= $this->divider;
 		//  iterate all stores Pairs
 		foreach( $this->pairs as $pairKey => $pairValue )
 		{
-			//  precheck for Performance
+			//  pre-check for Performance
 			if( $pairKey[0] !== $key[0] )
 				//  skip Pair
 				continue;
@@ -206,7 +204,7 @@ class LevelMap extends Dictionary
 	 *	@param		bool		$sort		Flag: sort by Keys after Insertion
 	 *	@return		void
 	 */
-	public function set( string $key, $value, $sort = TRUE ): bool
+	public function set(string $key, $value, bool $sort = TRUE ): bool
 	{
 		//  no Key given
 		if( 0 === strlen( trim( $key ) ) )
@@ -216,7 +214,7 @@ class LevelMap extends Dictionary
 		if( is_array( $value ) )
 			//  iterate given Pair Map
 			foreach( $value as $pairKey => $pairValue )
-				//  add Pair to stores Pairs
+				//  add Pair to store Pairs
 				$this->pairs[$key.$this->divider.$pairKey]	= $pairValue;
 		//  single Value given
 		else

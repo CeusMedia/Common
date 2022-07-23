@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Node in a graph
  *
@@ -24,6 +25,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+
 namespace CeusMedia\Common\ADT\Graph;
 
 /**
@@ -39,6 +41,7 @@ class Node
 {
 	/**	@var	string		$nodeName 		Name of this Node */
 	protected $nodeName;
+
 	/**	@var	mixed		$nodeValue		Value of this Node */
 	protected $nodeValue;
 
@@ -46,7 +49,7 @@ class Node
 	 *	Constructor.
 	 *	@access		public
 	 *	@param		string		$nodeName		Name of this Node
-	 *	@param		mixed		$value			Value of this Node
+	 *	@param		mixed		$nodeValue		Value of this Node
 	 *	@return		void
 	 */
 	public function __construct( string $nodeName, $nodeValue = '' )

@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	NodeSet to store and manipulate nodes in a graph.
  *
@@ -24,9 +25,11 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+
 namespace CeusMedia\Common\ADT\Graph;
 
 use Countable;
+use Exception;
 
 /**
  *	NodeSet to store and manipulate nodes in a graph.
@@ -49,7 +52,7 @@ class NodeSet implements Countable
 	 *	@param		mixed			$nodeValue		Value of the new Node
 	 *	@return 	Node
 	 */
-	public function addNode( string $nodeName, $nodeValue = '' )
+	public function addNode( string $nodeName, $nodeValue = '' ): Node
 	{
 		$newNode = new Node( $nodeName, $nodeValue );
 		if( !$this->isNode( $newNode ) ){
@@ -73,12 +76,13 @@ class NodeSet implements Countable
 	/**
 	 *	Returns first Node of this NodeSet.
 	 *	@access		public
-	 *	@return 	Node
+	 *	@return		Node|NULL
 	 */
-	public function getFirstNode()
+	public function getFirstNode(): ?Node
 	{
-		if( count( $this->nodes ) )
+		if( 0 !== $this->count() )
 			return $this->nodes[0];
+		return NULL;
 	}
 
 	/**
@@ -86,7 +90,7 @@ class NodeSet implements Countable
 	 *	@access		public
 	 *	@return 	Node|NULL
 	 */
-	public function getLastNode()
+	public function getLastNode(): ?Node
 	{
 		if( 0 !== $this->count() )
 			return $this->nodes[$this->count() - 1];
@@ -97,9 +101,9 @@ class NodeSet implements Countable
 	 *	Returns a Node of this NodeSet.
 	 *	@access		public
 	 *	@param		string				$nodeName		Name of the new Node
-	 *	@return 	Node
+	 *	@return		Node|NULL
 	 */
-	public function getNode( string $nodeName )
+	public function getNode( string $nodeName ): ?Node
 	{
 		for( $i=0; $i<$this->count(); $i++ )
 			if( $this->nodes[$i]->getNodeName() == $nodeName )
@@ -113,12 +117,12 @@ class NodeSet implements Countable
 	 *	@param		Node		$node			Node to get index for
 	 *	@return 	int
 	 */
-	private function getNodeIndex( $node )
+	private function getNodeIndex( Node $node ): int
 	{
 		for( $i=0; $i<$this->count(); $i++ )
 			if( $this->nodes[$i] == $node )
 				return $i;
-		return NULL;
+		return -1;
 	}
 
 	/**
@@ -135,9 +139,9 @@ class NodeSet implements Countable
 	 *	Indicates whether a Node is existing in this NodeSet.
 	 *	@access		public
 	 *	@param		Node		$node			Node to be searched for
-	 *	@return 	bool
+	 *	@return		bool
 	 */
-	public function isNode( $node ): bool
+	public function isNode( Node $node ): bool
 	{
 		foreach( $this->nodes as $_node )
 			if( $_node == $node )
@@ -149,12 +153,13 @@ class NodeSet implements Countable
 	 *	Removing a node.
 	 *	@access		public
 	 *	@param		Node		$node			Node to be removed
-	 *	@return 	void
+	 *	@return		void
+	 *	@throws		Exception
 	 */
-	public function removeNode( $node )
+	public function removeNode( Node $node )
 	{
 		if( !$this->isNode( $node ) )
-			throw new \Exception( 'Edge is not existing.' );
+			throw new Exception( 'Edge is not existing.' );
 		$index = $this->getNodeIndex( $node );
 		unset( $this->nodes[$index] );
 		sort( $this->nodes );

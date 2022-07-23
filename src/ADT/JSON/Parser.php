@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	JSON Parser.
  *
@@ -23,8 +24,8 @@
  *	@copyright		2010-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.7.0
  */
+
 namespace CeusMedia\Common\ADT\JSON;
 
 use CeusMedia\Common\ADT\Constant;
@@ -38,7 +39,6 @@ use RuntimeException;
  *	@copyright		2010-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.7.0
  */
 class Parser
 {
@@ -54,7 +54,7 @@ class Parser
 	 *	@param		boolean		$asConstantKey	Flag: return constant name as string instead of its integer value
 	 *	@return		integer|string
 	 */
-	public function getError( $asConstantKey = FALSE )
+	public function getError( bool $asConstantKey = FALSE )
 	{
 		$code	= json_last_error();
 		if( $asConstantKey )
@@ -79,7 +79,7 @@ class Parser
 	 *	@access		public
 	 *	@return		object
 	 */
-	public function getInfo()
+	public function getInfo(): object
 	{
 		return (object) array(
 			'status'	=> $this->status,
@@ -94,7 +94,7 @@ class Parser
 	 *	@access		public
 	 *	@return		string
 	 */
-	public function getMessage()
+	public function getMessage(): string
 	{
 		return json_last_error_msg();
 	}
@@ -107,7 +107,7 @@ class Parser
 	 *	@return		object|array
 	 *	@throws		RuntimeException			if parsing failed
 	 */
-	public function parse( string $json, bool $asArray = NULL )
+	public function parse( string $json, bool $asArray = FALSE )
 	{
 		$this->status	= static::STATUS_EMPTY;
 		$data			= json_decode( $json, $asArray );

@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Sets and gets constant values.
  *	List all constants with a given prefix.
@@ -24,8 +25,8 @@
  *	@copyright		2010-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.7.0
  */
+
 namespace CeusMedia\Common\ADT;
 
 use InvalidArgumentException;
@@ -41,7 +42,6 @@ use RuntimeException;
  *	@copyright		2010-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.7.0
  */
 class Constant
 {
@@ -51,9 +51,10 @@ class Constant
 	 *	@static
 	 *	@param		string		$key		Name of Constant to return
 	 *	@return		mixed
+	 *	@throws		InvalidArgumentException
 	 *	@todo		finish impl
 	 */
-	public static function get( $key )
+	public static function get( string $key )
 	{
 		$key	= strtoupper( $key );
 		if( self::has( $key ) )
@@ -65,9 +66,12 @@ class Constant
 	 *	Returns a Map of defined Constants.
 	 *	@access		public
 	 *	@static
+	 *	@param		string|NULL		$prefix			...
+	 *	@param		boolean			$excludePrefix	Flag: ...
 	 *	@return		array
+	 *	@throws		InvalidArgumentException
 	 */
-	public static function getAll( $prefix = NULL, $excludePrefix = NULL )
+	public static function getAll( ?string $prefix = NULL, bool $excludePrefix = FALSE ): array
 	{
 		$prefix	= strtoupper( $prefix );
 		$length	= strlen( $prefix );
@@ -75,8 +79,7 @@ class Constant
 			throw new InvalidArgumentException( 'Prefix "'.$prefix.'" is to short.' );
 		$map	= get_defined_constants();
 		if( $prefix ){
-			foreach( $map as $key => $value )
-			{
+			foreach( $map as $key => $value ){
 				if( $key[0] !== $prefix[0] )
 					unset( $map[$key] );
 				else if( $key[1] !== $prefix[1] )
@@ -97,7 +100,7 @@ class Constant
 		return $map;
 	}
 
-	public static function getKeyByValue( $prefix, $value )
+	public static function getKeyByValue( ?string $prefix, $value )
 	{
 		$constants	= static::getAll( $prefix );
 		$list		= array();
@@ -109,7 +112,7 @@ class Constant
 			throw new RangeException( sprintf( $message, $value, $prefix ) );
 		}
 		if( count( $list ) > 1 ){
-			$message	= 'Constant value "%s" is ambigious within prefix "%s"';
+			$message	= 'Constant value "%s" is ambiguous within prefix "%s"';
 			throw new RangeException( sprintf( $message, $value, $prefix ) );
 		}
 		return $list[0];
@@ -122,7 +125,7 @@ class Constant
 	 *	@param		string		$key		Name of Constant to check
 	 *	@return		bool
 	 */
-	public static function has( $key )
+	public static function has( string $key ): bool
 	{
 		$key	= strtoupper( $key );
 		return defined( $key );
@@ -138,7 +141,7 @@ class Constant
 	 *	@return		bool
 	 *	@throws		RuntimeException		if Constant has already been set
 	 */
-	public static function set( $key, $value, $strict = TRUE )
+	public static function set( string $key, $value, bool $strict = TRUE ): bool
 	{
 		$key	= strtoupper( $key );
 		if( defined( $key ) && $strict )

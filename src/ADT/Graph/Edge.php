@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Edge in a graph
  *
@@ -24,6 +25,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+
 namespace CeusMedia\Common\ADT\Graph;
 
 /**
@@ -41,15 +43,15 @@ class Edge
  	protected $sourceNode;
 	/**	@var		Node		$targetNode		Target Node of Edge */
 	protected $targetNode;
-	/**	@var		int					$edgeValue		Value of Edge */
-	protected $edgeValue				= 1;
+	/**	@var		int			$edgeValue		Value of Edge */
+	protected $edgeValue		= 1;
 
 	/**
 	 *	Constructor.
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function __construct( $sourceNode, $targetNode, $edgeValue = false )
+	public function __construct( Node $sourceNode, Node $targetNode, int $edgeValue = 0 )
 	{
 		$this->setSourceNode( $sourceNode );
 		$this->setTargetNode( $targetNode );
@@ -61,7 +63,7 @@ class Edge
 	 *	@access		public
 	 *	@return		int
 	 */
-	public function getEdgeValue()
+	public function getEdgeValue(): int
 	{
 		return $this->edgeValue;
 	}
@@ -71,7 +73,7 @@ class Edge
 	 *	@access		public
 	 *	@return		Node
 	 */
-	public function getSourceNode()
+	public function getSourceNode(): Node
 	{
 		return $this->sourceNode;
 	}
@@ -81,7 +83,7 @@ class Edge
 	 *	@access		public
 	 *	@return		Node
 	 */
-	public function getTargetNode()
+	public function getTargetNode(): Node
 	{
 		return $this->targetNode;
 	}
@@ -92,7 +94,7 @@ class Edge
 	 *	@param		int					$edgeValue		Value of this Edge
 	 *	@return		void
 	 */
-	public function setEdgeValue( $edgeValue )
+	public function setEdgeValue( int $edgeValue )
 	{
 		$this->edgeValue = $edgeValue;
 	}
@@ -103,7 +105,7 @@ class Edge
 	 *	@param		Node		$sourceNode		Source Node of this Edge
 	 *	@return		void
 	 */
-	public function setSourceNode( $sourceNode )
+	public function setSourceNode( Node $sourceNode )
 	{
 		$this->sourceNode = $sourceNode;
 	}
@@ -114,7 +116,7 @@ class Edge
 	 *	@param		Node		$targetNode		Target Node of this Edge
 	 *	@return		void
 	 */
-	public function setTargetNode( $targetNode )
+	public function setTargetNode( Node $targetNode )
 	{
 		$this->targetNode = $targetNode;
 	}

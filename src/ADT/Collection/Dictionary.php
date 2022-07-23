@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Dictionary is a simple Pair Structure similar to an associative Array but implementing some Interfaces.
  *
@@ -23,9 +24,15 @@
  *	@copyright		2006-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			27.03.2006
  */
 namespace CeusMedia\Common\ADT\Collection;
+
+use ArrayAccess;
+use Countable;
+use InvalidArgumentException;
+use Iterator;
+use OutOfRangeException;
+use UnexpectedValueException;
 
 /**
  *	Dictionary is a simple Pair Structure similar to an associative Array but implementing some Interfaces.
@@ -35,9 +42,8 @@ namespace CeusMedia\Common\ADT\Collection;
  *	@copyright		2006-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			27.03.2006
  */
-class Dictionary implements \ArrayAccess, \Countable, \Iterator
+class Dictionary implements ArrayAccess, Countable, Iterator
 {
 	/**	@var		array		$pairs			Associative Array of Pairs */
 	protected $pairs			= array();
@@ -45,7 +51,7 @@ class Dictionary implements \ArrayAccess, \Countable, \Iterator
 	/**	@var		array		$position		Iterator Position */
 	private $position			= 0;
 
-	/**	@var		boolean		$caseSensitive	Flag: be case sensitive on pair keys */
+	/**	@var		boolean		$caseSensitive	Flag: be case-sensitive on pair keys */
 	protected $caseSensitive	= TRUE;
 
 	/**
@@ -74,18 +80,18 @@ class Dictionary implements \ArrayAccess, \Countable, \Iterator
 	public function cast( $value, string $key )
 	{
 		if( strtolower( gettype( $value ) ) === "resource" )
-			throw new \InvalidArgumentException( 'Cannot cast resource' );
+			throw new InvalidArgumentException( 'Cannot cast resource' );
 		if( !$this->has( $key ) )
-			throw new \OutOfRangeException( 'Invalid key "'.$key.'"' );
+			throw new OutOfRangeException( 'Invalid key "'.$key.'"' );
 
-		//  lowercase key if dictionary is not case sensitive
+		//  lowercase key if dictionary is not case-sensitive
 		$key		= !$this->caseSensitive ? strtolower( $key ) : $key;
 		$valueType	= strtolower( gettype( $value ) );
 		$pairType	= strtolower( gettype( $this->get( $key ) ) );
 
 		$abstracts	= array( 'array', 'object' );
 		if( in_array( $valueType, $abstracts, TRUE ) !== in_array( $pairType, $abstracts, TRUE ) )
-			throw new \UnexpectedValueException( 'Cannot cast '.$valueType.' to '.$pairType );
+			throw new UnexpectedValueException( 'Cannot cast '.$valueType.' to '.$pairType );
 		settype( $value, $pairType );
 		return $value;
 	}
@@ -137,7 +143,7 @@ class Dictionary implements \ArrayAccess, \Countable, \Iterator
 	 *	Attention: A given prefix will be cut from pair keys.
 	 *	@access		public
 	 *	@param		string		$prefix			Prefix to filter keys, e.g. "mail." for all pairs starting with "mail."
-	 *	@param		boolean		$caseSensitive	Flag: return list with lowercase pair keys or dictionary with no case sensitivy
+	 *	@param		boolean		$caseSensitive	Flag: return list with lowercase pair keys or dictionary with no case sensitivity
 	 *	@return		self						Dictionary object containing filtered pairs
 	 */
 	public function filterByKeyPrefix( string $prefix, bool $caseSensitive = TRUE ): self
@@ -166,7 +172,7 @@ class Dictionary implements \ArrayAccess, \Countable, \Iterator
 				if( $match ){
 					//  cut prefix
 					$key	= substr( $key, $length );
-					//  enlist pair, with case insensitive key if needed
+					//  enlist pair, with case-insensitive key if needed
 					$list[$key]	= $value;
 				}
 			}
@@ -196,14 +202,14 @@ class Dictionary implements \ArrayAccess, \Countable, \Iterator
 	 *	Returns all Pairs of Dictionary as an Array.
 	 *	Using a filter prefix, all pairs with keys starting with prefix are returned.
 	 *	Attention: A given prefix will be cut from pair keys.
-	 *	By default an array is returned. Alternatively another dictionary can be returned.
+	 *	By default, an array is returned. Alternatively another dictionary can be returned.
 	 *	@access		public
-	 *	@param		string		$prefix			Prefix to filter keys, e.g. "mail." for all pairs starting with "mail."
+	 *	@param		string|NULL	$prefix			Prefix to filter keys, e.g. "mail." for all pairs starting with "mail."
 	 *	@param		boolean		$asDictionary	Flag: return list as dictionary object instead of an array
-	 *	@param		boolean		$caseSensitive	Flag: return list with lowercase pair keys or dictionary with no case sensitivy
+	 *	@param		boolean		$caseSensitive	Flag: return list with lowercase pair keys or dictionary with no case sensitivity
 	 *	@return		array|self	Map or dictionary object containing all or filtered pairs
 	 */
-	public function getAll( $prefix = NULL, bool $asDictionary = FALSE, bool $caseSensitive = TRUE )
+	public function getAll( ?string $prefix = NULL, bool $asDictionary = FALSE, bool $caseSensitive = TRUE )
 	{
 		//  assume all pairs by default
 		$list	= $this->pairs;
@@ -252,7 +258,7 @@ class Dictionary implements \ArrayAccess, \Countable, \Iterator
 	 */
 	public function has( string $key ): bool
 	{
-		//  lowercase key if dictionary is not case sensitive
+		//  lowercase key if dictionary is not case-sensitive
 		$key	= !$this->caseSensitive ? strtolower( $key ) : $key;
 		return array_key_exists( $key, $this->pairs );
 	}
@@ -281,46 +287,46 @@ class Dictionary implements \ArrayAccess, \Countable, \Iterator
 	/**
 	 *	Indicates whether a Key is existing.
 	 *	@access		public
-	 *	@param		string		$key		Key in Dictionary
+	 *	@param		string		$offset		Key in Dictionary
 	 *	@return		boolean
 	 */
-	public function offsetExists( $key )
-	{
-		return $this->has( $key );
+	public function offsetExists( $offset ): bool
+    {
+		return $this->has( $offset );
 	}
 
 	/**
 	 *	Return a Value of Dictionary by its Key.
 	 *	@access		public
-	 *	@param		string		$key		Key in Dictionary
+	 *	@param		string		$offset		Key in Dictionary
 	 *	@return		mixed
 	 */
-	public function offsetGet( $key )
+	public function offsetGet( $offset )
 	{
-		return $this->get( $key );
+		return $this->get( $offset );
 	}
 
 	/**
 	 *	Sets Value of Key in Dictionary.
 	 *	@access		public
-	 *	@param		string		$key		Key in Dictionary
+	 *	@param		string		$offset		Key in Dictionary
 	 *	@param		string		$value		Value of Key
 	 *	@return		boolean
 	 */
-	public function offsetSet( $key, $value )
-	{
-		return $this->set( $key, $value );
+	public function offsetSet( $offset, $value ): bool
+    {
+		return $this->set( $offset, $value );
 	}
 
 	/**
 	 *	Removes a Value from Dictionary by its Key.
 	 *	@access		public
-	 *	@param		string		$key		Key in Dictionary
+	 *	@param		string		$offset		Key in Dictionary
 	 *	@return		boolean
 	 */
-	public function offsetUnset( $key )
+	public function offsetUnset( $offset ): bool
 	{
-		return $this->remove( $key );
+		return $this->remove( $offset );
 	}
 
 	/**
@@ -335,7 +341,7 @@ class Dictionary implements \ArrayAccess, \Countable, \Iterator
 		if( !$this->has( $key ) )
 			//  indicate miss
 			return FALSE;
-		//  lowercase key if dictionary is not case sensitive
+		//  lowercase key if dictionary is not case-sensitive
 		$key	= !$this->caseSensitive ? strtolower( $key ) : $key;
 		//  index of pair to be removed
 		$index	= array_search( $key, array_keys( $this->pairs ), TRUE );
@@ -380,7 +386,7 @@ class Dictionary implements \ArrayAccess, \Countable, \Iterator
 				//  quit and return negative because no change has taken place
 				return FALSE;
 		}
-		//  set new value of current pair, case insensitive if needed
+		//  set new value of current pair, case-insensitive if needed
 		$this->pairs[( !$this->caseSensitive ? strtolower( $key ) : $key )]		= $value;
 		//  indicate success
 		return TRUE;

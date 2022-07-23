@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	DirectedGraph.
  *
@@ -24,12 +25,12 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+
 namespace CeusMedia\Common\ADT\Graph;
 
-use CeusMedia\Common\ADT\MatrixAssocFileMatrix;
-use CeusMedia\Common\ADT\AssocMatrix;
 use CeusMedia\Common\ADT\Collection\Stack;
-use CeusMedia\Common\ADT\Queue;
+use CeusMedia\Common\ADT\Collection\Queue;
+use Exception;
 
 /**
  *	DirectedGraph.
@@ -39,36 +40,33 @@ use CeusMedia\Common\ADT\Queue;
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@todo			prove Implementation( AssocFileMatrix)
  *	@todo			Code Documentation
  */
 class DirectedWeighted extends Weighted
 {
 	/**
 	 *	 Adds an Edge and returns the reference on the new Edge.
-	 *	 @access		public
-	 *	 @param			Node		$source		Source Node of this Edge
-	 *	 @param			Node		$target		Target Node of this Edge
-	 *	 @param			int					$value		Value of this Edge
-	 *	 @return		Edge
+	 *	@access		public
+	 *	@param		Node		$source		Source Node of this Edge
+	 *	@param		Node		$target		Target Node of this Edge
+	 *	@param		int			$value		Value of this Edge
+	 *	@return		Edge
+	 *	@throws		Exception
 	 */
-	public function addEdge( $source, $target, $value = 1 )
+	public function addEdge( Node $source, Node $target, int $value = 1 ): Edge
 	{
 		return $this->edgeSet->addEdge( $source, $target, $value );
 	}
 
-	public function bf( $startNode )
+	public function bf( Node $startNode ): array
 	{
 		$distance = array();
-		foreach( $this->nodeSet->getNodes() as $node )
-		{
+		foreach( $this->nodeSet->getNodes() as $node ){
 			$distance[$node->getNodeName()] = 65535;
 		}
 		$distance[$startNode->getNodeName()] = 0;
-		for( $i=0; $i<$this->getNodeSize(); $i++ )
-		{
-			foreach( $this->edgeSet->getEdges() as $edge )
-			{
+		for( $i=0; $i<$this->getNodeSize(); $i++ ) {
+			foreach( $this->edgeSet->getEdges() as $edge ) {
 				$source = $edge->getSourceNode();
 				$target = $edge->getTargetNode();
 				$a = $distance[$source->getNodeName()] + $this->getEdgeValue( $source, $target );
@@ -81,126 +79,119 @@ class DirectedWeighted extends Weighted
 
 	/**
 	 *	 Returns an Edge by its source and target Nodes.
-	 *	 @access		public
-	 *	 @param			Node		$source		Source Node of the Edge
-	 *	 @param			Node		$target		Target Node of the Edge
-	 *	 @return		Edge
+	 *	@access		public
+	 *	@param		Node		$source		Source Node of the Edge
+	 *	@param		Node		$target		Target Node of the Edge
+	 *	@return		Edge
 	 */
-	public function getEdge( $source, $target)
+	public function getEdge( Node $source, Node $target): Edge
 	{
 		return $this->edgeSet->getEdge( $source, $target);
 	}
 
 	/**
 	 *	 Returns distance between two Nodes.
-	 *	 @access		public
-	 *	 @param			Node		$source		Source Node of this Edge
-	 *	 @param			Node		$target		Target Node of this Edge
-	 *	 @return		int
+	 *	@access		public
+	 *	@param		Node		$source		Source Node of this Edge
+	 *	@param		Node		$target		Target Node of this Edge
+	 *	@return		int
 	 */
-	public function getGrade( $source, $target )
+	public function getGrade( Node $source, Node $target ): int
 	{
 		if( $this->isEdge( $source, $target ) )
 			return 1;
 		$nodes = $this->getTargetNodes( $source );
-		foreach( $nodes as $node )
-		{
+		foreach( $nodes as $node ) {
 			$way = $this->getGrade( $node, $target );
 			return ++$way;
 		}
-		return false;
+		return -1;
 	}
 
 	/**
 	 *	 Returns the way between two Nodes as Stack.
-	 *	 @access		public
-	 *	 @param			Node		$source		Source Node of this Edge
-	 *	 @param			Node		$target		Target Node of this Edge
-	 *	 @param			ListStack		$stack		Stack to fill with Node on the way
-	 *	 @return		ListStack
+	 *	@access		public
+	 *	@param		Node		$source		Source Node of this Edge
+	 *	@param		Node		$target		Target Node of this Edge
+	 *	@param		Stack|NULL	$stack		Stack to fill with Node on the way
+	 *	@return		Stack
 	 */
-	public function getPath( $source, $target, $stack = false )
+	public function getPath( Node $source, Node $target, ?Stack $stack = NULL ): Stack
 	{
-		if( $this->isEdge( $source, $target ) )
-		{
-			if( $stack && is_a( $stack, "stack" ) )
+		if( $this->isEdge( $source, $target ) ){
+			if( !is_null( $stack ) )
 				$way = $stack;
-			else $way = new ListStack();
+			else $way = new Stack();
 			$way->push( $target );
 			return $way;
 		}
 		$nodes = $this->getTargetNodes( $source );
-		foreach( $nodes as $node )
-		{
+		foreach( $nodes as $node ){
 			$way = $this->getPath( $node, $target, $stack );
-			if( $way )
-			{
+			if( $way ){
 				$way->push( $node );
 				return $way;
 			}
 		}
-		return false;
+		return new Stack();
 	}
 
 	/**
 	 *	@param		array			$hadNodes	Array of already visited Nodes
 	 */
-	public function getPathValue( $source, $target, $hadNodes = array() )
+	public function getPathValue( Node $source, Node $target, array $hadNodes = array() ): int
 	{
-		if( $this->isEdge( $source, $target ) )
-		{
-			$value = $this->getEdgeValue( $source, $target );
-			return $value;
+		if( $this->isEdge( $source, $target ) ) {
+			return $this->getEdgeValue( $source, $target );
 		}
 		$nodes = $this->getTargetNodes( $source );
-		foreach( $nodes as $node )
-		{
+		foreach( $nodes as $node ) {
 			$value	= $this->getEdgeValue( $source, $node );
 			$way	= $this->getPathValue( $node, $target, $hadNodes );
 			if( $way )
 				return $value + $way;
 		}
-		return false;
+		return -1;
 	}
 
 	/**
 	 *	 Indicates whether Graph has closed sequence of Edges.
-	 *	 @access		public
-	 *	 @return		bool
+	 *	@access		public
+	 *	@return		bool
 	 */
-	public function hasCycle()
+	public function hasCycle(): bool
 	{
 		if( $this->hasLoop() )
 			return true;
-		else
-		{
+		else {
 			foreach( $this->getNodes() as $node )
 				if( $this->isPath($node, $node ) )
-					return true;
+					return TRUE;
 		}
-		return false;
+		return FALSE;
 	}
 
 	/**
 	 *	 Indicated whether an Edge is existing in this Graph.
-	 *	 @access		public
-	 *	 @param			Node		$source		Source Node of this Edge
-	 *	 @param			Node		$target		Target Node of this Edge
-	 *	 @return		bool
+	 *	@access		public
+	 *	@param		Node		$source		Source Node of this Edge
+	 *	@param		Node		$target		Target Node of this Edge
+	 *	@return		bool
 	 */
-	public function isEdge( $source, $target )
+	public function isEdge( Node $source, Node $target ): bool
 	{
 		return $this->edgeSet->isEdge( $source, $target );
 	}
 
 	/**
 	 *	 Removes an Edge by its source and target Nodes.
-	 *	 @access		public
-	 *	 @param			Node		$source		Source Node of this Edge
-	 *	 @param			Node		$target		Target Node of this Edge
-	 *	 @return		void
+	 *	@access		public
+	 *	@param		Node		$source		Source Node of this Edge
+	 *	@param		Node		$target		Target Node of this Edge
+	 *	@return		void
+	 *	@throws		Exception
 	 */
-	public function removeEdge( $source, $target )
+	public function removeEdge( Node $source, Node $target )
 	{
 		if( $this->isEdge( $source, $target ) )
 			$this->edgeSet->removeEdge( $source, $target );
@@ -208,14 +199,14 @@ class DirectedWeighted extends Weighted
 
 	/**
 	 *	 Removes a Node.
-	 *	 @access		public
-	 *	 @param			Node		$node		Node to be removed
-	 *	 @return		void
+	 *	@access		public
+	 *	@param		Node		$node		Node to be removed
+	 *	@return		void
+	 *	@throws		Exception
 	 */
-	public function removeNode( $node)
+	public function removeNode( Node $node )
 	{
-		foreach( $this->getNodes() as $_node )
-		{
+		foreach( $this->getNodes() as $_node ){
 			if( $this->isEdge( $_node, $node ) )
 				//  remove incoming Edges
 				$this->removeEdge( $_node, $node );
@@ -229,19 +220,17 @@ class DirectedWeighted extends Weighted
 
 	/**
 	 *	 Returns all Nodes and Edges of this Graph as an array.
-	 *	 @access		public
-	 *	 @return		array
+	 *	@access		public
+	 *	@return		array
 	 */
-	public function toArray()
+	public function toArray(): array
 	{
 		$a = array();
 		$nodes = $this->getNodes();
-		for( $i=0; $i<$this->getNodeSize(); $i++ )
-		{
+		for( $i=0; $i<$this->getNodeSize(); $i++ ){
 			$source = $nodes[$i];
 			$line = array();
-			for( $j=0; $j<$this->getNodeSize(); $j++ )
-			{
+			for( $j=0; $j<$this->getNodeSize(); $j++ ){
 				$target = $nodes[$j];
 				$value = $this->getEdgeValue( $source, $target );
 				$line[$target->getNodeName()] = $value;
@@ -254,28 +243,24 @@ class DirectedWeighted extends Weighted
 	/**
 	 *	Breitendurchlauf
 	 */
-	public function traverseBreadth( $startNode )
+	public function traverseBreadth( $startNode ): array
 	{
-		$distance = array();
-		$state = array();
+		$distance	= [];
+		$state		= [];
 		$q = new Queue();
 		foreach( $this->nodeSet->getNodes() as $node )
-		{
 			$state[$node->getNodeName()] = 0;
-		}
 		$state[$startNode->getNodeName()] = 1;
 		$distance[$startNode->getNodeName()] = 0;
-		$q->enqueue( $startNode );
-		while( !$q->isEmpty() )
-		{
+		$q->push( $startNode );
+		while( !$q->isEmpty() ){
 			$current = $q->top();
-			foreach( $this->getTargetNodes($current) as $node )
-			{
+			foreach( $this->getTargetNodes($current) as $node ){
 				$state[$node->getNodeName()]	= 0;
 				$distance[$node->getNodeName()]	= $distance[$current->getNodeName()] + $this->getEdgeValue($current, $node);
-				$q->enqueue( $node );
+				$q->push( $node );
 			}
-			$q->dequeue();
+			$q->pop();
 		}
 		return $distance;
 	}

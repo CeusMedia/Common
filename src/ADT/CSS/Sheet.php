@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	...
  *
@@ -23,9 +24,11 @@
  *	@copyright		2011-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.7.5
  */
+
 namespace CeusMedia\Common\ADT\CSS;
+
+use InvalidArgumentException;
 
 /**
  *	...
@@ -36,12 +39,11 @@ namespace CeusMedia\Common\ADT\CSS;
  *	@copyright		2011-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.7.5
  */
 class Sheet
 {
-	/**	@var		array			$rules		List of CSS rule objects */
-	public $rules		= array();
+	/**	@var		Rule[]			$rules		List of CSS rule objects */
+	public $rules		= [];
 
 	/**
 	 *	Constructor.
@@ -50,7 +52,7 @@ class Sheet
 	 */
 	public function __construct()
 	{
-		$this->rules	= array();
+		$this->rules	= [];
 	}
 
 	/**
@@ -67,7 +69,7 @@ class Sheet
 				$got->setPropertyByKey( $property->getKey(), $property->getValue() );
 		else{
 			if( !preg_match( '/([a-z])|(#|\.[a-z])/i', $rule->getSelector() ) )
-				throw new \InvalidArgumentException( 'Invalid selector' );
+				throw new InvalidArgumentException( 'Invalid selector' );
 			$this->rules[]	= $rule;
 		}
 		return $this;
@@ -78,9 +80,9 @@ class Sheet
 	 *	@access		public
 	 *	@param		string			$selector	Rule selector
 	 *	@param		string			$key		Property key
-	 *	@return		string|NULL
+	 *	@return		Property|NULL
 	 */
-	public function get( string $selector, string $key )
+	public function get( string $selector, string $key ): ?Property
 	{
 		$rule = $this->getRuleBySelector( $selector );
 		if( !$rule )
@@ -94,10 +96,10 @@ class Sheet
 	 *	@param		string			$selector	Rule selector
 	 *	@return		Rule|NULL
 	 */
-	public function getRuleBySelector( string $selector )
+	public function getRuleBySelector( string $selector ): ?Rule
 	{
 		foreach( $this->rules as $rule )
-			if( $selector == $rule->getSelector() )
+			if( $selector === $rule->getSelector() )
 				return $rule;
 		return NULL;
 	}
@@ -129,13 +131,17 @@ class Sheet
 	 *	Indicates whether a property is existing by its key.
 	 *	@access		public
 	 *	@param		string			$selector	Rule selector
+	 *	@param		string|NULL		$key		Rule key
 	 *	@return		boolean
 	 */
-	public function has( string $selector, string $key = NULL ): bool
+	public function has( string $selector, ?string $key = NULL ): bool
 	{
 		$rule = $this->getRuleBySelector( $selector );
-		if( $rule )
-			return !$key ? TRUE : $rule->has( $key );
+		if( !is_null( $rule ) ){
+			if( is_null( $key ) )
+				return TRUE;
+			return $rule->hasPropertyByKey( $key );
+		}
 		return FALSE;
 	}
 
@@ -218,10 +224,10 @@ class Sheet
 	 *	@access		public
 	 *	@param		string			$selector		Rule selector
 	 *	@param		string			$key			Property key
-	 *	@param		string			$value			Property value
+	 *	@param		string|NULL		$value			Property value
 	 *	@return		boolean
 	 */
-	public function set( string $selector, string $key, $value = NULL ): bool
+	public function set( string $selector, string $key, ?string $value = NULL ): bool
 	{
 		if( $value === NULL || !strlen( $value ) )
 			return $this->remove( $selector, $key );

@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Collects event bindings and handles calls of triggered events.
  *
@@ -23,8 +24,8 @@
  *	@copyright		2015-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.7.6
  */
+
 namespace CeusMedia\Common\ADT\Event;
 
 use CeusMedia\Common\ADT\Collection\Dictionary;
@@ -38,7 +39,6 @@ use InvalidArgumentException;
  *	@copyright		2015-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.7.6
  */
 class Handler
 {
@@ -46,7 +46,7 @@ class Handler
 	/**	@var	array		$stopped		List of bound events */
 	protected $events	= array();
 
-	/**	@var	array		$stopped		List of currently runung events not to propagate anymore */
+	/**	@var	array		$stopped		List of currently running events not to propagate anymore */
 	protected $stopped	= array();
 
 	/**

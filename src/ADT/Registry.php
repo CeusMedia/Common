@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Registry Pattern Singleton Implementation to store Objects.
  *
@@ -23,7 +24,6 @@
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			20.02.2007
  */
 
 namespace CeusMedia\Common\ADT;
@@ -38,7 +38,6 @@ use InvalidArgumentException;
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			20.02.2007
  */
 class Registry
 {
@@ -63,7 +62,9 @@ class Registry
 	 *	@access		private
 	 *	@return		void
 	 */
-	private function __clone() {}
+	private function __clone()
+	{
+	}
 
 	/**
 	 *	Cleares registered Object.
@@ -80,9 +81,10 @@ class Registry
 	 *	Returns Instance of Registry.
 	 *	@access		public
 	 *	@static
+	 *	@param		string		$poolKey
 	 *	@return		Registry
 	 */
-	public static function getInstance( $poolKey = "REFERENCES" )
+	public static function getInstance( string $poolKey = "REFERENCES" ): self
 	{
 		if( self::$instance === NULL )
 			self::$instance	= new self( $poolKey );
@@ -95,7 +97,7 @@ class Registry
 	 *	@param		string		$key		Registry Key of registered Object
 	 *	@return		mixed
 	 */
-	public function & get( $key )
+	public function & get( string $key )
 	{
 		if( !isset( $GLOBALS[$this->poolKey][$key] ) )
 			throw new InvalidArgumentException( 'No Object registered with Key "'.$key.'"' );
@@ -109,7 +111,7 @@ class Registry
 	 *	@param		string		$key		Registry Key of registered Object
 	 *	@return		mixed
 	 */
-	public static function & getStatic( $key )
+	public static function & getStatic( string $key )
 	{
 		return self::getInstance()->get( $key );
 	}
@@ -120,7 +122,7 @@ class Registry
 	 *	@param		string		$key		Registry Key to be checked
 	 *	@return		bool
 	 */
-	public function has( $key )
+	public function has( string $key ): bool
 	{
 		return array_key_exists( $key, $GLOBALS[$this->poolKey] );
 	}
@@ -133,7 +135,7 @@ class Registry
 	 *	@param		bool		$overwrite	Flag: overwrite already registered Objects
 	 *	@return		void
 	 */
-	public function set( $key, &$value, $overwrite = false )
+	public function set( string $key, &$value, bool $overwrite = FALSE )
 	{
 		if( isset( $GLOBALS[$this->poolKey][$key] ) && !$overwrite )
 			throw new InvalidArgumentException( 'Element "'.$key.'" is already registered.' );
@@ -146,7 +148,7 @@ class Registry
 	 *	@param		string		$key		Registry Key of registered Object
 	 *	@return		bool
 	 */
-	public function remove( $key )
+	public function remove( string $key ): bool
 	{
 		if( !isset( $GLOBALS[$this->poolKey][$key] ) )
 			return false;

@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Stack Implementation based on an Array. LIFO - last in first out.
  *
@@ -24,7 +25,11 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+
 namespace CeusMedia\Common\ADT\Collection;
+
+use Countable;
+use RuntimeException;
 
 /**
  *	Stack Implementation based on an Array. LIFO - last in first out.
@@ -35,11 +40,11 @@ namespace CeusMedia\Common\ADT\Collection;
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class Stack implements \Countable
+class Stack implements Countable
 {
 	public $delimiter	= '|';
 
-	/**	@var		array		$stack			Array to holf Stack Items */
+	/**	@var		array		$stack			Array to hold Stack Items */
 	protected $stack = array();
 
 	/**
@@ -71,7 +76,7 @@ class Stack implements \Countable
 	public function bottom()
 	{
 		if( !count( $this->stack ) )
-			throw new \RuntimeException( 'Stack is empty.' );
+			throw new RuntimeException( 'Stack is empty.' );
 		return array_shift( $this->stack );
 	}
 
@@ -89,7 +94,7 @@ class Stack implements \Countable
 	 *	Indicates whether an Item is in Stack or not.
 	 *	@access		public
 	 *	@param		mixed		$item		Item to find in the Stack
-	 *	@return		bood
+	 *	@return		bool
 	 */
 	public function has( $item ): bool
 	{
@@ -114,18 +119,17 @@ class Stack implements \Countable
 	public function pop()
 	{
 		if( $this->isEmpty() )
-			throw new \RuntimeException( 'Stack is already empty.' );
-		$value = array_pop( $this->stack );
-		return $value;
+			throw new RuntimeException( 'Stack is already empty.' );
+		return array_pop( $this->stack );
 	}
 
 	/**
 	 *	Push a new Item onto the Stack.
 	 *	@access		public
 	 *	@param		mixed		$item		Item to add to the Stack
-	 *	@return		mixed
+	 *	@return		int
 	 */
-	public function push( $item )
+	public function push( $item ): int
 	{
 		return array_push( $this->stack, $item );
 	}
@@ -148,7 +152,7 @@ class Stack implements \Countable
 	public function top()
 	{
 		if( !count( $this->stack ) )
-			throw new \RuntimeException( 'Stack is empty.' );
+			throw new RuntimeException( 'Stack is empty.' );
 		return array_pop( $this->stack );
 	}
 }

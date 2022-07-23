@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Abstract Cache Store, can be used to implement a Data Cache.
  *
@@ -23,9 +24,10 @@
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			13.04.2009
  */
 namespace CeusMedia\Common\ADT\Cache;
+
+use ArrayAccess;
 
 /**
  *	Abstract Cache Store, can be used to implement a Data Cache.
@@ -36,9 +38,8 @@ namespace CeusMedia\Common\ADT\Cache;
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			13.04.2009
  */
-abstract class Store implements \ArrayAccess
+abstract class Store implements ArrayAccess
 {
 	/**
 	 *	Returns a Value from Cache by its Key.
@@ -46,18 +47,18 @@ abstract class Store implements \ArrayAccess
 	 *	@param		string		$key			Key of Cache File
 	 *	@return		mixed
 	 */
-	public function __get( $key )
+	public function __get( string $key )
 	{
 		return $this->get( $key );
 	}
 
 	/**
-	 *	Indicates wheter a Value is in Cache by its Key.
+	 *	Indicates whether a Value is in Cache by its Key.
 	 *	@access		public
 	 *	@param		string		$key			Key of Cache File
-	 *	@return		void
+	 *	@return		bool
 	 */
-	public function __isset( $key )
+	public function __isset( string $key )
 	{
 		return $this->has( $key );
 	}
@@ -69,7 +70,7 @@ abstract class Store implements \ArrayAccess
 	 *	@param		mixed		$value			Value to store
 	 *	@return		void
 	 */
-	public function __set( $key, $value )
+	public function __set( string $key, $value )
 	{
 		$this->set( $key, $value );
 	}
@@ -80,7 +81,7 @@ abstract class Store implements \ArrayAccess
 	 *	@param		string		$key			Key of Cache File
 	 *	@return		void
 	 */
-	public function __unset( $key )
+	public function __unset( string $key )
 	{
 		$this->remove( $key );
 	}
@@ -92,60 +93,59 @@ abstract class Store implements \ArrayAccess
 	 *	@param		string		$key			Key of Cache File
 	 *	@return		mixed
 	 */
-	abstract public function get( $key );
+	abstract public function get( string $key );
 
 	/**
-	 *	Indicates wheter a Value is in Cache by its Key.
+	 *	Indicates whether a Value is in Cache by its Key.
 	 *	@abstract
 	 *	@access		public
 	 *	@param		string		$key			Key of Cache File
 	 *	@return		bool
 	 */
-	abstract public function has( $key );
-
+	abstract public function has( string $key ): bool;
 	/**
-	 *	Indicates wheter a Value is in Cache by its Key.
+	 *	Indicates whether a Value is in Cache by its Key.
 	 *	@access		public
-	 *	@param		string		$key			Key of Cache File
+	 *	@param		string		$offset			Key of Cache File
 	 *	@return		bool
 	 */
-	public function offsetExists( $key )
-	{
-		return $this->has( $key );
+	public function offsetExists( $offset ): bool
+    {
+		return $this->has( $offset );
 	}
 
 	/**
 	 *	Returns a Value from Cache by its Key.
 	 *	@access		public
-	 *	@param		string		$key			Key of Cache File
+	 *	@param		string		$offset			Key of Cache File
 	 *	@return		mixed
 	 */
-	public function offsetGet( $key )
+	public function offsetGet( $offset )
 	{
-		return $this->get( $key );
+		return $this->get( $offset );
 	}
 
 	/**
 	 *	Stores a Value in Cache by its Key.
 	 *	@access		public
-	 *	@param		string		$key			Key of Cache File
+	 *	@param		string		$offset			Key of Cache File
 	 *	@param		mixed		$value			Value to store
 	 *	@return		void
 	 */
-	public function offsetSet( $key, $value )
+	public function offsetSet( $offset, $value )
 	{
-		$this->set( $key, $value );
+		$this->set( $offset, $value );
 	}
 
 	/**
 	 *	Removes a Value from Cache by its Key.
 	 *	@access		public
-	 *	@param		string		$key			Key of Cache File
+	 *	@param		string		$offset			Key of Cache File
 	 *	@return		void
 	 */
-	public function offsetUnset( $key )
+	public function offsetUnset( $offset )
 	{
-		$this->remove( $key );
+		$this->remove( $offset );
 	}
 
 	/**
@@ -155,7 +155,7 @@ abstract class Store implements \ArrayAccess
 	 *	@param		string		$key			Key of Cache File
 	 *	@return		void
 	 */
-	abstract public function remove( $key );
+	abstract public function remove( string $key );
 
 	/**
 	 *	Stores a Value in Cache by its Key.
@@ -165,5 +165,5 @@ abstract class Store implements \ArrayAccess
 	 *	@param		mixed		$value			Value to store
 	 *	@return		void
 	 */
-	abstract public function set( $key, $value );
+	abstract public function set( string $key, $value );
 }

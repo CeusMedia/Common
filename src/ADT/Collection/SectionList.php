@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Implementation of a Section List using an Array.
  *
@@ -24,6 +25,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+
 namespace CeusMedia\Common\ADT\Collection;
 
 use InvalidArgumentException;
@@ -109,7 +111,7 @@ class SectionList
 	 *	@param		string		$section		Section to get Entries for
 	 *	@return		array
 	 */
-	public function getEntries( $section ): array
+	public function getEntries( string $section ): array
 	{
 		if( !isset( $this->list[$section] ) )
 			throw new InvalidArgumentException( 'Invalid Section "'.$section.'".' );
@@ -131,11 +133,11 @@ class SectionList
 	/**
 	 *	Return the Index of a given String in the List.
 	 *	@access		public
-	 *	@param		string		$content		Content String of Entry
-	 *	@param		string		$section		Section of Entry
+	 *	@param		string		$entry			Content String of Entry
+	 *	@param		string|NULL	$section		Section of Entry
 	 *	@return		int
 	 */
-	public function getIndex( string $entry, string $section = NULL ): int
+	public function getIndex( string $entry, ?string $section = NULL ): int
 	{
 		if( !$section )
 			$section	= $this->getSectionOfEntry( $entry );
@@ -185,11 +187,11 @@ class SectionList
 	 *	Removes an entry in a section in the List.
 	 *	@access		public
 	 *	@param		string		$entry			Entry to remove
-	 *	@param		string		$section		Section of Entry
+	 *	@param		string|NULL	$section		Section of Entry
 	 *	@return		void
 	 *	@throws		InvalidArgumentException	if entry is not existing
 	 */
-	public function removeEntry( string $entry, string $section = NULL )
+	public function removeEntry( string $entry, ?string $section = NULL )
 	{
 		if( !$section )
 			$section	= $this->getSectionOfEntry( $entry );

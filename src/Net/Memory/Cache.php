@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Cache to store Data in Memory of a remote Server using MemCache as Store.
  *
@@ -23,7 +24,6 @@
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			13.04.2009
  */
 
 namespace CeusMedia\Common\Net\Memory;
@@ -40,7 +40,6 @@ use RuntimeException;
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			13.04.2009
  */
 class Cache extends CacheStore
 {
@@ -55,7 +54,7 @@ class Cache extends CacheStore
 	 *	@param		string		$port		Port of MemCache Server
 	 *	@return		void
 	 */
-	public function __construct( $host = "127.0.0.1", $port = 11211 )
+	public function __construct( string $host = "127.0.0.1", $port = 11211 )
 	{
 		if( !defined( 'MEMCACHE_COMPRESSED' ) )
 			throw new RuntimeException( 'Memcache is not installed' );
@@ -67,10 +66,10 @@ class Cache extends CacheStore
 	 *	Adds another MemCache Server.
 	 *	@access		public
 	 *	@param		string		$host		Host of MemCache Server
-	 *	@param		string		$port		Port of MemCache Server
+	 *	@param		integer		$port		Port of MemCache Server
 	 *	@return		bool
 	 */
-	public function addServer( $host, $port )
+	public function addServer( string $host, int $port ): bool
 	{
 		return $this->store->addServer( $host, $port );
 	}
@@ -82,17 +81,17 @@ class Cache extends CacheStore
 	 *	@param		int			$value		Value to decrement by, default: 1
 	 *	@return		int
 	 */
-	public function decrement( $key, $value = 1 )
+	public function decrement( string $key, int $value = 1 ): int
 	{
-		$this->store->decrement( $key, $value );
+		return $this->store->decrement( $key, $value );
 	}
 
 	/**
 	 *	Removes all stored Pairs.
 	 *	@access		public
-	 *	@return		bool
+	 *	@return		int
 	 */
-	public function flush()
+	public function flush(): int
 	{
 		return $this->store->flush();
 	}
@@ -103,7 +102,7 @@ class Cache extends CacheStore
 	 *	@param		string		$key		Key of Cache Pair
 	 *	@return		mixed
 	 */
-	public function get( $key )
+	public function get( string $key )
 	{
 		return $this->store->get( $key );
 	}
@@ -113,7 +112,7 @@ class Cache extends CacheStore
 	 *	@access		public
 	 *	@return		array
 	 */
-	public function getStats()
+	public function getStats(): array
 	{
 		return $this->store->getExtendedStats();
 	}
@@ -124,11 +123,11 @@ class Cache extends CacheStore
 	 *	@param		string		$key		Key of Cache Pair
 	 *	@return		bool
 	 */
-	public function has( $key )
+	public function has( string $key ): bool
 	{
 		$value	= $this->store->get( $key );
 		if( $value === FALSE )
-			return $this->store->replace( $key, FALSE ) ? TRUE : FALSE;
+			return $this->store->replace( $key, FALSE );
 		return TRUE;
 	}
 
@@ -139,9 +138,9 @@ class Cache extends CacheStore
 	 *	@param		int			$value		Value to increment by, default: 1
 	 *	@return		int
 	 */
-	public function increment( $key, $value = 1 )
+	public function increment( string $key, int $value = 1 ): int
 	{
-		$this->store->increment( $key, $value );
+		return $this->store->increment( $key, $value );
 	}
 
 	/**
@@ -150,7 +149,7 @@ class Cache extends CacheStore
 	 *	@param		string		$key		Key of Cache Pair
 	 *	@return		bool
 	 */
-	public function remove( $key )
+	public function remove( string $key ): bool
 	{
 		return $this->store->delete( $key );
 	}
@@ -162,7 +161,7 @@ class Cache extends CacheStore
 	 *	@param		int			$value		Value to store
 	 *	@return		bool
 	 */
-	public function set( $key, $value )
+	public function set( string $key, $value ): bool
 	{
 		return $this->store->set( $key, $value, 0, $this->expires );
 	}

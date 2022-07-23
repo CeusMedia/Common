@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Base Tree implementation.
  *
@@ -49,8 +50,9 @@ class Node
 	 *	@param		string		$name		Child name
 	 *	@param		mixed		$child		Child to add
 	 *	@return		void
+	 *	@throws		InvalidArgumentException
 	 */
-	public function addChild( $name, $child )
+	public function addChild( string $name, $child )
 	{
 		if( isset( $this->children[$name] ) )
 			throw new InvalidArgumentException( 'A Child with Name "'.$name.'" is already existing.' );
@@ -73,7 +75,7 @@ class Node
 	 *	@param		string		$name		Child name
 	 *	@return		mixed
 	 */
-	public function getChild( $name )
+	public function getChild( string $name )
 	{
 		if( !array_key_exists( $name, $this->children ) )
 			throw new InvalidArgumentException( 'A Child with Name "'.$name.'" is not existing.' );
@@ -85,7 +87,7 @@ class Node
 	 *	@access		public
 	 *	@return		array
 	 */
-	public function getChildren()
+	public function getChildren(): array
 	{
 		return $this->children;
 	}
@@ -96,7 +98,7 @@ class Node
 	 *	@param		string		$name		Child name
 	 *	@return		bool
 	 */
-	public function hasChild( $name )
+	public function hasChild( string $name ): bool
 	{
 		return array_key_exists( $name, $this->children );
 	}
@@ -106,9 +108,9 @@ class Node
 	 *	@access		public
 	 *	@return		bool
 	 */
-	public function hasChildren()
+	public function hasChildren(): bool
 	{
-		return (bool) count( $this->children );
+		return count( $this->children ) > 0;
 	}
 
 	/**
@@ -117,7 +119,7 @@ class Node
 	 *	@param		string		$name		Child name
 	 *	@return		bool
 	 */
-	public function removeChild( $name )
+	public function removeChild( string $name ): bool
 	{
 		if( !array_key_exists( $name, $this->children ) )
 			return FALSE;

@@ -1,11 +1,12 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 namespace CeusMedia\Common\FS;
 
 abstract class AbstractNode
 {
 	protected $pathName;
 
-	public function getName( bool $strict = TRUE ): string
+	public function getName(): string
 	{
 		return pathinfo( $this->pathName, PATHINFO_BASENAME );
 	}

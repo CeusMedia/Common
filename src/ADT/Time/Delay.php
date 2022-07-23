@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *
  *	Copyright (c) 2010-2022 Christian Würker (ceusmedia.de)
@@ -22,9 +23,12 @@
  *	@copyright		2010-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.7.0
  */
+
 namespace CeusMedia\Common\ADT\Time;
+
+use RangeException;
+use RuntimeException;
 
 /**
  *	@category		Library
@@ -33,7 +37,6 @@ namespace CeusMedia\Common\ADT\Time;
  *	@copyright		2010-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.7.0
  */
 class Delay
 {
@@ -47,11 +50,10 @@ class Delay
 	 *	@access		public
 	 *	@param		int			$msec		Delay in milliseconds
 	 *	@return		void
+	 *	@throws		RangeException
 	 */
 	public function __construct( int $msec )
 	{
-		if( !is_int( $msec ) )
-			throw new InvalidArgumentException( 'Delay must be integer' );
 		if( $msec < 1 )
 			throw new RangeException( 'Delay must be at least 1 ms' );
 		$this->seconds	= $msec / 1000;
@@ -63,7 +65,7 @@ class Delay
 	 *	@access		public
 	 *	@return		int						Number of checks
 	 */
-	public function getNumberChecks()
+	public function getNumberChecks(): int
 	{
 		return $this->numberChecks;
 	}
@@ -73,7 +75,7 @@ class Delay
 	 *	@access		public
 	 *	@return		int						Number of runs
 	 */
-	public function getNumberRuns()
+	public function getNumberRuns(): int
 	{
 		return $this->numberRuns;
 	}
@@ -83,7 +85,7 @@ class Delay
 	 *	@access		public
 	 *	@return		float					Timestamp of start
 	 */
-	public function getStartTime()
+	public function getStartTime(): float
 	{
 		return $this->time;
 	}
@@ -93,7 +95,7 @@ class Delay
 	 *	@access		public
 	 *	@return		bool
 	 */
-	public function isActive()
+	public function isActive(): bool
 	{
 		$this->numberChecks++;
 		$time	= microtime( TRUE ) - $this->time;
@@ -105,7 +107,7 @@ class Delay
 	 *	@access		public
 	 *	@return		bool
 	 */
-	public function isReached()
+	public function isReached(): bool
 	{
 		return !$this->isActive();
 	}
@@ -115,8 +117,9 @@ class Delay
 	 *	@access		public
 	 *	@param		bool		$force		Flag: reset also if Delay is still active
 	 *	@return		float					Timestamp of start just set
+	 *	@throws		RuntimeException		if delay is already/still active
 	 */
-	public function restart( $force = FALSE )
+	public function restart( bool $force = FALSE ): float
 	{
 		if( $this->isActive() && !$force )
 			throw new RuntimeException( 'Delay is still active' );

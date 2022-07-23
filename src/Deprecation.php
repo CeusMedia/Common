@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Indicator for deprecated methods.
  *	@category		Library
@@ -8,6 +9,8 @@
  */
 
 namespace CeusMedia\Common;
+
+use Exception;
 
 /**
  *	Indicator for deprecated methods.
@@ -31,12 +34,12 @@ class Deprecation
 	protected $phpVersion;
 
 	/**
-	 *	Creates a new deprection object.
+	 *	Creates a new deprecation object.
 	 *	@access		public
 	 *	@static
 	 *	@return		Deprecation
 	 */
-	public static function getInstance()
+	public static function getInstance(): self
 	{
 		return new static();
 	}
@@ -47,11 +50,11 @@ class Deprecation
 	 *	Will throw a deprecation error if set error version reached detected library version using PHP 5.3+.
 	 *	Will throw a deprecation notice if set error version reached detected library version using PHP lower 5.3.
 	 *	@access		public
-	 *	@param		string		$version	Library version to start showing deprecation error or notice
+	 *	@param		string		$message	Message to show
 	 *	@return		void
 	 *	@throws		Exception				if set exception version reached detected library version
 	 */
-	public function message( $message )
+	public function message( string $message )
 	{
 		$trace	= debug_backtrace();
 		$caller = next( $trace );
@@ -64,7 +67,7 @@ class Deprecation
 		}
 	}
 
-	public static function notify( $message )
+	public static function notify( string $message )
 	{
 		$message .= ', triggered';
 		if( version_compare( phpversion(), "5.3.0" ) >= 0 )
@@ -80,7 +83,7 @@ class Deprecation
 	 *	@param		string		$version	Library version to start showing deprecation error or notice
 	 *	@return		Deprecation
 	 */
-	public function setErrorVersion( $version ): self
+	public function setErrorVersion( string $version ): self
 	{
 		$this->errorVersion		= $version;
 		return $this;
@@ -93,7 +96,7 @@ class Deprecation
 	 *	@param		string		$version	Library version to start throwing deprecation exception
 	 *	@return		Deprecation
 	 */
-	public function setExceptionVersion( $version ): self
+	public function setExceptionVersion( string $version ): self
 	{
 		$this->exceptionVersion		= $version;
 		return $this;
@@ -102,7 +105,7 @@ class Deprecation
 	//  --  PROTECTED  --  //
 
 	/**
-	 *	Contructor, needs to be called statically by getInstance.
+	 *	Constructor, needs to be called statically by getInstance.
 	 *	Will call onInit at the end to handle self detection.
 	 *	@access		protected
 	 *	@return		void
@@ -118,7 +121,7 @@ class Deprecation
 	 *	ATTENTION: Must be set in inheriting classes, at least as an empty method!
 	 *
 	 *	Will detect library version.
-	 *	Will set error version to curent library version by default.
+	 *	Will set error version to current library version by default.
 	 *	Will not set an exception version.
 	 *	@access		protected
 	 *	@return		void

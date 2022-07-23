@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Handler for bitmask.
  *
@@ -23,8 +24,8 @@
  *	@copyright		2018-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.8.4.7
  */
+
 namespace CeusMedia\Common\ADT;
 
 /**
@@ -36,8 +37,8 @@ namespace CeusMedia\Common\ADT;
  *	@copyright		2018-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.8.4.7
  */
+
 class Bitmask
 {
 	protected $bits	= 0;

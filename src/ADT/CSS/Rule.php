@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	...
  *
@@ -23,9 +24,12 @@
  *	@copyright		2011-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.7.5
  */
+
 namespace CeusMedia\Common\ADT\CSS;
+
+use Exception;
+use OutOfRangeException;
 
 /**
  *	...
@@ -36,7 +40,6 @@ namespace CeusMedia\Common\ADT\CSS;
  *	@copyright		2011-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.7.5
  */
 class Rule
 {
@@ -59,37 +62,37 @@ class Rule
 	public function getPropertyByIndex( int $index ): Property
 	{
 		if( !isset( $this->properties[$index] ) )
-			throw new \OutOfRangeException( 'Invalid property index' );
+			throw new OutOfRangeException( 'Invalid property index' );
 		return $this->properties[$index];
 	}
 
 	public function getPropertyByKey( string $key ): Property
 	{
-		foreach( $this->properties as $nr => $property )
+		foreach( $this->properties as $property )
 			if( $key == $property->getKey() )
 				return $property;
-		throw new \OutOfRangeException( 'Invalid property key' );
+		throw new OutOfRangeException( 'Invalid property key' );
 	}
 
-	public function getSelector()
+	public function getSelector(): string
 	{
 		return $this->selector;
 	}
 
-	public function hasProperty( Property $property )
+	public function hasProperty( Property $property ): bool
 	{
 		return $this->hasPropertyByKey( $property->getKey() );
 	}
 
-	public function hasPropertyByKey( string $key )
+	public function hasPropertyByKey( string $key ): bool
 	{
-		foreach( $this->properties as $nr => $property )
+		foreach( $this->properties as $property )
 			if( $key == $property->getKey() )
 				return TRUE;
 		return FALSE;
 	}
 
-	public function removeProperty( Property $property )
+	public function removeProperty( Property $property ): bool
 	{
 		return $this->removePropertyByKey( $property->getKey() );
 	}
@@ -106,7 +109,7 @@ class Rule
 		return FALSE;
 	}
 
-	public function setProperty( Property $property )
+	public function setProperty( Property $property ): bool
 	{
 		return $this->setPropertyByKey( $property->getKey(), $property->getValue() );				//
 	}
@@ -115,10 +118,13 @@ class Rule
 	{
 		if( $value === NULL || !strlen( $value ) )
 			return $this->removePropertyByKey( $key );
-		$property	= $this->getPropertyByKey( $key );
-		if( $property )
-			return $property->setValue( $value );
-		$this->properties[]	= new Property( $key, $value );
+		try{
+			$property	= $this->getPropertyByKey( $key );
+			$property->setValue( $value );
+		}
+		catch( Exception $e ){
+			$this->properties[]	= new Property( $key, $value );
+		}
 		return TRUE;
 	}
 

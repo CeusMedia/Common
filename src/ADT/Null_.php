@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Null Object (Design Pattern) Implementation as Singleton.
  *
@@ -25,6 +26,7 @@
  *	@link			https://github.com/CeusMedia/Common
  *	@since			0.7.0
  */
+
 namespace CeusMedia\Common\ADT;
 
 use CeusMedia\Common\Renderable;
@@ -50,10 +52,10 @@ class Null_ implements Countable, Renderable, ArrayAccess
 	 *	Answers all undefined method calls by returning this null object again.
 	 *	@access		public
 	 *	@param		string		$name			Method name - doesn't matter at all
-	 *	@param		array		$arguments		List of argments - also doesn't matter
+	 *	@param		array		$arguments		List of arguments - also doesn't matter
 	 *	@return		Null_
 	 */
-	public function __call( $name, $arguments )
+	public function __call( string $name, array $arguments = [] ): self
 	{
 		return $this;
 	}
@@ -77,7 +79,7 @@ class Null_ implements Countable, Renderable, ArrayAccess
 	 *	@param		string		$name			Member name - doesn't matter
 	 *	@return		Null_
 	 */
-	public function __get( $name )
+	public function __get( string $name )
 	{
 		return $this;
 	}
@@ -87,7 +89,7 @@ class Null_ implements Countable, Renderable, ArrayAccess
 	 *	@param		string		$name			Member name - doesn't matter
 	 *	@return		boolean		Always FALSE
 	 */
-	public function __set( $name, $value )
+	public function __set( string $name, $value )
 	{
 		return FALSE;
 	}
@@ -109,7 +111,7 @@ class Null_ implements Countable, Renderable, ArrayAccess
 	 *	@static
 	 *	@return		Null_	Single instance
 	 */
-	public static function getInstance()
+	public static function getInstance(): self
 	{
 		if( !self::$instance )
 			self::$instance	= new self;
@@ -121,7 +123,7 @@ class Null_ implements Countable, Renderable, ArrayAccess
 	 *	@access		public
 	 *	@return		integer		0, always
 	 */
-	public function count()
+	public function count(): int
 	{
 		return 0;
 	}
@@ -131,7 +133,7 @@ class Null_ implements Countable, Renderable, ArrayAccess
 	 *	@access		public
 	 *	@return		boolean			FALSE, always
 	 */
-	public function offsetExists( $key )
+	public function offsetExists( $offset ): bool
 	{
 		return FALSE;
 	}
@@ -140,9 +142,9 @@ class Null_ implements Countable, Renderable, ArrayAccess
 	/**
 	 *	Implements interface ArrayAccess and returns always self instance.
 	 *	@access		public
-	 *	@return		Null_		Null object, infact self
+	 *	@return		Null_		Null object, in fact self
 	 */
-	public function offsetGet( $key )
+	public function offsetGet( $offset ): self
 	{
 		return $this;
 	}
@@ -153,8 +155,9 @@ class Null_ implements Countable, Renderable, ArrayAccess
 	 *	@access		public
 	 *	@return		boolean			FALSE, always
 	 */
-	public function offsetSet( $key, $value )
+	public function offsetSet( $offset, $value ): bool
 	{
+		return TRUE;
 	}
 
 
@@ -163,9 +166,9 @@ class Null_ implements Countable, Renderable, ArrayAccess
 	 *	@access		public
 	 *	@return		boolean			FALSE, always
 	 */
-	public function offsetUnset( $key )
+	public function offsetUnset( $offset ): bool
 	{
-		return FALSE;
+		return TRUE;
 	}
 
 	/**
@@ -173,7 +176,7 @@ class Null_ implements Countable, Renderable, ArrayAccess
 	 *	@access		public
 	 *	@return		string			Empty string, always
 	 */
-	public function render()
+	public function render(): string
 	{
 		return '';
 	}

@@ -96,12 +96,14 @@ class Folder extends AbstractNode
 		return filemtime( $this->pathName );
 	}
 
-	public function has( $name, $type = FS::TYPE_ALL ){
+	public function has( string $name, $type = FS::TYPE_ALL )
+	{
 		$index	= $this->index( $type, FALSE );
 		return $index->has( $name );
 	}
 
-	public function index( $type = FS::TYPE_ALL, $sort = SORT_REGULAR, $strict = TRUE ){
+	public function index( $type = FS::TYPE_ALL, $sort = SORT_REGULAR, $strict = TRUE )
+	{
 		if( !$this->exists( $strict ) )
  			return new Dictionary();
 		$index	= new DirectoryIterator( $this->pathName );
@@ -121,7 +123,8 @@ class Folder extends AbstractNode
 		return new Dictionary( $list );
 	}
 
-	public function rename( $targetPath, $strict = TRUE ){
+	public function rename( $targetPath, $strict = TRUE )
+	{
 		$target	= new Folder( $targetPath );
 		if( $target->exists() ){
 			if( $strict )

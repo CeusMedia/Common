@@ -83,10 +83,10 @@ class StaticCache extends StaticCacheStore
 	 *	Returns a Value from Cache by its Key.
 	 *	@access		public
 	 *	@static
-	 *	@param		string		$key			Key of Cache File
+	 *	@param string $key			Key of Cache File
 	 *	@return		mixed
 	 */
-	public static function get( $key )
+	public static function get(string $key )
 	{
 		return self::$store->get( $key );
 	}

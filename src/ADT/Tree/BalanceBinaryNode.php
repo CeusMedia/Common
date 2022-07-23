@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Balanced Binary Tree.
  *
@@ -57,31 +58,28 @@ class BalanceBinaryNode extends BinaryNode
 	/**
 	 *	Adds a new Node To Tree.
 	 *	@access		public
-	 *	@param		mixed		value		Value of new Node
+	 *	@param		mixed		$value		Value of new Node
 	 *	@return		int
 	 */
-	public function add( $value )
+	public function add( $value ): int
 	{
 		if( !isset( $this->value ) )
 			return $this->value = $value;
 		if( $value == $this->value )
 			return -1;
-		if( $value < $this->value )
-		{
+		if( $value < $this->value ){
 			if( $this->left )
 				$this->left->add( $value );
 			else
 				$this->left = new BalanceBinaryNode( $this->balance, $value );
 		}
-		else if( $value > $this->value )
-		{
+		else if( $value > $this->value ){
 			if( $this->right )
 				$this->right->add( $value );
 			else
 				$this->right = new BalanceBinaryNode( $this->balance, $value );
 		}
-		if ($this->balance)
-		{
+		if ($this->balance){
 			$bf = $this->getBalance();
 			if( $bf <= -1 * $this->balance || $bf >= $this->balance )
 				$this->balanceTree();
@@ -121,14 +119,14 @@ class BalanceBinaryNode extends BinaryNode
 	/**
 	 *	Returns  current Balance.
 	 *	@access		public
-	 *	@param		mixed		value		Value of new Node
+	 *	@param		mixed		$value		Value of new Node
 	 *	@return		int
 	 */
-	public function getBalance()
+	public function getBalance(): int
 	{
-		$la = $this->left  ? $this->left->getHeight()  : 0;
-		$lb = $this->right ? $this->right->getHeight() : 0;
-		return ( $la - $lb );
+		$la = $this->left	? $this->left->getHeight()	: 0;
+		$lb = $this->right	? $this->right->getHeight()	: 0;
+		return $la - $lb;
 	}
 
 	/**
@@ -168,26 +166,24 @@ class BalanceBinaryNode extends BinaryNode
 	/**
 	 *	Returns Tree as HTML Table.
 	 *	@access		public
-	 *	@param		bool		[showBalanceFactor]		Flag: show Balance Factor
-	 *	@return		void
+	 *	@param		bool		$showBalanceFactor		Flag: show Balance Factor
+	 *	@return		string
 	 */
-	public function toTable( $showBalanceFactor = FALSE )
+	public function toTable( bool $showBalanceFactor = FALSE ): string
 	{
 		$la		= $this->left  ? $this->left->getHeight()  : 0;
 		$lb		= $this->right ? $this->right->getHeight() : 0;
 		$depth	= $this->getHeight ();
 		$color	= 240 - ( 3 * $depth );
 		$ins_bf	= '';
-		if( $showBalanceFactor )
-		{
+		if( $showBalanceFactor ){
 			$k = $la - $lb;
 			if( $k <= -1*$this->balance || $k >= $this->balance )
 				$k = "<b style='color:red'>$k</b>";
 			$ins_bf = "<b class='small' style='font-weight:normal; font-size:7pt;'>".$k."</b>";
 		}
 		$code = "<table cellspacing='1' cellpadding='0' border='0'>\n<tr><td colspan='2' align='center' style='background:rgb($color, $color, $color); font-size: 7pt'>".$this->value.$ins_bf."</td></tr>";
-		if( $this->left || $this->right )
-		{
+		if( $this->left || $this->right ){
 			$code .= "<tr><td align=center valign=top>";
 			if( $this->left )
 				$code .= $this->left->toTable( $showBalanceFactor);

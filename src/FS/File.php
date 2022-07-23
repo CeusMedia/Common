@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 namespace CeusMedia\Common\FS;
 
 use CeusMedia\Common\Exception\IO as IOException;
@@ -8,16 +9,30 @@ class File extends AbstractNode
 {
 	protected $pathName;
 
-	public function __construct( string $pathName, bool $create = FALSE, $mode = 0777, bool $strict = TRUE )
+	/**
+	 *	@param		string		$pathName
+	 *	@param		boolean		$create
+	 *	@param		integer		$mode			File permissions as octal, default: 0777
+	 *	@param		bool		$strict			Flag: throw exception if anything goes wrong, default: yes
+	 *	@throws		IOException
+	 */
+	public function __construct( string $pathName, bool $create = FALSE, int $mode = 0777, bool $strict = TRUE )
 	{
 		$this->setPathName( $pathName );
 		if( $create && !$this->exists() )
 			$this->create( $mode, $strict );
 	}
 
-	public function create( $mode = 0777, bool $strict = TRUE ): bool
+	/**
+	 *	Tries to create a file with given path name.
+	 *	@param		integer		$mode			File permissions as octal, default: 0777
+	 *	@param		boolean		$strict			Flag: throw exception if anything goes wrong, default: yes
+	 *	@return		boolean
+	 *	@throws		IOException
+	 */
+	public function create(int $mode = 0777, bool $strict = TRUE ): bool
 	{
-		if( $this->exists( FALSE ) ){
+		if( $this->exists() ){
 			if( $strict ){
 				if( is_dir( $this->pathName ) )
 					throw new IOException( 'A folder with this name is already existing', 0, $this->pathName );
@@ -28,7 +43,7 @@ class File extends AbstractNode
 			}
 			return FALSE;
 		}
-		if( !touch( $this->pathName, 0777, TRUE ) ){
+		if( !touch( $this->pathName, $mode, TRUE ) ){
 			if( $strict )
 				throw new IOException( 'File creation failed', 0, $this->pathName );
 			return FALSE;
@@ -36,21 +51,33 @@ class File extends AbstractNode
 		return TRUE;
 	}
 
+	/**
+	 *	Indicates whether a file is existing at the existing path name.
+	 *	@param		boolean		$strict			Flag: throw exception if anything goes wrong, default: yes
+	 *	@return		boolean
+	 *	@throws		IOException
+	 */
 	public function exists( bool $strict = FALSE ): bool
 	{
 		if( !file_exists( $this->pathName ) ){
 			if( $strict )
-				throw new IOException( 'Folder is not existing', 0, $targetPath );
+				throw new IOException( 'File is not existing', 0, $this->pathName );
 			return FALSE;
 		}
 		if( !is_file( $this->pathName ) ){
 			if( $strict )
-				throw new IOException( 'Not a file', 0, $targetPath );
+				throw new IOException( 'Not a file', 0, $this->pathName );
 			return FALSE;
 		}
 		return TRUE;
 	}
 
+	/**
+	 *	...
+	 *	@param		bool		$strict			Flag: throw exception if anything goes wrong, default: yes
+	 *	@return		false|string|null
+	 *	@throws		IOException
+	 */
 	public function getContent( bool $strict = TRUE )
 	{
 		if( !$this->exists( $strict ) )
@@ -86,20 +113,37 @@ class File extends AbstractNode
 		throw new RuntimeException( 'PHP extension Fileinfo is missing' );
 	}
 
-	public function getName( bool $withExtension = TRUE, bool $strict = TRUE ): string
+	/**
+	 *	...
+	 *	@param		bool		$withExtension		Flag: return file name with extension, default: yes
+	 *	@return		string
+	 */
+	public function getName( bool $withExtension = TRUE ): string
 	{
 		if( $withExtension )
 			return pathinfo( $this->pathName, PATHINFO_BASENAME );
 		return pathinfo( $this->pathName, PATHINFO_FILENAME );
 	}
 
-	public function getSize( $strict = TRUE )
+	/**
+	 *	...
+	 *	@param		boolean		$strict			Flag: throw exception if anything goes wrong, default: yes
+	 *	@return		false|integer|NULL
+	 *	@throws		IOException
+	 */
+	public function getSize( bool $strict = TRUE )
 	{
 		if( !$this->exists( $strict ) )
 			return NULL;
 		return filesize( $this->pathName );
 	}
 
+	/**
+	 *	...
+	 *	@param		boolean		$strict			Flag: throw exception if anything goes wrong, default: yes
+	 *	@return		integer|NULL
+	 *	@throws		IOException
+	 */
 	public function getTime( bool $strict = TRUE ): ?int
 	{
 		if( !$this->exists( $strict ) )
@@ -107,14 +151,18 @@ class File extends AbstractNode
 		return filemtime( $this->pathName );
 	}
 
-	public function setContent( string $content, bool $strict = TRUE ): ?self
+	/**
+	 *	Write content into file
+	 *	@param		string		$content		Content to write into file
+	 *	@param		boolean		$strict			Flag: throw exception if anything goes wrong, default: yes
+	 *	@return		boolean
+	 *	@throws		IOException
+	 */
+	public function setContent( string $content, bool $strict = TRUE ): bool
 	{
-		if( !$this->exists() ){
-			if( !$this->create( $strict ) ){
-				return FALSE;
-			}
-		}
+		if( !$this->exists( $strict ) || !$this->create( $strict ) )
+			return FALSE;
 		file_put_contents( $this->pathName, $content );
-		return $this;
+		return TRUE;
 	}
 }

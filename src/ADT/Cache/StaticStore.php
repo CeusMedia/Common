@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Abstract static Cache Store, can be used to implement a static Data Cache.
  *
@@ -23,7 +24,6 @@
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			13.04.2009
  */
 namespace CeusMedia\Common\ADT\Cache;
 
@@ -36,7 +36,6 @@ namespace CeusMedia\Common\ADT\Cache;
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			13.04.2009
  */
 abstract class StaticStore
 {
@@ -45,30 +44,30 @@ abstract class StaticStore
 	 *	@abstract
 	 *	@access		public
 	 *	@static
-	 *	@param		string		$key			Key of Cache File
+	 *	@param		string		$key		Key of Cache File
 	 *	@return		mixed
 	 */
-	abstract public static function get( $key );
+	abstract public static function get( string $key );
 
 	/**
-	 *	Indicates wheter a Value is in Cache by its Key.
+	 *	Indicates whether a Value is in Cache by its Key.
 	 *	@abstract
 	 *	@access		public
 	 *	@static
-	 *	@param		string		$key			Key of Cache File
+	 *	@param		string		$key		Key of Cache File
 	 *	@return		void
 	 */
-	abstract public static function has( $key );
+	abstract public static function has( string $key );
 
 	/**
 	 *	Removes a Value from Cache by its Key.
 	 *	@abstract
 	 *	@access		public
 	 *	@static
-	 *	@param		string		$key			Key of Cache File
+	 *	@param		string		$key		Key of Cache File
 	 *	@return		void
 	 */
-	abstract public static function remove( $key );
+	abstract public static function remove( string $key );
 
 	/**
 	 *	Stores a Value in Cache by its Key.
@@ -79,5 +78,5 @@ abstract class StaticStore
 	 *	@param		mixed		$value			Value to store
 	 *	@return		void
 	 */
-	abstract public static function set( $key, $value );
+	abstract public static function set( string $key, $value );
 }

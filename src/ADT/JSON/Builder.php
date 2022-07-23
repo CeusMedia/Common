@@ -1,4 +1,5 @@
 <?php
+/** @noinspection PhpMultipleClassDeclarationsInspection */
 declare( strict_types = 1 );
 
 /**
@@ -25,11 +26,12 @@ declare( strict_types = 1 );
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			14.05.2006
  */
+
 namespace CeusMedia\Common\ADT\JSON;
 
 use InvalidArgumentException;
+use const SORT_STRING;
 
 /**
  *	JSON Implementation for building JSON Code.
@@ -39,7 +41,6 @@ use InvalidArgumentException;
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			14.05.2006
  */
 class Builder
 {
@@ -50,20 +51,20 @@ class Builder
 	 *	@param		mixed		$data			Data to be encoded
 	 *	@return		string
 	 */
-	public static function encode( $data )
+	public static function encode( $data ): string
 	{
 		$builder	= new self();
 		return $builder->get( NULL, $data );
 	}
 
 	/**
-	 *	Escpapes Control Sings in String.
+	 *	Escapes Control Signs in String.
 	 *	@access		private
 	 *	@static
 	 *	@param		string		$string			String to be escaped
 	 *	@return		string
 	 */
-	private static function escape( $string )
+	private static function escape( string $string ): string
 	{
 		$replace	= array(
 			'\\'	=> '\\\\',
@@ -76,23 +77,21 @@ class Builder
 			"\t"	=> '\t',
 			"\u"	=> '\u'
 			);
-		$string	= str_replace( array_keys( $replace ), array_values( $replace ), $string );
-		return $string;
+		return str_replace( array_keys( $replace ), array_values( $replace ), $string );
 	}
 
 	/**
 	 *	Returns a representative String for a Data Pair.
 	 *	@access		public
-	 *	@param		string		$key			Key of Pair
+	 *	@param		string|NULL	$key			Key of Pair
 	 *	@param		mixed		$value			Value of Pair
-	 *	@param		string		$parent			Parent of Pair
+	 *	@param		string|NULL	$parent			Parent of Pair
 	 *	@return		string
 	 */
-	public function get( $key, $value, $parent = NULL )
+	public function get( ?string $key, $value, ?string $parent = NULL ): string
 	{
 		$type	= self::getType( $key, $value );
-		switch( $type )
-		{
+		switch( $type ){
 			case 'object':
 				$value	= '{'.self::loop( $value, $type ).'}';
 				break;
@@ -100,7 +99,6 @@ class Builder
 				$value	= '['.self::loop( $value, $type ).']';
 				break;
 			case 'number':
-				$value	= $value;
 				break;
 			case 'string':
 				$value	= '"'.self::escape( $value ).'"';
@@ -112,7 +110,7 @@ class Builder
 				$value	= 'null';
 				break;
 		}
-		if( !is_null( $key ) && $parent != 'array' )
+		if( !is_null( $key ) && $parent !== 'array' )
 			$value	= '"'.$key.'":'.$value;
 		return $value;
 	}
@@ -126,7 +124,7 @@ class Builder
 	 *	@param		mixed		$value			Value of Pair
 	 *	@return		string
 	 */
-	private static function getType( $key, $value )
+	private static function getType( string $key, $value ): string
 	{
 		if( is_object( $value ))
 			$type	= 'object';
@@ -146,15 +144,15 @@ class Builder
 	}
 
 	/**
-	 *	Indicates whether a array is associative or not.
+	 *	Indicates whether an array is associative or not.
 	 *	@access		private
 	 *	@static
 	 *	@param		array		$array			Array to be checked
 	 *	@return		bool
 	 */
-	private static function isAssoc( $array )
+	private static function isAssoc( array $array ): bool
 	{
-		krsort( $array, \SORT_STRING );
+		krsort( $array, SORT_STRING );
 		return !is_numeric( key( $array ) );
 	}
 
@@ -166,13 +164,12 @@ class Builder
 	 *	@param		string		$type			Data Type
 	 *	@return		string
 	 */
-	private static function loop( $array, $type )
+	private static function loop( array $array, string $type ): string
 	{
 		$builder	= new self();
 		$output		= NULL;
 		foreach( $array as $key => $value )
 			$output	.= $builder->get( $key, $value, $type ).',';
-		$output	= trim( $output, ',' );
-		return $output;
+		return trim( $output, ',' );
 	}
 }

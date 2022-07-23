@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Cache to store Data in Files.
  *
@@ -23,7 +24,6 @@
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			13.04.2009
  */
 
 namespace CeusMedia\Common\FS\File;
@@ -42,7 +42,6 @@ use RuntimeException;
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			13.04.2009
  */
 class Cache extends CacheStore implements Countable
 {
@@ -62,7 +61,7 @@ class Cache extends CacheStore implements Countable
 	 *	@param		int			$expires		Seconds until Pairs will be expired
 	 *	@return		void
 	 */
-	public function __construct( $path, $expires = 0 )
+	public function __construct( string $path, int $expires = 0 )
 	{
 		$path	.= substr( $path, -1 ) == "/" ? "" : "/";
 		if( !file_exists( $path ) )
@@ -77,9 +76,9 @@ class Cache extends CacheStore implements Countable
 	 *	@param		int			$expires		Cache File Lifetime in Seconds
 	 *	@return		bool
 	 */
-	public function cleanUp( $expires = 0 )
+	public function cleanUp( int $expires = 0 ): bool
 	{
-		$expires	= $expires ? $expires : $this->expires;
+		$expires	= $expires !== 0 ? $expires : $this->expires;
 		if( !$expires )
 			throw new InvalidArgumentException( 'No expire time given or set on construction.' );
 
@@ -103,7 +102,7 @@ class Cache extends CacheStore implements Countable
 	 *	@access		public
 	 *	@return		int
 	 */
-	public function count()
+	public function count(): int
 	{
 		return count( $this->data );
 	}
@@ -111,9 +110,9 @@ class Cache extends CacheStore implements Countable
 	/**
 	 *	Removes all Cache Files.
 	 *	@access		public
-	 *	@return		bool
+	 *	@return		int
 	 */
-	public function flush()
+	public function flush(): int
 	{
 		$index	= new DirectoryIterator( $this->path );
 		$number	= 0;
@@ -134,7 +133,7 @@ class Cache extends CacheStore implements Countable
 	 *	@param		string		$key			Key of Cache File
 	 *	@return		mixed
 	 */
-	public function get( $key )
+	public function get( string $key )
 	{
 		$uri		= $this->getUriForKey( $key );
 		if( !$this->isValidFile( $uri ) )
@@ -153,18 +152,18 @@ class Cache extends CacheStore implements Countable
 	 *	@param		string		$key			Key of Cache File
 	 *	@return		string
 	 */
-	protected function getUriForKey( $key )
+	protected function getUriForKey( string $key ): string
 	{
 		return $this->path.base64_encode( $key ).".serial";
 	}
 
 	/**
-	 *	Indicates wheter a Value is in Cache by its Key.
+	 *	Indicates whether a Value is in Cache by its Key.
 	 *	@access		public
 	 *	@param		string		$key			Key of Cache File
-	 *	@return		void
+	 *	@return		bool
 	 */
-	public function has( $key )
+	public function has( string $key ): bool
 	{
 		$uri	= $this->getUriForKey( $key );
 		return $this->isValidFile( $uri );
@@ -174,9 +173,10 @@ class Cache extends CacheStore implements Countable
 	 *	Indicates whether a Cache File is expired.
 	 *	@access		protected
 	 *	@param		string		$uri			URI of Cache File
+	 *	@param		integer		$expires		Lifetime in seconds
 	 *	@return		bool
 	 */
-	protected function isExpired( $uri, $expires )
+	protected function isExpired( string $uri, int $expires ): bool
 	{
 		$edge	= time() - $expires;
 		clearstatcache();
@@ -189,7 +189,7 @@ class Cache extends CacheStore implements Countable
 	 *	@param		string		$uri			URI of Cache File
 	 *	@return		bool
 	 */
-	protected function isValidFile( $uri )
+	protected function isValidFile( string $uri ): bool
 	{
 		if( !file_exists( $uri ) )
 			return FALSE;
@@ -204,7 +204,7 @@ class Cache extends CacheStore implements Countable
 	 *	@param		string		$key			Key of Cache File
 	 *	@return		bool
 	 */
-	public function remove( $key )
+	public function remove( string $key ): bool
 	{
 		$uri	= $this->getUriForKey( $key );
 		unset( $this->data[$key] );
@@ -218,7 +218,7 @@ class Cache extends CacheStore implements Countable
 	 *	@param		mixed		$value			Value to store
 	 *	@return		void
 	 */
-	public function set( $key, $value )
+	public function set( string $key, $value )
 	{
 		$uri		= $this->getUriForKey( $key );
 		$content	= serialize( $value );

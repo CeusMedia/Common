@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	EdgeSet to store and manipulate edges in a graph.
  *
@@ -24,6 +25,7 @@
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
+
 namespace CeusMedia\Common\ADT\Graph;
 
 use Countable;
@@ -41,23 +43,24 @@ use InvalidArgumentException;
  */
 class EdgeSet implements Countable
 {
-	/**	@var		array				$edges			Array of all Edges */
-	protected $edges = array();
+	/**	@var		Edge[]				$edges			Array of all Edges */
+	protected $edges = [];
 
 	/**
 	 *	Adds a new Edge and returns reference of this Edge.
 	 *	@access		public
 	 *	@param		Node		$sourceNode		Source Node of this Edge
 	 *	@param		Node		$targetNode		Target Node of this Edge
-	 *	@param		int					$value			Value of this Edge
-	 *	@return 	Node
+	 *	@param		int			$value			Value of this Edge
+	 *	@return		Edge
+	 *	@throws		Exception
+	 *	@throws		InvalidArgumentException
 	 */
-	public function addEdge( $sourceNode, $targetNode, $value = NULL )
+	public function addEdge( Node $sourceNode, Node $targetNode, int $value = 0 ): Edge
 	{
-		if( $this->isEdge( $sourceNode, $targetNode ) )
-		{
+		if( $this->isEdge( $sourceNode, $targetNode ) ) {
 			$edge	= $this->getEdge( $sourceNode, $targetNode );
- 			if( $value == $edge->getEdgeValue( $sourceNode, $targetNode ) )
+ 			if( $value == $edge->getEdgeValue() )
 				throw new InvalidArgumentException( 'Edge is already set.' );
 			else
 				$this->removeEdge( $sourceNode, $targetNode );
@@ -72,7 +75,7 @@ class EdgeSet implements Countable
 	 *	@access		public
 	 *	@return 	int
 	 */
-	public function count()
+	public function count(): int
 	{
 		return count( $this->edges );
 	}
@@ -82,12 +85,14 @@ class EdgeSet implements Countable
 	 *	@access		public
 	 *	@param		Node		$sourceNode		Source Node of this Edge
 	 *	@param		Node		$targetNode		Target Node of this Edge
-	 *	@return 	int
+	 *	@return 	Edge|NULL
 	 */
-	public function getEdge( $sourceNode, $targetNode )
+	public function getEdge( Node $sourceNode, Node $targetNode ): ?Edge
 	{
 		$index = $this->getEdgeIndex( $sourceNode, $targetNode );
-		return $this->edges[$index];
+		if( $index !== -1 )
+			return $this->edges[$index];
+		return NULL;
 	}
 
 	/**
@@ -97,13 +102,12 @@ class EdgeSet implements Countable
 	 *	@param		Node		$targetNode		Target Node of this Edge
 	 *	@return 	int
 	 */
-	private function getEdgeIndex( $sourceNode, $targetNode )
+	private function getEdgeIndex( Node $sourceNode, Node $targetNode ): int
 	{
-		for( $i=0; $i<sizeof( $this->edges ); $i++ )
-		{
+		for( $i=0; $i<sizeof( $this->edges ); $i++ ) {
 			$edge = $this->edges[$i];
-			$isSource = $edge->getSourceNode() == $sourceNode;
-			$isTarget = $edge->getTargetNode() == $targetNode;
+			$isSource = $edge->getSourceNode() === $sourceNode;
+			$isTarget = $edge->getTargetNode() === $targetNode;
 			if( $isSource && $isTarget )
 				return $i;
 		}
@@ -113,9 +117,9 @@ class EdgeSet implements Countable
 	/**
 	 *	Returns an Array of all Edges in this EdgeSet.
 	 *	@access		public
-	 *	@return 	Node
+	 *	@return 	Edge[]
 	 */
-	public function getEdges()
+	public function getEdges(): array
 	{
 		return $this->edges;
 	}
@@ -127,12 +131,11 @@ class EdgeSet implements Countable
 	 *	@param		Node		$targetNode		Target Node of this Edge
 	 *	@return 	bool
 	 */
-	public function isEdge( $sourceNode, $targetNode )
+	public function isEdge( Node $sourceNode, Node $targetNode ): bool
 	{
-		foreach( $this->edges as $edge )
-		{
-			$isSource = $edge->getSourceNode() == $sourceNode;
-			$isTarget = $edge->getTargetNode() == $targetNode;
+		foreach( $this->edges as $edge ) {
+			$isSource = $edge->getSourceNode() === $sourceNode;
+			$isTarget = $edge->getTargetNode() === $targetNode;
 			if( $isSource && $isTarget )
 				return TRUE;
 		}
@@ -144,9 +147,10 @@ class EdgeSet implements Countable
 	 *	@access		public
 	 *	@param		Node		$sourceNode		Source Node of this Edge
 	 *	@param		Node		$targetNode		Target Node of this Edge
-	 *	@return 	void
+	 *	@return		void
+	 *	@throws		Exception
 	 */
-	public function removeEdge( $sourceNode, $targetNode )
+	public function removeEdge( Node $sourceNode, Node $targetNode )
 	{
 		if( !$this->isEdge( $sourceNode, $targetNode ) )
 			throw new Exception( 'Edge is not existing.' );

@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Multiplexer.
  *
@@ -23,8 +24,8 @@
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			23.08.2005
  */
+
 namespace CeusMedia\Common\ADT;
 
 use RangeException;
@@ -37,7 +38,6 @@ use RangeException;
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			23.08.2005
  */
 class Multiplexer
 {
@@ -51,12 +51,12 @@ class Multiplexer
 	protected $inputs			= array();
 
 	/**
-	 *	Contructor.
+	 *	Constructor.
 	 *	@access		public
 	 *	@param		int			$type			Type (1,2,4)
 	 *	@return		void
 	 */
-	public function __construct( $type = 1 )
+	public function __construct( int $type = 1 )
 	{
 		$this->type = $type;
 		$this->setControls();
@@ -68,7 +68,7 @@ class Multiplexer
 	 *	@access		public
 	 *	@return		array
 	 */
-	public function getControls()
+	public function getControls(): array
 	{
 		return $this->controls;
 	}
@@ -78,7 +78,7 @@ class Multiplexer
 	 *	@access		public
 	 *	@return		array
 	 */
-	public function getInputs()
+	public function getInputs(): array
 	{
 		return $this->inputs;
 	}
@@ -88,7 +88,7 @@ class Multiplexer
 	 *	@access		public
 	 *	@return		int
 	 */
-	public function getType()
+	public function getType(): int
 	{
 		return $this->type;
 	}

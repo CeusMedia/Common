@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Binary Tree.
  *
@@ -94,7 +95,7 @@ class BinaryNode
 	 *	@access		public
 	 *	@return		int
 	 */
-	public function countNodes()
+	public function countNodes(): int
 	{
 		$nodes = 1;
 		if( $this->left || $this->right )
@@ -112,7 +113,7 @@ class BinaryNode
 	 *	@access		public
 	 *	@return		int
 	 */
-	public function getHeight()
+	public function getHeight(): int
 	{
 		//  Rekursiver Aufruf des linken Teilbaumes
 		$left_height	= $this->left  ? $this->left->getHeight()  : 0;
@@ -128,9 +129,10 @@ class BinaryNode
 	/**
 	 *	Returns Left Child Tree.
 	 *	@access		public
-	 *	@return		BinaryNode
+	 *	@return		BinaryNode|NULL
+	 *	@throws		Exception
 	 */
-	public function getLeft()
+	public function getLeft(): ?BinaryNode
 	{
 		if( $this->left === NULL )
 			throw new Exception( 'No left Node available.' );
@@ -140,9 +142,10 @@ class BinaryNode
 	/**
 	 *	Returns right Child Tree.
 	 *	@access		public
-	 *	@return		mixed
+	 *	@return		BinaryNode|NULL
+	 *	@throws		Exception
 	 */
-	public function getRight()
+	public function getRight(): ?BinaryNode
 	{
 		if( $this->right === NULL )
 			throw new Exception( 'No right Node available.' );
@@ -160,12 +163,12 @@ class BinaryNode
 	}
 
 	/**
-	 *	Indicates wheter a Value can be found in the Tree.
+	 *	Indicates whether a Value can be found in the Tree.
 	 *	@access		public
 	 *	@param		mixed		$value		Value to be found in the Tree
-	 *	@return		void
+	 *	@return		BinaryNode|NULL
 	 */
-	public function search( $value )
+	public function search( $value ): ?BinaryNode
 	{
 		if( $value == $this->value )
 			return $this;
@@ -185,38 +188,34 @@ class BinaryNode
 	/**
 	 *	Runs through the Tree in any Directions and returns the Tree as List.
 	 *	@access		public
-	 *	@param		string		$dir		Direction to run through the Tree (lwr|rwl|wlr|wrl)
+	 *	@param		string|NULL		$dir		Direction to run through the Tree (lwr|rwl|wlr|wrl)
 	 *	@return		array
 	 */
-	public function toList( $dir = NULL )
+	public function toList( string $dir = NULL ): array
 	{
 		$array	= array();
-		if( !$dir || $dir == "lwr" )
-		{
+		if( !$dir || $dir == "lwr" ){
 			if( $this->left )
 				$array = array_merge( $array, $this->left->toList( $dir ) );
 			$array = array_merge( $array, array( $this->value ) );
 			if( $this->right )
 				$array = array_merge( $array, $this->right->toList( $dir ) );
 		}
-		else if( $dir == "rwl" )
-		{
+		else if( $dir == "rwl" ){
 			if( $this->right )
 				$array = array_merge( $array, $this->right->toList( $dir ) );
 			$array = array_merge( $array, array ($this->value));
 			if( $this->left)
 				$array = array_merge( $array, $this->left->toList( $dir ) );
 		}
-		else if( $dir == "wlr" )
-		{
+		else if( $dir == "wlr" ){
 			$array = array_merge( $array, array ($this->value));
 			if( $this->left )
 				$array = array_merge( $array, $this->left->toList( $dir ) );
 			if( $this->right )
 				$array = array_merge( $array, $this->right->toList( $dir ) );
 		}
-		else if( $dir == "wrl" )
-		{
+		else if( $dir == "wrl" ){
 			$array = array_merge( $array, array ($this->value));
 			if( $this->right )
 				$array = array_merge( $array, $this->right->toList( $dir ) );
@@ -231,7 +230,7 @@ class BinaryNode
 	 *	@access		public
 	 *	@return		string
 	 */
-	public function toTable()
+	public function toTable(): string
 	{
 		$code = "<table cellspacing=1 cellpadding=0>\n<tr><td colspan=2 align=center><hr>".$this->value."</td></tr>";
 		if( $this->left || $this->right )

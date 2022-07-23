@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 namespace CeusMedia\Common;
 
 use CeusMedia\Common\Alg\Text\CamelCase;
@@ -13,8 +14,13 @@ use RuntimeException;
 
 class CLI
 {
+	protected $base;
+
 	protected $logger;
+
 	protected $size;
+
+	protected $log;
 
 	static protected $mimeTypeLabels	= array(
 		'application/xml'		=> 'XML',
@@ -38,7 +44,7 @@ class CLI
 	 *	@param		boolean		$strict			Flag: throw exception if not headless (default: yes)
 	 *	@return		boolean
 	 */
-	static public function checkIsHeadless( bool $strict = TRUE ): bool
+	public static function checkIsHeadless( bool $strict = TRUE ): bool
 	{
 		if( getEnv( 'TERM' ) === FALSE )
 			return TRUE;
@@ -47,7 +53,7 @@ class CLI
 		return FALSE;
 	}
 
-	static public function checkIsCLi( bool $strict = TRUE ): bool
+	public static function checkIsCLi( bool $strict = TRUE ): bool
 	{
 		if( php_sapi_name() === 'cli' )
 			return TRUE;
@@ -56,7 +62,7 @@ class CLI
 		return FALSE;
 	}
 
-	static public function charTable( int $from = 2500, int $to = 2600 )
+	public static function charTable( int $from = 2500, int $to = 2600 )
 	{
 		print PHP_EOL;
 		for($i=$from/10; $i<$to/10; $i++){
@@ -69,7 +75,7 @@ class CLI
 		}
 	}
 
-	static public function error( $messages = NULL )
+	public static function error( $messages = NULL )
 	{
 		$isCli	= self::checkIsCLi( FALSE );
 		if( !is_array( $messages ) )
@@ -85,11 +91,34 @@ class CLI
 				}
 			}
 			else{
-				$message	= DevOutput::print_m( $message, NULL, NULL, TRUE );
+				$message	= (new DevOutput)->printMixed( $message, NULL, NULL, TRUE );
 				$isCli ? fwrite( STDERR, $message ) : print( $message );
 			}
 		}
 		$isCli ? fwrite( STDERR, PHP_EOL ) : print( PHP_EOL );
+	}
+
+	public static function out( $messages = NULL, $newLine = TRUE )
+	{
+		$isCli	= self::checkIsCLi( FALSE );
+		if( !is_array( $messages ) )
+			$messages	= array( $messages );
+		foreach( $messages as $message ){
+			if( is_null( $message ) )
+				continue;
+			$type		= gettype( $message );
+			if( in_array( $type, array( 'string', 'integer' ) ) ){
+				if( strlen( trim( $message ) ) ){
+					$isCli ? fwrite( STDOUT, $message ) : print( $message );
+				}
+			}
+			else{
+				$message	= (new DevOutput)->printMixed( $message, NULL, NULL, TRUE );
+				$isCli ? fwrite( STDOUT, $message ) : print( $message );
+			}
+		}
+		if( $newLine )
+			$isCli ? fwrite( STDOUT, PHP_EOL ) : print( PHP_EOL );
 	}
 
 	public function getColors(): int
@@ -111,54 +140,20 @@ class CLI
 	{
 		if( is_object( $this->log ) )
 			return $this->logger->log( $message );
-		$logFile	= $this->log ? $this->log : 'cli.log';
+		$logFile	= $this->log ?? 'cli.log';
 		error_log( date( 'Y-m-d H:i:s' ).': '.$message.PHP_EOL, $logFile );
 	}
 
-	static public function out( $messages = NULL, $newLine = TRUE )
+	 /**
+	 *	...
+	 *	@param		string|NULL		$path
+	 *	@param		bool			$mimeType
+	 *	@return		void
+	 *	@throws		IoException
+	 */
+	public function ls( string $path = NULL, bool $mimeType = TRUE )
 	{
-		$isCli	= self::checkIsCLi( FALSE );
-		if( !is_array( $messages ) )
-			$messages	= array( $messages );
-		foreach( $messages as $message ){
-			if( is_null( $message ) )
-				continue;
-			$type		= gettype( $message );
-			if( in_array( $type, array( 'string', 'integer' ) ) ){
-				if( strlen( trim( $message ) ) ){
-					$isCli ? fwrite( STDOUT, $message ) : print( $message );
-				}
-			}
-			else{
-				$message	= DevOutput::print_m( $message, NULL, NULL, TRUE );
-				$isCli ? fwrite( STDOUT, $message ) : print( $message );
-			}
-		}
-		if( $newLine )
-			$isCli ? fwrite( STDOUT, PHP_EOL ) : print( PHP_EOL );
-	}
-
-	protected function realizePath( string $path ): string
-	{
-//		if( !strlen( trim( $path ) )
-//			$path	= '.';
-		$first	= substr( $path, 0, 1 );
-		switch( $first ){
-			case '/':
-				break;
-			case '~':
-			//	@todo		implement!
-				break;
-			default:
-				$path	= $this->base.'/'.$path;
-		}
-		if( file_exists( $path ) )
-			return realpath( $path );
-		throw new IoException( 'Path is not existing', 0, $path );
-	}
-
-	function ls( $path = NULL, $mimeType = TRUE )
-	{
+		$path	= $path ?? '.';
 		$path	= $this->realizePath( $path );
 		$f		= new Folder( $path );
 		UnitFormater::$unitBytes[0]	= ' B';
@@ -239,5 +234,30 @@ class CLI
 			$short = 'A';
 		$type	= CamelCase::encode( str_replace( '-', ' ', $type ) );
 		return $short ? $short.':'.$type : $topic.'/'.$type;
+	}
+
+	/**
+	 *	...
+	 *	@param		string			$path
+	 *	@return		string
+	 *	@throws		IoException
+	 */
+	protected function realizePath( string $path ): string
+	{
+//		if( !strlen( trim( $path ) )
+//			$path	= '.';
+		$first	= substr( $path, 0, 1 );
+		switch( $first ){
+			case '/':
+				break;
+			case '~':
+				//	@todo		implement!
+				break;
+			default:
+				$path	= $this->base.'/'.$path;
+		}
+		if( file_exists( $path ) )
+			return realpath( $path );
+		throw new IoException( 'Path is not existing', 0, $path );
 	}
 }

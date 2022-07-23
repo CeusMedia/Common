@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Queue Implementation based on an Array. FIFO - first in first out.
  *
@@ -26,6 +27,9 @@
  */
 namespace CeusMedia\Common\ADT\Collection;
 
+use Countable;
+use RuntimeException;
+
 /**
  *	Queue Implementation based on an Array. FIFO - first in first out.
  *	@category		Library
@@ -35,7 +39,7 @@ namespace CeusMedia\Common\ADT\Collection;
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  */
-class Queue implements \Countable
+class Queue implements Countable
 {
 	/**	@var		array		$queue			Array of all elements in queue */
  	protected $queue			= array();
@@ -65,12 +69,12 @@ class Queue implements \Countable
 	 *	Returns last Item of the Queue.
 	 *	@access		public
 	 *	@return		mixed
-	 *	@throws		\RuntimeException	if queue is empty
+	 *	@throws		RuntimeException	if queue is empty
 	 */
 	public function bottom()
 	{
 		if( !count( $this->queue ) )
-			throw new \RuntimeException( 'Queue is empty.' );
+			throw new RuntimeException( 'Queue is empty.' );
 		return array_pop( $this->queue );
 	}
 
@@ -100,8 +104,8 @@ class Queue implements \Countable
 	 *	@access		public
 	 *	@return		bool
 	 */
-	public function isEmpty()
-	{
+	public function isEmpty(): bool
+    {
 		return 0 === count( $this->queue );
 	}
 
@@ -109,12 +113,12 @@ class Queue implements \Countable
 	 *	Returns next Item of the Queue.
 	 *	@access		public
 	 *	@return		mixed
-	 *	@throws		\RuntimeException	if queue is empty
+	 *	@throws		RuntimeException	if queue is empty
 	 */
 	public function pop()
 	{
 		if( !count( $this->queue ) )
-			throw new \RuntimeException( 'Queue is empty.' );
+			throw new RuntimeException( 'Queue is empty.' );
 		return array_shift( $this->queue );
 	}
 

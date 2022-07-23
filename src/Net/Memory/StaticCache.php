@@ -55,7 +55,7 @@ class StaticCache extends StaticCacheStore
 		self::$connection->connect( $host, $port );
 	}
 
-	public static function get( $key )
+	public static function get(string $key )
 	{
 		if( !self::$connection )
 			throw new RuntimeException( 'Not connected' );

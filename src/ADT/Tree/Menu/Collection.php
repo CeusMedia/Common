@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Tree Menu List Data Object used by UI_HTML_Tree_Menu.
  *
@@ -23,7 +24,6 @@
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			08.11.2008
  */
 
 namespace CeusMedia\Common\ADT\Tree\Menu;
@@ -38,14 +38,15 @@ use CeusMedia\Common\ADT\Collection\Dictionary;
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			08.11.2008
  */
 class Collection
 {
 	/**	@var		string			$label			Label of Item Link */
 	public $label					= NULL;
+
 	/**	@var		Dictionary		$attributes		Array of Item Attributes (classItem,classLink,classList) */
 	public $attributes				= NULL;
+
 	/**	@var		array			$children		List of nested Tree Menu Items */
 	public $children				= array();
 
@@ -61,7 +62,7 @@ class Collection
 	 *	@param		array		$attributes		Array of Item Attributes (classItem,classLink,classList)
 	 *	@return		void
 	 */
-	public function __construct( $label = NULL, $attributes = array() )
+	public function __construct( string $label, array $attributes = [] )
 	{
 		$this->setLabel( $label );
 		$attributes			= array_merge( $this->defaultAttributes, $attributes );
@@ -85,7 +86,7 @@ class Collection
 	 *	@param		string		$key			Attribute Key
 	 *	@return		string
 	 */
-	public function getAttribute( $key )
+	public function getAttribute( string $key ): string
 	{
 		return $this->attributes->get( $key );
 	}
@@ -94,9 +95,9 @@ class Collection
 	 *	Returns all set Attributes as Dictionary or Array.
 	 *	@access		public
 	 *	@param		bool		$asArray		Return Array instead of Dictionary
-	 *	@return		mixed
+	 *	@return		Dictionary|array
 	 */
-	public function getAttributes( $asArray = FALSE )
+	public function getAttributes( bool $asArray = FALSE )
 	{
 		if( $asArray )
 			return $this->attributes->getAll();
@@ -108,7 +109,7 @@ class Collection
 	 *	@access		public
 	 *	@return		array
 	 */
-	public function getChildren()
+	public function getChildren(): array
 	{
 		return $this->children;
 	}
@@ -118,7 +119,7 @@ class Collection
 	 *	@access		public
 	 *	@return		string
 	 */
-	public function getLabel()
+	public function getLabel(): string
 	{
 		return $this->label;
 	}
@@ -128,9 +129,9 @@ class Collection
 	 *	@access		public
 	 *	@return		bool
 	 */
-	public function hasChildren()
+	public function hasChildren(): bool
 	{
-		return (bool) count( $this->children );
+		return count( $this->children ) > 0;
 	}
 
 	/**
@@ -140,7 +141,7 @@ class Collection
 	 *	@param		string		$value			Attribute Value
 	 *	@return		bool
 	 */
-	public function setAttribute( $key, $value )
+	public function setAttribute( string $key, string $value ): bool
 	{
 		return $this->attributes->set( $key, $value );
 	}
@@ -148,7 +149,7 @@ class Collection
 	/**
 	 *	Sets Attributes from Map Array or Dictionary.
 	 *	@access		public
-	 *	@param		mixed		$array			Map Array or Dictionary of Attributes to set
+	 *	@param		Dictionary|array	$array			Map Array or Dictionary of Attributes to set
 	 *	@return		void
 	 */
 	public function setAttributes( $array )
@@ -158,12 +159,14 @@ class Collection
 		foreach( $array as $key => $value )
 			$this->attributes->set( $key, $value );
 	}
+
 	/**
 	 *	Sets Label of Tree Menu List.
 	 *	@access		public
+	 *	@param		string		$label
 	 *	@return		self
 	 */
-	public function setLabel( $label ): self
+	public function setLabel( string $label ): self
 	{
 		$this->label	= $label;
 		return $this;
@@ -174,7 +177,7 @@ class Collection
 	 *	@access		public
 	 *	@return		array
 	 */
-	public function toArray()
+	public function toArray(): array
 	{
 		$children	= array();
 		foreach( $this->children as $child )

@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Magic Node.
  *
@@ -61,7 +62,7 @@ class MagicNode
 	 *	@param		string		$key		Key of nested node
 	 *	@return		MagicNode
 	 */
-	public function __get( $key )
+	public function __get( string $key ): self
 	{
 		if( !isset( $this->data[$key] ) )
 			return new MagicNode( NULL );
@@ -75,7 +76,7 @@ class MagicNode
 	 *	@param		mixed		$value		Value to set on current or nested node
 	 *	@return		void
 	 */
-	public function __set( $key, $value )
+	public function __set( string $key, $value )
 	{
 		if( !isset( $this->data[$key] ) )
 			$this->data[$key]	= new MagicNode( $value );
@@ -88,7 +89,7 @@ class MagicNode
 	 *	@access		public
 	 *	@return		string
 	 */
-	public function __toString()
+	public function __toString(): string
 	{
 		return (string) $this->value;
 	}
@@ -99,7 +100,7 @@ class MagicNode
 	 *	@param		array		$array		Array to import
 	 *	@return		void
 	 */
-	public function fromArray( $array )
+	public function fromArray( array $array )
 	{
 		foreach( $array as $key => $value ){
 			if( is_array( $value ) ){
@@ -116,10 +117,10 @@ class MagicNode
 	/**
 	 *	Imports array.
 	 *	@access		public
-	 *	@param		array		$array		Array to import
+	 *	@param		string		$json		JSON to import
 	 *	@return		void
 	 */
-	public function fromJson( $json )
+	public function fromJson( string $json )
 	{
 		$this->fromArray( json_decode( $json, TRUE ) );
 	}
@@ -129,7 +130,7 @@ class MagicNode
 	 *	@access		public
 	 *	@return		array
 	 */
-	public function toArray()
+	public function toArray(): array
 	{
 		$array	= array();
 		foreach( $this->data as $key => $node ){
@@ -144,9 +145,9 @@ class MagicNode
 	/**
 	 *	Returns nested nodes as JSON.
 	 *	@access		public
-	 *	@return		array
+	 *	@return		string
 	 */
-	public function toJson()
+	public function toJson(): string
 	{
 		return json_encode( $this->toArray() );
 	}
@@ -161,8 +162,8 @@ class MagicNode
 	 */
 	public function value( $value = NULL )
 	{
-		if( is_null( $value ) )
-			return $this->value;
-		$this->value	= $value;
+		if( !is_null( $value ) )
+			$this->value	= $value;
+		return $this->value;
 	}
 }

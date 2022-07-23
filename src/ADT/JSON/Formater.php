@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Formats JSON String.
  *
@@ -24,8 +25,8 @@
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			10.01.2008
  */
+
 namespace CeusMedia\Common\ADT\JSON;
 
 use InvalidArgumentException;
@@ -39,7 +40,6 @@ use InvalidArgumentException;
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			10.01.2008
  *	@todo			Unit Test
  */
 class Formater
@@ -48,42 +48,37 @@ class Formater
 	 *	Formats JSON String.
 	 *	@access		public
 	 *	@static
-	 *	@param		string		$json		JSON String or Object to format
+	 *	@param		string		$json			JSON String or Object to format
+	 *	@param		boolean		$validateSource	Flag: validate JSON string beforehand, default: no
 	 *	@return		string
+	 *	@throws		InvalidArgumentException
 	 */
-	public static function format( $json, $validateSource = FALSE )
+	public static function format( string $json, bool $validateSource = FALSE ): string
 	{
 		$tab			= "  ";
 		$content		= "";
 		$indentLevel	= 0;
 		$inString		= FALSE;
 
-		if( !is_string( $json ) )
-			$json	= json_encode( $json );
-
 		if( $validateSource )
 			if( json_decode( $json ) === FALSE )
 				throw new InvalidArgumentException( 'JSON String is not valid.' );
 
 		$len	= strlen( $json );
-		for( $c=0; $c<$len; $c++ )
-		{
+		for( $c=0; $c<$len; $c++ ){
 			$char	= $json[$c];
-			switch( $char )
-			{
+			switch( $char ){
 				case '{':
 				case '[':
 					$content .= $char;
-					if( !$inString )
-					{
+					if( !$inString ){
 						$content .= "\n".str_repeat( $tab, $indentLevel + 1 );
 						$indentLevel++;
 					}
 					break;
 				case '}':
 				case ']':
-					if( !$inString )
-					{
+					if( !$inString ){
 						$indentLevel--;
 						$content .= "\n".str_repeat( $tab, $indentLevel );
 					}
@@ -98,6 +93,7 @@ class Formater
 				case '"':
 					if( $c > 0 && $json[$c-1] != '\\' )
 						$inString = !$inString;
+					break;
 				default:
 					$content .= $char;
 					break;
