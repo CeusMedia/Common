@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Reader for sectioned Ini Files using parse_ini_file.
  *
@@ -23,7 +24,6 @@
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			01.11.2005
  */
 
 namespace CeusMedia\Common\FS\File\INI;
@@ -39,7 +39,6 @@ use RuntimeException;
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			01.11.2005
  */
 class SectionReader
 {
@@ -55,7 +54,7 @@ class SectionReader
 	 *	@param		string		$fileName		File Name of sectioned Properties File to Read
 	 *	@return		void
 	 */
-	public function __construct( $fileName )
+	public function __construct( string $fileName )
 	{
 		$this->fileName	= $fileName;
 		$this->read();
@@ -64,10 +63,10 @@ class SectionReader
 	/**
 	 *	Returns all Properties or all of a Section as Array.
 	 *	@access		public
-	 *	@param		bool		$section		Flag: use Sections
+	 *	@param		string|NULL		$section		Flag: use Sections
 	 *	@return		array
 	 */
-	public function getProperties( $section = NULL )
+	public function getProperties( ?string $section = NULL ): array
 	{
 		if( $section && !$this->hasSection( $section ) )
 			throw new InvalidArgumentException( 'Section "'.$section.'" is not existing.' );
@@ -83,7 +82,7 @@ class SectionReader
 	 *	@param		string		$key			Key of Property
 	 *	@return		string
 	 */
-	public function getProperty( $section, $key )
+	public function getProperty( string $section, string $key ): string
 	{
 		if( !$this->hasProperty( $section, $key ) )
 			throw new InvalidArgumentException( 'Key "'.$key.'" is not existing in Section "'.$section.'".' );
@@ -95,19 +94,19 @@ class SectionReader
 	 *	@access		public
 	 *	@return		array
 	 */
-	public function getSections()
+	public function getSections(): array
 	{
 		return array_keys( $this->data );
 	}
 
 	/**
-	 *	Indicated whether a Keys is set.
+	 *	Indicated whether a Key is set.
 	 *	@access		public
 	 *	@param		string		$section		Section of Property
 	 *	@param		string		$key			Key of Property
 	 *	@return		bool
 	 */
-	public function hasProperty( $section, $key )
+	public function hasProperty( string $section, string $key ): bool
 	{
 		if( !$this->hasSection( $section ) )
 			throw new InvalidArgumentException( 'Section "'.$section.'" is not existing.' );
@@ -120,7 +119,7 @@ class SectionReader
 	 *	@param		string		$section		Section of Property
 	 *	@return		bool
 	 */
-	public function hasSection( $section )
+	public function hasSection( string $section ): bool
 	{
 		return in_array( $section, $this->getSections() );
 	}
@@ -140,10 +139,10 @@ class SectionReader
 	/**
 	 *	Alias for 'getProperties'.
 	 *	@access		public
-	 *	@param		bool		$section		Flag: use Sections
+	 *	@param		string|NULL		$section		Flag: use Sections
 	 *	@return		array
 	 */
-	public function toArray( $section = NULL )
+	public function toArray( ?string $section = NULL ): array
 	{
 		return $this->getProperties( $section );
 	}

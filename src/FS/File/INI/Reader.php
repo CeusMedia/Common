@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Reader for Property Files or typical .ini Files with Key, Values and optional Sections and Comments.
  *
@@ -23,7 +24,6 @@
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			01.01.2001
  */
 
 namespace CeusMedia\Common\FS\File\INI;
@@ -41,27 +41,26 @@ use RuntimeException;
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			01.01.2001
  */
 class Reader extends FileReader
 {
 	/**	@var		string			$fileName				URI of Ini File */
-	protected $fileName				= array();
+	protected $fileName				= [];
 
 	/**	@var		array			$comments				List of collected Comments */
-	protected $comments				= array();
+	protected $comments				= [];
 
 	/**	@var		array			$lines					List of collected Lines */
-	protected $lines				= array();
+	protected $lines				= [];
 
 	/**	@var		array			$properties				List of collected Properties */
-	protected $properties			= array();
+	protected $properties			= [];
 
 	/**	@var		array			$sections				List of collected Sections */
-	protected $sections				= array();
+	protected $sections				= [];
 
 	/**	@var		array			$disabled				List of disabled Properties */
-	protected $disabled				= array();
+	protected $disabled				= [];
 
 	/**	@var		bool			$usesSections			Flag: use Sections */
 	protected $usesSections			= FALSE;
@@ -85,17 +84,17 @@ class Reader extends FileReader
 	protected $patternSection		= '/^\s*\[([a-z0-9_=.,:;#@-]+)\]\s*$/i';
 
 	/**	@var		string			$patternLineComment		Pattern( regex) of Line Comments */
-	protected $patternLineComment	= '/([\t| ]+([\/]{2}|[;])+[\t| ]*)/';
+	protected $patternLineComment	= '/([\t| ]+(\/{2}|;)+[\t| ]*)/';
 
 	/**
 	 *	Constructor, reads Property File.
 	 *	@access		public
 	 *	@param		string		$fileName		File Name of Property File, absolute or relative URI
 	 *	@param		bool		$usesSections	Flag: Property File contains Sections
-	 *	@param		bool		$reservedWords	Flag: interprete reserved Words like yes,no,true,false,null
+	 *	@param		bool		$reservedWords	Flag: interpret reserved Words like yes,no,true,false,null
 	 *	@return		void
 	 */
-	public function __construct( $fileName, $usesSections = FALSE, $reservedWords = TRUE )
+	public function __construct( string $fileName, bool $usesSections = FALSE, bool $reservedWords = TRUE )
 	{
 		parent::__construct( $fileName );
 		$this->usesSections			= $usesSections;
@@ -107,10 +106,10 @@ class Reader extends FileReader
 	 *	Returns the Comment of a Property.
 	 *	@access		public
 	 *	@param		string		$key			Key of Property
-	 *	@param		string		$section		Section of Property
+	 *	@param		string|NULL	$section		Section of Property
 	 *	@return		string
 	 */
-	public function getComment( $key, $section = NULL )
+	public function getComment( string $key, ?string $section = NULL ): string
 	{
 		if( $this->usesSections() ){
 			if( empty( $section ) )
@@ -131,19 +130,19 @@ class Reader extends FileReader
 	 *	@param		bool		$activeOnly		Flag: return only active Properties
 	 *	@return		array
 	 */
-	public function getCommentedProperties( $activeOnly = TRUE )
+	public function getCommentedProperties( bool $activeOnly = TRUE ): array
 	{
-		$list = array();
+		$list = [];
 		if( $this->usesSections() ){
 			foreach( $this->sections as $section ){
 				foreach( $this->properties[$section] as $key => $value ){
 					if( $activeOnly && !$this->isActiveProperty( $key, $section ) )
 						continue;
 					$property = array(
-						"key"		=>	$key,
-						"value"		=>	$value,
-						"comment"	=>	$this->getComment( $key, $section ),
-						"active"	=> 	(bool) $this->isActiveProperty( $key, $section )
+						"key"		=> $key,
+						"value"		=> $value,
+						"comment"	=> $this->getComment( $key, $section ),
+						"active"	=> $this->isActiveProperty( $key, $section )
 						);
 					$list[$section][] = $property;
 				}
@@ -153,12 +152,12 @@ class Reader extends FileReader
 			foreach( $this->properties as $key => $value ){
 				if( $activeOnly && !$this->isActiveProperty( $key ) )
 					continue;
-				$property = Array(
-					"key"		=>	$key,
-					"value"		=>	$value,
-					"comment"	=>	$this->getComment( $key ),
-					"active"	=> 	(bool)$this->isActiveProperty( $key )
-					);
+				$property = [
+					"key"		=> $key,
+					"value"		=> $value,
+					"comment"	=> $this->getComment( $key ),
+					"active"	=> $this->isActiveProperty( $key )
+				];
 				$list[] = $property;
 			}
 		}
@@ -168,10 +167,10 @@ class Reader extends FileReader
 	/**
 	 *	Returns all Comments or all Comments of a Section.
 	 *	@access		public
-	 *	@param		string		$section		Key of Section
+	 *	@param		string|NULL	$section		Key of Section
 	 *	@return		array
 	 */
-	public function getComments( $section = NULL )
+	public function getComments( ?string $section = NULL ): array
 	{
 		if( $this->usesSections() && $section ){
 			if( $this->hasSection( $section ) )
@@ -185,12 +184,12 @@ class Reader extends FileReader
 	 *	Returns an Array with all or active only Properties.
 	 *	@access		public
 	 *	@param		bool		$activeOnly		Flag: return only active Properties
-	 *	@param		string		$section		Only Section with given Section Name
+	 *	@param		string|NULL	$section		Only Section with given Section Name
 	 *	@return		array
 	 */
-	public function getProperties( $activeOnly = TRUE, $section = NULL )
+	public function getProperties( bool $activeOnly = TRUE, ?string $section = NULL ): array
 	{
-		$properties = array();
+		$properties = [];
 		if( $this->usesSections() ){
 			if( $section ){
 				if( !$this->hasSection( $section ) )
@@ -203,7 +202,7 @@ class Reader extends FileReader
 			}
 			else{
 				foreach( $this->sections as $section){
-					$properties[$section]	= array();
+					$properties[$section]	= [];
 					foreach( $this->properties[$section] as $key => $value ){
 						if( $activeOnly && !$this->isActiveProperty( $key, $section ) )
 							continue;
@@ -226,11 +225,11 @@ class Reader extends FileReader
 	 *	Returns the Value of a Property by its Key.
 	 *	@access		public
 	 *	@param		string		$key			Key of Property
-	 *	@param		string		$sections		Key of Section
+	 *	@param		string|NULL	$section		Key of Section
 	 *	@param		bool		$activeOnly		Flag: return only active Properties
 	 *	@return		string
 	 */
-	public function getProperty( $key, $section = NULL, $activeOnly = TRUE )
+	public function getProperty( string $key, ?string $section = NULL, bool $activeOnly = TRUE ): string
 	{
 		if( $this->usesSections() ){
 			if( !$section )
@@ -252,9 +251,9 @@ class Reader extends FileReader
 	 *	@param		bool		$activeOnly		Flag: return only active Properties
 	 *	@return		array
 	 */
-	public function getPropertyList( $activeOnly = TRUE )
+	public function getPropertyList( bool $activeOnly = TRUE ): array
 	{
-		$properties = array();
+		$properties = [];
 		if( $this->usesSections() ){
 			foreach( $this->sections as $sectionName ){
 				foreach( $this->properties[$sectionName] as $key => $value ){
@@ -279,7 +278,7 @@ class Reader extends FileReader
 	 *	@access		public
 	 *	@return		array
 	 */
-	public function getSections()
+	public function getSections(): array
 	{
 		if( !$this->usesSections() )
 			throw new RuntimeException( 'Sections are disabled' );
@@ -287,13 +286,13 @@ class Reader extends FileReader
 	}
 
 	/**
-	 *	Indicates wheter a Property is existing.
+	 *	Indicates whether a Property is existing.
 	 *	@access		public
 	 *	@param		string		$key		Key of Property
-	 *	@param		string		$section	Key of Section
+	 *	@param		string|NULL	$section	Key of Section
 	 *	@return		bool
 	 */
-	public function hasProperty( $key, $section = NULL )
+	public function hasProperty( string $key, ?string $section = NULL ): bool
 	{
 		if( $this->usesSections() ){
 			if( empty( $section ) )
@@ -307,12 +306,12 @@ class Reader extends FileReader
 	}
 
 	/**
-	 *	Indicates wheter a Property is existing.
+	 *	Indicates whether a Property is existing.
 	 *	@access		public
 	 *	@param		string		$section	Key of Section
 	 *	@return		bool
 	 */
-	public function hasSection( $section )
+	public function hasSection( string $section ): bool
 	{
 		if( !$this->usesSections() )
 			throw new RuntimeException( 'Sections are disabled' );
@@ -320,13 +319,13 @@ class Reader extends FileReader
 	}
 
 	/**
-	 *	Indicates wheter a Property is active.
+	 *	Indicates whether a Property is active.
 	 *	@access		public
 	 *	@param		string		$key		Key of Property
-	 *	@param		string		$sections	Key of Section
+	 *	@param		string|NULL	$section	Key of Section
 	 *	@return		bool
 	 */
-	public function isActiveProperty( $key, $section = NULL )
+	public function isActiveProperty( string $key, ?string $section = NULL ): bool
 	{
 		if( $this->usesSections() ){
 			if( empty( $section ) )
@@ -346,27 +345,14 @@ class Reader extends FileReader
 	 *	Loads an INI File and returns an Array statically.
 	 *	@access		public
 	 *	@param		string		$fileName		File Name of Property File, absolute or relative URI
-	 *	@param		bool		$usesSections	Flag: Property File containts Sections
+	 *	@param		bool		$usesSections	Flag: Property File contains Sections
 	 *	@param		bool		$activeOnly		Flag: return only active Properties
 	 *	@return		array
 	 */
-	public static function load( $fileName, $usesSections = FALSE, $activeOnly = TRUE )
+	public static function loadArray( string $fileName, bool $usesSections = FALSE, bool $activeOnly = TRUE ): array
 	{
 		$reader	= new self( $fileName, $usesSections );
 		return $reader->toArray( $activeOnly );
-	}
-
-	/**
-	 *	Loads an INI File and returns an Array Object statically.
-	 *	@access		public
-	 *	@param		string		$fileName		File Name of Property File, absolute or relative URI
-	 *	@param		bool		$usesSections	Flag: Property File containts Sections
-	 *	@param		bool		$activeOnly		Flag: return only active Properties
-	 *	@return		ArrayObject
-	 */
-	public static function loadAsArrayObject( $fileName, $usesSections = FALSE, $activeOnly = TRUE )
-	{
-		return new ArrayObject( self::load( $fileName, $usesSections, $activeOnly ) );
 	}
 
 	/**
@@ -376,13 +362,13 @@ class Reader extends FileReader
 	 */
 	protected function read()
 	{
-		$this->comments		= array();
-		$this->disabled		= array();
-		$this->lines		= array();
-		$this->properties	= array();
-		$this->sections		= array();
-		$this->lines		= array();
-		$this->comments		= array();
+		$this->comments		= [];
+		$this->disabled		= [];
+		$this->lines		= [];
+		$this->properties	= [];
+		$this->sections		= [];
+		$this->lines		= [];
+		$this->comments		= [];
 		$commentOpen		= 0;
 		$lines				= $this->readArray();
 		foreach( $lines as $line ){
@@ -400,9 +386,9 @@ class Reader extends FileReader
 #				$currentSection		= substr( trim( $line ), 1, -1 );
 				$currentSection		= preg_replace( $this->patternSection, '\\1', $line );
 				$this->sections[]	= $currentSection;
-				$this->disabled[$currentSection]	= array();
-				$this->properties[$currentSection]	= array();
-				$this->comments[$currentSection]	= array();
+				$this->disabled[$currentSection]	= [];
+				$this->properties[$currentSection]	= [];
+				$this->comments[$currentSection]	= [];
 			}
 			else if( preg_match( $this->patternProperty, $line ) ){
 				if( !count( $this->sections ) )
@@ -454,7 +440,7 @@ class Reader extends FileReader
 	 *	@param		bool			$activeOnly	Switch to return only active Properties
 	 *	@return		array
 	 */
-	public function toArray( $activeOnly = TRUE )
+	public function toArray( bool $activeOnly = TRUE ): array
 	{
 		return $this->getProperties( $activeOnly );
 	}
@@ -462,10 +448,13 @@ class Reader extends FileReader
 	/**
 	 *	Indicates whether Sections are used and sets this Switch.
 	 *	@access		public
-	 *	@return		array
+	 *	@param		boolean|NULL	$switch
+	 *	@return		bool
 	 */
-	public function usesSections()
+	public function usesSections( ?bool $switch = NULL ): bool
 	{
+		if( !is_null( $switch ) )
+			$this->usesSections= $switch;
 		return $this->usesSections;
 	}
 }

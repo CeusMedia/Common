@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	File permission data object and handler.
  *
@@ -85,7 +86,7 @@ class Permissions
 		return self::getStringFromOctal( sprintf( '%o', $permissions ) );
 	}
 
-	public static function getOctalFromFile( $pathName ): string
+	public static function getOctalFromFile( string $pathName ): string
 	{
 		$object	= new Permissions( $pathName );
 		return $object->getAsOctal();

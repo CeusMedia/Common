@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Reads for several "Gantt Project" XML Files and extracts Project Information and Meeting Dates.
  *
@@ -23,7 +24,6 @@
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			12.03.2008
  */
 
 namespace CeusMedia\Common\FS\File\Gantt;
@@ -35,18 +35,14 @@ use DirectoryIterator;
  *	@category		Library
  *	@package		CeusMedia_Common_FS_File_Gantt
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			12.03.2008
  */
 class MeetingCollector
 {
 	/**	@var		array		$files			Array of found Gantt Project XML Files */
-	protected $files			= array();
-
-	/**	@var		array		$meetigns		Array of extracted Meeting Dates */
-	protected $meetings			= array();
+	protected $files			= [];
 
 	/**	@var		array		$projects		Array of extracted Project Dates */
-	protected $projects			= array();
+	protected $projects			= [];
 
 	/**
 	 *	Constructor.
@@ -54,7 +50,7 @@ class MeetingCollector
 	 *	@param		string		$path			Path to Gantt Project XML Files
 	 *	@return		void
 	 */
-	public function __construct( $path )
+	public function __construct( string $path )
 	{
 		$this->files	= self::listProjectFiles( $path );
 		$this->projects	= self::readProjectFiles( $this->files );
@@ -66,15 +62,13 @@ class MeetingCollector
 	 *	@param		string		$projectName	Name of Project (optional)
 	 *	@return		array
 	 */
-	public function getMeetingDates( $projectName = "" )
+	public function getMeetingDates( string $projectName = "" ): array
 	{
-		$dates	= array();
-		foreach( $this->projects as $project )
-		{
+		$dates	= [];
+		foreach( $this->projects as $project ){
 			if( $projectName && $projectName != $project['name'] )
 				continue;
-			foreach( $project['meetings'] as $meeting )
-			{
+			foreach( $project['meetings'] as $meeting ){
 				$dates[]	= array(
 					'project'	=> $project['name'],
 					'name'		=> $meeting['name'],
@@ -92,11 +86,10 @@ class MeetingCollector
 	 *	@param		string		$projectName	Name of Project (optional)
 	 *	@return		array
 	 */
-	public function getProjectDates( $projectName = "" )
+	public function getProjectDates( string $projectName = "" ): array
 	{
-		$dates	= array();
-		foreach( $this->projects as $project )
-		{
+		$dates	= [];
+		foreach( $this->projects as $project ){
 			if( $projectName && $projectName != $project['name'] )
 				continue;
 			$dates[]	= array(
@@ -112,15 +105,14 @@ class MeetingCollector
 	 *	Lists all Gantt Project XML Files in a specified Path.
 	 *	@access		protected
 	 *	@static
-	 *	@param		array		$path			Path to Gantt Project XML Files
+	 *	@param		string		$path			Path to Gantt Project XML Files
 	 *	@return		array
 	 */
-	protected static function listProjectFiles( $path )
+	protected static function listProjectFiles( string $path ): array
 	{
-		$list	= array();
+		$list	= [];
 		$dir	= new DirectoryIterator( $path );
-		foreach( $dir as $entry )
-		{
+		foreach( $dir as $entry ){
 			if( $entry->isDot() )
 				continue;
 			if( !preg_match( "@\.gan$@", $entry->getFilename() ) )
@@ -137,11 +129,10 @@ class MeetingCollector
 	 *	@param		array		$fileList		List of Gantt Project XML Files
 	 *	@return		array
 	 */
-	protected static function readProjectFiles( $fileList )
+	protected static function readProjectFiles( array $fileList ): array
 	{
-		$projects	= array();
-		foreach( $fileList as $fileName )
-		{
+		$projects	= [];
+		foreach( $fileList as $fileName ){
 			$reader		= new MeetingReader( $fileName );
 			$projects[]	= $reader->getProjectData();
 		}

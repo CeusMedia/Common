@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	JSON Reader.
  *
@@ -23,7 +24,6 @@
  *	@copyright		2010-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.7.0
  */
 
 namespace CeusMedia\Common\FS\File\JSON;
@@ -40,7 +40,6 @@ use RuntimeException;
  *	@copyright		2010-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.7.0
  */
 class Reader
 {
@@ -48,6 +47,7 @@ class Reader
 	protected $filePath;
 	protected $filters					= array();
 	protected $data;
+	protected $parser;
 
 	/**
 	 *	Constructor.
@@ -55,7 +55,7 @@ class Reader
 	 *	@param		string		$filePath		Path to JSON file
 	 *	@return		void
 	 */
-	public function __construct( $filePath )
+	public function __construct( string $filePath )
 	{
 		if( !file_exists( $filePath ) )
 			throw new RuntimeException( 'File "'.$filePath.'" is not existing' );
@@ -70,25 +70,25 @@ class Reader
 	 *	@param		boolean		$asConstantKey	Flag: return constant name as string instead of its integer value
 	 *	@return		integer|string
 	 */
-	public function getError( $asConstantKey = FALSE )
+	public function getError( bool $asConstantKey = FALSE )
 	{
 		return $this->parser->getError( $asConstantKey );
 	}
 
 	/**
 	 *	Returns all collected information as object including current parse status.
-	 *	The nested status object holds latest parse information, like error code, message and code constant key.
-	 *	If file has been read with flag "storeData" the parsed data will be includes, too.
+	 *	The nested status object holds the latest parse information, like error code, message and code constant key.
+	 *	If file has been read with flag "storeData" the parsed data will be included, too.
 	 *	@access		public
 	 *	@return		object
 	 */
-	public function getInfo()
+	public function getInfo(): object
 	{
 		return (object) array(
 			'filePath'		=> $this->filePath,
 			'filters'		=> $this->filters,
 			'status'		=> $this->parser->getInfo(),
-			'data'			=> $data,
+			'data'			=> $this->data,
 		);
 	}
 
@@ -97,7 +97,7 @@ class Reader
 	 *	@access		public
 	 *	@return		string
 	 */
-	public function getMessage()
+	public function getMessage(): string
 	{
 		return $this->parser->getMessage();
 	}
@@ -107,9 +107,11 @@ class Reader
 	 *	This method is useful for chaining method calls.
 	 *	@access		public
 	 *	@static
+	 *	@param		string		$filePath
 	 *	@return		self
+	 *	@noinspection	PhpUnused
 	 */
-	public static function getNew( $filePath )
+	public static function getNew( string $filePath ): self
 	{
 		return new self( $filePath );
 	}
@@ -121,7 +123,7 @@ class Reader
 	 *	@param		bool		$asArray		Flag: read into an array
 	 *	@return		object|array
 	 */
-	public static function load( $filePath, $asArray = NULL )
+	public static function load( string $filePath, bool $asArray = NULL )
 	{
 		$reader	= new Reader( $filePath );
 		return $reader->read( $asArray );
@@ -135,7 +137,7 @@ class Reader
 	 *	@return		object|array
 	 *	@throws		RuntimeException			if parsing failed
 	 */
-	public function read( $asArray = NULL, $storeData = TRUE )
+	public function read( bool $asArray = NULL, bool $storeData = TRUE )
 	{
 		$json	= FileReader::load( $this->filePath );
 		$json	= $this->applyFilters( $json );
@@ -150,8 +152,9 @@ class Reader
 	 *	@access		public
 	 *	@static
 	 *	@param		array		$defaultFilters		List of filters to set for each new instance
+	 *	@noinspection	PhpUnused
 	 */
-	public static function setDefaultFilters( $defaultFilters )
+	public static function setDefaultFilters( array $defaultFilters )
 	{
 		self::$defaultFilters	= $defaultFilters;
 	}
@@ -163,7 +166,7 @@ class Reader
 	 *	@param		string		$json				JSON file content to be filtered
 	 *	@return		string
 	 */
-	protected function applyFilters( $json )
+	protected function applyFilters( string $json ): string
 	{
 		foreach( $this->filters as $filter ){
 			if( $filter === 'comments' ){

@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Searchs for a File by given File Name in Folder recursive.
  *
@@ -23,7 +24,6 @@
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			09.06.2007
  */
 
 namespace CeusMedia\Common\FS\File;
@@ -41,7 +41,6 @@ use RuntimeException;
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			09.06.2007
  *	@todo			Fix Error while comparing File Name to Current File with Path
  */
 class RecursiveNameFilter extends FilterIterator
@@ -52,11 +51,11 @@ class RecursiveNameFilter extends FilterIterator
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		string		$path		Path to seach in
+	 *	@param		string		$path		Path to search in
 	 *	@param		string		$fileName	Name of File to be found
 	 *	@return		void
 	 */
-	public function __construct( $path, $fileName )
+	public function __construct( string $path, string $fileName )
 	{
 		if( !file_exists( $path ) )
 			throw new RuntimeException( 'Path "'.$path.'" is not existing.' );
@@ -74,7 +73,7 @@ class RecursiveNameFilter extends FilterIterator
 	 *	@access		public
 	 *	@return		bool
 	 */
-	public function accept()
+	public function accept(): bool
 	{
 		return !strcmp( basename( $this->current() ), $this->fileName );
 	}

@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Basic File Reader.
  *
@@ -28,7 +29,6 @@
 namespace CeusMedia\Common\FS\File;
 
 use CeusMedia\Common\Alg\UnitFormater;
-use InvalidArgumentException;
 use RuntimeException;
 
 /**
@@ -51,10 +51,8 @@ class Reader
 	 *	@param		string		$fileName		File Name or URI of File
 	 *	@return		void
 	 */
-	public function __construct( $fileName, $check = FALSE )
+	public function __construct( string $fileName, bool $check = FALSE )
 	{
-		if( !is_string( $fileName ) )
-			throw new InvalidArgumentException( 'File name must a string' );
 		$this->fileName = $fileName;
 		if( $check && !$this->exists() )
 			throw new RuntimeException( 'File "'.addslashes( $fileName ).'" is not existing' );
@@ -68,7 +66,7 @@ class Reader
 	 *	@param		string		$fileName		Name of File to compare with
 	 *	@return		bool
 	 */
-	public function equals( $fileName )
+	public function equals( string $fileName ): bool
 	{
 		$toCompare	= Reader::load( $fileName );
 		$thisFile	= Reader::load( $this->fileName );
@@ -80,7 +78,7 @@ class Reader
 	 *	@access		public
 	 *	@return		bool
 	 */
-	public function exists()
+	public function exists(): bool
 	{
 		$exists	= file_exists( $this->fileName );
 		$isFile	= is_file( $this->fileName );
@@ -92,7 +90,7 @@ class Reader
 	 *	@access		public
 	 *	@return		string
 	 */
-	public function getBasename()
+	public function getBasename(): string
 	{
 		return basename( $this->fileName );
 	}
@@ -102,7 +100,7 @@ class Reader
 	 *	@access		public
 	 *	@return		int
 	 */
-	public function getDate()
+	public function getDate(): int
 	{
 		return filemtime( $this->fileName );
 	}
@@ -112,11 +110,11 @@ class Reader
 	 *	@access		public
 	 *	@return		string
 	 *	@throws		RuntimeException	if Fileinfo is not installed
+	 *	@noinspection	PhpUnused
 	 */
-	public function getEncoding()
+	public function getEncoding(): string
 	{
-		if( function_exists( 'finfo_open' ) )
-		{
+		if( function_exists( 'finfo_open' ) ){
 			$magicFile	= ini_get( 'mime_magic.magicfile' );
 //			$magicFile	= str_replace( "\\", "/", $magicFile );
 //			$magicFile	= preg_replace( "@\.mime$@", "", $magicFile );
@@ -125,8 +123,7 @@ class Reader
 			finfo_close( $fileInfo );
 			return $mimeType;
 		}
-		else if( substr( PHP_OS, 0, 3 ) != "WIN" )
-		{
+		else if( substr( PHP_OS, 0, 3 ) != "WIN" ){
 			$command	= 'file -b --mime-encoding '.escapeshellarg( $this->fileName );
 			return trim( exec( $command ) );
 		}
@@ -138,11 +135,10 @@ class Reader
 	 *	@access		public
 	 *	@return		string
 	 */
-	public function getExtension()
+	public function getExtension(): string
 	{
 		$info = pathinfo( $this->fileName );
-		$ext = $info['extension'];
-		return $ext;
+		return $info['extension'];
 	}
 
 	/**
@@ -150,12 +146,12 @@ class Reader
 	 *	@access		public
 	 *	@return		string
 	 */
-	public function getFileName()
+	public function getFileName(): string
 	{
 		return $this->fileName;
 	}
 
-	public function getGroup()
+	public function getGroup(): string
 	{
 		$group	= filegroup( $this->fileName );
 		if( FALSE === $group )
@@ -169,10 +165,9 @@ class Reader
 	 *	@return		string
 	 *	@throws		RuntimeException	if Fileinfo is not installed
 	 */
-	public function getMimeType()
+	public function getMimeType(): string
 	{
-		if( function_exists( 'finfo_open' ) )
-		{
+		if( function_exists( 'finfo_open' ) ){
 			$magicFile	= ini_get( 'mime_magic.magicfile' );
 //			$magicFile	= str_replace( "\\", "/", $magicFile );
 //			$magicFile	= preg_replace( "@\.mime$@", "", $magicFile );
@@ -181,19 +176,17 @@ class Reader
 			finfo_close( $fileInfo );
 			return $mimeType;
 		}
-		else if( substr( PHP_OS, 0, 3 ) != "WIN" )
-		{
+		else if( substr( PHP_OS, 0, 3 ) != "WIN" ){
 			$command	= 'file -b --mime-type '.escapeshellarg( $this->fileName );
 			return trim( exec( $command ) );
 		}
-		else if( function_exists( 'mime_content_type' ) && $mimeType = mime_content_type( $this->fileName ) )
-		{
+		else if( function_exists( 'mime_content_type' ) && $mimeType = mime_content_type( $this->fileName ) ){
 			return $mimeType;
 		}
 		throw new RuntimeException( 'PHP extension Fileinfo is missing' );
 	}
 
-	public function getOwner()
+	public function getOwner(): string
 	{
 		$user	= fileowner( $this->fileName );
 		if( FALSE === $user )
@@ -206,7 +199,7 @@ class Reader
 	 *	@access		public
 	 *	@return		string
 	 */
-	public function getPath()
+	public function getPath(): string
 	{
 		$realpath	= realpath( $this->fileName );
 		$path	= dirname( $realpath );
@@ -220,7 +213,7 @@ class Reader
 	 *	@access		public
 	 *	@return		Permissions		File permissions object
 	 */
-	public function getPermissions()
+	public function getPermissions(): Permissions
 	{
 		return new Permissions( $this->fileName );
 	}
@@ -228,16 +221,14 @@ class Reader
 	/**
 	 *	Returns Size of current File.
 	 *	@access		public
-	 *	@param		int			$precision		Precision of rounded Size (only if unit is set)
+	 *	@param		integer|NULL	$precision		Precision of rounded Size (only if unit is set)
 	 *	@return		int
 	 */
-	public function getSize( $precision = NULL )
+	public function getSize( int $precision = NULL ): int
 	{
 		$size	= filesize( $this->fileName );
 		if( $precision )
-		{
 			$size	= UnitFormater::formatBytes( $size, $precision );
-		}
 		return $size;
 	}
 
@@ -245,12 +236,13 @@ class Reader
 	 *	Indicates whether a given user is owner of current file.
 	 *	On Windows this method always returns TRUE.
 	 *	@access		public
-	 *	@param		string		$user		Name of user to check ownership for, current user by default
+	 *	@param		string|NULL	$user		Name of user to check ownership for, current user by default
 	 *	@return		boolean
+	 *	@noinspection	PhpUnused
 	 */
-	public function isOwner( $user = NULL )
+	public function isOwner( ?string $user = NULL ): bool
 	{
-		$user	= $user ? $user : get_current_user();
+		$user	= $user ?? get_current_user();
 		if( !function_exists( 'posix_getpwuid' ) )
 			return TRUE;
 		$uid	= fileowner( $this->fileName );
@@ -259,7 +251,7 @@ class Reader
 		$owner	= posix_getpwuid( $uid );
 		if( !$owner )
 			return TRUE;
-		print_m( $owner );
+//		print_m( $owner );
 		return $user == $owner['name'];
 	}
 
@@ -268,7 +260,7 @@ class Reader
 	 *	@access		public
 	 *	@return		bool
 	 */
-	public function isReadable()
+	public function isReadable(): bool
 	{
 		return is_readable( $this->fileName );
 	}
@@ -280,7 +272,7 @@ class Reader
 	 *	@param		string		$fileName		Name of File to load
 	 *	@return		string
 	 */
-	public static function load( $fileName )
+	public static function load( string $fileName ): string
 	{
 		$reader	= new Reader( $fileName );
 		return $reader->readString();
@@ -293,7 +285,7 @@ class Reader
 	 *	@param		string		$fileName		Name of File to load
 	 *	@return		array
 	 */
-	public static function loadArray( $fileName )
+	public static function loadArray( string $fileName ): array
 	{
 		$reader	= new Reader( $fileName );
 		return $reader->readArray();
@@ -304,7 +296,7 @@ class Reader
 	 *	@access		public
 	 *	@return		array
 	 */
- 	public function readArray()
+ 	public function readArray(): array
 	{
 		$content	= $this->readString();
 		return preg_split( '/\r?\n/', $content );
@@ -317,11 +309,11 @@ class Reader
 	 *	@throws		RuntimeException			if File is not existing
 	 *	@throws		RuntimeException			if File is not readable
 	 */
- 	public function readString()
+ 	public function readString(): string
 	{
-		if( !$this->exists( $this->fileName ) )
+		if( !$this->exists() )
 			throw new RuntimeException( 'File "'.$this->fileName.'" is not existing' );
-		if( !$this->isReadable( $this->fileName ) )
+		if( !$this->isReadable() )
 			throw new RuntimeException( 'File "'.$this->fileName.'" is not readable' );
 		return file_get_contents( $this->fileName );
 	}

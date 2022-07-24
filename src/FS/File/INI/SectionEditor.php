@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Editor for sectioned Ini Files using parse_ini_file.
  *
@@ -23,7 +24,6 @@
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			01.11.2005
  */
 
 namespace CeusMedia\Common\FS\File\INI;
@@ -39,7 +39,6 @@ use InvalidArgumentException;
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			01.11.2005
  */
 class SectionEditor extends SectionReader
 {
@@ -49,7 +48,7 @@ class SectionEditor extends SectionReader
 	 *	@param		string		$section		Section to add
 	 *	@return		bool
 	 */
-	public function addSection( $section )
+	public function addSection( string $section ): bool
 	{
 		if( $this->hasSection( $section ) )
 			throw new InvalidArgumentException( 'Section "'.$section.'" is already existing.' );
@@ -64,13 +63,12 @@ class SectionEditor extends SectionReader
 	 *	@param		int			$tabs			Amount to Tabs to indent
 	 *	@return		string
 	 */
-	protected function fillUp( $key, $tabs = 5 )
+	protected function fillUp( string $key, int $tabs = 5 ): string
 	{
 		$key_breaks	= $tabs - floor( strlen( $key ) / 8 );
 		if( $key_breaks < 1 )
 			$key_breaks = 1;
-		$key	= $key.str_repeat( "\t", $key_breaks );
-		return $key;
+		return $key.str_repeat( "\t", $key_breaks );
 	}
 
 	/**
@@ -80,7 +78,7 @@ class SectionEditor extends SectionReader
 	 *	@param		string		$key			Key of Property
 	 *	@return		bool
 	 */
-	public function removeProperty( $section, $key )
+	public function removeProperty( string $section, string $key ): bool
 	{
 		if( !$this->hasProperty( $section, $key ) )
 			throw new InvalidArgumentException( 'Key "'.$key.'" is not existing in Section "'.$section.'".' );
@@ -94,7 +92,7 @@ class SectionEditor extends SectionReader
 	 *	@param		string		$section		Section of Property
 	 *	@return		bool
 	 */
-	public function removeSection( $section )
+	public function removeSection( string $section ): bool
 	{
 		if( !$this->hasSection( $section ) )
 			throw new InvalidArgumentException( 'Section "'.$section.'" is not existing.' );
@@ -110,7 +108,7 @@ class SectionEditor extends SectionReader
 	 *	@param		string		$value			Value of Property
 	 *	@return		bool
 	 */
-	public function setProperty( $section, $key, $value )
+	public function setProperty( string $section, string $key, string $value ): bool
 	{
 		if( !$this->hasSection( $section ) )
 			$this->addSection( $section );
@@ -123,17 +121,17 @@ class SectionEditor extends SectionReader
 	 *	@access		public
 	 *	@return		int
 	 */
-	public function write()
+	public function write(): int
 	{
 		$lines		= array();
 		$sections	= $this->getSections();
-		foreach( $sections as $section )
-		{
+		foreach( $sections as $section ){
 			$lines[]	= "[".$section."]";
 			foreach( $this->data[$section] as $key => $value )
 				$lines[]	= $this->fillUp( $key )."=".$value;
 		}
-		return FileWriter::saveArray( $this->fileName, $lines );
+		$result	= FileWriter::saveArray( $this->fileName, $lines );
 		$this->read();
+		return $result;
 	}
 }

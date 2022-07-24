@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	...
  *
@@ -43,6 +44,7 @@ use DirectoryIterator;
  */
 class Json
 {
+	protected $basePath;
 	protected $logFile;
 	protected $path;
 
@@ -52,13 +54,19 @@ class Json
 	public $fileUrl			= "./?file=";
 	public $fileTarget		= NULL;
 
-	public function __construct( $basePath, $logFile = NULL )
+	public function __construct( string $basePath, ?string $logFile = NULL )
 	{
 		$this->basePath		= $basePath;
 		$this->logFile		= $logFile;
 	}
 
-	public function buildJson( $path = "" )
+	/**
+	 *	...
+	 *	@param			string		$path
+	 *	@return			string|FALSE
+	 *	@noinspection	PhpUnused
+	 */
+	public function buildJson( string $path = '' ): string
 	{
 		$clock		= new Clock;
 		$index		= new DirectoryIterator( $this->basePath.$path );
@@ -81,7 +89,7 @@ class Json
 	}
 
 
-	protected function buildFileItem( $entry )
+	protected function buildFileItem( $entry ): array
 	{
 		$label		= $entry->getFilename();
 		$url		= $this->getFileUrl( $entry );
@@ -90,63 +98,54 @@ class Json
 			'target'	=> $this->fileTarget
 		);
 		$link		= Tag::create( "a", $label, $attributes );
-		$item		= array(
+		return [
 			'text'		=> $link,
 			'classes'	=> $this->classLeaf,
-		);
-		return $item;
+		];
 	}
 
-	protected function buildFolderItem( $entry )
+	protected function buildFolderItem( $entry ): array
 	{
-		$children	= $this->hasChildren( $entry );
-		$item	= array(
+		return [
 			'text'			=> $entry->getFilename(),
 			'id'			=> rawurlencode( $this->getPathName( $entry ) ),
-			'hasChildren'	=> (bool) $children,
+			'hasChildren'	=> $this->hasChildren( $entry ),
 			'classes'		=> $this->classNode,
-		);
-		return $item;
+		];
 	}
 
-	protected function getFileExtension( $entry )
+	protected function getFileExtension( $entry ): string
 	{
 		return pathinfo( $entry->getPathname(), PATHINFO_EXTENSION );
 	}
 
-	protected function getFileUrl( $entry )
+	protected function getFileUrl( $entry ): string
 	{
 		return $this->fileUrl.rawurlencode( $this->getPathName( $entry ) );
 	}
 
-	protected function getPathname( $entry )
+	protected function getPathname( $entry ): string
 	{
 		$path	= str_replace( "\\", "/", $entry->getPathname() );
 		$base	= str_replace( "\\", "/", $this->basePath );
-		$path	= substr( $path, strlen( $base ) );
-		return $path;
+		return substr( $path, strlen( $base ) );
 	}
 
-	protected function hasChildren( $entry, $countChildren = FALSE )
+	protected function hasChildren( $entry ): bool
 	{
-		$children	= 0;
 		$childIndex	= new DirectoryIterator( $entry->getPathname() );
-		foreach( $childIndex as $child )
-		{
+		foreach( $childIndex as $child ){
 			if( substr( $child->getFilename(), 0, 1 ) == "." )
 				continue;
 			if( $child->isLink() )
 				continue;
-			$children++;
-			if( !$countChildren )
-				break;
+			return TRUE;
 		}
-		return $children;
+		return FALSE;
 	}
 
-	protected function log( $path, $numberItems, $jsonLength, $time )
+	protected function log( string $path, int $numberItems, int $jsonLength, int $time ): void
 	{
-		$message	= '<path time="%1$d" items="%3$d" length="%4$d" time="%5$d">%2$s</path>';
 		$message	= '%1$d {%3$d} [%4$d] (%5$d) %2$s';
 		$message	= sprintf(
 			$message,

@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Base gzip File implementation.
  *
@@ -47,7 +48,7 @@ class Gzip extends FileEditor
 	 *	@param		string		$fileName		URI of File
 	 *	@return		void
 	 */
-	public function __construct( $fileName )
+	public function __construct( string $fileName )
 	{
 		if( !function_exists( "gzcompress" ) )
 			throw new Exception( "Gzip Extension is not available." );
@@ -59,7 +60,7 @@ class Gzip extends FileEditor
 	 *	@access		public
 	 *	@return		string
 	 */
- 	public function readString()
+ 	public function readString(): string
 	{
 		$content	= parent::readString();
 		return gzuncompress( $content );
@@ -71,7 +72,7 @@ class Gzip extends FileEditor
 	 *	@param		string		$string			String to write to File
 	 *	@return		int
 	 */
-	public function writeString( $string )
+	public function writeString( string $string ): int
 	{
 		$content	= gzcompress( $string );
 		return parent::writeString( $content );

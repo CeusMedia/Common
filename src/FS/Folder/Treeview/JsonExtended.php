@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	...
  *
@@ -41,7 +42,7 @@ use CeusMedia\Common\UI\HTML\Tag;
  */
 class JsonExtended extends Json
 {
-	protected function buildFileItem( $entry )
+	protected function buildFileItem( $entry ): array
 	{
 		$label		= $entry->getFilename();
 		$extension	= $this->getFileExtension( $entry );
@@ -50,22 +51,19 @@ class JsonExtended extends Json
 			'target'	=> $this->fileTarget
 		);
 		$link		= Tag::create( "a", $label, $attributes );
-		$item		= array(
+		return [
 			'text'		=> $link,
 			'classes'	=> $this->classLeaf." ".$extension,
-		);
-		return $item;
+		];
 	}
 
-	protected function buildFolderItem( $entry )
+	protected function buildFolderItem( $entry ): array
 	{
-		$children	= $this->hasChildren( $entry, TRUE );
-		$item	= array(
+		return [
 			'text'			=> $entry->getFilename(),#." (".$children.")",
 			'id'			=> rawurlencode( $this->getPathName( $entry ) ),
-			'hasChildren'	=> (bool) $children,
+			'hasChildren'	=> $this->hasChildren( $entry ),
 			'classes'		=> $this->classNode,
-		);
-		return $item;
+		];
 	}
 }

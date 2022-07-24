@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	JSON Writer.
  *
@@ -23,12 +24,11 @@
  *	@copyright		2010-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.7.0
  */
 
 namespace CeusMedia\Common\FS\File\JSON;
 
-use CeusMedia\Common\ADT\JSON\Formater as JsonFormater;
+use CeusMedia\Common\ADT\JSON\Formater as JsonFormat;
 use CeusMedia\Common\FS\File\Writer as FileWriter;
 
 /**
@@ -39,7 +39,6 @@ use CeusMedia\Common\FS\File\Writer as FileWriter;
  *	@copyright		2010-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			0.7.0
  */
 class Writer
 {
@@ -51,7 +50,7 @@ class Writer
 	 *	@param		string		$filePath		Path to JSON file
 	 *	@return		void
 	 */
-	public function __construct( $filePath )
+	public function __construct( string $filePath )
 	{
 		$this->filePath	= $filePath;
 	}
@@ -64,7 +63,7 @@ class Writer
 	 *	@param		bool		$format			Flag: format JSON serial
 	 *	@return		int			Number of written bytes
 	 */
-	public static function save( $filePath, $value, $format = FALSE )
+	public static function save( string $filePath, $value, bool $format = FALSE ): int
 	{
 		$writer	= new Writer( $filePath );
 		return $writer->write( $value, $format );
@@ -77,14 +76,13 @@ class Writer
 	 *	@param		bool		$format			Flag: format JSON serial
 	 *	@return		int			Number of written bytes
 	 */
-	public function write( $value, $format = FALSE )
+	public function write( $value, bool $format = FALSE ): int
 	{
-		if( $format )
-		{
+		if( $format ){
 			if( version_compare( phpversion(), '5.4.0' ) >= 0 )
 				$json	= json_encode( $value, JSON_PRETTY_PRINT );
 			else
-				$json	= JsonFormater::format( json_encode( $value ) );
+				$json	= JsonFormat::format( json_encode( $value ) );
 		}
 		else
 			$json	= json_encode( $value );

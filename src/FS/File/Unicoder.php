@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Converts a File into UTF-8.
  *
@@ -23,7 +24,6 @@
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			18.10.2007
  */
 
 namespace CeusMedia\Common\FS\File;
@@ -39,7 +39,6 @@ use Exception;
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			18.10.2007
  */
 class Unicoder
 {
@@ -49,10 +48,11 @@ class Unicoder
 	 *	@param		string		$fileName	Name of File to unicode
 	 *	@param		bool		$force		Flag: encode into UTF-8 even if UTF-8 Encoding has been detected
 	 *	@return		void
+	 *	@throws		Exception
 	 */
-	public function __construct( $fileName, $force = FALSE )
+	public function __construct( string $fileName, bool $force = FALSE )
 	{
-		return self::convertToUnicode( $fileName, $force = FALSE );
+		self::convertToUnicode( $fileName, $force = FALSE );
 	}
 
 	/**
@@ -62,14 +62,14 @@ class Unicoder
 	 *	@param		string		$fileName	Name of File to unicode
 	 *	@param		bool		$force		Flag: encode into UTF-8 even if UTF-8 Encoding has been detected
 	 *	@return		bool
+	 *	@throws		Exception
 	 */
-	public static function convertToUnicode( $fileName, $force = FALSE )
+	public static function convertToUnicode( string $fileName, bool $force = FALSE ): bool
 	{
-		if( !(!$force && self::isUnicode( $fileName ) ) )
-		{
+		if( !(!$force && self::isUnicode( $fileName ) ) ){
 			$string		= Editor::load( $fileName );
-			$unicoded	= TextUnicoder::convertToUnicode( $string );
-			return (bool) Editor::save( $fileName, $unicoded );
+			$encoded	= TextUnicoder::convertToUnicode( $string );
+			return (bool) Editor::save( $fileName, $encoded );
 		}
 		return FALSE;
 	}
@@ -80,13 +80,14 @@ class Unicoder
 	 *	@static
 	 *	@param		string		$fileName	Name of File to unicode
 	 *	@return		bool
+	 *	@throws		Exception
 	 */
-	public static function isUnicode( $fileName )
+	public static function isUnicode( string $fileName ): bool
 	{
 		if( !file_exists( $fileName ) )
 			throw new Exception( 'File "'.$fileName.'" is not existing.' );
 		$string		= Editor::load( $fileName );
-		$unicoded	= TextUnicoder::convertToUnicode( $string );
-		return $unicoded == $string;
+		$encoded	= TextUnicoder::convertToUnicode( $string );
+		return $encoded === $string;
 	}
 }

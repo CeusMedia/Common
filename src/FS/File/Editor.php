@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Editor for Files.
  *
@@ -23,7 +24,6 @@
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			15.04.2008
  */
 
 namespace CeusMedia\Common\FS\File;
@@ -39,7 +39,6 @@ use RuntimeException;
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			15.04.2008
  *	@todo			finish Writer Methods (create, isWritable)
  */
 class Editor extends Reader
@@ -52,27 +51,27 @@ class Editor extends Reader
 	 *	@access		public
 	 *	@param		string		$fileName		File Name or URI of File
 	 *	@param		string		$creationMode	UNIX rights for chmod()
-	 *	@param		string		$creationUser	User Name for chown()
-	 *	@param		string		$creationGroup	Group Name for chgrp()
+	 *	@param		string|NULL	$creationUser	User Name for chown()
+	 *	@param		string|NULL	$creationGroup	Group Name for chgrp()
 	 *	@return		void
 	 */
-	public function __construct( $fileName, $creationMode = NULL, $creationUser = NULL, $creationGroup = NULL )
+	public function __construct( string $fileName, $creationMode = NULL, ?string $creationUser = NULL, ?string $creationGroup = NULL )
 	{
 		parent::__construct( $fileName );
 		$this->writer	= new Writer( $fileName, $creationMode, $creationUser, $creationGroup );
 	}
 
-	public function appendString( $string )
+	public function appendString( string $string ): int
 	{
-		$this->writer->appendString( $string );
+		return $this->writer->appendString( $string );
 	}
 
-	public function copy( $fileName )
+	public function copy( string $fileName ): bool
 	{
 		return @copy( $this->fileName, $fileName );
 	}
 
-	public static function delete( $fileName )
+	public static function delete( string $fileName ): bool
 	{
 		return Writer::delete( $fileName );
 	}
@@ -82,7 +81,7 @@ class Editor extends Reader
 	 *	@access		public
 	 *	@return		bool
 	 */
-	public function isWritable()
+	public function isWritable(): bool
 	{
 		return $this->writer->isWritable();
 	}
@@ -92,7 +91,7 @@ class Editor extends Reader
 	 *	@access		public
 	 *	@return		bool
 	 */
-	public function remove()
+	public function remove(): bool
 	{
 		return $this->writer->remove();
 	}
@@ -103,7 +102,7 @@ class Editor extends Reader
 	 *	@param		string		$fileName		File Name to rename to
 	 *	@return		bool
 	 */
-	public function rename( $fileName )
+	public function rename( string $fileName ): bool
 	{
 		if( !$fileName )
 			throw new InvalidArgumentException( 'No File Name given.' );
@@ -118,11 +117,11 @@ class Editor extends Reader
 	 *	Saves a String into the File statically and returns Length.
 	 *	@access		public
 	 *	@static
+	 *	@param		string		$fileName		File Name to write to
 	 *	@param		string		$string			List of String to write to File
-	 *	@param		string		$lineBreak		Line Break
 	 *	@return		int
 	 */
-	public static function save( $fileName, $string )
+	public static function save( string $fileName, string $string ): int
 	{
 		return Writer::save( $fileName, $string );
 	}
@@ -131,11 +130,12 @@ class Editor extends Reader
 	 *	Writes an Array into the File statically and returns Length.
 	 *	@access		public
 	 *	@static
+	 *	@param		string		$fileName		File Name to write to
 	 *	@param		array		$array			List of String to write to File
 	 *	@param		string		$lineBreak		Line Break
 	 *	@return		int
 	 */
-	public static  function saveArray( $fileName, $array, $lineBreak = "\n" )
+	public static  function saveArray( string $fileName, array $array, string $lineBreak = "\n" ): int
 	{
 		return Writer::saveArray( $fileName, $array, $lineBreak );
 	}
@@ -144,22 +144,22 @@ class Editor extends Reader
 	 *	Sets Group of current File.
 	 *	@access		public
 	 *	@param		string		$groupName		OS Group Name of new File Owner
-	 *	@return		bool
+	 *	@return		void
 	 */
-	public function setGroup( $groupName )
+	public function setGroup( string $groupName ): void
 	{
-		return $this->writer->setGroup( $groupName );
+		$this->writer->setGroup( $groupName );
 	}
 
 	/**
 	 *	Sets Owner of current File.
 	 *	@access		public
 	 *	@param		string		$userName		OS User Name of new File Owner
-	 *	@return		bool
+	 *	@return		void
 	 */
-	public function setOwner( $userName )
+	public function setOwner( string $userName ): void
 	{
-		return $this->writer->setOwner( $userName );
+		$this->writer->setOwner( $userName );
 	}
 
 	/**
@@ -168,7 +168,7 @@ class Editor extends Reader
 	 *	@param		integer		$mode			OCTAL value of new rights (eg. 0750)
 	 *	@return		bool
 	 */
-	public function setPermissions( $mode )
+	public function setPermissions( int $mode ): bool
 	{
 		return $this->writer->setPermissions( $mode );
 	}
@@ -180,7 +180,7 @@ class Editor extends Reader
 	 *	@param		string		$lineBreak		Line Break
 	 *	@return		int
 	 */
-	public function writeArray( $array, $lineBreak = "\n" )
+	public function writeArray( array $array, string $lineBreak = "\n" ): int
 	{
 		return $this->writer->writeArray( $array, $lineBreak );
 	}
@@ -188,10 +188,10 @@ class Editor extends Reader
 	/**
 	 *	Writes a String into the File and returns Length.
 	 *	@access		public
-	 *	@param		string		string		string to write to file
+	 *	@param		string		$string		string to write to file
 	 *	@return		int
 	 */
-	public function writeString( $string )
+	public function writeString( string $string ): int
 	{
 		return $this->writer->writeString( $string );
 	}

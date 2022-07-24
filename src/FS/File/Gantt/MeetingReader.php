@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Reads "Gantt Project" XML File and extracts basic Project Information and Meeting Dates.
  *
@@ -23,7 +24,6 @@
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			12.03.2008
  */
 
 namespace CeusMedia\Common\FS\File\Gantt;
@@ -39,7 +39,6 @@ use Exception;
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			12.03.2008
  */
 class MeetingReader
 {
@@ -49,7 +48,7 @@ class MeetingReader
 	 *	@param		string		$fileName		File Name of Gantt Project XML File
 	 *	@return		void
 	 */
-	public function __construct( $fileName )
+	public function __construct( string $fileName )
 	{
 		$this->xpath	= new XPathQuery();
 		$this->xpath->loadFile( $fileName );
@@ -63,11 +62,10 @@ class MeetingReader
 	 *	@param		int			$durationDays	Duration in Days
 	 *	@return		string		$endDate
 	 */
-	protected static function calculateEndDate( $startDate, $durationDays )
+	protected static function calculateEndDate( string $startDate, int $durationDays ): string
 	{
 		$time	= strtotime( $startDate ) + $durationDays * 24 * 60 * 60;
-		$time	= date( "Y-m-d", $time );
-		return $time;
+		return date( "Y-m-d", $time );
 	}
 
 	/**
@@ -75,7 +73,7 @@ class MeetingReader
 	 *	@access		public
 	 *	@return		array
 	 */
-	public function getProjectData()
+	public function getProjectData(): array
 	{
 		$data		= $this->readProjectDates();
 		$meetings	= $this->readMeetingDates();
@@ -88,12 +86,11 @@ class MeetingReader
 	 *	@access		protected
 	 *	@return		array
 	 */
-	protected function readMeetingDates()
+	protected function readMeetingDates(): array
 	{
 		$meetings	= array();
 		$nodeList	= $this->xpath->evaluate( "//task[@meeting='true']" );
-		foreach( $nodeList as $node )
-		{
+		foreach( $nodeList as $node ){
 			$name		= $node->getAttribute( 'name' );
 			$start		= $node->getAttribute( 'start' );
 			$duration	= $node->getAttribute( 'duration' );
@@ -112,7 +109,7 @@ class MeetingReader
 	 *	@access		protected
 	 *	@return		array
 	 */
-	protected function readProjectDates()
+	protected function readProjectDates(): array
 	{
 		$node	= $this->xpath->evaluate( "//project/tasks/task" );
 
@@ -123,12 +120,11 @@ class MeetingReader
 		$start		= $node->item(0)->getAttribute( 'start' );
 		$duration	= $node->item(0)->getAttribute( 'duration' );
 
-		$data	= array(
+		return [
 			'name'		=> $name,
 			'start'		=> $start,
 			'duration'	=> $duration,
 			'end'		=> self::calculateEndDate( $start, $duration ),
-		);
-		return $data;
+		];
 	}
 }

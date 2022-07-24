@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Configuration using JSON file and structure of magic nodes.
  *
@@ -27,7 +28,7 @@
 
 namespace CeusMedia\Common\FS\File\JSON;
 
-use CeusMedia\Common\ADT\JSON\Formater as JsonFormater;
+use CeusMedia\Common\ADT\JSON\Formater as JsonFormat;
 use CeusMedia\Common\ADT\Tree\MagicNode;
 use CeusMedia\Common\FS\File\Reader as FileReader;
 use CeusMedia\Common\FS\File\Writer as FileWriter;
@@ -59,7 +60,7 @@ class Config
 	 *	@param		boolean		$format			Flag: format JSON on save
 	 *	@return		void
 	 */
-	public function __construct( $fileName, $format = TRUE )
+	public function __construct( string $fileName, bool $format = TRUE )
 	{
 		$this->fileName	= $fileName;
 		$this->data		= new MagicNode();
@@ -74,7 +75,7 @@ class Config
 	 *	@param		string		$key		Key of node to get value for
 	 *	@return		MagicNode
 	 */
-	public function __get( $key )
+	public function __get( string $key ): MagicNode
 	{
 		return $this->data->__get( $key );
 	}
@@ -84,9 +85,9 @@ class Config
 	 *	@access		public
 	 *	@param		string		$key		Key of to set value for
 	 *	@param		string		$value		Value to set
-	 *	@return		MagicNode
+	 *	@return		void
 	 */
-	public function __set( $key, $value )
+	public function __set( string $key, string $value ): void
 	{
 		$this->data->__set( $key, $value );
 	}
@@ -96,11 +97,11 @@ class Config
 	 *	@access		public
 	 *	@return		integer		Number of saved bytes
 	 */
-	public function save()
+	public function save(): int
 	{
 		$json	= $this->data->toJson();
 		if( $this->format )
-			$json	= JsonFormater::format( $json );
+			$json	= JsonFormat::format( $json );
 		return FileWriter::save( $this->fileName, $json );
 	}
 
@@ -109,7 +110,7 @@ class Config
 	 *	@access		public
 	 *	@return		array
 	 */
-	public function toArray()
+	public function toArray(): array
 	{
 		return $this->data->toArray();
 	}

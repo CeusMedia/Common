@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Builds iCal File with Meeting Dates from "Gantt Project" File.
  *
@@ -23,12 +24,11 @@
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			12.03.2008
  */
 
 namespace CeusMedia\Common\FS\File\Gantt;
 
-use CeusMedia\Common\FS\File\iCal\Builder as IcalBuilder;
+use CeusMedia\Common\FS\File\ICal\Builder as IcalBuilder;
 use CeusMedia\Common\XML\DOM\Node;
 
 /**
@@ -39,7 +39,6 @@ use CeusMedia\Common\XML\DOM\Node;
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			12.03.2008
  */
 class CalendarBuilder
 {
@@ -52,7 +51,7 @@ class CalendarBuilder
 	 *	@param		string		$title		Title of iCal Root Node
 	 *	@return		void
 	 */
-	public function __construct( $title = "GanttProjectMeetings" )
+	public function __construct( string $title = "GanttProjectMeetings" )
 	{
 		$this->title	= $title;
 	}
@@ -64,13 +63,12 @@ class CalendarBuilder
 	 *	@param		array		$meetings		Array of Meetings
 	 *	@return		string
 	 */
-	public function build( $projects, $meetings )
+	public function build( array $projects, array $meetings ): string
 	{
 		$tree		= new Node( $this->title );
 		$cal		= new Node( "vcalendar" );
 		$cal->addChild( new Node( "version", "2.0" ) );
-		foreach( $projects as $project )
-		{
+		foreach( $projects as $project ){
 			$start		= strtotime( $project['start'] );
 			$end		= strtotime( $project['end'] );
 			$event		= new Node( "vevent" );
@@ -83,8 +81,7 @@ class CalendarBuilder
 			$cal->addChild( $event );
 		}
 
-		foreach( $meetings as $meeting )
-		{
+		foreach( $meetings as $meeting ){
 			$start		= strtotime( $meeting['start'] );
 			$end		= strtotime( $meeting['end'] );
 			$event		= new Node( "vevent" );
@@ -99,7 +96,6 @@ class CalendarBuilder
 		$tree->addChild( $cal );
 
 		$builder	= new IcalBuilder();
-		$ical		= $builder->build( $tree );
-		return $ical;
+		return $builder->build( $tree );
 	}
 }

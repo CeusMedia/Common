@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Iterates all Folders and Files recursive within a Folder.
  *
@@ -23,7 +24,6 @@
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			15.04.2008
  */
 
 namespace CeusMedia\Common\FS\File;
@@ -40,30 +40,19 @@ use RuntimeException;
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			15.04.2008
  */
 class RecursiveIterator extends RecursiveIteratorIterator
 {
 	/**	@var		 string		$path				Path to iterate */
 	protected $path;
 
-	/**	@var		 bool		$showFiles			Flag: show Files */
-	protected $showFiles;
-
-	/**	@var		 bool		$showFolders		Flag: show Folders */
-	protected $showFolders;
-
-	/**	@var		 bool		$stripDotFolders	Flag: strip Folder with leading Dot */
-	protected $stripDotFolders;
-
 	/**
 	 *	Constructor.
 	 *	@access		public
 	 *	@param		string		$path				Path to Folder
-	 *	@param		bool		$showFiles			Flag: show Files
 	 *	@return		void
 	 */
-	public function __construct( $path )
+	public function __construct( string $path )
 	{
 		if( !file_exists( $path ) )
 			throw new RuntimeException( 'Path "'.$path.'" is not existing.' );
@@ -83,7 +72,7 @@ class RecursiveIterator extends RecursiveIteratorIterator
 	 *	@access		public
 	 *	@return		string		Path to Folder to iterate
 	 */
-	public function getPath()
+	public function getPath(): string
 	{
 		return $this->path;
 	}

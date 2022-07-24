@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Builder for File in .ini-Format.
  *
@@ -23,7 +24,6 @@
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			18.07.2005
  */
 
 namespace CeusMedia\Common\FS\File\INI;
@@ -39,7 +39,6 @@ use InvalidArgumentException;
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			18.07.2005
  */
 class Creator
 {
@@ -58,7 +57,7 @@ class Creator
 	 *	@param		bool		$useSections	Flag: use Sections within Ini File
 	 *	@return		void
 	 */
-	public function __construct( $useSections = FALSE )
+	public function __construct( bool $useSections = FALSE )
 	{
 		$this->useSections = $useSections;
 	}
@@ -68,14 +67,12 @@ class Creator
 	 *	@access		public
 	 *	@param		string		$key			Key of new Property
 	 *	@param		string		$value			Value of new Property
-	 *	@param		string		$comment		Comment of Property (optional)
-	 *	@param		string		$section		Name of new Section
+	 *	@param		string|NULL	$comment		Comment of Property (optional)
 	 *	@return		void
 	 */
-	public function addProperty( $key, $value, $comment = NULL )
+	public function addProperty( string $key, string $value, ?string $comment = NULL )
 	{
-		if( !$this->useSections )
-		{
+		if( !$this->useSections ){
 			$this->data[$key]['key']		= $key;
 			$this->data[$key]['value']		= $value;
 			$this->data[$key]['comment']	= $comment;
@@ -91,11 +88,11 @@ class Creator
 	 *	@access		public
 	 *	@param		string		$key			Key of new Property
 	 *	@param		string		$value			Value of new Property
-	 *	@param		string		$comment		Comment of Property (optional)
 	 *	@param		string		$section		Name of new Section
+	 *	@param		string|NULL	$comment		Comment of Property (optional)
 	 *	@return		void
 	 */
-	public function addPropertyToSection( $key, $value, $section, $comment = NULL )
+	public function addPropertyToSection( string $key, string $value, string $section, ?string $comment = NULL )
 	{
 		$this->data[$section][$key]['key']		= $key;
 		$this->data[$section][$key]['value']	= $value;
@@ -108,7 +105,7 @@ class Creator
 	 *	@param		string		$section		Name of new Section
 	 *	@return		void
 	 */
-	public function addSection( $section )
+	public function addSection( string $section )
 	{
 		if ( !( isset( $this->data[$section] ) && is_array( $this->data[$section] ) ) )
 			$this->data[$section]	= array();
@@ -120,10 +117,10 @@ class Creator
 	 *	@access		protected
 	 *	@param		string		$key			Key of  Property
 	 *	@param		string		$value			Value of Property
-	 *	@param		string		$comment		Comment of Property
+	 *	@param		string|NULL	$comment		Comment of Property
 	 *	@return		string
 	 */
-	protected function buildLine( $key, $value, $comment )
+	protected function buildLine( string $key, string $value, ?string $comment = NULL )
 	{
 		$breaksKey		= 4 - floor( strlen( $key ) / 8 );
 		$breaksValue	= 4 - floor( strlen( $value ) / 8 );
@@ -141,18 +138,15 @@ class Creator
 	 *	Creates and writes Settings to File.
 	 *	@access		public
 	 *	@param		string		$fileName		File Name of new Ini File
-	 *	@return		bool
+	 *	@return		integer
 	 */
-	public function write( $fileName )
+	public function write( string $fileName ): int
 	{
 		$lines	= array();
-		if( $this->useSections )
-		{
-			foreach( $this->data as $section => $sectionPairs )
-			{
+		if( $this->useSections ){
+			foreach( $this->data as $section => $sectionPairs ){
 				$lines[]	= "[".$section."]";
-				foreach ( $sectionPairs as $key => $data )
-				{
+				foreach ( $sectionPairs as $key => $data ){
 					$value		= $data['value'];
 					$comment	= $data['comment'];
 					$lines[]	= $this->buildLine( $key, $value, $comment);
@@ -160,10 +154,8 @@ class Creator
 				$lines[]	= "";
 			}
 		}
-		else
-		{
-			foreach( $this->data as $key => $data )
-			{
+		else{
+			foreach( $this->data as $key => $data ){
 				$value		= $data['value'];
 				$comment	= $data['comment'];
 				$lines[]	= $this->buildLine( $key, $value, $comment);

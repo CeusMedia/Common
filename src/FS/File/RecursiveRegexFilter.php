@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Searchs for Files by given RegEx Pattern (as File Name) in Folder.
  *
@@ -23,7 +24,6 @@
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			09.06.2007
  */
 
 namespace CeusMedia\Common\FS\File;
@@ -41,25 +41,27 @@ use RuntimeException;
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			09.06.2007
  *	@todo			Fix Error while comparing File Name to Current File with Path
  */
 class RecursiveRegexFilter extends RegexIterator
 {
 	/**	@var	int				$numberFound			Number of found Files */
 	protected $numberFound		= 0;
+
 	/**	@var	int				$numberScanned	Number of scanned Files */
 	protected $numberScanned	= 0;
+
 	/**	@var	string			filePattern		Regular Expression to match with File Name */
 	private $filePattern;
+
 	/**	@var	string			$contentPattern	Regular Expression to match with File Content */
 	private $contentPattern;
 
 	/**
 	 *	Constructor.
 	 *	@access		public
-	 *	@param		string		$path			Path to seach in
-	 *	@param		string		$pattern		Regular Expression to match with File Name
+	 *	@param		string		$path			Path to search in
+	 *	@param		string		$filePattern	Regular Expression to match with File Name
 	 *	@return		void
 	 */
 	public function __construct( $path, $filePattern, $contentPattern = NULL )
@@ -87,7 +89,7 @@ class RecursiveRegexFilter extends RegexIterator
 	 *	@access		public
 	 *	@return		bool
 	 */
-	public function accept()
+	public function accept(): bool
 	{
 		$this->numberScanned++;
 		if( !preg_match( $this->filePattern, $this->current()->getFilename() ) )
@@ -100,8 +102,7 @@ class RecursiveRegexFilter extends RegexIterator
 		if( $realPath )
 			$filePath	= $realPath;
 		$content	= file_get_contents( $filePath );
-		$found		= preg_match( $this->contentPattern, $content );
-		return $found;
+		return preg_match( $this->contentPattern, $content );
 	}
 
 	/**
@@ -109,7 +110,7 @@ class RecursiveRegexFilter extends RegexIterator
 	 *	@access		public
 	 *	@return		int
 	 */
-	public function getNumberFound()
+	public function getNumberFound(): int
 	{
 		return $this->numberFound;
 	}
@@ -119,7 +120,7 @@ class RecursiveRegexFilter extends RegexIterator
 	 *	@access		public
 	 *	@return		int
 	 */
-	public function getNumberScanned()
+	public function getNumberScanned(): int
 	{
 		return $this->numberScanned;
 	}

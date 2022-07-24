@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Builder for iCalendar File from XML Tree.
  *
@@ -23,7 +24,6 @@
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			09.03.2006
  *	@see			RFC2445
  *	@link			http://www.w3.org/2002/12/cal/rfc2445
  */
@@ -40,7 +40,6 @@ use CeusMedia\Common\XML\DOM\Node;
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			09.03.2006
  *	@see			RFC2445
  *	@link			http://www.w3.org/2002/12/cal/rfc2445
  */
@@ -55,7 +54,7 @@ class Builder
 	 *	@param		string		$lineBreak		Line Break String
 	 *	@return 	void
 	 */
-	public function __construct( $lineBreak = "\r\n" )
+	public function __construct( string $lineBreak = "\r\n" )
 	{
 		self::$lineBreak	= $lineBreak;
 	}
@@ -64,9 +63,9 @@ class Builder
 	 *	Builds Array of iCal Lines from XML Tree.
 	 *	@access		public
 	 *	@param		Node		$tree		XML Tree
-	 *	@return 	array
+	 *	@return 	string
 	 */
-	public function build( $tree )
+	public function build( Node $tree ): string
 	{
 		$lines	= array();
 		$children	= $tree->getChildren();
@@ -85,21 +84,18 @@ class Builder
 	 *	@param		string		$content	Line Value
 	 *	@return 	string
 	 */
-	protected static function buildLine( $name, $param, $content )
+	protected static function buildLine( string $name, array $param, string $content ): string
 	{
 		$params	= array();
 		foreach( $param as $key => $value )
 			$params[]	= strtoupper( trim( $key ) )."=".$value;
 		$param	= implode( ",", $params );
-		if( $param )
-		{
+		if( $param ){
 			$param	= " ;".$param;
-			if( strlen( $param ) > 75 )
-			{
+			if( strlen( $param ) > 75 ){
 				$rest	= $param;
 				$param	= "";
-				while( strlen( $rest ) > 75 )
-				{
+				while( strlen( $rest ) > 75 ){
 					$param	.= substr( $rest, 0, 74 ).self::$lineBreak;
 					$rest	= " ".substr( $rest, 74 );
 				}
@@ -108,20 +104,16 @@ class Builder
 		}
 
 		$content	= ":".$content;
-		if( strlen( $content ) > 75 )
-		{
+		if( strlen( $content ) > 75 ){
 			$rest	= $content;
 			$content	= "";
-			while( strlen( $rest ) > 75 )
-			{
+			while( strlen( $rest ) > 75 ){
 				$content	.= substr( $rest, 0, 74 ).self::$lineBreak;
 				$rest	= " ".substr( $rest, 74 );
 			}
 		}
 
-		$line	= strtoupper( $name ).$param.$content;
-		$line	= $line;
-		return $line;
+		return strtoupper( $name ).$param.$content;
 	}
 
 	/**
@@ -131,14 +123,13 @@ class Builder
 	 *	@param		Node		$node		XML Node
 	 *	@return 	array
 	 */
-	protected static function buildRecursive( $node  )
+	protected static function buildRecursive( Node $node  ): array
 	{
 		$lines	= array();
 		$name	= $node->getNodeName();
 		$value	= $node->getContent();
 		$param	= $node->getAttributes();
-		if( NULL === $value )
-		{
+		if( NULL === $value ){
 			$lines[]	= "BEGIN:".strtoupper( $name );
 			$children	= $node->getChildren();
 			foreach( $children as $child )
