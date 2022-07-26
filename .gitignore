@@ -3,3 +3,4 @@
 /Test/results.*
 /doc/*
 /tool/config/.phpunit.result.cache
+/.idea
