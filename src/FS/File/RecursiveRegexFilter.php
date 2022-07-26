@@ -119,6 +119,7 @@ class RecursiveRegexFilter extends RegexIterator
 	 *	Returns Number of scanned Files.
 	 *	@access		public
 	 *	@return		int
+	 *	@noinspection	PhpUnused
 	 */
 	public function getNumberScanned(): int
 	{

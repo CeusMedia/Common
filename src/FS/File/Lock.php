@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Editor for Files.
  *
@@ -47,7 +48,7 @@ class Lock
 	protected $sleep				= 0.1;
 	protected $timeout				= 2;
 
-	public function __construct( $fileName, $expiration = 0, $timeout = 2, $sleep = 0.1 )
+	public function __construct( string $fileName, int $expiration = 0, int $timeout = 2, float $sleep = 0.1 )
 	{
 		$this->fileName		= $fileName;
 		$this->setExpiration( $expiration );
@@ -55,25 +56,24 @@ class Lock
 		$this->setSleep( $sleep );
 	}
 
-	public function getExpiration()
+	public function getExpiration(): int
 	{
 		return $this->expiration;
 	}
 
-	public function getSleep()
+	public function getSleep(): float
 	{
 		return $this->sleep;
 	}
 
-	public function getTimeout()
+	public function getTimeout(): int
 	{
 		return $this->timeout;
 	}
 
-	public function isLocked()
+	public function isLocked(): bool
 	{
-		if( file_exists( $this->fileName ) )
-		{
+		if( file_exists( $this->fileName ) ){
 			if( !$this->expiration )
 				return TRUE;
 			if( $this->expiration >= time() - filemtime( $this->fileName ) )
@@ -83,7 +83,7 @@ class Lock
 		return FALSE;
 	}
 
-	public function lock( $strict = TRUE )
+	public function lock( bool $strict = TRUE ): bool
 	{
 		$start		= microtime( TRUE );
 		$timeout	= $start + $this->timeout;
@@ -99,7 +99,7 @@ class Lock
 		return TRUE;
 	}
 
-	public function unlock()
+	public function unlock(): bool
 	{
 		if( $this->isLocked() ){
 			@unlink( $this->fileName );
@@ -108,18 +108,21 @@ class Lock
 		return FALSE;
 	}
 
-	public function setExpiration( $expiration = 0 )
+	public function setExpiration( int $expiration = 0 ): self
 	{
-		$this->expiration	= abs( (int) $expiration );
+		$this->expiration	= abs( $expiration );
+		return $this;
 	}
 
-	public function setSleep( $sleep = 0.1 )
+	public function setSleep( $sleep = 0.1 ): self
 	{
 		$this->sleep	= abs( (float) $sleep );
+		return $this;
 	}
 
-	public function setTimeout( $timeout = 2 )
+	public function setTimeout( int $timeout = 2 ): self
 	{
 		$this->timeout	= abs( (float) $timeout );
+		return $this;
 	}
 }

@@ -48,11 +48,11 @@ class Writer
 	protected $fileName;
 
 	/**
-	 *	Constructor. Creates if File if not existing and Creation Mode is set.
+	 *	Constructor. Creates File if not existing and Creation Mode is set.
 	 *	@access		public
 	 *	@param		string		$fileName		File Name, absolute or relative URI
 	 *	@param		string		$creationMode	UNIX rights for chmod()
-	 *	@param		string|NULL	$creationUser	User Name for chown()
+	 *	@param		string|NULL	$creationUser	Username for chown()
 	 *	@param		string|NULL	$creationGroup	Group Name for chgrp()
 	 *	@return		void
 	 */
@@ -85,7 +85,7 @@ class Writer
 	 *	Create a file and sets Rights, Owner and Group.
 	 *	@access		public
 	 *	@param		string		$mode			UNIX rights for chmod()
-	 *	@param		string|NULL	$user			User Name for chown()
+	 *	@param		string|NULL	$user			Username for chown()
 	 *	@param		string|NULL	$group			Group Name for chgrp()
 	 *	@throws		RuntimeException if no space is left on file system
 	 *	@throws		RuntimeException if file could not been created
@@ -107,7 +107,7 @@ class Writer
 			$this->setGroup( $group );
 	}
 
-	public static function delete( string $fileName )
+	public static function delete( string $fileName ): bool
 	{
 		$writer	= new Writer( $fileName );
 		return $writer->remove();
@@ -142,7 +142,7 @@ class Writer
 	 *	@param		string		$fileName 		URI of File
 	 *	@param		string		$content		Content to save in File
 	 *	@param		string		$mode			UNIX rights for chmod()
-	 *	@param		string|NULL	$user			User Name for chown()
+	 *	@param		string|NULL	$user			Username for chown()
 	 *	@param		string|NULL	$group			Group Name for chgrp()
 	 *	@return		integer		Number of written bytes
 	 *	@throws		InvalidArgumentException if no string is given
@@ -190,7 +190,7 @@ class Writer
 	/**
 	 *	Sets Owner of current File.
 	 *	@access		public
-	 *	@param		string		$userName		OS User Name of new File Owner
+	 *	@param		string		$userName		OS username of new File Owner
 	 *	@return		void
 	 */
 	public function setOwner( string $userName )
@@ -210,7 +210,7 @@ class Writer
 	/**
 	 *	Sets permissions of current File.
 	 *	@access		public
-	 *	@param		integer		$mode			OCTAL value of new rights (eg. 0750)
+	 *	@param		integer		$mode			OCTAL value of new rights (e.g. 0750)
 	 *	@return		bool
 	 */
 	public function setPermissions( int $mode ): bool

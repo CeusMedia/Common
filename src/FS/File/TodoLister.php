@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Class to find all Files with ToDos inside.
  *
@@ -23,13 +24,12 @@
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			11.06.2008
  */
 
 namespace CeusMedia\Common\FS\File;
 
 use Exception;
-use InvalidArgumentException;
+use RegexIterator;
 use RuntimeException;
 use UnexpectedValueException;
 
@@ -41,7 +41,6 @@ use UnexpectedValueException;
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			11.06.2008
  */
 class TodoLister
 {
@@ -78,17 +77,13 @@ class TodoLister
 	 *	@param		array		$additionalExtensions	Other File Extensions than 'php5'
 	 *	@param		array		$additionalPatterns		Other Patterns than '@todo'
 	 */
-	public function __construct( $additionalExtensions = array(), $additionalPatterns = array() )
+	public function __construct( array $additionalExtensions = array(), array $additionalPatterns = array() )
 	{
-		if( !is_array( $additionalExtensions ) )
-			throw new InvalidArgumentException( 'Additional Extensions must be an Array.' );
-		if( !is_array( $additionalPatterns ) )
-			throw new InvalidArgumentException( 'Additional Patterns must be an Array.' );
 		$this->extensions	= $additionalExtensions;
 		$this->patterns		= $additionalPatterns;
 	}
 
-	private function getExtendedPattern( $member = "pattern" )
+	private function getExtendedPattern( string $member = "pattern" ): string
 	{
 		$list1	= array( $this->$member );
 		$list1	= array_merge( $list1, $this->{$member."s"} );
@@ -101,16 +96,15 @@ class TodoLister
 			$pattern	= "(".implode( "|", $list2 ).")";
 		if( $member == "extension" )
 			$pattern	.= "$";
-		$pattern	= "%".$pattern."%";
-		return $pattern;
+		return "%".$pattern."%";
 	}
 
-	protected function getExtensionPattern()
+	protected function getExtensionPattern(): string
 	{
 		return $this->getExtendedPattern( "extension" );
 	}
 
-	protected function getIndexIterator( $path, $filePattern )
+	protected function getIndexIterator( string $path, string $filePattern ): RegexIterator
 	{
 		return new RegexFilter( $path, $filePattern );
 	}
@@ -121,7 +115,7 @@ class TodoLister
 	 *	@param		bool		$full		Flag: Return Path Name, File Name and Content also
 	 *	@return		array
 	 */
-	public function getList( $full = NULL )
+	public function getList( bool $full = NULL ): array
 	{
 		if( $full )
 			return $this->list;
@@ -136,7 +130,7 @@ class TodoLister
 	 *	@access		public
 	 *	@return		int
 	 */
-	public function getNumberFound()
+	public function getNumberFound(): int
 	{
 		return $this->numberFound;
 	}
@@ -146,7 +140,7 @@ class TodoLister
 	 *	@access		public
 	 *	@return		int
 	 */
-	public function getNumberLines()
+	public function getNumberLines(): int
 	{
 		return $this->numberLines;
 	}
@@ -156,7 +150,7 @@ class TodoLister
 	 *	@access		public
 	 *	@return		int
 	 */
-	public function getNumberScanned()
+	public function getNumberScanned(): int
 	{
 		return $this->numberScanned;
 	}
@@ -166,12 +160,12 @@ class TodoLister
 	 *	@access		public
 	 *	@return		int
 	 */
-	public function getNumberTodos()
+	public function getNumberTodos(): int
 	{
 		return $this->numberTodos;
 	}
 
-	protected function getPattern()
+	protected function getPattern(): string
 	{
 		return $this->getExtendedPattern();
 	}
@@ -179,9 +173,10 @@ class TodoLister
 	/**
 	 *	Scans a Path for Files with Pattern.
 	 *	@access		public
-	 *	@return		int
+	 *	@param		string		$path
+	 *	@return		void
 	 */
-	public function scan( $path )
+	public function scan( string $path ): void
 	{
 		$this->numberFound		= 0;
 		$this->numberScanned	= 0;
@@ -218,7 +213,7 @@ class TodoLister
 		catch( UnexpectedValueException $e ){
 		}
 		catch( Exception $e ){
-			throw new RuntimeException( $e->getMessage(), $e->getCode(), $es );
+			throw new RuntimeException( $e->getMessage(), $e->getCode(), $e );
 		}
 	}
 }

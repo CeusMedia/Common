@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Class to find all Files with ToDos inside.
  *
@@ -23,10 +24,11 @@
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			11.06.2008
  */
 
 namespace CeusMedia\Common\FS\File;
+
+use RegexIterator;
 
 /**
  *	Class to find all Files with ToDos inside.
@@ -36,11 +38,10 @@ namespace CeusMedia\Common\FS\File;
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			11.06.2008
  */
 class RecursiveTodoLister extends TodoLister
 {
-	protected function getIndexIterator( $path, $filePattern, $contentPattern = NULL )
+	protected function getIndexIterator( string $path, string $filePattern, ?string $contentPattern = NULL ): RegexIterator
 	{
 		return new RecursiveRegexFilter( $path, $filePattern, $contentPattern );
 	}

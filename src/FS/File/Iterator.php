@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Iterates all Files within a Folder.
  *
@@ -23,11 +24,11 @@
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			15.04.2008
  */
 
 namespace CeusMedia\Common\FS\File;
 
+use DirectoryIterator;
 use FilterIterator;
 use RuntimeException;
 
@@ -39,7 +40,6 @@ use RuntimeException;
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			15.04.2008
  */
 class Iterator extends FilterIterator
 {
@@ -53,7 +53,7 @@ class Iterator extends FilterIterator
 	 *	@param		bool		$stripDotFiles		Flag: strip Files with leading Dot
 	 *	@return		void
 	 */
-	public function __construct( $path, $stripDotFiles = TRUE )
+	public function __construct( string $path, bool $stripDotFiles = TRUE )
 	{
 		if( !file_exists( $path ) )
 			throw new RuntimeException( 'Path "'.$path.'" is not existing.' );
@@ -66,15 +66,14 @@ class Iterator extends FilterIterator
 	 *	@access		public
 	 *	@return		bool
 	 */
-	public function accept()
+	public function accept(): bool
 	{
 		if( $this->getInnerIterator()->isDot() )
 			return FALSE;
 		if( $this->getInnerIterator()->isDir() )
 			return FALSE;
 
-		if( $this->stripDotFiles )
-		{
+		if( $this->stripDotFiles ){
 			$fileName	= $this->getInnerIterator()->getFilename();
 			if( $fileName[0] == "." )
 				return FALSE;

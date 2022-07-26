@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	...
  *	@category		Library
@@ -12,7 +13,7 @@
 namespace CeusMedia\Common\FS\File;
 
 use CeusMedia\Common\Alg\Validation\PredicateValidator;
-use InvalidArgumentException;
+use Exception;
 
 /**
  *	...
@@ -30,23 +31,24 @@ class BackupCleaner
 	protected $ext;
 	protected $vault;
 
-	public function __construct( $path, $prefix, $ext )
+	public function __construct( string $path, string $prefix, string $ext )
 	{
 		$this->path			= $path;
 		$this->prefix		= $prefix;
 		$this->ext			= preg_replace( "/^\.+/", "", $ext );
 	}
 
+
 	/**
-	 *	@todo		kriss: 3rd parameter $predicateClass = "Alg_Validation_Predicates"
+	 *	@param		array		$dates
+	 *	@param		array		$filters
+	 *	@return		array
+	 *	@throws		Exception
+	 *	@todo		3rd parameter $predicateClass = "Alg_Validation_Predicates"
 	 */
-	public function filterDateTree( $dates, $filters )
+	public function filterDateTree( array $dates, array $filters ): array
 	{
-		if( !is_array( $dates ) )
-			throw new InvalidArgumentException( "Dates must be an array" );
-		if( !is_array( $filters ) )
-			throw new InvalidArgumentException( "Filters must be an array" );
-		if( !count( $filters ) )
+		if( count( $filters ) === 0 )
 			return $dates;
 		$validator	= new PredicateValidator();
 		foreach( $dates as $year => $months ){
@@ -69,7 +71,7 @@ class BackupCleaner
 		return $dates;
 	}
 
-	public function getDateTree()
+	public function getDateTree(): array
 	{
 		$dates	= array();
 		foreach( $this->index() as $date ){
@@ -89,7 +91,7 @@ class BackupCleaner
 		return $dates;
 	}
 
-	public function index()
+	public function index(): array
 	{
 		$dates	= array();
 		$regExp	= "/^".$this->prefix.".+\.".$this->ext."$/";
@@ -105,11 +107,12 @@ class BackupCleaner
 	 *	Removes all files except the last of each month.
 	 *	@access		public
 	 *	@param		array		$filters	List of filters to apply on dates before
-	 *	@param		boolean		$verbose	Flag: show whats happening, helpful for test mode, default: FALSE
+	 *	@param		boolean		$verbose	Flag: show what is happening, helpful for test mode, default: FALSE
 	 *	@param		boolean		$testOnly	Flag: no real actions will take place, default: FALSE
 	 *	@return		void
+	 *	@throws		Exception
 	 */
-	public function keepLastOfMonth( $filters = array(), $verbose = FALSE, $testOnly = FALSE )
+	public function keepLastOfMonth( array $filters = array(), bool $verbose = FALSE, bool $testOnly = FALSE )
 	{
 		$dates	= $this->filterDateTree( $this->getDateTree(), $filters );
 		foreach( $dates as $year => $months ){
@@ -142,15 +145,15 @@ class BackupCleaner
 		}
 	}
 
-	public function keepOnlyLastMonths( $months )
-	{
-		$dates	= $this->filterDateTree( $this->getDateTree(), array() );
-		print_m( $dates );
-		die;
-	}
-
-	public function setVault( $path )
+	/**
+	 *	...
+	 *	@param		string		$path
+	 *	@return		$this
+	 *	@noinspection	PhpUnused
+	 */
+	public function setVault( string $path ): self
 	{
 		$this->vault	= $path;
+		return $this;
 	}
 }

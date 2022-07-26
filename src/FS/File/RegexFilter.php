@@ -98,6 +98,7 @@ class RegexFilter extends RegexIterator
 	 *	Returns Number of found Files.
 	 *	@access		public
 	 *	@return		int
+	 *	@noinspection	PhpUnused
 	 */
 	public function getNumberFound(): int
 	{
@@ -108,6 +109,7 @@ class RegexFilter extends RegexIterator
 	 *	Returns Number of scanned Files.
 	 *	@access		public
 	 *	@return		int
+	 *	@noinspection	PhpUnused
 	 */
 	public function getNumberScanned(): int
 	{

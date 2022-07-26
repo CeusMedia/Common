@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	...
  *	@category		Library
@@ -12,8 +13,6 @@
 namespace CeusMedia\Common\FS\File;
 
 use CeusMedia\Common\ADT\Collection\Dictionary;
-use FilterIterator;
-use RuntimeException;
 
 /**
  *	...
@@ -26,8 +25,15 @@ use RuntimeException;
  */
 class INI
 {
+	protected $fileName;
+	protected $mode;
+
+	/**	@var	Dictionary|NULL		$sections		... */
 	protected $sections		= NULL;
+
+	/**	@var	Dictionary|NULL		$pairs			... */
 	protected $pairs		= NULL;
+
 	public $indentTabs		= 8;
 	public $lengthTab		= 4;
 
@@ -38,7 +44,7 @@ class INI
 	 *	@param		boolean		$useSections	Flag: use Sections
 	 *	@return		void
 	 */
-	public function __construct( $fileName, $useSections = FALSE, $mode = NULL )
+	public function __construct( string $fileName, bool $useSections = FALSE, $mode = NULL )
 	{
 		$this->fileName	= $fileName;
 		$this->mode		= $mode;
@@ -50,10 +56,10 @@ class INI
 	 *	Returns Value by its Key.
 	 *	@access		public
 	 *	@param		string		$key			Key
-	 *	@param		boolean		$section		Flag: use Sections
+	 *	@param		string|NULL	$section		...
 	 *	@return		string|NULL	Value if set, NULL otherwise
 	 */
-	public function get( $key, $section = NULL )
+	public function get( string $key, ?string $section = NULL ): ?string
 	{
 		if( !is_null( $this->sections ) && $this->sections->has( $section ) )
 			return $this->sections->get( $section )->get( $key );
@@ -66,19 +72,19 @@ class INI
 	 *	Returns Value by its Key.
 	 *	@access		public
 	 *	@param		string		$key			Key
-	 *	@param		boolean		$section		Flag: use Sections
+	 *	@param		string|NULL	$section		...
 	 *	@return		boolean
 	 */
-	public function has( $key, $section = NULL )
+	public function has( string $key, ?string $section = NULL ): bool
 	{
 		if( !is_null( $this->sections ) && $this->sections->has( $section ) )
 			return $this->sections->get( $section )->has( $key );
 		if( !is_null( $this->pairs ) )
 			return $this->pairs->has( $key );
-		return NULL;
+		return FALSE;
 	}
 
-	protected function read( $useSections = FALSE )
+	protected function read( bool $useSections = FALSE ): void
 	{
 		if( $useSections ){
 			$this->sections	= new Dictionary();
@@ -87,8 +93,8 @@ class INI
 				if( is_null( $data ) )
 					$data	= new Dictionary();
 				foreach( $pairs as $key => $value )
-					$data->set( $key, $value, TRUE );
-				$this->sections->set( $section, $data, TRUE );
+					$data->set( $key, $value );
+				$this->sections->set( $section, $data );
 			}
 		}
 		else{
@@ -97,7 +103,7 @@ class INI
 		}
 	}
 
-	public function remove( $key, $section = NULL )
+	public function remove( string $key, ?string $section = NULL ): bool
 	{
 		$result	= NULL;
 		if( !is_null( $this->sections ) && $this->sections->has( $section ) )
@@ -109,9 +115,8 @@ class INI
 		return $result;
 	}
 
-	public function set( $key, $value, $section = NULL )
+	public function set( string $key, $value, ?string $section = NULL ): bool
 	{
-		$result	= NULL;
 		if( !is_null( $this->sections ) && $this->sections->has( $section ) )
 			$result	= $this->sections->get( $section )->set( $key, $value );
 		else{
@@ -124,7 +129,7 @@ class INI
 		return $result;
 	}
 
-	protected function write()
+	protected function write(): int
 	{
 		$list	= array();
 		if( !is_null( $this->sections ) ){

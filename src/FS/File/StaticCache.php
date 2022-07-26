@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Cache to store Data in Files statically.
  *
@@ -23,7 +24,6 @@
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			13.04.2009
  */
 
 namespace CeusMedia\Common\FS\File;
@@ -38,7 +38,6 @@ use CeusMedia\Common\ADT\Cache\StaticStore as StaticCacheStore;
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			13.04.2009
  */
 class StaticCache extends StaticCacheStore
 {
@@ -52,7 +51,7 @@ class StaticCache extends StaticCacheStore
 	 *	@param		int			$expires		Cache File Lifetime in Seconds
 	 *	@return		bool
 	 */
-	public static function cleanUp( $expires = 0 )
+	public static function cleanUp( int $expires = 0 ): bool
 	{
 		return self::$store->cleanUp( $expires );
 	}
@@ -63,7 +62,7 @@ class StaticCache extends StaticCacheStore
 	 *	@static
 	 *	@return		int
 	 */
-	public static function count()
+	public static function count(): int
 	{
 		return self::$store->count();
 	}
@@ -74,7 +73,7 @@ class StaticCache extends StaticCacheStore
 	 *	@static
 	 *	@return		bool
 	 */
-	public function flush()
+	public function flush(): bool
 	{
 		return self::$store->flush();
 	}
@@ -86,19 +85,19 @@ class StaticCache extends StaticCacheStore
 	 *	@param string $key			Key of Cache File
 	 *	@return		mixed
 	 */
-	public static function get(string $key )
+	public static function get( string $key )
 	{
 		return self::$store->get( $key );
 	}
 
 	/**
-	 *	Indicates wheter a Value is in Cache by its Key.
+	 *	Indicates whether a Value is in Cache by its Key.
 	 *	@access		public
 	 *	@static
 	 *	@param		string		$key			Key of Cache File
-	 *	@return		void
+	 *	@return		bool
 	 */
-	public static function has( $key )
+	public static function has( string $key ): bool
 	{
 		return self::$store->has( $key );
 	}
@@ -111,7 +110,7 @@ class StaticCache extends StaticCacheStore
 	 *	@param		int			$expires		Seconds until Pairs will be expired
 	 *	@return		void
 	 */
-	public static function init( $path, $expires = 0 )
+	public static function init( string $path, int $expires = 0 )
 	{
 		self::$store	= new Cache( $path, $expires );
 	}
@@ -121,9 +120,9 @@ class StaticCache extends StaticCacheStore
 	 *	@access		public
 	 *	@static
 	 *	@param		string		$key			Key of Cache File
-	 *	@return		void
+	 *	@return		bool
 	 */
-	public static function remove( $key )
+	public static function remove( string $key ): bool
 	{
 		return self::$store->remove( $key );
 	}
@@ -136,8 +135,8 @@ class StaticCache extends StaticCacheStore
 	 *	@param		mixed		$value			Value to store
 	 *	@return		void
 	 */
-	public static function set( $key, $value )
+	public static function set( string $key, $value ): void
 	{
-		return self::$store->set( $key, $value );
+		self::$store->set( $key, $value );
 	}
 }

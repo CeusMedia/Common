@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Counter for Lines of Code of a File.
  *
@@ -23,7 +24,6 @@
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			15.04.2008
  */
 
 namespace CeusMedia\Common\FS\File;
@@ -36,7 +36,6 @@ namespace CeusMedia\Common\FS\File;
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			15.04.2008
  */
 class CodeLineCounter
 {
@@ -47,7 +46,7 @@ class CodeLineCounter
 	 *	@param		string		$fileName		Name File to analyse
 	 *	@return		array
 	 */
-	public static function countLines( $fileName )
+	public static function countLines( string $fileName ): array
 	{
 		$content	= Reader::load( $fileName );
 		return self::countLinesFromSource( $content );
@@ -60,7 +59,7 @@ class CodeLineCounter
 	 *	@param		string		$content		Source Code of File
 	 *	@return		array
 	 */
-	public static function countLinesFromSource( $content )
+	public static function countLinesFromSource( string $content ): array
 	{
 		$counter		= 0;
 		$numberCodes	= 0;
@@ -90,7 +89,7 @@ class CodeLineCounter
 			}
 			$counter ++;
 		}
-		$data	= array(
+		return [
 			'length'		=> strlen( $content ),
 			'numberCodes'	=> $numberCodes,
 			'numberDocs'	=> $numberDocs,
@@ -102,7 +101,6 @@ class CodeLineCounter
 			'ratioCodes'	=> $numberCodes / $counter * 100,
 			'ratioDocs'		=> $numberDocs / $counter * 100,
 			'ratioStrips'	=> $numberStrips / $counter * 100,
-		);
-		return $data;
+		];
 	}
 }
