@@ -120,10 +120,10 @@ class Reader
 	 *	Reads a JSON file to an object or array statically.
 	 *	@access		public
 	 *	@param		string		$filePath		Path to JSON file
-	 *	@param		bool		$asArray		Flag: read into an array
+	 *	@param		bool		$asArray		Flag: read into an array, default: no
 	 *	@return		object|array
 	 */
-	public static function load( string $filePath, bool $asArray = NULL )
+	public static function load( string $filePath, bool $asArray = FALSE )
 	{
 		$reader	= new Reader( $filePath );
 		return $reader->read( $asArray );
@@ -132,12 +132,12 @@ class Reader
 	/**
 	 *	Reads the JSON file to an object or array.
 	 *	@access		public
-	 *	@param		bool		$asArray		Flag: read into an array
+	 *	@param		bool		$asArray		Flag: read into an array, default: no
 	 *	@param		bool		$storeData		Flag: copy read data in object for info (needs more memory), default: yes
 	 *	@return		object|array
 	 *	@throws		RuntimeException			if parsing failed
 	 */
-	public function read( bool $asArray = NULL, bool $storeData = TRUE )
+	public function read( bool $asArray = FALSE, bool $storeData = TRUE )
 	{
 		$json	= FileReader::load( $this->filePath );
 		$json	= $this->applyFilters( $json );
