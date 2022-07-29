@@ -8,7 +8,7 @@ use CeusMedia\Common\UI\DevOutput;
  *	@param		string		$string	Code to print out
  *	@return		void
  */
-function code( $string )
+function code( string $string )
 {
 	echo "<code>".$string."</code>";
 }
@@ -18,9 +18,10 @@ function code( $string )
  *	@access		public
  *	@param		string		$content	Dev Info to show
  *	@param		bool		$force		Flag: force display
+ *	@param		string		$flagKey	...
  *	@return		void
  */
-function dev( $content, $force = FALSE, $flagKey = 'CM_SHOW_DEV' )
+function dev( string $content, bool $force = FALSE, string $flagKey = 'CM_SHOW_DEV' )
 {
 	if( !( !$force && !( defined( $flagKey ) && constant( $flagKey ) ) ) )
 		echo $content;
@@ -28,13 +29,13 @@ function dev( $content, $force = FALSE, $flagKey = 'CM_SHOW_DEV' )
 
 /**
  *	Prints out any variable with print_r in xmp.
- *  Old function name "dump" has been rename in order to use Rector.
+ *  Old function name "dump" has been renamed in order to use Rector.
  *	@access		public
  *	@param		mixed		$variable	Variable to print dump of
  *	@param		boolean		$return		Flag: Return output instead of printing it
  *	@return		void
  */
-function print_rx( $variable, $return = FALSE )
+function print_rx( $variable, bool $return = FALSE )
 {
 	ob_start();
 	print_r( $variable );
@@ -49,9 +50,10 @@ function print_rx( $variable, $return = FALSE )
  *	Prints out Code formatted with Tag "pre".
  *	@access		public
  *	@param		string		$string		Code to print out
+ *	@param		boolean		$dump		...
  *	@return		mixed		String for Dump Mode or void
  */
-function pre( $string, $dump = FALSE )
+function pre( string $string, bool $dump = FALSE )
 {
 	ob_start();
 	echo "<pre>".htmlentities( $string, ENT_QUOTES, 'UTF-8' )."</pre>";
@@ -62,12 +64,12 @@ function pre( $string, $dump = FALSE )
  *	Global function for DevOutput::printJson.
  *	@access		public
  *	@param		mixed		$mixed		variable to print out
- *	@param		string		$sign		Space Sign
- *	@param		int			$factor		Space Factor
+ *	@param		string|NULL	$sign		Space Sign
+ *	@param		int|NULL	$factor		Space Factor
  *	@param		boolean		$return		Flag: Return output instead of printing it
- *	@return		void
+ *	@return		string|NULL
  */
-function print_j( $mixed, $sign = NULL, $factor = NULL, $return = FALSE )
+function print_j( $mixed, ?string $sign = NULL, ?int $factor = NULL, bool $return = FALSE ): ?string
 {
 	$o		= new DevOutput();
 	$break	= DevOutput::$channelSettings[$o->channel]['lineBreak'];
@@ -80,13 +82,14 @@ function print_j( $mixed, $sign = NULL, $factor = NULL, $return = FALSE )
 /**
  *	Global function for DevOutput::printMixed.
  *	@access		public
- *	@param		mixed		$mixed		variable to print out
- *	@param		string		$sign		Space Sign
- *	@param		int			$factor		Space Factor
- *	@param		boolean		$return		Flag: Return output instead of printing it
+ *	@param		mixed			$mixed		variable to print out
+ *	@param		string|NULL		$sign		Space Sign
+ *	@param		int|NULL		$factor		Space Factor
+ *	@param		boolean			$return		Flag: Return output instead of printing it
+ *	@param		string|NULL		$channel	...
  *	@return		void
  */
-function print_m( $mixed, $sign = NULL, $factor = NULL, $return = FALSE, $channel = NULL )
+function print_m( $mixed, ?string $sign = NULL, ?int $factor = NULL, bool $return = FALSE, ?string $channel = NULL )
 {
 	$o		= new DevOutput();
 	if( $channel )
@@ -101,11 +104,11 @@ function print_m( $mixed, $sign = NULL, $factor = NULL, $return = FALSE, $channe
 /**
  *	Prints out all global registered variables with DevOutput::print_m
  *	@access		public
- *	@param		string		$sign		Space Sign
- *	@param		int			$factor		Space Factor
+ *	@param		string|NULL		$sign		Space Sign
+ *	@param		int|NULL		$factor		Space Factor
  *	@return		void
  */
-function print_globals( $sign = NULL, $factor = NULL )
+function print_globals( ?string $sign = NULL, ?int $factor = NULL )
 {
 	$globals	= $GLOBALS;
 	unset( $globals['GLOBALS'] );
@@ -115,12 +118,12 @@ function print_globals( $sign = NULL, $factor = NULL )
 /**
  *	Prints out a String after Line Break.
  *	@access		public
- *	@param		string		$text		String to print out
- *	@param		array		$parameters	Associative Array of Parameters to append
- *	@param		bool		$break		Flag: break Line before Print
+ *	@param		string		$text			String to print out
+ *	@param		array		$parameters		Associative Array of Parameters to append
+ *	@param		bool		$break			Flag: break Line before Print
  *	@return		void
  */
-function remark( $text = "", $parameters = array(), $break = TRUE )
+function remark( string $text = '', array $parameters = [], bool $break = TRUE )
 {
 	$o = new DevOutput();
 	if( $break )
@@ -131,12 +134,12 @@ function remark( $text = "", $parameters = array(), $break = TRUE )
 /**
  *	Prints out a variable with DevOutput::print_m
  *	@access		public
- *	@param		mixed		$mixed		variable to print out
- *	@param		string		$sign		Space Sign
- *	@param		int			$factor		Space Factor
+ *	@param		mixed			$mixed			variable to print out
+ *	@param		string|NULL		$sign			Space Sign
+ *	@param		int|NULL		$factor			Space Factor
  *	@return		void
  */
-function show( $mixed, $sign = NULL, $factor = NULL )
+function show( $mixed, ?string $sign = NULL, ?int $factor = NULL )
 {
 	print_m( $mixed, $sign, $factor );
 }
@@ -153,7 +156,7 @@ function showDOM( $node )
  *	@param		string		$string		Code to print out
  *	@return		mixed		String for Dump Mode or void
  */
-function xmp( $string, $dump = FALSE )
+function xmp( string $string, bool $dump = FALSE )
 {
 	$dev	= new DevOutput();
 	if( $dump )
