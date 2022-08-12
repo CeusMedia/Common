@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Reader for Folders.
  *
@@ -52,7 +53,7 @@ class Reader
 	 *	@param		string		$folderName		Folder Name, relative or absolute
 	 *	@return		void
 	 */
-	public function __construct( $folderName )
+	public function __construct( string $folderName )
 	{
 		$this->folderName = $folderName;
 	}
@@ -64,7 +65,7 @@ class Reader
 	 *	@param		string		$path			Path to correct
 	 *	@return		string
 	 */
-	public static function correctPath( $path )
+	public static function correctPath( string $path ): string
 	{
 		return preg_replace( "@([^/])$@", "\\1/", $path );
 	}
@@ -74,7 +75,7 @@ class Reader
 	 *	@access		public
 	 *	@return		bool
 	 */
-	public function exists()
+	public function exists(): bool
 	{
 		return $this->isFolder( $this->folderName );
 	}
@@ -85,7 +86,7 @@ class Reader
 	 *	@param		string		$pattern		RegEx Pattern for Name Filter
 	 *	@return		int
 	 */
-	public function getCount( $pattern = NULL )
+	public function getCount( ?string $pattern = NULL ): int
 	{
 		$count	= 0;
 		$list	= $this->getList( $pattern );
@@ -100,7 +101,7 @@ class Reader
 	 *	@param		string		$pattern		RegEx Pattern for Name Filter
 	 *	@return		int
 	 */
-	public function getFileCount( $pattern = NULL )
+	public function getFileCount( ?string $pattern = NULL ): int
 	{
 		$count	= 0;
 		foreach( $this->getFileList( $pattern ) as $entry )
@@ -114,7 +115,7 @@ class Reader
 	 *	@param		string		$pattern		Name Filter RegEx Pattern, eg. '@xml$@' for all Files ending with 'xml'
 	 *	@return		FilterIterator
 	 */
-	public function getFileList( $pattern = NULL )
+	public function getFileList( ?string $pattern = NULL ): FilterIterator
 	{
 		return Lister::getFileList( $this->folderName, $pattern );
 	}
@@ -122,10 +123,10 @@ class Reader
 	/**
 	 *	Get List of Files with specified Extensions within current Folder.
 	 *	@access		public
-	 *	@param		array		$extension		List of allowed Extensions
+	 *	@param		array		$extensions		List of allowed Extensions
 	 *	@return		FilterIterator
 	 */
-	public function getFileListByExtensions( $extensions )
+	public function getFileListByExtensions( array $extensions ): FilterIterator
 	{
 		$lister	= new Lister( $this->folderName );
 		$lister->setExtensions( $extensions );
@@ -139,7 +140,7 @@ class Reader
 	 *	@param		string		$pattern		RegEx Pattern for Name Filter
 	 *	@return		int
 	 */
-	public function getFolderCount( $pattern = NULL )
+	public function getFolderCount( ?string $pattern = NULL ): int
 	{
 		$count	= 0;
 		foreach( $this->getFolderList( $pattern ) as $entry )
@@ -153,7 +154,7 @@ class Reader
 	 *	@param		string		$pattern		Name Filter RegEx Pattern, eg. @^a$@ for all Folders starting with 'a'
 	 *	@return		FilterIterator
 	 */
-	public function getFolderList( $pattern = NULL )
+	public function getFolderList( ?string $pattern = NULL ): FilterIterator
 	{
 		return Lister::getFolderList( $this->folderName, $pattern );
 	}
@@ -163,7 +164,7 @@ class Reader
 	 *	@access		public
 	 *	@return		string
 	 */
-	public function getFolderName()
+	public function getFolderName(): string
 	{
 		return $this->folderName;
 	}
@@ -174,7 +175,7 @@ class Reader
 	 *	@param		string		$pattern		Name Filter RegEx Pattern, eg. @xml@ for all Entries containing 'xml'
 	 *	@return		FilterIterator
 	 */
-	public function getList( $pattern = NULL )
+	public function getList( ?string $pattern = NULL ): FilterIterator
 	{
 		return Lister::getMixedList( $this->folderName, $pattern );
 	}
@@ -184,7 +185,7 @@ class Reader
 	 *	@access		public
 	 *	@return		string
 	 */
-	public function getName()
+	public function getName(): string
 	{
 		return basename( $this->folderName );
 	}
@@ -195,7 +196,7 @@ class Reader
 	 *	@param		string		$pattern		RegEx Pattern for Name Filter
 	 *	@return		int
 	 */
-	public function getNestedCount( $pattern = NULL )
+	public function getNestedCount( ?string $pattern = NULL ): int
 	{
 		$count	= 0;
 		foreach( $this->getNestedList( $pattern ) as $entry )
@@ -209,7 +210,7 @@ class Reader
 	 *	@param		string		$pattern		RegEx Pattern for Name Filter
 	 *	@return		int
 	 */
-	public function getNestedFileCount( $pattern = NULL )
+	public function getNestedFileCount( ?string $pattern = NULL ): int
 	{
 		$count	= 0;
 		foreach( $this->getNestedFileList( $pattern ) as $entry )
@@ -223,7 +224,7 @@ class Reader
 	 *	@param		string		$pattern		RegEx Pattern for Name Filter
 	 *	@return		FilterIterator
 	 */
-	public function getNestedFileList( $pattern = NULL )
+	public function getNestedFileList( string $pattern = NULL ): FilterIterator
 	{
 		return RecursiveLister::getFileList( $this->folderName, $pattern );
 	}
@@ -234,7 +235,7 @@ class Reader
 	 *	@param		string		$pattern		RegEx Pattern for Name Filter
 	 *	@return		int
 	 */
-	public function getNestedFolderCount( $pattern = NULL )
+	public function getNestedFolderCount( string $pattern = NULL ): int
 	{
 		$count	= 0;
 		foreach( $this->getNestedFolderList( $pattern ) as $entry )
@@ -248,7 +249,7 @@ class Reader
 	 *	@param		string		$pattern		RegEx Pattern for Name Filter
 	 *	@return		FilterIterator
 	 */
-	public function getNestedFolderList( $pattern = NULL )
+	public function getNestedFolderList( ?string $pattern = NULL ): FilterIterator
 	{
 		return RecursiveLister::getFolderList( $this->folderName, $pattern );
 	}
@@ -259,7 +260,7 @@ class Reader
 	 *	@param		string		$pattern		RegEx Pattern for Name Filter
 	 *	@return		FilterIterator
 	 */
-	public function getNestedList( $pattern = NULL)
+	public function getNestedList( ?string $pattern = NULL): FilterIterator
 	{
 		return RecursiveLister::getMixedList( $this->folderName, $pattern );
 	}
@@ -272,7 +273,7 @@ class Reader
 	 *	@param		int			$precision		Precision of rounded Size (only if unit is set)
 	 *	@return		int
 	 */
-	public function getNestedSize( $pattern = NULL, $unit = NULL, $precision = NULL )
+	public function getNestedSize( string $pattern = NULL, int $unit = NULL, int $precision = NULL ): int
 	{
 		$size	= 0;
 		foreach( $this->getNestedFileList( $pattern ) as $entry )
@@ -287,7 +288,7 @@ class Reader
 	 *	@access		public
 	 *	@return		string
 	 */
-	public function getPath()
+	public function getPath(): string
 	{
 		return dirname( $this->folderName )."/";
 	}
@@ -297,7 +298,7 @@ class Reader
 	 *	@access		public
 	 *	@return		string
 	 */
-	public function getRealPath()
+	public function getRealPath(): string
 	{
 		$path	= realpath( $this->folderName );
 		if( FALSE === $path )
@@ -313,7 +314,7 @@ class Reader
 	 *	@param		int			$precision		Precision of rounded Size (only if unit is set)
 	 *	@return		int
 	 */
-	public function getSize( $pattern = NULL, $unit = NULL, $precision = NULL )
+	public function getSize( string $pattern = NULL, int $unit = NULL, int $precision = NULL ): int
 	{
 		$size	= 0;
 		foreach( $this->getFileList( $pattern ) as $entry )
@@ -330,7 +331,7 @@ class Reader
 	 *	@param		string		$path			Path to check
 	 *	@return		bool
 	 */
-	public static function isFolder( $path )
+	public static function isFolder( string $path ): bool
 	{
 		$exists	= file_exists( $path );
 		$isDir	= is_dir( $path );

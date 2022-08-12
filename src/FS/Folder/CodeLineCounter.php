@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Counter for Lines of Code.
  *
@@ -23,7 +24,6 @@
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			15.04.2008
  */
 
 namespace CeusMedia\Common\FS\Folder;
@@ -42,14 +42,13 @@ use RuntimeException;
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			15.04.2008
  *	@todo			Code Doc
  */
 class CodeLineCounter
 {
-	protected $data	= array();
+	protected $data	= [];
 
-	public function getData( $key = NULL )
+	public function getData( ?string $key = NULL ): array
 	{
 		//  no Folder scanned yet
 		if( !$this->data )
@@ -62,12 +61,11 @@ class CodeLineCounter
 		//  extract possible Key Prefix
 		$prefix	= substr( strtolower( $key ), 0, 5 );
 		//  Prefix is valid
-		if( in_array( $prefix, array_keys( $this->data ) ) )
-		{
+		if( array_key_exists( $prefix, $this->data ) ){
 			//  extract Key without Prefix
 			$key	= substr( $key, 5 );
 			//  invalid Key
-			if( !array_key_exists( $this->data[$prefix] ) )
+			if( !array_key_exists( $key, $this->data[$prefix] ) )
 				throw new InvalidArgumentException( 'Invalid Data Key.' );
 			//  return Value for prefixed Key
 			return $this->data[$prefix][$key];
@@ -84,11 +82,11 @@ class CodeLineCounter
 	 *	@access		public
 	 *	@param		string		$path			Folder to count within
 	 *	@param		array		$extensions		List of Code File Extensions
-	 *	@return		array
+	 *	@return		void
 	 */
-	public function readFolder( $path, $extensions = array() )
+	public function readFolder( string $path, array $extensions = [] )
 	{
-		$files			= array();
+		$files			= [];
 		$numberCodes	= 0;
 		$numberDocs		= 0;
 		$numberFiles	= 0;
@@ -102,8 +100,7 @@ class CodeLineCounter
 		$lister	= new FolderRecursiveLister( $path );
 		$lister->setExtensions( $extensions );
 		$list	= $lister->getList();
-		foreach( $list as $entry )
-		{
+		foreach( $list as $entry ){
 			$fileName	= str_replace( "\\", "/", $entry->getFilename() );
 			$pathName	= str_replace( "\\", "/", $entry->getPathname() );
 
@@ -128,16 +125,16 @@ class CodeLineCounter
 			$files[$pathName]	= $countData;
 		}
 		$linesPerFile	= $numberLines / $numberFiles;
-		$this->data	= array(
-			'number'	=> array(
+		$this->data		= [
+			'number'	=> [
 				'files'		=> $numberFiles,
 				'lines'		=> $numberLines,
 				'codes'		=> $numberCodes,
 				'docs'		=> $numberDocs,
 				'strips'	=> $numberStrips,
 				'length'	=> $numberLength,
-			),
-			'ratio'			=> array(
+			],
+			'ratio'			=> [
 				'linesPerFile'		=> round( $linesPerFile, 0 ),
 				'codesPerFile'		=> round( $numberCodes / $numberFiles, 0 ),
 				'docsPerFile'		=> round( $numberDocs / $numberFiles, 0 ),
@@ -145,10 +142,10 @@ class CodeLineCounter
 				'codesPerFile%'		=> round( $numberCodes / $numberFiles / $linesPerFile * 100, 1 ),
 				'docsPerFile%'		=> round( $numberDocs / $numberFiles / $linesPerFile * 100, 1 ),
 				'stripsPerFile%'	=> round( $numberStrips / $numberFiles / $linesPerFile * 100, 1 ),
-			),
+			],
 			'files'		=> $files,
 			'seconds'	=> $st->stop( 6 ),
 			'path'		=> $path,
-		);
+		];
 	}
 }

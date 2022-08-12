@@ -73,6 +73,10 @@
       "@install-dev",
       "vendor/bin/rector process --config=tool/config/rector-rules.php"
     ],
+    "dev-stan": [
+      "@install-dev",
+      "vendor/bin/phpstan analyze --configuration=tool/config/phpstan.neon --memory-limit=4G --verbose"
+    ],
     "dev-test-syntax": "php test/syntax.php"
   },
   "scripts-descriptions": {

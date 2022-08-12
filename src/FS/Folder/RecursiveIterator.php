@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Iterates all Folders and Files recursive within a Folder.
  *
@@ -23,7 +24,6 @@
  *	@copyright		2008-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			15.04.2008
  */
 
 namespace CeusMedia\Common\FS\Folder;
@@ -41,7 +41,6 @@ use RuntimeException;
  *	@copyright		2008-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			15.04.2008
  */
 class RecursiveIterator extends FilterIterator
 {
@@ -54,8 +53,12 @@ class RecursiveIterator extends FilterIterator
 	/**	@var		 bool		$showFolders		Flag: show Folders */
 	protected $showFolders;
 
-	/**	@var		 bool		$stripDotFolders	Flag: strip Folder with leading Dot */
-	protected $stripDotFolders;
+	/**	@var		 bool		$stripDotEntries	Flag: strip Folder with leading Dot */
+	protected $stripDotEntries;
+
+	protected $realPath;
+
+	protected $realPathLength;
 
 	/**
 	 *	Constructor.
@@ -66,7 +69,7 @@ class RecursiveIterator extends FilterIterator
 	 *	@param		bool		$stripDotEntries	Flag: strip Files and Folder with leading Dot
 	 *	@return		void
 	 */
-	public function __construct( $path, $showFiles = TRUE, $showFolders = TRUE, $stripDotEntries = TRUE )
+	public function __construct( string $path, bool $showFiles = TRUE, bool $showFolders = TRUE, bool $stripDotEntries = TRUE )
 	{
 		if( !file_exists( $path ) )
 			throw new RuntimeException( 'Path "'.$path.'" is not existing.' );
@@ -93,7 +96,7 @@ class RecursiveIterator extends FilterIterator
 	 *	@access		public
 	 *	@return		bool
 	 */
-	public function accept()
+	public function accept(): bool
 	{
 		if( $this->getInnerIterator()->isDot() )
 			return FALSE;
@@ -106,11 +109,11 @@ class RecursiveIterator extends FilterIterator
 		if( $this->stripDotEntries )
 		{
 			//  found file or folder is hidden
-			if( substr( $this->getFilename(), 0, 1 ) == "." )
+			if( substr( $this->getFilename(), 0, 1 ) === "." )
 				return FALSE;
 
 			//  inner path is hidden
-			if( substr( $this->getSubPathname(), 0, 1 ) == "." )
+			if( substr( $this->getSubPathname(), 0, 1 ) === "." )
 				return FALSE;
 
 			//  be nice to Windows
@@ -127,7 +130,7 @@ class RecursiveIterator extends FilterIterator
 	 *	@access		public
 	 *	@return		string		Path to Folder to iterate
 	 */
-	public function getPath()
+	public function getPath(): string
 	{
 		return $this->path;
 	}

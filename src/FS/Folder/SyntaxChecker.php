@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Checks Syntax of all PHP Classes and Scripts within a Folder.
  *
@@ -23,7 +24,6 @@
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			12.05.2008
  */
 
 namespace CeusMedia\Common\FS\Folder;
@@ -39,15 +39,20 @@ use CeusMedia\Common\FS\File\SyntaxChecker as FileSyntaxChecker;
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			12.05.2008
  */
 class SyntaxChecker
 {
+	/**	@var		string		$phpExtension	Extension of PHP Files, by default 'php5' */
+	public static $phpExtension	= 'php5';
+
 	/**	@var		object		$checker		Instance of SyntaxChecker */
 	protected $checker;
 
-	/**	@var		string		$phpExtension	Extension of PHP Files, by default 'php5' */
-	public static $phpExtension	= "php5";
+	/**	@var		string		$lineBreak		Line break, depending on environment */
+	protected $lineBreak;
+
+	/**	@var		array		$failures		List of collected features */
+	protected $failures;
 
 	/**
 	 *	Constructor.
@@ -68,30 +73,33 @@ class SyntaxChecker
 	 *	@param		bool		$verbose		Flag: active Output of Progress and Results
 	 *	@return		array
 	 */
-	public function checkFolder( $pathName, $verbose = FALSE )
+	public function checkFolder( string $pathName, bool $verbose = FALSE ): array
 	{
 		$counter	= 0;
-		$invalid	= array();
+		$invalid	= [];
 		$clock		= new Clock;
-		$this->failures	= array();
 		$index		= new RecursiveRegexFilter( $pathName, "@\.".self::$phpExtension."$@" );
+		$this->failures	= [];
 		foreach( $index as $file ){
 			$counter++;
 			$fileName	= $file->getPathname();
 			$shortName	= substr( $fileName, strlen( $pathName) );
 			$valid		= $this->checker->checkFile( $file->getPathname() );
-			if( !$valid )
-				$invalid[$fileName]	= $error	= $this->checker->getShortError();
-			if( $verbose )
-				remark( $shortName.": ".( $valid ? "valid." : $error ) );
+			if( !$valid ){
+				$error	= $this->checker->getShortError();
+				$invalid[$fileName]	= $error;
+				remark( $shortName.': '.$error );
+			}
+			else
+				remark( $shortName.': valid.' );
 		}
 		if( $verbose )
 			$this->printResults( $invalid, $counter, $clock->stop( 0, 1 ) );
-		$result	= array(
+		$result	= [
 			'numberFiles'	=> $counter,
 			'numberErrors'	=> count( $invalid ),
 			'listErrors'	=> $invalid,
-		);
+		];
 		return $result;
 	}
 
@@ -100,21 +108,21 @@ class SyntaxChecker
 	 *	@access		protected
 	 *	@param		array		$invalid		Array of Invalid Files and Errors
 	 *	@param		int			$counter		Number of checked Files
-	 *	@param		double		$time			Time needed to check Folder in Seconds
+	 *	@param		float		$time			Time needed to check Folder in Seconds
 	 *	@return		void
 	 */
-	protected function printResults( $invalid, $counter, $time )
+	protected function printResults( array $invalid, int $counter, float $time )
 	{
-		remark( str_repeat( "-", 79 ) );
+		remark( str_repeat( '-', 79 ) );
 		if( count( $invalid ) ){
-			remark( "valid Files: ".( $counter - count( $invalid ) ) );
-			remark( "invalid Files: ".count( $invalid ) );
+			remark( 'valid Files: '.( $counter - count( $invalid ) ) );
+			remark( 'invalid Files: '.count( $invalid ) );
 			foreach( $invalid as $fileName => $error )
-				remark( "1. ".$fileName.": ".$error );
+				remark( '1. '.$fileName.': '.$error );
 		}
 		else{
-			remark( "All ".$counter." Files are valid." );;
+			remark( 'All '.$counter.' Files are valid.' );
 		}
-		remark( "Time: ".$time." sec" );
+		remark( 'Time: '.$time.' sec' );
 	}
 }

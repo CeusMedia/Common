@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Searchs for Folders by given RegEx Pattern (as File Name) in Folder recursive.
  *
@@ -23,7 +24,6 @@
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			09.06.2007
  */
 
 namespace CeusMedia\Common\FS\Folder;
@@ -41,20 +41,25 @@ use RuntimeException;
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			09.06.2007
  *	@todo			Fix Error while comparing File Name to Current File with Path
  */
 class RecursiveRegexFilter extends RegexIterator
 {
 	/**	@var		string		$pattern			Regular Expression to match with File Name */
 	protected $pattern;
+
 	/**	@var		 bool		$showFiles			Flag: show Files */
 	protected $showFiles;
+
 	/**	@var		 bool		$showFolders		Flag: show Folders */
 	protected $showFolders;
+
 	/**	@var		 bool		$stripDotEntries	Flag: strip Files and Folder with leading Dot */
 	protected $stripDotEntries;
 
+	protected $realPath;
+
+	protected $realPathLength;
 
 	/**
 	 *	Constructor.
@@ -66,7 +71,7 @@ class RecursiveRegexFilter extends RegexIterator
 	 *	@param		bool		$stripDotEntries	Flag: strip Files and Folder with leading Dot
 	 *	@return		void
 	 */
-	public function __construct( $path, $pattern, $showFiles = TRUE, $showFolders = TRUE, $stripDotEntries = TRUE  )
+	public function __construct( string $path, string $pattern, bool $showFiles = TRUE, bool $showFolders = TRUE, bool $stripDotEntries = TRUE  )
 	{
 		if( !file_exists( $path ) )
 			throw new RuntimeException( 'Path "'.$path.'" is not existing.' );
@@ -94,7 +99,7 @@ class RecursiveRegexFilter extends RegexIterator
 	 *	@access		public
 	 *	@return		bool
 	 */
-	public function accept()
+	public function accept(): bool
 	{
 		if( $this->isDot() )
 			return FALSE;

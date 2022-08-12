@@ -63,17 +63,16 @@ class Json
 	/**
 	 *	...
 	 *	@param			string		$path
-	 *	@return			string|FALSE
+	 *	@return			string
 	 *	@noinspection	PhpUnused
 	 */
 	public function buildJson( string $path = '' ): string
 	{
 		$clock		= new Clock;
 		$index		= new DirectoryIterator( $this->basePath.$path );
-		$folders	= array();
-		$files		= array();
-		foreach( $index as $entry )
-		{
+		$folders	= [];
+		$files		= [];
+		foreach( $index as $entry ){
 			if( substr( $entry->getFilename(), 0, 1 ) == "." )
 				continue;
 			if( $entry->isDir() )
@@ -82,7 +81,7 @@ class Json
 				$files[]		= $this->buildFileItem( $entry );
 		}
 		$list	= array_merge( $folders, $files );
-		$json	= json_encode( $list );
+		$json	= json_encode( $list, JSON_THROW_ON_ERROR );
 		if( $this->logFile )
 			$this->log( $path, count( $list ), strlen( $json ), $clock->stop( 6, 0 ) );
 		return $json;

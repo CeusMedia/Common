@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Searchs for Folders by given RegEx Pattern (as File Name) in Folder.
  *
@@ -23,7 +24,6 @@
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			09.06.2007
  */
 
 namespace CeusMedia\Common\FS\Folder;
@@ -40,7 +40,6 @@ use RuntimeException;
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			09.06.2007
  *	@todo			Fix Error while comparing File Name to Current File with Path
  */
 class RegexFilter extends RegexIterator
@@ -65,13 +64,13 @@ class RegexFilter extends RegexIterator
 	 *	@param		bool		$stripDotEntries	Flag: strip Files and Folder with leading Dot
 	 *	@return		void
 	 */
-	public function __construct( $path, $pattern, $showFiles = TRUE, $showFolders = TRUE, $stripDotEntries = TRUE  )
+	public function __construct( string $path, string $pattern, bool $showFiles = TRUE, bool $showFolders = TRUE, bool $stripDotEntries = TRUE  )
 	{
 		if( !file_exists( $path ) )
 			throw new RuntimeException( 'Path "'.$path.'" is not existing.' );
-    	$this->showFiles		= $showFiles;
-    	$this->showFolders		= $showFolders;
-    	$this->stripDotEntries	= $stripDotEntries;
+		$this->showFiles		= $showFiles;
+		$this->showFolders		= $showFolders;
+		$this->stripDotEntries	= $stripDotEntries;
 		parent::__construct(
 			new DirectoryIterator( $path  ),
 			$pattern
@@ -83,7 +82,7 @@ class RegexFilter extends RegexIterator
 	 *	@access		public
 	 *	@return		bool
 	 */
-	public function accept()
+	public function accept(): bool
 	{
 		if( $this->isDot() )
 			return FALSE;

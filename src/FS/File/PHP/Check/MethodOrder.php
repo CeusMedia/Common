@@ -23,7 +23,6 @@
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			04.09.2008
  */
 
 namespace CeusMedia\Common\FS\File\PHP\Check;
@@ -38,13 +37,12 @@ use Exception;
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			04.09.2008
  */
 class MethodOrder
 {
-	private $fileName		= "";
-	private $originalList	= array();
-	private $sortedList		= array();
+	private $fileName		= '';
+	private $originalList	= [];
+	private $sortedList		= [];
 	private $compared		= FALSE;
 
 	/**
@@ -75,7 +73,7 @@ class MethodOrder
 		{
 			if( preg_match( "@^(#|//)@", trim( $line ) ) )
 				continue;
-			$matches	= array();
+			$matches	= [];
 			preg_match_all( "@function\s*([a-z]\S+)\s*\(@i", $line, $matches, PREG_SET_ORDER );
 			foreach( $matches as $match )
 				$this->originalList[] = $match[1];

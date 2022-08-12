@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Editor for Folders.
  *	All Methods to create, copy, move or remove a Folder are working recursive.
@@ -27,7 +28,6 @@
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			15.04.2008
  */
 
 namespace CeusMedia\Common\FS\Folder;
@@ -51,7 +51,6 @@ use RuntimeException;
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			15.04.2008
  */
 class Editor extends Reader
 {
@@ -59,7 +58,7 @@ class Editor extends Reader
 	 *	Constructor, Creates Folder if not existing and Creation Mode is set.
 	 *	@access		public
 	 *	@param		string		$folderName		Folder Name, relative or absolute
-	 *	@param		string		$creationMode	UNIX rights for chmod()
+	 *	@param		string|NULL	$creationMode	UNIX rights for chmod()
 	 *	@param		string|NULL	$creationUser	User Name for chown()
 	 *	@param		string|NULL	$creationGroup	Group Name for chgrp()
 	 *	@return		void
@@ -254,7 +253,7 @@ class Editor extends Reader
 	 *	@static
 	 *	@param		string		$sourceFolder	Folder Name of Source Folder, eg. /path/to/source/folder
 	 *	@param		string		$targetPath		Folder Path of Target Folder, eg. /path/to/target
-	 *	@param		string		$force			Flag: continue if Target Folder is already existing, otherwise break
+	 *	@param		bool		$force			Flag: continue if Target Folder is already existing, otherwise break
 	 *	@return		bool
 	 */
 	public static function moveFolder( string $sourceFolder, string $targetPath, bool $force = FALSE ): bool
@@ -290,7 +289,7 @@ class Editor extends Reader
 	 *	Moves current Folder to another Path.
 	 *	@access		public
 	 *	@param		string		$folderPath		Folder Path of Target Folder
-	 *	@param		string		$force			Flag: continue if Target Folder is already existing, otherwise break
+	 *	@param		bool		$force			Flag: continue if Target Folder is already existing, otherwise break
 	 *	@return		bool
 	 */
 	public function move( string $folderPath, bool $force = FALSE ): bool

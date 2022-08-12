@@ -1,4 +1,5 @@
-<?php
+<?php /** @noinspection PhpMultipleClassDeclarationsInspection */
+
 /**
  *	Checks visibility of methods in a folder containing PHP files.
  *
@@ -23,7 +24,6 @@
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			03.12.2009
  */
 
 namespace CeusMedia\Common\FS\Folder;
@@ -40,13 +40,14 @@ use FilterIterator;
  *	@copyright		2007-2022 Christian Würker
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
- *	@since			03.12.2009
  */
 class MethodVisibilityCheck
 {
 	public $count	= 0;
+
 	public $found	= 0;
-	public $list	= array();
+
+	public $list	= [];
 
 	/**
 	 *	Scans a folder containing PHP files for methods without defined visibility.
@@ -55,11 +56,11 @@ class MethodVisibilityCheck
 	 *	@param		string		$extension		Extension of PHP Files.
 	 *	@return		void
 	 */
-	public function scan( $path, $extension = "php5" )
+	public function scan( string $path, string $extension = 'php5' )
 	{
 		$this->count	= 0;
 		$this->found	= 0;
-		$this->list		= array();
+		$this->list		= [];
 		$finder	= new FileRecursiveRegexFilter( $path, '@^[^_].*\.'.$extension.'$@', "@function @" );
 		foreach( $finder as $entry ){
 			$checker	= new FilePhpCheckMethodVisibility( $entry->getPathname() );
