@@ -21,12 +21,13 @@ class BackupTest extends BaseCase
 	protected $filePath;
 	protected $path;
 	protected $time;
+	protected $file;
 
 	public function setUp(): void
 	{
 		$this->time	= time();
-		$this->path	= "test";
-		$this->filePath	= $this->path."/test.txt";
+		$this->path	= __DIR__.'/';
+		$this->filePath	= $this->path."test.txt";
 
 		if( !file_exists( $this->path ) )
 			mkdir( $this->path );
@@ -59,6 +60,7 @@ class BackupTest extends BaseCase
 	public function testGetContentException1(){
 		$this->expectException( 'InvalidArgumentException' );
 		$this->file->store();
+		/** @noinspection PhpStrictTypeCheckingInspection */
 		$this->file->getContent( "a" );
 	}
 

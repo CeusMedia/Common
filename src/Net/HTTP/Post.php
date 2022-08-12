@@ -49,12 +49,12 @@ class Post
 
 	protected $transport		= FALSE;
 	protected $dataMaxLength	= 0;
-	//  default user agent to report to server, can be overriden by constructor or given CURL options on get or post
-	static protected $userAgent	= "cmClasses:Net_HTTP_Post/0.7";
+	//  default user agent to report to server, can be overridden by constructor or given CURL options on get or post
+	static protected $userAgent	= "CeusMediaCommon:Net.HTTP.Post/0.9";
 
 	public function __construct()
 	{
-        $allowUrlFopen	= preg_match( '/1|yes|on|true/i', ini_get( 'allow_url_fopen' ) );
+		$allowUrlFopen	= preg_match( '/1|yes|on|true/i', ini_get( 'allow_url_fopen' ) );
 		if( CURL::isSupported() )
 			$this->transport	= self::TRANSPORT_CURL;
 		else if( $allowUrlFopen )

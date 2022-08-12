@@ -41,6 +41,9 @@ use InvalidArgumentException;
  *	@license		http://www.gnu.org/licenses/gpl-3.0.txt GPL 3
  *	@link			https://github.com/CeusMedia/Common
  *	@todo			Unit Test
+ *	@deprecated		use json_encode( $data, JSON_PRETTY_PRINT ) instead
+ *	@todo			currently broken: missing quotes on keys and values
+ *	@todo			support and implement 3 strategies: native, own, json5
  */
 class Formater
 {

@@ -3,9 +3,16 @@ includes:
 #	- phpstan-baseline.neon
 
 parameters:
+	phpVersion: 70300
 	level: 1
 	paths:
-		- ../../src
+#		- ../../src/ADT
+#		- ../../src/Alg
+#		- ../../src/CLI
+		- ../../src/FS
+#		- ../../src/Net
+#		- ../../src/UI
+#		- ../../src/XML
 	checkMissingIterableValueType: false
 	checkGenericClassInNonGenericObjectType: false
 	reportMaybesInPropertyPhpDocTypes: false

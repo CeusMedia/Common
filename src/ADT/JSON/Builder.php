@@ -83,12 +83,12 @@ class Builder
 	/**
 	 *	Returns a representative String for a Data Pair.
 	 *	@access		public
-	 *	@param		string|NULL	$key			Key of Pair
-	 *	@param		mixed		$value			Value of Pair
-	 *	@param		string|NULL	$parent			Parent of Pair
+	 *	@param		string|int|NULL	$key			Key of Pair
+	 *	@param		mixed			$value			Value of Pair
+	 *	@param		string|NULL		$parent			Parent of Pair
 	 *	@return		string
 	 */
-	public function get( ?string $key, $value, ?string $parent = NULL ): string
+	public function get( $key, $value, ?string $parent = NULL ): string
 	{
 		$type	= self::getType( $key, $value );
 		switch( $type ){
@@ -112,7 +112,7 @@ class Builder
 		}
 		if( !is_null( $key ) && $parent !== 'array' )
 			$value	= '"'.$key.'":'.$value;
-		return $value;
+		return (string) $value;
 	}
 
 	//  --  PRIVATE METHODS  --  //
@@ -120,11 +120,11 @@ class Builder
 	 *	Returns Data Type of Pair Value.
 	 *	@access		private
 	 *	@static
-	 *	@param		string		$key			Key of Pair
-	 *	@param		mixed		$value			Value of Pair
+	 *	@param		string|int|NULL	$key			Key of Pair
+	 *	@param		mixed			$value			Value of Pair
 	 *	@return		string
 	 */
-	private static function getType( string $key, $value ): string
+	private static function getType( $key, $value ): string
 	{
 		if( is_object( $value ))
 			$type	= 'object';
@@ -160,11 +160,11 @@ class Builder
 	 *	Loops through Data Array and returns a representative String.
 	 *	@access		private
 	 *	@static
-	 *	@param		array		$array			Array to be looped
-	 *	@param		string		$type			Data Type
+	 *	@param		array|object	$array			Array to be looped
+	 *	@param		string			$type			Data Type
 	 *	@return		string
 	 */
-	private static function loop( array $array, string $type ): string
+	private static function loop( $array, string $type ): string
 	{
 		$builder	= new self();
 		$output		= NULL;

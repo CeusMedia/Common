@@ -80,9 +80,7 @@ class Reader
 	 */
 	public function exists(): bool
 	{
-		$exists	= file_exists( $this->fileName );
-		$isFile	= is_file( $this->fileName );
-		return $exists && $isFile;
+		return $this->check( FALSE, FALSE, FALSE, FALSE );
 	}
 
 	/**
@@ -102,6 +100,7 @@ class Reader
 	 */
 	public function getDate(): int
 	{
+		$this->check();
 		return filemtime( $this->fileName );
 	}
 
@@ -114,6 +113,7 @@ class Reader
 	 */
 	public function getEncoding(): string
 	{
+		$this->check( TRUE );
 		if( function_exists( 'finfo_open' ) ){
 			$magicFile	= ini_get( 'mime_magic.magicfile' );
 //			$magicFile	= str_replace( "\\", "/", $magicFile );
@@ -137,6 +137,7 @@ class Reader
 	 */
 	public function getExtension(): string
 	{
+		$this->check();
 		$info = pathinfo( $this->fileName );
 		return $info['extension'];
 	}
@@ -153,6 +154,7 @@ class Reader
 
 	public function getGroup(): string
 	{
+		$this->check();
 		$group	= filegroup( $this->fileName );
 		if( FALSE === $group )
 			throw new RuntimeException( 'Could not get group of file "'.$this->fileName.'"' );
@@ -167,6 +169,7 @@ class Reader
 	 */
 	public function getMimeType(): string
 	{
+		$this->check( TRUE );
 		if( function_exists( 'finfo_open' ) ){
 			$magicFile	= ini_get( 'mime_magic.magicfile' );
 //			$magicFile	= str_replace( "\\", "/", $magicFile );
@@ -188,6 +191,7 @@ class Reader
 
 	public function getOwner(): string
 	{
+		$this->check();
 		$user	= fileowner( $this->fileName );
 		if( FALSE === $user )
 			throw new RuntimeException( 'Could not get owner of file "'.$this->fileName.'"' );
@@ -201,6 +205,7 @@ class Reader
 	 */
 	public function getPath(): string
 	{
+		$this->check();
 		$realpath	= realpath( $this->fileName );
 		$path	= dirname( $realpath );
 		$path	= str_replace( "\\", "/", $path );
@@ -215,17 +220,18 @@ class Reader
 	 */
 	public function getPermissions(): Permissions
 	{
+		$this->check();
 		return new Permissions( $this->fileName );
 	}
 
 	/**
-	 *	Returns Size of current File.
 	 *	@access		public
 	 *	@param		integer|NULL	$precision		Precision of rounded Size (only if unit is set)
-	 *	@return		int
+	 *	@return		integer|string
 	 */
-	public function getSize( int $precision = NULL ): int
+	public function getSize( int $precision = NULL )
 	{
+		$this->check();
 		$size	= filesize( $this->fileName );
 		if( $precision )
 			$size	= UnitFormater::formatBytes( $size, $precision );
@@ -242,17 +248,7 @@ class Reader
 	 */
 	public function isOwner( ?string $user = NULL ): bool
 	{
-		$user	= $user ?? get_current_user();
-		if( !function_exists( 'posix_getpwuid' ) )
-			return TRUE;
-		$uid	= fileowner( $this->fileName );
-		if( !$uid )
-			return TRUE;
-		$owner	= posix_getpwuid( $uid );
-		if( !$owner )
-			return TRUE;
-//		print_m( $owner );
-		return $user == $owner['name'];
+        return $this->check( TRUE, FALSE, TRUE, FALSE );
 	}
 
 	/**
@@ -262,7 +258,7 @@ class Reader
 	 */
 	public function isReadable(): bool
 	{
-		return is_readable( $this->fileName );
+		return $this->check( TRUE, FALSE, FALSE, FALSE );
 	}
 
 	/**
@@ -311,10 +307,58 @@ class Reader
 	 */
  	public function readString(): string
 	{
-		if( !$this->exists() )
-			throw new RuntimeException( 'File "'.$this->fileName.'" is not existing' );
-		if( !$this->isReadable() )
-			throw new RuntimeException( 'File "'.$this->fileName.'" is not readable' );
+		$this->check( TRUE );
 		return file_get_contents( $this->fileName );
+	}
+
+	/**
+	 *	Checks if set filename is: existing, readable, writable
+	 *	@access		protected
+	 *	@oaram		boolean		$isReadable
+	 *	@param		boolean		$isWritable
+	 *	@return		bool
+	 *	@throws		RuntimeException			if File is not existing
+	 *	@throws		RuntimeException			if File is not readable
+	 */
+	protected function check( bool $isReadable = FALSE, bool $isWritable = FALSE, bool $isOwner = FALSE, bool $strict = TRUE ): bool
+	{
+		$exists	= file_exists( $this->fileName );
+		$isFile	= is_file( $this->fileName );
+		if( !$exists || !$isFile ){
+			if( $strict )
+				throw new RuntimeException( 'File "'.$this->fileName.'" is not existing' );
+			return FALSE;
+		}
+		if( $isReadable && !is_readable( $this->fileName ) ){
+			if( $strict )
+				throw new RuntimeException( 'File "'.$this->fileName.'" is not readable' );
+			return FALSE;
+		}
+		if( $isWritable && !is_writable( $this->fileName ) ){
+			if( $strict )
+				throw new RuntimeException( 'File "'.$this->fileName.'" is not writable' );
+			return FALSE;
+		}
+		if( $isOwner && !$this->checkIsOwner() ){
+			if( $strict )
+				throw new RuntimeException( 'File "'.$this->fileName.'" is not owned' );
+			return FALSE;
+		}
+		return TRUE;
+	}
+
+	protected function checkIsOwner(): bool
+	{
+		$user	= $user ?? get_current_user();
+		if( !function_exists( 'posix_getpwuid' ) )
+			return TRUE;
+		$uid	= fileowner( $this->fileName );
+		if( !$uid )
+			return TRUE;
+		$owner	= posix_getpwuid( $uid );
+		if( !$owner )
+			return TRUE;
+		//		print_m( $owner );
+		return $user == $owner['name'];
 	}
 }

@@ -1,14 +1,18 @@
 <?php
-/**
- *	TestUnit of Google Sitemap Builder.
- *	@package		Tests.xml.dom
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			18.02.2008
- *
- */
 declare( strict_types = 1 );
 
+/**
+ *	TestUnit of Google Sitemap Builder.
+ *	@package		Tests.xml.dom
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ *	@since			18.02.2008
+ *
+ */
+
+namespace CeusMedia\Common\XML\DOM;
+
 use CeusMedia\Common\Test\BaseCase;
+use CeusMedia\Common\XML\DOM\GoogleSitemapWriter;
 
 /**
  *	TestUnit of Google Sitemap Builder.
@@ -17,7 +21,7 @@ use CeusMedia\Common\Test\BaseCase;
  *	@since			18.02.2008
  *
  */
-class Test_XML_DOM_GoogleSitemapWriterTest extends BaseCase
+class GoogleSitemapWriterTest extends BaseCase
 {
 	/**
 	 *	Sets up Builder.
@@ -37,7 +41,7 @@ class Test_XML_DOM_GoogleSitemapWriterTest extends BaseCase
 	 */
 	public function testWrite()
 	{
-		$builder	= new XML_DOM_GoogleSitemapWriter();
+		$builder	= new GoogleSitemapWriter();
 		$builder->addLink( "test1.html" );
 		$builder->addLink( "test2.html" );
 
@@ -61,7 +65,7 @@ class Test_XML_DOM_GoogleSitemapWriterTest extends BaseCase
 			"test2.html",
 		);
 
-		XML_DOM_GoogleSitemapWriter::writeSitemap( $links, $this->testFile, "http://www.example.com/" );
+		GoogleSitemapWriter::writeSitemap( $links, $this->testFile, "http://www.example.com/" );
 
 		$assertion	= file_get_contents( $this->xmlFile );
 		$creation	= file_get_contents( $this->testFile );

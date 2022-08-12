@@ -10,7 +10,7 @@ declare( strict_types = 1 );
 namespace CeusMedia\Common\XML\DOM;
 
 use CeusMedia\Common\Test\BaseCase;
-use CeusMedia\Common\Test\Object_ as TestObject;
+use CeusMedia\Common\Test\Object_;
 use CeusMedia\Common\XML\DOM\ObjectDeserializer;
 
 /**
@@ -28,7 +28,7 @@ class ObjectDeserializerTest extends BaseCase
 	public function setUp(): void
 	{
 		$this->deserializer	= new ObjectDeserializer();
-		$this->object	= new TestObject();
+		$this->object	= new Object_();
 		$this->object->null		= NULL;
 		$this->object->boolean	= true;
 		$this->object->integer	= 1;
@@ -37,7 +37,7 @@ class ObjectDeserializerTest extends BaseCase
 		$this->object->string	= "content";
 		$this->object->list		= array( "item1", "item2" );
 		$this->object->array	= array( "key" => "value" );
-		$this->object->child	= new TestObject();
+		$this->object->child	= new Object_();
 		$this->object->child->integer	= 2;
 
 		$serializer	= new ObjectSerializer();
@@ -52,7 +52,6 @@ class ObjectDeserializerTest extends BaseCase
 	 */
 	public function testDeserialize()
 	{
-		new TestObject();
 		$xml		= file_get_contents( dirname( __FILE__ ).'/deserializer.xml' );
 		$assertion	= $this->object;
 		$creation	= $this->deserializer->deserialize( $xml );

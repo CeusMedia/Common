@@ -34,7 +34,7 @@ use CeusMedia\Common\XML\DOM\Node;
 use Exception;
 
 /**
- *	Loads XML from an URL and parses to a Tree of XML_DOM_Nodes.
+ *	Loads XML from a URL and parses to a Tree of XML_DOM_Nodes.
  *	@category		Library
  *	@package		CeusMedia_Common_XML_DOM
  *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
@@ -54,7 +54,7 @@ class UrlReader
 		'application/rss+xml',
 		'text/xml',
 	);
-	public static $userAgent	= 'cmClasses:XML_DOM_UrlReader/0.7';
+	public static $userAgent	= 'CeusMediaCommon:XML.DOM.UrlReader/0.9';
 
 	/**
 	 *	Constructor.

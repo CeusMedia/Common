@@ -33,7 +33,7 @@ dev-test-syntax:
 
 dev-test-unit: composer-install-dev
 #	@php tool/go.php test units
-	@vendor/bin/phpunit --testsuite units
+	@vendor/bin/phpunit --configuration tool/config/phpunit9.xml --testsuite units
 
 # --  DEV: Docs  ---------------------------------------------------------
 dev-create-docs: composer-install-dev

@@ -1,14 +1,18 @@
 <?php
-/**
- *	TestUnit of XML DOM Storage.
- *	@package		Tests.xml.dom
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			13.12.2007
- *
- */
 declare( strict_types = 1 );
 
+/**
+ *	TestUnit of XML DOM Storage.
+ *	@package		Tests.xml.dom
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ *	@since			13.12.2007
+ *
+ */
+
+namespace CeusMedia\Common\XML\DOM;
+
 use CeusMedia\Common\Test\BaseCase;
+use CeusMedia\Common\XML\DOM\Storage;
 
 /**
  *	TestUnit of XML DOM Storage.
@@ -17,7 +21,7 @@ use CeusMedia\Common\Test\BaseCase;
  *	@since			13.12.2007
  *
  */
-class Test_XML_DOM_StorageTest extends BaseCase
+class StorageTest extends BaseCase
 {
 	/**
 	 *	Sets up Leaf.
@@ -27,7 +31,7 @@ class Test_XML_DOM_StorageTest extends BaseCase
 	public function setUp(): void
 	{
 		$this->fileName		= dirname( __FILE__ )."/storage.xml";
-		$this->storage	= new XML_DOM_Storage( $this->fileName );
+		$this->storage	= new Storage( $this->fileName );
 		$this->storage->set( "tests.test1.key1", "value11" );
 		$this->storage->write();
 	}

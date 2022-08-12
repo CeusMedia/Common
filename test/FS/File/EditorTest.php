@@ -173,17 +173,6 @@ class EditorTest extends BaseCase
 	 *	@access		public
 	 *	@return		void
 	 */
-	public function testRenameException1()
-	{
-		$this->expectException( 'InvalidArgumentException' );
-		$this->editor->rename( NULL );
-	}
-
-	/**
-	 *	Tests Exception of Method 'rename'.
-	 *	@access		public
-	 *	@return		void
-	 */
 	public function testRenameException2()
 	{
 		$this->expectException( 'RuntimeException' );

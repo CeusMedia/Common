@@ -1,14 +1,18 @@
 <?php
-/**
- *	TestUnit of XML_DOM_PEAR_PackageReader.
- *	@package		Tests....
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			25.10.2008
- *
- */
 declare( strict_types = 1 );
 
+/**
+ *	TestUnit of XML_DOM_PEAR_PackageReader.
+ *	@package		Tests....
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ *	@since			25.10.2008
+ *
+ */
+
+namespace CeusMedia\Common\XML\DOM\PEAR;
+
 use CeusMedia\Common\Test\BaseCase;
+use  CeusMedia\Common\XML\DOM\PEAR\PackageReader;
 
 /**
  *	TestUnit of XML_DOM_PEAR_PackageReader.
@@ -17,7 +21,7 @@ use CeusMedia\Common\Test\BaseCase;
  *	@since			25.10.2008
  *
  */
-class Test_XML_DOM_PEAR_PackageReaderTest extends BaseCase
+class PackageReaderTest extends BaseCase
 {
 	/**
 	 *	Setup for every Test.
@@ -27,7 +31,7 @@ class Test_XML_DOM_PEAR_PackageReaderTest extends BaseCase
 	public function setUp(): void
 	{
 		$this->path	= dirname( __FILE__)."/";
-		$this->reader	= new XML_DOM_PEAR_PackageReader();
+		$this->reader	= new PackageReader();
 	}
 
 	/**

@@ -59,9 +59,9 @@ class BalanceBinaryNode extends BinaryNode
 	 *	Adds a new Node To Tree.
 	 *	@access		public
 	 *	@param		mixed		$value		Value of new Node
-	 *	@return		int
+	 *	@return		mixed
 	 */
-	public function add( $value ): int
+	public function add( $value )
 	{
 		if( !isset( $this->value ) )
 			return $this->value = $value;
@@ -89,9 +89,9 @@ class BalanceBinaryNode extends BinaryNode
 	/**
 	 *	Balances unbalanced Tree with Rotations.
 	 *	@access		public
-	 *	@return		void
+	 *	@return		self
 	 */
-	protected function balanceTree()
+	protected function balanceTree(): self
 	{
 		$bf	= $this->getBalance();
 		// LR or LL rotation
@@ -114,6 +114,7 @@ class BalanceBinaryNode extends BinaryNode
 				$this->right->rotateLL();
 			$this->rotateRR();
 		}
+		return $this;
 	}
 
 	/**
@@ -132,9 +133,9 @@ class BalanceBinaryNode extends BinaryNode
 	/**
 	 *	Rotates Tree.
 	 *	@access		private
-	 *	@return		void
+	 *	@return		self
 	 */
-	private function rotateLL()
+	private function rotateLL(): self
 	{
 		$value_before		=& $this->value;
 		$right_before		=& $this->right;
@@ -144,14 +145,15 @@ class BalanceBinaryNode extends BinaryNode
 		$this->right->left	=& $this->right->right;
 		$this->right->right	=& $right_before;
 		$this->right->value	=& $value_before;
+		return $this;
 	}
 
 	/**
 	 *	Rotates Tree.
 	 *	@access		private
-	 *	@return		void
+	 *	@return		self
 	 */
-	private function rotateRR()
+	private function rotateRR(): self
 	{
 		$value_before		=& $this->value;
 		$left_before		=& $this->left;
@@ -161,6 +163,7 @@ class BalanceBinaryNode extends BinaryNode
 		$this->left->right	=& $this->left->left;
 		$this->left->left	=& $left_before;
 		$this->left->value	=& $value_before;
+		return $this;
 	}
 
 	/**

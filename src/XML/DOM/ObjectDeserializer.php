@@ -53,7 +53,7 @@ class ObjectDeserializer
 	{
 		$parser	= new Parser();
 		$tree	= $parser->parse( $xml );
-		$class	= $tree->getAttribute( 'class' );
+		$class	= stripslashes( $tree->getAttribute( 'class' ) );
 		if( !class_exists( $class ) )
 			throw new Exception( 'Class "'.$class.'" has not been loaded, yet.' );
 		$object	= new $class();

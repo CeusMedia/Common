@@ -122,12 +122,12 @@ class Writer
 	/**
 	 *	Writes the current List to File.
 	 *	@access		protected
-	 *	@param		string		$mode			UNIX rights for chmod()
-	 *	@param		string		$user			User Name for chown()
-	 *	@param		string		$group			Group Name for chgrp()
+	 *	@param		integer			$mode			UNIX rights for chmod() as octal integer
+	 *	@param		string|NULL		$user			User Name for chown()
+	 *	@param		string|NULL		$group			Group Name for chgrp()
 	 *	@return		bool
 	 */
-	protected function write( $mode = 0755, $user = NULL, $group = NULL )
+	protected function write( int $mode = 0755, ?string $user = NULL, ?string $group = NULL ): bool
 	{
 		return $this->save( $this->fileName, $this->list, $mode, $user, $group );
 	}

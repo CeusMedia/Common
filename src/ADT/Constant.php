@@ -66,12 +66,12 @@ class Constant
 	 *	Returns a Map of defined Constants.
 	 *	@access		public
 	 *	@static
-	 *	@param		string|NULL		$prefix			...
-	 *	@param		boolean			$excludePrefix	Flag: ...
+	 *	@param		string|NULL		$prefix			Prefix to filter by, if set
+	 *	@param		string|NULL		$excludePrefix	Prefix to exclude, if set
 	 *	@return		array
 	 *	@throws		InvalidArgumentException
 	 */
-	public static function getAll( ?string $prefix = NULL, bool $excludePrefix = FALSE ): array
+	public static function getAll( ?string $prefix = NULL, ?string $excludePrefix = NULL ): array
 	{
 		$prefix	= strtoupper( $prefix );
 		$length	= strlen( $prefix );

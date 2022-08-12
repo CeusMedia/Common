@@ -29,6 +29,7 @@
 
 namespace CeusMedia\Common\FS\File\Configuration;
 
+use CeusMedia\Common\ADT\JSON\Builder as JsonBuilder;
 use CeusMedia\Common\ADT\JSON\Converter as JsonConverter;
 use CeusMedia\Common\ADT\JSON\Formater as JsonFormater;
 use CeusMedia\Common\FS\File\INI\Creator as IniFileCreator;
@@ -283,7 +284,7 @@ class Converter
 				$json[$sectionName][$key]	= $pair;
 			}
 		}
-		$json	= JsonFormater::format( $json, TRUE );
+		$json	= JsonFormater::format( JsonBuilder::encode( $json ), TRUE );
 		return FileWriter::save( $fileName, $json );
 	}
 

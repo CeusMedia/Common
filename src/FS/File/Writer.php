@@ -215,8 +215,8 @@ class Writer
 	 */
 	public function setPermissions( int $mode ): bool
 	{
-//		if( is_integer( $mode ) )
-//			$mode	= decoct( (string) $mode );
+		if( is_integer( $mode ) )
+			$mode	= decoct( (string) $mode );
 		$permissions	= new Permissions( $this->fileName );
 		return $permissions->setByOctal( $mode );
 	}

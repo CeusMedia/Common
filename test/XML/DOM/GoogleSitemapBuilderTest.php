@@ -1,14 +1,18 @@
 <?php
-/**
- *	TestUnit of Google Sitemap Builder.
- *	@package		Tests.xml.dom
- *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
- *	@since			18.02.2008
- *
- */
 declare( strict_types = 1 );
 
+/**
+ *	TestUnit of Google Sitemap Builder.
+ *	@package		Tests.xml.dom
+ *	@author			Christian Würker <christian.wuerker@ceusmedia.de>
+ *	@since			18.02.2008
+ *
+ */
+
+namespace CeusMedia\Common\XML\DOM;
+
 use CeusMedia\Common\Test\BaseCase;
+use CeusMedia\Common\XML\DOM\GoogleSitemapBuilder;
 
 /**
  *	TestUnit of Google Sitemap Builder.
@@ -17,7 +21,7 @@ use CeusMedia\Common\Test\BaseCase;
  *	@since			18.02.2008
  *
  */
-class Test_XML_DOM_GoogleSitemapBuilderTest extends BaseCase
+class GoogleSitemapBuilderTest extends BaseCase
 {
 	/**
 	 *	Sets up Builder.
@@ -36,7 +40,7 @@ class Test_XML_DOM_GoogleSitemapBuilderTest extends BaseCase
 	 */
 	public function testBuild()
 	{
-		$builder	= new XML_DOM_GoogleSitemapBuilder();
+		$builder	= new GoogleSitemapBuilder();
 		$builder->addLink( "test1.html" );
 		$builder->addLink( "test2.html" );
 
@@ -58,7 +62,7 @@ class Test_XML_DOM_GoogleSitemapBuilderTest extends BaseCase
 		);
 
 		$assertion	= file_get_contents( $this->xmlFile );
-		$creation	= XML_DOM_GoogleSitemapBuilder::buildSitemap( $links, "http://www.example.com/" );
+		$creation	= GoogleSitemapBuilder::buildSitemap( $links, "http://www.example.com/" );
 		$this->assertEquals( $assertion, $creation );
 	}
 }

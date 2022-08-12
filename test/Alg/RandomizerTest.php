@@ -89,15 +89,9 @@ class RandomizerTest extends BaseCase
 	public function testGetWithUnique()
 	{
 		$this->randomizer->unique	= TRUE;
-		$string		= $this->randomizer->get( 45 );
-
-		$list		= array();
-		foreach( str_split( $string ) as $sign )
-		{
-			if( in_array( $sign, $list ) )
-				$this->fail( 'String is not unique' );
-			$list[]	= $sign;
-		}
+		$random		= $this->randomizer->get( 45 );
+		$unique		= join( array_keys( array_flip( str_split( $random ) ) ) );
+		$this->assertEquals( $unique, $random );;
 	}
 
 	/**

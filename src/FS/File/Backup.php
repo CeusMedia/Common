@@ -79,9 +79,9 @@ class Backup
 
 	/**
 	 *	...
-	 *	@return		integer
+	 *	@return		integer|NULL
 	 */
-	public function getVersion(): int
+	public function getVersion(): ?int
 	{
 		$i	= 1;
 		$v	= NULL;

@@ -42,21 +42,23 @@ use RuntimeException;
  */
 class Lock
 {
-
 	protected $fileName;
 	protected $expiration			= 0;
 	protected $sleep				= 0.1;
 	protected $timeout				= 2;
 
-	public function __construct( string $fileName, int $expiration = 0, int $timeout = 2, float $sleep = 0.1 )
+	public function __construct( string $fileName, ?float $expiration = 0, ?float $timeout = 2, ?float $sleep = 0.1 )
 	{
 		$this->fileName		= $fileName;
-		$this->setExpiration( $expiration );
-		$this->setTimeout( $timeout );
-		$this->setSleep( $sleep );
+		if( !is_null( $expiration ) )
+			$this->setExpiration( $expiration );
+		if( !is_null( $timeout ) )
+			$this->setTimeout( $timeout );
+		if( !is_null( $sleep ) )
+			$this->setSleep( $sleep );
 	}
 
-	public function getExpiration(): int
+	public function getExpiration(): float
 	{
 		return $this->expiration;
 	}
@@ -66,7 +68,7 @@ class Lock
 		return $this->sleep;
 	}
 
-	public function getTimeout(): int
+	public function getTimeout(): float
 	{
 		return $this->timeout;
 	}
@@ -101,28 +103,27 @@ class Lock
 
 	public function unlock(): bool
 	{
-		if( $this->isLocked() ){
-			@unlink( $this->fileName );
-			return TRUE;
-		}
-		return FALSE;
+		if( !$this->isLocked() )
+			return FALSE;
+		@unlink( $this->fileName );
+		return TRUE;
 	}
 
-	public function setExpiration( int $expiration = 0 ): self
+	public function setExpiration( float $expiration = 0 ): self
 	{
 		$this->expiration	= abs( $expiration );
 		return $this;
 	}
 
-	public function setSleep( $sleep = 0.1 ): self
+	public function setSleep( float $sleep = 0.1 ): self
 	{
-		$this->sleep	= abs( (float) $sleep );
+		$this->sleep	= abs( $sleep );
 		return $this;
 	}
 
-	public function setTimeout( int $timeout = 2 ): self
+	public function setTimeout( float $timeout = 2 ): self
 	{
-		$this->timeout	= abs( (float) $timeout );
+		$this->timeout	= abs( $timeout );
 		return $this;
 	}
 }

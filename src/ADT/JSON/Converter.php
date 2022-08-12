@@ -54,7 +54,7 @@ class Converter
 		return $array;
 	}
 
-	protected static function convertToArrayRecursive( $node, array &$array, $name = NULL )
+	protected static function convertToArrayRecursive( $node, &$array, $name = NULL )
 	{
 		if( $name ){
 			if( is_object( $node ) )

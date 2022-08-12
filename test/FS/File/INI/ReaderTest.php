@@ -333,7 +333,7 @@ class ReaderTest extends BaseCase
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= "disabled";
-		$creation	= $this->list->getProperty( 'key5', FALSE, FALSE );
+		$creation	= $this->list->getProperty( 'key5', NULL, FALSE );
 		$this->assertEquals( $assertion, $creation );
 
 		$assertion	= "value3";
